@@ -1,0 +1,394 @@
+{
+  "campaign": "funding-gift-six-streamer-rooms-20260930",
+  "itemCode": "FUNDING_GIFT_BOX",
+  "rule": "one box per eligible streamer room, at most eight rooms",
+  "sourceCount": 81,
+  "heldCount": 4,
+  "targets": [
+    {
+      "userId": 13,
+      "nickname": "불법사행산업신고센터",
+      "rooms": 2
+    },
+    {
+      "userId": 19,
+      "nickname": "토닭토닭",
+      "rooms": 1
+    },
+    {
+      "userId": 22,
+      "nickname": "커피먹는철구",
+      "rooms": 4
+    },
+    {
+      "userId": 32,
+      "nickname": "쑤댕",
+      "rooms": 4
+    },
+    {
+      "userId": 45,
+      "nickname": "박세라-ㅂ-",
+      "rooms": 3
+    },
+    {
+      "userId": 65,
+      "nickname": "음순이",
+      "rooms": 2
+    },
+    {
+      "userId": 71,
+      "nickname": "진땅콩_",
+      "rooms": 1
+    },
+    {
+      "userId": 76,
+      "nickname": "랄네미탱탱",
+      "rooms": 4
+    },
+    {
+      "userId": 81,
+      "nickname": "비쥬얼깡패",
+      "rooms": 1
+    },
+    {
+      "userId": 87,
+      "nickname": "설윤이",
+      "rooms": 2
+    },
+    {
+      "userId": 88,
+      "nickname": "0수표",
+      "rooms": 3
+    },
+    {
+      "userId": 130,
+      "nickname": "족구선생",
+      "rooms": 2
+    },
+    {
+      "userId": 156,
+      "nickname": "좌지구녕",
+      "rooms": 1
+    },
+    {
+      "userId": 164,
+      "nickname": "박사",
+      "rooms": 6
+    },
+    {
+      "userId": 218,
+      "nickname": "현하루",
+      "rooms": 4
+    },
+    {
+      "userId": 242,
+      "nickname": "벚꽃엔딩",
+      "rooms": 1
+    },
+    {
+      "userId": 289,
+      "nickname": "베베킹",
+      "rooms": 4
+    },
+    {
+      "userId": 290,
+      "nickname": "Mild7",
+      "rooms": 1
+    },
+    {
+      "userId": 295,
+      "nickname": "모래",
+      "rooms": 6
+    },
+    {
+      "userId": 303,
+      "nickname": "[C9]족쪽이",
+      "rooms": 6
+    },
+    {
+      "userId": 360,
+      "nickname": "라피e",
+      "rooms": 4
+    },
+    {
+      "userId": 525,
+      "nickname": "족구조아",
+      "rooms": 1
+    },
+    {
+      "userId": 750,
+      "nickname": "라페스타다",
+      "rooms": 6
+    },
+    {
+      "userId": 850,
+      "nickname": "뽑기고수71",
+      "rooms": 3
+    },
+    {
+      "userId": 1195,
+      "nickname": "씨나인택갓",
+      "rooms": 5
+    },
+    {
+      "userId": 1255,
+      "nickname": "전게씹선미아웃",
+      "rooms": 4
+    },
+    {
+      "userId": 1421,
+      "nickname": "다시생각",
+      "rooms": 1
+    },
+    {
+      "userId": 1768,
+      "nickname": "hhhhhaa",
+      "rooms": 6
+    },
+    {
+      "userId": 2333,
+      "nickname": "구와함",
+      "rooms": 1
+    },
+    {
+      "userId": 2420,
+      "nickname": "블랙캐슬",
+      "rooms": 4
+    },
+    {
+      "userId": 2505,
+      "nickname": "모아가려아가",
+      "rooms": 2
+    },
+    {
+      "userId": 3011,
+      "nickname": "오일바른가지",
+      "rooms": 1
+    },
+    {
+      "userId": 3710,
+      "nickname": "꼭지위생크림",
+      "rooms": 2
+    },
+    {
+      "userId": 3884,
+      "nickname": "zkzk9999",
+      "rooms": 6
+    },
+    {
+      "userId": 3974,
+      "nickname": "우회하세요",
+      "rooms": 4
+    },
+    {
+      "userId": 4010,
+      "nickname": "슈라",
+      "rooms": 2
+    },
+    {
+      "userId": 4084,
+      "nickname": "게임닉네임",
+      "rooms": 2
+    },
+    {
+      "userId": 4111,
+      "nickname": "족게이다",
+      "rooms": 3
+    },
+    {
+      "userId": 4199,
+      "nickname": "택신",
+      "rooms": 2
+    },
+    {
+      "userId": 4235,
+      "nickname": "도댕",
+      "rooms": 3
+    },
+    {
+      "userId": 4391,
+      "nickname": "더듬이구",
+      "rooms": 4
+    },
+    {
+      "userId": 4408,
+      "nickname": "레가파",
+      "rooms": 5
+    },
+    {
+      "userId": 4504,
+      "nickname": "깜찍소녀",
+      "rooms": 6
+    },
+    {
+      "userId": 4540,
+      "nickname": "지아영",
+      "rooms": 1
+    },
+    {
+      "userId": 4552,
+      "nickname": "치옹스",
+      "rooms": 1
+    },
+    {
+      "userId": 4562,
+      "nickname": "찡찡ෆ",
+      "rooms": 1
+    },
+    {
+      "userId": 4570,
+      "nickname": "혜정",
+      "rooms": 4
+    },
+    {
+      "userId": 4572,
+      "nickname": "응맨",
+      "rooms": 5
+    },
+    {
+      "userId": 4580,
+      "nickname": "CHO22",
+      "rooms": 1
+    },
+    {
+      "userId": 4581,
+      "nickname": "나도한번",
+      "rooms": 3
+    },
+    {
+      "userId": 4582,
+      "nickname": "족단",
+      "rooms": 1
+    },
+    {
+      "userId": 4595,
+      "nickname": "비니",
+      "rooms": 2
+    },
+    {
+      "userId": 4597,
+      "nickname": "찬호",
+      "rooms": 4
+    },
+    {
+      "userId": 4598,
+      "nickname": "암살자..",
+      "rooms": 1
+    },
+    {
+      "userId": 4614,
+      "nickname": "공단",
+      "rooms": 2
+    },
+    {
+      "userId": 4615,
+      "nickname": "랭비!",
+      "rooms": 5
+    },
+    {
+      "userId": 4621,
+      "nickname": "리이렐",
+      "rooms": 1
+    },
+    {
+      "userId": 4625,
+      "nickname": "제롬",
+      "rooms": 1
+    },
+    {
+      "userId": 4627,
+      "nickname": "학벌",
+      "rooms": 5
+    },
+    {
+      "userId": 4628,
+      "nickname": "망순이ෆ",
+      "rooms": 5
+    },
+    {
+      "userId": 4641,
+      "nickname": "의지",
+      "rooms": 2
+    },
+    {
+      "userId": 4651,
+      "nickname": "세라네꼬라지",
+      "rooms": 6
+    },
+    {
+      "userId": 4693,
+      "nickname": "시소둥이",
+      "rooms": 1
+    },
+    {
+      "userId": 4705,
+      "nickname": "˚쟁이。",
+      "rooms": 4
+    },
+    {
+      "userId": 4754,
+      "nickname": "조은",
+      "rooms": 3
+    },
+    {
+      "userId": 4757,
+      "nickname": "음주플레이어",
+      "rooms": 1
+    },
+    {
+      "userId": 4772,
+      "nickname": "펜타",
+      "rooms": 2
+    },
+    {
+      "userId": 4774,
+      "nickname": "딤럼프",
+      "rooms": 5
+    },
+    {
+      "userId": 4817,
+      "nickname": "음주",
+      "rooms": 1
+    },
+    {
+      "userId": 4866,
+      "nickname": "[C9]가시",
+      "rooms": 1
+    },
+    {
+      "userId": 4908,
+      "nickname": "굳건창수",
+      "rooms": 3
+    },
+    {
+      "userId": 4965,
+      "nickname": "쁴로리",
+      "rooms": 2
+    },
+    {
+      "userId": 4977,
+      "nickname": "하이희야♡",
+      "rooms": 2
+    },
+    {
+      "userId": 5008,
+      "nickname": "나무",
+      "rooms": 1
+    },
+    {
+      "userId": 5010,
+      "nickname": "으악",
+      "rooms": 3
+    },
+    {
+      "userId": 5148,
+      "nickname": "타몽",
+      "rooms": 1
+    },
+    {
+      "userId": 5426,
+      "nickname": "나무늘봉순",
+      "rooms": 2
+    }
+  ]
+}
