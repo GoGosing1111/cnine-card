@@ -1,0 +1,15 @@
+{
+  "mode": "built-in image_gen edit",
+  "date": "2026-09-30",
+  "scope": "Season 2 pack English typography only",
+  "input": "assets/cards/magic-season2-pack-v1.png",
+  "output": "assets/cards/magic-season2-pack-v2.png",
+  "text": [
+    "SOOPKETMON",
+    "MAGIC CARDS",
+    "SEASON II"
+  ],
+  "prompt": "Use case: text-localization.\nEdit target: the supplied premium midnight-indigo and gold magic-card booster pack image.\nPrimary request: redesign ONLY its typography into beautifully crafted English luxury fantasy lettering. Keep the original pack shape, foil seams, gold engraved border, astrolabe, moon/eclipse, star field, palette, lighting, Roman II emblem, composition and original 2:3 portrait aspect ratio unchanged.\nExact text, case-sensitive and correctly spelled:\nTop plaque: \"SOOPKETMON\"\nBottom plaque main title: \"MAGIC CARDS\"\nBottom plaque subtitle: \"SEASON II\"\nRemove ALL Korean lettering and remove the old tiny duplicate SOOPKETMON line. Do not add any other words or numbers.\nArt direction: bespoke premium fantasy collectible packaging wordmarks, elegant sharp wedge serifs, sophisticated high-contrast engraved capitals, expertly balanced kerning and centered hierarchy. SOOPKETMON should be substantial and commanding but with generous margins, optically spaced, not a plain bold sans-serif. MAGIC CARDS is a refined monumental display-serif title on ONE line with moderate tracking; SEASON II is smaller, widely spaced, framed by two delicate gold engraved rules with tiny star accents. Integrate both titles physically into the navy plaques with restrained sculpted gold-foil bevels: bright pale-gold upper edges, warm champagne gold faces, deep bronze lower bevels, very subtle embossed shadow, fine realistic gold material. Elegant dimensionality, no thick black outline, no yellow flat lettering, no cheesy neon glow, no chunky cartoon 3D, no excessive calligraphic tangles.\nAll letters must be perfectly readable and look professionally art-directed rather than typed over the artwork. Preserve empty breathing room around each wordmark and keep all surrounding gold ornaments and the central illustration visually unchanged. Deliver the finished packaging artwork at 1024x1536.",
+  "previousPromptSet": "art-prompts-v2.json",
+  "approval": "User requested English lettering and a higher-quality treatment; final visual review pending."
+}

@@ -70,3 +70,10 @@
 - 후속 반영 범위는 전투 HTML·QA 도구·이 기록뿐이다. 직전 배포 커밋 `c62c0a5ab22738619d62fd5760dea2a80d33cdc5`를 기준으로 프리뷰 관련 검사만 선택해 scoped 배포한다. 이미 통과한 서버 22개·기존 전투 검사는 반복하지 않는다.
 - 후속 커밋 `52138766`, Pages `https://5c785707.cnine-card.pages.dev` 반영 완료. 프리뷰 검사 7개와 출시·Hyperdrive 검사 통과. 공개 주소 `https://cnine-card.pages.dev/preview/magic-card-season2-v1/`에서 10장 로드, 팩·신규 원화·번들 HTTP 200 및 로컬 SHA-256 일치, 실제 전투 이벤트 2회 재생, 페이지 오류 0개를 확인했다. 등록 초안의 전투·개봉·팩·카드 활성화는 모두 OFF다.
 - 최종 운영 확인 자료는 외부 작업 폴더의 `production-verification.json`, `production-collection.png`, `production-battle.png`다. 이 결과 기록만 추가하는 커밋은 원격 반영으로 종료하며 운영 재배포하지 않는다.
+
+### 후속 팩 영문 타이포그래피 수정
+
+- 사용자 요청에 따라 V1 팩을 편집해 SOOPKETMON / MAGIC CARDS / SEASON II 영문 금박 세리프 타이포그래피로 교체했다. 달·별·금속 장식의 기존 구도는 유지했고 한국어 조판 V1과 생성 원본은 보존했다. 새 1024×1536 원본은 `assets/cards/magic-season2-pack-v2.png`, 웹용은 `magic-season2-pack-768-v2.webp`다.
+- 내장 image_gen 편집 프롬프트는 `art-prompts-v3.json`, 해시·규격은 `art-manifest-v3.json`에 기록한다. 컬렉션 이미지와 비활성 등록 초안의 팩 이미지 경로만 V2로 바꿨으며 운영 활성화/경제/전투 데이터 변경은 없다.
+- PC 1440×1000·모바일 390×844의 실제 팩 표시, 글자와 여백, 이미지 디코딩 및 페이지 오류 0개를 확인했다. 등록 초안은 이미지 경로 외에 직전 커밋과 동일함을 비교했다. 관련 캡처는 외부 작업 폴더의 `pack-english-desktop.png`, `pack-english-mobile.png`다.
+- 직전 운영 배포 `5c785707-0033-45f7-8b00-6d7d5be4de44` / Source `52138766` 기준의 작은 이미지·표시 경로 수정이다. `preparation.test.mjs`와 자동 Worker 검사, 출시 잠금·캐시·Hyperdrive 확인을 포함한 scoped 배포를 사용하며 전투 전체 검사는 반복하지 않는다.

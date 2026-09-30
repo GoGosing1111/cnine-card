@@ -8,7 +8,7 @@
   "pack": {
     "code": "MAGIC_CARD_SEASON2_PACK",
     "name": "마법카드 시즌2 팩",
-    "imageUrl": "assets/cards/magic-season2-pack-768-v1.webp",
+    "imageUrl": "assets/cards/magic-season2-pack-768-v2.webp",
     "active": false,
     "price": null,
     "weights": null

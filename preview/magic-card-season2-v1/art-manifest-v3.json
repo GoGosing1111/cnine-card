@@ -1,0 +1,29 @@
+{
+  "version": "20260930-pack-english-v2",
+  "generatedWith": "built-in image_gen edit",
+  "previousManifest": "art-manifest-v2.json",
+  "editTarget": "assets/cards/magic-season2-pack-v1.png",
+  "promptSet": "art-prompts-v3.json",
+  "text": [
+    "SOOPKETMON",
+    "MAGIC CARDS",
+    "SEASON II"
+  ],
+  "newArtworkApproval": "USER_REVIEW_PENDING",
+  "entries": [
+    {
+      "file": "assets/cards/magic-season2-pack-v2.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 2773680,
+      "sha256": "67e6b7a1d33b4492abcfcf1944d1762510f434e33a6e9d4ed9ef2a502ffc01c5"
+    },
+    {
+      "file": "assets/cards/magic-season2-pack-768-v2.webp",
+      "width": 768,
+      "height": 1152,
+      "bytes": 280362,
+      "sha256": "e30c9a94949aa0e23f995dc06732a7dd2d6c805d4f47f738af134b1b13ac6415"
+    }
+  ]
+}

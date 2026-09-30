@@ -4,11 +4,12 @@
 
 - `index.html`: 10종 컬렉션과 강화 수치.
 - `battle.html`: 발동 조건을 구성한 실제 엔진 검수 전투. 음소거, 재생/정지, 카드·강화 선택.
-- `pack-art.html`: 생성 원본 위 한글 조판. 최종 팩은 `../../assets/cards/magic-season2-pack-v1.png`.
+- 현재 팩: `../../assets/cards/magic-season2-pack-v2.png`, 웹용 `magic-season2-pack-768-v2.webp`. 사용자 후속 지시에 따라 SOOPKETMON / MAGIC CARDS / SEASON II 영문 금박 서체로 교체했다.
+- `pack-art.html`: 교체 전 V1 한글 조판 보존본. 현재 프리뷰는 V2 팩을 사용한다.
 - `cards-v2/`: 신규 카드 프레임 PNG 2장. `announcement-v2.png`는 10종 안내 이미지.
 - `registration-draft.json`: 비활성 등록 초안. 가격/가중치/강화 비용 미정.
-- `art-manifest.json`: 기존 승인 원화 8종 보존 기준. `art-manifest-v2.json`은 신규 자산 검수 기준, `art-prompts-v2.json`은 내장 image_gen 생성 기록.
+- `art-manifest.json`: 기존 승인 원화 8종 보존 기준. `art-manifest-v2.json`은 신규 카드·V1 팩 기준, `art-prompts-v2.json`은 당시 생성 기록. 영문 팩 V2 해시·크기와 편집 프롬프트는 `art-manifest-v3.json`, `art-prompts-v3.json`이다.
 
-`node preview/magic-card-season2-v1/build.mjs`로 실제 서버 전투와 전용 프리뷰 번들을 만든다. 라이브 V3 번들은 변경하지 않는다. `export-art.mjs`는 로컬 서버 주소 `MAGIC_S2_REVIEW_URL`, 필요 시 `PLAYWRIGHT_MODULE_URL`/`QA_CHROMIUM`을 받아 원본을 보존하며 최종 PNG·WebP를 출력한다. UI 검수 스크립트는 `qa.mjs`다.
+`node preview/magic-card-season2-v1/build.mjs`로 실제 서버 전투와 전용 프리뷰 번들을 만든다. 라이브 V3 번들은 변경하지 않는다. `export-art.mjs`는 로컬 서버 주소 `MAGIC_S2_REVIEW_URL`, 필요 시 `PLAYWRIGHT_MODULE_URL`/`QA_CHROMIUM`을 받아 카드·안내 이미지와 과거 V1 조판을 출력한다. 영문 V2 팩은 image_gen 편집 결과를 보존한 별도 원본이므로 이 스크립트로 재생성하지 않는다. UI 검수 스크립트는 `qa.mjs`다.
 
 구현 정책·검증·출시 대기 사항은 `../../docs/magic-card-season2-connection-preparation-20260930.md`에 기록했다.
