@@ -1,0 +1,22 @@
+{
+  "code": "T1_ORIKKUNG_CHAINGUN",
+  "serial": "A-30",
+  "name": "T1 오리꿍",
+  "call_sign": "T1 ORIKKUNG",
+  "role_label": "T1 클랜 유니폼",
+  "description": "T1 클랜 방패 문장의 검정·붉은색 제복과 체인건을 든 오리꿍 아바타.",
+  "lobby_image": "preview/avatar-t1-orikkung-chaingun-v1/assets/avatar-t1-orikkung-lobby-v1-1024.webp",
+  "lobby_mobile_image": "preview/avatar-t1-orikkung-chaingun-v1/assets/avatar-t1-orikkung-lobby-v1-640.webp",
+  "equipment_image": "preview/avatar-t1-orikkung-chaingun-v1/assets/avatar-t1-orikkung-equipment-v1-640.webp",
+  "accent": "#bd2739",
+  "acquisition_type": "EVENT",
+  "coin_price": null,
+  "source_label": "T1 클랜 시즌 기간제 지급",
+  "source_detail": "현 시즌 T1 클랜 전원 지급. 사용 기한: 2026-10-11 22:00 KST.",
+  "effect_type": "DROP_RATE_PERCENT",
+  "effect_value": 30,
+  "is_active": 1,
+  "is_public": 1,
+  "sale_enabled": 0,
+  "sort_order": 300
+}

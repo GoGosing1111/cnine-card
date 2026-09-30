@@ -1,0 +1,13 @@
+# 생성 입력
+
+내장 `image_gen`을 사용했다. 최종 로비는 승인 용병 원화 `assets/ui/project-v/mercenaries/approved-20260926/mercenary-v050-sniper-orikkung-source-art-v1.png`와 **게임** T1 클랜 문장 `assets/ui/clan/marks/source/t1-clan-mark-source-v1.png`를 참조했다.
+
+## 로비 원화
+
+> Create a premium portrait 2:3 full-body game avatar of the EXACT yellow DUCK character from reference 1, V-050 Orikkung, with the EXACT GAME T1 CLAN CREST from reference 2. This is the fictional game's clan T1: a red and gold crowned winged black shield with a vertical red crystal spear and gold 'T1' glyph. It is NOT the real-world esports T1 logo. Do not draw the real-world esports logo anywhere. Keep the original duck's recognizable spherical bright-yellow head, glossy black circular eyes, orange beak, short yellow wing-hands, orange webbed feet, black military goggles raised over forehead and black headset microphone. Change ONLY the old beige uniform to a premium black, crimson and fine gold T1 clan uniform jacket and tactical trousers; embroider the precise red/gold winged shield crest from reference 2 large and legible on the chest. Replace the sniper rifle with an imposing high-quality futuristic black/crimson/gold rotating-barrel CHAINGUN with both short duck wings naturally supporting it. Entire body, feet, gun and barrels completely inside the frame with margins. Character at center, a polished fantasy clan command hall with red crystalline light as atmospheric background, a subtle large T1 GAME CLAN winged shield crest motif on distant wall if used. Expensive painterly high-end 2D game avatar art, clear cute duck face, detailed polished material and controlled cinematic lighting, no real-world esports logos, no additional text, no card, no UI, no watermark, no humans.
+
+## 장비창 전신
+
+최종 로비와 같은 게임 T1 클랜 문장을 참조해 투명 컷아웃을 만들었다. 첫 장비창 결과에서 체인건 총구가 잘려 재생성했다.
+
+> Edit this existing transparent equipment cutout by RECOMPOSING the entire identical character and gun smaller within the same 2:3 transparent canvas. Preserve the exact yellow duck face, goggles, headset, black/crimson/gold T1 clan uniform, gold/red winged shield T1 game clan crest on chest and red/gold chaingun design. The far RIGHT barrel muzzles are currently cut off; repair and show the FULL FINISHED chaingun including all complete muzzle ends with at least 60 pixels of clear transparent margin to the right, and at least 40px transparent margin on every side including head, cape and both feet. This needs a smaller full-body figure, approximately 75-80% of canvas height, centered slightly left of center so horizontal gun fits. Do not change design or add a background. True RGBA transparency, no checkerboard, no gray gradient. Premium polished game illustration, no outside logos, no text, no UI.
