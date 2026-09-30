@@ -1,0 +1,34 @@
+{
+  "format": "PROJECT_V_SSS_HELMET_HALO_REVISION_V3",
+  "date": "2026-09-30",
+  "status": "USER_REVIEW_PENDING",
+  "userRequest": "투구 뒤에 원형 아우라 넣어봐",
+  "sourceArt": {
+    "path": "assets/sss-mercenary-helmet-halo-v3.png",
+    "width": 1024,
+    "height": 1536,
+    "mode": "RGB",
+    "sha256": "2738776B08770E85C760C90B2F543EA211583706E34C69ADA4E83FA9DAC5ACCD",
+    "bytes": 2822608
+  },
+  "base": {
+    "path": "../mercenary-sss-shoulder-cape-v2/assets/sss-mercenary-helmet-armor-cape-v2.png",
+    "sha256": "77C484753A91AEBE5E37C72112C379F0AC749181CBA4E951B13723E950154D7E",
+    "unmodified": true
+  },
+  "generation": {
+    "toolMode": "BUILT_IN_IMAGE_GEN",
+    "prompt": "prompts/helmet-halo-v3.txt",
+    "nativeOutput": "C:/Users/User/.codex/generated_images/01a0f1f2-cc91-72c3-a322-19e4d45ed867/exec-08895801-8757-4abf-8b90-4fbb582fb7fc.png",
+    "copiedWithoutReencoding": true
+  },
+  "change": "A violet circular halo behind the helmet, matching the existing violet body aura.",
+  "visualReview": {
+    "completed": true,
+    "notes": "Checked halo behind the helmet with open center; helmet, armor, cape, pointed sword and body aura remain visually consistent with V2. Generated edit is not claimed to have pixel-identical unchanged regions."
+  },
+  "selectedApprovedBaseReplaced": false,
+  "sdGenerated": false,
+  "liveRegistered": false,
+  "deploymentPerformed": false
+}
