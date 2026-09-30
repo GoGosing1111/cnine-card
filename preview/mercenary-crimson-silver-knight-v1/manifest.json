@@ -1,0 +1,84 @@
+{
+  "format": "PROJECT_V_REFERENCE_BASED_MERCENARY_SOURCE_ART_V1",
+  "date": "2026-09-30",
+  "status": "USER_REVIEW_PENDING",
+  "userRequest": "내가 보낸 사진 토대로 용병 일러스트 만들어봐 최대한 디자인 살려라",
+  "sourceArt": {
+    "path": "assets/crimson-silver-knight-source-art-v1.png",
+    "width": 1024,
+    "height": 1536,
+    "mode": "RGB",
+    "format": "PNG",
+    "sha256": "45F7327578BB2A174D853DB2F17CE1B77ABD24CF5BD96A1DA65C7346CCECCE54",
+    "bytes": 2889719
+  },
+  "designReferences": [
+    {
+      "path": "sources/user-reference-01-detail.png",
+      "originalAttachment": "codex-clipboard-ad5e90ab-6855-4465-b8d0-8bdde2606be5.png",
+      "role": "PRIMARY_HELMET_ARMOR_SWORD_DESIGN",
+      "sha256": "A83B19178AA9E7C32442D6FA38EC60E111D0399375AC4AFF59BECF5288668288",
+      "bytes": 572557
+    },
+    {
+      "path": "sources/user-reference-02-ingame.png",
+      "originalAttachment": "codex-clipboard-a38512dd-1988-4f3b-bd73-36cc5e6bc80e.png",
+      "role": "PROPORTION_AND_RED_ORANGE_ENERGY_REFERENCE",
+      "sha256": "DAFF40075AF49A193000030B146587884A2317E4A78E0D45C2ABDA1C2BB8196B",
+      "bytes": 334520
+    },
+    {
+      "path": "sources/user-reference-03-full.png",
+      "originalAttachment": "codex-clipboard-42104799-45f7-45dc-8e72-f9e86a2e7d7b.png",
+      "role": "OVERALL_SILHOUETTE_CAPE_POSE_REFERENCE",
+      "sha256": "268D2CD295EB9C2CAA421A76DF4B2DEFA4B20DA725D567A56390315606C81875",
+      "bytes": 376714
+    }
+  ],
+  "styleReferences": [
+    {
+      "path": "../../assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+      "role": "PAINTERLY_FINISH_ONLY",
+      "sha256": "629564D768A4BCEFCD0BE746E744DA49A64F1CF2BE7D048E7485FC6CB14FF874"
+    },
+    {
+      "path": "../../assets/ui/project-v/art-references/male-style-anchor-silver-paladin-v1.png",
+      "role": "SILVER_METAL_RENDERING_ONLY",
+      "sha256": "D85161ECEDE0E85AFEA04EC8FC82D8F1101337945361BB15E11849528FC47FD0"
+    }
+  ],
+  "generation": {
+    "toolMode": "BUILT_IN_IMAGE_GEN",
+    "prompt": "prompts/source-art-v1.txt",
+    "referenceOrder": [
+      "designReferences[0]",
+      "designReferences[1]",
+      "designReferences[2]",
+      "styleReferences[0]",
+      "styleReferences[1]"
+    ],
+    "nativeOutput": "C:/Users/User/.codex/generated_images/01a0f210-dfde-7e73-acb5-b2cc712e8a32/exec-9eaeaeed-8f58-43a7-8f9b-9b0e7f32963b.png",
+    "copiedWithoutReencoding": true,
+    "referenceAttachmentsCopiedWithoutReencoding": true
+  },
+  "designPreserved": [
+    "Closed crown-like silver and gold helmet",
+    "Asymmetric dark spiked and rounded silver shoulder plates",
+    "Layered silver-white armor with warm gold trim and black joints",
+    "Crimson shoulder cape",
+    "Large silver greatsword with branching red core guard",
+    "Red-orange power around the raised armored fist"
+  ],
+  "visualReview": {
+    "nativeImageInspected": true,
+    "result": "Draft visually retains the main supplied helmet, armor, cape, weapon and energy motifs in a vertical full-body illustration; no text, logo or card UI.",
+    "fidelityNote": "Generative reconstruction of the supplied design; not a pixel-identical copy.",
+    "thumbnailAndFrameApprovalCompleted": false
+  },
+  "nameAssigned": false,
+  "rankAssigned": false,
+  "previousSssArtworkReplaced": false,
+  "sdGenerated": false,
+  "liveRegistered": false,
+  "deploymentPerformed": false
+}

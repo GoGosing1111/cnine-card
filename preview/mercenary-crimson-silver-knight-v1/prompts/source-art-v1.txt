@@ -1,0 +1,21 @@
+Use case: stylized-concept.
+Asset type: PROJECT V mercenary sourceArt, one premium full-body character illustration, portrait EXACT 2:3, 1024 x 1536 pixels or higher native resolution at the exact same ratio, opaque RGB PNG.
+
+Primary request from the user: "내가 보낸 사진 토대로 용병 일러스트 만들어봐 최대한 디자인 살려라" — create a mercenary illustration from the three supplied knight images, preserving their design as closely as possible.
+
+Input images and strict roles:
+1. The close crop of the silver/gold knight with red cape: PRIMARY, authoritative character/helmet/armor/sword design reference.
+2. The small in-game screenshot of that same knight: supporting full-body proportions, red-orange weapon and gauntlet energy reference only. Do not reproduce its UI or low-resolution rendering.
+3. The complete horizontal promotional illustration: authoritative overall silhouette, armor asymmetry, sword shape, cape and pose reference. Ignore all printed copy, logos and advertising layout.
+4. The woman in a red suit: PAINTERLY FINISH reference ONLY. Borrow polished high-end Korean 2D fantasy game illustration quality and material rendering, absolutely no facial features, clothing, rifle, pose or background from this woman.
+5. The silver-haired male paladin: SILVER METAL PAINTING reference ONLY; do not copy his exposed face, hair, blue cape, costume or weapon.
+
+Create a faithful, beautifully resolved illustration of the SAME fully helmeted male knight from inputs 1–3. The supplied design takes priority over new invention. Preserve the closed silver crown-like helmet with gold structure, raised flame/wing-shaped metal crests and dark concealed face; no exposed human face or hair. Keep the tall powerful adult proportions, broad armored shoulders, close-fitting torso and long armored legs. Precisely retain the flowing overlapping silver-white plates with restrained warm gold edgework, black joint underlayers, pointed knees and layered greaves. Preserve the noticeably asymmetric shoulders: darker angular spiked silver/gunmetal and gold on the viewer's left, luminous rounded layered silver plates and gold ridges on the viewer's right. These are physical armor, not feathers or living wings.
+
+The distinctive enormous greatsword must be immediately recognizable: long straight broad silver double-edged blade with parallel central channels, elaborate sharply branching silver-and-gold upper blade/guard structure framing the intense RED dragon/flame-shaped core, and the slender long upper grip with its small gold pommel. Preserve the reference's blade-to-body scale and angular branching guard silhouette. Keep the sword held upright blade-down alongside the viewer-left leg, point and pommel in frame, with a plausible articulated armored hand at the grip. Do not replace it with a generic paladin sword, a purple rune sword or a chunky axe. The other armored fist is slightly raised and emits compact molten red-orange light as in the reference.
+
+Preserve the rich crimson cape attached behind the shoulders, sweeping behind the knight in two strong broad folds. Keep the silhouette clean and legible; no extra ribbons, white cape, waist cloth banners, shield, guns, extra weapons or halos. Present nearly the same proud standing three-quarter attitude as input 1, naturally adapted into a vertical card composition. Fully show helmet, both feet and the complete greatsword, with modest edge breathing room. Make the helmet/upper torso and red sword core the visual anchors.
+
+Background: a quiet pale ash-gray battlefield atmosphere, subtle distant stone ruins and low white mist, a few sparse embers; materially subordinate to the original silver/gold/red design. No enormous fire explosion or distracting architecture. Cool soft daylight on silver with restrained warm reflected light from the sword and fist. Layered painterly metal highlights and deep controlled shadows; exquisite clean 2D semi-real fantasy splash art, not CGI, photoreal cosplay, comic line art, or an isometric sprite. The knight fills most of the canvas and reads strongly as a collectible mercenary.
+
+NO text, names, ranks, letters, logos, signatures, watermarks, card borders, health bars or UI. One complete illustration, not a collage or concept sheet.
