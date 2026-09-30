@@ -42,3 +42,12 @@
 이번 수정 전 `aef4d6ab`의 `shared/mercenary-berkan-v1.mjs`와 `functions/_mercenary_combat.js`를 그대로 로드해 실패한 두 건만 재현했고, 동일한 실패와 수치가 나왔다. 이번 PVP 평타 변경이 원인이 아니며, 위의 PVE 전체 응답 동등성 확인도 유지된다. 기존 테스트나 PVE 동작은 수정하지 않는다. 재현 로그는 `C:/Users/User/.codex/tmp/berkan-pvp-damage-20260930/pre-existing-parent-failures.log`에 보존한다.
 
 최상단 AGENTS.md의 기존 무관 오류 처리 규칙에 따라 이미 통과한 행동 주기·광역기·듀오·로더 26건을 재사용하고, 재개 시 최소 선택 검사로 `tests/berkan-pvp-damage-20260930.test.mjs`의 3건과 필수 Worker 컴파일·출시 잠금·캐시·Hyperdrive 검사를 수행한다. 재개 전에는 이 검수 기록만 변경하므로 게임 실행 코드와 최종 측정 결과는 동일하다.
+
+## 운영 반영 완료
+
+- 2026-09-30 17:32 KST 확인: `npm run deploy:production -- --scoped` 성공. 선택 회귀 3건, Worker 문법·번들 컴파일, 출시 잠금·캐시·Hyperdrive 검사 통과.
+- 배포 소스: `36558ff9a78373d8a0d2fd9e39b9283dc9a59bd4` (구현 `758ed8ce` + 검수 기록). Pages: https://fd95271c.cnine-card.pages.dev .
+- API runtime: `9010da87-f6ff-4e72-b462-25b0758d2010`. 클랜/랭크 듀오 Worker: `026a38cb-938b-46a8-984b-146de6190883`.
+- 운영 `shared/mercenary-berkan-v1.mjs` HTTP 200, 줄바꿈 정규화 후 로컬 소스와 완전 일치, PVP 평타 계수 `0.99` 확인. SHA-256: `85e3716b5c457dab7bc4f59a71b30c13870193cd4b62c40fd570b333fe8e7b9a`.
+- 운영 공개 도감 API HTTP 200, revision 60·전력 연계 version 2144 유지. 베르칸·크라이베른·라그니엘 공개 레코드가 배포 전과 완전 일치한다. 실계정 전투나 재화 차감은 수행하지 않았다.
+- 배포 로그와 운영 확인 JSON은 `C:/Users/User/.codex/tmp/berkan-pvp-damage-20260930/deploy-final.log`, `production-verification.json`에 보존한다. 이 완료 기록은 문서만 커밋·원격 반영하며 추가 운영 배포하지 않는다.
