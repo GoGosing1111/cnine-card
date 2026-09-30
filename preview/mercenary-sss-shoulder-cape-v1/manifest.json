@@ -1,0 +1,31 @@
+{
+  "format": "PROJECT_V_SSS_USER_SELECTED_SOURCE_ART_V1",
+  "date": "2026-09-30",
+  "alias": "SSS 용병 정답본",
+  "status": "USER_SELECTED_CORRECT_SOURCE_ART_PRESERVED",
+  "selectedSourceArt": {
+    "path": "assets/sss-mercenary-approved-source-art-20260930.png",
+    "originalAttachment": "C:/Users/User/AppData/Local/Temp/codex-clipboard-e60e8c37-a6e9-4968-b421-2d3dee016a05.png",
+    "sha256": "37D2CB0854AEFDF35B0F2FB326D93637E78BD29369B85EC9FE7E83F7B42E26DD",
+    "width": 1024,
+    "height": 1536,
+    "mode": "RGB",
+    "format": "PNG",
+    "byteForBytePreserved": true,
+    "modifications": []
+  },
+  "priority": "For this character, use this exact user-selected attachment ahead of descriptive prompts, inferred sword shapes, or later generated variants.",
+  "lockedFeatures": [
+    "Silver and gold closed helmet and armor, with the attached proportions",
+    "Ivory cape attached at the shoulders; no waist cloth",
+    "Exact attached greatsword design, blade width and tip silhouette",
+    "Violet aura wrapping around the body",
+    "Attached pose, composition and fortress background"
+  ],
+  "generationStoppedByUser": true,
+  "sdStatus": "NOT_APPROVED",
+  "liveRegistered": false,
+  "deploymentPerformed": false,
+  "canonicalStandard": "../../docs/project-v-mercenary-card-art-standard.md",
+  "previousUnapprovedBundlePreserved": true
+}
