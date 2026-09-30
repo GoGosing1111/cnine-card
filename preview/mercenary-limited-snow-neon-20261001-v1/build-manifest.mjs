@@ -1,0 +1,13 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import crypto from 'node:crypto';
+import assert from 'node:assert/strict';
+import {fileURLToPath} from 'node:url';
+const root=path.dirname(fileURLToPath(import.meta.url));
+const details=file=>{const b=fs.readFileSync(path.join(root,file));assert.equal(b.subarray(1,4).toString(),'PNG');return {path:file,width:b.readUInt32BE(16),height:b.readUInt32BE(20),bitDepth:b[24],colorType:b[25],bytes:b.length,sha256:crypto.createHash('sha256').update(b).digest('hex').toUpperCase()}};
+const entries=[
+ {name:'나무늘봉순',concept:'설원의 특수부대',expectedRank:'SS',sourceArt:'assets/bongsoon-snow-source-art-v2.png',previous:'assets/bongsoon-snow-source-art-v1.png',promptId:'bongsoon-v2',status:'FACE_CONCEPT_COSTUME_APPROVED',approvedScope:['face','concept','costume'],userFeedback:'나무늘봉순 얼굴,컨셉 ,의상 맘에듬',change:'기존 얼굴·의상 유지, 다리 비율 증가와 약간 슬렌더한 체형, 총기 문자 제거'},
+ {name:'조은',concept:'네온 장비 흑백 특수부대',expectedRank:'SS',sourceArt:'assets/joeun-neon-source-art-v2.png',previous:'assets/joeun-neon-source-art-v1-rejected.png',previousStatus:'REJECTED_PHOTO_ANGLE',promptId:'joeun-v2',status:'REJECTED_FULL_REDESIGN_REQUIRED',userFeedback:'조은은 아예 갈아엎어서 다시 만들어야하는수준',nextStep:'근거리·원거리 무기 방향 검토 후 얼굴 참조에서 새로 설계',change:'V2까지 사용자 반려. 기존 시안을 완성본이나 얼굴 기준으로 사용하지 않는다.'}
+].map(entry=>{const source=details(entry.sourceArt);assert.equal(source.width,1024);assert.equal(source.height,1536);assert.equal(source.colorType,2);assert.equal(source.bitDepth,8);return {...entry,source,previousSource:details(entry.previous)}});
+const manifest={version:1,dateKST:'2026-10-01',method:'built-in image_gen',scope:'SOURCE_ART_PREVIEW_ONLY',rankStatus:'EXPECTED_NOT_CONFIRMED',userReview:'PARTIAL_APPROVAL_AND_REDESIGN',entries,references:['references/faces-bongsoon-left-joeun-right.png','references/bongsoon-rifle.png','references/joeun-neon-rifle.png'].map(details),styleAnchor:{path:'../../assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png',sha256:'629564D768A4BCEFCD0BE746E744DA49A64F1CF2BE7D048E7485FC6CB14FF874',role:'PAINTING_STYLE_ONLY'},prompts:'prompts.json',futureRules:{location:'../../AGENTS.md',face:'사진 각도 복제 금지 / 얼굴 고유 구조 유지',hair:'자연스러운 연속 모발 흐름 / 층층이 갈라진 판·띠형 헤어 금지',hairRuleAddedAfterV2Generation:true},technicalQA:{nativeSize:'1024x1536',format:'8-bit RGB PNG',sourcePixels:'copied byte-for-byte from image_gen output',upscaled:false},liveRegistration:false,battleSprite:'NOT_REQUESTED',skills:'NOT_REQUESTED'};
+fs.writeFileSync(path.join(root,'manifest.json'),JSON.stringify(manifest,null,2)+'\n');console.log(JSON.stringify({checked:entries.length,sourceFormat:'1024x1536 RGB PNG',status:manifest.userReview}));
