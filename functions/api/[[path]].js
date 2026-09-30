@@ -5596,8 +5596,9 @@ async function handleRequest(context){
     if(path==='inventory/use'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       const body=await readBody(request),itemCode=String(body.itemCode||'').trim().toUpperCase(),requestId=String(body.requestId||crypto.randomUUID()).trim().slice(0,100),rawOpenCount=body.count===undefined?1:Number(body.count),openCount=Number.isInteger(rawOpenCount)?rawOpenCount:0;
-      if(itemCode==='FUNDING_GIFT_BOX'){try{return json(await withJointUserMutationLock(env,user.id,'inventory/funding-gift/open',()=>openFundingGift(env,user,{requestId:body.requestId,count:openCount})));}catch(error){return json({error:error.status?error.message:'개봉을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
-      if(itemCode==='RECRUITMENT_GIFT_BOX'){try{return json(await withJointUserMutationLock(env,user.id,'inventory/recruitment-gift/open',()=>openRecruitmentGift(env,user,{requestId:body.requestId,count:openCount})));}catch(error){return json({error:error.status?error.message:'개봉을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
+      // inventory/use already holds the request-level user lock. A second lock rejects the same request.
+      if(itemCode==='FUNDING_GIFT_BOX'){try{return json(await openFundingGift(env,user,{requestId:body.requestId,count:openCount}));}catch(error){return json({error:error.status?error.message:'개봉을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
+      if(itemCode==='RECRUITMENT_GIFT_BOX'){try{return json(await openRecruitmentGift(env,user,{requestId:body.requestId,count:openCount}));}catch(error){return json({error:error.status?error.message:'개봉을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
       if(itemCode===TOURNAMENT_GIFT.code){try{return json(await openTournamentGift(env,user,{requestId:body.requestId,count:openCount}));}catch(error){return json({error:error.status?error.message:'개봉을 완료하지 못했습니다. 보유 수량을 확인하고 같은 요청으로 다시 시도하세요.'},error.status||409);}}
       if(itemCode===UNIQUE_ADVANCEMENT_PASS_CODE)return json({error:'전직 패스권은 카드 상세 > 고유효과 전직에서 자동 사용됩니다.'},400);
       if(itemCode===FORGE_REPAIR_ITEM.code)return json({error:'핑두 리페어 쿠폰은 장비 강화 센터 → 파괴 기록에서 사용하세요.'},400);

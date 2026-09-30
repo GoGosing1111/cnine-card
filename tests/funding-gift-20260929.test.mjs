@@ -84,8 +84,10 @@ test('admin grant is audited, idempotent and bound to recipient, admin and input
  await f.pg.query('UPDATE inventory_items SET is_active=0 WHERE code=$1',[gift.code]);await assert.rejects(f.grant());assert.equal(await f.quantity(),4);
 });
 
-test('live admin and opening routes retain permissions and account mutation locks',async t=>{
+test('live grant keeps its lock while inventory opening uses the request-level lock',async t=>{
  const f=await fixture(t),api=read('functions/api/[[path]].js'),AsyncFunction=Object.getPrototypeOf(async()=>{}).constructor;
+ assert.match(api,/const SERIALIZED_GAME_PREFIXES=\[[^\]]*'inventory\/'/);
+ assert.match(api,/if\(serializedGameAction\(actionPath,request\.method\)\)/);
  const locks=[],deps={env:f.env,grantFundingGift,openFundingGift,isForgeTicketGrant:()=>false,readBody:r=>r.json(),json:(body,status=200)=>Response.json(body,{status}),withJointUserMutationLock:async(_env,id,path,work)=>{locks.push({id,path});return work();}};
  const source=api.slice(api.indexOf("    if(path==='admin/users/action'"),api.indexOf("    if(path==='admin/users/inventory-audit'"));
  const route=new AsyncFunction('deps',`const {env,grantFundingGift,isForgeTicketGrant,readBody,json,withJointUserMutationLock,request,requirePermission}=deps;const path='admin/users/action';${source}`);
@@ -98,7 +100,7 @@ test('live admin and opening routes retain permissions and account mutation lock
  const request=new Request('https://qa.test/api/inventory/use',{method:'POST',body:JSON.stringify({itemCode:gift.code,count:1,requestId:crypto.randomUUID()})});
  assert.equal((await openRoute({...deps,request:request.clone(),authenticate:async()=>null})).status,401);
  assert.equal((await openRoute({...deps,request,authenticate:async()=>({id:1})})).status,200);assert.equal(await f.quantity(REPAIR),2);
- assert.deepEqual(locks,[{id:1,path:'admin/funding-gift/grant'},{id:1,path:'inventory/funding-gift/open'}]);
+ assert.deepEqual(locks,[{id:1,path:'admin/funding-gift/grant'}]);
 });
 
 test('CMS includes exact four rewards and retries the same grant ID after a lost response',async()=>{
