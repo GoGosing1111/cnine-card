@@ -1,7 +1,7 @@
 {
   "date": "2026-10-01",
   "scope": "preview/mercenary-crimson-silver-knight-battle-v1/",
-  "status": "TECHNICAL_QA_COMPLETE_USER_VISUAL_REVIEW_PENDING",
+  "status": "USER_REJECTED_VISUAL_QUALITY_TECHNICAL_CHECKS_NOT_VISUAL_APPROVAL",
   "unitTests": {
     "command": "node --test preview/mercenary-crimson-silver-knight-battle-v1/qa.test.mjs",
     "passed": 6,
@@ -84,5 +84,6 @@
   "visualEvidenceDirectory": "qa/",
   "animationRecording": "qa/ultimate-preview.webp",
   "runtimeDeployment": "NOT_REQUESTED_FOR_UNAPPROVED_RESOURCE_PREVIEW",
-  "noUnrelatedReleaseGate": true
+  "noUnrelatedReleaseGate": true,
+  "userRejection": "칼잡는 자세 및 스킬 모션이 부자연스러움"
 }

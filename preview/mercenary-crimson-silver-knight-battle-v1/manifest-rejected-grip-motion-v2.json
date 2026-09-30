@@ -31,8 +31,8 @@
     "y": 0.9074519230769231
   },
   "bodyPixels": 1452,
-  "battleSpriteStatus": "USER_REJECTED_GRIP",
-  "motionStatus": "USER_REJECTED_UNNATURAL_MOTION",
+  "battleSpriteStatus": "USER_REVIEW_PENDING",
+  "motionStatus": "USER_REVIEW_PENDING",
   "effectStatus": "USER_REVIEW_PENDING",
   "motion": {
     "idle": {
@@ -7084,7 +7084,7 @@
     "promptDirectory": "prompts/"
   },
   "release": {
-    "status": "REWORK_IN_PROGRESS",
+    "status": "INDEPENDENT_USER_REVIEW_PREVIEW",
     "liveRuntimeChanged": false,
     "balanceChanged": false,
     "skillsAssigned": false
@@ -7161,15 +7161,5 @@
       "bodyHeight": 312.1212121212121
     },
     "policy": "UNIFORM_CHARACTER_WEAPON_AND_AURA_SCALE_EXCLUDING_TRANSPARENT_PADDING"
-  },
-  "rework": {
-    "currentStaticCandidate": "assets/knight-sd-v14-original-blade-approved-grip.png",
-    "currentStaticRecord": "assets/knight-sd-v14-original-blade-approved-grip.json",
-    "gripApproval": "grip-approval-20261001.json",
-    "qa": "qa/blade-v14-report.json",
-    "previousMotionManifest": "manifest-rejected-grip-motion-v2.json",
-    "status": "GRIP_APPROVED_BLADE_CORRECTION_REVIEW_PENDING",
-    "motionReworkRequired": true,
-    "surroundingAuraSaturationRequestPending": true
   }
 }

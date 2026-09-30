@@ -1,0 +1,92 @@
+{
+  "date": "2026-10-01",
+  "status": "HAND_AND_ARM_GRIP_APPROVED_ONLY",
+  "userStatement": "좋아 칼 파지 아주 마음에 들어 근데 문제가 있어 칼 검신 크기가 줄어들었고 칼날 맨 끝에 기존에 없던 뾰족한게 생김 ㅇㅋ?",
+  "approvedGrip": {
+    "file": "assets/user-approved/forward-grip-approved-v12.png",
+    "sha256": "70D23931042F676B057DDBAFDC6B4E1F0210B0038DEA9660AD19C63C10ED62F6",
+    "quote": "좋아 칼 파지 아주 마음에 들어",
+    "date": "2026-10-01",
+    "foreground": [
+      [
+        239,
+        614
+      ],
+      [
+        251,
+        592
+      ],
+      [
+        268,
+        581
+      ],
+      [
+        292,
+        575
+      ],
+      [
+        312,
+        579
+      ],
+      [
+        322,
+        603
+      ],
+      [
+        328,
+        620
+      ],
+      [
+        335,
+        639
+      ],
+      [
+        327,
+        653
+      ],
+      [
+        318,
+        658
+      ],
+      [
+        310,
+        676
+      ],
+      [
+        299,
+        686
+      ],
+      [
+        283,
+        679
+      ],
+      [
+        272,
+        676
+      ],
+      [
+        257,
+        664
+      ],
+      [
+        245,
+        652
+      ],
+      [
+        235,
+        632
+      ]
+    ],
+    "protectedPixels": 7720,
+    "pixelPolicy": "EXACT_APPROVED_RGBA_FOREGROUND"
+  },
+  "gripReference": "sources/user-forward-grip-reference-20261001.png",
+  "requestedCorrections": [
+    "검신 길이와 폭을 승인 원본 크기로 복원",
+    "기존에 없던 길게 뾰족한 칼끝 제거"
+  ],
+  "bladeCorrectionCandidate": "assets/knight-sd-v14-original-blade-approved-grip.png",
+  "bladeCorrectionStatus": "USER_REVIEW_PENDING",
+  "motionApproval": false,
+  "runtimeEnabled": false
+}

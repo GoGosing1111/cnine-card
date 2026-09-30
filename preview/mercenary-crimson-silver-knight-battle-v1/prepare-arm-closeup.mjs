@@ -1,0 +1,10 @@
+import fs from 'node:fs/promises';
+import sharp from 'sharp';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+const root=path.dirname(fileURLToPath(import.meta.url));
+await fs.copyFile('C:/Users/User/.codex/generated_images/01a0f210-dfde-7e73-acb5-b2cc712e8a32/exec-b2a665e3-3baa-4175-b152-3d2b4573d070.png',path.join(root,'assets/rejected/arm-only-v8-reverse-grip.png'));
+await fs.copyFile('C:/Users/User/.codex/generated_images/01a0f210-dfde-7e73-acb5-b2cc712e8a32/exec-3542d38f-c7b2-43d2-bb2a-45051772d783.png',path.join(root,'assets/rejected/grip-master-v7.png'));
+const rect={left:260,top:230,width:560,height:560};
+await sharp(path.join(root,'assets/knight-sd-v6-original-sword.png')).extract(rect).resize(1120,1120).png().toFile(path.join(root,'sources/arm-grip-edit-target-v9.png'));
+await fs.writeFile(path.join(root,'sources/arm-grip-edit-target-v9.json'),JSON.stringify({target:'assets/knight-sd-v6-original-sword.png',rect,scale:2,weaponTransformLocked:{scale:1,angle:-32,grip:[521,557]},issue:'RIGHT_HAND_REVERSE_GRIP_THUMB_AT_POMMEL'},null,2)+'\n');

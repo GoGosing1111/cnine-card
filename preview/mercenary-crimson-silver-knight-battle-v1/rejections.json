@@ -1,7 +1,7 @@
 {
   "date": "2026-09-30",
-  "status": "CANONICAL_SWORD_COMPOSITE_ALL_MOTION_USER_REVIEW_PENDING",
-  "latestDirection": "사용자 첨부 9e36c11a의 검 방향만 참고. 검은 허리 앞에서 오른쪽 아래로 비스듬히 향하게 한 손 파지. 몸은 똑바로 선다. 작화 품질과 대검 디자인은 유지. 걷기는 제외하고 대시 이펙트를 제작한다.",
+  "status": "V2_MOTIONS_USER_REJECTED_V12_GRIP_APPROVED_V14_BLADE_REVIEW_PENDING",
+  "latestDirection": "2026-10-01: 첨부 d08bc7e1의 팔을 옆으로 내린 손등 한손 파지를 재현한 V12 파지 승인. 손과 팔을 그대로 보존하고 검신 크기와 칼끝만 승인 대검 원본으로 복원한다.",
   "rejected": [
     {
       "file": "assets/rejected/sd-v1-two-handed-crouch.png",
@@ -26,6 +26,41 @@
       "file": "assets/rejected/attack-body-v2-clipped.png",
       "reason": "기술 검수 제외: 일부 공격 포즈의 발끝이 원본 셀에 잘림. 이후 두 8프레임 시트로 대체.",
       "usableAsReference": false
+    },
+    {
+      "file": "assets/knight-sd-v6-original-sword.png",
+      "reason": "사용자 반려: 팔 자세·한손 파지 오류. V2 스킬 모션도 부자연스러워 재작업 필요.",
+      "usableAsReference": false
+    },
+    {
+      "file": "assets/rejected/grip-master-v7.png",
+      "reason": "후속 파지 수정 이전 시안. 승인된 V12 파지의 대체 입력으로 사용하지 않는다.",
+      "usableAsReference": false
+    },
+    {
+      "file": "assets/rejected/arm-only-v8-reverse-grip.png",
+      "reason": "사용자 반려: 손등이 보이지 않는 잘못된 파지.",
+      "usableAsReference": false
+    },
+    {
+      "file": "assets/knight-sd-v9-dorsal-grip.png",
+      "reason": "사용자 반려: 검지로만 걸친 파지, 합성된 손잡이 일부가 굽어 보임.",
+      "usableAsReference": false
+    },
+    {
+      "file": "assets/rejected/dorsal-clenched-v10-index-only.png",
+      "reason": "손가락이 손잡이를 함께 감싸지 못한 시안.",
+      "usableAsReference": false
+    },
+    {
+      "file": "assets/rejected/grip-v11-reversed-again.png",
+      "reason": "후속 사용자 사진과 불일치하는 뒤집힌 파지.",
+      "usableAsReference": false
+    },
+    {
+      "file": "assets/source/blade-correction-generated-v13.png",
+      "reason": "원본 칼끝과 크기 고정을 위해 V14 원본 검 합성으로 대체.",
+      "usableAsReference": false
     }
   ],
   "supersededPrompts": [
@@ -41,10 +76,10 @@
     "sd-v2-standing.txt"
   ],
   "currentPosePrompt": [
-    "prompts/body-low-guard-proxy-v1.txt",
-    "prompts/body-low-guard-clean-v1.txt"
+    "prompts/user-reference-forward-grip-v12.txt",
+    "prompts/approved-grip-body-layer-v14.txt"
   ],
-  "currentPose": "assets/knight-sd-v6-original-sword.png",
+  "currentPose": "assets/knight-sd-v14-original-blade-approved-grip.png",
   "approvedDesignSource": "assets/user-approved/knight-base-approved.png",
   "approvedIdleSource": "assets/user-approved/idle-sheet-approved.png",
   "generationMode": "BUILT_IN_IMAGEGEN",

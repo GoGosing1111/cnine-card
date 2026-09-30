@@ -1,0 +1,307 @@
+{
+  "version": 14,
+  "status": "GRIP_APPROVED_BLADE_CORRECTION_USER_REVIEW_PENDING",
+  "approvedGrip": {
+    "file": "assets/user-approved/forward-grip-approved-v12.png",
+    "sha256": "70D23931042F676B057DDBAFDC6B4E1F0210B0038DEA9660AD19C63C10ED62F6",
+    "quote": "좋아 칼 파지 아주 마음에 들어",
+    "date": "2026-10-01",
+    "foreground": [
+      [
+        239,
+        614
+      ],
+      [
+        251,
+        592
+      ],
+      [
+        268,
+        581
+      ],
+      [
+        292,
+        575
+      ],
+      [
+        312,
+        579
+      ],
+      [
+        322,
+        603
+      ],
+      [
+        328,
+        620
+      ],
+      [
+        335,
+        639
+      ],
+      [
+        327,
+        653
+      ],
+      [
+        318,
+        658
+      ],
+      [
+        310,
+        676
+      ],
+      [
+        299,
+        686
+      ],
+      [
+        283,
+        679
+      ],
+      [
+        272,
+        676
+      ],
+      [
+        257,
+        664
+      ],
+      [
+        245,
+        652
+      ],
+      [
+        235,
+        632
+      ]
+    ],
+    "protectedPixels": 7720,
+    "pixelPolicy": "EXACT_APPROVED_RGBA_FOREGROUND"
+  },
+  "output": "assets/knight-sd-v14-original-blade-approved-grip.png",
+  "sha256": "D2CAB7DDE716CF9A0554AF44A03A448A7BCCD9E402928D87620C72C73879A6CC",
+  "bodyLayer": "assets/source/approved-grip-body-layer-v14.png",
+  "bodyLayerSha256": "2FAA77D9BC73E37A2370BC53FF3C3DB7B330A231383D064EEC4FA0D5DFBF364F",
+  "bodyRepair": "GENERATED_ONLY_WHERE_PREVIOUS_SWORD_OCCLUDED_THE_BODY",
+  "bodyOrigin": [
+    144,
+    48
+  ],
+  "bodyPixels": 1452,
+  "feet": [
+    729,
+    1507
+  ],
+  "weapon": {
+    "original": "assets/weapon/sword-original.png",
+    "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+    "scale": 1,
+    "angle": -38,
+    "grip": [
+      432,
+      686
+    ],
+    "pivot": [
+      223.8484692236965,
+      231.60508112376147
+    ],
+    "rigid": true
+  },
+  "weaponLengthScale": 1,
+  "weaponWidthScale": 1,
+  "weaponShape": "ORIGINAL_SELECTED_PIXELS_INCLUDING_COMPACT_RUBY_TERMINAL_NO_NEW_SPIKE",
+  "oldSwordRemovalRegions": [
+    [
+      [
+        175,
+        475
+      ],
+      [
+        217,
+        481
+      ],
+      [
+        245,
+        524
+      ],
+      [
+        276,
+        585
+      ],
+      [
+        302,
+        617
+      ],
+      [
+        292,
+        642
+      ],
+      [
+        258,
+        609
+      ],
+      [
+        214,
+        548
+      ],
+      [
+        183,
+        529
+      ]
+    ],
+    [
+      [
+        319,
+        646
+      ],
+      [
+        345,
+        659
+      ],
+      [
+        396,
+        647
+      ],
+      [
+        424,
+        602
+      ],
+      [
+        450,
+        652
+      ],
+      [
+        459,
+        718
+      ],
+      [
+        499,
+        792
+      ],
+      [
+        557,
+        880
+      ],
+      [
+        631,
+        977
+      ],
+      [
+        708,
+        1080
+      ],
+      [
+        795,
+        1197
+      ],
+      [
+        861,
+        1284
+      ],
+      [
+        891,
+        1260
+      ],
+      [
+        916,
+        1312
+      ],
+      [
+        939,
+        1402
+      ],
+      [
+        932,
+        1496
+      ],
+      [
+        891,
+        1480
+      ],
+      [
+        840,
+        1442
+      ],
+      [
+        749,
+        1438
+      ],
+      [
+        693,
+        1405
+      ],
+      [
+        689,
+        1352
+      ],
+      [
+        655,
+        1294
+      ],
+      [
+        589,
+        1210
+      ],
+      [
+        521,
+        1120
+      ],
+      [
+        451,
+        1033
+      ],
+      [
+        378,
+        934
+      ],
+      [
+        311,
+        858
+      ],
+      [
+        293,
+        823
+      ],
+      [
+        253,
+        794
+      ],
+      [
+        210,
+        747
+      ],
+      [
+        197,
+        707
+      ],
+      [
+        237,
+        705
+      ],
+      [
+        283,
+        720
+      ],
+      [
+        269,
+        704
+      ],
+      [
+        278,
+        681
+      ],
+      [
+        310,
+        648
+      ]
+    ]
+  ],
+  "patchedPixels": 188378,
+  "generationMode": "BUILT_IN_IMAGEGEN_PLUS_ORIGINAL_ASSET_COMPOSITING",
+  "prompts": [
+    "prompts/user-reference-forward-grip-v12.txt",
+    "prompts/approved-grip-body-layer-v14.txt"
+  ],
+  "runtimeEnabled": false
+}

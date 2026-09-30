@@ -1,0 +1,34 @@
+{
+  "date": "2026-10-01",
+  "scope": "V14_STATIC_BLADE_CORRECTION_ONLY",
+  "result": "PASS",
+  "hand": {
+    "opaquePixelsCompared": 7352,
+    "differentPixels": 0,
+    "source": "assets/user-approved/forward-grip-approved-v12.png"
+  },
+  "weapon": {
+    "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+    "source": "assets/weapon/sword-original.png",
+    "uniformScale": 1,
+    "straightAxisRigid": true,
+    "tipSource": "EXACT_ORIGINAL_TERMINAL",
+    "extraPointDrawn": false
+  },
+  "nativeAlpha": true,
+  "clearFraction": 0.6376953125,
+  "bounds": [
+    152,
+    55,
+    1181,
+    1591
+  ],
+  "visualFiles": [
+    "qa/blade-v14-full.png",
+    "qa/blade-v14-grip.png"
+  ],
+  "visualReview": "Hand, handle axis, original blade width/length and compact original terminal inspected. User approval of V14 remains pending.",
+  "motionsReviewed": false,
+  "auraChanged": false,
+  "liveRuntimeChanged": false
+}

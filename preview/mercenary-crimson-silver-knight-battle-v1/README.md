@@ -1,5 +1,17 @@
 # 은백·금색 대검 기사 — 전투 리소스 검수
 
+## 2026-10-01 후속 파지 승인과 검신 수정
+
+현재 정지 시안은 `assets/knight-sd-v14-original-blade-approved-grip.png`다. 사용자가 V12의 손등이 보이는 낮은 한손 파지를 승인하고, 작아진 검신과 새로 생긴 긴 칼끝 돌출부를 지적했다. V12 원본은 `assets/user-approved/forward-grip-approved-v12.png`에 보존하며, **승인 범위는 손과 팔의 파지뿐**이다. 기록은 `grip-approval-20261001.json`이다.
+
+V14는 승인된 손 픽셀을 전경에 그대로 두고, 기존 `assets/weapon/sword-original.png`를 원래 몸 대비 **배율 1.0**으로 합성했다. 검 전체의 강체 회전·이동만 적용했으며 길이와 폭을 따로 늘리거나 손잡이·검끝을 다시 그리지 않았다. 기존 짧은 루비 말단과 양쪽 갈고리는 원본 픽셀이다. 교체 전 검이 가렸던 몸·망토 부분만 내장 ImageGen으로 복구했다. 원본 파지 이미지와 최종 손의 불투명 픽셀을 비교한 결과 및 검 해시·알파·패딩 확인은 `qa/blade-v14-report.json`에 있다. 확대 검수는 `qa/blade-v14-grip.png`, 전신은 `qa/blade-v14-full.png`다.
+
+재합성: `node preview/mercenary-crimson-silver-knight-battle-v1/restore-original-sword-v14.mjs`. 입력과 프롬프트는 모두 이 폴더에 보존했다. 최신 프롬프트는 `prompts/user-reference-forward-grip-v12.txt`와 `prompts/approved-grip-body-layer-v14.txt`다. V14 검신 수정본은 사용자 시각 승인 대기다.
+
+아래 V2 전투 프리뷰의 108개 모션은 사용자가 파지와 스킬 동작을 반려했다. 과거 기술 검사는 시각 승인으로 취급하지 않으며 `manifest-rejected-grip-motion-v2.json`에 보존했다. 모션 재작업 및 캐릭터 주변 광원의 채도 강화 요청은 남아 있다. 이번 정지 이미지 수정으로 전투 재작업 완료·SD 최종 승인·운영 연결을 보고하지 않는다. 기존 운영 원화 승인과 런타임은 수정하지 않았다.
+
+## 이전 V2 전투 프리뷰 기록 — 시각 반려
+
 2026-10-01. 사용자가 지정한 종결 용병의 대시·대검 공격·스킬·궁극기 시안이다. 베르칸·크라이베른·라그니엘의 제작 방식처럼 독립 프리뷰에서 실제 공용 V3 전장으로 재생한다. 이름·등급·성능 수치·스킬 배정·운영 전투 연결은 확정하지 않았다. 카드 원화의 기존 V8 승인은 보존하며, 이번 SD·모션·이펙트는 `USER_REVIEW_PENDING`이다.
 
 ```powershell

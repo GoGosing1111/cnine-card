@@ -1,0 +1,19 @@
+{
+  "target": "assets/knight-sd-v6-original-sword.png",
+  "rect": {
+    "left": 260,
+    "top": 230,
+    "width": 560,
+    "height": 560
+  },
+  "scale": 2,
+  "weaponTransformLocked": {
+    "scale": 1,
+    "angle": -32,
+    "grip": [
+      521,
+      557
+    ]
+  },
+  "issue": "RIGHT_HAND_REVERSE_GRIP_THUMB_AT_POMMEL"
+}

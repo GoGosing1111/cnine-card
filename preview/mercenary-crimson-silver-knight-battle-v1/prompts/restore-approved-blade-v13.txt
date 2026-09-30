@@ -1,0 +1,10 @@
+Use case: precise-object-edit.
+IMAGE 1 is the edit target. Its LOW ONE-HANDED GRIP HAS JUST BEEN APPROVED BY THE USER. Preserve the entire right arm, wrist, closed fingers and back-of-hand gauntlet EXACTLY. Preserve character, armor, helmet, red cape, body scale, pose, camera and lighting.
+IMAGE 2 is the exact original greatsword to restore, including its original blade proportions and terminal. It is a design/shape source only.
+
+Change ONLY the sword BLADE below the grip:
+1. Restore the thick, broad, long original greatsword proportions from Image 2. The current blade in Image 1 is too small and slim. Increase the blade visibly in width and length to the original imposing size, approximately 15% longer and 22% broader than currently shown, keeping the true reference silhouette and a straight central axis.
+2. Remove the extra long spear-like point which was invented below the lower hooks. Match the lower terminal EXACTLY to Image 2: the two broad curled silver hooks flank a compact red-ruby center terminal. The center terminates shortly below the hooks, with no extra long thin spike or extended spear point.
+3. Preserve all original silver rails, gold/dark central spine, ruby placements and ornate guard from Image 2. No additional ornaments or blades.
+4. The black handle stays perfectly straight, on one continuous axis. Keep the APPROVED hand and handle contact from Image 1 unchanged. Do not alter the fingers, open the fist, bend the wrist, bend the handle, or move the arm. Keep the same down-right sword angle. Enlarge/restore the blade away from that fixed grip.
+Full figure and entire sword tip inside frame; add transparent canvas padding if needed, do not reduce the character or sword to fit. Native transparent alpha. No background, text, effects or new costume changes.

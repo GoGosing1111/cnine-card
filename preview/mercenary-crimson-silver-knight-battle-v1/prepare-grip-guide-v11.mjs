@@ -1,0 +1,11 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import sharp from 'sharp';
+import {fileURLToPath} from 'node:url';
+import {foreground,cleanAlpha} from './compose-weapon.mjs';
+const root=path.dirname(fileURLToPath(import.meta.url));
+await fs.copyFile('C:/Users/User/.codex/generated_images/01a0f210-dfde-7e73-acb5-b2cc712e8a32/exec-bd7546b7-b188-4498-9755-a1651f119ae9.png',path.join(root,'assets/rejected/dorsal-clenched-v10-index-only.png'));
+const target=await fs.readFile(path.join(root,'sources/arm-grip-edit-target-v9.png'));
+const guide=Buffer.from(`<svg width="1120" height="1120" xmlns="http://www.w3.org/2000/svg"><defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#00c9ff"/></marker></defs><path d="M250 390 Q150 640 170 825 L405 720" fill="none" stroke="#00c9ff" stroke-width="13" stroke-linejoin="round" marker-end="url(#arrow)"/><circle cx="170" cy="825" r="25" fill="none" stroke="#00c9ff" stroke-width="7"/><text x="30" y="890" font-family="Arial" font-size="30" fill="#00c9ff">ELBOW BELOW THE FIST</text><path d="M474 578L491 605L508 632L525 659" stroke="#80ff19" stroke-width="26" stroke-linecap="round"/><text x="24" y="1000" font-family="Arial" font-size="25" fill="#80ff19">Four CLOSED finger knuckles parallel to the straight grip.</text><text x="24" y="1040" font-family="Arial" font-size="25" fill="#80ff19">Back of fist faces camera. No pointing index finger.</text></svg>`);
+await sharp(target).composite([{input:guide}]).png().toFile(path.join(root,'sources/grip-anatomy-guide-v11.png'));
+console.log('sources/grip-anatomy-guide-v11.png');

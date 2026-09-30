@@ -1,0 +1,8 @@
+Use case: precise-object-edit.
+Edit this close-up, changing only the knight's right forearm and hand on the sword handle.
+
+CRITICAL CORRECTION: THIS MUST BE A TIGHTLY CLENCHED FIST AROUND THE HANDLE, NOT AN OPEN HAND RESTING ON IT. All FOUR fingers are completely curled and closed. No straight index finger. No dangling fingertip. No extended fingers. No gap between palm and hilt. The index, middle, ring and little fingers encircle the SAME black grip together; the thumb firmly locks over the curled index/middle fingers. The visible hand is a COMPACT closed armored fist with a broad silver BACK-OF-HAND plate. The curled fingertips disappear behind/under the grip, and only compact bent knuckle segments are seen along the lower edge. Short, fully bent fingers tightly compressed into the fist. Never show the long extended index finger seen in the input.
+
+The sword exits the fist toward the ruby guard at the lower right, adjacent to the thumb/index side. The pommel exits the little-finger side at the upper left. This is a normal forward hammer grip, not a reverse dagger grip. Pronate the forearm and reposition the elbow naturally so the BACK OF THE HAND faces the viewer and the wrist aligns naturally with the forearm.
+
+The black handle MUST BE ONE PERFECTLY STRAIGHT RIGID CYLINDER from pommel to guard, on one single straight diagonal axis. The visible shaft above the fist and below the fist are collinear. NO bend, NO kink, NO curve, NO bent handle, NO extra handle. Preserve exactly the current sword angle and weapon position. Do not solve grip by deforming the weapon. Do not change armor design, cape, ruby gem, sword guard, or crop. Silver and gold armored material. Native transparent background. No text or effects.

@@ -1,0 +1,150 @@
+{
+  "version": 9,
+  "status": "USER_REVIEW_PENDING",
+  "source": "assets/source/dorsal-grip-closeup-v9.png",
+  "sourceSha256": "B0952326244DF8EC0F544262B3490DE760096C390FD2A74327FF395776D204FB",
+  "target": "assets/knight-sd-v6-original-sword.png",
+  "targetSha256": "528D124A26E5EBEE128AB0FA6C1993D8589C10DE33ADA5AA9DDE08568CD5278E",
+  "output": "assets/knight-sd-v9-dorsal-grip.png",
+  "outputSha256": "F9F640661288DE835983965C90065C5DA79748CA762A66A992782FEDF1511F44",
+  "generatedEdit": "RIGHT_ELBOW_FOREARM_AND_DORSAL_GLOVE_ONLY",
+  "editRect": [
+    260,
+    230,
+    560,
+    560
+  ],
+  "armPolygon": [
+    [
+      72,
+      126
+    ],
+    [
+      159,
+      123
+    ],
+    [
+      166,
+      179
+    ],
+    [
+      173,
+      222
+    ],
+    [
+      206,
+      256
+    ],
+    [
+      270,
+      283
+    ],
+    [
+      293,
+      339
+    ],
+    [
+      307,
+      376
+    ],
+    [
+      279,
+      398
+    ],
+    [
+      228,
+      387
+    ],
+    [
+      192,
+      373
+    ],
+    [
+      140,
+      339
+    ],
+    [
+      108,
+      299
+    ],
+    [
+      77,
+      260
+    ],
+    [
+      58,
+      205
+    ]
+  ],
+  "glovePolygon": [
+    [
+      220,
+      292
+    ],
+    [
+      245,
+      288
+    ],
+    [
+      267,
+      289
+    ],
+    [
+      284,
+      306
+    ],
+    [
+      296,
+      327
+    ],
+    [
+      298,
+      350
+    ],
+    [
+      286,
+      377
+    ],
+    [
+      263,
+      388
+    ],
+    [
+      241,
+      380
+    ],
+    [
+      222,
+      365
+    ],
+    [
+      214,
+      344
+    ],
+    [
+      215,
+      320
+    ]
+  ],
+  "weapon": {
+    "original": "assets/weapon/sword-original.png",
+    "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+    "scale": 1,
+    "angle": -32,
+    "grip": [
+      521,
+      557
+    ],
+    "pivot": [
+      219.2189971018803,
+      226.998221589143
+    ],
+    "rigid": true
+  },
+  "weaponTransformUnchanged": true,
+  "feet": [
+    644,
+    1510
+  ],
+  "bodyPixels": 1452
+}
