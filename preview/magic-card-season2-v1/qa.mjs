@@ -9,6 +9,7 @@ try{
   const context=await browser.newContext({viewport:{width,height},deviceScaleFactor:1,isMobile:name==='mobile',hasTouch:name==='mobile'});
   await context.addInitScript(()=>{localStorage.setItem('cnine_battle_sound','OFF');});
   const page=await context.newPage();page.on('pageerror',e=>errors.push({name,error:e.message}));
+  if(process.env.QA_CLEAN_URL==='1')await page.route('**/magic-card-season2-v1/battle?*',route=>route.fulfill({status:200,contentType:'text/html',body:fs.readFileSync(new URL('./battle.html',import.meta.url))}));
   await page.goto(url);await page.waitForFunction(()=>window.__magicS2Ready);await page.evaluate(()=>document.fonts.ready);
   assert.equal(await page.locator('.card-tile').count(),10);
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
@@ -17,7 +18,7 @@ try{
   await page.locator('[data-card="command-severance"]').click();await page.locator('#levelRange').fill('9');
   assert.ok((await page.locator('#detailEffect').innerText()).includes('13%'));
   await page.locator('#cardDetail').screenshot({path:path.join(out,name+'-detail.png')});await page.keyboard.press('Escape');
-  await page.goto(url+'battle.html?card='+(name==='desktop'?'S2_COMMAND_SEVERANCE':'S2_CONSTELLATION_SHIFT'));
+  await page.goto(url+(process.env.QA_CLEAN_URL==='1'?'battle':'battle.html')+'?card='+(name==='desktop'?'S2_COMMAND_SEVERANCE':'S2_CONSTELLATION_SHIFT'));
   await page.waitForFunction(()=>window.MagicS2Review||document.getElementById('health').textContent.includes('오류'),{},{timeout:60000});
   const status=await page.locator('#health').innerText();assert.ok(!status.includes('오류'),status);
   console.log(name+' V3 ready');
