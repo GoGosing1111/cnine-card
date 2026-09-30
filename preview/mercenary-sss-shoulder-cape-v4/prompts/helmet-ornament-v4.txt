@@ -1,0 +1,19 @@
+Use case: precise-object-edit
+Edit target: Image 1, the SSS knight illustration WITHOUT the circular halo (V2).
+Image 2 is the user's original helmet close-up: keep its recognizable closed-helmet construction, curved crown ribs, circular temple ornament, dark visor and angular gold jaw/brow framing.
+
+Latest user direction: REMOVE the circular head aura; the actual helmet ornaments look too plain, so make the HELMET'S PHYSICAL ORNAMENTATION richer.
+Use image 1 as the base specifically because it has NO circular halo. Do not add a circle or aura behind/above the head.
+
+Make a precise LOCAL HELMET EDIT ONLY:
+- Preserve the exact head size, orientation and compact overall helmet silhouette in image 1/image 2. Keep the face completely enclosed.
+- Refine the gold crown ridges into clearly layered, sculpted ornamental ribs with beveled edges and a few elegant integrated curls.
+- Enrich the existing circular temple emblem with raised concentric metal detailing and radial carved relief, retaining the original round emblem's position and size.
+- Give the forehead/brow a stronger layered gold chevron ornament and add readable embossed filigree integrated into the existing gold framing and cheek guards.
+- Add richer jewelry-grade metal highlights, dark recesses between the gold relief layers, and sharp controlled specular accents so the crown, brow and side ornaments have substance at normal viewing size.
+- Keep dark blue/silver panels and black visor areas clear. Use a coherent restrained arrangement of substantial gold details, not random tiny clutter, dangling chains or many new spikes.
+NO halo, NO circular glow behind the helmet, NO floating ornaments, NO new giant horn/needle crest, NO exposed face, NO larger head. The actual helmet adornments should carry the detail.
+
+EVERYTHING ELSE IS LOCKED to image 1: the gold/silver/black body armor and its highlights; slim ivory shoulder cape with gold embroidery; body size and pose; both hands and boots; fortress and floor; entire existing purple BODY-and-SWORD aura. Keep that existing body aura, but do not make a head halo.
+Especially preserve the purple greatsword EXACTLY as pictured: straight long blade, original pointed tip and width profile, crossguard, runes, violet core, grip, pommel, length, angle and hand contact. Never curve or redesign the blade or tip.
+One polished 2D semi-real RPG illustration, 1024x1536 RGB PNG, same portrait frame and background, no text or frame.

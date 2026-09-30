@@ -1,7 +1,12 @@
 {
   "format": "PROJECT_V_SSS_HELMET_HALO_REVISION_V3",
   "date": "2026-09-30",
-  "status": "USER_REVIEW_PENDING",
+  "status": "USER_REJECTED_CIRCULAR_HEAD_HALO",
+  "rejection": {
+    "userRequest": "없애라 머리쪽 장식이 밋밋하대",
+    "scope": "Remove the circular head halo; enrich the physical helmet ornament instead.",
+    "followUpRevision": "../mercenary-sss-shoulder-cape-v4/manifest.json"
+  },
   "userRequest": "투구 뒤에 원형 아우라 넣어봐",
   "sourceArt": {
     "path": "assets/sss-mercenary-helmet-halo-v3.png",

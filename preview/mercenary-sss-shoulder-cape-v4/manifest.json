@@ -1,0 +1,42 @@
+{
+  "format": "PROJECT_V_SSS_HELMET_ORNAMENT_REVISION_V4",
+  "date": "2026-09-30",
+  "status": "USER_REVIEW_PENDING",
+  "userRequest": "없애라 머리쪽 장식이 밋밋하대",
+  "sourceArt": {
+    "path": "assets/sss-mercenary-helmet-ornament-v4.png",
+    "width": 1024,
+    "height": 1536,
+    "mode": "RGB",
+    "sha256": "3F1AFCD5DFBF54A814FDB817C2FE0CD06669CC23D9F10C13505C5BCB8466C4F9",
+    "bytes": 2807224
+  },
+  "base": {
+    "path": "../mercenary-sss-shoulder-cape-v2/assets/sss-mercenary-helmet-armor-cape-v2.png",
+    "sha256": "77C484753A91AEBE5E37C72112C379F0AC749181CBA4E951B13723E950154D7E",
+    "unmodified": true
+  },
+  "reference": {
+    "path": "../mercenary-sss-shoulder-cape-v2/sources/helmet-user-reference-20260930.png",
+    "sha256": "029F4861F47E74A8070A90A893FEAB5C183979D6383CF052F17DA4D0689288FD"
+  },
+  "generation": {
+    "toolMode": "BUILT_IN_IMAGE_GEN",
+    "prompt": "prompts/helmet-ornament-v4.txt",
+    "nativeOutput": "C:/Users/User/.codex/generated_images/01a0f1f2-cc91-72c3-a322-19e4d45ed867/exec-a22b4e1e-b923-4279-adb6-85cb00ea9fbe.png",
+    "copiedWithoutReencoding": true
+  },
+  "changes": [
+    "Removed the circular head halo by returning to the V2 base",
+    "Enriched the physical gold crown, forehead, temple and cheek ornamentation"
+  ],
+  "visualReview": {
+    "completed": true,
+    "notes": "Checked absence of circular head halo and added raised helmet ornament. Body aura, shoulder cape, armor and pointed greatsword remain visually consistent with the V2 base; pixel-identical unchanged regions are not claimed."
+  },
+  "circularHeadHaloEnabled": false,
+  "selectedApprovedBaseReplaced": false,
+  "sdGenerated": false,
+  "liveRegistered": false,
+  "deploymentPerformed": false
+}

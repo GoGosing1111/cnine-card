@@ -295,4 +295,8 @@ V-024는 사용자가 지정한 검은 드레스 캐릭터의 얼굴·의상·�
 
 ### 같은 날 후속 요청: 투구 뒤 원형 아우라 V3
 
-사용자 요청 `투구 뒤에 원형 아우라 넣어봐`에 따라 V2를 바탕으로 투구 뒤에 보랏빛 원형 고리를 추가한 [수정본 V3](../preview/mercenary-sss-shoulder-cape-v3/assets/sss-mercenary-helmet-halo-v3.png)를 보존한다. [제작 기록과 프롬프트](../preview/mercenary-sss-shoulder-cape-v3/manifest.json)에 기준 파일·해시를 남겼다. V3도 사용자 검수 대기본이며 기존 정답본·V2를 덮어쓰지 않고 SD·운영에 연결하지 않는다.
+사용자 요청 `투구 뒤에 원형 아우라 넣어봐`에 따라 V2를 바탕으로 투구 뒤에 보랏빛 원형 고리를 추가한 [수정본 V3](../preview/mercenary-sss-shoulder-cape-v3/assets/sss-mercenary-helmet-halo-v3.png)를 보존한다. [제작 기록과 프롬프트](../preview/mercenary-sss-shoulder-cape-v3/manifest.json)에 기준 파일·해시를 남겼다. **후속 `없애라` 지시로 이 원형 아우라는 반려됐으며 이후 제작에 다시 넣지 않는다.** V3는 이력으로만 남기고 SD·운영에 연결하지 않는다.
+
+### 같은 날 후속 요청: 원형 아우라 제거·투구 장식 보강 V4
+
+사용자의 `없애라 머리쪽 장식이 밋밋하대` 지시에 따라 원형 아우라가 없는 V2를 기준으로 투구의 금색 관·이마·측면 입체 장식을 보강한 [수정본 V4](../preview/mercenary-sss-shoulder-cape-v4/assets/sss-mercenary-helmet-ornament-v4.png)를 만들었다. [제작 기록과 프롬프트](../preview/mercenary-sss-shoulder-cape-v4/manifest.json)를 보존한다. 신체·대검의 보랏빛 아우라는 유지하며 머리 뒤 원형 고리는 제외한다. V4는 사용자 검수 대기본이고 기존 정답본을 덮어쓰거나 SD·운영에 연결하지 않는다.
