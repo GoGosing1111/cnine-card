@@ -21,3 +21,11 @@
 - 직전 운영 배포를 Cloudflare 메타데이터에서 확인: Pages `22bc29aa-fc2c-4b2e-96a1-3a41a70b3d33`, 실제 소스 `9d6c7b8171f21adadb9d7ff61862bb16c3bb7d40`, 상태 `success`. `20f12f16`은 이전 배포 기록의 문서 커밋이다.
 - 지정 명령: `npm run deploy:production -- --scoped`. `SCOPED_DEPLOY_TESTS=["tests/lich-raid-inline-entry-20260929.test.mjs"]`, `SCOPED_DEPLOY_CHECKS=[]`. 메인/캐시 연결, 리치왕 탭 진입/복귀와 해제 후 늦은 응답 회귀 4개만 배포 과정에서 실행한다. 이미 통과한 위 브라우저 검수는 반복하지 않는다. 깨끗한 범위 커밋·origin/main·출시/보상 잠금·캐시·private API runtime·Hyperdrive 필수 조건은 유지한다.
 - 배포 후에는 변경 대표 파일의 운영 반영과 완료 메타데이터만 짧게 확인한다. 결과 기록만 추가하는 후속 문서 커밋에는 재검사·재배포가 필요하지 않다.
+
+## 운영 반영 완료
+
+- 소스 `62867be6031a78f4f1f36c148467431ad6f7e623`을 깨끗한 작업 트리·origin/main 일치 상태에서 지정 범위로 배포했다. 관련 진입 회귀 4개와 필수 출시 상태·보상 잠금·캐시·Hyperdrive 검사, Functions 컴파일이 통과했고 배포 종료 코드는 0이다.
+- Pages `9ae76a92-67be-4f35-9dbf-73ad4fd499e5`: https://9ae76a92.cnine-card.pages.dev. Cloudflare 운영 메타데이터에서 위 소스와 완료 상태 `success`를 확인했다.
+- 필수 배포 절차의 private API runtime 버전은 `acd117fb-637f-464d-89d1-454656f62f14`, clan-draft 버전은 `c38e7c05-ff13-4977-99f6-d3bbb8d10549`다. Hyperdrive `12ed48b0fb374f82a610cc1daba92e95`의 query cache OFF와 바인딩 일치를 확인했다.
+- `cnine-card.pages.dev`에서 메인 HTML, 진입 JS, 리치왕 HTML, inline/live 모듈, inline/guide CSS 총 7개가 HTTP 200이며 배포본과 정규화 SHA-256이 일치한다. 보상/운영 공개 설정은 변경하지 않았고 운영 계정·입장권을 사용하지 않았다.
+- 이 배포 결과 기록만 추가하는 후속 커밋은 문서 전용이므로 내용/diff 확인과 원격 반영으로 마무리한다.
