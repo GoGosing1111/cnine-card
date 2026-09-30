@@ -6,17 +6,28 @@ import {createHash} from 'node:crypto';
 
 export const root=path.dirname(fileURLToPath(import.meta.url));
 export const sha=b=>createHash('sha256').update(b).digest('hex').toUpperCase();
-export async function weaponAt({scale,angle,grip}){
+export async function weaponAt({scale,angle,grip,fillGripOcclusion=false}){
  const record=JSON.parse(await fs.readFile(path.join(root,'assets/weapon/sword-original.json'),'utf8'));
  const bytes=await fs.readFile(path.join(root,record.file));
  if(sha(bytes)!==record.sha256)throw Error('Locked sword changed');
  const w=Math.round(record.crop.width*scale),h=Math.round(record.crop.height*scale);
- const input=await sharp(bytes).resize(w,h).png().toBuffer();
+ // The extracted original has a transparent hole where its old hand stood.
+ // Two smaller adjacent gloves can expose that hole. Place a copy of the
+ // original straight wrapped-hilt material BEHIND the unchanged sword pixels.
+ // This changes neither the master file nor blade/guard/pommel geometry.
+ let composite=bytes,hiltUnderlay=null;
+ if(fillGripOcclusion){
+  const donor={left:142,top:80,width:23,height:30},strip=await sharp(bytes).extract(donor).png().toBuffer();
+  const patch=await sharp({create:{width:23,height:90,channels:4,background:'#00000000'}}).composite([0,30,60].map(top=>({input:strip,left:0,top}))).png().toBuffer();
+  composite=await sharp(bytes).composite([{input:patch,left:142,top:114,blend:'dest-over'}]).png().toBuffer();
+  hiltUnderlay={source:record.file,sourceSha256:record.sha256,donor,placement:{left:142,top:114,width:23,height:90},method:'ORIGINAL_STRAIGHT_HILT_PIXELS_COPIED_BEHIND_EXISTING_HAND_HOLE'};
+ }
+ const input=await sharp(composite).resize(w,h).png().toBuffer();
  const rotated=await sharp(input).rotate(angle,{background:'#00000000'}).png().toBuffer();
  const meta=await sharp(rotated).metadata(),r=angle*Math.PI/180,c=Math.cos(r),s=Math.sin(r);
  const gx=(record.grip[0]*w/record.crop.width-w/2),gy=(record.grip[1]*h/record.crop.height-h/2);
  const pivot=[meta.width/2+c*gx-s*gy,meta.height/2+s*gx+c*gy];
- return {input:rotated,left:Math.round(grip[0]-pivot[0]),top:Math.round(grip[1]-pivot[1]),width:meta.width,height:meta.height,record:{original:record.file,sha256:record.sha256,scale,angle,grip,pivot,rigid:true}};
+ return {input:rotated,left:Math.round(grip[0]-pivot[0]),top:Math.round(grip[1]-pivot[1]),width:meta.width,height:meta.height,record:{original:record.file,sha256:record.sha256,scale,angle,grip,pivot,rigid:true,...(hiltUnderlay?{hiltUnderlay}:{})}};
 }
 export async function foreground(image,polygon){
  const {data,info}=await sharp(image).ensureAlpha().raw().toBuffer({resolveWithObject:true});

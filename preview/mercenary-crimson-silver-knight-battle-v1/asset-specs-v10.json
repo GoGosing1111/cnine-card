@@ -1,0 +1,21 @@
+{
+  "motion": {
+    "twohandGrip":[
+      {"source":"twohand-grip","bodyPixels":714,"indices":[0]},
+      {"source":"twohand-grip","bodyPixels":714,"indices":[1,2,3],"gripMode":"twohand"}
+    ],
+    "twohandLift":[{"source":"twohand-lift","bodyPixels":714,"gripMode":"twohand"}],
+    "twohandStrike":[{"source":"twohand-strike","bodyPixels":714,"gripMode":"twohand"}],
+    "twohandReturn":[
+      {"source":"twohand-return","bodyPixels":714,"indices":[0],"gripMode":"twohand"},
+      {"source":"twohand-return","bodyPixels":714,"indices":[1,2,3]},
+      {"file":"assets/motion-v5/ready-a-source.png","bodyPixels":694,"indices":[0]}
+    ]
+  },
+  "keepFromV9":["idle","dash","cast","hit","defeat","ready","attack","turn","ultimate","recover","finish","guard"],
+  "reuse":{},
+  "contacts":{"twohandStrike":[{"frame":1,"targetHeightFraction":0.48}]},
+  "method":"Additional native two-hand overhead sequence, referencing Ragniel grip/choreography only. Preserve the existing one-hand combo and fixed approved idle. Composite the unchanged original greatsword over the native arm poses, with both closed gloves restored in front.",
+  "references":["../mercenary-ragniel-v1/assets/ragniel-sd-v1.png","../mercenary-ragniel-v1/assets/source/slash-v1.png"],
+  "finalEndpoint":{"key":"idle","frame":0}
+}

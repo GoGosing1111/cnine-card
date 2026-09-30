@@ -1,0 +1,22 @@
+{
+  "motion": {
+    "recover": [
+      {"file":"assets/motion-v7/recover-source.png","bodyPixels":[720,720,728,728],"indices":[0,1]},
+      {"file":"assets/motion-v7/recovery-bridge-source.png","bodyPixels":720},
+      {"file":"assets/motion-v7/recover-source.png","bodyPixels":[720,720,728,728],"indices":[2]},
+      {"source":"approved-return","bodyPixels":700,"indices":[1,2]},
+      {"file":"assets/motion-v5/ready-a-source.png","bodyPixels":694,"indices":[0]}
+    ],
+    "finish": [
+      {"file":"assets/motion-v8/sweep-source.png","bodyPixels":720,"indices":[2]},
+      {"source":"approved-return","bodyPixels":700,"indices":[0,1,2]},
+      {"file":"assets/motion-v5/ready-a-source.png","bodyPixels":694,"indices":[0]}
+    ]
+  },
+  "reuse":{"guard":"ready"},
+  "keepFromV8":["idle","dash","cast","hit","defeat","ready","attack","turn","ultimate"],
+  "contacts":{},
+  "method":"Native recovery poses return through the user-approved reference pose, then resolve to the unchanged V14 idle texture. Fixed camera and anatomical proportions are reference constraints; original sword compositing remains rigid.",
+  "approvedReturnReference":"assets/motion-v5/ready-a-source.png#0",
+  "finalEndpoint":{"key":"idle","frame":0}
+}

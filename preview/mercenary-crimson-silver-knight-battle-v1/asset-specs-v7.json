@@ -1,0 +1,13 @@
+{
+  "motion": {
+    "ready": [{"source":"drive","bodyPixels":[744,736,734,712],"indices":[0,1]}],
+    "attack": [
+      {"source":"drive","bodyPixels":[744,736,734,712],"indices":[2,3]},
+      {"source":"cut","bodyPixels":[712,712,712,712]}
+    ],
+    "recover": [{"source":"recover","bodyPixels":[720,720,728,728]}]
+  },
+  "reuse":{"guard":"ready","ultimate":"attack"},
+  "keepFromV5":["idle","dash","cast","hit","defeat"],
+  "contacts":{"attack":[{"frame":2,"targetHeightFraction":0.65}]}
+}

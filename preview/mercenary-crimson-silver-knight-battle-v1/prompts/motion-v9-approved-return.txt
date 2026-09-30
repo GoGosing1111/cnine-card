@@ -1,0 +1,18 @@
+Use case: identity-preserve.
+Create FOUR finished consecutive full-body game sprite frames on true transparent alpha, in a clean 2-by-2 1024x1536 sheet. These are ONLY the recovery from a heavy one-handed greatsword sweep back to the APPROVED idle, not a new character or attack.
+
+Image 1 is the APPROVED camera, anatomy and return-pose authority: its TOP-LEFT knight is the exact destination pose. Match its long natural legs, narrow waist, torso length, small helmet, shoulder width, slim armoured limbs, flat shoes, silver/gold armour geometry and red cape. The first image's character identity and proportions MUST be carried into ALL four frames.
+Image 2 is the approved complete knight and immutable sword reference; sword will be composited later.
+Image 3 supplies ONLY the momentum of the bottom-left post-sweep pose. Its altered body proportions and bottom-right idle are REJECTED: do not inherit them.
+
+LOCK THE CAMERA: use image 1's original front three-quarter view, identical camera elevation, focal length and body scale in all four cells. Camera never orbits, never becomes top-down, never zooms. The CHARACTER's chest may unwind gently toward the approved facing, but the viewer does not move. No growing helmet, shortening thighs/shins, swelling torso, or squat/chibi figure. Keep the actual anatomical lengths of image 1 through knee bends. Same consistent painterly polished game rendering.
+
+Read frames left-to-right, top-to-bottom:
+1: immediately after the sweeping cut, weight on the bent lead leg; shoulder and hips are already returning toward the approved three-quarter facing. Closed RIGHT fist at the outer hip, blade points diagonally down-right. Slight residual torso twist, cape continues flowing to the left.
+2: lead knee straightens slightly, rear foot returns towards the exact approved stance, hips and chest unwind together; fist lowers from outer hip towards upper thigh. The sword's weight is braked by the shoulder, not a wrist flip. Cape wave begins settling.
+3: nearly the EXACT image-1 top-left stance: original leg lengths, boot positions, pelvis, torso, helmet orientation. Right arm is almost at the approved low-guard position; left arm hangs naturally. Only small momentum remains in cape.
+4: match image-1 TOP-LEFT approved standing pose, framing, proportions and viewing angle as exactly as possible, with the same right-hand position and blade direction. Do not invent a different final idle. Only a small remaining cape wave.
+
+Weapon registration for the existing compositing workflow: draw a SHORT STRAIGHT GREEN HANDLE, a CYAN pommel on little-finger end and MAGENTA crossguard on thumb/index end, plus at most a tiny 20px green blade stub. The entire hilt fits within the closed fist with four fingers and thumb tightly wrapped. Back of the right gauntlet visible. This is orthodox one-handed FORWARD grip: blade extends from thumb/index end; no reverse grip, no finger-only pinch, no curved handle, no extra hand. Do NOT render a different ornate blade.
+
+Keep full boots, helmet and cape within every cell with transparent gutters. No background, text, markings, aura, glow or motion blur. Complete beautiful high-resolution body art in every cell. The same person returns to his approved pose under one fixed camera.

@@ -1,0 +1,12 @@
+Make FOUR NEW in-between full-body frames in a clean 2x2 transparent 1024x1536 sheet. Image1 is the approved character/armor/proportions. Image2 is the recovery reference: the new sequence must smoothly connect its TOP-RIGHT pose (sword diagonally up, fist near chest) to its BOTTOM-LEFT pose (fist near waist, sword shallowly down-right). Maintain the exact beautiful silver-white/gold armor, red jewels, natural tall adult body, small eye-concealing helmet, exposed lower face, long legs and flat boots. Every figure complete inside its cell, transparent gaps. No scene, effects, text, glow or UI.
+
+This is SLOW WEIGHT ABSORPTION AND RECOVERY AFTER AN UPWARD GREAT-SWORD CUT, not another strike. Right shoulder gradually relaxes and elbow bends/lowers as the heavy sword is brought back to low guard. Hips and feet re-center smoothly; maintain balance and a planted front foot. Cape still carries broad momentum left but gradually settles. Make four subtly different, consecutive intermediates, not the two endpoints repeated.
+
+Use the same SHORT green practice-sword registration proxy as image2. CYAN spherical POMMEL on little-finger side; MAGENTA crossguard at thumb/index side; short GREEN blade stub beyond magenta guard. Straight GREEN handle held tightly with all four curled fingers and locking thumb. Forward sword grip never changes: index finger always nearest guard/blade, little finger nearest pommel. Dorsal glove remains visible where natural. No reverse dagger grip, bent handle, wrist twist or floating fingers. No real ornate blade; it will be composited unchanged from the approved asset. No colored glow.
+
+Frame1: fist just below upper chest, blade still diagonally up-right, shoulder accepting weight; feet close to image2 top-right.
+Frame2: fist slightly lower and farther outward, blade around halfway between diagonal-up and horizontal-right; elbow and shoulder lower together, thumb/index still toward blade.
+Frame3: fist around lower ribs, blade just above horizontal-right; torso re-centers, cape falls slightly while retaining a broad curved fold.
+Frame4: fist around waist, blade slightly below horizontal-right, flowing toward image2 bottom-left posture. Relaxed weight recovery, not forceful downward acceleration.
+
+Keep exact character quality and coherent whole-body anatomy. The sword grip remains continuous and orthodox across all four.

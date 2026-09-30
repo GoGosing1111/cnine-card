@@ -28,15 +28,20 @@
   "poseCandidateStatus": "USER_REQUESTED_V3_PREVIEW_INTEGRATION",
   "walkingRequested": false,
   "dashEffectRequested": true,
-  "remainingMotionAndEffects": "V5_REWORK_IMPLEMENTED_USER_REVIEW_PENDING",
+  "remainingMotionAndEffects": "V10_TECH_QA_COMPLETE_USER_REVIEW_PENDING",
   "runtimeEnabled": false,
   "updated": "2026-10-01",
-  "motionFrames": 37,
+  "motionFrames": 54,
   "effectFrames": 96,
   "weaponPolicy": "UNIFORM_SCALE_ROTATION_TRANSLATION_ONLY",
   "weaponFile": "assets/weapon/sword-original.png",
   "weaponSha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
   "motionApprovals": [],
   "gripApproval": "grip-approval-20261001.json",
-  "runtimeMotionReferences": 58
+  "runtimeMotionReferences": 64,
+  "additionalTwoHandMotionRequested": true,
+  "approvedReturnPose": {
+    "file": "assets/user-approved/return-pose-reference-20261001.png",
+    "sha256": "7E68E7FF053CAFAE1294200A051ED9B85F4CDA09108D10315D2A600E6C59429C"
+  }
 }

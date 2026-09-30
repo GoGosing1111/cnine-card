@@ -8,10 +8,11 @@ import {gsap} from 'gsap';
 import {MODES,makePlan,sample} from './skill.mjs';
 import {KnightFX} from './source/KnightFX.js';
 import {CueAudio} from './source/CueAudio.js';
+import {weaponAt} from './compose-weapon.mjs';
 const root=new URL('./',import.meta.url),project=new URL('../../',import.meta.url),manifest=JSON.parse(await fs.readFile(new URL('manifest.json',root),'utf8'));
 const hash=b=>createHash('sha256').update(b).digest('hex').toUpperCase();
 
-test('all nine modes seek deterministically, stay in authored frame bounds and clear on stop',()=>{
+test('all ten modes seek deterministically, stay in authored frame bounds and clear on stop',()=>{
  for(const mode of Object.keys(MODES)){
   const plan=makePlan({mode});assert.equal(plan.damageAuthority,'NONE_VISUAL_PREVIEW');
   for(let i=0;i<=680;i++){const t=plan.duration*i/680,s=sample(plan,t);assert.deepEqual(s,sample(plan,t));assert.ok(s.pose.frame>=0&&s.pose.frame<manifest.motion[s.pose.key].frameCount);for(const f of s.effects)assert.ok(f.frame>=0&&f.frame<manifest.effects[f.key].frameCount);assert.equal('damage' in s,false);}
@@ -19,8 +20,21 @@ test('all nine modes seek deterministically, stay in authored frame bounds and c
  }
  assert.equal(makePlan({cancelAt:2,targetLostAt:1}).stop,1);assert.throws(()=>makePlan({mode:'invalid'}));
 });
+test('every living motion begins and ends on the exact approved idle texture',()=>{
+ const locked=manifest.motion.idle.frames[0];
+ assert.equal(manifest.returnPose.endpoint.sha256,locked.sha256);
+ assert.equal(manifest.motion.idle.atlas,'assets/motion-v5/idle-atlas.webp');
+ for(const mode of Object.keys(MODES)){
+  const p=makePlan({mode});assert.deepEqual(sample(p,0).pose,{key:'idle',frame:0});
+  if(mode!=='defeat')for(const t of [p.duration-.001,p.duration])assert.deepEqual(sample(p,t).pose,{key:'idle',frame:0},mode+' approved return');
+  for(const key of ['cancelAt','targetLostAt'])assert.deepEqual(sample(makePlan({mode,[key]:.3}),.3).pose,{key:'idle',frame:0});
+ }
+ for(const [mode,t] of [['attack',2.11],['skill',2.41],['execution',2.41],['ultimate',2.89],['overhead',3.16]])assert.deepEqual(sample(makePlan({mode}),t).pose,{key:'idle',frame:0},mode+' settle before returning dash');
+ for(const key of ['finish','recover','twohandReturn']){const f=manifest.motion[key].frames.at(-1);assert.equal(f.source,'assets/motion-v5/ready-a-source.png');assert.equal(f.sourceIndex,0);}
+});
+
 test('drawn collision poses and VFX peaks meet at the same timestamp',()=>{
- for(const [mode,t,key,frame,effect,peak] of [['attack',1.77,'attack',6,'slash',9],['skill',1.77,'attack',6,'slash',9],['skill',3.65,'ultimate',6,'execution',9],['execution',2.61,'ultimate',6,'execution',9],['ultimate',2.56,'attack',6,'slash',9],['ultimate',4.44,'ultimate',6,'ultimate',10]]){
+ for(const [mode,t,key,frame,effect,peak] of [['overhead',1.98,'twohandStrike',1,'execution',9],['attack',.78,'attack',2,'slash',9],['skill',.75,'attack',2,'slash',9],['skill',1.48,'ultimate',3,'execution',9],['execution',1.48,'ultimate',3,'execution',9],['ultimate',1.23,'attack',2,'slash',9],['ultimate',1.96,'ultimate',3,'ultimate',10]]){
   const s=sample(makePlan({mode}),t);assert.deepEqual(s.pose,{key,frame});assert.ok(s.effects.some(f=>f.key===effect&&Math.abs(f.frame-peak)<1e-9));
  }
 });
@@ -45,7 +59,7 @@ test('Native packed frames have native alpha and clear borders; every weapon has
    if(f.weapon){assert.equal(f.weapon.sha256,manifest.weapon.sha256);assert.equal(f.weapon.rigid,true);assert.ok(Math.abs(f.weapon.scale*f.weapon.packedUniformScale/f.bodyPixels-1/1452)<1e-10);assert.ok(Math.abs(Math.hypot(f.tip[0]-f.grip[0],f.tip[1]-f.grip[1])/f.bodyPixels-Math.hypot(11,1119)/1452)<1e-10);}
   }
  }
- assert.equal(count,manifest.counts.motion+manifest.counts.effects);assert.equal(manifest.counts.uniqueMotion,37);assert.equal(manifest.counts.effects,96);assert.equal(manifest.motion.ultimate.reuses,'attack');assert.equal(manifest.motion.guard.reuses,'ready');
+ assert.equal(count,manifest.counts.motion+manifest.counts.effects);assert.equal(manifest.counts.uniqueMotion,54);assert.equal(manifest.counts.effects,96);assert.notEqual(manifest.motion.ultimate.atlas,manifest.motion.attack.atlas);assert.equal(manifest.motion.guard.reuses,'ready');
 });
 test('Grounded strikes intersect the target body; aura follows the pose and lifecycle releases effects',()=>{
  const world=new Container(),combatLayer=new Container(),effectLayer=new Container();world.addChild(combatLayer,effectLayer);
@@ -55,12 +69,12 @@ test('Grounded strikes intersect the target body; aura follows the pose and life
  const assets={motion:{},effects:{},flash:Texture.EMPTY,smoke:Texture.EMPTY};for(const [key,spec] of Object.entries(manifest.motion))assets.motion[key]=Array.from({length:spec.frameCount},()=>new Texture({source:frameSource}));for(const [key,spec] of Object.entries(manifest.effects))assets.effects[key]=Array.from({length:spec.frameCount},()=>new Texture({source:frameSource}));
  const fx=new KnightFX(engine,merc,targets,assets,manifest,makePlan(),()=>{});
  try{
-  for(const [mode,t,key] of [['attack',1.77,'attack'],['skill',3.65,'ultimate'],['execution',2.61,'ultimate'],['ultimate',2.56,'attack'],['ultimate',4.44,'ultimate']]){
-   fx.setPlan(makePlan({mode}));fx.seek(t);const f=manifest.motion[key].frames[6],local={x:f.grip[0]+.72*(f.tip[0]-f.grip[0])-256,y:f.grip[1]+.72*(f.tip[1]-f.grip[1])-440},blade=effectLayer.toLocal(merc.fullBodySprite.toGlobal(local)),floor=fx.point(targets[0]),head=fx.point(targets[0],.9);
+  for(const [mode,t,key] of [['overhead',1.98,'twohandStrike'],['attack',.78,'attack'],['skill',1.48,'ultimate'],['execution',1.48,'ultimate'],['ultimate',1.23,'attack'],['ultimate',1.96,'ultimate']]){
+   fx.setPlan(makePlan({mode}));fx.seek(t);const spec=manifest.motion[key],f=spec.frames[spec.contacts[0].frame],point=p=>effectLayer.toLocal(merc.fullBodySprite.toGlobal({x:p[0]-256,y:p[1]-440})),hilt=point(f.grip),tip=point(f.tip),floor=fx.point(targets[0]),head=fx.point(targets[0],1),u=(floor.x-hilt.x)/(tip.x-hilt.x),blade={x:hilt.x+u*(tip.x-hilt.x),y:hilt.y+u*(tip.y-hilt.y)};assert.ok(u>.15&&u<.98,mode+' actual blade segment reaches target');
    assert.ok(Math.abs(blade.x-floor.x)<.01,mode+' blade horizontal contact');assert.ok(blade.y<floor.y&&blade.y>head.y,mode+' blade inside target body');assert.equal(merc.root.y,targets[0].root.y,mode+' grounded feet');
    fx.seek(t-.2);assert.equal(merc.root.y,targets[0].root.y,mode+' swing cannot move floor');fx.seek(t+.15);assert.equal(merc.root.y,targets[0].root.y,mode+' followthrough cannot move floor');
   }
-  fx.setMotionOnly(true);fx.seek(4.44);assert.equal(fx.diagnostics().visibleSprites,0);assert.equal(fx.aura.visible,false);fx.setMotionOnly(false);
+  fx.setMotionOnly(true);fx.seek(1.96);assert.equal(fx.diagnostics().visibleSprites,0);assert.equal(fx.aura.visible,false);fx.setMotionOnly(false);
   for(const mode of Object.keys(MODES)){fx.setPlan(makePlan({mode}));fx.play();assert.equal(engine.simpleTimelines.size,1);fx.pause();for(let i=0;i<=60;i++){fx.seek(fx.plan.duration*i/60);assert.ok(fx.diagnostics().visibleSprites<=80);assert.equal(fx.diagnostics().aura.textureMatchesPose,true);}}
   fx.setPlan(makePlan({mode:'ultimate',targetLostAt:2.05}));fx.seek(3.25);assert.equal(fx.diagnostics().visibleSprites,0);assert.equal(merc.root.x,merc.baseX);fx.cancel();assert.equal(engine.simpleTimelines.size,0);assert.equal(engine.allies.length,5);assert.equal(engine.allies.includes(merc),false);
  }finally{fx.destroy();fx.destroy();assert.equal(effectLayer.children.length,0);assert.equal(merc.view.children.length,1);assert.equal(frameSource.destroyed,false);gsap.ticker.sleep();world.destroy({children:true});sd.destroy(false);sdSource.destroy();frameSource.destroy();}
@@ -68,4 +82,16 @@ test('Grounded strikes intersect the target body; aura follows the pose and life
 test('licensed V3 recordings retain their hashes and <=20ms collision alignment at every speed',async()=>{
  assert.equal(manifest.audio.proceduralSynthesis,false);for(const a of Object.values(manifest.audio.assets))assert.equal(hash(await fs.readFile(new URL(a.file,project))),a.sha256.toUpperCase());
  for(const speed of [.25,.5,1,2]){const audio=new CueAudio();audio.enabled=true;let now=1.1;audio.context={currentTime:50,destination:{},createGain:()=>({gain:{value:0},connect(){},disconnect(){}}),createBufferSource:()=>({playbackRate:{value:0},connect(){},disconnect(){},start(){},stop(){}})};audio.ready=async()=>({dash:{duration:.86},slash:{duration:1.3},ultimate:{duration:2.1}});await audio.play(makePlan({mode:'ultimate'}),0,speed,()=>now);const cue=audio.scheduled.find(c=>c.key==='ultimate');assert.ok(Math.abs(cue.when+(cue.sourceSync-cue.offset)/speed-(50+(cue.contact-now)/speed))<.001);audio.stop();assert.equal(audio.nodes.size,0);}
+});
+
+test('two-hand hilt underlay fills only the old hand hole using original straight-hilt material',async()=>{
+ const source=await sharp(await fs.readFile(new URL(manifest.weapon.file,root))).ensureAlpha().raw().toBuffer({resolveWithObject:true});
+ const placed=await weaponAt({scale:1,angle:0,grip:[156,164],fillGripOcclusion:true}),out=await sharp(placed.input).ensureAlpha().raw().toBuffer({resolveWithObject:true});
+ assert.equal(out.info.width,source.info.width);assert.equal(out.info.height,source.info.height);let filled=0;
+ for(let y=0;y<source.info.height;y++)for(let x=0;x<source.info.width;x++){
+  const p=(y*source.info.width+x)*4,a=source.data[p+3];
+  if(a===255)assert.deepEqual(out.data.subarray(p,p+4),source.data.subarray(p,p+4));
+  if(a===0&&out.data[p+3]){assert.ok(x>=142&&x<165&&y>=114&&y<204);const donor=((80+(y-114)%30)*source.info.width+x)*4;assert.equal(out.data[p+3],source.data[donor+3]);for(let c=0;c<3;c++)assert.ok(Math.abs(out.data[p+c]-source.data[donor+c])<=(source.data[donor+3]===255?0:1),'premultiplied alpha edge rounding');filled++;}
+ }
+ assert.ok(filled>1000);assert.equal(placed.record.sha256,manifest.weapon.sha256);assert.equal(placed.record.hiltUnderlay.sourceSha256,manifest.weapon.sha256);
 });

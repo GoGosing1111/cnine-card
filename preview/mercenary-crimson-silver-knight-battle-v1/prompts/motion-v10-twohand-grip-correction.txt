@@ -1,0 +1,12 @@
+Edit the supplied 2x2 knight sheet precisely. Keep the same knight, anatomy, fixed camera, armour, helmet, cape, feet, lighting and frame order. TOP-LEFT one-handed pose remains unchanged.
+Correct ONLY both hands and their connected forearms in the other three frames; the generated sheet has the hands in the wrong order and a handle too long.
+
+The knight's RIGHT ARM is the arm attached to the large layered shoulder on the VIEWER'S LEFT. This RIGHT arm MUST end in the FORWARD fist nearest the MAGENTA guard/blade end. The LEFT ARM comes from the VIEWER'S RIGHT shoulder and reaches across to the REAR fist next to the CYAN pommel. The right forearm naturally crosses in front, while the left elbow bends to support behind. Never exchange which arm belongs to which shoulder. RIGHT hand always guard side. LEFT hand always pommel side.
+
+SHORTEN THE GREEN PROXY HANDLE BY BRINGING THE HANDS TOGETHER, not shrinking either gauntlet: cyan-to-magenta distance should be about 100 pixels for a 700-pixel knight, enough for two snug fists. The hands almost touch with only 3–5px of exposed green between them. No long bare handle section between fists. Both gloves tightly encircle one completely straight hilt. Keep a tiny green blade direction stub beyond magenta. No ornate blade is drawn.
+
+TOP RIGHT: secure two-handed LOW guard with blade down-right: right fist toward magenta/down-right, left fist directly behind it toward cyan/up-left. Both hands in front of pelvis, the left arm reaching across naturally.
+BOTTOM LEFT: two-handed hilt at waist, blade points right: right fist is furthest right near magenta; left fist is behind/left next to cyan, close together. The viewer-left shoulder connects across to the forward right fist; viewer-right shoulder bends back to the rear left fist.
+BOTTOM RIGHT: both hands lift the compact hilt to chest, blade up-right. Right fist upper/forward next to magenta, left fist lower/rear next to cyan. Same right/left hand order as prior frame and correct elbow connections.
+
+Every thumb/index is blade side, little finger pommel side. No reverse grip, floating hilt, extra fingers or curved hilt. Maintain the approved long slim adult proportions and exact camera. True transparent background, no text or effects.

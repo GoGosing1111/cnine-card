@@ -1,0 +1,23 @@
+{
+  "motion": {
+    "recover": [
+      {"file":"assets/motion-v7/recover-source.png","bodyPixels":[720,720,728,728],"indices":[0,1]},
+      {"file":"assets/motion-v7/recovery-bridge-source.png","bodyPixels":720},
+      {"file":"assets/motion-v7/recover-source.png","bodyPixels":[720,720,728,728],"indices":[2,3]}
+    ],
+    "turn": [
+      {"file":"assets/motion-v7/recover-source.png","bodyPixels":[720,720,728,728],"indices":[0]},
+      {"file":"assets/motion-v7/recovery-bridge-source.png","bodyPixels":720,"indices":[0,2]}
+    ],
+    "ultimate": [
+      {"source":"turn","bodyPixels":[712,712,712,712],"indices":[1,2,3]},
+      {"source":"sweep","bodyPixels":[720,720,720,720],"indices":[0,1]}
+    ],
+    "finish": [{"source":"sweep","bodyPixels":720,"indices":[2,3]}]
+  },
+  "reuse":{"guard":"ready"},
+  "keepFromV7":["idle","dash","cast","hit","defeat","ready","attack"],
+  "contacts":{"ultimate":[{"frame":3,"targetHeightFraction":0.65}]},
+  "method":"User GIF timing/body-rotation reference; native whole-body sprite poses with immutable sword compositing. No pose-dependent weapon deformation or reversed hilt.",
+  "reference":"C:/Users/User/Documents/Honeycam/Honeycam 2026-10-01 06-29-24.gif"
+}

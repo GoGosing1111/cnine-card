@@ -71,7 +71,7 @@ export class KnightFX{
  }
  get time(){return this.clock.time}
  get playing(){return !!this.timeline&&!this.timeline.paused()&&this.time<this.plan.duration}
- makeTimeline(){this.removeTimeline();this.clock.time=0;this.timeline=gsap.timeline({paused:true,onUpdate:()=>this.render(this.clock.time),onComplete:()=>{this.engine.simpleTimelines.delete(this.registration);this.audio.stop();this.render(this.plan.duration);}}).to(this.clock,{time:this.plan.duration,duration:this.plan.duration,ease:'none'}).timeScale(this.speed);if(this.engine.camera&&!this.engine.reducedMotion&&!this.motionOnly)for(const at of this.plan.contacts){const big=this.plan.mode==='ultimate'&&at===this.plan.contacts.at(-1)||this.plan.mode==='execution',remaining=this.plan.stop===null?Infinity:this.plan.stop-at-.07;if(remaining>.02)this.engine.camera.addShake(this.timeline,{at,intensity:big?42:18,duration:Math.min(big?.42:.22,remaining),rotation:big?.009:.003});}this.registration={instance:this.timeline,settle:()=>this.cancel()};}
+ makeTimeline(){this.removeTimeline();this.clock.time=0;this.timeline=gsap.timeline({paused:true,onUpdate:()=>this.render(this.clock.time),onComplete:()=>{this.engine.simpleTimelines.delete(this.registration);this.audio.stop();this.render(this.plan.duration);}}).to(this.clock,{time:this.plan.duration,duration:this.plan.duration,ease:'none'}).timeScale(this.speed);if(this.engine.camera&&!this.engine.reducedMotion&&!this.motionOnly)for(const at of this.plan.contacts){const big=this.plan.mode==='ultimate'&&at===this.plan.contacts.at(-1)||this.plan.mode==='execution'||this.plan.mode==='overhead',remaining=this.plan.stop===null?Infinity:this.plan.stop-at-.07;if(remaining>.02)this.engine.camera.addShake(this.timeline,{at,intensity:big?42:18,duration:Math.min(big?.42:.22,remaining),rotation:big?.009:.003});}this.registration={instance:this.timeline,settle:()=>this.cancel()};}
  removeTimeline(){if(this.registration)this.engine.simpleTimelines.delete(this.registration);this.timeline?.kill();this.timeline=null;this.registration=null;}
  play(){if(this.destroyed)return;if(!this.timeline)this.makeTimeline();if(this.time>=this.plan.duration)this.seek(0);this.engine.simpleTimelines.add(this.registration);this.timeline.play();void this.audio.play(this.plan,this.time,this.speed,()=>this.time);this.onUpdate(this);}
  pause(){this.timeline?.pause();this.audio.stop();this.onUpdate(this);}
@@ -93,6 +93,12 @@ export class KnightFX{
   const neutral=this.merc.neutralAvatarPose?.mainSprite;if(neutral){neutral.scaleX=s.scale.x;neutral.scaleY=s.scale.y;}
  }
  point(actor,fraction=0){return this.engine.effectLayer.toLocal(actor.root.toGlobal({x:0,y:-actor.fullBodyHeight*fraction}));}
+ bladeImpact(key='attack'){
+  const spec=this.manifest.motion[key],f=spec.frames[spec.contacts[0].frame],scale=this.bodyHeight/f.bodyPixels;
+  const point=p=>this.engine.effectLayer.toLocal(this.merc.view.toGlobal({x:(p[0]-256)*scale,y:(p[1]-440)*scale}));
+  const a=point(f.grip),b=point(f.tip),floor=this.point(this.targets[0]),u=clamp((floor.x-a.x)/(b.x-a.x),.12,.96);
+  return {x:mix(a.x,b.x,u),y:mix(a.y,b.y,u)};
+ }
  draw(texture,p,size,{alpha=1,height=size,angle=0,tint=0xffffff,blend='normal',anchor={x:.5,y:.5}}={}){
   if(this.used>=this.pool.length)throw Error('Knight effect sprite pool exhausted');const s=this.pool[this.used++];s.texture=texture;s.visible=alpha>0;s.anchor.set(anchor.x,anchor.y);s.position.set(p.x,p.y);s.width=size;s.height=height;s.alpha=clamp(alpha);s.rotation=angle;s.tint=tint;s.blendMode=blend;return s;
  }
@@ -121,7 +127,7 @@ export class KnightFX{
    this.draw(this.assets.smoke,{x:foot.x-unit*.3,y:foot.y},unit*.8,{height:unit*.22,alpha:.32,tint:0xda633f});
   }
   for(const effect of state.effects){
-   let p={...torso},size=unit*3.15;
+   let p=effect.key==='slash'?this.bladeImpact(state.contactTrack.key):{...torso},size=unit*3.15;
    if(effect.anchor==='guard'){p={x:foot.x+unit*.43,y:foot.y};size=Math.min(unit*2.6,(foot.y-24)/.72);}
    else if(effect.anchor==='selfGround'){p={...foot};size=unit*3.25;}else if(effect.anchor==='dash'){p={x:foot.x-unit*.55,y:foot.y-unit*.4};size=unit*3.4;}else if(effect.anchor==='targetGround'){
     p={...impact};const ultimate=effect.key==='ultimate';size=ultimate?Math.max(180,Math.min(unit*6.3,(impact.y-24)/.59,scene.width*1.13)):unit*4.6;
