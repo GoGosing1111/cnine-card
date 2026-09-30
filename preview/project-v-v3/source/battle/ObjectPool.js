@@ -81,7 +81,7 @@ function sharedDamageStyle(options){
   const key=JSON.stringify(options);if(!damageStyles.has(key))damageStyles.set(key,new TextStyle(options));return damageStyles.get(key);
 }
 
-export function configureDamageText(view,{kind='ATTACK',damage=0,critical=false,healing=0,hitCount=1,compact=false}={}){
+export function configureDamageText(view,{kind='ATTACK',damage=0,critical=false,healing=0,hitCount=1,hitValues=null,compact=false}={}){
   const normalized=normalizeDamageKind(kind);
   const profile=DAMAGE_STYLE[normalized];
   const amount=Math.max(0,Number(damage)||0);
@@ -90,7 +90,7 @@ export function configureDamageText(view,{kind='ATTACK',damage=0,critical=false,
   view.numberGlow.style=sharedDamageStyle({fontFamily:'Arial Black, Arial',fontSize:compact?(critical?86:78):(critical?78:68),fill:profile.tagColor,stroke:{color:profile.stroke,width:critical?18:16,join:'round'},letterSpacing:-2});
   view.numberLabel.text=amount.toLocaleString('ko-KR');
   view.numberLabel.style=sharedDamageStyle({fontFamily:'Arial Black, Arial',fontSize:compact?(critical?84:76):(critical?76:68),fill:critical?0xffffff:profile.fill,stroke:{color:profile.stroke,width:critical?15:13,join:'round'},letterSpacing:-2});
-  view.roleTag.text=normalized==='SPEED'?`${Math.max(2,Math.floor(Number(hitCount)||7))} HIT · TOTAL`:profile.tag;
+  view.roleTag.text=normalized==='SPEED'?`${Math.max(1,Math.floor(Number(hitCount)||1))} HIT · TOTAL`:profile.tag;
   view.roleTag.style=sharedDamageStyle({fontFamily:'Arial',fontSize:compact?24:17,fill:0xf5fbff,letterSpacing:2});
   view.roleTag.alpha=amount>0?1:0;
   view.criticalLabel.text=critical?'CRITICAL':'';
@@ -100,10 +100,11 @@ export function configureDamageText(view,{kind='ATTACK',damage=0,critical=false,
   view.hitLabel.text='';
   view.hitLabel.style=sharedDamageStyle({fontFamily:'Arial',fontSize:compact?21:13,fill:profile.tagColor,letterSpacing:1});
   view.underline.tint=profile.tagColor;
-  const speedValues=[.1428,.1333,.1514].map(rate=>Math.round(amount*rate));
+  const speedValues=Array.isArray(hitValues)?hitValues:[.1428,.1333,.1514].map(rate=>Math.round(amount*rate));
   view.speedHitLabels?.forEach((label,index)=>{
-    label.text=normalized==='SPEED'?speedValues[index].toLocaleString('ko-KR'):'';
-    label.alpha=normalized==='SPEED'?.86:0;
+    const shown=normalized==='SPEED'&&index<speedValues.length;
+    label.text=shown?Math.max(0,Number(speedValues[index])||0).toLocaleString('ko-KR'):'';
+    label.alpha=shown?.86:0;
   });
   return view;
 }

@@ -8,6 +8,7 @@ import {createMagicSeason2Runtime} from './_magic_season2.js';
 import {applyMercenaryCombatLink,mercenaryEffectiveAttack,mercenaryDamageCapHp} from '../shared/mercenary-combat-link-v2103.mjs';
 import {validateDuoDeck} from '../shared/ranked-duo-v1.mjs';
 import {sustainedEncounterPlan} from './_sustained_encounter.js';
+import {PVP_SPEED_REFORM,PVP_GUARD_SHIELD_CURVE,isPvpSpeedCard,speedComboPlan,speedComboSnapshots} from '../shared/pvp-speed-reform-v1.mjs';
 
 // =====================================================================
 // V1936: 계열 개편 (S1)
@@ -334,7 +335,7 @@ export function buildFighter(card, index, side, uniqueAbility = null, battleMode
     maxShield: startingShield,
     // 시작 게이지 전직 보정은 경쟁전에서만 적용한다. PVE 행동 순서와 보스
     // 타임라인은 기존 게이트를 그대로 유지한다.
-    gauge: Math.min(95, (type === 'SPEED' ? 30 : 0) + (mode === 'PVP' ? Number(advancementModifiers.openingGaugePoints || 0) : 0)),
+    gauge: Math.min(95, (type === 'SPEED' ? (mode === 'PVP' ? PVP_SPEED_REFORM.openingGauge : 30) : 0) + (mode === 'PVP' ? Number(advancementModifiers.openingGaugePoints || 0) : 0)),
     alive: startingHp > 0,
     emergencyUsed: false,
     survivalUsed: false,
@@ -495,9 +496,9 @@ function hitResult(actor, target, random, multiplier = 1, counter = false, optio
   const pvpOpeningPressure = actor.type === 'ATTACK' && actor.battleMode === 'PVP' && actor.actions === 1 ? 1.12 : 1;
   const pvpShieldBreaker = actor.type === 'ATTACK' && actor.battleMode === 'PVP' && target.shield > 0 ? 1.15 : 1;
   const advancementDamage = Math.max(0.1, 1 + Number(actorAdvancement.damageDealtPercent || 0) / 100);
-  // V2063: PVP speed assassins gain 50% against HP uniques, 15% otherwise (not stacked).
-  // PVE, counters and existing damage caps stay unchanged.
-  const pvpSpeedDamage = actor.type === 'SPEED' && actor.battleMode === 'PVP' && !counter ? (target.type === 'HP' ? 1.50 : 1.15) : 1;
+  // Ordinary PVP speed cards replace the old +50%/+15% multiplier with the
+  // guaranteed combo. Do not multiply both bonuses. PVE/counters are unchanged.
+  const pvpSpeedDamage = actor.type === 'SPEED' && actor.battleMode === 'PVP' && !counter ? (isPvpSpeedCard(actor)?1:(target.type === 'HP' ? 1.50 : 1.15)) : 1;
   const raw = mercenaryEffectiveAttack(actor) * 1.72 * Number(multiplier || 1) * variance * execute * pvpOpeningPressure * pvpShieldBreaker * (critical ? 1.50 : 1) * advancementDamage * pvpSpeedDamage;
   // V1936: 상한 0.46 은 공격력 11만 이상에서 걸려 딜 성장을 통째로 흡수했다. PVP 만 0.60 으로 완화.
   const baseCapPct = counter ? 0.24 : (usePvpDamageModel ? S1.damageCapPercent : 0.46);
@@ -515,7 +516,8 @@ function hitResult(actor, target, random, multiplier = 1, counter = false, optio
     : 0;
   const floored=Math.max(capped,minDamage);
   const damage = Math.max(1, Math.round(options.capMinimumDamage?Math.min(floored,hitCap):floored));
-  return { dodge: false, damage, critical, penetration: Number((penetration * 100).toFixed(1)), execute: execute > 1, openingPressure:pvpOpeningPressure>1, shieldBreaker:pvpShieldBreaker>1, advancementClass: actor.uniqueAdvancement?.classCode || null };
+  return { dodge: false, damage, critical, penetration: Number((penetration * 100).toFixed(1)), execute: execute > 1, openingPressure:pvpOpeningPressure>1, shieldBreaker:pvpShieldBreaker>1, advancementClass: actor.uniqueAdvancement?.classCode || null,
+    ...(isPvpSpeedCard(actor)&&!counter?{comboDamageCap:hitCap}:{}) };
 }
 
 function applyCanonicalDamage(target, incoming, options = {}) {
@@ -803,7 +805,8 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     emitTimeline(timeline,eventClock+0.000001,'MAGIC_CARD',magicEvent(magic,target,target,{amount,hpAfter:target.hp,maxHp:target.maxHp,revived:true}));
     return true;
   };
-  // V2063: Keep action-speed/starting-gauge suppression, but preserve dodge, crit and gauge steal.
+  const isPveBattle = [...a, ...b].some(card => card.isMonster);
+  // Keep the PVE path; PVP suppression lasts only while two guards survive.
   const suppressSpeedUnique=(guardTeam,targetTeam)=>{
     if(guardTeam.filter(card=>card.type==='DEFENSE').length<2)return;
     for(const fighter of targetTeam.filter(card=>card.type==='SPEED')){
@@ -813,9 +816,26 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       emitTimeline(timeline,clock,'SPEED_UNIQUE_SUPPRESSED',{targetId:fighter.id,guardSide:guardTeam[0]?.side||'',label:'방어형 연계 · 행동 속도 봉쇄'});
     }
   };
-  suppressSpeedUnique(a,b);suppressSpeedUnique(b,a);
+  const speedSuppression=new Map();
+  if(!isPveBattle)for(const fighter of [...a,...b].filter(isPvpSpeedCard))speedSuppression.set(fighter,{factor:1});
+  const refreshSpeedSuppression=()=>{
+    if(!speedSuppression.size)return;
+    const guards={A:a.filter(card=>card.type==='DEFENSE'&&!card.isMercenary&&card.alive&&card.hp>0).length,
+      B:b.filter(card=>card.type==='DEFENSE'&&!card.isMercenary&&card.alive&&card.hp>0).length};
+    for(const [fighter,state] of speedSuppression){
+      const bonus=Math.max(0,uniquePercent(fighter.uniqueAbility,'speedPercent'))/100;
+      const suppressed=guards[fighter.side==='A'?'B':'A']>=2;
+      const factor=suppressed?(1+bonus*(1-PVP_SPEED_REFORM.guardSuppression))/(1+bonus):1;
+      if(factor===state.factor)continue;
+      fighter.speed=Math.max(35,Math.round(fighter.speed/state.factor*factor));state.factor=factor;
+      emitTimeline(timeline,clock,suppressed?'SPEED_UNIQUE_SUPPRESSED':'SPEED_UNIQUE_RESTORED',{
+        targetId:fighter.id,speedAfter:fighter.speed,gaugeAfter:fighter.gauge,
+        suppressedBonusPercent:suppressed?PVP_SPEED_REFORM.guardSuppression*100:0,
+        label:suppressed?'방어형 연계 · 속도 증가분 30% 억제':'속도형 · 행동 속도 복구'});
+    }
+  };
+  if(isPveBattle){suppressSpeedUnique(a,b);suppressSpeedUnique(b,a);}else refreshSpeedSuppression();
   // V1936: 전투 시작 셋업 — 유한 자원들을 여기서 한 번에 배분한다.
-  const isPveBattle = [...a, ...b].some(card => card.isMonster);
   // 전직 기능이 OFF인 기존 전투는 V1936 결과를 그대로 보존한다. 실제 전직 카드가
   // 한 장이라도 있을 때만 새 부활 봉인 소비 규칙을 활성화한다.
   const advancementBattleActive = [...a, ...b].some(card => Boolean(card.uniqueAdvancement));
@@ -850,7 +870,8 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       const guards = members.filter(card => card.type === 'DEFENSE');
       if (!guards.length) continue;
       let pool = 0;
-      guards.forEach((g, i) => { pool += g.maxHp * S1.guardShieldPercent * (S1.guardShieldCurve[Math.min(S1.guardShieldCurve.length - 1, i)] || 0); });
+      const curve = isPveBattle ? S1.guardShieldCurve : PVP_GUARD_SHIELD_CURVE;
+      guards.forEach((g, i) => { pool += g.maxHp * S1.guardShieldPercent * (curve[Math.min(curve.length - 1, i)] || 0); });
       const share = Math.round(pool * (isPveBattle ? S1.pveShieldScale : 1) / Math.max(1, members.length));
       for (const card of members) { card.shield += share; card.maxShield += share; }
       emitTimeline(timeline, clock, 'GUARD_PROTECT', { side: guards[0].side, amount: share, guards: guards.length, label: '수호형 · 방벽 전개' });
@@ -1344,6 +1365,8 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     if (!pool.length) break;
     const tauntGuard=actor.isMonster?pool.find(card=>card.type==='DEFENSE'&&random()<0.70):null;
     const target = tauntGuard||lowestRatioTarget(pool, random);
+    const speedCombo=isPvpSpeedCard(actor)&&!apocalypseSealed(actor);
+    if(speedCombo)actor.speedBasicAttacks=(actor.speedBasicAttacks||0)+1;
     const s2Attack=!independentAction&&season2Runtime?(!actor.isMercenary&&!actor.isMonster?season2Runtime.beforeAttack(actor,target):season2Runtime.defenseOptions(target)):{};
     const hit = hitResult(actor, target, random, isBattleSuitSupport(actor)?Math.max(.1,Number(actor.independentAttackMultiplier||1)):(mercenaryRuntime?.basicMultiplier(actor)??1), false, {...hitOptions,...s2Attack,damageCapScale:mercenaryRuntime?.basicDamageCapScale(actor)??1});
     if(isBattleSuitSupport(actor)){
@@ -1381,8 +1404,12 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       continue;
     }
 
+    // Echoes share one cap, protection application, magic proc and mercenary turn.
+    const comboPlan=speedCombo?speedComboPlan(actor.speedBasicAttacks,hit.damage,suddenDeath?hit.damage:hit.comboDamageCap*PVP_SPEED_REFORM.comboCapScale):null;
+    if(comboPlan)hit.damage=comboPlan.damage;
     if(!independentAction&&mercenaryRuntime)hit.damage=mercenaryRuntime.beforeBasicDamage(actor,target,hit.damage);
     const damageState = applyDamage(target, hit.damage, { shieldBonus: actor.type === 'SPEED' ? S1.speedShieldBonus : 0,actor,direct:!independentAction,shieldPierce:s2Attack.s2ShieldPierce||0 });
+    const comboHits=comboPlan?speedComboSnapshots(damageState,comboPlan.hitCount):null;
     actor.damageDealt += damageState.hpDamage + damageState.absorbed;
     let suitPierceDamage=0;
     if(isBattleSuitSupport(actor)){
@@ -1397,7 +1424,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
 
     if (actor.type === 'SPEED' && !actor.speedUniqueSuppressed && !apocalypseSealed(actor)) {
       target.gauge = Math.max(0, target.gauge - 18);
-      if (random() < 0.28) actor.gauge = Math.min(95, actor.gauge + 35);
+      if (!speedCombo && random() < 0.28) actor.gauge = Math.min(95, actor.gauge + 35);
     }
 
     if(isBattleSuitSupport(actor)){
@@ -1431,6 +1458,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       shieldBreaker: hit.shieldBreaker === true,
       advancementClass: hit.advancementClass,
       suddenDeath: hit.suddenDeath === true,
+      ...(comboHits?{speedCombo:true,hitCount:comboHits.length,hits:comboHits,basicAttack:actor.speedBasicAttacks}:{}),
       targetHpAfter: target.hp,
       targetMaxHp: target.maxHp,
       targetShieldAfter: target.shield,
@@ -1556,7 +1584,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         if(barrierBroken){actor.attack=Math.max(1,Math.round(actor.attack*(target.defenseLineBreached?0.95:0.90)));emitTimeline(timeline,clock+0.0015,'GUARD_BREAK_DEBUFF',{actorId:target.id,targetId:actor.id,attackAfter:actor.attack,label:'방어형 · 방벽 파쇄 반격'});}
       }
     }
-    } finally {if(actionActor)season2Runtime?.endAction(actionActor);const statuses=finishApocalypseAction(actionActor);if(statuses)emitTimeline(timeline,clock+.00009,'APOCALYPSE_STATUS',{targetId:actionActor.id,statuses});actionRandom=cardRandom;stampCombatGroup(groupFrom,combatMs,!independentAction);}
+    } finally {if(actionActor)season2Runtime?.endAction(actionActor);refreshSpeedSuppression();const statuses=finishApocalypseAction(actionActor);if(statuses)emitTimeline(timeline,clock+.00009,'APOCALYPSE_STATUS',{targetId:actionActor.id,statuses});actionRandom=cardRandom;stampCombatGroup(groupFrom,combatMs,!independentAction);}
   }
 
   const aRatio = teamHpRatio(a);

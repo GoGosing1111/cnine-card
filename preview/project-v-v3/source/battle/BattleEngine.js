@@ -2631,7 +2631,7 @@ class BaseBattleEngine{
     });
   }
 
-  async normalAttack(index,{damage=128440,critical=false,attacker=null,target=null,targetHp=null,targetShield=null,healing=0,hitCount=1,advancementClass='',onImpact=()=>{}}={}){
+  async normalAttack(index,{damage=128440,critical=false,attacker=null,target=null,targetHp=null,targetShield=null,healing=0,hitCount=1,hitSequence=null,advancementClass='',onImpact=()=>{}}={}){
     if(this.livePayload&&!target?.root?.visible)return false;
     const requestedActor=attacker||this.allies[index%this.allies.length];
     const actor=this.livePayload?requestedActor:this.isAlive(requestedActor)?requestedActor:(requestedActor?.team===TEAM.ENEMY?this.enemies:this.allies).find(character=>this.isAlive(character));
@@ -2643,6 +2643,7 @@ class BaseBattleEngine{
     const actorView=actor.root;
     const victimView=victim.root;
     const roleKind=normalizeSkillEffectKind(actor.effectKind);
+    const combo=roleKind===SKILL_EFFECT_KIND.SPEED&&Array.isArray(hitSequence)&&hitSequence.length>=2&&hitSequence.length<=3?hitSequence:null;
     const roleProfile=roleEffectProfile(roleKind);
     const advancementCode=normalizeAdvancementEffectCode(advancementClass);
     const advancementProfile=advancementEffectProfile(advancementCode);
@@ -2655,8 +2656,11 @@ class BaseBattleEngine{
     const damageLabel=this.pools.damage.acquire();
     const impact={x:victimView.x,y:victimView.y-176};
     const isBossTarget=Boolean(victim.isBoss);
-    configureDamageText(damageLabel,{kind:roleKind,damage,critical,healing,hitCount,compact:this.mobile});
-    damageLabel.position.set(impact.x,victimView.y-340);damageLabel.visible=true;this.uiLayer.addChild(damageLabel);
+    configureDamageText(damageLabel,{kind:roleKind,damage,critical,healing,hitCount,hitValues:combo?[]:null,compact:this.mobile});
+    // Keep the taller combo readout inside the existing battlefield viewport.
+    const damageY=combo?Math.max(190,victimView.y-340):victimView.y-340;
+    const damageX=combo?clamp(impact.x,200,this.scene.width-200):impact.x;
+    damageLabel.position.set(damageX,damageY);damageLabel.visible=true;this.uiLayer.addChild(damageLabel);
     if(roleKind===SKILL_EFFECT_KIND.HP&&damageLabel.healLabel){
       damageLabel.healLabel.position.set(actor.baseX-impact.x,actor.baseY-165-(victimView.y-340));
     }
@@ -2673,6 +2677,7 @@ class BaseBattleEngine{
       }).attach(this.effectLayer);
     let whiteFlashHandle=null;
     let hitStopTimer=null;
+    const echoEffects=combo?combo.slice(1).map(()=>SkillEffectFX.create({kind:roleKind,x:effectPoint.x,y:effectPoint.y,scale:(this.mobile?.78:1)*(isBossTarget?1.12:1)}).attach(this.effectLayer)):[];
     const cleanup=()=>{
       if(hitStopTimer){clearTimeout(hitStopTimer);hitStopTimer=null}
       this.pools.damage.release(damageLabel);
@@ -2683,6 +2688,7 @@ class BaseBattleEngine{
       victim.tint=0xffffff;
       whiteFlashHandle?.release();
       skillEffect.release();
+      echoEffects.forEach(effect=>effect.release());
     };
     this.updateStatus(`${actor.name} · ${advancementProfile?.title||roleProfile.label}${critical?' · 치명타':''}`);
     const vector={x:victimView.x-actor.baseX,y:victimView.y-actor.baseY};
@@ -2702,13 +2708,15 @@ class BaseBattleEngine{
     const playbackSpeed=advancementProfile
       ?(this.reducedMotion?8:PLAYBACK_SPEED)
       :(this.reducedMotion?8:PLAYBACK_SPEED*(this.paceScale||1));
-    const returnAt=advancementProfile?impactAt+.18:.43;
+    const lastImpactAt=impactAt+(combo?(combo.length-1)*.12:0);
+    const returnAt=combo?lastImpactAt+.18:advancementProfile?impactAt+.18:.43;
     return this.timeline(timeline=>{
       const travelDuration=roleKind===SKILL_EFFECT_KIND.SPEED?.14:roleKind===SKILL_EFFECT_KIND.DEFENSE?.25:.22;
       timeline.call(()=>{
         actor.setState(CHARACTER_STATE.MOVE);
         if(advancementProfile)this.audio?.scheduleAdvancementImpact(advancementCode,{impactAt,playbackSpeed});
         else this.audio?.scheduleImpact(roleKind,{impactAt:.25,playbackSpeed,critical,boss:isBossTarget});
+        if(combo)echoEffects.forEach((_,i)=>this.audio?.scheduleImpact(roleKind,{impactAt:impactAt+(i+1)*.12,playbackSpeed,critical:false,boss:isBossTarget}));
       },[],0);
       timeline.to(actorView,{x:attackPoint.x,y:attackPoint.y,duration:travelDuration,ease:roleKind===SKILL_EFFECT_KIND.SPEED?'power4.in':'power3.out'});
       timeline.to(actorView.scale,{x:attackScale*(roleKind===SKILL_EFFECT_KIND.DEFENSE?1.11:1.06),y:attackScale*(roleKind===SKILL_EFFECT_KIND.SPEED?.96:1.06),duration:travelDuration,ease:'power3.out'},0);
@@ -2720,10 +2728,25 @@ class BaseBattleEngine{
         whiteFlashHandle=advancementProfile
           ?this.triggerAdvancementScreenFlash({durationMs:50,alpha:.26})
           :triggerWhiteFlash(victim,{durationMs:Math.round(50/PLAYBACK_SPEED)});
-        if(hasFiniteNumber(targetHp))this.syncTargetHp(victim,Number(targetHp));
-        if(hasFiniteNumber(targetShield))this.syncTargetShield(victim,Number(targetShield));
-        onImpact(victim);
+        const first=combo?.[0];
+        if(hasFiniteNumber(first?.targetHp??targetHp))this.syncTargetHp(victim,Number(first?.targetHp??targetHp));
+        if(hasFiniteNumber(first?.targetShieldAfter??targetShield))this.syncTargetShield(victim,Number(first?.targetShieldAfter??targetShield));
+        if(combo)configureDamageText(damageLabel,{kind:roleKind,damage:first.damage+first.absorbed,critical,healing:0,hitCount:1,hitValues:[first.damage+first.absorbed],compact:this.mobile});
+        else onImpact(victim);
       },[],impactAt);
+      if(combo)combo.slice(1).forEach((hit,index)=>{
+        const at=impactAt+(index+1)*.12;
+        echoEffects[index].play(timeline,{at,playbackSpeed});
+        timeline.call(()=>{
+          victim.setState(CHARACTER_STATE.HIT);victim.tint=0xffd4a0;
+          whiteFlashHandle?.release();whiteFlashHandle=triggerWhiteFlash(victim,{durationMs:Math.round(40/playbackSpeed)});
+          this.syncTargetHp(victim,hit.targetHp);this.syncTargetShield(victim,hit.targetShieldAfter);
+          const total=combo.slice(0,index+2).reduce((sum,row)=>sum+row.damage+row.absorbed,0);
+          configureDamageText(damageLabel,{kind:roleKind,damage:total,critical,healing:0,hitCount:index+2,hitValues:combo.slice(0,index+2).map(row=>row.damage+row.absorbed),compact:this.mobile});
+          if(index===combo.length-2)onImpact(victim);
+        },[],at);
+        timeline.fromTo(actorView.scale,{x:attackScale*1.09,y:attackScale*.94},{x:attackScale*1.06,y:attackScale*.96,duration:.10,ease:'power2.out'},at);
+      });
       if(advancementProfile)skillEffect.play(timeline,{impactAt});
       else skillEffect.play(timeline,{at:.25,playbackSpeed});
       this.camera.addShake(timeline,{
@@ -2736,9 +2759,9 @@ class BaseBattleEngine{
           hitStopTimer=setTimeout(()=>{hitStopTimer=null;timeline.resume()},Math.max(1,Math.round(advancementProfile.hitStopMs/playbackSpeed)));
         },[],impactAt+.005);
       }
-      timeline.fromTo(damageLabel,{alpha:0,y:victimView.y-346},{alpha:1,y:victimView.y-376,duration:.18,ease:'back.out(2)'},impactAt);
+      timeline.fromTo(damageLabel,{alpha:0,y:damageY-6},{alpha:1,y:damageY-36,duration:.18,ease:'back.out(2)'},impactAt);
       timeline.fromTo(damageLabel.scale,{x:.55,y:.55},{x:1,y:1,duration:.2,ease:'back.out(2)'},impactAt);
-      timeline.to(damageLabel,{alpha:0,y:victimView.y-406,duration:.25,ease:'power2.in'},impactAt+.23);
+      timeline.to(damageLabel,{alpha:0,y:damageY-66,duration:.25,ease:'power2.in'},lastImpactAt+.23);
       timeline.to(actorView,{x:actor.baseX,y:actor.baseY,duration:.3,ease:'power3.inOut'},returnAt);
       timeline.to(actorView.scale,{x:actor.restScale,y:actor.restScale,duration:.3,ease:'power3.inOut'},returnAt);
     },cleanup,advancementProfile?playbackSpeed:null,
@@ -3091,7 +3114,8 @@ class BaseBattleEngine{
           continue;
         }
         const advancementClass=type==='TURN'&&normalizeAdvancementEffectCode(event.advancementClass)==='SHATTER'?'SHATTER':'';
-        await this.normalAttack(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),attacker:explicitActor,target,targetHp:resolvedTargetHp,targetShield:targetShieldAfter,healing,hitCount,advancementClass});
+        const hitSequence=event.speedCombo&&Array.isArray(event.hits)?event.hits.map(hit=>({...hit,targetHp:this.eventHpPercent(target,hit.targetHpAfter)})):null;
+        await this.normalAttack(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),attacker:explicitActor,target,targetHp:resolvedTargetHp,targetShield:targetShieldAfter,healing,hitCount,hitSequence,advancementClass});
       }else if(type==='SKILL'){
         await this.playTacticalSkill(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),label:event.label||event.skillName||'전술 스킬',target,targetHp:resolvedTargetHp,targetShield:targetShieldAfter,attacker:explicitActor,healing,hitCount});
       }else if(type==='COUNTER'){

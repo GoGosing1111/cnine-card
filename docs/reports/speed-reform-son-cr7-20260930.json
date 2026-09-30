@@ -1,0 +1,166 @@
+{
+  "baseline": "aef4d6ab",
+  "seedBase": 20261010,
+  "config": {
+    "version": "20260930",
+    "openingGauge": 60,
+    "guardSuppression": 0.3,
+    "echoMultiplier": 0.5,
+    "burstEvery": 3,
+    "comboCapScale": 0.8
+  },
+  "profiles": [
+    {
+      "name": "기본 카드",
+      "ss": 15500,
+      "fur": 3200,
+      "zen": 5500,
+      "boost": 1,
+      "furBoost": 1,
+      "equipment": 100000
+    },
+    {
+      "name": "고급 강화 비교",
+      "ss": 93200,
+      "fur": 83200,
+      "zen": 75625,
+      "boost": 1.6,
+      "furBoost": 2,
+      "equipment": 500000
+    },
+    {
+      "name": "높은 장비 전력",
+      "ss": 93200,
+      "fur": 83200,
+      "zen": 75625,
+      "boost": 1.6,
+      "furBoost": 2,
+      "equipment": 50000000
+    }
+  ],
+  "cardValuesCheckedAt": "2026-09-30T08:07:35.542Z",
+  "mercenaryFixture": "2026-09-21T18:01:44.765Z",
+  "limitations": "Synthetic equal-investment decks using checked Son/CR7 unique effects. Other cards, equipment and mercenary fixtures are controlled scenarios, not account-wide pick/win statistics. No SUPERSTAR advancement. Both sides reversed.",
+  "rows": [
+    {
+      "profile": "기본 카드",
+      "mercenary": "없음",
+      "rank": null,
+      "games": 512,
+      "beforeWinPercent": 45.5,
+      "afterWinPercent": 75,
+      "beforeActions": 21.4,
+      "afterActions": 23.3
+    },
+    {
+      "profile": "기본 카드",
+      "mercenary": "베스페라",
+      "rank": "SS",
+      "games": 512,
+      "beforeWinPercent": 1.4,
+      "afterWinPercent": 1,
+      "beforeActions": 9.9,
+      "afterActions": 11.5
+    },
+    {
+      "profile": "기본 카드",
+      "mercenary": "오메가-X",
+      "rank": "SSS",
+      "games": 512,
+      "beforeWinPercent": 34,
+      "afterWinPercent": 96.7,
+      "beforeActions": 13,
+      "afterActions": 10.5
+    },
+    {
+      "profile": "기본 카드",
+      "mercenary": "라그니엘",
+      "rank": "SSS",
+      "games": 512,
+      "beforeWinPercent": 10.5,
+      "afterWinPercent": 61.9,
+      "beforeActions": 12.3,
+      "afterActions": 14
+    },
+    {
+      "profile": "고급 강화 비교",
+      "mercenary": "없음",
+      "rank": null,
+      "games": 512,
+      "beforeWinPercent": 19.7,
+      "afterWinPercent": 45.7,
+      "beforeActions": 24.7,
+      "afterActions": 23.6
+    },
+    {
+      "profile": "고급 강화 비교",
+      "mercenary": "베스페라",
+      "rank": "SS",
+      "games": 512,
+      "beforeWinPercent": 57,
+      "afterWinPercent": 86.5,
+      "beforeActions": 13.4,
+      "afterActions": 12.7
+    },
+    {
+      "profile": "고급 강화 비교",
+      "mercenary": "오메가-X",
+      "rank": "SSS",
+      "games": 512,
+      "beforeWinPercent": 5.1,
+      "afterWinPercent": 88.3,
+      "beforeActions": 15,
+      "afterActions": 16.8
+    },
+    {
+      "profile": "고급 강화 비교",
+      "mercenary": "라그니엘",
+      "rank": "SSS",
+      "games": 512,
+      "beforeWinPercent": 0.4,
+      "afterWinPercent": 42.6,
+      "beforeActions": 12.5,
+      "afterActions": 16.1
+    },
+    {
+      "profile": "높은 장비 전력",
+      "mercenary": "없음",
+      "rank": null,
+      "games": 512,
+      "beforeWinPercent": 32.2,
+      "afterWinPercent": 48,
+      "beforeActions": 25.1,
+      "afterActions": 23.5
+    },
+    {
+      "profile": "높은 장비 전력",
+      "mercenary": "베스페라",
+      "rank": "SS",
+      "games": 512,
+      "beforeWinPercent": 68.2,
+      "afterWinPercent": 94.5,
+      "beforeActions": 13.1,
+      "afterActions": 11.8
+    },
+    {
+      "profile": "높은 장비 전력",
+      "mercenary": "오메가-X",
+      "rank": "SSS",
+      "games": 512,
+      "beforeWinPercent": 7.8,
+      "afterWinPercent": 92.2,
+      "beforeActions": 15.4,
+      "afterActions": 16
+    },
+    {
+      "profile": "높은 장비 전력",
+      "mercenary": "라그니엘",
+      "rank": "SSS",
+      "games": 512,
+      "beforeWinPercent": 2.3,
+      "afterWinPercent": 36.9,
+      "beforeActions": 12.6,
+      "afterActions": 16.5
+    }
+  ]
+}
