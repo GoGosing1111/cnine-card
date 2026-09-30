@@ -1,0 +1,239 @@
+{
+  "season": "S2",
+  "runtimeEnabled": false,
+  "drawEnabled": false,
+  "price": null,
+  "weights": null,
+  "status": "CONNECTION_REVIEW_PENDING",
+  "pack": {
+    "code": "MAGIC_CARD_SEASON2_PACK",
+    "name": "마법카드 시즌2 팩",
+    "imageUrl": "assets/cards/magic-season2-pack-768-v1.webp",
+    "active": false,
+    "price": null,
+    "weights": null
+  },
+  "enhancement": {
+    "maxLevel": 9,
+    "growth": [
+      1,
+      1.03,
+      1.06,
+      1.09,
+      1.12,
+      1.15,
+      1.18,
+      1.22,
+      1.26,
+      1.3
+    ],
+    "costs": null,
+    "successRates": null
+  },
+  "cards": [
+    {
+      "code": "S2_ECLIPSE_PROPHECY",
+      "name": "월식의 예언서",
+      "season": "S2",
+      "rarity": "MAGIC",
+      "active": 0,
+      "sortOrder": 1,
+      "effectType": "S2_ECLIPSE_PROPHECY",
+      "activationModel": "CONDITIONAL",
+      "imageUrl": "assets/ui/magic-cards/season2/eclipse-prophecy-source-v1.png",
+      "triggerChance": 100,
+      "maxActivations": 1,
+      "baseStats": {
+        "bonus": 12
+      },
+      "scopes": [
+        "PVE",
+        "PVP"
+      ]
+    },
+    {
+      "code": "S2_CAUSAL_SEVER",
+      "name": "인과 절단",
+      "season": "S2",
+      "rarity": "MAGIC",
+      "active": 0,
+      "sortOrder": 2,
+      "effectType": "S2_CAUSAL_SEVER",
+      "activationModel": "CONDITIONAL",
+      "imageUrl": "assets/ui/magic-cards/season2/causal-sever-source-v1.png",
+      "triggerChance": 100,
+      "maxActivations": 2,
+      "baseStats": {
+        "ignore": 50,
+        "pierce": 30
+      },
+      "scopes": [
+        "PVE",
+        "PVP"
+      ]
+    },
+    {
+      "code": "S2_FATE_INTERCEPT",
+      "name": "운명의 대리",
+      "season": "S2",
+      "rarity": "MAGIC",
+      "active": 0,
+      "sortOrder": 3,
+      "effectType": "S2_FATE_INTERCEPT",
+      "activationModel": "CONDITIONAL",
+      "imageUrl": "assets/ui/magic-cards/season2/fate-intercept-source-v1.png",
+      "triggerChance": 100,
+      "maxActivations": 1,
+      "baseStats": {
+        "mitigation": 20
+      },
+      "scopes": [
+        "PVE",
+        "PVP"
+      ]
+    },
+    {
+      "code": "S2_OVERHEAL_FORGE",
+      "name": "생명 연성진",
+      "season": "S2",
+      "rarity": "MAGIC",
+      "active": 0,
+      "sortOrder": 4,
+      "effectType": "S2_OVERHEAL_FORGE",
+      "activationModel": "CONDITIONAL",
+      "imageUrl": "assets/ui/magic-cards/season2/overheal-forge-source-v1.png",
+      "triggerChance": 100,
+      "maxActivations": 3,
+      "baseStats": {
+        "conversion": 60,
+        "cap": 18
+      },
+      "scopes": [
+        "PVE",
+        "PVP"
+      ]
+    },
+    {
+      "code": "S2_CONSTELLATION_SHIFT",
+      "name": "성좌 전환",
+      "season": "S2",
+      "rarity": "MAGIC",
+      "active": 0,
+      "sortOrder": 5,
+      "effectType": "S2_CONSTELLATION_SHIFT",
+      "activationModel": "CONDITIONAL",
+      "imageUrl": "assets/ui/magic-cards/season2/constellation-shift-source-v1.png",
+      "triggerChance": 100,
+      "maxActivations": 1,
+      "baseStats": {
+        "gauge": 20,
+        "reduction": 20
+      },
+      "scopes": [
+        "PVE",
+        "PVP"
+      ]
+    },
+    {
+      "code": "S2_SHIELD_LEDGER",
+      "name": "붕괴 장부",
+      "season": "S2",
+      "rarity": "MAGIC",
+      "active": 0,
+      "sortOrder": 6,
+      "effectType": "S2_SHIELD_LEDGER",
+      "activationModel": "CONDITIONAL",
+      "imageUrl": "assets/ui/magic-cards/season2/shield-ledger-source-v1.png",
+      "triggerChance": 100,
+      "maxActivations": 1,
+      "baseStats": {
+        "record": 50,
+        "breakDefense": 12
+      },
+      "scopes": [
+        "PVE",
+        "PVP"
+      ]
+    },
+    {
+      "code": "S2_FALLEN_STAR",
+      "name": "별의 유언",
+      "season": "S2",
+      "rarity": "MAGIC",
+      "active": 0,
+      "sortOrder": 7,
+      "effectType": "S2_FALLEN_STAR",
+      "activationModel": "CONDITIONAL",
+      "imageUrl": "assets/ui/magic-cards/season2/fallen-star-source-v1.png",
+      "triggerChance": 100,
+      "maxActivations": 1,
+      "baseStats": {
+        "attack": 8,
+        "gauge": 12
+      },
+      "scopes": [
+        "PVE",
+        "PVP"
+      ]
+    },
+    {
+      "code": "S2_ARCANE_MIRROR",
+      "name": "만상 거울",
+      "season": "S2",
+      "rarity": "MAGIC",
+      "active": 0,
+      "sortOrder": 8,
+      "effectType": "S2_ARCANE_MIRROR",
+      "activationModel": "CONDITIONAL",
+      "imageUrl": "assets/ui/magic-cards/season2/arcane-mirror-source-v1.png",
+      "triggerChance": 100,
+      "maxActivations": 1,
+      "baseStats": {
+        "efficiency": 70
+      },
+      "scopes": [
+        "PVP"
+      ]
+    },
+    {
+      "code": "S2_CONTRACT_EROSION",
+      "name": "계약 침식",
+      "season": "S2",
+      "rarity": "MAGIC",
+      "active": 0,
+      "sortOrder": 9,
+      "effectType": "S2_CONTRACT_EROSION",
+      "activationModel": "CONDITIONAL",
+      "imageUrl": "assets/ui/magic-cards/season2/contract-erosion-source-v1.png",
+      "triggerChance": 100,
+      "maxActivations": 1,
+      "baseStats": {
+        "reduction": 24
+      },
+      "scopes": [
+        "PVE",
+        "PVP"
+      ]
+    },
+    {
+      "code": "S2_COMMAND_SEVERANCE",
+      "name": "지휘 단절",
+      "season": "S2",
+      "rarity": "MAGIC",
+      "active": 0,
+      "sortOrder": 10,
+      "effectType": "S2_COMMAND_SEVERANCE",
+      "activationModel": "CONDITIONAL",
+      "imageUrl": "assets/ui/magic-cards/season2/command-severance-source-v1.png",
+      "triggerChance": 100,
+      "maxActivations": 1,
+      "baseStats": {
+        "vulnerability": 10
+      },
+      "scopes": [
+        "PVE",
+        "PVP"
+      ]
+    }
+  ]
+}

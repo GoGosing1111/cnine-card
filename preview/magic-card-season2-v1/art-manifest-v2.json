@@ -1,0 +1,42 @@
+{
+  "generatedWith": "built-in image_gen",
+  "version": "20260930-v2",
+  "newArtworkApproval": "USER_REVIEW_PENDING",
+  "previousApprovedManifest": "art-manifest.json",
+  "promptSet": "art-prompts-v2.json",
+  "typesetting": "pack-art.html",
+  "entries": [
+    {
+      "file": "assets/cards/magic-season2-pack-source-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 2979026,
+      "sha256": "4438b9965aa1c44e4e7cc8967527183cbbecd81cf6deb4261a9ce55a0f5df02d",
+      "approvedArtwork": false
+    },
+    {
+      "file": "assets/cards/magic-season2-pack-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 2824009,
+      "sha256": "ddfc276b19aa0a4b90c4bb88bc6777ae00ca60bd4ffbfe48721daad2cfe3dd4a",
+      "approvedArtwork": false
+    },
+    {
+      "file": "assets/ui/magic-cards/season2/contract-erosion-source-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 3005757,
+      "sha256": "5d2f3d3645e52ba835ab187968776697290598990d01cf145e335274fb91e91d",
+      "approvedArtwork": false
+    },
+    {
+      "file": "assets/ui/magic-cards/season2/command-severance-source-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 2366696,
+      "sha256": "e419d4befb6a4c39ee3327a7f036fcb241e867d84c0d09d97fb10e17f0cd4c7a",
+      "approvedArtwork": false
+    }
+  ]
+}

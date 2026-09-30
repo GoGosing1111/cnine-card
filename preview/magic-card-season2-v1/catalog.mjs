@@ -1,11 +1,11 @@
 // Preparation data only. This module is not imported by the live game or API.
 export const preparation = Object.freeze({
-  season: 'S2', version: '20260926-v1', status: 'ART_AND_DESIGN_REVIEW',
+  season: 'S2', version: '20260930-v2', status: 'CONNECTION_REVIEW_PENDING',
   runtimeEnabled: false, drawEnabled: false, pricing: null, dropWeights: null,
   sourceDocument: 'docs/magic-card-season-2-design-draft.md',
   sourceCommit: '6092a5b59fa062f6efb9b6bdc7fff588fe4e7251',
   baselineKind: 'REPOSITORY_DEFAULTS_NOT_LIVE_CMS',
-  balanceStatus: 'PROPOSED_NOT_BATTLE_SIMULATED'
+  balanceStatus: 'REVIEW_CANDIDATE_NOT_RELEASED'
 });
 
 export const growth = [1, 1.03, 1.06, 1.09, 1.12, 1.15, 1.18, 1.22, 1.26, 1.30];
@@ -120,6 +120,27 @@ export const cards = [
     guards:['부활·대리·거울·전투 시작 효과·봉인·낙인·S2 효과는 1차 복제 목록에서 제외','이미 복제된 이벤트는 다시 복제하지 않음','회복 풀·보호막 상한·피해 상한은 원본과 동일하게 적용'],
     compare:['CHAIN_ECHO','PURIFY_LIGHT'],advantage:'+0부터 상대의 성공 이벤트를 확정 포착하므로 공격·회복·보호막 상황에 유연하게 대응합니다.',tradeoff:'상대에게 복제 가능한 마법 발동이 없으면 효과가 없습니다. PVE 범용 카드로 취급하지 않습니다.',synergy:'복제 가능한 S1을 쓰는 상대를 겨냥한 PVP 대응',
     example:{label:'상대 연쇄의 잔영이 만든 실제 추가 피해',value:45000,unit:'피해'}
+  }
+  ,{
+    code:'S2_CONTRACT_EROSION',slug:'contract-erosion',number:'09',name:'계약 침식',role:'용병 약화',accent:'#7cdec0',motif:'침식된 계약 · 빛을 잃은 문장',scopes:['PVE','PVP'],
+    hook:'압도적인 힘에도, 약해지는 순간은 있다.',
+    novelty:'적 용병의 평타와 스킬이 가하는 피해를 일정 행동 동안 낮춥니다. 일반 카드와 보스에는 적용하지 않습니다.',
+    trigger:'전투 시작 시 적 용병이 존재할 때',target:'적 용병 1명',limit:'팀당 1회 · 대상 용병의 첫 4행동',
+    stats:[{key:'reduction',label:'용병 가하는 피해 감소',base:24,unit:'%'}],fixed:{actions:4,teamActivations:1},
+    steps:['적 용병 식별','계약 침식 부여','평타·스킬 최종 피해 감소','용병 4행동 후 해제'],
+    guards:['일반 카드·몬스터·보스·배틀슈트에는 적용하지 않음','동일 효과의 중복 장착으로 지속 시간이나 감소율을 누적하지 않음','정화 가능 · 회복량과 보호막 생성량은 변경하지 않음'],
+    compare:['PUNISH_TRAP','ARCANE_COUNTER'],advantage:'적 용병의 평타와 광역 스킬 피해를 모두 낮춰 아군이 초반을 버틸 여유를 만듭니다.',tradeoff:'적 용병이 없으면 발동하지 않으며, 4행동이 지나면 용병이 원래 피해량을 회복합니다.',synergy:'SSS 용병의 초반 화력 대응 · 생존 편성',
+    example:{label:'피해 감소 전 용병의 확정 피해',value:100000,unit:'피해'}
+  },{
+    code:'S2_COMMAND_SEVERANCE',slug:'command-severance',number:'10',name:'지휘 단절',role:'용병 제약',accent:'#ffc578',motif:'황금 사슬 · 봉쇄된 지휘 인장',scopes:['PVE','PVP'],
+    hook:'필살의 명령이 끊긴 틈을 공략하라.',
+    novelty:'적 용병의 처음 두 행동은 스킬 대신 평타로 행동하게 합니다. 봉쇄가 유지되는 동안 직접 피격에 더 취약해집니다.',
+    trigger:'전투 시작 시 제어 면역이 아닌 적 용병이 존재할 때',target:'적 용병 1명',limit:'팀당 1회 · 대상 용병의 첫 2행동',
+    stats:[{key:'vulnerability',label:'봉쇄 중 받는 직접 피해 증가',base:10,unit:'%'}],fixed:{actions:2,teamActivations:1},
+    steps:['적 용병의 지휘 봉쇄','스킬 대신 기본 공격 허용','봉쇄 중 직접 피격 취약','2행동 후 스킬 재개'],
+    guards:['평타·용병의 추가 행동 기회는 유지','봉쇄 중 스킬 자원·쿨타임을 소모하지 않음','정화 가능 · 보스/제어 면역은 제외 · 중복 봉쇄 연장 금지'],
+    compare:['ARCANE_SEAL','TIME_DISTORTION'],advantage:'마법 발동을 막는 S1 봉인과 달리 용병 스킬 자체에 짧은 공략 시간을 만듭니다.',tradeoff:'평타는 계속 사용하며, 봉쇄 종료 후에는 저장된 자원으로 스킬을 사용할 수 있습니다.',synergy:'적 용병 초반 필살기 억제 · 집중 공격',
+    example:{label:'봉쇄된 용병이 받는 직접 피해',value:100000,unit:'피해'}
   }
 ].map(card=>({...card,art:`../../assets/ui/magic-cards/season2/${card.slug}-source-v1.png`,activationModel:'CONDITIONAL',season:'S2',rarity:'MAGIC'}));
 

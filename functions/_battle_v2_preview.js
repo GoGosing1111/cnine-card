@@ -3,6 +3,8 @@ import {X_BODY_AREA_RELEASE_ENABLED,X_BODY_AREA_REVIEW,isXBodyAreaActor} from '.
 import {buildApocalypseLegion,castApocalypseAction,apocalypseSealed,apocalypseCursed,clearApocalypseStatus,finishApocalypseAction} from './_apocalypse_legion.js';
 import {SKILL_CHIP_RUNTIME_ENABLED,SKILL_CHIP_CLOCK,normalizeSkillChipCodes,skillChipDamage,splitSkillChipDamage,skillChipCombatEventMs} from '../shared/battle-suit-skill-chips.mjs';
 import {buildMercenaryFighter,mercenaryCombat,mercenaryTurnCadence} from './_mercenary_combat.js';
+import {MAGIC_SEASON2_REVIEW} from '../shared/magic-season2-v1.mjs';
+import {createMagicSeason2Runtime} from './_magic_season2.js';
 import {applyMercenaryCombatLink,mercenaryEffectiveAttack,mercenaryDamageCapHp} from '../shared/mercenary-combat-link-v2103.mjs';
 import {validateDuoDeck} from '../shared/ranked-duo-v1.mjs';
 import {sustainedEncounterPlan} from './_sustained_encounter.js';
@@ -467,7 +469,7 @@ function hitResult(actor, target, random, multiplier = 1, counter = false, optio
   const dodgeChance = target.type === 'SPEED' && !target.speedUniqueSuppressed
     ? clamp(0.10 + Math.max(0, uniquePercent(target.uniqueAbility, 'speedPercent')) / 1000 + Math.max(0, Number(targetAdvancement.dodgeChancePoints || 0)) / 100, 0.10, dodgeCap)
     : 0.02;
-  if (!counter && random() < dodgeChance) return { dodge: true, damage: 0, critical: false, penetration: 0 };
+  if (!counter && random() < dodgeChance && !options.s2CannotDodge) return { dodge: true, damage: 0, critical: false, penetration: 0 };
 
   const criticalChance = clamp(0.10 + (actor.type === 'ATTACK' ? 0.06 : 0) + (actor.type === 'SPEED' && !actor.speedUniqueSuppressed ? 0.03 : 0) + Math.max(0, Number(actorAdvancement.criticalChancePoints || 0)) / 100, 0.10, 0.35);
   const critical = random() < criticalChance;
@@ -476,7 +478,7 @@ function hitResult(actor, target, random, multiplier = 1, counter = false, optio
     ? (pveAttack && target.isBoss ? 0.40 : pveAttack && target.isMonster ? 0.28 : (random() < 0.35 ? S1.attackPenetrationPvp : 0.15))
     : 0.03;
   const penetration = clamp(basePenetration + Math.max(0, Number(actorAdvancement.penetrationPoints || 0)) / 100, 0, 0.80);
-  const effectiveDefense = Math.max(0, target.defense * (1 - penetration));
+  const effectiveDefense = Math.max(0, target.defense * (1 - penetration) * (1 - (options.s2DefenseIgnore||0)) * (1 - (options.s2DefenseReduction||0)));
   // V1936: 분모 상수 600 은 전투력 스케일에 안 맞아 1만 이상은 전원 65% 상한이었다.
   //   = 방어 스탯도 관통 수치도 실제로는 아무 일을 안 했다. 공격자 공격력 비례로 되살린다.
   // ⚠ PVP 전용이다. PVE 에 넣으면 몬스터 공격이 감소율을 뚫고 들어와
@@ -523,10 +525,12 @@ function applyCanonicalDamage(target, incoming, options = {}) {
   }
   let remaining = Math.max(0, Number(incoming || 0));
   const shieldBefore = target.shield;
-  const absorbed = options.ignoreShield ? 0 : Math.min(target.shield, remaining);
+  const bypass=Math.floor(remaining*clamp(Number(options.shieldPierce||0),0,1));
+  const absorbed = options.ignoreShield ? 0 : Math.min(target.shield, remaining-bypass);
   target.shield -= absorbed;
   remaining -= absorbed;
   const hpBefore = target.hp;
+  if(options.beforeHpDamage)remaining=options.beforeHpDamage(target,remaining);
   target.hp = Math.max(0, target.hp - remaining);
   return { absorbed, hpDamage: hpBefore - target.hp, shieldBefore, shieldAfter: target.shield, hpBefore, hpAfter: target.hp };
 }
@@ -571,14 +575,14 @@ function spendHealPool(side, amount) {
   return used;
 }
 
-function maybeEmergencyHeal(target, timeline, clock, healMultiplier = 1) {
+function maybeEmergencyHeal(target, timeline, clock, healMultiplier = 1, season2 = null) {
   if (!target.alive || target.hp <= 0 || target.type !== 'HP' || target.emergencyUsed || apocalypseCursed(target) || apocalypseSealed(target)) return;
   if (target.hp / target.maxHp > 0.30) return;
   target.emergencyUsed = true;
-  const requested = Math.min(target.maxHp - target.hp, Math.max(1, Math.round(target.maxHp * S1.emergencyHealPercent * clamp(healMultiplier, 0, 1))));
-  const amount = spendHealPool(target.side, requested);
+  const request = Math.max(1, Math.round(target.maxHp * S1.emergencyHealPercent * clamp(healMultiplier, 0, 1)));
+  const amount = season2?season2.heal(target,request):spendHealPool(target.side,Math.min(target.maxHp-target.hp,request));
   if (amount <= 0) return;
-  target.hp += amount;
+  if(!season2)target.hp += amount;
   target.healingDone += amount;
   pushEvent(timeline, clock, 'EMERGENCY_HEAL', {
     targetId: target.id,
@@ -686,9 +690,10 @@ function resolveKnockout(target, timeline, clock, onBeforeKnockout = null) {
   return true;
 }
 
-export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, suddenDeathAfter = 0, forcedMonsterEvery = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, bossUltimateCapPercent = 100, healerPenalty = false, singleHealerBonus = {}, escortObjective = null, reinforcements = [], encounterCapacity = 5, maxCombatDurationMs = 0, sustainedEncounter = null, [Z_BODY_AREA_REVIEW]: zAreaReview = false, [X_BODY_AREA_REVIEW]: xAreaReview = false } = {}) {
-  let mercenaryRuntime=null;
-  const applyDamage=(target,incoming,options)=>{const result=applyCanonicalDamage(target,incoming,options);mercenaryRuntime?.onDamage(target,result);return result;};
+export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, suddenDeathAfter = 0, forcedMonsterEvery = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, bossUltimateCapPercent = 100, healerPenalty = false, singleHealerBonus = {}, escortObjective = null, reinforcements = [], encounterCapacity = 5, maxCombatDurationMs = 0, sustainedEncounter = null, [Z_BODY_AREA_REVIEW]: zAreaReview = false, [X_BODY_AREA_REVIEW]: xAreaReview = false, [MAGIC_SEASON2_REVIEW]: season2Review = false } = {}) {
+  let mercenaryRuntime=null,season2Runtime=null;
+  const rawDamage=(target,incoming,options)=>{const result=applyCanonicalDamage(target,incoming,options);mercenaryRuntime?.onDamage(target,result);season2Runtime?.afterDamage(target,result,options);return result;};
+  const applyDamage=(target,incoming,options={})=>rawDamage(target,season2Runtime?season2Runtime.beforeDamage(target,incoming,options):incoming,season2Runtime?{...options,beforeHpDamage:(t,n)=>season2Runtime.beforeHpDamage(t,n,options)}:options);
   const cardRandom = seededRandom(seed);
   const mercenaryRandom = {A:seededRandom((Number(seed)^0x4d455243)>>>0),B:seededRandom((Number(seed)^0x534c4f54)>>>0)};
   let actionRandom = cardRandom;
@@ -720,6 +725,8 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     if (new Set(b.map(card => card.slot)).size !== b.length) throw new Error('DUPLICATE_ENCOUNTER_SLOT');
   }
   const timeline = [];
+  const emitTimeline=(list,at,type,data={})=>{pushEvent(list,at,type,data);if(type==='MAGIC_CARD')season2Runtime?.observeMagic(list[list.length-1]);};
+  const settleKnockout=(target,list,at,onBefore)=>resolveKnockout(target,list,at,onBefore);
   let clock = 0;
   let actionCount = 0;
   let mercenaryActionCount = 0;
@@ -741,7 +748,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const pushEscortStrike=(actor,eventClock,forced=false)=>{
     if(!actor)return;
     escortStrikeCount+=1;
-    pushEvent(timeline,eventClock,'ESCORT_OBJECTIVE_ATTACK',{
+    emitTimeline(timeline,eventClock,'ESCORT_OBJECTIVE_ATTACK',{
       actorId:actor.id,
       actorSide:actor.side,
       targetId:escortTarget.id,
@@ -763,7 +770,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         if(state.effectType==='OPENING_ATTACK')fighter.attack=Math.max(1,Math.round(fighter.attack*(1+value/100)));
         if(state.effectType==='LIFE_AMPLIFY'){const gain=Math.max(1,Math.round(fighter.maxHp*value/100));fighter.maxHp+=gain;fighter.hp+=gain;}
         if(state.effectType==='GUARD_BARRIER'){const gain=Math.max(1,Math.round(fighter.maxHp*value/100));fighter.shield+=gain;fighter.maxShield+=gain;}
-        state.activations=1;pushEvent(timeline,clock,'MAGIC_CARD',{actorId:fighter.id,targetId:fighter.id,magicCardId:state.id,magicCode:state.code,magicName:state.name,magicImageUrl:state.imageUrl,magicEnhancementLevel:state.enhancementLevel,effectType:state.effectType,value,activation:1,maxActivations:state.maxActivations,label:state.name});
+        state.activations=1;emitTimeline(timeline,clock,'MAGIC_CARD',{actorId:fighter.id,targetId:fighter.id,magicCardId:state.id,magicCode:state.code,magicName:state.name,magicImageUrl:state.imageUrl,magicEnhancementLevel:state.enhancementLevel,effectType:state.effectType,value,activation:1,maxActivations:state.maxActivations,label:state.name});
       }
     }
   };
@@ -775,7 +782,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     if(apocalypseCursed(fighter)&&effectType==='CRISIS_HEAL')return null;
     if(Number(fighter.magicSealCharges||0)>0&&effectType!=='PURIFY_LIGHT'){
       fighter.magicSealCharges=Math.max(0,Number(fighter.magicSealCharges||0)-1);
-      pushEvent(timeline,clock+0.00001,'MAGIC_SEAL_BLOCK',{actorId:fighter.magicSealSourceId||'',targetId:fighter.id,magicCardId:state.id,magicCode:state.code,magicName:state.name,effectType:state.effectType,label:'봉인의 칙령 · 발동 봉인'});
+      emitTimeline(timeline,clock+0.00001,'MAGIC_SEAL_BLOCK',{actorId:fighter.magicSealSourceId||'',targetId:fighter.id,magicCardId:state.id,magicCode:state.code,magicName:state.name,effectType:state.effectType,label:'봉인의 칙령 · 발동 봉인'});
       if(fighter.magicSealCharges<=0)fighter.magicSealSourceId='';
       return null;
     }
@@ -788,12 +795,12 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     const magic=activateMagic(target,'PHOENIX_REVIVE');
     if(!magic)return false;
     if(consumeReviveSeal(target.side)){
-      pushEvent(timeline,eventClock+0.000001,'REVIVE_SEALED',magicEvent(magic,target,target,{blocked:true,label:'공격형 · 부활 봉인'}));
+      emitTimeline(timeline,eventClock+0.000001,'REVIVE_SEALED',magicEvent(magic,target,target,{blocked:true,label:'공격형 · 부활 봉인'}));
       return false;
     }
     const amount=Math.max(1,Math.round(target.maxHp*Math.min(100,Number(magic.effectValue||0))/100));
     target.hp=Math.min(target.maxHp,amount);target.alive=true;
-    pushEvent(timeline,eventClock+0.000001,'MAGIC_CARD',magicEvent(magic,target,target,{amount,hpAfter:target.hp,maxHp:target.maxHp,revived:true}));
+    emitTimeline(timeline,eventClock+0.000001,'MAGIC_CARD',magicEvent(magic,target,target,{amount,hpAfter:target.hp,maxHp:target.maxHp,revived:true}));
     return true;
   };
   // V2063: Keep action-speed/starting-gauge suppression, but preserve dodge, crit and gauge steal.
@@ -803,7 +810,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       const speedPercent=Math.max(-90,Number(fighter.uniqueAbility?.speedPercent||0));
       fighter.speed=Math.max(35,Math.round(fighter.speed/Math.max(0.1,1+speedPercent/100)));
       fighter.gauge=0;
-      pushEvent(timeline,clock,'SPEED_UNIQUE_SUPPRESSED',{targetId:fighter.id,guardSide:guardTeam[0]?.side||'',label:'방어형 연계 · 행동 속도 봉쇄'});
+      emitTimeline(timeline,clock,'SPEED_UNIQUE_SUPPRESSED',{targetId:fighter.id,guardSide:guardTeam[0]?.side||'',label:'방어형 연계 · 행동 속도 봉쇄'});
     }
   };
   suppressSpeedUnique(a,b);suppressSpeedUnique(b,a);
@@ -846,7 +853,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       guards.forEach((g, i) => { pool += g.maxHp * S1.guardShieldPercent * (S1.guardShieldCurve[Math.min(S1.guardShieldCurve.length - 1, i)] || 0); });
       const share = Math.round(pool * (isPveBattle ? S1.pveShieldScale : 1) / Math.max(1, members.length));
       for (const card of members) { card.shield += share; card.maxShield += share; }
-      pushEvent(timeline, clock, 'GUARD_PROTECT', { side: guards[0].side, amount: share, guards: guards.length, label: '수호형 · 방벽 전개' });
+      emitTimeline(timeline, clock, 'GUARD_PROTECT', { side: guards[0].side, amount: share, guards: guards.length, label: '수호형 · 방벽 전개' });
     }
   }
   // 편성 다양성 보너스: 계열 종류 수에 따라 팀 전체 강화. 몰빵보다 섞는 쪽이 유리해진다.
@@ -861,7 +868,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         const add = Math.round(card.maxHp * bonus);
         card.maxHp += add; card.hp += add;
       }
-      pushEvent(timeline, clock, 'DEPLOY', { side: team[0]?.side, typeVariety: kinds, bonusPercent: Math.round(bonus * 100), label: `편성 다양성 ${kinds}계열 · +${Math.round(bonus * 100)}%` });
+      emitTimeline(timeline, clock, 'DEPLOY', { side: team[0]?.side, typeVariety: kinds, bonusPercent: Math.round(bonus * 100), label: `편성 다양성 ${kinds}계열 · +${Math.round(bonus * 100)}%` });
     }
   }
   const healerRules = healerPenalty ? { A: healerPenaltyForTeam(a), B: healerPenaltyForTeam(b) } : { A: { healerCount: 0, reductionPercent: 0, multiplier: 1 }, B: { healerCount: 0, reductionPercent: 0, multiplier: 1 } };
@@ -889,7 +896,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         target.hp += amount;
         targets.push({ targetId: target.id, amount, hpAfter: target.hp, maxHp: target.maxHp });
       }
-      pushEvent(timeline, clock, 'SINGLE_HEALER_AURA', {
+      emitTimeline(timeline, clock, 'SINGLE_HEALER_AURA', {
         actorId: healer.id,
         side: healer.side,
         teamHpPercent: singleHealer.teamHpPercent,
@@ -910,7 +917,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       const ratio=guard.battleMode==='PVE'?0.12:0.08;
       const amount=Math.max(1,Math.round(target.maxHp*ratio));
       target.shield+=amount;target.maxShield+=amount;
-      pushEvent(timeline,clock,'GUARD_PROTECT',{actorId:guard.id,targetId:target.id,amount,shieldAfter:target.shield,label:'방어형 · 수호 전환'});
+      emitTimeline(timeline,clock,'GUARD_PROTECT',{actorId:guard.id,targetId:target.id,amount,shieldAfter:target.shield,label:'방어형 · 수호 전환'});
     }
   }
   const breachDefenseLine=(attackTeam,targetTeam)=>{
@@ -923,7 +930,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       fighter.shield=Math.max(0,Math.round(fighter.shield*0.55));
       fighter.maxShield=Math.max(fighter.shield,Math.round(fighter.maxShield*0.55));
     }
-    pushEvent(timeline,clock,'DEFENSE_LINE_BREACHED',{actorSide:attackers[0]?.side||'',targetSide:targets[0]?.side||'',defenseCount,shieldReductionPercent:45,label:'공격형 연계 · 공성 돌파'});
+    emitTimeline(timeline,clock,'DEFENSE_LINE_BREACHED',{actorSide:attackers[0]?.side||'',targetSide:targets[0]?.side||'',defenseCount,shieldReductionPercent:45,label:'공격형 연계 · 공성 돌파'});
   };
   breachDefenseLine(a,b);breachDefenseLine(b,a);
   applyMercenaryCombatLink([a,b]);
@@ -936,7 +943,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       ? 0
       : clamp(Number(fighter.gauge || 0) + (fighter.isMercenary?mercenaryRandom[fighter.side]():random()) * 8, 0, 99);
     if (fighter.shield > 0) {
-      pushEvent(timeline, clock, 'START_EFFECT', {
+      emitTimeline(timeline, clock, 'START_EFFECT', {
         targetId: fighter.id,
         effect: 'SHIELD',
         amount: fighter.shield,
@@ -946,6 +953,14 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     }
   }
 
+  if(season2Review===true){
+    season2Runtime=createMagicSeason2Runtime({teams:{A:a,B:b},loadouts:{A:magicA,B:magicB},emit:(type,data)=>emitTimeline(timeline,clock,type,data),rawDamage,
+      knockout:(target,{finalOnly=false}={})=>{if(finalOnly){target.hp=0;target.alive=false;target.gauge=0;emitTimeline(timeline,clock,'KO',{targetId:target.id});}else settleKnockout(target,timeline,clock,reviveFromMagic);},
+      spendHeal:spendHealPool,magicCap:(...args)=>apocalypseMagicCap(...args),sealed:actor=>apocalypseSealed(actor),
+      cleanse:target=>{clearApocalypseStatus(target);mercenaryRuntime?.cleanse(target);season2Runtime?.cleanse(target);},
+      isHealingAllowed:()=>!(suddenDeathAfter>0&&actionCount>suddenDeathAfter)});
+    season2Runtime.open();
+  }
   // Escort combat has one guaranteed hostile strike before any speed gauge,
   // action-power or turn-order calculation. Every later monster turn uses the
   // same objective route, so cards are never selected while the carrier lives.
@@ -958,7 +973,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   if (openingUltimate > 0 && alive(b).length) {
     const target = alive(b)[0];
     const damageState = applyDamage(target, openingUltimate);
-    pushEvent(timeline, clock + 0.0001, 'PVE_ULTIMATE', {
+    emitTimeline(timeline, clock + 0.0001, 'PVE_ULTIMATE', {
       targetId: target.id,
       damage: damageState.hpDamage,
       absorbed: damageState.absorbed,
@@ -966,7 +981,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       targetMaxHp: target.maxHp,
       targetShieldAfter: target.shield
     });
-    resolveKnockout(target, timeline, clock + 0.0002, reviveFromMagic);
+    settleKnockout(target, timeline, clock + 0.0002, reviveFromMagic);
   }
 
   const bossOpeningCap = clamp(bossUltimateCapPercent, 100, 500);
@@ -991,7 +1006,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       //   실드부터 깎으므로, 15% 궁극기가 실드에 100% 흡수돼 방어형 덱은 어떤 보스
       //   궁극기도 체력이 1도 안 닳았다(측정: 방어5 덱 피해 0.0%).
       //   궁극기는 실드를 관통한다.
-      const damageState = applyDamage(target, amount, { ignoreShield: true });
+      const damageState = applyDamage(target, amount, { ignoreShield: true,direct:true });
       hits.push({
         targetId: target.id,
         damage: damageState.hpDamage,
@@ -1004,10 +1019,12 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         targetShieldAfter: target.shield
       });
     }
-    pushEvent(timeline, clock + 0.0003, 'BOSS_ULTIMATE', { damagePercent: bossOpeningPercent, hits });
-    for (const target of damagedTargets) resolveKnockout(target, timeline, clock + 0.0004, reviveFromMagic);
+    emitTimeline(timeline, clock + 0.0003, 'BOSS_ULTIMATE', { damagePercent: bossOpeningPercent, hits });
+    for (const target of damagedTargets) settleKnockout(target, timeline, clock + 0.0004, reviveFromMagic);
     maybeFrontlineBreak(a, 'A', timeline, clock + 0.0005);
   }
+
+  season2Runtime?.settle();
 
   // V1902: 호송작전은 차량 피해가 별도 공식이라 전투 길이가 바뀌면 난이도가 흔들린다.
   //   호송에서는 하한을 끈다.
@@ -1016,8 +1033,8 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     // Selected sniper/slow-shot casts use the PVE basic floor, scaled by the
     // actual per-impact ratio. A divided volley never repeats the full floor.
     // Escort has no floor; apocalypse scaling and the per-hit cap still apply.
-    hit:(actor,target,multiplier,{rangedSkill=false,castShare=1,capScale=null}={})=>hitResult(actor,target,mercenaryRandom[actor.side],multiplier,false,{...hitOptions,minDamagePercent:rangedSkill?hitOptions.minDamagePercent*multiplier:0,capMinimumDamage:rangedSkill,damageCapScale:actor.battleMode==='PVP'?(Number.isFinite(capScale)?capScale:(rangedSkill?castShare:1)):1}),damage:applyDamage,
-    knockout:target=>resolveKnockout(target,timeline,clock+0.00001,reviveFromMagic),emit:(type,data)=>pushEvent(timeline,clock,type,data),clock:()=>clock}):null;
+    hit:(actor,target,multiplier,{rangedSkill=false,castShare=1,capScale=null}={})=>hitResult(actor,target,mercenaryRandom[actor.side],multiplier,false,{...hitOptions,...season2Runtime?.defenseOptions(target),minDamagePercent:rangedSkill?hitOptions.minDamagePercent*multiplier:0,capMinimumDamage:rangedSkill,damageCapScale:actor.battleMode==='PVP'?(Number.isFinite(capScale)?capScale:(rangedSkill?castShare:1)):1}),damage:applyDamage,
+    knockout:target=>settleKnockout(target,timeline,clock+0.00001,reviveFromMagic),emit:(type,data)=>emitTimeline(timeline,clock,type,data),clock:()=>clock,season2:{skillBlocked:actor=>season2Runtime?.skillBlocked(actor)||false,cleanse:target=>season2Runtime?.cleanse(target)||false,heal:(target,amount)=>season2Runtime?season2Runtime.heal(target,amount):null}}):null;
   // V1975: 아포칼립스는 덱 전투력(카드+장비 배분분, 배틀슈트 제외) / 몬스터 기본 전투력 로 하한을 스케일링.
   {
     const apocalypseMonster = b.find(card => card.isMonster && card.isApocalypse);
@@ -1093,8 +1110,8 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         const state=applyDamage(target,pending.damage),pierce=applyDamage(target,pending.pierce,{ignoreShield:true});
         const damage=state.hpDamage+pierce.hpDamage;
         chipActor.damageDealt+=damage+state.absorbed;
-        pushEvent(timeline,clock,'SKILL_CHIP_HIT',{actorId:chipActor.id,actorKind:'BATTLE_SUIT',damageSource:pending.intrinsic?'BATTLE_SUIT_INTRINSIC_SKILL':'BATTLE_SUIT_SKILL_CHIP',targeting:pending.targeting,targetId:target.id,chipCode:pending.chipCode,castId:pending.castId,hitIndex:pending.hitIndex,hitCount:pending.hitCount,damage,absorbed:state.absorbed,apocalypsePierce:pierce.hpDamage||undefined,critical:pending.critical,baseDamage:pending.baseDamage,damageMultiplier:pending.multiplier,targetHpAfter:target.hp,targetMaxHp:target.maxHp,targetShieldAfter:target.shield});
-        resolveKnockout(target,timeline,clock,reviveFromMagic);
+        emitTimeline(timeline,clock,'SKILL_CHIP_HIT',{actorId:chipActor.id,actorKind:'BATTLE_SUIT',damageSource:pending.intrinsic?'BATTLE_SUIT_INTRINSIC_SKILL':'BATTLE_SUIT_SKILL_CHIP',targeting:pending.targeting,targetId:target.id,chipCode:pending.chipCode,castId:pending.castId,hitIndex:pending.hitIndex,hitCount:pending.hitCount,damage,absorbed:state.absorbed,apocalypsePierce:pierce.hpDamage||undefined,critical:pending.critical,baseDamage:pending.baseDamage,damageMultiplier:pending.multiplier,targetHpAfter:target.hp,targetMaxHp:target.maxHp,targetShieldAfter:target.shield});
+        settleKnockout(target,timeline,clock,reviveFromMagic);
       }
     }else if(nextCast){
       const cast=chipSchedule.take(),chip=cast.chip;combatMs=cast.atMs;
@@ -1118,7 +1135,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         for(let i=0;i<count;i++)pendingChipHits.push({atMs:cast.atMs+chip.impactOffsetsMs[i],target,damage:parts[i],pierce:pierceParts[i],chipCode:chip.code,castId,hitIndex:i,hitCount:count,critical:hit.critical,baseDamage:basePrimary+basePierce,multiplier:chip.damageMultiplier,...(chip.intrinsic?{intrinsic:true}:{}),...(area?{targeting:chip.targeting}:{})});
       }
       const first=calculations[0];
-      pushEvent(timeline,clock,'SKILL_CHIP_CAST',{actorId:chipActor.id,actorKind:'BATTLE_SUIT',damageSource:chip.intrinsic?'BATTLE_SUIT_INTRINSIC_SKILL':'BATTLE_SUIT_SKILL_CHIP',targetId:primary.id,chipCode:chip.code,effectKey:chip.effectKey,castId,activation:cast.activation,intervalMs:chip.intervalMs,impactOffsetsMs:chip.impactOffsetsMs,effectDurationMs:chip.effectDurationMs,baseDamage:first.baseDamage,damageMultiplier:chip.damageMultiplier,calculatedDamage:calculations.reduce((sum,row)=>sum+row.calculatedDamage,0),dodge:first.dodge,critical:first.critical,label:chip.name,...(area?{targeting:chip.targeting,targetIds:targets.map(target=>target.id),targets:calculations}:{})});
+      emitTimeline(timeline,clock,'SKILL_CHIP_CAST',{actorId:chipActor.id,actorKind:'BATTLE_SUIT',damageSource:chip.intrinsic?'BATTLE_SUIT_INTRINSIC_SKILL':'BATTLE_SUIT_SKILL_CHIP',targetId:primary.id,chipCode:chip.code,effectKey:chip.effectKey,castId,activation:cast.activation,intervalMs:chip.intervalMs,impactOffsetsMs:chip.impactOffsetsMs,effectDurationMs:chip.effectDurationMs,baseDamage:first.baseDamage,damageMultiplier:chip.damageMultiplier,calculatedDamage:calculations.reduce((sum,row)=>sum+row.calculatedDamage,0),dodge:first.dodge,critical:first.critical,label:chip.name,...(area?{targeting:chip.targeting,targetIds:targets.map(target=>target.id),targets:calculations}:{})});
       pendingChipHits.sort((a,b)=>a.atMs-b.atMs||a.castId.localeCompare(b.castId)||a.hitIndex-b.hitIndex);
     }
     stampCombatGroup(from,combatMs,false);
@@ -1135,7 +1152,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   let sustainedBossCheckpoint=null;
   const advanceSustained=()=>{
     const from=timeline.length;combatMs=sustained.nextAt;
-    sustained.advance(combatMs,b,(type,data)=>pushEvent(timeline,clock,type,data));
+    sustained.advance(combatMs,b,(type,data)=>emitTimeline(timeline,clock,type,data));
     stampCombatGroup(from,combatMs,false);
     // A late visual queue must be able to enter the boss phase using exactly
     // this server state, without healing the party or replaying old attacks.
@@ -1163,7 +1180,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         card.gauge = clamp(Number(card.gauge || 0) + random() * 8, 0, 99);
         card.teamHealerCount = 0;
         b.push(card);
-        pushEvent(timeline, clock, 'ENEMY_SPAWN', {
+        emitTimeline(timeline, clock, 'ENEMY_SPAWN', {
           targetId: card.id, slot: card.slot, boss: Boolean(card.isBoss),
           targetHpAfter: card.hp, targetMaxHp: card.maxHp,
           targetShieldAfter: card.shield, name: card.title || card.name,
@@ -1252,7 +1269,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         const attackCount = Math.max(1, Math.min(5, Math.floor(Number(actor.attackCount || 1))));
         repeatMonsterId = String(actor.id);
         repeatMonsterActions = attackCount - 1;
-        if (repeatMonsterActions > 0) pushEvent(timeline, clock, 'MONSTER_MULTI_ATTACK_READY', { actorId: actor.id, attackCount, label: `몬스터 ${attackCount}연속 공격` });
+        if (repeatMonsterActions > 0) emitTimeline(timeline, clock, 'MONSTER_MULTI_ATTACK_READY', { actorId: actor.id, attackCount, label: `몬스터 ${attackCount}연속 공격` });
       }
     }
     if(!independentAction)actor.gauge = Math.max(0, actor.gauge - 100);
@@ -1264,19 +1281,19 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     else if(!independentAction)actionCount += 1;
     const suddenDeath=Number(suddenDeathAfter||0)>0&&actionCount>Number(suddenDeathAfter||0);
     if(suddenDeath&&!actor.isMercenary&&actionCount===Number(suddenDeathAfter||0)+1){
-      pushEvent(timeline,clock,'SUDDEN_DEATH',{action:actionCount,label:'연장전 · 회복 봉쇄 · 공격 증폭'});
+      emitTimeline(timeline,clock,'SUDDEN_DEATH',{action:actionCount,label:'연장전 · 회복 봉쇄 · 공격 증폭'});
     }
 
     // V1936: 연장전에서 회복이 완전히 끊겨 생명형은 '연장전 진입 = 패배' 였다. 절반은 남긴다.
     //   대신 회복은 팀 총량에서 차감되므로 무한히 버틸 수는 없다.
     if (actor.type === 'HP' && actor.hp < actor.maxHp && !apocalypseCursed(actor) && !apocalypseSealed(actor)) {
       const sdScale = suddenDeath ? S1.regenSuddenDeathScale : 1;
-      const requested = Math.min(actor.maxHp - actor.hp, Math.max(1, Math.round(actor.maxHp * S1.regenPercent * sdScale * healerRules[actor.side].multiplier)));
-      const amount = spendHealPool(actor.side, requested);
+      const requested = Math.max(1, Math.round(actor.maxHp * S1.regenPercent * sdScale * healerRules[actor.side].multiplier));
+      const amount = season2Runtime?season2Runtime.heal(actor,requested,{allowOvertime:true}):spendHealPool(actor.side,Math.min(actor.maxHp-actor.hp,requested));
       if (amount > 0) {
-      actor.hp += amount;
+      if(!season2Runtime)actor.hp += amount;
       actor.healingDone += amount;
-      pushEvent(timeline, clock, 'REGEN', { targetId: actor.id, amount, hpAfter: actor.hp, maxHp: actor.maxHp, label: '생명형 · 지속 회복' });
+      emitTimeline(timeline, clock, 'REGEN', { targetId: actor.id, amount, hpAfter: actor.hp, maxHp: actor.maxHp, label: '생명형 · 지속 회복' });
       }
     }
 
@@ -1288,11 +1305,11 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       if (target) {
         const crisis = target.hp / Math.max(1, target.maxHp) <= singleHealer.crisisThresholdPercent / 100;
         const percent = crisis ? singleHealer.crisisHealPercent : singleHealer.healPercent;
-        const amount = Math.min(target.maxHp - target.hp, Math.max(1, Math.round(target.maxHp * percent / 100)));
-        target.hp += amount;
+        const requested=Math.max(1,Math.round(target.maxHp*percent/100)),amount=season2Runtime?season2Runtime.heal(target,requested):Math.min(target.maxHp-target.hp,requested);
+        if(!season2Runtime)target.hp+=amount;
         actor.healingDone += amount;
         actor.singleHealerUses += 1;
-        pushEvent(timeline, clock, 'TEAM_HEAL', {
+        emitTimeline(timeline, clock, 'TEAM_HEAL', {
           actorId: actor.id,
           targetId: target.id,
           amount,
@@ -1317,7 +1334,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     }
 
     const enemyTeam = actor.side === 'A' ? b : a;
-    if(castApocalypseAction(actor,enemyTeam,{damage:applyDamage,knockout:t=>resolveKnockout(t,timeline,clock+.00001,reviveFromMagic),emit:(type,data)=>pushEvent(timeline,clock,type,data)}))continue;
+    if(castApocalypseAction(actor,enemyTeam,{damage:applyDamage,damageCombined:season2Runtime?(target,normal,pierce)=>applyDamage(target,normal+pierce,{actor,direct:true,shieldPierce:normal+pierce>0?pierce/(normal+pierce):0}):null,knockout:t=>settleKnockout(t,timeline,clock+.00001,reviveFromMagic),emit:(type,data)=>emitTimeline(timeline,clock,type,data)}))continue;
     if(!independentAction&&mercenaryRuntime?.beforeAction(actor,{healingAllowed:!suddenDeath}))continue;
     // V2063: PVP speed assassins bypass formation to hunt living HP-unique cards.
     // Once no healer remains, normal formation targeting resumes. PVE is unchanged.
@@ -1327,7 +1344,8 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     if (!pool.length) break;
     const tauntGuard=actor.isMonster?pool.find(card=>card.type==='DEFENSE'&&random()<0.70):null;
     const target = tauntGuard||lowestRatioTarget(pool, random);
-    const hit = hitResult(actor, target, random, isBattleSuitSupport(actor)?Math.max(.1,Number(actor.independentAttackMultiplier||1)):(mercenaryRuntime?.basicMultiplier(actor)??1), false, {...hitOptions,damageCapScale:mercenaryRuntime?.basicDamageCapScale(actor)??1});
+    const s2Attack=!independentAction&&season2Runtime?(!actor.isMercenary&&!actor.isMonster?season2Runtime.beforeAttack(actor,target):season2Runtime.defenseOptions(target)):{};
+    const hit = hitResult(actor, target, random, isBattleSuitSupport(actor)?Math.max(.1,Number(actor.independentAttackMultiplier||1)):(mercenaryRuntime?.basicMultiplier(actor)??1), false, {...hitOptions,...s2Attack,damageCapScale:mercenaryRuntime?.basicDamageCapScale(actor)??1});
     if(isBattleSuitSupport(actor)){
       // V1990: 기준 사이클(0.018) 동안의 배틀슈트 총 타격이
       //   "배틀슈트 전투력만큼의 카드 1장이 1회 공격" 과 같도록 발당 피해를 나눈다.
@@ -1348,7 +1366,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
 
     if (hit.dodge) {
       if(!independentAction)mercenaryRuntime?.afterBasic(actor,target,false);
-      pushEvent(timeline, clock, 'TURN', {
+      emitTimeline(timeline, clock, 'TURN', {
         actorId: actor.id,
         actorKind: actor.actorKind || undefined,
         damageSource: actor.damageSource || undefined,
@@ -1364,7 +1382,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     }
 
     if(!independentAction&&mercenaryRuntime)hit.damage=mercenaryRuntime.beforeBasicDamage(actor,target,hit.damage);
-    const damageState = applyDamage(target, hit.damage, { shieldBonus: actor.type === 'SPEED' ? S1.speedShieldBonus : 0 });
+    const damageState = applyDamage(target, hit.damage, { shieldBonus: actor.type === 'SPEED' ? S1.speedShieldBonus : 0,actor,direct:!independentAction,shieldPierce:s2Attack.s2ShieldPierce||0 });
     actor.damageDealt += damageState.hpDamage + damageState.absorbed;
     let suitPierceDamage=0;
     if(isBattleSuitSupport(actor)){
@@ -1384,7 +1402,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
 
     if(isBattleSuitSupport(actor)){
       // V1990: 배틀슈트는 한 판에 수십~백수십 발을 쏘므로 이벤트를 렌더러가 쓰는 필드만 남겨 페이로드를 줄인다.
-      pushEvent(timeline, clock, 'TURN', {
+      emitTimeline(timeline, clock, 'TURN', {
         actorId: actor.id,
         actorKind: actor.actorKind,
         damageSource: actor.damageSource,
@@ -1398,7 +1416,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         targetMaxHp: target.maxHp,
         targetShieldAfter: target.shield
       });
-    }else pushEvent(timeline, clock, 'TURN', {
+    }else emitTimeline(timeline, clock, 'TURN', {
       actorId: actor.id,
       actorKind: actor.actorKind || undefined,
       damageSource: actor.damageSource || undefined,
@@ -1420,17 +1438,18 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       targetGaugeAfter: target.gauge
     });
 
+    if(!independentAction&&!actor.isMercenary&&!actor.isMonster)season2Runtime?.afterAttack(actor,target,damageState);
     if(!independentAction)mercenaryRuntime?.afterBasic(actor,target,true,{additional:repeatedMonsterAction});
     if(target.hp>0){
       const seal=activateMagic(actor,'ARCANE_SEAL');
-      if(seal){target.magicSealCharges=Math.max(1,Math.round(Number(seal.effectValue||1)));target.magicSealSourceId=actor.id;pushEvent(timeline,clock+0.00005,'MAGIC_CARD',magicEvent(seal,actor,target,{sealCharges:target.magicSealCharges,targetHpAfter:target.hp,targetShieldAfter:target.shield}));}
+      if(seal){target.magicSealCharges=Math.max(1,Math.round(Number(seal.effectValue||1)));target.magicSealSourceId=actor.id;emitTimeline(timeline,clock+0.00005,'MAGIC_CARD',magicEvent(seal,actor,target,{sealCharges:target.magicSealCharges,targetHpAfter:target.hp,targetShieldAfter:target.shield}));}
 
       const mark=activateMagic(actor,'DOOM_MARK');
       if(mark){
         target.doomMarks=Math.min(3,Number(target.doomMarks||0)+1);
         let markDamage=0,markAbsorbed=0,detonated=false;
         if(target.doomMarks>=3){const markState=applyDamage(target,Math.max(1,apocalypseMagicCap(target,Math.round(target.maxHp*Math.min(100,Number(mark.effectValue||0))/100))));markDamage=markState.hpDamage;markAbsorbed=markState.absorbed;target.doomMarks=0;detonated=true;actor.damageDealt+=markDamage+markAbsorbed;}
-        pushEvent(timeline,clock+0.00006,'MAGIC_CARD',magicEvent(mark,actor,target,{markStacks:target.doomMarks,detonated,damage:markDamage,absorbed:markAbsorbed,targetHpAfter:target.hp,targetMaxHp:target.maxHp,targetShieldAfter:target.shield}));
+        emitTimeline(timeline,clock+0.00006,'MAGIC_CARD',magicEvent(mark,actor,target,{markStacks:target.doomMarks,detonated,damage:markDamage,absorbed:markAbsorbed,targetHpAfter:target.hp,targetMaxHp:target.maxHp,targetShieldAfter:target.shield}));
       }
 
       if(target.hp>0&&target.shield>0){
@@ -1439,25 +1458,25 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
           const requested=Math.round(target.shield*Math.min(100,Number(siphon.effectValue||0))/100);
           const amount=Math.max(1,Math.min(target.shield,apocalypseMagicCap(target,requested,APOCALYPSE_SHIELD_SIPHON_CAP_MULTIPLIER)));
           target.shield-=amount;actor.shield+=amount;actor.maxShield=Math.max(actor.maxShield,actor.shield);
-          pushEvent(timeline,clock+0.00007,'MAGIC_CARD',magicEvent(siphon,actor,target,{shieldStolen:amount,targetShieldAfter:target.shield,actorShieldAfter:actor.shield,targetHpAfter:target.hp}));
+          emitTimeline(timeline,clock+0.00007,'MAGIC_CARD',magicEvent(siphon,actor,target,{shieldStolen:amount,targetShieldAfter:target.shield,actorShieldAfter:actor.shield,targetHpAfter:target.hp}));
         }
       }
 
       const distort=target.hp>0?activateMagic(actor,'TIME_DISTORTION'):null;
-      if(distort){const amount=Math.min(95,Math.max(0,Number(distort.effectValue||0))),before=target.gauge;target.gauge=Math.max(0,target.gauge-amount);target.timeDistortionStacks=Math.min(3,Number(target.timeDistortionStacks||0)+1);pushEvent(timeline,clock+0.00008,'MAGIC_CARD',magicEvent(distort,actor,target,{gaugeLoss:before-target.gauge,gaugeAfter:target.gauge,targetHpAfter:target.hp}));}
+      if(distort){const amount=Math.min(95,Math.max(0,Number(distort.effectValue||0))),before=target.gauge;target.gauge=Math.max(0,target.gauge-amount);target.timeDistortionStacks=Math.min(3,Number(target.timeDistortionStacks||0)+1);emitTimeline(timeline,clock+0.00008,'MAGIC_CARD',magicEvent(distort,actor,target,{gaugeLoss:before-target.gauge,gaugeAfter:target.gauge,targetHpAfter:target.hp}));}
 
       const echo=target.hp>0?activateMagic(actor,'CHAIN_ECHO'):null;
-      if(echo){const baseDamage=damageState.hpDamage+damageState.absorbed,echoState=applyDamage(target,Math.max(1,apocalypseMagicCap(target,Math.round(baseDamage*Math.min(200,Number(echo.effectValue||0))/100))));actor.damageDealt+=echoState.hpDamage+echoState.absorbed;pushEvent(timeline,clock+0.00009,'MAGIC_CARD',magicEvent(echo,actor,target,{damage:echoState.hpDamage,absorbed:echoState.absorbed,echoDamage:echoState.hpDamage+echoState.absorbed,targetHpAfter:target.hp,targetMaxHp:target.maxHp,targetShieldAfter:target.shield}));}
+      if(echo){const baseDamage=damageState.hpDamage+damageState.absorbed,echoState=applyDamage(target,Math.max(1,apocalypseMagicCap(target,Math.round(baseDamage*Math.min(200,Number(echo.effectValue||0))/100))));actor.damageDealt+=echoState.hpDamage+echoState.absorbed;emitTimeline(timeline,clock+0.00009,'MAGIC_CARD',magicEvent(echo,actor,target,{damage:echoState.hpDamage,absorbed:echoState.absorbed,echoDamage:echoState.hpDamage+echoState.absorbed,targetHpAfter:target.hp,targetMaxHp:target.maxHp,targetShieldAfter:target.shield}));}
 
-      if(target.hp>0&&(Number(target.magicSealCharges||0)>0||Number(target.doomMarks||0)>0||Number(target.timeDistortionStacks||0)>0||Object.keys(target.apocalypseStatus||{}).length||mercenaryRuntime?.debuffs.get(target.id)&&Object.keys(mercenaryRuntime.debuffs.get(target.id)).length)){
+      if(target.hp>0&&(Number(target.magicSealCharges||0)>0||Number(target.doomMarks||0)>0||Number(target.timeDistortionStacks||0)>0||Object.keys(target.apocalypseStatus||{}).length||season2Runtime?.hasDebuff(target)||mercenaryRuntime?.debuffs.get(target.id)&&Object.keys(mercenaryRuntime.debuffs.get(target.id)).length)){
         const purify=activateMagic(target,'PURIFY_LIGHT');
-        if(purify)mercenaryRuntime?.cleanse(target);
-        if(purify){const apocalypseCleared=clearApocalypseStatus(target);if(Object.keys(apocalypseCleared).length)pushEvent(timeline,clock,'APOCALYPSE_STATUS',{targetId:target.id,statuses:{},label:'정화'});const cleared={apocalypse:apocalypseCleared,seal:Number(target.magicSealCharges||0),marks:Number(target.doomMarks||0),distortion:Number(target.timeDistortionStacks||0)};target.magicSealCharges=0;target.magicSealSourceId='';target.doomMarks=0;target.timeDistortionStacks=0;const amount=Math.min(target.maxHp-target.hp,Math.max(1,Math.round(target.maxHp*Math.min(100,Number(purify.effectValue||0))/100)));target.hp+=amount;target.healingDone+=amount;pushEvent(timeline,clock+0.000095,'MAGIC_CARD',magicEvent(purify,target,target,{amount,cleared,hpAfter:target.hp,maxHp:target.maxHp}));}
+        if(purify){mercenaryRuntime?.cleanse(target);season2Runtime?.cleanse(target);}
+        if(purify){const apocalypseCleared=clearApocalypseStatus(target);if(Object.keys(apocalypseCleared).length)emitTimeline(timeline,clock,'APOCALYPSE_STATUS',{targetId:target.id,statuses:{},label:'정화'});const cleared={apocalypse:apocalypseCleared,seal:Number(target.magicSealCharges||0),marks:Number(target.doomMarks||0),distortion:Number(target.timeDistortionStacks||0)};target.magicSealCharges=0;target.magicSealSourceId='';target.doomMarks=0;target.timeDistortionStacks=0;const requested=Math.max(1,Math.round(target.maxHp*Math.min(100,Number(purify.effectValue||0))/100)),amount=season2Runtime?season2Runtime.heal(target,requested):Math.min(target.maxHp-target.hp,requested);if(!season2Runtime)target.hp+=amount;target.healingDone+=amount;emitTimeline(timeline,clock+0.000095,'MAGIC_CARD',magicEvent(purify,target,target,{amount,cleared,hpAfter:target.hp,maxHp:target.maxHp}));}
       }
     }
 
     const haste=activateMagic(actor,'FOLLOWUP_HASTE');
-    if(haste){const gain=clamp(Number(haste.effectValue||0),0,95);actor.gauge=Math.min(95,actor.gauge+gain);pushEvent(timeline,clock+0.0001,'MAGIC_CARD',{actorId:actor.id,targetId:actor.id,magicCardId:haste.id,magicCode:haste.code,magicName:haste.name,magicImageUrl:haste.imageUrl,magicEnhancementLevel:haste.enhancementLevel,effectType:haste.effectType,value:gain,gaugeAfter:actor.gauge,activation:haste.activations,maxActivations:haste.maxActivations,label:haste.name});}
+    if(haste){const gain=clamp(Number(haste.effectValue||0),0,95);actor.gauge=Math.min(95,actor.gauge+gain);emitTimeline(timeline,clock+0.0001,'MAGIC_CARD',{actorId:actor.id,targetId:actor.id,magicCardId:haste.id,magicCode:haste.code,magicName:haste.name,magicImageUrl:haste.imageUrl,magicEnhancementLevel:haste.enhancementLevel,effectType:haste.effectType,value:gain,gaugeAfter:actor.gauge,activation:haste.activations,maxActivations:haste.maxActivations,label:haste.name});}
     const capHasteRetaliation=(amount)=>{
       const requested=Math.max(0,Number(amount||0));
       if(!haste)return {amount:requested,prevented:0};
@@ -1465,33 +1484,33 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       const applied=Math.min(requested,nonlethalCap);
       return {amount:applied,prevented:Math.max(0,requested-applied)};
     };
-    const retaliate=(owner,effectType,offset,fromAttack=false)=>{if(!actor.alive||!owner.alive||owner.hp<=0)return;const magic=activateMagic(owner,effectType);if(!magic)return;const requested=Math.max(1,Math.round((fromAttack?owner.attack:owner.maxHp)*Math.min(fromAttack?500:100,Number(magic.effectValue||0))/100)),guard=capHasteRetaliation(requested);const state=applyDamage(actor,guard.amount);pushEvent(timeline,clock+offset,'MAGIC_CARD',magicEvent(magic,owner,actor,{damage:state.hpDamage,absorbed:state.absorbed,targetHpAfter:actor.hp,targetMaxHp:actor.maxHp,targetShieldAfter:actor.shield,hasteRetaliationGuard:Boolean(haste),preventedDamage:guard.prevented}));resolveKnockout(actor,timeline,clock+offset+0.00001,reviveFromMagic);};
+    const retaliate=(owner,effectType,offset,fromAttack=false)=>{if(!actor.alive||!owner.alive||owner.hp<=0)return;const magic=activateMagic(owner,effectType);if(!magic)return;const requested=Math.max(1,Math.round((fromAttack?owner.attack:owner.maxHp)*Math.min(fromAttack?500:100,Number(magic.effectValue||0))/100)),guard=capHasteRetaliation(requested);const state=applyDamage(actor,guard.amount);emitTimeline(timeline,clock+offset,'MAGIC_CARD',magicEvent(magic,owner,actor,{damage:state.hpDamage,absorbed:state.absorbed,targetHpAfter:actor.hp,targetMaxHp:actor.maxHp,targetShieldAfter:actor.shield,hasteRetaliationGuard:Boolean(haste),preventedDamage:guard.prevented}));settleKnockout(actor,timeline,clock+offset+0.00001,reviveFromMagic);};
     retaliate(target,'PUNISH_TRAP',0.0002,false);retaliate(target,'ARCANE_COUNTER',0.0003,true);
 
-    const knockedOut = resolveKnockout(target, timeline, clock, reviveFromMagic);
+    const knockedOut = settleKnockout(target, timeline, clock, reviveFromMagic);
     if(actor.type==='ATTACK'&&actor.battleMode==='PVE'&&actor.actions>1&&actor.huntStacks<3){
       actor.huntStacks+=1;actor.attack=Math.max(1,Math.round(actor.attack*1.06));
-      pushEvent(timeline,clock+0.0005,'HUNT_ACCELERATION',{actorId:actor.id,stacks:actor.huntStacks,attackAfter:actor.attack,label:'공격형 · 사냥 가속'});
+      emitTimeline(timeline,clock+0.0005,'HUNT_ACCELERATION',{actorId:actor.id,stacks:actor.huntStacks,attackAfter:actor.attack,label:'공격형 · 사냥 가속'});
     }
     // V1936: 속도형 추격 / 공격형 연쇄 처치. 둘 다 처치 시 게이지를 회복해 재행동을 앞당긴다.
     if(knockedOut&&actor.type==='SPEED'&&S1.speedChaseGauge>0&&(actor.speedChaseUses||0)<S1.speedChaseUses){
       actor.speedChaseUses=(actor.speedChaseUses||0)+1;
       actor.gauge=Math.min(95,actor.gauge+S1.speedChaseGauge);
-      pushEvent(timeline,clock+0.0007,'HUNT_ACCELERATION',{actorId:actor.id,gaugeAfter:actor.gauge,label:'속도형 · 추격'});
+      emitTimeline(timeline,clock+0.0007,'HUNT_ACCELERATION',{actorId:actor.id,gaugeAfter:actor.gauge,label:'속도형 · 추격'});
     }
     if(knockedOut&&actor.type==='ATTACK'&&S1.attackChainGauge>0&&(actor.attackChainUses||0)<S1.attackChainUses){
       actor.attackChainUses=(actor.attackChainUses||0)+1;
       actor.gauge=Math.min(95,actor.gauge+S1.attackChainGauge);
-      pushEvent(timeline,clock+0.0008,'HUNT_ACCELERATION',{actorId:actor.id,gaugeAfter:actor.gauge,chain:actor.attackChainUses,label:'공격형 · 연쇄 처치'});
+      emitTimeline(timeline,clock+0.0008,'HUNT_ACCELERATION',{actorId:actor.id,gaugeAfter:actor.gauge,chain:actor.attackChainUses,label:'공격형 · 연쇄 처치'});
     }
     if(knockedOut&&actor.type==='ATTACK'&&actor.battleMode==='PVP'&&!actor.pvpTakedownUsed){
       actor.pvpTakedownUsed=true;actor.gauge=Math.min(95,actor.gauge+45);
-      pushEvent(timeline,clock+0.0006,'PVP_TAKEDOWN_CHASE',{actorId:actor.id,gaugeAfter:actor.gauge,label:'공격형 · 처치 추격'});
+      emitTimeline(timeline,clock+0.0006,'PVP_TAKEDOWN_CHASE',{actorId:actor.id,gaugeAfter:actor.gauge,label:'공격형 · 처치 추격'});
     }
     if (!knockedOut) {
       const crisis=!suddenDeath&&target.hp/Math.max(1,target.maxHp)<=0.30?activateMagic(target,'CRISIS_HEAL'):null;
-      if(crisis){const amount=Math.min(target.maxHp-target.hp,Math.max(1,Math.round(target.maxHp*Math.min(100,Number(crisis.effectValue||0))/100)));target.hp+=amount;target.healingDone+=amount;pushEvent(timeline,clock+0.0004,'MAGIC_CARD',{actorId:target.id,targetId:target.id,magicCardId:crisis.id,magicCode:crisis.code,magicName:crisis.name,magicImageUrl:crisis.imageUrl,magicEnhancementLevel:crisis.enhancementLevel,effectType:crisis.effectType,value:crisis.effectValue,amount,hpAfter:target.hp,maxHp:target.maxHp,activation:crisis.activations,maxActivations:crisis.maxActivations,label:crisis.name});}
-      if(!suddenDeath)maybeEmergencyHeal(target, timeline, clock, healerRules[target.side].multiplier);
+      if(crisis){const requested=Math.max(1,Math.round(target.maxHp*Math.min(100,Number(crisis.effectValue||0))/100)),amount=season2Runtime?season2Runtime.heal(target,requested):Math.min(target.maxHp-target.hp,requested);if(!season2Runtime)target.hp+=amount;target.healingDone+=amount;emitTimeline(timeline,clock+0.0004,'MAGIC_CARD',{actorId:target.id,targetId:target.id,magicCardId:crisis.id,magicCode:crisis.code,magicName:crisis.name,magicImageUrl:crisis.imageUrl,magicEnhancementLevel:crisis.enhancementLevel,effectType:crisis.effectType,value:crisis.effectValue,amount,hpAfter:target.hp,maxHp:target.maxHp,activation:crisis.activations,maxActivations:crisis.maxActivations,label:crisis.name});}
+      if(!suddenDeath)maybeEmergencyHeal(target, timeline, clock, healerRules[target.side].multiplier, season2Runtime);
     }
     maybeFrontlineBreak(enemyTeam, target.side, timeline, clock);
 
@@ -1517,7 +1536,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         const counterGuard = capHasteRetaliation(counter.damage);
         const counterState = applyDamage(actor, counterGuard.amount);
         target.damageDealt += counterState.hpDamage + counterState.absorbed;
-        pushEvent(timeline, clock + 0.001, 'COUNTER', {
+        emitTimeline(timeline, clock + 0.001, 'COUNTER', {
           actorId: target.id,
           targetId: actor.id,
           damage: counterState.hpDamage,
@@ -1531,13 +1550,13 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
           preventedDamage: counterGuard.prevented,
           label: '방어형 · 반격'
         });
-        const actorDown = resolveKnockout(actor, timeline, clock + 0.001, reviveFromMagic);
-        if (!actorDown&&!suddenDeath) maybeEmergencyHeal(actor, timeline, clock + 0.001, healerRules[actor.side].multiplier);
+        const actorDown = settleKnockout(actor, timeline, clock + 0.001, reviveFromMagic);
+        if (!actorDown&&!suddenDeath) maybeEmergencyHeal(actor, timeline, clock + 0.001, healerRules[actor.side].multiplier, season2Runtime);
         maybeFrontlineBreak(actor.side === 'A' ? a : b, actor.side, timeline, clock + 0.001);
-        if(barrierBroken){actor.attack=Math.max(1,Math.round(actor.attack*(target.defenseLineBreached?0.95:0.90)));pushEvent(timeline,clock+0.0015,'GUARD_BREAK_DEBUFF',{actorId:target.id,targetId:actor.id,attackAfter:actor.attack,label:'방어형 · 방벽 파쇄 반격'});}
+        if(barrierBroken){actor.attack=Math.max(1,Math.round(actor.attack*(target.defenseLineBreached?0.95:0.90)));emitTimeline(timeline,clock+0.0015,'GUARD_BREAK_DEBUFF',{actorId:target.id,targetId:actor.id,attackAfter:actor.attack,label:'방어형 · 방벽 파쇄 반격'});}
       }
     }
-    } finally {const statuses=finishApocalypseAction(actionActor);if(statuses)pushEvent(timeline,clock+.00009,'APOCALYPSE_STATUS',{targetId:actionActor.id,statuses});actionRandom=cardRandom;stampCombatGroup(groupFrom,combatMs,!independentAction);}
+    } finally {if(actionActor)season2Runtime?.endAction(actionActor);const statuses=finishApocalypseAction(actionActor);if(statuses)emitTimeline(timeline,clock+.00009,'APOCALYPSE_STATUS',{targetId:actionActor.id,statuses});actionRandom=cardRandom;stampCombatGroup(groupFrom,combatMs,!independentAction);}
   }
 
   const aRatio = teamHpRatio(a);
@@ -1550,7 +1569,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const timedOut = durationStopped || (durationLimit > 0 && clock >= durationLimit);
   const enemiesRemain = targetableAlive(b).length > 0 || pendingMonsters.length > 0 || Boolean(sustained&&!sustained.bossSpawned);
   const reason = timedOut && targetableAlive(a).length && enemiesRemain ? 'TIME_LIMIT' : (actionCount >= maxActions||mercenaryActionCount>=maxActions*2) && targetableAlive(a).length && enemiesRemain ? 'ACTION_LIMIT' : 'ELIMINATION';
-  pushEvent(timeline, clock + 0.01, 'RESULT', {
+  emitTimeline(timeline, clock + 0.01, 'RESULT', {
     winner,
     reason,
     actions: actionCount,
@@ -1576,6 +1595,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     ...(mercenaryActionCount?{mercenaryActions:mercenaryActionCount}:{}),
     duration: Number(clock.toFixed(3)),
     timeline,
+    ...(season2Runtime?{magicSeason2:season2Runtime.snapshot()}:{}),
     healerPenalty: healerRules,
     final: {
       A: a.map(publicFighter),
@@ -1772,7 +1792,7 @@ export function buildPvePlayerTeam({cards=[],characterBonus=0,battleSuit=null,me
   return {teamA,battleSuitFighter,mercenaryFighter,simulationTeamA};
 }
 
-export function createPveBattleV2({ cards = [], magicCards = [], characterBonus = 0, battleSuit = null, mercenary = null, monster = {}, seed = 1, ultimateDamage = 0, bossUltimatePercent = 0, bossUltimateCapPercent = 100, singleHealerBonus = {}, escortObjective = null, encounter = null, [Z_BODY_AREA_REVIEW]: zAreaReview = false, [X_BODY_AREA_REVIEW]: xAreaReview = false } = {}) {
+export function createPveBattleV2({ cards = [], magicCards = [], characterBonus = 0, battleSuit = null, mercenary = null, monster = {}, seed = 1, ultimateDamage = 0, bossUltimatePercent = 0, bossUltimateCapPercent = 100, singleHealerBonus = {}, escortObjective = null, encounter = null, [Z_BODY_AREA_REVIEW]: zAreaReview = false, [X_BODY_AREA_REVIEW]: xAreaReview = false, [MAGIC_SEASON2_REVIEW]: season2Review = false } = {}) {
   const encounterPlan = encounter === null ? null : preparePveEncounter(encounter);
   if (encounterPlan && (cards.length !== 5 || new Set(cards.map(card => String(card.id))).size !== 5 || escortObjective)) throw new Error('INVALID_PVE_ENCOUNTER_PARTY');
   const {teamA,battleSuitFighter,mercenaryFighter,simulationTeamA}=buildPvePlayerTeam({cards,characterBonus,battleSuit,mercenary});
@@ -1780,6 +1800,7 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
   const teamB = encounterPlan ? encounterPlan.initial : legion || [buildMonsterFighter(monster)];
   const forcedMonsterEvery = encounterPlan ? encounterPlan.forcedMonsterEvery : escortObjective ? 4 : (teamB[0]?.forcedActionEvery > 0 ? teamB[0].forcedActionEvery : (teamB[0]?.isBoss ? 8 : 12));
   const simulated = simulateBattleV2Preview({
+    [MAGIC_SEASON2_REVIEW]:season2Review,
     [Z_BODY_AREA_REVIEW]:zAreaReview,
     [X_BODY_AREA_REVIEW]:xAreaReview,
     teamA:simulationTeamA, teamB, magicA:magicCards, seed, maxActions: encounterPlan ? encounterPlan.maxActions : 2000, maxDuration: encounterPlan ? encounterPlan.maxDuration : 4.0,
@@ -1932,7 +1953,7 @@ export function resolvePvpOutcome(result, teamA, teamB) {
   return { ...result, winner, reason, originalReason, survivorCount: { A: aliveA, B: aliveB }, timeline: patchedTimeline };
 }
 
-export function createPvpBattleV2({ attackerCards = [], defenderCards = [], attackerMagicCards = [], defenderMagicCards = [], attackerMercenary = null, defenderMercenary = null, attackerEquipmentBonus = 0, defenderEquipmentBonus = 0, seed = 1, singleHealerBonus = {} } = {}) {
+export function createPvpBattleV2({ attackerCards = [], defenderCards = [], attackerMagicCards = [], defenderMagicCards = [], attackerMercenary = null, defenderMercenary = null, attackerEquipmentBonus = 0, defenderEquipmentBonus = 0, seed = 1, singleHealerBonus = {}, [MAGIC_SEASON2_REVIEW]: season2Review = false } = {}) {
   const attackerWithEquipment = distributeEquipment(applyTypeStacking(attackerCards), Math.max(0, Number(attackerEquipmentBonus || 0)));
   const defenderWithEquipment = distributeEquipment(applyTypeStacking(defenderCards), Math.max(0, Number(defenderEquipmentBonus || 0)));
   const teamA = attackerWithEquipment.map((card, index) => buildFighter(card, index, 'A', card.uniqueAbility || null, 'PVP'));
@@ -1942,7 +1963,7 @@ export function createPvpBattleV2({ attackerCards = [], defenderCards = [], atta
   // Normal combat keeps the established 100-action balance. If both teams
   // still have survivors, a short no-heal, escalating-damage overtime runs
   // instead of ending on a visually ambiguous 2:2 HP-ratio judgment.
-  const simulated = simulateBattleV2Preview({ teamA:simulationA, teamB:simulationB, magicA:attackerMagicCards, magicB:defenderMagicCards, seed, maxActions: 83, suddenDeathAfter: 64, healerPenalty: true, singleHealerBonus });
+  const simulated = simulateBattleV2Preview({ teamA:simulationA, teamB:simulationB, magicA:attackerMagicCards, magicB:defenderMagicCards, seed, maxActions: 83, suddenDeathAfter: 64, healerPenalty: true, singleHealerBonus, [MAGIC_SEASON2_REVIEW]:season2Review });
   const result = resolvePvpOutcome(simulated, simulationA, simulationB);
   if(mercA||mercB){result.final={...result.final,mercenaries:{A:result.final.A.filter(c=>c.isMercenary),B:result.final.B.filter(c=>c.isMercenary)},A:result.final.A.filter(c=>!c.isMercenary),B:result.final.B.filter(c=>!c.isMercenary)};}
   return {

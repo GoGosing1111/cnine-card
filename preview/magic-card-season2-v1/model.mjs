@@ -7,6 +7,8 @@ const ratio=(value,pct)=>Math.floor(amount(value)*pct/100);
 export function sample(card, level, input=card.example.value, options={}) {
   const n=amount(input),p=effectAt(card,level);
   switch(card.slug){
+    case 'contract-erosion':return {rows:[['감소한 용병 피해',ratio(n,p.reduction)],['최종 피해',n-ratio(n,p.reduction)]],note:'용병의 첫 4행동에 적용됩니다. 4행동 후 원래 피해량으로 돌아갑니다.'};
+    case 'command-severance':return {rows:[['추가로 받는 직접 피해',ratio(n,p.vulnerability)],['최종 직접 피해',n+ratio(n,p.vulnerability)]],note:'용병의 첫 2행동 동안 스킬을 봉쇄합니다. 평타와 추가 행동 기회는 유지합니다.'};
     case 'eclipse-prophecy':return {rows:[['추가 피해',ratio(n,p.bonus)],['합산 피해',n+ratio(n,p.bonus)]],note:'표식 대상에게 직접 타격 6회가 모두 적중한 예시. 실제 전투의 방어·상한은 별도 적용합니다.'};
     case 'causal-sever':{
       const hp=ratio(n,p.pierce);return {rows:[['보호막을 건너뛰는 분량',hp],['일반 피해 경로로 가는 분량',n-hp]],note:`방어력은 별도 판정에서 ${p.ignore}% 무시합니다. 표시한 두 분량을 더해도 원래 최종 피해를 넘지 않습니다. 아포칼립스 전용 계산이 아닙니다.`};

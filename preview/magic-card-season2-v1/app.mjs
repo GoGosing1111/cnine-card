@@ -1,13 +1,17 @@
-import {cards,effectAt} from './catalog.mjs';
+import {cards as sourceCards,effectAt} from './catalog.mjs?v=20260930-2';
+const originalArt=new URLSearchParams(location.search).has('poster')||new URLSearchParams(location.search).has('export');
+const cards=sourceCards.map(card=>({...card,art:originalArt?card.art:card.art.replace('-source-v1.png','-768-v1.webp')}));
 const $=selector=>document.querySelector(selector);
 const escape=text=>String(text).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let listLevel=0,selected=cards[0];
 const poster=new URLSearchParams(location.search).has('poster');
-if(poster){document.body.classList.add('poster');$('#collectionHint').textContent='기본 강화 +0 기준 · 신규 마법카드 8종';}
+if(poster){document.body.classList.add('poster');$('#collectionHint').textContent='기본 강화 +0 기준 · 신규 마법카드 10종';}
 
 export function compactEffect(card,level){
  const p=effectAt(card,level),b=value=>`<strong>${value}</strong>`;
  switch(card.slug){
+  case 'contract-erosion':return `적 용병의 평타·스킬 피해 ${b('-'+p.reduction+'%')}.<br>용병의 첫 ${b('4행동')} 동안 · 팀당 ${b('1회')}.`;
+  case 'command-severance':return `적 용병의 첫 ${b('2행동')} 스킬 봉쇄 · 평타 허용.<br>봉쇄 중 받는 직접 피해 ${b('+'+p.vulnerability+'%')} · 팀당 ${b('1회')}.`;
   case 'eclipse-prophecy':return `강한 적을 표식해 아군 피해를 ${b(p.bonus+'%')} 높입니다.<br>처치 시 표식 이전 · 총 ${b('6타')} 적용.`;
   case 'causal-sever':return `${b('3번째 공격')}마다 방어 ${b(p.ignore+'%')} 무시·보호막 ${b(p.pierce+'%')} 관통.<br>회피 불가 · 전투당 ${b('2회')}.`;
   case 'fate-intercept':return `치명타를 받는 아군을 ${b('HP 1')}로 지킵니다. 초과 피해를 ${b(p.mitigation+'%')} 줄여 대신 받습니다.<br>팀당 ${b('1회')}.`;

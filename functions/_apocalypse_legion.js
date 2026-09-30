@@ -22,7 +22,7 @@ export function buildApocalypseLegion(monster,build){
  return [leader,...minions];
 }
 // One approved cast on each of the boss's first three actions. No legacy opening ultimate.
-export function castApocalypseAction(actor,targets,{damage,knockout,emit}){
+export function castApocalypseAction(actor,targets,{damage,damageCombined=null,knockout,emit}){
  const boss=actor?.apocalypseSkillsEnabled?apocalypseLegionBoss(actor):null,baseSkill=boss?.skills[actor.actions-1];
  const skill=baseSkill?.kind==='ultimate'?{...baseSkill,...apocalypseLegionUltimate(actor,actor.apocalypseUltimate)}:baseSkill;
  if(!skill||actor.hp<=0)return false;
@@ -37,7 +37,9 @@ export function castApocalypseAction(actor,targets,{damage,knockout,emit}){
   }else{
    const gross=Math.max(0,Math.round(actor.attack*skill.attackPercent/100)),pierce=Math.round(gross*skill.shieldPiercePercent/100);
    const normal=Math.max(0,gross-pierce-Math.round(target.defense*.35));
-   const base=damage(target,normal),direct=damage(target,pierce,{ignoreShield:true});
+   // S2 intercept/protection must see one logical impact, including its pierce.
+   // Existing callers retain the exact split-damage path.
+   const base=damageCombined?damageCombined(target,normal,pierce):damage(target,normal),direct=damageCombined?{hpDamage:0}:damage(target,pierce,{ignoreShield:true});
    actor.damageDealt+=base.hpDamage+base.absorbed+direct.hpDamage;
    hits.push({targetId:target.id,damage:base.hpDamage+direct.hpDamage,absorbed:base.absorbed,targetHpAfter:target.hp,targetMaxHp:target.maxHp,targetShieldAfter:target.shield});
   }

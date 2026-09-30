@@ -11,6 +11,11 @@ test('approved sources are preserved and usable as eight separate 2:3 cards',()=
  for(const entry of manifest.entries){const bytes=fs.readFileSync(new URL('../../'+entry.file,import.meta.url));assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),entry.sha256);assert.equal(bytes.readUInt32BE(16)*3,bytes.readUInt32BE(20)*2);}
  assert.equal(preparation.runtimeEnabled,false);assert.equal(preparation.drawEnabled,false);assert.equal(preparation.pricing,null);
 });
+test('ten-card collection adds two review-pending artworks and an accurately typeset separate pack',()=>{
+ assert.equal(cards.length,10);const manifest=JSON.parse(fs.readFileSync(new URL('./art-manifest-v2.json',import.meta.url)));assert.equal(manifest.newArtworkApproval,'USER_REVIEW_PENDING');
+ for(const entry of manifest.entries){const bytes=fs.readFileSync(new URL('../../'+entry.file,import.meta.url));assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),entry.sha256);assert.equal(bytes.readUInt32BE(16),1024);assert.equal(bytes.readUInt32BE(20),1536);}
+ const html=fs.readFileSync(new URL('./pack-art.html',import.meta.url),'utf8');assert.ok(html.includes('<h1>숲켓몬</h1>'));assert.ok(html.includes('시즌 2'));
+});
 test('all ten proposed levels grow monotonically without changing frequency budgets',()=>{
  for(const c of cards){let previous=effectAt(c,0);for(let level=1;level<=9;level++){const current=effectAt(c,level);for(const key of Object.keys(current))assert.ok(current[key]>=previous[key]);previous=current;}for(const s of c.stats)assert.equal(effectAt(c,9)[s.key],Math.round(s.base*1.3*10)/10);}
  assert.throws(()=>effectAt(cards[0],10),RangeError);

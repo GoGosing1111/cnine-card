@@ -1,0 +1,20 @@
+{
+  "mode": "built-in image_gen",
+  "date": "2026-09-30",
+  "pack": {
+    "source": "assets/cards/magic-season2-pack-source-v1.png",
+    "promptBrief": "Portrait 1024×1536 unopened premium fantasy MAGIC CARD SEASON II foil pack for 숲켓몬. Straight-on collectible indigo foil, champagne-gold engraving, luminous teal-amethyst celestial eclipse, astrolabe and wings. Clear dark top and lower plaques for separate Korean typography. Roman II only; no other generated lettering. Pack artwork, not a poster.",
+    "typesetting": "pack-art.html; exact Korean strings 숲켓몬 / 마법카드 / 시즌 2; Black Han Sans and licensed Noto Serif KR; source preserved."
+  },
+  "cards": [
+    {
+      "asset": "contract-erosion",
+      "prompt": "Use case: stylized-concept. Asset: original fantasy MAGIC CARD illustration, portrait 1024x1536, exact 2:3. Title concept 'Contract Erosion' (do not render text). An ornate silver mercenary oath medallion, a recognizable sword-and-wing heraldic contract emblem, floating in a vast ruined midnight sanctuary. Spectral emerald-green erosion eats the edge of the emblem, dark translucent magical roots drain its once bright scarlet core. Shards of its arcane seal drift toward the viewer; a thin luminous green circle partially breaks behind it. Heroic prestige rather than horror or slime. High-end painterly fantasy card art, rich atmospheric depth, refined silver materials and luminous jade, diagonal dynamic composition, clear iconic focal object in central upper 65 percent. Edges and lower 25 percent fall into deep navy shadow for later card overlay. Match a premium series of celestial grimoires, silver magical blades, jeweled mirrors and astral towers. No humans, no body parts, no lettering, no glyph writing, no frame, no UI, no watermark. One coherent finished magical artifact scene, not an infographic or collection of icons."
+    },
+    {
+      "asset": "command-severance",
+      "prompt": "Use case: stylized-concept. Asset: original fantasy MAGIC CARD illustration, portrait 1024x1536, exact 2:3. Title concept 'Command Severance' (do not render text). A grand onyx-and-gold winged mercenary command insignia suspended over a shadowy stone command dais, bound by precisely articulated luminous amber chains. At its center an elegant circular waxlike red magical lock seals the flow of violet spell energy; the energy fractures into quiet sparks on contact. Several large distinct chain arcs lead from the central lock into the dark background, suggesting a temporary sacred prohibition, no torture and no people. High-end painterly fantasy game card art, refined gold and black obsidian, warm amber against deep burgundy-violet, strong central upper focal hierarchy, dramatic architectural depth, detailed coherent materials, premium collectible finish. Keep lower 25 percent and edges dark to accept later separate card typography. Distinct composition from a sword or book card. No humans, no lettering, no glyph text, no frame, no UI, no watermark, no montage."
+    }
+  ],
+  "approval": "New art awaiting user review. The eight 2026-09-26 approved source files remain unchanged."
+}
