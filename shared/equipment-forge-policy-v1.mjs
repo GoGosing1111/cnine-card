@@ -1,6 +1,9 @@
 import {EQUIPMENT_POWER_STANDARD as power} from './equipment-mercenary-power-v1.mjs';
 export const FORGE_RUNTIME_KEY='equipment_forge_runtime_policy_v1';
 export const FORGE_ENHANCEMENT_MATERIAL='MASTER_STAR';
+const DOUBLE_STAR_EQUIPMENT_CODES=new Set(['EMPEROR_TOP','EMPEROR_BOTTOM','EMPEROR_SHOES','EMPEROR_DUAL_DISK','EQ_1788486929132','EQ_1788486888336']);
+export const isForgeDoubleStarEquipment=equipmentCode=>DOUBLE_STAR_EQUIPMENT_CODES.has(equipmentCode);
+export const forgeStarQuantity=(equipmentCode,baseQuantity)=>isForgeDoubleStarEquipment(equipmentCode)?baseQuantity*2:baseQuantity;
 export const FORGE_PROTECTION_SOURCES=Object.freeze(['TOWER','SCRAPYARD','COW_ROOM']);
 export const protectionSourcesDraft=()=>FORGE_PROTECTION_SOURCES.map(content=>({content,enabled:false,chancePpm:null,quantity:null}));
 export function forgeRuntimeDraft(){return {revision:0,version:'forge-runtime-draft-20260913',mode:'OFF',approved:false,quoteSeconds:120,

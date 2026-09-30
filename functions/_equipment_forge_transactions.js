@@ -1,7 +1,7 @@
 import {readReleasedForgePolicy} from './_equipment_forge_release.js';
 import {EQUIPMENT_FORGE_RELEASE_ENABLED} from '../shared/equipment-forge-release-v1.mjs';
 import {readForgeSettings} from './_equipment_forge_public.js';
-import {forgeRuntimeDraft,validateForgePolicy,FORGE_RUNTIME_KEY,forgePower,FORGE_ENHANCEMENT_MATERIAL} from '../shared/equipment-forge-policy-v1.mjs';
+import {forgeRuntimeDraft,validateForgePolicy,FORGE_RUNTIME_KEY,forgePower,forgeStarQuantity,isForgeDoubleStarEquipment,FORGE_ENHANCEMENT_MATERIAL} from '../shared/equipment-forge-policy-v1.mjs';
 import {EQUIPMENT_POWER_STANDARD} from '../shared/equipment-mercenary-power-v1.mjs';
 import {jointError} from './_joint_request.js';import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {ensureJointTransactionSchema,saveJointPolicyDraft,jointRequestId,jointHash,runJointOperation,readJointOperation,jointCoinDebit,jointInventoryChange} from './_joint_transactions.js';
@@ -42,7 +42,7 @@ export async function forgeQuote(env,user,body,{now=Date.now()}={}){
  const prior=await DB.prepare('SELECT * FROM equipment_forge_quotes_v1 WHERE quote_id=?').bind(quoteId).first();
  if(prior){if(Number(prior.user_id)!==Number(user.id)||prior.input_hash!==hash)throw jointError('FORGE_QUOTE_CONFLICT','같은 견적 번호에 다른 내용이 있습니다.',409);return {...JSON.parse(prior.plan_json),quoteId,expiresAt:prior.expires_at,consumed:Boolean(prior.consumed_by)};}
  const policy=await readForgeRuntime(env);allow(policy,user);let item,cost,recordId=null,restoreDeadline=null;
- if(kind==='ENHANCE'){item=await owned(env,user,key);if(item.level>=10)throw jointError('FORGE_MAX_LEVEL','최대 +10 장비입니다.',409);cost=policy.steps[item.level];requireEnhancementCost(cost);if([cost.successPpm,cost.maintainPpm,cost.destroyPpm,cost.coinCost].some(v=>v===null))throw jointError('FORGE_POLICY_PENDING','해당 단계의 확률·비용이 미설정입니다.',409);if(protectedAttempt&&(!policy.protection.itemCode||policy.protection.consume==='UNSET'||cost.protectionQuantity===null))throw jointError('FORGE_PROTECTION_PENDING','보호권 소모 정책이 미설정입니다.',409);}
+ if(kind==='ENHANCE'){item=await owned(env,user,key);if(item.level>=10)throw jointError('FORGE_MAX_LEVEL','최대 +10 장비입니다.',409);const baseCost=policy.steps[item.level];requireEnhancementCost(baseCost);cost={...baseCost,itemQuantity:forgeStarQuantity(item.code,baseCost.itemQuantity)};if([cost.successPpm,cost.maintainPpm,cost.destroyPpm,cost.coinCost].some(v=>v===null))throw jointError('FORGE_POLICY_PENDING','해당 단계의 확률·비용이 미설정입니다.',409);if(protectedAttempt&&(!policy.protection.itemCode||policy.protection.consume==='UNSET'||cost.protectionQuantity===null))throw jointError('FORGE_PROTECTION_PENDING','보호권 소모 정책이 미설정입니다.',409);}
  else{const record=await destroyed(env,user,key);recordId=key;item=record.item;cost=policy.restoration;if(!cost.enabled)throw jointError('FORGE_RESTORE_OFF','복구 정책을 준비 중입니다.',423);if(cost.expiresHours>0){restoreDeadline=Date.parse(record.destroyed_at)+cost.expiresHours*3600000;if(now>restoreDeadline)throw jointError('FORGE_RESTORE_EXPIRED','복구 가능 기간이 지났습니다.',409);}if(protectedAttempt)throw jointError('FORGE_QUOTE','복구에는 강화 보호권을 사용하지 않습니다.');}
  if(protectedAttempt&&cost.protectionQuantity===0)throw jointError('FORGE_PROTECTION_UNAVAILABLE','이 단계에서는 보호권을 사용할 수 없습니다.',409);
  if(cost.itemCode){const material=await DB.prepare('SELECT name,image_url FROM inventory_items WHERE code=? AND is_active=1').bind(cost.itemCode).first();if(!material)throw jointError('FORGE_MATERIAL_CONFIG','사용 가능한 재료를 설정하세요.',409);cost={...cost,itemName:material.name,itemImage:material.image_url||''};}
@@ -61,7 +61,13 @@ async function quotePlan(env,user,quoteId,kind,now){
 export async function executeForge(env,user,body,kind,{randomInt=mercenaryRandomInt,now=Date.now()}={}){
  const quoteId=jointRequestId(body.quoteId),requestId=jointRequestId(body.requestId);
  const r=await runJointOperation(env,user,{requestId,kind:`FORGE_${kind}`,input:{quoteId},prepare:async()=>{
-   allow(await readForgeRuntime(env),user);const plan=await quotePlan(env,user,quoteId,kind,now);if(kind==='ENHANCE')requireEnhancementCost(plan.cost);
+   const policy=await readForgeRuntime(env);allow(policy,user);const plan=await quotePlan(env,user,quoteId,kind,now);if(kind==='ENHANCE'){
+     requireEnhancementCost(plan.cost);
+     if(isForgeDoubleStarEquipment(plan.item.code)){
+       const baseCost=policy.steps[plan.item.level];requireEnhancementCost(baseCost);
+       if(plan.cost.itemQuantity!==forgeStarQuantity(plan.item.code,baseCost.itemQuantity))throw jointError('FORGE_QUOTE_EXPIRED','강화 비용이 변경됐습니다. 새 견적을 받아 주세요.',409);
+     }
+   }
    const coins=Number((await env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first()).coin);
    if(coins<plan.cost.coinCost)throw jointError('FORGE_FUNDS',forgeResourceShortage('코인',plan.cost.coinCost,coins,'코인'),409);
    for(const [code,quantity,name,unit]of[
