@@ -77,3 +77,4 @@
 - 내장 image_gen 편집 프롬프트는 `art-prompts-v3.json`, 해시·규격은 `art-manifest-v3.json`에 기록한다. 컬렉션 이미지와 비활성 등록 초안의 팩 이미지 경로만 V2로 바꿨으며 운영 활성화/경제/전투 데이터 변경은 없다.
 - PC 1440×1000·모바일 390×844의 실제 팩 표시, 글자와 여백, 이미지 디코딩 및 페이지 오류 0개를 확인했다. 등록 초안은 이미지 경로 외에 직전 커밋과 동일함을 비교했다. 관련 캡처는 외부 작업 폴더의 `pack-english-desktop.png`, `pack-english-mobile.png`다.
 - 직전 운영 배포 `5c785707-0033-45f7-8b00-6d7d5be4de44` / Source `52138766` 기준의 작은 이미지·표시 경로 수정이다. `preparation.test.mjs`와 자동 Worker 검사, 출시 잠금·캐시·Hyperdrive 확인을 포함한 scoped 배포를 사용하며 전투 전체 검사는 반복하지 않는다.
+- 구현 커밋 `15fcac9e`, Pages `https://4791cf3e.cnine-card.pages.dev`에 반영했다. 프리뷰 관련 검사 7개·Worker·출시/캐시·Hyperdrive 검사가 통과했으며 공개 주소의 PNG/WebP HTTP 200·원본 해시 일치·V2 표시와 획득/전투 OFF를 확인했다. 외부 확인 기록은 `pack-english-production-assets.json`이다. 이 완료 기록은 문서 커밋으로만 반영한다.
