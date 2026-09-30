@@ -1,5 +1,5 @@
 import {DISTRICTS,SQUADS,FACTION_RULES as R,districtById} from '../shared/clan-faction-rules-v1.mjs?v=20260922-cooldowns';
-import {factionCombatOpen,factionSessionStrip,factionRewardView} from './clan-faction-sessions-v1.mjs?v=20260922-sessions-live';
+import {factionCombatOpen,factionSessionStrip,factionRewardView} from './clan-faction-sessions-v1.mjs?v=20261001-session-rewards';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const num=n=>Math.max(0,Number(n)||0).toLocaleString('ko-KR');
 const compact=n=>n>=1e8?(n/1e8).toLocaleString('ko-KR',{maximumFractionDigits:1})+'억':n>=1e4?(n/1e4).toLocaleString('ko-KR',{maximumFractionDigits:1})+'만':num(n);

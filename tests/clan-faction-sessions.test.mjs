@@ -21,6 +21,8 @@ async function fixture(t,postgres=false,extra={}){
   `CREATE TABLE user_messages(id ${serial},user_id ${int},sender_type TEXT,title TEXT,body TEXT,message_type TEXT,campaign_key TEXT,is_read INTEGER DEFAULT 0,read_at TEXT,hidden_at TEXT,UNIQUE(user_id,campaign_key))`,
   `CREATE TABLE user_message_rewards(id ${serial},message_id ${int} UNIQUE,user_id ${int},reward_type TEXT,reward_amount ${int},claimed_at TEXT)`,
   `CREATE TABLE user_message_reward_claim_receipts_v1222(reward_id ${int} PRIMARY KEY,message_id ${int} UNIQUE,user_id ${int},reward_type TEXT,reward_amount ${int},claim_token TEXT UNIQUE,balance_before ${int},balance_after ${int},source TEXT,credited_at TEXT)`,
+  `CREATE TABLE cnine_user_inventory(user_id ${int},item_code TEXT,quantity ${int},unseen_quantity ${int},created_at TEXT,updated_at TEXT,PRIMARY KEY(user_id,item_code))`,
+  `CREATE TABLE inventory_logs(user_id ${int},item_code TEXT,change_amount ${int},balance_after ${int},reason TEXT,reference_type TEXT,reference_id TEXT)`,
   `CREATE TABLE coin_logs(user_id ${int},change_amount ${int},balance_after ${int},reason TEXT)`];
  if(postgres)await f.DB.execSchema(sql);else f.DB.sql.exec(sql.join(';'));
  await f.p("INSERT INTO app_meta(key,value) VALUES('clan_settings_v1',?)",JSON.stringify({mode:'ON'})).run();
@@ -34,6 +36,14 @@ async function own(f,count=4){
  const row=await f.p('SELECT state_json FROM clan_faction_state WHERE season_id=7').first(),s=JSON.parse(row.state_json);
  s.districts.forEach((d,i)=>{d.owner=i<count?1:0;});
  await f.p('UPDATE clan_faction_state SET state_json=?,revision=revision+1 WHERE season_id=7',JSON.stringify(s)).run();
+}
+function messageClaimContext(){
+ const source=fs.readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
+ const claim=source.slice(source.indexOf('async function claimMessageRewardDirectV1222('),source.indexOf('async function canSafelyRecoverFailedMessageRewardV1222('));
+ const context=vm.createContext({crypto,ensureVerifiedRewardMessageV1276:async()=>{},ensureMessageRewardClaimV1222:async()=>{},messageRewardClaimToken:()=>crypto.randomUUID()});
+ const specs=source.slice(source.indexOf('const VERIFIED_MESSAGE_REWARD_TYPES='),source.indexOf('const COUPON_REWARD_MAX='));
+ vm.runInContext(`${specs}\n${claim};this.claim=claimMessageRewardDirectV1222`,context);
+ return context;
 }
 test('live default activates approved KEEP/PARTICIPANTS/PAUSE/DEFER policy after the immutable cutover',async t=>{
  const f=await fixture(t,true);
@@ -54,7 +64,7 @@ test('live default activates approved KEEP/PARTICIPANTS/PAUSE/DEFER policy after
  assert.equal(result.tax.perHour,0);
  assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_message_rewards').first()).count),0);
 });
-for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} complete session, 300억 mail, reset, immutable schedule and exactly-once retry`,async t=>{
+for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} complete session, 300억 + 30만 별 + 300 에너지 mail, reset, immutable schedule and exactly-once retry`,async t=>{
  const f=await fixture(t,postgres),first=await factionOverview(f.env,f.season,f.user,f.deps);
  assert.equal(first.sessions.active,true);assert.equal(first.holdings,0);assert.equal(first.tax.perHour,0);
  assert.deepEqual(first.formation.attack1,[1,2,3]);
@@ -66,13 +76,14 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} compl
  assert.equal(after.sessions.history[0].myReward,30000000000);
  assert.equal(after.tax.pool,pool);
  assert.equal('recipients' in after.sessions.history[0],false);
- assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages').first()).count),12);
+ assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages').first()).count),36);
  const rewards=(await f.p('SELECT * FROM user_message_rewards').all()).results;
- assert.ok(rewards.every(r=>Number(r.reward_amount)===30000000000));
+ assert.ok(rewards.every(r=>Number(r.reward_amount)==={COIN:30000000000,MASTER_STAR:300000,STARLIGHT_ARMOR_CORE:300}[r.reward_type]));
+ assert.equal(after.sessions.history[0].myMasterStars,300000);assert.equal(after.sessions.history[0].myMysticEnergy,300);
  assert.equal(Number((await f.p('SELECT coin FROM users WHERE id=1').first()).coin),100,'mail does not credit immediately');
  f.deps.randomFactionSchedule=()=>{throw Error('rerolled')};
  await syncFactionSessions(f.env,f.season,f.deps);await syncFactionSessions(f.env,f.season,f.deps);
- assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_message_rewards').first()).count),12);
+ assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_message_rewards').first()).count),36);
  await assert.rejects(act(f,'collect'),/폐지/);
  f.clock.now=beginning+6*3600000;
  const closed=await factionOverview(f.env,f.season,f.user,f.deps);
@@ -80,12 +91,8 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} compl
  await assert.rejects(act(f,'launch',{districtId:'11680',squad:'attack1'}),/개방 시간/);
  assert.equal(Number((await f.p('SELECT COUNT(*) count FROM clan_faction_sessions_v1').first()).count),2);
  if(postgres){
-  const source=fs.readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
-  const claim=source.slice(source.indexOf('async function claimMessageRewardDirectV1222('),source.indexOf('async function canSafelyRecoverFailedMessageRewardV1222('));
-  const context=vm.createContext({crypto,ensureVerifiedRewardMessageV1276:async()=>{},ensureMessageRewardClaimV1222:async()=>{},messageRewardClaimToken:()=>crypto.randomUUID()});
-  const specs=source.slice(source.indexOf('const VERIFIED_MESSAGE_REWARD_TYPES='),source.indexOf('const COUPON_REWARD_MAX='));
-  vm.runInContext(`${specs}\n${claim};this.claim=claimMessageRewardDirectV1222`,context);
-  const reward=rewards.find(r=>Number(r.user_id)===1);
+  const context=messageClaimContext();
+  const reward=rewards.find(r=>Number(r.user_id)===1&&r.reward_type==='COIN');
   await context.claim(f.env,f.user,reward,Number(reward.message_id));
   await context.claim(f.env,f.user,reward,Number(reward.message_id));
   assert.equal(Number((await f.p('SELECT coin FROM users WHERE id=1').first()).coin),30000000100);
@@ -98,7 +105,7 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} rewar
  assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages').first()).count),0);
  assert.equal(JSON.parse((await f.p('SELECT state_json FROM clan_faction_state WHERE season_id=7').first()).state_json).session.status,'ACTIVE');
  f.setFailure('');await syncFactionSessions(f.env,f.season,f.deps);
- assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages').first()).count),12);
+ assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages').first()).count),36);
 });
 test('territory war cancels active round, removes alerts and prevents every combat entry',async t=>{
  const f=await fixture(t);await syncFactionSessions(f.env,f.season,f.deps);await own(f);
@@ -138,11 +145,11 @@ test('OFF and TEST cannot create schedules or rewards; formation still works out
  f.clock.now=beginning+7*3600000;await act(f,'formation',{formation});
  assert.equal((await factionOverview(f.env,f.season,f.user,f.deps)).sessions.active,false);
 });
-test('concurrent closure freezes the same recipients and emits one reward per user',async t=>{
+test('concurrent closure freezes the same recipients and emits one three-part bundle per user',async t=>{
  const f=await fixture(t);await syncFactionSessions(f.env,f.season,f.deps);await own(f);
  f.clock.now+=10800000;
  await Promise.all([syncFactionSessions(f.env,f.season,f.deps),syncFactionSessions(f.env,f.season,f.deps)]);
- assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages').first()).count),12);
+ assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages').first()).count),36);
 });
 
 for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} due PREPARING territory blocks combat before its lazy ACTIVE transition`,async t=>{
@@ -167,7 +174,7 @@ test('roster transfer during close retries against the final roster atomically',
  const f=await fixture(t);await syncFactionSessions(f.env,f.season,f.deps);await own(f);
  f.clock.now+=10800000;f.DB.beforeBatch=()=>f.p('UPDATE clan_members SET clan_id=2 WHERE season_id=7 AND user_id=1').run();
  await syncFactionSessions(f.env,f.season,f.deps);
- assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages').first()).count),11);
+ assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages').first()).count),33);
  assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages WHERE user_id=1').first()).count),0);
 });
 
@@ -176,7 +183,7 @@ test('holdings are counted at close: losing the fourth territory removes eligibi
  await own(f,3);f.clock.now+=10800000;await syncFactionSessions(f.env,f.season,f.deps);
  assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages').first()).count),0);
  await own(f,4);f.clock.now+=10800000;await syncFactionSessions(f.env,f.season,f.deps);
- assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages').first()).count),12);
+ assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages').first()).count),36);
 });
 
 test('midnight closes an outstanding round once and does not reward a missed window',async t=>{
@@ -184,11 +191,11 @@ test('midnight closes an outstanding round once and does not reward a missed win
  f.clock.now=beginning+86400000;
  const s=await syncFactionSessions(f.env,f.season,f.deps);
  assert.equal(s.view.current.key,'2026-09-23:1');assert.equal(s.view.active,true);
- assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages').first()).count),12);
+ assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages').first()).count),36);
  assert.equal(Number((await f.p('SELECT COUNT(*) count FROM clan_faction_days_v1').first()).count),2);
  assert.equal(Number((await f.p('SELECT COUNT(*) count FROM clan_faction_sessions_v1').first()).count),1);
  await syncFactionSessions(f.env,f.season,f.deps);
- assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages').first()).count),12);
+ assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages').first()).count),36);
 });
 
 test('season rollover reconciles the preceding session before the new season claims a window',async t=>{
@@ -198,7 +205,7 @@ test('season rollover reconciles the preceding session before the new season cla
  await f.p("INSERT INTO clan_seasons VALUES(8,3,'ACTIVE',?,?)",new Date(f.clock.now).toISOString(),f.season.ends_at).run();
  const result=await reconcileFactionSessions(f.env,f.deps);
  assert.equal(result.session.current.key,'2026-09-22:2');
- assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages').first()).count),12);
+ assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages').first()).count),36);
  assert.equal(Number((await f.p("SELECT season_id FROM clan_faction_session_owners_v1 WHERE session_key='2026-09-22:2'").first()).season_id),8);
 });
 
@@ -219,7 +226,7 @@ test('unapproved alternate policies are testable: participants only, KEEP map an
  f.clock.now+=60000;await f.p("INSERT INTO territory_war_v3_rounds VALUES(1,'ACTIVE',?,?,NULL)",new Date(f.clock.now).toISOString(),new Date(f.clock.now+86400000).toISOString()).run();
  const result=await factionOverview(f.env,f.season,f.user,f.deps);
  assert.equal(result.holdings,4);assert.equal(result.sessions.history[0].myReward,30000000000);
- assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages').first()).count),2);
+ assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages').first()).count),6);
 });
 
 test('approved KEEP policy retains ownership, formations and protection across both daily rounds',async t=>{
@@ -233,7 +240,7 @@ test('approved KEEP policy retains ownership, formations and protection across b
  assert.deepEqual(next.row.state.formations,before.formations);
  assert.deepEqual(next.row.state.districts.map(d=>d.protectedUntil),before.districts.map(d=>d.protectedUntil));
  f.clock.now+=10800000;await syncFactionSessions(f.env,f.season,f.deps);
- assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages').first()).count),24,'one qualifying reward per user per actual round');
+ assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages').first()).count),72,'one qualifying reward per user per actual round');
 });
 
 test('warm overview synchronization has no write, schema scan or schedule reroll',async t=>{
@@ -346,13 +353,13 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} appro
  f.clock.now=resumed.view.current.endsAt;const deferred=await syncFactionSessions(f.env,f.season,f.deps);
  assert.equal(deferred.view.current.ordinal,2);assert.equal(deferred.view.current.endsAt-deferred.view.current.startsAt,10800000);
  assert.equal(deferred.view.current.startsAt,f.clock.now);assert.deepEqual(deferred.row.state.session.participants,[]);
- const recipients=(await f.p('SELECT user_id,reward_amount FROM user_message_rewards ORDER BY user_id').all()).results;
+ const recipients=(await f.p('SELECT user_id,reward_amount FROM user_message_rewards WHERE reward_type=\'COIN\' ORDER BY user_id').all()).results;
  assert.deepEqual(recipients.map(r=>[Number(r.user_id),Number(r.reward_amount)]),[[1,30000000000],[2,30000000000]]);
  const neutral=deferred.row.state.districts.find(d=>!d.owner);
  await act(f,'launch',{districtId:neutral.id,squad:'attack1'});
  f.clock.now=deferred.view.current.endsAt;await syncFactionSessions(f.env,f.season,f.deps);
- assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages WHERE user_id=1').first()).count),2);
- assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages WHERE user_id=2').first()).count),1,'participation does not carry into the deferred next round');
+ assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages WHERE user_id=1').first()).count),6);
+ assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages WHERE user_id=2').first()).count),3,'participation does not carry into the deferred next round');
 });
 
 for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} restarted territory round resumes the original pause exactly once`,async t=>{
@@ -383,7 +390,7 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} resta
  assert.equal((await syncFactionSessions(f.env,f.season,f.deps)).view.current.endsAt,resumed.view.current.endsAt);
  f.clock.now=resumed.view.current.endsAt;
  await syncFactionSessions(f.env,f.season,f.deps);await syncFactionSessions(f.env,f.season,f.deps);
- assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_message_rewards').first()).count),2);
+ assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_message_rewards').first()).count),6);
 });
 
 test('overlapping territory rounds retain their identities and wait for the final settlement',async t=>{
@@ -433,7 +440,7 @@ test('an outage spanning two completed territory wars preserves exactly three ho
  f.clock.now=beginning+240*60000;const done=await syncFactionSessions(f.env,f.season,f.deps);
  assert.equal(done.view.active,true);assert.equal(done.view.current.ordinal,2);
  assert.equal(done.view.current.startsAt,f.clock.now);assert.equal(done.view.current.endsAt,f.clock.now+10800000);
- assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages').first()).count),2);
+ assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages').first()).count),6);
 });
 
 test('a paused round can cross midnight without reopening it or starting a parallel daily round',async t=>{
@@ -455,5 +462,72 @@ test('participation in another clan cannot be transferred into its qualifying re
  const row=await f.p('SELECT state_json FROM clan_faction_state WHERE season_id=7').first(),state=JSON.parse(row.state_json);
  state.districts.slice(4,8).forEach(d=>d.owner=2);await f.p('UPDATE clan_faction_state SET state_json=? WHERE season_id=7',JSON.stringify(state)).run();
  f.clock.now=beginning+10800000;await syncFactionSessions(f.env,f.season,f.deps);
- assert.deepEqual((await f.p('SELECT user_id FROM user_messages ORDER BY user_id').all()).results.map(r=>Number(r.user_id)),[1]);
+ assert.deepEqual((await f.p('SELECT DISTINCT user_id FROM user_messages ORDER BY user_id').all()).results.map(r=>Number(r.user_id)),[1]);
+});
+
+async function qualifyingRewardFixture(t,postgres){
+ const f=await fixture(t,postgres,{recipients:'PARTICIPANTS'});
+ await syncFactionSessions(f.env,f.season,f.deps);await own(f);
+ const state=JSON.parse((await f.p('SELECT state_json FROM clan_faction_state WHERE season_id=7').first()).state_json);
+ state.session.participants=[1];state.session.participantClans={1:1};
+ await f.p('UPDATE clan_faction_state SET state_json=? WHERE season_id=7',JSON.stringify(state)).run();
+ f.clock.now=beginning+10800000;
+ return f;
+}
+for(const postgres of[false,true])test(`${postgres?'PostgreSQL':'SQLite'} faction extra items use real message claims, exact quantities, rollback and retry`,async t=>{
+ const f=await qualifyingRewardFixture(t,postgres),view=await factionOverview(f.env,f.season,f.user,f.deps);
+ assert.equal(view.sessions.history[0].myMasterStars,300000);assert.equal(view.sessions.history[0].myMysticEnergy,300);
+ const rewards=(await f.p('SELECT * FROM user_message_rewards WHERE user_id=1 ORDER BY reward_type').all()).results;
+ assert.deepEqual(rewards.map(r=>[r.reward_type,Number(r.reward_amount)]),[['COIN',30000000000],['MASTER_STAR',300000],['STARLIGHT_ARMOR_CORE',300]]);
+ assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_message_rewards WHERE user_id=2').first()).count),0,'nonparticipant gets no part of the bundle');
+ assert.equal(Number((await f.p('SELECT COUNT(*) count FROM cnine_user_inventory').first()).count),0,'sending messages does not credit inventory');
+ const claim=messageClaimContext().claim,star=rewards.find(r=>r.reward_type==='MASTER_STAR');
+ await assert.rejects(claim(f.env,{id:2},star,Number(star.message_id)),'another account cannot claim the reward');
+ f.setFailure('INSERT INTO inventory_logs');
+ await assert.rejects(claim(f.env,f.user,star,Number(star.message_id)),/INJECTED/);
+ assert.equal(Number((await f.p('SELECT COUNT(*) count FROM cnine_user_inventory').first()).count),0);
+ assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_message_reward_claim_receipts_v1222').first()).count),0);
+ assert.equal((await f.p('SELECT claimed_at FROM user_message_rewards WHERE id=?',star.id).first()).claimed_at,null);
+ f.setFailure('');
+ for(const reward of rewards){
+  assert.equal((await claim(f.env,f.user,reward,Number(reward.message_id))).credited,true);
+  assert.equal((await claim(f.env,f.user,reward,Number(reward.message_id))).duplicate,true);
+ }
+ const items=(await f.p('SELECT item_code,quantity,unseen_quantity FROM cnine_user_inventory WHERE user_id=1 ORDER BY item_code').all()).results;
+ assert.deepEqual(items.map(r=>[r.item_code,Number(r.quantity),Number(r.unseen_quantity)]),[['MASTER_STAR',300000,300000],['STARLIGHT_ARMOR_CORE',300,300]]);
+ assert.equal(Number((await f.p('SELECT coin FROM users WHERE id=1').first()).coin),30000000100);
+ assert.equal(Number((await f.p('SELECT COUNT(*) count FROM inventory_logs').first()).count),2);
+ assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_message_reward_claim_receipts_v1222').first()).count),3);
+ await syncFactionSessions(f.env,f.season,f.deps);
+ assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages').first()).count),3);
+});
+for(const postgres of[false,true])for(const code of['MASTER_STAR','STARLIGHT_ARMOR_CORE'])test(`${postgres?'PostgreSQL':'SQLite'} zero-row ${code} reward rolls back the entire session bundle`,async t=>{
+ const f=await qualifyingRewardFixture(t,postgres),prepare=f.DB.prepare.bind(f.DB);let drop=true;
+ f.DB.prepare=sql=>{
+  const statement=prepare(sql);
+  if(sql.includes('INSERT INTO user_message_rewards')){
+   const bind=statement.bind.bind(statement);
+   statement.bind=(...values)=>drop&&values[0]===code?prepare(sql+' AND 1=0').bind(...values):bind(...values);
+  }
+  return statement;
+ };
+ await assert.rejects(syncFactionSessions(f.env,f.season,f.deps),/CHECK|check|constraint/i);
+ assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages').first()).count),0);
+ assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_message_rewards').first()).count),0);
+ assert.equal(Number((await f.p('SELECT COUNT(*) count FROM clan_faction_sessions_v1').first()).count),0);
+ assert.equal(JSON.parse((await f.p('SELECT state_json FROM clan_faction_state WHERE season_id=7').first()).state_json).session.status,'ACTIVE');
+ drop=false;await syncFactionSessions(f.env,f.season,f.deps);await syncFactionSessions(f.env,f.season,f.deps);
+ assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages').first()).count),3);
+ const record=await f.p('SELECT recipient_count,reward_count,snapshot_json FROM clan_faction_sessions_v1').first();
+ assert.equal(Number(record.recipient_count),1);assert.equal(Number(record.reward_count),1);
+ assert.equal(JSON.parse(record.snapshot_json).recipients[0].masterStars,300000);
+});
+test('historical faction reward snapshots do not display or create retroactive item grants',async t=>{
+ const f=await fixture(t);await syncFactionSessions(f.env,f.season,f.deps);
+ const state=JSON.parse((await f.p('SELECT state_json FROM clan_faction_state WHERE season_id=7').first()).state_json);
+ state.sessionHistory=[{key:'legacy-session',dayKey:'2026-09-21',ordinal:1,status:'SETTLED',holdings:{1:4},recipients:[{userId:1,amount:30000000000}],participants:[1],districts:[]}];
+ await f.p('UPDATE clan_faction_state SET state_json=? WHERE season_id=7',JSON.stringify(state)).run();
+ const history=(await factionOverview(f.env,f.season,f.user,f.deps)).sessions.history[0];
+ assert.equal(history.myReward,30000000000);assert.equal(history.myMasterStars,0);assert.equal(history.myMysticEnergy,0);
+ assert.equal(Number((await f.p('SELECT COUNT(*) count FROM user_messages').first()).count),0);
 });

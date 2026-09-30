@@ -9,6 +9,8 @@ test('disabled release has no policy and incomplete economic choices cannot be a
   for(const key of ['effectiveAt','recipients','interruption','mapPolicy'])
     assert.throws(() => factionPolicy({enabled:true,effectiveAt:0,recipients:'ALL_MEMBERS',interruption:'CANCEL',mapPolicy:'RESET',[key]:null}), /NOT_APPROVED/);
   assert.equal(FACTION_SESSION_RULES.coinPerRecipient, 300 * 100000000);
+  assert.equal(FACTION_SESSION_RULES.masterStarsPerRecipient,300000);
+  assert.equal(FACTION_SESSION_RULES.mysticEnergyPerRecipient,300);
   assert.equal(FACTION_SESSION_RELEASE.recipients,'PARTICIPANTS');
   assert.equal(FACTION_SESSION_RELEASE.interruption,'PAUSE');
   assert.equal(FACTION_SESSION_RELEASE.overlap,'DEFER');
@@ -34,6 +36,7 @@ test('four holdings grant once, not per territory; three holdings grant nothing'
   const roster = [{userId:1,clanId:1},{userId:2,clanId:1},{userId:3,clanId:2}];
   const all = factionSessionRewards(districts, roster, [1], {recipients:'ALL_MEMBERS'});
   assert.deepEqual(all.recipients.map(r=>[r.userId,r.amount]), [[1,30000000000],[2,30000000000]]);
+  assert.deepEqual(all.recipients.map(r=>[r.masterStars,r.mysticEnergy]),[[300000,300],[300000,300]]);
   assert.equal(factionSessionRewards(districts, roster, [1], {recipients:'PARTICIPANTS'}).recipients.length, 1);
   assert.equal(factionSessionRewards(districts, roster, [], {recipients:'CLAN_TOTAL'}).recipients.reduce((n,r)=>n+r.amount,0),30000000000);
 });

@@ -40,3 +40,15 @@
 @media(max-width:720px){.fw-command-role{flex-wrap:wrap;font-size:11px;padding:10px 12px}.fw-command-role>strong{flex-basis:100%;padding-left:28px}.fw-captain label{font-size:11px}.fw-captain small{font-size:9px}}
 @media(max-width:520px){.fw-squads{grid-template-columns:1fr}.fw-squad-card{padding:16px}.fw-member-slot{font-size:12px;min-height:42px}.fw-squad-card h3{font-size:16px}.fw-captain-badge{font-size:10px}.fw-formation .fw-page-heading{flex-wrap:wrap}.fw-formation .fw-page-heading>.fw-primary{margin-left:auto}}
 .fw-session-strip{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,.8fr);gap:20px;padding:22px 24px;margin:18px 0;background:#111e2c;border:1px solid #324357;border-radius:16px}.fw-session-strip h3{margin:8px 0;font-size:20px;color:#edf4ff}.fw-session-strip p{color:#b4c3d4;line-height:1.7;margin:0}.fw-session-times{display:grid;gap:8px}.fw-session-times>div{display:grid;grid-template-columns:52px 1fr auto;gap:8px;align-items:center;background:#0b1420;padding:12px;border-radius:10px;color:#c2cfde}.fw-session-times>div.active{outline:1px solid #c8ff6b;color:#c8ff6b}.fw-session-times small{font-size:11px}.fw-session-result{display:grid;gap:8px;padding:18px;border-bottom:1px solid #2c3b4c;color:#cbd8e8}.fw-session-result b{color:#f0f5fc}.fw-session-result small{color:#9fb1c6}@media(max-width:700px){.fw-session-strip{grid-template-columns:1fr;padding:18px;gap:14px}.fw-session-strip h3{font-size:17px}.fw-session-times>div{grid-template-columns:44px 1fr auto;font-size:12px}}
+
+/* Approved additional session rewards; retain the existing treasury layout. */
+.fw-vault>strong>small{font:500 13px 'Noto Sans KR',sans-serif;color:#aac48e;padding-left:10px}
+.fw-session-bonuses{display:grid;gap:12px;margin:-3px 0 24px;padding:16px 0;border-top:1px solid #3c523d;border-bottom:1px solid #3c523d}
+.fw-session-bonuses>span{display:flex;align-items:center;justify-content:space-between;gap:16px;color:#cbdcc3;font-size:13px}
+.fw-session-bonuses b{font:700 27px 'Barlow Condensed',sans-serif;color:#ddffa6;white-space:nowrap}
+.fw-session-bonuses small{font:500 11px 'Noto Sans KR',sans-serif;color:#a9c295;margin-left:5px}
+.fw-session-item-result{display:flex;flex-direction:column;gap:6px;font-size:12px;color:#c0d3ae}
+.fw-session-item-result>span{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.fw-session-item-result b{color:#d4e4bf;white-space:nowrap;font-size:13px}
+.fw-session-item-result small{display:inline;font-size:10px;margin-left:4px}
+@media(max-width:720px){.fw-session-bonuses>span{font-size:12px}.fw-session-bonuses b{font-size:25px}}

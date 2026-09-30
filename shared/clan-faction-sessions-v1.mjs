@@ -8,9 +8,10 @@ export const FACTION_SESSION_RELEASE = Object.freeze({
   mapPolicy: 'KEEP', // User confirmed: retain ownership and formations across rounds.
 });
 export const FACTION_SESSION_RULES = Object.freeze({
-  version: '20260921-sessions-v1', timeZone: 'Asia/Seoul',
+  version: '20261001-session-rewards', timeZone: 'Asia/Seoul',
   dailyCount: 2, durationMs: 3 * 3600000,
   requiredTerritories: 4, coinPerRecipient: 30000000000,
+  masterStarsPerRecipient: 300000, mysticEnergyPerRecipient: 300,
 });
 const MINUTE = 60000, DAY = 86400000, KST = 9 * 3600000;
 export const factionTime = value => typeof value === 'number' ? value : Date.parse(/Z$|[+]\d\d:\d\d$/.test(String(value)) ? value : String(value).replace(' ', 'T') + 'Z');
@@ -64,8 +65,9 @@ export function factionSessionRewards(districts, roster, participants, policy, p
       if (!Number.isSafeInteger(userId) || userId <= 0 || seen.has(userId)) throw Error('INVALID_FACTION_RECIPIENT');
       seen.add(userId);
       const coin = FACTION_SESSION_RULES.coinPerRecipient;
+      const share = amount => policy.recipients === 'CLAN_TOTAL' ? Math.floor(amount / members.length) + (i < amount % members.length ? 1 : 0) : amount;
       recipients.push({userId, clanId: Number(clan), territories,
-        amount: policy.recipients === 'CLAN_TOTAL' ? Math.floor(coin / members.length) + (i < coin % members.length ? 1 : 0) : coin});
+        amount: share(coin), masterStars: share(FACTION_SESSION_RULES.masterStarsPerRecipient), mysticEnergy: share(FACTION_SESSION_RULES.mysticEnergyPerRecipient)});
     });
   }
   return {holdings, recipients};

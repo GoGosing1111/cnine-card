@@ -139,7 +139,7 @@ function closeSession(state, session, at, reason, roster, policy) {
   const result = factionSessionRewards(state.districts, roster, session.participants || [], policy,session.participantClans);
   const snapshot = {...session, status:payable ? 'SETTLED' : 'CANCELLED', closedAt:at, reason,
     holdings:result.holdings, recipients:payable ? result.recipients : [],
-    districts:state.districts.map(d => ({id:d.id,owner:d.owner})), recipientPolicy:policy.recipients};
+    districts:state.districts.map(d => ({id:d.id,owner:d.owner})), recipientPolicy:policy.recipients,rewardVersion:R.version};
   state.session = {...snapshot};
   state.sessionHistory = [snapshot, ...(state.sessionHistory || [])].slice(0, 8);
   const slot = state.sessionPlan?.find(s => s.key === session.key); if (slot) slot.status = snapshot.status;
@@ -160,20 +160,41 @@ function sessionView(state, schedule, now, season, blocked) {
 }
 function settlementStatements(env, season, token, snapshot) {
   const key = `faction-session:${snapshot.key}`, statements = [];
+  const types = [
+    {code:'COIN',field:'amount',label:'코인',messageType:'COIN_REWARD',key},
+    {code:'MASTER_STAR',field:'masterStars',label:'마스터의 별',messageType:'ITEM_REWARD',key:key+':MASTER_STAR'},
+    {code:'STARLIGHT_ARMOR_CORE',field:'mysticEnergy',label:'미스틱 에너지',messageType:'ITEM_REWARD',key:key+':STARLIGHT_ARMOR_CORE'},
+  ];
   for (const recipient of snapshot.recipients) {
-    const body = `${snapshot.dayKey} 세력전 ${snapshot.ordinal}회차 종료 시 ${recipient.territories}개 영토를 점령했습니다. 회차 보상 ${recipient.amount.toLocaleString('ko-KR')} 코인을 수령하세요.`;
-    statements.push(p(env, `INSERT INTO user_messages(user_id,sender_type,title,body,message_type,campaign_key)
-      SELECT ?,'SYSTEM',?,?,'COIN_REWARD',? FROM clan_faction_state WHERE season_id=? AND last_action=?`,
-      recipient.userId,'세력전 점령 보상',body,key,season.id,token));
-    statements.push(p(env, `INSERT INTO user_message_rewards(message_id,user_id,reward_type,reward_amount)
-      SELECT m.id,m.user_id,'COIN',? FROM user_messages m JOIN clan_faction_state f ON f.season_id=? AND f.last_action=?
-      WHERE m.campaign_key=? AND m.user_id=?`,recipient.amount,season.id,token,key,recipient.userId));
+    for (const type of types) {
+      const amount = Number(recipient[type.field] || 0);
+      if(!Number.isSafeInteger(amount) || amount < 0)throw Error('INVALID_FACTION_REWARD_AMOUNT');
+      if(!amount)continue;
+      const body = `${snapshot.dayKey} 세력전 ${snapshot.ordinal}회차 종료 시 ${recipient.territories}개 영토를 점령했습니다. 회차 보상 ${type.label} ${amount.toLocaleString('ko-KR')}개를 수령하세요.`;
+      statements.push(p(env, `INSERT INTO user_messages(user_id,sender_type,title,body,message_type,campaign_key)
+        SELECT ?,'SYSTEM',?,?,?,? FROM clan_faction_state WHERE season_id=? AND last_action=?`,
+        recipient.userId,type.code==='COIN'?'세력전 점령 보상':`세력전 점령 보상 · ${type.label}`,body,type.messageType,type.key,season.id,token));
+      statements.push(p(env, `INSERT INTO user_message_rewards(message_id,user_id,reward_type,reward_amount)
+        SELECT m.id,m.user_id,?,? FROM user_messages m JOIN clan_faction_state f ON f.season_id=? AND f.last_action=?
+        WHERE m.campaign_key=? AND m.user_id=?`,type.code,amount,season.id,token,type.key,recipient.userId));
+    }
   }
-  // The CHECK constraint rolls back the state and all messages if a recipient/reward insert was lost.
+  const checks = [], checkValues = [];
+  for(const type of types){
+    const eligible=snapshot.recipients.filter(r=>Number(r[type.field]||0)>0);
+    const total=eligible.reduce((sum,r)=>sum+Number(r[type.field]),0);
+    if(!Number.isSafeInteger(total))throw Error('INVALID_FACTION_REWARD_TOTAL');
+    checks.push(`(SELECT COUNT(*) FROM user_message_rewards r JOIN user_messages m ON m.id=r.message_id WHERE m.campaign_key=? AND r.reward_type=?)=? AND
+      (SELECT COALESCE(SUM(r.reward_amount),0) FROM user_message_rewards r JOIN user_messages m ON m.id=r.message_id WHERE m.campaign_key=? AND r.reward_type=?)=?`);
+    checkValues.push(type.key,type.code,eligible.length,type.key,type.code,total);
+  }
+  // Keep the existing recipient-count CHECK. Any missing reward in the three-part
+  // bundle deliberately yields -1 and rolls back the state, messages and snapshot.
   statements.push(p(env, `INSERT INTO clan_faction_sessions_v1(session_key,season_id,status,starts_ms,ends_ms,closed_ms,snapshot_json,recipient_count,reward_count)
-    SELECT ?,?,?,?,?,?,?,?,(SELECT COUNT(*) FROM user_message_rewards r JOIN user_messages m ON m.id=r.message_id WHERE m.campaign_key=?)
+    SELECT ?,?,?,?,?,?,?,?,CASE WHEN ${checks.join(' AND ')} THEN
+      (SELECT COUNT(*) FROM user_message_rewards r JOIN user_messages m ON m.id=r.message_id WHERE m.campaign_key=? AND r.reward_type='COIN') ELSE -1 END
     FROM clan_faction_state WHERE season_id=? AND last_action=?`,
-    snapshot.key,season.id,snapshot.status,snapshot.startsAt,snapshot.endsAt,snapshot.closedAt,JSON.stringify(snapshot),snapshot.recipients.length,key,season.id,token));
+    snapshot.key,season.id,snapshot.status,snapshot.startsAt,snapshot.endsAt,snapshot.closedAt,JSON.stringify(snapshot),snapshot.recipients.length,...checkValues,key,season.id,token));
   return statements;
 }
 
