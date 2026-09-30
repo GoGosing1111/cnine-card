@@ -19,3 +19,11 @@
 - 최종 scoped 배포는 이 파일의 전체 정산 회귀(자동 승리, 운영자 판정승·무승부, 실패 롤백·재시도 포함)와 `check:worker`만 선택한다. 다른 영토전 스킬·콘텐츠 전체 검사는 추가하지 않는다.
 - 직전 운영 배포 기준: `4d692b4285dd65fbd098936aa332185f39372637`, Pages 배포 `294fe008-bfce-41d0-be0f-de6c866e22df`.
 - 변경은 영토전 CMS 종료의 국소 조건 수정이다. 지정 명령 `npm run deploy:production -- --scoped`를 사용하며, 깨끗한 범위 커밋·origin/main 일치·출시 플래그·캐시·Hyperdrive 검사는 유지한다.
+
+## 운영 반영 결과
+
+- 소스 `4d2c6d1e40870d6ad82480fbe8caf1d9fe7e6ae9`를 origin/main에 반영하고 scoped 배포를 완료했다. 정산 회귀 12개, Worker 검사와 번들 컴파일, 출시 보호 조건, Hyperdrive SQL 캐시 OFF 검사가 통과했다.
+- Pages: `adf07a34-fd3f-4598-9533-d4fe4b2ba7ee` — https://adf07a34.cnine-card.pages.dev (운영 main, 소스 4d2c6d1).
+- API Worker 버전: `10f49c3a-cad6-4137-9c7c-954e7bc77e46`. 지정 배포의 clan-draft 단계도 완료됐다.
+- 운영 루트 HEAD 200, CMS 종료 API의 비로그인 POST 401과 `x-cnine-api-runtime: regional-v1`을 확인했다. 실제 회차 종료를 재실행하는 검증은 하지 않았으며, CMS에서 선택팀 강제종료를 재시도할 수 있다.
+- 이 결과 기록은 문서만 후속 커밋하고 게임 검사나 재배포를 반복하지 않는다.
