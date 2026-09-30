@@ -1,0 +1,59 @@
+{
+  "date": "2026-09-30",
+  "nameAssigned": false,
+  "rankAssigned": false,
+  "sdGenerated": false,
+  "liveRegistered": false,
+  "deploymentPerformed": false,
+  "format": "PROJECT_V_CRIMSON_KNIGHT_LOWERED_HELMET_V7",
+  "status": "USER_REVIEW_PENDING",
+  "userRequest": "투구를 내려서 눈이 안보이게 하고 마스크를 제거한다.",
+  "sourceArt": {
+    "path": "assets/crimson-silver-knight-lowered-helmet-v7.png",
+    "width": 1024,
+    "height": 1536,
+    "mode": "RGB",
+    "sha256": "04AA2DD334A791E3BB71C0B07ED3114CC0938FD7694486744BA47328EC3E3585",
+    "bytes": 2652947
+  },
+  "editBase": {
+    "path": "sources/edit-base-v6.png",
+    "sha256": "A05C298CAE8C12BC99C29475FB57B323037115F412C0550E3B20907A62D645B8",
+    "status": "SUPERSEDED_MASKED_INTERMEDIATE",
+    "nativeOutput": "C:/Users/User/.codex/generated_images/01a0f210-dfde-7e73-acb5-b2cc712e8a32/exec-92ecbe9a-120e-419f-a632-a9d356f146d7.png"
+  },
+  "references": [
+    {
+      "path": "sources/user-reference-lowered-helmet.png",
+      "role": "PHYSICAL_HELMET_POSITION_OVER_EYES_AND_OPEN_LOWER_FACE",
+      "originalAttachment": "codex-clipboard-09f8810f-e339-4cb7-92df-6ca1115464d4.png",
+      "sha256": "7774BA1BAB26AD54F2E2753F5BC06ED9761390CEADD11CE1A3A3A5F0191667C3"
+    }
+  ],
+  "generation": {
+    "toolMode": "BUILT_IN_IMAGE_GEN",
+    "prompt": "prompts/lowered-helmet-v7.txt",
+    "referenceOrder": [
+      "editBase",
+      "references[0]"
+    ],
+    "nativeOutput": "C:/Users/User/.codex/generated_images/01a0f210-dfde-7e73-acb5-b2cc712e8a32/exec-707b856f-cd05-4a4f-b06e-5ae491b2256c.png",
+    "copiedWithoutReencoding": true
+  },
+  "changes": [
+    "Lowered the solid helmet front over both eyes",
+    "Removed all lower-face cloth and hard mask pieces",
+    "Exposed a natural adult male lower nose, mouth and chin",
+    "Removed eye glow and visible eye openings",
+    "Retained selected broad sword and expansive plain crimson cape"
+  ],
+  "visualReview": {
+    "nativeImageInspected": true,
+    "eyesPhysicallyCoveredByHelmet": true,
+    "maskRemoved": true,
+    "bareMouthAndChinVisible": true,
+    "eyeGlowRemoved": true,
+    "notes": "Compared to the latest helmet reference. Helmet front now physically obscures the eyes, with bare lower face visible. Body, weapon and cape remain visually consistent; pixel-identical preservation is not claimed."
+  },
+  "previousArtworkReplaced": false
+}

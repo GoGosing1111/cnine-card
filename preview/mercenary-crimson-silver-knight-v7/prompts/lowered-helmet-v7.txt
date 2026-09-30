@@ -1,0 +1,22 @@
+Use case: precise-object-edit.
+Edit image 1. Output one full portrait illustration, EXACTLY 1024 x 1536 RGB PNG.
+
+THE USER'S CORRECTION IS LITERAL AND PHYSICAL:
+Lower the ornate HELMET FRONT over the character's EYES so solid metal hides them, exactly like the helmet in image 2. REMOVE THE FACE MASK ENTIRELY. The man's bare mouth and chin must be visible.
+
+Image 1 is the current illustration to edit. Image 2 is the exact helmet fit and construction reference.
+Only change the head/helmet area. Preserve the whole sword, its bottom hooks, armor, hands, slim legs, large flowing crimson cape, pose, framing and background of image 1.
+
+REBUILD THE HEAD CORRECTLY:
+Replace the existing eye-opening helmet front with the reference's long forward-sloping silver-and-gold front plate. This is a CLOSED CONTINUOUS ORNAMENTED METAL SURFACE physically in front of both eyes, extending down over the full eye line and upper nose. Fit the helmet LOWER on his face, as in image 2. The lower pointed center of the helmet front reaches the nose bridge, with matching cheekward edges. There must be NO eye slit or eye opening: both eyes are mechanically covered by the metal of the lowered helmet.
+Do not merely dim the eyes, paint a dark eye socket, add shadows, add a blindfold, or cover the face with fabric. The helmet's geometry and position must visibly do the hiding.
+Faithfully match image 2's broad silver-white upward side fins, solid curved crown blades, inward gold spiral relief, ornate long gold-bordered front plate, and rich silver/gold materials. Keep the head at its current natural adult size and angle. Decorative red enamel higher on the helmet can remain non-glowing, but there must be no red strip, jewel, lens or light source at eye level.
+
+REMOVE ALL MASKS:
+Delete all black cloth currently over the lower face. Delete any rigid mouthplate or chin cover. No scarf over the face, no balaclava, no cloth face wrap, no metal mask.
+Below the lowered helmet edge, reveal an attractive adult male's natural lower nose, CLOSED LIPS, cheeks around the mouth, jawline and bare chin, arranged exactly like the open lower-face area visible in image 2. Smooth warm human skin, handsome clean-shaven jaw, calm neutral expression, refined painterly Korean fantasy-game character face. Clearly visible skin and lips are required. The helmet covers eyes and upper nose; the mouth and chin are uncovered.
+
+ZERO EYE EFFECT:
+No visible eyes, pupils, irises, eye whites, eye glow, red horizontal lights, emissive slits, sparks or beams. No exposed eye openings at all. The view should immediately read as an ornate helmet pulled low over the eyes, with a normal bare lower face below it.
+
+Keep all other image elements unchanged. Same exquisite 2D semi-real fantasy illustration quality. No text, labels, logo, watermark, UI, border, inset, or comparison panel. Full-body output.

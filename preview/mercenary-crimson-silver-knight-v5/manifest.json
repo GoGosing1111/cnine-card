@@ -1,0 +1,43 @@
+{
+  "date": "2026-09-30",
+  "nameAssigned": false,
+  "rankAssigned": false,
+  "sdGenerated": false,
+  "liveRegistered": false,
+  "deploymentPerformed": false,
+  "format": "PROJECT_V_CRIMSON_KNIGHT_SWORD_TIP_V5",
+  "status": "SUPERSEDED_DRAFT_PRESERVED",
+  "userRequest": [
+    "칼은 이 이미지 참고해봐 게임속 리소스 사진임",
+    "칼 끝쪽만 좀 더 디테일 잡으면 좋을듯"
+  ],
+  "sourceArt": {
+    "path": "assets/crimson-silver-knight-sword-tip-v5.png",
+    "width": 1024,
+    "height": 1536,
+    "mode": "RGB",
+    "sha256": "92B4F541FE4581525E328F7D01300B8BE9B72FA7498B3BC8CFB9081771DF8DA5",
+    "bytes": 2690762
+  },
+  "editBase": {
+    "path": "../mercenary-crimson-silver-knight-v4/assets/crimson-silver-knight-cloth-cape-v4.png",
+    "sha256": "FA69AE60B4B7DEA896323C9E4BE6D9C73AD46AC557015C7165FF0837D460A225"
+  },
+  "references": [
+    {
+      "path": "sources/user-reference-10-ingame-sword.png",
+      "role": "INGAME_SWORD_REFERENCE",
+      "sha256": "A67F0FD994FDA1922A53160F34941048DC31F52C18C5A81AAEA823BCC1997DFB"
+    }
+  ],
+  "generation": {
+    "toolMode": "BUILT_IN_IMAGE_GEN",
+    "prompt": "prompts/sword-tip-v5.txt",
+    "nativeOutput": "C:/Users/User/.codex/generated_images/01a0f210-dfde-7e73-acb5-b2cc712e8a32/exec-e6139e51-13e9-41e5-9d71-a428cffbaee2.png",
+    "copiedWithoutReencoding": true
+  },
+  "visualReview": {
+    "nativeImageInspected": true,
+    "notes": "Refined lower blade bevels and ruby socket. User subsequently reselected the V3 sword and retained this cape direction."
+  }
+}

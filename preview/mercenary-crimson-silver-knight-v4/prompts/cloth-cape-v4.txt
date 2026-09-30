@@ -1,0 +1,31 @@
+Use case: precise-object-edit.
+Asset type: PROJECT V mercenary sourceArt V4, one finished 2:3 portrait illustration, native 1024 x 1536 RGB PNG, opaque background.
+
+User correction: "헬멧 디자인 최대한 재반영, 검신 갈고리 마스크 과하다 천방식으로 바꿀것 망토 디자인 2번째 사진처럼 디자인".
+Faithfully reapply the supplied helmet design, tone down the excessive sword hooks, replace the exaggerated hard lower-face mask with cloth, and give the cape the dramatic design shown in the supplied second photo.
+
+INPUT ROLES:
+Image 1 is the EDIT TARGET: the latest V3 knight with broad greatsword, large bottom hooks, dark rigid face mask and gold-edged cape.
+Image 2 is the user's FIRST ATTACHMENT: a close-up of the desired helmet. This is the precise helmet design target, not merely general inspiration.
+Image 3 is the user's SECOND ATTACHMENT: the earlier knight with a huge flowing PLAIN RED CAPE. This is the precise CAPE design reference only. Do not import its thicker legs, different armor, raised glowing fist, pose or narrow sword.
+
+EDIT ONLY THESE FOUR AREAS:
+
+1. HELMET — MUCH CLOSER TO IMAGE 2:
+Carefully reproduce the actual visible arrangement and proportions of image 2's helmet in the angle of the edit target: broad solid silver-white side fins with tall pointed flame-like tips, deep inward gold volutes within their silver faces, the shorter layered silver crown blades behind the forehead, and the long forward-sloping gold-bordered brow/face plate. The center has a rich dark-gold recessed vertical face design, sinuous raised gold lines, and paired red enamel accents beneath the central sharp crest. Preserve the reference's broad smooth silver surfaces and substantial curved gold ornament, rather than translating them into generic thin antlers or a new dragon mask.
+The recognizable reference geometry is the priority. Keep the same adult head size and head direction. Adapt perspective naturally; do not just add more spikes to V3. Keep the lower edge around the nose/cheeks compatible with a soft lower-face cloth covering. Preserve restrained red eye light beneath the brow from the previous version, but reduce its glare so the exact helmet shapes remain legible. No halo.
+
+2. LOWER-FACE MASK — PLAIN BLACK CLOTH:
+Completely REMOVE the V3 rigid angular metal mouth/chin mask and its gold seams. Replace it with a SIMPLE close-fitting matte charcoal/black FABRIC face wrap over the nose, mouth and chin, tucked naturally below the helmet and into the collar. Show a few soft horizontal tension folds, subtle woven texture and gentle shading so it unmistakably reads as thin flexible cloth. Minimal thickness, human jaw contour, no protruding jaw plate, no pointed mask beak, no hard cheek shells, no metal ornament, no grille or vents, no respirator. No hanging scarf tails. Keep mouth and chin covered. This must be visibly softer and quieter than V3.
+
+3. SWORD — SUBTLE BOTTOM FLARES INSTEAD OF BIG HOOKS:
+Maintain V3's broad blade width, full length, long parallel silver edges, dark central channel, gold center decoration, ruby accents, hilt/guard and hand grip. Do not make the blade thin again.
+The two huge upward-curling bottom hooks are excessive: shrink their curl height and sideways protrusion by approximately 75–80%. Replace the large circular fishhooks with SHORT SHALLOW outward-swept silver tips integrated into the blade edges. No deep U-shaped curls, giant J hooks, loops or oversized wings at the bottom. Retain the overall long greatsword identity and central ruby-set terminal point. Both lower blade edges should look powerful and controlled, with only a small graceful flare. Keep all tips inside the frame, and maintain separation from the boots.
+
+4. CAPE — MATCH THE PLAIN CRIMSON WINDBLOWN SHAPE OF IMAGE 3:
+Replace V3's orderly gold-trimmed, embroidered drape with the spectacular flowing PLAIN vivid crimson cape from image 3. Large expansive red cloth masses stream from the shoulders outward behind both arms, with bold angular folds, airborne billows and long sweeping sections around the side backgrounds. The main upper sweep extends toward the upper-right edge, and a counter-sweep opens behind the sword on the left. Rich saturated red lit folds and deep darker red fold shadows.
+Remove the ornate gold cape edging, embroidery, gold leaf motifs and pointed formal hem design. The cape is beautifully painted cloth, not armor. Capture the airy spread and strong movement of image 3, while keeping the face, hands, wide sword and slimmer legs visible. The flowing cloth stays primarily behind the character and at the side edges; it must not obscure the requested helmet, mask or revised sword bottom.
+
+INVARIANTS:
+Keep the edit target's athletic proportions and SLIM V2/V3 legs, its existing silver/gold shoulder and body armor, chest ruby, waist/hip armor, feet size, calm stance, lowered free hand, sword location at viewer left, full-body camera framing, environment and polished painterly finish. Do not reintroduce the bulkier V1 legs. Do not change the breastplate/pauldrons to those in the helmet or cape references.
+Same high-end character-centered semi-real 2D fantasy game illustration quality with excellent silver, gold and soft-cloth material distinction. Both feet and the entire sword remain visible. No additional characters, text, branding, watermark, signature, UI, rank, card border or panels. Output one complete edited illustration.

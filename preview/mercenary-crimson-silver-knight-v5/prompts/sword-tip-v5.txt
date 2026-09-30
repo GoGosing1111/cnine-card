@@ -1,0 +1,26 @@
+Use case: precise-object-edit.
+Asset type: PROJECT V mercenary sourceArt V5. One edited full illustration, exactly 1024 x 1536 RGB PNG, portrait 2:3.
+
+Latest user instructions: "칼은 이 이미지 참고해봐 게임속 리소스 사진임" followed by "칼 끝쪽만 좀 더 디테일 잡으면 좋을듯".
+Refine ONLY THE LOWER TIP OF THE SWORD in the current illustration, using the supplied in-game resource screenshot as a supporting reference.
+
+Image 1 is the EDIT TARGET: the latest knight illustration with a cloth mask, red glowing eyes, plain billowing red cape and wide sword with restrained small bottom flares.
+Image 2 is the low-resolution in-game reference for the sword. Look at the silver outline, dark inset center, red/gold lower tip assembly and warm red-orange highlight at the end of the blade. Do not copy the screenshot's grass, UI, character, isometric view or pixelated rendering.
+
+STRICT LOCAL EDIT REGION:
+Only change the last approximately 18% of the sword blade, the lower terminal beside the viewer-left boot (approximately x=160–375 and y=1180–1455 in image 1). The rest of the picture must remain unchanged in design, framing, color and pose. Do not zoom, crop or produce a close-up; deliver the complete illustration.
+
+TIP REFINEMENT:
+Preserve the current wide straight blade and its overall bottom silhouette; give the terminal a more coherent, sharply resolved game-weapon construction.
+- Resolve the transition from the long parallel silver cutting edges into two SHORT, restrained outward-swept terminal points with crisp bevel planes, real thickness and clean light-catching edges.
+- Keep the terminal points compact. Do not reintroduce the huge curled fishhooks rejected earlier, deep U-shaped curls, oversized side wings, loops or excessive extra spikes.
+- Give the dark recessed central blade channel an intentional taper into a compact layered gold/silver socket around the existing red crystal.
+- Refine the existing lower ruby's shape into clearly cut facets securely seated within the metal, with tiny gold retaining edges and a purposeful sharp central finishing point below it.
+- Carefully articulate how the outer silver edges, gold inner trim, dark central inset and ruby socket join into one solid weapon. Avoid floating ornament, fused/melted metal, gaps that look broken, disconnected prongs, or piling on extra gems.
+- Add small controlled crimson-orange reflections around the existing ruby and the adjacent cutting edge as suggested by the game resource. Keep the metal fully readable; no fireball, smoke plume or bloom obscuring the tip.
+This is better construction, edge definition and finish, not a different sword. Keep the tip's total width and blade length close to the current version, with the central end meeting the same stone ground and a convincing tiny contact shadow.
+
+PRESERVE EXACTLY:
+Everything above that lower blade region, the sword guard and grip, hand placement, helmet, soft BLACK CLOTH lower-face mask, red eyes, silver/gold body armor, slender legs, both feet, broad plain flowing crimson cape, background, lighting and camera composition. Do not edit the neighboring boot or add other effects elsewhere. Keep the helmet and mask as they are in image 1.
+
+Maintain the target's exquisite 2D semi-real fantasy illustration rendering and sharp silver/gold/red material quality. No text, logos, labels, inset close-ups, comparison panels, watermarks, UI or card border. Output one complete image.

@@ -1,0 +1,45 @@
+{
+  "date": "2026-09-30",
+  "nameAssigned": false,
+  "rankAssigned": false,
+  "sdGenerated": false,
+  "liveRegistered": false,
+  "deploymentPerformed": false,
+  "format": "PROJECT_V_CRIMSON_KNIGHT_CLOTH_CAPE_V4",
+  "status": "SUPERSEDED_DRAFT_PRESERVED",
+  "userRequest": "헬멧 디자인 최대한 재반영, 검신 갈고리 마스크 과하다 천방식으로 바꿀것 망토 디자인 2번째 사진처럼 디자인",
+  "sourceArt": {
+    "path": "assets/crimson-silver-knight-cloth-cape-v4.png",
+    "width": 1024,
+    "height": 1536,
+    "mode": "RGB",
+    "sha256": "FA69AE60B4B7DEA896323C9E4BE6D9C73AD46AC557015C7165FF0837D460A225",
+    "bytes": 2739147
+  },
+  "editBase": {
+    "path": "../mercenary-crimson-silver-knight-v3/assets/crimson-silver-knight-blade-mask-v3.png",
+    "sha256": "52539C1C7DBE31000F55052B8FC34B5577DE82B1B1DC372090E732B8955C9C30"
+  },
+  "references": [
+    {
+      "path": "sources/user-reference-08-helmet-closeup.png",
+      "role": "HELMET_REFERENCE",
+      "sha256": "B4F726159E8BBE2F281CAFA2083464E822FAACED12683019718E1D4120135F7C"
+    },
+    {
+      "path": "sources/user-reference-09-flowing-cape.png",
+      "role": "CAPE_REFERENCE",
+      "sha256": "F0AC060886117B9024B8F5529BB1CC924378C8DA5701BB5219C6D5BEC117A28F"
+    }
+  ],
+  "generation": {
+    "toolMode": "BUILT_IN_IMAGE_GEN",
+    "prompt": "prompts/cloth-cape-v4.txt",
+    "nativeOutput": "C:/Users/User/.codex/generated_images/01a0f210-dfde-7e73-acb5-b2cc712e8a32/exec-ac63b61e-92ac-40c3-ad2f-f38d60846d11.png",
+    "copiedWithoutReencoding": true
+  },
+  "visualReview": {
+    "nativeImageInspected": true,
+    "notes": "Soft cloth mask, reduced sword hooks and broad plain red cape. Later user instructions supersede this draft."
+  }
+}
