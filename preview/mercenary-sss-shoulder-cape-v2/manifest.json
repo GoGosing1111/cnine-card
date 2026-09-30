@@ -1,0 +1,54 @@
+{
+  "format": "PROJECT_V_SSS_HELMET_ARMOR_CAPE_REVISION_V2",
+  "date": "2026-09-30",
+  "status": "USER_REVIEW_PENDING",
+  "userRequests": [
+    "투구 이미지도 다른데 갑옷 광원이나 장식도 좀 약함",
+    "그리고 망토 과하게 펄럭이니까 간단한 망토로 줄이고 문양같은거로 넣어서 장식해"
+  ],
+  "sourceArt": {
+    "path": "assets/sss-mercenary-helmet-armor-cape-v2.png",
+    "width": 1024,
+    "height": 1536,
+    "mode": "RGB",
+    "sha256": "77C484753A91AEBE5E37C72112C379F0AC749181CBA4E951B13723E950154D7E",
+    "bytes": 2851177,
+    "approvedBaseUnmodified": true
+  },
+  "base": {
+    "path": "../mercenary-sss-shoulder-cape-v1/assets/sss-mercenary-approved-source-art-20260930.png",
+    "sha256": "37D2CB0854AEFDF35B0F2FB326D93637E78BD29369B85EC9FE7E83F7B42E26DD",
+    "unmodified": true
+  },
+  "references": [
+    {
+      "role": "User's exact helmet reference",
+      "path": "sources/helmet-user-reference-20260930.png",
+      "sha256": "029F4861F47E74A8070A90A893FEAB5C183979D6383CF052F17DA4D0689288FD"
+    },
+    {
+      "role": "Armor ornament and light reference",
+      "path": "sources/armor-user-reference-20260930.jpg",
+      "sha256": "E3311547CCA7352E8D4CD7A97E307C744BFED1D75F2F263D6BF48E211BCDE459"
+    }
+  ],
+  "generation": {
+    "toolMode": "BUILT_IN_IMAGE_GEN",
+    "prompt": "prompts/helmet-armor-cape-v2.txt",
+    "nativeOutput": "C:/Users/User/.codex/generated_images/01a0f1f2-cc91-72c3-a322-19e4d45ed867/exec-513f0e93-237f-45e1-8797-3d1ccc1a88d3.png",
+    "copiedWithoutReencoding": true
+  },
+  "changes": [
+    "Compact curved helmet crest and circular temple ornament based on user crop",
+    "Stronger gold armor relief and highlights",
+    "Simpler ivory shoulder cape with gold motif and hem embroidery"
+  ],
+  "visualReview": {
+    "completed": true,
+    "notes": "Checked helmet silhouette, armor highlights, reduced cape and embroidery, retained pointed violet sword and body aura. This is an image-generation revision, not a claim of pixel-identical unchanged regions."
+  },
+  "selectedApprovedBaseReplaced": false,
+  "sdGenerated": false,
+  "liveRegistered": false,
+  "deploymentPerformed": false
+}

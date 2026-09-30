@@ -1,0 +1,22 @@
+Use case: precise-object-edit
+Asset type: One revised PROJECT V SSS mercenary source illustration for user review, 1024x1536 portrait RGB PNG.
+
+INPUT ROLES, obey their priority:
+Image 1: USER-SELECTED CORRECT BASE ILLUSTRATION. Edit this specific image, not a newly reimagined knight. Its purple sword, body aura, armored body proportions, pose and fortress scene are locked.
+Image 2: USER'S EXACT HELMET CLOSE-UP. This is the highest-priority helmet-shape reference.
+Image 3: USER'S ORIGINAL ARMOR reference. Use only its silver/black/gold armor ornament language and the richer luminous gold metallic highlights. Do NOT transfer its weapon, waist cloth, pose, diagram, lettering or background.
+
+The user requested ONLY these three related changes:
+
+A. CORRECT THE HELMET to image 2's actual design.
+Replace the base's excessively tall upright needle/spear crest with the reference's compact curved, swept crown ridges around a dark blue/silver domed top. Match the large circular curled gold temple ornament, the layered golden brow framing the dark V-shaped visor, and the gold-edged angular cheek/jaw plates in the close-up. The reference image is authoritative over words. Preserve a closed, faceless helmet, its natural orientation and the modest adult head SIZE from image 1. Do not enlarge the head, create a bobblehead, add random horns, or exaggerate a tall central spike. Give the metal the same crisp, luminous gilded finish as image 2.
+
+B. MAKE THE ARMOR'S GOLD LIGHT AND ORNAMENT STRONGER, like image 3.
+Keep the same silhouette, limbs, silver plate masses and black interstices from image 1. Strengthen the coherent gold filigree/relief and gilded edging on pauldrons, chest, vambraces, hip plates, knees and greaves using image 3's existing design vocabulary. Make the raised gold trim and ornamental curves clearly readable with richer amber-gold highlights, a few concentrated luminous edge accents and more pronounced polished silver reflections. Keep the craftsmanship sharp and luxurious. Gold lighting should have presence comparable to image 3 while broad silver plates remain silver and black joints remain black. Do not replace all metal with solid gold, coat the whole knight in yellow fog, add random jewelry/gems/spikes, or create overblown bloom. Maintain the violet bounce light near the sword.
+
+C. SIMPLIFY AND DECORATE THE CAPE.
+The huge many-folded billowing cape in image 1 is too excessive. Reduce it to ONE simple, moderately narrow ivory shoulder cape dropping from the existing shoulder clasps behind the back to around the lower calves. The cloak follows gravity with only a gentle breeze and a small natural side lift, a few broad folds, and a clean unified hem. Its visible width should be about the body/shoulder width, not an enormous sail filling the left half of the image. No multiple tails, no ribbons, no dramatic flare, no waist cloth.
+Decorate the calmer cloth with ONE tasteful gold heraldic ornamental motif derived from the helmet/armor's curved scroll shapes, plus a fine gold embroidered border near the hem. Make the decorative pattern intentional and readable, not covered in tiny noise or text. Keep cloth ivory. Shoulder origins stay clear, and both armored legs remain readable. Naturally continue the existing fortress background through areas formerly covered by the excessive cloth.
+
+STRICT INVARIANTS:
+Preserve image 1's ENTIRE PURPLE GREATSWORD EXACTLY: same blade width, STRAIGHT blade profile and pointed tip, guard outline, guard gemstone, rune placement, bevels, grip, pommel, length, angle and hand contact. Absolutely do not curve, widen, hook, shorten, blunt or redesign its tip; do not use image 3's golden sword. Preserve the exact body-wrapping violet aura from image 1 and its front/behind flow. Preserve both hands, armor/body scale and pose, camera, full-body composition, feet, foreground stone terrace and fortress architecture. Only the helmet, armor lighting/ornament strength, and reduced/decorated cape may change. No text, no lettering, no UI, no card frame, no diagrams, no new weapons or characters. Match the original polished painterly 2D semi-real game-art finish. Output ONE finished illustration.
