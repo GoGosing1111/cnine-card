@@ -4,6 +4,9 @@ export const BERKAN_CODE='V-055',BERKAN_SKILL_ID='MS-055';
 export const BERKAN_AREA_SKILL_ID='MS-056',BERKAN_AREA_MECHANIC='GILDED_ARROW_RAIN',BERKAN_AREA_IMPACT=1.62;
 export const isBerkanAreaSkill=skill=>skill?.id===BERKAN_AREA_SKILL_ID||skill?.mechanic===BERKAN_AREA_MECHANIC;
 export const BERKAN_TEMPO=Object.freeze({speedScale:1.25,actionCredit:1.25,playbackScale:1.25});
+// 2026-09-30: PVP basic-hit damage only; keep the approved tempo and PVE intact.
+export const BERKAN_PVP_BASIC_DAMAGE_SCALE=.99;
+export const berkanPvpBasicDamageScale=actor=>actor?.isMercenary&&actor.code===BERKAN_CODE&&actor.battleMode==='PVP'?BERKAN_PVP_BASIC_DAMAGE_SCALE:1;
 export const berkanActionCredit=actors=>actors.some(a=>a.isMercenary&&a.statMode==='RANK_FIXED'&&a.code===BERKAN_CODE)?BERKAN_TEMPO.actionCredit:1;
 export const berkanPlaybackRate=engine=>engine.reducedMotion?8:1.3*(engine.paceScale||1)*BERKAN_TEMPO.playbackScale;
 export const BERKAN_MECHANIC='GILDED_STARFALL';
