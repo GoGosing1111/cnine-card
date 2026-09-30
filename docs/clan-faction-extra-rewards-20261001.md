@@ -18,3 +18,11 @@
 - 분류: 세력전 종료 보상과 해당 화면의 국소 변경. 공통 DB/인증/거래 기반, 의존성·전투 계산을 변경하지 않았다. `npm run deploy:production -- --scoped`를 사용한다.
 - 실제 직전 운영 배포를 Cloudflare 메타데이터에서 확인: Pages `9ae76a92-67be-4f35-9dbf-73ad4fd499e5`, 소스 `62867be6031a78f4f1f36c148467431ad6f7e623`, 상태 `success`. 그 이후 원격 main의 문서/독립 미승인 원화 프리뷰 커밋도 후보에 포함되며 게임 로스터·공개/전투 활성화 연결은 하지 않는다.
 - `SCOPED_DEPLOY_TESTS=["tests/clan-faction-sessions-policy.test.mjs","tests/clan-faction-sessions.test.mjs"]`, `SCOPED_DEPLOY_CHECKS=["check:worker"]`. 깨끗한 범위 커밋·origin/main·출시 상태·캐시·private API runtime·Hyperdrive 검사는 유지한다. 운영 확인은 배포 메타데이터와 변경 대표 파일에 한정하며 실제 유저 보상 지급을 테스트하지 않는다.
+
+## 운영 반영 완료
+
+- 깨끗한 소스 `17f4ce7ab40983848e9ca9f9777f3980830b6cff`에서 지정 범위 배포를 완료했다. 관련 회귀 46개, `check:worker`, 필수 출시 상태·캐시·Hyperdrive·private API runtime 검사와 Functions 컴파일이 통과했고 종료 코드는 0이다.
+- Pages `aa39168a-ddff-42fe-a879-b7b0fe1137d3`: https://aa39168a.cnine-card.pages.dev. 운영 메타데이터에서 위 소스와 완료 상태 `success`를 확인했다.
+- API runtime `41f63573-8dd8-41ba-8dff-cb968d02e6d4`, clan-draft `5c1fae9b-32ea-4b0b-b845-505f0595e90a`로 반영했다. Hyperdrive `12ed48b0fb374f82a610cc1daba92e95`의 query cache OFF와 바인딩 일치는 유지됐다.
+- 운영 메인/클랜·세력전 모듈/스타일/보상 규칙 총 7개 파일이 HTTP 200이며 배포본과 정규화 SHA-256이 일치했다. 비인증 세력전 overview는 401로 보호됐다.
+- 실제 운영 회차 종료나 실계정 메시지 수령은 검수 목적으로 실행하지 않았다. 실제 정산·수령은 위 로컬 SQLite/PostgreSQL 및 화면 검수로 확인했다. 이 결과 기록의 후속 커밋은 문서만 바꾸므로 재검사·재배포하지 않는다.
