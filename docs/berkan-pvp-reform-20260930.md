@@ -45,4 +45,17 @@ node scripts/measure-berkan-pvp-damage-20260930.mjs --count 1024 --start 70001 -
 
 직전 확인 운영 배포: `18afe6b1-3c0a-4f8f-9b47-3329ab9ad2b8`, 소스 `aea4f2b78ade5867e9acd0ae6d41cfb9db196886`. 이후 원격 추가분 `f301d331`은 운영 지급 복구 기록 문서뿐이라 보존하며, 이 문서 변경으로 관련 검사를 무효화하지 않는다.
 
-배포 명령은 `npm run deploy:production -- --scoped`를 사용한다. 실제 적용 버전·시각·검사 최종 결과는 배포 후 아래에 기록한다.
+배포 명령은 `npm run deploy:production -- --scoped`를 사용했다.
+
+## 운영 반영 완료
+
+**2026-09-30 19:53:30 KST** 운영 확인 완료.
+
+- 운영 소스: `808eb07aab2d4b7e51307f1318cf76880e6cf252`
+- Pages: `cde90d19-9880-464f-99dd-ffd7524a65a2` — <https://cde90d19.cnine-card.pages.dev>
+- API Worker: `6b0f7bf5-af96-46fa-8ff4-ad483ce8cad8`
+- 클랜/듀오 Worker: `86e983a8-e973-4d0f-9bb9-56f64d2f9ec2`
+- scoped 검사 **28/28 통과**, Worker 구문·출시 플래그·캐시·Hyperdrive 검사 통과. 선택 파일은 `mercenary-berkan-tempo-20260927.test.mjs`, `mercenary-berkan-area-20260930.test.mjs`, `pve-battlefield-entry-v2117.test.mjs`, `speed-suppression-v2063.test.mjs`다. 앞서 통과한 새 피해 검사 7건과 승률 측정은 중복 실행하지 않았다.
+- 운영 shared 모듈과 V3 빌드 기록을 HTTP 200으로 조회했고 배포 소스와 정확히 일치했다. shared 모듈 SHA-256: `299778877a1070c6ac8b6cb120eef608035ae58011bad407b99207b81276fb72`. 평타 0.50·PVP 스킬 상한 1.865 확인.
+- 운영 용병도감 API HTTP 200, CMS revision 60·전투 연결 version 2144와 베르칸/크라이베른/라그니엘의 공개 원배율·등급·속도 자료가 그대로임을 확인했다. 신규 전투의 서버 피해 판정에 적용하며 과거 결과를 수정하지 않았다.
+- 이 완료 기록은 문서만 추가하므로 원격 반영으로 끝내고 운영을 다시 배포하지 않는다.
