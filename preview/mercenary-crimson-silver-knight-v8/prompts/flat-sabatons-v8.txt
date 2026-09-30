@@ -1,0 +1,17 @@
+Use case: precise-object-edit.
+Edit the supplied knight illustration. Deliver the SAME full image at exactly 1024 x 1536, portrait 2:3, RGB PNG.
+
+User corrections: "오케이 마지막으로 신발 뒷굽만 어떻게 해봐" and "기사가 뒷굽이 뭐노".
+The knight's shoes mistakenly look like high heels. REMOVE THE RAISED HEELS. Change only the footwear soles/heel construction into practical flat knight's armored sabatons.
+
+LOCAL FOOTWEAR EDIT:
+Concentrate on the viewer-right side-facing foot, which currently has a conspicuous raised rear heel and high-arched shoe silhouette. Remove the entire high-heel silhouette. Give this armored foot a natural horizontal, weight-bearing profile: heel, midfoot and forefoot supported by one thin continuous FLAT sole at the ground. The rear heel sits down on the stone at the same level as the ball of the foot. No separate heel block, high heel, stiletto, wedge heel, platform, pointed downward heel, open arch gap or tiptoe stance.
+Resolve the rear ankle and heel shell as functional silver plate armor that encloses a normal flat-boot heel. Keep the articulated silver/gold instep plates and pointed armored toe in the existing design language. This is a practical medieval/fantasy knight's sabaton on a flat boot, not a fashion shoe.
+Apply the same flat construction to the viewer-left forward-facing boot wherever its sole or heel edge is visible. Keep both feet naturally proportioned and the slim armored ankles. Do not thicken the whole calves or enlarge the boots into bulky blocks.
+Use a modest, thin charcoal sole edge beneath the metal if needed, with no extra lift. Make ground contact and the small contact shadow/reflection under each foot physically convincing.
+Keep the current foot directions and stance; only make the small local adjustments in the foot and ankle needed to make flat grounded boots anatomically credible.
+
+PRESERVE EVERYTHING ELSE:
+The user already likes the rest. Keep the lowered silver/gold helmet that physically covers both eyes, bare mouth and chin, absence of a face mask and eye glow, head shape, entire body and leg armor, slim legs, hands, huge sword INCLUDING its existing lower hooks, the flowing crimson cape, colors, background, framing and lighting unchanged.
+Do not edit the adjacent sword tip. Do not change the face, reintroduce a mask, reveal the eyes, or change the cape. Do not move the character or camera.
+Same polished semi-real 2D fantasy splash-art style and metal finish. Full character and sword in frame, no cropping. No text, labels, UI, watermark, logo, inset close-up or comparison panel. One full edited image.

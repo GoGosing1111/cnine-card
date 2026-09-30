@@ -1,0 +1,43 @@
+{
+  "format": "PROJECT_V_CRIMSON_KNIGHT_FLAT_SABATONS_V8",
+  "date": "2026-09-30",
+  "status": "USER_REVIEW_PENDING",
+  "userRequest": [
+    "오케이 마지막으로 신발 뒷굽만 어떻게 해봐",
+    "기사가 뒷굽이 뭐노"
+  ],
+  "sourceArt": {
+    "path": "assets/crimson-silver-knight-flat-sabatons-v8.png",
+    "width": 1024,
+    "height": 1536,
+    "mode": "RGB",
+    "bytes": 2645494,
+    "sha256": "8B94E60670355AF87D13802FD68AD4DE22F8E7F23C65028CC97DD1D1F78BE838"
+  },
+  "editBase": {
+    "path": "../mercenary-crimson-silver-knight-v7/assets/crimson-silver-knight-lowered-helmet-v7.png",
+    "sha256": "04AA2DD334A791E3BB71C0B07ED3114CC0938FD7694486744BA47328EC3E3585",
+    "unmodified": true
+  },
+  "generation": {
+    "toolMode": "BUILT_IN_IMAGE_GEN",
+    "prompt": "prompts/flat-sabatons-v8.txt",
+    "nativeOutput": "C:/Users/User/.codex/generated_images/01a0f210-dfde-7e73-acb5-b2cc712e8a32/exec-fcc072a9-8a95-4c66-bc96-5cd605871478.png",
+    "copiedWithoutReencoding": true
+  },
+  "changes": [
+    "Removed the raised heel and open arch of the side-facing armored boot",
+    "Replaced the heel with a low continuous flat sole and grounded rear foot contact"
+  ],
+  "visualReview": {
+    "nativeImageInspected": true,
+    "raisedHeelRemoved": true,
+    "notes": "Side-facing boot now rests on a continuous thin sole. Lowered eye-covering helmet, bare mouth and chin, sword and cape remain visually consistent. Generative edit; pixel-identical preservation is not claimed."
+  },
+  "previousArtworkReplaced": false,
+  "nameAssigned": false,
+  "rankAssigned": false,
+  "sdGenerated": false,
+  "liveRegistered": false,
+  "deploymentPerformed": false
+}
