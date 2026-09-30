@@ -50,3 +50,12 @@
 실제 메인 UI와 공용 V3를 Chrome 1440px/390px에서 음소거 검수했다. 합성 선택·성공·실패·중복 클릭·응답 유실 복구·영상 404·화면 이탈, CMS 영상 저장/재조회, PVE/PVP 재생과 원본 사진 프레임을 확인했다. 수평 넘침이나 브라우저 예외가 없고 비용/주요 조작은 모바일에서 접근 가능하다. 픽셀 시각 검수도 별도로 수행했다. 운영 계정에 시험 합성을 실행하지 않는다.
 
 검수 파일은 작업 트리 외부 `C:/Users/User/.codex/worktrees/qa-icon-fusion-20260930/`의 `report.json`, `display-report.json`, `battle-report.json`과 viewport/전투 스크린샷이다. 임시 운영 도구와 dry-run 결과는 `C:/Users/User/.codex/worktrees/ops-icon-live-20260930/`에 보존한다. 배포 및 실제 등록 결과는 완료 후 아래에 추가한다.
+
+## 운영 반영 완료
+
+- 코드 커밋 `ebe6e43d55cc1a881bbce2cc8ded04f753c98dfa`, `origin/main` 반영 후 지정 scoped 명령으로 배포했다. 선택 회귀 **34개 통과**, Worker 컴파일·출시/캐시/깨끗한 소스·Hyperdrive 검사 모두 통과했다.
+- Pages 배포: https://b5e6d7d5.cnine-card.pages.dev. API Runtime 버전 `12dcfc84-4804-489a-82aa-41b75506bb8c`, Clan Draft 버전 `71339015-330c-4b09-b461-232258347fc4`.
+- 2026-09-30 13:19:37 KST 운영 7종 등록을 커밋했다. 등록 영수증을 재조회해 7종 및 `icon_fusion_settings_v1` revision 1 / enabled true를 확인했다. 기존 효과 초안 보존, 계정 보유 카드·재화 변경 0건이다.
+- 라이브 `/api/cards`는 7종 모두 ICON·기본 전투력 180000·지정 원본 사진으로 반환한다. 합성 overview의 미인증 접근은 401로 차단된다. 합성 번들/CSS·CMS 모듈·ICON SD 매니페스트·공용 어댑터·독립 V3 페이지의 운영 파일 해시가 소스와 일치하며 메인 캐시 버전은 `2108-shared-navigation-icon-20260930`이다.
+- 성공 영상 경로는 빈 값으로 출시했다. 사용자가 영상을 제공하면 `assets/`에 배포하고 OWNER CMS의 **아이콘 카드 → 아이콘 합성 · 성공 영상**에서 경로와 최대 길이를 연결한다. 그전에는 구현된 인라인 합성 연출을 사용한다.
+- 운영 확인 자료: 외부 작업 폴더의 `deploy.log`, `apply.json`, `inspect-before-registration.json`, `inspect.json`, `live-verification.json`. 로컬 QA 서버와 임시 운영 조회 세션을 종료했다. 이 완료 기록은 문서 전용 후속 커밋이며 게임 재배포를 반복하지 않는다.
