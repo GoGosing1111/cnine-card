@@ -8,7 +8,6 @@
 .hero-copy h1 { font-size: 88px; }
 .hero-art { background-size: auto 130%; background-position: 90% 20%; }
 .encounter-strip { padding: 0 6% 40px; }
-.live-lobby { min-height: 560px; padding: 36px 5%; }
 &.in-combat > .site-header { display: none; }
 &.in-combat { position: fixed; inset: 0; z-index: 100; width: 100%; height: 100dvh; background: #03080e; overflow: hidden; }
 .battle-pane #lich-battleMount { height: 100% !important; min-height: 0 !important; }
@@ -22,8 +21,6 @@
   .hero-copy h1 span { margin-left: 10px; }
   .raid-facts { gap: 22px; }
   .encounter-strip { padding: 0 20px 24px; }
-  .live-lobby { padding: 26px 16px; }
-  .live-lobby h1 { font-size: 30px; }
   dialog { padding: 28px 20px; }
   .raid-party-dialog { padding: 18px 12px; }
   .raid-room footer { gap: 10px; flex-wrap: wrap; }

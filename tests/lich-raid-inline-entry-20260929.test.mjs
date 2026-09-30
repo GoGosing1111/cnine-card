@@ -61,11 +61,34 @@ test('disposing inline Lich ignores a late feature response and removes listener
 test('production loader points to native inline UI and reuses the canonical V3 runtime', () => {
   assert.doesNotMatch(entry,/location\.(assign|href)|window\.open|createElement\(['"]iframe/);
   assert.match(entry,/tab\.dataset\.raidContent = 'lich'/);
-  assert.match(index,/lich-king-raid-entry-v1\.js\?v=20261001-party-sync/);
-  assert.match(index,/core-protocol-raid-v1924\.js[^"']+lich=20261001-party-sync/);
+  assert.match(index,/lich-king-raid-entry-v1\.js\?v=20261001-lobby-v2/);
+  assert.match(index,/core-protocol-raid-v1924\.js[^"']+lich=20261001-lobby-v2/);
   assert.match(adapter,/ProjectVBattleV3Live\.ensureRuntime\(/);
   assert.doesNotMatch(adapter,/import.*project-v-pixi-battle|cnineCardCatalog\s*=/);
   assert.match(bundle,/ProjectVBattleV3Live\.ensureRuntime/);
   assert.match(styles,/#pveLichRaidView #lich-toast/);
   assert.doesNotMatch(styles,/(?:^|\n)(?:body|:root|dialog|\*)\s*\{/);
+});
+
+test('switching raid tabs during a pending lobby command ignores its late response', async () => {
+  let finishOpen,removed=false,reads=0;const nodes=new Map(),timers=new Set();
+  const root={...element(),querySelector:selector=>{
+    reads++;if(removed)return null;
+    if(!nodes.has(selector))nodes.set(selector,{...element(),onclick:null});
+    return nodes.get(selector);
+  }};
+  const storage={getItem:()=>null,setItem(){},removeItem(){}};
+  const context={AbortController,URLSearchParams,console,sessionStorage:storage,confirm:()=>true,crypto:{randomUUID:()=> 'local-command'},
+    request:path=>path==='raid/lich/feature'?Promise.resolve({accessible:true,mode:'TEST'}):path.startsWith('raid/lich/status')?
+      Promise.resolve({state:null,entry:{quantity:1},rooms:[]}):new Promise(resolve=>{finishOpen=resolve;}),
+    document:{body:{hasAttribute:()=>false},addEventListener(){}},addEventListener(){},
+    setTimeout:fn=>{timers.add(fn);return fn;},clearTimeout:fn=>timers.delete(fn)};
+  context.window=context;vm.createContext(context);
+  vm.runInContext(client.replace(/^import[^\n]+\n/,'').replace('export function','function'),context);
+  const controller=context.mountLichRaid(root);await new Promise(resolve=>setImmediate(resolve));
+  nodes.get('[data-lich-id="createButton"]').onclick();assert.equal(typeof finishOpen,'function');
+  controller.destroy();removed=true;const before=reads;finishOpen({roomId:'local-room'});
+  await new Promise(resolve=>setImmediate(resolve));
+  assert.equal(reads,before,'a removed lobby must not be queried or painted');assert.equal(timers.size,0);
+  assert.equal(controller.diagnostics().disposed,true);
 });

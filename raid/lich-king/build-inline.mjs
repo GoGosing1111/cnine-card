@@ -6,7 +6,7 @@ const page = await readFile('raid/lich-king/index.html', 'utf8');
 const ids = [...page.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
 const fonts = new Set();
 const sources = [];
-for (const file of ['preview/lich-king-raid-v1/raid.css', 'preview/lich-king-raid-v1/mechanics.css', 'raid/lich-king/live.css']) {
+for (const file of ['preview/lich-king-raid-v1/raid.css', 'preview/lich-king-raid-v1/mechanics.css', 'raid/lich-king/live.css', 'raid/lich-king/lobby.css']) {
   let css = await readFile(file, 'utf8');
   css = css.replace(/@font-face\{[^}]+\}/g, font => { fonts.add(font); return ''; })
     .replace(/:root|\bbody(?=[.\s{>])/g, '&')

@@ -1,6 +1,10 @@
 import {jointAccountRequest as request} from '/js/joint-account-transport.mjs';
 export function mountLichRaid(root=document.body,{loadBattle=async()=>{}}={}){
 const $=id=>root.querySelector('[data-lich-id="'+id+'"]')||root.querySelector('#'+id),roles={ASSAULT:'정벌대',WARDEN:'봉인대',RESCUE:'구출대',UNASSIGNED:'배정 대기'};
+const roleKeys=['ASSAULT','WARDEN','RESCUE'];
+const roleHints={ASSAULT:'감옥을 처리하고, 공격 기회에 집중 공격과 결전을 사용하세요.',WARDEN:'영혼 말살을 차단하고, 표시된 순서로 문양을 봉인하세요.',RESCUE:'역병을 전이하고, 갇힌 영혼과 쓰러진 공대원을 구하세요.',UNASSIGNED:'공대장의 작전 배분을 기다려주세요. 역할이 정해지면 준비할 수 있습니다.'};
+const symbols={ASSAULT:'<path d="m4 3 7 7-3 3-7-7 3-3Zm9 10 7 7M13 3l7 3-7 7m-3 3-6 6M15 18l3-3M3 15l3 3"/>',WARDEN:'<path d="m12 2 8 4v6c0 5-8 10-8 10S4 17 4 12V6l8-4Z"/><path d="M12 7v9M8 11l4-4 4 4"/>',RESCUE:'<path d="M7 5h10l4 7-4 7H7l-4-7 4-7Z"/><path d="M12 8v8M8 12h8"/>',UNASSIGNED:'<circle cx="12" cy="12" r="9"/><path d="M8 12h8"/>',CHECK:'<path d="m5 12 4 4L19 6"/>',EXIT:'<path d="M9 4H4v16h5m5-13 5 5-5 5M9 12h10"/>',ARROW:'<path d="M4 12h16m-6-6 6 6-6 6"/>',PEOPLE:'<circle cx="9" cy="7" r="3"/><path d="M3 21v-4a6 6 0 0 1 12 0v4m2-17a3 3 0 0 1 0 6m1 3a5 5 0 0 1 3 5v3"/>'};
+const icon=name=>'<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">'+symbols[name]+'</svg>';
 const lifecycle=new AbortController();
 const on=(target,type,listener)=>target.addEventListener(type,listener,{signal:lifecycle.signal});
 let disposed=false;
@@ -9,6 +13,7 @@ const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;
 const api=(route,options)=>request('raid/lich/'+route,options);
 let state=null,eventSeq=0,roomId=sessionStorage.getItem('lichLiveRoom')||'',mounted=false,mounting=false,polling=false,busy=false,ended=false,view='landing',timer,toastTimer,memberKey='',failures=0,generation=0;
 let preparation=null;
+let loadoutKey='';
 function prewarm(){
   preparation||=loadBattle().then(()=>window.LichBattle?.preload?.()).catch(error=>{preparation=null;console.warn('[Lich resources]',error);});
 }
@@ -29,7 +34,7 @@ function screen(name){
 function schedule(){clearTimeout(timer);if(disposed||document.hidden||view==='gate')return;timer=setTimeout(()=>void sync(),Math.min(10000,(state?.status==='ACTIVE'?650:view==='lobby'?3000:15000)*2**Math.min(failures,3)));}
 function setRoom(value){roomId=value||'';if(roomId)sessionStorage.setItem('lichLiveRoom',roomId);else sessionStorage.removeItem('lichLiveRoom');}
 function reset(){
-  setRoom('');state=null;eventSeq=0;ended=false;mounted=false;memberKey='';window.LichBattle?.teardown();$('journal').innerHTML='';
+  setRoom('');state=null;eventSeq=0;ended=false;mounted=false;memberKey='';loadoutKey='';$('loadoutPanel').hidden=true;window.LichBattle?.teardown();$('journal').innerHTML='';
   for(const id of ['resultDialog','partyDialog'])if($(id).open)$(id).close();
 }
 function showGate(error){
@@ -38,16 +43,51 @@ function showGate(error){
 function renderMembers(){
   if(!state)return;const key=JSON.stringify([state.members,state.me.isHost,state.status]);
   if(key===memberKey)return;memberKey=key;
-  const html=state.members.map((m,i)=>'<li class="member-row" data-ready="'+Boolean(m.ready)+'"><span class="member-number">'+String(i+1).padStart(2,'0')+'</span><div class="member-identity"><b>'+esc(m.name)+(m.id===state.me.id?' · 나':'')+'</b><small>'+(m.id===state.hostId?'공대장 · ':'')+esc(roles[m.role])+'</small></div><div class="member-controls">'+
-    (state.me.isHost?'<span class="ready-status">'+(state.status==='LOBBY'?(m.ready?'준비':'대기'):'')+'</span><select data-assign="'+esc(m.id)+'" aria-label="'+esc(m.name)+' 역할 배분"><option value="UNASSIGNED" disabled '+(m.role==='UNASSIGNED'?'selected':'')+'>배정 대기</option>'+Object.keys(roles).filter(k=>k!=='UNASSIGNED').map(role=>'<option value="'+role+'" '+(m.role===role?'selected':'')+'>'+roles[role]+'</option>').join('')+'</select>':'<span class="ready-status">'+(state.status==='LOBBY'?(m.ready?'준비 완료':'준비 중'):roles[m.role])+'</span>')+
-    (state.me.isHost&&m.id!==state.me.id?'<button class="quiet-button" data-kick="'+esc(m.id)+'" data-name="'+esc(m.name)+'">강제퇴장</button>':'')+'</div></li>').join('');
+  const html=state.members.map((m,i)=>'<li class="member-row" data-role="'+esc(m.role)+'" data-ready="'+Boolean(m.ready)+'"><span class="member-number">'+String(i+1).padStart(2,'0')+'</span><div class="member-identity"><b>'+esc(m.name)+(m.id===state.me.id?'<em>나</em>':'')+'</b><small>'+(m.id===state.hostId?'공대장':'공대원')+' <span>· '+esc(roles[m.role])+'</span></small></div><div class="member-controls">'+
+    (state.me.isHost?'<div class="role-choices" role="group" aria-label="'+esc(m.name)+' 역할 배분">'+roleKeys.map(role=>'<button type="button" class="role-choice" data-role="'+role+'" data-assign-role="'+role+'" data-target="'+esc(m.id)+'" aria-label="'+esc(m.name)+' 역할 '+roles[role]+'" aria-pressed="'+(m.role===role)+'">'+icon(role)+roles[role]+'</button>').join('')+'</div>':'<span class="assigned-role" data-role="'+esc(m.role)+'">'+icon(m.role)+esc(roles[m.role])+'</span>')+'</div><span class="ready-status"><i></i>'+(state.status==='LOBBY'?(m.ready?'준비 완료':'대기 중'):'전투 중')+'</span>'+
+    (state.me.isHost&&m.id!==state.me.id?'<button type="button" class="member-kick" data-kick="'+esc(m.id)+'" data-name="'+esc(m.name)+'" aria-label="'+esc(m.name)+' 강제퇴장" title="강제퇴장">'+icon('EXIT')+'</button>':'')+'</li>').join('');
   $('memberList').innerHTML=html;$('combatMembers').innerHTML=html;
+}
+function renderRooms(result){
+  $('roomCount').textContent=result.rooms.length;
+  $('roomList').innerHTML=result.rooms.map((room,i)=>'<article class="raid-room"><header><span class="room-number">'+String(i+1).padStart(2,'0')+'</span><div><strong>'+esc(room.hostName)+'의 공대</strong><small>공대원 모집 중</small></div><span class="room-availability">'+(room.joinable?'모집 중':'참가 불가')+'</span></header><div class="role-counts">'+room.roles.map(r=>'<span data-role="'+r.role+'" data-filled="'+(r.count>0)+'">'+icon(r.role)+'<b>'+roles[r.role]+'</b><small>'+r.count+'명</small></span>').join('')+'</div><footer><span class="room-seats">'+icon('PEOPLE')+'<b>'+room.members+'</b> / '+room.maxMembers+'명</span><button type="button" class="secondary-button" data-join="'+esc(room.id)+'" '+(!room.joinable||busy?'disabled':'')+'>'+(room.joinable?'공대 참가':'참가 불가')+icon('ARROW')+'</button></footer></article>').join('')||'<div class="live-empty">'+icon('PEOPLE')+'<h3>아직 모집 중인 공대가 없습니다.</h3><p>첫 공대를 만들고, 함께할 정벌자를 기다려보세요.</p></div>';
+}
+function renderLoadout(payload){
+  if(!payload)return;
+  const cards=payload.cards||[],mercenary=payload.battleV2?.teams?.A?.mercenaries?.[0],suit=payload.equippedBattleSuit;
+  const key=JSON.stringify([cards,mercenary?.code,mercenary?.sourceArt,suit]);if(key===loadoutKey)return;loadoutKey=key;
+  const art=value=>{const url=String(value||'');return url.startsWith('assets/')?'/'+url:/^(?:https?:\/\/|\/(?!\/))/.test(url)?url:'';};
+  const unit=(card,label,support=false)=>{
+    const image=art(card?.sourceArt||card?.originalCardArt||card?.image),title=card?.title||card?.name||'미편성';
+    return '<figure class="loadout-unit'+(support?' is-support':'')+'"><div class="loadout-portrait">'+(image?'<img src="'+esc(image)+'" alt="'+esc(title)+'" loading="lazy">':'<span aria-hidden="true">—</span>')+'</div><figcaption><small>'+esc(label)+'</small><b title="'+esc(title)+'">'+esc(title)+'</b></figcaption></figure>';
+  };
+  $('loadoutList').innerHTML='<div class="loadout-cards">'+cards.map((card,i)=>unit(card,String(i+1).padStart(2,'0'))).join('')+'</div><div class="loadout-supports">'+unit(mercenary,'용병',true)+unit(suit,'배틀슈트',true)+'</div>';
+  $('loadoutPanel').hidden=cards.length===0;
+}
+function renderAssembly(){
+  const count=state.members.length,ready=state.members.filter(m=>m.ready).length;
+  const coverage=roleKeys.map(role=>({role,count:state.members.filter(m=>m.role===role).length}));
+  $('hostLabel').textContent='공대장 '+state.hostName;$('memberCount').textContent=count+' / 6';
+  $('readyCount').textContent='준비 '+ready+' / '+count;$('openSeats').textContent=count<6?'함께할 공대원을 기다립니다 · 남은 자리 '+(6-count):'모든 자리가 찼습니다.';
+  $('myRoleName').textContent=roles[state.me.role];$('myRoleIcon').innerHTML=icon(state.me.role);$('myRoleIcon').dataset.role=state.me.role;
+  $('myRoleHint').textContent=roleHints[state.me.role];
+  $('roleCoverage').innerHTML=coverage.map(({role,count})=>'<div data-role="'+role+'" data-filled="'+(count>0)+'">'+icon(role)+'<span>'+roles[role]+'</span><b>'+count+'<small>명</small></b></div>').join('');
+  const conditions={members:count>=3,roles:coverage.every(r=>r.count>0),ready:ready===count};
+  for(const [key,met]of Object.entries(conditions))$('assembly').querySelector('[data-condition="'+key+'"]').classList.toggle('is-met',met);
+  $('memberCondition').textContent=count+' / 3';$('roleCondition').textContent=coverage.filter(r=>r.count>0).length+' / 3';$('readyCondition').textContent=ready+' / '+count;
+  $('lobbyTime').textContent='모집 종료 '+new Date(state.lobbyEndsAt).toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'});
+  $('readyButton').textContent=state.me.ready?'준비 취소':'준비 완료';$('readyButton').classList.toggle('is-ready',state.me.ready);$('readyButton').disabled=busy||state.me.role==='UNASSIGNED';
+  const canStart=Object.values(conditions).every(Boolean);
+  $('startButton').hidden=!state.me.isHost;$('startButton').disabled=busy||!canStart;
+  $('startHint').textContent=canStart?(state.me.isHost?'모든 작전 준비 완료':'공대장의 출정을 기다립니다'):!conditions.members?'최소 3명이 모여야 합니다':!conditions.roles?coverage.filter(r=>!r.count).map(r=>roles[r.role]).join(' · ')+' 배정이 필요합니다':(count-ready)+'명의 준비를 기다립니다';
+  $('lobbyLeave').textContent=state.me.isHost?'공대 해산':'공대 나가기';
+  root.querySelectorAll('[data-assign-role],[data-kick]').forEach(button=>{button.disabled=busy;});
 }
 function render(result){
   if(!result.state){
     state=null;setRoom('');$('browse').hidden=false;$('assembly').hidden=true;
     $('ticketCount').textContent=Number(result.entry.quantity).toLocaleString();$('createButton').disabled=result.entry.quantity<1||busy;
-    $('roomList').innerHTML=result.rooms.map(room=>'<article class="raid-room"><header><strong>'+esc(room.hostName)+'의 공대</strong><b>'+room.members+' / '+room.maxMembers+'</b></header><p>정벌·봉인·구출 역할을 나눠 죽음의 왕좌에 도전합니다.</p><footer><div class="role-counts">'+room.roles.map(r=>'<span>'+roles[r.role]+' '+r.count+'</span>').join('')+'</div><button class="secondary-button" data-join="'+esc(room.id)+'" '+(!room.joinable?'disabled':'')+'>'+(room.joinable?'공대 참가':'참가 불가')+'</button></footer></article>').join('')||'<div class="live-empty">모집 중인 공대가 없습니다.<br>입장권으로 첫 공대를 창설해 보세요.</div>';
+    renderRooms(result);
     return;
   }
   const next=result.state;
@@ -57,11 +97,7 @@ function render(result){
   if(state.status==='LOBBY'){
     prewarm();
     screen('lobby');$('browse').hidden=true;$('assembly').hidden=false;
-    $('hostLabel').textContent='공대장 · '+state.hostName;$('memberCount').textContent=state.members.length+' / 6명';
-    $('lobbyTime').textContent='모집 종료 '+new Date(state.lobbyEndsAt).toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'});
-    $('readyButton').textContent=state.me.ready?'준비 취소':'준비 완료';$('readyButton').disabled=busy||state.me.role==='UNASSIGNED';
-    $('startButton').hidden=!state.me.isHost;$('startButton').disabled=busy||state.members.length<3||!state.members.every(m=>m.ready)||!['ASSAULT','WARDEN','RESCUE'].every(role=>state.members.some(m=>m.role===role));
-    $('lobbyLeave').textContent=state.me.isHost?'공대 해산':'공대 나가기';
+    renderLoadout(result.payload);renderAssembly();
   }else{
     screen('combat');$('roleLabel').textContent=roles[state.me.role];if(mounted)window.LichBattle.enqueue(events,state);
     for(const e of events.filter(e=>e.type.startsWith('RAID_'))){const li=document.createElement('li');li.textContent=e.label;$('journal').prepend(li);if($('journal').children.length>40)$('journal').lastElementChild.remove();$('journalStatus').textContent=e.label;}
@@ -94,7 +130,10 @@ async function sync(){
   }finally{polling=false;schedule();}
 }
 async function command(kind,body={}){
-  if(disposed||busy)return;busy=true;generation++;clearTimeout(timer);$('lobbyNotice').hidden=true;
+  if(disposed||busy)return;busy=true;generation++;clearTimeout(timer);$('lobbyNotice').hidden=true;$('lobby').setAttribute('aria-busy','true');
+  if(state?.status==='LOBBY')renderAssembly();
+  else root.querySelectorAll('[data-join]').forEach(button=>{button.disabled=true;});
+  $('createButton').disabled=true;
   let applied=false;
   if(kind==='action')window.LichBattle?.setPending?.(true);
   const input={...(kind!=='open'?{roomId}:{}),...body},key=kind+':'+JSON.stringify(input);
@@ -116,19 +155,19 @@ async function command(kind,body={}){
     if(['LICH_KICKED','LICH_NOT_MEMBER'].includes(error.code)){reset();screen('lobby');}
   }finally{
     sessionStorage.setItem('lichLiveRequests',JSON.stringify([...pending].slice(-20)));busy=false;
-    window.LichBattle?.setPending?.(false);
+    if(!disposed){$('lobby').setAttribute('aria-busy','false');window.LichBattle?.setPending?.(false);}
     // A successful command already returned the authoritative snapshot.
     // Avoid making players wait for a second network round trip.
     if(!disposed){
-      if(!applied||!state||kind==='leave'||kind==='open')await sync();
+      if(!applied||!state||kind==='leave'||kind==='open'||kind==='join')await sync();
       else {render({state});schedule();}
     }
   }
 }
 async function boot(){
-  try{const feature=await api('feature',{signal:lifecycle.signal});if(disposed)return;$('modeLabel').textContent=feature.mode==='TEST'?'TEST · 지정 공대 검수':feature.mode+' · 리치왕 정벌';
+  try{const feature=await api('feature',{signal:lifecycle.signal});if(disposed)return;$('modeLabel').textContent=feature.mode==='TEST'?'테스트 운영 · 지정 공대':feature.mode==='ON'?'공대 모집 중':'운영 중지';
     if(!feature.accessible)return showGate(new Error(feature.mode==='OFF'?'리치왕 정벌은 현재 운영 중지 상태입니다.':'CMS에서 지정된 테스트 참여자만 입장할 수 있습니다.'));
-    screen(roomId?'lobby':'landing');await sync();
+    screen('lobby');await sync();
   }catch(error){if(!disposed)showGate(error);}
 }
 $('enterButton').onclick=()=>{screen('lobby');prewarm();if(root===document.body)window.scrollTo(0,0);else root.scrollIntoView({block:'start'});void sync();};
@@ -141,10 +180,12 @@ $('retryButton').onclick=()=>{reset();screen('lobby');void sync();};
 $('partyButton').onclick=()=>$('partyDialog').showModal();$('closeParty').onclick=()=>$('partyDialog').close();
 $('guideButton').onclick=$('resultGuide').onclick=$('combatGuide').onclick=()=>$('guideDialog').showModal();$('closeGuide').onclick=()=>$('guideDialog').close();
 on(root,'click',event=>{
+  const assignment=event.target.closest('[data-assign-role]');if(assignment){
+    const member=state?.members.find(m=>m.id===assignment.dataset.target);if(member&&member.role!==assignment.dataset.assignRole)void command('assign',{targetId:member.id,role:assignment.dataset.assignRole});return;
+  }
   const join=event.target.closest('[data-join]');if(join){void command('join',{roomId:join.dataset.join});return;}
   const kick=event.target.closest('[data-kick]');if(kick&&confirm(kick.dataset.name+'님을 강제퇴장시킬까요? 이 공대에는 다시 들어올 수 없습니다.'))void command('kick',{targetId:kick.dataset.kick});
 });
-on(root,'change',event=>{if(event.target.matches('[data-assign]'))void command('assign',{targetId:event.target.dataset.assign,role:event.target.value});});
 on(window,'lich-raid-action',e=>{
   if(state?.status==='ACTIVE'&&e.detail.challengeId===state.challenge?.id)void command('action',e.detail);
 });

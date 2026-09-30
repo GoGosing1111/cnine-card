@@ -4,29 +4,33 @@
 <title>리치왕 정벌 · 죽음의 왕좌</title><link rel="icon" href="data:,">
 <link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/card.css"><link rel="stylesheet" href="/css/card-unique-battle-fx-v1174.css"><link rel="stylesheet" href="/css/battle-v3-live.css"><link rel="stylesheet" href="/css/zenith-v1.css"><link rel="stylesheet" href="/css/superstar-v1.css"><link rel="stylesheet" href="/css/faker-card-v1.css"><link rel="stylesheet" href="/css/no-light-beams-v1789.css"><link rel="stylesheet" href="/css/breakthrough-tier-v1802.css"><link rel="stylesheet" href="/preview/lich-king-raid-v1/raid.css?v=20260928-live">
 <link rel="stylesheet" href="/preview/lich-king-raid-v1/mechanics.css?v=20261001-party-sync">
-<script defer src="/js/project-v-battle-art-adapter-v1.js"></script><script defer src="/js/project-v-tier-battle-art-adapter-v1.js"></script><script defer src="/js/project-v-monster-battle-art-adapter-v1.js"></script><script defer src="/js/project-v-unassigned-battle-fallback-v1.js"></script><script defer src="/preview/lich-king-raid-v1/battle.bundle.js?v=20261001-party-sync"></script><script defer src="/js/battle-v3-live.js?lichFx=20261001"></script><link rel="stylesheet" href="live.css?v=20260928-live"><script type="module" src="live.mjs?v=20261001-party-sync"></script>
+<script defer src="/js/project-v-battle-art-adapter-v1.js"></script><script defer src="/js/project-v-tier-battle-art-adapter-v1.js"></script><script defer src="/js/project-v-monster-battle-art-adapter-v1.js"></script><script defer src="/js/project-v-unassigned-battle-fallback-v1.js"></script><script defer src="/preview/lich-king-raid-v1/battle.bundle.js?v=20261001-party-sync"></script><script defer src="/js/battle-v3-live.js?lichFx=20261001"></script><link rel="stylesheet" href="live.css?v=20261001-lobby-v2"><link rel="stylesheet" href="lobby.css?v=20261001-lobby-v2"><script type="module" src="live.mjs?v=20261001-lobby-v2"></script>
 </head><body data-lich-standalone>
-<header class="site-header"><a href="/" class="brand">SOOPKETMON<span>RAID CHRONICLES</span></a><div class="live-mode"><i></i><span id="modeLabel">접근 확인 중</span></div><button id="guideButton" class="quiet-button">공략 지침</button></header>
+<header class="site-header"><a href="/" class="brand">숲켓몬<span>협동 정벌</span></a><div class="live-mode"><i></i><span id="modeLabel">입장 확인 중</span></div><button id="guideButton" class="quiet-button">공략 지침 <span aria-hidden="true">↗</span></button></header>
 <section id="gate" hidden role="status"></section>
-<main id="landing" hidden>
-  <section class="raid-hero">
-    <div class="hero-art" aria-hidden="true"></div><div class="hero-fade" aria-hidden="true"></div>
-    <div class="hero-copy"><p class="eyebrow">NEW RAID · EXTREME ENCOUNTER</p><div class="title-rule"></div><h1>리치왕<br><span>정벌</span></h1><p class="english-title">CONQUEST OF THE LICH KING</p><p class="hero-description">죽음은 기다려주지 않는다.<br>저주를 역이용하고, 갇힌 영혼을 구하라.<br>얼어붙은 왕좌의 첫 정벌자는 누구인가.</p>
-    <div class="raid-facts"><div><b>4</b><span>전투 단계</span></div><div><b>210</b><span>광폭화까지, 초</span></div><div><b>3</b><span>공대 작전</span></div></div>
-    <button id="enterButton" class="primary-button">왕좌에 도전 <span>↗</span></button><p class="review-note">공대장 입장권 1장 · 3~6인 역할 분담</p></div>
-    <div class="hero-caption"><span>THE FROZEN THRONE</span><b>왕은 두 번의 실수를 기억한다.</b></div>
-  </section>
-  <section class="encounter-strip" aria-label="전투 기믹"><article><span>01 / CORRUPTION</span><h2>죽음의 역병</h2><p>같은 문양의 구울에게 저주를 넘겨라.</p></article><article><span>02 / ABSOLUTE ZERO</span><h2>서리 감옥</h2><p>감옥은 속박이자 마지막 엄폐다.</p></article><article><span>03 / SOUL HARVEST</span><h2>영혼의 갈림길</h2><p>정벌·봉인·구출. 공대의 선택이 겹친다.</p></article></section>
+<main id="landing" class="lobby-intro" hidden>
+  <p class="lobby-kicker">죽음의 왕좌 · 협동 정벌</p><h1>세 작전이 맞물릴 때,<br>왕좌가 무너집니다.</h1>
+  <p class="intro-lead">저주를 넘기고, 말살을 막고, 갇힌 영혼을 구하세요.<br>각자의 편성과 세 가지 역할로 같은 보스를 공략합니다.</p>
+  <ol class="intro-roles"><li><b>정벌대</b><span>감옥 처리와 집중 공격</span></li><li><b>봉인대</b><span>말살 차단과 문양 봉인</span></li><li><b>구출대</b><span>역병 전이와 영혼 구출</span></li></ol>
+  <button id="enterButton" class="primary-button">대기실로 돌아가기 <span aria-hidden="true">→</span></button>
 </main>
 <section id="lobby" class="live-lobby" hidden>
-  <p class="eyebrow">THE FROZEN THRONE / EXPEDITION</p><h1>왕좌 앞에 집결하라</h1>
-  <p class="live-note">공대장이 입장권 1장으로 공대를 만들고 정벌·봉인·구출 역할을 배분합니다.<br>참가자는 입장권을 추가로 소모하지 않습니다.</p>
-  <div id="browse"><div class="ticket-counter"><img src="/assets/items/lich-king-entry-ticket-v1.svg" alt="리치왕 정벌 입장권"><div><b>정벌 입장권 <span id="ticketCount">—</span>장</b><p>공대 생성 시 1장 차감 · 해산 시 반환되지 않습니다.</p></div><button id="createButton" class="primary-button" disabled>공대 창설 <span>→</span></button></div>
-  <div class="live-heading"><h2>모집 중인 공대</h2><button id="refreshRooms" class="quiet-button">목록 새로고침</button></div><div id="roomList" class="room-list"></div></div>
-  <div id="assembly" hidden><div class="assembly-meta"><span id="hostLabel"></span><span id="memberCount"></span><span id="lobbyTime"></span></div>
-  <p class="live-note">각자 저장한 PvE 카드 5장과 장착한 용병·배틀슈트가 출전합니다. 보스 체력과 기믹은 공대가 함께 공유합니다.<br>편성과 역할을 확인하고 준비 완료를 누르세요. 세 역할이 모두 모이고 전원이 준비하면 출정합니다.</p>
-  <ul id="memberList" class="member-list"></ul><div class="assembly-actions"><button id="readyButton" class="secondary-button">준비 완료</button><button id="startButton" class="primary-button" hidden>공대 출정 <span>→</span></button><button id="lobbyLeave" class="danger-button">공대 나가기</button></div></div>
-  <p id="lobbyNotice" class="raid-error" hidden role="status"></p><div class="live-bar"><button id="backLanding" class="quiet-button">정벌 소개</button><a href="/">게임으로 돌아가기</a><span class="live-note">현재 클리어 보상은 지급되지 않습니다.</span></div>
+  <header class="lobby-heading"><div><p class="lobby-kicker">협동 정벌 · 공대 대기실</p><h1>리치왕 정벌</h1></div><span class="lobby-tag"><i></i>실시간 공대 모집</span></header>
+  <section class="mission-banner" aria-label="정벌 개요"><div class="mission-copy"><p class="mission-label">죽음의 왕좌</p><h2>정벌 · 봉인 · 구출</h2><ul class="mission-facts"><li><b>3–6</b><span>인 협동</span></li><li><b>210</b><span>초 제한</span></li><li><b>4</b><span>전투 단계</span></li></ul></div><div class="mission-art" aria-hidden="true"></div></section>
+  <div id="browse" class="lobby-workspace">
+    <section class="recruit-board"><header class="panel-heading"><div><h2>모집 중인 공대 <span id="roomCount">0</span></h2><p>참가자는 입장권 없이 합류할 수 있습니다.</p></div><button id="refreshRooms" class="quiet-button" aria-label="공대 목록 새로고침"><span aria-hidden="true">↻</span> 새로고침</button></header><div id="roomList" class="room-list"></div></section>
+    <aside class="create-panel"><div class="ticket-stage"><img src="/assets/items/lich-king-entry-ticket-v1.svg" alt="리치왕 정벌 입장권"><span>정벌 입장권</span></div><div class="ticket-balance"><span>내 입장권</span><strong><b id="ticketCount">—</b><small>장</small></strong></div><h3>직접 공대를 이끌어보세요.</h3><p>입장권 1장으로 최대 6명의 공대를 만들고<br>세 가지 작전을 배분합니다.</p><button id="createButton" class="primary-button" disabled>공대 창설 <span aria-hidden="true">→</span></button><p class="ticket-policy">창설 시 1장 사용 · 해산 시 반환되지 않습니다.</p></aside>
+  </div>
+  <div id="assembly" hidden>
+    <div class="assembly-actions"><div class="departure-summary"><span>출정 준비</span><b id="startHint" role="status"></b></div><div class="departure-buttons"><button id="lobbyLeave" class="danger-button">공대 나가기</button><button id="readyButton" class="secondary-button ready-toggle">준비 완료</button><button id="startButton" class="primary-button" hidden>공대 출정 <span aria-hidden="true">→</span></button></div></div>
+    <div class="assembly-workspace">
+      <section class="party-board"><header class="panel-heading"><div><h2>공대 편성 <span id="memberCount">—</span></h2><p id="hostLabel"></p></div><span id="readyCount" class="ready-count"></span></header><ul id="memberList" class="member-list"></ul><p id="openSeats" class="open-seats"></p>
+        <section id="loadoutPanel" class="loadout-panel" hidden><header><h3>내 출전 편성</h3><span>저장된 PvE 덱 기준</span></header><div id="loadoutList" class="loadout-list"></div><p>준비 완료 시 현재 편성을 확인합니다.</p></section>
+      </section>
+      <aside class="operation-panel"><header class="my-role"><span id="myRoleIcon" class="role-emblem"></span><div><p>내 담당 작전</p><h3 id="myRoleName">배정 대기</h3></div></header><p id="myRoleHint" class="role-hint"></p><section class="role-overview"><h3>작전 배분</h3><div id="roleCoverage" class="role-coverage"></div></section><section class="departure-check"><h3>출정 조건</h3><ul><li data-condition="members"><i></i><span>최소 3명 집결</span><b id="memberCondition"></b></li><li data-condition="roles"><i></i><span>세 작전 배정</span><b id="roleCondition"></b></li><li data-condition="ready"><i></i><span>전원 준비 완료</span><b id="readyCondition"></b></li></ul></section><p id="lobbyTime" class="lobby-time"></p></aside>
+    </div>
+  </div>
+  <p id="lobbyNotice" class="raid-error" hidden role="status"></p><footer class="live-bar"><button id="backLanding" class="quiet-button">작전 소개 <span aria-hidden="true">↗</span></button><a href="/">게임으로 돌아가기</a><span class="live-note">클리어 보상은 현재 지급되지 않습니다.</span></footer>
 </section>
 <main id="combat" class="combat-view" hidden>
   <div class="raid-combat-toolbar"><span>LICH KING · 공대 전장</span><strong id="roleLabel">공대 지휘</strong><button id="partyButton" class="quiet-button">공대 관리</button><button id="combatGuide" class="quiet-button">공략 지침</button><button id="leaveButton" class="quiet-button">전장 나가기</button></div>
