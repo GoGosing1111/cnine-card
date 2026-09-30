@@ -1,0 +1,19 @@
+{
+  "format": "PROJECT_V_LIMITED_SOURCE_ART_APPROVAL_V1",
+  "dateKST": "2026-10-01",
+  "name": "나무늘봉순",
+  "status": "APPROVED_SOURCE_ART",
+  "userRequest": "나무늘봉순 저대로승인",
+  "sourceArt": "assets/bongsoon-snow-source-art-approved-20261001.png",
+  "sha256": "B15D0CCBB2429C539BC337198B1BABBD3D277E1FF84FC2DAD88B209431AC4FF3",
+  "approvedScope": [
+    "entire sourceArt exactly as latest user attachment"
+  ],
+  "sourceProvenance": "codex-clipboard-2560ee36-0b39-4f35-aa3e-1edb9b7de00d.png",
+  "byteForByteCopy": true,
+  "noFurtherWeaponOrFaceEdits": true,
+  "expectedRank": "SS",
+  "rankConfirmed": false,
+  "liveRegistration": false,
+  "battleSprite": "NOT_REQUESTED"
+}

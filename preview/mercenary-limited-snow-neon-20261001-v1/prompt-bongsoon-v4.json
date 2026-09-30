@@ -1,0 +1,18 @@
+{
+  "id": "bongsoon-v4",
+  "method": "built-in image_gen",
+  "dateKST": "2026-10-01",
+  "sourceArt": "assets/bongsoon-snow-source-art-v4-matched-smgs.png",
+  "userRequest": "나무늘봉순 내 화면 시점에서 오른쪽에 있는거 이 첨부 무기 사진 디자인으로 통일",
+  "references": [
+    {
+      "path": "assets/bongsoon-snow-source-art-v3-dual-smg.png",
+      "role": "EDIT TARGET: only viewer-right lower-held gun may change; face, clothes and viewer-left raised gun fixed"
+    },
+    {
+      "path": "references/bongsoon-smg-user.png",
+      "role": "EXACT SMG DESIGN: make the viewer-right gun match this same weapon model"
+    }
+  ],
+  "prompt": "Use case: precise-object-edit / identity-preserve.\nEdit the supplied full-body snowfield mercenary portrait, image 1. The user requests ONE LOCAL CORRECTION ONLY: the gun at the VIEWER'S RIGHT, which is held LOWER beside her hip, must be the SAME gun model and visual design as the cropped weapon in reference image 2.\n\nThe tiny cropped reference image 2 shows the ALREADY CORRECT gun at the VIEWER'S LEFT / raised arm in image 1. Match that precise model for the other hand: same short perforated ivory-and-gold barrel shroud, short dark muzzle, same receiver panel shape and vent-hole pattern, same gold accents and graphite mechanisms, same distinctive compact open triangular skeleton stock, same grip and the long dark cylindrical/rounded-ended feed housing/grip assembly visible in the reference. Reproduce its exact identifiable proportions and components, adapted only in perspective and rotation to the lower-held gun. No different magazine or boxy rifle receiver. The two weapons should clearly be an identical matching pair, not just sharing colors.\n\nTARGET SELECTION:\nChange ONLY the LOWER GUN ON THE RIGHT SIDE OF THE IMAGE and the immediate hand-to-grip contact if necessary.\nDo NOT alter the RAISED GUN ON THE LEFT SIDE OF THE IMAGE, since that is the approved reference.\nDo NOT swap hands, add a third gun, remove either gun, change her arm pose unnecessarily, or mirror the entire character.\nThe corrected lower gun retains its original down-and-outward orientation and approximate size, sitting naturally in that same hand. Keep the full muzzle, stock and grip visible, correct finger anatomy and natural contact.\n\nABSOLUTE INVARIANTS:\nPreserve image 1's face exactly, including eye shape, nose, lips, expression, head angle, fringe and long dark hair; preserve her short ivory/gold winter jacket and short skirt, every clothing detail, body and long slender legs, boots, stance, camera framing, snowy fortress background, colors and painterly finish. The user approved her face/concept/costume. Never redesign or beautify them. Preserve soft natural hair without inventing plate or ribbon layers.\nThis is a localized weapon design correction, not a newly generated character or pose. One adult woman, exactly two matching compact SMGs. Same native 1024x1536 RGB PNG, exact 2:3. No text, logo, numbers, watermark, frame, UI or collage."
+}

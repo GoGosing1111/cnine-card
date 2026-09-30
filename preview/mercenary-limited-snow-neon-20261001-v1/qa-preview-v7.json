@@ -1,0 +1,51 @@
+{
+  "dateKST": "2026-10-01",
+  "scope": "Only changed preview and current selected art; no game runtime tests",
+  "browser": "Edge / Playwright",
+  "results": [
+    {
+      "name": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "loadedArt": 2,
+      "default": "approved limited frame",
+      "selectedSources": [
+        "assets/bongsoon-snow-source-art-approved-20261001.png",
+        "assets/joeun-neon-source-art-v7-angular-laser.png"
+      ],
+      "noHorizontalOverflow": true,
+      "framedZoom": true,
+      "rawView": true,
+      "thumbnailWidths": [
+        160,
+        160
+      ],
+      "frameOnlyView": true,
+      "errors": []
+    },
+    {
+      "name": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "loadedArt": 2,
+      "default": "approved limited frame",
+      "selectedSources": [
+        "assets/bongsoon-snow-source-art-approved-20261001.png",
+        "assets/joeun-neon-source-art-v7-angular-laser.png"
+      ],
+      "noHorizontalOverflow": true,
+      "framedZoom": true,
+      "rawView": true,
+      "thumbnailWidths": [
+        160,
+        160
+      ],
+      "frameOnlyView": true,
+      "errors": []
+    }
+  ]
+}

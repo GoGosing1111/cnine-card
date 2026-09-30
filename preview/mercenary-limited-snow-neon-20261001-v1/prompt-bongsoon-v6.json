@@ -1,0 +1,22 @@
+{
+  "id": "bongsoon-v6",
+  "method": "built-in image_gen",
+  "dateKST": "2026-10-01",
+  "sourceArt": "assets/bongsoon-snow-source-art-v6-exact-grip.png",
+  "requestedChange": "가장 최신 사용자 1번 사진의 좁고 각진 직사각형 전방 부품을 그대로 사용한다. 2번 사진의 굵고 둥근 원통 부품은 반려. 총 전체는 화면 왼쪽 총과 동일하게 맞추고 파지는 실제 손잡이에 연결한다.",
+  "references": [
+    {
+      "path": "assets/bongsoon-snow-source-art-v5-face-grip.png",
+      "role": "EDIT TARGET: only viewer-right gun and hand contact"
+    },
+    {
+      "path": "references/bongsoon-smg-exact-large-user.png",
+      "role": "Exact hardware master. Large close-up clearly distinguishes the forward rectangular magazine from the long rounded pistol grip."
+    },
+    {
+      "path": "references/bongsoon-correct-slim-rectangular-part-user.png",
+      "role": "LATEST AUTHORITATIVE exact attachment geometry: narrow flat-sided rectangular box, not thick round cylinder."
+    }
+  ],
+  "prompt": "PRECISE LOCAL OBJECT COPY. Edit image 1 ONLY at the gun in the lower hand on the VIEWER'S RIGHT. Preserve the exact woman, face detail, hair, clothes, body, left raised gun and setting.\n\nThe user has identified the wrong shape precisely. The downward attachment IN FRONT OF the trigger guard on the viewer-right gun is currently a thick ROUND CYLINDER. REMOVE THAT ROUND CYLINDER COMPLETELY and replace it with the exact part in image 3: a SLIM, NARROW, FLAT-SIDED RECTANGULAR dark box with thin gold edge lines, a slightly inset rectangular side panel, a small modest flat end cap. Image 3 is the LATEST AUTHORITATIVE SHAPE. It is long and thin in its length direction, but narrow across its width, with straight planar sides and crisp corners. Cross-section rectangular, not circular or octagonal. Do not add a thick gold ring or wide rounded drum-like foot. Copy image 3's proportions, small end cap and gold trim exactly. Do not thicken it or turn it into a cylinder. This slim rectangular part is the part to fix.\n\nImage 2 shows the full CORRECT left gun as the master. Make the right gun the SAME model as that master, with identical ivory perforated receiver, vent pattern, short muzzle, gold hardware and triangular hollow stock. Adapt only rotation/perspective to the lowered hand. The entire weapon has two separate downward elements:\n- The FRONT lower attachment is the SLIM RECTANGULAR BOX from image 3. It is NOT held by the hand. This must match image 3 exactly.\n- Behind the trigger guard is the REAL PISTOL GRIP held by the white glove. Keep its design consistent with image 2's rear grip and connect the palm/fingers naturally to it. Do not confuse this rear gripping handle with the front rectangular attachment. Never move the round rejected attachment into another location as a substitute.\nThe trigger guard sits BETWEEN the front rectangular attachment and the rear held grip. Three fingers wrap the rear grip, thumb opposes them, index rests along the trigger-guard side; five fingers with coherent knuckles and correct wrist. No fingers gripping the front box, no palm floating beside the receiver, no finger piercing metal.\n\nDo not change the already correct left raised gun. Preserve approved facial identity and increased facial detailing, winter ivory/gold uniform and short skirt, long/slender proportions and snowy fortress composition. Only the lower/right gun geometry and immediate hand contact may change. All requested geometry should be visibly clear, not obscured by additional fingers or gold decorations.\nNative 1024x1536 RGB PNG, exact 2:3. No typography, labels, UI, border, extra weapons, watermark or montage."
+}

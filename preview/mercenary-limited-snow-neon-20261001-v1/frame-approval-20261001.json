@@ -1,0 +1,23 @@
+{
+  "format": "PROJECT_V_LIMITED_FRAME_APPROVAL_V1",
+  "dateKST": "2026-10-01",
+  "status": "APPROVED_FRAME",
+  "userRequest": "카드 프레임 승인",
+  "scope": "FRAME_ONLY",
+  "asset": "assets/mercenary-limited-frame-v1.png",
+  "sha256": "A8931DBD4C8C069B2D38731F58AF708C373C8765412702ED040908FA750A506C",
+  "dimensions": [
+    1024,
+    1536
+  ],
+  "formatDetails": "8-bit RGBA PNG",
+  "originalModified": false,
+  "liveRegistration": false,
+  "doesNotApprove": [
+    "sourceArt revisions",
+    "final rank",
+    "skills",
+    "battleSprite",
+    "game release"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "id": "bongsoon-v5",
+  "method": "built-in image_gen",
+  "dateKST": "2026-10-01",
+  "sourceArt": "assets/bongsoon-snow-source-art-v5-face-grip.png",
+  "request": "얼굴 묘사 정교화. 화면 왼쪽 기관단총 디자인을 오른쪽에 그대로 복제하고 파지 교정. 채택된 얼굴 구조·의상·설원 콘셉트 고정.",
+  "references": [
+    {
+      "path": "assets/bongsoon-snow-source-art-v4-matched-smgs.png",
+      "role": "EDIT TARGET. Face identity, costume, body, setting and viewer-left SMG design fixed."
+    },
+    {
+      "path": "references/bongsoon-smg-user.png",
+      "role": "EXACT SMG master model to duplicate into viewer-right hand; not generic inspiration."
+    },
+    {
+      "path": "references/faces-bongsoon-left-joeun-right.png",
+      "role": "Fine facial identity detail of LEFT adult woman only; no face shape or pose replacement."
+    }
+  ],
+  "prompt": "Use case: precise-object-edit / identity-preserve.\nEdit image 1. This adult snowfield mercenary's face identity, ivory-gold winter outfit, short skirt, long/slender body and scene have been approved. There are TWO local corrections only: (A) more precise facial painting while keeping exactly the same face, and (B) exactly matching twin SMG models with believable grip. Native 1024x1536 RGB PNG or larger native exact 2:3; one finished portrait.\n\nA — FACE DETAIL WITHOUT CHANGING IDENTITY:\nKeep her current head size, face shape, eye sizes and spacing, nose proportions, lip shape, jaw, expression and straight fringe. Refine the face at the same scale with precise upper/lower eyelids, fine lashes and individual brow hairs, clear warm brown irises with subtle natural highlights, gentle cheek/nose volume and finely painted lip edges. Reference image 3's LEFT adult woman supplies recognizable subtle features only. Do not use the right woman. Do not enlarge eyes, reduce the chin/nose, change facial age, make a different generic woman, add pores, harsh makeup, doll/glass eyes, or photoreal skin. Keep the premium soft painterly 2D game face.\n\nB — DUPLICATE THE ACTUAL LEFT SMG TO THE RIGHT:\nThe gun beside the raised hand on the VIEWER'S LEFT, also isolated in image 2, is the MASTER DESIGN. The user literally wants that SAME weapon model moved/copied to the VIEWER'S RIGHT lower hand. Treat these as two instances of ONE manufactured object, not two interpretations.\nREPLACE the lower/right gun's geometry completely with an exact duplicate of the master gun, rotated to the lower/downward pose. Match receiver LENGTH and outline, the entire ivory-and-gold perforated short shroud with the identical vent-hole pattern, the short dark muzzle, the exact hollow angular triangular skeleton stock and its attachment, the same trigger guard, pistol grip and feed module. Crucially copy the SAME long dark rounded-ended lower grip/feed geometry visible below the raised hand; do not retain the different prominent rectangular forward box magazine from the lower/right gun. Do not invent a new stock, different number of barrel holes, new rectangular receiver, alternate magazine or third gun.\nKeep the already correct LEFT GUN'S DESIGN unchanged. Perspective, rotation and light may differ naturally but it must plainly be the identical hardware.\n\nHAND CONTACT IS ESSENTIAL:\nRepaint the immediate hands/wrists only as needed, including the raised hand if its contact needs correction. Each hand holds the actual PISTOL GRIP immediately behind its own trigger guard, not the magazine, barrel, stock or empty air. Palm firmly meets the backstrap, thumb wraps on the opposing side, three lower fingers naturally wrap the grip, index lies along the guard/receiver. Correct human finger count and knuckles inside the existing white gloves. No impossible wrist bend, fingers passing through the frame, glued palm or floating trigger guard. Arms stay relaxed and connected; lower gun stays beside her hip pointed down/outward. Avoid merely replacing the gun silhouette while leaving the hand intersecting the wrong component.\n\nINVARIANTS:\nPreserve approved outfit construction and all short-skirt details, leg proportions, boots, stance, hair color/fringe/length, snow fortress, lighting and camera crop. Soft natural continuous hair, no new separated ribbon layers. Keep both whole guns inside the portrait with safe edge margins. Only facial paint refinement, duplicated weapon and necessary gripping contacts may change. No full character redesign, altered chest/body, cropped feet, text, logos, UI, frame, watermark, extra characters or montage."
+}
