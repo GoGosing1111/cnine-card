@@ -262,6 +262,7 @@
     const owner = String(card?.memberName || dex?.memberName || '');
     const row = String(card?.row || '').toUpperCase();
     const key = rosterKeys(card)[0] || `slot-${index + 1}`;
+    if(grade==='ICON'&&window.IconFusion?.cardHtml)return `<li class="battle-v3-roster-card" data-v3-roster-card="${esc(key)}" data-v3-roster-keys="${esc(rosterKeys(card).join('|'))}"><span class="battle-v3-roster-slot">${window.IconFusion.cardHtml({...dex,...card,id:card.cardId||card.id,image:art.url},true,'battle-v3-roster-frame')}<i class="battle-v3-roster-ko" aria-hidden="true">KO</i></span>${row?`<b class="battle-v3-roster-row">${row==='FRONT'?'전열':'후열'}</b>`:''}</li>`;
     const isFaker = String(card?.cardId || card?.id || '') === FAKER_CHAMPIONSHIP_CARD_ID;
     const superstarFrame = grade === 'SUPERSTAR'
       ? '<img class="superstar-card-frame" src="/assets/ui/card-frames/superstar-championship-frame-v1.webp?v=1-superstar-grade" alt="" aria-hidden="true">'

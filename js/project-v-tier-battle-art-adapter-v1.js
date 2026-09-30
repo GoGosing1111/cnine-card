@@ -5,7 +5,8 @@
   const MANIFEST_URLS = Object.freeze({
     FUR: '/assets/ui/project-v/characters/fur/manifest-v2.json?v=4-cheetah-scale&sd=2115-joksuke',
     PRESTIGE: '/assets/ui/project-v/characters/prestige/manifest-v1.json?v=2-full-roster',
-    SUPERSTAR: '/assets/ui/project-v/characters/superstar/manifest-v1.json?v=3-haaland'
+    SUPERSTAR: '/assets/ui/project-v/characters/superstar/manifest-v1.json?v=3-haaland',
+    ICON: '/assets/ui/project-v/characters/icon/manifest-v1.json?v=20260930'
   });
   const PLAY_ENTRY_POINTS = Object.freeze(['playPveBattleV2Live', 'playPvpBattleV2Live', 'playSiegeBattleV2Live']);
   const clean = value => String(value ?? '').trim();
@@ -48,6 +49,7 @@
     const index = values => {
       byId = new Map();
       for (const rarity of Object.keys(MANIFEST_URLS)) {
+        if(rarity==='ICON'&&!values[rarity])continue;
         const manifest = validateManifest(values[rarity], rarity);
         for (const entry of manifest.characters) byId.set(upper(entry.cardId), { ...entry, rarity });
       }
@@ -86,7 +88,7 @@
         primaryUrl,
         pngFallbackUrl: primaryUrl,
         sourceArtUrl: rootAssetUrl(entry.sourceArt),
-        footAnchor: Object.freeze({ x: 0.5, y: 0.94 }),
+        footAnchor: Object.freeze(entry.footAnchor ? {x:Number(entry.footAnchor.x),y:Number(entry.footAnchor.y)} : { x: 0.5, y: 0.94 }),
         objectFit: 'contain',
         objectPosition: '50% 100%',
         scaleMultiplier: Math.min(2, Math.max(.5, Number(entry.scaleMultiplier) || 1)),

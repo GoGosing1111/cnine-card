@@ -1,19 +1,20 @@
 import {ICON_EFFECTS} from '../shared/icon-grade-v1.mjs';
 import {createIconCard} from '../js/icon-card-v1.mjs';
 import {mercenaryCmsRequest} from './mercenary-request-v1.mjs';
+import {mountIconFusionSettings} from './icon-fusion-admin-v1.mjs';
 
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export function mountIconCms(root,{request=options=>mercenaryCmsRequest(options,'/api/admin/icons')}={}){
   let state=null,documentDraft=null,selected='ICON-DIIM',busy=false,dirty=false,pending=null,disposed=false;
-  root.innerHTML=`<div class="icon-cms"><header class="ic-head"><div><p class="ic-kicker">COLLECTION / OWNER STUDIO</p><h2>아이콘 <em>아카이브</em></h2><p>한 사람의 개성, 하나의 전투 스타일.</p></div><div class="ic-seal">ICON<span>CMS ONLY</span></div></header>
-    <div class="ic-policy"><span>유저 도감 비공개</span><span>획득 미정</span><span>진화 미정</span><span>실전 적용 OFF</span></div>
+  root.innerHTML=`<div class="icon-cms"><header class="ic-head"><div><p class="ic-kicker">COLLECTION / OWNER STUDIO</p><h2>아이콘 <em>아카이브</em></h2><p>한 사람의 개성, 하나의 전투 스타일.</p></div><div class="ic-seal">ICON<span>LIVE / CMS</span></div></header>
+    <div class="ic-policy"><span>아이콘 7종 공개</span><span>합성 성공률 10%</span><span>기본 전투력 18만</span><span>고유효과 수치 초안 별도</span></div><div class="ic-fusion-controls"></div>
     <div class="ic-workspace"><nav class="ic-roster" aria-label="아이콘 선택"></nav><div class="ic-detail"></div></div>
     <footer class="ic-savebar"><p class="ic-status" role="status" aria-live="polite">등록 정보를 불러오는 중…</p><div><button type="button" data-export disabled>편집본 내려받기</button><button type="button" data-reload>다시 불러오기</button><button class="ic-primary" type="button" data-save disabled>초안 저장</button></div></footer>
     <dialog class="ic-player"><header><strong>아이콘 · 전투 리소스 검수</strong><button type="button" data-close aria-label="스킬 검수 닫기">닫기 ×</button></header><div class="ic-player-body"></div></dialog></div>`;
   const $=s=>root.querySelector(s),status=$('.ic-status'),detail=$('.ic-detail'),roster=$('.ic-roster'),dialog=$('dialog');
   const row=()=>documentDraft?.cards.find(c=>c.code===selected);
   function controls(){
-    root.querySelectorAll('button,input,textarea').forEach(b=>{if(!b.matches('[data-close]'))b.disabled=busy||(!state&&!b.matches('[data-reload]'))||!!pending&&b.matches('input,textarea,[data-character]');});
+    root.querySelectorAll('button,input,textarea').forEach(b=>{if(b.closest('.ic-fusion-controls'))return;if(!b.matches('[data-close]'))b.disabled=busy||(!state&&!b.matches('[data-reload]'))||!!pending&&b.matches('input,textarea,[data-character]');});
     $('[data-save]').disabled=busy||!state||(!dirty&&!pending);
     $('[data-save]').textContent=pending?'저장 결과 재확인':'초안 저장';
     $('[data-reload]').disabled=busy;
@@ -30,20 +31,20 @@ export function mountIconCms(root,{request=options=>mercenaryCmsRequest(options,
   }
   async function load(){
     if(busy||disposed)return;busy=true;controls();status.textContent='등록 정보를 불러오는 중…';
-    try{const next=await request();if(disposed)return;state=next;documentDraft=structuredClone(next.document);pending=null;dirty=false;draw();status.textContent=`${state.catalog.length}종 등록 · 저장 버전 ${state.revision} · 유저 도감 비공개`;}
+    try{const next=await request();if(disposed)return;state=next;documentDraft=structuredClone(next.document);pending=null;dirty=false;draw();status.textContent=`${state.catalog.length}종 등록 · 효과 초안 버전 ${state.revision} · 합성 설정은 별도 저장`;}
     catch(error){if(!disposed)status.textContent=error.message;}
     finally{busy=false;if(!disposed)controls();}
   }
   async function save(){
     if(busy||!state||disposed)return;
     if(!pending){
-      if(![...root.querySelectorAll('input')].every(el=>el.reportValidity()))return;
+      if(![...root.querySelectorAll('.ic-fields input')].every(el=>el.reportValidity()))return;
       pending={requestId:crypto.randomUUID(),expectedRevision:state.revision,document:structuredClone(documentDraft)};
     }
     busy=true;controls();status.textContent='초안을 저장하고 있습니다…';
     try{
       const next=await request({method:'PATCH',body:JSON.stringify(pending)});if(disposed)return;
-      state=next;documentDraft=structuredClone(next.document);pending=null;dirty=false;draw();status.textContent=`저장 완료 · 버전 ${next.revision} · 도감·획득·진화 잠금 유지`;
+      state=next;documentDraft=structuredClone(next.document);pending=null;dirty=false;draw();status.textContent=`효과 초안 저장 완료 · 버전 ${next.revision} · 실전 수치는 별도 확정`;
     }catch(error){
       if(disposed)return;
       if(error.status>=400&&error.status<500)pending=null;
@@ -78,7 +79,8 @@ export function mountIconCms(root,{request=options=>mercenaryCmsRequest(options,
   });
   dialog.addEventListener('cancel',event=>{event.preventDefault();closePlayback();});
   void load();
-  return {closePlayback,dispose(){disposed=true;closePlayback();root.replaceChildren();}};
+  const fusion=mountIconFusionSettings($('.ic-fusion-controls'));
+  return {closePlayback,dispose(){disposed=true;fusion.dispose();closePlayback();root.replaceChildren();}};
 }
 
 function install(){

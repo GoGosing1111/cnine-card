@@ -69,9 +69,9 @@ test('seven original portraits and SDs stay separate; every character has a dist
   assert.equal(ICON_CMS_CATALOG.length,7);assert.equal(new Set(ICON_CMS_CATALOG.flatMap(c=>c.effects.map(e=>e.id))).size,14);
   for(const card of ICON_CMS_CATALOG){assert.notEqual(card.sourceArt,card.battleSprite);await fs.access(new URL('../'+card.battleSprite,import.meta.url));assert.equal(card.effects.length,2);for(const effect of card.effects){assert.equal(effect.frameCount,16);assert.ok(manifest.effects.find(e=>e.id===effect.id));}}
 });
-test('only CMS imports are wired; user entry/catalog/gameplay and legacy grades do not expose ICON',async()=>{
+test('effect draft CMS remains OWNER-only and separate from the approved live fusion release',async()=>{
   const api=await read('functions/api/[[path]].js'),admin=await read('admin/index.html'),ui=await read('admin/icon-admin-v1.mjs');
-  assert.match(api,/handleIconCms\(\{path,request,env,deps:\{requirePermission,json\}\}\)/);assert.match(admin,/icon-admin-v1.mjs\?v=20260927/);
+  assert.match(api,/handleIconCms\(\{path,request,env,deps:\{requirePermission,json\}\}\)/);assert.match(admin,/icon-admin-v1.mjs\?v=20260930/);
   for(const path of ['index.html','js/app.js','functions/_magic.js','service-worker.js','js/battle-v3-live.js'])assert.doesNotMatch(await read(path),/icon-cms|icon-admin|icon-card-roster|icon-battle-assets/);
   assert.match(ui,/role.textContent.trim\(\)!=='OWNER'/);assert.doesNotMatch(ui,/setInterval|Promise.all/);
   assert.match(ui,/pending=\{requestId:crypto.randomUUID/);assert.match(ui,/body:JSON.stringify\(pending\)/);assert.match(ui,/closePlayback/);

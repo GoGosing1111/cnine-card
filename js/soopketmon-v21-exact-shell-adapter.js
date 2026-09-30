@@ -80,7 +80,7 @@
   const MENU_GROUPS = Object.freeze({
     inventory: Object.freeze({ title: '인벤토리', routes: Object.freeze(['inventory']) }),
     store: Object.freeze({ title: '카드·상점', routes: Object.freeze(['buy', 'lootShop']) }),
-    collection: Object.freeze({ title: '도감·강화', routes: Object.freeze(['dex', 'mercenaryDex', 'upgrade', 'evolution', 'magic']) }),
+    collection: Object.freeze({ title: '도감·강화', routes: Object.freeze(['dex', 'mercenaryDex', 'upgrade', 'evolution', 'iconfusion', 'magic']) }),
     pve: Object.freeze({ title: '모험 · PVE', routes: Object.freeze(['battle', 'deck', 'hunt', 'raid', 'escort', 'siege', 'seal', 'idle', 'tower', 'scrapyard']) }),
     pvp: Object.freeze({ title: '대전 · PVP', routes: Object.freeze(['pvp', 'duo', 'rank', 'clanWar', 'clanFaction', 'clan', 'territory']) }),
     equipment: Object.freeze({ title: '장비·칭호·차고', routes: Object.freeze(['character', 'avatar']) }),
@@ -102,6 +102,7 @@
     mercenaryDex: Object.freeze({ title: '용병도감', group: 'collection', icon: 'cards' }),
     upgrade: Object.freeze({ title: '일괄 강화', group: 'collection', icon: 'upgrade' }),
     evolution: Object.freeze({ title: '카드 진화', group: 'collection', icon: 'cards' }),
+    iconfusion: Object.freeze({ title: '아이콘 합성', group: 'collection', icon: 'cards' }),
     magic: Object.freeze({ title: '마법카드', group: 'collection', icon: 'magic' }),
     battle: Object.freeze({ title: 'PVE 전투', group: 'pve', icon: 'swords', home: Object.freeze({ title: 'PVE 전투', meta: '토벌 · 레이드 · 호송작전' }) }),
     deck: Object.freeze({ title: 'PVE 덱 편성실', group: 'pve', icon: 'cards' }),
