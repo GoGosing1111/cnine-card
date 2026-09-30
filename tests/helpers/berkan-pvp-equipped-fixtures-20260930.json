@@ -1,0 +1,1105 @@
+{
+  "version": "20260930-speed-reform",
+  "description": "All 23 distinct anonymized equipment/advancement/magic formations in 53 exactly reconstructed post-reform battles. Each comparison mirrors the same cards, equipment and magic, then swaps mercenary and starting side. No account IDs, nicknames, asset URLs or battle seeds.",
+  "equipmentBonus": 154300,
+  "singleHealerBonus": {
+    "enabled": true,
+    "teamHpPercent": 8,
+    "healPercent": 10,
+    "crisisThresholdPercent": 40,
+    "crisisHealPercent": 16,
+    "pvpMaxActivations": 4,
+    "pveMaxActivations": 6
+  },
+  "cardProfiles": {
+    "C01": {
+      "power": 83200,
+      "power_type": "DEFENSE",
+      "rarity": "FUR",
+      "breakthroughLevel": 13,
+      "uniqueAbility": {
+        "effectName": "방어형",
+        "effectDescription": "",
+        "attackPercent": 80,
+        "defensePercent": 130,
+        "hpPercent": 100,
+        "speedPercent": 0,
+        "dominantType": "DEFENSE"
+      },
+      "uniqueAdvancement": {
+        "active": true,
+        "classCode": "RIPOSTE",
+        "dominantType": "DEFENSE",
+        "configVersion": "1",
+        "modifiers": {
+          "criticalChancePoints": 0,
+          "penetrationPoints": 0,
+          "openingGaugePoints": 0,
+          "dodgeChancePoints": 0,
+          "dodgeCapPoints": 0,
+          "counterChancePoints": 11,
+          "counterMultiplierPoints": 13,
+          "unshieldedCounterChancePoints": 5,
+          "maxHpPercent": 0,
+          "damageDealtPercent": 2,
+          "damageCapPoints": 0,
+          "lastStandHealPoolPercent": 0,
+          "sealedLastStandHealPoolPercent": 0,
+          "healPoolBonusPercent": 0
+        }
+      }
+    },
+    "C02": {
+      "power": 75625,
+      "power_type": "HP",
+      "rarity": "ZENITH",
+      "breakthroughLevel": 13,
+      "uniqueAbility": {
+        "effectName": "생명형",
+        "effectDescription": "",
+        "attackPercent": 16,
+        "defensePercent": 16,
+        "hpPercent": 48,
+        "speedPercent": 0,
+        "dominantType": "HP"
+      },
+      "uniqueAdvancement": {
+        "active": true,
+        "classCode": "IMMORTAL",
+        "dominantType": "HP",
+        "configVersion": "1",
+        "modifiers": {
+          "criticalChancePoints": 0,
+          "penetrationPoints": 0,
+          "openingGaugePoints": 0,
+          "dodgeChancePoints": 0,
+          "dodgeCapPoints": 0,
+          "counterChancePoints": 0,
+          "counterMultiplierPoints": 0,
+          "unshieldedCounterChancePoints": 0,
+          "maxHpPercent": 27,
+          "damageDealtPercent": 0,
+          "damageCapPoints": 0,
+          "lastStandHealPoolPercent": 35,
+          "sealedLastStandHealPoolPercent": 25,
+          "healPoolBonusPercent": 35
+        }
+      }
+    },
+    "C03": {
+      "power": 83200,
+      "power_type": "ATTACK",
+      "rarity": "FUR",
+      "breakthroughLevel": 13,
+      "uniqueAbility": {
+        "effectName": "공격형",
+        "effectDescription": "",
+        "attackPercent": 120,
+        "defensePercent": 60,
+        "hpPercent": 60,
+        "speedPercent": 0,
+        "dominantType": "ATTACK"
+      },
+      "uniqueAdvancement": {
+        "active": true,
+        "classCode": "SHATTER",
+        "dominantType": "ATTACK",
+        "configVersion": "1",
+        "modifiers": {
+          "criticalChancePoints": 15,
+          "penetrationPoints": 35,
+          "openingGaugePoints": 10,
+          "dodgeChancePoints": 0,
+          "dodgeCapPoints": 0,
+          "counterChancePoints": 0,
+          "counterMultiplierPoints": 0,
+          "unshieldedCounterChancePoints": 0,
+          "maxHpPercent": 0,
+          "damageDealtPercent": 13,
+          "damageCapPoints": 20,
+          "lastStandHealPoolPercent": 0,
+          "sealedLastStandHealPoolPercent": 0,
+          "healPoolBonusPercent": 0
+        }
+      }
+    },
+    "C04": {
+      "power": 75625,
+      "power_type": "SPEED",
+      "rarity": "ZENITH",
+      "breakthroughLevel": 13,
+      "uniqueAbility": {
+        "effectName": "속도형",
+        "effectDescription": "",
+        "attackPercent": 16,
+        "defensePercent": 16,
+        "hpPercent": 0,
+        "speedPercent": 64,
+        "dominantType": "SPEED"
+      },
+      "uniqueAdvancement": {
+        "active": true,
+        "classCode": "AFTERIMAGE",
+        "dominantType": "SPEED",
+        "configVersion": "1",
+        "modifiers": {
+          "criticalChancePoints": 0,
+          "penetrationPoints": 18,
+          "openingGaugePoints": 0,
+          "dodgeChancePoints": 10,
+          "dodgeCapPoints": 10,
+          "counterChancePoints": 0,
+          "counterMultiplierPoints": 0,
+          "unshieldedCounterChancePoints": 0,
+          "maxHpPercent": -3,
+          "damageDealtPercent": 0,
+          "damageCapPoints": 0,
+          "lastStandHealPoolPercent": 0,
+          "sealedLastStandHealPoolPercent": 0,
+          "healPoolBonusPercent": 0
+        }
+      }
+    },
+    "C05": {
+      "power": 93200,
+      "power_type": "SPEED",
+      "rarity": "SUPERSTAR",
+      "breakthroughLevel": 13,
+      "uniqueAbility": {
+        "effectName": "속도형",
+        "effectDescription": "",
+        "attackPercent": 48,
+        "defensePercent": 48,
+        "hpPercent": 0,
+        "speedPercent": 80,
+        "dominantType": "SPEED"
+      },
+      "uniqueAdvancement": {
+        "active": true,
+        "classCode": "AFTERIMAGE",
+        "dominantType": "SPEED",
+        "configVersion": "1",
+        "modifiers": {
+          "criticalChancePoints": 0,
+          "penetrationPoints": 18,
+          "openingGaugePoints": 0,
+          "dodgeChancePoints": 10,
+          "dodgeCapPoints": 10,
+          "counterChancePoints": 0,
+          "counterMultiplierPoints": 0,
+          "unshieldedCounterChancePoints": 0,
+          "maxHpPercent": -3,
+          "damageDealtPercent": 0,
+          "damageCapPoints": 0,
+          "lastStandHealPoolPercent": 0,
+          "sealedLastStandHealPoolPercent": 0,
+          "healPoolBonusPercent": 0
+        }
+      }
+    },
+    "C06": {
+      "power": 75625,
+      "power_type": "DEFENSE",
+      "rarity": "ZENITH",
+      "breakthroughLevel": 13,
+      "uniqueAbility": {
+        "effectName": "방어형",
+        "effectDescription": "",
+        "attackPercent": 48,
+        "defensePercent": 80,
+        "hpPercent": 48,
+        "speedPercent": 0,
+        "dominantType": "DEFENSE"
+      },
+      "uniqueAdvancement": {
+        "active": true,
+        "classCode": "RIPOSTE",
+        "dominantType": "DEFENSE",
+        "configVersion": "1",
+        "modifiers": {
+          "criticalChancePoints": 0,
+          "penetrationPoints": 0,
+          "openingGaugePoints": 0,
+          "dodgeChancePoints": 0,
+          "dodgeCapPoints": 0,
+          "counterChancePoints": 11,
+          "counterMultiplierPoints": 13,
+          "unshieldedCounterChancePoints": 5,
+          "maxHpPercent": 0,
+          "damageDealtPercent": 2,
+          "damageCapPoints": 0,
+          "lastStandHealPoolPercent": 0,
+          "sealedLastStandHealPoolPercent": 0,
+          "healPoolBonusPercent": 0
+        }
+      }
+    },
+    "C07": {
+      "power": 83200,
+      "power_type": "SPEED",
+      "rarity": "FUR",
+      "breakthroughLevel": 13,
+      "uniqueAbility": {
+        "effectName": "속도형",
+        "effectDescription": "",
+        "attackPercent": 60,
+        "defensePercent": 60,
+        "hpPercent": 0,
+        "speedPercent": 100,
+        "dominantType": "SPEED"
+      },
+      "uniqueAdvancement": {
+        "active": true,
+        "classCode": "AFTERIMAGE",
+        "dominantType": "SPEED",
+        "configVersion": "1",
+        "modifiers": {
+          "criticalChancePoints": 0,
+          "penetrationPoints": 18,
+          "openingGaugePoints": 0,
+          "dodgeChancePoints": 10,
+          "dodgeCapPoints": 10,
+          "counterChancePoints": 0,
+          "counterMultiplierPoints": 0,
+          "unshieldedCounterChancePoints": 0,
+          "maxHpPercent": -3,
+          "damageDealtPercent": 0,
+          "damageCapPoints": 0,
+          "lastStandHealPoolPercent": 0,
+          "sealedLastStandHealPoolPercent": 0,
+          "healPoolBonusPercent": 0
+        }
+      }
+    },
+    "C08": {
+      "power": 83200,
+      "power_type": "DEFENSE",
+      "rarity": "FUR",
+      "breakthroughLevel": 13,
+      "uniqueAbility": {
+        "effectName": "방어형",
+        "effectDescription": "",
+        "attackPercent": 80,
+        "defensePercent": 130,
+        "hpPercent": 100,
+        "speedPercent": 0,
+        "dominantType": "DEFENSE"
+      },
+      "uniqueAdvancement": null
+    },
+    "C09": {
+      "power": 93200,
+      "power_type": "ATTACK",
+      "rarity": "SUPERSTAR",
+      "breakthroughLevel": 13,
+      "uniqueAbility": {
+        "effectName": "공격형",
+        "effectDescription": "",
+        "attackPercent": 80,
+        "defensePercent": 48,
+        "hpPercent": 0,
+        "speedPercent": 48,
+        "dominantType": "ATTACK"
+      },
+      "uniqueAdvancement": {
+        "active": true,
+        "classCode": "SHATTER",
+        "dominantType": "ATTACK",
+        "configVersion": "1",
+        "modifiers": {
+          "criticalChancePoints": 15,
+          "penetrationPoints": 35,
+          "openingGaugePoints": 10,
+          "dodgeChancePoints": 0,
+          "dodgeCapPoints": 0,
+          "counterChancePoints": 0,
+          "counterMultiplierPoints": 0,
+          "unshieldedCounterChancePoints": 0,
+          "maxHpPercent": 0,
+          "damageDealtPercent": 13,
+          "damageCapPoints": 20,
+          "lastStandHealPoolPercent": 0,
+          "sealedLastStandHealPoolPercent": 0,
+          "healPoolBonusPercent": 0
+        }
+      }
+    }
+  },
+  "magicProfiles": {
+    "M01": [
+      {
+        "id": 5,
+        "slotNo": 1,
+        "code": "V2_PUNISH_TRAP",
+        "effectType": "PUNISH_TRAP",
+        "effectValue": 14,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 4,
+        "slotNo": 2,
+        "code": "V2_CRISIS_HEAL",
+        "effectType": "CRISIS_HEAL",
+        "effectValue": 28,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 6,
+        "slotNo": 3,
+        "code": "V2_ARCANE_COUNTER",
+        "effectType": "ARCANE_COUNTER",
+        "effectValue": 16,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 14,
+        "slotNo": 4,
+        "code": "V2_CHAIN_ECHO",
+        "effectType": "CHAIN_ECHO",
+        "effectValue": 45,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 7,
+        "slotNo": 5,
+        "code": "V2_FOLLOWUP_HASTE",
+        "effectType": "FOLLOWUP_HASTE",
+        "effectValue": 22,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      }
+    ],
+    "M02": [
+      {
+        "id": 5,
+        "slotNo": 1,
+        "code": "V2_PUNISH_TRAP",
+        "effectType": "PUNISH_TRAP",
+        "effectValue": 14,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 6,
+        "slotNo": 2,
+        "code": "V2_ARCANE_COUNTER",
+        "effectType": "ARCANE_COUNTER",
+        "effectValue": 16,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 2,
+        "slotNo": 3,
+        "code": "V2_GUARD_BARRIER",
+        "effectType": "GUARD_BARRIER",
+        "effectValue": 20,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 1
+      },
+      {
+        "id": 14,
+        "slotNo": 4,
+        "code": "V2_CHAIN_ECHO",
+        "effectType": "CHAIN_ECHO",
+        "effectValue": 45,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 7,
+        "slotNo": 5,
+        "code": "V2_FOLLOWUP_HASTE",
+        "effectType": "FOLLOWUP_HASTE",
+        "effectValue": 22,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      }
+    ],
+    "M03": [
+      {
+        "id": 5,
+        "slotNo": 1,
+        "code": "V2_PUNISH_TRAP",
+        "effectType": "PUNISH_TRAP",
+        "effectValue": 14,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 4,
+        "slotNo": 2,
+        "code": "V2_CRISIS_HEAL",
+        "effectType": "CRISIS_HEAL",
+        "effectValue": 28,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 1,
+        "slotNo": 3,
+        "code": "V2_OPENING_ATTACK",
+        "effectType": "OPENING_ATTACK",
+        "effectValue": 18,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 1
+      },
+      {
+        "id": 14,
+        "slotNo": 4,
+        "code": "V2_CHAIN_ECHO",
+        "effectType": "CHAIN_ECHO",
+        "effectValue": 45,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 7,
+        "slotNo": 5,
+        "code": "V2_FOLLOWUP_HASTE",
+        "effectType": "FOLLOWUP_HASTE",
+        "effectValue": 22,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      }
+    ],
+    "M04": [
+      {
+        "id": 4,
+        "slotNo": 1,
+        "code": "V2_CRISIS_HEAL",
+        "effectType": "CRISIS_HEAL",
+        "effectValue": 28,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 2,
+        "slotNo": 2,
+        "code": "V2_GUARD_BARRIER",
+        "effectType": "GUARD_BARRIER",
+        "effectValue": 20,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 1
+      },
+      {
+        "id": 5,
+        "slotNo": 3,
+        "code": "V2_PUNISH_TRAP",
+        "effectType": "PUNISH_TRAP",
+        "effectValue": 14,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 14,
+        "slotNo": 4,
+        "code": "V2_CHAIN_ECHO",
+        "effectType": "CHAIN_ECHO",
+        "effectValue": 45,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 7,
+        "slotNo": 5,
+        "code": "V2_FOLLOWUP_HASTE",
+        "effectType": "FOLLOWUP_HASTE",
+        "effectValue": 22,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      }
+    ],
+    "M05": [
+      {
+        "id": 6,
+        "slotNo": 1,
+        "code": "V2_ARCANE_COUNTER",
+        "effectType": "ARCANE_COUNTER",
+        "effectValue": 16,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 4,
+        "slotNo": 2,
+        "code": "V2_CRISIS_HEAL",
+        "effectType": "CRISIS_HEAL",
+        "effectValue": 28,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 5,
+        "slotNo": 3,
+        "code": "V2_PUNISH_TRAP",
+        "effectType": "PUNISH_TRAP",
+        "effectValue": 14,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 14,
+        "slotNo": 4,
+        "code": "V2_CHAIN_ECHO",
+        "effectType": "CHAIN_ECHO",
+        "effectValue": 45,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 7,
+        "slotNo": 5,
+        "code": "V2_FOLLOWUP_HASTE",
+        "effectType": "FOLLOWUP_HASTE",
+        "effectValue": 22,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      }
+    ],
+    "M06": [
+      {
+        "id": 4,
+        "slotNo": 1,
+        "code": "V2_CRISIS_HEAL",
+        "effectType": "CRISIS_HEAL",
+        "effectValue": 28,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 2,
+        "slotNo": 2,
+        "code": "V2_GUARD_BARRIER",
+        "effectType": "GUARD_BARRIER",
+        "effectValue": 20,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 1
+      },
+      {
+        "id": 8,
+        "slotNo": 3,
+        "code": "V2_ARCANE_SEAL",
+        "effectType": "ARCANE_SEAL",
+        "effectValue": 1,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 14,
+        "slotNo": 4,
+        "code": "V2_CHAIN_ECHO",
+        "effectType": "CHAIN_ECHO",
+        "effectValue": 45,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 7,
+        "slotNo": 5,
+        "code": "V2_FOLLOWUP_HASTE",
+        "effectType": "FOLLOWUP_HASTE",
+        "effectValue": 22,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      }
+    ],
+    "M07": [
+      {
+        "id": 5,
+        "slotNo": 1,
+        "code": "V2_PUNISH_TRAP",
+        "effectType": "PUNISH_TRAP",
+        "effectValue": 14,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 4,
+        "slotNo": 2,
+        "code": "V2_CRISIS_HEAL",
+        "effectType": "CRISIS_HEAL",
+        "effectValue": 28,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 11,
+        "slotNo": 3,
+        "code": "V2_TIME_DISTORTION",
+        "effectType": "TIME_DISTORTION",
+        "effectValue": 30,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 14,
+        "slotNo": 4,
+        "code": "V2_CHAIN_ECHO",
+        "effectType": "CHAIN_ECHO",
+        "effectValue": 45,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 7,
+        "slotNo": 5,
+        "code": "V2_FOLLOWUP_HASTE",
+        "effectType": "FOLLOWUP_HASTE",
+        "effectValue": 22,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      }
+    ],
+    "M08": [
+      {
+        "id": 4,
+        "slotNo": 1,
+        "code": "V2_CRISIS_HEAL",
+        "effectType": "CRISIS_HEAL",
+        "effectValue": 28,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 5,
+        "slotNo": 2,
+        "code": "V2_PUNISH_TRAP",
+        "effectType": "PUNISH_TRAP",
+        "effectValue": 14,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 6,
+        "slotNo": 3,
+        "code": "V2_ARCANE_COUNTER",
+        "effectType": "ARCANE_COUNTER",
+        "effectValue": 16,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 14,
+        "slotNo": 4,
+        "code": "V2_CHAIN_ECHO",
+        "effectType": "CHAIN_ECHO",
+        "effectValue": 45,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 7,
+        "slotNo": 5,
+        "code": "V2_FOLLOWUP_HASTE",
+        "effectType": "FOLLOWUP_HASTE",
+        "effectValue": 22,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      }
+    ],
+    "M09": [
+      {
+        "id": 1,
+        "slotNo": 1,
+        "code": "V2_OPENING_ATTACK",
+        "effectType": "OPENING_ATTACK",
+        "effectValue": 18,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 1
+      },
+      {
+        "id": 4,
+        "slotNo": 2,
+        "code": "V2_CRISIS_HEAL",
+        "effectType": "CRISIS_HEAL",
+        "effectValue": 28,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 5,
+        "slotNo": 3,
+        "code": "V2_PUNISH_TRAP",
+        "effectType": "PUNISH_TRAP",
+        "effectValue": 14,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 14,
+        "slotNo": 4,
+        "code": "V2_CHAIN_ECHO",
+        "effectType": "CHAIN_ECHO",
+        "effectValue": 45,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 7,
+        "slotNo": 5,
+        "code": "V2_FOLLOWUP_HASTE",
+        "effectType": "FOLLOWUP_HASTE",
+        "effectValue": 22,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      }
+    ],
+    "M10": [
+      {
+        "id": 5,
+        "slotNo": 1,
+        "code": "V2_PUNISH_TRAP",
+        "effectType": "PUNISH_TRAP",
+        "effectValue": 14,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 4,
+        "slotNo": 2,
+        "code": "V2_CRISIS_HEAL",
+        "effectType": "CRISIS_HEAL",
+        "effectValue": 28,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 6,
+        "slotNo": 3,
+        "code": "V2_ARCANE_COUNTER",
+        "effectType": "ARCANE_COUNTER",
+        "effectValue": 16,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 7,
+        "slotNo": 4,
+        "code": "V2_FOLLOWUP_HASTE",
+        "effectType": "FOLLOWUP_HASTE",
+        "effectValue": 22,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 14,
+        "slotNo": 5,
+        "code": "V2_CHAIN_ECHO",
+        "effectType": "CHAIN_ECHO",
+        "effectValue": 45,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      }
+    ]
+  },
+  "formations": [
+    {
+      "id": "F01",
+      "cards": [
+        "C01",
+        "C02",
+        "C03",
+        "C04",
+        "C05"
+      ],
+      "magic": "M01"
+    },
+    {
+      "id": "F02",
+      "cards": [
+        "C02",
+        "C06",
+        "C03",
+        "C05",
+        "C07"
+      ],
+      "magic": "M01"
+    },
+    {
+      "id": "F03",
+      "cards": [
+        "C02",
+        "C06",
+        "C08",
+        "C05",
+        "C07"
+      ],
+      "magic": "M02"
+    },
+    {
+      "id": "F04",
+      "cards": [
+        "C06",
+        "C02",
+        "C03",
+        "C05",
+        "C07"
+      ],
+      "magic": "M03"
+    },
+    {
+      "id": "F05",
+      "cards": [
+        "C02",
+        "C01",
+        "C04",
+        "C09",
+        "C07"
+      ],
+      "magic": "M04"
+    },
+    {
+      "id": "F06",
+      "cards": [
+        "C06",
+        "C02",
+        "C01",
+        "C07",
+        "C05"
+      ],
+      "magic": "M05"
+    },
+    {
+      "id": "F07",
+      "cards": [
+        "C02",
+        "C01",
+        "C04",
+        "C09",
+        "C07"
+      ],
+      "magic": "M06"
+    },
+    {
+      "id": "F08",
+      "cards": [
+        "C01",
+        "C02",
+        "C04",
+        "C05",
+        "C07"
+      ],
+      "magic": "M07"
+    },
+    {
+      "id": "F09",
+      "cards": [
+        "C02",
+        "C01",
+        "C06",
+        "C07",
+        "C05"
+      ],
+      "magic": "M08"
+    },
+    {
+      "id": "F10",
+      "cards": [
+        "C02",
+        "C01",
+        "C03",
+        "C04",
+        "C05"
+      ],
+      "magic": "M08"
+    },
+    {
+      "id": "F11",
+      "cards": [
+        "C02",
+        "C01",
+        "C06",
+        "C03",
+        "C05"
+      ],
+      "magic": "M01"
+    },
+    {
+      "id": "F12",
+      "cards": [
+        "C02",
+        "C01",
+        "C06",
+        "C03",
+        "C05"
+      ],
+      "magic": "M08"
+    },
+    {
+      "id": "F13",
+      "cards": [
+        "C02",
+        "C06",
+        "C03",
+        "C07",
+        "C05"
+      ],
+      "magic": "M01"
+    },
+    {
+      "id": "F14",
+      "cards": [
+        "C02",
+        "C06",
+        "C08",
+        "C09",
+        "C03"
+      ],
+      "magic": "M02"
+    },
+    {
+      "id": "F15",
+      "cards": [
+        "C06",
+        "C02",
+        "C03",
+        "C07",
+        "C05"
+      ],
+      "magic": "M03"
+    },
+    {
+      "id": "F16",
+      "cards": [
+        "C01",
+        "C02",
+        "C06",
+        "C03",
+        "C09"
+      ],
+      "magic": "M01"
+    },
+    {
+      "id": "F17",
+      "cards": [
+        "C02",
+        "C06",
+        "C01",
+        "C07",
+        "C05"
+      ],
+      "magic": "M04"
+    },
+    {
+      "id": "F18",
+      "cards": [
+        "C06",
+        "C02",
+        "C07",
+        "C03",
+        "C05"
+      ],
+      "magic": "M07"
+    },
+    {
+      "id": "F19",
+      "cards": [
+        "C06",
+        "C02",
+        "C01",
+        "C09",
+        "C07"
+      ],
+      "magic": "M05"
+    },
+    {
+      "id": "F20",
+      "cards": [
+        "C02",
+        "C01",
+        "C06",
+        "C07",
+        "C05"
+      ],
+      "magic": "M01"
+    },
+    {
+      "id": "F21",
+      "cards": [
+        "C06",
+        "C02",
+        "C01",
+        "C09",
+        "C03"
+      ],
+      "magic": "M05"
+    },
+    {
+      "id": "F22",
+      "cards": [
+        "C01",
+        "C02",
+        "C06",
+        "C03",
+        "C09"
+      ],
+      "magic": "M09"
+    },
+    {
+      "id": "F23",
+      "cards": [
+        "C06",
+        "C02",
+        "C01",
+        "C07",
+        "C09"
+      ],
+      "magic": "M10"
+    }
+  ]
+}

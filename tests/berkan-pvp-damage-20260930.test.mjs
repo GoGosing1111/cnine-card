@@ -13,9 +13,9 @@ function harness({code='V-055',mode='PVP',regular=false,ownerId}={}){
  return {actor,target,protector,runtime,damageCalls};
 }
 test('PVP Berkan basics reduce already-capped damage once for solo and duo without changing actor stats or resources',()=>{
- assert.equal(BERKAN_PVP_BASIC_DAMAGE_SCALE,.99);
+ assert.equal(BERKAN_PVP_BASIC_DAMAGE_SCALE,.50);
  for(const ownerId of [undefined,11,22]){const h=harness({ownerId}),before=structuredClone(h.actor);
-  for(const amount of [0,1,10001,600000])assert.equal(h.runtime.beforeBasicDamage(h.actor,h.target,amount),Math.floor(amount*.99));
+  for(const amount of [0,1,10001,600000])assert.equal(h.runtime.beforeBasicDamage(h.actor,h.target,amount),Math.floor(amount*.50));
   assert.deepEqual(h.actor,before);assert.equal(h.damageCalls.length,0);
  }
 });
@@ -26,6 +26,6 @@ test('PVE Berkan, other SSS mercenaries and ordinary cards keep exact prior dama
 test('interception consumes the reduced damage budget without a second reduction or duplicate transfer',()=>{
  const h=harness();h.runtime.buffs.set(h.target.id,{intercept:{actor:h.protector,skill:{id:'MS-001',name:'보호',mechanic:'INTERCEPT_ONE_HIT'},percent:40,expires:2}});
  const remaining=h.runtime.beforeBasicDamage(h.actor,h.target,10000);
- assert.equal(remaining,5940);assert.deepEqual(h.damageCalls,[{id:'protector',amount:3960}]);assert.equal(remaining+h.damageCalls[0].amount,9900);assert.equal(h.actor.damageDealt,3960);
- assert.equal(h.runtime.beforeBasicDamage(h.actor,h.target,10000),9900);assert.equal(h.damageCalls.length,1);
+ assert.equal(remaining,3000);assert.deepEqual(h.damageCalls,[{id:'protector',amount:2000}]);assert.equal(remaining+h.damageCalls[0].amount,5000);assert.equal(h.actor.damageDealt,2000);
+ assert.equal(h.runtime.beforeBasicDamage(h.actor,h.target,10000),5000);assert.equal(h.damageCalls.length,1);
 });

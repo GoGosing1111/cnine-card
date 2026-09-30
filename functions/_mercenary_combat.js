@@ -1,4 +1,4 @@
-import {BERKAN_CODE,BERKAN_SKILL_ID,BERKAN_CAP_SCALE,BERKAN_MECHANIC,BERKAN_AREA_MECHANIC,isBerkanAreaSkill,BERKAN_TEMPO,berkanActionCredit,berkanPvpBasicDamageScale} from '../shared/mercenary-berkan-v1.mjs';
+import {BERKAN_CODE,BERKAN_SKILL_ID,BERKAN_CAP_SCALE,BERKAN_MECHANIC,BERKAN_AREA_MECHANIC,isBerkanAreaSkill,BERKAN_TEMPO,berkanActionCredit,berkanPvpBasicDamageScale,berkanStarfallCapScale} from '../shared/mercenary-berkan-v1.mjs';
 import {resolveBerkanStarfall,resolveBerkanArrowRain} from './_mercenary_berkan.js';
 import {SNIPER_ORIKKUNG_SKILL_ID,SNIPER_ORIKKUNG_CAP_SCALE} from '../shared/mercenary-sniper-orikkung-v1.mjs';
 import {resolveCryvernCrown} from './_mercenary_cryvern.js';
@@ -93,7 +93,8 @@ export const MERCENARY_SKILL_CAP_SCALE=Object.freeze({
 });
 export function mercenarySkillCapActions(actor,skill,ranged,sequentialCount){
  const actions=ranged?Math.max(1,sequentialCount||1):(MERCENARY_SKILL_RESOLVE_ACTIONS[skill?.mechanic]??1);
- return actions*(MERCENARY_SKILL_CAP_SCALE[skill?.id]??1)*mercenaryPvpTierOffense(actor);
+ const scale=skill?.id===BERKAN_SKILL_ID?berkanStarfallCapScale(actor):(MERCENARY_SKILL_CAP_SCALE[skill?.id]??1);
+ return actions*scale*mercenaryPvpTierOffense(actor);
 }
 // 피해가 없는 보조 스킬은 행동을 잡아먹지 않는다. 용병이 스킬을 쓰느라 공격을 거르면
 // 그 행동이 통째로 손해가 되어, 스킬을 쓸수록 약해지는 역전이 생긴다.

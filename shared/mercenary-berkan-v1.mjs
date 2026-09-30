@@ -4,14 +4,18 @@ export const BERKAN_CODE='V-055',BERKAN_SKILL_ID='MS-055';
 export const BERKAN_AREA_SKILL_ID='MS-056',BERKAN_AREA_MECHANIC='GILDED_ARROW_RAIN',BERKAN_AREA_IMPACT=1.62;
 export const isBerkanAreaSkill=skill=>skill?.id===BERKAN_AREA_SKILL_ID||skill?.mechanic===BERKAN_AREA_MECHANIC;
 export const BERKAN_TEMPO=Object.freeze({speedScale:1.25,actionCredit:1.25,playbackScale:1.25});
-// 2026-09-30: PVP basic-hit damage only; keep the approved tempo and PVE intact.
-export const BERKAN_PVP_BASIC_DAMAGE_SCALE=.99;
-export const berkanPvpBasicDamageScale=actor=>actor?.isMercenary&&actor.code===BERKAN_CODE&&actor.battleMode==='PVP'?BERKAN_PVP_BASIC_DAMAGE_SCALE:1;
+// 2026-09-30 follow-up: redistribute PVP pressure from basics to the rear volley.
+// Tempo, CMS raw damage/cost/cooldown and every PVE path remain unchanged.
+export const isBerkanPvp=actor=>!!actor?.isMercenary&&actor.code===BERKAN_CODE&&actor.battleMode==='PVP';
+export const BERKAN_PVP_BASIC_DAMAGE_SCALE=.50;
+export const BERKAN_PVP_SKILL_CAP_SCALE=1.865;
+export const berkanPvpBasicDamageScale=actor=>isBerkanPvp(actor)?BERKAN_PVP_BASIC_DAMAGE_SCALE:1;
 export const berkanActionCredit=actors=>actors.some(a=>a.isMercenary&&a.statMode==='RANK_FIXED'&&a.code===BERKAN_CODE)?BERKAN_TEMPO.actionCredit:1;
 export const berkanPlaybackRate=engine=>engine.reducedMotion?8:1.3*(engine.paceScale||1)*BERKAN_TEMPO.playbackScale;
 export const BERKAN_MECHANIC='GILDED_STARFALL';
 export const BERKAN_BALANCE=Object.freeze({damageRatio:5.6,cooldownTurns:5,cost:35});
 export const BERKAN_CAP_SCALE=1.7;
+export const berkanStarfallCapScale=actor=>isBerkanPvp(actor)?BERKAN_PVP_SKILL_CAP_SCALE:BERKAN_CAP_SCALE;
 export const BERKAN_IMPACT=2.08;
 export const BERKAN_POSITION=Object.freeze({code:BERKAN_CODE,rank:'SSS',position:'REAR',role:'SNIPER',basicTarget:'FRONT_ENEMY',skillTarget:'BACK_THREAT',specialty:'후열 우선 2명 동시 사격 · 제자리 흑금 화살',weakness:'회피·보호막·방어에 대응되며 제압 상태에서는 발동하지 않음',rationale:'사용자 지정 SSS 궁수. 달리기 대신 조준·발사·반동을 분리한 동작.'});
 export function berkanSelectionWeights(codes,weights={}){

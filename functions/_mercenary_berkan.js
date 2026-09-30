@@ -1,4 +1,4 @@
-import {BERKAN_IMPACT,BERKAN_AREA_IMPACT} from '../shared/mercenary-berkan-v1.mjs';
+import {BERKAN_IMPACT,BERKAN_AREA_IMPACT,BERKAN_SKILL_ID,isBerkanPvp} from '../shared/mercenary-berkan-v1.mjs';
 const living=t=>t?.alive!==false&&t?.hp>0&&!t?.untargetable&&!t?.isBattleSuit;
 // Two distinct targets, one paid action and one simultaneous server event.
 // Share the raw cast budget; the single-contact cap is tuned against Cryvern's
@@ -17,7 +17,9 @@ function resolveVolley({actor,skill,targets,hit,damage,knockout,emit,damageScale
  for(const target of fixed){
   // This SSS group cast uses Cryvern's ordinary damage model. Applying the
   // legacy sniper PVE minimum here would almost double its boss damage.
-  const result=ratio>0?hit(actor,target,ratio,{rangedSkill:false,castShare:share,capScale:capActions}):{damage:0,dodge:false};
+  // Reuse the canonical hit's existing 95–105% damage roll for its PVP cap.
+  // No extra RNG draw, reroll, target change or PVE damage change.
+  const result=ratio>0?hit(actor,target,ratio,{rangedSkill:false,castShare:share,capScale:capActions,varyDamageCap:isBerkanPvp(actor)&&skill.id===BERKAN_SKILL_ID}):{damage:0,dodge:false};
   const outcome=result.dodge?{hpDamage:0,absorbed:0}:damage(target,Math.max(0,result.damage));
   actor.damageDealt+=outcome.hpDamage+outcome.absorbed;
   impacts.push({targetId:target.id,at:contact,damage:outcome.hpDamage,absorbed:outcome.absorbed,dodge:!!result.dodge,

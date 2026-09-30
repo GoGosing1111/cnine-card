@@ -22,7 +22,7 @@
     },
     {
       "file": "shared/mercenary-berkan-v1.mjs",
-      "sha256": "85e3716b5c457dab7bc4f59a71b30c13870193cd4b62c40fd570b333fe8e7b9a"
+      "sha256": "299778877a1070c6ac8b6cb120eef608035ae58011bad407b99207b81276fb72"
     },
     {
       "file": "preview/mercenary-berkan-area-v1/source/BerkanAreaFX.js",
@@ -332,7 +332,7 @@
   "layoutClients": [
     {
       "file": "preview/v3-wide-grid-v1/app.bundle.js",
-      "sha256": "db018682ecf16758d58d3d2f9c2f80c4b4eec64355476e832533f6c6c7c7c48e"
+      "sha256": "18f6ae2f0399e0cb6990641b3a53abc3f5fea014ff83fc139512557aa1329a1c"
     }
   ]
 }

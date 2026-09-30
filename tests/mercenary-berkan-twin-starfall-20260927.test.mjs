@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {gsap} from 'gsap';
 import {MERCENARY_CMS_SEED as seed} from '../functions/_mercenary_cms_seed.js';
-import {BERKAN_BALANCE,BERKAN_CAP_SCALE,BERKAN_MECHANIC} from '../shared/mercenary-berkan-v1.mjs';
+import {BERKAN_BALANCE,BERKAN_MECHANIC,berkanStarfallCapScale} from '../shared/mercenary-berkan-v1.mjs';
 import {expandMercenarySkillCatalog} from '../shared/mercenary-cms-model-v1.mjs';
 import {buildMercenaryFighter,mercenaryCombat} from '../functions/_mercenary_combat.js';
 import {buildFighter} from '../functions/_battle_v2_preview.js';
@@ -25,7 +25,7 @@ test('one cast picks two distinct highest opening threats in the rear, then fill
   const e=h.events.find(e=>e.type==='MERCENARY_STARFALL');assert.deepEqual(e.targetIds,ids);assert.deepEqual(e.impacts.map(i=>i.targetId),ids);
   assert.ok(e.impacts.every(i=>i.at===2.08));assert.equal(h.rolls.length,ids.length);
   assert.ok(Math.abs(h.rolls.reduce((n,r)=>n+r.ratio,0)-BERKAN_BALANCE.damageRatio)<1e-10);
-  assert.ok(h.rolls.every(r=>r.capScale===BERKAN_CAP_SCALE&&!r.rangedSkill));
+  assert.ok(h.rolls.every(r=>r.capScale===berkanStarfallCapScale(h.actor)&&!r.rangedSkill));
   assert.equal(h.runtime.state(h.actor).energy,100-BERKAN_BALANCE.cost);assert.equal(h.runtime.state(h.actor).cooldown.get('MS-055'),1+BERKAN_BALANCE.cooldownTurns);
   assert.equal(h.runtime.state(h.actor).pending,null);assert.equal(h.turn(),false);
  }
@@ -37,7 +37,7 @@ test('dodge, shields, simultaneous knockout and suppression keep each target sha
  const dead=harness({lethal:true});dead.turn();assert.equal(dead.rolls.length,2);assert.ok(dead.events.findIndex(e=>e.type==='KNOCKOUT')>dead.events.findIndex(e=>e.type==='MERCENARY_STARFALL'));
  for(const mode of ['PVP','PVE']){
   const weakened=harness({mode,veil:25});weakened.turn();assert.ok(weakened.rolls.every(r=>Math.abs(r.ratio-BERKAN_BALANCE.damageRatio*.75/2)<1e-10));
-  assert.ok(weakened.rolls.every(r=>Math.abs(r.capScale-BERKAN_CAP_SCALE*(mode==='PVP'?.75:1))<1e-10));
+  assert.ok(weakened.rolls.every(r=>Math.abs(r.capScale-berkanStarfallCapScale(weakened.actor)*(mode==='PVP'?.75:1))<1e-10));
  }
 });
 test('no target or controlled actor spends nothing; zero damage never becomes a basic hit',()=>{

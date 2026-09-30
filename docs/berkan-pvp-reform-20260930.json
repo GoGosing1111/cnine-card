@@ -1,0 +1,1133 @@
+{
+  "date": "2026-09-30",
+  "scope": "CONTROLLED_SIMULATIONS_NOT_GUARANTEED_LIVE_ACCOUNT_WINRATE",
+  "policy": {
+    "pvpBasicDamageScale": 0.5,
+    "pvpStarfallCapScale": 1.865,
+    "starfallCapVariance": [
+      0.95,
+      1.05
+    ],
+    "tempo": {
+      "speedScale": 1.25,
+      "actionCredit": 1.25,
+      "playbackScale": 1.25
+    },
+    "skill": {
+      "damageRatio": 5.6,
+      "cooldownTurns": 5,
+      "cost": 35
+    },
+    "pveCapScale": 1.7
+  },
+  "equipped": {
+    "count": 1024,
+    "start": 70001,
+    "seedMultiplier": 7919,
+    "formationCount": 23,
+    "groups": [
+      {
+        "opponent": "V-049",
+        "wins": 28208,
+        "total": 47104,
+        "winRate": 0.5988451086956522,
+        "sides": {
+          "A": {
+            "wins": 14113,
+            "total": 23552
+          },
+          "B": {
+            "wins": 14095,
+            "total": 23552
+          }
+        }
+      },
+      {
+        "opponent": "V-046",
+        "wins": 29513,
+        "total": 47104,
+        "winRate": 0.6265497622282609,
+        "sides": {
+          "A": {
+            "wins": 14772,
+            "total": 23552
+          },
+          "B": {
+            "wins": 14741,
+            "total": 23552
+          }
+        }
+      }
+    ],
+    "rows": [
+      {
+        "opponent": "V-049",
+        "index": 0,
+        "types": [
+          "DEFENSE",
+          "HP",
+          "ATTACK",
+          "SPEED",
+          "SPEED"
+        ],
+        "wins": 1102,
+        "total": 2048,
+        "winRate": 0.5380859375
+      },
+      {
+        "opponent": "V-049",
+        "index": 1,
+        "types": [
+          "HP",
+          "DEFENSE",
+          "ATTACK",
+          "SPEED",
+          "SPEED"
+        ],
+        "wins": 1351,
+        "total": 2048,
+        "winRate": 0.65966796875
+      },
+      {
+        "opponent": "V-049",
+        "index": 2,
+        "types": [
+          "HP",
+          "DEFENSE",
+          "DEFENSE",
+          "SPEED",
+          "SPEED"
+        ],
+        "wins": 672,
+        "total": 2048,
+        "winRate": 0.328125
+      },
+      {
+        "opponent": "V-049",
+        "index": 3,
+        "types": [
+          "DEFENSE",
+          "HP",
+          "ATTACK",
+          "SPEED",
+          "SPEED"
+        ],
+        "wins": 1335,
+        "total": 2048,
+        "winRate": 0.65185546875
+      },
+      {
+        "opponent": "V-049",
+        "index": 4,
+        "types": [
+          "HP",
+          "DEFENSE",
+          "SPEED",
+          "ATTACK",
+          "SPEED"
+        ],
+        "wins": 1126,
+        "total": 2048,
+        "winRate": 0.5498046875
+      },
+      {
+        "opponent": "V-049",
+        "index": 5,
+        "types": [
+          "DEFENSE",
+          "HP",
+          "DEFENSE",
+          "SPEED",
+          "SPEED"
+        ],
+        "wins": 1041,
+        "total": 2048,
+        "winRate": 0.50830078125
+      },
+      {
+        "opponent": "V-049",
+        "index": 6,
+        "types": [
+          "HP",
+          "DEFENSE",
+          "SPEED",
+          "ATTACK",
+          "SPEED"
+        ],
+        "wins": 1084,
+        "total": 2048,
+        "winRate": 0.529296875
+      },
+      {
+        "opponent": "V-049",
+        "index": 7,
+        "types": [
+          "DEFENSE",
+          "HP",
+          "SPEED",
+          "SPEED",
+          "SPEED"
+        ],
+        "wins": 972,
+        "total": 2048,
+        "winRate": 0.474609375
+      },
+      {
+        "opponent": "V-049",
+        "index": 8,
+        "types": [
+          "HP",
+          "DEFENSE",
+          "DEFENSE",
+          "SPEED",
+          "SPEED"
+        ],
+        "wins": 671,
+        "total": 2048,
+        "winRate": 0.32763671875
+      },
+      {
+        "opponent": "V-049",
+        "index": 9,
+        "types": [
+          "HP",
+          "DEFENSE",
+          "ATTACK",
+          "SPEED",
+          "SPEED"
+        ],
+        "wins": 1107,
+        "total": 2048,
+        "winRate": 0.54052734375
+      },
+      {
+        "opponent": "V-049",
+        "index": 10,
+        "types": [
+          "HP",
+          "DEFENSE",
+          "DEFENSE",
+          "ATTACK",
+          "SPEED"
+        ],
+        "wins": 1031,
+        "total": 2048,
+        "winRate": 0.50341796875
+      },
+      {
+        "opponent": "V-049",
+        "index": 11,
+        "types": [
+          "HP",
+          "DEFENSE",
+          "DEFENSE",
+          "ATTACK",
+          "SPEED"
+        ],
+        "wins": 728,
+        "total": 2048,
+        "winRate": 0.35546875
+      },
+      {
+        "opponent": "V-049",
+        "index": 12,
+        "types": [
+          "HP",
+          "DEFENSE",
+          "ATTACK",
+          "SPEED",
+          "SPEED"
+        ],
+        "wins": 1437,
+        "total": 2048,
+        "winRate": 0.70166015625
+      },
+      {
+        "opponent": "V-049",
+        "index": 13,
+        "types": [
+          "HP",
+          "DEFENSE",
+          "DEFENSE",
+          "ATTACK",
+          "ATTACK"
+        ],
+        "wins": 2032,
+        "total": 2048,
+        "winRate": 0.9921875
+      },
+      {
+        "opponent": "V-049",
+        "index": 14,
+        "types": [
+          "DEFENSE",
+          "HP",
+          "ATTACK",
+          "SPEED",
+          "SPEED"
+        ],
+        "wins": 1435,
+        "total": 2048,
+        "winRate": 0.70068359375
+      },
+      {
+        "opponent": "V-049",
+        "index": 15,
+        "types": [
+          "DEFENSE",
+          "HP",
+          "DEFENSE",
+          "ATTACK",
+          "ATTACK"
+        ],
+        "wins": 2017,
+        "total": 2048,
+        "winRate": 0.98486328125
+      },
+      {
+        "opponent": "V-049",
+        "index": 16,
+        "types": [
+          "HP",
+          "DEFENSE",
+          "DEFENSE",
+          "SPEED",
+          "SPEED"
+        ],
+        "wins": 998,
+        "total": 2048,
+        "winRate": 0.4873046875
+      },
+      {
+        "opponent": "V-049",
+        "index": 17,
+        "types": [
+          "DEFENSE",
+          "HP",
+          "SPEED",
+          "ATTACK",
+          "SPEED"
+        ],
+        "wins": 1399,
+        "total": 2048,
+        "winRate": 0.68310546875
+      },
+      {
+        "opponent": "V-049",
+        "index": 18,
+        "types": [
+          "DEFENSE",
+          "HP",
+          "DEFENSE",
+          "ATTACK",
+          "SPEED"
+        ],
+        "wins": 895,
+        "total": 2048,
+        "winRate": 0.43701171875
+      },
+      {
+        "opponent": "V-049",
+        "index": 19,
+        "types": [
+          "HP",
+          "DEFENSE",
+          "DEFENSE",
+          "SPEED",
+          "SPEED"
+        ],
+        "wins": 804,
+        "total": 2048,
+        "winRate": 0.392578125
+      },
+      {
+        "opponent": "V-049",
+        "index": 20,
+        "types": [
+          "DEFENSE",
+          "HP",
+          "DEFENSE",
+          "ATTACK",
+          "ATTACK"
+        ],
+        "wins": 2039,
+        "total": 2048,
+        "winRate": 0.99560546875
+      },
+      {
+        "opponent": "V-049",
+        "index": 21,
+        "types": [
+          "DEFENSE",
+          "HP",
+          "DEFENSE",
+          "ATTACK",
+          "ATTACK"
+        ],
+        "wins": 2021,
+        "total": 2048,
+        "winRate": 0.98681640625
+      },
+      {
+        "opponent": "V-049",
+        "index": 22,
+        "types": [
+          "DEFENSE",
+          "HP",
+          "DEFENSE",
+          "SPEED",
+          "ATTACK"
+        ],
+        "wins": 911,
+        "total": 2048,
+        "winRate": 0.44482421875
+      },
+      {
+        "opponent": "V-046",
+        "index": 0,
+        "types": [
+          "DEFENSE",
+          "HP",
+          "ATTACK",
+          "SPEED",
+          "SPEED"
+        ],
+        "wins": 1323,
+        "total": 2048,
+        "winRate": 0.64599609375
+      },
+      {
+        "opponent": "V-046",
+        "index": 1,
+        "types": [
+          "HP",
+          "DEFENSE",
+          "ATTACK",
+          "SPEED",
+          "SPEED"
+        ],
+        "wins": 1432,
+        "total": 2048,
+        "winRate": 0.69921875
+      },
+      {
+        "opponent": "V-046",
+        "index": 2,
+        "types": [
+          "HP",
+          "DEFENSE",
+          "DEFENSE",
+          "SPEED",
+          "SPEED"
+        ],
+        "wins": 663,
+        "total": 2048,
+        "winRate": 0.32373046875
+      },
+      {
+        "opponent": "V-046",
+        "index": 3,
+        "types": [
+          "DEFENSE",
+          "HP",
+          "ATTACK",
+          "SPEED",
+          "SPEED"
+        ],
+        "wins": 1270,
+        "total": 2048,
+        "winRate": 0.6201171875
+      },
+      {
+        "opponent": "V-046",
+        "index": 4,
+        "types": [
+          "HP",
+          "DEFENSE",
+          "SPEED",
+          "ATTACK",
+          "SPEED"
+        ],
+        "wins": 1235,
+        "total": 2048,
+        "winRate": 0.60302734375
+      },
+      {
+        "opponent": "V-046",
+        "index": 5,
+        "types": [
+          "DEFENSE",
+          "HP",
+          "DEFENSE",
+          "SPEED",
+          "SPEED"
+        ],
+        "wins": 1014,
+        "total": 2048,
+        "winRate": 0.4951171875
+      },
+      {
+        "opponent": "V-046",
+        "index": 6,
+        "types": [
+          "HP",
+          "DEFENSE",
+          "SPEED",
+          "ATTACK",
+          "SPEED"
+        ],
+        "wins": 1186,
+        "total": 2048,
+        "winRate": 0.5791015625
+      },
+      {
+        "opponent": "V-046",
+        "index": 7,
+        "types": [
+          "DEFENSE",
+          "HP",
+          "SPEED",
+          "SPEED",
+          "SPEED"
+        ],
+        "wins": 1039,
+        "total": 2048,
+        "winRate": 0.50732421875
+      },
+      {
+        "opponent": "V-046",
+        "index": 8,
+        "types": [
+          "HP",
+          "DEFENSE",
+          "DEFENSE",
+          "SPEED",
+          "SPEED"
+        ],
+        "wins": 920,
+        "total": 2048,
+        "winRate": 0.44921875
+      },
+      {
+        "opponent": "V-046",
+        "index": 9,
+        "types": [
+          "HP",
+          "DEFENSE",
+          "ATTACK",
+          "SPEED",
+          "SPEED"
+        ],
+        "wins": 1311,
+        "total": 2048,
+        "winRate": 0.64013671875
+      },
+      {
+        "opponent": "V-046",
+        "index": 10,
+        "types": [
+          "HP",
+          "DEFENSE",
+          "DEFENSE",
+          "ATTACK",
+          "SPEED"
+        ],
+        "wins": 1148,
+        "total": 2048,
+        "winRate": 0.560546875
+      },
+      {
+        "opponent": "V-046",
+        "index": 11,
+        "types": [
+          "HP",
+          "DEFENSE",
+          "DEFENSE",
+          "ATTACK",
+          "SPEED"
+        ],
+        "wins": 1138,
+        "total": 2048,
+        "winRate": 0.5556640625
+      },
+      {
+        "opponent": "V-046",
+        "index": 12,
+        "types": [
+          "HP",
+          "DEFENSE",
+          "ATTACK",
+          "SPEED",
+          "SPEED"
+        ],
+        "wins": 1454,
+        "total": 2048,
+        "winRate": 0.7099609375
+      },
+      {
+        "opponent": "V-046",
+        "index": 13,
+        "types": [
+          "HP",
+          "DEFENSE",
+          "DEFENSE",
+          "ATTACK",
+          "ATTACK"
+        ],
+        "wins": 2034,
+        "total": 2048,
+        "winRate": 0.9931640625
+      },
+      {
+        "opponent": "V-046",
+        "index": 14,
+        "types": [
+          "DEFENSE",
+          "HP",
+          "ATTACK",
+          "SPEED",
+          "SPEED"
+        ],
+        "wins": 1387,
+        "total": 2048,
+        "winRate": 0.67724609375
+      },
+      {
+        "opponent": "V-046",
+        "index": 15,
+        "types": [
+          "DEFENSE",
+          "HP",
+          "DEFENSE",
+          "ATTACK",
+          "ATTACK"
+        ],
+        "wins": 2022,
+        "total": 2048,
+        "winRate": 0.9873046875
+      },
+      {
+        "opponent": "V-046",
+        "index": 16,
+        "types": [
+          "HP",
+          "DEFENSE",
+          "DEFENSE",
+          "SPEED",
+          "SPEED"
+        ],
+        "wins": 1023,
+        "total": 2048,
+        "winRate": 0.49951171875
+      },
+      {
+        "opponent": "V-046",
+        "index": 17,
+        "types": [
+          "DEFENSE",
+          "HP",
+          "SPEED",
+          "ATTACK",
+          "SPEED"
+        ],
+        "wins": 1389,
+        "total": 2048,
+        "winRate": 0.67822265625
+      },
+      {
+        "opponent": "V-046",
+        "index": 18,
+        "types": [
+          "DEFENSE",
+          "HP",
+          "DEFENSE",
+          "ATTACK",
+          "SPEED"
+        ],
+        "wins": 754,
+        "total": 2048,
+        "winRate": 0.3681640625
+      },
+      {
+        "opponent": "V-046",
+        "index": 19,
+        "types": [
+          "HP",
+          "DEFENSE",
+          "DEFENSE",
+          "SPEED",
+          "SPEED"
+        ],
+        "wins": 950,
+        "total": 2048,
+        "winRate": 0.4638671875
+      },
+      {
+        "opponent": "V-046",
+        "index": 20,
+        "types": [
+          "DEFENSE",
+          "HP",
+          "DEFENSE",
+          "ATTACK",
+          "ATTACK"
+        ],
+        "wins": 2041,
+        "total": 2048,
+        "winRate": 0.99658203125
+      },
+      {
+        "opponent": "V-046",
+        "index": 21,
+        "types": [
+          "DEFENSE",
+          "HP",
+          "DEFENSE",
+          "ATTACK",
+          "ATTACK"
+        ],
+        "wins": 2023,
+        "total": 2048,
+        "winRate": 0.98779296875
+      },
+      {
+        "opponent": "V-046",
+        "index": 22,
+        "types": [
+          "DEFENSE",
+          "HP",
+          "DEFENSE",
+          "SPEED",
+          "ATTACK"
+        ],
+        "wins": 757,
+        "total": 2048,
+        "winRate": 0.36962890625
+      }
+    ]
+  },
+  "equippedBaseline": {
+    "count": 128,
+    "start": 20001,
+    "policy": {
+      "pvpBasicDamageScale": 0.99,
+      "pvpStarfallCapScale": 1.7,
+      "starfallCapVariance": false
+    },
+    "groups": [
+      {
+        "opponent": "V-049",
+        "wins": 2176,
+        "total": 5888,
+        "winRate": 0.3695652173913043,
+        "sides": {
+          "A": {
+            "wins": 1141,
+            "total": 2944
+          },
+          "B": {
+            "wins": 1035,
+            "total": 2944
+          }
+        }
+      },
+      {
+        "opponent": "V-046",
+        "wins": 2563,
+        "total": 5888,
+        "winRate": 0.4352921195652174,
+        "sides": {
+          "A": {
+            "wins": 1296,
+            "total": 2944
+          },
+          "B": {
+            "wins": 1267,
+            "total": 2944
+          }
+        }
+      }
+    ]
+  },
+  "neutral": {
+    "count": 1024,
+    "start": 70001,
+    "seedMultiplier": 7919,
+    "powers": [
+      1000000,
+      20000000,
+      100000000,
+      2000000000
+    ],
+    "decks": {
+      "balanced": [
+        "ATTACK",
+        "DEFENSE",
+        "SPEED",
+        "HP",
+        "ATTACK"
+      ],
+      "attack": [
+        "ATTACK",
+        "ATTACK",
+        "ATTACK",
+        "ATTACK",
+        "HP"
+      ],
+      "defense": [
+        "DEFENSE",
+        "DEFENSE",
+        "DEFENSE",
+        "HP",
+        "SPEED"
+      ],
+      "speed": [
+        "SPEED",
+        "SPEED",
+        "SPEED",
+        "HP",
+        "ATTACK"
+      ]
+    },
+    "groups": [
+      {
+        "opponent": "V-049",
+        "name": "크라이베른",
+        "total": 32768,
+        "wins": 19519,
+        "draws": 0,
+        "winRate": 0.595672607421875,
+        "sides": {
+          "A": {
+            "wins": 10503,
+            "total": 16384
+          },
+          "B": {
+            "wins": 9016,
+            "total": 16384
+          }
+        }
+      },
+      {
+        "opponent": "V-046",
+        "name": "라그니엘",
+        "total": 32768,
+        "wins": 20562,
+        "draws": 0,
+        "winRate": 0.62750244140625,
+        "sides": {
+          "A": {
+            "wins": 10998,
+            "total": 16384
+          },
+          "B": {
+            "wins": 9564,
+            "total": 16384
+          }
+        }
+      }
+    ],
+    "rows": [
+      {
+        "opponent": "V-049",
+        "power": 1000000,
+        "deck": "balanced",
+        "wins": 1142,
+        "draws": 0,
+        "total": 2048,
+        "winRate": 0.5576171875
+      },
+      {
+        "opponent": "V-049",
+        "power": 1000000,
+        "deck": "attack",
+        "wins": 1037,
+        "draws": 0,
+        "total": 2048,
+        "winRate": 0.50634765625
+      },
+      {
+        "opponent": "V-049",
+        "power": 1000000,
+        "deck": "defense",
+        "wins": 789,
+        "draws": 0,
+        "total": 2048,
+        "winRate": 0.38525390625
+      },
+      {
+        "opponent": "V-049",
+        "power": 1000000,
+        "deck": "speed",
+        "wins": 878,
+        "draws": 0,
+        "total": 2048,
+        "winRate": 0.4287109375
+      },
+      {
+        "opponent": "V-049",
+        "power": 20000000,
+        "deck": "balanced",
+        "wins": 1393,
+        "draws": 0,
+        "total": 2048,
+        "winRate": 0.68017578125
+      },
+      {
+        "opponent": "V-049",
+        "power": 20000000,
+        "deck": "attack",
+        "wins": 1337,
+        "draws": 0,
+        "total": 2048,
+        "winRate": 0.65283203125
+      },
+      {
+        "opponent": "V-049",
+        "power": 20000000,
+        "deck": "defense",
+        "wins": 924,
+        "draws": 0,
+        "total": 2048,
+        "winRate": 0.451171875
+      },
+      {
+        "opponent": "V-049",
+        "power": 20000000,
+        "deck": "speed",
+        "wins": 1563,
+        "draws": 0,
+        "total": 2048,
+        "winRate": 0.76318359375
+      },
+      {
+        "opponent": "V-049",
+        "power": 100000000,
+        "deck": "balanced",
+        "wins": 1392,
+        "draws": 0,
+        "total": 2048,
+        "winRate": 0.6796875
+      },
+      {
+        "opponent": "V-049",
+        "power": 100000000,
+        "deck": "attack",
+        "wins": 1352,
+        "draws": 0,
+        "total": 2048,
+        "winRate": 0.66015625
+      },
+      {
+        "opponent": "V-049",
+        "power": 100000000,
+        "deck": "defense",
+        "wins": 921,
+        "draws": 0,
+        "total": 2048,
+        "winRate": 0.44970703125
+      },
+      {
+        "opponent": "V-049",
+        "power": 100000000,
+        "deck": "speed",
+        "wins": 1564,
+        "draws": 0,
+        "total": 2048,
+        "winRate": 0.763671875
+      },
+      {
+        "opponent": "V-049",
+        "power": 2000000000,
+        "deck": "balanced",
+        "wins": 1393,
+        "draws": 0,
+        "total": 2048,
+        "winRate": 0.68017578125
+      },
+      {
+        "opponent": "V-049",
+        "power": 2000000000,
+        "deck": "attack",
+        "wins": 1352,
+        "draws": 0,
+        "total": 2048,
+        "winRate": 0.66015625
+      },
+      {
+        "opponent": "V-049",
+        "power": 2000000000,
+        "deck": "defense",
+        "wins": 918,
+        "draws": 0,
+        "total": 2048,
+        "winRate": 0.4482421875
+      },
+      {
+        "opponent": "V-049",
+        "power": 2000000000,
+        "deck": "speed",
+        "wins": 1564,
+        "draws": 0,
+        "total": 2048,
+        "winRate": 0.763671875
+      },
+      {
+        "opponent": "V-046",
+        "power": 1000000,
+        "deck": "balanced",
+        "wins": 1167,
+        "draws": 0,
+        "total": 2048,
+        "winRate": 0.56982421875
+      },
+      {
+        "opponent": "V-046",
+        "power": 1000000,
+        "deck": "attack",
+        "wins": 1045,
+        "draws": 0,
+        "total": 2048,
+        "winRate": 0.51025390625
+      },
+      {
+        "opponent": "V-046",
+        "power": 1000000,
+        "deck": "defense",
+        "wins": 1062,
+        "draws": 0,
+        "total": 2048,
+        "winRate": 0.5185546875
+      },
+      {
+        "opponent": "V-046",
+        "power": 1000000,
+        "deck": "speed",
+        "wins": 891,
+        "draws": 0,
+        "total": 2048,
+        "winRate": 0.43505859375
+      },
+      {
+        "opponent": "V-046",
+        "power": 20000000,
+        "deck": "balanced",
+        "wins": 1433,
+        "draws": 0,
+        "total": 2048,
+        "winRate": 0.69970703125
+      },
+      {
+        "opponent": "V-046",
+        "power": 20000000,
+        "deck": "attack",
+        "wins": 1349,
+        "draws": 0,
+        "total": 2048,
+        "winRate": 0.65869140625
+      },
+      {
+        "opponent": "V-046",
+        "power": 20000000,
+        "deck": "defense",
+        "wins": 1098,
+        "draws": 0,
+        "total": 2048,
+        "winRate": 0.5361328125
+      },
+      {
+        "opponent": "V-046",
+        "power": 20000000,
+        "deck": "speed",
+        "wins": 1577,
+        "draws": 0,
+        "total": 2048,
+        "winRate": 0.77001953125
+      },
+      {
+        "opponent": "V-046",
+        "power": 100000000,
+        "deck": "balanced",
+        "wins": 1432,
+        "draws": 0,
+        "total": 2048,
+        "winRate": 0.69921875
+      },
+      {
+        "opponent": "V-046",
+        "power": 100000000,
+        "deck": "attack",
+        "wins": 1363,
+        "draws": 0,
+        "total": 2048,
+        "winRate": 0.66552734375
+      },
+      {
+        "opponent": "V-046",
+        "power": 100000000,
+        "deck": "defense",
+        "wins": 1097,
+        "draws": 0,
+        "total": 2048,
+        "winRate": 0.53564453125
+      },
+      {
+        "opponent": "V-046",
+        "power": 100000000,
+        "deck": "speed",
+        "wins": 1578,
+        "draws": 0,
+        "total": 2048,
+        "winRate": 0.7705078125
+      },
+      {
+        "opponent": "V-046",
+        "power": 2000000000,
+        "deck": "balanced",
+        "wins": 1432,
+        "draws": 0,
+        "total": 2048,
+        "winRate": 0.69921875
+      },
+      {
+        "opponent": "V-046",
+        "power": 2000000000,
+        "deck": "attack",
+        "wins": 1363,
+        "draws": 0,
+        "total": 2048,
+        "winRate": 0.66552734375
+      },
+      {
+        "opponent": "V-046",
+        "power": 2000000000,
+        "deck": "defense",
+        "wins": 1097,
+        "draws": 0,
+        "total": 2048,
+        "winRate": 0.53564453125
+      },
+      {
+        "opponent": "V-046",
+        "power": 2000000000,
+        "deck": "speed",
+        "wins": 1578,
+        "draws": 0,
+        "total": 2048,
+        "winRate": 0.7705078125
+      }
+    ]
+  },
+  "replayCheck": {
+    "auditedMatches": 53,
+    "exactBeforeWins": 26,
+    "afterWins": 35,
+    "ambiguousAfter": 0,
+    "consecutiveLossSample": {
+      "count": 10,
+      "beforeWins": 0,
+      "afterWins": 6
+    }
+  },
+  "unchangedPayloadHashes": 92
+}

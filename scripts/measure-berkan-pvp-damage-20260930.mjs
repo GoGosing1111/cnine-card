@@ -3,7 +3,7 @@ import {pathToFileURL} from 'node:url';
 import {createPvpBattleV2} from '../functions/_battle_v2_preview.js';
 import {candidate} from './measure-berkan-balance.mjs';
 import {tierCards,tierDecks,fixture} from '../tests/helpers/mercenary-operating-roster-v2144.mjs';
-import {BERKAN_PVP_BASIC_DAMAGE_SCALE,BERKAN_TEMPO,BERKAN_BALANCE,BERKAN_CAP_SCALE} from '../shared/mercenary-berkan-v1.mjs';
+import {BERKAN_PVP_BASIC_DAMAGE_SCALE,BERKAN_TEMPO,BERKAN_BALANCE,BERKAN_PVP_SKILL_CAP_SCALE} from '../shared/mercenary-berkan-v1.mjs';
 
 // Equal ordinary decks, independent starting-side swaps and fixed RNG input.
 // This reports controlled engine comparisons, not live-account win rates.
@@ -22,7 +22,7 @@ export function measureBerkanPvpDamage({count=2048,start=10001,powers=[1e6,2e7,1
   }
   const group={opponent:code,name:opponent.name,total,wins,draws,winRate:wins/total,sides};groups.push(group);onProgress(group);
  }
- return {date:'2026-09-30',scope:'CANONICAL_EQUAL_DECK_BOTH_SIDES_NOT_LIVE_WINRATE',count,start,seedMultiplier:7919,powers,decks,policy:{pvpBasicDamageScale:BERKAN_PVP_BASIC_DAMAGE_SCALE,tempo:BERKAN_TEMPO,skill:BERKAN_BALANCE,skillCap:BERKAN_CAP_SCALE},groups,rows};
+ return {date:'2026-09-30',scope:'CANONICAL_EQUAL_DECK_BOTH_SIDES_NOT_LIVE_WINRATE',count,start,seedMultiplier:7919,powers,decks,policy:{pvpBasicDamageScale:BERKAN_PVP_BASIC_DAMAGE_SCALE,tempo:BERKAN_TEMPO,skill:BERKAN_BALANCE,skillCap:BERKAN_PVP_SKILL_CAP_SCALE,skillCapVariance:[.95,1.05]},groups,rows};
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){
  const args=process.argv.slice(2),value=(key,fallback)=>{const i=args.indexOf(key);return i<0?fallback:args[i+1];};
