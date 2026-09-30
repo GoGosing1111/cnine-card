@@ -1,0 +1,68 @@
+{
+  "format": "PROJECT_V_MERCENARY_CRIMSON_SILVER_KNIGHT_BLADE_MASK_REVISION_V3",
+  "date": "2026-09-30",
+  "status": "USER_REVIEW_PENDING",
+  "userRequest": "칼 검신 더 두껍게, 해당 검신 유지 헬멧도 해당 디자인 반영 하관에 마스크 착용 눈빛 이펙트 적용",
+  "sourceArt": {
+    "path": "assets/crimson-silver-knight-blade-mask-v3.png",
+    "width": 1024,
+    "height": 1536,
+    "mode": "RGB",
+    "format": "PNG",
+    "sha256": "52539C1C7DBE31000F55052B8FC34B5577DE82B1B1DC372090E732B8955C9C30",
+    "bytes": 2854620
+  },
+  "editBase": {
+    "path": "../mercenary-crimson-silver-knight-v2/assets/crimson-silver-knight-redesign-v2.png",
+    "role": "EDIT_TARGET_KEEP_BODY_SLIM_LEGS_POSE_CAPE_AND_BACKGROUND",
+    "sha256": "FD5F1C0E119B415A533068DA2EFBF30B365FDD53760CEB15BC0CD8230273EF82",
+    "unmodified": true
+  },
+  "designReferences": [
+    {
+      "path": "sources/user-reference-06-greatsword.png",
+      "originalAttachment": "codex-clipboard-56e95dd7-e0c6-4cd2-babb-88c92aed01a0.png",
+      "role": "AUTHORITATIVE_BLADE_SHAPE_AND_CURLED_LOWER_ENDS",
+      "sha256": "9E2F720FEF175DDD90CEE7402A65FF3D5D3AB8ED5215263B6FB58F6035DD8BE6",
+      "bytes": 568532
+    },
+    {
+      "path": "sources/user-reference-07-helmet.png",
+      "originalAttachment": "codex-clipboard-0726f608-94c1-4dc7-b642-255de0755909.png",
+      "role": "AUTHORITATIVE_CURVED_SILVER_GOLD_HELMET_DESIGN",
+      "sha256": "01B40343996F5E1590644602BC3E5B36258931BFF7EB4653C2716DB25FE0771B",
+      "bytes": 1677589
+    }
+  ],
+  "generation": {
+    "toolMode": "BUILT_IN_IMAGE_GEN",
+    "prompt": "prompts/blade-mask-v3.txt",
+    "referenceOrder": [
+      "editBase",
+      "designReferences[0]",
+      "designReferences[1]"
+    ],
+    "nativeOutput": "C:/Users/User/.codex/generated_images/01a0f210-dfde-7e73-acb5-b2cc712e8a32/exec-69db2f7f-240b-40b4-b5ec-eeeeef9e83fd.png",
+    "copiedWithoutReencoding": true,
+    "referenceAttachmentsCopiedWithoutReencoding": true
+  },
+  "changes": [
+    "Wider main blade with long parallel silver edges and dark/gold central channel",
+    "Reference-shaped outward and upward curled lower blade corners and central ruby-set point",
+    "Broader curved silver/gold crown and helmet ornament based on the supplied close-up",
+    "Distinct charcoal armored lower-face mask covering nose, mouth and chin",
+    "Crimson eye emission with restrained lateral light streaks"
+  ],
+  "visualReview": {
+    "nativeImageInspected": true,
+    "result": "Checked visibly wider blade, both lower hooked ends and central ruby point, curved helmet crest, dark lower-face mask and two bright red eyes. V2 slim legs, body armor, pose, cape and background remain visually consistent.",
+    "preservationNote": "Image generation edit; pixel-identical preservation of unchanged regions is not claimed.",
+    "thumbnailAndFrameApprovalCompleted": false
+  },
+  "nameAssigned": false,
+  "rankAssigned": false,
+  "previousArtworkReplaced": false,
+  "sdGenerated": false,
+  "liveRegistered": false,
+  "deploymentPerformed": false
+}

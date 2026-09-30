@@ -1,0 +1,25 @@
+Use case: precise-object-edit.
+Asset type: PROJECT V mercenary sourceArt revision V3. Edit image 1 into one finished illustration, exact 2:3 portrait, native 1024 x 1536 RGB PNG with opaque background.
+
+User request: "칼 검신 더 두껍게, 해당 검신 유지 헬멧도 해당 디자인 반영 하관에 마스크 착용 눈빛 이펙트 적용" — make the blade thicker/wider while retaining the blade design shown in the attached sword reference; incorporate the attached helmet design, put a mask over the lower face and add a glowing-eye effect.
+
+INPUT ROLES:
+Image 1: the existing V2 illustration, the EDIT TARGET. Preserve this exact character's body design, slim leg proportions, silver/gold armor, crimson cape, pose, hand placement, composition, painterly quality and citadel background. Limit changes to the sword and helmet/face.
+Image 2: the user's full-body game screenshot, AUTHORITATIVE SWORD SHAPE reference. Study the actual sword's long parallel silver blade edges, dark recessed center, gold central ornament, ruby inserts, branching upper guard and especially the OUTWARD-AND-UPWARD CURLED LOWER BLADE CORNERS. This is not an edit target.
+Image 3: the user's close-up promotional photo, AUTHORITATIVE HELMET DESIGN reference. Study its smooth broad silver flame-like crown blades, flowing gold scroll channels, tall swept side crests, rounded relief and red forehead insets. Use only the helmet design; ignore the text, logos, scene and exposed mouth in this reference.
+
+EDIT 1 — THICKER REFERENCE-SHAPED GREATSWORD:
+Replace V2's narrow simple pointed sword with the sword design shown in image 2, rendered beautifully in the same silver/gold/ruby painterly materials as image 1. Keep it in the same viewer-left position, gripped by the same hand, extending down to the stone at approximately the same length.
+Make the main blade face clearly wider and heavier, about 1.5–1.7 times the width of the existing V2 blade at its middle, with thicker dimensional silver edge bevels. Do not merely enlarge the guard or brighten its glow. It must read as a broad greatsword, not a thin longsword.
+Retain the reference's long nearly parallel outer blade rails, deep dark central recessed channel, continuous gold center ornament and small red jewel accents. Faithfully retain its distinctive LOWER TERMINAL: both outer silver blade rails sweep outward at the bottom and curl BACK UP into matching sharp hook-like tips, while a narrower central gold-and-dark spur descends between them to a ruby-set central point. The upward-curled twin lower hooks are essential. Do not simplify this bottom into a single conventional triangular blade tip.
+Retain the reference's broad, curved, branching silver upper guard with elegant gold borders and red central core. Keep the whole weapon cohesive and structurally legible, with an unchanged usable dark grip and natural hand contact. Allow a small leftward repositioning of the blade only if necessary to keep the thicker edges and both lower hooks fully inside the frame and away from the knight's slim legs. Do not crop the hilt, guard or bottom hooks. Do not add new weapons.
+
+EDIT 2 — REFERENCE HELMET + LOWER-FACE MASK:
+Replace only the helmet's exterior design with the sculpted design language shown in image 3: broad smooth silver flame/crown blades, sweeping sculptural gold borders and inset curved gold channels, elegant upward side crests, a central red inset above the brow, and a strong recognizable helmet silhouette. Reduce V2's thin needle-like crown spikes in favor of the reference's broader curved metal forms. Maintain the same head size, position and angle.
+The lower face MUST now wear a clearly separate close-fitting CHARCOAL/GUNMETAL armored mask, covering the nose, mouth and chin; small articulated silver edges and restrained gold seams integrate it with the helmet. The darker lower-face mask must be visibly distinguishable from the silver/gold upper helmet. No visible lips, teeth, bare chin, exposed lower-face skin, medical mask, respirator tubes or modern gas mask.
+Expose narrow eye openings under the brow and above the mask. Add two unmistakably glowing CRIMSON eyes with tiny pale-hot centers, a restrained red bloom and short outward red light trails. The light must originate from the eyes themselves, not merely the forehead gem. Keep the helmet details and mask readable; no huge laser beams, halo, face-covering flames or overwhelming lens flare.
+
+PRESERVE EVERYTHING ELSE:
+Keep the existing V2 athletic body, modestly slimmer thigh/calf armor, feet size, redesigned breastplate and shoulders, cloth folds, crimson/gold palette, stance and environment. Do not bulk the legs up again. Do not redesign the body, change the camera, enlarge the head or turn this into a new character. Keep the free hand lowered. Keep both feet and the complete sword visible.
+Same refined high-end character-centered semi-real 2D fantasy splash-art finish, dimensional painterly silver and gold, rich red cloth, controlled light and exact portrait ratio.
+No text, logos, branding, UI, signature, watermark, card border or comparison panels. Output one edited image.
