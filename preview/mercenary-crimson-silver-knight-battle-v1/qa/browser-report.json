@@ -10,13 +10,14 @@
     "modes": [
       {
         "ready": true,
+        "motionOnly": false,
         "mode": "aura",
         "time": 0.5,
         "playing": false,
         "speed": 1,
         "pose": {
           "key": "idle",
-          "frame": 3
+          "frame": 0
         },
         "cancelled": false,
         "travel": 0,
@@ -29,7 +30,7 @@
         "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
         "weaponRigid": true,
         "clockOwner": "V3_REGISTERED_GSAP",
-        "motionFrames": 108,
+        "motionFrames": 58,
         "effectFrames": 96,
         "damageAuthority": "NONE_VISUAL_PREVIEW",
         "actorFoot": {
@@ -56,24 +57,25 @@
       },
       {
         "ready": true,
+        "motionOnly": false,
         "mode": "dash",
         "time": 0.3,
         "playing": false,
         "speed": 1,
         "pose": {
           "key": "dash",
-          "frame": 2
+          "frame": 1
         },
         "cancelled": false,
-        "travel": 0.5679939894815927,
+        "travel": 0.4170096021947873,
         "activeFrames": [
           {
             "key": "dash",
             "index": 5,
             "next": 6,
             "anchor": {
-              "x": 751.3534524964548,
-              "y": 372.2282977294447
+              "x": 703.3951228392189,
+              "y": 314.8785017783946
             },
             "sourceAnchor": {
               "x": 0.5,
@@ -81,7 +83,7 @@
             }
           }
         ],
-        "visibleSprites": 17,
+        "visibleSprites": 18,
         "ownedTimelines": 1,
         "registeredTimelines": 0,
         "regularAllies": 5,
@@ -89,12 +91,12 @@
         "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
         "weaponRigid": true,
         "clockOwner": "V3_REGISTERED_GSAP",
-        "motionFrames": 108,
+        "motionFrames": 58,
         "effectFrames": 96,
         "damageAuthority": "NONE_VISUAL_PREVIEW",
         "actorFoot": {
-          "x": 839.3842524964548,
-          "y": 436.2506977294447
+          "x": 791.4259228392189,
+          "y": 378.9009017783946
         },
         "targetFoot": {
           "x": 1299.9999999999998,
@@ -116,8 +118,9 @@
       },
       {
         "ready": true,
+        "motionOnly": false,
         "mode": "attack",
-        "time": 1,
+        "time": 1.77,
         "playing": false,
         "speed": 1,
         "pose": {
@@ -149,12 +152,12 @@
         "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
         "weaponRigid": true,
         "clockOwner": "V3_REGISTERED_GSAP",
-        "motionFrames": 108,
+        "motionFrames": 58,
         "effectFrames": 96,
         "damageAuthority": "NONE_VISUAL_PREVIEW",
         "actorFoot": {
-          "x": 1101.3167196729912,
-          "y": 603.7314973693442
+          "x": 1205.837163650627,
+          "y": 574.9999999999999
         },
         "targetFoot": {
           "x": 1299.9999999999998,
@@ -176,13 +179,14 @@
       },
       {
         "ready": true,
+        "motionOnly": false,
         "mode": "skill",
-        "time": 2.25,
+        "time": 3.65,
         "playing": false,
         "speed": 1,
         "pose": {
           "key": "ultimate",
-          "frame": 7
+          "frame": 6
         },
         "cancelled": false,
         "travel": 1,
@@ -209,12 +213,12 @@
         "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
         "weaponRigid": true,
         "clockOwner": "V3_REGISTERED_GSAP",
-        "motionFrames": 108,
+        "motionFrames": 58,
         "effectFrames": 96,
         "damageAuthority": "NONE_VISUAL_PREVIEW",
         "actorFoot": {
-          "x": 1180.7825797667174,
-          "y": 521.3346214409607
+          "x": 1205.837163650627,
+          "y": 574.9999999999999
         },
         "targetFoot": {
           "x": 1299.9999999999998,
@@ -236,13 +240,14 @@
       },
       {
         "ready": true,
+        "motionOnly": false,
         "mode": "execution",
-        "time": 2.1,
+        "time": 2.61,
         "playing": false,
         "speed": 1,
         "pose": {
           "key": "ultimate",
-          "frame": 7
+          "frame": 6
         },
         "cancelled": false,
         "travel": 1,
@@ -269,12 +274,12 @@
         "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
         "weaponRigid": true,
         "clockOwner": "V3_REGISTERED_GSAP",
-        "motionFrames": 108,
+        "motionFrames": 58,
         "effectFrames": 96,
         "damageAuthority": "NONE_VISUAL_PREVIEW",
         "actorFoot": {
-          "x": 1180.7825797667174,
-          "y": 521.3346214409607
+          "x": 1205.837163650627,
+          "y": 574.9999999999999
         },
         "targetFoot": {
           "x": 1299.9999999999998,
@@ -296,13 +301,14 @@
       },
       {
         "ready": true,
+        "motionOnly": false,
         "mode": "guard",
-        "time": 0.82,
+        "time": 0.9,
         "playing": false,
         "speed": 1,
         "pose": {
           "key": "guard",
-          "frame": 3
+          "frame": 6
         },
         "cancelled": false,
         "travel": 0,
@@ -329,7 +335,7 @@
         "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
         "weaponRigid": true,
         "clockOwner": "V3_REGISTERED_GSAP",
-        "motionFrames": 108,
+        "motionFrames": 58,
         "effectFrames": 96,
         "damageAuthority": "NONE_VISUAL_PREVIEW",
         "actorFoot": {
@@ -356,6 +362,7 @@
       },
       {
         "ready": true,
+        "motionOnly": false,
         "mode": "hit",
         "time": 0.2,
         "playing": false,
@@ -375,7 +382,7 @@
         "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
         "weaponRigid": true,
         "clockOwner": "V3_REGISTERED_GSAP",
-        "motionFrames": 108,
+        "motionFrames": 58,
         "effectFrames": 96,
         "damageAuthority": "NONE_VISUAL_PREVIEW",
         "actorFoot": {
@@ -402,13 +409,14 @@
       },
       {
         "ready": true,
+        "motionOnly": false,
         "mode": "defeat",
         "time": 2.6,
         "playing": false,
         "speed": 1,
         "pose": {
           "key": "defeat",
-          "frame": 7
+          "frame": 2
         },
         "cancelled": false,
         "travel": 0,
@@ -421,7 +429,7 @@
         "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
         "weaponRigid": true,
         "clockOwner": "V3_REGISTERED_GSAP",
-        "motionFrames": 108,
+        "motionFrames": 58,
         "effectFrames": 96,
         "damageAuthority": "NONE_VISUAL_PREVIEW",
         "actorFoot": {
@@ -448,8 +456,9 @@
       },
       {
         "ready": true,
+        "motionOnly": false,
         "mode": "ultimate",
-        "time": 1.42,
+        "time": 2.56,
         "playing": false,
         "speed": 1,
         "pose": {
@@ -481,12 +490,12 @@
         "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
         "weaponRigid": true,
         "clockOwner": "V3_REGISTERED_GSAP",
-        "motionFrames": 108,
+        "motionFrames": 58,
         "effectFrames": 96,
         "damageAuthority": "NONE_VISUAL_PREVIEW",
         "actorFoot": {
-          "x": 1101.3167196729912,
-          "y": 603.7314973693442
+          "x": 1205.837163650627,
+          "y": 574.9999999999999
         },
         "targetFoot": {
           "x": 1299.9999999999998,
@@ -508,13 +517,14 @@
       },
       {
         "ready": true,
+        "motionOnly": false,
         "mode": "ultimate",
-        "time": 3.25,
+        "time": 4.44,
         "playing": false,
         "speed": 1,
         "pose": {
           "key": "ultimate",
-          "frame": 7
+          "frame": 6
         },
         "cancelled": false,
         "travel": 1,
@@ -580,12 +590,12 @@
         "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
         "weaponRigid": true,
         "clockOwner": "V3_REGISTERED_GSAP",
-        "motionFrames": 108,
+        "motionFrames": 58,
         "effectFrames": 96,
         "damageAuthority": "NONE_VISUAL_PREVIEW",
         "actorFoot": {
-          "x": 1180.7825797667174,
-          "y": 521.3346214409607
+          "x": 1205.837163650627,
+          "y": 574.9999999999999
         },
         "targetFoot": {
           "x": 1299.9999999999998,
@@ -608,6 +618,7 @@
     ],
     "interruption": {
       "ready": true,
+      "motionOnly": false,
       "mode": "ultimate",
       "time": 3.25,
       "playing": false,
@@ -627,7 +638,7 @@
       "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
       "weaponRigid": true,
       "clockOwner": "V3_REGISTERED_GSAP",
-      "motionFrames": 108,
+      "motionFrames": 58,
       "effectFrames": 96,
       "damageAuthority": "NONE_VISUAL_PREVIEW",
       "actorFoot": {
@@ -654,6 +665,7 @@
     },
     "targetLost": {
       "ready": true,
+      "motionOnly": false,
       "mode": "ultimate",
       "time": 3.25,
       "playing": false,
@@ -673,7 +685,7 @@
       "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
       "weaponRigid": true,
       "clockOwner": "V3_REGISTERED_GSAP",
-      "motionFrames": 108,
+      "motionFrames": 58,
       "effectFrames": 96,
       "damageAuthority": "NONE_VISUAL_PREVIEW",
       "actorFoot": {
@@ -702,30 +714,31 @@
       {
         "speed": 0.25,
         "elapsed": 0.1255,
-        "wall": 0.501,
+        "wall": 0.5020999999940395,
         "pauseStable": true
       },
       {
         "speed": 0.5,
         "elapsed": 0.252,
-        "wall": 0.5040999999940395,
+        "wall": 0.5034000000059604,
         "pauseStable": true
       },
       {
         "speed": 1,
-        "elapsed": 0.504,
-        "wall": 0.5024000000059604,
+        "elapsed": 0.5,
+        "wall": 0.5007999999821187,
         "pauseStable": true
       },
       {
         "speed": 2,
         "elapsed": 1.008,
-        "wall": 0.5029000000059605,
+        "wall": 0.5028000000119209,
         "pauseStable": true
       }
     ],
     "stopped": {
       "ready": true,
+      "motionOnly": false,
       "mode": "ultimate",
       "time": 0,
       "playing": false,
@@ -745,7 +758,7 @@
       "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
       "weaponRigid": true,
       "clockOwner": "V3_REGISTERED_GSAP",
-      "motionFrames": 108,
+      "motionFrames": 58,
       "effectFrames": 96,
       "damageAuthority": "NONE_VISUAL_PREVIEW",
       "actorFoot": {
@@ -774,11 +787,19 @@
       "enabled": true,
       "scheduled": [
         {
-          "key": "ultimate",
-          "contact": 3.25,
-          "sourceSync": 0.333,
+          "key": "slash",
+          "contact": 2.56,
+          "sourceSync": 0.25,
           "when": 0,
-          "offset": 0.04600000000000026,
+          "offset": 0.669,
+          "speed": 1
+        },
+        {
+          "key": "ultimate",
+          "contact": 4.44,
+          "sourceSync": 0.333,
+          "when": 1.1280000000000001,
+          "offset": 0,
           "speed": 1
         }
       ],
@@ -802,13 +823,14 @@
     "modes": [
       {
         "ready": true,
+        "motionOnly": false,
         "mode": "aura",
         "time": 0.5,
         "playing": false,
         "speed": 1,
         "pose": {
           "key": "idle",
-          "frame": 3
+          "frame": 0
         },
         "cancelled": false,
         "travel": 0,
@@ -821,7 +843,7 @@
         "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
         "weaponRigid": true,
         "clockOwner": "V3_REGISTERED_GSAP",
-        "motionFrames": 108,
+        "motionFrames": 58,
         "effectFrames": 96,
         "damageAuthority": "NONE_VISUAL_PREVIEW",
         "actorFoot": {
@@ -848,24 +870,25 @@
       },
       {
         "ready": true,
+        "motionOnly": false,
         "mode": "dash",
         "time": 0.3,
         "playing": false,
         "speed": 1,
         "pose": {
           "key": "dash",
-          "frame": 2
+          "frame": 1
         },
         "cancelled": false,
-        "travel": 0.5679939894815927,
+        "travel": 0.4170096021947873,
         "activeFrames": [
           {
             "key": "dash",
             "index": 5,
             "next": 6,
             "anchor": {
-              "x": 326.8617588180208,
-              "y": 662.9516353621799
+              "x": 384.77499473755455,
+              "y": 541.3404872539867
             },
             "sourceAnchor": {
               "x": 0.5,
@@ -873,7 +896,7 @@
             }
           }
         ],
-        "visibleSprites": 17,
+        "visibleSprites": 18,
         "ownedTimelines": 1,
         "registeredTimelines": 0,
         "regularAllies": 5,
@@ -881,12 +904,12 @@
         "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
         "weaponRigid": true,
         "clockOwner": "V3_REGISTERED_GSAP",
-        "motionFrames": 108,
+        "motionFrames": 58,
         "effectFrames": 96,
         "damageAuthority": "NONE_VISUAL_PREVIEW",
         "actorFoot": {
-          "x": 419.6290456751637,
-          "y": 730.4187530764656
+          "x": 477.54228159469744,
+          "y": 608.8076049682724
         },
         "targetFoot": {
           "x": 674.3367300518607,
@@ -908,8 +931,9 @@
       },
       {
         "ready": true,
+        "motionOnly": false,
         "mode": "attack",
-        "time": 1,
+        "time": 1.77,
         "playing": false,
         "speed": 1,
         "pose": {
@@ -941,12 +965,12 @@
         "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
         "weaponRigid": true,
         "clockOwner": "V3_REGISTERED_GSAP",
-        "motionFrames": 108,
+        "motionFrames": 58,
         "effectFrames": 96,
         "damageAuthority": "NONE_VISUAL_PREVIEW",
         "actorFoot": {
-          "x": 416.04846562675,
-          "y": 1049.8558316852912
+          "x": 551.9250427976764,
+          "y": 994.3785824765721
         },
         "targetFoot": {
           "x": 674.3367300518607,
@@ -968,13 +992,14 @@
       },
       {
         "ready": true,
+        "motionOnly": false,
         "mode": "skill",
-        "time": 2.25,
+        "time": 3.65,
         "playing": false,
         "speed": 1,
         "pose": {
           "key": "ultimate",
-          "frame": 7
+          "frame": 6
         },
         "cancelled": false,
         "travel": 1,
@@ -1001,12 +1026,12 @@
         "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
         "weaponRigid": true,
         "clockOwner": "V3_REGISTERED_GSAP",
-        "motionFrames": 108,
+        "motionFrames": 58,
         "effectFrames": 96,
         "damageAuthority": "NONE_VISUAL_PREVIEW",
         "actorFoot": {
-          "x": 519.3540837485936,
-          "y": 924.6135903498213
+          "x": 551.9250427976764,
+          "y": 994.3785824765721
         },
         "targetFoot": {
           "x": 674.3367300518607,
@@ -1028,13 +1053,14 @@
       },
       {
         "ready": true,
+        "motionOnly": false,
         "mode": "execution",
-        "time": 2.1,
+        "time": 2.61,
         "playing": false,
         "speed": 1,
         "pose": {
           "key": "ultimate",
-          "frame": 7
+          "frame": 6
         },
         "cancelled": false,
         "travel": 1,
@@ -1061,12 +1087,12 @@
         "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
         "weaponRigid": true,
         "clockOwner": "V3_REGISTERED_GSAP",
-        "motionFrames": 108,
+        "motionFrames": 58,
         "effectFrames": 96,
         "damageAuthority": "NONE_VISUAL_PREVIEW",
         "actorFoot": {
-          "x": 519.3540837485936,
-          "y": 924.6135903498213
+          "x": 551.9250427976764,
+          "y": 994.3785824765721
         },
         "targetFoot": {
           "x": 674.3367300518607,
@@ -1088,13 +1114,14 @@
       },
       {
         "ready": true,
+        "motionOnly": false,
         "mode": "guard",
-        "time": 0.82,
+        "time": 0.9,
         "playing": false,
         "speed": 1,
         "pose": {
           "key": "guard",
-          "frame": 3
+          "frame": 6
         },
         "cancelled": false,
         "travel": 0,
@@ -1121,7 +1148,7 @@
         "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
         "weaponRigid": true,
         "clockOwner": "V3_REGISTERED_GSAP",
-        "motionFrames": 108,
+        "motionFrames": 58,
         "effectFrames": 96,
         "damageAuthority": "NONE_VISUAL_PREVIEW",
         "actorFoot": {
@@ -1148,6 +1175,7 @@
       },
       {
         "ready": true,
+        "motionOnly": false,
         "mode": "hit",
         "time": 0.2,
         "playing": false,
@@ -1167,7 +1195,7 @@
         "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
         "weaponRigid": true,
         "clockOwner": "V3_REGISTERED_GSAP",
-        "motionFrames": 108,
+        "motionFrames": 58,
         "effectFrames": 96,
         "damageAuthority": "NONE_VISUAL_PREVIEW",
         "actorFoot": {
@@ -1194,13 +1222,14 @@
       },
       {
         "ready": true,
+        "motionOnly": false,
         "mode": "defeat",
         "time": 2.6,
         "playing": false,
         "speed": 1,
         "pose": {
           "key": "defeat",
-          "frame": 7
+          "frame": 2
         },
         "cancelled": false,
         "travel": 0,
@@ -1213,7 +1242,7 @@
         "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
         "weaponRigid": true,
         "clockOwner": "V3_REGISTERED_GSAP",
-        "motionFrames": 108,
+        "motionFrames": 58,
         "effectFrames": 96,
         "damageAuthority": "NONE_VISUAL_PREVIEW",
         "actorFoot": {
@@ -1240,8 +1269,9 @@
       },
       {
         "ready": true,
+        "motionOnly": false,
         "mode": "ultimate",
-        "time": 1.42,
+        "time": 2.56,
         "playing": false,
         "speed": 1,
         "pose": {
@@ -1273,12 +1303,12 @@
         "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
         "weaponRigid": true,
         "clockOwner": "V3_REGISTERED_GSAP",
-        "motionFrames": 108,
+        "motionFrames": 58,
         "effectFrames": 96,
         "damageAuthority": "NONE_VISUAL_PREVIEW",
         "actorFoot": {
-          "x": 416.04846562675,
-          "y": 1049.8558316852912
+          "x": 551.9250427976764,
+          "y": 994.3785824765721
         },
         "targetFoot": {
           "x": 674.3367300518607,
@@ -1300,13 +1330,14 @@
       },
       {
         "ready": true,
+        "motionOnly": false,
         "mode": "ultimate",
-        "time": 3.25,
+        "time": 4.44,
         "playing": false,
         "speed": 1,
         "pose": {
           "key": "ultimate",
-          "frame": 7
+          "frame": 6
         },
         "cancelled": false,
         "travel": 1,
@@ -1372,12 +1403,12 @@
         "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
         "weaponRigid": true,
         "clockOwner": "V3_REGISTERED_GSAP",
-        "motionFrames": 108,
+        "motionFrames": 58,
         "effectFrames": 96,
         "damageAuthority": "NONE_VISUAL_PREVIEW",
         "actorFoot": {
-          "x": 519.3540837485936,
-          "y": 924.6135903498213
+          "x": 551.9250427976764,
+          "y": 994.3785824765721
         },
         "targetFoot": {
           "x": 674.3367300518607,
@@ -1400,6 +1431,7 @@
     ],
     "interruption": {
       "ready": true,
+      "motionOnly": false,
       "mode": "ultimate",
       "time": 3.25,
       "playing": false,
@@ -1419,11 +1451,11 @@
       "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
       "weaponRigid": true,
       "clockOwner": "V3_REGISTERED_GSAP",
-      "motionFrames": 108,
+      "motionFrames": 58,
       "effectFrames": 96,
       "damageAuthority": "NONE_VISUAL_PREVIEW",
       "actorFoot": {
-        "x": 424.3367300518606,
+        "x": 424.33673005186057,
         "y": 344.3785824765718
       },
       "targetFoot": {
@@ -1446,6 +1478,7 @@
     },
     "targetLost": {
       "ready": true,
+      "motionOnly": false,
       "mode": "ultimate",
       "time": 3.25,
       "playing": false,
@@ -1465,11 +1498,11 @@
       "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
       "weaponRigid": true,
       "clockOwner": "V3_REGISTERED_GSAP",
-      "motionFrames": 108,
+      "motionFrames": 58,
       "effectFrames": 96,
       "damageAuthority": "NONE_VISUAL_PREVIEW",
       "actorFoot": {
-        "x": 424.3367300518606,
+        "x": 424.33673005186057,
         "y": 344.3785824765718
       },
       "targetFoot": {
@@ -1493,31 +1526,32 @@
     "speeds": [
       {
         "speed": 0.25,
-        "elapsed": 0.126,
-        "wall": 0.5012999999821186,
+        "elapsed": 0.12625,
+        "wall": 0.5032000000178813,
         "pauseStable": true
       },
       {
         "speed": 0.5,
         "elapsed": 0.252,
-        "wall": 0.5023000000119209,
+        "wall": 0.5025999999940395,
         "pauseStable": true
       },
       {
         "speed": 1,
-        "elapsed": 0.5,
-        "wall": 0.5004000000059604,
+        "elapsed": 0.504,
+        "wall": 0.5026000000238419,
         "pauseStable": true
       },
       {
         "speed": 2,
         "elapsed": 1.008,
-        "wall": 0.5042999999821186,
+        "wall": 0.5035,
         "pauseStable": true
       }
     ],
     "stopped": {
       "ready": true,
+      "motionOnly": false,
       "mode": "ultimate",
       "time": 0,
       "playing": false,
@@ -1537,7 +1571,7 @@
       "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
       "weaponRigid": true,
       "clockOwner": "V3_REGISTERED_GSAP",
-      "motionFrames": 108,
+      "motionFrames": 58,
       "effectFrames": 96,
       "damageAuthority": "NONE_VISUAL_PREVIEW",
       "actorFoot": {
@@ -1566,11 +1600,19 @@
       "enabled": true,
       "scheduled": [
         {
-          "key": "ultimate",
-          "contact": 3.25,
-          "sourceSync": 0.333,
+          "key": "slash",
+          "contact": 2.56,
+          "sourceSync": 0.25,
           "when": 0,
-          "offset": 0.017000000000000348,
+          "offset": 0.6280000000000001,
+          "speed": 1
+        },
+        {
+          "key": "ultimate",
+          "contact": 4.44,
+          "sourceSync": 0.333,
+          "when": 1.169,
+          "offset": 0,
           "speed": 1
         }
       ],

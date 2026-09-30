@@ -25,17 +25,18 @@
   ],
   "requestedPoseEdit": "한 손 파지, 똑바로 선 몸, 검끝은 이전 방향 참고 사진처럼 오른쪽 아래. 갑옷과 대검 디자인은 재설계하지 않는다.",
   "poseCandidate": "assets/knight-sd-v14-original-blade-approved-grip.png",
-  "poseCandidateStatus": "GRIP_APPROVED_BLADE_CORRECTION_USER_REVIEW_PENDING",
+  "poseCandidateStatus": "USER_REQUESTED_V3_PREVIEW_INTEGRATION",
   "walkingRequested": false,
   "dashEffectRequested": true,
-  "remainingMotionAndEffects": "MOTIONS_USER_REJECTED_REWORK_REQUIRED_AURA_SATURATION_REQUEST_PENDING",
+  "remainingMotionAndEffects": "V5_REWORK_IMPLEMENTED_USER_REVIEW_PENDING",
   "runtimeEnabled": false,
   "updated": "2026-10-01",
-  "motionFrames": 108,
+  "motionFrames": 37,
   "effectFrames": 96,
   "weaponPolicy": "UNIFORM_SCALE_ROTATION_TRANSLATION_ONLY",
   "weaponFile": "assets/weapon/sword-original.png",
   "weaponSha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
   "motionApprovals": [],
-  "gripApproval": "grip-approval-20261001.json"
+  "gripApproval": "grip-approval-20261001.json",
+  "runtimeMotionReferences": 58
 }

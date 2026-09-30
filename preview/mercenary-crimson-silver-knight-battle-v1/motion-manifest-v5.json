@@ -1,0 +1,4173 @@
+{
+  "ready": {
+    "sources": [
+      {
+        "file": "assets/motion-v5/ready-a-source.png",
+        "sha256": "FA62E2F126FABC1B7A7E49C8CCA3638CE9ADF2456C22822C15F7A300D499FFD6",
+        "nativeAlpha": true,
+        "registration": "CYAN_POMMEL_MAGENTA_BLADE_GREEN_STRAIGHT_HILT"
+      },
+      {
+        "file": "assets/motion-v5/ready-b-source.png",
+        "sha256": "A1910EE071630E49907D91C314D594DD491CECC2D8215318F4A7F58D0FDC39E9",
+        "nativeAlpha": true,
+        "registration": "CYAN_POMMEL_MAGENTA_BLADE_GREEN_STRAIGHT_HILT"
+      },
+      {
+        "file": "assets/motion-v5/ready-c-source.png",
+        "sha256": "B0A1C52C37ACE3A89618463FA3AEFDCB0817C41BCF58C78275BF0F2E76376A34",
+        "nativeAlpha": true,
+        "registration": "CYAN_POMMEL_MAGENTA_BLADE_GREEN_STRAIGHT_HILT"
+      }
+    ],
+    "atlas": "assets/motion-v5/ready-atlas.webp",
+    "atlasSha256": "930DF9EBBAF793172C0E85B3C9F22C382C86101D8C97333653316475763F2200",
+    "pngAtlas": "assets/motion-v5/ready-atlas.png",
+    "pngAtlasSha256": "FD566FCB746B6924CC8E69572F194DB2ABACDC0B85DF485869505EE10F4DD8FF",
+    "cellSize": 512,
+    "columns": 4,
+    "rows": 3,
+    "frameCount": 12,
+    "bodyPixels": 225.37539432176658,
+    "frames": [
+      {
+        "file": "assets/motion-v5/frames/ready/00.png",
+        "sha256": "DD740C5728F5BD88CAA750D5259B7488D7039A403E66AEF0E19A87120593D4C9",
+        "index": 0,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.37539432176658,
+        "source": "assets/motion-v5/ready-a-source.png",
+        "sourceIndex": 0,
+        "sourceBounds": [
+          14,
+          11,
+          493,
+          704
+        ],
+        "sourceFeet": [
+          290,
+          703
+        ],
+        "sourceBodyPixels": 694,
+        "sourceGrip": [
+          155.4443645847296,
+          326.7889554726521
+        ],
+        "grip": [
+          212.30327177243166,
+          317.8260626677886
+        ],
+        "tip": [
+          341.11998004123564,
+          434.3452189624776
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.47796143250688705,
+          "angle": -47.3063595221909,
+          "grip": [
+            143.4443645847296,
+            317.7889554726521
+          ],
+          "pivot": [
+            108.24439313804493,
+            111.33601731611503
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.32474840680369826
+        },
+        "registration": {
+          "cyan": [
+            118.77586206896561,
+            292.9597701149424
+          ],
+          "magenta": [
+            201.1513513513514,
+            368.95675675675693
+          ],
+          "occlusion": [
+            23,
+            72
+          ],
+          "glovePixels": 2969,
+          "removedKey": 980
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/ready/01.png",
+        "sha256": "4E64EA07BF3B72B1213177F0F7E9957DDCA4F237C1F64E7AFF37C7A61EBF5ECF",
+        "index": 1,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.37539432176658,
+        "source": "assets/motion-v5/ready-a-source.png",
+        "sourceIndex": 1,
+        "sourceBounds": [
+          526,
+          11,
+          1004,
+          704
+        ],
+        "sourceFeet": [
+          802,
+          703
+        ],
+        "sourceBodyPixels": 694,
+        "sourceGrip": [
+          688.1697046384584,
+          305.32843436553736
+        ],
+        "grip": [
+          219.03379293534493,
+          310.8567926290759
+        ],
+        "tip": [
+          362.1287093676028,
+          409.3164442843679
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.47796143250688705,
+          "angle": -54.90600474919673,
+          "grip": [
+            164.16970463845837,
+            296.32843436553736
+          ],
+          "pivot": [
+            107.17082347688165,
+            109.98416136687305
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.32474840680369826
+        },
+        "registration": {
+          "cyan": [
+            644.8947368421052,
+            274.9210526315788
+          ],
+          "magenta": [
+            737.4393063583818,
+            339.9479768786127
+          ],
+          "occlusion": [
+            28,
+            73
+          ],
+          "glovePixels": 2736,
+          "removedKey": 1021
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/ready/02.png",
+        "sha256": "F9A173C8576FF2125A1E907BAF8551C33AD865732489F8219CC39EBBCCD90200",
+        "index": 2,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.37539432176658,
+        "source": "assets/motion-v5/ready-a-source.png",
+        "sourceIndex": 2,
+        "sourceBounds": [
+          14,
+          730,
+          493,
+          1422
+        ],
+        "sourceFeet": [
+          290,
+          1419
+        ],
+        "sourceBodyPixels": 694,
+        "sourceGrip": [
+          193.79466781990848,
+          1016.7976273004674
+        ],
+        "grip": [
+          224.75747164849471,
+          309.3854202531595
+        ],
+        "tip": [
+          378.16849516141156,
+          390.84409675576165
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.47796143250688705,
+          "angle": -61.469237538246865,
+          "grip": [
+            181.79466781990848,
+            288.7976273004674
+          ],
+          "pivot": [
+            104.3925171468104,
+            107.21493632847476
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.32474840680369826
+        },
+        "registration": {
+          "cyan": [
+            143.3742331288343,
+            989.3865030674847
+          ],
+          "magenta": [
+            244.49999999999997,
+            1044.3636363636379
+          ],
+          "occlusion": [
+            30,
+            80
+          ],
+          "glovePixels": 3008,
+          "removedKey": 1016
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/ready/03.png",
+        "sha256": "643BCA4AE7204C6A2F36D2C1155D3521089A3806B1F44A3049CEC7645F8C3ADC",
+        "index": 3,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.37539432176658,
+        "source": "assets/motion-v5/ready-a-source.png",
+        "sourceIndex": 3,
+        "sourceBounds": [
+          526,
+          730,
+          1005,
+          1422
+        ],
+        "sourceFeet": [
+          802,
+          1419
+        ],
+        "sourceBodyPixels": 694,
+        "sourceGrip": [
+          720.3917719383509,
+          999.3249267679793
+        ],
+        "grip": [
+          229.49785795490658,
+          303.71118859267585
+        ],
+        "tip": [
+          395.69132522005896,
+          354.2105900863869
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.47796143250688705,
+          "angle": -72.53490605491284,
+          "grip": [
+            196.39177193835087,
+            271.32492676797926
+          ],
+          "pivot": [
+            97.32636063883928,
+            99.10457305272007
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.32474840680369826
+        },
+        "registration": {
+          "cyan": [
+            663.2628865979382,
+            981.3505154639186
+          ],
+          "magenta": [
+            780.3999999999994,
+            1018.2052631578955
+          ],
+          "occlusion": [
+            31,
+            84
+          ],
+          "glovePixels": 3197,
+          "removedKey": 1078
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/ready/04.png",
+        "sha256": "4F820E8F43090F2F2B10B12F9B2FF5F2337BABF0514E669D1F66ED60BE0734C8",
+        "index": 4,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.37539432176658,
+        "source": "assets/motion-v5/ready-b-source.png",
+        "sourceIndex": 0,
+        "sourceBounds": [
+          32,
+          6,
+          526,
+          724
+        ],
+        "sourceFeet": [
+          319,
+          723
+        ],
+        "sourceBodyPixels": 718,
+        "sourceGrip": [
+          239.2053925634737,
+          288.38917100985145
+        ],
+        "grip": [
+          230.9530068025659,
+          303.5785696933641
+        ],
+        "tip": [
+          396.81659945540633,
+          355.1511083658876
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.49449035812672176,
+          "angle": -72.16457200968561,
+          "grip": [
+            209.2053925634737,
+            284.38917100985145
+          ],
+          "pivot": [
+            100.91349038730257,
+            102.72480122910517
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.3138933068548281
+        },
+        "registration": {
+          "cyan": [
+            181.1632653061221,
+            269.71428571428555
+          ],
+          "magenta": [
+            302.6649746192895,
+            308.80710659898523
+          ],
+          "occlusion": [
+            33,
+            84
+          ],
+          "glovePixels": 3198,
+          "removedKey": 1263
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/ready/05.png",
+        "sha256": "C23C5BC3E1A49AE0DF5679BFA8794B1C51480259D44F7B00AD624DD03128A3AA",
+        "index": 5,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.37539432176658,
+        "source": "assets/motion-v5/ready-b-source.png",
+        "sourceIndex": 1,
+        "sourceBounds": [
+          516,
+          4,
+          1005,
+          724
+        ],
+        "sourceFeet": [
+          801,
+          720
+        ],
+        "sourceBodyPixels": 718,
+        "sourceGrip": [
+          765.6665374098113,
+          229.7920965208877
+        ],
+        "grip": [
+          244.9090625849343,
+          286.12702013056906
+        ],
+        "tip": [
+          417.6096123387198,
+          267.55343061274584
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.49449035812672176,
+          "angle": -95.57523793708432,
+          "grip": [
+            251.66653740981133,
+            227.7920965208877
+          ],
+          "pivot": [
+            88.49392470896146,
+            136.3111473969329
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.3138933068548281
+        },
+        "registration": {
+          "cyan": [
+            715.9304812834242,
+            234.64705882352933
+          ],
+          "magenta": [
+            839.71282051282,
+            222.56410256410282
+          ],
+          "occlusion": [
+            21,
+            74
+          ],
+          "glovePixels": 3302,
+          "removedKey": 1165
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/ready/06.png",
+        "sha256": "F11E3CCF8AC54F384C9D8D896C4E2211D2DEE622C2167D4B881D62BBA7DF8DAA",
+        "index": 6,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.37539432176658,
+        "source": "assets/motion-v5/ready-b-source.png",
+        "sourceIndex": 2,
+        "sourceBounds": [
+          32,
+          744,
+          526,
+          1489
+        ],
+        "sourceFeet": [
+          320.5,
+          1488
+        ],
+        "sourceBodyPixels": 748,
+        "sourceGrip": [
+          339.1150676282851,
+          923.4698312548011
+        ],
+        "grip": [
+          261.60879439445335,
+          269.9048002841141
+        ],
+        "tip": [
+          417.3040255267281,
+          192.90185803186074
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.5151515151515151,
+          "angle": -115.7526292535328,
+          "grip": [
+            309.1150676282851,
+            181.46983125480108
+          ],
+          "pivot": [
+            113.52082012199261,
+            331.6504881773752
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.301304003103966
+        },
+        "registration": {
+          "cyan": [
+            287.7081712062259,
+            948.2684824902681
+          ],
+          "magenta": [
+            424.83650190114037,
+            882.1178707224325
+          ],
+          "occlusion": [
+            23,
+            86
+          ],
+          "glovePixels": 4005,
+          "removedKey": 1859
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/ready/07.png",
+        "sha256": "8CBE29E69727B73D824E8B15EBBA1C2ED1446B8219ABAABEC2ABB896A7776408",
+        "index": 7,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.37539432176658,
+        "source": "assets/motion-v5/ready-b-source.png",
+        "sourceIndex": 3,
+        "sourceBounds": [
+          518,
+          746,
+          1004,
+          1492
+        ],
+        "sourceFeet": [
+          805.5,
+          1490
+        ],
+        "sourceBodyPixels": 748,
+        "sourceGrip": [
+          818.7632950478259,
+          847.6659086179915
+        ],
+        "grip": [
+          259.99628389225893,
+          246.46216693645212
+        ],
+        "tip": [
+          387.38124644409925,
+          128.37944411680104
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.5151515151515151,
+          "angle": -132.26654734987062,
+          "grip": [
+            302.76329504782586,
+            103.66590861799148
+          ],
+          "pivot": [
+            119.87475759552336,
+            456.873423903697
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.301304003103966
+        },
+        "registration": {
+          "cyan": [
+            785.0361445783125,
+            878.3192771084368
+          ],
+          "magenta": [
+            881.7283236994217,
+            790.4393063583829
+          ],
+          "occlusion": [
+            20,
+            66
+          ],
+          "glovePixels": 2767,
+          "removedKey": 1369
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/ready/08.png",
+        "sha256": "DAE26D2B36C9D6030E5D0C3F5CD3759F09B3E06E76B5650737C0F2CFFA440BC1",
+        "index": 8,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.37539432176658,
+        "source": "assets/motion-v5/ready-c-source.png",
+        "sourceIndex": 0,
+        "sourceBounds": [
+          13,
+          34,
+          484,
+          707
+        ],
+        "sourceFeet": [
+          283,
+          705
+        ],
+        "sourceBodyPixels": 674,
+        "sourceGrip": [
+          288.06292983366126,
+          122.3629330823288
+        ],
+        "grip": [
+          257.6929670737164,
+          245.1749870874664
+        ],
+        "tip": [
+          382.53960253713024,
+          124.41168253553822
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.4641873278236915,
+          "angle": -133.48431894825038,
+          "grip": [
+            277.06292983366126,
+            90.3629330823288
+          ],
+          "pivot": [
+            108.02911259090615,
+            418.3091922081795
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.33438485804416407
+        },
+        "registration": {
+          "cyan": [
+            256.63087248322137,
+            152.17449664429535
+          ],
+          "magenta": [
+            345.4277777777777,
+            67.95555555555556
+          ],
+          "occlusion": [
+            20,
+            62
+          ],
+          "glovePixels": 2322,
+          "removedKey": 1257
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/ready/09.png",
+        "sha256": "4C5B35E849A3C8EEE67C688AFCCC73B8B6DBA950B09B57F1E1BC3EDD06050D97",
+        "index": 9,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.37539432176658,
+        "source": "assets/motion-v5/ready-c-source.png",
+        "sourceIndex": 1,
+        "sourceBounds": [
+          498,
+          14,
+          973,
+          707
+        ],
+        "sourceFeet": [
+          767.5,
+          702
+        ],
+        "sourceBodyPixels": 674,
+        "sourceGrip": [
+          750.86938538006,
+          89.52853296505867
+        ],
+        "grip": [
+          250.43897429112414,
+          235.19881543942026
+        ],
+        "tip": [
+          342.4926879337687,
+          87.90125294283885
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.4641873278236915,
+          "angle": -147.43343724185925,
+          "grip": [
+            254.86938538005995,
+            77.52853296505867
+          ],
+          "pivot": [
+            105.60604802100137,
+            485.229640380114
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.33438485804416407
+        },
+        "registration": {
+          "cyan": [
+            727.550632911392,
+            126.03797468354443
+          ],
+          "magenta": [
+            793.5337078651676,
+            22.73033707865172
+          ],
+          "occlusion": [
+            20,
+            62
+          ],
+          "glovePixels": 2527,
+          "removedKey": 1256
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/ready/10.png",
+        "sha256": "EFAFA85B89D98828460A04EFB272002BD791C396A5198E395B31BEDEEFBB8D6D",
+        "index": 10,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.37539432176658,
+        "source": "assets/motion-v5/ready-c-source.png",
+        "sourceIndex": 2,
+        "sourceBounds": [
+          36,
+          733,
+          519,
+          1519
+        ],
+        "sourceFeet": [
+          306.5,
+          1514
+        ],
+        "sourceBodyPixels": 674,
+        "sourceGrip": [
+          284.57444824310414,
+          802.8582463471076
+        ],
+        "grip": [
+          248.6684274882304,
+          202.2049656554997
+        ],
+        "tip": [
+          341.5111852144596,
+          55.40346549073632
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.4641873278236915,
+          "angle": -147.12599806161523,
+          "grip": [
+            250.57444824310414,
+            71.85824634710764
+          ],
+          "pivot": [
+            105.58166677562762,
+            484.0862433454607
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.33438485804416407
+        },
+        "registration": {
+          "cyan": [
+            260.7887323943662,
+            839.6619718309868
+          ],
+          "magenta": [
+            324.2784810126582,
+            741.4240506329121
+          ],
+          "occlusion": [
+            21,
+            62
+          ],
+          "glovePixels": 1420,
+          "removedKey": 1229
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/ready/11.png",
+        "sha256": "34AF7B2B01D6506D06699958764D248EAD8A8F207F9E41B8CE89F6103114B8CE",
+        "index": 11,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.37539432176658,
+        "source": "assets/motion-v5/ready-c-source.png",
+        "sourceIndex": 3,
+        "sourceBounds": [
+          536,
+          698,
+          1005,
+          1519
+        ],
+        "sourceFeet": [
+          806,
+          1518
+        ],
+        "sourceBodyPixels": 674,
+        "sourceGrip": [
+          773.2489843949526,
+          778.0583450627622
+        ],
+        "grip": [
+          245.048556296104,
+          192.5747147528479
+        ],
+        "tip": [
+          290.5972348599286,
+          24.956768237787372
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.4641873278236915,
+          "angle": -164.23427715641552,
+          "grip": [
+            239.24898439495257,
+            82.05834506276221
+          ],
+          "pivot": [
+            94.47647799134634,
+            528.0773769921062
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.33438485804416407
+        },
+        "registration": {
+          "cyan": [
+            762.0218978102187,
+            817.8248175182482
+          ],
+          "magenta": [
+            793.2094594594589,
+            707.3581081081087
+          ],
+          "occlusion": [
+            18,
+            60
+          ],
+          "glovePixels": 1449,
+          "removedKey": 1092
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      }
+    ],
+    "contacts": []
+  },
+  "attack": {
+    "sources": [
+      {
+        "file": "assets/motion-v5/attack-a-source.png",
+        "sha256": "D8D270E3ED86531E9E7056C7303B3AC79C4F7964CEA52BDB1C9F047026725E82",
+        "nativeAlpha": true,
+        "registration": "CYAN_POMMEL_MAGENTA_BLADE_GREEN_STRAIGHT_HILT"
+      },
+      {
+        "file": "assets/motion-v5/attack-b-source.png",
+        "sha256": "E160F7D869F5B4EDAFBB2AE65E6A9AF2704801EC3B5A139931E51E29A9B0A952",
+        "nativeAlpha": true,
+        "registration": "CYAN_POMMEL_MAGENTA_BLADE_GREEN_STRAIGHT_HILT"
+      }
+    ],
+    "atlas": "assets/motion-v5/attack-atlas.webp",
+    "atlasSha256": "62789CA4EE2EB657B2DF96B8DC4381F4352F7C89045D970405D0ADFE947A979E",
+    "pngAtlas": "assets/motion-v5/attack-atlas.png",
+    "pngAtlasSha256": "319FA54036CC41E3BD6566AEFC0E7DC25D5FD2605128C5CB897A632AC83FEDC4",
+    "cellSize": 512,
+    "columns": 4,
+    "rows": 2,
+    "frameCount": 8,
+    "bodyPixels": 225.91645353793692,
+    "frames": [
+      {
+        "file": "assets/motion-v5/frames/attack/00.png",
+        "sha256": "4EB2B7FD0ED7B462E7A346DA1E5682BA1275468082D00F877E9A444DE731030A",
+        "index": 0,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.91645353793692,
+        "source": "assets/motion-v5/attack-a-source.png",
+        "sourceIndex": 0,
+        "sourceBounds": [
+          62,
+          2,
+          511,
+          763
+        ],
+        "sourceFeet": [
+          322,
+          762
+        ],
+        "sourceBodyPixels": 625,
+        "sourceGrip": [
+          295.206049895198,
+          75.98352952138204
+        ],
+        "grip": [
+          246.31488930568113,
+          192.0281470733725
+        ],
+        "tip": [
+          299.09731561412553,
+          26.10796131313205
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.43044077134986225,
+          "angle": -161.78991335042124,
+          "grip": [
+            235.20604989519802,
+            75.98352952138204
+          ],
+          "pivot": [
+            90.12675940720071,
+            487.04328829200415
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.3614663256606991
+        },
+        "registration": {
+          "cyan": [
+            283.4396551724139,
+            111.74999999999994
+          ],
+          "magenta": [
+            316.61146496815275,
+            10.917197452229303
+          ],
+          "occlusion": [
+            17,
+            54
+          ],
+          "glovePixels": 1357,
+          "removedKey": 1139
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/attack/01.png",
+        "sha256": "58145F75A4652A746F84C61F70BE29FA51E1E329B7B00C9BC0C273F2F4F3EDED",
+        "index": 1,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.91645353793692,
+        "source": "assets/motion-v5/attack-a-source.png",
+        "sourceIndex": 1,
+        "sourceBounds": [
+          527,
+          85,
+          989,
+          775
+        ],
+        "sourceFeet": [
+          774,
+          772
+        ],
+        "sourceBodyPixels": 625,
+        "sourceGrip": [
+          750.7139173404308,
+          159.12052080627865
+        ],
+        "grip": [
+          247.58286526201422,
+          218.46470658300265
+        ],
+        "tip": [
+          348.7478353023379,
+          76.75676253447912
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.43044077134986225,
+          "angle": -143.91383608955837,
+          "grip": [
+            225.71391734043084,
+            76.12052080627865
+          ],
+          "pivot": [
+            99.43458905413095,
+            437.4568637139047
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.3614663256606991
+        },
+        "registration": {
+          "cyan": [
+            727.0642201834861,
+            191.56880733944945
+          ],
+          "magenta": [
+            797.7987804878051,
+            94.51829268292683
+          ],
+          "occlusion": [
+            17,
+            59
+          ],
+          "glovePixels": 1752,
+          "removedKey": 1413
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/attack/02.png",
+        "sha256": "499111F616B0DADB2ABA0C1DEAB5EAB58FED78DD9EF78C9ABECAF8D7A4A9A2C5",
+        "index": 2,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.91645353793692,
+        "source": "assets/motion-v5/attack-a-source.png",
+        "sourceIndex": 2,
+        "sourceBounds": [
+          45,
+          840,
+          529,
+          1483
+        ],
+        "sourceFeet": [
+          315.5,
+          1481
+        ],
+        "sourceBodyPixels": 650,
+        "sourceGrip": [
+          373.61571649315033,
+          938.1977483539074
+        ],
+        "grip": [
+          276.19891779222877,
+          251.34160051647382
+        ],
+        "tip": [
+          398.94577028695153,
+          127.85596259708734
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.4476584022038568,
+          "angle": -134.6086961404462,
+          "grip": [
+            330.61571649315033,
+            100.1977483539074
+          ],
+          "pivot": [
+            104.17193079561312,
+            409.8887623067325
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.3475637746737491
+        },
+        "registration": {
+          "cyan": [
+            344.6133333333332,
+            966.8066666666684
+          ],
+          "magenta": [
+            439.95121951219517,
+            872.7621951219526
+          ],
+          "occlusion": [
+            16,
+            61
+          ],
+          "glovePixels": 1927,
+          "removedKey": 1545
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/attack/03.png",
+        "sha256": "3928DE71502C6D97CCBB530A82B1C20E3B41CB5567EAE86B3F83FFBBA7EE7C0D",
+        "index": 3,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.91645353793692,
+        "source": "assets/motion-v5/attack-a-source.png",
+        "sourceIndex": 3,
+        "sourceBounds": [
+          517,
+          843,
+          1014,
+          1488
+        ],
+        "sourceFeet": [
+          785.5,
+          1484
+        ],
+        "sourceBodyPixels": 650,
+        "sourceGrip": [
+          886.6106002802343,
+          990.0494384375012
+        ],
+        "grip": [
+          291.1423818929269,
+          268.32067832111983
+        ],
+        "tip": [
+          463.0584997014935,
+          240.746396692216
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.4476584022038568,
+          "angle": -98.54906501999446,
+          "grip": [
+            371.6106002802343,
+            149.04943843750118
+          ],
+          "pivot": [
+            83.67146829966524,
+            149.0555885498751
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.3475637746737491
+        },
+        "registration": {
+          "cyan": [
+            845.3360655737702,
+            996.254098360656
+          ],
+          "magenta": [
+            994.8246445497608,
+            973.7819905213291
+          ],
+          "occlusion": [
+            16,
+            63
+          ],
+          "glovePixels": 1801,
+          "removedKey": 2301
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/attack/04.png",
+        "sha256": "5AB92A6E515BBA7092FF5F2A565DECA27D3A088913939B7B77F0AC5736BAA23A",
+        "index": 4,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.91645353793692,
+        "source": "assets/motion-v5/attack-b-source.png",
+        "sourceIndex": 0,
+        "sourceBounds": [
+          10,
+          8,
+          534,
+          694
+        ],
+        "sourceFeet": [
+          290.5,
+          692
+        ],
+        "sourceBodyPixels": 690,
+        "sourceGrip": [
+          399.1356835263968,
+          169.4055272790104
+        ],
+        "grip": [
+          291.56896862312067,
+          268.8946522961535
+        ],
+        "tip": [
+          463.8379679422487,
+          243.61848875606427
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.47520661157024796,
+          "angle": -97.78395052743339,
+          "grip": [
+            391.1356835263968,
+            163.4055272790104
+          ],
+          "pivot": [
+            87.91366374994135,
+            151.1450742028932
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.32741515005498106
+        },
+        "registration": {
+          "cyan": [
+            355.16853932584297,
+            175.41573033707868
+          ],
+          "magenta": [
+            519.2029520295197,
+            152.99261992619935
+          ],
+          "occlusion": [
+            18,
+            66
+          ],
+          "glovePixels": 2052,
+          "removedKey": 2541
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/attack/05.png",
+        "sha256": "EF7FFE257F1550AC9A52ED48784893A807F0DF5FCBD3178C7A2EF6C688AE63E3",
+        "index": 5,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.91645353793692,
+        "source": "assets/motion-v5/attack-b-source.png",
+        "sourceIndex": 1,
+        "sourceBounds": [
+          521,
+          25,
+          1020,
+          700
+        ],
+        "sourceFeet": [
+          807,
+          696
+        ],
+        "sourceBodyPixels": 690,
+        "sourceGrip": [
+          866.867970553306,
+          277.8532669585491
+        ],
+        "grip": [
+          275.6016805621979,
+          303.0924246562332
+        ],
+        "tip": [
+          444.8290970921363,
+          344.0506236440037
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.47520661157024796,
+          "angle": -75.8311025772536,
+          "grip": [
+            347.867970553306,
+            254.8532669585491
+          ],
+          "pivot": [
+            93.91005149969331,
+            95.75003068228835
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.32741515005498106
+        },
+        "registration": {
+          "cyan": [
+            825.2962962962963,
+            267.3580246913583
+          ],
+          "magenta": [
+            982.7083333333343,
+            307.0984848484844
+          ],
+          "occlusion": [
+            17,
+            64
+          ],
+          "glovePixels": 2800,
+          "removedKey": 2523
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/attack/06.png",
+        "sha256": "CE910EAA9255D0965AD2686D9DF5E93B4214E77C145B5FAE09E900324993878D",
+        "index": 6,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.91645353793692,
+        "source": "assets/motion-v5/attack-b-source.png",
+        "sourceIndex": 2,
+        "sourceBounds": [
+          6,
+          765,
+          545,
+          1492
+        ],
+        "sourceFeet": [
+          320,
+          1486
+        ],
+        "sourceBodyPixels": 745,
+        "sourceGrip": [
+          399.3956956104313,
+          1068.964696686145
+        ],
+        "grip": [
+          280.0762335281694,
+          313.53672922847795
+        ],
+        "tip": [
+          432.0876874273308,
+          398.4367318973953
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.5130853994490359,
+          "angle": -60.25296910024701,
+          "grip": [
+            395.3956956104313,
+            305.9646966861451
+          ],
+          "pivot": [
+            112.73229211327131,
+            115.50144998672259
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.30324356179588846
+        },
+        "registration": {
+          "cyan": [
+            362.0052356020942,
+            1047.596858638743
+          ],
+          "magenta": [
+            510.79452054794547,
+            1132.6267123287698
+          ],
+          "occlusion": [
+            16,
+            65
+          ],
+          "glovePixels": 3108,
+          "removedKey": 2748
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/attack/07.png",
+        "sha256": "0FDBFC715DFFB80CA0D3BA0FFEE88E5C8D4F243533413F1BFF177CE7F7978821",
+        "index": 7,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.91645353793692,
+        "source": "assets/motion-v5/attack-b-source.png",
+        "sourceIndex": 3,
+        "sourceBounds": [
+          553,
+          794,
+          1023,
+          1497
+        ],
+        "sourceFeet": [
+          821,
+          1491
+        ],
+        "sourceBodyPixels": 745,
+        "sourceGrip": [
+          839.0877105951823,
+          1079.684443418999
+        ],
+        "grip": [
+          261.4849817856163,
+          315.271205600319
+        ],
+        "tip": [
+          395.6447766197963,
+          426.2515733225868
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.5130853994490359,
+          "angle": -49.83837782939126,
+          "grip": [
+            288.08771059518233,
+            287.6844434189991
+          ],
+          "pivot": [
+            115.78316030696692,
+            119.13729578031453
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.30324356179588846
+        },
+        "registration": {
+          "cyan": [
+            806.5580110497237,
+            1052.2320441988945
+          ],
+          "magenta": [
+            959.9180790960453,
+            1181.6553672316393
+          ],
+          "occlusion": [
+            13,
+            67
+          ],
+          "glovePixels": 3506,
+          "removedKey": 2923
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      }
+    ],
+    "contacts": [
+      {
+        "frame": 6,
+        "targetHeightFraction": 0.42,
+        "sourcePoint": [
+          432.0876874273308,
+          398.4367318973953
+        ],
+        "sourceFoot": [
+          256,
+          440
+        ]
+      }
+    ]
+  },
+  "recover": {
+    "sources": [
+      {
+        "file": "assets/motion-v5/recover-source.png",
+        "sha256": "A156AD79DFFAA45611F5D9A93950F118EF2C8635635A7E82B7C01851C85AD1D7",
+        "nativeAlpha": true,
+        "registration": "CYAN_POMMEL_MAGENTA_BLADE_GREEN_STRAIGHT_HILT"
+      }
+    ],
+    "atlas": "assets/motion-v5/recover-atlas.webp",
+    "atlasSha256": "A2E22C41C3AFB16B875253386FBD17831DDA28D5A31A116D6B3CF29C23B88C04",
+    "pngAtlas": "assets/motion-v5/recover-atlas.png",
+    "pngAtlasSha256": "0DC2E74F0424B32BDA93B8FA02E538D0F1AD0BC1EDEE5B15E3B46CAD434E29E9",
+    "cellSize": 512,
+    "columns": 4,
+    "rows": 1,
+    "frameCount": 4,
+    "bodyPixels": 345.7142857142857,
+    "frames": [
+      {
+        "file": "assets/motion-v5/frames/recover/00.png",
+        "sha256": "2FC9653DED9D5DFCA30E561863298A4C9D266DD28A536678E135E3A1F05CD64D",
+        "index": 0,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 345.7142857142857,
+        "source": "assets/motion-v5/recover-source.png",
+        "sourceIndex": 0,
+        "sourceBounds": [
+          24,
+          30,
+          482,
+          705
+        ],
+        "sourceFeet": [
+          284,
+          700
+        ],
+        "sourceBodyPixels": 700,
+        "sourceGrip": [
+          299.4139722395706,
+          303.1428867734763
+        ],
+        "grip": [
+          263.6126148611757,
+          244.0011808146556
+        ],
+        "tip": [
+          471.23652924450766,
+          410.98427355174397
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.4820936639118457,
+          "angle": -50.628546856782144,
+          "grip": [
+            277.4139722395706,
+            275.1428867734763
+          ],
+          "pivot": [
+            108.76919241771768,
+            112.1690562749992
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.4938775510204082
+        },
+        "registration": {
+          "cyan": [
+            266.6285714285716,
+            276.24000000000007
+          ],
+          "magenta": [
+            415.4610778443118,
+            398.36826347305293
+          ],
+          "occlusion": [
+            14,
+            66
+          ],
+          "glovePixels": 3150,
+          "removedKey": 2711
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/recover/01.png",
+        "sha256": "170FE87534EAD49B726495C26439B53275E581EBDDF8FC42798A3C0404D16F88",
+        "index": 1,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 345.7142857142857,
+        "source": "assets/motion-v5/recover-source.png",
+        "sourceIndex": 1,
+        "sourceBounds": [
+          531,
+          11,
+          993,
+          719
+        ],
+        "sourceFeet": [
+          803.5,
+          714
+        ],
+        "sourceBodyPixels": 720,
+        "sourceGrip": [
+          721.8812662960316,
+          324.4288022640021
+        ],
+        "grip": [
+          216.810052467539,
+          252.94398838866766
+        ],
+        "tip": [
+          391.33131976613197,
+          454.272998579433
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.49586776859504134,
+          "angle": -40.3570425498557,
+          "grip": [
+            192.88126629603164,
+            315.4288022640021
+          ],
+          "pivot": [
+            111.96284287103595,
+            115.36137851135663
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.4801587301587302
+        },
+        "registration": {
+          "cyan": [
+            696.6402439024394,
+            294.72560975609736
+          ],
+          "magenta": [
+            798.3021148036246,
+            414.35951661631447
+          ],
+          "occlusion": [
+            14,
+            59
+          ],
+          "glovePixels": 2865,
+          "removedKey": 2130
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/recover/02.png",
+        "sha256": "5246B0F5E68C2CD0698864EAFB302FFA8FA74D9F0F759E91AA602EABC3D1DBA2",
+        "index": 2,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 345.7142857142857,
+        "source": "assets/motion-v5/recover-source.png",
+        "sourceIndex": 2,
+        "sourceBounds": [
+          35,
+          720,
+          513,
+          1495
+        ],
+        "sourceFeet": [
+          348,
+          1494
+        ],
+        "sourceBodyPixels": 780,
+        "sourceGrip": [
+          216.5017688367712,
+          1075.40125001831
+        ],
+        "grip": [
+          197.71690120604143,
+          254.46722070408615
+        ],
+        "tip": [
+          378.13848313704125,
+          450.52612985492215
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.5371900826446281,
+          "angle": -42.05834382469993,
+          "grip": [
+            183.5017688367712,
+            357.40125001831007
+          ],
+          "pivot": [
+            121.20209022318801,
+            125.05780090173911
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.44322344322344326
+        },
+        "registration": {
+          "cyan": [
+            189.91666666666666,
+            1045.9358974358972
+          ],
+          "magenta": [
+            303.0958466453675,
+            1171.3769968051113
+          ],
+          "occlusion": [
+            12,
+            62
+          ],
+          "glovePixels": 3397,
+          "removedKey": 2255
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/recover/03.png",
+        "sha256": "9EA3E701C691C92041B99BB7AD810E6689AE29875A75D0488AC4DFDDDB749DDE",
+        "index": 3,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 345.7142857142857,
+        "source": "assets/motion-v5/recover-source.png",
+        "sourceIndex": 3,
+        "sourceBounds": [
+          532,
+          714,
+          1006,
+          1507
+        ],
+        "sourceFeet": [
+          823,
+          1504
+        ],
+        "sourceBodyPixels": 795,
+        "sourceGrip": [
+          663.8491190491393,
+          1074.3363196737982
+        ],
+        "grip": [
+          186.7915306556904,
+          253.15613541969302
+        ],
+        "tip": [
+          375.1125532913141,
+          441.6401812097098
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.5475206611570248,
+          "angle": -44.412000071404734,
+          "grip": [
+            133.8491190491393,
+            362.33631967379824
+          ],
+          "pivot": [
+            123.7726660237955,
+            127.77430308577661
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.43486073674752923
+        },
+        "registration": {
+          "cyan": [
+            635.6903225806453,
+            1045.5935483870962
+          ],
+          "magenta": [
+            759.0084269662921,
+            1171.4691011235968
+          ],
+          "occlusion": [
+            16,
+            59
+          ],
+          "glovePixels": 3018,
+          "removedKey": 2399
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      }
+    ],
+    "contacts": []
+  },
+  "dash": {
+    "sources": [
+      {
+        "file": "assets/motion-v5/dash-source.png",
+        "sha256": "352AC3EE0494B189C7A914C508FEFF6673264D6A8BF8E76E31AEBC90BDA622B7",
+        "nativeAlpha": true,
+        "registration": "CYAN_POMMEL_MAGENTA_BLADE_GREEN_STRAIGHT_HILT"
+      }
+    ],
+    "atlas": "assets/motion-v5/dash-atlas.webp",
+    "atlasSha256": "5CE9ACDAC2C33C359F51FBA232441E0F7672A8BB9527F6955A9B0B37C29BB7E4",
+    "pngAtlas": "assets/motion-v5/dash-atlas.png",
+    "pngAtlasSha256": "3ABA4127CD68F2A0D41DA66AA8F38EEEF9DE6F0271C9FA1958EB3A0DDDBA7BC4",
+    "cellSize": 512,
+    "columns": 4,
+    "rows": 1,
+    "frameCount": 4,
+    "bodyPixels": 362.2421711899791,
+    "frames": [
+      {
+        "file": "assets/motion-v5/frames/dash/00.png",
+        "sha256": "23609E997176A1406977D1D9A27C351F2422992EFCA523B3E69DF2334C8BA41D",
+        "index": 0,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 362.2421711899791,
+        "source": "assets/motion-v5/dash-source.png",
+        "sourceIndex": 0,
+        "sourceBounds": [
+          16,
+          32,
+          457,
+          751
+        ],
+        "sourceFeet": [
+          296,
+          749
+        ],
+        "sourceBodyPixels": 717,
+        "sourceGrip": [
+          172.28011345099839,
+          334.97603387875927
+        ],
+        "grip": [
+          193.49433706710147,
+          230.82714028947757
+        ],
+        "tip": [
+          407.0768310327303,
+          410.6150388408053
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.493801652892562,
+          "angle": -49.34703390197687,
+          "grip": [
+            158.28011345099839,
+            304.97603387875927
+          ],
+          "pivot": [
+            111.80388685042985,
+            115.01289842467739
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.5052192066805845
+        },
+        "registration": {
+          "cyan": [
+            126.02479338842976,
+            295.25619834710744
+          ],
+          "magenta": [
+            214.4431818181819,
+            371.1818181818183
+          ],
+          "occlusion": [
+            39,
+            78
+          ],
+          "glovePixels": 2507,
+          "removedKey": 953
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/dash/01.png",
+        "sha256": "5EE1C8491532203AEB1707D5D159E82706F7BFDBD65263D29F7C2795A788B4A8",
+        "index": 1,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 362.2421711899791,
+        "source": "assets/motion-v5/dash-source.png",
+        "sourceIndex": 1,
+        "sourceBounds": [
+          483,
+          78,
+          1009,
+          738
+        ],
+        "sourceFeet": [
+          743,
+          734
+        ],
+        "sourceBodyPixels": 717,
+        "sourceGrip": [
+          740.5174843657101,
+          339.588625773185
+        ],
+        "grip": [
+          254.7457854206719,
+          240.7357984073294
+        ],
+        "tip": [
+          469.4901652086512,
+          419.1342892741427
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.493801652892562,
+          "angle": -49.71874495729387,
+          "grip": [
+            259.51748436571006,
+            263.588625773185
+          ],
+          "pivot": [
+            111.80551192867105,
+            114.70788469241654
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.5052192066805845
+        },
+        "registration": {
+          "cyan": [
+            691.716814159293,
+            298.23008849557533
+          ],
+          "magenta": [
+            785.0119047619044,
+            377.2976190476188
+          ],
+          "occlusion": [
+            40,
+            83
+          ],
+          "glovePixels": 2735,
+          "removedKey": 994
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/dash/02.png",
+        "sha256": "70EA0DFA5323D35C7BE3AA7E90F3D238CCC000FC11EA79F0ED3A2B9FA7AE1B45",
+        "index": 2,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 362.2421711899791,
+        "source": "assets/motion-v5/dash-source.png",
+        "sourceIndex": 2,
+        "sourceBounds": [
+          14,
+          851,
+          689,
+          1424
+        ],
+        "sourceFeet": [
+          388,
+          1421
+        ],
+        "sourceBodyPixels": 717,
+        "sourceGrip": [
+          321.52977429155266,
+          1076.2776746474199
+        ],
+        "grip": [
+          222.41796529969884,
+          265.83966026028315
+        ],
+        "tip": [
+          462.91885644806035,
+          407.61586260371007
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.493801652892562,
+          "angle": -58.91727532754009,
+          "grip": [
+            309.52977429155266,
+            227.27767464741987
+          ],
+          "pivot": [
+            109.17597139968021,
+            112.2036628919497
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.5052192066805845
+        },
+        "registration": {
+          "cyan": [
+            267.1734693877551,
+            1043.510204081631
+          ],
+          "magenta": [
+            372.97368421052636,
+            1107.2894736842102
+          ],
+          "occlusion": [
+            39,
+            83
+          ],
+          "glovePixels": 2778,
+          "removedKey": 950
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/dash/03.png",
+        "sha256": "22D78BA26D91E3E45E28C1A254981BF413D3199A18D97F430AAC0C49368E6F95",
+        "index": 3,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 362.2421711899791,
+        "source": "assets/motion-v5/dash-source.png",
+        "sourceIndex": 3,
+        "sourceBounds": [
+          553,
+          841,
+          1016,
+          1438
+        ],
+        "sourceFeet": [
+          865.5,
+          1436
+        ],
+        "sourceBodyPixels": 717,
+        "sourceGrip": [
+          782.1503900165043,
+          1085.1119827836362
+        ],
+        "grip": [
+          213.89017616700215,
+          262.7246343082254
+        ],
+        "tip": [
+          446.18049924717593,
+          417.5870764864014
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.493801652892562,
+          "angle": -55.74634107673176,
+          "grip": [
+            231.15039001650428,
+            246.11198278363622
+          ],
+          "pivot": [
+            110.22979246608062,
+            113.4496684661834
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.5052192066805845
+        },
+        "registration": {
+          "cyan": [
+            730.5163934426228,
+            1049.9508196721306
+          ],
+          "magenta": [
+            829.6071428571431,
+            1117.4285714285713
+          ],
+          "occlusion": [
+            39,
+            81
+          ],
+          "glovePixels": 2675,
+          "removedKey": 950
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      }
+    ],
+    "contacts": []
+  },
+  "cast": {
+    "sources": [
+      {
+        "file": "assets/motion-v5/cast-source.png",
+        "sha256": "0A721DFFA97DA46AD7D3A13321FC6DB5A942C2771953640B6AA2E326FD5C46D3",
+        "nativeAlpha": true,
+        "registration": "CYAN_POMMEL_MAGENTA_BLADE_GREEN_STRAIGHT_HILT"
+      }
+    ],
+    "atlas": "assets/motion-v5/cast-atlas.webp",
+    "atlasSha256": "F5323C1E80F4599957046237EFD5709613AB8C123655846150A6815C70600931",
+    "pngAtlas": "assets/motion-v5/cast-atlas.png",
+    "pngAtlasSha256": "D5B9A2FD53AF3EF60A32FD494F9312704A422F94C17B76AE2F2520D4DF85658B",
+    "cellSize": 512,
+    "columns": 4,
+    "rows": 1,
+    "frameCount": 4,
+    "bodyPixels": 400,
+    "frames": [
+      {
+        "file": "assets/motion-v5/frames/cast/00.png",
+        "sha256": "97CB7B0699865AE5094CE63B10C8D6863B7FC3FB9FB086A3BD5245736F951FF5",
+        "index": 0,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 400,
+        "source": "assets/motion-v5/cast-source.png",
+        "sourceIndex": 0,
+        "sourceBounds": [
+          24,
+          10,
+          504,
+          702
+        ],
+        "sourceFeet": [
+          297,
+          700
+        ],
+        "sourceBodyPixels": 692,
+        "sourceGrip": [
+          150.2840247264007,
+          307.1890920718698
+        ],
+        "grip": [
+          171.1930778765322,
+          212.9416717178438
+        ],
+        "tip": [
+          372.52340172639083,
+          446.39886793687975
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.4765840220385675,
+          "angle": -40.210827933387684,
+          "grip": [
+            128.2840247264007,
+            299.1890920718698
+          ],
+          "pivot": [
+            107.04506518730136,
+            110.52591369844299
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.5780346820809249
+        },
+        "registration": {
+          "cyan": [
+            118.07951070336385,
+            269.0948012232413
+          ],
+          "magenta": [
+            185.80147058823525,
+            349.20220588235287
+          ],
+          "occlusion": [
+            26,
+            69
+          ],
+          "glovePixels": 2641,
+          "removedKey": 963
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/cast/01.png",
+        "sha256": "B63C835E2656C9DF61F5ECE299BA7027A4E7E577CB6CD2173D61CDDBC59B3050",
+        "index": 1,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 400,
+        "source": "assets/motion-v5/cast-source.png",
+        "sourceIndex": 1,
+        "sourceBounds": [
+          503,
+          11,
+          984,
+          702
+        ],
+        "sourceFeet": [
+          769.5,
+          700
+        ],
+        "sourceBodyPixels": 692,
+        "sourceGrip": [
+          622.160643068258,
+          306.45135411484534
+        ],
+        "grip": [
+          170.83274165795257,
+          212.51523359239613
+        ],
+        "tip": [
+          373.7648311135189,
+          444.5814500848887
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.4765840220385675,
+          "angle": -40.60511120379078,
+          "grip": [
+            121.16064306825797,
+            297.45135411484534
+          ],
+          "pivot": [
+            107.34112866020885,
+            110.57230367930049
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.5780346820809249
+        },
+        "registration": {
+          "cyan": [
+            586.7659574468092,
+            265.16312056737536
+          ],
+          "magenta": [
+            658.9055944055945,
+            349.3146853146851
+          ],
+          "occlusion": [
+            32,
+            72
+          ],
+          "glovePixels": 2475,
+          "removedKey": 979
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/cast/02.png",
+        "sha256": "C7B6C981E64EAEE63D08B1F71BB491FA5774E22C8981B75AF4EEF0890E14E8C6",
+        "index": 2,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 400,
+        "source": "assets/motion-v5/cast-source.png",
+        "sourceIndex": 2,
+        "sourceBounds": [
+          12,
+          723,
+          547,
+          1460
+        ],
+        "sourceFeet": [
+          293.5,
+          1457
+        ],
+        "sourceBodyPixels": 737,
+        "sourceGrip": [
+          135.3436049753874,
+          1042.4067080442258
+        ],
+        "grip": [
+          170.1620651155427,
+          214.9832879480194
+        ],
+        "tip": [
+          371.4446590831485,
+          448.48163726469943
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.5075757575757576,
+          "angle": -40.199114952028474,
+          "grip": [
+            125.3436049753874,
+            321.40670804422575
+          ],
+          "pivot": [
+            113.81043859003327,
+            117.67334253698837
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.5427408412483039
+        },
+        "registration": {
+          "cyan": [
+            103.69230769230768,
+            1004.9512820512831
+          ],
+          "magenta": [
+            173.33841463414635,
+            1087.3689024390305
+          ],
+          "occlusion": [
+            26,
+            67
+          ],
+          "glovePixels": 2699,
+          "removedKey": 1085
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/cast/03.png",
+        "sha256": "DE9835EEB97CC28CB8BF62B3148DC99435A8981C6BB368517FACE8F4E8B79BF2",
+        "index": 3,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 400,
+        "source": "assets/motion-v5/cast-source.png",
+        "sourceIndex": 3,
+        "sourceBounds": [
+          506,
+          723,
+          1004,
+          1457
+        ],
+        "sourceFeet": [
+          787.5,
+          1455
+        ],
+        "sourceBodyPixels": 737,
+        "sourceGrip": [
+          626.7405671456429,
+          1042.1984849970156
+        ],
+        "grip": [
+          168.749290174026,
+          215.95575847870592
+        ],
+        "tip": [
+          371.0481706361062,
+          448.5741686093991
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.5075757575757576,
+          "angle": -40.44896151282948,
+          "grip": [
+            122.7405671456429,
+            321.1984849970156
+          ],
+          "pivot": [
+            113.99728894703068,
+            117.87800705497733
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.5427408412483039
+        },
+        "registration": {
+          "cyan": [
+            590.3848484848494,
+            999.5545454545411
+          ],
+          "magenta": [
+            665.2024539877306,
+            1087.3128834355825
+          ],
+          "occlusion": [
+            31,
+            76
+          ],
+          "glovePixels": 2940,
+          "removedKey": 1090
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      }
+    ],
+    "contacts": []
+  },
+  "hit": {
+    "sources": [
+      {
+        "file": "assets/motion-v5/utility-source.png",
+        "sha256": "D090701253F7463AB9F836B05130C261A2D61949287729EA92AA2B22C6F30DCE",
+        "nativeAlpha": true,
+        "registration": "CYAN_POMMEL_MAGENTA_BLADE_GREEN_STRAIGHT_HILT"
+      }
+    ],
+    "atlas": "assets/motion-v5/hit-atlas.webp",
+    "atlasSha256": "79EB0B4C8D111D21F0B9CE883A9E011EB4F284E5BB8A673361470481ECDE6141",
+    "pngAtlas": "assets/motion-v5/hit-atlas.png",
+    "pngAtlasSha256": "0FBACF1B19A160061E944D226DB3AF175D1BC3ABA35D3EF7E6995CCE64DB5F41",
+    "cellSize": 512,
+    "columns": 4,
+    "rows": 1,
+    "frameCount": 2,
+    "bodyPixels": 400,
+    "frames": [
+      {
+        "file": "assets/motion-v5/frames/hit/00.png",
+        "sha256": "471085A8F8DC335509FA8F45E18D986C6607C7C4463CA12A5089FA6453623067",
+        "index": 0,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 400,
+        "source": "assets/motion-v5/utility-source.png",
+        "sourceIndex": 0,
+        "sourceBounds": [
+          2,
+          25,
+          483,
+          820
+        ],
+        "sourceFeet": [
+          310.5,
+          819
+        ],
+        "sourceBodyPixels": 795,
+        "sourceGrip": [
+          148.08992641247636,
+          372.18216592165794
+        ],
+        "grip": [
+          174.28423970439061,
+          215.18599543228072
+        ],
+        "tip": [
+          380.5141042701984,
+          444.32657396238517
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.5475206611570248,
+          "angle": -41.42446329318042,
+          "grip": [
+            148.08992641247636,
+            349.18216592165794
+          ],
+          "pivot": [
+            123.33857070842342,
+            127.21995209977001
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.5031446540880503
+        },
+        "registration": {
+          "cyan": [
+            116.83601286173625,
+            336.7620578778139
+          ],
+          "magenta": [
+            200.8482142857142,
+            431.97321428571337
+          ],
+          "occlusion": [
+            24,
+            65
+          ],
+          "glovePixels": 2917,
+          "removedKey": 1625
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/hit/01.png",
+        "sha256": "BEDA17DB86B210D2A79274295F195D49F311AE8C235F516B26659F9E0335C905",
+        "index": 1,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 400,
+        "source": "assets/motion-v5/utility-source.png",
+        "sourceIndex": 1,
+        "sourceBounds": [
+          500,
+          61,
+          1004,
+          821
+        ],
+        "sourceFeet": [
+          801.5,
+          820
+        ],
+        "sourceBodyPixels": 795,
+        "sourceGrip": [
+          648.2809872344061,
+          402.7056452974425
+        ],
+        "grip": [
+          178.90867282234268,
+          230.04057625028554
+        ],
+        "tip": [
+          404.84432527050024,
+          439.77670265860786
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.5475206611570248,
+          "angle": -46.56622922941363,
+          "grip": [
+            150.2809872344061,
+            343.7056452974425
+          ],
+          "pivot": [
+            123.83037690129294,
+            127.48270675390336
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.5031446540880503
+        },
+        "registration": {
+          "cyan": [
+            613.2523076923073,
+            369.5415384615387
+          ],
+          "magenta": [
+            707.0142045454543,
+            458.3125000000005
+          ],
+          "occlusion": [
+            24,
+            67
+          ],
+          "glovePixels": 3050,
+          "removedKey": 1661
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      }
+    ],
+    "contacts": []
+  },
+  "defeat": {
+    "sources": [
+      {
+        "file": "assets/motion-v5/utility-source.png",
+        "sha256": "D090701253F7463AB9F836B05130C261A2D61949287729EA92AA2B22C6F30DCE",
+        "nativeAlpha": true,
+        "registration": "CYAN_POMMEL_MAGENTA_BLADE_GREEN_STRAIGHT_HILT"
+      }
+    ],
+    "atlas": "assets/motion-v5/defeat-atlas.webp",
+    "atlasSha256": "5B37404CAB4300ABBA6159BB4D1844BED56D26B4B001CAE6186FC7A2C0F3D854",
+    "pngAtlas": "assets/motion-v5/defeat-atlas.png",
+    "pngAtlasSha256": "0D04B1FF0484EF610B4C930DA06E121102FCC9317884D5D4B83BAC060281602E",
+    "cellSize": 512,
+    "columns": 4,
+    "rows": 1,
+    "frameCount": 3,
+    "bodyPixels": 379.09359605911334,
+    "frames": [
+      {
+        "file": "assets/motion-v5/frames/defeat/00.png",
+        "sha256": "51EF1286392600F6B05565F161CF906C5BB34BCE16CF4D15DB8E77A53BEC0CA6",
+        "index": 0,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 379.09359605911334,
+        "source": "assets/motion-v5/utility-source.png",
+        "sourceIndex": 0,
+        "sourceBounds": [
+          2,
+          25,
+          483,
+          820
+        ],
+        "sourceFeet": [
+          310.5,
+          819
+        ],
+        "sourceBodyPixels": 795,
+        "sourceGrip": [
+          148.08992641247636,
+          372.18216592165794
+        ],
+        "grip": [
+          178.55519643708232,
+          226.93612640993342
+        ],
+        "tip": [
+          374.0062488696723,
+          444.1004412050408
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.5475206611570248,
+          "angle": -41.42446329318042,
+          "grip": [
+            148.08992641247636,
+            349.18216592165794
+          ],
+          "pivot": [
+            123.33857070842342,
+            127.21995209977001
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.47684729064039416
+        },
+        "registration": {
+          "cyan": [
+            116.83601286173625,
+            336.7620578778139
+          ],
+          "magenta": [
+            200.8482142857142,
+            431.97321428571337
+          ],
+          "occlusion": [
+            24,
+            65
+          ],
+          "glovePixels": 2917,
+          "removedKey": 1625
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/defeat/01.png",
+        "sha256": "DE86294E4F8DF76C188F9C468BFDD0D049AA92ABB89CF79D4253AC1F66A33A6B",
+        "index": 1,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 379.09359605911334,
+        "source": "assets/motion-v5/utility-source.png",
+        "sourceIndex": 2,
+        "sourceBounds": [
+          14,
+          880,
+          517,
+          1467
+        ],
+        "sourceFeet": [
+          262.5,
+          1466
+        ],
+        "sourceBodyPixels": 795,
+        "sourceGrip": [
+          146.48391971247693,
+          1098.282300455676
+        ],
+        "grip": [
+          200.67804644417618,
+          264.65481125177064
+        ],
+        "tip": [
+          492.83675738552336,
+          266.8322268129005
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.5475206611570248,
+          "angle": -89.00977980703468,
+          "grip": [
+            134.48391971247693,
+            220.28230045567602
+          ],
+          "pivot": [
+            91.31406006916325,
+            92.13248352839729
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.47684729064039416
+        },
+        "registration": {
+          "cyan": [
+            95.25396825396824,
+            1097.3968253968267
+          ],
+          "magenta": [
+            242.58247422680407,
+            1099.9432989690713
+          ],
+          "occlusion": [
+            25,
+            72
+          ],
+          "glovePixels": 3288,
+          "removedKey": 2123
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/defeat/02.png",
+        "sha256": "4D6984E60ACFD481C3CB8F0270AAD53137E20248CB87FE4F894EFFB537F155DC",
+        "index": 2,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 379.09359605911334,
+        "source": "assets/motion-v5/utility-source.png",
+        "sourceIndex": 3,
+        "sourceBounds": [
+          518,
+          975,
+          1008,
+          1466
+        ],
+        "sourceFeet": [
+          821,
+          1465
+        ],
+        "sourceBodyPixels": 795,
+        "sourceGrip": [
+          689.5745742513723,
+          1155.8117491234066
+        ],
+        "grip": [
+          193.33014181050657,
+          292.56442027165394
+        ],
+        "tip": [
+          485.46639863885724,
+          288.33819692740775
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.5475206611570248,
+          "angle": -90.26560713481439,
+          "grip": [
+            173.57457425137227,
+            182.81174912340657
+          ],
+          "pivot": [
+            90.33706752984693,
+            93.46681402683092
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.47684729064039416
+        },
+        "registration": {
+          "cyan": [
+            640.3374999999995,
+            1156.0399999999995
+          ],
+          "magenta": [
+            785.3571428571423,
+            1155.3677248677213
+          ],
+          "occlusion": [
+            23,
+            70
+          ],
+          "glovePixels": 3263,
+          "removedKey": 2146
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      }
+    ],
+    "contacts": []
+  },
+  "idle": {
+    "sources": [
+      {
+        "file": "assets/knight-sd-v14-original-blade-approved-grip.png",
+        "sha256": "D2CAB7DDE716CF9A0554AF44A03A448A7BCCD9E402928D87620C72C73879A6CC",
+        "nativeAlpha": true
+      }
+    ],
+    "atlas": "assets/motion-v5/idle-atlas.webp",
+    "atlasSha256": "C9931C1B14E5ED2854BD89CFE1C55B983AD82E0F2B55907ED7F7C17426F2054D",
+    "pngAtlas": "assets/motion-v5/idle-atlas.png",
+    "pngAtlasSha256": "D97776707E78805D74D954833DBAED63341D7C24E4750748BB11ADAA76186FEA",
+    "cellSize": 512,
+    "columns": 4,
+    "rows": 1,
+    "frameCount": 1,
+    "bodyPixels": 377.52000000000004,
+    "frames": [
+      {
+        "file": "assets/motion-v5/frames/idle/00.png",
+        "sha256": "6799883FC8A67B0DC60021971614EB757C898DC2E0E599AB3F182D0813A9C6ED",
+        "index": 0,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 377.52000000000004,
+        "source": "assets/knight-sd-v14-original-blade-approved-grip.png",
+        "immutableApprovedPose": true
+      }
+    ],
+    "contacts": []
+  },
+  "guard": {
+    "sources": [
+      {
+        "file": "assets/motion-v5/ready-a-source.png",
+        "sha256": "FA62E2F126FABC1B7A7E49C8CCA3638CE9ADF2456C22822C15F7A300D499FFD6",
+        "nativeAlpha": true,
+        "registration": "CYAN_POMMEL_MAGENTA_BLADE_GREEN_STRAIGHT_HILT"
+      },
+      {
+        "file": "assets/motion-v5/ready-b-source.png",
+        "sha256": "A1910EE071630E49907D91C314D594DD491CECC2D8215318F4A7F58D0FDC39E9",
+        "nativeAlpha": true,
+        "registration": "CYAN_POMMEL_MAGENTA_BLADE_GREEN_STRAIGHT_HILT"
+      },
+      {
+        "file": "assets/motion-v5/ready-c-source.png",
+        "sha256": "B0A1C52C37ACE3A89618463FA3AEFDCB0817C41BCF58C78275BF0F2E76376A34",
+        "nativeAlpha": true,
+        "registration": "CYAN_POMMEL_MAGENTA_BLADE_GREEN_STRAIGHT_HILT"
+      }
+    ],
+    "atlas": "assets/motion-v5/ready-atlas.webp",
+    "atlasSha256": "930DF9EBBAF793172C0E85B3C9F22C382C86101D8C97333653316475763F2200",
+    "pngAtlas": "assets/motion-v5/ready-atlas.png",
+    "pngAtlasSha256": "FD566FCB746B6924CC8E69572F194DB2ABACDC0B85DF485869505EE10F4DD8FF",
+    "cellSize": 512,
+    "columns": 4,
+    "rows": 3,
+    "frameCount": 12,
+    "bodyPixels": 225.37539432176658,
+    "frames": [
+      {
+        "file": "assets/motion-v5/frames/ready/00.png",
+        "sha256": "DD740C5728F5BD88CAA750D5259B7488D7039A403E66AEF0E19A87120593D4C9",
+        "index": 0,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.37539432176658,
+        "source": "assets/motion-v5/ready-a-source.png",
+        "sourceIndex": 0,
+        "sourceBounds": [
+          14,
+          11,
+          493,
+          704
+        ],
+        "sourceFeet": [
+          290,
+          703
+        ],
+        "sourceBodyPixels": 694,
+        "sourceGrip": [
+          155.4443645847296,
+          326.7889554726521
+        ],
+        "grip": [
+          212.30327177243166,
+          317.8260626677886
+        ],
+        "tip": [
+          341.11998004123564,
+          434.3452189624776
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.47796143250688705,
+          "angle": -47.3063595221909,
+          "grip": [
+            143.4443645847296,
+            317.7889554726521
+          ],
+          "pivot": [
+            108.24439313804493,
+            111.33601731611503
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.32474840680369826
+        },
+        "registration": {
+          "cyan": [
+            118.77586206896561,
+            292.9597701149424
+          ],
+          "magenta": [
+            201.1513513513514,
+            368.95675675675693
+          ],
+          "occlusion": [
+            23,
+            72
+          ],
+          "glovePixels": 2969,
+          "removedKey": 980
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/ready/01.png",
+        "sha256": "4E64EA07BF3B72B1213177F0F7E9957DDCA4F237C1F64E7AFF37C7A61EBF5ECF",
+        "index": 1,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.37539432176658,
+        "source": "assets/motion-v5/ready-a-source.png",
+        "sourceIndex": 1,
+        "sourceBounds": [
+          526,
+          11,
+          1004,
+          704
+        ],
+        "sourceFeet": [
+          802,
+          703
+        ],
+        "sourceBodyPixels": 694,
+        "sourceGrip": [
+          688.1697046384584,
+          305.32843436553736
+        ],
+        "grip": [
+          219.03379293534493,
+          310.8567926290759
+        ],
+        "tip": [
+          362.1287093676028,
+          409.3164442843679
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.47796143250688705,
+          "angle": -54.90600474919673,
+          "grip": [
+            164.16970463845837,
+            296.32843436553736
+          ],
+          "pivot": [
+            107.17082347688165,
+            109.98416136687305
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.32474840680369826
+        },
+        "registration": {
+          "cyan": [
+            644.8947368421052,
+            274.9210526315788
+          ],
+          "magenta": [
+            737.4393063583818,
+            339.9479768786127
+          ],
+          "occlusion": [
+            28,
+            73
+          ],
+          "glovePixels": 2736,
+          "removedKey": 1021
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/ready/02.png",
+        "sha256": "F9A173C8576FF2125A1E907BAF8551C33AD865732489F8219CC39EBBCCD90200",
+        "index": 2,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.37539432176658,
+        "source": "assets/motion-v5/ready-a-source.png",
+        "sourceIndex": 2,
+        "sourceBounds": [
+          14,
+          730,
+          493,
+          1422
+        ],
+        "sourceFeet": [
+          290,
+          1419
+        ],
+        "sourceBodyPixels": 694,
+        "sourceGrip": [
+          193.79466781990848,
+          1016.7976273004674
+        ],
+        "grip": [
+          224.75747164849471,
+          309.3854202531595
+        ],
+        "tip": [
+          378.16849516141156,
+          390.84409675576165
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.47796143250688705,
+          "angle": -61.469237538246865,
+          "grip": [
+            181.79466781990848,
+            288.7976273004674
+          ],
+          "pivot": [
+            104.3925171468104,
+            107.21493632847476
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.32474840680369826
+        },
+        "registration": {
+          "cyan": [
+            143.3742331288343,
+            989.3865030674847
+          ],
+          "magenta": [
+            244.49999999999997,
+            1044.3636363636379
+          ],
+          "occlusion": [
+            30,
+            80
+          ],
+          "glovePixels": 3008,
+          "removedKey": 1016
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/ready/03.png",
+        "sha256": "643BCA4AE7204C6A2F36D2C1155D3521089A3806B1F44A3049CEC7645F8C3ADC",
+        "index": 3,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.37539432176658,
+        "source": "assets/motion-v5/ready-a-source.png",
+        "sourceIndex": 3,
+        "sourceBounds": [
+          526,
+          730,
+          1005,
+          1422
+        ],
+        "sourceFeet": [
+          802,
+          1419
+        ],
+        "sourceBodyPixels": 694,
+        "sourceGrip": [
+          720.3917719383509,
+          999.3249267679793
+        ],
+        "grip": [
+          229.49785795490658,
+          303.71118859267585
+        ],
+        "tip": [
+          395.69132522005896,
+          354.2105900863869
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.47796143250688705,
+          "angle": -72.53490605491284,
+          "grip": [
+            196.39177193835087,
+            271.32492676797926
+          ],
+          "pivot": [
+            97.32636063883928,
+            99.10457305272007
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.32474840680369826
+        },
+        "registration": {
+          "cyan": [
+            663.2628865979382,
+            981.3505154639186
+          ],
+          "magenta": [
+            780.3999999999994,
+            1018.2052631578955
+          ],
+          "occlusion": [
+            31,
+            84
+          ],
+          "glovePixels": 3197,
+          "removedKey": 1078
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/ready/04.png",
+        "sha256": "4F820E8F43090F2F2B10B12F9B2FF5F2337BABF0514E669D1F66ED60BE0734C8",
+        "index": 4,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.37539432176658,
+        "source": "assets/motion-v5/ready-b-source.png",
+        "sourceIndex": 0,
+        "sourceBounds": [
+          32,
+          6,
+          526,
+          724
+        ],
+        "sourceFeet": [
+          319,
+          723
+        ],
+        "sourceBodyPixels": 718,
+        "sourceGrip": [
+          239.2053925634737,
+          288.38917100985145
+        ],
+        "grip": [
+          230.9530068025659,
+          303.5785696933641
+        ],
+        "tip": [
+          396.81659945540633,
+          355.1511083658876
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.49449035812672176,
+          "angle": -72.16457200968561,
+          "grip": [
+            209.2053925634737,
+            284.38917100985145
+          ],
+          "pivot": [
+            100.91349038730257,
+            102.72480122910517
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.3138933068548281
+        },
+        "registration": {
+          "cyan": [
+            181.1632653061221,
+            269.71428571428555
+          ],
+          "magenta": [
+            302.6649746192895,
+            308.80710659898523
+          ],
+          "occlusion": [
+            33,
+            84
+          ],
+          "glovePixels": 3198,
+          "removedKey": 1263
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/ready/05.png",
+        "sha256": "C23C5BC3E1A49AE0DF5679BFA8794B1C51480259D44F7B00AD624DD03128A3AA",
+        "index": 5,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.37539432176658,
+        "source": "assets/motion-v5/ready-b-source.png",
+        "sourceIndex": 1,
+        "sourceBounds": [
+          516,
+          4,
+          1005,
+          724
+        ],
+        "sourceFeet": [
+          801,
+          720
+        ],
+        "sourceBodyPixels": 718,
+        "sourceGrip": [
+          765.6665374098113,
+          229.7920965208877
+        ],
+        "grip": [
+          244.9090625849343,
+          286.12702013056906
+        ],
+        "tip": [
+          417.6096123387198,
+          267.55343061274584
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.49449035812672176,
+          "angle": -95.57523793708432,
+          "grip": [
+            251.66653740981133,
+            227.7920965208877
+          ],
+          "pivot": [
+            88.49392470896146,
+            136.3111473969329
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.3138933068548281
+        },
+        "registration": {
+          "cyan": [
+            715.9304812834242,
+            234.64705882352933
+          ],
+          "magenta": [
+            839.71282051282,
+            222.56410256410282
+          ],
+          "occlusion": [
+            21,
+            74
+          ],
+          "glovePixels": 3302,
+          "removedKey": 1165
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/ready/06.png",
+        "sha256": "F11E3CCF8AC54F384C9D8D896C4E2211D2DEE622C2167D4B881D62BBA7DF8DAA",
+        "index": 6,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.37539432176658,
+        "source": "assets/motion-v5/ready-b-source.png",
+        "sourceIndex": 2,
+        "sourceBounds": [
+          32,
+          744,
+          526,
+          1489
+        ],
+        "sourceFeet": [
+          320.5,
+          1488
+        ],
+        "sourceBodyPixels": 748,
+        "sourceGrip": [
+          339.1150676282851,
+          923.4698312548011
+        ],
+        "grip": [
+          261.60879439445335,
+          269.9048002841141
+        ],
+        "tip": [
+          417.3040255267281,
+          192.90185803186074
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.5151515151515151,
+          "angle": -115.7526292535328,
+          "grip": [
+            309.1150676282851,
+            181.46983125480108
+          ],
+          "pivot": [
+            113.52082012199261,
+            331.6504881773752
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.301304003103966
+        },
+        "registration": {
+          "cyan": [
+            287.7081712062259,
+            948.2684824902681
+          ],
+          "magenta": [
+            424.83650190114037,
+            882.1178707224325
+          ],
+          "occlusion": [
+            23,
+            86
+          ],
+          "glovePixels": 4005,
+          "removedKey": 1859
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/ready/07.png",
+        "sha256": "8CBE29E69727B73D824E8B15EBBA1C2ED1446B8219ABAABEC2ABB896A7776408",
+        "index": 7,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.37539432176658,
+        "source": "assets/motion-v5/ready-b-source.png",
+        "sourceIndex": 3,
+        "sourceBounds": [
+          518,
+          746,
+          1004,
+          1492
+        ],
+        "sourceFeet": [
+          805.5,
+          1490
+        ],
+        "sourceBodyPixels": 748,
+        "sourceGrip": [
+          818.7632950478259,
+          847.6659086179915
+        ],
+        "grip": [
+          259.99628389225893,
+          246.46216693645212
+        ],
+        "tip": [
+          387.38124644409925,
+          128.37944411680104
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.5151515151515151,
+          "angle": -132.26654734987062,
+          "grip": [
+            302.76329504782586,
+            103.66590861799148
+          ],
+          "pivot": [
+            119.87475759552336,
+            456.873423903697
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.301304003103966
+        },
+        "registration": {
+          "cyan": [
+            785.0361445783125,
+            878.3192771084368
+          ],
+          "magenta": [
+            881.7283236994217,
+            790.4393063583829
+          ],
+          "occlusion": [
+            20,
+            66
+          ],
+          "glovePixels": 2767,
+          "removedKey": 1369
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/ready/08.png",
+        "sha256": "DAE26D2B36C9D6030E5D0C3F5CD3759F09B3E06E76B5650737C0F2CFFA440BC1",
+        "index": 8,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.37539432176658,
+        "source": "assets/motion-v5/ready-c-source.png",
+        "sourceIndex": 0,
+        "sourceBounds": [
+          13,
+          34,
+          484,
+          707
+        ],
+        "sourceFeet": [
+          283,
+          705
+        ],
+        "sourceBodyPixels": 674,
+        "sourceGrip": [
+          288.06292983366126,
+          122.3629330823288
+        ],
+        "grip": [
+          257.6929670737164,
+          245.1749870874664
+        ],
+        "tip": [
+          382.53960253713024,
+          124.41168253553822
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.4641873278236915,
+          "angle": -133.48431894825038,
+          "grip": [
+            277.06292983366126,
+            90.3629330823288
+          ],
+          "pivot": [
+            108.02911259090615,
+            418.3091922081795
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.33438485804416407
+        },
+        "registration": {
+          "cyan": [
+            256.63087248322137,
+            152.17449664429535
+          ],
+          "magenta": [
+            345.4277777777777,
+            67.95555555555556
+          ],
+          "occlusion": [
+            20,
+            62
+          ],
+          "glovePixels": 2322,
+          "removedKey": 1257
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/ready/09.png",
+        "sha256": "4C5B35E849A3C8EEE67C688AFCCC73B8B6DBA950B09B57F1E1BC3EDD06050D97",
+        "index": 9,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.37539432176658,
+        "source": "assets/motion-v5/ready-c-source.png",
+        "sourceIndex": 1,
+        "sourceBounds": [
+          498,
+          14,
+          973,
+          707
+        ],
+        "sourceFeet": [
+          767.5,
+          702
+        ],
+        "sourceBodyPixels": 674,
+        "sourceGrip": [
+          750.86938538006,
+          89.52853296505867
+        ],
+        "grip": [
+          250.43897429112414,
+          235.19881543942026
+        ],
+        "tip": [
+          342.4926879337687,
+          87.90125294283885
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.4641873278236915,
+          "angle": -147.43343724185925,
+          "grip": [
+            254.86938538005995,
+            77.52853296505867
+          ],
+          "pivot": [
+            105.60604802100137,
+            485.229640380114
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.33438485804416407
+        },
+        "registration": {
+          "cyan": [
+            727.550632911392,
+            126.03797468354443
+          ],
+          "magenta": [
+            793.5337078651676,
+            22.73033707865172
+          ],
+          "occlusion": [
+            20,
+            62
+          ],
+          "glovePixels": 2527,
+          "removedKey": 1256
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/ready/10.png",
+        "sha256": "EFAFA85B89D98828460A04EFB272002BD791C396A5198E395B31BEDEEFBB8D6D",
+        "index": 10,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.37539432176658,
+        "source": "assets/motion-v5/ready-c-source.png",
+        "sourceIndex": 2,
+        "sourceBounds": [
+          36,
+          733,
+          519,
+          1519
+        ],
+        "sourceFeet": [
+          306.5,
+          1514
+        ],
+        "sourceBodyPixels": 674,
+        "sourceGrip": [
+          284.57444824310414,
+          802.8582463471076
+        ],
+        "grip": [
+          248.6684274882304,
+          202.2049656554997
+        ],
+        "tip": [
+          341.5111852144596,
+          55.40346549073632
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.4641873278236915,
+          "angle": -147.12599806161523,
+          "grip": [
+            250.57444824310414,
+            71.85824634710764
+          ],
+          "pivot": [
+            105.58166677562762,
+            484.0862433454607
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.33438485804416407
+        },
+        "registration": {
+          "cyan": [
+            260.7887323943662,
+            839.6619718309868
+          ],
+          "magenta": [
+            324.2784810126582,
+            741.4240506329121
+          ],
+          "occlusion": [
+            21,
+            62
+          ],
+          "glovePixels": 1420,
+          "removedKey": 1229
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/ready/11.png",
+        "sha256": "34AF7B2B01D6506D06699958764D248EAD8A8F207F9E41B8CE89F6103114B8CE",
+        "index": 11,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.37539432176658,
+        "source": "assets/motion-v5/ready-c-source.png",
+        "sourceIndex": 3,
+        "sourceBounds": [
+          536,
+          698,
+          1005,
+          1519
+        ],
+        "sourceFeet": [
+          806,
+          1518
+        ],
+        "sourceBodyPixels": 674,
+        "sourceGrip": [
+          773.2489843949526,
+          778.0583450627622
+        ],
+        "grip": [
+          245.048556296104,
+          192.5747147528479
+        ],
+        "tip": [
+          290.5972348599286,
+          24.956768237787372
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.4641873278236915,
+          "angle": -164.23427715641552,
+          "grip": [
+            239.24898439495257,
+            82.05834506276221
+          ],
+          "pivot": [
+            94.47647799134634,
+            528.0773769921062
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.33438485804416407
+        },
+        "registration": {
+          "cyan": [
+            762.0218978102187,
+            817.8248175182482
+          ],
+          "magenta": [
+            793.2094594594589,
+            707.3581081081087
+          ],
+          "occlusion": [
+            18,
+            60
+          ],
+          "glovePixels": 1449,
+          "removedKey": 1092
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      }
+    ],
+    "contacts": [],
+    "reuses": "ready"
+  },
+  "ultimate": {
+    "sources": [
+      {
+        "file": "assets/motion-v5/attack-a-source.png",
+        "sha256": "D8D270E3ED86531E9E7056C7303B3AC79C4F7964CEA52BDB1C9F047026725E82",
+        "nativeAlpha": true,
+        "registration": "CYAN_POMMEL_MAGENTA_BLADE_GREEN_STRAIGHT_HILT"
+      },
+      {
+        "file": "assets/motion-v5/attack-b-source.png",
+        "sha256": "E160F7D869F5B4EDAFBB2AE65E6A9AF2704801EC3B5A139931E51E29A9B0A952",
+        "nativeAlpha": true,
+        "registration": "CYAN_POMMEL_MAGENTA_BLADE_GREEN_STRAIGHT_HILT"
+      }
+    ],
+    "atlas": "assets/motion-v5/attack-atlas.webp",
+    "atlasSha256": "62789CA4EE2EB657B2DF96B8DC4381F4352F7C89045D970405D0ADFE947A979E",
+    "pngAtlas": "assets/motion-v5/attack-atlas.png",
+    "pngAtlasSha256": "319FA54036CC41E3BD6566AEFC0E7DC25D5FD2605128C5CB897A632AC83FEDC4",
+    "cellSize": 512,
+    "columns": 4,
+    "rows": 2,
+    "frameCount": 8,
+    "bodyPixels": 225.91645353793692,
+    "frames": [
+      {
+        "file": "assets/motion-v5/frames/attack/00.png",
+        "sha256": "4EB2B7FD0ED7B462E7A346DA1E5682BA1275468082D00F877E9A444DE731030A",
+        "index": 0,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.91645353793692,
+        "source": "assets/motion-v5/attack-a-source.png",
+        "sourceIndex": 0,
+        "sourceBounds": [
+          62,
+          2,
+          511,
+          763
+        ],
+        "sourceFeet": [
+          322,
+          762
+        ],
+        "sourceBodyPixels": 625,
+        "sourceGrip": [
+          295.206049895198,
+          75.98352952138204
+        ],
+        "grip": [
+          246.31488930568113,
+          192.0281470733725
+        ],
+        "tip": [
+          299.09731561412553,
+          26.10796131313205
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.43044077134986225,
+          "angle": -161.78991335042124,
+          "grip": [
+            235.20604989519802,
+            75.98352952138204
+          ],
+          "pivot": [
+            90.12675940720071,
+            487.04328829200415
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.3614663256606991
+        },
+        "registration": {
+          "cyan": [
+            283.4396551724139,
+            111.74999999999994
+          ],
+          "magenta": [
+            316.61146496815275,
+            10.917197452229303
+          ],
+          "occlusion": [
+            17,
+            54
+          ],
+          "glovePixels": 1357,
+          "removedKey": 1139
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/attack/01.png",
+        "sha256": "58145F75A4652A746F84C61F70BE29FA51E1E329B7B00C9BC0C273F2F4F3EDED",
+        "index": 1,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.91645353793692,
+        "source": "assets/motion-v5/attack-a-source.png",
+        "sourceIndex": 1,
+        "sourceBounds": [
+          527,
+          85,
+          989,
+          775
+        ],
+        "sourceFeet": [
+          774,
+          772
+        ],
+        "sourceBodyPixels": 625,
+        "sourceGrip": [
+          750.7139173404308,
+          159.12052080627865
+        ],
+        "grip": [
+          247.58286526201422,
+          218.46470658300265
+        ],
+        "tip": [
+          348.7478353023379,
+          76.75676253447912
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.43044077134986225,
+          "angle": -143.91383608955837,
+          "grip": [
+            225.71391734043084,
+            76.12052080627865
+          ],
+          "pivot": [
+            99.43458905413095,
+            437.4568637139047
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.3614663256606991
+        },
+        "registration": {
+          "cyan": [
+            727.0642201834861,
+            191.56880733944945
+          ],
+          "magenta": [
+            797.7987804878051,
+            94.51829268292683
+          ],
+          "occlusion": [
+            17,
+            59
+          ],
+          "glovePixels": 1752,
+          "removedKey": 1413
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/attack/02.png",
+        "sha256": "499111F616B0DADB2ABA0C1DEAB5EAB58FED78DD9EF78C9ABECAF8D7A4A9A2C5",
+        "index": 2,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.91645353793692,
+        "source": "assets/motion-v5/attack-a-source.png",
+        "sourceIndex": 2,
+        "sourceBounds": [
+          45,
+          840,
+          529,
+          1483
+        ],
+        "sourceFeet": [
+          315.5,
+          1481
+        ],
+        "sourceBodyPixels": 650,
+        "sourceGrip": [
+          373.61571649315033,
+          938.1977483539074
+        ],
+        "grip": [
+          276.19891779222877,
+          251.34160051647382
+        ],
+        "tip": [
+          398.94577028695153,
+          127.85596259708734
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.4476584022038568,
+          "angle": -134.6086961404462,
+          "grip": [
+            330.61571649315033,
+            100.1977483539074
+          ],
+          "pivot": [
+            104.17193079561312,
+            409.8887623067325
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.3475637746737491
+        },
+        "registration": {
+          "cyan": [
+            344.6133333333332,
+            966.8066666666684
+          ],
+          "magenta": [
+            439.95121951219517,
+            872.7621951219526
+          ],
+          "occlusion": [
+            16,
+            61
+          ],
+          "glovePixels": 1927,
+          "removedKey": 1545
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/attack/03.png",
+        "sha256": "3928DE71502C6D97CCBB530A82B1C20E3B41CB5567EAE86B3F83FFBBA7EE7C0D",
+        "index": 3,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.91645353793692,
+        "source": "assets/motion-v5/attack-a-source.png",
+        "sourceIndex": 3,
+        "sourceBounds": [
+          517,
+          843,
+          1014,
+          1488
+        ],
+        "sourceFeet": [
+          785.5,
+          1484
+        ],
+        "sourceBodyPixels": 650,
+        "sourceGrip": [
+          886.6106002802343,
+          990.0494384375012
+        ],
+        "grip": [
+          291.1423818929269,
+          268.32067832111983
+        ],
+        "tip": [
+          463.0584997014935,
+          240.746396692216
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.4476584022038568,
+          "angle": -98.54906501999446,
+          "grip": [
+            371.6106002802343,
+            149.04943843750118
+          ],
+          "pivot": [
+            83.67146829966524,
+            149.0555885498751
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.3475637746737491
+        },
+        "registration": {
+          "cyan": [
+            845.3360655737702,
+            996.254098360656
+          ],
+          "magenta": [
+            994.8246445497608,
+            973.7819905213291
+          ],
+          "occlusion": [
+            16,
+            63
+          ],
+          "glovePixels": 1801,
+          "removedKey": 2301
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/attack/04.png",
+        "sha256": "5AB92A6E515BBA7092FF5F2A565DECA27D3A088913939B7B77F0AC5736BAA23A",
+        "index": 4,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.91645353793692,
+        "source": "assets/motion-v5/attack-b-source.png",
+        "sourceIndex": 0,
+        "sourceBounds": [
+          10,
+          8,
+          534,
+          694
+        ],
+        "sourceFeet": [
+          290.5,
+          692
+        ],
+        "sourceBodyPixels": 690,
+        "sourceGrip": [
+          399.1356835263968,
+          169.4055272790104
+        ],
+        "grip": [
+          291.56896862312067,
+          268.8946522961535
+        ],
+        "tip": [
+          463.8379679422487,
+          243.61848875606427
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.47520661157024796,
+          "angle": -97.78395052743339,
+          "grip": [
+            391.1356835263968,
+            163.4055272790104
+          ],
+          "pivot": [
+            87.91366374994135,
+            151.1450742028932
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.32741515005498106
+        },
+        "registration": {
+          "cyan": [
+            355.16853932584297,
+            175.41573033707868
+          ],
+          "magenta": [
+            519.2029520295197,
+            152.99261992619935
+          ],
+          "occlusion": [
+            18,
+            66
+          ],
+          "glovePixels": 2052,
+          "removedKey": 2541
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/attack/05.png",
+        "sha256": "EF7FFE257F1550AC9A52ED48784893A807F0DF5FCBD3178C7A2EF6C688AE63E3",
+        "index": 5,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.91645353793692,
+        "source": "assets/motion-v5/attack-b-source.png",
+        "sourceIndex": 1,
+        "sourceBounds": [
+          521,
+          25,
+          1020,
+          700
+        ],
+        "sourceFeet": [
+          807,
+          696
+        ],
+        "sourceBodyPixels": 690,
+        "sourceGrip": [
+          866.867970553306,
+          277.8532669585491
+        ],
+        "grip": [
+          275.6016805621979,
+          303.0924246562332
+        ],
+        "tip": [
+          444.8290970921363,
+          344.0506236440037
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.47520661157024796,
+          "angle": -75.8311025772536,
+          "grip": [
+            347.867970553306,
+            254.8532669585491
+          ],
+          "pivot": [
+            93.91005149969331,
+            95.75003068228835
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.32741515005498106
+        },
+        "registration": {
+          "cyan": [
+            825.2962962962963,
+            267.3580246913583
+          ],
+          "magenta": [
+            982.7083333333343,
+            307.0984848484844
+          ],
+          "occlusion": [
+            17,
+            64
+          ],
+          "glovePixels": 2800,
+          "removedKey": 2523
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/attack/06.png",
+        "sha256": "CE910EAA9255D0965AD2686D9DF5E93B4214E77C145B5FAE09E900324993878D",
+        "index": 6,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.91645353793692,
+        "source": "assets/motion-v5/attack-b-source.png",
+        "sourceIndex": 2,
+        "sourceBounds": [
+          6,
+          765,
+          545,
+          1492
+        ],
+        "sourceFeet": [
+          320,
+          1486
+        ],
+        "sourceBodyPixels": 745,
+        "sourceGrip": [
+          399.3956956104313,
+          1068.964696686145
+        ],
+        "grip": [
+          280.0762335281694,
+          313.53672922847795
+        ],
+        "tip": [
+          432.0876874273308,
+          398.4367318973953
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.5130853994490359,
+          "angle": -60.25296910024701,
+          "grip": [
+            395.3956956104313,
+            305.9646966861451
+          ],
+          "pivot": [
+            112.73229211327131,
+            115.50144998672259
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.30324356179588846
+        },
+        "registration": {
+          "cyan": [
+            362.0052356020942,
+            1047.596858638743
+          ],
+          "magenta": [
+            510.79452054794547,
+            1132.6267123287698
+          ],
+          "occlusion": [
+            16,
+            65
+          ],
+          "glovePixels": 3108,
+          "removedKey": 2748
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      },
+      {
+        "file": "assets/motion-v5/frames/attack/07.png",
+        "sha256": "0FDBFC715DFFB80CA0D3BA0FFEE88E5C8D4F243533413F1BFF177CE7F7978821",
+        "index": 7,
+        "footAnchor": {
+          "x": 0.5,
+          "y": 0.859375
+        },
+        "bodyPixels": 225.91645353793692,
+        "source": "assets/motion-v5/attack-b-source.png",
+        "sourceIndex": 3,
+        "sourceBounds": [
+          553,
+          794,
+          1023,
+          1497
+        ],
+        "sourceFeet": [
+          821,
+          1491
+        ],
+        "sourceBodyPixels": 745,
+        "sourceGrip": [
+          839.0877105951823,
+          1079.684443418999
+        ],
+        "grip": [
+          261.4849817856163,
+          315.271205600319
+        ],
+        "tip": [
+          395.6447766197963,
+          426.2515733225868
+        ],
+        "weapon": {
+          "original": "assets/weapon/sword-original.png",
+          "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "scale": 0.5130853994490359,
+          "angle": -49.83837782939126,
+          "grip": [
+            288.08771059518233,
+            287.6844434189991
+          ],
+          "pivot": [
+            115.78316030696692,
+            119.13729578031453
+          ],
+          "rigid": true,
+          "packedUniformScale": 0.30324356179588846
+        },
+        "registration": {
+          "cyan": [
+            806.5580110497237,
+            1052.2320441988945
+          ],
+          "magenta": [
+            959.9180790960453,
+            1181.6553672316393
+          ],
+          "occlusion": [
+            13,
+            67
+          ],
+          "glovePixels": 3506,
+          "removedKey": 2923
+        },
+        "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+      }
+    ],
+    "contacts": [
+      {
+        "frame": 6,
+        "targetHeightFraction": 0.42,
+        "sourcePoint": [
+          432.0876874273308,
+          398.4367318973953
+        ],
+        "sourceFoot": [
+          256,
+          440
+        ]
+      }
+    ],
+    "reuses": "attack"
+  }
+}

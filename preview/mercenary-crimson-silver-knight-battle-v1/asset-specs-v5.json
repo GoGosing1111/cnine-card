@@ -1,0 +1,15 @@
+{
+  "motion": {
+    "ready": [{"source":"ready-a","bodyPixels":694},{"source":"ready-b","bodyPixels":[718,718,748,748]},{"source":"ready-c","bodyPixels":674}],
+    "attack": [{"source":"attack-a","bodyPixels":[625,625,650,650]},{"source":"attack-b","bodyPixels":[690,690,745,745]}],
+    "recover": [{"source":"recover","bodyPixels":[700,720,780,795]}],
+    "dash": [{"source":"dash","bodyPixels":717}],
+    "cast": [{"source":"cast","bodyPixels":[692,692,737,737]}],
+    "hit": [{"source":"utility","bodyPixels":795,"indices":[0,1]}],
+    "defeat": [{"source":"utility","bodyPixels":795,"indices":[0,2,3]}]
+  },
+  "contacts": {"attack":[{"frame":6,"targetHeightFraction":0.42}]},
+  "reuse": {"guard":"ready","ultimate":"attack"},
+  "method":"Existing native sprite generation and immutable original sword compositing. No skeletal rig or procedural body deformation.",
+  "rejectedSources":["assets/rig-v3/ultimate-a-source.png","assets/rig-v3/ultimate-b-source.png","assets/rig-v4/underarms-native.png"]
+}

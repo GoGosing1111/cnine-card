@@ -86,7 +86,8 @@
     "기존에 없던 길게 뾰족한 칼끝 제거"
   ],
   "bladeCorrectionCandidate": "assets/knight-sd-v14-original-blade-approved-grip.png",
-  "bladeCorrectionStatus": "USER_REVIEW_PENDING",
+  "bladeCorrectionStatus": "USER_REQUESTED_V3_PREVIEW_INTEGRATION",
   "motionApproval": false,
-  "runtimeEnabled": false
+  "runtimeEnabled": false,
+  "followUpDirection": "그럼 다시 V3맞춰서 적용해 이 새끼야"
 }

@@ -32,25 +32,25 @@ export class KnightFX{
   const view=this.merc.view;view.addChildAt(this.aura,Math.max(0,view.getChildIndex(this.merc.fullBodySprite)));view.sortChildren();
   this.auraSheets=[new Sprite(),new Sprite()];this.auraSheets.forEach(s=>{s.blendMode='add';this.aura.addChild(s);});
   this.outer=new Sprite(this.idle.texture);this.inner=new Sprite(this.idle.texture);this.cobalt=new Container();this.rim=new Container();
-  this.outer.blendMode=this.inner.blendMode='add';this.aura.addChild(this.outer,this.cobalt,this.inner,this.rim);
+  this.outer.blendMode='normal';this.inner.blendMode='add';this.aura.addChild(this.outer,this.cobalt,this.inner,this.rim);
   this.cobaltCopies=Array.from({length:8},()=>{const s=new Sprite(this.idle.texture);this.cobalt.addChild(s);return s;});
   this.rimCopies=Array.from({length:8},()=>{const s=new Sprite(this.idle.texture);this.rim.addChild(s);return s;});
   this.auraFilters=[];
   if(this.engine.app?.renderer){
-   const outerColor=solidColor([1,.018,.065]),innerColor=solidColor([1,.55,.08]),cobaltColor=solidColor([.9,.015,.035]),rimColor=solidColor([1,.87,.44]);
+   const outerColor=solidColor([.65,0,.045]),innerColor=solidColor([1,.01,.07]),cobaltColor=solidColor([.82,0,.065]),rimColor=solidColor([1,.66,.08]);
    this.outerBlur=new BlurFilter({strength:14,quality:2,resolution:.65,legacy:true});this.innerBlur=new BlurFilter({strength:5,quality:2,resolution:1,legacy:true});
    this.outer.filters=[outerColor,this.outerBlur];this.inner.filters=[innerColor,this.innerBlur];this.cobalt.filters=[cobaltColor];this.rim.filters=[rimColor];
    this.auraFilters=[outerColor,innerColor,cobaltColor,rimColor,this.outerBlur,this.innerBlur];
   }else{this.outer.tint=0xfd1534;this.inner.tint=0xffbc48;this.cobaltCopies.forEach(s=>s.tint=0xb9081d);this.rimCopies.forEach(s=>s.tint=0xffe298);}
  }
  updateAura(state){
-  this.aura.visible=this.auraEnabled;if(!this.auraEnabled)return;
+  this.aura.visible=this.auraEnabled&&!this.motionOnly;if(!this.aura.visible)return;
   const main=this.merc.fullBodySprite,t=state.cancelled||state.done?0:state.time,pulse=.5+.5*Math.sin(t*4.2),boost=state.auraBoost;
   for(const sprite of [this.outer,this.inner,...this.cobaltCopies,...this.rimCopies]){
    sprite.texture=main.texture;sprite.anchor.copyFrom(main.anchor);sprite.position.copyFrom(main.position);sprite.scale.copyFrom(main.scale);sprite.rotation=main.rotation;
   }
-  this.outer.alpha=clamp(.94+.06*pulse+boost*.1);this.inner.alpha=clamp(.88+.1*pulse+boost*.1);this.cobalt.alpha=.88+.1*pulse;this.rim.alpha=.93+.07*pulse;
-  const radius=2.75+pulse*.55+boost*.9,cobaltRadius=5.7+pulse*.9+boost*1.4;
+  this.outer.alpha=1;this.inner.alpha=clamp(.65+.1*pulse+boost*.1);this.cobalt.alpha=.95;this.rim.alpha=.42+.08*pulse;
+  const radius=1.7+pulse*.3+boost*.4,cobaltRadius=8+pulse+boost*1.4;
   this.cobaltCopies.forEach((sprite,i)=>{const a=i/8*Math.PI*2;sprite.x+=Math.cos(a)*cobaltRadius;sprite.y+=Math.sin(a)*cobaltRadius;});
   this.rimCopies.forEach((sprite,i)=>{const a=i/8*Math.PI*2;sprite.x+=Math.cos(a)*radius;sprite.y+=Math.sin(a)*radius;});
   if(this.outerBlur)this.outerBlur.strength=12+pulse*3+boost*4;
@@ -62,14 +62,16 @@ export class KnightFX{
   this.start={x:this.merc.baseX??this.merc.root.x,y:this.merc.baseY??this.merc.root.y};this.destinations={};
   const target=this.targets[0];
   for(const [key,spec] of Object.entries(this.manifest.motion))this.destinations[key]=(spec.contacts||[]).map(contact=>{
-   const point=this.merc.root.parent.toLocal(target.root.toGlobal({x:0,y:-target.fullBodyHeight*contact.targetHeightFraction})),scale=this.bodyHeight/spec.frames[contact.frame??0].bodyPixels;
-   return {x:point.x-(contact.sourcePoint[0]-contact.sourceFoot[0])*scale*this.merc.root.scale.x*this.merc.view.scale.x,y:point.y-(contact.sourcePoint[1]-contact.sourceFoot[1])*scale*this.merc.root.scale.y*this.merc.view.scale.y};
+   const floor=this.merc.root.parent.toLocal(target.root.toGlobal({x:0,y:0})),f=spec.frames[contact.frame??0],scale=this.bodyHeight/f.bodyPixels;
+   const bladeX=mix(f.grip[0],f.tip[0],.72);
+   // Approach along the ground plane. Never move the feet vertically to fake a tip collision.
+   return {x:floor.x-(bladeX-contact.sourceFoot[0])*scale*this.merc.root.scale.x*this.merc.view.scale.x,y:floor.y};
   });
-  this.destination=this.destinations.attack[0];if(this.destinations.ultimate?.length)this.destinations.ultimate.unshift(this.destination);
+  this.destination=this.destinations.attack[0];
  }
  get time(){return this.clock.time}
  get playing(){return !!this.timeline&&!this.timeline.paused()&&this.time<this.plan.duration}
- makeTimeline(){this.removeTimeline();this.clock.time=0;this.timeline=gsap.timeline({paused:true,onUpdate:()=>this.render(this.clock.time),onComplete:()=>{this.engine.simpleTimelines.delete(this.registration);this.audio.stop();this.render(this.plan.duration);}}).to(this.clock,{time:this.plan.duration,duration:this.plan.duration,ease:'none'}).timeScale(this.speed);if(this.engine.camera&&!this.engine.reducedMotion)for(const at of this.plan.contacts){const big=this.plan.mode==='ultimate'&&at===3.25||this.plan.mode==='execution',remaining=this.plan.stop===null?Infinity:this.plan.stop-at-.07;if(remaining>.02)this.engine.camera.addShake(this.timeline,{at,intensity:big?42:18,duration:Math.min(big?.42:.22,remaining),rotation:big?.009:.003});}this.registration={instance:this.timeline,settle:()=>this.cancel()};}
+ makeTimeline(){this.removeTimeline();this.clock.time=0;this.timeline=gsap.timeline({paused:true,onUpdate:()=>this.render(this.clock.time),onComplete:()=>{this.engine.simpleTimelines.delete(this.registration);this.audio.stop();this.render(this.plan.duration);}}).to(this.clock,{time:this.plan.duration,duration:this.plan.duration,ease:'none'}).timeScale(this.speed);if(this.engine.camera&&!this.engine.reducedMotion&&!this.motionOnly)for(const at of this.plan.contacts){const big=this.plan.mode==='ultimate'&&at===this.plan.contacts.at(-1)||this.plan.mode==='execution',remaining=this.plan.stop===null?Infinity:this.plan.stop-at-.07;if(remaining>.02)this.engine.camera.addShake(this.timeline,{at,intensity:big?42:18,duration:Math.min(big?.42:.22,remaining),rotation:big?.009:.003});}this.registration={instance:this.timeline,settle:()=>this.cancel()};}
  removeTimeline(){if(this.registration)this.engine.simpleTimelines.delete(this.registration);this.timeline?.kill();this.timeline=null;this.registration=null;}
  play(){if(this.destroyed)return;if(!this.timeline)this.makeTimeline();if(this.time>=this.plan.duration)this.seek(0);this.engine.simpleTimelines.add(this.registration);this.timeline.play();void this.audio.play(this.plan,this.time,this.speed,()=>this.time);this.onUpdate(this);}
  pause(){this.timeline?.pause();this.audio.stop();this.onUpdate(this);}
@@ -77,6 +79,7 @@ export class KnightFX{
  setSpeed(speed){this.speed=clamp(Number(speed)||1,.25,2);this.timeline?.timeScale(this.speed);if(this.playing)void this.audio.play(this.plan,this.time,this.speed,()=>this.time);this.onUpdate(this);}
  setSound(enabled){this.audio.enabled=enabled;if(this.playing)void this.audio.play(this.plan,this.time,this.speed,()=>this.time);else this.audio.stop();}
  setAura(enabled){this.auraEnabled=!!enabled;this.render(this.time);}
+ setMotionOnly(enabled){const at=this.time;this.motionOnly=!!enabled;this.pause();this.engine.camera?.reset(true);this.makeTimeline();this.seek(at);}
  setPlan(plan){this.cancel();this.plan=plan;this.makeTimeline();this.render(0);}
  cancel(){if(this.destroyed)return;this.audio.stop();this.removeTimeline();this.engine.camera?.reset(true);this.clock.time=0;this.render(0);}
  positionAt(state){
@@ -103,7 +106,7 @@ export class KnightFX{
   if(this.destroyed)return;for(const s of this.pool)s.visible=false;this.used=0;this.activeFrames=[];this.dim.clear();this.ground.clear();this.trails.clear();this.screenFlash.clear();
   const state=sample(this.plan,time);this.sample=state;this.applyPose(state.pose);this.updateAura(state);const position=this.positionAt(state);this.merc.root.position.set(position.x,position.y);
   const guard=this.plan.mode==='guard';this.targets.forEach((target,i)=>{target.view.x=this.targetDefaults[i].viewX+(guard?0:(i===0?state.recoil:state.recoil*.5));target.fullBodySprite.tint=state.flash>.01&&!guard?0xffd8a0:this.targetDefaults[i].tint;});this.engine.sortCombatDepth();
-  if(time<=0||state.done||state.cancelled){if(state.cancelled)this.audio.stop();this.onUpdate(this);return;}
+  if(time<=0||state.done||state.cancelled||this.motionOnly){if(state.cancelled)this.audio.stop();this.onUpdate(this);return;}
   const scene=this.engine.scene,foot=this.point(this.merc),impact=this.point(this.targets[0]),torso=this.point(this.targets[0],.46),unit=Math.max(90,this.targets[0].fullBodyHeight*Math.abs(this.targets[0].root.scale.y));
   if(state.dim>0)this.dim.rect(0,0,scene.width,scene.height).fill({color:0x22060d,alpha:state.dim*.48});
   if(this.auraEnabled){
@@ -129,13 +132,13 @@ export class KnightFX{
    if(state.flash>0)this.draw(this.assets.flash,effect.anchor==='guard'?{x:p.x,y:p.y-unit*.8}:torso,unit*1.4,{alpha:state.flash*2.5,tint:0xffe8a5,blend:'add'});
   }
   if(this.plan.mode==='ultimate'){
-   const age=time-3.25;
+   const age=time-this.plan.contacts.at(-1);
    if(age>=0&&age<1.7){const q=age/1.7,r=unit*(.4+q*2.5),alpha=(1-q)*.7;this.ground.ellipse(impact.x,impact.y,r,r*.25).stroke({color:0xffcc72,width:4-2*q,alpha});this.ground.ellipse(impact.x,impact.y,r*.8,r*.2).stroke({color:0xdd112c,width:2,alpha:alpha*.6});}
    if(age>=0&&age<2.2)for(let i=0;i<30;i++){const life=age-(i%6)*.025;if(life<0)continue;const a=i*2.399963,v=unit*(.6+(i%5)*.26),p={x:impact.x+Math.cos(a)*v*life,y:impact.y-Math.abs(Math.sin(a))*v*life+unit*.5*life*life};if(p.y>impact.y+15)continue;this.draw(this.assets.flash,p,4+i%4,{height:13+i%7,angle:a+.7,alpha:clamp(1-life/2.2)*.78,tint:i%4===0?0xffffff:0xff9639,blend:'add'});}
   }
   if(state.flash>0)this.screenFlash.rect(0,0,scene.width,scene.height).fill({color:0xffe8c6,alpha:state.flash});
   this.onUpdate(this);
  }
- diagnostics(){return {ready:!this.destroyed,mode:this.plan.mode,time:this.time,playing:this.playing,speed:this.speed,pose:this.sample.pose,cancelled:this.sample.cancelled,travel:this.sample.travel,activeFrames:this.activeFrames,visibleSprites:this.pool.filter(s=>s.visible).length,ownedTimelines:this.timeline?1:0,registeredTimelines:this.registration&&this.engine.simpleTimelines.has(this.registration)?1:0,regularAllies:this.engine.allies.length,mercenaryInRegularArray:this.engine.allies.includes(this.merc),weaponHash:this.manifest.weapon.sha256,weaponRigid:true,clockOwner:'V3_REGISTERED_GSAP',motionFrames:this.manifest.counts.motion,effectFrames:this.manifest.counts.effects,damageAuthority:this.plan.damageAuthority,actorFoot:this.point(this.merc),targetFoot:this.point(this.targets[0]),aura:{enabled:this.auraEnabled,textureMatchesPose:[this.outer,this.inner,...this.cobaltCopies,...this.rimCopies].every(s=>s.texture===this.merc.fullBodySprite.texture),silhouetteCopies:18,filterCount:this.auraFilters.length,independentClock:false},audio:{enabled:this.audio.enabled,scheduled:this.audio.scheduled,error:this.audio.error??null},effectLayers:this.engine.effectLayer.children.filter(c=>c.label==='KnightFX').length};}
+ diagnostics(){return {ready:!this.destroyed,motionOnly:!!this.motionOnly,mode:this.plan.mode,time:this.time,playing:this.playing,speed:this.speed,pose:this.sample.pose,cancelled:this.sample.cancelled,travel:this.sample.travel,activeFrames:this.activeFrames,visibleSprites:this.pool.filter(s=>s.visible).length,ownedTimelines:this.timeline?1:0,registeredTimelines:this.registration&&this.engine.simpleTimelines.has(this.registration)?1:0,regularAllies:this.engine.allies.length,mercenaryInRegularArray:this.engine.allies.includes(this.merc),weaponHash:this.manifest.weapon.sha256,weaponRigid:true,clockOwner:'V3_REGISTERED_GSAP',motionFrames:this.manifest.counts.motion,effectFrames:this.manifest.counts.effects,damageAuthority:this.plan.damageAuthority,actorFoot:this.point(this.merc),targetFoot:this.point(this.targets[0]),aura:{enabled:this.auraEnabled,textureMatchesPose:[this.outer,this.inner,...this.cobaltCopies,...this.rimCopies].every(s=>s.texture===this.merc.fullBodySprite.texture),silhouetteCopies:18,filterCount:this.auraFilters.length,independentClock:false},audio:{enabled:this.audio.enabled,scheduled:this.audio.scheduled,error:this.audio.error??null},effectLayers:this.engine.effectLayer.children.filter(c=>c.label==='KnightFX').length};}
  destroy(){if(this.destroyed)return;this.cancel();this.audio.destroy();this.aura.destroy({children:true});this.auraFilters.forEach(f=>f.destroy());this.layer.destroy({children:true});for(const frames of [...Object.values(this.assets.motion),...Object.values(this.assets.effects)])for(const texture of frames)texture.destroy(false);this.destroyed=true;this.pool=[];}
 }

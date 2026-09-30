@@ -1,32 +1,25 @@
 {
   "date": "2026-10-01",
   "scope": "preview/mercenary-crimson-silver-knight-battle-v1/",
-  "status": "USER_REJECTED_VISUAL_QUALITY_TECHNICAL_CHECKS_NOT_VISUAL_APPROVAL",
+  "status": "V5_TECH_QA_COMPLETE_USER_VISUAL_REVIEW_PENDING",
   "unitTests": {
     "command": "node --test preview/mercenary-crimson-silver-knight-battle-v1/qa.test.mjs",
     "passed": 6,
-    "failed": 0,
-    "afterTimelineChanges": {
-      "command": "node --test --test-name-pattern='modes seek|collision poses|real Pixi transforms' preview/mercenary-crimson-silver-knight-battle-v1/qa.test.mjs",
-      "passed": 3,
-      "failed": 0
-    },
-    "afterSizeChange": {
-      "command": "node --test --test-name-pattern='real Pixi transforms' preview/mercenary-crimson-silver-knight-battle-v1/qa.test.mjs",
-      "passed": 1,
-      "failed": 0
-    }
+    "failed": 0
   },
   "counts": {
-    "motion": 108,
-    "effects": 96
+    "motion": 58,
+    "effects": 96,
+    "uniqueMotion": 37,
+    "reusedMotion": 21
   },
   "weaponOriginalSha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
   "weaponRgbMatchesApprovedSource": true,
-  "sourceArtHashUnchanged": true,
-  "all204FrameHashesAndAlphaPaddingPassed": true,
-  "allWeaponsRigidUniform": true,
+  "approvedSourceArtUnchanged": true,
+  "allPackedFrameHashesAlphaPaddingPassed": true,
   "bodyRelativeSwordLengthConstant": true,
+  "groundedStrikeRegistration": true,
+  "motionOnlyHidesVfxAuraAndShake": true,
   "displaySizing": {
     "baselineFullBodyHeight": 260,
     "initialRequestedScale": 1.25,
@@ -49,13 +42,9 @@
       "pageErrors": 0,
       "failedAssets": 0,
       "horizontalOverflow": false,
-      "sequenceCount": 10,
       "interruptCleared": true,
       "targetLossCleared": true,
       "speedPausePassed": true,
-      "auraFollowsPose": true,
-      "regularCardsStayFive": true,
-      "soundError": null,
       "dispose": {
         "timelines": 0,
         "effectLayers": 0,
@@ -67,13 +56,9 @@
       "pageErrors": 0,
       "failedAssets": 0,
       "horizontalOverflow": false,
-      "sequenceCount": 10,
       "interruptCleared": true,
       "targetLossCleared": true,
       "speedPausePassed": true,
-      "auraFollowsPose": true,
-      "regularCardsStayFive": true,
-      "soundError": null,
       "dispose": {
         "timelines": 0,
         "effectLayers": 0,
@@ -81,9 +66,18 @@
       }
     }
   ],
-  "visualEvidenceDirectory": "qa/",
-  "animationRecording": "qa/ultimate-preview.webp",
-  "runtimeDeployment": "NOT_REQUESTED_FOR_UNAPPROVED_RESOURCE_PREVIEW",
-  "noUnrelatedReleaseGate": true,
-  "userRejection": "칼잡는 자세 및 스킬 모션이 부자연스러움"
+  "visualInspection": [
+    "Actual desktop/mobile shared V3 canvas",
+    "Enlarged closed-grip composites",
+    "Equal body-scale pose comparison",
+    "Actual V3 ultimate and slow pose playback"
+  ],
+  "limitations": [
+    "New native poses remain subject to user visual review.",
+    "Idle preserves the exact approved static pose; no invented idle frame count.",
+    "Guard reuses ready frames, ultimate uses the authored sword stroke with distinct existing VFX.",
+    "Utility kneel sheet cape contact is separated at documented x=518; body, hands and marker registration do not cross the split."
+  ],
+  "runtimeEnabled": false,
+  "deployment": "Independent preview only; live game release remains gated."
 }

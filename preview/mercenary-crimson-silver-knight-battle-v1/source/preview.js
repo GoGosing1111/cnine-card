@@ -40,6 +40,7 @@ async function boot(){
   const change=()=>{lastEvent=-1;fx.setPlan(plan());};$('mode').onchange=change;$('scenario').onchange=change;
   $('sound').onchange=()=>fx.setSound($('sound').checked);
   $('aura').onchange=()=>fx.setAura($('aura').checked);
+  $('motion-only').onchange=()=>fx.setMotionOnly($('motion-only').checked);
   $('mobile').onchange=()=>{$('battle-viewport').classList.toggle('mobile-test',$('mobile').checked);};
   for(const button of parentDoc.querySelectorAll('[data-mode]'))button.onclick=()=>{$('mode').value=button.dataset.mode;change();};
   for(const el of parentDoc.querySelectorAll('.controls button,.controls select,.controls input,.mode-tabs button,.scrubber input'))el.disabled=false;

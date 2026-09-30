@@ -1,7 +1,7 @@
 {
   "date": "2026-09-30",
-  "status": "V2_MOTIONS_USER_REJECTED_V12_GRIP_APPROVED_V14_BLADE_REVIEW_PENDING",
-  "latestDirection": "2026-10-01: 첨부 d08bc7e1의 팔을 옆으로 내린 손등 한손 파지를 재현한 V12 파지 승인. 손과 팔을 그대로 보존하고 검신 크기와 칼끝만 승인 대검 원본으로 복원한다.",
+  "status": "REJECTED_V3_SHEETS_EXCLUDED_V5_NATIVE_REWORK_PENDING_USER_REVIEW",
+  "latestDirection": "2026-10-01: 체형·그림체는 승인 시작점 유지. 사용자가 첨부한 두 궁극기 시트 폐기. 제작 방식을 바꾸지 말고 사용 가능한 리소스를 재사용하여 제작.",
   "rejected": [
     {
       "file": "assets/rejected/sd-v1-two-handed-crouch.png",
@@ -61,6 +61,32 @@
       "file": "assets/source/blade-correction-generated-v13.png",
       "reason": "원본 칼끝과 크기 고정을 위해 V14 원본 검 합성으로 대체.",
       "usableAsReference": false
+    },
+    {
+      "file": "assets/rig-v3/ultimate-a-source.png",
+      "originalAttachment": "codex-clipboard-3b35356d-a563-4f66-8554-672cb0c2ecff.png",
+      "reason": "사용자 명시 폐기: 체형과 그림체가 시작점에서 무너짐.",
+      "usableAsReference": false,
+      "usableInRuntime": false
+    },
+    {
+      "file": "assets/rig-v3/ultimate-b-source.png",
+      "originalAttachment": "codex-clipboard-d3a462ea-d2ae-445a-bc96-0ed16f2c6da5.png",
+      "reason": "사용자 명시 폐기: 체형과 그림체가 시작점에서 무너짐.",
+      "usableAsReference": false,
+      "usableInRuntime": false
+    },
+    {
+      "file": "assets/rig-v4/underarms-native.png",
+      "reason": "제작 방식 전환 제안은 사용자 반려. 기존 방식 유지.",
+      "usableAsReference": false,
+      "usableInRuntime": false
+    },
+    {
+      "file": "assets/motion-v5/hit-source.png",
+      "reason": "접촉한 셀과 잘못 그려진 금색 프록시로 제외. utility-source의 피격 자세 사용.",
+      "usableAsReference": false,
+      "usableInRuntime": false
     }
   ],
   "supersededPrompts": [
@@ -88,5 +114,7 @@
   "motionApprovals": [],
   "runtimeEnabled": false,
   "updated": "2026-10-01",
-  "weaponPolicy": "UNIFORM_SCALE_ROTATION_TRANSLATION_ONLY"
+  "weaponPolicy": "UNIFORM_SCALE_ROTATION_TRANSLATION_ONLY",
+  "excludedDraftDirectory": "assets/rig-v3/",
+  "currentMotionManifest": "motion-manifest-v5.json"
 }

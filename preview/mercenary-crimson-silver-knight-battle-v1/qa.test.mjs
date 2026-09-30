@@ -20,7 +20,7 @@ test('all nine modes seek deterministically, stay in authored frame bounds and c
  assert.equal(makePlan({cancelAt:2,targetLostAt:1}).stop,1);assert.throws(()=>makePlan({mode:'invalid'}));
 });
 test('drawn collision poses and VFX peaks meet at the same timestamp',()=>{
- for(const [mode,t,key,frame,effect,peak] of [['attack',1,'attack',6,'slash',9],['skill',1,'attack',6,'slash',9],['skill',2.25,'ultimate',7,'execution',9],['execution',2.1,'ultimate',7,'execution',9],['ultimate',1.42,'attack',6,'slash',9],['ultimate',3.25,'ultimate',7,'ultimate',10]]){
+ for(const [mode,t,key,frame,effect,peak] of [['attack',1.77,'attack',6,'slash',9],['skill',1.77,'attack',6,'slash',9],['skill',3.65,'ultimate',6,'execution',9],['execution',2.61,'ultimate',6,'execution',9],['ultimate',2.56,'attack',6,'slash',9],['ultimate',4.44,'ultimate',6,'ultimate',10]]){
   const s=sample(makePlan({mode}),t);assert.deepEqual(s.pose,{key,frame});assert.ok(s.effects.some(f=>f.key===effect&&Math.abs(f.frame-peak)<1e-9));
  }
 });
@@ -34,7 +34,7 @@ test('approved masters are byte exact and the selected sword RGB comes only from
  for(let y=0;y<sword.info.height;y++)for(let x=0;x<sword.info.width;x++){const p=(y*sword.info.width+x)*4;if(!sword.data[p+3])continue;pixels++;const q=((y+w.crop.top)*source.info.width+x+w.crop.left)*4;assert.deepEqual(sword.data.subarray(p,p+3),source.data.subarray(q,q+3));}
  assert.equal(pixels,w.selectedPixels);assert.equal(manifest.rank,null);assert.equal(manifest.runtimeEnabled,false);assert.equal(manifest.motionStatus,'USER_REVIEW_PENDING');assert.notEqual(manifest.sourceArt,manifest.battleSprite);
 });
-test('204 distinct packed frames have native alpha and clear borders; every weapon has identical body-relative length',async()=>{
+test('Native packed frames have native alpha and clear borders; every weapon has identical body-relative length',async()=>{
  let count=0;
  for(const spec of [...Object.values(manifest.motion),...Object.values(manifest.effects)]){
   assert.equal(new Set(spec.frames.map(f=>f.sha256)).size,spec.frameCount);
@@ -45,9 +45,9 @@ test('204 distinct packed frames have native alpha and clear borders; every weap
    if(f.weapon){assert.equal(f.weapon.sha256,manifest.weapon.sha256);assert.equal(f.weapon.rigid,true);assert.ok(Math.abs(f.weapon.scale*f.weapon.packedUniformScale/f.bodyPixels-1/1452)<1e-10);assert.ok(Math.abs(Math.hypot(f.tip[0]-f.grip[0],f.tip[1]-f.grip[1])/f.bodyPixels-Math.hypot(11,1119)/1452)<1e-10);}
   }
  }
- assert.equal(count,204);assert.deepEqual(manifest.counts,{motion:108,effects:96});
+ assert.equal(count,manifest.counts.motion+manifest.counts.effects);assert.equal(manifest.counts.uniqueMotion,37);assert.equal(manifest.counts.effects,96);assert.equal(manifest.motion.ultimate.reuses,'attack');assert.equal(manifest.motion.guard.reuses,'ready');
 });
-test('real Pixi transforms place the blade on the target; aura follows the current pose; lifecycle releases owned effects',()=>{
+test('Grounded strikes intersect the target body; aura follows the pose and lifecycle releases effects',()=>{
  const world=new Container(),combatLayer=new Container(),effectLayer=new Container();world.addChild(combatLayer,effectLayer);
  const sdSource=new TextureSource({width:1408,height:1664}),frameSource=new TextureSource({width:512,height:512}),sd=new Texture({source:sdSource});
  const actor=(x,y,height=260)=>{const root=new Container(),view=new Container(),s=new Sprite(sd);root.position.set(x,y);root.scale.set(.6);root.addChild(view);view.addChild(s);s.anchor.set(manifest.battleSpriteFootAnchor.x,manifest.battleSpriteFootAnchor.y);s.height=height;s.width=height*1408/1664;combatLayer.addChild(root);return {root,view,fullBodySprite:s,baseX:x,baseY:y,fullBodyHeight:height,neutralAvatarPose:{mainSprite:{}},animationController:{kill(){}}};};
@@ -55,7 +55,12 @@ test('real Pixi transforms place the blade on the target; aura follows the curre
  const assets={motion:{},effects:{},flash:Texture.EMPTY,smoke:Texture.EMPTY};for(const [key,spec] of Object.entries(manifest.motion))assets.motion[key]=Array.from({length:spec.frameCount},()=>new Texture({source:frameSource}));for(const [key,spec] of Object.entries(manifest.effects))assets.effects[key]=Array.from({length:spec.frameCount},()=>new Texture({source:frameSource}));
  const fx=new KnightFX(engine,merc,targets,assets,manifest,makePlan(),()=>{});
  try{
-  for(const [mode,t,key,frame,fraction] of [['attack',1,'attack',6,.46],['skill',1,'attack',6,.46],['skill',2.25,'ultimate',7,0],['execution',2.1,'ultimate',7,0],['ultimate',1.42,'attack',6,.46],['ultimate',3.25,'ultimate',7,0]]){fx.setPlan(makePlan({mode}));fx.seek(t);const f=manifest.motion[key].frames[frame],blade=effectLayer.toLocal(merc.fullBodySprite.toGlobal({x:f.tip[0]-256,y:f.tip[1]-440})),target=fx.point(targets[0],fraction);assert.ok(Math.hypot(blade.x-target.x,blade.y-target.y)<.01,mode+' blade contact');}
+  for(const [mode,t,key] of [['attack',1.77,'attack'],['skill',3.65,'ultimate'],['execution',2.61,'ultimate'],['ultimate',2.56,'attack'],['ultimate',4.44,'ultimate']]){
+   fx.setPlan(makePlan({mode}));fx.seek(t);const f=manifest.motion[key].frames[6],local={x:f.grip[0]+.72*(f.tip[0]-f.grip[0])-256,y:f.grip[1]+.72*(f.tip[1]-f.grip[1])-440},blade=effectLayer.toLocal(merc.fullBodySprite.toGlobal(local)),floor=fx.point(targets[0]),head=fx.point(targets[0],.9);
+   assert.ok(Math.abs(blade.x-floor.x)<.01,mode+' blade horizontal contact');assert.ok(blade.y<floor.y&&blade.y>head.y,mode+' blade inside target body');assert.equal(merc.root.y,targets[0].root.y,mode+' grounded feet');
+   fx.seek(t-.2);assert.equal(merc.root.y,targets[0].root.y,mode+' swing cannot move floor');fx.seek(t+.15);assert.equal(merc.root.y,targets[0].root.y,mode+' followthrough cannot move floor');
+  }
+  fx.setMotionOnly(true);fx.seek(4.44);assert.equal(fx.diagnostics().visibleSprites,0);assert.equal(fx.aura.visible,false);fx.setMotionOnly(false);
   for(const mode of Object.keys(MODES)){fx.setPlan(makePlan({mode}));fx.play();assert.equal(engine.simpleTimelines.size,1);fx.pause();for(let i=0;i<=60;i++){fx.seek(fx.plan.duration*i/60);assert.ok(fx.diagnostics().visibleSprites<=80);assert.equal(fx.diagnostics().aura.textureMatchesPose,true);}}
   fx.setPlan(makePlan({mode:'ultimate',targetLostAt:2.05}));fx.seek(3.25);assert.equal(fx.diagnostics().visibleSprites,0);assert.equal(merc.root.x,merc.baseX);fx.cancel();assert.equal(engine.simpleTimelines.size,0);assert.equal(engine.allies.length,5);assert.equal(engine.allies.includes(merc),false);
  }finally{fx.destroy();fx.destroy();assert.equal(effectLayer.children.length,0);assert.equal(merc.view.children.length,1);assert.equal(frameSource.destroyed,false);gsap.ticker.sleep();world.destroy({children:true});sd.destroy(false);sdSource.destroy();frameSource.destroy();}
