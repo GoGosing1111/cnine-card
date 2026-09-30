@@ -1,6 +1,6 @@
-import { mountLichRaid } from './live.mjs?v=20260929-inline';
+import { mountLichRaid } from './live.mjs?v=20261001-party-sync';
 
-const VERSION = '20260929-inline';
+const VERSION = '20261001-party-sync';
 let styles, battle;
 function loadAsset(tag, url) {
   return new Promise((resolve, reject) => {

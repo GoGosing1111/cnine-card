@@ -1,5 +1,6 @@
 import {BattleEngine} from './battle/BattleEngine.js';
 import {BattleEngine as ExpeditionBattleEngine} from '../../../pve-v3/BattleEngine.js';
+import {Assets,Container,Graphics,Sprite,Texture,Rectangle} from 'pixi.js';
 
 let engine=null;
 let accountPreviewFirearmHook=null;
@@ -138,7 +139,8 @@ async function playAccountPreviewShot({onAnticipation,onFire,damage=100000}={}){
   }
 }
 
-const api={runtimeVersion:'20260930-speed-combo',mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,restoreDeployedFormation,setBattlePayload,setBattlefield,verifyTargetSwitch,playAccountPreviewShot,setAccountPreviewFirearmHook,startAccountBattleUnitSustainedFire,stopAccountBattleUnitSustainedFire,cancelActiveAnimations,completePlayback,syncFinalState,diagnostics,destroy};
+const fxRuntime=Object.freeze({Assets,Container,Graphics,Sprite,Texture,Rectangle});
+const api={runtimeVersion:'20260930-speed-combo',fxRuntime,mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,restoreDeployedFormation,setBattlePayload,setBattlefield,verifyTargetSwitch,playAccountPreviewShot,setAccountPreviewFirearmHook,startAccountBattleUnitSustainedFire,stopAccountBattleUnitSustainedFire,cancelActiveAnimations,completePlayback,syncFinalState,diagnostics,destroy};
 if(typeof window!=='undefined')window.ProjectVPixiBattle=api;
 
 export {mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,restoreDeployedFormation,setBattlePayload,setBattlefield,verifyTargetSwitch,playAccountPreviewShot,setAccountPreviewFirearmHook,startAccountBattleUnitSustainedFire,stopAccountBattleUnitSustainedFire,cancelActiveAnimations,completePlayback,syncFinalState,diagnostics,destroy};

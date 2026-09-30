@@ -30,7 +30,7 @@ export async function lichLiveFixture({postgres=false}={}){
     }
     DB={prepare:q=>new Statement(q),async batch(statements){sql.exec('BEGIN');try{const result=statements.map(s=>s.execute());sql.exec('COMMIT');return result;}catch(error){sql.exec('ROLLBACK');throw error;}}};
   }
-  const env={DB},locks=new Map();
+  const env={DB},locks=new Map(),decks=new Map();
   async function withLock(_env,userId,_path,work){
     const prior=locks.get(userId)||Promise.resolve(),next=prior.catch(()=>{}).then(work);
     locks.set(userId,next);try{return await next;}finally{if(locks.get(userId)===next)locks.delete(userId);}
@@ -38,7 +38,7 @@ export async function lichLiveFixture({postgres=false}={}){
   const deps={
     authenticate:async request=>{const match=request.headers.get('authorization')?.match(/^Bearer local-qa-(\d+)$/);return match?DB.prepare('SELECT * FROM users WHERE id=?').bind(Number(match[1])).first():null;},
     json:(data,status=200)=>Response.json(data,{status}),
-    raidDeckPower:async(_env,userId)=>({cards:structuredClone(REVIEW_DECK),power:290000,ids:REVIEW_DECK.map(c=>c.id),userId}),
+    raidDeckPower:async(_env,userId)=>structuredClone(decks.get(Number(userId))||{cards:REVIEW_DECK,power:290000,ids:REVIEW_DECK.map(c=>c.id),userId}),
     withUserMutationLock:withLock
   };
   let serial=0;
@@ -64,7 +64,7 @@ export async function lichLiveFixture({postgres=false}={}){
     await command('assign',{roomId,targetId:'2',role:'WARDEN'});await command('assign',{roomId,targetId:'3',role:'RESCUE'});
     return roomId;
   }
-  return {env,deps,call,command,configure,party,uid,one,all,run,
+  return {env,deps,call,command,configure,party,uid,one,all,run,setDeck:(userId,deck)=>decks.set(Number(userId),structuredClone(deck)),
     inject:value=>{failAt=value;},count:()=>queries,close:()=>pg?pg.close():sql.close(),
     handle:request=>handleLichRaid({path:new URL(request.url).pathname.slice(5),request,env,deps})};
 }

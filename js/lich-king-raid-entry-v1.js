@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION = '20260929-inline';
+  const VERSION = '20261001-party-sync';
   let checkedAt = 0, visible = false, featureRequest = null, controller = null, revision = 0;
   const host = () => document.getElementById('pveLichRaidView');
   async function refresh() {

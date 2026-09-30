@@ -10,7 +10,8 @@
 .encounter-strip { padding: 0 6% 40px; }
 .live-lobby { min-height: 560px; padding: 36px 5%; }
 &.in-combat > .site-header { display: none; }
-.battle-pane #lich-battleMount { height: calc(100dvh - 160px) !important; }
+&.in-combat { position: fixed; inset: 0; z-index: 100; width: 100%; height: 100dvh; background: #03080e; overflow: hidden; }
+.battle-pane #lich-battleMount { height: 100% !important; min-height: 0 !important; }
 @media (max-width: 760px) {
   .site-header { padding: 0 16px; height: 52px; gap: 10px; }
   .live-mode { font-size: 10px; letter-spacing: 0; }

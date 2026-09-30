@@ -4,13 +4,28 @@ const $=id=>root.querySelector('[data-lich-id="'+id+'"]')||root.querySelector('#
 const lifecycle=new AbortController();
 const on=(target,type,listener)=>target.addEventListener(type,listener,{signal:lifecycle.signal});
 let disposed=false;
+let portal=null,bodyOverflow='';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const api=(route,options)=>request('raid/lich/'+route,options);
 let state=null,eventSeq=0,roomId=sessionStorage.getItem('lichLiveRoom')||'',mounted=false,mounting=false,polling=false,busy=false,ended=false,view='landing',timer,toastTimer,memberKey='',failures=0,generation=0;
+let preparation=null;
+function prewarm(){
+  preparation||=loadBattle().then(()=>window.LichBattle?.preload?.()).catch(error=>{preparation=null;console.warn('[Lich resources]',error);});
+}
 let savedRequests=[];try{savedRequests=JSON.parse(sessionStorage.getItem('lichLiveRequests')||'[]');if(!Array.isArray(savedRequests))savedRequests=[];}catch{}
 const pending=new Map(savedRequests);
 function toast(message){$('toast').textContent=message;$('toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').hidden=true,4500);}
-function screen(name){view=name;root.classList.toggle('in-combat',name==='combat');['landing','lobby','combat','gate'].forEach(id=>$(id).hidden=id!==name);}
+function releasePortal(){
+  if(portal){portal.replaceWith(root);portal=null;document.body.style.overflow=bodyOverflow;}
+}
+function screen(name){
+  view=name;
+  if(name==='combat'&&root!==document.body&&!portal){
+    portal=document.createComment('lich-lobby-position');bodyOverflow=document.body.style.overflow;
+    root.before(portal);document.body.appendChild(root);document.body.style.overflow='hidden';
+  }else if(name!=='combat')releasePortal();
+  root.classList.toggle('in-combat',name==='combat');['landing','lobby','combat','gate'].forEach(id=>$(id).hidden=id!==name);
+}
 function schedule(){clearTimeout(timer);if(disposed||document.hidden||view==='gate')return;timer=setTimeout(()=>void sync(),Math.min(10000,(state?.status==='ACTIVE'?650:view==='lobby'?3000:15000)*2**Math.min(failures,3)));}
 function setRoom(value){roomId=value||'';if(roomId)sessionStorage.setItem('lichLiveRoom',roomId);else sessionStorage.removeItem('lichLiveRoom');}
 function reset(){
@@ -40,6 +55,7 @@ function render(result){
   const events=next.events.filter(e=>e.seq>eventSeq);eventSeq=Math.max(eventSeq,next.eventSeq);state=next;setRoom(state.id);
   renderMembers();
   if(state.status==='LOBBY'){
+    prewarm();
     screen('lobby');$('browse').hidden=true;$('assembly').hidden=false;
     $('hostLabel').textContent='공대장 · '+state.hostName;$('memberCount').textContent=state.members.length+' / 6명';
     $('lobbyTime').textContent='모집 종료 '+new Date(state.lobbyEndsAt).toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'});
@@ -79,14 +95,19 @@ async function sync(){
 }
 async function command(kind,body={}){
   if(disposed||busy)return;busy=true;generation++;clearTimeout(timer);$('lobbyNotice').hidden=true;
+  let applied=false;
+  if(kind==='action')window.LichBattle?.setPending?.(true);
   const input={...(kind!=='open'?{roomId}:{}),...body},key=kind+':'+JSON.stringify(input);
   if(!pending.has(key))pending.set(key,crypto.randomUUID());sessionStorage.setItem('lichLiveRequests',JSON.stringify([...pending].slice(-20)));
   try{
-    const result=await api(kind,{method:'POST',body:{...input,requestId:pending.get(key)},timeoutMs:15000});
+    const result=await api(kind+(kind==='action'?'?since='+eventSeq:''),{method:'POST',body:{...input,requestId:pending.get(key)},timeoutMs:15000});
     pending.delete(key);
     if(disposed)return;
     if(kind==='leave'){reset();screen('lobby');}
-    else if(result.roomId)setRoom(result.roomId);
+    else {
+      if(result.roomId)setRoom(result.roomId);
+      if(result.state){render(result);applied=true;if(result.state.status==='ACTIVE'&&!mounted)await mount(result.payload);}
+    }
   }catch(error){
     if(error.status>=400&&error.status<500&&error.status!==429&&!error.retryable)pending.delete(key);
     if(disposed)return;
@@ -94,7 +115,14 @@ async function command(kind,body={}){
     if(['LICH_OFF','LICH_TEST_ONLY'].includes(error.code))showGate(error);
     if(['LICH_KICKED','LICH_NOT_MEMBER'].includes(error.code)){reset();screen('lobby');}
   }finally{
-    sessionStorage.setItem('lichLiveRequests',JSON.stringify([...pending].slice(-20)));busy=false;await sync();
+    sessionStorage.setItem('lichLiveRequests',JSON.stringify([...pending].slice(-20)));busy=false;
+    window.LichBattle?.setPending?.(false);
+    // A successful command already returned the authoritative snapshot.
+    // Avoid making players wait for a second network round trip.
+    if(!disposed){
+      if(!applied||!state||kind==='leave'||kind==='open')await sync();
+      else {render({state});schedule();}
+    }
   }
 }
 async function boot(){
@@ -103,7 +131,7 @@ async function boot(){
     screen(roomId?'lobby':'landing');await sync();
   }catch(error){if(!disposed)showGate(error);}
 }
-$('enterButton').onclick=()=>{screen('lobby');if(root===document.body)window.scrollTo(0,0);else root.scrollIntoView({block:'start'});void sync();};
+$('enterButton').onclick=()=>{screen('lobby');prewarm();if(root===document.body)window.scrollTo(0,0);else root.scrollIntoView({block:'start'});void sync();};
 $('backLanding').onclick=()=>screen('landing');
 $('createButton').onclick=()=>{if(confirm('리치왕 정벌 입장권 1장을 사용해 공대를 창설합니다. 해산해도 입장권은 반환되지 않습니다.'))void command('open');};
 $('refreshRooms').onclick=()=>void sync();$('readyButton').onclick=()=>void command('ready',{ready:!state.me.ready});$('startButton').onclick=()=>void command('start');
@@ -125,6 +153,7 @@ function destroy(){
   disposed=true;generation++;lifecycle.abort();clearTimeout(timer);clearTimeout(toastTimer);
   if(mounted||mounting)window.LichBattle?.teardown();
   mounted=false;root.classList.remove('in-combat');
+  releasePortal();
   root.querySelectorAll('dialog[open]').forEach(dialog=>dialog.close());
   if(window.LichRaidLive===controller)delete window.LichRaidLive;
 }

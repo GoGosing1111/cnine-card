@@ -72,6 +72,21 @@ test('already loaded obsolete runtime is replaced once before mounting; current 
   await ensure();assert.equal(loads,1);
 });
 
+test('raid effects refresh an older same-version runtime once to share native Pixi objects',async()=>{
+  const source=readFileSync(new URL('../js/battle-v3-live.js',import.meta.url),'utf8');
+  const chunk=source.slice(source.indexOf('  const BATTLE_RUNTIME'),source.indexOf('  const PLAYBACK_SPEED'));
+  const version=liveFeatureHarness().version;
+  let loads=0,destroyed=0;const root={ProjectVPixiBattle:{runtimeVersion:version,destroy(){destroyed++;}}};
+  const document={createElement:()=>({remove(){}}),head:{appendChild(script){
+    loads++;assert.equal(new URL(script.src,'https://test.invalid').searchParams.get('lichFx'),'20261001');
+    queueMicrotask(()=>{root.ProjectVPixiBattle={runtimeVersion:version,fxRuntime:{native:true}};script.onload();});
+  }}};
+  const ensure=vm.runInNewContext(chunk+'\nensureCurrentBattleRuntime',{root,document,setTimeout,clearTimeout});
+  await ensure();assert.equal(loads,0,'ordinary PVE/PVP keeps the existing runtime');
+  await Promise.all([ensure({effects:true}),ensure({effects:true})]);assert.equal(loads,1);assert.equal(destroyed,1);
+  await ensure({effects:true});assert.equal(loads,1,'the raid reuses its native runtime');
+});
+
 for(const scriptPath of ['/js/app.js','/preview/sustained-hunt-v2/battle.bundle.js'])test('service worker refreshes the historical versioned battle script '+scriptPath,async()=>{
   const source=readFileSync(new URL('../service-worker.js',import.meta.url),'utf8');
   const events={},deleted=[],url='https://test.invalid'+scriptPath+'?v=old';let fetched=0;

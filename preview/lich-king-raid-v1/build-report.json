@@ -3,8 +3,9 @@
   "entry": "battle.src.js",
   "sharedEngine": "ProjectVBattleV3Live.ensureRuntime",
   "sharedGrid": true,
-  "pixiCopies": 1,
+  "pixiCopies": 0,
   "inputs": [
+    "preview/lich-king-raid-v1/clock.mjs",
     "preview/lich-king-raid-v1/MechanicOverlay.js",
     "preview/lich-king-raid-v1/battle.src.js"
   ]

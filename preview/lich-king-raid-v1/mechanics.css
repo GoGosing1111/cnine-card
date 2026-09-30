@@ -1,15 +1,17 @@
 /* Only the encounter's own overlay is styled here. The shared V3 formation,
    canvas, card frames and roster retain their canonical layout. */
 body.in-combat>.site-header{display:none}
-.combat-view{padding:0;max-width:none;background:#03080e}
+.combat-view{position:fixed;inset:0;z-index:100;display:grid;grid-template-rows:40px minmax(0,1fr) 32px;padding:0;max-width:none;margin:0;background:#03080e;height:100dvh;overflow:hidden}
+.combat-view[hidden]{display:none}
+.combat-view .battle-v3-status{display:none}
 .raid-combat-toolbar{height:40px;display:flex;align-items:center;gap:16px;padding:0 20px;border-bottom:1px solid #739ca738;background:#08111b;color:#8db4c4;font-size:10px;letter-spacing:.12em}
 .raid-combat-toolbar strong{color:#d3e8ed;font-weight:500;letter-spacing:0}
 .raid-combat-toolbar .quiet-button{padding:5px 10px;font-size:10px;margin-left:auto}
 .raid-combat-toolbar .quiet-button+.quiet-button{margin-left:0}
-.battle-pane{border:0;width:100%;display:block!important}
-.battle-pane #battleMount{height:calc(100dvh - 80px)!important;min-height:680px!important}
-.combat-journal{height:40px;margin:0;padding:11px 20px;background:#071018;font-size:10px}
-.combat-journal[open]{height:auto}
+.battle-pane{position:relative;border:0;width:100%;height:100%;min-height:0;display:block!important;overflow:hidden}
+.battle-pane #battleMount{height:100%!important;min-height:0!important;position:relative}
+.combat-journal{height:32px;margin:0;padding:7px 20px;background:#071018;font-size:10px;box-sizing:border-box;z-index:35}
+.combat-journal[open]{position:absolute;bottom:0;left:0;right:0;height:auto;max-height:32dvh;overflow:auto}
 .combat-journal summary span{font-size:10px}
 .lich-mechanic-screen{position:absolute;inset:0;z-index:11;pointer-events:none;isolation:isolate;font-family:'Malgun Gothic',system-ui,sans-serif;--lk-dock-space:200px;--lk-green:#beedbf;--lk-warm:#ffd0a3;color:#edf6fb;overflow:hidden}
 .lich-mechanic-screen button{pointer-events:auto;touch-action:manipulation}
@@ -30,6 +32,10 @@ body.in-combat>.site-header{display:none}
 .lk-order small{font:9px Georgia;letter-spacing:.34em;color:#a8d6e8}
 .lk-order h2{font-family:BlackHan,'Malgun Gothic',sans-serif;font-size:36px;font-weight:400;letter-spacing:.025em;margin:8px 0 6px;line-height:1.15}
 .lk-order p{font-size:12px;color:#c4d7e0;letter-spacing:.025em;margin:0}
+.lk-role-hint{display:block;margin-top:7px;font-size:13px;font-weight:700;color:#ffe0ae}
+.lk-input-status{position:absolute;left:50%;top:45%;transform:translateX(-50%);padding:10px 18px;background:#061422f2;border:1px solid #8ad6e6;color:#d8f6ff;font-size:14px;box-shadow:0 6px 24px #0008}
+.lk-rune-target.is-match{border-width:2px;border-color:#dfefbe}
+.lk-rune-set[hidden],.lk-host-mark[hidden],.lk-input-status[hidden],.lk-feedback[hidden],.lk-cast[hidden]{display:none}
 .lich-mechanic-screen[data-step=EXPOSED] .lk-order h2{color:#f7d392;text-shadow:0 2px 12px #000,0 0 30px #b26d2a}
 .lk-cast{position:absolute;top:66px;right:5%;width:230px;padding:10px 14px 7px;background:linear-gradient(90deg,#08141e00,#08141ecc 20%,#08141ecc 80%,#08141e00);text-align:center}
 .lk-cast-label{display:flex;justify-content:space-between;font-size:11px;letter-spacing:.04em;color:#bad2df}
@@ -50,6 +56,7 @@ body.in-combat>.site-header{display:none}
 .lk-cast[data-resolved=true]{opacity:.48}
 .lk-host-mark{position:absolute;transform:translate(-50%,-100%);width:132px;display:grid;justify-items:center;gap:3px;text-align:center;font-size:9px;text-shadow:0 1px 6px #000,0 0 10px #000;color:var(--lk-green)}
 .lk-host-mark strong{font-size:11px;color:#fff}
+.lk-host-mark.is-remote{left:20px!important;top:172px!important;transform:none;width:170px;padding:8px;border:1px solid #79c59866;background:#061a17d9;font-size:11px}
 .lk-host-rune{display:grid;place-items:center;width:39px;height:39px;border:1px solid #b5ffc4;border-radius:50%;background:#102d22de;box-shadow:0 0 17px #b8ffa83a;margin-bottom:2px}
 .lk-host-rune svg{width:24px;height:24px;stroke:currentColor;stroke-width:1.5;fill:none}
 .lk-stack-pips{display:flex;gap:3px;margin-top:3px}
@@ -72,7 +79,7 @@ body.in-combat>.site-header{display:none}
 .lk-rune-target{width:66px;height:66px;padding:7px 0;border-radius:50%;display:flex;flex-direction:column;gap:3px;border:1px solid #9aceac99;background:radial-gradient(circle,#133628d9,#071710ef);box-shadow:inset 0 0 12px #aeea9b1a,0 0 20px #0005;color:#ddf1d1}
 .lk-rune-target:before{content:'';position:absolute;inset:-5px;border:1px solid #b6e59a2b;border-radius:50%}
 .lk-rune-target svg{width:28px;height:28px}
-.lk-rune-target span{font-size:9px}
+.lk-rune-target span{font-size:11px}
 .lk-soul-targets .lk-rune-target{border-color:#9ad8ff99;color:#c9edff;background:radial-gradient(circle,#153c51e6,#071725ed);box-shadow:inset 0 0 14px #6ed8ff2a}
 .lk-seal-line{display:flex;align-items:center;justify-content:center;gap:18px;font-size:10px;border-top:1px solid #a5c1dd26;padding-top:10px}
 .lk-seal-line>span{color:#b2cbdd}
@@ -103,25 +110,26 @@ body.in-combat>.site-header{display:none}
 .lk-feedback.is-danger{color:#ffd0bb;background:linear-gradient(90deg,transparent,#452022ed 20%,#452022ed 80%,transparent)}
 .lich-mechanic-screen[data-active=false] .lk-console,.lich-mechanic-screen[data-active=false] .lk-objectives{display:none}
 @media(max-width:760px){
-  .raid-combat-toolbar{height:36px;padding:0 10px;gap:8px;font-size:8px;letter-spacing:.02em}.raid-combat-toolbar>span{display:none}.raid-combat-toolbar .quiet-button{padding:5px 8px;font-size:9px}
-  .battle-pane #battleMount{height:calc(100dvh - 70px)!important;min-height:660px!important}
-  .combat-journal{height:34px;padding:9px 12px;font-size:9px}.combat-journal summary span{font-size:9px;margin-left:8px}
-  .lk-boss-hud{top:52px;width:66%}.lk-boss-hud>div:first-child{font-size:9px;margin-bottom:5px}.lk-phase-pips{font-size:8px;margin-top:4px}
-  .lk-enrage{top:49px;right:12px}.lk-enrage small{font-size:8px}.lk-enrage b{font-size:17px}
-  .lk-order{top:100px}.lk-order small{font-size:8px;letter-spacing:.2em}.lk-order h2{font-size:26px;margin:5px 0}.lk-order p{font-size:10px;line-height:1.5}
-  .lich-mechanic-screen[data-step=MECHANIC]:not([data-kind=FINALE]) .lk-order{left:12px;transform:none;width:calc(100% - 190px);text-align:left;top:101px}
+  .combat-view{grid-template-rows:40px minmax(0,1fr) 32px}.raid-combat-toolbar{height:40px;padding:0 10px;gap:8px;font-size:11px;letter-spacing:.02em}.raid-combat-toolbar>span{display:none}.raid-combat-toolbar .quiet-button{padding:7px 8px;font-size:11px}
+  .battle-pane #battleMount{height:100%!important;min-height:0!important}
+  .combat-journal{height:32px;padding:7px 12px;font-size:10px}.combat-journal summary span{font-size:10px;margin-left:8px}
+  .lk-boss-hud{top:12px;width:66%;left:12px;transform:none}.lk-boss-hud>div:first-child{font-size:11px;margin-bottom:5px}.lk-phase-pips{font-size:9px;margin-top:4px}
+  .lk-enrage{top:10px;right:12px}.lk-enrage small{font-size:10px}.lk-enrage b{font-size:19px}
+  .lk-order{top:58px}.lk-order small{font-size:10px;letter-spacing:.12em}.lk-order h2{font-size:26px;margin:5px 0}.lk-order p{font-size:12px;line-height:1.5}
+  .lich-mechanic-screen[data-step=MECHANIC]:not([data-kind=FINALE]) .lk-order{left:12px;transform:none;width:calc(100% - 174px);text-align:left;top:59px}
   .lich-mechanic-screen[data-step=MECHANIC]:not([data-kind=FINALE]) .lk-order h2{font-size:23px}
   .lk-objectives{display:none}
-  .lk-cast{top:97px;right:10px;width:155px;padding:7px 9px}.lk-cast-label{font-size:9px}.lk-cast small{font-size:8px;margin-top:3px}.lk-interrupt{font-size:10px;min-height:44px;padding:5px 8px}
-  .lk-host-mark{width:110px;font-size:8px}.lk-host-mark strong{font-size:9px}.lk-host-rune{width:32px;height:32px}.lk-host-rune svg{width:20px;height:20px}.lk-stack-pips i{width:11px;height:3px}
+  .lk-cast{top:62px;right:10px;width:145px;padding:7px 9px}.lk-cast-label{font-size:12px}.lk-cast small{font-size:11px;margin-top:5px}.lk-interrupt{font-size:13px;min-height:48px;padding:5px 8px}
+  .lk-role-hint{font-size:12px;line-height:1.5}.lk-host-mark.is-remote{left:12px!important;top:190px!important;width:145px}
+  .lk-host-mark{width:120px;font-size:11px}.lk-host-mark strong{font-size:12px}.lk-host-rune{width:36px;height:36px}.lk-host-rune svg{width:24px;height:24px}.lk-stack-pips i{width:11px;height:4px}
   .lk-console{width:100%;padding:8px 10px 0;gap:8px}
   .lk-target-field{gap:12px}.lk-target-field.is-dual{justify-content:space-between;gap:10px}
-  .lk-rune-set{min-width:0;flex:1;max-width:245px}.lk-rune-targets{gap:14px}.lk-rune-target{width:56px;height:56px;flex:none}.lk-rune-target svg{width:25px;height:25px}.lk-rune-target span{font-size:8px}
-  .lk-set-title{display:block;font-size:9px;margin-bottom:9px}.lk-set-title b{font-size:10px;display:block;margin-bottom:3px}.lk-set-title span{font-size:8px}
-  .is-dual .lk-rune-targets{gap:7px}.is-dual .lk-rune-target{width:46px;height:46px;gap:1px}.is-dual .lk-rune-target:before{inset:-3px}.is-dual .lk-rune-target svg{width:21px;height:21px}
-  .lk-seal-line{gap:9px;font-size:9px;padding-top:6px}.lk-sequence{gap:4px}.lk-sequence svg{width:18px;height:18px}.lk-sequence small{font-size:7px}.lk-seal-key{width:44px;min-height:44px}.lk-seal-keys{gap:4px}.lk-seal-key svg{width:18px;height:18px}
-  .lk-supplies{gap:5px}.lk-supplies .lk-action{min-height:44px;padding:5px 10px;font-size:9px}.lk-party-status{gap:15px;font-size:9px}
+  .lk-rune-set{min-width:0;flex:1;max-width:245px}.lk-rune-targets{gap:14px}.lk-rune-target{width:60px;height:60px;flex:none}.lk-rune-target svg{width:27px;height:27px}.lk-rune-target span{font-size:11px}
+  .lk-set-title{display:block;font-size:12px;margin-bottom:9px}.lk-set-title b{font-size:14px;display:block;margin-bottom:3px}.lk-set-title span{font-size:12px}
+  .is-dual .lk-rune-targets{gap:7px}.is-dual .lk-rune-target{width:52px;height:52px;gap:1px;padding:4px 0}.is-dual .lk-rune-target:before{inset:-3px}.is-dual .lk-rune-target svg{width:21px;height:21px}
+  .lk-seal-line{gap:9px;font-size:12px;padding-top:6px;flex-wrap:wrap}.lk-sequence{gap:4px}.lk-sequence svg{width:22px;height:22px}.lk-sequence small{font-size:11px}.lk-seal-key{width:48px;min-height:48px;font-size:11px}.lk-seal-keys{gap:4px}.lk-seal-key svg{width:21px;height:21px}
+  .lk-supplies{gap:5px}.lk-supplies .lk-action{min-height:44px;padding:5px 10px;font-size:12px}.lk-party-status{gap:15px;font-size:11px}
   .lk-strike{min-width:168px;min-height:57px;font-size:16px}.lk-burst{min-width:84px;min-height:57px;font-size:14px}.lk-assault{gap:8px;padding-bottom:20px}
-  .lk-feedback{font-size:11px;padding:8px 15px;top:44%}
+  .lk-feedback{font-size:13px;padding:8px 15px;top:44%}
 }
 @media(max-width:359px){.lk-console{padding-inline:6px}.is-dual .lk-rune-targets{gap:4px}.is-dual .lk-rune-target{width:44px;height:44px}.lk-seal-line{gap:5px}.lk-seal-line>span{font-size:8px}.lk-sequence{gap:2px}.lk-party-status{gap:8px}.lk-order h2{font-size:24px}}

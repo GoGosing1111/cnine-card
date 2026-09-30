@@ -1,6 +1,6 @@
 // Isolated review encounter. No production routes, DB, rewards or feature flags.
 // All deadlines, HP, resources, role checks and outcomes belong to the authority.
-import { buildFighter, buildMonsterFighter, simulateBattleV2Preview } from './_battle_v2_preview.js';
+import { buildFighter, buildMonsterFighter, buildPvePlayerTeam, simulateBattleV2Preview } from './_battle_v2_preview.js';
 
 export const LICH_RELEASE = Object.freeze({ mode:'OFF', rewardLocked:true, scope:'LOCAL_REVIEW_ONLY' });
 export const ROLES = Object.freeze({ ASSAULT:'정벌대', WARDEN:'봉인대', RESCUE:'구출대' });
@@ -46,7 +46,7 @@ function openRound(room,index) {
   const plan=PLANS[index];room.round=index;room.phase=plan.phase;room.step='MECHANIC';
   const active=alive(room);const target=active[(room.seed+index)%active.length];
   room.challenge={id:room.id+':'+index,kind:plan.kind,startedAt:room.clock,deadline:room.clock+plan.duration,
-    targetId:target.id,targetName:target.title,plagueRune:RUNES[(room.seed+index)%3],
+    targetId:target.id,targetName:(target.ownerName?target.ownerName+' · ':'')+target.title,plagueRune:RUNES[(room.seed+index)%3],
     plague:plan.kind!=='FINALE',plagueStacks:1,transferred:false,cleansed:false,
     prison:plan.kind==='PRISON'||plan.kind==='CONVERGENCE',prisonBroken:false,breathResolved:false,
     guarded:false,interrupted:false,decoyInterrupted:false,rescued:0,rescueAt:0,
@@ -76,6 +76,35 @@ export function addLichMember(room,{id,name,role},now=room.clock) {
   room.clock=Math.max(room.clock,now);
   room.members.push({id,name:String(name||'정벌자').trim().slice(0,24),role});room.revision++;
   return room;
+}
+// Use the canonical PVE constructor. Owner-scoped IDs allow the same card in
+// different accounts without merging their HP, mercenary or equipment.
+export function setLichLoadout(room,memberId,deck,accountNickname) {
+  if(room.status!=='LOBBY')fail('ROOM_STARTED','출정한 편성은 변경할 수 없습니다.');
+  if(!room.members.some(m=>m.id===memberId))fail('NOT_MEMBER','공대 참가자가 아닙니다.',403);
+  if(deck?.cards?.length!==5||new Set(deck.cards.map(c=>String(c.id))).size!==5)fail('INVALID_PARTY','저장된 일반 덱 5장이 필요합니다.',400);
+  const byId=new Map(deck.cards.map(card=>[String(card.id),card]));
+  const cards=(deck.ids||deck.cards.map(c=>c.id)).map(key=>byId.get(String(key)));
+  if(cards.length!==5||cards.some(c=>!c))fail('INVALID_PARTY','저장된 덱을 확인하세요.',400);
+  const bonus=deck.characterBonus||{},suitPower=Math.max(0,Number(bonus.battleSuitPve)||0);
+  const battleSuit=bonus.equippedBattleSuit?{...bonus.equippedBattleSuit,pvePower:suitPower,weapon:bonus.equippedWeapon||null,accountNickname}:null;
+  const team=buildPvePlayerTeam({cards,characterBonus:Math.max(0,(Number(bonus.pve)||0)-suitPower),battleSuit,mercenary:deck.mercenary||null});
+  const owned=actor=>({...actor,id:'A:OWNER:'+memberId+':'+actor.id,ownerId:memberId,ownerName:accountNickname});
+  const fighters=team.teamA.map(actor=>({...owned(actor),battleSprite:byId.get(String(actor.cardId))?.battleSprite}));
+  if(team.mercenaryFighter)fighters.push(owned(team.mercenaryFighter));
+  const supports=team.battleSuitFighter?[{...owned(team.battleSuitFighter),authoritative:true,damageAuthority:'SERVER_TIMELINE'}]:[];
+  room.loadouts||={};
+  room.loadouts[memberId]=clone({cards,fighters,supports,characterBonus:bonus,accountNickname});
+  room.fighters=room.members.flatMap(m=>room.loadouts[m.id]?.fighters||[]);
+  room.revision++;return room;
+}
+export function removeLichLoadout(room,memberId) {
+  if(!room.loadouts)return;
+  delete room.loadouts[memberId];room.fighters=room.fighters.filter(f=>f.ownerId!==memberId);
+  if(room.status==='ACTIVE'&&!alive(room).length)wipe(room,'PARTY_DEAD','출전 카드가 모두 쓰러졌습니다.');
+  if(room.challenge?.targetId&&!room.fighters.some(f=>f.id===room.challenge.targetId)&&alive(room).length){
+    const target=alive(room)[0];room.challenge.targetId=target.id;room.challenge.targetName=target.ownerName+' · '+target.title;
+  }
 }
 export function startLichRoom(room,memberId,now=room.clock) {
   if(memberId!==room.hostId)fail('HOST_ONLY','공대장만 출정할 수 있습니다.',403);
@@ -134,19 +163,36 @@ export function tickLichRoom(room,now) {
 function applyCombat(room,burst) {
   const c=room.challenge;
   const multiplier=(burst?1.8:1)*(c.transferred?1.25:1)*Math.max(.5,1-room.doom*.12);
-  const source=alive(room).map(card=>({...card,alive:true,attack:Math.round(card.attack*multiplier)}));
   const enemy={...room.boss,hp:room.boss.maxHp,alive:true,defense:Math.round(room.boss.defense*.22)};
   const before=room.boss.hp;
-  const result=simulateBattleV2Preview({teamA:source,teamB:[enemy],seed:room.seed+room.eventSeq,maxActions:6,forcedMonsterEvery:5,healerPenalty:true});
   const floor=Math.round(room.boss.maxHp*PLANS[room.round].floor);
+  const owners=room.loadouts?room.members.map(m=>m.id):[null];
+  const packets=[];
   // A strike is an assault packet, not a restart of the persistent raid HP.
   // Use common-engine targeting/critical/hit resolution. The king's armor caps
   // its percent-based PVE minimum damage using the attacker's actual attack.
   // Common opening HP/shield/heal pools are not re-granted between packets.
+  for(const ownerId of owners){
+  const source=[...alive(room).filter(card=>ownerId===null||card.ownerId===ownerId),...(room.loadouts?.[ownerId]?.supports||[])]
+    .map(card=>({...card,alive:true,attack:Math.round(card.attack*multiplier)}));
+  if(!source.some(card=>!card.isBattleSuit))continue;
+  const result=simulateBattleV2Preview({teamA:source,teamB:[enemy],seed:room.seed+room.eventSeq,maxActions:6,forcedMonsterEvery:5,healerPenalty:true});
   for(const ev of result.timeline){
     const actor=source.find(x=>x.id===ev.actorId);
-    if(!actor||ev.targetId!==room.boss.id||!['TURN','SKILL','COUNTER','ATTACK'].includes(ev.type)||room.boss.hp<=floor)continue;
-    const damage=Math.min(room.boss.hp-floor,Math.max(0,Number(ev.damage)||0),Math.round(actor.attack*1.8));
+    if(!actor||ev.targetId!==room.boss.id||!(Number(ev.damage)>0))continue;
+    const attack=actor.isMercenary?result.openingMercenaries?.A?.find(f=>f.id===actor.id)?.attack||actor.attack:actor.attack;
+    const damage=Math.min(Math.max(0,Number(ev.damage)||0),Math.round(attack*1.8));
+    if(damage>0)packets.push({...ev,damage});
+  }
+  }
+  // A shared phase wall caps the whole assault, so an early host/suit shot
+  // cannot discard every later participant's otherwise valid contribution.
+  const total=packets.reduce((sum,event)=>sum+event.damage,0),budget=Math.min(before-floor,total);
+  let accumulated=0,applied=0;
+  for(const ev of packets){
+    accumulated+=ev.damage;
+    const next=total?Math.round(accumulated*budget/total):0,damage=next-applied;applied=next;
+    if(!damage)continue;
     room.boss.hp-=damage;
     const event={...ev,damage,absorbed:0,targetHpAfter:room.boss.hp,targetMaxHp:room.boss.maxHp,targetShieldAfter:0};
     record(room,event.type,event.label||'왕좌 공략',event);
@@ -221,12 +267,17 @@ export function actLichRoom(room,memberId,input,now) {
   if(room.doom>=3)wipe(room,'DOOM','죽음의 잔재가 3중첩되어 공대가 전멸했습니다.');
   checkComplete(room);room.revision++;return room;
 }
-export function lichBattlePayload(room) {
+export function lichBattlePayload(room,memberId=room.hostId) {
   const reviewOnly=!room.releaseMode;
   const monster={...room.monster,hp:room.boss.hp,maxHp:room.boss.maxHp};
-  const art={scope:'BATTLE_ENGINE_ONLY',kind:reviewOnly?'LICH_KING_REVIEW_SD':'LICH_KING_SD',primaryUrl:monster.battleSprite,pngFallbackUrl:monster.battleSprite,footAnchor:{x:.5,y:.94},objectFit:'contain',objectPosition:'50% 100%',scaleMultiplier:1.1,technicalPass:true,reviewOnly};
-  return {mode:'RAID',battlefieldMode:'RAID',cards:clone(room.cards),monster:{...monster,projectVMonsterArt:art},
-    battleV2:{schemaVersion:2,teams:{A:{cards:clone(room.fighters)},B:{cards:[{...clone(room.boss),isBoss:true,projectVMonsterArt:art}]}},result:{timeline:[]}},
+  const art={scope:'BATTLE_ENGINE_ONLY',kind:reviewOnly?'LICH_KING_REVIEW_SD':'LICH_KING_SD',primaryUrl:monster.battleSprite,pngFallbackUrl:monster.battleSprite,footAnchor:{x:.5,y:.94},objectFit:'contain',objectPosition:'50% 100%',scaleMultiplier:1.65,technicalPass:true,reviewOnly};
+  const loadout=room.loadouts?.[memberId],fighters=loadout?room.fighters.filter(f=>f.ownerId===memberId):room.fighters;
+  const supports=clone(loadout?.supports||[]),mercenaries=clone(fighters.filter(f=>f.isMercenary));
+  const characterBonus=clone(loadout?.characterBonus||{});
+  return {mode:'RAID',battlefieldMode:'RAID',cards:clone(loadout?.cards||room.cards),monster:{...monster,projectVMonsterArt:art},
+    characterBonus,equippedBattleSuit:characterBonus.equippedBattleSuit,equippedWeapon:characterBonus.equippedWeapon,accountNickname:loadout?.accountNickname,
+    battleV2:{schemaVersion:2,rules:{battleSuitDamageAuthority:supports.length?'SERVER_TIMELINE':'NONE',battleSuitActionClock:'INDEPENDENT_TIME_CADENCE'},
+      teams:{A:{cards:clone(fighters.filter(f=>!f.isMercenary)),mercenaries,supports},B:{cards:[{...clone(room.boss),isBoss:true,projectVMonsterArt:art}]}},result:{timeline:[],supports:{A:supports,B:[]}}},
     playUltimateCinematics:false,reviewOnly};
 }
 export function lichView(room,memberId,since=0) {
@@ -235,7 +286,8 @@ export function lichView(room,memberId,since=0) {
     phase:room.phase,phaseName:PHASES[room.phase-1],round:room.round+1,step:room.step,challenge:room.challenge,
     bossHp:room.boss.hp,bossMaxHp:room.boss.maxHp,roundFloor:Math.round(room.boss.maxHp*PLANS[room.round].floor),
     resources:room.resources,souls:room.souls,doom:room.doom,me:{...member,isHost:member.id===room.hostId},members:room.members,
-    fighters:room.fighters.map(({id,title,hp,maxHp})=>({id,title,hp,maxHp})),failure:room.failure,statistics:room.statistics,
+    fighters:room.fighters.filter(f=>!room.loadouts||f.ownerId===memberId).map(({id,title,hp,maxHp,ownerId,isMercenary})=>({id,title,hp,maxHp,ownerId,isMercenary})),
+    partyFighters:room.fighters.map(({id,title,hp,maxHp,ownerId,ownerName})=>({id,title,hp,maxHp,ownerId,ownerName})),failure:room.failure,statistics:room.statistics,
     events:room.events.filter(e=>e.seq>since),eventSeq:room.eventSeq,startedAt:room.startedAt,finishedAt:room.finishedAt,
     release:LICH_RELEASE});
 }

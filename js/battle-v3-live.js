@@ -5,18 +5,19 @@
   const VERSION = '3.37.0-fluid-combat';
   const BATTLE_RUNTIME = '20260930-speed-combo';
   let battleRuntimeRefresh = null;
-  async function ensureCurrentBattleRuntime() {
-    if (root.ProjectVPixiBattle?.runtimeVersion === BATTLE_RUNTIME) return;
-    if (battleRuntimeRefresh) return battleRuntimeRefresh;
+  async function ensureCurrentBattleRuntime({effects=false}={}) {
+    const ready=()=>root.ProjectVPixiBattle?.runtimeVersion===BATTLE_RUNTIME&&(!effects||Boolean(root.ProjectVPixiBattle.fxRuntime));
+    if (ready()) return;
+    if (battleRuntimeRefresh) { await battleRuntimeRefresh; if(ready())return; return ensureCurrentBattleRuntime({effects}); }
     battleRuntimeRefresh = new Promise((resolve, reject) => {
       root.ProjectVPixiBattle?.destroy?.();
       root.__V3_PIXI_GENERATION = Number(root.__V3_PIXI_GENERATION || 0) + 1;
       root.__V3_PIXI_MOUNTED = false; root.__V3_PIXI_CANVAS = null; root.__V3_PIXI_INIT_PROMISE = null;
       const script = document.createElement('script');
-      script.src = '/preview/project-v-v3/project-v-pixi-battle.bundle.js?battleRuntime=' + BATTLE_RUNTIME;
+      script.src = '/preview/project-v-v3/project-v-pixi-battle.bundle.js?battleRuntime=' + BATTLE_RUNTIME + (effects?'&lichFx=20261001':'');
       script.async = false;
       const timer = setTimeout(() => { script.remove(); reject(new Error('전투 엔진을 새로 불러오지 못했습니다. 다시 입장해 주세요.')); }, 20000);
-      script.onload = () => { clearTimeout(timer); root.ProjectVPixiBattle?.runtimeVersion === BATTLE_RUNTIME ? resolve() : reject(new Error('전투 엔진 버전 확인에 실패했습니다.')); };
+      script.onload = () => { clearTimeout(timer); ready() ? resolve() : reject(new Error('전투 엔진 버전 확인에 실패했습니다.')); };
       script.onerror = () => { clearTimeout(timer); script.remove(); reject(new Error('전투 엔진을 불러오지 못했습니다.')); };
       document.head.appendChild(script);
     }).finally(() => { battleRuntimeRefresh = null; });
