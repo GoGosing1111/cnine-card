@@ -1,0 +1,13 @@
+import fs from 'node:fs/promises';
+const dir=new URL('./fonts/',import.meta.url);await fs.mkdir(dir,{recursive:true});
+const letters='숲켓몬랭크전개편예고시즌종료10.()목20:15';
+const cssUrl='https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@900&text='+encodeURIComponent(letters);
+const cssResponse=await fetch(cssUrl);if(!cssResponse.ok)throw Error('Google Fonts CSS request failed: '+cssResponse.status);
+const css=await cssResponse.text();const match=css.match(/url\((https:\/\/fonts\.gstatic\.com\/[^)]+)\)\s*format\(['"]?(truetype|woff2?)['"]?\)/);
+if(!match)throw Error('Official font URL not found');
+const response=await fetch(match[1]);if(!response.ok)throw Error('Font download failed: '+response.status);
+const bytes=Buffer.from(await response.arrayBuffer());const extension=match[2]==='truetype'?'ttf':match[2];
+const file='NotoSerifKR-ranked-900.'+extension;await fs.writeFile(new URL(file,dir),bytes);
+await fs.copyFile(new URL('../../../assets/fonts/queen/OFL.txt',import.meta.url),new URL('NotoSerifKR-OFL.txt',dir));
+await fs.writeFile(new URL('source.json',dir),JSON.stringify({family:'Noto Serif KR',weight:900,characters:letters,source:cssUrl,format:match[2],file,license:'SIL Open Font License 1.1'},null,2)+'\n');
+console.log(JSON.stringify({file,format:match[2],bytes:bytes.length}));

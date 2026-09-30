@@ -1,0 +1,183 @@
+{
+  "created": "2026-09-30",
+  "version": 1,
+  "purpose": "Ranked reform announcement for review; not published",
+  "output": "ranked-reform-poster-v1.png",
+  "dimensions": [
+    2048,
+    3072
+  ],
+  "artDimensions": [
+    1024,
+    1536
+  ],
+  "artGeneration": "Built-in image_gen; text-free cleanup with same tool",
+  "typography": "All Korean text typeset separately with verified font glyphs; no AI-drawn lettering in final",
+  "fonts": {
+    "serif": {
+      "file": "fonts/NotoSerifKR-ranked-900.ttf",
+      "license": "SIL OFL 1.1"
+    },
+    "body": {
+      "systemFont": "Windows Malgun Gothic",
+      "redistributed": false
+    },
+    "bold": {
+      "systemFont": "Windows Malgun Gothic Bold",
+      "redistributed": false
+    },
+    "mono": {
+      "file": "../../../assets/fonts/clan-camp/IBMPlexMono-Medium.ttf",
+      "license": "SIL OFL 1.1"
+    }
+  },
+  "copy": [
+    "숲켓몬",
+    "SOOPKETMON  /  RANKED",
+    "랭크전",
+    "개편 예고",
+    "더 공정한 경쟁, 더 다양한 전략",
+    "점수 산식 개선 · 매칭 개선 · 용병 밸런스 점검",
+    "10.01(목) 20:15 시즌 종료",
+    "정산·보상 지급 완료 후 랭크전 일시 중지",
+    "현재 시즌 보상은 기존 기준대로 지급됩니다",
+    "재개 일정은 추후 안내"
+  ],
+  "bounds": [
+    {
+      "text": "숲켓몬",
+      "x": 512,
+      "y": 31,
+      "size": 42,
+      "font": "serif",
+      "color": "gold",
+      "left": 903,
+      "top": 62,
+      "width": 242,
+      "height": 83
+    },
+    {
+      "text": "SOOPKETMON  /  RANKED",
+      "x": 512,
+      "y": 93,
+      "size": 13,
+      "font": "mono",
+      "color": "#d9c299",
+      "spacing": 4500,
+      "left": 769,
+      "top": 186,
+      "width": 510,
+      "height": 24
+    },
+    {
+      "text": "랭크전",
+      "x": 512,
+      "y": 139,
+      "size": 166,
+      "font": "serif",
+      "color": "gold",
+      "left": 565,
+      "top": 278,
+      "width": 918,
+      "height": 321
+    },
+    {
+      "text": "개편 예고",
+      "x": 512,
+      "y": 315,
+      "size": 145,
+      "font": "serif",
+      "color": "gold",
+      "left": 436,
+      "top": 630,
+      "width": 1177,
+      "height": 283
+    },
+    {
+      "text": "더 공정한 경쟁, 더 다양한 전략",
+      "x": 512,
+      "y": 494,
+      "size": 36,
+      "font": "bold",
+      "color": "#fbf8ef",
+      "left": 525,
+      "top": 988,
+      "width": 999,
+      "height": 72
+    },
+    {
+      "text": "점수 산식 개선 · 매칭 개선 · 용병 밸런스 점검",
+      "x": 512,
+      "y": 1190,
+      "size": 34,
+      "font": "bold",
+      "color": "#f1dfbc",
+      "left": 326,
+      "top": 2380,
+      "width": 1396,
+      "height": 65
+    },
+    {
+      "text": "10.01(목) 20:15 시즌 종료",
+      "x": 512,
+      "y": 1268,
+      "size": 60,
+      "font": "serif",
+      "color": "gold",
+      "left": 334,
+      "top": 2536,
+      "width": 1380,
+      "height": 128
+    },
+    {
+      "text": "정산·보상 지급 완료 후 랭크전 일시 중지",
+      "x": 512,
+      "y": 1355,
+      "size": 35,
+      "font": "bold",
+      "color": "#fff9ec",
+      "left": 387,
+      "top": 2710,
+      "width": 1275,
+      "height": 66
+    },
+    {
+      "text": "현재 시즌 보상은 기존 기준대로 지급됩니다",
+      "x": 512,
+      "y": 1434,
+      "size": 25,
+      "font": "body",
+      "color": "#d0d6df",
+      "left": 532,
+      "top": 2868,
+      "width": 984,
+      "height": 47
+    },
+    {
+      "text": "재개 일정은 추후 안내",
+      "x": 512,
+      "y": 1474,
+      "size": 25,
+      "font": "body",
+      "color": "#d0d6df",
+      "left": 778,
+      "top": 2948,
+      "width": 493,
+      "height": 47
+    }
+  ],
+  "season": {
+    "name": "시즌 18",
+    "endKst": "2026-10-01T20:15:04+09:00",
+    "pause": "After settlement and reward delivery",
+    "reopen": null
+  },
+  "unconfirmed": [
+    "Daily match limits",
+    "Separate match mode",
+    "Specific balance values",
+    "Reopening date"
+  ],
+  "sha256": "ed99b5ef62f2cab52d39a07dce0bbdc10d68f45d53a274194d1636d35287a211",
+  "artSha256": "fe45035accf49d7437c95da40ee6fa729972615f9067d0452d5f21f1e098ca2e"
+}

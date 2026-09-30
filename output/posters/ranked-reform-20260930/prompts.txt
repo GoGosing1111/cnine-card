@@ -1,0 +1,26 @@
+Use case: ads-marketing.
+Create a finished, exceptionally polished Korean fantasy strategy-game ranked-reform announcement poster for 숲켓몬 / SOOPKETMON. Portrait 2:3 composition, highest available resolution. This is a public announcement poster, with both masterful original illustration and exquisitely typeset, perfectly legible Korean typography. It must look like a premium major game studio campaign.
+
+Art direction: high-end painterly 2D fantasy splash art, clean confident forms, refined controlled brushwork and beautiful carefully resolved materials. A monumental nocturnal tournament arena, dark blue-black stone and elegant gold architectural edges, deep cinematic perspective toward a central championship dais. Restrained electric-blue light from one side and deep crimson light from the opposite side converge symmetrically around the arena, communicating fair competition. A single magnificent gold-and-sapphire championship crest with a sculpted central faceted sapphire shield and elegant upswept wing silhouettes is the main artwork in the middle. Beautiful believable polished gold with broad coherent highlights and translucent sapphire depth; precise silhouette, no random ornamental clutter. Soft luminous atmospheric beams, subtle embers, believable scale, richly detailed but visually calm. Not a photorealistic scene and not a plastic 3D render. No people or invented playable characters, no weapons clutter, no cartoon mascot. Do not place artwork inside cards or information panels: one coherent, full-bleed illustrated composition.
+
+Layout: generous safe margins, striking editorial hierarchy. Brand at the top, huge powerful custom Hangul headline in the upper third, championship illustration in the central middle, concise improvement themes then date/status information in the lower quarter. Dark, quiet regions behind all typography. Typography must be crisply authored, with precise Korean characters, careful kerning and line spacing; headline has elegant subtle ivory/champagne material rather than gaudy extruded metallic letters. Use the few lines below only, with no extra invented text. Bottom text must remain large enough to read on a phone. Preserve luxurious negative space; absolutely no dashboard cards, boxed feature lists, excessive rules, neon rainbow glows or stock-template look.
+
+Exact text, verbatim, in this hierarchy:
+Small brand: "숲켓몬"
+Very small spaced English label: "SOOPKETMON RANKED"
+Largest main headline, two lines:
+"랭크전"
+"개편 예고"
+Supporting headline: "더 공정한 경쟁, 더 다양한 전략"
+Lower feature line: "점수 산식 개선 · 매칭 개선 · 용병 밸런스 점검"
+Prominent lower date line: "10.01(목) 20:15 시즌 종료"
+Important explanatory line immediately below: "정산·보상 지급 완료 후 랭크전 일시 중지"
+Footer: "현재 시즌 보상은 기존 기준대로 지급됩니다"
+Final footer: "재개 일정은 추후 안내"
+
+Important factual distinction: October 1 at 20:15 is the CURRENT SEASON END, NOT an opening or update launch date. The temporary ranked pause begins AFTER settlement and reward delivery. The reopening date is not announced. Do not add OPEN, Grand Opening, season 19 start, daily match limits, compensation or any unconfirmed promise.
+The image should feel arresting, prestigious, detailed, extremely clean and ready for actual publication, not a rough concept. No watermarks.
+
+--- TEXT-FREE MASTER EDIT ---
+
+undefined

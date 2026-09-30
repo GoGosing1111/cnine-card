@@ -1,0 +1,17 @@
+{
+  "checkedAt": "2026-09-30",
+  "final": "ranked-reform-poster-v1.png",
+  "dimensions": [2048, 3072],
+  "artDimensions": [1024, 1536],
+  "brandExact": "숲켓몬",
+  "allKoreanTypesetWithRealFonts": true,
+  "visualChecks": ["full poster", "390px mobile", "brand glyph enlargement"],
+  "copyCheckedAgainstNotice": true,
+  "seasonEndKst": "2026-10-01T20:15:04+09:00",
+  "pauseAfterSettlementAndRewards": true,
+  "reopeningDateAnnounced": false,
+  "dailyMatchLimitAnnounced": false,
+  "published": false,
+  "gameRuntimeChanged": false,
+  "automationId": "18"
+}
