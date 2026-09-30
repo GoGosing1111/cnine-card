@@ -39,11 +39,13 @@ export function collectionMasteryMet(cards, vehicles) {
 export async function readCollectionMastery(env, userId) {
   // Start from the visible catalogue: unrelated/inactive holdings cannot fill a
   // missing entry, and copies of the same card/vehicle never increase progress.
+  // ICON is excluded from both card totals and ownership for this title.
   const [cards, vehicles] = await Promise.all([
     env.DB.prepare(`SELECT COUNT(*) AS total,COALESCE(SUM(CASE WHEN EXISTS(
       SELECT 1 FROM user_cards u WHERE u.user_id=? AND u.card_id=c.id AND COALESCE(u.quantity,0)>0
       ) THEN 1 ELSE 0 END),0) AS owned FROM cards_effective_v1210 c
-      WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC'`).bind(userId).first(),
+      WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC'
+        AND COALESCE(c.rarity,'')<>'ICON'`).bind(userId).first(),
     env.DB.prepare(`SELECT COUNT(*) AS total,COALESCE(SUM(CASE WHEN EXISTS(
       SELECT 1 FROM user_garage_vehicles u WHERE u.user_id=? AND u.garage_id=g.id
       ) THEN 1 ELSE 0 END),0) AS owned FROM character_garage_items g WHERE g.is_active=1 AND g.is_public=1`).bind(userId).first()

@@ -11,7 +11,7 @@ const schema = `
 CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT);
 CREATE TABLE character_titles(id INTEGER PRIMARY KEY AUTOINCREMENT,code TEXT UNIQUE,name TEXT,description TEXT,badge_text TEXT,image_url TEXT,pve_power INTEGER,unlock_type TEXT,unlock_config_json TEXT,style_preset TEXT,is_active INTEGER,is_public INTEGER,sort_order INTEGER);
 CREATE TABLE user_character_titles(user_id INTEGER,title_id INTEGER,source_type TEXT,source_id TEXT,PRIMARY KEY(user_id,title_id));
-CREATE TABLE cards_effective_v1210(id TEXT PRIMARY KEY,is_active INTEGER,card_status TEXT);
+CREATE TABLE cards_effective_v1210(id TEXT PRIMARY KEY,is_active INTEGER,card_status TEXT,rarity TEXT DEFAULT 'C');
 CREATE TABLE user_cards(user_id INTEGER,card_id TEXT,quantity INTEGER,PRIMARY KEY(user_id,card_id));
 CREATE TABLE character_garage_items(id INTEGER PRIMARY KEY,is_active INTEGER,is_public INTEGER);
 CREATE TABLE user_garage_vehicles(user_id INTEGER,garage_id INTEGER,PRIMARY KEY(user_id,garage_id));
@@ -63,6 +63,35 @@ test('exact collection thresholds: no rounding, empty catalogues cannot qualify'
 
 for (const postgres of [false, true]) {
   const label = postgres ? 'PostgreSQL' : 'SQLite';
+  test(`${label}: ICON cards never change completionist progress or replace missing required cards`, async t => {
+    const f = await fixture(t, postgres); await ensureAchievementTitles(f.env);
+    for (const [id, rarity] of [['c1','C'],['c2','FUR'],['c3','SUPERSTAR'],['c4','ZENITH'],['icon-owned','ICON'],['icon-missing','ICON']]) {
+      await f.p("INSERT INTO cards_effective_v1210 VALUES(?,1,'PUBLIC',?)", id, rarity).run();
+      if (!['c4','icon-missing'].includes(id)) await f.p('INSERT INTO user_cards VALUES(7,?,100)', id).run();
+    }
+    for (let i = 1; i <= 10; i++) {
+      await f.p('INSERT INTO character_garage_items VALUES(?,1,1)', i).run();
+      if (i < 10) await f.p('INSERT INTO user_garage_vehicles VALUES(7,?)', i).run();
+    }
+    let mastery = await readCollectionMastery(f.env,7);
+    assert.deepEqual(mastery, { cards: { owned:3,total:4 }, vehicles: { owned:9,total:10 } });
+    assert.deepEqual((await syncAchievementTitles(f.env,7)).granted, [], 'owned ICON copies cannot replace a missing ZENITH');
+    await f.p("INSERT INTO user_cards VALUES(7,'c4',1)").run();
+    mastery = await readCollectionMastery(f.env,7);
+    assert.deepEqual(mastery.cards, { owned:4,total:4 });
+    const first = await syncAchievementTitles(f.env,7);
+    assert.equal(first.progress.COLLECTION_COMPLETIONIST.complete, true, 'unowned public ICON does not block 100%');
+    assert.equal(first.granted.length, 1);
+    await f.p("INSERT INTO cards_effective_v1210 VALUES('icon-new',1,'PUBLIC','ICON')").run();
+    assert.deepEqual((await readCollectionMastery(f.env,7)).cards, { owned:4,total:4 }, 'new public ICON preserves 100%');
+    assert.deepEqual((await syncAchievementTitles(f.env,7)).granted, [], 'earned title is retained without another grant');
+    assert.equal(Number((await f.p("SELECT COUNT(*) n FROM user_character_titles u JOIN character_titles t ON t.id=u.title_id WHERE u.user_id=7 AND t.code='COLLECTION_COMPLETIONIST'").first()).n), 1);
+    await f.p("DELETE FROM cards_effective_v1210 WHERE rarity<>'ICON'").run();
+    mastery = await readCollectionMastery(f.env,7);
+    assert.deepEqual(mastery.cards, { owned:0,total:0 });
+    assert.equal(collectionMasteryMet(mastery.cards,mastery.vehicles), false, 'an ICON-only catalogue cannot qualify');
+  });
+
   test(`${label}: new marker seeds on an already initialized installation; failed seed rolls back and preserves CMS edits on retry`, async t => {
     const f = await fixture(t, postgres);
     await f.p("INSERT INTO app_meta(key,value) VALUES('old-foundation','1')").run();
@@ -107,12 +136,12 @@ for (const postgres of [false, true]) {
   test(`${label}: visible distinct card/vehicle ownership, official trophy kinds, atomic grants and lost-response retries`, async t => {
     const f = await fixture(t, postgres); await ensureAchievementTitles(f.env);
     for (let i = 1; i <= 10; i++) {
-      await f.p("INSERT INTO cards_effective_v1210 VALUES(?,1,'PUBLIC')", 'c'+i).run();
+      await f.p("INSERT INTO cards_effective_v1210(id,is_active,card_status) VALUES(?,1,'PUBLIC')", 'c'+i).run();
       await f.p('INSERT INTO user_cards VALUES(7,?,100)', 'c'+i).run();
       await f.p('INSERT INTO character_garage_items VALUES(?,1,1)', i).run();
       if (i < 10) await f.p('INSERT INTO user_garage_vehicles VALUES(7,?)', i).run();
     }
-    await f.p("INSERT INTO cards_effective_v1210 VALUES('inactive',0,'PUBLIC'),('hidden',1,'DRAFT'),('retired',1,'RETIRED')").run();
+    await f.p("INSERT INTO cards_effective_v1210(id,is_active,card_status) VALUES('inactive',0,'PUBLIC'),('hidden',1,'DRAFT'),('retired',1,'RETIRED')").run();
     await f.p('INSERT INTO character_garage_items VALUES(11,0,1),(12,1,0)').run();
     await f.p("INSERT INTO user_cards VALUES(7,'inactive',999),(8,'c10',1)").run();
     await f.p("UPDATE user_cards SET quantity=0 WHERE user_id=7 AND card_id='c10'").run();
