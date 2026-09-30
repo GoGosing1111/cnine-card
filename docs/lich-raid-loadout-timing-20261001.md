@@ -22,10 +22,19 @@
 - 브라우저: `tests/lich-raid-loadout-timing-20261001.browser.mjs` 통과. 로컬 SQLite와 합성 계정 3개, 실제 도감 카드 원화·SD·등급 프레임·V3 자산을 사용했다. 운영 API·실계정 재화는 사용하지 않았다.
 - PC 1440×1000 / 모바일 390×844: 대기방 위치, 전장 전체 화면, 계정별 카드 순서, 용병·배틀슈트 표시, 공유 보스 HP, 전이·차단·구출 입력, 처리 안내, 추가 GET 없는 응답 적용, 안정된 버튼, 44px 이상 모바일 버튼, 나가기 후 대기방/스크롤 복귀 확인. 브라우저 예외 0개.
 - 시각 검수 PNG: `C:/Users/User/AppData/Local/Temp/lich-party-cwc0oB/`의 PC 공격 화면과 모바일 복합 기믹 화면. 확대된 리치왕의 전신과 하단 카드 도크가 잘리지 않았다.
-- 최초 관련 서버 회귀 19개와 편성·서버 피해·기믹 시각 회귀를 개발 중 확인했다. 최종 서버 변경과 공용 효과 캐시 경로는 아래 지정 배포 과정에서 관련 테스트를 한 번 실행한다.
+- 최초 관련 서버 회귀 19개와 편성·서버 피해·기믹 시각 회귀를 개발 중 확인했다. 최종 서버 변경과 공용 효과 캐시 경로는 아래 지정 배포 과정에서 선택한 관련 테스트 35개가 통과했다.
 - 직전 실제 운영: Pages `adf07a34-fd3f-4598-9533-d4fe4b2ba7ee`, 소스 `4d2c6d1e40870d6ad82480fbe8caf1d9fe7e6ae9`. Cloudflare 배포 메타데이터에서 확인했다. 이후 main에 추가된 운영 처리 스크립트·기록은 게임 런타임 변경이 아니며 이번 배포에서 실행하지 않는다.
 - 분류: 리치왕 국소 버그 수정과 동일 Pixi 객체를 위한 공용 참조 노출·캐시 갱신. 인증·세션·DB/트랜잭션 기반·의존성·인프라 변경이 없다. 공용 전투 계산·진형 변경도 없다. 범위 배포를 사용하고 출시 상태·보상 잠금은 유지한다.
 - 최종 선택: `tests/lich-king-raid-v1.test.mjs`, `tests/lich-raid-live-20260928.test.mjs`, `tests/lich-raid-loadout-timing-20261001.test.mjs`, `tests/lich-raid-inline-entry-20260929.test.mjs`, `tests/pve-battlefield-entry-v2117.test.mjs`. 리치왕 서버/공대 거래 회귀와 실제 메인·번들·PVE/PVP 진입, 같은 버전 효과 캐시 교체만 검증한다.
 - 배포: `npm run deploy:production -- --scoped`, 위 테스트와 `check:worker`. 깨끗한 범위 커밋, origin/main 일치, 기능 플래그·캐시·Hyperdrive·private API runtime 검사를 유지한다. 이미 통과한 브라우저 검수는 반복하지 않는다.
 
 이전 출정 공대의 편성 스냅샷은 소급 교체하지 않는다. 편성 수정은 새 공대로 검수한다.
+
+## 운영 반영 완료
+
+- 운영 소스 커밋: `c8eba4a149a94ca713f95bc9c041512dfe3bec74`. 깨끗한 작업 트리에서 origin/main과 일치한 상태로 `npm run deploy:production -- --scoped`가 종료 코드 0으로 완료됐다.
+- Pages: `e6eb3e4f-faa8-4179-84a7-c93824576ae8`, https://e6eb3e4f.cnine-card.pages.dev. Cloudflare 운영 배포 메타데이터의 소스 커밋과 완료 상태 `success`를 확인했다.
+- API runtime 버전: `69b29e30-4082-481a-88bd-c14e1f1ff332`. 기존 배포 절차의 clan-draft 버전: `a50dd1cb-886e-47a6-8bcf-1388b7637b72`.
+- 지정 테스트 35개, `check:worker`, 운영 출시 플래그·보상 잠금·캐시·private API runtime 검사 통과. Hyperdrive `12ed48b0fb374f82a610cc1daba92e95`의 query cache OFF를 확인했다.
+- 짧은 운영 확인: `cnine-card.pages.dev`에서 메인 HTML, 리치왕 진입 스크립트·페이지·live 모듈·inline CSS·전투 번들, 공용 V3 래퍼·Pixi 번들 총 8개가 HTTP 200이며 로컬 배포본과 줄바꿈을 정규화한 SHA-256이 일치했다. `/api/raid/lich/feature`의 비인증 요청은 401로 보호됐다.
+- 실계정 입장·출정·티켓 소비는 운영 확인에서 실행하지 않았다. 계정별 편성·기믹·PC/모바일 조작은 위 로컬 3인 브라우저 검수로 확인했다. 이 완료 기록만 추가하는 후속 커밋은 문서 변경이므로 재검사·재배포하지 않는다.
