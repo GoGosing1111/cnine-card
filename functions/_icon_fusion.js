@@ -75,12 +75,15 @@ export async function runIconFusion(env,user,body,{randomInt=mercenaryRandomInt}
       return {version:1,input,policy:{...POLICY},materials,target,targetQuantityBefore:Number(targetOwned?.quantity||0),targetRowExists:Boolean(targetOwned),success:roll<POLICY.successChancePpm,roll,successVideo:{url:settings.successVideoUrl,durationMs:settings.successVideoDurationMs},createdAt:new Date().toISOString()};
     },
     statements:async plan=>{
+      // OFF also blocks payment for a previously prepared, unpaid request.
+      const settingsRow=await p('SELECT value FROM app_meta WHERE key=?',ICON_FUSION_SETTINGS_KEY).first();
+      if(!ICON_FUSION_RELEASE_ENABLED||!parseSettings(settingsRow).enabled)throw fail('CLOSED','현재 아이콘 합성은 잠겨 있습니다. 최종 검토 후 오픈합니다.');
       const current=(await p('SELECT card_id,quantity,breakthrough_level FROM user_cards WHERE user_id=? AND card_id IN (?,?)',user.id,input.superstarId,input.furId).all()).results;
       const used=deckIds(await readDecks(DB,user.id));
       if(plan.materials.some(m=>{const c=current.find(row=>String(row.card_id)===m.id);return !c||Number(c.quantity)!==m.quantityBefore||Number(c.breakthrough_level)!==13||used.has(m.id);}))throw Object.assign(fail('STALE','재료 또는 편성이 변경되어 합성을 취소했습니다. 재료는 소모되지 않았습니다.'),{terminal:true});
       const targetNow=await p('SELECT quantity FROM user_cards WHERE user_id=? AND card_id=?',user.id,plan.target.cardId).first();
       if(plan.success&&(Boolean(targetNow)!==plan.targetRowExists||Number(targetNow?.quantity||0)!==plan.targetQuantityBefore))throw Object.assign(fail('STALE','아이콘 보유 상태가 변경되어 합성을 취소했습니다. 재료는 소모되지 않았습니다.'),{terminal:true});
-      const token=crypto.randomUUID(),conditions=[],values=[];
+      const token=crypto.randomUUID(),conditions=['EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)'],values=[ICON_FUSION_SETTINGS_KEY,settingsRow.value];
       for(const m of plan.materials){conditions.push('EXISTS(SELECT 1 FROM user_cards WHERE user_id=? AND card_id=? AND quantity=? AND breakthrough_level=13)');values.push(user.id,m.id,m.quantityBefore);}
       for(const table of deckTables){conditions.push(`NOT EXISTS(SELECT 1 FROM ${table} d,json_each(d.card_ids) j WHERE d.user_id=? AND CAST(j.value AS TEXT) IN (?,?))`);values.push(user.id,input.superstarId,input.furId);}
       conditions.push("EXISTS(SELECT 1 FROM cards_effective_v1210 WHERE id=? AND rarity='ICON' AND is_active=1 AND card_status='PUBLIC')");values.push(plan.target.cardId);

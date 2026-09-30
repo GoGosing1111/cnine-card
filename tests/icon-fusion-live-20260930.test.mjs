@@ -16,6 +16,21 @@ test('approved recipe, exact Korean units and same-site video paths',()=>{
 });
 for(const postgres of [false,true]){
  const mode=postgres?'PostgreSQL':'SQLite';
+ test(`${mode}: review lock leaves all seven visible, blocks new and pending payments, and fails closed without settings`,async t=>{
+  const f=await iconFusionFixture(t,{postgres}),body=f.body(),before=await f.snapshot();
+  f.fail('INSERT INTO user_cards');await assert.rejects(()=>runIconFusion(f.env,f.user,body,{randomInt:()=>0}));f.fail('');
+  await f.setting('icon_fusion_settings_v1',{revision:2,enabled:false,successVideoUrl:'',successVideoDurationMs:12000});
+  const overview=await iconFusionOverview(f.env,f.user);assert.equal(overview.enabled,false);assert.equal(overview.catalog.length,7);assert.equal(overview.materials.length,2);
+  for(const request of [body,f.body()])await assert.rejects(()=>runIconFusion(f.env,f.user,request),{code:'ICON_FUSION_CLOSED'});
+  assert.equal((await iconFusionReceipt(f.env,f.user,body.requestId)).status,'PENDING');assert.deepEqual(await f.snapshot(),before);
+  await f.p('DELETE FROM app_meta WHERE key=?','icon_fusion_settings_v1').run();assert.equal((await iconFusionOverview(f.env,f.user)).enabled,false);await assert.rejects(()=>runIconFusion(f.env,f.user,body),{code:'ICON_FUSION_CLOSED'});
+  assert.deepEqual(await f.snapshot(),before);assert.equal(Number((await f.p('SELECT COUNT(*) n FROM coin_logs WHERE user_id=7').first()).n),0);
+ });
+ test(`${mode}: switching OFF immediately before payment rolls the whole attempt back`,async t=>{
+  const f=await iconFusionFixture(t,{postgres}),before=await f.snapshot(),batch=f.DB.batch.bind(f.DB);
+  f.DB.batch=async statements=>{if(statements.some(s=>s.source?.includes("SET status='COMPLETED'")))await f.setting('icon_fusion_settings_v1',{revision:2,enabled:false,successVideoUrl:'',successVideoDurationMs:12000});return batch(statements);};
+  await assert.rejects(()=>runIconFusion(f.env,f.user,f.body(),{randomInt:()=>0}));assert.deepEqual(await f.snapshot(),before);
+ });
  test(`${mode}: 10% boundary success consumes one enhanced copy of each grade, charges atomically and replays`,async t=>{
   const f=await iconFusionFixture(t,{postgres}),body=f.body(),result=await runIconFusion(f.env,f.user,body,{randomInt:()=>99999});
   assert.equal(result.success,true);assert.equal(result.target.code,'ICON-ORIKKUNG');assert.equal(result.result.quantity,1);

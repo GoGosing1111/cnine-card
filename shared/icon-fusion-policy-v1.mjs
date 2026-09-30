@@ -1,6 +1,6 @@
 import {ICON_CARD_ROSTER} from './icon-card-roster-v1.mjs';
 
-// User-approved release and recipe, 2026-09-30. Effect tuning stays in its CMS draft.
+// Public browsing stays available. Synthesis needs explicit ON after final review.
 export const ICON_FUSION_RELEASE_ENABLED = true;
 export const ICON_FUSION_POLICY = Object.freeze({
   version:1, coinCost:100000000000, masterStarCost:5000000,
@@ -13,7 +13,7 @@ export const ICON_LIVE_CARDS = Object.freeze(ICON_CARD_ROSTER.map((card,index)=>
   ...card,cardId:`CN-1C00000${index+1}`,grade:'ICON',basePower:180000,releaseEnabled:true
 })));
 export const ICON_FUSION_SETTINGS_KEY='icon_fusion_settings_v1';
-export const ICON_FUSION_DEFAULT_SETTINGS=Object.freeze({revision:1,enabled:true,successVideoUrl:'',successVideoDurationMs:12000});
+export const ICON_FUSION_DEFAULT_SETTINGS=Object.freeze({revision:1,enabled:false,successVideoUrl:'',successVideoDurationMs:12000});
 export function validateIconVideoUrl(value){
   if(typeof value!=='string'||value.length>500)throw Error('영상 경로를 확인해 주세요.');
   if(!value)return '';
