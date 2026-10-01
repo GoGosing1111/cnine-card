@@ -1,0 +1,62 @@
+{
+  "format": "SOOPKETMON_EVENT_POSTER_V1",
+  "id": "coup-dimwoos-heeya-20261002-v1",
+  "title": "쿠데타",
+  "createdDate": "2026-10-02",
+  "status": "DELIVERED_FOR_USER_VISUAL_REVIEW",
+  "scope": "PROMOTIONAL_POSTER_ASSET_ONLY",
+  "openingDisplay": "10월 2일 23:00 개막",
+  "openingTimeZone": "Asia/Seoul",
+  "exactCopy": [
+    "숲켓몬",
+    "혁명의 밤은 짧지만",
+    "그 영광은 오래 갈것이다",
+    "쿠데타",
+    "10월 2일 23:00 개막"
+  ],
+  "references": [
+    {
+      "character": "딤우스",
+      "role": "FACE_AND_HAIR_IDENTITY_ONLY_UNIFORM_REPLACED",
+      "path": "preview/avatar-fm-dimwoos-v1/assets/avatar-fm-dimwoos-lobby-source-art-v3.png",
+      "sha256": "1BCCB2CC6D22DBB061784E1297E740C86418AF39FBCC24535AB725442AE71664"
+    },
+    {
+      "character": "하이희야",
+      "role": "FACE_HAIR_AND_WHITE_LG_UNIFORM_REFERENCE",
+      "path": "preview/avatar-lg-hi-heeya-uniform-v1/assets/avatar-lg-hi-heeya-lobby-source-art-v2.png",
+      "sha256": "DC4CD9CFA2A482BF9499463AB5CAE58BBC403AC503AF1CFECCC7EDDBB39C7B42"
+    }
+  ],
+  "generation": {
+    "mode": "BUILT_IN_IMAGE_GEN",
+    "useCase": "ads-marketing",
+    "fallbackUsed": false,
+    "codeImageEditingUsed": false,
+    "prompt": "Create a finished, premium Korean game-event theatrical poster for 숲켓몬, titled \"쿠데타\". This is fictional in-game promotional artwork with two existing ADULT female game avatars, not a real-world political campaign. Portrait 2:3, highest available native resolution, minimum 1024x1536. Opaque full-bleed RGB-style image. Extremely polished, clean high-end 2D semi-real painterly character illustration, carefully finished faces, restrained atmospheric cinematic drama. NOT live-action photography, NOT 3D render, NOT chibi.\n\nREFERENCE ROLES:\nReference image 1 is the approved FM Dimwoos avatar. It is the SOLE identity reference for the main foreground woman: preserve her exact recognizable face shape, jaw, dark eyes and eye spacing, eyebrows, nose, lips, long straight dark hair and wispy bangs. Her clothing is to be replaced. Do not copy her source head tilt, standing pose, lounge background or FM uniform.\nReference image 2 is the latest approved LG Hi Heeya avatar. It is the SOLE identity reference for the second adult woman: preserve her recognizable face, eyes, brows, nose, lips and side-parted long dark brown flowing hair. Keep the essential character of her elegant white tailored uniform jacket with black lapels, very restrained burgundy-pink piping and dark skirt, but design a fresh scene and pose. No facial feature mixing between the two references. Do not import a third face.\n\nCOMPOSITION:\nA masterfully art-directed movie one-sheet rather than a game dashboard. Dimwoos occupies the left/center foreground, thigh-up and commanding, about 55% of the character area, with a firm, composed gaze slightly past the camera. Hi Heeya is on the right, slightly behind but clearly prominent with a face nearly the same readable size, turned subtly toward the opposing diagonal, poised and resolute. Both belong in one integrated scene, not pasted cutouts or two rectangular portraits. Their heads do not overlap. Fresh poses and camera angle. Faces large enough to retain identity. Leave sophisticated clean dark negative space at the top for two lines of Korean slogan, and the lower quarter for the monumental title and opening date.\n\nDIMWOOS WARDROBE:\nCredible modern Republic of Korea Army woodland digital camouflage combat uniform: structured long-sleeved blouse, real fabric folds, practical full-length combat trousers, modest olive tactical vest or webbing, small correctly drawn South Korean flag patch on the upper arm. Authentic greens, taupe and dark brown digital pixel camouflage. No baseball outfit, no skirt, no exposed midriff, no fantasy armored bikini. Head uncovered so her face and established bangs remain visible. Do not add rank insignia implying any real individual.\n\nOne clean, believable K2-style black/olive service rifle, held diagonally at a low ready across her torso with the muzzle directed toward an empty lower side, away from any person. Both hands anatomically natural, exactly five fingers, correct supportive grip. Weapon is ONE RIGID BODY: establish the straight receiver-to-barrel-to-muzzle centerline first. Stock, receiver, handguard, barrel, front sight and muzzle must connect with mechanically consistent alignment and perspective. Upper rail straight; barrel top and bottom edges straight, no droop, no kink at support hand, no bent muzzle, no displaced receiver axis. Fit wrists and arms to the straight weapon, never warp the weapon to fit the hands. Keep the entire weapon from stock to muzzle visible and unobscured for inspection. No second weapon.\n\nSCENE AND ART DIRECTION:\nNight, a broad rain-darkened urban command plaza with a distant abstract fortified headquarters, subtle searchlight shafts through cool mist and a few dim amber lights. This is an invented game setting, not an identifiable real government building. Very restrained tiny distant troop silhouettes only if needed for scale, no crowds taking attention away. Rich ink blue/charcoal night, muted military olive, small controlled warm amber glow and burgundy accents. A faint pale late-night horizon provides a lyrical sense of a brief night with enduring glory. No explosions, blood, victims or aggressive propaganda symbols. Lighting integrates both characters: beautiful cool rim light, soft warm facial key light, convincing fabric and metal material separation. Clean deliberate edges and rich tonal depth, not muddy clutter, cheap lens flares, excess embers or oversharpening. Adult natural body proportions and believable hands.\n\nHAIR:\nNatural continuous organic hair flow from root to tip, soft fine strands and subtle volume. Preserve each woman's different parting and bangs. NO separated thick plates, ribbons or blade-shaped hair, NO stepped layers or plastic bands of shine. Restrained wind direction.\n\nEXACT TYPOGRAPHY, render the Korean correctly and cleanly:\nAt the very top, tiny refined brand text: \"숲켓몬\"\nBelow it, a spacious elegant ivory Korean slogan in TWO lines:\n\"혁명의 밤은 짧지만\"\n\"그 영광은 오래 갈것이다\"\nAt the lower quarter, very large, beautifully designed bold Korean film title:\n\"쿠데타\"\nUse a sophisticated solid heavyweight Hangul treatment, subtle brushed ivory or pale metal finish with restrained texture, razor readable, not a beveled fantasy videogame logo. All three syllable blocks perfectly formed, balanced letter spacing.\nBelow the title, clearly readable opening line:\n\"10월 2일 23:00 개막\"\n\nThese are the only poster texts. No added credits, character names, English subtitles, dates, labels or slogans. The slogan spelling and spacing must be exactly as specified, including \"갈것이다\". No UI panels, frames, buttons, badges, watermark or fake signatures. Keep text entirely unobscured, with generous safe margins and enough contrast at phone size.\n\nFINAL QUALITY BAR:\nA finished collector-grade Korean event poster with striking composition, exceptional likeness to BOTH references, clean anatomy, correct national flag patch, truly straight rigid rifle, naturally flowing hair, pristine Korean typography and the exact opening time."
+  },
+  "output": {
+    "path": "assets/posters/coup-dimwoos-heeya-20261002-v1.png",
+    "width": 1024,
+    "height": 1536,
+    "color": "RGB",
+    "sha256": "BFF2239FA952D025CD7F1FBDDB3DF665D64EA8806EB1AE2F29B7EA6677417627",
+    "bytes": 3047485,
+    "processing": "UNCHANGED_BINARY_COPY"
+  },
+  "visualInspection": {
+    "exactKoreanCopy": "Requested slogan, title and October 2 23:00 opening line visually checked.",
+    "identity": "FM Dimwoos bangs/face and LG Hi Heeya side-parted hair/face remain distinguishable.",
+    "clothing": "Dimwoos wears a green digital camouflage combat uniform, tactical vest and Korean flag patch. Hi Heeya retains white, black and burgundy LG uniform elements.",
+    "rigidWeapon": "Whole rifle inspected from stock and receiver through handguard and muzzle. Receiver/handguard/barrel axis remains straight with consistent rail perspective; no visible droop or kink at support hand.",
+    "hair": "Continuous strands and soft natural flow checked; no plate-like stepped hair layers.",
+    "composition": "Two faces and all key typography are unobscured; lower title and opening line readable at reduced display size.",
+    "approval": "Technical visual inspection only; final user art approval remains separate."
+  },
+  "boundaries": {
+    "originalReferencesModified": false,
+    "avatarRegistrationChanged": false,
+    "gameScheduleConfigured": false,
+    "gameplayChanged": false
+  }
+}
