@@ -219,7 +219,11 @@ test('번들이 소스와 같은 계약을 담고 있다', () => {
 });
 
 test('캐시 태그가 갱신되어 있다', () => {
-  assert.match(appSrc, /project-v-pixi-battle\.bundle\.js\?v=106-combat-flow/);
+  const resource=appSrc.match(/['"]([^'"\n]*project-v-pixi-battle\.bundle\.js\?[^'"\n]+)['"]/)?.[1];
+  assert.ok(resource,'main loader must retain the cache-versioned V3 bundle');
+  const params=new URL(resource,'https://test.invalid/').searchParams;
+  assert.equal(params.get('v'),'106-combat-flow');
+  assert.equal(params.get('coop'),bundleSrc.match(/runtimeVersion:\s*["']([^"']+)["']/)[1]);
   assert.match(read('service-worker.js'), /const SHELL_CACHE='soop-card-shell-v2108-shared-navigation(?:-[a-z0-9]+)*'/);
 });
 

@@ -50,6 +50,12 @@ test('explicit interruption resumes the entire incomplete stage while preserving
   const runtime=fixture({changed:['functions/live.js'],log});
   assert.throws(()=>fullGateResumePlan({...runtime,env:{...runtime.env,RELEASE_GATE_RESUME_INTERRUPTED:'1',RELEASE_GATE_RESUME_REASON:env.RELEASE_GATE_RESUME_REASON}}));
 });
+test('legacy .mjs test entries are reusable only when directly registered in the unchanged gate',()=>{
+  const f=fixture({changed:['tests/b.mjs']});
+  f.scripts['test:b']='node --test tests/b.mjs';
+  assert.equal(fullGateResumePlan(f).reused,1);
+  assert.throws(()=>fullGateResumePlan(fixture({changed:['tests/unregistered.mjs']})),/Cannot map changed test/);
+});
 
 test('an isolated raid UI fix reuses unrelated stages only with matching successful browser evidence',()=>{
   const file='raid/cooperative/live.mjs',runner='tests/cooperative-battleground.browser.mjs',source='const loaded=true;';

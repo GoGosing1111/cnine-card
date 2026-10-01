@@ -50,7 +50,9 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
   for(const path of changed){
     if(path==='AGENTS.md'||path.startsWith('docs/')||tooling.has(path))continue;
     if(browserProof.has(path))continue;
-    if(!/^tests\/[^/]+\.test\.mjs$/.test(path))throw Error(`Runtime/shared helper changed (${path}): run a fresh full gate.`);
+    // Legacy gate entry points also use .mjs without the .test suffix. Require
+    // direct membership in a gate command below; shared helpers remain excluded.
+    if(!/^tests\/[^/]+\.mjs$/.test(path))throw Error(`Runtime/shared helper changed (${path}): run a fresh full gate.`);
     let matched=false;
     for(let i=0;i<names.length-1;i++)if(scripts[names[i]].split(/\s+/).includes(path)){matched=true;if(i<failedIndex)rerun.add(i);}
     if(!matched)throw Error(`Cannot map changed test to the full gate: ${path}`);
