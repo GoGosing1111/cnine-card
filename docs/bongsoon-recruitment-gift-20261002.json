@@ -1,0 +1,611 @@
+{
+  "checkedAt": "2026-10-01T15:22:35.197Z",
+  "verification": {
+    "granted": 10,
+    "skipped": 41,
+    "totalAccounts": 51,
+    "grantLogs": 10,
+    "onceMarkers": 51
+  },
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:bongsoon-recruitment-gift:20261002:once:v1",
+    "planHash": "11e572e677661534d1c273ecb728ba4f7fe9337a2052e082a180868c43d3ebab",
+    "itemCode": "RECRUITMENT_GIFT_BOX",
+    "amountEach": 1,
+    "maxPerAccount": 1,
+    "allocations": [
+      {
+        "userId": 71,
+        "nickname": "진땅콩_",
+        "before": {
+          "quantity": "0",
+          "unseenQuantity": "0"
+        },
+        "after": {
+          "quantity": "1",
+          "unseenQuantity": "1"
+        },
+        "logId": "42566360"
+      },
+      {
+        "userId": 81,
+        "nickname": "비쥬얼깡패",
+        "before": {
+          "quantity": "0",
+          "unseenQuantity": "0"
+        },
+        "after": {
+          "quantity": "1",
+          "unseenQuantity": "1"
+        },
+        "logId": "42566361"
+      },
+      {
+        "userId": 148,
+        "nickname": "혜루",
+        "before": {
+          "quantity": "0",
+          "unseenQuantity": "0"
+        },
+        "after": {
+          "quantity": "1",
+          "unseenQuantity": "1"
+        },
+        "logId": "42566362"
+      },
+      {
+        "userId": 162,
+        "nickname": "차단하다",
+        "before": {
+          "quantity": "0",
+          "unseenQuantity": "0"
+        },
+        "after": {
+          "quantity": "1",
+          "unseenQuantity": "1"
+        },
+        "logId": "42566363"
+      },
+      {
+        "userId": 1255,
+        "nickname": "전게씹선미아웃",
+        "before": {
+          "quantity": "0",
+          "unseenQuantity": "0"
+        },
+        "after": {
+          "quantity": "1",
+          "unseenQuantity": "1"
+        },
+        "logId": "42566364"
+      },
+      {
+        "userId": 3646,
+        "nickname": "까잡셔",
+        "before": {
+          "quantity": "0",
+          "unseenQuantity": "0"
+        },
+        "after": {
+          "quantity": "1",
+          "unseenQuantity": "1"
+        },
+        "logId": "42566365"
+      },
+      {
+        "userId": 4479,
+        "nickname": "대지",
+        "before": {
+          "quantity": "0",
+          "unseenQuantity": "0"
+        },
+        "after": {
+          "quantity": "1",
+          "unseenQuantity": "1"
+        },
+        "logId": "42566366"
+      },
+      {
+        "userId": 4598,
+        "nickname": "암살자..",
+        "before": {
+          "quantity": "0",
+          "unseenQuantity": "0"
+        },
+        "after": {
+          "quantity": "1",
+          "unseenQuantity": "1"
+        },
+        "logId": "42566367"
+      },
+      {
+        "userId": 4933,
+        "nickname": "심심이",
+        "before": {
+          "quantity": "0",
+          "unseenQuantity": "0"
+        },
+        "after": {
+          "quantity": "1",
+          "unseenQuantity": "1"
+        },
+        "logId": "42566368"
+      },
+      {
+        "userId": 4965,
+        "nickname": "쁴로리",
+        "before": {
+          "quantity": "0",
+          "unseenQuantity": "0"
+        },
+        "after": {
+          "quantity": "1",
+          "unseenQuantity": "1"
+        },
+        "logId": "42566369"
+      }
+    ],
+    "skipped": [
+      {
+        "userId": 22,
+        "nickname": "커피먹는철구",
+        "priorGrantIds": [
+          "42488330"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 32,
+        "nickname": "쑤댕",
+        "priorGrantIds": [
+          "42488331"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 65,
+        "nickname": "음순이",
+        "priorGrantIds": [
+          "42488332"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 88,
+        "nickname": "0수표",
+        "priorGrantIds": [
+          "41518506"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 130,
+        "nickname": "족구선생",
+        "priorGrantIds": [
+          "41526134"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 164,
+        "nickname": "박사",
+        "priorGrantIds": [
+          "42488333"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 183,
+        "nickname": "남수댕",
+        "priorGrantIds": [
+          "41518507"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 277,
+        "nickname": "스갤가축",
+        "priorGrantIds": [
+          "42488335"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 295,
+        "nickname": "모래",
+        "priorGrantIds": [
+          "41518508"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 303,
+        "nickname": "[C9]족쪽이",
+        "priorGrantIds": [
+          "42488338"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 360,
+        "nickname": "라피e",
+        "priorGrantIds": [
+          "41497330"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 521,
+        "nickname": "대저동토마토",
+        "priorGrantIds": [
+          "42488339"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 525,
+        "nickname": "족구조아",
+        "priorGrantIds": [
+          "42488340"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 750,
+        "nickname": "라페스타다",
+        "priorGrantIds": [
+          "42488341"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 1195,
+        "nickname": "씨나인택갓",
+        "priorGrantIds": [
+          "41518510"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 1768,
+        "nickname": "핫시",
+        "priorGrantIds": [
+          "41518511"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 2246,
+        "nickname": "옹가망함1",
+        "priorGrantIds": [
+          "42488344"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 2420,
+        "nickname": "블랙캐슬",
+        "priorGrantIds": [
+          "41513898",
+          "41502167"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 2505,
+        "nickname": "모아가려아가",
+        "priorGrantIds": [
+          "42488345"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 3884,
+        "nickname": "zkzk9999",
+        "priorGrantIds": [
+          "41518512"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 4010,
+        "nickname": "슈라",
+        "priorGrantIds": [
+          "42488348"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 4084,
+        "nickname": "게임닉네임",
+        "priorGrantIds": [
+          "42488349"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 4111,
+        "nickname": "족게이다",
+        "priorGrantIds": [
+          "42488350"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 4235,
+        "nickname": "도댕",
+        "priorGrantIds": [
+          "42488351"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 4391,
+        "nickname": "더듬이구",
+        "priorGrantIds": [
+          "41518514"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 4408,
+        "nickname": "레가파",
+        "priorGrantIds": [
+          "41518515"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 4501,
+        "nickname": "장씨아저씨",
+        "priorGrantIds": [
+          "42488352"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 4504,
+        "nickname": "깜찍소녀",
+        "priorGrantIds": [
+          "42488353"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 4540,
+        "nickname": "지아영",
+        "priorGrantIds": [
+          "42488354"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 4570,
+        "nickname": "혜정",
+        "priorGrantIds": [
+          "41518516"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 4597,
+        "nickname": "찬호",
+        "priorGrantIds": [
+          "42488356"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 4615,
+        "nickname": "랭비!",
+        "priorGrantIds": [
+          "42488358"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 4627,
+        "nickname": "학벌",
+        "priorGrantIds": [
+          "41518519"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 4628,
+        "nickname": "망순이ෆ",
+        "priorGrantIds": [
+          "41518520"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 4705,
+        "nickname": "˚쟁이。",
+        "priorGrantIds": [
+          "41518522"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 4757,
+        "nickname": "음주플레이어",
+        "priorGrantIds": [
+          "41518523"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 4772,
+        "nickname": "펜타",
+        "priorGrantIds": [
+          "42488360"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 4774,
+        "nickname": "딤럼프",
+        "priorGrantIds": [
+          "41518524"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 4908,
+        "nickname": "굳건창수",
+        "priorGrantIds": [
+          "41518526",
+          "41500706"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 5010,
+        "nickname": "으악",
+        "priorGrantIds": [
+          "41518527"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      },
+      {
+        "userId": 5426,
+        "nickname": "나무늘봉순",
+        "priorGrantIds": [
+          "42488363"
+        ],
+        "priorMessageIds": [],
+        "reason": "ALREADY_GRANTED"
+      }
+    ],
+    "held": [
+      {
+        "source": "골수뽑는망순",
+        "nickname": null,
+        "contribution": 1414,
+        "userMarkedUnknown": true,
+        "reason": "ACCOUNT_UNRESOLVED",
+        "candidateIds": []
+      },
+      {
+        "source": "[늘]개빠름",
+        "nickname": null,
+        "contribution": 140,
+        "userMarkedUnknown": true,
+        "reason": "ACCOUNT_UNRESOLVED",
+        "candidateIds": []
+      },
+      {
+        "source": "King_Bear",
+        "nickname": null,
+        "contribution": 140,
+        "userMarkedUnknown": true,
+        "reason": "ACCOUNT_UNRESOLVED",
+        "candidateIds": []
+      },
+      {
+        "source": "toy트레인",
+        "nickname": null,
+        "contribution": 140,
+        "userMarkedUnknown": true,
+        "reason": "ACCOUNT_UNRESOLVED",
+        "candidateIds": []
+      }
+    ],
+    "completedAt": "2026-10-01T15:22:33.995Z",
+    "auditId": "39091"
+  },
+  "inventory": [
+    {
+      "user_id": "71",
+      "quantity": "1",
+      "unseen_quantity": "1"
+    },
+    {
+      "user_id": "81",
+      "quantity": "1",
+      "unseen_quantity": "1"
+    },
+    {
+      "user_id": "148",
+      "quantity": "1",
+      "unseen_quantity": "1"
+    },
+    {
+      "user_id": "162",
+      "quantity": "1",
+      "unseen_quantity": "1"
+    },
+    {
+      "user_id": "1255",
+      "quantity": "1",
+      "unseen_quantity": "1"
+    },
+    {
+      "user_id": "3646",
+      "quantity": "1",
+      "unseen_quantity": "1"
+    },
+    {
+      "user_id": "4479",
+      "quantity": "1",
+      "unseen_quantity": "1"
+    },
+    {
+      "user_id": "4598",
+      "quantity": "1",
+      "unseen_quantity": "1"
+    },
+    {
+      "user_id": "4933",
+      "quantity": "1",
+      "unseen_quantity": "1"
+    },
+    {
+      "user_id": "4965",
+      "quantity": "1",
+      "unseen_quantity": "1"
+    }
+  ]
+}
