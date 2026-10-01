@@ -7614,11 +7614,11 @@
     }
   },
   "motionApproval": {
-    "record": "motion-approval-20261001-v14.json",
-    "status": "USER_APPROVED_MOTION_AND_SIZE",
+    "record": "motion-approval-20261001-v17.json",
+    "status": "USER_APPROVED_PREVIEW_MOTION_SIZE_AND_TEMPO",
     "date": "2026-10-01",
     "sizeCorrectionRequested": false,
-    "priorApproval": "motion-approval-20261001-v13.json"
+    "priorApproval": "motion-approval-20261001-v14.json"
   },
   "playbackTempo": {
     "version": 17,
