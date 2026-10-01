@@ -1,12 +1,12 @@
 import {Container,Sprite,Graphics,Assets,Texture,Rectangle,BlurFilter,ColorMatrixFilter} from 'pixi.js';
 import {gsap} from 'gsap';
-import {sample} from '../skill.mjs';
+import {sample,OVERHEAD,ACTIVE_MOTION_KEYS} from '../skill.mjs';
 import {CueAudio} from './CueAudio.js';
 const clamp=(n,a=0,b=1)=>Math.min(b,Math.max(a,n)),mix=(a,b,t)=>a+(b-a)*t;
 export async function loadKnightAssets(manifest){
  const root='/preview/mercenary-crimson-silver-knight-battle-v1/',result={motion:{},effects:{}};
  const frames=async spec=>{const atlas=await Assets.load(root+spec.atlas);return Array.from({length:spec.frameCount},(_,i)=>new Texture({source:atlas.source,frame:new Rectangle(i%spec.columns*spec.cellSize,Math.floor(i/spec.columns)*spec.cellSize,spec.cellSize,spec.cellSize)}));};
- await Promise.all([...Object.entries(manifest.motion).map(async([key,spec])=>{result.motion[key]=await frames(spec);}),...Object.entries(manifest.effects).map(async([key,spec])=>{result.effects[key]=await frames(spec);})]);
+ await Promise.all([...ACTIVE_MOTION_KEYS.map(async key=>{result.motion[key]=await frames(manifest.motion[key]);}),...Object.entries(manifest.effects).map(async([key,spec])=>{result.effects[key]=await frames(spec);})]);
  result.flash=await Assets.load('/preview/battle-suit-skill-chip-v1/assets/textures/flash.webp');
  result.smoke=await Assets.load('/preview/battle-suit-skill-chip-v1/assets/textures/smoke.webp');return result;
 }
@@ -68,11 +68,11 @@ export class KnightFX{
    // Approach along the ground plane. Never move the feet vertically to fake a tip collision.
    return {x:floor.x-(bladeX-contact.sourceFoot[0])*scale*this.merc.root.scale.x*this.merc.view.scale.x,y:floor.y};
   });
-  this.destination=this.destinations.attack[0];
+  this.destination=this.destinations.twohandStrike[0];
  }
  get time(){return this.clock.time}
  get playing(){return !!this.timeline&&!this.timeline.paused()&&this.time<this.plan.duration}
- makeTimeline(){this.removeTimeline();this.clock.time=0;this.timeline=gsap.timeline({paused:true,onUpdate:()=>this.render(this.clock.time),onComplete:()=>{this.engine.simpleTimelines.delete(this.registration);this.audio.stop();this.render(this.plan.duration);this.onComplete?.();}}).to(this.clock,{time:this.plan.duration,duration:this.plan.duration,ease:'none'}).timeScale(this.speed);if(this.engine.camera&&!this.engine.reducedMotion&&!this.motionOnly)for(const at of this.plan.contacts){const big=this.plan.mode==='ultimate'&&at===this.plan.contacts.at(-1)||this.plan.mode==='execution'||this.plan.mode==='overhead',remaining=this.plan.stop===null?Infinity:this.plan.stop-at-.07;if(remaining>.02)this.engine.camera.addShake(this.timeline,{at,intensity:big?42:18,duration:Math.min(big?.42:.22,remaining),rotation:big?.009:.003});}this.registration={instance:this.timeline,settle:()=>this.cancel()};}
+ makeTimeline(){this.removeTimeline();this.clock.time=0;this.timeline=gsap.timeline({paused:true,onUpdate:()=>this.render(this.clock.time),onComplete:()=>{this.engine.simpleTimelines.delete(this.registration);this.audio.stop();this.render(this.plan.duration);this.onComplete?.();}}).to(this.clock,{time:this.plan.duration,duration:this.plan.duration,ease:'none'}).timeScale(this.speed);if(this.engine.camera&&!this.engine.reducedMotion&&!this.motionOnly)for(const at of this.plan.contacts){const big=this.plan.heavyImpact,remaining=this.plan.stop===null?Infinity:this.plan.stop-at-.07;if(remaining>.02)this.engine.camera.addShake(this.timeline,{at,intensity:big?42:18,duration:Math.min(big?.42:.22,remaining),rotation:big?.009:.003});}this.registration={instance:this.timeline,settle:()=>this.cancel()};}
  removeTimeline(){if(this.registration)this.engine.simpleTimelines.delete(this.registration);this.timeline?.kill();this.timeline=null;this.registration=null;}
  play(){if(this.destroyed)return;if(!this.timeline)this.makeTimeline();if(this.time>=this.plan.duration)this.seek(0);this.engine.simpleTimelines.add(this.registration);this.timeline.play();void this.audio.play(this.plan,this.time,this.speed,()=>this.time);this.onUpdate(this);}
  pause(){this.timeline?.pause();this.audio.stop();this.onUpdate(this);}
@@ -94,11 +94,17 @@ export class KnightFX{
   const neutral=this.merc.neutralAvatarPose?.mainSprite;if(neutral){neutral.scaleX=s.scale.x;neutral.scaleY=s.scale.y;}
  }
  point(actor,fraction=0){return this.engine.effectLayer.toLocal(actor.root.toGlobal({x:0,y:-actor.fullBodyHeight*fraction}));}
- bladeImpact(key='attack'){
+ bladeImpact(key='twohandStrike'){
   const spec=this.manifest.motion[key],f=spec.frames[spec.contacts[0].frame],scale=this.bodyHeight/f.bodyPixels;
   const point=p=>this.engine.effectLayer.toLocal(this.merc.view.toGlobal({x:(p[0]-256)*scale,y:(p[1]-440)*scale}));
   const a=point(f.grip),b=point(f.tip),floor=this.point(this.targets[0]),u=clamp((floor.x-a.x)/(b.x-a.x),.12,.96);
   return {x:mix(a.x,b.x,u),y:mix(a.y,b.y,u)};
+ }
+ guardPlacement(){
+  const local=p=>this.engine.effectLayer.toLocal(this.merc.view.toGlobal(p)),foot=local({x:0,y:0}),chest=local({x:0,y:-this.bodyHeight*.54});
+  const bodyHeight=Math.hypot(chest.x-foot.x,chest.y-foot.y)/.54;
+  // The atlas is center-anchored: center it on the wearer, not on the floor or enemy.
+  return {point:{x:chest.x+bodyHeight*.30,y:chest.y},size:bodyHeight*1.45,bodyHeight,foot};
  }
  weaponSegment(state=this.sample){
   const spec=this.manifest.motion[state.pose.key],frame=spec.frames[state.pose.frame];if(!frame.grip||!frame.tip)return null;
@@ -175,16 +181,16 @@ export class KnightFX{
   this.drawWeaponEnergy(state,unit);this.drawImpactWake(state,impact,unit);
   for(const effect of state.effects){
    let p=effect.key==='slash'?this.bladeImpact(state.contactTrack.key):{...torso},size=unit*3.15;
-   if(effect.anchor==='guard'){p={x:foot.x+unit*.43,y:foot.y};size=Math.min(unit*2.6,(foot.y-24)/.72);}
-   else if(effect.anchor==='selfGround'){p={...foot};size=unit*(this.plan.mode==='overhead'?2.9:3.25);}else if(effect.anchor==='dash'){p={x:foot.x-unit*.55,y:foot.y-unit*.4};size=unit*3.4;}else if(effect.anchor==='targetGround'){
+   if(effect.anchor==='guard'){const placement=this.guardPlacement();p=placement.point;size=placement.size;}
+   else if(effect.anchor==='selfGround'){p={...foot};size=unit*(this.plan.motion===OVERHEAD.motion?2.9:3.25);}else if(effect.anchor==='dash'){p={x:foot.x-unit*.55,y:foot.y-unit*.4};size=unit*3.4;}else if(effect.anchor==='targetGround'){
     p={...impact};const ultimate=effect.key==='ultimate';size=ultimate?Math.max(180,Math.min(unit*6.3,(impact.y-24)/.59,scene.width*1.13)):unit*4.6;
     if(ultimate)p.x=clamp(p.x,size*.35+16,scene.width-size*.35-16);
    }
-   const downward=effect.key==='slash'&&this.plan.mode==='overhead';
-   if(downward){const blade=this.weaponSegment();if(blade&&time<1.98)p={x:mix(blade.grip.x,blade.tip.x,.62),y:mix(blade.grip.y,blade.tip.y,.62)};size*=1.12;}
+   const downward=effect.key==='slash'&&this.plan.motion===OVERHEAD.motion;
+   if(downward){const blade=this.weaponSegment();if(blade&&time<OVERHEAD.contact)p={x:mix(blade.grip.x,blade.tip.x,.62),y:mix(blade.grip.y,blade.tip.y,.62)};size*=1.12;}
    this.drawSequence(effect.key,effect,p,size,downward?-.72:0);
    if(this.plan.mode==='ultimate'&&effect.key==='ultimate')for(const target of this.targets.slice(1)){const side=this.point(target);this.drawSequence(effect.key,{...effect,alpha:effect.alpha*.72},side,size*.72);}
-   if(state.flash>0)this.draw(this.assets.flash,effect.anchor==='guard'?{x:p.x,y:p.y-unit*.8}:torso,unit*1.4,{alpha:state.flash*2.5,tint:0xffe8a5,blend:'add'});
+   if(state.flash>0)this.draw(this.assets.flash,guard?this.guardPlacement().point:torso,unit*1.4,{alpha:state.flash*2.5,tint:0xffe8a5,blend:'add'});
   }
   if(this.plan.mode==='ultimate'){
    const age=time-this.plan.contacts.at(-1);

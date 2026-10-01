@@ -21,7 +21,7 @@ function update(instance){
 function updateShowcase(sequence){
  $('showcase').setAttribute('aria-pressed',String(sequence.active));
  $('showcase').textContent=sequence.active?'전체 처음부터':'전체 스킬 재생';
- $('showcase-status').textContent=sequence.active?`전체 시연 ${sequence.index+1} / 7 · ${MODES[sequence.fx.plan.mode].label}`:sequence.completed?'전체 스킬 시연 완료':'대시 · 올려베기 · 연속 베기 · 두손 강격 · 심판 · 방벽 · 궁극기';
+ $('showcase-status').textContent=sequence.active?`전체 시연 ${sequence.index+1} / 7 · ${MODES[sequence.fx.plan.mode].label}`:sequence.completed?'전체 스킬 시연 완료':'대시 · 기본 강격 · 홍련 강격 · 채택 모션 · 심판 · 방벽 · 궁극기';
  if(sequence.active)$('mode').value=sequence.fx.plan.mode;
 }
 function resize(){if(disposed||!fx)return;const at=fx.time,playing=fx.playing;fx.pause();fx.removeTimeline();engine.setFormationMercenaries([merc]);fx.captureFormation();fx.makeTimeline();fx.seek(at);if(playing)fx.play();}

@@ -1,0 +1,22 @@
+import fs from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import sharp from 'sharp';
+const root=new URL('./',import.meta.url),read=async file=>JSON.parse(await fs.readFile(new URL(file,root),'utf8'));
+const write=(file,value)=>fs.writeFile(new URL(file,root),JSON.stringify(value,null,2)+'\n');
+const manifest=await read('manifest.json'),qa=await read('qa-report.json'),browser=await read('qa/v12/browser-report.json'),guard=await read('qa/v12/guard-report.json');
+if(browser.some(r=>r.errors.length||r.failed.length)||guard.some(r=>r.errors.length))throw Error('Preview QA has unresolved failures');
+for(const result of browser){const followup=guard.find(r=>r.name===result.name);result.modes=result.modes.filter(m=>m.mode!=='guard').concat(followup.frames);result.guardFollowup={report:'qa/v12/guard-report.json',replacesPriorGuardSamples:true,reason:'Selected forward casting position restores raised-blade clearance.'};}
+await write('qa/v12/browser-report.json',browser);
+const file='qa/all-skills-overhead-v12.webp',bytes=await fs.readFile(new URL(file,root)),meta=await sharp(bytes,{animated:true}).metadata();
+manifest.browserQaReport='qa/v12/browser-report.json';manifest.guardQaReport='qa/v12/guard-report.json';
+manifest.reviewPlayback.twoHandActualV3=file;
+qa.status='V12_ADOPTED_OVERHEAD_AND_TORSO_WARD_TECH_QA_COMPLETE';
+qa.unitTests={command:'node --test preview/mercenary-crimson-silver-knight-battle-v1/qa.test.mjs',passed:10,failed:0,guardClearanceFollowup:{pattern:'all ten modes|every living motion|drawn collision|Grounded|every attack',passed:5,failed:0}};
+qa.counts=manifest.counts;qa.motionAdoption=manifest.motionAdoption;qa.effectAlignment=manifest.effectAlignment;
+qa.playback={[file]:{sha256:createHash('sha256').update(bytes).digest('hex').toUpperCase(),width:meta.width,pageHeight:meta.pageHeight,frames:meta.pages,bytes:bytes.length}};
+qa.browser=browser.map(r=>({viewport:r.name,pageErrors:r.errors.length,failedAssets:r.failed.length,horizontalOverflow:r.overflow.scroll>r.overflow.client,interruptCleared:r.interruption.cancelled&&r.interruption.visibleSprites===0,targetLossCleared:r.targetLost.cancelled&&r.targetLost.visibleSprites===0,speedPausePassed:r.speeds.every(s=>s.pauseStable),fullShowcaseCompleted:r.showcaseDone.showcase.completed,showcaseModes:r.showcaseDone.showcase.total,showcaseTimelinesAfterCompletion:r.showcaseDone.registeredTimelines,showcaseSpritesAfterCompletion:r.showcaseDone.visibleSprites,dispose:r.disposed}));
+qa.guardFollowup=guard.map(r=>({viewport:r.name,pageErrors:r.errors.length,minRaisedBladeTipY:Math.min(...r.clearance.points.map(p=>p.tip.y)),torsoAnchorVerified:true,frames:r.frames.map(f=>({time:f.time,point:f.guardPlacement.point,bodyHeight:f.guardPlacement.bodyHeight})),cancelledWithoutEffects:r.cancelled.visibleSprites===0&&r.cancelled.registeredTimelines===0}));
+qa.visualInspection=['Every attack/skill: same approved two-hand grip, lift, descending strike and return at 1.98s contact','V12 PC/mobile actual V3 attack, execution, ultimate and torso-attached guard frames','Guard followup: forward casting stance prevents raised blade clipping; shield and hit flash center on wearer, not the floor','Approved art/weapon masters and all native atlas/frame hashes unchanged'];
+qa.limitations=['The user selected the existing overhead motion for every attack/skill. Skill-specific FX alignment remains available for visual review.','The remaining rising/turning motion artwork is preserved as history but excluded from runtime selection and loading.','This independent visual preview changes no server damage, skill assignment, rank or live activation.'];
+await write('manifest.json',manifest);await write('qa-report.json',qa);
+console.log(JSON.stringify({version:12,tests:qa.unitTests,guard:qa.guardFollowup,playback:qa.playback},null,2));

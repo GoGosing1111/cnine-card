@@ -1,0 +1,46 @@
+{
+  "date": "2026-10-01",
+  "status": "USER_ADOPTED",
+  "userRequest": "내려찍기 모션을 모든 스킬,공격모션으로 채택해",
+  "appliesTo": [
+    "attack",
+    "skill",
+    "overhead",
+    "execution",
+    "guard",
+    "ultimate"
+  ],
+  "selectedMotion": "TWO_HAND_OVERHEAD_V10",
+  "selectedAtlases": {
+    "twohandGrip": {
+      "atlas": "assets/motion-v10/twohandGrip-atlas.webp",
+      "sha256": "052B8E41EE84758C4016E9F7DFB6D9201D1D8532C967E5F51E67B037D2A38C17",
+      "frames": 4
+    },
+    "twohandLift": {
+      "atlas": "assets/motion-v10/twohandLift-atlas.webp",
+      "sha256": "1C305FF3222436A72C30C78067504A699F67E09E2B8A5ADA28BB5D2771E53062",
+      "frames": 4
+    },
+    "twohandStrike": {
+      "atlas": "assets/motion-v10/twohandStrike-atlas.webp",
+      "sha256": "825F5234D7C2F7899E91BBC8124B39963D756AAE2041D4A984B6981BA96B0D81",
+      "frames": 4
+    },
+    "twohandReturn": {
+      "atlas": "assets/motion-v10/twohandReturn-atlas.webp",
+      "sha256": "CCCF978095E5578C3049C933DA8203E14BB950DE94BC879424D58F41D4F4A722",
+      "frames": 5
+    }
+  },
+  "contactAt": 1.98,
+  "approvedIdle": {
+    "key": "idle",
+    "frame": 0,
+    "sha256": "6799883FC8A67B0DC60021971614EB757C898DC2E0E599AB3F182D0813A9C6ED"
+  },
+  "policy": "The same existing grip, lift, descending strike and return artwork/timing is used for every attack and skill. Defensive ward uses the same forward casting position, with no enemy recoil. Effects remain skill-specific. Retired rising/turning attacks are preserved as history and never selected by playback.",
+  "newArtworkFrames": 0,
+  "combatBalanceChanged": false,
+  "liveActivationApproved": false
+}
