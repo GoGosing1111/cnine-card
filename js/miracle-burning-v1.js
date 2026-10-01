@@ -15,7 +15,7 @@
       <section class="miracle-benefits" aria-label="미라클 버닝 혜택">
         <div class="miracle-coin"><span>COIN REWARD</span><strong><small>×</small>${multiplier}</strong><b>전투 코인 보상</b></div>
         <div class="miracle-drop"><span>ITEM DROP</span><strong>+30<small>%</small></strong><b>기존 드랍 확률 ×1.3</b></div>
-        <div class="miracle-energy"><div><span>APOCALYPSE</span><strong>10<small>회</small></strong><b>5분마다 1회 충전</b></div><div><span>PVP / PVE</span><strong>30<small>회</small></strong><b>각 최대 · 1분마다 1회 충전</b></div></div>
+        <div class="miracle-energy"><div><span>APOCALYPSE</span><strong>10<small>회</small></strong><b>5분마다 1회 충전</b></div><div><span>PVE</span><strong>30<small>회</small></strong><b>최대 · 1분마다 1회 충전 · 랭크전 제외</b></div></div>
       </section>
       <footer class="miracle-footer"><span><small>THE MIRACLE ENDS IN</small><b data-burning-countdown>${escape(remainingText?.()||'진행 중')}</b></span><button type="button" class="miracle-enter" data-miracle-close>기적의 전장으로 <i aria-hidden="true">→</i></button></footer>
     </article>`;

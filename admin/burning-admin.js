@@ -34,7 +34,7 @@
     const notice=$('#burningCmsAccessState');
     if(notice){
       notice.classList.toggle('allowed',accessAllowed);notice.classList.toggle('denied',!accessAllowed);
-      notice.textContent=message||(accessAllowed?'OWNER 버닝·하이퍼 버닝 관리 권한이 확인되었습니다.':'버닝·하이퍼 버닝은 OWNER 계정만 관리할 수 있습니다.');
+      notice.textContent=message||(accessAllowed?'OWNER 버닝·하이퍼 버닝 관리 권한이 확인되었습니다. PVP 횟수 입력값은 랭크전에 적용되지 않습니다.':'버닝·하이퍼 버닝은 OWNER 계정만 관리할 수 있습니다.');
     }
   }
 

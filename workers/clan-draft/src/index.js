@@ -1,6 +1,7 @@
 import {DurableObject,WorkerEntrypoint} from 'cloudflare:workers';
 import {ensureDraftAlarm,handleDraftAlarm} from './schedule.js';
 import {ensureDuoAlarm,handleDuoAlarm} from './duo-schedule.js';
+import {runRankedReopenSchedule} from './ranked-reopen.js';
 
 // One coordination object for the official clan competition, not for game requests.
 export class ClanDraftAlarm extends DurableObject{
@@ -20,6 +21,9 @@ export default class ClanDraftWorker extends WorkerEntrypoint{
     const [clan,duo]=await Promise.all([this.env.CLAN_DRAFT_ALARM.getByName('official-clan-competition').ensureArmed(),this.env.RANKED_DUO_ALARM.getByName('official-ranked-duo').ensureArmed()]);
     return {...clan,duoNextAlarmAt:duo.nextAlarmAt};
   }
-  async scheduled(){await this.arm()}
+  async scheduled(){
+    const results=await Promise.allSettled([this.arm(),runRankedReopenSchedule(this.env)]);
+    const failure=results.find(result=>result.status==='rejected');if(failure)throw failure.reason;
+  }
   async fetch(){return new Response('Not found',{status:404})}
 }

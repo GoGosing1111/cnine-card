@@ -99,7 +99,7 @@ test('activation persists fixed effects and ends other modes atomically; OFF and
     assert.equal(Date.parse(s.endsAt)-Date.parse(s.activatedAt),1800000);assert.equal(s.generation,1);
     assert.equal(f.read('burning_event_settings_v1').enabled,false);assert.equal(f.read('hyper_burning_event_settings_v1310').enabled,false);assert.equal(f.logs.length,1);
     assert.equal(f.runtime.applyBurningPveSettings({energy:{costPerBattle:1}},s).energy.maxEnergy,30);
-    assert.equal(f.runtime.applyBurningPvpSettings({energy:{costPerBattle:1}},s).energy.rechargeMinutes,1);
+    assert.equal(f.runtime.applyBurningPvpSettings({energy:{costPerBattle:1,maxEnergy:10,rechargeMinutes:5}},s).energy.rechargeMinutes,5);
     assert.equal(f.runtime.burningRewardAmount(1234,s),123400);
     const state=f.runtime.burningPublicState(s);assert.equal(state.apocalypse.maxEnergy,10);assert.equal(state.dropIncreasePercent,30);
     assert.equal(miracle.miracleApocalypseConfig({maxEnergy:5,rechargeMinutes:30},s,Date.parse(s.endsAt)).maxEnergy,5);
@@ -164,19 +164,18 @@ test('actual Apocalypse pool refills once, spends atomically and recharges one e
   }finally{f.sqlite.close()}
 });
 
-test('actual PVE and PVP pools spend 30 actions, refill one per minute and restore normal caps',async()=>{
+test('actual PVE pool spends 30 actions, refills one per minute and restores normal caps',async()=>{
   const f=fixture();let now=Math.floor(Date.now()/1000)*1000+250;
   class Clock extends Date{constructor(...args){super(...(args.length?args:[now]))}static now(){return now}}
   const context={Date:Clock,maintenanceSettings:async()=>({active:false}),isAdminRole:()=>false,canUseTestAccess:()=>false,kstDate:()=>new Date(now).toISOString().slice(0,10),sqlUtcNow:()=>new Date(now).toISOString().replace('T',' ').slice(0,19),utcMs:value=>Date.parse(String(value).replace(' ','T')+'Z')};
   const pve=vm.runInNewContext(api.slice(api.indexOf('async function battleEnergyState('),api.indexOf('// V1975:'))+';({state:battleEnergyState,consume:consumeBattleEnergy})',context);
-  const pvp=vm.runInNewContext(api.slice(api.indexOf('async function pvpEnergyState('),api.indexOf('function defaultRaidSettings()'))+';({state:pvpEnergyState,consume:consumePvpEnergy})',context);
   try{
     f.sqlite.exec('CREATE TABLE user_battle_energy(user_id INTEGER PRIMARY KEY,energy INTEGER,last_recharged_at TEXT,last_daily_reset_date TEXT,updated_at TEXT);CREATE TABLE user_pvp_energy(user_id INTEGER PRIMARY KEY,energy INTEGER,last_recharged_at TEXT,updated_at TEXT)');
     const saved=await f.request(owner,'PATCH',{enabled:true,durationMinutes:60,battleRewardMultiplier:100}),burning=saved.body.settings;
     assert.equal(Date.parse(burning.activatedAt)%1000,0);
     now=Date.parse(burning.activatedAt)+250;
     const base={energy:{enabled:true,maxEnergy:10,dailyRestore:10,rechargeMinutes:30,costPerBattle:1}};
-    for(const [pool,settings,code] of [[pve,f.runtime.applyBurningPveSettings(base,burning),'NO_BATTLE_ENERGY'],[pvp,f.runtime.applyBurningPvpSettings(base,burning),'NO_PVP_ENERGY']]){
+    for(const [pool,settings,code] of [[pve,f.runtime.applyBurningPveSettings(base,burning),'NO_BATTLE_ENERGY']]){
       assert.equal((await pool.state(f.env,{id:1},settings)).energy,30);
       assert.equal((await pool.consume(f.env,{id:1},settings)).energy,29,'first activation second still charges an action');
       now+=60000;assert.equal((await pool.state(f.env,{id:1},settings)).energy,30);

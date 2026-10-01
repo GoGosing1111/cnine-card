@@ -1747,3 +1747,9 @@
   .ranked-live-v2 .ranked-match-v1907 .ranked-match-radar-v1907::after,
   .ranked-live-v2 .ranked-match-v1907 .ranked-match-start-v1907::before{animation:none!important}
 }
+/* Ranked reform: use the existing arena palette and typography. */
+.ranked-reform-rules{display:flex;flex-direction:column;gap:6px;margin-top:20px;padding:18px 12px 0;border-top:1px solid #8adfff2e;text-align:center;color:#c5d7e4;font-size:13px;line-height:1.6}
+.ranked-reform-rules b{color:#9feafa;font-size:17px;letter-spacing:.03em}.ranked-reform-rules small{font-size:12px;color:#8eabbf}
+.ranked-reopen-notice{max-width:920px;margin:20px auto;padding:clamp(28px,6vw,70px) 24px;text-align:center;border:1px solid #6dcdf43d;border-radius:18px;background:radial-gradient(ellipse at 50% 0,#164a6480,transparent 65%),linear-gradient(150deg,#101e30,#08111e);box-shadow:inset 0 1px #ffffff12,0 18px 60px #0005}
+.ranked-reopen-notice>span{font-size:11px;letter-spacing:.24em;color:#88d5ed}.ranked-reopen-notice h2{font-size:clamp(22px,4vw,34px);margin:20px 0;color:#edfaff;word-break:keep-all}.ranked-reopen-notice>strong{display:block;color:#8de7ff;font-size:clamp(20px,4vw,30px);font-variant-numeric:tabular-nums}.ranked-reopen-notice strong small{font-size:12px}.ranked-reopen-notice p{color:#a8bbcc;line-height:1.9;margin:24px 0}
+.ranked-receipt-result{display:flex;flex-direction:column;gap:16px;margin:auto;padding:32px;max-width:min(440px,92vw);border:1px solid #6dcdf46b;border-radius:18px;background:#101e30;color:#e6f5ff;text-align:center}.ranked-receipt-result h2{margin:0;font-size:32px;color:#8de7ff}.ranked-receipt-result p{margin:0;color:#a8bbcc}.ranked-receipt-result>span{font-size:13px;line-height:1.6}.ranked-receipt-result .btn{margin-top:8px;min-height:44px}
