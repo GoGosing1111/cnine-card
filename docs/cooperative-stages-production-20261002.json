@@ -1,0 +1,115 @@
+{
+  "commit": "60a9edb72ea3f9e4bd2770cae0d6a4e2d5821f70",
+  "base": "https://cnine-card.pages.dev",
+  "files": [
+    {
+      "file": "index.html",
+      "sha256": "7633dbec7872b6be42ef1456e824b4f2a40ac30eca28cc07ad5068627664e558",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "d065ccb6b02ba4c9461282acc276978545541b3ecad18b438ecc956f5a95c8c6",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "js/pve-command-v2-live.js",
+      "sha256": "1d32cfa0c5ae7efd0a9f0891798a24c77c30ab15a80c33c85cbda698b2861062",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "js/cooperative-battleground-entry.js",
+      "sha256": "56b75c6aaca2bd24611f23c24f9900a887ef4024876508e715476a8df349eb9c",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "raid/cooperative/live.mjs",
+      "sha256": "5568c8185b68aaab8e3deb032e3f6a1afcad18fcd7d43e633487ad64f8be1514",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "raid/cooperative/style.css",
+      "sha256": "b56e00aa0042a8128e429452a41688c6df0f769d4322b991242e6a8abc32f44c",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "shared/cooperative-battleground-v1.mjs",
+      "sha256": "8197885e6d1fbd4da49753db5520a839288d01c17bdf13ac52f99df3f3be12f9",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "sha256": "d1db732f4af3718eb1edafd59b6345221139ca3a91bc46fb1698f0fc7250966e",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "assets/ui/cooperative-arke-v1/forge-stalker-v1.png",
+      "binary": true,
+      "sha256": "270e315ce9ab15bae98f2dab91830095d26c1c090351da0d278423c9a42f0975",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "assets/ui/cooperative-arke-v1/ember-watcher-v1.png",
+      "binary": true,
+      "sha256": "c2b637b833385a74dcb7ca30957aacedbe978f2fdd38bee9938ce8bc4b480261",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "assets/ui/cooperative-arke-v1/core-warden-v1.png",
+      "binary": true,
+      "sha256": "7053288ab46a3882eb64610afb1c8bb690e13c0c6be5ab95151545d1ac949ded",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "assets/ui/cooperative-arke-v1/arke-battle-sprite-v1.png",
+      "binary": true,
+      "sha256": "bafcdae8c7077acf45ee618848e3a48887461e24786a66163cb74e3d1a76034f",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "assets/ui/cooperative-arke-v1/arke-slam-atlas-v1.png",
+      "binary": true,
+      "sha256": "80a78e76b0011b389f66a6fe5ccce2c83f152c3d0b7bfb9d3db3ba574634ae88",
+      "status": 200,
+      "match": true
+    }
+  ],
+  "checkedAt": "2026-10-01T18:44:53.796Z",
+  "routes": [
+    {
+      "route": "feature",
+      "status": 401,
+      "body": {
+        "ok": false,
+        "code": "COOP_LOGIN",
+        "error": "로그인 후 입장하세요."
+      }
+    },
+    {
+      "route": "stream?room=ABC1234567&ticket=invalid",
+      "status": 403,
+      "body": {
+        "ok": false,
+        "code": "JOINT_ORIGIN",
+        "error": "같은 게임 화면에서 다시 요청하세요."
+      }
+    }
+  ],
+  "pages": "https://96f30eeb.cnine-card.pages.dev",
+  "apiWorkerVersion": "2b36b3b8-2bd7-46c4-9b71-6d80af353882",
+  "cronWorkerVersion": "6607874e-4f2d-4c6b-8991-feb0752e2e22",
+  "featureSettingsChanged": false,
+  "economyChanged": false
+}
