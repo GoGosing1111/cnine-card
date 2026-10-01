@@ -23,12 +23,34 @@ export const AXE_REWARDS=Object.freeze([
  {key:'ADVANCEMENT',name:'전직패스권',kind:'ITEM',code:'UNIQUE_ADVANCEMENT_PASS',image:'/assets/items/unique-advancement-pass-v2043.svg',tag:'전직',detail:'전직패스권 1개를 즉시 지급합니다. 카드 상세의 고유효과 전직에서 사용할 수 있습니다.'},
  {key:'MISS',name:'꽝',kind:'MISS',image:AXE_ASSETS+'old-axe.svg',tag:'보상 없음',detail:'이번에는 획득한 상품이 없습니다. 참가에 사용한 낡은도끼는 소모됩니다.'}
 ]);
+// Saved reward rows contain only a server-resolved key and an inventory quantity.
+// Old rounds without a reward list retain the original prizes and percentages.
+export function axeRewards(settings={}){
+ return (settings.rewards??AXE_REWARDS).map(row=>{
+  const base=AXE_REWARDS.find(r=>r.key===row.key);
+  return {...(base||{key:row.key,kind:'ITEM',code:row.key.slice(5)}),quantity:row.quantity??1};
+ });
+}
 export function cleanAxeSettings(raw={}){
  if(!raw||typeof raw!=='object'||Array.isArray(raw))throw Error('이벤트 설정 형식을 확인하세요.');
  const number=(value,min,max,rate=false)=>{if(value===undefined||value===null||value==='')return null;if(typeof value!=='number'||!Number.isFinite(value)||value<min||value>max||(!rate&&!Number.isSafeInteger(value))||(rate&&Math.abs(value*10000-Math.round(value*10000))>1e-6))throw Error('수량·확률의 범위를 확인하세요. 확률은 소수점 4자리까지 입력할 수 있습니다.');return value;};
  const date=value=>{if(value===undefined||value===null||value==='')return null;const m=typeof value==='string'&&value.match(/^(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d)(?::(\d\d)(?:\.\d{1,3})?)?(Z|[+-]\d\d:\d\d)$/);if(!m||!Number.isFinite(Date.parse(value))||+m[2]<1||+m[2]>12||+m[3]<1||+m[3]>new Date(Date.UTC(+m[1],+m[2],0)).getUTCDate()||+m[4]>23||+m[5]>59||+(m[6]||0)>59)throw Error('시간대가 포함된 올바른 일시를 입력하세요.');return new Date(value).toISOString();};
  for(const flag of ['visible','enabled'])if(raw[flag]!==undefined&&typeof raw[flag]!=='boolean')throw Error('공개·운영 상태를 확인하세요.');
- const rates=Object.fromEntries(AXE_REWARDS.map(r=>[r.key,number(raw.rates?.[r.key]??(['MERCENARY_SS','MERCENARY_SSS'].includes(r.key)?0:null),0,100,true)]));
+ const source=raw.rewards===undefined?AXE_REWARDS:raw.rewards;
+ if(!Array.isArray(source)||source.length>200)throw Error('상품은 최대 200종까지 설정할 수 있습니다.');
+ const seen=new Set(),identities=new Set();
+ const rewards=source.map(row=>{
+  if(!row||typeof row!=='object'||typeof row.key!=='string')throw Error('상품 형식을 확인하세요.');
+  const base=AXE_REWARDS.find(r=>r.key===row.key);
+  if(!base&&!/^ITEM_[A-Za-z0-9_-]{1,96}$/.test(row.key))throw Error('등록된 상품을 선택하세요.');
+  const identity=base?.kind==='ITEM'?'ITEM_'+base.code:row.key;
+  if(seen.has(row.key)||identities.has(identity))throw Error('같은 상품을 중복 추가할 수 없습니다.');
+  seen.add(row.key);identities.add(identity);
+  const quantity=number(row.quantity===undefined?1:row.quantity,1,1000000);
+  if(quantity===null||base&&base.kind!=='ITEM'&&quantity!==1)throw Error('아이템 수량을 확인하세요. 장비·용병은 1개씩 지급합니다.');
+  return {key:row.key,quantity};
+ });
+ const rates=Object.fromEntries(rewards.map(r=>[r.key,number(raw.rates?.[r.key]??(['MERCENARY_SS','MERCENARY_SSS'].includes(r.key)?0:null),0,100,true)]));
  const mercenaryRates={};
  if(raw.mercenaryRates!==undefined&&(!raw.mercenaryRates||typeof raw.mercenaryRates!=='object'||Array.isArray(raw.mercenaryRates)))throw Error('용병별 확률 형식을 확인하세요.');
  for(const rank of ['S','SS','SSS']){
@@ -38,15 +60,15 @@ export function cleanAxeSettings(raw={}){
   if(entries.reduce((sum,[,rate])=>sum+Math.round(rate*10000),0)!==1000000)throw Error(rank+' 등급 내 용병 확률 합계는 100%여야 합니다.');
   mercenaryRates[rank]=Object.fromEntries(entries);
  }
- const settings={visible:raw.visible===true,enabled:raw.enabled===true,startsAt:date(raw.startsAt),endsAt:date(raw.endsAt),axeCost:number(raw.axeCost,1,1000000),dailyLimit:number(raw.dailyLimit,0,100000),rates,mercenaryRates};
+ const settings={visible:raw.visible===true,enabled:raw.enabled===true,startsAt:date(raw.startsAt),endsAt:date(raw.endsAt),axeCost:number(raw.axeCost,1,1000000),dailyLimit:number(raw.dailyLimit,0,100000),rewards,rates,mercenaryRates};
  if(settings.startsAt&&settings.endsAt&&Date.parse(settings.endsAt)<=Date.parse(settings.startsAt))throw Error('종료 일시는 시작 일시보다 뒤여야 합니다.');
  if(Object.values(rates).reduce((sum,n)=>sum+Math.round((n??0)*10000),0)>1000000)throw Error('상품과 꽝의 확률 합계는 100% 이하여야 합니다.');
  if(settings.enabled&&(!settings.visible||!axeSettingsComplete(settings)))throw Error('기간·낡은도끼 수량·일일 횟수·모든 확률을 설정하고 공개해야 ON으로 저장할 수 있습니다.');
  return settings;
 }
-export function axeSettingsComplete(s){const rates=Object.values(s.rates);return Boolean(s.startsAt&&s.endsAt&&s.axeCost&&s.dailyLimit!==null&&rates.length===AXE_REWARDS.length&&rates.every(n=>n!==null)&&rates.reduce((sum,n)=>sum+Math.round(n*10000),0)===1000000&&AXE_REWARDS.some(r=>r.key!=='MISS'&&s.rates[r.key]>0));}
+export function axeSettingsComplete(s){const rewards=axeRewards(s),rates=rewards.map(r=>s.rates[r.key]);return Boolean(s.startsAt&&s.endsAt&&s.axeCost&&s.dailyLimit!==null&&rates.length>0&&rates.every(n=>typeof n==='number')&&rates.reduce((sum,n)=>sum+Math.round(n*10000),0)===1000000&&rewards.some(r=>r.kind!=='MISS'&&s.rates[r.key]>0));}
 export function axePhase(s,now=Date.now()){if(!s.visible)return 'HIDDEN';if(!axeSettingsComplete(s))return 'UNCONFIGURED';if(!s.enabled)return 'PAUSED';if(now<Date.parse(s.startsAt))return 'SCHEDULED';if(now>=Date.parse(s.endsAt))return 'ENDED';return 'OPEN';}
-export function pickAxeReward(settings,sample){if(!Number.isInteger(sample)||sample<0||sample>=1000000)throw Error('잘못된 추첨 값입니다.');let remaining=sample;for(const reward of AXE_REWARDS){remaining-=Math.round(settings.rates[reward.key]*10000);if(remaining<0)return reward;}throw Error('확률 합계가 맞지 않습니다.');}
+export function pickAxeReward(settings,sample){if(!Number.isInteger(sample)||sample<0||sample>=1000000)throw Error('잘못된 추첨 값입니다.');let remaining=sample;for(const reward of axeRewards(settings)){remaining-=Math.round(settings.rates[reward.key]*10000);if(remaining<0)return reward;}throw Error('확률 합계가 맞지 않습니다.');}
 
 export function axeMercenaryPool(settings,mercenaries,rank){
  const candidates=mercenaries.filter(m=>m.rank===rank),rates=settings.mercenaryRates?.[rank];

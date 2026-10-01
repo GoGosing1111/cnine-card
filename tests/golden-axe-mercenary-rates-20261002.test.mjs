@@ -29,6 +29,6 @@ test('no invented SS/SSS rates; invalid percentages and retired candidates are r
 });
 test('public event shows prizes only and does not publish CMS percentages',async t=>{
  const f=await fixture();t.after(()=>f.close());const state=await f.state();assert(!Object.hasOwn(state,'rates'));assert(!Object.hasOwn(state,'mercenaryRates'));assert(state.rewards.every(r=>!Object.hasOwn(r,'rate')));
- const page=readFileSync(new URL('../js/golden-axe-page-v1.js',import.meta.url),'utf8');for(const text of ['axeRates','axeSelectedRate','openRates','상품별 확률 보기','등장확률'])assert(!page.includes(text));assert(page.includes("AXE_REWARDS.filter(r=>r.kind!=='MISS')"));
+ const page=readFileSync(new URL('../js/golden-axe-page-v1.js',import.meta.url),'utf8');for(const text of ['axeRates','axeSelectedRate','openRates','상품별 확률 보기','등장확률'])assert(!page.includes(text));assert(page.includes("state?.rewards||(preview?AXE_REWARDS:[])"));
  const admin=readFileSync(new URL('../admin/golden-axe-v1.js',import.meta.url),'utf8');assert(admin.includes('step="0.0001"'));assert(admin.includes('최종 획득확률 = 등급 상품 확률 × 등급 내 용병 확률 ÷ 100'));
 });

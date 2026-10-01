@@ -1,4 +1,4 @@
-import {AXE_KEY,OLD_AXE,SUPERSTAR_13,PARTS_CHOICE,AXE_ASSETS,AXE_PARTS,AXE_REWARDS,cleanAxeSettings,axeSettingsComplete,axePhase,pickAxeReward,axeMercenaryPool,pickAxeMercenary} from '../js/golden-axe-model-v1.js';
+import {AXE_KEY,OLD_AXE,SUPERSTAR_13,PARTS_CHOICE,AXE_ASSETS,AXE_PARTS,AXE_REWARDS,axeRewards,cleanAxeSettings,axeSettingsComplete,axePhase,pickAxeReward,axeMercenaryPool,pickAxeMercenary} from '../js/golden-axe-model-v1.js';
 import {readMercenaryDocument} from './_mercenary_account.js';
 import {MERCENARY_CMS_SEED} from './_mercenary_cms_seed.js';
 import {MERCENARY_ACCOUNTING_SCHEMA,mercenaryRandomInt,mercenaryCardAcquisitionStatements} from './_mercenary_draw_accounting.js';
@@ -37,14 +37,31 @@ export async function ensureGoldenAxe(env){
 }
 async function transaction(env,operation){await ensureGoldenAxe(env);return env.DB.enqueue(async()=>{const q=async(text,values=[])=>(await env.DB.client.query({text,values})).rows;await q('BEGIN');try{await q("SET LOCAL TIME ZONE 'UTC'");await q("SET LOCAL lock_timeout='4s'");await q("SET LOCAL statement_timeout='20s'");const result=await operation(q);await q('COMMIT');return result;}catch(error){try{await q('ROLLBACK');}catch{}throw error;}});}
 async function readSettings(q,lock=false){const [row]=await q(`SELECT value FROM app_meta WHERE key=$1${lock?' FOR SHARE':''}`,[AXE_KEY]);const raw=row?JSON.parse(row.value):{};return {settings:cleanAxeSettings(raw),revision:raw.revision??null,historyStartsAt:raw.historyStartsAt?new Date(raw.historyStartsAt).toISOString():null};}
-async function catalog(q,lock=false,settings=null){
+async function catalog(q,lock=false,settings={},includeOptions=false){
+ const configured=axeRewards(settings);
  const equipment=await q(`SELECT id,code,name,image_url,is_active,is_public,slot FROM character_equipment_items WHERE code=ANY($1::text[])${lock?' FOR SHARE':''}`,[AXE_REWARDS.filter(r=>r.kind==='EQUIPMENT').map(r=>r.code)]);
- const items=await q(`SELECT code,is_active FROM inventory_items WHERE code=ANY($1::text[])${lock?' FOR SHARE':''}`,[AXE_REWARDS.filter(r=>r.kind==='ITEM').map(r=>r.code)]);
+ const items=await q(`SELECT code,name,description,category,rarity,image_url,is_active FROM inventory_items WHERE ${includeOptions?'is_active=1 OR ':''}code=ANY($1::text[]) ORDER BY sort_order NULLS LAST,name,code${lock?' FOR SHARE':''}`,[configured.filter(r=>r.kind==='ITEM').map(r=>r.code)]);
  let mercenaries=[];const [schema]=await q("SELECT to_regclass('public.mercenary_cms_documents_v1') AS relation,to_regclass('public.mercenary_draw_config_v1') AS policy_relation");
  let cardRules;if(schema?.policy_relation){const [policy]=await q(`SELECT payload_json FROM mercenary_draw_config_v1 WHERE id=1${lock?' FOR SHARE':''}`);cardRules=policy?JSON.parse(policy.payload_json).cardRules:undefined;}
  const eligible=new Set(mercenaryCardChances(null,MERCENARY_CMS_SEED.catalog.cards.map(c=>c.code),cardRules).filter(c=>c.weight>0).map(c=>c.code));
  if(schema?.relation){const {document}=await readMercenaryDocument({DB:transactionDB(q,lock)});mercenaries=document.mercenaries.filter(m=>['S','SS','SSS'].includes(m.rank)&&eligible.has(m.code)).flatMap(m=>{const art=MERCENARY_CMS_SEED.catalog.cards.find(c=>c.code===m.code);return art?[{code:m.code,name:m.name,rank:m.rank,image:art.sourceArt.startsWith('/' )?art.sourceArt:'/'+art.sourceArt}]:[];});}
- return {mercenaries,rewards:AXE_REWARDS.map(reward=>{let available=true,extra={};if(reward.kind==='EQUIPMENT'){const row=equipment.find(e=>e.code===reward.code);available=Boolean(row&&Number(row.is_active)===1&&Number(row.is_public)===1&&row.slot==='BATTLE_SUIT');if(row)extra={id:Number(row.id),image:String(row.image_url||reward.image).replace(/^(?!https?:|\/)/,'/')};}else if(reward.kind==='ITEM')available=items.some(i=>i.code===reward.code&&Number(i.is_active)===1);else if(reward.kind==='MERCENARY'){try{axeMercenaryPool(settings||{},mercenaries,reward.rank);}catch{available=false;}}return {...reward,...extra,available};})};
+ const resolve=reward=>{
+  let available=true,extra={};
+  if(reward.kind==='EQUIPMENT'){
+   const row=equipment.find(e=>e.code===reward.code);available=Boolean(row&&Number(row.is_active)===1&&Number(row.is_public)===1&&row.slot==='BATTLE_SUIT');if(row)extra={id:Number(row.id),image:String(row.image_url||reward.image).replace(/^(?!https?:|\/)/,'/')};
+  }else if(reward.kind==='ITEM'){
+   const row=items.find(i=>i.code===reward.code);available=Boolean(row&&Number(row.is_active)===1);
+   const name=reward.name||row?.name||reward.code,amount=reward.quantity??1;
+   extra={known:Boolean(row),name,image:reward.image||String(row?.image_url||AXE_ASSETS+'item.svg').replace(/^(?!https?:|\/)/,'/'),tag:reward.tag||row?.category||'아이템',category:row?.category||'아이템',detail:reward.detail&&amount===1?reward.detail:`${name} ${amount.toLocaleString('ko-KR')}개를 인벤토리에 지급합니다.${row?.description?' '+row.description:''}`};
+  }else if(reward.kind==='MERCENARY'){try{axeMercenaryPool(settings,mercenaries,reward.rank);}catch{available=false;}}
+  return {...reward,...extra,available};
+ };
+ const rewards=configured.map(resolve);
+ const itemCatalog=includeOptions?[
+  ...AXE_REWARDS.map(r=>resolve({...r,quantity:1})),
+  ...items.filter(i=>Number(i.is_active)===1&&/^[A-Za-z0-9_-]{1,96}$/.test(i.code)&&!AXE_REWARDS.some(r=>r.kind==='ITEM'&&r.code===i.code)).map(i=>resolve({key:'ITEM_'+i.code,kind:'ITEM',code:i.code,quantity:1}))
+ ]:undefined;
+ return {mercenaries,rewards,...(includeOptions?{itemCatalog}:{} )};
 }
 async function quoteFor(config,data){const raw=JSON.stringify({revision:config.revision,rewards:data.rewards.map(r=>[r.key,r.id??null,r.available]),mercenaries:data.mercenaries.map(m=>[m.code,m.rank])});const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(raw));return Array.from(new Uint8Array(digest),v=>v.toString(16).padStart(2,'0')).join('');}
 async function balances(q,id){const [user]=await q('SELECT coin FROM users WHERE id=$1',[id]);const rows=await q('SELECT item_code,quantity FROM cnine_user_inventory WHERE user_id=$1 AND item_code=ANY($2::text[])',[id,[OLD_AXE,SUPERSTAR_13,PARTS_CHOICE]]);const count=code=>quantity(rows.find(r=>r.item_code===code)?.quantity);return {coin:String(user?.coin??0),axes:count(OLD_AXE),upgradeTickets:count(SUPERSTAR_13),partsTickets:count(PARTS_CHOICE)};}
@@ -70,12 +87,12 @@ export async function drawGoldenAxe(env,userId,body,{randomInt=mercenaryRandomIn
   if(s.dailyLimit>0&&await dailyCount(q,id,clock.now,config.historyStartsAt)>=s.dailyLimit)fail('DAILY_LIMIT','오늘의 참가 횟수를 모두 사용했습니다. 매일 00시(KST)에 초기화됩니다.');
   const [ticketItem]=await q('SELECT is_active FROM inventory_items WHERE code=$1 FOR SHARE',[OLD_AXE]);if(Number(ticketItem?.is_active)!==1)fail('AXE_DISABLED','낡은도끼 사용이 중지되어 있습니다.');
   const [owned]=await q('SELECT quantity FROM cnine_user_inventory WHERE user_id=$1 AND item_code=$2 FOR UPDATE',[id,OLD_AXE]);if(quantity(owned?.quantity)<s.axeCost)fail('INSUFFICIENT_AXES','낡은도끼가 부족합니다.');
-  const selected=pickAxeReward(s,randomInt(1000000)),reward={...data.rewards.find(r=>r.key===selected.key),quantity:1};
+  const selected=pickAxeReward(s,randomInt(1000000)),reward={...data.rewards.find(r=>r.key===selected.key)};
   if(reward.kind==='EQUIPMENT'){
    const granted=await q("INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id) SELECT $1,id,'GOLDEN_AXE',$2,$2 FROM character_equipment_items WHERE id=$3 AND code=$4 AND is_active=1 AND is_public=1 AND slot='BATTLE_SUIT' RETURNING id,equipment_id",[id,requestId,reward.id,reward.code]);if(granted.length!==1)fail('GRANT_FAILED','배틀슈트 지급 실패로 모든 변경을 취소했습니다.');reward.instanceId=Number(granted[0].id);
   }else if(reward.kind==='COIN'){
    const before=BigInt(String(user.coin)),after=before+BigInt(reward.amount);if(after>9223372036854775807n)fail('COIN_OVERFLOW','코인 보유 한도를 확인하세요.');const rows=await q('UPDATE users SET coin=coin+$2 WHERE id=$1 RETURNING coin',[id,reward.amount]);if(rows.length!==1||String(rows[0].coin)!==String(after))fail('GRANT_FAILED','코인 지급 실패로 모든 변경을 취소했습니다.');await q('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES($1,$2,$3,$4)',[id,reward.amount,String(after),`핑두의 금도끼 은도끼:${requestId}`]);
-  }else if(reward.kind==='ITEM')await inventoryChange(q,id,reward.code,1,requestId,'핑두의 금도끼 은도끼 당첨');
+  }else if(reward.kind==='ITEM')await inventoryChange(q,id,reward.code,reward.quantity,requestId,'핑두의 금도끼 은도끼 당첨');
   else if(reward.kind==='MERCENARY'){
    const pool=axeMercenaryPool(s,data.mercenaries,reward.rank),mercenary=pickAxeMercenary(pool,randomInt(pool.reduce((sum,m)=>sum+m.weight,0)));
    for(const stmt of mercenaryCardAcquisitionStatements(transactionDB(q),{userId:id,mercenaryCode:mercenary.code,acquisitionId:'axe:'+requestId})){let n=0;await q(stmt.source.replace(/\?/g,()=>`$${++n}`),stmt.values);}
@@ -98,7 +115,18 @@ export async function useGoldenAxeItem(env,userId,body){
   await inventoryChange(q,id,itemCode,-1,requestId,'금도끼 은도끼 상품 사용');return saveReceipt(q,{ok:true,requestId,userId:id,operation:itemCode,target,kind:reward.kind,reward,...await balances(q,id),completedAt:new Date().toISOString(),replayed:false});
  });
 }
-export async function goldenAxeAdmin(env,admin,body=null){return transaction(env,async q=>{await q('SELECT pg_advisory_xact_lock(hashtextextended($1,0))',[AXE_KEY]);const before=await readSettings(q),data=await catalog(q,true);if(body){let next;try{next=cleanAxeSettings({...body,rates:{...before.settings.rates,...body.rates},mercenaryRates:body.mercenaryRates===undefined?before.settings.mercenaryRates:body.mercenaryRates});}catch(error){fail('SETTINGS_INVALID',error.message,400);}if((body.revision??null)!==before.revision)fail('REVISION_CONFLICT','다른 관리자가 변경했습니다. 다시 불러오세요.');if(next.enabled&&data.rewards.some(r=>next.rates[r.key]>0&&!r.available))fail('REWARD_UNAVAILABLE','확률이 설정된 상품의 지급 상태를 확인하세요.');for(const rank of ['S','SS','SSS'])if(next.mercenaryRates[rank]||next.rates['MERCENARY_'+rank]>0){try{axeMercenaryPool(next,data.mercenaries,rank);}catch(e){fail('MERCENARY_POOL_INVALID',e.message,400);}}const revision=crypto.randomUUID(),value=JSON.stringify({...next,revision,historyStartsAt:before.historyStartsAt});await q('INSERT INTO app_meta(key,value,updated_at) VALUES($1,$2,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP',[AXE_KEY,value]);await q("INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES($1,'GOLDEN_AXE_UPDATE','EVENT',$2,$3,$4)",[admin.id,AXE_KEY,JSON.stringify(before),value]);return {settings:next,revision,rewards:data.rewards,mercenaries:data.mercenaries,complete:axeSettingsComplete(next)};}return {...before,rewards:data.rewards,mercenaries:data.mercenaries,complete:axeSettingsComplete(before.settings)};});}
+export async function goldenAxeAdmin(env,admin,body=null){return transaction(env,async q=>{
+ await q('SELECT pg_advisory_xact_lock(hashtextextended($1,0))',[AXE_KEY]);const before=await readSettings(q);
+ if(!body)return {...before,...await catalog(q,true,before.settings,true),complete:axeSettingsComplete(before.settings)};
+ if((body.revision??null)!==before.revision)fail('REVISION_CONFLICT','다른 관리자가 변경했습니다. 다시 불러오세요.');
+ let next;try{next=cleanAxeSettings({...body,rewards:body.rewards===undefined?before.settings.rewards:body.rewards,rates:{...before.settings.rates,...body.rates},mercenaryRates:body.mercenaryRates===undefined?before.settings.mercenaryRates:body.mercenaryRates});}catch(error){fail('SETTINGS_INVALID',error.message,400);}
+ const data=await catalog(q,true,next,true);
+ if(data.rewards.some(r=>r.kind==='ITEM'&&!r.known))fail('ITEM_UNKNOWN','CMS에 등록된 아이템만 보상으로 추가할 수 있습니다.',400);
+ for(const rank of ['S','SS','SSS'])if(next.rewards.some(r=>r.key==='MERCENARY_'+rank)&&(next.mercenaryRates[rank]||next.rates['MERCENARY_'+rank]>0)){try{axeMercenaryPool(next,data.mercenaries,rank);}catch(e){fail('MERCENARY_POOL_INVALID',e.message,400);}}
+ if(next.enabled&&data.rewards.some(r=>next.rates[r.key]>0&&!r.available))fail('REWARD_UNAVAILABLE','확률이 설정된 상품의 지급 상태를 확인하세요.');
+ const revision=crypto.randomUUID(),value=JSON.stringify({...next,revision,historyStartsAt:before.historyStartsAt});await q('INSERT INTO app_meta(key,value,updated_at) VALUES($1,$2,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP',[AXE_KEY,value]);await q("INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES($1,'GOLDEN_AXE_UPDATE','EVENT',$2,$3,$4)",[admin.id,AXE_KEY,JSON.stringify(before),value]);
+ return {settings:next,revision,...data,complete:axeSettingsComplete(next)};
+});}
 export async function handleGoldenAxe({path,request,env,deps}){
  if(!['events/golden-axe/feature','events/golden-axe/state','events/golden-axe/draw','events/golden-axe/receipt','events/golden-axe/item-options','events/golden-axe/use-item','admin/golden-axe'].includes(path))return null;
  const {authenticate,requirePermission,readBody,json}=deps,admin=path==='admin/golden-axe';try{
