@@ -1,0 +1,258 @@
+{
+  "date": "2026-10-01",
+  "scope": "preview/mercenary-crimson-silver-knight-battle-v1/",
+  "status": "V15_STRIKE_ONLY_ADDITIONAL_SPEED_QA_COMPLETE",
+  "retainedPreviewVersion": 14,
+  "playbackTempo": {
+    "version": 15,
+    "rate": 1.2,
+    "strikeRate": 1.2,
+    "scope": "KEEP_V14_PREVIEW_ACCELERATE_STRIKE_ONLY",
+    "clock": "EXISTING_V3_GSAP_TIMELINE",
+    "contactAt": 1.98,
+    "strikeStart": 1.8633333333333333,
+    "strikeEnd": 2.1633333333333336,
+    "previousSwingSeconds": 0.3,
+    "swingSeconds": 0.25,
+    "additionalStrikeSpeedPercent": 20,
+    "recoveryAt": 2.2,
+    "approvedIdleAt": 3.15,
+    "effectTimingUnchangedFrom": "V14",
+    "audioTimingUnchangedFrom": "V14",
+    "artworkUnchanged": true,
+    "record": "motion-tempo-request-20261001-v15.json"
+  },
+  "previousReport": "qa/v14/qa-report.json",
+  "browserReport": "qa/v15/speed-report.json",
+  "isolationReport": "qa/v15/isolation-report.json",
+  "relatedRegressionTests": {
+    "passed": 5,
+    "failed": 0,
+    "pattern": "drawn collision|strike-only|every living|all-skills showcase|licensed V3"
+  },
+  "isolation": {
+    "passed": true,
+    "baseline": "5cdb7ec614f509d3b15d617941420695f31eb9d2",
+    "globalRateUnchanged": 1.2,
+    "samplesCompared": 7470,
+    "changedSwingSamples": 72,
+    "skillDurationsAndAudioCuesUnchanged": true,
+    "effectSamplesUnchanged": true,
+    "resourceDefinitionsUnchanged": true
+  },
+  "browser": [
+    {
+      "viewport": "desktop",
+      "globalSpeeds": [
+        {
+          "speed": 0.25,
+          "elapsed": 0.2109,
+          "wall": 0.7015999999940395,
+          "rate": 0.3,
+          "timelineRate": 0.3,
+          "pausedStable": true
+        },
+        {
+          "speed": 0.5,
+          "elapsed": 0.4224,
+          "wall": 0.7042000000178814,
+          "rate": 0.6,
+          "timelineRate": 0.6,
+          "pausedStable": true
+        },
+        {
+          "speed": 1,
+          "elapsed": 0.8448,
+          "wall": 0.7029000000059604,
+          "rate": 1.2,
+          "timelineRate": 1.2,
+          "pausedStable": true
+        },
+        {
+          "speed": 2,
+          "elapsed": 1.6896,
+          "wall": 0.7030999999940395,
+          "rate": 2.4,
+          "timelineRate": 2.4,
+          "pausedStable": true
+        }
+      ],
+      "actualSwingTextures": [
+        {
+          "time": 1.85,
+          "pose": {
+            "key": "twohandLift",
+            "frame": 3
+          },
+          "textureMatches": true
+        },
+        {
+          "time": 1.9,
+          "pose": {
+            "key": "twohandStrike",
+            "frame": 0
+          },
+          "textureMatches": true
+        },
+        {
+          "time": 1.98,
+          "pose": {
+            "key": "twohandStrike",
+            "frame": 1
+          },
+          "textureMatches": true
+        },
+        {
+          "time": 2.12,
+          "pose": {
+            "key": "twohandStrike",
+            "frame": 3
+          },
+          "textureMatches": true
+        },
+        {
+          "time": 2.19,
+          "pose": {
+            "key": "twohandStrike",
+            "frame": 3
+          },
+          "textureMatches": true
+        },
+        {
+          "time": 2.2,
+          "pose": {
+            "key": "twohandReturn",
+            "frame": 0
+          },
+          "textureMatches": true
+        },
+        {
+          "time": 3.15,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          },
+          "textureMatches": true
+        }
+      ],
+      "audioSynchronized": true,
+      "horizontalOverflow": false,
+      "showcaseWallSeconds": 22.995,
+      "errors": [],
+      "approvedIdleRestored": true
+    },
+    {
+      "viewport": "mobile",
+      "globalSpeeds": [
+        {
+          "speed": 0.25,
+          "elapsed": 0.2124,
+          "wall": 0.7019000000059604,
+          "rate": 0.3,
+          "timelineRate": 0.3,
+          "pausedStable": true
+        },
+        {
+          "speed": 0.5,
+          "elapsed": 0.423,
+          "wall": 0.7025,
+          "rate": 0.6,
+          "timelineRate": 0.6,
+          "pausedStable": true
+        },
+        {
+          "speed": 1,
+          "elapsed": 0.84,
+          "wall": 0.7003000000119209,
+          "rate": 1.2,
+          "timelineRate": 1.2,
+          "pausedStable": true
+        },
+        {
+          "speed": 2,
+          "elapsed": 1.68,
+          "wall": 0.7015999999940395,
+          "rate": 2.4,
+          "timelineRate": 2.4,
+          "pausedStable": true
+        }
+      ],
+      "actualSwingTextures": [
+        {
+          "time": 1.85,
+          "pose": {
+            "key": "twohandLift",
+            "frame": 3
+          },
+          "textureMatches": true
+        },
+        {
+          "time": 1.9,
+          "pose": {
+            "key": "twohandStrike",
+            "frame": 0
+          },
+          "textureMatches": true
+        },
+        {
+          "time": 1.98,
+          "pose": {
+            "key": "twohandStrike",
+            "frame": 1
+          },
+          "textureMatches": true
+        },
+        {
+          "time": 2.12,
+          "pose": {
+            "key": "twohandStrike",
+            "frame": 3
+          },
+          "textureMatches": true
+        },
+        {
+          "time": 2.19,
+          "pose": {
+            "key": "twohandStrike",
+            "frame": 3
+          },
+          "textureMatches": true
+        },
+        {
+          "time": 2.2,
+          "pose": {
+            "key": "twohandReturn",
+            "frame": 0
+          },
+          "textureMatches": true
+        },
+        {
+          "time": 3.15,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          },
+          "textureMatches": true
+        }
+      ],
+      "audioSynchronized": true,
+      "horizontalOverflow": false,
+      "showcaseWallSeconds": null,
+      "errors": [],
+      "approvedIdleRestored": true
+    }
+  ],
+  "artworkChanged": false,
+  "motionAtlasesChanged": false,
+  "liveRuntimeChanged": false,
+  "recording": {
+    "file": "qa/all-skills-strike-only-v15.webp",
+    "frames": 347,
+    "width": 960,
+    "height": 510,
+    "globalRate": 1.2,
+    "strikeRate": 1.2,
+    "terminalHoldMs": 700,
+    "errors": []
+  }
+}

@@ -1,258 +1,101 @@
 {
   "date": "2026-10-01",
+  "status": "V16_ALL_SKILLS_FAST_DESCENT_QA_COMPLETE",
   "scope": "preview/mercenary-crimson-silver-knight-battle-v1/",
-  "status": "V15_STRIKE_ONLY_ADDITIONAL_SPEED_QA_COMPLETE",
-  "retainedPreviewVersion": 14,
+  "previousReport": "qa/v15/qa-report.json",
   "playbackTempo": {
-    "version": 15,
+    "version": 16,
     "rate": 1.2,
-    "strikeRate": 1.2,
-    "scope": "KEEP_V14_PREVIEW_ACCELERATE_STRIKE_ONLY",
+    "strikeRate": 2.4,
+    "scope": "ALL_ATTACKS_AND_SKILLS_FAST_DESCENT",
+    "appliesTo": [
+      "attack",
+      "skill",
+      "overhead",
+      "execution",
+      "guard",
+      "ultimate"
+    ],
     "clock": "EXISTING_V3_GSAP_TIMELINE",
-    "contactAt": 1.98,
-    "strikeStart": 1.8633333333333333,
-    "strikeEnd": 2.1633333333333336,
-    "previousSwingSeconds": 0.3,
-    "swingSeconds": 0.25,
-    "additionalStrikeSpeedPercent": 20,
-    "recoveryAt": 2.2,
-    "approvedIdleAt": 3.15,
-    "effectTimingUnchangedFrom": "V14",
-    "audioTimingUnchangedFrom": "V14",
+    "descentAt": 1.64,
+    "strikeStart": 1.7233333333333334,
+    "contactAt": 1.7816666666666667,
+    "strikeEnd": 1.8733333333333333,
+    "approvedIdleAt": 2.8233333333333333,
+    "previousSwingSeconds": 0.25,
+    "swingSeconds": 0.125,
+    "relativeSpeedToV15": 2,
+    "lateLiftAlsoAccelerated": true,
+    "compensatingHold": false,
+    "effectPlaybackSpeedUnchanged": true,
+    "audioPlaybackSpeedUnchanged": true,
+    "impactCuesFollowContact": true,
     "artworkUnchanged": true,
-    "record": "motion-tempo-request-20261001-v15.json"
+    "record": "motion-tempo-request-20261001-v16.json"
   },
-  "previousReport": "qa/v14/qa-report.json",
-  "browserReport": "qa/v15/speed-report.json",
-  "isolationReport": "qa/v15/isolation-report.json",
   "relatedRegressionTests": {
-    "passed": 5,
+    "passed": 8,
     "failed": 0,
-    "pattern": "drawn collision|strike-only|every living|all-skills showcase|licensed V3"
+    "pattern": "all ten|every living|drawn collision|visibly faster|Grounded|every attack|all-skills|licensed V3"
   },
-  "isolation": {
+  "effectTempo": {
     "passed": true,
-    "baseline": "5cdb7ec614f509d3b15d617941420695f31eb9d2",
+    "baseline": "5e831ffb53b20721d115b20cf8db16f203ebf454",
+    "resourceDefinitionsUnchanged": true,
     "globalRateUnchanged": 1.2,
-    "samplesCompared": 7470,
-    "changedSwingSamples": 72,
-    "skillDurationsAndAudioCuesUnchanged": true,
-    "effectSamplesUnchanged": true,
-    "resourceDefinitionsUnchanged": true
+    "effectAgeSamplesCompared": 1020,
+    "effectFramesAndDurationsUnchanged": true,
+    "audioSourceAndSpeedUnchanged": true,
+    "allSixSkillsUseEarlierContact": 1.7816666666666667,
+    "earlyPreparationAndRecoverySpeedUnchanged": true,
+    "nonAttackModesUnchanged": true
   },
+  "browserReport": "qa/v16/browser-report.json",
   "browser": [
     {
       "viewport": "desktop",
-      "globalSpeeds": [
-        {
-          "speed": 0.25,
-          "elapsed": 0.2109,
-          "wall": 0.7015999999940395,
-          "rate": 0.3,
-          "timelineRate": 0.3,
-          "pausedStable": true
-        },
-        {
-          "speed": 0.5,
-          "elapsed": 0.4224,
-          "wall": 0.7042000000178814,
-          "rate": 0.6,
-          "timelineRate": 0.6,
-          "pausedStable": true
-        },
-        {
-          "speed": 1,
-          "elapsed": 0.8448,
-          "wall": 0.7029000000059604,
-          "rate": 1.2,
-          "timelineRate": 1.2,
-          "pausedStable": true
-        },
-        {
-          "speed": 2,
-          "elapsed": 1.6896,
-          "wall": 0.7030999999940395,
-          "rate": 2.4,
-          "timelineRate": 2.4,
-          "pausedStable": true
-        }
+      "allModesVerified": [
+        "attack",
+        "skill",
+        "overhead",
+        "execution",
+        "guard",
+        "ultimate"
       ],
-      "actualSwingTextures": [
-        {
-          "time": 1.85,
-          "pose": {
-            "key": "twohandLift",
-            "frame": 3
-          },
-          "textureMatches": true
-        },
-        {
-          "time": 1.9,
-          "pose": {
-            "key": "twohandStrike",
-            "frame": 0
-          },
-          "textureMatches": true
-        },
-        {
-          "time": 1.98,
-          "pose": {
-            "key": "twohandStrike",
-            "frame": 1
-          },
-          "textureMatches": true
-        },
-        {
-          "time": 2.12,
-          "pose": {
-            "key": "twohandStrike",
-            "frame": 3
-          },
-          "textureMatches": true
-        },
-        {
-          "time": 2.19,
-          "pose": {
-            "key": "twohandStrike",
-            "frame": 3
-          },
-          "textureMatches": true
-        },
-        {
-          "time": 2.2,
-          "pose": {
-            "key": "twohandReturn",
-            "frame": 0
-          },
-          "textureMatches": true
-        },
-        {
-          "time": 3.15,
-          "pose": {
-            "key": "idle",
-            "frame": 0
-          },
-          "textureMatches": true
-        }
-      ],
-      "audioSynchronized": true,
-      "horizontalOverflow": false,
-      "showcaseWallSeconds": 22.995,
+      "nativeTextureAndAuraMatches": true,
+      "pauseStable": true,
+      "audioContact": 1.7816666666666667,
+      "showcaseWallSeconds": 23.001,
       "errors": [],
-      "approvedIdleRestored": true
+      "overflow": false
     },
     {
       "viewport": "mobile",
-      "globalSpeeds": [
-        {
-          "speed": 0.25,
-          "elapsed": 0.2124,
-          "wall": 0.7019000000059604,
-          "rate": 0.3,
-          "timelineRate": 0.3,
-          "pausedStable": true
-        },
-        {
-          "speed": 0.5,
-          "elapsed": 0.423,
-          "wall": 0.7025,
-          "rate": 0.6,
-          "timelineRate": 0.6,
-          "pausedStable": true
-        },
-        {
-          "speed": 1,
-          "elapsed": 0.84,
-          "wall": 0.7003000000119209,
-          "rate": 1.2,
-          "timelineRate": 1.2,
-          "pausedStable": true
-        },
-        {
-          "speed": 2,
-          "elapsed": 1.68,
-          "wall": 0.7015999999940395,
-          "rate": 2.4,
-          "timelineRate": 2.4,
-          "pausedStable": true
-        }
+      "allModesVerified": [
+        "attack",
+        "skill",
+        "overhead",
+        "execution",
+        "guard",
+        "ultimate"
       ],
-      "actualSwingTextures": [
-        {
-          "time": 1.85,
-          "pose": {
-            "key": "twohandLift",
-            "frame": 3
-          },
-          "textureMatches": true
-        },
-        {
-          "time": 1.9,
-          "pose": {
-            "key": "twohandStrike",
-            "frame": 0
-          },
-          "textureMatches": true
-        },
-        {
-          "time": 1.98,
-          "pose": {
-            "key": "twohandStrike",
-            "frame": 1
-          },
-          "textureMatches": true
-        },
-        {
-          "time": 2.12,
-          "pose": {
-            "key": "twohandStrike",
-            "frame": 3
-          },
-          "textureMatches": true
-        },
-        {
-          "time": 2.19,
-          "pose": {
-            "key": "twohandStrike",
-            "frame": 3
-          },
-          "textureMatches": true
-        },
-        {
-          "time": 2.2,
-          "pose": {
-            "key": "twohandReturn",
-            "frame": 0
-          },
-          "textureMatches": true
-        },
-        {
-          "time": 3.15,
-          "pose": {
-            "key": "idle",
-            "frame": 0
-          },
-          "textureMatches": true
-        }
-      ],
-      "audioSynchronized": true,
-      "horizontalOverflow": false,
+      "nativeTextureAndAuraMatches": true,
+      "pauseStable": true,
+      "audioContact": 1.7816666666666667,
       "showcaseWallSeconds": null,
       "errors": [],
-      "approvedIdleRestored": true
+      "overflow": false
     }
   ],
-  "artworkChanged": false,
-  "motionAtlasesChanged": false,
-  "liveRuntimeChanged": false,
   "recording": {
-    "file": "qa/all-skills-strike-only-v15.webp",
-    "frames": 347,
+    "file": "qa/all-skills-fast-descent-v16.webp",
+    "pages": 692,
     "width": 960,
     "height": 510,
-    "globalRate": 1.2,
-    "strikeRate": 1.2,
+    "fps": 30,
     "terminalHoldMs": 700,
     "errors": []
-  }
+  },
+  "artworkChanged": false,
+  "liveRuntimeChanged": false
 }
