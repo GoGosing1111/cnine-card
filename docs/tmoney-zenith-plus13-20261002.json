@@ -1,0 +1,67 @@
+{
+  "checkedAt": "2026-10-01T16:49:28.909Z",
+  "verified": true,
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:tmoney-zenith-joeun-ayoon-plus13:20261002:v1",
+    "actor": "SYSTEM_OPS",
+    "user": {
+      "id": 5147,
+      "nickname": "T-Money™"
+    },
+    "mode": "UPGRADE_ONLY",
+    "levelRequested": 13,
+    "cards": [
+      {
+        "id": "CN-BA6BDEC789144D00",
+        "title": "오조은",
+        "grade": "ZENITH",
+        "name": "오조은",
+        "quantityGranted": 0,
+        "quantityBefore": 1,
+        "quantityAfter": 1,
+        "levelBefore": 11,
+        "levelAfter": 13,
+        "failCountBefore": 3,
+        "failCountAfter": 0
+      },
+      {
+        "id": "CN-ED78DCC2DA3C42B5",
+        "title": "아윤",
+        "grade": "ZENITH",
+        "name": "아윤",
+        "quantityGranted": 0,
+        "quantityBefore": 5,
+        "quantityAfter": 5,
+        "levelBefore": 10,
+        "levelAfter": 13,
+        "failCountBefore": 0,
+        "failCountAfter": 0
+      }
+    ],
+    "balancesPreserved": true,
+    "otherCardsPreserved": true,
+    "completedAt": "2026-10-01T16:49:26.887Z",
+    "adminLogId": "39128"
+  },
+  "currentCards": [
+    {
+      "id": "CN-BA6BDEC789144D00",
+      "title": "오조은",
+      "grade": "ZENITH",
+      "name": "오조은",
+      "quantity": 1,
+      "level": 13,
+      "failCount": 0
+    },
+    {
+      "id": "CN-ED78DCC2DA3C42B5",
+      "title": "아윤",
+      "grade": "ZENITH",
+      "name": "아윤",
+      "quantity": 5,
+      "level": 13,
+      "failCount": 0
+    }
+  ]
+}
