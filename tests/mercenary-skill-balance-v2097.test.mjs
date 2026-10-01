@@ -5,7 +5,12 @@ import {applyMercenaryBalanceV2097,MERCENARY_SKILL_BALANCE_V2097 as proposals} f
 import {MERCENARY_COMBAT_DRAFT as combat} from '../shared/mercenary-combat-policy-v1.mjs';
 import {buildMercenaryFighter,mercenaryCombat,isMercenarySupportSkill} from '../functions/_mercenary_combat.js';
 import {createPveBattleV2,createPvpBattleV2} from '../functions/_battle_v2_preview.js';
-const document=applyMercenaryBalanceV2097(seed.document,seed.catalog);
+// This historical one-time CMS operation intentionally refuses later skills.
+// Reconstruct its accepted catalog; separately assert that today's CMS is rejected.
+const historicalIds=new Set([...proposals.map(s=>s.id),'MS-044','MS-045','MS-046','MS-047','MS-048','MS-049','MS-050','MS-051','MS-055']);
+const historicalCatalog={...seed.catalog,skills:seed.catalog.skills.filter(s=>historicalIds.has(s.id))};
+const historicalDocument={...structuredClone(seed.document),skills:seed.document.skills.filter(s=>historicalIds.has(s.id)),assignments:seed.document.assignments.map(a=>({...a,skillIds:a.skillIds.filter(id=>historicalIds.has(id))}))};
+const document=applyMercenaryBalanceV2097(historicalDocument,historicalCatalog);
 const snapshot=skills=>({code:'V-001',rank:'S',name:'검수 용병',role:'VANGUARD',position:'FRONT',level:1,basePower:10000,stats:{hp:10000000,attack:1000,defense:100,speed:1000},skills,combat,sourceArt:'/art.png',battleSprite:'/sprite.png'});
 function harness(id,count=1){
  const skill=document.skills.find(s=>s.id===id),a=buildMercenaryFighter(snapshot([skill]),'A','PVP'),ally={...buildMercenaryFighter(snapshot([]),'A','PVP'),id:'A:ALLY',slot:0,isMercenary:false,hp:100};
@@ -15,15 +20,16 @@ function harness(id,count=1){
  return {a,ally,targets,events,runtime,turn,skill};
 }
 test('explicit balance operation preserves ranks, assignments, rules and notes; rejects catalog drift',()=>{
- const original=structuredClone(seed.document),result=applyMercenaryBalanceV2097(original,seed.catalog);
+ const original=structuredClone(historicalDocument),result=applyMercenaryBalanceV2097(original,historicalCatalog);
  assert.equal(result.skills.length,35);assert.equal(new Set(proposals.map(s=>s.id)).size,26);
  assert.deepEqual(result.skills.find(s=>s.id==='MS-050'),original.skills.find(s=>s.id==='MS-050'),'released Sniper Orikkung keeps its separately approved balance');
  assert.ok(original.skills.some(s=>s.id==='MS-055'),'registered Berkan is included in the 35-skill catalog');
  assert.deepEqual(result.skills.find(s=>s.id==='MS-055'),original.skills.find(s=>s.id==='MS-055'),'Berkan keeps its separately approved balance');
  assert.deepEqual(result.mercenaries,original.mercenaries);assert.deepEqual(result.assignments,original.assignments);
  for(const row of result.skills){const before=original.skills.find(s=>s.id===row.id);assert.deepEqual({...row,balance:before.balance,review:before.review},before);assert.equal(row.review,'REVIEWED');}
- assert.deepEqual(original,seed.document);
- const changed=structuredClone(original);changed.skills[0].mechanic='OTHER';assert.throws(()=>applyMercenaryBalanceV2097(changed,seed.catalog));
+ assert.deepEqual(original,historicalDocument);
+ assert.throws(()=>applyMercenaryBalanceV2097(seed.document,seed.catalog),/스킬 목록/,'new area skill must not bypass the historical CMS drift guard');
+ const changed=structuredClone(original);changed.skills[0].mechanic='OTHER';assert.throws(()=>applyMercenaryBalanceV2097(changed,historicalCatalog),/기믹/);
 });
 test('all 26 approved balances spend energy once per cast, respect cooldown and resolve real mechanics',()=>{
  for(const proposal of proposals){
