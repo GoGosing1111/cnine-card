@@ -1,0 +1,131 @@
+{
+  "date": "2026-10-01",
+  "scope": "preview/mercenary-crimson-silver-knight-battle-v1/",
+  "status": "V14_APPROVED_MOTION_AND_SIZE_TEMPO_QA_COMPLETE",
+  "motionApproval": {
+    "record": "motion-approval-20261001-v14.json",
+    "status": "USER_APPROVED_MOTION_AND_SIZE",
+    "date": "2026-10-01",
+    "sizeCorrectionRequested": false,
+    "priorApproval": "motion-approval-20261001-v13.json"
+  },
+  "playbackTempo": {
+    "version": 14,
+    "rate": 1.2,
+    "requestedFrom": 0.25,
+    "requestedTo": 0.3,
+    "changePercent": 20,
+    "clock": "EXISTING_V3_GSAP_TIMELINE",
+    "audioUsesEffectiveRate": true,
+    "authoredTimingUnchanged": true,
+    "artworkUnchanged": true,
+    "record": "motion-approval-20261001-v14.json"
+  },
+  "previousReport": "qa/v13/qa-report.json",
+  "browserReport": "qa/v14/speed-report.json",
+  "relatedRegressionTests": {
+    "passed": 3,
+    "failed": 0,
+    "pattern": "drawn collision|all-skills showcase|licensed V3"
+  },
+  "browser": [
+    {
+      "viewport": "desktop",
+      "speeds": [
+        {
+          "speed": 0.25,
+          "elapsed": 0.2118,
+          "wall": 0.7038000000119209,
+          "rate": 0.3,
+          "timelineRate": 0.3,
+          "pausedStable": true
+        },
+        {
+          "speed": 0.5,
+          "elapsed": 0.42,
+          "wall": 0.7008000000119209,
+          "rate": 0.6,
+          "timelineRate": 0.6,
+          "pausedStable": true
+        },
+        {
+          "speed": 1,
+          "elapsed": 0.8448,
+          "wall": 0.7046000000238418,
+          "rate": 1.2,
+          "timelineRate": 1.2,
+          "pausedStable": true
+        },
+        {
+          "speed": 2,
+          "elapsed": 1.6896,
+          "wall": 0.7035,
+          "rate": 2.4,
+          "timelineRate": 2.4,
+          "pausedStable": true
+        }
+      ],
+      "audioSynchronized": true,
+      "horizontalOverflow": false,
+      "errors": [],
+      "showcaseWallSeconds": 22.996,
+      "approvedIdleRestored": true
+    },
+    {
+      "viewport": "mobile",
+      "speeds": [
+        {
+          "speed": 0.25,
+          "elapsed": 0.2109,
+          "wall": 0.7017000000178814,
+          "rate": 0.3,
+          "timelineRate": 0.3,
+          "pausedStable": true
+        },
+        {
+          "speed": 0.5,
+          "elapsed": 0.4224,
+          "wall": 0.703199999988079,
+          "rate": 0.6,
+          "timelineRate": 0.6,
+          "pausedStable": true
+        },
+        {
+          "speed": 1,
+          "elapsed": 0.84,
+          "wall": 0.7024000000059605,
+          "rate": 1.2,
+          "timelineRate": 1.2,
+          "pausedStable": true
+        },
+        {
+          "speed": 2,
+          "elapsed": 1.6896,
+          "wall": 0.703,
+          "rate": 2.4,
+          "timelineRate": 2.4,
+          "pausedStable": true
+        }
+      ],
+      "audioSynchronized": true,
+      "horizontalOverflow": false,
+      "errors": [],
+      "showcaseWallSeconds": null,
+      "approvedIdleRestored": true
+    }
+  ],
+  "artworkChanged": false,
+  "motionAtlasesChanged": false,
+  "authoredFrameTimingChanged": false,
+  "liveRuntimeChanged": false,
+  "balanceChanged": false,
+  "recording": {
+    "file": "qa/all-skills-speed-v14.webp",
+    "frames": 347,
+    "width": 960,
+    "height": 510,
+    "rate": 1.2,
+    "terminalHoldMs": 700,
+    "errors": []
+  }
+}

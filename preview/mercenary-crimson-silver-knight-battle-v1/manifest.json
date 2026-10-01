@@ -1,5 +1,5 @@
 {
-  "version": 14,
+  "version": 15,
   "conceptId": "crimson-silver-knight",
   "name": "은백·금색 대검 기사",
   "nameStatus": "DESCRIPTION_NOT_ASSIGNED",
@@ -7306,7 +7306,7 @@
     ]
   },
   "release": {
-    "status": "MOTION_AND_SIZE_APPROVED_TEMPO_ADJUSTED_PREVIEW",
+    "status": "APPROVED_MOTION_STRIKE_ONLY_TEMPO_PREVIEW",
     "liveRuntimeChanged": false,
     "balanceChanged": false,
     "skillsAssigned": false
@@ -7406,13 +7406,14 @@
   "reviewPlayback": {
     "motionOnly": "qa/v13/size-comparison.webp",
     "comparison": "qa/v13/size-comparison.webp",
-    "actualV3": "qa/all-skills-speed-v14.webp",
+    "actualV3": "qa/all-skills-strike-only-v15.webp",
     "twoHandMotion": "qa/v13/size-comparison.webp",
-    "allSkills": "qa/all-skills-speed-v14.webp",
+    "allSkills": "qa/all-skills-strike-only-v15.webp",
     "historicalAllSkillsV12": "qa/all-skills-overhead-v12.webp",
     "historicalAllSkillsV13": "qa/all-skills-size-v13.webp",
-    "liveAllSkills": "http://127.0.0.1:8850/preview/mercenary-crimson-silver-knight-battle-v1/?showcase=1&v=14#battle",
-    "historicalTwoHandActualV3V13": "qa/overhead-size-v13.webp"
+    "liveAllSkills": "http://127.0.0.1:8850/preview/mercenary-crimson-silver-knight-battle-v1/?showcase=1&v=15#battle",
+    "historicalTwoHandActualV3V13": "qa/overhead-size-v13.webp",
+    "historicalAllSkillsV14": "qa/all-skills-speed-v14.webp"
   },
   "returnPose": {
     "reference": "assets/motion-v5/ready-a-source.png#0",
@@ -7618,15 +7619,22 @@
     "priorApproval": "motion-approval-20261001-v13.json"
   },
   "playbackTempo": {
-    "version": 14,
+    "version": 15,
     "rate": 1.2,
-    "requestedFrom": 0.25,
-    "requestedTo": 0.3,
-    "changePercent": 20,
+    "strikeRate": 1.2,
+    "scope": "KEEP_V14_PREVIEW_ACCELERATE_STRIKE_ONLY",
     "clock": "EXISTING_V3_GSAP_TIMELINE",
-    "audioUsesEffectiveRate": true,
-    "authoredTimingUnchanged": true,
+    "contactAt": 1.98,
+    "strikeStart": 1.8633333333333333,
+    "strikeEnd": 2.1633333333333336,
+    "previousSwingSeconds": 0.3,
+    "swingSeconds": 0.25,
+    "additionalStrikeSpeedPercent": 20,
+    "recoveryAt": 2.2,
+    "approvedIdleAt": 3.15,
+    "effectTimingUnchangedFrom": "V14",
+    "audioTimingUnchangedFrom": "V14",
     "artworkUnchanged": true,
-    "record": "motion-approval-20261001-v14.json"
+    "record": "motion-tempo-request-20261001-v15.json"
   }
 }

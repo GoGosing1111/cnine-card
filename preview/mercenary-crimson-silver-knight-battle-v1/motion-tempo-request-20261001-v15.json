@@ -1,0 +1,11 @@
+{
+  "date": "2026-10-01",
+  "userRequest": "ㄴㄴ 수정된 프리뷰 적용하고 검을 내려찍는 구간 속도만 지금보다 더 올려 15~25%까지",
+  "retainedApproval": "motion-approval-20261001-v14.json",
+  "retainedPreviewVersion": 14,
+  "additionalStrikeSpeedPercent": 20,
+  "scope": "Keep the delivered V14 preview tempo and increase only the existing downward swing speed by a further 20 percent.",
+  "supersedesPreviousRequest": "스킬이 빠를필요 없는데 검 내리찍는 모션만 빠르게 가능?",
+  "liveActivationApproved": false,
+  "artworkChanged": false
+}
