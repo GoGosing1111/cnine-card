@@ -1,6 +1,6 @@
 (() => {
  'use strict';
- const VERSION='20261002-arke-v2';
+ const VERSION='20261002-cms1';
  let visible=false,controller=null,revision=0,featureRequest,checked=0,loading=false;
  const host=()=>document.getElementById('pveCoopView');
  async function refresh(){

@@ -1,6 +1,7 @@
 import {jointAccountRequest} from '/js/joint-account-transport.mjs';
 import {COOP_DIFFICULTIES,COOP_RULES,COOP_VERSION,COOP_ENCOUNTER,COOP_STAGES} from '/shared/cooperative-battleground-v1.mjs?v=20261002-arke-v2';
 import {mountCoopBattle} from './battle.mjs?v=20261002-arke-v2';
+import {coopCombatSummary} from '/shared/cooperative-settings-v1.mjs?v=20261002-cms1';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const number=v=>Math.round(v||0).toLocaleString('ko-KR');
 const uniqueText=c=>c.uniqueAbility?([['공격','attackPercent'],['방어','defensePercent'],['체력','hpPercent'],['속도','speedPercent']].filter(([,k])=>c.uniqueAbility[k]).map(([label,k])=>label+' '+(c.uniqueAbility[k]>0?'+':'')+c.uniqueAbility[k]+'%').join(' · ')||'고유효과 적용'):'고유효과 없음';
@@ -19,7 +20,8 @@ export async function mountCooperative(root){
  await loadStyles();
  const lifecycle=new AbortController(),clientId=crypto.randomUUID(),api=(path,options)=>jointAccountRequest('coop/'+path,options);
  let disposed=false,state=null,roomId='',you=0,options=null,feature=null,ws=null,reconnectTimer,heartbeatTimer,battle=null,portal=null,mounting=null,battlePayload=null,lastMessage=0;
- let busy=false,selected={cardIds:[],mercenaryCode:''},picker='mercenary',query='',grade='',difficulty='NORMAL',serverOffset=0,guideChapter=0,bodyOverflow='',selectionRoom='',squadSignature='',battleEpoch=0,patternSignature='',pendingPattern=null;
+ let busy=false,selected={cardIds:[],mercenaryCode:''},picker='mercenary',query='',grade='',difficulty='NORMAL',serverOffset=0,guideChapter=0,bodyOverflow='',selectionRoom='',squadSignature='',battleEpoch=0,patternSignature='',pendingPattern=null,configSignature='';
+ const defaultConfiguration=coopCombatSummary(),configuration=()=>state?.configuration||feature?.configuration||defaultConfiguration;
  const $=s=>root.querySelector(s),on=(el,event,fn)=>el?.addEventListener(event,fn,{signal:lifecycle.signal});
  root.classList.add('coop-root');
  root.innerHTML=`<section class="coop-head"><div><span class="coop-eyebrow">3인 공동 전투</span><h2>격전지<span>(협동)</span></h2><p>세 분대의 선택이 하나의 전장을 바꾼다.</p></div><button class="coop-quiet" data-guide>${shield}공략 지침</button></section>
@@ -34,6 +36,13 @@ export async function mountCooperative(root){
  <dialog class="coop-dialog" data-guide-dialog><header><div><small>격전지 공략 지침</small><h3 data-guide-title></h3></div><button class="coop-quiet" data-close-guide aria-label="공략 닫기">닫기 ×</button></header><nav>${GUIDE.map(([name],i)=>`<button data-chapter="${i}">${i+1}. ${name}</button>`).join('')}</nav><article data-guide-content></article></dialog>
  <dialog class="coop-dialog" data-settings-dialog><header><h3>운영 테스트 설정</h3><button class="coop-quiet" data-close-settings>닫기 ×</button></header><form data-settings-form><label>공개 상태<select name="mode"><option value="TEST">테스트 참여자만</option><option value="OFF">운영 중지</option><option value="ON">전체 공개</option></select></label><label>테스트 계정 ID<input name="users" placeholder="예: 12, 34" /></label><p>OWNER는 자동으로 참여할 수 있습니다. 보상은 잠금 상태로 유지됩니다.</p><button class="coop-primary">설정 저장</button><p role="status" data-settings-message></p></form></dialog>`;
  function alert(message){$('[data-alert]').hidden=!message;$('[data-alert]').textContent=message||'';}
+ function drawConfiguration(){
+  const c=configuration(),signature=JSON.stringify(c);if(signature===configSignature)return;configSignature=signature;
+  $('.coop-meta span:nth-child(2)').textContent=c.maxBattleSeconds+'초 전투';
+  $('.coop-operation-strip').innerHTML=c.stages.map(s=>`<span><i>0${s.wave}</i><b>${esc(s.name)}</b><small>${esc(s.target)}</small></span>`).join('');
+  for(const d of c.difficulties)root.querySelector(`[data-difficulty="${d.id}"] span`).textContent=d.recommendation;
+  if($('[data-guide-dialog]').open)openGuide(guideChapter);
+ }
  function lock(value){busy=value;$('[data-create]').disabled=value;$('[data-ready]').disabled=value||selected.cardIds.length!==2||!selected.mercenaryCode;root.classList.toggle('is-busy',value);}
  async function command(kind,extra={}){
   const body={roomId,clientId,requestId:crypto.randomUUID(),...extra};
@@ -123,9 +132,9 @@ export async function mountCooperative(root){
  }
  function battleHud(){
   if(!portal||!state)return;
-  const elapsed=state.startsAt?Date.now()+serverOffset-state.startsAt:0,remaining=Math.max(0,Math.ceil((COOP_RULES.maxBattleMs-elapsed)/1000));
+  const c=configuration(),elapsed=state.startsAt?Date.now()+serverOffset-state.startsAt:0,remaining=Math.max(0,Math.ceil((c.maxBattleSeconds*1000-elapsed)/1000));
   portal.querySelector('[data-time]').textContent=state.status==='ACTIVE'&&elapsed<0?Math.ceil(-elapsed/1000)+'초 후 출전':Math.floor(remaining/60)+':'+String(remaining%60).padStart(2,'0');
-  portal.querySelector('[data-phase]').textContent=state.myResult==='DEFEAT'?'이탈 · 패배':state.status==='LOADING'?'전장 집결 중':state.status==='ACTIVE'?`${state.stage?.wave||1} / 3 단계 · ${COOP_STAGES[(state.stage?.wave||1)-1].name}`:state.status==='VICTORY'?'정벌 성공':'정벌 종료';
+  portal.querySelector('[data-phase]').textContent=state.myResult==='DEFEAT'?'이탈 · 패배':state.status==='LOADING'?'전장 집결 중':state.status==='ACTIVE'?`${state.stage?.wave||1} / 3 단계 · ${c.stages[(state.stage?.wave||1)-1].name}`:state.status==='VICTORY'?'정벌 성공':'정벌 종료';
   const wave=state.stage?.wave||1,enemies=(state.fighters?.B||[]).filter(f=>(f.wave||1)===wave);
   if(enemies.length){const hp=enemies.reduce((sum,f)=>sum+f.hp,0),max=enemies.reduce((sum,f)=>sum+f.maxHp,0);portal.querySelector('[data-boss-health]').value=Math.max(0,hp/max*100);portal.querySelector('[data-hp]').textContent=number(hp)+' / '+number(max);}
   portal.querySelector('[data-enemy-title]').textContent=wave===1?`외곽 수비대 · ${enemies.filter(f=>f.hp>0).length}기 남음`:COOP_STAGES[wave-1].target;
@@ -145,7 +154,7 @@ export async function mountCooperative(root){
    patternSignature=signature;panel.dataset.state=open?'open':p.status.toLowerCase();
    panel.querySelector('[data-pattern-kicker]').textContent=p.kind==='VENT'?'전원 대응 · 삼핵 차단':'표적 방어 · 집중 포화';
    panel.querySelector('[data-pattern-title]').textContent=open?(p.kind==='VENT'?'각자 노심을 차단하세요':p.targetId===you?'내 분대가 표적입니다':(target?.name||'동료')+' 분대를 보호하세요'):p.effect.label;
-   panel.querySelector('[data-pattern-instruction]').textContent=open?(waiting?'입력 전달 중…':mine?'내 행동 접수 완료 · 동료의 대응을 확인하세요':p.kind==='VENT'?'생존 분대 모두 차단하면 거신 체력 8% 파괴':p.targetId===you?'엄폐로 피해를 줄이세요. 동료가 조준을 교란합니다.':'조준을 교란해 표적 분대가 받는 피해를 줄이세요.'):(p.effect.kind==='RUPTURE'?'거신 최대 체력 8% 파괴':p.effect.kind==='OVERLOAD'?'차단 미완료 · 아군 전체에 과부하 피해':'표적 분대 피해 '+Number(p.effect.percent.toFixed(2))+'% · 방벽 적용 전');
+   panel.querySelector('[data-pattern-instruction]').textContent=open?(waiting?'입력 전달 중…':mine?'내 행동 접수 완료 · 동료의 대응을 확인하세요':p.kind==='VENT'?`생존 분대 모두 차단하면 거신 체력 ${configuration().patterns.rupturePercent}% 파괴`:p.targetId===you?'엄폐로 피해를 줄이세요. 동료가 조준을 교란합니다.':'조준을 교란해 표적 분대가 받는 피해를 줄이세요.'):(p.effect.kind==='RUPTURE'?`거신 최대 체력 ${p.effect.percent}% 파괴`:p.effect.kind==='OVERLOAD'?'차단 미완료 · 아군 전체에 과부하 피해':'표적 분대 피해 '+Number(p.effect.percent.toFixed(2))+'% · 방벽 적용 전');
    panel.querySelector('[data-pattern-members]').innerHTML=state.members.map((m,i)=>{const current=p.participants.includes(m.id)&&!m.result&&state.fighters?.A.some(f=>f.ownerId===m.id&&f.hp>0);return `<span class="${p.inputs[m.id]?'done':''} ${m.id===you?'mine':''}"><b>${p.inputs[m.id]?'✓':i+1} ${esc(m.name)}</b><small>${!current?'대응 제외':p.inputs[m.id]?'접수 완료':p.kind==='VENT'?'노심 차단':p.targetId===m.id?'엄폐 담당':'조준 교란'}</small></span>`;}).join('');
    const button=panel.querySelector('[data-pattern-action]');button.hidden=!open;button.disabled=!!mine||waiting||!alive||!p.participants.includes(you);button.textContent=mine?'✓ 대응 완료':waiting?'전달 중…':!alive?'분대 전멸 · 관전 중':p.kind==='VENT'?'내 노심 차단':p.targetId===you?'내 분대 엄폐':'조준 교란';
   }
@@ -156,7 +165,7 @@ export async function mountCooperative(root){
  function apply(value){
   if(disposed||!value?.state)return;
   if(state&&value.state.id===state.id&&value.state.version<state.version)return;
-  state=value.state;you=value.you||you;roomId=state.id;serverOffset=value.serverNow-Date.now();
+  state=value.state;you=value.you||you;roomId=state.id;serverOffset=value.serverNow-Date.now();drawConfiguration();
   $('[data-entry]').hidden=true;$('[data-room]').hidden=state.status!=='LOBBY';
   if(state.status==='LOBBY'){
    if(selectionRoom!==roomId){selectionRoom=roomId;const mine=state.members.find(m=>m.id===you)?.selection;if(mine)selected={cardIds:mine.cards.map(c=>c.id),mercenaryCode:mine.mercenary.code};drawInventory();}
@@ -165,7 +174,7 @@ export async function mountCooperative(root){
   else if(state.status==='CANCELLED'){alert(state.reason||'대기방이 종료되었습니다.');resetRoom();}
   else showBattle(value);
  }
- function resetRoom(){ws?.close();ws=null;clearTimeout(reconnectTimer);closeBattle();state=null;roomId='';selectionRoom='';squadSignature='';selected={cardIds:[],mercenaryCode:''};$('[data-entry]').hidden=false;$('[data-room]').hidden=true;}
+ function resetRoom(){ws?.close();ws=null;clearTimeout(reconnectTimer);closeBattle();state=null;roomId='';selectionRoom='';squadSignature='';selected={cardIds:[],mercenaryCode:''};$('[data-entry]').hidden=false;$('[data-room]').hidden=true;drawConfiguration();}
  async function leave(){if(!roomId){resetRoom();return;}try{await command('leave');resetRoom();}catch(e){alert(e.message);}}
  function abandon(){
   if(disposed)return;send('leave');
@@ -174,7 +183,13 @@ export async function mountCooperative(root){
   }
  }
  function openGuide(index=0){
-  guideChapter=index;const dialog=$('[data-guide-dialog]');$('[data-guide-title]').textContent=GUIDE[index][0];$('[data-guide-content]').innerHTML=GUIDE[index][1];dialog.querySelectorAll('[data-chapter]').forEach(b=>b.setAttribute('aria-current',String(Number(b.dataset.chapter)===index)));if(!dialog.open)dialog.showModal();
+  const c=configuration(),d=c.difficulties.find(d=>d.id===(state?.difficulty||difficulty)),p=c.patterns;
+  const dynamic={
+   0:`<p><b>세 명이 편성한 9캐릭터로 세 구역을 연속 격파합니다.</b> 전체 제한 시간은 ${c.maxBattleSeconds}초입니다.</p><ol>${c.stages.map(s=>`<li><b>${s.wave}단계 · ${esc(s.name)}:</b> ${esc(s.target)}<p>${esc(s.hint)}</p></li>`).join('')}</ol><p>노심 수문장의 시작 방벽은 최대 HP의 ${d.wardenShieldPercent}%입니다.</p><p><b>앞 단계의 적을 전부 처치해야 다음 단계가 열립니다.</b> 체력·방벽·스킬 대기 시간은 이어집니다. 단계 전환으로 회복하거나 쓰러진 캐릭터가 부활하지 않습니다.</p>`,
+   1:`<p><b>평타와 용병 스킬은 자동, 거신의 특수 공격은 직접 대응합니다.</b> 최종 보스 등장 ${p.firstSeconds}초 후부터 ${p.intervalSeconds}초 간격으로 최대 ${p.count}회 발동합니다. 현재 난이도는 <b>${d.responseSeconds}초 안에 대응</b>하세요.</p><ol><li><b>삼핵 차단:</b> 생존한 분대가 각자 <b>내 노심 차단</b>을 한 번씩 누르세요. 전원 성공 시 거신 최대 HP의 ${p.rupturePercent}%를 깎고, 놓치면 아군 전체가 최대 HP의 ${d.overloadPercent}% 피해를 받습니다.</li><li><b>집중 포화:</b> 표적은 <b>내 분대 엄폐</b>, 동료는 <b>조준 교란</b>을 누르세요. 기본 피해는 표적 분대 최대 HP의 ${d.focusPercent}%이며, 엄폐로 75% 감소하고 교란 1명마다 추가 25%씩 줄어듭니다. 방벽이 피해를 흡수합니다.</li><li><b>확인 표시:</b> 내 분대의 체크 표시가 켜지면 접수 완료입니다. 다른 분대의 버튼을 대신 누를 수 없으며 이탈·전멸한 분대는 대응에서 제외됩니다.</li></ol>`,
+   4:`<p>${esc(d.recommendation)}</p><p>등급만으로 승리를 보장하지 않습니다. 카드 강화·장비·고유효과와 용병 조합을 함께 준비하세요.</p><p><b>${c.maxBattleSeconds}초 안에 세 단계의 모든 적을 처치하면 승리합니다.</b> 미격파 적이 남거나 아군이 전멸하면 패배합니다. 배속·일시정지는 지원하지 않습니다.</p><p>현재 입장 재화 차감과 승리 보상 지급은 없습니다.</p>`
+  };
+  guideChapter=index;const dialog=$('[data-guide-dialog]');$('[data-guide-title]').textContent=GUIDE[index][0];$('[data-guide-content]').innerHTML=dynamic[index]??GUIDE[index][1];dialog.querySelectorAll('[data-chapter]').forEach(b=>b.setAttribute('aria-current',String(Number(b.dataset.chapter)===index)));if(!dialog.open)dialog.showModal();
  }
  on(root,'click',event=>{
   const b=event.target.closest('button');if(!b)return;
@@ -194,7 +209,7 @@ export async function mountCooperative(root){
  on($('[data-guide]'),'click',()=>openGuide());on($('[data-close-guide]'),'click',()=>$('[data-guide-dialog]').close());
  let settingsRevision=0;
  async function availability(){
-  feature=await api('feature');$('[data-owner]').hidden=!feature.owner;
+  feature=await api('feature');$('[data-owner]').hidden=!feature.owner;drawConfiguration();
   $('[data-release]').textContent=feature.mode==='OFF'?'운영 중지':feature.mode==='TEST'?'테스트 운영 · 보상 없음':'보상 검수 중';
   if(!feature.accessible){$('[data-entry]').hidden=true;alert('격전지는 현재 운영 중지 상태입니다. 운영 설정에서 변경할 수 있습니다.');return false;}
   options=await api('options');you=options.you;if(!state)$('[data-entry]').hidden=false;return true;

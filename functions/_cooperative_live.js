@@ -1,15 +1,10 @@
 import {readJointBody,assertJointOrigin,jointError} from './_joint_request.js';
 import {readMercenaryDocument,readMercenaryRuntime,battleConfig,mercenaryAccountState,mercenarySnapshotPower} from './_mercenary_account.js';
 import {COOP_DIFFICULTIES,COOP_RULES,validCoopRoom,validCoopClient,validateCoopSelection} from '../shared/cooperative-battleground-v1.mjs';
-const KEY='cooperative_battleground_settings_v1';
+import {coopSettings,cooperativeAdmin} from './_cooperative_settings.js';
+import {coopCombatSummary} from '../shared/cooperative-settings-v1.mjs';
+export {coopSettings} from './_cooperative_settings.js';
 const fail=(code,message,status=409)=>{throw jointError('COOP_'+code,message,status);};
-const defaults=()=>({mode:'TEST',testUserIds:[],revision:0,rewardLocked:true});
-export async function coopSettings(env){
- const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(KEY).first();
- const config=row?JSON.parse(row.value):defaults();
- if(!['TEST','ON','OFF'].includes(config.mode)||!Array.isArray(config.testUserIds))fail('CONFIG','격전지 설정을 확인하지 못했습니다.',503);
- return config;
-}
 export const coopAccess=(user,cfg)=>Boolean(user)&&(cfg.mode==='ON'||cfg.mode==='TEST'&&(user.role==='OWNER'||cfg.testUserIds.includes(Number(user.id))));
 const roomStub=(env,id)=>env.COOP_ROOMS.getByName(id);
 const playerStub=(env,user)=>env.COOP_PLAYERS.getByName(String(user.id));
@@ -51,27 +46,12 @@ export async function loadCoopSelection(env,user,body,deps){
   power:cards.reduce((sum,c)=>sum+c.power,0)+equipmentBonus+mercenarySnapshotPower(mercenary)};
 }
 export async function handleCooperative({path,request,env,deps}){
- if(!path.startsWith('coop/'))return null;
+ if(!path.startsWith('coop/')&&!['admin/coop/settings','admin/coop/test-users'].includes(path))return null;
  try{
   const user=await deps.authenticate(request,env);if(!user)fail('LOGIN','로그인 후 입장하세요.',401);
-  const config=await coopSettings(env),kind=path.slice(5),url=new URL(request.url);
-  if(kind==='feature'&&request.method==='GET')return deps.json({ok:true,mode:config.mode,visible:user.role==='OWNER'||coopAccess(user,config),accessible:coopAccess(user,config),owner:user.role==='OWNER',rewardLocked:true,rules:COOP_RULES,difficulties:COOP_DIFFICULTIES},200,{'cache-control':'no-store'});
-  if(kind==='settings'){
-   if(user.role!=='OWNER')fail('OWNER','OWNER만 설정할 수 있습니다.',403);
-   if(request.method==='GET')return deps.json({ok:true,settings:config});
-   if(request.method!=='POST')fail('METHOD','지원하지 않는 요청입니다.',405);
-   const {settings:s}=await readJointBody(request);
-   if(!s||!['OFF','TEST','ON'].includes(s.mode)||s.revision!==config.revision||!Array.isArray(s.testUserIds)||s.testUserIds.length>100||new Set(s.testUserIds).size!==s.testUserIds.length||s.testUserIds.some(n=>!Number.isSafeInteger(n)||n<1))fail('SETTINGS','공개 상태, 테스트 계정 ID와 설정 버전을 확인하세요.',400);
-   if(s.testUserIds.length){const found=await env.DB.prepare('SELECT id FROM users WHERE id IN ('+s.testUserIds.map(()=>'?').join(',')+')').bind(...s.testUserIds).all();if(found.results.length!==s.testUserIds.length)fail('TEST_USERS','존재하지 않는 계정 ID입니다.',400);}
-   return await deps.withUserMutationLock(env,user.id,path,async()=>{
-    const fresh=await coopSettings(env);if(fresh.revision!==s.revision)fail('CONFIG_CONFLICT','설정이 변경됐습니다. 다시 불러오세요.');
-    const next={mode:s.mode,testUserIds:s.testUserIds,revision:s.revision+1,rewardLocked:true,updatedBy:Number(user.id),updatedAt:new Date().toISOString()};
-    const current=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(KEY).first(),raw=JSON.stringify(next);
-    const saved=current?await env.DB.prepare('UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?').bind(raw,KEY,current.value).run():await env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING').bind(KEY,raw).run();
-    if(Number(saved.meta?.changes)!==1)fail('CONFIG_CONFLICT','설정 저장이 충돌했습니다.');
-    return deps.json({ok:true,settings:next});
-   });
-  }
+  const config=await coopSettings(env),kind=path.replace(/^(?:admin\/)?coop\//,''),url=new URL(request.url);
+  if(kind==='settings'||path==='admin/coop/test-users')return await cooperativeAdmin({kind,request,env,deps,user,config});
+  if(kind==='feature'&&request.method==='GET')return deps.json({ok:true,mode:config.mode,visible:user.role==='OWNER'||coopAccess(user,config),accessible:coopAccess(user,config),owner:user.role==='OWNER',rewardLocked:true,rules:{...COOP_RULES,maxBattleMs:config.combat.maxBattleSeconds*1000},difficulties:COOP_DIFFICULTIES,configuration:coopCombatSummary(config.combat,config.revision)},200,{'cache-control':'no-store'});
   if(!coopAccess(user,config))fail('CLOSED',config.mode==='OFF'?'격전지는 현재 운영 중지 상태입니다.':'격전지 테스트 참여자로 등록된 계정만 입장할 수 있습니다.',403);
   if(!env.COOP_ROOMS||!env.COOP_PLAYERS)fail('UNAVAILABLE','격전지 서버를 준비 중입니다.',503);
   if(kind==='options'&&request.method==='GET'){
@@ -96,7 +76,7 @@ export async function handleCooperative({path,request,env,deps}){
      if(previous.ok&&['LOBBY','LOADING','ACTIVE'].includes(previous.state.status)&&!previous.state.myResult&&prior!==target)fail('ALREADY_JOINED','현재 대기방에서 먼저 나와주세요.');}
     if(kind==='create'){
      const id=target;
-     const result=await roomStub(env,id).create({id,user:{id:Number(user.id),nickname:user.nickname},clientId:body.clientId,difficulty:body.difficulty,seed:crypto.getRandomValues(new Uint32Array(1))[0],requestId:body.requestId});
+     const result=await roomStub(env,id).create({id,user:{id:Number(user.id),nickname:user.nickname},clientId:body.clientId,difficulty:body.difficulty,seed:crypto.getRandomValues(new Uint32Array(1))[0],requestId:body.requestId,combat:config.combat,settingsRevision:config.revision});
      if(result.ok)await pointer.setRoom(id);return response(deps,result);
     }
     const result=await roomStub(env,body.roomId).command({id:Number(user.id),nickname:user.nickname},kind,body);

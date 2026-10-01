@@ -1,6 +1,12 @@
 import {COOP_PATTERNS as RULES} from '../shared/cooperative-battleground-v1.mjs';
 const fail=(code,message)=>{throw Object.assign(Error(message),{code:'COOP_'+code,status:409});};
 const frameAt=(room,atMs)=>room.states?.findLast(s=>s.atMs<=atMs);
+function rulesFor(room){
+ if(!room.combat)return RULES;
+ const p=room.combat.patterns,d=room.combat.difficulties.find(d=>d.id===room.difficulty);
+ return {firstAtMs:p.firstSeconds*1000,intervalMs:p.intervalSeconds*1000,count:p.count,rupturePercent:p.rupturePercent,
+  windowMs:{[d.id]:d.responseSeconds*1000},overloadPercent:{[d.id]:d.overloadPercent},focusPercent:{[d.id]:d.focusPercent}};
+}
 function livingOwners(room,atMs){
  const frame=frameAt(room,atMs);
  return room.members.filter(m=>!room.withdrawals.some(w=>w.ownerId===m.id&&w.atMs<=atMs)&&frame?.A.some(f=>f.ownerId===m.id&&f.hp>0)).map(m=>m.id);
@@ -8,10 +14,12 @@ function livingOwners(room,atMs){
 export function nextCoopPatternAt(room){
  if(room.encounterVersion!==2||room.status!=='ACTIVE'||!Number.isFinite(room.bossAtMs))return Infinity;
  const index=room.patternIndex||0;
- return room.pattern?.status==='OPEN'?room.pattern.endsAt:index<RULES.count?room.startsAt+room.bossAtMs+RULES.firstAtMs+index*RULES.intervalMs:Infinity;
+ const rules=rulesFor(room);
+ return room.pattern?.status==='OPEN'?room.pattern.endsAt:index<rules.count?room.startsAt+room.bossAtMs+rules.firstAtMs+index*rules.intervalMs:Infinity;
 }
 export function advanceCoopPatterns(room,now,rebuild){
  if(room.encounterVersion!==2||room.status!=='ACTIVE')return;
+ const rules=rulesFor(room);
  while(nextCoopPatternAt(room)<=now&&nextCoopPatternAt(room)<room.startsAt+room.durationMs){
   const at=nextCoopPatternAt(room),atMs=at-room.startsAt;
   if(room.pattern?.status==='OPEN'){
@@ -19,10 +27,10 @@ export function advanceCoopPatterns(room,now,rebuild){
    const complete=required.length>0&&required.every(id=>pattern.inputs[id]);
    let effect;
    if(pattern.kind==='VENT'){
-    effect={kind:complete?'RUPTURE':'OVERLOAD',percent:complete?RULES.rupturePercent:RULES.overloadPercent[room.difficulty],label:complete?'삼핵 차단 성공':'노심 과부하'};
+    effect={kind:complete?'RUPTURE':'OVERLOAD',percent:complete?rules.rupturePercent:rules.overloadPercent[room.difficulty],label:complete?'삼핵 차단 성공':'노심 과부하'};
    }else{
     const guard=pattern.inputs[pattern.targetId]==='GUARD',jammers=required.filter(id=>id!==pattern.targetId&&pattern.inputs[id]==='JAM').length;
-    effect={kind:'FOCUS',ownerId:pattern.targetId,percent:RULES.focusPercent[room.difficulty]*(guard?.25:1)*(1-.25*jammers),label:guard?'집중 포화 방어':'집중 포화 피격'};
+    effect={kind:'FOCUS',ownerId:pattern.targetId,percent:rules.focusPercent[room.difficulty]*(guard?.25:1)*(1-.25*jammers),label:guard?'집중 포화 방어':'집중 포화 피격'};
    }
    Object.assign(pattern,{status:complete?'SUCCESS':'FAILED',resolvedAt:at,required,effect});
    room.patternHistory.push(structuredClone(pattern));
@@ -31,7 +39,7 @@ export function advanceCoopPatterns(room,now,rebuild){
   }else{
    const index=room.patternIndex||0,participants=livingOwners(room,atMs),kind=index%2?'FOCUS':'VENT';
    if(!participants.length)return;
-   room.pattern={id:'ARKE-'+index,kind,status:'OPEN',startsAt:at,endsAt:at+RULES.windowMs[room.difficulty],participants,inputs:{},
+   room.pattern={id:'ARKE-'+index,kind,status:'OPEN',startsAt:at,endsAt:at+rules.windowMs[room.difficulty],participants,inputs:{},
     targetId:kind==='FOCUS'?participants[(Math.floor(index/2)+room.seed%participants.length)%participants.length]:null};
    room.version++;
   }

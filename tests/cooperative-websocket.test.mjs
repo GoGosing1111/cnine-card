@@ -11,7 +11,7 @@ test('real Durable Objects: gated/authenticated API, ownership, retry, three Web
  try{
   assert.equal((await h.request(0,'feature')).status,401);assert.equal((await h.request(4,'options')).status,403);
   assert.equal((await h.request(2,'settings')).status,403);
-  const settings={mode:'TEST',testUserIds:[2,3],revision:0};assert.equal((await h.request(1,'settings',{settings})).status,200);assert.equal((await h.request(1,'settings',{settings})).status,400);
+  const settings={mode:'TEST',testUserIds:[2,3],revision:0};assert.equal((await h.request(1,'settings',{settings})).status,200);assert.equal((await h.request(1,'settings',{settings})).status,409);
   const create={clientId:clients[0],difficulty:'NORMAL',requestId:'retry-create-request'};
   const first=await h.request(1,'create',create);assert.equal(first.status,200,JSON.stringify(first));roomId=first.roomId;
   assert.equal((await h.request(1,'create',create)).roomId,roomId);

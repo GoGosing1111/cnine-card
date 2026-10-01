@@ -17,7 +17,7 @@ export default {async fetch(request,env){
   const opened=await openApiRuntimeRequest(forwarded,env);return cooperativeStream(opened.request,opened.env);
  }
  const id=Number(request.headers.get('authorization')?.match(/^Bearer local-qa-([1-4])$/)?.[1]||0),user=id?qaUser(id):null;
- if(path.startsWith('coop/'))return handleCooperative({path,request,env,deps:{
+ if(path.startsWith('coop/')||path.startsWith('admin/coop/'))return handleCooperative({path,request,env,deps:{
   authenticate:async()=>user,json:(value,status=200,headers={})=>Response.json(value,{status,headers}),
   battleSettings:async()=>({engine:{singleHealerBonus:fixture.singleHealerBonus}}),
   cardBattlePower:c=>cards.find(x=>x.id===c.id)?.power||0,
