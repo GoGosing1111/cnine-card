@@ -20,4 +20,12 @@
 
 직전 운영 기준은 Cloudflare Pages 배포 `da6aab90-619d-46f1-8a47-441a93ea261c`의 소스 `6b24fc2f0e7bf433590af99ef69d953977231613`이다. 선행 랭크전 전체 게이트와 운영 배포가 끝난 뒤 이 기준으로 통합했다. 그 이후 원격의 선물 안내 수정 기록은 문서만 변경한다.
 
-배포 선택: `SCOPED_DEPLOY_TESTS=["tests/retired-content-20261001.test.mjs"]`, `SCOPED_DEPLOY_CHECKS=["check:worker"]`. 관련 거래·정산·메뉴 검사는 위 결과를 유지하며 최종 병합 소스의 API 차단과 Worker 컴파일만 확인한다. 최종 배포·운영 확인 결과는 배포 후 기록한다.
+배포 선택: `SCOPED_DEPLOY_TESTS=["tests/retired-content-20261001.test.mjs"]`, `SCOPED_DEPLOY_CHECKS=["check:worker"]`. 관련 거래·정산·메뉴 검사는 위 결과를 유지하며 최종 병합 소스의 API 차단과 Worker 컴파일만 확인했다.
+
+## 운영 반영 결과
+
+- 배포 소스: `5b50dbb031b706da4b0bd17d0d1727e121dee6e0`. 지정 `npm run deploy:production -- --scoped`가 종료 API 회귀 3/3, Worker 구문 검사, 운영 출시 보호 및 Hyperdrive cache OFF 확인 후 성공했다. 최초 실행은 조회 명령이 만든 `.wrangler/cache/cf.json` 때문에 검사 시작 전에 중단됐으며, 해당 파일을 작업 트리 밖으로 이동한 뒤 정상 실행했다.
+- Pages: `00a6e115-1a3f-435f-a606-fdd564a05395`, API runtime: `8d92cf21-aaf3-4349-a338-233bc2c07262`, clan-draft worker: `5d43e52c-b927-492e-9850-9995b6028031`.
+- 2026-10-01 21:40:40 KST 운영 주소 확인: 세금 상태/제안/승인과 원정 구형/V3/관리자 API 총 11개가 모두 HTTP 410 및 해당 종료 코드를 반환했다.
+- 운영 정적 파일 9개(index/app/공통 메뉴·라우터/모험 로비/군단토벌 입구/V3 입구/CMS/SW)의 SHA-256이 배포 소스와 일치했다. 군단토벌 상태·bootstrap은 비로그인 요청에 기존 401 응답을 유지했다.
+- 증빙: 작업 트리 밖 `../retired-content-deploy-20261001.log`, `../retired-content-production-smoke-20261001.json`, `../retire-deployment-after-20261001.json`. 이 결과 기록은 문서만 수정하므로 추가 게임 검사나 운영 재배포를 하지 않는다.
