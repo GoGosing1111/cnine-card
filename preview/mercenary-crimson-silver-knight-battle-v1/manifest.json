@@ -1,5 +1,5 @@
 {
-  "version": 11,
+  "version": 12,
   "conceptId": "crimson-silver-knight",
   "name": "은백·금색 대검 기사",
   "nameStatus": "DESCRIPTION_NOT_ASSIGNED",
@@ -32,7 +32,7 @@
   },
   "bodyPixels": 1452,
   "battleSpriteStatus": "USER_REQUESTED_V3_PREVIEW_INTEGRATION",
-  "motionStatus": "USER_REVIEW_PENDING",
+  "motionStatus": "USER_ADOPTED_TWO_HAND_OVERHEAD",
   "effectStatus": "USER_REVIEW_PENDING",
   "motion": {
     "idle": {
@@ -6864,7 +6864,8 @@
     "implementation": "source/KnightFX.js",
     "clockOwner": "V3_REGISTERED_GSAP",
     "aura": "SATURATED_CRIMSON_POSE_SILHOUETTE_NORMAL_OUTER_PLUS_THIN_GOLD_RIM",
-    "separateRenderer": false
+    "separateRenderer": false,
+    "guardAttachment": "ACTOR_CHEST_CENTER_NATIVE_ATLAS"
   },
   "processing": "New native-alpha articulated body poses. Cyan/magenta markers determine actual rigid hilt axis and occluded-fist pivot. Markers removed; immutable original sword is uniformly scaled to anatomical body scale, rigidly rotated and translated; original closed glove pixels composited in foreground. Ground foot anchors remain fixed during strikes. No weapon redraw, warp, still transforms counted as new poses, or root-y contact cheating. For the new two-hand poses only, the original extracted hand-occlusion hole receives an underlay copied from the same original straight wrapped hilt; original opaque pixels and the master PNG remain unchanged.",
   "generation": {
@@ -6897,7 +6898,7 @@
     ]
   },
   "release": {
-    "status": "TECH_QA_COMPLETE_USER_VISUAL_REVIEW_PENDING",
+    "status": "OVERHEAD_MOTION_ADOPTED_EFFECT_ALIGNMENT_REVIEW_PENDING",
     "liveRuntimeChanged": false,
     "balanceChanged": false,
     "skillsAssigned": false
@@ -6906,7 +6907,8 @@
     "motion": 64,
     "effects": 96,
     "uniqueMotion": 54,
-    "reusedMotion": 10
+    "reusedMotion": 10,
+    "activeMotionReferences": 27
   },
   "audio": {
     "optional": true,
@@ -6959,7 +6961,7 @@
     "provenance": "Existing approved V3 Combat SFX assets; no new synthesis or license assumptions."
   },
   "technicalQaReport": "qa-report.json",
-  "browserQaReport": "qa/browser-report.json",
+  "browserQaReport": "qa/v12/browser-report.json",
   "battleSpriteSha256": "D2CAB7DDE716CF9A0554AF44A03A448A7BCCD9E402928D87620C72C73879A6CC",
   "displaySizing": {
     "baselineFullBodyHeight": 260,
@@ -6992,15 +6994,15 @@
     ],
     "method": "Existing native sprite drawing and immutable sword compositing. No new body rig."
   },
-  "motionVersion": "APPROVED_RETURN_COMBO_PLUS_TWO_HAND_OVERHEAD_V10",
+  "motionVersion": "COMMON_TWO_HAND_OVERHEAD_V12",
   "reviewPlayback": {
-    "motionOnly": "qa/motion-v9-preview.webp",
-    "slowMotion": "qa/motion-v9-slow.webp",
-    "actualV3": "qa/all-skills-fx-v11.webp",
+    "motionOnly": "qa/motion-v10-twohand-preview.webp",
+    "slowMotion": "qa/motion-v10-twohand-slow.webp",
+    "actualV3": "qa/all-skills-overhead-v12.webp",
     "twoHandMotion": "qa/motion-v10-twohand-preview.webp",
     "twoHandSlow": "qa/motion-v10-twohand-slow.webp",
-    "twoHandActualV3": "qa/overhead-fx-v11.webp",
-    "allSkills": "qa/all-skills-fx-v11.webp"
+    "twoHandActualV3": "qa/all-skills-overhead-v12.webp",
+    "allSkills": "qa/all-skills-overhead-v12.webp"
   },
   "returnPose": {
     "reference": "assets/motion-v5/ready-a-source.png#0",
@@ -7034,9 +7036,11 @@
     ],
     "contactAt": 1.98,
     "existingComboPreserved": true,
-    "userReviewPending": true
+    "userReviewPending": false,
+    "role": "COMMON_ATTACK_AND_SKILL_MOTION",
+    "existingComboRuntimeActive": false
   },
-  "effectVersion": "V11_CHARGED_BLADE_SWEEP_IMPACT_WAKE",
+  "effectVersion": "V12_OVERHEAD_CONTACT_AND_TORSO_WARD",
   "effectEnhancement": {
     "date": "2026-10-01",
     "status": "USER_REVIEW_PENDING",
@@ -7086,12 +7090,93 @@
       "guard",
       "ultimate"
     ],
-    "duration": 24.85,
+    "duration": 27.6,
     "query": "?showcase=1#battle",
     "auraEnabled": true,
     "motionOnly": false,
     "advance": "CURRENT_TIMELINE_ON_COMPLETE",
     "completion": "STOP_ON_APPROVED_IDLE",
     "runtimeEnabled": false
-  }
+  },
+  "motionAdoption": {
+    "record": "motion-adoption-20261001.json",
+    "date": "2026-10-01",
+    "status": "USER_ADOPTED",
+    "userRequest": "내려찍기 모션을 모든 스킬,공격모션으로 채택해",
+    "appliesTo": [
+      "attack",
+      "skill",
+      "overhead",
+      "execution",
+      "guard",
+      "ultimate"
+    ],
+    "selectedMotion": "TWO_HAND_OVERHEAD_V10",
+    "selectedAtlases": {
+      "twohandGrip": {
+        "atlas": "assets/motion-v10/twohandGrip-atlas.webp",
+        "sha256": "052B8E41EE84758C4016E9F7DFB6D9201D1D8532C967E5F51E67B037D2A38C17",
+        "frames": 4
+      },
+      "twohandLift": {
+        "atlas": "assets/motion-v10/twohandLift-atlas.webp",
+        "sha256": "1C305FF3222436A72C30C78067504A699F67E09E2B8A5ADA28BB5D2771E53062",
+        "frames": 4
+      },
+      "twohandStrike": {
+        "atlas": "assets/motion-v10/twohandStrike-atlas.webp",
+        "sha256": "825F5234D7C2F7899E91BBC8124B39963D756AAE2041D4A984B6981BA96B0D81",
+        "frames": 4
+      },
+      "twohandReturn": {
+        "atlas": "assets/motion-v10/twohandReturn-atlas.webp",
+        "sha256": "CCCF978095E5578C3049C933DA8203E14BB950DE94BC879424D58F41D4F4A722",
+        "frames": 5
+      }
+    },
+    "contactAt": 1.98,
+    "approvedIdle": {
+      "key": "idle",
+      "frame": 0,
+      "sha256": "6799883FC8A67B0DC60021971614EB757C898DC2E0E599AB3F182D0813A9C6ED"
+    },
+    "policy": "The same existing grip, lift, descending strike and return artwork/timing is used for every attack and skill. Defensive ward uses the same forward casting position, with no enemy recoil. Effects remain skill-specific. Retired rising/turning attacks are preserved as history and never selected by playback.",
+    "newArtworkFrames": 0,
+    "combatBalanceChanged": false,
+    "liveActivationApproved": false
+  },
+  "activeMotionKeys": [
+    "idle",
+    "dash",
+    "twohandGrip",
+    "twohandLift",
+    "twohandStrike",
+    "twohandReturn",
+    "hit",
+    "defeat"
+  ],
+  "archivedMotionKeys": [
+    "cast",
+    "ready",
+    "attack",
+    "turn",
+    "ultimate",
+    "recover",
+    "finish",
+    "guard"
+  ],
+  "effectAlignment": {
+    "motion": "TWO_HAND_OVERHEAD_V10",
+    "allContactsAt": 1.98,
+    "guard": {
+      "anchor": "ACTOR_UPPER_BODY",
+      "bodyFractionAboveFeet": 0.54,
+      "forwardBodyFraction": 0.3,
+      "sizeBodyFactor": 1.45,
+      "enemyCoordinatesUsed": false,
+      "impactFlashAnchor": "SAME_AS_WARD"
+    },
+    "status": "USER_REVIEW_PENDING"
+  },
+  "guardQaReport": "qa/v12/guard-report.json"
 }

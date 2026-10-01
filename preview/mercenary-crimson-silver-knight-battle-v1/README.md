@@ -1,4 +1,30 @@
-# 은백·금색 대검 기사 — V11 전체 스킬·강화 효과 검수판
+# 은백·금색 대검 기사 — V12 내려찍기 공통 채택·방패 좌표 수정
+
+2026-10-01 사용자 지시 **“내려찍기 모션을 모든 스킬,공격모션으로 채택해”**를 적용했다. 기본 공격·홍련 강격·전장 심판·루비 반격벽·종결 집행과 기준 모션 모두 기존 V10 두손 파지 → 들어 올리기 → 내려찍기 → 한손 복귀 프레임을 사용한다. 기록은 `motion-adoption-20261001.json`이며 선택된 4개 아틀라스의 해시를 고정했다. 캐릭터·검 이미지를 새로 만들지 않았다.
+
+**최신 전체 프리뷰:** http://127.0.0.1:8850/preview/mercenary-crimson-silver-knight-battle-v1/?showcase=1#battle
+
+- 모든 공격·스킬의 준비와 복귀는 같은 프레임·같은 속도이며, 공통 타격 시점은 **1.98초**, 승인 한손 대기 복귀는 **3.15초**다. 일반 공격의 참격, 스킬 결정 파열, 방벽, 궁극기 광역 폭쇄는 각각의 기존 효과를 유지한다.
+- 방패 아틀라스가 중심 앵커인데 발 위치에 배치돼 아래로 내려간 문제를 수정했다. 효과 중심과 충돌광을 **발에서 몸 높이의 54% 위, 상체 앞쪽**에 붙인다. 크기도 착용 캐릭터 몸 높이에 맞춰 따라가며 적의 위치·크기에 의존하지 않는다.
+- 방벽 시전도 같은 전진·내려찍기 자세를 사용해 들어 올린 검이 상단에서 잘리지 않게 했다. 방벽에서 적 밀림·피격 색 변경은 발생하지 않는다.
+- 올려베기·회전 베기 시트는 제작 이력으로 보존하고 현재 동작 선택과 로딩에서는 제외한다. 현재 사용하는 모션 참조는 **27프레임**, 보존 전체는 64참조·54개 고유 자세다. 이펙트는 기존 **96프레임**이다.
+- `qa/all-skills-overhead-v12.webp`는 모든 효과·아우라를 켠 실제 V3 재생 캡처다. 전체 시연은 **27.6초**다. `모션만`으로 파지·무기·체형을 별도 확인할 수 있다.
+
+PixiJS **8.20.0**, GSAP **3.13.0**, 기존 V3 렌더러·단일 타임라인을 사용한다. 실제 변경은 `skill.mjs`, `source/KnightFX.js`, `source/preview.js`, `index.html`이며 원본 PNG·아틀라스는 그대로다. 모션 채택과 운영 연결은 별개로, 서버 피해·능력치·등급·스킬 배정·라이브 활성화는 변경하지 않았다.
+
+관련 검사 **10개 통과** 후 방벽 위치·검 상단 여백 수정에 직접 관련된 **5개만 재검사해 통과**했다. PC·모바일 전체 시연, 타격·복귀·배속·중단·효과 정리와 방패의 상체 부착을 확인했다. 방벽 후속 검수에서 검끝 잘림과 콘솔 오류는 없었다. `qa/v12/browser-report.json`, `qa/v12/guard-report.json`, `qa-report.json`에 기록했다.
+
+```powershell
+node preview/mercenary-crimson-silver-knight-battle-v1/apply-adoption-v12.mjs
+node preview/mercenary-crimson-silver-knight-battle-v1/build.mjs
+node --test preview/mercenary-crimson-silver-knight-battle-v1/qa.test.mjs
+node preview/mercenary-crimson-silver-knight-battle-v1/qa-browser.mjs v12
+node preview/mercenary-crimson-silver-knight-battle-v1/qa-guard-v12.mjs
+node preview/mercenary-crimson-silver-knight-battle-v1/record-demo.mjs all all-skills-overhead-v12.webp
+node preview/mercenary-crimson-silver-knight-battle-v1/finalize-adoption-v12.mjs
+```
+
+## V11 효과 제작 이력
 
 2026-10-01 후속 요청으로 라그니엘 참고 두손 모션에 **마력 상승 → 검신 발광 → 참격 잔상 → 충돌 파편·지면 잔광**을 추가했다. 기존 캐릭터 54개 자세, 대검 PNG와 모든 모션 아틀라스는 그대로다. 기존에 그린 96프레임 효과를 사용하고, 검의 실제 위치에 맞춘 광원·궤적·입자를 보조 계층으로 더했다. 새 작화 프레임으로 세지 않는다.
 

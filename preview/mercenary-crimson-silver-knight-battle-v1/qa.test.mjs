@@ -5,7 +5,7 @@ import {createHash} from 'node:crypto';
 import sharp from 'sharp';
 import {Container,Sprite,Texture,TextureSource} from 'pixi.js';
 import {gsap} from 'gsap';
-import {MODES,makePlan,sample} from './skill.mjs';
+import {MODES,makePlan,sample,OVERHEAD,OVERHEAD_MODES,ACTIVE_MOTION_KEYS} from './skill.mjs';
 import {KnightFX} from './source/KnightFX.js';
 import {CueAudio} from './source/CueAudio.js';
 import {weaponAt} from './compose-weapon.mjs';
@@ -30,12 +30,13 @@ test('every living motion begins and ends on the exact approved idle texture',()
   if(mode!=='defeat')for(const t of [p.duration-.001,p.duration])assert.deepEqual(sample(p,t).pose,{key:'idle',frame:0},mode+' approved return');
   for(const key of ['cancelAt','targetLostAt'])assert.deepEqual(sample(makePlan({mode,[key]:.3}),.3).pose,{key:'idle',frame:0});
  }
- for(const [mode,t] of [['attack',2.11],['skill',2.41],['execution',2.41],['ultimate',2.89],['overhead',3.16]])assert.deepEqual(sample(makePlan({mode}),t).pose,{key:'idle',frame:0},mode+' settle before returning dash');
+ for(const mode of OVERHEAD_MODES)assert.deepEqual(sample(makePlan({mode}),3.16).pose,{key:'idle',frame:0},mode+' settle before returning dash');
  for(const key of ['finish','recover','twohandReturn']){const f=manifest.motion[key].frames.at(-1);assert.equal(f.source,'assets/motion-v5/ready-a-source.png');assert.equal(f.sourceIndex,0);}
 });
 
 test('drawn collision poses and VFX peaks meet at the same timestamp',()=>{
- for(const [mode,t,key,frame,effect,peak] of [['overhead',1.98,'twohandStrike',1,'execution',9],['attack',.78,'attack',2,'slash',9],['skill',.75,'attack',2,'slash',9],['skill',1.48,'ultimate',3,'execution',9],['execution',1.48,'ultimate',3,'execution',9],['ultimate',1.23,'attack',2,'slash',9],['ultimate',1.96,'ultimate',3,'ultimate',10]]){
+ for(const [mode,effect,peak] of [['overhead','execution',9],['attack','slash',9],['skill','execution',9],['execution','execution',9],['guard','guard',6],['ultimate','ultimate',10]]){
+  const t=OVERHEAD.contact,key='twohandStrike',frame=1;
   const s=sample(makePlan({mode}),t);assert.deepEqual(s.pose,{key,frame});assert.ok(s.effects.some(f=>f.key===effect&&Math.abs(f.frame-peak)<1e-9));
  }
 });
@@ -47,7 +48,7 @@ test('approved masters are byte exact and the selected sword RGB comes only from
  const w=manifest.weapon,bytes=await fs.readFile(new URL(w.file,root));assert.equal(hash(bytes),w.sha256);
  const sword=await sharp(bytes).ensureAlpha().raw().toBuffer({resolveWithObject:true}),source=await sharp(await fs.readFile(new URL(w.source,root))).ensureAlpha().raw().toBuffer({resolveWithObject:true});let pixels=0;
  for(let y=0;y<sword.info.height;y++)for(let x=0;x<sword.info.width;x++){const p=(y*sword.info.width+x)*4;if(!sword.data[p+3])continue;pixels++;const q=((y+w.crop.top)*source.info.width+x+w.crop.left)*4;assert.deepEqual(sword.data.subarray(p,p+3),source.data.subarray(q,q+3));}
- assert.equal(pixels,w.selectedPixels);assert.equal(manifest.rank,null);assert.equal(manifest.runtimeEnabled,false);assert.equal(manifest.motionStatus,'USER_REVIEW_PENDING');assert.notEqual(manifest.sourceArt,manifest.battleSprite);
+ assert.equal(pixels,w.selectedPixels);assert.equal(manifest.rank,null);assert.equal(manifest.runtimeEnabled,false);assert.equal(manifest.motionStatus,'USER_ADOPTED_TWO_HAND_OVERHEAD');assert.notEqual(manifest.sourceArt,manifest.battleSprite);
 });
 test('Native packed frames have native alpha and clear borders; every weapon has identical body-relative length',async()=>{
  let count=0;
@@ -70,7 +71,8 @@ test('Grounded strikes intersect the target body; aura follows the pose and life
  const assets={motion:{},effects:{},flash:Texture.EMPTY,smoke:Texture.EMPTY};for(const [key,spec] of Object.entries(manifest.motion))assets.motion[key]=Array.from({length:spec.frameCount},()=>new Texture({source:frameSource}));for(const [key,spec] of Object.entries(manifest.effects))assets.effects[key]=Array.from({length:spec.frameCount},()=>new Texture({source:frameSource}));
  const fx=new KnightFX(engine,merc,targets,assets,manifest,makePlan(),()=>{});
  try{
-  for(const [mode,t,key] of [['overhead',1.98,'twohandStrike'],['attack',.78,'attack'],['skill',1.48,'ultimate'],['execution',1.48,'ultimate'],['ultimate',1.23,'attack'],['ultimate',1.96,'ultimate']]){
+  for(const mode of OVERHEAD_MODES.filter(k=>k!=='guard')){
+   const t=OVERHEAD.contact,key='twohandStrike';
    fx.setPlan(makePlan({mode}));fx.seek(t);const spec=manifest.motion[key],f=spec.frames[spec.contacts[0].frame],point=p=>effectLayer.toLocal(merc.fullBodySprite.toGlobal({x:p[0]-256,y:p[1]-440})),hilt=point(f.grip),tip=point(f.tip),floor=fx.point(targets[0]),head=fx.point(targets[0],1),u=(floor.x-hilt.x)/(tip.x-hilt.x),blade={x:hilt.x+u*(tip.x-hilt.x),y:hilt.y+u*(tip.y-hilt.y)};assert.ok(u>.15&&u<.98,mode+' actual blade segment reaches target');
    assert.ok(Math.abs(blade.x-floor.x)<.01,mode+' blade horizontal contact');assert.ok(blade.y<floor.y&&blade.y>head.y,mode+' blade inside target body');assert.equal(merc.root.y,targets[0].root.y,mode+' grounded feet');
    fx.seek(t-.2);assert.equal(merc.root.y,targets[0].root.y,mode+' swing cannot move floor');fx.seek(t+.15);assert.equal(merc.root.y,targets[0].root.y,mode+' followthrough cannot move floor');
@@ -78,8 +80,21 @@ test('Grounded strikes intersect the target body; aura follows the pose and life
   fx.setMotionOnly(true);fx.seek(1.96);assert.equal(fx.diagnostics().visibleSprites,0);assert.equal(fx.aura.visible,false);fx.setMotionOnly(false);
   for(const mode of Object.keys(MODES)){fx.setPlan(makePlan({mode}));fx.play();assert.equal(engine.simpleTimelines.size,1);fx.pause();for(let i=0;i<=60;i++){fx.seek(fx.plan.duration*i/60);assert.ok(fx.diagnostics().visibleSprites<=128);assert.equal(fx.diagnostics().aura.textureMatchesPose,true);}}
   fx.setPlan(makePlan({mode:'overhead'}));fx.seek(1.62);assert.ok(fx.sample.weaponPower>.7);assert.ok(fx.activeFrames.some(f=>f.key==='charge'));const blade=fx.weaponSegment(),before=JSON.stringify(fx.activeFrames);assert.ok(Math.hypot(blade.tip.x-blade.grip.x,blade.tip.y-blade.grip.y)>100);fx.seek(2.05);assert.ok(fx.sample.sweep>0&&fx.sample.impacts.length===1);fx.seek(1.62);assert.equal(JSON.stringify(fx.activeFrames),before,'seek reproduces authored charge frames');
+  fx.setPlan(makePlan({mode:'guard'}));
+  for(const scale of [.38,.6,1]){merc.root.scale.set(scale);fx.seek(1.98);const ward=fx.guardPlacement(),drawn=fx.activeFrames.find(f=>f.key==='guard');assert.deepEqual(drawn.anchor,ward.point);assert.ok(Math.abs((ward.foot.y-ward.point.y)/ward.bodyHeight-.54)<1e-8,'ward centers above feet on the torso');assert.ok(Math.abs(ward.size/ward.bodyHeight-1.45)<1e-8);const saved={...ward.point};targets[0].root.y+=50;assert.deepEqual(fx.guardPlacement().point,saved,'enemy position cannot move self ward');targets[0].root.y-=50;}
+  merc.root.scale.set(.6);
   fx.setPlan(makePlan({mode:'ultimate',targetLostAt:2.05}));fx.seek(3.25);assert.equal(fx.diagnostics().visibleSprites,0);assert.equal(merc.root.x,merc.baseX);fx.cancel();assert.equal(engine.simpleTimelines.size,0);assert.equal(engine.allies.length,5);assert.equal(engine.allies.includes(merc),false);
  }finally{fx.destroy();fx.destroy();assert.equal(effectLayer.children.length,0);assert.equal(merc.view.children.length,1);assert.equal(frameSource.destroyed,false);gsap.ticker.sleep();world.destroy({children:true});sd.destroy(false);sdSource.destroy();frameSource.destroy();}
+});
+
+test('every attack and skill uses the adopted overhead frames without retired pose tracks',()=>{
+ const reference=makePlan({mode:'overhead'});assert.deepEqual(manifest.activeMotionKeys,ACTIVE_MOTION_KEYS);
+ for(const mode of OVERHEAD_MODES){
+  const plan=makePlan({mode});assert.equal(plan.motion,OVERHEAD.motion);assert.deepEqual(plan.contacts,[1.98]);
+  for(let t=.50;t<3.15;t+=.007){const current=sample(plan,t);assert.deepEqual(current.pose,sample(reference,t).pose,mode+' exact selected pose');assert.equal(current.contactTrack.key,'twohandStrike');}
+  for(let t=0;t<plan.duration;t+=.011)assert.ok(ACTIVE_MOTION_KEYS.includes(sample(plan,t).pose.key),mode+' cannot use retired rising/turning tracks');
+  assert.equal(sample(plan,1.98).travel,1,'all casts use the selected forward stance with overhead blade clearance');
+ }
 });
 
 test('all-skills showcase advances only on the active GSAP completion and stops cleanly',()=>{
