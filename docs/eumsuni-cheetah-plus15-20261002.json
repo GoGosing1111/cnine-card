@@ -1,0 +1,29 @@
+{
+  "ok": true,
+  "identity": {
+    "database": "cnine",
+    "recovery": false
+  },
+  "operationKey": "ops:eumsuni-cheetah-plus15:20261002:v1",
+  "status": "VERIFIED",
+  "actor": "SYSTEM_OPS",
+  "user": {
+    "id": 65,
+    "nickname": "음순이"
+  },
+  "card": {
+    "id": "CN-5D0E2E4D58C9416F",
+    "title": "치타구",
+    "grade": "FUR"
+  },
+  "levelBefore": 13,
+  "levelAfter": 15,
+  "quantityBefore": 9,
+  "quantityAfter": 9,
+  "changed": true,
+  "balancesPreserved": true,
+  "completedAt": "2026-10-01T19:02:36.718Z",
+  "adminLogId": "39175",
+  "currentQuantity": 9,
+  "currentLevel": 15
+}
