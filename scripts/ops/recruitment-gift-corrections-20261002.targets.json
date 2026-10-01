@@ -1,0 +1,1479 @@
+{
+  "operationKey": "ops:recruitment-gift-campaign-corrections:20261002:v1",
+  "itemCode": "RECRUITMENT_GIFT_BOX",
+  "amountPerCampaign": 1,
+  "policy": "ONCE_PER_CAMPAIGN_SKIP_ORIGINAL_AND_CMS_MANUAL",
+  "reviewedAt": "2026-10-01T16:57:55.831Z",
+  "rooms": [
+    {
+      "campaign": "diim-recruitment-20261001",
+      "name": "디임 방",
+      "originalOperationKey": "ops:diim-recruitment-gift:20261001:once:v1",
+      "targets": [
+        {
+          "userId": 22,
+          "nickname": "커피먹는철구",
+          "playdkId": "49cd3f96",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 32,
+          "nickname": "쑤댕",
+          "playdkId": "8eeb626d",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 65,
+          "nickname": "음순이",
+          "playdkId": "9f0cdb34",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 76,
+          "nickname": "랄네미탱탱",
+          "playdkId": "8cb20af2",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 88,
+          "nickname": "0수표",
+          "playdkId": "2ed65346",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 130,
+          "nickname": "족구선생",
+          "playdkId": "7a5d068c",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 164,
+          "nickname": "박사",
+          "playdkId": "00a28fb2",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 242,
+          "nickname": "벚꽃엔딩",
+          "playdkId": "23e59d1c",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 277,
+          "nickname": "스갤가축",
+          "playdkId": "c9386209",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 289,
+          "nickname": "베베킹",
+          "playdkId": "94502a2d",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 290,
+          "nickname": "Mild7",
+          "playdkId": "c080c2f3",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 295,
+          "nickname": "모래",
+          "playdkId": "11092f52",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 303,
+          "nickname": "[C9]족쪽이",
+          "playdkId": "4779b1f1",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 360,
+          "nickname": "라피e",
+          "playdkId": "06e56898",
+          "expectedOutcome": "MANUAL_GRANTED"
+        },
+        {
+          "userId": 521,
+          "nickname": "대저동토마토",
+          "playdkId": "abea9012",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 525,
+          "nickname": "족구조아",
+          "playdkId": "cba2b411",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 750,
+          "nickname": "라페스타다",
+          "playdkId": "7045ba47",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 787,
+          "nickname": "뚱초환",
+          "playdkId": "74c50775",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 1195,
+          "nickname": "씨나인택갓",
+          "playdkId": "5c0809e6",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 1421,
+          "nickname": "다시생각",
+          "playdkId": "6f84c07a",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 1768,
+          "nickname": "핫시",
+          "playdkId": "8dd27727",
+          "expectedOutcome": "MANUAL_GRANTED"
+        },
+        {
+          "userId": 2246,
+          "nickname": "옹가망함1",
+          "playdkId": "91254f22",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 2420,
+          "nickname": "블랙캐슬",
+          "playdkId": "a2c1e499",
+          "expectedOutcome": "MANUAL_GRANTED"
+        },
+        {
+          "userId": 2505,
+          "nickname": "모아가려아가",
+          "playdkId": "04fa1e36",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 3884,
+          "nickname": "zkzk9999",
+          "playdkId": "2113359e",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 3892,
+          "nickname": "슈파두파",
+          "playdkId": "1e689522",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 3974,
+          "nickname": "우회하세요",
+          "playdkId": "9f8e3d1b",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 4010,
+          "nickname": "슈라",
+          "playdkId": "21bea729",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 4084,
+          "nickname": "게임닉네임",
+          "playdkId": "491e9cc1",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 4111,
+          "nickname": "족게이다",
+          "playdkId": "6c8a26e9",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 4209,
+          "nickname": "#유나랜드",
+          "playdkId": "d98a8c3a",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 4235,
+          "nickname": "도댕",
+          "playdkId": "1e59de3c",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 4391,
+          "nickname": "더듬이구",
+          "playdkId": "b86ce1fb",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 4408,
+          "nickname": "레가파",
+          "playdkId": "0c98c0a7",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 4501,
+          "nickname": "장씨아저씨",
+          "playdkId": "ce44a7ee",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 4504,
+          "nickname": "깜찍소녀",
+          "playdkId": "9064056b",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 4540,
+          "nickname": "지아영",
+          "playdkId": "5ecad84f",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 4570,
+          "nickname": "혜정",
+          "playdkId": "0e8cf635",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 4572,
+          "nickname": "응맨",
+          "playdkId": "2ab08a59",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 4582,
+          "nickname": "족단",
+          "playdkId": "22c31ef9",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 4595,
+          "nickname": "비니",
+          "playdkId": "76aa86ba",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 4597,
+          "nickname": "찬호",
+          "playdkId": "cd23e0b4",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 4610,
+          "nickname": "고라니ㅇ",
+          "playdkId": "372f52a0",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 4615,
+          "nickname": "랭비!",
+          "playdkId": "70f6dcb8",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 4627,
+          "nickname": "학벌",
+          "playdkId": "6da5a7a7",
+          "expectedOutcome": "MANUAL_GRANTED"
+        },
+        {
+          "userId": 4628,
+          "nickname": "망순이ෆ",
+          "playdkId": "0b464ee5",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 4651,
+          "nickname": "세라네꼬라지",
+          "playdkId": "644d3393",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 4705,
+          "nickname": "˚쟁이。",
+          "playdkId": "634d4201",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 4754,
+          "nickname": "조은",
+          "playdkId": "b183dbb1",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 4757,
+          "nickname": "음주플레이어",
+          "playdkId": "0c8c8f1c",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 4772,
+          "nickname": "펜타",
+          "playdkId": "416c1cc2",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 4774,
+          "nickname": "딤럼프",
+          "playdkId": "373b1b92",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 4836,
+          "nickname": "딤키우기",
+          "playdkId": "9fc36f09",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 4837,
+          "nickname": "별도",
+          "playdkId": "afec7800",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 4866,
+          "nickname": "[C9]가시",
+          "playdkId": "f4345135",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 4908,
+          "nickname": "굳건창수",
+          "playdkId": "6a375b2a",
+          "expectedOutcome": "MANUAL_GRANTED"
+        },
+        {
+          "userId": 5010,
+          "nickname": "으악",
+          "playdkId": "4421c392",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 5426,
+          "nickname": "나무늘봉순",
+          "playdkId": "8be68ada",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        }
+      ],
+      "originalPaid": [
+        {
+          "userId": 22,
+          "logId": "42488330"
+        },
+        {
+          "userId": 32,
+          "logId": "42488331"
+        },
+        {
+          "userId": 65,
+          "logId": "42488332"
+        },
+        {
+          "userId": 164,
+          "logId": "42488333"
+        },
+        {
+          "userId": 242,
+          "logId": "42488334"
+        },
+        {
+          "userId": 277,
+          "logId": "42488335"
+        },
+        {
+          "userId": 289,
+          "logId": "42488336"
+        },
+        {
+          "userId": 290,
+          "logId": "42488337"
+        },
+        {
+          "userId": 303,
+          "logId": "42488338"
+        },
+        {
+          "userId": 521,
+          "logId": "42488339"
+        },
+        {
+          "userId": 525,
+          "logId": "42488340"
+        },
+        {
+          "userId": 750,
+          "logId": "42488341"
+        },
+        {
+          "userId": 787,
+          "logId": "42488342"
+        },
+        {
+          "userId": 1421,
+          "logId": "42488343"
+        },
+        {
+          "userId": 2246,
+          "logId": "42488344"
+        },
+        {
+          "userId": 2505,
+          "logId": "42488345"
+        },
+        {
+          "userId": 3892,
+          "logId": "42488346"
+        },
+        {
+          "userId": 3974,
+          "logId": "42488347"
+        },
+        {
+          "userId": 4010,
+          "logId": "42488348"
+        },
+        {
+          "userId": 4084,
+          "logId": "42488349"
+        },
+        {
+          "userId": 4111,
+          "logId": "42488350"
+        },
+        {
+          "userId": 4235,
+          "logId": "42488351"
+        },
+        {
+          "userId": 4501,
+          "logId": "42488352"
+        },
+        {
+          "userId": 4504,
+          "logId": "42488353"
+        },
+        {
+          "userId": 4540,
+          "logId": "42488354"
+        },
+        {
+          "userId": 4595,
+          "logId": "42488355"
+        },
+        {
+          "userId": 4597,
+          "logId": "42488356"
+        },
+        {
+          "userId": 4610,
+          "logId": "42488357"
+        },
+        {
+          "userId": 4615,
+          "logId": "42488358"
+        },
+        {
+          "userId": 4754,
+          "logId": "42488359"
+        },
+        {
+          "userId": 4772,
+          "logId": "42488360"
+        },
+        {
+          "userId": 4836,
+          "logId": "42488361"
+        },
+        {
+          "userId": 4837,
+          "logId": "42488362"
+        },
+        {
+          "userId": 5426,
+          "logId": "42488363"
+        }
+      ],
+      "memo": [
+        {
+          "source": "[C9]재매이형",
+          "userId": 85,
+          "nickname": "카르푸",
+          "playdkId": "bf3920e6",
+          "reason": "사용자 따로메모 지정; 이번 지급 제외"
+        }
+      ],
+      "held": []
+    },
+    {
+      "campaign": "bongsoon-recruitment-20261002",
+      "name": "봉순이 방",
+      "originalOperationKey": "ops:bongsoon-recruitment-gift:20261002:once:v1",
+      "targets": [
+        {
+          "userId": 22,
+          "nickname": "커피먹는철구",
+          "playdkId": "49cd3f96",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 32,
+          "nickname": "쑤댕",
+          "playdkId": "8eeb626d",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 65,
+          "nickname": "음순이",
+          "playdkId": "9f0cdb34",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 71,
+          "nickname": "진땅콩_",
+          "playdkId": "786a5db9",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 81,
+          "nickname": "비쥬얼깡패",
+          "playdkId": "03320b3e",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 88,
+          "nickname": "0수표",
+          "playdkId": "2ed65346",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 130,
+          "nickname": "족구선생",
+          "playdkId": "7a5d068c",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 148,
+          "nickname": "혜루",
+          "playdkId": "bc55305b",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 162,
+          "nickname": "차단하다",
+          "playdkId": "0cd6253c",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 164,
+          "nickname": "박사",
+          "playdkId": "00a28fb2",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 183,
+          "nickname": "남수댕",
+          "playdkId": "c6762516",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 277,
+          "nickname": "스갤가축",
+          "playdkId": "c9386209",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 295,
+          "nickname": "모래",
+          "playdkId": "11092f52",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 303,
+          "nickname": "[C9]족쪽이",
+          "playdkId": "4779b1f1",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 360,
+          "nickname": "라피e",
+          "playdkId": "06e56898",
+          "expectedOutcome": "MANUAL_GRANTED"
+        },
+        {
+          "userId": 521,
+          "nickname": "대저동토마토",
+          "playdkId": "abea9012",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 525,
+          "nickname": "족구조아",
+          "playdkId": "cba2b411",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 750,
+          "nickname": "라페스타다",
+          "playdkId": "7045ba47",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 1195,
+          "nickname": "씨나인택갓",
+          "playdkId": "5c0809e6",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 1255,
+          "nickname": "전게씹선미아웃",
+          "playdkId": "561a0ff8",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 1768,
+          "nickname": "핫시",
+          "playdkId": "8dd27727",
+          "expectedOutcome": "MANUAL_GRANTED"
+        },
+        {
+          "userId": 2246,
+          "nickname": "옹가망함1",
+          "playdkId": "91254f22",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 2420,
+          "nickname": "블랙캐슬",
+          "playdkId": "a2c1e499",
+          "expectedOutcome": "MANUAL_GRANTED"
+        },
+        {
+          "userId": 2505,
+          "nickname": "모아가려아가",
+          "playdkId": "04fa1e36",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 3646,
+          "nickname": "까잡셔",
+          "playdkId": "dc55ee76",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 3884,
+          "nickname": "zkzk9999",
+          "playdkId": "2113359e",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 4010,
+          "nickname": "슈라",
+          "playdkId": "21bea729",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 4084,
+          "nickname": "게임닉네임",
+          "playdkId": "491e9cc1",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 4111,
+          "nickname": "족게이다",
+          "playdkId": "6c8a26e9",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 4235,
+          "nickname": "도댕",
+          "playdkId": "1e59de3c",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 4391,
+          "nickname": "더듬이구",
+          "playdkId": "b86ce1fb",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 4408,
+          "nickname": "레가파",
+          "playdkId": "0c98c0a7",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 4479,
+          "nickname": "대지",
+          "playdkId": "22ca5c12",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 4501,
+          "nickname": "장씨아저씨",
+          "playdkId": "ce44a7ee",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 4504,
+          "nickname": "깜찍소녀",
+          "playdkId": "9064056b",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 4540,
+          "nickname": "지아영",
+          "playdkId": "5ecad84f",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 4570,
+          "nickname": "혜정",
+          "playdkId": "0e8cf635",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 4597,
+          "nickname": "찬호",
+          "playdkId": "cd23e0b4",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 4598,
+          "nickname": "암살자..",
+          "playdkId": "4c7adda2",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 4615,
+          "nickname": "랭비!",
+          "playdkId": "70f6dcb8",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 4627,
+          "nickname": "학벌",
+          "playdkId": "6da5a7a7",
+          "expectedOutcome": "MANUAL_GRANTED"
+        },
+        {
+          "userId": 4628,
+          "nickname": "망순이ෆ",
+          "playdkId": "0b464ee5",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 4705,
+          "nickname": "˚쟁이。",
+          "playdkId": "634d4201",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 4757,
+          "nickname": "음주플레이어",
+          "playdkId": "0c8c8f1c",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 4772,
+          "nickname": "펜타",
+          "playdkId": "416c1cc2",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 4774,
+          "nickname": "딤럼프",
+          "playdkId": "373b1b92",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 4908,
+          "nickname": "굳건창수",
+          "playdkId": "6a375b2a",
+          "expectedOutcome": "MANUAL_GRANTED"
+        },
+        {
+          "userId": 4933,
+          "nickname": "심심이",
+          "playdkId": "bdff325e",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 4965,
+          "nickname": "쁴로리",
+          "playdkId": "f3aa85e5",
+          "expectedOutcome": "ORIGINAL_GRANTED"
+        },
+        {
+          "userId": 5010,
+          "nickname": "으악",
+          "playdkId": "4421c392",
+          "expectedOutcome": "CORRECTION_PENDING"
+        },
+        {
+          "userId": 5426,
+          "nickname": "나무늘봉순",
+          "playdkId": "8be68ada",
+          "expectedOutcome": "CORRECTION_PENDING"
+        }
+      ],
+      "originalPaid": [
+        {
+          "userId": 71,
+          "logId": "42566360"
+        },
+        {
+          "userId": 81,
+          "logId": "42566361"
+        },
+        {
+          "userId": 148,
+          "logId": "42566362"
+        },
+        {
+          "userId": 162,
+          "logId": "42566363"
+        },
+        {
+          "userId": 1255,
+          "logId": "42566364"
+        },
+        {
+          "userId": 3646,
+          "logId": "42566365"
+        },
+        {
+          "userId": 4479,
+          "logId": "42566366"
+        },
+        {
+          "userId": 4598,
+          "logId": "42566367"
+        },
+        {
+          "userId": 4933,
+          "logId": "42566368"
+        },
+        {
+          "userId": 4965,
+          "logId": "42566369"
+        }
+      ],
+      "memo": [],
+      "held": [
+        {
+          "source": "골수뽑는망순",
+          "nickname": null,
+          "contribution": 1414,
+          "userMarkedUnknown": true,
+          "reason": "ACCOUNT_UNRESOLVED",
+          "candidateIds": []
+        },
+        {
+          "source": "[늘]개빠름",
+          "nickname": null,
+          "contribution": 140,
+          "userMarkedUnknown": true,
+          "reason": "ACCOUNT_UNRESOLVED",
+          "candidateIds": []
+        },
+        {
+          "source": "King_Bear",
+          "nickname": null,
+          "contribution": 140,
+          "userMarkedUnknown": true,
+          "reason": "ACCOUNT_UNRESOLVED",
+          "candidateIds": []
+        },
+        {
+          "source": "toy트레인",
+          "nickname": null,
+          "contribution": 140,
+          "userMarkedUnknown": true,
+          "reason": "ACCOUNT_UNRESOLVED",
+          "candidateIds": []
+        }
+      ]
+    }
+  ],
+  "manualEvidence": [
+    {
+      "userId": 360,
+      "logId": "41497330",
+      "requestId": "0d9ad9c3-1ebc-434e-b139-0c27a1bd1201",
+      "amount": 1,
+      "adminId": 5663,
+      "auditId": "38408",
+      "createdAt": "2026-09-30 11:57:41"
+    },
+    {
+      "userId": 1768,
+      "logId": "42624456",
+      "requestId": "4bc4c81f-698c-456b-820d-47e7545a44d6",
+      "amount": 1,
+      "adminId": 5663,
+      "auditId": "39119",
+      "createdAt": "2026-10-01 16:12:25"
+    },
+    {
+      "userId": 2420,
+      "logId": "41502167",
+      "requestId": "2df97e49-d0e8-47e9-af57-9abaec2afc5b",
+      "amount": 2,
+      "adminId": 5663,
+      "auditId": "38410",
+      "createdAt": "2026-09-30 12:00:46"
+    },
+    {
+      "userId": 2420,
+      "logId": "41513898",
+      "requestId": "131e91d6-c59d-4b79-9dc7-857637439ee8",
+      "amount": 1,
+      "adminId": 5663,
+      "auditId": "38432",
+      "createdAt": "2026-09-30 12:20:35"
+    },
+    {
+      "userId": 4627,
+      "logId": "42607315",
+      "requestId": "7c898638-43c2-4aa8-a0b0-53bdb00d698c",
+      "amount": 1,
+      "adminId": 5663,
+      "auditId": "39117",
+      "createdAt": "2026-10-01 15:59:03"
+    },
+    {
+      "userId": 4908,
+      "logId": "41500706",
+      "requestId": "7d40ea06-4780-45be-a422-04ed229fde93",
+      "amount": 2,
+      "adminId": 5663,
+      "auditId": "38409",
+      "createdAt": "2026-09-30 11:59:44"
+    }
+  ],
+  "reviewedGrants": [
+    {
+      "id": "42488330",
+      "userId": 22,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:diim-recruitment-gift:20261001:once:v1"
+    },
+    {
+      "id": "42488331",
+      "userId": 32,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:diim-recruitment-gift:20261001:once:v1"
+    },
+    {
+      "id": "42488332",
+      "userId": 65,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:diim-recruitment-gift:20261001:once:v1"
+    },
+    {
+      "id": "42566360",
+      "userId": 71,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:bongsoon-recruitment-gift:20261002:once:v1"
+    },
+    {
+      "id": "41518505",
+      "userId": 76,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:recruit-gift:20260930:2104-2109:v1"
+    },
+    {
+      "id": "42566361",
+      "userId": 81,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:bongsoon-recruitment-gift:20261002:once:v1"
+    },
+    {
+      "id": "41518506",
+      "userId": 88,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:recruit-gift:20260930:2104-2109:v1"
+    },
+    {
+      "id": "41526134",
+      "userId": 130,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:recruit-gift:20260930:2104-2109:v1:supplement:130"
+    },
+    {
+      "id": "42566362",
+      "userId": 148,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:bongsoon-recruitment-gift:20261002:once:v1"
+    },
+    {
+      "id": "42566363",
+      "userId": 162,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:bongsoon-recruitment-gift:20261002:once:v1"
+    },
+    {
+      "id": "42488333",
+      "userId": 164,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:diim-recruitment-gift:20261001:once:v1"
+    },
+    {
+      "id": "41518507",
+      "userId": 183,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:recruit-gift:20260930:2104-2109:v1"
+    },
+    {
+      "id": "42488334",
+      "userId": 242,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:diim-recruitment-gift:20261001:once:v1"
+    },
+    {
+      "id": "42488335",
+      "userId": 277,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:diim-recruitment-gift:20261001:once:v1"
+    },
+    {
+      "id": "42488336",
+      "userId": 289,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:diim-recruitment-gift:20261001:once:v1"
+    },
+    {
+      "id": "42488337",
+      "userId": 290,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:diim-recruitment-gift:20261001:once:v1"
+    },
+    {
+      "id": "41518508",
+      "userId": 295,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:recruit-gift:20260930:2104-2109:v1"
+    },
+    {
+      "id": "42488338",
+      "userId": 303,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:diim-recruitment-gift:20261001:once:v1"
+    },
+    {
+      "id": "41497330",
+      "userId": 360,
+      "amount": 1,
+      "referenceType": "V3_JOINT",
+      "referenceId": "0d9ad9c3-1ebc-434e-b139-0c27a1bd1201"
+    },
+    {
+      "id": "42488339",
+      "userId": 521,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:diim-recruitment-gift:20261001:once:v1"
+    },
+    {
+      "id": "42488340",
+      "userId": 525,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:diim-recruitment-gift:20261001:once:v1"
+    },
+    {
+      "id": "42488341",
+      "userId": 750,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:diim-recruitment-gift:20261001:once:v1"
+    },
+    {
+      "id": "42488342",
+      "userId": 787,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:diim-recruitment-gift:20261001:once:v1"
+    },
+    {
+      "id": "41518510",
+      "userId": 1195,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:recruit-gift:20260930:2104-2109:v1"
+    },
+    {
+      "id": "42566364",
+      "userId": 1255,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:bongsoon-recruitment-gift:20261002:once:v1"
+    },
+    {
+      "id": "42488343",
+      "userId": 1421,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:diim-recruitment-gift:20261001:once:v1"
+    },
+    {
+      "id": "41518511",
+      "userId": 1768,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:recruit-gift:20260930:2104-2109:v1"
+    },
+    {
+      "id": "42624456",
+      "userId": 1768,
+      "amount": 1,
+      "referenceType": "V3_JOINT",
+      "referenceId": "4bc4c81f-698c-456b-820d-47e7545a44d6"
+    },
+    {
+      "id": "42488344",
+      "userId": 2246,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:diim-recruitment-gift:20261001:once:v1"
+    },
+    {
+      "id": "41502167",
+      "userId": 2420,
+      "amount": 2,
+      "referenceType": "V3_JOINT",
+      "referenceId": "2df97e49-d0e8-47e9-af57-9abaec2afc5b"
+    },
+    {
+      "id": "41513898",
+      "userId": 2420,
+      "amount": 1,
+      "referenceType": "V3_JOINT",
+      "referenceId": "131e91d6-c59d-4b79-9dc7-857637439ee8"
+    },
+    {
+      "id": "42488345",
+      "userId": 2505,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:diim-recruitment-gift:20261001:once:v1"
+    },
+    {
+      "id": "42566365",
+      "userId": 3646,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:bongsoon-recruitment-gift:20261002:once:v1"
+    },
+    {
+      "id": "41518512",
+      "userId": 3884,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:recruit-gift:20260930:2104-2109:v1"
+    },
+    {
+      "id": "42488346",
+      "userId": 3892,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:diim-recruitment-gift:20261001:once:v1"
+    },
+    {
+      "id": "42488347",
+      "userId": 3974,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:diim-recruitment-gift:20261001:once:v1"
+    },
+    {
+      "id": "42488348",
+      "userId": 4010,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:diim-recruitment-gift:20261001:once:v1"
+    },
+    {
+      "id": "42488349",
+      "userId": 4084,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:diim-recruitment-gift:20261001:once:v1"
+    },
+    {
+      "id": "42488350",
+      "userId": 4111,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:diim-recruitment-gift:20261001:once:v1"
+    },
+    {
+      "id": "41518513",
+      "userId": 4209,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:recruit-gift:20260930:2104-2109:v1"
+    },
+    {
+      "id": "42488351",
+      "userId": 4235,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:diim-recruitment-gift:20261001:once:v1"
+    },
+    {
+      "id": "41518514",
+      "userId": 4391,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:recruit-gift:20260930:2104-2109:v1"
+    },
+    {
+      "id": "41518515",
+      "userId": 4408,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:recruit-gift:20260930:2104-2109:v1"
+    },
+    {
+      "id": "42566366",
+      "userId": 4479,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:bongsoon-recruitment-gift:20261002:once:v1"
+    },
+    {
+      "id": "42488352",
+      "userId": 4501,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:diim-recruitment-gift:20261001:once:v1"
+    },
+    {
+      "id": "42488353",
+      "userId": 4504,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:diim-recruitment-gift:20261001:once:v1"
+    },
+    {
+      "id": "42488354",
+      "userId": 4540,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:diim-recruitment-gift:20261001:once:v1"
+    },
+    {
+      "id": "41518516",
+      "userId": 4570,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:recruit-gift:20260930:2104-2109:v1"
+    },
+    {
+      "id": "41518517",
+      "userId": 4572,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:recruit-gift:20260930:2104-2109:v1"
+    },
+    {
+      "id": "41518518",
+      "userId": 4582,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:recruit-gift:20260930:2104-2109:v1"
+    },
+    {
+      "id": "42488355",
+      "userId": 4595,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:diim-recruitment-gift:20261001:once:v1"
+    },
+    {
+      "id": "42488356",
+      "userId": 4597,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:diim-recruitment-gift:20261001:once:v1"
+    },
+    {
+      "id": "42566367",
+      "userId": 4598,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:bongsoon-recruitment-gift:20261002:once:v1"
+    },
+    {
+      "id": "42488357",
+      "userId": 4610,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:diim-recruitment-gift:20261001:once:v1"
+    },
+    {
+      "id": "42488358",
+      "userId": 4615,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:diim-recruitment-gift:20261001:once:v1"
+    },
+    {
+      "id": "41518519",
+      "userId": 4627,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:recruit-gift:20260930:2104-2109:v1"
+    },
+    {
+      "id": "42607315",
+      "userId": 4627,
+      "amount": 1,
+      "referenceType": "V3_JOINT",
+      "referenceId": "7c898638-43c2-4aa8-a0b0-53bdb00d698c"
+    },
+    {
+      "id": "41518520",
+      "userId": 4628,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:recruit-gift:20260930:2104-2109:v1"
+    },
+    {
+      "id": "41518521",
+      "userId": 4651,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:recruit-gift:20260930:2104-2109:v1"
+    },
+    {
+      "id": "41518522",
+      "userId": 4705,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:recruit-gift:20260930:2104-2109:v1"
+    },
+    {
+      "id": "42488359",
+      "userId": 4754,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:diim-recruitment-gift:20261001:once:v1"
+    },
+    {
+      "id": "41518523",
+      "userId": 4757,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:recruit-gift:20260930:2104-2109:v1"
+    },
+    {
+      "id": "42488360",
+      "userId": 4772,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:diim-recruitment-gift:20261001:once:v1"
+    },
+    {
+      "id": "41518524",
+      "userId": 4774,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:recruit-gift:20260930:2104-2109:v1"
+    },
+    {
+      "id": "42488361",
+      "userId": 4836,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:diim-recruitment-gift:20261001:once:v1"
+    },
+    {
+      "id": "42488362",
+      "userId": 4837,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:diim-recruitment-gift:20261001:once:v1"
+    },
+    {
+      "id": "41518525",
+      "userId": 4866,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:recruit-gift:20260930:2104-2109:v1"
+    },
+    {
+      "id": "41500706",
+      "userId": 4908,
+      "amount": 2,
+      "referenceType": "V3_JOINT",
+      "referenceId": "7d40ea06-4780-45be-a422-04ed229fde93"
+    },
+    {
+      "id": "41518526",
+      "userId": 4908,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:recruit-gift:20260930:2104-2109:v1"
+    },
+    {
+      "id": "42566368",
+      "userId": 4933,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:bongsoon-recruitment-gift:20261002:once:v1"
+    },
+    {
+      "id": "42566369",
+      "userId": 4965,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:bongsoon-recruitment-gift:20261002:once:v1"
+    },
+    {
+      "id": "41518527",
+      "userId": 5010,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:recruit-gift:20260930:2104-2109:v1"
+    },
+    {
+      "id": "42488363",
+      "userId": 5426,
+      "amount": 1,
+      "referenceType": "SYSTEM_GRANT",
+      "referenceId": "ops:diim-recruitment-gift:20261001:once:v1"
+    }
+  ],
+  "expected": {
+    "uniqueRecipients": 42,
+    "totalBoxes": 55,
+    "roomBoxes": [
+      19,
+      36
+    ]
+  }
+}
