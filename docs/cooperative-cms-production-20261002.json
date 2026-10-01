@@ -1,0 +1,61 @@
+{
+  "commit": "152623a8d05c9d7b7e3db444d4dda73c9962c998",
+  "base": "https://cnine-card.pages.dev",
+  "verifiedAt": "2026-10-01T19:25:01.188Z",
+  "files": [
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "sha256": "e9e3ee0510216794157efe6de6d2da8242b8ae13d81ef6e72f6a260343c7c76c",
+      "match": true
+    },
+    {
+      "file": "admin/cooperative-admin.mjs",
+      "status": 200,
+      "sha256": "b8499e8cd3158994057d5a4d5a104ebeeb3aa7ee6376c61d05ba8b4f44e85aea",
+      "match": true
+    },
+    {
+      "file": "admin/cooperative-admin.css",
+      "status": 200,
+      "sha256": "817176904060a3dfb5cb91c37c6d83fa6c99bd1a0107bae42c14b124e478621e",
+      "match": true
+    },
+    {
+      "file": "shared/cooperative-settings-v1.mjs",
+      "status": 200,
+      "sha256": "4e22666fab74a43d99cee8a7f991fd4307e148d73994ada8a201d44af9158f39",
+      "match": true
+    },
+    {
+      "file": "raid/cooperative/live.mjs",
+      "status": 200,
+      "sha256": "08b59cd968284a8ecaf84c2b23167a38cd688e79384169f1405e73563e88d237",
+      "match": true
+    },
+    {
+      "file": "js/cooperative-battleground-entry.js",
+      "status": 200,
+      "sha256": "1cea28628ec41b9d5c392fda7981e35a2c7b658d60681b88816af7c517bd1482",
+      "match": true
+    },
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "4af76e2aa52fc053e586f81569ed1f023c6faa77aedf260a0ca63ae226516793",
+      "match": true
+    }
+  ],
+  "endpoints": [
+    {
+      "endpoint": "admin/coop/settings",
+      "status": 401,
+      "pass": true
+    },
+    {
+      "endpoint": "admin/coop/test-users?q=1",
+      "status": 401,
+      "pass": true
+    }
+  ]
+}

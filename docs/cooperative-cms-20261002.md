@@ -26,9 +26,19 @@
 - 최종 UI 증빙: `C:/Users/User/AppData/Local/Temp/cooperative-qa-3cicwb/cms-screenshots/report.json` 및 같은 폴더의 PC·모바일 화면. 모바일에서 기존 CMS의 100vh 사이드바/최소 폭이 조작을 가리던 문제는 격전지 메뉴가 보일 때만 범위를 제한해 보정했다.
 - 공용 전투 렌더러·다른 PVE/PVP 시스템은 수정하지 않았다. 이미 검증된 밸런스 시뮬레이션 및 무관한 게임 전체 검사를 반복하지 않는다.
 
-## 배포 계획
+## 배포 완료
 
 - 소규모 한 콘텐츠 설정 연동이다. 공통 인증·DB/트랜잭션 기반·마이그레이션·의존성 변경 없음.
 - 직전 운영 Pages: `b72d5a97` / 소스 `7ec38f67` (Wrangler 운영 배포 목록으로 확인).
 - 이번 배포 전 검사: `tests/cooperative-battleground.test.mjs`, `tests/cooperative-arke.test.mjs`, `tests/cooperative-websocket.test.mjs`, 자동 Worker 컴파일. 이미 통과한 새 CMS 통합·브라우저 검사를 중복 실행하지 않는다.
 - 최신 `origin/main`의 다른 작업을 보존해 범위 커밋을 원격 반영한 뒤 `npm run deploy:production -- --scoped` 사용. 출시 플래그·캐시·Hyperdrive 보호는 유지한다.
+
+2026-10-02 04:25 KST 운영 반영 확인:
+
+- 런타임 커밋: `152623a8d05c9d7b7e3db444d4dda73c9962c998`.
+- Pages: `https://031622d5.cnine-card.pages.dev`, 운영 `https://cnine-card.pages.dev`.
+- API Worker: `908c706a-6f15-495a-934a-7e21b62abb3e`; 정기 작업 Worker: `478e718d-ba4e-458d-ba34-ae3d77cf5c73`.
+- 배포 중 격전지 회귀 21/21, Worker 문법·실제 번들 컴파일, 운영 출시/캐시/Hyperdrive 검사 통과. 앞서 통과한 CMS 검사 4개와 합계 25개다.
+- 관리자 진입점·CMS JS/CSS·공유 설정·격전지 로비·진입 모듈·메인 HTML 7개가 운영 HTTP 200 및 로컬 SHA-256과 일치. 비로그인 관리자 설정/참여자 API는 모두 401.
+- 상세 운영 증빙: `docs/cooperative-cms-production-20261002.json`. 운영자 계정의 실제 설정 저장이나 사용자 재화 변경은 검수에 사용하지 않았다.
+- 이 완료 기록은 문서 전용 후속 커밋이며 테스트·운영 배포를 반복하지 않는다.
