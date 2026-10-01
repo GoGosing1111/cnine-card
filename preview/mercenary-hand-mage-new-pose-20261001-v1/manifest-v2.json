@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "createdDate": "2026-10-01",
+  "status": "SOURCE_ART_USER_REVIEW_PENDING",
+  "sourceArt": "assets/hand-mage-frontal-slim-natural-hair-v2.png",
+  "sha256": "ADAD0EE285A55EBDE8D3CD8812DBAC48F3F2B6684D7ECE97B485F066583FD470",
+  "width": 1024,
+  "height": 1536,
+  "colorMode": "RGB",
+  "tool": "built-in image_gen",
+  "method": "New complete composition revision; no patch/compositing",
+  "reference": "assets/hand-mage-new-pose-source-art-v1.png",
+  "prompt": "prompt-v2-frontal-slim-natural-hair.txt",
+  "userChanges": [
+    "허벅지 폭 축소 및 전경 다리 원근 과장 제거",
+    "얼굴과 몸을 눈높이 정면으로 변경",
+    "기름진 띠형 광택과 과도한 금색 헤어 하이라이트를 줄이고 자연스러운 연속 검은 머릿결"
+  ],
+  "review": {
+    "frontalPose": "Face, chest and hips face the viewer",
+    "thighs": "Slender legs, no knee thrust forward",
+    "hair": "Continuous dark hair, subdued crown highlights, magic concentrated around hands",
+    "faceCostume": "Original face and costume design retained as references; user visual approval pending"
+  },
+  "liveConnected": false
+}

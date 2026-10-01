@@ -1,5 +1,9 @@
 # 마법사 용병 — 전체 새 포즈 원화
 
+최신 검수본은 `assets/hand-mage-frontal-slim-natural-hair-v2.png`다. 후속 사용자 지시에 따라 허벅지 폭과 원근 과장을 줄이고 얼굴·몸을 정면으로 변경했다. 머릿결은 과한 금빛 띠와 번들거림을 줄여 부드럽게 이어지도록 새로 제작했다. 내장 image_gen 생성 원본 1024×1536 RGB PNG를 그대로 보존하며 국소 합성은 사용하지 않았다. 전체 프롬프트는 `prompt-v2-frontal-slim-natural-hair.txt`, 기록은 `manifest-v2.json`이다. 사용자 최종 시각 승인 대기다.
+
+## V1 제작 이력
+
 사용자가 재첨부한 이미지의 얼굴·체형·의상을 기준으로 전체 포즈와 구도를 새로 제작했다. 기존 원화에 손을 붙이거나 마스크 합성하는 방식은 사용하지 않았다. 내장 image_gen이 생성한 전체 원본을 바이트 그대로 보존한다.
 
 - 원화: `assets/hand-mage-new-pose-source-art-v1.png` — 1024×1536 RGB PNG.

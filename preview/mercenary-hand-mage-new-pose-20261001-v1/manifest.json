@@ -1,6 +1,8 @@
 {
   "createdDate": "2026-10-01",
-  "status": "SOURCE_ART_USER_REVIEW_PENDING",
+  "status": "SUPERSEDED_BY_USER_FRONTAL_SLIM_HAIR_REVISION",
+  "latestSourceArt": "assets/hand-mage-frontal-slim-natural-hair-v2.png",
+  "latestManifest": "manifest-v2.json",
   "request": "첨부 얼굴·체형·의상 유지, 전체 포즈를 바꾸어 새로 제작. 기존 그림 국소 수정 금지.",
   "method": "Built-in image_gen; new complete illustration using the attachment only as character identity / body / costume reference. No hand patch, compositing, retouching or pixel reuse.",
   "sourceArt": "assets/hand-mage-new-pose-source-art-v1.png",
