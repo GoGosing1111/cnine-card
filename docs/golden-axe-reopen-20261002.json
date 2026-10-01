@@ -1,0 +1,121 @@
+{
+  "operation": "ops:golden-axe-reopen:20261002:v1",
+  "startsAt": "2026-10-01T18:34:48.232Z",
+  "endsAt": "2026-10-08T18:34:48.232Z",
+  "historyStartsAt": "2026-10-01T18:34:48.232Z",
+  "axeCost": 1,
+  "dailyLimit": 5,
+  "rates": {
+    "F_BODY": 7,
+    "G_BODY": 5,
+    "H_BODY": 1,
+    "COIN_500": 23,
+    "COIN_1500": 3,
+    "COIN_3000": 1,
+    "MERCENARY_S": 7,
+    "MERCENARY_SS": 0,
+    "MERCENARY_SSS": 0,
+    "SUPERSTAR_13": 3,
+    "PARTS_150": 7,
+    "ADVANCEMENT": 3,
+    "MISS": 40
+  },
+  "retiredChuseokCoupons": 9,
+  "oldAxeCouponsReactivated": 0,
+  "automaticAxeGrant": false,
+  "historyReceiptsPreserved": [
+    {
+      "event": "AXE",
+      "total": "2824"
+    },
+    {
+      "event": "CHUSEOK",
+      "total": "4157"
+    }
+  ],
+  "auditId": "39141",
+  "verified": true,
+  "holdings": [
+    {
+      "item_code": "CHUSEOK_COIN",
+      "accounts": "191",
+      "quantity": "83"
+    }
+  ],
+  "coupons": [
+    {
+      "reward_type": "CHUSEOK_COIN",
+      "total": "9",
+      "active": "0"
+    },
+    {
+      "reward_type": "PINGDU_OLD_AXE",
+      "total": "14",
+      "active": "0"
+    }
+  ],
+  "startsAtKst": "2026-10-02T03:34:48.232+09:00",
+  "endsAtKst": "2026-10-09T03:34:48.232+09:00",
+  "releaseCommit": "39bc87bb3a8fe4d1ce17bd82eea0443d821624e9",
+  "deploymentUrl": "https://f737b6d7.cnine-card.pages.dev",
+  "apiRuntimeVersion": "47fdba93-5307-4245-9689-a8da81eab338",
+  "validation": {
+    "eventTransactionAndDecimalTests": 20,
+    "retirementTests": 7,
+    "scopedIntegrationTests": 38,
+    "lobbyTests": 3,
+    "workerSyntax": true,
+    "hyperdriveQueryCacheDisabled": true,
+    "desktopAndMobile": true
+  },
+  "smoke": {
+    "checkedAt": "2026-10-01T18:35:02.617Z",
+    "origin": "https://cnine-card.pages.dev",
+    "phase": "after",
+    "feature": {
+      "visible": true,
+      "name": "핑두의 금도끼 은도끼",
+      "phase": "OPEN",
+      "startsAt": "2026-10-01T18:34:48.232Z",
+      "endsAt": "2026-10-08T18:34:48.232Z"
+    },
+    "retired": {
+      "visible": false,
+      "phase": "RETIRED",
+      "replacement": "/events/golden-axe/"
+    },
+    "checks": [
+      {
+        "path": "/api/events/chuseok/feature",
+        "status": 200,
+        "location": null
+      },
+      {
+        "path": "/api/events/golden-axe/feature",
+        "status": 200,
+        "location": null
+      },
+      {
+        "path": "/events/chuseok/?use=VEHICLE_PARTS_150_CHOICE",
+        "status": 302,
+        "location": "/events/golden-axe/?use=VEHICLE_PARTS_150_CHOICE"
+      },
+      {
+        "path": "/events/golden-axe/",
+        "status": 200,
+        "location": null
+      },
+      {
+        "path": "/js/golden-axe-page-v1.js?v=axe-reopen-20261002",
+        "status": 200,
+        "location": null
+      },
+      {
+        "path": "/admin/golden-axe-v1.js?axeReopen=20261002",
+        "status": 200,
+        "location": null
+      }
+    ],
+    "runtimeMatches": true
+  }
+}
