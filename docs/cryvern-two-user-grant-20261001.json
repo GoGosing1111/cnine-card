@@ -1,0 +1,128 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:cryvern-two-user:20261001:v1",
+  "authorization": [
+    "음주플레이어 SSS 크라이베른 지급",
+    "슈라 계정에도 크라이베른 지급"
+  ],
+  "dateKst": "2026-10-01",
+  "completedAtKst": "2026-10-01T23:09:28+09:00",
+  "scope": "운영 계정 두 곳에 SSS 크라이베른(V-049) 영구 1장씩 직접 지급",
+  "script": "scripts/ops/cryvern-two-user-grant-20261001.mjs",
+  "scriptSha256": "78DB3AA75B367493201C3D1648E5EEB6EBCF75EBD7295B0BC150AEA6D5E63218",
+  "checks": {
+    "syntax": "node --check passed",
+    "liveCmsRevision": 60,
+    "exactNicknamesAndIds": true,
+    "partialFailureRolledBack": true,
+    "replayVerified": true,
+    "rollbackVerified": true,
+    "freshConnectionVerification": true,
+    "accountLocks": "USER_LOCK in ascending user ID order plus PostgreSQL row locks",
+    "atomicity": "Both holdings, acquisition records, receipts and administrator audits committed together"
+  },
+  "result": {
+    "status": "COMPLETED",
+    "operationKey": "ops:cryvern-two-user:20261001:v1",
+    "granted": 2,
+    "replayed": 0,
+    "receipts": [
+      {
+        "status": "COMPLETED",
+        "operationKey": "ops:cryvern-two-user:20261001:v1:4010:V-049",
+        "actor": "SYSTEM_OPS",
+        "userId": 4010,
+        "nickname": "슈라",
+        "mercenaryCode": "V-049",
+        "mercenaryName": "크라이베른",
+        "rank": "SSS",
+        "quantity": 1,
+        "permanent": true,
+        "expiresAt": null,
+        "beforeCopies": 0,
+        "totalCopies": 1,
+        "duplicates": 0,
+        "completedAt": "2026-10-01T14:09:28.251Z",
+        "adminLogId": "39048",
+        "replayed": false
+      },
+      {
+        "status": "COMPLETED",
+        "operationKey": "ops:cryvern-two-user:20261001:v1:4757:V-049",
+        "actor": "SYSTEM_OPS",
+        "userId": 4757,
+        "nickname": "음주플레이어",
+        "mercenaryCode": "V-049",
+        "mercenaryName": "크라이베른",
+        "rank": "SSS",
+        "quantity": 1,
+        "permanent": true,
+        "expiresAt": null,
+        "beforeCopies": 0,
+        "totalCopies": 1,
+        "duplicates": 0,
+        "completedAt": "2026-10-01T14:09:28.652Z",
+        "adminLogId": "39049",
+        "replayed": false
+      }
+    ],
+    "preserved": {
+      "balances": true,
+      "loadouts": true,
+      "growth": true,
+      "otherMercenaries": true
+    },
+    "elapsedMs": 3854
+  },
+  "verification": {
+    "status": "COMPLETED",
+    "verifiedAt": "2026-10-01T14:09:30.658Z",
+    "cmsRevision": 60,
+    "verified": [
+      {
+        "status": "COMPLETED",
+        "operationKey": "ops:cryvern-two-user:20261001:v1:4010:V-049",
+        "actor": "SYSTEM_OPS",
+        "userId": 4010,
+        "nickname": "슈라",
+        "mercenaryCode": "V-049",
+        "mercenaryName": "크라이베른",
+        "rank": "SSS",
+        "quantity": 1,
+        "permanent": true,
+        "expiresAt": null,
+        "beforeCopies": 0,
+        "totalCopies": 1,
+        "duplicates": 0,
+        "completedAt": "2026-10-01T14:09:28.251Z",
+        "adminLogId": "39048",
+        "currentCopies": 1
+      },
+      {
+        "status": "COMPLETED",
+        "operationKey": "ops:cryvern-two-user:20261001:v1:4757:V-049",
+        "actor": "SYSTEM_OPS",
+        "userId": 4757,
+        "nickname": "음주플레이어",
+        "mercenaryCode": "V-049",
+        "mercenaryName": "크라이베른",
+        "rank": "SSS",
+        "quantity": 1,
+        "permanent": true,
+        "expiresAt": null,
+        "beforeCopies": 0,
+        "totalCopies": 1,
+        "duplicates": 0,
+        "completedAt": "2026-10-01T14:09:28.652Z",
+        "adminLogId": "39049",
+        "currentCopies": 1
+      }
+    ],
+    "missing": 0,
+    "duplicateGrants": 0
+  },
+  "runtimeChanged": false,
+  "gameDeploymentRequired": false,
+  "temporaryRemoteRunnerStopped": true,
+  "temporaryWorkerDisabled": true
+}
