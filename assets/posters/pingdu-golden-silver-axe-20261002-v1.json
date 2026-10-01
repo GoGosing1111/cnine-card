@@ -1,0 +1,52 @@
+{
+  "createdAt": "2026-10-02",
+  "title": "핑두의 금도끼 은도끼",
+  "brand": "숲켓몬",
+  "output": "assets/posters/pingdu-golden-silver-axe-20261002-v1.png",
+  "jpeg": "assets/posters/pingdu-golden-silver-axe-20261002-v1.jpg",
+  "dimensions": [
+    2048,
+    3072
+  ],
+  "sourceHtml": "preview/pingdu-golden-silver-axe-poster-20261002/index.html",
+  "prompt": "preview/pingdu-golden-silver-axe-poster-20261002/prompt.json",
+  "artwork": "preview/pingdu-golden-silver-axe-poster-20261002/artwork-v1.png",
+  "generationMode": "Built-in image_gen with three inspected in-game reference images; original game resources unchanged",
+  "typography": "All Korean lettering rendered separately using packaged Black Han Sans and Noto Sans KR (SIL OFL); generated artwork contains no text.",
+  "eventDates": {
+    "start": "2026-10-02",
+    "endInclusive": "2026-10-08",
+    "days": 7,
+    "timezone": "Asia/Seoul",
+    "specificHours": null
+  },
+  "copy": [
+    "숲켓몬",
+    "기간 한정 이벤트",
+    "핑두의",
+    "금도끼",
+    "은도끼",
+    "단 7일간",
+    "10월 2일 ~ 10월 8일",
+    "2026"
+  ],
+  "sources": [
+    {
+      "path": "assets/ui/events/golden-axe-v1/pink-rider.png",
+      "sha256": "692daa6d4a444be750ca74709fd74a5f32b31b24e90cf7180b261afc9da2bdf2"
+    },
+    {
+      "path": "assets/ui/events/golden-axe-v1/moonlit-pond.png",
+      "sha256": "3330123e8855f958022aa0ae95cdb18c06bf3638e68cbff31a23f13a28196941"
+    },
+    {
+      "path": "assets/ui/events/golden-axe-v1/axes.png",
+      "sha256": "c3e4498a0747800cd90425e2cd404ea2ffa1a499f880042fe744c48c7e9a94cf"
+    }
+  ],
+  "sha256": "096f8b2e44a389d4a173b0ed70925164b111fbd69a2ce81838ec78786101e58b",
+  "artworkSha256": "dfe5b94653a1aed7c1f1bb8d57a5cb7f15cbb53dee0977c8c068454dcd606f96",
+  "gameRuntimeChanged": false,
+  "eventSettingsChanged": false,
+  "publishedInGame": false
+}

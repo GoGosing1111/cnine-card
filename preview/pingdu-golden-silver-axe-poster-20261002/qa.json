@@ -1,0 +1,95 @@
+{
+  "desktop": {
+    "dimensions": [
+      1024,
+      1536
+    ],
+    "texts": [
+      {
+        "text": "숲켓몬",
+        "x": 0,
+        "y": 46.078125,
+        "width": 1024,
+        "height": 45.71875,
+        "font": "PosterTitle, sans-serif",
+        "withinPoster": true
+      },
+      {
+        "text": "기간 한정 이벤트",
+        "x": 0,
+        "y": 104.078125,
+        "width": 1024,
+        "height": 25,
+        "font": "PosterBody, \"Malgun Gothic\", sans-serif",
+        "withinPoster": true
+      },
+      {
+        "text": "핑두의",
+        "x": 0,
+        "y": 164.34375,
+        "width": 1024,
+        "height": 58,
+        "font": "PosterTitle, sans-serif",
+        "withinPoster": true
+      },
+      {
+        "text": "금도끼",
+        "x": 187.90625,
+        "y": 232.578125,
+        "width": 309.75,
+        "height": 190.6875,
+        "font": "PosterTitle, sans-serif",
+        "withinPoster": true
+      },
+      {
+        "text": "은도끼",
+        "x": 526.328125,
+        "y": 232.578125,
+        "width": 309.75,
+        "height": 190.6875,
+        "font": "PosterTitle, sans-serif",
+        "withinPoster": true
+      },
+      {
+        "text": "단 7일간",
+        "x": 405.5,
+        "y": 1282.109375,
+        "width": 213,
+        "height": 46,
+        "font": "PosterBody, \"Malgun Gothic\", sans-serif",
+        "withinPoster": true
+      },
+      {
+        "text": "10월 2일 ~ 10월 8일",
+        "x": 283.34375,
+        "y": 1340.90625,
+        "width": 457.296875,
+        "height": 77.953125,
+        "font": "PosterBody, \"Malgun Gothic\", sans-serif",
+        "withinPoster": true
+      },
+      {
+        "text": "2026",
+        "x": 484.453125,
+        "y": 1428.0625,
+        "width": 55.078125,
+        "height": 25,
+        "font": "PosterBody, \"Malgun Gothic\", sans-serif",
+        "withinPoster": true
+      }
+    ],
+    "imageLoaded": true,
+    "titleFontLoaded": true,
+    "bodyFontLoaded": true,
+    "noHorizontalOverflow": true
+  },
+  "mobile": {
+    "noHorizontalOverflow": true,
+    "width": 390
+  },
+  "browserErrors": [],
+  "outputDimensions": [
+    2048,
+    3072
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "createdAt": "2026-10-02",
+  "request": "핑두의 금도끼 은도끼 게임 내 리소스 참고해서 포스터 만들어. 기간 10월 2일부터 7일간.",
+  "generationMode": "built-in image_gen",
+  "useCase": "ads-marketing",
+  "references": [
+    "assets/ui/events/golden-axe-v1/pink-rider.png",
+    "assets/ui/events/golden-axe-v1/moonlit-pond.png",
+    "assets/ui/events/golden-axe-v1/axes.png"
+  ],
+  "prompt": "Use case: ads-marketing\nAsset type: premium portrait illustrated event-poster artwork for the Korean game 숲켓몬; TEXT-FREE ARTWORK for later precise Korean font typesetting.\nPrimary request: Make one beautiful finished poster key visual using the actual in-game event resources provided as the three references. Portrait 2:3, ideally 1536x2304 or higher native quality.\nInput images:\n1. pink-rider.png is the canonical PINGDU event mascot identity. Faithfully preserve the round bubblegum-pink insect rider helmet, two slim silver antennae with pink tips, oversized emerald-green compound eyes containing cheerful white curved smile marks, silver mouthplate, short white scarf, white/silver chest chevron, pink-and-gold circular belt, white/silver mittens and boots, tiny plump 2.3-head body proportions. This exact cute character is the star, not a generic fairy, not an elderly spirit, not a tall human.\n2. moonlit-pond.png is the canonical event environment and art-quality reference: deep jade-turquoise magical pond in a Korean autumn mountain forest, warm ivory full moon, mist, red maple branches, distant Korean pavilion and waterfall, beautifully painted dark blue and teal night scene.\n3. axes.png is the canonical item design reference. Use ONLY the middle GOLD axe and the right SILVER axe prominently. Preserve gold cloud-engraved single blade, small emerald inset and gold tassel; silver crescent/cloud-engraved single blade, small sapphire inset, navy handle with silver inlay and pale-blue tassel. No old rusty axe is needed in this key visual.\nComposition: Design a highly polished vertical Korean fantasy game campaign poster with strong hierarchy and generous editorial space. The upper 29 percent is quiet deep midnight-teal sky/soft mist reserved for a large three-line title; keep detailed objects out of this upper title space. The middle 29–83 percent is a large delightful hero scene: Pingdu stands buoyantly on the luminous pond ripple in an inviting confident pose, full body, face very clear, mascot covering approximately 40 percent of the total image height, centered. Two beautiful upright axes float separately on either side of the mascot, gold on the left and silver on the right, arranged at complementary gentle angles, complete blades and handles readable, no awkward overlaps or crossing through the face/limbs. The axes and mascot should look integrated in the same light and perspective. Elegant gold sparkles orbit the gold axe, cool silver-blue motes orbit the silver axe, a soft curved ribbon of reflected light ties them to the water. Refined splash and water ripples at the mascot's feet, small fireflies, depth, celebratory but visually controlled. Bottom 17 percent is quieter deep teal water/shadow reserved for dates, with no important limbs/objects cut off. Leave a clear unoccupied footer region.\nStyle: Faithful to provided game resources: excellent polished 2D game illustration, smooth clean cartoon rendering for mascot with painterly volume, richly painterly moonlit environment and detailed metallic item art. Candy-pink character against dark jade/navy, rich gold and luminous cool silver. Warm rim lighting, magical blue reflections; premium inviting seasonal event feeling, not gloomy, not flat clip-art, not a dashboard.\nConstraints: NO letters, NO Korean, NO English, NO numbers, NO symbols resembling text, NO logo, NO watermark, NO UI, NO drawn banners or label boxes. All typography will be added separately with real fonts. No extra characters, no extra axes, no prizes, no treasure chests, no weapons unrelated to the references. Faithfully preserve mascot identity and both weapon designs. No visible human skin or human hair. Natural uncomplicated rounded gloved hands, no extra fingers, no extra arms. Sharp composed artwork, clear silhouette, no busy luminous streaks across the face.",
+  "text": {
+    "brand": "숲켓몬",
+    "kicker": "기간 한정 이벤트",
+    "host": "핑두의",
+    "title": "금도끼 은도끼",
+    "dates": "10월 2일 ~ 10월 8일",
+    "duration": "단 7일간",
+    "year": "2026"
+  },
+  "range": {
+    "start": "2026-10-02",
+    "endInclusive": "2026-10-08",
+    "days": 7
+  },
+  "typography": "All final lettering is separate font-rendered typography. No generated lettering.",
+  "runtimeOrEventSettingsModified": false
+}
