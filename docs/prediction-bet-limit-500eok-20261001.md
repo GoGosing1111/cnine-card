@@ -16,3 +16,12 @@
 - PC 1440px·모바일 390px 로컬 UI에서 500억 최대 버튼, 기존 20억 참여자의 추가 가능 480억, 1코인 초과 입력 차단, 규정과 CMS 안내를 확인했다. 가로 넘침 없음. 운영 베팅은 하지 않는다.
 - UI 증빙: `%TEMP%/cnine-prediction-500b-20261001/`의 `verify.mjs`, `report.json`, 화면 PNG.
 - 지정 배포 명령: `npm run deploy:production -- --scoped`. 이번 변경의 관련 검사만 실행하며 무관한 전체 검사는 반복하지 않는다.
+
+## 운영 반영 완료
+
+- 기능 커밋: `e2aa24d65bd7be83a14faba78a95c80def0e3d6a`. 범위 배포에서 관련 검사 27건, Worker 문법, 출시/캐시 계약, Hyperdrive 캐시 OFF 확인을 모두 통과했다.
+- Pages 운영 배포 URL: `https://aed6f46f.cnine-card.pages.dev`. 지정 명령의 API runtime 및 clan-draft Worker 배포도 완료했다.
+- 운영 API의 `maxBetPerEvent=50000000000`, 규정 버전 `2026-10-01`, 모든 페이지에서 조회한 모집 중 경기 57건의 500억 한도를 확인했다. 직후 운영 DB 조회에서는 새로 추가된 경기를 포함해 OPEN 58건 모두 500억이었다.
+- 비교한 기존 마감 경기 10건의 한도 기록을 보존했고 유저/CMS 정적 파일과 로더 캐시 키의 운영 반영을 확인했다.
+- 운영에서 베팅하거나 유저 재화를 차감하지 않았다. API 조회용 임시 검수 세션은 삭제했다.
+- 운영 검수 증빙은 같은 외부 디렉터리의 `deploy.log`, `live-result.json`이다. 이 결과 기록만 추가하는 후속 커밋은 재배포하지 않는다.
