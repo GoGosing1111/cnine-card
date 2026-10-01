@@ -1,10 +1,10 @@
 {
   "date": "2026-10-01",
   "scope": "preview/mercenary-crimson-silver-knight-battle-v1/",
-  "status": "V10_TECH_QA_COMPLETE_USER_VISUAL_REVIEW_PENDING",
+  "status": "V11_EFFECT_TECH_QA_COMPLETE_USER_VISUAL_REVIEW_PENDING",
   "unitTests": {
     "command": "node --test preview/mercenary-crimson-silver-knight-battle-v1/qa.test.mjs",
-    "passed": 8,
+    "passed": 9,
     "failed": 0
   },
   "counts": {
@@ -45,6 +45,10 @@
       "interruptCleared": true,
       "targetLossCleared": true,
       "speedPausePassed": true,
+      "fullShowcaseCompleted": true,
+      "showcaseModes": 7,
+      "showcaseTimelinesAfterCompletion": 0,
+      "showcaseSpritesAfterCompletion": 0,
       "dispose": {
         "timelines": 0,
         "effectLayers": 0,
@@ -59,6 +63,10 @@
       "interruptCleared": true,
       "targetLossCleared": true,
       "speedPausePassed": true,
+      "fullShowcaseCompleted": true,
+      "showcaseModes": 7,
+      "showcaseTimelinesAfterCompletion": 0,
+      "showcaseSpritesAfterCompletion": 0,
       "dispose": {
         "timelines": 0,
         "effectLayers": 0,
@@ -67,10 +75,9 @@
     }
   ],
   "visualInspection": [
-    "Desktop/mobile shared V3 canvas, including two-hand overhead and final return",
-    "Native two-hand sheets and enlarged original-sword/closed-glove composites",
-    "Approved source return frame and exact runtime idle endpoint",
-    "Actual V3 combo and additional overhead playback"
+    "V11 actual V3 desktop/mobile: overhead charge 1.62s, sweep 1.84s, contact 1.98s, residual 2.50s and return 3.16s",
+    "All seven showcase clips, actual V3 FX on and native aura on",
+    "Existing approved body/sword masters and native frame hashes verified unchanged"
   ],
   "limitations": [
     "New motion artwork remains subject to user visual review; tests do not prove perfect anatomy.",
@@ -81,5 +88,60 @@
   "runtimeEnabled": false,
   "deployment": "Independent preview only; live game release remains gated.",
   "exactApprovedIdleReturn": true,
-  "twoHandHiltOcclusionRepairVerified": true
+  "twoHandHiltOcclusionRepairVerified": true,
+  "effectEnhancement": {
+    "date": "2026-10-01",
+    "status": "USER_REVIEW_PENDING",
+    "newNativeArtworkFrames": 0,
+    "reusedNativeEffectFrames": 96,
+    "characterArtworkChanged": false,
+    "weaponArtworkChanged": false,
+    "implementation": [
+      "skill.mjs",
+      "source/KnightFX.js",
+      "source/preview.js",
+      "showcase.mjs"
+    ],
+    "layers": [
+      "Original 96-frame native aura / dash / slash / charge / execution / guard / ultimate atlases",
+      "Blade-bound crimson glow and gold core; original registered grip/tip endpoints",
+      "Ten deterministic past-pose samples for blade light trails, not new poses",
+      "Contact-synchronous ground rings, incandescent particles, dust and residual light"
+    ],
+    "overhead": {
+      "charge": [
+        0.56,
+        2.17
+      ],
+      "slash": [
+        1.7,
+        2.63
+      ],
+      "contact": 1.98,
+      "execution": [
+        1.8,
+        3.28
+      ]
+    },
+    "clockOwner": "CURRENT_V3_GSAP_TIMELINE",
+    "independentTicker": false,
+    "maximumPooledSprites": 128,
+    "sourcePolicy": "Reuse existing native effect atlas frames unchanged; auxiliary light and particles are Pixi display layers, not regenerated character or sword art."
+  },
+  "playback": {
+    "qa/all-skills-fx-v11.webp": {
+      "sha256": "D3809E19734D1A4790A55E6BEB9A4D31D6DF314B712F23821F7A4CD1A58526D5",
+      "width": 960,
+      "pageHeight": 510,
+      "frames": 374,
+      "bytes": 10762694
+    },
+    "qa/overhead-fx-v11.webp": {
+      "sha256": "016E2035FF2FA326022C30FC267BC3E106CF4AEFBB74F48B7035122D5BEA98F1",
+      "width": 960,
+      "pageHeight": 510,
+      "frames": 62,
+      "bytes": 1838612
+    }
+  }
 }

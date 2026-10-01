@@ -23,7 +23,7 @@ export function makePlan({mode='ultimate',cancelAt=null,targetLostAt=null}={}){
 }
 export function sample(plan,time){
  const t=clamp(Number(time)||0,0,plan.duration),cancelled=plan.stop!==null&&t>=plan.stop,done=t>=plan.duration;
- const s={time:t,cancelled,done,pose:{key:'idle',frame:0},travel:0,contactTrack:{key:plan.mode==='overhead'?'twohandStrike':plan.mode==='execution'?'ultimate':'attack',blend:0},trail:false,effects:[],charge:0,dim:0,flash:0,recoil:0,auraBoost:0,lift:0,events:plan.events.filter(e=>e.at<=t)};s.label=s.events.at(-1)?.label||'재생 대기';
+ const s={time:t,cancelled,done,pose:{key:'idle',frame:0},travel:0,contactTrack:{key:plan.mode==='overhead'?'twohandStrike':plan.mode==='execution'?'ultimate':'attack',blend:0},trail:false,effects:[],charge:0,weaponPower:0,sweep:0,impacts:[],dim:0,flash:0,recoil:0,auraBoost:0,lift:0,events:plan.events.filter(e=>e.at<=t)};s.label=s.events.at(-1)?.label||'재생 대기';
  if(t<.06)return s;
  if(cancelled||done){if(done&&plan.mode==='defeat'&&!cancelled)s.pose={key:'defeat',frame:COUNTS.defeat-1};return s;}
  const pose=(key,start,end,reverse=false)=>{if(t>=start&&t<end){let f=Math.min(COUNTS[key]-1,Math.floor((t-start)/(end-start)*COUNTS[key]));s.pose={key,frame:reverse?COUNTS[key]-1-f:f};}};
@@ -38,7 +38,7 @@ export function sample(plan,time){
  else if(plan.mode==='overhead'){
   dash(.12,.42);pose('twohandGrip',.50,1.04);pose('twohandLift',1.04,1.84);strike('twohandStrike',1.84,1.98,2.20);pose('twohandReturn',2.20,3.15);dash(3.4,3.8);
   s.travel=track([[0,0],[.12,0],[.40,1],[3.4,1],[3.8,0]],t,{smooth:true});s.auraBoost=.95;s.charge=track([[.5,0],[1.45,.7],[1.84,1],[1.98,0]],t);s.dim=track([[1.2,0],[1.84,.32],[1.98,.4],[2.7,0]],t);
-  effect('slash',1.98,.12,.60,9,15);effect('execution',1.98,.18,1.05,9,15,'targetGround');
+  effect('charge',1.62,1.06,.55,6,11,'selfGround');effect('slash',1.98,.28,.65,9,15);effect('execution',1.98,.18,1.30,9,15,'targetGround');
  }else if(plan.mode==='attack'){
   dash(0,.30);rising(.30,.53,.78,.99);pose('recover',.99,2.10);dash(2.3,2.7);s.travel=track([[0,0],[.04,0],[.28,1],[2.3,1],[2.7,0]],t,{smooth:true});s.auraBoost=.6;
  }else if(plan.mode==='skill'){
@@ -55,6 +55,15 @@ export function sample(plan,time){
   s.auraBoost=track([[0,.35],[.45,1],[1.23,.65],[1.85,1.4],[1.96,1.5],[3.7,.8],[4.85,.25]],t);s.dim=track([[0,0],[.3,.3],[1.23,.25],[1.9,.65],[1.96,.7],[2.5,.3],[4,0]],t);
   effect('charge',.28,.26,.4,7,11,'selfGround');effect('ultimate',1.96,.55,2.15,10,15,'targetGround');
  }
- for(const at of plan.contacts){const age=t-at;if(age>=0&&age<.16){const big=plan.mode==='execution'||plan.mode==='overhead'||plan.mode==='ultimate'&&at===plan.contacts.at(-1);s.flash=Math.max(s.flash,(1-age/.16)*(big?.17:.075));s.recoil=Math.max(s.recoil,Math.sin(age/.16*Math.PI)*(big?15:7));}}
+ for(const at of plan.contacts){
+  const age=t-at,big=plan.mode==='execution'||plan.mode==='overhead'||(plan.mode==='ultimate'||plan.mode==='skill')&&at===plan.contacts.at(-1);
+  if(plan.mode!=='guard'){
+   const pre=plan.mode==='overhead'?1.45:big?.62:.35;
+   s.weaponPower=Math.max(s.weaponPower,track([[at-pre,0],[at-.16,big?1:.72],[at+.10,1],[at+.54,0]],t));
+   s.sweep=Math.max(s.sweep,track([[at-.24,0],[at-.08,1],[at+.12,1],[at+.43,0]],t));
+   if(age>=0&&age<1.6)s.impacts.push({at,age,big});
+  }
+  if(age>=0&&age<.16){s.flash=Math.max(s.flash,(1-age/.16)*(big?.17:.075));s.recoil=Math.max(s.recoil,Math.sin(age/.16*Math.PI)*(big?15:7));}
+ }
  return s;
 }

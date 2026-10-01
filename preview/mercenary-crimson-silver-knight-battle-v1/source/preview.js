@@ -4,10 +4,11 @@ import {BattleCharacter,TEAM} from '../../project-v-v3/source/battle/BattleChara
 import {createMercenaryBattleArtAdapter} from '../../../js/project-v-mercenary-battle-art-adapter-v1.js';
 import {KNIGHT,MODES,makePlan} from '../skill.mjs';
 import {KnightFX,loadKnightAssets} from './KnightFX.js';
+import {SkillShowcase} from '../showcase.mjs';
 const parentDoc=window.parent.document,$=id=>parentDoc.getElementById(id)||document.getElementById(id),ROOT='/preview/mercenary-crimson-silver-knight-battle-v1/';
 const IDS=['CN-02D9DC1E8A8A4209','CN-0505936A0CBB4E59','CN-25F931CE393D474E','CN-23EB4B19986D4818','CN-519C181C18DF4B8E'];
 const get=async path=>{const r=await fetch(path);if(!r.ok)throw Error(`자산을 불러오지 못했습니다: ${path}`);return r.json();};
-let engine,renderer,merc,fx,disposed=false;
+let engine,renderer,merc,fx,showcase,battleStatus,disposed=false;
 function plan(){const mode=$('mode').value,at=mode==='ultimate'?2.05:mode==='aura'?2.5:mode==='dash'?.30:.65;return makePlan({mode,cancelAt:$('scenario').value==='interrupt'?at:null,targetLostAt:$('scenario').value==='lost'?at:null});}
 let lastEvent=-1,lastEventsPlan=null;
 function update(instance){
@@ -15,8 +16,15 @@ function update(instance){
  $('cue').textContent=instance.sample.label;$('health').dataset.diagnostics=JSON.stringify(instance.diagnostics());
  const current=instance.sample.events.length;if(current!==lastEvent||lastEventsPlan!==instance.plan){lastEvent=current;lastEventsPlan=instance.plan;$('events').innerHTML=instance.plan.events.map(e=>`<li class="${e.at<=instance.time?'active':''}"><time>${e.at.toFixed(2)}</time><span>${e.label}</span></li>`).join('');}
  for(const button of parentDoc.querySelectorAll('[data-mode]'))button.setAttribute('aria-pressed',String(button.dataset.mode===instance.plan.mode));
+ if(battleStatus)battleStatus.textContent=(showcase?.active?`${showcase.index+1}/7 · `:'')+spec.label;
 }
-function resize(){if(disposed||!fx)return;const at=fx.time;fx.pause();fx.removeTimeline();engine.setFormationMercenaries([merc]);fx.captureFormation();fx.makeTimeline();fx.seek(at);}
+function updateShowcase(sequence){
+ $('showcase').setAttribute('aria-pressed',String(sequence.active));
+ $('showcase').textContent=sequence.active?'전체 처음부터':'전체 스킬 재생';
+ $('showcase-status').textContent=sequence.active?`전체 시연 ${sequence.index+1} / 7 · ${MODES[sequence.fx.plan.mode].label}`:sequence.completed?'전체 스킬 시연 완료':'대시 · 올려베기 · 연속 베기 · 두손 강격 · 심판 · 방벽 · 궁극기';
+ if(sequence.active)$('mode').value=sequence.fx.plan.mode;
+}
+function resize(){if(disposed||!fx)return;const at=fx.time,playing=fx.playing;fx.pause();fx.removeTimeline();engine.setFormationMercenaries([merc]);fx.captureFormation();fx.makeTimeline();fx.seek(at);if(playing)fx.play();}
 function dispose(){if(disposed)return;disposed=true;engine?.app.renderer.off('resize',resize);fx?.destroy();for(const actor of new Set([...(engine?.allies||[]),...(engine?.enemies||[])])){actor.animationAdapter?.destroy?.();actor.animationController?.kill?.();}merc?.destroy();renderer?.destroy();window.ProjectVPixiBattle?.destroy();}
 async function boot(){
  try{
@@ -35,18 +43,22 @@ async function boot(){
   merc.fullBodySprite.anchor.set(art.footAnchor.x,art.footAnchor.y);engine.combatLayer.addChild(merc.root);engine.setFormationMercenaries([merc]);merc.root.alpha=1;merc.root.visible=true;engine.sortCombatDepth();
   const targets=engine.enemies.slice().sort((a,b)=>b.baseY-a.baseY).slice(0,3);
   fx=new KnightFX(engine,merc,targets,assets,manifest,plan(),update);
-  $('play').onclick=()=>fx.playing?fx.pause():fx.play();$('restart').onclick=()=>{fx.seek(0);fx.play();};$('cancel').onclick=()=>fx.cancel();
+  showcase=new SkillShowcase(fx,updateShowcase);
+  const startShowcase=()=>{$('scenario').value='normal';$('aura').checked=true;fx.setAura(true);$('motion-only').checked=false;fx.setMotionOnly(false);showcase.start();};
+  $('showcase').onclick=startShowcase;
+  $('play').onclick=()=>fx.playing?fx.pause():fx.play();$('restart').onclick=()=>{if(showcase.active)showcase.start();else{fx.seek(0);fx.play();}};$('cancel').onclick=()=>fx.cancel();
   $('impact').onclick=()=>fx.seek(fx.plan.contacts.at(-1)??.40);$('scrub').oninput=()=>fx.seek(Number($('scrub').value));$('speed').onchange=()=>fx.setSpeed(Number($('speed').value));
-  const change=()=>{lastEvent=-1;fx.setPlan(plan());};$('mode').onchange=change;$('scenario').onchange=change;
+  const change=()=>{showcase.stop();lastEvent=-1;fx.setPlan(plan());};$('mode').onchange=change;$('scenario').onchange=change;
   $('sound').onchange=()=>fx.setSound($('sound').checked);
   $('aura').onchange=()=>fx.setAura($('aura').checked);
-  $('motion-only').onchange=()=>fx.setMotionOnly($('motion-only').checked);
+  $('motion-only').onchange=()=>{showcase.stop();fx.setMotionOnly($('motion-only').checked);};
   $('mobile').onchange=()=>{$('battle-viewport').classList.toggle('mobile-test',$('mobile').checked);};
-  for(const button of parentDoc.querySelectorAll('[data-mode]'))button.onclick=()=>{$('mode').value=button.dataset.mode;change();};
+  for(const button of parentDoc.querySelectorAll('[data-mode]'))button.onclick=()=>{$('mode').value=button.dataset.mode;change();fx.play();};
   for(const el of parentDoc.querySelectorAll('.controls button,.controls select,.controls input,.mode-tabs button,.scrubber input'))el.disabled=false;
-  $('health').textContent='재생 준비 완료';engine.app.renderer.on('resize',resize);prepared.phase.textContent='대검 기사 · 고강화 광원';prepared.stage.querySelector('#pvBattleStatus').textContent='종결 용병 · 대검과 전장 연출 검수';
-  const review={get fx(){return fx;},get engine(){return engine;},get merc(){return merc;},manifest,diagnostics:()=>fx.diagnostics(),dispose};window.CrimsonKnightPreview=review;window.parent.CrimsonKnightPreview=review;
-  fx.setPlan(makePlan({mode:'ultimate'}));$('mode').value='ultimate';fx.play();
+  $('health').textContent='재생 준비 완료';engine.app.renderer.on('resize',resize);prepared.phase.textContent='대검 기사 · 홍련의 검광';battleStatus=prepared.stage.querySelector('#pvBattleStatus');
+  const review={get fx(){return fx;},get engine(){return engine;},get merc(){return merc;},showcase,manifest,diagnostics:()=>({...fx.diagnostics(),showcase:showcase.diagnostics()}),dispose};window.CrimsonKnightPreview=review;window.parent.CrimsonKnightPreview=review;
+  if(new URLSearchParams(window.parent.location.search).has('showcase'))startShowcase();
+  else{fx.setPlan(makePlan({mode:'ultimate'}));$('mode').value='ultimate';fx.play();updateShowcase(showcase);}
   window.addEventListener('pagehide',dispose,{once:true});document.addEventListener('visibilitychange',()=>{if(document.hidden)fx.cancel();});engine.app.canvas.addEventListener('webglcontextlost',()=>{if(disposed)return;fx.cancel();$('health').textContent='그래픽 연결이 끊어졌습니다. 새로고침해 주세요.';});
  }catch(error){$('health').textContent='시연 준비 실패: '+error.message;console.error('[CrimsonKnight]',error);}
 }

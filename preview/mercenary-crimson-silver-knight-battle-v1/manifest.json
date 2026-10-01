@@ -1,5 +1,5 @@
 {
-  "version": 10,
+  "version": 11,
   "conceptId": "crimson-silver-knight",
   "name": "은백·금색 대검 기사",
   "nameStatus": "DESCRIPTION_NOT_ASSIGNED",
@@ -6996,10 +6996,11 @@
   "reviewPlayback": {
     "motionOnly": "qa/motion-v9-preview.webp",
     "slowMotion": "qa/motion-v9-slow.webp",
-    "actualV3": "qa/ultimate-preview.webp",
+    "actualV3": "qa/all-skills-fx-v11.webp",
     "twoHandMotion": "qa/motion-v10-twohand-preview.webp",
     "twoHandSlow": "qa/motion-v10-twohand-slow.webp",
-    "twoHandActualV3": "qa/overhead-preview.webp"
+    "twoHandActualV3": "qa/overhead-fx-v11.webp",
+    "allSkills": "qa/all-skills-fx-v11.webp"
   },
   "returnPose": {
     "reference": "assets/motion-v5/ready-a-source.png#0",
@@ -7034,5 +7035,63 @@
     "contactAt": 1.98,
     "existingComboPreserved": true,
     "userReviewPending": true
+  },
+  "effectVersion": "V11_CHARGED_BLADE_SWEEP_IMPACT_WAKE",
+  "effectEnhancement": {
+    "date": "2026-10-01",
+    "status": "USER_REVIEW_PENDING",
+    "newNativeArtworkFrames": 0,
+    "reusedNativeEffectFrames": 96,
+    "characterArtworkChanged": false,
+    "weaponArtworkChanged": false,
+    "implementation": [
+      "skill.mjs",
+      "source/KnightFX.js",
+      "source/preview.js",
+      "showcase.mjs"
+    ],
+    "layers": [
+      "Original 96-frame native aura / dash / slash / charge / execution / guard / ultimate atlases",
+      "Blade-bound crimson glow and gold core; original registered grip/tip endpoints",
+      "Ten deterministic past-pose samples for blade light trails, not new poses",
+      "Contact-synchronous ground rings, incandescent particles, dust and residual light"
+    ],
+    "overhead": {
+      "charge": [
+        0.56,
+        2.17
+      ],
+      "slash": [
+        1.7,
+        2.63
+      ],
+      "contact": 1.98,
+      "execution": [
+        1.8,
+        3.28
+      ]
+    },
+    "clockOwner": "CURRENT_V3_GSAP_TIMELINE",
+    "independentTicker": false,
+    "maximumPooledSprites": 128,
+    "sourcePolicy": "Reuse existing native effect atlas frames unchanged; auxiliary light and particles are Pixi display layers, not regenerated character or sword art."
+  },
+  "showcase": {
+    "modes": [
+      "dash",
+      "attack",
+      "skill",
+      "overhead",
+      "execution",
+      "guard",
+      "ultimate"
+    ],
+    "duration": 24.85,
+    "query": "?showcase=1#battle",
+    "auraEnabled": true,
+    "motionOnly": false,
+    "advance": "CURRENT_TIMELINE_ON_COMPLETE",
+    "completion": "STOP_ON_APPROVED_IDLE",
+    "runtimeEnabled": false
   }
 }

@@ -9,6 +9,7 @@ import {MODES,makePlan,sample} from './skill.mjs';
 import {KnightFX} from './source/KnightFX.js';
 import {CueAudio} from './source/CueAudio.js';
 import {weaponAt} from './compose-weapon.mjs';
+import {SHOWCASE_MODES,SHOWCASE_DURATION,showcaseAt,SkillShowcase} from './showcase.mjs';
 const root=new URL('./',import.meta.url),project=new URL('../../',import.meta.url),manifest=JSON.parse(await fs.readFile(new URL('manifest.json',root),'utf8'));
 const hash=b=>createHash('sha256').update(b).digest('hex').toUpperCase();
 
@@ -75,9 +76,20 @@ test('Grounded strikes intersect the target body; aura follows the pose and life
    fx.seek(t-.2);assert.equal(merc.root.y,targets[0].root.y,mode+' swing cannot move floor');fx.seek(t+.15);assert.equal(merc.root.y,targets[0].root.y,mode+' followthrough cannot move floor');
   }
   fx.setMotionOnly(true);fx.seek(1.96);assert.equal(fx.diagnostics().visibleSprites,0);assert.equal(fx.aura.visible,false);fx.setMotionOnly(false);
-  for(const mode of Object.keys(MODES)){fx.setPlan(makePlan({mode}));fx.play();assert.equal(engine.simpleTimelines.size,1);fx.pause();for(let i=0;i<=60;i++){fx.seek(fx.plan.duration*i/60);assert.ok(fx.diagnostics().visibleSprites<=80);assert.equal(fx.diagnostics().aura.textureMatchesPose,true);}}
+  for(const mode of Object.keys(MODES)){fx.setPlan(makePlan({mode}));fx.play();assert.equal(engine.simpleTimelines.size,1);fx.pause();for(let i=0;i<=60;i++){fx.seek(fx.plan.duration*i/60);assert.ok(fx.diagnostics().visibleSprites<=128);assert.equal(fx.diagnostics().aura.textureMatchesPose,true);}}
+  fx.setPlan(makePlan({mode:'overhead'}));fx.seek(1.62);assert.ok(fx.sample.weaponPower>.7);assert.ok(fx.activeFrames.some(f=>f.key==='charge'));const blade=fx.weaponSegment(),before=JSON.stringify(fx.activeFrames);assert.ok(Math.hypot(blade.tip.x-blade.grip.x,blade.tip.y-blade.grip.y)>100);fx.seek(2.05);assert.ok(fx.sample.sweep>0&&fx.sample.impacts.length===1);fx.seek(1.62);assert.equal(JSON.stringify(fx.activeFrames),before,'seek reproduces authored charge frames');
   fx.setPlan(makePlan({mode:'ultimate',targetLostAt:2.05}));fx.seek(3.25);assert.equal(fx.diagnostics().visibleSprites,0);assert.equal(merc.root.x,merc.baseX);fx.cancel();assert.equal(engine.simpleTimelines.size,0);assert.equal(engine.allies.length,5);assert.equal(engine.allies.includes(merc),false);
  }finally{fx.destroy();fx.destroy();assert.equal(effectLayer.children.length,0);assert.equal(merc.view.children.length,1);assert.equal(frameSource.destroyed,false);gsap.ticker.sleep();world.destroy({children:true});sd.destroy(false);sdSource.destroy();frameSource.destroy();}
+});
+
+test('all-skills showcase advances only on the active GSAP completion and stops cleanly',()=>{
+ const seen=[],fx={sample:{cancelled:false},setPlan(p){this.plan=p;},play(){seen.push(this.plan.mode);}},queue=new SkillShowcase(fx);
+ queue.start();assert.equal(queue.active,true);assert.equal(fx.plan.mode,'dash');
+ for(let i=0;i<SHOWCASE_MODES.length;i++)fx.onComplete();
+ assert.deepEqual(seen,SHOWCASE_MODES);assert.equal(queue.completed,true);assert.equal(queue.active,false);assert.equal(fx.onComplete,null);assert.equal(fx.onCancel,null);
+ queue.start();fx.onCancel();assert.equal(queue.active,false);assert.equal(fx.onComplete,null);
+ queue.start();fx.sample.cancelled=true;fx.onComplete();assert.equal(queue.active,false);assert.equal(queue.completed,false);
+ let offset=0;for(const mode of SHOWCASE_MODES){const point=showcaseAt(offset+.01);assert.equal(point.mode,mode);assert.ok(Math.abs(point.time-.01)<1e-8);offset+=MODES[mode].duration;}assert.equal(offset,SHOWCASE_DURATION);assert.equal(showcaseAt(offset).mode,'ultimate');
 });
 test('licensed V3 recordings retain their hashes and <=20ms collision alignment at every speed',async()=>{
  assert.equal(manifest.audio.proceduralSynthesis,false);for(const a of Object.values(manifest.audio.assets))assert.equal(hash(await fs.readFile(new URL(a.file,project))),a.sha256.toUpperCase());

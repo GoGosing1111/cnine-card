@@ -53,7 +53,15 @@
           "scheduled": [],
           "error": null
         },
-        "effectLayers": 1
+        "effectLayers": 1,
+        "showcase": {
+          "active": false,
+          "completed": false,
+          "index": -1,
+          "total": 7,
+          "mode": null,
+          "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+        }
       },
       {
         "ready": true,
@@ -114,7 +122,15 @@
           "scheduled": [],
           "error": null
         },
-        "effectLayers": 1
+        "effectLayers": 1,
+        "showcase": {
+          "active": false,
+          "completed": false,
+          "index": -1,
+          "total": 7,
+          "mode": null,
+          "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+        }
       },
       {
         "ready": true,
@@ -144,7 +160,7 @@
             }
           }
         ],
-        "visibleSprites": 14,
+        "visibleSprites": 30,
         "ownedTimelines": 1,
         "registeredTimelines": 0,
         "regularAllies": 5,
@@ -175,7 +191,15 @@
           "scheduled": [],
           "error": null
         },
-        "effectLayers": 1
+        "effectLayers": 1,
+        "showcase": {
+          "active": false,
+          "completed": false,
+          "index": -1,
+          "total": 7,
+          "mode": null,
+          "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+        }
       },
       {
         "ready": true,
@@ -205,7 +229,7 @@
             }
           }
         ],
-        "visibleSprites": 14,
+        "visibleSprites": 40,
         "ownedTimelines": 1,
         "registeredTimelines": 0,
         "regularAllies": 5,
@@ -236,7 +260,15 @@
           "scheduled": [],
           "error": null
         },
-        "effectLayers": 1
+        "effectLayers": 1,
+        "showcase": {
+          "active": false,
+          "completed": false,
+          "index": -1,
+          "total": 7,
+          "mode": null,
+          "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+        }
       },
       {
         "ready": true,
@@ -266,7 +298,7 @@
             }
           }
         ],
-        "visibleSprites": 14,
+        "visibleSprites": 30,
         "ownedTimelines": 1,
         "registeredTimelines": 0,
         "regularAllies": 5,
@@ -297,7 +329,15 @@
           "scheduled": [],
           "error": null
         },
-        "effectLayers": 1
+        "effectLayers": 1,
+        "showcase": {
+          "active": false,
+          "completed": false,
+          "index": -1,
+          "total": 7,
+          "mode": null,
+          "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+        }
       },
       {
         "ready": true,
@@ -312,8 +352,22 @@
         },
         "cancelled": false,
         "travel": 1,
-        "activeFrames": [],
-        "visibleSprites": 12,
+        "activeFrames": [
+          {
+            "key": "charge",
+            "index": 6,
+            "next": 7,
+            "anchor": {
+              "x": 1195.927433030119,
+              "y": 574.9999999999999
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.666015625
+            }
+          }
+        ],
+        "visibleSprites": 24,
         "ownedTimelines": 1,
         "registeredTimelines": 0,
         "regularAllies": 5,
@@ -344,7 +398,110 @@
           "scheduled": [],
           "error": null
         },
-        "effectLayers": 1
+        "effectLayers": 1,
+        "showcase": {
+          "active": false,
+          "completed": false,
+          "index": -1,
+          "total": 7,
+          "mode": null,
+          "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+        }
+      },
+      {
+        "ready": true,
+        "motionOnly": false,
+        "mode": "overhead",
+        "time": 1.84,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "twohandStrike",
+          "frame": 0
+        },
+        "cancelled": false,
+        "travel": 1,
+        "activeFrames": [
+          {
+            "key": "charge",
+            "index": 8,
+            "next": 9,
+            "anchor": {
+              "x": 1195.927433030119,
+              "y": 574.9999999999999
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.6484375
+            }
+          },
+          {
+            "key": "slash",
+            "index": 4,
+            "next": 5,
+            "anchor": {
+              "x": 1278.9923983083618,
+              "y": 394.16382439635396
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.5
+            }
+          },
+          {
+            "key": "execution",
+            "index": 2,
+            "next": 3,
+            "anchor": {
+              "x": 1299.9999999999998,
+              "y": 574.9999999999999
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.673828125
+            }
+          }
+        ],
+        "visibleSprites": 28,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+        "weaponRigid": true,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "motionFrames": 64,
+        "effectFrames": 96,
+        "damageAuthority": "NONE_VISUAL_PREVIEW",
+        "actorFoot": {
+          "x": 1195.927433030119,
+          "y": 574.9999999999999
+        },
+        "targetFoot": {
+          "x": 1299.9999999999998,
+          "y": 574.9999999999999
+        },
+        "aura": {
+          "enabled": true,
+          "textureMatchesPose": true,
+          "silhouetteCopies": 18,
+          "filterCount": 6,
+          "independentClock": false
+        },
+        "audio": {
+          "enabled": false,
+          "scheduled": [],
+          "error": null
+        },
+        "effectLayers": 1,
+        "showcase": {
+          "active": false,
+          "completed": false,
+          "index": -1,
+          "total": 7,
+          "mode": null,
+          "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+        }
       },
       {
         "ready": true,
@@ -360,6 +517,19 @@
         "cancelled": false,
         "travel": 1,
         "activeFrames": [
+          {
+            "key": "charge",
+            "index": 10,
+            "next": 11,
+            "anchor": {
+              "x": 1195.927433030119,
+              "y": 574.9999999999999
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.7421875
+            }
+          },
           {
             "key": "slash",
             "index": 9,
@@ -387,7 +557,7 @@
             }
           }
         ],
-        "visibleSprites": 16,
+        "visibleSprites": 37,
         "ownedTimelines": 1,
         "registeredTimelines": 0,
         "regularAllies": 5,
@@ -418,7 +588,97 @@
           "scheduled": [],
           "error": null
         },
-        "effectLayers": 1
+        "effectLayers": 1,
+        "showcase": {
+          "active": false,
+          "completed": false,
+          "index": -1,
+          "total": 7,
+          "mode": null,
+          "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+        }
+      },
+      {
+        "ready": true,
+        "motionOnly": false,
+        "mode": "overhead",
+        "time": 2.5,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "twohandReturn",
+          "frame": 1
+        },
+        "cancelled": false,
+        "travel": 1,
+        "activeFrames": [
+          {
+            "key": "slash",
+            "index": 14,
+            "next": 15,
+            "anchor": {
+              "x": 1299.9999999999998,
+              "y": 545.8996612237063
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.5
+            }
+          },
+          {
+            "key": "execution",
+            "index": 12,
+            "next": 13,
+            "anchor": {
+              "x": 1299.9999999999998,
+              "y": 574.9999999999999
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.60546875
+            }
+          }
+        ],
+        "visibleSprites": 46,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+        "weaponRigid": true,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "motionFrames": 64,
+        "effectFrames": 96,
+        "damageAuthority": "NONE_VISUAL_PREVIEW",
+        "actorFoot": {
+          "x": 1195.927433030119,
+          "y": 574.9999999999999
+        },
+        "targetFoot": {
+          "x": 1299.9999999999998,
+          "y": 574.9999999999999
+        },
+        "aura": {
+          "enabled": true,
+          "textureMatchesPose": true,
+          "silhouetteCopies": 18,
+          "filterCount": 6,
+          "independentClock": false
+        },
+        "audio": {
+          "enabled": false,
+          "scheduled": [],
+          "error": null
+        },
+        "effectLayers": 1,
+        "showcase": {
+          "active": false,
+          "completed": false,
+          "index": -1,
+          "total": 7,
+          "mode": null,
+          "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+        }
       },
       {
         "ready": true,
@@ -433,8 +693,22 @@
         },
         "cancelled": false,
         "travel": 1,
-        "activeFrames": [],
-        "visibleSprites": 12,
+        "activeFrames": [
+          {
+            "key": "execution",
+            "index": 14,
+            "next": 15,
+            "anchor": {
+              "x": 1299.9999999999998,
+              "y": 574.9999999999999
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.607421875
+            }
+          }
+        ],
+        "visibleSprites": 23,
         "ownedTimelines": 1,
         "registeredTimelines": 0,
         "regularAllies": 5,
@@ -465,7 +739,15 @@
           "scheduled": [],
           "error": null
         },
-        "effectLayers": 1
+        "effectLayers": 1,
+        "showcase": {
+          "active": false,
+          "completed": false,
+          "index": -1,
+          "total": 7,
+          "mode": null,
+          "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+        }
       },
       {
         "ready": true,
@@ -495,7 +777,7 @@
             }
           }
         ],
-        "visibleSprites": 14,
+        "visibleSprites": 32,
         "ownedTimelines": 1,
         "registeredTimelines": 0,
         "regularAllies": 5,
@@ -526,7 +808,15 @@
           "scheduled": [],
           "error": null
         },
-        "effectLayers": 1
+        "effectLayers": 1,
+        "showcase": {
+          "active": false,
+          "completed": false,
+          "index": -1,
+          "total": 7,
+          "mode": null,
+          "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+        }
       },
       {
         "ready": true,
@@ -587,7 +877,15 @@
           "scheduled": [],
           "error": null
         },
-        "effectLayers": 1
+        "effectLayers": 1,
+        "showcase": {
+          "active": false,
+          "completed": false,
+          "index": -1,
+          "total": 7,
+          "mode": null,
+          "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+        }
       },
       {
         "ready": true,
@@ -634,7 +932,15 @@
           "scheduled": [],
           "error": null
         },
-        "effectLayers": 1
+        "effectLayers": 1,
+        "showcase": {
+          "active": false,
+          "completed": false,
+          "index": -1,
+          "total": 7,
+          "mode": null,
+          "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+        }
       },
       {
         "ready": true,
@@ -681,7 +987,15 @@
           "scheduled": [],
           "error": null
         },
-        "effectLayers": 1
+        "effectLayers": 1,
+        "showcase": {
+          "active": false,
+          "completed": false,
+          "index": -1,
+          "total": 7,
+          "mode": null,
+          "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+        }
       },
       {
         "ready": true,
@@ -711,7 +1025,7 @@
             }
           }
         ],
-        "visibleSprites": 14,
+        "visibleSprites": 30,
         "ownedTimelines": 1,
         "registeredTimelines": 0,
         "regularAllies": 5,
@@ -742,7 +1056,15 @@
           "scheduled": [],
           "error": null
         },
-        "effectLayers": 1
+        "effectLayers": 1,
+        "showcase": {
+          "active": false,
+          "completed": false,
+          "index": -1,
+          "total": 7,
+          "mode": null,
+          "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+        }
       },
       {
         "ready": true,
@@ -811,7 +1133,7 @@
             }
           }
         ],
-        "visibleSprites": 23,
+        "visibleSprites": 44,
         "ownedTimelines": 1,
         "registeredTimelines": 0,
         "regularAllies": 5,
@@ -842,7 +1164,15 @@
           "scheduled": [],
           "error": null
         },
-        "effectLayers": 1
+        "effectLayers": 1,
+        "showcase": {
+          "active": false,
+          "completed": false,
+          "index": -1,
+          "total": 7,
+          "mode": null,
+          "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+        }
       }
     ],
     "interruption": {
@@ -890,7 +1220,15 @@
         "scheduled": [],
         "error": null
       },
-      "effectLayers": 1
+      "effectLayers": 1,
+      "showcase": {
+        "active": false,
+        "completed": false,
+        "index": -1,
+        "total": 7,
+        "mode": null,
+        "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+      }
     },
     "targetLost": {
       "ready": true,
@@ -937,31 +1275,39 @@
         "scheduled": [],
         "error": null
       },
-      "effectLayers": 1
+      "effectLayers": 1,
+      "showcase": {
+        "active": false,
+        "completed": false,
+        "index": -1,
+        "total": 7,
+        "mode": null,
+        "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+      }
     },
     "speeds": [
       {
         "speed": 0.25,
-        "elapsed": 0.126,
-        "wall": 0.501,
+        "elapsed": 0.12675,
+        "wall": 0.5030999999940395,
         "pauseStable": true
       },
       {
         "speed": 0.5,
-        "elapsed": 0.252,
-        "wall": 0.502699999988079,
+        "elapsed": 0.25,
+        "wall": 0.5016000000238419,
         "pauseStable": true
       },
       {
         "speed": 1,
-        "elapsed": 0.504,
-        "wall": 0.5018999999761582,
+        "elapsed": 0.501,
+        "wall": 0.5005,
         "pauseStable": true
       },
       {
         "speed": 2,
-        "elapsed": 1,
-        "wall": 0.5001999999880791,
+        "elapsed": 1.008,
+        "wall": 0.5025,
         "pauseStable": true
       }
     ],
@@ -1010,7 +1356,15 @@
         "scheduled": [],
         "error": null
       },
-      "effectLayers": 1
+      "effectLayers": 1,
+      "showcase": {
+        "active": false,
+        "completed": false,
+        "index": -1,
+        "total": 7,
+        "mode": null,
+        "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+      }
     },
     "sound": {
       "enabled": true,
@@ -1020,7 +1374,7 @@
           "contact": 1.23,
           "sourceSync": 0.25,
           "when": 0,
-          "offset": 0.724,
+          "offset": 0.7550000000000001,
           "speed": 1
         },
         {
@@ -1028,13 +1382,80 @@
           "contact": 1.96,
           "sourceSync": 0.333,
           "when": 0,
-          "offset": 0.07699999999999996,
+          "offset": 0.1080000000000001,
           "speed": 1
         }
       ],
       "error": null
     },
     "auraOff": false,
+    "showcaseStart": {
+      "queue": {
+        "active": true,
+        "completed": false,
+        "index": 0,
+        "total": 7,
+        "mode": "dash",
+        "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+      },
+      "aura": true,
+      "motionOnly": false
+    },
+    "showcaseDone": {
+      "ready": true,
+      "motionOnly": false,
+      "mode": "ultimate",
+      "time": 5.55,
+      "playing": false,
+      "speed": 2,
+      "pose": {
+        "key": "idle",
+        "frame": 0
+      },
+      "cancelled": false,
+      "travel": 0,
+      "activeFrames": [],
+      "visibleSprites": 0,
+      "ownedTimelines": 1,
+      "registeredTimelines": 0,
+      "regularAllies": 5,
+      "mercenaryInRegularArray": false,
+      "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+      "weaponRigid": true,
+      "clockOwner": "V3_REGISTERED_GSAP",
+      "motionFrames": 64,
+      "effectFrames": 96,
+      "damageAuthority": "NONE_VISUAL_PREVIEW",
+      "actorFoot": {
+        "x": 494.9999999999999,
+        "y": 249.99999999999997
+      },
+      "targetFoot": {
+        "x": 1299.9999999999998,
+        "y": 574.9999999999999
+      },
+      "aura": {
+        "enabled": true,
+        "textureMatchesPose": true,
+        "silhouetteCopies": 18,
+        "filterCount": 6,
+        "independentClock": false
+      },
+      "audio": {
+        "enabled": false,
+        "scheduled": [],
+        "error": null
+      },
+      "effectLayers": 1,
+      "showcase": {
+        "active": false,
+        "completed": true,
+        "index": 6,
+        "total": 7,
+        "mode": "ultimate",
+        "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+      }
+    },
     "disposed": {
       "timelines": 0,
       "effectLayers": 0,
@@ -1095,7 +1516,15 @@
           "scheduled": [],
           "error": null
         },
-        "effectLayers": 1
+        "effectLayers": 1,
+        "showcase": {
+          "active": false,
+          "completed": false,
+          "index": -1,
+          "total": 7,
+          "mode": null,
+          "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+        }
       },
       {
         "ready": true,
@@ -1156,7 +1585,15 @@
           "scheduled": [],
           "error": null
         },
-        "effectLayers": 1
+        "effectLayers": 1,
+        "showcase": {
+          "active": false,
+          "completed": false,
+          "index": -1,
+          "total": 7,
+          "mode": null,
+          "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+        }
       },
       {
         "ready": true,
@@ -1186,7 +1623,7 @@
             }
           }
         ],
-        "visibleSprites": 14,
+        "visibleSprites": 30,
         "ownedTimelines": 1,
         "registeredTimelines": 0,
         "regularAllies": 5,
@@ -1217,7 +1654,15 @@
           "scheduled": [],
           "error": null
         },
-        "effectLayers": 1
+        "effectLayers": 1,
+        "showcase": {
+          "active": false,
+          "completed": false,
+          "index": -1,
+          "total": 7,
+          "mode": null,
+          "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+        }
       },
       {
         "ready": true,
@@ -1247,7 +1692,7 @@
             }
           }
         ],
-        "visibleSprites": 14,
+        "visibleSprites": 40,
         "ownedTimelines": 1,
         "registeredTimelines": 0,
         "regularAllies": 5,
@@ -1278,7 +1723,15 @@
           "scheduled": [],
           "error": null
         },
-        "effectLayers": 1
+        "effectLayers": 1,
+        "showcase": {
+          "active": false,
+          "completed": false,
+          "index": -1,
+          "total": 7,
+          "mode": null,
+          "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+        }
       },
       {
         "ready": true,
@@ -1308,7 +1761,7 @@
             }
           }
         ],
-        "visibleSprites": 14,
+        "visibleSprites": 30,
         "ownedTimelines": 1,
         "registeredTimelines": 0,
         "regularAllies": 5,
@@ -1339,7 +1792,15 @@
           "scheduled": [],
           "error": null
         },
-        "effectLayers": 1
+        "effectLayers": 1,
+        "showcase": {
+          "active": false,
+          "completed": false,
+          "index": -1,
+          "total": 7,
+          "mode": null,
+          "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+        }
       },
       {
         "ready": true,
@@ -1354,8 +1815,22 @@
         },
         "cancelled": false,
         "travel": 1,
-        "activeFrames": [],
-        "visibleSprites": 12,
+        "activeFrames": [
+          {
+            "key": "charge",
+            "index": 6,
+            "next": 7,
+            "anchor": {
+              "x": 539.0423929910161,
+              "y": 994.3785824765721
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.666015625
+            }
+          }
+        ],
+        "visibleSprites": 24,
         "ownedTimelines": 1,
         "registeredTimelines": 0,
         "regularAllies": 5,
@@ -1386,7 +1861,110 @@
           "scheduled": [],
           "error": null
         },
-        "effectLayers": 1
+        "effectLayers": 1,
+        "showcase": {
+          "active": false,
+          "completed": false,
+          "index": -1,
+          "total": 7,
+          "mode": null,
+          "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+        }
+      },
+      {
+        "ready": true,
+        "motionOnly": false,
+        "mode": "overhead",
+        "time": 1.84,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "twohandStrike",
+          "frame": 0
+        },
+        "cancelled": false,
+        "travel": 1,
+        "activeFrames": [
+          {
+            "key": "charge",
+            "index": 8,
+            "next": 9,
+            "anchor": {
+              "x": 539.0423929910161,
+              "y": 994.3785824765721
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.6484375
+            }
+          },
+          {
+            "key": "slash",
+            "index": 4,
+            "next": 5,
+            "anchor": {
+              "x": 647.0268478527313,
+              "y": 759.2915541918323
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.5
+            }
+          },
+          {
+            "key": "execution",
+            "index": 2,
+            "next": 3,
+            "anchor": {
+              "x": 674.3367300518607,
+              "y": 994.378582476572
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.673828125
+            }
+          }
+        ],
+        "visibleSprites": 28,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+        "weaponRigid": true,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "motionFrames": 64,
+        "effectFrames": 96,
+        "damageAuthority": "NONE_VISUAL_PREVIEW",
+        "actorFoot": {
+          "x": 539.0423929910161,
+          "y": 994.3785824765721
+        },
+        "targetFoot": {
+          "x": 674.3367300518607,
+          "y": 994.378582476572
+        },
+        "aura": {
+          "enabled": true,
+          "textureMatchesPose": true,
+          "silhouetteCopies": 18,
+          "filterCount": 6,
+          "independentClock": false
+        },
+        "audio": {
+          "enabled": false,
+          "scheduled": [],
+          "error": null
+        },
+        "effectLayers": 1,
+        "showcase": {
+          "active": false,
+          "completed": false,
+          "index": -1,
+          "total": 7,
+          "mode": null,
+          "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+        }
       },
       {
         "ready": true,
@@ -1402,6 +1980,19 @@
         "cancelled": false,
         "travel": 1,
         "activeFrames": [
+          {
+            "key": "charge",
+            "index": 10,
+            "next": 11,
+            "anchor": {
+              "x": 539.0423929910161,
+              "y": 994.3785824765721
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.7421875
+            }
+          },
           {
             "key": "slash",
             "index": 9,
@@ -1429,7 +2020,7 @@
             }
           }
         ],
-        "visibleSprites": 16,
+        "visibleSprites": 37,
         "ownedTimelines": 1,
         "registeredTimelines": 0,
         "regularAllies": 5,
@@ -1460,7 +2051,97 @@
           "scheduled": [],
           "error": null
         },
-        "effectLayers": 1
+        "effectLayers": 1,
+        "showcase": {
+          "active": false,
+          "completed": false,
+          "index": -1,
+          "total": 7,
+          "mode": null,
+          "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+        }
+      },
+      {
+        "ready": true,
+        "motionOnly": false,
+        "mode": "overhead",
+        "time": 2.5,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "twohandReturn",
+          "frame": 1
+        },
+        "cancelled": false,
+        "travel": 1,
+        "activeFrames": [
+          {
+            "key": "slash",
+            "index": 14,
+            "next": 15,
+            "anchor": {
+              "x": 674.3367300518607,
+              "y": 956.5481420673904
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.5
+            }
+          },
+          {
+            "key": "execution",
+            "index": 12,
+            "next": 13,
+            "anchor": {
+              "x": 674.3367300518607,
+              "y": 994.378582476572
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.60546875
+            }
+          }
+        ],
+        "visibleSprites": 46,
+        "ownedTimelines": 1,
+        "registeredTimelines": 0,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+        "weaponRigid": true,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "motionFrames": 64,
+        "effectFrames": 96,
+        "damageAuthority": "NONE_VISUAL_PREVIEW",
+        "actorFoot": {
+          "x": 539.0423929910161,
+          "y": 994.3785824765721
+        },
+        "targetFoot": {
+          "x": 674.3367300518607,
+          "y": 994.378582476572
+        },
+        "aura": {
+          "enabled": true,
+          "textureMatchesPose": true,
+          "silhouetteCopies": 18,
+          "filterCount": 6,
+          "independentClock": false
+        },
+        "audio": {
+          "enabled": false,
+          "scheduled": [],
+          "error": null
+        },
+        "effectLayers": 1,
+        "showcase": {
+          "active": false,
+          "completed": false,
+          "index": -1,
+          "total": 7,
+          "mode": null,
+          "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+        }
       },
       {
         "ready": true,
@@ -1475,8 +2156,22 @@
         },
         "cancelled": false,
         "travel": 1,
-        "activeFrames": [],
-        "visibleSprites": 12,
+        "activeFrames": [
+          {
+            "key": "execution",
+            "index": 14,
+            "next": 15,
+            "anchor": {
+              "x": 674.3367300518607,
+              "y": 994.378582476572
+            },
+            "sourceAnchor": {
+              "x": 0.5,
+              "y": 0.607421875
+            }
+          }
+        ],
+        "visibleSprites": 23,
         "ownedTimelines": 1,
         "registeredTimelines": 0,
         "regularAllies": 5,
@@ -1507,7 +2202,15 @@
           "scheduled": [],
           "error": null
         },
-        "effectLayers": 1
+        "effectLayers": 1,
+        "showcase": {
+          "active": false,
+          "completed": false,
+          "index": -1,
+          "total": 7,
+          "mode": null,
+          "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+        }
       },
       {
         "ready": true,
@@ -1537,7 +2240,7 @@
             }
           }
         ],
-        "visibleSprites": 14,
+        "visibleSprites": 32,
         "ownedTimelines": 1,
         "registeredTimelines": 0,
         "regularAllies": 5,
@@ -1568,7 +2271,15 @@
           "scheduled": [],
           "error": null
         },
-        "effectLayers": 1
+        "effectLayers": 1,
+        "showcase": {
+          "active": false,
+          "completed": false,
+          "index": -1,
+          "total": 7,
+          "mode": null,
+          "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+        }
       },
       {
         "ready": true,
@@ -1629,7 +2340,15 @@
           "scheduled": [],
           "error": null
         },
-        "effectLayers": 1
+        "effectLayers": 1,
+        "showcase": {
+          "active": false,
+          "completed": false,
+          "index": -1,
+          "total": 7,
+          "mode": null,
+          "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+        }
       },
       {
         "ready": true,
@@ -1676,7 +2395,15 @@
           "scheduled": [],
           "error": null
         },
-        "effectLayers": 1
+        "effectLayers": 1,
+        "showcase": {
+          "active": false,
+          "completed": false,
+          "index": -1,
+          "total": 7,
+          "mode": null,
+          "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+        }
       },
       {
         "ready": true,
@@ -1723,7 +2450,15 @@
           "scheduled": [],
           "error": null
         },
-        "effectLayers": 1
+        "effectLayers": 1,
+        "showcase": {
+          "active": false,
+          "completed": false,
+          "index": -1,
+          "total": 7,
+          "mode": null,
+          "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+        }
       },
       {
         "ready": true,
@@ -1753,7 +2488,7 @@
             }
           }
         ],
-        "visibleSprites": 14,
+        "visibleSprites": 30,
         "ownedTimelines": 1,
         "registeredTimelines": 0,
         "regularAllies": 5,
@@ -1784,7 +2519,15 @@
           "scheduled": [],
           "error": null
         },
-        "effectLayers": 1
+        "effectLayers": 1,
+        "showcase": {
+          "active": false,
+          "completed": false,
+          "index": -1,
+          "total": 7,
+          "mode": null,
+          "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+        }
       },
       {
         "ready": true,
@@ -1853,7 +2596,7 @@
             }
           }
         ],
-        "visibleSprites": 23,
+        "visibleSprites": 44,
         "ownedTimelines": 1,
         "registeredTimelines": 0,
         "regularAllies": 5,
@@ -1884,7 +2627,15 @@
           "scheduled": [],
           "error": null
         },
-        "effectLayers": 1
+        "effectLayers": 1,
+        "showcase": {
+          "active": false,
+          "completed": false,
+          "index": -1,
+          "total": 7,
+          "mode": null,
+          "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+        }
       }
     ],
     "interruption": {
@@ -1932,7 +2683,15 @@
         "scheduled": [],
         "error": null
       },
-      "effectLayers": 1
+      "effectLayers": 1,
+      "showcase": {
+        "active": false,
+        "completed": false,
+        "index": -1,
+        "total": 7,
+        "mode": null,
+        "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+      }
     },
     "targetLost": {
       "ready": true,
@@ -1979,31 +2738,39 @@
         "scheduled": [],
         "error": null
       },
-      "effectLayers": 1
+      "effectLayers": 1,
+      "showcase": {
+        "active": false,
+        "completed": false,
+        "index": -1,
+        "total": 7,
+        "mode": null,
+        "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+      }
     },
     "speeds": [
       {
         "speed": 0.25,
-        "elapsed": 0.12575,
-        "wall": 0.5022000000178813,
+        "elapsed": 0.126,
+        "wall": 0.5013000000119209,
         "pauseStable": true
       },
       {
         "speed": 0.5,
         "elapsed": 0.2525,
-        "wall": 0.5036000000238419,
+        "wall": 0.5035,
         "pauseStable": true
       },
       {
         "speed": 1,
         "elapsed": 0.5,
-        "wall": 0.5005999999940396,
+        "wall": 0.5002000000178813,
         "pauseStable": true
       },
       {
         "speed": 2,
-        "elapsed": 1.008,
-        "wall": 0.5019000000059605,
+        "elapsed": 1,
+        "wall": 0.5009000000059605,
         "pauseStable": true
       }
     ],
@@ -2052,7 +2819,15 @@
         "scheduled": [],
         "error": null
       },
-      "effectLayers": 1
+      "effectLayers": 1,
+      "showcase": {
+        "active": false,
+        "completed": false,
+        "index": -1,
+        "total": 7,
+        "mode": null,
+        "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+      }
     },
     "sound": {
       "enabled": true,
@@ -2062,7 +2837,7 @@
           "contact": 1.23,
           "sourceSync": 0.25,
           "when": 0,
-          "offset": 0.6499999999999999,
+          "offset": 0.6539999999999999,
           "speed": 1
         },
         {
@@ -2070,13 +2845,80 @@
           "contact": 1.96,
           "sourceSync": 0.333,
           "when": 0,
-          "offset": 0.0029999999999998916,
+          "offset": 0.006999999999999895,
           "speed": 1
         }
       ],
       "error": null
     },
     "auraOff": false,
+    "showcaseStart": {
+      "queue": {
+        "active": true,
+        "completed": false,
+        "index": 0,
+        "total": 7,
+        "mode": "dash",
+        "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+      },
+      "aura": true,
+      "motionOnly": false
+    },
+    "showcaseDone": {
+      "ready": true,
+      "motionOnly": false,
+      "mode": "ultimate",
+      "time": 5.55,
+      "playing": false,
+      "speed": 2,
+      "pose": {
+        "key": "idle",
+        "frame": 0
+      },
+      "cancelled": false,
+      "travel": 0,
+      "activeFrames": [],
+      "visibleSprites": 0,
+      "ownedTimelines": 1,
+      "registeredTimelines": 0,
+      "regularAllies": 5,
+      "mercenaryInRegularArray": false,
+      "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+      "weaponRigid": true,
+      "clockOwner": "V3_REGISTERED_GSAP",
+      "motionFrames": 64,
+      "effectFrames": 96,
+      "damageAuthority": "NONE_VISUAL_PREVIEW",
+      "actorFoot": {
+        "x": 424.3367300518606,
+        "y": 344.3785824765718
+      },
+      "targetFoot": {
+        "x": 674.3367300518607,
+        "y": 994.378582476572
+      },
+      "aura": {
+        "enabled": true,
+        "textureMatchesPose": true,
+        "silhouetteCopies": 18,
+        "filterCount": 6,
+        "independentClock": false
+      },
+      "audio": {
+        "enabled": false,
+        "scheduled": [],
+        "error": null
+      },
+      "effectLayers": 1,
+      "showcase": {
+        "active": false,
+        "completed": true,
+        "index": 6,
+        "total": 7,
+        "mode": "ultimate",
+        "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+      }
+    },
     "disposed": {
       "timelines": 0,
       "effectLayers": 0,

@@ -1,4 +1,29 @@
-# 은백·금색 대검 기사 — V10 전투 모션 검수판
+# 은백·금색 대검 기사 — V11 전체 스킬·강화 효과 검수판
+
+2026-10-01 후속 요청으로 라그니엘 참고 두손 모션에 **마력 상승 → 검신 발광 → 참격 잔상 → 충돌 파편·지면 잔광**을 추가했다. 기존 캐릭터 54개 자세, 대검 PNG와 모든 모션 아틀라스는 그대로다. 기존에 그린 96프레임 효과를 사용하고, 검의 실제 위치에 맞춘 광원·궤적·입자를 보조 계층으로 더했다. 새 작화 프레임으로 세지 않는다.
+
+**전체 스킬 프리뷰:** http://127.0.0.1:8850/preview/mercenary-crimson-silver-knight-battle-v1/?showcase=1#battle
+
+`전체 스킬 재생`은 아우라·효과를 켜고 대시 → 올려베기 → 연속 베기 → 두손 강격 → 심판 → 방벽 → 궁극기를 **24.85초** 동안 이어 재생한다. 기존 GSAP 타임라인이 끝날 때 다음 모드로 넘어가며 별도 타이머·Ticker를 만들지 않는다. 일시정지·배속은 현재 타임라인에 적용되고, 중단·화면 이탈 시 연속 재생도 해제된다. 마지막에는 승인된 대기 자세로 정착한다.
+
+- `qa/all-skills-fx-v11.webp`: 모든 효과와 아우라를 적용한 실제 V3 전체 재생 캡처.
+- `qa/overhead-fx-v11.webp`: 강화된 두손 강격의 실제 V3 재생 캡처.
+- `모션만`을 켜면 광원·파편·궤적·카메라 진동이 사라져 원래 작화와 파지를 따로 볼 수 있다.
+
+V11 효과 구현은 `source/KnightFX.js`, `skill.mjs`, 전체 재생은 `showcase.mjs`, `source/preview.js`다. **PixiJS 8.20.0 / GSAP 3.13.0**과 기존 V3 효과 레이어를 재사용한다. 마력 상승 0.56~2.17초, 참격 1.70~2.63초, 충돌 1.98초, 결정 충돌의 잔향은 3.28초까지 이어진다. 검광은 원본 검의 파지점·칼끝 좌표에 맞추며 무기나 신체를 변형하지 않는다. 잔상은 동일 시계의 과거 10개 자세 위치에서 계산해 되감기·시킹 결과가 같다. 풀은 최대 128개이며 사용하지 않는 입자는 숨긴다.
+
+V11 관련 검사 **9개 통과**. PC 1440×1000·모바일 390×844에서 전체 7개 연출 완주, 효과 ON 복원, 0.25×/0.5×/1×/2×·일시정지·시킹·중단·대상 소멸·종료를 확인했다. 콘솔·자산 오류, 가로 넘침, 종료 후 남은 타임라인·일회성 효과는 없었다. 원본 해시·검 길이·고정 복귀점 검사도 통과했다. 사용자 시각 검수 대기이며 운영 연결은 하지 않았다.
+
+```powershell
+node preview/mercenary-crimson-silver-knight-battle-v1/build.mjs
+node --test preview/mercenary-crimson-silver-knight-battle-v1/qa.test.mjs
+node preview/mercenary-crimson-silver-knight-battle-v1/qa-browser.mjs
+node preview/mercenary-crimson-silver-knight-battle-v1/record-demo.mjs all
+node preview/mercenary-crimson-silver-knight-battle-v1/record-demo.mjs overhead overhead-fx-v11.webp
+node preview/mercenary-crimson-silver-knight-battle-v1/finalize-fx-v11.mjs
+```
+
+## V10 모션 제작 이력
 
 2026-10-01. 기존 제작 방식인 **내장 ImageGen 연속 포즈 + 원본 대검 합성**으로 작업했다. GIF를 참고한 대각·회전 연속 베기와 승인 자세 복귀를 마무리하고, 후속 요청으로 라그니엘을 참고한 **두손 들어 올리기·내려찍기**를 별도로 추가했다.
 
