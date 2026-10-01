@@ -171,7 +171,7 @@ export async function mountCooperative(root){
  on($('[data-close-settings]'),'click',()=>$('[data-settings-dialog]').close());
  on($('[data-settings-form]'),'submit',async e=>{e.preventDefault();const form=e.target;try{const r=await api('settings',{method:'POST',body:{settings:{revision:settingsRevision,mode:form.elements.mode.value,testUserIds:form.elements.users.value.split(/[ ,\n]+/).filter(Boolean).map(Number)}}});settingsRevision=r.settings.revision;alert('');await availability();$('[data-settings-message]').textContent='설정을 저장했습니다.';}catch(err){$('[data-settings-message]').textContent=err.message;}});
  on(window,'pagehide',abandon);
- heartbeatTimer=setInterval(()=>{if(!state?.myResult)send('ping');battleHud();if(state&&!state.myResult&&Date.now()-lastMessage>12000&&ws?.readyState===WebSocket.OPEN)alert('서버 응답 대기 중 · 새로고침하지 마세요.');},COOP_RULES.heartbeatMs);
+ heartbeatTimer=setInterval(()=>{if(!state?.myResult){send('ping');if(battle&&state?.status==='LOADING'&&!state.members.find(m=>m.id===you)?.loaded)send('loaded');}battleHud();if(state&&!state.myResult&&Date.now()-lastMessage>12000&&ws?.readyState===WebSocket.OPEN)alert('서버 응답 대기 중 · 새로고침하지 마세요.');},COOP_RULES.heartbeatMs);
  const clock=setInterval(battleHud,200);
  try{
   if(await availability()){const current=await api('current');if(current.state){roomId=current.state.id;apply(current);if(!current.state.myResult)await connect();}}

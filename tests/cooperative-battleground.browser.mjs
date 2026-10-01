@@ -13,6 +13,7 @@ const open=async(id,width,height)=>{
  const context=await browser.newContext({viewport:{width,height},isMobile:width<700,hasTouch:width<700,serviceWorkers:'block'});
  const cards=fixture.cardsByLevel[13];
  await context.addInitScript(({id,cards})=>{localStorage.setItem('cnine_card_api_token','local-qa-'+id);localStorage.setItem('cnine_card_user_v10',JSON.stringify({id,serverUserId:id,nickname:'검수 '+id,role:id===1?'OWNER':'USER',coin:12345678,cardShards:2000,masterStars:1000,owned:cards.map(c=>c.id),quantities:Object.fromEntries(cards.map(c=>[c.id,1])),breakthroughs:Object.fromEntries(cards.map(c=>[c.id,13])),history:[],attendance:{totalDays:0},testCoinGrantedV13:true,collectionRepairR6:true}));localStorage.setItem('cnine_battle_sound','OFF');localStorage.setItem('soop-lobby-bgm-muted-v1','1');},{id,cards});
+ if(id===3)await context.addInitScript(()=>{const send=WebSocket.prototype.send;WebSocket.prototype.send=function(data){if(!window.__coopDroppedLoadAck&&typeof data==='string'&&JSON.parse(data).type==='loaded'){window.__coopDroppedLoadAck=true;return;}return send.call(this,data);};});
  await context.route('**/*',r=>new URL(r.request().url()).origin===h.origin?r.continue():r.abort());
  const page=await context.newPage();page.on('pageerror',e=>errors.push({id,message:e.message}));page.on('dialog',d=>d.accept());clients.push({id,page,context});
  page.on('response',r=>{if(r.url().includes('lich-king-battle-sd-v1.png')&&r.status()===200)bossAssets.add(id);});
@@ -43,6 +44,7 @@ try{
  for(const {page} of clients)await page.locator('[data-ready]').click();
  for(const {page} of clients){await page.locator('.coop-battle-portal canvas').waitFor({state:'visible',timeout:60000});await page.waitForFunction(()=>document.querySelector('.coop-battle-notice')?.hidden,{},{timeout:60000});}
  await a.waitForFunction(()=>document.querySelector('[data-phase]')?.textContent==='공동 전투 진행 중');
+ assert.equal(await c.evaluate(()=>window.__coopDroppedLoadAck),true,'A lost load acknowledgement must recover without refresh');
  await new Promise(r=>setTimeout(r,4000));
  for(const {id,page} of clients){
   const info=await page.evaluate(()=>({portal:(()=>{const r=document.querySelector('.coop-battle-portal').getBoundingClientRect();return {x:r.x,y:r.y,w:r.width,h:r.height};})(),viewport:{w:innerWidth,h:innerHeight},diagnostics:window.ProjectVPixiBattle.diagnostics(),roster:document.querySelectorAll('[data-v3-roster-list]>li').length,exitClickable:(()=>{const b=document.querySelector('[data-exit]'),r=b.getBoundingClientRect();return b.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2));})()}));

@@ -50,3 +50,22 @@ test('explicit interruption resumes the entire incomplete stage while preserving
   const runtime=fixture({changed:['functions/live.js'],log});
   assert.throws(()=>fullGateResumePlan({...runtime,env:{...runtime.env,RELEASE_GATE_RESUME_INTERRUPTED:'1',RELEASE_GATE_RESUME_REASON:env.RELEASE_GATE_RESUME_REASON}}));
 });
+
+test('an isolated raid UI fix reuses unrelated stages only with matching successful browser evidence',()=>{
+  const file='raid/cooperative/live.mjs',runner='tests/cooperative-battleground.browser.mjs',source='const loaded=true;';
+  const proof={command:'node '+runner,exitCode:0,sources:[file,runner].map(file=>({file,sha256:createHash('sha256').update(source).digest('hex')}))};
+  const raw=JSON.stringify(proof),f=fixture({changed:[file,runner,'tests/b.test.mjs']});
+  f.env.RELEASE_GATE_RESUME_UI_REPORT='browser-proof.json';f.env.RELEASE_GATE_RESUME_UI_SHA256=createHash('sha256').update(raw).digest('hex');
+  f.read=p=>p==='browser-proof.json'?raw:[file,runner].includes(p)?source:'';
+  assert.equal(fullGateResumePlan(f).reused,1);
+  assert.throws(()=>fullGateResumePlan({...f,read:p=>p===file?'changed':f.read(p)}),/source changed/);
+  assert.throws(()=>fullGateResumePlan({...f,env:{...f.env,RELEASE_GATE_RESUME_UI_SHA256:'0'.repeat(64)}}),/report hash/);
+  const inspected={...f,read:p=>p==='tests/a.test.mjs'?`read('${file}')`:f.read(p)};
+  assert.equal(fullGateResumePlan(inspected).reused,0);
+  const failedRaw=JSON.stringify({...proof,exitCode:1});
+  assert.throws(()=>fullGateResumePlan({...f,read:p=>p==='browser-proof.json'?failedRaw:f.read(p),env:{...f.env,RELEASE_GATE_RESUME_UI_SHA256:createHash('sha256').update(failedRaw).digest('hex')}}),/successful browser/);
+  for(const runtime of ['functions/live.js','preview/project-v-v3/source/battle/BattleEngine.js']){
+    const forbidden=JSON.stringify({...proof,sources:[...proof.sources,{file:runtime,sha256:proof.sources[0].sha256}]});
+    assert.throws(()=>fullGateResumePlan({...f,read:p=>p==='browser-proof.json'?forbidden:f.read(p),env:{...f.env,RELEASE_GATE_RESUME_UI_SHA256:createHash('sha256').update(forbidden).digest('hex')}}),/isolated raid/);
+  }
+});

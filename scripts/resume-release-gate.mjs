@@ -2,8 +2,10 @@ import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 
 // Reuse only a completed prefix of the exact full gate, after test/document fixes.
-// Game, dependency, schema and gate-command changes always require a fresh gate.
-export function fullGateResumePlan({env,git,scripts,logText}){
+// Backend, shared renderer, dependency, schema and gate-command changes require
+// a fresh gate. A late raid-view fix may retain unrelated passes only with a
+// successful browser run bound to both the view and test source hashes.
+export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileSync(path,'utf8')}){
   const base=env.RELEASE_GATE_RESUME_BASE;
   if(!/^[a-f0-9]{40}$/.test(base||''))throw Error('Resume requires the original candidate SHA.');
   if(!/^[a-f0-9]{64}$/.test(env.RELEASE_GATE_RESUME_SHA256||'')||createHash('sha256').update(logText).digest('hex')!==env.RELEASE_GATE_RESUME_SHA256)throw Error('Resume log hash mismatch.');
@@ -26,9 +28,28 @@ export function fullGateResumePlan({env,git,scripts,logText}){
     &&String(env.RELEASE_GATE_RESUME_REASON||'').trim().length>=20;
   if(/^ℹ fail [1-9]/m.test(prefix)||(!failed&&!interrupted))throw Error('Resume requires a failed or explicitly interrupted final stage and successful preceding stages.');
   const changed=git('diff','--name-only',base,'HEAD').split('\n').filter(Boolean),rerun=new Set();
+  const browserProof=new Set();
+  if(env.RELEASE_GATE_RESUME_UI_REPORT){
+    const raw=read(env.RELEASE_GATE_RESUME_UI_REPORT);
+    if(createHash('sha256').update(raw).digest('hex')!==env.RELEASE_GATE_RESUME_UI_SHA256)throw Error('Browser report hash mismatch.');
+    const proof=JSON.parse(raw),runner=proof.command?.match(/^node (tests\/[a-zA-Z0-9_-]+\.browser\.mjs)$/)?.[1];
+    if(proof.exitCode!==0||!runner||!Array.isArray(proof.sources)||!proof.sources.some(row=>row.file===runner))throw Error('A successful browser run and test source are required.');
+    for(const row of proof.sources){
+      if(row.file!==runner&&!/^raid\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+\.(?:mjs|css)$/.test(row.file))throw Error('Only isolated raid views may use browser proof.');
+      const hash=createHash('sha256').update(read(row.file).replace(/\r\n/g,'\n')).digest('hex');
+      if(hash!==row.sha256)throw Error(`Browser proof source changed: ${row.file}`);
+      browserProof.add(row.file);
+    }
+    // Re-run completed static contracts that directly inspect a changed view.
+    for(let i=0;i<failedIndex;i++){
+      const inputs=scripts[names[i]].split(/\s+/).filter(p=>/^(?:tests|preview)\/.*\.(?:mjs|js)$/.test(p));
+      for(const input of inputs){const source=read(input);if(changed.some(p=>browserProof.has(p)&&source.includes(p)))rerun.add(i);}
+    }
+  }
   const tooling=new Set(['scripts/deploy-production.mjs','scripts/resume-release-gate.mjs','tests/resume-release-gate.test.mjs']);
   for(const path of changed){
     if(path==='AGENTS.md'||path.startsWith('docs/')||tooling.has(path))continue;
+    if(browserProof.has(path))continue;
     if(!/^tests\/[^/]+\.test\.mjs$/.test(path))throw Error(`Runtime/shared helper changed (${path}): run a fresh full gate.`);
     let matched=false;
     for(let i=0;i<names.length-1;i++)if(scripts[names[i]].split(/\s+/).includes(path)){matched=true;if(i<failedIndex)rerun.add(i);}
