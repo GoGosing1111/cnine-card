@@ -221,7 +221,7 @@ function uniquePercent(effect, key) {
 
 // V1936: 같은 계열을 쌓을수록 프로필 편차를 균형형 쪽으로 감쇠시킨다.
 //   능력은 별도 총량제로 막고, 스탯은 여기서 체감시킨다.
-function applyTypeStacking(cards = []) {
+export function applyTypeStacking(cards = []) {
   const curve = S1.typeStackCurve;
   if (!Array.isArray(curve) || !curve.length) return cards;
   const seen = Object.create(null);
@@ -694,7 +694,7 @@ function resolveKnockout(target, timeline, clock, onBeforeKnockout = null) {
   return true;
 }
 
-export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, suddenDeathAfter = 0, forcedMonsterEvery = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, bossUltimateCapPercent = 100, healerPenalty = false, singleHealerBonus = {}, escortObjective = null, reinforcements = [], encounterCapacity = 5, maxCombatDurationMs = 0, sustainedEncounter = null, [Z_BODY_AREA_REVIEW]: zAreaReview = false, [X_BODY_AREA_REVIEW]: xAreaReview = false, [MAGIC_SEASON2_REVIEW]: season2Review = false } = {}) {
+export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, suddenDeathAfter = 0, forcedMonsterEvery = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, bossUltimateCapPercent = 100, healerPenalty = false, singleHealerBonus = {}, escortObjective = null, reinforcements = [], encounterCapacity = 5, maxCombatDurationMs = 0, sustainedEncounter = null, cooperative = null, [Z_BODY_AREA_REVIEW]: zAreaReview = false, [X_BODY_AREA_REVIEW]: xAreaReview = false, [MAGIC_SEASON2_REVIEW]: season2Review = false } = {}) {
   let mercenaryRuntime=null,season2Runtime=null;
   const rawDamage=(target,incoming,options)=>{const result=applyCanonicalDamage(target,incoming,options);mercenaryRuntime?.onDamage(target,result);season2Runtime?.afterDamage(target,result,options);return result;};
   const applyDamage=(target,incoming,options={})=>rawDamage(target,season2Runtime?season2Runtime.beforeDamage(target,incoming,options):incoming,season2Runtime?{...options,beforeHpDamage:(t,n)=>season2Runtime.beforeHpDamage(t,n,options)}:options);
@@ -704,6 +704,13 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const random = () => actionRandom();
   const a = teamA.map(card => ({ ...card }));
   const b = teamB.map(card => ({ ...card }));
+  // Opt-in 3 x (2 + 1) battlefield. Existing five-card modes retain their contract.
+  if(cooperative && (a.length!==9 || new Set(a.map(c=>c.ownerId)).size!==3 ||
+    [...new Set(a.map(c=>c.ownerId))].some(id=>!Number.isSafeInteger(id)||id<=0||a.filter(c=>c.ownerId===id&&!c.isMercenary).length!==2||a.filter(c=>c.ownerId===id&&c.isMercenary).length!==1) ||
+    !maxCombatDurationMs || !Array.isArray(cooperative.withdrawals) || cooperative.withdrawals.length>3 ||
+    cooperative.withdrawals.some(w=>!a.some(c=>c.ownerId===w.ownerId)||!Number.isFinite(w.atMs)||w.atMs<0)))throw Error('INVALID_COOPERATIVE_PARTY');
+  const withdrawals=cooperative?[...cooperative.withdrawals].sort((x,y)=>x.atMs-y.atMs):[];
+  const combatStates=[];
   const sustained = sustainedEncounterPlan(sustainedEncounter, teamB, encounterCapacity);
   const mercenaryTurns=mercenaryTurnCadence({A:a,B:b});
   // Opt-in encounter lane; no live route currently supplies this field. A
@@ -956,7 +963,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     emitTimeline(timeline,clock,'DEFENSE_LINE_BREACHED',{actorSide:attackers[0]?.side||'',targetSide:targets[0]?.side||'',defenseCount,shieldReductionPercent:45,label:'공격형 연계 · 공성 돌파'});
   };
   breachDefenseLine(a,b);breachDefenseLine(b,a);
-  applyMercenaryCombatLink([a,b]);
+  applyMercenaryCombatLink([a,b],{regularCardsPerOwner:cooperative?2:5});
   const openingMercenaries={A:a.filter(f=>f.isMercenary).map(f=>structuredClone(publicFighter(f))),B:b.filter(f=>f.isMercenary).map(f=>structuredClone(publicFighter(f)))};
 
   for (const fighter of [...a, ...b]) {
@@ -1051,7 +1058,9 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
 
   // V1902: 호송작전은 차량 피해가 별도 공식이라 전투 길이가 바뀌면 난이도가 흔들린다.
   //   호송에서는 하한을 끈다.
-  const hitOptions = { minDamagePercent: escortMode ? 0 : MONSTER_MIN_DAMAGE_PERCENT };
+  // Nine-player actors must defeat the fixed boss with their own stats/skills;
+  // the ordinary hunt's percent-HP floor otherwise defeats every tier equally.
+  const hitOptions = { minDamagePercent: escortMode || cooperative ? 0 : MONSTER_MIN_DAMAGE_PERCENT };
   mercenaryRuntime=[...a,...b].some(actor=>actor.isMercenary)?mercenaryCombat({teams:{A:a,B:b},
     // Selected sniper/slow-shot casts use the PVE basic floor, scaled by the
     // actual per-impact ratio. A divided volley never repeats the full floor.
@@ -1117,6 +1126,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     if(!combatClockEnabled)return;
     const events=timeline.slice(from),durationMs=blocking?events.reduce((sum,event)=>sum+skillChipCombatEventMs(event,chipClockOptions),0):0;
     for(const event of events)Object.assign(event,{combatClock:SKILL_CHIP_CLOCK,combatAtMs:atMs,combatGroup,combatGroupDurationMs:durationMs});
+    if(cooperative)combatStates.push({atMs,group:combatGroup,A:a.map(c=>({id:c.id,hp:c.hp,maxHp:c.maxHp,shield:c.shield,isMercenary:!!c.isMercenary,ownerId:c.ownerId})),B:b.map(c=>({id:c.id,hp:c.hp,maxHp:c.maxHp,shield:c.shield}))});
     combatGroup++;
     if(blocking){lastCardCombatMs=atMs;nextCombatMs=atMs+durationMs;lastCardGaugeClock=clock;}
   };
@@ -1185,6 +1195,17 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     lastCardCombatMs=Math.max(lastCardCombatMs,combatMs);
   };
   while (targetableAlive(a).length && (targetableAlive(b).length || pendingMonsters.length || sustained&&!sustained.bossSpawned) && actionCount < maxActions && (!durationLimit || clock < durationLimit)) {
+    // Replaying the same seed preserves the entire prefix before a departure.
+    // Withdrawal cannot trigger survival/revival; that owner's actors stay gone.
+    while(withdrawals.length&&withdrawals[0].atMs<=nextCombatMs){
+      const departed=withdrawals.shift(),from=timeline.length;
+      for(const c of a.filter(c=>c.ownerId===departed.ownerId)){
+        c.hp=0;c.shield=0;c.alive=false;c.gauge=0;c.untargetable=true;
+        emitTimeline(timeline,clock,'KO',{targetId:c.id,withdrawn:true,ownerId:c.ownerId});
+      }
+      stampCombatGroup(from,departed.atMs,false);
+    }
+    if(!targetableAlive(a).length)break;
     if(sustained&&!targetableAlive(b).length&&!sustained.bossSpawned){
       if(maxCombatDurationMs<sustained.nextAt){combatMs=nextCombatMs=maxCombatDurationMs;durationStopped=true;break;}
       if(chipActor&&nextChipMs()<sustained.nextAt){resolveChipStep();continue;}
@@ -1625,6 +1646,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     ...(mercenaryActionCount?{mercenaryActions:mercenaryActionCount}:{}),
     duration: Number(clock.toFixed(3)),
     timeline,
+    ...(cooperative?{combatStates}:{}),
     ...(season2Runtime?{magicSeason2:season2Runtime.snapshot()}:{}),
     healerPenalty: healerRules,
     final: {

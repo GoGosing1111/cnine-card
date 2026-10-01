@@ -4,12 +4,54 @@
   "account_id": "1e7c59450a8b6e34a9d87f92ca02aeaa",
   "main": "src/index.js",
   "compatibility_date": "2026-07-01",
-  "compatibility_flags": ["nodejs_compat"],
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
   "workers_dev": false,
   "preview_urls": false,
-  "placement": {"region": "aws:ap-southeast-1"},
-  "observability": {"enabled": true},
-  "hyperdrive": [{"binding": "HYPERDRIVE", "id": "12ed48b0fb374f82a610cc1daba92e95"}],
-  "d1_databases": [{"binding": "DB", "database_name": "cnine-card-db", "database_id": "cdbb411c-f9c5-47fa-8194-9f28d5905aa3"}],
-  "durable_objects": {"bindings": [{"name": "USER_LOCK", "class_name": "UserMutationLock", "script_name": "cnine-card-user-lock"}]}
+  "placement": {
+    "region": "aws:ap-southeast-1"
+  },
+  "observability": {
+    "enabled": true
+  },
+  "hyperdrive": [
+    {
+      "binding": "HYPERDRIVE",
+      "id": "12ed48b0fb374f82a610cc1daba92e95"
+    }
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "cnine-card-db",
+      "database_id": "cdbb411c-f9c5-47fa-8194-9f28d5905aa3"
+    }
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "USER_LOCK",
+        "class_name": "UserMutationLock",
+        "script_name": "cnine-card-user-lock"
+      },
+      {
+        "name": "COOP_ROOMS",
+        "class_name": "CooperativeRoom"
+      },
+      {
+        "name": "COOP_PLAYERS",
+        "class_name": "CooperativePlayer"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "cooperative-battleground-v1",
+      "new_sqlite_classes": [
+        "CooperativeRoom",
+        "CooperativePlayer"
+      ]
+    }
+  ]
 }

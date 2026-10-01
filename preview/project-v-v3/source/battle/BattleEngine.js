@@ -1811,7 +1811,7 @@ class BaseBattleEngine{
 
     const legion=payload?.battleV2?.rules?.enemyFormation==='BOSS_WITH_SIX_MINIONS';
     const duo=payload?.battleV2?.rules?.formation==='DUO_TWO_SQUADS';
-    this.ensureAllyCapacity(duo?10:5);this.ensureEnemyCapacity(duo?10:legion?7:5);
+    this.ensureAllyCapacity(duo?10:payload?.battleV2?.rules?.formation==='COOP_THREE_SQUADS'?6:5);this.ensureEnemyCapacity(duo?10:legion?7:5);
     for(const actor of this.characters)if(actor.apocalypseStatusLabel){actor.apocalypseStatusLabel.text='';actor.apocalypseStatusLabel.visible=false;}
     const allyCards=Array.isArray(payload?.battleV2?.teams?.A?.cards)?payload.battleV2.teams.A.cards:[];
     const enemyCards=Array.isArray(payload?.battleV2?.teams?.B?.cards)
@@ -2659,10 +2659,11 @@ class BaseBattleEngine{
     configureDamageText(damageLabel,{kind:roleKind,damage,critical,healing,hitCount,hitValues:combo?[]:null,compact:this.mobile});
     // Keep the taller combo readout inside the existing battlefield viewport.
     const damageY=combo?Math.max(190,victimView.y-340):victimView.y-340;
-    const damageX=combo?clamp(impact.x,200,this.scene.width-200):impact.x;
+    const damageMargin=this.formationCoop?Math.max(200,damageLabel.getLocalBounds().width*.6+24):200;
+    const damageX=combo||this.formationCoop?clamp(impact.x,damageMargin,this.scene.width-damageMargin):impact.x;
     damageLabel.position.set(damageX,damageY);damageLabel.visible=true;this.uiLayer.addChild(damageLabel);
     if(roleKind===SKILL_EFFECT_KIND.HP&&damageLabel.healLabel){
-      damageLabel.healLabel.position.set(actor.baseX-impact.x,actor.baseY-165-(victimView.y-340));
+      damageLabel.healLabel.position.set(actor.baseX-damageX,actor.baseY-165-(victimView.y-340));
     }
     const effectPoint=roleKind===SKILL_EFFECT_KIND.HP?{x:actor.baseX,y:actor.baseY-176}:impact;
     // An advancement activation replaces the normal role atlas for this one

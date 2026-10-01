@@ -37,7 +37,7 @@ export const withMercenaryBattle=Base=>class extends Base{
  clearMercenaryActors(){this.mercenaryEpoch=(this.mercenaryEpoch||0)+1;this.cancelTimelines?.();clearCryvernActors(this);clearBerkanActors(this);this.mercenaryFx?.destroy();this.mercenaryFx=null;for(const a of this.mercenaries||[]){this.characters=this.characters.filter(c=>c!==a);a.destroy();}this.mercenaries=[];this.setFormationMercenaries([]);}
  async applyBattlePayload(payload){
   this.clearMercenaryActors();const epoch=this.mercenaryEpoch,result=await super.applyBattlePayload(payload);const entries=['A','B'].flatMap(side=>(payload?.battleV2?.teams?.[side]?.mercenaries||[]).map(card=>({side,card})));
-  const limit=payload?.battleV2?.rules?.formation==='DUO_TWO_SQUADS'?2:1;
+  const limit=payload?.battleV2?.rules?.formation==='COOP_THREE_SQUADS'?3:payload?.battleV2?.rules?.formation==='DUO_TWO_SQUADS'?2:1;
   if(!entries.length)return result;if(entries.filter(e=>e.side==='A').length>limit||entries.filter(e=>e.side==='B').length>limit)throw Error('MAX_ONE_MERCENARY_PER_SIDE');
   if(entries.some(({card})=>card.cardId===BERKAN_CODE||card.code===BERKAN_CODE||card.skills?.some(s=>[BERKAN_SKILL_ID,BERKAN_AREA_SKILL_ID].includes(s.id))))await preloadBerkan();
   if(entries.some(({card})=>card.cardId==='V-050'||card.code==='V-050'||card.skills?.some(s=>s.mechanic==='EMERALD_ANTIMATERIEL')))await preloadSniperOrikkung();

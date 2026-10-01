@@ -1,3 +1,4 @@
+import {handleCooperative,cooperativeStream} from '../_cooperative_live.js';
 import {coupLiveOperation} from '../_coup_live_operation.js';
 import {createRequestSettingsCache} from '../_request_settings_cache.js';
 import {forwardApiRuntimeRequest} from '../_api_runtime_transport.js';
@@ -5425,6 +5426,7 @@ async function handleRequest(context){
     const evolutionResponse=await handleEvolution({path,request,env,deps:{authenticate,readBody,json,isAdminRole,profile,shardReward:SHARD_REWARD}});if(evolutionResponse)return evolutionResponse;
     const captainResponse=await handleCaptain({path,request,env,deps:{authenticate,readBody,json,isAdminRole,pvpDeckSnapshot,battleSettings,cardBattlePower,cardUniqueDeckState,cardUniqueDeckStates,cardUniqueSettings,grantWeeklyPremiumCube,userEquipmentBonuses,grantEquipmentDrop,rollBlackMiracleDrop,publicEquippedTitleMap}});if(captainResponse)return captainResponse;
     const blackMiracleAdminResponse=await handleBlackMiracleAdmin({path,request,env,deps:{authenticate,readBody,json}});if(blackMiracleAdminResponse)return blackMiracleAdminResponse;
+    const cooperativeResponse=await handleCooperative({path,request,env,deps:{authenticate,json,battleSettings,cardBattlePower,cardUniqueDeckState,userEquipmentBonuses,withUserMutationLock:withJointUserMutationLock}});if(cooperativeResponse)return cooperativeResponse;
     const lichRaidResponse=await handleLichRaid({path,request,env,deps:{authenticate,json,raidDeckPower,withUserMutationLock:withJointUserMutationLock}});if(lichRaidResponse)return lichRaidResponse;
     const coreRaidResponse=await handleRaidCoreProtocol({path,request,env,deps:{authenticate,readBody,json,raidDeckPower,createPveBattleV2,profile,writeAdminLog}});if(coreRaidResponse)return coreRaidResponse;
     const sealBattleResponse=await handleSealBattle({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog,raidDeckPower,columnExists,resolveUniqueBattleRuntime,selectActivatedUltimate,uniqueBattleResponsePayload}});if(sealBattleResponse)return sealBattleResponse;
@@ -9616,6 +9618,7 @@ export async function onRequest(context){
   if(context.env?.API_RUNTIME&&new URL(context.request.url).hostname==='cnine-card.pages.dev'&&context.env?.API_RUNTIME_DISABLED!=='1')return forwardApiRuntimeRequest(context);
   const requestUrl=new URL(context.request.url);
   const requestPath=requestUrl.pathname.replace(/^\/api\/?/,'');
+  if(requestPath==='coop/stream'&&context.env?.DB_MIGRATION_FREEZE!=='1')return cooperativeStream(context.request,context.env);
   const migrationFrozen=String(context.env?.DB_MIGRATION_FREEZE||'').trim()==='1';
   const freezeExempt=context.request.method==='OPTIONS'||requestPath==='service/status'||requestPath==='health';
   if(migrationFrozen&&!freezeExempt){

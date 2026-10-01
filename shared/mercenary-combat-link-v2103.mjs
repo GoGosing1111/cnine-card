@@ -38,12 +38,12 @@ export const mercenaryPvpTierOffense=actor=>actor.isMercenary&&actor.battleMode=
 // otherwise a lower-rank capped skill erases the entire defensive correction.
 export const mercenaryDamageCapHp=target=>(target.maxHp+(target.isMercenary?Number(target.mercenaryLink?.openingShield)||0:0))/(target.isMercenary?Math.max(1,Number(target.mercenaryLink?.tierGuard)||1):1);
 
-export function applyMercenaryCombatLink(teams){
+export function applyMercenaryCombatLink(teams,{regularCardsPerOwner=5}={}){
  const formations=teams.flatMap(team=>team.some(c=>c.ownerId)?[...new Set(team.map(c=>c.ownerId))].map(ownerId=>team.filter(c=>c.ownerId===ownerId)):[team]);
  for(const team of formations){
   const cards=team.filter(c=>!c.isMercenary&&!c.isMonster&&!c.isBattleSuit&&c.actorKind!=='BATTLE_SUIT');
-  if(cards.length!==5)continue;
-  const averageAttack=cards.reduce((sum,c)=>sum+c.attack,0)/5,averageHp=cards.reduce((sum,c)=>sum+c.maxHp,0)/5;
+  if(cards.length!==regularCardsPerOwner)continue;
+  const averageAttack=cards.reduce((sum,c)=>sum+c.attack,0)/cards.length,averageHp=cards.reduce((sum,c)=>sum+c.maxHp,0)/cards.length;
   if(!Number.isFinite(averageAttack)||!Number.isFinite(averageHp)||averageAttack<=0||averageHp<=0)continue;
   for(const m of team.filter(c=>c.isMercenary&&c.statMode==='RANK_FIXED')){
    const rule=MERCENARY_COMBAT_LINK.ranks[m.rank];if(!rule||m.alive===false||m.hp<=0||m.mercenaryLink?.version===MERCENARY_COMBAT_LINK.version)continue;

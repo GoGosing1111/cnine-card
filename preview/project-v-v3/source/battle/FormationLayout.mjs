@@ -108,3 +108,13 @@ export function bounds(mobile = false, mode = 'wide', options = {}) {
   const bottom = Math.max(...points.map(p => p.y)) + c.tileHeight / 2;
   return {left, right, top, bottom, width: right - left, height: bottom - top};
 }
+
+// Shared lattice expansion for three independent two-card + mercenary squads.
+export const COOP_BOARDS=Object.freeze(Object.fromEntries(Object.entries(FORMATION_LATTICES).map(([key,b])=>[key,{...b,actorScale:key==='compact'?.65:.5}])));
+export function coopStation(kind,index,team,compact=false){
+ const b=COOP_BOARDS[compact?'compact':'desktop'];
+ if(team==='ENEMY')return {x:b.left+(compact?4:4)*b.columnPitch,y:b.top+b.rowPitch};
+ const merc=kind==='mercenaries';
+ if(!['cards','mercenaries'].includes(kind)||!Number.isInteger(index)||index<0||index>=(merc?3:6))throw Error('INVALID_COOP_STATION');
+ return {x:b.left+(merc?1:(index%2)*2)*b.columnPitch,y:b.top+(merc?index:Math.floor(index/2))*b.rowPitch};
+}

@@ -3,7 +3,7 @@
 
   const root = window;
   const VERSION = '3.37.0-fluid-combat';
-  const BATTLE_RUNTIME = '20260930-speed-combo';
+  const BATTLE_RUNTIME = '20261001-coop-v1';
   let battleRuntimeRefresh = null;
   async function ensureCurrentBattleRuntime({effects=false}={}) {
     const ready=()=>root.ProjectVPixiBattle?.runtimeVersion===BATTLE_RUNTIME&&(!effects||Boolean(root.ProjectVPixiBattle.fxRuntime));
@@ -368,8 +368,23 @@
     const owners = [...stage.querySelectorAll('.battle-v3-versus span')].map(node => String(node.textContent || '').trim());
     let shown = 0;
     const duo=payload?.battleV2?.rules?.formation==='DUO_TWO_SQUADS';
+    const cooperative=payload?.battleV2?.rules?.formation==='COOP_THREE_SQUADS';
     roster.querySelectorAll('[data-v3-duo-extra]').forEach(node=>node.remove());
+    roster.classList.toggle('is-cooperative',cooperative);
     roster.classList.toggle('is-duo',duo);stage.classList.toggle('is-duo-battle',duo);
+    if(cooperative){
+      const original=roster.querySelector('[data-v3-roster-side="A"]');
+      roster.querySelector('[data-v3-roster-side="B"]').hidden=true;
+      for(let squad=0;squad<3;squad++){
+        const section=squad?original.cloneNode(true):original;
+        if(squad){section.dataset.v3DuoExtra='1';roster.append(section);}
+        const member=teams.A.members[squad];section.hidden=false;
+        section.querySelector('[data-v3-roster-label]').textContent=`분대 ${squad+1}`;
+        section.querySelector('[data-v3-roster-owner]').textContent=member.ownerName;
+        section.querySelector('[data-v3-roster-list]').innerHTML=teams.A.cards.filter(c=>c.squadIndex===squad).map((c,i)=>rosterCardHtml(c,i,catalog)).join('');
+      }
+      roster.hidden=false;stage.classList.add('is-roster-visible');ensureRosterGeometry(roster);return 3;
+    }
     if(duo){
       const originals=['A','B'].map(side=>roster.querySelector(`[data-v3-roster-side="${side}"]`));
       for(let squad=0;squad<2;squad++)for(const [i,side]of ['A','B'].entries()){

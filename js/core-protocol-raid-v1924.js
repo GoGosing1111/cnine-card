@@ -26,7 +26,7 @@
   let viewedRoomId = '';
   let browseMode = false;
   let loadRevision = 0;
-  let activeTab = ['core', 'lich'].includes(sessionStorage.getItem(TAB_KEY)) ? sessionStorage.getItem(TAB_KEY) : 'world';
+  let activeTab = ['core', 'lich', 'coop'].includes(sessionStorage.getItem(TAB_KEY)) ? sessionStorage.getItem(TAB_KEY) : 'world';
   let activationRevision = 0;
   let pollTimer = null;
   let lastError = null;
@@ -773,7 +773,7 @@
   async function activate(tab = 'world') {
     activationRevision++;
     const previousTab = activeTab;
-    activeTab = tab === 'lich' && globalThis.LichKingRaidEntry?.isVisible() ? 'lich' :
+    activeTab = tab === 'coop' && globalThis.CooperativeBattleground?.isVisible() ? 'coop' : tab === 'lich' && globalThis.LichKingRaidEntry?.isVisible() ? 'lich' :
       tab === 'core' && feature?.visible === true ? 'core' : 'world';
     sessionStorage.setItem(TAB_KEY, activeTab);
     const legacy = document.getElementById('pveRaidView');
@@ -785,6 +785,7 @@
     });
     if (legacy) legacy.hidden = activeTab !== 'world';
     if (core) core.hidden = activeTab !== 'core';
+    if (activeTab !== 'coop') globalThis.CooperativeBattleground?.deactivate();
     if (activeTab !== 'lich') globalThis.LichKingRaidEntry?.deactivate();
     stopPoll();
     if (activeTab === 'world') {
@@ -792,6 +793,7 @@
       return;
     }
     bridge()?.stopLegacyRaid?.();
+    if (activeTab === 'coop') { await globalThis.CooperativeBattleground.open(); return; }
     if (activeTab === 'lich') {
       await globalThis.LichKingRaidEntry.open();
       return;
@@ -815,7 +817,7 @@
     if (!wire()) return false;
     const revision = activationRevision;
     try {
-      await Promise.all([loadFeature(), globalThis.LichKingRaidEntry?.refresh()]);
+      await Promise.all([loadFeature(), globalThis.LichKingRaidEntry?.refresh(), globalThis.CooperativeBattleground?.refresh()]);
     } catch (error) {
       console.warn('[CORE RAID] feature gate unavailable', error);
       feature = { visible: false, accessible: false };
@@ -826,6 +828,7 @@
 
   function deactivate() {
     activationRevision++;
+    globalThis.CooperativeBattleground?.deactivate();
     globalThis.LichKingRaidEntry?.deactivate();
     stopPoll();
     void abandonActive().catch(() => {});
