@@ -1,0 +1,264 @@
+{
+  "receipt": {
+    "operationKey": "ops:soopland-bj-cheetah-plus15:20261002:v1",
+    "status": "COMPLETED",
+    "actor": "SYSTEM_OPS",
+    "card": {
+      "id": "CN-5D0E2E4D58C9416F",
+      "title": "치타구",
+      "grade": "FUR"
+    },
+    "excluded": {
+      "id": 1,
+      "nickname": "핑크빛유두"
+    },
+    "targets": [
+      {
+        "userId": 4718,
+        "nickname": "강구열",
+        "slot": "강구열",
+        "levelBefore": 13,
+        "levelAfter": 15,
+        "quantityBefore": 312,
+        "quantityAfter": 312,
+        "changed": true,
+        "adminLogId": "39192"
+      },
+      {
+        "userId": 4754,
+        "nickname": "조은",
+        "slot": "조은",
+        "levelBefore": 13,
+        "levelAfter": 15,
+        "quantityBefore": 213,
+        "quantityAfter": 213,
+        "changed": true,
+        "adminLogId": "39193"
+      },
+      {
+        "userId": 4773,
+        "nickname": "진짜디임",
+        "slot": "진짜디임",
+        "levelBefore": 13,
+        "levelAfter": 15,
+        "quantityBefore": 134,
+        "quantityAfter": 134,
+        "changed": true,
+        "adminLogId": "39194"
+      },
+      {
+        "userId": 4913,
+        "nickname": "오리꿍",
+        "slot": "오리꿍",
+        "levelBefore": 13,
+        "levelAfter": 15,
+        "quantityBefore": 33,
+        "quantityAfter": 33,
+        "changed": true,
+        "adminLogId": "39195"
+      },
+      {
+        "userId": 4977,
+        "nickname": "하이희야♡",
+        "slot": "하이희야♡",
+        "levelBefore": 13,
+        "levelAfter": 15,
+        "quantityBefore": 7,
+        "quantityAfter": 7,
+        "changed": true,
+        "adminLogId": "39196"
+      },
+      {
+        "userId": 5209,
+        "nickname": "김아윤",
+        "slot": "김아윤",
+        "levelBefore": 13,
+        "levelAfter": 15,
+        "quantityBefore": 58,
+        "quantityAfter": 58,
+        "changed": true,
+        "adminLogId": "39197"
+      },
+      {
+        "userId": 5393,
+        "nickname": "주성",
+        "slot": "주성",
+        "levelBefore": 13,
+        "levelAfter": 15,
+        "quantityBefore": 3,
+        "quantityAfter": 3,
+        "changed": true,
+        "adminLogId": "39198"
+      },
+      {
+        "userId": 5426,
+        "nickname": "나무늘봉순",
+        "slot": "나무늘봉순",
+        "levelBefore": 13,
+        "levelAfter": 15,
+        "quantityBefore": 43,
+        "quantityAfter": 43,
+        "changed": true,
+        "adminLogId": "39199"
+      }
+    ],
+    "accounts": 8,
+    "changed": 8,
+    "balancesPreserved": true,
+    "excludedPreserved": true,
+    "completedAt": "2026-10-01T19:39:28.995Z",
+    "committed": true,
+    "replayed": false
+  },
+  "verified": {
+    "operationKey": "ops:soopland-bj-cheetah-plus15:20261002:v1",
+    "status": "VERIFIED",
+    "actor": "SYSTEM_OPS",
+    "card": {
+      "id": "CN-5D0E2E4D58C9416F",
+      "title": "치타구",
+      "grade": "FUR"
+    },
+    "excluded": {
+      "id": 1,
+      "nickname": "핑크빛유두"
+    },
+    "targets": [
+      {
+        "userId": 4718,
+        "nickname": "강구열",
+        "slot": "강구열",
+        "levelBefore": 13,
+        "levelAfter": 15,
+        "quantityBefore": 312,
+        "quantityAfter": 312,
+        "changed": true,
+        "adminLogId": "39192"
+      },
+      {
+        "userId": 4754,
+        "nickname": "조은",
+        "slot": "조은",
+        "levelBefore": 13,
+        "levelAfter": 15,
+        "quantityBefore": 213,
+        "quantityAfter": 213,
+        "changed": true,
+        "adminLogId": "39193"
+      },
+      {
+        "userId": 4773,
+        "nickname": "진짜디임",
+        "slot": "진짜디임",
+        "levelBefore": 13,
+        "levelAfter": 15,
+        "quantityBefore": 134,
+        "quantityAfter": 134,
+        "changed": true,
+        "adminLogId": "39194"
+      },
+      {
+        "userId": 4913,
+        "nickname": "오리꿍",
+        "slot": "오리꿍",
+        "levelBefore": 13,
+        "levelAfter": 15,
+        "quantityBefore": 33,
+        "quantityAfter": 33,
+        "changed": true,
+        "adminLogId": "39195"
+      },
+      {
+        "userId": 4977,
+        "nickname": "하이희야♡",
+        "slot": "하이희야♡",
+        "levelBefore": 13,
+        "levelAfter": 15,
+        "quantityBefore": 7,
+        "quantityAfter": 7,
+        "changed": true,
+        "adminLogId": "39196"
+      },
+      {
+        "userId": 5209,
+        "nickname": "김아윤",
+        "slot": "김아윤",
+        "levelBefore": 13,
+        "levelAfter": 15,
+        "quantityBefore": 58,
+        "quantityAfter": 58,
+        "changed": true,
+        "adminLogId": "39197"
+      },
+      {
+        "userId": 5393,
+        "nickname": "주성",
+        "slot": "주성",
+        "levelBefore": 13,
+        "levelAfter": 15,
+        "quantityBefore": 3,
+        "quantityAfter": 3,
+        "changed": true,
+        "adminLogId": "39198"
+      },
+      {
+        "userId": 5426,
+        "nickname": "나무늘봉순",
+        "slot": "나무늘봉순",
+        "levelBefore": 13,
+        "levelAfter": 15,
+        "quantityBefore": 43,
+        "quantityAfter": 43,
+        "changed": true,
+        "adminLogId": "39199"
+      }
+    ],
+    "accounts": 8,
+    "changed": 8,
+    "balancesPreserved": true,
+    "excludedPreserved": true,
+    "completedAt": "2026-10-01T19:39:28.995Z",
+    "current": [
+      {
+        "userId": 4718,
+        "level": 15,
+        "quantity": 312
+      },
+      {
+        "userId": 4754,
+        "level": 15,
+        "quantity": 213
+      },
+      {
+        "userId": 4773,
+        "level": 15,
+        "quantity": 134
+      },
+      {
+        "userId": 4913,
+        "level": 15,
+        "quantity": 33
+      },
+      {
+        "userId": 4977,
+        "level": 15,
+        "quantity": 7
+      },
+      {
+        "userId": 5209,
+        "level": 15,
+        "quantity": 58
+      },
+      {
+        "userId": 5393,
+        "level": 15,
+        "quantity": 3
+      },
+      {
+        "userId": 5426,
+        "level": 15,
+        "quantity": 43
+      }
+    ]
+  }
+}
