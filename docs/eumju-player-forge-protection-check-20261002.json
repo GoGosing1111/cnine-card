@@ -1,0 +1,223 @@
+{
+  "checkedAt": "2026-10-01T17:45:36.091Z",
+  "readOnly": true,
+  "user": {
+    "id": "4757",
+    "nickname": "음주플레이어",
+    "status": "ACTIVE"
+  },
+  "playdkId": "0c8c8f1c",
+  "finding": "CONFIGURED_ON_ATTEMPT_THREE_TICKETS_NOT_DUPLICATE_DEBIT",
+  "operation": {
+    "request_id": "9d84a435-6e53-48d1-8df4-f748ddaf6e81",
+    "kind": "FORGE_ENHANCE",
+    "status": "COMPLETED",
+    "created_at": "2026-10-01T17:35:49.463Z",
+    "completed_at": "2026-10-01T17:35:49.491Z",
+    "plan": {
+      "kind": "ENHANCE",
+      "item": {
+        "instanceId": "1401495835",
+        "equipmentId": "32",
+        "name": "미스틱 레깅스",
+        "code": "EQ_1787156640727",
+        "slot": "BOTTOM",
+        "grade": "MYTHIC",
+        "subtype": "BOTTOM",
+        "image": "/assets\\items\\sovereign-bottom-v1.webp",
+        "level": 9,
+        "revision": 1,
+        "basePower": {
+          "total": 50000,
+          "pve": 45000,
+          "pvp": 5000
+        }
+      },
+      "recordId": null,
+      "cost": {
+        "level": 9,
+        "successPpm": 100000,
+        "maintainPpm": 750000,
+        "destroyPpm": 150000,
+        "coinCost": 15000000000,
+        "itemCode": "MASTER_STAR",
+        "itemQuantity": 150000,
+        "protectionQuantity": 3,
+        "itemName": "마스터의 별",
+        "itemImage": ""
+      },
+      "protectedAttempt": true,
+      "protection": {
+        "itemCode": "EQUIPMENT_PROTECTION_TICKET",
+        "consume": "ON_ATTEMPT",
+        "sources": [
+          {
+            "content": "TOWER",
+            "enabled": true,
+            "chancePpm": 10000,
+            "quantity": 1
+          },
+          {
+            "content": "SCRAPYARD",
+            "enabled": true,
+            "chancePpm": 9998,
+            "quantity": 1
+          },
+          {
+            "content": "COW_ROOM",
+            "enabled": true,
+            "chancePpm": 10000,
+            "quantity": 1
+          }
+        ]
+      },
+      "policyVersion": "forge-runtime-draft-20260913",
+      "policyRevision": 6,
+      "quoteId": "856e78d7-23a6-42cc-af44-ac2054cfc00a",
+      "rolled": "MAINTAIN",
+      "outcome": "MAINTAIN",
+      "nextLevel": 9
+    }
+  },
+  "quote": {
+    "quote_id": "856e78d7-23a6-42cc-af44-ac2054cfc00a",
+    "kind": "ENHANCE",
+    "expires_at": "2026-10-01T17:37:44.087Z",
+    "consumed_by": "9d84a435-6e53-48d1-8df4-f748ddaf6e81",
+    "plan": {
+      "kind": "ENHANCE",
+      "item": {
+        "instanceId": "1401495835",
+        "equipmentId": "32",
+        "name": "미스틱 레깅스",
+        "code": "EQ_1787156640727",
+        "slot": "BOTTOM",
+        "grade": "MYTHIC",
+        "subtype": "BOTTOM",
+        "image": "/assets\\items\\sovereign-bottom-v1.webp",
+        "level": 9,
+        "revision": 1,
+        "basePower": {
+          "total": 50000,
+          "pve": 45000,
+          "pvp": 5000
+        }
+      },
+      "recordId": null,
+      "cost": {
+        "level": 9,
+        "successPpm": 100000,
+        "maintainPpm": 750000,
+        "destroyPpm": 150000,
+        "coinCost": 15000000000,
+        "itemCode": "MASTER_STAR",
+        "itemQuantity": 150000,
+        "protectionQuantity": 3,
+        "itemName": "마스터의 별",
+        "itemImage": ""
+      },
+      "protectedAttempt": true,
+      "protection": {
+        "itemCode": "EQUIPMENT_PROTECTION_TICKET",
+        "consume": "ON_ATTEMPT",
+        "sources": [
+          {
+            "content": "TOWER",
+            "enabled": true,
+            "chancePpm": 10000,
+            "quantity": 1
+          },
+          {
+            "content": "SCRAPYARD",
+            "enabled": true,
+            "chancePpm": 9998,
+            "quantity": 1
+          },
+          {
+            "content": "COW_ROOM",
+            "enabled": true,
+            "chancePpm": 10000,
+            "quantity": 1
+          }
+        ]
+      },
+      "policyVersion": "forge-runtime-draft-20260913",
+      "policyRevision": 6
+    }
+  },
+  "ticketDebit": {
+    "id": "42705575",
+    "change_amount": "-3",
+    "balance_after": "0",
+    "reason": "장비 보호",
+    "reference_type": "V3_JOINT",
+    "reference_id": "9d84a435-6e53-48d1-8df4-f748ddaf6e81",
+    "created_at": "2026-10-01 17:35:49"
+  },
+  "ticketInventory": [
+    {
+      "quantity": "0",
+      "unseen_quantity": "0"
+    }
+  ],
+  "release": {
+    "sha256": "9de3ec4ba6456e50d7cc8566617cad17b2d44613caa1454ae9681fc48722939e",
+    "policyVersion": "forge-runtime-draft-20260913",
+    "protection": {
+      "itemCode": "EQUIPMENT_PROTECTION_TICKET",
+      "consume": "ON_ATTEMPT",
+      "sources": [
+        {
+          "content": "TOWER",
+          "enabled": true,
+          "chancePpm": 10000,
+          "quantity": 1
+        },
+        {
+          "content": "SCRAPYARD",
+          "enabled": true,
+          "chancePpm": 9998,
+          "quantity": 1
+        },
+        {
+          "content": "COW_ROOM",
+          "enabled": true,
+          "chancePpm": 10000,
+          "quantity": 1
+        }
+      ]
+    },
+    "step9": {
+      "level": 8,
+      "successPpm": 150000,
+      "maintainPpm": 700000,
+      "destroyPpm": 150000,
+      "coinCost": 9000000000,
+      "itemCode": "MASTER_STAR",
+      "itemQuantity": 110000,
+      "protectionQuantity": 1
+    },
+    "step10": {
+      "level": 9,
+      "successPpm": 100000,
+      "maintainPpm": 750000,
+      "destroyPpm": 150000,
+      "coinCost": 15000000000,
+      "itemCode": "MASTER_STAR",
+      "itemQuantity": 150000,
+      "protectionQuantity": 3
+    }
+  },
+  "publicSettings": {
+    "schemaVersion": 1,
+    "revision": 2,
+    "publicVisible": true,
+    "executionMode": "ON",
+    "notice": "장비 강화·보호·복구가 오픈되었습니다. +1~+6 파괴 확률은 0%입니다. 보호권은 +9 도전 1장, +10 도전 3장이 시도마다 소모됩니다. 복구는 핑두 리페어 쿠폰 1장 + 1,000억 코인으로 파괴 직전 단계에 복구하며 기한은 없습니다.",
+    "updatedAt": "2026-09-22T15:11:45.598Z",
+    "updatedBy": 1,
+    "requestId": "1ca98a91-a2a7-42e0-a404-dc18a4c9ac09"
+  },
+  "temporaryHelperStopped": true,
+  "temporaryKeyRemoved": true
+}
