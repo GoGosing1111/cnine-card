@@ -1,4 +1,3 @@
-import { ensureAdministrationTreasuryFoundation,shopTaxStatements } from './_administration_treasury.js';
 import { readRuntimeData,cacheRuntimeData } from './_runtime_data_cache.js';
 
 const SETTINGS_KEY = "superstar_pack_settings_v1";
@@ -342,7 +341,6 @@ export async function handleSuperstarPackDraw({ request, env, deps }) {
       drawProtocol: { version: 2, status: "COMPLETED", revealMode: "SWIPE",count },
     };
 
-    await ensureAdministrationTreasuryFoundation(env);
     const guarded = "EXISTS(SELECT 1 FROM superstar_pack_debits_v1 d WHERE d.request_id=? AND d.user_id=?)";
     const statements=[];
     // Lock the wallet before validating a snapshot under PostgreSQL READ COMMITTED.
@@ -390,11 +388,7 @@ export async function handleSuperstarPackDraw({ request, env, deps }) {
           .bind(user.id, shardGained, count===1?results[0].card?.id||null:null, user.id, requestId, user.id),
       );
     }
-    statements.push(...shopTaxStatements(env,{
-      sourceType:'CARD_PACK',sourceRequestId:`SUPERSTAR:${requestId}`,userId:user.id,grossCoin:cost,label:`SUPERSTAR 카드팩 ${count}회`,
-      guardSql:"EXISTS(SELECT 1 FROM superstar_pack_debits_v1 WHERE request_id=? AND user_id=?) AND EXISTS(SELECT 1 FROM superstar_pack_receipts_v1 WHERE request_id=? AND user_id=? AND status='PENDING')",
-      guardBindings:[requestId,user.id,requestId,user.id]
-    }));
+
     const finalConditions=[
       'EXISTS(SELECT 1 FROM users WHERE id=? AND coin=? AND card_shards=?)',
       'EXISTS(SELECT 1 FROM superstar_pack_debits_v1 WHERE request_id=? AND user_id=? AND cost=?)',

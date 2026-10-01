@@ -109,17 +109,7 @@ export async function settleRankedHunt(env,userId,source,eventId,coin,reason){
   return env.DB.batch(writes);
 }
 
-export async function accountRankIdleSettlement(env,userId,row,next,now){
-  await ensureAccountRank(env);
-  const table='account_rank_idle_cursor_v1';
-  // First observation establishes a fresh baseline: pre-release offline time is not XP.
-  await env.DB.prepare(`INSERT INTO ${table}(user_id,settled_at) VALUES(?,?) ON CONFLICT(user_id) DO NOTHING`).bind(userId,new Date(now).toISOString()).run();
-  const cursor=await env.DB.prepare(`SELECT settled_at FROM ${table} WHERE user_id=?`).bind(userId).first();
-  const end=Date.parse(next.last_settled_at),start=Math.max(Date.parse(cursor.settled_at),Date.parse(row.run_started_at||cursor.settled_at),Number(next.rankSettlementCutoff||0));
-  const ticks=row.run_started_at?Math.max(0,Math.floor((end-start)/1000)):0;
-  if(!ticks)return [];
-  const guard='EXISTS(SELECT 1 FROM idle_dungeon_progress WHERE user_id=? AND version=?) AND EXISTS(SELECT 1 FROM account_rank_idle_cursor_v1 WHERE user_id=? AND settled_at=?)';
-  const values=[userId,Number(row.version||0),userId,cursor.settled_at];
-  return [...await accountRankAward(env,userId,'IDLE',`${cursor.settled_at}:${next.last_settled_at}`,{ticks,guard,values}),
-    env.DB.prepare(`UPDATE ${table} SET settled_at=? WHERE user_id=? AND ${guard}`).bind(new Date(start+ticks*1000).toISOString(),userId,...values)];
+export async function accountRankIdleSettlement(){
+  // Retired expedition cannot award XP, including through stale internal callers.
+  return [];
 }

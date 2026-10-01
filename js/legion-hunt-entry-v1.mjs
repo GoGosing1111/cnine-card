@@ -133,5 +133,6 @@ export function syncLegionHuntNavigation(root=document,request=jointAccountReque
     }).catch(()=>{button.hidden=true;checkedNavigation.delete(button);});
   }
 }
+window.openLegionHunt=openLegionHunt;
 window.syncLegionHuntNavigation=syncLegionHuntNavigation;
 syncLegionHuntNavigation();

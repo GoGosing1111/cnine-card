@@ -2,7 +2,10 @@ import {jointAccountRequest as api} from '../js/joint-account-transport.mjs';
 import {createPveContinuousSession} from '../js/pve-continuous-session-v1.mjs';
 import {createTowerV3Session} from '../js/tower-v3-session.mjs';
 const nativeContent=new URL(location.href).searchParams.get('content');
-if(['cow-room','scrapyard'].includes(nativeContent)){
+if(nativeContent==='idle-dungeon'){
+ document.documentElement.style.visibility='hidden';
+ location.replace('/?screen=battle');
+}else if(['cow-room','scrapyard'].includes(nativeContent)){
  document.documentElement.style.visibility='hidden';
  const enter=new URL(location.href).searchParams.get('enter')==='1';
  location.replace(nativeContent==='scrapyard'?'/?screen=scrapyard':'/?screen=battle&pve=cow-room'+(enter?'&enter=1':''));

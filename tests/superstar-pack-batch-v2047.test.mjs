@@ -121,12 +121,12 @@ test('a live pending receipt remains protected when a different request ID confl
   f.sqlite.close();
 });
 
-test('10 independent misses atomically charge 3 billion once and collect the existing 1% tax',async()=>{
+test('10 independent misses atomically charge 3 billion once without collecting retired tax',async()=>{
   const f=fixture(),id=crypto.randomUUID(),first=await f.call(10,id,{expectedCost:3000000000});
   assert.equal(first.status,200);assert.equal(first.body.results.length,10);assert.equal(first.body.hitCount,0);
   assert.equal(first.body.cost,3000000000);assert.equal(f.user().coin,2000000000);assert.equal(f.user().card_shards,100);
   assert.equal(f.n('user_cards'),0);assert.equal(f.n('coin_logs'),1);assert.equal(f.n('superstar_pack_debits_v1'),1);
-  assert.equal(f.sqlite.prepare('SELECT balance FROM administration_treasury_v2030').get().balance,30000000);
+  assert.equal(f.sqlite.prepare('SELECT balance FROM administration_treasury_v2030').get().balance,0);
   assert.deepEqual(await f.call(10,id),first);assert.equal(f.user().coin,2000000000);
   f.sqlite.prepare('UPDATE app_meta SET value=? WHERE key=?').run(JSON.stringify({drawEnabled:false}),SETTINGS);
   assert.deepEqual(await f.call(10,id),first,'paid results are recoverable while OFF and after balance drops below cost');

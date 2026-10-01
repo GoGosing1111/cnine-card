@@ -1,5 +1,5 @@
 import './cow-room-portal.mjs?v=2093';
-const destinations=new Set(['tower','scrapyard','cow-room','idle-dungeon']);
+const destinations=new Set(['tower','scrapyard','cow-room']);
 const feature=fetch('/api/pve/v3/feature',{cache:'no-store'}).then(r=>r.ok?r.json():{enabled:false}).catch(()=>({enabled:false}));
 globalThis.PveV3Runtime={async tryOpen(content,options={}){
   // Scrapyard keeps its original production entry, controls and recovery flow.

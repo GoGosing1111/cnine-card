@@ -131,25 +131,14 @@ async function runTreasuryState({ calls = 1 } = {}) {
   return { log, response: last?.__json ?? null, lastCallTrips };
 }
 
-test('재정금고 state: 아무도 렌더링하지 않던 원장 풀스캔이 사라졌다', async () => {
-  const { log, response } = await runTreasuryState();
-  assert.equal(countMatching(log, /SELECT \* FROM administration_treasury_ledger_v2030/), 0, '원장 조회가 남아 있습니다');
-  assert.ok(response && response.ok, '정상 응답이어야 합니다');
-  assert.equal(response.ledger, undefined, 'ledger 필드는 더 이상 응답에 없어야 합니다');
-  // 응답의 나머지 계약은 그대로다.
-  for (const key of ['policy', 'account', 'access', 'chief', 'champion', 'events', 'limits', 'proposals', 'sources']) {
-    assert.ok(key in response, `${key} 필드가 유지되어야 합니다`);
-  }
+test('retired treasury state performs zero DB reads',async()=>{
+  const {log,response}=await runTreasuryState();
+  assert.equal(response.code,'TREASURY_RETIRED');assert.equal(log.roundTrips,0);
 });
 
-test('재정금고 state: 두 번째 폴링은 전역 조회를 다시 하지 않는다', async () => {
-  const { log, lastCallTrips } = await runTreasuryState({ calls: 2 });
-  assert.equal(lastCallTrips,3,'워밍 후 목 DB 호출은 3회');
-  assert.equal(countMatching(log, /clan_season_settlements/), 1, '챔피언 조회는 캐시되어야 합니다');
-  assert.equal(countMatching(log, /coin_prediction_events/), 1, '승부예측 이벤트 조회는 캐시되어야 합니다');
-  assert.equal(countMatching(log, /administration_tax_receipts_v2030/), 1, '세금 집계는 캐시되어야 합니다');
-  // 계정 잔액은 실시간이라 매번 읽어야 한다.
-  assert.equal(countMatching(log, /FROM administration_treasury_v2030 WHERE id=1/), 2, '금고 잔액은 캐시하면 안 됩니다');
+test('repeated retired treasury polling performs zero DB reads',async()=>{
+  const {log,lastCallTrips}=await runTreasuryState({calls:2});
+  assert.equal(lastCallTrips,0);assert.equal(log.roundTrips,0);
 });
 
 // ---------------------------------------------------------------- 소스 계약
@@ -207,11 +196,9 @@ test('소스 계약: 슈퍼스타팩 릴리스 마커가 메모되고 만료청�
   assert.match(src, /if \(Number\(expired\.meta\?\.changes \|\| 0\)\) claimed = await claimReceipt\(\)/,'다른 요청번호의 만료 충돌도 복구해야 한다');
 });
 
-test('소스 계약: 세금 집계 커버링 인덱스가 스키마에 있다', () => {
-  const src = read('functions/_administration_treasury.js');
-  assert.match(src, /idx_administration_tax_receipts_stat_v2030 ON \$\{TAX_RECEIPT_TABLE\}\(status,source_type,gross_coin,tax_coin\)/);
-  // 원장 기록(쓰기)은 그대로 남아 있어야 한다.
-  assert.match(src, /INTO \$\{LEDGER_TABLE\}\(reference_key/, '원장 기록 자체는 유지되어야 합니다');
+test('retired treasury never initializes tax schema or collects sales tax',()=>{
+  const src=read('functions/_administration_treasury.js');
+  assert.doesNotMatch(src,/CREATE TABLE|SHOP_TAX|shopTaxStatements/);
 });
 
 const depsFor = (body={},user={id:1,nickname:'검증',role:'USER'}) => ({
@@ -320,26 +307,11 @@ test('연금술: 연성 재료 점수와 보상은 화면 캐시가 아닌 최�
   assert.equal(countMatching(log,/FROM alchemy_reward_pool_v1 p/),1);
 });
 
-test('재정금고: 캐시된 우승 클랜 대신 상신 시점의 최신 우승 클랜을 지급 대상으로 고정한다',async()=>{
+test('retired treasury cannot submit a budget from a cached championship',async()=>{
   const {handleAdministrationTreasury}=await import('../functions/_administration_treasury.js');
-  let saved;
-  const {db}=createMockDb((sql,bindings,mode)=>{
-    if(/FROM app_meta/.test(sql))return {value:JSON.stringify({id:'chief',userId:1,startsAt:new Date(Date.now()-60000).toISOString(),endsAt:new Date(Date.now()+60000).toISOString()})};
-    if(/FROM users/.test(sql))return {id:1,nickname:'족장',status:'ACTIVE'};
-    if(/FROM administration_treasury_v2030/.test(sql))return {balance:100000,reserve_bps:2000};
-    if(/clan_season_settlements/.test(sql))return {season_id:2,season_no:2,champion_clan_id:8,clan_name:'새 우승 클랜'};
-    if(/COUNT\(\*\) count FROM clan_members/.test(sql))return {count:20};
-    return mode==='all'?[]:null;
-  });
-  const prepare=db.prepare;
-  db.prepare=sql=>{
-    const statement=prepare(sql);
-    if(/INSERT INTO administration_budget_proposals_v2030/.test(sql))statement.run=async()=>{saved=statement.bindings;return {meta:{changes:1}}};
-    return statement;
-  };
+  const {db,log}=createMockDb(()=>{throw Error('no budget lookup is allowed');});
   const env={DB:db,RUNTIME_DB_CACHE_SCOPE:{}};
-  cacheRuntimeData(env,'treasury:latest-champion',{seasonId:1,seasonNo:1,clanId:1,clanName:'이전 우승 클랜',memberCount:22},60000);
-  const result=await handleAdministrationTreasury({path:'administration/treasury/proposals',request:{method:'POST'},env,deps:depsFor({type:'TOP_CLAN_DIVIDEND',amount:1000,reason:'우승 클랜 보상',requestId:'treasury-fresh-champion'})});
-  assert.equal(result.status,200);
-  assert.deepEqual(saved.slice(10,13),[2,8,'새 우승 클랜']);
+  cacheRuntimeData(env,'treasury:latest-champion',{seasonId:1,clanId:1,memberCount:22},60000);
+  const result=await handleAdministrationTreasury({path:'administration/treasury/proposals',request:{method:'POST'},env,deps:depsFor({type:'TOP_CLAN_DIVIDEND',amount:1000})});
+  assert.equal(result.status,410);assert.equal(log.roundTrips,0);
 });

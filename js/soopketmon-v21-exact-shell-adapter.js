@@ -81,13 +81,13 @@
     inventory: Object.freeze({ title: '인벤토리', routes: Object.freeze(['inventory']) }),
     store: Object.freeze({ title: '카드·상점', routes: Object.freeze(['buy', 'lootShop']) }),
     collection: Object.freeze({ title: '도감·강화', routes: Object.freeze(['dex', 'mercenaryDex', 'upgrade', 'evolution', 'iconfusion', 'magic']) }),
-    pve: Object.freeze({ title: '모험 · PVE', routes: Object.freeze(['battle', 'deck', 'hunt', 'raid', 'escort', 'siege', 'seal', 'idle', 'tower', 'scrapyard']) }),
+    pve: Object.freeze({ title: '모험 · PVE', routes: Object.freeze(['battle', 'deck', 'hunt', 'legion', 'raid', 'escort', 'siege', 'seal', 'tower', 'scrapyard']) }),
     pvp: Object.freeze({ title: '대전 · PVP', routes: Object.freeze(['pvp', 'duo', 'rank', 'clanWar', 'clanFaction', 'clan', 'territory']) }),
     equipment: Object.freeze({ title: '장비·칭호·차고', routes: Object.freeze(['character', 'avatar']) }),
     crafting: Object.freeze({ title: '제작소', routes: Object.freeze(['vehicle', 'fusion', 'alchemy']) }),
     rewards: Object.freeze({ title: '보상', routes: Object.freeze(['attendance', 'dailyquest', 'messages', 'mineral', 'chuseok']) }),
     market: Object.freeze({ title: '승부·경매', routes: Object.freeze(['prediction', 'auction']) }),
-    administration: Object.freeze({ title: '행정부', routes: Object.freeze(['coup', 'treasury', 'soopketland', 'prison', 'prisoncamp']) })
+    administration: Object.freeze({ title: '행정부', routes: Object.freeze(['coup', 'soopketland', 'prison', 'prisoncamp']) })
   });
   const MENU_GROUP_ORDER = Object.freeze(['inventory', 'store', 'collection', 'pve', 'pvp', 'equipment', 'crafting', 'rewards', 'market', 'administration']);
   const HUB_GROUPS = Object.freeze({
@@ -111,7 +111,7 @@
     escort: Object.freeze({ title: '호송작전', group: 'pve', icon: 'swords' }),
     siege: Object.freeze({ title: '몬스터 공성전', group: 'pve', icon: 'swords' }),
     seal: Object.freeze({ title: '봉인전', group: 'pve', icon: 'magic' }),
-    idle: Object.freeze({ title: '방치형 원정', group: 'pve', icon: 'swords' }),
+    legion: Object.freeze({ title: '군단토벌', group: 'pve', icon: 'swords' }),
     tower: Object.freeze({ title: '무한의탑', group: 'pve', icon: 'rank' }),
     scrapyard: Object.freeze({ title: '폐차장 원정', group: 'pve', icon: 'forge' }),
     pvp: Object.freeze({ title: '랭크전', group: 'pvp', icon: 'swords' }),
@@ -140,7 +140,6 @@
     auction: Object.freeze({ title: '경매장', group: 'market', icon: 'auction' }),
     inventory: Object.freeze({ title: '인벤토리', group: 'inventory', icon: 'inventory' }),
     soopketland: Object.freeze({ title: '숲켓랜드', group: 'administration', icon: 'gift' }),
-    treasury: Object.freeze({ title: '세금징수', group: 'administration', icon: 'treasury' }),
     prison: Object.freeze({ title: '감옥', group: 'administration', icon: 'prison' }),
     prisoncamp: Object.freeze({ title: '포로수용소', group: 'administration', icon: 'prison' })
   });

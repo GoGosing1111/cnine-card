@@ -64,7 +64,7 @@ for(const options of [{coin:5000000000,price:300000000,hit:false},{coin:50000000
       assert.equal(Number((await f.row('SELECT coin FROM users WHERE id=1')).coin),options.coin-cost);
       assert.equal(Number((await f.row('SELECT change_amount FROM coin_logs')).change_amount),-cost);
       assert.equal(Number((await f.row('SELECT balance_after FROM coin_logs')).balance_after),options.coin-cost);
-      assert.equal(Number((await f.row('SELECT balance FROM administration_treasury_v2030')).balance),cost/100);
+      assert.equal(Number((await f.row('SELECT balance FROM administration_treasury_v2030')).balance),0);
       if(options.hit){assert.equal(Number((await f.row('SELECT quantity FROM user_cards')).quantity),10);assert.equal(Number((await f.row('SELECT card_shards FROM users WHERE id=1')).card_shards),5500);}
       const columns=(await f.pg.query("SELECT table_name,data_type FROM information_schema.columns WHERE table_name IN ('superstar_pack_receipts_v1','superstar_pack_debits_v1') AND column_name='cost'")).rows;
       assert.equal(columns.length,2);assert(columns.every(column=>column.data_type==='bigint'));

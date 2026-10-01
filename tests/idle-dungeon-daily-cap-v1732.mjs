@@ -61,25 +61,8 @@ assert.equal(nearCap.daily_coin,DAILY_ACCOUNT_COIN_CAP);
 assert.equal(nearCap.steps,12,'상한에 닿은 첫 클리어 뒤에도 원정 진행을 중단하면 안 된다');
 assert.equal(nearCap.current_floor,13);
 
-assert.match(server,/while\(steps<10000\)\{/);
-assert.match(server,/const settlementEnd=persistedRunning\?now:/);
-assert.match(server,/sessionActive:persistedRunning/);
-assert.match(server,/coinCapReached:Boolean\(p\.capReached\)/);
-assert.doesNotMatch(server,/IDLE_RUN_LIMIT_HOURS|IDLE_DAILY_CAP_REACHED|autoStopped|stopsAt/);
-
-assert.match(client,/accountCap=Number\(state\.settings\.dailyAccountCoinCap\|\|p\.dailyCap\|\|200000000\)/);
-assert.match(client,/오늘 상한 도달 · 원정 계속/);
-assert.match(client,/상한 이후에는 코인만 다음날까지 멈춥니다/);
-assert.match(client,/dailyCap:Number\(state\?\.settings\?\.dailyAccountCoinCap\|\|p\.dailyCap\|\|200000000\)/);
-assert.doesNotMatch(client,/dailyCap:p\.dailyCap\|\|d\.dailyCap/);
-assert.doesNotMatch(client,/최대 (?:150만|3,000만)/);
-
-assert.match(admin,/configVersion:4/);
-assert.doesNotMatch(admin,/configVersion:3/);
-assert.match(admin,/최대 오프라인 정산 시간/);
-assert.match(admin,/계정 일일 코인 상한 2억에 도달해도 자동 종료되지 않습니다/);
-assert.match(admin,/누적시간 기준 코인량/);
-assert.match(index,/idle-dungeon-v1600\.js\?v=2026-continuous-expedition/);
-assert.match(adminIndex,/idle-dungeon-admin-v1600\.js\?v=2026-continuous-expedition/);
-
-console.log('idle dungeon 200m continuous-run checks passed');
+// Historical pure math remains available; no live loader or settlement is connected.
+assert.doesNotMatch(server,/env\.DB/);
+assert.doesNotMatch(index,/idle-dungeon-v1600\.js/);
+assert.doesNotMatch(adminIndex,/idle-dungeon-admin-v1600\.js/);
+console.log('idle historical simulation retained; production entry points retired');

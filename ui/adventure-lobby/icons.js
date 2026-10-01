@@ -10,7 +10,7 @@
     escort:'<path d="M2 7h12v10H2ZM14 10h4l4 4v3h-8M17 11v3h5M5 4h6"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/>',
     siege:'<path d="M3 21V10h4v11m10 0V10h4v11M2 6v4h6V6M16 6v4h6V6M7 14h10M10 21v-4h4v4M1 21h22M12 3v7m0-7h5l-2 2 2 2h-5"/>',
     seal:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="6"/><rect x="9" y="11" width="6" height="6" rx="1"/><path d="M10 11V9a2 2 0 0 1 4 0v2M12 13v2"/>',
-    idle:'<path d="M3 20 11 6l9 14ZM11 6v14m-4 0 4-7 5 7M2 20h20M18 3a4 4 0 0 0 4 5 4 4 0 0 1-4-5Z"/>',
+    legion:'<path d="M4 19V9l4-4 4 4 4-4 4 4v10zM8 19v-5h8v5"/>',
     tower:'<path d="M6 21V8h12v13M4 21h16M5 4V2m0 2h14m0 0V2M9 2v2m6-2v2M5 4l1 4m13-4-1 4M9 11h2m2 0h2m-6 4h2m2 0h2M10 21v-3h4v3"/>',
     scrapyard:'<path d="M4 18V6h12M4 6l5 5M4 3v18M1 21h8M16 6v6a2 2 0 1 0 2 2M11 21v-4h9l2 4ZM13 17l1-3h4l1 3"/>',
     pvp:'<path d="M4 3h5v7l-3 3-3-3V3ZM15 3h5v7l-3 3-3-3V3ZM6 13v8m11-8v8M3 17h6m5 0h6M10 7h3m-3 3h3"/>',
@@ -41,7 +41,6 @@
     clan:'<circle cx="12" cy="6" r="3"/><circle cx="4" cy="10" r="2"/><circle cx="20" cy="10" r="2"/><path d="M7 22v-7a5 5 0 0 1 10 0v7M1 20v-5a3 3 0 0 1 6 0m10 0a3 3 0 0 1 6 0v5"/>',
     coup:'<path d="M3 11l4 3 5-7 5 7 4-3-2 9H5ZM7 23h10M12 1v4m-8 0 2 3m14-3-2 3"/>',
     territory:'<path d="m2 6 6-3 8 3 6-3v16l-6 3-8-3-6 3ZM8 3v16m8-13v16M11 9v7m0-7h4l-1 2 1 2h-4"/>',
-    treasury:'<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M6 3v18M18 10v4M10 16l1-1m4-4 1-1"/><circle cx="13" cy="13" r="4"/><circle cx="13" cy="13" r="1"/>',
     soopketland:'<circle cx="12" cy="10" r="8"/><circle cx="12" cy="10" r="2"/><path d="M12 2v6m8 2h-6m-2 8v-6m-8-2h6m-4-6 5 5m7-5-5 5m5 7-5-5m-7 5 5-5M7 22l4-10m6 10-4-10M5 22h14"/>',
     prison:'<path d="M3 3h18v19H3ZM7 3v19m5-19v19m5-19v19M3 8h18M3 17h18"/>',
     prisoncamp:'<path d="M2 21V9l3-4 3 4v12M1 9h8M16 21V9l3-4 3 4v12M15 9h8M8 12h8m-8 5h8M11 12v9m2-9v9M1 21h22M5 5V2m14 3V2"/>'

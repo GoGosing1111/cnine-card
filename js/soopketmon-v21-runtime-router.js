@@ -25,7 +25,6 @@
     'mineral',
     'inventory',
     'soopketland',
-    'treasury',
     'coup',
     'clan',
     'prisoncamp'
@@ -69,7 +68,6 @@
     mineral: { shell: 'mineral' },
     inventory: { shell: 'inventory' },
     soopketland: { shell: 'soopketland' },
-    treasury: { shell: 'treasury' },
     coup: { shell: 'coup' },
     clan: { shell: 'clan' },
     clanWar: { shell: 'clan', global: 'ClanV1.openWar' },
@@ -100,11 +98,7 @@
     escort: { shell: 'battle', actions: [{ selector: '[data-pve-mode="escort"]' }] },
     siege: { global: 'openMonsterSiege', fallbackSelector: '[data-monster-siege-entry]' },
     seal: { shell: 'battle', actions: [{ selector: '[data-seal-battle-mode]' }] },
-    idle: {
-      shell: 'battle',
-      global: 'openIdleDungeon',
-      fallbackSelector: '[data-pve-mode="idle"]'
-    },
+    legion: { shell: 'battle', global: 'openLegionHunt', fallbackSelector: '[data-legion-hunt-entry]' },
     tower: { shell: 'battle', actions: [{ selector: '[data-pve-mode="tower"]' }] },
 
     equipment: { shell: 'character', actions: [{ selector: '[data-character-tab="equipment"]' }] },

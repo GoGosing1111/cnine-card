@@ -89,19 +89,14 @@ for(const postgres of [false,true]){
     assert.equal(await f.coin(),before+100);
     assert.equal(Number((await f.p('SELECT COUNT(*) n FROM account_rank_receipts_v1').first()).n),1);
   });
-  test(`${label}: idle ignores historical time, awards settled seconds once and preserves partial XP`,async t=>{
-    const f=await jointFixture(t,{postgres}),now=Date.parse('2026-09-16T00:00:00Z');
-    await f.p('INSERT INTO idle_dungeon_progress(user_id,run_started_at,last_settled_at) VALUES(?,?,?)',7,new Date(now-3600000).toISOString(),new Date(now).toISOString()).run();
-    const row={version:0,run_started_at:new Date(now-3600000).toISOString()};
-    assert.equal((await accountRankIdleSettlement(f.env,7,row,{consumedSeconds:3600,last_settled_at:new Date(now).toISOString()},now)).length,0);
-    const next={consumedSeconds:301,last_settled_at:new Date(now+301000).toISOString()};
-    const first=await accountRankIdleSettlement(f.env,7,row,next,now+301000);
-    const duplicate=await accountRankIdleSettlement(f.env,7,row,next,now+301000);
-    await f.env.DB.batch(first);await f.env.DB.batch(duplicate);
-    assert.equal(Number((await f.p('SELECT total_ticks FROM account_rank_progress_v1 WHERE user_id=7').first()).total_ticks),301);
-    const later={consumedSeconds:299,last_settled_at:new Date(now+600000).toISOString()};
-    await f.env.DB.batch(await accountRankIdleSettlement(f.env,7,row,later,now+600000));
-    assert.equal(Number((await f.p('SELECT total_ticks FROM account_rank_progress_v1 WHERE user_id=7').first()).total_ticks),600);
+  test(`${label}: retired idle never awards XP or changes its historic cursor`,async t=>{
+    const f=await jointFixture(t,{postgres});
+    await readAccountRank(f.env,7);
+    await f.p('INSERT INTO account_rank_idle_cursor_v1(user_id,settled_at) VALUES(?,?)',7,'2026-09-16T00:00:00Z').run();
+    const before=await f.p('SELECT * FROM account_rank_idle_cursor_v1 WHERE user_id=7').first();
+    for(const now of [Date.now(),Date.now()+86400000])assert.deepEqual(await accountRankIdleSettlement(f.env,7,{run_started_at:before.settled_at},{last_settled_at:new Date(now).toISOString()},now),[]);
+    assert.deepEqual(await f.p('SELECT * FROM account_rank_idle_cursor_v1 WHERE user_id=7').first(),before);
+    assert.equal(Number((await f.p('SELECT COUNT(*) n FROM account_rank_receipts_v1').first()).n),0);
   });
   test(`${label}: status authenticates, contains no growth details, locked presets cannot write`,async t=>{
     const f=await jointFixture(t,{postgres}),deps={authenticate:async()=>f.user,json:(body,status=200)=>Response.json(body,{status}),readBody:r=>r.json()};
@@ -127,17 +122,8 @@ for(const postgres of [false,true]){
     await f.p("UPDATE user_cards SET quantity=1 WHERE card_id='a'").run();rejectRules=true;await assert.rejects(()=>call('presets/apply',{slot:1}),/GRADE_LIMIT/);
     await f.p('INSERT INTO account_rank_progress_v1(user_id,total_ticks) VALUES(7,?)',MAX_RANK_TICKS).run();assert.equal((await call('presets',{slot:5})).status,200);
   });
-  test(`${label}: idle preserves sub-second carry and excludes off-time/offline excess`,async t=>{
-    const f=await jointFixture(t,{postgres}),now=Date.parse('2026-09-16T00:00:00Z'),iso=n=>new Date(now+n).toISOString();
-    await f.p('INSERT INTO idle_dungeon_progress(user_id,run_started_at,last_settled_at) VALUES(?,?,?)',7,iso(0),iso(0)).run();
-    const row={version:0,run_started_at:iso(0)};
-    await accountRankIdleSettlement(f.env,7,row,{last_settled_at:iso(0)},now);
-    for(const ms of [1700,3100,4800,6000])await f.env.DB.batch(await accountRankIdleSettlement(f.env,7,row,{last_settled_at:iso(ms)},now+ms));
-    assert.equal(Number((await f.p('SELECT total_ticks FROM account_rank_progress_v1 WHERE user_id=7').first()).total_ticks),6);
-    assert.equal((await accountRankIdleSettlement(f.env,7,{...row,run_started_at:null},{last_settled_at:iso(10000)},now+10000)).length,0);
-    await f.env.DB.batch(await accountRankIdleSettlement(f.env,7,{...row,run_started_at:iso(15000)},{last_settled_at:iso(20000)},now+20000));
-    assert.equal(Number((await f.p('SELECT total_ticks FROM account_rank_progress_v1 WHERE user_id=7').first()).total_ticks),11);
-    await f.env.DB.batch(await accountRankIdleSettlement(f.env,7,row,{last_settled_at:iso(50000),rankSettlementCutoff:now+40000},now+50000));
-    assert.equal(Number((await f.p('SELECT total_ticks FROM account_rank_progress_v1 WHERE user_id=7').first()).total_ticks),21);
+  test(`${label}: retired idle internal calls do not even read the database`,async()=>{
+    const env=new Proxy({},{get(){throw Error('retired idle DB access');}});
+    assert.deepEqual(await accountRankIdleSettlement(env,7,{run_started_at:null},{last_settled_at:new Date().toISOString()},Date.now()),[]);
   });
 }

@@ -9,7 +9,7 @@ const origin='https://cnine.example';
 function request(path,body,account=7,headers={}){return new Request(`${origin}/api/${path}`,{method:body?'POST':'GET',headers:{authorization:`Bearer local-account-${account}`,origin,'content-type':'application/json',...headers},...(body?{body:JSON.stringify(body)}:{})});}
 test('public joint hold rejects every new account mutation before authentication and database access',async()=>{
   const deps={json:(b,s=200)=>Response.json(b,{status:s}),authenticate(){throw Error('must not authenticate');}};
-  for(const path of ['tower/v3/run','idle-dungeon/v3/run']){
+  for(const path of ['tower/v3/run']){
     const r=await handlePveV3({path,request:request(path,{requestId:'held'}),env:new Proxy({},{get(){throw Error('must not read DB');}}),deps});assert.equal(r.status,423);
   }
 });
@@ -41,26 +41,22 @@ for(const postgres of [false,true]){
     }
     assert.equal(await f.coin(),10000000);
   });
-  test(`${db}: idle keeps advancing without a view heartbeat; V3 playback cannot settle or mint coins`,async t=>{
-    const f=await jointFixture(t,{postgres}),call=(action,body)=>handlePveV3Ready({path:`idle-dungeon/v3/${action}`,request:request(`idle-dungeon/v3/${action}`,body),env:f.env,deps:f.deps});
-    const start=await call('start',{difficulty:'NORMAL',sessionId:'idle-view-one'});assert.equal(start.status,200,await start.clone().text());
-    await f.p('DELETE FROM idle_dungeon_active_sessions WHERE user_id=7').run();
-    await f.p('UPDATE idle_dungeon_progress SET last_settled_at=? WHERE user_id=7',new Date(Date.now()-60000).toISOString()).run();
-    const stateResponse=await call('state'),s=await stateResponse.json();assert.equal(stateResponse.status,200,JSON.stringify(s));
-    assert.equal(s.progress.running,true);assert.ok(s.progress.pendingCoin>0);assert.ok(s.progress.currentFloor>1);assert.equal(s.battle.idleClock.offlineProgress,true);
-    assert.equal(s.battle.battleV2.result.authority,'IDLE_SERVER_CLOCK');assert.equal(s.battle.battleV2.teams.A.cards.length,5);assert.equal(s.battle.idleClock.claimsFromPlayback,false);assert.equal(await f.coin(),10000000);
-    const rid='idle-claim-retry',r=await (await call('claim',{requestId:rid})).json(),balance=await f.coin();assert.ok(r.rewardCoin>0);assert.equal(balance,10000000+r.rewardCoin);
-    const retry=await (await call('claim',{requestId:rid})).json();assert.equal(retry.replayed,true);assert.equal(await f.coin(),balance);
-    const row=await f.p('SELECT run_started_at FROM idle_dungeon_progress WHERE user_id=7').first();assert.ok(row.run_started_at,'claim does not stop the background expedition');
-    assert.equal((await call('stop',{sessionId:'idle-view-one'})).status,200);assert.equal((await f.p('SELECT run_started_at FROM idle_dungeon_progress WHERE user_id=7').first()).run_started_at,null);
+  test(`${db}: retired idle blocks status, starts and claims while preserving old records`,async t=>{
+    const f=await jointFixture(t,{postgres});
+    await f.p('INSERT INTO idle_dungeon_progress(user_id,pending_coin,run_started_at,last_settled_at) VALUES(?,?,?,?)',7,5000,'2026-09-01T00:00:00Z','2026-09-01T00:00:00Z').run();
+    const before=await f.p('SELECT * FROM idle_dungeon_progress WHERE user_id=7').first();
+    for(const action of ['state','start','heartbeat','stop','claim']){
+      const path=`idle-dungeon/v3/${action}`,response=await handlePveV3Ready({path,request:request(path,action==='state'?null:{requestId:'old-idle'}),env:f.env,deps:f.deps});
+      assert.equal(response.status,410);assert.equal((await response.json()).code,'IDLE_DUNGEON_RETIRED');
+    }
+    assert.deepEqual(await f.p('SELECT * FROM idle_dungeon_progress WHERE user_id=7').first(),before);
+    assert.equal(await f.coin(),10000000);
   });
-  test(`${db}: idle claim rolls back the receipt, pending balance and coin together on failure`,async t=>{
+  test(`${db}: retired idle claims and retries cannot pay even an existing pending balance`,async t=>{
     const f=await jointFixture(t,{postgres});await f.p('INSERT INTO idle_dungeon_progress(user_id,pending_coin) VALUES(7,5000)').run();
-    f.fail('INSERT INTO coin_logs');await assert.rejects(()=>claimIdleV3(f.env,f.user,{requestId:'failure-claim'}),{code:'IDLE_V3_CLAIM_PENDING'});
+    for(let i=0;i<2;i++)await assert.rejects(()=>claimIdleV3(f.env,f.user,{requestId:'old-claim'}),{code:'IDLE_DUNGEON_RETIRED'});
     assert.equal(await f.coin(),10000000);assert.equal(Number((await f.p('SELECT pending_coin FROM idle_dungeon_progress WHERE user_id=7').first()).pending_coin),5000);
     assert.equal(Number((await f.p('SELECT COUNT(*) n FROM idle_dungeon_claim_receipts').first()).n),0);
-    f.fail('');await claimIdleV3(f.env,f.user,{requestId:'failure-claim'});assert.equal(await f.coin(),10005000);
-    await assert.rejects(()=>claimIdleV3(f.env,{id:8},{requestId:'failure-claim'}),{code:'IDLE_V3_REQUEST_CONFLICT'});
   });
   test(`${db}: actual authenticated tower/scrapyard/cow handlers use owned snapshots, lock and durable result`,async t=>{
     const f=await jointFixture(t,{postgres});

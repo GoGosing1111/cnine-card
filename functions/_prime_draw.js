@@ -3,7 +3,6 @@ import { readRuntimeData, cacheRuntimeData, invalidateRuntimeData } from './_run
 import { BATTLE_SUIT_CORE_CODES,ensureBattleSuitCoreCatalog } from './_battle_suit_materials.js';
 import { SKILL_CHIP_CATALOG } from '../shared/battle-suit-skill-chips.mjs';
 import { ensureSkillChipFoundation } from './_skill_chips.js';
-import { ensureAdministrationTreasuryFoundation,shopTaxStatements } from './_administration_treasury.js';
 
 const UPGRADE_KEY='safe_runtime_upgrade_v1985_prime_draw_live';
 const EQUIPMENT_POOL_TABLE='prime_equipment_draw_pool_v1985';
@@ -367,7 +366,7 @@ async function purchase({request,env,user,product,readBody,json}){
   const completeSql=env.DB?.dialect==='postgres'
     ?`UPDATE ${PURCHASE_RECEIPTS} SET status='COMPLETED',response_json=(jsonb_set(jsonb_set(?::jsonb,'{coin}',to_jsonb(COALESCE((SELECT coin FROM users WHERE id=?),0)),true),'{balance}',to_jsonb(COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?),0)),true))::text,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'`
     :`UPDATE ${PURCHASE_RECEIPTS} SET status='COMPLETED',response_json=json_set(?,'$.coin',COALESCE((SELECT coin FROM users WHERE id=?),0),'$.balance',COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?),0)),updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'`;
-  await ensureAdministrationTreasuryFoundation(env);
+
   const statements=[
     env.DB.prepare(`INSERT INTO ${PURCHASE_RECEIPTS}(request_id,user_id,item_code,count,unit_price,total_price,status) SELECT ?,?,?,?,?,?,'PENDING' WHERE EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=?)`).bind(requestId,user.id,product.itemCode,count,product.unitPrice,totalPrice,user.id,totalPrice),
     ...checkedPurchaseDebitStatements(env,{sql:`UPDATE users SET coin=coin-? WHERE id=? AND coin>=? AND EXISTS(SELECT 1 FROM ${PURCHASE_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING')`,values:[totalPrice,user.id,totalPrice,requestId,user.id,product.itemCode],requestId,userId:user.id,itemCode:product.itemCode}),
@@ -375,10 +374,7 @@ async function purchase({request,env,user,product,readBody,json}){
     env.DB.prepare(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT ?,-?,coin,? FROM users WHERE id=? AND EXISTS(SELECT 1 FROM ${PURCHASE_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING')`).bind(user.id,totalPrice,product.purchaseReason,user.id,requestId,user.id,product.itemCode),
     env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,?,?,quantity,'SHOP_PURCHASE',?,? FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND EXISTS(SELECT 1 FROM ${PURCHASE_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING')`).bind(user.id,product.itemCode,count,product.referenceType,requestId,user.id,product.itemCode,requestId,user.id,product.itemCode)
   ];
-  statements.push(...shopTaxStatements(env,{
-    sourceType:product.kind==='equipment'?'PRIME_EQUIPMENT':'PRIME_VEHICLE',sourceRequestId:requestId,userId:user.id,grossCoin:totalPrice,label:product.name,
-    guardSql:`EXISTS(SELECT 1 FROM ${PURCHASE_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING')`,guardBindings:[requestId,user.id,product.itemCode]
-  }));
+
   statements.push(env.DB.prepare(`${completeSql} RETURNING status,response_json`).bind(JSON.stringify(response),user.id,user.id,product.itemCode,requestId,user.id));
   const batched=await env.DB.batch(statements);
   const receipt=await completedReceipt(env,batched,PURCHASE_RECEIPTS,requestId,user.id);

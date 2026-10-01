@@ -1,6 +1,7 @@
 import {rankedScoreAdjustment,rankedPowerDifference,rankedCandidateAllowed} from '../../shared/ranked-reform-v1.mjs';
 import {RANKED_REFORM_SCHEMA,readRankedEnergy,rankedFightReceipt,commitRankedFight} from '../_ranked_reform.js';
 import {reopenRankedIfDue} from '../_ranked_reopen.js';
+import {retiredContentResponse} from '../_retired_content.js';
 import {handleCooperative,cooperativeStream} from '../_cooperative_live.js';
 import {coupLiveOperation} from '../_coup_live_operation.js';
 import {createRequestSettingsCache} from '../_request_settings_cache.js';
@@ -60,7 +61,6 @@ import { handleClan } from '../_clan.js';
 import { handleAuction } from '../_auction.js';
 import { handleSiege } from '../_siege.js';
 import { handleChief } from '../_chief.js';
-import { handleAdministrationTreasury,ensureAdministrationTreasuryFoundation,shopTaxStatements } from '../_administration_treasury.js';
 import { closePrisonReleaseCaseStatement,ensurePrisonCommunityFoundation,handlePrisonCommunity,openPrisonReleaseCaseStatement,prisonCommunityRoomState } from '../_prison_community.js';
 import { clanCampStatusForUser,handleClanPrisonCamp,ensureClanCampSchema,clanCampActiveProbeSql,clanCampProbeTime } from '../_clan_prison_camp.js';
 import { handlePrisonDeathGame,deathGameBlockedPath,deathGameAssignmentForUser } from '../_prison_death_game.js';
@@ -70,7 +70,6 @@ import { handleBlackMiracleAdmin,blackMiracleSettings,openBlackMiraclePack,rollB
 import { SUPERSTAR_PACK_ID,handleSuperstarPackDraw,superstarPackCatalogRow,superstarPackSettings } from '../_superstar_pack.js';
 import { handleSuperstarDuplicateAudit } from '../_superstar_duplicate_audit.js';
 import { BURNING_EVENT_DURATION_MINUTES,BURNING_EVENT_DEFAULT_DURATION_MINUTES,burningEventEndsAt,burningEventIsLive,canManageBurningEvent,isBurningEventDurationMinutes,normalizeBurningEventDurationMinutes } from '../_burning_event_access.js';
-import { handleIdleDungeon } from '../_idle_dungeon.js';
 import { handleEscortOperation } from '../_escort_operation.js';
 import { handleLichRaid,ensureLichLive,LICH_TICKET } from '../_raid_lich_live.js';
 import { handleRaidCoreProtocol } from '../_raid_core_protocol.js';
@@ -4768,7 +4767,7 @@ const SERIALIZED_GAME_ACTIONS=new Set([
 // 강화 재화와 영치금 납부는 영수증·잔액·대상 상태가 반드시 한 사용자 락 안에서 확정되어야 한다.
 // 이 경로들은 락 저장소가 느리거나 실패했을 때도 락 없이 진행하지 않는다.
 const STRICT_MUTATION_LOCK_ACTIONS=new Set(['card/breakthrough','card/breakthrough/auto','card/unique-advancement','prison/fund','messages/claim-batch']);
-const SERIALIZED_GAME_PREFIXES=['quests/','evolution/','rift/','territory-war/','siege/','seal-battle/','captain/','magic/','inventory/','wago-daily-quest/','playdk-daily-quest/','auction/','idle-dungeon/'];
+const SERIALIZED_GAME_PREFIXES=['quests/','evolution/','rift/','territory-war/','siege/','seal-battle/','captain/','magic/','inventory/','wago-daily-quest/','playdk-daily-quest/','auction/'];
 let userMutationLockReadyPromise=null;
 let breakthroughAutoReceiptReadyPromise=null;
 async function ensureBreakthroughAutoReceipts(env){
@@ -4786,7 +4785,6 @@ function serializedGameAction(path,method){
   // Joint endpoints acquire the same lock inside their authenticated handler.
   if(String(path).startsWith('loot-shop/'))return false;
   if(isPveV3Path(String(path))||mercenaryUsesInnerLock(String(path))||(FORGE_RUNTIME_RELEASE_ENABLED&&isForgeRuntimePath(String(path))))return false;
-  if(V3_JOINT_RELEASE_ENABLED&&String(path).startsWith('idle-dungeon/'))return false;
   // 영토전 공격은 자체 requestId 영수증 + 사용자 공격 락으로 원자 처리한다.
   // 전역 사용자 락을 한 겹 더 씌우면 정상 재시도가 USER_ACTION_IN_PROGRESS로 먼저 차단된다.
   if(String(path)==='territory-war/attack')return false;
@@ -5455,8 +5453,6 @@ async function handleRequest(context){
     const siegeResponse=await handleSiege({path,request,env,deps:{authenticate,readBody,json,isAdminRole,pveDeckSnapshot,battleSettings,cardBattlePower,createPveBattleV2,userEquipmentBonuses,cardUniqueDeckState,writeAdminLog}});if(siegeResponse)return siegeResponse;
     const escortResponse=await handleEscortOperation({path,request,env,deps:{authenticate,readBody,json,pveDeckSnapshot,battleSettings,cardBattlePower,createPveBattleV2,userEquipmentBonuses,cardUniqueDeckState,magicBattleLoadout,writeAdminLog}});if(escortResponse)return escortResponse;
     const chiefResponse=await handleChief({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog,activateBurningEvent:activateChiefBurningEvent}});if(chiefResponse)return chiefResponse;
-    const treasuryResponse=await handleAdministrationTreasury({path,request,env,deps:{authenticate,readBody,json}});if(treasuryResponse)return treasuryResponse;
-    const idleDungeonResponse=await handleIdleDungeon({path,request,env,deps:{authenticate,readBody,json,isAdminRole,raidDeckPower}});if(idleDungeonResponse)return idleDungeonResponse;
 
     if(path==='user/runtime-command'){
       const user=await authenticate(request,env);
@@ -6101,11 +6097,7 @@ async function handleRequest(context){
         }
         if(shardTotal>0)statements.push(env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,'DUPLICATE',NULL)").bind(user.id,shardTotal,expectedShards));
         statements.push(env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'PACK_DRAW')").bind(user.id,-cost,expectedCoin));
-        await ensureAdministrationTreasuryFoundation(env);
-        statements.push(...shopTaxStatements(env,{
-          sourceType:'CARD_PACK',sourceRequestId:requestId,userId:user.id,grossCoin:cost,label:`${pack.name||pack.id} 카드팩`,
-          guardSql:`EXISTS(SELECT 1 FROM ${drawReceiptTable} WHERE request_id=? AND user_id=? AND status='PENDING')`,guardBindings:[requestId,user.id]
-        }));
+
         const response=finalizeDrawPayload(draftResponse);
         // 자동 뽑기에서 이미 화면 표시가 끝난 이전 영수증 10개는 결과 JSON만 비워 장기 용량 증가를 제한한다.
         // 다음 뽑기가 성공적으로 커밋될 때만 함께 정리하므로 현재 지급 복구 가능성은 유지된다.
@@ -9619,6 +9611,8 @@ async function handleRequestWithDatabase(context){
 // explicit rollback path; DB_BACKEND=postgres is required before Hyperdrive is
 // allowed to become authoritative.
 export async function onRequest(context){
+  const retired=retiredContentResponse(new URL(context.request.url).pathname.replace(/^\/api\/?/,''),json);
+  if(retired)return retired;
   // Preview/deployment URLs keep their own original environment and DB bindings.
   if(context.env?.API_RUNTIME&&new URL(context.request.url).hostname==='cnine-card.pages.dev'&&context.env?.API_RUNTIME_DISABLED!=='1')return forwardApiRuntimeRequest(context);
   const requestUrl=new URL(context.request.url);
