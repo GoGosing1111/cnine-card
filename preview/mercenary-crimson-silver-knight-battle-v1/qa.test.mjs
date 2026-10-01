@@ -44,15 +44,15 @@ test('every overhead action uses a visibly faster descent without compensating h
  for(const mode of OVERHEAD_MODES){
   const p=makePlan({mode});assert.equal(p.duration,mode==='ultimate'?5.55:4.05);assert.deepEqual(p.contacts,[OVERHEAD.contact]);
   assert.deepEqual(sample(p,1.63).pose,{key:'twohandLift',frame:2});
-  assert.deepEqual(sample(p,1.70).pose,{key:'twohandLift',frame:3});
-  assert.deepEqual(sample(p,1.74).pose,{key:'twohandStrike',frame:0});
+  assert.deepEqual(sample(p,1.67).pose,{key:'twohandLift',frame:3});
+  assert.deepEqual(sample(p,1.70).pose,{key:'twohandStrike',frame:0});
   assert.deepEqual(sample(p,OVERHEAD.contact).pose,{key:'twohandStrike',frame:1});
-  assert.deepEqual(sample(p,1.86).pose,{key:'twohandStrike',frame:3});
-  assert.deepEqual(sample(p,1.88).pose,{key:'twohandReturn',frame:0},'recover immediately instead of holding the impact pose');
-  assert.deepEqual(sample(p,2.83).pose,{key:'idle',frame:0});
+  assert.deepEqual(sample(p,1.785).pose,{key:'twohandStrike',frame:3});
+  assert.deepEqual(sample(p,1.80).pose,{key:'twohandReturn',frame:0},'recover immediately instead of holding the impact pose');
+  assert.deepEqual(sample(p,2.75).pose,{key:'idle',frame:0});
   const first=[];for(let t=1.6;t<1.9;t+=.00025){const pose=sample(p,t).pose;if(pose.key==='twohandStrike'&&first[pose.frame]===undefined)first[pose.frame]=t;}
-  assert.equal(first.length,4);assert.ok(Math.abs((first[1]-first[0])-.05)<.0006,'first strike frame is half the V15 duration');
-  assert.ok(Math.abs((OVERHEAD.recovery-OVERHEAD.strike)/manifest.playbackTempo.rate-.125)<1e-8);
+  assert.equal(first.length,4);assert.ok(Math.abs((first[1]-first[0])-.05/1.5)<.0006,'first strike frame is 50 percent faster than V16');
+  assert.ok(Math.abs((OVERHEAD.recovery-OVERHEAD.strike)/manifest.playbackTempo.rate-.125/1.5)<1e-8);
   assert.ok(Math.abs(OVERHEAD.idle-OVERHEAD.recovery-.95)<1e-8,'recovery itself retains its speed');
  }
  assert.equal(SHOWCASE_DURATION,27.6);assert.equal(manifest.playbackTempo.rate,1.2);

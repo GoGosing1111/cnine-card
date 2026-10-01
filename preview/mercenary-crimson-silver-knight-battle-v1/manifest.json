@@ -1,5 +1,5 @@
 {
-  "version": 16,
+  "version": 17,
   "conceptId": "crimson-silver-knight",
   "name": "은백·금색 대검 기사",
   "nameStatus": "DESCRIPTION_NOT_ASSIGNED",
@@ -7406,15 +7406,16 @@
   "reviewPlayback": {
     "motionOnly": "qa/v13/size-comparison.webp",
     "comparison": "qa/v13/size-comparison.webp",
-    "actualV3": "qa/all-skills-fast-descent-v16.webp",
+    "actualV3": "qa/overhead-50percent-v17.webp",
     "twoHandMotion": "qa/v13/size-comparison.webp",
-    "allSkills": "qa/all-skills-fast-descent-v16.webp",
     "historicalAllSkillsV12": "qa/all-skills-overhead-v12.webp",
     "historicalAllSkillsV13": "qa/all-skills-size-v13.webp",
-    "liveAllSkills": "http://127.0.0.1:8850/preview/mercenary-crimson-silver-knight-battle-v1/?showcase=1&v=16#battle",
+    "liveAllSkills": "http://127.0.0.1:8850/preview/mercenary-crimson-silver-knight-battle-v1/?showcase=1&v=17#battle",
     "historicalTwoHandActualV3V13": "qa/overhead-size-v13.webp",
     "historicalAllSkillsV14": "qa/all-skills-speed-v14.webp",
-    "historicalAllSkillsV15": "qa/all-skills-strike-only-v15.webp"
+    "historicalAllSkillsV15": "qa/all-skills-strike-only-v15.webp",
+    "historicalAllSkillsV16": "qa/all-skills-fast-descent-v16.webp",
+    "twoHandActualV3": "qa/overhead-50percent-v17.webp"
   },
   "returnPose": {
     "reference": "assets/motion-v5/ready-a-source.png#0",
@@ -7580,7 +7581,7 @@
   ],
   "effectAlignment": {
     "motion": "TWO_HAND_OVERHEAD_V10",
-    "allContactsAt": 1.7816666666666667,
+    "allContactsAt": 1.7344444444444445,
     "guard": {
       "anchor": "ACTOR_UPPER_BODY",
       "bodyFractionAboveFeet": 0.54,
@@ -7620,9 +7621,9 @@
     "priorApproval": "motion-approval-20261001-v13.json"
   },
   "playbackTempo": {
-    "version": 16,
+    "version": 17,
     "rate": 1.2,
-    "strikeRate": 2.4,
+    "strikeRate": 3.6,
     "scope": "ALL_ATTACKS_AND_SKILLS_FAST_DESCENT",
     "appliesTo": [
       "attack",
@@ -7634,19 +7635,19 @@
     ],
     "clock": "EXISTING_V3_GSAP_TIMELINE",
     "descentAt": 1.64,
-    "strikeStart": 1.7233333333333334,
-    "contactAt": 1.7816666666666667,
-    "strikeEnd": 1.8733333333333333,
-    "approvedIdleAt": 2.8233333333333333,
-    "previousSwingSeconds": 0.25,
-    "swingSeconds": 0.125,
-    "relativeSpeedToV15": 2,
+    "strikeStart": 1.6955555555555555,
+    "contactAt": 1.7344444444444445,
+    "strikeEnd": 1.7955555555555556,
+    "approvedIdleAt": 2.7455555555555557,
+    "previousSwingSeconds": 0.125,
+    "swingSeconds": 0.08333333333333333,
     "lateLiftAlsoAccelerated": true,
     "compensatingHold": false,
     "effectPlaybackSpeedUnchanged": true,
     "audioPlaybackSpeedUnchanged": true,
     "impactCuesFollowContact": true,
     "artworkUnchanged": true,
-    "record": "motion-tempo-request-20261001-v16.json"
+    "record": "motion-tempo-request-20261001-v17.json",
+    "relativeSpeedToV16": 1.5
   }
 }
