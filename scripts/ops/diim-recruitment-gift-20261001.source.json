@@ -1,0 +1,364 @@
+{
+  "campaign": "diim-recruitment-20261001",
+  "itemCode": "RECRUITMENT_GIFT_BOX",
+  "threshold": 100,
+  "maxPerAccount": 1,
+  "sources": [
+    {
+      "source": "생스머신디임",
+      "nickname": "딤럼프",
+      "contribution": 5450,
+      "kind": "avatar"
+    },
+    {
+      "source": "딤키우기",
+      "nickname": "딤키우기",
+      "contribution": 4360,
+      "kind": "avatar"
+    },
+    {
+      "source": "고라니ㅇ",
+      "nickname": "고라니ㅇ",
+      "contribution": 1090,
+      "kind": "gift"
+    },
+    {
+      "source": "존버형2↑",
+      "nickname": "족게이다",
+      "identityConfirmedByUser": true,
+      "contribution": 872,
+      "kind": "gift"
+    },
+    {
+      "source": "족구쪼아",
+      "nickname": "족구조아",
+      "contribution": 327,
+      "kind": "gift"
+    },
+    {
+      "source": "#으악",
+      "nickname": "으악",
+      "contribution": 218,
+      "kind": "gift"
+    },
+    {
+      "source": "응맨♡",
+      "nickname": "응멘",
+      "contribution": 218,
+      "kind": "gift"
+    },
+    {
+      "source": "족쌤",
+      "nickname": "족구선생",
+      "contribution": 218,
+      "kind": "gift"
+    },
+    {
+      "source": "연구가태여니",
+      "nickname": "레기파",
+      "contribution": 228,
+      "kind": "gift"
+    },
+    {
+      "source": "세라네꼬라지",
+      "nickname": "세라네꼬라지",
+      "contribution": 142,
+      "kind": "gift"
+    },
+    {
+      "source": "0수표",
+      "nickname": "0수표",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "tmxkzmfovmxm",
+      "nickname": "모래",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "탱탱노",
+      "nickname": "더듬이구",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "라피e",
+      "nickname": "라피e",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "날종",
+      "nickname": "옹가망함1",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "유나랜드",
+      "nickname": "#유나랜드",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "#초월",
+      "nickname": "박사",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "Mild7",
+      "nickname": "Mild7",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "장씨아저씨",
+      "nickname": "장씨아저씨",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "핫시:D",
+      "nickname": "hhhhhaa",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "슈라*",
+      "nickname": "슈라",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "망액이",
+      "nickname": "망순이ෆ",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "Sooya..",
+      "nickname": "스갤가축",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "네이아네이",
+      "nickname": "펜타",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "숭한놈",
+      "nickname": "음순이",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "혜정♪",
+      "nickname": "혜정",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "DK쑤댕",
+      "nickname": "쑤댕",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "블랙캐슬",
+      "nickname": "블랙캐슬",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "[환]",
+      "nickname": "환",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "[C9]비니",
+      "nickname": "비니",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "베배킹",
+      "nickname": "베베킹",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "˚쟁이。",
+      "nickname": "˚쟁이。",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "씨구탱탱",
+      "nickname": "랄네미탱탱",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "#LafeStar",
+      "nickname": "라페스타다",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "гain",
+      "nickname": "씨나인택갓",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "대져동토마토",
+      "nickname": "대저동토마토",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "스프°",
+      "nickname": "우회하세요",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "[C9]플랜비",
+      "nickname": "랭비!",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "도댕...",
+      "nickname": "도댕",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "ausuusuha",
+      "nickname": "지아영",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "z7005z",
+      "nickname": "zkzk9999",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "다시생각",
+      "nickname": "다시생각",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "[C9]족단",
+      "nickname": "족단",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "학벌",
+      "nickname": "학벌",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "족치기족치기",
+      "nickname": "[C9]족쪽이",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "나무늘봉순",
+      "nickname": "나무늘봉순",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "음주플레이어",
+      "nickname": "음주플레이어",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "조은",
+      "nickname": "조은",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "게임닉네임",
+      "nickname": "게임닉네임",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "깜찍소녀",
+      "nickname": "깜찍소녀",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "[C9]가시",
+      "nickname": "[C9]가시",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "내가고라니?",
+      "nickname": "벚꽃엔딩",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "[C9]재매이형",
+      "nickname": "",
+      "contribution": 109,
+      "kind": "memo",
+      "playdk": "bf3920e6"
+    },
+    {
+      "source": "굳건창수b",
+      "nickname": "굳건창수",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "도별",
+      "nickname": "별도",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "슈파두파",
+      "nickname": "슈파두파",
+      "contribution": 109,
+      "kind": "gift"
+    },
+    {
+      "source": "[C9]오승환",
+      "nickname": "커피먹는철구",
+      "contribution": 100,
+      "kind": "gift"
+    },
+    {
+      "source": "Rrr",
+      "nickname": "찬호",
+      "contribution": 100,
+      "kind": "gift"
+    },
+    {
+      "source": "츠츠_",
+      "nickname": "모아가려아가",
+      "contribution": 100,
+      "kind": "gift"
+    }
+  ]
+}

@@ -1,0 +1,591 @@
+{
+  "campaign": "diim-recruitment-20261001",
+  "itemCode": "RECRUITMENT_GIFT_BOX",
+  "amount": 1,
+  "maxPerAccount": 1,
+  "sourceCount": 59,
+  "targets": [
+    {
+      "userId": 22,
+      "nickname": "커피먹는철구",
+      "source": "[C9]오승환",
+      "inputNickname": "커피먹는철구",
+      "contribution": 100,
+      "playdkId": "49cd3f96",
+      "priorGrantIds": []
+    },
+    {
+      "userId": 32,
+      "nickname": "쑤댕",
+      "source": "DK쑤댕",
+      "inputNickname": "쑤댕",
+      "contribution": 109,
+      "playdkId": "8eeb626d",
+      "priorGrantIds": []
+    },
+    {
+      "userId": 65,
+      "nickname": "음순이",
+      "source": "숭한놈",
+      "inputNickname": "음순이",
+      "contribution": 109,
+      "playdkId": "9f0cdb34",
+      "priorGrantIds": []
+    },
+    {
+      "userId": 76,
+      "nickname": "랄네미탱탱",
+      "source": "씨구탱탱",
+      "inputNickname": "랄네미탱탱",
+      "contribution": 109,
+      "playdkId": "8cb20af2",
+      "priorGrantIds": [
+        "41518505"
+      ]
+    },
+    {
+      "userId": 88,
+      "nickname": "0수표",
+      "source": "0수표",
+      "inputNickname": "0수표",
+      "contribution": 109,
+      "playdkId": "2ed65346",
+      "priorGrantIds": [
+        "41518506"
+      ]
+    },
+    {
+      "userId": 130,
+      "nickname": "족구선생",
+      "source": "족쌤",
+      "inputNickname": "족구선생",
+      "contribution": 218,
+      "playdkId": "7a5d068c",
+      "priorGrantIds": [
+        "41526134"
+      ]
+    },
+    {
+      "userId": 164,
+      "nickname": "박사",
+      "source": "#초월",
+      "inputNickname": "박사",
+      "contribution": 109,
+      "playdkId": "00a28fb2",
+      "priorGrantIds": []
+    },
+    {
+      "userId": 242,
+      "nickname": "벚꽃엔딩",
+      "source": "내가고라니?",
+      "inputNickname": "벚꽃엔딩",
+      "contribution": 109,
+      "playdkId": "23e59d1c",
+      "priorGrantIds": []
+    },
+    {
+      "userId": 277,
+      "nickname": "스갤가축",
+      "source": "Sooya..",
+      "inputNickname": "스갤가축",
+      "contribution": 109,
+      "playdkId": "c9386209",
+      "priorGrantIds": []
+    },
+    {
+      "userId": 289,
+      "nickname": "베베킹",
+      "source": "베배킹",
+      "inputNickname": "베베킹",
+      "contribution": 109,
+      "playdkId": "94502a2d",
+      "priorGrantIds": []
+    },
+    {
+      "userId": 290,
+      "nickname": "Mild7",
+      "source": "Mild7",
+      "inputNickname": "Mild7",
+      "contribution": 109,
+      "playdkId": "c080c2f3",
+      "priorGrantIds": []
+    },
+    {
+      "userId": 295,
+      "nickname": "모래",
+      "source": "tmxkzmfovmxm",
+      "inputNickname": "모래",
+      "contribution": 109,
+      "playdkId": "11092f52",
+      "priorGrantIds": [
+        "41518508"
+      ]
+    },
+    {
+      "userId": 303,
+      "nickname": "[C9]족쪽이",
+      "source": "족치기족치기",
+      "inputNickname": "[C9]족쪽이",
+      "contribution": 109,
+      "playdkId": "4779b1f1",
+      "priorGrantIds": []
+    },
+    {
+      "userId": 360,
+      "nickname": "라피e",
+      "source": "라피e",
+      "inputNickname": "라피e",
+      "contribution": 109,
+      "playdkId": "06e56898",
+      "priorGrantIds": [
+        "41497330"
+      ]
+    },
+    {
+      "userId": 521,
+      "nickname": "대저동토마토",
+      "source": "대져동토마토",
+      "inputNickname": "대저동토마토",
+      "contribution": 109,
+      "playdkId": "abea9012",
+      "priorGrantIds": []
+    },
+    {
+      "userId": 525,
+      "nickname": "족구조아",
+      "source": "족구쪼아",
+      "inputNickname": "족구조아",
+      "contribution": 327,
+      "playdkId": "cba2b411",
+      "priorGrantIds": []
+    },
+    {
+      "userId": 750,
+      "nickname": "라페스타다",
+      "source": "#LafeStar",
+      "inputNickname": "라페스타다",
+      "contribution": 109,
+      "playdkId": "7045ba47",
+      "priorGrantIds": []
+    },
+    {
+      "userId": 787,
+      "nickname": "뚱초환",
+      "source": "[환]",
+      "inputNickname": "환",
+      "contribution": 109,
+      "playdkId": "74c50775",
+      "priorGrantIds": []
+    },
+    {
+      "userId": 1195,
+      "nickname": "씨나인택갓",
+      "source": "гain",
+      "inputNickname": "씨나인택갓",
+      "contribution": 109,
+      "playdkId": "5c0809e6",
+      "priorGrantIds": [
+        "41518510"
+      ]
+    },
+    {
+      "userId": 1421,
+      "nickname": "다시생각",
+      "source": "다시생각",
+      "inputNickname": "다시생각",
+      "contribution": 109,
+      "playdkId": "6f84c07a",
+      "priorGrantIds": []
+    },
+    {
+      "userId": 1768,
+      "nickname": "핫시",
+      "source": "핫시:D",
+      "inputNickname": "hhhhhaa",
+      "contribution": 109,
+      "playdkId": "8dd27727",
+      "priorGrantIds": [
+        "41518511"
+      ]
+    },
+    {
+      "userId": 2246,
+      "nickname": "옹가망함1",
+      "source": "날종",
+      "inputNickname": "옹가망함1",
+      "contribution": 109,
+      "playdkId": "91254f22",
+      "priorGrantIds": []
+    },
+    {
+      "userId": 2420,
+      "nickname": "블랙캐슬",
+      "source": "블랙캐슬",
+      "inputNickname": "블랙캐슬",
+      "contribution": 109,
+      "playdkId": "a2c1e499",
+      "priorGrantIds": [
+        "41513898",
+        "41502167"
+      ]
+    },
+    {
+      "userId": 2505,
+      "nickname": "모아가려아가",
+      "source": "츠츠_",
+      "inputNickname": "모아가려아가",
+      "contribution": 100,
+      "playdkId": "04fa1e36",
+      "priorGrantIds": []
+    },
+    {
+      "userId": 3884,
+      "nickname": "zkzk9999",
+      "source": "z7005z",
+      "inputNickname": "zkzk9999",
+      "contribution": 109,
+      "playdkId": "2113359e",
+      "priorGrantIds": [
+        "41518512"
+      ]
+    },
+    {
+      "userId": 3892,
+      "nickname": "슈파두파",
+      "source": "슈파두파",
+      "inputNickname": "슈파두파",
+      "contribution": 109,
+      "playdkId": "1e689522",
+      "priorGrantIds": []
+    },
+    {
+      "userId": 3974,
+      "nickname": "우회하세요",
+      "source": "스프°",
+      "inputNickname": "우회하세요",
+      "contribution": 109,
+      "playdkId": "9f8e3d1b",
+      "priorGrantIds": []
+    },
+    {
+      "userId": 4010,
+      "nickname": "슈라",
+      "source": "슈라*",
+      "inputNickname": "슈라",
+      "contribution": 109,
+      "playdkId": "21bea729",
+      "priorGrantIds": []
+    },
+    {
+      "userId": 4084,
+      "nickname": "게임닉네임",
+      "source": "게임닉네임",
+      "inputNickname": "게임닉네임",
+      "contribution": 109,
+      "playdkId": "491e9cc1",
+      "priorGrantIds": []
+    },
+    {
+      "userId": 4111,
+      "nickname": "족게이다",
+      "source": "존버형2↑",
+      "inputNickname": "족게이다",
+      "contribution": 872,
+      "playdkId": "6c8a26e9",
+      "priorGrantIds": [],
+      "identityConfirmedByUser": true
+    },
+    {
+      "userId": 4209,
+      "nickname": "#유나랜드",
+      "source": "유나랜드",
+      "inputNickname": "#유나랜드",
+      "contribution": 109,
+      "playdkId": "d98a8c3a",
+      "priorGrantIds": [
+        "41518513"
+      ]
+    },
+    {
+      "userId": 4235,
+      "nickname": "도댕",
+      "source": "도댕...",
+      "inputNickname": "도댕",
+      "contribution": 109,
+      "playdkId": "1e59de3c",
+      "priorGrantIds": []
+    },
+    {
+      "userId": 4391,
+      "nickname": "더듬이구",
+      "source": "탱탱노",
+      "inputNickname": "더듬이구",
+      "contribution": 109,
+      "playdkId": "b86ce1fb",
+      "priorGrantIds": [
+        "41518514"
+      ]
+    },
+    {
+      "userId": 4408,
+      "nickname": "레가파",
+      "source": "연구가태여니",
+      "inputNickname": "레기파",
+      "contribution": 228,
+      "playdkId": "0c98c0a7",
+      "priorGrantIds": [
+        "41518515"
+      ]
+    },
+    {
+      "userId": 4501,
+      "nickname": "장씨아저씨",
+      "source": "장씨아저씨",
+      "inputNickname": "장씨아저씨",
+      "contribution": 109,
+      "playdkId": "ce44a7ee",
+      "priorGrantIds": []
+    },
+    {
+      "userId": 4504,
+      "nickname": "깜찍소녀",
+      "source": "깜찍소녀",
+      "inputNickname": "깜찍소녀",
+      "contribution": 109,
+      "playdkId": "9064056b",
+      "priorGrantIds": []
+    },
+    {
+      "userId": 4540,
+      "nickname": "지아영",
+      "source": "ausuusuha",
+      "inputNickname": "지아영",
+      "contribution": 109,
+      "playdkId": "5ecad84f",
+      "priorGrantIds": []
+    },
+    {
+      "userId": 4570,
+      "nickname": "혜정",
+      "source": "혜정♪",
+      "inputNickname": "혜정",
+      "contribution": 109,
+      "playdkId": "0e8cf635",
+      "priorGrantIds": [
+        "41518516"
+      ]
+    },
+    {
+      "userId": 4572,
+      "nickname": "응맨",
+      "source": "응맨♡",
+      "inputNickname": "응멘",
+      "contribution": 218,
+      "playdkId": "2ab08a59",
+      "priorGrantIds": [
+        "41518517"
+      ]
+    },
+    {
+      "userId": 4582,
+      "nickname": "족단",
+      "source": "[C9]족단",
+      "inputNickname": "족단",
+      "contribution": 109,
+      "playdkId": "22c31ef9",
+      "priorGrantIds": [
+        "41518518"
+      ]
+    },
+    {
+      "userId": 4595,
+      "nickname": "비니",
+      "source": "[C9]비니",
+      "inputNickname": "비니",
+      "contribution": 109,
+      "playdkId": "76aa86ba",
+      "priorGrantIds": []
+    },
+    {
+      "userId": 4597,
+      "nickname": "찬호",
+      "source": "Rrr",
+      "inputNickname": "찬호",
+      "contribution": 100,
+      "playdkId": "cd23e0b4",
+      "priorGrantIds": []
+    },
+    {
+      "userId": 4610,
+      "nickname": "고라니ㅇ",
+      "source": "고라니ㅇ",
+      "inputNickname": "고라니ㅇ",
+      "contribution": 1090,
+      "playdkId": "372f52a0",
+      "priorGrantIds": []
+    },
+    {
+      "userId": 4615,
+      "nickname": "랭비!",
+      "source": "[C9]플랜비",
+      "inputNickname": "랭비!",
+      "contribution": 109,
+      "playdkId": "70f6dcb8",
+      "priorGrantIds": []
+    },
+    {
+      "userId": 4627,
+      "nickname": "학벌",
+      "source": "학벌",
+      "inputNickname": "학벌",
+      "contribution": 109,
+      "playdkId": "6da5a7a7",
+      "priorGrantIds": [
+        "41518519"
+      ]
+    },
+    {
+      "userId": 4628,
+      "nickname": "망순이ෆ",
+      "source": "망액이",
+      "inputNickname": "망순이ෆ",
+      "contribution": 109,
+      "playdkId": "0b464ee5",
+      "priorGrantIds": [
+        "41518520"
+      ]
+    },
+    {
+      "userId": 4651,
+      "nickname": "세라네꼬라지",
+      "source": "세라네꼬라지",
+      "inputNickname": "세라네꼬라지",
+      "contribution": 142,
+      "playdkId": "644d3393",
+      "priorGrantIds": [
+        "41518521"
+      ]
+    },
+    {
+      "userId": 4705,
+      "nickname": "˚쟁이。",
+      "source": "˚쟁이。",
+      "inputNickname": "˚쟁이。",
+      "contribution": 109,
+      "playdkId": "634d4201",
+      "priorGrantIds": [
+        "41518522"
+      ]
+    },
+    {
+      "userId": 4754,
+      "nickname": "조은",
+      "source": "조은",
+      "inputNickname": "조은",
+      "contribution": 109,
+      "playdkId": "b183dbb1",
+      "priorGrantIds": []
+    },
+    {
+      "userId": 4757,
+      "nickname": "음주플레이어",
+      "source": "음주플레이어",
+      "inputNickname": "음주플레이어",
+      "contribution": 109,
+      "playdkId": "0c8c8f1c",
+      "priorGrantIds": [
+        "41518523"
+      ]
+    },
+    {
+      "userId": 4772,
+      "nickname": "펜타",
+      "source": "네이아네이",
+      "inputNickname": "펜타",
+      "contribution": 109,
+      "playdkId": "416c1cc2",
+      "priorGrantIds": []
+    },
+    {
+      "userId": 4774,
+      "nickname": "딤럼프",
+      "source": "생스머신디임",
+      "inputNickname": "딤럼프",
+      "contribution": 5450,
+      "playdkId": "373b1b92",
+      "priorGrantIds": [
+        "41518524"
+      ]
+    },
+    {
+      "userId": 4836,
+      "nickname": "딤키우기",
+      "source": "딤키우기",
+      "inputNickname": "딤키우기",
+      "contribution": 4360,
+      "playdkId": "9fc36f09",
+      "priorGrantIds": []
+    },
+    {
+      "userId": 4837,
+      "nickname": "별도",
+      "source": "도별",
+      "inputNickname": "별도",
+      "contribution": 109,
+      "playdkId": "afec7800",
+      "priorGrantIds": []
+    },
+    {
+      "userId": 4866,
+      "nickname": "[C9]가시",
+      "source": "[C9]가시",
+      "inputNickname": "[C9]가시",
+      "contribution": 109,
+      "playdkId": "f4345135",
+      "priorGrantIds": [
+        "41518525"
+      ]
+    },
+    {
+      "userId": 4908,
+      "nickname": "굳건창수",
+      "source": "굳건창수b",
+      "inputNickname": "굳건창수",
+      "contribution": 109,
+      "playdkId": "6a375b2a",
+      "priorGrantIds": [
+        "41518526",
+        "41500706"
+      ]
+    },
+    {
+      "userId": 5010,
+      "nickname": "으악",
+      "source": "#으악",
+      "inputNickname": "으악",
+      "contribution": 218,
+      "playdkId": "4421c392",
+      "priorGrantIds": [
+        "41518527"
+      ]
+    },
+    {
+      "userId": 5426,
+      "nickname": "나무늘봉순",
+      "source": "나무늘봉순",
+      "inputNickname": "나무늘봉순",
+      "contribution": 109,
+      "playdkId": "8be68ada",
+      "priorGrantIds": []
+    }
+  ],
+  "memo": [
+    {
+      "source": "[C9]재매이형",
+      "userId": 85,
+      "nickname": "카르푸",
+      "playdkId": "bf3920e6",
+      "reason": "사용자 따로메모 지정; 이번 지급 제외"
+    }
+  ]
+}
