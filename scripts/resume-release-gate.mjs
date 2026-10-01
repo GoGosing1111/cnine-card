@@ -27,14 +27,28 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
   if(commands.at(-1)!=='node scripts/verify-production-release.mjs'||names.slice(0,-1).some(name=>!name))throw Error('Unsupported full gate structure.');
   const seen=[...logText.matchAll(/^> ((?:test|check):[\w:-]+)\r?$/gm)].map(match=>match[1]);
   if(!seen.length||seen.some((name,i)=>name!==names[i]))throw Error('Log is not a contiguous gate prefix.');
-  const failedIndex=seen.length-1,last=logText.lastIndexOf(`> ${seen.at(-1)}`),prefix=logText.slice(0,last);
+  // A concurrent documentation/operations commit can advance main after every
+  // test passed. Reuse that complete gate only when its exact candidate reached
+  // the final source-identity guard. All runtime/dependency checks below remain.
+  const sourceGuardBlocked=seen.length===names.length-1
+    &&logText.includes(`[PRODUCTION RELEASE BLOCKED] deploy source differs from origin/main: HEAD=${base} origin/main=`)
+    &&!/^ℹ fail [1-9]/m.test(logText);
+  const failedIndex=sourceGuardBlocked?names.length-1:seen.length-1,last=logText.lastIndexOf(`> ${seen.at(-1)}`),prefix=logText.slice(0,last);
   const tail=logText.slice(last),failed=/^ℹ fail [1-9]/m.test(tail);
   // An interrupted process has no final Node test summary. Always rerun that
   // whole stage; never treat individual passing test lines as stage completion.
   const interrupted=env.RELEASE_GATE_RESUME_INTERRUPTED==='1'&&!/^ℹ fail \d+/m.test(tail)
     &&String(env.RELEASE_GATE_RESUME_REASON||'').trim().length>=20;
-  if(/^ℹ fail [1-9]/m.test(prefix)||(!failed&&!interrupted))throw Error('Resume requires a failed or explicitly interrupted final stage and successful preceding stages.');
-  const changed=git('diff','--name-only',base,'HEAD').split('\n').filter(Boolean),rerun=new Set();
+  if(/^ℹ fail [1-9]/m.test(prefix)||(!failed&&!interrupted&&!sourceGuardBlocked))throw Error('Resume requires a failed or explicitly interrupted final stage, or the exact completed source-identity guard.');
+  const changed=git('diff','--name-only',base,'HEAD').split('\n').filter(Boolean),rerun=new Set(),operationTests=new Set();
+  const operations=changed.filter(path=>/^scripts\/ops\/[a-zA-Z0-9_-]+\.(?:mjs|json)$/.test(path));
+  if(operations.length){
+    const runtimeFiles=git('ls-files','functions','workers','shared','js','admin','scripts','index.html','service-worker.js').split('\n').filter(path=>!path.startsWith('scripts/ops/')&&/\.(?:[cm]?js|jsonc?|html)$/.test(path));
+    for(const file of runtimeFiles){
+      const source=read(file);
+      if(operations.some(path=>source.includes(path)||source.includes(path.split('/').at(-1))))throw Error(`Operational file is referenced by runtime/tooling (${file}): run a fresh full gate.`);
+    }
+  }
   const browserProof=new Set();
   if(env.RELEASE_GATE_RESUME_UI_REPORT){
     const raw=read(env.RELEASE_GATE_RESUME_UI_REPORT);
@@ -72,17 +86,20 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
   const tooling=new Set(['scripts/deploy-production.mjs','scripts/resume-release-gate.mjs','tests/resume-release-gate.test.mjs']);
   for(const path of changed){
     if(path==='AGENTS.md'||path.startsWith('docs/')||path==='preview/project-v-mercenary-system-v1/README.md'||tooling.has(path))continue;
+    if(operations.includes(path))continue;
     if(browserProof.has(path))continue;
     // Legacy gate entry points also use .mjs without the .test suffix. Require
     // direct membership in a gate command below; shared helpers remain excluded.
     if(!/^tests\/[^/]+\.mjs$/.test(path))throw Error(`Runtime/shared helper changed (${path}): run a fresh full gate.`);
     let matched=false;
     for(let i=0;i<names.length-1;i++)if(scripts[names[i]].split(/\s+/).includes(path)){matched=true;if(i<failedIndex)rerun.add(i);}
-    if(!matched)throw Error(`Cannot map changed test to the full gate: ${path}`);
+    if(!matched&&operations.length&&path.endsWith('.test.mjs')&&operations.some(operation=>read(path).includes('../'+operation)))operationTests.add(path);
+    else if(!matched)throw Error(`Cannot map changed test to the full gate: ${path}`);
   }
   // The resume implementation is itself verified, including on its first use.
   return {base,reused:failedIndex-rerun.size,commands:[
     'node --test tests/resume-release-gate.test.mjs tests/scoped-release-policy-20260923.test.mjs tests/hyperdrive-cache-deploy-guard.test.mjs',
+    ...[...operationTests].map(path=>'node --test '+path),
     ...[...rerun].sort((a,b)=>a-b).map(i=>commands[i]),...commands.slice(failedIndex)
   ]};
 }

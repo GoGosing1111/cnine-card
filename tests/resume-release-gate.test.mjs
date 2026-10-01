@@ -24,6 +24,27 @@ test('full gate resumes a proven prefix and retains failed, remaining and final 
   assert.deepEqual(plan.commands.slice(1),['npm run test:b','npm run test:c','node scripts/verify-production-release.mjs']);
   assert.match(plan.commands[0],/resume-release-gate\.test\.mjs/);
 });
+
+test('a completed gate blocked only by concurrent main advancement retains all tests and reruns the production guard',()=>{
+  const f=fixture({changed:['docs/operations.json']});
+  const log=`> release:gate\n> ${f.scripts['release:gate']}\n> test:a\nℹ fail 0\n> test:b\nℹ fail 0\n> test:c\nℹ fail 0\n[PRODUCTION RELEASE BLOCKED] deploy source differs from origin/main: HEAD=${base} origin/main=${head}\n`;
+  const completed=fixture({changed:['docs/operations.json'],log}),plan=fullGateResumePlan(completed);
+  assert.equal(plan.reused,3);assert.deepEqual(plan.commands.slice(1),['node scripts/verify-production-release.mjs']);
+  for(const changed of [['functions/live.js'],['package.json']])assert.throws(()=>fullGateResumePlan(fixture({changed,log})),/fresh full gate/);
+  for(const bad of [log.replace(`HEAD=${base}`,`HEAD=${head}`),log.replace('> test:c\n',''),log.replace('ℹ fail 0','ℹ fail 1'),log.replace('deploy source differs from origin/main','another guard failed')])assert.throws(()=>fullGateResumePlan(fixture({changed:['docs/operations.json'],log:bad})));
+});
+
+test('unreferenced operations tooling retains game results but runs its own tests; runtime references fail closed',()=>{
+  const operation='scripts/ops/example-grant.mjs',target='tests/example-grant.test.mjs';
+  const f=fixture({changed:[operation,'scripts/ops/example-grant-targets.json',target]});
+  const read=path=>path===target?`import '../${operation}';`:'';
+  const plan=fullGateResumePlan({...f,read});assert.ok(plan.commands.includes('node --test '+target));
+  assert.throws(()=>fullGateResumePlan({...f,read:()=>''}),/Cannot map changed test/);
+  for(const reference of [operation,'example-grant.mjs']){
+    const git=(...args)=>args[0]==='ls-files'&&args[1]==='functions'?'functions/live.js':f.git(...args);
+    assert.throws(()=>fullGateResumePlan({...f,git,read:path=>path==='functions/live.js'?`import '${reference}';`:read(path)}),/referenced by runtime/);
+  }
+});
 test('changed tests in a completed stage rerun that stage without invalidating unrelated passes',()=>{
   const plan=fullGateResumePlan(fixture({changed:['tests/a.test.mjs','docs/release.md']}));
   assert.equal(plan.reused,0);assert.equal(plan.commands[1],'npm run test:a');
