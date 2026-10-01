@@ -1,0 +1,538 @@
+{
+  "anchor": {
+    "source": "assets/motion-v5/ready-a-source.png",
+    "sourceIndex": 0,
+    "bodyPixels": 694,
+    "points": [
+      [
+        299,
+        130
+      ],
+      [
+        280,
+        318
+      ],
+      [
+        231,
+        456
+      ],
+      [
+        194,
+        641
+      ]
+    ]
+  },
+  "baseline": 524.0625036650569,
+  "records": [
+    {
+      "key": "twohandGrip",
+      "index": 0,
+      "source": "assets/motion-v10/twohand-grip-source.png",
+      "sourceIndex": 0,
+      "points": [
+        [
+          335,
+          142
+        ],
+        [
+          301,
+          334
+        ],
+        [
+          259,
+          467
+        ],
+        [
+          212,
+          675
+        ]
+      ],
+      "sourceHash": "09F469F12D56375625AA085BD89E77D0FA31E25E92661DDBD80B8F41AE5FF5F1",
+      "chain": 547.7051826909285,
+      "oldReference": 714,
+      "reference": 725,
+      "uniformCorrection": 0.9848275862068966,
+      "method": "ARTICULATED_BODY_CHAIN"
+    },
+    {
+      "key": "twohandGrip",
+      "index": 1,
+      "source": "assets/motion-v10/twohand-grip-source.png",
+      "sourceIndex": 1,
+      "points": [
+        [
+          824,
+          143
+        ],
+        [
+          799,
+          333
+        ],
+        [
+          755,
+          469
+        ],
+        [
+          704,
+          675
+        ]
+      ],
+      "sourceHash": "09F469F12D56375625AA085BD89E77D0FA31E25E92661DDBD80B8F41AE5FF5F1",
+      "chain": 546.7974523222233,
+      "oldReference": 714,
+      "reference": 724,
+      "uniformCorrection": 0.9861878453038674,
+      "method": "ARTICULATED_BODY_CHAIN"
+    },
+    {
+      "key": "twohandGrip",
+      "index": 2,
+      "source": "assets/motion-v10/twohand-grip-source.png",
+      "sourceIndex": 2,
+      "points": [
+        [
+          312,
+          879
+        ],
+        [
+          279,
+          1086
+        ],
+        [
+          222,
+          1229
+        ],
+        [
+          162,
+          1425
+        ]
+      ],
+      "sourceHash": "09F469F12D56375625AA085BD89E77D0FA31E25E92661DDBD80B8F41AE5FF5F1",
+      "chain": 568.5335257882006,
+      "oldReference": 714,
+      "reference": 753,
+      "uniformCorrection": 0.9482071713147411,
+      "method": "ARTICULATED_BODY_CHAIN"
+    },
+    {
+      "key": "twohandGrip",
+      "index": 3,
+      "source": "assets/motion-v10/twohand-grip-source.png",
+      "sourceIndex": 3,
+      "points": [
+        [
+          784,
+          894
+        ],
+        [
+          791,
+          1090
+        ],
+        [
+          754,
+          1243
+        ],
+        [
+          691,
+          1438
+        ]
+      ],
+      "sourceHash": "09F469F12D56375625AA085BD89E77D0FA31E25E92661DDBD80B8F41AE5FF5F1",
+      "chain": 558.4596283735318,
+      "oldReference": 714,
+      "reference": 740,
+      "uniformCorrection": 0.9648648648648649,
+      "method": "ARTICULATED_BODY_CHAIN"
+    },
+    {
+      "key": "twohandLift",
+      "index": 0,
+      "source": "assets/motion-v10/twohand-lift-source.png",
+      "sourceIndex": 0,
+      "points": [
+        [
+          374,
+          221
+        ],
+        [
+          367,
+          390
+        ],
+        [
+          292,
+          517
+        ],
+        [
+          227,
+          694
+        ]
+      ],
+      "sourceHash": "A4D50BC759B492FFCF4C1B3D44998A06C2C003568641B67E52BB93F57EA42379",
+      "chain": 505.1949644546107,
+      "oldReference": 714,
+      "reference": 669,
+      "uniformCorrection": 1.0672645739910314,
+      "method": "ARTICULATED_BODY_CHAIN"
+    },
+    {
+      "key": "twohandLift",
+      "index": 1,
+      "source": "assets/motion-v10/twohand-lift-source.png",
+      "sourceIndex": 1,
+      "points": [
+        [
+          816,
+          233
+        ],
+        [
+          813,
+          386
+        ],
+        [
+          749,
+          518
+        ],
+        [
+          687,
+          695
+        ]
+      ],
+      "sourceHash": "A4D50BC759B492FFCF4C1B3D44998A06C2C003568641B67E52BB93F57EA42379",
+      "chain": 487.2710368530576,
+      "oldReference": 714,
+      "reference": 645,
+      "uniformCorrection": 1.1069767441860465,
+      "method": "ARTICULATED_BODY_CHAIN"
+    },
+    {
+      "key": "twohandLift",
+      "index": 2,
+      "source": "assets/motion-v10/twohand-lift-source.png",
+      "sourceIndex": 2,
+      "points": [
+        [
+          378,
+          980
+        ],
+        [
+          377,
+          1150
+        ],
+        [
+          302,
+          1274
+        ],
+        [
+          218,
+          1450
+        ]
+      ],
+      "sourceHash": "A4D50BC759B492FFCF4C1B3D44998A06C2C003568641B67E52BB93F57EA42379",
+      "chain": 509.93810679162755,
+      "oldReference": 714,
+      "reference": 675,
+      "uniformCorrection": 1.0577777777777777,
+      "method": "ARTICULATED_BODY_CHAIN"
+    },
+    {
+      "key": "twohandLift",
+      "index": 3,
+      "source": "assets/motion-v10/twohand-lift-source.png",
+      "sourceIndex": 3,
+      "points": [
+        [
+          846,
+          983
+        ],
+        [
+          851,
+          1155
+        ],
+        [
+          764,
+          1286
+        ],
+        [
+          682,
+          1451
+        ]
+      ],
+      "sourceHash": "A4D50BC759B492FFCF4C1B3D44998A06C2C003568641B67E52BB93F57EA42379",
+      "chain": 513.5829533582817,
+      "oldReference": 714,
+      "reference": 680,
+      "uniformCorrection": 1.05,
+      "method": "ARTICULATED_BODY_CHAIN"
+    },
+    {
+      "key": "twohandStrike",
+      "index": 0,
+      "source": "assets/motion-v10/twohand-strike-source.png",
+      "sourceIndex": 0,
+      "points": [
+        [
+          337,
+          204
+        ],
+        [
+          343,
+          372
+        ],
+        [
+          252,
+          505
+        ],
+        [
+          127,
+          678
+        ]
+      ],
+      "sourceHash": "642B488DE2E3DB021B066502035C48CC41D4299354FC9E5A105652A27C0EDC20",
+      "chain": 542.6930412741041,
+      "oldReference": 714,
+      "reference": 719,
+      "uniformCorrection": 0.9930458970792768,
+      "method": "ARTICULATED_BODY_CHAIN"
+    },
+    {
+      "key": "twohandStrike",
+      "index": 1,
+      "source": "assets/motion-v10/twohand-strike-source.png",
+      "sourceIndex": 1,
+      "points": [
+        [
+          848,
+          255
+        ],
+        [
+          790,
+          403
+        ],
+        [
+          726,
+          521
+        ],
+        [
+          630,
+          677
+        ]
+      ],
+      "sourceHash": "642B488DE2E3DB021B066502035C48CC41D4299354FC9E5A105652A27C0EDC20",
+      "chain": 476.3697580661926,
+      "oldReference": 714,
+      "reference": 631,
+      "uniformCorrection": 1.1315372424722663,
+      "method": "ARTICULATED_BODY_CHAIN"
+    },
+    {
+      "key": "twohandStrike",
+      "index": 2,
+      "source": "assets/motion-v10/twohand-strike-source.png",
+      "sourceIndex": 2,
+      "points": [
+        [
+          401,
+          1020
+        ],
+        [
+          330,
+          1164
+        ],
+        [
+          263,
+          1281
+        ],
+        [
+          162,
+          1437
+        ]
+      ],
+      "sourceHash": "642B488DE2E3DB021B066502035C48CC41D4299354FC9E5A105652A27C0EDC20",
+      "chain": 481.2193159296861,
+      "oldReference": 714,
+      "reference": 637,
+      "uniformCorrection": 1.120879120879121,
+      "method": "ARTICULATED_BODY_CHAIN"
+    },
+    {
+      "key": "twohandStrike",
+      "index": 3,
+      "source": "assets/motion-v10/twohand-strike-source.png",
+      "sourceIndex": 3,
+      "points": [
+        [
+          859,
+          981
+        ],
+        [
+          824,
+          1137
+        ],
+        [
+          748,
+          1270
+        ],
+        [
+          657,
+          1443
+        ]
+      ],
+      "sourceHash": "642B488DE2E3DB021B066502035C48CC41D4299354FC9E5A105652A27C0EDC20",
+      "chain": 508.5347591734607,
+      "oldReference": 714,
+      "reference": 673,
+      "uniformCorrection": 1.0609212481426449,
+      "method": "ARTICULATED_BODY_CHAIN"
+    },
+    {
+      "key": "twohandReturn",
+      "index": 0,
+      "source": "assets/motion-v10/twohand-return-source.png",
+      "sourceIndex": 0,
+      "points": [
+        [
+          379,
+          153
+        ],
+        [
+          316,
+          320
+        ],
+        [
+          254,
+          452
+        ],
+        [
+          150,
+          636
+        ]
+      ],
+      "sourceHash": "C1691A38BE2A89099CB4BC2C8A1EFEAF03FD9FBDF8C7A5510AC859C16771988A",
+      "chain": 535.6811356521242,
+      "oldReference": 714,
+      "reference": 709,
+      "uniformCorrection": 1.007052186177715,
+      "method": "ARTICULATED_BODY_CHAIN"
+    },
+    {
+      "key": "twohandReturn",
+      "index": 1,
+      "source": "assets/motion-v10/twohand-return-source.png",
+      "sourceIndex": 1,
+      "points": [
+        [
+          843,
+          138
+        ],
+        [
+          810,
+          325
+        ],
+        [
+          764,
+          471
+        ],
+        [
+          684,
+          650
+        ]
+      ],
+      "sourceHash": "C1691A38BE2A89099CB4BC2C8A1EFEAF03FD9FBDF8C7A5510AC859C16771988A",
+      "chain": 539.0283516009459,
+      "oldReference": 714,
+      "reference": 714,
+      "uniformCorrection": 1,
+      "method": "ARTICULATED_BODY_CHAIN"
+    },
+    {
+      "key": "twohandReturn",
+      "index": 2,
+      "source": "assets/motion-v10/twohand-return-source.png",
+      "sourceIndex": 2,
+      "points": [
+        [
+          342,
+          850
+        ],
+        [
+          297,
+          1070
+        ],
+        [
+          248,
+          1210
+        ],
+        [
+          187,
+          1420
+        ]
+      ],
+      "sourceHash": "C1691A38BE2A89099CB4BC2C8A1EFEAF03FD9FBDF8C7A5510AC859C16771988A",
+      "chain": 591.5625881310228,
+      "oldReference": 714,
+      "reference": 771,
+      "uniformCorrection": 0.9260700389105059,
+      "method": "NEUTRAL_STANDING_HEIGHT"
+    },
+    {
+      "key": "twohandReturn",
+      "index": 3,
+      "source": "assets/motion-v10/twohand-return-source.png",
+      "sourceIndex": 3,
+      "points": [
+        [
+          846,
+          850
+        ],
+        [
+          800,
+          1074
+        ],
+        [
+          750,
+          1211
+        ],
+        [
+          699,
+          1420
+        ]
+      ],
+      "sourceHash": "C1691A38BE2A89099CB4BC2C8A1EFEAF03FD9FBDF8C7A5510AC859C16771988A",
+      "chain": 589.6459106459808,
+      "oldReference": 714,
+      "reference": 769,
+      "uniformCorrection": 0.9284785435630689,
+      "method": "NEUTRAL_STANDING_HEIGHT"
+    },
+    {
+      "key": "twohandReturn",
+      "index": 4,
+      "source": "assets/motion-v5/ready-a-source.png",
+      "sourceIndex": 0,
+      "points": [
+        [
+          299,
+          130
+        ],
+        [
+          280,
+          318
+        ],
+        [
+          231,
+          456
+        ],
+        [
+          194,
+          641
+        ]
+      ],
+      "sourceHash": "FA62E2F126FABC1B7A7E49C8CCA3638CE9ADF2456C22822C15F7A300D499FFD6",
+      "chain": 524.0625036650569,
+      "oldReference": 694,
+      "reference": 694,
+      "uniformCorrection": 1,
+      "method": "ARTICULATED_BODY_CHAIN"
+    }
+  ]
+}

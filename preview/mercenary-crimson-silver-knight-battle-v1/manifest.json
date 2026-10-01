@@ -1,5 +1,5 @@
 {
-  "version": 12,
+  "version": 13,
   "conceptId": "crimson-silver-knight",
   "name": "은백·금색 대검 기사",
   "nameStatus": "DESCRIPTION_NOT_ASSIGNED",
@@ -3534,25 +3534,25 @@
           "registration": "CYAN_POMMEL_MAGENTA_BLADE_GREEN_STRAIGHT_HILT"
         }
       ],
-      "atlas": "assets/motion-v10/twohandGrip-atlas.webp",
-      "atlasSha256": "052B8E41EE84758C4016E9F7DFB6D9201D1D8532C967E5F51E67B037D2A38C17",
-      "pngAtlas": "assets/motion-v10/twohandGrip-atlas.png",
-      "pngAtlasSha256": "ED188A38D166D7613D67F1321A2E12DAE85A1A4C5099560BD384339A04A840DF",
+      "atlas": "assets/motion-v13/twohandGrip-atlas.webp",
+      "atlasSha256": "3B433EC0BA918A038AFDB9315AA289E41B5C06DC3F59C87B0FF2EC6837097046",
+      "pngAtlas": "assets/motion-v13/twohandGrip-atlas.png",
+      "pngAtlasSha256": "524A17A516C4F60B7420AA3FAC5CF183441177A09715CCD0133BCD2351B2F6F5",
       "cellSize": 512,
       "columns": 4,
       "rows": 1,
       "frameCount": 4,
-      "bodyPixels": 273.47425474254743,
+      "bodyPixels": 279.1459074733096,
       "frames": [
         {
-          "file": "assets/motion-v10/frames/twohandGrip/00.png",
-          "sha256": "A4C78E7B7790DA4E06876B2C06E6A866857FB992E50E60ECDABC0B89D975AF40",
+          "file": "assets/motion-v13/frames/twohandGrip/00.png",
+          "sha256": "830B132CEA49BA01FB12B5CFCCBE1E753C3A00A22EC70E57538335007C107299",
           "index": 0,
           "footAnchor": {
             "x": 0.5,
             "y": 0.859375
           },
-          "bodyPixels": 273.47425474254743,
+          "bodyPixels": 279.1459074733096,
           "source": "assets/motion-v10/twohand-grip-source.png",
           "sourceIndex": 0,
           "sourceBounds": [
@@ -3565,34 +3565,34 @@
             322.5,
             736
           ],
-          "sourceBodyPixels": 714,
+          "sourceBodyPixels": 725,
           "sourceGrip": [
             191.50413899197974,
             347.93823032761514
           ],
           "grip": [
-            205.826336885817,
-            291.36568171536476
+            205.5628158671292,
+            290.58502779186716
           ],
           "tip": [
-            370.27224652100494,
-            423.1986082199328
+            373.4192114119437,
+            425.152071181836
           ],
           "weapon": {
             "original": "assets/weapon/sword-original.png",
             "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
-            "scale": 0.49173553719008267,
+            "scale": 0.49931129476584024,
             "angle": -50.718350358643946,
             "grip": [
               171.50413899197974,
               331.93823032761514
             ],
             "pivot": [
-              111.03730914962682,
-              114.15136857763534
+              112.6140852961596,
+              116.3204831166475
             ],
             "rigid": true,
-            "packedUniformScale": 0.3830171635049684
+            "packedUniformScale": 0.3850288378942201
           },
           "registration": {
             "cyan": [
@@ -3618,17 +3618,41 @@
             "glovePixels": 3129,
             "removedKey": 1267
           },
-          "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+          "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS",
+          "scaleAudit": {
+            "previousReference": 714,
+            "sourcePoints": [
+              [
+                335,
+                142
+              ],
+              [
+                301,
+                334
+              ],
+              [
+                259,
+                467
+              ],
+              [
+                212,
+                675
+              ]
+            ],
+            "uniformCorrection": 0.9848275862068966,
+            "method": "ARTICULATED_BODY_CHAIN",
+            "sourceArtworkChanged": false
+          }
         },
         {
-          "file": "assets/motion-v10/frames/twohandGrip/01.png",
-          "sha256": "652853A66B15AC85927E48DFE98DBB9B5B4B8D857F50D4C32F9E9A1854571459",
+          "file": "assets/motion-v13/frames/twohandGrip/01.png",
+          "sha256": "450671FAB060CF0E390B80C6C8D57D073AD08FBE7DCE7B5B818060A5CEC76CB5",
           "index": 1,
           "footAnchor": {
             "x": 0.5,
             "y": 0.859375
           },
-          "bodyPixels": 273.47425474254743,
+          "bodyPixels": 279.1459074733096,
           "source": "assets/motion-v10/twohand-grip-source.png",
           "sourceIndex": 1,
           "sourceBounds": [
@@ -3641,31 +3665,31 @@
             814.5,
             737
           ],
-          "sourceBodyPixels": 714,
+          "sourceBodyPixels": 724,
           "sourceGrip": [
             842.6784455864457,
             358.4093065298336
           ],
           "grip": [
-            266.79282830049954,
-            294.9932664576779
+            266.86449967460726,
+            294.03032777668625
           ],
           "tip": [
-            463.5398910602312,
-            370.5774645543797
+            467.69195024569314,
+            371.1820859493491
           ],
           "weapon": {
             "original": "assets/weapon/sword-original.png",
             "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
-            "scale": 0.49173553719008267,
+            "scale": 0.4986225895316804,
             "angle": -68.42154202127001,
             "grip": [
               322.6784455864457,
               341.4093065298336
             ],
             "pivot": [
-              102.9524878517399,
-              105.42455894728351
+              104.8065497438314,
+              107.23045670594614
             ],
             "rigid": true,
             "hiltUnderlay": {
@@ -3685,7 +3709,7 @@
               },
               "method": "ORIGINAL_STRAIGHT_HILT_PIXELS_COPIED_BEHIND_EXISTING_HAND_HOLE"
             },
-            "packedUniformScale": 0.3830171635049684
+            "packedUniformScale": 0.38556064568136683
           },
           "registration": {
             "cyan": [
@@ -3715,17 +3739,41 @@
             "glovePixels": 6261,
             "removedKey": 973
           },
-          "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+          "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS",
+          "scaleAudit": {
+            "previousReference": 714,
+            "sourcePoints": [
+              [
+                824,
+                143
+              ],
+              [
+                799,
+                333
+              ],
+              [
+                755,
+                469
+              ],
+              [
+                704,
+                675
+              ]
+            ],
+            "uniformCorrection": 0.9861878453038674,
+            "method": "ARTICULATED_BODY_CHAIN",
+            "sourceArtworkChanged": false
+          }
         },
         {
-          "file": "assets/motion-v10/frames/twohandGrip/02.png",
-          "sha256": "A6A1D25B051B22180DF92484802B92EF873D6C559467357CE8708817EA611CCB",
+          "file": "assets/motion-v13/frames/twohandGrip/02.png",
+          "sha256": "99D3036F8D3BAD1570516FB8491CFAB040841A775675531E72EB12A86F48B8BA",
           "index": 2,
           "footAnchor": {
             "x": 0.5,
             "y": 0.859375
           },
-          "bodyPixels": 273.47425474254743,
+          "bodyPixels": 279.1459074733096,
           "source": "assets/motion-v10/twohand-grip-source.png",
           "sourceIndex": 2,
           "sourceBounds": [
@@ -3738,31 +3786,31 @@
             299.5,
             1488
           ],
-          "sourceBodyPixels": 714,
+          "sourceBodyPixels": 753,
           "sourceGrip": [
             353.83309824666634,
             1034.1959030453986
           ],
           "grip": [
-            276.81050917487494,
-            266.18524199751494
+            276.1419150277585,
+            271.76951333400007
           ],
           "tip": [
-            487.49998847737675,
-            260.5000843265334
+            491.2009374953156,
+            265.9664497195147
           ],
           "weapon": {
             "original": "assets/weapon/sword-original.png",
             "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
-            "scale": 0.49173553719008267,
+            "scale": 0.518595041322314,
             "angle": -90.98245937367163,
             "grip": [
               335.83309824666634,
               283.1959030453986
             ],
             "pivot": [
-              82.18949331787206,
-              91.04909803870093
+              86.60919771024362,
+              96.41318192584724
             ],
             "rigid": true,
             "hiltUnderlay": {
@@ -3782,7 +3830,7 @@
               },
               "method": "ORIGINAL_STRAIGHT_HILT_PIXELS_COPIED_BEHIND_EXISTING_HAND_HOLE"
             },
-            "packedUniformScale": 0.3830171635049684
+            "packedUniformScale": 0.37071169651169933
           },
           "registration": {
             "cyan": [
@@ -3812,17 +3860,41 @@
             "glovePixels": 7009,
             "removedKey": 1335
           },
-          "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+          "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS",
+          "scaleAudit": {
+            "previousReference": 714,
+            "sourcePoints": [
+              [
+                312,
+                879
+              ],
+              [
+                279,
+                1086
+              ],
+              [
+                222,
+                1229
+              ],
+              [
+                162,
+                1425
+              ]
+            ],
+            "uniformCorrection": 0.9482071713147411,
+            "method": "ARTICULATED_BODY_CHAIN",
+            "sourceArtworkChanged": false
+          }
         },
         {
-          "file": "assets/motion-v10/frames/twohandGrip/03.png",
-          "sha256": "4E62F7C98B768A47A8F1EED1E5547213CEE957EFAC37A9DD89BA021109E4DB36",
+          "file": "assets/motion-v13/frames/twohandGrip/03.png",
+          "sha256": "F05F94E0E7906AB1714215BBE06075BB21864C68040F03C3BFEACECF6C0E7DB3",
           "index": 3,
           "footAnchor": {
             "x": 0.5,
             "y": 0.859375
           },
-          "bodyPixels": 273.47425474254743,
+          "bodyPixels": 279.1459074733096,
           "source": "assets/motion-v10/twohand-grip-source.png",
           "sourceIndex": 3,
           "sourceBounds": [
@@ -3835,31 +3907,31 @@
             794,
             1502
           ],
-          "sourceBodyPixels": 714,
+          "sourceBodyPixels": 740,
           "sourceGrip": [
             911.6985002113421,
             865.5042589464797
           ],
           "grip": [
-            301.0805456997372,
-            196.2112066786878
+            300.3987224996522,
+            199.89840373070055
           ],
           "tip": [
-            440.22565056996825,
-            37.90448699453913
+            442.4295933983981,
+            38.30852037237031
           ],
           "weapon": {
             "original": "assets/weapon/sword-original.png",
             "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
-            "scale": 0.49173553719008267,
+            "scale": 0.509641873278237,
             "angle": -138.12264539619093,
             "grip": [
               409.6985002113421,
               104.5042589464797
             ],
             "pivot": [
-              114.36006364719921,
-              470.00765792461357
+              118.94007478993953,
+              487.7504108843501
             ],
             "rigid": true,
             "hiltUnderlay": {
@@ -3879,7 +3951,7 @@
               },
               "method": "ORIGINAL_STRAIGHT_HILT_PIXELS_COPIED_BEHIND_EXISTING_HAND_HOLE"
             },
-            "packedUniformScale": 0.3830171635049684
+            "packedUniformScale": 0.3772241992882562
           },
           "registration": {
             "cyan": [
@@ -3909,7 +3981,31 @@
             "glovePixels": 5883,
             "removedKey": 1855
           },
-          "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+          "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS",
+          "scaleAudit": {
+            "previousReference": 714,
+            "sourcePoints": [
+              [
+                784,
+                894
+              ],
+              [
+                791,
+                1090
+              ],
+              [
+                754,
+                1243
+              ],
+              [
+                691,
+                1438
+              ]
+            ],
+            "uniformCorrection": 0.9648648648648649,
+            "method": "ARTICULATED_BODY_CHAIN",
+            "sourceArtworkChanged": false
+          }
         }
       ],
       "contacts": []
@@ -3923,25 +4019,25 @@
           "registration": "CYAN_POMMEL_MAGENTA_BLADE_GREEN_STRAIGHT_HILT"
         }
       ],
-      "atlas": "assets/motion-v10/twohandLift-atlas.webp",
-      "atlasSha256": "1C305FF3222436A72C30C78067504A699F67E09E2B8A5ADA28BB5D2771E53062",
-      "pngAtlas": "assets/motion-v10/twohandLift-atlas.png",
-      "pngAtlasSha256": "E702C4340B8EEEE35EDC9B5A00D7370918AD123D87C76EF1A544B8CFC7DCEA07",
+      "atlas": "assets/motion-v13/twohandLift-atlas.webp",
+      "atlasSha256": "AC4A7406652EEC034E71B87D956E2E7191AC5CB2DF813137939DE3C2F559F539",
+      "pngAtlas": "assets/motion-v13/twohandLift-atlas.png",
+      "pngAtlasSha256": "CDB66593D4B8169F0223BB3034655FC0804E97929EA055735DFF732918F894AE",
       "cellSize": 512,
       "columns": 4,
       "rows": 1,
       "frameCount": 4,
-      "bodyPixels": 233.77297297297298,
+      "bodyPixels": 226.24505928853756,
       "frames": [
         {
-          "file": "assets/motion-v10/frames/twohandLift/00.png",
-          "sha256": "BBEE8BA33E24911F5B4599685426D91BC6EF104DBA5819FA0D6D3C6FF9B3E7A4",
+          "file": "assets/motion-v13/frames/twohandLift/00.png",
+          "sha256": "29142D7786874D740203E58E7434A4710E16339EFED9AED14BE70DABB7A745EA",
           "index": 0,
           "footAnchor": {
             "x": 0.5,
             "y": 0.859375
           },
-          "bodyPixels": 233.77297297297298,
+          "bodyPixels": 226.24505928853756,
           "source": "assets/motion-v10/twohand-lift-source.png",
           "sourceIndex": 0,
           "sourceBounds": [
@@ -3954,31 +4050,31 @@
             355,
             759
           ],
-          "sourceBodyPixels": 714,
+          "sourceBodyPixels": 669,
           "sourceGrip": [
             431.28608196137486,
             128.90532917231246
           ],
           "grip": [
-            280.9770646730679,
-            233.69873325796175
+            281.7987281558169,
+            226.91209841733672
           ],
           "tip": [
-            346.9499899785026,
-            66.04359598667972
+            345.6472056224228,
+            64.6557606141022
           ],
           "weapon": {
             "original": "assets/weapon/sword-original.png",
             "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
-            "scale": 0.49173553719008267,
+            "scale": 0.4607438016528926,
             "angle": -157.95696506497245,
             "grip": [
               382.28608196137486,
               74.90532917231246
             ],
             "pivot": [
-              105.6188339820892,
-              548.3463078448696
+              99.08712684327439,
+              513.9272777169729
             ],
             "rigid": true,
             "hiltUnderlay": {
@@ -3998,7 +4094,7 @@
               },
               "method": "ORIGINAL_STRAIGHT_HILT_PIXELS_COPIED_BEHIND_EXISTING_HAND_HOLE"
             },
-            "packedUniformScale": 0.32741312741312745
+            "packedUniformScale": 0.3381839451248693
           },
           "registration": {
             "cyan": [
@@ -4028,17 +4124,41 @@
             "glovePixels": 4033,
             "removedKey": 1775
           },
-          "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+          "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS",
+          "scaleAudit": {
+            "previousReference": 714,
+            "sourcePoints": [
+              [
+                374,
+                221
+              ],
+              [
+                367,
+                390
+              ],
+              [
+                292,
+                517
+              ],
+              [
+                227,
+                694
+              ]
+            ],
+            "uniformCorrection": 1.0672645739910314,
+            "method": "ARTICULATED_BODY_CHAIN",
+            "sourceArtworkChanged": false
+          }
         },
         {
-          "file": "assets/motion-v10/frames/twohandLift/01.png",
-          "sha256": "5BE16895EB5511F2D77E1011D02172123FBDB07C0263820EC57C4B9126D82D9B",
+          "file": "assets/motion-v13/frames/twohandLift/01.png",
+          "sha256": "5586481EA0DB94A1104C99E46CB6A2BC02B9C666AF98B6E45D8C92851CE655C9",
           "index": 1,
           "footAnchor": {
             "x": 0.5,
             "y": 0.859375
           },
-          "bodyPixels": 233.77297297297298,
+          "bodyPixels": 226.24505928853756,
           "source": "assets/motion-v10/twohand-lift-source.png",
           "sourceIndex": 1,
           "sourceBounds": [
@@ -4051,31 +4171,31 @@
             806,
             758
           ],
-          "sourceBodyPixels": 714,
+          "sourceBodyPixels": 645,
           "sourceGrip": [
             799.9668636594422,
             62.40762779038694
           ],
           "grip": [
-            254.0246719626282,
-            212.2539260101344
+            253.88377164485996,
+            196.00877908338236
           ],
           "tip": [
-            213.52941908511556,
-            36.695370476104074
+            214.69253934942952,
+            26.103527418559935
           ],
           "weapon": {
             "original": "assets/weapon/sword-original.png",
             "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
-            "scale": 0.49173553719008267,
+            "scale": 0.44421487603305787,
             "angle": 167.5742525332193,
             "grip": [
               275.9668636594422,
               55.40762779038694
             ],
             "pivot": [
-              199.79841476902251,
-              561.7639992680041
+              180.58354455690994,
+              507.17859558908015
             ],
             "rigid": true,
             "hiltUnderlay": {
@@ -4095,7 +4215,7 @@
               },
               "method": "ORIGINAL_STRAIGHT_HILT_PIXELS_COPIED_BEHIND_EXISTING_HAND_HOLE"
             },
-            "packedUniformScale": 0.32741312741312745
+            "packedUniformScale": 0.3507675337806784
           },
           "registration": {
             "cyan": [
@@ -4125,17 +4245,41 @@
             "glovePixels": 3355,
             "removedKey": 1053
           },
-          "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+          "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS",
+          "scaleAudit": {
+            "previousReference": 714,
+            "sourcePoints": [
+              [
+                816,
+                233
+              ],
+              [
+                813,
+                386
+              ],
+              [
+                749,
+                518
+              ],
+              [
+                687,
+                695
+              ]
+            ],
+            "uniformCorrection": 1.1069767441860465,
+            "method": "ARTICULATED_BODY_CHAIN",
+            "sourceArtworkChanged": false
+          }
         },
         {
-          "file": "assets/motion-v10/frames/twohandLift/02.png",
-          "sha256": "495FF9BC19EAB9A4C23103AEA207D9BAE823BD4ABC11B2C51A82B80AE5B33BB9",
+          "file": "assets/motion-v13/frames/twohandLift/02.png",
+          "sha256": "EFDA81F9BB62DCE63EE8621E959FD317D78A83296884F5BAF69F7D01E65D1E59",
           "index": 2,
           "footAnchor": {
             "x": 0.5,
             "y": 0.859375
           },
-          "bodyPixels": 233.77297297297298,
+          "bodyPixels": 226.24505928853756,
           "source": "assets/motion-v10/twohand-lift-source.png",
           "sourceIndex": 2,
           "sourceBounds": [
@@ -4148,31 +4292,31 @@
             354,
             1507
           ],
-          "sourceBodyPixels": 714,
+          "sourceBodyPixels": 675,
           "sourceGrip": [
             352.0486592160793,
             770.2392961857418
           ],
           "grip": [
-            255.36110541128772,
-            198.7748738090768
+            255.34595376096254,
+            193.05411982826442
           ],
           "tip": [
-            205.18487207026874,
-            25.734365446102686
+            206.78548612971596,
+            25.585829649031723
           ],
           "weapon": {
             "original": "assets/weapon/sword-original.png",
             "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
-            "scale": 0.49173553719008267,
+            "scale": 0.46487603305785125,
             "angle": 164.39273628944318,
             "grip": [
               317.0486592160793,
               56.23929618574175
             ],
             "pivot": [
-              228.63375929879754,
-              558.4194649732343
+              216.49380591276972,
+              527.8507207792318
             ],
             "rigid": true,
             "hiltUnderlay": {
@@ -4192,7 +4336,7 @@
               },
               "method": "ORIGINAL_STRAIGHT_HILT_PIXELS_COPIED_BEHIND_EXISTING_HAND_HOLE"
             },
-            "packedUniformScale": 0.32741312741312745
+            "packedUniformScale": 0.33517786561264823
           },
           "registration": {
             "cyan": [
@@ -4222,17 +4366,41 @@
             "glovePixels": 3296,
             "removedKey": 1141
           },
-          "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+          "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS",
+          "scaleAudit": {
+            "previousReference": 714,
+            "sourcePoints": [
+              [
+                378,
+                980
+              ],
+              [
+                377,
+                1150
+              ],
+              [
+                302,
+                1274
+              ],
+              [
+                218,
+                1450
+              ]
+            ],
+            "uniformCorrection": 1.0577777777777777,
+            "method": "ARTICULATED_BODY_CHAIN",
+            "sourceArtworkChanged": false
+          }
         },
         {
-          "file": "assets/motion-v10/frames/twohandLift/03.png",
-          "sha256": "629DF52E5A475E10905CCF17434500812AED54E8EF412110A5AEDDA7CA57A30A",
+          "file": "assets/motion-v13/frames/twohandLift/03.png",
+          "sha256": "FF49DB316FA6DC184BB1CA38B1B9D7B716EC4C81519FA8A83E1437CAA5B2DB5F",
           "index": 3,
           "footAnchor": {
             "x": 0.5,
             "y": 0.859375
           },
-          "bodyPixels": 233.77297297297298,
+          "bodyPixels": 226.24505928853756,
           "source": "assets/motion-v10/twohand-lift-source.png",
           "sourceIndex": 3,
           "sourceBounds": [
@@ -4245,31 +4413,31 @@
             814.5,
             1507
           ],
-          "sourceBodyPixels": 714,
+          "sourceBodyPixels": 680,
           "sourceGrip": [
             926.5264878118858,
             882.3438443473883
           ],
           "grip": [
-            292.67894272759816,
-            235.4793745199171
+            293.2727049660099,
+            232.16857504327197
           ],
           "tip": [
-            380.7110105584546,
-            78.28196054553777
+            378.4699805637639,
+            80.03320288136683
           ],
           "weapon": {
             "original": "assets/weapon/sword-original.png",
             "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
-            "scale": 0.49173553719008267,
+            "scale": 0.46831955922865015,
             "angle": -150.18754187298606,
             "grip": [
               410.5264878118858,
               75.34384434738831
             ],
             "pivot": [
-              110.86269071519477,
-              524.9924144176375
+              105.84425026711685,
+              500.20726384677045
             ],
             "rigid": true,
             "hiltUnderlay": {
@@ -4289,7 +4457,7 @@
               },
               "method": "ORIGINAL_STRAIGHT_HILT_PIXELS_COPIED_BEHIND_EXISTING_HAND_HOLE"
             },
-            "packedUniformScale": 0.32741312741312745
+            "packedUniformScale": 0.33271332248314345
           },
           "registration": {
             "cyan": [
@@ -4319,7 +4487,31 @@
             "glovePixels": 4770,
             "removedKey": 1782
           },
-          "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+          "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS",
+          "scaleAudit": {
+            "previousReference": 714,
+            "sourcePoints": [
+              [
+                846,
+                983
+              ],
+              [
+                851,
+                1155
+              ],
+              [
+                764,
+                1286
+              ],
+              [
+                682,
+                1451
+              ]
+            ],
+            "uniformCorrection": 1.05,
+            "method": "ARTICULATED_BODY_CHAIN",
+            "sourceArtworkChanged": false
+          }
         }
       ],
       "contacts": []
@@ -4333,25 +4525,25 @@
           "registration": "CYAN_POMMEL_MAGENTA_BLADE_GREEN_STRAIGHT_HILT"
         }
       ],
-      "atlas": "assets/motion-v10/twohandStrike-atlas.webp",
-      "atlasSha256": "825F5234D7C2F7899E91BBC8124B39963D756AAE2041D4A984B6981BA96B0D81",
-      "pngAtlas": "assets/motion-v10/twohandStrike-atlas.png",
-      "pngAtlasSha256": "67A5C6CF685E16DE9FA6596A38785484F79E4747E35996F6186F3CED856BCF62",
+      "atlas": "assets/motion-v13/twohandStrike-atlas.webp",
+      "atlasSha256": "14B289DE2622650C4A30CCFBB589367C3D503B0556DB7C83F18E369A8AC059E7",
+      "pngAtlas": "assets/motion-v13/twohandStrike-atlas.png",
+      "pngAtlasSha256": "DBCF8E6725C248505914DD027412C6F0C6C69D4AC045AF7B31F11424F4CF9AA2",
       "cellSize": 512,
       "columns": 4,
       "rows": 1,
       "frameCount": 4,
-      "bodyPixels": 260.0270880361174,
+      "bodyPixels": 256.6840031520883,
       "frames": [
         {
-          "file": "assets/motion-v10/frames/twohandStrike/00.png",
-          "sha256": "D5BD12605FF146626E2E57A4495BE119D8206923538C2D8F69B6538963C746B5",
+          "file": "assets/motion-v13/frames/twohandStrike/00.png",
+          "sha256": "24FE5C4DFDB68BC0F8AA301ACED007C564053742D900A8F001FC889EDD316826",
           "index": 0,
           "footAnchor": {
             "x": 0.5,
             "y": 0.859375
           },
-          "bodyPixels": 260.0270880361174,
+          "bodyPixels": 256.6840031520883,
           "source": "assets/motion-v10/twohand-strike-source.png",
           "sourceIndex": 0,
           "sourceBounds": [
@@ -4364,31 +4556,31 @@
             302,
             733
           ],
-          "sourceBodyPixels": 714,
+          "sourceBodyPixels": 719,
           "sourceGrip": [
             436.67584965222414,
             167.41673300800477
           ],
           "grip": [
-            305.0467353135263,
-            234.0238515996044
+            304.0794662262054,
+            238.08598457949694
           ],
           "tip": [
-            444.60360389630216,
-            90.200954156759
+            441.84209690344153,
+            96.11217200719264
           ],
           "weapon": {
             "original": "assets/weapon/sword-original.png",
             "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
-            "scale": 0.49173553719008267,
+            "scale": 0.4951790633608815,
             "angle": -135.29926040554577,
             "grip": [
               420.67584965222414,
               88.41673300800477
             ],
             "pivot": [
-              114.709335454403,
-              454.02481940488644
+              115.40554840035901,
+              457.86437310055794
             ],
             "rigid": true,
             "hiltUnderlay": {
@@ -4408,7 +4600,7 @@
               },
               "method": "ORIGINAL_STRAIGHT_HILT_PIXELS_COPIED_BEHIND_EXISTING_HAND_HOLE"
             },
-            "packedUniformScale": 0.36418359668924005
+            "packedUniformScale": 0.3570013952045734
           },
           "registration": {
             "cyan": [
@@ -4438,17 +4630,41 @@
             "glovePixels": 3958,
             "removedKey": 2036
           },
-          "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+          "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS",
+          "scaleAudit": {
+            "previousReference": 714,
+            "sourcePoints": [
+              [
+                337,
+                204
+              ],
+              [
+                343,
+                372
+              ],
+              [
+                252,
+                505
+              ],
+              [
+                127,
+                678
+              ]
+            ],
+            "uniformCorrection": 0.9930458970792768,
+            "method": "ARTICULATED_BODY_CHAIN",
+            "sourceArtworkChanged": false
+          }
         },
         {
-          "file": "assets/motion-v10/frames/twohandStrike/01.png",
-          "sha256": "E22341335BBBAC18C425BC61B2D919A7AF799E02FE8AB1A67414DFEA3EF6E13C",
+          "file": "assets/motion-v13/frames/twohandStrike/01.png",
+          "sha256": "21B6F85D98AE5DB180647F6EDF2134204314387D802AA8EB794661C0DBA85028",
           "index": 1,
           "footAnchor": {
             "x": 0.5,
             "y": 0.859375
           },
-          "bodyPixels": 260.0270880361174,
+          "bodyPixels": 256.6840031520883,
           "source": "assets/motion-v10/twohand-strike-source.png",
           "sourceIndex": 1,
           "sourceBounds": [
@@ -4461,31 +4677,31 @@
             788,
             733
           ],
-          "sourceBodyPixels": 714,
+          "sourceBodyPixels": 631,
           "sourceGrip": [
             888.5821303180022,
             450.45015825293115
           ],
           "grip": [
-            292.6303619818759,
-            337.0999823885769
+            296.9157271879395,
+            325.06176787697837
           ],
           "tip": [
-            477.67002782912283,
-            414.05105425001756
+            479.57639739087955,
+            401.0235044845701
           ],
           "weapon": {
             "original": "assets/weapon/sword-original.png",
             "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
-            "scale": 0.49173553719008267,
+            "scale": 0.4345730027548209,
             "angle": -66.85619093546023,
             "grip": [
               370.5821303180022,
               333.45015825293115
             ],
             "pivot": [
-              104.37340087682145,
-              106.36347591579288
+              92.42145837939123,
+              94.47977584609447
             ],
             "rigid": true,
             "hiltUnderlay": {
@@ -4505,7 +4721,7 @@
               },
               "method": "ORIGINAL_STRAIGHT_HILT_PIXELS_COPIED_BEHIND_EXISTING_HAND_HOLE"
             },
-            "packedUniformScale": 0.36418359668924005
+            "packedUniformScale": 0.40678922845021914
           },
           "registration": {
             "cyan": [
@@ -4531,17 +4747,41 @@
             "glovePixels": 5138,
             "removedKey": 2205
           },
-          "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+          "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS",
+          "scaleAudit": {
+            "previousReference": 714,
+            "sourcePoints": [
+              [
+                848,
+                255
+              ],
+              [
+                790,
+                403
+              ],
+              [
+                726,
+                521
+              ],
+              [
+                630,
+                677
+              ]
+            ],
+            "uniformCorrection": 1.1315372424722663,
+            "method": "ARTICULATED_BODY_CHAIN",
+            "sourceArtworkChanged": false
+          }
         },
         {
-          "file": "assets/motion-v10/frames/twohandStrike/02.png",
-          "sha256": "F417CC43A80DE078363B4E101E408B6F951A516687A67544EF6D34C2702CF292",
+          "file": "assets/motion-v13/frames/twohandStrike/02.png",
+          "sha256": "1DF5330EC7B78EDB929D70EC28663D406F2488609290133A0202DD959F3BF85D",
           "index": 2,
           "footAnchor": {
             "x": 0.5,
             "y": 0.859375
           },
-          "bodyPixels": 260.0270880361174,
+          "bodyPixels": 256.6840031520883,
           "source": "assets/motion-v10/twohand-strike-source.png",
           "sourceIndex": 2,
           "sourceBounds": [
@@ -4554,31 +4794,31 @@
             311.5,
             1494
           ],
-          "sourceBodyPixels": 714,
+          "sourceBodyPixels": 637,
           "sourceGrip": [
             418.0832533797857,
             1211.0129041677123
           ],
           "grip": [
-            294.81587256269097,
-            336.94074162315485
+            298.9485339819415,
+            325.96819372273904
           ],
           "tip": [
-            476.482947148483,
-            421.5470026735386
+            478.2799732477349,
+            409.4866992067778
           ],
           "weapon": {
             "original": "assets/weapon/sword-original.png",
             "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
-            "scale": 0.49173553719008267,
+            "scale": 0.43870523415977963,
             "angle": -64.46438142277171,
             "grip": [
               400.0832533797857,
               370.01290416771235
             ],
             "pivot": [
-              105.88986070669344,
-              108.2359372482952
+              94.27927942069749,
+              96.6174188826693
             ],
             "rigid": true,
             "hiltUnderlay": {
@@ -4598,7 +4838,7 @@
               },
               "method": "ORIGINAL_STRAIGHT_HILT_PIXELS_COPIED_BEHIND_EXISTING_HAND_HOLE"
             },
-            "packedUniformScale": 0.36418359668924005
+            "packedUniformScale": 0.40295761876308994
           },
           "registration": {
             "cyan": [
@@ -4624,17 +4864,41 @@
             "glovePixels": 5326,
             "removedKey": 1626
           },
-          "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+          "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS",
+          "scaleAudit": {
+            "previousReference": 714,
+            "sourcePoints": [
+              [
+                401,
+                1020
+              ],
+              [
+                330,
+                1164
+              ],
+              [
+                263,
+                1281
+              ],
+              [
+                162,
+                1437
+              ]
+            ],
+            "uniformCorrection": 1.120879120879121,
+            "method": "ARTICULATED_BODY_CHAIN",
+            "sourceArtworkChanged": false
+          }
         },
         {
-          "file": "assets/motion-v10/frames/twohandStrike/03.png",
-          "sha256": "8A0E9611D2BF1951F7A6C4818E37E9DF8A5BDAC81D9790699DBAEC819018C3AA",
+          "file": "assets/motion-v13/frames/twohandStrike/03.png",
+          "sha256": "6974E00E5238FE8273F66D86D25D0EBE4FF80A9CDDBDF593A0FA8A27C50F31BD",
           "index": 3,
           "footAnchor": {
             "x": 0.5,
             "y": 0.859375
           },
-          "bodyPixels": 260.0270880361174,
+          "bodyPixels": 256.6840031520883,
           "source": "assets/motion-v10/twohand-strike-source.png",
           "sourceIndex": 3,
           "sourceBounds": [
@@ -4647,31 +4911,31 @@
             802.5,
             1497
           ],
-          "sourceBodyPixels": 714,
+          "sourceBodyPixels": 673,
           "sourceGrip": [
             918.254326923287,
             1205.1722891559616
           ],
           "grip": [
-            298.1558271112648,
-            333.72113465123056
+            300.1490104262182,
+            328.696129197388
           ],
           "tip": [
-            485.2057560010147,
-            405.64796900270807
+            484.7940983643855,
+            399.69822330548334
           ],
           "weapon": {
             "original": "assets/weapon/sword-original.png",
             "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
-            "scale": 0.49173553719008267,
+            "scale": 0.4634986225895317,
             "angle": -68.40339954038718,
             "grip": [
               395.25432692328695,
               358.1722891559616
             ],
             "pivot": [
-              102.97959615650635,
-              105.35393613025654
+              97.54468943701153,
+              99.17764303791165
             ],
             "rigid": true,
             "hiltUnderlay": {
@@ -4691,7 +4955,7 @@
               },
               "method": "ORIGINAL_STRAIGHT_HILT_PIXELS_COPIED_BEHIND_EXISTING_HAND_HOLE"
             },
-            "packedUniformScale": 0.36418359668924005
+            "packedUniformScale": 0.38140267927501975
           },
           "registration": {
             "cyan": [
@@ -4717,7 +4981,31 @@
             "glovePixels": 5243,
             "removedKey": 1584
           },
-          "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+          "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS",
+          "scaleAudit": {
+            "previousReference": 714,
+            "sourcePoints": [
+              [
+                859,
+                981
+              ],
+              [
+                824,
+                1137
+              ],
+              [
+                748,
+                1270
+              ],
+              [
+                657,
+                1443
+              ]
+            ],
+            "uniformCorrection": 1.0609212481426449,
+            "method": "ARTICULATED_BODY_CHAIN",
+            "sourceArtworkChanged": false
+          }
         }
       ],
       "contacts": [
@@ -4725,8 +5013,8 @@
           "frame": 1,
           "targetHeightFraction": 0.48,
           "sourcePoint": [
-            477.67002782912283,
-            414.05105425001756
+            479.57639739087955,
+            401.0235044845701
           ],
           "sourceFoot": [
             256,
@@ -4756,25 +5044,25 @@
           "registration": "CYAN_POMMEL_MAGENTA_BLADE_GREEN_STRAIGHT_HILT"
         }
       ],
-      "atlas": "assets/motion-v10/twohandReturn-atlas.webp",
-      "atlasSha256": "CCCF978095E5578C3049C933DA8203E14BB950DE94BC879424D58F41D4F4A722",
-      "pngAtlas": "assets/motion-v10/twohandReturn-atlas.png",
-      "pngAtlasSha256": "5520E2EAC191038C4C4ABAE0DCEEC526F5422B7503EEDA985C3673A6B1AF7D45",
+      "atlas": "assets/motion-v13/twohandReturn-atlas.webp",
+      "atlasSha256": "75152A8C78CEF13DAE749076B5546D1D26631457010025A81C406D41839342AB",
+      "pngAtlas": "assets/motion-v13/twohandReturn-atlas.png",
+      "pngAtlasSha256": "884A36A7D0C631CB8A4E70CD6DA0A5C542471BDA8D1704B461207FAB7341A191",
       "cellSize": 512,
       "columns": 4,
       "rows": 2,
       "frameCount": 5,
-      "bodyPixels": 265.6233666410454,
+      "bodyPixels": 265.3952049497293,
       "frames": [
         {
-          "file": "assets/motion-v10/frames/twohandReturn/00.png",
-          "sha256": "956FA84BDCC5E5F03BFF1FC8A15C89A6D66E2FCE5F5E556C5DA2E18C95BD85F8",
+          "file": "assets/motion-v13/frames/twohandReturn/00.png",
+          "sha256": "923C9FD57FA3CBC40DE3CFA6E62F2EA5163B3D15672DF15C0BBAE24DC0E61423",
           "index": 0,
           "footAnchor": {
             "x": 0.5,
             "y": 0.859375
           },
-          "bodyPixels": 265.6233666410454,
+          "bodyPixels": 265.3952049497293,
           "source": "assets/motion-v10/twohand-return-source.png",
           "sourceIndex": 0,
           "sourceBounds": [
@@ -4787,31 +5075,31 @@
             311.5,
             700
           ],
-          "sourceBodyPixels": 714,
+          "sourceBodyPixels": 709,
           "sourceGrip": [
             422.62855772067803,
             379.65008081019295
           ],
           "grip": [
-            297.34221517049053,
-            320.82293552047145
+            297.5980061382894,
+            320.08556775880385
           ],
           "tip": [
-            482.9463377491601,
-            407.191600144095
+            483.0427009111213,
+            406.38004455457764
           ],
           "weapon": {
             "original": "assets/weapon/sword-original.png",
             "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
-            "scale": 0.49173553719008267,
+            "scale": 0.48829201101928377,
             "angle": -64.48243682735922,
             "grip": [
               405.62855772067803,
               365.65008081019295
             ],
             "pivot": [
-              105.85811806038714,
-              108.3042017929347
+              105.21432205493167,
+              107.43438191825703
             ],
             "rigid": true,
             "hiltUnderlay": {
@@ -4831,7 +5119,7 @@
               },
               "method": "ORIGINAL_STRAIGHT_HILT_PIXELS_COPIED_BEHIND_EXISTING_HAND_HOLE"
             },
-            "packedUniformScale": 0.372021521906226
+            "packedUniformScale": 0.374323279195669
           },
           "registration": {
             "cyan": [
@@ -4857,17 +5145,41 @@
             "glovePixels": 5731,
             "removedKey": 1760
           },
-          "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+          "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS",
+          "scaleAudit": {
+            "previousReference": 714,
+            "sourcePoints": [
+              [
+                379,
+                153
+              ],
+              [
+                316,
+                320
+              ],
+              [
+                254,
+                452
+              ],
+              [
+                150,
+                636
+              ]
+            ],
+            "uniformCorrection": 1.007052186177715,
+            "method": "ARTICULATED_BODY_CHAIN",
+            "sourceArtworkChanged": false
+          }
         },
         {
-          "file": "assets/motion-v10/frames/twohandReturn/01.png",
-          "sha256": "E53E33A76841A1F10D61CD400A3A8F926A5A9CD39511F480C094C9AB22E05519",
+          "file": "assets/motion-v13/frames/twohandReturn/01.png",
+          "sha256": "CDCCA8FDED9D9C0CC5264AB96DC72029A983A52BB6D28EBDD53C309F0CB34C09",
           "index": 1,
           "footAnchor": {
             "x": 0.5,
             "y": 0.859375
           },
-          "bodyPixels": 265.6233666410454,
+          "bodyPixels": 265.3952049497293,
           "source": "assets/motion-v10/twohand-return-source.png",
           "sourceIndex": 1,
           "sourceBounds": [
@@ -4886,12 +5198,12 @@
             354.37488354380326
           ],
           "grip": [
-            237.05468598836575,
-            306.5837383821681
+            237.07095938683244,
+            306.69833854059823
           ],
           "tip": [
-            408.48848595621183,
-            418.47157854208126
+            408.3575033875397,
+            418.49007074445535
           ],
           "weapon": {
             "original": "assets/weapon/sword-original.png",
@@ -4907,7 +5219,7 @@
               112.51638866835236
             ],
             "rigid": true,
-            "packedUniformScale": 0.372021521906226
+            "packedUniformScale": 0.3717019677167077
           },
           "registration": {
             "cyan": [
@@ -4933,17 +5245,41 @@
             "glovePixels": 3143,
             "removedKey": 2078
           },
-          "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+          "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS",
+          "scaleAudit": {
+            "previousReference": 714,
+            "sourcePoints": [
+              [
+                843,
+                138
+              ],
+              [
+                810,
+                325
+              ],
+              [
+                764,
+                471
+              ],
+              [
+                684,
+                650
+              ]
+            ],
+            "uniformCorrection": 1,
+            "method": "ARTICULATED_BODY_CHAIN",
+            "sourceArtworkChanged": false
+          }
         },
         {
-          "file": "assets/motion-v10/frames/twohandReturn/02.png",
-          "sha256": "1371CCE13D03AC17E28F960B950F76D1DFE25A9B60790308AC100312A8E94D73",
+          "file": "assets/motion-v13/frames/twohandReturn/02.png",
+          "sha256": "98F6A70EF10AC66A69056A4B76FEBB2968C954417FF49DE60FC9B16A7FB54C22",
           "index": 2,
           "footAnchor": {
             "x": 0.5,
             "y": 0.859375
           },
-          "bodyPixels": 265.6233666410454,
+          "bodyPixels": 265.3952049497293,
           "source": "assets/motion-v10/twohand-return-source.png",
           "sourceIndex": 2,
           "sourceBounds": [
@@ -4956,34 +5292,34 @@
             311,
             1481
           ],
-          "sourceBodyPixels": 714,
+          "sourceBodyPixels": 771,
           "sourceGrip": [
             176.4768414595393,
             1068.227208502066
           ],
           "grip": [
-            205.95448982814528,
-            286.4396379054573
+            209.6941618270681,
+            297.9145011708612
           ],
           "tip": [
-            352.64701919173797,
-            429.23227908831814
+            356.26068715710653,
+            440.58448819519765
           ],
           "weapon": {
             "original": "assets/weapon/sword-original.png",
             "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
-            "scale": 0.49173553719008267,
+            "scale": 0.53099173553719,
             "angle": -45.20861981167374,
             "grip": [
               154.4768414595393,
               358.2272085020661
             ],
             "pivot": [
-              111.23846309189275,
-              114.43819536650003
+              120.0654389772447,
+              123.6488243182088
             ],
             "rigid": true,
-            "packedUniformScale": 0.372021521906226
+            "packedUniformScale": 0.3442220557065231
           },
           "registration": {
             "cyan": [
@@ -5009,17 +5345,41 @@
             "glovePixels": 2794,
             "removedKey": 1960
           },
-          "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+          "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS",
+          "scaleAudit": {
+            "previousReference": 714,
+            "sourcePoints": [
+              [
+                342,
+                850
+              ],
+              [
+                297,
+                1070
+              ],
+              [
+                248,
+                1210
+              ],
+              [
+                187,
+                1420
+              ]
+            ],
+            "uniformCorrection": 0.9260700389105059,
+            "method": "NEUTRAL_STANDING_HEIGHT",
+            "sourceArtworkChanged": false
+          }
         },
         {
-          "file": "assets/motion-v10/frames/twohandReturn/03.png",
-          "sha256": "4DF5339DC064F96AED4BF53F05D126F7ED6D8261077ED841FB461F48A4BAAAF8",
+          "file": "assets/motion-v13/frames/twohandReturn/03.png",
+          "sha256": "0276CBBC7239B17E4F6B59E551A45E368C16D67E3A8C07A876D260CA42B3CC9A",
           "index": 3,
           "footAnchor": {
             "x": 0.5,
             "y": 0.859375
           },
-          "bodyPixels": 265.6233666410454,
+          "bodyPixels": 265.3952049497293,
           "source": "assets/motion-v10/twohand-return-source.png",
           "sourceIndex": 3,
           "sourceBounds": [
@@ -5032,34 +5392,34 @@
             827,
             1480
           ],
-          "sourceBodyPixels": 714,
+          "sourceBodyPixels": 769,
           "sourceGrip": [
             677.680549470782,
             1071.558661151848
           ],
           "grip": [
-            200.4499507639189,
-            288.0510315122939
+            204.46727415320834,
+            299.0398272645681
           ],
           "tip": [
-            347.646595212075,
-            430.32395377886166
+            351.5374815496169,
+            441.1905417939804
           ],
           "weapon": {
             "original": "assets/weapon/sword-original.png",
             "sha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
-            "scale": 0.49173553719008267,
+            "scale": 0.5296143250688705,
             "angle": -45.4112653804727,
             "grip": [
               153.680549470782,
               360.5586611518479
             ],
             "pivot": [
-              111.15043430437032,
-              114.54495922955934
+              119.9629731393602,
+              123.82892014613606
             ],
             "rigid": true,
-            "packedUniformScale": 0.372021521906226
+            "packedUniformScale": 0.34511730162513565
           },
           "registration": {
             "cyan": [
@@ -5085,17 +5445,41 @@
             "glovePixels": 3402,
             "removedKey": 2007
           },
-          "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+          "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS",
+          "scaleAudit": {
+            "previousReference": 714,
+            "sourcePoints": [
+              [
+                846,
+                850
+              ],
+              [
+                800,
+                1074
+              ],
+              [
+                750,
+                1211
+              ],
+              [
+                699,
+                1420
+              ]
+            ],
+            "uniformCorrection": 0.9284785435630689,
+            "method": "NEUTRAL_STANDING_HEIGHT",
+            "sourceArtworkChanged": false
+          }
         },
         {
-          "file": "assets/motion-v10/frames/twohandReturn/04.png",
-          "sha256": "B0E7C22191E3A36A61F4D3F5806E66955D28DDD90892010008655207EBABDC1E",
+          "file": "assets/motion-v13/frames/twohandReturn/04.png",
+          "sha256": "AB5F9798E0E37ACDFD217BE3AD1F0F090E5C1AFCEA8C5C0E041A255D3BB9C70A",
           "index": 4,
           "footAnchor": {
             "x": 0.5,
             "y": 0.859375
           },
-          "bodyPixels": 265.6233666410454,
+          "bodyPixels": 265.3952049497293,
           "source": "assets/motion-v5/ready-a-source.png",
           "sourceIndex": 0,
           "sourceBounds": [
@@ -5114,12 +5498,12 @@
             326.7889554726521
           ],
           "grip": [
-            204.49982582200403,
-            296.00800545403695
+            204.54406276919778,
+            296.13168981745355
           ],
           "tip": [
-            356.3208701420692,
-            433.3353772654516
+            356.23469783089286,
+            433.34110195607025
           ],
           "weapon": {
             "original": "assets/weapon/sword-original.png",
@@ -5135,7 +5519,7 @@
               111.33601731611503
             ],
             "rigid": true,
-            "packedUniformScale": 0.38274260322917203
+            "packedUniformScale": 0.38241383998520073
           },
           "registration": {
             "cyan": [
@@ -5161,7 +5545,31 @@
             "glovePixels": 2967,
             "removedKey": 983
           },
-          "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS"
+          "foreground": "EXACT_NATIVE_CLOSED_GLOVE_PIXELS",
+          "scaleAudit": {
+            "previousReference": 694,
+            "sourcePoints": [
+              [
+                299,
+                130
+              ],
+              [
+                280,
+                318
+              ],
+              [
+                231,
+                456
+              ],
+              [
+                194,
+                641
+              ]
+            ],
+            "uniformCorrection": 1,
+            "method": "ARTICULATED_BODY_CHAIN",
+            "sourceArtworkChanged": false
+          }
         }
       ],
       "contacts": []
@@ -6898,7 +7306,7 @@
     ]
   },
   "release": {
-    "status": "OVERHEAD_MOTION_ADOPTED_EFFECT_ALIGNMENT_REVIEW_PENDING",
+    "status": "MOTION_APPROVED_SIZE_CORRECTED_PREVIEW",
     "liveRuntimeChanged": false,
     "balanceChanged": false,
     "skillsAssigned": false
@@ -6961,7 +7369,7 @@
     "provenance": "Existing approved V3 Combat SFX assets; no new synthesis or license assumptions."
   },
   "technicalQaReport": "qa-report.json",
-  "browserQaReport": "qa/v12/browser-report.json",
+  "browserQaReport": "qa/v13/browser-report.json",
   "battleSpriteSha256": "D2CAB7DDE716CF9A0554AF44A03A448A7BCCD9E402928D87620C72C73879A6CC",
   "displaySizing": {
     "baselineFullBodyHeight": 260,
@@ -6994,15 +7402,15 @@
     ],
     "method": "Existing native sprite drawing and immutable sword compositing. No new body rig."
   },
-  "motionVersion": "COMMON_TWO_HAND_OVERHEAD_V12",
+  "motionVersion": "COMMON_TWO_HAND_OVERHEAD_V13_SIZE_CALIBRATED",
   "reviewPlayback": {
-    "motionOnly": "qa/motion-v10-twohand-preview.webp",
-    "slowMotion": "qa/motion-v10-twohand-slow.webp",
-    "actualV3": "qa/all-skills-overhead-v12.webp",
-    "twoHandMotion": "qa/motion-v10-twohand-preview.webp",
-    "twoHandSlow": "qa/motion-v10-twohand-slow.webp",
-    "twoHandActualV3": "qa/all-skills-overhead-v12.webp",
-    "allSkills": "qa/all-skills-overhead-v12.webp"
+    "motionOnly": "qa/v13/size-comparison.webp",
+    "comparison": "qa/v13/size-comparison.webp",
+    "actualV3": "qa/overhead-size-v13.webp",
+    "twoHandMotion": "qa/v13/size-comparison.webp",
+    "twoHandActualV3": "qa/overhead-size-v13.webp",
+    "allSkills": "qa/all-skills-size-v13.webp",
+    "historicalAllSkillsV12": "qa/all-skills-overhead-v12.webp"
   },
   "returnPose": {
     "reference": "assets/motion-v5/ready-a-source.png#0",
@@ -7178,5 +7586,31 @@
     },
     "status": "USER_REVIEW_PENDING"
   },
-  "guardQaReport": "qa/v12/guard-report.json"
+  "guardQaReport": "qa/v13/browser-report.json",
+  "sizeCalibration": {
+    "version": 13,
+    "approvalScope": "MOTION_APPROVED_SIZE_RECHECK_REQUESTED",
+    "measurement": "size-landmarks-v13.json",
+    "report": "qa/v13/scale-estimates.json",
+    "originalFramesPreserved": "qa/v13/before-motion.json",
+    "activeFramesInspected": 27,
+    "repackedFrames": 17,
+    "newArtFrames": 0,
+    "globalDisplaySizeChanged": false,
+    "weaponLengthChanged": false,
+    "approvedIdleChanged": false,
+    "liveActivationApproved": false,
+    "status": "TECH_QA_COMPLETE",
+    "visualReport": "qa/v13/size-report.json",
+    "neutralPixelSpread": {
+      "before": 0.07559896298945111,
+      "after": 0.010869603545737398
+    }
+  },
+  "motionApproval": {
+    "record": "motion-approval-20261001-v13.json",
+    "status": "USER_APPROVED_MOTION",
+    "date": "2026-10-01",
+    "sizeCorrectionRequested": true
+  }
 }
