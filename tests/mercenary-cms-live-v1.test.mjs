@@ -20,10 +20,10 @@ async function fixture(){
 const payload=(document=clone(seed.document),expectedRevision=1,requestId=crypto.randomUUID())=>({document,expectedRevision,requestId});
 test('canonical registration contains every mercenary, independent skill and original/SD reference',()=>{
   validateMercenaryCms(seed.document,seed.catalog);
-  assert.equal(seed.catalog.cards.length,55);assert.equal(seed.document.skills.length,35);assert.equal(seed.catalog.effects.frameCount,560);
+  assert.equal(seed.catalog.cards.length,55);assert.equal(seed.document.skills.length,36);assert.equal(seed.catalog.effects.frameCount,576);
   assert.equal(seed.document.mercenaries.filter(r=>r.rank===null).length,42);
   assert.equal(seed.document.mercenaries.find(r=>r.code==='V-021').rank,'SSS');
-  assert.ok(seed.document.assignments.every(r=>['V-051','V-052','V-053','V-054'].includes(r.code)?r.skillIds.join()==='MS-051':['V-044','V-045','V-046','V-047','V-048','V-049','V-050','V-055'].includes(r.code)?r.skillIds.join()==='MS-'+r.code.slice(2):r.skillIds.length===0));
+  assert.ok(seed.document.assignments.every(r=>r.code==='V-055'?r.skillIds.join()==='MS-055,MS-056':['V-051','V-052','V-053','V-054'].includes(r.code)?r.skillIds.join()==='MS-051':['V-044','V-045','V-046','V-047','V-048','V-049','V-050'].includes(r.code)?r.skillIds.join()==='MS-'+r.code.slice(2):r.skillIds.length===0));
   for(const c of seed.catalog.cards){assert.notEqual(c.sourceArt,c.battleSprite);assert.ok(existsSync(new URL('../'+c.sourceArt,import.meta.url)));assert.ok(existsSync(new URL('../'+c.battleSprite,import.meta.url)));}
   assert.equal(seed.catalog.formation.regularCardSlots,5);assert.equal(seed.catalog.formation.mercenarySlots,1);
   assert.deepEqual(seed.catalog.release,{group:'V3_MERCENARY_EQUIPMENT',acquisitionEnabled:false,formationEnabled:false,battleEnabled:false});
