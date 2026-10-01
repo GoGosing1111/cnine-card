@@ -18,6 +18,7 @@ export async function fixture(){
  CREATE TABLE admin_logs(id BIGINT GENERATED ALWAYS AS IDENTITY,admin_id BIGINT,action_type TEXT,target_type TEXT,target_id TEXT,before_data TEXT,after_data TEXT);
  CREATE TABLE character_equipment_items(id BIGINT PRIMARY KEY,code TEXT UNIQUE,name TEXT,slot TEXT,image_url TEXT,is_active BIGINT,is_public BIGINT);
  CREATE TABLE user_equipment_instances(id BIGINT GENERATED ALWAYS AS IDENTITY,user_id BIGINT,equipment_id BIGINT,source_type TEXT,source_id TEXT,request_id TEXT UNIQUE);
+ CREATE TABLE mercenary_draw_config_v1(id INTEGER PRIMARY KEY,payload_json TEXT);
  CREATE TABLE mercenary_cms_documents_v1(doc_key TEXT PRIMARY KEY,payload_json TEXT,revision INTEGER);
  CREATE TABLE cards_effective_v1210(id TEXT PRIMARY KEY,title TEXT,rarity TEXT,image_url TEXT,is_active BIGINT,card_status TEXT);
  CREATE TABLE user_cards(user_id BIGINT,card_id TEXT,quantity BIGINT,breakthrough_level INTEGER,breakthrough_fail_count INTEGER,PRIMARY KEY(user_id,card_id));

@@ -6,10 +6,11 @@ async function setup(){
  const f=await fixture();await f.pg.exec(`
  ALTER TABLE users ADD COLUMN role TEXT;
  UPDATE users SET role='OWNER' WHERE id=99;
+ UPDATE inventory_items SET is_active=1 WHERE code='CHUSEOK_COIN';
  ALTER TABLE inventory_logs ADD COLUMN admin_id BIGINT;
  CREATE TABLE coupons(id BIGINT PRIMARY KEY,code TEXT,reward_type TEXT,is_active BIGINT,deleted_at TEXT,deleted_by BIGINT,updated_at TEXT);
  INSERT INTO coupons VALUES(1,'OLD','PINGDU_OLD_AXE',1,NULL,NULL,NULL),(2,'KEEP','COIN',1,NULL,NULL,NULL);
- INSERT INTO inventory_items(code,name,is_active) VALUES('PINGDU_OLD_AXE','낡은도끼',1);
+ INSERT INTO inventory_items(code,name,is_active) VALUES('PINGDU_OLD_AXE','낡은도끼',1) ON CONFLICT(code) DO NOTHING;
  INSERT INTO app_meta(key,value) VALUES('pingdu_golden_axe_v1','{"visible":true,"enabled":true}');
  INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(1,'VEHICLE_PARTS_150_CHOICE',2,2);
  `);
@@ -30,7 +31,7 @@ test('dependent reward references, enabled replacement or audit failure block th
  const f=await setup();try{
   await f.pg.exec("CREATE TABLE user_message_rewards(reward_type TEXT);INSERT INTO user_message_rewards VALUES('PINGDU_OLD_AXE')");
   await assert.rejects(apply(f.client),/still referenced/);assert.equal(Number((await inspect(f.client)).holdings.quantity),20);await f.pg.exec('DELETE FROM user_message_rewards');
-  await f.configure();await assert.rejects(apply(f.client),/has been enabled/);
+  await f.pg.query('INSERT INTO app_meta(key,value) VALUES($1,$2)', ['chuseok_events_v1',JSON.stringify({...f.draft(),events:{songpyeon:{enabled:true,startsAt:'2026-09-01T00:00:00Z',endsAt:'2027-01-01T00:00:00Z',coinCost:1,dailyLimit:5,rewards:[{id:'coin',kind:'COIN',ref:'',amount:1,rate:100}]}}})]);await assert.rejects(apply(f.client),/has been enabled/);
   await f.pg.exec("DELETE FROM app_meta WHERE key='chuseok_events_v1'");
   const fault={query:(s,v)=>s.startsWith('INSERT INTO admin_logs')?Promise.reject(Error('audit unavailable')):f.client.query(s,v)};await assert.rejects(apply(fault),/audit unavailable/);assert.equal(Number((await inspect(f.client)).holdings.quantity),20);assert.equal(Number((await f.row("SELECT COUNT(*) n FROM inventory_logs WHERE reference_id=$1",[RETIREMENT_KEY])).n),0);
  }finally{await f.close();}

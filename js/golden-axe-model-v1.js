@@ -15,7 +15,9 @@ export const AXE_REWARDS=Object.freeze([
  {key:'COIN_500',name:'500억 코인',kind:'COIN',amount:50000000000,image:AXE_ASSETS+'coin.svg',tag:'코인',detail:'50,000,000,000 코인을 즉시 지급합니다.'},
  {key:'COIN_1500',name:'1500억 코인',kind:'COIN',amount:150000000000,image:AXE_ASSETS+'coin.svg',tag:'코인',detail:'150,000,000,000 코인을 즉시 지급합니다.'},
  {key:'COIN_3000',name:'3000억 코인',kind:'COIN',amount:300000000000,image:AXE_ASSETS+'coin.svg',tag:'코인',detail:'300,000,000,000 코인을 즉시 지급합니다.'},
- {key:'MERCENARY_S',name:'S용병 랜덤카드',kind:'MERCENARY',image:AXE_ASSETS+'mercenary-s.svg',tag:'S 등급',detail:'현재 운영 S등급 용병 중 1장을 같은 확률로 즉시 지급합니다. 중복 용병도 1장으로 지급됩니다.'},
+ {key:'MERCENARY_S',name:'S용병 랜덤카드',kind:'MERCENARY',rank:'S',image:AXE_ASSETS+'mercenary-s.svg',tag:'S 등급',detail:'획득 가능한 S등급 용병 중 1장을 즉시 지급합니다. 중복 용병도 1장으로 지급됩니다.'},
+ {key:'MERCENARY_SS',name:'SS용병 랜덤카드',kind:'MERCENARY',rank:'SS',image:AXE_ASSETS+'mercenary-ss.svg',tag:'SS 등급',detail:'획득 가능한 SS등급 용병 중 1장을 즉시 지급합니다. 중복 용병도 1장으로 지급됩니다.'},
+ {key:'MERCENARY_SSS',name:'SSS용병 랜덤카드',kind:'MERCENARY',rank:'SSS',image:AXE_ASSETS+'mercenary-sss.svg',tag:'SSS 등급',detail:'획득 가능한 SSS등급 용병 중 1장을 즉시 지급합니다. 중복 용병도 1장으로 지급됩니다.'},
  {key:'SUPERSTAR_13',name:'슈퍼스타 +13 강화권',kind:'ITEM',code:SUPERSTAR_13,image:AXE_ASSETS+'upgrade-13.svg',tag:'확정 강화',detail:'보유한 슈퍼스타 카드 1종을 선택해 +13으로 확정 강화합니다. 인벤토리에서 사용하며 중복 카드·별·코인을 소모하지 않습니다.'},
  {key:'PARTS_150',name:'차량부품 150개 택 1',kind:'ITEM',code:PARTS_CHOICE,image:'/assets/ui/workshop/vehicle-part-engine-v1668.png',tag:'선택권',detail:'선택권 1개를 즉시 지급합니다. 인벤토리에서 타이어·프레임·엔진 부품 중 하나를 골라 150개를 받으세요.'},
  {key:'ADVANCEMENT',name:'전직패스권',kind:'ITEM',code:'UNIQUE_ADVANCEMENT_PASS',image:'/assets/items/unique-advancement-pass-v2043.svg',tag:'전직',detail:'전직패스권 1개를 즉시 지급합니다. 카드 상세의 고유효과 전직에서 사용할 수 있습니다.'},
@@ -26,8 +28,17 @@ export function cleanAxeSettings(raw={}){
  const number=(value,min,max,rate=false)=>{if(value===undefined||value===null||value==='')return null;if(typeof value!=='number'||!Number.isFinite(value)||value<min||value>max||(!rate&&!Number.isSafeInteger(value))||(rate&&Math.abs(value*10000-Math.round(value*10000))>1e-6))throw Error('수량·확률의 범위를 확인하세요. 확률은 소수점 4자리까지 입력할 수 있습니다.');return value;};
  const date=value=>{if(value===undefined||value===null||value==='')return null;const m=typeof value==='string'&&value.match(/^(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d)(?::(\d\d)(?:\.\d{1,3})?)?(Z|[+-]\d\d:\d\d)$/);if(!m||!Number.isFinite(Date.parse(value))||+m[2]<1||+m[2]>12||+m[3]<1||+m[3]>new Date(Date.UTC(+m[1],+m[2],0)).getUTCDate()||+m[4]>23||+m[5]>59||+(m[6]||0)>59)throw Error('시간대가 포함된 올바른 일시를 입력하세요.');return new Date(value).toISOString();};
  for(const flag of ['visible','enabled'])if(raw[flag]!==undefined&&typeof raw[flag]!=='boolean')throw Error('공개·운영 상태를 확인하세요.');
- const rates=Object.fromEntries(AXE_REWARDS.map(r=>[r.key,number(raw.rates?.[r.key],0,100,true)]));
- const settings={visible:raw.visible===true,enabled:raw.enabled===true,startsAt:date(raw.startsAt),endsAt:date(raw.endsAt),axeCost:number(raw.axeCost,1,1000000),dailyLimit:number(raw.dailyLimit,0,100000),rates};
+ const rates=Object.fromEntries(AXE_REWARDS.map(r=>[r.key,number(raw.rates?.[r.key]??(['MERCENARY_SS','MERCENARY_SSS'].includes(r.key)?0:null),0,100,true)]));
+ const mercenaryRates={};
+ if(raw.mercenaryRates!==undefined&&(!raw.mercenaryRates||typeof raw.mercenaryRates!=='object'||Array.isArray(raw.mercenaryRates)))throw Error('용병별 확률 형식을 확인하세요.');
+ for(const rank of ['S','SS','SSS']){
+  const source=raw.mercenaryRates?.[rank];if(source===undefined||source===null){mercenaryRates[rank]=null;continue;}
+  if(typeof source!=='object'||Array.isArray(source)||Object.keys(source).length>300)throw Error('용병별 확률 형식을 확인하세요.');
+  const entries=Object.entries(source).map(([code,value])=>{if(!/^V-\d{3}$/.test(code))throw Error('용병 코드를 확인하세요.');const rate=number(value,0,100,true);if(rate===null)throw Error('용병별 확률을 입력하세요.');return [code,rate];});
+  if(entries.reduce((sum,[,rate])=>sum+Math.round(rate*10000),0)!==1000000)throw Error(rank+' 등급 내 용병 확률 합계는 100%여야 합니다.');
+  mercenaryRates[rank]=Object.fromEntries(entries);
+ }
+ const settings={visible:raw.visible===true,enabled:raw.enabled===true,startsAt:date(raw.startsAt),endsAt:date(raw.endsAt),axeCost:number(raw.axeCost,1,1000000),dailyLimit:number(raw.dailyLimit,0,100000),rates,mercenaryRates};
  if(settings.startsAt&&settings.endsAt&&Date.parse(settings.endsAt)<=Date.parse(settings.startsAt))throw Error('종료 일시는 시작 일시보다 뒤여야 합니다.');
  if(Object.values(rates).reduce((sum,n)=>sum+Math.round((n??0)*10000),0)>1000000)throw Error('상품과 꽝의 확률 합계는 100% 이하여야 합니다.');
  if(settings.enabled&&(!settings.visible||!axeSettingsComplete(settings)))throw Error('기간·낡은도끼 수량·일일 횟수·모든 확률을 설정하고 공개해야 ON으로 저장할 수 있습니다.');
@@ -36,3 +47,15 @@ export function cleanAxeSettings(raw={}){
 export function axeSettingsComplete(s){const rates=Object.values(s.rates);return Boolean(s.startsAt&&s.endsAt&&s.axeCost&&s.dailyLimit!==null&&rates.length===AXE_REWARDS.length&&rates.every(n=>n!==null)&&rates.reduce((sum,n)=>sum+Math.round(n*10000),0)===1000000&&AXE_REWARDS.some(r=>r.key!=='MISS'&&s.rates[r.key]>0));}
 export function axePhase(s,now=Date.now()){if(!s.visible)return 'HIDDEN';if(!axeSettingsComplete(s))return 'UNCONFIGURED';if(!s.enabled)return 'PAUSED';if(now<Date.parse(s.startsAt))return 'SCHEDULED';if(now>=Date.parse(s.endsAt))return 'ENDED';return 'OPEN';}
 export function pickAxeReward(settings,sample){if(!Number.isInteger(sample)||sample<0||sample>=1000000)throw Error('잘못된 추첨 값입니다.');let remaining=sample;for(const reward of AXE_REWARDS){remaining-=Math.round(settings.rates[reward.key]*10000);if(remaining<0)return reward;}throw Error('확률 합계가 맞지 않습니다.');}
+
+export function axeMercenaryPool(settings,mercenaries,rank){
+ const candidates=mercenaries.filter(m=>m.rank===rank),rates=settings.mercenaryRates?.[rank];
+ if(rates&&Object.entries(rates).some(([code,rate])=>rate>0&&!candidates.some(m=>m.code===code)))throw Error(rank+' 용병 지급 대상이 변경되었습니다. 용병별 확률을 다시 확인하세요.');
+ const pool=candidates.map(m=>({...m,weight:rates?Math.round((rates[m.code]??0)*10000):1})).filter(m=>m.weight>0);
+ if(!pool.length)throw Error(rank+' 등급에 지급 가능한 용병이 없습니다.');
+ return pool;
+}
+export function pickAxeMercenary(pool,sample){
+ const total=pool.reduce((n,m)=>n+m.weight,0);if(!Number.isInteger(sample)||sample<0||sample>=total)throw Error('잘못된 용병 추첨 값입니다.');
+ for(const m of pool){sample-=m.weight;if(sample<0)return m;}throw Error('용병 확률 합계가 맞지 않습니다.');
+}

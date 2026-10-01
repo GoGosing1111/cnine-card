@@ -1,0 +1,6 @@
+
+/events/chuseok /events/golden-axe/ 302
+/events/chuseok/ /events/golden-axe/ 302
+/events/chuseok/* /events/golden-axe/ 302
+/preview/chuseok-v1 /events/golden-axe/ 302
+/preview/chuseok-v1/* /events/golden-axe/ 302

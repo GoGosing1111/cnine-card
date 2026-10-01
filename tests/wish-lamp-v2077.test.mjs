@@ -10,7 +10,7 @@ test('retired wish lamp cannot charge, grant, recreate tickets or be turned back
  assert.equal(await handleWishLamp({path:'events/chuseok/state',env,deps}),null);
 });
 test('live menu, CMS and old page links retire wish lamp and point at the new event',()=>{
- const nav=read('js/soopketmon-v21-exact-shell-adapter.js');assert(!nav.includes("wishLamp:"));assert.match(nav,/chuseok: Object.freeze/);
- assert(!read('admin/index.html').includes('wish-lamp-v2077.js'));assert.match(read('events/wish-lamp/index.html'),/url=\/events\/chuseok\//);
- assert(!read('functions/_wish_lamp.js').includes('INSERT INTO'));assert(read('functions/api/[[path]].js').includes("i.code NOT IN ('PINGDU_WISH_TICKET','PINGDU_OLD_AXE')"));
+ const nav=read('js/soopketmon-v21-exact-shell-adapter.js');assert(!nav.includes("wishLamp:"));assert.match(nav,/goldenAxe: Object.freeze/);
+ assert(!read('admin/index.html').includes('wish-lamp-v2077.js'));assert.match(read('events/wish-lamp/index.html'),/url=\/events\/golden-axe\//);
+ assert(!read('functions/_wish_lamp.js').includes('INSERT INTO'));assert(read('functions/api/[[path]].js').includes("i.code NOT IN ('PINGDU_WISH_TICKET','CHUSEOK_COIN')"));
 });
