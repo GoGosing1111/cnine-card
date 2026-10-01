@@ -1,0 +1,37 @@
+{
+  "checkedAt": "2026-10-01T15:41:43.744Z",
+  "verified": true,
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:bongsoon-x-body-revoke:20261002:v1",
+    "actor": "SYSTEM_OPS",
+    "userId": 5426,
+    "nickname": "나무늘봉순",
+    "itemCode": "BATTLE_SUIT_X_BODY",
+    "quantity": 1,
+    "removedInstanceIds": [
+      "1560383619"
+    ],
+    "remainingQuantity": 0,
+    "clearedSlots": [
+      "BATTLE_SUIT"
+    ],
+    "balancesPreserved": true,
+    "otherEquipmentPreserved": true,
+    "skillChipsPreserved": true,
+    "completedAt": "2026-10-01T15:41:42.819Z",
+    "adminLogId": "39108"
+  },
+  "currentXQuantity": 0,
+  "battleSuitInstanceId": null,
+  "skillChips": [
+    {
+      "slot": 1,
+      "code": "SKILL_CHIP_HELICOPTER_AIRSTRIKE"
+    },
+    {
+      "slot": 2,
+      "code": "SKILL_CHIP_ROCKET_LAUNCHER"
+    }
+  ]
+}
