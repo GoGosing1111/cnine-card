@@ -5,9 +5,9 @@
   "status": "READY_AWAITING_EXPLICIT_DEPLOY_REQUEST",
   "preparedBaseCommit": "c29f45c9bf7325c1f4d617fca7b3d23c358f97bb",
   "candidateBranch": "codex/valter-release-ready",
-  "releaseScope": "APPROVED_SOURCE_ART_AND_STANDALONE_FULL_BATTLE_PREVIEW",
-  "localPreview": "http://127.0.0.1:8851/preview/mercenary-crimson-silver-knight-battle-v1/?v=17-valter-final",
-  "deploymentEntry": "/preview/mercenary-crimson-silver-knight-battle-v1/?v=17-valter-final",
+  "releaseScope": "APPROVED_SOURCE_ART_LIMITED_COLLECTION_AND_STANDALONE_FULL_BATTLE_PREVIEW",
+  "localPreview": "http://127.0.0.1:8851/preview/mercenary-crimson-silver-knight-battle-v1/?v=17-valter-sss-limited",
+  "deploymentEntry": "/preview/mercenary-crimson-silver-knight-battle-v1/?v=17-valter-sss-limited",
   "sourceArtApproval": "assets/ui/project-v/mercenaries/mercenary-valter-approval-20261001.json",
   "motionApproval": "preview/mercenary-crimson-silver-knight-battle-v1/motion-approval-20261001-v17.json",
   "assetsRegenerated": false,
@@ -74,11 +74,14 @@
   "gameplay": {
     "previewCode": "V-996",
     "runtimeCode": null,
-    "rank": null,
+    "rank": "SSS",
     "statsAssigned": false,
     "skillsAssigned": false,
     "runtimeEnabled": false,
-    "scope": "No gameplay registration or feature activation is included in this art/preview publication candidate."
+    "scope": "No gameplay registration or feature activation is included in this art/preview publication candidate.",
+    "rankStatus": "USER_DESIGNATED",
+    "edition": "LIMITED",
+    "editionStatus": "USER_DESIGNATED"
   },
   "filePolicy": {
     "historicalDrafts": "Preserved on codex/knight-overhead-v12 and codex/pve-continuous-overhaul; excluded from upload candidate",
@@ -86,5 +89,13 @@
     "limitSource": "https://developers.cloudflare.com/pages/platform/limits/#file-size",
     "sharedDependencies": "Locked from actual candidate browser requests; changed dependencies require only their affected preview checks",
     "textHashes": "UTF-8 with CRLF normalized to LF; images and audio hashed byte-for-byte"
+  },
+  "collectionPreview": "/preview/mercenary-limited-snow-neon-20261001-v1/?v=6-valter#valter",
+  "registrationReview": {
+    "userRequest": "발테르 SSS 리미티드로 프리뷰 등록",
+    "report": "preview/mercenary-limited-snow-neon-20261001-v1/qa-preview-valter-20261001.json",
+    "assetsAndMotionChanged": false,
+    "passed": true,
+    "desktopAndMobile": true
   }
 }

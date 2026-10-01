@@ -1,9 +1,9 @@
-# 발테르 — 승인 원화·전체 전투 프리뷰 배포 후보
+# 발테르 SSS 리미티드 — 승인 원화·전체 전투 프리뷰 배포 후보
 
-2026-10-01 사용자 이름 확정: **발테르**. V8 일러스트와 V17 전투 외형·모션·크기·주변 아우라·내려찍기 속도는 승인본이다. 이 후보는 원화와 독립 전투 프리뷰를 함께 게시할 수 있도록 준비한다. 운영 업로드는 사용자의 **운영배포 지시 후** 실행한다.
+2026-10-01 사용자 이름 확정: **발테르**. 후속 프리뷰 등록 지시에 따라 **SSS · 리미티드**를 확정했다. [리미티드 컬렉션](../../mercenary-limited-snow-neon-20261001-v1/?v=6-valter#valter)에 승인 V2 프레임으로 함께 표시한다. V8 일러스트와 V17 전투 외형·모션·크기·주변 아우라·내려찍기 속도는 승인본이다. 이 후보는 원화와 독립 전투 프리뷰를 함께 게시할 수 있도록 준비한다. 운영 업로드는 사용자의 **운영배포 지시 후** 실행한다.
 
 - 원화: `/assets/ui/project-v/mercenaries/approved-20260930/crimson-silver-knight-source-art-approved-v8.png`
-- 전체 프리뷰: `/preview/mercenary-crimson-silver-knight-battle-v1/?showcase=1&v=17-valter-final#battle`
+- 전체 프리뷰: `/preview/mercenary-crimson-silver-knight-battle-v1/?showcase=1&v=17-valter-sss-limited#battle`
 - 이름·원화·SD 승인 기준: `/assets/ui/project-v/mercenaries/mercenary-valter-approval-20261001.json`
 - 원화 1024×1536 RGB PNG와 투명 SD·원본 대검·V13 활성 아틀라스는 무가공 보존한다. 준비·시전·타격·복귀는 승인 V17이며 전체 재생 1.2, 내려찍기 3.6이다.
 
@@ -27,7 +27,7 @@ npm run deploy:production -- --assets-only
 
 5. 기존 배포 스크립트의 캐시·Hyperdrive 검사를 그대로 통과시킨다. 업로드 후 원화 해시, 프리뷰 이름·첫 대기·대표 스킬·자산 응답을 한 번 확인한다. 실패 시 같은 배포 절차로 이전 승인 커밋을 복구한다. 직접 `wrangler pages deploy`를 실행하거나 dirty 배포 예외를 켜지 않는다.
 
-원화·프리뷰 게시 준비와 실전 플레이어블 용병 등록은 별개다. 프리뷰 코드 `V-996`은 운영 코드로 쓰지 않는다. 등급·능력치·스킬 소유/획득·전투 API 연결은 이 후보에서 임의 지정하지 않는다. 기존 공동 출시/콘텐츠 게이트를 유지한다.
+원화·프리뷰 게시 준비와 실전 플레이어블 용병 등록은 별개다. 프리뷰 코드 `V-996`은 운영 코드로 쓰지 않는다. SSS 등급과 리미티드 에디션은 사용자 지정이다. 능력치·스킬 소유/획득·전투 API 연결은 이 후보에서 임의 지정하지 않는다. 기존 공동 출시/콘텐츠 게이트를 유지한다.
 
 ## 배포 자산 조건
 

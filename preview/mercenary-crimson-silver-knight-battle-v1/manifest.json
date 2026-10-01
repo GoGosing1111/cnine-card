@@ -4,7 +4,7 @@
   "name": "발테르",
   "nameStatus": "USER_APPROVED",
   "nameApproval": "assets/ui/project-v/mercenaries/mercenary-valter-approval-20261001.json",
-  "rank": null,
+  "rank": "SSS",
   "rankTarget": "HIGHEST_ENDGAME_TIER",
   "code": "V-996",
   "codeStatus": "PREVIEW_LOCAL_ONLY",
@@ -7654,5 +7654,10 @@
     "artworkUnchanged": true,
     "record": "motion-tempo-request-20261001-v17.json",
     "relativeSpeedToV16": 1.5
-  }
+  },
+  "rankStatus": "USER_DESIGNATED",
+  "edition": "LIMITED",
+  "editionStatus": "USER_DESIGNATED",
+  "collectionPreview": "preview/mercenary-limited-snow-neon-20261001-v1/index.html#valter",
+  "rankEditionApproval": "preview/mercenary-limited-snow-neon-20261001-v1/valter-preview-addition-20261001.json"
 }

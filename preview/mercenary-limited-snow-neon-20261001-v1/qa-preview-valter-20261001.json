@@ -1,0 +1,285 @@
+{
+  "date": "2026-10-01",
+  "scope": "SSS_LIMITED_PREVIEW_REGISTRATION_ONLY",
+  "name": "발테르",
+  "rank": "SSS",
+  "edition": "LIMITED",
+  "assetsRegenerated": false,
+  "motionChanged": false,
+  "deploymentPerformed": false,
+  "viewports": [
+    {
+      "name": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "entries": 4,
+      "rank": "SSS",
+      "edition": "LIMITED",
+      "collectionImages": [
+        {
+          "src": "/preview/mercenary-limited-snow-neon-20261001-v1/assets/bongsoon-snow-source-art-approved-20261001.png",
+          "loaded": true,
+          "width": 1024,
+          "height": 1536
+        },
+        {
+          "src": "/preview/mercenary-limited-snow-neon-20261001-v1/assets/mercenary-limited-frame-approved-20261001.png",
+          "loaded": true,
+          "width": 1024,
+          "height": 1536
+        },
+        {
+          "src": "/preview/mercenary-limited-snow-neon-20261001-v1/assets/joeun-neon-source-art-v11-straightened-cannon.png",
+          "loaded": true,
+          "width": 1024,
+          "height": 1536
+        },
+        {
+          "src": "/preview/mercenary-limited-snow-neon-20261001-v1/assets/mercenary-limited-frame-approved-20261001.png",
+          "loaded": true,
+          "width": 1024,
+          "height": 1536
+        },
+        {
+          "src": "/preview/mercenary-limited-snow-neon-20261001-v1/assets/ines-limited-sss-source-art-20261001.png",
+          "loaded": true,
+          "width": 1024,
+          "height": 1536
+        },
+        {
+          "src": "/preview/mercenary-limited-snow-neon-20261001-v1/assets/mercenary-limited-frame-approved-20261001.png",
+          "loaded": true,
+          "width": 1024,
+          "height": 1536
+        },
+        {
+          "src": "/assets/ui/project-v/mercenaries/approved-20260930/crimson-silver-knight-source-art-approved-v8.png",
+          "loaded": true,
+          "width": 1024,
+          "height": 1536
+        },
+        {
+          "src": "/preview/mercenary-limited-snow-neon-20261001-v1/assets/mercenary-limited-frame-approved-20261001.png",
+          "loaded": true,
+          "width": 1024,
+          "height": 1536
+        }
+      ],
+      "modes": [
+        {
+          "mode": "frame",
+          "aspectRatioPreserved": true
+        },
+        {
+          "mode": "raw",
+          "aspectRatioPreserved": true
+        },
+        {
+          "mode": "small",
+          "aspectRatioPreserved": true
+        }
+      ],
+      "battle": {
+        "name": "발테르",
+        "rank": "SSS",
+        "edition": "LIMITED",
+        "enabled": false,
+        "ready": true
+      },
+      "hero": {
+        "src": "/assets/ui/project-v/mercenaries/approved-20260930/crimson-silver-knight-source-art-approved-v8.png",
+        "filter": "none",
+        "width": 1024,
+        "height": 1536
+      },
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "name": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "entries": 4,
+      "rank": "SSS",
+      "edition": "LIMITED",
+      "collectionImages": [
+        {
+          "src": "/preview/mercenary-limited-snow-neon-20261001-v1/assets/bongsoon-snow-source-art-approved-20261001.png",
+          "loaded": true,
+          "width": 1024,
+          "height": 1536
+        },
+        {
+          "src": "/preview/mercenary-limited-snow-neon-20261001-v1/assets/mercenary-limited-frame-approved-20261001.png",
+          "loaded": true,
+          "width": 1024,
+          "height": 1536
+        },
+        {
+          "src": "/preview/mercenary-limited-snow-neon-20261001-v1/assets/joeun-neon-source-art-v11-straightened-cannon.png",
+          "loaded": true,
+          "width": 1024,
+          "height": 1536
+        },
+        {
+          "src": "/preview/mercenary-limited-snow-neon-20261001-v1/assets/mercenary-limited-frame-approved-20261001.png",
+          "loaded": true,
+          "width": 1024,
+          "height": 1536
+        },
+        {
+          "src": "/preview/mercenary-limited-snow-neon-20261001-v1/assets/ines-limited-sss-source-art-20261001.png",
+          "loaded": true,
+          "width": 1024,
+          "height": 1536
+        },
+        {
+          "src": "/preview/mercenary-limited-snow-neon-20261001-v1/assets/mercenary-limited-frame-approved-20261001.png",
+          "loaded": true,
+          "width": 1024,
+          "height": 1536
+        },
+        {
+          "src": "/assets/ui/project-v/mercenaries/approved-20260930/crimson-silver-knight-source-art-approved-v8.png",
+          "loaded": true,
+          "width": 1024,
+          "height": 1536
+        },
+        {
+          "src": "/preview/mercenary-limited-snow-neon-20261001-v1/assets/mercenary-limited-frame-approved-20261001.png",
+          "loaded": true,
+          "width": 1024,
+          "height": 1536
+        }
+      ],
+      "modes": [
+        {
+          "mode": "frame",
+          "aspectRatioPreserved": true
+        },
+        {
+          "mode": "raw",
+          "aspectRatioPreserved": true
+        },
+        {
+          "mode": "small",
+          "aspectRatioPreserved": true
+        }
+      ],
+      "battle": {
+        "name": "발테르",
+        "rank": "SSS",
+        "edition": "LIMITED",
+        "enabled": false,
+        "ready": true
+      },
+      "hero": {
+        "src": "/assets/ui/project-v/mercenaries/approved-20260930/crimson-silver-knight-source-art-approved-v8.png",
+        "filter": "none",
+        "width": 1024,
+        "height": 1536
+      },
+      "overflow": false,
+      "errors": []
+    }
+  ],
+  "errors": [],
+  "requestedAssets": [
+    "/assets/NEWCARD/24.png",
+    "/assets/cards/%EB%82%A8%EC%88%98%EB%8C%95/031.webp",
+    "/assets/cards/976467971.jpg",
+    "/assets/cards/ZENITH/1.jpg",
+    "/assets/fonts/lich-raid/NotoSansKR-lich-v1.woff2",
+    "/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.avif",
+    "/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.avif",
+    "/assets/responsive/project-v/zenith/zenith-cn-519c181c18df4b8e-sd-v1-384.avif",
+    "/assets/sfx/v3-role-impact-v2/attack.mp3",
+    "/assets/sfx/v3-role-impact-v2/defense.mp3",
+    "/assets/sfx/v3-role-impact-v2/heal.mp3",
+    "/assets/sfx/v3-role-impact-v2/speed.mp3",
+    "/assets/superstar/3.jpg",
+    "/assets/ui/card-frames/superstar-championship-frame-v1.webp",
+    "/assets/ui/card-frames/zenith-frame-concept-v2.png",
+    "/assets/ui/cninelogo.png",
+    "/assets/ui/coin-prediction/arena-v1.png",
+    "/assets/ui/project-v/characters/fur/fur-cn-02d9dc1e8a8a4209-sd-v1.png",
+    "/assets/ui/project-v/characters/fur/manifest-v2.json",
+    "/assets/ui/project-v/characters/icon/manifest-v1.json",
+    "/assets/ui/project-v/characters/prestige/manifest-v1.json",
+    "/assets/ui/project-v/characters/superstar/manifest-v1.json",
+    "/assets/ui/project-v/characters/superstar/superstar-cn-23eb4b19986d4818-sd-v1.png",
+    "/assets/ui/project-v/characters/zenith/manifest-v1.json",
+    "/assets/ui/project-v/fallback/manifest-v1.json",
+    "/assets/ui/project-v/fx/role-impact-v2/attack-impact-atlas-v2.json",
+    "/assets/ui/project-v/fx/role-impact-v2/attack-impact-atlas-v2.png",
+    "/assets/ui/project-v/fx/role-impact-v2/defense-impact-atlas-v2.json",
+    "/assets/ui/project-v/fx/role-impact-v2/defense-impact-atlas-v2.png",
+    "/assets/ui/project-v/fx/role-impact-v2/heal-impact-atlas-v2.json",
+    "/assets/ui/project-v/fx/role-impact-v2/heal-impact-atlas-v2.png",
+    "/assets/ui/project-v/fx/role-impact-v2/speed-impact-atlas-v2.json",
+    "/assets/ui/project-v/fx/role-impact-v2/speed-impact-atlas-v2.png",
+    "/assets/ui/project-v/mercenaries/approved-20260930/crimson-silver-knight-source-art-approved-v8.png",
+    "/assets/ui/project-v/monsters/hunt-tower/manifest-v1.json",
+    "/css/battle-v3-live.css",
+    "/css/breakthrough-tier-v1802.css",
+    "/css/card-unique-battle-fx-v1174.css",
+    "/css/card.css",
+    "/css/faker-card-v1.css",
+    "/css/no-light-beams-v1789.css",
+    "/css/style.css",
+    "/css/superstar-v1.css",
+    "/css/zenith-v1.css",
+    "/js/battle-v3-live.js",
+    "/js/project-v-battle-art-adapter-v1.js",
+    "/js/project-v-monster-battle-art-adapter-v1.js",
+    "/js/project-v-tier-battle-art-adapter-v1.js",
+    "/js/project-v-unassigned-battle-fallback-v1.js",
+    "/preview/battle-suit-skill-chip-v1/assets/textures/flash.webp",
+    "/preview/battle-suit-skill-chip-v1/assets/textures/smoke.webp",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-aura-atlas.webp",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-charge-atlas.webp",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-dash-atlas.webp",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-execution-atlas.webp",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-guard-atlas.webp",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-slash-atlas.webp",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-ultimate-atlas.webp",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/knight-sd-v14-original-blade-approved-grip.png",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v13/twohandGrip-atlas.webp",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v13/twohandLift-atlas.webp",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v13/twohandReturn-atlas.webp",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v13/twohandStrike-atlas.webp",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v5/dash-atlas.webp",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v5/defeat-atlas.webp",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v5/hit-atlas.webp",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v5/idle-atlas.webp",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/source-art-preview.webp",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/battle.html",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/manifest.json",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/preview.bundle.js",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/preview.css",
+    "/preview/mercenary-limited-snow-neon-20261001-v1/",
+    "/preview/mercenary-limited-snow-neon-20261001-v1/assets/bongsoon-snow-source-art-approved-20261001.png",
+    "/preview/mercenary-limited-snow-neon-20261001-v1/assets/ines-limited-sss-source-art-20261001.png",
+    "/preview/mercenary-limited-snow-neon-20261001-v1/assets/joeun-neon-source-art-v11-straightened-cannon.png",
+    "/preview/mercenary-limited-snow-neon-20261001-v1/assets/mercenary-limited-frame-approved-20261001.png",
+    "/preview/project-v-v3/fit-preview-viewport.mjs",
+    "/preview/project-v-v3/source/battle/FormationLayout.mjs",
+    "/preview/project-v-v3/source/battle/ViewportLayout.mjs",
+    "http://127.0.0.1:8851/7095cb51-dc89-41c8-9758-34fef02b79fc",
+    "http://127.0.0.1:8851/7e49b1dc-c006-4fb7-8977-7610cd56fc61",
+    "http://127.0.0.1:8851/e46fdd3b-0699-4966-af15-2445cede383e",
+    "http://127.0.0.1:8851/f019b13f-093e-4571-9f16-f09d5a5ff411"
+  ],
+  "passed": true,
+  "visualReview": {
+    "desktopCollection": true,
+    "mobileValterCard": true,
+    "mobileIndividualPreview": true,
+    "approvedArtAndFrameUnmodified": true
+  }
+}

@@ -14,3 +14,5 @@
 /* The approved original artwork is displayed without recoloring or a glow filter. */
 .hero-art>img{filter:none;width:100%;height:auto;max-height:740px;object-fit:contain}.hero-art{padding-block:24px}.asset-links{flex-wrap:wrap;row-gap:12px}header>span{text-align:right;max-width:45%;line-height:1.5}
 @media(max-width:600px){.hero-art>img{max-height:600px}.hero-art{padding-block:8px}.asset-links{justify-content:flex-start;gap:12px 20px}header>span{font-size:9px}.hero-copy h1{font-size:76px}}
+
+.edition-badge{display:inline-flex;align-items:center;gap:12px;margin:-8px 0 24px;padding:8px 13px;border:1px solid #c3935b;background:linear-gradient(110deg,#572331,#34281c);color:#ffe4b4;font-size:12px;letter-spacing:.1em}.edition-badge strong{font-size:18px;letter-spacing:.14em}.edition-badge span{padding-left:12px;border-left:1px solid #c3935b70}

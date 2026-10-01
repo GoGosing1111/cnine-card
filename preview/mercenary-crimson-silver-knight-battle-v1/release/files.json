@@ -5,8 +5,8 @@
   "payloadFiles": [
     {
       "path": "AGENTS.md",
-      "bytes": 90246,
-      "sha256": "BB636BBA6674DDEFB0B44DFE52D86AA74B805E67A328806C53C68EBB5A3C6E37",
+      "bytes": 90651,
+      "sha256": "CB7634C8D5C5316A0A4C36481994B2CDE495554F5F0B391582BA5427FFCCF586",
       "hashMode": "LF_NORMALIZED_UTF8"
     },
     {
@@ -23,8 +23,8 @@
     },
     {
       "path": "assets/ui/project-v/mercenaries/mercenary-valter-approval-20261001.json",
-      "bytes": 1757,
-      "sha256": "9C73475BC46E242985F07014D764157677D5683F18B4447342A2B5E3928DC102",
+      "bytes": 2172,
+      "sha256": "AE64BD9087FAF8C9F77E45D1E2F77CC1E2E1B6C209520BA9B8227E432F460FD3",
       "hashMode": "LF_NORMALIZED_UTF8"
     },
     {
@@ -971,8 +971,8 @@
     },
     {
       "path": "preview/mercenary-crimson-silver-knight-battle-v1/battle.html",
-      "bytes": 1456,
-      "sha256": "43C4501EA682BAAA1B17E6F5276FC83F1339EDAA9A778DE312EFAF476AD4132D",
+      "bytes": 1482,
+      "sha256": "1685545EE26AE808345CD2A707B23D6FC1E33AB53575D88C5D04A0688603824D",
       "hashMode": "LF_NORMALIZED_UTF8"
     },
     {
@@ -983,14 +983,14 @@
     },
     {
       "path": "preview/mercenary-crimson-silver-knight-battle-v1/index.html",
-      "bytes": 7473,
-      "sha256": "D19986C6BF7AABD433259A1CD7C58455BD0481ADEE5F8627DA65F1FEA3D291AF",
+      "bytes": 7675,
+      "sha256": "9F74EE97086195416D6E4EAD03D868A9192D19050600F9F037DD58CFFD4634FC",
       "hashMode": "LF_NORMALIZED_UTF8"
     },
     {
       "path": "preview/mercenary-crimson-silver-knight-battle-v1/manifest.json",
-      "bytes": 216641,
-      "sha256": "E1B0F203E12EECB48CFB577DEEEE815A511AFD45D414AC985D3865D1EB2FD92D",
+      "bytes": 216945,
+      "sha256": "D27A3F52434C3BBF81C44639BB8BDA51C332F71D9884FA1A2D54CB16AD1FA387",
       "hashMode": "LF_NORMALIZED_UTF8"
     },
     {
@@ -1025,14 +1025,14 @@
     },
     {
       "path": "preview/mercenary-crimson-silver-knight-battle-v1/preview.bundle.js",
-      "bytes": 1440498,
-      "sha256": "9C57FA3044F6BD63CCC8E56C230CF20129A690D4C9CAFBD00782C7B4ADC9AE03",
+      "bytes": 1440523,
+      "sha256": "D6B651016AF81686751EE93291C2040D36A52B7EF546C8399BD2D4FE9096CEA7",
       "hashMode": "LF_NORMALIZED_UTF8"
     },
     {
       "path": "preview/mercenary-crimson-silver-knight-battle-v1/preview.css",
-      "bytes": 9402,
-      "sha256": "1AF3B70E10A152F48D629602797B43A6D893844BFAE2CC304C72B5FF400FC9C6",
+      "bytes": 9756,
+      "sha256": "89F66CB7E95A8A5B82E28A18B9FCEB07CF134DB6BCA071A33DDC078FE2AD2C90",
       "hashMode": "LF_NORMALIZED_UTF8"
     },
     {
@@ -1073,8 +1073,8 @@
     },
     {
       "path": "preview/mercenary-crimson-silver-knight-battle-v1/release/README.md",
-      "bytes": 4272,
-      "sha256": "B56B1C1587F7DF436AADF5E9E3BE4D262451908ED14E91667249FA5EA43B0F4B",
+      "bytes": 4574,
+      "sha256": "41F36481378C8AF2A8217372CCB07873B891973384487F45C4FE0CC50758ABE2",
       "hashMode": "LF_NORMALIZED_UTF8"
     },
     {
@@ -1108,6 +1108,12 @@
       "hashMode": "RAW_BYTES"
     },
     {
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/release/qa/desktop-limited-collection.png",
+      "bytes": 1093895,
+      "sha256": "4B67BDDD94AB51B50571BDAADF702F281B786A388AF61B9E295B163001051D8F",
+      "hashMode": "RAW_BYTES"
+    },
+    {
       "path": "preview/mercenary-crimson-silver-knight-battle-v1/release/qa/desktop-overhead-impact.png",
       "bytes": 1067420,
       "sha256": "67620752464F37735271E3E6ED9C0036674E763266A29F0FD91EA55AF189A48A",
@@ -1117,6 +1123,12 @@
       "path": "preview/mercenary-crimson-silver-knight-battle-v1/release/qa/desktop-skill-impact.png",
       "bytes": 1073716,
       "sha256": "F105BC2918BE6AD9CA2E5F4BB74F740AC8DD44D29F5048C217BFED4FB1EFE7E5",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/release/qa/desktop-sss-limited-hero.png",
+      "bytes": 985771,
+      "sha256": "BC8EADF6BCAE8F33BA4B1893375C62C5CAE85848285074D2D58FC8A647C67606",
       "hashMode": "RAW_BYTES"
     },
     {
@@ -1156,6 +1168,12 @@
       "hashMode": "RAW_BYTES"
     },
     {
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/release/qa/mobile-limited-valter.png",
+      "bytes": 352345,
+      "sha256": "A71ABD2A657B426843AD56C5AB5C0BB8D43A8A654A93F88DA4F2756E03DAEC97",
+      "hashMode": "RAW_BYTES"
+    },
+    {
       "path": "preview/mercenary-crimson-silver-knight-battle-v1/release/qa/mobile-overhead-impact.png",
       "bytes": 299004,
       "sha256": "ECB6F36EAC883B23F19C72767AD3B7358C5AA6058870F22D320A0D6F87C4BCBF",
@@ -1168,6 +1186,12 @@
       "hashMode": "RAW_BYTES"
     },
     {
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/release/qa/mobile-sss-limited-hero.png",
+      "bytes": 495859,
+      "sha256": "567346965AB861E204F27C06E33B50ADB79FB2428E14DC77332E41A6B8DB068F",
+      "hashMode": "RAW_BYTES"
+    },
+    {
       "path": "preview/mercenary-crimson-silver-knight-battle-v1/release/qa/mobile-ultimate-impact.png",
       "bytes": 359978,
       "sha256": "87D09BF6BBAE17A85D7199CC3E0883C3AB15A3EBC78197CF23EF60A6E0724ADD",
@@ -1175,8 +1199,8 @@
     },
     {
       "path": "preview/mercenary-crimson-silver-knight-battle-v1/release/readiness.json",
-      "bytes": 4403,
-      "sha256": "05637CE6478C2130654C7978E13A588FA45D6848DA7C6581C8D3AE3DB741093A",
+      "bytes": 4915,
+      "sha256": "952B4394340808BF2F33842D06FA38D779A212B109691EBCCC2E4CF9F424132B",
       "hashMode": "LF_NORMALIZED_UTF8"
     },
     {
@@ -1193,8 +1217,8 @@
     },
     {
       "path": "preview/mercenary-crimson-silver-knight-battle-v1/release/verify.mjs",
-      "bytes": 4066,
-      "sha256": "D5574F2153A37D0198E723D744DA832654C17DE06C6B68DD98E0BB55AE0B8C75",
+      "bytes": 4942,
+      "sha256": "DBEE989DE8D23871350E6FD05EBFEB2B51306A56584E6FC09AF54ADAFB84BB6F",
       "hashMode": "LF_NORMALIZED_UTF8"
     },
     {
@@ -1211,8 +1235,8 @@
     },
     {
       "path": "preview/mercenary-crimson-silver-knight-battle-v1/skill.mjs",
-      "bytes": 8028,
-      "sha256": "05A37BBD64768F2E9017D2A51C469C67926936EA6CB2C639BDEE9CA0019D95EE",
+      "bytes": 8047,
+      "sha256": "1EC81CD3DA9ECB5DB82C713F1B6C044FDBE9E73C66AD3A8B874FE5E441C3E17C",
       "hashMode": "LF_NORMALIZED_UTF8"
     },
     {
@@ -1229,8 +1253,44 @@
     },
     {
       "path": "preview/mercenary-crimson-silver-knight-battle-v1/source/preview.js",
-      "bytes": 8475,
-      "sha256": "1F17263491179FA941542B851031CA3929877DBDFCFEBEB99BBBF142A7680848",
+      "bytes": 8481,
+      "sha256": "58D0DDA56FE17BEE6C36136C55E3ECCC5B3EBCFA57B313191B0C6CE9A446E841",
+      "hashMode": "LF_NORMALIZED_UTF8"
+    },
+    {
+      "path": "preview/mercenary-limited-snow-neon-20261001-v1/README.md",
+      "bytes": 4309,
+      "sha256": "36084C6922DCCEFD3096056B40933CE0D669465D6E83C8A33CA95935D8FF130C",
+      "hashMode": "LF_NORMALIZED_UTF8"
+    },
+    {
+      "path": "preview/mercenary-limited-snow-neon-20261001-v1/build-manifest.mjs",
+      "bytes": 5272,
+      "sha256": "8EF1492EE39188C428666B99AD674C2DAA6279B6CDEB723563B2BCAB56CEB7E5",
+      "hashMode": "LF_NORMALIZED_UTF8"
+    },
+    {
+      "path": "preview/mercenary-limited-snow-neon-20261001-v1/index.html",
+      "bytes": 11313,
+      "sha256": "ECA2E5629F466BCA1B28F8ADCBC57C344A3B9742D781F859CCE036962D661C8E",
+      "hashMode": "LF_NORMALIZED_UTF8"
+    },
+    {
+      "path": "preview/mercenary-limited-snow-neon-20261001-v1/manifest.json",
+      "bytes": 16367,
+      "sha256": "A02F0DF96092C0293209C272C19FF6984EC7448074B5181D17973A86176FAE87",
+      "hashMode": "LF_NORMALIZED_UTF8"
+    },
+    {
+      "path": "preview/mercenary-limited-snow-neon-20261001-v1/qa-preview-valter-20261001.json",
+      "bytes": 11497,
+      "sha256": "1E8D83F879231CA88E01760F30FD95039F4C1AF7CC880E5A0F788606486B90C7",
+      "hashMode": "LF_NORMALIZED_UTF8"
+    },
+    {
+      "path": "preview/mercenary-limited-snow-neon-20261001-v1/valter-preview-addition-20261001.json",
+      "bytes": 1134,
+      "sha256": "9CBCAD4462739A63CC12DA99E7484E33908605856E147C6503FCAAF511764CB6",
       "hashMode": "LF_NORMALIZED_UTF8"
     }
   ],
@@ -1257,6 +1317,12 @@
       "path": "assets/cards/남수댕/031.webp",
       "bytes": 5598,
       "sha256": "934DB48547D9858A470E3AABCCF801C8299688BA55E8280099B655A4D19A7FB0",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "assets/fonts/lich-raid/NotoSansKR-lich-v1.woff2",
+      "bytes": 1173656,
+      "sha256": "D2C21771A2EB4DAA4C4D05A20CC2E89A23DE0B0E036A9E528726CB0C254EF19D",
       "hashMode": "RAW_BYTES"
     },
     {
@@ -1527,6 +1593,30 @@
       "path": "preview/battle-suit-skill-chip-v1/assets/textures/smoke.webp",
       "bytes": 178154,
       "sha256": "900E987C42F39AD151AFD184CAEE0B645D8A33C8E53A78426355EECBF8D83813",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/mercenary-limited-snow-neon-20261001-v1/assets/bongsoon-snow-source-art-approved-20261001.png",
+      "bytes": 2866596,
+      "sha256": "B15D0CCBB2429C539BC337198B1BABBD3D277E1FF84FC2DAD88B209431AC4FF3",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/mercenary-limited-snow-neon-20261001-v1/assets/ines-limited-sss-source-art-20261001.png",
+      "bytes": 2864651,
+      "sha256": "97D2120A91E7682130697476F6DA0C77FF5AA548C16B2AB128B539FF5ACB176D",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/mercenary-limited-snow-neon-20261001-v1/assets/joeun-neon-source-art-v11-straightened-cannon.png",
+      "bytes": 2389147,
+      "sha256": "87E88A646E327FCBB6489B05D8C5287C5212B1D9105134ECE1C036D022C633DA",
+      "hashMode": "RAW_BYTES"
+    },
+    {
+      "path": "preview/mercenary-limited-snow-neon-20261001-v1/assets/mercenary-limited-frame-approved-20261001.png",
+      "bytes": 1110542,
+      "sha256": "C6B33EFC33502312B78EBD31167124BAB1FB661E22DD60A23950225C91C9DCC1",
       "hashMode": "RAW_BYTES"
     },
     {

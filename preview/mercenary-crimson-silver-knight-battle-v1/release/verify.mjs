@@ -14,8 +14,14 @@ const lock=await json(scope+'release/files.json');
 const review=await json(scope+'release/review-report.json');
 assert.equal(m.name,'발테르');assert.equal(KNIGHT.name,'발테르');assert.equal(approval.name,'발테르');
 assert.equal(m.version,17);assert.equal(m.runtimeEnabled,false);assert.equal(approval.runtimeEnabled,false);
-assert.equal(m.rank,null);assert.equal(approval.runtimeCode,null);assert.equal(approval.deploymentPerformed,false);
+assert.equal(m.rank,'SSS');assert.equal(KNIGHT.rank,m.rank);assert.equal(approval.rank,m.rank);assert.equal(m.edition,'LIMITED');assert.equal(KNIGHT.edition,m.edition);assert.equal(approval.edition,m.edition);assert.equal(approval.runtimeCode,null);assert.equal(approval.deploymentPerformed,false);
 assert.equal(m.nameStatus,'USER_APPROVED');assert.equal(approval.nameStatus,'USER_APPROVED');
+const limited=await json('preview/mercenary-limited-snow-neon-20261001-v1/manifest.json');
+const registration=await json(m.rankEditionApproval);
+const collectionEntry=limited.entries.find(e=>e.name===m.name);
+assert.equal(collectionEntry.rank,m.rank);assert.equal(collectionEntry.edition,m.edition);assert.equal(collectionEntry.source.sha256,m.sourceArtSha256);
+assert.equal(registration.rank,m.rank);assert.equal(registration.edition,m.edition);assert.equal(registration.runtimeEnabled,false);assert.equal(limited.liveRegistration,false);
+assert.equal((await json('preview/mercenary-limited-snow-neon-20261001-v1/qa-preview-valter-20261001.json')).passed,true);
 assert.equal(m.playbackTempo.rate,1.2);assert.equal(m.playbackTempo.strikeRate,3.6);
 assert.equal(m.playbackTempo.swingSeconds,0.125/1.5);
 const art=await fs.readFile(path.join(project,m.sourceArt));
@@ -40,4 +46,4 @@ for(const row of [...lock.payloadFiles,...lock.sharedDependencies]){
 }
 assert.equal(review.passed,true);assert.equal(review.viewports.length,2);assert.deepEqual(review.errors,[]);
 for(const view of review.viewports){assert.equal(view.observations.length,10);assert.equal(view.returnedToExactIdle,true);assert.equal(view.overflow,false);assert.deepEqual(view.errors,[]);}
-console.log(JSON.stringify({passed:true,name:m.name,sourceArt:'V8 original RGB 1024x1536',motionVersion:m.version,motionFrames,effectFrames,payloadFiles:lock.payloadFiles.length,sharedDependencies:lock.sharedDependencies.length,viewports:review.viewports.map(v=>v.name),deploymentPerformed:false}));
+console.log(JSON.stringify({passed:true,name:m.name,rank:m.rank,edition:m.edition,sourceArt:'V8 original RGB 1024x1536',motionVersion:m.version,motionFrames,effectFrames,payloadFiles:lock.payloadFiles.length,sharedDependencies:lock.sharedDependencies.length,viewports:review.viewports.map(v=>v.name),deploymentPerformed:false}));
