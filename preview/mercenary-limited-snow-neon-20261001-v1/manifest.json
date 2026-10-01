@@ -1,9 +1,9 @@
 {
-  "version": 2,
+  "version": 3,
   "dateKST": "2026-10-01",
   "scope": "SOURCE_ART_AND_FRAME_PREVIEW",
   "method": "built-in image_gen; selected user attachment preserved byte-for-byte",
-  "userReview": "BONGSOON_AND_FRAME_APPROVED_JOEUN_REVIEW_PENDING",
+  "userReview": "BONGSOON_FRAME_APPROVED_JOEUN_ADOPTED_LOCAL_FIX_REVIEW",
   "rankStatus": "EXPECTED_NOT_CONFIRMED",
   "entries": [
     {
@@ -29,26 +29,31 @@
     },
     {
       "name": "조은",
-      "concept": "네온 장비 흑백 특수부대 · 각형 레이저 중화기",
+      "concept": "네온 장비 흑백 특수부대 · 확장형 레이저 중화기",
       "expectedRank": "SS",
-      "sourceArt": "assets/joeun-neon-source-art-v7-angular-laser.png",
-      "status": "USER_REVIEW_PENDING",
-      "prompt": "prompt-joeun-v7-retry1.json",
-      "initialSpec": "prompt-joeun-v7.json",
-      "approvedPriorScope": [
-        "face",
-        "costume"
-      ],
-      "editBase": "references/joeun-user-selected-redesign-base.png",
-      "change": "최신 사용자 첨부 얼굴·의상 유지, 키/다리 비율 약간 증가, 원통형을 배제한 레이저포 자유 재설계.",
-      "source": {
-        "path": "assets/joeun-neon-source-art-v7-angular-laser.png",
+      "sourceArt": "assets/joeun-neon-source-art-v11-straightened-cannon.png",
+      "status": "ADOPTED_COMPOSITION_LOCAL_CORRECTION_REVIEW_PENDING",
+      "prompt": "prompt-joeun-v11.json",
+      "adoption": "joeun-adoption-20261001.json",
+      "adoptedBase": {
+        "path": "assets/joeun-user-adopted-source-art-20261001.png",
         "width": 1024,
         "height": 1536,
         "bitDepth": 8,
         "colorType": 2,
-        "bytes": 2715367,
-        "sha256": "11410D211B1B22183D13770FE1A0AD81E46FC890A00F9A352875142B41F6E6EE"
+        "bytes": 2847982,
+        "sha256": "65786A8DCB665A015AAA4BCC4DE8E9B91EA4F631FCE119D0C5903FFC86E1347D"
+      },
+      "generationIntent": "PRECISE_FORWARD_WEAPON_EDIT_ONLY",
+      "change": "사용자 채택본에서 앞쪽으로 휘어 보이는 레이저포 축·상하 레일을 직선으로 맞추는 국소 보정. 채택 원본은 별도 무가공 보존.",
+      "source": {
+        "path": "assets/joeun-neon-source-art-v11-straightened-cannon.png",
+        "width": 1024,
+        "height": 1536,
+        "bitDepth": 8,
+        "colorType": 2,
+        "bytes": 2389147,
+        "sha256": "87E88A646E327FCBB6489B05D8C5287C5212B1D9105134ECE1C036D022C633DA"
       }
     }
   ],
@@ -61,7 +66,14 @@
     "bytes": 1389843,
     "sha256": "A8931DBD4C8C069B2D38731F58AF708C373C8765412702ED040908FA750A506C",
     "status": "APPROVED_FRAME",
-    "approval": "frame-approval-20261001.json"
+    "approval": "frame-approval-20261001.json",
+    "displayFit": {
+      "artScalePercent": 85.6,
+      "leftPercent": 7.2,
+      "topPercent": 5.6,
+      "aspectRatioPreserved": true,
+      "sourceAndFramePixelsUnchanged": true
+    }
   },
   "references": [
     {
@@ -128,6 +140,33 @@
       "sha256": "5D7F3B2454B6788968B07B3888475329E221A222E1D4ACEA4E70722972C17602"
     },
     {
+      "path": "references/joeun-expanded-cannon-reference-v10.png",
+      "width": 1225,
+      "height": 633,
+      "bitDepth": 8,
+      "colorType": 6,
+      "bytes": 643327,
+      "sha256": "8E90D9DDBA31011E47F2C8474B7D8936C20308FD26698A370B328D66F9F997DD"
+    },
+    {
+      "path": "references/joeun-heavy-cannon-design-reference-v9.png",
+      "width": 1600,
+      "height": 1387,
+      "bitDepth": 8,
+      "colorType": 2,
+      "bytes": 1449551,
+      "sha256": "C3B4972B307BDB333187ACD461438D0FAE6DF8732E2B57997CA7915B5C264D20"
+    },
+    {
+      "path": "references/joeun-heavy-cannon-pose-reference-v9.png",
+      "width": 721,
+      "height": 548,
+      "bitDepth": 8,
+      "colorType": 6,
+      "bytes": 479967,
+      "sha256": "F6D66FEEACD58E5135275859293A7CCD249FD6CCE60E30AFFC90207FC598BD19"
+    },
+    {
       "path": "references/joeun-launcher-laser-user.png",
       "width": 378,
       "height": 289,
@@ -153,6 +192,18 @@
       "colorType": 2,
       "bytes": 3183063,
       "sha256": "6F68D8EA782ACFFA27E0C0CE896B6D0FE1ABECF4D86244600122A3A8D35C35FB"
+    }
+  ],
+  "generationInputs": [
+    {
+      "path": "assets/joeun-user-adopted-source-art-20261001.png",
+      "width": 1024,
+      "height": 1536,
+      "bitDepth": 8,
+      "colorType": 2,
+      "bytes": 2847982,
+      "sha256": "65786A8DCB665A015AAA4BCC4DE8E9B91EA4F631FCE119D0C5903FFC86E1347D",
+      "role": "ONLY EDIT TARGET; immutable adopted picture; forward weapon alignment is the sole allowed change"
     }
   ],
   "styleAnchor": {
@@ -223,6 +274,15 @@
         "sha256": "8FA52F581E37827BF0F24E66C2F46DEA96F8C323A3902EE7BF0A6AAEF089632E"
       },
       {
+        "path": "assets/joeun-neon-source-art-v10-expanded-launcher.png",
+        "width": 1024,
+        "height": 1536,
+        "bitDepth": 8,
+        "colorType": 2,
+        "bytes": 2514413,
+        "sha256": "3623345EC740812D271EAC18DA7F86F311587DE9DC64FF3050445B2673A2363A"
+      },
+      {
         "path": "assets/joeun-neon-source-art-v2.png",
         "width": 1024,
         "height": 1536,
@@ -257,6 +317,42 @@
         "colorType": 2,
         "bytes": 2834287,
         "sha256": "4FC94501D1E309440C1EF930ADB1348308EC12FCC6799B9A6688F1AC9F222FB8"
+      },
+      {
+        "path": "assets/joeun-neon-source-art-v7-angular-laser.png",
+        "width": 1024,
+        "height": 1536,
+        "bitDepth": 8,
+        "colorType": 2,
+        "bytes": 2715367,
+        "sha256": "11410D211B1B22183D13770FE1A0AD81E46FC890A00F9A352875142B41F6E6EE"
+      },
+      {
+        "path": "assets/joeun-neon-source-art-v8-underarm-laser.png",
+        "width": 1024,
+        "height": 1536,
+        "bitDepth": 8,
+        "colorType": 2,
+        "bytes": 2581990,
+        "sha256": "A78CF792E9DAC836F22B1670402E7164B41B6C3BE761E54D53768C0485EC690C"
+      },
+      {
+        "path": "assets/joeun-neon-source-art-v9-fresh-launcher.png",
+        "width": 1024,
+        "height": 1536,
+        "bitDepth": 8,
+        "colorType": 2,
+        "bytes": 2735551,
+        "sha256": "D94A3D69BE1CFF2539111C10A8BEC4A49C9177A490928727237A80B2EA357EC5"
+      },
+      {
+        "path": "assets/joeun-user-adopted-source-art-20261001.png",
+        "width": 1024,
+        "height": 1536,
+        "bitDepth": 8,
+        "colorType": 2,
+        "bytes": 2847982,
+        "sha256": "65786A8DCB665A015AAA4BCC4DE8E9B91EA4F631FCE119D0C5903FFC86E1347D"
       }
     ],
     "prompts": [
@@ -264,26 +360,30 @@
       "prompt-bongsoon-v5.json",
       "prompt-bongsoon-v6.json",
       "prompt-frame-v1.json",
+      "prompt-joeun-v10.json",
+      "prompt-joeun-v11.json",
       "prompt-joeun-v4.json",
       "prompt-joeun-v5.json",
       "prompt-joeun-v6.json",
       "prompt-joeun-v7-retry1.json",
       "prompt-joeun-v7.json",
+      "prompt-joeun-v8.json",
+      "prompt-joeun-v9.json",
       "prompts-v3.json",
       "prompts.json"
     ]
   },
   "futureRules": {
     "location": "../../AGENTS.md",
-    "face": "사진 각도 복제 금지 / 얼굴 고유 구조 유지",
+    "face": "채택된 조은 얼굴·구도·포즈 고정 / 앞쪽 무기 축만 국소 보정",
     "hair": "자연스러운 연속 모발 흐름 / 층층이 갈라진 판·띠형 헤어 금지",
-    "approvedAssets": "승인 봉순 원화와 프레임의 원본 해시 고정"
+    "approvedAssets": "봉순·프레임·조은 채택 재첨부 원본의 해시 고정"
   },
   "technicalQA": {
     "sourcePixels": "raw original files preserved without recompression",
     "upscaled": false,
     "frameSeparateFromSourceArt": true,
-    "browserReport": "qa-preview-v7.json"
+    "browserReport": "qa-preview-v11.json"
   },
   "liveRegistration": false,
   "battleSprite": "NOT_REQUESTED",

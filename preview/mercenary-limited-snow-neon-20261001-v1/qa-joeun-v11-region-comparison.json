@@ -1,0 +1,45 @@
+{
+  "dateKST": "2026-10-01",
+  "scope": "Read-only pixel comparison; no image processing or compositing performed",
+  "files": [
+    {
+      "file": "assets/joeun-user-adopted-source-art-20261001.png",
+      "sha256": "65786A8DCB665A015AAA4BCC4DE8E9B91EA4F631FCE119D0C5903FFC86E1347D"
+    },
+    {
+      "file": "assets/joeun-neon-source-art-v11-straightened-cannon.png",
+      "sha256": "87E88A646E327FCBB6489B05D8C5287C5212B1D9105134ECE1C036D022C633DA"
+    }
+  ],
+  "dimensions": [
+    1024,
+    1536
+  ],
+  "regionComparison": {
+    "faceAndHair": {
+      "meanAbsoluteChannelDifference": 6.148840579710145,
+      "maxChannelDifference": 152,
+      "channelsOver8Percent": 20.197722567287784
+    },
+    "upperBody": {
+      "meanAbsoluteChannelDifference": 8.637661064425771,
+      "maxChannelDifference": 203,
+      "channelsOver8Percent": 31.74439775910364
+    },
+    "legsBootsAndFloor": {
+      "meanAbsoluteChannelDifference": 5.4277405169025155,
+      "maxChannelDifference": 231,
+      "channelsOver8Percent": 15.083284198113208
+    },
+    "upperBackground": {
+      "meanAbsoluteChannelDifference": 2.374882920110193,
+      "maxChannelDifference": 70,
+      "channelsOver8Percent": 1.040977961432507
+    },
+    "supportHand": {
+      "meanAbsoluteChannelDifference": 26.75950464396285,
+      "maxChannelDifference": 201,
+      "channelsOver8Percent": 56.899896800825594
+    }
+  }
+}

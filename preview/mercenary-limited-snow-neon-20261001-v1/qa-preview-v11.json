@@ -1,0 +1,58 @@
+{
+  "dateKST": "2026-10-01",
+  "scope": "Only frame fitting, preview controls and selected source files; no game runtime tests",
+  "frameLayoutVerifiedWith": "Joeun V10; unchanged CSS and identical 1024x1536 canvas used by V11",
+  "desktop": {
+    "viewport": {
+      "width": 1422,
+      "height": 800
+    },
+    "overflow": false,
+    "allArtInsideFrame": true,
+    "uniformArtScaleApproximately": 0.856,
+    "zoom": {
+      "openedAndClosed": true,
+      "artInsideFrame": true,
+      "uniformScale": true
+    },
+    "rawView": {
+      "fullWidth": true,
+      "frameHidden": true
+    }
+  },
+  "mobile": {
+    "requestedViewport": {
+      "width": 390,
+      "height": 844
+    },
+    "observedCssViewport": {
+      "width": 434,
+      "height": 938
+    },
+    "singleColumn": true,
+    "overflow": false,
+    "allArtInsideFrame": true,
+    "uniformArtScaleApproximately": 0.856,
+    "thumbnail": {
+      "panelWidths": [
+        160,
+        160
+      ],
+      "artWidths": [
+        136.9583282470703,
+        136.9583282470703
+      ],
+      "frameVisible": true
+    },
+    "viewportReset": true
+  },
+  "currentArt": "assets/joeun-neon-source-art-v11-straightened-cannon.png",
+  "localCorrection": {
+    "visuallyReviewed": true,
+    "forwardRailsAndCoreAligned": true,
+    "adoptedOriginalPreserved": true,
+    "exactOutsidePixelPreservation": false,
+    "comparisonReport": "qa-joeun-v11-region-comparison.json",
+    "note": "Generative edit retains the same visible character, pose and scene; outside weapon areas are not byte/pixel-identical."
+  }
+}

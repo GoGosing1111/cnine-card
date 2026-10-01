@@ -1,0 +1,22 @@
+{
+  "dateKST": "2026-10-01",
+  "status": "ADOPTED_COMPOSITION_FORWARD_WEAPON_ALIGNMENT_FIX_REQUESTED",
+  "sourceArt": "assets/joeun-user-adopted-source-art-20261001.png",
+  "sha256": "65786A8DCB665A015AAA4BCC4DE8E9B91EA4F631FCE119D0C5903FFC86E1347D",
+  "userRequest": "사진 채택. 중화기가 앞쪽으로 갈수록 휘어진 부분만 수정. 다른 부분 변경 금지.",
+  "approvedScope": [
+    "face and expression",
+    "head angle and gaze",
+    "hair",
+    "costume",
+    "hands and grips",
+    "body proportions and legs",
+    "stepping pose",
+    "background",
+    "expanded weapon design and underarm brace"
+  ],
+  "allowedEdit": "Straighten the bowed forward cannon axis/rails only; no other part may change.",
+  "latestPrompt": "prompt-joeun-v11.json",
+  "operationalApproval": false,
+  "rankConfirmed": false
+}

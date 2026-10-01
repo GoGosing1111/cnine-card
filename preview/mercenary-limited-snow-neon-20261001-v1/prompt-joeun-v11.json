@@ -1,0 +1,19 @@
+{
+  "id": "joeun-v11-straightened-cannon",
+  "dateKST": "2026-10-01",
+  "method": "built-in image_gen",
+  "intent": "PRECISE_OBJECT_EDIT_ONLY",
+  "status": "GENERATED_LOCAL_CORRECTION_REVIEW_PENDING",
+  "rawGeneration": "exec-50bb068a-a407-444f-8a6b-90c64d4963b2.png",
+  "outputSha256": "87E88A646E327FCBB6489B05D8C5287C5212B1D9105134ECE1C036D022C633DA",
+  "sourceArt": "assets/joeun-neon-source-art-v11-straightened-cannon.png",
+  "request": "사진 채택. 중화기가 앞쪽으로 갈수록 휘어진 부분만 수정. 다른 부분 변경 금지.",
+  "references": [
+    {
+      "path": "assets/joeun-user-adopted-source-art-20261001.png",
+      "role": "ONLY EDIT TARGET; immutable adopted picture; forward weapon alignment is the sole allowed change",
+      "sha256": "65786A8DCB665A015AAA4BCC4DE8E9B91EA4F631FCE119D0C5903FFC86E1347D"
+    }
+  ],
+  "prompt": "Use case: precise-object-edit.\nPerform one very small local correction on the attached adopted illustration. Preserve the entire image exactly except for the slightly bowed forward part of the heavy laser cannon.\n\nONLY PERMITTED CHANGE:\nStraighten the cannon's forward longitudinal geometry, beginning immediately in front of the three small stacked blue capacitor cells and continuing to the muzzle at image-right. The front currently appears to bend/droop slightly as it extends. Make the long upper rail, lower rail, cyan energy chamber housing and muzzle form one rigid, straight, correctly aligned assembly on the SAME axis as the existing rear receiver. Every long machined edge must read as a straight line with consistent perspective, no bowing, waviness or kink near the front. Keep the existing overall down-right aim direction, dimensions, length, thickness, expanded rail gaps, mechanical struts, armor pieces, textures, blue core light, electrical pattern and muzzle design. This is a geometrical straightening, not a redesign. Use the existing rear receiver and chamber coupling as fixed alignment anchors.\n\nSTRICT LOCKS:\nDo not change the woman at all: same exact face, gaze, head angle, expression, hair strands, clothing folds, insignia, skin, height, thighs, calves, knees, boots and stepping pose. Do not change either hand, glove, wrist, fingers or grip/contact position. Do not change the rear cannon, grip, three blue cells, rear reservoir or underarm brace. Do not alter the background, moon, towers, banner, crate/step, reflections, lighting, framing or color grading. Preserve the original pixels and details outside the forward weapon silhouette as closely as possible. Do not retouch or beautify anything. No camera or body movement, no compositional shift, no cropping.\n\nWork only on the front weapon surfaces and the minimal adjacent pixels needed to correct their straight contour; leave skin, hands, hair, costume and background untouched. Return the same 1024x1536 RGB PNG composition. No text, UI, borders, watermark or other additions."
+}
