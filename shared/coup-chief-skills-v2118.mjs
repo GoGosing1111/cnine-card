@@ -1,7 +1,7 @@
 export const COUP_ENERGY_MAX = 10;
 export const COUP_ENERGY_RECOVERY_MS = 120000;
 export const COUP_SKILL_COOLDOWN_MS = 1800000;
-export const coupSkillCooldown = (code, side = 'CHIEF') => side === 'REBEL' ? (code === 'RALLY' ? 5400000 : 2700000) : code === 'RALLY' ? 3600000 : COUP_SKILL_COOLDOWN_MS;
+export const coupSkillCooldown = code => code === 'RALLY' ? 3600000 : COUP_SKILL_COOLDOWN_MS;
 export const COUP_NUCLEAR_BLOCK_MS = 600000;
 export const COUP_CHIEF_SKILLS = Object.freeze([
   { code: 'NUCLEAR', name: '원자폭탄', image: '/assets/ui/coup/chief-nuclear-v2118.png', label: '반란군 최대 50명', effect: '행동력 0 · 10분 회복 불가', detail: '반란군 중 최대 50명을 무작위로 선택해 행동력을 0으로 만듭니다. 10분 동안 회복할 수 없으며, 이후 2분마다 1씩 회복합니다.' },

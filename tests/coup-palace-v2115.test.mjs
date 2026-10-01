@@ -11,6 +11,7 @@ import { readFileSync } from 'node:fs';
 import { createPvpBattleV2 } from '../functions/_battle_v2_preview.js';
 import { useCoupChiefSkill, COUP_SKILL_SETTINGS } from '../functions/_coup.js';
 import { coupEnergy, coupSkillCooldown, chooseNuclearTargets, coupRebelCommanderId } from '../shared/coup-chief-skills-v2118.mjs';
+import { territorySiegeDamage } from '../functions/_territory_war.js';
 
 test('chief skill energy: 10 cap, 2-minute recovery, 50 rally overflow, nuclear has no deferred recovery', () => {
   assert.equal(coupEnergy(null, 0).energy, 10);
@@ -22,7 +23,7 @@ test('chief skill energy: 10 cap, 2-minute recovery, 50 rally overflow, nuclear 
   assert.equal(coupEnergy(hit,599999).energy,0);assert.equal(coupEnergy(hit,600000).energy,0);
   assert.equal(coupEnergy(hit,719999).energy,0);assert.equal(coupEnergy(hit,720000).energy,1);
   assert.equal(coupSkillCooldown('RALLY'),3600000);assert.equal(coupSkillCooldown('ARTILLERY'),1800000);
-  assert.equal(coupSkillCooldown('RALLY','REBEL'),5400000);assert.equal(coupSkillCooldown('ARTILLERY','REBEL'),2700000);
+  assert.equal(coupSkillCooldown('RALLY','REBEL'),3600000);assert.equal(coupSkillCooldown('ARTILLERY','REBEL'),1800000);
   assert.equal(coupRebelCommanderId('new',{rebelCommand:{roundId:'old',userId:2}}),null);
   assert.equal(coupRebelCommanderId('old',{rebelCommand:{roundId:'old',userId:-1}}),null);
   const targets=chooseNuclearTargets(Array.from({length:80},(_,i)=>i),()=>.4);
@@ -138,27 +139,37 @@ for (const pg of [false, true]) {
     const r=await f.p('SELECT settings_json FROM coup_rounds_v2115 WHERE id=?',id).first();
     await f.p('UPDATE coup_rounds_v2115 SET settings_json=?,revision=revision+1 WHERE id=?',JSON.stringify({...JSON.parse(r.settings_json),rebelCommand:{roundId:id,userId}}),id).run();
   }
-  test(`${label}: temporary rebel commander targets the opposite HP and own energy with independent 45/90-minute cooldowns`,async t=>{
+  test(`${label}: assigned rebel commander is visible before enlistment but cannot command or join the chief side`, async t => {
+    const f=await fixture(t,pg),id=await f.prepare();await assign(f,id);
+    await f.p("DELETE FROM coup_participants_v2115 WHERE round_id=? AND user_id=2",id).run();
+    const state=await coupStatus(f.env,{id:2},f.now);
+    assert.equal(state.rebelCommander.userId,2);assert.equal(state.rebelCommander.enrolled,false);
+    assert.equal(state.commandSide,'REBEL');assert.equal(state.canUseCommandSkills,false);
+    await assert.rejects(useCoupChiefSkill(f.env,{id:2},{roundId:id,skillCode:'RALLY',requestId:'pending-rebel-rally'},f.now),e=>e.status===403);
+    await f.p("UPDATE coup_rounds_v2115 SET status='RECRUITING',starts_at=NULL,ends_at=NULL WHERE id=?",id).run();
+    await assert.rejects(joinCoupRound(f.env,{}, {id:2},{roundId:id,side:'CHIEF',acceptPenalty:true},f.now),e=>e.status===400);
+  });
+  test(`${label}: temporary rebel commander targets the opposite HP and own energy with independent 30/60-minute cooldowns matching the chief`,async t=>{
     const f=await fixture(t,pg),id=await f.prepare();await assign(f,id);
     const cast=(uid,code,key,now=f.now)=>useCoupChiefSkill(f.env,{id:uid},{roundId:id,skillCode:code,requestId:key,targetSide:'REBEL',commanderId:1},now);
     const r=await cast(2,'ARTILLERY','rebel-arty-first');
-    assert.equal(r.commandSide,'REBEL');assert.equal(r.targetSide,'CHIEF');assert.equal(r.commanderName,'계정2');assert.equal(r.damage,150000);assert.equal(r.nextUseAt,f.now+2700000);
+    assert.equal(r.commandSide,'REBEL');assert.equal(r.targetSide,'CHIEF');assert.equal(r.commanderName,'계정2');assert.equal(r.damage,150000);assert.equal(r.nextUseAt,f.now+1800000);
     let round=await f.p('SELECT * FROM coup_rounds_v2115 WHERE id=?',id).first();assert.equal(Number(round.chief_hp),350000);assert.equal(Number(round.rebel_hp),500000);
     assert.equal((await cast(1,'ARTILLERY','chief-arty-same-time')).nextUseAt,f.now+1800000);
-    await assert.rejects(cast(2,'ARTILLERY','rebel-arty-early',f.now+2699999),e=>e.status===429);
-    assert.equal((await cast(2,'ARTILLERY','rebel-arty-ready',f.now+2700000)).nextUseAt,f.now+5400000);
-    const rally=await cast(2,'RALLY','rebel-rally-first');assert.equal(rally.nextUseAt,f.now+5400000);assert.deepEqual(rally.affectedUserIds,[2,3,4]);assert.equal(rally.targetSide,'REBEL');
+    await assert.rejects(cast(2,'ARTILLERY','rebel-arty-early',f.now+1799999),e=>e.status===429);
+    assert.equal((await cast(2,'ARTILLERY','rebel-arty-ready',f.now+1800000)).nextUseAt,f.now+3600000);
+    const rally=await cast(2,'RALLY','rebel-rally-first');assert.equal(rally.nextUseAt,f.now+3600000);assert.deepEqual(rally.affectedUserIds,[2,3,4]);assert.equal(rally.targetSide,'REBEL');
     assert.equal((await coupStatus(f.env,{id:3},f.now)).mine.energyState.energy,50);
     assert.equal((await coupStatus(f.env,{id:1},f.now)).mine.energyState.energy,10);
     await cast(1,'RALLY','chief-rally-same-time');
-    await assert.rejects(cast(2,'RALLY','rebel-rally-early',f.now+5399999),e=>e.status===429);
-    assert.equal((await cast(2,'RALLY','rebel-rally-ready',f.now+5400000)).nextUseAt,f.now+10800000);
+    await assert.rejects(cast(2,'RALLY','rebel-rally-early',f.now+3599999),e=>e.status===429);
+    assert.equal((await cast(2,'RALLY','rebel-rally-ready',f.now+3600000)).nextUseAt,f.now+7200000);
     const commander=await coupStatus(f.env,{id:2},f.now);assert.equal(commander.canUseChiefSkills,false);assert.equal(commander.canUseCommandSkills,true);assert.equal(commander.commander.temporary,true);assert.deepEqual(commander.commandSkills.map(s=>s.code),['ARTILLERY','RALLY']);
-    assert.equal(commander.commandSkills[0].nextUseAt,f.now+5400000);assert.equal(commander.chiefSkills.find(s=>s.code==='ARTILLERY').nextUseAt,f.now+1800000);
+    assert.equal(commander.commandSkills[0].nextUseAt,f.now+3600000);assert.equal(commander.chiefSkills.find(s=>s.code==='ARTILLERY').nextUseAt,f.now+1800000);
     assert.equal((await coupStatus(f.env,{id:3},f.now)).canUseCommandSkills,false);
     assert.equal((await coupStatus(f.env,{id:1},f.now)).canUseChiefSkills,true);
     await f.p("UPDATE coup_rounds_v2115 SET chief_hp=1 WHERE id=?",id).run();
-    assert.equal((await cast(2,'ARTILLERY','rebel-front-advance',f.now+5400000)).frontMoved,true);
+    assert.equal((await cast(2,'ARTILLERY','rebel-front-advance',f.now+3600000)).frontMoved,true);
     round=await f.p('SELECT * FROM coup_rounds_v2115 WHERE id=?',id).first();assert.equal(Number(round.front_index),3);assert.equal(Number(round.chief_hp),500000);
   });
   test(`${label}: rebel authority rejects nuclear, inactive/nonmember/stale assignments and preserves cooldown after commander replacement`,async t=>{
@@ -240,21 +251,53 @@ for (const pg of [false, true]) {
     f.fail('INSERT INTO coup_attacks_v2115'); await assert.rejects(attackCoup(f.env,deps,{id:2},{roundId:id,requestId:'failed-payment-001'},stamp),/INJECTED_FAILURE/); f.fail('');
     assert.equal(Number((await f.p('SELECT coin FROM users WHERE id=2').first()).coin),before);
     assert.equal(Number((await f.p('SELECT COUNT(*) n FROM coup_energy_v2118').first()).n),0);
-    let total=0,lastOpponent;
+    let total=0,lastOpponent,totalDamage=0;
     for(const [outcome,reward] of [['A',20000000],['B',10000000],['DRAW',20000000]]){
       winner=outcome; const body={roundId:id,requestId:'latest-reward-'+outcome};
+      const beforeRound=await f.p('SELECT chief_hp,rebel_hp FROM coup_rounds_v2115 WHERE id=?',id).first();
       const r=await attackCoup(f.env,deps,{id:2,nickname:'현재 덱'},body,stamp);
       assert.equal(r.coinReward,reward); total+=reward;
       assert.equal(r.attackerCards[0].id,`current-2-${version}-0`);
       assert.equal(r.defenderCards[0].id,`current-${r.opponent.id}-${version}-0`);
       if(lastOpponent)assert.notEqual(r.opponent.id,lastOpponent);lastOpponent=r.opponent.id;
       const saved=await f.p('SELECT * FROM coup_participants_v2115 WHERE round_id=? AND user_id=2',id).first();
+      const percent=outcome==='A'?100:outcome==='B'?20:0;
+      const expected=Math.round(territorySiegeDamage(Number(saved.deck_power),body.requestId,{damageScale:6,minDamage:100,maxDamage:5000,damageVariancePercent:10})*percent/100);
+      assert.equal(r.siegeDamagePercent,percent);assert.equal(r.damage,expected);
+      assert.equal(r.targetSide,outcome==='DRAW'?null:'CHIEF');
+      const afterRound=await f.p('SELECT chief_hp,rebel_hp FROM coup_rounds_v2115 WHERE id=?',id).first();
+      assert.equal(Number(afterRound.rebel_hp),Number(beforeRound.rebel_hp));
+      assert.equal(Number(afterRound.chief_hp),Number(beforeRound.chief_hp)-expected);
+      totalDamage+=expected;assert.equal(Number(saved.damage),totalDamage);
       assert.equal(JSON.parse(saved.deck_snapshot)[0],`current-2-${version}-0`);
       assert.equal(JSON.parse(saved.loadout_bonus_json).pvp,version*1000);
       assert.equal(Number((await f.p('SELECT coin FROM users WHERE id=2').first()).coin),before+total);
       const replay=await attackCoup(f.env,deps,{id:2},body,stamp);assert.equal(replay.coinReward,reward);
+      assert.equal(replay.damage,expected);
+      assert.deepEqual(await f.p('SELECT chief_hp,rebel_hp FROM coup_rounds_v2115 WHERE id=?',id).first(),afterRound);
       assert.equal(Number((await f.p('SELECT coin FROM users WHERE id=2').first()).coin),before+total);
       stamp+=31000;version++;
+    }
+  });
+  test(`${label}: losing sorties from either side can finish the enemy front, cap damage and roll back all effects`, async t => {
+    const f=await fixture(t,pg),id=await f.prepare();
+    const deck=uid=>Array.from({length:5},(_,i)=>({id:`loss-${uid}-${i}`,title:'현재 카드',rarity:'UR',power_type:'ATTACK',base_power:12000,breakthrough_level:1}));
+    const deps={pvpDeckSnapshot:async(_env,uid)=>deck(uid),battleSettings:async()=>({engine:{}}),cardBattlePower:c=>c.base_power,
+      createPvpBattleV2:args=>{const b=createPvpBattleV2(args);b.result.winner='B';return b;}};
+    for(const [userId,target,front,nextFront] of [[2,'CHIEF',2,3],[1,'REBEL',2,1]]){
+      await f.p("UPDATE coup_rounds_v2115 SET chief_hp=?,rebel_hp=?,front_index=? WHERE id=?",target==='CHIEF'?1:500000,target==='REBEL'?1:500000,front,id).run();
+      const beforeRound=await f.p('SELECT * FROM coup_rounds_v2115 WHERE id=?',id).first();
+      const beforeUser=await f.p('SELECT coin FROM users WHERE id=?',userId).first();
+      f.fail('INSERT INTO coup_attacks_v2115');
+      await assert.rejects(attackCoup(f.env,deps,{id:userId},{roundId:id,requestId:`loss-rollback-${userId}`},f.now),/INJECTED_FAILURE/);
+      f.fail('');
+      assert.deepEqual(await f.p('SELECT * FROM coup_rounds_v2115 WHERE id=?',id).first(),beforeRound);
+      assert.deepEqual(await f.p('SELECT coin FROM users WHERE id=?',userId).first(),beforeUser);
+      assert.equal(Number((await f.p('SELECT attacks FROM coup_participants_v2115 WHERE round_id=? AND user_id=?',id,userId).first()).attacks),0);
+      const result=await attackCoup(f.env,deps,{id:userId},{roundId:id,requestId:`loss-front-${userId}`},f.now);
+      assert.equal(result.attackerWon,false);assert.equal(result.targetSide,target);assert.equal(result.damage,1);assert.equal(result.frontMoved,true);
+      assert.equal(Number((await f.p('SELECT front_index FROM coup_rounds_v2115 WHERE id=?',id).first()).front_index),nextFront);
+      assert.equal(Number((await f.p('SELECT damage FROM coup_participants_v2115 WHERE round_id=? AND user_id=?',id,userId).first()).damage),1);
     }
   });
   test(`${label}: chief-only skills, nuclear OFF, independent cooldowns, retry and complete rollback`, async t => {

@@ -1,4 +1,4 @@
-import { coupSettings, advanceFront, deadlineWinner, trialVerdict, PALACE_NODES, coupRebelDefeatPolicy, coupMatchedOpponent } from '../shared/coup-palace-v2115.mjs';
+import { coupSettings, advanceFront, deadlineWinner, trialVerdict, PALACE_NODES, coupRebelDefeatPolicy, coupMatchedOpponent, COUP_DEFEAT_SIEGE_DAMAGE_PERCENT } from '../shared/coup-palace-v2115.mjs';
 import { currentCoupFormation, currentCoupOpponents } from './_coup_matchmaking.js';
 import { ensureCoupSchema, chiefMetaLock, chiefDuty, chiefAuthorityGuard } from './_coup_schema.js';
 import { coupEnergy, chooseNuclearTargets, COUP_CHIEF_SKILLS, COUP_REBEL_SKILLS, coupRebelCommanderId, coupSkillCooldown, COUP_NUCLEAR_BLOCK_MS, COUP_ENERGY_MAX, COUP_ENERGY_RECOVERY_MS } from '../shared/coup-chief-skills-v2118.mjs';
@@ -84,6 +84,7 @@ export async function joinCoupRound(env, deps, user, body, now = Date.now()) {
   const side = String(body.side || '');
   if (!['CHIEF', 'REBEL'].includes(side) || body.acceptPenalty !== true) fail('진영과 패배 시 불이익을 확인한 뒤 참가하세요.', 400);
   if (Number(user.id) === Number(round.chief_user_id) && side !== 'CHIEF') fail('현 족장은 족장팀으로만 참가할 수 있습니다.', 400);
+  if (Number(user.id) === coupRebelCommanderId(round.id, parse(round.settings_json)) && side !== 'REBEL') fail('지정된 반란군 지휘관은 반란군으로 참가해야 합니다.', 400);
   const existing = await p(env, 'SELECT side FROM coup_participants_v2115 WHERE round_id=? AND user_id=?', round.id, user.id).first();
   if (existing) { if (existing.side !== side) fail('참가 확정 후에는 진영을 바꿀 수 없습니다.'); return { ok: true }; }
   const [deck, battle] = await Promise.all([deps.pvpDeckSnapshot(env, user.id), deps.battleSettings(env)]);
@@ -217,20 +218,23 @@ export async function attackCoup(env, deps, user, body, now = Date.now()) {
   mine.attacks = current.attacks;
   const result = simulation.battleV2?.result?.winner;
   const winningSide = result === 'A' ? mine.side : result === 'B' ? opponent.side : 'DRAW';
-  const target = winningSide === 'DRAW' ? null : winningSide === 'CHIEF' ? 'REBEL' : 'CHIEF';
+  // A sortie contributes to its own side even on defeat; never damage the
+  // attacker's faction. Draws keep their existing zero-damage behavior.
+  const target = winningSide === 'DRAW' ? null : mine.side === 'CHIEF' ? 'REBEL' : 'CHIEF';
+  const siegeDamagePercent = result === 'A' ? 100 : result === 'B' ? COUP_DEFEAT_SIEGE_DAMAGE_PERCENT : 0;
   const cfg = coupSettings(parse(round.settings_json));
-  const planned = target ? territorySiegeDamage(result === 'A' ? mine.deck_power : opponent.deck_power, requestId, { damageScale: 6, minDamage: 100, maxDamage: 5000, damageVariancePercent: 10 }) : 0;
+  const planned = target ? Math.round(territorySiegeDamage(mine.deck_power, requestId, { damageScale: 6, minDamage: 100, maxDamage: 5000, damageVariancePercent: 10 }) * siegeDamagePercent / 100) : 0;
   const damage = Math.min(planned, Number(target === 'CHIEF' ? round.chief_hp : round.rebel_hp));
   const next = advanceFront(round, target, damage), token = crypto.randomUUID();
   const response = { ok: true, requestId, roundId: id, ...simulation, attackerWon: result === 'A', winningSide, targetSide: target,
     coinReward: result === 'B' ? 10000000 : 20000000,
-    damage, nodeName: PALACE_NODES[Number(round.front_index)].name, frontMoved: next.moved, winner: next.winner,
+    damage, siegeDamagePercent, nodeName: PALACE_NODES[Number(round.front_index)].name, frontMoved: next.moved, winner: next.winner,
     nextAttackAt: committedAt + cfg.attackCooldownSeconds * 1000, matchPowerGapPercent: Math.round(Math.abs(opponent.deck_power - mine.deck_power) / Math.max(1, mine.deck_power) * 10000) / 100, matchPoolSize: opponent.match_pool_size,
     mode: 'SIEGE', battlefieldMode: 'SIEGE', sceneAssetKey: 'COUP_PALACE' };
   await atomic(env, [...operatingGate(env, token), ...roundClaim(env, round, token, "AND status='ACTIVE' AND ends_at>?", [committedAt]),
     p(env, 'UPDATE users SET coin=coin+? WHERE id=?', response.coinReward, user.id),
     ...[mine, opponent].map(row => p(env, 'UPDATE coup_participants_v2115 SET deck_snapshot=?,deck_power=?,loadout_bonus_json=? WHERE round_id=? AND user_id=?', row.deck_snapshot, row.deck_power, row.loadout_bonus_json, id, row.user_id)),
-    p(env, 'UPDATE coup_participants_v2115 SET attacks=attacks+1,damage=damage+?,next_attack_at=? WHERE round_id=? AND user_id=? AND next_attack_at<=?', result === 'A' ? damage : 0, response.nextAttackAt, id, user.id, committedAt),
+    p(env, 'UPDATE coup_participants_v2115 SET attacks=attacks+1,damage=damage+?,next_attack_at=? WHERE round_id=? AND user_id=? AND next_attack_at<=?', damage, response.nextAttackAt, id, user.id, committedAt),
     guard(env, token + ':player', 'SELECT 1 FROM coup_participants_v2115 WHERE round_id=? AND user_id=? AND attacks=?', id, user.id, Number(mine.attacks) + 1),
     p(env, `INSERT INTO coup_energy_v2118(round_id,user_id,energy,energy_at,blocked_until) VALUES(?,?,?,?,?)
       ON CONFLICT(round_id,user_id) DO UPDATE SET energy=excluded.energy,energy_at=excluded.energy_at,blocked_until=excluded.blocked_until`, id, user.id, energy.energy - 1, energy.energyAt, energy.blockedUntil),
@@ -243,8 +247,8 @@ export async function attackCoup(env, deps, user, body, now = Date.now()) {
 async function rebelCommander(env, round) {
   const id = coupRebelCommanderId(round?.id, parse(round?.settings_json));
   if (!id) return null;
-  const row = await p(env, `SELECT u.id,u.nickname FROM users u JOIN coup_participants_v2115 c ON c.user_id=u.id WHERE u.id=? AND u.status='ACTIVE' AND c.round_id=? AND c.side='REBEL'`, id, round.id).first();
-  return row ? { userId: Number(row.id), nickname: row.nickname, temporary: true } : null;
+  const row = await p(env, `SELECT u.id,u.nickname,c.side FROM users u LEFT JOIN coup_participants_v2115 c ON c.user_id=u.id AND c.round_id=? WHERE u.id=? AND u.status='ACTIVE'`, round.id, id).first();
+  return row && (!row.side || row.side === 'REBEL') ? { userId: Number(row.id), nickname: row.nickname, temporary: true, enrolled: row.side === 'REBEL' } : null;
 }
 export async function useCoupChiefSkill(env, user, body, now = Date.now()) {
   await ensureCoupSchema(env);
@@ -268,7 +272,7 @@ export async function useCoupChiefSkill(env, user, body, now = Date.now()) {
     authority = { before: chiefGuard.before, after: [chiefGuard.after] };
   } else {
     commander = await rebelCommander(env, round);
-    if (!commander || commander.userId !== Number(user.id)) fail('현재 회차의 반란군 지휘관만 사용할 수 있습니다.', 403);
+    if (!commander?.enrolled || commander.userId !== Number(user.id)) fail('이번 회차에 반란군으로 참가한 지휘관만 사용할 수 있습니다.', 403);
     if (!COUP_REBEL_SKILLS.some(s => s.code === code)) fail('반란군은 야포단 포격과 결사대 결집만 사용할 수 있습니다.', 403);
   }
   if (code === 'NUCLEAR' && !(await readCoupSkillSettings(env)).nuclearEnabled) fail('원자폭탄은 운영자가 ON으로 전환하기 전까지 잠겨 있습니다.', 403);
@@ -316,7 +320,7 @@ export async function coupStatus(env, user, now = Date.now(), adminView = false)
   const penalty = round ? await p(env, 'SELECT before_coin,debit,after_coin FROM coup_penalties_v2115 WHERE round_id=? AND user_id=?', round.id, user.id).first() : null;
   const votes = trial ? await p(env, `SELECT e.user_id,v.choice FROM coup_electorate_v2115 e LEFT JOIN coup_votes_v2115 v ON v.trial_id=e.trial_id AND v.user_id=e.user_id WHERE e.trial_id=? AND e.user_id=?`, trial.id, user.id).first() : null;
   const electorate = trial ? Number((await p(env, 'SELECT COUNT(*) n FROM coup_electorate_v2115 WHERE trial_id=?', trial.id).first())?.n || 0) : 0;
-  const events = round ? all(await p(env, `SELECT a.side,a.created_at,u.nickname,json_extract(a.result_json,'$.winningSide') AS winner,json_extract(a.result_json,'$.damage') AS damage,json_extract(a.result_json,'$.nodeName') AS node_name FROM coup_attacks_v2115 a JOIN users u ON u.id=a.user_id WHERE a.round_id=? ORDER BY a.created_at DESC LIMIT 12`, round.id).all()) : [];
+  const events = round ? all(await p(env, `SELECT a.side,a.created_at,u.nickname,json_extract(a.result_json,'$.winningSide') AS winner,json_extract(a.result_json,'$.targetSide') AS target_side,json_extract(a.result_json,'$.damage') AS damage,json_extract(a.result_json,'$.nodeName') AS node_name FROM coup_attacks_v2115 a JOIN users u ON u.id=a.user_id WHERE a.round_id=? ORDER BY a.created_at DESC LIMIT 12`, round.id).all()) : [];
   const cooldowns = round ? all(await p(env, 'SELECT appointment_id,skill_code,next_use_at FROM coup_skill_cooldowns_v2118 WHERE appointment_id IN (?,?)', round.appointment_id, 'coup-rebel:' + round.id).all()) : [];
   let canUseChiefSkills = false;
   if (settings.enabled && round?.status === 'ACTIVE' && Number(round.chief_user_id) === Number(user.id)) {
@@ -325,15 +329,16 @@ export async function coupStatus(env, user, now = Date.now(), adminView = false)
   const skillEvents = round ? all(await p(env, 'SELECT result_json FROM coup_skills_v2118 WHERE round_id=? ORDER BY created_at DESC,request_id DESC LIMIT 12', round.id).all()).map(r => parse(r.result_json)) : [];
   const skillSettings = await readCoupSkillSettings(env);
   const rebel = await rebelCommander(env, round);
-  const commandSide = mine?.side === 'REBEL' && Number(round?.chief_user_id) !== Number(user.id) ? 'REBEL' : 'CHIEF';
+  const commandSide = (mine?.side === 'REBEL' || rebel?.userId === Number(user.id)) && Number(round?.chief_user_id) !== Number(user.id) ? 'REBEL' : 'CHIEF';
   const skillsFor = side => (side === 'REBEL' ? COUP_REBEL_SKILLS : COUP_CHIEF_SKILLS).map(s => ({ ...s,
     enabled: s.code !== 'NUCLEAR' || skillSettings.nuclearEnabled, cooldownMs: coupSkillCooldown(s.code, side),
     nextUseAt: Number(cooldowns.find(c => c.appointment_id === (side === 'REBEL' ? 'coup-rebel:' + round?.id : round?.appointment_id) && c.skill_code === s.code)?.next_use_at || 0) }));
   const chiefSkills = skillsFor('CHIEF'), rebelSkills = skillsFor('REBEL');
-  const canUseCommandSkills = settings.enabled && (commandSide === 'REBEL' ? round?.status === 'ACTIVE' && Number(round.ends_at) > now && rebel?.userId === Number(user.id) : canUseChiefSkills);
+  const canUseCommandSkills = settings.enabled && (commandSide === 'REBEL' ? round?.status === 'ACTIVE' && Number(round.ends_at) > now && rebel?.enrolled && rebel.userId === Number(user.id) : canUseChiefSkills);
   return { serverNow: now, viewerId: Number(user.id), settings, nodes: PALACE_NODES,
     energyPolicy: { maxEnergy: COUP_ENERGY_MAX, recoveryMs: COUP_ENERGY_RECOVERY_MS, attackCost: 1 },
     sortieRewards: { win: 20000000, loss: 10000000, draw: 20000000 },
+    siegeDamagePolicy: { winPercent: 100, lossPercent: COUP_DEFEAT_SIEGE_DAMAGE_PERCENT, drawPercent: 0, friendlyFire: false },
     canUseChiefSkills, skillSettings, chiefSkills, rebelSkills, rebelCommander: rebel, commandSide,
     commander: commandSide === 'REBEL' ? rebel : round ? { userId: Number(round.chief_user_id), nickname: round.chief_name, temporary: false } : null,
     canUseCommandSkills: !!canUseCommandSkills, commandSkills: commandSide === 'REBEL' ? rebelSkills : chiefSkills, skillEvents,

@@ -1,4 +1,5 @@
 export const COUP_VERSION = 2115;
+export const COUP_DEFEAT_SIEGE_DAMAGE_PERCENT = 20;
 export const COUP_DEFAULTS = Object.freeze({ battleMinutes: 180, trialMinutes: 1440, attackCooldownSeconds: 30, siegeHp: 500000 });
 export const PALACE_NODES = Object.freeze([
   { name: '황궁 외문', x: 16, y: 72 }, { name: '근위대 뜰', x: 31, y: 43 },
