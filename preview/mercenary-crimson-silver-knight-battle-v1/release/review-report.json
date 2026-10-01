@@ -1,0 +1,256 @@
+{
+  "date": "2026-10-01",
+  "base": "http://127.0.0.1:8851",
+  "viewports": [
+    {
+      "name": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "art": {
+        "url": "/assets/ui/project-v/mercenaries/approved-20260930/crimson-silver-knight-source-art-approved-v8.png",
+        "width": 1024,
+        "height": 1536,
+        "filter": "none"
+      },
+      "observations": [
+        {
+          "mode": "aura",
+          "checkpoints": 14,
+          "frameAndAuraMatch": true
+        },
+        {
+          "mode": "dash",
+          "checkpoints": 14,
+          "frameAndAuraMatch": true
+        },
+        {
+          "mode": "overhead",
+          "checkpoints": 17,
+          "frameAndAuraMatch": true
+        },
+        {
+          "mode": "attack",
+          "checkpoints": 17,
+          "frameAndAuraMatch": true
+        },
+        {
+          "mode": "skill",
+          "checkpoints": 17,
+          "frameAndAuraMatch": true
+        },
+        {
+          "mode": "execution",
+          "checkpoints": 17,
+          "frameAndAuraMatch": true
+        },
+        {
+          "mode": "guard",
+          "checkpoints": 17,
+          "frameAndAuraMatch": true
+        },
+        {
+          "mode": "hit",
+          "checkpoints": 14,
+          "frameAndAuraMatch": true
+        },
+        {
+          "mode": "defeat",
+          "checkpoints": 14,
+          "frameAndAuraMatch": true
+        },
+        {
+          "mode": "ultimate",
+          "checkpoints": 17,
+          "frameAndAuraMatch": true
+        }
+      ],
+      "audio": {
+        "error": null,
+        "contact": 1.7344444444444445,
+        "speed": 1.2
+      },
+      "showcaseSeconds": 22.991,
+      "returnedToExactIdle": true,
+      "pauseAndCancel": true,
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "name": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "art": {
+        "url": "/assets/ui/project-v/mercenaries/approved-20260930/crimson-silver-knight-source-art-approved-v8.png",
+        "width": 1024,
+        "height": 1536,
+        "filter": "none"
+      },
+      "observations": [
+        {
+          "mode": "aura",
+          "checkpoints": 14,
+          "frameAndAuraMatch": true
+        },
+        {
+          "mode": "dash",
+          "checkpoints": 14,
+          "frameAndAuraMatch": true
+        },
+        {
+          "mode": "overhead",
+          "checkpoints": 17,
+          "frameAndAuraMatch": true
+        },
+        {
+          "mode": "attack",
+          "checkpoints": 17,
+          "frameAndAuraMatch": true
+        },
+        {
+          "mode": "skill",
+          "checkpoints": 17,
+          "frameAndAuraMatch": true
+        },
+        {
+          "mode": "execution",
+          "checkpoints": 17,
+          "frameAndAuraMatch": true
+        },
+        {
+          "mode": "guard",
+          "checkpoints": 17,
+          "frameAndAuraMatch": true
+        },
+        {
+          "mode": "hit",
+          "checkpoints": 14,
+          "frameAndAuraMatch": true
+        },
+        {
+          "mode": "defeat",
+          "checkpoints": 14,
+          "frameAndAuraMatch": true
+        },
+        {
+          "mode": "ultimate",
+          "checkpoints": 17,
+          "frameAndAuraMatch": true
+        }
+      ],
+      "audio": {
+        "error": null,
+        "contact": 1.7344444444444445,
+        "speed": 1.2
+      },
+      "showcaseSeconds": 22.996,
+      "returnedToExactIdle": true,
+      "pauseAndCancel": true,
+      "overflow": false,
+      "errors": []
+    }
+  ],
+  "requestedAssets": [
+    "/assets/NEWCARD/24.png",
+    "/assets/cards/%EB%82%A8%EC%88%98%EB%8C%95/031.webp",
+    "/assets/cards/976467971.jpg",
+    "/assets/cards/ZENITH/1.jpg",
+    "/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.avif",
+    "/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.avif",
+    "/assets/responsive/project-v/zenith/zenith-cn-519c181c18df4b8e-sd-v1-384.avif",
+    "/assets/sfx/v3-role-impact-v2/attack.mp3",
+    "/assets/sfx/v3-role-impact-v2/defense.mp3",
+    "/assets/sfx/v3-role-impact-v2/heal.mp3",
+    "/assets/sfx/v3-role-impact-v2/speed.mp3",
+    "/assets/superstar/3.jpg",
+    "/assets/ui/card-frames/superstar-championship-frame-v1.webp",
+    "/assets/ui/card-frames/zenith-frame-concept-v2.png",
+    "/assets/ui/cninelogo.png",
+    "/assets/ui/coin-prediction/arena-v1.png",
+    "/assets/ui/project-v/characters/fur/fur-cn-02d9dc1e8a8a4209-sd-v1.png",
+    "/assets/ui/project-v/characters/fur/manifest-v2.json",
+    "/assets/ui/project-v/characters/icon/manifest-v1.json",
+    "/assets/ui/project-v/characters/prestige/manifest-v1.json",
+    "/assets/ui/project-v/characters/superstar/manifest-v1.json",
+    "/assets/ui/project-v/characters/superstar/superstar-cn-23eb4b19986d4818-sd-v1.png",
+    "/assets/ui/project-v/characters/zenith/manifest-v1.json",
+    "/assets/ui/project-v/fallback/manifest-v1.json",
+    "/assets/ui/project-v/fx/role-impact-v2/attack-impact-atlas-v2.json",
+    "/assets/ui/project-v/fx/role-impact-v2/attack-impact-atlas-v2.png",
+    "/assets/ui/project-v/fx/role-impact-v2/defense-impact-atlas-v2.json",
+    "/assets/ui/project-v/fx/role-impact-v2/defense-impact-atlas-v2.png",
+    "/assets/ui/project-v/fx/role-impact-v2/heal-impact-atlas-v2.json",
+    "/assets/ui/project-v/fx/role-impact-v2/heal-impact-atlas-v2.png",
+    "/assets/ui/project-v/fx/role-impact-v2/speed-impact-atlas-v2.json",
+    "/assets/ui/project-v/fx/role-impact-v2/speed-impact-atlas-v2.png",
+    "/assets/ui/project-v/mercenaries/approved-20260930/crimson-silver-knight-source-art-approved-v8.png",
+    "/assets/ui/project-v/monsters/hunt-tower/manifest-v1.json",
+    "/css/battle-v3-live.css",
+    "/css/breakthrough-tier-v1802.css",
+    "/css/card-unique-battle-fx-v1174.css",
+    "/css/card.css",
+    "/css/faker-card-v1.css",
+    "/css/no-light-beams-v1789.css",
+    "/css/style.css",
+    "/css/superstar-v1.css",
+    "/css/zenith-v1.css",
+    "/js/battle-v3-live.js",
+    "/js/project-v-battle-art-adapter-v1.js",
+    "/js/project-v-monster-battle-art-adapter-v1.js",
+    "/js/project-v-tier-battle-art-adapter-v1.js",
+    "/js/project-v-unassigned-battle-fallback-v1.js",
+    "/preview/battle-suit-skill-chip-v1/assets/textures/flash.webp",
+    "/preview/battle-suit-skill-chip-v1/assets/textures/smoke.webp",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/frames/fx-ultimate/10.png",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-aura-atlas.png",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-aura-atlas.webp",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-charge-atlas.png",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-charge-atlas.webp",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-dash-atlas.png",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-dash-atlas.webp",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-execution-atlas.png",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-execution-atlas.webp",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-guard-atlas.png",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-guard-atlas.webp",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-slash-atlas.png",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-slash-atlas.webp",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-ultimate-atlas.png",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-ultimate-atlas.webp",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/knight-sd-v14-original-blade-approved-grip.png",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v13/frames/twohandStrike/01.png",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v13/twohandGrip-atlas.png",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v13/twohandGrip-atlas.webp",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v13/twohandLift-atlas.png",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v13/twohandLift-atlas.webp",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v13/twohandReturn-atlas.png",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v13/twohandReturn-atlas.webp",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v13/twohandStrike-atlas.png",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v13/twohandStrike-atlas.webp",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v5/dash-atlas.png",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v5/dash-atlas.webp",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v5/defeat-atlas.png",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v5/defeat-atlas.webp",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v5/frames/dash/02.png",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v5/hit-atlas.png",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v5/hit-atlas.webp",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v5/idle-atlas.png",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v5/idle-atlas.webp",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/assets/source-art-preview.webp",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/battle.html",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/manifest.json",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/preview.bundle.js",
+    "/preview/mercenary-crimson-silver-knight-battle-v1/preview.css",
+    "/preview/project-v-v3-event-fx-v1/assets/audio/critical-combat-v4.mp3",
+    "/preview/project-v-v3-event-fx-v1/assets/audio/dodge-combat-v2.mp3",
+    "/preview/project-v-v3-event-fx-v1/assets/audio/ultimate-combat-v2.mp3",
+    "/preview/project-v-v3/fit-preview-viewport.mjs",
+    "/preview/project-v-v3/source/battle/FormationLayout.mjs",
+    "/preview/project-v-v3/source/battle/ViewportLayout.mjs"
+  ],
+  "errors": [],
+  "passed": true
+}

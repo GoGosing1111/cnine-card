@@ -1,0 +1,90 @@
+{
+  "format": "VALTER_APPROVED_ART_AND_PREVIEW_RELEASE_CANDIDATE_V1",
+  "date": "2026-10-01",
+  "name": "발테르",
+  "status": "READY_AWAITING_EXPLICIT_DEPLOY_REQUEST",
+  "preparedBaseCommit": "c29f45c9bf7325c1f4d617fca7b3d23c358f97bb",
+  "candidateBranch": "codex/valter-release-ready",
+  "releaseScope": "APPROVED_SOURCE_ART_AND_STANDALONE_FULL_BATTLE_PREVIEW",
+  "localPreview": "http://127.0.0.1:8851/preview/mercenary-crimson-silver-knight-battle-v1/?v=17-valter-final",
+  "deploymentEntry": "/preview/mercenary-crimson-silver-knight-battle-v1/?v=17-valter-final",
+  "sourceArtApproval": "assets/ui/project-v/mercenaries/mercenary-valter-approval-20261001.json",
+  "motionApproval": "preview/mercenary-crimson-silver-knight-battle-v1/motion-approval-20261001-v17.json",
+  "assetsRegenerated": false,
+  "finalReview": {
+    "passed": true,
+    "report": "preview/mercenary-crimson-silver-knight-battle-v1/release/review-report.json",
+    "desktopAndMobile": true,
+    "modesEach": 10,
+    "activeMotionFrames": 27,
+    "effectFrames": 96,
+    "sourceIntegrity": "ORIGINAL_V8_SHA256_MATCH",
+    "battleSpriteIntegrity": "APPROVED_SD_SHA256_MATCH",
+    "originalWeaponPreserved": true,
+    "originalProportionsPreserved": true,
+    "pauseCancelAndIdleReturnVerified": true,
+    "audioContactVerified": true,
+    "errors": []
+  },
+  "build": {
+    "engineBaseCommit": "c29f45c9bf7325c1f4d617fca7b3d23c358f97bb",
+    "runtimeVersion": "20260930-speed-combo",
+    "pixi": "8.20.0",
+    "gsap": "3.13.0",
+    "entry": "preview/mercenary-crimson-silver-knight-battle-v1/source/preview.js",
+    "artifact": "preview/mercenary-crimson-silver-knight-battle-v1/preview.bundle.js",
+    "sharedRuntimeChanged": false,
+    "fix": "Rebuilt preview against the current common V3 engine so the production loader no longer replaces its engine and loses the preview mount hook."
+  },
+  "visualReview": {
+    "approvedArtAndSdInspected": true,
+    "desktopAndMobileScreenshotsInspected": true,
+    "maskedEyesAndExposedLowerFace": true,
+    "flatBoots": true,
+    "straightOriginalBladeAndGrip": true,
+    "redCapeAndAura": true,
+    "wardOnUpperBody": true,
+    "sourceArtInHero": true,
+    "currentV13GalleryFrame": true
+  },
+  "inheritedVerification": {
+    "sizeReport": "preview/mercenary-crimson-silver-knight-battle-v1/qa/v13/size-report.json",
+    "effectTempoReport": "preview/mercenary-crimson-silver-knight-battle-v1/qa/v17/effect-tempo-report.json",
+    "reason": "Approved binary artwork, active atlas frames and V17 motion parameters are unchanged; prior size and local-motion tempo verification remains applicable."
+  },
+  "deployment": {
+    "performed": false,
+    "authorization": "WAITING_FOR_USER",
+    "command": "npm run deploy:production -- --assets-only",
+    "verifyCommand": "node preview/mercenary-crimson-silver-knight-battle-v1/release/verify.mjs",
+    "mainMergePerformed": false,
+    "sharedProductionRuntimeChanged": false,
+    "baseEnvironmentVariable": "ASSET_DEPLOY_BASE",
+    "basePolicy": "Read the actual latest deployed SHA immediately before deployment; do not infer from the prepared base.",
+    "checksAtDeploy": [
+      "Confirm explicit user request",
+      "Reconcile only this candidate with current origin/main",
+      "Clean candidate and HEAD equals origin/main",
+      "Validate frozen assets and directly changed dependency closure",
+      "Existing deployment Hyperdrive/cache protection",
+      "One brief production art/preview smoke check"
+    ],
+    "rollback": "Restore the previous verified asset candidate through the same production deploy script."
+  },
+  "gameplay": {
+    "previewCode": "V-996",
+    "runtimeCode": null,
+    "rank": null,
+    "statsAssigned": false,
+    "skillsAssigned": false,
+    "runtimeEnabled": false,
+    "scope": "No gameplay registration or feature activation is included in this art/preview publication candidate."
+  },
+  "filePolicy": {
+    "historicalDrafts": "Preserved on codex/knight-overhead-v12 and codex/pve-continuous-overhaul; excluded from upload candidate",
+    "maxAssetBytes": 26214400,
+    "limitSource": "https://developers.cloudflare.com/pages/platform/limits/#file-size",
+    "sharedDependencies": "Locked from actual candidate browser requests; changed dependencies require only their affected preview checks",
+    "textHashes": "UTF-8 with CRLF normalized to LF; images and audio hashed byte-for-byte"
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "format": "PROJECT_V_MERCENARY_ART_APPROVAL_V1",
+  "date": "2026-09-30",
+  "status": "APPROVED_SOURCE_ART",
+  "scope": "SOURCE_ART_ONLY",
+  "userRequests": [
+    "최종 등록 하고 그리고 용병 sd이미지 리소스 규칙추가, 대두로 만들지 말것 자연스럽게 만들것",
+    "일단 일러스트까지만 승인본으로 등록해"
+  ],
+  "conceptId": "crimson-silver-knight",
+  "lookupLabel": "은백·금색 붉은 망토 대검 기사 승인 원화",
+  "code": null,
+  "name": null,
+  "nameStatus": "UNASSIGNED",
+  "rank": null,
+  "rankStatus": "PENDING_USER_ASSIGNMENT",
+  "sourceArt": "assets/ui/project-v/mercenaries/approved-20260930/crimson-silver-knight-source-art-approved-v8.png",
+  "sourceArtStatus": "APPROVED_SOURCE_ART",
+  "sourceArtInfo": {
+    "width": 1024,
+    "height": 1536,
+    "format": "PNG",
+    "mode": "RGB",
+    "bytes": 2645494,
+    "sha256": "8B94E60670355AF87D13802FD68AD4DE22F8E7F23C65028CC97DD1D1F78BE838",
+    "copiedWithoutReencoding": true
+  },
+  "reviewSource": "preview/mercenary-crimson-silver-knight-v8/assets/crimson-silver-knight-flat-sabatons-v8.png",
+  "reviewManifest": "preview/mercenary-crimson-silver-knight-v8/manifest.json",
+  "approvedRevision": "V8_FLAT_ARMORED_BOOTS",
+  "lockedFeatures": [
+    "은백색·금색 중갑과 날렵한 성인 체형",
+    "눈을 물리적으로 가리는 낮게 내려온 투구",
+    "눈빛 이펙트·마스크 없이 드러난 입과 턱",
+    "승인 원본 그대로의 넓은 대검과 칼끝",
+    "양옆으로 펼쳐지는 붉은 망토",
+    "들린 뒷굽 없는 평평한 판금 부츠"
+  ],
+  "originalsModified": false,
+  "previousVariantsPreserved": true,
+  "technicalQa": {
+    "sourceIntegrity": "VERIFIED",
+    "nativeSize": "1024x1536_RGB_PNG",
+    "userVisualApproval": "EXPLICIT_FINAL_SOURCE_ART_APPROVAL",
+    "cardFrameComposition": "NOT_RUN_ART_APPROVAL_ONLY",
+    "thumbnail160": "NOT_RUN_ART_APPROVAL_ONLY"
+  },
+  "battleSprite": null,
+  "battleSpriteStatus": "NOT_YET_PRODUCED",
+  "sdGenerationRequested": false,
+  "sdProportionPolicy": "docs/project-v-mercenary-card-art-standard.md#22-2026-09-30-용병-전투-sd-자연-비율-규칙",
+  "skillsAssigned": false,
+  "statsAssigned": false,
+  "catalogConnected": false,
+  "runtimeConnected": false,
+  "runtimeEnabled": false,
+  "deploymentPerformed": false,
+  "releaseAuthorization": "NOT_GRANTED_ART_APPROVAL_ONLY"
+}

@@ -1,0 +1,200 @@
+{
+  "version": 13,
+  "activeFrameReferencesInspected": 27,
+  "repacked": 17,
+  "nativePosesChanged": 0,
+  "immutableInputsVerified": true,
+  "gripAxesAndFeetUnchanged": true,
+  "weaponLengthUnchanged": true,
+  "neutralPixelMeasurements": {
+    "before": [
+      {
+        "key": "idle",
+        "index": 0,
+        "paintedTop": 64,
+        "heightAt400": 398.38948929858014
+      },
+      {
+        "key": "twohandGrip",
+        "index": 0,
+        "paintedTop": 166,
+        "heightAt400": 400.768986840019
+      },
+      {
+        "key": "twohandGrip",
+        "index": 1,
+        "paintedTop": 166,
+        "heightAt400": 400.768986840019
+      },
+      {
+        "key": "twohandReturn",
+        "index": 2,
+        "paintedTop": 156,
+        "heightAt400": 427.67321804754954
+      },
+      {
+        "key": "twohandReturn",
+        "index": 3,
+        "paintedTop": 156,
+        "heightAt400": 427.67321804754954
+      },
+      {
+        "key": "twohandReturn",
+        "index": 4,
+        "paintedTop": 176,
+        "heightAt400": 397.55538579067985
+      }
+    ],
+    "after": [
+      {
+        "key": "idle",
+        "index": 0,
+        "paintedTop": 64,
+        "heightAt400": 398.38948929858014
+      },
+      {
+        "key": "twohandGrip",
+        "index": 0,
+        "paintedTop": 165,
+        "heightAt400": 394.0591534931158
+      },
+      {
+        "key": "twohandGrip",
+        "index": 1,
+        "paintedTop": 164,
+        "heightAt400": 395.4920958694544
+      },
+      {
+        "key": "twohandReturn",
+        "index": 2,
+        "paintedTop": 177,
+        "heightAt400": 396.3899800673746
+      },
+      {
+        "key": "twohandReturn",
+        "index": 3,
+        "paintedTop": 177,
+        "heightAt400": 396.3899800673746
+      },
+      {
+        "key": "twohandReturn",
+        "index": 4,
+        "paintedTop": 177,
+        "heightAt400": 396.3899800673746
+      }
+    ],
+    "beforeSpread": 0.07559896298945111,
+    "afterSpread": 0.010869603545737398
+  },
+  "corrections": [
+    {
+      "key": "twohandGrip",
+      "index": 0,
+      "factor": 0.9848275862068966,
+      "method": "ARTICULATED_BODY_CHAIN"
+    },
+    {
+      "key": "twohandGrip",
+      "index": 1,
+      "factor": 0.9861878453038674,
+      "method": "ARTICULATED_BODY_CHAIN"
+    },
+    {
+      "key": "twohandGrip",
+      "index": 2,
+      "factor": 0.9482071713147411,
+      "method": "ARTICULATED_BODY_CHAIN"
+    },
+    {
+      "key": "twohandGrip",
+      "index": 3,
+      "factor": 0.9648648648648649,
+      "method": "ARTICULATED_BODY_CHAIN"
+    },
+    {
+      "key": "twohandLift",
+      "index": 0,
+      "factor": 1.0672645739910314,
+      "method": "ARTICULATED_BODY_CHAIN"
+    },
+    {
+      "key": "twohandLift",
+      "index": 1,
+      "factor": 1.1069767441860465,
+      "method": "ARTICULATED_BODY_CHAIN"
+    },
+    {
+      "key": "twohandLift",
+      "index": 2,
+      "factor": 1.0577777777777777,
+      "method": "ARTICULATED_BODY_CHAIN"
+    },
+    {
+      "key": "twohandLift",
+      "index": 3,
+      "factor": 1.05,
+      "method": "ARTICULATED_BODY_CHAIN"
+    },
+    {
+      "key": "twohandStrike",
+      "index": 0,
+      "factor": 0.9930458970792768,
+      "method": "ARTICULATED_BODY_CHAIN"
+    },
+    {
+      "key": "twohandStrike",
+      "index": 1,
+      "factor": 1.1315372424722663,
+      "method": "ARTICULATED_BODY_CHAIN"
+    },
+    {
+      "key": "twohandStrike",
+      "index": 2,
+      "factor": 1.120879120879121,
+      "method": "ARTICULATED_BODY_CHAIN"
+    },
+    {
+      "key": "twohandStrike",
+      "index": 3,
+      "factor": 1.0609212481426449,
+      "method": "ARTICULATED_BODY_CHAIN"
+    },
+    {
+      "key": "twohandReturn",
+      "index": 0,
+      "factor": 1.007052186177715,
+      "method": "ARTICULATED_BODY_CHAIN"
+    },
+    {
+      "key": "twohandReturn",
+      "index": 1,
+      "factor": 1,
+      "method": "ARTICULATED_BODY_CHAIN"
+    },
+    {
+      "key": "twohandReturn",
+      "index": 2,
+      "factor": 0.9260700389105059,
+      "method": "NEUTRAL_STANDING_HEIGHT"
+    },
+    {
+      "key": "twohandReturn",
+      "index": 3,
+      "factor": 0.9284785435630689,
+      "method": "NEUTRAL_STANDING_HEIGHT"
+    },
+    {
+      "key": "twohandReturn",
+      "index": 4,
+      "factor": 1,
+      "method": "ARTICULATED_BODY_CHAIN"
+    }
+  ],
+  "otherTracks": {
+    "idle": "IMMUTABLE_APPROVED_BASELINE",
+    "dash": "INSPECTED_PROJECTED_STRIDE_PRESERVED",
+    "hit": "INSPECTED_RECOIL_PRESERVED",
+    "defeat": "INSPECTED_KNEEL_HEIGHT_PRESERVED"
+  },
+  "limitations": "Articulated landmarks are manually reviewed 2D estimates, not 3D metrology. The neutral pose check measures actual packed helmet pixels independently of the calibration chain. Natural head tilt, crouching and perspective remain."
+}
