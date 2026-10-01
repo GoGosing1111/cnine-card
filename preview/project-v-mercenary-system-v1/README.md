@@ -9,6 +9,7 @@
 - 기존 베르칸 매니페스트의 charge/impact와 승인 `arrowRainArea` 16프레임을 그대로 사용한다. 진영 중심·표적 발 위치를 기준으로 배치하고 충돌은 **1.62초**, 소멸 **3.22초**, 종료 **3.4초**다. 시연용 용병 SD는 유지하며 이 선택은 용병 스킬 배정을 변경하지 않는다.
 - `tests/mercenary-skills-v1.test.mjs`에서 기존 전용 광역 QA(프레임 해시·알파, 다중 표적, 취소·되감기·배속·자산 정리)를 포함한다. 실패했던 3개 검사 파일 **159/159 PASS**.
 - `tests/mercenary-codex-area.browser.mjs`의 실제 번들을 PC 1440×1000/모바일 390×844에서 확인했다. 5인/단일보스/제압 취소, 1.62초 이전 무피해, 선택 SD 보존, 재생·정지·배속·되감기·취소·종료, 범용 스킬 전환, 크기 변경·재입장 PASS. JS 오류·로컬 자산 누락 0, 오디오 OFF. 증빙은 `%TEMP%/mercenary-codex-qa-9CqVyy/report.json`과 화면 4장이다.
+- 최종 산출물은 `npm run build:v3-grid`의 동일한 define/정규화 설정으로 생성하고 `grid-build-report.json`의 해당 출력 해시를 함께 갱신했다. 최종 스킬 번들 SHA-256(LF)은 `f93cefe67ee84de50fdfc166cf071a3da1af7938aeb5227eabcf8487f676e939`이며, 이 빌드의 PC/모바일 재검수 증빙은 `%TEMP%/mercenary-codex-qa-B16h2u/report.json`이다. 다른 공용 소비 번들의 내용은 동일하다.
 
 ## 2026-09-23 경찰 조은: 처치 후 중복 사격 수정
 

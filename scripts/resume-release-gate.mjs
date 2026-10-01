@@ -48,6 +48,21 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
       if(hash!==row.sha256)throw Error(`Browser proof source changed: ${row.file}`);
       browserProof.add(row.file);
     }
+    // A catalog-only rebuild changes one aggregate receipt row. Bind that row
+    // to the browser-tested bundle and reject changes to any common source,
+    // other output, layout client or metadata in this shared receipt.
+    const receipt='preview/project-v-v3/grid-build-report.json',bundle='preview/project-v-mercenary-system-v1/skills.bundle.js';
+    if(changed.includes(receipt)){
+      if(!browserProof.has(bundle))throw Error('Grid receipt update requires browser-tested skill bundle.');
+      const before=JSON.parse(git('show',`${base}:${receipt}`)),after=JSON.parse(read(receipt));
+      const oldRows=before.outputs?.filter(row=>row.file===bundle),newRows=after.outputs?.filter(row=>row.file===bundle);
+      if(oldRows?.length!==1||newRows?.length!==1)throw Error('Grid receipt requires exactly one skill output.');
+      const expected=createHash('sha256').update(read(bundle).replace(/\r\n/g,'\n')).digest('hex');
+      if(newRows[0].sha256!==expected)throw Error('Grid receipt skill bundle hash mismatch.');
+      oldRows[0].sha256=newRows[0].sha256;
+      if(JSON.stringify(before)!==JSON.stringify(after))throw Error('Only the offline skill output hash may change in the grid receipt.');
+      browserProof.add(receipt);
+    }
     // Re-run completed static contracts that directly inspect a changed view.
     for(let i=0;i<failedIndex;i++){
       const inputs=scripts[names[i]].split(/\s+/).filter(p=>/^(?:tests|preview)\/.*\.(?:mjs|js)$/.test(p));

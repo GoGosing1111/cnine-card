@@ -96,6 +96,15 @@ test('offline skill preview proof binds source and bundle and reruns contracts t
   assert.equal(fullGateResumePlan(withProof(proof,true)).reused,0);
   assert.throws(()=>fullGateResumePlan(withProof({...proof,sources:proof.sources.filter(row=>!row.file.endsWith('skills.bundle.js'))})),/requires the source/);
   const f=withProof();assert.throws(()=>fullGateResumePlan({...f,read:p=>p===files[3]?'stale bundle':f.read(p)}),/source changed/);
+  const receipt='preview/project-v-v3/grid-build-report.json';
+  const before={sources:[{file:'shared-engine.js',sha256:'fixed'}],outputs:[{file:files[3],sha256:'old'}, {file:'main-battle.js',sha256:'fixed'}]};
+  const after=structuredClone(before);after.outputs[0].sha256=hash;
+  const withReceipt=value=>({...f,git:(...args)=>args[0]==='diff'?[...files,receipt].join('\n'):args[0]==='show'&&args[1].endsWith(':'+receipt)?JSON.stringify(before):f.git(...args),read:p=>p===receipt?JSON.stringify(value):p==='tests/a.test.mjs'?`read('${receipt}')`:f.read(p)});
+  assert.equal(fullGateResumePlan(withReceipt(after)).reused,0,'bundle freshness contract must rerun');
+  const badHash=structuredClone(after);badHash.outputs[0].sha256='wrong';assert.throws(()=>fullGateResumePlan(withReceipt(badHash)),/hash mismatch/);
+  for(const field of ['sources','outputs']){
+    const unrelated=structuredClone(after);unrelated[field].at(-1).sha256='changed';assert.throws(()=>fullGateResumePlan(withReceipt(unrelated)),/Only the offline/);
+  }
   for(const runtime of ['preview/project-v-mercenary-system-v1/source/MercenarySkillFX.js','preview/project-v-v3/source/battle/RenderAuthoredSkill.js','functions/_battle_v2_preview.js']){
     assert.throws(()=>fullGateResumePlan(withProof({...proof,sources:[...proof.sources,{file:runtime,sha256:hash}]})),/Only isolated/);
   }
