@@ -1,6 +1,7 @@
 import {DurableObject} from 'cloudflare:workers';
 import {createCoopRoom,coopCommand,advanceCoopRoom,coopView,coopTerminal} from '../../../functions/_cooperative_room.js';
 import {COOP_RULES} from '../../../shared/cooperative-battleground-v1.mjs';
+import {nextCoopPatternAt} from '../../../functions/_cooperative_patterns.js';
 
 // Per-player routing only. Commands are serialized by the existing user lock.
 export class CooperativePlayer extends DurableObject{
@@ -16,7 +17,7 @@ export class CooperativeRoom extends DurableObject{
   if(coopTerminal(room)){await this.ctx.storage.setAlarm(Date.now()+3600000);return;}
   const deadlines=room.status==='LOBBY'?[room.expiresAt,...room.members.map(m=>m.lastSeen+COOP_RULES.disconnectMs)]:[
    ...room.members.filter(m=>!m.result).map(m=>m.lastSeen+COOP_RULES.disconnectMs),
-   room.status==='LOADING'?room.loadingEndsAt:room.startsAt+room.durationMs];
+   room.status==='LOADING'?room.loadingEndsAt:room.startsAt+room.durationMs,nextCoopPatternAt(room)];
   await this.ctx.storage.setAlarm(Math.max(Date.now()+50,Math.min(...deadlines)));
  }
  broadcast(room){
@@ -42,7 +43,7 @@ export class CooperativeRoom extends DurableObject{
   const room=this.read();if(!room)return {ok:false,status:404,code:'COOP_MISSING',error:'대기방을 찾을 수 없습니다.'};
   // Persist timeouts even if the submitted command is rejected.
   advanceCoopRoom(room,Date.now());this.save(room);
-  const signature=JSON.stringify([Number(user.id),kind,input.clientId,input.cardIds,input.mercenaryCode]);
+  const signature=JSON.stringify([Number(user.id),kind,input.clientId,input.cardIds,input.mercenaryCode,input.patternId,input.action]);
   const prior=input.requestId&&room.receipts.find(r=>r.id===user.id+':'+input.requestId);
   if(prior&&prior.signature!==signature)return {ok:false,status:409,code:'COOP_REQUEST_CONFLICT',error:'같은 요청으로 다른 작업을 할 수 없습니다.'};
   try{
@@ -78,10 +79,10 @@ export class CooperativeRoom extends DurableObject{
   const session=ws.deserializeAttachment();
   try{
    if(typeof message!=='string'||message.length>1024)throw Error('size');
-   const body=JSON.parse(message);if(!['ping','loaded','leave'].includes(body.type))throw Error('command');
+   const body=JSON.parse(message);if(!['ping','loaded','leave','mechanic'].includes(body.type))throw Error('command');
    if(body.type==='ping'&&Date.now()-(session.lastPing||0)<700)return;
    if(body.type==='ping'){session.lastPing=Date.now();ws.serializeAttachment(session);}
-   const result=await this.command({id:session.id},body.type,{clientId:session.clientId,revision:session.revision});
+   const result=await this.command({id:session.id},body.type,{clientId:session.clientId,revision:session.revision,...(body.type==='mechanic'?{patternId:body.patternId,action:body.action}:{})});
    if(!result.ok)ws.send(JSON.stringify(result));
   }catch{ws.send(JSON.stringify({ok:false,code:'COOP_MESSAGE',error:'연결 요청을 확인하세요.'}));}
  }

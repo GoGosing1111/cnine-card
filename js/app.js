@@ -986,7 +986,7 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>Boolean(window.WeeklyRaidUltimateFxV1?.play)
   },
   battleV2:{
-    styles:['css/battle-v2-live.css?v=1972-battle-suit-live','css/battle-v3-live.css?v=1930-mobile-context-recovery&flow=2126&duo=20260925&coop=20261001-coop-v1'],
+    styles:['css/battle-v2-live.css?v=1972-battle-suit-live','css/battle-v3-live.css?v=1930-mobile-context-recovery&flow=2126&duo=20260925&coop=20261002-arke-v2'],
     scripts:[
       'js/battle-v2-live.js?v=1991-sweep-result-front&cowPortal=20260913&joint=2090&furHigh=2114&flow=2126',
       'js/project-v-battle-art-adapter-v1.js?v=3.7.0-orikkung-heeya&sd=20260919-bongsoon-armed',
@@ -994,8 +994,8 @@ const FEATURE_RESOURCE_MANIFEST={
       'js/project-v-monster-battle-art-adapter-v1.js?v=5.5.0-apocalypse-legion',
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
       'preview/project-v-v3/project-v-firearm-qc-audio.js?v=8-gilded-dragon-battle-suit',
-      'preview/project-v-v3/project-v-pixi-battle.bundle.js?coop=20261001-coop-v1&lichFx=20261001&speedReform=20260930&v=106-combat-flow&joint=2090&mercenary=2100&projectiles=2106&coup=2115&pveEntry=2119&heeya=2118&suits=2124&flow=2126&zSword=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&apocalypseLegion=2127&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&policeRestraint=20260923&octaseeker=20260928-opening10&resultIdle=20260928-corpse&cryvern=20260924&duo=20260925&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&xBody=20260928-skill-order&icon=20260930',
-      'js/battle-v3-live.js?coop=20261001-coop-v1&lichFx=20261001&speedReform=20260930&v=3.36.0-combat-flow&furHigh=2114&battleRuntime=2124&heeya=2118&entry=2121&suits=2124&flow=2126&zSword=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&apocalypseLegion=2127&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&policeRestraint=20260923&octaseeker=20260928-opening10&resultIdle=20260928-corpse&cryvern=20260925-pose-scale&duo=20260925&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&xBody=20260928-skill-order&icon=20260930'
+      'preview/project-v-v3/project-v-pixi-battle.bundle.js?coop=20261002-arke-v2&lichFx=20261001&speedReform=20260930&v=106-combat-flow&joint=2090&mercenary=2100&projectiles=2106&coup=2115&pveEntry=2119&heeya=2118&suits=2124&flow=2126&zSword=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&apocalypseLegion=2127&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&policeRestraint=20260923&octaseeker=20260928-opening10&resultIdle=20260928-corpse&cryvern=20260924&duo=20260925&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&xBody=20260928-skill-order&icon=20260930',
+      'js/battle-v3-live.js?coop=20261002-arke-v2&lichFx=20261001&speedReform=20260930&v=3.36.0-combat-flow&furHigh=2114&battleRuntime=2124&heeya=2118&entry=2121&suits=2124&flow=2126&zSword=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&apocalypseLegion=2127&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&policeRestraint=20260923&octaseeker=20260928-opening10&resultIdle=20260928-corpse&cryvern=20260925-pose-scale&duo=20260925&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&xBody=20260928-skill-order&icon=20260930'
     ],
     initialize:()=>window.ProjectVBattleV3Live?.ensureRuntime?.(),
     ready:()=>Boolean(window.ProjectVFirearmAudio)&&Boolean(window.ProjectVBattleV3Live?.ready?.())&&typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPveBattleV2Live==='function'&&typeof window.playPvpBattleV2Live==='function'&&typeof window.playSiegeBattleV2Live==='function'
@@ -2952,10 +2952,12 @@ function switchPveMode(mode){
   if(mode==='cow-room'){void globalThis.PveV3Runtime?.tryOpen('cow-room');return;}
   globalThis.CowRoomLive?.hide?.();
   if(mode==='rift')mode='deck';
-  const hunt=document.getElementById('pveHuntView'),raidHub=document.getElementById('pveRaidHubView'),raid=document.getElementById('pveRaidView'),rift=document.getElementById('pveRiftView'),escort=document.getElementById('pveEscortView');
+  const hunt=document.getElementById('pveHuntView'),raidHub=document.getElementById('pveRaidHubView'),raid=document.getElementById('pveRaidView'),rift=document.getElementById('pveRiftView'),escort=document.getElementById('pveEscortView'),coop=document.getElementById('pveCoopView');
   if(mode!=='raid'){invalidateRaidUiState({clearSelection:false,stopClaimRetry:true});globalThis.CoreProtocolRaidV1924?.deactivate?.()}
-  if(hunt)hunt.hidden=mode==='raid'||mode==='rift'||mode==='escort';if(raidHub)raidHub.hidden=mode!=='raid';else if(raid)raid.hidden=mode!=='raid';if(rift)rift.hidden=mode!=='rift';if(escort)escort.hidden=mode!=='escort';
+  if(mode!=='coop')globalThis.CooperativeBattleground?.deactivate?.();
+  if(hunt)hunt.hidden=mode==='raid'||mode==='rift'||mode==='escort'||mode==='coop';if(raidHub)raidHub.hidden=mode!=='raid';else if(raid)raid.hidden=mode!=='raid';if(rift)rift.hidden=mode!=='rift';if(escort)escort.hidden=mode!=='escort';if(coop)coop.hidden=mode!=='coop';
   document.querySelectorAll('.pve-mode-btn').forEach(b=>b.classList.toggle('active',b.dataset.pveMode===mode));
+  if(mode==='coop'){stopBattleEnergyTimer();document.getElementById('pveCommandV2')?.setAttribute('data-screen','coop');void globalThis.CooperativeBattleground?.open?.();return;}
   if(mode==='raid'){stopBattleEnergyTimer();if(raid&&!String(raid.innerHTML||'').trim())raid.innerHTML='<div class="pvev2-loading raid-entry-loading"><i></i><b>월드 레이드 전황 연결 중</b><span>SOOPKETMON RAID SERVER</span></div>';loadRaidView();void Promise.resolve(globalThis.CoreProtocolRaidV1924?.openActive?.()).catch(error=>console.warn('[CORE RAID] entry isolation',error));return;}
   if(mode==='escort'){stopBattleEnergyTimer();window.EscortOperationV1830?.open?.();return;}
   const subMode=mode==='hunt'?'hunt':'deck';setPveViewMode(subMode);loadBattleView().then(()=>applyPveViewMode(subMode));

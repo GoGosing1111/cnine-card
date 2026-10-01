@@ -22,6 +22,8 @@ import {XBodySwordAnimation} from './XBodySwordAnimation.js';
 import {isXBody} from './XBodySwordModel.mjs';
 import {withOccupiedGrid} from './OccupiedGridLayout.js';
 import {withMercenaryBattle} from './MercenaryCombatPlayback.js';
+import {preloadCooperativeArke,playCooperativeArkeAttack,playCooperativeArkeMechanic} from './CooperativeArkePlayback.js';
+import {bindCooperativeEnemy,cooperativeSnapshot,spawnCooperativeEnemy} from './CooperativeEncounter.js';
 
 const DESKTOP={width:1600,height:820};
 const MOBILE={width:1050,height:1500};
@@ -41,6 +43,7 @@ const BATTLEFIELD_ASSETS=Object.freeze({
   SIEGE:'../../assets/ui/project-v/battlefields/v3-siege-fortress-courtyard-v1.png'
 });
 const COUP_PALACE_BATTLEFIELD='/assets/ui/coup/imperial-palace-coup-v2115.png';
+const COOP_ARKE_BATTLEFIELD='/assets/ui/cooperative-arke-v1/forge-arena-v1.png';
 const LEGACY_BATTLEFIELD='../../assets/ui/idle-dungeon/enchanted-card-battlefield-v4.webp';
 const ISO_FORMATIONS=Object.freeze({
   allies:[
@@ -452,6 +455,7 @@ class BaseBattleEngine{
     this.scene={...DESKTOP};
     this.backgroundSprite=null;
     this.coupPalaceBattlefield=battleData?.sceneAssetKey==='COUP_PALACE';
+    this.coopArkeBattlefield=battleData?.sceneAssetKey==='COOP_ARKE_FORGE';
     this.activeBattlefieldMode=battlefieldModeFromPayload(battleData);
     this.activeBattlefieldTexture=null;
     this.activeBattlefieldAsset=this.resolveBattlefieldAsset(this.activeBattlefieldMode);
@@ -580,7 +584,7 @@ class BaseBattleEngine{
     this.boss=this.enemies[1];
     this.currentEnemyTarget=this.boss;
     this.currentAllyTarget=this.allies[0]||null;
-    if(this.boss)this.boss.isBoss=true;
+    if(this.boss&&!this.cooperativeInstances)this.boss.isBoss=true;
     this.createUi();
     this.app.renderer.on('resize',()=>this.resize());
     this.resize();
@@ -750,7 +754,7 @@ class BaseBattleEngine{
     this.app.ticker.add(this.parallaxTicker);
   }
 
-  battlefieldAsset(mode){return this.coupPalaceBattlefield&&mode==='SIEGE'?COUP_PALACE_BATTLEFIELD:(BATTLEFIELD_ASSETS[mode]||BATTLEFIELD_ASSETS[DEFAULT_BATTLEFIELD_MODE])}
+  battlefieldAsset(mode){return this.coopArkeBattlefield&&mode==='RAID'?COOP_ARKE_BATTLEFIELD:this.coupPalaceBattlefield&&mode==='SIEGE'?COUP_PALACE_BATTLEFIELD:(BATTLEFIELD_ASSETS[mode]||BATTLEFIELD_ASSETS[DEFAULT_BATTLEFIELD_MODE])}
 
   resolveBattlefieldAsset(mode){
     // Older content extensions exposed a string getter under this name.
@@ -1793,6 +1797,9 @@ class BaseBattleEngine{
       if(this.livePayload)card.alpha=0;
     });
     this.coupPalaceBattlefield=payload?.sceneAssetKey==='COUP_PALACE';
+    this.coopArkeBattlefield=payload?.sceneAssetKey==='COOP_ARKE_FORGE';
+    this.cooperativeInstances=payload?.cooperativeEncounter?new Map(payload.cooperativeEncounter.instances.map(row=>[row.id,row])):null;
+    this.lastCoopPlayback=null;
     this.activeBattlefieldMode=battlefieldModeFromPayload(payload);
     this.activeBattlefieldAsset=this.resolveBattlefieldAsset(this.activeBattlefieldMode);
     if(this.mounted)await Promise.all([this.setBattlefield(this.activeBattlefieldMode),this.setObjective(payload)]);
@@ -1848,12 +1855,14 @@ class BaseBattleEngine{
     queueCardAssets(allyCards,allyArt);
     queueCardAssets(enemyCards,enemyArt);
     if(monsterArt?.primaryUrl)preloadUrls.push(monsterArt.primaryUrl);
+    if(this.cooperativeInstances)preloadUrls.push(...[...this.cooperativeInstances.values()].map(row=>row.battleSprite));
     if(accountSuitUrl)preloadUrls.push(accountSuitUrl);
     if(accountSword)preloadUrls.push(...Z_SWORD.assets.map(asset=>asset.url));
     if(accountWeaponUrl)preloadUrls.push(accountWeaponUrl);
     // Pixi Assets de-duplicates identical URLs. Starting every live texture
     // request together removes the previous card-by-card network waterfall.
     await this.trackLiveAssetPreload(preloadUrls,[...allyArt,...enemyArt,monsterArt]);
+    if(this.coopArkeBattlefield)await preloadCooperativeArke();
     await this.configureAccountBattleUnit(payload);
     this.allies.forEach((character,index)=>{
       character.battleActive=allyCards.length?index<Math.min(allyCards.length,this.allies.length):true;
@@ -1889,6 +1898,12 @@ class BaseBattleEngine{
     }
 
     this.enemies.forEach(character=>{character.battleActive=false;character.root.visible=false});
+    if(this.cooperativeInstances){
+      for(const id of payload.cooperativeEncounter.initialIds)bindCooperativeEnemy(this,this.cooperativeInstances.get(id));
+      this.currentEnemyTarget=this.enemies.find(c=>c.battleActive);this.boss=this.currentEnemyTarget;
+      this.activeMonsterArt={kind:'COOP_STAGED',count:payload.cooperativeEncounter.initialIds.length};
+      return this.activeMonsterArt;
+    }
     for(let index=0;index<Math.min(enemyCards.length,this.enemies.length);index+=1){
       const card=enemyCards[index];
       const art=enemyArt[index];
@@ -1949,6 +1964,8 @@ class BaseBattleEngine{
     target.texture=texture;
     target.cutInTexture=texture;
     target.useFullBodySprite(texture,285*(art.scaleMultiplier||1));
+    target.artFacing=this.coopArkeBattlefield?-1:1;target.applyFacing();
+    if(this.coopArkeBattlefield)target.fullBodySprite.anchor.set(.5,.94);
     target.setTint(0xffffff);
     target.name=monster?.name||art.name;
     if(target.nameLabel)target.nameLabel.text=target.name;
@@ -2493,7 +2510,7 @@ class BaseBattleEngine{
       });
     };
     syncTeam(final?.A,this.allies);
-    syncTeam(final?.B,this.enemies);
+    syncTeam(this.cooperativeInstances?cooperativeSnapshot(this,final?.B):final?.B,this.enemies);
     this.currentAllyTarget=this.allies.find(character=>this.isAlive(character))||null;
     this.currentEnemyTarget=this.enemies.find(character=>this.isAlive(character))||null;
     this.boss=this.currentEnemyTarget;
@@ -2640,6 +2657,7 @@ class BaseBattleEngine{
       this.updateStatus('공격 가능한 생존 대상이 없습니다.');
       return Promise.resolve(false);
     }
+    if(this.coopArkeBattlefield&&actor.team===TEAM.ENEMY&&actor.coopFinalBoss)return playCooperativeArkeAttack(this,actor,victim,{damage,targetHp,targetShield,critical,onImpact});
     const actorView=actor.root;
     const victimView=victim.root;
     const roleKind=normalizeSkillEffectKind(actor.effectKind);
@@ -3046,8 +3064,10 @@ class BaseBattleEngine{
       this.skillChipPlayback=new BattleSuitSkillChipPlayback(this,events,{beforeEvent,afterEvent,sequential,isPaused});
       return this.skillChipPlayback.play();
     }
+    const invocationEpoch=this.playbackEpoch;
     for(const event of events){
       if(!this.visible)break;
+      if(this.cooperativeInstances&&invocationEpoch!==this.playbackEpoch)break;
       const type=String(event?.type||'').toUpperCase();
       this.advancePace(type);
       const explicitActor=this.combatantById(event.actorId)||null;
@@ -3074,6 +3094,7 @@ class BaseBattleEngine{
       const healing=Math.max(0,Number(event.healing||event.healAmount||event.recoveredHp||0));
       const hitCount=Math.max(1,Number(event.hitCount||event.comboCount||1));
       if(type==='DEPLOY')await this.deployCards({force:forceDeploy,instant:Boolean(this.livePayload)});
+      else if(type==='ENEMY_SPAWN'&&this.cooperativeInstances)spawnCooperativeEnemy(this,event);
       else if(type==='START_EFFECT'||type==='GUARD_PROTECT'){
         // START_EFFECT is the authoritative opening-shield snapshot. Targeted
         // GUARD_PROTECT events can also add a barrier during combat.
@@ -3081,6 +3102,7 @@ class BaseBattleEngine{
       }
       else if(type==='APOCALYPSE_SKILL')await playApocalypseLegionSkill(this,event);
       else if(type==='APOCALYPSE_STATUS')showApocalypseStatus(this,event);
+      else if(type==='COOP_MECHANIC'&&this.coopArkeBattlefield)await playCooperativeArkeMechanic(this,event);
       else if(type==='ESCORT_OBJECTIVE_ATTACK')await this.escortObjectiveAttack(event);
       else if(type==='ESCORT_OBJECTIVE_RECOVERY'){
         const hp=Math.max(0,Number(event.objectiveHpAfter||0)),maxHp=Math.max(1,Number(event.objectiveMaxHp||this.objectiveData?.maxHp||1));
@@ -3491,6 +3513,7 @@ class BaseBattleEngine{
       pools:this.pools?.stats()||[],
       layerOrder:this.stage?.children.map(layer=>layer.label)||[],
       backgroundDepth:this.parallaxLayers.map(item=>({layer:item.label,coefficient:item.coefficient})),
+      cooperativePlayback:this.lastCoopPlayback||null,
       battlefield:{
         mode:this.activeBattlefieldMode,
         asset:this.activeBattlefieldAsset,

@@ -16,10 +16,10 @@ const open=async(id,width,height)=>{
  if(id===3)await context.addInitScript(()=>{const send=WebSocket.prototype.send;WebSocket.prototype.send=function(data){if(!window.__coopDroppedLoadAck&&typeof data==='string'&&JSON.parse(data).type==='loaded'){window.__coopDroppedLoadAck=true;return;}return send.call(this,data);};});
  await context.route('**/*',r=>new URL(r.request().url()).origin===h.origin?r.continue():r.abort());
  const page=await context.newPage();page.on('pageerror',e=>errors.push({id,message:e.message}));page.on('dialog',d=>d.accept());clients.push({id,page,context});
- page.on('response',r=>{if(r.url().includes('lich-king-battle-sd-v1.png')&&r.status()===200)bossAssets.add(id);});
+ page.on('response',r=>{if(r.url().includes('arke-battle-sprite-v1.png')&&r.status()===200)bossAssets.add(id);});
  page.on('websocket',socket=>socket.on('framereceived',event=>{try{const v=JSON.parse(event.payload);if(v.state)socketStates.set(id,v);}catch{}}));
  await page.goto(h.origin+'/');await page.waitForFunction(()=>typeof renderShell==='function');await page.evaluate(()=>renderShell('battle'));
- await page.locator('[data-pve-mode="raid"]').click();await page.locator('#coopRaidTab').waitFor({state:'visible'});await page.locator('#coopRaidTab').click();
+ await page.locator('#pveCoopTab').waitFor({state:'visible'});await page.locator('#pveCoopTab').click();
  await page.locator('[data-create]').waitFor({state:'visible'});await page.waitForFunction(()=>document.querySelector('[data-release]')?.textContent!=='연결 중');
  return page;
 };
@@ -40,21 +40,36 @@ try{
  }
  await a.locator('[data-squads]').scrollIntoViewIfNeeded();await a.screenshot({path:path.join(out,'02-room-desktop.png'),fullPage:true});
  await c.locator('[data-squads]').scrollIntoViewIfNeeded();await c.screenshot({path:path.join(out,'03-room-mobile.png'),fullPage:true});
- await c.locator('[data-guide]').click();assert.match(await c.locator('[data-guide-content]').textContent(),/아홉|9명/);await c.screenshot({path:path.join(out,'04-guide-mobile.png')});await c.locator('[data-close-guide]').click();
+ await c.locator('[data-guide]').click();assert.match(await c.locator('[data-guide-content]').textContent(),/9캐릭터/);await c.screenshot({path:path.join(out,'04-guide-mobile.png')});await c.locator('[data-close-guide]').click();
  for(const {page} of clients)await page.locator('[data-ready]').click();
  for(const {page} of clients){await page.locator('.coop-battle-portal canvas').waitFor({state:'visible',timeout:60000});await page.waitForFunction(()=>document.querySelector('.coop-battle-notice')?.hidden,{},{timeout:60000});}
- await a.waitForFunction(()=>document.querySelector('[data-phase]')?.textContent==='공동 전투 진행 중');
+ await a.waitForFunction(()=>document.querySelector('[data-phase]')?.textContent?.includes('1 / 3 단계'));
  assert.equal(await c.evaluate(()=>window.__coopDroppedLoadAck),true,'A lost load acknowledgement must recover without refresh');
  await new Promise(r=>setTimeout(r,4000));
  for(const {id,page} of clients){
   const info=await page.evaluate(()=>({portal:(()=>{const r=document.querySelector('.coop-battle-portal').getBoundingClientRect();return {x:r.x,y:r.y,w:r.width,h:r.height};})(),viewport:{w:innerWidth,h:innerHeight},diagnostics:window.ProjectVPixiBattle.diagnostics(),roster:document.querySelectorAll('[data-v3-roster-list]>li').length,exitClickable:(()=>{const b=document.querySelector('[data-exit]'),r=b.getBoundingClientRect();return b.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2));})()}));
   starts.push({id,...info});assert.equal(info.portal.x,0);assert.equal(info.portal.y,0);assert.equal(info.portal.w,info.viewport.w);assert.equal(info.portal.h,info.viewport.h);
-  assert.equal(info.exitClickable,true,'Exit/HUD must remain above the common modal');assert.equal(info.roster,6);assert.equal(info.diagnostics.characterStates.filter(c=>c.team==='ALLY'&&c.id.includes('OWNER:')).length,9);assert.ok(bossAssets.has(id),'Approved Lich SD must load');
+  assert.equal(info.exitClickable,true,'Exit/HUD must remain above the common modal');assert.equal(info.roster,6);assert.equal(info.diagnostics.characterStates.filter(c=>c.team==='ALLY'&&c.id.includes('OWNER:')).length,9);assert.ok(bossAssets.has(id),'Dedicated Arke sprite must preload');
   await page.screenshot({path:path.join(out,id===3?'06-battle-mobile.png':'05-battle-desktop-'+id+'.png')});
  }
  assert.equal(new Set([...socketStates.values()].map(v=>v.state.startsAt)).size,1);
+ // The real shared server advances all three clients through the same waves.
+ await a.waitForFunction(()=>document.querySelector('[data-phase]')?.textContent.includes('2 / 3 단계'),{},{timeout:60000});
+ await a.screenshot({path:path.join(out,'08-miniboss-desktop.png')});
+ await c.screenshot({path:path.join(out,'09-miniboss-mobile.png')});
+ await a.waitForFunction(()=>document.querySelector('[data-phase]')?.textContent.includes('3 / 3 단계'),{},{timeout:90000});
+ for(const {page}of clients)await page.waitForFunction(()=>window.ProjectVPixiBattle.diagnostics().characterStates.some(c=>c.id==='B:1:COOP:ARKE'),{},{timeout:10000});
+ await a.locator('[data-pattern-action]').waitFor({state:'visible',timeout:30000});
+ await a.screenshot({path:path.join(out,'10-arke-pattern-desktop.png')});
+ await c.screenshot({path:path.join(out,'11-arke-pattern-mobile.png')});
+ for(const {page}of clients)await page.locator('[data-pattern-action]').click();
+ for(const {page}of clients)await page.waitForFunction(()=>document.querySelectorAll('[data-pattern-members] .done').length===3);
+ await a.waitForFunction(()=>document.querySelector('[data-pattern-time]')?.textContent==='성공',{},{timeout:15000});
+ assert.ok([...socketStates.values()].every(v=>v.state.stage.wave===3));
+ assert.ok([...socketStates.values()].every(v=>v.state.patternHistory?.some(p=>p.status==='SUCCESS')));
+ await a.screenshot({path:path.join(out,'12-arke-rupture.png')});
  // Browser reload must not resume the battle, while both other sockets continue.
- await b.reload();await b.waitForFunction(()=>typeof renderShell==='function');await b.evaluate(()=>renderShell('battle'));await b.locator('[data-pve-mode="raid"]').click();await b.locator('#coopRaidTab').click();
+ await b.reload();await b.waitForFunction(()=>typeof renderShell==='function');await b.evaluate(()=>renderShell('battle'));await b.locator('#pveCoopTab').click();
  await b.locator('.coop-result').waitFor({state:'visible',timeout:30000});assert.match(await b.locator('.coop-result').textContent(),/실패/);
  await a.waitForFunction(()=>document.querySelector('[data-battle-members]')?.textContent.includes('지원 분대 · 이탈'));
  assert.equal(await a.locator('.coop-result').isVisible(),false);assert.equal(await c.locator('.coop-result').isVisible(),false);

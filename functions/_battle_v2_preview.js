@@ -8,6 +8,7 @@ import {createMagicSeason2Runtime} from './_magic_season2.js';
 import {applyMercenaryCombatLink,mercenaryEffectiveAttack,mercenaryDamageCapHp} from '../shared/mercenary-combat-link-v2103.mjs';
 import {validateDuoDeck} from '../shared/ranked-duo-v1.mjs';
 import {sustainedEncounterPlan} from './_sustained_encounter.js';
+import {cooperativeEffects,applyCooperativeEffect} from './_cooperative_effects.js';
 import {PVP_SPEED_REFORM,PVP_GUARD_SHIELD_CURVE,isPvpSpeedCard,speedComboPlan,speedComboSnapshots} from '../shared/pvp-speed-reform-v1.mjs';
 
 // =====================================================================
@@ -710,6 +711,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     !maxCombatDurationMs || !Array.isArray(cooperative.withdrawals) || cooperative.withdrawals.length>3 ||
     cooperative.withdrawals.some(w=>!a.some(c=>c.ownerId===w.ownerId)||!Number.isFinite(w.atMs)||w.atMs<0)))throw Error('INVALID_COOPERATIVE_PARTY');
   const withdrawals=cooperative?[...cooperative.withdrawals].sort((x,y)=>x.atMs-y.atMs):[];
+  const coopEffects=cooperative?cooperativeEffects(cooperative,[...new Set(a.map(c=>c.ownerId))],maxCombatDurationMs):[];
   const combatStates=[];
   const sustained = sustainedEncounterPlan(sustainedEncounter, teamB, encounterCapacity);
   const mercenaryTurns=mercenaryTurnCadence({A:a,B:b});
@@ -1126,7 +1128,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     if(!combatClockEnabled)return;
     const events=timeline.slice(from),durationMs=blocking?events.reduce((sum,event)=>sum+skillChipCombatEventMs(event,chipClockOptions),0):0;
     for(const event of events)Object.assign(event,{combatClock:SKILL_CHIP_CLOCK,combatAtMs:atMs,combatGroup,combatGroupDurationMs:durationMs});
-    if(cooperative)combatStates.push({atMs,group:combatGroup,A:a.map(c=>({id:c.id,hp:c.hp,maxHp:c.maxHp,shield:c.shield,isMercenary:!!c.isMercenary,ownerId:c.ownerId})),B:b.map(c=>({id:c.id,hp:c.hp,maxHp:c.maxHp,shield:c.shield}))});
+    if(cooperative)combatStates.push({atMs,group:combatGroup,A:a.map(c=>({id:c.id,hp:c.hp,maxHp:c.maxHp,shield:c.shield,isMercenary:!!c.isMercenary,ownerId:c.ownerId})),B:b.map(c=>({id:c.id,hp:c.hp,maxHp:c.maxHp,shield:c.shield,maxShield:c.maxShield,slot:c.slot,wave:c.encounterWave,isBoss:!!c.isBoss}))});
     combatGroup++;
     if(blocking){lastCardCombatMs=atMs;nextCombatMs=atMs+durationMs;lastCardGaugeClock=clock;}
   };
@@ -1197,7 +1199,16 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   while (targetableAlive(a).length && (targetableAlive(b).length || pendingMonsters.length || sustained&&!sustained.bossSpawned) && actionCount < maxActions && (!durationLimit || clock < durationLimit)) {
     // Replaying the same seed preserves the entire prefix before a departure.
     // Withdrawal cannot trigger survival/revival; that owner's actors stay gone.
-    while(withdrawals.length&&withdrawals[0].atMs<=nextCombatMs){
+    while((withdrawals[0]?.atMs??Infinity)<=nextCombatMs||(coopEffects[0]?.atMs??Infinity)<=nextCombatMs){
+      if((coopEffects[0]?.atMs??Infinity)<(withdrawals[0]?.atMs??Infinity)){
+        const effect=coopEffects.shift(),from=timeline.length;
+        applyCooperativeEffect(effect,{allies:a,enemies:b,damage:applyDamage,
+          knockout:target=>settleKnockout(target,timeline,clock,reviveFromMagic),
+          emit:(type,data)=>emitTimeline(timeline,clock,type,data)});
+        stampCombatGroup(from,effect.atMs,false);
+        if(!targetableAlive(a).length||!targetableAlive(b).length&&!pendingMonsters.length){combatMs=nextCombatMs=effect.atMs;break;}
+        continue;
+      }
       const departed=withdrawals.shift(),from=timeline.length;
       for(const c of a.filter(c=>c.ownerId===departed.ownerId)){
         c.hp=0;c.shield=0;c.alive=false;c.gauge=0;c.untargetable=true;
@@ -1205,7 +1216,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       }
       stampCombatGroup(from,departed.atMs,false);
     }
-    if(!targetableAlive(a).length)break;
+    if(!targetableAlive(a).length||cooperative&&!targetableAlive(b).length&&!pendingMonsters.length)break;
     if(sustained&&!targetableAlive(b).length&&!sustained.bossSpawned){
       if(maxCombatDurationMs<sustained.nextAt){combatMs=nextCombatMs=maxCombatDurationMs;durationStopped=true;break;}
       if(chipActor&&nextChipMs()<sustained.nextAt){resolveChipStep();continue;}
@@ -1228,10 +1239,11 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
           targetId: card.id, slot: card.slot, boss: Boolean(card.isBoss),
           targetHpAfter: card.hp, targetMaxHp: card.maxHp,
           targetShieldAfter: card.shield, name: card.title || card.name,
-          label: card.isBoss ? '고철군주 출현' : '회수 방어대 증원'
+          wave:card.encounterWave,
+          label: cooperative ? `${card.encounterWave}단계 · ${card.title || card.name}` : card.isBoss ? '고철군주 출현' : '회수 방어대 증원'
         });
       }
-      if (encounterCapacity > 5 && timeline.length > spawnFrom) stampCombatGroup(spawnFrom, combatMs, false);
+      if ((encounterCapacity > 5 || cooperative) && timeline.length > spawnFrom) stampCombatGroup(spawnFrom, cooperative?nextCombatMs:combatMs, false);
     }
     const actors = [...alive(a), ...alive(b)].filter(card=>!isBattleSuitSupport(card)&&mercenaryActionAvailable(card));
     if(!actors.length)break;

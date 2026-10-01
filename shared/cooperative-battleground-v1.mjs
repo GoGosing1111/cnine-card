@@ -1,4 +1,13 @@
-export const COOP_VERSION='20261001-coop-v1';
+export const COOP_VERSION='20261002-arke-v2';
+export const COOP_ENCOUNTER=Object.freeze({id:'COOP_ARKE',version:2,name:'삼핵 거신 아르케',arena:'심층 제련소',sceneAssetKey:'COOP_ARKE_FORGE',
+ sourceArt:'/assets/ui/cooperative-arke-v1/arke-source-art-v1.png',battleSprite:'/assets/ui/cooperative-arke-v1/arke-battle-sprite-v1.png',background:'/assets/ui/cooperative-arke-v1/forge-arena-v1.png'});
+export const COOP_STAGES=Object.freeze([
+ {wave:1,name:'제련소 외곽',target:'용철 추적자 ×2 · 불씨 감시기',hint:'근접 추적자와 원거리 감시기 3기를 모두 격파하세요.'},
+ {wave:2,name:'노심 관문',target:'노심 수문장',hint:'두꺼운 방벽을 돌파하세요. 수문장은 연속 공격을 사용합니다.'},
+ {wave:3,name:'심층 노심',target:COOP_ENCOUNTER.name,hint:'삼핵 차단과 집중 포화에 대응하며 거신을 격파하세요.'}
+]);
+export const COOP_PATTERNS=Object.freeze({firstAtMs:10000,intervalMs:30000,count:6,windowMs:{NORMAL:9000,HARD:8000,EXTREME:7000},
+ rupturePercent:8,overloadPercent:{NORMAL:12,HARD:18,EXTREME:24},focusPercent:{NORMAL:40,HARD:50,EXTREME:60}});
 export const COOP_RULES=Object.freeze({players:3,cardsPerPlayer:2,mercenariesPerPlayer:1,lobbyMs:900000,loadingMs:45000,countdownMs:3000,heartbeatMs:1000,disconnectMs:15000,maxBattleMs:180000,rewardLocked:true});
 // Fixed opponents, independent of the entering party's equipment/power.
 // Final values are checked by scripts/simulate-cooperative-battleground.mjs.

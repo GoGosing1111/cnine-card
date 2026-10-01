@@ -1,8 +1,9 @@
 import {applyTypeStacking,distributeEquipment,buildFighter,buildMonsterFighter,publicFighter,simulateBattleV2Preview,teamSummary} from './_battle_v2_preview.js';
 import {buildMercenaryFighter} from './_mercenary_combat.js';
-import {COOP_RULES,coopDifficulty} from '../shared/cooperative-battleground-v1.mjs';
+import {cooperativeEnemies} from './_cooperative_enemies.js';
+import {COOP_RULES,COOP_ENCOUNTER,coopDifficulty} from '../shared/cooperative-battleground-v1.mjs';
 
-export function createCooperativeBattle({squads,difficulty='NORMAL',seed=1,withdrawals=[]}){
+export function createCooperativeBattle({squads,difficulty='NORMAL',seed=1,withdrawals=[],effects=[],monsterSnapshot}){
  const config=typeof difficulty==='string'?coopDifficulty(difficulty):difficulty;
  if(!config||!Array.isArray(squads)||squads.length!==3||new Set(squads.map(s=>s.ownerId)).size!==3)throw Error('INVALID_COOPERATIVE_PARTY');
  const cards=[],mercenaries=[],members=[];
@@ -19,20 +20,20 @@ export function createCooperativeBattle({squads,difficulty='NORMAL',seed=1,withd
   mercenaries.push({...merc,id:`A:OWNER:${ownerId}:MERCENARY:${merc.cardId}`,ownerId,ownerName,squadIndex,localSlot:2,slot:6+squadIndex});
   members.push({ownerId,ownerName,squadIndex});
  });
- const monster={id:'COOP_LICH',name:'리치왕',isBoss:true,battle_power:config.power,pve_hp_percent:config.hpPercent,pve_attack_percent:config.attackPercent,pve_defense_percent:config.defensePercent,pve_attack_count:config.attackCount,pve_forced_action_every:config.forcedEvery,
-  image:'/preview/lich-king-raid-poster-v1/lich-king-source-art-v1.png',battleSprite:'/preview/lich-king-raid-v1/assets/lich-king-battle-sd-v1.png'};
- // Same approved SD and 50%-enlarged art metadata as the existing Lich raid.
- monster.projectVMonsterArt={scope:'BATTLE_ENGINE_ONLY',kind:'LICH_KING_SD',primaryUrl:monster.battleSprite,pngFallbackUrl:monster.battleSprite,footAnchor:{x:.5,y:.94},objectFit:'contain',objectPosition:'50% 100%',scaleMultiplier:1.65,technicalPass:true,reviewOnly:false};
+ const staged=monsterSnapshot?null:cooperativeEnemies(config);
+ const monster=monsterSnapshot?structuredClone(monsterSnapshot):staged.monster;
+ monster.projectVMonsterArt??={scope:'BATTLE_ENGINE_ONLY',kind:'COOP_ARKE',primaryUrl:monster.battleSprite,pngFallbackUrl:monster.battleSprite,footAnchor:{x:.5,y:.94},objectFit:'contain',objectPosition:'50% 100%',scaleMultiplier:1.5,technicalPass:true,reviewOnly:false};
  const enemy={...buildMonsterFighter(monster),battleSprite:monster.battleSprite};
- const result=simulateBattleV2Preview({teamA:[...cards,...mercenaries],teamB:[enemy],seed,maxActions:600,maxCombatDurationMs:COOP_RULES.maxBattleMs,
-  forcedMonsterEvery:config.forcedEvery,healerPenalty:true,singleHealerBonus:squads[0].singleHealerBonus||{},cooperative:{withdrawals}});
+ const enemies=staged?.initial||[enemy];
+ const result=simulateBattleV2Preview({teamA:[...cards,...mercenaries],teamB:enemies,reinforcements:staged?.pending||[],seed,maxActions:600,maxCombatDurationMs:COOP_RULES.maxBattleMs,
+  forcedMonsterEvery:config.forcedEvery,healerPenalty:true,singleHealerBonus:squads[0].singleHealerBonus||{},cooperative:{withdrawals,effects}});
  // PVE survival is always a loss, regardless of HP-ratio tiebreaking.
- result.winner=result.final.B.every(f=>f.hp<=0)&&result.final.A.some(f=>f.hp>0)?'A':'B';
+ result.winner=!result.encounter?.remaining&&result.final.B.every(f=>f.hp<=0)&&result.final.A.some(f=>f.hp>0)?'A':'B';
  Object.assign(result.timeline.at(-1),{winner:result.winner});
  const states=result.combatStates;delete result.combatStates;
  const finalMercs=result.final.A.filter(f=>f.isMercenary);
  result.final={...result.final,A:result.final.A.filter(f=>!f.isMercenary),mercenaries:{A:finalMercs,B:[]}};
- return {states,payload:{mode:'RAID',monster,accountNickname:'격전지 연합',battleV2:{schemaVersion:2,engine:'BATTLE_ENGINE_V2',seed,playbackSpeed:1,
+ return {states,payload:{mode:'RAID',sceneAssetKey:monster.id===COOP_ENCOUNTER.id?COOP_ENCOUNTER.sceneAssetKey:undefined,monster,...(staged?{cooperativeEncounter:staged.encounter}:{}),accountNickname:'격전지 연합',battleV2:{schemaVersion:2,engine:'BATTLE_ENGINE_V2',seed,playbackSpeed:1,
   rules:{formation:'COOP_THREE_SQUADS',mercenaryLinkScope:'OWNER',supportScope:'TEAM',monsterMinDamagePercent:0,maxCombatDurationMs:COOP_RULES.maxBattleMs},
-  teams:{A:{cards:cards.map(publicFighter),mercenaries:result.openingMercenaries.A,members,summary:teamSummary(cards)},B:{cards:[publicFighter(enemy)],summary:teamSummary([enemy])}},result}}};
+  teams:{A:{cards:cards.map(publicFighter),mercenaries:result.openingMercenaries.A,members,summary:teamSummary(cards)},B:{cards:enemies.map(publicFighter),summary:teamSummary(enemies)}},result}}};
 }

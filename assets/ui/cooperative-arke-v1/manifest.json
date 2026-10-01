@@ -1,0 +1,107 @@
+{
+  "version": "20261002-arke-v2",
+  "source": "built-in image_gen",
+  "visualApproval": "USER_REVIEW_PENDING",
+  "scope": "COOPERATIVE_TEST_ONLY",
+  "files": [
+    {
+      "file": "arke-battle-sprite-v1.png",
+      "sha256": "bafcdae8c7077acf45ee618848e3a48887461e24786a66163cb74e3d1a76034f",
+      "width": 1024,
+      "height": 1536,
+      "mode": "RGBA",
+      "transparentPixels": 547462
+    },
+    {
+      "file": "arke-slam-atlas-v1.png",
+      "sha256": "80a78e76b0011b389f66a6fe5ccce2c83f152c3d0b7bfb9d3db3ba574634ae88",
+      "width": 1774,
+      "height": 887,
+      "mode": "RGBA",
+      "transparentPixels": 1033066
+    },
+    {
+      "file": "arke-source-art-v1.png",
+      "sha256": "ea7f679233e32d6c31099da235971f0be2482a850fb57e365891675556b544f1",
+      "width": 1024,
+      "height": 1536,
+      "mode": "RGBA",
+      "transparentPixels": 639273
+    },
+    {
+      "file": "core-rupture-atlas-v1.png",
+      "sha256": "3a5b142f44246ed797144f400b5022a28814a14cf2b974dde1136bd28e08ecd1",
+      "width": 1774,
+      "height": 887,
+      "mode": "RGBA",
+      "transparentPixels": 667267
+    },
+    {
+      "file": "core-warden-v1.png",
+      "sha256": "7053288ab46a3882eb64610afb1c8bb690e13c0c6be5ab95151545d1ac949ded",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGBA",
+      "transparentPixels": 827166
+    },
+    {
+      "file": "ember-watcher-v1.png",
+      "sha256": "c2b637b833385a74dcb7ca30957aacedbe978f2fdd38bee9938ce8bc4b480261",
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "transparentPixels": 1080288
+    },
+    {
+      "file": "focus-beam-atlas-v1.png",
+      "sha256": "859fc7d3024b07f5feaa588245fff9c1669c9a09b19eaa12188f4dfc8797cf80",
+      "width": 1774,
+      "height": 887,
+      "mode": "RGBA",
+      "transparentPixels": 974116
+    },
+    {
+      "file": "forge-arena-v1.png",
+      "sha256": "307a8fa7a692655602e2523cede927ae0b8de773d91709946d42387fa72a4df2",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGB",
+      "transparentPixels": 0
+    },
+    {
+      "file": "forge-stalker-v1.png",
+      "sha256": "270e315ce9ab15bae98f2dab91830095d26c1c090351da0d278423c9a42f0975",
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "transparentPixels": 1103352
+    }
+  ],
+  "runtime": {
+    "renderer": "existing PixiJS V3",
+    "pixi": "8.20.0",
+    "timeline": "existing GSAP V3",
+    "gsap": "3.13.0",
+    "sourceFiles": [
+      "preview/project-v-v3/source/battle/CooperativeEncounter.js",
+      "preview/project-v-v3/source/battle/CooperativeArkePlayback.js"
+    ],
+    "atlases": {
+      "layout": [
+        4,
+        2
+      ],
+      "frames": 8,
+      "slamImpactSeconds": 0.53,
+      "slamDurationSeconds": 0.92,
+      "effectDurationSeconds": 1,
+      "clock": "V3_GSAP",
+      "cancellation": "playbackEpoch + common timeline owner cleanup before enemy-slot reuse"
+    }
+  },
+  "notes": [
+    "Each of the five enemy instances has an exact server ID. Three original normal enemy instances, one shielded miniboss, one final boss.",
+    "Source files and prompts are preserved; no approved Lich or mercenary resources were overwritten.",
+    "Actual atlas dimensions are 1774x887; Pixi texture frames derive dimensions from the loaded texture."
+  ]
+}

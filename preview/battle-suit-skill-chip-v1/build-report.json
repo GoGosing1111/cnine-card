@@ -109,11 +109,13 @@
     "preview/mercenary-ragniel-v1/source/RagnielSkillFX.js",
     "preview/project-v-v3/source/battle/RagnielCombatPlayback.js",
     "preview/project-v-v3/source/battle/MercenaryCombatPlayback.js",
+    "preview/project-v-v3/source/battle/CooperativeArkePlayback.js",
+    "preview/project-v-v3/source/battle/CooperativeEncounter.js",
     "preview/project-v-v3/source/battle/BattleEngine.js",
     "preview/scrapyard-v3-v1/source/ScrapyardBattleEngine.js",
     "pve-v3/BattleEngine.js",
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 1408904
+  "outputBytes": 1415591
 }

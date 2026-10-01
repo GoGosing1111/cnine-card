@@ -2,7 +2,7 @@
 // No combat is calculated here. A late tab restores the server HP snapshot.
 export async function mountCoopBattle(host,payload){
  const live=window.ProjectVBattleV3Live;await live.ensureRuntime();
- const prepared=live.prepareLoading({modal:host,mode:'RAID',playerName:'격전지 연합',opponentName:'리치왕',autoText:'세 분대가 전장에 집결합니다'});
+ const prepared=live.prepareLoading({modal:host,mode:'RAID',playerName:'격전지 연합',opponentName:payload.monster.name,autoText:'세 분대가 전장에 집결합니다'});
  // prepareLoading assigns the common modal classes; restore this overlay host.
  host.classList.add('coop-battle-mount');
  prepared.stage.querySelector('.battle-v3-header strong').textContent='격전지(협동)';
@@ -36,6 +36,9 @@ export async function mountCoopBattle(host,payload){
    if(cursor<groups.length&&elapsed-groups[cursor].at>1200){version++;api.cancelActiveAnimations();while(cursor<groups.length&&groups[cursor].at<elapsed-100)cursor++;sync();lastSync=elapsed;}
    while(cursor<groups.length&&groups[cursor].at<=elapsed){
     const group=groups[cursor++],epoch=version;
+    // A wave boundary cancels previous-instance animation tails before reusing
+    // a hostile slot. All three clients use the same server spawn timestamp.
+    if(group.events.some(e=>e.type==='ENEMY_SPAWN'))api.cancelActiveAnimations();
     void api.playEvents(group.events,{timedInternal:true}).catch(()=>{if(epoch===version)sync();});
    }
    if(elapsed-lastSync>5000&&cursor>=groups.length){sync();lastSync=elapsed;}
