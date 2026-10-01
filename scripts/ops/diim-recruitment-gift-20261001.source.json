@@ -8,13 +8,19 @@
       "source": "생스머신디임",
       "nickname": "딤럼프",
       "contribution": 5450,
-      "kind": "avatar"
+      "kind": "avatar",
+      "giftEligible": true,
+      "avatarGrantStatus": "ON_HOLD_BY_USER",
+      "avatarGrantInstructionDate": "2026-10-02"
     },
     {
       "source": "딤키우기",
       "nickname": "딤키우기",
       "contribution": 4360,
-      "kind": "avatar"
+      "kind": "avatar",
+      "giftEligible": true,
+      "avatarGrantStatus": "ON_HOLD_BY_USER",
+      "avatarGrantInstructionDate": "2026-10-02"
     },
     {
       "source": "고라니ㅇ",
