@@ -13,11 +13,15 @@
 .card-frame.bt-tier-11 { --tier-a:#ffd479; --tier-b:#b8862f; --tier-c:#fff3d0; }
 .card-frame.bt-tier-12 { --tier-a:#c9a6ff; --tier-b:#6d4bd0; --tier-c:#eceaff; }
 .card-frame.bt-tier-13 { --tier-a:#ff8a8a; --tier-b:#c01020; --tier-c:#ffe8e8; }
+.card-frame.bt-tier-14 { --tier-a:#a6e9ff; --tier-b:#247ad9; --tier-c:#effaff; }
+.card-frame.bt-tier-15 { --tier-a:#ffe2a0; --tier-b:#b67b22; --tier-c:#fff8e7; }
 
 /* ── 1. 외곽 오라 ───────────────────────────────────────────── */
 .card-frame.bt-tier-11,
 .card-frame.bt-tier-12,
-.card-frame.bt-tier-13 {
+.card-frame.bt-tier-13,
+.card-frame.bt-tier-14,
+.card-frame.bt-tier-15 {
   position: relative;
   overflow: visible;
   filter:
@@ -79,6 +83,9 @@
 }
 .card-frame.has-tier-frame > .card-holo,
 .card-frame.has-tier-frame > .breakthrough-effect { display: none !important; }
+.battle-v3-roster-slot:has(> .card-frame.has-tier-frame) {
+  height: calc(270px * var(--v3-card-s));
+}
 .card-frame.has-tier-frame > .zenith-card-frame { z-index: 19; opacity: 0; }
 .card-frame.has-tier-frame .card-inner {
   position: absolute;
@@ -117,6 +124,17 @@
   align-items: flex-start;
 }
 .card-frame.has-tier-frame .card-header b { display: none; }
+/* +14/+15 historical crowns extend lower than +13; keep text inside the opening. */
+.card-frame:is(.bt-tier-14,.bt-tier-15).has-tier-frame .card-header {
+  top: 21%;
+  left: 17%;
+  right: 17%;
+}
+.card-frame:is(.bt-tier-14,.bt-tier-15).has-tier-frame .card-footer {
+  left: 17%;
+  right: 17%;
+  bottom: 8%;
+}
 /* 사진 창이 아래 4% 까지 내려오므로 이름판은 사진 위에 얹고 검정 그라디언트로 가독성을 잡는다 */
 .card-frame.has-tier-frame .card-footer {
   position: absolute;
@@ -171,7 +189,9 @@
 @media (prefers-reduced-motion: reduce) {
   .card-frame.bt-tier-11,
   .card-frame.bt-tier-12,
-  .card-frame.bt-tier-13 { animation: none; }
+  .card-frame.bt-tier-13,
+  .card-frame.bt-tier-14,
+  .card-frame.bt-tier-15 { animation: none; }
   .card-frame.bt-tier-13:not(.has-tier-frame)::before { animation: none; }
 }
 

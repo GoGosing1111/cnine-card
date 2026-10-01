@@ -83,7 +83,10 @@
     const level = Math.max(0, Math.min(grade === 'FUR' ? 15 : 13, Number(card.breakthroughLevel || 0)));
     const breakthroughClass = level > 0 ? ` breakthrough-${level}` : '';
     const isFakerChampionship = String(card.cardId || card.id || '') === FAKER_CHAMPIONSHIP_CARD_ID;
-    return `<div class="card-frame grade-${grade}${breakthroughClass}${isFakerChampionship ? ' faker-championship-card' : ''} battle-v2-card-frame">
+    const tierFrameSrc = grade === 'FUR' && level >= 14 && !isFakerChampionship
+      ? `/assets/ui/card-frames/fur-tier-frame-${level}-v20261002.png` : '';
+    return `<div class="card-frame grade-${grade}${breakthroughClass}${tierFrameSrc ? ` bt-tier-${level} has-tier-frame` : ''}${isFakerChampionship ? ' faker-championship-card' : ''} battle-v2-card-frame">
+      ${tierFrameSrc ? `<img class="tier-card-frame" src="${tierFrameSrc}" alt="" aria-hidden="true">` : ''}
       ${level > 0 ? `<div class="breakthrough-badge">★${level}</div>` : ''}
       ${uniqueBadgeHtml(card)}
       <div class="card-holo"></div><div class="breakthrough-effect"></div>

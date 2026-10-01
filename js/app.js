@@ -326,7 +326,7 @@ function furClientHighConfig(raw){
 function furClientExtendedAvailable(config,level){
   return level<13||(config?.extendedEnabled===true&&config.steps?.length===5&&config.steps.slice(3).every(step=>Number.isFinite(step.powerBonusPercent)&&step.powerBonusPercent>0&&Number.isFinite(step.uniqueBoostPercent)&&step.uniqueBoostPercent>=0&&Number.isInteger(step.retirementShardRefund)&&step.retirementShardRefund>0));
 }
-// V2113: new FUR +14/+15 art is pending alpha extraction; retain the reviewed +13 frame.
+// 2026-10-02: approved historical +14/+15 designs use verified transparent overlays.
 //
 //  ⚠️ 프레임 PNG(1024x1536, RGBA, 사진창 투명)를 assets/ui/card-frames/ 에 넣은 뒤
 //     아래 경로만 채우면 즉시 적용됩니다. 빈 문자열이면 이미지 없이 오라 효과만 나갑니다.
@@ -335,17 +335,19 @@ const TIER_FRAME_ASSETS={
   FUR:{
     11:'assets/ui/card-frames/fur-tier-frame-11.png',
     12:'assets/ui/card-frames/fur-tier-frame-12.png',
-    13:'assets/ui/card-frames/fur-tier-frame-13.png'
+    13:'assets/ui/card-frames/fur-tier-frame-13.png',
+    14:'assets/ui/card-frames/fur-tier-frame-14-v20261002.png',
+    15:'assets/ui/card-frames/fur-tier-frame-15-v20261002.png'
   },
   ZENITH:{11:'',12:'',13:''},
   SUPERSTAR:{11:'',12:'',13:''}
 };
-const TIER_RANK_LABELS={11:'MASTER',12:'GRAND',13:'TRANSCEND'};
+const TIER_RANK_LABELS={11:'MASTER',12:'GRAND',13:'TRANSCEND',14:'14강',15:'15강'};
 const TIER_FRAME_GRADES=['FUR','ZENITH','SUPERSTAR'];
 function tierFrameLevel(grade,level){
   const key=String(grade||'').trim().toUpperCase(),value=Number(level);
   if(!TIER_FRAME_GRADES.includes(key)||!Number.isFinite(value)||value<11)return 0;
-  return Math.min(13,Math.floor(value));
+  return Math.min(key==='FUR'?15:13,Math.floor(value));
 }
 function tierFrameSource(grade,level){
   const key=String(grade||'').trim().toUpperCase();
@@ -988,14 +990,14 @@ const FEATURE_RESOURCE_MANIFEST={
   battleV2:{
     styles:['css/battle-v2-live.css?v=1972-battle-suit-live','css/battle-v3-live.css?v=1930-mobile-context-recovery&flow=2126&duo=20260925&coop=20261002-arke-v2'],
     scripts:[
-      'js/battle-v2-live.js?v=1991-sweep-result-front&cowPortal=20260913&joint=2090&furHigh=2114&flow=2126',
+      'js/battle-v2-live.js?v=1991-sweep-result-front&cowPortal=20260913&joint=2090&furHigh=2114-frames20261002&flow=2126',
       'js/project-v-battle-art-adapter-v1.js?v=3.7.0-orikkung-heeya&sd=20260919-bongsoon-armed',
       'js/project-v-tier-battle-art-adapter-v1.js?v=3.7.1-cheetah-scale&sd=2115-joksuke&icon=20260930',
       'js/project-v-monster-battle-art-adapter-v1.js?v=5.5.0-apocalypse-legion',
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
       'preview/project-v-v3/project-v-firearm-qc-audio.js?v=8-gilded-dragon-battle-suit',
       'preview/project-v-v3/project-v-pixi-battle.bundle.js?coop=20261002-arke-v2&lichFx=20261001&speedReform=20260930&v=106-combat-flow&joint=2090&mercenary=2100&projectiles=2106&coup=2115&pveEntry=2119&heeya=2118&suits=2124&flow=2126&zSword=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&apocalypseLegion=2127&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&policeRestraint=20260923&octaseeker=20260928-opening10&resultIdle=20260928-corpse&cryvern=20260924&duo=20260925&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&xBody=20260928-skill-order&icon=20260930',
-      'js/battle-v3-live.js?coop=20261002-arke-v2&lichFx=20261001&speedReform=20260930&v=3.36.0-combat-flow&furHigh=2114&battleRuntime=2124&heeya=2118&entry=2121&suits=2124&flow=2126&zSword=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&apocalypseLegion=2127&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&policeRestraint=20260923&octaseeker=20260928-opening10&resultIdle=20260928-corpse&cryvern=20260925-pose-scale&duo=20260925&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&xBody=20260928-skill-order&icon=20260930'
+      'js/battle-v3-live.js?coop=20261002-arke-v2&lichFx=20261001&speedReform=20260930&v=3.36.0-combat-flow&furHigh=2114-frames20261002&battleRuntime=2124&heeya=2118&entry=2121&suits=2124&flow=2126&zSword=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&apocalypseLegion=2127&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&policeRestraint=20260923&octaseeker=20260928-opening10&resultIdle=20260928-corpse&cryvern=20260925-pose-scale&duo=20260925&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&xBody=20260928-skill-order&icon=20260930'
     ],
     initialize:()=>window.ProjectVBattleV3Live?.ensureRuntime?.(),
     ready:()=>Boolean(window.ProjectVFirearmAudio)&&Boolean(window.ProjectVBattleV3Live?.ready?.())&&typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPveBattleV2Live==='function'&&typeof window.playPvpBattleV2Live==='function'&&typeof window.playSiegeBattleV2Live==='function'

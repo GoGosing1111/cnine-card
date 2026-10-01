@@ -265,6 +265,8 @@
     const key = rosterKeys(card)[0] || `slot-${index + 1}`;
     if(grade==='ICON'&&window.IconFusion?.cardHtml)return `<li class="battle-v3-roster-card" data-v3-roster-card="${esc(key)}" data-v3-roster-keys="${esc(rosterKeys(card).join('|'))}"><span class="battle-v3-roster-slot">${window.IconFusion.cardHtml({...dex,...card,id:card.cardId||card.id,image:art.url},true,'battle-v3-roster-frame')}<i class="battle-v3-roster-ko" aria-hidden="true">KO</i></span>${row?`<b class="battle-v3-roster-row">${row==='FRONT'?'전열':'후열'}</b>`:''}</li>`;
     const isFaker = String(card?.cardId || card?.id || '') === FAKER_CHAMPIONSHIP_CARD_ID;
+    const tierFrameSrc = grade === 'FUR' && level >= 14 && !isFaker
+      ? `/assets/ui/card-frames/fur-tier-frame-${level}-v20261002.png` : '';
     const superstarFrame = grade === 'SUPERSTAR'
       ? '<img class="superstar-card-frame" src="/assets/ui/card-frames/superstar-championship-frame-v1.webp?v=1-superstar-grade" alt="" aria-hidden="true">'
       : '';
@@ -273,7 +275,8 @@
       : '';
     return `<li class="battle-v3-roster-card" data-v3-roster-card="${esc(key)}" data-v3-roster-keys="${esc(rosterKeys(card).join('|'))}">
       <span class="battle-v3-roster-slot">
-      <div class="card-frame grade-${esc(grade)}${level > 0 ? ` breakthrough-${level}` : ''}${isFaker ? ' faker-championship-card' : ''} battle-v3-roster-frame">
+      <div class="card-frame grade-${esc(grade)}${level > 0 ? ` breakthrough-${level}` : ''}${tierFrameSrc ? ` bt-tier-${level} has-tier-frame` : ''}${isFaker ? ' faker-championship-card' : ''} battle-v3-roster-frame">
+        ${tierFrameSrc ? `<img class="tier-card-frame" src="${tierFrameSrc}" alt="" aria-hidden="true">` : ''}
         ${level > 0 ? `<div class="breakthrough-badge">★${level}</div>` : ''}
         ${rosterUniqueBadgeHtml(card)}
         <div class="breakthrough-effect"></div>

@@ -1,0 +1,40 @@
+{
+  "date": "2026-10-02",
+  "approval": "User: 과거 전용 시안 반영해",
+  "mode": "built-in image_gen edit, transparent_background:true",
+  "scope": "FUR +14/+15 overlays in dex/detail/PVE/PVP/V2/V3; Faker championship exception preserved; no CMS, probability, cost, power or inventory writes",
+  "originalThread": "01a09bc1-3594-76c3-8a44-e9ff13a49176",
+  "frames": [
+    {
+      "level": 14,
+      "source": "C:/Users/User/.codex/generated_images/01a09bc1-3594-76c3-8a44-e9ff13a49176/exec-a0da8ca3-194b-403d-8a94-75ba1c6ba308.png",
+      "sourceArchive": "preview/fur-tier-frames-20261002/source/fur-tier-frame-14-source-20260914.png",
+      "asset": "assets/ui/card-frames/fur-tier-frame-14-v20261002.png",
+      "prompt": "EDIT the attached existing 14 enhancement card frame. BACKGROUND REMOVAL ONLY. Preserve the exact original ornamental design, silhouette, position, size, colors, texture, dragon on upper left, phoenix on upper right, central crest, jewels, rails and bottom finial. Do not redesign or add anything. Remove the painted gray checkerboard and all faint cloudy swirls from BOTH the central card-photo opening and outside the ornament silhouette. Replace all background pixels with actual alpha transparency. The output MUST be a real RGBA transparent PNG, NOT an opaque checkerboard picture. Central photo opening must be fully alpha=0. Keep all blue/silver details for +14 or white/platinum/gold details for +15. Exact portrait 1024x1536 canvas, frame spans the same coordinates as reference, thin original rails unchanged. No card portrait, no new background, no text, no numbers, no logos. Clean edges, preserve tiny chains and bright colored highlights as ornament. TRANSPARENT BACKGROUND IS REQUIRED.",
+      "sourceSha256": "8AAB96A010E50B36393FF411BB799F7BCA2B1AF8116DE1D4516D2D09088525D8",
+      "assetSha256": "FF5E974605732322EF7D35A050FAD8572282AA0BEB2448167D3FAC0A2F1A4DDB"
+    },
+    {
+      "level": 15,
+      "source": "C:/Users/User/.codex/generated_images/01a09bc1-3594-76c3-8a44-e9ff13a49176/exec-9977846b-5bee-4fa7-bf65-9d1a186dfc93.png",
+      "sourceArchive": "preview/fur-tier-frames-20261002/source/fur-tier-frame-15-source-20260914.png",
+      "asset": "assets/ui/card-frames/fur-tier-frame-15-v20261002.png",
+      "prompt": "EDIT the attached existing 15 enhancement card frame. BACKGROUND REMOVAL ONLY. Preserve the exact original ornamental design, silhouette, position, size, colors, texture, dragon on upper left, phoenix on upper right, central crest, jewels, rails and bottom finial. Do not redesign or add anything. Remove the painted gray checkerboard and all faint cloudy swirls from BOTH the central card-photo opening and outside the ornament silhouette. Replace all background pixels with actual alpha transparency. The output MUST be a real RGBA transparent PNG, NOT an opaque checkerboard picture. Central photo opening must be fully alpha=0. Keep all blue/silver details for +14 or white/platinum/gold details for +15. Exact portrait 1024x1536 canvas, frame spans the same coordinates as reference, thin original rails unchanged. No card portrait, no new background, no text, no numbers, no logos. Clean edges, preserve tiny chains and bright colored highlights as ornament. TRANSPARENT BACKGROUND IS REQUIRED.",
+      "sourceSha256": "7D3C4AD3016AF8236A6CAD416E6B7712BFFF80DFD20BBC6E3273F82B43B83D08",
+      "assetSha256": "B8E695DBE1153BC87A6CCEB3D5936E5287197602611F08229A52DBF39C85F9AC"
+    }
+  ],
+  "qa": {
+    "alpha": "1024x1536 RGBA; center x=240..783,y=400..1299 alpha<=1; visible top crest",
+    "visual": "PC and 390px mobile: original ornament, photographs, grades and names readable; V3 dock uses the same assets; no horizontal overflow"
+  },
+  "release": {
+    "mode": "scoped",
+    "base": "e553f56820230e7e8b1c9cf0c386343c573c255f",
+    "previousPagesId": "f752f83a-36b9-4e47-8421-d973203ebc8e",
+    "tests": [
+      "tests/fur-tier-frames-20261002.test.mjs",
+      "tests/pve-battlefield-entry-v2117.test.mjs"
+    ]
+  }
+}
