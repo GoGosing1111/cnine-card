@@ -3,9 +3,13 @@
   function rewardsHtml(rewards) {
     if (!rewards) return '';
     const cards = rewards.cards || [], magic = rewards.magic || [], equipment = rewards.equipment || [];
-    const fur = cards.filter(c => c.grade === 'FUR'), zenith = cards.filter(c => c.grade === 'ZENITH');
+    const cardRows = [['SUPERSTAR', '슈퍼스타'], ['FUR', 'FUR'], ['ZENITH', '제니스']].map(([grade, label]) => {
+      const group = cards.filter(c => c.grade === grade);
+      return group.length ? `<div><span>${label} 전체 ${group.length}종</span><b>각 1장 · +${escape(rewards.cardLevels?.[grade] ?? rewards.cardLevel)}</b></div>` : '';
+    }).join('');
+    const equipmentLabel = rewards.version === 1 ? '프라임 방어구 4종 + M200' : '미스틱 장비 4종 + 소버린 SKS';
     const list = (title, values) => `<details><summary>${escape(title)}</summary><div class="new-gift-list">${values.map(escape).join('<br>')}</div></details>`;
-    return `<div class="new-gift-rewards"><div><span>코인</span><b>100억</b></div><div><span>FUR 전체 ${fur.length}종</span><b>각 1장 · +10</b></div><div><span>제니스 전체 ${zenith.length}종</span><b>각 1장 · +10</b></div><div><span>프라임 방어구 4종 + M200</span><b>각 1개</b></div><div><span>마법카드 전체 ${magic.length}종</span><b>각 1장 · +5</b></div></div>${list('카드 목록 확인', cards.map(c => `[${c.grade}] ${c.title} +10`))}${list('장비·마법카드 목록 확인', [...equipment.map(e => e.name), ...magic.map(m => `${m.name} +5`)])}`;
+    return `<div class="new-gift-rewards"><div><span>코인</span><b>${escape(Number(rewards.coin / 100000000).toLocaleString('ko-KR'))}억</b></div>${cardRows}<div><span>${equipmentLabel}</span><b>각 1개</b></div><div><span>마법카드 전체 ${magic.length}종</span><b>각 1장 · +${escape(rewards.magicLevel)}</b></div></div>${list('카드 목록 확인', cards.map(c => `[${c.grade}] ${c.title} +${c.level ?? rewards.cardLevel}`))}${list('장비·마법카드 목록 확인', [...equipment.map(e => e.name), ...magic.map(m => `${m.name} +${rewards.magicLevel}`)])}`;
   }
   let opening = false;
   async function open(deps) {

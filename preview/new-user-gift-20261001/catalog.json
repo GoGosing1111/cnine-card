@@ -1,0 +1,455 @@
+{
+  "asOf": "2026-10-01",
+  "coin": 10000000000,
+  "cardLevels": {
+    "SUPERSTAR": 11,
+    "FUR": 13,
+    "ZENITH": 13
+  },
+  "magicLevel": 5,
+  "cards": [
+    {
+      "id": "CN-02D9DC1E8A8A4209",
+      "title": "철와대 킴성태",
+      "grade": "FUR",
+      "image_url": "assets/NEWCARD/24.png"
+    },
+    {
+      "id": "CN-284FB135B2AB4D31",
+      "title": "프로필찍는 봉준",
+      "grade": "FUR",
+      "image_url": "assets/NEWCARD/8.jpg"
+    },
+    {
+      "id": "CN-2CEC24C0087A4B61",
+      "title": "와룡킹남순",
+      "grade": "FUR",
+      "image_url": "assets/NEWCARD/14.jpg"
+    },
+    {
+      "id": "CN-346F8DB0DEB84D41",
+      "title": "철구",
+      "grade": "FUR",
+      "image_url": "assets/cards/special/chulgu-fur.webp"
+    },
+    {
+      "id": "CN-47AD4B47B6A7452C",
+      "title": "아이젠 족스케",
+      "grade": "FUR",
+      "image_url": "https://raw.githubusercontent.com/GoGosing1111/cnine-card/0cb5a008449fd8ff666228e91c67d08e45f2b2d4/assets/NEWCARD/chulgu-aizen-v1.png"
+    },
+    {
+      "id": "CN-5D0E2E4D58C9416F",
+      "title": "치타구",
+      "grade": "FUR",
+      "image_url": "assets/cards/cheetah-face-card-portrait-2x3-v1.png"
+    },
+    {
+      "id": "CN-716F6A71EE5F488E",
+      "title": "이상호",
+      "grade": "FUR",
+      "image_url": "assets/NEWCARD/30.jpg"
+    },
+    {
+      "id": "CN-A21C3D87C47D4D95",
+      "title": "거품목욕 이상호",
+      "grade": "FUR",
+      "image_url": "assets/cards/newcard0730/sangho3.png"
+    },
+    {
+      "id": "CN-AD85A1AFB7234D1B",
+      "title": "NS남순",
+      "grade": "FUR",
+      "image_url": "assets/cards/newcard0730/777788.jpg"
+    },
+    {
+      "id": "CN-B2D79A6239AA4A1B",
+      "title": "헬창 봉준",
+      "grade": "FUR",
+      "image_url": "assets/NEWCARD/34.jpg"
+    },
+    {
+      "id": "CN-BEE87AB06483449A",
+      "title": "프로필 김민교",
+      "grade": "FUR",
+      "image_url": "assets/NEWCARD/12.jpg"
+    },
+    {
+      "id": "CN-CE16D291605A47F0",
+      "title": "킹봉준",
+      "grade": "FUR",
+      "image_url": "assets/NEWCARD/23.jpg"
+    },
+    {
+      "id": "CN-DAE98309A47C4CCA",
+      "title": "서수길",
+      "grade": "FUR",
+      "image_url": "assets/cards/newcard0730/7887878.jpg"
+    },
+    {
+      "id": "CN-F500880B2ED34350",
+      "title": "프로필 킴성태",
+      "grade": "FUR",
+      "image_url": "assets/NEWCARD/7.jpg"
+    },
+    {
+      "id": "CN-15542459008A43EA",
+      "title": "Shohei Ohtani",
+      "grade": "SUPERSTAR",
+      "image_url": "assets/superstar/5.jpg"
+    },
+    {
+      "id": "CN-17EDFC0B27E54069",
+      "title": "Erling Haaland",
+      "grade": "SUPERSTAR",
+      "image_url": "assets/cards/hol.jpg"
+    },
+    {
+      "id": "CN-23EB4B19986D4818",
+      "title": "Lionel Messi",
+      "grade": "SUPERSTAR",
+      "image_url": "assets/superstar/3.jpg"
+    },
+    {
+      "id": "CN-651FAC27247A4922",
+      "title": "CR7",
+      "grade": "SUPERSTAR",
+      "image_url": "assets/superstar/2.jpg"
+    },
+    {
+      "id": "CN-A041807B14B54C89",
+      "title": "Son Heung min",
+      "grade": "SUPERSTAR",
+      "image_url": "assets/cards/6496413.jpg"
+    },
+    {
+      "id": "CN-C5C5336BB1E245C1",
+      "title": "LeBron James",
+      "grade": "SUPERSTAR",
+      "image_url": "assets/superstar/6.jpg"
+    },
+    {
+      "id": "CN-E61AC412D2744163",
+      "title": "Stephen Curry",
+      "grade": "SUPERSTAR",
+      "image_url": "assets/superstar/4.jpg"
+    },
+    {
+      "id": "CN-0505936A0CBB4E59",
+      "title": "구수댕",
+      "grade": "ZENITH",
+      "image_url": "assets/cards/남수댕/031.webp"
+    },
+    {
+      "id": "CN-21B307E7279A4F3D",
+      "title": "나무늘봉순",
+      "grade": "ZENITH",
+      "image_url": "assets/cards/new-card-20260919-01.png"
+    },
+    {
+      "id": "CN-25F931CE393D474E",
+      "title": "꽃보다디임",
+      "grade": "ZENITH",
+      "image_url": "assets/cards/976467971.jpg"
+    },
+    {
+      "id": "CN-2DA48F7E57304017",
+      "title": "박삐삐",
+      "grade": "ZENITH",
+      "image_url": "assets/cards/ZENITH/19.jpg"
+    },
+    {
+      "id": "CN-519C181C18DF4B8E",
+      "title": "토마토",
+      "grade": "ZENITH",
+      "image_url": "assets/cards/ZENITH/1.jpg"
+    },
+    {
+      "id": "CN-5330101EFDDA4222",
+      "title": "박세라",
+      "grade": "ZENITH",
+      "image_url": "assets/cards/ZENITH/11.jpg"
+    },
+    {
+      "id": "CN-864782C6CB6A4200",
+      "title": "류하",
+      "grade": "ZENITH",
+      "image_url": "assets/cards/ZENITH/5.jpg"
+    },
+    {
+      "id": "CN-8EA5637062014D9F",
+      "title": "쁠리",
+      "grade": "ZENITH",
+      "image_url": "assets/cards/ZENITH/V1.jpg"
+    },
+    {
+      "id": "CN-91A4FC0601D14931",
+      "title": "하이희야",
+      "grade": "ZENITH",
+      "image_url": "assets/cards/717171717171.jpg"
+    },
+    {
+      "id": "CN-98F767704E3C42F7",
+      "title": "지붕위소희",
+      "grade": "ZENITH",
+      "image_url": "assets/cards/ZENITH/4.jpg"
+    },
+    {
+      "id": "CN-9F67D5944A8140A8",
+      "title": "유소나",
+      "grade": "ZENITH",
+      "image_url": "assets/cards/ZENITH/16.jpg"
+    },
+    {
+      "id": "CN-A5A786E91B314805",
+      "title": "봉순",
+      "grade": "ZENITH",
+      "image_url": "assets/cards/bongson2.jpg"
+    },
+    {
+      "id": "CN-A78E3513D30349DA",
+      "title": "빵귤이",
+      "grade": "ZENITH",
+      "image_url": "assets/cards/ZENITH/7778.jpg"
+    },
+    {
+      "id": "CN-AC54A948BBDC40A0",
+      "title": "뮤니",
+      "grade": "ZENITH",
+      "image_url": "assets/cards/ZENITH/25.jpg"
+    },
+    {
+      "id": "CN-B111FA6D946248C9",
+      "title": "배그나",
+      "grade": "ZENITH",
+      "image_url": "assets/cards/ZENITH/18.jpg"
+    },
+    {
+      "id": "CN-B5718BF375CA42C8",
+      "title": "오리꿍",
+      "grade": "ZENITH",
+      "image_url": "assets/cards/1412312312312.jpg"
+    },
+    {
+      "id": "CN-B66A455F7BB24AC7",
+      "title": "도도희",
+      "grade": "ZENITH",
+      "image_url": "assets/cards/ZENITH/6.jpg"
+    },
+    {
+      "id": "CN-B75BE0DC1AF749EB",
+      "title": "히나",
+      "grade": "ZENITH",
+      "image_url": "assets/cards/1231314121331.jpg"
+    },
+    {
+      "id": "CN-BA51755F72C0475E",
+      "title": "졈니",
+      "grade": "ZENITH",
+      "image_url": "assets/cards/ZENITH/26.jpg"
+    },
+    {
+      "id": "CN-BA6BDEC789144D00",
+      "title": "오조은",
+      "grade": "ZENITH",
+      "image_url": "assets/cards/1315415134.png"
+    },
+    {
+      "id": "CN-BCC2127067794E77",
+      "title": "댕무라사키",
+      "grade": "ZENITH",
+      "image_url": "assets/cards/ZENITH/dengmura7.png"
+    },
+    {
+      "id": "CN-C2901530814B48AA",
+      "title": "민서율",
+      "grade": "ZENITH",
+      "image_url": "assets/cards/ZENITH/3.jpg"
+    },
+    {
+      "id": "CN-C34437B5F12C4EDB",
+      "title": "디임",
+      "grade": "ZENITH",
+      "image_url": "assets/cards/ZENITH/20.jpg"
+    },
+    {
+      "id": "CN-C6EB6FF1D7D940A0",
+      "title": "지유나",
+      "grade": "ZENITH",
+      "image_url": "assets/cards/ZENITH/21.jpg"
+    },
+    {
+      "id": "CN-D4726E03B2E14AA2",
+      "title": "고라니율",
+      "grade": "ZENITH",
+      "image_url": "assets/cards/ZENITH/2.jpg"
+    },
+    {
+      "id": "CN-D84DF50E37F64A95",
+      "title": "임쥬아",
+      "grade": "ZENITH",
+      "image_url": "assets/cards/ZENITH/8.jpg"
+    },
+    {
+      "id": "CN-ED78DCC2DA3C42B5",
+      "title": "아윤",
+      "grade": "ZENITH",
+      "image_url": "assets/NEWCARD/card-20260912-8d41437f.png"
+    },
+    {
+      "id": "CN-F4C52E065FCC441D",
+      "title": "히댕",
+      "grade": "ZENITH",
+      "image_url": "assets/cards/ZENITH/15.jpg"
+    },
+    {
+      "id": "CN-FC5B6212B541498C",
+      "title": "요닝",
+      "grade": "ZENITH",
+      "image_url": "assets/cards/97974613147.jpg"
+    }
+  ],
+  "magic": [
+    {
+      "id": 1,
+      "code": "V2_OPENING_ATTACK",
+      "name": "선봉의 마력검",
+      "image_url": "assets/ui/magic-cards/opening-attack-768-v1500.webp"
+    },
+    {
+      "id": 2,
+      "code": "V2_GUARD_BARRIER",
+      "name": "성역의 수호결계",
+      "image_url": "assets/ui/magic-cards/guard-barrier-768-v1500.webp"
+    },
+    {
+      "id": 3,
+      "code": "V2_LIFE_AMPLIFY",
+      "name": "생명의 근원",
+      "image_url": "assets/ui/magic-cards/life-amplify-768-v1500.webp"
+    },
+    {
+      "id": 4,
+      "code": "V2_CRISIS_HEAL",
+      "name": "긴급 치유의 빛",
+      "image_url": "assets/ui/magic-cards/crisis-heal-768-v1500.webp"
+    },
+    {
+      "id": 5,
+      "code": "V2_PUNISH_TRAP",
+      "name": "응징의 마법진",
+      "image_url": "assets/ui/magic-cards/punish-trap-768-v1500.webp"
+    },
+    {
+      "id": 6,
+      "code": "V2_ARCANE_COUNTER",
+      "name": "비전 반격",
+      "image_url": "assets/ui/magic-cards/arcane-counter-768-v1500.webp"
+    },
+    {
+      "id": 7,
+      "code": "V2_FOLLOWUP_HASTE",
+      "name": "질풍의 연계",
+      "image_url": "assets/ui/magic-cards/followup-haste-768-v1500.webp"
+    },
+    {
+      "id": 8,
+      "code": "V2_ARCANE_SEAL",
+      "name": "봉인의 칙령",
+      "image_url": "assets/ui/magic-cards/arcane-seal-768-v1665.webp"
+    },
+    {
+      "id": 9,
+      "code": "V2_DOOM_MARK",
+      "name": "파멸의 낙인",
+      "image_url": "assets/ui/magic-cards/doom-mark-768-v1665.webp"
+    },
+    {
+      "id": 10,
+      "code": "V2_SHIELD_SIPHON",
+      "name": "강탈의 성배",
+      "image_url": "assets/ui/magic-cards/shield-siphon-768-v1665.webp"
+    },
+    {
+      "id": 11,
+      "code": "V2_TIME_DISTORTION",
+      "name": "시간의 족쇄",
+      "image_url": "assets/ui/magic-cards/time-distortion-768-v1665.webp"
+    },
+    {
+      "id": 12,
+      "code": "V2_PHOENIX_REVIVE",
+      "name": "불사조의 계약",
+      "image_url": "assets/ui/magic-cards/phoenix-revive-768-v1665.webp"
+    },
+    {
+      "id": 13,
+      "code": "V2_PURIFY_LIGHT",
+      "name": "정화의 성광",
+      "image_url": "assets/ui/magic-cards/purify-light-768-v1665.webp"
+    },
+    {
+      "id": 14,
+      "code": "V2_CHAIN_ECHO",
+      "name": "연쇄의 잔영",
+      "image_url": "assets/ui/magic-cards/chain-echo-768-v1665.webp"
+    }
+  ],
+  "equipment": [
+    {
+      "id": 31,
+      "code": "EQ_1786966923833",
+      "name": "소버린 SKS",
+      "slot": "WEAPON",
+      "subtype": "RIFLE",
+      "image_url": "assets/items/41515123.jpeg",
+      "rarity": "MYTHIC",
+      "is_active": "1",
+      "is_public": "1"
+    },
+    {
+      "id": 32,
+      "code": "EQ_1787156640727",
+      "name": "미스틱 레깅스",
+      "slot": "BOTTOM",
+      "subtype": "BOTTOM",
+      "image_url": "assets/items/sovereign-bottom-v1.webp",
+      "rarity": "MYTHIC",
+      "is_active": "1",
+      "is_public": "1"
+    },
+    {
+      "id": 33,
+      "code": "EQ_1787156667357",
+      "name": "미스틱 슈즈",
+      "slot": "SHOES",
+      "subtype": "SHOES",
+      "image_url": "assets/items/sovereign-shoes-v1.webp",
+      "rarity": "MYTHIC",
+      "is_active": "1",
+      "is_public": "1"
+    },
+    {
+      "id": 34,
+      "code": "EQ_1787156691265",
+      "name": "미스틱 슈트",
+      "slot": "TOP",
+      "subtype": "TOP",
+      "image_url": "assets/items/sovereign-top-v1.webp",
+      "rarity": "MYTHIC",
+      "is_active": "1",
+      "is_public": "1"
+    },
+    {
+      "id": 35,
+      "code": "EQ_1787156718021",
+      "name": "미스틱 듀얼디스크",
+      "slot": "ACCESSORY",
+      "subtype": "DUAL_DISK",
+      "image_url": "assets/items/sovereign-weapon-v1.webp",
+      "rarity": "MYTHIC",
+      "is_active": "1",
+      "is_public": "1"
+    }
+  ]
+}
