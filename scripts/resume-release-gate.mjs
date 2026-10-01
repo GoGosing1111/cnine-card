@@ -3,8 +3,15 @@ import {createHash} from 'node:crypto';
 
 // Reuse only a completed prefix of the exact full gate, after test/document fixes.
 // Backend, shared renderer, dependency, schema and gate-command changes require
-// a fresh gate. A late raid-view fix may retain unrelated passes only with a
-// successful browser run bound to both the view and test source hashes.
+// a fresh gate. Isolated raid views and the offline skill catalog may retain
+// unrelated passes only with a successful browser run bound to source hashes.
+const offlineSkillPreview=new Set([
+  'preview/project-v-mercenary-system-v1/skill-rehearsal.mjs',
+  'preview/project-v-mercenary-system-v1/source/AreaSkillRehearsalFX.js',
+  'preview/project-v-mercenary-system-v1/source/skills-lab.src.js',
+  'preview/project-v-mercenary-system-v1/skills.bundle.js',
+  'preview/project-v-mercenary-system-v1/skills-battle.html'
+]);
 export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileSync(path,'utf8')}){
   const base=env.RELEASE_GATE_RESUME_BASE;
   if(!/^[a-f0-9]{40}$/.test(base||''))throw Error('Resume requires the original candidate SHA.');
@@ -34,8 +41,9 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
     if(createHash('sha256').update(raw).digest('hex')!==env.RELEASE_GATE_RESUME_UI_SHA256)throw Error('Browser report hash mismatch.');
     const proof=JSON.parse(raw),runner=proof.command?.match(/^node (tests\/[a-zA-Z0-9_-]+\.browser\.mjs)$/)?.[1];
     if(proof.exitCode!==0||!runner||!Array.isArray(proof.sources)||!proof.sources.some(row=>row.file===runner))throw Error('A successful browser run and test source are required.');
+    if(proof.sources.some(row=>offlineSkillPreview.has(row.file))&&[...offlineSkillPreview].some(file=>!proof.sources.some(row=>row.file===file)))throw Error('Offline skill proof requires the source, rehearsal, wrapper, bundle and HTML together.');
     for(const row of proof.sources){
-      if(row.file!==runner&&!/^raid\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+\.(?:mjs|css)$/.test(row.file))throw Error('Only isolated raid views may use browser proof.');
+      if(row.file!==runner&&!offlineSkillPreview.has(row.file)&&!/^raid\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+\.(?:mjs|css)$/.test(row.file))throw Error('Only isolated raid views or the offline skill catalog may use browser proof.');
       const hash=createHash('sha256').update(read(row.file).replace(/\r\n/g,'\n')).digest('hex');
       if(hash!==row.sha256)throw Error(`Browser proof source changed: ${row.file}`);
       browserProof.add(row.file);
@@ -48,7 +56,7 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
   }
   const tooling=new Set(['scripts/deploy-production.mjs','scripts/resume-release-gate.mjs','tests/resume-release-gate.test.mjs']);
   for(const path of changed){
-    if(path==='AGENTS.md'||path.startsWith('docs/')||tooling.has(path))continue;
+    if(path==='AGENTS.md'||path.startsWith('docs/')||path==='preview/project-v-mercenary-system-v1/README.md'||tooling.has(path))continue;
     if(browserProof.has(path))continue;
     // Legacy gate entry points also use .mjs without the .test suffix. Require
     // direct membership in a gate command below; shared helpers remain excluded.

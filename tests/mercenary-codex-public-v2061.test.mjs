@@ -49,14 +49,14 @@ test('public document uses the native forge-inspired archive with game links and
 
 test('shared desktop, mobile and cards hub menu includes exactly one codex beside dex', () => {
   const { menu, router } = navigationRuntime();
-  assert.deepEqual(Array.from(menu.groups.collection.routes), ['dex', 'mercenaryDex', 'upgrade', 'evolution', 'magic']);
+  assert.deepEqual(Array.from(menu.groups.collection.routes), ['dex', 'mercenaryDex', 'upgrade', 'evolution', 'iconfusion', 'magic']);
   assert.equal(Array.from(menu.hubs.cards.routes).filter(id => id === 'mercenaryDex').length, 1);
   assert.equal(menu.routes.mercenaryDex.title, '용병도감');
   assert.equal(menu.routes.mercenaryDex.group, 'collection');
   assert.equal(router.routeMeta('mercenaryDex'), menu.routes.mercenaryDex);
   assert.equal(collectionEntries(menu).filter(entry => entry.id === 'mercenaryDex').length, 1);
   const oldContract = { groups: { collection: { routes: ['dex', 'upgrade', 'evolution', 'magic'] } }, routes: menu.routes };
-  assert.deepEqual(collectionEntries(oldContract).map(entry => entry.id), Array.from(menu.groups.collection.routes));
+  assert.deepEqual(collectionEntries(oldContract).map(entry => entry.id), ['dex', 'mercenaryDex', 'upgrade', 'evolution', 'magic'],'legacy menus gain the codex without inventing newer routes');
   assert.match(read('js/soopketmon-v21-command-icons.js'), /mercenaryDex: '<rect/);
 });
 

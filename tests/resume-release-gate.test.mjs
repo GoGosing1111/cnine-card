@@ -75,3 +75,28 @@ test('an isolated raid UI fix reuses unrelated stages only with matching success
     assert.throws(()=>fullGateResumePlan({...f,read:p=>p==='browser-proof.json'?forbidden:f.read(p),env:{...f.env,RELEASE_GATE_RESUME_UI_SHA256:createHash('sha256').update(forbidden).digest('hex')}}),/isolated raid/);
   }
 });
+
+test('offline skill preview proof binds source and bundle and reruns contracts that inspect it',()=>{
+  const files=[
+    'preview/project-v-mercenary-system-v1/skill-rehearsal.mjs',
+    'preview/project-v-mercenary-system-v1/source/AreaSkillRehearsalFX.js',
+    'preview/project-v-mercenary-system-v1/source/skills-lab.src.js',
+    'preview/project-v-mercenary-system-v1/skills.bundle.js',
+    'preview/project-v-mercenary-system-v1/skills-battle.html',
+    'tests/mercenary-codex-area.browser.mjs'
+  ],source='const previewOnly=true;',hash=createHash('sha256').update(source).digest('hex');
+  const proof={command:'node '+files.at(-1),exitCode:0,sources:files.map(file=>({file,sha256:hash}))};
+  const withProof=(value=proof,inspecting=false)=>{
+    const raw=JSON.stringify(value),f=fixture({changed:files});
+    f.env.RELEASE_GATE_RESUME_UI_REPORT='browser-proof.json';f.env.RELEASE_GATE_RESUME_UI_SHA256=createHash('sha256').update(raw).digest('hex');
+    f.read=p=>p==='browser-proof.json'?raw:files.includes(p)?source:inspecting&&p==='tests/a.test.mjs'?`import '${files[0]}'`:'';
+    return f;
+  };
+  assert.equal(fullGateResumePlan(withProof()).reused,1);
+  assert.equal(fullGateResumePlan(withProof(proof,true)).reused,0);
+  assert.throws(()=>fullGateResumePlan(withProof({...proof,sources:proof.sources.filter(row=>!row.file.endsWith('skills.bundle.js'))})),/requires the source/);
+  const f=withProof();assert.throws(()=>fullGateResumePlan({...f,read:p=>p===files[3]?'stale bundle':f.read(p)}),/source changed/);
+  for(const runtime of ['preview/project-v-mercenary-system-v1/source/MercenarySkillFX.js','preview/project-v-v3/source/battle/RenderAuthoredSkill.js','functions/_battle_v2_preview.js']){
+    assert.throws(()=>fullGateResumePlan(withProof({...proof,sources:[...proof.sources,{file:runtime,sha256:hash}]})),/Only isolated/);
+  }
+});

@@ -11,12 +11,16 @@ import {compileRehearsal, rehearsalSnapshot, sampleRehearsal, selectSkillTargets
 import {MercenarySkillFX} from '../preview/project-v-mercenary-system-v1/source/MercenarySkillFX.js';
 import {skillAssetBaseUrl} from '../preview/project-v-mercenary-system-v1/skill-asset-base.mjs';
 import {sampleSequence,releaseFrameViews} from '../preview/project-v-mercenary-system-v1/source/MercenarySpriteSequence.js';
+// The area sequence has a dedicated Pixi/GSAP player, including its own real
+// frame, seek, cancellation, sprite-budget and shared-texture lifecycle tests.
+import '../preview/mercenary-berkan-area-v1/qa.test.mjs';
 const read=p=>JSON.parse(fs.readFileSync(new URL('../'+p,import.meta.url),'utf8'));
 const roster=read('assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json');
 const positions=read('preview/project-v-mercenary-system-v1/position-draft-v1.json');
 const finish=(id,scenario='normal',snapshot)=>sampleRehearsal(compileRehearsal(id,scenario,snapshot),10);
 const actor=(sample,id)=>sample.actors.find(a=>a.id===id);
 const copy=v=>structuredClone(v);
+const genericSkills=skills.filter(s=>s.id!=='MS-056');
 
 test('event horizon is independently assignable and preserves bounded shares and its cleanse window',()=>{
   const omega=skills.find(s=>s.id==='MS-021');
@@ -39,12 +43,13 @@ test('event horizon is independently assignable and preserves bounded shares and
 test('both legacy reviews preserve names, notes and revisions while removing proposed ownership',()=>{
   for(const version of [1,2]){
     const old={format:'PROJECT_V_MERCENARY_SKILL_DRAFT_V1',version,rosterVersion:version===1?10:11,revision:7,status:'DRAFT',runtimeEnabled:false,
-      skills:createSkillDraft().skills.filter(s=>!['MS-044','MS-045','MS-046','MS-047','MS-048','MS-049','MS-050','MS-051','MS-055'].includes(s.id)&&!S_SKILL_IDS.includes(s.id)&&(version===2||s.id!=='MS-021')).map(s=>({...s,code:`V-${s.id.slice(3)}`}))};
+      skills:createSkillDraft().skills.filter(s=>!['MS-044','MS-045','MS-046','MS-047','MS-048','MS-049','MS-050','MS-051','MS-055','MS-056'].includes(s.id)&&!S_SKILL_IDS.includes(s.id)&&(version===2||s.id!=='MS-021')).map(s=>({...s,code:`V-${s.id.slice(3)}`}))};
     old.skills[0].name='내가 검토한 이름';old.skills[0].note='보존할 의견';old.skills[0].review='REVISE';
     const before=copy(old),migrated=parseSkillDraft(JSON.stringify(old));
-    assert.equal(migrated.revision,7);assert.equal(migrated.skills.length,35);assert.equal(migrated.version,3);
+    assert.equal(migrated.revision,7);assert.equal(migrated.skills.length,36);assert.equal(migrated.version,3);
     assert.equal(migrated.rosterVersion,undefined);assert.equal(migrated.catalogVersion,2);assert.deepEqual(old,before);
-    assert.deepEqual(migrated.skills.filter(s=>!['MS-044','MS-045','MS-046','MS-047','MS-048','MS-049','MS-050','MS-051','MS-055'].includes(s.id)&&!S_SKILL_IDS.includes(s.id)&&(version===2||s.id!=='MS-021')),old.skills.map(({code,...review})=>review));
+    assert.deepEqual(migrated.skills.filter(s=>!['MS-044','MS-045','MS-046','MS-047','MS-048','MS-049','MS-050','MS-051','MS-055','MS-056'].includes(s.id)&&!S_SKILL_IDS.includes(s.id)&&(version===2||s.id!=='MS-021')),old.skills.map(({code,...review})=>review));
+    assert.deepEqual(migrated.skills.find(s=>s.id==='MS-056'),createSkillDraft().skills.find(s=>s.id==='MS-056'));
     if(version===1)assert.equal(migrated.skills.find(s=>s.id==='MS-021').review,'PENDING');
     assert.ok(createSkillAssignments(roster).assignments.every(row=>row.skillIds.length===0));
     for(const mutate of [d=>d.runtimeEnabled=true,d=>d.skills[0].code='V-099',d=>d.skills[0].damage=99,d=>d.skills[1]=d.skills[0],d=>d.skills[0].note=99,d=>d.extra=true]){
@@ -61,16 +66,29 @@ test('Pages extensionless documents and local .html resolve shared V3 assets ide
   }
 });
 
-test('35 independent skills cover seven effect categories without a mercenary or rank owner',()=>{
-  assert.equal(skills.length,35);assert.equal(new Set(skills.map(s=>s.role)).size,7);
-  assert.equal(new Set(skills.map(s=>s.id)).size,35);
-  assert.equal(new Set(skills.map(s=>s.mechanic)).size,35);
+test('36 independent skills cover seven effect categories without a mercenary or rank owner',()=>{
+  assert.equal(skills.length,36);assert.equal(new Set(skills.map(s=>s.role)).size,7);
+  assert.equal(new Set(skills.map(s=>s.id)).size,36);
+  assert.equal(new Set(skills.map(s=>s.mechanic)).size,36);
   assert.deepEqual(skills.filter(s=>s.mechanic==='LOCKED_THREAT_SHOT').map(s=>s.id),['MS-004']);
-  assert.equal(new Set(skills.map(s=>s.visual.asset)).size,35);
-  assert.equal(new Set(skills.map(s=>s.visual.motion)).size,35);
+  assert.equal(new Set(skills.map(s=>s.visual.asset)).size,36);
+  assert.equal(new Set(skills.map(s=>s.visual.motion)).size,36);
   for(const s of skills){assert.equal(s.code,undefined);assert.equal(s.exclusivity,undefined);assert.equal(s.rank,undefined);
     for(const card of roster.cards)assert.ok(!`${s.trigger} ${s.effect} ${s.counterplay}`.includes(card.name));
     assert.equal(s.runtimeEnabled,false);assert.equal(s.status,'DRAFT');assert.equal(s.balance.damageRatio,null);assert.equal(s.balance.cooldownTurns,null);assert.equal(s.balance.cost,null);}
+});
+test('PVE area rehearsal shares one budget across living enemies, handles one boss and cancels before impact',()=>{
+  for(const [scenario,count] of [['normal',5],['boss',1]]){
+    const plan=compileRehearsal('MS-056',scenario),hits=plan.events.filter(e=>e.kind==='HIT');
+    assert.equal(new Set(hits.flatMap(e=>e.targets)).size,count);assert.equal(hits.length,count);
+    assert.ok(Math.abs(hits.reduce((sum,e)=>sum+e.amount,0)-56)<1e-10);
+    assert.ok(hits.every(e=>e.at===1.62&&e.phaseIndex===0&&e.procEligible===false));
+    assert.equal(plan.damageAuthority,'OFFLINE_RESOLVED_FIXTURE');
+  }
+  assert.equal(compileRehearsal('MS-056','counter').events.some(e=>e.kind==='HIT'),false);
+  const wounded=rehearsalSnapshot();Object.assign(wounded.find(a=>a.id==='E1'),{hp:0,alive:false});
+  assert.deepEqual(selectSkillTargets('ALL_ENEMIES',wounded).map(a=>a.id),['E2','E3','E4','E5']);
+  const empty=wounded.filter(a=>a.team==='ALLY');assert.equal(compileRehearsal('MS-056','normal',empty).events[0].kind,'CANCEL');
 });
 for(const s of skills)for(const scenario of ['normal','counter','boss'])test(`${s.id} ${scenario}: resolved playback is deterministic, bounded and reversible`,()=>{
   const initial=rehearsalSnapshot(scenario),before=copy(initial),plan=compileRehearsal(s.id,scenario,initial);
@@ -168,10 +186,10 @@ test('assignment revisions reject stale saves and preserve the caller draft on s
   assert.throws(()=>reviseSkillAssignments(edited,null,2,roster),/다른 화면/);
   assert.equal(edited.revision,2);assert.deepEqual(saved.assignments[0].skillIds,['MS-021']);
 });
-test('Pixi lifecycle uses one cancellable V3 clock, rewinds poses, and preserves shared textures',()=>{
+test('generic Pixi lifecycle uses one cancellable V3 clock, rewinds poses, and preserves shared textures',()=>{
   const layer=new Container(),combatLayer=new Container(),engine={effectLayer:layer,combatLayer,simpleTimelines:new Set(),mobile:false,reducedMotion:false};
   const actors=new Map(rehearsalSnapshot().map((a,i)=>[a.id,{baseX:i*30,baseY:200,fullBodyHeight:260,root:{x:i*30,y:200,rotation:0,scale:{y:.5},position:{set(x,y){const actor=actors.get(a.id);actor.root.x=x;actor.root.y=y}}},fullBodySprite:{tint:0xffffff},layoutHudBars(){},setShield(){}}]));
-  for(const s of skills){
+  for(const s of genericSkills){
     const sequence={frames:Array.from({length:16},()=>new Texture({source:Texture.EMPTY.source}))};
     const auxiliary=Object.fromEntries(['flash','smoke','dust','cinder'].map(n=>[n,Texture.EMPTY]));
     const fx=new MercenarySkillFX(engine,actors,s,compileRehearsal(s.id),sequence,auxiliary);
@@ -196,10 +214,10 @@ test('authored impact selects changing frame UVs on the shared clock and rejects
   assert.throws(()=>new MercenarySkillFX({},new Map(),skills[0],{},Texture.EMPTY),/sixteen-frame/);
 });
 
-test('all catalog sequences and three scenarios stay within the sprite budget and fully rewind',()=>{
+test('generic catalog sequences and three scenarios stay within the sprite budget and fully rewind',()=>{
   const layer=new Container(),combatLayer=new Container(),engine={effectLayer:layer,combatLayer,simpleTimelines:new Set(),mobile:true,scene:{width:320},reducedMotion:false};
   const actors=new Map(rehearsalSnapshot().map((a,i)=>[a.id,{baseX:50+i*20,baseY:200,fullBodyHeight:260,root:{x:50+i*20,y:200,rotation:0,scale:{y:.5},position:{set(x,y){const item=actors.get(a.id);item.root.x=x;item.root.y=y}}},fullBodySprite:{tint:0xffffff},layoutHudBars(){},setShield(){}}]));
-  for(const s of skills)for(const scenario of ['normal','counter','boss']){
+  for(const s of genericSkills)for(const scenario of ['normal','counter','boss']){
     const sequence={frames:Array.from({length:16},()=>new Texture({source:Texture.EMPTY.source})),extent:{x:.45,y:.5}};
     const aux=Object.fromEntries(['flash','smoke','dust','cinder'].map(n=>[n,Texture.EMPTY]));
     const fx=new MercenarySkillFX(engine,actors,s,compileRehearsal(s.id,scenario),sequence,aux);
@@ -238,21 +256,21 @@ test('rejected V1 originals remain preserved as history, not a runtime fallback'
   }
 });
 
-test('thirty-five individually authored sequences retain 560 original frames and clean gutters',()=>{
+test('thirty-six individually authored sequences retain 576 original frames and clean gutters',()=>{
   const manifest=read('preview/project-v-mercenary-system-v1/skill-assets-v2/manifest.json');
-  assert.equal(manifest.images.length,35);assert.equal(manifest.frameCount,560);assert.equal(manifest.runtimeEnabled,false);
+  assert.equal(manifest.images.length,36);assert.equal(manifest.frameCount,576);assert.equal(manifest.runtimeEnabled,false);
   const hashes=new Set(),ids=new Set();
   for(const row of manifest.images){
     assert.equal(row.code,undefined,'Creation references must never be used as skill ownership');
     assert.ok(skills.some(s=>s.id===row.skillId&&s.visual.asset===row.id));assert.equal(row.frameCount,16);assert.equal(row.frames.length,16);ids.add(row.skillId);
     for(const [file,hash]of [[row.source,row.sourceSha256],[row.runtime,row.runtimeSha256],...row.frames.map(f=>[f.file,f.sha256])]){
       const bytes=fs.readFileSync(new URL('../preview/project-v-mercenary-system-v1/skill-assets-v2/'+file,import.meta.url));
-      assert.equal(crypto.createHash('sha256').update(bytes).digest('hex').toUpperCase(),hash);
+      assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),hash.toLowerCase());
     }
     assert.equal(new Set(row.frames.map(f=>f.rawSha256)).size,16);
     for(const f of row.frames){assert.ok(f.edgeMax<=5);assert.ok(f.nonempty>0||f.index===15);assert.ok(row.cellSize>=256);if(f.nonempty)hashes.add(f.rawSha256);}
   }
-  assert.equal(ids.size,35);assert.ok(hashes.size>=390,'All substantive frames are independently authored; a final empty extinction frame can be shared.');
+  assert.equal(ids.size,36);assert.ok(hashes.size>=390,'All substantive frames are independently authored; a final empty extinction frame can be shared.');
 });
 test('skill review stays outside production battle routes, source-art roster and five-card contract',()=>{
   for(const path of ['index.html','js/app.js','functions/api/[[path]].js','js/battle-v3-live.js']){

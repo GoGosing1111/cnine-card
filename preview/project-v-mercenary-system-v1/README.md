@@ -2,6 +2,14 @@
 
 신규 작화 기준과 개별 연속 스프라이트 제작 기록은 [SKILLS-V2-REVIEW.md](./SKILLS-V2-REVIEW.md)를 따른다. `SKILLS-README.md`는 반려된 V1의 과거 기록이다.
 
+## 2026-10-01 도감 광역 스킬 리허설 복구
+
+- 현재 목록은 36종·576프레임이다. MS-056 흑금 천우의 `ALL_ENEMIES` 표적과 취소 상황을 오프라인 `skill-rehearsal.mjs`에 추가했다. 100 HP 검수용 총량 56을 생존 표적에 나누며, 운영 전투 수치·피해 판정은 변경하지 않는다.
+- `source/skills-lab.src.js` → `source/AreaSkillRehearsalFX.js` → 기존 `../mercenary-berkan-area-v1/source/BerkanAreaFX.js`로 연결한다. PixiJS **8.20.0**, GSAP **3.13.0**과 기존 V3 등록 타임라인을 사용하고, 리허설 전용 `skills.bundle.js`만 다시 빌드했다.
+- 기존 베르칸 매니페스트의 charge/impact와 승인 `arrowRainArea` 16프레임을 그대로 사용한다. 진영 중심·표적 발 위치를 기준으로 배치하고 충돌은 **1.62초**, 소멸 **3.22초**, 종료 **3.4초**다. 시연용 용병 SD는 유지하며 이 선택은 용병 스킬 배정을 변경하지 않는다.
+- `tests/mercenary-skills-v1.test.mjs`에서 기존 전용 광역 QA(프레임 해시·알파, 다중 표적, 취소·되감기·배속·자산 정리)를 포함한다. 실패했던 3개 검사 파일 **159/159 PASS**.
+- `tests/mercenary-codex-area.browser.mjs`의 실제 번들을 PC 1440×1000/모바일 390×844에서 확인했다. 5인/단일보스/제압 취소, 1.62초 이전 무피해, 선택 SD 보존, 재생·정지·배속·되감기·취소·종료, 범용 스킬 전환, 크기 변경·재입장 PASS. JS 오류·로컬 자산 누락 0, 오디오 OFF. 증빙은 `%TEMP%/mercenary-codex-qa-9CqVyy/report.json`과 화면 4장이다.
+
 ## 2026-09-23 경찰 조은: 처치 후 중복 사격 수정
 
 - 대상: 경찰 조은 V-042, 현행범 체포 MS-042 (`REPEAT_OFFENDER_RESTRAINT`). 신규 원화·SD·연속 프레임·사운드를 제작하거나 교체한 작업이 아니다.

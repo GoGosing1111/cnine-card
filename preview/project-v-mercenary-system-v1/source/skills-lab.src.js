@@ -7,6 +7,7 @@ import {createMercenaryBattleArtAdapter} from '../../../js/project-v-mercenary-b
 import {MERCENARY_SKILLS, skillById, createSkillDraft, parseSkillDraft, validateSkillDraft, SKILL_STORAGE_KEY} from '../../../shared/mercenary-skills-v1.mjs';
 import {ROLES} from '../../../shared/mercenary-position-config-v1.mjs';
 import {compileRehearsal, sampleRehearsal} from '../skill-rehearsal.mjs';
+import {AreaSkillRehearsalFX,loadAreaRehearsalAssets,releaseAreaRehearsalAssets} from './AreaSkillRehearsalFX.js';
 import {MercenarySkillFX} from './MercenarySkillFX.js';
 import {attachMercenaryArt} from './MercenaryAttachmentPoints.js';
 import {getMercenaryAudio} from './MercenarySkillAudio.js';
@@ -108,8 +109,8 @@ async function configure(id=selected){
     if(!atlasRow)throw new Error('이 스킬은 개별 스프라이트 재제작 중입니다.');
     const effectPath=`${ROOT}skill-assets-v2/${atlasRow.runtime}`;
     [art.spriteUrl,artPath,effectPath].forEach(p=>texturePaths.add(p));
-    const [sd,cutin,sequence]=await Promise.all([Assets.load(art.spriteUrl),Assets.load(artPath),loadSequence(atlasRow)]);
-    if(disposed||token!==epoch){releaseFrameViews(sequence);await Assets.unload(effectPath);texturePaths.delete(effectPath);return;}
+    const [sd,cutin,sequence,areaResources]=await Promise.all([Assets.load(art.spriteUrl),Assets.load(artPath),loadSequence(atlasRow),s.id==='MS-056'?loadAreaRehearsalAssets():null]);
+    if(disposed||token!==epoch){releaseFrameViews(sequence);releaseAreaRehearsalAssets(areaResources);await Assets.unload(effectPath);texturePaths.delete(effectPath);return;}
     activeSequence=sequence;
     $('frameStrip').innerHTML=atlasRow.frames.map(f=>`<a data-frame="${f.index}" href="${ROOT}skill-assets-v2/${f.file}" target="_blank" rel="noopener"><img loading="lazy" src="${ROOT}skill-assets-v2/${f.file}" alt="${esc(s.name)} 스프라이트 ${f.index+1}"><span>${String(f.index+1).padStart(2,'0')}</span></a>`).join('');
     $('sequenceRecord').textContent=`개별 원본 16프레임 · ${atlasRow.cellSize}px · 시각 검수 대기`;
@@ -118,7 +119,7 @@ async function configure(id=selected){
     merc.fullBodySprite.anchor.set(art.footAnchor.x,art.footAnchor.y);attachMercenaryArt(merc,art);placeMercenary();
     const plan=compileRehearsal(s.id,$('scenario').value);
     $('scenarioNote').textContent=plan.explanation+($('scenario').value==='boss'?' 이 화면은 단일 표적에 보스 예외를 적용한 모의 상황입니다.':'');
-    fx=new MercenarySkillFX(engine,actors,s,plan,sequence,auxiliary,update,{audio:getMercenaryAudio(engine)});fx.audio?.setEnabled(soundEnabled);fx.setSpeed(Number($('speed').value));
+    fx=areaResources?new AreaSkillRehearsalFX(engine,actors,s,plan,areaResources,update):new MercenarySkillFX(engine,actors,s,plan,sequence,auxiliary,update,{audio:getMercenaryAudio(engine)});fx.audio?.setEnabled(soundEnabled);fx.setSpeed(Number($('speed').value));
     changing=false;controls(true);$('health').classList.remove('error');$('health').textContent='V3 WebGL · PixiJS 8.20.0 / GSAP 3.13.0 · 스킬 시연 준비 완료';
     fx.render(0);publishDiagnostics();
   }catch(error){if(token!==epoch)return;changing=false;$('health').textContent=`검수 준비 실패: ${error.message}`;$('health').classList.add('error');console.error('[MercenarySkills]',error);}

@@ -39,6 +39,7 @@ export function selectSkillTargets(target, snapshot) {
     return back.length ? back.sort((a,b) => b.attack-a.attack || a.id.localeCompare(b.id)).slice(0,1) : firstFront();
   }
   if (target === 'FRONT_GROUP') return front.length ? front.sort((a,b) => a.id.localeCompare(b.id)).slice(0,2) : firstFront();
+  if (target === 'ALL_ENEMIES') return enemy.sort((a,b) => a.id.localeCompare(b.id));
   if (target === 'ALLY_LOW_HP') return [...ally].sort(hpOrder).slice(0,1);
   if (target === 'ALLY_TEAM') return ally;
   if (target === 'ALLY_FRONT') {
@@ -89,6 +90,10 @@ export function compileRehearsal(id, scenario = 'normal', snapshot = rehearsalSn
     case 'GILDED_STARFALL':
       if(counter){mark(.64,'제압 상태: 흑금 낙성 취소',['M'],'CANCEL');break;}
       for(const id of targets)hit(skill.visual.impacts[0],id,56/targets.length,'흑금 화살 동시 명중',{phaseIndex:0});
+      break;
+    case 'GILDED_ARROW_RAIN':
+      if(counter){mark(.64,'제압 상태: 흑금 천우 취소',['M'],'CANCEL');break;}
+      for(const id of targets)hit(skill.visual.impacts[0],id,56/targets.length,'흑금 화살비 동시 명중',{phaseIndex:0,procEligible:false});
       break;
     case 'CRYSTAL_CROWN':
       if(counter){mark(.64,'제압 상태: 극빙 왕관 취소',['M'],'CANCEL');break;}
