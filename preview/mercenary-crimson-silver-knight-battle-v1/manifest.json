@@ -1,5 +1,5 @@
 {
-  "version": 15,
+  "version": 16,
   "conceptId": "crimson-silver-knight",
   "name": "은백·금색 대검 기사",
   "nameStatus": "DESCRIPTION_NOT_ASSIGNED",
@@ -7306,7 +7306,7 @@
     ]
   },
   "release": {
-    "status": "APPROVED_MOTION_STRIKE_ONLY_TEMPO_PREVIEW",
+    "status": "APPROVED_MOTION_ALL_SKILLS_FAST_DESCENT_PREVIEW",
     "liveRuntimeChanged": false,
     "balanceChanged": false,
     "skillsAssigned": false
@@ -7406,14 +7406,15 @@
   "reviewPlayback": {
     "motionOnly": "qa/v13/size-comparison.webp",
     "comparison": "qa/v13/size-comparison.webp",
-    "actualV3": "qa/all-skills-strike-only-v15.webp",
+    "actualV3": "qa/all-skills-fast-descent-v16.webp",
     "twoHandMotion": "qa/v13/size-comparison.webp",
-    "allSkills": "qa/all-skills-strike-only-v15.webp",
+    "allSkills": "qa/all-skills-fast-descent-v16.webp",
     "historicalAllSkillsV12": "qa/all-skills-overhead-v12.webp",
     "historicalAllSkillsV13": "qa/all-skills-size-v13.webp",
-    "liveAllSkills": "http://127.0.0.1:8850/preview/mercenary-crimson-silver-knight-battle-v1/?showcase=1&v=15#battle",
+    "liveAllSkills": "http://127.0.0.1:8850/preview/mercenary-crimson-silver-knight-battle-v1/?showcase=1&v=16#battle",
     "historicalTwoHandActualV3V13": "qa/overhead-size-v13.webp",
-    "historicalAllSkillsV14": "qa/all-skills-speed-v14.webp"
+    "historicalAllSkillsV14": "qa/all-skills-speed-v14.webp",
+    "historicalAllSkillsV15": "qa/all-skills-strike-only-v15.webp"
   },
   "returnPose": {
     "reference": "assets/motion-v5/ready-a-source.png#0",
@@ -7579,7 +7580,7 @@
   ],
   "effectAlignment": {
     "motion": "TWO_HAND_OVERHEAD_V10",
-    "allContactsAt": 1.98,
+    "allContactsAt": 1.7816666666666667,
     "guard": {
       "anchor": "ACTOR_UPPER_BODY",
       "bodyFractionAboveFeet": 0.54,
@@ -7619,22 +7620,33 @@
     "priorApproval": "motion-approval-20261001-v13.json"
   },
   "playbackTempo": {
-    "version": 15,
+    "version": 16,
     "rate": 1.2,
-    "strikeRate": 1.2,
-    "scope": "KEEP_V14_PREVIEW_ACCELERATE_STRIKE_ONLY",
+    "strikeRate": 2.4,
+    "scope": "ALL_ATTACKS_AND_SKILLS_FAST_DESCENT",
+    "appliesTo": [
+      "attack",
+      "skill",
+      "overhead",
+      "execution",
+      "guard",
+      "ultimate"
+    ],
     "clock": "EXISTING_V3_GSAP_TIMELINE",
-    "contactAt": 1.98,
-    "strikeStart": 1.8633333333333333,
-    "strikeEnd": 2.1633333333333336,
-    "previousSwingSeconds": 0.3,
-    "swingSeconds": 0.25,
-    "additionalStrikeSpeedPercent": 20,
-    "recoveryAt": 2.2,
-    "approvedIdleAt": 3.15,
-    "effectTimingUnchangedFrom": "V14",
-    "audioTimingUnchangedFrom": "V14",
+    "descentAt": 1.64,
+    "strikeStart": 1.7233333333333334,
+    "contactAt": 1.7816666666666667,
+    "strikeEnd": 1.8733333333333333,
+    "approvedIdleAt": 2.8233333333333333,
+    "previousSwingSeconds": 0.25,
+    "swingSeconds": 0.125,
+    "relativeSpeedToV15": 2,
+    "lateLiftAlsoAccelerated": true,
+    "compensatingHold": false,
+    "effectPlaybackSpeedUnchanged": true,
+    "audioPlaybackSpeedUnchanged": true,
+    "impactCuesFollowContact": true,
     "artworkUnchanged": true,
-    "record": "motion-tempo-request-20261001-v15.json"
+    "record": "motion-tempo-request-20261001-v16.json"
   }
 }

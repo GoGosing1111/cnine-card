@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "baseline": "5e831ffb53b20721d115b20cf8db16f203ebf454",
+  "resourceDefinitionsUnchanged": true,
+  "globalRateUnchanged": 1.2,
+  "effectAgeSamplesCompared": 1020,
+  "effectFramesAndDurationsUnchanged": true,
+  "audioSourceAndSpeedUnchanged": true,
+  "allSixSkillsUseEarlierContact": 1.7816666666666667,
+  "earlyPreparationAndRecoverySpeedUnchanged": true,
+  "nonAttackModesUnchanged": true
+}

@@ -40,18 +40,20 @@ test('drawn collision poses and VFX peaks meet at the same timestamp',()=>{
   const s=sample(makePlan({mode}),t);assert.deepEqual(s.pose,{key,frame});assert.ok(s.effects.some(f=>f.key===effect&&Math.abs(f.frame-peak)<1e-9));
  }
 });
-test('strike-only acceleration keeps skill duration, hit and recovery fixed',()=>{
+test('every overhead action uses a visibly faster descent without compensating holds',()=>{
  for(const mode of OVERHEAD_MODES){
-  const p=makePlan({mode});assert.equal(p.duration,mode==='ultimate'?5.55:4.05);assert.deepEqual(p.contacts,[1.98]);
-  assert.deepEqual(sample(p,1.85).pose,{key:'twohandLift',frame:3},'hold the raised blade until the shorter swing begins');
-  assert.deepEqual(sample(p,1.90).pose,{key:'twohandStrike',frame:0});
-  assert.deepEqual(sample(p,1.98).pose,{key:'twohandStrike',frame:1});
-  assert.deepEqual(sample(p,2.12).pose,{key:'twohandStrike',frame:3},'finish the swing earlier without accelerating recovery');
-  assert.deepEqual(sample(p,2.19).pose,{key:'twohandStrike',frame:3});
-  assert.deepEqual(sample(p,2.20).pose,{key:'twohandReturn',frame:0});
-  assert.deepEqual(sample(p,3.15).pose,{key:'idle',frame:0});
-  const first=[];for(let t=1.8;t<2.2;t+=.0005){const pose=sample(p,t).pose;if(pose.key==='twohandStrike'&&first[pose.frame]===undefined)first[pose.frame]=t;}
-  assert.equal(first.length,4);assert.ok(Math.abs((first[1]-first[0])-.10)<.001,'first swing frame lasts 0.10s instead of 0.12s');
+  const p=makePlan({mode});assert.equal(p.duration,mode==='ultimate'?5.55:4.05);assert.deepEqual(p.contacts,[OVERHEAD.contact]);
+  assert.deepEqual(sample(p,1.63).pose,{key:'twohandLift',frame:2});
+  assert.deepEqual(sample(p,1.70).pose,{key:'twohandLift',frame:3});
+  assert.deepEqual(sample(p,1.74).pose,{key:'twohandStrike',frame:0});
+  assert.deepEqual(sample(p,OVERHEAD.contact).pose,{key:'twohandStrike',frame:1});
+  assert.deepEqual(sample(p,1.86).pose,{key:'twohandStrike',frame:3});
+  assert.deepEqual(sample(p,1.88).pose,{key:'twohandReturn',frame:0},'recover immediately instead of holding the impact pose');
+  assert.deepEqual(sample(p,2.83).pose,{key:'idle',frame:0});
+  const first=[];for(let t=1.6;t<1.9;t+=.00025){const pose=sample(p,t).pose;if(pose.key==='twohandStrike'&&first[pose.frame]===undefined)first[pose.frame]=t;}
+  assert.equal(first.length,4);assert.ok(Math.abs((first[1]-first[0])-.05)<.0006,'first strike frame is half the V15 duration');
+  assert.ok(Math.abs((OVERHEAD.recovery-OVERHEAD.strike)/manifest.playbackTempo.rate-.125)<1e-8);
+  assert.ok(Math.abs(OVERHEAD.idle-OVERHEAD.recovery-.95)<1e-8,'recovery itself retains its speed');
  }
  assert.equal(SHOWCASE_DURATION,27.6);assert.equal(manifest.playbackTempo.rate,1.2);
 });
@@ -96,7 +98,7 @@ test('Grounded strikes intersect the target body; aura follows the pose and life
   for(const mode of Object.keys(MODES)){fx.setPlan(makePlan({mode}));fx.play();assert.equal(engine.simpleTimelines.size,1);fx.pause();for(let i=0;i<=60;i++){fx.seek(fx.plan.duration*i/60);assert.ok(fx.diagnostics().visibleSprites<=128);assert.equal(fx.diagnostics().aura.textureMatchesPose,true);}}
   fx.setPlan(makePlan({mode:'overhead'}));fx.seek(1.62);assert.ok(fx.sample.weaponPower>.7);assert.ok(fx.activeFrames.some(f=>f.key==='charge'));const blade=fx.weaponSegment(),before=JSON.stringify(fx.activeFrames);assert.ok(Math.hypot(blade.tip.x-blade.grip.x,blade.tip.y-blade.grip.y)>100);fx.seek(2.05);assert.ok(fx.sample.sweep>0&&fx.sample.impacts.length===1);fx.seek(1.62);assert.equal(JSON.stringify(fx.activeFrames),before,'seek reproduces authored charge frames');
   fx.setPlan(makePlan({mode:'guard'}));
-  for(const scale of [.38,.6,1]){merc.root.scale.set(scale);fx.seek(1.98);const ward=fx.guardPlacement(),drawn=fx.activeFrames.find(f=>f.key==='guard');assert.deepEqual(drawn.anchor,ward.point);assert.ok(Math.abs((ward.foot.y-ward.point.y)/ward.bodyHeight-.54)<1e-8,'ward centers above feet on the torso');assert.ok(Math.abs(ward.size/ward.bodyHeight-1.45)<1e-8);const saved={...ward.point};targets[0].root.y+=50;assert.deepEqual(fx.guardPlacement().point,saved,'enemy position cannot move self ward');targets[0].root.y-=50;}
+  for(const scale of [.38,.6,1]){merc.root.scale.set(scale);fx.seek(OVERHEAD.contact);const ward=fx.guardPlacement(),drawn=fx.activeFrames.find(f=>f.key==='guard');assert.deepEqual(drawn.anchor,ward.point);assert.ok(Math.abs((ward.foot.y-ward.point.y)/ward.bodyHeight-.54)<1e-8,'ward centers above feet on the torso');assert.ok(Math.abs(ward.size/ward.bodyHeight-1.45)<1e-8);const saved={...ward.point};targets[0].root.y+=50;assert.deepEqual(fx.guardPlacement().point,saved,'enemy position cannot move self ward');targets[0].root.y-=50;}
   merc.root.scale.set(.6);
   fx.setPlan(makePlan({mode:'ultimate',targetLostAt:2.05}));fx.seek(3.25);assert.equal(fx.diagnostics().visibleSprites,0);assert.equal(merc.root.x,merc.baseX);fx.cancel();assert.equal(engine.simpleTimelines.size,0);assert.equal(engine.allies.length,5);assert.equal(engine.allies.includes(merc),false);
  }finally{fx.destroy();fx.destroy();assert.equal(effectLayer.children.length,0);assert.equal(merc.view.children.length,1);assert.equal(frameSource.destroyed,false);gsap.ticker.sleep();world.destroy({children:true});sd.destroy(false);sdSource.destroy();frameSource.destroy();}
@@ -105,7 +107,7 @@ test('Grounded strikes intersect the target body; aura follows the pose and life
 test('every attack and skill uses the adopted overhead frames without retired pose tracks',()=>{
  const reference=makePlan({mode:'overhead'});assert.deepEqual(manifest.activeMotionKeys,ACTIVE_MOTION_KEYS);
  for(const mode of OVERHEAD_MODES){
-  const plan=makePlan({mode});assert.equal(plan.motion,OVERHEAD.motion);assert.deepEqual(plan.contacts,[1.98]);
+  const plan=makePlan({mode});assert.equal(plan.motion,OVERHEAD.motion);assert.deepEqual(plan.contacts,[OVERHEAD.contact]);
   for(let t=.50;t<3.15;t+=.007){const current=sample(plan,t);assert.deepEqual(current.pose,sample(reference,t).pose,mode+' exact selected pose');assert.equal(current.contactTrack.key,'twohandStrike');}
   for(let t=0;t<plan.duration;t+=.011)assert.ok(ACTIVE_MOTION_KEYS.includes(sample(plan,t).pose.key),mode+' cannot use retired rising/turning tracks');
   assert.equal(sample(plan,1.98).travel,1,'all casts use the selected forward stance with overhead blade clearance');

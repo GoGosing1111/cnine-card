@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-01",
+  "userRequest": "전체 스킬 모션에 대한 내려찍기 스프라이트를 빠르게 하라는거야 티가 안나는데 더빠르게 해야될듯",
+  "retainedApproval": "motion-approval-20261001-v14.json",
+  "appliesTo": [
+    "attack",
+    "skill",
+    "overhead",
+    "execution",
+    "guard",
+    "ultimate"
+  ],
+  "change": "Double the V15 strike-sprite speed, include the descending last lift frame, remove added holds, and start recovery immediately. Shift impact cues to the earlier hit without accelerating effects or audio.",
+  "artworkChanged": false,
+  "liveActivationApproved": false
+}
