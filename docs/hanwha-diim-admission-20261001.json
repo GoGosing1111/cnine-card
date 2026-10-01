@@ -1,0 +1,126 @@
+{
+  "userRequests": [
+    "진짜디임 한화로 편입",
+    "정원늘려서 편입시켜"
+  ],
+  "appliedAtKst": "2026-10-01 20:45:37",
+  "operation": "scripts/ops/hanwha-diim-admission-20261001.mjs",
+  "validation": {
+    "independentLiveReadVerified": true,
+    "liveDryRunRolledBack": true,
+    "tests": "node --test tests/hanwha-diim-admission-20261001.test.mjs",
+    "passed": 3
+  },
+  "result": {
+    "ok": true,
+    "verifiedAt": "2026-10-01T11:45:49.897Z",
+    "receipt": {
+      "ok": true,
+      "status": "COMPLETED",
+      "operationKey": "ops:hanwha-diim-admission:20261001:v1",
+      "seasonId": 6,
+      "seasonNo": 3,
+      "capacity": {
+        "before": 18,
+        "after": 19
+      },
+      "admission": {
+        "ok": true,
+        "previewId": "d31fdad0-618b-43b0-9ef2-a45c4f5b0516",
+        "userId": 4773,
+        "nickname": "진짜디임",
+        "clanId": 4,
+        "clanName": "한화",
+        "seasonId": 6,
+        "memberRole": "MEMBER",
+        "beforeCount": 18,
+        "memberCount": 19,
+        "maxMembers": 19,
+        "sourceAfterCount": null,
+        "gift": null,
+        "removed": [],
+        "removedCount": 0,
+        "completedAt": "2026-10-01T11:45:37.228Z",
+        "recoveryKey": "clan_member_assignment_v2049:d31fdad0-618b-43b0-9ef2-a45c4f5b0516"
+      },
+      "adminLogId": "38886"
+    },
+    "membership": {
+      "id": "4773",
+      "nickname": "진짜디임",
+      "clan_name": "한화",
+      "season_id": "6",
+      "clan_id": "4",
+      "user_id": "4773",
+      "member_role": "MEMBER",
+      "preferred_role": "BALANCED",
+      "draft_pick_no": "0",
+      "contribution_score": "0",
+      "battle_wins": "0",
+      "battle_losses": "0",
+      "joined_at": "2026-10-01T11:45:37.228Z",
+      "updated_at": "2026-10-01T11:45:37.228Z"
+    },
+    "draft": {
+      "user_id": "4773",
+      "status": "DRAFTED",
+      "drafted_clan_id": "4"
+    },
+    "clans": [
+      {
+        "clanId": 1,
+        "memberCount": 18,
+        "maxMembers": 18
+      },
+      {
+        "clanId": 2,
+        "memberCount": 18,
+        "maxMembers": 18
+      },
+      {
+        "clanId": 3,
+        "memberCount": 18,
+        "maxMembers": 18
+      },
+      {
+        "clanId": 4,
+        "memberCount": 19,
+        "maxMembers": 19
+      },
+      {
+        "clanId": 5,
+        "memberCount": 18,
+        "maxMembers": 18
+      },
+      {
+        "clanId": 6,
+        "memberCount": 20,
+        "maxMembers": 20
+      },
+      {
+        "clanId": 7,
+        "memberCount": 18,
+        "maxMembers": 18
+      },
+      {
+        "clanId": 8,
+        "memberCount": 17,
+        "maxMembers": 18
+      }
+    ]
+  },
+  "scope": {
+    "productionDeployRequired": false,
+    "otherClanCapacitiesPreserved": true,
+    "capacity": "시즌 3 한화만 18→19",
+    "gameRuntimeChanged": false,
+    "leadersAndScoresPreserved": true,
+    "existingMembersPreserved": true,
+    "avatarOrCurrencyGrants": false
+  },
+  "runner": {
+    "mode": "temporary authenticated Cloudflare remote preview",
+    "publicProductionRouteCreated": false,
+    "stoppedAfterEveryCall": true
+  }
+}
