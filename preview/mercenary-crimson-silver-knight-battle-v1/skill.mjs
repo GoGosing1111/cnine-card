@@ -3,9 +3,11 @@ export const KNIGHT=Object.freeze({name:'은백·금색 대검 기사',rank:null
 export const OVERHEAD_MODES=Object.freeze(['attack','skill','overhead','execution','guard','ultimate']);
 export const ACTIVE_MOTION_KEYS=Object.freeze(['idle','dash','twohandGrip','twohandLift','twohandStrike','twohandReturn','hit','defeat']);
 export const OVERHEAD=Object.freeze({motion:'TWO_HAND_OVERHEAD_V10',grip:.50,lift:1.04,strike:1.84,contact:1.98,recovery:2.20,idle:3.15});
+// Compress only the drawn swing around the fixed hit. The delivered V14 skill clock and effect timing stay unchanged.
+export const STRIKE_PLAYBACK=Object.freeze({rate:1.2,start:OVERHEAD.contact-(OVERHEAD.contact-OVERHEAD.strike)/1.2,end:OVERHEAD.contact+(OVERHEAD.recovery-OVERHEAD.contact)/1.2});
 const adopted=(label,{impact='강격·결정 충돌',heavy=true,approach=true,returnAt=3.4,duration=4.05}={})=>({
  label,motion:OVERHEAD.motion,heavy,approach,returnAt,duration,contacts:[OVERHEAD.contact],
- events:[[0,'승인 한손 대기'],[.12,approach?'접근 대시':'제자리 시전'],[.50,'두 손으로 손잡이 잡기'],[1.04,'어깨와 팔로 대검 들어 올리기'],[1.44,'머리 위에서 무게 싣기'],[1.84,'두손 내려찍기'],[1.98,impact],[2.20,'충격을 받아내고 한손 파지로 복귀'],[3.15,'승인 대기 자세'],...(approach?[[returnAt,'복귀 대시']]:[])]
+ events:[[0,'승인 한손 대기'],[.12,approach?'접근 대시':'제자리 시전'],[.50,'두 손으로 손잡이 잡기'],[1.04,'어깨와 팔로 대검 들어 올리기'],[1.44,'머리 위에서 무게 싣기'],[STRIKE_PLAYBACK.start,'두손 내려찍기'],[1.98,impact],[2.20,'충격을 받아내고 한손 파지로 복귀'],[3.15,'승인 대기 자세'],...(approach?[[returnAt,'복귀 대시']]:[])]
 });
 export const MODES=Object.freeze({
  aura:{label:'광원·대기',duration:6,contacts:[],events:[[0,'승인된 한손 파지'],[1.5,'진홍빛 전신 아우라']]},
@@ -37,10 +39,14 @@ export function sample(plan,time){
  const effect=(key,at,pre,post,peak,last,anchor='target',strength=1)=>{if(t>=at-pre&&t<at+post)s.effects.push({key,anchor,frame:track([[at-pre,0],[at,peak],[at+post*.65,peak+(last-peak)*.82],[at+post,last]],t),alpha:strength*track([[at-pre,0],[at-pre*.7,1],[at+post*.85,1],[at+post,0]],t)});};
  const dash=(start,end)=>{pose('dash',start,end);if(t>=start&&t<end){s.trail=true;s.lift=track([[start,0],[start+(end-start)*.35,8],[end,0]],t);}effect('dash',start+(end-start)*.45,(end-start)*.4,.35,5,11,'dash');};
  if(def.motion===OVERHEAD.motion){
-  // Every skill uses the exact user-selected grip/lift/strike/return sequence and timing.
+  // Same approved frames; only the swing is faster. Hold its adjacent poses to keep the hit and recovery fixed.
   if(def.approach){dash(.12,.42);dash(def.returnAt,def.returnAt+.4);s.travel=track([[0,0],[.12,0],[.40,1],[def.returnAt,1],[def.returnAt+.4,0]],t,{smooth:true});}
   pose('twohandGrip',OVERHEAD.grip,OVERHEAD.lift);pose('twohandLift',OVERHEAD.lift,OVERHEAD.strike);
-  if(t>=OVERHEAD.strike&&t<OVERHEAD.recovery)s.pose={key:'twohandStrike',frame:Math.min(COUNTS.twohandStrike-1,Math.floor(track([[OVERHEAD.strike,0],[OVERHEAD.contact-.02,1],[OVERHEAD.contact+.035,1],[OVERHEAD.recovery,COUNTS.twohandStrike]],t)))};
+  if(t>=OVERHEAD.strike&&t<STRIKE_PLAYBACK.start)s.pose={key:'twohandLift',frame:COUNTS.twohandLift-1};
+  if(t>=STRIKE_PLAYBACK.start&&t<OVERHEAD.recovery){
+   const swingTime=Math.min(OVERHEAD.recovery,OVERHEAD.contact+(t-OVERHEAD.contact)*STRIKE_PLAYBACK.rate);
+   s.pose={key:'twohandStrike',frame:Math.min(COUNTS.twohandStrike-1,Math.floor(track([[OVERHEAD.strike,0],[OVERHEAD.contact-.02,1],[OVERHEAD.contact+.035,1],[OVERHEAD.recovery,COUNTS.twohandStrike]],swingTime)))};
+  }
   pose('twohandReturn',OVERHEAD.recovery,OVERHEAD.idle);
   s.auraBoost=plan.mode==='ultimate'?1.5:plan.mode==='attack'?.6:.95;
   s.charge=track([[.5,0],[1.45,.7],[1.84,1],[1.98,0]],t);

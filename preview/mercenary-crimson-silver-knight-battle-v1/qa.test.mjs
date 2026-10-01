@@ -40,6 +40,21 @@ test('drawn collision poses and VFX peaks meet at the same timestamp',()=>{
   const s=sample(makePlan({mode}),t);assert.deepEqual(s.pose,{key,frame});assert.ok(s.effects.some(f=>f.key===effect&&Math.abs(f.frame-peak)<1e-9));
  }
 });
+test('strike-only acceleration keeps skill duration, hit and recovery fixed',()=>{
+ for(const mode of OVERHEAD_MODES){
+  const p=makePlan({mode});assert.equal(p.duration,mode==='ultimate'?5.55:4.05);assert.deepEqual(p.contacts,[1.98]);
+  assert.deepEqual(sample(p,1.85).pose,{key:'twohandLift',frame:3},'hold the raised blade until the shorter swing begins');
+  assert.deepEqual(sample(p,1.90).pose,{key:'twohandStrike',frame:0});
+  assert.deepEqual(sample(p,1.98).pose,{key:'twohandStrike',frame:1});
+  assert.deepEqual(sample(p,2.12).pose,{key:'twohandStrike',frame:3},'finish the swing earlier without accelerating recovery');
+  assert.deepEqual(sample(p,2.19).pose,{key:'twohandStrike',frame:3});
+  assert.deepEqual(sample(p,2.20).pose,{key:'twohandReturn',frame:0});
+  assert.deepEqual(sample(p,3.15).pose,{key:'idle',frame:0});
+  const first=[];for(let t=1.8;t<2.2;t+=.0005){const pose=sample(p,t).pose;if(pose.key==='twohandStrike'&&first[pose.frame]===undefined)first[pose.frame]=t;}
+  assert.equal(first.length,4);assert.ok(Math.abs((first[1]-first[0])-.10)<.001,'first swing frame lasts 0.10s instead of 0.12s');
+ }
+ assert.equal(SHOWCASE_DURATION,27.6);assert.equal(manifest.playbackTempo.rate,1.2);
+});
 test('approved masters are byte exact and the selected sword RGB comes only from the approved source',async()=>{
  for(const [file,sha] of [[manifest.sourceArt,manifest.sourceArtSha256],[manifest.battleSprite,manifest.battleSpriteSha256]])assert.equal(hash(await fs.readFile(new URL(file,project))),sha);
  assert.equal(manifest.sourceArtSha256,'8B94E60670355AF87D13802FD68AD4DE22F8E7F23C65028CC97DD1D1F78BE838');

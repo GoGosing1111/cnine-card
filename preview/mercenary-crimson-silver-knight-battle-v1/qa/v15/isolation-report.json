@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "baseline": "5cdb7ec614f509d3b15d617941420695f31eb9d2",
+  "globalRateUnchanged": 1.2,
+  "samplesCompared": 7470,
+  "changedSwingSamples": 72,
+  "skillDurationsAndAudioCuesUnchanged": true,
+  "effectSamplesUnchanged": true,
+  "resourceDefinitionsUnchanged": true
+}
