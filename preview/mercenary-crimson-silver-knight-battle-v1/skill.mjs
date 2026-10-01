@@ -3,7 +3,7 @@ export const KNIGHT=Object.freeze({name:'은백·금색 대검 기사',rank:null
 export const OVERHEAD_MODES=Object.freeze(['attack','skill','overhead','execution','guard','ultimate']);
 export const ACTIVE_MOTION_KEYS=Object.freeze(['idle','dash','twohandGrip','twohandLift','twohandStrike','twohandReturn','hit','defeat']);
 const AUTHORED_STRIKE=Object.freeze({descent:1.64,strike:1.84,contact:1.98,recovery:2.20});
-const strikeRate=2.4,descentAt=t=>AUTHORED_STRIKE.descent+(t-AUTHORED_STRIKE.descent)/strikeRate;
+const strikeRate=3.6,descentAt=t=>AUTHORED_STRIKE.descent+(t-AUTHORED_STRIKE.descent)/strikeRate;
 // The last lift frame already lowers the blade: accelerate it too, with no compensating holds.
 export const OVERHEAD=Object.freeze({motion:'TWO_HAND_OVERHEAD_V10',grip:.50,lift:1.04,descent:AUTHORED_STRIKE.descent,strike:descentAt(AUTHORED_STRIKE.strike),contact:descentAt(AUTHORED_STRIKE.contact),recovery:descentAt(AUTHORED_STRIKE.recovery),idle:descentAt(AUTHORED_STRIKE.recovery)+.95});
 export const STRIKE_PLAYBACK=Object.freeze({rate:strikeRate,start:OVERHEAD.strike,end:OVERHEAD.recovery,descentStart:OVERHEAD.descent,compensatingHold:false});
