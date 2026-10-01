@@ -17,6 +17,12 @@ export function rankedCandidateAllowed(row,settings){
  return row.scoreDiff<=Number(settings.matchSeasonRange??300)&&row.powerDiff<=Number(settings.matchCardRange??15)+1e-8;
 }
 
+// Preserve fractional minutes while storing an exact whole-second interval.
+export function normalizeRankedRechargeMinutes(value,fallback=2.5){
+ const parsed=Number(value),minutes=Number.isFinite(parsed)?parsed:fallback;
+ return Math.round(Math.min(1440,Math.max(1,minutes))*60)/60;
+}
+
 export function rankedEnergyFromRow(row,cfg,now=Date.now()){
  const maxEnergy=Number(cfg.maxEnergy),costPerBattle=Number(cfg.costPerBattle),interval=Number(cfg.rechargeMinutes)*60000;
  let energy=Math.max(0,Math.min(maxEnergy,Number(row.energy))),last=rankedUtcMs(row.last_recharged_at);
