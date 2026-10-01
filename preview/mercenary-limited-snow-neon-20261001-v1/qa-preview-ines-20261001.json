@@ -1,0 +1,46 @@
+{
+  "dateKST": "2026-10-01",
+  "scope": "Three-card layout and new Ines preview only",
+  "desktop": {
+    "viewport": {
+      "width": 1422,
+      "height": 800
+    },
+    "entries": 3,
+    "columns": 3,
+    "overflow": false,
+    "allSourceImagesLoaded": true,
+    "allSourceImageDimensions": [
+      1024,
+      1536
+    ],
+    "artAspectRatio": 0.6666762509031239,
+    "inesRank": "SSS",
+    "visuallyReviewed": true
+  },
+  "mobile": {
+    "requestedViewport": {
+      "width": 390,
+      "height": 844
+    },
+    "observedCssViewport": {
+      "width": 434,
+      "height": 938
+    },
+    "columns": 1,
+    "overflow": false,
+    "inesLoaded": true,
+    "approvedFrameApplied": true
+  },
+  "inesZoom": {
+    "openedAndClosed": true,
+    "source": "assets/ines-limited-sss-source-art-20261001.png",
+    "loaded": true,
+    "frameVisible": true,
+    "visuallyReviewed": true
+  },
+  "viewportReset": true,
+  "sourceAttachmentCopiedExactly": true,
+  "sourceSha256": "97D2120A91E7682130697476F6DA0C77FF5AA548C16B2AB128B539FF5ACB176D",
+  "liveRegistration": false
+}

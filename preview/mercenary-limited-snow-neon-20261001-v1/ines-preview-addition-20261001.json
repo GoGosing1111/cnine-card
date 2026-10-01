@@ -1,0 +1,24 @@
+{
+  "dateKST": "2026-10-01",
+  "name": "이네스",
+  "edition": "LIMITED",
+  "rank": "SSS",
+  "rankStatus": "USER_DESIGNATED",
+  "status": "USER_SELECTED_SOURCE_ART_FOR_PREVIEW",
+  "userRequest": "SSS 리미티드 이네스 일러스트 추가해서 프리뷰로 같이 보여줄것",
+  "sourceArt": "assets/ines-limited-sss-source-art-20261001.png",
+  "sourceAttachment": "C:/Users/User/AppData/Local/Temp/codex-clipboard-5f91da59-8c69-4bda-b224-7974e3ba3e81.png",
+  "sha256": "97D2120A91E7682130697476F6DA0C77FF5AA548C16B2AB128B539FF5ACB176D",
+  "dimensions": [
+    1024,
+    1536
+  ],
+  "format": "RGB8 PNG",
+  "method": "EXACT_USER_ATTACHMENT_NO_GENERATION",
+  "pixelsModified": false,
+  "frame": "frame-approval-v2-20261001.json",
+  "scope": "Add alongside Bongsoon and Joeun in the existing preview with user-designated SSS label",
+  "liveRegistration": false,
+  "battleSprite": "NOT_REQUESTED",
+  "skills": "NOT_REQUESTED"
+}
