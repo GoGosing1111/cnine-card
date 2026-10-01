@@ -1,6 +1,17 @@
-# 사진 참조 손 마력 마법사 — 최신 V4 손 국소 수정
+# 사진 참조 손 마력 마법사 — 최신 V7 손 구조 재작화
 
-최신 검수본은 `assets/hand-mage-source-art-v4-hand-only.png`다. 사용자가 재첨부한 `sources/user-hand-fix-reference.png`를 기준으로 화면 왼쪽 손을 엄지와 네 손가락으로 수정했다. 내장 image_gen으로 만든 V3의 수정 손 영역만 적용하고, 그 밖의 원본 픽셀을 보존했다. 저장한 PNG를 다시 읽어 비교한 결과 손 수정 마스크 밖의 변경 픽셀은 **0개**다. 전체 규격은 1024×1536 RGB PNG다.
+최신 검수본은 `assets/hand-mage-source-art-v7-natural-hand.png`다. 사용자가 V4의 손 구조를 반려하여, 손가락을 과하게 벌린 기존 모양 대신 손바닥을 살짝 오므린 자세로 손 전체를 다시 그렸다. 엄지 뿌리와 손바닥 볼륨, 네 손가락의 마디·길이 차이, 짧은 새끼손가락과 둥근 손톱을 확대 확인했다. 얼굴·머리·의상 등 손 수정 영역 밖의 변경 픽셀은 저장본 재검사에서 **0개**다.
+
+- 원본: 사용자가 재첨부한 `sources/user-hand-fix-reference.png`.
+- 실제 제작: 내장 image_gen, `prompt-v5-anatomy-redraw.txt` 및 `prompt-v6-pinky-anatomy.txt`.
+- 손 부분 생성본: `assets/hand-crop-v6-natural-five-digits.png`.
+- 기록: `manifest-v7-natural-hand.json`; 손 확대: `qa/v7-hand-detail.png`.
+- 재현: `compose-natural-hand-v7.ps1`. V5의 네 손가락 중간 결과는 반려 이력으로 남긴다.
+- V7은 사용자 검수 대기다. V4는 손 구조 반려본으로 보존한다.
+
+## V4 국소 수정 이력 — 사용자 반려
+
+V4 `assets/hand-mage-source-art-v4-hand-only.png`는 개수만 교정했으나 손의 자연스러움을 충족하지 못해 사용자에게 반려됐다. 해당 버전은 이력으로만 보존한다. 당시 손 수정 마스크 밖의 변경 픽셀은 0개였으나, 이 수치는 해부학적 완성도를 뜻하지 않는다.
 
 - 최신 기록: `manifest-v4-hand-only.json`; 손 확대 검수: `qa/v4-hand-detail.png`.
 - 실제 생성 프롬프트: `prompt-v2-hand-fix.txt`, `prompt-v3-hand-fix.txt`.

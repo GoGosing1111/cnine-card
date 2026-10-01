@@ -1,0 +1,13 @@
+{
+  "source": "sources/user-hand-fix-reference.png",
+  "correctedHand": "assets/hand-crop-v6-natural-five-digits.png",
+  "result": "assets/hand-mage-source-art-v7-natural-hand.png",
+  "generation": "Built-in image_gen; completely redrawn relaxed hand anatomy, composited only within the original hand area",
+  "width": 1024,
+  "height": 1536,
+  "colorMode": "RGB",
+  "changedPixels": 39285,
+  "changedPixelsOutsideHandMask": 0,
+  "sha256": "2146618BCCF61D518ADE0D2C67FCF78B5C65B1AAE452642B801BD59E8B1AAEC0",
+  "status": "USER_REVIEW_PENDING"
+}
