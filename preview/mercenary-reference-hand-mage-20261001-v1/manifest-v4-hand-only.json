@@ -1,0 +1,13 @@
+{
+  "source": "sources/user-hand-fix-reference.png",
+  "correctedHand": "assets/hand-mage-source-art-v3-five-digits.png",
+  "result": "assets/hand-mage-source-art-v4-hand-only.png",
+  "generation": "Built-in image_gen; hand from the existing five-digit correction",
+  "width": 1024,
+  "height": 1536,
+  "colorMode": "RGB",
+  "changedPixels": 32288,
+  "changedPixelsOutsideHandMask": 0,
+  "sha256": "67914795C89FB5F81EC4A15825ABDCABF6FA3D2269C99EA7DA4BE34593890806",
+  "status": "USER_REVIEW_PENDING"
+}

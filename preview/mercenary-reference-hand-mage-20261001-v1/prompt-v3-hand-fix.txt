@@ -1,0 +1,11 @@
+Perform a strictly localized edit to the lower-left foreground hand. It currently has SIX digits. REMOVE ONLY the EXTRA UPPERMOST LEFT-POINTING DIGIT (the isolated short curved protrusion whose fingertip is around x=125,y=830 in this 1024x1536 image). Erase that uppermost leftward digit and restore the natural palm edge beneath it with matching skin and violet illumination.
+
+KEEP EXACTLY the following FIVE existing digits, WITHOUT ADDING ANY:
+1. The rightward thumb ending around x=329,y=911.
+2. The long leftward index finger ending around x=47,y=908.
+3. The diagonal down-left middle finger ending around x=85,y=981.
+4. The downward ring finger ending around x=146,y=1016.
+5. The downward slightly right-leaning little finger ending around x=212,y=1023.
+The counts refer only to the lower-left hand. These five fingers remain attached to one anatomically coherent palm. Restore the hand/palm shape around the erased extra upper-left digit. Do not draw a replacement finger. The desired result is the existing hand MINUS that extra upper-left protrusion.
+Keep the extended forearm, sleeve, surrounding spell effect and pose unchanged, with only localized paint restoration where the unwanted digit was.
+Everything outside this very small hand area must stay identical: exact same face, long natural continuous black hair (no plate/layer hair), ears, costume, torso, skirt, legs, upper-right hand, mana vortex, fantasy background, colors, lighting, composition. No staff, no objects, no text. Full image 1024x1536 exact 2:3 RGB PNG.
