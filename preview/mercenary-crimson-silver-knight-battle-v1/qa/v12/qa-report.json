@@ -1,0 +1,290 @@
+{
+  "date": "2026-10-01",
+  "scope": "preview/mercenary-crimson-silver-knight-battle-v1/",
+  "status": "V12_ADOPTED_OVERHEAD_AND_TORSO_WARD_TECH_QA_COMPLETE",
+  "unitTests": {
+    "command": "node --test preview/mercenary-crimson-silver-knight-battle-v1/qa.test.mjs",
+    "passed": 10,
+    "failed": 0,
+    "guardClearanceFollowup": {
+      "pattern": "all ten modes|every living motion|drawn collision|Grounded|every attack",
+      "passed": 5,
+      "failed": 0
+    }
+  },
+  "counts": {
+    "motion": 64,
+    "effects": 96,
+    "uniqueMotion": 54,
+    "reusedMotion": 10,
+    "activeMotionReferences": 27
+  },
+  "weaponOriginalSha256": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+  "weaponRgbMatchesApprovedSource": true,
+  "approvedSourceArtUnchanged": true,
+  "allPackedFrameHashesAlphaPaddingPassed": true,
+  "bodyRelativeSwordLengthConstant": true,
+  "groundedStrikeRegistration": true,
+  "motionOnlyHidesVfxAuraAndShake": true,
+  "displaySizing": {
+    "baselineFullBodyHeight": 260,
+    "initialRequestedScale": 1.25,
+    "latestRequest": "MATCH_CRYVERN_BATTLE_CHARACTER_SIZE",
+    "fullBodyHeight": 358,
+    "bodyHeight": 312.3894230769231,
+    "reference": {
+      "name": "크라이베른",
+      "preview": "preview/mercenary-ice-crystal-dual-sword-v1/",
+      "fullBodyHeight": 380,
+      "bodyPixels": 1030,
+      "spriteHeight": 1254,
+      "bodyHeight": 312.1212121212121
+    },
+    "policy": "UNIFORM_CHARACTER_WEAPON_AND_AURA_SCALE_EXCLUDING_TRANSPARENT_PADDING"
+  },
+  "browser": [
+    {
+      "viewport": "desktop",
+      "pageErrors": 0,
+      "failedAssets": 0,
+      "horizontalOverflow": false,
+      "interruptCleared": true,
+      "targetLossCleared": true,
+      "speedPausePassed": true,
+      "fullShowcaseCompleted": true,
+      "showcaseModes": 7,
+      "showcaseTimelinesAfterCompletion": 0,
+      "showcaseSpritesAfterCompletion": 0,
+      "dispose": {
+        "timelines": 0,
+        "effectLayers": 0,
+        "destroyed": true
+      }
+    },
+    {
+      "viewport": "mobile",
+      "pageErrors": 0,
+      "failedAssets": 0,
+      "horizontalOverflow": false,
+      "interruptCleared": true,
+      "targetLossCleared": true,
+      "speedPausePassed": true,
+      "fullShowcaseCompleted": true,
+      "showcaseModes": 7,
+      "showcaseTimelinesAfterCompletion": 0,
+      "showcaseSpritesAfterCompletion": 0,
+      "dispose": {
+        "timelines": 0,
+        "effectLayers": 0,
+        "destroyed": true
+      }
+    }
+  ],
+  "visualInspection": [
+    "Every attack/skill: same approved two-hand grip, lift, descending strike and return at 1.98s contact",
+    "V12 PC/mobile actual V3 attack, execution, ultimate and torso-attached guard frames",
+    "Guard followup: forward casting stance prevents raised blade clipping; shield and hit flash center on wearer, not the floor",
+    "Approved art/weapon masters and all native atlas/frame hashes unchanged"
+  ],
+  "limitations": [
+    "The user selected the existing overhead motion for every attack/skill. Skill-specific FX alignment remains available for visual review.",
+    "The remaining rising/turning motion artwork is preserved as history but excluded from runtime selection and loading.",
+    "This independent visual preview changes no server damage, skill assignment, rank or live activation."
+  ],
+  "runtimeEnabled": false,
+  "deployment": "Independent preview only; live game release remains gated.",
+  "exactApprovedIdleReturn": true,
+  "twoHandHiltOcclusionRepairVerified": true,
+  "effectEnhancement": {
+    "date": "2026-10-01",
+    "status": "USER_REVIEW_PENDING",
+    "newNativeArtworkFrames": 0,
+    "reusedNativeEffectFrames": 96,
+    "characterArtworkChanged": false,
+    "weaponArtworkChanged": false,
+    "implementation": [
+      "skill.mjs",
+      "source/KnightFX.js",
+      "source/preview.js",
+      "showcase.mjs"
+    ],
+    "layers": [
+      "Original 96-frame native aura / dash / slash / charge / execution / guard / ultimate atlases",
+      "Blade-bound crimson glow and gold core; original registered grip/tip endpoints",
+      "Ten deterministic past-pose samples for blade light trails, not new poses",
+      "Contact-synchronous ground rings, incandescent particles, dust and residual light"
+    ],
+    "overhead": {
+      "charge": [
+        0.56,
+        2.17
+      ],
+      "slash": [
+        1.7,
+        2.63
+      ],
+      "contact": 1.98,
+      "execution": [
+        1.8,
+        3.28
+      ]
+    },
+    "clockOwner": "CURRENT_V3_GSAP_TIMELINE",
+    "independentTicker": false,
+    "maximumPooledSprites": 128,
+    "sourcePolicy": "Reuse existing native effect atlas frames unchanged; auxiliary light and particles are Pixi display layers, not regenerated character or sword art."
+  },
+  "playback": {
+    "qa/all-skills-overhead-v12.webp": {
+      "sha256": "83A32594FF17D2B41E9E287623288A0F06DBCB98788E1981F240E5F3B643229E",
+      "width": 960,
+      "pageHeight": 510,
+      "frames": 415,
+      "bytes": 11601288
+    }
+  },
+  "motionAdoption": {
+    "record": "motion-adoption-20261001.json",
+    "date": "2026-10-01",
+    "status": "USER_ADOPTED",
+    "userRequest": "내려찍기 모션을 모든 스킬,공격모션으로 채택해",
+    "appliesTo": [
+      "attack",
+      "skill",
+      "overhead",
+      "execution",
+      "guard",
+      "ultimate"
+    ],
+    "selectedMotion": "TWO_HAND_OVERHEAD_V10",
+    "selectedAtlases": {
+      "twohandGrip": {
+        "atlas": "assets/motion-v10/twohandGrip-atlas.webp",
+        "sha256": "052B8E41EE84758C4016E9F7DFB6D9201D1D8532C967E5F51E67B037D2A38C17",
+        "frames": 4
+      },
+      "twohandLift": {
+        "atlas": "assets/motion-v10/twohandLift-atlas.webp",
+        "sha256": "1C305FF3222436A72C30C78067504A699F67E09E2B8A5ADA28BB5D2771E53062",
+        "frames": 4
+      },
+      "twohandStrike": {
+        "atlas": "assets/motion-v10/twohandStrike-atlas.webp",
+        "sha256": "825F5234D7C2F7899E91BBC8124B39963D756AAE2041D4A984B6981BA96B0D81",
+        "frames": 4
+      },
+      "twohandReturn": {
+        "atlas": "assets/motion-v10/twohandReturn-atlas.webp",
+        "sha256": "CCCF978095E5578C3049C933DA8203E14BB950DE94BC879424D58F41D4F4A722",
+        "frames": 5
+      }
+    },
+    "contactAt": 1.98,
+    "approvedIdle": {
+      "key": "idle",
+      "frame": 0,
+      "sha256": "6799883FC8A67B0DC60021971614EB757C898DC2E0E599AB3F182D0813A9C6ED"
+    },
+    "policy": "The same existing grip, lift, descending strike and return artwork/timing is used for every attack and skill. Defensive ward uses the same forward casting position, with no enemy recoil. Effects remain skill-specific. Retired rising/turning attacks are preserved as history and never selected by playback.",
+    "newArtworkFrames": 0,
+    "combatBalanceChanged": false,
+    "liveActivationApproved": false
+  },
+  "effectAlignment": {
+    "motion": "TWO_HAND_OVERHEAD_V10",
+    "allContactsAt": 1.98,
+    "guard": {
+      "anchor": "ACTOR_UPPER_BODY",
+      "bodyFractionAboveFeet": 0.54,
+      "forwardBodyFraction": 0.3,
+      "sizeBodyFactor": 1.45,
+      "enemyCoordinatesUsed": false,
+      "impactFlashAnchor": "SAME_AS_WARD"
+    },
+    "status": "USER_REVIEW_PENDING"
+  },
+  "guardFollowup": [
+    {
+      "viewport": "desktop",
+      "pageErrors": 0,
+      "minRaisedBladeTipY": 292.6738505059648,
+      "torsoAnchorVerified": true,
+      "frames": [
+        {
+          "time": 1.62,
+          "point": {
+            "x": 1243.7230147608882,
+            "y": 488.9679528846153
+          },
+          "bodyHeight": 159.31860576923074
+        },
+        {
+          "time": 1.98,
+          "point": {
+            "x": 1243.7230147608882,
+            "y": 488.9679528846153
+          },
+          "bodyHeight": 159.31860576923074
+        },
+        {
+          "time": 2.5,
+          "point": {
+            "x": 1243.7230147608882,
+            "y": 488.9679528846153
+          },
+          "bodyHeight": 159.31860576923074
+        },
+        {
+          "time": 3.16,
+          "point": {
+            "x": 1243.7230147608882,
+            "y": 488.9679528846153
+          },
+          "bodyHeight": 159.31860576923074
+        }
+      ],
+      "cancelledWithoutEffects": true
+    },
+    {
+      "viewport": "mobile",
+      "pageErrors": 0,
+      "minRaisedBladeTipY": 627.3545881343265,
+      "torsoAnchorVerified": true,
+      "frames": [
+        {
+          "time": 1.62,
+          "point": {
+            "x": 601.1766492410161,
+            "y": 882.5369212265721
+          },
+          "bodyHeight": 207.1141875
+        },
+        {
+          "time": 1.98,
+          "point": {
+            "x": 601.1766492410161,
+            "y": 882.5369212265721
+          },
+          "bodyHeight": 207.1141875
+        },
+        {
+          "time": 2.5,
+          "point": {
+            "x": 601.1766492410161,
+            "y": 882.5369212265721
+          },
+          "bodyHeight": 207.1141875
+        },
+        {
+          "time": 3.16,
+          "point": {
+            "x": 601.1766492410161,
+            "y": 882.5369212265721
+          },
+          "bodyHeight": 207.1141875
+        }
+      ],
+      "cancelledWithoutEffects": true
+    }
+  ]
+}
