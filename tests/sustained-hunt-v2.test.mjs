@@ -115,7 +115,10 @@ test('bounded encounter extension rejects invalid capacity and malformed waves',
 });
 test('legacy PVE and PVP outputs remain byte-equivalent to the latest operation base',async()=>{
   const file=path.resolve('functions/.hunt-v2-baseline-'+process.pid+'.mjs');
-  fs.writeFileSync(file,execFileSync('git',['show','e5fdc17169e71e9c69dae68cf4bb3c60ebb08b55:functions/_battle_v2_preview.js']));
+  // Last deployed operation base before cooperative combat (2026-10-01).
+  // This includes the approved speed-combo and duplicate-guard reform, so the
+  // complete five-role PVP fixture remains covered instead of deleting roles.
+  fs.writeFileSync(file,execFileSync('git',['show','e2aa24d65bd7be83a14faba78a95c80def0e3d6a:functions/_battle_v2_preview.js']));
   try{
     const baseline=await import(pathToFileURL(file).href);
     const cards=['ATTACK','DEFENSE','HP','SPEED','DEFENSE'].map((type,i)=>({id:i+1,power:50000+i*7000,power_type:type,rarity:'FUR'}));
