@@ -1,0 +1,103 @@
+{
+  "receipt": {
+    "operationKey": "ops:pinklight-fur-plus15:20261002:v1",
+    "status": "COMPLETED",
+    "actor": "SYSTEM_OPS",
+    "user": {
+      "id": 1,
+      "nickname": "핑크빛유두"
+    },
+    "cards": [
+      {
+        "id": "CN-346F8DB0DEB84D41",
+        "title": "철구",
+        "levelBefore": 13,
+        "levelAfter": 15,
+        "quantityBefore": 1,
+        "quantityAfter": 1,
+        "changed": true
+      },
+      {
+        "id": "CN-47AD4B47B6A7452C",
+        "title": "아이젠 족스케",
+        "levelBefore": 13,
+        "levelAfter": 15,
+        "quantityBefore": 1,
+        "quantityAfter": 1,
+        "changed": true
+      },
+      {
+        "id": "CN-5D0E2E4D58C9416F",
+        "title": "치타구",
+        "levelBefore": 13,
+        "levelAfter": 15,
+        "quantityBefore": 2,
+        "quantityAfter": 2,
+        "changed": true
+      }
+    ],
+    "balancesPreserved": true,
+    "completedAt": "2026-10-01T19:25:25.801Z",
+    "adminLogId": "39186",
+    "committed": true,
+    "replayed": false
+  },
+  "verified": {
+    "operationKey": "ops:pinklight-fur-plus15:20261002:v1",
+    "status": "VERIFIED",
+    "actor": "SYSTEM_OPS",
+    "user": {
+      "id": 1,
+      "nickname": "핑크빛유두"
+    },
+    "cards": [
+      {
+        "id": "CN-346F8DB0DEB84D41",
+        "title": "철구",
+        "levelBefore": 13,
+        "levelAfter": 15,
+        "quantityBefore": 1,
+        "quantityAfter": 1,
+        "changed": true
+      },
+      {
+        "id": "CN-47AD4B47B6A7452C",
+        "title": "아이젠 족스케",
+        "levelBefore": 13,
+        "levelAfter": 15,
+        "quantityBefore": 1,
+        "quantityAfter": 1,
+        "changed": true
+      },
+      {
+        "id": "CN-5D0E2E4D58C9416F",
+        "title": "치타구",
+        "levelBefore": 13,
+        "levelAfter": 15,
+        "quantityBefore": 2,
+        "quantityAfter": 2,
+        "changed": true
+      }
+    ],
+    "balancesPreserved": true,
+    "completedAt": "2026-10-01T19:25:25.801Z",
+    "adminLogId": "39186",
+    "current": [
+      {
+        "cardId": "CN-346F8DB0DEB84D41",
+        "level": 15,
+        "quantity": 1
+      },
+      {
+        "cardId": "CN-47AD4B47B6A7452C",
+        "level": 15,
+        "quantity": 1
+      },
+      {
+        "cardId": "CN-5D0E2E4D58C9416F",
+        "level": 15,
+        "quantity": 2
+      }
+    ]
+  }
+}
