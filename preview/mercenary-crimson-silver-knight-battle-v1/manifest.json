@@ -1,5 +1,5 @@
 {
-  "version": 13,
+  "version": 14,
   "conceptId": "crimson-silver-knight",
   "name": "은백·금색 대검 기사",
   "nameStatus": "DESCRIPTION_NOT_ASSIGNED",
@@ -7306,7 +7306,7 @@
     ]
   },
   "release": {
-    "status": "MOTION_APPROVED_SIZE_CORRECTED_PREVIEW",
+    "status": "MOTION_AND_SIZE_APPROVED_TEMPO_ADJUSTED_PREVIEW",
     "liveRuntimeChanged": false,
     "balanceChanged": false,
     "skillsAssigned": false
@@ -7406,11 +7406,13 @@
   "reviewPlayback": {
     "motionOnly": "qa/v13/size-comparison.webp",
     "comparison": "qa/v13/size-comparison.webp",
-    "actualV3": "qa/overhead-size-v13.webp",
+    "actualV3": "qa/all-skills-speed-v14.webp",
     "twoHandMotion": "qa/v13/size-comparison.webp",
-    "twoHandActualV3": "qa/overhead-size-v13.webp",
-    "allSkills": "qa/all-skills-size-v13.webp",
-    "historicalAllSkillsV12": "qa/all-skills-overhead-v12.webp"
+    "allSkills": "qa/all-skills-speed-v14.webp",
+    "historicalAllSkillsV12": "qa/all-skills-overhead-v12.webp",
+    "historicalAllSkillsV13": "qa/all-skills-size-v13.webp",
+    "liveAllSkills": "http://127.0.0.1:8850/preview/mercenary-crimson-silver-knight-battle-v1/?showcase=1&v=14#battle",
+    "historicalTwoHandActualV3V13": "qa/overhead-size-v13.webp"
   },
   "returnPose": {
     "reference": "assets/motion-v5/ready-a-source.png#0",
@@ -7504,7 +7506,8 @@
     "motionOnly": false,
     "advance": "CURRENT_TIMELINE_ON_COMPLETE",
     "completion": "STOP_ON_APPROVED_IDLE",
-    "runtimeEnabled": false
+    "runtimeEnabled": false,
+    "wallDuration": 23
   },
   "motionAdoption": {
     "record": "motion-adoption-20261001.json",
@@ -7589,7 +7592,7 @@
   "guardQaReport": "qa/v13/browser-report.json",
   "sizeCalibration": {
     "version": 13,
-    "approvalScope": "MOTION_APPROVED_SIZE_RECHECK_REQUESTED",
+    "approvalScope": "USER_APPROVED_V13_SIZE_CORRECTION",
     "measurement": "size-landmarks-v13.json",
     "report": "qa/v13/scale-estimates.json",
     "originalFramesPreserved": "qa/v13/before-motion.json",
@@ -7600,7 +7603,7 @@
     "weaponLengthChanged": false,
     "approvedIdleChanged": false,
     "liveActivationApproved": false,
-    "status": "TECH_QA_COMPLETE",
+    "status": "USER_APPROVED",
     "visualReport": "qa/v13/size-report.json",
     "neutralPixelSpread": {
       "before": 0.07559896298945111,
@@ -7608,9 +7611,22 @@
     }
   },
   "motionApproval": {
-    "record": "motion-approval-20261001-v13.json",
-    "status": "USER_APPROVED_MOTION",
+    "record": "motion-approval-20261001-v14.json",
+    "status": "USER_APPROVED_MOTION_AND_SIZE",
     "date": "2026-10-01",
-    "sizeCorrectionRequested": true
+    "sizeCorrectionRequested": false,
+    "priorApproval": "motion-approval-20261001-v13.json"
+  },
+  "playbackTempo": {
+    "version": 14,
+    "rate": 1.2,
+    "requestedFrom": 0.25,
+    "requestedTo": 0.3,
+    "changePercent": 20,
+    "clock": "EXISTING_V3_GSAP_TIMELINE",
+    "audioUsesEffectiveRate": true,
+    "authoredTimingUnchanged": true,
+    "artworkUnchanged": true,
+    "record": "motion-approval-20261001-v14.json"
   }
 }

@@ -1,0 +1,12 @@
+{
+  "date": "2026-10-01",
+  "status": "USER_APPROVED_MOTION_AND_SIZE",
+  "userRequest": "좋아 승인 이제 모션 속도만 더 빠르게 올려 0.25배속에서 0.3배속 정도",
+  "approvedResourceVersion": 13,
+  "priorApproval": "motion-approval-20261001-v13.json",
+  "change": "Playback clock only: 0.25 to 0.30 = 1.2x previous tempo.",
+  "artworkChanged": false,
+  "sizeChanged": false,
+  "liveActivationApproved": false,
+  "rankApproved": false
+}

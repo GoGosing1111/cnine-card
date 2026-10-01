@@ -1,0 +1,382 @@
+[
+  {
+    "name": "desktop",
+    "labels": [
+      "0.30×",
+      "0.60×",
+      "1.20× (기본)",
+      "2.40×"
+    ],
+    "overflow": false,
+    "speeds": [
+      {
+        "speed": 0.25,
+        "elapsed": 0.2118,
+        "wall": 0.7038000000119209,
+        "rate": 0.3,
+        "timelineRate": 0.3,
+        "pausedStable": true
+      },
+      {
+        "speed": 0.5,
+        "elapsed": 0.42,
+        "wall": 0.7008000000119209,
+        "rate": 0.6,
+        "timelineRate": 0.6,
+        "pausedStable": true
+      },
+      {
+        "speed": 1,
+        "elapsed": 0.8448,
+        "wall": 0.7046000000238418,
+        "rate": 1.2,
+        "timelineRate": 1.2,
+        "pausedStable": true
+      },
+      {
+        "speed": 2,
+        "elapsed": 1.6896,
+        "wall": 0.7035,
+        "rate": 2.4,
+        "timelineRate": 2.4,
+        "pausedStable": true
+      }
+    ],
+    "audio": {
+      "cues": [
+        {
+          "key": "dash",
+          "contact": 0.25,
+          "sourceSync": 0.178,
+          "when": 0.2,
+          "offset": 0.10769999999999999,
+          "speed": 1.2
+        },
+        {
+          "key": "ultimate",
+          "contact": 1.98,
+          "sourceSync": 0.333,
+          "when": 1.42275,
+          "offset": 0,
+          "speed": 1.2
+        }
+      ],
+      "nodeRates": [
+        1.2000000476837158,
+        1.2000000476837158
+      ],
+      "error": null
+    },
+    "impact": {
+      "pose": {
+        "key": "twohandStrike",
+        "frame": 1
+      },
+      "rate": 1.2,
+      "effects": [
+        {
+          "key": "charge",
+          "index": 10,
+          "next": 11,
+          "anchor": {
+            "x": 1192.9752869197082,
+            "y": 574.9999999999999
+          },
+          "sourceAnchor": {
+            "x": 0.5,
+            "y": 0.7421875
+          }
+        },
+        {
+          "key": "slash",
+          "index": 9,
+          "next": 10,
+          "anchor": {
+            "x": 1299.9999999999998,
+            "y": 537.6066531747264
+          },
+          "sourceAnchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        }
+      ]
+    },
+    "showcase": {
+      "ready": true,
+      "motionOnly": false,
+      "mode": "ultimate",
+      "time": 5.55,
+      "playing": false,
+      "speed": 1,
+      "playbackRate": 1.2,
+      "pose": {
+        "key": "idle",
+        "frame": 0
+      },
+      "cancelled": false,
+      "travel": 0,
+      "activeFrames": [],
+      "visibleSprites": 0,
+      "ownedTimelines": 1,
+      "registeredTimelines": 0,
+      "regularAllies": 5,
+      "mercenaryInRegularArray": false,
+      "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+      "weaponRigid": true,
+      "clockOwner": "V3_REGISTERED_GSAP",
+      "motionFrames": 64,
+      "effectFrames": 96,
+      "damageAuthority": "NONE_VISUAL_PREVIEW",
+      "actorFoot": {
+        "x": 494.9999999999999,
+        "y": 249.99999999999997
+      },
+      "targetFoot": {
+        "x": 1299.9999999999998,
+        "y": 574.9999999999999
+      },
+      "aura": {
+        "enabled": true,
+        "textureMatchesPose": true,
+        "silhouetteCopies": 18,
+        "filterCount": 6,
+        "independentClock": false
+      },
+      "audio": {
+        "enabled": false,
+        "scheduled": [],
+        "error": null
+      },
+      "effectLayers": 1,
+      "showcase": {
+        "active": false,
+        "completed": true,
+        "index": 6,
+        "total": 7,
+        "mode": "ultimate",
+        "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+      },
+      "wallSeconds": 22.996
+    },
+    "stopped": {
+      "ready": true,
+      "motionOnly": false,
+      "mode": "dash",
+      "time": 0,
+      "playing": false,
+      "speed": 1,
+      "playbackRate": 1.2,
+      "pose": {
+        "key": "idle",
+        "frame": 0
+      },
+      "cancelled": false,
+      "travel": 0,
+      "activeFrames": [],
+      "visibleSprites": 0,
+      "ownedTimelines": 0,
+      "registeredTimelines": 0,
+      "regularAllies": 5,
+      "mercenaryInRegularArray": false,
+      "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+      "weaponRigid": true,
+      "clockOwner": "V3_REGISTERED_GSAP",
+      "motionFrames": 64,
+      "effectFrames": 96,
+      "damageAuthority": "NONE_VISUAL_PREVIEW",
+      "actorFoot": {
+        "x": 494.9999999999999,
+        "y": 249.99999999999997
+      },
+      "targetFoot": {
+        "x": 1299.9999999999998,
+        "y": 574.9999999999999
+      },
+      "aura": {
+        "enabled": true,
+        "textureMatchesPose": true,
+        "silhouetteCopies": 18,
+        "filterCount": 6,
+        "independentClock": false
+      },
+      "audio": {
+        "enabled": false,
+        "scheduled": [],
+        "error": null
+      },
+      "effectLayers": 1,
+      "showcase": {
+        "active": false,
+        "completed": false,
+        "index": 0,
+        "total": 7,
+        "mode": "dash",
+        "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+      }
+    },
+    "errors": []
+  },
+  {
+    "name": "mobile",
+    "labels": [
+      "0.30×",
+      "0.60×",
+      "1.20× (기본)",
+      "2.40×"
+    ],
+    "overflow": false,
+    "speeds": [
+      {
+        "speed": 0.25,
+        "elapsed": 0.2109,
+        "wall": 0.7017000000178814,
+        "rate": 0.3,
+        "timelineRate": 0.3,
+        "pausedStable": true
+      },
+      {
+        "speed": 0.5,
+        "elapsed": 0.4224,
+        "wall": 0.703199999988079,
+        "rate": 0.6,
+        "timelineRate": 0.6,
+        "pausedStable": true
+      },
+      {
+        "speed": 1,
+        "elapsed": 0.84,
+        "wall": 0.7024000000059605,
+        "rate": 1.2,
+        "timelineRate": 1.2,
+        "pausedStable": true
+      },
+      {
+        "speed": 2,
+        "elapsed": 1.6896,
+        "wall": 0.703,
+        "rate": 2.4,
+        "timelineRate": 2.4,
+        "pausedStable": true
+      }
+    ],
+    "audio": {
+      "cues": [
+        {
+          "key": "dash",
+          "contact": 0.25,
+          "sourceSync": 0.178,
+          "when": 0.05741666666666667,
+          "offset": 0,
+          "speed": 1.2
+        },
+        {
+          "key": "ultimate",
+          "contact": 1.98,
+          "sourceSync": 0.333,
+          "when": 1.3699166666666667,
+          "offset": 0,
+          "speed": 1.2
+        }
+      ],
+      "nodeRates": [
+        1.2000000476837158,
+        1.2000000476837158
+      ],
+      "error": null
+    },
+    "impact": {
+      "pose": {
+        "key": "twohandStrike",
+        "frame": 1
+      },
+      "rate": 1.2,
+      "effects": [
+        {
+          "key": "charge",
+          "index": 10,
+          "next": 11,
+          "anchor": {
+            "x": 535.2046030474821,
+            "y": 994.3785824765721
+          },
+          "sourceAnchor": {
+            "x": 0.5,
+            "y": 0.7421875
+          }
+        },
+        {
+          "key": "slash",
+          "index": 9,
+          "next": 10,
+          "anchor": {
+            "x": 674.3367300518607,
+            "y": 945.7672316037164
+          },
+          "sourceAnchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        }
+      ]
+    },
+    "showcase": null,
+    "stopped": {
+      "ready": true,
+      "motionOnly": false,
+      "mode": "dash",
+      "time": 0,
+      "playing": false,
+      "speed": 1,
+      "playbackRate": 1.2,
+      "pose": {
+        "key": "idle",
+        "frame": 0
+      },
+      "cancelled": false,
+      "travel": 0,
+      "activeFrames": [],
+      "visibleSprites": 0,
+      "ownedTimelines": 0,
+      "registeredTimelines": 0,
+      "regularAllies": 5,
+      "mercenaryInRegularArray": false,
+      "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+      "weaponRigid": true,
+      "clockOwner": "V3_REGISTERED_GSAP",
+      "motionFrames": 64,
+      "effectFrames": 96,
+      "damageAuthority": "NONE_VISUAL_PREVIEW",
+      "actorFoot": {
+        "x": 424.33673005186057,
+        "y": 344.3785824765718
+      },
+      "targetFoot": {
+        "x": 674.3367300518607,
+        "y": 994.378582476572
+      },
+      "aura": {
+        "enabled": true,
+        "textureMatchesPose": true,
+        "silhouetteCopies": 18,
+        "filterCount": 6,
+        "independentClock": false
+      },
+      "audio": {
+        "enabled": false,
+        "scheduled": [],
+        "error": null
+      },
+      "effectLayers": 1,
+      "showcase": {
+        "active": false,
+        "completed": false,
+        "index": 0,
+        "total": 7,
+        "mode": "dash",
+        "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+      }
+    },
+    "errors": []
+  }
+]

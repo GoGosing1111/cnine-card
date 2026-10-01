@@ -29,6 +29,7 @@ function dispose(){if(disposed)return;disposed=true;engine?.app.renderer.off('re
 async function boot(){
  try{
   const [manifest,catalogs]=await Promise.all([get(ROOT+'manifest.json'),Promise.all(['fur/manifest-v2.json','zenith/manifest-v1.json','superstar/manifest-v1.json'].map(p=>get('/assets/ui/project-v/characters/'+p)))]);
+  for(const option of $('speed').options)option.textContent=`${(Number(option.value)*(manifest.playbackTempo?.rate??1)).toFixed(2)}×${option.value==='1'?' (기본)':''}`;
   const available=catalogs.flatMap(m=>m.characters.map(c=>({...c,grade:m.rarity})));
   const deck=IDS.map((id,i)=>{const c=available.find(c=>c.cardId===id);if(!c)throw Error('기준 카드 누락');return {...c,id,cardId:id,name:c.member,title:c.title,image:'/'+c.sourceArt,sourceArt:'/'+c.sourceArt,originalCardArt:'/'+c.sourceArt,power_type:['ATTACK','DEFENSE','SPEED','HP','ATTACK'][i],hp:100,maxHp:100};});
   window.cnineCardCatalog=()=>deck;const payload={previewOnly:true,mode:'PVP',battlefieldMode:'PVP',battleV2:{mode:'PVP',teams:{A:{cards:deck},B:{cards:deck}},result:{timeline:[]}}};
