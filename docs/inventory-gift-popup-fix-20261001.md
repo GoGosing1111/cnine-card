@@ -17,4 +17,10 @@
 - 국소 프런트엔드 수정이며 공통 인증·서버 거래·DB·의존성 변경은 없다. `npm run deploy:production -- --scoped`의 관련 검사로 `tests/inventory-ui-v2125.test.mjs`만 선택한다. 실제 로더·클릭 처리의 팝업 미자동실행, 계정 구분, 요청 ID 보존과 보유량 0개 수동 복구를 추가했다. 전체 게임 검사는 반복하지 않는다.
 - 직전 운영 기준: Pages `00a6e115-1a3f-435f-a606-fdd564a05395`, 소스 `5b50dbb031b706da4b0bd17d0d1727e121dee6e0`. 그 이후 원격 커밋은 랭크전·종료 콘텐츠의 운영 결과 문서뿐이다.
 
-최종 배포와 운영 파일 확인은 반영 후 기록한다.
+## 운영 반영
+
+- 소스 `e2e92be2a29f9ba44ef81b0a050de0325db28716`을 지정 scoped 명령으로 배포했다. 인벤토리 관련 회귀 12/12, 운영 출시 보호, 캐시 버전 일치 및 Hyperdrive cache OFF 검사가 통과했다.
+- Pages `678802e4-7687-4678-9527-1bfdce420eca`, API runtime `34ccc047-47da-46ab-9556-5b67c36fd940`, clan-draft `79fa2488-4ef3-4322-a996-927c2e121de8`.
+- 2026-10-01 22:02:53 KST 운영 기본 주소의 index, app, 인벤토리 CSS, service worker 4개가 HTTP 200이고 배포 소스와 SHA-256이 모두 일치했다. 실계정 보상을 지급하거나 차감하는 요청은 보내지 않았다.
+- 운영 증빙: 작업 트리 밖 `../inventory-gift-deploy-20261001.log`, `../inventory-gift-production-smoke-20261001.json`, `../inventory-gift-deployment-after-20261001.json`.
+- 결과 기록은 문서만 수정하므로 관련 게임 검사 및 운영 배포를 반복하지 않는다.
