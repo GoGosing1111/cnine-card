@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-01",
+  "status": "DISCARDED_BY_USER",
+  "userInstruction": "또 손가락 문제 .. 폐기",
+  "reason": "손가락 오류 반복으로 현재 마법사 시안 폐기",
+  "discardedLatest": "assets/hand-mage-reference-hair-v3-intermediate.png",
+  "productionStopped": true,
+  "pendingGeneration": {
+    "prompt": "prompt-v4-soft-root-hair.txt",
+    "executed": false
+  },
+  "approval": {
+    "sourceArt": false,
+    "roster": false,
+    "rank": false,
+    "battle": false,
+    "live": false
+  },
+  "history": "V2 정면 폼에 대한 긍정 평가는 최종 원화 승인으로 확대하지 않는다. 참조 원본과 기존 생성물은 이력으로만 보존하며 현재 채택본은 없다."
+}
