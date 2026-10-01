@@ -1,0 +1,165 @@
+{
+  "snapshotAt": "2026-10-01T12:16:19.316Z",
+  "thresholdCoinInclusive": "5000000000000",
+  "cmsRevision": 60,
+  "sss": [
+    {
+      "code": "V-021",
+      "name": "오메가-X"
+    },
+    {
+      "code": "V-046",
+      "name": "라그니엘"
+    },
+    {
+      "code": "V-049",
+      "name": "크라이베른"
+    },
+    {
+      "code": "V-055",
+      "name": "베르칸"
+    }
+  ],
+  "targets": [
+    {
+      "id": 62,
+      "nickname": "숭구릭",
+      "role": "USER",
+      "spentCoin": "10495000000000",
+      "openingCount": "20990"
+    },
+    {
+      "id": 4609,
+      "nickname": "오랜만에",
+      "role": "USER",
+      "spentCoin": "10025000000000",
+      "openingCount": "20050"
+    },
+    {
+      "id": 4610,
+      "nickname": "고라니ㅇ",
+      "role": "USER",
+      "spentCoin": "8495000000000",
+      "openingCount": "16990"
+    },
+    {
+      "id": 4866,
+      "nickname": "[C9]가시",
+      "role": "USER",
+      "spentCoin": "8420500000000",
+      "openingCount": "16841"
+    },
+    {
+      "id": 4820,
+      "nickname": "정말잘하시네요",
+      "role": "USER",
+      "spentCoin": "8314500000000",
+      "openingCount": "16629"
+    },
+    {
+      "id": 34,
+      "nickname": "씨나인짱",
+      "role": "USER",
+      "spentCoin": "7875000000000",
+      "openingCount": "15750"
+    },
+    {
+      "id": 218,
+      "nickname": "현하루",
+      "role": "USER",
+      "spentCoin": "7826000000000",
+      "openingCount": "15652"
+    },
+    {
+      "id": 266,
+      "nickname": "에렌25",
+      "role": "USER",
+      "spentCoin": "7404500000000",
+      "openingCount": "14809"
+    },
+    {
+      "id": 5095,
+      "nickname": "장나영",
+      "role": "USER",
+      "spentCoin": "6877000000000",
+      "openingCount": "13754"
+    },
+    {
+      "id": 4651,
+      "nickname": "세라네꼬라지",
+      "role": "USER",
+      "spentCoin": "6805500000000",
+      "openingCount": "13611"
+    },
+    {
+      "id": 4212,
+      "nickname": "루루핑",
+      "role": "USER",
+      "spentCoin": "6760000000000",
+      "openingCount": "13520"
+    },
+    {
+      "id": 3480,
+      "nickname": "족짜미♡",
+      "role": "USER",
+      "spentCoin": "6706000000000",
+      "openingCount": "13412"
+    },
+    {
+      "id": 220,
+      "nickname": "족알못",
+      "role": "USER",
+      "spentCoin": "6036500000000",
+      "openingCount": "12073"
+    },
+    {
+      "id": 85,
+      "nickname": "카르푸",
+      "role": "USER",
+      "spentCoin": "6016000000000",
+      "openingCount": "12032"
+    },
+    {
+      "id": 5148,
+      "nickname": "타몽",
+      "role": "USER",
+      "spentCoin": "5980000000000",
+      "openingCount": "11960"
+    },
+    {
+      "id": 4978,
+      "nickname": "하이다미♡",
+      "role": "USER",
+      "spentCoin": "5661500000000",
+      "openingCount": "11323"
+    },
+    {
+      "id": 4760,
+      "nickname": "추종",
+      "role": "USER",
+      "spentCoin": "5581000000000",
+      "openingCount": "11162"
+    },
+    {
+      "id": 83,
+      "nickname": "애장이",
+      "role": "ADMIN",
+      "spentCoin": "5200500000000",
+      "openingCount": "10401"
+    },
+    {
+      "id": 4668,
+      "nickname": "화성가뿌자",
+      "role": "USER",
+      "spentCoin": "5180000000000",
+      "openingCount": "10360"
+    },
+    {
+      "id": 2282,
+      "nickname": "블랙랜드",
+      "role": "USER",
+      "spentCoin": "5144500000000",
+      "openingCount": "10289"
+    }
+  ]
+}
