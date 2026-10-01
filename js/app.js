@@ -960,8 +960,8 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>typeof window.auctionHouseView==='function'&&typeof window.bindAuctionHouseView==='function'
   },
   prediction:{
-    styles:['css/coin-prediction-v2033.css?v=2033-matchday-star'],
-    scripts:['js/coin-prediction-model-v2033.js?v=2033-matchday-star','js/coin-prediction-v2033.js?v=20260926-prediction-5b'],
+    styles:['css/coin-prediction-v2033.css?v=20261001-prediction-50b'],
+    scripts:['js/coin-prediction-model-v2033.js?v=2033-matchday-star','js/coin-prediction-v2033.js?v=20261001-prediction-50b'],
     ready:()=>typeof window.coinPredictionView==='function'&&typeof window.bindCoinPredictionView==='function'
   },
   soopketland:{

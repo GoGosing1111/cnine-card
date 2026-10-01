@@ -1,7 +1,7 @@
 (() => {
   // V1861: 승인된 broadcast-ledger V2 UI. 서버 정책값과 반드시 동일해야 한다.
   const MIN_BET = 100000;
-  const USER_MAX_BET_PER_EVENT = 5000000000;
+  const USER_MAX_BET_PER_EVENT = 50000000000;
 
   const esc = value => String(value ?? '').replace(/[&<>"']/g, token => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
@@ -395,7 +395,7 @@
       if (!Number.isSafeInteger(amount) || amount < MIN_BET || amount + current > max) {
         return alert(unlimited
           ? `최소 10만 코인이며 보유 코인 내에서 참여할 수 있습니다.\n현재 보유: ${fmt(state.walletCoin)}코인`
-          : `최소 10만 코인이며 이벤트 누적 최대는 50억 코인입니다.\n현재 참여: ${fmt(current)}코인`);
+          : `최소 10만 코인이며 이벤트 누적 최대는 500억 코인입니다.\n현재 참여: ${fmt(current)}코인`);
       }
       if (!termsAccepted && !await showTerms(true)) return;
       if (!confirm(`${fmt(amount)}코인을 ${current ? '추가로 ' : ''}참여할까요?\n최초 선택 항목은 변경하거나 취소할 수 없습니다.`)) return;
