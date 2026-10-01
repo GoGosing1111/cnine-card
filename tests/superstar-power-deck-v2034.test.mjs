@@ -190,7 +190,7 @@ test('invalid active ranked preset never substitutes an intact defence deck',asy
       assert.deepEqual(plain(await s.pvpDeckSnapshot(env,1,true)).map(card=>card.id),good);
     }
     const fight=api.slice(api.indexOf("if(path==='pvp/fight'&&request.method==='POST')"));
-    assert.match(fight,/if\(aDeck.length!==5\)return json\(\{error:'랭크전 덱을 다시 저장해주세요\./);
+    assert.match(fight,/if\(aDeck.length!==5\)return rejectRankedMatch\(\{error:'랭크전 덱을 다시 저장해주세요\./);
   }finally{db.close()}
 });
 
