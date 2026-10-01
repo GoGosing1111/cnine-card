@@ -7,3 +7,10 @@
 1024×1536 RGBA, 중앙 사진 창 알파 0~1, 상단 장식 보존을 확인했다. 실제 공용 카드 생성 함수를 사용한 브라우저에서 PC·390px 모바일의 사진·프레임·등급·이름과 V3 도크를 확인했다. 새 프레임 경로와 JS/CSS·서비스 워커 캐시를 함께 갱신한다.
 
 작은 프레임 표시 변경이므로 `tests/fur-tier-frames-20261002.test.mjs` 및 공용 V3 로더 계약 `tests/pve-battlefield-entry-v2117.test.mjs`만 지정해 `npm run deploy:production -- --scoped`로 배포한다. 직전 운영은 `e553f56820230e7e8b1c9cf0c386343c573c255f` / Pages `f752f83a-36b9-4e47-8421-d973203ebc8e`다. 전체 게임 검사는 반복하지 않는다.
+
+## 운영 반영 결과
+
+- 관련 검사 **12/12 통과**, 배포 정책·출시 잠금·캐시·Hyperdrive 검사 통과.
+- 운영 소스 `7ec38f676e9fb4a64726bb452e06d346e4ce2fad`, Pages `https://b72d5a97.cnine-card.pages.dev`로 지정 scoped 배포 완료.
+- 공개 운영 URL의 두 프레임 PNG, 메인 JS·V2/V3 JS·CSS·서비스 워커 HTTP 200 및 로컬 SHA-256 일치. HTML은 줄바꿈 정규화 후 원본과 같고 JS/CSS 캐시 키도 일치한다.
+- PNG 경로는 `assets/ui/card-frames/fur-tier-frame-14-v20261002.png`, `fur-tier-frame-15-v20261002.png`다. 생성 원본·프롬프트·해시 기록을 보존한다.
