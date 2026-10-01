@@ -1,0 +1,44 @@
+{
+  "format": "PROJECT_V_BONGSOON_SNOW_SNIPER_V1",
+  "dateKST": "2026-10-02",
+  "name": "나무늘봉순",
+  "rank": "SS",
+  "edition": "LIMITED",
+  "status": "APPROVED_SOURCE_ART",
+  "approval": "bongsoon-approval-20261002.json",
+  "sourceArt": "assets/bongsoon-snow-sniper-v3-straight-rifle.png",
+  "sha256": "D4418E5A01F19B880AAA1C6C25653C2566E5F3ABD495B245A2572A491CFBFF6B",
+  "width": 1024,
+  "height": 1536,
+  "bytes": 2761500,
+  "prompts": "prompts.json",
+  "preview": "../mercenary-limited-frame-slim-v3-20261001/index.html#bongsoon",
+  "previewFrame": "../mercenary-limited-frame-slim-v3-20261001/assets/mercenary-limited-frame-slim-v3-glow.png",
+  "previewFrameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+  "references": [
+    {
+      "path": "references/bongsoon-approved-outfit-concept-v1.png",
+      "status": "HISTORICAL_OUTFIT_AND_CONCEPT_APPROVAL",
+      "sha256": "1B9BC29948EB99C9656D5C9280CA8FDAA1C9B99798C45022F5FEBC17B6D591AF"
+    },
+    {
+      "path": "references/bongsoon-face-bust-v2-rejected-rifle.png",
+      "status": "REJECTED_RIFLE_GEOMETRY_EDIT_INPUT_ONLY",
+      "sha256": "981B85ED9ED407EA28C4DB0E531C1220A6C9F212AA130B8E6DCD3B06CF0BEB15"
+    },
+    {
+      "path": "references/user-sniper-rifle.png",
+      "status": "USER_WEAPON_REFERENCE",
+      "sha256": "E26DF7C8AE140110B397B4BA5E569B3E22EBB7F103F52F913A48B3CD7840DFC8"
+    }
+  ],
+  "inspection": {
+    "scope": "Latest changed rifle geometry and retained character concept",
+    "visual": "Native image and 2x rifle view inspected; front barrel no longer drops away from receiver axis, muzzle remains within canvas",
+    "format": "Native 1024x1536 RGB8 PNG; exact output hash preserved",
+    "userApproval": "SS리미티드로 승인"
+  },
+  "liveRegistration": false,
+  "battleSprite": "NOT_REQUESTED",
+  "skills": "NOT_REQUESTED"
+}

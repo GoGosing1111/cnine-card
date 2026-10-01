@@ -1,29 +1,52 @@
 {
-  "version": 6,
+  "version": 7,
   "dateKST": "2026-10-02",
   "scope": "LIMITED_SOURCE_ART_COLLECTION_PREVIEW",
   "method": "built-in image_gen; approved source files preserved byte-for-byte",
-  "userReview": "BONGSOON_JOEUN_FRAME_APPROVED_INES_USER_SELECTED_ORIKKUNG_DIIM_SS_LIMITED_APPROVED",
-  "rankStatus": "PER_ENTRY_ORIKKUNG_DIIM_CONFIRMED_SS_INES_USER_DESIGNATED_SSS_BONGSOON_JOEUN_EXPECTED_SS",
+  "userReview": "BONGSOON_SNIPER_ORIKKUNG_DIIM_SS_LIMITED_APPROVED_JOEUN_ART_APPROVED_INES_USER_SELECTED",
+  "rankStatus": "BONGSOON_ORIKKUNG_DIIM_CONFIRMED_SS_INES_USER_DESIGNATED_SSS_JOEUN_EXPECTED_SS",
   "entries": [
     {
       "name": "나무늘봉순",
-      "concept": "설원의 특수부대 · 쌍기관단총",
-      "approval": "bongsoon-approval-20261001.json",
+      "concept": "설원 저격수 · 귀마개 · 포니테일 · 허스키",
+      "approval": "../mercenary-bongsoon-snow-sniper-20261002-v1/bongsoon-approval-20261002.json",
       "status": "APPROVED_SOURCE_ART",
-      "expectedRank": "SS",
-      "rankStatus": "EXPECTED_NOT_CONFIRMED",
-      "sourceArt": "assets/bongsoon-snow-source-art-approved-20261001.png",
+      "rank": "SS",
+      "rankStatus": "CONFIRMED_BY_USER",
+      "rankConfirmed": true,
+      "edition": "LIMITED",
+      "editionConfirmed": true,
+      "sourceArt": "../mercenary-bongsoon-snow-sniper-20261002-v1/assets/bongsoon-snow-sniper-v3-straight-rifle.png",
       "source": {
-        "path": "assets/bongsoon-snow-source-art-approved-20261001.png",
+        "path": "../mercenary-bongsoon-snow-sniper-20261002-v1/assets/bongsoon-snow-sniper-v3-straight-rifle.png",
         "width": 1024,
         "height": 1536,
         "bitDepth": 8,
         "colorType": 2,
-        "bytes": 2866596,
-        "sha256": "B15D0CCBB2429C539BC337198B1BABBD3D277E1FF84FC2DAD88B209431AC4FF3"
+        "bytes": 2761500,
+        "sha256": "D4418E5A01F19B880AAA1C6C25653C2566E5F3ABD495B245A2572A491CFBFF6B"
       },
-      "approvedScope": "Entire source illustration; preserve bytes without further edits"
+      "approvedScope": "Entire latest V3 source illustration, confirmed SS rank and LIMITED edition",
+      "previewFrame": "../mercenary-limited-frame-slim-v3-20261001/assets/mercenary-limited-frame-slim-v3-glow.png",
+      "previousSelection": {
+        "name": "나무늘봉순",
+        "concept": "설원의 특수부대 · 쌍기관단총",
+        "approval": "bongsoon-approval-20261001.json",
+        "status": "HISTORICAL_APPROVED_SOURCE_PRESERVED_NOT_CURRENT",
+        "expectedRank": "SS",
+        "rankStatus": "EXPECTED_NOT_CONFIRMED",
+        "sourceArt": "assets/bongsoon-snow-source-art-approved-20261001.png",
+        "source": {
+          "path": "assets/bongsoon-snow-source-art-approved-20261001.png",
+          "width": 1024,
+          "height": 1536,
+          "bitDepth": 8,
+          "colorType": 2,
+          "bytes": 2866596,
+          "sha256": "B15D0CCBB2429C539BC337198B1BABBD3D277E1FF84FC2DAD88B209431AC4FF3"
+        },
+        "approvedScope": "Entire source illustration; preserve bytes without further edits"
+      }
     },
     {
       "name": "조은",
@@ -498,7 +521,7 @@
   },
   "futureRules": {
     "location": "../../AGENTS.md",
-    "approvedArt": "봉순 원본·조은 V11·오리꿍 SS 리미티드·디임 SS 리미티드 전체 승인, 해시 고정",
+    "approvedArt": "봉순 설원 저격수 V3 SS 리미티드·조은 V11·오리꿍 SS 리미티드·디임 SS 리미티드 전체 승인, 해시 고정",
     "frame": "V1 폐기. 사용자 재첨부 V2 프레임 전체 승인, SHA-256 고정. 슬림 V3 광원본은 별도 디자인 시안.",
     "hair": "자연스러운 연속 모발 흐름 / 층층이 갈라진 판·띠형 헤어 금지"
   },
@@ -507,7 +530,7 @@
     "upscaled": false,
     "frameSeparateFromSourceArt": true,
     "pngReport": "qa-frame-v2.json",
-    "browserReport": "qa-preview-orikkung-diim-20261002.json"
+    "browserReport": "../mercenary-bongsoon-snow-sniper-20261002-v1/qa-preview.json"
   },
   "liveRegistration": false,
   "battleSprite": "NOT_REQUESTED",

@@ -24,3 +24,5 @@
 생성 원본은 `C:/Users/User/.codex/generated_images/01a0f5a2-d9a1-7181-8f4a-e8b950658e06/`의 `exec-989778e6-a989-4958-a9b4-40bb1e890dc9.png`와 `exec-c5f78212-25dc-45ae-a359-dfb0b29092c9.png`에 보존했다.
 
 2026-10-02 후속 승인으로 **오리꿍 SS 리미티드·디임 SS 리미티드** 원본을 프리뷰에 추가했다. 원화·등급·에디션 승인 기록은 [오리꿍](../mercenary-limited-snow-neon-20261001-v1/orikkung-approval-20261002.json), [디임](../mercenary-limited-snow-neon-20261001-v1/diim-approval-20261002.json)이다. 프레임 PNG 두 장은 그대로이며 V3는 디자인 시안 상태를 유지한다. 최신 화면 검수는 [컬렉션 검수 기록](../mercenary-limited-snow-neon-20261001-v1/qa-preview-orikkung-diim-20261002.json)에 남겼다.
+
+2026-10-02 나무늘봉순의 현재 원화를 [SS 리미티드 설원 저격수 V3](../mercenary-bongsoon-snow-sniper-20261002-v1/assets/bongsoon-snow-sniper-v3-straight-rifle.png)로 갱신했다. [승인 기록](../mercenary-bongsoon-snow-sniper-20261002-v1/bongsoon-approval-20261002.json)의 해시를 고정하며 프레임 파일은 수정하지 않았다.

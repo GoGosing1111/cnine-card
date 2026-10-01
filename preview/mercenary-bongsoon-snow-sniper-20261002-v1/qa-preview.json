@@ -1,0 +1,83 @@
+{
+  "dateKST": "2026-10-02",
+  "scope": "Changed Bongsoon card only",
+  "status": "PASS",
+  "approvedArtSha256": "D4418E5A01F19B880AAA1C6C25653C2566E5F3ABD495B245A2572A491CFBFF6B",
+  "pageErrors": [],
+  "checks": [
+    {
+      "kind": "collection",
+      "screen": "desktop",
+      "url": "http://127.0.0.1:8852/preview/mercenary-limited-snow-neon-20261001-v1/#bongsoon",
+      "text": "나무늘봉순\n\n설원 저격수 · 허스키\n\nSS 리미티드\n원화·SS·리미티드 승인\n원본 PNG ↗",
+      "art": "../mercenary-bongsoon-snow-sniper-20261002-v1/assets/bongsoon-snow-sniper-v3-straight-rifle.png",
+      "frame": "../mercenary-limited-frame-slim-v3-20261001/assets/mercenary-limited-frame-slim-v3-glow.png",
+      "natural": [
+        1024,
+        1536
+      ],
+      "display": [
+        390.5,
+        585.75
+      ],
+      "overflow": false,
+      "smallWidth": 160,
+      "screenshot": "qa-collection-desktop.png"
+    },
+    {
+      "kind": "collection",
+      "screen": "mobile",
+      "url": "http://127.0.0.1:8852/preview/mercenary-limited-snow-neon-20261001-v1/#bongsoon",
+      "text": "나무늘봉순\n\n설원 저격수 · 허스키\n\nSS 리미티드\n원화·SS·리미티드 승인\n원본 PNG ↗",
+      "art": "../mercenary-bongsoon-snow-sniper-20261002-v1/assets/bongsoon-snow-sniper-v3-straight-rifle.png",
+      "frame": "../mercenary-limited-frame-slim-v3-20261001/assets/mercenary-limited-frame-slim-v3-glow.png",
+      "natural": [
+        1024,
+        1536
+      ],
+      "display": [
+        310.0625,
+        465.09375
+      ],
+      "overflow": false,
+      "screenshot": "qa-collection-mobile.png"
+    },
+    {
+      "kind": "slim",
+      "screen": "desktop",
+      "url": "http://127.0.0.1:8852/preview/mercenary-limited-frame-slim-v3-20261001/#bongsoon",
+      "text": "나무늘봉순\nSS 리미티드 · 원화·등급 승인",
+      "art": "../mercenary-bongsoon-snow-sniper-20261002-v1/assets/bongsoon-snow-sniper-v3-straight-rifle.png",
+      "frame": "assets/mercenary-limited-frame-slim-v3-glow.png",
+      "natural": [
+        1024,
+        1536
+      ],
+      "display": [
+        388.734375,
+        583.109375
+      ],
+      "overflow": false,
+      "smallWidth": 160,
+      "screenshot": "qa-slim-desktop.png"
+    },
+    {
+      "kind": "slim",
+      "screen": "mobile",
+      "url": "http://127.0.0.1:8852/preview/mercenary-limited-frame-slim-v3-20261001/#bongsoon",
+      "text": "나무늘봉순\nSS 리미티드 · 원화·등급 승인",
+      "art": "../mercenary-bongsoon-snow-sniper-20261002-v1/assets/bongsoon-snow-sniper-v3-straight-rifle.png",
+      "frame": "assets/mercenary-limited-frame-slim-v3-glow.png",
+      "natural": [
+        1024,
+        1536
+      ],
+      "display": [
+        311.8125,
+        467.734375
+      ],
+      "overflow": false,
+      "screenshot": "qa-slim-mobile.png"
+    }
+  ]
+}

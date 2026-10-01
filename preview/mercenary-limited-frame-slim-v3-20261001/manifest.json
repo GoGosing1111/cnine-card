@@ -6,19 +6,31 @@
   "currentSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
   "baseAsset": "assets/mercenary-limited-frame-slim-v3.png",
   "baseSha256": "F188591713635E335DC4C0FE37A9B02D2EC5720FE5B33953D7F27355DF0048D5",
-  "dimensions": [1024, 1536],
+  "dimensions": [
+    1024,
+    1536
+  ],
   "formatDetails": "8-bit sRGB RGBA PNG",
   "method": "built-in image_gen",
-  "prompts": ["prompt.json", "prompt-glow.json"],
+  "prompts": [
+    "prompt.json",
+    "prompt-glow.json"
+  ],
   "lightEffect": "Static champagne-gold perimeter radiance and platinum-white glints included in alpha PNG",
   "preview": "index.html",
   "previewUpdatedKST": "2026-10-02",
   "sourceCollection": "../mercenary-limited-snow-neon-20261001-v1/manifest.json",
   "addedApprovedSourceArt": [
     "../mercenary-limited-snow-neon-20261001-v1/orikkung-approval-20261002.json",
-    "../mercenary-limited-snow-neon-20261001-v1/diim-approval-20261002.json"
+    "../mercenary-limited-snow-neon-20261001-v1/diim-approval-20261002.json",
+    "../mercenary-bongsoon-snow-sniper-20261002-v1/bongsoon-approval-20261002.json"
   ],
-  "artWindowPixels": {"x": 61, "y": 89, "width": 902, "height": 1353},
+  "artWindowPixels": {
+    "x": 61,
+    "y": 89,
+    "width": 902,
+    "height": 1353
+  },
   "qa": "qa.json",
   "generatedFilesCopiedWithoutProcessing": true,
   "approvedV2Modified": false,

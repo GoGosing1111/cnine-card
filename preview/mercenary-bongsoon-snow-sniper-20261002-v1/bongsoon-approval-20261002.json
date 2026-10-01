@@ -1,0 +1,33 @@
+{
+  "format": "PROJECT_V_LIMITED_SOURCE_ART_APPROVAL_V1",
+  "dateKST": "2026-10-02",
+  "name": "나무늘봉순",
+  "status": "APPROVED_SOURCE_ART",
+  "rank": "SS",
+  "rankStatus": "CONFIRMED_BY_USER",
+  "rankConfirmed": true,
+  "edition": "LIMITED",
+  "editionConfirmed": true,
+  "userRequest": "SS리미티드로 승인",
+  "sourceArt": "assets/bongsoon-snow-sniper-v3-straight-rifle.png",
+  "sha256": "D4418E5A01F19B880AAA1C6C25653C2566E5F3ABD495B245A2572A491CFBFF6B",
+  "dimensions": [
+    1024,
+    1536
+  ],
+  "formatDetails": "RGB8 PNG",
+  "method": "USER_APPROVED_BUILT_IN_IMAGE_GEN_OUTPUT_EXACT_COPY",
+  "originalGeneratedFile": "C:/Users/User/.codex/generated_images/01a0f210-dfde-7e73-acb5-b2cc712e8a32/exec-90995c1c-84d7-4266-a2e1-66f97c1a140a.png",
+  "byteForByteCopy": true,
+  "pixelsModifiedAfterApproval": false,
+  "scope": "Entire latest V3 source illustration, confirmed SS rank and LIMITED edition",
+  "concept": "설원 저격수 · 귀마개 · 포니테일 · 크롭탑 · 허스키",
+  "weapon": "사용자 첨부 청록·자홍 저격총, 총몸부터 총구까지 이어지는 직선 축",
+  "priorApproval": "../mercenary-limited-snow-neon-20261001-v1/bongsoon-approval-20261001.json",
+  "priorSourcePreserved": true,
+  "prompts": "prompts.json",
+  "preview": "../mercenary-limited-frame-slim-v3-20261001/index.html#bongsoon",
+  "liveRegistration": false,
+  "battleSprite": "NOT_REQUESTED",
+  "skills": "NOT_REQUESTED"
+}
