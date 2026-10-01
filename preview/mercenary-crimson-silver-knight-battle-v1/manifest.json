@@ -7658,6 +7658,8 @@
   "rankStatus": "USER_DESIGNATED",
   "edition": "LIMITED",
   "editionStatus": "USER_DESIGNATED",
-  "collectionPreview": "preview/mercenary-limited-snow-neon-20261001-v1/index.html#valter",
-  "rankEditionApproval": "preview/mercenary-limited-snow-neon-20261001-v1/valter-preview-addition-20261001.json"
+  "collectionPreview": "preview/mercenary-limited-frame-slim-v3-20261001/index.html#valter",
+  "rankEditionApproval": "preview/mercenary-limited-frame-slim-v3-20261001/valter-preview-registration-20261002.json",
+  "previewFrame": "preview/mercenary-limited-frame-slim-v3-20261001/assets/mercenary-limited-frame-slim-v3-glow.png",
+  "previewFrameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA"
 }

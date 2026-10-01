@@ -90,12 +90,16 @@
     "sharedDependencies": "Locked from actual candidate browser requests; changed dependencies require only their affected preview checks",
     "textHashes": "UTF-8 with CRLF normalized to LF; images and audio hashed byte-for-byte"
   },
-  "collectionPreview": "/preview/mercenary-limited-snow-neon-20261001-v1/?v=6-valter#valter",
+  "collectionPreview": "/preview/mercenary-limited-frame-slim-v3-20261001/?v=valter-20261002#valter",
   "registrationReview": {
     "userRequest": "발테르 SSS 리미티드로 프리뷰 등록",
-    "report": "preview/mercenary-limited-snow-neon-20261001-v1/qa-preview-valter-20261001.json",
+    "report": "preview/mercenary-limited-frame-slim-v3-20261001/qa-valter-20261002.json",
     "assetsAndMotionChanged": false,
     "passed": true,
-    "desktopAndMobile": true
+    "desktopAndMobile": true,
+    "date": "2026-10-02",
+    "userClarification": "프레임이 다르잖아 — 슬림 V3 광원본 지정",
+    "frameChanged": true,
+    "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA"
   }
 }

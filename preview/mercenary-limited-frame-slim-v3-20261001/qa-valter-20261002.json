@@ -1,0 +1,76 @@
+{
+  "date": "2026-10-02",
+  "scope": "VALTER_SSS_LIMITED_SLIM_V3_FRAME_CORRECTION",
+  "frame": "preview/mercenary-limited-frame-slim-v3-20261001/assets/mercenary-limited-frame-slim-v3-glow.png",
+  "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+  "approvedArtModified": false,
+  "motionModified": false,
+  "deploymentPerformed": false,
+  "viewports": [
+    {
+      "name": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "rank": "SSS",
+      "edition": "LIMITED",
+      "rendered": {
+        "art": "/assets/ui/project-v/mercenaries/approved-20260930/crimson-silver-knight-source-art-approved-v8.png",
+        "frame": "/preview/mercenary-limited-frame-slim-v3-20261001/assets/mercenary-limited-frame-slim-v3-glow.png",
+        "width": 229.71875,
+        "height": 344.578125,
+        "naturalWidth": 1024,
+        "naturalHeight": 1536,
+        "filter": "none"
+      },
+      "glowToggle": true,
+      "small160px": true,
+      "oldNewComparison": true,
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "name": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rank": "SSS",
+      "edition": "LIMITED",
+      "rendered": {
+        "art": "/assets/ui/project-v/mercenaries/approved-20260930/crimson-silver-knight-source-art-approved-v8.png",
+        "frame": "/preview/mercenary-limited-frame-slim-v3-20261001/assets/mercenary-limited-frame-slim-v3-glow.png",
+        "width": 311.8125,
+        "height": 467.734375,
+        "naturalWidth": 1024,
+        "naturalHeight": 1536,
+        "filter": "none"
+      },
+      "glowToggle": true,
+      "small160px": true,
+      "oldNewComparison": true,
+      "overflow": false,
+      "errors": []
+    }
+  ],
+  "requestedAssets": [
+    "/assets/fonts/lich-raid/NotoSansKR-lich-v1.woff2",
+    "/assets/ui/project-v/mercenaries/approved-20260930/crimson-silver-knight-source-art-approved-v8.png",
+    "/preview/mercenary-limited-frame-slim-v3-20261001/",
+    "/preview/mercenary-limited-frame-slim-v3-20261001/assets/mercenary-limited-frame-slim-v3-glow.png",
+    "/preview/mercenary-limited-frame-slim-v3-20261001/assets/mercenary-limited-frame-slim-v3.png",
+    "/preview/mercenary-limited-snow-neon-20261001-v1/assets/bongsoon-snow-source-art-approved-20261001.png",
+    "/preview/mercenary-limited-snow-neon-20261001-v1/assets/ines-limited-sss-source-art-20261001.png",
+    "/preview/mercenary-limited-snow-neon-20261001-v1/assets/joeun-neon-source-art-v11-straightened-cannon.png",
+    "/preview/mercenary-limited-snow-neon-20261001-v1/assets/mercenary-limited-frame-approved-20261001.png"
+  ],
+  "errors": [],
+  "passed": true,
+  "visualReview": {
+    "desktopCollection": true,
+    "mobileValterCard": true,
+    "exactSelectedGlowFrame": true,
+    "sourceArtPreserved": true
+  }
+}

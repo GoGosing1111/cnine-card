@@ -3,7 +3,7 @@
 ## 발테르 SSS 리미티드 프리뷰 등록·운영배포 대기 — 2026-10-01
 
 - 사용자 **“발테르로 승인, 일러스트,프리뷰 한번에 다 최종 검토해서 내가 운영배포 하라고 하면 배포준비까지 끝마칠것”**. 은백·금색 붉은 망토 대검 기사의 이름은 **발테르**로 확정한다.
-- 후속 **“발테르 SSS 리미티드로 프리뷰 등록”**에 따라 등급 **SSS**, 에디션 **LIMITED**를 사용자 지정으로 확정한다. `preview/mercenary-limited-snow-neon-20261001-v1/valter-preview-addition-20261001.json`을 기준으로 기존 리미티드 컬렉션과 개별 전투 프리뷰에 반영하며 승인 V2 프레임을 그대로 재사용한다.
+- 후속 **“발테르 SSS 리미티드로 프리뷰 등록”**에 따라 등급 **SSS**, 에디션 **LIMITED**를 사용자 지정으로 확정한다. `preview/mercenary-limited-frame-slim-v3-20261001/valter-preview-registration-20261002.json`을 기준으로 **슬림 V3 광원 프리뷰**와 개별 전투 프리뷰에 반영한다. 2026-10-02 사용자가 “프레임이 다르잖아”라며 지정한 `mercenary-limited-frame-slim-v3-glow.png`(SHA-256 `F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA`)를 그대로 사용한다. 앞선 V2 적용은 이 후속 교정으로 대체하며 승인 원화·모션은 유지한다.
 - 최신 승인 기준은 `assets/ui/project-v/mercenaries/mercenary-valter-approval-20261001.json`이다. V8 원화·자연 성인 체형의 SD·원본 대검·V13 크기 보정·V17 모션과 주변 아우라 및 내려찍기 속도를 유지한다. 과거 이름 미정·SD 미제작·검수 대기 표기는 이전 이력이다.
 - V17 전체 재생 1.2, 모든 공격·스킬 내려찍기 3.6과 타격 동기화가 승인됐다. 이름 반영과 최신 공용 V3 엔진 호환 빌드 때문에 프리뷰 번들 해시는 달라질 수 있으나 승인 이미지·동작은 재생성하지 않는다.
 - 원화와 전체 프리뷰 게시 후보는 `preview/mercenary-crimson-silver-knight-battle-v1/release/README.md` 및 `readiness.json`, `files.json`으로 관리한다. **사용자가 운영배포를 지시하기 전에는 업로드·main 병합·라이브 활성화를 하지 않는다.**

@@ -1,6 +1,6 @@
 # 발테르 SSS 리미티드 — 승인 원화·전체 전투 프리뷰 배포 후보
 
-2026-10-01 사용자 이름 확정: **발테르**. 후속 프리뷰 등록 지시에 따라 **SSS · 리미티드**를 확정했다. [리미티드 컬렉션](../../mercenary-limited-snow-neon-20261001-v1/?v=6-valter#valter)에 승인 V2 프레임으로 함께 표시한다. V8 일러스트와 V17 전투 외형·모션·크기·주변 아우라·내려찍기 속도는 승인본이다. 이 후보는 원화와 독립 전투 프리뷰를 함께 게시할 수 있도록 준비한다. 운영 업로드는 사용자의 **운영배포 지시 후** 실행한다.
+2026-10-01 사용자 이름 확정: **발테르**. 후속 프리뷰 등록 지시에 따라 **SSS · 리미티드**를 확정했다. [리미티드 컬렉션](../../mercenary-limited-frame-slim-v3-20261001/?v=valter-20261002#valter)에 사용자가 2026-10-02 지정한 슬림 V3 광원 프레임으로 함께 표시한다. V8 일러스트와 V17 전투 외형·모션·크기·주변 아우라·내려찍기 속도는 승인본이다. 이 후보는 원화와 독립 전투 프리뷰를 함께 게시할 수 있도록 준비한다. 운영 업로드는 사용자의 **운영배포 지시 후** 실행한다.
 
 - 원화: `/assets/ui/project-v/mercenaries/approved-20260930/crimson-silver-knight-source-art-approved-v8.png`
 - 전체 프리뷰: `/preview/mercenary-crimson-silver-knight-battle-v1/?showcase=1&v=17-valter-sss-limited#battle`

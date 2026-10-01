@@ -1,0 +1,119 @@
+{
+  "format": "PROJECT_V_LIMITED_FRAME_DESIGN_PREVIEW_V3",
+  "dateKST": "2026-10-01",
+  "status": "DESIGN_PREVIEW",
+  "currentAsset": "assets/mercenary-limited-frame-slim-v3-glow.png",
+  "currentSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+  "baseAsset": "assets/mercenary-limited-frame-slim-v3.png",
+  "baseSha256": "F188591713635E335DC4C0FE37A9B02D2EC5720FE5B33953D7F27355DF0048D5",
+  "dimensions": [
+    1024,
+    1536
+  ],
+  "formatDetails": "8-bit sRGB RGBA PNG",
+  "method": "built-in image_gen",
+  "prompts": [
+    "prompt.json",
+    "prompt-glow.json"
+  ],
+  "lightEffect": "Static champagne-gold perimeter radiance and platinum-white glints included in alpha PNG",
+  "preview": "index.html",
+  "artWindowPixels": {
+    "x": 61,
+    "y": 89,
+    "width": 902,
+    "height": 1353
+  },
+  "qa": "qa.json",
+  "generatedFilesCopiedWithoutProcessing": true,
+  "approvedV2Modified": false,
+  "approvedArtFilesModified": false,
+  "liveConnected": false,
+  "originalGeneratedFiles": [
+    "C:/Users/User/.codex/generated_images/01a0f5a2-d9a1-7181-8f4a-e8b950658e06/exec-989778e6-a989-4958-a9b4-40bb1e890dc9.png",
+    "C:/Users/User/.codex/generated_images/01a0f5a2-d9a1-7181-8f4a-e8b950658e06/exec-c5f78212-25dc-45ae-a359-dfb0b29092c9.png"
+  ],
+  "valterRegistration": "valter-preview-registration-20261002.json",
+  "valterFrameStatus": "USER_SELECTED_FOR_VALTER_PREVIEW",
+  "registrationQA": "qa-valter-20261002.json",
+  "liveRegistration": false,
+  "entries": [
+    {
+      "name": "나무늘봉순",
+      "concept": "설원의 특수부대 · 쌍기관단총",
+      "approval": "../mercenary-limited-snow-neon-20261001-v1/bongsoon-approval-20261001.json",
+      "status": "APPROVED_SOURCE_ART",
+      "expectedRank": "SS",
+      "rankStatus": "EXPECTED_NOT_CONFIRMED",
+      "sourceArt": "../mercenary-limited-snow-neon-20261001-v1/assets/bongsoon-snow-source-art-approved-20261001.png",
+      "source": {
+        "path": "../mercenary-limited-snow-neon-20261001-v1/assets/bongsoon-snow-source-art-approved-20261001.png",
+        "width": 1024,
+        "height": 1536,
+        "bitDepth": 8,
+        "colorType": 2,
+        "bytes": 2866596,
+        "sha256": "B15D0CCBB2429C539BC337198B1BABBD3D277E1FF84FC2DAD88B209431AC4FF3"
+      },
+      "approvedScope": "Entire source illustration; preserve bytes without further edits"
+    },
+    {
+      "name": "조은",
+      "concept": "네온 장비 흑백 특수부대 · 확장형 레이저 중화기",
+      "approval": "../mercenary-limited-snow-neon-20261001-v1/joeun-approval-20261001.json",
+      "status": "APPROVED_SOURCE_ART",
+      "expectedRank": "SS",
+      "rankStatus": "EXPECTED_NOT_CONFIRMED",
+      "sourceArt": "../mercenary-limited-snow-neon-20261001-v1/assets/joeun-neon-source-art-v11-straightened-cannon.png",
+      "source": {
+        "path": "../mercenary-limited-snow-neon-20261001-v1/assets/joeun-neon-source-art-v11-straightened-cannon.png",
+        "width": 1024,
+        "height": 1536,
+        "bitDepth": 8,
+        "colorType": 2,
+        "bytes": 2389147,
+        "sha256": "87E88A646E327FCBB6489B05D8C5287C5212B1D9105134ECE1C036D022C633DA"
+      },
+      "approvedScope": "Entire source illustration; preserve bytes without further edits"
+    },
+    {
+      "name": "이네스",
+      "concept": "SSS 리미티드",
+      "selection": "../mercenary-limited-snow-neon-20261001-v1/ines-preview-addition-20261001.json",
+      "status": "USER_SELECTED_SOURCE_ART_FOR_PREVIEW",
+      "rank": "SSS",
+      "rankStatus": "USER_DESIGNATED",
+      "edition": "LIMITED",
+      "method": "EXACT_USER_ATTACHMENT_NO_GENERATION",
+      "sourceArt": "../mercenary-limited-snow-neon-20261001-v1/assets/ines-limited-sss-source-art-20261001.png",
+      "source": {
+        "path": "../mercenary-limited-snow-neon-20261001-v1/assets/ines-limited-sss-source-art-20261001.png",
+        "width": 1024,
+        "height": 1536,
+        "bitDepth": 8,
+        "colorType": 2,
+        "bytes": 2864651,
+        "sha256": "97D2120A91E7682130697476F6DA0C77FF5AA548C16B2AB128B539FF5ACB176D"
+      },
+      "approvedScope": "Add alongside Bongsoon and Joeun in the existing preview with user-designated SSS label"
+    },
+    {
+      "name": "발테르",
+      "rank": "SSS",
+      "rankStatus": "USER_DESIGNATED",
+      "edition": "LIMITED",
+      "status": "APPROVED_SOURCE_ART",
+      "selection": "valter-preview-registration-20261002.json",
+      "sourceArt": "../../assets/ui/project-v/mercenaries/approved-20260930/crimson-silver-knight-source-art-approved-v8.png",
+      "source": {
+        "path": "../../assets/ui/project-v/mercenaries/approved-20260930/crimson-silver-knight-source-art-approved-v8.png",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 2645494,
+        "sha256": "8B94E60670355AF87D13802FD68AD4DE22F8E7F23C65028CC97DD1D1F78BE838"
+      },
+      "frame": "assets/mercenary-limited-frame-slim-v3-glow.png",
+      "battlePreview": "../mercenary-crimson-silver-knight-battle-v1/?v=17-valter-sss-limited#battle"
+    }
+  ]
+}

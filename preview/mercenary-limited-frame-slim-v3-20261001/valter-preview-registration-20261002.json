@@ -1,5 +1,5 @@
 {
-  "dateKST": "2026-10-01",
+  "dateKST": "2026-10-02",
   "name": "발테르",
   "edition": "LIMITED",
   "rank": "SSS",
@@ -16,16 +16,18 @@
   "method": "EXISTING_APPROVED_ORIGINAL_NO_GENERATION",
   "pixelsModified": false,
   "approval": "../../assets/ui/project-v/mercenaries/mercenary-valter-approval-20261001.json",
-  "frame": "frame-approval-v2-20261001.json",
+  "frame": "assets/mercenary-limited-frame-slim-v3-glow.png",
   "battlePreview": "../mercenary-crimson-silver-knight-battle-v1/?v=17-valter-sss-limited#battle",
-  "scope": "Register Valter as user-designated SSS Limited in the collection and existing approved battle preview",
+  "scope": "Register SSS Limited Valter with the user-selected slim V3 glow frame; preserve approved artwork and V17 battle motion",
   "liveRegistration": false,
   "runtimeEnabled": false,
   "deploymentPerformed": false,
   "deploymentAuthorization": "AWAITING_EXPLICIT_USER_DEPLOY_REQUEST",
   "motionVersion": 17,
   "motionChanged": false,
-  "frameStatus": "SUPERSEDED_BY_USER_FRAME_CORRECTION",
-  "supersededBy": "../mercenary-limited-frame-slim-v3-20261001/valter-preview-registration-20261002.json",
-  "currentPreview": "../mercenary-limited-frame-slim-v3-20261001/?v=valter-20261002#valter"
+  "userClarification": "프레임이 다르잖아 — 금빛 광원과 백금색 반짝임이 있는 슬림 V3 광원본 지정",
+  "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+  "frameStatus": "USER_SELECTED_FOR_VALTER_PREVIEW",
+  "sourceFrame": "C:/Users/User/.codex/worktrees/new-user-gift-update/cnine-card/preview/mercenary-limited-frame-slim-v3-20261001/assets/mercenary-limited-frame-slim-v3-glow.png",
+  "previousRegistration": "../mercenary-limited-snow-neon-20261001-v1/valter-preview-addition-20261001.json"
 }

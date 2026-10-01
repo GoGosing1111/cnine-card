@@ -16,12 +16,13 @@ assert.equal(m.name,'발테르');assert.equal(KNIGHT.name,'발테르');assert.eq
 assert.equal(m.version,17);assert.equal(m.runtimeEnabled,false);assert.equal(approval.runtimeEnabled,false);
 assert.equal(m.rank,'SSS');assert.equal(KNIGHT.rank,m.rank);assert.equal(approval.rank,m.rank);assert.equal(m.edition,'LIMITED');assert.equal(KNIGHT.edition,m.edition);assert.equal(approval.edition,m.edition);assert.equal(approval.runtimeCode,null);assert.equal(approval.deploymentPerformed,false);
 assert.equal(m.nameStatus,'USER_APPROVED');assert.equal(approval.nameStatus,'USER_APPROVED');
-const limited=await json('preview/mercenary-limited-snow-neon-20261001-v1/manifest.json');
+const limited=await json('preview/mercenary-limited-frame-slim-v3-20261001/manifest.json');
 const registration=await json(m.rankEditionApproval);
 const collectionEntry=limited.entries.find(e=>e.name===m.name);
 assert.equal(collectionEntry.rank,m.rank);assert.equal(collectionEntry.edition,m.edition);assert.equal(collectionEntry.source.sha256,m.sourceArtSha256);
+assert.equal(digest(await fs.readFile(path.join(project,m.previewFrame))),m.previewFrameSha256);assert.equal(m.previewFrameSha256,'F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA');assert.equal(limited.currentSha256,m.previewFrameSha256);
 assert.equal(registration.rank,m.rank);assert.equal(registration.edition,m.edition);assert.equal(registration.runtimeEnabled,false);assert.equal(limited.liveRegistration,false);
-assert.equal((await json('preview/mercenary-limited-snow-neon-20261001-v1/qa-preview-valter-20261001.json')).passed,true);
+assert.equal((await json('preview/mercenary-limited-frame-slim-v3-20261001/qa-valter-20261002.json')).passed,true);
 assert.equal(m.playbackTempo.rate,1.2);assert.equal(m.playbackTempo.strikeRate,3.6);
 assert.equal(m.playbackTempo.swingSeconds,0.125/1.5);
 const art=await fs.readFile(path.join(project,m.sourceArt));
