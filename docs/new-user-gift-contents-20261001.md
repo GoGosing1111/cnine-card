@@ -50,3 +50,12 @@ Hyperdrive를 통한 읽기 전용 트랜잭션으로 슈퍼스타 7종 / FUR 14
 - `tests/new-user-gift-v2075.test.mjs`만 선택한다. 세 등급 강화, 새 장비 5개, 더 높은 강화 보존, 원자성/재시도, 미개봉 V1 전환/롤백/재실행, 완료 V1 보존, 설명 OFF 유지 및 공용 화면 표시를 확인한다. 배포 과정에서 한 번 실행하며 무관한 전체 검사는 반복하지 않는다.
 - 지정 명령 `npm run deploy:production -- --scoped`. Worker 문법, 깨끗한 커밋·origin/main, 출시/캐시/Hyperdrive 필수 검사는 기존 도구를 따른다.
 - 플레이어 개봉 모달을 PC 1280×1050·모바일 390×844에서 실제 공용 렌더러와 모의 API로 확인했다. 전체 구성 6행, 카드 상세 목록, 개봉 완료·인벤토리 복귀, 가로 넘침 없음, 브라우저 오류 없음이 통과했다. 운영 검수는 변경 파일·포스터 반영과 새 상품 명세만 짧게 확인한다.
+
+## 완료 결과
+
+- 소스 `f5473fe58873d9f94890b1dd2379c494887511bf`를 `origin/main`에 반영했다. 지정 scoped 배포에서 관련 검사 **15/15**, Worker 문법, 출시/캐시 보호, Hyperdrive query cache OFF가 통과했다. 운영 배포는 종료 코드 0으로 완료됐다.
+- Pages: `ba74cb85-e75b-411d-afb0-bc529fb2f86f`, <https://ba74cb85.cnine-card.pages.dev>. private API runtime 버전 `d73e370f-26de-4583-b20f-0a1eb4c0eb43`, clan-draft 버전 `83f7faa0-df90-4c15-afe6-76f4dd5e8d44`.
+- 운영 미개봉 4건을 V2 명세로 전환했다. 각각 슈퍼스타 7/FUR 14/제니스 29의 총 50장과 요청 강화, 미스틱 4종·소버린 SKS를 확인했다. 이미 개봉한 V1 19건은 보존됐다. 상품 설명을 갱신했고 활성 상태 1을 유지했다. 박스 개봉이나 계정 보상 지급은 실행하지 않았다.
+- 메인 HTML, 관리자 HTML, 공용 보상 JS, 포스터 PNG, 포스터 HTML·공개 카탈로그의 운영 HTTP 200 및 로컬 SHA-256 일치 확인. 비인증 기프트 상태 API는 401로 보호됐다.
+- 포스터: <https://cnine-card.pages.dev/assets/posters/new-user-gift-20261001.png>. 편집 프리뷰: <https://cnine-card.pages.dev/preview/new-user-gift-20261001/>.
+- 배포 로그·운영 카탈로그 전후·전환 결과·UI/운영 검수 증빙은 배포 트리 밖 `C:/Users/User/.codex/worktrees/new-user-gift-ops-20261001/`에 보관했다. 이 완료 기록은 문서만 추가하므로 재검사·재배포하지 않는다.
