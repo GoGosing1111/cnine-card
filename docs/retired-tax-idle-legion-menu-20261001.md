@@ -18,4 +18,6 @@
 - UI 증빙: 작업 트리 밖 `../retired-content-qa-20261001/`. 관련 검사 로그: `../retired-content-tests-20261001.log`.
 - 배포 단계에서는 최종 종료 API 회귀와 Worker 구문 검사 및 지정 운영 보호만 실행한다. 이미 통과한 구매·계급·메뉴 검사를 반복하지 않는다.
 
-직전 운영 소스와 최종 배포·운영 확인 결과는 배포 시 확정한다.
+직전 운영 기준은 Cloudflare Pages 배포 `da6aab90-619d-46f1-8a47-441a93ea261c`의 소스 `6b24fc2f0e7bf433590af99ef69d953977231613`이다. 선행 랭크전 전체 게이트와 운영 배포가 끝난 뒤 이 기준으로 통합했다. 그 이후 원격의 선물 안내 수정 기록은 문서만 변경한다.
+
+배포 선택: `SCOPED_DEPLOY_TESTS=["tests/retired-content-20261001.test.mjs"]`, `SCOPED_DEPLOY_CHECKS=["check:worker"]`. 관련 거래·정산·메뉴 검사는 위 결과를 유지하며 최종 병합 소스의 API 차단과 Worker 컴파일만 확인한다. 최종 배포·운영 확인 결과는 배포 후 기록한다.
