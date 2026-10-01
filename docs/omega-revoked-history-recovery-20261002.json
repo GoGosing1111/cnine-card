@@ -1,0 +1,144 @@
+{
+  "status": "COMPLETED",
+  "dateKst": "2026-10-02",
+  "authorization": [
+    "zkzk9999 오메가 5조 조건 안됐나 확인해바",
+    "오메가 지급해",
+    "점크루지도 맞을거야 확인하고 같이 오메가 지급"
+  ],
+  "correctionReason": "10월 1일 지급 명단 조회에서 확률 오류로 회수된 SSS의 감사용 획득 이력까지 유효한 획득으로 집계해 두 계정이 누락됨.",
+  "previousRecord": "docs/hyper-five-trillion-omega-grant-20261001.json",
+  "revocationReceipt": "sss-rate-revision27-revoke-20260930-v1",
+  "revocationAuditId": 38020,
+  "eligibility": "하이퍼팩 누적 5조 이상, 현재 SSS 미보유, 회수 영수증으로 확인된 건을 제외한 유효 SSS 획득 이력 0건, 미수령 오메가 보상 0건을 사용자 잠금과 거래 안에서 재확인.",
+  "granted": 2,
+  "mercenary": "오메가-X",
+  "mercenaryCode": "V-021",
+  "rank": "SSS",
+  "quantityEach": 1,
+  "permanent": true,
+  "originalAcquisitionAndRevocationHistoryPreserved": true,
+  "results": [
+    {
+      "userId": 3884,
+      "nickname": "zkzk9999",
+      "eligibilityBefore": {
+        "spentCoin": "10284000000000",
+        "ownedSss": 0,
+        "validSssAcquisitions": [],
+        "revokedSssAcquisitions": [
+          {
+            "acquisition_id": "01cf5e09-9c8e-49cc-a024-c01b9eb00305:2",
+            "mercenary_code": "V-055"
+          }
+        ],
+        "pendingOmega": 0
+      },
+      "script": "scripts/ops/zkzk9999-omega-grant-20261002.mjs",
+      "scriptSha256": "9F8632E2038C493EB2BC96F8CFECEEEF752AD958CFF1DA9EF246029E0FD2FB13",
+      "completedAtKst": "2026-10-02T00:40:44.6090000+09:00",
+      "receipt": {
+        "status": "COMPLETED",
+        "operationKey": "ops:zkzk9999-omega:20261002:v1:3884:V-021",
+        "actor": "SYSTEM_OPS",
+        "userId": 3884,
+        "nickname": "zkzk9999",
+        "mercenaryCode": "V-021",
+        "mercenaryName": "오메가-X",
+        "rank": "SSS",
+        "quantity": 1,
+        "permanent": true,
+        "expiresAt": null,
+        "beforeCopies": 0,
+        "totalCopies": 1,
+        "duplicates": 0,
+        "completedAt": "2026-10-01T15:40:44.609Z",
+        "adminLogId": "39106"
+      },
+      "preserved": {
+        "balances": true,
+        "loadouts": true,
+        "growth": true,
+        "otherMercenaries": true
+      },
+      "verification": {
+        "syntaxCheckPassed": true,
+        "partialFailureRolledBack": true,
+        "retryDidNotDuplicate": true,
+        "completeDryRunRolledBack": true,
+        "freshConnectionVerified": true,
+        "currentCopies": 1,
+        "missing": 0,
+        "duplicateGrants": 0
+      },
+      "temporaryRunnerStopped": true,
+      "temporaryWorkerDisabled": true
+    },
+    {
+      "userId": 297,
+      "nickname": "점크루지",
+      "eligibilityBefore": {
+        "spentCoin": "7721500000000",
+        "ownedSss": 0,
+        "validSssAcquisitions": [],
+        "revokedSssAcquisitions": [
+          {
+            "acquisition_id": "32106221-cb93-4701-88a9-09f156720701:2",
+            "mercenary_code": "V-046"
+          },
+          {
+            "acquisition_id": "8a31119c-b8ca-4e49-a1bb-90e507ecf90b:3",
+            "mercenary_code": "V-021"
+          },
+          {
+            "acquisition_id": "9e98d35c-7b99-484f-a476-722390ae5886:6",
+            "mercenary_code": "V-055"
+          }
+        ],
+        "pendingOmega": 0
+      },
+      "script": "scripts/ops/jeomcruji-omega-grant-20261002.mjs",
+      "scriptSha256": "D5077B787EE4AAE862D789BFFE859C839C5D9E49C2ECB3055C40DC892BEB2411",
+      "completedAtKst": "2026-10-02T00:43:17.1770000+09:00",
+      "receipt": {
+        "status": "COMPLETED",
+        "operationKey": "ops:jeomcruji-omega:20261002:v1:297:V-021",
+        "actor": "SYSTEM_OPS",
+        "userId": 297,
+        "nickname": "점크루지",
+        "mercenaryCode": "V-021",
+        "mercenaryName": "오메가-X",
+        "rank": "SSS",
+        "quantity": 1,
+        "permanent": true,
+        "expiresAt": null,
+        "beforeCopies": 0,
+        "totalCopies": 1,
+        "duplicates": 0,
+        "completedAt": "2026-10-01T15:43:17.177Z",
+        "adminLogId": "39112"
+      },
+      "preserved": {
+        "balances": true,
+        "loadouts": true,
+        "growth": true,
+        "otherMercenaries": true
+      },
+      "verification": {
+        "syntaxCheckPassed": true,
+        "partialFailureRolledBack": true,
+        "retryDidNotDuplicate": true,
+        "completeDryRunRolledBack": true,
+        "freshConnectionVerified": true,
+        "currentCopies": 1,
+        "missing": 0,
+        "duplicateGrants": 0
+      },
+      "temporaryRunnerStopped": true,
+      "temporaryWorkerDisabled": true
+    }
+  ],
+  "gameRuntimeChanged": false,
+  "schemaChanged": false,
+  "gameDeploymentRequired": false
+}
