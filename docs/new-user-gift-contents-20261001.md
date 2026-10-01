@@ -59,3 +59,10 @@ Hyperdrive를 통한 읽기 전용 트랜잭션으로 슈퍼스타 7종 / FUR 14
 - 메인 HTML, 관리자 HTML, 공용 보상 JS, 포스터 PNG, 포스터 HTML·공개 카탈로그의 운영 HTTP 200 및 로컬 SHA-256 일치 확인. 비인증 기프트 상태 API는 401로 보호됐다.
 - 포스터: <https://cnine-card.pages.dev/assets/posters/new-user-gift-20261001.png>. 편집 프리뷰: <https://cnine-card.pages.dev/preview/new-user-gift-20261001/>.
 - 배포 로그·운영 카탈로그 전후·전환 결과·UI/운영 검수 증빙은 배포 트리 밖 `C:/Users/User/.codex/worktrees/new-user-gift-ops-20261001/`에 보관했다. 이 완료 기록은 문서만 추가하므로 재검사·재배포하지 않는다.
+
+## 후속 안내 정정 — WAGO 문구 제거
+
+- 사용자 지적에 따라 종료된 WAGO 안내를 포스터·편집 HTML·관리자 기프트 안내·미인증 오류 문구에서 제거하고 PLAY DK로 정리했다. 기존 구성과 지급 원장은 변경하지 않는다.
+- 포스터 재출력과 하단 직접 확인, 관리자 안내 PC 1280px·모바일 390px 표시 및 넘침 없음 확인을 완료했다. 출력 SHA-256은 `abc2ae241d04c7238e994445cbc094aa1de1202253027c3be31bc372cc448f9c`다.
+- 직전 운영 `ba74cb85-e75b-411d-afb0-bc529fb2f86f`, 소스 `f5473fe58873d9f94890b1dd2379c494887511bf`를 Wrangler 목록으로 확인했다. 지정 scoped 배포를 사용한다.
+- 동일 테스트 파일에서 문구·공용 안내·CMS 연결과 직접 관련된 3개만 `NODE_OPTIONS=--test-name-pattern=7.days.uses|shared.player/CMS|client/CMS`로 선택한다. 지급 SQL·원장 전환은 변경되지 않아 직전 15/15 결과를 유지하며 거래 회귀를 반복하지 않는다. 필수 문법·출시/캐시·Hyperdrive 검사는 유지한다.
