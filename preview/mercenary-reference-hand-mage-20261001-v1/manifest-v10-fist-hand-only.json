@@ -1,0 +1,13 @@
+{
+  "source": "sources/user-pose-change-reference.png",
+  "correctedHand": "assets/hand-mage-source-art-v9-fist-generated.png",
+  "result": "assets/hand-mage-source-art-v10-fist-hand-only.png",
+  "generation": "Built-in image_gen; compact closed fist with a single thumb, composited only within the original hand area",
+  "width": 1024,
+  "height": 1536,
+  "colorMode": "RGB",
+  "changedPixels": 46123,
+  "changedPixelsOutsideHandMask": 0,
+  "sha256": "0C66A191CE7584234363256D54A61EAA843D57428ECBE77F65B49DA40E1B358A",
+  "status": "USER_REVIEW_PENDING"
+}

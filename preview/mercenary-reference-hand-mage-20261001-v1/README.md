@@ -1,4 +1,15 @@
-# 사진 참조 손 마력 마법사 — 최신 V7 손 구조 재작화
+# 사진 참조 손 마력 마법사 — 최신 V10 주먹 자세
+
+최신 검수본은 `assets/hand-mage-source-art-v10-fist-hand-only.png`다. 사용자가 재첨부한 `sources/user-pose-change-reference.png`에서 화면 왼쪽 손을 작은 주먹으로 마력을 모으는 자세로 변경했다. 안으로 접힌 네 손가락과 바깥에 놓인 엄지 하나를 확인하고, 손목 연결부와 원래 긴 손가락의 잔여 형태가 없는지 확대 검수했다. 손과 연결부의 국소 수정 영역 밖은 원본 픽셀 그대로이며 저장본 재검사에서 변경 픽셀 0개다.
+
+- 내장 image_gen 실제 프롬프트: `prompt-v9-compact-fist.txt`.
+- 생성 원본: `assets/hand-mage-source-art-v9-fist-generated.png`.
+- 국소 반영/검증: `compose-fist-hand-v10.ps1`, `manifest-v10-fist-hand-only.json`.
+- 확대 검수: `qa/v10-hand-detail.png`.
+- V8 손바닥 위 자세는 두 엄지 오류로 사용자 반려. `assets/hand-crop-v8-two-thumbs-rejected.png`는 반려 이력이다.
+- V10 사용자 최종 검수 대기. 운영·도감·전투 연결 없음.
+
+## V7 손 구조 수정 이력
 
 최신 검수본은 `assets/hand-mage-source-art-v7-natural-hand.png`다. 사용자가 V4의 손 구조를 반려하여, 손가락을 과하게 벌린 기존 모양 대신 손바닥을 살짝 오므린 자세로 손 전체를 다시 그렸다. 엄지 뿌리와 손바닥 볼륨, 네 손가락의 마디·길이 차이, 짧은 새끼손가락과 둥근 손톱을 확대 확인했다. 얼굴·머리·의상 등 손 수정 영역 밖의 변경 픽셀은 저장본 재검사에서 **0개**다.
 
