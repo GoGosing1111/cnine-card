@@ -1,0 +1,64 @@
+{
+  "date": "2026-10-02",
+  "title": "FUR 14·15강 개방",
+  "generationMode": "built-in image_gen; full poster generation and two targeted text corrections",
+  "output": "assets/posters/fur-14-15-enhancement-20261002-v3.png",
+  "dimensions": [
+    1024,
+    1536
+  ],
+  "sha256": "25c1130d02cf0acf65825350bc799bad013edfc2f4d039dabb2c1dcd87da53ed",
+  "cms": {
+    "key": "fur_master_star_breakthrough_v1802",
+    "updatedAtUtc": "2026-10-01 18:47:04",
+    "readOnlyVerified": true,
+    "enabled": true,
+    "extendedEnabled": true,
+    "basePower": 3200
+  },
+  "levels": [
+    {
+      "from": 13,
+      "to": 14,
+      "masterStarsPerAttempt": 1000000,
+      "duplicateCardsPerAttempt": 10,
+      "successRatePercent": 5,
+      "pityFailureThreshold": 15,
+      "guaranteedAttemptAfterContinuousFailures": 16,
+      "powerBonusPercent": 3800,
+      "baseCardBattlePower": 124800
+    },
+    {
+      "from": 14,
+      "to": 15,
+      "masterStarsPerAttempt": 2000000,
+      "duplicateCardsPerAttempt": 15,
+      "successRatePercent": 5,
+      "pityFailureThreshold": 20,
+      "guaranteedAttemptAfterContinuousFailures": 21,
+      "powerBonusPercent": 6000,
+      "baseCardBattlePower": 195200
+    }
+  ],
+  "rules": [
+    "Failed and guaranteed attempts still consume materials.",
+    "Keep one enhancement target card.",
+    "Success resets the continuous failure count.",
+    "Power excludes avatar/equipment/other bonuses."
+  ],
+  "prompts": {
+    "initial": "Create ONE finished official Korean game update information POSTER for 숲켓몬 FUR enhancement +14 and +15. Portrait 1024x1536 PNG, completely opaque background. Premium elegant dark black/navy fantasy forge, restrained polished gold and pale silver typography, subtle ember sparks along outer margins, refined ornamental card-rank crest above title. Bold clean beautiful Korean typography, very large fully legible numbers, precise numeric commas, plenty of whitespace, two clearly aligned comparison columns. Artistic polished game promotional poster, not a generic dashboard. Do not show humans, copyrighted logos, fake game card portraits, extra statistics, QR codes, watermarks, web URLs, English slogans. All Korean text and all numbers below MUST appear accurately, verbatim. No invented or omitted material costs. Title upper region 'FUR 14·15강 개방'; small subtitle '강화 안내'. Under title small baseline '일반 FUR 기본 전투력 3,200 기준'. Two equal comparison panels occupy middle 70%; left warm amber/gold, right platinum gold with tasteful violet rim glow; restrained metallic frame accents, thin dividers instead of bulky boxes. LEFT column heading '13강 → 14강'; main power label '강화 후 전투력' and enormous '124,800'; small power detail '기본 대비 +3,800%'. Left materials heading '1회 강화 재료'; line '동일 카드 10장'; line '마스터의 별 500,000개'; left success label '성공 확률' and very large '5%'. RIGHT column heading '14강 → 15강'; label '강화 후 전투력' and enormous '195,200'; detail '기본 대비 +6,000%'. Right materials heading '1회 강화 재료'; line '동일 카드 15장'; line '마스터의 별 1,000,000개'; right success label '성공 확률' and very large '5%'. Below both columns a full-width gold-trimmed guarantee band with header '성공 보장' and prominent exact line '연속 30회 실패 시, 31번째 시도 확정 성공'. Bottom, two crisp legible footnote lines '실패·보장 시도에도 재료가 소모됩니다.' and '강화 대상 1장은 남겨야 하며, 성공 시 실패 횟수는 초기화됩니다.' Then smallest still legible bottom baseline '전투력은 장비·아바타 등 추가 보너스 제외 · 2026.10.02 기준'. Clear information hierarchy: title, two levels, power totals, materials, chance, guarantee, footnotes. Keep all text inside large safe margins with no overflow. Make the informational content dominant and readable on a phone. One complete polished finished poster.",
+    "materialCorrection": "Edit the provided finished FUR enhancement poster with TWO numeric corrections ONLY. Preserve the entire exact existing composition, frame, colors, typography, proportions, every other Korean text and number, and background. In the LEFT panel (13강 → 14강), replace the material row '마스터의 별 500,000개' with exactly '마스터의 별 1,000,000개'. In the RIGHT panel (14강 → 15강), replace '마스터의 별 1,000,000개' with exactly '마스터의 별 2,000,000개'. Maintain readable spacing and full safe margins within each panel; use same type style with small spacing adjustment only if necessary. Do not swap the two corrected values. Keep left 전투력 124,800, right 195,200, left +3,800%, right +6,000%, duplicate cards 10장 and 15장, BOTH success probabilities 5%, and exact guarantee line '연속 30회 실패 시, 31번째 시도 확정 성공' unchanged. Footer and date remain exactly intact. One corrected final high-quality 1024x1536 opaque portrait poster, no added labels or extra text.",
+    "pityCorrection": "Edit the provided FUR poster. Change ONLY the full-width bottom '성공 보장' band, because the pity thresholds have changed and now differ by level. Preserve entire title, comparison panels, gold/black/violet art, materials, every other text, date and all numbers exactly. Remove old guarantee sentence '연속 30회 실패 시, 31번째 시도 확정 성공' entirely. Keep the band heading '성공 보장', make that heading a little smaller only if necessary to fit TWO highly readable, neatly centered lines below it within the same band: exact line1 '14강: 연속 15회 실패 후 16번째 확정 성공'; exact line2 '15강: 연속 20회 실패 후 21번째 확정 성공'. Ensure 14강 is paired with 15 failures and 16th attempt, 15강 paired with 20 failures and 21st attempt. These are separate guarantees. No line clipping. Keep band elegant and readable on phones. Preserve below-band footnotes '실패·보장 시도에도 재료가 소모됩니다.' and '강화 대상 1장은 남겨야 하며, 성공 시 실패 횟수는 초기화됩니다.' and 2026.10.02 date. In the two panels keep exact power 124,800 and 195,200, growth +3,800% and +6,000%, duplicate card costs 10장 and 15장, master-star costs 1,000,000개 and 2,000,000개, and success chances BOTH 5%. No other changes, no extra slogans, no new labels, no watermark. One final finished 1024x1536 portrait opaque PNG."
+  },
+  "qa": {
+    "visualReview": "All Korean labels/numbers, both power values, 1,000,000/2,000,000 star costs, 10/15 duplicate cards, 5%/5%, 15->16 and 20->21 guarantees verified against CMS and server comparison failCount >= threshold.",
+    "sourceCode": "functions/api/[[path]].js: highBreakthroughStepPity and enhancement transaction"
+  },
+  "deployment": {
+    "mode": "assets-only",
+    "previousSource": "065d6bec5f102785acea3674b6aac5bb893a803c",
+    "previousPagesId": "c76a1381-ef67-448c-8194-c71d5c6b03bc",
+    "scope": "Poster PNG and metadata only; runtime/CMS unchanged"
+  }
+}
