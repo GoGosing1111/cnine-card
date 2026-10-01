@@ -76,7 +76,7 @@ test('unauthenticated requests stop before event data access',async()=>{
 test('CMS loads refreshed access script and badge with no nickname restriction',()=>{
   const read=file=>readFileSync(new URL(`../${file}`,import.meta.url),'utf8');
   const html=read('admin/index.html'),client=read('admin/burning-admin.js'),css=read('admin/hyper-burning-admin.css');
-  assert.ok(html.includes('burning-admin.js?v=20260927-all-owners'));
+  assert.ok(html.includes('burning-admin.js?v=20261002-ranked'));
   assert.ok(html.includes('hyper-burning-admin.css?v=20260927-all-owners'));
   assert.match(client,/const allowed=role==='OWNER';/);
   assert.doesNotMatch(client+css,/핑크빛유두|OPERATOR_NICKNAME/);
