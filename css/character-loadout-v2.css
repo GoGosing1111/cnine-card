@@ -964,3 +964,7 @@
 /* LG Heeya: keep the approved slender full-body art above the readout. */
 .clv2-armory-stage[data-avatar-code='LG_HI_HEEYA'] .clv2-quartermaster.is-equipped-avatar { width: min(64%, 440px); height: 76%; bottom: 15%; }
 .clv2-armory-stage[data-avatar-code='LG_HI_HEEYA']::after { height: 16%; }
+
+/* Seasonal clan uniforms: keep the whole silhouette clear of the readout. */
+.clv2-armory-stage:is([data-avatar-code='HANWHA_KANGGUYEOL'],[data-avatar-code='SAMSUNG_JUSEONG']) .clv2-quartermaster.is-equipped-avatar { width: min(64%, 440px); height: 76%; bottom: 15%; }
+.clv2-armory-stage:is([data-avatar-code='HANWHA_KANGGUYEOL'],[data-avatar-code='SAMSUNG_JUSEONG'])::after { height: 16%; }

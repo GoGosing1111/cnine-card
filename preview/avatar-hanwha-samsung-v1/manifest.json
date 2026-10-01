@@ -1,0 +1,125 @@
+{
+  "generator": "built-in image_gen",
+  "date": "2026-10-01",
+  "backgroundRemoval": "none; generated alpha preserved",
+  "avatars": {
+    "kangguyeol": {
+      "identityReference": "assets/cards/강구열/01.webp",
+      "clanMarkReference": "assets/ui/clan/marks/source/hanwha-clan-mark-source-v1.png",
+      "alpha": {
+        "clearPixels": 1105960,
+        "solidPixels": 436214,
+        "borderNontransparentPixels": 0,
+        "crop": {
+          "left": 227,
+          "top": 14,
+          "width": 582,
+          "height": 1508
+        }
+      },
+      "runtime": {
+        "width": 640,
+        "height": 1088,
+        "uniformScale": 0.6896551724137931,
+        "bodyWidth": 401,
+        "bodyHeight": 1040
+      },
+      "files": {
+        "kangguyeol-lobby-source-art-v1.png": {
+          "sha256": "91d0cd5a5a82fbd3023036b3d3f433c1a9879484f22d13b87ec5b54e9dc30c10",
+          "bytes": 2446123,
+          "width": 1024,
+          "height": 1536,
+          "hasAlpha": false
+        },
+        "kangguyeol-equipment-source-art-v1.png": {
+          "sha256": "a44be2d34f0c01ccbe625504f7fd34b5c254a05279f007df67941f7b4187cbd9",
+          "bytes": 1659910,
+          "width": 1024,
+          "height": 1536,
+          "hasAlpha": true
+        },
+        "kangguyeol-lobby-v1-1024.webp": {
+          "sha256": "22f175c967d95d53202585c83ad86e9475e586cb0d7b33c32b521b694c7753b7",
+          "bytes": 314304,
+          "width": 1024,
+          "height": 1536,
+          "hasAlpha": false
+        },
+        "kangguyeol-lobby-v1-640.webp": {
+          "sha256": "21791be6fa3553ff2d05c8394604c1eabca9dc6dce63d62962a8bfc5b0aad76b",
+          "bytes": 161452,
+          "width": 640,
+          "height": 960,
+          "hasAlpha": false
+        },
+        "kangguyeol-equipment-v1-640.webp": {
+          "sha256": "568c30631ea472c193507fbeea6253263f24f01155c574ca5bd890ada58b47d4",
+          "bytes": 114956,
+          "width": 640,
+          "height": 1088,
+          "hasAlpha": true
+        }
+      }
+    },
+    "juseong": {
+      "identityReference": "assets/cards/주성/01.webp",
+      "clanMarkReference": "assets/ui/clan/marks/source/samsung-clan-mark-source-v1.png",
+      "alpha": {
+        "clearPixels": 1079438,
+        "solidPixels": 456904,
+        "borderNontransparentPixels": 0,
+        "crop": {
+          "left": 232,
+          "top": 17,
+          "width": 573,
+          "height": 1502
+        }
+      },
+      "runtime": {
+        "width": 640,
+        "height": 1088,
+        "uniformScale": 0.6924101198402131,
+        "bodyWidth": 397,
+        "bodyHeight": 1040
+      },
+      "files": {
+        "juseong-lobby-source-art-v1.png": {
+          "sha256": "0178a227637ac62d3cfacff9b6d1543525cf2610b05d10624199716338e22b34",
+          "bytes": 2664396,
+          "width": 1024,
+          "height": 1536,
+          "hasAlpha": false
+        },
+        "juseong-equipment-source-art-v1.png": {
+          "sha256": "cf2de46f9d3eb120067a4ef756e9424ed2775f8796fa731befd669c22a0e1c76",
+          "bytes": 1698916,
+          "width": 1024,
+          "height": 1536,
+          "hasAlpha": true
+        },
+        "juseong-lobby-v1-1024.webp": {
+          "sha256": "aabcf5c1a86d44feeed0ae755c65c704ab9ac1c2476e9e5ca5d60b7f2bdd70d1",
+          "bytes": 334478,
+          "width": 1024,
+          "height": 1536,
+          "hasAlpha": false
+        },
+        "juseong-lobby-v1-640.webp": {
+          "sha256": "7aaac2cde3b1d8a4e21a6b6ba7f48bd1d4cb19ac95d40b024cfc5c5de9a2b9fc",
+          "bytes": 174804,
+          "width": 640,
+          "height": 960,
+          "hasAlpha": false
+        },
+        "juseong-equipment-v1-640.webp": {
+          "sha256": "0fb30a7f082ae7fe5f23d37adcf70466fb46650ceee7266db51df62b8e650016",
+          "bytes": 117226,
+          "width": 640,
+          "height": 1088,
+          "hasAlpha": true
+        }
+      }
+    }
+  }
+}

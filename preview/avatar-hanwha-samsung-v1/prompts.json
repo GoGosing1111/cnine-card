@@ -1,0 +1,48 @@
+{
+  "generator": "built-in image_gen",
+  "date": "2026-10-01",
+  "userRequest": "강구열 주성 클랜아바타 만들어 옵션은 똑같이 최근 클랜 아바타 옵션대로 하고 각 클랜 시즌종료까지 지급해",
+  "sharedConstraints": "Photo-referenced face identity preserved; new composition; natural continuous hair rather than blade-like layered panels; adult natural body proportions; actual in-game clan crest only; no external sports logo/sponsors/text/watermarks/card frames; no weapons or armor; source originals retained; generated true transparent alpha preserved without background removal.",
+  "assets": [
+    {
+      "file": "kangguyeol-equipment-source-art-v1.png",
+      "transparentBackground": true,
+      "referenceRoles": {
+        "assets/cards/강구열/01.webp": "exact face identity",
+        "preview/avatar-kangguyeol-dk-v1/assets/avatar-kangguyeol-dk-lobby-source-art-v1.png": "approved face/rendering reference only",
+        "assets/ui/clan/marks/source/hanwha-clan-mark-source-v1.png": "only Hanwha crest"
+      },
+      "prompt": "One production 1024x1536 true transparent full-body adult Kangguyeol. Preserve exact face shape, eyes, nose, lips, mild warm smile and black parted hair. New upright confident pose, one hand lightly resting at waist, other arm relaxed. Charcoal black short-sleeve esports jersey with orange/gold seam accents and faithful large printed in-game Hanwha phoenix crest; tailored black pants and black/orange sneakers. Natural adult proportions, polished semi-real 2D game painting, fine cloth folds, clear face. Full hair-to-shoes figure with clear transparent margins, no background, floor shadow or floating emblem."
+    },
+    {
+      "file": "juseong-equipment-source-art-v1.png",
+      "transparentBackground": true,
+      "referenceRoles": {
+        "assets/cards/주성/01.webp": "exact face identity",
+        "preview/avatar-dk-bongsoon-lg-juseong-v1/assets/avatar-lg-juseong-lobby-source-art-v1.png": "approved face/rendering reference only",
+        "assets/ui/clan/marks/source/samsung-clan-mark-source-v1.png": "only Samsung crest"
+      },
+      "prompt": "One production 1024x1536 true transparent full-body adult Juseong. Exact face shape, eyes, brows, nose, lips and natural brown parted hair. Fresh relaxed upright standing pose; one hand casually in trouser pocket, other holding folded navy team jacket, calm subtle smile. Navy short-sleeve esports jersey with silver piping and cobalt panels, faithful printed in-game Samsung stellar triple-crystal silver orbital crest, navy/black pants and white/navy sneakers. Full body within transparent margins. Fine semi-real 2D game portrait, natural anatomy, readable face and fabric."
+    },
+    {
+      "file": "kangguyeol-lobby-source-art-v1.png",
+      "transparentBackground": false,
+      "referenceRoles": {
+        "assets/kangguyeol-equipment-source-art-v1.png": "matching finished outfit and face",
+        "assets/cards/강구열/01.webp": "exact face identity",
+        "assets/ui/clan/marks/source/hanwha-clan-mark-source-v1.png": "in-game phoenix crest"
+      },
+      "prompt": "One premium 1024x1536 RGB Hanwha Kangguyeol lobby portrait. Keep same face, charcoal/orange phoenix jersey, pants and sneakers as equipment. New clan hall scene of black stone, brushed dark metal, warm amber strips and in-game phoenix insignia. Character large foreground, full hair-to-shoes figure inside frame, natural confident relaxed stance, one hand gently on an esports desk and other arm relaxed, upright camera rather than original photo angle. Beautiful semi-real 2D game portrait, clear face and painted cloth, restrained warm cinematic light and background depth."
+    },
+    {
+      "file": "juseong-lobby-source-art-v1.png",
+      "transparentBackground": false,
+      "referenceRoles": {
+        "assets/juseong-equipment-source-art-v1.png": "matching finished outfit and face",
+        "assets/cards/주성/01.webp": "exact face identity",
+        "assets/ui/clan/marks/source/samsung-clan-mark-source-v1.png": "in-game star crest"
+      },
+      "prompt": "One premium 1024x1536 RGB Samsung Juseong lobby portrait. Same recognizable face, brown hair, navy/silver/cobalt printed crest jersey, navy pants and white/navy sneakers. Elegant dark blue clan headquarters with silver rings, sapphire star-crystal clan emblem, blue light strips and calm esports lounge. Full foreground figure, natural relaxed stance lightly beside a silver railing, one hand on railing and other holding matching folded jacket. Upright new camera composition, calm slight smile, refined semi-real 2D painted face/skin/cloth, natural continuous hair. Clear cinematic depth without clutter."
+    }
+  ]
+}
