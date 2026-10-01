@@ -1,0 +1,13 @@
+{
+  "source": "sources/user-original.png",
+  "correctedHand": "assets/hand-corrected-generation.png",
+  "result": "assets/hand-corrected-v1.png",
+  "generation": "Built-in image_gen; open hand with one thumb and four fingers, using a real hand anatomy reference, composited only within the original hand area",
+  "width": 1024,
+  "height": 1536,
+  "colorMode": "RGB",
+  "changedPixels": 50024,
+  "changedPixelsOutsideHandMask": 0,
+  "sha256": "3026F1A3B1BCC5C8FAB626ECF0FC378170745B619FD7D89E7A5A581C06AD2685",
+  "status": "USER_REVIEW_PENDING"
+}

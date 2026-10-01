@@ -1,0 +1,9 @@
+Fix only the foreground hand and fingers at the LOWER LEFT of this image. Keep the face, facial expression, hair, art style, character design, costume, upper-right hand, magic and background unchanged.
+
+Redraw the lower-left hand as a graceful anatomically correct adult woman's hand in the same general open spellcasting gesture, connected to the existing wrist at the same location. Exactly FIVE digits: ONE thumb and FOUR fingers. A coherent palm of normal size, four fingers rooted along one curved knuckle row, and one thumb rooted on the side of the palm. No extra thumb.
+
+The four fingers should extend together diagonally toward the lower-left with a modest natural spread. Index and ring are slightly shorter than middle; pinky is distinctly shorter and thinner. Fingers have normal human lengths relative to the palm, gently curved joints and short rounded fingernails. The single thumb opens modestly toward the lower-right. Preserve graceful feminine anatomy, realistic finger taper, knuckle detail and the existing refined semi-real anime illustration finish. No long needle fingers, giant palm, claw pose, branching digits, fused joints or excessive splaying.
+
+IMPORTANT: do not keep the malformed original hand structure and simply attach a finger to it. Replace the hand with a coherent normal five-digit construction, within the same local area. No fist, no bowl-shaped palm-up pose, no duplicated thumb. Keep the rest of the character pose unchanged. Preserve the violet reflected light on the hand. Restore only the tiny background areas vacated by corrected fingers.
+
+Return the COMPLETE original 1024x1536 portrait with just this local hand correction. Do not crop, reframe, restyle, alter the face or redraw other parts.
