@@ -19,3 +19,11 @@
 공동 서버 변경의 전체 출시 검사·배포가 완료된 후 후보를 통합했다. 실제 직전 운영 Pages ID는 97eb8fb7-9ac4-4cb8-8ca9-1b6efe4abffe, 소스는 eaf3f934c58f42fd612391d48b9a2501a4d87719이다. Wrangler 운영 배포 목록과 해당 작업의 완료 기록으로 확인했다. 이 소스를 SCOPED_DEPLOY_BASE로 사용한다. 이후 차이는 아바타 자산·장비 CSS의 두 코드 한정 배치·로더 캐시·일회 거래 도구·관련 검사 및 완료 문서뿐이다. 기능 플래그·공용 전투·인증·스키마·의존성·인프라 변경이 없다.
 
 SCOPED_DEPLOY_TESTS는 tests/clan-hanwha-samsung-avatar-release-20261001.test.mjs 1개(5건), SCOPED_DEPLOY_CHECKS는 빈 배열이다. 36명 지급 거래와 실패/재시도 보호, 해당 자산과 메인 로더 계약을 직접 확인하는 범위다. 통과한 무관한 게임 검사는 반복하지 않는다.
+
+## 운영 완료
+
+- 배포 소스 ecab6a11617ab1a83f7876591a2c59d39711fbed, Pages ID 9fa05b85-8dec-4dfb-a455-3e792e67440c, 미리보기 https://cnine-card.pages.dev/preview/avatar-hanwha-samsung-v1/ . 지정 scoped 배포의 관련 5건·출시 보호·Hyperdrive cache OFF 검사가 통과했고 API/Pages/클랜 워커 배포 명령이 모두 정상 종료했다.
+- 실지급 직전 런타임 WebP 6개의 운영 HTTP 200 및 SHA-256 일치를 확인했다. 배포 후 새 CSS·메인 app·미리보기 HTML도 각각 운영 파일과 로컬 SHA-256이 일치했다.
+- 2026-10-01 11:30:31 UTC(20:30:31 KST)에 등록/지급 거래를 완료했다. 한화 강구열 A-31은 한화 18명, 삼성 주성 A-32는 삼성 18명, 총 36명에게 EVENT 보유권을 지급했다. 카탈로그는 활성/공개 1, 판매 0, 가격 null, 버전 1이다. 최근 T1 운영 옵션 4개를 두 아바타에 정확히 복사했다.
+- 모든 보유권의 expires_at 최소/최대가 2026-10-11 13:00:00 UTC로 동일하며 현 시즌 종료와 일치했다. 지갑/기존 장착/클랜 소속은 보존됐다. 운영 감사 ID 38873, 영수증 ops:hanwha-kangguyeol-samsung-juseong-avatars:20261001:v1 상태 COMPLETED.
+- DB 세부 영수증 및 지급 명단 증빙은 작업 트리 밖 %TEMP%/clan-avatar-live-20261001.json, 배포 로그는 %TEMP%/clan-avatar-deploy-20261001.log에 보관한다. 이 완료 문서의 후속 커밋은 게임 실행 파일을 변경하지 않으므로 테스트나 운영 재배포를 반복하지 않는다.
