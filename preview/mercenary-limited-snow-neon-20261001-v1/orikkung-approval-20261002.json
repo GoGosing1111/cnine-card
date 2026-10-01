@@ -1,0 +1,29 @@
+{
+  "format": "PROJECT_V_LIMITED_SOURCE_ART_APPROVAL_V1",
+  "dateKST": "2026-10-02",
+  "name": "오리꿍",
+  "sourceAttachment": "C:/Users/User/AppData/Local/Temp/codex-clipboard-60615267-b3ad-4ac1-bf6c-5dbcfdd7439b.png",
+  "sha256": "039E7CDD18D23CC05943E52157218FFE105F5F213C0B203237CD42FA2966F2A3",
+  "attachmentOrder": 1,
+  "status": "APPROVED_SOURCE_ART",
+  "rank": "SS",
+  "rankStatus": "CONFIRMED_BY_USER",
+  "rankConfirmed": true,
+  "edition": "LIMITED",
+  "editionConfirmed": true,
+  "userRequest": "오리꿍SS,디임SS 리미티드 승인",
+  "sourceArt": "assets/orikkung-limited-ss-source-art-approved-20261002.png",
+  "dimensions": [
+    1024,
+    1536
+  ],
+  "formatDetails": "RGB8 PNG",
+  "method": "EXACT_USER_ATTACHMENT_NO_GENERATION",
+  "byteForByteCopy": true,
+  "pixelsModified": false,
+  "scope": "Entire attached sourceArt, character name, confirmed SS rank and LIMITED edition",
+  "liveRegistration": false,
+  "battleSprite": "NOT_REQUESTED",
+  "skills": "NOT_REQUESTED",
+  "frameApprovalNotChanged": true
+}

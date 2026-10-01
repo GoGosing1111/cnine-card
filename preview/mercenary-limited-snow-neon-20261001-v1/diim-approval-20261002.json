@@ -1,0 +1,29 @@
+{
+  "format": "PROJECT_V_LIMITED_SOURCE_ART_APPROVAL_V1",
+  "dateKST": "2026-10-02",
+  "name": "디임",
+  "sourceAttachment": "C:/Users/User/AppData/Local/Temp/codex-clipboard-6944f119-044b-48e6-97ca-0bb071b9c7da.png",
+  "sha256": "838B9A71739EF4B442E00734584496A92136EFDAD6C71463E18527D6DF5E5CB4",
+  "attachmentOrder": 2,
+  "status": "APPROVED_SOURCE_ART",
+  "rank": "SS",
+  "rankStatus": "CONFIRMED_BY_USER",
+  "rankConfirmed": true,
+  "edition": "LIMITED",
+  "editionConfirmed": true,
+  "userRequest": "오리꿍SS,디임SS 리미티드 승인",
+  "sourceArt": "assets/diim-limited-ss-source-art-approved-20261002.png",
+  "dimensions": [
+    1024,
+    1536
+  ],
+  "formatDetails": "RGB8 PNG",
+  "method": "EXACT_USER_ATTACHMENT_NO_GENERATION",
+  "byteForByteCopy": true,
+  "pixelsModified": false,
+  "scope": "Entire attached sourceArt, character name, confirmed SS rank and LIMITED edition",
+  "liveRegistration": false,
+  "battleSprite": "NOT_REQUESTED",
+  "skills": "NOT_REQUESTED",
+  "frameApprovalNotChanged": true
+}

@@ -1,0 +1,76 @@
+{
+  "dateKST": "2026-10-02",
+  "scope": "Two exact approved attachments and updated preview pages only",
+  "passed": true,
+  "files": [
+    {
+      "name": "오리꿍",
+      "sha256": "039E7CDD18D23CC05943E52157218FFE105F5F213C0B203237CD42FA2966F2A3",
+      "exactAttachment": true,
+      "rankConfirmed": true,
+      "rank": "SS",
+      "edition": "LIMITED",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "format": "RGB8 PNG"
+    },
+    {
+      "name": "디임",
+      "sha256": "838B9A71739EF4B442E00734584496A92136EFDAD6C71463E18527D6DF5E5CB4",
+      "exactAttachment": true,
+      "rankConfirmed": true,
+      "rank": "SS",
+      "edition": "LIMITED",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "format": "RGB8 PNG"
+    }
+  ],
+  "browser": [
+    {
+      "preview": "preview/mercenary-limited-snow-neon-20261001-v1/index.html",
+      "entryCount": 5,
+      "desktop": {
+        "viewport": 1440,
+        "scrollWidth": 1440,
+        "allImagesLoaded": true
+      },
+      "mobile": {
+        "viewport": 390,
+        "scrollWidth": 390,
+        "allImagesLoaded": true
+      },
+      "newSSLabels": true,
+      "newCardEnlargement": true,
+      "smallWidth160": true,
+      "errors": [],
+      "screenshotsLocation": "C:\\Users\\User\\.codex\\worktrees\\limited-frame-slim-ops-20261001"
+    },
+    {
+      "preview": "preview/mercenary-limited-frame-slim-v3-20261001/index.html",
+      "entryCount": 6,
+      "desktop": {
+        "viewport": 1440,
+        "scrollWidth": 1440,
+        "allImagesLoaded": true
+      },
+      "mobile": {
+        "viewport": 390,
+        "scrollWidth": 390,
+        "allImagesLoaded": true
+      },
+      "newSSLabels": true,
+      "newCardEnlargement": false,
+      "smallWidth160": true,
+      "errors": [],
+      "screenshotsLocation": "C:\\Users\\User\\.codex\\worktrees\\limited-frame-slim-ops-20261001"
+    }
+  ],
+  "existingSourcesValidatedBy": "build-manifest.mjs (five source SHA-256 locks and approved V2 frame)",
+  "gameTestsRun": false,
+  "liveRegistration": false
+}

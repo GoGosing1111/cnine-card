@@ -12,6 +12,12 @@
   "prompts": ["prompt.json", "prompt-glow.json"],
   "lightEffect": "Static champagne-gold perimeter radiance and platinum-white glints included in alpha PNG",
   "preview": "index.html",
+  "previewUpdatedKST": "2026-10-02",
+  "sourceCollection": "../mercenary-limited-snow-neon-20261001-v1/manifest.json",
+  "addedApprovedSourceArt": [
+    "../mercenary-limited-snow-neon-20261001-v1/orikkung-approval-20261002.json",
+    "../mercenary-limited-snow-neon-20261001-v1/diim-approval-20261002.json"
+  ],
   "artWindowPixels": {"x": 61, "y": 89, "width": 902, "height": 1353},
   "qa": "qa.json",
   "generatedFilesCopiedWithoutProcessing": true,

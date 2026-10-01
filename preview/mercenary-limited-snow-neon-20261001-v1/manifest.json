@@ -1,10 +1,10 @@
 {
-  "version": 5,
-  "dateKST": "2026-10-01",
+  "version": 6,
+  "dateKST": "2026-10-02",
   "scope": "LIMITED_SOURCE_ART_COLLECTION_PREVIEW",
   "method": "built-in image_gen; approved source files preserved byte-for-byte",
-  "userReview": "BONGSOON_JOEUN_FRAME_APPROVED_INES_USER_SELECTED_PREVIEW",
-  "rankStatus": "PER_ENTRY_INES_SSS_USER_DESIGNATED_OTHERS_EXPECTED_SS",
+  "userReview": "BONGSOON_JOEUN_FRAME_APPROVED_INES_USER_SELECTED_ORIKKUNG_DIIM_SS_LIMITED_APPROVED",
+  "rankStatus": "PER_ENTRY_ORIKKUNG_DIIM_CONFIRMED_SS_INES_USER_DESIGNATED_SSS_BONGSOON_JOEUN_EXPECTED_SS",
   "entries": [
     {
       "name": "나무늘봉순",
@@ -64,6 +64,52 @@
         "sha256": "97D2120A91E7682130697476F6DA0C77FF5AA548C16B2AB128B539FF5ACB176D"
       },
       "approvedScope": "Add alongside Bongsoon and Joeun in the existing preview with user-designated SSS label"
+    },
+    {
+      "name": "오리꿍",
+      "concept": "SS 리미티드",
+      "approval": "orikkung-approval-20261002.json",
+      "status": "APPROVED_SOURCE_ART",
+      "rank": "SS",
+      "rankStatus": "CONFIRMED_BY_USER",
+      "rankConfirmed": true,
+      "edition": "LIMITED",
+      "editionConfirmed": true,
+      "method": "EXACT_USER_ATTACHMENT_NO_GENERATION",
+      "sourceArt": "assets/orikkung-limited-ss-source-art-approved-20261002.png",
+      "source": {
+        "path": "assets/orikkung-limited-ss-source-art-approved-20261002.png",
+        "width": 1024,
+        "height": 1536,
+        "bitDepth": 8,
+        "colorType": 2,
+        "bytes": 2482146,
+        "sha256": "039E7CDD18D23CC05943E52157218FFE105F5F213C0B203237CD42FA2966F2A3"
+      },
+      "approvedScope": "Entire attached sourceArt, character name, confirmed SS rank and LIMITED edition"
+    },
+    {
+      "name": "디임",
+      "concept": "SS 리미티드",
+      "approval": "diim-approval-20261002.json",
+      "status": "APPROVED_SOURCE_ART",
+      "rank": "SS",
+      "rankStatus": "CONFIRMED_BY_USER",
+      "rankConfirmed": true,
+      "edition": "LIMITED",
+      "editionConfirmed": true,
+      "method": "EXACT_USER_ATTACHMENT_NO_GENERATION",
+      "sourceArt": "assets/diim-limited-ss-source-art-approved-20261002.png",
+      "source": {
+        "path": "assets/diim-limited-ss-source-art-approved-20261002.png",
+        "width": 1024,
+        "height": 1536,
+        "bitDepth": 8,
+        "colorType": 2,
+        "bytes": 2824076,
+        "sha256": "838B9A71739EF4B442E00734584496A92136EFDAD6C71463E18527D6DF5E5CB4"
+      },
+      "approvedScope": "Entire attached sourceArt, character name, confirmed SS rank and LIMITED edition"
     }
   ],
   "frame": {
@@ -452,16 +498,16 @@
   },
   "futureRules": {
     "location": "../../AGENTS.md",
-    "approvedArt": "봉순 원본·조은 V11 전체 승인, 해시 고정",
-    "frame": "V1 폐기. 사용자 재첨부 V2 프레임 전체 승인, SHA-256 고정, 추가 수정 금지.",
+    "approvedArt": "봉순 원본·조은 V11·오리꿍 SS 리미티드·디임 SS 리미티드 전체 승인, 해시 고정",
+    "frame": "V1 폐기. 사용자 재첨부 V2 프레임 전체 승인, SHA-256 고정. 슬림 V3 광원본은 별도 디자인 시안.",
     "hair": "자연스러운 연속 모발 흐름 / 층층이 갈라진 판·띠형 헤어 금지"
   },
   "technicalQA": {
-    "sourcePixels": "Approved originals and Ines user attachment unchanged",
+    "sourcePixels": "Approved originals and all user attachments unchanged",
     "upscaled": false,
     "frameSeparateFromSourceArt": true,
     "pngReport": "qa-frame-v2.json",
-    "browserReport": "qa-preview-ines-20261001.json"
+    "browserReport": "qa-preview-orikkung-diim-20261002.json"
   },
   "liveRegistration": false,
   "battleSprite": "NOT_REQUESTED",
