@@ -13,6 +13,10 @@
   "lightEffect": "Static champagne-gold perimeter radiance and platinum-white glints included in alpha PNG",
   "preview": "index.html",
   "previewUpdatedKST": "2026-10-02",
+  "sourceArtCount": 6,
+  "valterRegistration": "valter-preview-registration-20261002.json",
+  "valterFrameStatus": "USER_SELECTED_FOR_VALTER_PREVIEW",
+  "collectionQA": "../mercenary-limited-snow-neon-20261001-v1/qa-preview-six-mercenaries-20261002.json",
   "sourceCollection": "../mercenary-limited-snow-neon-20261001-v1/manifest.json",
   "addedApprovedSourceArt": [
     "../mercenary-limited-snow-neon-20261001-v1/orikkung-approval-20261002.json",

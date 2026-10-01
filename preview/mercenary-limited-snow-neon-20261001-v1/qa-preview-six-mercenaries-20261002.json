@@ -1,0 +1,66 @@
+{
+  "dateKST": "2026-10-02",
+  "scope": "Restore existing approved Valter SSS Limited to both six-character previews",
+  "passed": true,
+  "sourceSha256": "8B94E60670355AF87D13802FD68AD4DE22F8E7F23C65028CC97DD1D1F78BE838",
+  "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+  "sourceWorktree": "C:/Users/User/.codex/worktrees/valter-release-ready/cnine-card",
+  "approvedSourceUnchanged": true,
+  "frameUnchanged": true,
+  "runtimeChanged": false,
+  "liveDeployment": false,
+  "results": [
+    {
+      "preview": "preview/mercenary-limited-snow-neon-20261001-v1",
+      "names": [
+        "발테르",
+        "나무늘봉순",
+        "조은",
+        "이네스",
+        "오리꿍",
+        "디임"
+      ],
+      "count": 6,
+      "valterRank": "SSS",
+      "valterFrame": "../mercenary-limited-frame-slim-v3-20261001/assets/mercenary-limited-frame-slim-v3-glow.png",
+      "desktop": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "allImagesLoaded": true
+      },
+      "mobile": {
+        "width": 390,
+        "scrollWidth": 390,
+        "allImagesLoaded": true
+      },
+      "small160": true,
+      "errors": []
+    },
+    {
+      "preview": "preview/mercenary-limited-frame-slim-v3-20261001",
+      "names": [
+        "발테르",
+        "나무늘봉순",
+        "조은",
+        "이네스",
+        "오리꿍",
+        "디임"
+      ],
+      "count": 6,
+      "valterRank": "SSS",
+      "valterFrame": "assets/mercenary-limited-frame-slim-v3-glow.png",
+      "desktop": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "allImagesLoaded": true
+      },
+      "mobile": {
+        "width": 390,
+        "scrollWidth": 390,
+        "allImagesLoaded": true
+      },
+      "small160": true,
+      "errors": []
+    }
+  ]
+}

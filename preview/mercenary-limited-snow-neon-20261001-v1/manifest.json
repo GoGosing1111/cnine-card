@@ -1,11 +1,35 @@
 {
-  "version": 6,
+  "version": 7,
   "dateKST": "2026-10-02",
   "scope": "LIMITED_SOURCE_ART_COLLECTION_PREVIEW",
   "method": "built-in image_gen; approved source files preserved byte-for-byte",
-  "userReview": "BONGSOON_JOEUN_FRAME_APPROVED_INES_USER_SELECTED_ORIKKUNG_DIIM_SS_LIMITED_APPROVED",
-  "rankStatus": "PER_ENTRY_ORIKKUNG_DIIM_CONFIRMED_SS_INES_USER_DESIGNATED_SSS_BONGSOON_JOEUN_EXPECTED_SS",
+  "userReview": "VALTER_SSS_LIMITED_RESTORED_WITH_USER_SELECTED_V3_GLOW_ALL_SIX_SOURCE_ART_PRESERVED",
+  "rankStatus": "PER_ENTRY_VALTER_INES_SSS_ORIKKUNG_DIIM_SS_BONGSOON_JOEUN_EXPECTED_SS",
   "entries": [
+    {
+      "name": "발테르",
+      "concept": "SSS 리미티드",
+      "selection": "../mercenary-limited-frame-slim-v3-20261001/valter-preview-registration-20261002.json",
+      "status": "APPROVED_SOURCE_ART",
+      "rank": "SSS",
+      "rankStatus": "USER_DESIGNATED",
+      "edition": "LIMITED",
+      "method": "EXISTING_APPROVED_ORIGINAL_NO_GENERATION",
+      "frame": "../mercenary-limited-frame-slim-v3-20261001/assets/mercenary-limited-frame-slim-v3-glow.png",
+      "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+      "frameStatus": "USER_SELECTED_FOR_VALTER_PREVIEW",
+      "sourceArt": "../../assets/ui/project-v/mercenaries/approved-20260930/crimson-silver-knight-source-art-approved-v8.png",
+      "source": {
+        "path": "../../assets/ui/project-v/mercenaries/approved-20260930/crimson-silver-knight-source-art-approved-v8.png",
+        "width": 1024,
+        "height": 1536,
+        "bitDepth": 8,
+        "colorType": 2,
+        "bytes": 2645494,
+        "sha256": "8B94E60670355AF87D13802FD68AD4DE22F8E7F23C65028CC97DD1D1F78BE838"
+      },
+      "approvedScope": "Register SSS Limited Valter with the user-selected slim V3 glow frame; preserve approved artwork and V17 battle motion"
+    },
     {
       "name": "나무늘봉순",
       "concept": "설원의 특수부대 · 쌍기관단총",
@@ -498,8 +522,8 @@
   },
   "futureRules": {
     "location": "../../AGENTS.md",
-    "approvedArt": "봉순 원본·조은 V11·오리꿍 SS 리미티드·디임 SS 리미티드 전체 승인, 해시 고정",
-    "frame": "V1 폐기. 사용자 재첨부 V2 프레임 전체 승인, SHA-256 고정. 슬림 V3 광원본은 별도 디자인 시안.",
+    "approvedArt": "발테르 SSS 리미티드·봉순 원본·조은 V11·오리꿍 SS 리미티드·디임 SS 리미티드 승인 원본 해시 고정, 이네스 첨부 원본 보존",
+    "frame": "V1 폐기. V2 승인 원본 보존. 발테르는 사용자가 지정한 슬림 V3 광원 프레임을 기본 사용한다.",
     "hair": "자연스러운 연속 모발 흐름 / 층층이 갈라진 판·띠형 헤어 금지"
   },
   "technicalQA": {
@@ -507,7 +531,7 @@
     "upscaled": false,
     "frameSeparateFromSourceArt": true,
     "pngReport": "qa-frame-v2.json",
-    "browserReport": "qa-preview-orikkung-diim-20261002.json"
+    "browserReport": "qa-preview-six-mercenaries-20261002.json"
   },
   "liveRegistration": false,
   "battleSprite": "NOT_REQUESTED",

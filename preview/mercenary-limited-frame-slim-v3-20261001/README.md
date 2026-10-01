@@ -4,7 +4,7 @@
 
 - 현재 시안: [금빛 광원 포함 투명 PNG](assets/mercenary-limited-frame-slim-v3-glow.png)
 - 광원 추가 전: [기본 투명 PNG](assets/mercenary-limited-frame-slim-v3.png)
-- [원화 적용·이전 프레임 비교](index.html): 나무늘봉순·조은·이네스·오리꿍·디임, 광원 켜기/끄기, 160px 확인.
+- [원화 적용·이전 프레임 비교](index.html): **발테르·나무늘봉순·조은·이네스·오리꿍·디임 총 6종**, 광원 켜기/끄기, 160px 확인. 프레임 단독 표시는 별도 접이식 영역으로 제공한다.
 - 생성 도구: **내장 image_gen**. [최초 생성 프롬프트](prompt.json), [최종 광원 추가 프롬프트](prompt-glow.json).
 
 검정·금색·백금색 재질 조합을 이어가며 옆면을 가느다란 이중 금속선으로 새로 설계했다. 넓은 상단 날개 대신 작은 중앙 보석과 백금 잎 장식을 배치했고, 하단은 낮은 장식 띠로 구성했다. 후속본은 테두리 주변에 금빛 광원과 백금색 점광을 추가했다. 광원은 PNG에 포함된 정적 효과다.
@@ -24,3 +24,9 @@
 생성 원본은 `C:/Users/User/.codex/generated_images/01a0f5a2-d9a1-7181-8f4a-e8b950658e06/`의 `exec-989778e6-a989-4958-a9b4-40bb1e890dc9.png`와 `exec-c5f78212-25dc-45ae-a359-dfb0b29092c9.png`에 보존했다.
 
 2026-10-02 후속 승인으로 **오리꿍 SS 리미티드·디임 SS 리미티드** 원본을 프리뷰에 추가했다. 원화·등급·에디션 승인 기록은 [오리꿍](../mercenary-limited-snow-neon-20261001-v1/orikkung-approval-20261002.json), [디임](../mercenary-limited-snow-neon-20261001-v1/diim-approval-20261002.json)이다. 프레임 PNG 두 장은 그대로이며 V3는 디자인 시안 상태를 유지한다. 최신 화면 검수는 [컬렉션 검수 기록](../mercenary-limited-snow-neon-20261001-v1/qa-preview-orikkung-diim-20261002.json)에 남겼다.
+
+### 2026-10-02 발테르 누락 복구
+
+별도 `codex/valter-release-ready`에 등록돼 있던 **발테르 SSS 리미티드**를 이 통합 프리뷰에서 누락했던 것을 정정했다. [기존 등록 기록](valter-preview-registration-20261002.json)을 그대로 보존하고, 승인 V8 원화와 사용자 지정 슬림 V3 광원 프레임으로 첫 번째 카드를 표시한다. 이 프레임은 발테르 프리뷰 사용에 관해 사용자가 선택했으며 다른 항목의 프레임 승인 범위를 확대하지 않는다.
+
+원본 SHA-256은 `8B94E60670355AF87D13802FD68AD4DE22F8E7F23C65028CC97DD1D1F78BE838`이며 원화와 프레임을 재생성·가공하지 않았다. SSS·리미티드 지정은 기존 승인 기록에서 가져왔고 V17 전투 리소스·배포 후보는 원래 작업 트리에 그대로 보존한다. 이 변경은 현재 컬렉션 표시와 기록의 통합이며 운영 배포를 수행하지 않는다. [6종 표시 확인](../mercenary-limited-snow-neon-20261001-v1/qa-preview-six-mercenaries-20261002.json).
