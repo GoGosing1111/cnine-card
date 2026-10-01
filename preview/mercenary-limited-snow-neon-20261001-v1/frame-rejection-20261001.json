@@ -1,0 +1,14 @@
+{
+  "format": "PROJECT_V_LIMITED_FRAME_REJECTION_V1",
+  "dateKST": "2026-10-01",
+  "status": "REJECTED_FRAME_RETIRED_FROM_PREVIEW",
+  "userRequest": "조은 채택하고 카드 프레임 폐기, 리미티드 서버한정판이라 부르기엔 가볍거나 디자인 메리트가 떨어짐",
+  "reason": "서버 한정판에 필요한 무게감과 독자적 디자인 메리트 부족",
+  "asset": "assets/mercenary-limited-frame-v1.png",
+  "sha256": "A8931DBD4C8C069B2D38731F58AF708C373C8765412702ED040908FA750A506C",
+  "supersedes": "frame-approval-20261001.json",
+  "filePreservedForHistory": true,
+  "useInCurrentPreview": false,
+  "liveRegistration": false,
+  "replacementRequiresUserReview": true
+}

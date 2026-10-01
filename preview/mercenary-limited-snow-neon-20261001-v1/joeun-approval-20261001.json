@@ -1,0 +1,19 @@
+{
+  "format": "PROJECT_V_LIMITED_SOURCE_ART_APPROVAL_V1",
+  "dateKST": "2026-10-01",
+  "status": "APPROVED_SOURCE_ART",
+  "name": "조은",
+  "version": "V11",
+  "userRequest": "조은 채택하고 카드 프레임 폐기, 리미티드 서버한정판이라 부르기엔 가볍거나 디자인 메리트가 떨어짐",
+  "sourceArt": "assets/joeun-neon-source-art-v11-straightened-cannon.png",
+  "sha256": "87E88A646E327FCBB6489B05D8C5287C5212B1D9105134ECE1C036D022C633DA",
+  "dimensions": [1024, 1536],
+  "formatDetails": "8-bit RGB PNG",
+  "approvedScope": "Entire latest V11 source illustration after forward cannon straightening",
+  "originalModifiedAfterApproval": false,
+  "previousAdoption": "joeun-adoption-20261001.json",
+  "generationPrompt": "prompt-joeun-v11.json",
+  "rankConfirmed": false,
+  "liveRegistration": false,
+  "doesNotApprove": ["replacement frame", "final rank", "skills", "battleSprite", "game release"]
+}

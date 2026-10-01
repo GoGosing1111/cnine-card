@@ -1,0 +1,17 @@
+{
+  "id": "limited-frame-v2-slim-sides",
+  "dateKST": "2026-10-01",
+  "method": "built-in image_gen",
+  "status": "HISTORICAL_GENERATION_USER_REATTACHMENT_AUTHORITATIVE",
+  "userRequest": "양 사이드 프레임 너무 두꺼워 한 10~15% 줄여",
+  "references": [
+    {
+      "path": "assets/mercenary-limited-frame-v2-balanced.png",
+      "role": "EDIT_TARGET_SIDE_WIDTH_ONLY"
+    }
+  ],
+  "prompt": "Use case: precise-object-edit. Edit this current transparent 1024x1536 collectible card frame. Make ONE narrowly scoped change: reduce the horizontal THICKNESS of both LEFT and RIGHT vertical side frame assemblies by approximately 12.5 percent (acceptable 10–15%). Do not make them hairlines or radically thin. Retain their current height, design, black enamel, gold/platinum rails, side diamonds and curved leaf-like relief.\nGeometry: preserve the outer edge locations and narrow the sides toward the outside so the transparent portrait opening becomes slightly WIDER. At a straight middle rail, current metal width is around 80–90 px; reduce it to around 70–78 px, removing about 10–12 px of inward intrusion on each side. Proportionately slim the side relief ornaments by the same 12.5%, while preserving their shape and all vertical placements. Both sides must match. This is a subtle but visible thickness correction, NOT global resizing of the card or narrowing the entire aperture.\nLOCK UNCHANGED: the entire top central dark jewel crest and its wide gold/platinum wing architecture; the balanced lower horizontal ornamental band and small central chevron diamond (already revised to medium thickness); overall color, rendering style, canvas proportions and frame height. Lower border remains a modest decorated strip, not a big nameplate and not an empty hairline. Keep lower central ornament as is. Blend narrower side junctions naturally into the unchanged top and bottom. No letters, rank, text, serial, name or background.\nActual true RGBA transparency alpha=0 throughout center opening and outside metal silhouette; no painted background, tint, gradient or checkerboard. Keep opaque metal and clean antialiased edges. One complete 1024x1536 transparent frame, no illustration, no mockup.",
+  "output": "assets/mercenary-limited-frame-v2-slim-sides.png",
+  "inspection": "Straight rail sample widths reduced about 23–26%, exceeding requested 10–15%; outward-only width correction requested. Latest whole-frame approval supersedes further numerical adjustment.",
+  "finalApproval": "frame-approval-v2-20261001.json"
+}

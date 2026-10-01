@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "dateKST": "2026-10-01",
+  "status": "APPROVED_FRAME",
+  "asset": "assets/mercenary-limited-frame-approved-20261001.png",
+  "sha256": "C6B33EFC33502312B78EBD31167124BAB1FB661E22DD60A23950225C91C9DCC1",
+  "approval": "frame-approval-v2-20261001.json",
+  "prompt": "prompt-frame-v2-slim-sides.json",
+  "promptRole": "Historical generation only; exact reattached approved PNG is authoritative",
+  "design": "흑금·백금 문장, 균형을 맞춘 낮은 하단 장식, 사용자 재첨부 프레임 전체 승인",
+  "displayFit": {
+    "artWidthPercent": 74.2,
+    "windowLeftPercent": 12.9,
+    "windowTopPercent": 15,
+    "windowHeightPercent": 76.8,
+    "artVerticallyCentered": true,
+    "aspectRatioPreserved": true,
+    "approvedSourceAndFramePixelsUnchanged": true,
+    "nameOverlay": false
+  },
+  "rankConfirmed": false,
+  "liveRegistration": false
+}

@@ -1,0 +1,15 @@
+{
+  "id": "limited-frame-v2-balanced",
+  "dateKST": "2026-10-01",
+  "method": "built-in image_gen",
+  "status": "SUPERSEDED_USER_REQUESTED_SLIMMER_SIDES",
+  "userRequest": "아예 없애지말고 중간지점을 찾아 좀 새끼야",
+  "references": [
+    {
+      "path": "assets/mercenary-limited-frame-v2-thin-bottom.png",
+      "role": "EDIT_TARGET_BOTTOM_MIDDLE_GROUND"
+    }
+  ],
+  "prompt": "Use case: precise-object-edit. Target is this 1024x1536 transparent premium card frame. Modify ONLY the bottom-center horizontal border and its tiny junctions into the lower corners. Preserve the top crest, upper corners, all side rails, their positions and appearance, frame size, and large empty transparent aperture.\nLatest user correction: find the MIDDLE GROUND. They do NOT want the bottom completely stripped to a plain hairline; they also do NOT want a large empty character-name plaque. Restore a refined moderate-thickness lower decorative band: approximately 38–45 px total height across the middle (not 100+ px), roughly one third of an oversized conventional nameplate. Its y-center stays near the existing bottom rail y=1417; let added thickness grow downward so it doesn't cover the portrait aperture. Use a layered sculpted champagne-gold / platinum strip with a narrow obsidian enamel inlay and tasteful low-relief bevels. At exact bottom center add a small low, wide faceted chevron seal integrated flush into the strip, about 110 px wide and no more than 20 px of extra vertical relief. No large hanging diamond or pendant. A little restrained geometric engraving inside the band makes it an ornamental collector border, NOT a blank writing box. Gently taper the strip into the existing lower corner ornaments. There must be a visible designed bottom edge with some weight, balanced against the ornate top, while still leaving all legs and boots visible when art is overlaid later.\nDo not add a broad rectangular name panel, blank banner, caption slot, thick black area, central nameplate, large lower crest, any lettering/numbers/rank/logo. Keep top and sides exactly as provided. Do not invent a new frame or simplify the upper design.\nDeliver actual transparent RGBA PNG 1024x1536. All pixels inside the central opening and outside the frame silhouette must have true zero alpha, with no drawn gradient, background or checkerboard. Preserve solid frame metal and smooth antialiased edges. One complete upright frame only, no mockup or character.",
+  "output": "assets/mercenary-limited-frame-v2-balanced.png"
+}

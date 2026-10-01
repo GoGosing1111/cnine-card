@@ -1,25 +1,22 @@
-# 나무늘봉순·조은 리미티드 용병 원화
+# 나무늘봉순·조은 리미티드 용병 최종 선택
 
-[검수 프리뷰](index.html)는 승인된 프레임을 기본 적용한다. 원화·160px·프레임 단독·확대를 지원한다. **예상 SS이며 등급 확정·운영 등록은 별도다.**
+[카드 프리뷰](index.html)에 **승인 원화 2종과 승인 프레임**을 함께 적용했다. 원화·160px·프레임 단독·확대를 지원한다. 예상 SS는 확정 등급이 아니며 운영 등록은 별도다.
 
-- **나무늘봉순 승인:** [첨부 원본](assets/bongsoon-snow-source-art-approved-20261001.png)을 그대로 유지한다. [승인 기록](bongsoon-approval-20261001.json).
-- **조은 사진 채택:** [사용자 재첨부 원본](assets/joeun-user-adopted-source-art-20261001.png)을 무가공 보존한다. [채택 범위·수정 제한](joeun-adoption-20261001.json). 얼굴·고개·시선·머릿결·의상·손·다리·포즈·배경은 고정하고 중화기 전방의 휨 보정만 요청됐다.
-- **현재 조은 보정본:** [V11 전방 축·레일 정렬](assets/joeun-neon-source-art-v11-straightened-cannon.png). 채택본 1장만 입력한 국소 생성 편집 결과이며 사용자 검수 대기다.
-- **프레임 V1 승인:** [투명 RGBA 원본](assets/mercenary-limited-frame-v1.png)과 [승인 기록](frame-approval-20261001.json)을 고정한다.
+- **나무늘봉순:** [승인 원본](assets/bongsoon-snow-source-art-approved-20261001.png) / [승인 기록](bongsoon-approval-20261001.json).
+- **조은:** 중화기 휨을 보정한 [V11 최종 승인 원화](assets/joeun-neon-source-art-v11-straightened-cannon.png) / [승인 기록](joeun-approval-20261001.json).
+- **리미티드 프레임:** 사용자가 `이거로 채택`하며 재첨부한 [PNG 원본](assets/mercenary-limited-frame-approved-20261001.png) / [V2 전체 승인 기록](frame-approval-v2-20261001.json). 파일을 그대로 복사했으며 재압축·색상·알파·두께를 수정하지 않았다.
+- **기존 프레임 V1은 폐기:** [폐기 기록](frame-rejection-20261001.json)이 과거 승인을 대체한다. 파일은 이력으로만 남기고 현재 프리뷰에서 제거했다.
 
-조은 V11은 **내장 image_gen**으로 제작했다. [실제 프롬프트·입력·출력 해시](prompt-joeun-v11.json)에 전방 무기만 수정하는 범위를 기록했다. 원본은 덮어쓰지 않았다. 생성 편집 결과는 비무기 영역도 픽셀 단위로 완전히 동일하지 않으므로 무손실 패치로 간주하지 않는다. [영역별 읽기 전용 비교](qa-joeun-v11-region-comparison.json)를 보존하며, 원본과 보정본의 얼굴·의상·포즈를 직접 비교했다.
+상단 문장, 양옆, 낮은 하단 장식까지 **최신 재첨부 프레임 전체 선택이 최종 기준**이다. 앞선 “하단을 얇게”, “아예 없애지 말고 중간지점”, “사이드 10~15% 축소” 요청은 제작 이력이다. 채택 이후 추가 수치 보정과 생성 작업을 중단했다. 캐릭터 이름은 프레임 밖 설명에 표시한다.
 
-이전 V10은 [경찰 조은](../../assets/ui/project-v/mercenaries/approved-20260907/mercenary-v042-police-joeun-source-art-v1.png)과 [롯데 조은 아바타](../avatar-lotte-joeun-bongsoon-v1/assets/avatar-lotte-joeun-lobby-source-art-v1.png) 얼굴을 확인하고 새 구도로 제작했다. [확장형 레이저포 참고](references/joeun-expanded-cannon-reference-v10.png)를 사용했으며 고개·시선과 다리 자세를 바꾸고 다리를 약 15% 더 가늘게 표현했다. [V10 생성 명세](prompt-joeun-v10.json)는 이력이다. 이후 사진 채택 지시가 전면 재제작 지시보다 우선한다.
-
-프레임 밖까지 원화가 표시되던 문제는 배치만 수정했다. 가로·세로를 같은 **85.6%**로 맞추고 좌측 7.2%, 상단 5.6%에 두어 안쪽 테두리에 들어가도록 했다. 확대·160px에도 동일하게 적용하고 원화 보기에서는 전체 크기로 표시한다. 원화와 승인 프레임 PNG 자체는 잘라내거나 변형하지 않았다.
-
-[매니페스트](manifest.json)는 현재 선택·채택 원본·생성 입력·과거 버전의 규격과 SHA-256을 기록한다.
-
-| 고정·현재 파일 | SHA-256 |
+| 고정 자산 | SHA-256 |
 |---|---|
-| 봉순 승인 원본 | B15D0CCBB2429C539BC337198B1BABBD3D277E1FF84FC2DAD88B209431AC4FF3 |
-| 프레임 V1 | A8931DBD4C8C069B2D38731F58AF708C373C8765412702ED040908FA750A506C |
-| 조은 채택 재첨부 원본 | 65786A8DCB665A015AAA4BCC4DE8E9B91EA4F631FCE119D0C5903FFC86E1347D |
-| 조은 V11 보정본 | 87E88A646E327FCBB6489B05D8C5287C5212B1D9105134ECE1C036D022C633DA |
+| 나무늘봉순 원화 | B15D0CCBB2429C539BC337198B1BABBD3D277E1FF84FC2DAD88B209431AC4FF3 |
+| 조은 V11 원화 | 87E88A646E327FCBB6489B05D8C5287C5212B1D9105134ECE1C036D022C633DA |
+| 프레임 V2 재첨부 원본 | C6B33EFC33502312B78EBD31167124BAB1FB661E22DD60A23950225C91C9DCC1 |
 
-[관련 프리뷰 검수](qa-preview-v11.json)는 PC·모바일의 프레임 안쪽 배치, 원본 로딩, 확대, 원화 보기, 160px와 가로 넘침에 한정한다. V1~V10 원화와 프롬프트는 이력으로 보존한다. 게임 실행 코드·운영 연결은 바꾸지 않았으며 전체 게임 검사나 운영 재배포는 하지 않는다. SD·스킬·전투 연결은 요청 범위가 아니다.
+프리뷰는 원화 전체를 같은 가로·세로 비율로 안쪽에 배치한다. 원화 창은 좌측 12.9%, 상단 15%, 폭 74.2%, 높이 76.8%이며 원화는 세로 중앙 정렬한다. 개구부 비율 차이는 좁은 어두운 여백으로 처리한다. **승인 PNG 3장은 모두 픽셀 가공 없이 보존한다.**
+
+프레임 제작은 **내장 image_gen**을 사용했다. [초기 프롬프트](prompt-frame-v2-initial.json), [하단 축소](prompt-frame-v2-thin-bottom.json), [중간 두께](prompt-frame-v2-balanced.json), [사이드 축소](prompt-frame-v2-slim-sides.json)는 이력이다. 최종 전달 파일은 생성 중간본이 아닌 사용자가 직접 재첨부해 승인한 파일이다. [명세](frame-design-v2.json), [매니페스트](manifest.json), [PNG 확인](qa-frame-v2.json), [PC·모바일 검수](qa-preview-frame-v2.json)에 현재 선택과 확인 결과를 기록한다.
+
+조은 [이전 채택 재첨부 원본](assets/joeun-user-adopted-source-art-20261001.png), [V11 국소 보정 프롬프트](prompt-joeun-v11.json), [당시 영역별 비교](qa-joeun-v11-region-comparison.json)와 다른 시안은 이력으로 보존한다. 게임 실행 코드·운영 등록·SD·스킬은 변경하지 않았다.

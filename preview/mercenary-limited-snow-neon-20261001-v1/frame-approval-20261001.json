@@ -1,7 +1,9 @@
 {
   "format": "PROJECT_V_LIMITED_FRAME_APPROVAL_V1",
   "dateKST": "2026-10-01",
-  "status": "APPROVED_FRAME",
+  "status": "REVOKED_BY_LATER_USER_REJECTION",
+  "historicalStatus": "APPROVED_FRAME",
+  "supersededBy": "frame-rejection-20261001.json",
   "userRequest": "카드 프레임 승인",
   "scope": "FRAME_ONLY",
   "asset": "assets/mercenary-limited-frame-v1.png",

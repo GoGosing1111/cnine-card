@@ -1,0 +1,68 @@
+{
+  "dateKST": "2026-10-01",
+  "scope": "Approved source/frame integrity and preview presentation only",
+  "desktop": {
+    "viewport": {
+      "width": 1422,
+      "height": 800
+    },
+    "allFourImagesLoaded": true,
+    "overflow": false,
+    "panels": [
+      {
+        "width": 517.2222290039062,
+        "artWidth": 383.77777099609375,
+        "artHeight": 575.6666870117188,
+        "inside": true
+      },
+      {
+        "width": 517.2222290039062,
+        "artWidth": 383.77777099609375,
+        "artHeight": 575.6666870117188,
+        "inside": true
+      }
+    ],
+    "uniformArtAspectRatio": 0.6666666313249445,
+    "visuallyReviewed": true
+  },
+  "zoom": {
+    "openedAndClosed": true,
+    "frameVisible": true,
+    "artAspectRatio": 0.6666762509031239
+  },
+  "raw": {
+    "fullWidth": true,
+    "frameHidden": true
+  },
+  "thumbnail": {
+    "panelWidths": [
+      160,
+      160
+    ],
+    "frameVisible": true
+  },
+  "mobile": {
+    "requestedViewport": {
+      "width": 390,
+      "height": 844
+    },
+    "observedCssViewport": {
+      "width": 434,
+      "height": 938
+    },
+    "singleColumn": true,
+    "overflow": false,
+    "allImagesLoaded": true,
+    "visuallyReviewed": true
+  },
+  "frameOnly": {
+    "galleryHidden": true,
+    "frameVisible": true,
+    "loaded": true
+  },
+  "viewportReset": true,
+  "finalSelection": "frame-approval-v2-20261001.json",
+  "approvedSourcePixelsUnchanged": true,
+  "approvedFramePixelsUnchanged": true,
+  "liveRegistration": false
+}

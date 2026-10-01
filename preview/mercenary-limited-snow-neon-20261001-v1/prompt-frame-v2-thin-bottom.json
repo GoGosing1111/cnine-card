@@ -1,0 +1,15 @@
+{
+  "id": "limited-frame-v2-thin-bottom",
+  "dateKST": "2026-10-01",
+  "method": "built-in image_gen",
+  "status": "SUPERSEDED_USER_REQUESTED_MIDDLE_GROUND",
+  "userRequest": "하단부 이름들어가는 공간마냥 만들지말고 얇게 만들어라",
+  "references": [
+    {
+      "path": "assets/mercenary-limited-frame-v2-initial.png",
+      "role": "EDIT_TARGET_BOTTOM_ONLY"
+    }
+  ],
+  "prompt": "Use case: precise-object-edit. Edit this FRAME asset, keeping its top insignia, upper corner ornaments, side design, metal materials, and overall 1024x1536 portrait format. The user's correction is mandatory: THE BOTTOM MUST BE THIN, NOT A SPACE FOR A NAME. Completely remove the entire wide dark nameplate, its broad gold surround, its center bottom diamond, and the projecting bottom-center ornament. Replace all of that with one clean slender straight beveled gold/platinum bottom rail, about 14-20 pixels thick, connected naturally to small tapered bottom corners. Extend the clear opening down to that slim rail; no broad horizontal panel, no caption strip, no banner, no blank box for text, no central lower badge. Concentrate the luxury and visual weight at the already good TOP insignia and upper corners. Lower corners must be restrained and taper gracefully into the thin bottom rail. Keep the frame full-height, and retain the existing big empty portrait opening; don't shrink the whole frame or leave the bottom raised halfway up. The lower rail should be at about y=1470 and bottom edge ornamentation no lower than y=1502.\nCRITICAL ACTUAL ALPHA: remove every background pixel inside the opening and outside the silhouette. Fully transparent alpha=0 there. The existing brown/black gradient must be completely removed if it exists; neither the center nor outside may contain background, fill, glass, shadow backdrop or drawn checkerboard. Frame metal is opaque, antialiased edges only. No letters, no name, no text, no serial, no rank, no character illustration. Export real transparent RGBA 1024x1536 PNG, one complete upright frame.",
+  "output": "assets/mercenary-limited-frame-v2-thin-bottom.png"
+}
