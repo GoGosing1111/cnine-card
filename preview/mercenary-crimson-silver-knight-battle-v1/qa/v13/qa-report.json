@@ -1,0 +1,117 @@
+{
+  "date": "2026-10-01",
+  "scope": "preview/mercenary-crimson-silver-knight-battle-v1/",
+  "status": "V13_MOTION_APPROVED_SIZE_CORRECTION_QA_COMPLETE",
+  "motionApproval": {
+    "record": "motion-approval-20261001-v13.json",
+    "status": "USER_APPROVED_MOTION",
+    "date": "2026-10-01",
+    "sizeCorrectionRequested": true
+  },
+  "sizeReport": "qa/v13/size-report.json",
+  "browserReport": "qa/v13/browser-report.json",
+  "previousReport": "qa/v12/qa-report.json",
+  "relatedRegressionTests": {
+    "passed": 6,
+    "failed": 0,
+    "firstPattern": "every living|drawn collision|approved masters|Native packed|every attack",
+    "followupPattern": "Grounded strikes"
+  },
+  "independentSizeVerification": {
+    "command": "node preview/mercenary-crimson-silver-knight-battle-v1/verify-size-v13.mjs",
+    "passed": true,
+    "activeFrameReferences": 27,
+    "repackedFrames": 17,
+    "newNativePoses": 0,
+    "neutralSizeSpreadBefore": 0.07559896298945111,
+    "neutralSizeSpreadAfter": 0.010869603545737398
+  },
+  "browser": [
+    {
+      "viewport": "desktop",
+      "errors": [],
+      "framesInspected": 27,
+      "weaponLengthRange": [
+        122.78659324257063,
+        122.78659324257124
+      ],
+      "modes": [
+        "attack",
+        "skill",
+        "overhead",
+        "execution",
+        "guard",
+        "ultimate"
+      ],
+      "horizontalOverflow": false
+    },
+    {
+      "viewport": "mobile",
+      "errors": [],
+      "framesInspected": 27,
+      "weaponLengthRange": [
+        159.62257121534202,
+        159.6225712153425
+      ],
+      "modes": [
+        "attack",
+        "skill",
+        "overhead",
+        "execution",
+        "guard",
+        "ultimate"
+      ],
+      "horizontalOverflow": false
+    }
+  ],
+  "sourceArtUnchanged": true,
+  "sourceMotionSheetsUnchanged": true,
+  "approvedIdleUnchanged": true,
+  "originalSwordUnchanged": true,
+  "gripAndFootRegistrationUnchanged": true,
+  "animationTimingUnchanged": true,
+  "displaySizing": {
+    "baselineFullBodyHeight": 260,
+    "initialRequestedScale": 1.25,
+    "latestRequest": "MATCH_CRYVERN_BATTLE_CHARACTER_SIZE",
+    "fullBodyHeight": 358,
+    "bodyHeight": 312.3894230769231,
+    "reference": {
+      "name": "크라이베른",
+      "preview": "preview/mercenary-ice-crystal-dual-sword-v1/",
+      "fullBodyHeight": 380,
+      "bodyPixels": 1030,
+      "spriteHeight": 1254,
+      "bodyHeight": 312.1212121212121
+    },
+    "policy": "UNIFORM_CHARACTER_WEAPON_AND_AURA_SCALE_EXCLUDING_TRANSPARENT_PADDING"
+  },
+  "playback": {
+    "qa/v13/size-comparison.webp": {
+      "sha256": "A94B45AC3A38FF93BA9F26A92204C9029FAE191F1A6A08BD728ECC5C2AEBDD45",
+      "width": 1280,
+      "pageHeight": 640,
+      "frames": 19,
+      "bytes": 719554
+    },
+    "qa/overhead-size-v13.webp": {
+      "sha256": "14150B86B7DA918940A0845ADCEE82BFC0DE7B0CA03530AD7A59EA16153511AD",
+      "width": 960,
+      "pageHeight": 510,
+      "frames": 62,
+      "bytes": 1863560
+    },
+    "qa/all-skills-size-v13.webp": {
+      "sha256": "A42A957AAFA8B25C92D8F4D7BF1F314335573206B1278DE1C78648F85A2C6FB8",
+      "width": 960,
+      "pageHeight": 510,
+      "frames": 415,
+      "bytes": 11707530
+    }
+  },
+  "runtimeEnabled": false,
+  "limitations": [
+    "Articulated landmarks are manually reviewed 2D estimates, not 3D metrology. The neutral pose check measures actual packed helmet pixels independently of the calibration chain. Natural head tilt, crouching and perspective remain.",
+    "The approved motion is retained. V13 changes only derived body normalization and original-sword repacking, not skill balance or live activation."
+  ]
+}
