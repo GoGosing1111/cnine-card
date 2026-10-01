@@ -1,8 +1,9 @@
 {
   "version": 17,
   "conceptId": "crimson-silver-knight",
-  "name": "은백·금색 대검 기사",
-  "nameStatus": "DESCRIPTION_NOT_ASSIGNED",
+  "name": "발테르",
+  "nameStatus": "USER_APPROVED",
+  "nameApproval": "assets/ui/project-v/mercenaries/mercenary-valter-approval-20261001.json",
   "rank": null,
   "rankTarget": "HIGHEST_ENDGAME_TIER",
   "code": "V-996",
@@ -31,9 +32,9 @@
     "y": 0.9056490384615384
   },
   "bodyPixels": 1452,
-  "battleSpriteStatus": "USER_REQUESTED_V3_PREVIEW_INTEGRATION",
+  "battleSpriteStatus": "USER_APPROVED_BATTLE_SPRITE",
   "motionStatus": "USER_ADOPTED_TWO_HAND_OVERHEAD",
-  "effectStatus": "USER_REVIEW_PENDING",
+  "effectStatus": "USER_APPROVED_V17_PREVIEW",
   "motion": {
     "idle": {
       "sources": [
@@ -7306,10 +7307,14 @@
     ]
   },
   "release": {
-    "status": "APPROVED_MOTION_ALL_SKILLS_FAST_DESCENT_PREVIEW",
+    "status": "APPROVED_VALTER_ASSET_PREVIEW_READY_AWAITING_DEPLOY_REQUEST",
     "liveRuntimeChanged": false,
     "balanceChanged": false,
-    "skillsAssigned": false
+    "skillsAssigned": false,
+    "nameApproved": true,
+    "deploymentAuthorization": "AWAITING_EXPLICIT_USER_DEPLOY_REQUEST",
+    "approvalRecord": "assets/ui/project-v/mercenaries/mercenary-valter-approval-20261001.json",
+    "readiness": "preview/mercenary-crimson-silver-knight-battle-v1/release/readiness.json"
   },
   "counts": {
     "motion": 64,
@@ -7410,7 +7415,7 @@
     "twoHandMotion": "qa/v13/size-comparison.webp",
     "historicalAllSkillsV12": "qa/all-skills-overhead-v12.webp",
     "historicalAllSkillsV13": "qa/all-skills-size-v13.webp",
-    "liveAllSkills": "http://127.0.0.1:8850/preview/mercenary-crimson-silver-knight-battle-v1/?showcase=1&v=17#battle",
+    "liveAllSkills": "/preview/mercenary-crimson-silver-knight-battle-v1/?showcase=1&v=17-valter-final#battle",
     "historicalTwoHandActualV3V13": "qa/overhead-size-v13.webp",
     "historicalAllSkillsV14": "qa/all-skills-speed-v14.webp",
     "historicalAllSkillsV15": "qa/all-skills-strike-only-v15.webp",

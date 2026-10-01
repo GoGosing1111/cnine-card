@@ -28,14 +28,14 @@ function resize(){if(disposed||!fx)return;const at=fx.time,playing=fx.playing;fx
 function dispose(){if(disposed)return;disposed=true;engine?.app.renderer.off('resize',resize);fx?.destroy();for(const actor of new Set([...(engine?.allies||[]),...(engine?.enemies||[])])){actor.animationAdapter?.destroy?.();actor.animationController?.kill?.();}merc?.destroy();renderer?.destroy();window.ProjectVPixiBattle?.destroy();}
 async function boot(){
  try{
-  const [manifest,catalogs]=await Promise.all([get(ROOT+'manifest.json?v=17'),Promise.all(['fur/manifest-v2.json','zenith/manifest-v1.json','superstar/manifest-v1.json'].map(p=>get('/assets/ui/project-v/characters/'+p)))]);
+  const [manifest,catalogs]=await Promise.all([get(ROOT+'manifest.json?v=17-valter-final'),Promise.all(['fur/manifest-v2.json','zenith/manifest-v1.json','superstar/manifest-v1.json'].map(p=>get('/assets/ui/project-v/characters/'+p)))]);
   for(const option of $('speed').options)option.textContent=`${(Number(option.value)*(manifest.playbackTempo?.rate??1)).toFixed(2)}×${option.value==='1'?' (기본)':''}`;
   const available=catalogs.flatMap(m=>m.characters.map(c=>({...c,grade:m.rarity})));
   const deck=IDS.map((id,i)=>{const c=available.find(c=>c.cardId===id);if(!c)throw Error('기준 카드 누락');return {...c,id,cardId:id,name:c.member,title:c.title,image:'/'+c.sourceArt,sourceArt:'/'+c.sourceArt,originalCardArt:'/'+c.sourceArt,power_type:['ATTACK','DEFENSE','SPEED','HP','ATTACK'][i],hp:100,maxHp:100};});
   window.cnineCardCatalog=()=>deck;const payload={previewOnly:true,mode:'PVP',battlefieldMode:'PVP',battleV2:{mode:'PVP',teams:{A:{cards:deck},B:{cards:deck}},result:{timeline:[]}}};
   const api=window.ProjectVPixiBattle;api.mountForBattle=async(data,host)=>{engine=await mountForBattle(data,host);return engine;};
-  const prepared=window.ProjectVBattleV3Live.prepareLoading({modal:$('lab-modal'),mode:'PVP',playerName:'은백·금색 대검 기사',opponentName:'연출 검수',autoText:'전장 준비 중'});
-  renderer=await window.ProjectVBattleV3Live.createRenderer({...prepared,modal:$('lab-modal'),data:payload,mode:'PVP',playerName:'은백·금색 대검 기사'});api.mountForBattle=mountForBattle;
+  const prepared=window.ProjectVBattleV3Live.prepareLoading({modal:$('lab-modal'),mode:'PVP',playerName:KNIGHT.name,opponentName:'연출 검수',autoText:'전장 준비 중'});
+  renderer=await window.ProjectVBattleV3Live.createRenderer({...prepared,modal:$('lab-modal'),data:payload,mode:'PVP',playerName:KNIGHT.name});api.mountForBattle=mountForBattle;
   await engine.deployCards({instant:true,force:true});
   const adapter=createMercenaryBattleArtAdapter({format:'PROJECT_V_MERCENARY_SYSTEM_ROSTER_V1',summary:{battleSpriteReady:1,battleSpritePending:0},cards:[manifest]});
   const art=adapter.resolveForConsumer('BATTLE_FIELD',manifest.code);if(!art)throw Error('대검 기사 전투 SD 누락');
@@ -56,7 +56,7 @@ async function boot(){
   $('mobile').onchange=()=>{$('battle-viewport').classList.toggle('mobile-test',$('mobile').checked);};
   for(const button of parentDoc.querySelectorAll('[data-mode]'))button.onclick=()=>{$('mode').value=button.dataset.mode;change();fx.play();};
   for(const el of parentDoc.querySelectorAll('.controls button,.controls select,.controls input,.mode-tabs button,.scrubber input'))el.disabled=false;
-  $('health').textContent='재생 준비 완료';engine.app.renderer.on('resize',resize);prepared.phase.textContent='대검 기사 · 홍련의 검광';battleStatus=prepared.stage.querySelector('#pvBattleStatus');
+  $('health').textContent='재생 준비 완료';engine.app.renderer.on('resize',resize);prepared.phase.textContent=KNIGHT.name+' · 홍련의 검광';battleStatus=prepared.stage.querySelector('#pvBattleStatus');
   const review={get fx(){return fx;},get engine(){return engine;},get merc(){return merc;},showcase,manifest,diagnostics:()=>({...fx.diagnostics(),showcase:showcase.diagnostics()}),dispose};window.CrimsonKnightPreview=review;window.parent.CrimsonKnightPreview=review;
   if(new URLSearchParams(window.parent.location.search).has('showcase'))startShowcase();
   else{fx.setPlan(makePlan({mode:'ultimate'}));$('mode').value='ultimate';fx.play();updateShowcase(showcase);}

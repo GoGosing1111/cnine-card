@@ -1,5 +1,5 @@
 import {COUNTS} from './motion-counts-v10.mjs';
-export const KNIGHT=Object.freeze({name:'은백·금색 대검 기사',rank:null,code:'V-996',runtimeEnabled:false,damageAuthority:'SERVER_ONLY'});
+export const KNIGHT=Object.freeze({name:'발테르',rank:null,code:'V-996',runtimeEnabled:false,damageAuthority:'SERVER_ONLY'});
 export const OVERHEAD_MODES=Object.freeze(['attack','skill','overhead','execution','guard','ultimate']);
 export const ACTIVE_MOTION_KEYS=Object.freeze(['idle','dash','twohandGrip','twohandLift','twohandStrike','twohandReturn','hit','defeat']);
 const AUTHORED_STRIKE=Object.freeze({descent:1.64,strike:1.84,contact:1.98,recovery:2.20});

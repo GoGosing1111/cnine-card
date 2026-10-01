@@ -10,3 +10,7 @@
 .controls .sound{display:flex;min-width:90px;flex:0 0 auto;margin:0}.battle-viewport.mobile-test{width:min(390px,100%);margin-inline:auto;height:720px}
 .chapters{grid-template-columns:repeat(3,1fr)}.audit-note{color:var(--muted);font-size:12px;line-height:1.8}.frames>div{grid-template-columns:repeat(3,1fr)}
 @media(max-width:600px){.mode-tabs{grid-template-columns:repeat(3,1fr)}.mode-tabs .aura-tab{grid-column:span 3}.mode-tabs button{font-size:12px}.chapters{grid-template-columns:1fr}.frames>div{grid-template-columns:1fr}.controls .sound{min-width:83px}.hero-art>img{max-height:470px}}
+
+/* The approved original artwork is displayed without recoloring or a glow filter. */
+.hero-art>img{filter:none;width:100%;height:auto;max-height:740px;object-fit:contain}.hero-art{padding-block:24px}.asset-links{flex-wrap:wrap;row-gap:12px}header>span{text-align:right;max-width:45%;line-height:1.5}
+@media(max-width:600px){.hero-art>img{max-height:600px}.hero-art{padding-block:8px}.asset-links{justify-content:flex-start;gap:12px 20px}header>span{font-size:9px}.hero-copy h1{font-size:76px}}
