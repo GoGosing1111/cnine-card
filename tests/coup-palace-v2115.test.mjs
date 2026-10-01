@@ -6,7 +6,7 @@ import { __postgresCompatTest } from '../functions/_postgres_d1_compat.js';
 import { ensureCoupSchema, chiefDuty, chiefAuthorityGuard } from '../functions/_coup_schema.js';
 import { openCoupRound, startCoupRound, joinCoupRound, settleCoupRound, voteCoupTrial, closeCoupTrial, coupStatus, handleCoup, attackCoup } from '../functions/_coup.js';
 import { clanCampStatusForUser, clanCampRoomState, releaseClanCaptives, sendClanCampChat } from '../functions/_clan_prison_camp.js';
-import { advanceFront, deadlineWinner, rebelPenalty, coupSettings, coupRebelDefeatPolicy, coupMatchedOpponent } from '../shared/coup-palace-v2115.mjs';
+import { advanceFront, deadlineWinner, coupSettings, coupRebelDefeatPolicy, coupMatchedOpponent } from '../shared/coup-palace-v2115.mjs';
 import { readFileSync } from 'node:fs';
 import { createPvpBattleV2 } from '../functions/_battle_v2_preview.js';
 import { useCoupChiefSkill, COUP_SKILL_SETTINGS } from '../functions/_coup.js';
@@ -71,9 +71,8 @@ async function fixture(t, pg) {
   return { env, p, now, prepare, fail(s) { failAt = s; }, appointment };
 }
 
-test('front movement, timeout, strict CMS limits and bigint loss policy', () => {
-  assert.equal(rebelPenalty(0), 3000000000n); assert.equal(rebelPenalty(-100), 3000000000n);
-  assert.equal(rebelPenalty('9007199254740991'), 1801439850948198n);
+test('front movement, timeout, strict CMS limits and rebel imprisonment policy', () => {
+  assert.deepEqual(coupRebelDefeatPolicy(), {type:'PRISON',hours:8,trialRun:false});
   assert.throws(() => coupSettings({ battleMinutes: 0 })); assert.throws(() => coupSettings({ trialMinutes: 1.5 }));
   const r = { front_index: 2, chief_hp: 100, rebel_hp: 100, max_hp: 100 };
   assert.equal(advanceFront(r, 'CHIEF', 100).front, 3);
@@ -90,8 +89,8 @@ test('coup matchmaking stays near power, avoids the previous opponent and rotate
   assert.equal(coupMatchedOpponent([candidates[0]], 100, [1], () => 0).user_id, 1);
   assert.equal(coupMatchedOpponent([], 100), null);
   assert.equal(coupMatchedOpponent([{user_id:7,deck_power:1000},{user_id:8,deck_power:5000}],100).user_id,7);
-  assert.equal(coupRebelDefeatPolicy('new', {rebelTrial:{roundId:'old',prisonHours:3}}).type,'COIN');
-  assert.equal(coupRebelDefeatPolicy('old', {rebelTrial:{roundId:'old',prisonHours:3}}).type,'PRISON');
+  assert.deepEqual(coupRebelDefeatPolicy('new', {rebelTrial:{roundId:'old',prisonHours:3}}),{type:'PRISON',hours:8,trialRun:false});
+  assert.equal(coupRebelDefeatPolicy('old', {rebelTrial:{roundId:'old',prisonHours:3}}).hours,8);
   assert.equal(coupSettings({rebelTrial:{roundId:'old',prisonHours:3}}).rebelTrial,undefined);
 });
 for (const pg of [false, true]) {
@@ -126,14 +125,14 @@ for (const pg of [false, true]) {
       f.env.DB.batch=batch;
     }
   });
-  test(`${label}: the 90-minute trial sentence is round-bound, expires exactly and settlement retry cannot extend it`,async t=>{
+  test(`${label}: legacy 90-minute settings now settle for 8 hours, expire exactly and retry cannot extend it`,async t=>{
     const f=await fixture(t,pg),id=await f.prepare('CHIEF');const r=await f.p('SELECT settings_json FROM coup_rounds_v2115 WHERE id=?',id).first();
     await f.p('UPDATE coup_rounds_v2115 SET settings_json=? WHERE id=?',JSON.stringify({...JSON.parse(r.settings_json),rebelTrial:{roundId:id,prisonHours:1.5}}),id).run();
     await settleCoupRound(f.env,id,f.now);await settleCoupRound(f.env,id,f.now+1000);
-    const before=await clanCampStatusForUser(f.env,2,f.now);assert.equal(before.remainingSeconds,5400);assert.match(before.reason,/1시간 30분/);
-    assert.equal((await clanCampRoomState(f.env,{id:2},before,f.now)).sentenceHours,1.5);
-    assert.equal((await clanCampStatusForUser(f.env,2,f.now+5399999)).incarcerated,true);assert.equal((await clanCampStatusForUser(f.env,2,f.now+5400000)).incarcerated,false);
-    assert.equal((await coupStatus(f.env,{id:2},f.now)).round.rebelDefeat.hours,1.5);assert.equal(Number((await f.p('SELECT COUNT(*) n FROM coup_penalties_v2115').first()).n),0);
+    const before=await clanCampStatusForUser(f.env,2,f.now);assert.equal(before.remainingSeconds,28800);assert.match(before.reason,/8시간/);
+    assert.equal((await clanCampRoomState(f.env,{id:2},before,f.now)).sentenceHours,8);
+    assert.equal((await clanCampStatusForUser(f.env,2,f.now+28799999)).incarcerated,true);assert.equal((await clanCampStatusForUser(f.env,2,f.now+28800000)).incarcerated,false);
+    assert.equal((await coupStatus(f.env,{id:2},f.now)).round.rebelDefeat.hours,8);assert.equal(Number((await f.p('SELECT COUNT(*) n FROM coup_penalties_v2115').first()).n),0);
   });
   async function assign(f,id,userId=2) {
     const r=await f.p('SELECT settings_json FROM coup_rounds_v2115 WHERE id=?',id).first();
@@ -208,7 +207,7 @@ for (const pg of [false, true]) {
     const key=outcomes.find(r=>r.status==='fulfilled').value.requestId;assert.equal((await cast(key)).replayed,true);
     assert.equal(Number((await f.p('SELECT COUNT(*) n FROM coup_skills_v2118').first()).n),1);assert.equal(Number((await f.p('SELECT COUNT(*) n FROM coup_atomic_guard_v2115').first()).n),0);
   });
-  test(`${label}: trial round jails every rebel for exactly 3 hours with no coin debit, rollback and replay safe`, async t => {
+  test(`${label}: legacy 3-hour settings jail every rebel for 8 hours with no coin debit, rollback and replay safe`, async t => {
     const f=await fixture(t,pg),id=await f.prepare('CHIEF');
     const round=await f.p('SELECT * FROM coup_rounds_v2115 WHERE id=?',id).first();
     await f.p('UPDATE coup_rounds_v2115 SET settings_json=? WHERE id=?',JSON.stringify({...JSON.parse(round.settings_json),rebelTrial:{roundId:id,prisonHours:3}}),id).run();
@@ -218,13 +217,13 @@ for (const pg of [false, true]) {
     await settleCoupRound(f.env,id,f.now);
     for(const [uid,balance] of [[2,9876543210],[3,0],[4,-3000000000]]){
       assert.equal(Number((await f.p('SELECT coin FROM users WHERE id=?',uid).first()).coin),balance);
-      assert.equal((await clanCampStatusForUser(f.env,uid,f.now)).remainingSeconds,10800);
-      assert.equal((await clanCampStatusForUser(f.env,uid,f.now+10800000)).incarcerated,false);
+      assert.equal((await clanCampStatusForUser(f.env,uid,f.now)).remainingSeconds,28800);
+      assert.equal((await clanCampStatusForUser(f.env,uid,f.now+28800000)).incarcerated,false);
     }
     assert.equal((await clanCampStatusForUser(f.env,1,f.now)).incarcerated,false);
     assert.equal(Number((await f.p('SELECT COUNT(*) n FROM coup_penalties_v2115').first()).n),0);
     assert.equal(Number((await f.p('SELECT COUNT(*) n FROM coup_trials_v2115').first()).n),0);
-    assert.equal((await coupStatus(f.env,{id:2},f.now)).round.rebelDefeat.hours,3);
+    assert.equal((await coupStatus(f.env,{id:2},f.now)).round.rebelDefeat.hours,8);
     const room=await clanCampRoomState(f.env,{id:2},{},f.now); assert.ok(room.inmates.every(row=>row.memberRole==='REBEL'));
     await releaseClanCaptives(f.env,{id:1,role:'OWNER'},{eventId:'coup:'+id,userId:2},f.now);
     await settleCoupRound(f.env,id,f.now+1000);
@@ -346,16 +345,28 @@ for (const pg of [false, true]) {
     assert.equal(next.damage,100000);assert.equal(next.frontMoved,true);
     const r=await f.p('SELECT * FROM coup_rounds_v2115 WHERE id=?',id).first();assert.equal(Number(r.front_index),1);assert.equal(Number(r.rebel_hp),500000);
   });
-  test(`${label}: rebel loss atomically debits 20%, allows -3 billion, adds 3 billion to existing debt, exactly once`, async t => {
-    const f = await fixture(t, pg), id = await f.prepare('CHIEF');
-    f.fail('UPDATE users SET coin=(SELECT'); await assert.rejects(settleCoupRound(f.env, id, f.now), /INJECTED_FAILURE/); f.fail('');
-    assert.equal(Number((await f.p('SELECT COUNT(*) n FROM coup_penalties_v2115').first()).n), 0);
+  test(`${label}: rebel loss preserves positive, zero and negative balances, jails once and keeps historical penalties`, async t => {
+    const f = await fixture(t, pg), oldId = await f.prepare('CHIEF');
+    await f.p("UPDATE coup_rounds_v2115 SET status='FINISHED',finished_at=? WHERE id=?",f.now-1000,oldId).run();
+    await f.p('INSERT INTO coup_penalties_v2115(round_id,user_id,before_coin,debit,after_coin) VALUES(?,2,1000,200,800)',oldId).run();
+    const oldPenalty=await f.p('SELECT * FROM coup_penalties_v2115 WHERE round_id=?',oldId).first();
+    const id=await f.prepare('CHIEF');
+    f.fail('INSERT INTO event_prison_camps'); await assert.rejects(settleCoupRound(f.env, id, f.now), /INJECTED_FAILURE/); f.fail('');
     assert.equal((await f.p('SELECT status FROM coup_rounds_v2115 WHERE id=?', id).first()).status, 'SETTLING');
-    await settleCoupRound(f.env, id, f.now); await settleCoupRound(f.env, id, f.now + 1000);
-    const balance = async u => Number((await f.p('SELECT coin FROM users WHERE id=?', u).first()).coin);
-    assert.equal(await balance(2), 7901234568); assert.equal(await balance(3), -3000000000); assert.equal(await balance(4), -6000000000); assert.equal(await balance(1), 1000);
-    assert.equal(Number((await f.p('SELECT COUNT(*) n FROM coup_penalties_v2115').first()).n), 3);
-    assert.equal((await clanCampStatusForUser(f.env, 2, f.now)).incarcerated, false);
+    await settleCoupRound(f.env,id,f.now); await settleCoupRound(f.env,id,f.now+1000); await settleCoupRound(f.env,oldId,f.now+2000);
+    for(const [uid,balance] of [[1,1000],[2,9876543210],[3,0],[4,-3000000000],[5,7]]) {
+      assert.equal(Number((await f.p('SELECT coin FROM users WHERE id=?',uid).first()).coin),balance);
+      assert.equal((await clanCampStatusForUser(f.env,uid,f.now)).incarcerated,[2,3,4].includes(uid));
+    }
+    assert.equal(Number((await f.p('SELECT COUNT(*) n FROM event_prison_camps').first()).n),1);
+    assert.equal(Number((await f.p('SELECT COUNT(*) n FROM event_prison_captives').first()).n),3);
+    assert.equal(Number((await f.p('SELECT COUNT(*) n FROM coup_penalties_v2115 WHERE round_id=?',id).first()).n),0);
+    assert.deepEqual(await f.p('SELECT * FROM coup_penalties_v2115 WHERE round_id=?',oldId).first(),oldPenalty);
+    assert.equal((await clanCampStatusForUser(f.env,2,f.now)).remainingSeconds,28800);
+    const drawId=await f.prepare('DRAW'); await settleCoupRound(f.env,drawId,f.now+3000);
+    assert.equal((await f.p('SELECT status FROM coup_rounds_v2115 WHERE id=?',drawId).first()).status,'FINISHED');
+    assert.equal(Number((await f.p('SELECT COUNT(*) n FROM event_prison_camps WHERE event_id=?','coup:'+drawId).first()).n),0);
+    assert.equal(Number((await f.p('SELECT COUNT(*) n FROM coup_penalties_v2115 WHERE round_id=?',drawId).first()).n),0);
   });
   test(`${label}: palace fall jails loyalists, opens one trial, guards duties and preserves releases on retry`, async t => {
     const f = await fixture(t, pg), id = await f.prepare('REBEL');

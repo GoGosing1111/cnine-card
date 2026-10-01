@@ -96,8 +96,8 @@ export async function joinCoupRound(env, deps, user, body, now = Date.now()) {
   return { ok: true };
 }
 
-// Round ownership, account row locks, penalty ledger, imprisonment and trial are
-// committed together. A retry cannot debit again, extend a sentence, or reopen a vote.
+// Round ownership, imprisonment and trial are committed together. A retry cannot
+// extend a sentence or reopen a vote. Historical coin penalty records stay intact.
 export async function settleCoupRound(env, id, now = Date.now()) {
   await ensureCoupSchema(env);
   const round = await getRound(env, id);
@@ -107,21 +107,12 @@ export async function settleCoupRound(env, id, now = Date.now()) {
   const winner = round.winner || deadlineWinner(round), cfg = coupSettings(parse(round.settings_json)), token = crypto.randomUUID();
   const statements = [chiefMetaLock(env), ...roundClaim(env, round, token, "AND status IN ('ACTIVE','SETTLING')"),
     p(env, "UPDATE coup_rounds_v2115 SET status='FINISHED',winner=?,finished_at=? WHERE id=?", winner, now, id)];
-  const rebelPolicy = coupRebelDefeatPolicy(id, parse(round.settings_json));
-  if (winner === 'CHIEF' && rebelPolicy.type === 'PRISON') {
+  const rebelPolicy = coupRebelDefeatPolicy();
+  if (winner === 'CHIEF') {
     const eventId = `coup:${id}`;
     statements.push(
-      p(env, `INSERT INTO event_prison_camps(event_id,source_type,title,reason,jailed_at,jailed_until) VALUES(?,'COUP','황궁 쿠데타 · 반란군',?,?,?)`, eventId, `반란군 패배 · 이번 회차 시범 운영 · ${rebelPolicy.hours === 1.5 ? '1시간 30분' : '3시간'} 수감`, sqlTime(now), sqlTime(now + rebelPolicy.hours * 3600000)),
+      p(env, `INSERT INTO event_prison_camps(event_id,source_type,title,reason,jailed_at,jailed_until) VALUES(?,'COUP','황궁 쿠데타 · 반란군',?,?,?)`, eventId, `반란군 패배 · ${rebelPolicy.hours}시간 수감`, sqlTime(now), sqlTime(now + rebelPolicy.hours * 3600000)),
       p(env, `INSERT INTO event_prison_captives(event_id,user_id,member_role) SELECT ?,user_id,'REBEL' FROM coup_participants_v2115 WHERE round_id=? AND side='REBEL'`, eventId, id));
-  } else if (winner === 'CHIEF') {
-    statements.push(
-      p(env, "UPDATE users SET coin=coin WHERE id IN (SELECT user_id FROM coup_participants_v2115 WHERE round_id=? AND side='REBEL')", id),
-      p(env, `INSERT INTO coup_penalties_v2115(round_id,user_id,before_coin,debit,after_coin)
-        SELECT ?,u.id,u.coin,CASE WHEN u.coin>0 THEN CAST(u.coin/5 AS BIGINT) ELSE 3000000000 END,
-        u.coin-CASE WHEN u.coin>0 THEN CAST(u.coin/5 AS BIGINT) ELSE 3000000000 END
-        FROM users u JOIN coup_participants_v2115 c ON c.user_id=u.id WHERE c.round_id=? AND c.side='REBEL'`, id, id),
-      p(env, `UPDATE users SET coin=(SELECT after_coin FROM coup_penalties_v2115 p WHERE p.round_id=? AND p.user_id=users.id)
-        WHERE id IN (SELECT user_id FROM coup_penalties_v2115 WHERE round_id=?)`, id, id));
   } else if (winner === 'REBEL') {
     const eventId = `coup:${id}`, trialId = id;
     statements.push(

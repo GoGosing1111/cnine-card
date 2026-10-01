@@ -15,16 +15,10 @@ export function coupSettings(input = {}) {
     return [key, n];
   })) };
 }
-export function rebelPenalty(coin) {
-  const n = BigInt(coin);
-  return n > 0n ? n / 5n : 3000000000n;
-}
-// This opt-in is pinned to one round and is never part of the global CMS defaults.
-export function coupRebelDefeatPolicy(roundId, settings = {}) {
-  const trial = settings.rebelTrial;
-  return roundId && trial?.roundId === roundId && [1.5, 3].includes(trial.prisonHours)
-    ? { type: 'PRISON', hours: trial.prisonHours, trialRun: true }
-    : { type: 'COIN', hours: 0, trialRun: false };
+// Applies to every future settlement, including rounds already recruiting.
+// Legacy trial settings cannot restore coin deductions or shorter sentences.
+export function coupRebelDefeatPolicy() {
+  return { type: 'PRISON', hours: 8, trialRun: false };
 }
 export function coupMatchedOpponent(candidates, attackerPower, recentIds = [], random = Math.random) {
   const power = Math.max(1, Number(attackerPower) || 1);
