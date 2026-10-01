@@ -1,0 +1,33 @@
+{
+  "createdDate": "2026-10-01",
+  "status": "SOURCE_ART_USER_REVIEW_PENDING",
+  "request": "첨부 얼굴·체형·의상 유지, 전체 포즈를 바꾸어 새로 제작. 기존 그림 국소 수정 금지.",
+  "method": "Built-in image_gen; new complete illustration using the attachment only as character identity / body / costume reference. No hand patch, compositing, retouching or pixel reuse.",
+  "sourceArt": "assets/hand-mage-new-pose-source-art-v1.png",
+  "sha256": "3519E19FCC7609AAF128C7A3F8A9DEB00711A6E74E4727E115E2B1D8A94DBAEC",
+  "width": 1024,
+  "height": 1536,
+  "colorMode": "RGB",
+  "reference": {
+    "path": "sources/character-design-reference.png",
+    "sha256": "E89EC6B09E10DFCDD8B16322E2E241367A018A74CE4E01D70FD8D2BD2B330361",
+    "role": "Face identity, adult body proportions, hair, ears, outfit, palette and rendering reference only"
+  },
+  "prompt": "prompt-v1.txt",
+  "composition": "Both elbows bent, hands near torso, one below and one above a mana sphere, new counter-turned torso and bent-knee stance; fantasy autumn ruins redrawn.",
+  "review": {
+    "nativeDimensions": true,
+    "entirelyNewPose": true,
+    "hands": "Full-size hand crop reviewed for wrist connection, thumb placement and four-finger grouping. qa/hands-detail.png",
+    "identityAndCostume": "Compared against the attached reference; user final visual review pending",
+    "hair": "Natural continuous flowing black hair retained"
+  },
+  "registration": {
+    "approved": false,
+    "name": null,
+    "code": null,
+    "rank": null,
+    "liveConnected": false,
+    "battleSprite": null
+  }
+}
