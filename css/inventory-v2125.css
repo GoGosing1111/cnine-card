@@ -44,3 +44,7 @@
 
 .iv25-rarity-premium,.iv25-rarity-prime{--iv-grade:#d4b4fa}.iv25-rarity-high,.iv25-rarity-special{--iv-grade:#9ecbdb}
 .iv25-refresh:disabled{opacity:.55}.iv25-vault[aria-busy=true] .iv25-use{opacity:.5;cursor:wait}
+.iv25-gift-recovery{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:12px 15px;margin-bottom:14px;border:1px solid var(--iv-line);border-left:2px solid #7e9954;border-radius:4px;background:var(--iv-panel)}
+.iv25-gift-recovery b{font-size:12px;color:var(--iv-text)}.iv25-gift-recovery p{margin:4px 0 0;font-size:11px;line-height:1.6;color:var(--iv-muted)}
+.iv25-gift-recovery-actions{display:flex;flex-wrap:wrap;gap:8px}.iv25-gift-recovery button{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:40px;padding:9px 12px;border:1px solid #465736;border-radius:4px;background:#c8ff6b08;color:var(--iv-lime);font-size:11px}.iv25-gift-recovery button:hover{background:#c8ff6b14}.iv25-gift-recovery button svg{width:16px;height:16px}.iv25-vault[aria-busy=true] .iv25-gift-recovery button{opacity:.5;cursor:wait}
+@media(max-width:700px){.iv25-gift-recovery-actions{width:100%}.iv25-gift-recovery button{flex:1 1 145px;min-height:44px}}

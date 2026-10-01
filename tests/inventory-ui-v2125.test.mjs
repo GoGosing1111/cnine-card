@@ -87,3 +87,32 @@ test('all fixture media resolve to real assets and include the released fifth an
   assert.ok(inventoryUiFixture().items.some(x=>x.code==='SUIT_CORE_5'));
   assert.ok(inventoryUiFixture().items.some(x=>x.code==='SUIT_CORE_6'));
 });
+
+function recoveryModel(){
+  const store=new Map(),opened=[],requests=[],recovery={hidden:true,innerHTML:''},grid={innerHTML:''},dialog={open:false,close(){this.open=false;}};
+  const controls={'#inventorySearch':{},'#inventorySort':{},'#inventoryOwnedOnly':{},'#inventoryRefresh':{},'#inventoryDetailDialog':dialog,'#inventoryOwnedSummary':{}};
+  const vault={dataset:{},isConnected:true,attributes:{},querySelector:selector=>controls[selector],setAttribute(name,value){this.attributes[name]=value;},getAttribute(name){return this.attributes[name];}};
+  const ctx=vm.createContext({Intl,Set,loadUser:()=>({serverUserId:7}),localStorage:{getItem:key=>store.get(key)||null},document:{getElementById:id=>({inventoryVault:vault,inventoryGrid:grid,inventoryGiftRecovery:recovery})[id],querySelector:()=>null},apiRequest:async endpoint=>{requests.push(endpoint);return {items:[{code:'FUNDING_GIFT_BOX',quantity:0}],unseenTotal:0};},openInventoryPack:(...args)=>opened.push(args),clearApiCache:()=>{}});
+  vm.runInContext(app.slice(app.indexOf('const RETIREMENT_REROLL_META='),app.indexOf('let landSuperstarBusy=false;'))+';renderInventoryItems=()=>{};',ctx);
+  const click=code=>{const button={dataset:{inventoryRecover:code},hasAttribute:()=>false};vault.onclick({target:{closest:()=>button}});};
+  return {ctx,store,opened,requests,recovery,vault,click};
+}
+
+test('entering and refreshing inventory never opens or submits a pending gift, including zero stock',async()=>{
+  const m=recoveryModel(),key='cnine:funding-gift:7:pending';m.store.set(key,'original-receipt');
+  await m.ctx.loadInventory();await m.ctx.loadInventory();
+  assert.deepEqual(m.opened,[]);assert.deepEqual(m.requests,['inventory','inventory']);assert.equal(m.store.get(key),'original-receipt');
+  assert.equal(m.recovery.hidden,false);assert.match(m.recovery.innerHTML,/data-inventory-recover="FUNDING_GIFT_BOX"/);
+  m.click('FUNDING_GIFT_BOX');assert.deepEqual(m.opened,[['FUNDING_GIFT_BOX',0]]);
+  m.vault.setAttribute('aria-busy','true');m.click('FUNDING_GIFT_BOX');assert.equal(m.opened.length,1);
+  m.vault.setAttribute('aria-busy','false');m.store.delete(key);m.click('FUNDING_GIFT_BOX');assert.equal(m.opened.length,1);assert.equal(m.recovery.hidden,true);
+});
+
+test('gift recovery only offers the signed-in account receipts and tolerates unavailable storage',async()=>{
+  const m=recoveryModel();m.store.set('cnine:funding-gift:8:pending','other-account');
+  await m.ctx.loadInventory();assert.equal(m.recovery.hidden,true);assert.deepEqual(m.opened,[]);
+  m.store.set('cnine:recruitment-gift:7:pending','recruitment');m.store.set('cnine:tournament-gift:7:pending','tournament');
+  await m.ctx.loadInventory();m.click('RECRUITMENT_GIFT_BOX');m.click('TOURNAMENT_GIFT_BOX');
+  assert.deepEqual(m.opened,[['RECRUITMENT_GIFT_BOX',0],['TOURNAMENT_GIFT_BOX',0]]);
+  m.ctx.localStorage.getItem=()=>{throw Error('blocked storage');};await m.ctx.loadInventory();assert.equal(m.recovery.hidden,true);
+});

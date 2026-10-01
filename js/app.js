@@ -4008,6 +4008,7 @@ function inventoryView(){
   if(inventoryUiState.owner!==owner)Object.assign(inventoryUiState,{owner,items:[],filter:'ALL',query:'',sort:'DEFAULT',ownedOnly:true,newOnly:false,selectedCode:''});
   return `${summaryBar(loadUser())}<section id="inventoryVault" class="iv25-vault" aria-label="아이템 보관함" aria-busy="true">
     <header class="iv25-heading"><div><span class="iv25-heading-icon" aria-hidden="true">${inventoryIcon('box')}</span><div><h2>보유 아이템</h2><p id="inventoryOwnedSummary">보관함을 확인하고 있습니다.</p></div></div><button type="button" class="iv25-refresh" id="inventoryRefresh" aria-label="인벤토리 새로고침">${inventoryIcon('refresh')}<span>새로고침</span></button></header>
+    <section id="inventoryGiftRecovery" class="iv25-gift-recovery" aria-label="이전 사은품 개봉 결과" hidden></section>
     <div class="iv25-tools"><label class="iv25-search">${inventoryIcon('search')}<input id="inventorySearch" type="search" placeholder="아이템 이름으로 검색" aria-label="아이템 검색" autocomplete="off" maxlength="100" value="${escapeHtml(inventoryUiState.query)}"></label><label class="iv25-sort"><span>정렬</span><select id="inventorySort" aria-label="아이템 정렬">${[['DEFAULT','기본순'],['QUANTITY','수량 많은 순'],['RARITY','등급순'],['NAME','이름순']].map(([value,label])=>`<option value="${value}" ${value===inventoryUiState.sort?'selected':''}>${label}</option>`).join('')}</select></label><label class="iv25-owned"><input id="inventoryOwnedOnly" type="checkbox" ${inventoryUiState.ownedOnly?'checked':''}><span>보유한 아이템만</span></label></div>
     <nav id="inventoryToolbar" class="iv25-filters" aria-label="아이템 종류">${INVENTORY_GROUPS.map(([key,label])=>`<button type="button" data-inventory-filter="${key}" ${key==='REROLL'?'id="inventoryRerollFilter"':''} aria-pressed="${inventoryUiState.filter===key}"><span>${label}</span><b data-inventory-count="${key}">0</b></button>`).join('')}</nav>
     <div class="iv25-layout"><section class="iv25-collection" aria-label="아이템 목록"><div class="iv25-list-heading"><p id="inventoryResultsSummary" role="status">불러오는 중</p><button id="inventoryNewOnly" type="button" aria-pressed="${inventoryUiState.newOnly}"><i></i>새 아이템 <b id="inventoryNewCount">0</b></button></div><div id="inventoryGrid" class="iv25-grid">${Array.from({length:12},()=>'<div class="iv25-skeleton" aria-hidden="true"><i></i><span></span><b></b></div>').join('')}</div><p class="iv25-list-foot">${inventoryIcon('info')}아이템을 선택하면 상세 정보와 사용 방법을 확인할 수 있습니다.</p></section><aside id="inventoryDetail" class="iv25-detail" aria-label="선택한 아이템 상세">${inventoryEmptyDetail()}</aside></div>
@@ -4015,6 +4016,19 @@ function inventoryView(){
   </section>`;
 }
 const inventoryUiState={owner:null,items:[],filter:'ALL',query:'',sort:'DEFAULT',ownedOnly:true,newOnly:false,selectedCode:'',request:0};
+function inventoryPendingGifts(){
+  const owner=loadUser()?.serverUserId;if(!owner)return [];
+  try{return [
+    {code:'FUNDING_GIFT_BOX',key:'funding-gift',name:'펀딩 사은품'},
+    {code:'RECRUITMENT_GIFT_BOX',key:'recruitment-gift',name:'영입전 사은품'},
+    {code:'TOURNAMENT_GIFT_BOX',key:'tournament-gift',name:'대회 사은품'}
+  ].filter(gift=>localStorage.getItem(`cnine:${gift.key}:${owner}:pending`));}catch{return [];}
+}
+function inventoryRenderGiftRecovery(){
+  const target=document.getElementById('inventoryGiftRecovery');if(!target)return;
+  const pending=inventoryPendingGifts();target.hidden=!pending.length;
+  target.innerHTML=pending.length?`<div><b>사은품 개봉 결과</b><p>이전에 확인하지 못한 결과가 있습니다.</p></div><div class="iv25-gift-recovery-actions">${pending.map(gift=>`<button type="button" data-inventory-recover="${gift.code}">${gift.name} 확인${inventoryIcon('arrow')}</button>`).join('')}</div>`:'';
+}
 const INVENTORY_GROUPS=[['ALL','전체'],['PACK','팩·상자'],['MATERIAL','재료'],['ENTRY_TICKET','입장권'],['SKILL_CHIP','스킬칩'],['REROLL','재뽑기권'],['OTHER','기타']];
 const INVENTORY_RARITIES={MAGIC:['마법',.5],HIGH:['고급',1],SPECIAL:['특수',1],PREMIUM:['프리미엄',4],PRIME:['프라임',4],NORMAL:['일반',0],COMMON:['일반',0],RARE:['희귀',1],EPIC:['영웅',2],LEGENDARY:['전설',3],MYTHIC:['신화',4],EMPEROR:['엠퍼러',4.5],MA:['MA',5],LIMITED:['LIMITED',6],PRESTIGE:['PRESTIGE',7],SUPERSTAR:['SUPERSTAR',8],FUR:['FUR',9]};
 function inventoryIcon(name){const paths={box:'<path d="m3 7 9-4 9 4v11l-9 4-9-4Z M3 7l9 4 9-4M12 11v11M7 5l9 4"/>',search:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/>',refresh:'<path d="M20 10a8 8 0 1 0-1 7M20 4v6h-6"/>',info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v1"/>',close:'<path d="m6 6 12 12M18 6 6 18"/>',arrow:'<path d="M4 12h15m-6-6 6 6-6 6"/>'};return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${paths[name]||paths.box}</svg>`;}
@@ -4094,6 +4108,13 @@ function bindInventoryControls(vault){
     else if(target.id==='inventoryNewOnly'){inventoryUiState.newOnly=!inventoryUiState.newOnly;render();}
     else if(target.hasAttribute('data-inventory-reset')){Object.assign(inventoryUiState,{filter:'ALL',query:'',ownedOnly:false,newOnly:false});vault.querySelector('#inventorySearch').value='';vault.querySelector('#inventoryOwnedOnly').checked=false;render();}
     else if(target.dataset.inventorySelect){inventoryUiState.selectedCode=target.dataset.inventorySelect;gridSelection();inventoryRenderDetail();if(window.matchMedia('(max-width:700px)').matches&&!dialog.open)dialog.showModal();}
+    else if(target.dataset.inventoryRecover){
+      if(vault.getAttribute('aria-busy')==='true'||document.querySelector('#modal.show'))return;
+      const gift=inventoryPendingGifts().find(x=>x.code===target.dataset.inventoryRecover);
+      if(!gift){inventoryRenderGiftRecovery();return;}
+      if(dialog.open)dialog.close();
+      openInventoryPack(gift.code,inventoryUiState.items.find(x=>x.code===gift.code)?.quantity||0);
+    }
     else if(target.dataset.inventoryUse){if(vault.getAttribute('aria-busy')==='true')return;const item=inventoryUiState.items.find(x=>String(x.code)===target.dataset.inventoryUse);if(!item)return;const meta=inventoryItemMeta(item);if(!meta.owned||!meta.usable)return;if(dialog.open)dialog.close();openInventoryPack(item.code,meta.quantity);}
   };
   function gridSelection(){vault.querySelectorAll('[data-inventory-select]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.inventorySelect===inventoryUiState.selectedCode)));}
@@ -4107,9 +4128,8 @@ async function loadInventory(){
     const summary=vault.querySelector('#inventoryOwnedSummary'),owned=items.filter(x=>Number(x.quantity)>0),total=owned.reduce((sum,item)=>sum+Number(item.quantity),0);
     summary.innerHTML=`<strong>${owned.length.toLocaleString()}</strong>종 보유 <span>·</span> 총 <strong>${total.toLocaleString()}</strong>개`;
     renderInventoryItems(items);vault.setAttribute('aria-busy','false');vault.querySelector('#inventoryRefresh').disabled=false;
-    try{if(localStorage.getItem(`cnine:recruitment-gift:${loadUser()?.serverUserId}:pending`))openInventoryPack('RECRUITMENT_GIFT_BOX',items.find(x=>x.code==='RECRUITMENT_GIFT_BOX')?.quantity||0);}catch{}
-    try{if(!document.querySelector('#modal.recruitment-gift-modal')&&localStorage.getItem(`cnine:funding-gift:${loadUser()?.serverUserId}:pending`))openInventoryPack('FUNDING_GIFT_BOX',items.find(x=>x.code==='FUNDING_GIFT_BOX')?.quantity||0);}catch{}
-    try{if(!document.querySelector('#modal.funding-gift-modal, #modal.recruitment-gift-modal')&&localStorage.getItem(`cnine:tournament-gift:${loadUser()?.serverUserId}:pending`))openInventoryPack('TOURNAMENT_GIFT_BOX',items.find(x=>x.code==='TOURNAMENT_GIFT_BOX')?.quantity||0);}catch{}
+    // Preserve uncertain receipt IDs, but only recover them after an explicit click.
+    inventoryRenderGiftRecovery();
     if(d.unseenTotal)apiRequest('inventory/seen',{method:'POST',body:'{}'}).then(()=>clearApiCache('inventory')).catch(()=>{});
   }catch(error){
     if(request!==inventoryUiState.request||!vault.isConnected)return;
