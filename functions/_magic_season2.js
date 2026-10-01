@@ -13,9 +13,12 @@ export function createMagicSeason2Runtime({teams,loadouts,emit,rawDamage,knockou
   const slots=new Set(),codes=new Set();
   for(const card of loadouts[side]||[]){
    const code=card.effectType||card.code;if(!MAGIC_S2_RULES[code])continue;
-   const normalized=magicS2Card(code,Number(card.slotNo),Number(card.enhancementLevel||0));
-   if(slots.has(normalized.slotNo)||codes.has(code))throw Error('DUPLICATE_MAGIC_S2_LOADOUT');slots.add(normalized.slotNo);codes.add(code);
-   const actor=teams[side][normalized.slotNo-1];if(!regular(actor))throw Error('MAGIC_S2_REQUIRES_REGULAR_CARD');
+   const slot=Number(card.slotNo),actor=teams[side][slot-1],duo=Number.isSafeInteger(actor?.ownerId)&&actor?.squadIndex>=0;
+   if(!Number.isInteger(slot)||slot<1||slot>(duo?10:5))throw Error('INVALID_MAGIC_S2_SLOT');
+   const normalized={...magicS2Card(code,duo?actor.localSlot+1:slot,Number(card.enhancementLevel||0)),slotNo:slot};
+   const uniqueCode=duo?actor.ownerId+':'+code:code;
+   if(slots.has(slot)||codes.has(uniqueCode))throw Error('DUPLICATE_MAGIC_S2_LOADOUT');slots.add(slot);codes.add(uniqueCode);
+   if(!regular(actor))throw Error('MAGIC_S2_REQUIRES_REGULAR_CARD');
    states.push({card:{...normalized,id:card.id},actor,rule:MAGIC_S2_RULES[code],p:magicS2Params(code,normalized.enhancementLevel),uses:0,attacks:0,record:0,targetId:null});
   }
  }
@@ -32,9 +35,10 @@ export function createMagicSeason2Runtime({teams,loadouts,emit,rawDamage,knockou
  const candidates=(side,code,options)=>states.filter(s=>s.actor.side===side&&s.card.code===code&&available(s,options)).sort((a,b)=>order(a.actor,b.actor));
  const event=(s,target,phase,data={})=>emit('MAGIC_SEASON2',{actorId:s.actor.id,targetId:target?.id,magicCode:s.card.code,magicName:s.card.name,magicImageUrl:s.card.imageUrl,magicEnhancementLevel:s.card.enhancementLevel,effectType:s.card.code,phase,activation:s.uses,maxActivations:s.rule.uses,label:s.card.name,...data});
  const status=(s,target,kind,remaining)=>event(s,target,'STATUS',{statusKind:kind,remaining,targetHpAfter:target.hp,targetShieldAfter:target.shield});
- function extraDamage(s,target,amount,phase,{ignoreShield=false,...meta}={}){
+ function extraDamage(s,target,amount,phase,{ignoreShield=false,consumeUse=false,...meta}={}){
   if(!living(target)||target.invulnerable||target.untargetable)return null;
   const approved=n(magicCap(target,amount));if(!approved)return null;
+  if(consumeUse)consume(s);
   const result=rawDamage(target,approved,{ignoreShield});s.actor.damageDealt+=result.hpDamage+result.absorbed;
   event(s,target,phase,{damage:result.hpDamage,absorbed:result.absorbed,targetHpAfter:target.hp,targetMaxHp:target.maxHp,targetShieldAfter:target.shield,...meta});
   knockout(target);return result;
@@ -141,19 +145,20 @@ export function createMagicSeason2Runtime({teams,loadouts,emit,rawDamage,knockou
    const scale=v=>pct(v,s.p.efficiency),type=original.effectType;
    const meta={copied:true,sourceEventSeq:original.seq,sourceActorId:origin.id,copiedEffect:type};let applied=false;
    if(['PUNISH_TRAP','ARCANE_COUNTER','CHAIN_ECHO'].includes(type)){
-    const amount=scale(n(original.damage)+n(original.absorbed));if(amount){consume(s);extraDamage(s,target,amount,'MIRROR',meta);applied=true;}
+    const amount=scale(n(original.damage)+n(original.absorbed));if(amount)applied=!!extraDamage(s,target,amount,'MIRROR',{...meta,consumeUse:true});
    }else if(['CRISIS_HEAL','PURIFY_LIGHT'].includes(type)){
     if(!isHealingAllowed())continue;
     if(type==='PURIFY_LIGHT'){s.actor.magicSealCharges=0;s.actor.magicSealSourceId='';s.actor.doomMarks=0;s.actor.timeDistortionStacks=0;cleanse(s.actor);}
-    const amount=heal(s.actor,scale(original.amount));s.actor.healingDone+=amount;
-    if(amount>0||type==='PURIFY_LIGHT'){consume(s);event(s,s.actor,'MIRROR',{...meta,amount,targetHpAfter:s.actor.hp,targetMaxHp:s.actor.maxHp,targetShieldAfter:s.actor.shield});applied=true;}
+    const shieldBefore=s.actor.shield,amount=heal(s.actor,scale(original.amount));s.actor.healingDone+=amount;
+    const shieldGain=s.actor.shield-shieldBefore;
+    if(amount>0||shieldGain>0||type==='PURIFY_LIGHT'){consume(s);event(s,s.actor,'MIRROR',{...meta,amount,shieldGain,targetHpAfter:s.actor.hp,targetMaxHp:s.actor.maxHp,targetShieldAfter:s.actor.shield});applied=true;}
    }else if(type==='FOLLOWUP_HASTE'){
     const before=s.actor.gauge;s.actor.gauge=Math.min(95,before+scale(original.value));if(s.actor.gauge>before){consume(s);event(s,s.actor,'MIRROR',{...meta,gaugeAfter:s.actor.gauge});applied=true;}
    }else if(type==='TIME_DISTORTION'){
     const amount=Math.min(target.gauge,scale(original.gaugeLoss));if(amount>0){target.gauge-=amount;consume(s);event(s,target,'MIRROR',{...meta,gaugeLoss:amount,gaugeAfter:target.gauge});applied=true;}
    }else if(type==='SHIELD_SIPHON'){
     const amount=Math.min(target.shield,n(magicCap(target,scale(original.shieldStolen),.25)));
-    if(amount>0){target.shield-=amount;s.actor.shield+=amount;s.actor.maxShield=Math.max(s.actor.maxShield,s.actor.shield);consume(s);event(s,target,'MIRROR',{...meta,shieldStolen:amount,targetShieldAfter:target.shield,actorShieldAfter:s.actor.shield});applied=true;}
+    if(amount>0){target.shield-=amount;afterDamage(target,{absorbed:amount},{direct:false});s.actor.shield+=amount;s.actor.maxShield=Math.max(s.actor.maxShield,s.actor.shield);consume(s);event(s,target,'MIRROR',{...meta,shieldStolen:amount,targetShieldAfter:target.shield,actorShieldAfter:s.actor.shield});applied=true;}
    }
    if(applied)seenMirror.add(receipt);
   }

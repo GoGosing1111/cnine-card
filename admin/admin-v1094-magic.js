@@ -10,8 +10,8 @@
     return `/${url.replace(/^\/+/, '')}`;
   };
   const adminImage=(value,alt='')=>{const src=publicImageUrl(value);return src?`<img src="${h(src)}" alt="${h(alt)}" loading="lazy" decoding="async" onerror="this.onerror=null;this.remove();this.parentElement.classList.add('image-missing')">`:''};
-  const effectLabel=value=>({OPENING_ATTACK:'전투 개시 공격 강화',GUARD_BARRIER:'수호 결계',LIFE_AMPLIFY:'생명 증폭',CRISIS_HEAL:'위기 회복',PUNISH_TRAP:'응징 함정',ARCANE_COUNTER:'마력 반격',FOLLOWUP_HASTE:'속행 가속',ARCANE_SEAL:'마법 봉인',DOOM_MARK:'파멸 낙인',SHIELD_SIPHON:'보호막 강탈',TIME_DISTORTION:'행동 게이지 교란',PHOENIX_REVIVE:'전투 부활',PURIFY_LIGHT:'약화 정화',CHAIN_ECHO:'연쇄 추가타'})[String(value||'').toUpperCase()]||String(value||'미설정');
-  const triggerLabel=value=>({BATTLE_START:'전투 시작',BEFORE_ATTACK:'공격 전',AFTER_ATTACK:'공격 후',BEFORE_HIT:'피격 전',AFTER_HIT:'피격 후',LOW_HP:'HP 조건',ON_KILL:'적 처치',ON_DEATH:'카드 사망',NEXT_OPPONENT:'새 상대 출전',PASSIVE:'상시 적용'})[String(value||'').toUpperCase()]||String(value||'상시 적용');
+  const effectLabel=value=>({OPENING_ATTACK:'전투 개시 공격 강화',GUARD_BARRIER:'수호 결계',LIFE_AMPLIFY:'생명 증폭',CRISIS_HEAL:'위기 회복',PUNISH_TRAP:'응징 함정',ARCANE_COUNTER:'마력 반격',FOLLOWUP_HASTE:'속행 가속',ARCANE_SEAL:'마법 봉인',DOOM_MARK:'파멸 낙인',SHIELD_SIPHON:'보호막 강탈',TIME_DISTORTION:'행동 게이지 교란',PHOENIX_REVIVE:'전투 부활',PURIFY_LIGHT:'약화 정화',CHAIN_ECHO:'연쇄 추가타'})[String(value||'').toUpperCase()]||magicAdmin.data?.season2Effects?.find(e=>e.code===value)?.name||String(value||'미설정');
+  const triggerLabel=value=>({CONDITIONAL:'조건 충족 시',BATTLE_START:'전투 시작',BEFORE_ATTACK:'공격 전',AFTER_ATTACK:'공격 후',BEFORE_HIT:'피격 전',AFTER_HIT:'피격 후',LOW_HP:'HP 조건',ON_KILL:'적 처치',ON_DEATH:'카드 사망',NEXT_OPPONENT:'새 상대 출전',PASSIVE:'상시 적용'})[String(value||'').toUpperCase()]||String(value||'상시 적용');
   const prevRenderIdentity=renderIdentity;
   renderIdentity=function(){
     prevRenderIdentity();
@@ -100,6 +100,7 @@
         </div><div class="magicAdminActions"><button id="magicSaveSettings">운영 설정 저장</button></div>
       </section>
       ${acquisitionPanel(cfg)}
+      ${season2Panel(d)}
       ${magicCardEditor()}
       <section class="panel"><div class="maintenanceHead"><div><small>REGISTERED MAGIC CARDS</small><h2>등록된 마법카드</h2><p>삭제하지 않고 비활성화 방식으로 운영합니다.</p></div><div class="magicAdminHeadActions"><a class="ghost magicLivePreviewLink" href="/preview/battle-v2/" target="_blank" rel="noopener">실전 V2 프리뷰</a><button id="magicNewCard" class="ghost">새 마법카드</button></div></div><div class="magicCardAdminGrid">${(d.cards||[]).map(magicCardRow).join('')||'<div class="magicAdminEmpty">등록된 마법카드가 없습니다.</div>'}</div></section>`;
     bindMagicAdmin();
@@ -229,6 +230,24 @@
     $('#uniqueEffectDialog')?.addEventListener('cancel',event=>{event.preventDefault();magicAdmin.editingEffect=null;renderUniqueAbilityAdmin(true)});
     bindUniqueRows();updateUniqueSelectionState();
   }
+  function season2Panel(d){
+    const s=d.season2||{},cfg=d.settings||{};
+    return `<section class="panel"><div class="maintenanceHead"><div><small>MAGIC CARDS · SEASON II</small><h2>시즌2 출시 준비</h2><p>공개와 개봉은 직접 ON으로 저장할 때 열립니다. 강화는 효과 수치를 높입니다.</p></div>${statusPill(s.runtimeEnabled,'전투 ON','출시 대기 · OFF')}</div>
+      <div class="magicSettingsGrid">
+        <label><span>시즌2 전투·편성 공개</span><select id="magicS2Runtime"><option value="0" ${!s.runtimeEnabled?'selected':''}>OFF · 출시 대기</option><option value="1" ${s.runtimeEnabled?'selected':''}>ON · 공개</option></select></label>
+        <label><span>시즌2 팩 개봉·소환</span><select id="magicS2Draw"><option value="0" ${!s.drawEnabled?'selected':''}>OFF · 출시 대기</option><option value="1" ${s.drawEnabled?'selected':''}>ON</option></select></label>
+        <label><span>시즌2 팩 코인 가격</span><input id="magicS2Price" type="number" min="1" step="1" value="${s.price==null?'':h(s.price)}" placeholder="가격 미정"><small>빈 값은 가격 미정 · 유료 소환 차단</small></label>
+        <label><span>강화·혼합 보상 정책</span><input disabled value="시즌1 정책 공유 · 카드 당첨은 시즌2만"></label>
+        <label class="wide"><span>+1~+9 카드 조각 비용</span><p>${h((cfg.enhancement?.shardCosts||[]).join(' / '))}</p><small>성공률 ${h((cfg.enhancement?.successRates||[]).join(' / '))}%</small></label>
+        <label class="wide"><span>팩 보상 비중</span><input disabled value="카드 ${cfg.packRewards?.magicCardWeight||0} · 결정 ${cfg.packRewards?.magicCrystalWeight||0} · 조각 ${cfg.packRewards?.cardShardWeight||0}"><small>시즌1의 보상 수량·중복 환급 공유. 시즌1 팩과 카드 풀 분리.</small></label>
+        ${(d.season2Effects||[]).map(e=>`<label><span>${h(e.name)} · 카드 가중치</span><input data-s2-weight="${h(e.code)}" type="number" min="0" max="100000" step="0.01" value="${h(s.cardWeights?.[e.code]??1)}"><small>+0 ${h(Object.values(e.baseStats).join(' / '))}% → +9 ${h(Object.values(e.baseStats).map(n=>Math.round(n*1.3*10)/10).join(' / '))}% · 최대 ${e.maxActivations}회</small></label>`).join('')}
+      </div><div class="magicAdminActions"><button id="magicS2Save">시즌2 설정 저장</button><a class="ghost" href="/preview/magic-card-season2-v1/" target="_blank" rel="noopener">시즌2 카드·효과·V3 검수</a></div></section>`;
+  }
+  async function saveSeason2(){
+    const settings={runtimeEnabled:$('#magicS2Runtime').value==='1',drawEnabled:$('#magicS2Draw').value==='1',price:$('#magicS2Price').value===''?null:Number($('#magicS2Price').value),cardWeights:Object.fromEntries([...document.querySelectorAll('[data-s2-weight]')].map(e=>[e.dataset.s2Weight,Number(e.value)]))};
+    if((settings.runtimeEnabled&&!magicAdmin.data.season2?.runtimeEnabled||settings.drawEnabled&&!magicAdmin.data.season2?.drawEnabled)&&!confirm('시즌2 공개 설정을 ON으로 저장할까요? 가격 미정이면 유료 소환은 계속 차단됩니다.'))return;
+    await api('admin/magic-system',{method:'POST',body:JSON.stringify({action:'SAVE_SEASON2_SETTINGS',settings})});await loadMagicAdmin();
+  }
   function magicCardEditor(){
     const x=magicAdmin.editingMagic||{effectType:'OPENING_ATTACK',triggerType:'BATTLE_START',effectValue:10,triggerChance:0,maxActivations:1,drawWeight:1,scopes:{pve:true,pvp:true},isActive:true,sortOrder:0};
     return `<section class="panel magicEditorPanel"><div class="maintenanceHead"><div><small>MAGIC CARD BUILDER</small><h2>${x.id?'마법카드 수정':'새 마법카드 등록'}</h2><p>회복·공격 강화·방어 강화·함정 등 기본 효과 데이터를 준비합니다.</p></div>${x.id?`<button id="magicCancelEdit" class="ghost">수정 취소</button>`:''}</div><div class="magicEditorGrid">
@@ -238,8 +257,9 @@
       <div class="magicScopeBox wide"><b>적용 콘텐츠</b><label><input id="magicScopePve" type="checkbox" ${x.scopes?.pve!==false?'checked':''}> PVE</label><label><input id="magicScopePvp" type="checkbox" ${x.scopes?.pvp!==false?'checked':''}> PVP</label><label><input id="magicScopeCaptain" type="checkbox" ${x.scopes?.captain!==false?'checked':''}> 대장전</label><label><input id="magicCardActive" type="checkbox" ${x.isActive!==false?'checked':''}> 카드 활성</label></div>
     </div><div class="magicAdminActions"><button id="magicSaveCard">${x.id?'마법카드 수정 저장':'마법카드 등록'}</button></div></section>`;
   }
-  function magicCardRow(x){const image=adminImage(x.imageUrl,`${x.name} 마법카드 이미지`);return `<article class="magicAdminCard ${x.isActive?'':'off'}"><div class="magicAdminArt${image?'':' image-missing'}">${image}<span>✦</span></div><div><small>강화형 · ${h(x.code)}</small><h3>${h(x.name)}</h3><p>${h(x.description||'설명 없음')}</p><div class="magicAdminTags"><b>${h(effectLabel(x.effectType))}</b><b>${h(triggerLabel(x.triggerType))}</b><b>강화 단계 발동률</b><b>최대 ${number(x.maxActivations)}회</b></div></div><div class="magicAdminCardActions">${statusPill(x.isActive)}<button data-magic-edit="${x.id}">수정</button><button data-magic-toggle="${x.id}" data-active="${x.isActive?'0':'1'}" class="ghost">${x.isActive?'비활성':'활성화'}</button></div></article>`}
+  function magicCardRow(x){const s2=x.season==='S2';const image=adminImage(x.imageUrl,`${x.name} 마법카드 이미지`);return `<article class="magicAdminCard ${x.isActive?'':'off'}"><div class="magicAdminArt${image?'':' image-missing'}">${image}<span>✦</span></div><div><small>${s2?'시즌2 · 조건부':'시즌1 · 강화형'} · ${h(x.code)}</small><h3>${h(x.name)}</h3><p>${h(x.description||'설명 없음')}</p><div class="magicAdminTags"><b>${h(effectLabel(x.effectType))}</b><b>${h(triggerLabel(x.triggerType))}</b><b>${s2?'조건 충족 시 발동 · 강화는 효과 증가':'강화 단계 발동률'}</b><b>최대 ${number(x.maxActivations)}회</b></div></div><div class="magicAdminCardActions">${statusPill(x.isActive)}${s2?"":`<button data-magic-edit="${x.id}">수정</button>`}<button data-magic-toggle="${x.id}" data-active="${x.isActive?'0':'1'}" class="ghost">${x.isActive?'비활성':'활성화'}</button></div></article>`}
   function bindMagicAdmin(){
+    $('#magicS2Save')?.addEventListener('click',saveSeason2);
     const effectSelect=$('#magicCardEffectType');if(effectSelect){const selected=magicAdmin.editingMagic?.effectType||'OPENING_ATTACK',effects=[['OPENING_ATTACK','전투 개시 공격 강화'],['GUARD_BARRIER','수호 결계'],['LIFE_AMPLIFY','생명 증폭'],['CRISIS_HEAL','위기 회복'],['PUNISH_TRAP','응징 함정'],['ARCANE_COUNTER','마력 반격'],['FOLLOWUP_HASTE','속행 가속'],['ARCANE_SEAL','마법 봉인'],['DOOM_MARK','파멸 낙인'],['SHIELD_SIPHON','보호막 강탈'],['TIME_DISTORTION','행동 게이지 교란'],['PHOENIX_REVIVE','전투 부활'],['PURIFY_LIGHT','약화 정화'],['CHAIN_ECHO','연쇄 추가타']];effectSelect.innerHTML=effects.map(([value,label])=>`<option value="${value}" ${value===selected?'selected':''}>${label}</option>`).join('');}
     $('#magicSaveSettings').onclick=saveSettings;$('#magicSaveAcquisition').onclick=saveAcquisition;$('#magicSaveCard').onclick=saveMagicCard;$('#magicNewCard').onclick=()=>{magicAdmin.editingMagic=null;renderMagicAdmin()};
     $('#magicAddTowerRow')?.addEventListener('click',()=>{$('#magicTowerRows').insertAdjacentHTML('beforeend',floorRewardRow());bindRewardRemovers()});

@@ -1,11 +1,12 @@
 // Preparation data only. This module is not imported by the live game or API.
 export const preparation = Object.freeze({
-  season: 'S2', version: '20260930-v2', status: 'CONNECTION_REVIEW_PENDING',
-  runtimeEnabled: false, drawEnabled: false, pricing: null, dropWeights: null,
+  season: 'S2', version: '20261001-ready', status: 'READY_HELD_BY_OWNER',
+  runtimeEnabled: false, drawEnabled: false, pricing: null, dropWeights: 'CMS_EQUAL_DEFAULT',
+  packPolicy: 'INHERIT_S1_MIXED', enhancementPolicy: 'INHERIT_S1',
   sourceDocument: 'docs/magic-card-season-2-design-draft.md',
   sourceCommit: '6092a5b59fa062f6efb9b6bdc7fff588fe4e7251',
   baselineKind: 'REPOSITORY_DEFAULTS_NOT_LIVE_CMS',
-  balanceStatus: 'REVIEW_CANDIDATE_NOT_RELEASED'
+  balanceStatus: 'READY_HELD_BY_OWNER'
 });
 
 export const growth = [1, 1.03, 1.06, 1.09, 1.12, 1.15, 1.18, 1.22, 1.26, 1.30];

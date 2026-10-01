@@ -2,6 +2,7 @@ import {DUO_DEFAULTS,DUO_LIMITS,DUO_VERSION,DUO_ADDITIONAL_RECRUIT_HOURS,duoErro
 import {DUO_CURRENT_KEY,prepareDuoSchema} from './_ranked_duo_schema.js';
 import {loadDuoProfiles} from './_ranked_duo_profiles.js';
 import {createDuoBattleV2} from './_battle_v2_preview.js';
+import {authorizeMagicBattleSnapshot} from './_magic.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {jointRequestId} from './_joint_transactions.js';
 import {DUO_RECRUIT_HOURS,DUO_CHALLENGER,duoTiers,resolveDuoTier,duoUtcMs} from '../shared/ranked-duo-season-v2.mjs';
@@ -212,7 +213,7 @@ async function refundFailedMatch(env,row,lease,now){
 }
 async function settle(env,row,lease,deps,now){
  const p=statement(env);let input,battleV2;
- try{input=JSON.parse(row.input_json);if(input.version!==DUO_VERSION)throw duoError('VERSION','전투 기준이 변경됐습니다.');battleV2=createDuoBattleV2(input.battle);if(new TextEncoder().encode(JSON.stringify(battleV2)).length>DUO_LIMITS.logBytes-10000)throw duoError('LOG_SIZE','전투 기록의 크기 제한을 초과했습니다.');}
+ try{input=JSON.parse(row.input_json);if(input.version!==DUO_VERSION)throw duoError('VERSION','전투 기준이 변경됐습니다.');const squads=[...input.battle.attackerSquads,...input.battle.defenderSquads];const authorized=await authorizeMagicBattleSnapshot(env,squads.flatMap((s,i)=>(s.magicCards||[]).map(c=>({...c,snapshotSquad:i}))));for(const [i,squad]of squads.entries())squad.magicCards=authorized.filter(c=>c.snapshotSquad===i);battleV2=createDuoBattleV2(input.battle);if(new TextEncoder().encode(JSON.stringify(battleV2)).length>DUO_LIMITS.logBytes-10000)throw duoError('LOG_SIZE','전투 기록의 크기 제한을 초과했습니다.');}
  catch(error){await refundFailedMatch(env,row,lease,now);console.error('[ranked-duo simulation cancelled]',row.id,error.message);throw duoError('CANCELLED','전투를 완료하지 못해 행동력을 돌려드렸습니다. 다시 매칭하세요.',503);}
  const win=battleV2.result.winner==='A';
  const aDelta=win?input.score.win:-input.score.loss,dDelta=win?-input.score.loss:input.score.win;

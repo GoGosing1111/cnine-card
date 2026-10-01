@@ -775,6 +775,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const magicByFighter=new Map();
   const registerMagic=(team,cards)=>{
     for(const magic of (Array.isArray(cards)?cards:[])){
+      if(String(magic.effectType||'').startsWith('S2_'))continue;
       const fighter=team[Math.max(0,Number(magic.slotNo||1)-1)];if(!fighter)continue;
       const state={...magic,activations:0},value=Math.max(0,Number(magic.effectValue||0));magicByFighter.set(fighter.id,state);
       if(['OPENING_ATTACK','LIFE_AMPLIFY','GUARD_BARRIER'].includes(state.effectType)&&state.maxActivations>0&&random()*100<Number(state.triggerChance||0)){
@@ -983,8 +984,9 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     }
   }
 
-  if(season2Review===true){
-    season2Runtime=createMagicSeason2Runtime({teams:{A:a,B:b},loadouts:{A:magicA,B:magicB},emit:(type,data)=>emitTimeline(timeline,clock,type,data),rawDamage,
+  if(season2Review===true||[...magicA,...magicB].some(card=>card?.[MAGIC_SEASON2_REVIEW]===true)){
+    const authorized=cards=>season2Review===true?cards:cards.filter(card=>card?.[MAGIC_SEASON2_REVIEW]===true);
+    season2Runtime=createMagicSeason2Runtime({teams:{A:a,B:b},loadouts:{A:authorized(magicA),B:authorized(magicB)},emit:(type,data)=>emitTimeline(timeline,clock,type,data),rawDamage,
       knockout:(target,{finalOnly=false}={})=>{if(finalOnly){target.hp=0;target.alive=false;target.gauge=0;emitTimeline(timeline,clock,'KO',{targetId:target.id});}else settleKnockout(target,timeline,clock,reviveFromMagic);},
       spendHeal:spendHealPool,magicCap:(...args)=>apocalypseMagicCap(...args),sealed:actor=>apocalypseSealed(actor),
       cleanse:target=>{clearApocalypseStatus(target);mercenaryRuntime?.cleanse(target);season2Runtime?.cleanse(target);},
@@ -1509,6 +1511,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
           const requested=Math.round(target.shield*Math.min(100,Number(siphon.effectValue||0))/100);
           const amount=Math.max(1,Math.min(target.shield,apocalypseMagicCap(target,requested,APOCALYPSE_SHIELD_SIPHON_CAP_MULTIPLIER)));
           target.shield-=amount;actor.shield+=amount;actor.maxShield=Math.max(actor.maxShield,actor.shield);
+          season2Runtime?.afterDamage(target,{absorbed:amount},{direct:false});
           emitTimeline(timeline,clock+0.00007,'MAGIC_CARD',magicEvent(siphon,actor,target,{shieldStolen:amount,targetShieldAfter:target.shield,actorShieldAfter:actor.shield,targetHpAfter:target.hp}));
         }
       }

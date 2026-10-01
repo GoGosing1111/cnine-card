@@ -21,6 +21,18 @@ function fixture(codes,level=0){
   spendHeal:(_side,n)=>{const used=Math.min(healPool,n);healPool-=used;return used;},magicCap:(_t,n)=>n});
  return {teams,events,runtime,rawDamage,knockout,get pool(){return healPool;}};
 }
+
+test('mirror consumes its single activation when copied overheal becomes forge shield, and no effect means no use',()=>{
+ const f=fixture(['S2_ARCANE_MIRROR','S2_OVERHEAL_FORGE']),a=f.teams.A[0],b=f.teams.B[0];
+ f.runtime.observeMagic({type:'MAGIC_CARD',effectType:'CRISIS_HEAL',actorId:b.id,seq:1,amount:1000});
+ assert.equal(a.hp,a.maxHp);assert.equal(a.shield,420);
+ assert.equal(f.runtime.snapshot().states.find(s=>s.code==='S2_ARCANE_MIRROR').uses,1);
+ f.runtime.observeMagic({type:'MAGIC_CARD',effectType:'CRISIS_HEAL',actorId:b.id,seq:2,amount:1000});
+ assert.equal(a.shield,420);
+ const g=fixture(['S2_ARCANE_MIRROR']);g.teams.B[0].invulnerable=true;
+ g.runtime.observeMagic({type:'MAGIC_CARD',effectType:'CHAIN_ECHO',actorId:g.teams.B[0].id,seq:1,damage:1000});
+ assert.equal(g.runtime.snapshot().states[0].uses,0);
+});
 test('all ten preview cards share exact server values at each enhancement; release remains OFF',()=>{
  assert.equal(cards.length,10);assert.equal(Object.keys(MAGIC_S2_RULES).length,10);
  for(const card of cards)for(let level=0;level<=9;level++)assert.deepEqual(effectAt(card,level),magicS2Params(card.code,level));
@@ -130,7 +142,7 @@ test('ledger defense weakness is consumed only by the next two landed direct hit
  f.runtime.afterDamage(b,{absorbed:0,hpDamage:10},{direct:true});assert.equal(f.runtime.defenseOptions(b).s2DefenseReduction,undefined);
 });
 test('catalog registration is inert and review normalization rejects forged level/slot/amount',()=>{
- const d=magicSeason2RegistrationDraft();assert.equal(d.cards.length,10);assert.ok(d.cards.every(c=>c.active===0));assert.equal(d.pack.active,false);assert.equal(d.pack.price,null);assert.equal(d.enhancement.costs,null);
+ const d=magicSeason2RegistrationDraft();assert.equal(d.cards.length,10);assert.ok(d.cards.every(c=>c.active===0));assert.equal(d.pack.active,false);assert.equal(d.pack.price,null);assert.equal(d.pack.policy,'INHERIT_S1_MIXED');assert.equal(d.enhancement.policy,'INHERIT_S1');
  const row={effect_type:'S2_CONTRACT_EROSION',slot_no:1,enhancement_level:9,effectValue:999999,triggerChance:999};
  assert.deepEqual(normalizeMagicSeason2ReviewRows([row],{season2Review:true}),[]);
  const opts={[MAGIC_SEASON2_REVIEW]:true},normalized=normalizeMagicSeason2ReviewRows([row],opts);assert.equal(normalized[0].params.reduction,31.2);assert.equal(normalized[0].triggerChance,100);

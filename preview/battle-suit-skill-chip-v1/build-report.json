@@ -2,6 +2,8 @@
   "engineSource": "preview/project-v-v3/source/project-v-pixi-battle.src.js",
   "pixiCopies": 1,
   "inputs": [
+    "shared/battle-suit-skill-chips.mjs",
+    "preview/project-v-v3/source/battle/MagicSeason2Playback.js",
     "shared/apocalypse-legion-v1.mjs",
     "preview/project-v-v3/source/battle/ApocalypseLegionFX.js",
     "preview/project-v-v3/source/battle/ApocalypseLegionPlayback.js",
@@ -26,7 +28,6 @@
     "preview/project-v-v3/source/battle/ApocalypseBossUltimateFX.js",
     "shared/apocalypse-boss-skills-v2048.mjs",
     "preview/project-v-v3/source/battle/ApocalypseSignatureSkillFX.js",
-    "shared/battle-suit-skill-chips.mjs",
     "shared/x-body-area-skill.mjs",
     "shared/z-body-area-skill.mjs",
     "preview/battle-suit-skill-chip-v1/source/sequence.js",
@@ -115,5 +116,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 1408904
+  "outputBytes": 1412539
 }

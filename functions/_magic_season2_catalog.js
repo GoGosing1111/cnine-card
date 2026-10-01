@@ -1,12 +1,12 @@
 import {MAGIC_S2_RELEASE,MAGIC_S2_RULES,MAGIC_S2_GROWTH,MAGIC_SEASON2_REVIEW,magicS2Card,magicS2Params} from '../shared/magic-season2-v1.mjs';
 
-// Connection data only. Not imported by _magic.js, an API, a migration or a
-// purchase handler. Inserting these records as-is leaves all cards inactive.
+import {defaultMagicSeason2Settings,MAGIC_S2_DESCRIPTIONS} from '../shared/magic-season2-release.mjs';
+// Register these records inactive. The persisted OWNER switch gates every live path.
 export function magicSeason2RegistrationDraft(){return {
- ...MAGIC_S2_RELEASE,pack:{code:'MAGIC_CARD_SEASON2_PACK',name:'마법카드 시즌2 팩',imageUrl:'assets/cards/magic-season2-pack-768-v2.webp',active:false,price:null,weights:null},
- enhancement:{maxLevel:9,growth:[...MAGIC_S2_GROWTH],costs:null,successRates:null},
+ ...MAGIC_S2_RELEASE,weights:defaultMagicSeason2Settings().cardWeights,pack:{code:'MAGIC_CARD_SEASON2_PACK',name:'마법카드 시즌2 팩',imageUrl:'assets/cards/magic-season2-pack-768-v2.webp',active:false,price:null,policy:'INHERIT_S1_MIXED'},
+ enhancement:{maxLevel:9,growth:[...MAGIC_S2_GROWTH],policy:'INHERIT_S1'},
  cards:Object.entries(MAGIC_S2_RULES).map(([code,rule],index)=>({code,name:rule.name,season:'S2',rarity:'MAGIC',active:0,sortOrder:index+1,effectType:code,activationModel:'CONDITIONAL',
-  imageUrl:`assets/ui/magic-cards/season2/${rule.slug}-source-v1.png`,triggerChance:100,maxActivations:rule.uses,baseStats:{...rule.stats},scopes:rule.pvpOnly?['PVP']:['PVE','PVP']}))
+  description:MAGIC_S2_DESCRIPTIONS[code],imageUrl:`assets/ui/magic-cards/season2/${rule.slug}-source-v1.png`,triggerChance:100,maxActivations:rule.uses,baseStats:{...rule.stats},scopes:rule.pvpOnly?['PVP']:['PVE','PVP']}))
 };}
 export function normalizeMagicSeason2ReviewRows(rows=[],options={}){
  if(options[MAGIC_SEASON2_REVIEW]!==true)return [];

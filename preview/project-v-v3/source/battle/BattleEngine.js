@@ -1,3 +1,4 @@
+import {withMagicSeason2Playback} from './MagicSeason2Playback.js';
 import {apocalypseLegionBoss} from '../../../../shared/apocalypse-legion-v1.mjs';
 import {ApocalypseLegionFX} from './ApocalypseLegionFX.js';
 import {playApocalypseLegionSkill,showApocalypseStatus} from './ApocalypseLegionPlayback.js';
@@ -3636,4 +3637,4 @@ class BaseBattleEngine{
 }
 
 // Every V3 entry and continuous-content subclass shares this layout policy.
-export class BattleEngine extends withMercenaryBattle(withOccupiedGrid(BaseBattleEngine)) {}
+export class BattleEngine extends withMagicSeason2Playback(withMercenaryBattle(withOccupiedGrid(BaseBattleEngine))) {}

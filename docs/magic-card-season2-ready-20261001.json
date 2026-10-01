@@ -1,0 +1,118 @@
+{
+  "date": "2026-10-01",
+  "status": "CMS_REGISTERED_CODE_VERIFIED_DEPLOYMENT_HELD",
+  "baseCommit": "67833a55955d032e9071efc5a905ebd5c41260eb",
+  "runtime": "20261001-coop-magic-s2",
+  "registration": {
+    "status": "READY_HELD_BY_OWNER",
+    "runtimeEnabled": false,
+    "drawEnabled": false,
+    "price": null,
+    "cardIds": [
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34
+    ],
+    "codes": [
+      "S2_ECLIPSE_PROPHECY",
+      "S2_CAUSAL_SEVER",
+      "S2_FATE_INTERCEPT",
+      "S2_OVERHEAL_FORGE",
+      "S2_CONSTELLATION_SHIFT",
+      "S2_SHIELD_LEDGER",
+      "S2_FALLEN_STAR",
+      "S2_ARCANE_MIRROR",
+      "S2_CONTRACT_EROSION",
+      "S2_COMMAND_SEVERANCE"
+    ],
+    "pack": "MAGIC_CARD_SEASON2_PACK",
+    "packPolicy": "INHERIT_S1_MIXED",
+    "enhancementPolicy": "INHERIT_S1",
+    "completedAt": "2026-10-01T07:47:07.996Z",
+    "adminAuditId": 38807,
+    "replayed": false
+  },
+  "flags": {
+    "runtimeEnabled": false,
+    "drawEnabled": false,
+    "price": null,
+    "cardsActive": 0,
+    "packActive": 0
+  },
+  "policy": {
+    "pack": "INHERIT_S1_MIXED",
+    "enhancement": "INHERIT_S1"
+  },
+  "verification": {
+    "relatedTests": {
+      "passed": 51,
+      "failed": 0
+    },
+    "workerSyntax": true,
+    "changedJsSyntax": true,
+    "v3FullReplays": 20,
+    "s2Events": 54,
+    "v3Errors": [],
+    "cms": [
+      {
+        "name": "desktop",
+        "weights": 10,
+        "price": null,
+        "runtime": false,
+        "draw": false,
+        "width": 1440,
+        "scrollWidth": 1440
+      },
+      {
+        "name": "mobile",
+        "weights": 10,
+        "price": null,
+        "runtime": false,
+        "draw": false,
+        "width": 390,
+        "scrollWidth": 390
+      }
+    ],
+    "workbench": {
+      "surfaces": [
+        {
+          "name": "desktop",
+          "collection": 10,
+          "conditions": true,
+          "enhancement": true,
+          "loadout": true,
+          "priceNullBlocked": true,
+          "drawSeason": "S2",
+          "offHidden": true,
+          "width": 1440,
+          "scrollWidth": 1440
+        },
+        {
+          "name": "mobile",
+          "collection": 10,
+          "conditions": true,
+          "enhancement": true,
+          "loadout": true,
+          "priceNullBlocked": true,
+          "drawSeason": "S2",
+          "offHidden": true,
+          "width": 390,
+          "scrollWidth": 390
+        }
+      ],
+      "errors": [],
+      "ok": true
+    }
+  },
+  "deployment": {
+    "completed": false,
+    "reason": "Undeployed cooperative infrastructure on origin/main is blocked by five existing mercenary release-gate failures; its scope confirmation is pending in its owning task."
+  }
+}

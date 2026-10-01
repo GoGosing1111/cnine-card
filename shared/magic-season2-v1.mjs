@@ -1,6 +1,6 @@
 // Server-only opt-in capability. JSON/client payloads cannot enable this symbol.
 export const MAGIC_SEASON2_REVIEW=Symbol('MAGIC_SEASON2_REVIEW_20260930');
-export const MAGIC_S2_RELEASE=Object.freeze({season:'S2',runtimeEnabled:false,drawEnabled:false,price:null,weights:null,status:'CONNECTION_REVIEW_PENDING'});
+export const MAGIC_S2_RELEASE=Object.freeze({season:'S2',runtimeEnabled:false,drawEnabled:false,price:null,weights:null,status:'READY_HELD_BY_OWNER'});
 export const MAGIC_S2_GROWTH=Object.freeze([1,1.03,1.06,1.09,1.12,1.15,1.18,1.22,1.26,1.30]);
 export const MAGIC_S2_RULES=Object.freeze({
  S2_ECLIPSE_PROPHECY:{name:'월식의 예언서',slug:'eclipse-prophecy',stats:{bonus:12},hits:6,uses:1,team:true},

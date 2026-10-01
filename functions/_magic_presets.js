@@ -1,4 +1,5 @@
 import { readRuntimeData, cacheRuntimeData } from './_runtime_data_cache.js';
+import {isMagicSeason2} from '../shared/magic-season2-release.mjs';
 
 const SCHEMA_KEY = 'schema:pvp-magic-presets:20260922';
 export async function ensurePvpMagicPresets(env) {
@@ -40,8 +41,13 @@ export async function validateMagicSlots(env, userId, slots, deckType) {
   const ids = normalizeMagicSlots(slots).filter(Boolean);
   if (!['PVE', 'PVP'].includes(deckType)) throw invalid('장착 덱이 올바르지 않습니다.');
   if (!ids.length) return;
-  const rows = await env.DB.prepare(`SELECT mc.id,mc.scope_pve,mc.scope_pvp FROM user_magic_cards umc JOIN magic_cards mc ON mc.id=umc.magic_card_id WHERE umc.user_id=? AND umc.quantity>0 AND mc.is_active=1 AND mc.id IN (${ids.map(() => '?').join(',')})`).bind(userId, ...ids).all();
+  const rows = await env.DB.prepare(`SELECT mc.id,mc.effect_type,mc.scope_pve,mc.scope_pvp FROM user_magic_cards umc JOIN magic_cards mc ON mc.id=umc.magic_card_id WHERE umc.user_id=? AND umc.quantity>0 AND mc.is_active=1 AND mc.id IN (${ids.map(() => '?').join(',')})`).bind(userId, ...ids).all();
   if (rows.results.length !== ids.length) throw invalid('보유하지 않았거나 비활성화된 마법카드가 있습니다. 선택을 확인해주세요.');
+  if(rows.results.some(isMagicSeason2)){
+    const saved=await env.DB.prepare("SELECT value FROM app_meta WHERE key='magic_card_settings_v1'").first();
+    let enabled=false;try{enabled=JSON.parse(saved?.value||'{}').season2?.runtimeEnabled===true;}catch{}
+    if(!enabled)throw invalid('마법카드 시즌2는 출시 대기 중입니다.');
+  }
   if (rows.results.some(row => Number(row[deckType === 'PVE' ? 'scope_pve' : 'scope_pvp']) !== 1)) throw invalid(`${deckType}에 적용할 수 없는 마법카드가 있습니다.`);
 }
 export async function readPvpMagicPresets(env, userId) {

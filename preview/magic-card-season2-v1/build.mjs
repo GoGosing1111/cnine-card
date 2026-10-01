@@ -9,9 +9,7 @@ json('registration-draft.json',magicSeason2RegistrationDraft());
 const payloads=Object.keys(MAGIC_S2_RULES).flatMap(code=>[0,9].map(level=>makeReviewBattle(code,level)));
 for(const p of payloads)if(!p.battleV2.result.timeline.some(e=>e.type==='MAGIC_SEASON2'&&e.magicCode===p.review.code))throw Error('MISSING_ACTUAL_TRIGGER:'+p.review.code);
 json('battle-fixtures.json',{version:'20260930-v2',generatedBy:'Canonical V2 server engine',live:false,payloads});
-const result=await build({absWorkingDir:root,entryPoints:['preview/magic-card-season2-v1/source/battle.mjs'],outfile:'preview/magic-card-season2-v1/battle.bundle.js',bundle:true,write:false,minify:true,format:'iife',target:['es2022'],legalComments:'none',metafile:true,define:{__CNINE_NATIVE_CONTINUOUS__:'false'},plugins:[{name:'s2-review-extension',setup(b){b.onResolve({filter:/battle\/BattleEngine\.js$/},args=>{
- if(args.importer.replaceAll('\\','/').endsWith('/project-v-pixi-battle.src.js'))return {path:path.join(base,'source/MagicSeason2Playback.js')};
-});}}]});
+const result=await build({absWorkingDir:root,entryPoints:['preview/magic-card-season2-v1/source/battle.mjs'],outfile:'preview/magic-card-season2-v1/battle.bundle.js',bundle:true,write:false,minify:true,format:'iife',target:['es2022'],legalComments:'none',metafile:true,define:{__CNINE_NATIVE_CONTINUOUS__:'false'}});
 const bundle=result.outputFiles[0].text.replace(/[\t ]+$/gm,'');
 fs.writeFileSync(path.join(base,'battle.bundle.js'),bundle);
 const inputs=Object.keys(result.metafile.inputs).map(s=>s.replaceAll('\\','/'));
