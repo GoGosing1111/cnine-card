@@ -1,0 +1,14 @@
+{
+  "id": "limited-frame-slim-v3-glow",
+  "dateKST": "2026-10-01",
+  "userRequest": "광원효과 추가해봐 프레임주변으로",
+  "method": "built-in image_gen",
+  "useCase": "lighting-weather",
+  "input": "assets/mercenary-limited-frame-slim-v3.png",
+  "inputSha256": "F188591713635E335DC4C0FE37A9B02D2EC5720FE5B33953D7F27355DF0048D5",
+  "prompt": "Use case: lighting-weather.\nInput image 1: EDIT TARGET, the newly designed slim limited mercenary card frame.\nPrimary request: add refined luminous effects AROUND THE FRAME PERIMETER. Preserve the exact current thin metal frame, its shape, proportions, center and corner jewels, engravings, leaf ornaments, layout, and gold/platinum materials. This is a localized lighting-effect enhancement, not a redesign.\nAdd a delicate warm champagne-gold radiance closely following the OUTER contour of the entire frame, with fine luminous threads hugging the slender side and bottom rails. Small, tasteful cool platinum-white glints on the top central jewel and upper corner leaves, and a few tiny pin-point magical particles floating immediately outside the border. A slightly brighter restrained radiance around the top insignia, fading rapidly outward. The glow should be fine, luxurious, polished and clearly visible on a dark game background, with a soft controlled falloff, no broad opaque haze. Keep highlights sharp, clean and sparse. Let the original gold/platinum material texture remain fully readable. Maintain exactly the same rail thickness; added soft light must not turn the slender border into a thick bright band.\nStrict invariants: identical frame geometry, exact 1024 x 1536 dimensions and 2:3 portrait ratio. No new ornaments, no text, no rank, no character, no background art, no extra emblems, no wide ribbons or beams crossing the card opening. Entire center art aperture remains completely empty true-alpha transparent, including behind the center jewel, and outside the silhouette/glow is also fully transparent. All glowing pixels have real feathered transparency; do not put a black, gray, tan, gradient or checkerboard backdrop in the file. The faint exterior glow is the only added content. Keep the black jewels black with subtle white reflections.\nDeliver one genuinely transparent RGBA PNG of the same slim frame with premium outer light effects.",
+  "transparent_background": true,
+  "status": "DESIGN_PREVIEW",
+  "replacesApprovedFrame": false,
+  "liveConnected": false
+}

@@ -1,0 +1,25 @@
+{
+  "format": "PROJECT_V_LIMITED_FRAME_DESIGN_PREVIEW_V3",
+  "dateKST": "2026-10-01",
+  "status": "DESIGN_PREVIEW",
+  "currentAsset": "assets/mercenary-limited-frame-slim-v3-glow.png",
+  "currentSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+  "baseAsset": "assets/mercenary-limited-frame-slim-v3.png",
+  "baseSha256": "F188591713635E335DC4C0FE37A9B02D2EC5720FE5B33953D7F27355DF0048D5",
+  "dimensions": [1024, 1536],
+  "formatDetails": "8-bit sRGB RGBA PNG",
+  "method": "built-in image_gen",
+  "prompts": ["prompt.json", "prompt-glow.json"],
+  "lightEffect": "Static champagne-gold perimeter radiance and platinum-white glints included in alpha PNG",
+  "preview": "index.html",
+  "artWindowPixels": {"x": 61, "y": 89, "width": 902, "height": 1353},
+  "qa": "qa.json",
+  "generatedFilesCopiedWithoutProcessing": true,
+  "approvedV2Modified": false,
+  "approvedArtFilesModified": false,
+  "liveConnected": false,
+  "originalGeneratedFiles": [
+    "C:/Users/User/.codex/generated_images/01a0f5a2-d9a1-7181-8f4a-e8b950658e06/exec-989778e6-a989-4958-a9b4-40bb1e890dc9.png",
+    "C:/Users/User/.codex/generated_images/01a0f5a2-d9a1-7181-8f4a-e8b950658e06/exec-c5f78212-25dc-45ae-a359-dfb0b29092c9.png"
+  ]
+}

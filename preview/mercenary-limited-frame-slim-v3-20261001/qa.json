@@ -1,0 +1,75 @@
+{
+  "checkedAt": "2026-10-01T14:13:09.267Z",
+  "url": "http://127.0.0.1:8781/preview/mercenary-limited-frame-slim-v3-20261001/",
+  "checks": {
+    "desktopNoOverflow": true,
+    "mobileNoOverflow": true,
+    "allImagesLoaded": true,
+    "smallWidths": true,
+    "oldMode": true,
+    "glowToggle": true,
+    "noBrowserErrors": true,
+    "approvedV2Unchanged": true,
+    "pngFormat": true
+  },
+  "files": {
+    "mercenary-limited-frame-slim-v3.png": {
+      "sha256": "f188591713635e335dc4c0fe37a9b02d2ec5720fe5b33953d7f27355df0048d5",
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": true,
+      "transparentPixels": 1385509,
+      "alphaMax": 254,
+      "centralAlphaMax": 1
+    },
+    "mercenary-limited-frame-slim-v3-glow.png": {
+      "sha256": "f5f636cac672a485f19ce4ed484ecb2798217d365a4d31b2c6c7fabb878189ea",
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": true,
+      "transparentPixels": 1007089,
+      "alphaMax": 253,
+      "centralAlphaMax": 1
+    }
+  },
+  "desktop": {
+    "width": 1440,
+    "scrollWidth": 1440,
+    "images": true,
+    "version": "new",
+    "glow": "true",
+    "cardWidths": [
+      326,
+      326,
+      326,
+      326
+    ]
+  },
+  "mobile": {
+    "width": 390,
+    "scrollWidth": 390,
+    "images": true,
+    "version": "new",
+    "glow": "true",
+    "cardWidths": [
+      354,
+      354,
+      354,
+      354
+    ]
+  },
+  "small": {
+    "width": 1440,
+    "scrollWidth": 1440,
+    "images": true,
+    "version": "new",
+    "glow": "true",
+    "cardWidths": [
+      160,
+      160,
+      160,
+      160
+    ]
+  },
+  "errors": []
+}
