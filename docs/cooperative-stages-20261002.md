@@ -28,3 +28,9 @@
 ## 출시 범위
 
 협동 전장과 해당 조건의 공용 전투 분기만 변경한다. 공통 인증·DB 기반·마이그레이션·의존성 변경은 없으므로 scoped 배포를 사용한다. 관련 협동 회귀, 실제 V3 번들/로더, 공통 진형 및 기존 연속 증원 전투를 검증한다. 운영 직전 Pages의 실제 커밋을 기준으로 원격 main을 합친 뒤 `npm run deploy:production -- --scoped`를 사용한다.
+
+### 최종 화면 검수
+
+모바일 기믹 안내를 전투 캐릭터 아래·공용 도크 위로 이동했다. 적 교체 때 공용 진형의 이름표 높이를 다시 계산한다. 수정 후 `%TEMP%/cooperative-qa-QKPzpO/screenshots/report.json`에서 3인 전투·3단계·모바일 입력·새로고침·일반 PVE/PVP 전체 재생 PASS, JS 오류 0. 불씨 감시기의 제자리 2연사 및 아르케 8프레임 타격 중 취소는 `tests/cooperative-enemy-playback.browser.mjs`로 별도 확인했고 증빙은 `%TEMP%/cooperative-qa-edqRiI/enemy-playback/`다.
+
+배포 기준은 Cloudflare Pages의 `f737b6d7-bda0-49e0-8761-b50538527f7c`, 소스 `39bc87bb`를 직접 조회해 확정했다. 이후 main의 금도끼 운영 완료 문서는 실행 코드 변경 없이 합친다. 선정 검사는 협동 3개 파일, V3 번들/로더, 공통 진형, 폐차장 서버 증원, 연속 사냥, 기존 레이드 및 PVE 메뉴 연결과 Worker 컴파일이다.

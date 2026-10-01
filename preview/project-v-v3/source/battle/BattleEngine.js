@@ -22,7 +22,7 @@ import {XBodySwordAnimation} from './XBodySwordAnimation.js';
 import {isXBody} from './XBodySwordModel.mjs';
 import {withOccupiedGrid} from './OccupiedGridLayout.js';
 import {withMercenaryBattle} from './MercenaryCombatPlayback.js';
-import {preloadCooperativeArke,playCooperativeArkeAttack,playCooperativeArkeMechanic} from './CooperativeArkePlayback.js';
+import {preloadCooperativeArke,playCooperativeArkeAttack,playCooperativeWatcherAttack,playCooperativeArkeMechanic} from './CooperativeArkePlayback.js';
 import {bindCooperativeEnemy,cooperativeSnapshot,spawnCooperativeEnemy} from './CooperativeEncounter.js';
 
 const DESKTOP={width:1600,height:820};
@@ -2658,6 +2658,7 @@ class BaseBattleEngine{
       return Promise.resolve(false);
     }
     if(this.coopArkeBattlefield&&actor.team===TEAM.ENEMY&&actor.coopFinalBoss)return playCooperativeArkeAttack(this,actor,victim,{damage,targetHp,targetShield,critical,onImpact});
+    if(this.coopArkeBattlefield&&actor.team===TEAM.ENEMY&&actor.attackStyle==='RANGED')return playCooperativeWatcherAttack(this,actor,victim,{damage,targetHp,targetShield,onImpact});
     const actorView=actor.root;
     const victimView=victim.root;
     const roleKind=normalizeSkillEffectKind(actor.effectKind);

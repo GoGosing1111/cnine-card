@@ -97,11 +97,18 @@
       "effectDurationSeconds": 1,
       "clock": "V3_GSAP",
       "cancellation": "playbackEpoch + common timeline owner cleanup before enemy-slot reuse"
-    }
+    },
+    "watcherShots": 2,
+    "projectileTrail": "existing V3 ProjectileTrail.mjs"
   },
   "notes": [
     "Each of the five enemy instances has an exact server ID. Three original normal enemy instances, one shielded miniboss, one final boss.",
     "Source files and prompts are preserved; no approved Lich or mercenary resources were overwritten.",
     "Actual atlas dimensions are 1774x887; Pixi texture frames derive dimensions from the loaded texture."
-  ]
+  ],
+  "verification": {
+    "multiplayer": "cooperative-qa-QKPzpO/screenshots/report.json",
+    "enemyPlayback": "cooperative-qa-edqRiI/enemy-playback/report.json",
+    "javascriptErrors": 0
+  }
 }

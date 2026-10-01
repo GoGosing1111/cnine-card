@@ -1,5 +1,6 @@
-import {Assets,Rectangle,Sprite,Texture} from 'pixi.js';
+import {Assets,Graphics,Rectangle,Sprite,Texture} from 'pixi.js';
 import {configureDamageText} from './ObjectPool.js';
+import {projectilePixelScale,projectileTrailGeometry,drawProjectileTrail} from './ProjectileTrail.mjs';
 const BASE='/assets/ui/cooperative-arke-v1/';
 let resources;
 export async function preloadCooperativeArke(){
@@ -16,6 +17,23 @@ function damageLabel(engine,target,hit){
 function applyHit(engine,target,hit){
  if(Number.isFinite(hit.targetHpAfter))engine.syncTargetHp(target,engine.eventHpPercent(target,hit.targetHpAfter));
  if(Number.isFinite(hit.targetShieldAfter))engine.syncTargetShield(target,hit.targetShieldAfter);
+}
+export async function playCooperativeWatcherAttack(engine,actor,target,{damage,targetHp,targetShield,onImpact}){
+ const epoch=engine.playbackEpoch,[,frames]=await preloadCooperativeArke();if(epoch!==engine.playbackEpoch||!engine.visible)return false;
+ engine.settlePendingTails([actor,target]);
+ const trail=new Graphics(),effect=new Sprite(frames[0]),clock={time:0},impact=.44,duration=.86;
+ const from={x:actor.root.x-25,y:actor.root.y-actor.fullBodyHeight*actor.restScale*.55},to={x:target.root.x,y:target.root.y-90};
+ effect.anchor.set(.5);effect.position.set(to.x,to.y);effect.width=effect.height=145;effect.visible=false;
+ engine.effectLayer.addChild(trail,effect);const label=damageLabel(engine,target,{damage});label.visible=false;
+ engine.lastCoopPlayback={kind:'WATCHER_VOLLEY',effectFrames:8,shots:2,clockOwner:'V3_GSAP',impactAt:impact};
+ return engine.timeline(t=>{
+  t.to(clock,{time:duration,duration,ease:'none',onUpdate:()=>{
+   trail.clear();for(const delay of [.06,.18]){const q=(clock.time-delay)/.26;if(q>=0&&q<=1)drawProjectileTrail(trail,projectileTrailGeometry(from,to,q,{scale:projectilePixelScale(engine.effectLayer)}),0xffb556);}
+   effect.visible=clock.time>=impact;effect.texture=frames[Math.min(7,Math.floor(Math.max(0,clock.time-impact)/(duration-impact)*8))];effect.alpha=Math.min(1,(duration-clock.time)/.12);
+  }},0);
+  t.call(()=>{if(Number.isFinite(targetHp))engine.syncTargetHp(target,targetHp);if(Number.isFinite(targetShield))engine.syncTargetShield(target,targetShield);onImpact?.();label.visible=true;},[],impact);
+  t.to(label,{alpha:0,y:label.y-35,duration:.36},impact);
+ },()=>{trail.destroy();effect.destroy();engine.pools.damage.release(label);},1,{owners:[actor,target]});
 }
 export async function playCooperativeArkeAttack(engine,actor,target,{damage,targetHp,targetShield,critical,onImpact}){
  const epoch=engine.playbackEpoch,[motion,rupture]=await preloadCooperativeArke();
