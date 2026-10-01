@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "createdDate": "2026-10-01",
+  "status": "SOURCE_ART_USER_REVIEW_PENDING",
+  "concept": "사진 참조 무지팡이 손 마력 마법사",
+  "tool": "built-in image_gen",
+  "sourceArt": "assets/hand-mage-source-art-v1.png",
+  "sha256": "B9458F9B072A221BD18403319E8A2DA0F4956E7DD4EE3674531A8ABCEAD99037",
+  "width": 1024,
+  "height": 1536,
+  "colorMode": "RGB",
+  "prompt": "prompt-v1.txt",
+  "references": [
+    {
+      "path": "sources/user-character-reference.png",
+      "role": "user character face identity / long black hair / ear adornment / costume",
+      "sha256": "E532E38B74F1FAD46CEAE797B1D4CD0A307D92AA51EA843DCADFE37C8053BAA7"
+    },
+    {
+      "path": "../../assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+      "role": "2D painterly rendering and material quality ONLY; not face/pose/costume reference",
+      "sha256": "629564D768A4BCEFCD0BE746E744DA49A64F1CF2BE7D048E7485FC6CB14FF874"
+    }
+  ],
+  "review": {
+    "dimensions": "PASS: native 1024x1536, 2:3 RGB PNG",
+    "request": "No staff; both empty hands casting violet mana; reference costume and long black hair reflected in a new casting pose",
+    "hair": "Continuous flowing hair inspected at full size and 160px",
+    "hands": "Two hands visible; anatomy visually inspected",
+    "thumbnail": "qa/thumbnail-160.png",
+    "frameComposite": "qa/frame-composite-review.png",
+    "framingNote": "Ear tips meet upper image edge and overlap the top frame in the QA composite. Face and palm mana remain visible. Frame finalization is pending user review.",
+    "identity": "Reference-based interpretation; likeness requires user visual review",
+    "userApproval": false
+  },
+  "registration": {
+    "name": null,
+    "code": null,
+    "rank": null,
+    "battleSprite": null,
+    "liveConnected": false
+  },
+  "scope": "Standalone source-art candidate only; no live runtime, roster, rank or combat changes."
+}
