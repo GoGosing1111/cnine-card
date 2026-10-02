@@ -1,0 +1,23 @@
+{
+  "name": "핑두의 감사 선물",
+  "code": "PINGDU_THANKS_GIFT_BOX",
+  "generator": "built-in imagegen",
+  "asset": "assets/ui/packs/pingdu-thanks-gift-box-v1.png",
+  "sha256": "AA1386AE0B9556C405BA007C7E0EF3033069D3A0D2CEEF5C4E0FF4EA6A02AEB2",
+  "original": "C:/Users/User/.codex/generated_images/01a0f1f2-cc91-72c3-a322-19e4d45ed867/exec-646453f6-d7ef-4505-8448-0b9a2f1d4675.png",
+  "transparentBackground": true,
+  "prompt": "Use case: stylized-concept\nAsset type: premium fantasy RPG inventory gift-box item illustration, square PNG, genuine transparent background.\nPrimary request: create a brand-new pink luxury gift chest for a Korean game, named in the game UI '핑두의 감사 선물'. No lettering in the artwork. The box must be clearly pink and different from existing blue gift boxes.\nSubject: one beautifully crafted open rose-pink chest at a front three-quarter view, compact sturdy rectangular box with refined rose-gold corner fittings, small delicate ornamental embossing, a cream satin ribbon neatly attached to the raised lid, polished jewel clasp. Rich medium pink exterior, blush-pink lining, warm rose-gold metal. Four reward symbols arranged neatly inside: gold coin stacks, one bright golden faceted star, one violet luminous mystic-energy sphere in a small ornamental cradle, and exactly one elegant repair coupon card with a sword-and-circular-return-arrows pictogram. No additional tickets or cards. Keep the interior and all four reward symbols clearly visible and distinguishable at inventory-icon scale.\nStyle/medium: high-end Korean fantasy mobile RPG item art, highly polished painterly 2D rendering, convincing satin/metal/velvet materials, clean cohesive silhouette, luminous but controlled highlights, excellent object detail without visual clutter.\nComposition: entire chest and lid fully visible, centered, occupies around 85 percent of the square, leave transparent margin on all sides, ground contact shadow subtle and soft. Isolated object only; no scene, no opaque background, no text, no digits, no logo, no watermark, no UI border or panel. Preserve true transparency. Pink is the dominant color; avoid making the chest navy, white or mostly gold.",
+  "rewardsPerBox": {
+    "COIN": 300000000000,
+    "MASTER_STAR": 5000000,
+    "STARLIGHT_ARMOR_CORE": 1000,
+    "PINGDU_REPAIR_COUPON": 1
+  },
+  "visualReview": {
+    "pinkChest": true,
+    "allFourSymbols": true,
+    "oneRepairCoupon": true,
+    "noTextOrUI": true,
+    "unchangedGeneratedPNG": true
+  }
+}
