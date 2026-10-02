@@ -1,0 +1,144 @@
+{
+  "status": "COMPLETE",
+  "operationKey": "ops:fur-unique-normalization:20261002:v1",
+  "sourceCommit": "0153df5c",
+  "auditId": "39964",
+  "completedAt": "2026-10-02T13:16:24.062Z",
+  "independentlyVerifiedAt": "2026-10-02T13:17:44.679Z",
+  "cacheLifetimeSeconds": 60,
+  "cacheExpiryPassed": true,
+  "configKey": "fur_master_star_breakthrough_v1802",
+  "beforeUniqueBoostPercent": [
+    30,
+    60,
+    100,
+    200,
+    500
+  ],
+  "afterUniqueBoostPercent": [
+    30,
+    60,
+    100,
+    150,
+    200
+  ],
+  "multipliers": [
+    1.3,
+    1.6,
+    2,
+    2.5,
+    3
+  ],
+  "onlyChangedFields": [
+    "steps[3].uniqueBoostPercent",
+    "steps[4].uniqueBoostPercent"
+  ],
+  "preserved": [
+    "FUR +13 and lower",
+    "base battle power",
+    "enhancement economy",
+    "enablement flags",
+    "other grade settings",
+    "account card ownership and levels",
+    "account balances"
+  ],
+  "runtime": [
+    {
+      "mode": "PVE",
+      "cards": [
+        {
+          "level": 13,
+          "attackPercent": 60,
+          "defensePercent": 60,
+          "hpPercent": 0,
+          "speedPercent": 100,
+          "highBoostPercent": 100,
+          "advancement": "AFTERIMAGE"
+        },
+        {
+          "level": 14,
+          "attackPercent": 75,
+          "defensePercent": 75,
+          "hpPercent": 0,
+          "speedPercent": 125,
+          "highBoostPercent": 150,
+          "advancement": "AFTERIMAGE"
+        },
+        {
+          "level": 15,
+          "attackPercent": 90,
+          "defensePercent": 90,
+          "hpPercent": 0,
+          "speedPercent": 150,
+          "highBoostPercent": 200,
+          "advancement": "AFTERIMAGE"
+        }
+      ]
+    },
+    {
+      "mode": "PVP",
+      "cards": [
+        {
+          "level": 13,
+          "attackPercent": 60,
+          "defensePercent": 60,
+          "hpPercent": 0,
+          "speedPercent": 100,
+          "highBoostPercent": 100,
+          "advancement": "AFTERIMAGE"
+        },
+        {
+          "level": 14,
+          "attackPercent": 75,
+          "defensePercent": 75,
+          "hpPercent": 0,
+          "speedPercent": 125,
+          "highBoostPercent": 150,
+          "advancement": "AFTERIMAGE"
+        },
+        {
+          "level": 15,
+          "attackPercent": 90,
+          "defensePercent": 90,
+          "hpPercent": 0,
+          "speedPercent": 150,
+          "highBoostPercent": 200,
+          "advancement": "AFTERIMAGE"
+        }
+      ]
+    }
+  ],
+  "checks": {
+    "scopedTests": 4,
+    "passed": 4,
+    "dryRunRolledBack": true,
+    "replayAndLostCommitResponse": true,
+    "independentReadOnlyVerification": true,
+    "gameDeploymentRequired": false,
+    "realCombatApiCalled": false
+  },
+  "evidenceDirectory": "C:/Users/User/.codex/tmp/cheetah-fur15-counter-audit-20261002/",
+  "evidenceSha256": {
+    "inspect.json": "4f50e36e92d93c2ffb2575489aff21240ac6140f7ef66342106c162fe858f210",
+    "simulation-before.json": "c36ae9e25ed62d584130da52d8e98e8c86451186d9cb35cda65daf6c35f833f1",
+    "simulation-after.json": "fccf95086173fdad4dda97d24f63a8eff8880590b977e7da4a1bdaebad1718e1",
+    "dry-run.json": "a73c0109aaca4b153b601b876260327def12bbfbcfa120d69be7c9f2fed3fb8a",
+    "rollback-check.json": "c8a301afd600c4a5184f8a803a5470135a5e4d13a1a3be1078ccc54aa1325f10",
+    "apply.json": "648b7af702971231e89b758139a17e506a46ab83b451a2fc733aebcc21d813d0",
+    "verify.json": "8ca88c1e2395e9a381978f54b91030265864dcd0a1fedd9af10d2fe76368101a",
+    "retired.json": "0a4ec9e138b0e8a33294a045a77ff5feff6c0c3b52110ccb2e6856771206e8c4"
+  },
+  "retirement": {
+    "retiredAt": "2026-10-02T13:18:53.225Z",
+    "retired": [
+      {
+        "file": "worker.mjs",
+        "status": 410
+      },
+      {
+        "file": "ops-worker.mjs",
+        "status": 410
+      }
+    ]
+  }
+}
