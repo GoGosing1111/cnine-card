@@ -146,7 +146,9 @@ test('CMS는 BATTLE_SUIT 부위·세부 종류와 PVE 전용 전투력을 분리
   assert.match(pveCommand, /배틀슈트 \$\{number\(battleSuit\)\} \(PVE 전용\)/);
   assert.match(pveCss, /pvev2-roster-foot\{display:grid;grid-template-columns:repeat\(5,1fr\) auto/);
   assert.match(index, /pve-command-v2\.css\?v=2098-hyper-codex/);
-  assert.match(index, /pve-command-v2-live\.js\?v=2110-combat-lobby/);
+  const commandUrl=index.match(/src="([^"]*pve-command-v2-live\.js\?[^"]+)"/)?.[1];
+  assert.ok(commandUrl);
+  assert.equal(new URL(commandUrl.replaceAll('&amp;','&'),'https://game.test/').searchParams.get('v'),'2110-combat-lobby');
   assert.match(index, /js\/app\.js\?v=2108-shared-navigation/);
   assert.match(escort, /sectorSummary,battleV2,monster,characterBonus:equipment,objective:/);
   assert.match(app, /const loadout=await apiRequest\('character\/loadout',\{\}, \{ttl:5000,timeoutMs:8000\}\)/);
