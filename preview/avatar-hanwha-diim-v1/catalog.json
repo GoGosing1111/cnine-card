@@ -1,0 +1,22 @@
+{
+  "code": "HANWHA_DIIM",
+  "serial": "A-33",
+  "name": "한화 진짜디임",
+  "call_sign": "HANWHA DIIM",
+  "role_label": "한화 클랜 여성 유니폼",
+  "description": "디임 간호사 원화의 얼굴을 살린 한화 클랜 여성 아바타. 새 포즈와 키가 크고 날씬한 체형, 긴 다리, 검정·주황 밀착 유니폼과 짧은 치마.",
+  "lobby_image": "preview/avatar-hanwha-diim-v1/assets/diim-lobby-v3-1024.webp",
+  "lobby_mobile_image": "preview/avatar-hanwha-diim-v1/assets/diim-lobby-v3-640.webp",
+  "equipment_image": "preview/avatar-hanwha-diim-v1/assets/diim-equipment-v3-640.webp",
+  "accent": "#ec8a29",
+  "acquisition_type": "EVENT",
+  "coin_price": null,
+  "source_label": "한화 클랜 시즌 기간제 지급",
+  "source_detail": "현재 한화 클랜원 전원 · 2026-10-11 22:00 KST 시즌 종료까지",
+  "effect_type": "DROP_RATE_PERCENT",
+  "effect_value": 30,
+  "is_active": 1,
+  "is_public": 1,
+  "sale_enabled": 0,
+  "sort_order": 330
+}

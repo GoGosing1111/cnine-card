@@ -1,0 +1,44 @@
+{
+  "generator": "built-in image_gen",
+  "currentRevision": 3,
+  "equipment": {
+    "prompt": "Create a completely NEW full-body game avatar for 숲켓몬: 한화 진짜디임, an adult woman age 27.\nImage 1 is only the FACE IDENTITY and polished semi-real 2D painting reference, 디임간호사. Preserve her distinctive soft oval face, eye shape and spacing, fine brows, nose, delicate lips, black long hair and natural fine fringe. Image 2 is only the Hanwha clan phoenix crest. Design the body, pose and composition freshly from scratch. Do not copy the nurse image's leaning pose, hand placement, clothes or scene; no prior Hanwha avatar is provided as an input.\nThe user's latest priority: make her noticeably TALLER and SLIMMER with LONGER LEGS. Elegant tall adult fashion-athlete silhouette, longer upper and lower legs in natural anatomical proportion, slender arms and a lean torso, fine leg contours, naturally placed knees and ankles. Keep a natural adult head size rather than a big head. Entire body should appear tall, poised and lightweight. Avoid stocky thighs, bulky limbs or a compressed torso.\nNEW POSE: upright, balanced standing team-introduction pose, shoulders turned slightly while the face looks directly toward the viewer with a soft composed smile. Her right hand is raised beside shoulder level for a small open-palm greeting; left arm relaxed beside her. Both legs are uncrossed and almost straight, feet separated with one foot slightly forward. No hand on hip, crossed knees or support from furniture.\nOriginal FEMALE Hanwha esports uniform: neatly fitted short-sleeved BLACK athletic jersey with collar, precise orange piping, small embroidered orange/gold phoenix on the chest. A fitted SHORT BLACK SKIRT ending at mid-thigh with simple orange side trim, a slim straight cut rather than a flared skirt. Black/orange low-profile sports sneakers and ankle socks. Adult women's fitted uniform, tasteful athletic fashion. No male uniform reference.\nHigh-end Korean semi-real 2D game illustration with readable expressive face, soft painterly skin, refined cloth materials and continuous fine flowing hair strands without chunky separated hair layers.\nVertical 1024x1536, show the entire head, raised hand, long legs and both shoes inside the canvas, clear safe margin around silhouette. Genuine transparent background with clean generated alpha. No backdrop, floor, gradient panel, nurse cap, medical accessories, weapon, props, additional characters, text, watermark, frame or UI.",
+    "references": [
+      "assets/ui/project-v/mercenaries/approved-20260927/diim-nurse-source-art-v1.png",
+      "assets/ui/clan/marks/hanwha-clan-mark-v1.webp"
+    ],
+    "transparentBackground": true,
+    "generatedOriginal": "C:/Users/User/.codex/generated_images/01a0faef-0b46-7213-a20e-2b8efb31387b/exec-01ffee32-2ccc-4781-89bd-4c2e6f14ea2a.png"
+  },
+  "lobby": {
+    "prompt": "Create the matching vertical lobby illustration for the latest 숲켓몬 avatar 한화 진짜디임, an adult woman age 27. Reference image 1 is the latest NEW tall slender full-body avatar and must define the complete character: preserve exactly this recognizable face, long natural black hair, tall slim body proportions and long legs, open-palm greeting pose with uncrossed legs, fitted black/orange women's sports jersey, fitted short black skirt, ankle socks and black/orange sneakers. The original 디임간호사 in image 2 defines face identity only; do not copy her pose or nursing clothes. Image 3 is the Hanwha phoenix clan crest for the scenery.\nAdd an entirely new refined Hanwha esports club lounge behind her: a spacious dark stone lobby with elegant black wall panels and architectural warm orange light strips, a gold/orange phoenix insignia on one rear panel and a subtly reflecting polished floor. Restrained warm lighting, rich depth and sophisticated 2D game painting. The woman remains large and clearly readable; do not alter her tall slim silhouette or shorten her legs. No additional people, furniture hiding her legs, medical accessories, weapons, text, names, watermarks or card UI.\nHigh-end semi-real 2D Korean game illustration, soft painterly skin, precise refined uniform fabric and continuous natural fine hair flow without thick segmented hair plates. Preserve all five raised-hand fingers and natural relaxed lower hand. Female fitted athletic uniform, no male uniform reference.\n1024x1536 vertical exact 2:3 canvas, entire head, raised hand and both shoes visible inside the edges with safe margin. Fully opaque finished background. Do not crop or zoom the character.",
+    "references": [
+      "preview/avatar-hanwha-diim-v1/assets/diim-equipment-source-art-v3.png",
+      "assets/ui/project-v/mercenaries/approved-20260927/diim-nurse-source-art-v1.png",
+      "assets/ui/clan/marks/hanwha-clan-mark-v1.webp"
+    ],
+    "transparentBackground": false,
+    "generatedOriginal": "C:/Users/User/.codex/generated_images/01a0faef-0b46-7213-a20e-2b8efb31387b/exec-95b7bc17-86f0-40a9-ba42-60c9270dc83f.png"
+  },
+  "userDirection": [
+    "여성용 유니폼과 짧은 밀착 치마",
+    "기존 포즈 재활용 없이 처음부터 신규 구도",
+    "키가 크고 날씬한 체형과 긴 다리"
+  ],
+  "grantScope": "현재 한화 클랜원 전원; 시즌 종료까지",
+  "history": [
+    {
+      "revision": 1,
+      "status": "SUPERSEDED",
+      "reason": "사용자 새 포즈 지시",
+      "equipment": "assets/diim-equipment-source-art-v1.png",
+      "lobby": "assets/diim-lobby-source-art-v1.png"
+    },
+    {
+      "revision": 2,
+      "status": "SUPERSEDED",
+      "reason": "사용자 키·슬림 체형·긴 다리 후속 지시",
+      "equipment": "assets/diim-equipment-source-art-v2.png"
+    }
+  ]
+}

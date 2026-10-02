@@ -1,0 +1,66 @@
+{
+  "generator": "built-in image_gen",
+  "date": "2026-10-03",
+  "currentRevision": 3,
+  "identityReference": "assets/ui/project-v/mercenaries/approved-20260927/diim-nurse-source-art-v1.png",
+  "clanMarkReference": "assets/ui/clan/marks/hanwha-clan-mark-v1.webp",
+  "maleUniformReference": false,
+  "newPoseFromOriginalFace": true,
+  "userDirection": "여성 전용 유니폼; 짧고 밀착된 치마; 새 포즈; 키가 크고 날씬한 체형과 긴 다리",
+  "backgroundRemoval": "none; generated alpha preserved",
+  "alpha": {
+    "clearPixels": 1215209,
+    "solidPixels": 313290,
+    "borderNontransparentPixels": 0,
+    "crop": {
+      "left": 253,
+      "top": 2,
+      "width": 503,
+      "height": 1518
+    }
+  },
+  "runtime": {
+    "width": 640,
+    "height": 1088,
+    "uniformScale": 0.6851119894598156,
+    "bodyWidth": 345,
+    "bodyHeight": 1040
+  },
+  "files": {
+    "diim-equipment-source-art-v3.png": {
+      "sha256": "539cad5ca9f21ab6e27ffeb3510c4901db1d0d50e6bdd4b165236bc365b94f58",
+      "bytes": 1392157,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": true
+    },
+    "diim-lobby-source-art-v3.png": {
+      "sha256": "f433a055ed67a81a5d01fc6c9c48e37493c44ad2c5202b9b9f67337dc9011b04",
+      "bytes": 2277430,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false
+    },
+    "diim-equipment-v3-640.webp": {
+      "sha256": "e1bd57dd4a39ea6996fd5f9443ee379d84788a123e6c07efd67aba79d602c44f",
+      "bytes": 85470,
+      "width": 640,
+      "height": 1088,
+      "hasAlpha": true
+    },
+    "diim-lobby-v3-1024.webp": {
+      "sha256": "b6937b5b0e747aeb86aeecd725ea9752760d3f31aef38ba1a1dd449f856fe3d7",
+      "bytes": 270890,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false
+    },
+    "diim-lobby-v3-640.webp": {
+      "sha256": "e4c2831b2a69d01716cc9c019ecf2465d4de5d2e1cf066b581047171cb4b05b0",
+      "bytes": 144566,
+      "width": 640,
+      "height": 960,
+      "hasAlpha": false
+    }
+  }
+}
