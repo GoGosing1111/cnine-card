@@ -17,6 +17,8 @@ const out=fs.mkdtempSync(path.join(os.tmpdir(),'lich-coop-'));
 const lich=await lichLiveFixture(),core=await coreLifecycleFixture();
 for(const id of [1,2,3])lich.setDeck(id,accountDeck(id));
 const roomId=await lich.party(),calls=[];
+lich.setDeck(6,accountDeck(2));
+await lich.command('join',{roomId},6);await lich.command('assign',{roomId,targetId:'6',role:'WARDEN'});await lich.command('ready',{roomId,ready:true},6);
 let actionDelay=0;
 const user=id=>({id,serverUserId:id,nickname:['','검수 공대장','검수 봉인대','검수 구출대'][id],role:id===1?'OWNER':'USER',
   coin:123456789,cardShards:12000,masterStars:2000,owned:REVIEW_DECK.map(c=>c.id),quantities:Object.fromEntries(REVIEW_DECK.map(c=>[c.id,1])),
@@ -109,7 +111,24 @@ try{
   await rescue.screenshot({path:path.join(out,'duties-mobile.png'),fullPage:true});
   const identity=await warden.locator('[data-action="SEAL"]').first().elementHandle();
   await warden.waitForTimeout(750);assert.equal(await identity.evaluate(b=>b.isConnected),true);
-  for(let i=0;i<3;i++)await clickAction(warden,'SEAL');
+  const allySeal=async()=>{
+    const v=(await lich.call('status?roomId='+roomId,{user:6})).body.state,a=v.controls.find(a=>a.action==='SEAL');
+    const result=await lich.command('action',{roomId,challengeId:v.challenge.id,action:'SEAL',stepToken:a.token,target:(a.reverse?[...a.sequence].reverse():a.sequence)[a.index]},6);
+    assert.equal(result.status,200);
+  };
+  // A real held mouse press must survive another warden advancing their task.
+  const personal=(await snap(warden)).state.controls.find(a=>a.action==='SEAL');
+  const held=warden.locator('[data-step-token="'+personal.token+'"][data-target="'+personal.sequence[0]+'"]');
+  const handle=await held.elementHandle(),box=await held.boundingBox();
+  await warden.mouse.move(box.x+box.width/2,box.y+box.height/2);await warden.mouse.down();
+  const mobileHandle=await rescue.locator('[data-action="CLEANSE"]').first().elementHandle();
+  await allySeal();await Promise.all([warden,rescue].map(page=>page.evaluate(()=>LichRaidLive.sync())));
+  assert.equal(await handle.evaluate(b=>b.isConnected),true,'other warden must not detach the held button');
+  assert.equal(await mobileHandle.evaluate(b=>b.isConnected),true,'party progress must not detach mobile controls');
+  await warden.mouse.up();
+  await warden.waitForFunction(()=>LichRaidLive.diagnostics().state.challenge.seals.find(s=>s.ownerId==='2').index===1);
+  assert.equal((await snap(warden)).state.doom,0);
+  for(let i=0;i<2;i++){await clickAction(warden,'SEAL');await allySeal();}
   await host.evaluate(()=>LichRaidLive.sync());await clickAction(host,'SHATTER');
   await rescue.evaluate(()=>LichRaidLive.sync());
   actionDelay=350;await clickAction(rescue,'RESCUE');actionDelay=0;
@@ -140,11 +159,23 @@ try{
   assert.match(await rescue.locator('#lich-guideScroll').innerText(),/개인 2회/);
   await rescue.screenshot({path:path.join(out,'guide-mobile.png'),fullPage:true});
   await rescue.locator('#lich-closeGuide').click();
+  // Validate the new shelter lock and its countdown in the actual mobile UI.
+  await host.setViewportSize({width:390,height:844});
+  for(let i=0;i<3;i++){await clickAction(warden,'SEAL');await allySeal();}
+  await host.evaluate(()=>LichRaidLive.sync());
+  assert.ok(await host.locator('[data-action="SHATTER"]').first().isDisabled());
+  assert.match(await host.locator('[data-kind="SHATTER"] header').innerText(),/엄폐/);
+  await host.screenshot({path:path.join(out,'shelter-locked-mobile.png'),fullPage:true});
+  await host.waitForFunction(()=>!document.querySelector('[data-action="SHATTER"]').disabled);
+  assert.match(await host.locator('[data-kind="SHATTER"] header').innerText(),/지금 파쇄/);
+  await host.screenshot({path:path.join(out,'shatter-ready-mobile.png'),fullPage:true});
+  await clickAction(host,'SHATTER');
+  assert.equal((await snap(host)).state.doom,0);
   await host.locator('#lich-leaveButton').click();await host.locator('#lich-browse').waitFor({state:'visible'});
   assert.equal(await host.locator('#pveRaidHubView #pveLichRaidView').count(),1,'leaving restores the existing UI');
   assert.equal(await host.evaluate(()=>document.body.style.overflow),'');
   for(const c of clients)assert.deepEqual(c.errors,[]);
-  console.log(JSON.stringify({out,reports,mechanics:{personalSeals:true,stableButtons:true,manualChains:true,transfer:true,cleanse:true,interrupt:true,rescue:true,personalAttack:true,finale:true,guide:true},errors:[]},null,2));
+  console.log(JSON.stringify({out,reports,mechanics:{personalSeals:true,stableButtons:true,heldPointerWithOtherWarden:true,mobileControlsStable:true,shelterLock:true,shatterCountdown:true,manualChains:true,transfer:true,cleanse:true,interrupt:true,rescue:true,personalAttack:true,finale:true,guide:true},errors:[]},null,2));
 }catch(error){
   console.error(JSON.stringify(await Promise.all(clients.map(async({page,id,errors})=>({id,errors,state:await page.evaluate(()=>{
     const d=LichRaidLive?.diagnostics();return {status:d?.state?.status,step:d?.state?.step,serverNow:d?.state?.serverNow,challenge:d?.state?.challenge};

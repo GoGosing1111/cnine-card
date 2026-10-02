@@ -61,8 +61,8 @@ test('disposing inline Lich ignores a late feature response and removes listener
 test('production loader points to native inline UI and reuses the canonical V3 runtime', () => {
   assert.doesNotMatch(entry,/location\.(assign|href)|window\.open|createElement\(['"]iframe/);
   assert.match(entry,/tab\.dataset\.raidContent = 'lich'/);
-  assert.match(index,/lich-king-raid-entry-v1\.js\?v=20261002-coop-v2a/);
-  assert.match(index,/core-protocol-raid-v1924\.js[^"']+lich=20261002-coop-v2a/);
+  assert.match(index,/lich-king-raid-entry-v1\.js\?v=20261003-coop-feedback/);
+  assert.match(index,/core-protocol-raid-v1924\.js[^"']+lich=20261003-coop-feedback/);
   assert.match(adapter,/ProjectVBattleV3Live\.ensureRuntime\(/);
   assert.doesNotMatch(adapter,/import.*project-v-pixi-battle|cnineCardCatalog\s*=/);
   assert.match(bundle,/ProjectVBattleV3Live\.ensureRuntime/);

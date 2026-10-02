@@ -67,9 +67,9 @@ test('both wardens must link; late linking resets personal slots with fresh toke
  assert.equal(h.room.doom,1);assert.deepEqual(h.room.challenge.seals.map(t=>t.index),[0,0]);
  assert.notEqual(h.get('5','SEAL').token,old.token);assert.throws(()=>h.act('5',old),/갱신/);
 });
-test('prison waits for manual chains after the breath; ignoring it wipes; early break harms the party',()=>{
+test('legacy encounter prison waits for manual chains; early break still harms existing fights',()=>{
  for(const early of [false,true]){
-  const h=encounter();h.room.round=1;h.room.step='TRANSITION';h.room.challenge.deadline=h.room.clock;h.tick(0);seals(h);
+  const h=encounter();h.room.combatRevision=1;h.room.round=1;h.room.step='TRANSITION';h.room.challenge.deadline=h.room.clock;h.tick(0);seals(h);
   if(early){h.act('1',h.get('1','SHATTER'));assert.equal(h.room.doom,1);}
   h.tick(8000);assert.equal(h.room.challenge.prison,true);assert.equal(h.room.challenge.breathResolved,true);
   if(early)assert.ok(h.room.fighters.every(f=>f.hp/f.maxHp<.4));

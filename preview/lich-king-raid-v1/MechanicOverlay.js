@@ -31,8 +31,16 @@ export class MechanicOverlay{
     host.appendChild(this.element);
     this.world=new Container({label:'LichMechanicTelegraph',eventMode:'none'});
     this.halo=new Graphics();this.world.addChild(this.halo);engine.effectLayer.addChild(this.world);
-    this.onClick=e=>{const b=e.target.closest('[data-action]');if(!b||b.disabled||this.pending||!this.state)return;
-      window.dispatchEvent(new CustomEvent('lich-raid-action',{detail:{action:b.dataset.action,target:b.dataset.target||'',challengeId:this.state.challenge.id,...(b.dataset.stepToken?{stepToken:b.dataset.stepToken}:{})}}));};
+    const input=b=>({action:b.dataset.action,target:b.dataset.target||'',challengeId:this.state.challenge.id,...(b.dataset.stepToken?{stepToken:b.dataset.stepToken}:{})});
+    this.onPointerDown=e=>{const b=e.target.closest('[data-action]');this.pressedInput=b&&!b.disabled&&this.state?{button:b,detail:input(b)}:null;};
+    this.clearPointer=()=>{this.pressedInput=null;};
+    this.onClick=e=>{const b=e.target.closest('[data-action]'),pressed=this.pressedInput;this.pressedInput=null;if(!b||b.disabled||this.pending||!this.state)return;
+      // Shared heal/phase updates during a held press must not turn the original
+      // intent into a second charge or a new step when the pointer is released.
+      window.dispatchEvent(new CustomEvent('lich-raid-action',{detail:e.detail&&pressed?.button===b?pressed.detail:input(b)}));};
+    this.element.addEventListener('pointerdown',this.onPointerDown);
+    this.element.addEventListener('pointercancel',this.clearPointer);
+    this.element.addEventListener('keydown',this.clearPointer);
     this.element.addEventListener('click',this.onClick);
     this.onTick=()=>this.tick();engine.app.ticker.add(this.onTick);
     this.observer=new ResizeObserver(()=>this.layout());this.observer.observe(host);
@@ -170,5 +178,5 @@ export class MechanicOverlay{
     void this.engine.timeline(tl=>{tl.fromTo(node,{opacity:0,y:8},{opacity:1,y:0,duration:.15});tl.to(node,{opacity:0,duration:.2},1.15);},()=>{if(serial===this.flashSerial)node.hidden=true;},1);
   }
   diagnostics(){return {insideV3:this.element.parentElement===this.host,worldLayer:this.world.parent?.label,challengeId:this.state?.challenge?.id,buttons:this.element.querySelectorAll('[data-action]').length};}
-  destroy(){this.observer.disconnect();this.engine.app?.ticker.remove(this.onTick);this.element.removeEventListener('click',this.onClick);this.element.remove();this.world.destroy({children:true});}
+  destroy(){this.observer.disconnect();this.engine.app?.ticker.remove(this.onTick);this.element.removeEventListener('click',this.onClick);this.element.removeEventListener('pointerdown',this.onPointerDown);this.element.removeEventListener('pointercancel',this.clearPointer);this.element.removeEventListener('keydown',this.clearPointer);this.element.remove();this.world.destroy({children:true});}
 }

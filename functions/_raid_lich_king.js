@@ -30,7 +30,7 @@ function wound(room,ratio,label,targetId=null,ownerId=null) {
   const targets=alive(room).filter(row=>(!targetId||row.id===targetId)&&(!ownerId||!room.loadouts||row.ownerId===ownerId));
   const hits=targets.map(row=>{const damage=Math.min(row.hp,Math.ceil(row.maxHp*ratio));row.hp-=damage;row.alive=row.hp>0;return {targetId:row.id,damage,targetHpAfter:row.hp};});
   record(room,'BOSS_ULTIMATE',label,{actorId:room.boss.id,hits});
-  if(!alive(room).length)wipe(room,'PARTY_DEAD','출전 카드가 모두 쓰러졌습니다.');
+  if(!alive(room).length)wipe(room,'PARTY_DEAD',room.combatRevision===2?label+' 피해로 전원 전투 불능 · 다음 방벽 붕괴 전에 공대 회복을 사용하세요.':'출전 카드가 모두 쓰러졌습니다.');
 }
 function wipe(room,code,reason) {
   if(room.status!=='ACTIVE')return;
@@ -65,7 +65,7 @@ export function createLichRoom({id,hostId,mode='COMMAND',cards,monster,now=0,see
   if(!Number.isFinite(now)||!Number.isFinite(powerScale)||powerScale<=0)fail('INVALID_INPUT','잘못된 전투 설정입니다.',400);
   const fighters=cards.map((card,index)=>({...buildFighter({...card,power:Math.round(card.power*powerScale)},index,'A',null,'PVE'),image:card.image,battleSprite:card.battleSprite,cardId:card.id}));
   const boss={...buildMonsterFighter(monster),battleSprite:monster.battleSprite,image:monster.image,monsterId:monster.id};
-  return {id,hostId,mode,rulesVersion,status:'LOBBY',seed:seed>>>0,cards:clone(cards),fighters,boss,monster:clone(monster),members:[],
+  return {id,hostId,mode,rulesVersion,combatRevision:rulesVersion===2?2:1,status:'LOBBY',seed:seed>>>0,cards:clone(cards),fighters,boss,monster:clone(monster),members:[],
     clock:now,createdAt:now,startedAt:null,endsAt:null,finishedAt:null,round:0,phase:1,step:'LOBBY',
     resources:{interrupt:7,cleanse:2,guard:1,heal:3,revive:1,burst:3},souls:0,doom:0,
     challenge:null,revision:0,eventSeq:0,events:[],receipts:{},failure:null,statistics:{transfers:0,interrupts:0,rescues:0,damage:0,mistakes:0}};
@@ -114,6 +114,7 @@ export function startLichRoom(room,memberId,now=room.clock) {
   if(room.status!=='LOBBY')return room;
   if(room.mode==='PARTY'&&!Object.keys(ROLES).every(role=>room.members.some(m=>m.role===role)))fail('MISSING_ROLES','정벌대·봉인대·구출대가 각각 한 명 이상 필요합니다.');
   room.clock=Math.max(room.clock,now);room.startedAt=room.clock+12000;room.endsAt=room.startedAt+(room.rulesVersion===2?300000:210000);room.status='ACTIVE';
+  if(room.combatRevision===2)room.combatPartySize=room.members.length;
   if(room.rulesVersion===2){room.resources={interrupt:7,cleanse:7,guard:0,heal:4,revive:1,burst:0};room.personalBurst=Object.fromEntries(room.members.map(m=>[m.id,2]));}
   room.step='READY';room.challenge={id:room.id+':READY',startedAt:room.clock,deadline:room.startedAt};
   record(room,'RAID_LICH_READY','전장 집결 · 12초 뒤 전투가 시작됩니다.');room.revision++;return room;
@@ -167,6 +168,7 @@ export function tickLichRoom(room,now) {
 }
 function applyCombat(room,burst,memberId=null) {
   const c=room.challenge;
+  const revised=room.rulesVersion===2&&room.combatRevision===2;
   const multiplier=(burst?1.8:1)*(c.transferred?1.25:1)*Math.max(.5,1-room.doom*.12);
   const enemy={...room.boss,hp:room.boss.maxHp,alive:true,defense:Math.round(room.boss.defense*.22)};
   const before=room.boss.hp;
@@ -190,9 +192,14 @@ function applyCombat(room,burst,memberId=null) {
     if(damage>0)packets.push({...ev,damage});
   }
   }
-  // A shared phase wall caps the whole assault, so an early host/suit shot
-  // cannot discard every later participant's otherwise valid contribution.
-  const total=packets.reduce((sum,event)=>sum+event.damage,0),budget=Math.min(before-floor,total);
+  // New encounters give every member time to attack. Normal strikes can remove
+  // at most one third of a member's share of the stage; burst raises that cap.
+  // Actual engine damage below the cap is unchanged. Never rescale on death/leave.
+  const stageHp=Math.round(room.boss.maxHp*(room.round?PLANS[room.round-1].floor:1))-floor;
+  const attackCap=revised
+    ?Math.max(1,Math.ceil(stageHp/(Math.max(3,room.combatPartySize||room.members.length)*3)*(burst?1.8:1)))
+    :Infinity;
+  const total=packets.reduce((sum,event)=>sum+event.damage,0),budget=Math.min(before-floor,total,attackCap);
   let accumulated=0,applied=0;
   for(const ev of packets){
     accumulated+=ev.damage;
@@ -204,7 +211,7 @@ function applyCombat(room,burst,memberId=null) {
   }
   room.statistics.damage+=Math.max(0,before-room.boss.hp);
   // The raid's explicit counter, debuffs and finite rescue actions own party HP.
-  if(!(room.round===PLANS.length-1&&room.boss.hp===0))wound(room,(room.rulesVersion===2?.045:.055)+room.doom*.025,'서리한 반격',null,memberId);
+  if(!(room.round===PLANS.length-1&&room.boss.hp===0))wound(room,revised?.015+room.doom*.005:(room.rulesVersion===2?.045:.055)+room.doom*.025,'서리한 반격',null,memberId);
   if(room.status!=='ACTIVE')return;
   if(room.boss.hp<=floor){
     if(room.round===PLANS.length-1){room.status='CLEAR';room.finishedAt=room.clock;record(room,'KO','리치왕 정벌',{targetId:room.boss.id});record(room,'RESULT','리치왕 정벌 성공',{winner:'A'});}
@@ -291,7 +298,7 @@ export function lichBattlePayload(room,memberId=room.hostId) {
 }
 export function lichView(room,memberId,since=0) {
   const member=room.members.find(m=>m.id===memberId);if(!member)fail('NOT_MEMBER','공대 참가자가 아닙니다.',403);
-  return clone({id:room.id,mode:room.mode,rulesVersion:room.rulesVersion||1,controls:coopControls(room,memberId),status:room.status,revision:room.revision,serverNow:room.clock,endsAt:room.endsAt,
+  return clone({id:room.id,mode:room.mode,rulesVersion:room.rulesVersion||1,combatRevision:room.combatRevision||1,controls:coopControls(room,memberId),status:room.status,revision:room.revision,serverNow:room.clock,endsAt:room.endsAt,
     phase:room.phase,phaseName:PHASES[room.phase-1],round:room.round+1,step:room.step,challenge:room.challenge,
     bossHp:room.boss.hp,bossMaxHp:room.boss.maxHp,roundFloor:Math.round(room.boss.maxHp*PLANS[room.round].floor),
     resources:room.resources,souls:room.souls,doom:room.doom,me:{...member,isHost:member.id===room.hostId},members:room.members,

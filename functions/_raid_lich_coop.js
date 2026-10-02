@@ -53,9 +53,11 @@ export function coopControls(room,memberId){
   if(mechanic){
     for(const task of c.seals.filter(t=>t.ownerId===memberId&&!c.sealed))add(task.id,'SEAL','개인 봉인',{
       taskId:task.id,revision:task.epoch+':'+task.index,sequence:task.sequence,reverse:task.reverse,index:task.index,
-      choices:RUNES,blocked:task.index===3,note:task.index===3?'동료 봉인 연결 대기':task.reverse?'오른쪽부터 역순으로 입력':'왼쪽부터 순서대로 입력',deadline:c.linkDeadline||c.deadline});
+      choices:RUNES,blocked:task.index===3,note:task.index===3?'내 봉인 완료 · 동료 연결 대기':name(room,memberId)+'의 문양 · '+(task.reverse?'오른쪽부터 역순으로 입력':'왼쪽부터 순서대로 입력'),deadline:c.linkDeadline||c.deadline});
     for(const task of c.chains.filter(t=>t.ownerId===memberId&&!t.broken))add(task.id,'SHATTER',c.hasPrison?'감옥 사슬 파쇄':'방벽 사슬 파쇄',{
-      taskId:task.id,choices:RUNES,rune:task.rune,blocked:!c.sealed,note:!c.sealed?'봉인대의 결계 고정 대기':!c.breathResolved?'절대영도까지 엄폐 유지 · 조기 파쇄 위험':'지금 담당 문양의 사슬 파쇄',deadline:c.hasPrison?c.breathAt+6000:c.deadline});
+      taskId:task.id,choices:RUNES,rune:task.rune,blocked:!c.sealed||Boolean(room.combatRevision===2&&!c.breathResolved),
+      startsAt:room.combatRevision===2&&c.hasPrison?c.breathAt:0,
+      note:!c.sealed?'봉인대의 결계 고정 대기':!c.breathResolved?'엄폐 유지 · 절대영도 흡수 후 파쇄 가능':'지금 '+task.rune+' 사슬 파쇄'+(c.hasPrison?' · 흡수 후 6초 안에 완료':''),deadline:c.hasPrison?c.breathAt+6000:c.deadline});
     if(c.plague&&c.plagueOwner===memberId)add('plague','TRANSFER','역병 전이',{choices:RUNES,rune:c.plagueRune,
       blocked:!c.plagueAt,startsAt:c.plagueAt?c.plagueAt+2000:0,deadline:c.plagueAt?c.plagueAt+8000:0,note:c.plagueAt?'2~4중첩에 같은 문양의 구울 선택':'모든 사슬 파쇄 대기'});
     for(const task of c.rescues.filter(t=>t.ownerId===memberId&&!t.done))add(task.id,'RESCUE','영혼 구출',{
@@ -67,8 +69,8 @@ export function coopControls(room,memberId){
   }
   if(room.step==='EXPOSED'){
     const startsAt=(c.lastStrikes[memberId]??-10000)+1400;
-    add('strike-'+memberId,'STRIKE','내 편성 공격',{startsAt,deadline:c.deadline,note:'내 카드·용병·슈트로 공격'});
-    add('burst-'+memberId,'BURST','결전',{startsAt,deadline:c.deadline,count:room.personalBurst[memberId]||0,blocked:!room.personalBurst[memberId],note:'개인 결전 · 전투 전체 2회'});
+    add('strike-'+memberId,'STRIKE','내 편성 공격',{startsAt,deadline:c.deadline,note:room.combatRevision===2?'연속 공격으로 함께 방벽 돌파 · 1회 피해 한도 적용':'내 카드·용병·슈트로 공격'});
+    add('burst-'+memberId,'BURST','결전',{startsAt,deadline:c.deadline,count:room.personalBurst[memberId]||0,blocked:!room.personalBurst[memberId],note:room.combatRevision===2?'피해·1회 한도 1.8배 · 개인 2회':'개인 결전 · 전투 전체 2회'});
   }
   // Rescue support is shared, but its resource version is part of the token.
   if(['MECHANIC','EXPOSED'].includes(room.step)&&list(room,'RESCUE').some(m=>m.id===memberId)){
@@ -79,7 +81,12 @@ export function coopControls(room,memberId){
   return result;
 }
 
-function mistake(room,label,ratio,ctx){room.doom++;room.statistics.mistakes++;ctx.record(room,'RAID_LICH_MISTAKE',label+' · 죽음의 잔재 +1');if(ratio)ctx.wound(room,ratio,label);}
+function mistake(room,label,ratio,ctx,details={}){
+  room.doom++;room.statistics.mistakes++;
+  room.lastMistake={label,...details,at:room.clock};
+  ctx.record(room,'RAID_LICH_MISTAKE',label+' · 죽음의 잔재 +1',details);
+  if(ratio)ctx.wound(room,ratio,label);
+}
 function finishMechanic(room,ctx){
   const c=room.challenge;
   if(room.status!=='ACTIVE'||room.step!=='MECHANIC'||!c.sealed||!c.prisonBroken||c.plague||!c.interrupted||!c.curseDone||!c.rescues.every(t=>t.done))return;
@@ -102,13 +109,16 @@ export function tickCoopRoom(room,ctx){
       if(c.earlyBroken)ctx.wound(room,.62,'절대영도 직격');
       if(c.chains.every(t=>t.broken)){c.prison=false;c.prisonBroken=true;c.plagueAt=c.breathAt;}
     }
-    if(c.hasPrison&&c.breathResolved&&!c.prisonBroken&&now>=c.breathAt+6000){ctx.wipe(room,'PRISON_CRUSH','흡수 후 6초 안에 모든 감옥 사슬을 파쇄하지 못했습니다.');return;}
+    if(c.hasPrison&&c.breathResolved&&!c.prisonBroken&&now>=c.breathAt+6000){
+      const pending=!c.sealed?c.seals.filter(t=>t.index<3).map(t=>name(room,t.ownerId)+' 봉인'):c.chains.filter(t=>!t.broken).map(t=>name(room,t.ownerId)+' '+t.rune+' 사슬');
+      ctx.wipe(room,'PRISON_CRUSH','미완료: '+pending.join(', ')+'. 봉인을 먼저 연결하고 절대영도 흡수 후 6초 안에 사슬을 파쇄하세요.');return;
+    }
     if(c.plagueAt&&c.plague){c.plagueStacks=Math.min(5,1+Math.floor((now-c.plagueAt)/2000));if(c.plagueStacks>=5){ctx.wipe(room,'PLAGUE_SPREAD','역병이 5중첩에 도달했습니다.');return;}}
     if(!c.interrupted&&now>=c.castAt&&c.cast!=='SOUL_ANNIHILATION'){c.cast='SOUL_ANNIHILATION';ctx.record(room,'RAID_LICH_CAST','영혼 말살 · '+name(room,c.interruptOwner)+' 차단');}
     if(!c.interrupted&&now>=c.castDeadline){ctx.wipe(room,'ANNIHILATION','담당자의 영혼 말살 차단이 늦었습니다.');return;}
     if(!c.curseDone&&now>=c.curseDeadline){c.curseDone=true;mistake(room,'죽음의 저주 폭발',.24,ctx);}
     for(const task of c.rescues)if(task.at&&now>=task.at&&!task.done){task.done=true;room.souls++;room.statistics.rescues++;ctx.record(room,'RAID_LICH_RESCUED',name(room,task.ownerId)+' · 영혼 구출 완료');}
-    if(room.doom>=3){ctx.wipe(room,'DOOM','죽음의 잔재가 3중첩되었습니다.');return;}
+    if(room.doom>=3){ctx.wipe(room,'DOOM','죽음의 잔재 3중첩 · 마지막 원인: '+(room.lastMistake?.label||'기믹 실패'));return;}
     finishMechanic(room,ctx);
   }
   if(room.status==='ACTIVE'&&['MECHANIC','EXPOSED'].includes(room.step)&&now>=c.deadline)
@@ -129,10 +139,11 @@ export function actCoopRoom(room,memberId,input,ctx){
   if(control.startsAt&&now<control.startsAt)fail('TOO_EARLY','아직 입력 시간이 아닙니다. 전장 예고를 확인하세요.');
   if(control.deadline&&now>=control.deadline)fail('TOO_LATE','입력 시간이 끝났습니다.');
   const action=input.action,task=control.taskId;
-  const wrong=control.choices&&input.target!==(action==='SEAL'?(()=>{const t=c.seals.find(t=>t.id===task);return (t.reverse?[...t.sequence].reverse():t.sequence)[t.index];})():control.rune);
+  const expected=action==='SEAL'?(()=>{const t=c.seals.find(t=>t.id===task);return (t.reverse?[...t.sequence].reverse():t.sequence)[t.index];})():control.rune;
+  const wrong=control.choices&&input.target!==expected;
   if(wrong){
     if(action==='SEAL'){const t=c.seals.find(t=>t.id===task);t.index=0;t.epoch++;}
-    mistake(room,'잘못된 문양',.12,ctx);
+    mistake(room,name(room,memberId)+' · '+control.label+' 오답 ('+input.target+' → '+expected+')'+(action==='SEAL'?' · 내 순서 처음부터':''),.12,ctx,{memberId,action,expected,selected:input.target});
   }else if(action==='SEAL'){
     const t=c.seals.find(t=>t.id===task);t.index++;
     if(t.index===3){t.completedAt=now;c.linkDeadline||=now+7000;}
@@ -168,6 +179,6 @@ export function actCoopRoom(room,memberId,input,ctx){
   }
   if(!wrong){room.consumedSteps||={};room.consumedSteps[input.stepToken]=memberId;}
   else c.inputEpochs[control.key]=(c.inputEpochs[control.key]||0)+1;
-  if(room.doom>=3)ctx.wipe(room,'DOOM','죽음의 잔재가 3중첩되었습니다.');
+  if(room.doom>=3)ctx.wipe(room,'DOOM','죽음의 잔재 3중첩 · 마지막 원인: '+(room.lastMistake?.label||'기믹 실패'));
   finishMechanic(room,ctx);
 }

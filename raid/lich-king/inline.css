@@ -4783,3 +4783,8 @@
     flex-wrap: wrap;
   }
 }
+
+#pveLichRaidView .lk-coop-sequence .current{color:#fff4d8;font-weight:800;border-bottom:2px solid #edcb8b;padding-bottom:2px}
+#pveLichRaidView .lk-coop-task header{flex-wrap:wrap}
+#pveLichRaidView .lk-coop-task[data-kind=SHATTER][data-waiting=true]{--task:#8aaabc}
+#pveLichRaidView .lk-coop-task[data-kind=SHATTER][data-waiting=false]{--task:#f2ce8e}

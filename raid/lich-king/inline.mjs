@@ -1,6 +1,6 @@
-import { mountLichRaid } from './live.mjs?v=20261002-coop-v2a';
+import { mountLichRaid } from './live.mjs?v=20261003-coop-feedback';
 
-const VERSION = '20261002-coop-v2a';
+const VERSION = '20261003-coop-feedback';
 let styles, battle;
 function loadAsset(tag, url) {
   return new Promise((resolve, reject) => {
@@ -13,7 +13,7 @@ function loadAsset(tag, url) {
   });
 }
 function loadBattle() {
-  return battle ||= loadAsset('script', '/preview/lich-king-raid-v1/battle.bundle.js?v=20261002-coop-v2a')
+  return battle ||= loadAsset('script', '/preview/lich-king-raid-v1/battle.bundle.js?v=20261003-coop-feedback')
     .catch(error => { battle = null; throw error; });
 }
 
