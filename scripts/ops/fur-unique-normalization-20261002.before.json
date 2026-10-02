@@ -1,0 +1,53 @@
+{
+  "key": "fur_master_star_breakthrough_v1802",
+  "observedAt": "2026-10-02T13:04:32.695Z",
+  "updatedAt": "2026-10-01 18:55:06",
+  "value": {
+    "enabled": true,
+    "steps": [
+      {
+        "cost": 200,
+        "duplicateCards": 1,
+        "rate": 35,
+        "pityThreshold": 3,
+        "uniqueBoostPercent": 30,
+        "retirementShardRefund": 6000
+      },
+      {
+        "cost": 400,
+        "duplicateCards": 1,
+        "rate": 25,
+        "pityThreshold": 4,
+        "uniqueBoostPercent": 60,
+        "retirementShardRefund": 8000
+      },
+      {
+        "cost": 800,
+        "duplicateCards": 1,
+        "rate": 15,
+        "pityThreshold": 6,
+        "uniqueBoostPercent": 100,
+        "retirementShardRefund": 10000
+      },
+      {
+        "cost": 1000000,
+        "duplicateCards": 10,
+        "rate": 5,
+        "pityThreshold": 15,
+        "powerBonusPercent": 3800,
+        "uniqueBoostPercent": 200,
+        "retirementShardRefund": 15000
+      },
+      {
+        "cost": 2000000,
+        "duplicateCards": 15,
+        "rate": 5,
+        "pityThreshold": 20,
+        "powerBonusPercent": 6000,
+        "uniqueBoostPercent": 500,
+        "retirementShardRefund": 30000
+      }
+    ],
+    "extendedEnabled": true
+  }
+}
