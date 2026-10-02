@@ -1,0 +1,27 @@
+{
+  "verifiedAt": "2026-10-02T07:22:24.982Z",
+  "status": "VERIFIED",
+  "base": "https://cnine-card.pages.dev",
+  "sourceCommit": "4f7a6397f1e8a770aa03bb855c2d5e3ef013fd97",
+  "card": {
+    "code": "V-992",
+    "name": "이네스",
+    "rank": "SS",
+    "title": "SS 리미티드",
+    "acquisitionEnabled": false,
+    "deploymentEnabled": false,
+    "originalArtworkAndApprovedFramePreserved": true
+  },
+  "limitedRanks": {
+    "SS": 5,
+    "SSS": 1
+  },
+  "browser": "Production SS filter and Ines SS detail confirmed with no JavaScript errors",
+  "regressionsPassed": 5,
+  "localViewports": [
+    1440,
+    390
+  ],
+  "deployment": "https://c9d6f758.cnine-card.pages.dev",
+  "scopedBase": "c19f0d52731d6139bbd94db150724c8682563d3d"
+}
