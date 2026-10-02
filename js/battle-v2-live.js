@@ -401,7 +401,6 @@
     battleSfx(win ? 'victory' : 'defeat');
     // 소탕은 첫 전투의 개별 드랍 팝업도 잠시 보류했다가, 잔여 회차와 함께
     // 하나의 합산 결과 화면으로 보여준다. 수동 1회 전투의 기존 획득 연출은 유지한다.
-    if (!sweeping && data.cubeReward && window.showCubeDropAcquisition) { try { await window.showCubeDropAcquisition(data.cubeReward); } catch (error) { console.warn(error); } }
     if (!sweeping && data.equipmentReward && window.showEquipmentDropReward) { try { await window.showEquipmentDropReward(data.equipmentReward); } catch (error) { console.warn(error); } }
     if (!sweeping && data.unifiedDrop?.rewards?.length && window.showUnifiedDropAcquisition) { try { await window.showUnifiedDropAcquisition(data.unifiedDrop); } catch (error) { console.warn(error); } }
     const playerPower = Number(data.playerPower || data.battleV2?.teams?.A?.summary?.power || 0);

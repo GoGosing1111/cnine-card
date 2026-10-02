@@ -1,4 +1,4 @@
-/* v1036 CMS cleanup: standalone Monster/Cube menus. Existing API and DB structure are reused. */
+/* v1036 CMS cleanup: standalone Monster menu. Existing API and DB structure are reused. */
 (() => {
   const originalShow = window.show;
 
@@ -12,15 +12,6 @@
     if (list && list.parentElement !== mount) mount.appendChild(list);
   }
 
-  function moveCubeControls() {
-    const mount = document.querySelector('#cubeManagementMount');
-    const panel = document.querySelector('#cubeSettingsPanel');
-    if (!mount || !panel) return false;
-    mount.querySelector('.cmsLoadingPanel')?.remove();
-    if (panel.parentElement !== mount) mount.appendChild(panel);
-    return true;
-  }
-
   function loadMonsterMenu() {
     if (window.__V1045_MONSTER_STUDIO__ && typeof window.loadExpandedMonsterAdmin === 'function') {
       return Promise.resolve(window.loadExpandedMonsterAdmin());
@@ -28,28 +19,19 @@
     return Promise.resolve(window.loadBattleAdmin()).then(() => moveMonsterControls());
   }
 
-  function loadCubeMenu() {
-    return Promise.resolve(window.loadSettings()).then(() => {
-      moveCubeControls();
-      setTimeout(moveCubeControls, 0);
-    });
-  }
-
   window.show = function(view, prefetched) {
-    if (view !== 'monsters' && view !== 'cubes') return originalShow(view, prefetched);
+    if (view !== 'monsters') return originalShow(view, prefetched);
     state.view = view;
     document.querySelectorAll('.view').forEach(x => x.hidden = x.id !== `view-${view}`);
     document.querySelectorAll('#nav button').forEach(x => x.classList.toggle('active', x.dataset.view === view));
-    document.querySelector('#pageTitle').textContent = view === 'monsters' ? '몬스터 관리' : '큐브 관리';
-    const loader = view === 'monsters' ? loadMonsterMenu : loadCubeMenu;
+    document.querySelector('#pageTitle').textContent = '몬스터 관리';
+    const loader = loadMonsterMenu;
     loader().catch(e => alert(e.message));
   };
 
   const observer = new MutationObserver(() => {
     moveMonsterControls();
-    moveCubeControls();
   });
   observer.observe(document.body, { childList: true, subtree: true });
   moveMonsterControls();
-  moveCubeControls();
 })();

@@ -2054,13 +2054,6 @@ export async function handleCaptain({ path, request, env, deps }) {
           response.victoryRewardError = '승리 보상 지급에 실패했습니다. 대장전 화면에 다시 접속하면 자동 복구됩니다.';
         }
       }
-      try {
-        const weeklyPremium = await deps.grantWeeklyPremiumCube(env, user.id, 'CAPTAIN', requestId);
-        response.cubeReward = weeklyPremium?.reward || null;
-        response.weeklyPremiumCube = weeklyPremium?.status || null;
-      } catch (cubeError) {
-        console.error('captain weekly premium cube failed', cubeError);
-      }
       if(attackerWon){
         try{response.equipmentReward=await deps.grantEquipmentDrop(env,{userId:user.id,sourceType:'CAPTAIN',sourceId:'*',requestId});response.blackMiracleReward=await deps.rollBlackMiracleDrop(env,{userId:user.id,source:'CAPTAIN',referenceId:requestId})}
         catch(equipmentError){console.error('captain equipment drop failed',equipmentError)}

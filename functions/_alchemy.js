@@ -60,13 +60,9 @@ const DEFAULT_SETTINGS=Object.freeze({
 const DEFAULT_ITEM_REWARDS=Object.freeze([
   ['DORMANT_SUPPLY','DORMANT','EQUIPMENT_SUPPLY_BOX',1,50],
   ['DORMANT_MAGIC','DORMANT','MAGIC_CARD_PACK',1,35],
-  ['DORMANT_CUBE','DORMANT','PREMIUM_CUBE',1,15],
   ['AWAKENED_MAGIC','AWAKENED','MAGIC_CARD_PACK',1,30],
-  ['AWAKENED_CUBE','AWAKENED','PREMIUM_CUBE',1,50],
   ['AWAKENED_CORE','AWAKENED','STARLIGHT_ARMOR_CORE',1,20],
-  ['OVERDRIVE_CUBE','OVERDRIVE','PREMIUM_CUBE',2,45],
   ['OVERDRIVE_CORE','OVERDRIVE','STARLIGHT_ARMOR_CORE',1,55],
-  ['FORBIDDEN_CUBE','FORBIDDEN','PREMIUM_CUBE',3,35],
   ['FORBIDDEN_CORE','FORBIDDEN','STARLIGHT_ARMOR_CORE',2,65]
 ]);
 let foundationPromise=null,settingsCache=null,settingsCacheAt=0;
@@ -84,7 +80,7 @@ const publicPath=value=>String(value||'').replace(/\\/g,'/');
 const assetKey=(type,id)=>`${type}:${id}`;
 const safeRequestId=value=>clean(value,120).replace(/[^A-Za-z0-9_:.\-]/g,'');
 const CARD_STRENGTH_SQL=`COALESCE(c.base_power,0)+100*(COALESCE(cue.attack_percent,0)+COALESCE(cue.defense_percent,0)+COALESCE(cue.hp_percent,0)+COALESCE(cue.speed_percent,0)+ABS(COALESCE(cue.effect_value,0))*(COALESCE(cue.trigger_chance,100)/100.0)*(CASE WHEN COALESCE(cue.max_activations,1)>5 THEN 5 WHEN COALESCE(cue.max_activations,1)<1 THEN 1 ELSE COALESCE(cue.max_activations,1) END))`;
-const isAllowedRewardItem=value=>{const key=code(value,100);return SPECIAL_REWARD_ITEM_CODES.has(key)||!PROTECTED_ITEM_PATTERN.test(key)};
+const isAllowedRewardItem=value=>{const key=code(value,100);return key!=='PREMIUM_CUBE'&&(SPECIAL_REWARD_ITEM_CODES.has(key)||!PROTECTED_ITEM_PATTERN.test(key))};
 
 function normalizeSettings(raw){
   const value=raw&&typeof raw==='object'?raw:{},requirements=value.requirements||{};

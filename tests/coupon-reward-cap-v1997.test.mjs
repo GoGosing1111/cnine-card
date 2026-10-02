@@ -19,7 +19,7 @@ test('코인 쿠폰 100억과 인증 메시지 50억 한도는 분리 유지한�
   assert.equal(couponRewardSpec('COIN').max,10_000_000_000);
   assert.equal(verifiedMessageRewardSpec('COIN').max,5_000_000_000);
   assert.equal(couponRewardSpec('MASTER_STAR').max,1_000_000);
-  assert.equal(couponRewardSpec('PREMIUM_CUBE').max,100_000);
+  assert.equal(couponRewardSpec('PREMIUM_CUBE'),null);
 });
 
 test('신규·호환 쿠폰 발급 라우트가 모두 쿠폰 전용 한도를 사용한다',()=>{

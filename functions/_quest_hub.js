@@ -8,7 +8,7 @@ export const WEEKLY_QUESTS=Object.freeze([
  {id:'TERRITORY',title:'영토전 참여',target:1,unit:'회',description:'직접 진행하여 완료한 영토전 공격을 집계합니다. 자동 편성과 방어는 제외됩니다.'},
  {id:'CLAN',title:'클랜전 참여',target:2,unit:'회',description:'직접 진행하여 완료한 클랜전 전투를 집계합니다. 승패와 관계없이 인정하며 방어는 제외됩니다.'}
 ]);
-export const QUEST_REWARDS=Object.freeze({COIN:'코인',MASTER_STAR:'마스터의 별',PREMIUM_CUBE:'프리미엄 큐브',EQUIPMENT_SUPPLY_BOX:'장비 보급상자',HIGH_GRADE_REROLL_TICKET:'고등급 재뽑기권',STARLIGHT_ARMOR_CORE:'미스틱 에너지'});
+export const QUEST_REWARDS=Object.freeze({COIN:'코인',MASTER_STAR:'마스터의 별',EQUIPMENT_SUPPLY_BOX:'장비 보급상자',HIGH_GRADE_REROLL_TICKET:'고등급 재뽑기권',STARLIGHT_ARMOR_CORE:'미스틱 에너지'});
 const parse=(value,fallback={})=>{try{return JSON.parse(value)}catch{return fallback}};
 const fail=(message,status=409)=>{throw Object.assign(new Error(message),{status})};
 const sqlDate=ms=>new Date(ms).toISOString().slice(0,19).replace('T',' ');
@@ -60,7 +60,9 @@ export async function ensureQuestHub(env){
 }
 async function settings(env){
  const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(QUEST_SETTINGS_KEY).first();
- return {raw:row?.value||'',value:{...defaultQuestSettings(),...parse(row?.value)}};
+ const value={...defaultQuestSettings(),...parse(row?.value)};
+ for(const quest of Object.values(value.quests||{}))if(!Object.hasOwn(QUEST_REWARDS,quest.rewardType)){quest.enabled=false;quest.rewardAmount=0;quest.rewardType='COIN'}
+ return {raw:row?.value||'',value};
 }
 const identity=(env,user)=>env.DB.prepare("SELECT provider_user_id,provider_name FROM user_second_verifications WHERE user_id=? AND provider='PLAYDK'").bind(user.id).first();
 const boards=daily=>JSON.stringify([...daily.boardSlugs].sort());

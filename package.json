@@ -105,7 +105,8 @@
     "test:icon-cms": "node --test tests/icon-cms-v1.test.mjs tests/icon-grade-preparation-v1.test.mjs preview/icon-battle-assets-v1/qa.test.mjs tests/icon-preview-pages-url.test.mjs",
     "test:cooperative": "node --test tests/cooperative-battleground.test.mjs tests/cooperative-arke.test.mjs tests/cooperative-websocket.test.mjs",
     "simulate:cooperative": "node scripts/simulate-cooperative-battleground.mjs --write",
-    "test:ranked-reform": "node --test tests/ranked-reform-20261002.test.mjs"
+    "test:ranked-reform": "node --test tests/ranked-reform-20261002.test.mjs",
+    "test:premium-cube-retirement": "node --test --test-concurrency=2 tests/premium-cube-retirement-20261003.test.mjs tests/pve-sweep-v1989.test.mjs tests/inventory-ui-v2125.test.mjs tests/inventory-high-grade-reroll-route-v1921.test.mjs tests/raid-mystic-clear-bonus-v2067.test.mjs tests/raid-weekly-cms-v2141.test.mjs tests/seal-reward-coin-cap-v2069.test.mjs tests/coupon-reward-cap-v1997.test.mjs tests/alchemy-system-v1973.test.mjs tests/territory-100-attack-inventory-reward-v1916.mjs tests/draw-territory-perf-20260919.test.mjs"
   },
   "dependencies": {
     "pg": "^8.16.3"

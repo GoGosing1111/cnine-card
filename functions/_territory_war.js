@@ -33,8 +33,7 @@ const DEFAULTS=Object.freeze({
   attackRewardTier2Attacks:30,attackRewardTier2Percent:80,attackRewardTier3Attacks:60,attackRewardTier3Percent:100,
   attackRewardTier4Attacks:100,attackRewardTier4Percent:125,
   siegeSnapshotLimit:12,siegeSnapshotAttackThreshold:200,siegeSnapshotBonusCoin:500000,
-  siegeParticipationCubeThreshold:100,siegeParticipationCubeQuantity:10
-  ,lastDefenseHpBonusPercent:35,lastDefenseHoldMinutes:15,lastDefenseEnergyMinutes:5,
+  lastDefenseHpBonusPercent:35,lastDefenseHoldMinutes:15,lastDefenseEnergyMinutes:5,
   counterGaugeMax:1000,counterParticipationPoints:18,counterDefeatPoints:12,counterStrongChallengePoints:20,counterDefensePoints:16,counterAceWinPoints:120,counterAceDamagePoints:35,
   operationDurationMinutes:10,assaultDamageBonusPercent:25,infiltrationHpPercent:12,regroupEnergy:3,ironWallHealPercent:20,ironWallDamageReductionPercent:25,
   carpetBombingHpPercent:10,airDefenseInterceptPercent:75,airDefenseDamageReductionPercent:12,
@@ -361,14 +360,6 @@ async function ensureFoundation(env){
   if(!siegeSnapshotRewardMarker){
     await addColumnIfMissing(env,'territory_war_v3_rewards','siege_snapshot_bonus_coin','INTEGER NOT NULL DEFAULT 0');
     await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1474_territory_siege_snapshot_reward','1',CURRENT_TIMESTAMP)").run();
-  }
-  const siegeParticipationCubeMarker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1475_territory_participation_cube_reward'").first();
-  if(!siegeParticipationCubeMarker){
-    await addColumnIfMissing(env,'territory_war_v3_rewards','premium_cube_quantity','INTEGER NOT NULL DEFAULT 0');
-    await env.DB.batch([
-      env.DB.prepare("INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('PREMIUM_CUBE','프리미엄 큐브','PREMIUM REWARD CUBE','MA·FUR·LIMITED 등급 카드가 등장하는 최고급 보상 큐브입니다.','CUBE','PREMIUM','assets/ui/packs/premium-cube.png',30,1)"),
-      env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1475_territory_participation_cube_reward','1',CURRENT_TIMESTAMP)")
-    ]);
   }
   const participationItemRewardMarker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1916_territory_100_attack_inventory_reward'").first();
   if(!participationItemRewardMarker){
@@ -940,8 +931,8 @@ function participationInventoryReward(attacks){
   return{scrapyardTickets:qualified?PARTICIPATION_SCRAPYARD_TICKETS:0,mysticEnergy:qualified?PARTICIPATION_MYSTIC_ENERGY:0};
 }
 
-const REWARD_COLUMNS='round_id,user_id,side,result,coin,shards,damage,attacks,required_attacks,base_result_coin,attack_reward_percent,attack_adjusted_coin,counter_bonus_coin,ace_bonus_coin,last_defense_bonus_coin,comeback_bonus_coin,siege_snapshot_bonus_coin,premium_cube_quantity';
-const REWARD_UPDATE='side=excluded.side,result=excluded.result,coin=excluded.coin,shards=excluded.shards,damage=excluded.damage,attacks=excluded.attacks,required_attacks=excluded.required_attacks,base_result_coin=excluded.base_result_coin,attack_reward_percent=excluded.attack_reward_percent,attack_adjusted_coin=excluded.attack_adjusted_coin,counter_bonus_coin=excluded.counter_bonus_coin,ace_bonus_coin=excluded.ace_bonus_coin,last_defense_bonus_coin=excluded.last_defense_bonus_coin,comeback_bonus_coin=excluded.comeback_bonus_coin,siege_snapshot_bonus_coin=excluded.siege_snapshot_bonus_coin,premium_cube_quantity=excluded.premium_cube_quantity';
+const REWARD_COLUMNS='round_id,user_id,side,result,coin,shards,damage,attacks,required_attacks,base_result_coin,attack_reward_percent,attack_adjusted_coin,counter_bonus_coin,ace_bonus_coin,last_defense_bonus_coin,comeback_bonus_coin,siege_snapshot_bonus_coin';
+const REWARD_UPDATE='side=excluded.side,result=excluded.result,coin=excluded.coin,shards=excluded.shards,damage=excluded.damage,attacks=excluded.attacks,required_attacks=excluded.required_attacks,base_result_coin=excluded.base_result_coin,attack_reward_percent=excluded.attack_reward_percent,attack_adjusted_coin=excluded.attack_adjusted_coin,counter_bonus_coin=excluded.counter_bonus_coin,ace_bonus_coin=excluded.ace_bonus_coin,last_defense_bonus_coin=excluded.last_defense_bonus_coin,comeback_bonus_coin=excluded.comeback_bonus_coin,siege_snapshot_bonus_coin=excluded.siege_snapshot_bonus_coin';
 async function generateRewards(env,round,cfg){
   const rows=(await env.DB.prepare(`WITH action_counts AS (
     SELECT user_id,COUNT(*) attacks FROM territory_war_v3_actions
@@ -949,18 +940,18 @@ async function generateRewards(env,round,cfg){
   ) SELECT u.user_id,u.side,u.damage,u.counter_contribution,u.ace_defeats,u.last_defense_successes,u.comeback_participations,
     MAX(u.attacks,COALESCE(ac.attacks,0)) attacks
     FROM territory_war_v3_users u LEFT JOIN action_counts ac ON ac.user_id=u.user_id
-    WHERE u.round_id=? ORDER BY u.damage DESC,attacks DESC,u.user_id`).bind(round.id,round.id).all()).results||[],required=Math.max(0,Number(cfg.settlementMinAttacks??1)),snapshotLimit=Math.max(1,Number(cfg.siegeSnapshotLimit||12)),snapshotThreshold=Math.max(0,Number(cfg.siegeSnapshotAttackThreshold??200)),snapshotReward=Math.max(0,Number(cfg.siegeSnapshotBonusCoin??500000)),cubeThreshold=Math.max(0,Number(cfg.siegeParticipationCubeThreshold??100)),cubeReward=Math.max(0,Number(cfg.siegeParticipationCubeQuantity??10)),payloads=[];
+    WHERE u.round_id=? ORDER BY u.damage DESC,attacks DESC,u.user_id`).bind(round.id,round.id).all()).results||[],required=Math.max(0,Number(cfg.settlementMinAttacks??1)),snapshotLimit=Math.max(1,Number(cfg.siegeSnapshotLimit||12)),snapshotThreshold=Math.max(0,Number(cfg.siegeSnapshotAttackThreshold??200)),snapshotReward=Math.max(0,Number(cfg.siegeSnapshotBonusCoin??500000)),payloads=[];
   for(const [rank,item] of rows.entries()){
     const attacks=Number(item.attacks||0),eligible=attacks>=required,winner=String(round.winner_side||'DRAW'),result=!eligible?'INELIGIBLE':winner==='DRAW'?'DRAW':item.side===winner?'WIN':'LOSE',inSnapshot=rank<snapshotLimit;
-    let coin=0,shards=0,baseResultCoin=0,attackPercent=0,attackAdjustedCoin=0,counterBonus=0,aceBonus=0,lastDefenseBonus=0,comebackBonus=0,siegeSnapshotBonus=0,premiumCubeQuantity=0;
+    let coin=0,shards=0,baseResultCoin=0,attackPercent=0,attackAdjustedCoin=0,counterBonus=0,aceBonus=0,lastDefenseBonus=0,comebackBonus=0,siegeSnapshotBonus=0;
     if(eligible){
       baseResultCoin=result==='WIN'?Number(cfg.winnerCoin||0):result==='LOSE'?Number(cfg.loserCoin||0):Number(cfg.drawCoin||0);
       attackPercent=attackRewardPercent(attacks,cfg);attackAdjustedCoin=Math.floor(baseResultCoin*attackPercent/100);
       coin=attackAdjustedCoin+Math.min(Number(cfg.maxContributionCoin||1000000),Math.floor(Number(item.damage||0)/1000)*Number(cfg.contributionCoinPer1000Damage||0));
-      counterBonus=Number(item.counter_contribution||0)*Number(cfg.counterContributionCoinPerPoint||5);aceBonus=Number(item.ace_defeats||0)*Number(cfg.aceDefeatCoin||10000);lastDefenseBonus=Number(item.last_defense_successes||0)*Number(cfg.lastDefenseCoin||5000);comebackBonus=Number(item.comeback_participations||0)*Number(cfg.comebackParticipationCoin||300);siegeSnapshotBonus=inSnapshot&&attacks>snapshotThreshold?snapshotReward:0;premiumCubeQuantity=attacks>=cubeThreshold?cubeReward:0;
+      counterBonus=Number(item.counter_contribution||0)*Number(cfg.counterContributionCoinPerPoint||5);aceBonus=Number(item.ace_defeats||0)*Number(cfg.aceDefeatCoin||10000);lastDefenseBonus=Number(item.last_defense_successes||0)*Number(cfg.lastDefenseCoin||5000);comebackBonus=Number(item.comeback_participations||0)*Number(cfg.comebackParticipationCoin||300);siegeSnapshotBonus=inSnapshot&&attacks>snapshotThreshold?snapshotReward:0;
       coin+=counterBonus+aceBonus+lastDefenseBonus+comebackBonus+siegeSnapshotBonus;shards=Number(cfg.participationShards||0);
     }
-    payloads.push([round.id,item.user_id,item.side||'',result,coin,shards,Number(item.damage||0),attacks,required,baseResultCoin,attackPercent,attackAdjustedCoin,counterBonus,aceBonus,lastDefenseBonus,comebackBonus,siegeSnapshotBonus,premiumCubeQuantity]);
+    payloads.push([round.id,item.user_id,item.side||'',result,coin,shards,Number(item.damage||0),attacks,required,baseResultCoin,attackPercent,attackAdjustedCoin,counterBonus,aceBonus,lastDefenseBonus,comebackBonus,siegeSnapshotBonus]);
   }
   if(!payloads.length)return 0;
   if(env.DB.dialect==='postgres'){
@@ -1351,15 +1342,11 @@ async function claimV3(env,deps,user){
   const lock=await acquireLock(env,`claim_${user.id}`,60000);if(!lock.ok)return deps.json({error:'보상 수령을 처리 중입니다.'},409);
   try{
     const reward=await rewardForUser(env,user.id);if(!reward)return deps.json({error:'수령 가능한 보상이 없습니다.'},404);
-    const participationItems=reward.version==='V3'?participationInventoryReward(reward.attacks):{scrapyardTickets:0,mysticEnergy:0},coin=Number(reward.coin||0),shards=Number(reward.shards||0),premiumCubes=reward.version==='V3'?Math.max(0,Number(reward.premium_cube_quantity||0)):0,scrapyardTickets=participationItems.scrapyardTickets,mysticEnergy=participationItems.mysticEnergy,bonusEquipment=reward.version==='V3'&&reward.result==='WIN'?(reward.bonusEquipment||[]):[],table=reward.version==='V3'?'territory_war_v3_rewards':'territory_war_rewards',statements=[
+    const participationItems=reward.version==='V3'?participationInventoryReward(reward.attacks):{scrapyardTickets:0,mysticEnergy:0},coin=Number(reward.coin||0),shards=Number(reward.shards||0),scrapyardTickets=participationItems.scrapyardTickets,mysticEnergy=participationItems.mysticEnergy,bonusEquipment=reward.version==='V3'&&reward.result==='WIN'?(reward.bonusEquipment||[]):[],table=reward.version==='V3'?'territory_war_v3_rewards':'territory_war_rewards',statements=[
       env.DB.prepare(`UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=? AND EXISTS(SELECT 1 FROM ${table} WHERE round_id=? AND user_id=? AND claimed_at IS NULL)`).bind(coin,shards,user.id,reward.round_id,user.id),
       env.DB.prepare(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT ?,?,coin,'영토전 보상' FROM users WHERE id=? AND EXISTS(SELECT 1 FROM ${table} WHERE round_id=? AND user_id=? AND claimed_at IS NULL)`).bind(user.id,coin,user.id,reward.round_id,user.id),
       env.DB.prepare(`INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) SELECT ?,?,card_shards,'영토전 보상',NULL FROM users WHERE id=? AND EXISTS(SELECT 1 FROM ${table} WHERE round_id=? AND user_id=? AND claimed_at IS NULL)`).bind(user.id,shards,user.id,reward.round_id,user.id)
     ];
-    if(premiumCubes>0)statements.push(
-      env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) SELECT ?,'PREMIUM_CUBE',?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP WHERE EXISTS(SELECT 1 FROM ${table} WHERE round_id=? AND user_id=? AND claimed_at IS NULL) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(user.id,premiumCubes,premiumCubes,reward.round_id,user.id),
-      env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,'PREMIUM_CUBE',?,quantity,'TERRITORY_WAR_ATTACK_REWARD','TERRITORY_WAR',? FROM cnine_user_inventory WHERE user_id=? AND item_code='PREMIUM_CUBE' AND EXISTS(SELECT 1 FROM ${table} WHERE round_id=? AND user_id=? AND claimed_at IS NULL)`).bind(user.id,premiumCubes,String(reward.round_id),user.id,reward.round_id,user.id)
-    );
     if(scrapyardTickets>0)statements.push(
       env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) SELECT ?,'SCRAPYARD_ENTRY_TICKET',?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP WHERE EXISTS(SELECT 1 FROM ${table} WHERE round_id=? AND user_id=? AND claimed_at IS NULL) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(user.id,scrapyardTickets,scrapyardTickets,reward.round_id,user.id),
       env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,'SCRAPYARD_ENTRY_TICKET',?,quantity,'TERRITORY_WAR_100_ATTACK_REWARD','TERRITORY_WAR',? FROM cnine_user_inventory WHERE user_id=? AND item_code='SCRAPYARD_ENTRY_TICKET' AND EXISTS(SELECT 1 FROM ${table} WHERE round_id=? AND user_id=? AND claimed_at IS NULL)`).bind(user.id,scrapyardTickets,String(reward.round_id),user.id,reward.round_id,user.id)
@@ -1377,7 +1364,7 @@ async function claimV3(env,deps,user){
     statements.push(...await territoryPigCoinStatements(env,{userId:Number(user.id),roundId:reward.round_id,version:reward.version}));
     statements.push(env.DB.prepare(`UPDATE ${table} SET claimed_at=CURRENT_TIMESTAMP WHERE round_id=? AND user_id=? AND claimed_at IS NULL`).bind(reward.round_id,user.id));
     const results=await env.DB.batch(statements),claimed=results?.[results.length-1];
-    if(!Number(claimed?.meta?.changes||0))return deps.json({error:'이미 수령한 보상입니다.'},409);const [state,balance]=await Promise.all([publicState(env,user.id),env.DB.prepare('SELECT coin,card_shards FROM users WHERE id=?').bind(user.id).first()]);return deps.json({ok:true,coin,shards,pigCoins:await pigCoinRewardAmount(env,user.id,'TERRITORY',`${reward.version}:${reward.round_id}`),premiumCubes,scrapyardTickets,mysticEnergy,bonusEquipment,state,coinAfter:Number(balance?.coin||0),cardShardsAfter:Number(balance?.card_shards||0)});
+    if(!Number(claimed?.meta?.changes||0))return deps.json({error:'이미 수령한 보상입니다.'},409);const [state,balance]=await Promise.all([publicState(env,user.id),env.DB.prepare('SELECT coin,card_shards FROM users WHERE id=?').bind(user.id).first()]);return deps.json({ok:true,coin,shards,pigCoins:await pigCoinRewardAmount(env,user.id,'TERRITORY',`${reward.version}:${reward.round_id}`),scrapyardTickets,mysticEnergy,bonusEquipment,state,coinAfter:Number(balance?.coin||0),cardShardsAfter:Number(balance?.card_shards||0)});
   }finally{await releaseLock(env,lock)}
 }
 
@@ -1400,7 +1387,6 @@ function cleanSettings(body,current){return{
   winnerCoin:clampInt(body.winnerCoin,0,MAX_SETTLEMENT_REWARD_COMPONENT_COIN,current.winnerCoin),loserCoin:clampInt(body.loserCoin,0,MAX_SETTLEMENT_REWARD_COMPONENT_COIN,current.loserCoin),drawCoin:clampInt(body.drawCoin,0,MAX_SETTLEMENT_REWARD_COMPONENT_COIN,current.drawCoin),participationShards:clampInt(body.participationShards,0,1000000,current.participationShards),contributionCoinPer1000Damage:clampInt(body.contributionCoinPer1000Damage,0,1000000,current.contributionCoinPer1000Damage),maxContributionCoin:clampInt(body.maxContributionCoin,0,MAX_SETTLEMENT_REWARD_COMPONENT_COIN,current.maxContributionCoin),settlementMinAttacks:clampInt(body.settlementMinAttacks,0,10000,current.settlementMinAttacks),
   attackRewardStarterPercent:clampInt(body.attackRewardStarterPercent,0,300,current.attackRewardStarterPercent??25),attackRewardTier1Attacks:clampInt(body.attackRewardTier1Attacks,1,1000000,current.attackRewardTier1Attacks??10),attackRewardTier1Percent:clampInt(body.attackRewardTier1Percent,0,300,current.attackRewardTier1Percent??50),attackRewardTier2Attacks:clampInt(body.attackRewardTier2Attacks,1,1000000,current.attackRewardTier2Attacks??30),attackRewardTier2Percent:clampInt(body.attackRewardTier2Percent,0,300,current.attackRewardTier2Percent??80),attackRewardTier3Attacks:clampInt(body.attackRewardTier3Attacks,1,1000000,current.attackRewardTier3Attacks??60),attackRewardTier3Percent:clampInt(body.attackRewardTier3Percent,0,300,current.attackRewardTier3Percent??100),attackRewardTier4Attacks:clampInt(body.attackRewardTier4Attacks,1,1000000,current.attackRewardTier4Attacks??100),attackRewardTier4Percent:clampInt(body.attackRewardTier4Percent,0,300,current.attackRewardTier4Percent??125),
   siegeSnapshotLimit:clampInt(body.siegeSnapshotLimit,1,20,current.siegeSnapshotLimit??12),siegeSnapshotAttackThreshold:clampInt(body.siegeSnapshotAttackThreshold,0,1000000,current.siegeSnapshotAttackThreshold??200),siegeSnapshotBonusCoin:clampInt(body.siegeSnapshotBonusCoin,0,MAX_SETTLEMENT_REWARD_COMPONENT_COIN,current.siegeSnapshotBonusCoin??500000),
-  siegeParticipationCubeThreshold:clampInt(body.siegeParticipationCubeThreshold,1,1000000,current.siegeParticipationCubeThreshold??100),siegeParticipationCubeQuantity:clampInt(body.siegeParticipationCubeQuantity,0,1000000,current.siegeParticipationCubeQuantity??10),
   massAssaultDamagePercent:clampInt(body.massAssaultDamagePercent,1,90,current.massAssaultDamagePercent??39)
 }}
 

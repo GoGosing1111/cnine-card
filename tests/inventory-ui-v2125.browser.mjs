@@ -41,11 +41,11 @@ async function launch(viewport){
     }
     if(key==='inventory/use'){
       const body=r.request().postDataJSON(),item=state.inventory.items.find(x=>x.code===body.itemCode);
-      assert.equal(body.itemCode,'PREMIUM_CUBE');assert.equal(body.count,10);assert.ok(body.requestId);item.quantity-=body.count;
+      assert.equal(body.itemCode,'GUARANTEED_MA_PACK');assert.equal(body.count,1);assert.ok(body.requestId);item.quantity-=body.count;
       const user=await (await page.request.get(base+'/api/me')).json();
       const catalog=await (await page.request.get(base+'/api/cards')).json();
-      const card={...catalog.cards[0],grade:'FUR'};
-      return r.fulfill({json:{count:10,remaining:item.quantity,results:Array.from({length:10},()=>({card,duplicate:true})),summary:{duplicates:10,newCards:0,gradeCounts:{FUR:10}},user:user.user}});
+      const card={...catalog.cards[0],grade:'MA'};
+      return r.fulfill({json:{count:1,remaining:item.quantity,card,duplicate:true,shardGained:10,masterStarGained:0,user:user.user}});
     }
     return r.continue();
   });
@@ -84,19 +84,19 @@ try{
     await tile(page,code).click();check(await page.locator('#inventoryDetail .iv25-use').isDisabled(),code+' retains server/crafting restrictions');
   }
   check(!state.writes.some(x=>x.key==='inventory/use'),'selection and restricted items consume nothing');
-  await page.locator('#inventorySort').selectOption('DEFAULT');await page.locator('[data-inventory-filter="PACK"]').click();await tile(page,'PREMIUM_CUBE').click();
+  await page.locator('#inventorySort').selectOption('DEFAULT');await page.locator('[data-inventory-filter="PACK"]').click();await tile(page,'GUARANTEED_MA_PACK').click();
   await page.locator('#inventoryDetail .iv25-use').click();await page.locator('#inventoryOpenConfirm').waitFor();
-  check(await page.locator('[data-cube-open-count]').count()===3,'original cube confirmation keeps 1/10/100 choices');
+  check(await page.locator('[data-cube-open-count]').count()===0,'fixed-grade confirmation opens one card');
   check(!state.writes.some(x=>x.key==='inventory/use'),'opening the confirmation consumes nothing');
   await page.locator('#inventoryOpenClose').click();check(await page.locator('#modal').isHidden(),'cancel closes original confirmation');
   await tile(page,'PRIME_EQUIPMENT_SUPPLY_BOX').click();await page.locator('#inventoryDetail .iv25-use').click();await page.locator('#primeDrawClose').waitFor();
   check((await page.locator('#modal h2').innerText()).includes('프라임 아머리'),'prime item uses the existing prime opening flow');await page.locator('#primeDrawClose').click();
-  await tile(page,'PREMIUM_CUBE').click();await page.locator('#inventoryDetail .iv25-use').click();await page.locator('[data-cube-open-count="10"]').click();await page.locator('#inventoryOpenConfirm').click();
+  await tile(page,'GUARANTEED_MA_PACK').click();await page.locator('#inventoryDetail .iv25-use').click();await page.locator('#inventoryOpenConfirm').click();
   await page.locator('#inventoryResultConfirm').waitFor();await page.locator('#inventoryResultConfirm').click();await ready(page);
-  check(state.writes.filter(x=>x.key==='inventory/use').length===1,'one confirmed batch makes one inventory/use request');
+  check(state.writes.filter(x=>x.key==='inventory/use').length===1,'one confirmed opening makes one inventory/use request');
   check(await page.locator('[data-inventory-filter="PACK"]').getAttribute('aria-pressed')==='true','category survives opening/return');
-  check(await tile(page,'PREMIUM_CUBE').getAttribute('aria-pressed')==='true','selection survives opening/return');
-  check((await page.locator('#inventoryDetail .iv25-quantity').innerText()).includes('118'),'successful opening reloads authoritative inventory quantity');
+  check(await tile(page,'GUARANTEED_MA_PACK').getAttribute('aria-pressed')==='true','selection survives opening/return');
+  check((await page.locator('#inventoryDetail .iv25-quantity').innerText()).includes('127'),'successful opening reloads authoritative inventory quantity');
   state.fail=true;await page.locator('#inventoryRefresh').click();await page.locator('#inventoryRetry').waitFor();
   check((await page.locator('#inventoryGrid').innerText()).includes('인벤토리 연결 검수 오류'),'failed fetch shows readable server error and retry');
   state.fail=false;await page.locator('#inventoryRetry').click();await ready(page);check(await tiles(page).count()===6,'retry restores the active category');
@@ -109,7 +109,7 @@ try{
   check(await page.locator('#inventoryVault').count()===0,'late inventory response cannot replace another route');
   await page.locator('soop-adventure-lobby .sidebar [data-route="inventory"]').click();await ready(page);
   await page.locator('[data-inventory-filter="ALL"]').click();await page.locator('#inventorySort').selectOption('DEFAULT');
-  await bounds(page,'1440x900');await tile(page,'PREMIUM_CUBE').click();
+  await bounds(page,'1440x900');await tile(page,'GUARANTEED_MA_PACK').click();
   check(await page.locator('#inventoryDetail .iv25-use').evaluate(e=>e.getBoundingClientRect().bottom<=innerHeight),'desktop opening action fits within the first screen');
   await page.screenshot({path:path.join(out,'inventory-1440x900.png')});
   await page.route('**/assets/inventory-qa-missing.png',r=>r.fulfill({status:404,body:'missing'}));
@@ -136,7 +136,7 @@ try{
       await page.screenshot({path:path.join(out,'detail-'+size+'.png')});
       await page.keyboard.press('Escape');check(!await detail.isVisible(),size+' Escape closes detail');
       check(await tile(page,'SUIT_CORE_6').evaluate(e=>e===document.activeElement),size+' focus returns to selected item');
-      await page.locator('[data-inventory-filter="PACK"]').click();await tile(page,'PREMIUM_CUBE').click();await detail.locator('.iv25-use').click();
+      await page.locator('[data-inventory-filter="PACK"]').click();await tile(page,'GUARANTEED_MA_PACK').click();await detail.locator('.iv25-use').click();
       check(!await detail.isVisible(),size+' sheet closes before the existing confirmation');
       await page.locator('#inventoryOpenClose').click();check(!state.writes.some(x=>x.key==='inventory/use'),size+' cancel leaves quantity intact');
       await page.locator('[data-inventory-filter="REROLL"]').click();check(await tiles(page).count()===2,size+' horizontal category tabs remain reachable');

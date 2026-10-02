@@ -64,7 +64,7 @@ test('saved legacy CMS settings get only the new default; custom rewards remain 
     rareDrops:[{type:'PREMIUM_CUBE',amount:2,chance:17.5}]
   }};
   delete raw.clearMysticEnergy;const original=copy(raw),clean=cleanRaidSettingsV1293(raw);
-  assert.equal(clean.clearMysticEnergy,3);assert.deepEqual(clean.rewards,original.rewards);
+  assert.equal(clean.clearMysticEnergy,3);assert.deepEqual(clean.rewards,{...original.rewards,rareDrops:[]});
   assert.equal(clean.enabled,true);assert.equal(clean.title,original.title);assert.deepEqual(raw,original);
   assert.deepEqual(cleanRaidSettingsV1293(clean),clean);
 });

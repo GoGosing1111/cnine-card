@@ -2,7 +2,7 @@
   'use strict';
   const q=(selector,root=document)=>root.querySelector(selector),qa=(selector,root=document)=>[...root.querySelectorAll(selector)];
   const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const types=[['COIN','코인'],['CARD_SHARD','카드 조각'],['PREMIUM_CUBE','프리미엄 큐브'],['EQUIPMENT_SUPPLY_BOX','장비 보급상자'],['MAGIC_CARD_PACK','마법카드 팩'],['MASTER_STAR','마스터의 별'],['CORE_RAID_ENTRY_TICKET','붕괴 코어 입장권']];
+  const types=[['COIN','코인'],['CARD_SHARD','카드 조각'],['EQUIPMENT_SUPPLY_BOX','장비 보급상자'],['MAGIC_CARD_PACK','마법카드 팩'],['MASTER_STAR','마스터의 별'],['CORE_RAID_ENTRY_TICKET','붕괴 코어 입장권']];
   const days=['일','월','화','수','목','금','토'];
   const field=(key,label,value,min,max,step=1)=>`<label class="field"><span>${esc(label)}</span><input data-wk-field="${key}" type="number" min="${min}" max="${max}" step="${step}" value="${value}" required></label>`;
   const bundle=items=>`<div class="raid-reward-bundle">${types.map(([type,label])=>field(type,label,(items||[]).filter(x=>x.type===type).reduce((n,x)=>n+Number(x.amount),0),0,type==='COIN'?10000000000:1000000)).join('')}</div>`;

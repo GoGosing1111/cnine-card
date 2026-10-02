@@ -6,18 +6,18 @@ const FX='/assets/ui/project-v/fx/weekly-raid-v1';
 const rewards=(participation,clear,bonusType,rareType,coreAmount=1)=>({
   participation:[{type:'COIN',amount:participation}],
   clear:[{type:'COIN',amount:clear},{type:'CARD_SHARD',amount:80},{type:'CORE_RAID_ENTRY_TICKET',amount:coreAmount}],
-  minionClear:[{type:'COIN',amount:Math.floor(clear*.12)},{type:bonusType,amount:1}],
+  minionClear:[{type:'COIN',amount:Math.floor(clear*.12)},{type:bonusType,amount:1}].filter(item=>item.type),
   damageMilestones:[
     {damage:5_000_000,rewards:[{type:'MAGIC_CARD_PACK',amount:1}]},
-    {damage:15_000_000,rewards:[{type:bonusType,amount:1}]},
+    {damage:15_000_000,rewards:[{type:bonusType,amount:1}].filter(item=>item.type)},
     {damage:30_000_000,rewards:[{type:'CORE_RAID_ENTRY_TICKET',amount:1}]}
   ],
   rankRewards:[
-    {from:1,to:1,rewards:[{type:'PREMIUM_CUBE',amount:2},{type:bonusType,amount:2}]},
-    {from:2,to:3,rewards:[{type:'PREMIUM_CUBE',amount:1},{type:bonusType,amount:1}]},
+    {from:1,to:1,rewards:[{type:bonusType,amount:2}].filter(item=>item.type)},
+    {from:2,to:3,rewards:[{type:bonusType,amount:1}].filter(item=>item.type)},
     {from:4,to:10,rewards:[{type:'MAGIC_CARD_PACK',amount:1}]}
   ],
-  rareDrops:[{type:rareType,amount:1,chance:4},{type:'CORE_RAID_ENTRY_TICKET',amount:1,chance:8}]
+  rareDrops:[{type:rareType,amount:1,chance:4},{type:'CORE_RAID_ENTRY_TICKET',amount:1,chance:8}].filter(item=>item.type)
 });
 
 const add=(code,name,sprite,maxHp,spawnAtHpPct,hpPercent,rewardType)=>({code,name,sprite,maxHp,spawnAtHpPct,hpPercent,rewardType});
@@ -31,7 +31,7 @@ export const WEEKLY_RAID_BOSSES_V1=Object.freeze([
     sourceArt:`${WEEKLY}/nagato-source.jpg`,battleSprite:`${WEEKLY}/nagato-sd-v2-768.webp`,
     ultimate:{code:'CELESTIAL_GRAVITY',name:'초신성 천도',everyAttacks:5,multiplier:1.55,atlas:`${FX}/nagato-impact-atlas-v1.json`,framePrefix:'nagato_'},
     minions:[add('PAIN_ANIMAL','축생도 소환체',`${RESP}/hunt-030-black-ops-boss-sd-v1-768.webp`,22_000_000,1,.122,'MAGIC_CARD_PACK'),add('PAIN_ASURA','수라도 기갑체',`${RESP}/hunt-015-crimson-eye-boss-sd-v1-768.webp`,26_000_000,.55,.144,'EQUIPMENT_SUPPLY_BOX')],
-    rewards:rewards(3_000_000,22_000_000,'MAGIC_CARD_PACK','PREMIUM_CUBE',1)
+    rewards:rewards(3_000_000,22_000_000,'MAGIC_CARD_PACK',null,1)
   },
   {
     weekday:2,dayLabel:'화',code:'YORIICHI',name:'요리이치',title:'태양의 검성',accent:'#ff9d4c',powerRating:6_200_000,maxHp:192_000_000,defenseRate:23,
@@ -44,8 +44,8 @@ export const WEEKLY_RAID_BOSSES_V1=Object.freeze([
     weekday:3,dayLabel:'수',code:'ICHIGO',name:'이치고',title:'검은 월아',accent:'#ff596f',powerRating:6_500_000,maxHp:204_000_000,defenseRate:24,
     sourceArt:`${WEEKLY}/ichigo-source.jpg`,battleSprite:`${WEEKLY}/ichigo-sd-v1-768.webp`,
     ultimate:{code:'MUGETSU',name:'무월·검은 월아',everyAttacks:4,multiplier:1.72,atlas:`${FX}/ichigo-impact-atlas-v1.json`,framePrefix:'ichigo_'},
-    minions:[add('HOLLOW_REAPER','호로우 사신',`${RESP}/tower-027-moon-wraith-sd-v1-768.webp`,26_000_000,1,.127,'MAGIC_CARD_PACK'),add('SOUL_CAPTAIN','영혼 대장',`${RESP}/hunt-029-flower-captain-boss-sd-v1-768.webp`,31_000_000,.55,.152,'PREMIUM_CUBE')],
-    rewards:rewards(3_800_000,26_000_000,'PREMIUM_CUBE','MAGIC_CARD_PACK',2)
+    minions:[add('HOLLOW_REAPER','호로우 사신',`${RESP}/tower-027-moon-wraith-sd-v1-768.webp`,26_000_000,1,.127,'MAGIC_CARD_PACK'),add('SOUL_CAPTAIN','영혼 대장',`${RESP}/hunt-029-flower-captain-boss-sd-v1-768.webp`,31_000_000,.55,.152,null)],
+    rewards:rewards(3_800_000,26_000_000,null,'MAGIC_CARD_PACK',2)
   }
 ]);
 

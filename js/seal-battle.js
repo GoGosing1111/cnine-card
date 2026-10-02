@@ -35,7 +35,6 @@
   function rankRewardParts(reward = {}) {
     return [
       ['◈', '코인', reward.coin],
-      ['✦', '프리미엄 큐브', reward.premiumCube],
       ['▣', '장비 보급상자', reward.equipmentBox]
     ].filter(([, , quantity]) => Number(quantity || 0) > 0);
   }

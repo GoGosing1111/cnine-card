@@ -7,7 +7,7 @@ import {FORGE_REPAIR_ITEM} from '../../functions/_forge_repair_catalog.js';
 export function inventoryUiFixture(){
   const make=(code,name,category,rarity,image,quantity,description,extra={})=>({code,name,category,rarity,image,quantity,description,subtitle:'',usable:category!=='MATERIAL'&&category!=='SKILL_CHIP',unseenQuantity:0,...extra});
   const items=[
-    make('PREMIUM_CUBE','프리미엄 큐브','CUBE','PREMIUM','assets/ui/packs/premium-cube.png',128,'큐브를 개방하면 카드 1장을 획득합니다. 1개·10개·100개를 선택해 한 번에 개방할 수 있습니다.',{unseenQuantity:3}),
+    make('GUARANTEED_MA_PACK','MA 확정 큐브','CUBE','PREMIUM','assets/ui/packs/premium-cube.png',128,'큐브를 개방하면 카드 1장을 획득합니다. 1개·10개·100개를 선택해 한 번에 개방할 수 있습니다.',{unseenQuantity:3}),
     make('PRIME_EQUIPMENT_SUPPLY_BOX','프라임 아머리 상자','SUPPLY_BOX','PRIME','assets/ui/packs/prime-armory-equipment-box-v1.png',12,'프라임 장비 보급 상자입니다. 개봉 화면에서 수량과 보상을 확인하세요.'),
     make('PRIME_VEHICLE_DRAW_TICKET','프라임 하이퍼드라이브 팩','VEHICLE_DRAW','PRIME','assets/items/prime-hyperdrive-vehicle-pack-v1.png',4,'프라임 이동수단을 획득할 수 있는 팩입니다.'),
     make('BLACK_MIRACLE_PACK','블랙 미라클','PACK','MYTHIC','assets/ui/packs/black-miracle-pack-v1485-384.jpg',6,'특별한 장비와 이동수단을 획득하는 아이템입니다.',{usable:false,useDisabledMessage:'현재 개봉이 중지되어 있습니다.'}),

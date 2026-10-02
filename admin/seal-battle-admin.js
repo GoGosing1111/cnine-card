@@ -23,9 +23,9 @@
     rankRewards: {
       enabled: false, rewardOnFailure: true,
       tiers: [
-        { startRank: 1, endRank: 1, coin: 0, normalCube: 0, advancedCube: 0, premiumCube: 0, equipmentBox: 0 },
-        { startRank: 2, endRank: 3, coin: 0, normalCube: 0, advancedCube: 0, premiumCube: 0, equipmentBox: 0 },
-        { startRank: 4, endRank: 10, coin: 0, normalCube: 0, advancedCube: 0, premiumCube: 0, equipmentBox: 0 }
+        { startRank: 1, endRank: 1, coin: 0, equipmentBox: 0 },
+        { startRank: 2, endRank: 3, coin: 0, equipmentBox: 0 },
+        { startRank: 4, endRank: 10, coin: 0, equipmentBox: 0 }
       ]
     },
     receiptRetentionDays: 14, progressRetentionDays: 90
@@ -197,7 +197,6 @@
 
   function rankTierCard(tier = {}, index = 0) {
     const rewardFields = [
-      ['premiumCube', '프리미엄 큐브', 'PREMIUM'],
       ['equipmentBox', '장비 보급상자', 'EQUIPMENT'],
       ['coin', '코인 · 한도 없음', 'COIN']
     ];
@@ -245,7 +244,7 @@
       const result = {
         startRank: Math.max(1, Number(card.querySelector('[data-rank-start]')?.value || 1)),
         endRank: Math.max(1, Number(card.querySelector('[data-rank-end]')?.value || 1)),
-        coin: 0, normalCube: 0, advancedCube: 0, premiumCube: 0, equipmentBox: 0
+        coin: 0, equipmentBox: 0
       };
       card.querySelectorAll('[data-rank-reward-item]').forEach(item => {
         const field = item.dataset.rankRewardItem;
@@ -353,7 +352,7 @@
         if (tier.startRank < 1 || tier.endRank < tier.startRank) return '공헌도 순위 범위를 확인하세요.';
         if (tier.startRank <= previousEnd) return '공헌도 순위 보상 구간이 서로 겹칩니다.';
         previousEnd = tier.endRank;
-        if (tier.coin + tier.normalCube + tier.advancedCube + tier.premiumCube + tier.equipmentBox > 0) payable++;
+        if (tier.coin + tier.equipmentBox > 0) payable++;
       }
       if (!payable) return '공헌도 순위 보상 품목과 수량을 하나 이상 설정하세요.';
     }
@@ -414,7 +413,7 @@
     $('#sealAddRankTier').onclick = () => {
       const tiers = collectRankTiers();
       const lastEnd = tiers.length ? Math.max(...tiers.map(tier => tier.endRank)) : 0;
-      tiers.push({ startRank: lastEnd + 1, endRank: lastEnd + 1, coin: 0, normalCube: 0, advancedCube: 0, premiumCube: 0, equipmentBox: 0 });
+      tiers.push({ startRank: lastEnd + 1, endRank: lastEnd + 1, coin: 0, equipmentBox: 0 });
       renderRankTiers(tiers);
     };
     $('#sealRankRewardTiers').addEventListener('click', event => {

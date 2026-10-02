@@ -155,10 +155,8 @@
       rememberBattle({...ticket,result:d});
       let v3Renderer=null;
       if(v3View){v3Renderer=await window.playTowerBattleV3Live({...v3View,modal,data:d,floor:f,cards:d.cards?.length?d.cards:deckCards,isActive:()=>v3View.stage.isConnected&&modal.classList.contains('show')});if(!v3Renderer){S.busy=false;stopAuto();return;}modal.__battleV2Renderer=v3Renderer}
-      if(d.cubeReward&&window.showCubeDropAcquisition){try{await window.showCubeDropAcquisition(d.cubeReward)}catch(cubeFxError){console.warn('무한의탑 큐브 획득 연출을 표시하지 못했습니다.',cubeFxError)}}
       if(d.equipmentReward&&window.showEquipmentDropReward){try{await window.showEquipmentDropReward(d.equipmentReward)}catch(equipmentFxError){console.warn('무한의탑 장비 획득 연출을 표시하지 못했습니다.',equipmentFxError)}}
-      if(d.weeklyPremiumError)console.warn('무한의탑 프리미엄 큐브 처리 경고:',d.weeklyPremiumError);
-      if(d.magicReward?.amount>0||d.weeklyPremiumCube){const current=loadUser();if(current){if(d.magicReward?.amount>0)current.magicCrystals=Number(d.magicReward.balance||current.magicCrystals||0);if(d.weeklyPremiumCube)current.weeklyPremiumCube=d.weeklyPremiumCube;saveUser(current)}}
+      if(d.magicReward?.amount>0){const current=loadUser();if(current){if(d.magicReward?.amount>0)current.magicCrystals=Number(d.magicReward.balance||current.magicCrystals||0);saveUser(current)}}
       const magicRewardText=(d.magicReward?.amount>0?` · 마법 결정 ✦ ${Number(d.magicReward.amount).toLocaleString()}`:'')+(d.forgeProtectionReward?` · 장비 보호권 ${Number(d.forgeProtectionReward.quantity).toLocaleString()}개 획득`:'');
       if(!v3View){
       const teamPowerLabel=stage.querySelector('.battle-hp-team small'),enemyPowerLabel=stage.querySelector('.battle-hp-enemy small');if(teamPowerLabel)teamPowerLabel.textContent=`전투력 ${Number(d.playerPower||0).toLocaleString()}`;if(enemyPowerLabel)enemyPowerLabel.textContent=`${f.isBoss?'BOSS · ':''}전투력 ${Number(d.monsterPower||0).toLocaleString()}`;

@@ -194,7 +194,7 @@
         <div class="msa-grid four">
           ${numberField({ id: "msaWinCoin", label: "1판 승리 코인", value: cfg.perBattleWinCoin, min: 0 })}
           ${numberField({ id: "msaWinShards", label: "1판 승리 카드 조각", value: cfg.perBattleWinShards, min: 0 })}
-          ${textField({ id: "msaWinItems", label: "1판 승리 아이템", value: rewardItemsText(cfg.perBattleWinItems), hint: "예: PREMIUM_CUBE:1" })}
+          ${textField({ id: "msaWinItems", label: "1판 승리 아이템", value: rewardItemsText(cfg.perBattleWinItems), hint: "예: EQUIPMENT_SUPPLY_BOX:1" })}
           ${numberField({ id: "msaMin", label: "최종 정산 최소 공격", value: cfg.minAttacks, min: 1, max: 1000 })}
           ${numberField({ id: "msaCoin", label: "성공 정산 코인", value: cfg.rewardCoin, min: 0 })}
           ${numberField({ id: "msaShards", label: "성공 정산 카드 조각", value: cfg.rewardShards, min: 0 })}

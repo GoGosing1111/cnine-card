@@ -259,7 +259,7 @@ test('코인은 음수·잘못된 수·정밀도 초과만 안전하게 정리�
   const s=mod.cleanSettings({attemptReward:{coin:NaN,shards:5_000_000},clearReward:{coin:Infinity,shards:5_000_000},rankRewards:{tiers:[{coin:'invalid',premiumCube:5_000_000,equipmentBox:5_000_000}]}});
   assert.equal(s.attemptReward.coin,100);assert.equal(s.clearReward.coin,2000);assert.equal(s.rankRewards.tiers[0].coin,0);
   assert.equal(s.attemptReward.shards,1_000_000);assert.equal(s.clearReward.shards,1_000_000);
-  assert.equal(s.rankRewards.tiers[0].premiumCube,1_000_000);assert.equal(s.rankRewards.tiers[0].equipmentBox,1_000_000);
+  assert.equal(s.rankRewards.tiers[0].premiumCube,undefined);assert.equal(s.rankRewards.tiers[0].equipmentBox,1_000_000);
 });
 
 test('CMS API 저장·재조회와 새 회차 스냅샷에 큰 금액을 그대로 보존한다',async()=>{
@@ -296,7 +296,7 @@ test('큰 참여·완료·순위 보상은 지갑·로그·영수증에 일치�
     assert.deepEqual(f.db.prepare('SELECT change_amount FROM coin_logs ORDER BY id').all().map(x=>x.change_amount),[5_000_000_000,10_000_000_000,12_500_000_000]);
     const claim=f.db.prepare('SELECT * FROM seal_battle_clear_claims').get();assert.equal(claim.reward_coin,10_000_000_000);assert.equal(claim.status,'COMPLETED');
     const rankClaim=f.db.prepare('SELECT * FROM seal_battle_rank_claims').get();assert.equal(JSON.parse(rankClaim.reward_json).coin,12_500_000_000);assert.equal(rankClaim.status,'COMPLETED');
-    assert.equal(f.db.prepare('SELECT quantity FROM cnine_user_inventory WHERE item_code=?').get('PREMIUM_CUBE').quantity,5);
+    assert.equal(f.db.prepare('SELECT quantity FROM cnine_user_inventory WHERE item_code=?').get('PREMIUM_CUBE'),undefined);
     assert.equal(f.db.prepare('SELECT quantity FROM cnine_user_inventory WHERE item_code=?').get('EQUIPMENT_SUPPLY_BOX').quantity,2);
   }finally{f.db.close()}
 });
@@ -332,7 +332,7 @@ test('CMS 참여·완료·순위 코인 입력만 max가 없고 안전 정수 �
   const html=render({startRank:1,endRank:1,coin:5_000_000_000,premiumCube:5,equipmentBox:2});
   const coin=html.match(/<input[^>]*data-rank-reward-quantity="coin"[^>]*>/)?.[0];
   assert.ok(coin);assert.doesNotMatch(coin,/\bmax=/);assert.match(coin,/value="5000000000"/);
-  assert.match(html,/<input[^>]*data-rank-reward-quantity="premiumCube"[^>]*max="1000000000"/);
+  assert.doesNotMatch(html,/data-rank-reward-quantity="premiumCube"/);
   assert.match(html,/코인 · 한도 없음/);
   const validateStart=admin.indexOf('  function validate('),validateEnd=admin.indexOf('  async function saveSettings(',validateStart);
   const validate=Function(admin.slice(validateStart,validateEnd)+';return validate;')();

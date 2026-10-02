@@ -283,7 +283,7 @@ const cleanRewardItems = (items) => {
       .replace(/[^A-Z0-9_-]/g, "")
       .slice(0, 80);
     const quantity = clamp(item?.quantity, 1, 100000, 1);
-    if (code) merged.set(code, Math.min(100000, (merged.get(code) || 0) + quantity));
+    if (code && code !== "PREMIUM_CUBE") merged.set(code, Math.min(100000, (merged.get(code) || 0) + quantity));
   }
   return [...merged].map(([code, quantity]) => ({ code, quantity }));
 };

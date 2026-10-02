@@ -15,7 +15,7 @@ function rewardSettings(raw){
   for(const key of ['participation','clear','minionClear','rareDrops','damageMilestones','rankRewards']){
     if(!Array.isArray(raw[key])||raw[key].length>20)fail('보상 목록은 종류별 20개 이하로 입력하세요.');
   }
-  const types=new Set(['COIN','CARD_SHARD','PREMIUM_CUBE','EQUIPMENT_SUPPLY_BOX','MAGIC_CARD_PACK','MASTER_STAR','CORE_RAID_ENTRY_TICKET']);
+  const types=new Set(['COIN','CARD_SHARD','EQUIPMENT_SUPPLY_BOX','MAGIC_CARD_PACK','MASTER_STAR','CORE_RAID_ENTRY_TICKET']);
   const items=[...raw.participation,...raw.clear,...raw.minionClear,...raw.rareDrops,...raw.damageMilestones.flatMap(x=>x.rewards||[]),...raw.rankRewards.flatMap(x=>x.rewards||[])];
   for(const item of items){
     if(!types.has(item?.type))fail('지원하지 않는 레이드 보상입니다.');
@@ -50,6 +50,15 @@ export function normalizeWeeklyRaidConfig(raw={}){
   }
   return {revision:String(raw.revision||'0'),rotation:[...rotation],bosses};
 }
+export function normalizeStoredWeeklyRaidConfig(value='{}'){
+  const raw=JSON.parse(value||'{}'),allowed=item=>item?.type!=='PREMIUM_CUBE';
+  for(const boss of Object.values(raw.bosses||{})){
+    const rewards=boss.rewards;if(!rewards)continue;
+    for(const key of ['participation','clear','minionClear','rareDrops'])if(Array.isArray(rewards[key]))rewards[key]=rewards[key].filter(allowed);
+    for(const key of ['damageMilestones','rankRewards'])for(const row of rewards[key]||[])if(Array.isArray(row.rewards))row.rewards=row.rewards.filter(allowed);
+  }
+  return normalizeWeeklyRaidConfig(raw);
+}
 export async function readWeeklyRaidCms(env){
   await ensureWeeklyRaidBossesV1(env);
   const names=WEEKLY_RAID_BOSSES_V1.map(row=>row.name),marks=names.map(()=>'?').join(',');
@@ -57,7 +66,7 @@ export async function readWeeklyRaidCms(env){
     env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(WEEKLY_RAID_SETTINGS_KEY).first(),
     env.DB.prepare(`SELECT id,name,image_url AS image,max_hp AS maxHp,defense_rate AS defenseRate,is_active AS isActive FROM raid_bosses WHERE name IN (${marks}) ORDER BY id`).bind(...names).all()
   ]);
-  const config=normalizeWeeklyRaidConfig(JSON.parse(stored?.value||'{}'));
+  const config=normalizeStoredWeeklyRaidConfig(stored?.value);
   const bosses=WEEKLY_RAID_BOSSES_V1.map(base=>{
     const row=result.results.find(row=>row.name===base.name),tuning=config.bosses[base.code];
     return {...clone(base),...tuning,...row,image:row?.image||base.sourceArt,isActive:Number(row?.isActive)===1,
@@ -72,7 +81,7 @@ export async function saveWeeklyRaidCms(env,admin,draft){
   const clean=normalizeWeeklyRaidConfig(draft);
   await ensureWeeklyRaidBossesV1(env);
   const stored=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(WEEKLY_RAID_SETTINGS_KEY).first();
-  const before=normalizeWeeklyRaidConfig(JSON.parse(stored?.value||'{}'));
+  const before=normalizeStoredWeeklyRaidConfig(stored?.value);
   if(clean.revision!==before.revision)throw Object.assign(new Error('다른 창에서 레이드 설정을 수정했습니다. 새로고침 후 다시 저장하세요.'),{status:409});
   clean.revision=crypto.randomUUID();
   const next=JSON.stringify(clean),guard='EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)';
