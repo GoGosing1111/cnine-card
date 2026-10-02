@@ -1,0 +1,89 @@
+{
+  "status": "VERIFIED",
+  "base": "https://cnine-card.pages.dev",
+  "sourceCommit": "c19f0d52731d6139bbd94db150724c8682563d3d",
+  "checks": [
+    "six limited cards have current confirmed SS/SSS ranks, common approved Valter frame and acquisition/deployment disabled",
+    "live corrected Bongsoon attachment and approved common frame match exact source bytes",
+    "separate limited probability CMS remains authenticated",
+    "production limited tab opens approved Valter SD and has no battle preview or equip action",
+    "production Bongsoon displays final corrected SS artwork; no JavaScript errors"
+  ],
+  "cards": [
+    {
+      "code": "V-996",
+      "name": "발테르",
+      "rank": "SSS",
+      "sourceArt": "assets/ui/project-v/mercenaries/limited-20261002/v-996-source-art.png",
+      "sourceArtSha256": "8B94E60670355AF87D13802FD68AD4DE22F8E7F23C65028CC97DD1D1F78BE838",
+      "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+      "acquisitionEnabled": false,
+      "deploymentEnabled": false
+    },
+    {
+      "code": "V-990",
+      "name": "나무늘봉순",
+      "rank": "SS",
+      "sourceArt": "assets/ui/project-v/mercenaries/limited-20261002/v-990-source-art-approved-20261002.png",
+      "sourceArtSha256": "EFC0B6D14A891917D517E8F9850D398165A0F94C11006DD6945BB2D05C627120",
+      "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+      "acquisitionEnabled": false,
+      "deploymentEnabled": false
+    },
+    {
+      "code": "V-991",
+      "name": "조은",
+      "rank": "SS",
+      "sourceArt": "assets/ui/project-v/mercenaries/limited-20261002/v-991-source-art.png",
+      "sourceArtSha256": "87E88A646E327FCBB6489B05D8C5287C5212B1D9105134ECE1C036D022C633DA",
+      "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+      "acquisitionEnabled": false,
+      "deploymentEnabled": false
+    },
+    {
+      "code": "V-992",
+      "name": "이네스",
+      "rank": "SSS",
+      "sourceArt": "assets/ui/project-v/mercenaries/limited-20261002/v-992-source-art.png",
+      "sourceArtSha256": "97D2120A91E7682130697476F6DA0C77FF5AA548C16B2AB128B539FF5ACB176D",
+      "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+      "acquisitionEnabled": false,
+      "deploymentEnabled": false
+    },
+    {
+      "code": "V-993",
+      "name": "오리꿍",
+      "rank": "SS",
+      "sourceArt": "assets/ui/project-v/mercenaries/limited-20261002/v-993-source-art.png",
+      "sourceArtSha256": "039E7CDD18D23CC05943E52157218FFE105F5F213C0B203237CD42FA2966F2A3",
+      "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+      "acquisitionEnabled": false,
+      "deploymentEnabled": false
+    },
+    {
+      "code": "V-994",
+      "name": "디임",
+      "rank": "SS",
+      "sourceArt": "assets/ui/project-v/mercenaries/limited-20261002/v-994-source-art.png",
+      "sourceArtSha256": "838B9A71739EF4B442E00734584496A92136EFDAD6C71463E18527D6DF5E5CB4",
+      "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+      "acquisitionEnabled": false,
+      "deploymentEnabled": false
+    }
+  ],
+  "verifiedAt": "2026-10-02T07:06:24.963Z",
+  "deployment": "https://5a310ea6.cnine-card.pages.dev",
+  "scopedBase": "06c2da1d182d594408ffb2e4ed95a131dd2d266b",
+  "regressionTests": {
+    "passed": 6,
+    "failed": 0
+  },
+  "browser": {
+    "passed": 46,
+    "desktop": "1440x1000",
+    "mobile": "390x844",
+    "errors": [],
+    "failedAssets": []
+  },
+  "canonicalApproval": "preview/mercenary-limited-snow-neon-20261001-v1/limited-approval-correction-20261002.json"
+}
