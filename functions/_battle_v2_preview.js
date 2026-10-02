@@ -246,6 +246,17 @@ export function distributeEquipment(cards = [], equipmentBonus = 0) {
   });
 }
 
+// Account support stays fixed for each PvE slot when another card is enhanced.
+export function distributePveEquipment(cards = [], equipmentBonus = 0) {
+  const rawBonus = Number(equipmentBonus);
+  const bonus = Number.isFinite(rawBonus) ? Math.max(0, Math.round(rawBonus)) : 0;
+  const share = Math.floor(bonus / Math.max(1, cards.length));
+  return cards.map((card, index) => {
+    const equipmentShare = index === cards.length - 1 ? bonus - share * index : share;
+    return { ...card, equipmentShare, effectivePower: Math.max(1, Math.round(Number(card.power || 0) + equipmentShare)) };
+  });
+}
+
 export function buildFighter(card, index, side, uniqueAbility = null, battleMode = 'PVP') {
   const type = normalizeType(card, uniqueAbility);
   const uniqueAdvancement = normalizeUniqueAdvancement(card, type);
@@ -1847,7 +1858,7 @@ function preparePveEncounter(encounter) {
 }
 
 export function buildPvePlayerTeam({cards=[],characterBonus=0,battleSuit=null,mercenary=null}={}) {
-  const withBonus = distributeEquipment(applyTypeStacking(cards), Math.max(0, Number(characterBonus || 0)));
+  const withBonus = distributePveEquipment(applyTypeStacking(cards), Math.max(0, Number(characterBonus || 0)));
   const teamA = withBonus.map((card, index) => buildFighter(card, index, 'A', card.uniqueAbility || null, 'PVE'));
   const battleSuitFighter = battleSuit ? buildBattleSuitFighter(battleSuit, teamA.length) : null;
   if(mercenary&&(cards.length!==5||new Set(cards.map(c=>String(c.id))).size!==5))throw Error('INVALID_MERCENARY_PARTY');

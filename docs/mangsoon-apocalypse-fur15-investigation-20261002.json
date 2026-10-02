@@ -1,0 +1,787 @@
+{
+  "schemaVersion": 1,
+  "status": "INVESTIGATION_COMPLETE",
+  "readOnly": true,
+  "checkedAt": "2026-10-02T05:12:39.681Z",
+  "codeCommit": "47be720594368a2f5e3ba7ca4a828ac143daf44a",
+  "account": {
+    "userId": 4628,
+    "nickname": "망순이ෆ"
+  },
+  "boss": {
+    "id": 75,
+    "name": "아카드",
+    "difficulty": "APOCALYPSE",
+    "effectiveBattlePower": 27860000
+  },
+  "upgrade": {
+    "materialLogId": 41194,
+    "cardId": "CN-346F8DB0DEB84D41",
+    "fromLevel": 14,
+    "toLevel": 15,
+    "createdAtUtc": "2026-10-02 04:01:55"
+  },
+  "serverRecords": {
+    "sampled": 80,
+    "wins": 65,
+    "losses": 15,
+    "afterUpgrade": {
+      "battles": 12,
+      "wins": 0,
+      "losses": 12
+    },
+    "lastWin": {
+      "id": "4018666",
+      "result": "WIN",
+      "createdAtUtc": "2026-10-01 17:06:21",
+      "playerPower": 3385176,
+      "monsterPower": 27860000,
+      "cardIds": [
+        "CN-47AD4B47B6A7452C",
+        "CN-21B307E7279A4F3D",
+        "CN-BA6BDEC789144D00",
+        "CN-651FAC27247A4922",
+        "CN-346F8DB0DEB84D41"
+      ]
+    },
+    "latest": {
+      "id": "4032330",
+      "result": "LOSE",
+      "createdAtUtc": "2026-10-02 05:04:03",
+      "playerPower": 7854058,
+      "monsterPower": 27860000,
+      "cardIds": [
+        "CN-21B307E7279A4F3D",
+        "CN-47AD4B47B6A7452C",
+        "CN-BA6BDEC789144D00",
+        "CN-346F8DB0DEB84D41",
+        "CN-651FAC27247A4922"
+      ]
+    }
+  },
+  "controlledSimulation": {
+    "seedRange": [
+      1,
+      64
+    ],
+    "variable": "Only Chulgu FUR breakthrough level varies within each deck order; all other snapshot inputs stay fixed.",
+    "reports": [
+      {
+        "name": "current",
+        "level": 13,
+        "seeds": 64,
+        "wins": 64,
+        "losses": 0
+      },
+      {
+        "name": "current",
+        "level": 14,
+        "seeds": 64,
+        "wins": 50,
+        "losses": 14
+      },
+      {
+        "name": "current",
+        "level": 15,
+        "seeds": 64,
+        "wins": 11,
+        "losses": 53
+      },
+      {
+        "name": "last-winning-order",
+        "level": 13,
+        "seeds": 64,
+        "wins": 58,
+        "losses": 6
+      },
+      {
+        "name": "last-winning-order",
+        "level": 14,
+        "seeds": 64,
+        "wins": 53,
+        "losses": 11
+      },
+      {
+        "name": "last-winning-order",
+        "level": 15,
+        "seeds": 64,
+        "wins": 7,
+        "losses": 57
+      },
+      {
+        "name": "two-fur15-order",
+        "level": 13,
+        "seeds": 64,
+        "wins": 0,
+        "losses": 64
+      },
+      {
+        "name": "two-fur15-order",
+        "level": 14,
+        "seeds": 64,
+        "wins": 0,
+        "losses": 64
+      },
+      {
+        "name": "two-fur15-order",
+        "level": 15,
+        "seeds": 64,
+        "wins": 0,
+        "losses": 64
+      }
+    ],
+    "variants": [
+      {
+        "name": "current",
+        "chulguLevel": 13,
+        "displayPower": 3385176,
+        "characterBonus": 988700,
+        "cards": [
+          {
+            "id": "CN-21B307E7279A4F3D",
+            "title": "나무늘봉순",
+            "power": 75625
+          },
+          {
+            "id": "CN-47AD4B47B6A7452C",
+            "title": "아이젠 족스케",
+            "power": 83200
+          },
+          {
+            "id": "CN-BA6BDEC789144D00",
+            "title": "오조은",
+            "power": 75625
+          },
+          {
+            "id": "CN-346F8DB0DEB84D41",
+            "title": "철구",
+            "power": 83200
+          },
+          {
+            "id": "CN-651FAC27247A4922",
+            "title": "CR7",
+            "power": 93200
+          }
+        ]
+      },
+      {
+        "name": "current",
+        "chulguLevel": 14,
+        "displayPower": 4060325,
+        "characterBonus": 988700,
+        "cards": [
+          {
+            "id": "CN-21B307E7279A4F3D",
+            "title": "나무늘봉순",
+            "power": 75625
+          },
+          {
+            "id": "CN-47AD4B47B6A7452C",
+            "title": "아이젠 족스케",
+            "power": 83200
+          },
+          {
+            "id": "CN-BA6BDEC789144D00",
+            "title": "오조은",
+            "power": 75625
+          },
+          {
+            "id": "CN-346F8DB0DEB84D41",
+            "title": "철구",
+            "power": 124800
+          },
+          {
+            "id": "CN-651FAC27247A4922",
+            "title": "CR7",
+            "power": 93200
+          }
+        ]
+      },
+      {
+        "name": "current",
+        "chulguLevel": 15,
+        "displayPower": 7854058,
+        "characterBonus": 988700,
+        "cards": [
+          {
+            "id": "CN-21B307E7279A4F3D",
+            "title": "나무늘봉순",
+            "power": 75625
+          },
+          {
+            "id": "CN-47AD4B47B6A7452C",
+            "title": "아이젠 족스케",
+            "power": 83200
+          },
+          {
+            "id": "CN-BA6BDEC789144D00",
+            "title": "오조은",
+            "power": 75625
+          },
+          {
+            "id": "CN-346F8DB0DEB84D41",
+            "title": "철구",
+            "power": 195200
+          },
+          {
+            "id": "CN-651FAC27247A4922",
+            "title": "CR7",
+            "power": 93200
+          }
+        ]
+      },
+      {
+        "name": "last-winning-order",
+        "chulguLevel": 13,
+        "displayPower": 3385176,
+        "characterBonus": 988700,
+        "cards": [
+          {
+            "id": "CN-47AD4B47B6A7452C",
+            "title": "아이젠 족스케",
+            "power": 83200
+          },
+          {
+            "id": "CN-21B307E7279A4F3D",
+            "title": "나무늘봉순",
+            "power": 75625
+          },
+          {
+            "id": "CN-BA6BDEC789144D00",
+            "title": "오조은",
+            "power": 75625
+          },
+          {
+            "id": "CN-651FAC27247A4922",
+            "title": "CR7",
+            "power": 93200
+          },
+          {
+            "id": "CN-346F8DB0DEB84D41",
+            "title": "철구",
+            "power": 83200
+          }
+        ]
+      },
+      {
+        "name": "last-winning-order",
+        "chulguLevel": 14,
+        "displayPower": 4060325,
+        "characterBonus": 988700,
+        "cards": [
+          {
+            "id": "CN-47AD4B47B6A7452C",
+            "title": "아이젠 족스케",
+            "power": 83200
+          },
+          {
+            "id": "CN-21B307E7279A4F3D",
+            "title": "나무늘봉순",
+            "power": 75625
+          },
+          {
+            "id": "CN-BA6BDEC789144D00",
+            "title": "오조은",
+            "power": 75625
+          },
+          {
+            "id": "CN-651FAC27247A4922",
+            "title": "CR7",
+            "power": 93200
+          },
+          {
+            "id": "CN-346F8DB0DEB84D41",
+            "title": "철구",
+            "power": 124800
+          }
+        ]
+      },
+      {
+        "name": "last-winning-order",
+        "chulguLevel": 15,
+        "displayPower": 7854058,
+        "characterBonus": 988700,
+        "cards": [
+          {
+            "id": "CN-47AD4B47B6A7452C",
+            "title": "아이젠 족스케",
+            "power": 83200
+          },
+          {
+            "id": "CN-21B307E7279A4F3D",
+            "title": "나무늘봉순",
+            "power": 75625
+          },
+          {
+            "id": "CN-BA6BDEC789144D00",
+            "title": "오조은",
+            "power": 75625
+          },
+          {
+            "id": "CN-651FAC27247A4922",
+            "title": "CR7",
+            "power": 93200
+          },
+          {
+            "id": "CN-346F8DB0DEB84D41",
+            "title": "철구",
+            "power": 195200
+          }
+        ]
+      },
+      {
+        "name": "two-fur15-order",
+        "chulguLevel": 13,
+        "displayPower": 5463704,
+        "characterBonus": 988700,
+        "cards": [
+          {
+            "id": "CN-BA6BDEC789144D00",
+            "title": "오조은",
+            "power": 75625
+          },
+          {
+            "id": "CN-21B307E7279A4F3D",
+            "title": "나무늘봉순",
+            "power": 75625
+          },
+          {
+            "id": "CN-346F8DB0DEB84D41",
+            "title": "철구",
+            "power": 83200
+          },
+          {
+            "id": "CN-A041807B14B54C89",
+            "title": "Son Heung min",
+            "power": 93200
+          },
+          {
+            "id": "CN-5D0E2E4D58C9416F",
+            "title": "치타구",
+            "power": 195200
+          }
+        ]
+      },
+      {
+        "name": "two-fur15-order",
+        "chulguLevel": 14,
+        "displayPower": 6197793,
+        "characterBonus": 988700,
+        "cards": [
+          {
+            "id": "CN-BA6BDEC789144D00",
+            "title": "오조은",
+            "power": 75625
+          },
+          {
+            "id": "CN-21B307E7279A4F3D",
+            "title": "나무늘봉순",
+            "power": 75625
+          },
+          {
+            "id": "CN-346F8DB0DEB84D41",
+            "title": "철구",
+            "power": 124800
+          },
+          {
+            "id": "CN-A041807B14B54C89",
+            "title": "Son Heung min",
+            "power": 93200
+          },
+          {
+            "id": "CN-5D0E2E4D58C9416F",
+            "title": "치타구",
+            "power": 195200
+          }
+        ]
+      },
+      {
+        "name": "two-fur15-order",
+        "chulguLevel": 15,
+        "displayPower": 10298070,
+        "characterBonus": 988700,
+        "cards": [
+          {
+            "id": "CN-BA6BDEC789144D00",
+            "title": "오조은",
+            "power": 75625
+          },
+          {
+            "id": "CN-21B307E7279A4F3D",
+            "title": "나무늘봉순",
+            "power": 75625
+          },
+          {
+            "id": "CN-346F8DB0DEB84D41",
+            "title": "철구",
+            "power": 195200
+          },
+          {
+            "id": "CN-A041807B14B54C89",
+            "title": "Son Heung min",
+            "power": 93200
+          },
+          {
+            "id": "CN-5D0E2E4D58C9416F",
+            "title": "치타구",
+            "power": 195200
+          }
+        ]
+      }
+    ],
+    "openingStats": [
+      {
+        "name": "last-winning-order",
+        "chulguLevel": 13,
+        "statsBeforeTeamAuras": [
+          {
+            "title": "아이젠 족스케",
+            "id": "A:0:CN-47AD4B47B6A7452C",
+            "type": "DEFENSE",
+            "basePower": 83200,
+            "equipmentShare": 200218,
+            "power": 283418,
+            "maxHp": 610142,
+            "attack": 123737,
+            "defense": 150265,
+            "shield": 231854
+          },
+          {
+            "title": "나무늘봉순",
+            "id": "A:1:CN-21B307E7279A4F3D",
+            "type": "DEFENSE",
+            "basePower": 75625,
+            "equipmentShare": 181989,
+            "power": 257614,
+            "maxHp": 410398,
+            "attack": 101108,
+            "defense": 96866,
+            "shield": 155951
+          },
+          {
+            "title": "오조은",
+            "id": "A:2:CN-BA6BDEC789144D00",
+            "type": "HP",
+            "basePower": 75625,
+            "equipmentShare": 181989,
+            "power": 257614,
+            "maxHp": 560295,
+            "attack": 96642,
+            "defense": 45721,
+            "shield": 0
+          },
+          {
+            "title": "CR7",
+            "id": "A:3:CN-651FAC27247A4922",
+            "type": "ATTACK",
+            "basePower": 93200,
+            "equipmentShare": 224283,
+            "power": 317483,
+            "maxHp": 341739,
+            "attack": 246418,
+            "defense": 43933,
+            "shield": 0
+          },
+          {
+            "title": "철구",
+            "id": "A:4:CN-346F8DB0DEB84D41",
+            "type": "ATTACK",
+            "basePower": 83200,
+            "equipmentShare": 200221,
+            "power": 283421,
+            "maxHp": 488119,
+            "attack": 257413,
+            "defense": 49955,
+            "shield": 0
+          }
+        ]
+      },
+      {
+        "name": "last-winning-order",
+        "chulguLevel": 15,
+        "statsBeforeTeamAuras": [
+          {
+            "title": "아이젠 족스케",
+            "id": "A:0:CN-47AD4B47B6A7452C",
+            "type": "DEFENSE",
+            "basePower": 83200,
+            "equipmentShare": 157329,
+            "power": 240529,
+            "maxHp": 517811,
+            "attack": 105013,
+            "defense": 127525,
+            "shield": 196768
+          },
+          {
+            "title": "나무늘봉순",
+            "id": "A:1:CN-21B307E7279A4F3D",
+            "type": "DEFENSE",
+            "basePower": 75625,
+            "equipmentShare": 143005,
+            "power": 218630,
+            "maxHp": 348293,
+            "attack": 85808,
+            "defense": 82208,
+            "shield": 132351
+          },
+          {
+            "title": "오조은",
+            "id": "A:2:CN-BA6BDEC789144D00",
+            "type": "HP",
+            "basePower": 75625,
+            "equipmentShare": 143005,
+            "power": 218630,
+            "maxHp": 475507,
+            "attack": 82018,
+            "defense": 38802,
+            "shield": 0
+          },
+          {
+            "title": "CR7",
+            "id": "A:3:CN-651FAC27247A4922",
+            "type": "ATTACK",
+            "basePower": 93200,
+            "equipmentShare": 176239,
+            "power": 269439,
+            "maxHp": 290024,
+            "attack": 209128,
+            "defense": 37285,
+            "shield": 0
+          },
+          {
+            "title": "철구",
+            "id": "A:4:CN-346F8DB0DEB84D41",
+            "type": "ATTACK",
+            "basePower": 195200,
+            "equipmentShare": 369122,
+            "power": 564322,
+            "maxHp": 1700821,
+            "attack": 1106910,
+            "defense": 174064,
+            "shield": 0
+          }
+        ]
+      }
+    ]
+  },
+  "equipmentDiagnostic": {
+    "equipmentPve": 1738700,
+    "independentSuitPve": 750000,
+    "reports": [
+      {
+        "name": "current",
+        "seeds": 64,
+        "level": 15,
+        "equipmentWeights": "unchanged +13 allocation",
+        "wins": 51,
+        "losses": 13,
+        "meanBossHp": 998471.03125
+      },
+      {
+        "name": "last-winning-order",
+        "seeds": 64,
+        "level": 15,
+        "equipmentWeights": "unchanged +13 allocation",
+        "wins": 55,
+        "losses": 9,
+        "meanBossHp": 624772.859375
+      }
+    ],
+    "conclusion": "Enhanced-power proportional equipment allocation is a major contributor: an upgrade reallocates fixed support away from unchanged allies, reducing their opening HP, attack, and defense by about 15%.",
+    "limitation": "The diagnostic freezes allocation at +13 while keeping actual +15 card effects. It is not a production fix, proof of globally monotonic battle strength, or a guaranteed live win rate.",
+    "source": [
+      {
+        "path": "functions/_battle_v2_preview.js",
+        "line": 237,
+        "symbol": "distributeEquipment"
+      },
+      {
+        "path": "functions/_battle_v2_preview.js",
+        "line": 1849,
+        "symbol": "buildPvePlayerTeam"
+      }
+    ]
+  },
+  "operationalChanges": {
+    "accountWrites": false,
+    "energyConsumed": false,
+    "combatRulesChanged": false,
+    "gameDeployed": false,
+    "temporaryRemoteRunnersStopped": true,
+    "temporaryWorkerRetired": true,
+    "scope": "INITIAL_READ_ONLY_INVESTIGATION"
+  },
+  "evidence": [
+    {
+      "file": "inspect.json",
+      "sha256": "cf20b268ca1a6a9506ecf98f1f41949869adb16e6838c15472d826c7383001d4"
+    },
+    {
+      "file": "simulation.json",
+      "sha256": "9bd4d422dbb8e0f1b2aa075131901bbcae85dc632fbf9deef5f9f5d559f71327"
+    },
+    {
+      "file": "equipment-ablation.json",
+      "sha256": "123bab4a0aa31c132b88c79b0d84588a02307842d37e7cba4d63398f92e84fc7"
+    },
+    {
+      "file": "simulate.mjs",
+      "sha256": "d3d94f093fd6839b7fc0baebbbe6479eb16d2449f997251a967448998c6d190c"
+    },
+    {
+      "file": "battle-fixed-equipment-diagnostic.mjs",
+      "sha256": "fc2a7792b1de7357ee864e5920e18be134ac72a3590cc81c4b7d2ba903360b5b"
+    }
+  ],
+  "evidenceDirectory": "C:/Users/User/.codex/tmp/mangsoon-apocalypse-audit-20261002/",
+  "followupFix": {
+    "status": "IMPLEMENTED_PENDING_DEPLOYMENT",
+    "allocation": "EQUAL_PER_PVE_CARD",
+    "documentation": "docs/pve-equipment-upgrade-fix-20261002.md",
+    "reports": [
+      {
+        "name": "current",
+        "level": 13,
+        "seeds": 64,
+        "wins": 64,
+        "losses": 0
+      },
+      {
+        "name": "current",
+        "level": 14,
+        "seeds": 64,
+        "wins": 63,
+        "losses": 1
+      },
+      {
+        "name": "current",
+        "level": 15,
+        "seeds": 64,
+        "wins": 61,
+        "losses": 3
+      },
+      {
+        "name": "last-winning-order",
+        "level": 13,
+        "seeds": 64,
+        "wins": 64,
+        "losses": 0
+      },
+      {
+        "name": "last-winning-order",
+        "level": 14,
+        "seeds": 64,
+        "wins": 63,
+        "losses": 1
+      },
+      {
+        "name": "last-winning-order",
+        "level": 15,
+        "seeds": 64,
+        "wins": 55,
+        "losses": 9
+      }
+    ],
+    "currentOpeningStats": [
+      {
+        "name": "current",
+        "level": 13,
+        "opening": [
+          {
+            "title": "나무늘봉순",
+            "equipmentShare": 197740,
+            "maxHp": 435490,
+            "attack": 98131,
+            "defense": 111533
+          },
+          {
+            "title": "아이젠 족스케",
+            "equipmentShare": 197740,
+            "maxHp": 604808,
+            "attack": 134103,
+            "defense": 137273
+          },
+          {
+            "title": "오조은",
+            "equipmentShare": 197740,
+            "maxHp": 594553,
+            "attack": 102551,
+            "defense": 48517
+          },
+          {
+            "title": "철구",
+            "equipmentShare": 197740,
+            "maxHp": 483846,
+            "attack": 270297,
+            "defense": 42029
+          },
+          {
+            "title": "CR7",
+            "equipmentShare": 197740,
+            "maxHp": 313168,
+            "attack": 213170,
+            "defense": 47434
+          }
+        ]
+      },
+      {
+        "name": "current",
+        "level": 15,
+        "opening": [
+          {
+            "title": "나무늘봉순",
+            "equipmentShare": 197740,
+            "maxHp": 435490,
+            "attack": 98131,
+            "defense": 111533
+          },
+          {
+            "title": "아이젠 족스케",
+            "equipmentShare": 197740,
+            "maxHp": 604808,
+            "attack": 134103,
+            "defense": 137273
+          },
+          {
+            "title": "오조은",
+            "equipmentShare": 197740,
+            "maxHp": 594553,
+            "attack": 102551,
+            "defense": 48517
+          },
+          {
+            "title": "철구",
+            "equipmentShare": 197740,
+            "maxHp": 1184290,
+            "attack": 816468,
+            "defense": 102872
+          },
+          {
+            "title": "CR7",
+            "equipmentShare": 197740,
+            "maxHp": 313168,
+            "attack": 213170,
+            "defense": 47434
+          }
+        ]
+      }
+    ],
+    "productionBase": {
+      "checkedAt": "2026-10-02T05:36:20.250Z",
+      "id": "b3ca5393-93f4-47cd-b292-d1c82f22323f",
+      "url": "https://b3ca5393.cnine-card.pages.dev",
+      "commit": "32b92fde85e8840fece1f6fe5981332f848684e7",
+      "status": "success"
+    },
+    "evidence": [
+      {
+        "file": "simulation-after-fix.json",
+        "sha256": "e947cbf57530899cdf6f43f34815d41318b0fca11a98c6928b26b0d31e6d1588"
+      },
+      {
+        "file": "simulate-after-fix.mjs",
+        "sha256": "d5cb9b0642c9e0f45b49bac56d05f38850ae4c488227be651e2822e986cb7ff5"
+      }
+    ]
+  }
+}
