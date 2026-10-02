@@ -33,3 +33,11 @@ CMS 확인에서 남아 있던 운영 OFF를 발견해 기존 OWNER 운영 상�
 배포된 서버의 변경하지 않은 `pvpDeckSnapshot`, `battleSettings`, `territoryFormationSnapshot` 및 장비·고유효과·덱 시너지·마법카드·용병 공급자를 사용해 현재 공격 PVP 일반 카드 5장과 전투력 2,804,159를 계산했다. OWNER·ON·ACTIVE 회차·지휘관 ID·미참가 상태를 확인한 뒤 참가자와 기본 행동력 10, revision, 멱등 영수증·관리 로그를 단일 PostgreSQL 트랜잭션으로 저장했다. dry-run/ROLLBACK에서 다른 참가자 레코드가 바뀌지 않음을 검증했다. 포격·결집의 반란군 쿨타임 모두 대기 없음이며 실제 스킬 발동은 하지 않았다. 기존 참가 조건과 원폭 차단 권한은 유지한다.
 
 운영 키는 `ops:coup-diim-enroll:20261002:v1`이다. 실행 파일 `C:/Users/User/.codex/tmp/pet-gusudaeng-settings-20261002/coup-enroll-diim.mjs`, 결과 `diim-enroll-dry-run.json`·`diim-enroll-applied.json`을 같은 폴더에 보존했다. 실행 코드 재배포가 필요 없는 참가 데이터 수정이다.
+
+배포된 `coupStatus`를 진짜디임 계정으로 직접 확인해 `commandSide=REBEL`, `canUseCommandSkills=true`, `rebelCommander.enrolled=true`를 검증했다. 이후 포격·결집 쿨타임이 실제 사용 후 값으로 바뀌었으며 재등록 검증에서 초기화하지 않았다. PC와 390px 모바일 지원 패널을 확인했고 모바일 문서 폭과 스크롤 폭이 같아 가로 넘침이 없었다.
+
+## 하이희야♡ 족장팀 참가 등록 — 사용자 후속 지시
+
+사용자 `하이희야♡ 참가 안됐나보다 족장팀으로 배정해라`에 따라 2026-10-02 23:28:47.951 KST에 현 족장 **하이희야♡(ID 4977)**를 CHIEF 참가자로 추가했다. 같은 배포 서버 편성 공급자로 현재 PVP 일반 카드 5장, 전투력 2,457,472를 계산하고 dry-run/ROLLBACK 후 참가자·행동력 10·revision·멱등 영수증·관리 로그를 한 트랜잭션으로 저장했다. 기존 참가자 레코드를 비교해 다른 팀·덱이 바뀌지 않음을 확인했다. 전선·체력·개전 시각·이미 사용한 지휘 스킬 쿨타임은 그대로다.
+
+최신 참가 인원은 **족장팀 85명·반란군 64명**이다. 하이희야♡로 배포된 `coupStatus`를 확인해 `commandSide=CHIEF`, `canUseCommandSkills=true`를 검증했고 원폭 OFF도 유지했다. CMS에서도 ON·전투 중·85/64명을 확인했다. 운영 키는 `ops:coup-heeya-enroll:20261002:v1`이며 같은 실행 파일의 `--chief` 인자를 사용했다. 결과는 같은 폴더의 `heeya-enroll-dry-run.json`·`heeya-enroll-applied.json`, 화면 증거는 `coup-heeya-enrolled-live.jpg`다. 재실행·재초기화를 하지 않는다.
