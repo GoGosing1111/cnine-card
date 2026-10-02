@@ -1,0 +1,14 @@
+{
+  "authorization": "사용자가 지정한 개수를 기존 지급에 더해 메시지로 추가 지급. 오랜만에 1개도 명시적으로 포함.",
+  "count": 7,
+  "boxes": 9,
+  "targets": [
+    {"id":"218","nickname":"현하루","source":"현하루","playdkId":"a05e2d57","quantity":1,"contribution":246,"priorMessages":[{"id":"178223","amount":1}]},
+    {"id":"236","nickname":"유나이은","source":"블랑코_","playdkId":"c7626e57","quantity":1,"contribution":132,"priorMessages":[]},
+    {"id":"1255","nickname":"전게씹선미아웃","source":"코파먹는성태","playdkId":"561a0ff8","quantity":3,"contribution":333,"priorMessages":[]},
+    {"id":"3892","nickname":"슈파두파","source":"슈파두파","playdkId":"1e689522","quantity":1,"contribution":206,"missingContribution":135,"priorMessages":[{"id":"178244","amount":2}]},
+    {"id":"4501","nickname":"장씨아저씨","source":"장씨아저씨","playdkId":"ce44a7ee","quantity":1,"contribution":700,"priorMessages":[{"id":"178253","amount":4}]},
+    {"id":"4582","nickname":"족단","source":"[C9]족단","playdkId":"22c31ef9","quantity":1,"contribution":103,"priorMessages":[]},
+    {"id":"4609","nickname":"오랜만에","source":"오랜만에.","playdkId":"1e30db15","quantity":1,"contribution":126,"priorMessages":[{"id":"178262","amount":1}]}
+  ]
+}
