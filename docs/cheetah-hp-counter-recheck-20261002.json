@@ -187,6 +187,14 @@
     {
       "file": "C:/Users/User/.codex/tmp/cheetah-fur15-counter-recheck-20261002/retired.json",
       "sha256": "88e97c876e9b97464b53580ff031d46fcb82b49b3abe49fd7a1d86996d42db22"
+    },
+    {
+      "file": "C:/Users/User/.codex/tmp/cheetah-fur15-counter-recheck-20261002/deploy-final.log",
+      "sha256": "86e8d3abad00fbb1932df4021f0e822f4c9457ba50d88ac9279ae550727923c0"
+    },
+    {
+      "file": "C:/Users/User/.codex/tmp/cheetah-fur15-counter-recheck-20261002/production-verify.json",
+      "sha256": "3559708925085fb911323279f7e71031fa663a96971b10660668b05553d0e528"
     }
   ],
   "visual": {
@@ -212,7 +220,7 @@
     "baselinePagesId": "3bf173d3-5808-4615-9436-428e1f99d035",
     "runtime": "20261002-hp-sync-v1",
     "command": "npm run deploy:production -- --scoped",
-    "status": "PENDING_VERIFICATION",
+    "status": "COMPLETE_VERIFIED",
     "firstGate": {
       "tests": 55,
       "passed": 53,
@@ -226,6 +234,69 @@
       "failed": 0,
       "deploymentStarted": false,
       "remainingIssue": "App and service-worker release tags differed; main app query tag aligned with new shell cache. Renderer source and generated bundles unchanged."
+    },
+    "sourceCommit": "198b0c9cc383f161d4fc7b1255655a18193aef2c",
+    "pagesId": "6a61e0b7-b414-4dd4-a248-ab2e0f4a1d1b",
+    "url": "https://cnine-card.pages.dev",
+    "apiVersion": "fe74096e-b2d7-4031-94df-e6e80ab4d6ba",
+    "clanVersion": "067c008a-d5ca-41c6-9653-93290910f292",
+    "relatedTestsPassed": 42,
+    "finalCacheAndLoaderTestsPassed": 16,
+    "productionVerification": {
+      "checkedAt": "2026-10-02T14:07:02.399Z",
+      "files": [
+        {
+          "path": "index.html",
+          "url": "https://cnine-card.pages.dev/index.html?hpVerify=198b0c9c",
+          "status": 200,
+          "contentType": "text/html; charset=utf-8",
+          "remoteHash": "b9d6c8abcfbea2c30aaf8ebae50126ce222f6c35e323fd5a58e0d2264359779a",
+          "localHash": "b9d6c8abcfbea2c30aaf8ebae50126ce222f6c35e323fd5a58e0d2264359779a",
+          "matches": true,
+          "hasNewMarker": true
+        },
+        {
+          "path": "js/app.js",
+          "url": "https://cnine-card.pages.dev/js/app.js?hpVerify=198b0c9c",
+          "status": 200,
+          "contentType": "application/javascript",
+          "remoteHash": "4c3f2e142b2834e3d51669bfe8374768522fd5985135a4546684f45fad84a920",
+          "localHash": "4c3f2e142b2834e3d51669bfe8374768522fd5985135a4546684f45fad84a920",
+          "matches": true,
+          "hasNewMarker": true
+        },
+        {
+          "path": "js/battle-v3-live.js",
+          "url": "https://cnine-card.pages.dev/js/battle-v3-live.js?hpVerify=198b0c9c",
+          "status": 200,
+          "contentType": "application/javascript",
+          "remoteHash": "97bb67966ca6040e71e2db7f5aa4d14b5bdc76275d1749ef4f991079dacd4878",
+          "localHash": "97bb67966ca6040e71e2db7f5aa4d14b5bdc76275d1749ef4f991079dacd4878",
+          "matches": true,
+          "hasNewMarker": true
+        },
+        {
+          "path": "service-worker.js",
+          "url": "https://cnine-card.pages.dev/service-worker.js?hpVerify=198b0c9c",
+          "status": 200,
+          "contentType": "application/javascript",
+          "remoteHash": "97d474e601bb88725753f1fe377bb9c432624a15e6095a76b54acbc00cb0ab79",
+          "localHash": "97d474e601bb88725753f1fe377bb9c432624a15e6095a76b54acbc00cb0ab79",
+          "matches": true,
+          "hasNewMarker": true
+        },
+        {
+          "path": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+          "url": "https://cnine-card.pages.dev/preview/project-v-v3/project-v-pixi-battle.bundle.js?hpVerify=198b0c9c",
+          "status": 200,
+          "contentType": "application/javascript",
+          "remoteHash": "30bbaa6e1a1c7c25bc71d0499dce0b0f99511fdf60d2f51b8a1fda44957a6202",
+          "localHash": "30bbaa6e1a1c7c25bc71d0499dce0b0f99511fdf60d2f51b8a1fda44957a6202",
+          "matches": true,
+          "hasNewMarker": true
+        }
+      ],
+      "passed": true
     }
   }
 }
