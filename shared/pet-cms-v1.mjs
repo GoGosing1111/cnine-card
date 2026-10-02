@@ -9,9 +9,10 @@ const plain=value=>value&&typeof value==='object'&&!Array.isArray(value);
 const keys=(value,list)=>plain(value)&&Object.keys(value).sort().join(',')===list.split(',').sort().join(',');
 export const isPetSpritePath=value=>typeof value==='string'&&/^\/?assets\/[A-Za-z0-9_./-]+\.(?:png|webp)$/i.test(value)&&!value.includes('..');
 export function emptyPetCmsDocument(){return {version:1,...PET_CMS_LOCKS,pets:[]};}
-export function emptyPetDraft(code='PET-001'){return {code,name:'새 펫',battleSprite:'',enabled:false,modes:['PVE','PVP'],target:'ALL_ALLIES',buffs:[{type:'ATTACK_PERCENT',percent:null}],notes:''};}
+export function emptyPetDraft(code='PET-001'){return {code,name:'새 펫',sourceArt:'',battleSprite:'',enabled:false,modes:['PVE','PVP'],target:'ALL_ALLIES',buffs:[{type:'ATTACK_PERCENT',percent:null}],notes:''};}
 export function validatePetDefinition(raw){
-  if(!keys(raw,'code,name,battleSprite,enabled,modes,target,buffs,notes')||!isPetCode(raw.code)||typeof raw.name!=='string'||!raw.name.trim()||raw.name.length>40)throw Error('펫 코드와 이름을 확인해 주세요.');
+  if(!(keys(raw,'code,name,battleSprite,enabled,modes,target,buffs,notes')||keys(raw,'code,name,sourceArt,battleSprite,enabled,modes,target,buffs,notes'))||!isPetCode(raw.code)||typeof raw.name!=='string'||!raw.name.trim()||raw.name.length>40)throw Error('펫 코드와 이름을 확인해 주세요.');
+  if(raw.sourceArt!==undefined&&(typeof raw.sourceArt!=='string'||raw.sourceArt!==''&&!isPetSpritePath(raw.sourceArt)))throw Error('일러스트는 assets 폴더의 PNG 또는 WebP 경로로 등록해 주세요.');
   if(typeof raw.battleSprite!=='string'||raw.battleSprite!==''&&!isPetSpritePath(raw.battleSprite))throw Error('SD는 assets 폴더의 PNG 또는 WebP 경로로 등록해 주세요.');
   if(typeof raw.enabled!=='boolean'||!Object.hasOwn(PET_BUFF_TARGETS,raw.target)||!Array.isArray(raw.modes)||raw.modes.length<1||raw.modes.length>2||new Set(raw.modes).size!==raw.modes.length||raw.modes.some(mode=>!['PVE','PVP'].includes(mode)))throw Error('펫 시연 여부·대상·전투 모드를 확인해 주세요.');
   if(!Array.isArray(raw.buffs)||raw.buffs.length<1||raw.buffs.length>5||new Set(raw.buffs.map(buff=>buff?.type)).size!==raw.buffs.length)throw Error('서로 다른 버프를 1~5개 설정해 주세요.');
@@ -20,7 +21,7 @@ export function validatePetDefinition(raw){
     return {type:buff.type,percent:buff.percent};
   });
   if(typeof raw.notes!=='string'||raw.notes.length>1200)throw Error('운영 메모는 1,200자 이내로 입력해 주세요.');
-  return {code:raw.code,name:raw.name.trim(),battleSprite:raw.battleSprite.replace(/^\//,''),enabled:raw.enabled,modes:['PVE','PVP'].filter(mode=>raw.modes.includes(mode)),target:raw.target,buffs,notes:raw.notes};
+  return {code:raw.code,name:raw.name.trim(),...(raw.sourceArt!==undefined?{sourceArt:raw.sourceArt.replace(/^\//,'')}:{}),battleSprite:raw.battleSprite.replace(/^\//,''),enabled:raw.enabled,modes:['PVE','PVP'].filter(mode=>raw.modes.includes(mode)),target:raw.target,buffs,notes:raw.notes};
 }
 export function validatePetCmsDocument(raw){
   if(!keys(raw,'version,visibility,battleEnabled,acquisitionEnabled,pets')||raw.version!==1||!Array.isArray(raw.pets)||raw.pets.length>100)throw Error('펫 CMS 문서 형식을 확인해 주세요.');

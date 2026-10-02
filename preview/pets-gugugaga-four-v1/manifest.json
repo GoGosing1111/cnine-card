@@ -1,0 +1,223 @@
+{
+  "title": "구구가가 펫 4종 — 한글 명찰 · 희야 돼지 의상",
+  "status": "ART_READY_USER_REVIEW_PENDING",
+  "date": "2026-09-26",
+  "userRequest": "구구가가 체형,의상 그대로 봉순 조은 희야 디임 넣어서 일러스트 갖고와 펫 리소스로 쓰게 구도는 좀 바꾸면 좋고",
+  "generator": "built-in image_gen.imagegen",
+  "costumeReferences": [
+    "C:/Users/User/AppData/Local/Temp/codex-clipboard-7400ae6d-90a5-46f4-843d-75118706ede1.png",
+    "C:/Users/User/AppData/Local/Temp/codex-clipboard-682cbed2-3b82-44be-a9e7-35c562f660a0.png"
+  ],
+  "runtimeConnected": false,
+  "postProcessing": "none; generated RGBA PNG preserved byte-for-byte",
+  "assets": [
+    {
+      "slug": "bongsoon",
+      "name": "봉순",
+      "animal": "penguin",
+      "generated": "exec-47a5e229-e850-4fa0-a78d-806e5d60b1ab.png",
+      "file": "assets/pet-bongsoon-gugugaga-nametag-v2.png",
+      "width": 1254,
+      "height": 1254,
+      "format": "PNG",
+      "colorSpace": "srgb",
+      "channels": 4,
+      "hasAlpha": true,
+      "transparentPixels": 879990,
+      "bounds": {
+        "minX": 169,
+        "minY": 64,
+        "maxX": 1044,
+        "maxY": 1183
+      },
+      "sha256": "2ba48e1b55f6da43c2ba65d6c74b5a8802fd8aa5eebab26b527f13988e8e4b2f",
+      "generatedSource": "C:/Users/User/.codex/generated_images/01a0d4d4-783a-7e00-b2be-643fd0991bc0/exec-47a5e229-e850-4fa0-a78d-806e5d60b1ab.png",
+      "nameBadgeText": "봉순",
+      "textVisuallyVerified": true,
+      "fullBodyUncropped": true
+    },
+    {
+      "slug": "joeun",
+      "name": "조은",
+      "animal": "penguin",
+      "generated": "exec-b33988fe-7e9a-4472-8ce0-2fdc555b0afc.png",
+      "file": "assets/pet-joeun-gugugaga-nametag-v2.png",
+      "width": 1254,
+      "height": 1254,
+      "format": "PNG",
+      "colorSpace": "srgb",
+      "channels": 4,
+      "hasAlpha": true,
+      "transparentPixels": 900611,
+      "bounds": {
+        "minX": 226,
+        "minY": 62,
+        "maxX": 1021,
+        "maxY": 1183
+      },
+      "sha256": "814905a3639b6e4b341d6a32ab3058e3b3fe14ad5b87f328a292dd6326fc1122",
+      "generatedSource": "C:/Users/User/.codex/generated_images/01a0d4d4-783a-7e00-b2be-643fd0991bc0/exec-b33988fe-7e9a-4472-8ce0-2fdc555b0afc.png",
+      "nameBadgeText": "조은",
+      "textVisuallyVerified": true,
+      "fullBodyUncropped": true
+    },
+    {
+      "slug": "heeya",
+      "name": "희야",
+      "animal": "pig",
+      "generated": "exec-a776e389-bce3-4643-adcc-02ee09832bb4.png",
+      "file": "assets/pet-heeya-pig-nametag-v3.png",
+      "width": 1254,
+      "height": 1254,
+      "format": "PNG",
+      "colorSpace": "srgb",
+      "channels": 4,
+      "hasAlpha": true,
+      "transparentPixels": 782379,
+      "bounds": {
+        "minX": 197,
+        "minY": 54,
+        "maxX": 1094,
+        "maxY": 1210
+      },
+      "sha256": "1c89ac01721e048ee4981717857c1fa5e9b8f80fd6e10166d0eeaa7888de5bb8",
+      "generatedSource": "C:/Users/User/.codex/generated_images/01a0d4d4-783a-7e00-b2be-643fd0991bc0/exec-a776e389-bce3-4643-adcc-02ee09832bb4.png",
+      "nameBadgeText": "희야",
+      "textVisuallyVerified": true,
+      "fullBodyUncropped": true
+    },
+    {
+      "slug": "diim",
+      "name": "디임",
+      "animal": "penguin",
+      "generated": "exec-c6009a95-f9aa-49cd-b22a-a6ab1fc01acf.png",
+      "file": "assets/pet-diim-gugugaga-nametag-v2.png",
+      "width": 1254,
+      "height": 1254,
+      "format": "PNG",
+      "colorSpace": "srgb",
+      "channels": 4,
+      "hasAlpha": true,
+      "transparentPixels": 889296,
+      "bounds": {
+        "minX": 242,
+        "minY": 63,
+        "maxX": 1049,
+        "maxY": 1203
+      },
+      "sha256": "907c3a1ca2ec4f86ebad7ec31fa73981e4e106eb62ee78566a8d3bea59ecef41",
+      "generatedSource": "C:/Users/User/.codex/generated_images/01a0d4d4-783a-7e00-b2be-643fd0991bc0/exec-c6009a95-f9aa-49cd-b22a-a6ab1fc01acf.png",
+      "nameBadgeText": "디임",
+      "textVisuallyVerified": true,
+      "fullBodyUncropped": true
+    }
+  ],
+  "revision": 3,
+  "followUpRequests": [
+    "누가 누구인지 구분되도록 이름/명찰 추가",
+    "희야는 펭귄말고 돼지로 변경"
+  ],
+  "previousAssets": [
+    {
+      "id": "bongsoon",
+      "name": "봉순",
+      "file": "assets/pet-bongsoon-gugugaga-v1.png",
+      "width": 1254,
+      "height": 1254,
+      "format": "PNG",
+      "colorSpace": "sRGB",
+      "channels": 4,
+      "hasAlpha": true,
+      "generatedSource": "C:/Users/User/.codex/generated_images/01a0d4d4-783a-7e00-b2be-643fd0991bc0/exec-07550a09-06aa-4826-a870-9ce696fee739.png",
+      "identityReference": "C:/Users/User/.codex/worktrees/duo-season-design-20260925/cnine-card/assets/cards/나무늘봉순/001.webp",
+      "sha256": "a8a5bcddc72145370c941ddf65d25b7711a6b9a72d15fcc6e3e780e2afe4d909",
+      "qa": {
+        "transparentPixels": 883813,
+        "visibleBoundsAlphaGreaterThan8": {
+          "left": 170,
+          "top": 65,
+          "right": 1042,
+          "bottom": 1181
+        },
+        "fullBodyUncropped": true
+      },
+      "promptSection": "봉순"
+    },
+    {
+      "id": "joeun",
+      "name": "조은",
+      "file": "assets/pet-joeun-gugugaga-v1.png",
+      "width": 1254,
+      "height": 1254,
+      "format": "PNG",
+      "colorSpace": "sRGB",
+      "channels": 4,
+      "hasAlpha": true,
+      "generatedSource": "C:/Users/User/.codex/generated_images/01a0d4d4-783a-7e00-b2be-643fd0991bc0/exec-dbf49f3c-8494-40f0-a773-89d82aedfdd9.png",
+      "identityReference": "C:/Users/User/.codex/worktrees/duo-season-design-20260925/cnine-card/assets/cards/오조은/001.webp",
+      "sha256": "723a583566c75c57e21b4be9b6de605de99fe0f86f2791e75914388a126a16cb",
+      "qa": {
+        "transparentPixels": 901124,
+        "visibleBoundsAlphaGreaterThan8": {
+          "left": 226,
+          "top": 64,
+          "right": 1020,
+          "bottom": 1184
+        },
+        "fullBodyUncropped": true
+      },
+      "promptSection": "조은"
+    },
+    {
+      "id": "heeya",
+      "name": "희야",
+      "file": "assets/pet-heeya-gugugaga-v1.png",
+      "width": 1254,
+      "height": 1254,
+      "format": "PNG",
+      "colorSpace": "sRGB",
+      "channels": 4,
+      "hasAlpha": true,
+      "generatedSource": "C:/Users/User/.codex/generated_images/01a0d4d4-783a-7e00-b2be-643fd0991bc0/exec-cc2edfc3-93b3-433e-86a6-a2e4cd5785e0.png",
+      "identityReference": "C:/Users/User/.codex/worktrees/duo-season-design-20260925/cnine-card/assets/cards/하이희야/001.webp",
+      "sha256": "c5ffd09a29aecc51c02d2ae0d998e0cf248ec7c7ee727025660da5b25d680743",
+      "qa": {
+        "transparentPixels": 862199,
+        "visibleBoundsAlphaGreaterThan8": {
+          "left": 200,
+          "top": 64,
+          "right": 1048,
+          "bottom": 1200
+        },
+        "fullBodyUncropped": true
+      },
+      "promptSection": "희야"
+    },
+    {
+      "id": "diim",
+      "name": "디임",
+      "file": "assets/pet-diim-gugugaga-v1.png",
+      "width": 1254,
+      "height": 1254,
+      "format": "PNG",
+      "colorSpace": "sRGB",
+      "channels": 4,
+      "hasAlpha": true,
+      "generatedSource": "C:/Users/User/.codex/generated_images/01a0d4d4-783a-7e00-b2be-643fd0991bc0/exec-a3203b6e-bd66-474d-bed4-17d134af46e8.png",
+      "identityReference": "C:/Users/User/.codex/worktrees/duo-season-design-20260925/cnine-card/assets/cards/디임/001.webp",
+      "sha256": "a371d69101e4628b7478e8af98da8d342841ad823c7f887d2fce7707914bf0cc",
+      "qa": {
+        "transparentPixels": 889249,
+        "visibleBoundsAlphaGreaterThan8": {
+          "left": 242,
+          "top": 63,
+          "right": 1047,
+          "bottom": 1200
+        },
+        "fullBodyUncropped": true
+      },
+      "promptSection": "디임"
+    }
+  ],
+  "finalPromptsFile": "revision-prompts.md"
+}

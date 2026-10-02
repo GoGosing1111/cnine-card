@@ -2,6 +2,7 @@ import {PET_CMS_KEY,PET_CMS_MAX_BYTES,PET_CMS_LOCKS,PET_BUFF_TYPES,PET_BUFF_TARG
 import {COMPANION_FORMATION_RULES,COMPANION_RELEASE,validateCompanionLoadout,preparedFormation} from '../shared/companion-loadout-v2.mjs';
 import {readMercenaryDocument,readMercenaryRuntime,battleConfig} from './_mercenary_account.js';
 import {createCompanionPreparationBattle,COMPANION_REVIEW_CARDS} from './_companion_preparation.js';
+import {PET_ART_CATALOG} from '../shared/pet-art-catalog-v1.mjs';
 
 const hash=async text=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(text))),n=>n.toString(16).padStart(2,'0')).join('');
 async function boundedJson(request){
@@ -35,7 +36,7 @@ export async function handlePetCompanionCms({path,request,env,deps}){
     if(path==='admin/pets')body=validatePetCmsSave(body);
     else if(!body||Array.isArray(body)||Object.keys(body).some(key=>!['loadout','mode','seed','petRevision','mercenaryRevision'].includes(key))||!['PVE','PVP'].includes(body.mode)||!Number.isSafeInteger(body.seed)||body.seed<0||body.seed>4294967295||!Number.isSafeInteger(body.petRevision)||!Number.isSafeInteger(body.mercenaryRevision))throw Error('편성·전투 모드·검수 버전을 확인해 주세요.');
   }catch(error){return reply({error:error instanceof SyntaxError?'올바른 JSON 요청이 필요합니다.':error.message},400);}
-  const output=state=>({...state,locks:PET_CMS_LOCKS,buffTypes:PET_BUFF_TYPES,buffTargets:PET_BUFF_TARGETS,rules:COMPANION_FORMATION_RULES,release:COMPANION_RELEASE});
+  const output=state=>({...state,locks:PET_CMS_LOCKS,buffTypes:PET_BUFF_TYPES,buffTargets:PET_BUFF_TARGETS,rules:COMPANION_FORMATION_RULES,release:COMPANION_RELEASE,artCatalog:PET_ART_CATALOG});
   try{
     const current=await readPetCms(env);
     if(path!=='admin/pets'){
