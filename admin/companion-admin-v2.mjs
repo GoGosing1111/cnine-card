@@ -62,7 +62,7 @@ export function mountCompanionCms(root){
   }
   function editor(){
     if(!draft)return;
-    $('.cp-art-picker').innerHTML=state?.artCatalog?.length?`<label>복구된 구구가가 일러스트<select data-art-preset><option value="">4종 원본 확인 · 선택</option>${state.artCatalog.map(art=>`<option value="${esc(art.code)}" ${draft.pets.some(row=>row.code===art.code)?'disabled':''}>${esc(art.name)} · ${esc(art.animal)} · 검수 대기</option>`).join('')}</select></label><button type="button" data-register-art>펫 초안 추가</button>`:'';
+    $('.cp-art-picker').innerHTML=state?.artCatalog?.length?`<label>펫 일러스트<select data-art-preset><option value="">${state.artCatalog.length}종 일러스트 확인 · 선택</option>${state.artCatalog.map(art=>`<option value="${esc(art.code)}" ${draft.pets.some(row=>row.code===art.code)?'disabled':''}>${esc(art.name)} · ${esc(art.animal)} · ${art.artStatus==='SOURCE_ART_APPROVED'?'원화 승인':'검수 대기'}</option>`).join('')}</select></label><button type="button" data-register-art>펫 초안 추가</button>`:'';
     $('.cp-roster').innerHTML=`<label>등록된 펫<select data-pet-list><option value="">펫 선택</option>${draft.pets.map(row=>`<option value="${esc(row.code)}" ${row.code===selected?'selected':''}>${esc(row.name)} · ${esc(row.code)}</option>`).join('')}</select></label><span>${draft.pets.length} / 100</span>`;
     const row=pet();
     if(!row){$('.cp-fields').innerHTML='<div class="cp-empty"><span>✧</span><h4>첫 번째 동료를 등록하세요</h4><p>SD 리소스와 시작 버프를 펫마다 설정할 수 있습니다.<br>수치가 미정인 펫은 검수 전투에 사용되지 않습니다.</p><button type="button" data-add>펫 추가</button></div>';return;}

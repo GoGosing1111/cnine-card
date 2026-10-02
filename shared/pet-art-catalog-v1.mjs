@@ -6,4 +6,5 @@ export const PET_ART_CATALOG=Object.freeze([
   ['JOEUN','조은','펭귄','pet-joeun-gugugaga-nametag-v2.png','814905a3639b6e4b341d6a32ab3058e3b3fe14ad5b87f328a292dd6326fc1122','볼 옆에 날개를 대고 고개를 기울인 조은.'],
   ['HEEYA','희야','돼지','pet-heeya-pig-nametag-v3.png','1c89ac01721e048ee4981717857c1fa5e9b8f80fd6e10166d0eeaa7888de5bb8','분홍 돼지 의상과 꼬리를 갖춘 희야.'],
   ['DIIM','디임','펭귄','pet-diim-gugugaga-nametag-v2.png','907c3a1ca2ec4f86ebad7ec31fa73981e4e106eb62ee78566a8d3bea59ecef41','살짝 돌아서 작은 인사를 건네는 디임.'],
-].map(([slug,name,animal,file,sha256,description])=>Object.freeze({code:`PET-${slug}`,name,animal,sourceArt:base+file,sha256,description,artStatus:'USER_REVIEW_PENDING'})));
+  ['GUSUDAENG','토끼 구수댕','토끼','assets/ui/pets/gusudaeng/pet-tokki-gusudaeng-approved-20261002.png','f632ce546f455947662e7c68cc11dadbb4f28907b2d28f74efb3a3dfab558349','포동포동한 흰 토끼 인형탈 안에 구수댕 얼굴이 보이는 승인 일러스트.','SOURCE_ART_APPROVED'],
+].map(([slug,name,animal,file,sha256,description,artStatus='USER_REVIEW_PENDING'])=>Object.freeze({code:`PET-${slug}`,name,animal,sourceArt:file.startsWith('assets/')?file:base+file,sha256,description,artStatus})));

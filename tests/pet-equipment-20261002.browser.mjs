@@ -4,6 +4,7 @@ import path from 'node:path';
 import {readFile,mkdir,writeFile} from 'node:fs/promises';
 import {pathToFileURL,fileURLToPath} from 'node:url';
 import {petEquipmentFixture} from './helpers/pet-equipment-fixture.mjs';
+import {PET_ART_CATALOG} from '../shared/pet-art-catalog-v1.mjs';
 const {chromium}=await import(process.env.PLAYWRIGHT_MODULE?pathToFileURL(process.env.PLAYWRIGHT_MODULE).href:'playwright');
 const root=path.resolve(fileURLToPath(new URL('../',import.meta.url))),out=process.env.QA_OUTPUT_DIR;
 if(!out||path.resolve(out).startsWith(root+path.sep))throw Error('Set QA_OUTPUT_DIR outside the deployment repository');
@@ -34,7 +35,7 @@ try{
   for(const [label,viewport]of [['desktop',{width:1440,height:1050}],['mobile',{width:390,height:844}]]){
     const context=await browser.newContext({viewport});await context.addInitScript(()=>{if(!localStorage.getItem('cnine_admin_token'))localStorage.setItem('cnine_admin_token','qa-owner');if(!localStorage.getItem('cnine_card_api_token'))localStorage.setItem('cnine_card_api_token','qa-user');});
     const page=await context.newPage();page.on('pageerror',error=>errors.push(error.message));
-    await page.goto(base+'/pets/?review=1');await page.locator('[data-pet-status]').filter({hasText:/검수용 펫/}).waitFor();assert.equal(await page.locator('[data-pet-select]').count(),4);
+    await page.goto(base+'/pets/?review=1');await page.locator('[data-pet-status]').filter({hasText:/검수용 펫/}).waitFor();assert.equal(await page.locator('[data-pet-select]').count(),PET_ART_CATALOG.length);
     assert.equal(await page.locator('soop-adventure-lobby').count(),0);
     assert.deepEqual(await page.locator('.pet-equipment').evaluate(root=>['--pe-bg','--pe-panel','--pe-line','--pe-text','--pe-accent'].map(name=>getComputedStyle(root).getPropertyValue(name).trim())),['#080c17','#111828','#28324a','#f3f5ff','#c8ff6b']);
     for(const selector of ['[data-pet-equip]','[data-pet-refresh]']){assert.ok((await page.locator(selector).boundingBox()).height>=44);assert.equal(await page.locator(selector+' .pe-icon').count(),1);}

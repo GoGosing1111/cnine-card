@@ -10,13 +10,30 @@ const save=(petCode='PET-BONGSOON',expectedRevision=0,requestId='pet-equip-reque
 const cmsSave=(pets,expectedRevision=0)=>({document:{...emptyPetCmsDocument(),pets},expectedRevision,requestId:`pet-art-cms-save-${expectedRevision+1}`});
 
 test('four recovered originals are unchanged; source and serving copies share their hashes',async()=>{
-  assert.deepEqual(PET_ART_CATALOG.map(row=>row.name),['봉순','조은','희야','디임']);
+  const originals=PET_ART_CATALOG.filter(row=>row.artStatus==='USER_REVIEW_PENDING');
+  assert.deepEqual(originals.map(row=>row.name),['봉순','조은','희야','디임']);
   const manifest=JSON.parse(await readFile(new URL('../preview/pets-gugugaga-four-v1/manifest.json',import.meta.url),'utf8'));assert.equal(manifest.runtimeConnected,false);
-  for(const row of PET_ART_CATALOG){
+  for(const row of originals){
     const filename=row.sourceArt.split('/').at(-1);
     for(const resource of [row.sourceArt,`preview/pets-gugugaga-four-v1/assets/${filename}`]){const bytes=await readFile(new URL('../'+resource,import.meta.url));assert.equal(createHash('sha256').update(bytes).digest('hex'),row.sha256);assert.equal(bytes.readUInt32BE(16),1254);assert.equal(bytes.readUInt32BE(20),1254);assert.equal(bytes[25],6);}
     assert.equal(row.artStatus,'USER_REVIEW_PENDING');
   }
+});
+test('Tokki Gusudaeng catalog uses the exact user-approved art and keeps runtime preparation locked',async()=>{
+  const art=PET_ART_CATALOG.find(row=>row.code==='PET-GUSUDAENG');
+  const approval=JSON.parse(await readFile(new URL('../assets/ui/pets/gusudaeng/pet-tokki-gusudaeng-approval-20261002.json',import.meta.url),'utf8'));
+  assert.equal(art.name,'토끼 구수댕');assert.equal(art.artStatus,'SOURCE_ART_APPROVED');assert.equal(art.sourceArt,approval.approvedAsset);
+  const bytes=await readFile(new URL('../'+art.sourceArt,import.meta.url));
+  assert.equal(createHash('sha256').update(bytes).digest('hex'),approval.sha256.toLowerCase());assert.equal(art.sha256,approval.sha256.toLowerCase());
+  assert.equal(bytes.readUInt32BE(16),1254);assert.equal(bytes.readUInt32BE(20),1254);assert.equal(bytes[25],6);
+  const fx=await petEquipmentFixture();try{
+    const draft={...emptyPetDraft(art.code),name:art.name,sourceArt:art.sourceArt};
+    const result=await fx.cmsCall(cmsSave([draft]));assert.equal(result.status,200);
+    const saved=(await fx.cmsCall()).body;assert.deepEqual(saved.document.pets,[draft]);
+    assert.equal(saved.document.battleEnabled,false);assert.equal(saved.document.acquisitionEnabled,false);assert.equal(draft.enabled,false);assert.equal(draft.battleSprite,'');assert.equal(draft.buffs[0].percent,null);
+    const state=(await fx.call()).body;assert.equal(state.cards.find(row=>row.code===art.code).configured,true);
+    assert.equal((await fx.call(null,{path:'pets/v1/state'})).body.available,false);
+  }finally{await fx.close();}
 });
 test('one separate support slot rejects unknown/unowned codes and client-forged fields',()=>{
   assert.deepEqual(PET_EQUIPMENT_RULES,{slots:1,regularCardSlot:false,mercenarySlot:false,combatActor:false,phase:'BATTLE_START',frequency:'ONCE_PER_BATTLE'});
@@ -31,13 +48,13 @@ test('CMS adds separate source art without altering legacy documents or replay h
   const pet={...emptyPetDraft('PET-BONGSOON'),name:'봉순',sourceArt:PET_ART_CATALOG[0].sourceArt};
   assert.equal(validatePetCmsDocument({...emptyPetCmsDocument(),pets:[pet]}).pets[0].sourceArt,pet.sourceArt);
   for(const sourceArt of ['https://x.test/x.png','assets/../x.png','assets/pet.svg'])assert.throws(()=>validatePetCmsDocument({...emptyPetCmsDocument(),pets:[{...pet,sourceArt}]}));
-  const fx=await petEquipmentFixture();try{const body=cmsSave([legacy]);assert.equal((await fx.cmsCall(body)).status,200);assert.equal((await fx.cmsCall(body)).body.replayed,true);assert.equal((await fx.cmsCall()).body.artCatalog.length,4);}finally{await fx.close();}
+  const fx=await petEquipmentFixture();try{const body=cmsSave([legacy]);assert.equal((await fx.cmsCall(body)).status,200);assert.equal((await fx.cmsCall(body)).body.replayed,true);assert.equal((await fx.cmsCall()).body.artCatalog.length,PET_ART_CATALOG.length);}finally{await fx.close();}
 });
 test('OWNER access and GET do not seed inventory or config; live paths remain closed',async()=>{
   const fx=await petEquipmentFixture();try{
     for(const role of ['ADMIN','USER'])assert.equal((await fx.call(null,{role})).status,403);
     assert.equal((await fx.call(null,{denied:true})).status,401);assert.equal(fx.count(),0);
-    const before=await fx.call();assert.equal(before.body.loadout.petCode,null);assert.equal(before.body.loadout.revision,0);assert.equal(before.body.cards.length,4);assert.equal(before.body.reviewOnly,true);assert.ok(before.body.cards.every(row=>row.reviewOwned&&!row.configured&&row.buffs.length===0));assert.match(before.headers.get('cache-control'),/no-store/);
+    const before=await fx.call();assert.equal(before.body.loadout.petCode,null);assert.equal(before.body.loadout.revision,0);assert.equal(before.body.cards.length,PET_ART_CATALOG.length);assert.equal(before.body.reviewOnly,true);assert.ok(before.body.cards.every(row=>row.reviewOwned&&!row.configured&&row.buffs.length===0));assert.match(before.headers.get('cache-control'),/no-store/);
     assert.equal((await fx.pg.query('SELECT * FROM app_meta')).rows.length,0);
     const count=fx.count();const live=await fx.call(null,{path:'pets/v1/state'});assert.equal(live.body.available,false);assert.deepEqual(live.body.cards,[]);assert.equal((await fx.call(save(),{path:'pets/v1/loadout'})).status,423);assert.equal(fx.count(),count);
     assert.equal((await fx.call(null,{path:'pets/v1/state',denied:true})).status,401);assert.equal((await fx.call(null,{method:'PATCH'})).status,405);
@@ -62,7 +79,7 @@ test('concurrent equip requests use CAS; failed and ambiguous retries retain one
 test('equipment reads CMS buffs and prevents stale config saves; removing custom pet leaves empty UI',async()=>{
   const fx=await petEquipmentFixture();try{
     const pet={...emptyPetDraft('PET-CUSTOM'),name:'추가 펫',sourceArt:PET_ART_CATALOG[0].sourceArt,buffs:[{type:'DEFENSE_PERCENT',percent:7}],target:'MERCENARIES',modes:['PVE']};
-    assert.equal((await fx.cmsCall(cmsSave([pet]))).status,200);const state=(await fx.call()).body;assert.equal(state.cards.length,5);assert.deepEqual(state.cards.at(-1).buffs,pet.buffs);assert.equal(state.petCmsRevision,1);
+    assert.equal((await fx.cmsCall(cmsSave([pet]))).status,200);const state=(await fx.call()).body;assert.equal(state.cards.length,PET_ART_CATALOG.length+1);assert.deepEqual(state.cards.at(-1).buffs,pet.buffs);assert.equal(state.petCmsRevision,1);
     assert.equal((await fx.call(save('PET-CUSTOM'))).status,409);assert.equal((await fx.call(save('PET-UNKNOWN',0,'pet-equip-request-002',1))).status,403);
     assert.equal((await fx.call(save('PET-CUSTOM',0,'pet-equip-request-003',1))).status,200);await fx.cmsCall(cmsSave([],1));const current=(await fx.call()).body;assert.equal(current.orphaned,true);assert.equal(current.loadout.petCode,null);
     assert.equal((await fx.call(save(null,1,'pet-equip-request-004',2))).status,200);assert.equal((await fx.pg.query('SELECT key FROM app_meta')).rows.length,2);

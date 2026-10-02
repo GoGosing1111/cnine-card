@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "name": "토끼 구수댕",
+  "status": "SOURCE_ART_APPROVED",
+  "approvalDate": "2026-10-02",
+  "timezone": "Asia/Seoul",
+  "userApproval": "이거로 승인",
+  "userNaming": "이름 토끼 구수댕",
+  "approvedAsset": "assets/ui/pets/gusudaeng/pet-tokki-gusudaeng-approved-20261002.png",
+  "sha256": "F632CE546F455947662E7C68CC11DADBB4F28907B2D28F74EFB3A3DFAB558349",
+  "authoritativeSource": {
+    "type": "user-reuploaded-image",
+    "attachment": "codex-clipboard-b738105f-bd69-4c16-8ada-fe62c710da4f.png",
+    "originalPath": "C:/Users/User/AppData/Local/Temp/codex-clipboard-b738105f-bd69-4c16-8ada-fe62c710da4f.png",
+    "byteForByteCopy": true
+  },
+  "illustration": {
+    "description": "구수댕 얼굴이 보이는 흰색 토끼 인형탈·전신 의상. 포동포동한 체형, 서 있는 자세, 분홍색 귀 안쪽과 발바닥, 양손을 든 포즈.",
+    "width": 1254,
+    "height": 1254,
+    "format": "PNG",
+    "mode": "RGBA",
+    "postProcessing": "none"
+  },
+  "approvalPriority": "사용자가 재첨부한 승인 이미지가 생성 순서 및 마지막 생성 시안보다 우선한다. 이후 생성된 V7 모자형 시안으로 대체하지 않는다.",
+  "sourceIdentity": {
+    "cardId": "CN-0505936A0CBB4E59",
+    "cardTitle": "구수댕",
+    "member": "남수댕",
+    "sourceArt": "assets/cards/남수댕/031.webp"
+  },
+  "integrity": {
+    "sourceAttachmentMatchesSavedAsset": true,
+    "cornerAlpha": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "faceOutfitPoseAndCompositionLocked": true,
+    "regenerationAllowedWithoutNewUserDirection": false
+  },
+  "scope": {
+    "approved": "펫 이름과 정지 일러스트 원화",
+    "runtimeConnected": false,
+    "animationApproved": false,
+    "acquisitionApproved": false,
+    "formationApproved": false,
+    "battleBuffPolicyApproved": false
+  }
+}
