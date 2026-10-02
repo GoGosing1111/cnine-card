@@ -38,4 +38,11 @@
 - 마지막 호환성 확인에서 배포 전 페이지를 켜둔 사용자가 V2 공대를 만든 뒤 구형 입력을 보내는 경로를 확인했다. 창설·참가·준비·출정에 클라이언트 규칙 버전을 검증하고, 구형 화면은 **입장권 차감 전에 새로고침 안내**로 막는다. V1 대기방과 기존 요청 영수증 재전송은 유지한다. 새 화면 캐시는 `20261002-coop-v2a`다.
 - 이 보완의 배포 기준은 위 실제 운영 소스다. 검사 대상은 새 `tests/lich-raid-client-version-20261002.test.mjs`, 기존 공대 거래 `tests/lich-raid-live-20260928.test.mjs`, 진입/캐시 `tests/lich-raid-inline-entry-20260929.test.mjs`와 `check:worker`로 한정한다. 변경하지 않은 전투 기믹·PC/모바일 검수를 다시 반복하지 않는다.
 
-최종 배포 확인 정보는 아래에 추가한다.
+## 최종 운영 확인 — 2026-10-02 14:05 KST
+
+- 최종 소스: `32b92fde85e8840fece1f6fe5981332f848684e7`. 구형 클라이언트 보호 회귀·공대 거래·캐시 진입 14개, Worker 구문/배포 컴파일, 필수 출시·보상 잠금·캐시·private runtime·Hyperdrive 검사를 통과했다. 지정 범위 배포 명령은 종료 코드 0으로 완료됐다.
+- Pages: `b3ca5393-93f4-47cd-b292-d1c82f22323f`, https://b3ca5393.cnine-card.pages.dev. 운영 메타데이터의 소스 SHA 일치와 success를 확인했다.
+- API runtime: `a78b1505-d941-43a3-b5d9-0fecc0ac46fb`. 필수 clan-draft 배포: `a9ceac30-d6f3-41f3-84c0-9ec5172795c2`.
+- `cnine-card.pages.dev`의 메인 HTML·리치왕 진입 JS·리치왕 HTML·inline/live 모듈·inline CSS·전투 번들·협동 오버레이 총 8개가 HTTP 200이며 배포본과 줄바꿈 정규화 SHA-256이 일치했다. 비인증 리치왕 feature API는 401로 보호된다. 운영 공대 생성·출정·입장권 소비·보상 지급은 검증에 사용하지 않았다.
+- 기록: `C:/Users/User/.codex/tmp/lich-coop-deploy-20261002.log`, `lich-coop-client-deploy-20261002.log`, `lich-coop-release-state.json`, `lich-coop-production-smoke.json`. 보호 보완 배포의 첫 사전 시도는 테스트 파일의 줄바꿈 상태 때문에 깨끗한 트리 검사에서 중단됐으며, 실제 diff가 없음을 확인하고 Git 인덱스를 정규화한 뒤 진행했다. 검사·운영 절차를 우회하지 않았다.
+- 이 결과 기록은 문서만 변경하므로 내용 확인·커밋·원격 반영으로 마무리하며 게임 재검사·재배포는 하지 않는다.
