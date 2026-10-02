@@ -1,0 +1,20 @@
+Generation mode: built-in image_gen.imagegen
+
+Use case: stylized-concept
+Create ONE NEW rabbit pet illustration from scratch for 숲켓몬.
+Image 1: ONLY facial identity reference — original ZENITH 구수댕 / 남수댕 portrait.
+Image 2: EXISTING PROJECT PET STYLE AND BODY PROPORTION REFERENCE — the pink pig pet. Use its compact, soft, plump standing mascot silhouette, very short limbs, broad cuddly tummy and polished 2D illustration finish. DO NOT use that girl's face, its pig design, costume hood markings, collar, metal clip, name badge, pink body, hair, or other accessories.
+
+The user explicitly rejected BOTH spherical-face designs and a tall skinny standing rabbit. Required: a CUTE, CHUBBY, PLUMP, COMPACT STANDING RABBIT with recognizable 구수댕 face. The roundness belongs in the BODY, not in a face balloon.
+Think of a lovable soft game-pet mascot with the compact broad teddy-like body proportions of image 2, rendered in fluffy warm ivory with long rabbit ears. No realistic tall humanoid anatomy.
+
+Body: a wide softly plump rabbit tummy, broad rounded lower torso, short chubby animal forepaws, tiny thick hind legs and two small broad rabbit feet visible beneath the belly. It stands upright on both feet, relaxed and friendly, with forepaws lifted slightly to each side or held gently in front. It is NOT seated. The height from chin to feet is short and compact, about 1.2–1.4 times the head height, and the fluffy belly width is similar to or slightly broader than the head width. The two hind feet point forward, a small fluffy ivory tail peeks at one side. A simple cohesive white bunny mascot: no human arms or legs, no clothing seams, no zipper, no pig snout, no soccer panels.
+Two long soft rabbit ears, cream-white exterior and delicate pink interiors, rounded tips. Slightly outward lively ear pose. Very cute plush-like fur shading with restrained fine fur texture, as polished and cuddly as the existing pet reference.
+
+FACE: keep 구수댕's original recognizable features from image 1, rendered as a lovely cheerful 2D game illustration that matches the mascot body. Preserve the smiling narrow eye shape and their spacing, soft eyebrows, source nose shape, natural cheek-to-jaw contour, pink lips and joyful tooth-showing smile. The head's front face is naturally oval with a visible jaw and small chin; DO NOT inflate the facial cheeks or stretch it into a circle. Do NOT put a full round human face on a sphere. Do NOT use image 2's generic huge anime eyes. Avoid a literal photographic human-head cutout or creepy realistic woman head on an animal: the face is softly painted in a cohesive illustrated style, while preserving specific eye/nose/mouth likeness from image 1. The cuteness comes from the broad plump pet torso, paws and joyful expression, not changing her facial structure.
+Natural dark side-parted hair softly frames only the forehead and temples, with a few natural fine wisps. No long hair covering the body, no rigid segmented ribbons or hair plates. The white rabbit fur surrounds the face lightly without adding huge round cheek cushions.
+
+Style: same high-quality cute game-pet illustration family as image 2; softly shaded, clean, tactile plush fur and appealing cuddly shapes. FACE identity from image 1 and BODY design language from image 2 are separate roles.
+No accessories, collar, clip, name badge, flower, decorations, clothing, human fingers, humanoid feet, weapons or extra objects. Not a pig outfit. Not a sphere. Not skinny. Not lanky. Not a seated bunny.
+Single complete standing rabbit, centered, slightly lively near-frontal pose, entire ear tips and feet safely visible with generous transparent margins. True transparent alpha background; no checkerboard painted into it, no floor, no scene or external shadow.
+No text, logo, watermark, UI, frame, captions, duplicates or inset photos.

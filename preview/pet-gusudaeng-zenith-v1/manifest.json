@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 1,
+  "createdDate": "2026-10-02",
+  "timezone": "Asia/Seoul",
+  "title": "토끼 구수댕 — 제니스 구수댕 얼굴 기반 펫",
+  "status": "SOURCE_ART_APPROVED",
+  "selectedPreviewVersion": "user-reuploaded-approved-20261002",
+  "source": {
+    "cardId": "CN-0505936A0CBB4E59",
+    "cardTitle": "구수댕",
+    "member": "남수댕",
+    "sourceArt": "assets/cards/남수댕/031.webp",
+    "sha256": "934DB48547D9858A470E3AABCCF801C8299688BA55E8280099B655A4D19A7FB0",
+    "sourceUnmodified": true
+  },
+  "userDirection": [
+    "제니스 구수댕 얼굴을 최대한 살린 둥근 축구공 또는 원형 몸과 토끼귀 시안",
+    "후속: 공 형태 대신 토끼로 변경",
+    "최신: 얼굴 살려",
+    "최신: 구수댕 제니스 원본 얼굴을 최대한 살린 토끼 펫 일러스트 제작",
+    "서 있는 토끼를 처음부터 다시 제작. 얼굴을 공처럼 만들지 않고 기존 펫처럼 포동포동하고 귀엽게 제작.",
+    "사용자 재첨부 이미지로 승인",
+    "사용자 확정 이름: 토끼 구수댕"
+  ],
+  "generation": {
+    "tool": "built-in image_gen",
+    "transparentBackground": true
+  },
+  "variants": [
+    {
+      "version": "v1",
+      "concept": "축구공 몸과 토끼귀",
+      "asset": "assets/gusudaeng-soccer-ball-rabbit-pet-v1.png",
+      "prompt": "prompts/gusudaeng-soccer-ball-v1.txt",
+      "sha256": "D057C07EB85CBCA48EB0FAE148405B01C3C4D6F085C42A904E01A819C9C1B9B3",
+      "canvas": {
+        "width": 1254,
+        "height": 1254,
+        "mode": "RGBA"
+      },
+      "preserveAsHistory": true,
+      "currentStatus": "HISTORY_ONLY_NOT_APPROVED"
+    },
+    {
+      "version": "v2",
+      "concept": "얼굴과 웃는 표정을 살린 전신 토끼",
+      "asset": "assets/gusudaeng-rabbit-pet-v2.png",
+      "prompt": "prompts/gusudaeng-rabbit-v2.txt",
+      "sha256": "A64415922ACEBC25BF854E8D0038B33AD60C7BBF22EC70E4516E6BA8C7FCF7A1",
+      "canvas": {
+        "width": 1254,
+        "height": 1254,
+        "mode": "RGBA"
+      },
+      "qa": {
+        "visualReview": "구수댕 시안의 웃는 눈·미소·검은 머리 및 분홍색 귀 안쪽 유지 확인. 축구공 무늬 제거와 토끼 몸·앞발·뒷발·꼬리 확인.",
+        "transparentCorners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "userApproval": false
+      },
+      "currentStatus": "HISTORY_ONLY_NOT_APPROVED"
+    },
+    {
+      "version": "v3",
+      "concept": "제니스 원본 얼굴을 우선한 전신 토끼",
+      "asset": "assets/gusudaeng-rabbit-pet-v3.png",
+      "prompt": "prompts/gusudaeng-rabbit-v3.txt",
+      "sha256": "028FAD7D6FB9E733929B9DE9C9F1D7F3267CAE4584C8C3F19BEA854A47C1F237",
+      "canvas": {
+        "width": 1254,
+        "height": 1254,
+        "mode": "RGBA"
+      },
+      "qa": {
+        "visualReview": "원본 제니스의 웃는 눈·코·입·치아 미소를 우선한 얼굴과 흰색 토끼 전신 확인. 자연스러운 머릿결·토끼 귀·앞발·뒷발·꼬리 확인.",
+        "transparentCorners": [
+          0,
+          0,
+          1,
+          0
+        ],
+        "userApproval": false
+      },
+      "currentStatus": "HISTORY_ONLY_NOT_APPROVED"
+    },
+    {
+      "version": "v5",
+      "concept": "기존 펫 체형을 참고한 포동포동한 서 있는 토끼",
+      "asset": "assets/gusudaeng-standing-plump-rabbit-pet-v5.png",
+      "prompt": "prompts/gusudaeng-standing-plump-v5.txt",
+      "sha256": "B3888CE9A5A724831886985D3A5ECCF66AEF79C32F0CD2F77F85C5624B37DCD8",
+      "canvas": {
+        "width": 1254,
+        "height": 1254,
+        "mode": "RGBA"
+      },
+      "bodyStyleReference": "C:/Users/User/.codex/worktrees/hanwha-diim-admission-20261001/cnine-card/assets/ui/pets/gugugaga/pet-heeya-pig-nametag-v3.png",
+      "qa": {
+        "visualReview": "서 있는 자세, 짧고 통통한 팔다리와 넓은 배, 구수댕 눈매·미소와 자연스러운 턱 윤곽, 토끼 귀·발·꼬리 확인.",
+        "transparentCorners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "userApproval": false
+      },
+      "currentStatus": "HISTORY_ONLY_NOT_APPROVED"
+    },
+    {
+      "version": "user-reuploaded-approved-20261002",
+      "concept": "포동포동한 서 있는 토끼 인형탈에 구수댕 얼굴",
+      "asset": "../../assets/ui/pets/gusudaeng/pet-tokki-gusudaeng-approved-20261002.png",
+      "sha256": "F632CE546F455947662E7C68CC11DADBB4F28907B2D28F74EFB3A3DFAB558349",
+      "canvas": {
+        "width": 1254,
+        "height": 1254,
+        "mode": "RGBA"
+      },
+      "currentStatus": "SOURCE_ART_APPROVED",
+      "qa": {
+        "userApproval": true,
+        "byteForByteSourcePreserved": true,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    }
+  ],
+  "runtime": {
+    "connected": false,
+    "acquisitionEnabled": false,
+    "formationEnabled": false,
+    "battleBuffsEnabled": false,
+    "animationCreated": false
+  },
+  "name": "토끼 구수댕",
+  "approvedAsset": "assets/ui/pets/gusudaeng/pet-tokki-gusudaeng-approved-20261002.png",
+  "approvalRecord": "assets/ui/pets/gusudaeng/pet-tokki-gusudaeng-approval-20261002.json",
+  "approvedSha256": "F632CE546F455947662E7C68CC11DADBB4F28907B2D28F74EFB3A3DFAB558349"
+}

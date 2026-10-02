@@ -1,0 +1,27 @@
+Generation mode: built-in image_gen.imagegen
+Approval authority: user-reuploaded PNG from 2026-10-02; use the approval JSON and preserved attachment, never substitute this generation output.
+
+Use case: stylized-concept
+Asset: ONE person-in-rabbit-mascot-costume pet illustration for 숲켓몬, transparent PNG.
+Image 1: FACE IDENTITY ONLY, the original ZENITH 구수댕 / 남수댕 photograph.
+Image 2: CORRECT EXISTING PROJECT PET DESIGN REFERENCE, 희야 visibly wearing a soft pig mascot suit. This reference demonstrates HUMAN INSIDE AN ANIMAL COSTUME. Follow that same unmistakable costume construction and plump standing mascot shape, but make a WHITE RABBIT SUIT and use 구수댕's face.
+
+Latest correction in Korean: "아니 토끼탈에 사람이 들어가있게 해야지" — THE PERSON MUST BE INSIDE A RABBIT MASCOT COSTUME.
+This is NOT an actual biological rabbit with a human face fused onto it. It is a recognizable person wearing a cuddly rabbit 인형탈 / character suit.
+
+The design must communicate the costume clearly:
+A large soft WHITE RABBIT-CHARACTER HOOD with two long plush pink-lined rabbit ears and a complete little RABBIT FACE sewn onto the hood ABOVE the person's exposed face: a pair of small dark embroidered rabbit eyes, a small pale pink rabbit nose and subtle stitched muzzle lines. This animal-face part belongs to the hood; it does NOT replace or obscure the person's face.
+Beneath the hood's own rabbit face is an OBVIOUS OVAL FACE OPENING, edged by a soft padded fabric rim. Through this opening, we see the actual 구수댕 human face and her natural dark side-parted hair. Clearly visible separation between human face and COSTUME opening; the face is NOT made out of fur, not pasted onto a rabbit head, not stretched into a ball.
+The hood connects to a padded full-body white rabbit mascot suit: wide plump tummy, short thick plush sleeves ending in cute paw-shaped costume mittens, very short plush leg sections and oversized soft paw slippers. Include gentle fabric joins around wrist cuffs and ankles and a subtle central bodysuit closure/seam so the outfit reads as worn cloth. Fur/plush fabric stays on the SUIT, human skin only inside the face opening. A little plush costume tail attached behind one hip.
+All features are soft, simple and cohesive like image 2. Do NOT copy its pig snout, pig ears, pink suit, neck collar, metal carabiner, name badge or girl's identity.
+
+Keep a naturally shaped, human-looking face from image 1 in the hood opening: preserve her specific slim smiling eye shape and spacing, soft eyebrows, nose proportions, natural cheeks and tapering jaw, pink lips and warm open upper-teeth smile. Her recognizable likeness is the face priority. The face remains a normal oval, not a sphere or inflated round cheeks. Do not inflate her eyes or use a generic big-eyed anime girl. Render her face in a refined soft 2D illustrated style consistent with the costume, not a raw pasted photographic cutout. Dark hair flows naturally around forehead and temples inside the opening, without massive pigtails outside the suit or rigid ribbon-like segments.
+
+Pose: standing upright on TWO plush costume feet, slightly playful near-frontal three-quarter pose, padded paw mittens raised a little at the sides in a friendly greeting. Full complete figure. The body is very compact, plump and cuddly like image 2, with broad soft belly and stubby limbs, not lanky, not tall and skinny, not seated. Do not make a soccer ball body or face.
+Rabbit hood visibly extends above the exposed human forehead so its separate embroidered rabbit face is easy to see. Make the costume/person relationship immediately legible.
+
+Style: polished cute Korean 2D game mascot pet illustration, tactile soft plush fabric, gentle shading, expressive face and clean silhouette, matches the existing pet family in image 2.
+Palette: warm ivory white suit, pink ear interiors and paw accents, source dark hair and natural warm human skin.
+No collar, clip, name badge, jewelry, food, flower, weapons, text, watermark, logo or UI. Single character only. No biological animal-person hybrid.
+Centered full-body portrait composition within a square canvas, complete ears and feet, transparent padding at every edge.
+Genuine transparent alpha background; no checkerboard painted in, no backdrop, no external shadow or floor.
