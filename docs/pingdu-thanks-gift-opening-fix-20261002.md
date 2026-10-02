@@ -26,4 +26,11 @@
 - 최종 게이트는 `tests/inventory-ui-v2125.test.mjs`, `tests/feature-lazy-load-v1728.mjs`로 인벤토리와 공용 리소스 연결을 확인한다. 이미 통과한 신규 캐시 회귀·브라우저 검증을 별도로 반복하지 않는다. 출시 플래그·깨끗한 커밋·`origin/main` 일치·캐시 태그·Hyperdrive 검사는 지정 배포 도구에서 유지한다.
 - 배포 후 실제 메인 앱 URL, 서비스워커, 개봉 CSS/JS와 인증되지 않은 개봉 요청 차단을 짧게 확인한다.
 
-운영 반영 결과는 배포 완료 후 이 문서에 기록한다.
+## 운영 반영 완료
+
+- `npm run deploy:production -- --scoped` 성공. 최종 관련 검사 13건, 출시 플래그·캐시 태그·Hyperdrive 검사 통과.
+- 게임 소스: `20f3a98e21bf65036063cfaae26c7a9dd8caf261`.
+- Pages: `9c12ec58-5682-4b20-96e8-902770e0065f`, `https://9c12ec58.cnine-card.pages.dev`.
+- API 런타임: `90b12f97-61f5-4f1d-bcbb-e26f0b415b4f`. 클랜 작업 런타임: `a392f588-3ab1-4a22-aaec-b55de6f6d86a`.
+- 2026-10-02 21:17:41 KST에 운영 canonical 소스와 메인 셸·실제 버전 앱 URL·서비스워커·전용 JS/CSS가 커밋 내용과 일치함을 확인했다. 인증되지 않은 감사 선물 개봉 요청은 401로 차단된다.
+- 상세 운영 확인: `docs/pingdu-thanks-gift-opening-fix-20261002.json`. 완료 기록 커밋은 문서만 반영하며 추가 게임 배포를 하지 않는다.

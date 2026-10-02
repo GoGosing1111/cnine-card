@@ -1,0 +1,40 @@
+{
+  "verifiedAt": "2026-10-02T12:17:41.486Z",
+  "commit": "20f3a98e21bf65036063cfaae26c7a9dd8caf261",
+  "deploymentId": "9c12ec58-5682-4b20-96e8-902770e0065f",
+  "url": "https://9c12ec58.cnine-card.pages.dev",
+  "releaseTag": "2108-shared-navigation-ranked-reform-20261002-retired-20261001-gift-recovery-ranked-energy150-furFrames14-15-pingdu-thanks-open-20261002",
+  "assets": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "cache": "no-cache, must-revalidate, max-age=0",
+      "sha256": "bdc4609e61c61d301bce5a04c64dcce429a65e6f20654bdb2cba3cf5b20b2541"
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "cache": "public, max-age=0, must-revalidate",
+      "sha256": "3bb5bd385e0f0d3638fb6ef2a7fceb0f1b878cd09340a09b69211b80556360df"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "cache": "no-store, no-cache, must-revalidate, max-age=0",
+      "sha256": "56aebcfe9a881fbaf1f64c65868a33bdfe7c59501de9d893b60d28d638e48e06"
+    },
+    {
+      "file": "js/pingdu-thanks-gift-v1.js",
+      "status": 200,
+      "cache": "public, max-age=0, must-revalidate",
+      "sha256": "21fb795c97e3e824fe3935622379b877885864fb1a1fe74b408c11246c8f44ed"
+    },
+    {
+      "file": "css/pingdu-thanks-gift-v1.css",
+      "status": 200,
+      "cache": "public, max-age=0, must-revalidate",
+      "sha256": "03c7523fa834edf444b39355a6b697339b1a832812da498bfcac96a659e5798b"
+    }
+  ],
+  "unauthenticatedOpenStatus": 401
+}
