@@ -398,7 +398,7 @@ for (const pg of [false, true]) {
   test(`${label}: chief-only skills, nuclear OFF, independent cooldowns, retry and complete rollback`, async t => {
     const f=await fixture(t,pg),id=await f.prepare();
     const cast=(code,key,now=f.now,user=1)=>useCoupChiefSkill(f.env,{id:user},{roundId:id,skillCode:code,requestId:key},now);
-    await assert.rejects(cast('ARTILLERY','forbidden-001',f.now,2),e=>e.status===403);
+    await assert.rejects(cast('ARTILLERY','forbidden-001',f.now,3),e=>e.status===403);
     await assert.rejects(cast('NUCLEAR','nuclear-off-001'),e=>e.status===403);
     assert.equal(Number((await f.p('SELECT COUNT(*) n FROM coup_skill_cooldowns_v2118').first()).n),0);
     f.fail('INSERT INTO coup_skills_v2118');await assert.rejects(cast('RALLY','rollback-001'),/INJECTED_FAILURE/);f.fail('');
