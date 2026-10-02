@@ -67,3 +67,5 @@
 }
 @media(max-width:360px){.pe-heading p{max-width:172px;font-size:9px}.pe-heading h1{font-size:21px}.pe-capacity>span{font-size:8px}.pe-heading-title{gap:8px}.pe-heading-icon{width:32px}.pe-card-identity strong{font-size:11px}.pe-card-identity small{font-size:8px}.pe-equipped [data-pet-equipped]>div>span{max-width:130px;font-size:8px}.pe-equipped .pe-button{font-size:9px}.pe-equipped .pe-button .pe-icon{display:none}.pet-deck-slot button{margin-left:45px;width:calc(100% - 45px)}}
 @media(prefers-reduced-motion:reduce){.pet-equipment *,.pe-dialog *{animation:none!important;transition:none!important}}
+
+.pe-buff-label{display:flex;align-items:center;gap:9px}.pe-buff-label .pet-buff-icon{width:32px;height:32px;object-fit:contain;flex-shrink:0}

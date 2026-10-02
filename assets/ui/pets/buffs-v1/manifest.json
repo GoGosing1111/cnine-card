@@ -1,0 +1,156 @@
+{
+  "version": 1,
+  "created": "2026-10-03",
+  "generator": "image_gen.imagegen (built-in)",
+  "prompts": "preview/pet-buffs-v1/prompts.json",
+  "status": "RESOURCE_REVIEW",
+  "battleEnabled": false,
+  "acquisitionEnabled": false,
+  "resources": [
+    {
+      "type": "ATTACK_PERCENT",
+      "slug": "attack",
+      "frames": 8,
+      "columns": 4,
+      "rows": 2,
+      "frameWidth": 320,
+      "frameHeight": 320,
+      "iconFrame": 3,
+      "durationMs": 1600,
+      "source": {
+        "path": "assets/ui/pets/buffs-v1/attack-atlas-source.png",
+        "sha256": "9528991998b132d7bbe08287934a585496a9eb1fd536b29c7ef929e0ee1c920e",
+        "width": 1774,
+        "height": 887
+      },
+      "atlas": {
+        "path": "assets/ui/pets/buffs-v1/attack-atlas.webp",
+        "sha256": "686bbd86d3c263f9e9b5f0c2b10ae9635032904d5c96e1bd7c0c2452324b92e9",
+        "bytes": 285612
+      },
+      "icon": {
+        "path": "assets/ui/pets/buffs-v1/attack-icon.webp",
+        "sha256": "b8c3b44a817fbb6546923010e1a59cd0018ab0cb2d8b51f922a2f00bc465e447",
+        "width": 192,
+        "height": 192,
+        "bytes": 26936
+      }
+    },
+    {
+      "type": "DEFENSE_PERCENT",
+      "slug": "defense",
+      "frames": 8,
+      "columns": 4,
+      "rows": 2,
+      "frameWidth": 320,
+      "frameHeight": 320,
+      "iconFrame": 3,
+      "durationMs": 1600,
+      "source": {
+        "path": "assets/ui/pets/buffs-v1/defense-atlas-source.png",
+        "sha256": "6e600aadeb6195be7c1dac88f1b71f5eda91dc0a48b46e734dc6b8f0beb0706d",
+        "width": 1774,
+        "height": 887
+      },
+      "atlas": {
+        "path": "assets/ui/pets/buffs-v1/defense-atlas.webp",
+        "sha256": "8a42a20b2bb33231b72a2e6b615313bbc9879d6e646f42d6f1088ed7e1a74a95",
+        "bytes": 222918
+      },
+      "icon": {
+        "path": "assets/ui/pets/buffs-v1/defense-icon.webp",
+        "sha256": "282df6141e57051e73d7a30b063c6098f3091c0352fe5dd22c1a6a1c2d9f3cfb",
+        "width": 192,
+        "height": 192,
+        "bytes": 23138
+      }
+    },
+    {
+      "type": "MAX_HP_PERCENT",
+      "slug": "vitality",
+      "frames": 8,
+      "columns": 4,
+      "rows": 2,
+      "frameWidth": 320,
+      "frameHeight": 320,
+      "iconFrame": 3,
+      "durationMs": 1600,
+      "source": {
+        "path": "assets/ui/pets/buffs-v1/vitality-atlas-source.png",
+        "sha256": "3f3fb292cfbd2e74a6043a12ebc23baadd921c56a0af80b3312446dbbb9a8027",
+        "width": 1774,
+        "height": 887
+      },
+      "atlas": {
+        "path": "assets/ui/pets/buffs-v1/vitality-atlas.webp",
+        "sha256": "f64cf5ab67600a444abea4e269b7d04e272fccefeefb1456e5dc8edb7da63b82",
+        "bytes": 193454
+      },
+      "icon": {
+        "path": "assets/ui/pets/buffs-v1/vitality-icon.webp",
+        "sha256": "671dac3b58eddc9a7f14a0a1c110491e81b60f233b12c461a1ea5a0ec4bfc117",
+        "width": 192,
+        "height": 192,
+        "bytes": 25008
+      }
+    },
+    {
+      "type": "SPEED_PERCENT",
+      "slug": "speed",
+      "frames": 8,
+      "columns": 4,
+      "rows": 2,
+      "frameWidth": 320,
+      "frameHeight": 320,
+      "iconFrame": 3,
+      "durationMs": 1600,
+      "source": {
+        "path": "assets/ui/pets/buffs-v1/speed-atlas-source.png",
+        "sha256": "56ccba9b10103d3df98d372eb829ccf0c9801912bd6588362a747bac6c8743cd",
+        "width": 1774,
+        "height": 887
+      },
+      "atlas": {
+        "path": "assets/ui/pets/buffs-v1/speed-atlas.webp",
+        "sha256": "83493f6e2621a6a5ab23b2af403b0eaa97237394e5f6a49d07c4618cfa8abf36",
+        "bytes": 247668
+      },
+      "icon": {
+        "path": "assets/ui/pets/buffs-v1/speed-icon.webp",
+        "sha256": "593e9d28a8b1feca4344a62c59525a5f38f669f0d7b4934bc66b6bc9d72e5a8e",
+        "width": 192,
+        "height": 192,
+        "bytes": 23144
+      }
+    },
+    {
+      "type": "START_SHIELD_PERCENT",
+      "slug": "barrier",
+      "frames": 8,
+      "columns": 4,
+      "rows": 2,
+      "frameWidth": 320,
+      "frameHeight": 320,
+      "iconFrame": 3,
+      "durationMs": 1600,
+      "source": {
+        "path": "assets/ui/pets/buffs-v1/barrier-atlas-source.png",
+        "sha256": "11c9828f9e31489324a6c624943dacf2222730d6823af099171241858c02f9b6",
+        "width": 1774,
+        "height": 887
+      },
+      "atlas": {
+        "path": "assets/ui/pets/buffs-v1/barrier-atlas.webp",
+        "sha256": "439bfd497019a0df663852300d74ca63a30c5d6620d5fa7308ab81a2c6dc3b86",
+        "bytes": 243124
+      },
+      "icon": {
+        "path": "assets/ui/pets/buffs-v1/barrier-icon.webp",
+        "sha256": "a5cfd23f16507e4afb375602241a129ae7091dd859fa0dea13b064ed89cd8147",
+        "width": 192,
+        "height": 192,
+        "bytes": 20820
+      }
+    }
+  ]
+}

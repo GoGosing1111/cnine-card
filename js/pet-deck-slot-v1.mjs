@@ -1,4 +1,4 @@
-import {openPetEquipment,petUiIcon} from './pet-equipment-window-v1.mjs?v=20261002-pet-ui2';
+import {openPetEquipment,petUiIcon} from './pet-equipment-window-v1.mjs?v=20261003-pet-buffs1';
 
 function mount(){
   for(const [id,mode]of [['battleDeck','PVE'],['pvpDeckSlots','PVP']]){
