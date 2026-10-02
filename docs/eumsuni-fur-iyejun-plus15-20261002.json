@@ -1,0 +1,50 @@
+{
+  "receipt": {
+    "operationKey": "ops:eumsuni-fur-iyejun-plus15:20261002:v1",
+    "status": "COMPLETED",
+    "actor": "SYSTEM_OPS",
+    "user": {
+      "id": 65,
+      "nickname": "음순이"
+    },
+    "card": {
+      "id": "CN-346F8DB0DEB84D41",
+      "title": "철구",
+      "grade": "FUR"
+    },
+    "levelBefore": 13,
+    "levelAfter": 15,
+    "quantityBefore": 4,
+    "quantityAfter": 4,
+    "changed": true,
+    "balancesPreserved": true,
+    "completedAt": "2026-10-02T04:39:39.342Z",
+    "adminLogId": "39405",
+    "committed": true,
+    "replayed": false
+  },
+  "verified": {
+    "operationKey": "ops:eumsuni-fur-iyejun-plus15:20261002:v1",
+    "status": "VERIFIED",
+    "actor": "SYSTEM_OPS",
+    "user": {
+      "id": 65,
+      "nickname": "음순이"
+    },
+    "card": {
+      "id": "CN-346F8DB0DEB84D41",
+      "title": "철구",
+      "grade": "FUR"
+    },
+    "levelBefore": 13,
+    "levelAfter": 15,
+    "quantityBefore": 4,
+    "quantityAfter": 4,
+    "changed": true,
+    "balancesPreserved": true,
+    "completedAt": "2026-10-02T04:39:39.342Z",
+    "adminLogId": "39405",
+    "currentQuantity": 4,
+    "currentLevel": 15
+  }
+}
