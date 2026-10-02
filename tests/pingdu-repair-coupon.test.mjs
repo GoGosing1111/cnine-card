@@ -6,6 +6,7 @@ import {ensureForgeRepairCatalog,FORGE_REPAIR_ITEM as item,FORGE_REPAIR_CATALOG_
 import {ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM} from '../functions/_forge_protection_catalog.js';
 import {ensureEmperorEnergyCatalog} from '../functions/_emperor_energy.js';
 import {LICH_TICKET} from '../functions/_raid_lich_live.js';
+import {presentMiracleInventory} from '../functions/_miracle_cube.js';
 import {forgeAdminState} from './helpers/forge-held-runtime.mjs';
 import {forgeQuote,executeForge,readForgeRuntime,saveForgeRuntime,forgeAccountState} from './helpers/forge-held-runtime.mjs';
 import {TOURNAMENT_GIFT} from '../functions/_tournament_gift.js';
@@ -15,12 +16,12 @@ const rid=()=>crypto.randomUUID();
 const api=fs.readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 const AsyncFunction=Object.getPrototypeOf(async function(){}).constructor;
 const inventoryBody=api.slice(api.indexOf("    if(path==='inventory'){"),api.indexOf("    if(path==='inventory/seen'"));
-const inventory=new AsyncFunction('deps',`const {env,request,authenticate,json,ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM,ensureForgeRepairCatalog,FORGE_REPAIR_ITEM,ensureEmperorEnergyCatalog,LICH_TICKET}=deps;
-const path='inventory',ensureTournamentGiftCatalog=async()=>{},ensureFundingGiftCatalog=async()=>{},ensureRecruitmentGiftCatalog=async()=>{},ensureSkillChipFoundation=async()=>{},ensureBattleSuitCoreCatalog=async()=>{},ensureUniqueAdvancementPassCatalog=async()=>{},ensureMysticEnergyCatalog=async()=>{},blackMiracleSettings=async()=>({enabled:false}),UNIQUE_ADVANCEMENT_PASS_CODE='UNIQUE_ADVANCEMENT_PASS';${inventoryBody}`);
+const inventory=new AsyncFunction('deps',`const {env,request,authenticate,json,ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM,ensureForgeRepairCatalog,FORGE_REPAIR_ITEM,ensureEmperorEnergyCatalog,LICH_TICKET,presentMiracleInventory}=deps;
+const path='inventory',ensureTournamentGiftCatalog=async()=>{},ensureFundingGiftCatalog=async()=>{},ensureRecruitmentGiftCatalog=async()=>{},ensurePingduThanksGiftCatalog=async()=>{},ensureSkillChipFoundation=async()=>{},ensureBattleSuitCoreCatalog=async()=>{},ensureUniqueAdvancementPassCatalog=async()=>{},ensureMysticEnergyCatalog=async()=>{},blackMiracleSettings=async()=>({enabled:false}),UNIQUE_ADVANCEMENT_PASS_CODE='UNIQUE_ADVANCEMENT_PASS';${inventoryBody}`);
 const useStart=api.indexOf("    if(path==='inventory/use'&&request.method==='POST'){");
 const useBody=api.slice(useStart,api.indexOf('      const usableCodes=',useStart))+'}';
 const directUse=new AsyncFunction('deps',`const {env,request,authenticate,json,readBody,FORGE_REPAIR_ITEM,TOURNAMENT_GIFT}=deps;const path='inventory/use',UNIQUE_ADVANCEMENT_PASS_CODE='UNIQUE_ADVANCEMENT_PASS';${useBody}`);
-const deps=f=>({env:f.env,request:new Request('https://qa.test/api/inventory'),authenticate:async()=>f.user,json:(body,status=200)=>({body,status}),ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM,ensureForgeRepairCatalog,FORGE_REPAIR_ITEM:item,ensureEmperorEnergyCatalog,TOURNAMENT_GIFT,LICH_TICKET});
+const deps=f=>({env:f.env,request:new Request('https://qa.test/api/inventory'),authenticate:async()=>f.user,json:(body,status=200)=>({body,status}),ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM,ensureForgeRepairCatalog,FORGE_REPAIR_ITEM:item,ensureEmperorEnergyCatalog,TOURNAMENT_GIFT,LICH_TICKET,presentMiracleInventory});
 async function ready(t,postgres,quantity=2){
   const f=await forgeFixture(t,{postgres});await ensureForgeRepairCatalog(f.env);
   const policy={...f.policy,restoration:{enabled:true,coinCost:0,itemCode:item.code,itemQuantity:1,levelMode:'PREVIOUS',expiresHours:0}};
