@@ -1,0 +1,44 @@
+{
+  "format": "PROJECT_V_LIMITED_CANONICAL_APPROVAL_V1",
+  "dateKST": "2026-10-02",
+  "status": "USER_CONFIRMED",
+  "userRequests": [
+    "잘못줬다 이거임 나무늘봉순",
+    "그리고 조은 나무늘봉순 다 SS 리미티드임",
+    "발테르 프레임이 승인본임"
+  ],
+  "cards": [
+    {
+      "name": "나무늘봉순",
+      "code": "V-990",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "sourceArt": "assets/bongsoon-limited-ss-source-art-approved-20261002.png",
+      "liveSourceArt": "assets/ui/project-v/mercenaries/limited-20261002/v-990-source-art-approved-20261002.png",
+      "sha256": "EFC0B6D14A891917D517E8F9850D398165A0F94C11006DD6945BB2D05C627120",
+      "sourceProvenance": "codex-clipboard-08624f22-4820-40f4-b7f2-67988363669f.png",
+      "byteForByteCopy": true,
+      "supersedes": "bongsoon-approval-20261001.json",
+      "excludedAttachment": "codex-clipboard-43a0e34f-2a30-4e1f-8703-b23f2b02ee49.png",
+      "concept": "설원 · 판타지 저격소총 · 허스키"
+    },
+    {
+      "name": "조은",
+      "code": "V-991",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "sourceArt": "assets/joeun-neon-source-art-v11-straightened-cannon.png",
+      "sha256": "87E88A646E327FCBB6489B05D8C5287C5212B1D9105134ECE1C036D022C633DA",
+      "supersedesRankOnly": "joeun-approval-20261001.json"
+    }
+  ],
+  "frame": {
+    "appliesTo": "ALL_SIX_LIMITED_CARDS",
+    "path": "../mercenary-limited-frame-slim-v3-20261001/assets/mercenary-limited-frame-slim-v3-glow.png",
+    "sha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA"
+  },
+  "acquisitionEnabled": false,
+  "deploymentEnabled": false,
+  "display": "SOURCE_ART_AND_AVAILABLE_SD_ONLY",
+  "noRegenerationOrRecompression": true
+}

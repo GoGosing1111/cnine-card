@@ -1,10 +1,10 @@
 {
-  "version": 7,
+  "version": 8,
   "dateKST": "2026-10-02",
   "scope": "LIMITED_SOURCE_ART_COLLECTION_PREVIEW",
   "method": "built-in image_gen; approved source files preserved byte-for-byte",
-  "userReview": "VALTER_SSS_LIMITED_RESTORED_WITH_USER_SELECTED_V3_GLOW_ALL_SIX_SOURCE_ART_PRESERVED",
-  "rankStatus": "PER_ENTRY_VALTER_INES_SSS_ORIKKUNG_DIIM_SS_BONGSOON_JOEUN_EXPECTED_SS",
+  "userReview": "ALL_SIX_LIMITED_USER_CONFIRMED_VALTER_GLOW_FRAME_BONGSOON_CORRECTED_ATTACHMENT",
+  "rankStatus": "FOUR_CONFIRMED_SS_TWO_CONFIRMED_SSS",
   "entries": [
     {
       "name": "발테르",
@@ -17,7 +17,7 @@
       "method": "EXISTING_APPROVED_ORIGINAL_NO_GENERATION",
       "frame": "../mercenary-limited-frame-slim-v3-20261001/assets/mercenary-limited-frame-slim-v3-glow.png",
       "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
-      "frameStatus": "USER_SELECTED_FOR_VALTER_PREVIEW",
+      "frameStatus": "USER_APPROVED_ALL_LIMITED",
       "sourceArt": "../../assets/ui/project-v/mercenaries/approved-20260930/crimson-silver-knight-source-art-approved-v8.png",
       "source": {
         "path": "../../assets/ui/project-v/mercenaries/approved-20260930/crimson-silver-knight-source-art-approved-v8.png",
@@ -32,30 +32,34 @@
     },
     {
       "name": "나무늘봉순",
-      "concept": "설원의 특수부대 · 쌍기관단총",
-      "approval": "bongsoon-approval-20261001.json",
+      "concept": "설원의 저격수 · 허스키",
+      "approval": "limited-approval-correction-20261002.json",
       "status": "APPROVED_SOURCE_ART",
-      "expectedRank": "SS",
-      "rankStatus": "EXPECTED_NOT_CONFIRMED",
-      "sourceArt": "assets/bongsoon-snow-source-art-approved-20261001.png",
+      "rankStatus": "CONFIRMED_BY_USER",
+      "sourceArt": "assets/bongsoon-limited-ss-source-art-approved-20261002.png",
       "source": {
-        "path": "assets/bongsoon-snow-source-art-approved-20261001.png",
+        "path": "assets/bongsoon-limited-ss-source-art-approved-20261002.png",
         "width": 1024,
         "height": 1536,
         "bitDepth": 8,
         "colorType": 2,
-        "bytes": 2866596,
-        "sha256": "B15D0CCBB2429C539BC337198B1BABBD3D277E1FF84FC2DAD88B209431AC4FF3"
+        "bytes": 2983031,
+        "sha256": "EFC0B6D14A891917D517E8F9850D398165A0F94C11006DD6945BB2D05C627120"
       },
-      "approvedScope": "Entire source illustration; preserve bytes without further edits"
+      "approvedScope": "Entire source illustration; preserve bytes without further edits",
+      "frame": "../mercenary-limited-frame-slim-v3-20261001/assets/mercenary-limited-frame-slim-v3-glow.png",
+      "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+      "frameStatus": "USER_APPROVED_ALL_LIMITED",
+      "rank": "SS",
+      "rankConfirmed": true,
+      "edition": "LIMITED"
     },
     {
       "name": "조은",
       "concept": "네온 장비 흑백 특수부대 · 확장형 레이저 중화기",
-      "approval": "joeun-approval-20261001.json",
+      "approval": "limited-approval-correction-20261002.json",
       "status": "APPROVED_SOURCE_ART",
-      "expectedRank": "SS",
-      "rankStatus": "EXPECTED_NOT_CONFIRMED",
+      "rankStatus": "CONFIRMED_BY_USER",
       "sourceArt": "assets/joeun-neon-source-art-v11-straightened-cannon.png",
       "source": {
         "path": "assets/joeun-neon-source-art-v11-straightened-cannon.png",
@@ -66,7 +70,13 @@
         "bytes": 2389147,
         "sha256": "87E88A646E327FCBB6489B05D8C5287C5212B1D9105134ECE1C036D022C633DA"
       },
-      "approvedScope": "Entire source illustration; preserve bytes without further edits"
+      "approvedScope": "Entire source illustration; preserve bytes without further edits",
+      "frame": "../mercenary-limited-frame-slim-v3-20261001/assets/mercenary-limited-frame-slim-v3-glow.png",
+      "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+      "frameStatus": "USER_APPROVED_ALL_LIMITED",
+      "rank": "SS",
+      "rankConfirmed": true,
+      "edition": "LIMITED"
     },
     {
       "name": "이네스",
@@ -87,7 +97,10 @@
         "bytes": 2864651,
         "sha256": "97D2120A91E7682130697476F6DA0C77FF5AA548C16B2AB128B539FF5ACB176D"
       },
-      "approvedScope": "Add alongside Bongsoon and Joeun in the existing preview with user-designated SSS label"
+      "approvedScope": "Add alongside Bongsoon and Joeun in the existing preview with user-designated SSS label",
+      "frame": "../mercenary-limited-frame-slim-v3-20261001/assets/mercenary-limited-frame-slim-v3-glow.png",
+      "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+      "frameStatus": "USER_APPROVED_ALL_LIMITED"
     },
     {
       "name": "오리꿍",
@@ -110,7 +123,10 @@
         "bytes": 2482146,
         "sha256": "039E7CDD18D23CC05943E52157218FFE105F5F213C0B203237CD42FA2966F2A3"
       },
-      "approvedScope": "Entire attached sourceArt, character name, confirmed SS rank and LIMITED edition"
+      "approvedScope": "Entire attached sourceArt, character name, confirmed SS rank and LIMITED edition",
+      "frame": "../mercenary-limited-frame-slim-v3-20261001/assets/mercenary-limited-frame-slim-v3-glow.png",
+      "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+      "frameStatus": "USER_APPROVED_ALL_LIMITED"
     },
     {
       "name": "디임",
@@ -133,30 +149,22 @@
         "bytes": 2824076,
         "sha256": "838B9A71739EF4B442E00734584496A92136EFDAD6C71463E18527D6DF5E5CB4"
       },
-      "approvedScope": "Entire attached sourceArt, character name, confirmed SS rank and LIMITED edition"
+      "approvedScope": "Entire attached sourceArt, character name, confirmed SS rank and LIMITED edition",
+      "frame": "../mercenary-limited-frame-slim-v3-20261001/assets/mercenary-limited-frame-slim-v3-glow.png",
+      "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+      "frameStatus": "USER_APPROVED_ALL_LIMITED"
     }
   ],
   "frame": {
-    "path": "assets/mercenary-limited-frame-approved-20261001.png",
-    "width": 1024,
-    "height": 1536,
-    "bitDepth": 8,
-    "colorType": 6,
-    "bytes": 1110542,
-    "sha256": "C6B33EFC33502312B78EBD31167124BAB1FB661E22DD60A23950225C91C9DCC1",
-    "status": "APPROVED_FRAME",
-    "approval": "frame-approval-v2-20261001.json",
-    "design": "frame-design-v2.json",
-    "prompt": "prompt-frame-v2-slim-sides.json",
+    "path": "../mercenary-limited-frame-slim-v3-20261001/assets/mercenary-limited-frame-slim-v3-glow.png",
+    "sha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+    "status": "USER_APPROVED_ALL_LIMITED",
+    "approval": "limited-approval-correction-20261002.json",
     "displayFit": {
-      "artWidthPercent": 74.2,
-      "windowLeftPercent": 12.9,
-      "windowTopPercent": 15,
-      "windowHeightPercent": 76.8,
-      "artVerticallyCentered": true,
-      "aspectRatioPreserved": true,
-      "approvedSourceAndFramePixelsUnchanged": true,
-      "nameOverlay": false
+      "left": 5.957,
+      "top": 5.794,
+      "width": 88.086,
+      "height": 88.086
     }
   },
   "retiredFrames": [
@@ -522,8 +530,8 @@
   },
   "futureRules": {
     "location": "../../AGENTS.md",
-    "approvedArt": "발테르 SSS 리미티드·봉순 원본·조은 V11·오리꿍 SS 리미티드·디임 SS 리미티드 승인 원본 해시 고정, 이네스 첨부 원본 보존",
-    "frame": "V1 폐기. V2 승인 원본 보존. 발테르는 사용자가 지정한 슬림 V3 광원 프레임을 기본 사용한다.",
+    "approvedArt": "나무늘봉순은 2026-10-02 정정 첨부 EFC0B6D14A891917D517E8F9850D398165A0F94C11006DD6945BB2D05C627120 고정. 봉순·조은 SS 확정. 나머지 승인 원화 유지.",
+    "frame": "모든 리미티드는 발테르 승인 슬림 V3 광원 프레임을 동일 사용. 과거 V2는 이력으로 보존.",
     "hair": "자연스러운 연속 모발 흐름 / 층층이 갈라진 판·띠형 헤어 금지"
   },
   "technicalQA": {
@@ -535,5 +543,28 @@
   },
   "liveRegistration": false,
   "battleSprite": "NOT_REQUESTED",
-  "skills": "NOT_REQUESTED"
+  "skills": "NOT_REQUESTED",
+  "historicalFrameV2": {
+    "path": "assets/mercenary-limited-frame-approved-20261001.png",
+    "width": 1024,
+    "height": 1536,
+    "bitDepth": 8,
+    "colorType": 6,
+    "bytes": 1110542,
+    "sha256": "C6B33EFC33502312B78EBD31167124BAB1FB661E22DD60A23950225C91C9DCC1",
+    "status": "APPROVED_FRAME",
+    "approval": "frame-approval-v2-20261001.json",
+    "design": "frame-design-v2.json",
+    "prompt": "prompt-frame-v2-slim-sides.json",
+    "displayFit": {
+      "artWidthPercent": 74.2,
+      "windowLeftPercent": 12.9,
+      "windowTopPercent": 15,
+      "windowHeightPercent": 76.8,
+      "artVerticallyCentered": true,
+      "aspectRatioPreserved": true,
+      "approvedSourceAndFramePixelsUnchanged": true,
+      "nameOverlay": false
+    }
+  }
 }

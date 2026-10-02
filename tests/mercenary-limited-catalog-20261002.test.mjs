@@ -13,10 +13,12 @@ const digest=b=>createHash('sha256').update(b).digest('hex').toUpperCase();
 test('read-only codex includes all six limited cards with confirmed ranks and original artwork',()=>{
  const catalog=validateCatalog(mercenaryCodexDocument({payload_json:JSON.stringify(seed.document),revision:1,updated_at:'2026-10-02'}));
  assert.equal(catalog.cards.filter(c=>c.edition==='LIMITED').length,6);assert.equal(new Set(catalog.cards.map(c=>c.code)).size,catalog.cards.length);
- assert.equal(cards.find(c=>c.name==='나무늘봉순').rank,null);assert.equal(cards.find(c=>c.name==='조은').rank,null);
+ assert.equal(cards.find(c=>c.name==='나무늘봉순').rank,'SS');assert.equal(cards.find(c=>c.name==='조은').rank,'SS');
  assert.deepEqual(cards.filter(c=>c.rank==='SSS').map(c=>c.name),['발테르','이네스']);
- assert.deepEqual(cards.filter(c=>c.rank==='SS').map(c=>c.name),['오리꿍','디임']);
- for(const c of cards){for(const [path,hash] of [[c.sourceArt,c.sourceArtSha256],[c.frame,c.frameSha256],...(c.battleSprite?[[c.battleSprite,c.battleSpriteSha256]]:[])])assert.equal(digest(fs.readFileSync(path)),hash,path);assert.equal(c.acquisitionEnabled,false);assert.equal(c.deploymentEnabled,false);assert.equal(c.basePower,null);assert.deepEqual(c.skills,[]);}
+ assert.deepEqual(cards.filter(c=>c.rank==='SS').map(c=>c.name),['나무늘봉순','조은','오리꿍','디임']);
+ for(const c of cards){assert.equal(c.frameSha256,'F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA');assert.equal(c.frame,cards[0].frame);assert.deepEqual(c.artWindow,cards[0].artWindow);assert.equal(c.battlePreview,undefined);for(const [path,hash] of [[c.sourceArt,c.sourceArtSha256],[c.frame,c.frameSha256],...(c.battleSprite?[[c.battleSprite,c.battleSpriteSha256]]:[])])assert.equal(digest(fs.readFileSync(path)),hash,path);assert.equal(c.acquisitionEnabled,false);assert.equal(c.deploymentEnabled,false);assert.equal(c.basePower,null);assert.deepEqual(c.skills,[]);}
+ assert.equal(cards.find(c=>c.code==='V-990').sourceArtSha256,'EFC0B6D14A891917D517E8F9850D398165A0F94C11006DD6945BB2D05C627120');
+ const canonical=JSON.parse(fs.readFileSync('preview/mercenary-limited-snow-neon-20261001-v1/manifest.json'));for(const card of cards){const entry=canonical.entries.find(e=>e.name===card.name);assert.equal(entry.rank,card.rank);assert.equal(entry.source.sha256,card.sourceArtSha256);assert.equal(entry.frameSha256,card.frameSha256);}assert.deepEqual(JSON.parse(fs.readFileSync('assets/ui/project-v/mercenaries/limited-20261002/catalog.json')).cards,cards);
  assert.equal(filterCatalog(cards,{q:'발테르',rank:'SSS'},new Set()).length,1);
  const broken=structuredClone(catalog);broken.cards.find(c=>c.edition==='LIMITED').acquisitionEnabled=true;assert.throws(()=>validateCatalog(broken),/조회만/);
 });
@@ -28,7 +30,7 @@ test('limited grants remain blocked independent of saved weight and never enter 
 test('SSS Valter exposes preserved approved SD, V17 motion and effects without runtime activation',()=>{
  const prefix='preview/mercenary-crimson-silver-knight-battle-v1/',m=JSON.parse(fs.readFileSync(prefix+'manifest.json'));assert.equal(m.runtimeEnabled,false);assert.equal(m.version,17);assert.equal(m.rank,'SSS');let motion=0,effects=0;
  for(const [kind,specs] of [['motion',m.activeMotionKeys.map(k=>m.motion[k])],['effect',Object.values(m.effects)]])for(const s of specs){for(const [file,hash] of [[s.atlas,s.atlasSha256],[s.pngAtlas,s.pngAtlasSha256],...s.frames.map(f=>[f.file,f.sha256])])assert.equal(digest(fs.readFileSync(prefix+file)),hash,file);if(kind==='motion')motion+=s.frameCount;else effects+=s.frameCount;}
- assert.equal(motion,27);assert.equal(effects,96);assert.ok(fs.statSync(prefix+'preview.bundle.js').size>100000);assert.ok(cards.find(c=>c.name==='발테르').battlePreview);assert.ok(fs.existsSync(prefix+'index.html'));
+ assert.equal(motion,27);assert.equal(effects,96);assert.ok(fs.statSync(prefix+'preview.bundle.js').size>100000);assert.ok(cards.find(c=>c.name==='발테르').battleSprite);assert.ok(fs.existsSync(prefix+'index.html'));
 });
 async function fixture(t){
  const pg=new PGlite();t.after(()=>pg.close());await pg.exec('CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT);CREATE TABLE admin_logs(id BIGSERIAL PRIMARY KEY,admin_id BIGINT,action_type TEXT,target_type TEXT,target_id TEXT,before_data TEXT,after_data TEXT);CREATE TABLE mercenary_draw_config_v1(id BIGINT,payload_json TEXT);INSERT INTO mercenary_draw_config_v1 VALUES(1,\'general unchanged\');');let fail=false,calls=0;

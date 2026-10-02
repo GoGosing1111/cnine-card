@@ -11,7 +11,6 @@ export function validateCatalog(data){
     if(c.edition==='LIMITED'){
       if(c.artOnly!==true||c.basePower!==null||c.skills.length||c.releaseStatus!=='LIMITED_PREVIEW'||c.acquisitionEnabled!==false||c.deploymentEnabled!==false)throw Error('리미티드 용병은 조회만 가능합니다.');
       asset(c.frame);if(!c.artWindow||['left','top','width','height'].some(k=>!Number.isFinite(c.artWindow[k])||c.artWindow[k]<0||c.artWindow[k]>100))throw Error('리미티드 프레임 배치를 확인하세요.');
-      if(c.battlePreview&&!/^\/preview\/mercenary-crimson-silver-knight-battle-v1\/\?v=17-valter-sss-limited#battle$/.test(c.battlePreview))throw Error('전투 프리뷰 경로를 확인하세요.');
     }else if(c.artOnly===true&&(c.basePower!==null||c.battleSprite!==null||c.skills.length||c.releaseStatus!=='ART_RELEASED'))throw Error('원화 공개 용병의 전투 정보는 아직 제공되지 않습니다.');
     for(const s of c.skills)if(!/^MS-\d{3}$/.test(s.id)||!s.name||!s.balance||typeof s.ready!=='boolean')throw Error('스킬 설정을 확인하세요.');
   }return data;

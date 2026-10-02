@@ -29,35 +29,34 @@ export const LIMITED_MERCENARIES=Object.freeze([
     },
     "resourceStatus": "ART_SD_MOTION_READY",
     "battleSpriteSha256": "D2CAB7DDE716CF9A0554AF44A03A448A7BCCD9E402928D87620C72C73879A6CC",
-    "battlePreview": "/preview/mercenary-crimson-silver-knight-battle-v1/?v=17-valter-sss-limited#battle",
     "motionVersion": 17
   },
   {
     "code": "V-990",
     "name": "나무늘봉순",
-    "title": "설원의 특수부대 · 쌍기관단총",
-    "rank": null,
-    "rankStatus": "EXPECTED_NOT_CONFIRMED",
+    "title": "설원의 저격수 · 허스키",
+    "rank": "SS",
+    "rankStatus": "CONFIRMED_BY_USER",
     "edition": "LIMITED",
     "role": "LIMITED",
     "position": null,
     "artOnly": true,
     "releaseStatus": "LIMITED_PREVIEW",
-    "sourceArt": "assets/ui/project-v/mercenaries/limited-20261002/v-990-source-art.png",
-    "sourceArtSha256": "B15D0CCBB2429C539BC337198B1BABBD3D277E1FF84FC2DAD88B209431AC4FF3",
+    "sourceArt": "assets/ui/project-v/mercenaries/limited-20261002/v-990-source-art-approved-20261002.png",
+    "sourceArtSha256": "EFC0B6D14A891917D517E8F9850D398165A0F94C11006DD6945BB2D05C627120",
     "battleSprite": null,
     "accent": "#e6c98d",
     "basePower": null,
     "skills": [],
     "acquisitionEnabled": false,
     "deploymentEnabled": false,
-    "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-approved-v2.png",
-    "frameSha256": "C6B33EFC33502312B78EBD31167124BAB1FB661E22DD60A23950225C91C9DCC1",
+    "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+    "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
     "artWindow": {
-      "left": 12.9,
-      "top": 15,
-      "width": 74.2,
-      "height": 76.8
+      "left": 5.957,
+      "top": 5.794,
+      "width": 88.086,
+      "height": 88.086
     },
     "resourceStatus": "SOURCE_ART_READY"
   },
@@ -65,8 +64,8 @@ export const LIMITED_MERCENARIES=Object.freeze([
     "code": "V-991",
     "name": "조은",
     "title": "네온 장비 흑백 특수부대 · 확장형 레이저 중화기",
-    "rank": null,
-    "rankStatus": "EXPECTED_NOT_CONFIRMED",
+    "rank": "SS",
+    "rankStatus": "CONFIRMED_BY_USER",
     "edition": "LIMITED",
     "role": "LIMITED",
     "position": null,
@@ -80,13 +79,13 @@ export const LIMITED_MERCENARIES=Object.freeze([
     "skills": [],
     "acquisitionEnabled": false,
     "deploymentEnabled": false,
-    "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-approved-v2.png",
-    "frameSha256": "C6B33EFC33502312B78EBD31167124BAB1FB661E22DD60A23950225C91C9DCC1",
+    "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+    "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
     "artWindow": {
-      "left": 12.9,
-      "top": 15,
-      "width": 74.2,
-      "height": 76.8
+      "left": 5.957,
+      "top": 5.794,
+      "width": 88.086,
+      "height": 88.086
     },
     "resourceStatus": "SOURCE_ART_READY"
   },
@@ -109,13 +108,13 @@ export const LIMITED_MERCENARIES=Object.freeze([
     "skills": [],
     "acquisitionEnabled": false,
     "deploymentEnabled": false,
-    "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-approved-v2.png",
-    "frameSha256": "C6B33EFC33502312B78EBD31167124BAB1FB661E22DD60A23950225C91C9DCC1",
+    "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+    "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
     "artWindow": {
-      "left": 12.9,
-      "top": 15,
-      "width": 74.2,
-      "height": 76.8
+      "left": 5.957,
+      "top": 5.794,
+      "width": 88.086,
+      "height": 88.086
     },
     "resourceStatus": "SOURCE_ART_READY"
   },
@@ -138,13 +137,13 @@ export const LIMITED_MERCENARIES=Object.freeze([
     "skills": [],
     "acquisitionEnabled": false,
     "deploymentEnabled": false,
-    "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-approved-v2.png",
-    "frameSha256": "C6B33EFC33502312B78EBD31167124BAB1FB661E22DD60A23950225C91C9DCC1",
+    "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+    "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
     "artWindow": {
-      "left": 12.9,
-      "top": 15,
-      "width": 74.2,
-      "height": 76.8
+      "left": 5.957,
+      "top": 5.794,
+      "width": 88.086,
+      "height": 88.086
     },
     "resourceStatus": "SOURCE_ART_READY"
   },
@@ -167,13 +166,13 @@ export const LIMITED_MERCENARIES=Object.freeze([
     "skills": [],
     "acquisitionEnabled": false,
     "deploymentEnabled": false,
-    "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-approved-v2.png",
-    "frameSha256": "C6B33EFC33502312B78EBD31167124BAB1FB661E22DD60A23950225C91C9DCC1",
+    "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+    "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
     "artWindow": {
-      "left": 12.9,
-      "top": 15,
-      "width": 74.2,
-      "height": 76.8
+      "left": 5.957,
+      "top": 5.794,
+      "width": 88.086,
+      "height": 88.086
     },
     "resourceStatus": "SOURCE_ART_READY"
   }
