@@ -3,7 +3,7 @@
 
   const root = window;
   const VERSION = '3.37.0-fluid-combat';
-  const BATTLE_RUNTIME = '20261002-hp-sync-v1';
+  const BATTLE_RUNTIME = '20261003-apocalypse-shanks-shisui-v1';
   let battleRuntimeRefresh = null;
   async function ensureCurrentBattleRuntime({effects=false}={}) {
     const ready=()=>root.ProjectVPixiBattle?.runtimeVersion===BATTLE_RUNTIME&&(!effects||Boolean(root.ProjectVPixiBattle.fxRuntime));

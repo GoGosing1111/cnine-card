@@ -1,4 +1,4 @@
-import {apocalypseLegionBoss,apocalypseLegionUltimate,APOCALYPSE_MINIONS} from '../shared/apocalypse-legion-v1.mjs';
+import {apocalypseLegionBoss,apocalypseLegionUltimate,apocalypseLegionSuitDefense,APOCALYPSE_MINIONS} from '../shared/apocalypse-legion-v1.mjs';
 export const apocalypseSealed=actor=>Number(actor?.apocalypseStatus?.seal?.remaining)>0;
 export const apocalypseCursed=actor=>Number(actor?.apocalypseStatus?.curse?.remaining)>0;
 export const apocalypseHealing=(target,amount)=>apocalypseCursed(target)?0:amount;
@@ -13,6 +13,8 @@ export function buildApocalypseLegion(monster,build){
  if(!boss)return null;
  const leader=build(monster);leader.monsterId=boss.monsterId;leader.apocalypseBossCode=boss.code;leader.apocalypseSkillsEnabled=monster.pve_apocalypse_skill?.enabled!==false;leader.row='BACK';
  leader.apocalypseUltimate=apocalypseLegionUltimate(boss.monsterId,monster.pve_apocalypse_skill?.ultimate);
+ const suitDefense=apocalypseLegionSuitDefense(boss.monsterId,monster.pve_battle_suit_skill_defense_percent);
+ if(suitDefense>0)leader.battleSuitSkillDefensePercent=suitDefense;
  leader.sourceArt=boss.sourceArt;leader.battleSprite=boss.battleSprite;leader.projectVMonsterArt={scope:'BATTLE_ENGINE_ONLY',kind:'MONSTER_SD',name:boss.name,primaryUrl:boss.battleSprite,pngFallbackUrl:boss.battleSprite,isBoss:true,approved:true};
  const minions=Array.from({length:6},(_,index)=>{
   const source=APOCALYPSE_MINIONS[Math.floor(index/2)],slot=index+1;

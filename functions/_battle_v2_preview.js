@@ -1163,7 +1163,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         const state=applyDamage(target,pending.damage),pierce=applyDamage(target,pending.pierce,{ignoreShield:true});
         const damage=state.hpDamage+pierce.hpDamage;
         chipActor.damageDealt+=damage+state.absorbed;
-        emitTimeline(timeline,clock,'SKILL_CHIP_HIT',{actorId:chipActor.id,actorKind:'BATTLE_SUIT',damageSource:pending.intrinsic?'BATTLE_SUIT_INTRINSIC_SKILL':'BATTLE_SUIT_SKILL_CHIP',targeting:pending.targeting,targetId:target.id,chipCode:pending.chipCode,castId:pending.castId,hitIndex:pending.hitIndex,hitCount:pending.hitCount,damage,absorbed:state.absorbed,apocalypsePierce:pierce.hpDamage||undefined,critical:pending.critical,baseDamage:pending.baseDamage,damageMultiplier:pending.multiplier,targetHpAfter:target.hp,targetMaxHp:target.maxHp,targetShieldAfter:target.shield});
+        emitTimeline(timeline,clock,'SKILL_CHIP_HIT',{actorId:chipActor.id,actorKind:'BATTLE_SUIT',damageSource:pending.intrinsic?'BATTLE_SUIT_INTRINSIC_SKILL':'BATTLE_SUIT_SKILL_CHIP',targeting:pending.targeting,targetId:target.id,chipCode:pending.chipCode,castId:pending.castId,hitIndex:pending.hitIndex,hitCount:pending.hitCount,damage,absorbed:state.absorbed,apocalypsePierce:pierce.hpDamage||undefined,critical:pending.critical,baseDamage:pending.baseDamage,damageMultiplier:pending.multiplier,...(pending.skillDefensePercent>0?{battleSuitSkillDefensePercent:pending.skillDefensePercent}:{}),targetHpAfter:target.hp,targetMaxHp:target.maxHp,targetShieldAfter:target.shield});
         settleKnockout(target,timeline,clock,reviveFromMagic);
       }
     }else if(nextCast){
@@ -1182,13 +1182,16 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         // Each enemy gets the full per-target skill total, divided over its
         // authored contacts. Never divide that total by the enemy count.
         const reference=chip.damageReference||chip.code;
-        const total=skillChipDamage(basePrimary+basePierce,reference),pierceTotal=skillChipDamage(basePierce,reference);
+        const unmitigatedTotal=skillChipDamage(basePrimary+basePierce,reference);
+        const skillDefensePercent=target.isApocalypse?clamp(Number(target.battleSuitSkillDefensePercent||0),0,100):0;
+        const defenseScale=1-skillDefensePercent/100;
+        const total=Math.round(unmitigatedTotal*defenseScale),pierceTotal=Math.min(total,Math.round(skillChipDamage(basePierce,reference)*defenseScale));
         const parts=splitSkillChipDamage(total-pierceTotal,count),pierceParts=splitSkillChipDamage(pierceTotal,count);
-        calculations.push({targetId:target.id,baseDamage:basePrimary+basePierce,calculatedDamage:total,dodge:hit.dodge,critical:hit.critical});
-        for(let i=0;i<count;i++)pendingChipHits.push({atMs:cast.atMs+chip.impactOffsetsMs[i],target,damage:parts[i],pierce:pierceParts[i],chipCode:chip.code,castId,hitIndex:i,hitCount:count,critical:hit.critical,baseDamage:basePrimary+basePierce,multiplier:chip.damageMultiplier,...(chip.intrinsic?{intrinsic:true}:{}),...(area?{targeting:chip.targeting}:{})});
+        calculations.push({targetId:target.id,baseDamage:basePrimary+basePierce,calculatedDamage:total,...(skillDefensePercent>0?{battleSuitSkillDefensePercent:skillDefensePercent,unmitigatedDamage:unmitigatedTotal}:{}),dodge:hit.dodge,critical:hit.critical});
+        for(let i=0;i<count;i++)pendingChipHits.push({atMs:cast.atMs+chip.impactOffsetsMs[i],target,damage:parts[i],pierce:pierceParts[i],chipCode:chip.code,castId,hitIndex:i,hitCount:count,critical:hit.critical,baseDamage:basePrimary+basePierce,multiplier:chip.damageMultiplier,skillDefensePercent,...(chip.intrinsic?{intrinsic:true}:{}),...(area?{targeting:chip.targeting}:{})});
       }
       const first=calculations[0];
-      emitTimeline(timeline,clock,'SKILL_CHIP_CAST',{actorId:chipActor.id,actorKind:'BATTLE_SUIT',damageSource:chip.intrinsic?'BATTLE_SUIT_INTRINSIC_SKILL':'BATTLE_SUIT_SKILL_CHIP',targetId:primary.id,chipCode:chip.code,effectKey:chip.effectKey,castId,activation:cast.activation,intervalMs:chip.intervalMs,impactOffsetsMs:chip.impactOffsetsMs,effectDurationMs:chip.effectDurationMs,baseDamage:first.baseDamage,damageMultiplier:chip.damageMultiplier,calculatedDamage:calculations.reduce((sum,row)=>sum+row.calculatedDamage,0),dodge:first.dodge,critical:first.critical,label:chip.name,...(area?{targeting:chip.targeting,targetIds:targets.map(target=>target.id),targets:calculations}:{})});
+      emitTimeline(timeline,clock,'SKILL_CHIP_CAST',{actorId:chipActor.id,actorKind:'BATTLE_SUIT',damageSource:chip.intrinsic?'BATTLE_SUIT_INTRINSIC_SKILL':'BATTLE_SUIT_SKILL_CHIP',targetId:primary.id,chipCode:chip.code,effectKey:chip.effectKey,castId,activation:cast.activation,intervalMs:chip.intervalMs,impactOffsetsMs:chip.impactOffsetsMs,effectDurationMs:chip.effectDurationMs,baseDamage:first.baseDamage,damageMultiplier:chip.damageMultiplier,calculatedDamage:calculations.reduce((sum,row)=>sum+row.calculatedDamage,0),...(first.battleSuitSkillDefensePercent>0?{battleSuitSkillDefensePercent:first.battleSuitSkillDefensePercent,unmitigatedDamage:first.unmitigatedDamage}:{}),dodge:first.dodge,critical:first.critical,label:chip.name,...(area?{targeting:chip.targeting,targetIds:targets.map(target=>target.id),targets:calculations}:{})});
       pendingChipHits.sort((a,b)=>a.atMs-b.atMs||a.castId.localeCompare(b.castId)||a.hitIndex-b.hitIndex);
     }
     stampCombatGroup(from,combatMs,false);

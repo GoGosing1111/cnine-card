@@ -1,0 +1,256 @@
+{
+  "frames": {
+    "shisui-ultimate_00": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shisui-ultimate_01": {
+      "frame": {
+        "x": 313,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shisui-ultimate_02": {
+      "frame": {
+        "x": 626,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shisui-ultimate_03": {
+      "frame": {
+        "x": 939,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shisui-ultimate_04": {
+      "frame": {
+        "x": 0,
+        "y": 418,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shisui-ultimate_05": {
+      "frame": {
+        "x": 313,
+        "y": 418,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shisui-ultimate_06": {
+      "frame": {
+        "x": 626,
+        "y": 418,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shisui-ultimate_07": {
+      "frame": {
+        "x": 939,
+        "y": 418,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shisui-ultimate_08": {
+      "frame": {
+        "x": 0,
+        "y": 836,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shisui-ultimate_09": {
+      "frame": {
+        "x": 313,
+        "y": 836,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shisui-ultimate_10": {
+      "frame": {
+        "x": 626,
+        "y": 836,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shisui-ultimate_11": {
+      "frame": {
+        "x": 939,
+        "y": 836,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    }
+  },
+  "meta": {
+    "image": "shisui-ultimate-sheet.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1254,
+      "h": 1254
+    },
+    "scale": "1",
+    "collisionFrame": 6,
+    "impactAt": 1.15,
+    "sha256": "1fab2f7f2029c17d486a1c678880f41de0df6fbefd09d0f5831b70e9593a017a"
+  }
+}

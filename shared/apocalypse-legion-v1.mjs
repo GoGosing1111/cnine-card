@@ -1,4 +1,5 @@
-// Approved 2026-09-18. Stable registered monster IDs; client never calculates combat outcomes.
+import {APOCALYPSE_SHANKS_SHISUI_BOSSES} from './apocalypse-shanks-shisui-v1.mjs';
+// Stable registered monster IDs; client never calculates combat outcomes.
 export const APOCALYPSE_LEGION_BOSSES=Object.freeze([
   {
     "key": "alucard",
@@ -147,7 +148,8 @@ export const APOCALYPSE_LEGION_BOSSES=Object.freeze([
       }
     ],
     "monsterId": 76
-  }
+  },
+  ...APOCALYPSE_SHANKS_SHISUI_BOSSES
 ]);
 export const APOCALYPSE_MINIONS=Object.freeze([
   {
@@ -201,10 +203,16 @@ export const APOCALYPSE_MINIONS=Object.freeze([
 ]);
 export function apocalypseLegionBoss(monster={}){
  const values=typeof monster==='object'?[monster.monsterId,monster.id,monster.cardId]:[monster];
- for(const value of values){const id=String(value??'').match(/(?:^|:)(75|76)$/)?.[1];if(id)return APOCALYPSE_LEGION_BOSSES.find(b=>b.monsterId===Number(id));}
+ for(const value of values){const id=String(value??'').match(/(?:^|:)(\d+)$/)?.[1],boss=APOCALYPSE_LEGION_BOSSES.find(b=>b.monsterId===Number(id));if(boss)return boss;}
  return null;
 }
 export const apocalypseLegionSkill=code=>APOCALYPSE_LEGION_BOSSES.flatMap(b=>b.skills).find(s=>s.code===code)||null;
+
+// Separate from physical defense. Zero is an explicit, valid CMS override.
+export function apocalypseLegionSuitDefense(monster,raw){
+ const fallback=apocalypseLegionBoss(monster)?.battleSuitSkillDefensePercent||0;
+ return raw==null||raw===''||!Number.isFinite(Number(raw))?fallback:Math.max(0,Math.min(100,Number(raw)));
+}
 
 // Saved per-monster CMS settings. Missing values preserve the approved balance.
 export function apocalypseLegionUltimate(monster,raw={}){

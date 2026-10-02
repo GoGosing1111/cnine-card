@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
-import {APOCALYPSE_LEGION_BOSSES} from '../../shared/apocalypse-legion-v1.mjs';
+import {APOCALYPSE_LEGION_BOSSES as ALL_LEGION_BOSSES} from '../../shared/apocalypse-legion-v1.mjs';
+const APOCALYPSE_LEGION_BOSSES=ALL_LEGION_BOSSES.filter(boss=>[75,76].includes(boss.monsterId));
 export const OPERATION_KEY='ops:apocalypse-legion:20260918:v1';
 export async function registerApocalypseLegion(client,{commit=false,assets=[]}={}){
  await client.query('BEGIN ISOLATION LEVEL SERIALIZABLE');

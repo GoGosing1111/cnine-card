@@ -1,4 +1,4 @@
-import {apocalypseLegionBoss,apocalypseLegionUltimate,configuredApocalypseLegionSkills} from '../shared/apocalypse-legion-v1.mjs';
+import {apocalypseLegionBoss,apocalypseLegionUltimate,apocalypseLegionSuitDefense,configuredApocalypseLegionSkills} from '../shared/apocalypse-legion-v1.mjs';
 import {apocalypseSignatureSkill} from '../shared/apocalypse-boss-skills-v2048.mjs';
 
 const clamp=(value,min,max,fallback=min)=>{
@@ -54,7 +54,7 @@ function normalizeApocalypseMonsterProfiles(raw={}){
       skillName:text(value.skillName,apocalypseSignatureSkill(id)?.name||'종말 집행',60),
       skillDescription:text(value.skillDescription,apocalypseSignatureSkill(id)?.description||'전투 개시와 동시에 모든 출전 카드에 종말 피해를 가합니다.',300),
       skillDamagePercent:clamp(value.skillDamagePercent,20,100,apocalypseSignatureSkill(id)?.defaultDamagePercent||28),
-      ...(apocalypseLegionBoss(id)?{legionUltimate:apocalypseLegionUltimate(id,value.legionUltimate)}:{})
+      ...(apocalypseLegionBoss(id)?{legionUltimate:apocalypseLegionUltimate(id,value.legionUltimate),battleSuitSkillDefensePercent:apocalypseLegionSuitDefense(id,value.battleSuitSkillDefensePercent)}:{})
     };
   }
   return profiles;
@@ -114,7 +114,7 @@ export function preserveApocalypseUltimateSettings(raw={},previous={}){
  const profiles=raw.monsterProfiles??previous.monsterProfiles??{};
  return {...raw,monsterProfiles:Object.fromEntries(Object.entries(profiles).map(([id,profile])=>{
   if(!apocalypseLegionBoss(id)||!profile||typeof profile!=='object')return [id,profile];
-  return [id,{...profile,legionUltimate:{...previous.monsterProfiles?.[id]?.legionUltimate,...profile.legionUltimate}}];
+  return [id,{...profile,legionUltimate:{...previous.monsterProfiles?.[id]?.legionUltimate,...profile.legionUltimate},battleSuitSkillDefensePercent:profile.battleSuitSkillDefensePercent??previous.monsterProfiles?.[id]?.battleSuitSkillDefensePercent??apocalypseLegionSuitDefense(id)}];
  }))};
 }
 
@@ -188,17 +188,18 @@ export function pveDifficultyRuntime(settings={},monster={}){
   const basePower=special&&profile?profile.battlePower:storedPower,baseReward=special&&profile?profile.rewardCoin:storedReward;
   const shieldPercent=isApocalypse?Number(tuning.shieldPercent||0):0,attackCount=isApocalypse?Number(tuning.attackCount||1):1,forcedActionEvery=isApocalypse?Number(tuning.forcedActionEvery||8):0;
   const legion=isApocalypse?apocalypseLegionBoss(monster):null;
+  const battleSuitSkillDefensePercent=legion?apocalypseLegionSuitDefense(monster,tuning.battleSuitSkillDefensePercent):0;
   const apocalypseSkill=isApocalypse?{trigger:legion?'BOSS_ACTION':'OPENING',...(legion?{skills:configuredApocalypseLegionSkills(monster,tuning.legionUltimate),ultimate:apocalypseLegionUltimate(monster,tuning.legionUltimate),minionCount:6}:{}),enabled:tuning.skillEnabled!==false,name:tuning.skillName,description:tuning.skillDescription,damagePercent:Number(tuning.skillDamagePercent||0),code:apocalypseSignatureSkill(monster)?.code||null}:null;
   return {
     difficulty,isNightmare,isApocalypse,enabled:isNightmare?nightmare.enabled:isApocalypse?apocalypse.enabled:true,
     hpPercent,attackPercent,defensePercent,speedPercent,
     rewardPercent:special?tuning.rewardPercent:100,
-    shieldPercent,attackCount,forcedActionEvery,apocalypseSkill,
+    shieldPercent,attackCount,forcedActionEvery,apocalypseSkill,battleSuitSkillDefensePercent,
     bossUltimateCapPercent:isNightmare&&nightmare.bossUltimateUnlocked?tuning.bossUltimateCapPercent:isApocalypse?500:100,
     bossUltimateUnlocked:isNightmare?nightmare.bossUltimateUnlocked:isApocalypse,
     profileSource:isNightmare&&profile?'BOSS':isApocalypse&&profile?'MONSTER':'GLOBAL',
     effectiveBattlePower:Math.max(1,Math.round(basePower*challengeMultiplier)),
     effectiveRewardCoin:Math.max(0,Math.floor(baseReward*(special?tuning.rewardPercent:100)/100)),
-    engineMonster:{...monster,battle_power:basePower,battlePower:basePower,pve_difficulty:difficulty,pve_hp_percent:hpPercent,pve_attack_percent:attackPercent,pve_defense_percent:defensePercent,pve_speed_percent:speedPercent,pve_shield_percent:shieldPercent,pve_attack_count:attackCount,pve_forced_action_every:forcedActionEvery,pve_apocalypse_skill:apocalypseSkill}
+    engineMonster:{...monster,battle_power:basePower,battlePower:basePower,pve_difficulty:difficulty,pve_hp_percent:hpPercent,pve_attack_percent:attackPercent,pve_defense_percent:defensePercent,pve_speed_percent:speedPercent,pve_shield_percent:shieldPercent,pve_attack_count:attackCount,pve_forced_action_every:forcedActionEvery,pve_apocalypse_skill:apocalypseSkill,...(legion?{pve_battle_suit_skill_defense_percent:battleSuitSkillDefensePercent}:{})}
   };
 }

@@ -1,0 +1,256 @@
+{
+  "frames": {
+    "shanks-seal_00": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shanks-seal_01": {
+      "frame": {
+        "x": 313,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shanks-seal_02": {
+      "frame": {
+        "x": 626,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shanks-seal_03": {
+      "frame": {
+        "x": 939,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shanks-seal_04": {
+      "frame": {
+        "x": 0,
+        "y": 418,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shanks-seal_05": {
+      "frame": {
+        "x": 313,
+        "y": 418,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shanks-seal_06": {
+      "frame": {
+        "x": 626,
+        "y": 418,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shanks-seal_07": {
+      "frame": {
+        "x": 939,
+        "y": 418,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shanks-seal_08": {
+      "frame": {
+        "x": 0,
+        "y": 836,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shanks-seal_09": {
+      "frame": {
+        "x": 313,
+        "y": 836,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shanks-seal_10": {
+      "frame": {
+        "x": 626,
+        "y": 836,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shanks-seal_11": {
+      "frame": {
+        "x": 939,
+        "y": 836,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    }
+  },
+  "meta": {
+    "image": "shanks-seal-sheet.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1254,
+      "h": 1254
+    },
+    "scale": "1",
+    "collisionFrame": 6,
+    "impactAt": 0.8,
+    "sha256": "c60112c729b494e356250c2337f463faabbbb2f348cc53a406c3ac593551ebaf"
+  }
+}

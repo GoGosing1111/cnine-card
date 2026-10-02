@@ -1,0 +1,256 @@
+{
+  "frames": {
+    "shisui-curse_00": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shisui-curse_01": {
+      "frame": {
+        "x": 313,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shisui-curse_02": {
+      "frame": {
+        "x": 626,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shisui-curse_03": {
+      "frame": {
+        "x": 939,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shisui-curse_04": {
+      "frame": {
+        "x": 0,
+        "y": 418,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shisui-curse_05": {
+      "frame": {
+        "x": 313,
+        "y": 418,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shisui-curse_06": {
+      "frame": {
+        "x": 626,
+        "y": 418,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shisui-curse_07": {
+      "frame": {
+        "x": 939,
+        "y": 418,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shisui-curse_08": {
+      "frame": {
+        "x": 0,
+        "y": 836,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shisui-curse_09": {
+      "frame": {
+        "x": 313,
+        "y": 836,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shisui-curse_10": {
+      "frame": {
+        "x": 626,
+        "y": 836,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shisui-curse_11": {
+      "frame": {
+        "x": 939,
+        "y": 836,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    }
+  },
+  "meta": {
+    "image": "shisui-curse-sheet.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1254,
+      "h": 1254
+    },
+    "scale": "1",
+    "collisionFrame": 6,
+    "impactAt": 0.8,
+    "sha256": "941ddf3efe3487325b867197d61c4921e9e7963eca688cdca8bdc45edf8bddcf"
+  }
+}

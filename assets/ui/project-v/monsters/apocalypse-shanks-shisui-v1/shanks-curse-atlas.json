@@ -1,0 +1,256 @@
+{
+  "frames": {
+    "shanks-curse_00": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shanks-curse_01": {
+      "frame": {
+        "x": 313,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shanks-curse_02": {
+      "frame": {
+        "x": 626,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shanks-curse_03": {
+      "frame": {
+        "x": 939,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shanks-curse_04": {
+      "frame": {
+        "x": 0,
+        "y": 418,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shanks-curse_05": {
+      "frame": {
+        "x": 313,
+        "y": 418,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shanks-curse_06": {
+      "frame": {
+        "x": 626,
+        "y": 418,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shanks-curse_07": {
+      "frame": {
+        "x": 939,
+        "y": 418,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shanks-curse_08": {
+      "frame": {
+        "x": 0,
+        "y": 836,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shanks-curse_09": {
+      "frame": {
+        "x": 313,
+        "y": 836,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shanks-curse_10": {
+      "frame": {
+        "x": 626,
+        "y": 836,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    },
+    "shanks-curse_11": {
+      "frame": {
+        "x": 939,
+        "y": 836,
+        "w": 313,
+        "h": 418
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 313,
+        "h": 418
+      },
+      "sourceSize": {
+        "w": 313,
+        "h": 418
+      }
+    }
+  },
+  "meta": {
+    "image": "shanks-curse-sheet.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1254,
+      "h": 1254
+    },
+    "scale": "1",
+    "collisionFrame": 6,
+    "impactAt": 0.8,
+    "sha256": "29555249024b7a77a435c9279c42b4e4b7b983d076c43a752ef0b1d67f0235d5"
+  }
+}

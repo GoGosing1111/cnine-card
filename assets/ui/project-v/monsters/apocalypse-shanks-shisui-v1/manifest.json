@@ -1,0 +1,553 @@
+{
+  "generator": "built-in image_gen",
+  "pixelEdits": false,
+  "sourceArtPreserved": true,
+  "bosses": [
+    {
+      "id": 77,
+      "key": "shanks",
+      "name": "샹크스",
+      "sourceArt": "/assets/ui/project-v/monsters/apocalypse-shanks-shisui-v1/shanks-source.jpg",
+      "battleSprite": "/assets/ui/project-v/monsters/apocalypse-shanks-shisui-v1/shanks-sd-v1.png",
+      "skillCodes": [
+        "SHANKS_SEAL",
+        "SHANKS_CURSE",
+        "SHANKS_ULTIMATE"
+      ]
+    },
+    {
+      "id": 78,
+      "key": "shisui",
+      "name": "우치하 시스이",
+      "sourceArt": "/assets/ui/project-v/monsters/apocalypse-shanks-shisui-v1/shisui-source.jpg",
+      "battleSprite": "/assets/ui/project-v/monsters/apocalypse-shanks-shisui-v1/shisui-sd-v1.png",
+      "skillCodes": [
+        "SHISUI_SEAL",
+        "SHISUI_CURSE",
+        "SHISUI_ULTIMATE"
+      ]
+    }
+  ],
+  "files": [
+    {
+      "path": "assets/ui/project-v/monsters/apocalypse-shanks-shisui-v1/shanks-source.jpg",
+      "width": 736,
+      "height": 1308,
+      "sha256": "501f60a81bd14fdc90b117787f088f4de1f87a2f0a34f725c627874edef37415"
+    },
+    {
+      "path": "assets/ui/project-v/monsters/apocalypse-shanks-shisui-v1/shanks-sd-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "sha256": "2b99bc190c39fc6b960521cef90ed4b3d0434e35d8238f0bfee109b5531a0ebf",
+      "transparentRatio": 0.41706085205078125,
+      "visibleRatio": 0.5268719991048177
+    },
+    {
+      "path": "assets/ui/project-v/monsters/apocalypse-shanks-shisui-v1/shanks-seal-sheet.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "c60112c729b494e356250c2337f463faabbbb2f348cc53a406c3ac593551ebaf",
+      "transparentRatio": 0.5040145855431678,
+      "visibleRatio": 0.22261713076369335,
+      "frames": [
+        {
+          "index": 0,
+          "sha256": "4ca39b2d90a9f3079cce7254221899e5861ff263140db1cee05a71c3396de94c",
+          "visibleRatio": 0.08099576562667196,
+          "borderRatio": 0
+        },
+        {
+          "index": 1,
+          "sha256": "f00a7251a986cd4c732685bd871088d29959b81084079848b37cbe46e651fb1e",
+          "visibleRatio": 0.15448583701484322,
+          "borderRatio": 0.007909215955983494
+        },
+        {
+          "index": 2,
+          "sha256": "0ca579c96a1145a5e271b4a00850e979c28757815090ad07f66db9f2c0e20868",
+          "visibleRatio": 0.16410107464420565,
+          "borderRatio": 0.001375515818431912
+        },
+        {
+          "index": 3,
+          "sha256": "4d8257ef4ac8cd2dbc84447d983c3a8e383b56f3d14b9ef3d548b33527733ac7",
+          "visibleRatio": 0.20827155020866137,
+          "borderRatio": 0
+        },
+        {
+          "index": 4,
+          "sha256": "d6c3de925145cf30a28012135445afca9c909bfb384683d285b86f4bbeed277b",
+          "visibleRatio": 0.3018175703563294,
+          "borderRatio": 0
+        },
+        {
+          "index": 5,
+          "sha256": "3aa9c2ef9a14e0ced21d77560c60b8b4aa9a33a793b9c9c28fc8c0a2d812e8b6",
+          "visibleRatio": 0.3381384043902961,
+          "borderRatio": 0
+        },
+        {
+          "index": 6,
+          "sha256": "319ad0b5f7f4226662fcad0fb716ffbeaa78fcbb26dbf8390b5e8e2be142c2de",
+          "visibleRatio": 0.3602274638091016,
+          "borderRatio": 0
+        },
+        {
+          "index": 7,
+          "sha256": "f29e754fcb1a63c5351a01cf8ac7d95f875de976b3c974a8c96895639dc73cf2",
+          "visibleRatio": 0.3551981900729168,
+          "borderRatio": 0
+        },
+        {
+          "index": 8,
+          "sha256": "dfa5f338896ffdfd26c9d080a1d3e24b6796e8a472523dbb9e472f23b43eb5f2",
+          "visibleRatio": 0.3085589372793005,
+          "borderRatio": 0
+        },
+        {
+          "index": 9,
+          "sha256": "c682371700db03a8103a16ac6a76344b611f473bed90d8f96e9395a1038844a6",
+          "visibleRatio": 0.24550957702126358,
+          "borderRatio": 0
+        },
+        {
+          "index": 10,
+          "sha256": "a22ac680dc37d3c1329c211b30d58c000d1f43418e1880c3a20ebdcd386afda3",
+          "visibleRatio": 0.12823883699955668,
+          "borderRatio": 0
+        },
+        {
+          "index": 11,
+          "sha256": "66d94276d5a77f7537a90d7417e145e3494e28f5ef2ee1d00be4abf52e600170",
+          "visibleRatio": 0.030129782778176926,
+          "borderRatio": 0
+        }
+      ]
+    },
+    {
+      "path": "assets/ui/project-v/monsters/apocalypse-shanks-shisui-v1/shanks-curse-sheet.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "29555249024b7a77a435c9279c42b4e4b7b983d076c43a752ef0b1d67f0235d5",
+      "transparentRatio": 0.5500961516448799,
+      "visibleRatio": 0.23199382391021778,
+      "frames": [
+        {
+          "index": 0,
+          "sha256": "07a28caefa4807de9dd3deec49904fd81b54eb21845741be7d7329a80bcd4f1b",
+          "visibleRatio": 0.059288869865631255,
+          "borderRatio": 0
+        },
+        {
+          "index": 1,
+          "sha256": "58b62d244b951cfbe38e4c99ba58eb088073a7f06410139d58541bfce8ecf13d",
+          "visibleRatio": 0.13748719751746488,
+          "borderRatio": 0
+        },
+        {
+          "index": 2,
+          "sha256": "53f8deb4f22972c296494affebd7dcde4e088646b79c17f8359355aedad7cfe0",
+          "visibleRatio": 0.1877952214256233,
+          "borderRatio": 0
+        },
+        {
+          "index": 3,
+          "sha256": "bf40a17d59949275608aaff6fe58d7a541f7ba1e88192d2d7c57708c3b3fb52e",
+          "visibleRatio": 0.2920188941712399,
+          "borderRatio": 0
+        },
+        {
+          "index": 4,
+          "sha256": "bd0076daa5fa29efd259684ef78201cb33ac0e67b0e27676b7434c382edfd2e5",
+          "visibleRatio": 0.3223779751440757,
+          "borderRatio": 0
+        },
+        {
+          "index": 5,
+          "sha256": "c5792e9df7bf24576b8778fe7342c00b89b950cb75bf107d3e22f0254e8403f5",
+          "visibleRatio": 0.3881330540990874,
+          "borderRatio": 0
+        },
+        {
+          "index": 6,
+          "sha256": "246995cc522a92de9faa0642a4c56677b63cf0bdac013e679f7f69f568359011",
+          "visibleRatio": 0.3842579146093523,
+          "borderRatio": 0
+        },
+        {
+          "index": 7,
+          "sha256": "fb0ec5f2e3b71b3dd0f31f90c4102499271072f7ff8fac61edb663d3358581d8",
+          "visibleRatio": 0.3842273415167311,
+          "borderRatio": 0
+        },
+        {
+          "index": 8,
+          "sha256": "d513e22f3a11f4ef23bba2714deda56c8f17d5822bb894aa5156a50c736d9dd1",
+          "visibleRatio": 0.2925386367458,
+          "borderRatio": 0
+        },
+        {
+          "index": 9,
+          "sha256": "61bcb6c70fa10fbec94f1a436e6cf03c74c04cfc58e00047be29e31aeec51bdd",
+          "visibleRatio": 0.2099454270296712,
+          "borderRatio": 0
+        },
+        {
+          "index": 10,
+          "sha256": "ec8b1f3ca0378e93eb39a72300c42b042615e3ac3c7d51ca7264bb8d13be8b53",
+          "visibleRatio": 0.10768607548496568,
+          "borderRatio": 0
+        },
+        {
+          "index": 11,
+          "sha256": "a8f1cdf555ddb5980e066f6ab332fdebce46e5188d93cdc0cb3d8156860b6cc9",
+          "visibleRatio": 0.022616445266520936,
+          "borderRatio": 0
+        }
+      ]
+    },
+    {
+      "path": "assets/ui/project-v/monsters/apocalypse-shanks-shisui-v1/shanks-ultimate-sheet.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "b9720595cf2db0606919afd8771355e7e0c0cea0268136566b6140028b893c9a",
+      "transparentRatio": 0.439971993925658,
+      "visibleRatio": 0.26585421070437437,
+      "frames": [
+        {
+          "index": 0,
+          "sha256": "5409cd8539c6a9d31cac26335ab4d2c9a2d0dc3e20cfd58ee27dfd5e588e2b96",
+          "visibleRatio": 0.06792576853111576,
+          "borderRatio": 0
+        },
+        {
+          "index": 1,
+          "sha256": "99af4a83c35076deea4d19bfb2c575cfd0ff928dd84d57aeff94ca1e128a9c1c",
+          "visibleRatio": 0.1324273506886589,
+          "borderRatio": 0
+        },
+        {
+          "index": 2,
+          "sha256": "f6917a129ced9adbec152c916d7d45d373b6b4a8f3aabc9aabdf0f2374cecb0c",
+          "visibleRatio": 0.19692893284620205,
+          "borderRatio": 0
+        },
+        {
+          "index": 3,
+          "sha256": "31e94879fefd6f41c7ec64b5636bf26107014c5dcd5dba80958fd1a5a559f132",
+          "visibleRatio": 0.3264824128284697,
+          "borderRatio": 0.007909215955983494
+        },
+        {
+          "index": 4,
+          "sha256": "de44209c5099e588e03b2b1ae8845806043f6641730396a5fee55ef8a82d1fdd",
+          "visibleRatio": 0.3825687512420319,
+          "borderRatio": 0.07049518569463549
+        },
+        {
+          "index": 5,
+          "sha256": "9b4315b4100330b4d47b3a5c18853c59b7d5994905d74d892a49c6187925ca78",
+          "visibleRatio": 0.4327697693260162,
+          "borderRatio": 0.06980742778541953
+        },
+        {
+          "index": 6,
+          "sha256": "90972be47b19d8c9d19880275ec12a3855331d61803fbc8854dea261818603bc",
+          "visibleRatio": 0.5538468593790605,
+          "borderRatio": 0.0017193947730398899
+        },
+        {
+          "index": 7,
+          "sha256": "7b649b9bb84f8ee191f45729bf128d6aa202f550f94506dda5c608982f5631e0",
+          "visibleRatio": 0.3958374734396258,
+          "borderRatio": 0
+        },
+        {
+          "index": 8,
+          "sha256": "7fbfc5b468840ee2e7e4f839afc57cbe34ff8246a39b7b9114855d03626fdf8d",
+          "visibleRatio": 0.31465826925722673,
+          "borderRatio": 0
+        },
+        {
+          "index": 9,
+          "sha256": "ad650f472eb8effafae629aae7e276851cc2b53f69c967acb8a5823c6e60c2c9",
+          "visibleRatio": 0.22420777473745357,
+          "borderRatio": 0
+        },
+        {
+          "index": 10,
+          "sha256": "cf1dc921c6d06ca0cda32001c161f24bbf5121548e6766d7e3b42ba2ed24be21",
+          "visibleRatio": 0.12355351055536022,
+          "borderRatio": 0
+        },
+        {
+          "index": 11,
+          "sha256": "ffaa7a09f6fbfceb9ec31569ded54d2bc699d25dcff42a892362835c50c041c2",
+          "visibleRatio": 0.04413990247183454,
+          "borderRatio": 0
+        }
+      ]
+    },
+    {
+      "path": "assets/ui/project-v/monsters/apocalypse-shanks-shisui-v1/shisui-source.jpg",
+      "width": 736,
+      "height": 1308,
+      "sha256": "050cdea29a306746d6d542624300c9db301f59274e5de99fc76b0d9e8efca798"
+    },
+    {
+      "path": "assets/ui/project-v/monsters/apocalypse-shanks-shisui-v1/shisui-sd-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "sha256": "90a0aea439f1eda5612410ba25bf8dc4b4d2f2d5414209f20542144b20c73fd5",
+      "transparentRatio": 0.4808495839436849,
+      "visibleRatio": 0.42413075764973956
+    },
+    {
+      "path": "assets/ui/project-v/monsters/apocalypse-shanks-shisui-v1/shisui-seal-sheet.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "846d27ab5c4315e657a6e7fd79937dfaf76fb896bc8f4fa321c3aa218fc4ecb7",
+      "transparentRatio": 0.4897571789412636,
+      "visibleRatio": 0.24716823231051385,
+      "frames": [
+        {
+          "index": 0,
+          "sha256": "717b7ad6cd8587bcbeb281ae4db4ff15d60f1e80d163fd1427326bd685840282",
+          "visibleRatio": 0.021630463029487748,
+          "borderRatio": 0
+        },
+        {
+          "index": 1,
+          "sha256": "0e7154e57861b7f5e38b148206c4ae5647dd44545ee8ad254f3be61f803706f0",
+          "visibleRatio": 0.04763287830380482,
+          "borderRatio": 0
+        },
+        {
+          "index": 2,
+          "sha256": "7c0b767c10392b26b8a7d965d1367acd84460d0b65603febb003f8576311e452",
+          "visibleRatio": 0.149341914181329,
+          "borderRatio": 0
+        },
+        {
+          "index": 3,
+          "sha256": "6d0ce2d3a0ffc30f1a583fe81e4fcd82481b3b5fbd7e6828df35a6fc7cb15fca",
+          "visibleRatio": 0.2431554488894324,
+          "borderRatio": 0
+        },
+        {
+          "index": 4,
+          "sha256": "ebbd96a8f320ba3d5000934c2ad8082a6abeac6b70b21510f90b76c2b18843c4",
+          "visibleRatio": 0.2523961661341853,
+          "borderRatio": 0
+        },
+        {
+          "index": 5,
+          "sha256": "5ffdec3b87f4d78ffbff2fbc9cba22de9909fba4e6d9a96f46ad564c9437d676",
+          "visibleRatio": 0.3726172095938365,
+          "borderRatio": 0.004470426409903714
+        },
+        {
+          "index": 6,
+          "sha256": "4add94da4c0059008d04f2f709f356c6e89d60d3a24fa42efe612759f3ddf54b",
+          "visibleRatio": 0.5350826237828088,
+          "borderRatio": 0.02544704264099037
+        },
+        {
+          "index": 7,
+          "sha256": "35b981d26090249388f2e5cd5d29d4e8b4bf23f1ec73b89552256d92a515b643",
+          "visibleRatio": 0.3996667532904291,
+          "borderRatio": 0.013067400275103164
+        },
+        {
+          "index": 8,
+          "sha256": "ebc185c2156a2dcb4515c1bd90b86f973f8a0785589cbebc43844616f7486fd6",
+          "visibleRatio": 0.3581179204182399,
+          "borderRatio": 0
+        },
+        {
+          "index": 9,
+          "sha256": "d0175339800df9b60bc5349fd20ade77df0f96b537fe494ff7cf507df4d49d8f",
+          "visibleRatio": 0.2705871562437898,
+          "borderRatio": 0
+        },
+        {
+          "index": 10,
+          "sha256": "ceaff9a8cf4fb1ae0b74f4a3fe6393feff945478550f8030768a2d0e859bffeb",
+          "visibleRatio": 0.20496201293241817,
+          "borderRatio": 0
+        },
+        {
+          "index": 11,
+          "sha256": "77ee3fb73ecbd88f5c9ee4ed1f658c46f182cac91167cf070142aaad66aa8c0e",
+          "visibleRatio": 0.11556629010807588,
+          "borderRatio": 0
+        }
+      ]
+    },
+    {
+      "path": "assets/ui/project-v/monsters/apocalypse-shanks-shisui-v1/shisui-curse-sheet.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "941ddf3efe3487325b867197d61c4921e9e7963eca688cdca8bdc45edf8bddcf",
+      "transparentRatio": 0.40981077458035403,
+      "visibleRatio": 0.33769704092041036,
+      "frames": [
+        {
+          "index": 0,
+          "sha256": "7821a17e96f9db032b6582f0ddfce231563d8bee862737f4977f9d812d02687c",
+          "visibleRatio": 0.06473852362535733,
+          "borderRatio": 0
+        },
+        {
+          "index": 1,
+          "sha256": "2046e391e71b3c05061c75db24874d59b57e25aee52408b01f78c74fef17bb03",
+          "visibleRatio": 0.11174465353042787,
+          "borderRatio": 0
+        },
+        {
+          "index": 2,
+          "sha256": "de82d1e7fb4157f50ca88bffa3f9683dc8f249e565ea7d5d4cb60bec8e3e912b",
+          "visibleRatio": 0.17519910726569546,
+          "borderRatio": 0
+        },
+        {
+          "index": 3,
+          "sha256": "007fda98789f3cbb646a86f67f2a651283f696e4ead44a84bef75ecaf5ee8818",
+          "visibleRatio": 0.3590656862894966,
+          "borderRatio": 0
+        },
+        {
+          "index": 4,
+          "sha256": "a8a74c0cdc56d88198876620858ee8f7acf4df2233196f91ccfd8388b7e28e75",
+          "visibleRatio": 0.5010624149685862,
+          "borderRatio": 0.003094910591471802
+        },
+        {
+          "index": 5,
+          "sha256": "17c06caa36e1897f75e7e32f0dbb6919181288d0d0578ff4412637851bf7cb8d",
+          "visibleRatio": 0.4975082929513735,
+          "borderRatio": 0
+        },
+        {
+          "index": 6,
+          "sha256": "dd56bde24168b14c166cb4028c8be392a412731129bcf46194b68ef8813229f0",
+          "visibleRatio": 0.553755140101197,
+          "borderRatio": 0
+        },
+        {
+          "index": 7,
+          "sha256": "0ea30a91a5907ea1a0d9334eb35db386090e03622be4f63d4d253ce85479cd5f",
+          "visibleRatio": 0.5617500038216365,
+          "borderRatio": 0
+        },
+        {
+          "index": 8,
+          "sha256": "7d9566c475aab36f22ef3ab0c3268eaa34f71f14bf636b08f7a3bbc00c8b2bf6",
+          "visibleRatio": 0.5398290964122476,
+          "borderRatio": 0.001375515818431912
+        },
+        {
+          "index": 9,
+          "sha256": "6113a654dcb838cac8630a75f16dff10c0c073dca61f914cb12318fa79ffcc8d",
+          "visibleRatio": 0.4329608511548986,
+          "borderRatio": 0
+        },
+        {
+          "index": 10,
+          "sha256": "8552933e2a7618fe4cddc40471b3b29e7e57bb45b0d6f7b4caaaf4ddae56ff99",
+          "visibleRatio": 0.18961432043658377,
+          "borderRatio": 0.006189821182943604
+        },
+        {
+          "index": 11,
+          "sha256": "db29d2937bb6368fe77146e4c72f5cc333db77a9da903de21c59658b957757eb",
+          "visibleRatio": 0.07160982619196844,
+          "borderRatio": 0.002407152682255846
+        }
+      ]
+    },
+    {
+      "path": "assets/ui/project-v/monsters/apocalypse-shanks-shisui-v1/shisui-ultimate-sheet.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "1fab2f7f2029c17d486a1c678880f41de0df6fbefd09d0f5831b70e9593a017a",
+      "transparentRatio": 0.5563447367149206,
+      "visibleRatio": 0.3357943575772838,
+      "frames": [
+        {
+          "index": 0,
+          "sha256": "4f357d0038c88195697481fc600ab74c38ffff72972d0bbc5a0ca29a1cb70ad2",
+          "visibleRatio": 0.25156304936025803,
+          "borderRatio": 0
+        },
+        {
+          "index": 1,
+          "sha256": "1bc323868655663e298c4a86adf513966479d63ad55ae173cb20992086f0b9aa",
+          "visibleRatio": 0.30797040524634267,
+          "borderRatio": 0
+        },
+        {
+          "index": 2,
+          "sha256": "6ddb886902ca3d0b94f069344118632190855605498d5a55e08ea4607a1f1501",
+          "visibleRatio": 0.3193359524282679,
+          "borderRatio": 0
+        },
+        {
+          "index": 3,
+          "sha256": "68ee56a8d35b3c47faaf33c2145377141e37402290116eed19e34f5f61d4a23e",
+          "visibleRatio": 0.3542809972942813,
+          "borderRatio": 0
+        },
+        {
+          "index": 4,
+          "sha256": "1e9020242fea339844bf66467f84e2d26c71b9280725760fb339eb2c581b39d6",
+          "visibleRatio": 0.324632740724888,
+          "borderRatio": 0
+        },
+        {
+          "index": 5,
+          "sha256": "a10d75ac3bdb3a461c87eddf08d335d8f3f49b93705f7cdd1e2f2ffb65e6d9e9",
+          "visibleRatio": 0.3357995628047755,
+          "borderRatio": 0
+        },
+        {
+          "index": 6,
+          "sha256": "96db6b2d0b8a806df0dfe2157c94a0b1295a1219c44ebaf0a922b27a8248263d",
+          "visibleRatio": 0.36000580888759803,
+          "borderRatio": 0
+        },
+        {
+          "index": 7,
+          "sha256": "cb646cc5ffde682314216e310e1e02ce64761ce57414ebe8e9e323250650f975",
+          "visibleRatio": 0.32765183362122996,
+          "borderRatio": 0
+        },
+        {
+          "index": 8,
+          "sha256": "b1fa8a4c628e45577bd7353da441f12ef7ce3ed80727ef2c91c09fdd462680af",
+          "visibleRatio": 0.41859914089609734,
+          "borderRatio": 0.009284731774415406
+        },
+        {
+          "index": 9,
+          "sha256": "5efef06b617c3db2394c2dcc861df67caa3a86435f53e7c41850d602b4933c3a",
+          "visibleRatio": 0.3731598819878625,
+          "borderRatio": 0
+        },
+        {
+          "index": 10,
+          "sha256": "b593a8df815d51f1fbef65a49f533de9295e2e8d98b74a2511a2d1ecbe659b34",
+          "visibleRatio": 0.37967959398933,
+          "borderRatio": 0
+        },
+        {
+          "index": 11,
+          "sha256": "68fc54f65e5efc36a5e6b11a89a7dedbebaa28f9eb7a91f8c07b58b0b7d9b3c0",
+          "visibleRatio": 0.2832902762278918,
+          "borderRatio": 0
+        }
+      ]
+    }
+  ]
+}
