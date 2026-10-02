@@ -18,6 +18,6 @@ for(const source of [idle,tower]){
 assert.match(idle,/#pveHuntView,#pveRiftView,#pveEscortView,#pveTowerView,#pveSealBattleView,#pveIdleDungeonView/);
 assert.match(tower,/\['pveHuntView','pveRiftView','pveEscortView','pveSealBattleView','pveIdleDungeonView'\]/);
 assert.match(index,/tower-v1038\.js\?v=2098-hyper-codex/);
-assert.match(index,/idle-dungeon-v1600\.js\?v=2026-continuous-expedition/);
+assert.doesNotMatch(index,/idle-dungeon-v1600\.js/,'retired idle expedition must not load in the live shell');
 
 console.log('PVE auxiliary navigation host v2023: OK');
