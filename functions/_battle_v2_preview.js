@@ -4,6 +4,8 @@ import {buildApocalypseLegion,castApocalypseAction,apocalypseSealed,apocalypseCu
 import {SKILL_CHIP_RUNTIME_ENABLED,SKILL_CHIP_CLOCK,normalizeSkillChipCodes,skillChipDamage,splitSkillChipDamage,skillChipCombatEventMs} from '../shared/battle-suit-skill-chips.mjs';
 import {buildMercenaryFighter,mercenaryCombat,mercenaryTurnCadence} from './_mercenary_combat.js';
 import {MAGIC_SEASON2_REVIEW} from '../shared/magic-season2-v1.mjs';
+import {COMPANION_PREPARATION_REVIEW} from '../shared/companion-loadout-v2.mjs';
+import {applyPetOpeningBuff,preparedMercenaryCadence} from '../shared/companion-opening-v1.mjs';
 import {createMagicSeason2Runtime} from './_magic_season2.js';
 import {applyMercenaryCombatLink,mercenaryEffectiveAttack,mercenaryDamageCapHp} from '../shared/mercenary-combat-link-v2103.mjs';
 import {validateDuoDeck} from '../shared/ranked-duo-v1.mjs';
@@ -706,7 +708,7 @@ function resolveKnockout(target, timeline, clock, onBeforeKnockout = null) {
   return true;
 }
 
-export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, suddenDeathAfter = 0, forcedMonsterEvery = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, bossUltimateCapPercent = 100, healerPenalty = false, singleHealerBonus = {}, escortObjective = null, reinforcements = [], encounterCapacity = 5, maxCombatDurationMs = 0, sustainedEncounter = null, cooperative = null, [Z_BODY_AREA_REVIEW]: zAreaReview = false, [X_BODY_AREA_REVIEW]: xAreaReview = false, [MAGIC_SEASON2_REVIEW]: season2Review = false } = {}) {
+export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, suddenDeathAfter = 0, forcedMonsterEvery = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, bossUltimateCapPercent = 100, healerPenalty = false, singleHealerBonus = {}, escortObjective = null, reinforcements = [], encounterCapacity = 5, maxCombatDurationMs = 0, sustainedEncounter = null, cooperative = null, [Z_BODY_AREA_REVIEW]: zAreaReview = false, [X_BODY_AREA_REVIEW]: xAreaReview = false, [MAGIC_SEASON2_REVIEW]: season2Review = false, [COMPANION_PREPARATION_REVIEW]: companionReview = null } = {}) {
   let mercenaryRuntime=null,season2Runtime=null;
   const rawDamage=(target,incoming,options)=>{const result=applyCanonicalDamage(target,incoming,options);mercenaryRuntime?.onDamage(target,result);season2Runtime?.afterDamage(target,result,options);return result;};
   const applyDamage=(target,incoming,options={})=>rawDamage(target,season2Runtime?season2Runtime.beforeDamage(target,incoming,options):incoming,season2Runtime?{...options,beforeHpDamage:(t,n)=>season2Runtime.beforeHpDamage(t,n,options)}:options);
@@ -725,7 +727,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const coopEffects=cooperative?cooperativeEffects(cooperative,[...new Set(a.map(c=>c.ownerId))],maxCombatDurationMs):[];
   const combatStates=[];
   const sustained = sustainedEncounterPlan(sustainedEncounter, teamB, encounterCapacity);
-  const mercenaryTurns=mercenaryTurnCadence({A:a,B:b});
+  const mercenaryTurns=companionReview?preparedMercenaryCadence({A:a,B:b}):mercenaryTurnCadence({A:a,B:b});
   // Opt-in encounter lane; no live route currently supplies this field. A
   // single simulation owns HP, RNG, magic budgets and suit clocks throughout.
   // Restrict it to bounded, uniquely identified PVE monsters, never player cards.
@@ -977,6 +979,11 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   };
   breachDefenseLine(a,b);breachDefenseLine(b,a);
   applyMercenaryCombatLink([a,b],{regularCardsPerOwner:cooperative?2:5});
+  if(companionReview)for(const [side,team]of [['A',a],['B',b]]){
+    const event=applyPetOpeningBuff(team,companionReview.pets?.[side],side,companionReview.mode);
+    if(event)emitTimeline(timeline,clock,'PET_OPENING_BUFF',event);
+  }
+  const openingTeams=companionReview?{A:a.map(f=>structuredClone(publicFighter(f))),B:b.map(f=>structuredClone(publicFighter(f)))}:null;
   const openingMercenaries={A:a.filter(f=>f.isMercenary).map(f=>structuredClone(publicFighter(f))),B:b.filter(f=>f.isMercenary).map(f=>structuredClone(publicFighter(f)))};
 
   for (const fighter of [...a, ...b]) {
@@ -1663,6 +1670,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       defeated: b.filter(card => !card.alive || card.hp <= 0).length+(sustained?.defeated||0),
       pendingIds: pendingMonsters.map(card => card.id)}} : {}),
     ...(openingMercenaries.A.length||openingMercenaries.B.length?{openingMercenaries}:{}),
+    ...(openingTeams?{openingTeams}:{}),
     winner,
     reason,
     actions: actionCount,

@@ -44,6 +44,7 @@ import { handleEquipment,userEquipmentBonuses,grantEquipmentDrop,publicEquippedT
 import { ensureSkillChipFoundation } from '../_skill_chips.js';
 import {handleMercenaryCms} from '../_mercenary_cms.js';
 import {handleIconCms} from '../_icon_cms.js';
+import {handlePetCompanionCms} from '../_pet_companion_cms.js';
 import {handleIconFusion} from '../_icon_fusion.js';
 import {handleMercenaryCodex} from '../_mercenary_codex.js';
 import {handleMercenaryAccount,mercenaryUsesInnerLock} from '../_mercenary_account_routes.js';
@@ -5434,6 +5435,7 @@ async function handleRequest(context){
     const forgePublicResponse=await handleEquipmentForgePublic({path,request,env,deps:{authenticate,requirePermission,json}});if(forgePublicResponse)return forgePublicResponse;
     const mercenaryCmsResponse=await handleMercenaryCms({path,request,env,deps:{requirePermission,json}});if(mercenaryCmsResponse)return mercenaryCmsResponse;
     const iconCmsResponse=await handleIconCms({path,request,env,deps:{requirePermission,json}});if(iconCmsResponse)return iconCmsResponse;
+    const petCompanionCmsResponse=await handlePetCompanionCms({path,request,env,deps:{requirePermission,json}});if(petCompanionCmsResponse)return petCompanionCmsResponse;
     const iconFusionResponse=await handleIconFusion({path,request,env,deps:{requirePermission,json,authenticate,withUserMutationLock:withJointUserMutationLock}});if(iconFusionResponse)return iconFusionResponse;
     const avatarResponse=await handleAvatar({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(avatarResponse)return avatarResponse;
     const equipmentResponse=await handleEquipment({path,request,env,deps:{authenticate,readBody,json,writeAdminLog}});if(equipmentResponse)return equipmentResponse;
