@@ -1,0 +1,1177 @@
+{
+  "operationKey": "ops:ayoon-recruitment-gift:20261003:v1",
+  "campaignKey": "ayoon-recruitment-20261003-v1",
+  "itemCode": "RECRUITMENT_GIFT_BOX",
+  "title": "아윤방 영입전 사은품",
+  "threshold": 100,
+  "amount": 1,
+  "maxPerAccount": 1,
+  "delivery": "MESSAGE",
+  "authorization": "100개 이상 1개씩 지급해 아윤방 영입전 사은품 / 같은행사 없으니까 그냥 100개 이상 1개 최대 1개만 수령가능 처리해",
+  "heldUserInstruction": "이슈린., 『인연』, 족찌미♡는 보류명단으로 빼",
+  "duplicatePolicy": "ONE_PER_ACCOUNT_THIS_CAMPAIGN_ONLY",
+  "sourceCount": 60,
+  "inspectedAt": "2026-10-02T15:47:34.259Z",
+  "targets": [
+    {
+      "id": "3",
+      "nickname": "ε연두з",
+      "role": "USER",
+      "playdkId": "79e810b1",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 47,
+          "source": "ε연두з",
+          "inputNickname": null,
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": []
+        }
+      ]
+    },
+    {
+      "id": "8",
+      "nickname": "최성수",
+      "role": "USER",
+      "playdkId": "43004bd8",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 41,
+          "source": "최성수",
+          "inputNickname": null,
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": []
+        }
+      ]
+    },
+    {
+      "id": "13",
+      "nickname": "불법사행산업신고센터",
+      "role": "USER",
+      "playdkId": "24cb95a9",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 37,
+          "source": "븕은늑대",
+          "inputNickname": "불법사행산업신고센터",
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": []
+        }
+      ]
+    },
+    {
+      "id": "16",
+      "nickname": "오승환이다",
+      "role": "ADMIN",
+      "playdkId": "8b176e68",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 51,
+          "source": "오승환이다",
+          "inputNickname": null,
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": []
+        }
+      ]
+    },
+    {
+      "id": "22",
+      "nickname": "커피먹는철구",
+      "role": "USER",
+      "playdkId": "49cd3f96",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 32,
+          "source": "[C9]오승환",
+          "inputNickname": "커피먹는철구",
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json",
+            "bongsoon-recruitment-gift-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "32",
+      "nickname": "쑤댕",
+      "role": "USER",
+      "playdkId": "8eeb626d",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 38,
+          "source": "DK쑤댕",
+          "inputNickname": "쑤댕",
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json",
+            "bongsoon-recruitment-gift-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "45",
+      "nickname": "박세라-ㅂ-",
+      "role": "USER",
+      "playdkId": "0ab57d26",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 10,
+          "source": "빡세라-ㅁ-",
+          "inputNickname": "박세라-ㅂ-",
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "65",
+      "nickname": "음순이",
+      "role": "USER",
+      "playdkId": "9f0cdb34",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 18,
+          "source": "숭한놈",
+          "inputNickname": "음순이",
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json",
+            "bongsoon-recruitment-gift-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "73",
+      "nickname": "란x2",
+      "role": "USER",
+      "playdkId": "262820c8",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 58,
+          "source": "란x2",
+          "inputNickname": null,
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "76",
+      "nickname": "랄네미탱탱",
+      "role": "USER",
+      "playdkId": "8cb20af2",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 5,
+          "source": "씨구탱탱",
+          "inputNickname": "랄네미탱탱",
+          "contribution": 1320,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "81",
+      "nickname": "비쥬얼깡패",
+      "role": "USER",
+      "playdkId": "03320b3e",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 57,
+          "source": "비쥬얼깡패",
+          "inputNickname": null,
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "bongsoon-recruitment-gift-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "87",
+      "nickname": "설윤이",
+      "role": "USER",
+      "playdkId": "fe28fcd4",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 53,
+          "source": "STARRR0",
+          "inputNickname": "설윤이",
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "130",
+      "nickname": "족구선생",
+      "role": "USER",
+      "playdkId": "7a5d068c",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 19,
+          "source": "족쌤",
+          "inputNickname": "족구선생",
+          "contribution": 218,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json",
+            "bongsoon-recruitment-gift-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "164",
+      "nickname": "박사",
+      "role": "USER",
+      "playdkId": "00a28fb2",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 14,
+          "source": "#초월",
+          "inputNickname": "박사",
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json",
+            "bongsoon-recruitment-gift-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "218",
+      "nickname": "현하루",
+      "role": "USER",
+      "playdkId": "a05e2d57",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 4,
+          "source": "현하루",
+          "inputNickname": "현하루",
+          "contribution": 2309,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "pingdu-thanks-supplement-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "289",
+      "nickname": "베베킹",
+      "role": "USER",
+      "playdkId": "94502a2d",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 25,
+          "source": "베배킹",
+          "inputNickname": "베베킹",
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "295",
+      "nickname": "모래",
+      "role": "USER",
+      "playdkId": "11092f52",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 59,
+          "source": "모래",
+          "inputNickname": null,
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json",
+            "bongsoon-recruitment-gift-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "303",
+      "nickname": "[C9]족쪽이",
+      "role": "USER",
+      "playdkId": "4779b1f1",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 12,
+          "source": "족치기족치기",
+          "inputNickname": "족쪽이",
+          "contribution": 109,
+          "evidence": "PRIOR_IDENTITY_RECORD",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json",
+            "bongsoon-recruitment-gift-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "360",
+      "nickname": "라피e",
+      "role": "USER",
+      "playdkId": "06e56898",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 2,
+          "source": "적별",
+          "inputNickname": "라피e",
+          "contribution": 9773,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json",
+            "bongsoon-recruitment-gift-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "490",
+      "nickname": "경화수월팬",
+      "role": "USER",
+      "playdkId": "2512d0bc",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 50,
+          "source": "경화수월팬",
+          "inputNickname": null,
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": []
+        }
+      ]
+    },
+    {
+      "id": "493",
+      "nickname": "치타구",
+      "role": "USER",
+      "playdkId": "2f9fa1d1",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 43,
+          "source": "치타구",
+          "inputNickname": null,
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": []
+        }
+      ]
+    },
+    {
+      "id": "521",
+      "nickname": "대저동토마토",
+      "role": "USER",
+      "playdkId": "abea9012",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 44,
+          "source": "대져동토마토",
+          "inputNickname": null,
+          "contribution": 109,
+          "evidence": "PRIOR_IDENTITY_RECORD",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json",
+            "bongsoon-recruitment-gift-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "681",
+      "nickname": "페이트런",
+      "role": "USER",
+      "playdkId": "fc573edd",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 55,
+          "source": "페이트런",
+          "inputNickname": null,
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "1255",
+      "nickname": "전게씹선미아웃",
+      "role": "USER",
+      "playdkId": "561a0ff8",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 3,
+          "source": "코파먹는성태",
+          "inputNickname": "전게씹선미아웃",
+          "contribution": 2671,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-supplement-20261002.targets.json",
+            "bongsoon-recruitment-gift-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "1421",
+      "nickname": "다시생각",
+      "role": "USER",
+      "playdkId": "6f84c07a",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 22,
+          "source": "다시생각",
+          "inputNickname": "다시생각",
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "1768",
+      "nickname": "핫시",
+      "role": "USER",
+      "playdkId": "8dd27727",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 7,
+          "source": "핫시:D",
+          "inputNickname": "핫시",
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json",
+            "bongsoon-recruitment-gift-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2420",
+      "nickname": "블랙캐슬",
+      "role": "USER",
+      "playdkId": "a2c1e499",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 8,
+          "source": "블랙캐슬",
+          "inputNickname": "블랙캐슬",
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json",
+            "bongsoon-recruitment-gift-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2505",
+      "nickname": "모아가려아가",
+      "role": "USER",
+      "playdkId": "04fa1e36",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 31,
+          "source": "츠츠_",
+          "inputNickname": "모아가려아가",
+          "contribution": 100,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json",
+            "bongsoon-recruitment-gift-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3884",
+      "nickname": "zkzk9999",
+      "role": "USER",
+      "playdkId": "2113359e",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 60,
+          "source": "z7005z",
+          "inputNickname": null,
+          "contribution": 109,
+          "evidence": "PRIOR_IDENTITY_RECORD",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json",
+            "bongsoon-recruitment-gift-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3974",
+      "nickname": "우회하세요",
+      "role": "USER",
+      "playdkId": "9f8e3d1b",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 23,
+          "source": "스프°",
+          "inputNickname": "우회하세요",
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4084",
+      "nickname": "게임닉네임",
+      "role": "USER",
+      "playdkId": "491e9cc1",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 56,
+          "source": "게임닉네임",
+          "inputNickname": null,
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json",
+            "bongsoon-recruitment-gift-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4111",
+      "nickname": "족게이다",
+      "role": "USER",
+      "playdkId": "6c8a26e9",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 36,
+          "source": "족게이다",
+          "inputNickname": "족게이다",
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json",
+            "bongsoon-recruitment-gift-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4209",
+      "nickname": "#유나랜드",
+      "role": "USER",
+      "playdkId": "d98a8c3a",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 40,
+          "source": "유나랜드",
+          "inputNickname": "#유나랜드",
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4222",
+      "nickname": "#크레파스",
+      "role": "USER",
+      "playdkId": "979169df",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 54,
+          "source": "크레파스",
+          "inputNickname": null,
+          "contribution": 109,
+          "evidence": "LEADING_HASH_ALIAS_AND_PRIOR_ACCOUNT_RECORD",
+          "identityFiles": []
+        }
+      ]
+    },
+    {
+      "id": "4235",
+      "nickname": "도댕",
+      "role": "USER",
+      "playdkId": "1e59de3c",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 29,
+          "source": "도댕",
+          "inputNickname": "도댕",
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json",
+            "bongsoon-recruitment-gift-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4391",
+      "nickname": "더듬이구",
+      "role": "USER",
+      "playdkId": "b86ce1fb",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 24,
+          "source": "탱탱노",
+          "inputNickname": "더듬이구",
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json",
+            "bongsoon-recruitment-gift-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4415",
+      "nickname": "Moo날두",
+      "role": "USER",
+      "playdkId": "119ccbaf",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 49,
+          "source": "Moo날두",
+          "inputNickname": null,
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": []
+        }
+      ]
+    },
+    {
+      "id": "4501",
+      "nickname": "장씨아저씨",
+      "role": "USER",
+      "playdkId": "ce44a7ee",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 28,
+          "source": "장씨아저씨",
+          "inputNickname": "장씨아저씨",
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "pingdu-thanks-supplement-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json",
+            "bongsoon-recruitment-gift-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4504",
+      "nickname": "깜찍소녀",
+      "role": "USER",
+      "playdkId": "9064056b",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 35,
+          "source": "깜찍소녀",
+          "inputNickname": "깜찍소녀",
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "diim-recruitment-gift-20261001.targets.json",
+            "bongsoon-recruitment-gift-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4562",
+      "nickname": "찡찡ෆ",
+      "role": "USER",
+      "playdkId": "5425756a",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 45,
+          "source": "♥찡찡",
+          "inputNickname": "찡찡",
+          "contribution": 109,
+          "evidence": "PRIOR_IDENTITY_RECORD",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4570",
+      "nickname": "혜정",
+      "role": "USER",
+      "playdkId": "0e8cf635",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 46,
+          "source": "혜정♪",
+          "inputNickname": "혜정",
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json",
+            "bongsoon-recruitment-gift-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4572",
+      "nickname": "응맨",
+      "role": "USER",
+      "playdkId": "2ab08a59",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 13,
+          "source": "응맨♡",
+          "inputNickname": "응멘",
+          "contribution": 109,
+          "evidence": "PRIOR_IDENTITY_RECORD",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4582",
+      "nickname": "족단",
+      "role": "USER",
+      "playdkId": "22c31ef9",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 15,
+          "source": "[C9]족단",
+          "inputNickname": "족단",
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-supplement-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4598",
+      "nickname": "암살자..",
+      "role": "USER",
+      "playdkId": "4c7adda2",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 20,
+          "source": "암살자..",
+          "inputNickname": "암살자..",
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "bongsoon-recruitment-gift-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4610",
+      "nickname": "고라니ㅇ",
+      "role": "USER",
+      "playdkId": "372f52a0",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 30,
+          "source": "고라니ㅇ",
+          "inputNickname": "고라니ㅇ",
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4615",
+      "nickname": "랭비!",
+      "role": "USER",
+      "playdkId": "70f6dcb8",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 16,
+          "source": "[C9]플랜비",
+          "inputNickname": "랭비!",
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json",
+            "bongsoon-recruitment-gift-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4627",
+      "nickname": "학벌",
+      "role": "USER",
+      "playdkId": "6da5a7a7",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 27,
+          "source": "학벌",
+          "inputNickname": "학벌",
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json",
+            "bongsoon-recruitment-gift-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4628",
+      "nickname": "망순이ෆ",
+      "role": "USER",
+      "playdkId": "0b464ee5",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 9,
+          "source": "망액이",
+          "inputNickname": "망순이ෆ",
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json",
+            "bongsoon-recruitment-gift-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4651",
+      "nickname": "세라네꼬라지",
+      "role": "USER",
+      "playdkId": "644d3393",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 39,
+          "source": "세라네꼬라지",
+          "inputNickname": "세라네꼬라지",
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "diim-recruitment-gift-20261001.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4705",
+      "nickname": "˚쟁이。",
+      "role": "USER",
+      "playdkId": "634d4201",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 21,
+          "source": "˚쟁이。",
+          "inputNickname": "˚쟁이。",
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json",
+            "bongsoon-recruitment-gift-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4772",
+      "nickname": "펜타",
+      "role": "USER",
+      "playdkId": "416c1cc2",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 11,
+          "source": "네이아네이",
+          "inputNickname": "펜타",
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json",
+            "bongsoon-recruitment-gift-20261002.targets.json"
+          ]
+        },
+        {
+          "row": 48,
+          "source": "펜타",
+          "inputNickname": null,
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json",
+            "bongsoon-recruitment-gift-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4774",
+      "nickname": "딤럼프",
+      "role": "USER",
+      "playdkId": "373b1b92",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 33,
+          "source": "딤럼프",
+          "inputNickname": "딤럼프",
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json",
+            "bongsoon-recruitment-gift-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4908",
+      "nickname": "굳건창수",
+      "role": "USER",
+      "playdkId": "6a375b2a",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 26,
+          "source": "굳건창수b",
+          "inputNickname": "굳건창수",
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json",
+            "bongsoon-recruitment-gift-20261002.targets.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4977",
+      "nickname": "하이희야♡",
+      "role": "USER",
+      "playdkId": "5e2dc209",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 17,
+          "source": "하이희야♡",
+          "inputNickname": null,
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": []
+        }
+      ]
+    },
+    {
+      "id": "5008",
+      "nickname": "나무",
+      "role": "USER",
+      "playdkId": "aa18e32d",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 52,
+          "source": "나무",
+          "inputNickname": null,
+          "contribution": 109,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": []
+        }
+      ]
+    },
+    {
+      "id": "5010",
+      "nickname": "으악",
+      "role": "USER",
+      "playdkId": "4421c392",
+      "quantity": 1,
+      "sourceRows": [
+        {
+          "row": 1,
+          "source": "으악",
+          "inputNickname": "으악",
+          "contribution": 9901,
+          "evidence": "EXACT_GAME_NICKNAME",
+          "identityFiles": [
+            "pingdu-thanks-ppanghun-20261002.targets.json",
+            "diim-recruitment-gift-20261001.targets.json",
+            "bongsoon-recruitment-gift-20261002.targets.json"
+          ]
+        }
+      ]
+    }
+  ],
+  "held": [
+    {
+      "row": 6,
+      "source": "이슈린.",
+      "inputNickname": null,
+      "contribution": 162,
+      "amount": 1,
+      "reason": "게임 계정 미확인, 사용자 지시로 보류"
+    },
+    {
+      "row": 34,
+      "source": "『인연』",
+      "inputNickname": null,
+      "contribution": 109,
+      "amount": 1,
+      "reason": "게임 계정 미확인, 사용자 지시로 보류"
+    },
+    {
+      "row": 42,
+      "source": "족찌미♡",
+      "inputNickname": null,
+      "contribution": 109,
+      "amount": 1,
+      "reason": "게임 계정 미확인, 사용자 지시로 보류"
+    }
+  ],
+  "duplicates": [
+    {
+      "row": 48,
+      "source": "펜타",
+      "id": "4772",
+      "nickname": "펜타",
+      "keptRow": 11,
+      "reason": "같은 계정은 이번 행사 최대 1개"
+    }
+  ]
+}
