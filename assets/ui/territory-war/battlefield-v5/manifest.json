@@ -1,0 +1,45 @@
+{
+  "createdAt": "2026-10-03",
+  "tool": "image_gen.imagegen",
+  "type": "territory-war-environment",
+  "source": "battlefield-panorama-source-v1.png",
+  "sha256": "e0cd55dcd77f67282317c1f9b1ae3c336fda1da213ed7aff486a96cedb122f02",
+  "runtime": [
+    "battlefield-panorama-1600.webp",
+    "battlefield-panorama-960.webp"
+  ],
+  "constraints": [
+    "no baked-in UI",
+    "straight rigid guns and rails",
+    "preserve original generated PNG"
+  ],
+  "facilities": [
+    {
+      "key": "relay",
+      "source": "relay-source-v1.png",
+      "sha256": "c1b188ca7ef958ae218ff6367483408e575e27270f07a768811f0d7e6aab116c",
+      "runtime": [
+        "relay-640.webp",
+        "relay-320.webp"
+      ]
+    },
+    {
+      "key": "supply",
+      "source": "supply-source-v1.png",
+      "sha256": "2186052437bf15a96751517592fd0fd9d3dccd77c4129a0a364fcab5fe2b9d6d",
+      "runtime": [
+        "supply-640.webp",
+        "supply-320.webp"
+      ]
+    },
+    {
+      "key": "cannon",
+      "source": "cannon-source-v1.png",
+      "sha256": "aaf2581365fe6f50c5a067ebc14c7f8c3c41c92d486f14f0130368f7f8b8ad52",
+      "runtime": [
+        "cannon-640.webp",
+        "cannon-320.webp"
+      ]
+    }
+  ]
+}

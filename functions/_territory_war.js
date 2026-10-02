@@ -2,6 +2,8 @@ import {territoryPigCoinStatements,territoryPigCoinPreview} from './_pig_coin_co
 import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
 import {ensureTerritoryClanSchema,openClanWarfare,syncRecruitingClanRoster,isClanWarfare,finishTerritoryClanRound,territoryClanView,territorySkillCatalog,territorySkillState,territorySkillReceipt,applyTerritorySkill} from './_territory_clan_warfare.js';
 import {pigCoinRewardAmount} from './_loot_shop.js';
+import {ensureBattlefieldSchema,battlefieldPolicy,freezeBattlefieldPolicy,initializeBattlefieldFront,battlefieldAttackContext,battlefieldAttackGuards,battlefieldContributionStatements,battlefieldAttackCleanup,battlefieldSiegeSql,battlefieldState,applyBattlefieldSkill,settleBattlefieldCannon,claimBattlefieldSupply} from './_territory_battlefield_v5.js';
+import {BATTLEFIELD_DEFAULTS,normalizeBattlefieldConfig,battlefieldSkillCatalog,battlefieldObjectives,battlefieldIronWallMultiplier,battlefieldSiegeMultiplier} from '../shared/territory-battlefield-v5.mjs';
 import {releasedMercenarySnapshot,mercenarySnapshotPower} from './_mercenary_account.js';
 import {
   GAMST_TERRITORY_FORMATION_MARKER_KEY,
@@ -22,6 +24,7 @@ const NODES=Object.freeze([
 ]);
 
 const DEFAULTS=Object.freeze({
+  battlefield:BATTLEFIELD_DEFAULTS,
   mode:'OFF',battleName:'',teamAName:'A 진영',teamBName:'B 진영',recruitmentHours:3,preparationMinutes:10,roundMinutes:180,minParticipants:6,
   energyMax:10,energyMinutes:10,attackEnergyCost:1,realtimePollSeconds:12,
   baseSiegeHp:500000,outpostHpMultiplier:1.1,midHpMultiplier:1.2,gateHpMultiplier:1.4,homeHpMultiplier:2,
@@ -549,7 +552,7 @@ async function ensureFoundation(env){
 async function settings(env){
   if(settingsCacheValue&&Date.now()<settingsCacheExpiresAt)return settingsCacheValue;
   const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='territory_war_settings_v3'").first();
-  settingsCacheValue={...DEFAULTS,...safeJson(row?.value,{})};settingsCacheExpiresAt=Date.now()+5000;return settingsCacheValue;
+  settingsCacheValue={...DEFAULTS,...safeJson(row?.value,{})};settingsCacheValue.battlefield=normalizeBattlefieldConfig(settingsCacheValue.battlefield);settingsCacheExpiresAt=Date.now()+5000;return settingsCacheValue;
 }
 function invalidateSettingsCache(){settingsCacheValue=null;settingsCacheExpiresAt=0}
 async function latestRound(env){return env.DB.prepare('SELECT * FROM territory_war_v3_rounds ORDER BY id DESC LIMIT 1').first()}
@@ -832,6 +835,7 @@ async function createFront(env,roundId,sequence,nodeIndex,status,cfg){
     VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).bind(roundId,sequence,node.index,node.code,node.name,node.type,status,aHp,bHp,aHp,bHp,revisitCount,started,defenseSide,deadline,leadingSide,leaderFatigue).run();
   const front=await env.DB.prepare('SELECT * FROM territory_war_v3_fronts WHERE round_id=? AND sequence=?').bind(roundId,sequence).first();
   if(defenseSide&&front?.id)await env.DB.prepare('UPDATE territory_war_v3_last_defense_uses SET front_id=? WHERE round_id=? AND side=? AND front_id IS NULL').bind(front.id,roundId,defenseSide).run();
+  await initializeBattlefieldFront(env,round,front);
   return front;
 }
 
@@ -897,6 +901,7 @@ async function formRound(env,round,cfg,deps=territoryRuntimeDeps){
     const history=await recentRoundHistory(env,round.id),candidates=users.map(item=>{const prior=history.users.get(Number(item.user_id));return{...item,balance_previous_round_id:prior?.latestRoundId||null,balance_previous_side:prior?.latestSide||null,balance_previous_result:prior?.latestResult||'NEW',balance_previous_attacks:prior?.latestAttacks||0,balance_history_rounds:prior?.rounds||0,balance_history_active_rounds:prior?.activeRounds||0,balance_history_participation_weight:prior?.participationWeight||0,balance_history_weighted_attacks:prior?.weightedAttacks||0,balance_history_win_weight:prior?.winWeight||0,balance_history_loss_weight:prior?.lossWeight||0}}),balanced=isClanWarfare(fresh)?balancedSideAssignments(candidates.filter(row=>Number(row.mandatory_clan)!==1),candidates.filter(row=>Number(row.mandatory_clan)===1).map(item=>({item,side:item.side}))):balancedSideAssignments(candidates),{aPower,bPower,aCount,bCount}=balanced,statements=[];
     for(const {item,side} of balanced.assignments)statements.push(env.DB.prepare("UPDATE territory_war_v3_users SET side=?,status='ACTIVE',energy=?,last_recharged_at=CURRENT_TIMESTAMP,balance_previous_round_id=?,balance_previous_side=?,balance_previous_result=?,balance_previous_attacks=?,balance_history_rounds=?,balance_history_active_rounds=?,balance_history_participation_weight=?,balance_history_weighted_attacks=?,balance_history_win_weight=?,balance_history_loss_weight=?,updated_at=CURRENT_TIMESTAMP WHERE round_id=? AND user_id=?").bind(side,Number(cfg.energyMax||10),item.balance_previous_round_id,item.balance_previous_side,item.balance_previous_result,Number(item.balance_previous_attacks||0),Number(item.balance_history_rounds||0),Number(item.balance_history_active_rounds||0),Number(item.balance_history_participation_weight||0),Number(item.balance_history_weighted_attacks||0),Number(item.balance_history_win_weight||0),Number(item.balance_history_loss_weight||0),round.id,item.user_id));
     await batchChunks(env,statements);
+    await freezeBattlefieldPolicy(env,fresh,cfg);
     const prep=Math.max(0,Number(cfg.preparationMinutes||0)),starts=iso(Date.now()+prep*60000),ends=iso(Date.now()+(prep+Number(cfg.roundMinutes||180))*60000),front=await createFront(env,round.id,1,4,prep>0?'PREPARING':'ACTIVE',cfg);
     await env.DB.prepare(`UPDATE territory_war_v3_rounds SET status=?,formed_at=CURRENT_TIMESTAMP,starts_at=?,ends_at=?,current_front_index=4,current_front_id=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='RECRUITING'`).bind(prep>0?'PREPARING':'ACTIVE',starts,ends,front.id,round.id).run();
     return{status:prep>0?'PREPARING':'ACTIVE',aCount,bCount,aPower,bPower,historyRoundIds:history.roundIds,aActivity:balanced.aActivity,bActivity:balanced.bActivity,aParticipation:balanced.aParticipation,bParticipation:balanced.bParticipation,aRecentWinWeight:balanced.aWinners,bRecentWinWeight:balanced.bWinners};
@@ -957,10 +962,10 @@ async function generateRewards(env,round,cfg){
   if(env.DB.dialect==='postgres'){
     // 한 회차 보상을 한 SQL 문으로 확정한다. 기존 50개 단위 트랜잭션은
     // 두 번째 묶음에서 연결이 끊기면 앞 50명만 남는 부분 정산을 만들었다.
-    const tuple=`(${Array(18).fill('?').join(',')})`,sql=`INSERT INTO territory_war_v3_rewards(${REWARD_COLUMNS}) VALUES ${payloads.map(()=>tuple).join(',')} ON CONFLICT(round_id,user_id) DO UPDATE SET ${REWARD_UPDATE} WHERE territory_war_v3_rewards.claimed_at IS NULL RETURNING round_id`;
+    const tuple=`(${REWARD_COLUMNS.split(',').map(()=>'?').join(',')})`,sql=`INSERT INTO territory_war_v3_rewards(${REWARD_COLUMNS}) VALUES ${payloads.map(()=>tuple).join(',')} ON CONFLICT(round_id,user_id) DO UPDATE SET ${REWARD_UPDATE} WHERE territory_war_v3_rewards.claimed_at IS NULL RETURNING round_id`;
     await env.DB.prepare(sql).bind(...payloads.flat()).run();
   }else{
-    const statements=payloads.map(values=>env.DB.prepare(`INSERT INTO territory_war_v3_rewards(${REWARD_COLUMNS}) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(round_id,user_id) DO UPDATE SET ${REWARD_UPDATE} WHERE territory_war_v3_rewards.claimed_at IS NULL`).bind(...values));
+    const statements=payloads.map(values=>env.DB.prepare(`INSERT INTO territory_war_v3_rewards(${REWARD_COLUMNS}) VALUES(${REWARD_COLUMNS.split(',').map(()=>'?').join(',')}) ON CONFLICT(round_id,user_id) DO UPDATE SET ${REWARD_UPDATE} WHERE territory_war_v3_rewards.claimed_at IS NULL`).bind(...values));
     await batchChunks(env,statements);
   }
   return payloads.length;
@@ -1026,7 +1031,9 @@ async function lifecycle(env,cfg,{forceClanRoster=false}={}){
   }
   if(round.status==='PREPARING'&&sqlMs(round.starts_at)<=Date.now())round=await activateRound(env,round);
   if(round.status==='ACTIVE'&&round.current_front_id){
-    const front=await activeFront(env,round),needsAdvance=front&&(front.status==='RESOLVED'||Number(front.a_hp)<=0||Number(front.b_hp)<=0||(front.last_defense_side&&sqlMs(front.last_defense_deadline)<=Date.now()));
+    let front=await activeFront(env,round);
+    if(await settleBattlefieldCannon(env,{round,front})){round=await roundById(env,round.id);front=await activeFront(env,round);publicStateSharedCache=null;realtimePulseCache=null}
+    const needsAdvance=front&&(front.status==='RESOLVED'||Number(front.a_hp)<=0||Number(front.b_hp)<=0||(front.last_defense_side&&sqlMs(front.last_defense_deadline)<=Date.now()));
     if(needsAdvance){
       const lock=await acquireLock(env,`resolve_${front.id}`,15000);
       if(lock.ok){
@@ -1081,7 +1088,8 @@ async function counterSharedForRound(env,round,needCommanders){
 async function counterState(env,round,mine,shared=null){
   if(isClanWarfare(round)){
     const common=shared||await counterSharedForRound(env,round,true),commanders=common.commanders||await commandersForRound(env,round.id),cfg=await settings(env);
-    const state=await territorySkillState(env,round,territorySkillCatalog(OPERATIONS,cfg),String(mine?.side||''),commanders,mine?.user_id);
+    const policy=await battlefieldPolicy(env,round),catalog={...territorySkillCatalog(OPERATIONS,cfg),...(policy?.enabled?battlefieldSkillCatalog(policy):{})};
+    const state=await territorySkillState(env,round,catalog,String(mine?.side||''),commanders,mine?.user_id);
     for(const side of ['A','B'])state[side].operation=activeOperation(round,side);
     return state;
   }
@@ -1112,7 +1120,7 @@ async function activateCommanderOperation(env,deps,user,cfg,body){
   const operation=String(body.operation||'').toUpperCase();
   if(validRequestId(body.requestId)){const receipt=await territorySkillReceipt(env,user.id,body.requestId,operation);if(receipt)return deps.json({ok:true,result:receipt,state:await publicState(env,user.id)})}
   if(String(cfg.mode||'OFF').toUpperCase()==='OFF')return deps.json({error:'영토전 운영이 중지되었습니다.'},409);
-  if(!OPERATIONS[operation])return deps.json({error:'선택할 수 없는 전술 작전입니다.'},400);const round=await lifecycle(env,cfg);if(!round||round.status!=='ACTIVE')return deps.json({error:'현재 진행 중인 영토전이 없습니다.'},409);const mine=await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).first();if(!mine?.side||mine.status!=='ACTIVE')return deps.json({error:'활성 영토전 참가자만 전술 명령을 사용할 수 있습니다.'},403);const commanders=await commandersForRound(env,round.id);if(Number(commanders?.[mine.side]?.user_id||0)!==Number(user.id))return deps.json({error:'현재 지정된 진영 지휘관만 전술 작전을 발동할 수 있습니다.'},403);
+  if(!OPERATIONS[operation]&&!battlefieldSkillCatalog()[operation])return deps.json({error:'선택할 수 없는 전술 작전입니다.'},400);const round=await lifecycle(env,cfg);if(!round||round.status!=='ACTIVE')return deps.json({error:'현재 진행 중인 영토전이 없습니다.'},409);const mine=await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).first();if(!mine?.side||mine.status!=='ACTIVE')return deps.json({error:'활성 영토전 참가자만 전술 명령을 사용할 수 있습니다.'},403);const commanders=await commandersForRound(env,round.id);if(Number(commanders?.[mine.side]?.user_id||0)!==Number(user.id))return deps.json({error:'현재 지정된 진영 지휘관만 전술 작전을 발동할 수 있습니다.'},403);
   const lock=await acquireLock(env,`counter_command_${round.id}_${mine.side}`,30000);if(!lock.ok)return deps.json({error:'지휘관 전술 명령을 처리 중입니다.'},409);try{const freshRound=await roundById(env,round.id),freshMine=await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).first();if(!freshRound||freshRound.status!=='ACTIVE'||!freshMine?.side||freshMine.status!=='ACTIVE')return deps.json({error:'전술 작전을 발동할 수 있는 전선 상태가 아닙니다.'},409);const freshCommanders=await commandersForRound(env,round.id);if(Number(freshCommanders?.[freshMine.side]?.user_id||0)!==Number(user.id))return deps.json({error:'지휘권이 변경되었습니다. 전황을 새로고침해 주세요.'},409);if(isClanWarfare(freshRound)){
       if(!validRequestId(body.requestId))return deps.json({error:'스킬 요청번호가 올바르지 않습니다. 새로고침 후 다시 시도하세요.'},400);
       if(truceState(freshRound).active)return deps.json({error:'임시 휴전 중에는 스킬을 사용할 수 없습니다.'},409);
@@ -1122,7 +1130,7 @@ async function activateCommanderOperation(env,deps,user,cfg,body){
       try{
         let result,candidateRound=freshRound,candidateFront=front;
         for(let attempt=0;attempt<3;attempt++){
-          try{result=await applyTerritorySkill(env,{round:candidateRound,front:candidateFront,mine:freshMine,operation,cfg,requestId:body.requestId,damageFor,definition:territorySkillCatalog(OPERATIONS,cfg)[operation]});break}
+          try{result=OPERATIONS[operation]?await applyTerritorySkill(env,{round:candidateRound,front:candidateFront,mine:freshMine,operation,cfg,requestId:body.requestId,damageFor,definition:territorySkillCatalog(OPERATIONS,cfg)[operation]}):await applyBattlefieldSkill(env,{round:candidateRound,front:candidateFront,mine:freshMine,operation,requestId:body.requestId});break}
           catch(error){
             const receipt=await territorySkillReceipt(env,user.id,body.requestId,operation);if(receipt){result=receipt;break}
             if(attempt===2)throw error;
@@ -1138,6 +1146,7 @@ async function activateCommanderOperation(env,deps,user,cfg,body){
         return deps.json({error:'전황이 변경되어 스킬을 적용하지 않았습니다. 같은 스킬을 눌러 다시 확인하세요.',retryable:true},409);
       }
     }
+    if(!OPERATIONS[operation])return deps.json({error:'이번 회차에는 전장 시설 스킬이 활성화되지 않았습니다.'},409);
     const max=Number(cfg.counterGaugeMax||1000),gauge=Number(freshRound[sideField(freshMine.side,'counter_gauge')]||0);if(gauge<max)return deps.json({error:'작전 게이지가 아직 가득 차지 않았습니다.'},409);const used=await env.DB.prepare('SELECT 1 FROM territory_war_v3_operation_uses WHERE round_id=? AND side=? AND operation=?').bind(round.id,freshMine.side,operation).first();if(used)return deps.json({error:'이번 영토전에서 이미 발동한 작전입니다.'},409);await activateOperation(env,freshRound,freshMine,operation,cfg);return deps.json({ok:true,activated:true,commandedBy:user.id,state:await publicState(env,user.id)})}finally{await releaseLock(env,lock)}
 }
 
@@ -1193,7 +1202,7 @@ async function publicState(env,userId,includeAdmin=false){
   const canRegister=!mine&&round.status==='RECRUITING',canCancel=Boolean(mine&&round.status==='RECRUITING');
   const ace=ranking.find(row=>row.side===(Number(round.current_front_index||4)>=4?'A':'B'))||null,notice=shared.notice;
   const commanders={...shared.commanders,mineSide:mine?.side||'',canBroadcast:Boolean(mine?.side&&Number(shared.commanders?.[mine.side]?.user_id||0)===Number(userId))};
-  const state={clans:await territoryClanView(env,round),mode,settings:cfg,round,front,nodes:NODES,truce:truceState(round),comeback:comebackState(round,cfg,front),fatigue:fatigueState(round,front,cfg),lastDefense:front?.last_defense_side?{active:true,side:front.last_defense_side,deadline:front.last_defense_deadline,hpBonusPercent:Number(cfg.lastDefenseHpBonusPercent||35)}:{active:false},counter:await counterState(env,round,mineRow,shared),ace,notice:notice?{...notice,payload:safeJson(notice.payload_json,{})}:null,commanders,commandMessages:shared.commandMessages||[],counts:{total:Number(counts.total||0),A:Number(counts.a_count||0),B:Number(counts.b_count||0),aPower:Number(counts.a_power||0),bPower:Number(counts.b_power||0)},mine,registration:{canRegister,canCancel},ranking,recentResults,recentActions,reward,serverNow:iso(),version:Number(round.version||0)};
+  const state={clans:await territoryClanView(env,round),battlefield:await battlefieldState(env,{round,front,mine:mineRow}),mode,settings:cfg,round,front,nodes:NODES,truce:truceState(round),comeback:comebackState(round,cfg,front),fatigue:fatigueState(round,front,cfg),lastDefense:front?.last_defense_side?{active:true,side:front.last_defense_side,deadline:front.last_defense_deadline,hpBonusPercent:Number(cfg.lastDefenseHpBonusPercent||35)}:{active:false},counter:await counterState(env,round,mineRow,shared),ace,notice:notice?{...notice,payload:safeJson(notice.payload_json,{})}:null,commanders,commandMessages:shared.commandMessages||[],counts:{total:Number(counts.total||0),A:Number(counts.a_count||0),B:Number(counts.b_count||0),aPower:Number(counts.a_power||0),bPower:Number(counts.b_power||0)},mine,registration:{canRegister,canCancel},ranking,recentResults,recentActions,reward,serverNow:iso(),version:Number(round.version||0)};
   if(includeAdmin)state.adminUsers=(await env.DB.prepare(`SELECT w.*,u.nickname FROM territory_war_v3_users w JOIN users u ON u.id=w.user_id WHERE w.round_id=? ORDER BY CASE w.side WHEN 'A' THEN 1 WHEN 'B' THEN 2 ELSE 3 END,w.damage DESC,w.deck_power DESC`).bind(round.id).all()).results||[];
   return state;
 }
@@ -1228,7 +1237,7 @@ async function realtimeState(env,userId){
   }else{
     const mineRow=await env.DB.prepare('SELECT side,energy,last_recharged_at,attacks,damage,defenses FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,userId).first();if(mineRow){const e=rechargeEnergy(mineRow,cfg);mine={...mineRow,energy:e.energy,nextEnergyAt:e.nextEnergyAt}}
   }
-  const mineFull=mine?.side?{...mine,user_id:userId}:null,pulse=await realtimePulse(env,round);return{round,front,mine,truce:truceState(round),comeback:comebackState(round,cfg,front),fatigue:fatigueState(round,front,cfg),lastDefense:front?.last_defense_side?{active:true,side:front.last_defense_side,deadline:front.last_defense_deadline,hpBonusPercent:Number(cfg.lastDefenseHpBonusPercent||35)}:{active:false},counter:await counterState(env,round,mineFull),recentActionPulse:pulse.recentActionPulse,notice:pulse.notice,version:Number(round.version||0),serverNow:iso()};
+  const mineFull=mine?.side?{...mine,user_id:userId}:null,pulse=await realtimePulse(env,round);return{round,front,mine,battlefield:await battlefieldState(env,{round,front,mine:mineFull}),truce:truceState(round),comeback:comebackState(round,cfg,front),fatigue:fatigueState(round,front,cfg),lastDefense:front?.last_defense_side?{active:true,side:front.last_defense_side,deadline:front.last_defense_deadline,hpBonusPercent:Number(cfg.lastDefenseHpBonusPercent||35)}:{active:false},counter:await counterState(env,round,mineFull),recentActionPulse:pulse.recentActionPulse,notice:pulse.notice,version:Number(round.version||0),serverNow:iso()};
 }
 
 async function reserveAction(env,requestId,userId){
@@ -1260,6 +1269,7 @@ async function handleActionStatus(env,deps,user,cfg,request){
 
 async function handleAttack(env,deps,user,cfg,body){
   const requestId=validRequestId(body.requestId);if(!requestId)return deps.json({error:'공격 요청 ID가 올바르지 않습니다.'},400);
+  const objective=battlefieldObjectives(body.objective??'SIEGE');if(!objective)return deps.json({error:'전장 목표가 올바르지 않습니다.'},400);
   const reservation=await reserveAction(env,requestId,user.id);
   if(reservation.conflict)return deps.json({error:'다른 사용자의 요청 ID입니다.'},409);
   if(reservation.pending)return deps.json({ok:true,pending:true,requestId,retryAfterMs:300});
@@ -1284,6 +1294,7 @@ async function handleAttack(env,deps,user,cfg,body){
   try{
     const round=await lifecycle(env,cfg);if(!round||round.status!=='ACTIVE')throw new Error('현재 전투 가능한 영토전 회차가 아닙니다.');if(truceState(round).active)throw new Error('임시 휴전 중에는 공격할 수 없습니다. PVP 덱과 장비·칭호를 최신화해 주세요.');
     const front=await activeFront(env,round);if(!front||front.status!=='ACTIVE')throw new Error('현재 교전지가 준비되지 않았습니다.');
+    if(body.frontId!=null&&Number(body.frontId)!==Number(front.id))throw new Error('현재 교전지가 변경되었습니다. 지도에서 전장을 다시 확인해 주세요.');
     const mine=await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).first();if(!mine||!['A','B'].includes(String(mine.side||'')))throw new Error('현재 회차 참가자가 아닙니다.');
     if(isClanWarfare(round)&&Number(mine.mandatory_clan)===1&&!safeJson(mine.formation_breakdown_json,{}).deckComplete)throw new Error('PVP 덱 5장을 저장한 후 내 전투단에서 전투 준비를 최신화하세요.');
     const energy=rechargeEnergy(mine,cfg,front),cost=clampInt(cfg.attackEnergyCost,1,20,1);if(energy.energy<cost)throw new Error('행동력이 부족합니다.');
@@ -1291,38 +1302,43 @@ async function handleAttack(env,deps,user,cfg,body){
 
     // V2 계산은 전선 잠금 밖에서 병렬 처리한다. D1 반영만 짧은 원자 배치로 직렬화된다.
     const simulation=await simulateTerritoryBattle(env,deps,user,mine,opponent,requestId),attackerWon=simulation.battleV2?.result?.winner==='A',winnerSide=attackerWon?String(mine.side):String(opponent.side),siegeSide=String(mine.side),targetSide=siegeSide==='A'?'B':'A',contributorId=Number(user.id),rules=balanceRules(round,cfg),comeback=comebackState(round,cfg,front),comebackActive=comeback.active&&comeback.losingSide===siegeSide,siegeDamageRate=attackerWon?1:Number(rules.defeatSiegeDamagePercent||0)/100,comebackMultiplier=comebackActive?1+comeback.damageBonusPercent/100:1;
+    const battlefieldContext=await battlefieldAttackContext(env,{round,front,objective,cycle:Number(body.supplyCycle)});
     const [ace,lossRows]=await Promise.all([env.DB.prepare(`SELECT user_id FROM territory_war_v3_users WHERE round_id=? AND side=? ORDER BY damage DESC,attacks DESC,user_id LIMIT 1`).bind(round.id,targetSide).first(),env.DB.prepare(`SELECT winner_side FROM territory_war_v3_actions WHERE round_id=? AND user_id=? AND status='COMPLETED' ORDER BY id DESC LIMIT 2`).bind(round.id,user.id).all()]);
     const aceTarget=Number(ace?.user_id||0)===Number(opponent.user_id),strongChallenge=Number(simulation.defenderPower||0)>Number(simulation.attackerPower||0)*1.2,lossStreak=((lossRows?.results||[]).length===2&&(lossRows.results||[]).every(row=>String(row.winner_side)!==siegeSide)),counterEligible=comebackActive,counterGained=counterEligible?Number(cfg.counterParticipationPoints||18)+(attackerWon?0:Number(cfg.counterDefeatPoints||12))+(strongChallenge?Number(cfg.counterStrongChallengePoints||20):0)+(lossStreak?20:0)+(aceTarget?(attackerWon?Number(cfg.counterAceWinPoints||120):Number(cfg.counterAceDamagePoints||35)):0):0;
     const siegeOperation=activeOperation(round,siegeSide),defenseOperation=activeOperation(round,targetSide),baseDefenseCounterGained=!attackerWon&&comeback.active&&comeback.losingSide===targetSide?Number(cfg.counterDefensePoints||16):0,counterBatteryTriggered=!attackerWon&&defenseOperation.code==='COUNTER_BATTERY',defenseCounterGained=baseDefenseCounterGained+(counterBatteryTriggered?Number(cfg.counterBatteryGaugeBonus||48):0);
-    const revisitCount=Math.max(0,Number(front.revisit_count||0)),siegeAccelerationPercent=Math.min(30,revisitCount*10),fatigue=fatigueState(round,front,cfg),fatigueMultiplier=fatigue.side===siegeSide?1-fatigue.damagePenaltyPercent/100:1,assaultMultiplier=siegeOperation.code==='ASSAULT'?1+Number(cfg.assaultDamageBonusPercent||25)/100:1,spgSuppression=defenseOperation.code==='COUNTER_BATTERY'?1-Number(cfg.counterBatterySuppressionPercent||70)/100:1,spgMultiplier=siegeOperation.code==='SPG_BARRAGE'?1+(Number(cfg.spgDamageBonusPercent||35)/100)*spgSuppression:1,ironWallMultiplier=defenseOperation.code==='IRON_WALL'?1-Number(cfg.ironWallDamageReductionPercent||25)/100:1,airDefenseMultiplier=defenseOperation.code==='AIR_DEFENSE'?1-Number(cfg.airDefenseDamageReductionPercent||12)/100:1,sourceAttackerPower=Math.max(1,Number(mine.formation_power||mine.deck_power||simulation.attackerPower||0)),planned=Math.max(0,Math.round(damageFor(sourceAttackerPower,`${requestId}:${siegeSide}:SIEGE`,cfg)*siegeDamageRate*(1+siegeAccelerationPercent/100)*comebackMultiplier*fatigueMultiplier*assaultMultiplier*spgMultiplier*ironWallMultiplier*airDefenseMultiplier)),hpColumn=targetSide==='A'?'a_hp':'b_hp',targetHp=Number(front[hpColumn]||0);if(targetHp<=0)throw new Error('이미 종료된 교전입니다.');
-    const predictedActual=Math.max(0,Math.min(targetHp,planned)),predictedAfter=Math.max(0,targetHp-predictedActual),winnerHpPercent=resultHpPercent(simulation.battleV2,attackerWon?'A':'B'),personalWinCoin=attackerWon?clampInt(cfg.individualBattleWinCoin,0,100000000,0):0;
-    const compact={requestId,roundId:round.id,frontId:front.id,nodeIndex:front.node_index,nodeCode:front.node_code,nodeName:front.node_name,revisitCount,siegeAccelerationPercent,siegeDamagePercent:Math.round(siegeDamageRate*100),comebackActive,comebackTier:comebackActive?comeback.tier:0,comebackTitle:comebackActive?comeback.title:'',comebackDamageBonusPercent:comebackActive?comeback.damageBonusPercent:0,counterGained,defenseCounterGained,counterBatteryTriggered,aceTarget,strongChallenge,fatiguePenaltyPercent:fatigue.side===siegeSide?fatigue.damagePenaltyPercent:0,operation:siegeOperation.code,defensiveOperation:defenseOperation.code,side:mine.side,opponentSide:opponent.side,opponentUserId:Number(opponent.user_id),opponentNickname:String(opponent.nickname||'상대 참가자'),matchPowerGapPercent:Number(opponent.match_power_gap_percent||0),matchPoolSize:Number(opponent.match_pool_size||1),matchPowerEqualized:Boolean(simulation.matchBalance?.active),matchPowerCapPercent:Number(simulation.matchBalance?.capPercent||15),attackerWon,winnerSide,targetSide,contributorUserId:contributorId,damage:predictedActual,personalWinCoin,energySpent:cost,energyAfter:energy.energy-cost,targetHpBefore:targetHp,targetHpAfter:predictedAfter,battleSeed:simulation.battleSeed,winnerHpPercent};
-    const actualExpr=`MIN(?,COALESCE((SELECT ${hpColumn} FROM territory_war_v3_fronts WHERE id=? AND status='ACTIVE'),0))`,activeExpr=`EXISTS(SELECT 1 FROM territory_war_v3_fronts WHERE id=? AND status='ACTIVE' AND ${hpColumn}>0) AND EXISTS(SELECT 1 FROM territory_war_v3_actions WHERE request_id=? AND status='PENDING')`;
-    const attackerDamage=actualExpr,defenderDamage='0',attackerFinish=`CASE WHEN ?>=COALESCE((SELECT ${hpColumn} FROM territory_war_v3_fronts WHERE id=? AND status='ACTIVE'),1) THEN 1 ELSE 0 END`,defenderFinish='0';
+    const revisitCount=Math.max(0,Number(front.revisit_count||0)),siegeAccelerationPercent=Math.min(30,revisitCount*10),fatigue=fatigueState(round,front,cfg),fatigueMultiplier=fatigue.side===siegeSide?1-fatigue.damagePenaltyPercent/100:1,assaultMultiplier=siegeOperation.code==='ASSAULT'?1+Number(cfg.assaultDamageBonusPercent||25)/100:1,spgSuppression=defenseOperation.code==='COUNTER_BATTERY'?1-Number(cfg.counterBatterySuppressionPercent||70)/100:1,spgMultiplier=siegeOperation.code==='SPG_BARRAGE'?1+(Number(cfg.spgDamageBonusPercent||35)/100)*spgSuppression:1,ironWallMultiplier=defenseOperation.code==='IRON_WALL'?battlefieldIronWallMultiplier(Number(cfg.ironWallDamageReductionPercent||25),battlefieldContext.data?.['breach_'+String(mine.side).toLowerCase()+'_until_ms'],battlefieldContext.config||BATTLEFIELD_DEFAULTS):1,airDefenseMultiplier=defenseOperation.code==='AIR_DEFENSE'?1-Number(cfg.airDefenseDamageReductionPercent||12)/100:1,sourceAttackerPower=Math.max(1,Number(mine.formation_power||mine.deck_power||simulation.attackerPower||0)),planned=objective!=='SIEGE'?0:Math.max(0,Math.round(damageFor(sourceAttackerPower,`${requestId}:${siegeSide}:SIEGE`,cfg)*siegeDamageRate*(1+siegeAccelerationPercent/100)*comebackMultiplier*fatigueMultiplier*assaultMultiplier*spgMultiplier*ironWallMultiplier*airDefenseMultiplier)),hpColumn=targetSide==='A'?'a_hp':'b_hp',targetHp=Number(front[hpColumn]||0);if(targetHp<=0)throw new Error('이미 종료된 교전입니다.');
+    const predictedActual=Math.max(0,Math.min(targetHp,Math.round(planned*battlefieldSiegeMultiplier(battlefieldContext,mine.side)))),predictedAfter=Math.max(0,targetHp-predictedActual),winnerHpPercent=resultHpPercent(simulation.battleV2,attackerWon?'A':'B'),personalWinCoin=attackerWon?clampInt(cfg.individualBattleWinCoin,0,100000000,0):0;
+    const facilityPoints=objective==='RELAY'?(attackerWon?battlefieldContext.config.relayWinPoints:battlefieldContext.config.relayLossPoints):objective==='SUPPLY'?(attackerWon?battlefieldContext.config.supplyWinPoints:battlefieldContext.config.supplyLossPoints):0;
+    const compact={objective,facilityPoints,supplyCycle:objective==='SUPPLY'?battlefieldContext.window.cycle:null,requestId,roundId:round.id,frontId:front.id,nodeIndex:front.node_index,nodeCode:front.node_code,nodeName:front.node_name,revisitCount,siegeAccelerationPercent,siegeDamagePercent:Math.round(siegeDamageRate*100),comebackActive,comebackTier:comebackActive?comeback.tier:0,comebackTitle:comebackActive?comeback.title:'',comebackDamageBonusPercent:comebackActive?comeback.damageBonusPercent:0,counterGained,defenseCounterGained,counterBatteryTriggered,aceTarget,strongChallenge,fatiguePenaltyPercent:fatigue.side===siegeSide?fatigue.damagePenaltyPercent:0,operation:siegeOperation.code,defensiveOperation:defenseOperation.code,side:mine.side,opponentSide:opponent.side,opponentUserId:Number(opponent.user_id),opponentNickname:String(opponent.nickname||'상대 참가자'),matchPowerGapPercent:Number(opponent.match_power_gap_percent||0),matchPoolSize:Number(opponent.match_pool_size||1),matchPowerEqualized:Boolean(simulation.matchBalance?.active),matchPowerCapPercent:Number(simulation.matchBalance?.capPercent||15),attackerWon,winnerSide,targetSide,contributorUserId:contributorId,damage:predictedActual,personalWinCoin,energySpent:cost,energyAfter:energy.energy-cost,targetHpBefore:targetHp,targetHpAfter:predictedAfter,battleSeed:simulation.battleSeed,winnerHpPercent};
+    const siegeModifier=battlefieldSiegeSql(battlefieldContext,mine.side,front.id),actualExpr=`MIN(ROUND(?*${siegeModifier}),COALESCE((SELECT ${hpColumn} FROM territory_war_v3_fronts WHERE id=? AND status='ACTIVE'),0))`,activeExpr=`EXISTS(SELECT 1 FROM territory_war_v3_fronts WHERE id=? AND status='ACTIVE' AND ${hpColumn}>0) AND EXISTS(SELECT 1 FROM territory_war_v3_actions WHERE request_id=? AND status='PENDING')`;
+    const attackerDamage=actualExpr,defenderDamage='0',attackerFinish=`CASE WHEN ROUND(?*${siegeModifier})>=COALESCE((SELECT ${hpColumn} FROM territory_war_v3_fronts WHERE id=? AND status='ACTIVE'),1) THEN 1 ELSE 0 END`,defenderFinish='0';
     const attackerSql=`UPDATE territory_war_v3_users SET energy=?,last_recharged_at=?,attacks=attacks+1,damage=damage+${attackerDamage},front_finishes=front_finishes+${attackerFinish},updated_at=CURRENT_TIMESTAMP WHERE round_id=? AND user_id=? AND ${activeExpr}`;
     const defenderSql=`UPDATE territory_war_v3_users SET defenses=defenses+1,defense_wins=defense_wins+?,defense_losses=defense_losses+?,damage=damage+${defenderDamage},front_finishes=front_finishes+${defenderFinish},updated_at=CURRENT_TIMESTAMP WHERE round_id=? AND user_id=? AND ${activeExpr}`;
     const roundSql=`UPDATE territory_war_v3_rounds SET a_total_damage=a_total_damage+${siegeSide==='A'?actualExpr:'0'},b_total_damage=b_total_damage+${siegeSide==='B'?actualExpr:'0'},version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND ${activeExpr}`;
-    const meta={engine:'PROJECT_V_V3_SIEGE',seed:simulation.battleSeed,opponentUserId:Number(opponent.user_id),opponentNickname:String(opponent.nickname||'상대 참가자'),matchPowerGapPercent:Number(opponent.match_power_gap_percent||0),matchPoolSize:Number(opponent.match_pool_size||1),matchPowerEqualized:Boolean(simulation.matchBalance?.active),matchPowerCapPercent:Number(simulation.matchBalance?.capPercent||15),matchPowerOriginalGapPercent:Number(simulation.matchBalance?.gapPercent||0),winnerSide,targetSide,attackerWon,siegeDamagePercent:Math.round(siegeDamageRate*100),comebackActive,comebackTier:comebackActive?comeback.tier:0,comebackDamageBonusPercent:comebackActive?comeback.damageBonusPercent:0,operation:siegeOperation.code,defensiveOperation:defenseOperation.code,counterBatteryTriggered,sourceAttackerPower,attackerPower:simulation.attackerPower,defenderPower:simulation.defenderPower,winnerHpPercent};
+    const meta={objective,facilityPoints,supplyCycle:compact.supplyCycle,engine:'PROJECT_V_V3_SIEGE',seed:simulation.battleSeed,opponentUserId:Number(opponent.user_id),opponentNickname:String(opponent.nickname||'상대 참가자'),matchPowerGapPercent:Number(opponent.match_power_gap_percent||0),matchPoolSize:Number(opponent.match_pool_size||1),matchPowerEqualized:Boolean(simulation.matchBalance?.active),matchPowerCapPercent:Number(simulation.matchBalance?.capPercent||15),matchPowerOriginalGapPercent:Number(simulation.matchBalance?.gapPercent||0),winnerSide,targetSide,attackerWon,siegeDamagePercent:Math.round(siegeDamageRate*100),comebackActive,comebackTier:comebackActive?comeback.tier:0,comebackDamageBonusPercent:comebackActive?comeback.damageBonusPercent:0,operation:siegeOperation.code,defensiveOperation:defenseOperation.code,counterBatteryTriggered,sourceAttackerPower,attackerPower:simulation.attackerPower,defenderPower:simulation.defenderPower,winnerHpPercent};
 
     const attackerBinds=[energy.energy-cost,energy.lastRechargedAt,planned,front.id,planned,front.id,round.id,user.id,front.id,requestId];
     const defenderBinds=[attackerWon?0:1,attackerWon?1:0,round.id,opponent.user_id,front.id,requestId];
     const roundBinds=[];if(siegeSide==='A')roundBinds.push(planned,front.id);if(siegeSide==='B')roundBinds.push(planned,front.id);roundBinds.push(round.id,front.id,requestId);
     const actionSql=`UPDATE territory_war_v3_actions SET round_id=?,front_id=?,opponent_user_id=?,contributor_user_id=?,side=?,winner_side=?,target_side=?,battle_seed=?,counter_gained=?,ace_target=?,status='APPLIED',damage=${actualExpr},energy_spent=?,result_json=?,battle_meta_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND status='PENDING' AND ${activeExpr}`;
     const actionBinds=[round.id,front.id,opponent.user_id,contributorId,mine.side,winnerSide,targetSide,simulation.battleSeed,counterGained,aceTarget?1:0,planned,front.id,cost,JSON.stringify(compact),JSON.stringify(meta),requestId,front.id,requestId];
-    const frontSql=`UPDATE territory_war_v3_fronts SET ${hpColumn}=MAX(0,${hpColumn}-?),version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE' AND ${hpColumn}>0 AND EXISTS(SELECT 1 FROM territory_war_v3_actions WHERE request_id=? AND status='APPLIED')`;
+    const frontSql=`UPDATE territory_war_v3_fronts SET ${hpColumn}=MAX(0,${hpColumn}-ROUND(?*${siegeModifier})),version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE' AND ${hpColumn}>0 AND EXISTS(SELECT 1 FROM territory_war_v3_actions WHERE request_id=? AND status='APPLIED')`;
 
     await env.DB.batch([
+      ...battlefieldAttackGuards(env,{round,front,requestId,context:battlefieldContext}),
       env.DB.prepare(attackerSql).bind(...attackerBinds),
       env.DB.prepare(defenderSql).bind(...defenderBinds),
       env.DB.prepare(roundSql).bind(...roundBinds),
       env.DB.prepare(`UPDATE users SET coin=coin+? WHERE id=? AND ?>0 AND ${activeExpr}`).bind(personalWinCoin,user.id,personalWinCoin,front.id,requestId),
       env.DB.prepare(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT ?,?,coin,'영토전 개인 교전 승리' FROM users WHERE id=? AND ?>0 AND ${activeExpr}`).bind(user.id,personalWinCoin,user.id,personalWinCoin,front.id,requestId),
       env.DB.prepare(actionSql).bind(...actionBinds),
+      ...battlefieldContributionStatements(env,{round,front,mine,requestId,context:battlefieldContext,won:attackerWon}),
       env.DB.prepare(`UPDATE territory_war_v3_users SET counter_contribution=counter_contribution+?,ace_defeats=ace_defeats+?,comeback_participations=comeback_participations+? WHERE round_id=? AND user_id=? AND EXISTS(SELECT 1 FROM territory_war_v3_actions WHERE request_id=? AND status='APPLIED')`).bind(counterGained,aceTarget&&attackerWon?1:0,counterEligible?1:0,round.id,user.id,requestId),
       env.DB.prepare(`UPDATE territory_war_v3_users SET counter_contribution=counter_contribution+? WHERE round_id=? AND user_id=? AND EXISTS(SELECT 1 FROM territory_war_v3_actions WHERE request_id=? AND status='APPLIED')`).bind(defenseCounterGained,round.id,opponent.user_id,requestId),
       env.DB.prepare(`UPDATE territory_war_v3_rounds SET ${sideField(siegeSide,'counter_gauge')}=CASE WHEN (SELECT COUNT(*) FROM territory_war_v3_operation_uses WHERE round_id=? AND side=?)>=? THEN 0 ELSE MIN(?,${sideField(siegeSide,'counter_gauge')}+?) END,version=version+1 WHERE id=? AND EXISTS(SELECT 1 FROM territory_war_v3_actions WHERE request_id=? AND status='APPLIED')`).bind(round.id,siegeSide,Object.keys(OPERATIONS).length,Number(cfg.counterGaugeMax||1000),counterGained,round.id,requestId),
       env.DB.prepare(`UPDATE territory_war_v3_rounds SET ${sideField(targetSide,'counter_gauge')}=CASE WHEN (SELECT COUNT(*) FROM territory_war_v3_operation_uses WHERE round_id=? AND side=?)>=? THEN 0 ELSE MIN(?,${sideField(targetSide,'counter_gauge')}+?) END,version=version+1 WHERE id=? AND EXISTS(SELECT 1 FROM territory_war_v3_actions WHERE request_id=? AND status='APPLIED')`).bind(round.id,targetSide,Object.keys(OPERATIONS).length,Number(cfg.counterGaugeMax||1000),defenseCounterGained,round.id,requestId),
-      env.DB.prepare(frontSql).bind(planned,front.id,requestId)
+      env.DB.prepare(frontSql).bind(planned,front.id,requestId),
+      ...battlefieldAttackCleanup(env,requestId,battlefieldContext)
     ]);
     let action=await env.DB.prepare('SELECT * FROM territory_war_v3_actions WHERE request_id=?').bind(requestId).first();if(action?.status!=='APPLIED')throw new Error('교전지가 이미 변경되었습니다. 행동력은 소모되지 않았습니다.');
     const actual=Number(action.damage||0),stored={...safeJson(action.result_json,compact),damage:actual,targetHpAfter:Math.max(0,Number(safeJson(action.result_json,compact).targetHpBefore||targetHp)-actual)};await env.DB.prepare("UPDATE territory_war_v3_actions SET result_json=? WHERE request_id=? AND status='APPLIED'").bind(JSON.stringify(stored),requestId).run();action={...action,result_json:JSON.stringify(stored)};
@@ -1336,6 +1352,28 @@ async function recoverAppliedForUser(env,userId,cfg){
   for(const action of rows.results||[]){
     try{await completeAppliedAction(env,action,cfg)}catch(error){console.error('territory applied action recovery failed',{userId,requestId:action.request_id,error:String(error?.message||error)})}
   }
+}
+
+
+async function handleSupplyClaim(env,deps,user,cfg,body){
+  const requestId=validRequestId(body.requestId),cycle=Number(body.cycle);
+  if(!requestId||!Number.isSafeInteger(cycle)||cycle<1)return deps.json({error:'보급 수령 요청이 올바르지 않습니다.'},400);
+  const receipt=await env.DB.prepare('SELECT energy FROM territory_battlefield_supply_claims WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
+  if(receipt)return deps.json({ok:true,replayed:true,energyGained:Number(receipt.energy),state:await realtimeState(env,user.id)});
+  if(String(cfg.mode||'OFF').toUpperCase()==='OFF')return deps.json({error:'영토전 운영이 중지되었습니다.'},409);
+  const round=await lifecycle(env,cfg),front=round?await activeFront(env,round):null;
+  const claimFront=Number.isSafeInteger(Number(body.frontId))?await env.DB.prepare('SELECT round_id FROM territory_war_v3_fronts WHERE id=?').bind(Number(body.frontId)).first():null;
+  if(round?.status!=='ACTIVE'||!front||Number(claimFront?.round_id)!==Number(round.id)||truceState(round).active)return deps.json({error:'현재 교전 거점과 휴전 상태를 확인해 주세요.'},409);
+  const lock=await acquireLock(env,'attack_user_'+user.id,30000);if(!lock.ok)return deps.json({error:'교전 처리 중입니다. 잠시 후 보급을 수령하세요.'},409);
+  try{
+    for(let attempt=0;attempt<3;attempt++){
+      const mine=await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).first();
+      if(!mine?.side||mine.status!=='ACTIVE')return deps.json({error:'활성 영토전 참가자만 보급을 수령할 수 있습니다.'},403);
+      try{const result=await claimBattlefieldSupply(env,{round,front,claimFrontId:Number(body.frontId),mine,requestId,cycle,cfg,rechargeEnergy});return deps.json({ok:true,...result,state:await realtimeState(env,user.id)})}
+      catch(error){if(attempt===2||error.status)throw error}
+    }
+  }catch(error){return deps.json({error:error.status?error.message:'전황이 변경되어 수령하지 않았습니다. 다시 확인해 주세요.'},409)}
+  finally{await releaseLock(env,lock)}
 }
 
 async function claimV3(env,deps,user){
@@ -1376,6 +1414,7 @@ async function failAdmin(env,key,error){await env.DB.prepare("UPDATE territory_w
 
 function cleanSettings(body,current){return{
   ...current,
+  battlefield:normalizeBattlefieldConfig(body.battlefield,current.battlefield),
   mode:['OFF','TEST','ON'].includes(String(body.mode||'').toUpperCase())?String(body.mode).toUpperCase():current.mode,
   battleName:String(body.battleName??current.battleName??'').trim().slice(0,40),
   teamAName:cleanLabel(body.teamAName??current.teamAName,'A 진영',20),teamBName:cleanLabel(body.teamBName??current.teamBName,'B 진영',20),
@@ -1392,12 +1431,13 @@ function cleanSettings(body,current){return{
 
 export async function handleTerritoryWar({path,request,env,deps}){
   if(!String(path).startsWith('territory-war')&&!String(path).startsWith('admin/territory-war'))return null;
-  territoryRuntimeDeps=deps;await ensureFoundation(env);await ensureTerritoryClanSchema(env);const user=await deps.authenticate(request,env);if(!user)return deps.json({error:'로그인이 필요합니다.'},401);
+  territoryRuntimeDeps=deps;await ensureFoundation(env);await ensureTerritoryClanSchema(env);const user=await deps.authenticate(request,env);if(!user)return deps.json({error:'로그인이 필요합니다.'},401);await ensureBattlefieldSchema(env);
   try{const gamstRepair=readRuntimeData(env,GAMST_REPAIR_WAITING_CACHE_KEY)||await ensureGamstDeckRepairV2005(env);if(gamstRepair?.status==='WAITING')cacheRuntimeData(env,GAMST_REPAIR_WAITING_CACHE_KEY,gamstRepair,60000);if(gamstRepair?.status==='COMPLETED')await refreshGamstRepairedTerritoryFormations(env,deps)}catch(error){console.error('gamst territory deck repair failed',error)}
   const admin=deps.isAdminRole(user),cfg=await settings(env);
   if(path==='territory-war/truce-status'&&request.method==='GET'){const round=await env.DB.prepare("SELECT id,status,truce_ends_at,truce_duration_minutes FROM territory_war_v3_rounds WHERE status IN ('PREPARING','ACTIVE') ORDER BY id DESC LIMIT 1").first();return deps.json({roundId:Number(round?.id||0),truce:truceState(round),serverNow:iso()})}
   if(path==='territory-war/state'&&request.method==='GET')return deps.json(await publicState(env,user.id));
   if(path==='territory-war/state-lite'&&request.method==='GET')return deps.json(await realtimeState(env,user.id));
+  if(path==='territory-war/supply-claim'&&request.method==='POST')return handleSupplyClaim(env,deps,user,cfg,await deps.readBody(request));
   if(path==='territory-war/action-status'&&request.method==='GET')return handleActionStatus(env,deps,user,cfg,request);
   if(path==='territory-war/register'&&request.method==='POST'){
     const mode=String(cfg.mode||'OFF').toUpperCase();if(mode==='OFF')return deps.json({error:'영토전 운영이 중지되었습니다.'},409);const round=await lifecycle(env,cfg,{forceClanRoster:true}),canJoin=round&&round.status==='RECRUITING'&&sqlMs(round.recruitment_ends_at)>Date.now();if(!canJoin)return deps.json({error:'참가 모집이 종료되어 현재 회차에는 입장할 수 없습니다.'},409);
@@ -1442,7 +1482,7 @@ export async function handleTerritoryWar({path,request,env,deps}){
       await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('territory_war_settings_v3',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(next)).run();invalidateSettingsCache();
       const round=await latestRound(env);
       if(round&&['RECRUITING','PREPARING','ACTIVE'].includes(round.status))await env.DB.prepare("UPDATE territory_war_v3_rounds SET battle_name=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(next.battleName,round.id).run();
-      if(round?.status==='RECRUITING'){
+      if(round?.status==='RECRUITING'&&Number(next.recruitmentHours)!==Number(cfg.recruitmentHours)){
         const recruitmentEndsAt=iso(Date.now()+Number(next.recruitmentHours||3)*3600000);
         await env.DB.prepare("UPDATE territory_war_v3_rounds SET recruitment_ends_at=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='RECRUITING'").bind(recruitmentEndsAt,round.id).run();
       }
@@ -1548,4 +1588,4 @@ export {balancedSideAssignments,buildFormationSnapshot,grantLatestWinnerMasterSt
 // Coup shares the live territory combat engine and formation rules.
 export { simulateTerritoryBattle as simulateTerritoryDuel, singleFormationSnapshot as territoryFormationSnapshot, buildFormationSnapshot as territoryFormationFromParts, pickPowerMatchedOpponent as territoryMatchedOpponent, damageFor as territorySiegeDamage };
 
-export const __territoryClanTest={balancedSideAssignments,formRound,lifecycle,settleRound,activateCommanderOperation,counterState,DEFAULTS,OPERATIONS,NODES};
+export const __territoryClanTest={balancedSideAssignments,cleanSettings,rechargeEnergy,handleAttack,createFront,formRound,lifecycle,settleRound,activateCommanderOperation,counterState,DEFAULTS,OPERATIONS,NODES};

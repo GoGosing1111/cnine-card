@@ -754,7 +754,7 @@ class BaseBattleEngine{
     this.app.ticker.add(this.parallaxTicker);
   }
 
-  battlefieldAsset(mode){return this.coopArkeBattlefield&&mode==='RAID'?COOP_ARKE_BATTLEFIELD:this.coupPalaceBattlefield&&mode==='SIEGE'?COUP_PALACE_BATTLEFIELD:(BATTLEFIELD_ASSETS[mode]||BATTLEFIELD_ASSETS[DEFAULT_BATTLEFIELD_MODE])}
+  battlefieldAsset(mode){if(this.territoryBattlefieldV5&&mode==='SIEGE')return '/assets/ui/territory-war/battlefield-v5/battlefield-panorama-1600.webp';return this.coopArkeBattlefield&&mode==='RAID'?COOP_ARKE_BATTLEFIELD:this.coupPalaceBattlefield&&mode==='SIEGE'?COUP_PALACE_BATTLEFIELD:(BATTLEFIELD_ASSETS[mode]||BATTLEFIELD_ASSETS[DEFAULT_BATTLEFIELD_MODE])}
 
   resolveBattlefieldAsset(mode){
     // Older content extensions exposed a string getter under this name.
@@ -1798,6 +1798,7 @@ class BaseBattleEngine{
     });
     this.coupPalaceBattlefield=payload?.sceneAssetKey==='COUP_PALACE';
     this.coopArkeBattlefield=payload?.sceneAssetKey==='COOP_ARKE_FORGE';
+    this.territoryBattlefieldV5=payload?.sceneAssetKey==='TERRITORY_BATTLEFIELD_V5';
     this.cooperativeInstances=payload?.cooperativeEncounter?new Map(payload.cooperativeEncounter.instances.map(row=>[row.id,row])):null;
     this.lastCoopPlayback=null;
     this.activeBattlefieldMode=battlefieldModeFromPayload(payload);
