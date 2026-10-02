@@ -1,0 +1,461 @@
+{
+  "sourceCommit": "5bacac79a27918d32ea2ffb1581d178fd70bd3f1",
+  "operationKey": "ops:ayoon-recruitment-gift:20261003:v1",
+  "campaignKey": "ayoon-recruitment-20261003-v1",
+  "planHash": "6ef1a2a1c2eb0aebc907dc1f1e7d1552e4c5d3859cd2816b470304819dc56e99",
+  "completedAt": "2026-10-02T15:56:37.995Z",
+  "verifiedAt": "2026-10-02T15:56:43.585Z",
+  "auditId": "40046",
+  "itemCode": "RECRUITMENT_GIFT_BOX",
+  "title": "아윤방 영입전 사은품",
+  "delivery": "MESSAGE",
+  "recipients": 56,
+  "boxes": 56,
+  "maxPerAccount": 1,
+  "threshold": 100,
+  "held": [
+    {
+      "row": 6,
+      "source": "이슈린.",
+      "inputNickname": null,
+      "contribution": 162,
+      "amount": 1,
+      "reason": "게임 계정 미확인, 사용자 지시로 보류"
+    },
+    {
+      "row": 34,
+      "source": "『인연』",
+      "inputNickname": null,
+      "contribution": 109,
+      "amount": 1,
+      "reason": "게임 계정 미확인, 사용자 지시로 보류"
+    },
+    {
+      "row": 42,
+      "source": "족찌미♡",
+      "inputNickname": null,
+      "contribution": 109,
+      "amount": 1,
+      "reason": "게임 계정 미확인, 사용자 지시로 보류"
+    }
+  ],
+  "duplicates": [
+    {
+      "row": 48,
+      "source": "펜타",
+      "id": "4772",
+      "nickname": "펜타",
+      "keptRow": 11,
+      "reason": "같은 계정은 이번 행사 최대 1개"
+    }
+  ],
+  "verification": {
+    "messages": 56,
+    "rewards": 56,
+    "boxes": 56,
+    "duplicates": 0,
+    "missing": 0,
+    "claimedAtVerification": 0
+  },
+  "messages": [
+    {
+      "userId": "3",
+      "nickname": "ε연두з",
+      "messageId": "178383",
+      "rewardId": "175323",
+      "amount": 1
+    },
+    {
+      "userId": "8",
+      "nickname": "최성수",
+      "messageId": "178384",
+      "rewardId": "175324",
+      "amount": 1
+    },
+    {
+      "userId": "13",
+      "nickname": "불법사행산업신고센터",
+      "messageId": "178385",
+      "rewardId": "175325",
+      "amount": 1
+    },
+    {
+      "userId": "16",
+      "nickname": "오승환이다",
+      "messageId": "178386",
+      "rewardId": "175326",
+      "amount": 1
+    },
+    {
+      "userId": "22",
+      "nickname": "커피먹는철구",
+      "messageId": "178387",
+      "rewardId": "175327",
+      "amount": 1
+    },
+    {
+      "userId": "32",
+      "nickname": "쑤댕",
+      "messageId": "178388",
+      "rewardId": "175328",
+      "amount": 1
+    },
+    {
+      "userId": "45",
+      "nickname": "박세라-ㅂ-",
+      "messageId": "178389",
+      "rewardId": "175329",
+      "amount": 1
+    },
+    {
+      "userId": "65",
+      "nickname": "음순이",
+      "messageId": "178390",
+      "rewardId": "175330",
+      "amount": 1
+    },
+    {
+      "userId": "73",
+      "nickname": "란x2",
+      "messageId": "178391",
+      "rewardId": "175331",
+      "amount": 1
+    },
+    {
+      "userId": "76",
+      "nickname": "랄네미탱탱",
+      "messageId": "178392",
+      "rewardId": "175332",
+      "amount": 1
+    },
+    {
+      "userId": "81",
+      "nickname": "비쥬얼깡패",
+      "messageId": "178393",
+      "rewardId": "175333",
+      "amount": 1
+    },
+    {
+      "userId": "87",
+      "nickname": "설윤이",
+      "messageId": "178394",
+      "rewardId": "175334",
+      "amount": 1
+    },
+    {
+      "userId": "130",
+      "nickname": "족구선생",
+      "messageId": "178395",
+      "rewardId": "175335",
+      "amount": 1
+    },
+    {
+      "userId": "164",
+      "nickname": "박사",
+      "messageId": "178396",
+      "rewardId": "175336",
+      "amount": 1
+    },
+    {
+      "userId": "218",
+      "nickname": "현하루",
+      "messageId": "178397",
+      "rewardId": "175337",
+      "amount": 1
+    },
+    {
+      "userId": "289",
+      "nickname": "베베킹",
+      "messageId": "178398",
+      "rewardId": "175338",
+      "amount": 1
+    },
+    {
+      "userId": "295",
+      "nickname": "모래",
+      "messageId": "178399",
+      "rewardId": "175339",
+      "amount": 1
+    },
+    {
+      "userId": "303",
+      "nickname": "[C9]족쪽이",
+      "messageId": "178400",
+      "rewardId": "175340",
+      "amount": 1
+    },
+    {
+      "userId": "360",
+      "nickname": "라피e",
+      "messageId": "178401",
+      "rewardId": "175341",
+      "amount": 1
+    },
+    {
+      "userId": "490",
+      "nickname": "경화수월팬",
+      "messageId": "178402",
+      "rewardId": "175342",
+      "amount": 1
+    },
+    {
+      "userId": "493",
+      "nickname": "치타구",
+      "messageId": "178403",
+      "rewardId": "175343",
+      "amount": 1
+    },
+    {
+      "userId": "521",
+      "nickname": "대저동토마토",
+      "messageId": "178404",
+      "rewardId": "175344",
+      "amount": 1
+    },
+    {
+      "userId": "681",
+      "nickname": "페이트런",
+      "messageId": "178405",
+      "rewardId": "175345",
+      "amount": 1
+    },
+    {
+      "userId": "1255",
+      "nickname": "전게씹선미아웃",
+      "messageId": "178406",
+      "rewardId": "175346",
+      "amount": 1
+    },
+    {
+      "userId": "1421",
+      "nickname": "다시생각",
+      "messageId": "178407",
+      "rewardId": "175347",
+      "amount": 1
+    },
+    {
+      "userId": "1768",
+      "nickname": "핫시",
+      "messageId": "178408",
+      "rewardId": "175348",
+      "amount": 1
+    },
+    {
+      "userId": "2420",
+      "nickname": "블랙캐슬",
+      "messageId": "178409",
+      "rewardId": "175349",
+      "amount": 1
+    },
+    {
+      "userId": "2505",
+      "nickname": "모아가려아가",
+      "messageId": "178410",
+      "rewardId": "175350",
+      "amount": 1
+    },
+    {
+      "userId": "3884",
+      "nickname": "zkzk9999",
+      "messageId": "178411",
+      "rewardId": "175351",
+      "amount": 1
+    },
+    {
+      "userId": "3974",
+      "nickname": "우회하세요",
+      "messageId": "178412",
+      "rewardId": "175352",
+      "amount": 1
+    },
+    {
+      "userId": "4084",
+      "nickname": "게임닉네임",
+      "messageId": "178413",
+      "rewardId": "175353",
+      "amount": 1
+    },
+    {
+      "userId": "4111",
+      "nickname": "족게이다",
+      "messageId": "178414",
+      "rewardId": "175354",
+      "amount": 1
+    },
+    {
+      "userId": "4209",
+      "nickname": "#유나랜드",
+      "messageId": "178415",
+      "rewardId": "175355",
+      "amount": 1
+    },
+    {
+      "userId": "4222",
+      "nickname": "#크레파스",
+      "messageId": "178416",
+      "rewardId": "175356",
+      "amount": 1
+    },
+    {
+      "userId": "4235",
+      "nickname": "도댕",
+      "messageId": "178417",
+      "rewardId": "175357",
+      "amount": 1
+    },
+    {
+      "userId": "4391",
+      "nickname": "더듬이구",
+      "messageId": "178418",
+      "rewardId": "175358",
+      "amount": 1
+    },
+    {
+      "userId": "4415",
+      "nickname": "Moo날두",
+      "messageId": "178419",
+      "rewardId": "175359",
+      "amount": 1
+    },
+    {
+      "userId": "4501",
+      "nickname": "장씨아저씨",
+      "messageId": "178420",
+      "rewardId": "175360",
+      "amount": 1
+    },
+    {
+      "userId": "4504",
+      "nickname": "깜찍소녀",
+      "messageId": "178421",
+      "rewardId": "175361",
+      "amount": 1
+    },
+    {
+      "userId": "4562",
+      "nickname": "찡찡ෆ",
+      "messageId": "178422",
+      "rewardId": "175362",
+      "amount": 1
+    },
+    {
+      "userId": "4570",
+      "nickname": "혜정",
+      "messageId": "178423",
+      "rewardId": "175363",
+      "amount": 1
+    },
+    {
+      "userId": "4572",
+      "nickname": "응맨",
+      "messageId": "178424",
+      "rewardId": "175364",
+      "amount": 1
+    },
+    {
+      "userId": "4582",
+      "nickname": "족단",
+      "messageId": "178425",
+      "rewardId": "175365",
+      "amount": 1
+    },
+    {
+      "userId": "4598",
+      "nickname": "암살자..",
+      "messageId": "178426",
+      "rewardId": "175366",
+      "amount": 1
+    },
+    {
+      "userId": "4610",
+      "nickname": "고라니ㅇ",
+      "messageId": "178427",
+      "rewardId": "175367",
+      "amount": 1
+    },
+    {
+      "userId": "4615",
+      "nickname": "랭비!",
+      "messageId": "178428",
+      "rewardId": "175368",
+      "amount": 1
+    },
+    {
+      "userId": "4627",
+      "nickname": "학벌",
+      "messageId": "178429",
+      "rewardId": "175369",
+      "amount": 1
+    },
+    {
+      "userId": "4628",
+      "nickname": "망순이ෆ",
+      "messageId": "178430",
+      "rewardId": "175370",
+      "amount": 1
+    },
+    {
+      "userId": "4651",
+      "nickname": "세라네꼬라지",
+      "messageId": "178431",
+      "rewardId": "175371",
+      "amount": 1
+    },
+    {
+      "userId": "4705",
+      "nickname": "˚쟁이。",
+      "messageId": "178432",
+      "rewardId": "175372",
+      "amount": 1
+    },
+    {
+      "userId": "4772",
+      "nickname": "펜타",
+      "messageId": "178433",
+      "rewardId": "175373",
+      "amount": 1
+    },
+    {
+      "userId": "4774",
+      "nickname": "딤럼프",
+      "messageId": "178434",
+      "rewardId": "175374",
+      "amount": 1
+    },
+    {
+      "userId": "4908",
+      "nickname": "굳건창수",
+      "messageId": "178435",
+      "rewardId": "175375",
+      "amount": 1
+    },
+    {
+      "userId": "4977",
+      "nickname": "하이희야♡",
+      "messageId": "178436",
+      "rewardId": "175376",
+      "amount": 1
+    },
+    {
+      "userId": "5008",
+      "nickname": "나무",
+      "messageId": "178437",
+      "rewardId": "175377",
+      "amount": 1
+    },
+    {
+      "userId": "5010",
+      "nickname": "으악",
+      "messageId": "178438",
+      "rewardId": "175378",
+      "amount": 1
+    }
+  ],
+  "retirement": {
+    "retired": true,
+    "status": 410,
+    "retiredAt": "2026-10-02T15:57:58.912Z",
+    "authenticationKeysPersisted": false
+  },
+  "evidenceDirectory": "C:/Users/User/.codex/tmp/ayoon-recruitment-gift-20261003"
+}
