@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
+import {normalizeRankedRechargeMinutes} from '../shared/ranked-reform-v1.mjs';
 
 const [server,admin,html,packageRaw]=await Promise.all([
   readFile(new URL('../functions/api/[[path]].js',import.meta.url),'utf8'),
@@ -12,7 +13,7 @@ const packageJson=JSON.parse(packageRaw);
 const start=server.indexOf('function defaultPvpSettings()');
 const end=server.indexOf('async function readPvpSettings',start);
 assert.ok(start>=0&&end>start,'PVP 설정 정규화 함수 구간을 찾을 수 있어야 합니다.');
-const cleanPvpSettings=Function(`${server.slice(start,end)};return cleanPvpSettings;`)();
+const cleanPvpSettings=Function('normalizeRankedRechargeMinutes',`${server.slice(start,end)};return cleanPvpSettings;`)(normalizeRankedRechargeMinutes);
 
 test('티어와 최종 순위 코인 보상은 1억을 넘겨도 잘리지 않는다',()=>{
   const settings=cleanPvpSettings({

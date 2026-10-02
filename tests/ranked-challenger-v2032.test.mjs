@@ -4,6 +4,7 @@ import {readFile} from 'node:fs/promises';
 import {DatabaseSync} from 'node:sqlite';
 import sharp from 'sharp';
 import {readRuntimeData,cacheRuntimeData} from '../functions/_runtime_data_cache.js';
+import {normalizeRankedRechargeMinutes} from '../shared/ranked-reform-v1.mjs';
 
 const read=path=>readFile(new URL(`../${path}`,import.meta.url),'utf8');
 const server=await read('functions/api/[[path]].js');
@@ -11,7 +12,7 @@ const resolveTier=server.split('\n').find(line=>line.startsWith('function resolv
 const settingsCode=server.slice(server.indexOf('function defaultPvpSettings()'),server.indexOf('async function readPvpSettings'));
 const rewardCode=server.split('\n').find(line=>line.startsWith('function pvpSettlementRewardFor('));
 const roleCode=server.split('\n').find(line=>line.startsWith('const PVP_RANKED_ROLE_SQL='));
-const {clean,resolve,rank,reward}=Function('readRuntimeData','cacheRuntimeData',`${resolveTier}\n${roleCode}\n${settingsCode}\n${rewardCode}\nreturn {clean:cleanPvpSettings,resolve:resolvePvpTier,rank:pvpChallengerRank,reward:pvpSettlementRewardFor};`)(readRuntimeData,cacheRuntimeData);
+const {clean,resolve,rank,reward}=Function('readRuntimeData','cacheRuntimeData','normalizeRankedRechargeMinutes',`${resolveTier}\n${roleCode}\n${settingsCode}\n${rewardCode}\nreturn {clean:cleanPvpSettings,resolve:resolvePvpTier,rank:pvpChallengerRank,reward:pvpSettlementRewardFor};`)(readRuntimeData,cacheRuntimeData,normalizeRankedRechargeMinutes);
 
 test('챌린저는 현 시즌부터 점수 절대값이 아닌 정확히 1~20위만 해당한다',()=>{
   const settings=clean();
