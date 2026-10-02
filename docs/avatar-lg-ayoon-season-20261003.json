@@ -1,0 +1,63 @@
+{
+  "status": "COMPLETED",
+  "verified": true,
+  "verifiedAtKst": "2026-10-03 02:38:33",
+  "operationKey": "ops:avatar-lg-ayoon-clan-season:20261003:v1",
+  "sourceCommit": "ceea28307738fc09f13972bbab4256173142e1cf",
+  "deploymentUrl": "https://25310d7e.cnine-card.pages.dev",
+  "avatar": {
+    "code": "LG_AYOON",
+    "serial": "A-34",
+    "name": "LG 아윤"
+  },
+  "admission": {
+    "userId": 5209,
+    "nickname": "김아윤",
+    "clanId": 5,
+    "clanName": "LG",
+    "seasonId": 6,
+    "beforeCount": 17,
+    "afterCount": 18,
+    "maxMembers": 18,
+    "completedAtKst": "2026-10-03 02:38:25"
+  },
+  "grant": {
+    "recipients": 18,
+    "effects": [
+      {
+        "type": "DROP_RATE_PERCENT",
+        "value": 30
+      },
+      {
+        "type": "COIN_GAIN_PERCENT",
+        "value": 100
+      },
+      {
+        "type": "RAID_EXTRA_ENTRY",
+        "value": 10
+      },
+      {
+        "type": "BATTLE_POWER_PERCENT",
+        "value": 3
+      }
+    ],
+    "expiresAtUtc": "2026-10-11 13:00:00",
+    "expiresAtKst": "2026-10-11 22:00:00",
+    "sourceRef": "ops:avatar-lg-ayoon-clan-season:20261003:v1"
+  },
+  "adminLogId": "40113",
+  "verification": {
+    "focusedTests": 3,
+    "failures": 0,
+    "desktop": "1440x1000",
+    "mobile": "390x844",
+    "assetHashesMatch": true,
+    "loaderHashesMatch": true,
+    "independentReadOnlyDatabaseVerification": true,
+    "loadoutChanged": false,
+    "walletChanged": false,
+    "capacityChanged": false
+  },
+  "manifest": "preview/avatar-lg-ayoon-v1/manifest.json",
+  "prompts": "preview/avatar-lg-ayoon-v1/prompts-v3.json"
+}
