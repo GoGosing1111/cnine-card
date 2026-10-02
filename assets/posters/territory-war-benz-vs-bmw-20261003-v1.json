@@ -1,0 +1,37 @@
+{
+  "title": "영토전 — 벤츠 VS BMW",
+  "createdDateKst": "2026-10-03",
+  "method": "Built-in image_gen image generation/editing tool",
+  "asset": "assets/posters/territory-war-benz-vs-bmw-20261003-v1.png",
+  "reference": {
+    "role": "Existing territory-war car matchup poster; composition and art style",
+    "path": "C:/Users/User/Downloads/upload/cnine-card/output/posters/territory-war-hyundai-vs-kia-20260929/territory-war-hyundai-vs-kia-v1.png",
+    "sha256": "3339059059AD7D1BF181920E9B66C3A1A5BA0739288E67B69E725634E15DA0A3"
+  },
+  "requestedText": [
+    "영토전",
+    "벤츠 VS BMW",
+    "클랜승점과 재화의 영광은 나의것이다",
+    "보상",
+    "3000억 코인",
+    "마별 300만개",
+    "미스틱에너지 1000개"
+  ],
+  "scope": "Poster artwork only; no game settings, reward payouts, dates, or CMS changes.",
+  "prompt": "Use case: ads-marketing. Create a finished Korean fantasy-game promotional poster as a new rivalry edition of the attached existing territory-war poster. Reference image 1 is the existing Hyundai versus Kia territory-war poster: use its dramatic fortress battlefield, blue-versus-red opposing sides, premium embossed gold Korean title, metallic matchup typography, and ornate black-and-gold reward panel as the visual foundation. This is a deliberate poster redesign/edit with new vehicles, team labels, slogan, and reward amounts.\n\nOutput: one complete premium 2:3 portrait poster, preferably 1536x2304 or larger, crisp and legible. No mockup, no room, no margins outside the poster.\n\nPreserve the reference's striking composition: monumental dark fantasy castle on each side, royal electric blue on the left, dark crimson and molten red on the right, a distant central castle and narrow gold lightning rift, cinematic storm clouds, wet cobblestones reflecting both colors. Two large beautifully detailed luxury performance cars occupy the middle, facing toward the viewer and slightly toward one another. Replace the LEFT car with an unmistakable Mercedes-Benz luxury performance sedan: blue-black metallic finish, elegant Mercedes front grille with a single accurate three-pointed star emblem and refined headlights, physically correct symmetrical rigid vehicle geometry. Replace the RIGHT car with an unmistakable BMW performance sedan: deep crimson metallic finish, correct BMW kidney grille, a blue-white BMW roundel, angular headlights, physically correct rigid vehicle geometry. Make the two cars equally important and powerful. Replace all old Hyundai/Kia banner emblems with the corresponding Mercedes-Benz or BMW emblem. Do not include any remaining Hyundai or Kia names or logos.\n\nTypography and layout are the priority. Match the luxurious reference poster, with large clearly readable premium gold and silver display lettering, crisp complete Hangul, strong contrast, intentional spacing and mobile legibility. Do not invent additional copy. Keep all text safely inside the canvas. Adjust the reference layout to give the NEW slogan its own calm dark space, rather than squeezing it into existing artwork. The slogan should be clearly visible below the top event title and above the cars, in TWO centered lines:\n\"클랜승점과 재화의 영광은\"\n\"나의것이다\"\nThese two lines form the exact requested sentence \"클랜승점과 재화의 영광은 나의것이다\". No spelling changes.\n\nRender ONLY the following exact poster text:\nSmall centered game name at top: \"숲켓몬\"\nLarge monumental gold event title: \"영토전\"\nTwo-line slogan as specified above.\nDominant rivalry headline under the cars, on one centered line: \"벤츠 VS BMW\"\nLower ornate black-and-gold reward panel header: \"보상\"\nThree large distinct reward rows with generous padding and perfectly readable quantities:\n1. A gold coin-stack icon followed by \"3000억 코인\"\n2. A radiant gold five-pointed Master Star icon followed by \"마별 300만개\"\n3. A blue-violet faceted Mystic Energy crystal with thin golden orbit followed by \"미스틱에너지 1000개\"\n\nThe reward panel is tall enough for all three rows; do not crop the final row. Every requested amount must be exact: 3000억, 300만개, 1000개. Replace every previous reward amount and replace the previous additional-reward heading with 보상. No dates, no event period, no unrequested conditions, no prize-per-player assumptions, no watermarks, no wago branding. No people. Make this look like a polished official fantasy-game territory-war poster in the same series as the supplied reference.",
+  "qa": {
+    "referencePreserved": true,
+    "matchupLabelsCorrect": true,
+    "sloganCorrect": true,
+    "rewardAmountsCorrect": true,
+    "noClippedText": true,
+    "noUnrequestedDates": true
+  },
+  "sha256": "16DC81FA54B6B89A478F7B1B13AE40375E48D30E6901B4BA9C635D2D4C02765C",
+  "image": {
+    "width": 1024,
+    "height": 1536,
+    "format": "png",
+    "space": "srgb"
+  }
+}
