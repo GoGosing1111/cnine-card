@@ -1,0 +1,638 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:pingdu-thanks-ppanghun:20261002:v1:d55823adaad5b3bd7cb9d27e",
+  "campaignKey": "pingdu-thanks-ppanghun-20261002-v1",
+  "itemCode": "PINGDU_THANKS_GIFT_BOX",
+  "title": "핑두의 감사 선물",
+  "delivery": "MESSAGE",
+  "count": 74,
+  "boxes": 158,
+  "threshold": 100,
+  "maxPerAccount": 5,
+  "completedAt": "2026-10-02T11:55:17.189Z",
+  "auditId": "39879",
+  "recipientHash": "d55823adaad5b3bd7cb9d27ec628295763bb3b50423fbc4d4cbccb36e7f516a8",
+  "verification": {
+    "messages": 74,
+    "rewards": 74,
+    "boxes": 158,
+    "duplicates": 0,
+    "missing": 0,
+    "claimed": 0
+  },
+  "recipients": [
+    {
+      "id": "22",
+      "nickname": "커피먹는철구",
+      "soop": "[C9]오승환",
+      "total": 151,
+      "quantity": 1,
+      "playdkId": "49cd3f96"
+    },
+    {
+      "id": "32",
+      "nickname": "쑤댕",
+      "soop": "DK쑤댕",
+      "total": 130,
+      "quantity": 1,
+      "playdkId": "8eeb626d"
+    },
+    {
+      "id": "45",
+      "nickname": "박세라-ㅂ-",
+      "soop": "빡세라-ㅁ-",
+      "total": 113,
+      "quantity": 1,
+      "playdkId": "0ab57d26"
+    },
+    {
+      "id": "52",
+      "nickname": "폭군#",
+      "soop": "폭군#",
+      "total": 102,
+      "quantity": 1,
+      "playdkId": "cd3ea662"
+    },
+    {
+      "id": "62",
+      "nickname": "숭구릭",
+      "soop": "숭구릭",
+      "total": 156,
+      "quantity": 1,
+      "playdkId": "6d611603"
+    },
+    {
+      "id": "65",
+      "nickname": "음순이",
+      "soop": "숭한놈",
+      "total": 388,
+      "quantity": 3,
+      "playdkId": "9f0cdb34"
+    },
+    {
+      "id": "71",
+      "nickname": "진땅콩_",
+      "soop": "패드구",
+      "total": 111,
+      "quantity": 1,
+      "playdkId": "786a5db9"
+    },
+    {
+      "id": "73",
+      "nickname": "란x2",
+      "soop": "란x2",
+      "total": 116,
+      "quantity": 1,
+      "playdkId": "262820c8"
+    },
+    {
+      "id": "76",
+      "nickname": "랄네미탱탱",
+      "soop": "씨구탱탱",
+      "total": 144,
+      "quantity": 1,
+      "playdkId": "8cb20af2"
+    },
+    {
+      "id": "81",
+      "nickname": "비쥬얼깡패",
+      "soop": "비쥬얼깡패",
+      "total": 327,
+      "quantity": 3,
+      "playdkId": "03320b3e"
+    },
+    {
+      "id": "87",
+      "nickname": "설윤이",
+      "soop": "STARRR0",
+      "total": 100,
+      "quantity": 1,
+      "playdkId": "fe28fcd4"
+    },
+    {
+      "id": "88",
+      "nickname": "0수표",
+      "soop": "0수표",
+      "total": 205,
+      "quantity": 2,
+      "playdkId": "2ed65346"
+    },
+    {
+      "id": "130",
+      "nickname": "족구선생",
+      "soop": "족쌤",
+      "total": 146,
+      "quantity": 1,
+      "playdkId": "7a5d068c"
+    },
+    {
+      "id": "148",
+      "nickname": "혜루",
+      "soop": "혜루1",
+      "total": 111,
+      "quantity": 1,
+      "playdkId": "bc55305b"
+    },
+    {
+      "id": "156",
+      "nickname": "좌지구녕",
+      "soop": "쫘지구뇽",
+      "total": 131,
+      "quantity": 1,
+      "playdkId": "dac6af89"
+    },
+    {
+      "id": "162",
+      "nickname": "차단하다",
+      "soop": "숲에사는족구",
+      "total": 336,
+      "quantity": 3,
+      "playdkId": "0cd6253c"
+    },
+    {
+      "id": "164",
+      "nickname": "박사",
+      "soop": "#초월",
+      "total": 114,
+      "quantity": 1,
+      "playdkId": "00a28fb2"
+    },
+    {
+      "id": "183",
+      "nickname": "남수댕",
+      "soop": "늘그니생키",
+      "total": 110,
+      "quantity": 1,
+      "playdkId": "c6762516"
+    },
+    {
+      "id": "218",
+      "nickname": "현하루",
+      "soop": "현하루",
+      "total": 125,
+      "quantity": 1,
+      "playdkId": "a05e2d57"
+    },
+    {
+      "id": "277",
+      "nickname": "스갤가축",
+      "soop": "Sooya..",
+      "total": 312,
+      "quantity": 3,
+      "playdkId": "c9386209"
+    },
+    {
+      "id": "289",
+      "nickname": "베베킹",
+      "soop": "베배킹",
+      "total": 728,
+      "quantity": 5,
+      "playdkId": "94502a2d"
+    },
+    {
+      "id": "295",
+      "nickname": "모래",
+      "soop": "tmxkzmfovmxm",
+      "total": 213,
+      "quantity": 2,
+      "playdkId": "11092f52"
+    },
+    {
+      "id": "303",
+      "nickname": "[C9]족쪽이",
+      "soop": "족치기족치기",
+      "total": 687,
+      "quantity": 5,
+      "playdkId": "4779b1f1"
+    },
+    {
+      "id": "360",
+      "nickname": "라피e",
+      "soop": "적별",
+      "total": 215,
+      "quantity": 2,
+      "playdkId": "06e56898"
+    },
+    {
+      "id": "521",
+      "nickname": "대저동토마토",
+      "soop": "대져동토마토",
+      "total": 130,
+      "quantity": 1,
+      "playdkId": "abea9012"
+    },
+    {
+      "id": "525",
+      "nickname": "족구조아",
+      "soop": "족구쬬아",
+      "total": 539,
+      "quantity": 5,
+      "playdkId": "cba2b411"
+    },
+    {
+      "id": "681",
+      "nickname": "페이트런",
+      "soop": "페이트런",
+      "total": 109,
+      "quantity": 1,
+      "playdkId": "fc573edd"
+    },
+    {
+      "id": "750",
+      "nickname": "라페스타다",
+      "soop": "#LafeStar",
+      "total": 109,
+      "quantity": 1,
+      "playdkId": "7045ba47"
+    },
+    {
+      "id": "787",
+      "nickname": "뚱초환",
+      "soop": "[환]",
+      "total": 201,
+      "quantity": 2,
+      "playdkId": "74c50775"
+    },
+    {
+      "id": "792",
+      "nickname": "센텀신사",
+      "soop": "센텀신사",
+      "total": 111,
+      "quantity": 1,
+      "playdkId": "b6e04c16"
+    },
+    {
+      "id": "850",
+      "nickname": "뽑기고수71",
+      "soop": "처음와봄123",
+      "total": 139,
+      "quantity": 1,
+      "playdkId": "50d1cfb5"
+    },
+    {
+      "id": "1195",
+      "nickname": "씨나인택갓",
+      "soop": "гain",
+      "total": 362,
+      "quantity": 3,
+      "playdkId": "5c0809e6"
+    },
+    {
+      "id": "1421",
+      "nickname": "다시생각",
+      "soop": "다시생각",
+      "total": 115,
+      "quantity": 1,
+      "playdkId": "6f84c07a"
+    },
+    {
+      "id": "1768",
+      "nickname": "핫시",
+      "soop": "핫시:D",
+      "total": 595,
+      "quantity": 5,
+      "playdkId": "8dd27727"
+    },
+    {
+      "id": "2333",
+      "nickname": "구와함",
+      "soop": "구와함",
+      "total": 147,
+      "quantity": 1,
+      "playdkId": "cd31c10a"
+    },
+    {
+      "id": "2420",
+      "nickname": "블랙캐슬",
+      "soop": "블랙캐슬",
+      "total": 117,
+      "quantity": 1,
+      "playdkId": "a2c1e499"
+    },
+    {
+      "id": "2505",
+      "nickname": "모아가려아가",
+      "soop": "츠츠_",
+      "total": 118,
+      "quantity": 1,
+      "playdkId": "04fa1e36"
+    },
+    {
+      "id": "2734",
+      "nickname": "그냥지은닉",
+      "soop": "그냥지은닉",
+      "total": 109,
+      "quantity": 1,
+      "playdkId": "44ed38d6"
+    },
+    {
+      "id": "3884",
+      "nickname": "zkzk9999",
+      "soop": "z7005z",
+      "total": 473,
+      "quantity": 4,
+      "playdkId": "2113359e"
+    },
+    {
+      "id": "3892",
+      "nickname": "슈파두파",
+      "soop": "슈파두파",
+      "total": 206,
+      "quantity": 2,
+      "playdkId": "1e689522"
+    },
+    {
+      "id": "3974",
+      "nickname": "우회하세요",
+      "soop": "스프°",
+      "total": 113,
+      "quantity": 1,
+      "playdkId": "9f8e3d1b"
+    },
+    {
+      "id": "4084",
+      "nickname": "게임닉네임",
+      "soop": "게임닉네임",
+      "total": 226,
+      "quantity": 2,
+      "playdkId": "491e9cc1"
+    },
+    {
+      "id": "4111",
+      "nickname": "족게이다",
+      "soop": "존버형2↑",
+      "total": 3108,
+      "quantity": 5,
+      "playdkId": "6c8a26e9"
+    },
+    {
+      "id": "4209",
+      "nickname": "#유나랜드",
+      "soop": "유나랜드",
+      "total": 209,
+      "quantity": 2,
+      "playdkId": "d98a8c3a"
+    },
+    {
+      "id": "4235",
+      "nickname": "도댕",
+      "soop": "숲켓몬도댕.",
+      "total": 1075,
+      "quantity": 5,
+      "playdkId": "1e59de3c"
+    },
+    {
+      "id": "4391",
+      "nickname": "더듬이구",
+      "soop": "탱탱노",
+      "total": 234,
+      "quantity": 2,
+      "playdkId": "b86ce1fb"
+    },
+    {
+      "id": "4408",
+      "nickname": "레가파",
+      "soop": "연구가태여니",
+      "total": 397,
+      "quantity": 4,
+      "playdkId": "0c98c0a7"
+    },
+    {
+      "id": "4479",
+      "nickname": "대지",
+      "soop": "대지#",
+      "total": 477,
+      "quantity": 4,
+      "playdkId": "22ca5c12"
+    },
+    {
+      "id": "4501",
+      "nickname": "장씨아저씨",
+      "soop": "장씨아저씨",
+      "total": 418,
+      "quantity": 4,
+      "playdkId": "ce44a7ee"
+    },
+    {
+      "id": "4540",
+      "nickname": "지아영",
+      "soop": "ausuusuha",
+      "total": 123,
+      "quantity": 1,
+      "playdkId": "5ecad84f"
+    },
+    {
+      "id": "4562",
+      "nickname": "찡찡ෆ",
+      "soop": "♥찡찡",
+      "total": 101,
+      "quantity": 1,
+      "playdkId": "5425756a"
+    },
+    {
+      "id": "4570",
+      "nickname": "혜정",
+      "soop": "혜정♪",
+      "total": 102,
+      "quantity": 1,
+      "playdkId": "0e8cf635"
+    },
+    {
+      "id": "4572",
+      "nickname": "응맨",
+      "soop": "응맨♡",
+      "total": 111,
+      "quantity": 1,
+      "playdkId": "2ab08a59"
+    },
+    {
+      "id": "4581",
+      "nickname": "나도한번",
+      "soop": "숲켓몬생뷰",
+      "total": 109,
+      "quantity": 1,
+      "playdkId": "607f57df"
+    },
+    {
+      "id": "4595",
+      "nickname": "비니",
+      "soop": "[C9]비니",
+      "total": 106,
+      "quantity": 1,
+      "playdkId": "76aa86ba"
+    },
+    {
+      "id": "4597",
+      "nickname": "찬호",
+      "soop": "Rrr",
+      "total": 119,
+      "quantity": 1,
+      "playdkId": "cd23e0b4"
+    },
+    {
+      "id": "4598",
+      "nickname": "암살자..",
+      "soop": "암살자..",
+      "total": 119,
+      "quantity": 1,
+      "playdkId": "4c7adda2"
+    },
+    {
+      "id": "4609",
+      "nickname": "오랜만에",
+      "soop": "오랜만에.",
+      "total": 126,
+      "quantity": 1,
+      "playdkId": "1e30db15"
+    },
+    {
+      "id": "4610",
+      "nickname": "고라니ㅇ",
+      "soop": "고라니ㅇ",
+      "total": 693,
+      "quantity": 5,
+      "playdkId": "372f52a0"
+    },
+    {
+      "id": "4615",
+      "nickname": "랭비!",
+      "soop": "[C9]플랜비",
+      "total": 521,
+      "quantity": 5,
+      "playdkId": "70f6dcb8"
+    },
+    {
+      "id": "4621",
+      "nickname": "리이렐",
+      "soop": "리이렐",
+      "total": 111,
+      "quantity": 1,
+      "playdkId": "53bc438a"
+    },
+    {
+      "id": "4625",
+      "nickname": "제롬",
+      "soop": "제롬3",
+      "total": 101,
+      "quantity": 1,
+      "playdkId": "b15e1ffc"
+    },
+    {
+      "id": "4627",
+      "nickname": "학벌",
+      "soop": "학벌",
+      "total": 313,
+      "quantity": 3,
+      "playdkId": "6da5a7a7"
+    },
+    {
+      "id": "4628",
+      "nickname": "망순이ෆ",
+      "soop": "망액이",
+      "total": 1672,
+      "quantity": 5,
+      "playdkId": "0b464ee5"
+    },
+    {
+      "id": "4641",
+      "nickname": "의지",
+      "soop": ".의지",
+      "total": 137,
+      "quantity": 1,
+      "playdkId": "cfd8587e"
+    },
+    {
+      "id": "4705",
+      "nickname": "˚쟁이。",
+      "soop": "˚쟁이。",
+      "total": 218,
+      "quantity": 2,
+      "playdkId": "634d4201"
+    },
+    {
+      "id": "4757",
+      "nickname": "음주플레이어",
+      "soop": "음주플레이어",
+      "total": 319,
+      "quantity": 3,
+      "playdkId": "0c8c8f1c"
+    },
+    {
+      "id": "4772",
+      "nickname": "펜타",
+      "soop": "네이아네이",
+      "total": 109,
+      "quantity": 1,
+      "playdkId": "416c1cc2"
+    },
+    {
+      "id": "4774",
+      "nickname": "딤럼프",
+      "soop": "딤럼프",
+      "total": 318,
+      "quantity": 3,
+      "playdkId": "373b1b92"
+    },
+    {
+      "id": "4836",
+      "nickname": "딤키우기",
+      "soop": "딤키우기",
+      "total": 404,
+      "quantity": 4,
+      "playdkId": "9fc36f09"
+    },
+    {
+      "id": "4908",
+      "nickname": "굳건창수",
+      "soop": "굳건창수b",
+      "total": 330,
+      "quantity": 3,
+      "playdkId": "6a375b2a"
+    },
+    {
+      "id": "4965",
+      "nickname": "쁴로리",
+      "soop": "쁴로리",
+      "total": 360,
+      "quantity": 3,
+      "playdkId": "f3aa85e5"
+    },
+    {
+      "id": "5010",
+      "nickname": "으악",
+      "soop": "#으악",
+      "total": 1631,
+      "quantity": 5,
+      "playdkId": "4421c392"
+    },
+    {
+      "id": "5426",
+      "nickname": "나무늘봉순",
+      "soop": "나무늘봉순",
+      "total": 134,
+      "quantity": 1,
+      "playdkId": "8be68ada"
+    }
+  ],
+  "held": [
+    {
+      "source": "ΘωΘ비니",
+      "inputNickname": "비니",
+      "contribution": 136,
+      "quantity": 1,
+      "reason": "사용자 다른 사람 확인 및 별도 계정 보류 지시"
+    },
+    {
+      "source": "블랑코_",
+      "inputNickname": null,
+      "contribution": 132,
+      "quantity": 1,
+      "reason": "사용자 지시로 보류"
+    }
+  ],
+  "retired": {
+    "retired": true,
+    "status": 410,
+    "checkedAt": "2026-10-02T11:56:35.967Z"
+  }
+}
