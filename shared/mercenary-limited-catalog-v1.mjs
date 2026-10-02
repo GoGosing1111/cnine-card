@@ -92,9 +92,9 @@ export const LIMITED_MERCENARIES=Object.freeze([
   {
     "code": "V-992",
     "name": "이네스",
-    "title": "SSS 리미티드",
-    "rank": "SSS",
-    "rankStatus": "USER_DESIGNATED",
+    "title": "SS 리미티드",
+    "rank": "SS",
+    "rankStatus": "CONFIRMED_BY_USER",
     "edition": "LIMITED",
     "role": "LIMITED",
     "position": null,

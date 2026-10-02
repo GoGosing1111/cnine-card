@@ -14,8 +14,8 @@ test('read-only codex includes all six limited cards with confirmed ranks and or
  const catalog=validateCatalog(mercenaryCodexDocument({payload_json:JSON.stringify(seed.document),revision:1,updated_at:'2026-10-02'}));
  assert.equal(catalog.cards.filter(c=>c.edition==='LIMITED').length,6);assert.equal(new Set(catalog.cards.map(c=>c.code)).size,catalog.cards.length);
  assert.equal(cards.find(c=>c.name==='나무늘봉순').rank,'SS');assert.equal(cards.find(c=>c.name==='조은').rank,'SS');
- assert.deepEqual(cards.filter(c=>c.rank==='SSS').map(c=>c.name),['발테르','이네스']);
- assert.deepEqual(cards.filter(c=>c.rank==='SS').map(c=>c.name),['나무늘봉순','조은','오리꿍','디임']);
+ assert.deepEqual(cards.filter(c=>c.rank==='SSS').map(c=>c.name),['발테르']);
+ assert.deepEqual(cards.filter(c=>c.rank==='SS').map(c=>c.name),['나무늘봉순','조은','이네스','오리꿍','디임']);
  for(const c of cards){assert.equal(c.frameSha256,'F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA');assert.equal(c.frame,cards[0].frame);assert.deepEqual(c.artWindow,cards[0].artWindow);assert.equal(c.battlePreview,undefined);for(const [path,hash] of [[c.sourceArt,c.sourceArtSha256],[c.frame,c.frameSha256],...(c.battleSprite?[[c.battleSprite,c.battleSpriteSha256]]:[])])assert.equal(digest(fs.readFileSync(path)),hash,path);assert.equal(c.acquisitionEnabled,false);assert.equal(c.deploymentEnabled,false);assert.equal(c.basePower,null);assert.deepEqual(c.skills,[]);}
  assert.equal(cards.find(c=>c.code==='V-990').sourceArtSha256,'EFC0B6D14A891917D517E8F9850D398165A0F94C11006DD6945BB2D05C627120');
  const canonical=JSON.parse(fs.readFileSync('preview/mercenary-limited-snow-neon-20261001-v1/manifest.json'));for(const card of cards){const entry=canonical.entries.find(e=>e.name===card.name);assert.equal(entry.rank,card.rank);assert.equal(entry.source.sha256,card.sourceArtSha256);assert.equal(entry.frameSha256,card.frameSha256);}assert.deepEqual(JSON.parse(fs.readFileSync('assets/ui/project-v/mercenaries/limited-20261002/catalog.json')).cards,cards);

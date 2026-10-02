@@ -5,7 +5,8 @@
   "userRequests": [
     "잘못줬다 이거임 나무늘봉순",
     "그리고 조은 나무늘봉순 다 SS 리미티드임",
-    "발테르 프레임이 승인본임"
+    "발테르 프레임이 승인본임",
+    "이네스 SS리미티드로 변경"
   ],
   "cards": [
     {
@@ -30,6 +31,16 @@
       "sourceArt": "assets/joeun-neon-source-art-v11-straightened-cannon.png",
       "sha256": "87E88A646E327FCBB6489B05D8C5287C5212B1D9105134ECE1C036D022C633DA",
       "supersedesRankOnly": "joeun-approval-20261001.json"
+    },
+    {
+      "name": "이네스",
+      "code": "V-992",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "sourceArt": "assets/ines-limited-sss-source-art-20261001.png",
+      "sha256": "97D2120A91E7682130697476F6DA0C77FF5AA548C16B2AB128B539FF5ACB176D",
+      "approval": "ines-rank-correction-20261002.json",
+      "supersedesRankOnly": "ines-preview-addition-20261001.json"
     }
   ],
   "frame": {

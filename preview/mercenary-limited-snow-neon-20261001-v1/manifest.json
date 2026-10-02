@@ -1,10 +1,10 @@
 {
-  "version": 8,
+  "version": 9,
   "dateKST": "2026-10-02",
   "scope": "LIMITED_SOURCE_ART_COLLECTION_PREVIEW",
   "method": "built-in image_gen; approved source files preserved byte-for-byte",
   "userReview": "ALL_SIX_LIMITED_USER_CONFIRMED_VALTER_GLOW_FRAME_BONGSOON_CORRECTED_ATTACHMENT",
-  "rankStatus": "FOUR_CONFIRMED_SS_TWO_CONFIRMED_SSS",
+  "rankStatus": "FIVE_CONFIRMED_SS_VALTER_CONFIRMED_SSS",
   "entries": [
     {
       "name": "발테르",
@@ -80,11 +80,11 @@
     },
     {
       "name": "이네스",
-      "concept": "SSS 리미티드",
-      "selection": "ines-preview-addition-20261001.json",
+      "concept": "SS 리미티드",
+      "selection": "ines-rank-correction-20261002.json",
       "status": "USER_SELECTED_SOURCE_ART_FOR_PREVIEW",
-      "rank": "SSS",
-      "rankStatus": "USER_DESIGNATED",
+      "rank": "SS",
+      "rankStatus": "CONFIRMED_BY_USER",
       "edition": "LIMITED",
       "method": "EXACT_USER_ATTACHMENT_NO_GENERATION",
       "sourceArt": "assets/ines-limited-sss-source-art-20261001.png",
@@ -97,10 +97,11 @@
         "bytes": 2864651,
         "sha256": "97D2120A91E7682130697476F6DA0C77FF5AA548C16B2AB128B539FF5ACB176D"
       },
-      "approvedScope": "Add alongside Bongsoon and Joeun in the existing preview with user-designated SSS label",
+      "approvedScope": "Same approved illustration with corrected user-confirmed SS LIMITED rank; acquisition and deployment remain locked",
       "frame": "../mercenary-limited-frame-slim-v3-20261001/assets/mercenary-limited-frame-slim-v3-glow.png",
       "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
-      "frameStatus": "USER_APPROVED_ALL_LIMITED"
+      "frameStatus": "USER_APPROVED_ALL_LIMITED",
+      "rankConfirmed": true
     },
     {
       "name": "오리꿍",
@@ -530,7 +531,7 @@
   },
   "futureRules": {
     "location": "../../AGENTS.md",
-    "approvedArt": "나무늘봉순은 2026-10-02 정정 첨부 EFC0B6D14A891917D517E8F9850D398165A0F94C11006DD6945BB2D05C627120 고정. 봉순·조은 SS 확정. 나머지 승인 원화 유지.",
+    "approvedArt": "나무늘봉순은 2026-10-02 정정 첨부 EFC0B6D14A891917D517E8F9850D398165A0F94C11006DD6945BB2D05C627120 고정. 봉순·조은 SS 확정. 나머지 승인 원화 유지. 이네스는 후속 지시로 SS 리미티드 확정이며 기존 SSS 표기는 과거 이력.",
     "frame": "모든 리미티드는 발테르 승인 슬림 V3 광원 프레임을 동일 사용. 과거 V2는 이력으로 보존.",
     "hair": "자연스러운 연속 모발 흐름 / 층층이 갈라진 판·띠형 헤어 금지"
   },

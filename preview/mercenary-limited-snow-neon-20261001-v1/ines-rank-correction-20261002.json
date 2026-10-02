@@ -1,0 +1,19 @@
+{
+  "format": "PROJECT_V_LIMITED_RANK_CORRECTION_V1",
+  "dateKST": "2026-10-02",
+  "userRequest": "이네스 SS리미티드로 변경",
+  "code": "V-992",
+  "name": "이네스",
+  "previousRank": "SSS",
+  "rank": "SS",
+  "rankStatus": "CONFIRMED_BY_USER",
+  "edition": "LIMITED",
+  "status": "USER_CONFIRMED",
+  "sourceArt": "assets/ines-limited-sss-source-art-20261001.png",
+  "sha256": "97D2120A91E7682130697476F6DA0C77FF5AA548C16B2AB128B539FF5ACB176D",
+  "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+  "sourcePixelsModified": false,
+  "acquisitionEnabled": false,
+  "deploymentEnabled": false,
+  "supersedesRankOnly": "ines-preview-addition-20261001.json"
+}
