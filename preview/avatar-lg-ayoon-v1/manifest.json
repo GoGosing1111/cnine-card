@@ -1,0 +1,76 @@
+{
+  "avatarCode": "LG_AYOON",
+  "serial": "A-34",
+  "faceApproval": {
+    "file": "assets/avatar-lg-ayoon-face-approved-20261003.png",
+    "sha256": "cb6faae9846f90c37f2923cf163496537867039762ea26e20afd749922a00dad",
+    "scope": "FACE_ONLY",
+    "instruction": "첨부한 얼굴 승인; 새 포즈와 여성스러운 짧은 LG 원피스 제복"
+  },
+  "sourceArt": "assets/avatar-lg-ayoon-lobby-source-art-v3.png",
+  "equipmentSource": "assets/avatar-lg-ayoon-equipment-source-art-v4.png",
+  "generation": "built-in image_gen",
+  "prompts": "prompts-v3.json",
+  "crestSource": "assets/ui/clan/marks/source/lg-clan-mark-source-v1.png",
+  "crestSha256": "a1206f8532490c345b30fe47a3dd6c263c0073770b11b434c2883acebd1cb9d8",
+  "alpha": {
+    "width": 1024,
+    "height": 1536,
+    "clearPixels": 1273891,
+    "solidPixels": 264518,
+    "borderNontransparentPixels": 0,
+    "preservedGeneratedAlpha": true
+  },
+  "review": {
+    "face": "approved image used directly as identity reference; eyes, nose, lips, jaw and expression visually compared",
+    "pose": "hand on hip and fingertips by hair, bent crossed leg",
+    "uniform": "open neckline, fitted white/black short dress, magenta seams",
+    "hair": "continuous natural flow",
+    "crest": "actual LG crescent-orb crest in badge and background",
+    "equipment": "full head, both hands and boots inside transparent margins"
+  },
+  "files": {
+    "avatar-lg-ayoon-equipment-source-art-v4.png": {
+      "sha256": "5b3b0367d7def7a93eaaf4dd0d9db33b74ca7c18a35f74002d2c7f9e274ad3b0",
+      "bytes": 1293663,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": true
+    },
+    "avatar-lg-ayoon-equipment-v4-640.webp": {
+      "sha256": "adae7d5a74f47e9b99e02821eb6788fd5be494baaca4433661afc11425e63b99",
+      "bytes": 68088,
+      "width": 640,
+      "height": 1088,
+      "hasAlpha": true
+    },
+    "avatar-lg-ayoon-face-approved-20261003.png": {
+      "sha256": "cb6faae9846f90c37f2923cf163496537867039762ea26e20afd749922a00dad",
+      "bytes": 2572323,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false
+    },
+    "avatar-lg-ayoon-lobby-source-art-v3.png": {
+      "sha256": "f753b93de8c0613909c99c963730ff2b0e7989646bb6223f5ef6cb5d0f863f23",
+      "bytes": 2225084,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false
+    },
+    "avatar-lg-ayoon-lobby-v3-1024.webp": {
+      "sha256": "be43a1b8048fb53d28d5c22700ed27a1e85f0aead3394e012ca199a629bc1cee",
+      "bytes": 263354,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false
+    },
+    "avatar-lg-ayoon-lobby-v3-640.webp": {
+      "sha256": "7b935246dcf9c0cae61846b9e052f9765c6fd866b54d9a2d1a4b997006434495",
+      "bytes": 141644,
+      "width": 640,
+      "height": 960,
+      "hasAlpha": false
+    }
+  }
+}

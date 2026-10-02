@@ -1,0 +1,23 @@
+{
+  "code": "LG_AYOON",
+  "serial": "A-34",
+  "name": "LG 아윤",
+  "call_sign": "LG AYOON",
+  "role_label": "LG 클랜 제복",
+  "description": "사용자가 승인한 아윤 얼굴을 유지한 화이트·블랙·마젠타 LG 원피스 제복 아바타입니다. 로비 원화와 장비창 전신을 함께 제공합니다.",
+  "lobby_image": "preview/avatar-lg-ayoon-v1/assets/avatar-lg-ayoon-lobby-v3-1024.webp",
+  "lobby_mobile_image": "preview/avatar-lg-ayoon-v1/assets/avatar-lg-ayoon-lobby-v3-640.webp",
+  "equipment_image": "preview/avatar-lg-ayoon-v1/assets/avatar-lg-ayoon-equipment-v4-640.webp",
+  "accent": "#e55b9d",
+  "acquisition_type": "EVENT",
+  "coin_price": null,
+  "source_label": "LG 클랜 시즌 기간제 지급",
+  "source_detail": "김아윤 편입 후 LG 클랜 전체에게 현재 시즌 종료까지 지급합니다. 만료: 2026-10-11 22:00 KST.",
+  "effect_type": "DROP_RATE_PERCENT",
+  "effect_value": 30,
+  "is_active": 1,
+  "is_public": 1,
+  "sale_enabled": 0,
+  "sort_order": 340,
+  "version": 1
+}
