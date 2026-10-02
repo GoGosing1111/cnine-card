@@ -1,0 +1,76 @@
+{
+  "status": "COMPLETED",
+  "completedAt": "2026-10-02T12:42:01.263Z",
+  "verifiedAt": "2026-10-02T12:42:07.166Z",
+  "sourceCommit": "613c1aa2c1a7bb0f64d8153603fcc819477a8084",
+  "operationKey": "ops:pingdu-thanks-ppanghun:supplement:20261002:v1",
+  "campaignKey": "pingdu-thanks-ppanghun-supplement-20261002-v1",
+  "recipientHash": "b64768359f2add2acf0bf74a4eb53f69211b2c981aea2a532d95b541bfbe4721",
+  "auditId": "39939",
+  "title": "핑두의 감사 선물",
+  "itemCode": "PINGDU_THANKS_GIFT_BOX",
+  "delivery": "MESSAGE",
+  "count": 7,
+  "boxes": 9,
+  "priorBoxes": 8,
+  "authorization": "사용자가 지정한 개수를 기존 지급에 더해 메시지로 추가 지급. 오랜만에 1개도 명시적으로 포함.",
+  "verification": {
+    "messages": 7,
+    "rewards": 7,
+    "boxes": 9,
+    "missing": 0,
+    "duplicates": 0,
+    "claimed": 0
+  },
+  "recipients": [
+    {
+      "source": "현하루",
+      "userId": "218",
+      "additionalBoxes": 1,
+      "messageId": "178289",
+      "rewardId": "175250"
+    },
+    {
+      "source": "블랑코_",
+      "userId": "236",
+      "additionalBoxes": 1,
+      "messageId": "178290",
+      "rewardId": "175251"
+    },
+    {
+      "source": "코파먹는성태",
+      "userId": "1255",
+      "additionalBoxes": 3,
+      "messageId": "178291",
+      "rewardId": "175252"
+    },
+    {
+      "source": "슈파두파",
+      "userId": "3892",
+      "additionalBoxes": 1,
+      "messageId": "178292",
+      "rewardId": "175253"
+    },
+    {
+      "source": "장씨아저씨",
+      "userId": "4501",
+      "additionalBoxes": 1,
+      "messageId": "178293",
+      "rewardId": "175254"
+    },
+    {
+      "source": "[C9]족단",
+      "userId": "4582",
+      "additionalBoxes": 1,
+      "messageId": "178294",
+      "rewardId": "175255"
+    },
+    {
+      "source": "오랜만에.",
+      "userId": "4609",
+      "additionalBoxes": 1,
+      "messageId": "178295",
+      "rewardId": "175256"
+    }
+  ]
+}
