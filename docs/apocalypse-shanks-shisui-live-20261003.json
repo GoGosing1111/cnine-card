@@ -1,0 +1,52 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:apocalypse-shanks-shisui-release:20261003:v1",
+  "registeredAt": "2026-10-02T20:24:19.294Z",
+  "adminLogId": "40163",
+  "bosses": [
+    {
+      "id": 77,
+      "name": "샹크스",
+      "battlePower": 120000000,
+      "ultimate": {
+        "enabled": true,
+        "attackPercent": 45,
+        "shieldPiercePercent": 50
+      },
+      "battleSuitSkillDefensePercent": 35,
+      "minions": 6,
+      "rewardCoin": 15000000,
+      "rewardPercent": 1000
+    },
+    {
+      "id": 78,
+      "name": "우치하 시스이",
+      "battlePower": 180000000,
+      "ultimate": {
+        "enabled": true,
+        "attackPercent": 70,
+        "shieldPiercePercent": 65
+      },
+      "battleSuitSkillDefensePercent": 50,
+      "minions": 6,
+      "rewardCoin": 15000000,
+      "rewardPercent": 1000
+    }
+  ],
+  "coreSourceCommit": "14237d04d9764dfdaae88dabc03f52c3b5922cda",
+  "finalRuntimeCommit": "bf63fa88062c995b712bc699ffffeb866a396dc3",
+  "productionUrl": "https://cnine-card.pages.dev",
+  "deploymentUrl": "https://a8983cbd.cnine-card.pages.dev",
+  "publishedAssetsVerified": 16,
+  "runtimeFilesVerified": 9,
+  "sourceSprites": 2,
+  "skillAtlases": 6,
+  "animationFrames": 72,
+  "oldCmsProfilesPreserved": true,
+  "desktopBattleVerified": true,
+  "mobileBattleVerified": true,
+  "desktopCmsVerified": true,
+  "mobileCmsVerified": true,
+  "resourceManifest": "assets/ui/project-v/monsters/apocalypse-shanks-shisui-v1/manifest.json",
+  "prompts": "assets/ui/project-v/monsters/apocalypse-shanks-shisui-v1/prompts.json"
+}
