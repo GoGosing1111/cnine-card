@@ -12,7 +12,7 @@
 - `/pets/`는 기존 `soopketmon-v21-exact-shell-adapter.js`의 메뉴 계약과 `adventure-navigation-standalone.js`의 공통 메뉴를 연결한다. OWNER의 `/pets/?review=1`은 기존 CMS 문맥을 유지한다.
 - 페이지·덱 진입 모듈·장착창 모듈·CSS의 캐시 키는 `20261002-pet-ui2`다.
 
-이미지 원본, 서버/API, 저장 계약, 소유권, CMS 수치와 전투 로직은 바꾸지 않았다. 실제 획득/편성/전투와 2슬롯 출시 플래그는 계속 OFF다. 승인 원본은 기존 `docs/pet-equipment-gugugaga-20261002.md`를 따른다.
+이미지 원본, 서버/API, 저장 계약, 소유권, CMS 수치와 전투 로직은 바꾸지 않았다. 실제 획득/편성/전투와 2슬롯 출시 플래그는 계속 OFF다. 원본과 승인 상태는 기존 `docs/pet-equipment-gugugaga-20261002.md`를 따른다.
 
 ## 직접 관련 검수
 
@@ -30,3 +30,11 @@ PC 원본 무대와 모바일 상단/상세/모달 및 공통 메뉴 캡처를 �
 - 배포: `npm run deploy:production -- --scoped`.
 - `SCOPED_DEPLOY_TESTS=["tests/pet-equipment-20261002.browser.mjs"]`, `SCOPED_DEPLOY_CHECKS=[]`. 최종 모바일 너비 보정을 포함한 같은 관련 검사를 배포 과정에서 실행하고 기존 출시 잠금·캐시·Hyperdrive 보호를 유지한다.
 - 직전/직후 운영 기록은 `C:/Users/User/.codex/tmp/pet-equipment-ui-meta-20261002/release-before.json`, `release-after.json`, 배포 로그는 같은 폴더의 `deploy.log`다.
+
+## 배포 완료
+
+- 반영 소스: `9ed2d566628ec25182eaa33da1d484ba6420e08b`. 원격 main에 작업 범위를 커밋한 깨끗한 상태에서 지정 scoped 배포를 실행했다.
+- 최종 펫 UI 브라우저 검수 PASS, PC/모바일 오류·가로 넘침 없음. 모바일 전체 너비 장착 슬롯과 상세 정보/하단 버튼/모달 닫기 및 공통 메뉴를 직접 확인했다. 기존 출시 잠금·캐시·Hyperdrive 검사도 통과했다.
+- Pages `6da93658-4cd3-4cb2-8e56-0e586225dd6a`, API runtime `53dc93fd-0cd9-4901-9620-802aefaac5b1`, clan-draft `91c1fb2c-6350-418e-9e36-feddae49b23b`.
+- 2026-10-02 19:01 KST 운영 확인: 새 페이지/장착창 모듈/덱 진입 모듈/CSS가 모두 200이고 커밋의 내용과 일치한다. 메인 화면의 새 캐시 키 반영, 비인증 공개/OWNER 상태 API 401을 확인했다.
+- 확인 화면: `https://cnine-card.pages.dev/pets/?review=1` (OWNER 검수), `https://cnine-card.pages.dev/pets/` (공개 준비 화면). 이후 완료 기록만 반영하는 문서 커밋에는 게임 검수·운영 배포를 반복하지 않는다.
