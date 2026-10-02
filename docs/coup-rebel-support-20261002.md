@@ -22,4 +22,14 @@ SQLite/PostgreSQL에서 OWNER 제한·현재 회차 CAS·10,000,000 체력·재�
 
 임기·OWNER·회차·양 진영·진짜디임 계정 ID 4773 확인 후 단일 PostgreSQL 트랜잭션을 dry-run/ROLLBACK으로 검증하고 적용했다. 요청한 **23:10 개전 시각은 지났으며 실제 개전은 2026-10-02 23:12:41.691 KST**, 종료는 2026-10-03 02:12:41.691 KST다. 운영 키는 `ops:coup-team-preserving-restart:20261002:2310`, 개전 기록은 같은 키의 `:started`다. 재실행은 영수증을 반환하며 다시 초기화하거나 개전 시간을 변경하지 않는다.
 
-23:14 운영 DB 확인: ACTIVE, 중앙 전선, 최대·양쪽 현재 체력 10,000,000, 동일 84/63명, 진짜디임 지휘관 지정, 해당 회차 반란군 보정 유지. **진짜디임은 참가 명단에는 없으므로 현행 참가자 권한 조건상 지휘 스킬을 사용할 수 없다.** 팀 유지 지시를 따라 강제 참가나 스킬 권한 우회는 하지 않았다. 일회성 실행 파일과 세 가지 결과 기록은 `C:/Users/User/.codex/tmp/pet-gusudaeng-settings-20261002/coup-restart.mjs` 및 같은 폴더의 `coup-restart-result--apply.json`, `coup-restart-result--start.json`, `coup-restart-result--verify.json`에 보존했다.
+23:14 운영 DB 확인: ACTIVE, 중앙 전선, 최대·양쪽 현재 체력 10,000,000, 동일 84/63명, 진짜디임 지휘관 지정, 해당 회차 반란군 보정 유지. 당시 진짜디임은 참가 명단에 없어 스킬 사용이 차단됐다. 일회성 초기화 실행 파일과 세 가지 결과 기록은 `C:/Users/User/.codex/tmp/pet-gusudaeng-settings-20261002/coup-restart.mjs` 및 같은 폴더의 `coup-restart-result--apply.json`, `coup-restart-result--start.json`, `coup-restart-result--verify.json`에 보존했다.
+
+CMS 확인에서 남아 있던 운영 OFF를 발견해 기존 OWNER 운영 상태 저장으로 **ON** 전환했다. 운영 화면에서 전투 중·84/63명·보정 적용 완료·10,000,000 체력을 확인했다. 원폭은 OFF를 유지했다.
+
+## 진짜디임 참가 등록 — 사용자 명시 지시
+
+사용자 `진짜디임 스킬 안써지는데?`와 후속 **`참가시켜 빨리`** 지시에 따라 2026-10-02 23:22:54.641 KST에 진짜디임(ID 4773)을 현재 반란군 참가자로 추가했다. 족장팀 **84명**, 반란군 **64명**이며 다른 참가자의 진영·덱·가입 시각은 그대로다. 전선 체력·개전/종료 시각·진행 상황은 다시 초기화하지 않았다.
+
+배포된 서버의 변경하지 않은 `pvpDeckSnapshot`, `battleSettings`, `territoryFormationSnapshot` 및 장비·고유효과·덱 시너지·마법카드·용병 공급자를 사용해 현재 공격 PVP 일반 카드 5장과 전투력 2,804,159를 계산했다. OWNER·ON·ACTIVE 회차·지휘관 ID·미참가 상태를 확인한 뒤 참가자와 기본 행동력 10, revision, 멱등 영수증·관리 로그를 단일 PostgreSQL 트랜잭션으로 저장했다. dry-run/ROLLBACK에서 다른 참가자 레코드가 바뀌지 않음을 검증했다. 포격·결집의 반란군 쿨타임 모두 대기 없음이며 실제 스킬 발동은 하지 않았다. 기존 참가 조건과 원폭 차단 권한은 유지한다.
+
+운영 키는 `ops:coup-diim-enroll:20261002:v1`이다. 실행 파일 `C:/Users/User/.codex/tmp/pet-gusudaeng-settings-20261002/coup-enroll-diim.mjs`, 결과 `diim-enroll-dry-run.json`·`diim-enroll-applied.json`을 같은 폴더에 보존했다. 실행 코드 재배포가 필요 없는 참가 데이터 수정이다.
