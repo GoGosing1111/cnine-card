@@ -15,3 +15,14 @@
 관련 회귀는 `tests/pet-equipment-20261002.test.mjs`로 한정한다. 승인 이미지 해시·기존 4종 보존·CMS 저장·준비 잠금·장착창 목록을 검증한다. Worker 구문 검사 `check:worker`를 함께 선택하며 전체 게임 검사는 실행하지 않는다. 같은 테스트를 별도로 중복 실행하지 않고 `npm run deploy:production -- --scoped`에서 한 번 수행한다.
 
 격리된 로컬 fixture의 실제 CMS 처리기로 PC 1440×1050과 모바일 390×844에서 새 승인 항목 선택·초안 추가·CMS 저장·다시 불러오기를 확인했다. 이름·원화 경로가 유지되고 SD와 증가율은 비어 있으며 검수 사용은 꺼져 있다. 두 화면 모두 가로 넘침이 없다. 운영 배포 후 새 항목 저장과 원본 파일 해시만 짧게 재확인한다.
+
+## 운영 반영 결과
+
+- 배포 커밋: `b311b2e3a75429ba2208aec3e5eb5643e2af529e`
+- 지정 scoped 명령 성공. 관련 테스트 9/9, Worker 구문·운영 출시 잠금·Hyperdrive 캐시 검사가 통과했다.
+- Pages 운영 배포: `3bf173d3-5808-4615-9436-428e1f99d035`, `https://3bf173d3.cnine-card.pages.dev`, 2026-10-02 12:36:36 UTC. Cloudflare canonical deployment의 production/success/commit 일치를 확인했다.
+- API runtime 버전: `5d118e01-4b22-4476-b14d-8d6ebbebf45a`. 기존 clan-draft 지정 배포도 완료했다.
+- 저장된 OWNER 세션으로 실제 CMS에서 승인 일러스트를 초안 추가하고 **CMS 버전 1 저장 완료**를 확인했다. 기존 버전 0의 빈 목록에 `PET-GUSUDAENG` 1행을 추가했다. `battleSprite` 빈 문자열, 버프 증가율 미정, 검수 사용 OFF이며 공개·획득·실전 OFF다.
+- 운영 원화 경로는 HTTP 200이고 SHA-256이 승인 원본과 완전히 일치했다. `/admin/`의 새 스크립트 캐시 버전 `20261002-pet-gusudaeng`도 반영됐다.
+
+이 후속 운영 기록은 문서만 변경하므로 diff 확인·범위 커밋·원격 반영으로 종료하며 테스트와 배포를 반복하지 않는다.
