@@ -43,3 +43,16 @@
 - 관련 회귀: `tests/pet-buff-resources-20261003.test.mjs`, `tests/pet-equipment-20261002.test.mjs`, `tests/companion-preparation-20261002.test.mjs`.
 - 선택 회귀는 지정 `npm run deploy:production -- --scoped`에서 한 번 실행한다. 전체 게임 검사와 중복 검사는 하지 않는다. 출시 잠금·캐시·Hyperdrive 검사는 유지한다.
 - 검수 캡처: `C:/Users/User/AppData/Local/Temp/pet-buff-qa-20261003/`.
+
+## 운영 배포 결과
+
+- 배포 커밋: `dd706edc46e14c97b874588b65f2fecb0ecb65c1`.
+- 지정 scoped 배포 완료. 관련 검사 **21/21**, 출시 잠금·캐시·Hyperdrive 확인 통과.
+- Pages: `50774bf0-dc8d-461d-bed3-546a6cc3c1fb`, `https://50774bf0.cnine-card.pages.dev`. canonical production의 커밋·success 일치.
+- API runtime: `933fd6f5-037c-4644-84a9-5ee4b5e58f3e`. Clan draft: `1e760aae-ba52-41a9-a29e-65f55e420309`.
+- 운영 파일 **21개**의 SHA-256 일치: 신규 버프 아틀라스/아이콘 10개, 기존 펫 원화 5개, 변경 표시 모듈/스타일 6개. 운영 페이지 5개의 새 캐시 버전/화면 표시 확인.
+- 운영 OWNER 장착창에서 봉순·조은·희야·디임·토끼 구수댕 **5마리**와 각 원화, 증가율 미정을 확인했다. 운영 CMS 저장은 위의 버전 2다.
+- 라이브 버프 프리뷰를 열어 5종 선택과 새 리소스 연결을 확인했다.
+- 결과 기록은 `C:/Users/User/AppData/Local/Temp/pet-buff-live-verified-20261003.json`, 배포 로그는 `pet-buff-deploy-20261003.log`에 보관한다.
+
+이 결과 기록은 문서 변경만 범위 커밋·원격 반영하고, 이미 통과한 검사나 운영 배포를 반복하지 않는다.
