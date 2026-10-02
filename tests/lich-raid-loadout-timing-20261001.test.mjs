@@ -47,6 +47,7 @@ test('a weak host cannot replace the stronger participant deck; support and merc
   for(const user of [1,2,3])await h.command('ready',{roomId,ready:true},user);
   await h.command('start',{roomId});
   const row=await h.one('SELECT state_json FROM raid_lich_rooms_v1 WHERE room_id=?',roomId),room=JSON.parse(row.state_json);
+  room.rulesVersion=1; // Existing fights retain the original shared assault rules.
   const now=Date.now();room.clock=now-1;room.startedAt=now-20000;room.endsAt=now+100000;
   room.round=6;room.boss.hp=room.boss.maxHp=100000000;
   room.step='EXPOSED';room.challenge={id:roomId+':0',kind:'PLAGUE',startedAt:now-1000,deadline:now+10000,lastStrikeAt:now-2000,transferred:true};

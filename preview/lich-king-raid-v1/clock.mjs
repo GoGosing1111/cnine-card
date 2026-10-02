@@ -1,6 +1,7 @@
 // Presentation of known server deadlines. Inputs remain server-validated.
 export function projectLichChallenge(challenge,now,step='MECHANIC'){
   const c={...challenge};
+  if(c.coop)return c;
   if(step!=='MECHANIC')return c;
   const prisonKind=['PRISON','CONVERGENCE'].includes(c.kind),breathAt=c.startedAt+6000;
   if(prisonKind&&!c.breathResolved&&now>=breathAt){
@@ -15,6 +16,10 @@ export function projectLichChallenge(challenge,now,step='MECHANIC'){
   return c;
 }
 export function lichControlKey(s,c){
+  if(s.rulesVersion===2){
+    const {plagueStacks,lastStrikes,...fixed}=c;
+    return JSON.stringify([s.status,s.step,fixed,s.controls,s.resources,s.souls,s.doom,s.partyFighters?.map(f=>Math.ceil(f.hp/f.maxHp*100))]);
+  }
   // HP/clock/stack/cooldown updates must not replace a button under a pointer.
   const {plagueStacks,lastStrikeAt,...controls}=c;
   return JSON.stringify([s.status,s.step,controls,c.plagueStacks>=2,s.resources,s.souls,s.doom,s.me.role,(s.partyFighters||s.fighters).filter(f=>f.hp<=0).map(f=>f.id)]);

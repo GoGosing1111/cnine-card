@@ -2,6 +2,7 @@ import {createLichRoom,addLichMember,setLichLoadout,removeLichLoadout,startLichR
 import {readJointBody,jointError} from './_joint_request.js';
 import {jointGuard,jointGuardEnd,ensureJointAtomicSchema} from './_joint_atomic.js';
 import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
+import {reconcileCoopDuties} from './_raid_lich_coop.js';
 
 export const LICH_TICKET='LICH_KING_ENTRY_TICKET';
 export const LICH_SETTINGS='raid_lich_settings_v1';
@@ -140,7 +141,7 @@ async function openRoom(env,user,cfg,body,deps,now){
   const active=await currentRoom(env,user,now);
   if(active)fail('ALREADY_JOINED','이미 참가 중인 공대가 있습니다. 현재 공대로 복귀하세요.');
   const deck=await deps.raidDeckPower(env,user.id,undefined,'RAID');
-  const roomId='LK-'+crypto.randomUUID(),room=createLichRoom({id:roomId,hostId:id(user.id),mode:'PARTY',cards:deck.cards,monster:boss(cfg.bossCombatPower),now,seed:crypto.getRandomValues(new Uint32Array(1))[0]});
+  const roomId='LK-'+crypto.randomUUID(),room=createLichRoom({id:roomId,hostId:id(user.id),mode:'PARTY',rulesVersion:2,cards:deck.cards,monster:boss(cfg.bossCombatPower),now,seed:crypto.getRandomValues(new Uint32Array(1))[0]});
   addLichMember(room,{id:id(user.id),name:user.nickname,role:'ASSAULT'});
   setLichLoadout(room,id(user.id),deck,user.nickname);
   room.members[0].ready=false;room.hostName=user.nickname;room.kicked=[];room.joinCount=1;
@@ -190,6 +191,7 @@ async function roomCommand(env,user,cfg,kind,body,deps,now,since=0){
         if(!ROLES[body.role])fail('ROLE','정벌대·봉인대·구출대 중에서 선택하세요.',400);
         const target=room.members.find(m=>m.id===id(body.targetId));if(!target)fail('TARGET','참가자를 찾을 수 없습니다.',404);
         target.role=body.role;target.ready=false;room.revision++;
+        reconcileCoopDuties(room);
       }else if(kind==='ready'){
         if(room.status!=='LOBBY'||!ROLES[me.role]||typeof body.ready!=='boolean')fail('READY','역할을 배정받은 뒤 준비하세요.');
         if(body.ready)setLichLoadout(room,id(user.id),await deps.raidDeckPower(env,user.id,undefined,'RAID'),user.nickname);
@@ -218,7 +220,7 @@ async function roomCommand(env,user,cfg,kind,body,deps,now,since=0){
         }else{room.members=room.members.filter(m=>m!==me);removeLichLoadout(room,me.id);room.revision++;}
         extra.push(env.DB.prepare('DELETE FROM '+ACTIVE+' WHERE user_id=? AND room_id=?').bind(user.id,room.id));
       }else if(kind==='action'){
-        actLichRoom(room,id(user.id),{requestId:body.requestId,challengeId:body.challengeId,action:body.action,target:body.target},now);
+        actLichRoom(room,id(user.id),{requestId:body.requestId,challengeId:body.challengeId,action:body.action,target:body.target,stepToken:body.stepToken},now);
       }else fail('ROUTE','지원하지 않는 공대 명령입니다.',404);
     }
     const result=kind==='leave'?{ok:true,roomId:room.id}:resultFor(room,user,cfg,{payload:kind==='start',since});
@@ -265,7 +267,7 @@ export async function handleLichRaid({path,request,env,deps}){
     }
     if(request.method!=='POST')return json({error:'지원하지 않는 요청입니다.'},405);
     const kind=path.slice('raid/lich/'.length);
-    const fields={open:['requestId'],join:['requestId','roomId'],assign:['requestId','roomId','targetId','role'],ready:['requestId','roomId','ready'],kick:['requestId','roomId','targetId'],start:['requestId','roomId'],leave:['requestId','roomId'],action:['requestId','roomId','challengeId','action','target']}[kind];
+    const fields={open:['requestId'],join:['requestId','roomId'],assign:['requestId','roomId','targetId','role'],ready:['requestId','roomId','ready'],kick:['requestId','roomId','targetId'],start:['requestId','roomId'],leave:['requestId','roomId'],action:['requestId','roomId','challengeId','action','target','stepToken']}[kind];
     if(!fields)fail('ROUTE','지원하지 않는 공대 명령입니다.',404);
     const body=await readJointBody(request,{fields});
     const since=Number(url.searchParams.get('since'))||0;

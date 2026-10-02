@@ -84,8 +84,8 @@ function enqueue(events,state){
       if(version!==epoch||!engine)return;
       try{
         if(event.type==='RAID_LICH_PRISON')await animate('prison',{targetId:event.targetId,hold:true});
-        else if(event.type==='RAID_LICH_SHATTER'){releasePrison();await animate('prison',{targetId:event.targetId});}
-        else if(event.type==='RAID_LICH_BREATH'){releasePrison();await animate('zero',{safe:event.safe});}
+        else if(event.type==='RAID_LICH_SHATTER'){if(!state.challenge?.prison)releasePrison();await animate('prison',{targetId:event.targetId});}
+        else if(event.type==='RAID_LICH_BREATH'){releasePrison();await animate('zero',{safe:event.safe});if(state.challenge?.prison)await animate('prison',{targetId:event.targetId,hold:true});}
         else if(event.type==='RAID_LICH_WIPE'){releasePrison();await animate('soul');}
         else if(event.type==='RAID_LICH_INTERRUPT')await animate('soul',{safe:true});
         else if(event.type!=='RESULT')await engine.playEvents([event]);

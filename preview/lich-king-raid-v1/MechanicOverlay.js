@@ -1,4 +1,5 @@
 import {projectLichChallenge,lichControlKey} from './clock.mjs';
+import {renderCoop,tickCoop} from './CoopOverlay.js';
 
 const RUNES=['달','가시','왕관'];
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -31,7 +32,7 @@ export class MechanicOverlay{
     this.world=new Container({label:'LichMechanicTelegraph',eventMode:'none'});
     this.halo=new Graphics();this.world.addChild(this.halo);engine.effectLayer.addChild(this.world);
     this.onClick=e=>{const b=e.target.closest('[data-action]');if(!b||b.disabled||this.pending||!this.state)return;
-      window.dispatchEvent(new CustomEvent('lich-raid-action',{detail:{action:b.dataset.action,target:b.dataset.target||'',challengeId:this.state.challenge.id}}));};
+      window.dispatchEvent(new CustomEvent('lich-raid-action',{detail:{action:b.dataset.action,target:b.dataset.target||'',challengeId:this.state.challenge.id,...(b.dataset.stepToken?{stepToken:b.dataset.stepToken}:{})}}));};
     this.element.addEventListener('click',this.onClick);
     this.onTick=()=>this.tick();engine.app.ticker.add(this.onTick);
     this.observer=new ResizeObserver(()=>this.layout());this.observer.observe(host);
@@ -65,6 +66,7 @@ export class MechanicOverlay{
     this.tick(true);
   }
   render(c=this.state.challenge){
+    if(this.state.rulesVersion===2){renderCoop(this,c);return;}
     const s=this.state,r=s.resources,active=s.status==='ACTIVE',mechanic=active&&s.step==='MECHANIC',exposed=active&&s.step==='EXPOSED';
     const names={PLAGUE:'죽음의 역병',PRISON:'절대영도',CONVERGENCE:'세 갈래의 죽음',FINALE:'왕관의 봉인'};
     const title=!active?(s.status==='CLEAR'?'왕좌가 무너졌다':'공대 전멸'):s.step==='READY'?'왕좌 앞에 집결하라':s.step==='TRANSITION'?'다음 방벽으로':exposed?'왕의 방벽 붕괴':names[c.kind];
@@ -120,6 +122,10 @@ export class MechanicOverlay{
     const now=(s.status==='ACTIVE'?Date.now()+this.offset:s.finishedAt||s.serverNow);
     const c=projectLichChallenge(s.challenge,now,s.step),key=lichControlKey(s,c);
     if(key!==this.key){this.key=key;this.render(c);}
+    if(s.rulesVersion===2){
+      const actor=this.engine.combatantById(c.targetId);if(actor&&this.world.visible)this.world.position.set(actor.x,actor.y+8);
+      if(force||now-this.lastPaint>=80){this.lastPaint=now;tickCoop(this,c,now);}return;
+    }
     this.element.dataset.prison=String(Boolean(c.prison));
     this.element.dataset.urgent=String(s.step==='MECHANIC'&&(c.cast==='SOUL_ANNIHILATION'&&!c.interrupted||c.plague&&c.plagueStacks>=4));
     const actor=this.engine.combatantById(c.targetId);

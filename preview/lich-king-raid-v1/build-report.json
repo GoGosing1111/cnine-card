@@ -6,6 +6,7 @@
   "pixiCopies": 0,
   "inputs": [
     "preview/lich-king-raid-v1/clock.mjs",
+    "preview/lich-king-raid-v1/CoopOverlay.js",
     "preview/lich-king-raid-v1/MechanicOverlay.js",
     "preview/lich-king-raid-v1/battle.src.js"
   ]

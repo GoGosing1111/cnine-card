@@ -2098,6 +2098,278 @@
     font-size: 24px;
   }
 }
+#pveLichRaidView .lich-mechanic-screen[data-coop=true] .lk-console {
+  width: min(740px, 96%);
+  gap: 8px;
+  padding: 12px 12px 0;
+}
+#pveLichRaidView .lk-coop-field {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 10px;
+  width: 100%;
+}
+#pveLichRaidView .lk-coop-task {
+  --task:#9bcbdc;
+  padding: 12px 14px;
+  border-top: 1px solid var(--task);
+  border-bottom: 1px solid #7797ad44;
+  background:
+    radial-gradient(
+      ellipse at bottom,
+      #0b2232e8,
+      #030c17aa 70%,
+      #030c1744);
+  color: #e6f1f6;
+  min-width: 0;
+  text-shadow: 0 1px 5px #000;
+}
+#pveLichRaidView .lk-coop-task[data-kind=SEAL] {
+  --task:#e9c990;
+}
+#pveLichRaidView .lk-coop-task[data-kind=TRANSFER],
+#pveLichRaidView .lk-coop-task[data-kind=CLEANSE] {
+  --task:#a4d7ad;
+}
+#pveLichRaidView .lk-coop-task[data-kind=INTERRUPT] {
+  --task:#f3a38e;
+}
+#pveLichRaidView .lk-coop-task header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+  color: var(--task);
+}
+#pveLichRaidView .lk-coop-task header strong {
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+#pveLichRaidView .lk-coop-task p {
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 6px 0 10px;
+  color: #b6cbd7;
+  min-height: 36px;
+}
+#pveLichRaidView .lk-coop-task[data-urgent=true] {
+  border-color: #ff997c;
+  box-shadow: 0 0 18px #fc684b44;
+}
+#pveLichRaidView .lk-coop-task[data-waiting=true] header strong {
+  color: #8da1b1;
+}
+#pveLichRaidView .lk-coop-rune {
+  font-size: 11px;
+  margin-top: 7px;
+  color: #aabcc7;
+}
+#pveLichRaidView .lk-coop-rune b {
+  font-size: 15px;
+  color: #fff;
+  margin-left: 8px;
+}
+#pveLichRaidView .lk-coop-keys {
+  display: flex;
+  gap: 6px;
+}
+#pveLichRaidView .lk-coop-key {
+  flex: 1;
+  min-width: 44px;
+  min-height: 46px;
+  background: linear-gradient(#243c4ddd, #101d2af5);
+  border-color: #809bab88;
+  font-size: 14px;
+  padding: 7px 5px;
+  color: #edf5f8;
+  touch-action: manipulation;
+}
+#pveLichRaidView .lk-coop-key:not(:disabled):hover {
+  background: #365771;
+}
+#pveLichRaidView .lk-coop-key:focus-visible {
+  outline: 2px solid #f1d497;
+  outline-offset: 3px;
+}
+#pveLichRaidView .lk-coop-key:disabled {
+  opacity: .4;
+}
+#pveLichRaidView .lk-coop-sequence {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 9px;
+  font-size: 12px;
+  flex-wrap: wrap;
+}
+#pveLichRaidView .lk-coop-sequence .done {
+  color: #86cfaa;
+  text-decoration: line-through;
+}
+#pveLichRaidView .lk-coop-sequence i {
+  font-style: normal;
+  color: #677b8c;
+}
+#pveLichRaidView .lk-coop-sequence em {
+  font-size: 10px;
+  color: #e9c990;
+  font-style: normal;
+  margin-left: auto;
+}
+#pveLichRaidView .lk-coop-key.is-sigil {
+  flex: 0 0 58px;
+  height: 58px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background:
+    radial-gradient(
+      circle,
+      #1c3e51ed,
+      #05101be8);
+  border-color: var(--task);
+  box-shadow: inset 0 0 12px #a4deff22, 0 0 12px #07121cee;
+  font-size: 11px;
+  padding: 4px;
+}
+#pveLichRaidView .lk-coop-key.is-sigil svg {
+  width: 25px;
+  height: 25px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+}
+#pveLichRaidView .lk-coop-keys {
+  justify-content: center;
+}
+#pveLichRaidView .lk-coop-task[data-kind=STRIKE] .lk-coop-key,
+#pveLichRaidView .lk-coop-task[data-kind=BURST] .lk-coop-key {
+  min-height: 56px;
+  font-weight: 800;
+  font-size: 18px;
+  border-color: #c5deea;
+  background: linear-gradient(#c2e4ee, #7ba3b7);
+  color: #07131e;
+  text-shadow: none;
+}
+#pveLichRaidView .lk-coop-task[data-kind=BURST] .lk-coop-key {
+  border-color: #e7c48a;
+  background: linear-gradient(#695134, #2b2319);
+  color: #f8e0b2;
+}
+#pveLichRaidView .lk-coop-wait {
+  text-align: center;
+  color: #bdd3de;
+  font-size: 14px;
+  padding: 14px;
+  text-shadow: 0 2px 8px #000;
+}
+#pveLichRaidView .lich-mechanic-screen[data-coop=true] .lk-supplies .lk-coop-key {
+  max-width: 240px;
+  min-height: 44px;
+}
+@media (max-width: 760px) {
+  #pveLichRaidView .lich-mechanic-screen[data-coop=true] .lk-order,
+  #pveLichRaidView .lich-mechanic-screen[data-coop=true][data-step=MECHANIC] .lk-order {
+    left: 12px;
+    top: 59px;
+    width: calc(100% - 24px);
+    transform: none;
+    text-align: left;
+  }
+  #pveLichRaidView .lich-mechanic-screen[data-coop=true] .lk-order h2 {
+    font-size: 24px;
+  }
+  #pveLichRaidView .lich-mechanic-screen[data-coop=true] .lk-role-hint {
+    font-size: 11px;
+    line-height: 1.4;
+  }
+  #pveLichRaidView .lich-mechanic-screen[data-coop=true] .lk-console {
+    width: 100%;
+    padding: 6px 8px 0;
+    gap: 6px;
+  }
+  #pveLichRaidView .lk-coop-field {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+  }
+  #pveLichRaidView .lk-coop-task {
+    padding: 7px 6px;
+  }
+  #pveLichRaidView .lk-coop-task header {
+    font-size: 12px;
+  }
+  #pveLichRaidView .lk-coop-task header strong {
+    font-size: 11px;
+  }
+  #pveLichRaidView .lk-coop-task p {
+    font-size: 10px;
+    line-height: 1.3;
+    min-height: 0;
+    margin: 4px 0 6px;
+  }
+  #pveLichRaidView .lk-coop-key {
+    font-size: 12px;
+    min-height: 44px;
+    padding: 6px 2px;
+  }
+  #pveLichRaidView .lk-coop-keys {
+    gap: 4px;
+  }
+  #pveLichRaidView .lk-coop-sequence {
+    font-size: 11px;
+    gap: 3px;
+  }
+  #pveLichRaidView .lk-coop-sequence em {
+    font-size: 9px;
+  }
+  #pveLichRaidView .lk-coop-key.is-sigil {
+    flex-basis: 46px;
+    width: 46px;
+    height: 46px;
+    font-size: 10px;
+    padding: 2px;
+  }
+  #pveLichRaidView .lk-coop-key.is-sigil svg {
+    width: 20px;
+    height: 20px;
+  }
+  #pveLichRaidView .lk-coop-rune {
+    margin-top: 4px;
+    font-size: 10px;
+  }
+  #pveLichRaidView .lk-coop-rune b {
+    font-size: 13px;
+  }
+  #pveLichRaidView .lich-mechanic-screen[data-coop=true] .lk-host-mark.is-remote {
+    top: 171px !important;
+    left: auto !important;
+    right: 10px;
+    padding: 5px;
+    width: 156px;
+    background: #071b2bd9;
+  }
+  #pveLichRaidView .lk-coop-wait {
+    grid-column: 1/-1;
+  }
+  #pveLichRaidView .lich-mechanic-screen[data-coop=true] .lk-party-status {
+    font-size: 10px;
+    gap: 10px;
+  }
+}
+@media (max-height: 660px) {
+  #pveLichRaidView .lich-mechanic-screen[data-coop=true] .lk-console {
+    max-height: 50%;
+    overflow-y: auto;
+    pointer-events: auto;
+  }
+  #pveLichRaidView .lich-mechanic-screen[data-coop=true] .lk-host-mark {
+    display: none;
+  }
+}
 #pveLichRaidView {
   color-scheme: dark;
 }

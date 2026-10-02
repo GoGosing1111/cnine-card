@@ -2,7 +2,7 @@ import {jointAccountRequest as request} from '/js/joint-account-transport.mjs';
 export function mountLichRaid(root=document.body,{loadBattle=async()=>{}}={}){
 const $=id=>root.querySelector('[data-lich-id="'+id+'"]')||root.querySelector('#'+id),roles={ASSAULT:'정벌대',WARDEN:'봉인대',RESCUE:'구출대',UNASSIGNED:'배정 대기'};
 const roleKeys=['ASSAULT','WARDEN','RESCUE'];
-const roleHints={ASSAULT:'감옥은 6초 동안 유지하세요. 방벽이 무너지면 집중 공격과 결전으로 HP 목표선을 돌파하세요.',WARDEN:'서리 폭발은 기다리고 영혼 말살을 차단하세요. 봉인은 표시된 순서대로 누르세요.',RESCUE:'2중첩에 같은 문양의 구울로 역병을 전이하세요. 3단계에는 영혼을 두 번씩 구출하세요.',UNASSIGNED:'공대장의 작전 배분을 기다려주세요. 역할이 정해지면 준비할 수 있습니다.'};
+const roleHints={ASSAULT:'개인 봉인 연결 후 담당 사슬을 파쇄하세요. 감옥은 8초 절대영도 흡수 후 6초 안에 파쇄합니다.',WARDEN:'자신의 봉인 문양을 입력하고 동료와 7초 안에 연결하세요. 이번 차단 담당도 확인하세요.',RESCUE:'매 작전 역병·영혼·저주 담당이 배정됩니다. 남은 시간을 보고 처리하며 공대 회복을 배분하세요.',UNASSIGNED:'공대장의 작전 배분을 기다려주세요. 역할이 정해지면 준비할 수 있습니다.'};
 const symbols={ASSAULT:'<path d="m4 3 7 7-3 3-7-7 3-3Zm9 10 7 7M13 3l7 3-7 7m-3 3-6 6M15 18l3-3M3 15l3 3"/>',WARDEN:'<path d="m12 2 8 4v6c0 5-8 10-8 10S4 17 4 12V6l8-4Z"/><path d="M12 7v9M8 11l4-4 4 4"/>',RESCUE:'<path d="M7 5h10l4 7-4 7H7l-4-7 4-7Z"/><path d="M12 8v8M8 12h8"/>',UNASSIGNED:'<circle cx="12" cy="12" r="9"/><path d="M8 12h8"/>',CHECK:'<path d="m5 12 4 4L19 6"/>',EXIT:'<path d="M9 4H4v16h5m5-13 5 5-5 5M9 12h10"/>',ARROW:'<path d="M4 12h16m-6-6 6 6-6 6"/>',PEOPLE:'<circle cx="9" cy="7" r="3"/><path d="M3 21v-4a6 6 0 0 1 12 0v4m2-17a3 3 0 0 1 0 6m1 3a5 5 0 0 1 3 5v3"/>'};
 const icon=name=>'<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">'+symbols[name]+'</svg>';
 const lifecycle=new AbortController();

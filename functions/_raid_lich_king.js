@@ -1,6 +1,7 @@
-// Isolated review encounter. No production routes, DB, rewards or feature flags.
+// Authoritative encounter shared by the isolated review and the live room adapter.
 // All deadlines, HP, resources, role checks and outcomes belong to the authority.
 import { buildFighter, buildMonsterFighter, buildPvePlayerTeam, simulateBattleV2Preview } from './_battle_v2_preview.js';
+import {openCoopRound,tickCoopRoom,actCoopRoom,coopControls,reconcileCoopDuties} from './_raid_lich_coop.js';
 
 export const LICH_RELEASE = Object.freeze({ mode:'OFF', rewardLocked:true, scope:'LOCAL_REVIEW_ONLY' });
 export const ROLES = Object.freeze({ ASSAULT:'정벌대', WARDEN:'봉인대', RESCUE:'구출대' });
@@ -25,8 +26,8 @@ function record(room,type,label,extra={}) {
   if(room.events.length>400)room.events.splice(0,room.events.length-400);
   return event;
 }
-function wound(room,ratio,label,targetId=null) {
-  const targets=alive(room).filter(row=>!targetId||row.id===targetId);
+function wound(room,ratio,label,targetId=null,ownerId=null) {
+  const targets=alive(room).filter(row=>(!targetId||row.id===targetId)&&(!ownerId||!room.loadouts||row.ownerId===ownerId));
   const hits=targets.map(row=>{const damage=Math.min(row.hp,Math.ceil(row.maxHp*ratio));row.hp-=damage;row.alive=row.hp>0;return {targetId:row.id,damage,targetHpAfter:row.hp};});
   record(room,'BOSS_ULTIMATE',label,{actorId:room.boss.id,hits});
   if(!alive(room).length)wipe(room,'PARTY_DEAD','출전 카드가 모두 쓰러졌습니다.');
@@ -43,6 +44,7 @@ function wipe(room,code,reason) {
 function resource(room,key) {if(!(room.resources[key]>0))fail('RESOURCE_EMPTY','남은 '+key+' 자원이 없습니다.');room.resources[key]--;}
 function shuffledRunes(seed) {const offset=(seed>>>0)%3;return Array.from({length:3},(_,i)=>RUNES[(i+offset)%3]);}
 function openRound(room,index) {
+  if(room.rulesVersion===2)return openCoopRound(room,PLANS[index],index,coopContext());
   const plan=PLANS[index];room.round=index;room.phase=plan.phase;room.step='MECHANIC';
   const active=alive(room);const target=active[(room.seed+index)%active.length];
   room.challenge={id:room.id+':'+index,kind:plan.kind,startedAt:room.clock,deadline:room.clock+plan.duration,
@@ -57,13 +59,13 @@ function openRound(room,index) {
   record(room,'RAID_LICH_MECHANIC',plan.kind==='FINALE'?'해방한 영혼으로 왕관의 봉인을 해제하십시오.':target.title+'에게 죽음의 역병이 깃듭니다.',{kind:plan.kind,targetId:target.id});
   if(room.challenge.prison)record(room,'RAID_LICH_PRISON','서리 감옥 · 절대영도까지 유지',{targetId:target.id});
 }
-export function createLichRoom({id,hostId,mode='COMMAND',cards,monster,now=0,seed=1,powerScale=1}={}) {
+export function createLichRoom({id,hostId,mode='COMMAND',cards,monster,now=0,seed=1,powerScale=1,rulesVersion=1}={}) {
   if(!id||!hostId||!Array.isArray(cards)||cards.length!==5||new Set(cards.map(c=>c.id)).size!==5)fail('INVALID_PARTY','서로 다른 일반 카드 5장이 필요합니다.',400);
   if(!['COMMAND','PARTY'].includes(mode))fail('INVALID_MODE','지원하지 않는 검수 방식입니다.',400);
   if(!Number.isFinite(now)||!Number.isFinite(powerScale)||powerScale<=0)fail('INVALID_INPUT','잘못된 전투 설정입니다.',400);
   const fighters=cards.map((card,index)=>({...buildFighter({...card,power:Math.round(card.power*powerScale)},index,'A',null,'PVE'),image:card.image,battleSprite:card.battleSprite,cardId:card.id}));
   const boss={...buildMonsterFighter(monster),battleSprite:monster.battleSprite,image:monster.image,monsterId:monster.id};
-  return {id,hostId,mode,status:'LOBBY',seed:seed>>>0,cards:clone(cards),fighters,boss,monster:clone(monster),members:[],
+  return {id,hostId,mode,rulesVersion,status:'LOBBY',seed:seed>>>0,cards:clone(cards),fighters,boss,monster:clone(monster),members:[],
     clock:now,createdAt:now,startedAt:null,endsAt:null,finishedAt:null,round:0,phase:1,step:'LOBBY',
     resources:{interrupt:7,cleanse:2,guard:1,heal:3,revive:1,burst:3},souls:0,doom:0,
     challenge:null,revision:0,eventSeq:0,events:[],receipts:{},failure:null,statistics:{transfers:0,interrupts:0,rescues:0,damage:0,mistakes:0}};
@@ -101,6 +103,7 @@ export function setLichLoadout(room,memberId,deck,accountNickname) {
 export function removeLichLoadout(room,memberId) {
   if(!room.loadouts)return;
   delete room.loadouts[memberId];room.fighters=room.fighters.filter(f=>f.ownerId!==memberId);
+  reconcileCoopDuties(room);
   if(room.status==='ACTIVE'&&!alive(room).length)wipe(room,'PARTY_DEAD','출전 카드가 모두 쓰러졌습니다.');
   if(room.challenge?.targetId&&!room.fighters.some(f=>f.id===room.challenge.targetId)&&alive(room).length){
     const target=alive(room)[0];room.challenge.targetId=target.id;room.challenge.targetName=target.ownerName+' · '+target.title;
@@ -110,7 +113,8 @@ export function startLichRoom(room,memberId,now=room.clock) {
   if(memberId!==room.hostId)fail('HOST_ONLY','공대장만 출정할 수 있습니다.',403);
   if(room.status!=='LOBBY')return room;
   if(room.mode==='PARTY'&&!Object.keys(ROLES).every(role=>room.members.some(m=>m.role===role)))fail('MISSING_ROLES','정벌대·봉인대·구출대가 각각 한 명 이상 필요합니다.');
-  room.clock=Math.max(room.clock,now);room.startedAt=room.clock+12000;room.endsAt=room.startedAt+210000;room.status='ACTIVE';
+  room.clock=Math.max(room.clock,now);room.startedAt=room.clock+12000;room.endsAt=room.startedAt+(room.rulesVersion===2?300000:210000);room.status='ACTIVE';
+  if(room.rulesVersion===2){room.resources={interrupt:7,cleanse:7,guard:0,heal:4,revive:1,burst:0};room.personalBurst=Object.fromEntries(room.members.map(m=>[m.id,2]));}
   room.step='READY';room.challenge={id:room.id+':READY',startedAt:room.clock,deadline:room.startedAt};
   record(room,'RAID_LICH_READY','전장 집결 · 12초 뒤 전투가 시작됩니다.');room.revision++;return room;
 }
@@ -133,6 +137,7 @@ export function tickLichRoom(room,now) {
   if(room.step==='READY'||room.step==='TRANSITION') {
     if(now>=c.deadline){const index=room.step==='READY'?0:room.round+1;room.clock=c.deadline;openRound(room,index);return tickLichRoom(room,now);}return room;
   }
+  if(room.rulesVersion===2){tickCoopRoom(room,coopContext());return room;}
   if(room.step==='MECHANIC') {
     const breathAt=c.startedAt+6000;
     if(['PRISON','CONVERGENCE'].includes(c.kind)&&!c.breathResolved&&now>=breathAt){
@@ -160,13 +165,13 @@ export function tickLichRoom(room,now) {
   if(room.status==='ACTIVE'&&room.step!=='TRANSITION'&&now>=c.deadline)wipe(room,room.step==='EXPOSED'?'DPS_CHECK':'MECHANIC_TIMEOUT',room.step==='EXPOSED'?'공격 기회 안에 왕의 방벽을 돌파하지 못했습니다.':'기믹 처리 시간이 끝났습니다.');
   return room;
 }
-function applyCombat(room,burst) {
+function applyCombat(room,burst,memberId=null) {
   const c=room.challenge;
   const multiplier=(burst?1.8:1)*(c.transferred?1.25:1)*Math.max(.5,1-room.doom*.12);
   const enemy={...room.boss,hp:room.boss.maxHp,alive:true,defense:Math.round(room.boss.defense*.22)};
   const before=room.boss.hp;
   const floor=Math.round(room.boss.maxHp*PLANS[room.round].floor);
-  const owners=room.loadouts?room.members.map(m=>m.id):[null];
+  const owners=room.loadouts?(memberId?[memberId]:room.members.map(m=>m.id)):[null];
   const packets=[];
   // A strike is an assault packet, not a restart of the persistent raid HP.
   // Use common-engine targeting/critical/hit resolution. The king's armor caps
@@ -199,17 +204,18 @@ function applyCombat(room,burst) {
   }
   room.statistics.damage+=Math.max(0,before-room.boss.hp);
   // The raid's explicit counter, debuffs and finite rescue actions own party HP.
-  if(!(room.round===PLANS.length-1&&room.boss.hp===0))wound(room,.055+room.doom*.025,'서리한 반격');
+  if(!(room.round===PLANS.length-1&&room.boss.hp===0))wound(room,(room.rulesVersion===2?.045:.055)+room.doom*.025,'서리한 반격',null,memberId);
   if(room.status!=='ACTIVE')return;
   if(room.boss.hp<=floor){
     if(room.round===PLANS.length-1){room.status='CLEAR';room.finishedAt=room.clock;record(room,'KO','리치왕 정벌',{targetId:room.boss.id});record(room,'RESULT','리치왕 정벌 성공',{winner:'A'});}
     else {room.step='TRANSITION';c.deadline=room.clock+3000;record(room,'RAID_LICH_ROUND_CLEAR','방벽 돌파 · 다음 작전 준비');}
   }
 }
+function coopContext(){return {record,wound,wipe,fail,resource,applyCombat};}
 export function actLichRoom(room,memberId,input,now) {
   if(!input||typeof input.requestId!=='string'||!/^[a-zA-Z0-9_-]{8,100}$/.test(input.requestId))fail('REQUEST_ID','유효한 요청 식별자가 필요합니다.',400);
   const member=room.members.find(m=>m.id===memberId);if(!member)fail('NOT_MEMBER','공대 참가자가 아닙니다.',403);
-  const signature=JSON.stringify([memberId,input.challengeId,input.action,input.target||'']);
+  const signature=JSON.stringify([memberId,input.challengeId,input.action,input.target||'',...(room.rulesVersion===2?[input.stepToken||'']:[])]);
   if(room.receipts[input.requestId]){
     if(room.receipts[input.requestId]!==signature)fail('REQUEST_CONFLICT','같은 요청 식별자를 다른 행동에 사용할 수 없습니다.');
     tickLichRoom(room,now);return room;
@@ -218,6 +224,9 @@ export function actLichRoom(room,memberId,input,now) {
   if(room.status!=='ACTIVE')fail('TERMINAL','진행 중인 전투가 아닙니다.');
   const c=room.challenge,action=input.action;
   if(input.challengeId!==c.id)fail('STALE_CHALLENGE','지난 기믹의 입력입니다. 현재 전황을 다시 확인하세요.');
+  if(room.rulesVersion===2){
+    actCoopRoom(room,memberId,input,coopContext());room.receipts[input.requestId]=signature;room.revision++;return room;
+  }
   if(!AUTH[action])fail('UNKNOWN_ACTION','지원하지 않는 행동입니다.',400);
   if(room.mode==='PARTY'&&member.role!==AUTH[action])fail('WRONG_ROLE',ROLES[AUTH[action]]+' 담당 행동입니다.',403);
   if(room.step==='TRANSITION'||room.step==='READY')fail('TRANSITION','다음 작전을 준비하고 있습니다.');
@@ -282,7 +291,7 @@ export function lichBattlePayload(room,memberId=room.hostId) {
 }
 export function lichView(room,memberId,since=0) {
   const member=room.members.find(m=>m.id===memberId);if(!member)fail('NOT_MEMBER','공대 참가자가 아닙니다.',403);
-  return clone({id:room.id,mode:room.mode,status:room.status,revision:room.revision,serverNow:room.clock,endsAt:room.endsAt,
+  return clone({id:room.id,mode:room.mode,rulesVersion:room.rulesVersion||1,controls:coopControls(room,memberId),status:room.status,revision:room.revision,serverNow:room.clock,endsAt:room.endsAt,
     phase:room.phase,phaseName:PHASES[room.phase-1],round:room.round+1,step:room.step,challenge:room.challenge,
     bossHp:room.boss.hp,bossMaxHp:room.boss.maxHp,roundFloor:Math.round(room.boss.maxHp*PLANS[room.round].floor),
     resources:room.resources,souls:room.souls,doom:room.doom,me:{...member,isHost:member.id===room.hostId},members:room.members,
