@@ -1,0 +1,29 @@
+{
+  "operationKey": "ops:bongsoon-aizen-plus14-upgrade:20261003:v1",
+  "status": "VERIFIED",
+  "actor": "SYSTEM_OPS",
+  "user": {
+    "id": 5426,
+    "nickname": "나무늘봉순"
+  },
+  "card": {
+    "id": "CN-47AD4B47B6A7452C",
+    "title": "아이젠 족스케",
+    "grade": "FUR"
+  },
+  "levelBefore": 13,
+  "levelAfter": 14,
+  "quantityBefore": 3,
+  "quantityAfter": 3,
+  "quantityGranted": 0,
+  "balancesPreserved": true,
+  "completedAt": "2026-10-02T19:33:59.569Z",
+  "completedAtKst": "2026-10-03 04:33:59",
+  "adminLogId": "40127",
+  "currentQuantity": 3,
+  "currentLevel": 14,
+  "checkedAtKst": "2026-10-03 04:34:03",
+  "verificationReadOnly": true,
+  "sourceCommit": "af06f64fa30e3db05d985e557776b7270774da14",
+  "testsPassed": 4
+}
