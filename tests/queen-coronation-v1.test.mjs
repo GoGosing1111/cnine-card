@@ -49,3 +49,12 @@ test('replay reads fresh status without account mutation and refuses suspended t
   r.window.apiRequest=async()=>({chief:{...chief,status:'SUSPENDED'}});
   await assert.rejects(r.api.open(),/현재 즉위식을 볼 수 있는 여왕이 없습니다/);assert.equal(r.nodes.size,0);
 });
+test('coup succession shows the new female commander art and escaped chief replacement names',()=>{
+  const r=runtime(),coup={...chief,source:'COUP',nickname:'진짜디임',avatar:{lobbyImage:'/wrong-avatar.png'},coupSuccession:{status:'APPOINTED',roundId:'coup-one',previousNickname:'<하이희야♡>'}};
+  assert.equal(r.api.describe(coup,now).title,'제7대 족장');assert.equal(r.api.show(coup,{automatic:true}),true);
+  assert.equal(r.dialog.className,'queen-coronation coup-succession');
+  for(const text of ['coup-succession-v2123-20261002.png','쿠데타','성공','족장 교체','&lt;하이희야♡&gt;','진짜디임'])assert.ok(r.dialog.innerHTML.includes(text),text);
+  assert.ok(!r.dialog.innerHTML.includes('wrong-avatar'));assert.ok(!r.dialog.innerHTML.includes('queen-crown-v1.svg'));
+  r.dialog.querySelector('#chiefHideToday').checked=true;r.dialog.querySelector('.queen-close').onclick();
+  assert.equal(r.api.show(coup,{automatic:true}),false);assert.equal(r.api.show(coup),true);
+});

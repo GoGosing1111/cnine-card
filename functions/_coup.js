@@ -66,7 +66,7 @@ export async function applyCoupRoundSupport(env, admin, body, now = Date.now()) 
       ...roundClaim(env, round, token, active ? "AND status='ACTIVE' AND ends_at>? AND settings_json=?" : "AND status='RECRUITING' AND starts_at IS NULL", active ? [now, round.settings_json] : [], !active),
       ...(active ? [] : [guard(env, token + ':combat', 'SELECT 1 WHERE NOT EXISTS(SELECT 1 FROM coup_attacks_v2115 WHERE round_id=?)', roundId)]),
       p(env, 'UPDATE coup_rounds_v2115 SET settings_json=?,chief_hp=CAST((chief_hp*?+max_hp-1)/max_hp AS BIGINT),rebel_hp=CAST((rebel_hp*?+max_hp-1)/max_hp AS BIGINT),max_hp=? WHERE id=?', JSON.stringify(after), siegeHp, siegeHp, siegeHp, roundId),
-      p(env, "UPDATE coup_skill_cooldowns_v2118 SET next_use_at=next_use_at-CASE WHEN skill_code='RALLY' THEN 900000 ELSE 300000 END WHERE appointment_id=? AND skill_code IN ('RALLY','ARTILLERY')", 'coup-rebel:' + roundId),
+      p(env, "UPDATE coup_skill_cooldowns_v2118 SET next_use_at=next_use_at-CASE WHEN skill_code='RALLY' THEN 900000 ELSE 300000 END WHERE appointment_id=? AND skill_code IN ('RALLY','ARTILLERY','AIR_SUPPORT')", 'coup-rebel:' + roundId),
       p(env, 'UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=?', JSON.stringify(globalAfter), SETTINGS),
       p(env, 'INSERT INTO app_meta(key, value) VALUES(?,?)', operationKey, JSON.stringify(result)),
       clearGuard(env, token + ':settings'), clearGuard(env, token + ':combat'), clearGuard(env, token)
@@ -134,15 +134,15 @@ export async function joinCoupRound(env, deps, user, body, now = Date.now()) {
   return { ok: true };
 }
 
-// Round ownership, imprisonment and trial are committed together. A retry cannot
-// extend a sentence or reopen a vote. Historical coin penalty records stay intact.
+// Round completion, imprisonment and immediate succession commit together.
+// Retries cannot extend a sentence or create another term. Old trials stay intact.
 export async function settleCoupRound(env, id, now = Date.now()) {
   await ensureCoupSchema(env);
   const round = await getRound(env, id);
   if (!round || !['ACTIVE', 'SETTLING'].includes(round.status)) return;
   if (round.status === 'ACTIVE' && Number(round.ends_at) > now) return;
   await ensureClanCampSchema(env);
-  const winner = round.winner || deadlineWinner(round), cfg = coupSettings(parse(round.settings_json)), token = crypto.randomUUID();
+  const winner = round.winner || deadlineWinner(round), token = crypto.randomUUID();
   const statements = [chiefMetaLock(env), ...roundClaim(env, round, token, "AND status IN ('ACTIVE','SETTLING')"),
     p(env, "UPDATE coup_rounds_v2115 SET status='FINISHED',winner=?,finished_at=? WHERE id=?", winner, now, id)];
   const rebelPolicy = coupRebelDefeatPolicy();
@@ -152,16 +152,35 @@ export async function settleCoupRound(env, id, now = Date.now()) {
       p(env, `INSERT INTO event_prison_camps(event_id,source_type,title,reason,jailed_at,jailed_until) VALUES(?,'COUP','황궁 쿠데타 · 반란군',?,?,?)`, eventId, `반란군 패배 · ${rebelPolicy.hours}시간 수감`, sqlTime(now), sqlTime(now + rebelPolicy.hours * 3600000)),
       p(env, `INSERT INTO event_prison_captives(event_id,user_id,member_role) SELECT ?,user_id,'REBEL' FROM coup_participants_v2115 WHERE round_id=? AND side='REBEL'`, eventId, id));
   } else if (winner === 'REBEL') {
-    const eventId = `coup:${id}`, trialId = id;
+    const eventId = `coup:${id}`;
+    const chiefRaw = (await p(env, "SELECT value FROM app_meta WHERE key='chief_appointment_v1'").first())?.value;
+    const current = parse(chiefRaw), replace = current.id === round.appointment_id && Number(current.userId) === Number(round.chief_user_id);
+    const commander = replace ? await rebelCommander(env, round) : null;
+    if (replace && (!commander?.enrolled || !['USER','OWNER'].includes(commander.role))) fail('참가 중인 활성 반란군 지휘관을 지정한 뒤 정산하세요.');
+    const succession = {status: replace ? 'APPOINTED' : 'SUPERSEDED', roundId: id, previousAppointmentId: round.appointment_id,
+      previousUserId: Number(round.chief_user_id), previousNickname: round.chief_name, at: now};
+    let next;
+    if (replace) {
+      const ordinal = /^[1-9]\d{0,3}$/.test(String(current.ordinal)) && Number(current.ordinal) < 9999 ? Number(current.ordinal) + 1 : null;
+      Object.assign(succession, {successorUserId: commander.userId, successorNickname: commander.nickname});
+      next = {id: crypto.randomUUID(), userId: commander.userId, nickname: commander.nickname, ordinal, source: 'COUP',
+        startsAt: new Date(now).toISOString(), endsAt: new Date(now + 7 * 86400000).toISOString(), inaugurationVersion: now, coupSuccession: succession};
+    }
+    statements.push(guard(env, token + ':appointment', "SELECT 1 WHERE COALESCE((SELECT value FROM app_meta WHERE key='chief_appointment_v1'),'')=?", chiefRaw ?? ''));
+    if (replace) statements.push(
+      guard(env, token + ':commander', `SELECT 1 FROM users u JOIN coup_participants_v2115 c ON c.user_id=u.id
+        WHERE u.id=? AND u.status='ACTIVE' AND COALESCE(u.role,'USER') IN ('USER','OWNER') AND c.round_id=? AND c.side='REBEL'`, commander.userId, id),
+      p(env, "UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key='chief_appointment_v1'", JSON.stringify(next)));
     statements.push(
       p(env, `INSERT INTO event_prison_camps(event_id,source_type,title,reason,jailed_at,jailed_until) VALUES(?,'COUP','황궁 쿠데타','족장팀 패배 · 황궁 함락',?,?)`, eventId, sqlTime(now), sqlTime(now + CLAN_CAMP_HOURS * 3600000)),
       p(env, `INSERT INTO event_prison_captives(event_id,user_id,member_role)
         SELECT ?,user_id,CASE WHEN user_id=? THEN 'CHIEF' ELSE 'LOYALIST' END FROM coup_participants_v2115 WHERE round_id=? AND side='CHIEF'`, eventId, round.chief_user_id, id),
       p(env, "INSERT OR IGNORE INTO event_prison_captives(event_id,user_id,member_role) VALUES(?,?,'CHIEF')", eventId, round.chief_user_id),
-      p(env, `INSERT INTO coup_trials_v2115(id,round_id,appointment_id,defendant_id,defendant_name,starts_at,ends_at) VALUES(?,?,?,?,?,?,?)`, trialId, id, round.appointment_id, round.chief_user_id, round.chief_name, now, now + cfg.trialMinutes * 60000),
-      p(env, `INSERT INTO coup_electorate_v2115(trial_id,user_id) SELECT ?,id FROM users WHERE status='ACTIVE' AND COALESCE(role,'USER') IN ('USER','OWNER')`, trialId),
-      p(env, `INSERT INTO chief_duty_cases_v2115(appointment_id,trial_id,status) VALUES(?,?,'OPEN')
-        ON CONFLICT(appointment_id) DO UPDATE SET trial_id=excluded.trial_id,status='OPEN'`, round.appointment_id, trialId));
+      p(env, `INSERT INTO chief_duty_cases_v2115(appointment_id,trial_id,status) VALUES(?,?,'REMOVED')
+        ON CONFLICT(appointment_id) DO UPDATE SET trial_id=excluded.trial_id,status='REMOVED'`, round.appointment_id, id),
+      p(env, 'UPDATE coup_rounds_v2115 SET settings_json=? WHERE id=?', JSON.stringify({...parse(round.settings_json), succession}), id),
+      p(env, 'INSERT INTO app_meta(key,value) VALUES(?,?)', 'coup_succession_v2123:' + id, JSON.stringify(succession)),
+      clearGuard(env, token + ':appointment'), clearGuard(env, token + ':commander'));
   }
   statements.push(clearGuard(env, token));
   try { await atomic(env, statements); }
@@ -183,7 +202,7 @@ export async function pulseCoup(env, now = Date.now(), cached = false) {
   await ensureCoupSchema(env);
   // PERF-0919: 정산 대상 라운드·재판을 한 문장으로 읽는다. 로그인한 모든 요청의 감옥 게이트가
   //   isolate 당 1초마다 이 경로를 타므로 PostgreSQL 에서 1왕복이 줄어든다.
-  //   라운드 정산이 새로 여는 재판은 마감이 미래라 같은 펄스에서 닫힐 대상이 아니다.
+  //   신규 패배는 즉시 족장 교체하며, 과거에 열린 재판만 함께 마감한다.
   const due = all(await p(env, "SELECT 'ROUND' due_kind,id FROM coup_rounds_v2115 WHERE status='SETTLING' OR (status='ACTIVE' AND ends_at<=?) UNION ALL SELECT 'TRIAL' due_kind,id FROM coup_trials_v2115 WHERE status='OPEN' AND ends_at<=?", now, now).all());
   const rounds = due.filter(row => row.due_kind === 'ROUND'), trials = due.filter(row => row.due_kind === 'TRIAL');
   for (const r of rounds) { try { await settleCoupRound(env, r.id, now); } catch (e) { if (e.status !== 409) throw e; } }
@@ -277,14 +296,15 @@ export async function attackCoup(env, deps, user, body, now = Date.now()) {
 async function rebelCommander(env, round) {
   const id = coupRebelCommanderId(round?.id, parse(round?.settings_json));
   if (!id) return null;
-  const row = await p(env, `SELECT u.id,u.nickname,c.side FROM users u LEFT JOIN coup_participants_v2115 c ON c.user_id=u.id AND c.round_id=? WHERE u.id=? AND u.status='ACTIVE'`, round.id, id).first();
-  return row && (!row.side || row.side === 'REBEL') ? { userId: Number(row.id), nickname: row.nickname, temporary: true, enrolled: row.side === 'REBEL' } : null;
+  const row = await p(env, `SELECT u.id,u.nickname,u.role,c.side FROM users u LEFT JOIN coup_participants_v2115 c ON c.user_id=u.id AND c.round_id=? WHERE u.id=? AND u.status='ACTIVE'`, round.id, id).first();
+  return row && (!row.side || row.side === 'REBEL') ? { userId: Number(row.id), nickname: row.nickname, role: row.role || 'USER', temporary: true, enrolled: row.side === 'REBEL' } : null;
 }
 export async function useCoupChiefSkill(env, user, body, now = Date.now()) {
   await ensureCoupSchema(env);
   const id = String(body.roundId || ''), requestId = String(body.requestId || ''), code = String(body.skillCode || '');
   const skill = COUP_CHIEF_SKILLS.find(s => s.code === code);
   if (!skill || !/^[A-Za-z0-9:_-]{8,80}$/.test(requestId)) fail('스킬과 요청 번호를 확인하세요.', 400);
+  const siegeAttack = code === 'ARTILLERY' || code === 'AIR_SUPPORT';
   const old = await p(env, 'SELECT * FROM coup_skills_v2118 WHERE request_id=?', requestId).first();
   if (old) {
     if (Number(old.user_id) !== Number(user.id) || old.round_id !== id || old.skill_code !== code) fail('다른 스킬의 요청 번호입니다.', 403);
@@ -303,17 +323,17 @@ export async function useCoupChiefSkill(env, user, body, now = Date.now()) {
   } else {
     commander = await rebelCommander(env, round);
     if (!commander?.enrolled || commander.userId !== Number(user.id)) fail('이번 회차에 반란군으로 참가한 지휘관만 사용할 수 있습니다.', 403);
-    if (!COUP_REBEL_SKILLS.some(s => s.code === code)) fail('반란군은 야포단 포격과 결사대 결집만 사용할 수 있습니다.', 403);
+    if (!COUP_REBEL_SKILLS.some(s => s.code === code)) fail('반란군은 야포단 포격·공중폭격 지원·결사대 결집을 사용할 수 있습니다.', 403);
   }
   if (code === 'NUCLEAR' && !(await readCoupSkillSettings(env)).nuclearEnabled) fail('원자폭탄은 운영자가 ON으로 전환하기 전까지 잠겨 있습니다.', 403);
   const cooldownKey = side === 'REBEL' ? 'coup-rebel:' + round.id : round.appointment_id;
   const cooldown = await p(env, 'SELECT next_use_at FROM coup_skill_cooldowns_v2118 WHERE appointment_id=? AND skill_code=?', cooldownKey, code).first();
   if (Number(cooldown?.next_use_at || 0) > now) fail('이 스킬은 재사용 대기 중입니다. 화면의 남은 시간을 확인하세요.', 429);
   const targetSide = code === 'RALLY' ? side : side === 'CHIEF' ? 'REBEL' : 'CHIEF';
-  const candidates = code === 'ARTILLERY' ? [] : all(await p(env, `SELECT c.user_id FROM coup_participants_v2115 c JOIN users u ON u.id=c.user_id WHERE c.round_id=? AND c.side=? AND u.status='ACTIVE' ORDER BY c.user_id`, id, targetSide).all());
+  const candidates = siegeAttack ? [] : all(await p(env, `SELECT c.user_id FROM coup_participants_v2115 c JOIN users u ON u.id=c.user_id WHERE c.round_id=? AND c.side=? AND u.status='ACTIVE' ORDER BY c.user_id`, id, targetSide).all());
   const targets = code === 'NUCLEAR' ? chooseNuclearTargets(candidates) : candidates;
-  if (code !== 'ARTILLERY' && !targets.length) fail('스킬을 적용할 참가자가 없습니다.');
-  const damage = code === 'ARTILLERY' ? Math.min(Number(targetSide === 'CHIEF' ? round.chief_hp : round.rebel_hp), Math.floor(Number(round.max_hp) * 0.3)) : 0;
+  if (!siegeAttack && !targets.length) fail('스킬을 적용할 참가자가 없습니다.');
+  const damage = siegeAttack ? Math.min(Number(targetSide === 'CHIEF' ? round.chief_hp : round.rebel_hp), Math.floor(Number(round.max_hp) * 0.3)) : 0;
   const next = advanceFront(round, damage ? targetSide : null, damage);
   const token = crypto.randomUUID();
   const result = { ok: true, requestId, roundId: id, skillCode: code, skillName: skill.name, chiefName: commander.nickname,

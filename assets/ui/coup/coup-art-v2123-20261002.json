@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-02",
+  "tool": "image_gen.imagegen",
+  "assets": [
+    {
+      "name": "공중폭격 지원",
+      "file": "air-support-v2123-20261002.png",
+      "generatedOriginal": "C:/Users/User/.codex/generated_images/01a0faef-0b46-7213-a20e-2b8efb31387b/exec-45a8a34b-28b1-4eb6-afea-435f9d7fb041.png",
+      "sha256": "D5D1F459762A49A3DF89D297288207E89E2B1944BC5A812618B48A3301098172",
+      "brief": "Modern fighter aircraft supporting a battlefield, a large fighter in the upper left and two distant fighters, midnight navy clouds, orange bombing impacts on military fortifications. Cinematic polished 2D game illustration matching existing artillery and special forces skill assets. No people, lettering, UI or borders.",
+      "size": [1536, 1024],
+      "transparent": false
+    },
+    {
+      "name": "쿠데타 성공 · 여성 지휘관",
+      "file": "coup-succession-v2123-20261002.png",
+      "generatedOriginal": "C:/Users/User/.codex/generated_images/01a0faef-0b46-7213-a20e-2b8efb31387b/exec-307cbadb-ea54-46ec-a9bf-8c32670d835b.png",
+      "sha256": "8CE5AC6DCCE556714D61B60F6284C1A925595601EAF71666C40C1F402C924B7A",
+      "referencedImages": [],
+      "prompt": "Use case: stylized-concept. Asset type: brand-new premium coup-success cinematic lobby splash illustration, landscape 1536x1024. Scene: an ominous occupied imperial palace at night after a coup, immense dark stone gates, stormy charcoal sky, heavy smoke, scattered embers, cold searchlight beams, dark crimson fictional banners. A grim solemn atmosphere of fear, iron authority, a fallen regime and absolute power. Subject: exactly ONE adult female military commander, an entirely original fictional woman, no other people. She stands prominently on the LEFT third in a commanding waist-up to thigh-up three-quarter stance, mature beautiful sharply readable face, cold unwavering gaze, unsmiling stern expression and strong controlled posture. Smooth naturally flowing dark hair, tasteful modern charcoal-black officer uniform under a long structured military coat with restrained brass details, dark leather gloves, no exaggerated armor or excessive ornaments. Do not portray a cheerful cute idol, do not use a royal ball gown or crown. No avatar, celebrity, photograph, earlier poster, earlier faces, earlier characters or specific person as reference. Her dignity and presence must be imposing and frightening. Cinematic polished 2D semi-real game splash art, refined painterly finish, facial readability, natural adult body proportions, organic continuous hair strands rather than segmented plates. High-contrast desaturated navy-black and gunmetal, blood-red banners, distant amber fire and cold rimlight. The central RIGHT half should remain atmospheric dark smoke and palace architecture with low detail to support large live Korean coup/replacement UI text. Single unified scene, not panels. Do not draw any typography, logos, watermarks, date, names, UI, frame or borders. No gore, corpses or foreground crowds. The image fills the whole canvas and is NOT transparent. This must be a wholly new composition and character, with no resemblance to the earlier two-woman coup poster.",
+      "size": [1536, 1024],
+      "transparent": false,
+      "review": "Single stern adult female commander, ominous occupied palace, continuous natural hair, no old poster/avatar reference. Replacement wording is rendered by the live UI using actual chief names."
+    }
+  ]
+}
