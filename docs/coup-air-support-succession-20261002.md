@@ -28,3 +28,9 @@
 공통 인증·DB 기반·마이그레이션·의존성을 바꾸지 않는 쿠데타 국소 변경이다. `tests/coup-palace-v2115.test.mjs`의 SQLite/PostgreSQL 피해·권한·쿨타임·재시도/동시 요청·롤백·직무 교체·과거 재판 회귀와 `tests/queen-coronation-v1.test.mjs`의 팝업 분기/숨김을 선정한다. Worker 컴파일·출시 플래그·캐시·Hyperdrive 확인 후 `npm run deploy:production -- --scoped`로 한 번 배포한다. 실제 전선·명단·체력·진행 중 쿨타임을 초기화하지 않는다.
 
 첫 scoped 사전 실행은 72개 중 69개 통과로 운영 업로드 전에 중단됐다. 핵심 공중폭격·즉시 교체/롤백은 양 DB에서 통과했다. fixture에 반란군 지휘관을 기본 배정하면서 기존 차단 검사가 지휘관(ID 2)을 일반 참가자로 보던 두 실패는 일반 참가자(ID 3)를 검사하도록 수정했다. 별도 `chief-burning-v1918`는 과거 서비스워커 캐시 문자열 v1941을 요구하는 기존 오류였으며 현재 운영 v2108과 관련이 없다. 이 무관한 검사·서비스워커는 정비하지 않았다. 동일 팝업 실행 코드에서 5/5 통과한 queen 회귀는 반복하지 않고, fixture 검사 수정의 직접 영향 범위인 coup 파일만 최종 scoped 게이트에서 다시 실행한다.
+
+최종 결과: coup **66/66**, 동일 팝업 코드 **5/5**, Worker 컴파일·출시 잠금·캐시·Hyperdrive 통과. 운영 소스 `f1c751a94e346fe86ba1573e992b9d9e62f6d5d1`, Pages `55d4e033-a40f-4223-a932-4111b2b9d361` (`https://55d4e033.cnine-card.pages.dev`), API runtime `702055e1-2720-428b-9667-83c41ba3f0bd`, clan worker `dda34121-4cf0-4cf4-9f07-af867c6d3547`로 배포 완료했다. `cnine-card.pages.dev`의 최신 스크립트 쿼리와 새 PNG 두 장의 HTTP 200·SHA-256 일치를 확인했다.
+
+2026-10-03 00:08:23 KST의 운영 DB **READ ONLY** 확인에서 현재 회차 ACTIVE·최대 HP 10,000,000·85/64명을 보존했다. 같은 배포 소스의 `coupStatus`를 두 지휘관으로 확인해 공중폭격 enabled·지휘 권한 true·족장 1,800,000ms·반란군 1,500,000ms, 회복 120,000/90,000ms·원폭 OFF를 검증했다. 실제 플레이로 양 지휘관의 AIR_SUPPORT 쿨타임 값이 이미 저장된 상태이며 검수에서 발동·초기화하지 않았다. 족장은 아직 하이희야♡이고 실제 반란군 승리 시에만 진짜디임으로 교체된다. 실행·로그·운영 상태는 외부 검수 폴더의 `coup-v2123-verify.mjs`, `coup-v2123-live-verification.json`, `coup-v2123-deploy.log`에 보존했다.
+
+운영 OWNER CMS에서도 쿠데타 ON·85/64명·기존 종료 시각 02:12:41·반란군 공중폭격 25분·족장팀 패배 시 즉시 교체 문구를 확인했다. 실제 운영 화면은 같은 외부 폴더 `coup-v2123-live-admin.png`에 저장했다.
