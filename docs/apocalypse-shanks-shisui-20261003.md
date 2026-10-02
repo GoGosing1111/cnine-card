@@ -34,3 +34,11 @@ CMS의 군단 보스별 입력으로 조절하며 토벌 화면에도 표시한�
 지정 명령은 `npm run deploy:production -- --scoped`다. 이미 실행한 서버 검사를 반복하지 않고 남은 기존 보스/SD/공용 진형 검사를 선택한다: `tests/apocalypse-signature-v2048.test.mjs`, `tests/project-v-apocalypse-boss-sd-v1958.test.mjs`, `tests/v3-common-grid-v1.test.mjs`. 배포 도구가 요구하는 `tests/pve-battlefield-entry-v2117.test.mjs`, `check:worker`, 출시 플래그·캐시·Hyperdrive·깨끗한 커밋 검사는 유지한다.
 
 배포된 16개 리소스의 SHA-256을 확인한 뒤 고정 키 `ops:apocalypse-shanks-shisui-release:20261003:v1`로 두 행·CMS 설정·감사 로그·영수증을 한 트랜잭션에 등록한다. 사전 실행은 롤백했으며 실제 등록에서만 기존 PostgreSQL identity sequence를 nextval로 필요한 만큼 앞으로 진행한다. setval로 되감지 않는다. 이후 독립 읽기 전용 연결로 새 보스·기존 설정 보존·감사 로그 1건을 확인한다.
+
+## 운영 반영
+
+소스 `14237d04d9764dfdaae88dabc03f52c3b5922cda`를 지정 scoped 명령으로 배포했다. 추가 범위 검사 25/25, Worker 컴파일·출시 보호·Hyperdrive 캐시 OFF 검사가 통과했다. Pages는 `https://ac3a24ec.cnine-card.pages.dev`, API 런타임은 `5b327e99-e1e4-404e-b9cd-eed88a64bfca`, 클랜 워커는 `4c0dabdf-427e-471b-9f77-7962c03b548e`다.
+
+운영 리소스 16개와 진입/CMS/공용 런타임 9개 파일은 로컬과 SHA-256이 일치했다. 두 보스를 한 번 등록했고 감사 로그는 **40163**이다. 독립 읽기 전용 연결에서 전투력·궁극기·슈트 방어 및 기존 설정 보존을 확인했다. 실제 CMS에서도 샹크스 35%·시스이 50% 입력을 확인했다.
+
+모바일 CMS 검수에서는 기존 `aside{height:100vh}`가 상단 메뉴의 배경으로 화면 전체를 가렸다. 새 입력의 값과 너비는 정상이었다. 전투관리 화면이 열려 있고 800px 이하일 때에 한해 메뉴 높이를 auto로 보정한다. 다른 CMS 화면과 데스크톱에는 적용하지 않는다. 이 CSS·캐시 수정은 위 소스를 기준으로 최소 scoped 후속 배포하며 이미 통과한 전투/자산 검사는 반복하지 않는다.
