@@ -212,6 +212,13 @@
     "baselinePagesId": "3bf173d3-5808-4615-9436-428e1f99d035",
     "runtime": "20261002-hp-sync-v1",
     "command": "npm run deploy:production -- --scoped",
-    "status": "PENDING_VERIFICATION"
+    "status": "PENDING_VERIFICATION",
+    "firstGate": {
+      "tests": 55,
+      "passed": 53,
+      "failed": 2,
+      "deploymentStarted": false,
+      "classification": "Pre-existing static assertions: before/after banner calls both 35 vs stale expected 33; existing mixed-case shell cache does not match lower-case-only regex."
+    }
   }
 }

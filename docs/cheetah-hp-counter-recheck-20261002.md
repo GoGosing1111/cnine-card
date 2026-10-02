@@ -39,6 +39,8 @@
 
 직전 운영 배포는 Cloudflare 조회로 확인한 `b311b2e3a75429ba2208aec3e5eb5643e2af529e`(Pages `3bf173d3-5808-4615-9436-428e1f99d035`)다. 구조·인증·DB 변경 없이 공통 HP바의 국소 계산을 고치는 작은 변경이므로 `npm run deploy:production -- --scoped`를 사용한다.
 
-선택 검사: `tests/v3-hp-max-sync-20261002.test.mjs`, `tests/project-v-v3-live-payload-v1.mjs`, `tests/project-v-v3-nonblocking-fx-v2060.test.mjs`, `tests/battle-suit-skill-chip-runtime-v2046.test.mjs`, 자동 추가되는 `tests/pve-battlefield-entry-v2117.test.mjs`. 출시 플래그·캐시·깨끗한 커밋·Hyperdrive 확인은 지정 배포 도구에서 유지한다. 전체 게임 검사는 실행하지 않는다.
+선택 검사: `tests/v3-hp-max-sync-20261002.test.mjs`, `tests/project-v-v3-live-payload-v1.mjs`, `tests/battle-suit-skill-chip-runtime-v2046.test.mjs`, 자동 추가되는 `tests/pve-battlefield-entry-v2117.test.mjs`. 출시 플래그·캐시·깨끗한 커밋·Hyperdrive 확인은 지정 배포 도구에서 유지한다. 전체 게임 검사는 실행하지 않는다.
+
+첫 scoped 검사에서는 위 관련 검사와 기존 비차단 재생 검사의 행동 항목이 통과했으나, `project-v-v3-nonblocking-fx-v2060`의 정적 검사 2개가 실패해 배포 전에 중단했다(55개 중 53개 통과). 해당 검사는 전체 번들 배너 호출 수와 과거 소스 일부의 호출 수를 같게 고정하고, 셸 캐시 이름에 소문자만 허용한다. 직전 운영 커밋과 수정본 모두 배너 호출이 35개로 동일하며 기존 검사 기준은 33개다. 기존 셸 캐시의 `furFrames14` 역시 이미 소문자 정규식에 맞지 않는다. 두 항목의 불일치가 이번 수정 전 운영 버전에서도 존재함을 원문 비교로 확인했다. 관련되지 않은 캐시·배너 구현이나 오래된 검사를 정비하지 않고 기록만 남기며, 실제 버그 회귀·번들/로더·스킬칩·전투 진입 검사를 선택해 scoped 경로를 마무리한다.
 
 운영 적용 완료 여부와 배포 식별자는 검증 후 같은 이름의 JSON에 기록한다.
