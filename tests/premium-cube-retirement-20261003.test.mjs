@@ -49,6 +49,7 @@ test('retired cube rewards are dropped from legacy raid settings, saved plans an
 });
 test('client and CMS have no cube controls, acquisition animations or FUR assist settings',()=>{
  for(const text of [app,read('admin/admin-v1276.js'),read('admin/index.html'),read('index.html'),read('js/battle-v2-live.js'),read('js/captain.js'),read('js/tower-v1038.js')])assert.doesNotMatch(text,/weekly-premium-cube-status|showCubeDropAcquisition|furFirstManager|cubeManagementMount|data-view="cubes"|PREMIUM_CUBE|cube-drop-v1072|fur-first-pity-admin/);
+ assert.equal(read('index.html').match(/js\/app\.js\?v=([^"'&]+)/)[1],read('service-worker.js').match(/soop-card-shell-v([^']+)/)[1]);
 });
 test('stripping cube entries retains every other reward and does not mutate the input',()=>{
  const input={rewards:[{type:'PREMIUM_CUBE',amount:1},{type:'COIN',amount:8},{itemCode:'EQUIPMENT_SUPPLY_BOX',amount:2}],premiumCube:5,siegeParticipationCubeQuantity:10,inventory:{PREMIUM_CUBE:2,MASTER_STAR:7},quest:{enabled:true,rewardType:'PREMIUM_CUBE',rewardAmount:3},mode:'ON'};
