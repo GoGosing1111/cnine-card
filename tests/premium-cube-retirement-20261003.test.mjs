@@ -99,7 +99,7 @@ test('backup failure or a late audit failure rolls back the entire purge, includ
   await assert.rejects(retirePremiumCube(f.client,{backup:async()=>{throw Error('backup failed')}}),/backup failed/);
   const client={query:(sql,parameters)=>sql.startsWith('INSERT INTO admin_logs')?Promise.reject(Error('audit failed')):f.client.query(sql,parameters)};
   await assert.rejects(retirePremiumCube(client,{backup:async()=>{}}),/audit failed/);
-  assert.equal((await f.rows("SELECT SUM(quantity) count FROM cnine_user_inventory WHERE item_code='PREMIUM_CUBE'"))[0].count,15);
+  assert.equal(Number((await f.rows("SELECT SUM(quantity) count FROM cnine_user_inventory WHERE item_code='PREMIUM_CUBE'"))[0].count),15);
   for(const table of RETIRED_STATE_TABLES)assert.equal((await f.rows(`SELECT COUNT(*) count FROM ${table}`))[0].count,1);
   assert.equal((await f.rows('SELECT COUNT(*) count FROM inventory_logs'))[0].count,0);assert.equal((await f.rows('SELECT COUNT(*) count FROM user_message_rewards'))[0].count,4);
   const dry=await retirePremiumCube(f.client,{backup:async()=>{},dryRun:true});assert.equal(dry.inventoryQuantity,15);assert.equal(dry.dryRun,true);
