@@ -4,6 +4,7 @@ import http from 'node:http';
 import os from 'node:os';
 import path from 'node:path';
 import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 import {pingduThanksGiftFixture} from './helpers/pingdu-thanks-gift-fixture.mjs';
 import {PINGDU_THANKS_GIFT as gift,ensurePingduThanksGiftCatalog,grantPingduThanksGift,openPingduThanksGift} from '../functions/_pingdu_thanks_gift.js';
@@ -12,6 +13,9 @@ const root=fileURLToPath(new URL('../',import.meta.url)),out=process.env.PINGDU_
 fs.mkdirSync(out,{recursive:true});
 const f=await pingduThanksGiftFixture();await ensurePingduThanksGiftCatalog(f.env);
 const read=p=>fs.readFileSync(path.join(root,p),'utf8'),api=read('functions/api/[[path]].js'),admin=read('admin/admin-v1276.js');
+const legacyCommit=process.env.PINGDU_THANKS_LEGACY_COMMIT;
+const legacy=legacyCommit?Object.fromEntries(['index.html','js/app.js','service-worker.js'].map(file=>[file,execFileSync('git',['show',legacyCommit+':'+file],{cwd:root,encoding:'utf8',maxBuffer:2_000_000})])):null;
+let releasePhase='current',legacyShellOnce=false,failNextGiftModule=false;
 const AsyncFunction=Object.getPrototypeOf(async()=>{}).constructor,locks=[],requests=[];
 const adminRoute=new AsyncFunction('deps',`const {env,request,requirePermission,readBody,json,isForgeTicketGrant,grantPingduThanksGift,withJointUserMutationLock}=deps;const path='admin/users/action';${api.slice(api.indexOf("    if(path==='admin/users/action'"),api.indexOf("    if(path==='admin/users/inventory-audit'"))}`);
 const openRoute=new AsyncFunction('deps',`const {env,request,authenticate,readBody,json,openPingduThanksGift}=deps;const path='inventory/use';${api.slice(api.indexOf("    if(path==='inventory/use'"),api.indexOf('      if(itemCode===TOURNAMENT_GIFT.code)'))}}`);
@@ -27,6 +31,12 @@ const send=(res,status,data,type='application/json')=>{res.writeHead(status,{'co
 let loseNextOpenResponse=false;
 const server=http.createServer(async(req,res)=>{try{
   const pathname=new URL(req.url,'http://localhost').pathname;
+  const shell=pathname==='/'?'index.html':pathname.slice(1);
+  if(legacy&&legacy[shell]&&(releasePhase==='legacy'||(shell==='index.html'&&legacyShellOnce))){
+    if(releasePhase!=='legacy')legacyShellOnce=false;
+    return send(res,200,legacy[shell],mime[path.extname(shell)]);
+  }
+  if(pathname==='/js/pingdu-thanks-gift-v1.js'&&failNextGiftModule){failNextGiftModule=false;return send(res,503,'temporary resource failure','text/javascript');}
   if(pathname==='/qa/pingdu/admin'){
     const dialog=read('admin/index.html').match(/<dialog[^>]*id="userDialog"[\s\S]*?<\/dialog>/)?.[0];assert.ok(dialog);
     return send(res,200,`<!doctype html><html lang="ko"><head><base href="/admin/"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="admin-v945.css"><style>dialog{max-width:calc(100vw - 24px)}</style></head><body>${dialog}<script>
@@ -64,12 +74,15 @@ const server=http.createServer(async(req,res)=>{try{
   res.writeHead(200,{'content-type':mime[path.extname(file)]||'application/octet-stream','cache-control':'no-store'});fs.createReadStream(file).pipe(res);
 }catch(error){send(res,500,{error:error.message});}});
 await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
-const base='http://127.0.0.1:'+server.address().port,browser=await chromium.launch({channel:'chrome',headless:true,args:['--mute-audio']}),checks=[];
+const base='http://127.0.0.1:'+server.address().port,browser=await chromium.launch({channel:'chrome',headless:true,args:['--mute-audio']}),checks=[],diagnostics=[];
 const ready=page=>page.locator('#inventoryVault[aria-busy="false"]').waitFor({timeout:15000});
 try{
   for(const viewport of [{width:1440,height:1000},{width:390,height:844}]){
-    const page=await browser.newPage({viewport,serviceWorkers:'block'}),errors=[],confirmed=[];
+    releasePhase=legacy?'legacy':'current';
+    const page=await browser.newPage({viewport,serviceWorkers:'allow'}),errors=[],confirmed=[];
     page.on('pageerror',e=>errors.push(e.message));page.on('dialog',async d=>{confirmed.push(d.message());await d.accept();});
+    page.on('pageerror',e=>diagnostics.push({kind:'pageerror',message:e.message}));
+    page.on('console',message=>{if(message.type()==='error')diagnostics.push({kind:'console',message:message.text()});});
     await page.addInitScript(user=>{
       localStorage.setItem('cnine_card_user_v10',JSON.stringify(user));localStorage.setItem('cnine_card_api_token','local-gift-qa');
       localStorage.setItem('cnine_bgm_enabled','0');localStorage.setItem('cnine_battle_sound','OFF');
@@ -82,10 +95,30 @@ try{
     assert.equal(await f.quantity(),1);for(const word of ['핑두의 감사 선물','3,000억','500만','미스틱 에너지 1,000개','리페어쿠폰 1개'])assert.ok(confirmed[0].includes(word));
     const before={coin:(await f.one('SELECT coin FROM users WHERE id=1')).coin,stars:await f.quantity('MASTER_STAR'),energy:await f.quantity('STARLIGHT_ARMOR_CORE'),coupons:await f.quantity('PINGDU_REPAIR_COUPON')};
     await page.goto(base+'/?screen=inventory',{waitUntil:'domcontentloaded'});await ready(page);
+    const chooseAndUse=async()=>{
+      await page.locator('[data-inventory-select="'+gift.code+'"]').click();
+      const detail=viewport.width<700?'#inventoryDetailDialog':'#inventoryDetail';
+      await page.locator(detail+' [data-inventory-use="'+gift.code+'"]').click();
+    };
+    let legacyErrorReproduced=false,oldShellRecovered=false,failedLoadRecovered=false;
+    if(legacy){
+      await page.evaluate(async()=>{await navigator.serviceWorker.register('/service-worker.js',{scope:'/',updateViaCache:'none'});await navigator.serviceWorker.ready;});
+      await page.waitForFunction(()=>Boolean(navigator.serviceWorker.controller));
+      await chooseAndUse();assert.equal(confirmed.at(-1),'이 아이템의 사용 화면을 찾을 수 없습니다.');
+      assert.equal(await f.quantity(),1);legacyErrorReproduced=true;
+      releasePhase='current';legacyShellOnce=true;failNextGiftModule=true;
+      await page.reload({waitUntil:'domcontentloaded'});
+      await page.getByRole('button',{name:/인벤토리/}).first().click();await ready(page);
+      assert.equal(await page.evaluate(()=>typeof window.PingduThanksGiftV1),'undefined','The legacy shell contains no eager gift module');
+      const priorAlerts=confirmed.length,priorRequests=requests.length;
+      const loadFailure=page.waitForEvent('dialog',{predicate:dialog=>dialog.message().includes('감사 선물 화면을 불러오지 못했습니다.')});
+      await chooseAndUse();await loadFailure;assert.equal(confirmed.length,priorAlerts+1);
+      assert.equal(confirmed.at(-1),'감사 선물 화면을 불러오지 못했습니다. 다시 눌러 주세요.');
+      assert.equal(requests.length,priorRequests);assert.equal(await f.quantity(),1);
+      failedLoadRecovered=true;oldShellRecovered=true;
+    }
     assert.equal(await page.locator('#modal').isVisible(),false);
-    await page.locator('[data-inventory-select="'+gift.code+'"]').click();
-    const detail=viewport.width<700?'#inventoryDetailDialog':'#inventoryDetail';
-    await page.locator(detail+' [data-inventory-use="'+gift.code+'"]').click();
+    await chooseAndUse();
     const panel=page.locator('.pingdu-thanks-gift-panel');await panel.locator('img').evaluate(img=>img.decode());await page.evaluate(()=>document.fonts.ready);
     assert.equal(await f.quantity(),1,'Preview cannot consume a box');
     assert.ok((await panel.innerText()).includes('3,000'));assert.ok((await panel.innerText()).includes('500'));
@@ -108,8 +141,13 @@ try{
     await panel.screenshot({path:path.join(out,'result-'+viewport.width+'.png')});
     await page.getByRole('button',{name:'인벤토리로 돌아가기'}).click();await ready(page);
     assert.equal(await page.locator('#inventoryGiftRecovery').isVisible(),false);assert.deepEqual(errors,[]);
-    checks.push({width:viewport.width,height:viewport.height,cmsGrant:true,allFourRewards:true,previewConsumesNothing:true,navyLimeMeta:true,closeTouchSize:styles.closeWidth,horizontalOverflow:styles.overflow,recoveredResponse:viewport.width<700,duplicateRewards:0,errors});await page.close();
+    checks.push({width:viewport.width,height:viewport.height,legacyErrorReproduced,oldShellRecovered,failedLoadRecovered,installedServiceWorker:true,cmsGrant:true,allFourRewards:true,previewConsumesNothing:true,navyLimeMeta:true,closeTouchSize:styles.closeWidth,horizontalOverflow:styles.overflow,recoveredResponse:viewport.width<700,duplicateRewards:0,errors});await page.close();
   }
   fs.writeFileSync(path.join(out,'ui-report.json'),JSON.stringify({ok:true,checks,locks},null,2));console.log(JSON.stringify({ok:true,out,checks}));
-}catch(error){fs.writeFileSync(path.join(out,'failure.txt'),String(error.stack));throw error;}
+}catch(error){
+  const page=browser.contexts().flatMap(context=>context.pages()).at(-1);
+  const state=page?await page.evaluate(()=>({url:location.href,body:document.body.innerText.slice(0,2500),appClass:document.body.className,inventory:document.querySelector('#inventoryVault')?.outerHTML.slice(0,500)})):null;
+  fs.writeFileSync(path.join(out,'failure.txt'),String(error.stack));fs.writeFileSync(path.join(out,'failure-state.json'),JSON.stringify({diagnostics,state},null,2));
+  if(page)await page.screenshot({path:path.join(out,'failure.png'),fullPage:true});throw error;
+}
 finally{await browser.close();await new Promise(resolve=>server.close(resolve));await f.pg.close();}

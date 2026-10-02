@@ -114,6 +114,6 @@ test('CMS includes exact four rewards and retries the same grant ID after a lost
  await assert.rejects(ctx.userAction('INVENTORY'),/lost response/);await ctx.userAction('INVENTORY');assert.equal(sent[0].requestId,sent[1].requestId);assert.equal(store.size,0);
  for(const word of ['핑두의 감사 선물','3,000억','500만','리페어쿠폰 1개','미스틱 에너지 1,000개'])assert(confirmed[0].includes(word));
  assert(admin.includes('<option value="PINGDU_THANKS_GIFT_BOX">'));assert(read('admin/index.html').includes('<option value="PINGDU_THANKS_GIFT_BOX">핑두의 감사 선물</option>'));
- const html=read('index.html');assert(html.includes('js/pingdu-thanks-gift-v1.js?v=20261002'));assert(html.includes('pingduThanksGift=20261002'));
- assert(read('js/app.js').includes("if(itemCode==='PINGDU_THANKS_GIFT_BOX')return window.PingduThanksGiftV1.open"));
+ const html=read('index.html');assert(html.includes('pingduThanksGift=20261002'));assert(read('js/app.js').includes('js/pingdu-thanks-gift-v1.js?v=20261002-open-fix'));
+ assert.match(read('js/app.js'),/if\(itemCode==='PINGDU_THANKS_GIFT_BOX'\)\{\s*try\{\s*await ensureFeatureResources\('pingduThanksGift'\);\s*return window\.PingduThanksGiftV1\.open/);
 });

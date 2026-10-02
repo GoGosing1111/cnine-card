@@ -920,6 +920,11 @@ function bindFullscreenPlayLink(header){
 }
 
 const FEATURE_RESOURCE_MANIFEST={
+  pingduThanksGift:{
+    styles:['css/pingdu-thanks-gift-v1.css?v=20261002-open-fix'],
+    scripts:['js/pingdu-thanks-gift-v1.js?v=20261002-open-fix'],
+    ready:()=>typeof window.PingduThanksGiftV1?.open==='function'
+  },
   character:{
     styles:['css/equipment-forge-entry-v1.css?v=2084&loading=20260918','css/equipment-v1264.css?v=1497-load-control','css/character-loadout-v2.css?v=8-skill-chip-slots&enhanceGlow=20260923&lgHeeya=20260930&clanAvatars=20261001','css/character-skill-chips-v2046.css?v=1','css/achievement-titles-20260927.css?v=2-gambling-king'],
     scripts:['js/equipment-thumbnails-v1.js?v=20260918','js/equipment-v1274.js?v=2032-challenger-title&achievementTitles=20260927&gamblingKing=20260928','js/character-loadout-v2.js?v=2084-forge-public&loading=20260923-forge&enhanceGlow=20260923&achievementTitles=20260927&gamblingKing=20260928&lgHeeya=20260930','js/character-loadout-v2-live.js?v=2084-forge-public&loading=20260923-forge&achievementTitles=20260927'],
@@ -4171,7 +4176,12 @@ async function activateLandHyperTicket(){
 }
 async function openInventoryPack(itemCode,ownedQuantity=0){
   if(['SUPERSTAR_UPGRADE_13_TICKET','VEHICLE_PARTS_150_CHOICE'].includes(itemCode)){location.assign('/events/golden-axe/?use='+encodeURIComponent(itemCode));return;}
-  if(itemCode==='PINGDU_THANKS_GIFT_BOX')return window.PingduThanksGiftV1.open({apiRequest,clearApiCache,loadUser,saveUser,apiUserToLocal,renderShell},ownedQuantity);
+  if(itemCode==='PINGDU_THANKS_GIFT_BOX'){
+    try{
+      await ensureFeatureResources('pingduThanksGift');
+      return window.PingduThanksGiftV1.open({apiRequest,clearApiCache,loadUser,saveUser,apiUserToLocal,renderShell},ownedQuantity);
+    }catch(error){console.warn('감사 선물 화면 로드 실패:',error);alert('감사 선물 화면을 불러오지 못했습니다. 다시 눌러 주세요.');return;}
+  }
   if(itemCode==='RECRUITMENT_GIFT_BOX')return window.RecruitmentGiftV1.open({apiRequest,clearApiCache,loadUser,saveUser,apiUserToLocal,renderShell},ownedQuantity);
   if(itemCode==='FUNDING_GIFT_BOX')return window.FundingGiftV1.open({apiRequest,clearApiCache,loadUser,saveUser,apiUserToLocal,renderShell},ownedQuantity);
   if(itemCode==='TOURNAMENT_GIFT_BOX')return window.TournamentGiftV1.open({apiRequest,clearApiCache,loadUser,saveUser,apiUserToLocal,renderShell},ownedQuantity);
