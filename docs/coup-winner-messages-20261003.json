@@ -1,0 +1,38 @@
+{
+  "operationKey": "ops:coup:6a9e2006-6396-4037-b694-15cf5a37143b:winner-message:20261003:v1",
+  "roundId": "6a9e2006-6396-4037-b694-15cf5a37143b",
+  "status": "COMPLETED",
+  "winningSide": "CHIEF",
+  "delivery": "MESSAGE",
+  "recipients": 85,
+  "messages": 255,
+  "rewards": 255,
+  "recipientHash": "c1a412e853b2636eb6b104cb464609b87da6b88f2b0f44463fc0759f655de59a",
+  "coinPerAccount": "200000000000",
+  "mysticEnergyPerAccount": "1000",
+  "masterStarPerAccount": "1000000",
+  "totals": {
+    "coin": "17000000000000",
+    "mysticEnergy": "85000",
+    "masterStar": "85000000"
+  },
+  "sourceCommit": "df0fd3424f88bd9e1fb3c58ddfae97f102be2e8c",
+  "auditId": "40065",
+  "completedAt": "2026-10-02T16:42:39.446Z",
+  "verifiedAt": "2026-10-02T16:42:50.687Z",
+  "verification": {
+    "readOnly": true,
+    "messages": 255,
+    "rewards": 255,
+    "completionReceipts": 1,
+    "audits": 1,
+    "missing": 0,
+    "duplicates": 0,
+    "claimedPerReward": 1,
+    "pendingPerReward": 84,
+    "claimedBalanceDeltasMatch": true,
+    "scopedClaimTestsPassed": 8,
+    "dryRunRolledBack": true,
+    "connectionsClosed": true
+  }
+}
