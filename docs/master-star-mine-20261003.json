@@ -123,5 +123,141 @@
         ]
       }
     ]
+  },
+  "release": {
+    "at": "2026-10-02T22:29:12.360Z",
+    "source": "25cc734ea35466b97928f3c589c6c6154f6df205",
+    "pages": "https://ce7db6ce.cnine-card.pages.dev",
+    "apiVersion": "ccab6f25-a7c2-4e67-91f6-a2932c086f28",
+    "clanWorkerVersion": "a41d39ca-e750-4399-a954-0265efe72eaa",
+    "results": [
+      {
+        "path": "/master-star-mine/",
+        "status": 200,
+        "type": "text/html; charset=utf-8",
+        "bytes": 5903
+      },
+      {
+        "path": "/master-star-mine/live.mjs?v=20261003-1",
+        "status": 200,
+        "type": "application/javascript",
+        "bytes": 8648
+      },
+      {
+        "path": "/admin/",
+        "status": 200,
+        "type": "text/html; charset=utf-8",
+        "bytes": 85101
+      },
+      {
+        "path": "/js/adventure-lobby-v2107.js?mine=20261003",
+        "status": 200,
+        "type": "application/javascript",
+        "bytes": 87195
+      },
+      {
+        "path": "/api/master-star-mine/state",
+        "status": 401,
+        "type": "application/json;charset=UTF-8",
+        "bytes": 78,
+        "code": "MINE_AUTH"
+      },
+      {
+        "path": "/assets/ui/master-star-mine-v1/electric-drill.webp",
+        "status": 200,
+        "type": "image/webp",
+        "bytes": 91766,
+        "sha256": "342946f922624d5ba6a6fea5178a44c7101be3ab2318d4340069e6a14a46ef5c",
+        "matchesLocal": true
+      },
+      {
+        "path": "/assets/ui/master-star-mine-v1/solar-drill.webp",
+        "status": 200,
+        "type": "image/webp",
+        "bytes": 111208,
+        "sha256": "f38fb7a8ee77e5695187efa7ae68ea3e3404e7aa334c016dfd94b97ba8c362d8",
+        "matchesLocal": true
+      },
+      {
+        "path": "/assets/ui/master-star-mine-v1/golden-drill.webp",
+        "status": 200,
+        "type": "image/webp",
+        "bytes": 133000,
+        "sha256": "bdb8d2b99b2caee57f56612e87f9b8d5c348e1531494c3b2e622a36b596e1d7c",
+        "matchesLocal": true
+      },
+      {
+        "path": "/assets/ui/master-star-mine-v1/mine-background.webp",
+        "status": 200,
+        "type": "image/webp",
+        "bytes": 355410,
+        "sha256": "ee772946b97a8d7707b2635c349217f525124395c72d6177428de11fb39ff7cc",
+        "matchesLocal": true
+      }
+    ],
+    "fullGate": "PASS via preserved completed stages and verified resume; original logs retained",
+    "command": "npm run deploy:production",
+    "logs": [
+      {
+        "name": "deploy.log",
+        "sha256": "b8d101451713c7e85c5639f8b0c9e09941ffebb9551b7a360b5159941b48daf8"
+      },
+      {
+        "name": "deploy-resume.log",
+        "sha256": "e9bd93dca8ace2bbe22b25a3dfd42adc5be22a2eb73e1f42b456d6ed5e1fc69f"
+      },
+      {
+        "name": "deploy-resume-2.log",
+        "sha256": "2456c9833eef5ece4d595b362fdb02709bc3d51211fad09fa791340b5818f233"
+      },
+      {
+        "name": "deploy-resume-3.log",
+        "sha256": "8a9c0ed0e2db3a078a9878d37be10bb4432f9c61cb04f7d501aff00aa8ca936c"
+      },
+      {
+        "name": "deploy-resume-4.log",
+        "sha256": "bf68fa0bf801ed59532a2bdd6310e48d029b280ab0c9a0cb4d84e98a4bb6cf98"
+      }
+    ],
+    "provenance": [
+      {
+        "effectiveCandidate": "eb11ddaf3f3fb7a946f754737dd87e53d5cccd4f",
+        "prefixCandidate": "49234879e7493bacabc9767d217491c57d5b4a6c",
+        "originalLogSHA256": "b8d101451713c7e85c5639f8b0c9e09941ffebb9551b7a360b5159941b48daf8",
+        "resumedLogSHA256": "e9bd93dca8ace2bbe22b25a3dfd42adc5be22a2eb73e1f42b456d6ed5e1fc69f",
+        "joinBefore": "test:mercenary-codex",
+        "changedTestsExecutedInResumedSegment": [
+          "tests/mercenary-codex-public-v2061.test.mjs",
+          "tests/ranked-challenger-v2032.test.mjs",
+          "tests/ranked-reward-cap-v1980.test.mjs"
+        ],
+        "combinedSHA256": "5b094c8b0da54b137dacf0ce06ff239dd4225b00b433c1e4b5e0c27b4eb5ddf4"
+      },
+      {
+        "effectiveCandidate": "2061aad35d099304a681551ac5c2f65153adb0d4",
+        "prefix": "deploy-cumulative.log",
+        "prefixSHA256": "5b094c8b0da54b137dacf0ce06ff239dd4225b00b433c1e4b5e0c27b4eb5ddf4",
+        "resume": "deploy-resume-2.log",
+        "resumeSHA256": "2456c9833eef5ece4d595b362fdb02709bc3d51211fad09fa791340b5818f233",
+        "joinBefore": "test:prediction",
+        "changedTestsExecutedInResumedSegment": [
+          "tests/coin-prediction-matchday-v2033.test.mjs"
+        ],
+        "combinedSHA256": "8bb513d1502b5019b7bfc07d31a50efe1509a1be0b9cd63d97220a1f9f56a320"
+      },
+      {
+        "effectiveCandidate": "7d0a8b5805abda2254c64ed3cd7098098d20e4c1",
+        "prefix": "deploy-cumulative-2.log",
+        "prefixSHA256": "8bb513d1502b5019b7bfc07d31a50efe1509a1be0b9cd63d97220a1f9f56a320",
+        "resume": "deploy-resume-3.log",
+        "resumeSHA256": "8a9c0ed0e2db3a078a9878d37be10bb4432f9c61cb04f7d501aff00aa8ca936c",
+        "joinBefore": "test:superstar-pack",
+        "changedTestsExecutedInResumedSegment": [
+          "tests/superstar-enhancement-v1940.test.mjs"
+        ],
+        "combinedSHA256": "a3b55e7aee58571bc42638e51a7d15c17de6885e1ea9bc2b7693825db2f0202d"
+      }
+    ],
+    "unrelatedRuntimeChangesForTestRepairs": false
   }
 }
