@@ -15,7 +15,9 @@ test('public release opens cow and legacy tower while new tower economy and othe
  const state=v3JointReleaseState();assert.equal(state.enabled,false);assert.equal(state.publicContent.COW_ROOM.enabled,true);assert.equal(state.publicContent.TOWER.policy,'LEGACY');assert.equal(state.publicContent.TOWER.reAscentEnabled,false);assert.equal(state.connections.TOWER.run,'tower/fight');assert.equal(state.connections.TOWER.url,TOWER_LIVE_URL);
  const deps={json:(b,s=200)=>Response.json(b,{status:s}),authenticate:async()=>null},env={get DB(){throw Error('No anonymous DB access');}};
  for(const path of ['cow-room/v3/state','cow-room/v3/run','cow-room/v3/portals','scrapyard/v3/state','scrapyard/v3/run'])assert.equal((await handlePveV3({path,request:request(path),env,deps})).status,401);
- for(const path of ['tower/v3/run','idle-dungeon/v3/run'])assert.equal((await handlePveV3({path,request:request(path),env,deps})).status,423);
+ assert.equal((await handlePveV3({path:'tower/v3/run',request:request('tower/v3/run'),env,deps})).status,423);
+ const retired=await handlePveV3({path:'idle-dungeon/v3/run',request:request('idle-dungeon/v3/run'),env,deps});
+ assert.equal(retired.status,410);assert.equal((await retired.json()).code,'IDLE_DUNGEON_RETIRED');
  assert.match(read('pve-v3/entry.mjs'),/location.replace\(TOWER_LIVE_URL\)/);
 });
 test('legacy tower completion wins over absent next floor and never offers re-ascent',()=>{

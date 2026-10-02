@@ -211,7 +211,7 @@ test('번들이 소스와 같은 계약을 담고 있다', () => {
   assert.ok(bundleSrc.includes('queueSupportEffect('), '번들에 queueSupportEffect 가 없습니다');
   assert.ok(bundleSrc.includes('this.bannerQueue=[],this.bannerPump=null'), '번들 생성자에 배너 큐 초기화가 없습니다');
   assert.ok(bundleSrc.includes('this.playbackEpoch+=1,this.bannerQueue.length=0'), '번들 cancelTimelines 에 큐 비우기가 없습니다');
-  const bannerSources=read('preview/project-v-v3/source/battle/BerkanCombatPlayback.js')+read('preview/project-v-v3/source/battle/NurseHealCombatPlayback.js')+read('preview/project-v-v3/source/battle/SniperOrikkungCombatPlayback.js')+read('preview/project-v-v3/source/battle/CryvernCombatPlayback.js')+read('preview/project-v-v3/source/battle/HeukwolCombatPlayback.js')+read('preview/project-v-v3/source/battle/BikiniJoeunCombatPlayback.js')+read('preview/project-v-v3/source/battle/RagnielCombatPlayback.js')+read('preview/project-v-v3/source/battle/MangisaCombatPlayback.js')+engineSrc+read('preview/project-v-v3/source/battle/MercenaryCombatPlayback.js')+read('preview/project-v-v3/source/battle/ApocalypseLegionPlayback.js')+read('preview/scrapyard-v3-v1/source/ScrapyardBattleEngine.js');
+  const bannerSources=read('preview/project-v-v3/source/battle/BerkanCombatPlayback.js')+read('preview/project-v-v3/source/battle/NurseHealCombatPlayback.js')+read('preview/project-v-v3/source/battle/SniperOrikkungCombatPlayback.js')+read('preview/project-v-v3/source/battle/CryvernCombatPlayback.js')+read('preview/project-v-v3/source/battle/HeukwolCombatPlayback.js')+read('preview/project-v-v3/source/battle/BikiniJoeunCombatPlayback.js')+read('preview/project-v-v3/source/battle/RagnielCombatPlayback.js')+read('preview/project-v-v3/source/battle/MangisaCombatPlayback.js')+engineSrc+read('preview/project-v-v3/source/battle/MercenaryCombatPlayback.js')+read('preview/project-v-v3/source/battle/ApocalypseLegionPlayback.js')+read('preview/project-v-v3/source/battle/CooperativeEncounter.js')+read('preview/project-v-v3/source/battle/CooperativeArkePlayback.js')+read('preview/scrapyard-v3-v1/source/ScrapyardBattleEngine.js');
   assert.equal((bundleSrc.match(/queueBanner\(/g) || []).length, (bannerSources.match(/queueBanner\(/g) || []).length, '공용 엔진·용병·아포칼립스 어댑터의 배너 큐가 번들에 그대로 포함되어야 합니다');
   assert.equal((bundleSrc.match(/queueSupportEffect\(/g) || []).length, 3, '번들의 queueSupportEffect 호출 수가 소스와 다릅니다');
   // Only the independent notice pump waits for a previous notice.
@@ -224,7 +224,9 @@ test('캐시 태그가 갱신되어 있다', () => {
   const params=new URL(resource,'https://test.invalid/').searchParams;
   assert.equal(params.get('v'),'106-combat-flow');
   assert.equal(params.get('coop'),bundleSrc.match(/runtimeVersion:\s*["']([^"']+)["']/)[1]);
-  assert.match(read('service-worker.js'), /const SHELL_CACHE='soop-card-shell-v2108-shared-navigation(?:-[a-z0-9]+)*'/);
+  const shell=read('service-worker.js').match(/const SHELL_CACHE='soop-card-shell-v(2108-shared-navigation(?:-[A-Za-z0-9]+)*)'/)?.[1];
+  assert.ok(shell,'서비스워커 출시 태그가 없습니다');
+  assert.equal(shell,read('index.html').match(/js\/app\.js\?v=([^"'&]+)/)?.[1],'앱과 서비스워커의 출시 태그가 같아야 합니다');
 });
 
 test('숨겨진 전투에 배너를 넣어도 큐가 잠기지 않고 다시 열면 재생된다', async () => {

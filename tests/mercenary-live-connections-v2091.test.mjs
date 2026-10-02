@@ -20,7 +20,9 @@ test('production links and all opening aliases are connected while OFF permits o
  for(const path of ['mercenary-cards/open','mercenary-cards/open-batch','hyper-pack/open','mercenaries/v3/open']){
   const r=await handleMercenaryAccount({path,request:request(path,{requestId:crypto.randomUUID(),count:10}),env,deps});assert.ok(r.status>=400);assert.equal((await r.json()).userOpeningEnabled,false);
  }
- for(const path of ['idle-dungeon/v3/run','tower/v3/run'])assert.equal((await handlePveV3({path,request:request(path,{requestId:crypto.randomUUID()}),env,deps})).status,423);
+ assert.equal((await handlePveV3({path:'tower/v3/run',request:request('tower/v3/run',{requestId:crypto.randomUUID()}),env,deps})).status,423);
+ const retired=await handlePveV3({path:'idle-dungeon/v3/run',request:request('idle-dungeon/v3/run',{requestId:crypto.randomUUID()}),env,deps});
+ assert.equal(retired.status,410);assert.equal((await retired.json()).code,'IDLE_DUNGEON_RETIRED');
  const feature=await(await handlePveV3({path:'pve/v3/feature',request:request('pve/v3/feature'),env,deps})).json();assert.equal(feature.connected,true);assert.equal(feature.enabled,false);assert.deepEqual(feature.connections,V3_LIVE_CONNECTIONS);
 });
 
