@@ -146,7 +146,8 @@ test('같은 카드에 동시에 도착한 두 요청은 한 번만 재료를 �
 });
 
 test('클라이언트는 FUR 확장 비용을 서버와 동일하게 표시하고 미정 값을 0으로 만들지 않는다',()=>{
-  const from=app.indexOf('const FUR_EXTENDED_COSTS='),to=app.indexOf('// V2113:',from);
+  const from=app.indexOf('const FUR_EXTENDED_COSTS='),to=app.indexOf('const TIER_FRAME_ASSETS=',from);
+  assert.ok(from>=0&&to>from,'FUR client helpers must be bounded before the frame assets');
   const context={FUR_HIGH_ENHANCEMENT_FALLBACK:base};vm.createContext(context);vm.runInContext(app.slice(from,to),context);
   const config=context.furClientHighConfig(base);
   assert.equal(config.steps[3].cost,20000);assert.equal(config.steps[4].cost,30000);
