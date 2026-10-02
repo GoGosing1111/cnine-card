@@ -13,6 +13,7 @@ const db=new DatabaseSync(':memory:');
 db.exec(`CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT NOT NULL,updated_at TEXT DEFAULT CURRENT_TIMESTAMP);
 CREATE TABLE users(id INTEGER PRIMARY KEY,nickname TEXT,coin INTEGER,role TEXT,status TEXT);
 CREATE TABLE coin_logs(id INTEGER PRIMARY KEY AUTOINCREMENT,user_id INTEGER,change_amount INTEGER,balance_after INTEGER,reason TEXT,created_at TEXT DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE administration_prediction_subsidies_v2030(proposal_id TEXT PRIMARY KEY,event_id INTEGER,amount INTEGER,status TEXT,updated_at TEXT);
 INSERT INTO users VALUES(1,'운영 테스트',900000000000,'OWNER','ACTIVE'),(2,'유저 테스트',2000000000,'USER','ACTIVE');`);
 const audit=[];
 const env={DB:{prepare(sql){let args=[];return {bind(...values){args=values;return this;},first(){return db.prepare(sql).get(...args)||null;},all(){return{results:db.prepare(sql).all(...args)};},run(){const r=db.prepare(sql).run(...args);return{meta:{changes:Number(r.changes),last_row_id:Number(r.lastInsertRowid)}};}};},batch(statements){db.exec('BEGIN');try{const result=statements.map(s=>s.run());db.exec('COMMIT');return result;}catch(error){db.exec('ROLLBACK');throw error;}}}};
