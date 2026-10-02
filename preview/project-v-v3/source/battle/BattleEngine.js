@@ -2354,7 +2354,10 @@ class BaseBattleEngine{
     return target;
   }
 
-  eventHpPercent(target,value){
+  eventHpPercent(target,value,maximum=null){
+    // Opening auras and later HP buffs change the server maximum after the
+    // initial roster. Using the old denominator hides real damage at 100%.
+    if(target&&hasFiniteNumber(maximum)&&Number(maximum)>0)target.serverMaxHp=Number(maximum);
     if(!hasFiniteNumber(value))return null;
     const raw=Math.max(0,Number(value));
     const maxHp=Math.max(1,Number(target?.serverMaxHp||100));
@@ -2481,6 +2484,7 @@ class BaseBattleEngine{
         if(!character)return;
         claimed.add(character);
         const rowMaxHp=Math.max(0,Number(row?.maxHp||0));
+        if(rowMaxHp>0)character.serverMaxHp=rowMaxHp;
         const percent=rowMaxHp>0?clamp(Math.max(0,Number(row?.hp||0))/rowMaxHp*100,0,100):(this.eventHpPercent(character,row?.hp)??0);
         character.battleActive=true;
         character.root.visible=true;
@@ -3020,7 +3024,7 @@ class BaseBattleEngine{
           target.setState(CHARACTER_STATE.HIT);
           target.tint=profile.hitTint||0xffc2ac;
           this.syncTargetShield(target,hit.targetShieldAfter,hit.targetMaxShieldAfter??hit.targetMaxShield);
-          const hp=this.eventHpPercent(target,hit.targetHpAfter);
+          const hp=this.eventHpPercent(target,hit.targetHpAfter,hit.targetMaxHp??hit.maxHp);
           if(hasFiniteNumber(hp))this.syncTargetHp(target,hp);
         });
       },[],impactAt);
@@ -3079,7 +3083,10 @@ class BaseBattleEngine{
         :hasFiniteNumber(event.hpAfter)?Number(event.hpAfter)
         :targetHp!==null?targetHp
         :hasFiniteNumber(event.bossHp)?Number(event.bossHp):null;
-      const resolvedTargetHp=this.eventHpPercent(target,rawTargetHp);
+      const resolvedTargetHp=this.eventHpPercent(target,rawTargetHp,event.targetMaxHp??event.maxHp);
+      for(const row of [...(event.hits||[]),...(event.targets||[])]){
+        this.eventHpPercent(this.combatantById(row.targetId),null,row.targetMaxHp??row.maxHp);
+      }
       const targetShieldAfter=hasFiniteNumber(event.targetShieldAfter)?Number(event.targetShieldAfter)
         :hasFiniteNumber(event.shieldAfter)?Number(event.shieldAfter):null;
       const actorShieldAfter=hasFiniteNumber(event.actorShieldAfter)?Number(event.actorShieldAfter):null;
@@ -3138,7 +3145,7 @@ class BaseBattleEngine{
           continue;
         }
         const advancementClass=type==='TURN'&&normalizeAdvancementEffectCode(event.advancementClass)==='SHATTER'?'SHATTER':'';
-        const hitSequence=event.speedCombo&&Array.isArray(event.hits)?event.hits.map(hit=>({...hit,targetHp:this.eventHpPercent(target,hit.targetHpAfter)})):null;
+        const hitSequence=event.speedCombo&&Array.isArray(event.hits)?event.hits.map(hit=>({...hit,targetHp:this.eventHpPercent(target,hit.targetHpAfter,hit.targetMaxHp??event.targetMaxHp)})):null;
         await this.normalAttack(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),attacker:explicitActor,target,targetHp:resolvedTargetHp,targetShield:targetShieldAfter,healing,hitCount,hitSequence,advancementClass});
       }else if(type==='SKILL'){
         await this.playTacticalSkill(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),label:event.label||event.skillName||'전술 스킬',target,targetHp:resolvedTargetHp,targetShield:targetShieldAfter,attacker:explicitActor,healing,hitCount});
@@ -3157,7 +3164,7 @@ class BaseBattleEngine{
           this.queueBanner(event.label||'보스 광역 공격',0xff5c6e,'BOSS ULTIMATE');
           for(const hit of event.hits||[]){
             const hitTarget=this.combatantById(hit.targetId);
-            await this.normalAttack(0,{damage:Number(hit.damage||0)+Number(hit.absorbed||0),critical:Boolean(hit.critical),attacker:bossActor,target:hitTarget,targetHp:this.eventHpPercent(hitTarget,hit.targetHpAfter),targetShield:hit.targetShieldAfter,healing:Number(hit.healing||0),hitCount:Number(hit.hitCount||1)});
+            await this.normalAttack(0,{damage:Number(hit.damage||0)+Number(hit.absorbed||0),critical:Boolean(hit.critical),attacker:bossActor,target:hitTarget,targetHp:this.eventHpPercent(hitTarget,hit.targetHpAfter,hit.targetMaxHp??hit.maxHp),targetShield:hit.targetShieldAfter,healing:Number(hit.healing||0),hitCount:Number(hit.hitCount||1)});
           }
         }
       }else if(type==='MAGIC_CARD'){
@@ -3195,7 +3202,7 @@ class BaseBattleEngine{
         if(type==='SINGLE_HEALER_AURA'||targetRows.length){
           for(const item of targetRows){
             const itemTarget=this.combatantById(item.targetId);
-            if(itemTarget&&hasFiniteNumber(item.hpAfter))this.syncTargetHp(itemTarget,this.eventHpPercent(itemTarget,item.hpAfter));
+            if(itemTarget&&hasFiniteNumber(item.hpAfter))this.syncTargetHp(itemTarget,this.eventHpPercent(itemTarget,item.hpAfter,item.maxHp));
           }
         }else if(target&&hasFiniteNumber(resolvedTargetHp))this.syncTargetHp(target,resolvedTargetHp);
         this.queueSupportEffect(supportTargets,{

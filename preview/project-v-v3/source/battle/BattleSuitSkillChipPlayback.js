@@ -97,7 +97,7 @@ export class BattleSuitSkillChipPlayback{
       const state=this.snapshots.get(target)||{};
       const hp=row.targetHpAfter??row.hpAfter??row.targetHp??row.bossHp;
       const shield=row.targetShieldAfter??row.shieldAfter;
-      if(finite(hp)&&revision>=(state.hpRevision??-1)){state.hp=this.engine.eventHpPercent(target,Number(hp));state.hpRevision=revision;}
+      if(finite(hp)&&revision>=(state.hpRevision??-1)){state.hp=this.engine.eventHpPercent(target,Number(hp),row.targetMaxHp??row.maxHp);state.hpRevision=revision;}
       if(finite(shield)&&revision>=(state.shieldRevision??-1)){state.shield=Number(shield);state.shieldRevision=revision;}
       this.snapshots.set(target,state);
     };
@@ -148,7 +148,7 @@ export class BattleSuitSkillChipPlayback{
       const index=Number(event.hitIndex)||0,age=this.clock.time-entry.at;
       entry.fx.confirmImpact(index,age,event);entry.impacts.set(index,age);
     }
-    const hp=this.engine.eventHpPercent(target,event.targetHpAfter);
+    const hp=this.engine.eventHpPercent(target,event.targetHpAfter,event.targetMaxHp??event.maxHp);
     if(finite(hp))this.engine.syncTargetHp(target,hp);
     if(finite(event.targetShieldAfter))this.engine.syncTargetShield(target,event.targetShieldAfter);
     this.engine.showAccountBattleUnitDamage(target,{damage:Number(event.damage||0)+Number(event.absorbed||0),critical:Boolean(event.critical),playbackRate:this.rate});

@@ -1,0 +1,217 @@
+{
+  "task": "cheetah-hp-counter-recheck-20261002",
+  "readOnlySnapshotAt": "2026-10-02T13:29:04.653Z",
+  "productionMutation": "Client HP percentage only; server combat and FUR CMS settings preserved.",
+  "diagnosticRetirement": {
+    "retiredAt": "2026-10-02T13:55:20.276Z",
+    "status": 410
+  },
+  "historicalReplays": [
+    {
+      "requestId": "bf42e61b-3f4a-42f1-bdde-122fcc7d909a",
+      "opponentId": "202",
+      "atUtc": "2026-10-02 13:14:13",
+      "seed": 874713832,
+      "verifiedCombatState": true,
+      "actionCount": 12,
+      "winner": "B",
+      "storedWinnerId": "202"
+    },
+    {
+      "requestId": "2f55ca81-b72a-455e-b590-0144448d42b9",
+      "opponentId": "202",
+      "atUtc": "2026-10-02 12:55:51",
+      "seed": 2959516569,
+      "verifiedCombatState": true,
+      "actionCount": 11,
+      "winner": "B",
+      "storedWinnerId": "202"
+    },
+    {
+      "requestId": "0247eac5-8c3e-49b3-afd2-30c84336b2f7",
+      "opponentId": "202",
+      "atUtc": "2026-10-02 12:39:38",
+      "seed": 1734173,
+      "verifiedCombatState": true,
+      "actionCount": 15,
+      "winner": "B",
+      "storedWinnerId": "202"
+    },
+    {
+      "requestId": "5bbe16c1-8399-4278-a535-8bf6433bae82",
+      "opponentId": "202",
+      "atUtc": "2026-10-02 12:23:01",
+      "seed": 2401725880,
+      "verifiedCombatState": true,
+      "actionCount": 19,
+      "winner": "B",
+      "storedWinnerId": "202"
+    },
+    {
+      "requestId": "34e6c13c-2b0a-4099-bab0-e86c9ce56deb",
+      "opponentId": "4610",
+      "atUtc": "2026-10-02 13:14:01",
+      "seed": 3085853719,
+      "verifiedCombatState": true,
+      "actionCount": 19,
+      "winner": "B",
+      "storedWinnerId": "4610"
+    },
+    {
+      "requestId": "905113ba-f0ca-4baa-8183-421fd74cf8e0",
+      "opponentId": "4610",
+      "atUtc": "2026-10-02 12:55:45",
+      "seed": 347526696,
+      "verifiedCombatState": true,
+      "actionCount": 15,
+      "winner": "B",
+      "storedWinnerId": "4610"
+    },
+    {
+      "requestId": "e21844fa-26be-4049-a37b-f71bf494c391",
+      "opponentId": "4610",
+      "atUtc": "2026-10-02 12:39:23",
+      "seed": 1423535173,
+      "verifiedCombatState": true,
+      "actionCount": 14,
+      "winner": "B",
+      "storedWinnerId": "4610"
+    },
+    {
+      "requestId": "51aad757-e555-471c-aefd-b46ae62c894a",
+      "opponentId": "4610",
+      "atUtc": "2026-10-02 12:20:00",
+      "seed": 890961561,
+      "verifiedCombatState": true,
+      "actionCount": 17,
+      "winner": "B",
+      "storedWinnerId": "4610"
+    },
+    {
+      "requestId": "c2b4818b-929b-4ca8-ab54-58d34dc1bf15",
+      "opponentId": "4595",
+      "atUtc": "2026-10-02 13:13:35",
+      "seed": 1304595892,
+      "verifiedCombatState": true,
+      "actionCount": 14,
+      "winner": "B",
+      "storedWinnerId": "4595"
+    },
+    {
+      "requestId": "118849d6-5d5a-4007-b2e6-8a7016d46d32",
+      "opponentId": "4595",
+      "atUtc": "2026-10-02 12:48:30",
+      "seed": 600502248,
+      "verifiedCombatState": true,
+      "actionCount": 14,
+      "winner": "B",
+      "storedWinnerId": "4595"
+    },
+    {
+      "requestId": "f1281344-a9d6-46f3-a987-889daecbae7e",
+      "opponentId": "4595",
+      "atUtc": "2026-10-02 12:30:41",
+      "seed": 1795525291,
+      "verifiedCombatState": true,
+      "actionCount": 14,
+      "winner": "B",
+      "storedWinnerId": "4595"
+    },
+    {
+      "requestId": "c3432d3c-054e-4c26-9f03-dd085c2fe3a5",
+      "opponentId": "4595",
+      "atUtc": "2026-10-02 12:19:37",
+      "seed": 1917474448,
+      "verifiedCombatState": true,
+      "actionCount": 16,
+      "winner": "B",
+      "storedWinnerId": "4595"
+    }
+  ],
+  "comparisonCount": 48,
+  "samples": [
+    {
+      "configuration": "before",
+      "cheetahLevel": 14,
+      "basePower": 124800,
+      "maxHp": 187375,
+      "defense": 44462,
+      "openingRosterMaxHp": 154294,
+      "healerMaxHp": 833224
+    },
+    {
+      "configuration": "before",
+      "cheetahLevel": 15,
+      "basePower": 195200,
+      "maxHp": 287090,
+      "defense": 100393,
+      "openingRosterMaxHp": 236405,
+      "healerMaxHp": 816219
+    },
+    {
+      "configuration": "after",
+      "cheetahLevel": 14,
+      "basePower": 124800,
+      "maxHp": 187375,
+      "defense": 40952,
+      "openingRosterMaxHp": 154294,
+      "healerMaxHp": 622855
+    },
+    {
+      "configuration": "after",
+      "cheetahLevel": 15,
+      "basePower": 195200,
+      "maxHp": 287090,
+      "defense": 68124,
+      "openingRosterMaxHp": 236405,
+      "healerMaxHp": 610144
+    }
+  ],
+  "evidence": [
+    {
+      "file": "C:/Users/User/.codex/tmp/cheetah-fur15-counter-recheck-20261002/inspect.json",
+      "sha256": "0b776bdc8fa23578c31c21dd673d5050cdd8f4e2aee31b4c74c48b0a7f0431fc"
+    },
+    {
+      "file": "C:/Users/User/.codex/tmp/cheetah-fur15-counter-recheck-20261002/comparison.json",
+      "sha256": "6998ed041dd5a1da0e599c3573b005d3d7415832cf9e50fdbfcb0633f3624fcd"
+    },
+    {
+      "file": "C:/Users/User/.codex/tmp/cheetah-fur15-counter-recheck-20261002/compare.mjs",
+      "sha256": "9377f581ff07fb66dd8a42e18e887d9f215e0758992264ac054e1b4728fff87f"
+    },
+    {
+      "file": "C:/Users/User/.codex/tmp/cheetah-fur15-counter-recheck-20261002/worker-source.txt",
+      "sha256": "8bdfea59a7fe7249fe0fbe81d4de7d4ea968dcadd05f67fa7b03e146aeaeea7e"
+    },
+    {
+      "file": "C:/Users/User/.codex/tmp/cheetah-fur15-counter-recheck-20261002/retired.json",
+      "sha256": "88e97c876e9b97464b53580ff031d46fcb82b49b3abe49fd7a1d86996d42db22"
+    }
+  ],
+  "visual": {
+    "method": "Existing in-app browser, actual Pixi production bundle and live bridge, local read-only payload.",
+    "pc": {
+      "width": 1280,
+      "height": 850,
+      "cheetahMaxHp": 287090,
+      "realHpLossPercent": 10,
+      "displayHpPercent": 90
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "cheetahMaxHp": 287090,
+      "realHpLossPercent": 10,
+      "displayHpPercent": 90
+    }
+  },
+  "release": {
+    "scope": "Small renderer HP maximum synchronization bug",
+    "baselineCommit": "b311b2e3a75429ba2208aec3e5eb5643e2af529e",
+    "baselinePagesId": "3bf173d3-5808-4615-9436-428e1f99d035",
+    "runtime": "20261002-hp-sync-v1",
+    "command": "npm run deploy:production -- --scoped",
+    "status": "PENDING_VERIFICATION"
+  }
+}
