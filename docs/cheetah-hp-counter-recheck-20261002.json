@@ -219,6 +219,13 @@
       "failed": 2,
       "deploymentStarted": false,
       "classification": "Pre-existing static assertions: before/after banner calls both 35 vs stale expected 33; existing mixed-case shell cache does not match lower-case-only regex."
+    },
+    "secondGate": {
+      "tests": 42,
+      "passed": 42,
+      "failed": 0,
+      "deploymentStarted": false,
+      "remainingIssue": "App and service-worker release tags differed; main app query tag aligned with new shell cache. Renderer source and generated bundles unchanged."
     }
   }
 }
