@@ -1,0 +1,46 @@
+{
+  "version": "20261003-v1",
+  "generator": "built-in image_gen",
+  "assets": [
+    {
+      "source": "cube-closed-source.png",
+      "target": "cube-closed.webp",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "sourceSha256": "4d8679b0ae359e63d04a42f7e02abd26f743df1892a816c1125150fdce6e1662"
+    },
+    {
+      "source": "cube-opening-sheet-source.png",
+      "target": "cube-opening.webp",
+      "width": 1774,
+      "height": 887,
+      "hasAlpha": true,
+      "sourceSha256": "fed875877098d9646027ff7290e5ed9450940b747bfd404da9635546fab8541e"
+    },
+    {
+      "source": "contract-vault-source.png",
+      "target": "contract-vault.webp",
+      "width": 1536,
+      "height": 1024,
+      "hasAlpha": false,
+      "sourceSha256": "5d3d59d1049443267b4fc034431e3e4b2b9ab28575fad48e1f329cb2e12298bc"
+    }
+  ],
+  "animation": {
+    "columns": 4,
+    "rows": 2,
+    "frames": 8,
+    "stages": [
+      "sealed",
+      "unlock",
+      "seams",
+      "lid-lift",
+      "unfold",
+      "core-exposed",
+      "energy-release",
+      "open"
+    ]
+  },
+  "sourcePolicy": "Generated PNG originals retained; WebP exports only resize/encode, with original alpha preserved."
+}

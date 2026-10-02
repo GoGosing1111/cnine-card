@@ -49,6 +49,7 @@ import {handlePetEquipment} from '../_pet_equipment.js';
 import {handleIconFusion} from '../_icon_fusion.js';
 import {handleMercenaryCodex} from '../_mercenary_codex.js';
 import {handleMercenaryAccount,mercenaryUsesInnerLock} from '../_mercenary_account_routes.js';
+import {handleMiracleCube,openMiracleCube,presentMiracleInventory} from '../_miracle_cube.js';
 import {handleForgeRuntime,isForgeRuntimePath} from '../_equipment_forge_routes.js';
 import {releasedMercenarySnapshot,releasedMercenarySnapshots,mercenarySnapshotPower} from '../_mercenary_account.js';
 import {handleEquipmentForgePublic} from '../_equipment_forge_public.js';
@@ -4988,6 +4989,7 @@ async function handleRequest(context){
     }
     const legionHuntResponse=await handleLegionHunt({path,request,env,deps:{authenticate,json,raidDeckPower,cardBattlePower,magicBattleLoadout,selectActivatedUltimate,loadMercenaryBattleSnapshot:releasedMercenarySnapshot,withUserMutationLock:withJointUserMutationLock}});if(legionHuntResponse)return legionHuntResponse;
     const lootShopResponse=await handleLootShop({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(lootShopResponse)return lootShopResponse;
+    const miracleCubeResponse=await handleMiracleCube({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(miracleCubeResponse)return miracleCubeResponse;
     const mercenaryAccountResponse=await handleMercenaryAccount({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(mercenaryAccountResponse)return mercenaryAccountResponse;
     const hyperPackResponse=await handleHyperPack({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(hyperPackResponse)return hyperPackResponse;
     const goldenAxeResponse=await handleGoldenAxe({path,request,env,deps:{authenticate,readBody,json,requirePermission}});if(goldenAxeResponse)return goldenAxeResponse;
@@ -5199,7 +5201,8 @@ async function handleRequest(context){
           AND (i.code NOT IN ('SOOPKETLAND_TICKET','SOOPKETLAND_HYPER_BURNING_TICKET','NEW_USER_GIFT_BOX','CHUSEOK_COIN','PINGDU_WISH_TICKET','PINGDU_OLD_AXE','SUPERSTAR_UPGRADE_13_TICKET','VEHICLE_PARTS_150_CHOICE') OR COALESCE(ui.quantity,0)>0)
         ORDER BY i.sort_order,i.code`).bind(blackMiracleUseEnabled?1:0,user.id).all();
       const items=rows.results.map(x=>({...x,quantity:Number(x.quantity||0),unseenQuantity:Number(x.unseenQuantity||0),usable:Number(x.usable)!==0,useDisabledMessage:x.code===FORGE_REPAIR_ITEM.code?'장비 강화 센터 → 파괴 기록에서 복구할 장비를 선택하세요.':x.code===FORGE_PROTECTION_ITEM.code?'장비 강화에서 보호권 사용을 선택하세요.':x.code==='PINGDU_OLD_AXE'?'핑두의 금도끼 은도끼에서 참가 시 사용':x.category==='SKILL_CHIP'?'장비 → 스킬칩 탭에서 장착':x.code===UNIQUE_ADVANCEMENT_PASS_CODE?'카드 상세 전직 시 자동 사용':x.category==='MATERIAL'?'재료 전용 · 사용 불가':['VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE'].includes(x.code)?'제작소 전용':x.code===LICH_TICKET?'리치왕 정벌 공대 생성 시 사용':x.code==='CORE_RAID_ENTRY_TICKET'?'붕괴 코어 공대 생성 시 사용':x.code==='BLACK_MIRACLE_PACK'&&Number(x.usable)===0?'CMS에서 사용 중지됨':''}));
-      return json({items,totalQuantity:items.reduce((n,x)=>n+x.quantity,0),ownedTypes:items.filter(x=>x.quantity>0).length,unseenTotal:items.reduce((n,x)=>n+x.unseenQuantity,0)});
+      const presented=presentMiracleInventory(items);
+      return json({items:presented,totalQuantity:presented.reduce((n,x)=>n+x.quantity,0),ownedTypes:presented.filter(x=>x.quantity>0).length,unseenTotal:presented.reduce((n,x)=>n+x.unseenQuantity,0)});
     }
     if(path==='inventory/seen'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
@@ -5210,6 +5213,9 @@ async function handleRequest(context){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       const body=await readBody(request),itemCode=String(body.itemCode||'').trim().toUpperCase(),requestId=String(body.requestId||crypto.randomUUID()).trim().slice(0,100),rawOpenCount=body.count===undefined?1:Number(body.count),openCount=Number.isInteger(rawOpenCount)?rawOpenCount:0;
       // inventory/use already holds the request-level user lock. A second lock rejects the same request.
+      if(itemCode==='MIRACLE_CUBE'){
+        try{return json(await openMiracleCube(env,user,{requestId:body.requestId,count:openCount}));}catch(error){return json({code:error.code||'MIRACLE_FAILED',error:error.status?error.message:'개봉 결과를 확인하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||503);}
+      }
       if(itemCode==='FUNDING_GIFT_BOX'){try{return json(await openFundingGift(env,user,{requestId:body.requestId,count:openCount}));}catch(error){return json({error:error.status?error.message:'개봉을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
       if(itemCode==='PINGDU_THANKS_GIFT_BOX'){try{return json(await openPingduThanksGift(env,user,{requestId:body.requestId,count:openCount}));}catch(error){return json({error:error.status?error.message:'개봉을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
       if(itemCode==='RECRUITMENT_GIFT_BOX'){try{return json(await openRecruitmentGift(env,user,{requestId:body.requestId,count:openCount}));}catch(error){return json({error:error.status?error.message:'개봉을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}

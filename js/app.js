@@ -4173,6 +4173,7 @@ async function activateLandHyperTicket(){
   }catch(error){if([400,403,409].includes(Number(error.status)))localStorage.removeItem(key);alert(error.message)}finally{landHyperBusy=false}
 }
 async function openInventoryPack(itemCode,ownedQuantity=0){
+  if(itemCode==='MIRACLE_CUBE'){location.assign('/miracle-cube/');return;}
   if(['SUPERSTAR_UPGRADE_13_TICKET','VEHICLE_PARTS_150_CHOICE'].includes(itemCode)){location.assign('/events/golden-axe/?use='+encodeURIComponent(itemCode));return;}
   if(itemCode==='PINGDU_THANKS_GIFT_BOX'){
     try{
