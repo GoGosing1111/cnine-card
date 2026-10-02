@@ -9,8 +9,8 @@ import { clanCampStatusForUser, clanCampRoomState, releaseClanCaptives, sendClan
 import { advanceFront, deadlineWinner, coupSettings, coupRebelDefeatPolicy, coupMatchedOpponent } from '../shared/coup-palace-v2115.mjs';
 import { readFileSync } from 'node:fs';
 import { createPvpBattleV2 } from '../functions/_battle_v2_preview.js';
-import { useCoupChiefSkill, COUP_SKILL_SETTINGS } from '../functions/_coup.js';
-import { coupEnergy, coupSkillCooldown, chooseNuclearTargets, coupRebelCommanderId } from '../shared/coup-chief-skills-v2118.mjs';
+import { useCoupChiefSkill, COUP_SKILL_SETTINGS, applyCoupRoundSupport } from '../functions/_coup.js';
+import { coupEnergy, coupSkillCooldown, chooseNuclearTargets, coupRebelCommanderId, coupRecoveryMs, COUP_REBEL_SUPPORT_PRESET } from '../shared/coup-chief-skills-v2118.mjs';
 import { territorySiegeDamage } from '../functions/_territory_war.js';
 
 test('chief skill energy: 10 cap, 2-minute recovery, 50 rally overflow, nuclear has no deferred recovery', () => {
@@ -95,6 +95,54 @@ test('coup matchmaking stays near power, avoids the previous opponent and rotate
 });
 for (const pg of [false, true]) {
   const label = pg ? 'PostgreSQL' : 'SQLite';
+  test(`${label}: round support saves both 10-million fronts once, preserves commander and never carries support to next round`, async t => {
+    const f=await fixture(t,pg),round=await openCoupRound(f.env,f.now),owner={id:1,role:'OWNER'};
+    const original={...JSON.parse(round.settings_json),rebelCommand:{roundId:round.id,userId:2}};
+    await f.p('UPDATE coup_rounds_v2115 SET settings_json=? WHERE id=?',JSON.stringify(original),round.id).run();
+    const body={roundId:round.id,expectedRevision:Number(round.revision),requestId:'support-once-20261002',preset:COUP_REBEL_SUPPORT_PRESET,siegeHp:10000000};
+    const result=await applyCoupRoundSupport(f.env,owner,body,f.now);
+    const saved=await f.p('SELECT * FROM coup_rounds_v2115 WHERE id=?',round.id).first();
+    assert.deepEqual([Number(saved.chief_hp),Number(saved.rebel_hp),Number(saved.max_hp)],[10000000,10000000,10000000]);
+    assert.equal(saved.status,'RECRUITING');assert.equal(Number(saved.revision),result.revision);assert.deepEqual(JSON.parse(saved.settings_json).rebelCommand,original.rebelCommand);
+    assert.equal((await applyCoupRoundSupport(f.env,owner,body,f.now)).replayed,true);
+    await assert.rejects(applyCoupRoundSupport(f.env,owner,{...body,expectedRevision:99},f.now),e=>e.status===403);
+    assert.equal(Number((await f.p('SELECT revision FROM coup_rounds_v2115 WHERE id=?',round.id).first()).revision),result.revision);
+    await f.p("UPDATE coup_rounds_v2115 SET status='CANCELLED' WHERE id=?",round.id).run();
+    const next=await openCoupRound(f.env,f.now+1000);assert.equal(Number(next.max_hp),10000000);assert.equal(JSON.parse(next.settings_json).rebelSupport,undefined);
+  });
+  test(`${label}: support rejects unauthorized, stale and started rounds; failed receipt rolls back all settings`,async t=>{
+    const f=await fixture(t,pg),round=await openCoupRound(f.env,f.now),owner={id:1,role:'OWNER'};
+    const body={roundId:round.id,expectedRevision:Number(round.revision),requestId:'support-rollback-20261002',preset:COUP_REBEL_SUPPORT_PRESET,siegeHp:10000000};
+    await assert.rejects(applyCoupRoundSupport(f.env,{id:2,role:'ADMIN'},body,f.now),e=>e.status===403);
+    await assert.rejects(applyCoupRoundSupport(f.env,owner,{...body,expectedRevision:99},f.now),e=>e.status===409);
+    await assert.rejects(applyCoupRoundSupport(f.env,owner,{...body,siegeHp:0},f.now),e=>e.status===400);
+    f.fail('INSERT INTO app_meta(key, value)');await assert.rejects(applyCoupRoundSupport(f.env,owner,body,f.now),/INJECTED_FAILURE/);f.fail('');
+    const unchanged=await f.p('SELECT * FROM coup_rounds_v2115 WHERE id=?',round.id).first();assert.equal(Number(unchanged.revision),Number(round.revision));assert.equal(Number(unchanged.max_hp),Number(round.max_hp));
+    assert.equal(await f.p("SELECT value FROM app_meta WHERE key='coup_settings_v2115'").first(),null);
+    await f.p("UPDATE coup_rounds_v2115 SET status='ACTIVE',starts_at=? WHERE id=?",f.now,round.id).run();
+    await assert.rejects(applyCoupRoundSupport(f.env,owner,body,f.now),e=>e.status===409);
+  });
+  test(`${label}: supported rebels recover at 90 seconds and receive 25/45-minute skills; chief stays at 120 seconds and 30/60 minutes`,async t=>{
+    const f=await fixture(t,pg),id=await f.prepare();
+    const row=await f.p('SELECT settings_json FROM coup_rounds_v2115 WHERE id=?',id).first();
+    const settings={...JSON.parse(row.settings_json),rebelCommand:{roundId:id,userId:2},rebelSupport:{roundId:id,preset:COUP_REBEL_SUPPORT_PRESET}};
+    await f.p('UPDATE coup_rounds_v2115 SET settings_json=? WHERE id=?',JSON.stringify(settings),id).run();
+    for(const uid of [1,2])await f.p('INSERT INTO coup_energy_v2118(round_id,user_id,energy,energy_at,blocked_until) VALUES(?,?,0,?,0)',id,uid,f.now).run();
+    assert.equal((await coupStatus(f.env,{id:2},f.now+89999)).mine.energyState.energy,0);
+    const rebel=await coupStatus(f.env,{id:2},f.now+90000);assert.equal(rebel.mine.energyState.energy,1);assert.equal(rebel.energyPolicy.recoveryMs,90000);
+    assert.equal((await coupStatus(f.env,{id:1},f.now+90000)).mine.energyState.energy,0);assert.equal((await coupStatus(f.env,{id:1},f.now+120000)).mine.energyState.energy,1);
+    const cast=(uid,code,key,time=f.now)=>useCoupChiefSkill(f.env,{id:uid},{roundId:id,skillCode:code,requestId:key},time);
+    const artillery=await cast(2,'ARTILLERY','supported-artillery-001');assert.equal(artillery.nextUseAt,f.now+1500000);
+    await assert.rejects(cast(2,'ARTILLERY','supported-artillery-early',f.now+1499999),e=>e.status===429);
+    const rally=await cast(2,'RALLY','supported-rally-001');assert.equal(rally.nextUseAt,f.now+2700000);assert.equal(rally.energyGranted,50);
+    await assert.rejects(cast(2,'RALLY','supported-rally-early',f.now+2699999),e=>e.status===429);
+    assert.equal((await cast(2,'RALLY','supported-rally-boundary',f.now+2700000)).nextUseAt,f.now+5400000);
+    assert.equal((await cast(1,'RALLY','chief-rally-unchanged')).nextUseAt,f.now+3600000);
+    assert.equal((await coupStatus(f.env,{id:2},f.now+90000)).mine.energyState.energy,50);
+    assert.equal(coupRecoveryMs('REBEL','another-round',settings),120000);assert.equal(coupSkillCooldown('ARTILLERY','REBEL','another-round',settings),1800000);
+    assert.equal(coupEnergy({energy:0,energy_at:f.now+600000,blocked_until:f.now+600000},f.now+689999,90000).energy,0);
+    assert.equal(coupEnergy({energy:0,energy_at:f.now+600000,blocked_until:f.now+600000},f.now+690000,90000).energy,1);
+  });
   test(`${label}: OFF blocks all new coup actions, keeps receipts/status, rejects stale in-flight writes and preserves OFF on CMS partial saves`,async t=>{
     const f=await fixture(t,pg),id=await f.prepare();
     const receipt={roundId:id,skillCode:'RALLY',requestId:'before-off-skill'};

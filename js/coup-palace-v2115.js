@@ -5,6 +5,7 @@
   const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const num = v => Number(v || 0).toLocaleString('ko-KR');
   const sideName = side => ({ CHIEF: '족장팀', REBEL: '반란군', DRAW: '무승부' }[side] || '—');
+  const recoveryLabel = ms => ms % 60000 === 0 ? `${ms / 60000}분` : `${ms / 1000}초`;
   const crest = side => `<svg viewBox="0 0 40 40" aria-hidden="true">${side === 'CHIEF' ? '<path d="M7 13 14 19 20 8 26 19 33 13 30 30H10ZM11 34h18M20 19v7"/>' : '<path d="m12 32 17-21 4-6-7 3L8 29m-2-3 9 9M13 10l6 7m4 8 6 8m-4-3 6-5M10 7l5 1-4 5-1-6Z"/>'}</svg>`;
   const api = (path, body) => apiRequest('coup/' + path, body ? { method: 'POST', body: JSON.stringify(body) } : {}, { ttl: 0, timeoutMs: 35000, replaceInflight: true });
   let root = null, state = null, poll = null, clock = null, busy = false, fetching = false, epoch = 0, offset = 0, selected = 2, battleModal = null, pendingAttack = null;
@@ -29,7 +30,7 @@
     const amount = e ? num(e.energy) : state?.mine ? '—' : num(max);
     const label = e || state?.mine ? '내 행동력' : '기본 행동력';
     const status = !e ? state?.mine ? '행동력 확인 중' : '참가 시 10회 충전' : e.blockedUntil > now() ? `회복 차단 <time data-coup-until="${e.blockedUntil}">${countdown(e.blockedUntil)}</time>` : e.nextRecoveryAt ? `다음 +1 <time data-coup-until="${e.nextRecoveryAt}">${countdown(e.nextRecoveryAt)}</time>` : e.energy > max ? '결집 적용 · 자연 충전 정지' : '충전 완료';
-    return `<div class="coup-energy ${e?.blockedUntil > now() ? 'is-blocked' : ''}" data-coup-energy><span>${label}</span><b>${amount}<small> / ${e?.energy > max ? '50회 · 결집' : max + '회'}</small></b><i aria-hidden="true"><u style="width:${Math.min(100, (e?.energy ?? (state?.mine ? 0 : max)) / (e?.energy > max ? 50 : max) * 100)}%"></u></i><em>${status}<span>출격 1회 소모 · 2분마다 1회 충전</span></em></div>`;
+    return `<div class="coup-energy ${e?.blockedUntil > now() ? 'is-blocked' : ''}" data-coup-energy><span>${label}</span><b>${amount}<small> / ${e?.energy > max ? '50회 · 결집' : max + '회'}</small></b><i aria-hidden="true"><u style="width:${Math.min(100, (e?.energy ?? (state?.mine ? 0 : max)) / (e?.energy > max ? 50 : max) * 100)}%"></u></i><em>${status}<span>출격 1회 소모 · ${recoveryLabel(state?.energyPolicy?.recoveryMs || 120000)}마다 1회 충전</span></em></div>`;
   }
   function rebelSentence() { return cooldownLabel(Number(state?.round?.rebelDefeat?.hours || 8) * 3600000); }
   function defeatNotice() {
@@ -124,7 +125,7 @@
     d.querySelector('.coup-dialog-close').onclick = () => d.close(); d.addEventListener('close', () => { d.remove(); previous?.focus?.(); }, { once: true }); d.showModal(); return d;
   }
   function rules() {
-    modal(`<span class="coup-eyebrow">RULES OF ENGAGEMENT</span><h2>황궁 전쟁 규정</h2><ol class="coup-rules"><li><b>진영 선택</b>PVP 일반 카드 5장을 등록합니다. 진영은 참가 확정 후 변경할 수 없습니다. 용병은 기존 전용 슬롯을 사용합니다.</li><li><b>출격 행동력</b>최대 10회 · 출격당 1회 소모 · 2분마다 1회 충전됩니다. 결사대 결집으로 받은 초과 행동력은 별도로 유지됩니다.</li><li><b>출격 보상</b>승리·무승부 2,000만 코인, 패배 1,000만 코인을 지급합니다. 완료된 전투마다 한 번만 지급합니다.</li><li><b>최신 덱과 매칭</b>현재 PVP 덱·장비·용병을 자동 반영합니다. 비슷한 전투력의 상대 중 최근 만난 상대를 피해서 매칭합니다.</li><li><b>전선 돌파</b>출격에서 승리하면 기본 피해의 100%, 패배해도 20%를 상대 진영에 줍니다. 내 패배로 우리 진영 HP가 깎이지 않으며, 무승부는 피해가 없습니다. 진영 체력이 소진되면 전선이 이동합니다. 반란군은 정전, 족장팀은 외문을 함락하면 승리합니다.</li><li><b>시간 종료</b>중앙보다 전진한 진영이 승리합니다. 중앙 교전 중이면 남은 진영 체력으로 결정하며, 동률은 무승부입니다.</li><li><b>족장팀 패배</b>족장과 참가자 전원이 포로수용소에 8시간 수감됩니다. 족장은 유저 재판에 회부되며 판결 전까지 직무가 정지됩니다.</li><li><b>반란군 패배</b>코인은 차감하지 않으며, 반란군 참가자 전원이 포로수용소에 ${rebelSentence()} 수감됩니다.</li><li><b>국민 재판</b>재판 개시 당시 활성 USER·OWNER 계정이 한 표씩 투표합니다. 투표 종료 시 파면 표가 더 많으면 파면, 동률·무투표는 복직입니다. 복직해도 원래 임기는 연장되지 않습니다.</li></ol>`, '황궁 전쟁 규정');
+    modal(`<span class="coup-eyebrow">RULES OF ENGAGEMENT</span><h2>황궁 전쟁 규정</h2><ol class="coup-rules"><li><b>진영 선택</b>PVP 일반 카드 5장을 등록합니다. 진영은 참가 확정 후 변경할 수 없습니다. 용병은 기존 전용 슬롯을 사용합니다.</li><li><b>출격 행동력</b>최대 10회 · 출격당 1회 소모 · 족장팀 ${recoveryLabel(state?.energyPolicies?.CHIEF?.recoveryMs || 120000)}, 반란군 ${recoveryLabel(state?.energyPolicies?.REBEL?.recoveryMs || 120000)}마다 1회 충전됩니다. 결사대 결집으로 받은 초과 행동력은 별도로 유지됩니다.</li><li><b>출격 보상</b>승리·무승부 2,000만 코인, 패배 1,000만 코인을 지급합니다. 완료된 전투마다 한 번만 지급합니다.</li><li><b>최신 덱과 매칭</b>현재 PVP 덱·장비·용병을 자동 반영합니다. 비슷한 전투력의 상대 중 최근 만난 상대를 피해서 매칭합니다.</li><li><b>전선 돌파</b>출격에서 승리하면 기본 피해의 100%, 패배해도 20%를 상대 진영에 줍니다. 내 패배로 우리 진영 HP가 깎이지 않으며, 무승부는 피해가 없습니다. 진영 체력이 소진되면 전선이 이동합니다. 반란군은 정전, 족장팀은 외문을 함락하면 승리합니다.</li><li><b>시간 종료</b>중앙보다 전진한 진영이 승리합니다. 중앙 교전 중이면 남은 진영 체력으로 결정하며, 동률은 무승부입니다.</li><li><b>족장팀 패배</b>족장과 참가자 전원이 포로수용소에 8시간 수감됩니다. 족장은 유저 재판에 회부되며 판결 전까지 직무가 정지됩니다.</li><li><b>반란군 패배</b>코인은 차감하지 않으며, 반란군 참가자 전원이 포로수용소에 ${rebelSentence()} 수감됩니다.</li><li><b>국민 재판</b>재판 개시 당시 활성 USER·OWNER 계정이 한 표씩 투표합니다. 투표 종료 시 파면 표가 더 많으면 파면, 동률·무투표는 복직입니다. 복직해도 원래 임기는 연장되지 않습니다.</li></ol>`, '황궁 전쟁 규정');
   }
   function join(side) {
     const roundId = state?.round?.id;

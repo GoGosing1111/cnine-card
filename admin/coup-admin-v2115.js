@@ -1,12 +1,12 @@
 (function () {
   'use strict';
   const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  let section, button, state, busy = false;
+  let section, button, state, busy = false, pendingSupport = null;
   async function api(path = '', body) {
     const token = localStorage.getItem('cnine_admin_token') || sessionStorage.getItem('cnine_admin_token') || '';
     const res = await fetch('/api/admin/coup' + path, { method: body ? 'POST' : 'GET', cache: 'no-store',
       headers: { authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }, ...(body ? { body: JSON.stringify(body) } : {}) });
-    const data = await res.json(); if (!res.ok) throw new Error(data.error || '요청에 실패했습니다.'); return data;
+    const data = await res.json(); if (!res.ok) throw Object.assign(new Error(data.error || '요청에 실패했습니다.'), {status: res.status}); return data;
   }
   function message(text, error = false) { const n = section.querySelector('[data-coup-admin-message]'); n.textContent = text; n.style.color = error ? '#ef9898' : '#bcd897'; }
   function render() {
@@ -22,8 +22,21 @@
     section.querySelector('[data-coup-nuclear-state]').textContent = state.skillSettings?.nuclearEnabled === true ? (cfg.enabled === false ? 'ON · 쿠데타 OFF로 발동 중지' : 'ON · 족장 발동 가능') : 'OFF · 잠금';
     for (const [key, value] of Object.entries(cfg)) { const n = section.querySelector(`[name="${key}"]`); if (n) n.value = value; }
     section.querySelector('[data-coup-admin-trial]').innerHTML = `<h3>국민 재판 현황</h3>${t ? `<p>${esc(t.defendantName)} · ${t.status === 'OPEN' ? '투표 진행 중 · 직무정지' : t.status === 'REMOVED' ? '파면 확정' : '복직 판결'}</p><p>복직 <b>${t.reinstate}</b>표 · 파면 <b>${t.remove}</b>표 / 유권자 ${t.electorate}명</p><p>마감 ${new Date(t.endsAt).toLocaleString('ko-KR')}</p>` : '<p>재판 기록이 없습니다.</p>'}<small>유저 투표로만 판결합니다. 마감 시 파면 표가 더 많으면 파면, 동률·무투표는 복직합니다. 복직 시 임기를 연장하지 않습니다.</small>`;
+    const support = r?.settings.rebelSupport?.roundId === r?.id && r?.settings.rebelSupport?.preset === 'REBEL_SUPPORT_20261002';
+    section.querySelector('[data-coup-support-state]').textContent = support ? `적용 완료 · 거점별 진영 체력 ${Number(r.maxHp).toLocaleString('ko-KR')} · 반란군 회복 90초 / 포격 25분 / 결집 45분` : '미적용 · 모집 중인 이번 회차에만 반란군 보정을 적용합니다.';
+    const applyButton = section.querySelector('[data-coup-apply-support]');
+    applyButton.disabled = busy || !pendingSupport && (cfg.enabled === false || r?.status !== 'RECRUITING' || support);
+    applyButton.textContent = pendingSupport ? '보정 저장 결과 재확인' : '이번 회차 반란군 보정 적용';
   }
   async function load() { try { state = await api(); render(); message('현황을 확인했습니다.'); } catch (e) { message(e.message, true); } }
+  async function applySupport() {
+    if (busy) return;
+    if (!pendingSupport) pendingSupport = {roundId: state.round?.id, expectedRevision: state.round?.revision, requestId: crypto.randomUUID(), preset: 'REBEL_SUPPORT_20261002', siegeHp: 10000000};
+    busy = true; render();
+    try { state = await api('/round-support', pendingSupport); pendingSupport = null; message('이번 회차 반란군 보정과 진영 체력 1,000만을 저장했습니다.'); }
+    catch (error) { if (error.status && error.status < 500) pendingSupport = null; message(error.message, true); }
+    finally { busy = false; render(); }
+  }
   async function action(name) {
     if (busy) return;
     if (name === 'reload') return load();
@@ -39,6 +52,8 @@
     section = document.createElement('section'); section.className = 'view'; section.id = 'view-coup'; section.hidden = true;
     section.innerHTML = `<div class="sectionIntro"><div><small>IMPERIAL PALACE</small><h2>쿠데타 · 국민 재판</h2><p>황궁 영토전과 유저 투표에 의한 족장 복직·파면</p></div></div><div class="coup-admin-grid"><div class="panel" data-coup-admin-round>현황 확인 중</div><form class="panel" data-coup-admin-settings><h3>별도 운영 시간</h3><p>저장한 값은 다음 모집부터 적용됩니다. 기존 영토전 시간은 변경하지 않습니다.</p><div class="coup-admin-fields"><label>전투 시간 (분)<input type="number" name="battleMinutes" min="1" max="10080" required></label><label>재판 투표 시간 (분)<input type="number" name="trialMinutes" min="1" max="10080" required></label><label>출격 대기 (초)<input type="number" name="attackCooldownSeconds" min="5" max="300" required></label><label>거점별 진영 체력<input type="number" name="siegeHp" min="1000" max="100000000" required></label></div><button type="submit">다음 회차 설정 저장</button></form><div class="panel" data-coup-admin-trial></div><div class="panel"><h3>패배 정산 규칙</h3><p>족장팀: 족장과 참가자 전원 포로수용소 8시간 수감. 족장 직무정지 및 재판 개시.</p><p>반란군: 코인 차감 없이 참가자 전원 포로수용소 8시간 수감.</p><p>재판 개시 당시 활성 USER·OWNER 계정 1표. 수감 중 투표 가능. 형기와 재판 결과는 별도로 적용됩니다.</p></div></div><p data-coup-admin-message role="status"></p>`;
     section.querySelector('.coup-admin-grid').insertAdjacentHTML('beforeend', '<div class="panel"><h3>족장 전용 스킬</h3><p>야포단 포격: 최대 전선 HP 30% · 30분<br>결사대 결집: 행동력 50 · 1시간</p><label><input type="checkbox" data-coup-nuclear> 원자폭탄 사용 ON</label><p data-coup-nuclear-state>OFF · 잠금</p><p>기본 OFF. OWNER가 직접 저장해야 발동할 수 있습니다. ON/OFF는 현재 회차에도 즉시 적용됩니다.</p><button type="button" data-coup-save-nuclear>원자폭탄 설정 저장</button></div>');
+    section.querySelector('.coup-admin-grid').insertAdjacentHTML('beforeend', '<div class="panel"><h3>이번 회차 반란군 지원</h3><p>반란군: 행동력 90초마다 1 회복 · 포격 25분 · 결집 45분</p><p>양 진영 거점 체력 1,000만. 족장팀 회복·스킬 주기는 유지합니다. 반란군 보정은 다음 회차에 자동 적용되지 않습니다.</p><p data-coup-support-state>현황 확인 중</p><button type="button" data-coup-apply-support disabled>이번 회차 반란군 보정 적용</button></div>');
+    section.querySelector('[data-coup-apply-support]').onclick = applySupport;
     section.querySelector('[data-coup-save-nuclear]').onclick = async () => {
       if (busy) return;
       const enabled = section.querySelector('[data-coup-nuclear]').checked;

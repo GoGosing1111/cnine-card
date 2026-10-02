@@ -1,7 +1,11 @@
 export const COUP_ENERGY_MAX = 10;
 export const COUP_ENERGY_RECOVERY_MS = 120000;
 export const COUP_SKILL_COOLDOWN_MS = 1800000;
-export const coupSkillCooldown = code => code === 'RALLY' ? 3600000 : COUP_SKILL_COOLDOWN_MS;
+export const COUP_REBEL_SUPPORT_PRESET = 'REBEL_SUPPORT_20261002';
+export const COUP_REBEL_SUPPORT = Object.freeze({ recoveryMs: 90000, artilleryCooldownMs: 1500000, rallyCooldownMs: 2700000 });
+export const coupRebelSupport = (roundId, settings = {}) => roundId && settings.rebelSupport?.roundId === roundId && settings.rebelSupport.preset === COUP_REBEL_SUPPORT_PRESET ? COUP_REBEL_SUPPORT : null;
+export const coupRecoveryMs = (side, roundId, settings) => side === 'REBEL' && coupRebelSupport(roundId, settings) ? COUP_REBEL_SUPPORT.recoveryMs : COUP_ENERGY_RECOVERY_MS;
+export const coupSkillCooldown = (code, side, roundId, settings) => side === 'REBEL' && coupRebelSupport(roundId, settings) && code !== 'NUCLEAR' ? (code === 'RALLY' ? COUP_REBEL_SUPPORT.rallyCooldownMs : COUP_REBEL_SUPPORT.artilleryCooldownMs) : code === 'RALLY' ? 3600000 : COUP_SKILL_COOLDOWN_MS;
 export const COUP_NUCLEAR_BLOCK_MS = 600000;
 export const COUP_CHIEF_SKILLS = Object.freeze([
   { code: 'NUCLEAR', name: '원자폭탄', image: '/assets/ui/coup/chief-nuclear-v2118.png', label: '반란군 최대 50명', effect: '행동력 0 · 10분 회복 불가', detail: '반란군 중 최대 50명을 무작위로 선택해 행동력을 0으로 만듭니다. 10분 동안 회복할 수 없으며, 이후 2분마다 1씩 회복합니다.' },
@@ -16,15 +20,15 @@ export function coupRebelCommanderId(roundId, settings) {
   const command = settings?.rebelCommand, id = Number(command?.userId);
   return roundId && command?.roundId === roundId && Number.isSafeInteger(id) && id > 0 ? id : null;
 }
-export function coupEnergy(row, now = Date.now()) {
+export function coupEnergy(row, now = Date.now(), recoveryMs = COUP_ENERGY_RECOVERY_MS) {
   const blockedUntil = Number(row?.blocked_until || 0);
   const saved = row?.energy == null ? 10 : Math.max(0, Math.min(100, Number(row.energy)));
   const anchor = Math.max(Number(row?.energy_at ?? now), blockedUntil);
-  if (blockedUntil > now) return { energy: 0, maxEnergy: 10, blockedUntil, energyAt: anchor, nextRecoveryAt: blockedUntil + COUP_ENERGY_RECOVERY_MS };
+  if (blockedUntil > now) return { energy: 0, maxEnergy: 10, blockedUntil, energyAt: anchor, nextRecoveryAt: blockedUntil + recoveryMs };
   if (saved >= 10) return { energy: saved, maxEnergy: 10, blockedUntil, energyAt: now, nextRecoveryAt: null };
-  const ticks = Math.max(0, Math.floor((now - anchor) / COUP_ENERGY_RECOVERY_MS));
-  const energy = Math.min(10, saved + ticks), energyAt = energy === 10 ? now : anchor + ticks * COUP_ENERGY_RECOVERY_MS;
-  return { energy, maxEnergy: 10, blockedUntil, energyAt, nextRecoveryAt: energy >= 10 ? null : energyAt + COUP_ENERGY_RECOVERY_MS };
+  const ticks = Math.max(0, Math.floor((now - anchor) / recoveryMs));
+  const energy = Math.min(10, saved + ticks), energyAt = energy === 10 ? now : anchor + ticks * recoveryMs;
+  return { energy, maxEnergy: 10, blockedUntil, energyAt, nextRecoveryAt: energy >= 10 ? null : energyAt + recoveryMs };
 }
 export function chooseNuclearTargets(rows, random = () => crypto.getRandomValues(new Uint32Array(1))[0] / 4294967296) {
   const result = [...rows];
