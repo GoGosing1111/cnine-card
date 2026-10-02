@@ -95,6 +95,18 @@ test('coup matchmaking stays near power, avoids the previous opponent and rotate
 });
 for (const pg of [false, true]) {
   const label = pg ? 'PostgreSQL' : 'SQLite';
+  test(`${label}: support after opening preserves live damage and changes existing rebel cooldowns once`,async t=>{
+    const f=await fixture(t,pg),id=await f.prepare();
+    await f.p('UPDATE coup_rounds_v2115 SET chief_hp=300000,rebel_hp=450000 WHERE id=?',id).run();
+    await f.p('INSERT INTO coup_skill_cooldowns_v2118(appointment_id,skill_code,next_use_at) VALUES(?,?,?)','coup-rebel:'+id,'RALLY',f.now+3600000).run();
+    const round=await f.p('SELECT * FROM coup_rounds_v2115 WHERE id=?',id).first();
+    const body={roundId:id,expectedRevision:Number(round.revision),requestId:'support-active-damage',preset:COUP_REBEL_SUPPORT_PRESET,siegeHp:10000000};
+    await applyCoupRoundSupport(f.env,{id:1,role:'OWNER'},body,f.now);
+    const saved=await f.p('SELECT * FROM coup_rounds_v2115 WHERE id=?',id).first();assert.equal(Number(saved.chief_hp),6000000);assert.equal(Number(saved.rebel_hp),9000000);assert.equal(saved.status,'ACTIVE');assert.equal(Number(saved.front_index),Number(round.front_index));
+    assert.equal(Number((await f.p('SELECT next_use_at FROM coup_skill_cooldowns_v2118 WHERE appointment_id=?','coup-rebel:'+id).first()).next_use_at),f.now+2700000);
+    await applyCoupRoundSupport(f.env,{id:1,role:'OWNER'},{...body,expectedRevision:Number(saved.revision),requestId:'support-active-again'},f.now);
+    assert.equal(Number((await f.p('SELECT next_use_at FROM coup_skill_cooldowns_v2118 WHERE appointment_id=?','coup-rebel:'+id).first()).next_use_at),f.now+2700000);
+  });
   test(`${label}: round support saves both 10-million fronts once, preserves commander and never carries support to next round`, async t => {
     const f=await fixture(t,pg),round=await openCoupRound(f.env,f.now),owner={id:1,role:'OWNER'};
     const original={...JSON.parse(round.settings_json),rebelCommand:{roundId:round.id,userId:2}};

@@ -51,19 +51,22 @@ export async function applyCoupRoundSupport(env, admin, body, now = Date.now()) 
   const previousReceipt = await receipt(); if (previousReceipt) return previousReceipt;
   await requireCoupEnabled(env);
   const round = await getRound(env, roundId);
-  if (!round || round.status !== 'RECRUITING' || round.starts_at != null || Number(round.revision) !== expectedRevision) fail('현재 모집 회차가 변경되었습니다. 현황을 다시 확인하세요.');
+  const active = round?.status === 'ACTIVE' && Number(round.ends_at) > now;
+  if (!round || !active && (round.status !== 'RECRUITING' || round.starts_at != null || Number(round.revision) !== expectedRevision) || active && expectedRevision > Number(round.revision)) fail('현재 회차가 변경되었습니다. 현황을 다시 확인하세요.');
   const globalRaw = (await p(env, 'SELECT value FROM app_meta WHERE key=?', SETTINGS).first())?.value ?? '{}';
   const before = parse(round.settings_json), after = {...before, siegeHp, rebelSupport: {roundId, preset}};
   const globalAfter = coupSettings({...parse(globalRaw), siegeHp});
+  if (before.rebelSupport?.roundId === roundId && before.rebelSupport?.preset === preset && Number(round.max_hp) === siegeHp && globalAfter.siegeHp === coupSettings(parse(globalRaw)).siegeHp) return {roundId, preset, siegeHp, replayed: true};
   const result = {roundId, ownerId: Number(admin.id), expectedRevision, requestId, preset, siegeHp, before, after, revision: expectedRevision + 1, completedAt: now};
   const token = crypto.randomUUID();
   try {
     await atomic(env, [
       p(env, 'INSERT INTO app_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=app_meta.value', SETTINGS, globalRaw),
       guard(env, token + ':settings', "SELECT 1 FROM app_meta WHERE key=? AND COALESCE(value,'{}')=?", SETTINGS, globalRaw),
-      ...roundClaim(env, round, token, "AND status='RECRUITING' AND starts_at IS NULL"),
-      guard(env, token + ':combat', 'SELECT 1 WHERE NOT EXISTS(SELECT 1 FROM coup_attacks_v2115 WHERE round_id=?)', roundId),
-      p(env, 'UPDATE coup_rounds_v2115 SET settings_json=?,chief_hp=?,rebel_hp=?,max_hp=? WHERE id=?', JSON.stringify(after), siegeHp, siegeHp, siegeHp, roundId),
+      ...roundClaim(env, round, token, active ? "AND status='ACTIVE' AND ends_at>? AND settings_json=?" : "AND status='RECRUITING' AND starts_at IS NULL", active ? [now, round.settings_json] : [], !active),
+      ...(active ? [] : [guard(env, token + ':combat', 'SELECT 1 WHERE NOT EXISTS(SELECT 1 FROM coup_attacks_v2115 WHERE round_id=?)', roundId)]),
+      p(env, 'UPDATE coup_rounds_v2115 SET settings_json=?,chief_hp=CAST((chief_hp*?+max_hp-1)/max_hp AS BIGINT),rebel_hp=CAST((rebel_hp*?+max_hp-1)/max_hp AS BIGINT),max_hp=? WHERE id=?', JSON.stringify(after), siegeHp, siegeHp, siegeHp, roundId),
+      p(env, "UPDATE coup_skill_cooldowns_v2118 SET next_use_at=next_use_at-CASE WHEN skill_code='RALLY' THEN 900000 ELSE 300000 END WHERE appointment_id=? AND skill_code IN ('RALLY','ARTILLERY')", 'coup-rebel:' + roundId),
       p(env, 'UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=?', JSON.stringify(globalAfter), SETTINGS),
       p(env, 'INSERT INTO app_meta(key, value) VALUES(?,?)', operationKey, JSON.stringify(result)),
       clearGuard(env, token + ':settings'), clearGuard(env, token + ':combat'), clearGuard(env, token)
