@@ -33,7 +33,8 @@ test('public document uses the native forge-inspired archive with game links and
   const limitedTab='<button id="limitedView" type="button" role="tab" data-view="limited" aria-controls="cardGrid" aria-selected="false">리미티드 <b id="limitedCount">—</b></button>';
   const limitedCss='<link rel="stylesheet" href="/mercenary-codex/limited.css?v=20261002">';
   assert.equal(html.split(limitedTab).length,2);assert.equal(html.split(limitedCss).length,2);
-  assert.equal(html.replaceAll('\r\n', '\n').replaceAll('&limited=20261002-canonical2','').replace(limitedTab,'').replace(limitedCss,''), publicCodexHtml());
+  assert.equal(html.split('&amp;mine=20261003').length,3);
+  assert.equal(html.replaceAll('\r\n', '\n').replaceAll('&amp;mine=20261003','').replaceAll('&limited=20261002-canonical2','').replace(limitedTab,'').replace(limitedCss,''), publicCodexHtml());
   assert.match(html, /data-codex-mode="public"/);
   assert.match(html, /내 용병 확인 중/);
   assert.doesNotMatch(html, /검수용 프리뷰|유저 미공개|메뉴 배치입니다|target="_blank"/);
