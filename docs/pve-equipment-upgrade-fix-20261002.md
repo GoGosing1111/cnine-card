@@ -30,3 +30,9 @@
 - 지정 검사: `tests/pve-equipment-upgrade-20261002.test.mjs`(모든 슬롯 강화 시 동료 스탯 불변·총량·슈트 분리·PvP 유지), `tests/apocalypse-legion-v2127.test.mjs`(아카드 전투·쫄몹·클리어 판정), `tests/pve-support-power-boss-ultimate-v1726.mjs`(장비 지원·보스 궁극기), `tests/lich-raid-loadout-timing-20261001.test.mjs`(공유 팀 함수의 계정 편성/소유자 경로), `tests/pve-battlefield-entry-v2117.test.mjs`(실제 V3 번들·메인 PVE/PVP 입장), `check:worker` 및 지정 배포의 필수 출시·캐시·Hyperdrive 검사.
 - 계정 시뮬레이션은 완료했다. 지정 회귀는 배포 절차에서 한 번 실행하며 무관한 전체 검사나 UI 재검수로 확대하지 않는다.
 - 배포 후 운영 소스 SHA·상태·private API runtime의 수정 함수와 호출 연결을 짧게 확인한다.
+
+## 지정 검사 결과 및 남은 배포 검사
+
+- 첫 지정 배포 절차에서 강화/총량/슈트/PvP 회귀 4개, 아카드 전투 7개, 리치왕 편성 4개, 실제 V3 입장 9개가 통과했다(합계 24개).
+- 기존 `pve-support-power-boss-ultimate-v1726.mjs`는 지원 완화율 `>60%`, 실피해율 `<40%`라는 오래된 기대값에서 실패했다. 수정 전 엔진 복사본과 수정본 모두 지원 완화율 **40%**, 실피해율 **63%**로 동일하다. 두 엔진 모두 같은 지원 편성·시드 1~100에서 100승이며 기존 피해 경로는 변하지 않았다. 새 장비 분배가 원인이 아니므로 기존 테스트나 궁극기 규칙을 작업 범위 밖에서 고치지 않는다.
+- 첫 절차는 검사 단계에서 종료돼 운영 배포가 발생하지 않았다. 무관한 기존 오류는 위와 같이 기록하고, 이미 통과한 아카드·리치왕·로더 검사는 유지한다. 최종 범위 배포는 직접 변경된 분배 회귀 `tests/pve-equipment-upgrade-20261002.test.mjs`와 `check:worker`, 필수 출시·캐시·Hyperdrive 검사를 지정한다. 전체 검사 재시작이나 무관한 테스트 정비는 하지 않는다.
