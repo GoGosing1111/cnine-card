@@ -157,7 +157,7 @@ async function command(kind,body={}){
   $('createButton').disabled=true;
   let applied=false;
   if(kind==='action')window.LichBattle?.setPending?.(true);
-  const input={...(kind!=='open'?{roomId}:{}),...body},key=kind+':'+JSON.stringify(input);
+  const input={...(kind!=='open'?{roomId}:{}),...(['open','join','ready','start'].includes(kind)?{clientRulesVersion:2}:{}),...body},key=kind+':'+JSON.stringify(input);
   if(!pending.has(key))pending.set(key,crypto.randomUUID());sessionStorage.setItem('lichLiveRequests',JSON.stringify([...pending].slice(-20)));
   try{
     const result=await api(kind+(kind==='action'?'?since='+eventSeq:''),{method:'POST',body:{...input,requestId:pending.get(key)},timeoutMs:15000});

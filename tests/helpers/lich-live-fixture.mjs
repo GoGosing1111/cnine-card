@@ -44,6 +44,7 @@ export async function lichLiveFixture({postgres=false}={}){
   let serial=0;
   const uid=()=> 'request_'+String(++serial).padStart(8,'0');
   async function call(route,{user=1,body,method=body?'POST':'GET',origin='https://test.invalid'}={}){
+    if(body&&['open','join','ready','start'].includes(route.split('?')[0]))body={clientRulesVersion:2,...body};
     const path=route.startsWith('admin/')?route:'raid/lich/'+route;
     const request=new Request('https://test.invalid/api/'+path,{method,headers:{authorization:'Bearer local-qa-'+user,'content-type':'application/json',origin},...(body?{body:JSON.stringify(body)}:{})});
     const response=await handleLichRaid({path:path.split('?')[0],request,env,deps});

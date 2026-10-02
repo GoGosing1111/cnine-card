@@ -138,6 +138,7 @@ const boss=power=>({id:'LICH_KING',name:'리치왕',isBoss:true,is_boss:1,battle
   image:'/preview/lich-king-raid-poster-v1/lich-king-source-art-v1.png',battleSprite:'/preview/lich-king-raid-v1/assets/lich-king-battle-sd-v1.png'});
 async function openRoom(env,user,cfg,body,deps,now){
   const prior=await receipt(env,user,'open',body);if(prior.result)return prior.result;
+  if(body.clientRulesVersion!==2)fail('CLIENT_UPDATE','리치왕 협동 기믹이 개편되었습니다. 새로고침한 뒤 공대를 만들어 주세요. 입장권은 사용되지 않았습니다.');
   const active=await currentRoom(env,user,now);
   if(active)fail('ALREADY_JOINED','이미 참가 중인 공대가 있습니다. 현재 공대로 복귀하세요.');
   const deck=await deps.raidDeckPower(env,user.id,undefined,'RAID');
@@ -174,6 +175,8 @@ async function roomCommand(env,user,cfg,kind,body,deps,now,since=0){
     const {row,room}=await loadRoom(env,body.roomId);now=Math.max(Date.now(),now,room.clock);tick(room,now);
     const extra=[],isHost=room.hostId===id(user.id);
     if(room.kicked.includes(id(user.id)))fail('KICKED','강제퇴장된 공대에는 다시 참가할 수 없습니다.',403);
+    if(room.rulesVersion===2&&['join','ready','start'].includes(kind)&&body.clientRulesVersion!==2)
+      fail('CLIENT_UPDATE','새 협동 기믹을 불러와야 합니다. 새로고침한 뒤 참가·준비해 주세요.');
     if(kind==='join'){
       if(room.status!=='LOBBY')fail('STARTED','이미 출정했거나 모집이 끝난 공대입니다.');
       if(!room.members.some(m=>m.id===id(user.id))){
@@ -267,7 +270,7 @@ export async function handleLichRaid({path,request,env,deps}){
     }
     if(request.method!=='POST')return json({error:'지원하지 않는 요청입니다.'},405);
     const kind=path.slice('raid/lich/'.length);
-    const fields={open:['requestId'],join:['requestId','roomId'],assign:['requestId','roomId','targetId','role'],ready:['requestId','roomId','ready'],kick:['requestId','roomId','targetId'],start:['requestId','roomId'],leave:['requestId','roomId'],action:['requestId','roomId','challengeId','action','target','stepToken']}[kind];
+    const fields={open:['requestId','clientRulesVersion'],join:['requestId','roomId','clientRulesVersion'],assign:['requestId','roomId','targetId','role'],ready:['requestId','roomId','ready','clientRulesVersion'],kick:['requestId','roomId','targetId'],start:['requestId','roomId','clientRulesVersion'],leave:['requestId','roomId'],action:['requestId','roomId','challengeId','action','target','stepToken']}[kind];
     if(!fields)fail('ROUTE','지원하지 않는 공대 명령입니다.',404);
     const body=await readJointBody(request,{fields});
     const since=Number(url.searchParams.get('since'))||0;

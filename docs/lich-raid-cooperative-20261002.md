@@ -32,4 +32,10 @@
 - 배포 지정 검사: `tests/lich-king-raid-v1.test.mjs`, `tests/lich-raid-live-20260928.test.mjs`, `tests/lich-raid-loadout-timing-20261001.test.mjs`, `tests/lich-raid-inline-entry-20260929.test.mjs`, `tests/lich-raid-coop-20261002.test.mjs`, `tests/pve-battlefield-entry-v2117.test.mjs`, `check:worker`. 신규/기존 진행 공대·편성·거래·메인/번들·PVE/PVP 진입만 포함한다. 이미 통과한 브라우저 검수를 다시 반복하지 않는다.
 - 깨끗한 범위 커밋·origin/main 일치·출시 플래그·보상 잠금·캐시·private API runtime·Hyperdrive 조건은 지정 배포 도구로 확인한다. 배포 후에는 대표 변경 자산과 배포 성공 상태만 짧게 확인한다.
 
-배포 완료 정보는 아래에 추가한다.
+## 최초 운영 반영 및 구형 화면 보호 보완
+
+- 소스 `ea89ec4634e23108e4a23a940f7abbb2b70c2fb7`를 범위 배포했다. 지정 회귀 46개, `check:worker`, 필수 출시·캐시·Hyperdrive 검사가 통과했다. Pages `ea382f73-dcaf-4ab5-b594-7f50e823b018`의 소스 일치·success를 운영 메타데이터에서 확인했다. API runtime `bdf425dc-6478-4f40-a55b-41a4bc6fa877`, clan-draft `eb6c3442-6582-4078-a3ba-362e0248b045`이며 지정 배포 명령은 종료 코드 0이었다.
+- 마지막 호환성 확인에서 배포 전 페이지를 켜둔 사용자가 V2 공대를 만든 뒤 구형 입력을 보내는 경로를 확인했다. 창설·참가·준비·출정에 클라이언트 규칙 버전을 검증하고, 구형 화면은 **입장권 차감 전에 새로고침 안내**로 막는다. V1 대기방과 기존 요청 영수증 재전송은 유지한다. 새 화면 캐시는 `20261002-coop-v2a`다.
+- 이 보완의 배포 기준은 위 실제 운영 소스다. 검사 대상은 새 `tests/lich-raid-client-version-20261002.test.mjs`, 기존 공대 거래 `tests/lich-raid-live-20260928.test.mjs`, 진입/캐시 `tests/lich-raid-inline-entry-20260929.test.mjs`와 `check:worker`로 한정한다. 변경하지 않은 전투 기믹·PC/모바일 검수를 다시 반복하지 않는다.
+
+최종 배포 확인 정보는 아래에 추가한다.

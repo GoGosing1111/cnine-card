@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test:lich-raid": "node --test tests/lich-king-raid-v1.test.mjs tests/lich-raid-live-20260928.test.mjs tests/lich-raid-coop-20261002.test.mjs",
+    "test:lich-raid": "node --test tests/lich-king-raid-v1.test.mjs tests/lich-raid-live-20260928.test.mjs tests/lich-raid-coop-20261002.test.mjs tests/lich-raid-client-version-20261002.test.mjs",
     "test:z-body-effects": "node --test tests/z-body-area-skill-v3.test.mjs tests/z-body-thunder-fx-v3.test.mjs tests/z-body-normal-fx-v3.test.mjs tests/z-body-release-v3.test.mjs",
     "build:lobby": "node scripts/build-adventure-lobby-v2107.mjs",
     "test:lobby": "node scripts/build-adventure-lobby-v2107.mjs --check && node --test tests/adventure-lobby-menu-separation.test.mjs",
