@@ -1,0 +1,202 @@
+{
+  "status": "COMPLETED",
+  "request": "한화 진짜디임 여성 밀착 유니폼·짧은 치마; 새 포즈; 키가 크고 날씬한 체형과 긴 다리; 한화 전원 시즌 종료까지 지급",
+  "generator": "built-in image_gen",
+  "revision": 3,
+  "grant": {
+    "executedAt": "2026-10-02T17:27:36.875Z",
+    "mode": "apply",
+    "assetVerification": [
+      {
+        "field": "lobby_image",
+        "path": "preview/avatar-hanwha-diim-v1/assets/diim-lobby-v3-1024.webp",
+        "sha256": "b6937b5b0e747aeb86aeecd725ea9752760d3f31aef38ba1a1dd449f856fe3d7",
+        "productionVerified": true
+      },
+      {
+        "field": "lobby_mobile_image",
+        "path": "preview/avatar-hanwha-diim-v1/assets/diim-lobby-v3-640.webp",
+        "sha256": "e4c2831b2a69d01716cc9c019ecf2465d4de5d2e1cf066b581047171cb4b05b0",
+        "productionVerified": true
+      },
+      {
+        "field": "equipment_image",
+        "path": "preview/avatar-hanwha-diim-v1/assets/diim-equipment-v3-640.webp",
+        "sha256": "e1bd57dd4a39ea6996fd5f9443ee379d84788a123e6c07efd67aba79d602c44f",
+        "productionVerified": true
+      }
+    ],
+    "result": {
+      "status": "COMPLETED",
+      "operationKey": "ops:hanwha-diim-avatar-release:20261003:v1",
+      "seasonId": 6,
+      "seasonNo": 3,
+      "clanId": 4,
+      "clanName": "한화",
+      "code": "HANWHA_DIIM",
+      "serial": "A-33",
+      "name": "한화 진짜디임",
+      "sourceAvatar": {
+        "code": "HANWHA_KANGGUYEOL",
+        "version": 1
+      },
+      "effects": [
+        {
+          "option_order": 0,
+          "effect_type": "DROP_RATE_PERCENT",
+          "effect_value": 30
+        },
+        {
+          "option_order": 1,
+          "effect_type": "COIN_GAIN_PERCENT",
+          "effect_value": 100
+        },
+        {
+          "option_order": 2,
+          "effect_type": "RAID_EXTRA_ENTRY",
+          "effect_value": 10
+        },
+        {
+          "option_order": 3,
+          "effect_type": "BATTLE_POWER_PERCENT",
+          "effect_value": 3
+        }
+      ],
+      "granted": 19,
+      "recipientIds": [
+        39,
+        88,
+        197,
+        295,
+        525,
+        750,
+        2246,
+        3892,
+        4010,
+        4209,
+        4391,
+        4408,
+        4479,
+        4504,
+        4610,
+        4718,
+        4757,
+        4773,
+        4836
+      ],
+      "acquiredAt": "2026-10-02 17:27:33",
+      "expiresAt": "2026-10-11 13:00:00",
+      "diimMembership": "ALREADY_HANWHA",
+      "adminLogId": "40109"
+    }
+  },
+  "verification": {
+    "verifiedAt": "2026-10-02T17:27:42.197Z",
+    "readOnly": true,
+    "checks": "PASS",
+    "season": {
+      "id": "6",
+      "season_no": "3",
+      "phase": "ACTIVE",
+      "expires_at": "2026-10-11 13:00:00"
+    },
+    "catalog": {
+      "code": "HANWHA_DIIM",
+      "serial": "A-33",
+      "name": "한화 진짜디임",
+      "call_sign": "HANWHA DIIM",
+      "role_label": "한화 클랜 여성 유니폼",
+      "description": "디임 간호사 원화의 얼굴을 살린 한화 클랜 여성 아바타. 새 포즈와 키가 크고 날씬한 체형, 긴 다리, 검정·주황 밀착 유니폼과 짧은 치마.",
+      "lobby_image": "preview/avatar-hanwha-diim-v1/assets/diim-lobby-v3-1024.webp",
+      "lobby_mobile_image": "preview/avatar-hanwha-diim-v1/assets/diim-lobby-v3-640.webp",
+      "equipment_image": "preview/avatar-hanwha-diim-v1/assets/diim-equipment-v3-640.webp",
+      "accent": "#ec8a29",
+      "acquisition_type": "EVENT",
+      "coin_price": null,
+      "source_label": "한화 클랜 시즌 기간제 지급",
+      "source_detail": "현재 한화 클랜원 전원 · 2026-10-11 22:00 KST 시즌 종료까지",
+      "effect_type": "DROP_RATE_PERCENT",
+      "effect_value": 30,
+      "is_active": 1,
+      "is_public": 1,
+      "sale_enabled": 0,
+      "sort_order": 330,
+      "version": 1,
+      "created_at": "2026-10-02 17:27:33",
+      "updated_at": "2026-10-02 17:27:33"
+    },
+    "effects": [
+      {
+        "option_order": 0,
+        "effect_type": "DROP_RATE_PERCENT",
+        "effect_value": 30
+      },
+      {
+        "option_order": 1,
+        "effect_type": "COIN_GAIN_PERCENT",
+        "effect_value": 100
+      },
+      {
+        "option_order": 2,
+        "effect_type": "RAID_EXTRA_ENTRY",
+        "effect_value": 10
+      },
+      {
+        "option_order": 3,
+        "effect_type": "BATTLE_POWER_PERCENT",
+        "effect_value": 3
+      }
+    ],
+    "granted": 19,
+    "recipientIds": [
+      39,
+      88,
+      197,
+      295,
+      525,
+      750,
+      2246,
+      3892,
+      4010,
+      4209,
+      4391,
+      4408,
+      4479,
+      4504,
+      4610,
+      4718,
+      4757,
+      4773,
+      4836
+    ],
+    "diim": {
+      "userId": 4773,
+      "nickname": "진짜디임",
+      "clanId": 4,
+      "clanName": "한화"
+    },
+    "expiresAt": "2026-10-11 13:00:00",
+    "allUnexpired": true,
+    "operationKey": "ops:hanwha-diim-avatar-release:20261003:v1",
+    "adminLogId": "40109"
+  },
+  "production": {
+    "id": "225c91a5-363f-41b2-bb64-72c7430b962e",
+    "createdOn": "2026-10-02T17:26:15.300119Z",
+    "environment": "production",
+    "sha": "b87b45a74f44b23eac4e5363640ce5020734c516",
+    "url": "https://225c91a5.cnine-card.pages.dev",
+    "status": "success"
+  },
+  "tests": {
+    "file": "tests/clan-hanwha-diim-avatar-release-20261003.test.mjs",
+    "passed": 4,
+    "failed": 0
+  },
+  "visualReview": {
+    "pc": "1365x960",
+    "mobile": "390x844",
+    "horizontalOverflow": false,
+    "source": "C:/Users/User/.codex/tmp/avatar-hanwha-diim-20261003/production-gallery.png"
+  }
+}
