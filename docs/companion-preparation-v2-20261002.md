@@ -45,3 +45,11 @@ OWNER 관리자 메뉴 **펫·동료 준비**에서 추가·삭제·이름·SD �
 - `tests/companion-preparation-20261002.browser.mjs`: PC 1440×1050 / 모바일 390×844에서 실제 서버 핸들러와 PostgreSQL 호환 테스트 저장소를 사용한다. 편집·저장·중복 등급 차단·SD·버프·삭제·실패 재확인·OWNER 메뉴·가로 넘침을 확인한다.
 - 브라우저의 `검수용 펫`은 테스트 저장소에만 만들며 승인 용병 SD를 로딩 검사용으로 재사용한다. 운영 초기 펫·승인 펫 원화로 등록하지 않는다.
 - 국소적인 OWNER 준비 경로이며 공통 인증·DB·기존 계정 저장 구조를 변경하지 않는다. 관련 서버 회귀·PC/모바일 검수와 Worker 컴파일을 선택해 scoped 배포한다. 결과 이미지는 저장소 밖 `C:/Users/User/.codex/tmp/companion-preparation-20261002/qa/`에 보존한다.
+
+### 완료 기록
+
+- 2026-10-02 15:57 KST 운영 반영과 짧은 확인 완료. 배포 소스 `06c2da1d182d594408ffb2e4ed95a131dd2d266b`, 직전 운영 기준 `d9749157b46b118b08bc671e49b7e709a613907e`.
+- 선정 검사: 신규 준비 회귀, 기존 `mercenary-turn-cadence-v2099`와 `mercenary-combat-v3` 총 **40개 통과**, `check:worker`와 출시/Hyperdrive 보호 검사 통과. PC·모바일 실제 핸들러 연결 검수 통과, 가로 넘침·SD 누락·브라우저 오류 0.
+- Pages 배포 ID `b577579d-4c25-4fba-b008-8a6faf794ef0`, API Runtime `a472ce76-3cbb-4697-9a84-25139b79a4fd`, clan-draft `adee2b52-9bf6-4d94-8ce0-345e7788a7b4`.
+- 운영에서 관리자 로더·새 CMS JS/CSS·검수 페이지·펫 공용 모델 HTTP 200, 비로그인 API 401/no-store를 확인했다. 배포된 Runtime의 OWNER 제한·시작 버프 이벤트와 2슬롯/펫/획득 OFF를 확인했다. 운영 OWNER 계정의 실제 설정 입력이나 초기 펫 등록은 하지 않았다.
+- 배포 명령/선정 사유는 `C:/Users/User/.codex/tmp/companion-preparation-20261002/deploy.log`, 운영 확인은 같은 폴더의 `release-after.json`에 보존한다. 이 완료 기록만 추가한 커밋에는 게임 재검사·운영 재배포를 하지 않는다.
