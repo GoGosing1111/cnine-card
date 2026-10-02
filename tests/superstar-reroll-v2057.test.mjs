@@ -11,7 +11,9 @@ import {TOURNAMENT_GIFT} from '../functions/_tournament_gift.js';
 const read=path=>readFileSync(new URL('../'+path,import.meta.url),'utf8');
 const app=read('js/app.js'),api=read('functions/api/[[path]].js');
 const clientMeta=app.slice(app.indexOf('const RETIREMENT_REROLL_META='),app.indexOf('function inventoryView('));
-const serverMeta=api.slice(api.indexOf('const CUBE_CODES='),api.indexOf('function defaultCubeSettings('));
+const metaStart=api.indexOf('const RETIREMENT_REROLL_TICKETS='),metaEnd=api.indexOf('function koreanWeekKey(',metaStart);
+assert.ok(metaStart>=0&&metaEnd>metaStart,'the live retirement reroll catalog must be present');
+const serverMeta=api.slice(metaStart,metaEnd);
 const openSource=app.slice(app.indexOf('async function openInventoryPack('),app.indexOf('async function openMagicCardPack('));
 const route=api.slice(api.indexOf("    if(path==='inventory/use'&&request.method==='POST')"),api.indexOf("    if(path==='attendance/claim'"));
 
