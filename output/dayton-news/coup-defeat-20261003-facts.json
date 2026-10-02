@@ -1,0 +1,51 @@
+{
+  "title": "데이턴 뉴스 · 반란군 패배 결산 특별호",
+  "createdAt": "2026-10-02T16:25:28.760Z",
+  "generator": "built-in image_gen",
+  "promptPath": "coup-defeat-20261003-prompt.txt",
+  "imagePath": "coup-defeat-20261003.png",
+  "generatedSource": "C:/Users/User/.codex/generated_images/01a0f1f2-cc91-72c3-a322-19e4d45ed867/exec-c9af57c7-5f35-444a-904a-41ab32d3f553.png",
+  "sha256": "44f6debb18cd2bb83ddbbdf27f77718623e04d28fe90789987970282cfa2b9e2",
+  "dimensions": {
+    "width": 1024,
+    "height": 1536
+  },
+  "verifiedFacts": {
+    "roundId": "6a9e2006-6396-4037-b694-15cf5a37143b",
+    "status": "FINISHED",
+    "winner": "CHIEF",
+    "chiefName": "하이희야♡",
+    "rebelCommander": "진짜디임",
+    "startsAt": "2026-10-02T14:12:41.691Z",
+    "finishedAt": "2026-10-02T16:18:21.642Z",
+    "durationMs": 7539951,
+    "participants": 149,
+    "totalSorties": 13524,
+    "remainingChiefHp": 709000,
+    "remainingRebelHp": 0,
+    "teams": [
+      {
+        "side": "REBEL",
+        "registered": 64,
+        "sortieParticipants": 61,
+        "participationPercent": 95.3,
+        "totalSorties": 6476
+      },
+      {
+        "side": "CHIEF",
+        "registered": 85,
+        "sortieParticipants": 77,
+        "participationPercent": 90.6,
+        "totalSorties": 7048
+      }
+    ],
+    "prison": {
+      "registered": 64,
+      "hours": 8,
+      "coinPenalty": 0,
+      "jailedAt": "2026-10-02 16:18:21",
+      "jailedUntil": "2026-10-03 00:18:21"
+    }
+  },
+  "visualQa": "Korean masthead, headline, leader names, final numbers, article text and 8-hour imprisonment checked in displayed generated image; no cropped text."
+}

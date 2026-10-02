@@ -1,0 +1,29 @@
+Use case: ads-marketing.
+Asset type: a polished Korean newspaper front page image, a shareable game-news artifact, portrait approximately 2048x3072 (2:3).
+Primary request: Create "데이턴 뉴스" / DAYTON NEWS reporting the verified defeat of the rebel faction in the fictional game 숲켓몬. Make it feel like a prestigious clan-season settlement newspaper, dense but beautifully legible, with impeccable Korean typography, a dominant headline, disciplined editorial columns and a large engraved battlefield illustration. This is a finished flat newspaper page, not a newspaper lying on a table, not a browser screenshot.
+Style: premium old newspaper editorial design with warm ivory newsprint, subtle paper grain, near-black ink, restrained oxblood accents, double hairline rules, bold Korean Myeongjo-style serif headlines, well spaced readable Korean body text. Professional editorial hierarchy, large text, elegant three-column lower section, no dashboard cards, no fantasy game UI frame, no glossy 3D lettering.
+Illustration: one dramatic wide monochrome engraved/halftone illustration under the headline: the intact monumental outer gate of a dark fantasy palace amid smoke at dawn; a fallen rebel banner and exhausted retreating adult soldiers in the foreground. A visual metaphor for a failed coup, dignified and solemn. Do not show recognizable real people or use existing avatars. No gore, no executions, no guns. Do not replicate the attached old territory-map poster. Illustration integrates naturally with the newspaper ink.
+Composition: masthead at top, large two-line Korean defeat headline, short subheadline, strong horizontal hero illustration with a short caption, a compact unboxed typeset results table, and three short columns of article text with thin vertical rules. Put generous space around the headline and keep all type inside safe page margins. All copy below must be clearly readable and verbatim; don't add gibberish or fake small filler text.
+
+Exact masthead: "데이턴 뉴스"
+Small English line: "DAYTON NEWS"
+Dateline: "2026.10.03  |  숲켓몬 쿠데타 결산 특별호"
+Main headline, largest type: "반란군 패배"
+Second headline line: "황궁은 무너지지 않았다"
+Subheadline: "진짜디임의 반란 좌절… 하이희야♡ 족장 체제 유지"
+Image caption: "황궁 외문에서 끝난 반란. 마지막까지 버틴 족장팀이 승리를 확정했다."
+Results table header: "최종 전황"
+Table columns: "진영", "등록", "출격 참여", "누적 출격"
+Table row: "족장팀  |  85명  |  77명  |  7,048회"
+Table row: "반란군  |  64명  |  61명  |  6,476회"
+Small table note: "참여율  족장팀 90.6% · 반란군 95.3%"
+Column 1 title: "149명 참전, 13,524회 출격"
+Column 1 body: "10월 3일 01시 18분, 쿠데타는 족장팀 승리로 종료됐다. 2시간 5분 40초의 격전 끝에 반란군 거점 체력은 0, 족장팀은 709,000을 남겼다. 하이희야♡의 족장 체제는 유지됐다."
+Column 2 title: "높은 참여율도 패배를 막지 못했다"
+Column 2 body: "진짜디임 반란군은 64명 중 61명이 출격해 참여율 95.3%를 기록했다. 족장팀은 85명 중 77명, 90.6%였다. 반란군의 참여율은 높았지만, 누적 출격은 족장팀이 572회 앞섰다."
+Column 3 title: "반란군 64명 전원 8시간 수감"
+Column 3 body: "패배한 반란군 64명은 포로수용소에 8시간 수감됐다. 패배로 인한 코인 차감은 없다. 패배의 기록과 마지막까지 이어진 출격은 함께 남는다."
+Bottom editorial kicker: "참여율 95.3%. 그러나 황궁의 문은 열리지 않았다."
+Footer: "데이턴 뉴스  ·  쿠데타 결산  ·  2026.10.03"
+
+Constraints: Final verified winner is CHIEF/족장팀. Rebels lost. Keep all numbers exactly as above. Do not invent interviews, quotations attributed to players, MVP rankings, penalties, rewards, clan scores or final votes. The two leaders' names are Korean and must be rendered exactly: 진짜디임, 하이희야♡. Avoid tiny unreadable text, spelling errors, warped lines, decorative pseudo-writing, crowded typography, gigantic badges and modern admin UI panels.
