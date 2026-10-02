@@ -1,0 +1,169 @@
+{
+  "status": "DEPLOYED_AND_VERIFIED",
+  "verifiedAtKst": "2026-10-03 07:27:26",
+  "candidate": "25cc734ea35466b97928f3c589c6c6154f6df205",
+  "territoryImplementation": "136294a792b0d6dd032140322fc76a0ba3aed75c",
+  "freshFullGateBase": "eb11ddaf3f3fb7a946f754737dd87e53d5cccd4f",
+  "deployment": {
+    "command": "npm run deploy:production",
+    "pages": "https://4c1bd9dc.cnine-card.pages.dev",
+    "production": "https://cnine-card.pages.dev",
+    "apiWorker": "0d465950-18e5-48b0-b476-710c1677b694",
+    "clanDraftWorker": "8696f20c-c5cf-4f61-9534-dc6c297b314c",
+    "hyperdriveQueryCache": false
+  },
+  "fullGate": {
+    "stageCount": 70,
+    "allStagesPassed": true,
+    "contiguousPrefixChecked": true,
+    "onlyTestFixtureChangesAfterFullGateBase": true,
+    "rawLogsPreserved": true,
+    "noFabricatedResults": true,
+    "logs": [
+      {
+        "file": "production-release-mine-merged.log",
+        "sha256": "497e37a2f462e351c2e1c9725afbb5e9798851e0c206d0e8c435215772463cb0"
+      },
+      {
+        "file": "production-release-prediction-final.log",
+        "sha256": "22913491abee20277266d42079351fecd2b2b54fcce524485f1351e6abb8f1ee"
+      },
+      {
+        "file": "production-release-superstar-final.log",
+        "sha256": "aa6d551a833882fdfee54b3eae043b5b8c67049ed1ac5e7da80cd0439b47d0fe"
+      },
+      {
+        "file": "production-release-fur-final.log",
+        "sha256": "41018d7d886574693ebd2f0dae43fabac325e7b09e3061ad3793a15e6de724cd"
+      },
+      {
+        "file": "production-release-reroll-final.log",
+        "sha256": "36b19d495f726e3775519011a93c6d31c853345f6d922fcf3e49f7ec16912a6b"
+      },
+      {
+        "file": "production-release-complete.log",
+        "sha256": "cd8aa49151ec6dd02edd03dc47a37f6d1a7fc8bcb442d8a29c719be0ec0bf302"
+      }
+    ]
+  },
+  "ui": {
+    "fixtureOnly": true,
+    "productionAttack": false,
+    "checks": [
+      "1600 actual UI: map entry/return, no overlapping controls, three real facility images, objective selection, real Pixi personal battle and server result",
+      "390 actual UI: map entry/return, no overlapping controls, three real facility images, objective selection, real Pixi personal battle and server result",
+      "CMS: 26 bounded facility fields load and save under battlefield, with future-formation policy notice"
+    ],
+    "errors": [],
+    "reportSha256": "7831bf3385c4d1293c85fd92169d15f53923e1c1a9f75b59954a91496d53324b"
+  },
+  "live": {
+    "checks": [
+      {
+        "path": "js/territory-battlefield-v5.js",
+        "status": 200,
+        "sha256": "a49ccbc5bfb81026c2efca45b26fdcbf34eeb8ccc5286d56bcbc47c0ba0e8ec5",
+        "bytes": 21619
+      },
+      {
+        "path": "css/territory-battlefield-v5.css",
+        "status": 200,
+        "sha256": "6ef6114154811b8700d82194f5138b9ef89f796684880476617c73f4b7188240",
+        "bytes": 25122
+      },
+      {
+        "path": "js/territory-war-v1811.js",
+        "status": 200,
+        "sha256": "a895d7779108af84751dd24e5304a51611ddbb3e8e3dcb71be49201f8184ac0c",
+        "bytes": 81714
+      },
+      {
+        "path": "admin/territory-war-admin-v1362.js",
+        "status": 200,
+        "sha256": "30827ce2b9383847e9661a39b13206c182f17e9677a0b84e7466328b95af5151",
+        "bytes": 35440
+      },
+      {
+        "path": "js/battle-v3-live.js",
+        "status": 200,
+        "sha256": "daad5b12beade1543cf9daa71f18f74ba3c83e688d0c8792e3621c5cbbb33f43",
+        "bytes": 75256
+      },
+      {
+        "path": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+        "status": 200,
+        "sha256": "65ceba7f228fb34414ed853dd65e07141c911f41db2badb1490797541d23f209",
+        "bytes": 1419320
+      },
+      {
+        "path": "assets/ui/territory-war/battlefield-v5/battlefield-panorama-1600.webp",
+        "status": 200,
+        "sha256": "f4344ef996f3e4e40412d3623ae9d9dccb5e2980acfa5ce45ac4d75184c31f5b",
+        "bytes": 271844
+      },
+      {
+        "path": "assets/ui/territory-war/battlefield-v5/relay-640.webp",
+        "status": 200,
+        "sha256": "750bac72f63ca6804b017522ca65d1485cffe763590dada556de056827a33d07",
+        "bytes": 198372
+      },
+      {
+        "path": "assets/ui/territory-war/battlefield-v5/supply-640.webp",
+        "status": 200,
+        "sha256": "dd1054f35b93eba3f79a3e314010025bea98112e3e9e3dbc4b679df11289d1fc",
+        "bytes": 173692
+      },
+      {
+        "path": "assets/ui/territory-war/battlefield-v5/cannon-640.webp",
+        "status": 200,
+        "sha256": "d6c474866bf03824d1940fa07826b699d300511907c45fe87182c21052d24805",
+        "bytes": 159756
+      },
+      {
+        "path": "index.html",
+        "status": 200,
+        "releaseTag": true
+      },
+      {
+        "path": "service-worker.js",
+        "status": 200,
+        "releaseTag": true
+      },
+      {
+        "path": "api/territory-war/state",
+        "status": 401,
+        "authenticationRetained": true
+      }
+    ],
+    "marker": {
+      "key": "territory_battlefield_v5_20261003",
+      "value": "1"
+    },
+    "round": {
+      "id": "64",
+      "status": "RECRUITING",
+      "recruitmentEndsAt": "2026-10-03T07:42:54.361Z",
+      "version": "2"
+    },
+    "counts": {
+      "territory_battlefield_contributions": 0,
+      "territory_battlefield_events": 0,
+      "territory_battlefield_fronts": 0,
+      "territory_battlefield_policies": 0,
+      "territory_battlefield_supply_claims": 0,
+      "territory_battlefield_trains": 0
+    },
+    "roundUnchanged": true,
+    "settingsUnchanged": true,
+    "databaseReadOnly": true
+  },
+  "activation": "New battlefield policy freezes on normal formation of current recruiting round; existing active rounds are not converted.",
+  "productionMutations": {
+    "schemaOnly": true,
+    "forcedFormation": false,
+    "attack": false,
+    "rewardGrant": false,
+    "supplyClaim": false
+  },
+  "followup": "Documentation-only completion commit; no additional game deployment."
+}
