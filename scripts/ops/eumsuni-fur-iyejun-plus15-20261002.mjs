@@ -18,7 +18,7 @@ export async function upgradeEumsuniFurIyejun(client,{commit=false}={}){
   assert.equal(users.length,1,'Exactly one named account required');assert.equal(Number(users[0].id),TARGET.id);assert.equal(users[0].status,'ACTIVE');
   const [prior]=await q('SELECT value FROM app_meta WHERE key=$1',[OPERATION_KEY]);
   if(prior){const receipt=JSON.parse(prior.value);assert.equal(receipt.status,'COMPLETED');assert.equal(receipt.user.id,TARGET.id);assert.equal(receipt.card.id,CARD.id);await client.query('ROLLBACK');return {...receipt,replayed:true};}
-  const cards=await q("SELECT c.id,c.title,UPPER(c.rarity) grade,c.is_active,c.card_status,m.is_active member_active FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.title=$1 OR c.id=$2 ORDER BY c.id",[CARD.title,CARD.id]);
+  const cards=await q("SELECT c.id,c.title,UPPER(c.rarity) grade,c.is_active,c.card_status,m.is_active member_active FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.title=$1 AND c.id=$2 ORDER BY c.id",[CARD.title,CARD.id]);
   assert.equal(cards.length,1,'Ambiguous card catalog');const [card]=cards;
   assert.deepEqual({id:card.id,title:card.title,grade:card.grade},CARD);
   assert.equal(Number(card.is_active),1);assert.equal(card.card_status,'PUBLIC');assert.equal(Number(card.member_active),1);
