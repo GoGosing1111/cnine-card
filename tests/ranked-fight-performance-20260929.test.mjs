@@ -38,7 +38,7 @@ function fixture({win=true,deckLength=5,stale=false}={}){
     createPvpBattleV2:()=>({result:{winner:win?'A':'B',reason:'ELIMINATION',actions:5,final:{A:[],B:[]}},teams:{A:{summary:{power:500}},B:{summary:{power:500}}}}),
     pvpSeasonScoreAdjustment:w=>({change:24}),consumePvpEnergy:async()=>{effects.push('energy');return {state:{energy}};},commitRankedFight:async(_,options)=>{await env.DB.batch(options.writes);receipt={...options.response,energy:{energy:--energy}};return receipt;},
     burningRewardAmount:amount=>amount,applyAvatarCoinGain:base=>({base,total:base,bonus:0,percent:0}),
-    grantBattleCube:reward('cube'),grantHighGradeRerollDrop:reward('reroll'),magicSettings:async()=>({acquisition:{pvp:{enabled:true,chance:1,amount:1,dailyLimit:3}}}),
+    grantBattleCube:async()=>assert.fail('retired cube rewards must not run'),grantHighGradeRerollDrop:reward('reroll'),magicSettings:async()=>({acquisition:{pvp:{enabled:true,chance:1,amount:1,dailyLimit:3}}}),
     resolveMagicCrystalReward:reward('magic'),safeEquipmentDrop:reward('equipment'),rollBlackMiracleDrop:reward('black'),safeUnifiedDrop:reward('unified'),
     premiumCubeWeeklyStatus:async()=>({remaining:1}),burningPublicState:()=>({}),uniqueBattleResponsePayload:()=>null,
     json:(data,status=200)=>({data,status})
@@ -53,7 +53,7 @@ test('optimized ranked fight preserves win/loss energy, attacker-only coins, sco
     assert.equal(r.status,200);assert.equal(r.data.result,win?'WIN':'LOSE');assert.equal(f.energy(),4);
     assert.equal(f.users[1].coin,win?350:325);assert.equal(f.users[2].coin,900);
     assert.equal(r.data.coinAfter,f.users[1].coin);assert.equal(f.profiles[2].season_score,1000);assert.equal(f.profiles[2].wins+f.profiles[2].losses,0);assert.equal(r.data.scoreAfter,win?1024:976);
-    assert.deepEqual(f.effects,['energy','history','audit','coin_log','cube',...(win?['reroll','magic','equipment','black','unified']:[])]);
+    assert.deepEqual(f.effects,['energy','history','audit','coin_log',...(win?['reroll','magic','equipment','black','unified']:[])]);
     assert.equal(f.queries.filter(q=>q.includes('SELECT id,role')).length,0);
   }
 });

@@ -106,5 +106,6 @@ test('ranked optimized history and timings are wired; rewards remain before resp
   assert.match(history,/rankedHistoryRows\(env,user.id,settings.historyLimit\)/);
   const fight=source.slice(source.indexOf("if(path==='pvp/fight'&&request.method==='POST')"),source.indexOf("if(path==='pvp/history')"));
   assert.doesNotMatch(fight,/waitUntil/);
-  let last=-1;for(const operation of ['claimRankedMatchTicket','consumePvpEnergy','await commitRankedFight','await grantBattleCube','await grantHighGradeRerollDrop','await resolveMagicCrystalReward','await safeEquipmentDrop','await rollBlackMiracleDrop','await safeUnifiedDrop','return json({result:']){const position=fight.indexOf(operation);assert.ok(position>last,operation);last=position;}
+  assert.doesNotMatch(fight,/await grantBattleCube/,'retired cube rewards must not run');
+  let last=-1;for(const operation of ['claimRankedMatchTicket','consumePvpEnergy','await commitRankedFight','await grantHighGradeRerollDrop','await resolveMagicCrystalReward','await safeEquipmentDrop','await rollBlackMiracleDrop','await safeUnifiedDrop','return json({result:']){const position=fight.indexOf(operation);assert.ok(position>last,operation);last=position;}
 });
