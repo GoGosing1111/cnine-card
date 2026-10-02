@@ -32,4 +32,15 @@
 - 명령: `npm run deploy:production -- --scoped`.
 - `SCOPED_DEPLOY_TESTS`: `tests/lich-raid-feedback-20261003.test.mjs`, `tests/lich-raid-coop-20261002.test.mjs`, `tests/lich-king-raid-v1.test.mjs`, `tests/lich-raid-live-20260928.test.mjs`, `tests/lich-raid-loadout-timing-20261001.test.mjs`, `tests/lich-raid-inline-entry-20260929.test.mjs`, `tests/pve-battlefield-entry-v2117.test.mjs`.
 - `SCOPED_DEPLOY_CHECKS`: `check:worker`.
-- 배포 과정에서 위 검사를 실행하고 출시 플래그·캐시·Hyperdrive·깨끗한 커밋을 확인한다. 완료 후 배포 ID·실행 결과·운영 파일 확인을 아래에 기록한다.
+- 배포 과정에서 위 검사를 실행하고 출시 플래그·캐시·Hyperdrive·깨끗한 커밋을 확인했다.
+
+## 운영 반영 결과
+
+- 코드 커밋: `15c4d84e88fd72f7d1dffbf794ba78f75573d321`. 진행 중 추가된 LG 아윤 지급 기록 커밋을 보존해 rebase 후 `origin/main`에 반영했다.
+- 지정된 scoped 배포 1회 성공. 회귀 **50/50 통과**, `check:worker` 및 Wrangler Worker 컴파일 성공. 출시 보호 검사와 Hyperdrive query cache OFF 검사도 통과했다.
+- Pages: `ad4600e0-4e8e-4f70-8f3e-dd1f45eeb412`, [배포본](https://ad4600e0.cnine-card.pages.dev). Cloudflare canonical deployment의 commit과 `success`를 확인했다.
+- API Runtime 버전: `b33b944c-cde5-4100-8343-cb59826929cb`. Clan Draft 버전: `2a7d91b3-d312-40c3-af2d-820d19d72936`.
+- 2026-10-03 03:08 KST 운영 확인: 메인 HTML·진입 로더·리치왕 HTML/모듈/CSS·전투 번들·두 오버레이·기믹 CSS 등 9개 파일이 HTTP 200이고 로컬 배포본과 SHA-256 일치. 비로그인 feature API는 401로 인증 보호를 유지했다.
+- 배포 직후 첫 조회의 3개 파일은 전파 중 이전 내용이 응답됐다. 해당 파일을 canonical/개별 배포 주소에서 다시 확인한 뒤 9개 모두 일치했다. 추가 재배포는 하지 않았다.
+- 배포 로그: `C:/Users/User/AppData/Local/Temp/lich-feedback-deploy-20261003.log`. 운영 확인: `C:/Users/User/AppData/Local/Temp/lich-feedback-production-smoke-20261003.json`.
+- 새 전투 수치와 엄폐 중 파쇄 보호는 **새로 생성한 공대부터** 적용한다. 이미 진행 중인 공대의 전투 규칙은 유지한다.
