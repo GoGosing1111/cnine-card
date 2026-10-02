@@ -36,3 +36,10 @@
 - 첫 지정 배포 절차에서 강화/총량/슈트/PvP 회귀 4개, 아카드 전투 7개, 리치왕 편성 4개, 실제 V3 입장 9개가 통과했다(합계 24개).
 - 기존 `pve-support-power-boss-ultimate-v1726.mjs`는 지원 완화율 `>60%`, 실피해율 `<40%`라는 오래된 기대값에서 실패했다. 수정 전 엔진 복사본과 수정본 모두 지원 완화율 **40%**, 실피해율 **63%**로 동일하다. 두 엔진 모두 같은 지원 편성·시드 1~100에서 100승이며 기존 피해 경로는 변하지 않았다. 새 장비 분배가 원인이 아니므로 기존 테스트나 궁극기 규칙을 작업 범위 밖에서 고치지 않는다.
 - 첫 절차는 검사 단계에서 종료돼 운영 배포가 발생하지 않았다. 무관한 기존 오류는 위와 같이 기록하고, 이미 통과한 아카드·리치왕·로더 검사는 유지한다. 최종 범위 배포는 직접 변경된 분배 회귀 `tests/pve-equipment-upgrade-20261002.test.mjs`와 `check:worker`, 필수 출시·캐시·Hyperdrive 검사를 지정한다. 전체 검사 재시작이나 무관한 테스트 정비는 하지 않는다.
+
+## 운영 반영 완료 — 2026-10-02 14:43 KST
+
+- 지정 `npm run deploy:production -- --scoped` 명령이 종료 코드 0으로 완료됐다. 분배 회귀 4개·Worker 구문/배포 컴파일·필수 출시/캐시/Hyperdrive 검사가 통과했다. 앞서 통과한 24개 관련 회귀 결과도 유지한다.
+- Pages `ccdc134c-f6a3-40a0-94c8-b129d8894aee`, 소스 `121b2bf50636d2dad5b9864b68bdaa25cb5d2b74`, 상태 `success`를 운영 메타데이터에서 확인했다. API runtime `9e93d2d5-9820-4a77-be87-c03c8a1edfc6`, 필수 clan-draft `77f59a7e-3dbc-473a-a295-d563502ebd97`.
+- 운영 private API runtime 소스를 직접 읽어 새 `distributePveEquipment` 함수와 PvE 팀 구성 호출을 모두 확인했다. `cnine-card.pages.dev` 메인 HTTP 200. 실제 계정 전투·에너지 소비·보상 지급은 검수에 사용하지 않았다.
+- 최종 증거: 조사 JSON의 `followupFix.production` 및 외부 증거 폴더의 `deploy-final.log`, `release-after.json`. 결과 기록은 문서만 추가하므로 범위 커밋·원격 반영으로 종료하며 게임 검사를 반복하거나 재배포하지 않는다.

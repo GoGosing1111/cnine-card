@@ -635,7 +635,7 @@
   ],
   "evidenceDirectory": "C:/Users/User/.codex/tmp/mangsoon-apocalypse-audit-20261002/",
   "followupFix": {
-    "status": "IMPLEMENTED_PENDING_DEPLOYMENT",
+    "status": "DEPLOYED_AND_VERIFIED",
     "allocation": "EQUAL_PER_PVE_CARD",
     "documentation": "docs/pve-equipment-upgrade-fix-20261002.md",
     "reports": [
@@ -773,6 +773,23 @@
       "commit": "32b92fde85e8840fece1f6fe5981332f848684e7",
       "status": "success"
     },
+    "validation": {
+      "relatedRegressionsPassed": 24,
+      "legacySupportAssertion": {
+        "result": "FAILED_IDENTICALLY_BEFORE_AND_AFTER_CHANGE_EXCLUDED_FROM_FINAL_SCOPE",
+        "previousMitigationPercent": 40,
+        "currentMitigationPercent": 40,
+        "previousEffectiveDamagePercent": 63,
+        "currentEffectiveDamagePercent": 63,
+        "seeds": 100,
+        "previousWins": 100,
+        "currentWins": 100
+      },
+      "finalScopedRegressionsPassed": 4,
+      "workerCheckPassed": true,
+      "requiredReleaseAndCacheChecksPassed": true,
+      "deploymentExitCode": 0
+    },
     "evidence": [
       {
         "file": "simulation-after-fix.json",
@@ -782,6 +799,18 @@
         "file": "simulate-after-fix.mjs",
         "sha256": "d5cb9b0642c9e0f45b49bac56d05f38850ae4c488227be651e2822e986cb7ff5"
       }
-    ]
+    ],
+    "production": {
+      "checkedAt": "2026-10-02T05:43:41.971Z",
+      "id": "ccdc134c-f6a3-40a0-94c8-b129d8894aee",
+      "url": "https://ccdc134c.cnine-card.pages.dev",
+      "commit": "121b2bf50636d2dad5b9864b68bdaa25cb5d2b74",
+      "status": "success",
+      "runtimeHasFixedAllocation": true,
+      "runtimeUsesFixedAllocation": true,
+      "mainStatus": 200,
+      "apiRuntimeVersion": "9e93d2d5-9820-4a77-be87-c03c8a1edfc6",
+      "clanDraftVersion": "77f59a7e-3dbc-473a-a295-d563502ebd97"
+    }
   }
 }
