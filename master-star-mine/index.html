@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ko"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#080c17"><meta name="color-scheme" content="dark"><title>마스터의 별 광산 · 숲켓몬</title>
+<link rel="icon" href="/assets/ui/pwa-icon.svg"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="/assets/ui/master-star-mine-v1/mine-background.webp"><link rel="stylesheet" href="style.css?v=20261003-1"><link rel="stylesheet" href="/css/adventure-navigation-standalone.css?v=2108">
+<script defer src="/js/soopketmon-v21-exact-shell-adapter.js?v=20261003-mine" data-enabled="false"></script><script defer src="/js/adventure-lobby-v2107.js?v=20261003-mine"></script><script defer src="/js/adventure-navigation-standalone.js?v=2108-shared-navigation" data-route="masterStarMine"></script>
+</head><body>
+<a class="mine-skip" href="#mineMain">광산으로 바로가기</a>
+<div class="mine-ribbon"><span class="status-dot"></span> MINING DIVISION <span>별빛이 잠든 곳, 새로운 채굴의 시작</span></div>
+<div class="mine-shell">
+<header class="mine-top"><a href="/?screen=home" class="mine-brand"><span class="brand-mark">S</span><span>숲켓몬<small>SOOPKETMON</small></span></a><nav aria-label="현재 위치">모험 · PVE <span>/</span> <b>마스터의 별 광산</b></nav><a class="mine-home" href="/?screen=home">로비로 돌아가기 ↗</a></header>
+<main id="mineMain">
+<div class="mine-heading"><div><p class="eyebrow">MASTER STAR MINE</p><h1>마스터의 별 광산</h1><p class="mine-intro">드릴을 가동하고, 4시간 뒤 별을 수확하세요.</p></div><div class="mine-wallet"><img src="/assets/ui/core-raid-rewards-v2/master-star.svg" alt=""><div><span>보유 마스터의 별</span><strong id="mineBalance">—</strong></div></div></div>
+<div class="mine-notice" id="mineNotice" role="status"><span class="status-dot"></span><strong id="mineMode">연결 중</strong><p id="mineMessage">내 채굴 정보를 불러오고 있습니다.</p><button id="mineRefresh" type="button" aria-label="광산 상태 새로고침">↻ <span>새로고침</span></button></div>
+<div class="mine-workspace">
+<section class="mine-stage" id="mineStage" aria-labelledby="stageTitle">
+<div class="stage-topline"><span><i class="status-dot"></i><b id="stageStatus">작업 대기</b></span><span class="stage-sector">SECTOR 01 · STAR VEIN</span></div>
+<div class="stage-title"><p class="eyebrow">THE GLOW BELOW</p><h2 id="stageTitle">별빛 광맥</h2><p>깊은 곳에 잠든 별의 에너지를 깨우세요.</p></div>
+<div class="drill-platform"><div class="platform-ring"></div><img id="stageDrill" src="/assets/ui/master-star-mine-v1/electric-drill.webp" alt="전동드릴" fetchpriority="high"><div class="mine-sparks" aria-hidden="true"></div></div>
+<div class="stage-caption"><div><span id="stageDrillLabel">ELECTRIC</span><strong id="stageDrillName">전동드릴</strong></div><span class="stage-duration"><b>04</b><span>HOURS<br>PER CYCLE</span></span></div>
+</section>
+<aside class="mine-control" aria-labelledby="controlTitle">
+<div class="panel-top"><span class="eyebrow">MINING CONTROL</span><span id="mineJobBadge">준비</span></div>
+<h2 id="controlTitle">채굴 준비</h2><p id="mineControlDescription">사용할 드릴을 선택하세요.</p>
+<div class="mine-yield"><span>이번 채굴 보상</span><div><img src="/assets/ui/core-raid-rewards-v2/master-star.svg" alt=""><strong id="mineReward">—</strong><span>개</span></div><small>마스터의 별 · 4시간 채굴</small></div>
+<div class="mine-timer"><div><span id="mineTimeLabel">채굴 소요 시간</span><b id="mineTimer">04:00:00</b></div><div id="mineProgress" class="mine-progress" role="progressbar" aria-label="채굴 진행률" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div><p id="mineTimeHint">접속하지 않아도 채굴은 계속됩니다.</p></div>
+<button type="button" id="mineAction" class="mine-primary" disabled>정보 확인 중</button><a id="mineLogin" class="mine-primary" href="/?screen=home" hidden>로그인하러 가기 ↗</a>
+<p class="mine-action-note" id="mineActionNote">드릴은 사용해도 사라지지 않습니다.</p>
+<div class="mine-policy"><span>01</span><p>한 번에 드릴 <b>1종</b>으로 채굴합니다.</p><span>02</span><p><b>4시간 완료 후 수령</b>하고 다시 시작하세요.</p><span>03</span><p>완료된 보상은 추가로 누적되지 않습니다.</p></div>
+</aside>
+</div>
+<section class="mine-drill-section" aria-labelledby="mineDrillsHeading"><div class="section-heading"><h2 id="mineDrillsHeading">채굴 장비 <small>SELECT YOUR DRILL</small></h2><span>영구 사용 · 3종</span></div><div id="mineDrills" class="mine-drills" aria-label="채굴 드릴 선택"></div><p id="mineAcquisition" class="mine-acquisition">드릴 획득 방법을 확인하고 있습니다.</p></section>
+<section class="mine-history-section" aria-labelledby="mineHistoryHeading"><div class="section-heading"><h2 id="mineHistoryHeading">최근 채굴 기록 <small>MINING LOG</small></h2><span>최근 5회</span></div><div id="mineHistory" class="mine-history"><p>채굴 기록을 불러오고 있습니다.</p></div></section>
+<div id="mineFeedback" class="mine-feedback" role="status" hidden></div>
+</main><footer class="mine-footer"><span>SOOPKETMON · MINING DIVISION</span><span>별의 가치는, 멈추지 않는 채굴에서.</span></footer>
+</div>
+<script type="module" src="live.mjs?v=20261003-1"></script>
+</body></html>

@@ -50,6 +50,7 @@ import {handleIconFusion} from '../_icon_fusion.js';
 import {handleMercenaryCodex} from '../_mercenary_codex.js';
 import {handleMercenaryAccount,mercenaryUsesInnerLock} from '../_mercenary_account_routes.js';
 import {handleMiracleCube,openMiracleCube,presentMiracleInventory} from '../_miracle_cube.js';
+import {handleMasterStarMine} from '../_master_star_mine.js';
 import {handleForgeRuntime,isForgeRuntimePath} from '../_equipment_forge_routes.js';
 import {releasedMercenarySnapshot,releasedMercenarySnapshots,mercenarySnapshotPower} from '../_mercenary_account.js';
 import {handleEquipmentForgePublic} from '../_equipment_forge_public.js';
@@ -4990,6 +4991,7 @@ async function handleRequest(context){
     const legionHuntResponse=await handleLegionHunt({path,request,env,deps:{authenticate,json,raidDeckPower,cardBattlePower,magicBattleLoadout,selectActivatedUltimate,loadMercenaryBattleSnapshot:releasedMercenarySnapshot,withUserMutationLock:withJointUserMutationLock}});if(legionHuntResponse)return legionHuntResponse;
     const lootShopResponse=await handleLootShop({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(lootShopResponse)return lootShopResponse;
     const miracleCubeResponse=await handleMiracleCube({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(miracleCubeResponse)return miracleCubeResponse;
+    const mineResponse=await handleMasterStarMine({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(mineResponse)return mineResponse;
     const mercenaryAccountResponse=await handleMercenaryAccount({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(mercenaryAccountResponse)return mercenaryAccountResponse;
     const hyperPackResponse=await handleHyperPack({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(hyperPackResponse)return hyperPackResponse;
     const goldenAxeResponse=await handleGoldenAxe({path,request,env,deps:{authenticate,readBody,json,requirePermission}});if(goldenAxeResponse)return goldenAxeResponse;

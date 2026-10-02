@@ -1,0 +1,127 @@
+{
+  "date": "2026-10-03",
+  "authorization": "전동 5000·태양광 15000·황금 30000 확정, CMS 변경 가능. 획득 방식 미정.",
+  "economy": {
+    "fur": [
+      {
+        "cost": 1000000,
+        "rate": 5
+      },
+      {
+        "cost": 2000000,
+        "rate": 5
+      }
+    ],
+    "sealMasterStar": 300000
+  },
+  "prepare": {
+    "ok": true,
+    "at": "2026-10-02T22:00:52.114Z",
+    "createdItems": [
+      "MINE_ELECTRIC_DRILL",
+      "MINE_SOLAR_DRILL",
+      "MINE_GOLDEN_DRILL"
+    ],
+    "createdPolicy": true,
+    "revision": 0,
+    "mode": "OFF",
+    "acquisition": "PENDING",
+    "rewards": {
+      "MINE_ELECTRIC_DRILL": 5000,
+      "MINE_SOLAR_DRILL": 15000,
+      "MINE_GOLDEN_DRILL": 30000
+    },
+    "durationHours": 4,
+    "granted": 0,
+    "paid": 0,
+    "auditId": "40181",
+    "dryRun": false
+  },
+  "verification": {
+    "ok": true,
+    "identity": {
+      "database": "cnine",
+      "recovery": false
+    },
+    "setting": {
+      "revision": 0,
+      "policy": {
+        "version": 1,
+        "mode": "OFF",
+        "testUserIds": [],
+        "acquisition": "PENDING",
+        "acquisitionNotice": "드릴 획득 방법은 추후 안내됩니다.",
+        "rewards": {
+          "MINE_ELECTRIC_DRILL": 5000,
+          "MINE_SOLAR_DRILL": 15000,
+          "MINE_GOLDEN_DRILL": 30000
+        }
+      },
+      "updatedAt": "2026-10-02T22:00:52.114Z",
+      "updatedBy": 1
+    },
+    "items": [
+      {
+        "code": "MINE_ELECTRIC_DRILL",
+        "name": "전동드릴",
+        "image_url": "/assets/ui/master-star-mine-v1/electric-drill.webp"
+      },
+      {
+        "code": "MINE_GOLDEN_DRILL",
+        "name": "황금드릴",
+        "image_url": "/assets/ui/master-star-mine-v1/golden-drill.webp"
+      },
+      {
+        "code": "MINE_SOLAR_DRILL",
+        "name": "태양광드릴",
+        "image_url": "/assets/ui/master-star-mine-v1/solar-drill.webp"
+      }
+    ],
+    "runs": {
+      "total": "0",
+      "active": "0"
+    },
+    "holdings": {
+      "accounts": "0",
+      "quantity": "0"
+    }
+  },
+  "qa": {
+    "date": "2026-10-03",
+    "source": "actual production page + actual handlers + isolated SQLite, no live rewards",
+    "results": [
+      {
+        "name": "desktop",
+        "overflow": false,
+        "brokenImages": 0,
+        "pageErrors": [],
+        "verified": [
+          "OFF state",
+          "drill selection",
+          "start",
+          "reload persistence",
+          "4h completion",
+          "claim",
+          "CMS reward save",
+          "CMS account lookup"
+        ]
+      },
+      {
+        "name": "mobile",
+        "overflow": false,
+        "brokenImages": 0,
+        "pageErrors": [],
+        "verified": [
+          "OFF state",
+          "drill selection",
+          "start",
+          "reload persistence",
+          "4h completion",
+          "claim",
+          "CMS reward save",
+          "CMS account lookup"
+        ]
+      }
+    ]
+  }
+}

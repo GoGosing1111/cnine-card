@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "createdAt": "2026-10-03",
+  "method": "built-in image_gen",
+  "promptSet": "assets/ui/master-star-mine-v1/prompts.json",
+  "assets": [
+    {
+      "id": "electric-drill",
+      "original": "assets/ui/master-star-mine-v1/electric-drill.png",
+      "runtime": "assets/ui/master-star-mine-v1/electric-drill.webp",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "sha256": "b8ad1adeca32ad32bb6a6c37ce8bb65fa8a4e291be694e781e81eda5126b1169",
+      "runtimeBytes": 91766
+    },
+    {
+      "id": "solar-drill",
+      "original": "assets/ui/master-star-mine-v1/solar-drill.png",
+      "runtime": "assets/ui/master-star-mine-v1/solar-drill.webp",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "sha256": "de1dc4ad069d8f813899118a5ec2a1b3ff91c3491287dce0b02e4220d9060f36",
+      "runtimeBytes": 111208
+    },
+    {
+      "id": "golden-drill",
+      "original": "assets/ui/master-star-mine-v1/golden-drill.png",
+      "runtime": "assets/ui/master-star-mine-v1/golden-drill.webp",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "sha256": "218dc7a18ad063723ff1c653415bd3f0514de7ff894e834386c40d1626c2e630",
+      "runtimeBytes": 133000
+    },
+    {
+      "id": "mine-background",
+      "original": "assets/ui/master-star-mine-v1/mine-background.png",
+      "runtime": "assets/ui/master-star-mine-v1/mine-background.webp",
+      "width": 1672,
+      "height": 941,
+      "hasAlpha": false,
+      "alphaRange": null,
+      "sha256": "10fcfb89aed1072d8019e8b040ce8c93aea7d8a192ad92f78fe6632cfc5d7c17",
+      "runtimeBytes": 355410
+    }
+  ]
+}

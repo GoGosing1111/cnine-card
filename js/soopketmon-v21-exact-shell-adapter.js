@@ -81,7 +81,7 @@
     inventory: Object.freeze({ title: '인벤토리', routes: Object.freeze(['inventory']) }),
     store: Object.freeze({ title: '카드·상점', routes: Object.freeze(['buy', 'lootShop']) }),
     collection: Object.freeze({ title: '도감·강화', routes: Object.freeze(['dex', 'mercenaryDex', 'upgrade', 'evolution', 'iconfusion', 'magic']) }),
-    pve: Object.freeze({ title: '모험 · PVE', routes: Object.freeze(['battle', 'deck', 'hunt', 'legion', 'raid', 'escort', 'siege', 'seal', 'tower', 'scrapyard']) }),
+    pve: Object.freeze({ title: '모험 · PVE', routes: Object.freeze(['battle', 'deck', 'hunt', 'legion', 'raid', 'escort', 'siege', 'seal', 'tower', 'scrapyard', 'masterStarMine']) }),
     pvp: Object.freeze({ title: '대전 · PVP', routes: Object.freeze(['pvp', 'duo', 'rank', 'clanWar', 'clanFaction', 'clan', 'territory']) }),
     equipment: Object.freeze({ title: '장비·칭호·차고', routes: Object.freeze(['character', 'avatar']) }),
     crafting: Object.freeze({ title: '제작소', routes: Object.freeze(['vehicle', 'fusion', 'alchemy']) }),
@@ -114,6 +114,7 @@
     legion: Object.freeze({ title: '군단토벌', group: 'pve', icon: 'swords' }),
     tower: Object.freeze({ title: '무한의탑', group: 'pve', icon: 'rank' }),
     scrapyard: Object.freeze({ title: '폐차장 원정', group: 'pve', icon: 'forge' }),
+    masterStarMine: Object.freeze({ title: '마스터의 별 광산', group: 'pve', icon: 'forge' }),
     pvp: Object.freeze({ title: '랭크전', group: 'pvp', icon: 'swords' }),
     duo: Object.freeze({ title: '랭크 듀오', group: 'pvp', icon: 'clan' }),
     rank: Object.freeze({ title: '시즌 랭킹', group: 'pvp', icon: 'rank', home: Object.freeze({ title: 'PVP·경쟁', meta: '랭크전 · 시즌 랭킹', group: 'pvp' }) }),
@@ -586,6 +587,7 @@
   }
 
   function navigate(route) {
+    if(route==='masterStarMine'){global.location.assign('/master-star-mine/');return Promise.resolve({ok:true,externalPage:true});}
     if(route==='goldenAxe')return refreshGoldenAxe(true).then(()=>{if(!goldenAxeVisible)throw new Error('현재 공개된 이벤트가 아닙니다.');global.location.assign('/events/golden-axe/');return {ok:true,externalPage:true}});
     if (route === 'home') {
       homeRouteGuard = true;
