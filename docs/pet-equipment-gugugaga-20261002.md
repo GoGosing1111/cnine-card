@@ -38,3 +38,11 @@ Git `7096a12267c5fcb342caeb80755f0364557880ec`의 `preview/pets-gugugaga-four-v1
 `tests/pet-equipment-20261002.browser.mjs`는 실제 핸들러와 PostgreSQL 호환 저장소에서 PC 1440×1050 / 모바일 390×844의 4종 표시, 저장/재조회/해제, CMS 원본 초안·버프 표시, 버전 충돌, 저장 성공 후 응답 유실/동일 요청 재확인, PvE/PvP 진입, 모달 키보드/닫기와 권한 거부를 확인한다. **7%는 격리 테스트 데이터이며 운영 CMS에 등록하지 않는다.** 원본/장착창 이미지와 결과 JSON은 저장소 밖 `C:/Users/User/.codex/tmp/pet-equipment-gugugaga-20261002/qa/`에 보존한다.
 
 공통 인증·DB 기반·기존 라이브 전투/계정 계약을 바꾸지 않는 펫 장착 준비 범위다. 관련 펫/동료 회귀와 Worker 컴파일을 선택한 scoped 배포로 마무리한다. 새 의존성·마이그레이션은 없다. 공개/획득/실전 플래그와 실제 운영 CMS 목록은 그대로다.
+
+## 배포 완료
+
+- 직전 운영 커밋은 Cloudflare에서 확인한 `4f7a6397f1e8a770aa03bb855c2d5e3ef013fd97`이다. 최신 main의 이네스 SS 정정과 문서 기록을 유지한 뒤 범위 커밋 `b297a2a066fcc05f966dbc2cf280e5af7b1a8361`을 반영했다.
+- `npm run deploy:production -- --scoped`가 펫 장착 8개 + 기존 동료 준비 11개, 총 **19개 검사**와 `check:worker`, 출시 잠금/캐시/Hyperdrive 검사를 통과했다. 장착창과 변경한 CMS의 PC·모바일 브라우저 검수도 통과했고 이미지·여백·가로 넘침·모바일 닫기 버튼을 직접 확인했다.
+- Pages 배포 `90cc74dd-4cb3-4af5-97ce-1bdb37415de3`, API runtime `343a004b-6e4a-4651-b425-4e3e4991f391`, clan-draft `90279e40-c697-4456-b863-5561103241bc`.
+- 2026-10-02 16:45 KST 운영 확인: 페이지/모듈/CSS 200, 네 PNG의 운영 SHA-256 일치, OWNER API 제한과 실전 장착 차단 코드, 기존 세 플래그 OFF를 확인했다. 비인증 장착 API는 모두 401이었다.
+- 운영 확인 기록은 `C:/Users/User/.codex/tmp/pet-equipment-gugugaga-20261002/release-after.json`, 배포 로그는 같은 폴더의 `deploy.log`다. 이 완료 기록만 추가하는 커밋에는 게임 재검사·운영 재배포를 하지 않는다.
