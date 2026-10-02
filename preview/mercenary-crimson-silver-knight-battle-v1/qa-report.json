@@ -1,0 +1,98 @@
+{
+  "date": "2026-10-01",
+  "status": "V17_ADDITIONAL_50_PERCENT_SPEED_QA_COMPLETE",
+  "previousReport": "qa/v16/qa-report.json",
+  "playbackTempo": {
+    "version": 17,
+    "rate": 1.2,
+    "strikeRate": 3.6,
+    "scope": "ALL_ATTACKS_AND_SKILLS_FAST_DESCENT",
+    "appliesTo": [
+      "attack",
+      "skill",
+      "overhead",
+      "execution",
+      "guard",
+      "ultimate"
+    ],
+    "clock": "EXISTING_V3_GSAP_TIMELINE",
+    "descentAt": 1.64,
+    "strikeStart": 1.6955555555555555,
+    "contactAt": 1.7344444444444445,
+    "strikeEnd": 1.7955555555555556,
+    "approvedIdleAt": 2.7455555555555557,
+    "previousSwingSeconds": 0.125,
+    "swingSeconds": 0.08333333333333333,
+    "lateLiftAlsoAccelerated": true,
+    "compensatingHold": false,
+    "effectPlaybackSpeedUnchanged": true,
+    "audioPlaybackSpeedUnchanged": true,
+    "impactCuesFollowContact": true,
+    "artworkUnchanged": true,
+    "record": "motion-tempo-request-20261001-v17.json",
+    "relativeSpeedToV16": 1.5
+  },
+  "relatedRegressionTests": {
+    "passed": 3,
+    "failed": 0,
+    "pattern": "drawn collision|visibly faster|licensed V3"
+  },
+  "effectTempo": {
+    "passed": true,
+    "baseline": "18464f195646f5c4a39205c42b26b638d75ba5d0",
+    "resourceDefinitionsUnchanged": true,
+    "globalRateUnchanged": 1.2,
+    "effectAgeSamplesCompared": 1020,
+    "effectFramesAndDurationsUnchanged": true,
+    "audioSourceAndSpeedUnchanged": true,
+    "allSixSkillsUseEarlierContact": 1.7344444444444445,
+    "earlyPreparationAndRecoverySpeedUnchanged": true,
+    "nonAttackModesUnchanged": true
+  },
+  "browserReport": "qa/v17/browser-report.json",
+  "browser": [
+    {
+      "viewport": "desktop",
+      "modesVerified": [
+        "attack",
+        "skill",
+        "overhead",
+        "execution",
+        "guard",
+        "ultimate"
+      ],
+      "texturesAndAuraMatch": true,
+      "audioContact": 1.7344444444444445,
+      "pauseStable": true,
+      "showcaseSeconds": 22.994,
+      "errors": [],
+      "overflow": false
+    },
+    {
+      "viewport": "mobile",
+      "modesVerified": [
+        "attack",
+        "skill",
+        "overhead",
+        "execution",
+        "guard",
+        "ultimate"
+      ],
+      "texturesAndAuraMatch": true,
+      "audioContact": 1.7344444444444445,
+      "pauseStable": true,
+      "showcaseSeconds": null,
+      "errors": [],
+      "overflow": false
+    }
+  ],
+  "recording": {
+    "file": "qa/overhead-50percent-v17.webp",
+    "pages": 204,
+    "width": 960,
+    "height": 510,
+    "fps": 60
+  },
+  "artworkChanged": false,
+  "liveRuntimeChanged": false
+}

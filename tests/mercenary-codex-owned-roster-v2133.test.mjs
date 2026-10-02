@@ -8,7 +8,7 @@ const client=read('mercenary-codex/app.mjs');
 const css=read('mercenary-codex/style.css');
 
 test('용병도감은 내 용병을 기본으로 표시하고 전체 도감을 같은 화면에서 전환한다',()=>{
-  assert.match(client,/view=params\.get\('view'\)==='all'\?'all':'owned'/);
+  assert.match(client,/view=\['all','limited'\]\.includes\(params\.get\('view'\)\)\?params\.get\('view'\):'owned'/);
   assert.match(html,/id="ownedView"[^>]*aria-selected="true"/);
   assert.match(html,/id="allView"[^>]*aria-selected="false"/);
   assert.match(html,/id="ownedCount"/);

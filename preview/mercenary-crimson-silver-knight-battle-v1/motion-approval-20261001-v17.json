@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-01",
+  "status": "USER_APPROVED_PREVIEW_MOTION_SIZE_AND_TEMPO",
+  "userRequest": "일단 여기까지 승인 이름은 추천해봐",
+  "approvedResourceVersion": 17,
+  "approvedPreviewCommit": "2832cdbf229819517e4abe52d8c5c2932a79d9d0",
+  "priorApproval": "motion-approval-20261001-v14.json",
+  "approvedScope": [
+    "현재 프리뷰의 캐릭터 외형·성인 체형·표시 크기",
+    "승인된 대검 형태·크기·파지와 망토",
+    "대기·대시·공격·전체 스킬·피격·쓰러짐 모션",
+    "캐릭터 주변 아우라·스킬 이펙트·타격 및 효과음 동기화",
+    "V17의 모든 공격·스킬 공통 내려찍기 추가 50% 가속"
+  ],
+  "playbackTempo": {
+    "rate": 1.2,
+    "strikeRate": 3.6,
+    "relativeSpeedToV16": 1.5,
+    "swingSeconds": 0.08333333333333333,
+    "effectPlaybackSpeedUnchanged": true
+  },
+  "approvedFiles": {
+    "skill.mjs": "967412B55DF1332810B38D70B3CA8CF90856E6DFC909AD6EFC7683F2620FB840",
+    "preview.bundle.js": "328C38DA781ABBBF74334F13B75AAD526A158C8F0FF71B5511F157B90C4125E3"
+  },
+  "artworkChanged": false,
+  "animationChanged": false,
+  "nameSelection": "RECOMMENDATIONS_PENDING_USER_SELECTION",
+  "nameApproved": false,
+  "rankApproved": false,
+  "liveActivationApproved": false
+}

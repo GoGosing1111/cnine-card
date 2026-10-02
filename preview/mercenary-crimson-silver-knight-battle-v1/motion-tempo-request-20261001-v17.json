@@ -1,0 +1,17 @@
+{
+  "date": "2026-10-01",
+  "userRequest": "50% 더 빠르게 적용할것",
+  "baseVersion": 16,
+  "additionalSpeed": 1.5,
+  "appliesTo": [
+    "attack",
+    "skill",
+    "overhead",
+    "execution",
+    "guard",
+    "ultimate"
+  ],
+  "artworkChanged": false,
+  "effectPlaybackSpeedChanged": false,
+  "liveActivationApproved": false
+}

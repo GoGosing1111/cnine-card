@@ -1,0 +1,15 @@
+{
+  "status": "VERIFIED",
+  "key": "mercenary_limited_draw_policy_v1",
+  "registered": true,
+  "adminLogId": "39428",
+  "revision": 1,
+  "acquisitionEnabled": false,
+  "rankRatesPpm": {
+    "SS": null,
+    "SSS": null
+  },
+  "limitedOwnedRows": 0,
+  "generalPolicyPreserved": true,
+  "verifiedAt": "2026-10-02T06:39:34.265Z"
+}

@@ -1,0 +1,4 @@
+import fs from 'node:fs';import path from 'node:path';import {fileURLToPath} from 'node:url';import {createHash} from 'node:crypto';import assert from 'node:assert/strict';
+const root=fileURLToPath(new URL('../../../',import.meta.url)),lock=JSON.parse(fs.readFileSync(new URL('./files.json',import.meta.url)));
+for(const entry of lock.files){assert.ok(!entry.path.split('/').includes('..'));const raw=fs.readFileSync(path.join(root,entry.path)),bytes=entry.hashMode==='LF_NORMALIZED_UTF8'?Buffer.from(raw.toString('utf8').replace(/\r\n/g,'\n')):raw;assert.equal(bytes.length,entry.bytes,entry.path+' bytes');assert.equal(createHash('sha256').update(bytes).digest('hex').toUpperCase(),entry.sha256,entry.path);assert.ok(raw.length<=25*1024*1024);}
+console.log(JSON.stringify({passed:true,scope:lock.scope,files:lock.files.length,acquisitionEnabled:false}));

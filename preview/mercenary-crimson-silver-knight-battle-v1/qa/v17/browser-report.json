@@ -1,0 +1,1830 @@
+[
+  {
+    "name": "desktop",
+    "modes": [
+      {
+        "mode": "attack",
+        "frames": [
+          {
+            "time": 1.63,
+            "pose": {
+              "key": "twohandLift",
+              "frame": 2
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.67,
+            "pose": {
+              "key": "twohandLift",
+              "frame": 3
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.7,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.7344444444444445,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 1
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.785,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 3
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.8,
+            "pose": {
+              "key": "twohandReturn",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 2.75,
+            "pose": {
+              "key": "idle",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          }
+        ],
+        "hit": {
+          "rate": 1.2,
+          "contacts": [
+            1.7344444444444445
+          ],
+          "effects": [
+            {
+              "key": "charge",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 1192.9752869197082,
+                "y": 574.9999999999999
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.7421875
+              }
+            },
+            {
+              "key": "slash",
+              "index": 9,
+              "next": 10,
+              "anchor": {
+                "x": 1299.9999999999998,
+                "y": 537.6066531747264
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.5
+              }
+            }
+          ],
+          "ward": {
+            "point": {
+              "x": 1240.7708686504775,
+              "y": 488.9679528846153
+            },
+            "size": 231.01197836538458,
+            "bodyHeight": 159.31860576923074,
+            "foot": {
+              "x": 1192.9752869197082,
+              "y": 574.9999999999999
+            }
+          },
+          "foot": {
+            "x": 1192.9752869197082,
+            "y": 574.9999999999999
+          }
+        }
+      },
+      {
+        "mode": "skill",
+        "frames": [
+          {
+            "time": 1.63,
+            "pose": {
+              "key": "twohandLift",
+              "frame": 2
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.67,
+            "pose": {
+              "key": "twohandLift",
+              "frame": 3
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.7,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.7344444444444445,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 1
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.785,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 3
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.8,
+            "pose": {
+              "key": "twohandReturn",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 2.75,
+            "pose": {
+              "key": "idle",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          }
+        ],
+        "hit": {
+          "rate": 1.2,
+          "contacts": [
+            1.7344444444444445
+          ],
+          "effects": [
+            {
+              "key": "charge",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 1192.9752869197082,
+                "y": 574.9999999999999
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.7421875
+              }
+            },
+            {
+              "key": "slash",
+              "index": 9,
+              "next": 10,
+              "anchor": {
+                "x": 1299.9999999999998,
+                "y": 537.6066531747264
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.5
+              }
+            },
+            {
+              "key": "execution",
+              "index": 9,
+              "next": 10,
+              "anchor": {
+                "x": 1299.9999999999998,
+                "y": 574.9999999999999
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.6328125
+              }
+            }
+          ],
+          "ward": {
+            "point": {
+              "x": 1240.7708686504775,
+              "y": 488.9679528846153
+            },
+            "size": 231.01197836538458,
+            "bodyHeight": 159.31860576923074,
+            "foot": {
+              "x": 1192.9752869197082,
+              "y": 574.9999999999999
+            }
+          },
+          "foot": {
+            "x": 1192.9752869197082,
+            "y": 574.9999999999999
+          }
+        }
+      },
+      {
+        "mode": "overhead",
+        "frames": [
+          {
+            "time": 1.63,
+            "pose": {
+              "key": "twohandLift",
+              "frame": 2
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.67,
+            "pose": {
+              "key": "twohandLift",
+              "frame": 3
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.7,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.7344444444444445,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 1
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.785,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 3
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.8,
+            "pose": {
+              "key": "twohandReturn",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 2.75,
+            "pose": {
+              "key": "idle",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          }
+        ],
+        "hit": {
+          "rate": 1.2,
+          "contacts": [
+            1.7344444444444445
+          ],
+          "effects": [
+            {
+              "key": "charge",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 1192.9752869197082,
+                "y": 574.9999999999999
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.7421875
+              }
+            },
+            {
+              "key": "slash",
+              "index": 9,
+              "next": 10,
+              "anchor": {
+                "x": 1299.9999999999998,
+                "y": 537.6066531747264
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.5
+              }
+            },
+            {
+              "key": "execution",
+              "index": 9,
+              "next": 10,
+              "anchor": {
+                "x": 1299.9999999999998,
+                "y": 574.9999999999999
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.6328125
+              }
+            }
+          ],
+          "ward": {
+            "point": {
+              "x": 1240.7708686504775,
+              "y": 488.9679528846153
+            },
+            "size": 231.01197836538458,
+            "bodyHeight": 159.31860576923074,
+            "foot": {
+              "x": 1192.9752869197082,
+              "y": 574.9999999999999
+            }
+          },
+          "foot": {
+            "x": 1192.9752869197082,
+            "y": 574.9999999999999
+          }
+        }
+      },
+      {
+        "mode": "execution",
+        "frames": [
+          {
+            "time": 1.63,
+            "pose": {
+              "key": "twohandLift",
+              "frame": 2
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.67,
+            "pose": {
+              "key": "twohandLift",
+              "frame": 3
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.7,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.7344444444444445,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 1
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.785,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 3
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.8,
+            "pose": {
+              "key": "twohandReturn",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 2.75,
+            "pose": {
+              "key": "idle",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          }
+        ],
+        "hit": {
+          "rate": 1.2,
+          "contacts": [
+            1.7344444444444445
+          ],
+          "effects": [
+            {
+              "key": "charge",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 1192.9752869197082,
+                "y": 574.9999999999999
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.7421875
+              }
+            },
+            {
+              "key": "slash",
+              "index": 9,
+              "next": 10,
+              "anchor": {
+                "x": 1299.9999999999998,
+                "y": 537.6066531747264
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.5
+              }
+            },
+            {
+              "key": "execution",
+              "index": 9,
+              "next": 10,
+              "anchor": {
+                "x": 1299.9999999999998,
+                "y": 574.9999999999999
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.6328125
+              }
+            }
+          ],
+          "ward": {
+            "point": {
+              "x": 1240.7708686504775,
+              "y": 488.9679528846153
+            },
+            "size": 231.01197836538458,
+            "bodyHeight": 159.31860576923074,
+            "foot": {
+              "x": 1192.9752869197082,
+              "y": 574.9999999999999
+            }
+          },
+          "foot": {
+            "x": 1192.9752869197082,
+            "y": 574.9999999999999
+          }
+        }
+      },
+      {
+        "mode": "guard",
+        "frames": [
+          {
+            "time": 1.63,
+            "pose": {
+              "key": "twohandLift",
+              "frame": 2
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.67,
+            "pose": {
+              "key": "twohandLift",
+              "frame": 3
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.7,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.7344444444444445,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 1
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.785,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 3
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.8,
+            "pose": {
+              "key": "twohandReturn",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 2.75,
+            "pose": {
+              "key": "idle",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          }
+        ],
+        "hit": {
+          "rate": 1.2,
+          "contacts": [
+            1.7344444444444445
+          ],
+          "effects": [
+            {
+              "key": "charge",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 1192.9752869197082,
+                "y": 574.9999999999999
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.7421875
+              }
+            },
+            {
+              "key": "guard",
+              "index": 6,
+              "next": 7,
+              "anchor": {
+                "x": 1240.7708686504775,
+                "y": 488.9679528846153
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.5
+              }
+            }
+          ],
+          "ward": {
+            "point": {
+              "x": 1240.7708686504775,
+              "y": 488.9679528846153
+            },
+            "size": 231.01197836538458,
+            "bodyHeight": 159.31860576923074,
+            "foot": {
+              "x": 1192.9752869197082,
+              "y": 574.9999999999999
+            }
+          },
+          "foot": {
+            "x": 1192.9752869197082,
+            "y": 574.9999999999999
+          }
+        }
+      },
+      {
+        "mode": "ultimate",
+        "frames": [
+          {
+            "time": 1.63,
+            "pose": {
+              "key": "twohandLift",
+              "frame": 2
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.67,
+            "pose": {
+              "key": "twohandLift",
+              "frame": 3
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.7,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.7344444444444445,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 1
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.785,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 3
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.8,
+            "pose": {
+              "key": "twohandReturn",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 2.75,
+            "pose": {
+              "key": "idle",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          }
+        ],
+        "hit": {
+          "rate": 1.2,
+          "contacts": [
+            1.7344444444444445
+          ],
+          "effects": [
+            {
+              "key": "charge",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 1192.9752869197082,
+                "y": 574.9999999999999
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.7421875
+              }
+            },
+            {
+              "key": "slash",
+              "index": 9,
+              "next": 10,
+              "anchor": {
+                "x": 1299.9999999999998,
+                "y": 537.6066531747264
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.5
+              }
+            },
+            {
+              "key": "execution",
+              "index": 9,
+              "next": 10,
+              "anchor": {
+                "x": 1299.9999999999998,
+                "y": 574.9999999999999
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.6328125
+              }
+            },
+            {
+              "key": "ultimate",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 1257.1355932203392,
+                "y": 574.9999999999999
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.640625
+              }
+            },
+            {
+              "key": "ultimate",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 944.9999999999999,
+                "y": 519.9999999999999
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.640625
+              }
+            },
+            {
+              "key": "ultimate",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 1474.9999999999998,
+                "y": 424.99999999999994
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.640625
+              }
+            }
+          ],
+          "ward": {
+            "point": {
+              "x": 1240.7708686504775,
+              "y": 488.9679528846153
+            },
+            "size": 231.01197836538458,
+            "bodyHeight": 159.31860576923074,
+            "foot": {
+              "x": 1192.9752869197082,
+              "y": 574.9999999999999
+            }
+          },
+          "foot": {
+            "x": 1192.9752869197082,
+            "y": 574.9999999999999
+          }
+        }
+      }
+    ],
+    "audio": {
+      "enabled": true,
+      "scheduled": [
+        {
+          "key": "dash",
+          "contact": 0.25,
+          "sourceSync": 0.178,
+          "when": 0,
+          "offset": 0.017999999999999988,
+          "speed": 1.2
+        },
+        {
+          "key": "ultimate",
+          "contact": 1.7344444444444445,
+          "sourceSync": 0.333,
+          "when": 1.0928703703703704,
+          "offset": 0,
+          "speed": 1.2
+        }
+      ],
+      "error": null
+    },
+    "pauseStable": true,
+    "showcase": {
+      "ready": true,
+      "motionOnly": false,
+      "mode": "ultimate",
+      "time": 5.55,
+      "playing": false,
+      "speed": 1,
+      "playbackRate": 1.2,
+      "pose": {
+        "key": "idle",
+        "frame": 0
+      },
+      "cancelled": false,
+      "travel": 0,
+      "activeFrames": [],
+      "visibleSprites": 0,
+      "ownedTimelines": 1,
+      "registeredTimelines": 0,
+      "regularAllies": 5,
+      "mercenaryInRegularArray": false,
+      "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+      "weaponRigid": true,
+      "clockOwner": "V3_REGISTERED_GSAP",
+      "motionFrames": 64,
+      "effectFrames": 96,
+      "damageAuthority": "NONE_VISUAL_PREVIEW",
+      "actorFoot": {
+        "x": 494.9999999999999,
+        "y": 249.99999999999997
+      },
+      "targetFoot": {
+        "x": 1299.9999999999998,
+        "y": 574.9999999999999
+      },
+      "aura": {
+        "enabled": true,
+        "textureMatchesPose": true,
+        "silhouetteCopies": 18,
+        "filterCount": 6,
+        "independentClock": false
+      },
+      "audio": {
+        "enabled": false,
+        "scheduled": [],
+        "error": null
+      },
+      "effectLayers": 1,
+      "showcase": {
+        "active": false,
+        "completed": true,
+        "index": 6,
+        "total": 7,
+        "mode": "ultimate",
+        "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+      },
+      "wallSeconds": 22.994
+    },
+    "stopped": {
+      "ready": true,
+      "motionOnly": false,
+      "mode": "dash",
+      "time": 0,
+      "playing": false,
+      "speed": 1,
+      "playbackRate": 1.2,
+      "pose": {
+        "key": "idle",
+        "frame": 0
+      },
+      "cancelled": false,
+      "travel": 0,
+      "activeFrames": [],
+      "visibleSprites": 0,
+      "ownedTimelines": 0,
+      "registeredTimelines": 0,
+      "regularAllies": 5,
+      "mercenaryInRegularArray": false,
+      "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+      "weaponRigid": true,
+      "clockOwner": "V3_REGISTERED_GSAP",
+      "motionFrames": 64,
+      "effectFrames": 96,
+      "damageAuthority": "NONE_VISUAL_PREVIEW",
+      "actorFoot": {
+        "x": 494.9999999999999,
+        "y": 249.99999999999997
+      },
+      "targetFoot": {
+        "x": 1299.9999999999998,
+        "y": 574.9999999999999
+      },
+      "aura": {
+        "enabled": true,
+        "textureMatchesPose": true,
+        "silhouetteCopies": 18,
+        "filterCount": 6,
+        "independentClock": false
+      },
+      "audio": {
+        "enabled": false,
+        "scheduled": [],
+        "error": null
+      },
+      "effectLayers": 1,
+      "showcase": {
+        "active": false,
+        "completed": false,
+        "index": 0,
+        "total": 7,
+        "mode": "dash",
+        "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+      }
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "mobile",
+    "modes": [
+      {
+        "mode": "attack",
+        "frames": [
+          {
+            "time": 1.63,
+            "pose": {
+              "key": "twohandLift",
+              "frame": 2
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.67,
+            "pose": {
+              "key": "twohandLift",
+              "frame": 3
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.7,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.7344444444444445,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 1
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.785,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 3
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.8,
+            "pose": {
+              "key": "twohandReturn",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 2.75,
+            "pose": {
+              "key": "idle",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          }
+        ],
+        "hit": {
+          "rate": 1.2,
+          "contacts": [
+            1.7344444444444445
+          ],
+          "effects": [
+            {
+              "key": "charge",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 535.2046030474821,
+                "y": 994.3785824765721
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.7421875
+              }
+            },
+            {
+              "key": "slash",
+              "index": 9,
+              "next": 10,
+              "anchor": {
+                "x": 674.3367300518607,
+                "y": 945.7672316037164
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.5
+              }
+            }
+          ],
+          "ward": {
+            "point": {
+              "x": 597.3388592974821,
+              "y": 882.5369212265721
+            },
+            "size": 300.315571875,
+            "bodyHeight": 207.1141875,
+            "foot": {
+              "x": 535.2046030474821,
+              "y": 994.3785824765721
+            }
+          },
+          "foot": {
+            "x": 535.2046030474821,
+            "y": 994.3785824765721
+          }
+        }
+      },
+      {
+        "mode": "skill",
+        "frames": [
+          {
+            "time": 1.63,
+            "pose": {
+              "key": "twohandLift",
+              "frame": 2
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.67,
+            "pose": {
+              "key": "twohandLift",
+              "frame": 3
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.7,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.7344444444444445,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 1
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.785,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 3
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.8,
+            "pose": {
+              "key": "twohandReturn",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 2.75,
+            "pose": {
+              "key": "idle",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          }
+        ],
+        "hit": {
+          "rate": 1.2,
+          "contacts": [
+            1.7344444444444445
+          ],
+          "effects": [
+            {
+              "key": "charge",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 535.2046030474821,
+                "y": 994.3785824765721
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.7421875
+              }
+            },
+            {
+              "key": "slash",
+              "index": 9,
+              "next": 10,
+              "anchor": {
+                "x": 674.3367300518607,
+                "y": 945.7672316037164
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.5
+              }
+            },
+            {
+              "key": "execution",
+              "index": 9,
+              "next": 10,
+              "anchor": {
+                "x": 674.3367300518607,
+                "y": 994.378582476572
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.6328125
+              }
+            }
+          ],
+          "ward": {
+            "point": {
+              "x": 597.3388592974821,
+              "y": 882.5369212265721
+            },
+            "size": 300.315571875,
+            "bodyHeight": 207.1141875,
+            "foot": {
+              "x": 535.2046030474821,
+              "y": 994.3785824765721
+            }
+          },
+          "foot": {
+            "x": 535.2046030474821,
+            "y": 994.3785824765721
+          }
+        }
+      },
+      {
+        "mode": "overhead",
+        "frames": [
+          {
+            "time": 1.63,
+            "pose": {
+              "key": "twohandLift",
+              "frame": 2
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.67,
+            "pose": {
+              "key": "twohandLift",
+              "frame": 3
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.7,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.7344444444444445,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 1
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.785,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 3
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.8,
+            "pose": {
+              "key": "twohandReturn",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 2.75,
+            "pose": {
+              "key": "idle",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          }
+        ],
+        "hit": {
+          "rate": 1.2,
+          "contacts": [
+            1.7344444444444445
+          ],
+          "effects": [
+            {
+              "key": "charge",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 535.2046030474821,
+                "y": 994.3785824765721
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.7421875
+              }
+            },
+            {
+              "key": "slash",
+              "index": 9,
+              "next": 10,
+              "anchor": {
+                "x": 674.3367300518607,
+                "y": 945.7672316037164
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.5
+              }
+            },
+            {
+              "key": "execution",
+              "index": 9,
+              "next": 10,
+              "anchor": {
+                "x": 674.3367300518607,
+                "y": 994.378582476572
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.6328125
+              }
+            }
+          ],
+          "ward": {
+            "point": {
+              "x": 597.3388592974821,
+              "y": 882.5369212265721
+            },
+            "size": 300.315571875,
+            "bodyHeight": 207.1141875,
+            "foot": {
+              "x": 535.2046030474821,
+              "y": 994.3785824765721
+            }
+          },
+          "foot": {
+            "x": 535.2046030474821,
+            "y": 994.3785824765721
+          }
+        }
+      },
+      {
+        "mode": "execution",
+        "frames": [
+          {
+            "time": 1.63,
+            "pose": {
+              "key": "twohandLift",
+              "frame": 2
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.67,
+            "pose": {
+              "key": "twohandLift",
+              "frame": 3
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.7,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.7344444444444445,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 1
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.785,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 3
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.8,
+            "pose": {
+              "key": "twohandReturn",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 2.75,
+            "pose": {
+              "key": "idle",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          }
+        ],
+        "hit": {
+          "rate": 1.2,
+          "contacts": [
+            1.7344444444444445
+          ],
+          "effects": [
+            {
+              "key": "charge",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 535.2046030474821,
+                "y": 994.3785824765721
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.7421875
+              }
+            },
+            {
+              "key": "slash",
+              "index": 9,
+              "next": 10,
+              "anchor": {
+                "x": 674.3367300518607,
+                "y": 945.7672316037164
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.5
+              }
+            },
+            {
+              "key": "execution",
+              "index": 9,
+              "next": 10,
+              "anchor": {
+                "x": 674.3367300518607,
+                "y": 994.378582476572
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.6328125
+              }
+            }
+          ],
+          "ward": {
+            "point": {
+              "x": 597.3388592974821,
+              "y": 882.5369212265721
+            },
+            "size": 300.315571875,
+            "bodyHeight": 207.1141875,
+            "foot": {
+              "x": 535.2046030474821,
+              "y": 994.3785824765721
+            }
+          },
+          "foot": {
+            "x": 535.2046030474821,
+            "y": 994.3785824765721
+          }
+        }
+      },
+      {
+        "mode": "guard",
+        "frames": [
+          {
+            "time": 1.63,
+            "pose": {
+              "key": "twohandLift",
+              "frame": 2
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.67,
+            "pose": {
+              "key": "twohandLift",
+              "frame": 3
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.7,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.7344444444444445,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 1
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.785,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 3
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.8,
+            "pose": {
+              "key": "twohandReturn",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 2.75,
+            "pose": {
+              "key": "idle",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          }
+        ],
+        "hit": {
+          "rate": 1.2,
+          "contacts": [
+            1.7344444444444445
+          ],
+          "effects": [
+            {
+              "key": "charge",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 535.2046030474821,
+                "y": 994.3785824765721
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.7421875
+              }
+            },
+            {
+              "key": "guard",
+              "index": 6,
+              "next": 7,
+              "anchor": {
+                "x": 597.3388592974821,
+                "y": 882.5369212265721
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.5
+              }
+            }
+          ],
+          "ward": {
+            "point": {
+              "x": 597.3388592974821,
+              "y": 882.5369212265721
+            },
+            "size": 300.315571875,
+            "bodyHeight": 207.1141875,
+            "foot": {
+              "x": 535.2046030474821,
+              "y": 994.3785824765721
+            }
+          },
+          "foot": {
+            "x": 535.2046030474821,
+            "y": 994.3785824765721
+          }
+        }
+      },
+      {
+        "mode": "ultimate",
+        "frames": [
+          {
+            "time": 1.63,
+            "pose": {
+              "key": "twohandLift",
+              "frame": 2
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.67,
+            "pose": {
+              "key": "twohandLift",
+              "frame": 3
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.7,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.7344444444444445,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 1
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.785,
+            "pose": {
+              "key": "twohandStrike",
+              "frame": 3
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 1.8,
+            "pose": {
+              "key": "twohandReturn",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          },
+          {
+            "time": 2.75,
+            "pose": {
+              "key": "idle",
+              "frame": 0
+            },
+            "textureMatches": true,
+            "auraMatches": true
+          }
+        ],
+        "hit": {
+          "rate": 1.2,
+          "contacts": [
+            1.7344444444444445
+          ],
+          "effects": [
+            {
+              "key": "charge",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 535.2046030474821,
+                "y": 994.3785824765721
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.7421875
+              }
+            },
+            {
+              "key": "slash",
+              "index": 9,
+              "next": 10,
+              "anchor": {
+                "x": 674.3367300518607,
+                "y": 945.7672316037164
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.5
+              }
+            },
+            {
+              "key": "execution",
+              "index": 9,
+              "next": 10,
+              "anchor": {
+                "x": 674.3367300518607,
+                "y": 994.378582476572
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.6328125
+              }
+            },
+            {
+              "key": "ultimate",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 674.3367300518607,
+                "y": 994.378582476572
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.640625
+              }
+            },
+            {
+              "key": "ultimate",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 914.3367300518607,
+                "y": 994.378582476572
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.640625
+              }
+            },
+            {
+              "key": "ultimate",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 674.3367300518607,
+                "y": 674.3785824765719
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.640625
+              }
+            }
+          ],
+          "ward": {
+            "point": {
+              "x": 597.3388592974821,
+              "y": 882.5369212265721
+            },
+            "size": 300.315571875,
+            "bodyHeight": 207.1141875,
+            "foot": {
+              "x": 535.2046030474821,
+              "y": 994.3785824765721
+            }
+          },
+          "foot": {
+            "x": 535.2046030474821,
+            "y": 994.3785824765721
+          }
+        }
+      }
+    ],
+    "audio": {
+      "enabled": true,
+      "scheduled": [
+        {
+          "key": "dash",
+          "contact": 0.25,
+          "sourceSync": 0.178,
+          "when": 0.01100000000000001,
+          "offset": 0,
+          "speed": 1.2
+        },
+        {
+          "key": "ultimate",
+          "contact": 1.7344444444444445,
+          "sourceSync": 0.333,
+          "when": 1.1188703703703704,
+          "offset": 0,
+          "speed": 1.2
+        }
+      ],
+      "error": null
+    },
+    "pauseStable": true,
+    "showcase": null,
+    "stopped": {
+      "ready": true,
+      "motionOnly": false,
+      "mode": "dash",
+      "time": 0,
+      "playing": false,
+      "speed": 1,
+      "playbackRate": 1.2,
+      "pose": {
+        "key": "idle",
+        "frame": 0
+      },
+      "cancelled": false,
+      "travel": 0,
+      "activeFrames": [],
+      "visibleSprites": 0,
+      "ownedTimelines": 0,
+      "registeredTimelines": 0,
+      "regularAllies": 5,
+      "mercenaryInRegularArray": false,
+      "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+      "weaponRigid": true,
+      "clockOwner": "V3_REGISTERED_GSAP",
+      "motionFrames": 64,
+      "effectFrames": 96,
+      "damageAuthority": "NONE_VISUAL_PREVIEW",
+      "actorFoot": {
+        "x": 424.33673005186057,
+        "y": 344.3785824765718
+      },
+      "targetFoot": {
+        "x": 674.3367300518607,
+        "y": 994.378582476572
+      },
+      "aura": {
+        "enabled": true,
+        "textureMatchesPose": true,
+        "silhouetteCopies": 18,
+        "filterCount": 6,
+        "independentClock": false
+      },
+      "audio": {
+        "enabled": false,
+        "scheduled": [],
+        "error": null
+      },
+      "effectLayers": 1,
+      "showcase": {
+        "active": false,
+        "completed": false,
+        "index": 0,
+        "total": 7,
+        "mode": "dash",
+        "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
+      }
+    },
+    "overflow": false,
+    "errors": []
+  }
+]

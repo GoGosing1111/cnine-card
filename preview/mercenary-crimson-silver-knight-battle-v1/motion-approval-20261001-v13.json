@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-01",
+  "status": "USER_APPROVED_MOTION",
+  "userRequest": "모션 승인,단 스프라이트 별로 캐릭터 크기가 일정하지 않던것을 확인함 다시 검수할것",
+  "approvedMotion": "TWO_HAND_OVERHEAD_V10",
+  "timingUnchanged": true,
+  "appliesTo": [
+    "attack",
+    "skill",
+    "overhead",
+    "execution",
+    "guard",
+    "ultimate"
+  ],
+  "priorAdoption": "motion-adoption-20261001.json",
+  "sizeCorrection": "manifest.json#sizeCalibration",
+  "liveActivationApproved": false,
+  "rankApproved": false
+}

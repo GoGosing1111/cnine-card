@@ -3,6 +3,7 @@ import {CMS_MAX_BYTES,validateMercenaryCms,expandMercenarySkillCatalog} from '..
 import {MERCENARY_POWER_STANDARD} from '../shared/equipment-mercenary-power-v1.mjs';
 import {MERCENARY_COMBAT_LINK} from '../shared/mercenary-combat-link-v2103.mjs';
 import {handleMercenaryDrawCms} from './_mercenary_draw_cms.js';
+import {handleLimitedMercenaryCms} from './_mercenary_limited_cms.js';
 import {mercenaryDeploymentState} from '../shared/mercenary-public-release-v2097.mjs';
 import {handleMercenaryCodex} from './_mercenary_codex.js';
 import {mercenaryAttackStyle} from '../shared/mercenary-attack-style-v1.mjs';
@@ -48,6 +49,7 @@ async function boundedJson(request){
   return JSON.parse(new TextDecoder().decode(bytes));
 }
 export async function handleMercenaryCms({path,request,env,deps}){
+  const limitedResponse=await handleLimitedMercenaryCms({path,request,env,deps});if(limitedResponse)return limitedResponse;
   const codexResponse=await handleMercenaryCodex({path,request,env,deps});if(codexResponse)return codexResponse;
   const drawResponse=await handleMercenaryDrawCms({path,request,env,deps});if(drawResponse)return drawResponse;
   if(path!=='admin/mercenaries')return null;
