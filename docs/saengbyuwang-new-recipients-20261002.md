@@ -45,9 +45,13 @@
 
 ## 운영 발송 상태
 
-준비 및 원자성 검증 완료. 실제 COMMIT과 독립 조회 결과는 실행 후 기록한다.
+운영 메시지 발송을 완료했다. 실제 COMMIT은 **2026-10-02 13:36:33 KST**, 처리 시간은 약 **1.352초**다. 실행기를 종료한 뒤 새 연결로 **13:36:39 KST**에 확인했으며, 신규 16명·메시지 48건·보상 48건, **누락 0건·중복 0건**이다. 각 계정의 동일 생뷰왕 보상 메시지는 정확히 3건이고, 재실행을 막는 완료 영수증과 감사 로그도 확인했다.
 
 - 작업 키: `ops:saengbyuwang-rewards:new-recipients:20261002:v1`.
+- 관리자 감사 로그: **39402**, `SAENGBYUWANG_REWARD_MESSAGE_SEND_SUPPLEMENT`.
+- 실제 영수증 및 독립 확인 결과: `docs/saengbyuwang-new-recipients-20261002.json`.
+- 준비 커밋: `9f9a0579`. 게임 실행 코드나 스키마 배포를 수반하지 않은 일회 지급이다.
 - 대상 해시: `11ee38f083742b07513ad3b488efc1a892768bbabf70e944b16354615f37eb8f`.
 - 캠페인: `saengbyuwang-20261002-supplement-v1-coin`, `saengbyuwang-20261002-supplement-v1-star`, `saengbyuwang-20261002-supplement-v1-mystic`.
 - 실행 증빙: `C:/Users/User/.codex/tmp/saengbyuwang-new-recipients-20261002/`.
+- 임시 실행기는 종료했고 `worker.mjs`를 HTTP 410만 반환하도록 바꾸어 지급 기능을 제거했다. 토큰은 메모리에만 두었고 파일에 저장하지 않았다.
