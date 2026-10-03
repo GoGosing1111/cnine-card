@@ -1,7 +1,7 @@
 {
   "date": "2026-10-04",
   "request": "미라클큐브 쿠폰 발행가능하게 만들어 권한은 owner 핑크빛유두만",
-  "status": "IMPLEMENTED_BROWSER_VERIFIED",
+  "status": "LIVE_VERIFIED",
   "previousProduction": {
     "source": "8acfce9d15923d0a76168676eb69832cf5d045ea",
     "pages": "679ed04d-fbae-4e88-b3da-4500da188d6b"
@@ -88,7 +88,67 @@
       "checks": [
         "check:worker"
       ],
-      "command": "npm run deploy:production -- --scoped"
+      "command": "npm run deploy:production -- --scoped",
+      "result": {
+        "passed": 23,
+        "failed": 0,
+        "workerSyntax": "PASSED",
+        "releaseGuard": "PASSED",
+        "hyperdriveQueryCache": "DISABLED"
+      }
+    },
+    "production": {
+      "status": "PASSED",
+      "verifiedAt": "2026-10-03T17:58:11.088Z",
+      "source": "7e42c7c89d2065e672c26744c6bee8196e830b0e",
+      "productionUrl": "https://cnine-card.pages.dev/admin/",
+      "files": [
+        {
+          "file": "admin/index.html",
+          "status": 200,
+          "sha256": "59d71fb68f2be551da3846ede8af8aae4784e53a2d1ac493c806beab4b3aa0c3"
+        },
+        {
+          "file": "admin/admin-v1276.js",
+          "status": 200,
+          "sha256": "5789a5453d691eaa154e1991a598741a62d8193ea1667a34cd97bcd522dd49b8"
+        },
+        {
+          "file": "admin/admin-v1062-coupon-bulk-delete.js",
+          "status": 200,
+          "sha256": "a62aabb3f88994054cfaf99ceaf474d0ee2a123678ed10526708fac49c27ff37"
+        },
+        {
+          "file": "admin/miracle-cube-coupon.css",
+          "status": 200,
+          "sha256": "1ffe3075c237959e249b6b3f19f3bc109c462aa64a94d466f5cf38308ef3fe98"
+        }
+      ],
+      "unauthenticatedRequests": [
+        {
+          "route": "admin/coupon-create-permanent-v3",
+          "status": 401
+        },
+        {
+          "route": "admin/coupons",
+          "status": 401
+        },
+        {
+          "route": "admin/coupons-v2",
+          "status": 401
+        },
+        {
+          "route": "coupon/redeem",
+          "status": 401
+        }
+      ],
+      "note": "Read-only asset verification and unauthenticated rejection checks. No production coupon issued, item granted, or cube mode changed."
     }
+  },
+  "deployment": {
+    "source": "7e42c7c89d2065e672c26744c6bee8196e830b0e",
+    "pagesUrl": "https://a820fde4.cnine-card.pages.dev",
+    "apiRuntimeVersion": "3c6bc599-d7d7-4a2a-bb95-79b4456cc287",
+    "scheduledWorkerVersion": "56eb0f68-c61e-4f78-82bb-dd3b64470521"
   }
 }
