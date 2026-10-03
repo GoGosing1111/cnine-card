@@ -53,7 +53,7 @@ export function createCoopRoom({id,user,clientId,difficulty,seed,now,combat=defa
 export function coopCommand(room,user,kind,input,now){
  advanceCoopRoom(room,now);
  if(kind==='join'){
-  if(room.status!=='LOBBY')fail('STARTED','이미 출전한 대기방입니다.');
+  if(room.status!=='LOBBY')fail('STARTED',coopTerminal(room)?'모집이 종료된 대기방입니다. 목록을 새로고침하세요.':'이미 출전한 대기방입니다.');
   if(!validCoopClient(input.clientId))fail('CLIENT','접속 정보가 올바르지 않습니다.',400);
   const existing=room.members.find(m=>m.id===Number(user.id));
   if(existing){if(existing.clientId!==input.clientId){existing.clientId=input.clientId;existing.ready=false;}existing.lastSeen=now;return;}

@@ -1,0 +1,56 @@
+{
+  "status": "READY_FOR_SCOPED_DEPLOY",
+  "date": "2026-10-04",
+  "request": "격전지 협동을 방 코드 대신 레이드처럼 공개 모집 목록에서 참가하도록 변경",
+  "behavior": [
+    "방 생성 시 모집 목록 자동 등록",
+    "방장·난이도·인원·준비 상태·편성 전투력 표시",
+    "난이도 필터, 수동 새로고침, 10초 자동 갱신",
+    "목록 참가 버튼으로 직접 입장; 코드 입력·복사 UI 제거",
+    "3인 모집 완료는 참가 비활성화, 출전·해산·접속 종료 시 목록 제외"
+  ],
+  "scope": "기존 격전지 API·전용 Durable Object와 해당 UI에 한정. 기존 CooperativePlayer 예약 인스턴스에 공개 요약을 저장하고 변경·30초 갱신 시 발행. 신규 바인딩·마이그레이션·공통 인증/DB·전투 엔진 변경 없음.",
+  "preserved": [
+    "기존 OFF/TEST/ON 설정",
+    "입장 재화·보상 잠금",
+    "기존 편성·출전·전투 흐름"
+  ],
+  "tests": {
+    "focusedServer": {
+      "command": "node --test tests/cooperative-room-list.test.mjs",
+      "result": "PASS",
+      "passed": 3,
+      "coverage": "실제 Miniflare API/DO의 인증·모드·생성 재시도·난이도 필터·입장/정원·방장 승계·준비·출전/해산/접속 만료 제외 및 공개 필드 제한"
+    },
+    "browser": {
+      "command": "node tests/cooperative-room-list.browser.mjs",
+      "result": "PASS",
+      "viewports": [
+        "1440x1000",
+        "390x844"
+      ],
+      "javascriptErrors": [],
+      "coverage": "실제 API/DO 연결, 자동 발견·필터·3인 입장·나가기·해산된 방의 오래된 참가 버튼·목록 장애 후 복구, 코드 UI 부재·가로 넘침 없음",
+      "evidence": "C:/Users/User/AppData/Local/Temp/cooperative-qa-a1bFPQ/room-list-screenshots"
+    },
+    "deploymentRegressions": {
+      "status": "PENDING",
+      "files": [
+        "tests/cooperative-battleground.test.mjs",
+        "tests/cooperative-websocket.test.mjs",
+        "tests/cooperative-cms.test.mjs"
+      ],
+      "checks": [
+        "check:worker",
+        "verify-production-release",
+        "production Hyperdrive cache"
+      ]
+    }
+  },
+  "release": {
+    "method": "npm run deploy:production -- --scoped",
+    "base": "df3616ebce1cb70f3698b463c11c50abf6d7ad4b",
+    "basePagesDeployment": "bea8b974-d804-4c83-9eb1-65339f51fc30",
+    "reason": "격전지 모집 목록·참가 경로에 국한된 수정. 신규 목록 서버/PC·모바일 검수는 이미 통과했으므로 배포에서는 인접한 기존 협동 준비·출전·WebSocket·CMS 회귀와 Worker 컴파일만 실행."
+  }
+}

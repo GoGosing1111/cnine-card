@@ -28,9 +28,9 @@ try{
  if(process.env.COOP_QA_NORMAL_ONLY!=='1'){
  const a=await open(1,1440,1000);await a.screenshot({path:path.join(out,'01-entry-desktop.png'),fullPage:true});
  await a.locator('[data-create]').click();await a.locator('[data-room-title]').waitFor({state:'visible'});
- code=(await a.locator('[data-room-title]').textContent()).match(/[A-F0-9]{10}/)[0];
+ code=(await h.request(1,'current')).state.id;
  const b=await open(2,1440,1000),c=await open(3,390,844);
- for(const page of [b,c]){await page.locator('#coop-code').fill(code);await page.locator('.coop-join button').click();await page.locator('[data-room]').waitFor({state:'visible'});}
+ for(const page of [b,c]){await page.locator('[data-refresh-rooms]').click();await page.locator(`[data-join-room="${code}"]`).click();await page.locator('[data-room]').waitFor({state:'visible'});}
  for(const {id,page} of clients){
   const squad=squads[id-1];await page.locator(`[data-choice="${squad.mercenary.code}"]`).click();await page.waitForFunction(()=>!document.querySelector('.coop-root').classList.contains('is-busy'));
   await page.locator('[data-picker="card"]').click();

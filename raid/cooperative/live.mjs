@@ -1,17 +1,18 @@
 import {jointAccountRequest} from '/js/joint-account-transport.mjs';
 import {COOP_DIFFICULTIES,COOP_RULES,COOP_VERSION,COOP_ENCOUNTER,COOP_STAGES} from '/shared/cooperative-battleground-v1.mjs?v=20261002-arke-v2';
 import {mountCoopBattle} from './battle.mjs?v=20261002-arke-v2';
+import {COOP_LIST_REFRESH_MS} from '/shared/cooperative-room-list-v1.mjs?v=20261004-list1';
 import {coopCombatSummary} from '/shared/cooperative-settings-v1.mjs?v=20261002-cms1';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const number=v=>Math.round(v||0).toLocaleString('ko-KR');
 const uniqueText=c=>c.uniqueAbility?([['공격','attackPercent'],['방어','defensePercent'],['체력','hpPercent'],['속도','speedPercent']].filter(([,k])=>c.uniqueAbility[k]).map(([label,k])=>label+' '+(c.uniqueAbility[k]>0?'+':'')+c.uniqueAbility[k]+'%').join(' · ')||'고유효과 적용'):'고유효과 없음';
 let styles;
-function loadStyles(){return styles||=new Promise((resolve,reject)=>{const link=document.createElement('link');link.rel='stylesheet';link.href='/raid/cooperative/style.css?v='+COOP_VERSION;link.onload=resolve;link.onerror=()=>{styles=null;reject(Error('격전지 화면을 불러오지 못했습니다.'));};document.head.append(link);});}
+function loadStyles(){return styles||=new Promise((resolve,reject)=>{const link=document.createElement('link');link.rel='stylesheet';link.href='/raid/cooperative/style.css?v=20261004-list1';link.onload=resolve;link.onerror=()=>{styles=null;reject(Error('격전지 화면을 불러오지 못했습니다.'));};document.head.append(link);});}
 const shield='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 2 21 6v6c0 5-9 10-9 10S3 17 3 12V6Z"/><path d="m7 12 3 3 7-7"/></svg>';
 const GUIDE=[
  ['3단계 돌파전','<p><b>세 명이 편성한 9캐릭터로 세 구역을 연속 격파합니다.</b> 전체 제한 시간은 3분입니다.</p><ol><li><b>1단계 · 제련소 외곽:</b> 근접 공격을 하는 용철 추적자 2기와 원거리 연사형 불씨 감시기 1기를 모두 처치하세요.</li><li><b>2단계 · 노심 관문:</b> 준보스 노심 수문장이 나타납니다. 최대 체력의 30% 방벽을 깨고 연속 공격을 버티세요. 보호와 회복이 있으면 마지막 구간의 생존을 확보하기 쉽습니다.</li><li><b>3단계 · 심층 노심:</b> 최종 보스 삼핵 거신 아르케가 등장합니다. 평타·스킬은 자동으로 진행되며, 화면에 뜨는 차단·엄폐·교란은 각자 직접 눌러야 합니다.</li></ol><p><b>앞 단계의 적을 전부 처치해야 다음 단계가 열립니다.</b> 체력·방벽·스킬 대기 시간은 이어지며, 단계 전환으로 회복하거나 쓰러진 캐릭터가 부활하지 않습니다. 일반 몬스터와 준보스만 잡고 시간이 끝나면 패배입니다.</p>'],
  ['아르케 공략','<p><b>평타와 용병 스킬은 자동, 거신의 특수 공격은 직접 대응합니다.</b> 최종 보스가 등장한 뒤 10초부터 30초 간격으로 삼핵 차단과 집중 포화가 번갈아 나옵니다. 일반은 9초, 격전은 8초, 극한은 7초 안에 대응하세요.</p><ol><li><b>삼핵 차단:</b> 각자 화면의 <b>내 노심 차단</b>을 한 번 누르세요. 생존한 분대가 모두 차단하면 거신 최대 체력의 8%를 깎습니다. 하나라도 놓치면 아군 전원이 최대 체력의 12% / 18% / 24% 피해를 받습니다. 방벽은 피해를 흡수할 수 있습니다.</li><li><b>집중 포화:</b> 표적 분대에는 <b>내 분대 엄폐</b>, 나머지에는 <b>조준 교란</b>이 표시됩니다. 엄폐하면 기본 피해의 75%를 줄입니다. 교란 1명마다 추가로 25%씩 줄여 두 명이 돕는 것이 가장 안전합니다. 기본 피해는 표적 분대 각 캐릭터 최대 체력의 40% / 50% / 60%입니다.</li><li><b>확인 표시:</b> 버튼을 누른 뒤 내 분대에 체크가 켜지면 접수 완료입니다. 남은 시간을 계속 보여주며, 판정 시 모두 같은 성공·실패와 체력 변화를 봅니다. 다른 분대의 버튼을 대신 누를 수 없습니다.</li></ol><p>색뿐 아니라 <b>내 담당 행동·분대 이름·체크 표시</b>를 함께 확인하세요. 이탈하거나 전멸한 분대에는 행동을 요구하지 않습니다.</p>'],
- ['처음 출전한다면','<ol><li><b>한 명이 대기방을 만듭니다.</b> 일반·격전·극한 중 난이도를 고르고 대기방 코드를 나머지 두 명에게 알려주세요.</li><li><b>같은 코드로 3명이 입장합니다.</b> 각자 보유한 용병 1명과 서로 다른 일반 카드 2장을 고릅니다. 한 사람당 슈퍼스타는 1장까지 가능합니다.</li><li><b>편성 저장 → 출전 준비.</b> 세 명의 준비가 끝나면 편성이 잠깁니다. 전장 로딩이 끝난 뒤 3초를 함께 세고 출전합니다.</li><li><b>9명이 한 전장에서 싸웁니다.</b> 같은 보스 체력·공격·처치 결과를 모두 함께 봅니다. 전투는 편성한 카드와 용병의 실제 효과로 자동 진행됩니다.</li></ol>'],
+ ['처음 출전한다면','<ol><li><b>한 명이 대기방을 만듭니다.</b> 일반·격전·극한 중 난이도를 고르면 모집 목록에 자동으로 표시됩니다.</li><li><b>모집 목록에서 참가할 방을 고릅니다.</b> 각자 보유한 용병 1명과 서로 다른 일반 카드 2장을 고릅니다. 한 사람당 슈퍼스타는 1장까지 가능합니다.</li><li><b>편성 저장 → 출전 준비.</b> 세 명의 준비가 끝나면 편성이 잠깁니다. 전장 로딩이 끝난 뒤 3초를 함께 세고 출전합니다.</li><li><b>9명이 한 전장에서 싸웁니다.</b> 같은 보스 체력·공격·처치 결과를 모두 함께 봅니다. 전투는 편성한 카드와 용병의 실제 효과로 자동 진행됩니다.</li></ol>'],
  ['조합을 만드는 방법','<p><b>공격과 생존을 함께 챙기세요.</b> 공격형은 처치 속도를, 방어형은 방벽과 반격을, 속도형은 행동 빈도를, 생명형은 회복을 담당합니다. 카드에 표시된 고유효과를 확인하세요.</p><p><b>각자의 용병은 자신의 카드 2장과 연동합니다.</b> 용병 등급·배정 스킬·스킬 자원·대기 시간이 그대로 적용됩니다. 다른 사람의 고급 카드만으로 내 용병의 연동 능력치가 오르지는 않습니다.</p><p><b>회복·보호 스킬은 같은 팀에 적용됩니다.</b> 보호 담당과 화력 담당을 나누면 팀 생존을 보완할 수 있습니다. 같은 계열만 중복하는 편성에는 공용 전투의 중복 보정이 적용됩니다.</p><p>선택 카드의 강화·고유효과와 본인 PVE 장비 보너스를 준비 시점에 저장합니다. 격전지는 총 9캐릭터 편성이므로 배틀슈트와 별도 마법카드는 출전하지 않습니다.</p>'],
  ['난이도와 승리 조건','<p><b>일반</b>은 SS 용병 중심으로 조합을 익히는 단계입니다. <b>격전</b>은 공격과 보호를 함께 준비하고, <b>극한</b>은 SSS 용병과 강화된 카드의 효과를 연계하는 도전입니다.</p><p>등급만으로 승리를 보장하지 않습니다. 카드 강화, 장비, 고유효과와 용병 조합에 따라 결과가 달라집니다. 적의 능력치는 각 난이도에 고정되어 있습니다.</p><p><b>3분 안에 세 단계의 모든 적을 처치하면 승리.</b> 시간이 끝났을 때 보스가 생존했거나 아군이 전멸하면 패배합니다. 화면 배속과 일시정지는 지원하지 않습니다.</p><p>현재 보상은 검수 중입니다. 입장 재화 차감과 승리 보상 지급은 없습니다.</p>'],
  ['새로고침·이탈 규칙','<p><b>전장 로딩이 시작된 뒤 새로고침하거나 나가면 본인이 패배합니다.</b> 다른 창으로 전투를 다시 열어도 복귀할 수 없습니다. 해당 분대의 카드 2장과 용병 1명은 전장에서 제거됩니다.</p><p><b>남은 사람은 계속 싸웁니다.</b> 남은 인원이 보스를 처치해도 이미 이탈한 사람의 패배가 승리로 바뀌지는 않습니다.</p><p>일시적인 통신 끊김은 같은 화면에서 자동 재연결을 시도합니다. 서버가 <b>15초 동안 연결을 확인하지 못하면</b> 패배합니다. 연결 복구 안내가 보이면 새로고침하지 말고 기다려주세요.</p><p>대기방에서는 나가도 패배하지 않습니다. 방장이 나가면 다음 참가자가 방장이 됩니다. 편성을 변경하면 준비 완료가 해제됩니다.</p>']
@@ -20,6 +21,7 @@ export async function mountCooperative(root){
  await loadStyles();
  const lifecycle=new AbortController(),clientId=crypto.randomUUID(),api=(path,options)=>jointAccountRequest('coop/'+path,options);
  let disposed=false,state=null,roomId='',you=0,options=null,feature=null,ws=null,reconnectTimer,heartbeatTimer,battle=null,portal=null,mounting=null,battlePayload=null,lastMessage=0;
+ let rooms=[],roomFilter='',listLoading=false,listLoaded=false,listError='',listTimer,listEpoch=0,listSignature='',hasMore=false;
  let busy=false,selected={cardIds:[],mercenaryCode:''},picker='mercenary',query='',grade='',difficulty='NORMAL',serverOffset=0,guideChapter=0,bodyOverflow='',selectionRoom='',squadSignature='',battleEpoch=0,patternSignature='',pendingPattern=null,configSignature='';
  const defaultConfiguration=coopCombatSummary(),configuration=()=>state?.configuration||feature?.configuration||defaultConfiguration;
  const $=s=>root.querySelector(s),on=(el,event,fn)=>el?.addEventListener(event,fn,{signal:lifecycle.signal});
@@ -28,14 +30,49 @@ export async function mountCooperative(root){
  <section class="coop-hero"><div class="coop-hero-copy"><span>전장 01 · ${COOP_ENCOUNTER.arena}</span><h3>세 구역을 뚫고,<br>노심을 멈춰라.</h3><p><b>${COOP_ENCOUNTER.name}</b><br>외곽 수비대 · 노심 수문장 · 최종 거신</p><div class="coop-meta"><span>3인 · 9캐릭터</span><span>3분 전투</span><span data-release>연결 중</span></div></div><img src="${COOP_ENCOUNTER.battleSprite}" alt="세 개의 주황색 노심을 가진 백색 거신 아르케" /><div class="coop-hero-index" aria-hidden="true">ARKE <b>01</b></div></section>
  <div class="coop-operation-strip">${COOP_STAGES.map(s=>`<span><i>0${s.wave}</i><b>${s.name}</b><small>${s.target}</small></span>`).join('')}</div>
  <div class="coop-alert" role="status" aria-live="polite" data-alert hidden></div>
- <section data-entry class="coop-entry"><div><header class="coop-section-title"><span>01</span><div><h3>전장 선택</h3><p>처음이라면 일반에서 조합을 맞춰보세요.</p></div></header><div class="coop-difficulties">${COOP_DIFFICULTIES.map((d,i)=>`<button data-difficulty="${d.id}" aria-pressed="${i===0}" class="${i===0?'selected':''}"><small>0${i+1} / ${esc(d.subtitle)}</small><b>${esc(d.name)}</b><span>${esc(d.recommendation)}</span></button>`).join('')}</div><button class="coop-primary" data-create>대기방 만들기 <span>→</span></button></div><form class="coop-join"><span class="coop-eyebrow">초대받았다면</span><h3>동료의 대기방에 합류</h3><p>방장이 알려준 10자리 코드를 입력하세요.</p><label for="coop-code">대기방 코드</label><div><input id="coop-code" name="room" maxlength="10" pattern="[A-Fa-f0-9]{10}" placeholder="예: A31B95F02C" required autocomplete="off" spellcheck="false"><button class="coop-primary" type="submit">입장</button></div><small>3명이 모두 준비하면 자동으로 출전합니다.</small></form></section>
- <section data-room hidden><div class="coop-room-heading"><div><span data-room-title></span><h3>출전 대기실 <b data-count>1 / 3</b></h3></div><div><button class="coop-quiet" data-copy>코드 복사</button><button class="coop-quiet" data-leave>대기방 나가기</button></div></div><div class="coop-squads" data-squads></div>
+ <section data-entry class="coop-entry"><div class="coop-room-browser"><header class="coop-browser-heading"><div><span class="coop-eyebrow">함께할 분대를 찾으세요</span><h3>모집 중인 대기방 <b data-room-list-count>0</b></h3></div><button class="coop-quiet" data-refresh-rooms>새로고침 ↻</button></header><div class="coop-room-list-toolbar"><label>난이도 <select data-room-filter aria-label="대기방 난이도"><option value="">전체 난이도</option>${COOP_DIFFICULTIES.map(d=>`<option value="${d.id}">${esc(d.name)}</option>`).join('')}</select></label><span data-room-list-status>대기방을 불러오는 중</span></div><p class="coop-room-list-message" data-room-list-message role="status" hidden></p><div class="coop-room-list" data-room-list aria-live="polite" aria-busy="true"></div></div><aside class="coop-create-panel"><header class="coop-section-title"><span>+</span><div><h3>대기방 만들기</h3><p>난이도를 고르고 동료를 모집하세요.</p></div></header><div class="coop-difficulties">${COOP_DIFFICULTIES.map((d,i)=>`<button data-difficulty="${d.id}" aria-pressed="${i===0}" class="${i===0?'selected':''}"><small>0${i+1} / ${esc(d.subtitle)}</small><b>${esc(d.name)}</b><span>${esc(d.recommendation)}</span></button>`).join('')}</div><button class="coop-primary" data-create>대기방 만들기 <span>→</span></button><p class="coop-create-note">생성한 방은 모집 목록에 바로 표시됩니다.<br>3명이 모두 준비하면 함께 출전합니다.</p></aside></section>
+ <section data-room hidden><div class="coop-room-heading"><div><span data-room-title></span><h3>출전 대기실 <b data-count>1 / 3</b></h3></div><div><button class="coop-quiet" data-leave>대기방 나가기</button></div></div><div class="coop-squads" data-squads></div>
  <div class="coop-armory"><div class="coop-armory-heading"><div><span class="coop-eyebrow">내 출전 편성</span><h3>용병 1명, 카드 2장</h3></div><div class="coop-picker-tabs"><button data-picker="mercenary" aria-selected="true">용병 <b data-merc-count>0/1</b></button><button data-picker="card" aria-selected="false">카드 <b data-card-count>0/2</b></button></div></div><div class="coop-filter"><label><span class="sr-only">보유 목록 검색</span><input type="search" data-search placeholder="이름으로 검색"></label><select data-grade aria-label="등급 필터"><option value="">모든 등급</option></select><span data-inventory-count></span></div><div class="coop-inventory" data-inventory></div><div class="coop-selection-detail" data-detail>용병의 원화를 선택해 스킬을 확인하세요.</div></div>
  <footer class="coop-readybar"><div><b data-ready-summary>출전 편성을 완성하세요</b><span>3명 모두 준비 완료 시 편성 잠금 · 동시 출전</span></div><button class="coop-primary" data-ready disabled>출전 준비 <span>→</span></button></footer></section>
  <section class="coop-owner" data-owner hidden><button class="coop-quiet" data-settings>운영 테스트 설정</button></section>
  <dialog class="coop-dialog" data-guide-dialog><header><div><small>격전지 공략 지침</small><h3 data-guide-title></h3></div><button class="coop-quiet" data-close-guide aria-label="공략 닫기">닫기 ×</button></header><nav>${GUIDE.map(([name],i)=>`<button data-chapter="${i}">${i+1}. ${name}</button>`).join('')}</nav><article data-guide-content></article></dialog>
  <dialog class="coop-dialog" data-settings-dialog><header><h3>운영 테스트 설정</h3><button class="coop-quiet" data-close-settings>닫기 ×</button></header><form data-settings-form><label>공개 상태<select name="mode"><option value="TEST">테스트 참여자만</option><option value="OFF">운영 중지</option><option value="ON">전체 공개</option></select></label><label>테스트 계정 ID<input name="users" placeholder="예: 12, 34" /></label><p>OWNER는 자동으로 참여할 수 있습니다. 보상은 잠금 상태로 유지됩니다.</p><button class="coop-primary">설정 저장</button><p role="status" data-settings-message></p></form></dialog>`;
  function alert(message){$('[data-alert]').hidden=!message;$('[data-alert]').textContent=message||'';}
+ function drawRooms(){
+  $('[data-room-list-count]').textContent=String(rooms.length)+(hasMore?'+':'');
+  $('[data-refresh-rooms]').disabled=listLoading||busy;
+  $('[data-refresh-rooms]').textContent=listLoading?'조회 중…':'새로고침 ↻';
+  $('[data-room-list-status]').textContent=listLoading?'목록 갱신 중':hasMore?'최근 대기방 50개 · 난이도로 좁혀보세요':'최근 생성순 · 10초마다 갱신';
+  $('[data-room-list-message]').hidden=!listError;$('[data-room-list-message]').textContent=listError;
+  const list=$('[data-room-list]');list.setAttribute('aria-busy',String(listLoading));
+  const signature=JSON.stringify([rooms,busy,listLoaded,!!listError]);if(signature===listSignature)return;listSignature=signature;
+  const focused=document.activeElement?.dataset?.joinRoom;
+  list.innerHTML=rooms.length?rooms.map(r=>{
+   const d=COOP_DIFFICULTIES.find(d=>d.id===r.difficulty),full=!r.joinable;
+   return `<article class="coop-lobby-row ${full?'is-full':''}" data-lobby="${esc(r.id)}"><span class="coop-lobby-rank" data-rank="${esc(r.difficulty)}">${esc(d?.name||r.difficulty)}</span><div class="coop-lobby-info"><h4>${esc(r.hostName)}<span>의 대기방</span></h4><p>준비 <b>${r.ready} / ${r.maxMembers}</b><i>·</i>${r.power?'분대 전투력 '+number(r.power):'출전 편성 중'}</p></div><div class="coop-lobby-capacity"><span aria-hidden="true">${Array.from({length:r.maxMembers},(_,i)=>`<i class="${i<r.members?'filled':''}"></i>`).join('')}</span><b>${r.members}<small> / ${r.maxMembers}명</small></b></div><button class="${full?'coop-quiet':'coop-primary'}" data-join-room="${esc(r.id)}" ${full||busy?'disabled':''} aria-label="${esc(r.hostName)}의 ${esc(d?.name||r.difficulty)} 대기방 ${full?'모집 완료':'참가'}">${full?'모집 완료':'참가 →'}</button></article>`;
+  }).join(''):`<div class="coop-room-list-empty">${shield}<b>${listError?'대기방 목록을 불러오지 못했습니다':!listLoaded?'함께할 분대를 찾는 중…':'모집 중인 방이 없습니다'}</b><p>${listError?'새로고침을 눌러 다시 확인하세요.':!listLoaded?'잠시만 기다려주세요.':roomFilter?'다른 난이도를 선택하거나 새 대기방을 만들어보세요.':'대기방을 만들고 함께 출전할 동료를 모집하세요.'}</p></div>`;
+  if(focused)[...list.querySelectorAll('[data-join-room]')].find(b=>b.dataset.joinRoom===focused)?.focus({preventScroll:true});
+ }
+ async function refreshRooms(){
+  clearTimeout(listTimer);
+  if(disposed||state||listLoading||!feature?.accessible||document.hidden)return;
+  const epoch=listEpoch;listLoading=true;listError='';drawRooms();
+  try{
+   const result=await api('rooms'+(roomFilter?'?difficulty='+encodeURIComponent(roomFilter):''));
+   if(disposed||state||epoch!==listEpoch)return;
+   rooms=result.rooms;hasMore=!!result.hasMore;listLoaded=true;
+  }catch(e){if(!disposed&&!state&&epoch===listEpoch)listError=e.message;}
+  finally{
+   listLoading=false;
+   if(!disposed&&!state){drawRooms();listTimer=setTimeout(()=>void refreshRooms(),epoch===listEpoch?COOP_LIST_REFRESH_MS:0);}
+  }
+ }
+ async function joinRoom(id){
+  if(busy||state)return;lock(true);alert('');
+  try{roomId=id;const result=await command('join');selected={cardIds:[],mercenaryCode:''};apply(result);await connect();}
+  catch(e){alert(e.message);roomId=state?.id||'';}
+  finally{lock(false);if(!state)void refreshRooms();}
+ }
  function drawConfiguration(){
   const c=configuration(),signature=JSON.stringify(c);if(signature===configSignature)return;configSignature=signature;
   $('.coop-meta span:nth-child(2)').textContent=c.maxBattleSeconds+'초 전투';
@@ -43,17 +80,17 @@ export async function mountCooperative(root){
   for(const d of c.difficulties)root.querySelector(`[data-difficulty="${d.id}"] span`).textContent=d.recommendation;
   if($('[data-guide-dialog]').open)openGuide(guideChapter);
  }
- function lock(value){busy=value;$('[data-create]').disabled=value;$('[data-ready]').disabled=value||selected.cardIds.length!==2||!selected.mercenaryCode;root.classList.toggle('is-busy',value);}
+ function lock(value){busy=value;$('[data-create]').disabled=value;$('[data-ready]').disabled=value||selected.cardIds.length!==2||!selected.mercenaryCode;root.classList.toggle('is-busy',value);drawRooms();}
  async function command(kind,extra={}){
   const body={roomId,clientId,requestId:crypto.randomUUID(),...extra};
   return api(kind,{method:'POST',body});
  }
  function drawSquads(){
   $('[data-count]').textContent=state.members.length+' / 3';
-  $('[data-room-title]').textContent=(COOP_DIFFICULTIES.find(d=>d.id===state.difficulty)?.name||'')+' · '+state.id;
+  $('[data-room-title]').textContent=(COOP_DIFFICULTIES.find(d=>d.id===state.difficulty)?.name||'')+' · '+(state.members.find(m=>m.id===state.hostId)?.name||'방장')+'의 대기방';
   $('[data-squads]').innerHTML=Array.from({length:3},(_,i)=>{
    const m=state.members[i],sel=m?.selection;
-   return `<article class="coop-squad ${m?.id===you?'is-mine':''} ${m?.ready?'is-ready':''}"><header><span>분대 0${i+1}${m?.id===you?' · 나':''}</span><b>${m?esc(m.name):'동료를 기다리는 중'}</b><small>${m?(m.result==='DEFEAT'?'이탈 · 패배':m.ready?'준비 완료':'편성 중'):'빈 자리'}</small></header><div class="coop-squad-art">${sel?`<img src="${esc(sel.mercenary.sourceArt)}" alt="${esc(sel.mercenary.name)}"><div><small>${esc(sel.mercenary.rank)} 용병</small><b>${esc(sel.mercenary.name)}</b></div>`:`<span class="coop-empty">${shield}<b>${m?'용병을 선택하세요':'함께할 동료를 초대하세요'}</b></span>`}</div><div class="coop-squad-cards">${[0,1].map(j=>sel?`<div><img src="${esc(sel.cards[j].image)}" alt=""><span><small>${esc(sel.cards[j].grade)}</small><b>${esc(sel.cards[j].title)}</b></span></div>`:'<div class="coop-card-empty">카드 선택 대기</div>').join('')}</div><footer>${sel?'분대 전투력 <b>'+number(sel.power)+'</b>':'용병 1명 + 카드 2장'}</footer></article>`;
+   return `<article class="coop-squad ${m?.id===you?'is-mine':''} ${m?.ready?'is-ready':''}"><header><span>분대 0${i+1}${m?.id===you?' · 나':''}</span><b>${m?esc(m.name):'동료를 기다리는 중'}</b><small>${m?(m.result==='DEFEAT'?'이탈 · 패배':m.ready?'준비 완료':'편성 중'):'빈 자리'}</small></header><div class="coop-squad-art">${sel?`<img src="${esc(sel.mercenary.sourceArt)}" alt="${esc(sel.mercenary.name)}"><div><small>${esc(sel.mercenary.rank)} 용병</small><b>${esc(sel.mercenary.name)}</b></div>`:`<span class="coop-empty">${shield}<b>${m?'용병을 선택하세요':'모집 목록에서 동료가 합류합니다'}</b></span>`}</div><div class="coop-squad-cards">${[0,1].map(j=>sel?`<div><img src="${esc(sel.cards[j].image)}" alt=""><span><small>${esc(sel.cards[j].grade)}</small><b>${esc(sel.cards[j].title)}</b></span></div>`:'<div class="coop-card-empty">카드 선택 대기</div>').join('')}</div><footer>${sel?'분대 전투력 <b>'+number(sel.power)+'</b>':'용병 1명 + 카드 2장'}</footer></article>`;
   }).join('');
   const mine=state.members.find(m=>m.id===you);
   $('[data-ready-summary]').textContent=mine?.ready?'준비 완료 · 동료를 기다립니다':selected.cardIds.length===2&&selected.mercenaryCode?'편성 완료 · 준비할 수 있습니다':'출전 편성을 완성하세요';
@@ -165,7 +202,7 @@ export async function mountCooperative(root){
  function apply(value){
   if(disposed||!value?.state)return;
   if(state&&value.state.id===state.id&&value.state.version<state.version)return;
-  state=value.state;you=value.you||you;roomId=state.id;serverOffset=value.serverNow-Date.now();drawConfiguration();
+  clearTimeout(listTimer);listEpoch++;state=value.state;you=value.you||you;roomId=state.id;serverOffset=value.serverNow-Date.now();drawConfiguration();
   $('[data-entry]').hidden=true;$('[data-room]').hidden=state.status!=='LOBBY';
   if(state.status==='LOBBY'){
    if(selectionRoom!==roomId){selectionRoom=roomId;const mine=state.members.find(m=>m.id===you)?.selection;if(mine)selected={cardIds:mine.cards.map(c=>c.id),mercenaryCode:mine.mercenary.code};drawInventory();}
@@ -174,7 +211,7 @@ export async function mountCooperative(root){
   else if(state.status==='CANCELLED'){alert(state.reason||'대기방이 종료되었습니다.');resetRoom();}
   else showBattle(value);
  }
- function resetRoom(){ws?.close();ws=null;clearTimeout(reconnectTimer);closeBattle();state=null;roomId='';selectionRoom='';squadSignature='';selected={cardIds:[],mercenaryCode:''};$('[data-entry]').hidden=false;$('[data-room]').hidden=true;drawConfiguration();}
+ function resetRoom(){ws?.close();ws=null;clearTimeout(reconnectTimer);closeBattle();state=null;roomId='';selectionRoom='';squadSignature='';selected={cardIds:[],mercenaryCode:''};$('[data-entry]').hidden=false;$('[data-room]').hidden=true;drawConfiguration();void refreshRooms();}
  async function leave(){if(!roomId){resetRoom();return;}try{await command('leave');resetRoom();}catch(e){alert(e.message);}}
  function abandon(){
   if(disposed)return;send('leave');
@@ -193,18 +230,20 @@ export async function mountCooperative(root){
  }
  on(root,'click',event=>{
   const b=event.target.closest('button');if(!b)return;
+  if(b.dataset.joinRoom)void joinRoom(b.dataset.joinRoom);
   if(b.dataset.difficulty){difficulty=b.dataset.difficulty;root.querySelectorAll('[data-difficulty]').forEach(x=>{x.classList.toggle('selected',x===b);x.setAttribute('aria-pressed',String(x===b));});}
   if(b.dataset.picker){picker=b.dataset.picker;grade='';query='';$('[data-search]').value='';root.querySelectorAll('[data-picker]').forEach(x=>x.setAttribute('aria-selected',String(x===b)));drawInventory();}
   if(b.dataset.choice)void pick(b.dataset.choice);
   if(b.dataset.chapter!==undefined)openGuide(Number(b.dataset.chapter));
  });
  on($('[data-create]'),'click',async()=>{if(busy)return;lock(true);try{const result=await command('create',{difficulty});roomId=result.roomId;await connect();}catch(e){alert(e.message);}finally{lock(false);}});
- on($('.coop-join'),'submit',async event=>{event.preventDefault();if(busy)return;lock(true);try{roomId=$('#coop-code').value.trim().toUpperCase();const result=await command('join');selected={cardIds:[],mercenaryCode:''};apply(result);await connect();}catch(e){alert(e.message);roomId=state?.id||'';}finally{lock(false);}});
+ on($('[data-refresh-rooms]'),'click',()=>void refreshRooms());
+ on($('[data-room-filter]'),'change',event=>{roomFilter=event.target.value;listEpoch++;rooms=[];listLoaded=false;listSignature='';void refreshRooms();});
+ on(document,'visibilitychange',()=>{if(!document.hidden&&!state)void refreshRooms();});
  on($('[data-ready]'),'click',async()=>{if(busy)return;lock(true);try{
   const mine=state.members.find(m=>m.id===you);if(!mine.ready)await window.CNineCoreRaidBridge.ensureFeatureResources('battleV2');
   apply(await command(mine.ready?'unready':'ready',selected));
  }catch(e){alert(e.message);}finally{lock(false);}});
- on($('[data-copy]'),'click',async()=>{try{await navigator.clipboard.writeText(roomId);alert('대기방 코드를 복사했습니다: '+roomId);}catch{alert('대기방 코드: '+roomId);}});
  on($('[data-leave]'),'click',()=>void leave());on($('[data-search]'),'input',e=>{query=e.target.value.trim();drawInventory();});on($('[data-grade]'),'change',e=>{grade=e.target.value;drawInventory();});
  on($('[data-guide]'),'click',()=>openGuide());on($('[data-close-guide]'),'click',()=>$('[data-guide-dialog]').close());
  let settingsRevision=0;
@@ -212,7 +251,7 @@ export async function mountCooperative(root){
   feature=await api('feature');$('[data-owner]').hidden=!feature.owner;drawConfiguration();
   $('[data-release]').textContent=feature.mode==='OFF'?'운영 중지':feature.mode==='TEST'?'테스트 운영 · 보상 없음':'보상 검수 중';
   if(!feature.accessible){$('[data-entry]').hidden=true;alert('격전지는 현재 운영 중지 상태입니다. 운영 설정에서 변경할 수 있습니다.');return false;}
-  options=await api('options');you=options.you;if(!state)$('[data-entry]').hidden=false;return true;
+  options=await api('options');you=options.you;if(!state){$('[data-entry]').hidden=false;void refreshRooms();}return true;
  }
  on($('[data-settings]'),'click',async()=>{try{const r=await api('settings');settingsRevision=r.settings.revision;const form=$('[data-settings-form]');form.elements.mode.value=r.settings.mode;form.elements.users.value=r.settings.testUserIds.join(', ');$('[data-settings-dialog]').showModal();}catch(e){alert(e.message);}});
  on($('[data-close-settings]'),'click',()=>$('[data-settings-dialog]').close());
@@ -223,5 +262,5 @@ export async function mountCooperative(root){
  try{
   if(await availability()){const current=await api('current');if(current.state){roomId=current.state.id;apply(current);if(!current.state.myResult)await connect();}}
  }catch(e){alert(e.message);}
- return {destroy(){abandon();disposed=true;clearInterval(clock);clearInterval(heartbeatTimer);clearTimeout(reconnectTimer);lifecycle.abort();ws?.close();ws=null;closeBattle();for(const d of root.querySelectorAll('dialog'))d.close();},diagnostics:()=>({state,battle:battle?.diagnostics()})};
+ return {destroy(){abandon();disposed=true;listEpoch++;clearTimeout(listTimer);clearInterval(clock);clearInterval(heartbeatTimer);clearTimeout(reconnectTimer);lifecycle.abort();ws?.close();ws=null;closeBattle();for(const d of root.querySelectorAll('dialog'))d.close();},diagnostics:()=>({state,battle:battle?.diagnostics()})};
 }

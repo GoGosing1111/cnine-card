@@ -1,23 +1,67 @@
 import {DurableObject} from 'cloudflare:workers';
 import {createCoopRoom,coopCommand,advanceCoopRoom,coopView,coopTerminal} from '../../../functions/_cooperative_room.js';
-import {COOP_RULES} from '../../../shared/cooperative-battleground-v1.mjs';
+import {COOP_RULES,validCoopRoom,coopDifficulty} from '../../../shared/cooperative-battleground-v1.mjs';
+import {COOP_DIRECTORY,COOP_LIST_LIMIT,COOP_LIST_LEASE_MS,coopRoomListing} from '../../../shared/cooperative-room-list-v1.mjs';
 import {nextCoopPatternAt} from '../../../functions/_cooperative_patterns.js';
 
-// Per-player routing only. Commands are serialized by the existing user lock.
+// Per-player routing and one reserved public directory; no new binding/migration.
+// Directory writes happen on lobby changes and a coarse lease renewal, never per
+// battle event. Only public summaries are stored, not accounts, decks or tickets.
 export class CooperativePlayer extends DurableObject{
  constructor(ctx,env){super(ctx,env);ctx.storage.sql.exec('CREATE TABLE IF NOT EXISTS active (id INTEGER PRIMARY KEY,room TEXT NOT NULL)');}
  getRoom(){return this.ctx.storage.sql.exec('SELECT room FROM active WHERE id=1').toArray()[0]?.room||null;}
  setRoom(room){if(!room)this.ctx.storage.sql.exec('DELETE FROM active WHERE id=1');else this.ctx.storage.sql.exec('INSERT INTO active(id,room) VALUES(1,?) ON CONFLICT(id) DO UPDATE SET room=excluded.room',room);return room;}
+ directory(){
+  if(this.directoryReady)return;
+  this.ctx.storage.sql.exec('CREATE TABLE IF NOT EXISTS lobbies(id TEXT PRIMARY KEY,revision INTEGER NOT NULL,difficulty TEXT,created_at INTEGER,lease_until INTEGER,retire_at INTEGER,json TEXT)');
+  this.ctx.storage.sql.exec('CREATE INDEX IF NOT EXISTS lobbies_retire ON lobbies(retire_at)');
+  this.ctx.storage.sql.exec('CREATE INDEX IF NOT EXISTS lobbies_created ON lobbies(created_at DESC,id DESC)');
+  this.directoryReady=true;
+ }
+ async publishRoom({id,revision,listing,retireAt}){
+  if(!validCoopRoom(id)||!Number.isSafeInteger(revision)||revision<1||!Number.isSafeInteger(retireAt))throw Error('Invalid cooperative listing');
+  if(listing&&(listing.id!==id||!coopDifficulty(listing.difficulty)||!Number.isSafeInteger(listing.createdAt)||!Number.isSafeInteger(listing.expiresAt)))throw Error('Invalid cooperative summary');
+  this.directory();const now=Date.now();
+  // Keep removal tombstones through the room lifetime so delayed publications
+  // cannot bring a started/disbanded room back into the public list.
+  this.ctx.storage.sql.exec(`INSERT INTO lobbies VALUES(?,?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET
+   revision=excluded.revision,difficulty=excluded.difficulty,created_at=excluded.created_at,lease_until=excluded.lease_until,retire_at=excluded.retire_at,json=excluded.json
+   WHERE excluded.revision>=lobbies.revision`,id,revision,listing?.difficulty||null,listing?.createdAt||0,listing?Math.min(listing.expiresAt,now+COOP_LIST_LEASE_MS):0,retireAt,listing?JSON.stringify(listing):null);
+  const alarm=await this.ctx.storage.getAlarm();if(!alarm||alarm>now+60000)await this.ctx.storage.setAlarm(now+60000);
+ }
+ rooms(difficulty=''){
+  this.directory();const now=Date.now();
+  const rows=this.ctx.storage.sql.exec('SELECT json FROM lobbies WHERE json IS NOT NULL AND lease_until>? AND (?=\'\' OR difficulty=?) ORDER BY created_at DESC,id DESC LIMIT ?',now,difficulty,difficulty,COOP_LIST_LIMIT+1).toArray();
+  return {ok:true,rooms:rows.slice(0,COOP_LIST_LIMIT).map(r=>JSON.parse(r.json)),hasMore:rows.length>COOP_LIST_LIMIT,serverNow:now};
+ }
+ async alarm(){
+  this.directory();const now=Date.now();this.ctx.storage.sql.exec('DELETE FROM lobbies WHERE retire_at<=?',now);
+  const next=this.ctx.storage.sql.exec('SELECT MIN(retire_at) deadline FROM lobbies').toArray()[0]?.deadline;
+  if(next)await this.ctx.storage.setAlarm(Math.max(now+60000,next));
+ }
 }
 export class CooperativeRoom extends DurableObject{
  constructor(ctx,env){super(ctx,env);ctx.storage.sql.exec('CREATE TABLE IF NOT EXISTS room (id INTEGER PRIMARY KEY,json TEXT NOT NULL)');ctx.storage.sql.exec('CREATE TABLE IF NOT EXISTS tickets(token TEXT PRIMARY KEY,user_id INTEGER,client TEXT,expires INTEGER)');}
  read(){const raw=this.ctx.storage.sql.exec('SELECT json FROM room WHERE id=1').toArray()[0]?.json;return raw?JSON.parse(raw):null;}
  save(room){this.ctx.storage.sql.exec('INSERT INTO room(id,json) VALUES(1,?) ON CONFLICT(id) DO UPDATE SET json=excluded.json',JSON.stringify(room));}
+ async publishListing(room){
+  const now=Date.now(),listing=coopRoomListing(room,now),signature=JSON.stringify(listing);
+  if(signature===this.publishedSignature&&(!listing||now-this.publishedAt<30000))return true;
+  room.directoryRevision=(room.directoryRevision||0)+1;this.save(room);
+  const revision=room.directoryRevision;
+  try{
+   await this.env.COOP_PLAYERS.getByName(COOP_DIRECTORY).publishRoom({id:room.id,revision,listing,retireAt:room.expiresAt+3600000});
+   if(revision>=(this.publishedRevision||0)){this.publishedRevision=revision;this.publishedSignature=signature;this.publishedAt=now;}
+   return true;
+  }catch{console.warn('Cooperative lobby directory publication will retry');return false;}
+ }
  async schedule(room){
-  if(coopTerminal(room)){await this.ctx.storage.setAlarm(Date.now()+3600000);return;}
+  const published=await this.publishListing(room);
+  if(coopTerminal(room)){await this.ctx.storage.setAlarm(Date.now()+(published?3600000:5000));return;}
   const deadlines=room.status==='LOBBY'?[room.expiresAt,...room.members.map(m=>m.lastSeen+COOP_RULES.disconnectMs)]:[
    ...room.members.filter(m=>!m.result).map(m=>m.lastSeen+COOP_RULES.disconnectMs),
    room.status==='LOADING'?room.loadingEndsAt:room.startsAt+room.durationMs,nextCoopPatternAt(room)];
+  if(!published)deadlines.push(Date.now()+5000);
   await this.ctx.storage.setAlarm(Math.max(Date.now()+50,Math.min(...deadlines)));
  }
  broadcast(room){

@@ -3,6 +3,7 @@ import {readMercenaryDocument,readMercenaryRuntime,battleConfig,mercenaryAccount
 import {COOP_DIFFICULTIES,COOP_RULES,validCoopRoom,validCoopClient,validateCoopSelection} from '../shared/cooperative-battleground-v1.mjs';
 import {coopSettings,cooperativeAdmin} from './_cooperative_settings.js';
 import {coopCombatSummary} from '../shared/cooperative-settings-v1.mjs';
+import {COOP_DIRECTORY} from '../shared/cooperative-room-list-v1.mjs';
 export {coopSettings} from './_cooperative_settings.js';
 const fail=(code,message,status=409)=>{throw jointError('COOP_'+code,message,status);};
 export const coopAccess=(user,cfg)=>Boolean(user)&&(cfg.mode==='ON'||cfg.mode==='TEST'&&(user.role==='OWNER'||cfg.testUserIds.includes(Number(user.id))));
@@ -54,6 +55,11 @@ export async function handleCooperative({path,request,env,deps}){
   if(kind==='feature'&&request.method==='GET')return deps.json({ok:true,mode:config.mode,visible:user.role==='OWNER'||coopAccess(user,config),accessible:coopAccess(user,config),owner:user.role==='OWNER',rewardLocked:true,rules:{...COOP_RULES,maxBattleMs:config.combat.maxBattleSeconds*1000},difficulties:COOP_DIFFICULTIES,configuration:coopCombatSummary(config.combat,config.revision)},200,{'cache-control':'no-store'});
   if(!coopAccess(user,config))fail('CLOSED',config.mode==='OFF'?'격전지는 현재 운영 중지 상태입니다.':'격전지 테스트 참여자로 등록된 계정만 입장할 수 있습니다.',403);
   if(!env.COOP_ROOMS||!env.COOP_PLAYERS)fail('UNAVAILABLE','격전지 서버를 준비 중입니다.',503);
+  if(kind==='rooms'&&request.method==='GET'){
+   const difficulty=url.searchParams.get('difficulty')||'';
+   if(difficulty&&!COOP_DIFFICULTIES.some(d=>d.id===difficulty))fail('DIFFICULTY','난이도를 확인하세요.',400);
+   return response(deps,await env.COOP_PLAYERS.getByName(COOP_DIRECTORY).rooms(difficulty));
+  }
   if(kind==='options'&&request.method==='GET'){
    const [cards,mercenaries]=await Promise.all([loadCoopOwnedCards(env,user,deps),mercenaryAccountState(env,user)]);
    return deps.json({ok:true,cards,mercenaries:mercenaries.cards.filter(c=>c.canDeploy),you:Number(user.id),nickname:user.nickname,rewardLocked:true});
@@ -66,7 +72,7 @@ export async function handleCooperative({path,request,env,deps}){
   if(request.method!=='POST')fail('METHOD','지원하지 않는 요청입니다.',405);
   const body=await readJointBody(request,{fields:['roomId','clientId','requestId','difficulty','cardIds','mercenaryCode','revision']});
   if(!validCoopClient(body.clientId)||typeof body.requestId!=='string'||!/^[-a-zA-Z0-9_]{8,100}$/.test(body.requestId))fail('INPUT','접속과 요청 정보를 확인하세요.',400);
-  if(kind!=='create'&&!validCoopRoom(body.roomId))fail('ROOM','10자리 대기방 코드를 입력하세요.',400);
+  if(kind!=='create'&&!validCoopRoom(body.roomId))fail('ROOM','목록에서 참가할 대기방을 선택하세요.',400);
   return await deps.withUserMutationLock(env,user.id,path,async()=>{
    if(kind==='create'||kind==='join'){
     const digest=kind==='create'?await crypto.subtle.digest('SHA-256',new TextEncoder().encode(user.id+':'+body.requestId)):null;
