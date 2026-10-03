@@ -4,12 +4,11 @@ import {LOOT_SHOP_DEFAULTS,validateLootShopPolicy,lootEquipmentMatchesProduct} f
 import {lootShopAsset,inspectionMarkup} from '../js/loot-shop-v1.mjs';
 import {pigCoinBalance,purchaseLootProduct,openLootPack,pigCoinRewardStatements,lootShopState,lootShopCatalog,saveLootShopPolicy,readLootShopPolicy,handleLootShop,LOOT_SHOP_KEY} from '../functions/_loot_shop.js';
 const id=()=>crypto.randomUUID();
-test('unconfigured economy stays OFF; prices, caps and weights must be explicit',()=>{assert.equal(validateLootShopPolicy(LOOT_SHOP_DEFAULTS).salesEnabled,false);for(const value of [0,-1,4,1.5,'2']){const p=structuredClone(LOOT_SHOP_DEFAULTS);p.products[0].accountLimit=value;assert.throws(()=>validateLootShopPolicy(p));}const p=structuredClone(LOOT_SHOP_DEFAULTS);p.products[0].enabled=true;assert.throws(()=>validateLootShopPolicy(p));});
-test('FUR permits ten, legacy products retain three, and SS is configured separately',()=>{
- for(const product of LOOT_SHOP_DEFAULTS.products.filter(p=>p.type!=='MERCENARY_SS_PACK')){
-  const max=product.type==='FUR_CHOICE'?10:3;
-  for(let limit=1;limit<=max;limit++){const policy=structuredClone(LOOT_SHOP_DEFAULTS);policy.products.find(p=>p.id===product.id).accountLimit=limit;assert.equal(validateLootShopPolicy(policy).products.find(p=>p.id===product.id).accountLimit,limit);}
-  for(const value of [0,-1,max+1,1.5,'10']){const policy=structuredClone(LOOT_SHOP_DEFAULTS);policy.products.find(p=>p.id===product.id).accountLimit=value;assert.throws(()=>validateLootShopPolicy(policy),{code:'JOINT_LOOT_CONFIG'});}
+test('unconfigured economy stays OFF; prices, caps and weights must be explicit',()=>{assert.equal(validateLootShopPolicy(LOOT_SHOP_DEFAULTS).salesEnabled,false);for(const value of [0,-1,1001,1.5,'2']){const p=structuredClone(LOOT_SHOP_DEFAULTS);p.products[0].accountLimit=value;assert.throws(()=>validateLootShopPolicy(p));}const p=structuredClone(LOOT_SHOP_DEFAULTS);p.products[0].enabled=true;assert.throws(()=>validateLootShopPolicy(p));});
+test('all six product types accept owner-configured lifetime caps through 1,000',()=>{
+ for(const product of LOOT_SHOP_DEFAULTS.products){
+  for(const limit of [1,3,4,10,11,999,1000]){const policy=structuredClone(LOOT_SHOP_DEFAULTS);policy.products.find(p=>p.id===product.id).accountLimit=limit;assert.equal(validateLootShopPolicy(policy).products.find(p=>p.id===product.id).accountLimit,limit);}
+  for(const value of [0,-1,1001,1.5,'10']){const policy=structuredClone(LOOT_SHOP_DEFAULTS);policy.products.find(p=>p.id===product.id).accountLimit=value;assert.throws(()=>validateLootShopPolicy(policy),{code:'JOINT_LOOT_CONFIG'});}
  }
 });
 test('choice art resolves trusted repository originals locally and rejects foreign URLs',()=>{
@@ -20,6 +19,24 @@ test('choice art resolves trusted repository originals locally and rejects forei
  for(const value of ['',null,'javascript:alert(1)','data:image/png;base64,abc','https://example.com'+original,'//example.com'+original,'https://raw.githubusercontent.com/other/cnine-card/main'+original,'https://raw.githubusercontent.com/GoGosing1111/other/main'+original,'https://raw.githubusercontent.com/GoGosing1111/cnine-card/main/private.png'])assert.equal(lootShopAsset(value),'');
 });
 for(const postgres of [false,true]){const label=postgres?'PostgreSQL':'SQLite';
+ test(`${label}: CMS saves 1,000 without resetting history and the final purchase remains atomic`,async t=>{
+  const f=await lootFixture(t,{postgres}),productId='f_body';
+  for(let i=0;i<2;i++)await purchaseLootProduct(f.env,f.user,{productId,requestId:id()});
+  const before=structuredClone(f.shopPolicy),draft=structuredClone(before);draft.products.find(p=>p.id===productId).accountLimit=1000;
+  const saved=await saveLootShopPolicy(f.env,f.user,draft);assert.deepEqual(saved,{...draft,revision:before.revision+1});
+  const state=await lootShopState(f.env,f.user);assert.equal(state.products.find(p=>p.id===productId).bought,2);assert.equal(state.products.find(p=>p.id===productId).remaining,998);
+  const invalid=structuredClone(saved);invalid.products.find(p=>p.id===productId).accountLimit=1001;
+  await assert.rejects(()=>saveLootShopPolicy(f.env,f.user,invalid),{code:'JOINT_LOOT_CONFIG'});assert.deepEqual((await readLootShopPolicy(f.env)).policy,saved);
+  await f.p("WITH RECURSIVE history(n) AS (VALUES(3) UNION ALL SELECT n+1 FROM history WHERE n<999) INSERT INTO loot_shop_purchases_v1(request_id,user_id,product_id,price,product_json,created_at) SELECT 'cap1000-history-'||n,7,'f_body',25,'{}','2026-10-02T00:00:00.000Z' FROM history").run();
+  const bodies=Array.from({length:2},()=>({productId,requestId:id()})),results=await Promise.allSettled(bodies.map(body=>purchaseLootProduct(f.env,f.user,body)));
+  assert.equal(results.filter(result=>result.status==='fulfilled').length,1);
+  assert.equal((await purchaseLootProduct(f.env,f.user,bodies[results.findIndex(result=>result.status==='fulfilled')])).replayed,true);
+  await assert.rejects(()=>purchaseLootProduct(f.env,f.user,{productId,requestId:id()}));
+  const full=await lootShopState(f.env,f.user),product=full.products.find(p=>p.id===productId);
+  assert.equal(product.bought,1000);assert.equal(product.remaining,0);assert.equal(product.canBuy,false);assert.equal(full.pigCoins,425);
+  assert.equal(Number((await f.p('SELECT COUNT(*) n FROM user_equipment_instances WHERE user_id=7 AND equipment_id=37').first()).n),3);
+  assert.equal((await lootShopState(f.env,{id:8})).products.find(p=>p.id===productId).remaining,1000);
+ });
  test(`${label}: CMS lists only the four approved MYTHIC Mystic items and no longer requires a fixed selection`,async t=>{
   const f=await lootFixture(t,{postgres});
   for(const [itemId,name,rarity,active,publicFlag] of [

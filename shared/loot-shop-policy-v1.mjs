@@ -51,8 +51,8 @@ const int=(v,min,max,label)=>{if(!Number.isSafeInteger(v)||v<min||v>max)throw er
 const nullable=(v,min,max,label)=>v===null?null:int(v,min,max,label);
 const bool=(v,label)=>{if(typeof v!=='boolean')throw error(`${label} 설정을 확인하세요.`);return v;};
 const ids=(v,pattern,label)=>{if(!Array.isArray(v)||v.length>500||new Set(v).size!==v.length||v.some(id=>typeof id!=='string'||!pattern.test(id)))throw error(`${label} 목록을 확인하세요.`);return [...v];};
-// SS has an owner-defined cap; the ceiling is an integer storage bound, not a sales policy.
-export const lootProductMaxAccountLimit=type=>type==='MERCENARY_SS_PACK'?2147483647:type==='FUR_CHOICE'?10:3;
+// 2026-10-03: every product has an OWNER-configured lifetime cap of 1–1,000.
+export const lootProductMaxAccountLimit=()=>1000;
 export function validateLootShopPolicy(raw){
  if(!raw||!Array.isArray(raw.products)||raw.products.length>100||!Array.isArray(raw.sources))throw error('상점 설정을 확인하세요.');
  const next={revision:int(raw.revision,0,2147483646,'수정 버전'),salesEnabled:bool(raw.salesEnabled,'판매'),rewardsEnabled:bool(raw.rewardsEnabled,'재화 지급'),sources:[],products:[]};

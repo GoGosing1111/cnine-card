@@ -9,8 +9,8 @@ const ss=policy=>policy.products.find(p=>p.type===type);
 
 test('SS purchase cap is unset by default and accepts an explicit owner-defined integer beyond three',()=>{
  const draft=structuredClone(LOOT_SHOP_DEFAULTS);assert.equal(ss(draft).accountLimit,null);assert.equal(ss(draft).enabled,false);assert.equal(ss(draft).price,null);assert.deepEqual(ss(draft).mercenaryCodes,[]);
- for(const limit of [1,4,37,10000,2147483647]){ss(draft).accountLimit=limit;assert.equal(ss(validateLootShopPolicy(draft)).accountLimit,limit);}
- for(const value of [0,-1,1.5,'4',2147483648,NaN]){ss(draft).accountLimit=value;assert.throws(()=>validateLootShopPolicy(draft));}
+ for(const limit of [1,4,37,999,1000]){ss(draft).accountLimit=limit;assert.equal(ss(validateLootShopPolicy(draft)).accountLimit,limit);}
+ for(const value of [0,-1,1.5,'4',1001,2147483648,NaN]){ss(draft).accountLimit=value;assert.throws(()=>validateLootShopPolicy(draft));}
  ss(draft).enabled=true;ss(draft).accountLimit=null;ss(draft).price=25;ss(draft).mercenaryCodes=['V-003'];assert.throws(()=>validateLootShopPolicy(draft),/가격과 구매 횟수/);
  ss(draft).accountLimit=7;ss(draft).price=null;assert.throws(()=>validateLootShopPolicy(draft),/가격과 구매 횟수/);
  ss(draft).price=25;ss(draft).mercenaryCodes=[];assert.throws(()=>validateLootShopPolicy(draft),/SS등급 용병 후보/);
@@ -22,8 +22,8 @@ test('existing SS product configuration is never reset or duplicated by policy u
 });
 
 test('SS shop discloses its guaranteed grade and renders large manual caps without unbounded dot allocation',()=>{
- const product={...ss(LOOT_SHOP_DEFAULTS),enabled:true,accountLimit:2147483647,remaining:2147483646,bought:1,price:25,canBuy:true,options:[{name:'검수 SS',rank:'SS',image:'assets/items/pig-coin-v1.png'}]};
- const html=inspectionMarkup(product,{salesEnabled:true,pigCoins:500});assert.match(html,/SS등급 용병 1장 확정/);assert.match(html,/2,147,483,647회/);assert.doesNotMatch(html,/loot-limit-dots|A·S등급/);assert.ok(html.length<10000);
+ const product={...ss(LOOT_SHOP_DEFAULTS),enabled:true,accountLimit:1000,remaining:999,bought:1,price:25,canBuy:true,options:[{name:'검수 SS',rank:'SS',image:'assets/items/pig-coin-v1.png'}]};
+ const html=inspectionMarkup(product,{salesEnabled:true,pigCoins:500});assert.match(html,/SS등급 용병 1장 확정/);assert.match(html,/1,000회/);assert.match(html,/999회/);assert.doesNotMatch(html,/loot-limit-dots|A·S등급/);assert.ok(html.length<10000);
  const options=lootProductOptionsMarkup(product);assert.match(options,/SS등급 100%/);assert.match(options,/균등 추첨/);assert.doesNotMatch(options,/NaN|A등급|S등급 50/);
 });
 
