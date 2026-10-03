@@ -1,0 +1,60 @@
+{
+  "date": "2026-10-04",
+  "request": "소환 화면에 시즌1/시즌2 선택 추가. 시즌2 팩 1회 가격 10억 코인으로 라이브 공개하되 구매와 개봉은 잠금.",
+  "releaseStatus": "PREPARED_FOR_SCOPED_DEPLOYMENT",
+  "previousProduction": {
+    "id": "6f3303ed-d3b6-4a13-b8f6-9fac118625f7",
+    "source": "34bfa0cd4c7caa2f16c059a95605b47666863fc8"
+  },
+  "policy": {
+    "season1": "Existing costs, rewards, opening and enhancement unchanged",
+    "season2": {
+      "code": "MAGIC_CARD_SEASON2_PACK",
+      "imageUrl": "assets/cards/magic-season2-pack-768-v2.webp",
+      "coinPerOpen": 1000000000,
+      "magicCrystalsPerOpen": 0,
+      "visible": true,
+      "drawEnabled": false,
+      "openingEnabled": false,
+      "purchaseEnabled": false,
+      "mixedRewards": [
+        "MAGIC_CARD",
+        "MAGIC_CRYSTAL",
+        "CARD_SHARD"
+      ],
+      "dropWeights": "Not announced or activated by this preview"
+    }
+  },
+  "implementation": [
+    "Public magic status supplies separate pack metadata for both seasons.",
+    "Season choice switches approved artwork, price, copy and button state.",
+    "Season2 is locked before receipt, currency, inventory or reward writes on both draw and inventory-open endpoints, including OWNER requests.",
+    "Client draw handlers explicitly pass S1 and reject S2; disabling the visual lock does not call the API.",
+    "Existing season1 APIs remain backward compatible with requests that omit season."
+  ],
+  "verification": {
+    "browser": {
+      "desktop": 1440,
+      "mobile": 390,
+      "errors": [],
+      "screenshots": "C:/Users/User/.codex/tmp/magic-season2-pack-20261004/qa",
+      "checks": [
+        "Season switch, correct artwork, 10억/100억 price labels, disabled controls",
+        "Forced DOM clicks cannot submit season2 draws",
+        "Direct season2 API request returns 503 with unchanged balances",
+        "Season1 real confirmation, draw result and return remain operational"
+      ]
+    },
+    "scoped": {
+      "reason": "Localized magic summon screen and pre-write season2 lock. No migration, shared transaction changes, authentication changes or live season2 acquisition activation.",
+      "tests": [
+        "tests/magic-season2-pack-locked-20261004.test.mjs",
+        "tests/magic-workbench-ui.test.mjs"
+      ],
+      "checks": [
+        "check:worker"
+      ],
+      "command": "npm run deploy:production -- --scoped"
+    }
+  }
+}

@@ -1,4 +1,5 @@
 import { resolveAvatarDropRate } from './_avatar_drop.js';
+import { magicSummonSeasons, magicPackRequestGuard } from '../shared/magic-pack-seasons-v1.mjs';
 const MAGIC_DECK_TYPES=['PVE','PVP'];
 import {loadUniqueAdvancementsForCards,loadUniqueAdvancementsForDecks,uniqueAdvancementSettings} from './_unique_advancement.js';
 import { readRuntimeData, cacheRuntimeData, invalidateRuntimeData } from './_runtime_data_cache.js';
@@ -609,6 +610,7 @@ async function userStatus(env,user,cfg){
   return {
     visible:true,enabled:cfg.enabled,ownerTest:!cfg.enabled&&cfg.ownerTestEnabled&&isOwner(user),magicCrystals:balance,coin:Number(user.coin||0),cardShards:Number(user.card_shards||0),
     settings:{drawEnabled:cfg.drawEnabled,drawCost:cfg.drawCost,drawCoinCost:cfg.drawCoinCost,duplicateRefund:cfg.duplicateRefund,packRewards:cfg.packRewards,enhancement:cfg.enhancement,acquisitionNotice:cfg.acquisitionNotice},
+    summonSeasons:magicSummonSeasons(cfg),
     cards:cards.results.map(row=>cardPayload(row,cfg)),pvp,
     loadouts:loadouts.results.map(x=>({deckType:String(x.deck_type),slotNo:Number(x.slot_no),magicCardId:Number(x.magic_card_id)}))
   };
@@ -630,6 +632,7 @@ async function adminData(env){
   ]);
   return {
     settings:cfg,
+    summonSeasons:magicSummonSeasons(cfg),
     uniqueEffectSettings:await cardUniqueSettings(env),
     cards:cards.results.map(row=>cardPayload(row,cfg)),
     uniqueEffects:effects.results.map(x=>({
@@ -672,8 +675,9 @@ export async function handleMagic({path,request,env,deps}){
   }
   if(path==='magic/pack/open'&&request.method==='POST'){
     const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+    const body=await readBody(request),seasonGuard=magicPackRequestGuard(body);if(seasonGuard)return json(seasonGuard.body,seasonGuard.status);
     const cfg=await magicSettings(env);if(!visibleTo(user,cfg))return json({error:'마법카드 시스템이 아직 공개되지 않았습니다.'},403);
-    const body=await readBody(request),requestId=String(body.requestId||'').trim().slice(0,100);if(!requestId)return json({error:'개봉 요청 ID가 필요합니다.'},400);
+    const requestId=String(body.requestId||'').trim().slice(0,100);if(!requestId)return json({error:'개봉 요청 ID가 필요합니다.'},400);
     const prior=await env.DB.prepare('SELECT user_id,item_code,status,response_json FROM inventory_use_receipts WHERE request_id=?').bind(requestId).first();
     if(prior&&Number(prior.user_id)!==Number(user.id))return json({error:'이미 사용된 요청 ID입니다.'},409);
     if(prior&&String(prior.item_code)!=='MAGIC_CARD_PACK')return json({error:'다른 아이템에 사용된 요청 ID입니다.'},409);
@@ -754,8 +758,9 @@ export async function handleMagic({path,request,env,deps}){
   }
   if(path==='magic/draw'&&request.method==='POST'){
     const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+    const body=await readBody(request),seasonGuard=magicPackRequestGuard(body);if(seasonGuard)return json(seasonGuard.body,seasonGuard.status);
     const cfg=await magicSettings(env);if(!visibleTo(user,cfg))return json({error:'마법카드 시스템이 아직 공개되지 않았습니다.'},403);if(!cfg.drawEnabled)return json({error:'마법카드 뽑기가 아직 개방되지 않았습니다.'},503);
-    const body=await readBody(request),requestId=String(body.requestId||'').trim().slice(0,120),count=Number(body.count)===10?10:1,totalCost=cfg.drawCost*count,totalCoinCost=cfg.drawCoinCost*count;if(!requestId)return json({error:'요청 ID가 필요합니다.'},400);
+    const requestId=String(body.requestId||'').trim().slice(0,120),count=Number(body.count)===10?10:1,totalCost=cfg.drawCost*count,totalCoinCost=cfg.drawCoinCost*count;if(!requestId)return json({error:'요청 ID가 필요합니다.'},400);
     let existing=await env.DB.prepare('SELECT user_id,status,response_json FROM magic_card_draw_receipts WHERE request_id=?').bind(requestId).first();
     if(existing&&Number(existing.user_id)!==Number(user.id))return json({error:'이미 사용된 요청 ID입니다.'},409);
     if(existing?.status==='COMPLETED'&&existing.response_json){try{return json(JSON.parse(existing.response_json))}catch{}}

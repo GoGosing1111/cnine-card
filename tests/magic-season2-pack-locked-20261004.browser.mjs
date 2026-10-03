@@ -1,0 +1,56 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+const {chromium}=await import(process.env.PLAYWRIGHT_MODULE_URL||'playwright');
+const base=process.env.QA_BASE_URL||'http://127.0.0.1:8899',output=path.resolve(process.env.QA_OUTPUT_DIR||'../qa/magic-season2-pack-20261004');
+assert.equal(new URL(base).hostname,'127.0.0.1','local account fixture only');
+await fs.mkdir(output,{recursive:true});
+const browser=await chromium.launch({headless:true,executablePath:process.env.QA_CHROMIUM||undefined});
+const errors=[],drawRequests=[],checks=[];let page;
+try{
+ const context=await browser.newContext({viewport:{width:1440,height:1080},serviceWorkers:'block'});
+ page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.accept());
+ page.on('request',r=>{if(r.method()==='POST'&&new URL(r.url()).pathname==='/api/magic/draw')drawRequests.push(r.postDataJSON());});
+ await page.goto(base+'/__qa/login');await page.locator('#login').click();await page.waitForURL('**/?screen=home');
+ await page.goto(base+'/?screen=magic');await page.locator('[data-mw-section="draw"]').click();
+ await page.locator('[data-mw-season="S2"]').waitFor();
+ assert.equal(await page.locator('[data-mw-season="S1"]').getAttribute('aria-pressed'),'true');
+ assert.equal(await page.locator('#magicDrawBtn').isEnabled(),true);
+ const s1=await page.locator('.mw-summon').innerText();
+ await page.screenshot({path:path.join(output,'season1-desktop.png'),fullPage:true});
+ for(const width of [1440,390]){
+  await page.setViewportSize({width,height:width===1440?1080:844});
+  await page.locator('[data-mw-season="S2"]').click();
+  await page.locator('.is-season2 .mw-summon-art img').evaluate(img=>img.decode());
+  assert.equal(await page.locator('[data-mw-season="S2"]').getAttribute('aria-pressed'),'true');
+  const text=await page.locator('.mw-summon').innerText();
+  assert.ok(text.includes('10억 코인')&&text.includes('1,000,000,000')&&text.includes('100억 코인')&&text.includes('10,000,000,000'));
+  assert.equal(await page.locator('#magicDrawBtn').isDisabled(),true);assert.equal(await page.locator('#magicDraw10Btn').isDisabled(),true);
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),true,'no horizontal page overflow');
+  assert.ok((await page.locator('.mw-summon-art img').getAttribute('src')).endsWith('magic-season2-pack-768-v2.webp'));
+  await page.screenshot({path:path.join(output,'season2-'+width+'.png'),fullPage:true});
+  await page.locator('.mw-draw-options').scrollIntoViewIfNeeded();
+  const bounds=await page.locator('#magicDraw10Btn').boundingBox();
+  assert.ok(bounds.x>=0&&bounds.x+bounds.width<=width+1&&bounds.y>=0&&bounds.y+bounds.height<=(width===1440?1080:844),'locked opening controls visible after scrolling');
+  await page.screenshot({path:path.join(output,'season2-controls-'+width+'.png')});
+  const requestsBefore=drawRequests.length;
+  await page.locator('#magicDrawBtn').evaluate(button=>{button.disabled=false;button.click();});
+  await page.locator('#magicDraw10Btn').evaluate(button=>{button.disabled=false;button.click();});
+  assert.equal(drawRequests.length,requestsBefore,'forced client clicks cannot open season 2');
+  await page.locator('[data-mw-section="collection"]').click();await page.locator('[data-mw-section="draw"]').click();
+  assert.equal(await page.locator('#magicDrawBtn').isDisabled(),true);
+  await page.locator('[data-mw-season="S1"]').click();
+  assert.equal(await page.locator('.mw-summon').innerText(),s1);assert.equal(await page.locator('#magicDrawBtn').isEnabled(),true);
+  checks.push(width+'px season switch, price, locked buttons, forced-click guard, collection return, season1 unchanged');
+ }
+ const before=await page.evaluate(async()=>await(await fetch('/api/magic/status')).json());
+ const blocked=await page.evaluate(async()=>{const r=await fetch('/api/magic/draw',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({season:'S2',count:10,requestId:'browser-locked-s2'})});return {status:r.status,body:await r.json()};});
+ assert.equal(blocked.status,503);assert.equal(blocked.body.code,'MAGIC_SEASON2_OPENING_LOCKED');
+ const after=await page.evaluate(async()=>await(await fetch('/api/magic/status')).json());assert.deepEqual(after,before);
+ await page.locator('#magicDrawBtn').click();await page.locator('.magic-draw-reveal button').waitFor();await page.locator('.magic-draw-reveal button').click();await page.waitForFunction(()=>document.querySelector('#magicDrawBtn')?.disabled===false);
+ assert.equal(drawRequests.at(-1).season,'S1');assert.equal(drawRequests.at(-1).count,1);
+ checks.push('real API season2 request blocked with unchanged balances; season1 draw confirmation/result/return retained');
+ assert.deepEqual(errors,[]);
+ const result={checks,errors,drawRequests,output};await fs.writeFile(path.join(output,'qa.json'),JSON.stringify(result,null,2));console.log(JSON.stringify(result,null,2));
+}catch(error){if(page)await page.screenshot({path:path.join(output,'failure.png'),fullPage:true});throw error;}
+finally{await browser.close();}
