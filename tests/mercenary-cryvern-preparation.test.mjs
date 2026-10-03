@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 import {MERCENARY_CMS_SEED as seed} from '../functions/_mercenary_cms_seed.js';
-import {CRYVERN_RELEASE_ENABLED,CRYVERN_CODE,CRYVERN_SKILL_ID,CRYVERN_BALANCE,CRYVERN_CAP_SCALE} from '../shared/mercenary-cryvern-v1.mjs';
+import {CRYVERN_RELEASE_ENABLED,CRYVERN_CODE,CRYVERN_SKILL_ID,CRYVERN_BALANCE,CRYVERN_CAP_SCALE,CRYVERN_PVP_SKILL_CAP_SCALE} from '../shared/mercenary-cryvern-v1.mjs';
 import {prepareCryvernCandidate,appendCryvernRoster} from '../preview/mercenary-ice-crystal-dual-sword-v1/release/registration.mjs';
 import {expandMercenarySkillCatalog,validateMercenaryCms} from '../shared/mercenary-cms-model-v1.mjs';
 import {buildMercenaryFighter,mercenaryCombat} from '../functions/_mercenary_combat.js';
@@ -11,7 +11,7 @@ import {buildFighter,createPveBattleV2,createPvpBattleV2} from '../functions/_ba
 import {mercenaryGradePools} from '../shared/mercenary-draw-policy-v1.mjs';
 import {mercenaryFixture} from './helpers/mercenary-db.mjs';
 import {saveMercenaryLoadout} from '../functions/_mercenary_account.js';
-import {cryvern,ragniel,measure} from '../scripts/measure-cryvern-balance.mjs';
+import {cryvern,ragniel} from '../scripts/measure-cryvern-balance.mjs';
 import {tierCards,fixture} from './helpers/mercenary-operating-roster-v2144.mjs';
 import {cryvernPlaybackPlan} from '../preview/project-v-v3/source/battle/CryvernCombatPlayback.js';
 import {sample} from '../preview/mercenary-ice-crystal-dual-sword-v1/skill.mjs';
@@ -66,7 +66,7 @@ test('PVP/PVE use one same-action cast, one cost/cooldown and a bounded two-stag
   assert.deepEqual([...new Set(e.impacts.map(i=>i.at))],[1.3,2.62]);
   assert.ok(Math.abs(h.rolls.reduce((n,r)=>n+r.ratio,0)-CRYVERN_BALANCE.damageRatio)<1e-10);
   assert.ok(Math.abs(h.rolls.reduce((n,r)=>n+r.castShare,0)-1)<1e-10);
-  assert.ok(Math.abs(h.rolls.reduce((n,r)=>n+r.capScale,0)-count*CRYVERN_CAP_SCALE)<1e-10);
+  assert.ok(Math.abs(h.rolls.reduce((n,r)=>n+r.capScale,0)-count*(mode==='PVP'?CRYVERN_PVP_SKILL_CAP_SCALE:CRYVERN_CAP_SCALE))<1e-10);
   assert.equal(h.runtime.state(h.actor).energy,65);assert.equal(h.runtime.state(h.actor).cooldown.get(CRYVERN_SKILL_ID),6);
   assert.equal(h.runtime.state(h.actor).pending,null);assert.equal(h.actor.gauge,0);
   assert.equal(h.turn(),false);assert.equal(h.runtime.basicMultiplier(h.actor),1);assert.equal(h.runtime.state(h.actor).reload,undefined);
@@ -121,7 +121,6 @@ test('canonical PVE and both PVP sides retain exactly five ordinary cards plus o
   }
  }
 });
-test('two disjoint seed sets give Cryvern a small measured advantage over Ragniel, never a winner override',()=>{
- const report=measure();assert.equal(report.total,8192);
- for(const group of report.groups)assert.ok(group.rate>=.52&&group.rate<=.58,JSON.stringify(group));
-});
+// The launch-era neutral-deck 52–58% Ragniel band is superseded by the user's
+// 2026-10-04 target. Both opponents are measured on the same equipped fixtures
+// in scripts/measure-cryvern-parity-20261004.mjs; retain neutral decks as diagnostics.

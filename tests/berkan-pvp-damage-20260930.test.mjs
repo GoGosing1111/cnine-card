@@ -19,8 +19,8 @@ test('PVP Berkan basics reduce already-capped damage once for solo and duo witho
   assert.deepEqual(h.actor,before);assert.equal(h.damageCalls.length,0);
  }
 });
-test('PVE Berkan, other SSS mercenaries and ordinary cards keep exact prior damage',()=>{
- for(const config of [{mode:'PVE'},{code:'V-049'},{code:'V-046'},{regular:true}]){const h=harness(config);assert.equal(berkanPvpBasicDamageScale(h.actor),1);for(const amount of [0,.5,10001,600000])assert.equal(h.runtime.beforeBasicDamage(h.actor,h.target,amount),amount);}
+test('PVE Berkan, unadjusted SSS mercenaries and ordinary cards keep exact prior damage',()=>{
+ for(const config of [{mode:'PVE'},{code:'V-049',mode:'PVE'},{code:'V-046'},{regular:true}]){const h=harness(config);assert.equal(berkanPvpBasicDamageScale(h.actor),1);for(const amount of [0,.5,10001,600000])assert.equal(h.runtime.beforeBasicDamage(h.actor,h.target,amount),amount);}
  assert.equal(berkanPvpBasicDamageScale(null),1);
 });
 test('interception consumes the reduced damage budget without a second reduction or duplicate transfer',()=>{

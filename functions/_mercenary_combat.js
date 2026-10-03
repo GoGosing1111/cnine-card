@@ -2,7 +2,7 @@ import {BERKAN_CODE,BERKAN_SKILL_ID,BERKAN_CAP_SCALE,BERKAN_MECHANIC,BERKAN_AREA
 import {resolveBerkanStarfall,resolveBerkanArrowRain} from './_mercenary_berkan.js';
 import {SNIPER_ORIKKUNG_SKILL_ID,SNIPER_ORIKKUNG_CAP_SCALE} from '../shared/mercenary-sniper-orikkung-v1.mjs';
 import {resolveCryvernCrown} from './_mercenary_cryvern.js';
-import {CRYVERN_SKILL_ID,CRYVERN_CAP_SCALE} from '../shared/mercenary-cryvern-v1.mjs';
+import {CRYVERN_SKILL_ID,CRYVERN_CAP_SCALE,cryvernPvpBasicDamageScale,cryvernCrownCapScale} from '../shared/mercenary-cryvern-v1.mjs';
 import {resolveHeukwolCombo} from './_mercenary_heukwol.js';
 import {apocalypseSealed,apocalypseHealing,clearApocalypseStatus} from './_apocalypse_legion.js';
 import {validateMercenaryCombat} from '../shared/mercenary-combat-policy-v1.mjs';
@@ -93,7 +93,7 @@ export const MERCENARY_SKILL_CAP_SCALE=Object.freeze({
 });
 export function mercenarySkillCapActions(actor,skill,ranged,sequentialCount){
  const actions=ranged?Math.max(1,sequentialCount||1):(MERCENARY_SKILL_RESOLVE_ACTIONS[skill?.mechanic]??1);
- const scale=skill?.id===BERKAN_SKILL_ID?berkanStarfallCapScale(actor):(MERCENARY_SKILL_CAP_SCALE[skill?.id]??1);
+ const scale=skill?.id===BERKAN_SKILL_ID?berkanStarfallCapScale(actor):skill?.id===CRYVERN_SKILL_ID?cryvernCrownCapScale(actor):(MERCENARY_SKILL_CAP_SCALE[skill?.id]??1);
  return actions*scale*mercenaryPvpTierOffense(actor);
 }
 // 피해가 없는 보조 스킬은 행동을 잡아먹지 않는다. 용병이 스킬을 쓰느라 공격을 거르면
@@ -358,7 +358,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
   basicMultiplier(a){const b=table(buffs,a),d=table(debuffs,a);let factor=state(a).guardBasicAction===a.actions?MERCENARY_GUARD_BASIC_SCALE:1;if(b.order){factor*=1+b.order.percent/100;delete b.order;}if(d.restraint){if(a.actions<d.restraint.expires)factor*=1-d.restraint.percent/100;else delete d.restraint;}return factor*tierScale(a);},
   basicDamageCapScale(a){return tierScale(a)*mercenaryPvpTierOffense(a);},
   beforeBasicDamage(a,t,amount){const buff=table(buffs,t),d=table(debuffs,a);
-   const basicScale=berkanPvpBasicDamageScale(a);if(basicScale!==1)amount=Math.floor(amount*basicScale);
+   const basicScale=berkanPvpBasicDamageScale(a)*cryvernPvpBasicDamageScale(a);if(basicScale!==1)amount=Math.floor(amount*basicScale);
    if(d.oath){const oath=d.oath;delete d.oath;if(oath.actorId===t.id&&a.actions<oath.expires)amount=Math.floor(amount*(1-oath.percent/100));}
    if(buff.standfast){const ward=buff.standfast;delete buff.standfast;if(living(ward.actor)&&ward.actor.actions<ward.expires){const saved=Math.min(ward.budget,Math.floor(amount*ward.percent/100));amount-=saved;send(ward.actor,ward.skill,'BUFF',t,{effect:'STAND_FAST_CONSUMED',amount:saved});}}
 

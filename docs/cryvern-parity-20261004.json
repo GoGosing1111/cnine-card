@@ -1,0 +1,2428 @@
+{
+  "date": "2026-10-04",
+  "status": "SCOPED_RELEASE_READY",
+  "request": "크라이베른 상향: 베르칸 상대 45–50%, 라그니엘 상대 약 65%",
+  "primaryMethod": "All 23 observed distinct equipped formations, equally weighted; identical ordinary cards, equipment, advancement, magic; swap A/B sides. Offline canonical engine simulation, not live account win rates.",
+  "targets": [
+    {
+      "opponent": "V-055",
+      "bounds": [
+        0.45,
+        0.5
+      ],
+      "winRate": 0.45883576766304346
+    },
+    {
+      "opponent": "V-046",
+      "bounds": [
+        0.645,
+        0.655
+      ],
+      "winRate": 0.6485224184782609
+    }
+  ],
+  "comparisons": [
+    {
+      "date": "2026-10-04",
+      "scope": "CONTROLLED_MIRRORED_ENGINE_SIMULATION_NOT_LIVE_ACCOUNT_WIN_RATE",
+      "count": 1024,
+      "start": 231001,
+      "seedMultiplier": 7919,
+      "fixtureVersion": "20260930-speed-reform",
+      "opponentCode": "V-055",
+      "policy": {
+        "cryvernSkill": {
+          "damageRatio": 5.88,
+          "cooldownTurns": 5,
+          "cost": 35
+        },
+        "cryvernPveCap": 1.3,
+        "cryvernPvpBasic": 1.165,
+        "cryvernPvpCap": 1.6,
+        "berkanSkill": {
+          "damageRatio": 5.6,
+          "cooldownTurns": 5,
+          "cost": 35
+        },
+        "berkanTempo": {
+          "speedScale": 1.25,
+          "actionCredit": 1.25,
+          "playbackScale": 1.25
+        },
+        "berkanPvpBasic": 0.5,
+        "berkanPvpCap": 1.865
+      },
+      "groups": [
+        {
+          "kind": "EQUIPPED",
+          "formations": 23,
+          "wins": 21613,
+          "losses": 25491,
+          "draws": 0,
+          "total": 47104,
+          "winRate": 0.45883576766304346
+        },
+        {
+          "kind": "NEUTRAL",
+          "formations": 16,
+          "wins": 15918,
+          "losses": 16850,
+          "draws": 0,
+          "total": 32768,
+          "winRate": 0.48577880859375
+        }
+      ],
+      "rows": [
+        {
+          "kind": "EQUIPPED",
+          "id": "F01",
+          "wins": 1060,
+          "losses": 988,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 532,
+              "total": 1024
+            },
+            "B": {
+              "wins": 528,
+              "total": 1024
+            }
+          },
+          "winRate": 0.517578125
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F02",
+          "wins": 824,
+          "losses": 1224,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 401,
+              "total": 1024
+            },
+            "B": {
+              "wins": 423,
+              "total": 1024
+            }
+          },
+          "winRate": 0.40234375
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F03",
+          "wins": 1432,
+          "losses": 616,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 719,
+              "total": 1024
+            },
+            "B": {
+              "wins": 713,
+              "total": 1024
+            }
+          },
+          "winRate": 0.69921875
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F04",
+          "wins": 912,
+          "losses": 1136,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 466,
+              "total": 1024
+            },
+            "B": {
+              "wins": 446,
+              "total": 1024
+            }
+          },
+          "winRate": 0.4453125
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F05",
+          "wins": 1085,
+          "losses": 963,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 546,
+              "total": 1024
+            },
+            "B": {
+              "wins": 539,
+              "total": 1024
+            }
+          },
+          "winRate": 0.52978515625
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F06",
+          "wins": 1092,
+          "losses": 956,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 550,
+              "total": 1024
+            },
+            "B": {
+              "wins": 542,
+              "total": 1024
+            }
+          },
+          "winRate": 0.533203125
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F07",
+          "wins": 1158,
+          "losses": 890,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 594,
+              "total": 1024
+            },
+            "B": {
+              "wins": 564,
+              "total": 1024
+            }
+          },
+          "winRate": 0.5654296875
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F08",
+          "wins": 1348,
+          "losses": 700,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 685,
+              "total": 1024
+            },
+            "B": {
+              "wins": 663,
+              "total": 1024
+            }
+          },
+          "winRate": 0.658203125
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F09",
+          "wins": 1589,
+          "losses": 459,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 797,
+              "total": 1024
+            },
+            "B": {
+              "wins": 792,
+              "total": 1024
+            }
+          },
+          "winRate": 0.77587890625
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F10",
+          "wins": 1057,
+          "losses": 991,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 535,
+              "total": 1024
+            },
+            "B": {
+              "wins": 522,
+              "total": 1024
+            }
+          },
+          "winRate": 0.51611328125
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F11",
+          "wins": 1168,
+          "losses": 880,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 577,
+              "total": 1024
+            },
+            "B": {
+              "wins": 591,
+              "total": 1024
+            }
+          },
+          "winRate": 0.5703125
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F12",
+          "wins": 1257,
+          "losses": 791,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 635,
+              "total": 1024
+            },
+            "B": {
+              "wins": 622,
+              "total": 1024
+            }
+          },
+          "winRate": 0.61376953125
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F13",
+          "wins": 695,
+          "losses": 1353,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 340,
+              "total": 1024
+            },
+            "B": {
+              "wins": 355,
+              "total": 1024
+            }
+          },
+          "winRate": 0.33935546875
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F14",
+          "wins": 29,
+          "losses": 2019,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 14,
+              "total": 1024
+            },
+            "B": {
+              "wins": 15,
+              "total": 1024
+            }
+          },
+          "winRate": 0.01416015625
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F15",
+          "wins": 763,
+          "losses": 1285,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 394,
+              "total": 1024
+            },
+            "B": {
+              "wins": 369,
+              "total": 1024
+            }
+          },
+          "winRate": 0.37255859375
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F16",
+          "wins": 47,
+          "losses": 2001,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 31,
+              "total": 1024
+            },
+            "B": {
+              "wins": 16,
+              "total": 1024
+            }
+          },
+          "winRate": 0.02294921875
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F17",
+          "wins": 1102,
+          "losses": 946,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 570,
+              "total": 1024
+            },
+            "B": {
+              "wins": 532,
+              "total": 1024
+            }
+          },
+          "winRate": 0.5380859375
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F18",
+          "wins": 746,
+          "losses": 1302,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 386,
+              "total": 1024
+            },
+            "B": {
+              "wins": 360,
+              "total": 1024
+            }
+          },
+          "winRate": 0.3642578125
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F19",
+          "wins": 1349,
+          "losses": 699,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 686,
+              "total": 1024
+            },
+            "B": {
+              "wins": 663,
+              "total": 1024
+            }
+          },
+          "winRate": 0.65869140625
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F20",
+          "wins": 1500,
+          "losses": 548,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 751,
+              "total": 1024
+            },
+            "B": {
+              "wins": 749,
+              "total": 1024
+            }
+          },
+          "winRate": 0.732421875
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F21",
+          "wins": 17,
+          "losses": 2031,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 7,
+              "total": 1024
+            },
+            "B": {
+              "wins": 10,
+              "total": 1024
+            }
+          },
+          "winRate": 0.00830078125
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F22",
+          "wins": 36,
+          "losses": 2012,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 19,
+              "total": 1024
+            },
+            "B": {
+              "wins": 17,
+              "total": 1024
+            }
+          },
+          "winRate": 0.017578125
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F23",
+          "wins": 1347,
+          "losses": 701,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 687,
+              "total": 1024
+            },
+            "B": {
+              "wins": 660,
+              "total": 1024
+            }
+          },
+          "winRate": 0.65771484375
+        },
+        {
+          "kind": "NEUTRAL",
+          "id": "balanced-1000000",
+          "wins": 1021,
+          "losses": 1027,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 591,
+              "total": 1024
+            },
+            "B": {
+              "wins": 430,
+              "total": 1024
+            }
+          },
+          "winRate": 0.49853515625
+        },
+        {
+          "kind": "NEUTRAL",
+          "id": "attack-1000000",
+          "wins": 1051,
+          "losses": 997,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 618,
+              "total": 1024
+            },
+            "B": {
+              "wins": 433,
+              "total": 1024
+            }
+          },
+          "winRate": 0.51318359375
+        },
+        {
+          "kind": "NEUTRAL",
+          "id": "defense-1000000",
+          "wins": 1376,
+          "losses": 672,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 854,
+              "total": 1024
+            },
+            "B": {
+              "wins": 522,
+              "total": 1024
+            }
+          },
+          "winRate": 0.671875
+        },
+        {
+          "kind": "NEUTRAL",
+          "id": "speed-1000000",
+          "wins": 1303,
+          "losses": 745,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 957,
+              "total": 1024
+            },
+            "B": {
+              "wins": 346,
+              "total": 1024
+            }
+          },
+          "winRate": 0.63623046875
+        },
+        {
+          "kind": "NEUTRAL",
+          "id": "balanced-20000000",
+          "wins": 869,
+          "losses": 1179,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 458,
+              "total": 1024
+            },
+            "B": {
+              "wins": 411,
+              "total": 1024
+            }
+          },
+          "winRate": 0.42431640625
+        },
+        {
+          "kind": "NEUTRAL",
+          "id": "attack-20000000",
+          "wins": 785,
+          "losses": 1263,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 381,
+              "total": 1024
+            },
+            "B": {
+              "wins": 404,
+              "total": 1024
+            }
+          },
+          "winRate": 0.38330078125
+        },
+        {
+          "kind": "NEUTRAL",
+          "id": "defense-20000000",
+          "wins": 1415,
+          "losses": 633,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 702,
+              "total": 1024
+            },
+            "B": {
+              "wins": 713,
+              "total": 1024
+            }
+          },
+          "winRate": 0.69091796875
+        },
+        {
+          "kind": "NEUTRAL",
+          "id": "speed-20000000",
+          "wins": 652,
+          "losses": 1396,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 301,
+              "total": 1024
+            },
+            "B": {
+              "wins": 351,
+              "total": 1024
+            }
+          },
+          "winRate": 0.318359375
+        },
+        {
+          "kind": "NEUTRAL",
+          "id": "balanced-100000000",
+          "wins": 871,
+          "losses": 1177,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 459,
+              "total": 1024
+            },
+            "B": {
+              "wins": 412,
+              "total": 1024
+            }
+          },
+          "winRate": 0.42529296875
+        },
+        {
+          "kind": "NEUTRAL",
+          "id": "attack-100000000",
+          "wins": 785,
+          "losses": 1263,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 381,
+              "total": 1024
+            },
+            "B": {
+              "wins": 404,
+              "total": 1024
+            }
+          },
+          "winRate": 0.38330078125
+        },
+        {
+          "kind": "NEUTRAL",
+          "id": "defense-100000000",
+          "wins": 1416,
+          "losses": 632,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 702,
+              "total": 1024
+            },
+            "B": {
+              "wins": 714,
+              "total": 1024
+            }
+          },
+          "winRate": 0.69140625
+        },
+        {
+          "kind": "NEUTRAL",
+          "id": "speed-100000000",
+          "wins": 651,
+          "losses": 1397,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 301,
+              "total": 1024
+            },
+            "B": {
+              "wins": 350,
+              "total": 1024
+            }
+          },
+          "winRate": 0.31787109375
+        },
+        {
+          "kind": "NEUTRAL",
+          "id": "balanced-2000000000",
+          "wins": 872,
+          "losses": 1176,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 459,
+              "total": 1024
+            },
+            "B": {
+              "wins": 413,
+              "total": 1024
+            }
+          },
+          "winRate": 0.42578125
+        },
+        {
+          "kind": "NEUTRAL",
+          "id": "attack-2000000000",
+          "wins": 785,
+          "losses": 1263,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 381,
+              "total": 1024
+            },
+            "B": {
+              "wins": 404,
+              "total": 1024
+            }
+          },
+          "winRate": 0.38330078125
+        },
+        {
+          "kind": "NEUTRAL",
+          "id": "defense-2000000000",
+          "wins": 1417,
+          "losses": 631,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 702,
+              "total": 1024
+            },
+            "B": {
+              "wins": 715,
+              "total": 1024
+            }
+          },
+          "winRate": 0.69189453125
+        },
+        {
+          "kind": "NEUTRAL",
+          "id": "speed-2000000000",
+          "wins": 649,
+          "losses": 1399,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 300,
+              "total": 1024
+            },
+            "B": {
+              "wins": 349,
+              "total": 1024
+            }
+          },
+          "winRate": 0.31689453125
+        }
+      ],
+      "pve": [
+        {
+          "power": 1000000,
+          "count": 64,
+          "cryvernDamage": 2496813341,
+          "berkanDamage": 2758989703,
+          "cryvernWins": 64,
+          "berkanWins": 64,
+          "damageRatio": 0.9049737801794181
+        },
+        {
+          "power": 20000000,
+          "count": 64,
+          "cryvernDamage": 49942196254,
+          "berkanDamage": 55087030433,
+          "cryvernWins": 64,
+          "berkanWins": 64,
+          "damageRatio": 0.9066053454223233
+        },
+        {
+          "power": 100000000,
+          "count": 64,
+          "cryvernDamage": 249710982672,
+          "berkanDamage": 275435153615,
+          "cryvernWins": 64,
+          "berkanWins": 64,
+          "damageRatio": 0.9066053457397202
+        },
+        {
+          "power": 2000000000,
+          "count": 64,
+          "cryvernDamage": 4994219653389,
+          "berkanDamage": 5508703072241,
+          "cryvernWins": 64,
+          "berkanWins": 64,
+          "damageRatio": 0.906605345740172
+        }
+      ],
+      "liveVerified": {
+        "revision": 60,
+        "combatLinkVersion": 2144
+      }
+    },
+    {
+      "date": "2026-10-04",
+      "scope": "CONTROLLED_MIRRORED_ENGINE_SIMULATION_NOT_LIVE_ACCOUNT_WIN_RATE",
+      "count": 1024,
+      "start": 231001,
+      "seedMultiplier": 7919,
+      "fixtureVersion": "20260930-speed-reform",
+      "opponentCode": "V-046",
+      "policy": {
+        "cryvernSkill": {
+          "damageRatio": 5.88,
+          "cooldownTurns": 5,
+          "cost": 35
+        },
+        "cryvernPveCap": 1.3,
+        "cryvernPvpBasic": 1.165,
+        "cryvernPvpCap": 1.6,
+        "berkanSkill": {
+          "damageRatio": 5.6,
+          "cooldownTurns": 5,
+          "cost": 35
+        },
+        "berkanTempo": {
+          "speedScale": 1.25,
+          "actionCredit": 1.25,
+          "playbackScale": 1.25
+        },
+        "berkanPvpBasic": 0.5,
+        "berkanPvpCap": 1.865
+      },
+      "groups": [
+        {
+          "kind": "EQUIPPED",
+          "formations": 23,
+          "wins": 30548,
+          "losses": 16556,
+          "draws": 0,
+          "total": 47104,
+          "winRate": 0.6485224184782609
+        },
+        {
+          "kind": "NEUTRAL",
+          "formations": 16,
+          "wins": 19111,
+          "losses": 13657,
+          "draws": 0,
+          "total": 32768,
+          "winRate": 0.583221435546875
+        }
+      ],
+      "rows": [
+        {
+          "kind": "EQUIPPED",
+          "id": "F01",
+          "wins": 1199,
+          "losses": 849,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 595,
+              "total": 1024
+            },
+            "B": {
+              "wins": 604,
+              "total": 1024
+            }
+          },
+          "winRate": 0.58544921875
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F02",
+          "wins": 1523,
+          "losses": 525,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 760,
+              "total": 1024
+            },
+            "B": {
+              "wins": 763,
+              "total": 1024
+            }
+          },
+          "winRate": 0.74365234375
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F03",
+          "wins": 1171,
+          "losses": 877,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 584,
+              "total": 1024
+            },
+            "B": {
+              "wins": 587,
+              "total": 1024
+            }
+          },
+          "winRate": 0.57177734375
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F04",
+          "wins": 1499,
+          "losses": 549,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 745,
+              "total": 1024
+            },
+            "B": {
+              "wins": 754,
+              "total": 1024
+            }
+          },
+          "winRate": 0.73193359375
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F05",
+          "wins": 1308,
+          "losses": 740,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 635,
+              "total": 1024
+            },
+            "B": {
+              "wins": 673,
+              "total": 1024
+            }
+          },
+          "winRate": 0.638671875
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F06",
+          "wins": 1106,
+          "losses": 942,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 560,
+              "total": 1024
+            },
+            "B": {
+              "wins": 546,
+              "total": 1024
+            }
+          },
+          "winRate": 0.5400390625
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F07",
+          "wins": 1337,
+          "losses": 711,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 661,
+              "total": 1024
+            },
+            "B": {
+              "wins": 676,
+              "total": 1024
+            }
+          },
+          "winRate": 0.65283203125
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F08",
+          "wins": 1258,
+          "losses": 790,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 620,
+              "total": 1024
+            },
+            "B": {
+              "wins": 638,
+              "total": 1024
+            }
+          },
+          "winRate": 0.6142578125
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F09",
+          "wins": 1402,
+          "losses": 646,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 705,
+              "total": 1024
+            },
+            "B": {
+              "wins": 697,
+              "total": 1024
+            }
+          },
+          "winRate": 0.6845703125
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F10",
+          "wins": 1192,
+          "losses": 856,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 585,
+              "total": 1024
+            },
+            "B": {
+              "wins": 607,
+              "total": 1024
+            }
+          },
+          "winRate": 0.58203125
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F11",
+          "wins": 1495,
+          "losses": 553,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 736,
+              "total": 1024
+            },
+            "B": {
+              "wins": 759,
+              "total": 1024
+            }
+          },
+          "winRate": 0.72998046875
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F12",
+          "wins": 1495,
+          "losses": 553,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 741,
+              "total": 1024
+            },
+            "B": {
+              "wins": 754,
+              "total": 1024
+            }
+          },
+          "winRate": 0.72998046875
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F13",
+          "wins": 1484,
+          "losses": 564,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 739,
+              "total": 1024
+            },
+            "B": {
+              "wins": 745,
+              "total": 1024
+            }
+          },
+          "winRate": 0.724609375
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F14",
+          "wins": 1312,
+          "losses": 736,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 648,
+              "total": 1024
+            },
+            "B": {
+              "wins": 664,
+              "total": 1024
+            }
+          },
+          "winRate": 0.640625
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F15",
+          "wins": 1469,
+          "losses": 579,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 738,
+              "total": 1024
+            },
+            "B": {
+              "wins": 731,
+              "total": 1024
+            }
+          },
+          "winRate": 0.71728515625
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F16",
+          "wins": 1176,
+          "losses": 872,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 578,
+              "total": 1024
+            },
+            "B": {
+              "wins": 598,
+              "total": 1024
+            }
+          },
+          "winRate": 0.57421875
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F17",
+          "wins": 1096,
+          "losses": 952,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 522,
+              "total": 1024
+            },
+            "B": {
+              "wins": 574,
+              "total": 1024
+            }
+          },
+          "winRate": 0.53515625
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F18",
+          "wins": 1429,
+          "losses": 619,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 718,
+              "total": 1024
+            },
+            "B": {
+              "wins": 711,
+              "total": 1024
+            }
+          },
+          "winRate": 0.69775390625
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F19",
+          "wins": 1257,
+          "losses": 791,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 632,
+              "total": 1024
+            },
+            "B": {
+              "wins": 625,
+              "total": 1024
+            }
+          },
+          "winRate": 0.61376953125
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F20",
+          "wins": 1414,
+          "losses": 634,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 693,
+              "total": 1024
+            },
+            "B": {
+              "wins": 721,
+              "total": 1024
+            }
+          },
+          "winRate": 0.6904296875
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F21",
+          "wins": 1449,
+          "losses": 599,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 725,
+              "total": 1024
+            },
+            "B": {
+              "wins": 724,
+              "total": 1024
+            }
+          },
+          "winRate": 0.70751953125
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F22",
+          "wins": 1215,
+          "losses": 833,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 624,
+              "total": 1024
+            },
+            "B": {
+              "wins": 591,
+              "total": 1024
+            }
+          },
+          "winRate": 0.59326171875
+        },
+        {
+          "kind": "EQUIPPED",
+          "id": "F23",
+          "wins": 1262,
+          "losses": 786,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 623,
+              "total": 1024
+            },
+            "B": {
+              "wins": 639,
+              "total": 1024
+            }
+          },
+          "winRate": 0.6162109375
+        },
+        {
+          "kind": "NEUTRAL",
+          "id": "balanced-1000000",
+          "wins": 1064,
+          "losses": 984,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 815,
+              "total": 1024
+            },
+            "B": {
+              "wins": 249,
+              "total": 1024
+            }
+          },
+          "winRate": 0.51953125
+        },
+        {
+          "kind": "NEUTRAL",
+          "id": "attack-1000000",
+          "wins": 1109,
+          "losses": 939,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 697,
+              "total": 1024
+            },
+            "B": {
+              "wins": 412,
+              "total": 1024
+            }
+          },
+          "winRate": 0.54150390625
+        },
+        {
+          "kind": "NEUTRAL",
+          "id": "defense-1000000",
+          "wins": 1446,
+          "losses": 602,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 883,
+              "total": 1024
+            },
+            "B": {
+              "wins": 563,
+              "total": 1024
+            }
+          },
+          "winRate": 0.7060546875
+        },
+        {
+          "kind": "NEUTRAL",
+          "id": "speed-1000000",
+          "wins": 1081,
+          "losses": 967,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 944,
+              "total": 1024
+            },
+            "B": {
+              "wins": 137,
+              "total": 1024
+            }
+          },
+          "winRate": 0.52783203125
+        },
+        {
+          "kind": "NEUTRAL",
+          "id": "balanced-20000000",
+          "wins": 1191,
+          "losses": 857,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 598,
+              "total": 1024
+            },
+            "B": {
+              "wins": 593,
+              "total": 1024
+            }
+          },
+          "winRate": 0.58154296875
+        },
+        {
+          "kind": "NEUTRAL",
+          "id": "attack-20000000",
+          "wins": 1217,
+          "losses": 831,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 602,
+              "total": 1024
+            },
+            "B": {
+              "wins": 615,
+              "total": 1024
+            }
+          },
+          "winRate": 0.59423828125
+        },
+        {
+          "kind": "NEUTRAL",
+          "id": "defense-20000000",
+          "wins": 1314,
+          "losses": 734,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 654,
+              "total": 1024
+            },
+            "B": {
+              "wins": 660,
+              "total": 1024
+            }
+          },
+          "winRate": 0.6416015625
+        },
+        {
+          "kind": "NEUTRAL",
+          "id": "speed-20000000",
+          "wins": 1077,
+          "losses": 971,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 531,
+              "total": 1024
+            },
+            "B": {
+              "wins": 546,
+              "total": 1024
+            }
+          },
+          "winRate": 0.52587890625
+        },
+        {
+          "kind": "NEUTRAL",
+          "id": "balanced-100000000",
+          "wins": 1194,
+          "losses": 854,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 598,
+              "total": 1024
+            },
+            "B": {
+              "wins": 596,
+              "total": 1024
+            }
+          },
+          "winRate": 0.5830078125
+        },
+        {
+          "kind": "NEUTRAL",
+          "id": "attack-100000000",
+          "wins": 1221,
+          "losses": 827,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 605,
+              "total": 1024
+            },
+            "B": {
+              "wins": 616,
+              "total": 1024
+            }
+          },
+          "winRate": 0.59619140625
+        },
+        {
+          "kind": "NEUTRAL",
+          "id": "defense-100000000",
+          "wins": 1313,
+          "losses": 735,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 653,
+              "total": 1024
+            },
+            "B": {
+              "wins": 660,
+              "total": 1024
+            }
+          },
+          "winRate": 0.64111328125
+        },
+        {
+          "kind": "NEUTRAL",
+          "id": "speed-100000000",
+          "wins": 1077,
+          "losses": 971,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 531,
+              "total": 1024
+            },
+            "B": {
+              "wins": 546,
+              "total": 1024
+            }
+          },
+          "winRate": 0.52587890625
+        },
+        {
+          "kind": "NEUTRAL",
+          "id": "balanced-2000000000",
+          "wins": 1195,
+          "losses": 853,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 598,
+              "total": 1024
+            },
+            "B": {
+              "wins": 597,
+              "total": 1024
+            }
+          },
+          "winRate": 0.58349609375
+        },
+        {
+          "kind": "NEUTRAL",
+          "id": "attack-2000000000",
+          "wins": 1222,
+          "losses": 826,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 606,
+              "total": 1024
+            },
+            "B": {
+              "wins": 616,
+              "total": 1024
+            }
+          },
+          "winRate": 0.5966796875
+        },
+        {
+          "kind": "NEUTRAL",
+          "id": "defense-2000000000",
+          "wins": 1313,
+          "losses": 735,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 653,
+              "total": 1024
+            },
+            "B": {
+              "wins": 660,
+              "total": 1024
+            }
+          },
+          "winRate": 0.64111328125
+        },
+        {
+          "kind": "NEUTRAL",
+          "id": "speed-2000000000",
+          "wins": 1077,
+          "losses": 971,
+          "draws": 0,
+          "total": 2048,
+          "sides": {
+            "A": {
+              "wins": 531,
+              "total": 1024
+            },
+            "B": {
+              "wins": 546,
+              "total": 1024
+            }
+          },
+          "winRate": 0.52587890625
+        }
+      ],
+      "pve": [
+        {
+          "power": 1000000,
+          "count": 64,
+          "cryvernDamage": 2496813341,
+          "berkanDamage": 2758989703,
+          "cryvernWins": 64,
+          "berkanWins": 64,
+          "damageRatio": 0.9049737801794181
+        },
+        {
+          "power": 20000000,
+          "count": 64,
+          "cryvernDamage": 49942196254,
+          "berkanDamage": 55087030433,
+          "cryvernWins": 64,
+          "berkanWins": 64,
+          "damageRatio": 0.9066053454223233
+        },
+        {
+          "power": 100000000,
+          "count": 64,
+          "cryvernDamage": 249710982672,
+          "berkanDamage": 275435153615,
+          "cryvernWins": 64,
+          "berkanWins": 64,
+          "damageRatio": 0.9066053457397202
+        },
+        {
+          "power": 2000000000,
+          "count": 64,
+          "cryvernDamage": 4994219653389,
+          "berkanDamage": 5508703072241,
+          "cryvernWins": 64,
+          "berkanWins": 64,
+          "damageRatio": 0.906605345740172
+        }
+      ],
+      "liveVerified": {
+        "revision": 60,
+        "combatLinkVersion": 2144
+      }
+    }
+  ],
+  "invariants": {
+    "pveUnchanged": 69,
+    "pvpWithoutCryvernUnchanged": 46,
+    "wholeResponsesSha256": [
+      {
+        "kind": "PVE",
+        "formation": "F01",
+        "code": "V-049",
+        "sha256": "7dcf96f200dab763affa583a0b7ca36d8e4c57826e96b732f6082994b8629428"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F01",
+        "code": "V-055",
+        "sha256": "59d20017aea2ba5746c3173b2f5891252efc4ff6d935adc92ea85d5a5b129d62"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F01",
+        "code": "V-046",
+        "sha256": "c9c0de2c389537eb1cb74571bf835b5860676d7b1044cc8293770c379f84e73d"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F01",
+        "side": "A",
+        "sha256": "7b84e1e08dd029deed681dd023a909d212f63d285a8a7bd03f00c22e8d40e5ca"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F01",
+        "side": "B",
+        "sha256": "28b7a973646ecb18a6c6f7e07e3a6a0510711c12cd409f67ef6404f9c22f3d6c"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F02",
+        "code": "V-049",
+        "sha256": "39614105cfa0123c3e3c192759a930d6359792795999c04070a5e9d2f0f40005"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F02",
+        "code": "V-055",
+        "sha256": "f06ce54b7efb0cd70bfff4aa7370fb2119ddb1d51de3e5f6c770ce7b7e4b7d19"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F02",
+        "code": "V-046",
+        "sha256": "795c2e6f7bfc31f417fd66d8bebe59923fa2a5c5dca4c06f90f4604796c50f38"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F02",
+        "side": "A",
+        "sha256": "6c7ff5e5bc056fefded0efd035be24a70dbc0212d1304a455c0b341573006f9a"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F02",
+        "side": "B",
+        "sha256": "89e51671b674c334482a5f426db0435bd63533768f88ad4e05ed6fa052922ace"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F03",
+        "code": "V-049",
+        "sha256": "2094e3cfd0872801e25f7edea0f87f89e1b8c1f436653f8a1a2d32dfb7274cac"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F03",
+        "code": "V-055",
+        "sha256": "f3ab7a2768b5fdfa1b6f2832cb6374039da6842904539843bdb1034ad49dc066"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F03",
+        "code": "V-046",
+        "sha256": "11e26fa96cf3da553532f77a866eeb6ad52085b0aa18a419af9ab4e76257b0c5"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F03",
+        "side": "A",
+        "sha256": "8677923f8ec658c611b9c79d61b314bdc3fe1f92b1f26cea8261f280e1b4a6cd"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F03",
+        "side": "B",
+        "sha256": "353b5187bcbfbe5072703f5c24c277cd3889ec22bc61ac7d8f13a731517d875c"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F04",
+        "code": "V-049",
+        "sha256": "74e3fc97dfb88c0079eb1e30f5519e6e6dd71b63ad430a93369b55efa591c8c5"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F04",
+        "code": "V-055",
+        "sha256": "ca56c9ad532e3ffa83c427dc7f7d7e170b388f1b14d5b32001676fef7276c66f"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F04",
+        "code": "V-046",
+        "sha256": "9b97b3de87366b2ecfa5777ddc7efcea2f802b4852b09a3227e2ecacc0dba047"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F04",
+        "side": "A",
+        "sha256": "d07a4b248b9fcc87e9abb6ffbb40e0b37f92b90b2e4feee6d16b732b21e926c9"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F04",
+        "side": "B",
+        "sha256": "8b6842e2a1da13546978ff975c2c0483378e04d74fb767997e377e80b179e793"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F05",
+        "code": "V-049",
+        "sha256": "4051cd38794c9a61ee3f365260ec25ca9213681cba8cc4193267d6ed06ba3bcb"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F05",
+        "code": "V-055",
+        "sha256": "428770641dfd4171903157009a91935c971d7eaca5617ee889c13c87c300c76b"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F05",
+        "code": "V-046",
+        "sha256": "7e003ac30422f2b8744a359ec80ca0226e3f844c47dc007f0fd32cbe264c08c4"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F05",
+        "side": "A",
+        "sha256": "d8f136b39a942e88e453144d1f700722830daaf4cc6f34248c0efa2b24615f49"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F05",
+        "side": "B",
+        "sha256": "5e1fdacd434487c0bfdecdcfe1cac7201079bad21fa0c27b7c359e5346450f51"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F06",
+        "code": "V-049",
+        "sha256": "614f3082c8c13ae52a418a5df147b6323e108be9769bf9755eefc45e625b2b13"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F06",
+        "code": "V-055",
+        "sha256": "2a2c12b99d050bf9850e6bd1ff5038d58d8ed3a841443e381b44c252dc7e9198"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F06",
+        "code": "V-046",
+        "sha256": "98f84e1ede4850d41ea4e4e3a9303ef56c6afa1197c51049a765eed3b70225c8"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F06",
+        "side": "A",
+        "sha256": "774245911ced81b9d238511fb555597e23d9d5e829f811fcd72823cd26a7b1a2"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F06",
+        "side": "B",
+        "sha256": "a1cf55c442bf3ce12ac682eeab2d80a7815d95362eafd7f56958d62a14b5abce"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F07",
+        "code": "V-049",
+        "sha256": "6331e948058e24f59478d9d76bfb3447a5483f1bd27eacdc7f3c3944f65ee280"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F07",
+        "code": "V-055",
+        "sha256": "c657302f89fd4c86ee3c3070e4315bfd42fd2b002fffe22f39132644e096d8c6"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F07",
+        "code": "V-046",
+        "sha256": "2ca41e42e28a86b408ce5f04169e7d0422b02dad2ae95ab9f9e75b17a2ecafdb"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F07",
+        "side": "A",
+        "sha256": "4e71f10ea527383cbc0879c7a9032bc800fd93c4811a87f1c8b3fef39b209aeb"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F07",
+        "side": "B",
+        "sha256": "9a11b08b8a0e4037f7aaac2df1462505bc306f43dd004e9cb2856b447fc58a25"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F08",
+        "code": "V-049",
+        "sha256": "e9a4bc64145700092e26dff6a07f84e2e75ea6a2bc92f9074a424cd49a872f44"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F08",
+        "code": "V-055",
+        "sha256": "ca84a162a1918e96ca47f7e69a9f118d23ca14ac191f12375da54fee915ec092"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F08",
+        "code": "V-046",
+        "sha256": "1082e04ad13852e866a6f90c66ea073419b38e95f89c42446c83ead4ffe928ac"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F08",
+        "side": "A",
+        "sha256": "20fa008fe33685c98f84a3e85b3cae11163759b828e5c8446f72a24207ccc948"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F08",
+        "side": "B",
+        "sha256": "c85fe6b91b525b782de091aeea631b2b10bbe8ee4ce50860ca092866c294cf58"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F09",
+        "code": "V-049",
+        "sha256": "68da95d67635153fadf72d74e86506028fd1678d98b9a00b53571e326c7a6b1b"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F09",
+        "code": "V-055",
+        "sha256": "813280faf14fc73a6dae283d6afbcabc6d704002e18ea61a51d28ada9a575936"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F09",
+        "code": "V-046",
+        "sha256": "81507fba076810de71d61839daf030b4b1e3cc59f2a7527055ab71e2f7eab8eb"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F09",
+        "side": "A",
+        "sha256": "5707709f2df0cf0cdea452533d2bb5ceede9f1a7c0bcf66e10050aa5c15b97cd"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F09",
+        "side": "B",
+        "sha256": "1bc25289e71a8305c04feb33405377d09879c8781a0f6e0dbd22bf35ee003778"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F10",
+        "code": "V-049",
+        "sha256": "a544cbfe2c66383aafbe8a68a906b1fa8393277b2f386cd693882d1f8b51281a"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F10",
+        "code": "V-055",
+        "sha256": "4bbb4b3c45ba76ed4d75ce7cf510e1fa494f63318e6db4a1c3a3051bd8206a38"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F10",
+        "code": "V-046",
+        "sha256": "e1180cfdd809b1f788c4c048bda84c7079d3ad6f6e08e2b4ef95ad2d590436ea"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F10",
+        "side": "A",
+        "sha256": "31eee71d0ccba6a7f48459d17952ed348c48acafedb139ca967c804168daf1a7"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F10",
+        "side": "B",
+        "sha256": "c1eb45f4f93008c24a5701151c30151126c0ee52b4969278f2776cf7819056be"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F11",
+        "code": "V-049",
+        "sha256": "c53eaa84991d8f1718a3a306a609620ad85f3fd63e5cc01eae39f46a7c81f541"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F11",
+        "code": "V-055",
+        "sha256": "b68154eca37b800274a41b808a61802a9e9ec25d00eedf4e18f74b2a8ca31ce5"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F11",
+        "code": "V-046",
+        "sha256": "a62e1443bb6de744aa73b1c48c457539b6ca764e8e5b9fd8ad92799bc8e3feea"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F11",
+        "side": "A",
+        "sha256": "3d49f16e3d01d3ba4855e57ff6b1dbd7a54c081ef9d8ea7fa95eb582830162c2"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F11",
+        "side": "B",
+        "sha256": "ece2a6e8d54278df27aeade267fa14ae729a655dad6221b5441d8339da071a76"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F12",
+        "code": "V-049",
+        "sha256": "1c5e4001eca50c450dcb50d1f922ff48d06480a23b9427dcb86505a87f046e1b"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F12",
+        "code": "V-055",
+        "sha256": "16c3de336f96cba2477cb96934493b6bdd7ef0dc03bdada2354bad855ac70339"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F12",
+        "code": "V-046",
+        "sha256": "d0995c60a43a449eafaf3e101d16b945e4068d654ef609752d9cba3990791ba0"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F12",
+        "side": "A",
+        "sha256": "1f48618ed52c75a7306c259767f5080716c3478ab99135d0e5063537832b6e76"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F12",
+        "side": "B",
+        "sha256": "0d21b9877b6736594961f4ebbb877affc1460b92029fc7d140dc8fc911736989"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F13",
+        "code": "V-049",
+        "sha256": "cd3a2a2db95d9ce540fd7160039ad95a23fdadf24b80ab3ce4f626f06168bdfb"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F13",
+        "code": "V-055",
+        "sha256": "651458850356a329462d5691cd778fd157f156c05c9f7ad9b0a9023e17d7cd80"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F13",
+        "code": "V-046",
+        "sha256": "8e7348d151123759ebb23e03658b40138e05afd9a04e382e796c0607242fec4e"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F13",
+        "side": "A",
+        "sha256": "bad70c0449ada0d6d0f89865c6ef3c29852af5ae60505809019807098c6ec053"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F13",
+        "side": "B",
+        "sha256": "8f939900aead7aa967831488fc6f88a5063ce583b22d059178cf2347985cbd1d"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F14",
+        "code": "V-049",
+        "sha256": "dda92a22a259b3a7941ea2fa7bbba67ffe26b92322ecfcc8040de14ef73bdc9b"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F14",
+        "code": "V-055",
+        "sha256": "ab8388d24227071971e38e8bb26f4c8d475419492fa594fdef0d4003da2143eb"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F14",
+        "code": "V-046",
+        "sha256": "83b6ef262661a84630bd9827937178a9306ac28f45283263e8343c60ea0d20d5"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F14",
+        "side": "A",
+        "sha256": "c9f0ced118ef3ed3d9a596ca696141c1a051f60136d6ca2edff8258a0f9fa795"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F14",
+        "side": "B",
+        "sha256": "bf76494dc561b19f8bfa9e87290861bce53b2ad191ccab2876d592846d887da2"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F15",
+        "code": "V-049",
+        "sha256": "27ca0f64fa8105037f6c9d080c436fab2e55e40fba036aab67300b521bc69670"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F15",
+        "code": "V-055",
+        "sha256": "4b12be851a0e2971e95c9798c4e7d3c817ccfc9c73c972ad193b216e165d9c07"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F15",
+        "code": "V-046",
+        "sha256": "d7db3b26db2826730ff1b855f049d0625f1a1f764c39a5d4eaa061fbb899aae0"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F15",
+        "side": "A",
+        "sha256": "bca03c554c468ff1eea9258ea66f99569639d4cd60a072f03264fb94b07248d1"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F15",
+        "side": "B",
+        "sha256": "700410e8ca54de9ccad878599b10ebcb6f1d7fb2a73705e674976481245dcbf0"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F16",
+        "code": "V-049",
+        "sha256": "6996cf63abb72bee13d9072ff81b64692b916ff78560bd26e9e7f54a86d2f862"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F16",
+        "code": "V-055",
+        "sha256": "09140d8aafa0e4400f1691f6fddad066dc0c9cf92201143bb4d95315fd769d1f"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F16",
+        "code": "V-046",
+        "sha256": "40cd073cfebd35addfd4a79dfeaae3c82af3ad6e00f171370e635c0144c52e75"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F16",
+        "side": "A",
+        "sha256": "56f83575aff7be5fdde56fb17d74028dc50d6fa128793cc41dc3e13a545e908c"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F16",
+        "side": "B",
+        "sha256": "b993d6b5982b9850f747b2915de7318ded130061d25b88371b652adc18bd9828"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F17",
+        "code": "V-049",
+        "sha256": "dc5e1cbd3a5d4f004d901bc66b6e18a903593a8e2a1f93a64b4dfbf1f5c64ddd"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F17",
+        "code": "V-055",
+        "sha256": "f943ebc2283795a0f8c297c052866c7ed6df5c1d048cd035a37424df7b1d82cb"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F17",
+        "code": "V-046",
+        "sha256": "09572047681c785df6f066470391e9e16003388ef26ec082f087c23e807f6d47"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F17",
+        "side": "A",
+        "sha256": "589eb6b6ee18378fb61f415061f89253ec691a7833591d012748a491f91e662e"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F17",
+        "side": "B",
+        "sha256": "177cb58108874fb1868d8d256a371fd37ccfb7310a802a915b1b9bc15c33eae9"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F18",
+        "code": "V-049",
+        "sha256": "888ac051f06a28969f9caa8923d92efea183c15abcf90b08519d9419c4fec55a"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F18",
+        "code": "V-055",
+        "sha256": "ab7855a3d37131b2449e08d1c84eb37074320fc9b637f468682249eb9c9b0e6f"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F18",
+        "code": "V-046",
+        "sha256": "74f2c6a38e3dfd24ca852f554c4ddf634367068202d9cfdc32f4f82453f6f0da"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F18",
+        "side": "A",
+        "sha256": "591f4ea7124fd2a9a134da7c9932b27f8cb455ddaef7a5766a7e4a7b2efdac26"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F18",
+        "side": "B",
+        "sha256": "5899c31f0e274f8614bd3b62d1c84e96861e77724d0938763352e01311b330cc"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F19",
+        "code": "V-049",
+        "sha256": "e1c69c5e190cce43b514259682e9141afdfeac6f7f9c1a9fdab69f122991a88f"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F19",
+        "code": "V-055",
+        "sha256": "3b3bbaab6c596026e81b67650994afbc9b9757abbeb14a4671ab0f884cd96e6d"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F19",
+        "code": "V-046",
+        "sha256": "be1a5136ecb42144dea2c39102f0208809aae9d222b615c5d8bde7772e9f78a8"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F19",
+        "side": "A",
+        "sha256": "47f09c841f61d636a4b0c2010b8964cfed43b44c22f1618c85aefcf2cc619934"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F19",
+        "side": "B",
+        "sha256": "bd05fc7f3607b6db3f4eb4bc0c7fc1bf57926d7e78695e0218b158010cfad2d5"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F20",
+        "code": "V-049",
+        "sha256": "717fadb9326185cb63bfc3d484df99f0507cd1254ebf6bb6d95d494ee4afc428"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F20",
+        "code": "V-055",
+        "sha256": "46f5726cc5f886df0816c6982ef217d0bd7b720296e6ea677d9a31cce0c2b0c8"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F20",
+        "code": "V-046",
+        "sha256": "3137a44331648d2b2ff0b298d8194fd58118acc3ee02e405b518afb4cb06eb30"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F20",
+        "side": "A",
+        "sha256": "011795528c6168ab548acf905e89c05e2b131364e695cb297c9f77a4a9692290"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F20",
+        "side": "B",
+        "sha256": "6dd27fe89f8058531dc3bcb8387a994e127500b8004e53398ccb3f0d009da477"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F21",
+        "code": "V-049",
+        "sha256": "14484a9d12baa6a3c1b8accb55e75883c60f0d77b4c620e54b2ce3bdc32ef21f"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F21",
+        "code": "V-055",
+        "sha256": "fe4632b7646b76e25f2fb7113ff630e8ecab39b7e9a7e6f0cbb7c97ae1be2c52"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F21",
+        "code": "V-046",
+        "sha256": "3c04d8a28aa760b6c4878a8990788bb5aa39d3d042a5c5bf6774948378ee8fbf"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F21",
+        "side": "A",
+        "sha256": "ee2d2cc4eb42a1cafccfaa2479c6c8f58f01c98b6ae708be3f01badc44c02736"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F21",
+        "side": "B",
+        "sha256": "1ceb6518e320f3eb91524e405f7af3bc90c658bd2dea1a09a9b61c0b58d34b9d"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F22",
+        "code": "V-049",
+        "sha256": "05a390d18694b139598b8e26b1923537b2e9e5a68b30abb26cd0184fdd679ced"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F22",
+        "code": "V-055",
+        "sha256": "915a99903754326fa63966b9652578a7aaf35bc5cca58cb0d5d1519a704c4cb3"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F22",
+        "code": "V-046",
+        "sha256": "c676dd89303e4b9e79ecfbc220377e5454b6c8dd86fdb520ccfb7aac9d87beaf"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F22",
+        "side": "A",
+        "sha256": "491894842c0c542709db0eb47db174cc15dffbd7db0a8266a0f3018a0fb6bbcc"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F22",
+        "side": "B",
+        "sha256": "a2dfdceb1f5fa59f2f90a207e467c5120793f79386873e5bc8530b0d33d5b55b"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F23",
+        "code": "V-049",
+        "sha256": "8449ca221dedcb0c2126f4ef2a0772a1ce84d8bb0ec2d9d62e3b4527c242d31b"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F23",
+        "code": "V-055",
+        "sha256": "09614d53059971c05172b32c2a50edc63cba5d5aa40c679875ef1fc6ac931f78"
+      },
+      {
+        "kind": "PVE",
+        "formation": "F23",
+        "code": "V-046",
+        "sha256": "47d23345d2ea5ca1c32a67dfb339be3511dbddd2f2b788abcb4c5d0c6a1ad859"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F23",
+        "side": "A",
+        "sha256": "296be1c7df3f0a848c796cfacb7e70e54c5487d889cdd2369e7597f868a2d0b7"
+      },
+      {
+        "kind": "PVP_WITHOUT_CRYVERN",
+        "formation": "F23",
+        "side": "B",
+        "sha256": "b83016689439d3a6a10e7103559b52c90e754e0e9b27649530b95057d9b15e69"
+      }
+    ]
+  },
+  "sources": [
+    {
+      "file": "functions/_mercenary_combat.js",
+      "normalizedSha256": "6558b7785469cb04c3d88aab213f29ccf4501c7734d3dba4e45af694dbdea2c6"
+    },
+    {
+      "file": "shared/mercenary-cryvern-v1.mjs",
+      "normalizedSha256": "bb78e08ac9f9336802907bd54518551c179afe45d500cb22c35ceac2e853ac50"
+    }
+  ],
+  "validation": {
+    "development": {
+      "passed": 15,
+      "skipped": 1,
+      "note": "Mechanics tests passed at basic 1.18; final basic 1.165 and its exact budget expectations rechecked by the scoped deploy."
+    },
+    "build": "build:v3-grid",
+    "scoped": {
+      "base": "a8c026bf81066fb7c0ca6a839af4e2815e34d883",
+      "reason": "Cryvern-only PVP basic and crown cap rebalance; verify final damage budget, suppression, solo/duo engine and shared battle loader without unrelated content checks.",
+      "tests": [
+        "tests/cryvern-parity-20261004.test.mjs",
+        "tests/mercenary-cryvern-preparation.test.mjs",
+        "tests/berkan-pvp-damage-20260930.test.mjs",
+        "tests/berkan-pvp-reform-20260930.test.mjs",
+        "tests/ranked-duo-battle.test.mjs",
+        "tests/pve-battlefield-entry-v2117.test.mjs"
+      ],
+      "checks": [
+        "check:worker"
+      ]
+    }
+  },
+  "deployment": null
+}

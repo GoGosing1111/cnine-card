@@ -24,6 +24,13 @@ export function cryvernSelectionWeights(codes,weights){
 }
 export const CRYVERN_BALANCE = Object.freeze({damageRatio:5.88,cooldownTurns:5,cost:35});
 export const CRYVERN_CAP_SCALE = 1.3;
+// 2026-10-04: mirrored equipped PVP target: Berkan 45–50%, Ragniel ~65%.
+// Preserve the original PVE budget and CMS raw damage/cost/cooldown.
+export const CRYVERN_PVP_BASIC_DAMAGE_SCALE = 1.165;
+export const CRYVERN_PVP_SKILL_CAP_SCALE = 1.6;
+export const isCryvernPvp = actor => !!actor?.isMercenary&&actor.code===CRYVERN_CODE&&actor.battleMode==='PVP';
+export const cryvernPvpBasicDamageScale = actor => isCryvernPvp(actor)?CRYVERN_PVP_BASIC_DAMAGE_SCALE:1;
+export const cryvernCrownCapScale = actor => isCryvernPvp(actor)?CRYVERN_PVP_SKILL_CAP_SCALE:CRYVERN_CAP_SCALE;
 export const CRYVERN_IMPACTS = Object.freeze([1.3,2.62]);
 export const CRYVERN_SHARES = Object.freeze([.4,.6]);
 export const CRYVERN_DURATION = 6.2;
