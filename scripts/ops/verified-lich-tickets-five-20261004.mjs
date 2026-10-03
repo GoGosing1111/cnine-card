@@ -53,7 +53,9 @@ export async function verifyVerifiedLichTickets(client,receipt){
 export async function grantVerifiedLichTickets(client,{expectedRecipientHash,commit=false}={}){
  assert.match(String(expectedRecipientHash||''),/^[a-f0-9]{64}$/,'Inspected recipient hash required');
  const q=qFor(client);
- await client.query('BEGIN ISOLATION LEVEL REPEATABLE READ');
+ // Ordered user/inventory row locks and verification share locks stabilize the
+ // inspected recipients without snapshot conflicts from unrelated live play.
+ await client.query('BEGIN');
  try{
   await q("SET LOCAL lock_timeout='5s'");await q("SET LOCAL statement_timeout='20s'");
   await q('SELECT pg_advisory_xact_lock(hashtext($1))',[OPERATION_KEY]);
