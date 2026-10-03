@@ -176,7 +176,7 @@
             const action=row.owned?(row.equipped?'<button type="button" disabled>장착 중</button>':`<button type="button" data-character-title-equip="${row.id}">장착</button>`):'<button type="button" disabled>미획득</button>';
             return `<article class="title-card-v1350 ${row.owned?'owned':'locked'} ${row.equipped?'equipped':''} ${titleClass(row.stylePreset)} ${titleCodeClass(row)}">
               <div class="title-card-badge-v1350 ${titleFontClass(row.fontPreset)}"><span>[${esc(row.badgeText||row.name)}]</span></div>
-              <small>${esc(row.owned?(unlockLabels[row.unlockType]||row.unlockType):titleRequirement(row))}</small>
+              <small>${esc(['SUPPORTER','BLUE_BEAST'].includes(row.code)?row.description:row.owned?(unlockLabels[row.unlockType]||row.unlockType):titleRequirement(row))}</small>
               <b>전체 전투 +${num(row.pvePower)}</b>
               ${action}
             </article>`;

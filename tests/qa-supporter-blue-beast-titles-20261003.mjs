@@ -27,6 +27,8 @@ try{
   const context=await browser.newContext({viewport}),page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto(base+'/preview/supporter-blue-beast-titles-20261003/',{waitUntil:'networkidle'});
   await page.locator('.clv2-title-showcase.is-title-supporter_vip').waitFor();
+  for(const [style,description] of [['supporter_vip','운영에 도움을 주신 감사 칭호'],['blue_beast','챌린저 누적 10회 달성']])assert.equal(await page.locator('.clv2-title-card.is-title-'+style+' > small').innerText(),description);
+  assert.equal(await page.locator('.clv2-title-card.is-title-supporter_vip > span').first().innerText(),'운영에 도움을 주신');
   assert.equal(await page.evaluate(()=>window.titlePreview.getState().bonuses.pve),75000);
   assert.equal(await page.evaluate(()=>window.titlePreview.getState().bonuses.pvp),75000);
   const invalidImages=await page.locator('img').evaluateAll(images=>images.filter(i=>!i.complete||!i.naturalWidth).map(i=>i.src));assert.deepEqual(invalidImages,[]);
@@ -51,6 +53,8 @@ try{
   await page.goto(base+'/preview/supporter-blue-beast-titles-20261003/?locked=1',{waitUntil:'networkidle'});
   assert.equal(await page.locator('[data-title-equip]').count(),0);assert.equal(await page.locator('[role="progressbar"]').getAttribute('aria-valuenow'),'9');
   assert.match(await page.locator('.clv2-title-card.is-title-blue_beast').innerText(),/9 \/ 10회/);
+  for(const [style,description] of [['supporter_vip','운영에 도움을 주신 감사 칭호'],['blue_beast','챌린저 누적 10회 달성']])assert.equal(await page.locator('.clv2-title-card.is-title-'+style+' > small').innerText(),description);
+  assert.doesNotMatch(await page.locator('.clv2-title-grid').innerText(),/운영 지급|운영을 빛낸 마음|열 번의 챌린저/);
   await page.screenshot({path:out+'/'+name+'-locked.png',fullPage:true});
   await page.emulateMedia({reducedMotion:'reduce'});
   assert.equal(await page.locator('.preview-names .title-style-supporter_vip').evaluate(el=>getComputedStyle(el,'::after').animationName),'none');

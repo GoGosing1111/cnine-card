@@ -137,5 +137,23 @@
       }
     ],
     "loaderUpdated": true
+  },
+  "copyCorrection": {
+    "dateKst": "2026-10-03",
+    "status": "READY",
+    "changes": [
+      "Supporter heading: 운영에 도움을 주신",
+      "Always show 운영에 도움을 주신 감사 칭호 for Supporter, including unowned state",
+      "Always show 챌린저 누적 10회 달성 for Blue Beast, including unowned state",
+      "Do not substitute the player-facing description with 운영 지급",
+      "Keep title artwork, acquisition policy and power unchanged"
+    ],
+    "releaseMode": "scoped",
+    "baseDeploymentId": "f6c5c326-85e0-42f3-bdca-732f96653c26",
+    "baseCommit": "9455a6a6be15eafcd10e544b273d0d3e0c7e66bf",
+    "tests": [
+      "tests/qa-supporter-blue-beast-titles-20261003.mjs"
+    ],
+    "reason": "Small title-copy correction in the live renderer and fallback renderer with asset cache refresh. Only the directly affected desktop/mobile title display and existing UI flows are checked."
   }
 }
