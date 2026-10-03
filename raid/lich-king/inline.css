@@ -2370,6 +2370,21 @@
     display: none;
   }
 }
+#pveLichRaidView .lk-coop-sequence .current {
+  color: #fff4d8;
+  font-weight: 800;
+  border-bottom: 2px solid #edcb8b;
+  padding-bottom: 2px;
+}
+#pveLichRaidView .lk-coop-task header {
+  flex-wrap: wrap;
+}
+#pveLichRaidView .lk-coop-task[data-kind=SHATTER][data-waiting=true] {
+  --task:#8aaabc;
+}
+#pveLichRaidView .lk-coop-task[data-kind=SHATTER][data-waiting=false] {
+  --task:#f2ce8e;
+}
 #pveLichRaidView {
   color-scheme: dark;
 }
@@ -2410,6 +2425,28 @@
 }
 #pveLichRaidView .guide-note {
   line-height: 1.8;
+}
+#pveLichRaidView .lich-weekly-reward {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 24px;
+  margin: 0 0 24px;
+  padding: 18px 22px;
+  border-block: 1px solid #37546b;
+  background: #0a1a28;
+  color: #bed7e9;
+  line-height: 1.6;
+}
+#pveLichRaidView .lich-weekly-reward strong {
+  font-size: 16px;
+  color: #caeafd;
+}
+#pveLichRaidView .lich-weekly-reward strong[data-exhausted=true] {
+  color: #e5bb78;
+}
+#pveLichRaidView .lich-weekly-reward span {
+  font-size: 12px;
 }
 @media (max-width: 650px) {
   #pveLichRaidView .raid-combat-toolbar {
@@ -4783,8 +4820,3 @@
     flex-wrap: wrap;
   }
 }
-
-#pveLichRaidView .lk-coop-sequence .current{color:#fff4d8;font-weight:800;border-bottom:2px solid #edcb8b;padding-bottom:2px}
-#pveLichRaidView .lk-coop-task header{flex-wrap:wrap}
-#pveLichRaidView .lk-coop-task[data-kind=SHATTER][data-waiting=true]{--task:#8aaabc}
-#pveLichRaidView .lk-coop-task[data-kind=SHATTER][data-waiting=false]{--task:#f2ce8e}

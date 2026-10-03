@@ -103,6 +103,12 @@ function renderAssembly(){
   root.querySelectorAll('[data-assign-role],[data-kick]').forEach(button=>{button.disabled=busy;});
 }
 function render(result){
+  const weekly=result.weeklyReward||result.state?.weeklyReward;
+  if(weekly){
+    $('weeklyReward').textContent='이번 주 보상 · 남은 '+weekly.remaining+' / '+weekly.limit+'회';
+    $('weeklyReward').dataset.exhausted=String(weekly.remaining===0);
+    $('weeklyRewardHint').textContent=weekly.remaining===0?'이번 주 보상을 모두 받았습니다. 공대 참여는 가능하며 추가 보상은 지급되지 않습니다.':'펫 정수·마별·코인 보상은 주간 3회까지 · 월요일 00:00 (한국 시간) 초기화';
+  }
   if(!result.state){
     state=null;setRoom('');$('browse').hidden=false;$('assembly').hidden=true;
     if($('guideDialog').open)renderGuideContext();
@@ -130,7 +136,9 @@ function showResult(){
   const clear=state.status==='CLEAR';$('resultDialog').classList.toggle('is-clear',clear);$('resultCaption').textContent=clear?'CONQUEST COMPLETE':'EXPEDITION ENDED';
   $('resultTitle').textContent=clear?'리치왕 정벌 성공':state.status==='CANCELLED'?'공대 해산':'공대 전멸';
   const essence=state.petEssenceReward;
-  $('resultReason').textContent=clear?(essence?.granted?'죽음의 왕좌가 무너졌습니다. 펫 정수 '+essence.quantity+'개가 인벤토리에 지급되었습니다.':state.release?.mode==='TEST'?'정벌 성공 · TEST에서는 실제 보상을 지급하지 않습니다.':'정벌 성공 · 이 공대에는 펫 정수 보상이 설정되지 않았습니다.'):state.failure?.reason||'공략에 실패했습니다.';
+  const reward=state.clearReward;
+  const amounts=reward?[[reward.petEssence,'펫 정수','개'],[reward.masterStars,'마별','개'],[reward.coin,'코인','']].filter(([n])=>n>0).map(([n,label,unit])=>label+' '+Number(n).toLocaleString('ko-KR')+unit).join(' · '):'';
+  $('resultReason').textContent=clear?(reward?.granted?'클리어 보상 지급 완료 · '+amounts+' (이번 주 남은 보상 '+reward.weeklyReward.remaining+'회)':reward?.status==='WEEKLY_LIMIT'?'정벌 성공 · 이번 주 클리어 보상 3회를 모두 수령하여 추가 보상은 지급되지 않습니다.':essence?.granted?'죽음의 왕좌가 무너졌습니다. 펫 정수 '+essence.quantity+'개가 인벤토리에 지급되었습니다.':state.release?.mode==='TEST'?'정벌 성공 · TEST에서는 실제 보상을 지급하지 않습니다.':'정벌 성공 · 이 공대에는 클리어 보상이 설정되지 않았습니다.'):state.failure?.reason||'공략에 실패했습니다.';
   $('resultStats').innerHTML='<span><b>'+state.round+'/7</b>도달 작전</span><span><b>'+state.statistics.mistakes+'</b>누적 실수</span><span><b>'+state.statistics.rescues+'</b>영혼 구출</span>';$('resultDialog').showModal();
 }
 async function mount(payload){

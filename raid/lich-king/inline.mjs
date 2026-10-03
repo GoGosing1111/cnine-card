@@ -1,6 +1,6 @@
-import { mountLichRaid } from './live.mjs?v=20261003-pet-essence';
+import { mountLichRaid } from './live.mjs?v=20261004-weekly-rewards';
 
-const VERSION = '20261003-coop-feedback';
+const VERSION = '20261004-weekly-rewards';
 let styles, battle;
 function loadAsset(tag, url) {
   return new Promise((resolve, reject) => {

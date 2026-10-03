@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION = '20261003-coop-feedback';
+  const VERSION = '20261004-weekly-rewards';
   let checkedAt = 0, visible = false, featureRequest = null, controller = null, revision = 0;
   const host = () => document.getElementById('pveLichRaidView');
   async function refresh() {

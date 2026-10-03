@@ -1,0 +1,43 @@
+{
+  "status": "READY_FOR_SCOPED_GATE",
+  "request": "리치왕 주간 클리어 보상 3회로 제한, 마별·코인 CMS 설정 추가",
+  "previousDeployment": {
+    "source": "7e42c7c89d2065e672c26744c6bee8196e830b0e",
+    "pagesId": "a820fde4-fa49-49a5-abbe-07f759b8e4fe"
+  },
+  "scope": "Lich King reward settlement, CMS amounts, quota/result UI; existing DB schema and transaction mechanism reused",
+  "policy": {
+    "weeklyLimit": 3,
+    "reset": "Monday 00:00 Asia/Seoul",
+    "priorPaidClearsCount": true,
+    "participationAfterLimit": true,
+    "noClawback": true,
+    "masterStarReward": 0,
+    "coinReward": 0,
+    "existingMode": "ON",
+    "existingPetEssenceReward": 5,
+    "settingsSnapshot": "departure"
+  },
+  "database": "Existing app_meta weekly CAS counter plus legacy inventory-log/room receipts; no schema migration",
+  "browser": {
+    "report": "C:/Users/User/AppData/Local/Temp/lich-weekly-ui-yDuZbS/report.json",
+    "viewports": [
+      1440,
+      390
+    ],
+    "cmsSaveReload": true,
+    "inlineQuota": true,
+    "paidAndLimitDialogs": true,
+    "overflow": false,
+    "pageErrors": 0
+  },
+  "scopedTests": [
+    "tests/lich-weekly-rewards-20261004.test.mjs",
+    "tests/lich-pet-essence-20261003.test.mjs",
+    "tests/lich-raid-live-20260928.test.mjs",
+    "tests/lich-raid-inline-entry-20260929.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

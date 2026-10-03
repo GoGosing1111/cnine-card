@@ -1,21 +1,26 @@
 import {DatabaseSync} from 'node:sqlite';
+import {readFileSync} from 'node:fs';
 import {handleLichRaid,LICH_TICKET} from '../../functions/_raid_lich_live.js';
 import {REVIEW_DECK} from '../../preview/lich-king-raid-v1/fixture.mjs';
 export async function lichLiveFixture({postgres=false}={}){
   let sql,pg,DB,failAt='',queries=0;
   const schema=[
     'CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT DEFAULT CURRENT_TIMESTAMP)',
-    "CREATE TABLE users(id INTEGER PRIMARY KEY,nickname TEXT,role TEXT,status TEXT DEFAULT 'ACTIVE')",
+    "CREATE TABLE users(id INTEGER PRIMARY KEY,nickname TEXT,role TEXT,status TEXT DEFAULT 'ACTIVE',coin INTEGER NOT NULL DEFAULT 0)",
     'CREATE TABLE inventory_items(code TEXT PRIMARY KEY,name TEXT,subtitle TEXT,description TEXT,category TEXT,rarity TEXT,image_url TEXT,sort_order INTEGER,is_active INTEGER)',
     'CREATE TABLE cnine_user_inventory(user_id INTEGER,item_code TEXT,quantity INTEGER,unseen_quantity INTEGER DEFAULT 0,updated_at TEXT DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,item_code))',
     'CREATE TABLE inventory_logs(user_id INTEGER,item_code TEXT,change_amount INTEGER,balance_after INTEGER,reason TEXT,reference_type TEXT,reference_id TEXT)',
+    'CREATE TABLE coin_logs(user_id INTEGER,change_amount INTEGER,balance_after INTEGER,reason TEXT)',
     'CREATE TABLE admin_logs(admin_id INTEGER,action_type TEXT,target_type TEXT,target_id TEXT,before_data TEXT,after_data TEXT)',
     "INSERT INTO users(id,nickname,role) VALUES(1,'검수 공대장','OWNER'),(2,'검수 봉인대','USER'),(3,'검수 구출대','USER'),(4,'검수 미지정','USER'),(5,'검수 관리자','ADMIN'),(6,'검수 예비대','USER'),(7,'검수 참가자','USER'),(8,'검수 여덟','USER')",
-    "INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(1,'"+LICH_TICKET+"',5,5),(2,'"+LICH_TICKET+"',2,2)"
+    "INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(1,'"+LICH_TICKET+"',5,5),(2,'"+LICH_TICKET+"',2,2)",
+    "INSERT INTO inventory_items(code,name,is_active) VALUES('MASTER_STAR','마스터의 별',1)"
   ];
   if(postgres){
     const [{PGlite},{__postgresCompatTest}]=await Promise.all([import('@electric-sql/pglite'),import('../../functions/_postgres_d1_compat.js')]);
     pg=new PGlite();await pg.exec("CREATE FUNCTION sqlite_now() RETURNS TEXT LANGUAGE SQL STABLE AS $$ SELECT to_char(timezone('UTC',CURRENT_TIMESTAMP),'YYYY-MM-DD HH24:MI:SS') $$;");
+    const compat=readFileSync(new URL('../../scripts/postgres-runtime-compat.sql',import.meta.url),'utf8');
+    await pg.exec(compat.match(/CREATE OR REPLACE FUNCTION sqlite_json_extract[\s\S]*?\$\$;/)[0]);
     await pg.exec(schema.map(q=>q.replaceAll('INTEGER','BIGINT').replaceAll('CURRENT_TIMESTAMP','sqlite_now()')).join(';'));
     DB=new __postgresCompatTest.PostgresD1Database({async query(input){queries++;const text=typeof input==='string'?input:input.text;if(failAt&&text.includes(failAt))throw Error('INJECTED_FAILURE');const result=await pg.query(text,typeof input==='string'?[]:input.values||[]);return {...result,rowCount:result.affectedRows??result.rows.length};}});
   }else{

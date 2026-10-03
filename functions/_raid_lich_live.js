@@ -4,7 +4,7 @@ import {jointGuard,jointGuardEnd,ensureJointAtomicSchema} from './_joint_atomic.
 import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
 import {reconcileCoopDuties} from './_raid_lich_coop.js';
 import {ensurePetOpeningItems} from './_pet_opening.js';
-import {PET_ESSENCE} from '../shared/pet-opening-v1.mjs';
+import {LICH_WEEKLY_REWARD_LIMIT,lichWeeklyReward,lichClearRewardPolicy,lichClearRewardFor,prepareLichClearRewards,lichRewardCounterChanged} from './_raid_lich_rewards.js';
 
 export const LICH_TICKET='LICH_KING_ENTRY_TICKET';
 export const LICH_SETTINGS='raid_lich_settings_v1';
@@ -14,7 +14,7 @@ const owner=user=>user?.role==='OWNER';
 const id=value=>String(value??'');
 const integer=(n,min,max)=>Number.isSafeInteger(n)&&n>=min&&n<=max;
 const readJson=value=>JSON.parse(value);
-export const defaultLichSettings=()=>({revision:0,mode:'TEST',testUserIds:[],bossCombatPower:320000,lobbyMinutes:15,rewardLocked:true,petEssenceReward:5,petEssenceEnabled:true});
+export const defaultLichSettings=()=>({revision:0,mode:'TEST',testUserIds:[],bossCombatPower:320000,lobbyMinutes:15,rewardLocked:true,petEssenceReward:5,petEssenceEnabled:true,masterStarReward:0,coinReward:0,weeklyRewardLimit:LICH_WEEKLY_REWARD_LIMIT});
 export function lichAccess(user,settings){
   const accessible=Boolean(user)&&(settings.mode==='ON'||settings.mode==='TEST'&&(owner(user)||settings.testUserIds.includes(Number(user.id))));
   return {mode:settings.mode,accessible,visible:accessible,owner:owner(user),rewardLocked:true};
@@ -26,7 +26,10 @@ export function validateLichSettings(raw){
     fail('SETTINGS','공개 모드, 테스트 계정(최대 100명), 고정 전투력, 모집 시간을 확인하세요.',400);
   const petEssenceReward=raw.petEssenceReward??5,petEssenceEnabled=raw.petEssenceEnabled??true;
   if(!integer(petEssenceReward,1,1000000)||typeof petEssenceEnabled!=='boolean')fail('SETTINGS','펫 정수 지급 수량(1~1,000,000)과 지급 상태를 확인하세요.',400);
-  return {revision:raw.revision,mode:raw.mode,testUserIds:[...raw.testUserIds].sort((a,b)=>a-b),bossCombatPower:raw.bossCombatPower,lobbyMinutes:raw.lobbyMinutes,rewardLocked:true,petEssenceReward,petEssenceEnabled};
+  const masterStarReward=raw.masterStarReward??0,coinReward=raw.coinReward??0;
+  if(!integer(masterStarReward,0,100000000)||!integer(coinReward,0,1000000000000)||(raw.weeklyRewardLimit!==undefined&&raw.weeklyRewardLimit!==LICH_WEEKLY_REWARD_LIMIT))
+    fail('SETTINGS','마별(0~1억)·코인(0~1조)은 정수로 입력하세요. 주간 보상 한도는 3회 고정입니다.',400);
+  return {revision:raw.revision,mode:raw.mode,testUserIds:[...raw.testUserIds].sort((a,b)=>a-b),bossCombatPower:raw.bossCombatPower,lobbyMinutes:raw.lobbyMinutes,rewardLocked:true,petEssenceReward,petEssenceEnabled,masterStarReward,coinReward,weeklyRewardLimit:LICH_WEEKLY_REWARD_LIMIT};
 }
 export async function ensureLichLive(env){
   if(readRuntimeData(env,'lich-live-schema-v1'))return;
@@ -102,38 +105,33 @@ function memberOf(room,user){
   if(!member)fail('NOT_MEMBER','공대 참가자가 아닙니다.',403);
   return member;
 }
-function resultFor(room,user,cfg,{payload=false,since=0}={}){
+async function resultFor(env,room,user,cfg,{payload=false,since=0}={}){
   memberOf(room,user);
   const state=lichView(room,id(user.id),since);
   state.release={mode:room.releaseMode,currentMode:cfg.mode,rewardLocked:true,scope:'LIVE_TEST'};
   state.petEssenceReward=room.petEssenceSettlement?{...room.petEssenceSettlement,granted:room.petEssenceSettlement.status==='GRANTED'&&room.petEssenceSettlement.participantIds.includes(id(user.id))}:null;
+  state.clearReward=lichClearRewardFor(room,user.id);
+  state.weeklyReward=state.clearReward?.weeklyReward||(room.status==='LOBBY'?await lichWeeklyReward(env,user.id):null);
   state.lobbyEndsAt=room.lobbyEndsAt;state.hostName=room.hostName;state.hostId=room.hostId;state.maxMembers=6;
   return {ok:true,state,...(payload?{payload:{...lichBattlePayload(room,id(user.id)),reviewOnly:false}}:{})};
 }
-function prepareEssenceSettlement(row,room){
-  if(row.status!=='ACTIVE'||room.status!=='CLEAR'||room.petEssenceSettlement)return;
-  const policy=room.petEssencePolicy;
-  room.petEssenceSettlement={status:policy?.enabled&&room.releaseMode==='ON'?'GRANTED':'DISABLED',quantity:policy?.quantity||0,participantIds:room.members.map(m=>m.id),settingsRevision:policy?.settingsRevision??null};
-}
-async function commitRoom(env,row,room,extra=[]){
+async function commitRoom(env,row,room,extra=[],rewardPlan){
   const token=crypto.randomUUID(),version=Number(row.version)+1;
-  prepareEssenceSettlement(row,room);
-  const reward=row.status==='ACTIVE'&&room.status==='CLEAR'&&room.petEssenceSettlement?.status==='GRANTED';
-  const payouts=reward?room.petEssenceSettlement.participantIds.flatMap(userId=>[
-    env.DB.prepare('INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,updated_at) VALUES(?,?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP').bind(Number(userId),PET_ESSENCE,room.petEssenceSettlement.quantity,room.petEssenceSettlement.quantity),
-    env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT user_id,item_code,?,quantity,'리치왕 정벌 클리어','LICH_RAID_CLEAR',? FROM cnine_user_inventory WHERE user_id=? AND item_code=?").bind(room.petEssenceSettlement.quantity,room.id,Number(userId),PET_ESSENCE)
-  ]):[];
+  rewardPlan??=await prepareLichClearRewards(env,row,room);
   room.commitToken=token;const raw=JSON.stringify(room);
   // CAS obtains the room row lock before any membership/economy statements.
   // A losing writer rolls its entire batch back rather than consuming a ticket.
-  await env.DB.batch([
+  try{await env.DB.batch([
     env.DB.prepare('UPDATE '+ROOMS+' SET state_json=?,status=?,version=? WHERE room_id=? AND version=?').bind(raw,room.status,version,room.id,Number(row.version)),
     jointGuard(env.DB,token,'EXISTS(SELECT 1 FROM '+ROOMS+' WHERE room_id=? AND version=? AND state_json=?)',[room.id,version,raw]),
-    ...payouts,
+    ...rewardPlan.statements,
     ...extra,
     ...(!['LOBBY','ACTIVE'].includes(room.status)?[env.DB.prepare('DELETE FROM '+ACTIVE+' WHERE room_id=?').bind(room.id)]:[]),
     jointGuardEnd(env.DB,token)
-  ]);
+  ]);}catch(error){
+    if(await lichRewardCounterChanged(env,rewardPlan))fail('WEEKLY_CONFLICT','주간 보상 정산이 갱신 중입니다. 같은 요청으로 다시 시도하세요.');
+    throw error;
+  }
 }
 async function advanceRoom(env,roomId,now){
   for(let retry=0;retry<3;retry++){
@@ -141,7 +139,7 @@ async function advanceRoom(env,roomId,now){
     const before=[room.status,room.eventSeq,room.step].join(':');tick(room,now);
     if(before===[room.status,room.eventSeq,room.step].join(':'))return loaded;
     try{await commitRoom(env,loaded.row,room);return {...loaded,row:{...loaded.row,version:Number(loaded.row.version)+1}};}
-    catch(error){if((await loadRoom(env,roomId)).row.version===loaded.row.version)throw error;}
+    catch(error){if(error.code!=='LICH_WEEKLY_CONFLICT'&&(await loadRoom(env,roomId)).row.version===loaded.row.version)throw error;}
   }
   fail('BUSY','공대 전황이 갱신 중입니다. 다시 확인하세요.',409);
 }
@@ -235,6 +233,7 @@ async function roomCommand(env,user,cfg,kind,body,deps,now,since=0){
             setLichLoadout(room,member.id,await deps.raidDeckPower(env,Number(member.id),undefined,'RAID'),member.name);
           startLichRoom(room,id(user.id),now);
           room.petEssencePolicy={enabled:cfg.mode==='ON'&&room.releaseMode==='ON'&&cfg.petEssenceEnabled,quantity:cfg.petEssenceReward,settingsRevision:cfg.revision};
+          room.clearRewardPolicy=lichClearRewardPolicy(cfg,room.releaseMode);
         }
       }else if(kind==='leave'){
         if(isHost&&['LOBBY','ACTIVE'].includes(room.status)){
@@ -245,15 +244,15 @@ async function roomCommand(env,user,cfg,kind,body,deps,now,since=0){
         actLichRoom(room,id(user.id),{requestId:body.requestId,challengeId:body.challengeId,action:body.action,target:body.target,stepToken:body.stepToken},now);
       }else fail('ROUTE','지원하지 않는 공대 명령입니다.',404);
     }
-    prepareEssenceSettlement(row,room);
-    const result=kind==='leave'?{ok:true,roomId:room.id}:resultFor(room,user,cfg,{payload:kind==='start',since});
+    const rewardPlan=await prepareLichClearRewards(env,row,room);
+    const result=kind==='leave'?{ok:true,roomId:room.id}:await resultFor(env,room,user,cfg,{payload:kind==='start',since});
     result.roomId=room.id;
     // Every request, role change and removal is committed with the same state.
     extra.push(receiptWrite(env,user,kind,prior,room.id,result));
-    try{await commitRoom(env,row,room,extra);return result;}
+    try{await commitRoom(env,row,room,extra,rewardPlan);return result;}
     catch(error){
       const replay=await receipt(env,user,kind,body);if(replay.result)return replay.result;
-      if(Number((await loadRoom(env,room.id)).row.version)===Number(row.version))throw error;
+      if(error.code!=='LICH_WEEKLY_CONFLICT'&&Number((await loadRoom(env,room.id)).row.version)===Number(row.version))throw error;
     }
   }
   fail('BUSY','다른 공대 명령이 처리 중입니다. 같은 요청으로 다시 시도하세요.',409);
@@ -280,12 +279,13 @@ export async function handleLichRaid({path,request,env,deps}){
     requireAccess(user,cfg);
     if(path==='raid/lich/status'&&request.method==='GET'){
       const requested=url.searchParams.get('roomId'),active=requested?await advanceRoom(env,requested,now):await currentRoom(env,user,now);
-      if(active)return json(resultFor(active.room,user,cfg,{payload:url.searchParams.get('payload')==='1',since:Math.max(0,Number(url.searchParams.get('since'))||0)}));
-      const [balance,list]=await Promise.all([
+      if(active)return json(await resultFor(env,active.room,user,cfg,{payload:url.searchParams.get('payload')==='1',since:Math.max(0,Number(url.searchParams.get('since'))||0)}));
+      const [balance,list,weeklyReward]=await Promise.all([
         env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,LICH_TICKET).first(),
-        env.DB.prepare("SELECT room_id,host_name,state_json,created_at,expires_at FROM "+ROOMS+" WHERE status='LOBBY' AND expires_at>? ORDER BY created_at DESC LIMIT 30").bind(now).all()
+        env.DB.prepare("SELECT room_id,host_name,state_json,created_at,expires_at FROM "+ROOMS+" WHERE status='LOBBY' AND expires_at>? ORDER BY created_at DESC LIMIT 30").bind(now).all(),
+        lichWeeklyReward(env,user.id,now)
       ]);
-      return json({ok:true,state:null,feature:lichAccess(user,cfg),entry:{code:LICH_TICKET,name:'리치왕 정벌 입장권',quantity:Math.max(0,Number(balance?.quantity||0)),required:1},
+      return json({ok:true,state:null,weeklyReward,feature:lichAccess(user,cfg),entry:{code:LICH_TICKET,name:'리치왕 정벌 입장권',quantity:Math.max(0,Number(balance?.quantity||0)),required:1},
         rooms:list.results.map(row=>{const room=readJson(row.state_json);return {id:row.room_id,hostName:row.host_name,members:room.members.length,maxMembers:6,roles:Object.keys(ROLES).map(role=>({role,count:room.members.filter(m=>m.role===role).length})),lobbyEndsAt:row.expires_at,joinable:!room.kicked.includes(id(user.id))&&room.members.length<6};}),me:{id:Number(user.id),name:user.nickname}});
     }
     if(request.method!=='POST')return json({error:'지원하지 않는 요청입니다.'},405);
