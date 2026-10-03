@@ -1,5 +1,5 @@
 {
-  "status": "READY_FOR_SCOPED_GATE",
+  "status": "LIVE_VERIFIED",
   "request": "리치왕 주간 클리어 보상 3회로 제한, 마별·코인 CMS 설정 추가",
   "previousDeployment": {
     "source": "7e42c7c89d2065e672c26744c6bee8196e830b0e",
@@ -29,7 +29,27 @@
     "inlineQuota": true,
     "paidAndLimitDialogs": true,
     "overflow": false,
-    "pageErrors": 0
+    "pageErrors": 0,
+    "reports": [
+      {
+        "width": 1440,
+        "cmsSaveReload": true,
+        "inlineQuota": true,
+        "clearRewards": true,
+        "limitMessage": true,
+        "overflow": false,
+        "pageErrors": []
+      },
+      {
+        "width": 390,
+        "cmsSaveReload": true,
+        "inlineQuota": true,
+        "clearRewards": true,
+        "limitMessage": true,
+        "overflow": false,
+        "pageErrors": []
+      }
+    ]
   },
   "scopedTests": [
     "tests/lich-weekly-rewards-20261004.test.mjs",
@@ -39,5 +59,120 @@
   ],
   "checks": [
     "check:worker"
-  ]
+  ],
+  "deployment": {
+    "source": "a8c026bf81066fb7c0ca6a839af4e2815e34d883",
+    "pagesId": "bbf288cc-8781-4551-955e-4316b60ce1d4",
+    "pagesUrl": "https://bbf288cc.cnine-card.pages.dev",
+    "apiRuntimeVersion": "0e23e179-ccda-42f9-8d84-2150a81efbdb",
+    "clanWorkerVersion": "445e7b8a-fa79-4281-a15a-6809adf23331",
+    "method": "npm run deploy:production -- --scoped"
+  },
+  "validation": {
+    "testsPassed": 25,
+    "testsFailed": 0,
+    "workerCompile": true,
+    "releaseGuard": true,
+    "hyperdriveCacheDisabled": true
+  },
+  "production": {
+    "verifiedAt": "2026-10-03T17:59:54.294Z",
+    "files": [
+      {
+        "file": "admin/lich-king-raid-admin-v1.mjs",
+        "status": 200,
+        "sha256": "1d660db0c9c6bce2248f9045ea8ce50ff0fcebaa6131062b374516e25bb04dae"
+      },
+      {
+        "file": "raid/lich-king/index.html",
+        "status": 200,
+        "sha256": "886c93c8487f32bb341da574512246fa23fa8159c902608b53ab5a1a3b0b4f63"
+      },
+      {
+        "file": "raid/lich-king/live.mjs",
+        "status": 200,
+        "sha256": "195fc0f33927d66e23577fcc5463b21bca61b854ef93ee8274a4ab7da0e6b441"
+      },
+      {
+        "file": "raid/lich-king/live.css",
+        "status": 200,
+        "sha256": "e69afb87c89cb926964f35c2583e931fdfedf516c157667066b64e916da7682f"
+      },
+      {
+        "file": "raid/lich-king/inline.css",
+        "status": 200,
+        "sha256": "b0883b51fb087e94ecb5fc1554ea917ae146df73632b22b9744412a6126add35"
+      },
+      {
+        "file": "raid/lich-king/inline.mjs",
+        "status": 200,
+        "sha256": "cd36dbe4bed3209995e597ea0fc625f43d5337a603d8febe0be50bf2144690f4"
+      },
+      {
+        "file": "js/lich-king-raid-entry-v1.js",
+        "status": 200,
+        "sha256": "086594e09076d58851462f45c44f543c29876a460c01c099da61c96e07ee9b2f"
+      },
+      {
+        "file": "index.html",
+        "status": 200,
+        "sha256": "1ce217c982c1c2ad794a1a8acfb60859b763ade5a5fbe4bba2378b8be8901b56"
+      },
+      {
+        "file": "admin/index.html",
+        "status": 200,
+        "sha256": "12ffefae22d49a15c3fca4b89dcf47ab01cbcd5a7264ec2dd98a949dde33c172"
+      },
+      {
+        "file": "service-worker.js",
+        "status": 200,
+        "sha256": "533a233b65fad6c2c6c5abe9a973361e759749da9a107b0e2306f382b68a04a1"
+      }
+    ],
+    "serviceStatus": 200,
+    "unauthenticatedCmsStatus": 401
+  },
+  "operatingSettings": {
+    "settings": {
+      "revision": 6,
+      "mode": "ON",
+      "petEssenceEnabled": true,
+      "petEssenceReward": 5,
+      "masterStarReward": 0,
+      "coinReward": 0
+    },
+    "inventory": [
+      {
+        "code": "MASTER_STAR",
+        "is_active": 1
+      },
+      {
+        "code": "PET_ESSENCE",
+        "is_active": 1
+      }
+    ],
+    "clears": [
+      {
+        "status": "CANCELLED",
+        "n": 7
+      },
+      {
+        "status": "CLEAR",
+        "n": 14
+      },
+      {
+        "status": "FAILED",
+        "n": 66
+      }
+    ],
+    "weeklyExample": {
+      "weekKey": "2026-09-28",
+      "startsAt": "2026-09-27T15:00:00.000Z",
+      "resetsAt": "2026-10-04T15:00:00.000Z",
+      "limit": 3,
+      "used": 4,
+      "remaining": 0
+    },
+    "note": "Read-only verification: existing four-paid-clear account correctly has zero remaining; no balances or settings were changed for QA."
+  }
 }
