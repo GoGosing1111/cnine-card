@@ -1,0 +1,96 @@
+{
+  "authorization": "SSS 오메가 지급해 — 직전 2026-10-03 23:43 KST 조회의 11명 각 1장",
+  "snapshotAt": "2026-10-03T14:43:01.040Z",
+  "thresholdCoinInclusive": "5000000000000",
+  "revocationReceipt": "sss-rate-revision27-revoke-20260930-v1",
+  "targets": [
+    {
+      "id": 118,
+      "nickname": "mse56",
+      "role": "USER",
+      "spentCoin": "13672000000000",
+      "openingCount": "27344",
+      "revokedSssAcquisitions": 1
+    },
+    {
+      "id": 261,
+      "nickname": "둘리소다",
+      "role": "USER",
+      "spentCoin": "9805000000000",
+      "openingCount": "19610",
+      "revokedSssAcquisitions": 1
+    },
+    {
+      "id": 4691,
+      "nickname": "짝밤",
+      "role": "USER",
+      "spentCoin": "8287000000000",
+      "openingCount": "16574",
+      "revokedSssAcquisitions": 0
+    },
+    {
+      "id": 359,
+      "nickname": "갓삼족삼",
+      "role": "USER",
+      "spentCoin": "7521000000000",
+      "openingCount": "15042",
+      "revokedSssAcquisitions": 0
+    },
+    {
+      "id": 4389,
+      "nickname": "다르",
+      "role": "USER",
+      "spentCoin": "7517000000000",
+      "openingCount": "15034",
+      "revokedSssAcquisitions": 0
+    },
+    {
+      "id": 2300,
+      "nickname": "싸우지마애들아",
+      "role": "USER",
+      "spentCoin": "7225500000000",
+      "openingCount": "14451",
+      "revokedSssAcquisitions": 0
+    },
+    {
+      "id": 1843,
+      "nickname": "흐린눈깔",
+      "role": "USER",
+      "spentCoin": "6542500000000",
+      "openingCount": "13085",
+      "revokedSssAcquisitions": 0
+    },
+    {
+      "id": 1944,
+      "nickname": "족메시",
+      "role": "USER",
+      "spentCoin": "6435000000000",
+      "openingCount": "12870",
+      "revokedSssAcquisitions": 0
+    },
+    {
+      "id": 2545,
+      "nickname": "연",
+      "role": "USER",
+      "spentCoin": "6377000000000",
+      "openingCount": "12754",
+      "revokedSssAcquisitions": 0
+    },
+    {
+      "id": 4870,
+      "nickname": "[C9]진",
+      "role": "USER",
+      "spentCoin": "5877500000000",
+      "openingCount": "11755",
+      "revokedSssAcquisitions": 0
+    },
+    {
+      "id": 4400,
+      "nickname": "키위🥝",
+      "role": "USER",
+      "spentCoin": "5857000000000",
+      "openingCount": "11714",
+      "revokedSssAcquisitions": 0
+    }
+  ]
+}

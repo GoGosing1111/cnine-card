@@ -1,0 +1,340 @@
+{
+  "status": "COMPLETED",
+  "authorization": "SSS 오메가 지급해",
+  "cohortSnapshotAt": "2026-10-03T14:43:01.040Z",
+  "targetFile": "scripts/ops/hyper-five-trillion-omega-20261003-targets.json",
+  "operationPrefix": "ops:hyper-five-trillion-omega:20261003:v1",
+  "eligibility": "직전 조회의 고정 11명. 완료 하이퍼팩 누적 5조 이상, 현행 SSS 보유와 회수 영수증으로 확인된 건을 제외한 유효 획득 0건, 미수령 오메가 0건을 사용자 행 잠금 안에서 재확인.",
+  "revocationReceipt": "sss-rate-revision27-revoke-20260930-v1",
+  "revokedOnlyHistoryUsers": [
+    {
+      "userId": 118,
+      "nickname": "mse56"
+    },
+    {
+      "userId": 261,
+      "nickname": "둘리소다"
+    }
+  ],
+  "mercenaryCode": "V-021",
+  "mercenaryName": "오메가-X",
+  "rank": "SSS",
+  "granted": 11,
+  "quantityEach": 1,
+  "permanent": true,
+  "delivery": "DIRECT_ACCOUNT_OWNERSHIP",
+  "cohortCount": 11,
+  "batches": [
+    {
+      "status": "COMPLETED",
+      "operationKey": "ops:hyper-five-trillion-omega:20261003:v1:batch1",
+      "batch": 1,
+      "cmsRevision": 60,
+      "mercenaryCode": "V-021",
+      "mercenaryName": "오메가-X",
+      "rank": "SSS",
+      "quantityEach": 1,
+      "permanent": true,
+      "recipients": [
+        {
+          "userId": 118,
+          "nickname": "mse56",
+          "spentCoin": "13672000000000",
+          "mercenaryCode": "V-021",
+          "mercenaryName": "오메가-X",
+          "rank": "SSS",
+          "quantity": 1,
+          "permanent": true,
+          "beforeCopies": 0,
+          "totalCopies": 1,
+          "duplicateCount": 0,
+          "acquisitionId": "ops:hyper-five-trillion-omega:20261003:v1:118",
+          "adminLogId": "40475"
+        },
+        {
+          "userId": 261,
+          "nickname": "둘리소다",
+          "spentCoin": "9805000000000",
+          "mercenaryCode": "V-021",
+          "mercenaryName": "오메가-X",
+          "rank": "SSS",
+          "quantity": 1,
+          "permanent": true,
+          "beforeCopies": 0,
+          "totalCopies": 1,
+          "duplicateCount": 0,
+          "acquisitionId": "ops:hyper-five-trillion-omega:20261003:v1:261",
+          "adminLogId": "40476"
+        },
+        {
+          "userId": 4691,
+          "nickname": "짝밤",
+          "spentCoin": "8287000000000",
+          "mercenaryCode": "V-021",
+          "mercenaryName": "오메가-X",
+          "rank": "SSS",
+          "quantity": 1,
+          "permanent": true,
+          "beforeCopies": 0,
+          "totalCopies": 1,
+          "duplicateCount": 0,
+          "acquisitionId": "ops:hyper-five-trillion-omega:20261003:v1:4691",
+          "adminLogId": "40477"
+        },
+        {
+          "userId": 359,
+          "nickname": "갓삼족삼",
+          "spentCoin": "7521000000000",
+          "mercenaryCode": "V-021",
+          "mercenaryName": "오메가-X",
+          "rank": "SSS",
+          "quantity": 1,
+          "permanent": true,
+          "beforeCopies": 0,
+          "totalCopies": 1,
+          "duplicateCount": 0,
+          "acquisitionId": "ops:hyper-five-trillion-omega:20261003:v1:359",
+          "adminLogId": "40478"
+        }
+      ],
+      "skipped": [],
+      "completedAt": "2026-10-03T14:52:26.367Z",
+      "replayed": false,
+      "dryRun": false
+    },
+    {
+      "status": "COMPLETED",
+      "operationKey": "ops:hyper-five-trillion-omega:20261003:v1:batch2",
+      "batch": 2,
+      "cmsRevision": 60,
+      "mercenaryCode": "V-021",
+      "mercenaryName": "오메가-X",
+      "rank": "SSS",
+      "quantityEach": 1,
+      "permanent": true,
+      "recipients": [
+        {
+          "userId": 4389,
+          "nickname": "다르",
+          "spentCoin": "7517000000000",
+          "mercenaryCode": "V-021",
+          "mercenaryName": "오메가-X",
+          "rank": "SSS",
+          "quantity": 1,
+          "permanent": true,
+          "beforeCopies": 0,
+          "totalCopies": 1,
+          "duplicateCount": 0,
+          "acquisitionId": "ops:hyper-five-trillion-omega:20261003:v1:4389",
+          "adminLogId": "40479"
+        },
+        {
+          "userId": 2300,
+          "nickname": "싸우지마애들아",
+          "spentCoin": "7230500000000",
+          "mercenaryCode": "V-021",
+          "mercenaryName": "오메가-X",
+          "rank": "SSS",
+          "quantity": 1,
+          "permanent": true,
+          "beforeCopies": 0,
+          "totalCopies": 1,
+          "duplicateCount": 0,
+          "acquisitionId": "ops:hyper-five-trillion-omega:20261003:v1:2300",
+          "adminLogId": "40480"
+        },
+        {
+          "userId": 1843,
+          "nickname": "흐린눈깔",
+          "spentCoin": "6542500000000",
+          "mercenaryCode": "V-021",
+          "mercenaryName": "오메가-X",
+          "rank": "SSS",
+          "quantity": 1,
+          "permanent": true,
+          "beforeCopies": 0,
+          "totalCopies": 1,
+          "duplicateCount": 0,
+          "acquisitionId": "ops:hyper-five-trillion-omega:20261003:v1:1843",
+          "adminLogId": "40481"
+        },
+        {
+          "userId": 1944,
+          "nickname": "족메시",
+          "spentCoin": "6435000000000",
+          "mercenaryCode": "V-021",
+          "mercenaryName": "오메가-X",
+          "rank": "SSS",
+          "quantity": 1,
+          "permanent": true,
+          "beforeCopies": 0,
+          "totalCopies": 1,
+          "duplicateCount": 0,
+          "acquisitionId": "ops:hyper-five-trillion-omega:20261003:v1:1944",
+          "adminLogId": "40482"
+        }
+      ],
+      "skipped": [],
+      "completedAt": "2026-10-03T14:52:31.883Z",
+      "replayed": false,
+      "dryRun": false
+    },
+    {
+      "status": "COMPLETED",
+      "operationKey": "ops:hyper-five-trillion-omega:20261003:v1:batch3",
+      "batch": 3,
+      "cmsRevision": 60,
+      "mercenaryCode": "V-021",
+      "mercenaryName": "오메가-X",
+      "rank": "SSS",
+      "quantityEach": 1,
+      "permanent": true,
+      "recipients": [
+        {
+          "userId": 2545,
+          "nickname": "연",
+          "spentCoin": "6377000000000",
+          "mercenaryCode": "V-021",
+          "mercenaryName": "오메가-X",
+          "rank": "SSS",
+          "quantity": 1,
+          "permanent": true,
+          "beforeCopies": 0,
+          "totalCopies": 1,
+          "duplicateCount": 0,
+          "acquisitionId": "ops:hyper-five-trillion-omega:20261003:v1:2545",
+          "adminLogId": "40483"
+        },
+        {
+          "userId": 4870,
+          "nickname": "[C9]진",
+          "spentCoin": "5877500000000",
+          "mercenaryCode": "V-021",
+          "mercenaryName": "오메가-X",
+          "rank": "SSS",
+          "quantity": 1,
+          "permanent": true,
+          "beforeCopies": 0,
+          "totalCopies": 1,
+          "duplicateCount": 0,
+          "acquisitionId": "ops:hyper-five-trillion-omega:20261003:v1:4870",
+          "adminLogId": "40484"
+        },
+        {
+          "userId": 4400,
+          "nickname": "키위🥝",
+          "spentCoin": "5857000000000",
+          "mercenaryCode": "V-021",
+          "mercenaryName": "오메가-X",
+          "rank": "SSS",
+          "quantity": 1,
+          "permanent": true,
+          "beforeCopies": 0,
+          "totalCopies": 1,
+          "duplicateCount": 0,
+          "acquisitionId": "ops:hyper-five-trillion-omega:20261003:v1:4400",
+          "adminLogId": "40485"
+        }
+      ],
+      "skipped": [],
+      "completedAt": "2026-10-03T14:52:37.449Z",
+      "replayed": false,
+      "dryRun": false
+    }
+  ],
+  "verification": {
+    "verifiedAt": "2026-10-03T14:52:47.959Z",
+    "freshConnection": true,
+    "granted": 11,
+    "skipped": [],
+    "holdings": [
+      {
+        "user_id": "118",
+        "mercenary_code": "V-021",
+        "total_copies": 1,
+        "duplicate_count": 0
+      },
+      {
+        "user_id": "1843",
+        "mercenary_code": "V-021",
+        "total_copies": 1,
+        "duplicate_count": 0
+      },
+      {
+        "user_id": "1944",
+        "mercenary_code": "V-021",
+        "total_copies": 1,
+        "duplicate_count": 0
+      },
+      {
+        "user_id": "2300",
+        "mercenary_code": "V-021",
+        "total_copies": 1,
+        "duplicate_count": 0
+      },
+      {
+        "user_id": "2545",
+        "mercenary_code": "V-021",
+        "total_copies": 1,
+        "duplicate_count": 0
+      },
+      {
+        "user_id": "261",
+        "mercenary_code": "V-021",
+        "total_copies": 1,
+        "duplicate_count": 0
+      },
+      {
+        "user_id": "359",
+        "mercenary_code": "V-021",
+        "total_copies": 1,
+        "duplicate_count": 0
+      },
+      {
+        "user_id": "4389",
+        "mercenary_code": "V-021",
+        "total_copies": 1,
+        "duplicate_count": 0
+      },
+      {
+        "user_id": "4400",
+        "mercenary_code": "V-021",
+        "total_copies": 1,
+        "duplicate_count": 0
+      },
+      {
+        "user_id": "4691",
+        "mercenary_code": "V-021",
+        "total_copies": 1,
+        "duplicate_count": 0
+      },
+      {
+        "user_id": "4870",
+        "mercenary_code": "V-021",
+        "total_copies": 1,
+        "duplicate_count": 0
+      }
+    ]
+  },
+  "retryNoDuplicateVerified": true,
+  "checks": {
+    "focusedTestsPassed": 3,
+    "partialAuditFailureRolledBack": true,
+    "dryRunRolledBackInLocalDatabase": true,
+    "liveReplayDidNotDuplicate": true,
+    "independentLiveReadVerified": true,
+    "acquisitionAndAuditRecords": 11
+  },
+  "preserved": [
+    "balances",
+    "loadouts",
+    "growth",
+    "otherMercenaries",
+    "originalAcquisitionAndRevocationHistory",
+    "drawPolicy",
+    "cms"
+  ],
+  "gameRuntimeChanged": false,
+  "schemaChanged": false,
+  "productionRedeployRequired": false
+}
