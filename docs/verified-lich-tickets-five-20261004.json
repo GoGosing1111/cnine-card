@@ -1,0 +1,38 @@
+{
+  "status": "VERIFIED",
+  "operationKey": "ops:verified-lich-tickets-five:20261004:v1",
+  "delivery": "DIRECT",
+  "recipientCount": 526,
+  "roles": {
+    "OWNER": 2,
+    "USER": 521,
+    "ADMIN": 3
+  },
+  "itemCode": "LICH_KING_ENTRY_TICKET",
+  "itemName": "리치왕 정벌 입장권",
+  "amountEach": 5,
+  "totalItems": 2630,
+  "inventoryLogs": 526,
+  "duplicates": 0,
+  "auditId": "40608",
+  "completedAt": "2026-10-03T20:33:01.393Z",
+  "sourceCommit": "39d211df30db152c6c34c2cac58cb325f30092e4",
+  "recipientHash": "d8c2b26323cc150b5e3c7e4df60fb1a0ae93c134c92f9a8643dca0875643077e",
+  "excludedInactive": [
+    {
+      "status": "BANNED",
+      "count": 2
+    }
+  ],
+  "receiptHash": "1805494c955335db2add5782b0a8dad8258a0420a0124ad29a8d40971684f0df",
+  "tests": {
+    "passed": 4,
+    "failed": 0
+  },
+  "replay": {
+    "replayed": true,
+    "auditId": "40608",
+    "additionalGrant": false
+  },
+  "verifiedAt": "2026-10-03T20:33:55.022Z"
+}
