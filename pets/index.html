@@ -3,6 +3,7 @@
 import {mountPetEquipment,petUiIcon} from '/js/pet-equipment-window-v1.mjs?v=20261003-pet-buffs1';
 const review=new URLSearchParams(location.search).get('review')==='1',back=document.getElementById('pet-back');
 back.href=review?'/admin/':'/';back.innerHTML=petUiIcon('arrow')+'<span>'+(review?'펫 CMS':'숲켓몬')+'</span>';
+const opening=document.createElement('a');opening.href='/pets/opening/'+(review?'?review=1':'');opening.textContent='펫 봉인구 개봉 ↗';document.querySelector('.pet-page-nav').append(opening);
 mountPetEquipment(document.getElementById('pet-equipment'),{review});
 // Public equipment pages reuse the existing game navigation. OWNER review
 // remains in the CMS context and does not mount player menu controls.

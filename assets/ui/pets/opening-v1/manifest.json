@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "createdAt": "2026-10-03",
+  "status": "IMPLEMENTED_USER_VISUAL_REVIEW_AVAILABLE",
+  "assets": [
+    {
+      "path": "assets/items/pet-opening-v1/pet-seal-orb-source.png",
+      "sha256": "2b117f98cc9ba28a700f3aff763a7aaf0c8e97ce03f1eddc52995bdee0bafee3",
+      "width": 1254,
+      "height": 1254,
+      "alpha": true,
+      "bytes": 1909714
+    },
+    {
+      "path": "assets/items/pet-opening-v1/pet-seal-orb.webp",
+      "sha256": "36943fd15c1fc232b7d4cab553125f135fe1ce3572d1cac81634170bfdbd7dc1",
+      "width": 768,
+      "height": 768,
+      "alpha": true,
+      "bytes": 165708
+    },
+    {
+      "path": "assets/items/pet-opening-v1/pet-essence-source.png",
+      "sha256": "2673658cfcf7614dd0f0616fe0286a78d77ca66a5d74502d8072f9f1e830fda1",
+      "width": 1254,
+      "height": 1254,
+      "alpha": true,
+      "bytes": 1725521
+    },
+    {
+      "path": "assets/items/pet-opening-v1/pet-essence.webp",
+      "sha256": "824d8129974a9a9a98a08af206090a065628941f23a59ffa758c2bfbf43ee8be",
+      "width": 384,
+      "height": 384,
+      "alpha": true,
+      "bytes": 64536
+    },
+    {
+      "path": "assets/ui/pets/opening-v1/sanctum-source.png",
+      "sha256": "a593ac1d35bd5c15282aa3ccadf725c2b4eb973b5d0539d64f859ef5de715485",
+      "width": 1672,
+      "height": 941,
+      "alpha": false,
+      "bytes": 2492671
+    },
+    {
+      "path": "assets/ui/pets/opening-v1/sanctum.webp",
+      "sha256": "62c39aeb21db18d693df854429bc24ce3360e6b8f9ee20f0c951e0dae500d465",
+      "width": 1672,
+      "height": 941,
+      "alpha": false,
+      "bytes": 355184
+    }
+  ]
+}

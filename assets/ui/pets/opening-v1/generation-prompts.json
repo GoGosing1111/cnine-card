@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-10-03",
+  "tool": "image_gen",
+  "prompts": [
+    {
+      "key": "seal",
+      "transparent_background": true,
+      "prompt": "Use case: stylized-concept. Asset type: premium Korean fantasy RPG inventory item and opening-stage hero, actual transparent cutout, square composition. Primary request: design a collectible 'pet seal orb' containing a sleeping companion's life energy, an exquisite sealed spherical reliquary. One large sphere centered, full intact silhouette and clear margins. Dark polished obsidian glass core surrounded by three elegant connected antiqued platinum and restrained brushed gold curved ribs, precise clasps, a small elegant circular paw sigil as the main seal, suspended green-gold wisps inside the sphere suggesting nascent life WITHOUT drawing an animal or face. Premium 2D hand-painted game splash asset, painterly meticulous material, clean decisive readable silhouette, premium layered craftsmanship, refined shallow engraved details. Jewel mint/lime inner light, thin warm gold rim light, blue gray metal shadow, luminous core limited and legible, restrained particles close to sphere. Distinct from a pokeball, no red/white division, no cartoon toy, no sci-fi plastic, no text, no letters, no card frame, no UI, no watermark. Transparent background with real alpha, no opaque plate, no floor, no broad fog covering empty margins. Desired resolution 1536 square or higher. Show the artifact in an elegant three-quarter perspective; every metallic rib must be physically connected. Stunning final production quality, not a mockup."
+    },
+    {
+      "key": "essence",
+      "transparent_background": true,
+      "prompt": "Use case: stylized-concept. Asset type: premium Korean fantasy RPG inventory material, actual transparent cutout, square composition. Primary request: design 'pet essence', one luminous faceted life crystal levitating inside an exquisite small open silver-gold circular arc cradle, the crystal has a soft mint/lime living light and a very subtle circular paw-like energy imprint inside. A material earned from defeating a frost lich king, so retain delicate blue-white frost on the lower metal cradle, warm life light breaking through the cold. The collectible looks precious, refined and unmistakably a consumable essence, distinct from the larger spherical pet seal orb. Premium hand-painted 2D fantasy game item icon, highly readable at 64px yet wonderfully detailed at full size, clean large silhouette, balanced elegant craftsmanship and restrained engraved metal, no excessive chains. Center one item, whole silhouette, 15 percent margins, three-quarter view, lucid faceting, painterly specular, restrained particles close to object. Actual transparent background, no opaque plate, no floor, no text, no letters, no card frame, no UI, no animal figure, no watermark. Desired 1536 square or higher. Finished AAA collectible asset."
+    },
+    {
+      "key": "sanctum",
+      "transparent_background": false,
+      "prompt": "Use case: stylized-concept. Asset type: premium Korean fantasy RPG pet-seal opening chamber background, landscape 16:9, minimum 1536x1024. Create a beautifully painted ancient vaulted sanctum of silent silver-gray stone, dark navy shadow, aged gold inlaid circular ritual platform in lower middle, fine frost at the outer edges, three concentric delicate circular rings of life-magic suspended over the platform. A warm mint-green golden luminous seam is awakening in the center, restrained atmospheric volumetric rays and tiny particles. This is a high-end game illustration backdrop for an actual playable pet-opening interface, not a UI screenshot. Strong spatial depth and exquisite material, solemn mystery and gentle anticipation, uncluttered central space for a separately composited spherical reliquary, quieter dark right third for readable controls. Architectural mass at sides, evocative hand-painted polish, no people, no animals, no visible reliquary (it will be composited separately), no text, no letters, no UI panels, no buttons, no watermark. Keep highlights disciplined so foreground collectible dominates. Finished production illustration, cinematic but not a 3D-render photoreal photo."
+    }
+  ],
+  "note": "PNG originals preserved. WebP derivatives for runtime display only."
+}

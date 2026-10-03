@@ -46,6 +46,7 @@ import {handleMercenaryCms} from '../_mercenary_cms.js';
 import {handleIconCms} from '../_icon_cms.js';
 import {handlePetCompanionCms} from '../_pet_companion_cms.js';
 import {handlePetEquipment} from '../_pet_equipment.js';
+import {handlePetOpening,ensurePetOpeningItems,openPetSeal} from '../_pet_opening.js';
 import {handleIconFusion} from '../_icon_fusion.js';
 import {handleMercenaryCodex} from '../_mercenary_codex.js';
 import {handleMercenaryAccount,mercenaryUsesInnerLock} from '../_mercenary_account_routes.js';
@@ -5057,6 +5058,7 @@ async function handleRequest(context){
     const iconCmsResponse=await handleIconCms({path,request,env,deps:{requirePermission,json}});if(iconCmsResponse)return iconCmsResponse;
     const petCompanionCmsResponse=await handlePetCompanionCms({path,request,env,deps:{requirePermission,json}});if(petCompanionCmsResponse)return petCompanionCmsResponse;
     const petEquipmentResponse=await handlePetEquipment({path,request,env,deps:{authenticate,requirePermission,json}});if(petEquipmentResponse)return petEquipmentResponse;
+    const petOpeningResponse=await handlePetOpening({path,request,env,deps:{authenticate,requirePermission,json,withUserMutationLock:withJointUserMutationLock}});if(petOpeningResponse)return petOpeningResponse;
     const iconFusionResponse=await handleIconFusion({path,request,env,deps:{requirePermission,json,authenticate,withUserMutationLock:withJointUserMutationLock}});if(iconFusionResponse)return iconFusionResponse;
     const avatarResponse=await handleAvatar({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(avatarResponse)return avatarResponse;
     const equipmentResponse=await handleEquipment({path,request,env,deps:{authenticate,readBody,json,writeAdminLog}});if(equipmentResponse)return equipmentResponse;
@@ -5184,6 +5186,7 @@ async function handleRequest(context){
     }
     if(path==='inventory'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      await ensurePetOpeningItems(env);
       await ensureTournamentGiftCatalog(env);
       await ensureFundingGiftCatalog(env);
       await ensureRecruitmentGiftCatalog(env);
@@ -5215,6 +5218,9 @@ async function handleRequest(context){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       const body=await readBody(request),itemCode=String(body.itemCode||'').trim().toUpperCase(),requestId=String(body.requestId||crypto.randomUUID()).trim().slice(0,100),rawOpenCount=body.count===undefined?1:Number(body.count),openCount=Number.isInteger(rawOpenCount)?rawOpenCount:0;
       // inventory/use already holds the request-level user lock. A second lock rejects the same request.
+      if(itemCode==='PET_SEAL_ORB'){
+        try{return json(await openPetSeal(env,user,{requestId:body.requestId,count:body.count,expectedRevision:body.expectedRevision}));}catch(error){return json({code:error.code||'PET_OPEN_RETRYABLE',error:error.status?error.message:'개봉 결과를 확인하지 못했습니다. 같은 요청으로 다시 확인하세요.',retryable:!error.status||error.status>=500},error.status||503);}
+      }
       if(itemCode==='MIRACLE_CUBE'){
         try{return json(await openMiracleCube(env,user,{requestId:body.requestId,count:openCount}));}catch(error){return json({code:error.code||'MIRACLE_FAILED',error:error.status?error.message:'개봉 결과를 확인하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||503);}
       }
@@ -8101,6 +8107,7 @@ async function handleRequest(context){
         if(BATTLE_SUIT_CORE_CODES.includes(itemCode))await ensureBattleSuitCoreCatalog(env);
         if(itemCode===EMPEROR_ENERGY_ITEM.code)await ensureEmperorEnergyCatalog(env);
         if(itemCode===LICH_TICKET)await ensureLichLive(env);
+        if(['PET_SEAL_ORB','PET_ESSENCE'].includes(itemCode))await ensurePetOpeningItems(env);
         if(itemCode==='CORE_RAID_ENTRY_TICKET'){
           await env.DB.prepare(`INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active)
             VALUES('CORE_RAID_ENTRY_TICKET','붕괴 코어 입장권','CORE PROTOCOL ENTRY','붕괴 코어 공대를 생성할 때 1장이 소모됩니다. 참가자는 입장권을 소모하지 않습니다.','ENTRY_TICKET','ZENITH','assets/items/core-raid-entry-ticket-v1.png',126,1)

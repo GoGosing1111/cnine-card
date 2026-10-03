@@ -3,6 +3,8 @@ import {readJointBody,jointError} from './_joint_request.js';
 import {jointGuard,jointGuardEnd,ensureJointAtomicSchema} from './_joint_atomic.js';
 import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
 import {reconcileCoopDuties} from './_raid_lich_coop.js';
+import {ensurePetOpeningItems} from './_pet_opening.js';
+import {PET_ESSENCE} from '../shared/pet-opening-v1.mjs';
 
 export const LICH_TICKET='LICH_KING_ENTRY_TICKET';
 export const LICH_SETTINGS='raid_lich_settings_v1';
@@ -12,7 +14,7 @@ const owner=user=>user?.role==='OWNER';
 const id=value=>String(value??'');
 const integer=(n,min,max)=>Number.isSafeInteger(n)&&n>=min&&n<=max;
 const readJson=value=>JSON.parse(value);
-export const defaultLichSettings=()=>({revision:0,mode:'TEST',testUserIds:[],bossCombatPower:320000,lobbyMinutes:15,rewardLocked:true});
+export const defaultLichSettings=()=>({revision:0,mode:'TEST',testUserIds:[],bossCombatPower:320000,lobbyMinutes:15,rewardLocked:true,petEssenceReward:5,petEssenceEnabled:true});
 export function lichAccess(user,settings){
   const accessible=Boolean(user)&&(settings.mode==='ON'||settings.mode==='TEST'&&(owner(user)||settings.testUserIds.includes(Number(user.id))));
   return {mode:settings.mode,accessible,visible:accessible,owner:owner(user),rewardLocked:true};
@@ -22,7 +24,9 @@ export function validateLichSettings(raw){
     !Array.isArray(raw.testUserIds)||raw.testUserIds.length>100||new Set(raw.testUserIds).size!==raw.testUserIds.length||
     !raw.testUserIds.every(n=>integer(n,1,Number.MAX_SAFE_INTEGER))||!integer(raw.bossCombatPower,1000,2000000000)||!integer(raw.lobbyMinutes,1,60))
     fail('SETTINGS','공개 모드, 테스트 계정(최대 100명), 고정 전투력, 모집 시간을 확인하세요.',400);
-  return {revision:raw.revision,mode:raw.mode,testUserIds:[...raw.testUserIds].sort((a,b)=>a-b),bossCombatPower:raw.bossCombatPower,lobbyMinutes:raw.lobbyMinutes,rewardLocked:true};
+  const petEssenceReward=raw.petEssenceReward??5,petEssenceEnabled=raw.petEssenceEnabled??true;
+  if(!integer(petEssenceReward,1,1000000)||typeof petEssenceEnabled!=='boolean')fail('SETTINGS','펫 정수 지급 수량(1~1,000,000)과 지급 상태를 확인하세요.',400);
+  return {revision:raw.revision,mode:raw.mode,testUserIds:[...raw.testUserIds].sort((a,b)=>a-b),bossCombatPower:raw.bossCombatPower,lobbyMinutes:raw.lobbyMinutes,rewardLocked:true,petEssenceReward,petEssenceEnabled};
 }
 export async function ensureLichLive(env){
   if(readRuntimeData(env,'lich-live-schema-v1'))return;
@@ -36,6 +40,7 @@ export async function ensureLichLive(env){
   if(typeof env.DB.execSchema==='function')await env.DB.execSchema(sql);
   else await env.DB.batch(sql.map(q=>env.DB.prepare(q)));
   await ensureJointAtomicSchema(env);
+  await ensurePetOpeningItems(env);
   await env.DB.prepare("INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES(?,?,?,?,?,?,?,?,1) ON CONFLICT(code) DO NOTHING")
     .bind(LICH_TICKET,'리치왕 정벌 입장권','FROZEN THRONE ENTRY','공대장이 공대를 만들 때 1장 소모. 참가자는 추가 차감 없이 입장하며 공대장이 역할을 배분합니다.','ENTRY_TICKET','ZENITH','assets/items/lich-king-entry-ticket-v1.svg',127).run();
   cacheRuntimeData(env,'lich-live-schema-v1',true,1800000);
@@ -101,17 +106,30 @@ function resultFor(room,user,cfg,{payload=false,since=0}={}){
   memberOf(room,user);
   const state=lichView(room,id(user.id),since);
   state.release={mode:room.releaseMode,currentMode:cfg.mode,rewardLocked:true,scope:'LIVE_TEST'};
+  state.petEssenceReward=room.petEssenceSettlement?{...room.petEssenceSettlement,granted:room.petEssenceSettlement.status==='GRANTED'&&room.petEssenceSettlement.participantIds.includes(id(user.id))}:null;
   state.lobbyEndsAt=room.lobbyEndsAt;state.hostName=room.hostName;state.hostId=room.hostId;state.maxMembers=6;
   return {ok:true,state,...(payload?{payload:{...lichBattlePayload(room,id(user.id)),reviewOnly:false}}:{})};
 }
+function prepareEssenceSettlement(row,room){
+  if(row.status!=='ACTIVE'||room.status!=='CLEAR'||room.petEssenceSettlement)return;
+  const policy=room.petEssencePolicy;
+  room.petEssenceSettlement={status:policy?.enabled&&room.releaseMode==='ON'?'GRANTED':'DISABLED',quantity:policy?.quantity||0,participantIds:room.members.map(m=>m.id),settingsRevision:policy?.settingsRevision??null};
+}
 async function commitRoom(env,row,room,extra=[]){
   const token=crypto.randomUUID(),version=Number(row.version)+1;
+  prepareEssenceSettlement(row,room);
+  const reward=row.status==='ACTIVE'&&room.status==='CLEAR'&&room.petEssenceSettlement?.status==='GRANTED';
+  const payouts=reward?room.petEssenceSettlement.participantIds.flatMap(userId=>[
+    env.DB.prepare('INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,updated_at) VALUES(?,?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP').bind(Number(userId),PET_ESSENCE,room.petEssenceSettlement.quantity,room.petEssenceSettlement.quantity),
+    env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT user_id,item_code,?,quantity,'리치왕 정벌 클리어','LICH_RAID_CLEAR',? FROM cnine_user_inventory WHERE user_id=? AND item_code=?").bind(room.petEssenceSettlement.quantity,room.id,Number(userId),PET_ESSENCE)
+  ]):[];
   room.commitToken=token;const raw=JSON.stringify(room);
   // CAS obtains the room row lock before any membership/economy statements.
   // A losing writer rolls its entire batch back rather than consuming a ticket.
   await env.DB.batch([
     env.DB.prepare('UPDATE '+ROOMS+' SET state_json=?,status=?,version=? WHERE room_id=? AND version=?').bind(raw,room.status,version,room.id,Number(row.version)),
     jointGuard(env.DB,token,'EXISTS(SELECT 1 FROM '+ROOMS+' WHERE room_id=? AND version=? AND state_json=?)',[room.id,version,raw]),
+    ...payouts,
     ...extra,
     ...(!['LOBBY','ACTIVE'].includes(room.status)?[env.DB.prepare('DELETE FROM '+ACTIVE+' WHERE room_id=?').bind(room.id)]:[]),
     jointGuardEnd(env.DB,token)
@@ -216,6 +234,7 @@ async function roomCommand(env,user,cfg,kind,body,deps,now,since=0){
           for(const member of room.members)if(!room.loadouts?.[member.id])
             setLichLoadout(room,member.id,await deps.raidDeckPower(env,Number(member.id),undefined,'RAID'),member.name);
           startLichRoom(room,id(user.id),now);
+          room.petEssencePolicy={enabled:cfg.mode==='ON'&&room.releaseMode==='ON'&&cfg.petEssenceEnabled,quantity:cfg.petEssenceReward,settingsRevision:cfg.revision};
         }
       }else if(kind==='leave'){
         if(isHost&&['LOBBY','ACTIVE'].includes(room.status)){
@@ -226,6 +245,7 @@ async function roomCommand(env,user,cfg,kind,body,deps,now,since=0){
         actLichRoom(room,id(user.id),{requestId:body.requestId,challengeId:body.challengeId,action:body.action,target:body.target,stepToken:body.stepToken},now);
       }else fail('ROUTE','지원하지 않는 공대 명령입니다.',404);
     }
+    prepareEssenceSettlement(row,room);
     const result=kind==='leave'?{ok:true,roomId:room.id}:resultFor(room,user,cfg,{payload:kind==='start',since});
     result.roomId=room.id;
     // Every request, role change and removal is committed with the same state.

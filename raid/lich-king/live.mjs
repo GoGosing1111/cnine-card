@@ -129,7 +129,8 @@ function showResult(){
   if($('partyDialog').open)$('partyDialog').close();
   const clear=state.status==='CLEAR';$('resultDialog').classList.toggle('is-clear',clear);$('resultCaption').textContent=clear?'CONQUEST COMPLETE':'EXPEDITION ENDED';
   $('resultTitle').textContent=clear?'리치왕 정벌 성공':state.status==='CANCELLED'?'공대 해산':'공대 전멸';
-  $('resultReason').textContent=clear?'죽음의 왕좌가 무너졌습니다. 현재 클리어 보상은 지급되지 않습니다.':state.failure?.reason||'공략에 실패했습니다.';
+  const essence=state.petEssenceReward;
+  $('resultReason').textContent=clear?(essence?.granted?'죽음의 왕좌가 무너졌습니다. 펫 정수 '+essence.quantity+'개가 인벤토리에 지급되었습니다.':state.release?.mode==='TEST'?'정벌 성공 · TEST에서는 실제 보상을 지급하지 않습니다.':'정벌 성공 · 이 공대에는 펫 정수 보상이 설정되지 않았습니다.'):state.failure?.reason||'공략에 실패했습니다.';
   $('resultStats').innerHTML='<span><b>'+state.round+'/7</b>도달 작전</span><span><b>'+state.statistics.mistakes+'</b>누적 실수</span><span><b>'+state.statistics.rescues+'</b>영혼 구출</span>';$('resultDialog').showModal();
 }
 async function mount(payload){

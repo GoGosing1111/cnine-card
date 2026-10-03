@@ -1,4 +1,4 @@
-import { mountLichRaid } from './live.mjs?v=20261003-coop-feedback';
+import { mountLichRaid } from './live.mjs?v=20261003-pet-essence';
 
 const VERSION = '20261003-coop-feedback';
 let styles, battle;
