@@ -1,0 +1,48 @@
+{
+  "title": "포트리스(크레이터) — 2:2 팀배틀 토너먼트",
+  "createdDateKst": "2026-10-03",
+  "method": "Built-in image_gen background generation + separate Korean font typography layer rendered from HTML",
+  "asset": "assets/posters/fortress-crater-tournament-20261003-v1.png",
+  "sourceArt": "preview/fortress-crater-tournament-20261003-v1/battle-art-source.png",
+  "editableTypography": "preview/fortress-crater-tournament-20261003-v1/index.html",
+  "generatedOriginal": "C:/Users/User/.codex/generated_images/01a0f5e0-2103-73f0-ad4e-e1ac362f77cb/exec-5edf03e1-7928-4e77-aef0-5a39dd7a9f46.png",
+  "requestedText": [
+    "포트리스(크레이터)",
+    "2:2 팀배틀 토너먼트",
+    "1등 상품 : 1조 + 3000만 마별",
+    "2등 상품 : 1조 + 1000만 마별",
+    "참가상 : 없음"
+  ],
+  "scope": "Standalone promotional poster. No game runtime, CMS, rewards, event schedule, account or balance changes.",
+  "fonts": [
+    {
+      "name": "Black Han Sans",
+      "file": "assets/fonts/clan-camp/BlackHanSans-Regular.ttf",
+      "license": "assets/fonts/clan-camp/BlackHanSans-OFL.txt"
+    },
+    {
+      "name": "Noto Sans KR",
+      "file": "assets/fonts/lich-raid/NotoSansKR-lich-v1.woff2",
+      "license": "assets/fonts/lich-raid/NotoSansKR-OFL.txt"
+    }
+  ],
+  "prompt": "Use case: ads-marketing.\nAsset type: original illustrated background for a Korean Fortress (Crater) 2 versus 2 tank artillery tournament poster, vertical 2:3 portrait.\nCreate only the artwork/background layer, absolutely NO typography, words, letters, logos, numbers, badges or fake text. Korean typography and prizes will be added as a separate verified font layer.\nVisual: an exciting premium arcade artillery battle, four compact stylized game tanks clearly arranged as TWO opposing teams of TWO tanks. One blue/cyan team on the left, one crimson/orange team on the right. Each team has two distinct readable tanks, one larger in the foreground and one slightly behind it; exactly four tanks, no additional vehicles or people. Small chunky tank silhouettes with rounded armor, clean mechanical construction, distinctive turret shapes and expressive game-design character, polished painted metal. Straight rigid cannon barrels and aligned turrets, not bent or warped. No modern realistic military weapons aesthetic. Convey the fun and tactical energy of Korean cartoon tank artillery games, rendered as high-end painted game key art with crisp forms, rich light and material finish, not a cheap mobile game template.\nThe four tanks face inward across a blast crater and rocky broken ledges, in a dynamic balanced confrontation, mid-distance view slightly low angle. Bright graceful parabolic projectile trails arc overhead, one blue and one hot orange, meeting at a bright central impact with stylized sparks, chunks of rock and rolling smoke. These arcs stay within the artwork band, below the future title. The landscape is a shattered rocky arena with distant mountains, atmospheric storm clouds and dramatic dusk light. Do not add a trophy, prize coins, labels, UI panels or decorative frames.\nCOMPOSITION IS CRITICAL for typography: the entire dramatic battle illustration is concentrated in the middle horizontal band from 30% to 63% of the portrait height. Tanks must be large and legible inside that band, all barrels and tracks fully visible. TOP 29% is dark midnight navy atmospheric negative space, very low detail, gentle cyan/amber sky glow only near the sides, for a huge tournament headline. BOTTOM 35% transitions smoothly into deep midnight navy with extremely faint smoke/rock texture and lots of clean negative space for the two prize lines. No foreground explosions, vehicles, rocks, luminous streaks or visual noise in that bottom space. Keep tanks and principal action fully within central 30%-63% height. Cinematic cyan-versus-amber contrast, restrained premium editorial poster art direction, dramatic but easy to read from a phone. Edge-to-edge background. No text, no watermarks. Prefer 1536 x 2304 pixels, exact 2:3 portrait.",
+  "qa": {
+    "fourTanksInTwoTeams": true,
+    "straightBarrels": true,
+    "separateVerifiedFontLayer": true,
+    "exactPrizes": true,
+    "noAttendancePrize": true,
+    "noInventedDateOrCurrency": true,
+    "noTextClipping": true,
+    "visuallyReviewed": true
+  },
+  "sha256": "242d577022be4a5deca87f2c61f0f312771e62480b1ae8a87cef8afe118de455",
+  "sourceSha256": "f11828db4d260defcf66c9cca11ad50118f4abb66da3426fd61d489e2e735f68",
+  "image": {
+    "width": 1536,
+    "height": 2304,
+    "format": "png",
+    "space": "srgb"
+  }
+}

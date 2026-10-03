@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>포트리스(크레이터) 2:2 팀배틀 토너먼트</title>
+<style>
+@font-face{font-family:BlackHan;src:url('../../assets/fonts/clan-camp/BlackHanSans-Regular.ttf') format('truetype');font-weight:400}
+@font-face{font-family:Noto;src:url('../../assets/fonts/lich-raid/NotoSansKR-lich-v1.woff2') format('woff2');font-weight:100 900}
+*{box-sizing:border-box}html,body{margin:0;background:#030919}body{width:1536px;font-family:Noto,sans-serif}
+#poster{position:relative;width:1536px;height:2304px;overflow:hidden;color:#f8fafc;background:#061124 url('battle-art-source.png') center/100% 100% no-repeat}
+.edge{position:absolute;inset:42px;border:1px solid #abcee523;pointer-events:none}
+.topline{position:absolute;top:118px;left:126px;right:126px;display:flex;align-items:center;justify-content:center;gap:34px;color:#dfedff;font-size:44px;font-weight:800;letter-spacing:3px}
+.topline:before,.topline:after{content:"";height:3px;flex:1;background:linear-gradient(90deg,transparent,#72cffe)}.topline:after{background:linear-gradient(90deg,#ffae60,transparent)}
+h1{position:absolute;inset:215px 80px auto;text-align:center;margin:0;font-family:BlackHan,sans-serif;font-weight:400;letter-spacing:-6px;line-height:1.04;text-shadow:0 8px 30px #020a22}
+h1 .format{font-size:129px;display:block;color:#ebf5ff}
+h1 .tournament{font-size:181px;display:block;margin-top:19px;color:#f4cd84;text-shadow:0 5px 0 #846435,0 13px 40px #060c1f}
+.headline-rule{position:absolute;top:581px;left:660px;width:216px;height:4px;background:linear-gradient(90deg,#4bddff,#f4d391,#ff803d);box-shadow:0 0 18px #d7e7ff40}
+.prizes{position:absolute;top:1588px;left:130px;right:130px}
+.prize{display:flex;align-items:center;gap:50px;min-height:226px;padding:20px 28px;border-top:2px solid #a9bfd844;position:relative}
+.prize.first{border-top:3px solid #e6b764;background:linear-gradient(90deg,#96734418,transparent 70%)}
+.prize.second{margin-top:40px;border-top:2px solid #9baec856;background:linear-gradient(90deg,#7894b718,transparent 70%)}
+.rank{flex:0 0 168px;border-right:1px solid #abbbcc38;display:flex;flex-direction:column;gap:0;line-height:1.4}
+.rank b{font-family:BlackHan,sans-serif;font-size:59px;font-weight:400;letter-spacing:-2px}
+.rank span{font-size:28px;font-weight:500;color:#9daec8;letter-spacing:8px;padding-left:4px}
+.first .rank b{color:#f5cd86}.second .rank b{color:#d6e5f8}
+.amount{display:flex;align-items:baseline;white-space:nowrap;gap:24px;font-size:89px;font-weight:900;letter-spacing:-4px;line-height:1.2}
+.amount .plus{font-size:51px;font-weight:500;color:#9babc2}
+.first .amount{color:#ffe2ab;text-shadow:0 0 27px #ffa82922}
+.second .amount{color:#e0ecff}
+.participation{position:absolute;left:130px;right:130px;top:2157px;border-top:1px solid #bac6d933;display:flex;justify-content:center;align-items:center;gap:18px;padding-top:34px;font-size:38px;color:#aebed6;font-weight:500;letter-spacing:1px}
+.participation strong{color:#f3f6ff;font-weight:800}
+</style></head><body><main id="poster" aria-label="포트리스 크레이터 2:2 팀배틀 토너먼트 포스터">
+<div class="edge"></div><div class="topline">포트리스 (크레이터)</div>
+<h1><span class="format">2:2 팀배틀</span><span class="tournament">토너먼트</span></h1><div class="headline-rule"></div>
+<section class="prizes" aria-label="대회 상품">
+<div class="prize first"><div class="rank"><b>1등</b><span>상품</span></div><div class="amount"><span>1조</span><span class="plus">+</span><span>3000만 마별</span></div></div>
+<div class="prize second"><div class="rank"><b>2등</b><span>상품</span></div><div class="amount"><span>1조</span><span class="plus">+</span><span>1000만 마별</span></div></div>
+</section><div class="participation"><span>참가상 :</span><strong>없음</strong></div>
+</main></body></html>
