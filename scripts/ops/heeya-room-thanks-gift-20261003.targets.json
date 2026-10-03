@@ -1,0 +1,423 @@
+{
+  "authorization": "사용자 명단 52명 중 후속 지시로 갈비찜킬러를 제외한 51명에게 희야방 사은품 메시지로 핑두의 감사 선물 각 1개 지급. 모레=모래, 음수니=음순이 확인.",
+  "sourceNames": [
+    "망순이ෆ",
+    "응멘",
+    "블랙캐슬",
+    "전게씹선미아웃",
+    "학벌",
+    "#유나랜드",
+    "암살자..",
+    "란x2",
+    "핫시",
+    "세라네꼬라지",
+    "˚쟁이。",
+    "고라니ㅇ",
+    "토닭토닭",
+    "모아가려아가",
+    "게임닉네임",
+    "커피먹는철구",
+    "족게이다",
+    "오랜만에",
+    "기므악",
+    "0수표",
+    "족구선생",
+    "라피e",
+    "really",
+    "스갤가축",
+    "쑤댕",
+    "랭비!",
+    "화성가뿌자",
+    "슈라",
+    "모레",
+    "페이트런",
+    "비쥬얼깡패",
+    "[C9]가시",
+    "박사",
+    "음수니",
+    "씨나인택갓",
+    "음주플레이어",
+    "도댕",
+    "딤키우기",
+    "족단",
+    "비니",
+    "갈비찜킬러",
+    "장씨아저씨",
+    "타몽",
+    "족구조아",
+    "zkzk9999",
+    "굳건창수",
+    "깜찍소녀",
+    "현하루",
+    "리이렐",
+    "[C9]족쪽이",
+    "건빵3개",
+    "딤럼프"
+  ],
+  "targets": [
+    {
+      "id": "10",
+      "nickname": "관상은과학",
+      "inputNickname": "really",
+      "quantity": 1,
+      "evidence": "docs/tournament-funding-gift-20260927.md:67"
+    },
+    {
+      "id": "19",
+      "nickname": "토닭토닭",
+      "inputNickname": "토닭토닭",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "22",
+      "nickname": "커피먹는철구",
+      "inputNickname": "커피먹는철구",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "32",
+      "nickname": "쑤댕",
+      "inputNickname": "쑤댕",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "65",
+      "nickname": "음순이",
+      "inputNickname": "음수니",
+      "quantity": 1,
+      "evidence": "USER_CONFIRMED_20261003: 갈비찜 킬러제외 다맞음"
+    },
+    {
+      "id": "73",
+      "nickname": "란x2",
+      "inputNickname": "란x2",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "81",
+      "nickname": "비쥬얼깡패",
+      "inputNickname": "비쥬얼깡패",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "88",
+      "nickname": "0수표",
+      "inputNickname": "0수표",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "130",
+      "nickname": "족구선생",
+      "inputNickname": "족구선생",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "164",
+      "nickname": "박사",
+      "inputNickname": "박사",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "218",
+      "nickname": "현하루",
+      "inputNickname": "현하루",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "277",
+      "nickname": "스갤가축",
+      "inputNickname": "스갤가축",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "295",
+      "nickname": "모래",
+      "inputNickname": "모레",
+      "quantity": 1,
+      "evidence": "USER_CONFIRMED_20261003: 갈비찜 킬러제외 다맞음"
+    },
+    {
+      "id": "303",
+      "nickname": "[C9]족쪽이",
+      "inputNickname": "[C9]족쪽이",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "360",
+      "nickname": "라피e",
+      "inputNickname": "라피e",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "525",
+      "nickname": "족구조아",
+      "inputNickname": "족구조아",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "681",
+      "nickname": "페이트런",
+      "inputNickname": "페이트런",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "1195",
+      "nickname": "씨나인택갓",
+      "inputNickname": "씨나인택갓",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "1255",
+      "nickname": "전게씹선미아웃",
+      "inputNickname": "전게씹선미아웃",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "1768",
+      "nickname": "핫시",
+      "inputNickname": "핫시",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "2420",
+      "nickname": "블랙캐슬",
+      "inputNickname": "블랙캐슬",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "2505",
+      "nickname": "모아가려아가",
+      "inputNickname": "모아가려아가",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "3884",
+      "nickname": "zkzk9999",
+      "inputNickname": "zkzk9999",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4010",
+      "nickname": "슈라",
+      "inputNickname": "슈라",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4084",
+      "nickname": "게임닉네임",
+      "inputNickname": "게임닉네임",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4111",
+      "nickname": "족게이다",
+      "inputNickname": "족게이다",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4209",
+      "nickname": "#유나랜드",
+      "inputNickname": "#유나랜드",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4235",
+      "nickname": "도댕",
+      "inputNickname": "도댕",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4371",
+      "nickname": "건빵3개",
+      "inputNickname": "건빵3개",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4501",
+      "nickname": "장씨아저씨",
+      "inputNickname": "장씨아저씨",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4504",
+      "nickname": "깜찍소녀",
+      "inputNickname": "깜찍소녀",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4572",
+      "nickname": "응맨",
+      "inputNickname": "응멘",
+      "quantity": 1,
+      "evidence": "docs/pingdu-thanks-ppanghun-20261002.md"
+    },
+    {
+      "id": "4582",
+      "nickname": "족단",
+      "inputNickname": "족단",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4595",
+      "nickname": "비니",
+      "inputNickname": "비니",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4598",
+      "nickname": "암살자..",
+      "inputNickname": "암살자..",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4609",
+      "nickname": "오랜만에",
+      "inputNickname": "오랜만에",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4610",
+      "nickname": "고라니ㅇ",
+      "inputNickname": "고라니ㅇ",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4615",
+      "nickname": "랭비!",
+      "inputNickname": "랭비!",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4621",
+      "nickname": "리이렐",
+      "inputNickname": "리이렐",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4627",
+      "nickname": "학벌",
+      "inputNickname": "학벌",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4628",
+      "nickname": "망순이ෆ",
+      "inputNickname": "망순이ෆ",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4651",
+      "nickname": "세라네꼬라지",
+      "inputNickname": "세라네꼬라지",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4668",
+      "nickname": "화성가뿌자",
+      "inputNickname": "화성가뿌자",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4705",
+      "nickname": "˚쟁이。",
+      "inputNickname": "˚쟁이。",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4757",
+      "nickname": "음주플레이어",
+      "inputNickname": "음주플레이어",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4774",
+      "nickname": "딤럼프",
+      "inputNickname": "딤럼프",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4836",
+      "nickname": "딤키우기",
+      "inputNickname": "딤키우기",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4866",
+      "nickname": "[C9]가시",
+      "inputNickname": "[C9]가시",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4908",
+      "nickname": "굳건창수",
+      "inputNickname": "굳건창수",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "5010",
+      "nickname": "으악",
+      "inputNickname": "기므악",
+      "quantity": 1,
+      "evidence": "docs/tournament-funding-gift-20260927.md:43"
+    },
+    {
+      "id": "5148",
+      "nickname": "타몽",
+      "inputNickname": "타몽",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    }
+  ],
+  "pending": [],
+  "excluded": [
+    {
+      "inputNickname": "갈비찜킬러",
+      "reason": "USER_EXCLUDED_20261003"
+    }
+  ]
+}
