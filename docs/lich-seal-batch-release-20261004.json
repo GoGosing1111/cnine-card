@@ -1,10 +1,12 @@
 {
-  "status": "BROWSER_VERIFIED_PENDING_SCOPED_GATE",
+  "status": "LIVE_VERIFIED",
   "initialGate": {
     "passed": 25,
     "failed": 1,
     "correction": "The new test expected a stale-step error when replaying a batch whose first rune was already consumed. Existing token dedup safely ignores it; corrected the assertion to verify unchanged seal state and no additional mistake.",
-    "remainingTests": ["tests/lich-seal-batch-20261004.test.mjs"],
+    "remainingTests": [
+      "tests/lich-seal-batch-20261004.test.mjs"
+    ],
     "runtimeChangedAfterGate": false
   },
   "request": "개인 봉인 문양 입력마다 발생하는 입력 확인 대기 제거",
@@ -58,5 +60,77 @@
   ],
   "checks": [
     "check:worker"
-  ]
+  ],
+  "scopedValidation": {
+    "uniqueTestsPassed": 26,
+    "remainingFailures": 0,
+    "finalGatePassed": 4,
+    "finalTests": [
+      "tests/lich-seal-batch-20261004.test.mjs"
+    ],
+    "retained": "Existing cooperative, timing and inline tests passed in the initial gate; only the new replay test expectation changed before the final gate.",
+    "command": "npm run deploy:production -- --scoped",
+    "workerCheck": "passed",
+    "productionGuards": "passed",
+    "hyperdriveQueryCache": "disabled"
+  },
+  "deployment": {
+    "source": "b97226631e1deac3d9b0db50adad08d7c34372f7",
+    "pagesId": "69cd1982-1ca8-4e25-a2f8-614173b4f6c9",
+    "url": "https://69cd1982.cnine-card.pages.dev",
+    "productionUrl": "https://cnine-card.pages.dev",
+    "apiRuntimeVersion": "846844b6-6102-462e-afbc-0550b605935b",
+    "cronVersion": "1bb254f2-b593-4a91-b0c7-60bf9bdb5f7f"
+  },
+  "liveVerification": {
+    "verifiedAt": "2026-10-03T20:15:21.305Z",
+    "files": [
+      {
+        "file": "index.html",
+        "status": 200,
+        "sha256": "4f5a426927835186b8f4bc28811f1123e08256a12e1dfdcd8bb6bfc378769662"
+      },
+      {
+        "file": "service-worker.js",
+        "status": 200,
+        "sha256": "cb9630a7dbf57c029ad23d92a47bc709bdee67f6cc2b3977caa1276fbdc27327"
+      },
+      {
+        "file": "js/lich-king-raid-entry-v1.js",
+        "status": 200,
+        "sha256": "f8433a49817d2f90c7d5bdea0e0917a1c43d679d4c2123c969df1cd99e0fe5a8"
+      },
+      {
+        "file": "raid/lich-king/inline.mjs",
+        "status": 200,
+        "sha256": "029875228d0bcddd0dcdc79b9234c69b9441e9a7dde37ebecb032e8629f133d3"
+      },
+      {
+        "file": "raid/lich-king/inline.css",
+        "status": 200,
+        "sha256": "ab67009adf759bfc50cea91650748e3006faa76dde2899f759e5856afbe345d9"
+      },
+      {
+        "file": "raid/lich-king/index.html",
+        "status": 200,
+        "sha256": "8c411b41e76f55cd47ad09c8b32733bfb068a27c175d811ffa9f9984f2a43c88"
+      },
+      {
+        "file": "preview/lich-king-raid-v1/battle.bundle.js",
+        "status": 200,
+        "sha256": "ed538e5e678a7289e14b879b60e85d9e45780040265ac6f3f2715e22fcc996cb"
+      },
+      {
+        "file": "preview/lich-king-raid-v1/mechanics.css",
+        "status": 200,
+        "sha256": "e05503e2568068d12ea885d41b8f73fa7d62e381a625a48d381836e13d472aa2"
+      },
+      {
+        "file": "preview/lich-king-raid-v1/index.html",
+        "status": 200,
+        "sha256": "9698bbb5250e4208768ce12f45095747fc2cc1b001a45bd272d060801acf67af"
+      }
+    ],
+    "serviceStatus": 200
+  }
 }
