@@ -50,7 +50,8 @@ import {handlePetOpening,ensurePetOpeningItems,openPetSeal} from '../_pet_openin
 import {handleIconFusion} from '../_icon_fusion.js';
 import {handleMercenaryCodex} from '../_mercenary_codex.js';
 import {handleMercenaryAccount,mercenaryUsesInnerLock} from '../_mercenary_account_routes.js';
-import {handleMiracleCube,openMiracleCube,presentMiracleInventory} from '../_miracle_cube.js';
+import {handleMiracleCube,openMiracleCube,presentMiracleInventory,ensureMiracleCubeCatalog} from '../_miracle_cube.js';
+import {canIssueMiracleCubeCoupon,redeemMiracleCubeCoupon} from '../_miracle_cube_coupon.js';
 import {handleMasterStarMine} from '../_master_star_mine.js';
 import {handleForgeRuntime,isForgeRuntimePath} from '../_equipment_forge_routes.js';
 import {releasedMercenarySnapshot,releasedMercenarySnapshots,mercenarySnapshotPower} from '../_mercenary_account.js';
@@ -536,8 +537,8 @@ function presentMessageReward(message){
   const spec=verifiedMessageRewardSpec(message.reward_type),amount=Number(message.reward_amount);
   return {...message,reward_type:spec?.type||message.reward_type,reward_label:spec?.label||'',reward_icon:spec?.icon||'🎁',reward_supported:Boolean(spec&&Number.isSafeInteger(amount)&&amount>0)};
 }
-const COUPON_REWARD_MAX={COIN:10000000000,MASTER_STAR:1000000,EQUIPMENT_SUPPLY_BOX:100000,HIGH_GRADE_REROLL_TICKET:100000,PINGDU_OLD_AXE:100000};
-function couponRewardSpec(value){const type=String(value||'').trim().toUpperCase(),spec=type==='PINGDU_OLD_AXE'?{type,label:'낡은도끼',inventory:true}:verifiedMessageRewardSpec(type);return spec&&!spec.messageOnly?{...spec,max:Number(COUPON_REWARD_MAX[spec.type]||spec.max)}:null}
+const COUPON_REWARD_MAX={COIN:10000000000,MASTER_STAR:1000000,EQUIPMENT_SUPPLY_BOX:100000,HIGH_GRADE_REROLL_TICKET:100000,PINGDU_OLD_AXE:100000,MIRACLE_CUBE:100000};
+function couponRewardSpec(value){const type=String(value||'').trim().toUpperCase(),spec=type==='MIRACLE_CUBE'?{type,label:'미라클 큐브',inventory:true}:type==='PINGDU_OLD_AXE'?{type,label:'낡은도끼',inventory:true}:verifiedMessageRewardSpec(type);return spec&&!spec.messageOnly?{...spec,max:Number(COUPON_REWARD_MAX[spec.type]||spec.max)}:null}
 let verifiedRewardMessageV1276ReadyPromise=null;
 async function ensureVerifiedRewardMessageV1276(env){
   if(verifiedRewardMessageV1276ReadyPromise)return verifiedRewardMessageV1276ReadyPromise;
@@ -7431,6 +7432,7 @@ async function handleRequest(context){
       const landCoupon=await redeemLandCoupon({env,user,body:payload,deps:{json,profile,isRandomDrawExcluded}});if(landCoupon)return landCoupon;
       const coupon=await env.DB.prepare(`SELECT * FROM coupons WHERE code=?`).bind(code).first();
       if(!coupon) return json({error:'존재하지 않거나 삭제된 쿠폰입니다.'},404);
+      if(String(coupon.reward_type||'').toUpperCase()==='MIRACLE_CUBE')return redeemMiracleCubeCoupon({env,user,coupon,body:payload,deps:{json,profile}});
       const wishCoupon=await redeemWishTicketCoupon({env,user,coupon,body:payload,deps:{json,profile}});if(wishCoupon)return wishCoupon;
       const axeCoupon=await redeemOldAxeCoupon({env,user,coupon,body:payload,deps:{json,profile}});if(axeCoupon)return axeCoupon;
       const chuseokCoupon=await redeemChuseokCoinCoupon({env,user,coupon,body:payload,deps:{json,profile}});if(chuseokCoupon)return chuseokCoupon;
@@ -7860,10 +7862,12 @@ async function handleRequest(context){
       const rewardAmount=Number(p.rewardAmount);
       const maxUses=Number(p.maxUses);
       const spec=couponRewardSpec(rewardType);
+      if(rewardType==='MIRACLE_CUBE'&&!canIssueMiracleCubeCoupon(admin))return json({error:'미라클 큐브 쿠폰은 OWNER 핑크빛유두 계정만 발행할 수 있습니다.',code:'MIRACLE_CUBE_COUPON_OPERATOR_ONLY'},403);
       if(!/^[A-Z0-9_-]{4,40}$/.test(code))return json({error:'쿠폰 코드는 영문 대문자·숫자·_·- 조합 4~40자로 입력하세요.'},400);
       if(!spec)return json({error:'선택한 쿠폰 보상 종류가 올바르지 않습니다.'},400);
       if(!Number.isInteger(rewardAmount)||rewardAmount<1||rewardAmount>spec.max)return json({error:`${spec.label} 지급 수량을 확인하세요.`},400);
       if(!Number.isInteger(maxUses)||maxUses<1||maxUses>1000000)return json({error:'전체 최대 사용 횟수를 확인하세요.'},400);
+      if(rewardType==='MIRACLE_CUBE'){if(code.startsWith('SLD-'))return json({error:'SLD-는 숲켓랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);await ensureMiracleCubeCatalog(env)}
       if(rewardType==='PINGDU_OLD_AXE'){if(code.startsWith('SLD-'))return json({error:'SLD-는 숲켓랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);await ensureGoldenAxe(env)}
       await releaseDeletedCouponCode(env,code,admin.id);
       const exists=await env.DB.prepare('SELECT id FROM coupons WHERE code=? AND deleted_at IS NULL LIMIT 1').bind(code).first();
@@ -7889,11 +7893,13 @@ async function handleRequest(context){
       if(!admin)return json({error:'쿠폰 발급 권한이 없습니다.'},403);
       if(request.method==='GET'){const rows=await env.DB.prepare('SELECT * FROM coupons WHERE deleted_at IS NULL ORDER BY id DESC LIMIT 300').all();return json({coupons:rows.results||[]});}
       if(request.method==='POST'){
-        const p=await readBody(request),code=String(p.code||'').trim().toUpperCase().replace(/\s+/g,'').slice(0,40),rewardType=String(p.rewardType||'COIN').toUpperCase(),rewardAmount=Number(p.rewardAmount),max=Number(p.maxUses),spec=couponRewardSpec(rewardType);
+        const p=await readBody(request),code=String(p.code||'').trim().toUpperCase().replace(/\s+/g,'').slice(0,40),rewardType=String(p.rewardType||'COIN').trim().toUpperCase(),rewardAmount=Number(p.rewardAmount),max=Number(p.maxUses),spec=couponRewardSpec(rewardType);
+        if(rewardType==='MIRACLE_CUBE'&&!canIssueMiracleCubeCoupon(admin))return json({error:'미라클 큐브 쿠폰은 OWNER 핑크빛유두 계정만 발행할 수 있습니다.',code:'MIRACLE_CUBE_COUPON_OPERATOR_ONLY'},403);
         if(!/^[A-Z0-9_-]{4,40}$/.test(code))return json({error:'쿠폰 코드는 영문 대문자·숫자·_·- 조합 4~40자로 입력하세요.'},400);
-        if(!spec||!['COIN','MASTER_STAR','EQUIPMENT_SUPPLY_BOX','HIGH_GRADE_REROLL_TICKET','PINGDU_OLD_AXE'].includes(rewardType))return json({error:'쿠폰 보상 종류를 확인하세요.'},400);
+        if(!spec||!['COIN','MASTER_STAR','EQUIPMENT_SUPPLY_BOX','HIGH_GRADE_REROLL_TICKET','PINGDU_OLD_AXE','MIRACLE_CUBE'].includes(rewardType))return json({error:'쿠폰 보상 종류를 확인하세요.'},400);
         if(!Number.isInteger(rewardAmount)||rewardAmount<1||rewardAmount>Number(spec.max||10000000))return json({error:'쿠폰 보상 수량을 확인하세요.'},400);
         if(!Number.isInteger(max)||max<1||max>1000000)return json({error:'총 사용 한도를 확인하세요.'},400);
+        if(rewardType==='MIRACLE_CUBE'){if(code.startsWith('SLD-'))return json({error:'SLD-는 숲켓랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);await ensureMiracleCubeCatalog(env)}
         if(rewardType==='PINGDU_OLD_AXE'){if(code.startsWith('SLD-'))return json({error:'SLD-는 숲켓랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);await ensureGoldenAxe(env)}
         await releaseDeletedCouponCode(env,code,admin.id);
         const before=await env.DB.prepare('SELECT id FROM coupons WHERE code=? AND deleted_at IS NULL LIMIT 1').bind(code).first();
@@ -7915,6 +7921,7 @@ async function handleRequest(context){
       if(request.method==='PATCH'){
         if(!manager)return json({error:'쿠폰 수정 권한이 없습니다.'},403);
         const p=await readBody(request),before=await env.DB.prepare('SELECT * FROM coupons WHERE id=? AND deleted_at IS NULL').bind(Number(p.id)).first();if(!before)return json({error:'쿠폰이 없습니다.'},404);
+        if(String(before.reward_type||'').toUpperCase()==='MIRACLE_CUBE'&&!canIssueMiracleCubeCoupon(admin))return json({error:'미라클 큐브 쿠폰은 OWNER 핑크빛유두 계정만 변경할 수 있습니다.',code:'MIRACLE_CUBE_COUPON_OPERATOR_ONLY'},403);
         const maxUses=p.maxUses==null?null:Number(p.maxUses);if(maxUses!==null&&(!Number.isInteger(maxUses)||maxUses<Math.max(1,Number(before.used_count||0))||maxUses>1000000))return json({error:'총 사용 한도를 확인하세요. 이미 사용된 횟수보다 작게 설정할 수 없습니다.'},400);
         await env.DB.prepare('UPDATE coupons SET is_active=?,starts_at=NULL,ends_at=NULL,max_uses=COALESCE(?,max_uses),updated_at=CURRENT_TIMESTAMP WHERE id=? AND deleted_at IS NULL').bind(p.isActive===false?0:1,maxUses,before.id).run();
         const after=await env.DB.prepare('SELECT * FROM coupons WHERE id=?').bind(before.id).first();await writeAdminLog(env,admin,'COUPON_UPDATE','COUPON',before.id,before,after);return json({ok:true,coupon:after});

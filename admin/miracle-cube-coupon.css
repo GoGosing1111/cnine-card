@@ -1,0 +1,15 @@
+/* Keep the coupon form reachable below the mobile CMS navigation. */
+@media(max-width:800px){
+ body:has(#view-coupons:not([hidden])) .layout>aside{height:auto;max-height:160px}
+ #view-coupons .couponForm{min-width:0}
+ #view-coupons .couponForm input,#view-coupons .couponForm select,#view-coupons .couponForm button{min-height:44px}
+}
+@media(max-width:760px){
+ #view-coupons .couponBulkRow{grid-template-areas:"check code actions" ". reward usage"}
+ #view-coupons .couponBulkCheck{grid-area:check}
+ #view-coupons .couponBulkCode{grid-area:code}
+ #view-coupons .couponBulkActions{grid-area:actions}
+ #view-coupons .couponBulkReward{display:block;grid-area:reward}
+ #view-coupons .couponBulkUsage{display:block;grid-area:usage;min-width:78px}
+ #view-coupons .couponBulkReward small,#view-coupons .couponBulkUsage small{font-size:12px}
+}

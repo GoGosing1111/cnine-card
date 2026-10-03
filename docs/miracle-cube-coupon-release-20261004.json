@@ -1,0 +1,94 @@
+{
+  "date": "2026-10-04",
+  "request": "미라클큐브 쿠폰 발행가능하게 만들어 권한은 owner 핑크빛유두만",
+  "status": "IMPLEMENTED_BROWSER_VERIFIED",
+  "previousProduction": {
+    "source": "8acfce9d15923d0a76168676eb69832cf5d045ea",
+    "pages": "679ed04d-fbae-4e88-b3da-4500da188d6b"
+  },
+  "authorization": {
+    "role": "OWNER",
+    "nickname": "핑크빛유두",
+    "identitySource": "existing server-authenticated account, never request body",
+    "routes": [
+      "admin/coupon-create-permanent-v3 POST",
+      "admin/coupons POST/PATCH",
+      "admin/coupons-v2 POST/PATCH"
+    ]
+  },
+  "behavior": {
+    "itemCode": "MIRACLE_CUBE",
+    "maxRewardPerRedemption": 100000,
+    "maxTotalUses": 1000000,
+    "perAccount": 1,
+    "permanent": true,
+    "inventoryOnRedemption": true,
+    "atomic": [
+      "inventory",
+      "used_count",
+      "inventory_logs",
+      "coupon_redemptions"
+    ],
+    "existingCubeModeAndOddsUnchanged": true,
+    "retiredPremiumCubeUnchanged": true
+  },
+  "ui": {
+    "path": "/admin/ → 쿠폰관리 → 보상 종류 → 미라클 큐브",
+    "ownerOnlyOption": true,
+    "defaultAmount": 1,
+    "mobileNavigationOverlapFixedForCouponScreen": true,
+    "mobileRewardAndUsageVisible": true
+  },
+  "verification": {
+    "browser": {
+      "status": "PASSED",
+      "scope": "Actual CMS markup, styles, primary and bulk coupon controllers with isolated API responses",
+      "reports": [
+        {
+          "label": "desktop",
+          "width": 1440,
+          "height": 1000,
+          "issued": {
+            "code": "MIRACLE-UI-QA",
+            "rewardType": "MIRACLE_CUBE",
+            "rewardAmount": 3,
+            "maxUses": 10
+          },
+          "otherOwnerHidden": true,
+          "adminHidden": true,
+          "tamperedUiBlocked": true,
+          "overflow": false,
+          "errors": []
+        },
+        {
+          "label": "mobile",
+          "width": 390,
+          "height": 844,
+          "issued": {
+            "code": "MIRACLE-UI-QA",
+            "rewardType": "MIRACLE_CUBE",
+            "rewardAmount": 3,
+            "maxUses": 10
+          },
+          "otherOwnerHidden": true,
+          "adminHidden": true,
+          "tamperedUiBlocked": true,
+          "overflow": false,
+          "errors": []
+        }
+      ]
+    },
+    "scoped": {
+      "reason": "Localized miracle-cube coupon issuance, exact OWNER nickname authorization using existing authentication, and inventory redemption using existing PostgreSQL coupon transaction pattern; no shared authentication or database foundation changes.",
+      "tests": [
+        "tests/miracle-cube-coupon-20261004.test.mjs",
+        "tests/coupon-reward-cap-v1997.test.mjs",
+        "tests/golden-axe-coupon-v1.test.mjs"
+      ],
+      "checks": [
+        "check:worker"
+      ],
+      "command": "npm run deploy:production -- --scoped"
+    }
+  }
+}
