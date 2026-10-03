@@ -1,5 +1,5 @@
 {
-  "status": "SCOPED_RELEASE_READY",
+  "status": "LIVE_VERIFIED",
   "date": "2026-10-04",
   "request": "30만개임 마스터의별",
   "policy": {
@@ -29,7 +29,143 @@
     ],
     "checks": [
       "check:worker"
-    ]
+    ],
+    "result": {
+      "passed": 39,
+      "failed": 0,
+      "workerSyntax": "PASSED",
+      "releaseGuards": "PASSED",
+      "hyperdriveQueryCache": "DISABLED"
+    }
   },
-  "deployment": null
+  "deployment": {
+    "source": "db34fa5593c4b4ecf4823995a5e8fdda30c3bf11",
+    "pagesUrl": "https://62726cf8.cnine-card.pages.dev",
+    "apiRuntimeVersion": "fe466583-2d19-4c07-8aef-e736d9a7ede9",
+    "clanWorkerVersion": "c4164dd5-a8c3-4ffe-851e-41fc52d112f7",
+    "command": "npm run deploy:production -- --scoped"
+  },
+  "production": {
+    "status": "PASSED",
+    "verifiedAt": "2026-10-03T18:44:38.520Z",
+    "source": "db34fa5593c4b4ecf4823995a5e8fdda30c3bf11",
+    "files": [
+      {
+        "file": "index.html",
+        "status": 200,
+        "sha256": "aa009f244d77598e66e45ef1c089a79c23bb940de55bdcc2083c202e1d521d47"
+      },
+      {
+        "file": "js/app.js",
+        "status": 200,
+        "sha256": "964b5e041e82c7b405ee32024758bc00b562c8420e315943c85ab9e7e538eadc"
+      },
+      {
+        "file": "js/soopketland-v2039.bundle.js",
+        "status": 200,
+        "sha256": "c14d5edec5da2e1dca89530b95ade73b53c7780ed34d39d0bbddaaa6f5fea061"
+      },
+      {
+        "file": "preview/soopketland-v2039/index.html",
+        "status": 200,
+        "sha256": "1d38f90647d6a5ec435d4c087fce4277160a348462509dca2b70078e8b93edab"
+      },
+      {
+        "file": "preview/soopketland-v2039/preview.js",
+        "status": 200,
+        "sha256": "e89c6114cc154d3261d68eb30ca5787e8c60ecad729ea6609fc7fe3a8110db6d"
+      }
+    ],
+    "database": {
+      "ok": true,
+      "raw": {
+        "COIN": 9916,
+        "SUPERSTAR_GUARANTEED_PACK": 1500,
+        "MASTER_STAR": 9916,
+        "BLACK_MIRACLE_PACK": 5668,
+        "STARLIGHT_ARMOR_CORE": 3000
+      },
+      "effective": {
+        "COIN": 12750,
+        "EMPEROR_ENERGY": 1500,
+        "MASTER_STAR": 12750,
+        "STARLIGHT_ARMOR_CORE": 3000
+      },
+      "total": 30000,
+      "prizes": [
+        {
+          "key": "COIN",
+          "label": "코인",
+          "range": "1억 ~ 500억",
+          "min": 1,
+          "max": 500,
+          "unit": 100000000,
+          "symbol": "C",
+          "color": 16766071,
+          "weight": 12750,
+          "percent": 42.5
+        },
+        {
+          "key": "EMPEROR_ENERGY",
+          "label": "엠퍼러 에너지",
+          "range": "1 ~ 5개",
+          "min": 1,
+          "max": 5,
+          "unit": 1,
+          "symbol": "E",
+          "color": 16768913,
+          "weight": 1500,
+          "percent": 5
+        },
+        {
+          "key": "MASTER_STAR",
+          "label": "마스터의 별",
+          "range": "1,000 ~ 300,000개",
+          "min": 1,
+          "max": 300,
+          "unit": 1000,
+          "symbol": "S",
+          "color": 16770982,
+          "weight": 12750,
+          "percent": 42.5
+        },
+        {
+          "key": "STARLIGHT_ARMOR_CORE",
+          "label": "미스틱 에너지",
+          "range": "1 ~ 1,000개",
+          "min": 1,
+          "max": 1000,
+          "unit": 1,
+          "symbol": "M",
+          "color": 12953087,
+          "weight": 3000,
+          "percent": 10
+        }
+      ],
+      "items": [
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "is_active": "1"
+        },
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "is_active": "1"
+        },
+        {
+          "code": "STARLIGHT_ARMOR_CORE",
+          "name": "미스틱 에너지",
+          "is_active": "1"
+        },
+        {
+          "code": "SUPERSTAR_GUARANTEED_PACK",
+          "name": "슈퍼스타팩 확정권",
+          "is_active": "1"
+        }
+      ],
+      "readOnly": true,
+      "checkedAt": "2026-10-03T18:44:40.152Z"
+    }
+  }
 }
