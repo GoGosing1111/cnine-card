@@ -1,5 +1,5 @@
 {
-  "status": "BROWSER_VERIFIED_PENDING_SCOPED_GATE",
+  "status": "LIVE_VERIFIED",
   "request": "페이즈 공격 버튼 비활성화 및 3인 공대 중첩 기믹 입력 잠금 제보 개선",
   "reproduced": "Holding a RESCUE response disabled CLEANSE and paused status polling on the previous build; actual browser assertion reproduced the lock.",
   "changes": [
@@ -52,5 +52,66 @@
     "tests/lich-raid-loadout-timing-20261001.test.mjs",
     "tests/lich-raid-inline-entry-20260929.test.mjs"
   ],
-  "checks": []
+  "checks": [],
+  "scopedValidation": {
+    "passed": 26,
+    "failed": 0,
+    "command": "npm run deploy:production -- --scoped",
+    "productionGuards": "passed",
+    "hyperdriveQueryCache": "disabled"
+  },
+  "deployment": {
+    "source": "30ce2f5eec22a17eb5dadd8c0454817dd72ad4f5",
+    "pagesId": "779b5a92-3de8-44fb-8719-4cf5f1718e74",
+    "url": "https://779b5a92.cnine-card.pages.dev",
+    "productionUrl": "https://cnine-card.pages.dev",
+    "apiRuntimeVersion": "6e98ab2d-1709-4143-ba80-7785f40bdd70",
+    "cronVersion": "e6578f7c-9d12-45e2-9892-49f6ea99383b"
+  },
+  "liveVerification": {
+    "verifiedAt": "2026-10-03T18:22:22.573Z",
+    "files": [
+      {
+        "file": "index.html",
+        "status": 200,
+        "sha256": "d88d3161ff320b606151fe4999dbdc9600197d74c1a7832bf7524110bc5315c3"
+      },
+      {
+        "file": "service-worker.js",
+        "status": 200,
+        "sha256": "be8bd541583755841fdffbf6d0a35742a1d29def7f9f5a1bd423cab0d8f6adcd"
+      },
+      {
+        "file": "js/lich-king-raid-entry-v1.js",
+        "status": 200,
+        "sha256": "631c3e80ce2b63565a54b5a9f10178df3580f9fbce2c52cc07aeeab43e0da80e"
+      },
+      {
+        "file": "raid/lich-king/inline.mjs",
+        "status": 200,
+        "sha256": "52bd9b5a25411b958e0de3e432394df339568b779f90e17b77a18b3bcbc3e304"
+      },
+      {
+        "file": "raid/lich-king/live.mjs",
+        "status": 200,
+        "sha256": "40a8d33e2350ff163188be2ebad8c0f8f9db4cf0d73889d749ac1cc3ae22305b"
+      },
+      {
+        "file": "raid/lich-king/index.html",
+        "status": 200,
+        "sha256": "c18e56cc33117dd0558ee8bed1dc2448890f013058477f31851145aaa35eb571"
+      },
+      {
+        "file": "preview/lich-king-raid-v1/battle.bundle.js",
+        "status": 200,
+        "sha256": "992e258083788e162bc84c36f39c65fc0e3ab66c9f091590aecdae45f4be6eae"
+      },
+      {
+        "file": "preview/lich-king-raid-v1/index.html",
+        "status": 200,
+        "sha256": "4b49e06f9338610c4a7625a73e4fb4302d1af72974936a7fb01982ee95c617c2"
+      }
+    ],
+    "serviceStatus": 200
+  }
 }
