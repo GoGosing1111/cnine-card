@@ -1,0 +1,518 @@
+{
+  "authorization": "사용자 제공 39명 명단에 핑두의 감사선물 1개씩 지급. 표시된 1,414개/140개와 관계없이 계정당 1개. 이번 요청은 이전 희야방 사은품 지급과 별도다.",
+  "sourceNames": [
+    "딤키우기",
+    "딤럼프",
+    "학벌",
+    "커피마시는철구",
+    "암살자..",
+    "펜타",
+    "다시생각",
+    "쁴로리",
+    "블랙캐슬",
+    "음주플레이어",
+    "#유나랜드",
+    "망순이ෆ",
+    "남수댕",
+    "핫시",
+    "더듬이구",
+    "라페스타다",
+    "랭비!",
+    "나무늘봉순",
+    "카르푸",
+    "까잡셔",
+    "족구조아",
+    "응맨",
+    "zkzk9999",
+    "오일바른가지",
+    "찬호",
+    "씨나인택갓",
+    "모아가려아가",
+    "라피E",
+    "Mild7",
+    "란x2",
+    "굳건창수",
+    "족게이다",
+    "[C9]족쪽이",
+    "혜정",
+    "음순이",
+    "전게씹선미아웃",
+    "화성가뿌자",
+    "˚쟁이。",
+    "도댕"
+  ],
+  "sourceRows": [
+    {
+      "display": "딤키우기",
+      "nickname": "딤키우기"
+    },
+    {
+      "display": "생스머신디임",
+      "nickname": "딤럼프"
+    },
+    {
+      "display": "학벌",
+      "nickname": "학벌"
+    },
+    {
+      "display": "[C9]오승환",
+      "nickname": "커피마시는철구"
+    },
+    {
+      "display": "암살자..",
+      "nickname": "암살자.."
+    },
+    {
+      "display": "네이아네이",
+      "nickname": "펜타"
+    },
+    {
+      "display": "다시생각",
+      "nickname": "다시생각"
+    },
+    {
+      "display": "쁴로리",
+      "nickname": "쁴로리"
+    },
+    {
+      "display": "블랙캐슬",
+      "nickname": "블랙캐슬"
+    },
+    {
+      "display": "음주플레이어",
+      "nickname": "음주플레이어"
+    },
+    {
+      "display": "유나랜드",
+      "nickname": "#유나랜드"
+    },
+    {
+      "display": "망액이",
+      "nickname": "망순이ෆ"
+    },
+    {
+      "display": "늘그니생키",
+      "nickname": "남수댕"
+    },
+    {
+      "display": "핫시:D",
+      "nickname": "핫시"
+    },
+    {
+      "display": "탱탱노",
+      "nickname": "더듬이구"
+    },
+    {
+      "display": "#LafeStar",
+      "nickname": "라페스타다"
+    },
+    {
+      "display": "[C9]플랜비",
+      "nickname": "랭비!"
+    },
+    {
+      "display": "나무늘봉순",
+      "nickname": "나무늘봉순"
+    },
+    {
+      "display": "[C9]재매이형",
+      "nickname": "카르푸"
+    },
+    {
+      "display": "USBC",
+      "nickname": "까잡셔"
+    },
+    {
+      "display": "족구쪼아",
+      "nickname": "족구조아"
+    },
+    {
+      "display": "응맨♡",
+      "nickname": "응맨"
+    },
+    {
+      "display": "z7005z",
+      "nickname": "zkzk9999"
+    },
+    {
+      "display": "딸기찾는디임",
+      "nickname": "오일바른가지"
+    },
+    {
+      "display": "Rrr",
+      "nickname": "찬호"
+    },
+    {
+      "display": "гain",
+      "nickname": "씨나인택갓"
+    },
+    {
+      "display": "츠츠_",
+      "nickname": "모아가려아가"
+    },
+    {
+      "display": "라피e",
+      "nickname": "라피E"
+    },
+    {
+      "display": "Mild7",
+      "nickname": "Mild7"
+    },
+    {
+      "display": "란x2",
+      "nickname": "란x2"
+    },
+    {
+      "display": "굳건창수b",
+      "nickname": "굳건창수"
+    },
+    {
+      "display": "족게이다",
+      "nickname": "족게이다"
+    },
+    {
+      "display": "족치기족치기",
+      "nickname": "[C9]족쪽이"
+    },
+    {
+      "display": "혜정♪",
+      "nickname": "혜정"
+    },
+    {
+      "display": "숭한놈",
+      "nickname": "음순이"
+    },
+    {
+      "display": "코파먹는성태",
+      "nickname": "전게씹선미아웃"
+    },
+    {
+      "display": "◁⊙))))◁",
+      "nickname": "화성가뿌자"
+    },
+    {
+      "display": "˚쟁이。",
+      "nickname": "˚쟁이。"
+    },
+    {
+      "display": "도댕...",
+      "nickname": "도댕"
+    }
+  ],
+  "targets": [
+    {
+      "id": "22",
+      "nickname": "커피먹는철구",
+      "inputNickname": "커피마시는철구",
+      "displayName": "[C9]오승환",
+      "quantity": 1,
+      "evidence": "[C9]오승환 identity in scripts/ops/ayoon-recruitment-gift-20261003.source.json and .targets.json; current ACTIVE account reconfirmed"
+    },
+    {
+      "id": "65",
+      "nickname": "음순이",
+      "inputNickname": "음순이",
+      "displayName": "숭한놈",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "73",
+      "nickname": "란x2",
+      "inputNickname": "란x2",
+      "displayName": "란x2",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "85",
+      "nickname": "카르푸",
+      "inputNickname": "카르푸",
+      "displayName": "[C9]재매이형",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "183",
+      "nickname": "남수댕",
+      "inputNickname": "남수댕",
+      "displayName": "늘그니생키",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "290",
+      "nickname": "Mild7",
+      "inputNickname": "Mild7",
+      "displayName": "Mild7",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "303",
+      "nickname": "[C9]족쪽이",
+      "inputNickname": "[C9]족쪽이",
+      "displayName": "족치기족치기",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "360",
+      "nickname": "라피e",
+      "inputNickname": "라피E",
+      "displayName": "라피e",
+      "quantity": 1,
+      "evidence": "Exact supplied display name 라피e and unique case-insensitive game nickname"
+    },
+    {
+      "id": "525",
+      "nickname": "족구조아",
+      "inputNickname": "족구조아",
+      "displayName": "족구쪼아",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "750",
+      "nickname": "라페스타다",
+      "inputNickname": "라페스타다",
+      "displayName": "#LafeStar",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "1195",
+      "nickname": "씨나인택갓",
+      "inputNickname": "씨나인택갓",
+      "displayName": "гain",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "1255",
+      "nickname": "전게씹선미아웃",
+      "inputNickname": "전게씹선미아웃",
+      "displayName": "코파먹는성태",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "1421",
+      "nickname": "다시생각",
+      "inputNickname": "다시생각",
+      "displayName": "다시생각",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "1768",
+      "nickname": "핫시",
+      "inputNickname": "핫시",
+      "displayName": "핫시:D",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "2420",
+      "nickname": "블랙캐슬",
+      "inputNickname": "블랙캐슬",
+      "displayName": "블랙캐슬",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "2505",
+      "nickname": "모아가려아가",
+      "inputNickname": "모아가려아가",
+      "displayName": "츠츠_",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "3011",
+      "nickname": "오일바른가지",
+      "inputNickname": "오일바른가지",
+      "displayName": "딸기찾는디임",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "3646",
+      "nickname": "까잡셔",
+      "inputNickname": "까잡셔",
+      "displayName": "USBC",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "3884",
+      "nickname": "zkzk9999",
+      "inputNickname": "zkzk9999",
+      "displayName": "z7005z",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4111",
+      "nickname": "족게이다",
+      "inputNickname": "족게이다",
+      "displayName": "족게이다",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4209",
+      "nickname": "#유나랜드",
+      "inputNickname": "#유나랜드",
+      "displayName": "유나랜드",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4235",
+      "nickname": "도댕",
+      "inputNickname": "도댕",
+      "displayName": "도댕...",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4391",
+      "nickname": "더듬이구",
+      "inputNickname": "더듬이구",
+      "displayName": "탱탱노",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4570",
+      "nickname": "혜정",
+      "inputNickname": "혜정",
+      "displayName": "혜정♪",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4572",
+      "nickname": "응맨",
+      "inputNickname": "응맨",
+      "displayName": "응맨♡",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4597",
+      "nickname": "찬호",
+      "inputNickname": "찬호",
+      "displayName": "Rrr",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4598",
+      "nickname": "암살자..",
+      "inputNickname": "암살자..",
+      "displayName": "암살자..",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4615",
+      "nickname": "랭비!",
+      "inputNickname": "랭비!",
+      "displayName": "[C9]플랜비",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4627",
+      "nickname": "학벌",
+      "inputNickname": "학벌",
+      "displayName": "학벌",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4628",
+      "nickname": "망순이ෆ",
+      "inputNickname": "망순이ෆ",
+      "displayName": "망액이",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4668",
+      "nickname": "화성가뿌자",
+      "inputNickname": "화성가뿌자",
+      "displayName": "◁⊙))))◁",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4705",
+      "nickname": "˚쟁이。",
+      "inputNickname": "˚쟁이。",
+      "displayName": "˚쟁이。",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4757",
+      "nickname": "음주플레이어",
+      "inputNickname": "음주플레이어",
+      "displayName": "음주플레이어",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4772",
+      "nickname": "펜타",
+      "inputNickname": "펜타",
+      "displayName": "네이아네이",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4774",
+      "nickname": "딤럼프",
+      "inputNickname": "딤럼프",
+      "displayName": "생스머신디임",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4836",
+      "nickname": "딤키우기",
+      "inputNickname": "딤키우기",
+      "displayName": "딤키우기",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4908",
+      "nickname": "굳건창수",
+      "inputNickname": "굳건창수",
+      "displayName": "굳건창수b",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4965",
+      "nickname": "쁴로리",
+      "inputNickname": "쁴로리",
+      "displayName": "쁴로리",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "5426",
+      "nickname": "나무늘봉순",
+      "inputNickname": "나무늘봉순",
+      "displayName": "나무늘봉순",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    }
+  ],
+  "pending": [],
+  "excluded": []
+}
