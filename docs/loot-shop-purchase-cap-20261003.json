@@ -1,0 +1,161 @@
+{
+  "status": "DEPLOYED_AND_VERIFIED",
+  "verifiedAtKst": "2026-10-03 14:51:17",
+  "candidate": "00817c724308837a2ac054f7e8eb43f597184cda",
+  "base": "25cc734ea35466b97928f3c589c6c6154f6df205",
+  "scope": "All six product types and new CMS drafts accept integer lifetime purchase limits from 1 to 1000.",
+  "deployment": {
+    "command": "npm run deploy:production -- --scoped",
+    "pages": "https://d87181a0.cnine-card.pages.dev",
+    "apiWorker": "8b27e703-d188-490d-9785-dd231b363bb2",
+    "clanDraftWorker": "07dd9c64-6b7e-4f1b-9eb7-51e328a9b2e9",
+    "logSha256": "6dbf4ec04cdfd2ca6303fbc047ae47cb31c99412c6d769e2c52e44f3ecb38f39",
+    "hyperdriveQueryCache": false
+  },
+  "tests": {
+    "count": 37,
+    "failed": 0,
+    "files": [
+      "tests/loot-shop-v1.test.mjs",
+      "tests/loot-shop-ss-pack.test.mjs"
+    ],
+    "workerCheck": true
+  },
+  "ui": {
+    "fixtureOnly": true,
+    "checks": [
+      {
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "existingTypes": 6,
+        "max": 1000,
+        "saveReload": true,
+        "browserRejects1001": true,
+        "serverRejects1001": true,
+        "newDraftMax": 1000
+      },
+      {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "existingTypes": 6,
+        "max": 1000,
+        "saveReload": true,
+        "browserRejects1001": true,
+        "serverRejects1001": true,
+        "newDraftMax": 1000
+      }
+    ],
+    "errors": []
+  },
+  "liveHttp": [
+    {
+      "path": "admin/index.html",
+      "status": 200,
+      "sha256": "b7f8b4e01aad4f5a075b41b0a574df1620139ae873cdc7493523bedef220b8ac"
+    },
+    {
+      "path": "admin/loot-shop-admin-v1.mjs",
+      "status": 200,
+      "sha256": "0caeb76042afbf62f3461cda90d2331db7f2f1f6633da8a07ac4ac48f0d0f47e"
+    },
+    {
+      "path": "shared/loot-shop-policy-v1.mjs",
+      "status": 200,
+      "sha256": "94ba1b08aaac6daba15f56c1949cdc0ae4676bf6172bf3bd990fd62e110f25e0"
+    },
+    {
+      "path": "api/admin/loot-shop",
+      "status": 401
+    }
+  ],
+  "policyReadBefore": {
+    "checkedAtKst": "2026-10-03 14:40:39",
+    "readOnly": true,
+    "rawHash": "e02a1cf344619c6fc9fcef892a34d1e6b8d5f69d5ad57f387766d49e5252cbf1",
+    "revision": 14,
+    "products": [
+      {
+        "id": "superstar_choice",
+        "type": "SUPERSTAR_CHOICE",
+        "accountLimit": 3
+      },
+      {
+        "id": "fur_choice",
+        "type": "FUR_CHOICE",
+        "accountLimit": 10
+      },
+      {
+        "id": "f_body",
+        "type": "F_BODY",
+        "accountLimit": 1
+      },
+      {
+        "id": "mystic_equipment",
+        "type": "MYSTIC_EQUIPMENT",
+        "accountLimit": 3
+      },
+      {
+        "id": "mercenary_pack",
+        "type": "MERCENARY_PACK",
+        "accountLimit": 3
+      },
+      {
+        "id": "mercenary_ss_pack",
+        "type": "MERCENARY_SS_PACK",
+        "accountLimit": 3
+      }
+    ]
+  },
+  "policyReadAfter": {
+    "checkedAtKst": "2026-10-03 14:51:17",
+    "readOnly": true,
+    "rawHash": "02e048c2292f442537a24a3c21803fd7d8972aba401e239ea3336c4046bfa261",
+    "revision": 16,
+    "products": [
+      {
+        "id": "superstar_choice",
+        "type": "SUPERSTAR_CHOICE",
+        "accountLimit": 3
+      },
+      {
+        "id": "fur_choice",
+        "type": "FUR_CHOICE",
+        "accountLimit": 10
+      },
+      {
+        "id": "f_body",
+        "type": "F_BODY",
+        "accountLimit": 1
+      },
+      {
+        "id": "mystic_equipment",
+        "type": "MYSTIC_EQUIPMENT",
+        "accountLimit": 3
+      },
+      {
+        "id": "mercenary_pack",
+        "type": "MERCENARY_PACK",
+        "accountLimit": 3
+      },
+      {
+        "id": "mercenary_ss_pack",
+        "type": "MERCENARY_SS_PACK",
+        "accountLimit": 10
+      }
+    ]
+  },
+  "observedPolicyChange": {
+    "revisionChanged": true,
+    "rawHashChanged": true
+  },
+  "productionRequests": {
+    "policyWrite": false,
+    "purchase": false,
+    "purchaseHistoryReset": false
+  },
+  "followup": "Documentation-only completion commit; no second game deployment."
+}
