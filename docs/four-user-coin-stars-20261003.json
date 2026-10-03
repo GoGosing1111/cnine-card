@@ -1,0 +1,67 @@
+{
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:four-user-coin-stars:20261003:v1",
+    "recipientHash": "4e0ea72382390295b848f91ddd8ddc57d061d522cc070de8b449d0365bf4c895",
+    "actor": "SYSTEM_OPS",
+    "delivery": "DIRECT",
+    "recipientCount": 4,
+    "coinEach": "1000000000000",
+    "totalCoin": "4000000000000",
+    "totalStars": "80000000",
+    "authorization": "암살자.. / 도댕 각 1조 코인 + 마별 3000만; 지아영 / 음주플레이어 각 1조 코인 + 마별 1000만 지급",
+    "completedAt": "2026-10-03T14:47:34.636Z",
+    "adminLogId": "40473",
+    "recipients": [
+      {
+        "userId": "4235",
+        "nickname": "도댕",
+        "coinGranted": "1000000000000",
+        "starsGranted": "30000000",
+        "coinLogId": "61941496",
+        "starLogId": "54529085"
+      },
+      {
+        "userId": "4540",
+        "nickname": "지아영",
+        "coinGranted": "1000000000000",
+        "starsGranted": "10000000",
+        "coinLogId": "61941497",
+        "starLogId": "54529086"
+      },
+      {
+        "userId": "4598",
+        "nickname": "암살자..",
+        "coinGranted": "1000000000000",
+        "starsGranted": "30000000",
+        "coinLogId": "61941498",
+        "starLogId": "54529087"
+      },
+      {
+        "userId": "4757",
+        "nickname": "음주플레이어",
+        "coinGranted": "1000000000000",
+        "starsGranted": "10000000",
+        "coinLogId": "61941499",
+        "starLogId": "54529088"
+      }
+    ]
+  },
+  "verification": {
+    "status": "VERIFIED",
+    "recipients": 4,
+    "coinLogs": 4,
+    "starLogs": 4,
+    "totalCoin": "4000000000000",
+    "totalStars": "80000000",
+    "duplicates": 0,
+    "adminLogId": "40473"
+  },
+  "checks": {
+    "dryRunRollback": true,
+    "partialFailureRollback": true,
+    "idempotentReplay": true,
+    "separateConnectionVerified": true
+  },
+  "balanceEvidence": "Full before/after values are retained in the production receipt and external operation evidence."
+}
