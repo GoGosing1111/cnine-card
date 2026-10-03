@@ -1,6 +1,6 @@
 {
   "date": "2026-10-04",
-  "status": "SCOPED_RELEASE_READY",
+  "status": "LIVE_VERIFIED",
   "request": "크라이베른 상향: 베르칸 상대 45–50%, 라그니엘 상대 약 65%",
   "primaryMethod": "All 23 observed distinct equipped formations, equally weighted; identical ordinary cards, equipment, advancement, magic; swap A/B sides. Offline canonical engine simulation, not live account win rates.",
   "targets": [
@@ -2421,8 +2421,49 @@
       ],
       "checks": [
         "check:worker"
-      ]
+      ],
+      "result": {
+        "passed": 33,
+        "failed": 0,
+        "skipped": 1,
+        "finalBasicScale": 1.165,
+        "workerSyntax": "PASSED",
+        "releaseGuard": "PASSED",
+        "hyperdriveQueryCache": "DISABLED"
+      }
     }
   },
-  "deployment": null
+  "deployment": {
+    "source": "a2dab2295420bb7196ab7e425741bf62f6ea7ea7",
+    "pagesUrl": "https://2354bc4b.cnine-card.pages.dev",
+    "apiRuntimeVersion": "4163a7d1-53e6-41f2-83ca-341a6340013f",
+    "clanDuoWorkerVersion": "694d78cf-7b43-4a30-ac32-6ac92afdc95e",
+    "command": "npm run deploy:production -- --scoped"
+  },
+  "production": {
+    "verifiedAt": "2026-10-03T18:10:30.553Z",
+    "source": "a2dab2295420bb7196ab7e425741bf62f6ea7ea7",
+    "files": [
+      {
+        "file": "shared/mercenary-cryvern-v1.mjs",
+        "status": 200,
+        "sha256": "5eaf6b35dc5c67dd6cfbc04f6bb4eac5d8aff89472732ae2f985e97d88758ca5"
+      },
+      {
+        "file": "preview/project-v-v3/grid-build-report.json",
+        "status": 200,
+        "sha256": "75820f7bec2a23ac3a5ad8488cc04693fce047ca1d8d9baeaeb22ab0915cf3d8"
+      },
+      {
+        "file": "preview/v3-wide-grid-v1/app.bundle.js",
+        "status": 200,
+        "sha256": "28d178a39a54350d26016e45de5ac792b80aaf6f9e73698d245144f927a82f1d"
+      }
+    ],
+    "codex": {
+      "revision": 60,
+      "combatLinkVersion": 2144
+    },
+    "status": "PASSED"
+  }
 }

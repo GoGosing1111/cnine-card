@@ -41,4 +41,17 @@ node scripts/measure-cryvern-parity-20261004.mjs --count 1024 --start 231001 --o
 - 최종 배포에서는 JSON의 직접 관련 검사 6개 파일과 Worker 구문, 실제 번들/메인 로더, 출시 플래그·캐시·Hyperdrive를 확인한다. 대규모 모의전은 재실행하지 않는다.
 - 직전 확인 운영 소스는 리치왕 주간 보상 배포 `a8c026bf81066fb7c0ca6a839af4e2815e34d883`, Pages `bbf288cc-8781-4551-955e-4316b60ce1d4`다. 이후 문서 기록은 보존하고 함께 반영한다.
 
-배포 명령: `npm run deploy:production -- --scoped`. 운영 완료 ID와 HTTP 검증은 배포 후 이 문서와 JSON에 추가한다.
+배포 명령: `npm run deploy:production -- --scoped`. 운영 완료 ID와 HTTP 검증은 아래 및 JSON에 기록한다.
+
+## 운영 반영 완료
+
+**2026-10-04 03:10:30 KST** 운영 검증 완료.
+
+- 운영 소스: `a2dab2295420bb7196ab7e425741bf62f6ea7ea7`
+- Pages: <https://2354bc4b.cnine-card.pages.dev>
+- API Worker: `4163a7d1-53e6-41f2-83ca-341a6340013f`
+- 클랜/듀오 Worker: `694d78cf-7b43-4a30-ac32-6ac92afdc95e`
+- 최종 scoped 검사 **33건 통과, 1건 기존 출시 조건에 따라 제외, 실패 0건**. Worker 구문·출시 플래그·캐시·Hyperdrive 검사 통과.
+- 운영 shared 모듈·공용 빌드 기록·독립 전장 번들을 HTTP 200으로 확인했으며 로컬 배포 파일 SHA-256과 모두 일치했다. 평타 **1.165**, PVP 왕관 상한 **1.6** 확인.
+- 운영 용병도감 CMS revision **60**, 전투 연결 version **2144**, 세 용병의 등급·능력치·원배율·비용·재사용·스킬 배정이 검증 당시와 동일하다. 새로 시작하는 전투에 적용한다.
+- 다른 작업의 미라클 큐브 쿠폰·리치왕 주간 보상 코드를 보존하여 최신 main 위에 반영했다. 문서만 추가한 이 완료 기록은 커밋·원격 반영으로 마무리하고 재배포하지 않는다.
