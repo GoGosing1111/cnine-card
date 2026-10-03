@@ -515,6 +515,7 @@ function messageRewardClaimToken(){
 }
 
 const VERIFIED_MESSAGE_REWARD_TYPES={
+  LICH_KING_ENTRY_TICKET:{label:'리치왕 정벌 입장권',icon:'🎟️',inventory:true,messageOnly:true,max:100000,messageType:'ITEM_REWARD'},
   MERCENARY_OMEGA_X:{label:'오메가-X SSS',icon:'🃏',inventory:false,messageOnly:true,max:1,messageType:'ITEM_REWARD'},
   PIG_COIN:{label:'피그코인',icon:'🐷',inventory:false,messageOnly:true,max:100000,messageType:'ITEM_REWARD'},
   COIN:{label:'코인',icon:'🪙',inventory:false,max:5000000000,messageType:'COIN_REWARD'},
