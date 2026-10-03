@@ -1,0 +1,104 @@
+{
+  "commit": "c6094b2aab1fae855c441776d350a41cbfb5ef8c",
+  "deployment": "https://2882e6a8.cnine-card.pages.dev",
+  "base": "26771b9829b84993eb1ddc83fe9984cdc056a475",
+  "tests": {
+    "file": "tests/sustained-hunt-v2.test.mjs",
+    "passed": 13
+  },
+  "browser": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "metrics": [
+        {
+          "id": "qa-0",
+          "width": 64,
+          "height": 68,
+          "labelSize": "12px",
+          "labelVisible": true,
+          "quantity": "×3",
+          "quantityHidden": false
+        },
+        {
+          "id": "qa-1",
+          "width": 64,
+          "height": 68,
+          "labelSize": "12px",
+          "labelVisible": true,
+          "quantity": "×12",
+          "quantityHidden": false
+        },
+        {
+          "id": "qa-2",
+          "width": 64,
+          "height": 68,
+          "labelSize": "12px",
+          "labelVisible": true,
+          "quantity": "×1",
+          "quantityHidden": true
+        }
+      ],
+      "claims": 1,
+      "expiry": true,
+      "resultAndReturn": true,
+      "errors": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "metrics": [
+        {
+          "id": "qa-0",
+          "width": 60,
+          "height": 64,
+          "labelSize": "11px",
+          "labelVisible": true,
+          "quantity": "×3",
+          "quantityHidden": false
+        },
+        {
+          "id": "qa-1",
+          "width": 60,
+          "height": 64,
+          "labelSize": "11px",
+          "labelVisible": true,
+          "quantity": "×12",
+          "quantityHidden": false
+        },
+        {
+          "id": "qa-2",
+          "width": 60,
+          "height": 64,
+          "labelSize": "11px",
+          "labelVisible": true,
+          "quantity": "×1",
+          "quantityHidden": true
+        }
+      ],
+      "claims": 1,
+      "expiry": true,
+      "resultAndReturn": true,
+      "errors": []
+    }
+  ],
+  "files": [
+    {
+      "path": "pve/legion-hunt/index.html",
+      "sha256": "3b4e8f55549788d9bc3b69d3b6be1bdbe1edfc05655c107f3837b6a12ab7a032"
+    },
+    {
+      "path": "preview/sustained-hunt-v2/hunt.css",
+      "sha256": "bb555d1f8dcdb05bfb91a22cce4df2a2de6b0fe14204274395680a984c21dbca"
+    },
+    {
+      "path": "preview/sustained-hunt-v2/battle.bundle.js",
+      "sha256": "ceee8bf99a7a702871619432d3268607ad9e41dacf176a2ffe452d63104cdee5"
+    }
+  ],
+  "verifiedAt": "2026-10-03T09:02:31.159Z"
+}
