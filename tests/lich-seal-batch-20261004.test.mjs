@@ -27,7 +27,8 @@ test('a wrong rune resets only its personal seal and cancels the rest of the sub
  h.act('2',a);assert.equal(h.room.doom,1);assert.equal(h.room.statistics.mistakes,1);
  assert.deepEqual(h.room.challenge.seals.map(t=>[t.index,t.epoch]),[[0,1],[0,0]]);
  h.act('2',a);assert.equal(h.room.doom,1);
- assert.throws(()=>h.act('2',{...a,requestId:'late_wrong_keys'}),/갱신/);assert.equal(h.room.doom,1);
+ h.act('2',{...a,requestId:'late_wrong_keys'});assert.equal(h.room.doom,1);
+ assert.deepEqual(h.room.challenge.seals.map(t=>[t.index,t.epoch]),[[0,1],[0,0]],'replaying the consumed first rune never reapplies the failed batch');
  h.act('2',h.body('2'));assert.equal(h.room.challenge.seals[0].index,3);
 });
 test('batch input keeps role, length, current token, remaining count and link deadline validation',()=>{
