@@ -1,10 +1,10 @@
 {
-  "url": "https://cnine-card.pages.dev/preview/mercenary-limited-sd-skills-20261003-v1/?character=valter&v=20261004-native-size",
-  "checkedAt": "2026-10-03T15:31:20.126Z",
-  "deployedCommit": "6fd9ba7b3d5ee494a1d9cde517f4695ff7e77bd6",
-  "pages": "https://a74acb3f.cnine-card.pages.dev",
-  "apiVersion": "7aeb248d-8b8e-45c5-a442-4acda1379e16",
-  "clanVersion": "73969051-70ac-43ab-917e-9c6e34489885",
+  "url": "https://cnine-card.pages.dev/preview/mercenary-limited-sd-skills-20261003-v1/?character=valter&v=20261004-valter-approved-size-fx",
+  "checkedAt": "2026-10-03T15:48:45.335Z",
+  "deployedCommit": "73f34285339d2596da9636c06e60735f084c3102",
+  "pages": "https://c3ddf6f0.cnine-card.pages.dev",
+  "apiVersion": "27e61e21-a7d0-4dae-ab70-7b8c19262811",
+  "clanVersion": "faa6a56d-f781-433b-acbc-39e42e286bc1",
   "errors": [],
   "failures": [],
   "diagnostics": {
@@ -14,9 +14,11 @@
     "time": 0.8,
     "body": "static image preview; motion not claimed",
     "formation": {
-      "bodyHeight": 226.875,
-      "textureHeight": 260,
-      "sizePolicy": "EXISTING_REGULAR_BATTLE_SPRITE",
+      "bodyHeight": 312.3894230769231,
+      "textureHeight": 358,
+      "sizePolicy": "APPROVED_VALTER_V17_BODY_HEIGHT",
+      "referenceBodyHeight": 312.3894230769231,
+      "referenceTextureHeight": 358,
       "station": {
         "x": 380,
         "y": 240
@@ -35,7 +37,16 @@
       "frame": 2,
       "behindCharacter": true,
       "color": "#ff2437",
-      "widthToBody": 1.32
+      "widthToBody": 1.32,
+      "approvedValterFx": {
+        "source": "APPROVED_V17_KnightFX",
+        "silhouetteCopies": 18,
+        "filters": 6,
+        "auraFrames": 12,
+        "risingParticles": 12,
+        "enabled": true,
+        "independentClock": false
+      }
     },
     "effectFrame": null,
     "visibleSkillEffects": 0,
@@ -44,8 +55,13 @@
     "axisLateralError": 0,
     "shotAngleDegrees": 0,
     "singleClock": true,
-    "registeredTimelines": 1,
+    "registeredTimelines": 0,
     "liveEnabled": false
+  },
+  "comparison": {
+    "character": "조은",
+    "bodyHeight": 312.3894230769231,
+    "axisLateralError": 0
   },
   "approvedValterSdHash": "D2CAB7DDE716CF9A0554AF44A03A448A7BCCD9E402928D87620C72C73879A6CC"
 }
