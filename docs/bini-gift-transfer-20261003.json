@@ -1,0 +1,70 @@
+{
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:pingdu-thanks-gift-transfer:4595-to-5504:20261003:v1",
+    "actor": "SYSTEM_OPS",
+    "sourceUserId": 4595,
+    "sourceNickname": "비니",
+    "destinationUserId": 5504,
+    "destinationNickname": "비_니",
+    "itemCode": "PINGDU_THANKS_GIFT_BOX",
+    "quantity": 1,
+    "sourceMessageId": 182636,
+    "sourceRewardId": 179198,
+    "sourceClaimLogId": 54206182,
+    "sourceCampaign": "heeya-room-thanks-gift-20261003-v1",
+    "sourceBefore": 1,
+    "sourceAfter": 0,
+    "destinationBefore": 0,
+    "destinationAfter": 1,
+    "inventoryLogIds": [
+      "54282611",
+      "54282617"
+    ],
+    "completedAt": "2026-10-03T13:30:09.828Z",
+    "adminLogId": "40453",
+    "replayed": false,
+    "dryRun": false
+  },
+  "replayVerified": true,
+  "verification": {
+    "verified": true,
+    "receipt": {
+      "status": "COMPLETED",
+      "operationKey": "ops:pingdu-thanks-gift-transfer:4595-to-5504:20261003:v1",
+      "actor": "SYSTEM_OPS",
+      "sourceUserId": 4595,
+      "sourceNickname": "비니",
+      "destinationUserId": 5504,
+      "destinationNickname": "비_니",
+      "itemCode": "PINGDU_THANKS_GIFT_BOX",
+      "quantity": 1,
+      "sourceMessageId": 182636,
+      "sourceRewardId": 179198,
+      "sourceClaimLogId": 54206182,
+      "sourceCampaign": "heeya-room-thanks-gift-20261003-v1",
+      "sourceBefore": 1,
+      "sourceAfter": 0,
+      "destinationBefore": 0,
+      "destinationAfter": 1,
+      "inventoryLogIds": [
+        "54282611",
+        "54282617"
+      ],
+      "completedAt": "2026-10-03T13:30:09.828Z",
+      "adminLogId": "40453"
+    },
+    "currentStock": [
+      {
+        "user_id": "4595",
+        "quantity": "0",
+        "unseen_quantity": "0"
+      },
+      {
+        "user_id": "5504",
+        "quantity": "1",
+        "unseen_quantity": "1"
+      }
+    ]
+  }
+}
