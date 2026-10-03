@@ -51,10 +51,14 @@ function randomBelow(total){
   do{value=crypto.getRandomValues(new Uint32Array(1))[0];}while(value>=limit);
   return value%total;
 }
-function draw(pool,items,count){
-  const total=pool.reduce((n,p)=>n+p.weight,0),map=new Map(items.map(p=>[p.code,p])),results=[];
+function draw(pool,items,count,blankWeight=0){
+  const petTotal=pool.reduce((n,p)=>n+p.weight,0),total=petTotal+blankWeight,map=new Map(items.map(p=>[p.code,p])),results=[];
   if(!total||pool.some(p=>!map.has(p.code)))fail('POOL','획득 풀의 펫 원화를 확인해 주세요.',423);
-  for(let i=0;i<count;i++){let roll=randomBelow(total);for(const row of pool){roll-=row.weight;if(roll<0){results.push({...map.get(row.code)});break;}}}
+  for(let i=0;i<count;i++){
+    let roll=randomBelow(total);
+    if(roll>=petTotal){results.push({outcome:'EMPTY',code:null,name:'꽝'});continue;}
+    for(const row of pool){roll-=row.weight;if(roll<0){results.push({...map.get(row.code),outcome:'PET'});break;}}
+  }
   return results;
 }
 export async function openPetSeal(env,user,body){
@@ -64,11 +68,12 @@ export async function openPetSeal(env,user,body){
   if(!settings.enabled)fail('CLOSED','펫 봉인구 개봉은 준비 중입니다. 획득 풀 설정 후 열립니다.',423);
   if(settings.revision!==body.expectedRevision)fail('REVISION','개봉 설정이 변경되었습니다. 새로고침 후 비용을 확인하세요.');
   if(body.count>petOpeningLimit(settings,balance))fail('BALANCE','봉인구 또는 펫 정수가 부족하거나 최대 개봉 수량을 초과했습니다.');
-  const results=draw(settings.pool,items,body.count),cost=body.count*settings.essencePerOpen;
+  const results=draw(settings.pool,items,body.count,settings.blankWeight),cost=body.count*settings.essencePerOpen;
+  const blankCount=results.filter(result=>result.outcome==='EMPTY').length;
   const pets={...owned.state.pets};
-  for(const pet of results){pet.previousQuantity=pets[pet.code]||0;pet.isNew=pet.previousQuantity===0;pets[pet.code]=(pets[pet.code]||0)+1;if(!Number.isSafeInteger(pets[pet.code]))fail('LIMIT','펫 보유 한도를 초과했습니다.');}
+  for(const pet of results){if(pet.outcome==='EMPTY')continue;pet.previousQuantity=pets[pet.code]||0;pet.isNew=pet.previousQuantity===0;pets[pet.code]=(pets[pet.code]||0)+1;if(!Number.isSafeInteger(pets[pet.code]))fail('LIMIT','펫 보유 한도를 초과했습니다.');}
   const token=crypto.randomUUID(),next={revision:owned.state.revision+1,pets,commitToken:token},nextRaw=JSON.stringify(next);
-  const result={ok:true,requestId:body.requestId,count:body.count,settingsRevision:settings.revision,essencePerOpen:settings.essencePerOpen,cost:{seals:body.count,essence:cost},balances:{seals:balance.seals-body.count,essence:balance.essence-cost},results,collection:next,reviewOnly:false};
+  const result={ok:true,requestId:body.requestId,count:body.count,petCount:body.count-blankCount,blankCount,settingsRevision:settings.revision,essencePerOpen:settings.essencePerOpen,cost:{seals:body.count,essence:cost},balances:{seals:balance.seals-body.count,essence:balance.essence-cost},results,collection:next,reviewOnly:false};
   const key=collectionKey(user.id),rk=receiptKey(user.id,body.requestId);
   await ensurePetOpeningItems(env);await ensureJointAtomicSchema(env);
   const write=owned.raw===null?env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING').bind(key,nextRaw):env.DB.prepare('UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?').bind(nextRaw,key,owned.raw);
@@ -105,16 +110,18 @@ export async function handlePetOpening({path,request,env,deps}){
       return reply(await deps.withUserMutationLock(env,user.id,path,()=>openPetSeal(env,user,body)));
     }
     const [{settings,raw},items]=await Promise.all([settingsRow(env),catalog(env)]);
-    const total=settings.pool.reduce((n,p)=>n+p.weight,0),pool=settings.pool.map(p=>({...items.find(a=>a.code===p.code),...p,probability:total?p.weight/total:0}));
+    const total=settings.pool.reduce((n,p)=>n+p.weight,0)+settings.blankWeight,pool=settings.pool.map(p=>({...items.find(a=>a.code===p.code),...p,probability:total?p.weight/total:0})),blankProbability=total?settings.blankWeight/total:0;
     if(path.endsWith('/review')){
       const body=await readJointBody(request,{fields:['count']});
       if(!Number.isSafeInteger(body.count)||body.count<1||body.count>settings.maxBatch)fail('INPUT','검수 수량을 확인하세요.',400);
       const demo=!settings.pool.length,reviewPool=demo?items.map(p=>({code:p.code,weight:1})):settings.pool;
-      return reply({ok:true,count:body.count,results:draw(reviewPool,items,body.count),cost:{seals:body.count,essence:body.count*settings.essencePerOpen},reviewOnly:true,demoPool:demo});
+      const results=draw(reviewPool,items,body.count,settings.blankWeight),blankCount=results.filter(r=>r.outcome==='EMPTY').length;
+      return reply({ok:true,count:body.count,petCount:body.count-blankCount,blankCount,results,cost:{seals:body.count,essence:body.count*settings.essencePerOpen},reviewOnly:true,demoPool:demo});
     }
     if(admin&&request.method==='POST'){
       const body=await readJointBody(request,{fields:['settings'],maxBytes:16384});let next;
       try{next=validatePetOpeningSettings(body.settings);}catch(error){fail('SETTINGS',error.message,400);}
+      if(!Object.hasOwn(body.settings,'blankWeight')&&settings.blankWeight>0)fail('CLIENT_UPDATE','꽝 확률을 지원하는 새 CMS를 불러온 뒤 저장하세요.',400);
       if(next.revision!==settings.revision)fail('REVISION','다른 창에서 설정이 변경되었습니다. 다시 불러오세요.');
       if(next.pool.some(p=>!items.some(a=>a.code===p.code)))fail('POOL','등록된 원화가 있는 펫만 획득 풀에 넣을 수 있습니다.',400);
       next.revision++;const token=crypto.randomUUID(),serialized=JSON.stringify({...next,saveToken:token});
@@ -124,8 +131,8 @@ export async function handlePetOpening({path,request,env,deps}){
       catch{fail('REVISION','저장 충돌이 발생했습니다. 다시 불러오세요.');}
       return reply({ok:true,settings:next,catalog:items});
     }
-    if(admin)return reply({ok:true,userId:Number(user.id),settings,catalog:items,pool});
+    if(admin)return reply({ok:true,userId:Number(user.id),settings,catalog:items,pool,blankProbability});
     const [balance,collection]=await Promise.all([balances(env,user.id),collectionRow(env,user.id)]);
-    return reply({ok:true,userId:Number(user.id),settings,pool,balances:balance,maxOpen:settings.enabled?petOpeningLimit(settings,balance):0,collection:collection.state,ownedPets:items.filter(p=>collection.state.pets[p.code]>0).map(p=>({...p,quantity:collection.state.pets[p.code]})),battleEnabled:false});
+    return reply({ok:true,userId:Number(user.id),settings,pool,blankProbability,balances:balance,maxOpen:settings.enabled?petOpeningLimit(settings,balance):0,collection:collection.state,ownedPets:items.filter(p=>collection.state.pets[p.code]>0).map(p=>({...p,quantity:collection.state.pets[p.code]})),battleEnabled:false});
   }catch(error){const known=Number.isInteger(error.status);return reply({ok:false,code:known?error.code:'PET_OPEN_RETRYABLE',error:known?error.message:error.message?.startsWith('개봉')||error.message?.startsWith('중복')?error.message:'처리를 확인하지 못했습니다. 같은 요청으로 다시 확인하세요.',retryable:!known||error.status>=500},known?error.status:503);}
 }

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#080c17"><title>펫 봉인구 · 개봉 성소 | 숲켓몬</title><link rel="icon" href="/assets/ui/pwa-icon.svg"><link rel="stylesheet" href="/css/pet-opening-v1.css?v=20261003"><link rel="stylesheet" href="/css/adventure-navigation-standalone.css?v=2108"></head>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#080c17"><title>펫 봉인구 · 개봉 성소 | 숲켓몬</title><link rel="icon" href="/assets/ui/pwa-icon.svg"><link rel="stylesheet" href="/css/pet-opening-v1.css?v=20261003-blank-popup"><link rel="stylesheet" href="/css/adventure-navigation-standalone.css?v=2108"></head>
 <body><header class="po-nav"><a id="back" href="/"><span aria-hidden="true">←</span> 숲켓몬</a><span>COMPANION SANCTUM</span><a id="equipment" href="/pets/">펫 장착 <span aria-hidden="true">↗</span></a></header>
 <main id="petOpening">
   <div class="po-heading"><div><p class="eyebrow">SEALED COMPANION · 숲켓몬</p><h1>펫 봉인구</h1></div><button class="quiet" id="rates">획득 목록 · 확률 <span aria-hidden="true">↗</span></button></div>
@@ -7,7 +7,7 @@
   <section class="po-sanctum" aria-label="펫 봉인구 개봉">
     <div class="po-art-stage" id="stage"><div class="po-story"><span class="eyebrow">AWAKEN A NEW BOND</span><h2>잠든 인연을<br>깨우는 순간</h2><p>생명의 정수가 스며들면<br>봉인 속 작은 동료가 깨어납니다.</p></div><div class="po-orb-wrap"><div class="po-aura"></div><div class="po-ring"></div><img class="po-orb" src="/assets/items/pet-opening-v1/pet-seal-orb.webp" alt="은빛 금속에 봉인된 초록빛 펫 봉인구" fetchpriority="high"><div class="po-burst"></div></div><div class="po-stage-footer"><span><i></i> LIFE RESONANCE</span><span>01 / SEALED RELIQUARY</span></div><button id="skip" class="quiet po-skip" hidden>연출 건너뛰기</button></div>
     <div class="po-console">
-      <div class="po-console-title"><span class="eyebrow">THE OPENING RITUAL</span><h2>봉인을 해제하세요</h2><p>봉인구 1개에서 동료 1마리를 만납니다.</p></div>
+      <div class="po-console-title"><span class="eyebrow">THE OPENING RITUAL</span><h2>봉인을 해제하세요</h2><p>봉인구마다 펫 또는 꽝을 추첨합니다.</p></div>
       <div class="po-balances"><div><img src="/assets/items/pet-opening-v1/pet-seal-orb.webp" alt=""><span>펫 봉인구<strong id="seals">—</strong></span></div><div><img src="/assets/items/pet-opening-v1/pet-essence.webp" alt=""><span>펫 정수<strong id="essence">—</strong></span></div></div>
       <div class="po-quantity-head"><label for="quantity">개봉 수량</label><span id="maximum">보유 수량 확인 중</span></div><div class="po-stepper"><button id="minus" aria-label="개봉 수량 줄이기">−</button><input id="quantity" type="number" min="1" max="1000" value="1" step="1" inputmode="numeric" aria-describedby="maximum"><button id="plus" aria-label="개봉 수량 늘리기">+</button></div>
       <div class="po-presets"><button data-count="1">1개</button><button data-count="5">5개</button><button data-count="10">10개</button><button data-count="max">최대</button></div>
@@ -16,9 +16,14 @@
       <div class="po-acquire"><img src="/assets/items/pet-opening-v1/pet-essence.webp" alt=""><div><b>정수는 리치왕 정벌에서</b><p>클리어 보상으로 모아 봉인구를 개봉하세요.</p><a href="/raid/lich-king/">리치왕 정벌로 이동 <span aria-hidden="true">↗</span></a></div></div><button class="quiet po-refresh" id="refresh">보유 수량 다시 확인</button>
     </div>
   </section>
-  <section class="po-results" id="results" hidden tabindex="-1" aria-labelledby="resultTitle"><div class="po-section-head"><div><span class="eyebrow">A BOND AWAKENS</span><h2 id="resultTitle">새로운 동료가 깨어났습니다</h2><p id="resultSummary"></p></div><button class="quiet" id="again">다시 개봉 <span aria-hidden="true">↑</span></button></div><div id="resultCards" class="po-pet-grid"></div></section>
   <section class="po-collection"><div class="po-section-head"><div><span class="eyebrow">YOUR COMPANIONS</span><h2>함께할 동료들</h2></div><span class="po-collection-note">중복 획득도 보유 수량에 합산됩니다.</span></div><div id="collection" class="po-pet-grid"><p class="po-empty">아직 깨어난 동료가 없습니다.<br><small>봉인구를 개봉하면 여기에 모입니다.</small></p></div></section>
 </main>
+<dialog id="results" class="po-results-dialog" aria-labelledby="resultTitle" aria-describedby="resultSummary">
+  <header class="po-result-head"><img src="/assets/items/pet-opening-v1/pet-seal-orb.webp" alt=""><div><span class="eyebrow">THE SEAL HAS OPENED</span><h2 id="resultTitle">봉인 해제 결과</h2><p id="resultSummary"></p></div><form method="dialog"><button class="po-dialog-close" aria-label="개봉 결과 닫기">×</button></form></header>
+  <div class="po-result-totals"><div><span>개봉한 봉인구</span><strong id="resultCount">0</strong></div><div><span>획득한 펫</span><strong id="resultPetCount">0</strong></div><div><span>꽝</span><strong id="resultBlankCount">0</strong></div></div>
+  <div class="po-result-body"><div id="resultCards" class="po-pet-grid"></div></div>
+  <footer class="po-result-footer"><div class="po-result-spent" id="resultSpent"></div><div class="po-result-actions"><button class="quiet" id="again">계속 개봉</button><form method="dialog"><button class="po-primary">결과 확인 <span aria-hidden="true">✓</span></button></form></div></footer>
+</dialog>
 <dialog id="confirm" class="po-dialog"><form method="dialog"><button class="po-dialog-close" aria-label="닫기">×</button></form><span class="eyebrow">CONFIRM THE RITUAL</span><h2 id="confirmTitle">봉인을 해제할까요?</h2><img class="po-dialog-orb" src="/assets/items/pet-opening-v1/pet-seal-orb.webp" alt=""><p id="confirmCost"></p><p class="po-dialog-note" id="confirmNote">개봉이 완료되면 사용한 아이템은 반환되지 않습니다.</p><div class="po-dialog-actions"><button class="quiet" id="cancel">돌아가기</button><button class="po-primary" id="confirmOpen">개봉하기</button></div></dialog>
-<dialog id="probabilities" class="po-dialog po-rates-dialog"><form method="dialog"><button class="po-dialog-close" aria-label="닫기">×</button></form><span class="eyebrow">COMPANION POOL</span><h2>획득 목록 · 확률</h2><p id="poolNote"></p><div id="poolRows"></div><p class="po-dialog-note">각 개봉은 독립적으로 추첨됩니다. 중복 펫은 보유 수량에 합산됩니다.</p></dialog>
-<script type="module" src="/js/pet-opening-v1.mjs?v=20261003"></script></body></html>
+<dialog id="probabilities" class="po-dialog po-rates-dialog"><form method="dialog"><button class="po-dialog-close" aria-label="닫기">×</button></form><span class="eyebrow">COMPANION POOL</span><h2>획득 목록 · 확률</h2><p id="poolNote"></p><div id="poolRows"></div><p class="po-dialog-note">각 개봉은 독립적으로 추첨됩니다. 중복 펫은 보유 수량에 합산하며 꽝에서도 봉인구·정수는 소모됩니다.</p></dialog>
+<script type="module" src="/js/pet-opening-v1.mjs?v=20261003-blank-popup"></script></body></html>
