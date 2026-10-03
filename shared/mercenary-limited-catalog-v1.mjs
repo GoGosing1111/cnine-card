@@ -1,4 +1,4 @@
-// Read-only approved limited collection. Never merge into the acquisition catalog.
+// Approved limited collection; acquisition policy remains separate.
 export const LIMITED_MERCENARIES=Object.freeze([
   {
     "code": "V-996",
@@ -29,7 +29,9 @@ export const LIMITED_MERCENARIES=Object.freeze([
     },
     "resourceStatus": "ART_SD_MOTION_READY",
     "battleSpriteSha256": "D2CAB7DDE716CF9A0554AF44A03A448A7BCCD9E402928D87620C72C73879A6CC",
-    "motionVersion": 17
+    "motionVersion": 17,
+    "visualApproval": "USER_APPROVED_20261004",
+    "battleVisualManifest": "assets/ui/project-v/mercenaries/limited-battle-20261004/manifest.json"
   },
   {
     "code": "V-990",
@@ -44,7 +46,7 @@ export const LIMITED_MERCENARIES=Object.freeze([
     "releaseStatus": "LIMITED_PREVIEW",
     "sourceArt": "assets/ui/project-v/mercenaries/limited-20261002/v-990-source-art-approved-20261002.png",
     "sourceArtSha256": "EFC0B6D14A891917D517E8F9850D398165A0F94C11006DD6945BB2D05C627120",
-    "battleSprite": null,
+    "battleSprite": "assets/ui/project-v/mercenaries/limited-battle-20261004/bongsoon-sd.png",
     "accent": "#e6c98d",
     "basePower": null,
     "skills": [],
@@ -58,7 +60,10 @@ export const LIMITED_MERCENARIES=Object.freeze([
       "width": 88.086,
       "height": 88.086
     },
-    "resourceStatus": "SOURCE_ART_READY"
+    "resourceStatus": "ART_SD_SKILL_VISUAL_READY",
+    "battleSpriteSha256": "A86C23D894447020A04EAD3CE56AF523AA2B4EEAA52DF8DEA9CC16CBA6F552B6",
+    "visualApproval": "USER_APPROVED_20261004",
+    "battleVisualManifest": "assets/ui/project-v/mercenaries/limited-battle-20261004/manifest.json"
   },
   {
     "code": "V-991",
@@ -73,7 +78,7 @@ export const LIMITED_MERCENARIES=Object.freeze([
     "releaseStatus": "LIMITED_PREVIEW",
     "sourceArt": "assets/ui/project-v/mercenaries/limited-20261002/v-991-source-art.png",
     "sourceArtSha256": "87E88A646E327FCBB6489B05D8C5287C5212B1D9105134ECE1C036D022C633DA",
-    "battleSprite": null,
+    "battleSprite": "assets/ui/project-v/mercenaries/limited-battle-20261004/joeun-sd.png",
     "accent": "#e6c98d",
     "basePower": null,
     "skills": [],
@@ -87,7 +92,10 @@ export const LIMITED_MERCENARIES=Object.freeze([
       "width": 88.086,
       "height": 88.086
     },
-    "resourceStatus": "SOURCE_ART_READY"
+    "resourceStatus": "ART_SD_SKILL_VISUAL_READY",
+    "battleSpriteSha256": "46108C8280178413968AD884C8613936CFB2393A826E3256B267ED8A8E9C9C5C",
+    "visualApproval": "USER_APPROVED_20261004",
+    "battleVisualManifest": "assets/ui/project-v/mercenaries/limited-battle-20261004/manifest.json"
   },
   {
     "code": "V-992",
@@ -102,7 +110,7 @@ export const LIMITED_MERCENARIES=Object.freeze([
     "releaseStatus": "LIMITED_PREVIEW",
     "sourceArt": "assets/ui/project-v/mercenaries/limited-20261002/v-992-source-art.png",
     "sourceArtSha256": "97D2120A91E7682130697476F6DA0C77FF5AA548C16B2AB128B539FF5ACB176D",
-    "battleSprite": null,
+    "battleSprite": "assets/ui/project-v/mercenaries/limited-battle-20261004/ines-sd.png",
     "accent": "#e6c98d",
     "basePower": null,
     "skills": [],
@@ -116,7 +124,10 @@ export const LIMITED_MERCENARIES=Object.freeze([
       "width": 88.086,
       "height": 88.086
     },
-    "resourceStatus": "SOURCE_ART_READY"
+    "resourceStatus": "ART_SD_SKILL_VISUAL_READY",
+    "battleSpriteSha256": "5E959B91E954CF406EAC4249E5408E503C359A0B1696AD0CE5F7AA63FD6FF3AA",
+    "visualApproval": "USER_APPROVED_20261004",
+    "battleVisualManifest": "assets/ui/project-v/mercenaries/limited-battle-20261004/manifest.json"
   },
   {
     "code": "V-993",
@@ -131,7 +142,7 @@ export const LIMITED_MERCENARIES=Object.freeze([
     "releaseStatus": "LIMITED_PREVIEW",
     "sourceArt": "assets/ui/project-v/mercenaries/limited-20261002/v-993-source-art.png",
     "sourceArtSha256": "039E7CDD18D23CC05943E52157218FFE105F5F213C0B203237CD42FA2966F2A3",
-    "battleSprite": null,
+    "battleSprite": "assets/ui/project-v/mercenaries/limited-battle-20261004/orikkung-sd.png",
     "accent": "#e6c98d",
     "basePower": null,
     "skills": [],
@@ -145,7 +156,10 @@ export const LIMITED_MERCENARIES=Object.freeze([
       "width": 88.086,
       "height": 88.086
     },
-    "resourceStatus": "SOURCE_ART_READY"
+    "resourceStatus": "ART_SD_SKILL_VISUAL_READY",
+    "battleSpriteSha256": "52716EB840DB37377F6FB3CF395E4170ADF865DF9FD7775FE6BD6AD64F84E86B",
+    "visualApproval": "USER_APPROVED_20261004",
+    "battleVisualManifest": "assets/ui/project-v/mercenaries/limited-battle-20261004/manifest.json"
   },
   {
     "code": "V-994",
@@ -160,7 +174,7 @@ export const LIMITED_MERCENARIES=Object.freeze([
     "releaseStatus": "LIMITED_PREVIEW",
     "sourceArt": "assets/ui/project-v/mercenaries/limited-20261002/v-994-source-art.png",
     "sourceArtSha256": "838B9A71739EF4B442E00734584496A92136EFDAD6C71463E18527D6DF5E5CB4",
-    "battleSprite": null,
+    "battleSprite": "assets/ui/project-v/mercenaries/limited-battle-20261004/diim-sd.png",
     "accent": "#e6c98d",
     "basePower": null,
     "skills": [],
@@ -174,7 +188,10 @@ export const LIMITED_MERCENARIES=Object.freeze([
       "width": 88.086,
       "height": 88.086
     },
-    "resourceStatus": "SOURCE_ART_READY"
+    "resourceStatus": "ART_SD_SKILL_VISUAL_READY",
+    "battleSpriteSha256": "727B4FCA72D2BACC2B740A95F3D87D954B3345D88F5DCF8EB7DCBB9FEF833EF6",
+    "visualApproval": "USER_APPROVED_20261004",
+    "battleVisualManifest": "assets/ui/project-v/mercenaries/limited-battle-20261004/manifest.json"
   }
 ].map(card=>Object.freeze(card)));
 export const isLimitedMercenary=code=>LIMITED_MERCENARIES.some(card=>card.code===code);

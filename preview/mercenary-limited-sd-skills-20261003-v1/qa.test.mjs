@@ -17,7 +17,7 @@ test('all delivered sprites and individual skill frames exist with genuine alpha
  }assert.equal(count,60);assert.equal(m.aura.frames.length,8);
 });
 test('new visual candidates do not assign live limited skills or unlock acquisition and deployment',async()=>{
- assert.equal(m.status,'USER_REVIEW_PENDING');assert.equal(m.liveEnabled,false);assert.equal(m.skillAssignments,'UNASSIGNED_VISUAL_DRAFTS');
+ assert.equal(m.status,'USER_APPROVED');assert.equal(m.liveEnabled,true);assert.equal(m.liveScope,'APPROVED_VISUAL_RUNTIME');assert.equal(m.skillAssignments,'VISUALS_APPROVED_BALANCE_UNASSIGNED');
  const module=await import('../../shared/mercenary-limited-catalog-v1.mjs');const arrays=Object.values(module).filter(Array.isArray);const cards=arrays.flat().filter(c=>c&&['V-990','V-991','V-992','V-993','V-994'].includes(c.code));
- assert.equal(new Set(cards.map(c=>c.code)).size,5);for(const c of cards){assert.equal(c.battleSprite,null);assert.equal(c.acquisitionEnabled,false);assert.equal(c.deploymentEnabled,false);assert.deepEqual(c.skills,[]);}
+ assert.equal(new Set(cards.map(c=>c.code)).size,5);for(const c of cards){assert.ok(c.battleSprite);assert.equal(c.visualApproval,'USER_APPROVED_20261004');assert.equal(c.acquisitionEnabled,false);assert.equal(c.deploymentEnabled,false);assert.deepEqual(c.skills,[]);}
 });

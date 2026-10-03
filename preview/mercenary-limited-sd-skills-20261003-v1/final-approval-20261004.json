@@ -1,0 +1,81 @@
+{
+  "date": "2026-10-04",
+  "timezone": "Asia/Seoul",
+  "status": "USER_APPROVED",
+  "userApproval": "최종승인",
+  "userDeploymentInstruction": "라이브에 반영해",
+  "reference": {
+    "code": "V-996",
+    "manifest": "/preview/mercenary-crimson-silver-knight-battle-v1/manifest.json",
+    "textureHeight": 358,
+    "bodyHeight": 312.3894230769231
+  },
+  "scope": "Six limited SD presentations, five skill image sequences, rear aura, original approved Valter V17 motions and surrounding effects; visual runtime deployment authorized.",
+  "acquisitionEnabled": false,
+  "deploymentEnabled": false,
+  "skillBalanceChanged": false,
+  "sourceArtChanged": false,
+  "files": [
+    {
+      "source": "preview/mercenary-limited-sd-skills-20261003-v1/assets/aura/limited-rear-aura-sheet-v1.png",
+      "path": "assets/ui/project-v/mercenaries/limited-battle-20261004/rear-aura.png",
+      "sha256": "433DFF0F0D90CB93E990B31C5ED85F0F355159A397BFA152AAAD69487D071F5D"
+    },
+    {
+      "source": "preview/mercenary-limited-sd-skills-20261003-v1/assets/runtime/bongsoon-sd.png",
+      "path": "assets/ui/project-v/mercenaries/limited-battle-20261004/bongsoon-sd.png",
+      "sha256": "A86C23D894447020A04EAD3CE56AF523AA2B4EEAA52DF8DEA9CC16CBA6F552B6"
+    },
+    {
+      "source": "preview/mercenary-limited-sd-skills-20261003-v1/assets/effects/bongsoon-skill-sheet-v1.png",
+      "path": "assets/ui/project-v/mercenaries/limited-battle-20261004/bongsoon-skill.png",
+      "sha256": "54B4CF3E5E8B5382713008BDDD7180F533689AA26D09FF7C005867FFFD8EB030"
+    },
+    {
+      "source": "preview/mercenary-limited-sd-skills-20261003-v1/assets/runtime/joeun-sd.png",
+      "path": "assets/ui/project-v/mercenaries/limited-battle-20261004/joeun-sd.png",
+      "sha256": "46108C8280178413968AD884C8613936CFB2393A826E3256B267ED8A8E9C9C5C"
+    },
+    {
+      "source": "preview/mercenary-limited-sd-skills-20261003-v1/assets/effects/joeun-skill-sheet-v1.png",
+      "path": "assets/ui/project-v/mercenaries/limited-battle-20261004/joeun-skill.png",
+      "sha256": "BE0DC42D551A97A9CCEB5F1BDF878C825A9275CB4E2B303CB03409BEA4B92DD5"
+    },
+    {
+      "source": "preview/mercenary-limited-sd-skills-20261003-v1/assets/runtime/ines-sd.png",
+      "path": "assets/ui/project-v/mercenaries/limited-battle-20261004/ines-sd.png",
+      "sha256": "5E959B91E954CF406EAC4249E5408E503C359A0B1696AD0CE5F7AA63FD6FF3AA"
+    },
+    {
+      "source": "preview/mercenary-limited-sd-skills-20261003-v1/assets/effects/ines-skill-sheet-v1.png",
+      "path": "assets/ui/project-v/mercenaries/limited-battle-20261004/ines-skill.png",
+      "sha256": "20C712C26BEF4604E28CDFC6A76FDE8BA937919B0D3279E3B07A2B29C8E2CFBB"
+    },
+    {
+      "source": "preview/mercenary-limited-sd-skills-20261003-v1/assets/runtime/orikkung-sd.png",
+      "path": "assets/ui/project-v/mercenaries/limited-battle-20261004/orikkung-sd.png",
+      "sha256": "52716EB840DB37377F6FB3CF395E4170ADF865DF9FD7775FE6BD6AD64F84E86B"
+    },
+    {
+      "source": "preview/mercenary-limited-sd-skills-20261003-v1/assets/effects/orikkung-skill-sheet-v1.png",
+      "path": "assets/ui/project-v/mercenaries/limited-battle-20261004/orikkung-skill.png",
+      "sha256": "D47697C9A4B52B6BBFF565888C483BB16FC6D7E14A9D812550D6D87B222867CA"
+    },
+    {
+      "source": "preview/mercenary-limited-sd-skills-20261003-v1/assets/runtime/diim-sd.png",
+      "path": "assets/ui/project-v/mercenaries/limited-battle-20261004/diim-sd.png",
+      "sha256": "727B4FCA72D2BACC2B740A95F3D87D954B3345D88F5DCF8EB7DCBB9FEF833EF6"
+    },
+    {
+      "source": "preview/mercenary-limited-sd-skills-20261003-v1/assets/effects/diim-skill-sheet-v1.png",
+      "path": "assets/ui/project-v/mercenaries/limited-battle-20261004/diim-skill.png",
+      "sha256": "56ED8C51429211D41D2BEA69DA33F9969AAC86A31D67EAF68F97B5EEFBFB411C"
+    }
+  ],
+  "visualManifest": {
+    "path": "assets/ui/project-v/mercenaries/limited-battle-20261004/manifest.json",
+    "sha256": "594FC4A7010138F678D62C2452F48BA12D72AE8E4EC2EA330DEFF2C1A2BF4EFE"
+  },
+  "approvedValterSdSha256": "D2CAB7DDE716CF9A0554AF44A03A448A7BCCD9E402928D87620C72C73879A6CC",
+  "reviewedCommit": "73f34285339d2596da9636c06e60735f084c3102"
+}

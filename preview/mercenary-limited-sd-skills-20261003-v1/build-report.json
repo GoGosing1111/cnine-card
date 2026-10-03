@@ -4,7 +4,7 @@
   "gsapCopies": 1,
   "pixiVersion": "8.20.0",
   "gsapVersion": "3.13.0",
-  "bundleSha256": "9b8c4ca1e49adbf665d74c5a30d750978e62ef99359b0a67a83c632e9e99e31f",
+  "bundleSha256": "2d6796fa304eb440e8fad88b930f2bf4b09648fd27ca003a3c03f00d4daad0d0",
   "sharedRuntime": [
     "preview/project-v-v3/source/battle/ApocalypseLegionFX.js",
     "preview/project-v-v3/source/battle/ApocalypseLegionPlayback.js",
@@ -48,6 +48,7 @@
     "preview/project-v-v3/source/battle/MercenaryRoleAttackFX.js",
     "preview/project-v-v3/source/battle/MangisaCombatPlayback.js",
     "preview/project-v-v3/source/battle/RagnielCombatPlayback.js",
+    "preview/project-v-v3/source/battle/LimitedMercenaryPlayback.js",
     "preview/project-v-v3/source/battle/MercenaryCombatPlayback.js",
     "preview/project-v-v3/source/battle/CooperativeArkePlayback.js",
     "preview/project-v-v3/source/battle/CooperativeEncounter.js",

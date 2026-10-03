@@ -1,3 +1,5 @@
+import {existsSync} from 'node:fs';
+if(existsSync(new URL('final-approval-20261004.json',import.meta.url)))throw Error('Final approved assets are immutable; use the recorded originals.');
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';

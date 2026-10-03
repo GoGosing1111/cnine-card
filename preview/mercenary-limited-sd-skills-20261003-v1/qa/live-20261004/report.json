@@ -1,0 +1,1174 @@
+[
+  {
+    "label": "desktop",
+    "mode": "PVP",
+    "stages": [
+      {
+        "code": "V-990",
+        "idle": [
+          {
+            "code": "V-990",
+            "version": "20261004-approved",
+            "bodyHeight": 312.3894230769231,
+            "textureHeight": 355.69322004903916,
+            "foot": {
+              "x": 380,
+              "y": 240
+            },
+            "station": {
+              "x": 380,
+              "y": 240
+            },
+            "scale": 0.5,
+            "auraColor": "#8beaff",
+            "rearAura": true,
+            "originalValterFx": null,
+            "ownedAmbientClock": true,
+            "busy": false
+          },
+          {
+            "code": "V-990",
+            "version": "20261004-approved",
+            "bodyHeight": 312.3894230769231,
+            "textureHeight": 355.69322004903916,
+            "foot": {
+              "x": 1220,
+              "y": 240
+            },
+            "station": {
+              "x": 1220,
+              "y": 240
+            },
+            "scale": 0.5,
+            "auraColor": "#8beaff",
+            "rearAura": true,
+            "originalValterFx": null,
+            "ownedAmbientClock": true,
+            "busy": false
+          }
+        ],
+        "attack": {
+          "before": {
+            "hp": 100,
+            "count": 0,
+            "limited": [
+              {
+                "code": "V-990",
+                "version": "20261004-approved",
+                "bodyHeight": 312.3894230769231,
+                "textureHeight": 355.69322004903916,
+                "foot": {
+                  "x": 380,
+                  "y": 240
+                },
+                "station": {
+                  "x": 380,
+                  "y": 240
+                },
+                "scale": 0.5,
+                "auraColor": "#8beaff",
+                "rearAura": true,
+                "originalValterFx": null,
+                "emission": {
+                  "emission": {
+                    "x": 441.48212885613276,
+                    "y": 109.16232465644069
+                  },
+                  "direction": {
+                    "x": 0.9998052854172773,
+                    "y": 0.019732999054288495
+                  },
+                  "height": 156.19471153846152,
+                  "origin": {
+                    "x": 444.29308622283963,
+                    "y": 109.21780407815201
+                  },
+                  "angle": 0.019734279921609376
+                },
+                "ownedAmbientClock": false,
+                "busy": true
+              },
+              {
+                "code": "V-990",
+                "version": "20261004-approved",
+                "bodyHeight": 312.3894230769231,
+                "textureHeight": 355.69322004903916,
+                "foot": {
+                  "x": 1220,
+                  "y": 240
+                },
+                "station": {
+                  "x": 1220,
+                  "y": 240
+                },
+                "scale": 0.5,
+                "auraColor": "#8beaff",
+                "rearAura": true,
+                "originalValterFx": null,
+                "ownedAmbientClock": true,
+                "busy": false
+              }
+            ]
+          },
+          "ok": true,
+          "hp": 77,
+          "count": 1
+        },
+        "stopped": {
+          "hp": 77,
+          "count": 0,
+          "timelines": 0
+        }
+      },
+      {
+        "code": "V-991",
+        "idle": [
+          {
+            "code": "V-991",
+            "version": "20261004-approved",
+            "bodyHeight": 312.3894230769231,
+            "textureHeight": 352.03973136181503,
+            "foot": {
+              "x": 380,
+              "y": 240
+            },
+            "station": {
+              "x": 380,
+              "y": 240
+            },
+            "scale": 0.5,
+            "auraColor": "#65cfff",
+            "rearAura": true,
+            "originalValterFx": null,
+            "ownedAmbientClock": true,
+            "busy": false
+          },
+          {
+            "code": "V-991",
+            "version": "20261004-approved",
+            "bodyHeight": 312.3894230769231,
+            "textureHeight": 352.03973136181503,
+            "foot": {
+              "x": 1220,
+              "y": 240
+            },
+            "station": {
+              "x": 1220,
+              "y": 240
+            },
+            "scale": 0.5,
+            "auraColor": "#65cfff",
+            "rearAura": true,
+            "originalValterFx": null,
+            "ownedAmbientClock": true,
+            "busy": false
+          }
+        ],
+        "attack": {
+          "before": {
+            "hp": 89,
+            "count": 0,
+            "limited": [
+              {
+                "code": "V-991",
+                "version": "20261004-approved",
+                "bodyHeight": 312.3894230769231,
+                "textureHeight": 352.03973136181503,
+                "foot": {
+                  "x": 380,
+                  "y": 240
+                },
+                "station": {
+                  "x": 380,
+                  "y": 240
+                },
+                "scale": 0.5,
+                "auraColor": "#65cfff",
+                "rearAura": true,
+                "originalValterFx": null,
+                "emission": {
+                  "emission": {
+                    "x": 444.40310189626956,
+                    "y": 137.32174501947063
+                  },
+                  "direction": {
+                    "x": 0.996129850025381,
+                    "y": 0.08789381029635736
+                  },
+                  "height": 156.19471153846152,
+                  "origin": {
+                    "x": 447.20372575870175,
+                    "y": 137.56885888968523
+                  },
+                  "angle": 0.08800737352774098
+                },
+                "ownedAmbientClock": false,
+                "busy": true
+              },
+              {
+                "code": "V-991",
+                "version": "20261004-approved",
+                "bodyHeight": 312.3894230769231,
+                "textureHeight": 352.03973136181503,
+                "foot": {
+                  "x": 1220,
+                  "y": 240
+                },
+                "station": {
+                  "x": 1220,
+                  "y": 240
+                },
+                "scale": 0.5,
+                "auraColor": "#65cfff",
+                "rearAura": true,
+                "originalValterFx": null,
+                "ownedAmbientClock": true,
+                "busy": false
+              }
+            ]
+          },
+          "ok": true,
+          "hp": 77,
+          "count": 1
+        },
+        "stopped": {
+          "hp": 77,
+          "count": 0,
+          "timelines": 0
+        }
+      },
+      {
+        "code": "V-992",
+        "idle": [
+          {
+            "code": "V-992",
+            "version": "20261004-approved",
+            "bodyHeight": 312.3894230769231,
+            "textureHeight": 324.4287720393197,
+            "foot": {
+              "x": 380,
+              "y": 240
+            },
+            "station": {
+              "x": 380,
+              "y": 240
+            },
+            "scale": 0.5,
+            "auraColor": "#c390ff",
+            "rearAura": true,
+            "originalValterFx": null,
+            "ownedAmbientClock": true,
+            "busy": false
+          },
+          {
+            "code": "V-992",
+            "version": "20261004-approved",
+            "bodyHeight": 312.3894230769231,
+            "textureHeight": 324.4287720393197,
+            "foot": {
+              "x": 1220,
+              "y": 240
+            },
+            "station": {
+              "x": 1220,
+              "y": 240
+            },
+            "scale": 0.5,
+            "auraColor": "#c390ff",
+            "rearAura": true,
+            "originalValterFx": null,
+            "ownedAmbientClock": true,
+            "busy": false
+          }
+        ],
+        "attack": {
+          "before": {
+            "hp": 100,
+            "count": 0,
+            "limited": [
+              {
+                "code": "V-992",
+                "version": "20261004-approved",
+                "bodyHeight": 312.3894230769231,
+                "textureHeight": 324.4287720393197,
+                "foot": {
+                  "x": 380,
+                  "y": 240
+                },
+                "station": {
+                  "x": 380,
+                  "y": 240
+                },
+                "scale": 0.5,
+                "auraColor": "#c390ff",
+                "rearAura": true,
+                "originalValterFx": null,
+                "emission": {
+                  "emission": {
+                    "x": 413.2666221329381,
+                    "y": 108.62324465595256
+                  },
+                  "direction": {
+                    "x": 1,
+                    "y": 0
+                  },
+                  "height": 156.19471153846152,
+                  "origin": {
+                    "x": 416.0781269406304,
+                    "y": 108.62324465595256
+                  },
+                  "angle": 0
+                },
+                "ownedAmbientClock": false,
+                "busy": true
+              },
+              {
+                "code": "V-992",
+                "version": "20261004-approved",
+                "bodyHeight": 312.3894230769231,
+                "textureHeight": 324.4287720393197,
+                "foot": {
+                  "x": 1220,
+                  "y": 240
+                },
+                "station": {
+                  "x": 1220,
+                  "y": 240
+                },
+                "scale": 0.5,
+                "auraColor": "#c390ff",
+                "rearAura": true,
+                "originalValterFx": null,
+                "ownedAmbientClock": true,
+                "busy": false
+              }
+            ]
+          },
+          "ok": true,
+          "hp": 77,
+          "count": 1
+        },
+        "stopped": {
+          "hp": 77,
+          "count": 0,
+          "timelines": 0
+        }
+      },
+      {
+        "code": "V-993",
+        "idle": [
+          {
+            "code": "V-993",
+            "version": "20261004-approved",
+            "bodyHeight": 312.3894230769231,
+            "textureHeight": 349.39349207659296,
+            "foot": {
+              "x": 380,
+              "y": 240
+            },
+            "station": {
+              "x": 380,
+              "y": 240
+            },
+            "scale": 0.5,
+            "auraColor": "#ffcf70",
+            "rearAura": true,
+            "originalValterFx": null,
+            "ownedAmbientClock": true,
+            "busy": false
+          },
+          {
+            "code": "V-993",
+            "version": "20261004-approved",
+            "bodyHeight": 312.3894230769231,
+            "textureHeight": 349.39349207659296,
+            "foot": {
+              "x": 1220,
+              "y": 240
+            },
+            "station": {
+              "x": 1220,
+              "y": 240
+            },
+            "scale": 0.5,
+            "auraColor": "#ffcf70",
+            "rearAura": true,
+            "originalValterFx": null,
+            "ownedAmbientClock": true,
+            "busy": false
+          }
+        ],
+        "attack": {
+          "before": {
+            "hp": 100,
+            "count": 0,
+            "limited": [
+              {
+                "code": "V-993",
+                "version": "20261004-approved",
+                "bodyHeight": 312.3894230769231,
+                "textureHeight": 349.39349207659296,
+                "foot": {
+                  "x": 380,
+                  "y": 240
+                },
+                "station": {
+                  "x": 380,
+                  "y": 240
+                },
+                "scale": 0.5,
+                "auraColor": "#ffcf70",
+                "rearAura": true,
+                "originalValterFx": null,
+                "emission": {
+                  "emission": {
+                    "x": 463.79544610432487,
+                    "y": 144.00393694288547
+                  },
+                  "direction": {
+                    "x": 0.9999521797086275,
+                    "y": 0.009779483420133748
+                  },
+                  "height": 156.19471153846152,
+                  "origin": {
+                    "x": 466.6068164650381,
+                    "y": 144.03143200753792
+                  },
+                  "angle": 0.009779639309031155
+                },
+                "ownedAmbientClock": false,
+                "busy": true
+              },
+              {
+                "code": "V-993",
+                "version": "20261004-approved",
+                "bodyHeight": 312.3894230769231,
+                "textureHeight": 349.39349207659296,
+                "foot": {
+                  "x": 1220,
+                  "y": 240
+                },
+                "station": {
+                  "x": 1220,
+                  "y": 240
+                },
+                "scale": 0.5,
+                "auraColor": "#ffcf70",
+                "rearAura": true,
+                "originalValterFx": null,
+                "ownedAmbientClock": true,
+                "busy": false
+              }
+            ]
+          },
+          "ok": true,
+          "hp": 77,
+          "count": 1
+        },
+        "stopped": {
+          "hp": 77,
+          "count": 0,
+          "timelines": 0
+        }
+      },
+      {
+        "code": "V-994",
+        "idle": [
+          {
+            "code": "V-994",
+            "version": "20261004-approved",
+            "bodyHeight": 312.3894230769231,
+            "textureHeight": 340.78846153846155,
+            "foot": {
+              "x": 380,
+              "y": 240
+            },
+            "station": {
+              "x": 380,
+              "y": 240
+            },
+            "scale": 0.5,
+            "auraColor": "#cfddff",
+            "rearAura": true,
+            "originalValterFx": null,
+            "ownedAmbientClock": true,
+            "busy": false
+          },
+          {
+            "code": "V-994",
+            "version": "20261004-approved",
+            "bodyHeight": 312.3894230769231,
+            "textureHeight": 340.78846153846155,
+            "foot": {
+              "x": 1220,
+              "y": 240
+            },
+            "station": {
+              "x": 1220,
+              "y": 240
+            },
+            "scale": 0.5,
+            "auraColor": "#cfddff",
+            "rearAura": true,
+            "originalValterFx": null,
+            "ownedAmbientClock": true,
+            "busy": false
+          }
+        ],
+        "attack": {
+          "before": {
+            "hp": 100,
+            "count": 0,
+            "limited": [
+              {
+                "code": "V-994",
+                "version": "20261004-approved",
+                "bodyHeight": 312.3894230769231,
+                "textureHeight": 340.78846153846155,
+                "foot": {
+                  "x": 380,
+                  "y": 240
+                },
+                "station": {
+                  "x": 380,
+                  "y": 240
+                },
+                "scale": 0.5,
+                "auraColor": "#cfddff",
+                "rearAura": true,
+                "originalValterFx": null,
+                "emission": {
+                  "emission": {
+                    "x": 412.7254544771635,
+                    "y": 114.31206805889425
+                  },
+                  "direction": {
+                    "x": 1,
+                    "y": 0
+                  },
+                  "height": 156.1947115384615,
+                  "origin": {
+                    "x": 415.5369592848558,
+                    "y": 114.31206805889425
+                  },
+                  "angle": 0
+                },
+                "ownedAmbientClock": false,
+                "busy": true
+              },
+              {
+                "code": "V-994",
+                "version": "20261004-approved",
+                "bodyHeight": 312.3894230769231,
+                "textureHeight": 340.78846153846155,
+                "foot": {
+                  "x": 1220,
+                  "y": 240
+                },
+                "station": {
+                  "x": 1220,
+                  "y": 240
+                },
+                "scale": 0.5,
+                "auraColor": "#cfddff",
+                "rearAura": true,
+                "originalValterFx": null,
+                "ownedAmbientClock": true,
+                "busy": false
+              }
+            ]
+          },
+          "ok": true,
+          "hp": 77,
+          "count": 1
+        },
+        "stopped": {
+          "hp": 77,
+          "count": 0,
+          "timelines": 0
+        }
+      },
+      {
+        "code": "V-996",
+        "idle": [
+          {
+            "code": "V-996",
+            "version": "20261004-approved",
+            "bodyHeight": 312.3894230769231,
+            "textureHeight": 358,
+            "foot": {
+              "x": 380,
+              "y": 240
+            },
+            "station": {
+              "x": 380,
+              "y": 240
+            },
+            "scale": 0.5,
+            "auraColor": "#ff2437",
+            "rearAura": true,
+            "originalValterFx": {
+              "silhouetteCopies": 18,
+              "filters": 6,
+              "risingParticles": 12
+            },
+            "ownedAmbientClock": true,
+            "busy": false
+          },
+          {
+            "code": "V-996",
+            "version": "20261004-approved",
+            "bodyHeight": 312.3894230769231,
+            "textureHeight": 358,
+            "foot": {
+              "x": 1220,
+              "y": 240
+            },
+            "station": {
+              "x": 1220,
+              "y": 240
+            },
+            "scale": 0.5,
+            "auraColor": "#ff2437",
+            "rearAura": true,
+            "originalValterFx": {
+              "silhouetteCopies": 18,
+              "filters": 6,
+              "risingParticles": 12
+            },
+            "ownedAmbientClock": true,
+            "busy": false
+          }
+        ],
+        "attack": {
+          "before": {
+            "hp": 100,
+            "count": 0,
+            "limited": [
+              {
+                "code": "V-996",
+                "version": "20261004-approved",
+                "bodyHeight": 312.3894230769231,
+                "textureHeight": 358,
+                "foot": {
+                  "x": 1325.0738107055968,
+                  "y": 240
+                },
+                "station": {
+                  "x": 380,
+                  "y": 240
+                },
+                "scale": 0.5,
+                "auraColor": "#ff2437",
+                "rearAura": true,
+                "originalValterFx": {
+                  "silhouetteCopies": 18,
+                  "filters": 6,
+                  "risingParticles": 25
+                },
+                "ownedAmbientClock": false,
+                "busy": true
+              },
+              {
+                "code": "V-996",
+                "version": "20261004-approved",
+                "bodyHeight": 312.3894230769231,
+                "textureHeight": 358,
+                "foot": {
+                  "x": 1220,
+                  "y": 240
+                },
+                "station": {
+                  "x": 1220,
+                  "y": 240
+                },
+                "scale": 0.5,
+                "auraColor": "#ff2437",
+                "rearAura": true,
+                "originalValterFx": {
+                  "silhouetteCopies": 18,
+                  "filters": 6,
+                  "risingParticles": 12
+                },
+                "ownedAmbientClock": true,
+                "busy": false
+              }
+            ]
+          },
+          "ok": true,
+          "hp": 77,
+          "count": 1
+        },
+        "stopped": {
+          "hp": 77,
+          "count": 0,
+          "timelines": 0
+        }
+      }
+    ],
+    "errors": [],
+    "failures": []
+  },
+  {
+    "label": "mobile",
+    "mode": "PVE",
+    "stages": [
+      {
+        "code": "V-990",
+        "idle": [
+          {
+            "code": "V-990",
+            "version": "20261004-approved",
+            "bodyHeight": 312.3894230769231,
+            "textureHeight": 355.69322004903916,
+            "foot": {
+              "x": 359.40983606557376,
+              "y": 683.842213114754
+            },
+            "station": {
+              "x": 359.40983606557376,
+              "y": 683.842213114754
+            },
+            "scale": 0.65,
+            "auraColor": "#8beaff",
+            "rearAura": true,
+            "originalValterFx": null,
+            "ownedAmbientClock": true,
+            "busy": false
+          }
+        ],
+        "attack": {
+          "before": {
+            "hp": 100,
+            "count": 0,
+            "limited": [
+              {
+                "code": "V-990",
+                "version": "20261004-approved",
+                "bodyHeight": 312.3894230769231,
+                "textureHeight": 355.69322004903916,
+                "foot": {
+                  "x": 359.40983606557376,
+                  "y": 683.842213114754
+                },
+                "station": {
+                  "x": 359.40983606557376,
+                  "y": 683.842213114754
+                },
+                "scale": 0.65,
+                "auraColor": "#8beaff",
+                "rearAura": true,
+                "originalValterFx": null,
+                "emission": {
+                  "emission": {
+                    "x": 439.3366035785463,
+                    "y": 513.7532351681268
+                  },
+                  "direction": {
+                    "x": 0.9998052854172773,
+                    "y": 0.01973299905428666
+                  },
+                  "height": 203.05312499999997,
+                  "origin": {
+                    "x": 442.9908481552652,
+                    "y": 513.8253584163515
+                  },
+                  "angle": 0.01973427992160754
+                },
+                "ownedAmbientClock": false,
+                "busy": true
+              }
+            ]
+          },
+          "ok": true,
+          "hp": 77,
+          "count": 1
+        },
+        "stopped": {
+          "hp": 77,
+          "count": 0,
+          "timelines": 0
+        }
+      },
+      {
+        "code": "V-991",
+        "idle": [
+          {
+            "code": "V-991",
+            "version": "20261004-approved",
+            "bodyHeight": 312.3894230769231,
+            "textureHeight": 352.03973136181503,
+            "foot": {
+              "x": 359.40983606557376,
+              "y": 683.842213114754
+            },
+            "station": {
+              "x": 359.40983606557376,
+              "y": 683.842213114754
+            },
+            "scale": 0.65,
+            "auraColor": "#65cfff",
+            "rearAura": true,
+            "originalValterFx": null,
+            "ownedAmbientClock": true,
+            "busy": false
+          }
+        ],
+        "attack": {
+          "before": {
+            "hp": 89,
+            "count": 0,
+            "limited": [
+              {
+                "code": "V-991",
+                "version": "20261004-approved",
+                "bodyHeight": 312.3894230769231,
+                "textureHeight": 352.03973136181503,
+                "foot": {
+                  "x": 359.40983606557376,
+                  "y": 683.842213114754
+                },
+                "station": {
+                  "x": 359.40983606557376,
+                  "y": 683.842213114754
+                },
+                "scale": 0.65,
+                "auraColor": "#65cfff",
+                "rearAura": true,
+                "originalValterFx": null,
+                "emission": {
+                  "emission": {
+                    "x": 443.1338685307241,
+                    "y": 550.3604816400658
+                  },
+                  "direction": {
+                    "x": 0.9961298500253809,
+                    "y": 0.08789381029635716
+                  },
+                  "height": 203.05312499999997,
+                  "origin": {
+                    "x": 446.7746795518859,
+                    "y": 550.6817296713448
+                  },
+                  "angle": 0.0880073735277408
+                },
+                "ownedAmbientClock": false,
+                "busy": true
+              }
+            ]
+          },
+          "ok": true,
+          "hp": 77,
+          "count": 1
+        },
+        "stopped": {
+          "hp": 77,
+          "count": 0,
+          "timelines": 0
+        }
+      },
+      {
+        "code": "V-992",
+        "idle": [
+          {
+            "code": "V-992",
+            "version": "20261004-approved",
+            "bodyHeight": 312.3894230769231,
+            "textureHeight": 324.4287720393197,
+            "foot": {
+              "x": 359.40983606557376,
+              "y": 683.842213114754
+            },
+            "station": {
+              "x": 359.40983606557376,
+              "y": 683.842213114754
+            },
+            "scale": 0.65,
+            "auraColor": "#c390ff",
+            "rearAura": true,
+            "originalValterFx": null,
+            "ownedAmbientClock": true,
+            "busy": false
+          }
+        ],
+        "attack": {
+          "before": {
+            "hp": 100,
+            "count": 0,
+            "limited": [
+              {
+                "code": "V-992",
+                "version": "20261004-approved",
+                "bodyHeight": 312.3894230769231,
+                "textureHeight": 324.4287720393197,
+                "foot": {
+                  "x": 359.40983606557376,
+                  "y": 683.842213114754
+                },
+                "station": {
+                  "x": 359.40983606557376,
+                  "y": 683.842213114754
+                },
+                "scale": 0.65,
+                "auraColor": "#c390ff",
+                "rearAura": true,
+                "originalValterFx": null,
+                "emission": {
+                  "emission": {
+                    "x": 402.6564448383932,
+                    "y": 513.0524311674924
+                  },
+                  "direction": {
+                    "x": 1,
+                    "y": 0
+                  },
+                  "height": 203.05312500000002,
+                  "origin": {
+                    "x": 406.3114010883932,
+                    "y": 513.0524311674924
+                  },
+                  "angle": 0
+                },
+                "ownedAmbientClock": false,
+                "busy": true
+              }
+            ]
+          },
+          "ok": true,
+          "hp": 77,
+          "count": 1
+        },
+        "stopped": {
+          "hp": 77,
+          "count": 0,
+          "timelines": 0
+        }
+      },
+      {
+        "code": "V-993",
+        "idle": [
+          {
+            "code": "V-993",
+            "version": "20261004-approved",
+            "bodyHeight": 312.3894230769231,
+            "textureHeight": 349.39349207659296,
+            "foot": {
+              "x": 359.40983606557376,
+              "y": 683.842213114754
+            },
+            "station": {
+              "x": 359.40983606557376,
+              "y": 683.842213114754
+            },
+            "scale": 0.65,
+            "auraColor": "#ffcf70",
+            "rearAura": true,
+            "originalValterFx": null,
+            "ownedAmbientClock": true,
+            "busy": false
+          }
+        ],
+        "attack": {
+          "before": {
+            "hp": 100,
+            "count": 0,
+            "limited": [
+              {
+                "code": "V-993",
+                "version": "20261004-approved",
+                "bodyHeight": 312.3894230769231,
+                "textureHeight": 349.39349207659296,
+                "foot": {
+                  "x": 359.40983606557376,
+                  "y": 683.842213114754
+                },
+                "station": {
+                  "x": 359.40983606557376,
+                  "y": 683.842213114754
+                },
+                "scale": 0.65,
+                "auraColor": "#ffcf70",
+                "rearAura": true,
+                "originalValterFx": null,
+                "emission": {
+                  "emission": {
+                    "x": 468.343916001196,
+                    "y": 559.0473311405051
+                  },
+                  "direction": {
+                    "x": 0.9999521797086276,
+                    "y": 0.009779483420132953
+                  },
+                  "height": 203.05312499999997,
+                  "origin": {
+                    "x": 471.9986974701232,
+                    "y": 559.0830747245533
+                  },
+                  "angle": 0.009779639309030358
+                },
+                "ownedAmbientClock": false,
+                "busy": true
+              }
+            ]
+          },
+          "ok": true,
+          "hp": 77,
+          "count": 1
+        },
+        "stopped": {
+          "hp": 77,
+          "count": 0,
+          "timelines": 0
+        }
+      },
+      {
+        "code": "V-994",
+        "idle": [
+          {
+            "code": "V-994",
+            "version": "20261004-approved",
+            "bodyHeight": 312.3894230769231,
+            "textureHeight": 340.78846153846155,
+            "foot": {
+              "x": 359.40983606557376,
+              "y": 683.842213114754
+            },
+            "station": {
+              "x": 359.40983606557376,
+              "y": 683.842213114754
+            },
+            "scale": 0.65,
+            "auraColor": "#cfddff",
+            "rearAura": true,
+            "originalValterFx": null,
+            "ownedAmbientClock": true,
+            "busy": false
+          }
+        ],
+        "attack": {
+          "before": {
+            "hp": 100,
+            "count": 0,
+            "limited": [
+              {
+                "code": "V-994",
+                "version": "20261004-approved",
+                "bodyHeight": 312.3894230769231,
+                "textureHeight": 340.78846153846155,
+                "foot": {
+                  "x": 359.40983606557376,
+                  "y": 683.842213114754
+                },
+                "station": {
+                  "x": 359.40983606557376,
+                  "y": 683.842213114754
+                },
+                "scale": 0.65,
+                "auraColor": "#cfddff",
+                "rearAura": true,
+                "originalValterFx": null,
+                "emission": {
+                  "emission": {
+                    "x": 401.9529268858862,
+                    "y": 520.4479015913165
+                  },
+                  "direction": {
+                    "x": 1,
+                    "y": 0
+                  },
+                  "height": 203.05312499999997,
+                  "origin": {
+                    "x": 405.6078831358862,
+                    "y": 520.4479015913165
+                  },
+                  "angle": 0
+                },
+                "ownedAmbientClock": false,
+                "busy": true
+              }
+            ]
+          },
+          "ok": true,
+          "hp": 77,
+          "count": 1
+        },
+        "stopped": {
+          "hp": 77,
+          "count": 0,
+          "timelines": 0
+        }
+      },
+      {
+        "code": "V-996",
+        "idle": [
+          {
+            "code": "V-996",
+            "version": "20261004-approved",
+            "bodyHeight": 312.3894230769231,
+            "textureHeight": 358,
+            "foot": {
+              "x": 359.40983606557376,
+              "y": 683.842213114754
+            },
+            "station": {
+              "x": 359.40983606557376,
+              "y": 683.842213114754
+            },
+            "scale": 0.65,
+            "auraColor": "#ff2437",
+            "rearAura": true,
+            "originalValterFx": {
+              "silhouetteCopies": 18,
+              "filters": 6,
+              "risingParticles": 12
+            },
+            "ownedAmbientClock": true,
+            "busy": false
+          }
+        ],
+        "attack": {
+          "before": {
+            "hp": 100,
+            "count": 0,
+            "limited": [
+              {
+                "code": "V-996",
+                "version": "20261004-approved",
+                "bodyHeight": 312.3894230769231,
+                "textureHeight": 358,
+                "foot": {
+                  "x": 871.0057899828497,
+                  "y": 683.842213114754
+                },
+                "station": {
+                  "x": 359.40983606557376,
+                  "y": 683.842213114754
+                },
+                "scale": 0.65,
+                "auraColor": "#ff2437",
+                "rearAura": true,
+                "originalValterFx": {
+                  "silhouetteCopies": 18,
+                  "filters": 6,
+                  "risingParticles": 25
+                },
+                "ownedAmbientClock": false,
+                "busy": true
+              }
+            ]
+          },
+          "ok": true,
+          "hp": 77,
+          "count": 1
+        },
+        "stopped": {
+          "hp": 77,
+          "count": 0,
+          "timelines": 0
+        }
+      }
+    ],
+    "errors": [],
+    "failures": []
+  }
+]

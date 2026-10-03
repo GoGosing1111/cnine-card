@@ -1,11 +1,11 @@
 {
   "version": 1,
-  "status": "USER_REVIEW_PENDING",
-  "liveEnabled": false,
+  "status": "USER_APPROVED",
+  "liveEnabled": true,
   "acquisitionEnabled": false,
   "deploymentEnabled": false,
   "bodyMotion": "NOT_IN_THIS_IMAGE_DELIVERY",
-  "skillAssignments": "UNASSIGNED_VISUAL_DRAFTS",
+  "skillAssignments": "VISUALS_APPROVED_BALANCE_UNASSIGNED",
   "characters": [
     {
       "id": "bongsoon",
@@ -1361,5 +1361,6 @@
         }
       }
     ]
-  }
+  },
+  "liveScope": "APPROVED_VISUAL_RUNTIME"
 }

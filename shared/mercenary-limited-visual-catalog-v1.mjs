@@ -1,0 +1,1250 @@
+// Approved presentation resources; this does not change acquisition, stats or skill assignments.
+export const LIMITED_BATTLE_VISUALS = {
+  "version": "20261004-approved",
+  "status": "USER_APPROVED",
+  "runtimeEnabled": true,
+  "damageAuthority": "SERVER_ONLY",
+  "reference": {
+    "code": "V-996",
+    "manifest": "/preview/mercenary-crimson-silver-knight-battle-v1/manifest.json",
+    "textureHeight": 358,
+    "bodyHeight": 312.3894230769231
+  },
+  "aura": {
+    "url": "/assets/ui/project-v/mercenaries/limited-battle-20261004/rear-aura.png",
+    "columns": 4,
+    "rows": 2,
+    "width": 1774,
+    "height": 887,
+    "loopSeconds": 2.4,
+    "sha256": "433DFF0F0D90CB93E990B31C5ED85F0F355159A397BFA152AAAD69487D071F5D",
+    "frames": [
+      {
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 444,
+          "height": 444
+        }
+      },
+      {
+        "rect": {
+          "x": 444,
+          "y": 0,
+          "width": 443,
+          "height": 444
+        }
+      },
+      {
+        "rect": {
+          "x": 887,
+          "y": 0,
+          "width": 444,
+          "height": 444
+        }
+      },
+      {
+        "rect": {
+          "x": 1331,
+          "y": 0,
+          "width": 443,
+          "height": 444
+        }
+      },
+      {
+        "rect": {
+          "x": 0,
+          "y": 444,
+          "width": 444,
+          "height": 443
+        }
+      },
+      {
+        "rect": {
+          "x": 444,
+          "y": 444,
+          "width": 443,
+          "height": 443
+        }
+      },
+      {
+        "rect": {
+          "x": 887,
+          "y": 444,
+          "width": 444,
+          "height": 443
+        }
+      },
+      {
+        "rect": {
+          "x": 1331,
+          "y": 444,
+          "width": 443,
+          "height": 443
+        }
+      }
+    ]
+  },
+  "characters": [
+    {
+      "id": "bongsoon",
+      "code": "V-990",
+      "name": "나무늘봉순",
+      "rank": "SS",
+      "source": "assets/ui/project-v/mercenaries/limited-20261002/v-990-source-art-approved-20261002.png",
+      "sourceHash": "EFC0B6D14A891917D517E8F9850D398165A0F94C11006DD6945BB2D05C627120",
+      "sprite": "/assets/ui/project-v/mercenaries/limited-battle-20261004/bongsoon-sd.png",
+      "feet": {
+        "x": 544,
+        "y": 1503
+      },
+      "headTop": 154,
+      "emission": {
+        "x": 1075,
+        "y": 373
+      },
+      "axisBack": {
+        "x": 771,
+        "y": 367
+      },
+      "auraCenter": {
+        "x": 455,
+        "y": 464
+      },
+      "auraTint": "#8beaff",
+      "skill": "빙결 저격",
+      "type": "sniper",
+      "auraScale": 0.71,
+      "originalSprite": {
+        "url": "/preview/mercenary-limited-sd-skills-20261003-v1/assets/sd/bongsoon-sd-v1.png",
+        "width": 1024,
+        "height": 1536,
+        "sha256": "CF489B510B08A3222E39A3E61879AFCEB6211301B164207CB84A87FFACBE6300"
+      },
+      "padding": 64,
+      "spriteWidth": 1152,
+      "spriteHeight": 1664,
+      "effects": {
+        "url": "/assets/ui/project-v/mercenaries/limited-battle-20261004/bongsoon-skill.png",
+        "columns": 4,
+        "rows": 3,
+        "frames": [
+          {
+            "index": 0,
+            "role": "charge",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 1,
+            "role": "charge",
+            "rect": {
+              "x": 362,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 2,
+            "role": "charge",
+            "rect": {
+              "x": 724,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 3,
+            "role": "charge",
+            "rect": {
+              "x": 1086,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 4,
+            "role": "release",
+            "rect": {
+              "x": 0,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 83.26,
+              "y": 181
+            }
+          },
+          {
+            "index": 5,
+            "role": "release",
+            "rect": {
+              "x": 362,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 72.4,
+              "y": 181
+            }
+          },
+          {
+            "index": 6,
+            "role": "release",
+            "rect": {
+              "x": 724,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 57.92,
+              "y": 181
+            }
+          },
+          {
+            "index": 7,
+            "role": "release",
+            "rect": {
+              "x": 1086,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 47.06,
+              "y": 181
+            }
+          },
+          {
+            "index": 8,
+            "role": "impact",
+            "rect": {
+              "x": 0,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 9,
+            "role": "impact",
+            "rect": {
+              "x": 362,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 10,
+            "role": "impact",
+            "rect": {
+              "x": 724,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 11,
+            "role": "impact",
+            "rect": {
+              "x": 1086,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          }
+        ],
+        "width": 1448,
+        "height": 1086,
+        "sha256": "54B4CF3E5E8B5382713008BDDD7180F533689AA26D09FF7C005867FFFD8EB030"
+      },
+      "spriteSha256": "A86C23D894447020A04EAD3CE56AF523AA2B4EEAA52DF8DEA9CC16CBA6F552B6",
+      "direction": {
+        "x": 0.9998052854172773,
+        "y": 0.019732999054288367
+      },
+      "angle": 0.019734279921609248,
+      "bodyHeight": 1349
+    },
+    {
+      "id": "joeun",
+      "code": "V-991",
+      "name": "조은",
+      "rank": "SS",
+      "source": "assets/ui/project-v/mercenaries/limited-20261002/v-991-source-art.png",
+      "sourceHash": "87E88A646E327FCBB6489B05D8C5287C5212B1D9105134ECE1C036D022C633DA",
+      "sprite": "/assets/ui/project-v/mercenaries/limited-battle-20261004/joeun-sd.png",
+      "feet": {
+        "x": 506,
+        "y": 1528
+      },
+      "headTop": 165,
+      "emission": {
+        "x": 1068,
+        "y": 632
+      },
+      "axisBack": {
+        "x": 592,
+        "y": 590
+      },
+      "auraCenter": {
+        "x": 414,
+        "y": 438
+      },
+      "auraTint": "#65cfff",
+      "skill": "청광 레일포",
+      "type": "cannon",
+      "auraScale": 0.76,
+      "originalSprite": {
+        "url": "/preview/mercenary-limited-sd-skills-20261003-v1/assets/sd/joeun-sd-v1.png",
+        "width": 1024,
+        "height": 1536,
+        "sha256": "B632760A44A182A4B554B431FE96D9D14DD139E20441F7E39CC6A14414CE8877"
+      },
+      "padding": 64,
+      "spriteWidth": 1152,
+      "spriteHeight": 1664,
+      "effects": {
+        "url": "/assets/ui/project-v/mercenaries/limited-battle-20261004/joeun-skill.png",
+        "columns": 4,
+        "rows": 3,
+        "frames": [
+          {
+            "index": 0,
+            "role": "charge",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 1,
+            "role": "charge",
+            "rect": {
+              "x": 362,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 2,
+            "role": "charge",
+            "rect": {
+              "x": 724,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 3,
+            "role": "charge",
+            "rect": {
+              "x": 1086,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 4,
+            "role": "release",
+            "rect": {
+              "x": 0,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 83.26,
+              "y": 181
+            }
+          },
+          {
+            "index": 5,
+            "role": "release",
+            "rect": {
+              "x": 362,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 72.4,
+              "y": 181
+            }
+          },
+          {
+            "index": 6,
+            "role": "release",
+            "rect": {
+              "x": 724,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 57.92,
+              "y": 181
+            }
+          },
+          {
+            "index": 7,
+            "role": "release",
+            "rect": {
+              "x": 1086,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 47.06,
+              "y": 181
+            }
+          },
+          {
+            "index": 8,
+            "role": "impact",
+            "rect": {
+              "x": 0,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 9,
+            "role": "impact",
+            "rect": {
+              "x": 362,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 10,
+            "role": "impact",
+            "rect": {
+              "x": 724,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 11,
+            "role": "impact",
+            "rect": {
+              "x": 1086,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          }
+        ],
+        "width": 1448,
+        "height": 1086,
+        "sha256": "BE0DC42D551A97A9CCEB5F1BDF878C825A9275CB4E2B303CB03409BEA4B92DD5"
+      },
+      "spriteSha256": "46108C8280178413968AD884C8613936CFB2393A826E3256B267ED8A8E9C9C5C",
+      "direction": {
+        "x": 0.996129850025381,
+        "y": 0.08789381029635715
+      },
+      "angle": 0.08800737352774077,
+      "bodyHeight": 1363
+    },
+    {
+      "id": "ines",
+      "code": "V-992",
+      "name": "이네스",
+      "rank": "SS",
+      "source": "assets/ui/project-v/mercenaries/limited-20261002/v-992-source-art.png",
+      "sourceHash": "97D2120A91E7682130697476F6DA0C77FF5AA548C16B2AB128B539FF5ACB176D",
+      "sprite": "/assets/ui/project-v/mercenaries/limited-battle-20261004/ines-sd.png",
+      "feet": {
+        "x": 731,
+        "y": 1563
+      },
+      "headTop": 84,
+      "emission": {
+        "x": 1046,
+        "y": 319
+      },
+      "axisBack": {
+        "x": 946,
+        "y": 319
+      },
+      "auraCenter": {
+        "x": 585,
+        "y": 406
+      },
+      "auraTint": "#c390ff",
+      "skill": "자수정 나선",
+      "type": "magic",
+      "auraScale": 0.73,
+      "originalSprite": {
+        "url": "/preview/mercenary-limited-sd-skills-20261003-v1/assets/sd/ines-sd-v1.png",
+        "width": 1024,
+        "height": 1536,
+        "sha256": "F21E1660C97461B14FFEBFDB193535237CEB181EAF21CB3BAE7FBB1B8EED6C51"
+      },
+      "padding": 64,
+      "spriteWidth": 1152,
+      "spriteHeight": 1664,
+      "effects": {
+        "url": "/assets/ui/project-v/mercenaries/limited-battle-20261004/ines-skill.png",
+        "columns": 4,
+        "rows": 3,
+        "frames": [
+          {
+            "index": 0,
+            "role": "charge",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 1,
+            "role": "charge",
+            "rect": {
+              "x": 362,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 2,
+            "role": "charge",
+            "rect": {
+              "x": 724,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 3,
+            "role": "charge",
+            "rect": {
+              "x": 1086,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 4,
+            "role": "release",
+            "rect": {
+              "x": 0,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 90.5,
+              "y": 181
+            }
+          },
+          {
+            "index": 5,
+            "role": "release",
+            "rect": {
+              "x": 362,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 90.5,
+              "y": 181
+            }
+          },
+          {
+            "index": 6,
+            "role": "release",
+            "rect": {
+              "x": 724,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 90.5,
+              "y": 181
+            }
+          },
+          {
+            "index": 7,
+            "role": "release",
+            "rect": {
+              "x": 1086,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 90.5,
+              "y": 181
+            }
+          },
+          {
+            "index": 8,
+            "role": "impact",
+            "rect": {
+              "x": 0,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 9,
+            "role": "impact",
+            "rect": {
+              "x": 362,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 10,
+            "role": "impact",
+            "rect": {
+              "x": 724,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 11,
+            "role": "impact",
+            "rect": {
+              "x": 1086,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          }
+        ],
+        "width": 1448,
+        "height": 1086,
+        "sha256": "20C712C26BEF4604E28CDFC6A76FDE8BA937919B0D3279E3B07A2B29C8E2CFBB"
+      },
+      "spriteSha256": "5E959B91E954CF406EAC4249E5408E503C359A0B1696AD0CE5F7AA63FD6FF3AA",
+      "direction": {
+        "x": 1,
+        "y": 0
+      },
+      "angle": 0,
+      "bodyHeight": 1479
+    },
+    {
+      "id": "orikkung",
+      "code": "V-993",
+      "name": "오리꿍",
+      "rank": "SS",
+      "source": "assets/ui/project-v/mercenaries/limited-20261002/v-993-source-art.png",
+      "sourceHash": "039E7CDD18D23CC05943E52157218FFE105F5F213C0B203237CD42FA2966F2A3",
+      "sprite": "/assets/ui/project-v/mercenaries/limited-battle-20261004/orikkung-sd.png",
+      "feet": {
+        "x": 632,
+        "y": 1303
+      },
+      "headTop": 138,
+      "emission": {
+        "x": 1257,
+        "y": 587
+      },
+      "axisBack": {
+        "x": 848,
+        "y": 583
+      },
+      "auraCenter": {
+        "x": 622,
+        "y": 603
+      },
+      "auraTint": "#ffcf70",
+      "skill": "황금 석궁",
+      "type": "crossbow",
+      "auraScale": 0.91,
+      "originalSprite": {
+        "url": "/preview/mercenary-limited-sd-skills-20261003-v1/assets/sd/orikkung-sd-v1.png",
+        "width": 1207,
+        "height": 1303,
+        "sha256": "BF850F0551FB2FFEC65BB4B8E73071228404062C5E7F01C293E532B9FFF0FEB8"
+      },
+      "padding": 64,
+      "spriteWidth": 1335,
+      "spriteHeight": 1431,
+      "effects": {
+        "url": "/assets/ui/project-v/mercenaries/limited-battle-20261004/orikkung-skill.png",
+        "columns": 4,
+        "rows": 3,
+        "frames": [
+          {
+            "index": 0,
+            "role": "charge",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 1,
+            "role": "charge",
+            "rect": {
+              "x": 362,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 2,
+            "role": "charge",
+            "rect": {
+              "x": 724,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 3,
+            "role": "charge",
+            "rect": {
+              "x": 1086,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 4,
+            "role": "release",
+            "rect": {
+              "x": 0,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 61.540000000000006,
+              "y": 181
+            }
+          },
+          {
+            "index": 5,
+            "role": "release",
+            "rect": {
+              "x": 362,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 61.540000000000006,
+              "y": 181
+            }
+          },
+          {
+            "index": 6,
+            "role": "release",
+            "rect": {
+              "x": 724,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 61.540000000000006,
+              "y": 181
+            }
+          },
+          {
+            "index": 7,
+            "role": "release",
+            "rect": {
+              "x": 1086,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 61.540000000000006,
+              "y": 181
+            }
+          },
+          {
+            "index": 8,
+            "role": "impact",
+            "rect": {
+              "x": 0,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 9,
+            "role": "impact",
+            "rect": {
+              "x": 362,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 10,
+            "role": "impact",
+            "rect": {
+              "x": 724,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 11,
+            "role": "impact",
+            "rect": {
+              "x": 1086,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          }
+        ],
+        "width": 1448,
+        "height": 1086,
+        "sha256": "D47697C9A4B52B6BBFF565888C483BB16FC6D7E14A9D812550D6D87B222867CA"
+      },
+      "spriteSha256": "52716EB840DB37377F6FB3CF395E4170ADF865DF9FD7775FE6BD6AD64F84E86B",
+      "direction": {
+        "x": 0.9999521797086276,
+        "y": 0.009779483420133277
+      },
+      "angle": 0.009779639309030683,
+      "bodyHeight": 1165
+    },
+    {
+      "id": "diim",
+      "code": "V-994",
+      "name": "디임",
+      "rank": "SS",
+      "source": "assets/ui/project-v/mercenaries/limited-20261002/v-994-source-art.png",
+      "sourceHash": "838B9A71739EF4B442E00734584496A92136EFDAD6C71463E18527D6DF5E5CB4",
+      "sprite": "/assets/ui/project-v/mercenaries/limited-battle-20261004/diim-sd.png",
+      "feet": {
+        "x": 723,
+        "y": 1537
+      },
+      "headTop": 129,
+      "emission": {
+        "x": 1018,
+        "y": 404
+      },
+      "axisBack": {
+        "x": 918,
+        "y": 404
+      },
+      "auraCenter": {
+        "x": 585,
+        "y": 422
+      },
+      "auraTint": "#cfddff",
+      "skill": "월광 결정",
+      "type": "magic",
+      "auraScale": 0.75,
+      "originalSprite": {
+        "url": "/preview/mercenary-limited-sd-skills-20261003-v1/assets/sd/diim-sd-v1.png",
+        "width": 1024,
+        "height": 1536,
+        "sha256": "1331C3BCE3237E418C728F348EB2C120E48568A3CC6CCD9C3CAD52959572DFC6"
+      },
+      "padding": 64,
+      "spriteWidth": 1152,
+      "spriteHeight": 1664,
+      "effects": {
+        "url": "/assets/ui/project-v/mercenaries/limited-battle-20261004/diim-skill.png",
+        "columns": 4,
+        "rows": 3,
+        "frames": [
+          {
+            "index": 0,
+            "role": "charge",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 1,
+            "role": "charge",
+            "rect": {
+              "x": 362,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 2,
+            "role": "charge",
+            "rect": {
+              "x": 724,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 3,
+            "role": "charge",
+            "rect": {
+              "x": 1086,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 4,
+            "role": "release",
+            "rect": {
+              "x": 0,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 83.26,
+              "y": 181
+            }
+          },
+          {
+            "index": 5,
+            "role": "release",
+            "rect": {
+              "x": 362,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 72.4,
+              "y": 181
+            }
+          },
+          {
+            "index": 6,
+            "role": "release",
+            "rect": {
+              "x": 724,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 57.92,
+              "y": 181
+            }
+          },
+          {
+            "index": 7,
+            "role": "release",
+            "rect": {
+              "x": 1086,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 47.06,
+              "y": 181
+            }
+          },
+          {
+            "index": 8,
+            "role": "impact",
+            "rect": {
+              "x": 0,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 9,
+            "role": "impact",
+            "rect": {
+              "x": 362,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 10,
+            "role": "impact",
+            "rect": {
+              "x": 724,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          },
+          {
+            "index": 11,
+            "role": "impact",
+            "rect": {
+              "x": 1086,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            }
+          }
+        ],
+        "width": 1448,
+        "height": 1086,
+        "sha256": "56ED8C51429211D41D2BEA69DA33F9969AAC86A31D67EAF68F97B5EEFBFB411C"
+      },
+      "spriteSha256": "727B4FCA72D2BACC2B740A95F3D87D954B3345D88F5DCF8EB7DCBB9FEF833EF6",
+      "direction": {
+        "x": 1,
+        "y": 0
+      },
+      "angle": 0,
+      "bodyHeight": 1408
+    },
+    {
+      "id": "valter",
+      "code": "V-996",
+      "name": "발테르",
+      "rank": "SSS",
+      "source": "assets/ui/project-v/mercenaries/limited-20261002/v-996-source-art.png",
+      "sourceHash": "8B94E60670355AF87D13802FD68AD4DE22F8E7F23C65028CC97DD1D1F78BE838",
+      "sprite": "/assets/ui/project-v/mercenaries/limited-20261002/valter-approved-sd.png",
+      "spriteHash": "D2CAB7DDE716CF9A0554AF44A03A448A7BCCD9E402928D87620C72C73879A6CC",
+      "feet": {
+        "x": 728.9999999999999,
+        "y": 1507
+      },
+      "headTop": 55,
+      "emission": null,
+      "axisBack": null,
+      "auraCenter": {
+        "x": 730,
+        "y": 510
+      },
+      "auraTint": "#ff2437",
+      "skill": null,
+      "type": "existing",
+      "auraScale": 0.8,
+      "preserveExisting": true,
+      "existingApprovedMotion": "/preview/mercenary-crimson-silver-knight-battle-v1/manifest.json",
+      "existingApprovedSkillPreview": "/preview/mercenary-crimson-silver-knight-battle-v1/",
+      "originalSprite": {
+        "url": "/assets/ui/project-v/mercenaries/limited-20261002/valter-approved-sd.png",
+        "width": 1408,
+        "height": 1664,
+        "sha256": "D2CAB7DDE716CF9A0554AF44A03A448A7BCCD9E402928D87620C72C73879A6CC"
+      },
+      "spriteWidth": 1408,
+      "spriteHeight": 1664,
+      "padding": 0,
+      "spriteSha256": "D2CAB7DDE716CF9A0554AF44A03A448A7BCCD9E402928D87620C72C73879A6CC",
+      "bodyHeight": 1452,
+      "effects": null
+    }
+  ]
+};

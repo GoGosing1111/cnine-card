@@ -1,17 +1,20 @@
 {
-  "scope": "Restore original approved Valter V17 size and surrounding effects; normalize five limited SD body heights to Valter",
-  "runtimeChanges": [],
-  "liveLimitedSkillsChanged": false,
-  "approvedSsSAssetsChanged": false,
-  "sourceMethod": "Approved Valter reuse; no new image generation in this correction",
-  "lastVerifiedProductionCommit": "6fd9ba7b3d5ee494a1d9cde517f4695ff7e77bd6",
-  "productionDeploymentUrl": "https://a74acb3f.cnine-card.pages.dev",
+  "scope": "Approved limited SD, skill images and aura presentation in the public codex and live V3 renderers",
   "releaseMode": "scoped",
-  "reason": "Local preview presentation correction only, shared game engine/server and gameplay locks unchanged.",
+  "lastVerifiedProductionCommit": "4cd8c6f2f64a8a3caa48c1a4f03f96a27f74840f",
+  "previousProductionUrl": "https://38e14993.cnine-card.pages.dev",
+  "reason": "Visual asset registration and dedicated playback adapter only. Existing source art, Valter FX, damage authority, acquisition and deployment policies remain unchanged.",
   "selectedChecks": [
-    "preview/mercenary-limited-sd-skills-20261003-v1/qa.test.mjs"
+    "tests/limited-battle-visuals-20261004.test.mjs",
+    "tests/mercenary-limited-catalog-20261002.test.mjs",
+    "preview/mercenary-limited-sd-skills-20261003-v1/qa.test.mjs",
+    "tests/project-v-v3-live-payload-v1.mjs",
+    "tests/pve-battlefield-entry-v2117.test.mjs"
   ],
-  "visualReview": "PC/mobile all six equal visible body heights; original 18 silhouette copies, 12 aura atlas frames and 12 rising particles reused via approved KnightFX and same GSAP clock",
-  "userApproval": "New five SD candidates remain USER_REVIEW_PENDING. Valter SD and motion approvals unchanged.",
-  "sizePolicy": "Approved Valter manifest: texture 358, visible body 312.3894230769231. Latest explicit request supersedes prior 20% instruction."
+  "visualQa": "tests/limited-battle-visuals-20261004.browser.mjs; all six on desktop PVP and mobile PVE, codex SD tabs, original Valter glow/particles, approved body height, authoritative one-hit/cancel paths",
+  "approval": "preview/mercenary-limited-sd-skills-20261003-v1/final-approval-20261004.json",
+  "acquisitionEnabled": false,
+  "deploymentEnabled": false,
+  "damageAuthority": "SERVER_ONLY",
+  "concurrentChanges": "Preserved the already deployed cooperative turn fix and Cryvern legacy blur fix; regenerated common consumers with both source changes."
 }

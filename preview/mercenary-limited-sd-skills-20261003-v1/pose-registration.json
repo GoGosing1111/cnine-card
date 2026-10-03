@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "status": "USER_REVIEW_PENDING",
+  "status": "USER_APPROVED",
   "scope": "Static SD, individual skill image sequences, and rear rarity aura. Body-motion production and live skills are separate.",
   "coordinates": "Pixels in original generated SD; packing adds the documented uniform padding offset.",
   "characters": [
