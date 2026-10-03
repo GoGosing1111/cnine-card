@@ -1,5 +1,5 @@
 {
-  "status": "READY_FOR_SCOPED_DEPLOY",
+  "status": "COMPLETED",
   "date": "2026-10-04",
   "request": "격전지 협동을 방 코드 대신 레이드처럼 공개 모집 목록에서 참가하도록 변경",
   "behavior": [
@@ -34,7 +34,7 @@
       "evidence": "C:/Users/User/AppData/Local/Temp/cooperative-qa-a1bFPQ/room-list-screenshots"
     },
     "deploymentRegressions": {
-      "status": "PENDING",
+      "status": "PASS",
       "files": [
         "tests/cooperative-battleground.test.mjs",
         "tests/cooperative-websocket.test.mjs",
@@ -44,13 +44,34 @@
         "check:worker",
         "verify-production-release",
         "production Hyperdrive cache"
-      ]
+      ],
+      "passed": 17
     }
   },
   "release": {
     "method": "npm run deploy:production -- --scoped",
     "base": "df3616ebce1cb70f3698b463c11c50abf6d7ad4b",
     "basePagesDeployment": "bea8b974-d804-4c83-9eb1-65339f51fc30",
-    "reason": "격전지 모집 목록·참가 경로에 국한된 수정. 신규 목록 서버/PC·모바일 검수는 이미 통과했으므로 배포에서는 인접한 기존 협동 준비·출전·WebSocket·CMS 회귀와 Worker 컴파일만 실행."
+    "reason": "격전지 모집 목록·참가 경로에 국한된 수정. 신규 목록 서버/PC·모바일 검수는 이미 통과했으므로 배포에서는 인접한 기존 협동 준비·출전·WebSocket·CMS 회귀와 Worker 컴파일만 실행.",
+    "commit": "e768e176cbf1d6d131217797b700b3423d9fe2d7",
+    "pagesDeploymentId": "39cb5ac3-d30c-4b79-92e4-de143abc3ded",
+    "pagesDeploymentUrl": "https://39cb5ac3.cnine-card.pages.dev",
+    "apiRuntimeVersion": "95f75646-9ea3-44cc-8425-a48e94dedbaa",
+    "scheduledWorkerVersion": "6c639eea-f258-41f8-a271-5f7c687f672d",
+    "completedAt": "2026-10-03T15:19:46.498Z"
+  },
+  "productionVerification": {
+    "result": "PASS",
+    "origin": "https://cnine-card.pages.dev",
+    "files": [
+      "index.html",
+      "js/cooperative-battleground-entry.js",
+      "raid/cooperative/live.mjs",
+      "raid/cooperative/style.css",
+      "shared/cooperative-room-list-v1.mjs"
+    ],
+    "static": "5개 모두 HTTP 200 및 배포 소스와 정규화 SHA-256 일치",
+    "api": "GET /api/coop/rooms 미인증 요청 401 COOP_LOGIN, Cache-Control no-store",
+    "evidence": "C:/Users/User/AppData/Local/Temp/cooperative-room-list-live-20261004.json"
   }
 }
