@@ -1,0 +1,24 @@
+{
+  "operationKey": "ops:sera-aizen-plus15-upgrade:20261003:v1",
+  "status": "VERIFIED",
+  "actor": "SYSTEM_OPS",
+  "user": {
+    "id": 45,
+    "nickname": "박세라-ㅂ-"
+  },
+  "card": {
+    "id": "CN-47AD4B47B6A7452C",
+    "title": "아이젠 족스케",
+    "grade": "FUR"
+  },
+  "levelBefore": 14,
+  "levelAfter": 15,
+  "quantityBefore": 3,
+  "quantityAfter": 3,
+  "changed": true,
+  "balancesPreserved": true,
+  "completedAt": "2026-10-03T09:30:29.173Z",
+  "adminLogId": "40331",
+  "currentQuantity": 3,
+  "currentLevel": 15
+}
