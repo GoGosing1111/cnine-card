@@ -1,0 +1,24 @@
+{
+  "operationKey": "ops:eumsuni-aizen-plus15:20261003:v1",
+  "status": "VERIFIED",
+  "actor": "SYSTEM_OPS",
+  "user": {
+    "id": 65,
+    "nickname": "음순이"
+  },
+  "card": {
+    "id": "CN-47AD4B47B6A7452C",
+    "title": "아이젠 족스케",
+    "grade": "FUR"
+  },
+  "levelBefore": 14,
+  "levelAfter": 15,
+  "quantityBefore": 4,
+  "quantityAfter": 4,
+  "changed": true,
+  "balancesPreserved": true,
+  "completedAt": "2026-10-03T11:11:20.863Z",
+  "adminLogId": "40354",
+  "currentQuantity": 4,
+  "currentLevel": 15
+}
