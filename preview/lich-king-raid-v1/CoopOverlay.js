@@ -1,3 +1,4 @@
+import {lichCoopInputState} from './clock.mjs';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const label={SEAL:'봉인',SHATTER:'파쇄',TRANSFER:'전이',RESCUE:'구출',CLEANSE:'정화',INTERRUPT:'차단',STRIKE:'공격',BURST:'결전',HEAL:'회복',REVIVE:'부활'};
 const sigil=name=>`<svg viewBox="0 0 32 32" aria-hidden="true">${name==='달'?'<path d="M23 4a13 13 0 1 0 5 23A14 14 0 0 1 23 4Z"/>':name==='가시'?'<path d="m16 3 3 10 10 3-10 3-3 10-3-10-10-3 10-3Z"/><path d="m7 7 18 18M25 7 7 25"/>':'<path d="m4 10 6 6 6-12 6 12 6-6-3 16H7Z"/><path d="M8 22h16"/>'}</svg>`;
@@ -88,12 +89,12 @@ export function tickCoop(o,c,now){
   o.node('enrage').textContent=new Date(Math.max(0,s.endsAt-Math.max(now,s.startedAt))).toISOString().slice(14,19);
   o.node('window').innerHTML=`${s.step==='EXPOSED'?'공격':'작전'} <b>${Math.max(0,Math.ceil((c.deadline-now)/1000))}s</b>`;
   for(const a of s.controls||[]){
-    const waiting=a.startsAt&&now<a.startsAt,expired=a.deadline&&now>=a.deadline;
+    const input=lichCoopInputState(s,c,a,now,o.isPending(a.token));
     const card=[...o.element.querySelectorAll('[data-task]')].find(n=>n.dataset.task===a.key);
     const clock=card?.querySelector('[data-task-clock]');
-    if(clock)clock.textContent=waiting?(a.action==='SHATTER'?'엄폐 ':'')+Math.ceil((a.startsAt-now)/1000)+'s':a.blocked?'대기':a.deadline?(a.action==='SHATTER'?'지금 파쇄 · ':'')+Math.max(0,Math.ceil((a.deadline-now)/1000))+'s':'준비';
-    if(card){card.dataset.waiting=String(Boolean(waiting||a.blocked));card.dataset.urgent=String(!waiting&&!a.blocked&&a.deadline>now&&a.deadline-now<4000);}
-    for(const b of o.element.querySelectorAll('[data-step-token]'))if(b.dataset.stepToken===a.token)b.disabled=o.pending||Boolean(a.blocked)||Boolean(waiting)||Boolean(expired)||s.status!=='ACTIVE';
+    if(clock)clock.textContent=input.clock;
+    if(card){card.dataset.waiting=String(input.waiting||input.blocked);card.dataset.urgent=String(input.ready&&a.deadline>now&&a.deadline-now<4000);}
+    for(const b of o.element.querySelectorAll('[data-step-token]'))if(b.dataset.stepToken===a.token)b.disabled=!input.ready;
   }
   const breath=o.element.querySelector('[data-breath-clock]');
   if(breath)breath.textContent=Math.max(0,Math.ceil(((c.breathResolved?c.breathAt+6000:c.breathAt)-now)/1000))+'s';

@@ -19,6 +19,10 @@ function prewarm(){
 }
 let savedRequests=[];try{savedRequests=JSON.parse(sessionStorage.getItem('lichLiveRequests')||'[]');if(!Array.isArray(savedRequests))savedRequests=[];}catch{}
 const pending=new Map(savedRequests);
+const inflightActions=new Map();
+const actionGroup=input=>String(input.stepToken||'').replace(/:(?:strike|burst)-([^:]+):(\d+)$/,':attack-$1:$2');
+const saveRequests=()=>sessionStorage.setItem('lichLiveRequests',JSON.stringify([...pending].slice(-20)));
+const paintPendingActions=()=>window.LichBattle?.setPending?.([...inflightActions.values()]);
 function toast(message){$('toast').textContent=message;$('toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').hidden=true,4500);}
 function renderGuideContext(){
   const active=state?.status==='ACTIVE';
@@ -53,6 +57,7 @@ function screen(name){
 function schedule(){clearTimeout(timer);if(disposed||document.hidden||view==='gate')return;timer=setTimeout(()=>void sync(),Math.min(10000,(state?.status==='ACTIVE'?650:view==='lobby'?3000:15000)*2**Math.min(failures,3)));}
 function setRoom(value){roomId=value||'';if(roomId)sessionStorage.setItem('lichLiveRoom',roomId);else sessionStorage.removeItem('lichLiveRoom');}
 function reset(){
+  generation++;inflightActions.clear();paintPendingActions();
   setRoom('');state=null;eventSeq=0;ended=false;mounted=false;memberKey='';loadoutKey='';$('loadoutPanel').hidden=true;window.LichBattle?.teardown();$('journal').innerHTML='';
   for(const id of ['resultDialog','partyDialog'])if($(id).open)$(id).close();
 }
@@ -159,7 +164,36 @@ async function sync(){
     else toast(error.message);
   }finally{polling=false;schedule();}
 }
+async function actionCommand(body){
+  if(disposed||busy||state?.status!=='ACTIVE'||body.challengeId!==state.challenge?.id)return;
+  const group=actionGroup(body);if(!group||inflightActions.has(group))return;
+  const input={roomId,...body},key='action:'+JSON.stringify(input),version=generation;
+  if(!pending.has(key))pending.set(key,crypto.randomUUID());saveRequests();
+  inflightActions.set(group,input);paintPendingActions();
+  let applied=false;
+  const current=()=>!disposed&&version===generation&&roomId===input.roomId;
+  try{
+    const result=await api('action?since='+eventSeq,{method:'POST',body:{...input,requestId:pending.get(key)},signal:lifecycle.signal,timeoutMs:15000});
+    pending.delete(key);if(!current())return;
+    if(result.state){render(result);applied=true;}
+  }catch(error){
+    if(error.status>=400&&error.status<500&&error.status!==429&&!error.retryable)pending.delete(key);
+    if(!current())return;
+    toast(error.message);
+    if(['LICH_OFF','LICH_TEST_ONLY'].includes(error.code))showGate(error);
+    if(['LICH_KICKED','LICH_NOT_MEMBER'].includes(error.code)){reset();screen('lobby');}
+  }finally{
+    saveRequests();if(inflightActions.get(group)===input)inflightActions.delete(group);
+    if(current()){
+      paintPendingActions();
+      if(!applied)await sync();else schedule();
+    }
+  }
+}
 async function command(kind,body={}){
+  // Independent V2 tokens can travel together. Polls keep running while a slow
+  // response is pending, so it cannot lock another duty or the next phase.
+  if(kind==='action'&&state?.rulesVersion===2)return actionCommand(body);
   if(disposed||busy)return;busy=true;generation++;clearTimeout(timer);$('lobbyNotice').hidden=true;$('lobby').setAttribute('aria-busy','true');
   if(state?.status==='LOBBY')renderAssembly();
   else root.querySelectorAll('[data-join]').forEach(button=>{button.disabled=true;});
@@ -185,7 +219,7 @@ async function command(kind,body={}){
     if(['LICH_KICKED','LICH_NOT_MEMBER'].includes(error.code)){reset();screen('lobby');}
   }finally{
     sessionStorage.setItem('lichLiveRequests',JSON.stringify([...pending].slice(-20)));busy=false;
-    if(!disposed){$('lobby').setAttribute('aria-busy','false');window.LichBattle?.setPending?.(false);}
+    if(!disposed){$('lobby').setAttribute('aria-busy','false');paintPendingActions();}
     // A successful command already returned the authoritative snapshot.
     // Avoid making players wait for a second network round trip.
     if(!disposed){
@@ -231,7 +265,7 @@ function destroy(){
 }
 on(document,'visibilitychange',()=>{clearTimeout(timer);if(!document.hidden)void sync();});
 on(window,'pagehide',destroy);
-const controller={sync,destroy,diagnostics:()=>({state,mounted,eventSeq,view,disposed,battle:window.LichBattle?.diagnostics()})};
+const controller={sync,destroy,diagnostics:()=>({state,mounted,eventSeq,view,disposed,inflightActions:[...inflightActions.keys()],battle:window.LichBattle?.diagnostics()})};
 window.LichRaidLive=controller;
 void boot();
 return controller;

@@ -1,4 +1,4 @@
-import {projectLichChallenge,lichControlKey} from './clock.mjs';
+import {projectLichChallenge,lichControlKey,lichInputKey} from './clock.mjs';
 import {renderCoop,tickCoop} from './CoopOverlay.js';
 
 const RUNES=['달','가시','왕관'];
@@ -14,7 +14,7 @@ const time=ms=>{const s=seconds(ms);return String(Math.floor(s/60)).padStart(2,'
 export class MechanicOverlay{
   constructor(engine,host){
     const {Container,Graphics}=window.ProjectVPixiBattle.fxRuntime;
-    this.engine=engine;this.host=host;this.state=null;this.key='';this.offset=0;this.lastPaint=0;this.feedbackSeq=0;this.flashSerial=0;this.pending=false;
+    this.engine=engine;this.host=host;this.state=null;this.key='';this.offset=0;this.lastPaint=0;this.feedbackSeq=0;this.flashSerial=0;this.pending=false;this.pendingInputs=new Set();
     this.element=document.createElement('section');
     this.element.className='lich-mechanic-screen';
     this.element.setAttribute('aria-label','리치왕 전장 기믹');
@@ -34,7 +34,7 @@ export class MechanicOverlay{
     const input=b=>({action:b.dataset.action,target:b.dataset.target||'',challengeId:this.state.challenge.id,...(b.dataset.stepToken?{stepToken:b.dataset.stepToken}:{})});
     this.onPointerDown=e=>{const b=e.target.closest('[data-action]');this.pressedInput=b&&!b.disabled&&this.state?{button:b,detail:input(b)}:null;};
     this.clearPointer=()=>{this.pressedInput=null;};
-    this.onClick=e=>{const b=e.target.closest('[data-action]'),pressed=this.pressedInput;this.pressedInput=null;if(!b||b.disabled||this.pending||!this.state)return;
+    this.onClick=e=>{const b=e.target.closest('[data-action]'),pressed=this.pressedInput;this.pressedInput=null;if(!b||b.disabled||this.isPending(b.dataset.stepToken)||!this.state)return;
       // Shared heal/phase updates during a held press must not turn the original
       // intent into a second charge or a new step when the pointer is released.
       window.dispatchEvent(new CustomEvent('lich-raid-action',{detail:e.detail&&pressed?.button===b?pressed.detail:input(b)}));};
@@ -168,10 +168,14 @@ export class MechanicOverlay{
     if(c.prison)this.node('order-help').textContent=`감옥을 지켜라 · 절대영도까지 ${(Math.max(0,c.startedAt+6000-now)/1000).toFixed(1)}s`;
   }
   applyPending(){
-    this.node('input-status').hidden=!this.pending;
-    if(this.pending)for(const b of this.element.querySelectorAll('[data-action]'))b.disabled=true;
+    // Scoped V2 requests show their state on the matching control. An old
+    // response must not cover the next phase with a screen-wide waiting banner.
+    const node=this.node('input-status');node.hidden=!this.pending;
+    node.textContent='입력 처리 중…';
+    for(const b of this.element.querySelectorAll('[data-action]'))if(this.isPending(b.dataset.stepToken))b.disabled=true;
   }
-  setPending(value){this.pending=Boolean(value);this.key='';this.tick(true);}
+  isPending(token){return this.pending||this.pendingInputs.has(lichInputKey(token));}
+  setPending(value){this.pending=value===true;this.pendingInputs=new Set(Array.isArray(value)?value.map(input=>lichInputKey(input.stepToken)):[]);this.key='';this.tick(true);}
   flash(label,danger){
     const node=this.node('feedback');node.hidden=false;node.textContent=label;node.classList.toggle('is-danger',danger);
     const serial=++this.flashSerial;

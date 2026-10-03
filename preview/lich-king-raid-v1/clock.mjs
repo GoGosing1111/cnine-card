@@ -1,4 +1,19 @@
 // Presentation of known server deadlines. Inputs remain server-validated.
+// Strike/burst spend the same personal opportunity. Other steps are independent.
+export const lichInputKey=token=>String(token||'').replace(/:(?:strike|burst)-([^:]+):(\d+)$/,':attack-$1:$2');
+export function lichCoopInputState(s,c,a,now,pending=false){
+  const waiting=Boolean(a.startsAt&&now<a.startsAt),expired=Boolean(a.deadline&&now>=a.deadline);
+  // The server ticks absorption before validating a shatter. Its known deadline
+  // can unlock locally too, even when the next status response is still in flight.
+  const absorbed=a.action==='SHATTER'&&s.combatRevision===2&&c.hasPrison&&c.sealed&&now>=c.breathAt;
+  const blocked=Boolean(a.blocked)&&!absorbed;
+  const active=s.status==='ACTIVE',ready=active&&!waiting&&!expired&&!blocked&&!pending;
+  const seconds=at=>Math.max(0,Math.ceil((at-now)/1000))+'초';
+  const clock=!active?'종료':expired?'시간 종료':waiting
+    ?(['STRIKE','BURST'].includes(a.action)?'재사용 '+Math.max(0,(a.startsAt-now)/1000).toFixed(1)+'초':(a.action==='SHATTER'?'엄폐 ':'예고 ')+seconds(a.startsAt))
+    :blocked?'대기':pending?'입력 확인 중':a.deadline?(a.action==='SHATTER'?'지금 파쇄 · ':'남은 ')+seconds(a.deadline):'사용 가능';
+  return {waiting,expired,blocked,ready,clock};
+}
 export function projectLichChallenge(challenge,now,step='MECHANIC'){
   const c={...challenge};
   if(c.coop)return c;

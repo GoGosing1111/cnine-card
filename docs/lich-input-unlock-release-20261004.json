@@ -1,0 +1,56 @@
+{
+  "status": "BROWSER_VERIFIED_PENDING_SCOPED_GATE",
+  "request": "페이즈 공격 버튼 비활성화 및 3인 공대 중첩 기믹 입력 잠금 제보 개선",
+  "reproduced": "Holding a RESCUE response disabled CLEANSE and paused status polling on the previous build; actual browser assertion reproduced the lock.",
+  "changes": [
+    "V2 requests are tracked by authoritative step token, with strike/burst sharing one attack opportunity",
+    "Independent duties and polling continue while another response is delayed",
+    "Old room/generation responses are ignored; server receipts and cooldown validation remain authoritative",
+    "Countdowns distinguish advance warning, cooldown, active deadline and pending input",
+    "Known absorption unlocks shatter at its server deadline without waiting for the next poll; unresolved seals and expired windows remain blocked"
+  ],
+  "unchanged": [
+    "Server combat damage, encounter deadlines, role checks, rewards, weekly quota, CMS mode"
+  ],
+  "baseline": {
+    "source": "a2dab2295420bb7196ab7e425741bf62f6ea7ea7",
+    "pagesId": "2354bc4b-615a-4d40-8c6e-695c7ffe1986"
+  },
+  "browser": {
+    "reports": [
+      {
+        "width": 1440,
+        "independentMechanics": true,
+        "phaseWhileResponsePending": true,
+        "pollingDuringInput": true,
+        "attackCooldown": true,
+        "sameAttackDedup": true,
+        "lateResponseIgnored": true,
+        "pageErrors": []
+      },
+      {
+        "width": 390,
+        "independentMechanics": true,
+        "phaseWhileResponsePending": true,
+        "pollingDuringInput": true,
+        "attackCooldown": true,
+        "sameAttackDedup": true,
+        "lateResponseIgnored": true,
+        "pageErrors": []
+      }
+    ],
+    "artifacts": "C:/Users/User/AppData/Local/Temp/lich-input-ui-guFmyX",
+    "viewports": [
+      1440,
+      390
+    ]
+  },
+  "scopedTests": [
+    "tests/lich-input-unlock-20261004.test.mjs",
+    "tests/lich-raid-coop-20261002.test.mjs",
+    "tests/lich-raid-feedback-20261003.test.mjs",
+    "tests/lich-raid-loadout-timing-20261001.test.mjs",
+    "tests/lich-raid-inline-entry-20260929.test.mjs"
+  ],
+  "checks": []
+}

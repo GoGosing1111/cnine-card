@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION = '20261004-weekly-rewards';
+  const VERSION = '20261004-input-unlock';
   let checkedAt = 0, visible = false, featureRequest = null, controller = null, revision = 0;
   const host = () => document.getElementById('pveLichRaidView');
   async function refresh() {
