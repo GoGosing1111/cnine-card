@@ -15,11 +15,12 @@ export class GroundDrops{
     if(!remaining){this.onExpired?.(drop);return;}
     const rarity=drop.item.tier||drop.item.rarity;
     const root=new Container({label:'HUNT_GROUND_DROP_'+drop.id}),color=rarity==='epic'?0xd4a1ff:rarity==='rare'?0x69dcff:0xd5ff87;
-    const halo=new Graphics().ellipse(0,0,32,12).fill({color,alpha:.25}).ellipse(0,0,25,8).stroke({color,width:2,alpha:.95});
-    const icon=new Sprite(texture);icon.anchor.set(.5,1);const scale=45/Math.max(texture.width,texture.height);icon.scale.set(scale);icon.y=-8;
+    const halo=new Graphics().ellipse(0,0,36,14).fill({color,alpha:.32}).ellipse(0,0,29,10).stroke({color:0x07101b,width:5,alpha:.9}).ellipse(0,0,29,10).stroke({color,width:2.5,alpha:1});
+    const icon=new Sprite(texture);icon.anchor.set(.5,1);const scale=54/Math.max(texture.width,texture.height);icon.scale.set(scale);icon.y=-10;
     root.addChild(halo,icon);this.engine.effectLayer.addChild(root);
     const button=document.createElement('button');button.className='ground-drop '+rarity;button.type='button';button.dataset.dropId=drop.id;
-    button.setAttribute('aria-label',drop.item.name+' 획득');button.innerHTML='<span class="drop-countdown"></span><span class="drop-label"></span>';
+    button.setAttribute('aria-label',drop.item.name+' '+drop.item.quantity+'개 획득');button.innerHTML='<span class="drop-countdown"></span><span class="drop-quantity"></span><span class="drop-label"></span>';
+    const quantity=button.querySelector('.drop-quantity');quantity.textContent='×'+drop.item.quantity;quantity.hidden=!(drop.item.quantity>1);
     button.querySelector('.drop-label').textContent=drop.item.name;this.host.append(button);
     const row={drop,root,icon,halo,iconScale:scale,button,deadline:performance.now()+remaining,pending:false,expired:false};
     this.rows.set(drop.id,row);
@@ -56,14 +57,14 @@ export class GroundDrops{
       // Keep the item readable when the V3 world shrinks on a phone. The DOM
       // hit target and Pixi icon still share the same field position.
       const matrix=r.root.parent.worldTransform,viewScale=Math.hypot(matrix.a,matrix.b)*box.width/e.app.screen.width;
-      const boost=Math.max(1,32/(45*Math.max(.001,viewScale)));
+      const boost=Math.max(1,40/(54*Math.max(.001,viewScale)));
       r.icon.scale.set(r.iconScale*boost);r.halo.scale.set(boost);
-      // CSS target keeps a 48px touch area even on the smallest V3 viewport.
-      r.button.style.left=x+'px';r.button.style.top=(y-22)+'px';
+      // The larger touch target remains attached to the server's field position.
+      r.button.style.left=x+'px';r.button.style.top=(y-28)+'px';
       r.button.disabled=r.pending||!!e.huntPaused;
       r.button.querySelector('.drop-countdown').textContent=r.pending?'…':Math.max(0,Math.ceil(left/1000))+'s';
       r.button.classList.toggle('expiring',left<2500);
-      r.icon.y=(-8+Math.sin(time/240)*2)*boost;
+      r.icon.y=(-10+Math.sin(time/240)*2)*boost;
     }
   }
   remove(id){const r=this.rows.get(id);if(!r)return;r.expired=true;r.tween?.kill();r.button.remove();r.root.destroy({children:true});this.rows.delete(id);}
