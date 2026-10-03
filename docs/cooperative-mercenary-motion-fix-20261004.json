@@ -1,5 +1,5 @@
 {
-  "status": "READY_FOR_SCOPED_DEPLOY",
+  "status": "COMPLETED",
   "date": "2026-10-04",
   "request": "격전지에서 용병이 카드가 줄어든 뒤에야 행동하며, 크라이베른 주변에 사각 테두리가 생기는 문제 수정",
   "findings": {
@@ -8,13 +8,13 @@
       "localEvidence": "C:/Users/User/.codex/tmp/cooperative-berkan-20261004/",
       "before": {
         "firstRegularMs": 116272,
-        "cryvernAttackEvents": 0
+        "cryvernActorEvents": 0
       },
       "cause": "격전지의 최소 게이지 시간 증가값 때문에 속도형 카드가 130 상한에서 계속 우선됨. 느린 참가자의 일반 카드와 그 카드에 연동된 용병 추가 행동이 함께 밀림.",
       "afterSameInput": {
         "firstRegularMs": 8044,
         "firstCryvernMs": 8614,
-        "cryvernAttackEvents": 24
+        "cryvernActorEvents": 24
       }
     },
     "resource": {
@@ -66,7 +66,7 @@
       "evidence": "C:/Users/User/AppData/Local/Temp/cooperative-qa-tTJBf7/screenshots"
     },
     "deploymentRegressions": {
-      "status": "PENDING",
+      "status": "PASS",
       "files": [
         "tests/cooperative-battleground.test.mjs",
         "tests/cooperative-arke.test.mjs",
@@ -78,7 +78,8 @@
         "check:worker",
         "verify-production-release",
         "Hyperdrive query cache"
-      ]
+      ],
+      "passed": 38
     }
   },
   "release": {
@@ -86,6 +87,48 @@
     "base": "73f34285339d2596da9636c06e60735f084c3102",
     "basePagesDeployment": "c3ddf6f0-411f-4dbd-a6ad-4c54c987094f",
     "reason": "격전지 전용 조건과 크라이베른 광원 두 필터의 국소 수정. 관련 신규 회귀·PC/모바일/기존 PVE/PVP 검수는 완료. 배포에서는 인접 협동 전투·공용 용병 차례·실제 번들/메인 로더 검사만 수행.",
-    "runtime": "20261004-coop-cryvern-fix-v1"
-  }
+    "runtime": "20261004-coop-cryvern-fix-v1",
+    "commit": "4cd8c6f2f64a8a3caa48c1a4f03f96a27f74840f",
+    "pagesDeploymentId": "38e14993-95f0-4097-9134-485bc2fbcea0",
+    "pagesDeploymentUrl": "https://38e14993.cnine-card.pages.dev",
+    "apiRuntimeVersion": "a242cdfe-113a-49b2-b670-0ae35b99348c",
+    "scheduledWorkerVersion": "2027abca-c0fa-4a92-a7c8-3b662a5fd782",
+    "verifiedAt": "2026-10-03T16:13:32.300Z"
+  },
+  "productionVerification": {
+    "result": "PASS",
+    "at": "2026-10-03T16:13:32.300Z",
+    "origin": "https://cnine-card.pages.dev",
+    "commit": "4cd8c6f2f64a8a3caa48c1a4f03f96a27f74840f",
+    "runtime": "20261004-coop-cryvern-fix-v1",
+    "checks": [
+      {
+        "path": "index.html",
+        "status": 200,
+        "match": true
+      },
+      {
+        "path": "js/app.js",
+        "status": 200,
+        "match": true
+      },
+      {
+        "path": "js/battle-v3-live.js",
+        "status": 200,
+        "match": true
+      },
+      {
+        "path": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+        "status": 200,
+        "match": true
+      },
+      {
+        "path": "preview/mercenary-ice-crystal-dual-sword-v1/source/IceDualSwordFX.js",
+        "status": 200,
+        "match": true
+      }
+    ],
+    "evidence": "C:/Users/User/.codex/tmp/cooperative-berkan-20261004/live-verification.json"
+  },
+  "inspectionCleanup": "인증·만료 제한 원격 preview 조회기를 EXPIRES=0으로 차단 후 같은 키 403 확인, 로컬 preview 프로세스 종료. 운영 계정/전투 상태 변경 없음."
 }
