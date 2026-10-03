@@ -37,22 +37,22 @@ function entry(options){
   return vm.runInNewContext(source+';createHuntEntry(options)',{options});
 }
 const lobbyData={difficulties:[{id:'normal'},{id:'hard'},{id:'inferno'}],loadout:{cards:[1,2,3,4,5],mercenary:{code:'V-050'}}};
-test('opening and changing difficulty only read the loadout; explicit entry runs once and never on refresh',async()=>{
+test('opening recovers an interrupted run before reading the loadout; explicit entry runs once and never on refresh',async()=>{
   const calls=[],enters=[],renders=[];
   const state=entry({request:async path=>{calls.push(path);return lobbyData;},render:s=>renders.push(s),enter:id=>enters.push(id),dispose(){}});
   await state.refresh();state.select('hard');state.select('inferno');
-  assert.deepEqual(calls,['legion-hunt/bootstrap']);assert.deepEqual(enters,[]);
+  assert.deepEqual(calls,['legion-hunt/recover','legion-hunt/bootstrap']);assert.deepEqual(enters,[]);
   assert.equal(state.state.difficulty,'inferno');assert.equal(state.state.phase,'lobby');
   state.enter();state.enter();state.select('normal');assert.deepEqual(enters,['inferno']);
   await state.refresh();assert.equal(state.state.phase,'lobby');assert.deepEqual(enters,['inferno']);
-  assert.equal(calls.length,2);assert.ok(renders.some(s=>s.data?.loadout.mercenary.code==='V-050'));
+  assert.equal(calls.length,4);assert.ok(renders.some(s=>s.data?.loadout.mercenary.code==='V-050'));
 });
 test('invalid/missing deck blocks entry and a late bootstrap response cannot reopen a closed lobby',async()=>{
   let response;const enters=[],renders=[];
-  const state=entry({request:()=>new Promise(resolve=>response=resolve),render:s=>renders.push(s),enter:x=>enters.push(x),dispose(){}});
-  const first=state.refresh();state.enter();response({...lobbyData,loadout:null,loadoutError:'덱 5장을 저장하세요'});await first;state.enter();
+  const state=entry({request:path=>path==='legion-hunt/recover'?Promise.resolve({}):new Promise(resolve=>response=resolve),render:s=>renders.push(s),enter:x=>enters.push(x),dispose(){}});
+  const first=state.refresh();await new Promise(resolve=>setImmediate(resolve));state.enter();response({...lobbyData,loadout:null,loadoutError:'덱 5장을 저장하세요'});await first;state.enter();
   assert.equal(enters.length,0);assert.equal(state.state.error,'덱 5장을 저장하세요');
-  const pending=state.refresh(),count=renders.length;state.close();response(lobbyData);await pending;
+  const pending=state.refresh();await new Promise(resolve=>setImmediate(resolve));const count=renders.length;state.close();response(lobbyData);await pending;
   assert.equal(renders.length,count);assert.equal(state.state.phase,'closed');assert.equal(enters.length,0);
 });
 test('bootstrap and actual entry use the authenticated saved deck, refreshing changes at entry and preserving separate mercenary',async()=>{
@@ -114,7 +114,7 @@ for(const postgres of [false,true]){
     await f.env.DB.batch(mercenaryCardAcquisitionStatements(f.env.DB,{userId:7,mercenaryCode:'V-050',acquisitionId:crypto.randomUUID()}));
     await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mercenaryCode:'V-050',revision:0});
     const deps={...f.deps,loadMercenaryBattleSnapshot},call=async(action,body)=>{
-      if(action==='start')body={version:3,...body};
+      if(action==='start')body={version:4,...body};
       const path='legion-hunt/'+action,request=new Request('https://game.test/api/'+path,{method:body?'POST':'GET',headers:{authorization:'Bearer local-account-7',origin:'https://game.test','content-type':'application/json'},...(body?{body:JSON.stringify(body)}:{})});
       const r=await handleLegionHunt({path,request,env:f.env,deps});assert.equal(r.status,200,await r.clone().text());return r.json();
     };

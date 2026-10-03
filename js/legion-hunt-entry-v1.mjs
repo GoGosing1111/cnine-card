@@ -14,9 +14,14 @@ export function createHuntEntry({request=jointAccountRequest,render,enter,dispos
   const update=next=>{state={...state,...next};render(state);};
   return {
     get state(){return state;},
-    async refresh(){
+    async refresh(priorRecovery=null){
       const token=++revision;update({phase:'loading',data:null,error:''});
-      try{const data=await request('legion-hunt/bootstrap');if(token===revision)update({phase:'lobby',data,error:data.loadoutError||''});}
+      try{
+        const recovered=await request('legion-hunt/recover',{method:'POST',body:{}});
+        if(token!==revision)return;
+        const data=await request('legion-hunt/bootstrap');
+        if(token===revision)update({phase:'lobby',data:{...data,recovery:recovered?.recovery||priorRecovery},error:data.loadoutError||''});
+      }
       catch(error){if(token===revision)update({phase:'lobby',error:error.message});}
     },
     select(id){if(state.phase==='lobby'&&state.data?.difficulties.some(d=>d.id===id))update({difficulty:id});},
@@ -58,9 +63,9 @@ export function openLegionHunt(button){
       </aside>
     </div></div><div class="legion-play" hidden></div><dialog class="legion-poster-view" aria-label="군단토벌 콘텐츠 소개"><button type="button" data-hunt-poster-close aria-label="소개 닫기">닫기 ×</button><img src="${art}posters/legion-hunt-forgotten-island-v3.png" alt="군단토벌 · 잊혀진 섬 콘텐츠 소개 포스터"></dialog>`;
   const find=s=>dialog.querySelector(s);
-  let frame=null,session=null,rewardsChanged=false;
+  let frame=null,session=null,rewardsChanged=false,recoveryWait=Promise.resolve();
   const clearFrame=()=>{
-    if(session){void jointAccountRequest('legion-hunt/cancel',{method:'POST',body:{id:session}}).catch(()=>{});session=null;}
+    if(session){recoveryWait=jointAccountRequest('legion-hunt/cancel',{method:'POST',body:{id:session}}).catch(()=>{});session=null;}
     if(frame){frame.src='about:blank';frame.remove();frame=null;}
     if(rewardsChanged){rewardsChanged=false;window.dispatchEvent(new Event('cnine:account-mutation'));}
     find('.legion-play').hidden=true;find('.legion-lobby').hidden=false;dialog.dataset.phase='lobby';
@@ -73,9 +78,10 @@ export function openLegionHunt(button){
     find('[data-hunt-enter]').disabled=loading||!loadout||!!state.error||exhausted;
     find('[data-hunt-enter]').textContent=loading?'편성 불러오는 중':exhausted?'오늘 입장 횟수 소진':'토벌 입장';
     find('[data-hunt-refresh]').disabled=loading;
-    find('.legion-entry-status').textContent=state.error||(loading?'저장된 편성을 불러오는 중입니다.':unlimited?'OWNER 계정 · 입장 횟수 제한 없음':exhausted?'한국시간 자정에 입장 횟수가 초기화됩니다.':'전투 시작 시 1회 사용 · 매일 한국시간 자정 초기화');
+    const recoveryNotice=data?.recovery?.kind==='SETTLED'?'이전 원정의 전리품 정산을 완료했습니다.':data?.recovery?.refunded?'중단된 원정의 입장 1회를 복구했습니다.':'';
+    find('.legion-entry-status').textContent=state.error||recoveryNotice||(loading?'저장된 편성을 불러오는 중입니다.':unlimited?'OWNER 계정 · 입장 횟수 제한 없음':exhausted?'한국시간 자정에 입장 횟수가 초기화됩니다.':'결과 미확정 중단 시 입장 복구 · 매일 한국시간 자정 초기화');
     find('.legion-entry-status').classList.toggle('error',!!state.error);
-    find('[data-hunt-reward-mode]').textContent=data?.access?.liveRewards?'ON · 직접 주운 전리품은 계정에 즉시 지급':data?.access?.mode==='TEST'?'TEST · 지정 참여자 검수 · 계정 보상 미지급':'';
+    find('[data-hunt-reward-mode]').textContent=data?.access?.liveRewards?'클리어·패배·철수 정산 시 획득 전리품 지급':data?.access?.mode==='TEST'?'TEST · 지정 참여자 검수 · 계정 보상 미지급':'';
     find('.legion-account').textContent=loadout?loadout.accountNickname+' · 편성 전투력 '+power(Object.values(loadout.power).reduce((a,b)=>a+Number(b||0),0)):'';
     find('.legion-cards').innerHTML=(loadout?.cards||[]).map((card,i)=>`<figure data-card-id="${escape(card.id)}" data-grade="${escape(card.rarity||card.grade)}"><span class="legion-card-slot">0${i+1}</span><img src="${escape(imagePath(card.originalCardArt||card.sourceArt||card.image_url||card.image))}" alt="${escape(card.title||card.name)}"><figcaption><small>${escape(card.rarity||card.grade)}</small><strong>${escape(card.title||card.name)}</strong></figcaption></figure>`).join('');
     const merc=loadout?.mercenary;
@@ -93,14 +99,14 @@ export function openLegionHunt(button){
   };
   const controller=createHuntEntry({render,enter:()=>{
     find('.legion-lobby').hidden=true;find('.legion-play').hidden=false;
-    frame=document.createElement('iframe');frame.title='군단토벌 전투';frame.src='/pve/legion-hunt/?v=20260928-hunt-deadline';frame.allow='autoplay; fullscreen';find('.legion-play').append(frame);
+    frame=document.createElement('iframe');frame.title='군단토벌 전투';frame.src='/pve/legion-hunt/?v=20261003-recovery';frame.allow='autoplay; fullscreen';find('.legion-play').append(frame);
   },dispose:()=>{clearFrame();window.removeEventListener('message',onMessage);dialog.close();dialog.remove();active=null;button?.focus();}});
   const onMessage=event=>{
     if(event.origin!==location.origin||event.source!==frame?.contentWindow)return;
     if(event.data?.type==='legion-hunt-ready')frame.contentWindow.postMessage({type:'legion-hunt-enter',difficulty:controller.state.difficulty},location.origin);
     if(event.data?.type==='legion-hunt-session')session=event.data.id;
     if(event.data?.type==='legion-hunt-rewards-changed')rewardsChanged=true;
-    if(event.data?.type==='legion-hunt-return'){clearFrame();void controller.refresh();}
+    if(event.data?.type==='legion-hunt-return'){clearFrame();void recoveryWait.then(result=>controller.refresh(result?.recovery));}
   };
   dialog.addEventListener('click',event=>{
     const target=event.target.closest('button');if(!target)return;

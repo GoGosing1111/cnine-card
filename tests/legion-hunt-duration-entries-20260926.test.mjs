@@ -168,7 +168,7 @@ test('entry controller blocks an exhausted account; refresh alone cannot spend a
   const calls=[],entered=[];
   const options={request:async path=>{calls.push(path);return {difficulties:[{id:'normal'}],loadout:{},entries:{remaining:0,limit:2}};},render(){},enter:x=>entered.push(x),dispose(){}};
   const controller=vm.runInNewContext(source.slice(source.indexOf('export function createHuntEntry'),source.indexOf('let active=null;')).replace('export function','function')+';createHuntEntry(options)',{options});
-  await controller.refresh();controller.enter();assert.equal(entered.length,0);assert.deepEqual(calls,['legion-hunt/bootstrap']);
+  await controller.refresh();controller.enter();assert.equal(entered.length,0);assert.deepEqual(calls,['legion-hunt/recover','legion-hunt/bootstrap']);
 });
 
 test('entry controller accepts the server unlimited allowance even with a previously exhausted counter',async()=>{

@@ -31,6 +31,7 @@ async function drop(f,id){
   const d=r.body.drop;assert.ok(d);return {id,dropId:d.id,token:d.token,...d.position};
 }
 async function saved(f,uid){return JSON.parse((await f.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(runKey(uid)).first()).value);}
+const finish=(f,id)=>f.call('legion-hunt/finish',{id,seq:1});
 
 for(const postgres of [false,true]){
   const dialect=postgres?'PostgreSQL':'SQLite';
@@ -48,7 +49,8 @@ for(const postgres of [false,true]){
       assert.equal((await f.call('admin/legion-hunt',{policy:initial},{method:'PATCH'})).status,403);
       const id=await start(f);f.loseReply();assert.equal((await f.call('legion-hunt/begin',{id})).status,503);
       assert.equal((await f.call('legion-hunt/begin',{id})).body.entries.used,1);
-      await start(f);assert.equal((await f.call('legion-hunt/start',{difficulty:'normal'})).body.code,'HUNT_DAILY_LIMIT');
+      f.clock.now+=101;await finish(f,id);const second=await start(f);f.clock.now+=101;await finish(f,second);
+      assert.equal((await f.call('legion-hunt/start',{difficulty:'normal'})).body.code,'HUNT_DAILY_LIMIT');
       assert.equal((await f.call('legion-hunt/bootstrap')).body.entries.used,2);
       for(let i=0;i<3;i++)await start(f,f.owner);
       assert.equal((await f.call('legion-hunt/bootstrap')).body.entries.unlimited,true);
@@ -56,48 +58,54 @@ for(const postgres of [false,true]){
     }finally{await f.close();}
   });
 
-  test(dialect+': all four reward destinations commit once per pickup; lost replies and repeats reuse the persisted receipt',async()=>{
+  test(dialect+': all four reward destinations stage pickups and settle exactly once despite lost pickup/finish replies',async()=>{
     const f=await fixture(postgres);try{
       for(const [type,quantity,table] of [['INVENTORY_ITEM',3,'cnine_user_inventory'],['CARD',2,'user_cards'],['EQUIPMENT',2,'user_equipment_instances'],['VEHICLE',1,'user_garage_vehicles']]){
         await configure(f,{type,quantity});const id=await start(f,f.owner),claim=await drop(f,id);
         f.loseReply();assert.equal((await f.call('legion-hunt/claim',claim)).status,503);
-        f.resetQueries();const r=await f.call('legion-hunt/claim',claim);assert.equal(r.status,200,JSON.stringify(r.body));assert.equal(r.body.liveRewards,true);assert.equal(r.body.refreshAccount,true);
-        assert.equal(r.body.rewards[0].rewardType,type);assert.equal(r.body.item.quantity,quantity);
+        f.resetQueries();const r=await f.call('legion-hunt/claim',claim);assert.equal(r.status,200,JSON.stringify(r.body));assert.equal(r.body.liveRewards,false);assert.equal(r.body.pendingRewards,true);
+        assert.equal(r.body.item.quantity,quantity);
         assert.deepEqual((await f.call('legion-hunt/claim',claim)).body,r.body);
         assert.ok(f.queries.every(q=>!/^\s*(INSERT|UPDATE|DELETE)/i.test(q)),'replay performs no grant or session writes');
+        assert.equal(Number((await f.DB.prepare('SELECT COUNT(*) n FROM '+table+' WHERE user_id=1').first()).n),0);
+        f.loseReply();assert.equal((await finish(f,id)).status,503);
+        const result=await finish(f,id);assert.equal(result.status,200,JSON.stringify(result.body));assert.equal(result.body.liveRewards,true);assert.equal(result.body.previewOnly,false);assert.equal(result.body.inventory[0].quantity,quantity);assert.equal(result.body.rewards[0].rewardType,type);
+        assert.deepEqual((await finish(f,id)).body,result.body);
         const row=await f.DB.prepare('SELECT '+(['CARD','INVENTORY_ITEM'].includes(type)?'quantity':'COUNT(*) n')+' FROM '+table+' WHERE user_id=1').first();
         assert.equal(Number(row.quantity??row.n),quantity);
-        const result=await f.call('legion-hunt/finish',{id,seq:1});assert.equal(result.body.liveRewards,true);assert.equal(result.body.previewOnly,false);assert.equal(result.body.inventory[0].quantity,quantity);
       }
       assert.equal((await f.DB.prepare('SELECT COUNT(*) n FROM inventory_logs').first()).n,1);
       assert.equal((await f.DB.prepare('SELECT COUNT(*) n FROM joint_atomic_guards_v1').first()).n,0);
       // Existing garage ownership remains one vehicle; no invented duplicate payout.
       const id=await start(f,f.owner);assert.equal((await f.call('legion-hunt/claim',await drop(f,id))).status,200);
+      assert.equal((await finish(f,id)).status,200);
       assert.equal((await f.DB.prepare('SELECT COUNT(*) n FROM user_garage_vehicles').first()).n,1);
     }finally{await f.close();}
   });
 
-  test(dialect+': grant failures, proof failures and competing session writes roll back both reward and claimed state',async()=>{
+  test(dialect+': settlement failures and competing writes preserve pickups and pending finish without partial grants',async()=>{
     const f=await fixture(postgres);try{
       await configure(f);let id=await start(f),claim=await drop(f,id);
+      assert.equal((await f.call('legion-hunt/claim',claim)).status,200);
       for(const failure of ['UPDATE app_meta','INSERT INTO inventory_logs','DELETE FROM joint_atomic_guards_v1']){
-        f.fail(failure);assert.equal((await f.call('legion-hunt/claim',claim)).status,503);f.fail('');
-        assert.equal((await saved(f,2)).state.claims.length,0);
+        f.fail(failure);assert.equal((await finish(f,id)).status,503);f.fail('');
+        assert.equal((await saved(f,2)).state.claims.length,1);
         assert.equal((await f.DB.prepare('SELECT COUNT(*) n FROM cnine_user_inventory').first()).n,0);
       }
       const batch=f.DB.batch;
       f.DB.batch=async statements=>{f.DB.batch=batch;const run=await saved(f,2);run.concurrentWrite=true;await f.DB.prepare('UPDATE app_meta SET value=? WHERE key=?').bind(JSON.stringify(run),runKey(2)).run();return batch.call(f.DB,statements);};
-      assert.equal((await f.call('legion-hunt/claim',claim)).status,503);
+      assert.equal((await finish(f,id)).status,503);
       assert.equal((await f.DB.prepare('SELECT COUNT(*) n FROM cnine_user_inventory').first()).n,0);
-      assert.equal((await f.call('legion-hunt/claim',claim)).status,200);
+      assert.equal((await finish(f,id)).status,200);
       await configure(f,{type:'EQUIPMENT',quantity:2});id=await start(f);claim=await drop(f,id);
+      assert.equal((await f.call('legion-hunt/claim',claim)).status,200);
       // Force INSERT...SELECT to insert zero rows while leaving the item visible
       // to the pre-grant validation. The in-transaction grant proof must fail.
       f.DB.batch=async statements=>{f.DB.batch=batch;return batch.call(f.DB,statements.filter(s=>!String(s.source??s.sql??'').startsWith('INSERT INTO user_equipment_instances')));};
-      const failed=await f.call('legion-hunt/claim',claim);assert.equal(failed.status,503,JSON.stringify(failed.body));
-      assert.equal((await saved(f,2)).state.claims.length,0);
+      const failed=await finish(f,id);assert.equal(failed.status,503,JSON.stringify(failed.body));
+      assert.equal((await saved(f,2)).state.claims.length,1);assert.equal((await saved(f,2)).rewardStatus,'PENDING');
       assert.equal((await f.DB.prepare('SELECT COUNT(*) n FROM user_equipment_instances').first()).n,0);
-      assert.equal((await f.call('legion-hunt/claim',claim)).status,200);
+      assert.equal((await finish(f,id)).status,200);
     }finally{await f.close();}
   });
 
@@ -105,16 +113,18 @@ for(const postgres of [false,true]){
     const f=await fixture(postgres);try{
       await configure(f,{mode:'TEST'});let id=await start(f,f.owner),claim=await drop(f,id);
       await configure(f);let r=await f.call('legion-hunt/claim',claim);assert.equal(r.status,200);assert.equal(r.body.liveRewards,false);
+      assert.equal((await finish(f,id)).body.liveRewards,false);
       assert.equal((await f.DB.prepare('SELECT COUNT(*) n FROM cnine_user_inventory').first()).n,0);
       id=await start(f,f.owner);claim=await drop(f,id);await configure(f,{mode:'TEST'});
       assert.equal((await f.call('legion-hunt/claim',claim)).body.code,'HUNT_REWARD_PAUSED');
       assert.equal((await saved(f,1)).state.claims.length,0);
       await configure(f,{mode:'ON',quantity:7});
-      // An OFF save racing the pickup is caught inside the atomic batch.
+      assert.equal((await f.call('legion-hunt/claim',claim)).body.item.quantity,3);
+      // An OFF save racing settlement is caught inside the atomic batch.
       const batch=f.DB.batch;
       f.DB.batch=async statements=>{f.DB.batch=batch;const row=await f.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(LEGION_HUNT_SETTINGS_KEY).first();const policy=JSON.parse(row.value);policy.mode='OFF';await f.DB.prepare('UPDATE app_meta SET value=? WHERE key=?').bind(JSON.stringify(policy),LEGION_HUNT_SETTINGS_KEY).run();return batch.call(f.DB,statements);};
-      assert.equal((await f.call('legion-hunt/claim',claim)).status,503);assert.equal((await saved(f,1)).state.claims.length,0);
-      await configure(f,{quantity:7});r=await f.call('legion-hunt/claim',claim);assert.equal(r.status,200);assert.equal(r.body.item.quantity,3);
+      assert.equal((await finish(f,id)).status,503);assert.equal((await saved(f,1)).state.claims.length,1);assert.equal((await saved(f,1)).rewardStatus,'PENDING');
+      await configure(f,{quantity:7});r=await finish(f,id);assert.equal(r.status,200);assert.equal(r.body.inventory[0].quantity,3);
       const next=await start(f,f.owner),nextClaim=await drop(f,next);
       assert.equal((await f.call('legion-hunt/claim',{...nextClaim,token:'forged'})).status,409);
       f.setUser(f.player);assert.equal((await f.call('legion-hunt/claim',nextClaim)).status,409);f.setUser(f.owner);
@@ -142,7 +152,7 @@ test('thousandths persist exactly and are used by the weighted draw; earlier ten
 
 test('navigation uses one status-only read per mount and stays hidden on denied or failed checks',async()=>{
   const source=fs.readFileSync('js/legion-hunt-entry-v1.mjs','utf8');
-  const code=source.slice(source.indexOf('const checkedNavigation='),source.indexOf('window.syncLegionHuntNavigation=')).replace('export function','function');
+  const code=source.slice(source.indexOf('const checkedNavigation='),source.indexOf('window.openLegionHunt=')).replace('export function','function');
   const sync=vm.runInNewContext(code+';syncLegionHuntNavigation');
   for(const data of [{canEnter:false,access:{mode:'TEST'}},{canEnter:true,access:{mode:'ON'}},null]){
     const detail={textContent:''},button={hidden:false,isConnected:true,querySelector:()=>detail},root={querySelectorAll:()=>[button]};let reads=0;
