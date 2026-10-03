@@ -1,0 +1,610 @@
+[
+  {
+    "name": "desktop",
+    "errors": [],
+    "failures": [],
+    "overflow": {
+      "client": 1440,
+      "scroll": 1440
+    },
+    "stages": [
+      {
+        "character": "나무늘봉순",
+        "code": "V-990",
+        "rank": "SS",
+        "time": 1.4,
+        "body": "static image preview; motion not claimed",
+        "aura": {
+          "enabled": true,
+          "frame": 4,
+          "behindCharacter": true,
+          "color": "#8beaff"
+        },
+        "effectFrame": 6,
+        "visibleSkillEffects": 1,
+        "emission": {
+          "x": 593.1544996293551,
+          "y": 318.0493699036323
+        },
+        "forwardOrigin": {
+          "x": 597.5963945591956,
+          "y": 318.1370388825107
+        },
+        "axisLateralError": 1.8693380177126073e-14,
+        "shotAngleDegrees": 1.130690951237971,
+        "singleClock": true,
+        "registeredTimelines": 0,
+        "liveEnabled": false
+      },
+      {
+        "character": "조은",
+        "code": "V-991",
+        "rank": "SS",
+        "time": 1.4,
+        "body": "static image preview; motion not claimed",
+        "aura": {
+          "enabled": true,
+          "frame": 4,
+          "behindCharacter": true,
+          "color": "#65cfff"
+        },
+        "effectFrame": 6,
+        "visibleSkillEffects": 1,
+        "emission": {
+          "x": 597.770242112986,
+          "y": 362.5470873074101
+        },
+        "forwardOrigin": {
+          "x": 602.1958079654847,
+          "y": 362.93757841204234
+        },
+        "axisLateralError": 6.661338147750939e-15,
+        "shotAngleDegrees": 5.042451069170913,
+        "singleClock": true,
+        "registeredTimelines": 0,
+        "liveEnabled": false
+      },
+      {
+        "character": "이네스",
+        "code": "V-992",
+        "rank": "SS",
+        "time": 1.4,
+        "body": "static image preview; motion not claimed",
+        "aura": {
+          "enabled": true,
+          "frame": 4,
+          "behindCharacter": true,
+          "color": "#c390ff"
+        },
+        "effectFrame": 6,
+        "visibleSkillEffects": 1,
+        "emission": {
+          "x": 548.5681541582151,
+          "y": 317.1975118323191
+        },
+        "forwardOrigin": {
+          "x": 553.0109141582151,
+          "y": 317.1975118323191
+        },
+        "axisLateralError": 0,
+        "shotAngleDegrees": 0,
+        "singleClock": true,
+        "registeredTimelines": 0,
+        "liveEnabled": false
+      },
+      {
+        "character": "오리꿍",
+        "code": "V-993",
+        "rank": "SS",
+        "time": 1.4,
+        "body": "static image preview; motion not claimed",
+        "aura": {
+          "enabled": true,
+          "frame": 4,
+          "behindCharacter": true,
+          "color": "#ffcf70"
+        },
+        "effectFrame": 6,
+        "visibleSkillEffects": 1,
+        "emission": {
+          "x": 628.4141630901288,
+          "y": 373.10633476394844
+        },
+        "forwardOrigin": {
+          "x": 632.856710636051,
+          "y": 373.14978266170806
+        },
+        "axisLateralError": 1.0845491171806998e-14,
+        "shotAngleDegrees": 0.5603320575676948,
+        "singleClock": true,
+        "registeredTimelines": 0,
+        "liveEnabled": false
+      },
+      {
+        "character": "디임",
+        "code": "V-994",
+        "rank": "SS",
+        "time": 1.4,
+        "body": "static image preview; motion not claimed",
+        "aura": {
+          "enabled": true,
+          "frame": 4,
+          "behindCharacter": true,
+          "color": "#cfddff"
+        },
+        "effectFrame": 6,
+        "visibleSkillEffects": 1,
+        "emission": {
+          "x": 547.712997159091,
+          "y": 326.18703124999996
+        },
+        "forwardOrigin": {
+          "x": 552.155757159091,
+          "y": 326.18703124999996
+        },
+        "axisLateralError": 0,
+        "shotAngleDegrees": 0,
+        "singleClock": true,
+        "registeredTimelines": 0,
+        "liveEnabled": false
+      },
+      {
+        "character": "베르칸",
+        "code": "V-055",
+        "rank": "SSS",
+        "time": 0.8,
+        "body": "static image preview; motion not claimed",
+        "aura": {
+          "enabled": true,
+          "frame": 2,
+          "behindCharacter": true,
+          "color": "#ff2437"
+        },
+        "effectFrame": null,
+        "visibleSkillEffects": 0,
+        "emission": null,
+        "forwardOrigin": null,
+        "axisLateralError": 0,
+        "shotAngleDegrees": 0,
+        "singleClock": true,
+        "registeredTimelines": 0,
+        "liveEnabled": false
+      }
+    ],
+    "controls": {
+      "rows": [
+        {
+          "speed": 0.25,
+          "time": 0.057,
+          "pauseStable": true
+        },
+        {
+          "speed": 1,
+          "time": 0.22,
+          "pauseStable": true
+        },
+        {
+          "speed": 2,
+          "time": 0.442,
+          "pauseStable": true
+        }
+      ],
+      "fxOff": {
+        "character": "조은",
+        "code": "V-991",
+        "rank": "SS",
+        "time": 1.4,
+        "body": "static image preview; motion not claimed",
+        "aura": {
+          "enabled": true,
+          "frame": 4,
+          "behindCharacter": true,
+          "color": "#65cfff"
+        },
+        "effectFrame": null,
+        "visibleSkillEffects": 0,
+        "emission": {
+          "x": 597.770242112986,
+          "y": 362.5470873074101
+        },
+        "forwardOrigin": {
+          "x": 602.1958079654847,
+          "y": 362.93757841204234
+        },
+        "axisLateralError": 6.661338147750939e-15,
+        "shotAngleDegrees": 5.042451069170913,
+        "singleClock": true,
+        "registeredTimelines": 1,
+        "liveEnabled": false
+      },
+      "auraOff": {
+        "character": "조은",
+        "code": "V-991",
+        "rank": "SS",
+        "time": 1.4,
+        "body": "static image preview; motion not claimed",
+        "aura": {
+          "enabled": false,
+          "frame": 4,
+          "behindCharacter": true,
+          "color": "#65cfff"
+        },
+        "effectFrame": null,
+        "visibleSkillEffects": 0,
+        "emission": {
+          "x": 597.770242112986,
+          "y": 362.5470873074101
+        },
+        "forwardOrigin": {
+          "x": 602.1958079654847,
+          "y": 362.93757841204234
+        },
+        "axisLateralError": 6.661338147750939e-15,
+        "shotAngleDegrees": 5.042451069170913,
+        "singleClock": true,
+        "registeredTimelines": 1,
+        "liveEnabled": false
+      },
+      "debug": {
+        "character": "조은",
+        "code": "V-991",
+        "rank": "SS",
+        "time": 1.4,
+        "body": "static image preview; motion not claimed",
+        "aura": {
+          "enabled": true,
+          "frame": 4,
+          "behindCharacter": true,
+          "color": "#65cfff"
+        },
+        "effectFrame": 6,
+        "visibleSkillEffects": 1,
+        "emission": {
+          "x": 597.770242112986,
+          "y": 362.5470873074101
+        },
+        "forwardOrigin": {
+          "x": 602.1958079654847,
+          "y": 362.93757841204234
+        },
+        "axisLateralError": 6.661338147750939e-15,
+        "shotAngleDegrees": 5.042451069170913,
+        "singleClock": true,
+        "registeredTimelines": 1,
+        "liveEnabled": false
+      },
+      "cancel": {
+        "character": "조은",
+        "code": "V-991",
+        "rank": "SS",
+        "time": 0,
+        "body": "static image preview; motion not claimed",
+        "aura": {
+          "enabled": true,
+          "frame": 0,
+          "behindCharacter": true,
+          "color": "#65cfff"
+        },
+        "effectFrame": null,
+        "visibleSkillEffects": 0,
+        "emission": {
+          "x": 597.770242112986,
+          "y": 362.5470873074101
+        },
+        "forwardOrigin": {
+          "x": 602.1958079654847,
+          "y": 362.93757841204234
+        },
+        "axisLateralError": 6.661338147750939e-15,
+        "shotAngleDegrees": 5.042451069170913,
+        "singleClock": true,
+        "registeredTimelines": 0,
+        "liveEnabled": false
+      }
+    }
+  },
+  {
+    "name": "mobile",
+    "errors": [],
+    "failures": [],
+    "overflow": {
+      "client": 390,
+      "scroll": 390
+    },
+    "stages": [
+      {
+        "character": "나무늘봉순",
+        "code": "V-990",
+        "rank": "SS",
+        "time": 1.4,
+        "body": "static image preview; motion not claimed",
+        "aura": {
+          "enabled": true,
+          "frame": 4,
+          "behindCharacter": true,
+          "color": "#8beaff"
+        },
+        "effectFrame": 6,
+        "visibleSkillEffects": 1,
+        "emission": {
+          "x": 439.9803544432373,
+          "y": 783.8362884430958
+        },
+        "forwardOrigin": {
+          "x": 446.80454101334107,
+          "y": 783.9709763359268
+        },
+        "axisLateralError": 4.299338662860919e-14,
+        "shotAngleDegrees": 1.130690951237971,
+        "singleClock": true,
+        "registeredTimelines": 0,
+        "liveEnabled": false
+      },
+      {
+        "character": "조은",
+        "code": "V-991",
+        "rank": "SS",
+        "time": 1.4,
+        "body": "static image preview; motion not claimed",
+        "aura": {
+          "enabled": true,
+          "frame": 4,
+          "behindCharacter": true,
+          "color": "#65cfff"
+        },
+        "effectFrame": 6,
+        "visibleSkillEffects": 1,
+        "emission": {
+          "x": 447.07162705669896,
+          "y": 852.1991674178223
+        },
+        "forwardOrigin": {
+          "x": 453.87072688520766,
+          "y": 852.7990879909261
+        },
+        "axisLateralError": 4.9960036108132044e-14,
+        "shotAngleDegrees": 5.042451069170913,
+        "singleClock": true,
+        "registeredTimelines": 0,
+        "liveEnabled": false
+      },
+      {
+        "character": "이네스",
+        "code": "V-992",
+        "rank": "SS",
+        "time": 1.4,
+        "body": "static image preview; motion not claimed",
+        "aura": {
+          "enabled": true,
+          "frame": 4,
+          "behindCharacter": true,
+          "color": "#c390ff"
+        },
+        "effectFrame": 6,
+        "visibleSkillEffects": 1,
+        "emission": {
+          "x": 371.4813141057184,
+          "y": 782.5275590603189
+        },
+        "forwardOrigin": {
+          "x": 378.30682970324364,
+          "y": 782.5275590603189
+        },
+        "axisLateralError": 0,
+        "shotAngleDegrees": 0,
+        "singleClock": true,
+        "registeredTimelines": 0,
+        "liveEnabled": false
+      },
+      {
+        "character": "오리꿍",
+        "code": "V-993",
+        "rank": "SS",
+        "time": 1.4,
+        "body": "static image preview; motion not claimed",
+        "aura": {
+          "enabled": true,
+          "frame": 4,
+          "behindCharacter": true,
+          "color": "#ffcf70"
+        },
+        "effectFrame": 6,
+        "visibleSkillEffects": 1,
+        "emission": {
+          "x": 494.1505961207083,
+          "y": 868.4215850619739
+        },
+        "forwardOrigin": {
+          "x": 500.9757853200889,
+          "y": 868.4883350785938
+        },
+        "axisLateralError": 2.391142839286431e-14,
+        "shotAngleDegrees": 0.5603320575676948,
+        "singleClock": true,
+        "registeredTimelines": 0,
+        "liveEnabled": false
+      },
+      {
+        "character": "디임",
+        "code": "V-994",
+        "rank": "SS",
+        "time": 1.4,
+        "body": "static image preview; motion not claimed",
+        "aura": {
+          "enabled": true,
+          "frame": 4,
+          "behindCharacter": true,
+          "color": "#cfddff"
+        },
+        "effectFrame": 6,
+        "visibleSkillEffects": 1,
+        "emission": {
+          "x": 370.1675165033599,
+          "y": 796.3383669814393
+        },
+        "forwardOrigin": {
+          "x": 376.9930321008851,
+          "y": 796.3383669814393
+        },
+        "axisLateralError": 0,
+        "shotAngleDegrees": 0,
+        "singleClock": true,
+        "registeredTimelines": 0,
+        "liveEnabled": false
+      },
+      {
+        "character": "베르칸",
+        "code": "V-055",
+        "rank": "SSS",
+        "time": 0.8,
+        "body": "static image preview; motion not claimed",
+        "aura": {
+          "enabled": true,
+          "frame": 2,
+          "behindCharacter": true,
+          "color": "#ff2437"
+        },
+        "effectFrame": null,
+        "visibleSkillEffects": 0,
+        "emission": null,
+        "forwardOrigin": null,
+        "axisLateralError": 0,
+        "shotAngleDegrees": 0,
+        "singleClock": true,
+        "registeredTimelines": 0,
+        "liveEnabled": false
+      }
+    ],
+    "controls": {
+      "rows": [
+        {
+          "speed": 0.25,
+          "time": 0.05625,
+          "pauseStable": true
+        },
+        {
+          "speed": 1,
+          "time": 0.221,
+          "pauseStable": true
+        },
+        {
+          "speed": 2,
+          "time": 0.44,
+          "pauseStable": true
+        }
+      ],
+      "fxOff": {
+        "character": "조은",
+        "code": "V-991",
+        "rank": "SS",
+        "time": 1.4,
+        "body": "static image preview; motion not claimed",
+        "aura": {
+          "enabled": true,
+          "frame": 4,
+          "behindCharacter": true,
+          "color": "#65cfff"
+        },
+        "effectFrame": null,
+        "visibleSkillEffects": 0,
+        "emission": {
+          "x": 447.07162705669896,
+          "y": 852.1991674178223
+        },
+        "forwardOrigin": {
+          "x": 453.87072688520766,
+          "y": 852.7990879909261
+        },
+        "axisLateralError": 4.9960036108132044e-14,
+        "shotAngleDegrees": 5.042451069170913,
+        "singleClock": true,
+        "registeredTimelines": 1,
+        "liveEnabled": false
+      },
+      "auraOff": {
+        "character": "조은",
+        "code": "V-991",
+        "rank": "SS",
+        "time": 1.4,
+        "body": "static image preview; motion not claimed",
+        "aura": {
+          "enabled": false,
+          "frame": 4,
+          "behindCharacter": true,
+          "color": "#65cfff"
+        },
+        "effectFrame": null,
+        "visibleSkillEffects": 0,
+        "emission": {
+          "x": 447.07162705669896,
+          "y": 852.1991674178223
+        },
+        "forwardOrigin": {
+          "x": 453.87072688520766,
+          "y": 852.7990879909261
+        },
+        "axisLateralError": 4.9960036108132044e-14,
+        "shotAngleDegrees": 5.042451069170913,
+        "singleClock": true,
+        "registeredTimelines": 1,
+        "liveEnabled": false
+      },
+      "debug": {
+        "character": "조은",
+        "code": "V-991",
+        "rank": "SS",
+        "time": 1.4,
+        "body": "static image preview; motion not claimed",
+        "aura": {
+          "enabled": true,
+          "frame": 4,
+          "behindCharacter": true,
+          "color": "#65cfff"
+        },
+        "effectFrame": 6,
+        "visibleSkillEffects": 1,
+        "emission": {
+          "x": 447.07162705669896,
+          "y": 852.1991674178223
+        },
+        "forwardOrigin": {
+          "x": 453.87072688520766,
+          "y": 852.7990879909261
+        },
+        "axisLateralError": 4.9960036108132044e-14,
+        "shotAngleDegrees": 5.042451069170913,
+        "singleClock": true,
+        "registeredTimelines": 1,
+        "liveEnabled": false
+      },
+      "cancel": {
+        "character": "조은",
+        "code": "V-991",
+        "rank": "SS",
+        "time": 0,
+        "body": "static image preview; motion not claimed",
+        "aura": {
+          "enabled": true,
+          "frame": 0,
+          "behindCharacter": true,
+          "color": "#65cfff"
+        },
+        "effectFrame": null,
+        "visibleSkillEffects": 0,
+        "emission": {
+          "x": 447.07162705669896,
+          "y": 852.1991674178223
+        },
+        "forwardOrigin": {
+          "x": 453.87072688520766,
+          "y": 852.7990879909261
+        },
+        "axisLateralError": 4.9960036108132044e-14,
+        "shotAngleDegrees": 5.042451069170913,
+        "singleClock": true,
+        "registeredTimelines": 0,
+        "liveEnabled": false
+      }
+    }
+  }
+]

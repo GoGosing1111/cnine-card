@@ -1,0 +1,189 @@
+{
+  "version": 1,
+  "status": "USER_REVIEW_PENDING",
+  "scope": "Static SD, individual skill image sequences, and rear rarity aura. Body-motion production and live skills are separate.",
+  "coordinates": "Pixels in original generated SD; packing adds the documented uniform padding offset.",
+  "characters": [
+    {
+      "id": "bongsoon",
+      "code": "V-990",
+      "name": "나무늘봉순",
+      "rank": "SS",
+      "source": "assets/ui/project-v/mercenaries/limited-20261002/v-990-source-art-approved-20261002.png",
+      "sourceHash": "EFC0B6D14A891917D517E8F9850D398165A0F94C11006DD6945BB2D05C627120",
+      "sprite": "assets/sd/bongsoon-sd-v1.png",
+      "feet": {
+        "x": 480,
+        "y": 1439
+      },
+      "headTop": 90,
+      "emission": {
+        "x": 1011,
+        "y": 309
+      },
+      "axisBack": {
+        "x": 707,
+        "y": 303
+      },
+      "auraCenter": {
+        "x": 391,
+        "y": 400
+      },
+      "auraTint": "#8beaff",
+      "skill": "빙결 저격",
+      "type": "sniper",
+      "auraScale": 0.71
+    },
+    {
+      "id": "joeun",
+      "code": "V-991",
+      "name": "조은",
+      "rank": "SS",
+      "source": "assets/ui/project-v/mercenaries/limited-20261002/v-991-source-art.png",
+      "sourceHash": "87E88A646E327FCBB6489B05D8C5287C5212B1D9105134ECE1C036D022C633DA",
+      "sprite": "assets/sd/joeun-sd-v1.png",
+      "feet": {
+        "x": 442,
+        "y": 1464
+      },
+      "headTop": 101,
+      "emission": {
+        "x": 1004,
+        "y": 568
+      },
+      "axisBack": {
+        "x": 528,
+        "y": 526
+      },
+      "auraCenter": {
+        "x": 350,
+        "y": 374
+      },
+      "auraTint": "#65cfff",
+      "skill": "청광 레일포",
+      "type": "cannon",
+      "auraScale": 0.76
+    },
+    {
+      "id": "ines",
+      "code": "V-992",
+      "name": "이네스",
+      "rank": "SS",
+      "source": "assets/ui/project-v/mercenaries/limited-20261002/v-992-source-art.png",
+      "sourceHash": "97D2120A91E7682130697476F6DA0C77FF5AA548C16B2AB128B539FF5ACB176D",
+      "sprite": "assets/sd/ines-sd-v1.png",
+      "feet": {
+        "x": 667,
+        "y": 1499
+      },
+      "headTop": 20,
+      "emission": {
+        "x": 982,
+        "y": 255
+      },
+      "axisBack": {
+        "x": 882,
+        "y": 255
+      },
+      "auraCenter": {
+        "x": 521,
+        "y": 342
+      },
+      "auraTint": "#c390ff",
+      "skill": "자수정 나선",
+      "type": "magic",
+      "auraScale": 0.73
+    },
+    {
+      "id": "orikkung",
+      "code": "V-993",
+      "name": "오리꿍",
+      "rank": "SS",
+      "source": "assets/ui/project-v/mercenaries/limited-20261002/v-993-source-art.png",
+      "sourceHash": "039E7CDD18D23CC05943E52157218FFE105F5F213C0B203237CD42FA2966F2A3",
+      "sprite": "assets/sd/orikkung-sd-v1.png",
+      "feet": {
+        "x": 568,
+        "y": 1239
+      },
+      "headTop": 74,
+      "emission": {
+        "x": 1193,
+        "y": 523
+      },
+      "axisBack": {
+        "x": 784,
+        "y": 519
+      },
+      "auraCenter": {
+        "x": 558,
+        "y": 539
+      },
+      "auraTint": "#ffcf70",
+      "skill": "황금 석궁",
+      "type": "crossbow",
+      "auraScale": 0.91
+    },
+    {
+      "id": "diim",
+      "code": "V-994",
+      "name": "디임",
+      "rank": "SS",
+      "source": "assets/ui/project-v/mercenaries/limited-20261002/v-994-source-art.png",
+      "sourceHash": "838B9A71739EF4B442E00734584496A92136EFDAD6C71463E18527D6DF5E5CB4",
+      "sprite": "assets/sd/diim-sd-v1.png",
+      "feet": {
+        "x": 659,
+        "y": 1473
+      },
+      "headTop": 65,
+      "emission": {
+        "x": 954,
+        "y": 340
+      },
+      "axisBack": {
+        "x": 854,
+        "y": 340
+      },
+      "auraCenter": {
+        "x": 521,
+        "y": 358
+      },
+      "auraTint": "#cfddff",
+      "skill": "월광 결정",
+      "type": "magic",
+      "auraScale": 0.75
+    },
+    {
+      "id": "berkan",
+      "code": "V-055",
+      "name": "베르칸",
+      "userAlias": "벨르칸",
+      "rank": "SSS",
+      "source": "assets/ui/project-v/mercenaries/approved-20260927/berkan-source-art-v1.png",
+      "sourceHash": "E782A14D37A115ABA29D46F13D2443DBF5761A7DD99DCDA816B9908BA896507D",
+      "sprite": "/assets/ui/project-v/characters/mercenary/berkan-sss-v1/berkan-sd-v1.png",
+      "spriteHash": "79D144E33E1113C82787A93E6AD49BE3583A8DA1BA8DAAF91037020EC31D6101",
+      "feet": {
+        "x": 716,
+        "y": 1237
+      },
+      "headTop": 16,
+      "emission": null,
+      "axisBack": null,
+      "auraCenter": {
+        "x": 715,
+        "y": 382
+      },
+      "auraTint": "#ff2437",
+      "skill": null,
+      "type": "existing",
+      "auraScale": 0.8,
+      "preserveExisting": true,
+      "existingApprovedMotion": "/preview/mercenary-berkan-sss-v1/manifest.json",
+      "existingApprovedSkillPreview": "/preview/mercenary-berkan-sss-v1/",
+      "existingApprovedAreaPreview": "/preview/mercenary-berkan-area-v1/"
+    }
+  ],
+  "correction": "SSS 벨르칸 refers to approved 베르칸 V-055. 발테르 V-996 was mistakenly shown during review and is excluded. Both approved sources are untouched."
+}

@@ -1,0 +1,18 @@
+{
+  "scope": "Preview-only limited image resources, smaller in-field display, stronger rear aura, approved V-055 Berkan reuse in red",
+  "runtimeChanges": [],
+  "liveLimitedSkillsChanged": false,
+  "approvedSsSAssetsChanged": false,
+  "wrongSssCorrected": "V-996 removed; V-055 Berkan is the user's 벨르칸",
+  "sourceMethod": "built-in image_gen",
+  "lastVerifiedProductionCommit": "0dc0b253deca2a3d14a8bd9855204f304a7be8e3",
+  "productionDeploymentId": "cbd978eb-1304-4329-92c0-c39888ea67ac",
+  "releaseMode": "scoped",
+  "reason": "New preview files only; upstream unpublished changes since production are completed ops audit scripts/docs, so assets-only allowlist cannot be used. No shared game runtime, DB, authentication, dependency changes.",
+  "selectedChecks": [
+    "preview/mercenary-limited-sd-skills-20261003-v1/qa.test.mjs",
+    "tests/bini-gift-transfer-20261003.test.mjs"
+  ],
+  "visualReview": "PC and mobile screenshots plus actual V3 canvas video",
+  "userApproval": "PENDING for newly generated SD/skill images; approved V-055 source unchanged"
+}

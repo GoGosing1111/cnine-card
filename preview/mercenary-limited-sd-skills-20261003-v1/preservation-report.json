@@ -1,0 +1,70 @@
+{
+  "existingCode": "V-055",
+  "canonicalName": "베르칸",
+  "userAlias": "벨르칸",
+  "approvedSdReused": true,
+  "newCharacterGeneration": false,
+  "existingMotionAndEffectsChanged": false,
+  "entries": [
+    {
+      "path": "assets/ui/project-v/characters/mercenary/berkan-sss-v1/berkan-sd-v1.png",
+      "sha256": "79D144E33E1113C82787A93E6AD49BE3583A8DA1BA8DAAF91037020EC31D6101"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/approved-20260927/berkan-source-art-v1.png",
+      "sha256": "E782A14D37A115ABA29D46F13D2443DBF5761A7DD99DCDA816B9908BA896507D"
+    },
+    {
+      "path": "preview/mercenary-berkan-sss-v1/manifest.json",
+      "sha256": "C54DA22C4635731C6102ADCA0F955195A6AAC76645051D0CC50EABEC6D43A8F6"
+    },
+    {
+      "path": "preview/mercenary-berkan-area-v1/manifest.json",
+      "sha256": "53D1B003C5F1CBB70D0B5625C9AAEA4DDF4C6543551979ECCF9195E9825F8EA8"
+    },
+    {
+      "path": "preview/mercenary-berkan-sss-v1/assets/idle-atlas.webp",
+      "sha256": "6E855BFF20D37F6516D378F6E41D85E667AB10082056B99BCBF71E8A7C8C742A"
+    },
+    {
+      "path": "preview/mercenary-berkan-sss-v1/assets/aim-atlas.webp",
+      "sha256": "77B391507C43414F105C84104FA7A8F76E057B432189BDC8828DC8FA7D685E40"
+    },
+    {
+      "path": "preview/mercenary-berkan-sss-v1/assets/attack-atlas.webp",
+      "sha256": "A2831EA8B060A99EFC09CC91956D905D739757B10228BDF8E01B68A836D61285"
+    },
+    {
+      "path": "preview/mercenary-berkan-sss-v1/assets/hit-atlas.webp",
+      "sha256": "7BC46B1377ADC32B4E8FBE47C17B4F2E4D1CB859A04DCE715F516C35CA688E49"
+    },
+    {
+      "path": "preview/mercenary-berkan-sss-v1/assets/defeat-atlas.webp",
+      "sha256": "535B0E2D9F7512D0961BBF401C136EE98F8FBAB9A779CA3C30247585B3A1AFB4"
+    },
+    {
+      "path": "preview/mercenary-berkan-sss-v1/assets/ultimate-atlas.webp",
+      "sha256": "546C34AAF723659A1C04541F45A3E9DC283757EDCF9C89B1128A6E467B7E6A1C"
+    },
+    {
+      "path": "preview/mercenary-berkan-sss-v1/assets/fx-charge-atlas.webp",
+      "sha256": "F4DA16F75851DDCA7E9A3B24330C15994DB32DAD219DF5D4F46DB7603317FE9B"
+    },
+    {
+      "path": "preview/mercenary-berkan-sss-v1/assets/fx-projectile-atlas.webp",
+      "sha256": "A01B1A2178C1C0BE4D7AA78BDD07ED7FCE9913F0E73A1BF460BF62444A980197"
+    },
+    {
+      "path": "preview/mercenary-berkan-sss-v1/assets/fx-impact-atlas.webp",
+      "sha256": "4C3266A57EFEEB2238BCD51BBA5C3ADBC648E35817FC1125570CE94B75C8785F"
+    },
+    {
+      "path": "preview/mercenary-berkan-sss-v1/assets/fx-afterglow-atlas.webp",
+      "sha256": "C92F3A622D1FFD888D625670219AD76F01F08669E8B830C4017F52404B3793BF"
+    },
+    {
+      "path": "preview/mercenary-berkan-sss-v1/assets/fx-aura-atlas.webp",
+      "sha256": "5164FAA2B263355A14352335F3ECB579A90F016AF9ECF692417B13611833CCB2"
+    }
+  ]
+}

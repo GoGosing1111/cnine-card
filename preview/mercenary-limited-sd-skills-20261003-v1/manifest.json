@@ -1,0 +1,1367 @@
+{
+  "version": 1,
+  "status": "USER_REVIEW_PENDING",
+  "liveEnabled": false,
+  "acquisitionEnabled": false,
+  "deploymentEnabled": false,
+  "bodyMotion": "NOT_IN_THIS_IMAGE_DELIVERY",
+  "skillAssignments": "UNASSIGNED_VISUAL_DRAFTS",
+  "characters": [
+    {
+      "id": "bongsoon",
+      "code": "V-990",
+      "name": "나무늘봉순",
+      "rank": "SS",
+      "source": "assets/ui/project-v/mercenaries/limited-20261002/v-990-source-art-approved-20261002.png",
+      "sourceHash": "EFC0B6D14A891917D517E8F9850D398165A0F94C11006DD6945BB2D05C627120",
+      "sprite": "assets/runtime/bongsoon-sd.png",
+      "feet": {
+        "x": 544,
+        "y": 1503
+      },
+      "headTop": 154,
+      "emission": {
+        "x": 1075,
+        "y": 373
+      },
+      "axisBack": {
+        "x": 771,
+        "y": 367
+      },
+      "auraCenter": {
+        "x": 455,
+        "y": 464
+      },
+      "auraTint": "#8beaff",
+      "skill": "빙결 저격",
+      "type": "sniper",
+      "auraScale": 0.71,
+      "originalSprite": {
+        "url": "assets/sd/bongsoon-sd-v1.png",
+        "width": 1024,
+        "height": 1536,
+        "sha256": "CF489B510B08A3222E39A3E61879AFCEB6211301B164207CB84A87FFACBE6300"
+      },
+      "padding": 64,
+      "spriteWidth": 1152,
+      "spriteHeight": 1664,
+      "effects": {
+        "url": "assets/effects/bongsoon-skill-sheet-v1.png",
+        "columns": 4,
+        "rows": 3,
+        "frames": [
+          {
+            "index": 0,
+            "role": "charge",
+            "url": "assets/frames/bongsoon-01.png",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "88EF4B2D49EE7B58968BA2870C199C460E1EA445DD28FCF9D505A973F526BC6B"
+          },
+          {
+            "index": 1,
+            "role": "charge",
+            "url": "assets/frames/bongsoon-02.png",
+            "rect": {
+              "x": 362,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "4A9BB70CB58B546382F4BED5985B31E27D853093E6F6F1DC3DE7F72973067074"
+          },
+          {
+            "index": 2,
+            "role": "charge",
+            "url": "assets/frames/bongsoon-03.png",
+            "rect": {
+              "x": 724,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "4418EB30286D983FC055E3881711C894C6CF7AAC470FFBC9735E17B1C5985CB6"
+          },
+          {
+            "index": 3,
+            "role": "charge",
+            "url": "assets/frames/bongsoon-04.png",
+            "rect": {
+              "x": 1086,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "CB1629336EBCF8BBC8141D81045447D83585F1155B66512B7515036D420984F2"
+          },
+          {
+            "index": 4,
+            "role": "release",
+            "url": "assets/frames/bongsoon-05.png",
+            "rect": {
+              "x": 0,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 83.26,
+              "y": 181
+            },
+            "sha256": "E1C1BFCAD46E8C13DB8E55A3AE5F6DFC23AE3C498D0278A3FF4F51CBC6884DA1"
+          },
+          {
+            "index": 5,
+            "role": "release",
+            "url": "assets/frames/bongsoon-06.png",
+            "rect": {
+              "x": 362,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 72.4,
+              "y": 181
+            },
+            "sha256": "0FB0E83064D4BE78A3B81A64F870F0D894C9F5ADEA37724AB55BBDFF911E9AC7"
+          },
+          {
+            "index": 6,
+            "role": "release",
+            "url": "assets/frames/bongsoon-07.png",
+            "rect": {
+              "x": 724,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 57.92,
+              "y": 181
+            },
+            "sha256": "A0CF71FEB2D3DB9D33428FC185B3EFCB7EB80AB0FAF8FB5FA3A37E04BFDCD9CC"
+          },
+          {
+            "index": 7,
+            "role": "release",
+            "url": "assets/frames/bongsoon-08.png",
+            "rect": {
+              "x": 1086,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 47.06,
+              "y": 181
+            },
+            "sha256": "C67B3C10F99A6C7C97E0C9F6069BAF002A351C64F97988F13DEF6E15BA2506E0"
+          },
+          {
+            "index": 8,
+            "role": "impact",
+            "url": "assets/frames/bongsoon-09.png",
+            "rect": {
+              "x": 0,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "79DAEE1B970FBBCBC55A4F8AF5F2749B8315676574B2B6FC0F5C96D81B6CB956"
+          },
+          {
+            "index": 9,
+            "role": "impact",
+            "url": "assets/frames/bongsoon-10.png",
+            "rect": {
+              "x": 362,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "AC39605D028D70E9120EA0E343AAAA84352CF49494D09F2770FF6784CF0A8508"
+          },
+          {
+            "index": 10,
+            "role": "impact",
+            "url": "assets/frames/bongsoon-11.png",
+            "rect": {
+              "x": 724,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "55E47C3F51C3C512E2EA3F9892A999F147ED45AABE6B88B83B3C2F012BD42DE7"
+          },
+          {
+            "index": 11,
+            "role": "impact",
+            "url": "assets/frames/bongsoon-12.png",
+            "rect": {
+              "x": 1086,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "8FBC8E94B42ECBC36491AACE9211F736ADDE4D06BA04A2A5C85F6F0A91D41FCE"
+          }
+        ],
+        "width": 1448,
+        "height": 1086,
+        "sha256": "54B4CF3E5E8B5382713008BDDD7180F533689AA26D09FF7C005867FFFD8EB030"
+      },
+      "spriteSha256": "A86C23D894447020A04EAD3CE56AF523AA2B4EEAA52DF8DEA9CC16CBA6F552B6",
+      "direction": {
+        "x": 0.9998052854172773,
+        "y": 0.019732999054288367
+      },
+      "angle": 0.019734279921609248,
+      "bodyHeight": 1349
+    },
+    {
+      "id": "joeun",
+      "code": "V-991",
+      "name": "조은",
+      "rank": "SS",
+      "source": "assets/ui/project-v/mercenaries/limited-20261002/v-991-source-art.png",
+      "sourceHash": "87E88A646E327FCBB6489B05D8C5287C5212B1D9105134ECE1C036D022C633DA",
+      "sprite": "assets/runtime/joeun-sd.png",
+      "feet": {
+        "x": 506,
+        "y": 1528
+      },
+      "headTop": 165,
+      "emission": {
+        "x": 1068,
+        "y": 632
+      },
+      "axisBack": {
+        "x": 592,
+        "y": 590
+      },
+      "auraCenter": {
+        "x": 414,
+        "y": 438
+      },
+      "auraTint": "#65cfff",
+      "skill": "청광 레일포",
+      "type": "cannon",
+      "auraScale": 0.76,
+      "originalSprite": {
+        "url": "assets/sd/joeun-sd-v1.png",
+        "width": 1024,
+        "height": 1536,
+        "sha256": "B632760A44A182A4B554B431FE96D9D14DD139E20441F7E39CC6A14414CE8877"
+      },
+      "padding": 64,
+      "spriteWidth": 1152,
+      "spriteHeight": 1664,
+      "effects": {
+        "url": "assets/effects/joeun-skill-sheet-v1.png",
+        "columns": 4,
+        "rows": 3,
+        "frames": [
+          {
+            "index": 0,
+            "role": "charge",
+            "url": "assets/frames/joeun-01.png",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "B59A61149DE0243D6E4F7D75B89C299B843BD3215011008F24CF502B5B8CC3A5"
+          },
+          {
+            "index": 1,
+            "role": "charge",
+            "url": "assets/frames/joeun-02.png",
+            "rect": {
+              "x": 362,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "A27C9A6F6B57E886AA81548F1843FC5DAD3223BD3699D65B2143AA3C4DA17630"
+          },
+          {
+            "index": 2,
+            "role": "charge",
+            "url": "assets/frames/joeun-03.png",
+            "rect": {
+              "x": 724,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "6EE324F267A25A812F591D4B017EC66E457CA33AE0A115AD8D96D534A4152318"
+          },
+          {
+            "index": 3,
+            "role": "charge",
+            "url": "assets/frames/joeun-04.png",
+            "rect": {
+              "x": 1086,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "CBB3F8B27B8E250E0A216491904EDA8DB46FEE9C217C45F313D2A431C8CA6298"
+          },
+          {
+            "index": 4,
+            "role": "release",
+            "url": "assets/frames/joeun-05.png",
+            "rect": {
+              "x": 0,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 83.26,
+              "y": 181
+            },
+            "sha256": "0F31EE1359CE097199CB6F8E8D4B71ABC7469BAF7FAB900C9CD691F4BFF4F0D6"
+          },
+          {
+            "index": 5,
+            "role": "release",
+            "url": "assets/frames/joeun-06.png",
+            "rect": {
+              "x": 362,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 72.4,
+              "y": 181
+            },
+            "sha256": "553A9E8E6FFFBE23D02BEEFCF92304B322BAF7C76B15234F0C08159D616947AE"
+          },
+          {
+            "index": 6,
+            "role": "release",
+            "url": "assets/frames/joeun-07.png",
+            "rect": {
+              "x": 724,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 57.92,
+              "y": 181
+            },
+            "sha256": "F8E9BA43696D57993BF040505DB17277A65A9B894AC6E3D24EB197756F9DBF36"
+          },
+          {
+            "index": 7,
+            "role": "release",
+            "url": "assets/frames/joeun-08.png",
+            "rect": {
+              "x": 1086,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 47.06,
+              "y": 181
+            },
+            "sha256": "3624A7DF024D3ADD570924A6A362AD04010F8E651AB532D9B4323EE4C4AA1708"
+          },
+          {
+            "index": 8,
+            "role": "impact",
+            "url": "assets/frames/joeun-09.png",
+            "rect": {
+              "x": 0,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "CCEB855F16F01709832F3BE301A36C35F6CF176BAA04EABDCAEFA20BB71588D1"
+          },
+          {
+            "index": 9,
+            "role": "impact",
+            "url": "assets/frames/joeun-10.png",
+            "rect": {
+              "x": 362,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "8679A88F59BF40E69D4A6D32993949370382BA7F9CCDC84E9A1DE8C910A11AF9"
+          },
+          {
+            "index": 10,
+            "role": "impact",
+            "url": "assets/frames/joeun-11.png",
+            "rect": {
+              "x": 724,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "D67BEE5E11D218783139DA4455E2DC25DC92135270253E1B56D08B465EB40900"
+          },
+          {
+            "index": 11,
+            "role": "impact",
+            "url": "assets/frames/joeun-12.png",
+            "rect": {
+              "x": 1086,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "FD5410E2DBC3A486BE78FFA1447E2662E476157C0454270B63319E35A1D06760"
+          }
+        ],
+        "width": 1448,
+        "height": 1086,
+        "sha256": "BE0DC42D551A97A9CCEB5F1BDF878C825A9275CB4E2B303CB03409BEA4B92DD5"
+      },
+      "spriteSha256": "46108C8280178413968AD884C8613936CFB2393A826E3256B267ED8A8E9C9C5C",
+      "direction": {
+        "x": 0.996129850025381,
+        "y": 0.08789381029635715
+      },
+      "angle": 0.08800737352774077,
+      "bodyHeight": 1363
+    },
+    {
+      "id": "ines",
+      "code": "V-992",
+      "name": "이네스",
+      "rank": "SS",
+      "source": "assets/ui/project-v/mercenaries/limited-20261002/v-992-source-art.png",
+      "sourceHash": "97D2120A91E7682130697476F6DA0C77FF5AA548C16B2AB128B539FF5ACB176D",
+      "sprite": "assets/runtime/ines-sd.png",
+      "feet": {
+        "x": 731,
+        "y": 1563
+      },
+      "headTop": 84,
+      "emission": {
+        "x": 1046,
+        "y": 319
+      },
+      "axisBack": {
+        "x": 946,
+        "y": 319
+      },
+      "auraCenter": {
+        "x": 585,
+        "y": 406
+      },
+      "auraTint": "#c390ff",
+      "skill": "자수정 나선",
+      "type": "magic",
+      "auraScale": 0.73,
+      "originalSprite": {
+        "url": "assets/sd/ines-sd-v1.png",
+        "width": 1024,
+        "height": 1536,
+        "sha256": "F21E1660C97461B14FFEBFDB193535237CEB181EAF21CB3BAE7FBB1B8EED6C51"
+      },
+      "padding": 64,
+      "spriteWidth": 1152,
+      "spriteHeight": 1664,
+      "effects": {
+        "url": "assets/effects/ines-skill-sheet-v1.png",
+        "columns": 4,
+        "rows": 3,
+        "frames": [
+          {
+            "index": 0,
+            "role": "charge",
+            "url": "assets/frames/ines-01.png",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "E8A09C59E9F35DBCDD8AE92CA21ECCBA224CCF8ADAB88FF8910505737E8B21A9"
+          },
+          {
+            "index": 1,
+            "role": "charge",
+            "url": "assets/frames/ines-02.png",
+            "rect": {
+              "x": 362,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "7F99FD788D77D46BFD72A1169B82D9FCD3D70B22C24DD0656777245F71CCAB98"
+          },
+          {
+            "index": 2,
+            "role": "charge",
+            "url": "assets/frames/ines-03.png",
+            "rect": {
+              "x": 724,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "6FF62A22252F66AEAF9ED2AEE7BE3A423813BABF7FE05AA10554BED74A77FAB0"
+          },
+          {
+            "index": 3,
+            "role": "charge",
+            "url": "assets/frames/ines-04.png",
+            "rect": {
+              "x": 1086,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "F0BBF5E4261903D3BA3441664106F7A62455C5DDA18ACDE81E9905634F7F0CD1"
+          },
+          {
+            "index": 4,
+            "role": "release",
+            "url": "assets/frames/ines-05.png",
+            "rect": {
+              "x": 0,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 90.5,
+              "y": 181
+            },
+            "sha256": "364DF107424E0D41F23C13F56CB331CF5E17A14BE462BB01DEA6C9CD4D81D59A"
+          },
+          {
+            "index": 5,
+            "role": "release",
+            "url": "assets/frames/ines-06.png",
+            "rect": {
+              "x": 362,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 90.5,
+              "y": 181
+            },
+            "sha256": "888DB267B4F1CCFB793275367E40BF7F804CF009675131F388A3607F2C1C1612"
+          },
+          {
+            "index": 6,
+            "role": "release",
+            "url": "assets/frames/ines-07.png",
+            "rect": {
+              "x": 724,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 90.5,
+              "y": 181
+            },
+            "sha256": "B12D5E6FADC055FCD57D8352E6BA4436E43C44EE07314ECD3D34DDDC6AE3C7CA"
+          },
+          {
+            "index": 7,
+            "role": "release",
+            "url": "assets/frames/ines-08.png",
+            "rect": {
+              "x": 1086,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 90.5,
+              "y": 181
+            },
+            "sha256": "131BC4DDC5D8E7F95E948228A9E72FAF62C7062AFF8D4DD71CEBC500AA48F2FD"
+          },
+          {
+            "index": 8,
+            "role": "impact",
+            "url": "assets/frames/ines-09.png",
+            "rect": {
+              "x": 0,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "89EA57D3D538671FFCCB83B0B1FF05C2DA7328D3D0FF100685B76ABA089F69E7"
+          },
+          {
+            "index": 9,
+            "role": "impact",
+            "url": "assets/frames/ines-10.png",
+            "rect": {
+              "x": 362,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "000B5E751F4F13C1080883A8506C955914990DE635B82166EB1346B7E1DDD3CC"
+          },
+          {
+            "index": 10,
+            "role": "impact",
+            "url": "assets/frames/ines-11.png",
+            "rect": {
+              "x": 724,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "B925F83B0C24876986B3F752B673FB2A96EEFEBB0717A16A0F8F7A876B9338D1"
+          },
+          {
+            "index": 11,
+            "role": "impact",
+            "url": "assets/frames/ines-12.png",
+            "rect": {
+              "x": 1086,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "C3029A84FE6A3BE56FF48D3010D1CB0C45A5D537162C18A4D52A78B424525704"
+          }
+        ],
+        "width": 1448,
+        "height": 1086,
+        "sha256": "20C712C26BEF4604E28CDFC6A76FDE8BA937919B0D3279E3B07A2B29C8E2CFBB"
+      },
+      "spriteSha256": "5E959B91E954CF406EAC4249E5408E503C359A0B1696AD0CE5F7AA63FD6FF3AA",
+      "direction": {
+        "x": 1,
+        "y": 0
+      },
+      "angle": 0,
+      "bodyHeight": 1479
+    },
+    {
+      "id": "orikkung",
+      "code": "V-993",
+      "name": "오리꿍",
+      "rank": "SS",
+      "source": "assets/ui/project-v/mercenaries/limited-20261002/v-993-source-art.png",
+      "sourceHash": "039E7CDD18D23CC05943E52157218FFE105F5F213C0B203237CD42FA2966F2A3",
+      "sprite": "assets/runtime/orikkung-sd.png",
+      "feet": {
+        "x": 632,
+        "y": 1303
+      },
+      "headTop": 138,
+      "emission": {
+        "x": 1257,
+        "y": 587
+      },
+      "axisBack": {
+        "x": 848,
+        "y": 583
+      },
+      "auraCenter": {
+        "x": 622,
+        "y": 603
+      },
+      "auraTint": "#ffcf70",
+      "skill": "황금 석궁",
+      "type": "crossbow",
+      "auraScale": 0.91,
+      "originalSprite": {
+        "url": "assets/sd/orikkung-sd-v1.png",
+        "width": 1207,
+        "height": 1303,
+        "sha256": "BF850F0551FB2FFEC65BB4B8E73071228404062C5E7F01C293E532B9FFF0FEB8"
+      },
+      "padding": 64,
+      "spriteWidth": 1335,
+      "spriteHeight": 1431,
+      "effects": {
+        "url": "assets/effects/orikkung-skill-sheet-v1.png",
+        "columns": 4,
+        "rows": 3,
+        "frames": [
+          {
+            "index": 0,
+            "role": "charge",
+            "url": "assets/frames/orikkung-01.png",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "9CFCD04B2CAC74C1BECDAD70C5D18EE64B05E3EBAD83912C38B2911361C8F6C0"
+          },
+          {
+            "index": 1,
+            "role": "charge",
+            "url": "assets/frames/orikkung-02.png",
+            "rect": {
+              "x": 362,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "627D0E417F2DBA6CB005B658E9B5BF55ABF368CAF0FEE7C2BAB8909C1E416407"
+          },
+          {
+            "index": 2,
+            "role": "charge",
+            "url": "assets/frames/orikkung-03.png",
+            "rect": {
+              "x": 724,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "43EB72679B53A526C59F8DFCA4F4F90E26B652B846FEE701DB6CDBE0F07EEFE0"
+          },
+          {
+            "index": 3,
+            "role": "charge",
+            "url": "assets/frames/orikkung-04.png",
+            "rect": {
+              "x": 1086,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "5D92170DE4659A5B2CF9D2B4879A4B86CA1DF6C3244147226CB5E2087B494A8C"
+          },
+          {
+            "index": 4,
+            "role": "release",
+            "url": "assets/frames/orikkung-05.png",
+            "rect": {
+              "x": 0,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 61.540000000000006,
+              "y": 181
+            },
+            "sha256": "63E0049DDCF91BA44D0B621DAF88CE2D5906648543E47F6B4B4B989492C7EE89"
+          },
+          {
+            "index": 5,
+            "role": "release",
+            "url": "assets/frames/orikkung-06.png",
+            "rect": {
+              "x": 362,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 61.540000000000006,
+              "y": 181
+            },
+            "sha256": "1793A82204D8E63841B31327715C2D5B4FB61F426A1BF81CE334F765CF79D348"
+          },
+          {
+            "index": 6,
+            "role": "release",
+            "url": "assets/frames/orikkung-07.png",
+            "rect": {
+              "x": 724,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 61.540000000000006,
+              "y": 181
+            },
+            "sha256": "B3426FA75A8CED31962D8AB92DD0ADB484119E15E8C11AD8BA73266F4481C567"
+          },
+          {
+            "index": 7,
+            "role": "release",
+            "url": "assets/frames/orikkung-08.png",
+            "rect": {
+              "x": 1086,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 61.540000000000006,
+              "y": 181
+            },
+            "sha256": "42C0A346FD5B7B59045FCA48E76109E8AE8C4DE2C561C7EBD3C81EBB9F14A3D6"
+          },
+          {
+            "index": 8,
+            "role": "impact",
+            "url": "assets/frames/orikkung-09.png",
+            "rect": {
+              "x": 0,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "9F6F67E522EFDD3803314359B6248E52BB33E0391567D977B1A666641D3D0197"
+          },
+          {
+            "index": 9,
+            "role": "impact",
+            "url": "assets/frames/orikkung-10.png",
+            "rect": {
+              "x": 362,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "4AC6BDB0D479EDE309463947622E36A496ED603592C360B778D7739C118C113E"
+          },
+          {
+            "index": 10,
+            "role": "impact",
+            "url": "assets/frames/orikkung-11.png",
+            "rect": {
+              "x": 724,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "0295E240E8AA1F86893C34A3654A1AC0F072EAC4C9F243A234DF423C34517006"
+          },
+          {
+            "index": 11,
+            "role": "impact",
+            "url": "assets/frames/orikkung-12.png",
+            "rect": {
+              "x": 1086,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "758DFF90936489CB040B12AB0545F3C9CE7ACE80D5A130572535069FD0A83267"
+          }
+        ],
+        "width": 1448,
+        "height": 1086,
+        "sha256": "D47697C9A4B52B6BBFF565888C483BB16FC6D7E14A9D812550D6D87B222867CA"
+      },
+      "spriteSha256": "52716EB840DB37377F6FB3CF395E4170ADF865DF9FD7775FE6BD6AD64F84E86B",
+      "direction": {
+        "x": 0.9999521797086276,
+        "y": 0.009779483420133277
+      },
+      "angle": 0.009779639309030683,
+      "bodyHeight": 1165
+    },
+    {
+      "id": "diim",
+      "code": "V-994",
+      "name": "디임",
+      "rank": "SS",
+      "source": "assets/ui/project-v/mercenaries/limited-20261002/v-994-source-art.png",
+      "sourceHash": "838B9A71739EF4B442E00734584496A92136EFDAD6C71463E18527D6DF5E5CB4",
+      "sprite": "assets/runtime/diim-sd.png",
+      "feet": {
+        "x": 723,
+        "y": 1537
+      },
+      "headTop": 129,
+      "emission": {
+        "x": 1018,
+        "y": 404
+      },
+      "axisBack": {
+        "x": 918,
+        "y": 404
+      },
+      "auraCenter": {
+        "x": 585,
+        "y": 422
+      },
+      "auraTint": "#cfddff",
+      "skill": "월광 결정",
+      "type": "magic",
+      "auraScale": 0.75,
+      "originalSprite": {
+        "url": "assets/sd/diim-sd-v1.png",
+        "width": 1024,
+        "height": 1536,
+        "sha256": "1331C3BCE3237E418C728F348EB2C120E48568A3CC6CCD9C3CAD52959572DFC6"
+      },
+      "padding": 64,
+      "spriteWidth": 1152,
+      "spriteHeight": 1664,
+      "effects": {
+        "url": "assets/effects/diim-skill-sheet-v1.png",
+        "columns": 4,
+        "rows": 3,
+        "frames": [
+          {
+            "index": 0,
+            "role": "charge",
+            "url": "assets/frames/diim-01.png",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "C8A4F1967DE378A93F6AECA6EA195F7046977B15F270F6277F991CE6FE039BD5"
+          },
+          {
+            "index": 1,
+            "role": "charge",
+            "url": "assets/frames/diim-02.png",
+            "rect": {
+              "x": 362,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "5ABCFD1B7C95BECA3ECBA3EE91CA349F56215B36CA42E0600E6C37F1EB99784B"
+          },
+          {
+            "index": 2,
+            "role": "charge",
+            "url": "assets/frames/diim-03.png",
+            "rect": {
+              "x": 724,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "B9B3A6EE7B71A203C819085A96765C641A3807A39C84EC0497FC361E03C3D57B"
+          },
+          {
+            "index": 3,
+            "role": "charge",
+            "url": "assets/frames/diim-04.png",
+            "rect": {
+              "x": 1086,
+              "y": 0,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "33151BA21BDEB52F602EF2331F26B34DC846FDC9F61A79AD70D0467B7045B1A3"
+          },
+          {
+            "index": 4,
+            "role": "release",
+            "url": "assets/frames/diim-05.png",
+            "rect": {
+              "x": 0,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 83.26,
+              "y": 181
+            },
+            "sha256": "0DA7AC2A936FE4AFC3618C6BE80CBF409E11DA24EB2759AA472C2A788AC31135"
+          },
+          {
+            "index": 5,
+            "role": "release",
+            "url": "assets/frames/diim-06.png",
+            "rect": {
+              "x": 362,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 72.4,
+              "y": 181
+            },
+            "sha256": "551C97DDCDA313ED85E7CB5329160F6B95D01D5FACC0D52A8EC67F64458E0EF7"
+          },
+          {
+            "index": 6,
+            "role": "release",
+            "url": "assets/frames/diim-07.png",
+            "rect": {
+              "x": 724,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 57.92,
+              "y": 181
+            },
+            "sha256": "D0683B450F49967FD13B78F7BA381CBB0A337D874B72DFE5622C8EE03EA41BCC"
+          },
+          {
+            "index": 7,
+            "role": "release",
+            "url": "assets/frames/diim-08.png",
+            "rect": {
+              "x": 1086,
+              "y": 362,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 47.06,
+              "y": 181
+            },
+            "sha256": "71B69A0C08721F244102666B853B324DBE4EA90314C04EFFDC8CB7519CC63C5F"
+          },
+          {
+            "index": 8,
+            "role": "impact",
+            "url": "assets/frames/diim-09.png",
+            "rect": {
+              "x": 0,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "BD2BA04AA7B8DB03CB6604A232F9024D4E0D520199A8785934288DE96FD116F2"
+          },
+          {
+            "index": 9,
+            "role": "impact",
+            "url": "assets/frames/diim-10.png",
+            "rect": {
+              "x": 362,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "344F4CEE6CCDDA4FB8D8D3DD7F4497A257B1BB79FF78B6128DEF792413C23C92"
+          },
+          {
+            "index": 10,
+            "role": "impact",
+            "url": "assets/frames/diim-11.png",
+            "rect": {
+              "x": 724,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "58A5AF476D7D9B8FDE732A35C3E38FD0DA314442372E69969D0A8BD3CE8FEFFA"
+          },
+          {
+            "index": 11,
+            "role": "impact",
+            "url": "assets/frames/diim-12.png",
+            "rect": {
+              "x": 1086,
+              "y": 724,
+              "width": 362,
+              "height": 362
+            },
+            "origin": {
+              "x": 181,
+              "y": 181
+            },
+            "sha256": "7DB8CA529CACFB4D3D67527D6EEA8C2DFB80FFDC3ED2B2A6512F75439EF44C2B"
+          }
+        ],
+        "width": 1448,
+        "height": 1086,
+        "sha256": "56ED8C51429211D41D2BEA69DA33F9969AAC86A31D67EAF68F97B5EEFBFB411C"
+      },
+      "spriteSha256": "727B4FCA72D2BACC2B740A95F3D87D954B3345D88F5DCF8EB7DCBB9FEF833EF6",
+      "direction": {
+        "x": 1,
+        "y": 0
+      },
+      "angle": 0,
+      "bodyHeight": 1408
+    },
+    {
+      "id": "berkan",
+      "code": "V-055",
+      "name": "베르칸",
+      "userAlias": "벨르칸",
+      "rank": "SSS",
+      "source": "assets/ui/project-v/mercenaries/approved-20260927/berkan-source-art-v1.png",
+      "sourceHash": "E782A14D37A115ABA29D46F13D2443DBF5761A7DD99DCDA816B9908BA896507D",
+      "sprite": "/assets/ui/project-v/characters/mercenary/berkan-sss-v1/berkan-sd-v1.png",
+      "spriteHash": "79D144E33E1113C82787A93E6AD49BE3583A8DA1BA8DAAF91037020EC31D6101",
+      "feet": {
+        "x": 716,
+        "y": 1237
+      },
+      "headTop": 16,
+      "emission": null,
+      "axisBack": null,
+      "auraCenter": {
+        "x": 715,
+        "y": 382
+      },
+      "auraTint": "#ff2437",
+      "skill": null,
+      "type": "existing",
+      "auraScale": 0.8,
+      "preserveExisting": true,
+      "existingApprovedMotion": "/preview/mercenary-berkan-sss-v1/manifest.json",
+      "existingApprovedSkillPreview": "/preview/mercenary-berkan-sss-v1/",
+      "existingApprovedAreaPreview": "/preview/mercenary-berkan-area-v1/",
+      "originalSprite": {
+        "url": "/assets/ui/project-v/characters/mercenary/berkan-sss-v1/berkan-sd-v1.png",
+        "width": 1254,
+        "height": 1254,
+        "sha256": "79D144E33E1113C82787A93E6AD49BE3583A8DA1BA8DAAF91037020EC31D6101"
+      },
+      "spriteWidth": 1254,
+      "spriteHeight": 1254,
+      "padding": 0,
+      "spriteSha256": "79D144E33E1113C82787A93E6AD49BE3583A8DA1BA8DAAF91037020EC31D6101",
+      "bodyHeight": 1221
+    }
+  ],
+  "aura": {
+    "url": "assets/aura/limited-rear-aura-sheet-v1.png",
+    "columns": 4,
+    "rows": 2,
+    "width": 1774,
+    "height": 887,
+    "loopSeconds": 2.4,
+    "sha256": "433DFF0F0D90CB93E990B31C5ED85F0F355159A397BFA152AAAD69487D071F5D",
+    "frames": [
+      {
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 444,
+          "height": 444
+        }
+      },
+      {
+        "rect": {
+          "x": 444,
+          "y": 0,
+          "width": 443,
+          "height": 444
+        }
+      },
+      {
+        "rect": {
+          "x": 887,
+          "y": 0,
+          "width": 444,
+          "height": 444
+        }
+      },
+      {
+        "rect": {
+          "x": 1331,
+          "y": 0,
+          "width": 443,
+          "height": 444
+        }
+      },
+      {
+        "rect": {
+          "x": 0,
+          "y": 444,
+          "width": 444,
+          "height": 443
+        }
+      },
+      {
+        "rect": {
+          "x": 444,
+          "y": 444,
+          "width": 443,
+          "height": 443
+        }
+      },
+      {
+        "rect": {
+          "x": 887,
+          "y": 444,
+          "width": 444,
+          "height": 443
+        }
+      },
+      {
+        "rect": {
+          "x": 1331,
+          "y": 444,
+          "width": 443,
+          "height": 443
+        }
+      }
+    ]
+  }
+}
