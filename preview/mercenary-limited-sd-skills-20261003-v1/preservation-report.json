@@ -146,6 +146,10 @@
     {
       "path": "preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-ultimate-atlas.png",
       "sha256": "F42F35C70B313C2D74924251E97F02368124003357BFA85690D2FF548BE8DD4F"
+    },
+    {
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/source/KnightFX.js",
+      "sha256": "094A4ED17C0E0323A2BC4307590B922C6412F1D6CECBF8F42820CEBEB3A4F8DD"
     }
   ]
 }

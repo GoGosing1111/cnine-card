@@ -2,11 +2,14 @@ import '../../project-v-v3/source/project-v-pixi-battle.src.js';
 import {Assets,Container,Sprite,Texture,Rectangle,Graphics} from 'pixi.js';
 import {gsap} from 'gsap';
 import {BattleCharacter,TEAM} from '../../project-v-v3/source/battle/BattleCharacter.js';
-import {regularBattleSpriteHeight,LIMITED_AURA_WIDTH_MULTIPLIER} from '../display-policy.mjs';
+import {approvedLimitedSpriteScale,LIMITED_AURA_WIDTH_MULTIPLIER} from '../display-policy.mjs';
+import {KnightFX,loadKnightAssets} from '../../mercenary-crimson-silver-knight-battle-v1/source/KnightFX.js';
+import {makePlan as valterPlan} from '../../mercenary-crimson-silver-knight-battle-v1/skill.mjs';
 const ROOT='/preview/mercenary-limited-sd-skills-20261003-v1/',doc=parent.document,$=id=>doc.getElementById(id),DURATION=3.6;
 const url=p=>p.startsWith('/')?p:ROOT+p,clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 let engine,merc,target,manifest,active,clock={time:0},timeline,registration,disposed=false,speed=1,effectsEnabled=true,auraEnabled=true,anchorsEnabled=false;
 let body,aura,charge,release,impact,guides,actor,front,back,loaded={},auraTextures=[],diagnostic={};
+let valterFx,valterManifest,valterAssets;
 const duration=()=>active?.effects?DURATION:(manifest?.aura.loopSeconds||2.4);
 const textureFrames=(t,frames)=>frames.map(f=>new Texture({source:t.source,frame:new Rectangle(f.rect.x,f.rect.y,f.rect.width,f.rect.height)}));
 function stopTimeline(){if(registration)engine.simpleTimelines.delete(registration);timeline?.kill();timeline=null;registration=null;}
@@ -17,9 +20,9 @@ function seek(t){if(!timeline)makeTimeline();timeline.pause().time(clamp(t,0,dur
 function cancel(){stopTimeline();clock.time=0;render(0);update();}
 function update(){const playing=Boolean(timeline&&!timeline.paused()&&clock.time<duration());$('play').textContent=playing?'일시정지':'재생';$('seek').max=duration();$('seek').value=clock.time;$('time').textContent=clock.time.toFixed(2)+' / '+duration().toFixed(2)+'s';$('health').textContent=JSON.stringify(diagnostic,null,2);}
 function configure(){
- const c=active,s=loaded[c.id],textureHeight=regularBattleSpriteHeight(engine),S=textureHeight/c.originalSprite.height,bodyHeight=c.bodyHeight*S;
+ const c=active,s=loaded[c.id],S=approvedLimitedSpriteScale(valterManifest,c.bodyHeight),textureHeight=c.originalSprite.height*S,bodyHeight=c.bodyHeight*S;
  body.texture=s.body;body.anchor.set(c.feet.x/c.spriteWidth,c.feet.y/c.spriteHeight);body.scale.set(S);body.visible=true;
- merc.fullBodyHeight=textureHeight;merc.rig.root.visible=false;merc.hud.y=engine.allies[0].formationHudY??engine.allies[0].hud.y;
+ merc.fullBodyHeight=textureHeight;merc.rig.root.visible=false;merc.hud.y=-(bodyHeight+118);
  actor.visible=true;
  const point=p=>engine.effectLayer.toLocal(merc.view.toGlobal({x:(p.x-c.feet.x)*S,y:(p.y-c.feet.y)*S}));
  const foot=point(c.feet),head=point({x:c.feet.x,y:c.headTop}),H=foot.y-head.y,x=foot.x,y=foot.y;
@@ -47,6 +50,14 @@ function render(t){
  const c=active,p=configure(),progress=t/DURATION;
  const ai=Math.floor((t%manifest.aura.loopSeconds)/manifest.aura.loopSeconds*auraTextures.length)%auraTextures.length;
  aura.texture=auraTextures[ai];aura.anchor.set(.5);aura.alpha=1;aura.blendMode='add';aura.visible=auraEnabled;
+ if(valterFx){
+   const show=c.id==='valter';valterFx.layer.visible=show;valterFx.aura.visible=show&&auraEnabled;
+   if(show){
+     // Reuse the approved V17 renderer, including silhouette glow, rim, aura atlas,
+     // ground ring and rising particles. It follows this preview's existing clock.
+     valterFx.bodyHeight=p.bodyHeight;valterFx.start={x:merc.baseX,y:merc.baseY};valterFx.auraEnabled=auraEnabled;valterFx.clock.time=t;valterFx.render(t);
+   }
+ }
  charge.visible=release.visible=impact.visible=false;guides.clear();
  let phase=c.effects?'오라 · 대기':'기존 SSS · 붉은 오라',effectFrame=null;
  if(c.effects&&effectsEnabled){
@@ -69,22 +80,28 @@ function render(t){
  }
  const lateral=p.origin&&p.emission?Math.abs((p.origin.x-p.emission.x)*c.direction.y-(p.origin.y-p.emission.y)*c.direction.x):0;
  const station=engine.station('mercenaries',0,'ALLY');
- diagnostic={character:c.name,code:c.code,rank:c.rank,time:t,body:'static image preview; motion not claimed',formation:{bodyHeight:p.bodyHeight,textureHeight:p.textureHeight,sizePolicy:'EXISTING_REGULAR_BATTLE_SPRITE',station,foot:{x:actor.x,y:actor.y},scale:actor.scale.x,regularScale:engine.allies[0].root.scale.x,regularTextureHeight:engine.allies[0].fullBodyHeight,visibleAllies:engine.allies.filter(a=>a.root.visible).length},aura:{enabled:auraEnabled,frame:ai,behindCharacter:true,color:c.auraTint,widthToBody:c.auraScale*LIMITED_AURA_WIDTH_MULTIPLIER},effectFrame,visibleSkillEffects:[charge,release,impact].filter(x=>x.visible).length,emission:p.emission,forwardOrigin:p.origin,axisLateralError:lateral,shotAngleDegrees:c.angle?c.angle*180/Math.PI:0,singleClock:true,registeredTimelines:registration&&engine.simpleTimelines.has(registration)?1:0,liveEnabled:false};
+ diagnostic={character:c.name,code:c.code,rank:c.rank,time:t,body:'static image preview; motion not claimed',formation:{bodyHeight:p.bodyHeight,textureHeight:p.textureHeight,sizePolicy:'APPROVED_VALTER_V17_BODY_HEIGHT',referenceBodyHeight:valterManifest.displaySizing.bodyHeight,referenceTextureHeight:valterManifest.displaySizing.fullBodyHeight,station,foot:{x:actor.x,y:actor.y},scale:actor.scale.x,regularScale:engine.allies[0].root.scale.x,regularTextureHeight:engine.allies[0].fullBodyHeight,visibleAllies:engine.allies.filter(a=>a.root.visible).length},aura:{enabled:auraEnabled,frame:ai,behindCharacter:true,color:c.auraTint,widthToBody:c.auraScale*LIMITED_AURA_WIDTH_MULTIPLIER,approvedValterFx:c.id==='valter'&&valterFx?{source:'APPROVED_V17_KnightFX',silhouetteCopies:18,filters:valterFx.auraFilters.length,auraFrames:valterManifest.effects.aura.frameCount,risingParticles:valterFx.pool.filter(s=>s.visible).length,enabled:valterFx.aura.visible,independentClock:!!valterFx.timeline}:null},effectFrame,visibleSkillEffects:[charge,release,impact].filter(x=>x.visible).length,emission:p.emission,forwardOrigin:p.origin,axisLateralError:lateral,shotAngleDegrees:c.angle?c.angle*180/Math.PI:0,singleClock:true,registeredTimelines:registration&&engine.simpleTimelines.has(registration)?1:0,liveEnabled:false};
  $('phase').textContent=phase;update();
 }
 async function select(id){
  pause();active=manifest.characters.find(c=>c.id===id)||manifest.characters[0];
+ if(valterFx){valterFx.layer.visible=false;valterFx.aura.visible=false;}
  if(!loaded[active.id]){
    const c=active,bodyTex=await Assets.load(url(c.sprite)),fxTex=c.effects?await Assets.load(url(c.effects.url)):null;
    loaded[c.id]={body:bodyTex,effects:fxTex?textureFrames(fxTex,c.effects.frames):[]};
  }
  merc.name=active.name;merc.nameLabel.text=active.name;merc.art={code:active.code};
  engine.setFormationMercenaries([merc]);engine.sortCombatDepth();
+ if(active.id==='valter'&&!valterFx){
+   valterAssets=await loadKnightAssets(valterManifest);
+   configure();valterFx=new KnightFX(engine,merc,[target],valterAssets,valterManifest,valterPlan({mode:'aura'}));
+   valterFx.removeTimeline(); // No second animation clock or automatic skill playback.
+ }
  parent.selectGallery?.(active.id);clock.time=0;makeTimeline();render(0);
  $('play').disabled=false;$('restart').disabled=false;
 }
 async function boot(){
- const [m,catalogs]=await Promise.all([fetch(ROOT+'manifest.json').then(r=>r.json()),Promise.all(['fur/manifest-v2.json','zenith/manifest-v1.json','superstar/manifest-v1.json'].map(p=>fetch('/assets/ui/project-v/characters/'+p).then(r=>r.json())))]);manifest=m;
+ const [m,catalogs,approvedValter]=await Promise.all([fetch(ROOT+'manifest.json').then(r=>r.json()),Promise.all(['fur/manifest-v2.json','zenith/manifest-v1.json','superstar/manifest-v1.json'].map(p=>fetch('/assets/ui/project-v/characters/'+p).then(r=>r.json()))),fetch('/preview/mercenary-crimson-silver-knight-battle-v1/manifest.json').then(r=>r.json())]);manifest=m;valterManifest=approvedValter;
  const available=catalogs.flatMap(m=>m.characters.map(c=>({...c,grade:m.rarity})));
  const ids=['CN-02D9DC1E8A8A4209','CN-0505936A0CBB4E59','CN-25F931CE393D474E','CN-23EB4B19986D4818','CN-519C181C18DF4B8E'];
  const deck=ids.map((id,i)=>{const c=available.find(c=>c.cardId===id);if(!c)throw Error('기준 카드 누락');return {...c,id,cardId:id,name:c.member,title:c.title,image:'/'+c.sourceArt,sourceArt:'/'+c.sourceArt,originalCardArt:'/'+c.sourceArt,power_type:['ATTACK','DEFENSE','SPEED','HP','ATTACK'][i],hp:100,maxHp:100};});
@@ -103,7 +120,7 @@ async function boot(){
  back=new Container({label:'LimitedRearAura',zIndex:5});merc.view.addChild(back);aura=new Sprite();back.addChild(aura);
  front=new Container({label:'LimitedSkillImageReview'});engine.effectLayer.addChild(front);charge=new Sprite();release=new Sprite();impact=new Sprite();guides=new Graphics();front.addChild(charge,release,impact,guides);
  for(const e of [back,actor,front])e.eventMode='none';
- const review={engine,manifest,select,play,pause,seek,cancel,setSpeed:n=>{speed=Number(n);timeline?.timeScale(speed);},setAura:v=>{auraEnabled=v;render(clock.time);},setEffects:v=>{effectsEnabled=v;render(clock.time);},setAnchors:v=>{anchorsEnabled=v;render(clock.time);},diagnostics:()=>diagnostic,dispose:()=>{cancel();disposed=true;merc.destroy();front.destroy({children:true});engine.destroy();}};
+ const review={engine,manifest,select,play,pause,seek,cancel,setSpeed:n=>{speed=Number(n);timeline?.timeScale(speed);},setAura:v=>{auraEnabled=v;render(clock.time);},setEffects:v=>{effectsEnabled=v;render(clock.time);},setAnchors:v=>{anchorsEnabled=v;render(clock.time);},diagnostics:()=>diagnostic,dispose:()=>{cancel();disposed=true;valterFx?.destroy();merc.destroy();front.destroy({children:true});engine.destroy();}};
  window.LimitedReview=parent.LimitedReview=review;
  $('play').onclick=()=>timeline&&!timeline.paused()?pause():play();$('restart').onclick=()=>{seek(0);play();};$('cancel').onclick=cancel;$('seek').oninput=()=>seek(Number($('seek').value));$('speed').onchange=()=>review.setSpeed($('speed').value);$('aura').onchange=()=>review.setAura($('aura').checked);$('effects').onchange=()=>review.setEffects($('effects').checked);$('anchors').onchange=()=>review.setAnchors($('anchors').checked);
  for(const el of doc.querySelectorAll('.controls input,.controls select,.controls button,#seek'))el.disabled=false;

@@ -2,310 +2,36 @@
   {
     "viewport": "desktop",
     "errors": [],
-    "ready": {
+    "state": {
       "name": "발테르",
-      "bodyHeight": 226.875,
-      "textureHeight": 260,
-      "regularTextureHeight": 260,
-      "foot": {
-        "x": 380,
-        "y": 240
-      },
-      "station": {
-        "x": 380,
-        "y": 240
-      },
-      "scale": 0.5,
-      "otherScale": 0.5
-    },
-    "impact": {
-      "ready": true,
-      "motionOnly": false,
-      "mode": "ultimate",
-      "time": 1.7344444444444445,
-      "playing": false,
-      "speed": 1,
-      "playbackRate": 1.2,
-      "pose": {
-        "key": "twohandStrike",
-        "frame": 1
-      },
-      "cancelled": false,
-      "travel": 1,
-      "activeFrames": [
-        {
-          "key": "charge",
-          "index": 10,
-          "next": 11,
-          "anchor": {
-            "x": 1143.7966223001536,
-            "y": 591.9999999999998
-          },
-          "sourceAnchor": {
-            "x": 0.5,
-            "y": 0.7421875
-          }
-        },
-        {
-          "key": "slash",
-          "index": 9,
-          "next": 10,
-          "anchor": {
-            "x": 1219.9999999999998,
-            "y": 565.3753144523738
-          },
-          "sourceAnchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "key": "execution",
-          "index": 9,
-          "next": 10,
-          "anchor": {
-            "x": 1219.9999999999998,
-            "y": 591.9999999999999
-          },
-          "sourceAnchor": {
-            "x": 0.5,
-            "y": 0.6328125
-          }
-        },
-        {
-          "key": "ultimate",
-          "index": 10,
-          "next": 11,
-          "anchor": {
-            "x": 1219.9999999999998,
-            "y": 591.9999999999999
-          },
-          "sourceAnchor": {
-            "x": 0.5,
-            "y": 0.640625
-          }
-        },
-        {
-          "key": "ultimate",
-          "index": 10,
-          "next": 11,
-          "anchor": {
-            "x": 1429.9999999999995,
-            "y": 415.99999999999994
-          },
-          "sourceAnchor": {
-            "x": 0.5,
-            "y": 0.640625
-          }
-        },
-        {
-          "key": "ultimate",
-          "index": 10,
-          "next": 11,
-          "anchor": {
-            "x": 1009.9999999999998,
-            "y": 415.99999999999994
-          },
-          "sourceAnchor": {
-            "x": 0.5,
-            "y": 0.640625
-          }
-        }
-      ],
-      "visibleSprites": 41,
-      "ownedTimelines": 1,
-      "registeredTimelines": 1,
-      "regularAllies": 5,
-      "mercenaryInRegularArray": false,
-      "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
-      "weaponRigid": true,
-      "clockOwner": "V3_REGISTERED_GSAP",
-      "motionFrames": 64,
-      "effectFrames": 96,
-      "damageAuthority": "NONE_VISUAL_PREVIEW",
-      "actorFoot": {
-        "x": 1143.7966223001536,
-        "y": 591.9999999999998
-      },
-      "targetFoot": {
-        "x": 1219.9999999999998,
-        "y": 591.9999999999999
-      },
+      "textureHeight": 358,
+      "approvedTextureHeight": 358,
+      "bodyHeight": 312.3894230769231,
+      "approvedBodyHeight": 312.3894230769231,
       "aura": {
         "enabled": true,
         "textureMatchesPose": true,
         "silhouetteCopies": 18,
         "filterCount": 6,
         "independentClock": false
-      },
-      "audio": {
-        "enabled": false,
-        "scheduled": [],
-        "error": null
-      },
-      "effectLayers": 1,
-      "showcase": {
-        "active": false,
-        "completed": false,
-        "index": -1,
-        "total": 7,
-        "mode": null,
-        "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
       }
     }
   },
   {
     "viewport": "mobile",
     "errors": [],
-    "ready": {
+    "state": {
       "name": "발테르",
-      "bodyHeight": 226.875,
-      "textureHeight": 260,
-      "regularTextureHeight": 260,
-      "foot": {
-        "x": 365.2244897959184,
-        "y": 332.2448979591837
-      },
-      "station": {
-        "x": 365.2244897959184,
-        "y": 332.2448979591837
-      },
-      "scale": 0.65,
-      "otherScale": 0.65
-    },
-    "impact": {
-      "ready": true,
-      "motionOnly": false,
-      "mode": "ultimate",
-      "time": 1.7344444444444445,
-      "playing": false,
-      "speed": 1,
-      "playbackRate": 1.2,
-      "pose": {
-        "key": "twohandStrike",
-        "frame": 1
-      },
-      "cancelled": false,
-      "travel": 1,
-      "activeFrames": [
-        {
-          "key": "charge",
-          "index": 10,
-          "next": 11,
-          "anchor": {
-            "x": 914.1600987861186,
-            "y": 1232.2448979591836
-          },
-          "sourceAnchor": {
-            "x": 0.5,
-            "y": 0.7421875
-          }
-        },
-        {
-          "key": "slash",
-          "index": 9,
-          "next": 10,
-          "anchor": {
-            "x": 1013.2244897959183,
-            "y": 1197.6328067472698
-          },
-          "sourceAnchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "key": "execution",
-          "index": 9,
-          "next": 10,
-          "anchor": {
-            "x": 1013.2244897959183,
-            "y": 1232.2448979591836
-          },
-          "sourceAnchor": {
-            "x": 0.5,
-            "y": 0.6328125
-          }
-        },
-        {
-          "key": "ultimate",
-          "index": 10,
-          "next": 11,
-          "anchor": {
-            "x": 773.8039795918367,
-            "y": 1232.2448979591836
-          },
-          "sourceAnchor": {
-            "x": 0.5,
-            "y": 0.640625
-          }
-        },
-        {
-          "key": "ultimate",
-          "index": 10,
-          "next": 11,
-          "anchor": {
-            "x": 1013.2244897959183,
-            "y": 932.2448979591836
-          },
-          "sourceAnchor": {
-            "x": 0.5,
-            "y": 0.640625
-          }
-        },
-        {
-          "key": "ultimate",
-          "index": 10,
-          "next": 11,
-          "anchor": {
-            "x": 797.2244897959183,
-            "y": 932.2448979591836
-          },
-          "sourceAnchor": {
-            "x": 0.5,
-            "y": 0.640625
-          }
-        }
-      ],
-      "visibleSprites": 41,
-      "ownedTimelines": 1,
-      "registeredTimelines": 1,
-      "regularAllies": 5,
-      "mercenaryInRegularArray": false,
-      "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
-      "weaponRigid": true,
-      "clockOwner": "V3_REGISTERED_GSAP",
-      "motionFrames": 64,
-      "effectFrames": 96,
-      "damageAuthority": "NONE_VISUAL_PREVIEW",
-      "actorFoot": {
-        "x": 914.1600987861186,
-        "y": 1232.2448979591836
-      },
-      "targetFoot": {
-        "x": 1013.2244897959183,
-        "y": 1232.2448979591836
-      },
+      "textureHeight": 358,
+      "approvedTextureHeight": 358,
+      "bodyHeight": 312.3894230769231,
+      "approvedBodyHeight": 312.3894230769231,
       "aura": {
         "enabled": true,
         "textureMatchesPose": true,
         "silhouetteCopies": 18,
         "filterCount": 6,
         "independentClock": false
-      },
-      "audio": {
-        "enabled": false,
-        "scheduled": [],
-        "error": null
-      },
-      "effectLayers": 1,
-      "showcase": {
-        "active": false,
-        "completed": false,
-        "index": -1,
-        "total": 7,
-        "mode": null,
-        "clockOwner": "CURRENT_V3_GSAP_TIMELINE"
       }
     }
   }

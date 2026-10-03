@@ -5,7 +5,6 @@ import {createMercenaryBattleArtAdapter} from '../../../js/project-v-mercenary-b
 import {KNIGHT,MODES,makePlan} from '../skill.mjs';
 import {KnightFX,loadKnightAssets} from './KnightFX.js';
 import {SkillShowcase} from '../showcase.mjs';
-import {regularBattleSpriteHeight} from '../../mercenary-limited-sd-skills-20261003-v1/display-policy.mjs';
 const parentDoc=window.parent.document,$=id=>parentDoc.getElementById(id)||document.getElementById(id),ROOT='/preview/mercenary-crimson-silver-knight-battle-v1/';
 const IDS=['CN-02D9DC1E8A8A4209','CN-0505936A0CBB4E59','CN-25F931CE393D474E','CN-23EB4B19986D4818','CN-519C181C18DF4B8E'];
 const get=async path=>{const r=await fetch(path);if(!r.ok)throw Error(`자산을 불러오지 못했습니다: ${path}`);return r.json();};
@@ -41,7 +40,7 @@ async function boot(){
   const adapter=createMercenaryBattleArtAdapter({format:'PROJECT_V_MERCENARY_SYSTEM_ROSTER_V1',summary:{battleSpriteReady:1,battleSpritePending:0},cards:[manifest]});
   const art=adapter.resolveForConsumer('BATTLE_FIELD',manifest.code);if(!art)throw Error('대검 기사 전투 SD 누락');
   const [sd,cutin,assets]=await Promise.all([Assets.load(art.spriteUrl),Assets.load(ROOT+'assets/source-art-preview.webp'),loadKnightAssets(manifest)]);
-  merc=new BattleCharacter({id:'CRIMSON_KNIGHT_PREVIEW',name:KNIGHT.name,team:TEAM.ALLY,fullBodyTexture:sd,cutInTexture:cutin,fullBodyHeight:regularBattleSpriteHeight(engine),accent:0xffa74b});
+  merc=new BattleCharacter({id:'CRIMSON_KNIGHT_PREVIEW',name:KNIGHT.name,team:TEAM.ALLY,fullBodyTexture:sd,cutInTexture:cutin,fullBodyHeight:manifest.displaySizing.fullBodyHeight,accent:0xffa74b});
   merc.fullBodySprite.anchor.set(art.footAnchor.x,art.footAnchor.y);engine.combatLayer.addChild(merc.root);engine.setFormationMercenaries([merc]);merc.root.alpha=1;merc.root.visible=true;engine.sortCombatDepth();
   const targets=engine.enemies.slice().sort((a,b)=>b.baseY-a.baseY).slice(0,3);
   fx=new KnightFX(engine,merc,targets,assets,manifest,plan(),update);

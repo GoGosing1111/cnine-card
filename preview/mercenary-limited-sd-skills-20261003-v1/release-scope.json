@@ -1,17 +1,17 @@
 {
-  "scope": "Use explicitly corrected Valter V-996 and native formation sizing in both image review and approved Valter skill preview",
+  "scope": "Restore original approved Valter V17 size and surrounding effects; normalize five limited SD body heights to Valter",
   "runtimeChanges": [],
   "liveLimitedSkillsChanged": false,
   "approvedSsSAssetsChanged": false,
   "sourceMethod": "Approved Valter reuse; no new image generation in this correction",
-  "lastVerifiedProductionCommit": "e768e176cbf1d6d131217797b700b3423d9fe2d7",
-  "productionDeploymentUrl": "https://39cb5ac3.cnine-card.pages.dev",
+  "lastVerifiedProductionCommit": "6fd9ba7b3d5ee494a1d9cde517f4695ff7e77bd6",
+  "productionDeploymentUrl": "https://a74acb3f.cnine-card.pages.dev",
   "releaseMode": "scoped",
   "reason": "Local preview presentation correction only, shared game engine/server and gameplay locks unchanged.",
   "selectedChecks": [
     "preview/mercenary-limited-sd-skills-20261003-v1/qa.test.mjs"
   ],
-  "visualReview": "PC/mobile native formation, five regular cards for size comparison, existing Valter V17 skill playback",
+  "visualReview": "PC/mobile all six equal visible body heights; original 18 silhouette copies, 12 aura atlas frames and 12 rising particles reused via approved KnightFX and same GSAP clock",
   "userApproval": "New five SD candidates remain USER_REVIEW_PENDING. Valter SD and motion approvals unchanged.",
-  "sizePolicy": "Directly reuse existing regular battle sprite height and native formation; no arbitrary resize percentage"
+  "sizePolicy": "Approved Valter manifest: texture 358, visible body 312.3894230769231. Latest explicit request supersedes prior 20% instruction."
 }

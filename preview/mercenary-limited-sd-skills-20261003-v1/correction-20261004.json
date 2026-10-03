@@ -6,11 +6,14 @@
   "foot": "Approved pixel foot pivot centered on station",
   "aura": "Red #ff2437, independent rear layer",
   "sourceFilesPreserved": true,
-  "latestUserRequest": "원래대로 맞추라니까? 니 좆대로하지말고?",
-  "sizePolicy": "Reuse existing regular battle actor fullBodyHeight, native formation scale and HUD position; no custom size percentage",
-  "referenceTextureHeight": 260,
+  "latestUserRequest": "발테르 원래 SD이미지 크기 기준, 나머지 리미티드 SD 모두 그 크기로",
+  "sizePolicy": "Approved Valter V17 original size; all other limited SDs match its visible head-to-foot height",
   "rejectedIntermediate": {
     "bodyHeight": 200,
     "proposedIncrease": "25% (not applied)"
-  }
+  },
+  "textureHeight": 358,
+  "auraCorrection": "Original V17 KnightFX renderer restores all surrounding effects, plus the added red rear aura",
+  "referenceManifest": "preview/mercenary-crimson-silver-knight-battle-v1/manifest.json",
+  "bodyHeight": 312.3894230769231
 }
