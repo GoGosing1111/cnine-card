@@ -1,0 +1,44 @@
+{
+  "title": "리미티드 에디션 용병팩",
+  "createdDateKst": "2026-10-03",
+  "method": "Built-in image_gen image generation/editing tool",
+  "asset": "assets/ui/packs/mercenary-limited-edition-pack-20261003-v1.png",
+  "status": "DESIGN_CREATED_USER_REVIEW_PENDING",
+  "reference": {
+    "role": "User attachment: mandatory pack silhouette, aspect ratio, rounded double metal rim, front-facing composition and material reference",
+    "path": "C:/Users/User/AppData/Local/Temp/codex-clipboard-0f744f9c-bdca-4e26-83ee-96e7a5323db0.png",
+    "sha256": "75A5C4FC986B42239C4BFA03AC1EB29FA02C0A1DFAFA85A93F4A684EC11BB81A",
+    "width": 941,
+    "height": 1672
+  },
+  "generatedSource": "C:/Users/User/.codex/generated_images/01a0f5a2-d9a1-7181-8f4a-e8b950658e06/exec-2a1d1c00-f9ca-4d2d-892d-1c105820151d.png",
+  "requestedText": [
+    "SOOPKETMON",
+    "LIMITED",
+    "EDITION",
+    "MERCENARY PACK",
+    "리미티드 용병팩"
+  ],
+  "scope": "New pack artwork only. Existing assets remain unchanged. Does not register a product, set prices or probabilities, grant mercenaries, or unlock limited acquisition, formation or combat.",
+  "prompt": "Use case: product-mockup\nAsset type: final premium fantasy game pack front artwork for SOOPKETMON.\nPrimary request: Transform the attached pack design into a spectacular LIMITED EDITION MERCENARY PACK. The reference is a mandatory PACK SHAPE and high-end material reference, not a character reference.\n\nSHAPE INVARIANTS: Precisely retain the reference's tall narrow 9:16 portrait proportions, straight-on flat rectangular front face, symmetrical rounded corners, and continuous rounded double gold metal perimeter. The pack fills almost the entire canvas with only a very thin black outside margin, same as the reference. Show the entire top and bottom rim. No perspective or side wall. No standing box, no pouch, no foil-wrapper crimps, no folded top, no tabletop, no scene around it.\n\nDesign a new rich limited-edition mercenary visual within that exact silhouette. Deep polished obsidian-black face; sculpted champagne gold and pale platinum inlay; radiant amethyst crystal accents. At the center, a masterfully designed mercenary order medallion: a prominent faceted violet diamond in a royal gold crown, two perfectly straight ceremonial sword blades crossed behind a circular embossed gold seal, restrained intricate laurel filigree. The entire crest has a coherent symmetrical structure and strong silhouette. Surround it with luminous purple arcane energy, selective fine gold sparks and bright edge lights; expensive layered metallic reflections. Rich polished 2D game item illustration, extraordinary jewel and gold finish. Beautiful fine detailing, powerful readable hierarchy, controlled black negative space. Ornamentation must feel more exclusive and elaborate than a normal pack, without becoming a cluttered pile of unrelated objects.\n\nLayout: Small jewel and small spaced brand wordmark near the top; large spectacular mercenary crest in the upper-middle; very large deeply embossed gold title in the lower-middle; clearly legible subtitle underneath; complementary diamond-and-blade ornament near the bottom. Thin luminous frame highlights at corners and along the perimeter, similar to the reference. Purple magic remains inside the pack; gold glints can touch its rim.\n\nRender only these exact text elements, correctly spelled:\nTop small: \"SOOPKETMON\"\nMain large, two balanced lines: \"LIMITED\" / \"EDITION\"\nSubtitle below main title: \"MERCENARY PACK\"\nBottom small: \"리미티드 용병팩\"\nUse luxurious sharp serif display letterforms for LIMITED EDITION, precisely spaced smaller typography for the other text. All letters highly readable, never obscured by glow.\n\nPreserve the attachment's external pack geometry, long narrow proportions, black-and-gold identity, and immaculate front-on framing. Do not reproduce the old EXTREME or HYPER PACK wording. No WAGO, no rank label, no star rating, no probability, no guaranteed reward, no invented serial number, no watermark. No character portraits. Finished polished game resource artwork, not an interface mockup.",
+  "qa": {
+    "sameReferencePixelDimensions": true,
+    "straightOnRoundedRectangularPack": true,
+    "entireTopAndBottomRimVisible": true,
+    "visibleTextCorrect": true,
+    "noClippedText": true,
+    "crossedSwordBladesStraight": true,
+    "noRankOrRewardGuarantees": true,
+    "noWagoBranding": true,
+    "generatedSourceBytesPreserved": true,
+    "visualReview": "Full image checked: front-on silhouette, border, crest, text and lettering; user visual approval remains pending."
+  },
+  "sha256": "F4CE292B186D390DF9AD40D0C4854A35158AB7049900FE13417D5948B453C5B6",
+  "image": {
+    "width": 941,
+    "height": 1672,
+    "format": "png",
+    "space": "srgb",
+    "hasAlpha": false
+  }
+}
