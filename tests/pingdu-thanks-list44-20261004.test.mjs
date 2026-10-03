@@ -80,3 +80,23 @@ test('lost COMMIT acknowledgement replays the saved result; overlapping batches 
   await assert.rejects(sendList44Gift(client,subset,{expectedRecipientHash:subplan.recipientHash}),/already sent without/);assert.deepEqual(await snapshot(db),before);
  }finally{await db.close();}
 });
+test('confirmed Bini receives the remaining gift without repaying the previous 43 accounts or Bi_ni',async()=>{
+ const {db,client}=await fixture();try{
+  const bini=TARGETS.filter(t=>t.id==='4595'),previous=TARGETS.filter(t=>t.id!=='4595');
+  assert.equal(bini.length,1);assert.equal(bini[0].nickname,'비니');assert.equal(previous.length,43);
+  await db.query("INSERT INTO users(id,nickname,role,status) VALUES(5504,'비_니','USER','ACTIVE')");
+  const firstPlan=await inspectList44Gift(client,previous),first=await sendList44Gift(client,previous,{expectedRecipientHash:firstPlan.recipientHash});
+  const before=await snapshot(db),plan=await inspectList44Gift(client,bini);
+  const dry=await sendList44Gift(client,bini,{expectedRecipientHash:plan.recipientHash,dryRun:true});assert.equal(dry.receipt.count,1);assert.deepEqual(await snapshot(db),before);
+  await assert.rejects(sendList44Gift(client,bini,{expectedRecipientHash:plan.recipientHash,failAfterMessages:true}),/EXPECTED_PARTIAL_MESSAGE_FAILURE/);assert.deepEqual(await snapshot(db),before);
+  const sent=await sendList44Gift(client,bini,{expectedRecipientHash:plan.recipientHash});
+  const oldVerification=await verifyList44Gift(client,first.receipt),lastVerification=await verifyList44Gift(client,sent.receipt);
+  assert.equal(oldVerification.messages,43);assert.equal(lastVerification.messages,1);assert.equal(lastVerification.rows[0].user_id,'4595');
+  const after=await snapshot(db),campaign=after.user_messages.filter(row=>row.campaign_key===CAMPAIGN_KEY);
+  assert.equal(campaign.length,44);assert.equal(new Set(campaign.map(r=>String(r.user_id))).size,44);assert.ok(campaign.every(r=>String(r.user_id)!=='5504'));
+  const previousMessageIds=new Set(before.user_messages.map(r=>String(r.id)));
+  assert.deepEqual(after.user_messages.filter(r=>previousMessageIds.has(String(r.id))),before.user_messages);
+  assert.deepEqual(after.user_message_rewards.filter(r=>previousMessageIds.has(String(r.message_id))),before.user_message_rewards);
+  const replay=await sendList44Gift(client,bini,{expectedRecipientHash:plan.recipientHash});assert.equal(replay.replayed,true);assert.deepEqual(await snapshot(db),after);
+ }finally{await db.close();}
+});

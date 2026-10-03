@@ -1,15 +1,10 @@
 {
-  "status": "PARTIALLY_COMPLETED_PENDING_RECIPIENT_CONFIRMATION",
+  "status": "COMPLETED",
   "requestedCount": 44,
-  "deliveredCount": 43,
+  "deliveredCount": 44,
   "itemCode": "PINGDU_THANKS_GIFT_BOX",
   "quantityEach": 1,
-  "pending": [
-    {
-      "inputNickname": "비니",
-      "reason": "Distinct ACTIVE accounts 비니 ID 4595 and 비_니 ID 5504; user confirmation requested because previous grant was corrected to 비_니."
-    }
-  ],
+  "pending": [],
   "aliases": [
     {
       "inputNickname": "커피마시는철구",
@@ -1259,6 +1254,436 @@
     "required": false,
     "reason": "Production message rewards only; no game runtime changes."
   },
-  "continuation": "Do not resend the 43 completed recipients. After the user confirms 비니 ID 4595 or 비_니 ID 5504, grant only that one account using the same campaign and a separately hashed one-recipient receipt.",
-  "recordedAt": "2026-10-03T16:33:44.545Z"
+  "continuation": "Completed all 44 recipients. Do not resend either the 43-recipient batch or the confirmed 비니 ID 4595 completion batch. 비_니 ID 5504 is a separate person and was not part of this campaign.",
+  "recordedAt": "2026-10-03T16:42:24.940Z",
+  "identityConfirmation": {
+    "inputNickname": "비니",
+    "userId": "4595",
+    "nickname": "비니",
+    "userMessage": "2명임 비니로 지급해",
+    "distinctAccount": {
+      "userId": "5504",
+      "nickname": "비_니"
+    },
+    "confirmedAt": "2026-10-03T16:39:11.465Z"
+  },
+  "completionBatch": {
+    "receipt": {
+      "status": "COMPLETED",
+      "operationKey": "ops:pingdu-thanks-list44:20261004:v1:194d7b59fe9c52fe7ec7763b",
+      "campaignKey": "pingdu-thanks-list44-20261004-v1",
+      "recipientHash": "194d7b59fe9c52fe7ec7763bb65faef290205a9dcda98bfb1b2fb8f2cef6451f",
+      "count": 1,
+      "boxes": 1,
+      "title": "핑두의 감사선물",
+      "itemCode": "PINGDU_THANKS_GIFT_BOX",
+      "delivery": "MESSAGE",
+      "quantityEach": 1,
+      "authorization": "사용자 제공 44명 명단에 핑두의 감사 선물 1개씩 지급. 이번 요청은 이전 선물 지급과 별도인 신규 지급 요청이다.",
+      "recipients": [
+        {
+          "id": "4595",
+          "nickname": "비니",
+          "inputNickname": "비니",
+          "quantity": 1
+        }
+      ],
+      "completedAt": "2026-10-03T16:41:06.162Z",
+      "auditId": "40527"
+    },
+    "validation": {
+      "targetedTests": {
+        "command": "node --test --test-name-pattern='confirmed Bini' tests/pingdu-thanks-list44-20261004.test.mjs",
+        "passed": 1,
+        "failed": 0
+      },
+      "productionDryRunRolledBack": true,
+      "rollbackCheck": {
+        "verified": true,
+        "previousMessages": 43,
+        "newMessages": 0,
+        "newReceipts": 0,
+        "newAudits": 0
+      },
+      "replayVerified": true,
+      "replayAuditId": "40527"
+    }
+  },
+  "finalVerification": {
+    "verified": true,
+    "receipt": {
+      "status": "COMPLETED",
+      "operationKey": "ops:pingdu-thanks-list44:20261004:v1:194d7b59fe9c52fe7ec7763b",
+      "campaignKey": "pingdu-thanks-list44-20261004-v1",
+      "recipientHash": "194d7b59fe9c52fe7ec7763bb65faef290205a9dcda98bfb1b2fb8f2cef6451f",
+      "count": 1,
+      "boxes": 1,
+      "title": "핑두의 감사선물",
+      "itemCode": "PINGDU_THANKS_GIFT_BOX",
+      "delivery": "MESSAGE",
+      "quantityEach": 1,
+      "authorization": "사용자 제공 44명 명단에 핑두의 감사 선물 1개씩 지급. 이번 요청은 이전 선물 지급과 별도인 신규 지급 요청이다.",
+      "recipients": [
+        {
+          "id": "4595",
+          "nickname": "비니",
+          "inputNickname": "비니",
+          "quantity": 1
+        }
+      ],
+      "completedAt": "2026-10-03T16:41:06.162Z",
+      "auditId": "40527"
+    },
+    "verification": {
+      "messages": 1,
+      "rewards": 1,
+      "boxes": 1,
+      "missing": 0,
+      "duplicates": 0,
+      "claimed": 0,
+      "rows": [
+        {
+          "message_id": "183709",
+          "user_id": "4595",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180076",
+          "reward_user_id": "4595",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        }
+      ]
+    },
+    "previous": {
+      "auditId": "40510",
+      "messages": 43,
+      "missing": 0,
+      "duplicates": 0
+    },
+    "campaign": {
+      "messages": 44,
+      "recipients": 44,
+      "rewards": 44,
+      "boxes": 44,
+      "missing": 0,
+      "duplicates": 0,
+      "biNi5504Messages": 0,
+      "rows": [
+        {
+          "user_id": "22",
+          "message_id": "183665",
+          "reward_id": "180032",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "32",
+          "message_id": "183666",
+          "reward_id": "180033",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "62",
+          "message_id": "183667",
+          "reward_id": "180034",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "65",
+          "message_id": "183668",
+          "reward_id": "180035",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "73",
+          "message_id": "183669",
+          "reward_id": "180036",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "183",
+          "message_id": "183670",
+          "reward_id": "180037",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "218",
+          "message_id": "183671",
+          "reward_id": "180038",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "277",
+          "message_id": "183672",
+          "reward_id": "180039",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "290",
+          "message_id": "183673",
+          "reward_id": "180040",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "360",
+          "message_id": "183674",
+          "reward_id": "180041",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "521",
+          "message_id": "183675",
+          "reward_id": "180042",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "750",
+          "message_id": "183676",
+          "reward_id": "180043",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "1195",
+          "message_id": "183677",
+          "reward_id": "180044",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "1255",
+          "message_id": "183678",
+          "reward_id": "180045",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "1768",
+          "message_id": "183679",
+          "reward_id": "180046",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "2420",
+          "message_id": "183680",
+          "reward_id": "180047",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "2505",
+          "message_id": "183681",
+          "reward_id": "180048",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "3884",
+          "message_id": "183682",
+          "reward_id": "180049",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "4209",
+          "message_id": "183683",
+          "reward_id": "180050",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "4222",
+          "message_id": "183684",
+          "reward_id": "180051",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "4235",
+          "message_id": "183685",
+          "reward_id": "180052",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "4391",
+          "message_id": "183686",
+          "reward_id": "180053",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "4400",
+          "message_id": "183687",
+          "reward_id": "180054",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "4562",
+          "message_id": "183688",
+          "reward_id": "180055",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "4570",
+          "message_id": "183689",
+          "reward_id": "180056",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "4572",
+          "message_id": "183690",
+          "reward_id": "180057",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "4582",
+          "message_id": "183691",
+          "reward_id": "180058",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "4595",
+          "message_id": "183709",
+          "reward_id": "180076",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "4597",
+          "message_id": "183692",
+          "reward_id": "180059",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "4598",
+          "message_id": "183693",
+          "reward_id": "180060",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "4609",
+          "message_id": "183694",
+          "reward_id": "180061",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "4615",
+          "message_id": "183695",
+          "reward_id": "180062",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "4627",
+          "message_id": "183696",
+          "reward_id": "180063",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "4628",
+          "message_id": "183697",
+          "reward_id": "180064",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "4651",
+          "message_id": "183698",
+          "reward_id": "180065",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "4668",
+          "message_id": "183699",
+          "reward_id": "180066",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "4705",
+          "message_id": "183700",
+          "reward_id": "180067",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "4757",
+          "message_id": "183701",
+          "reward_id": "180068",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "4774",
+          "message_id": "183702",
+          "reward_id": "180069",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "4836",
+          "message_id": "183703",
+          "reward_id": "180070",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "4866",
+          "message_id": "183704",
+          "reward_id": "180071",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "4908",
+          "message_id": "183705",
+          "reward_id": "180072",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "4965",
+          "message_id": "183706",
+          "reward_id": "180073",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        },
+        {
+          "user_id": "5010",
+          "message_id": "183707",
+          "reward_id": "180074",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1"
+        }
+      ]
+    }
+  },
+  "completedAt": "2026-10-03T16:41:06.162Z"
 }

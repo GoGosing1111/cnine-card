@@ -264,6 +264,14 @@
       "evidence": "EXACT_CURRENT_NICKNAME"
     },
     {
+      "id": "4595",
+      "nickname": "비니",
+      "status": "ACTIVE",
+      "inputNickname": "비니",
+      "quantity": 1,
+      "evidence": "User explicitly confirmed: 2명임 비니로 지급해. 비니 ID 4595 and 비_니 ID 5504 are different people; this campaign targets 비니."
+    },
+    {
       "id": "4597",
       "nickname": "찬호",
       "status": "ACTIVE",
@@ -392,11 +400,17 @@
       "evidence": "EXACT_CURRENT_NICKNAME"
     }
   ],
-  "pending": [
-    {
-      "inputNickname": "비니",
-      "reason": "Distinct ACTIVE accounts 비니 ID 4595 and 비_니 ID 5504; user confirmation requested because previous grant was corrected to 비_니."
-    }
-  ],
-  "excluded": []
+  "pending": [],
+  "excluded": [],
+  "identityConfirmation": {
+    "inputNickname": "비니",
+    "userId": "4595",
+    "nickname": "비니",
+    "userMessage": "2명임 비니로 지급해",
+    "distinctAccount": {
+      "userId": "5504",
+      "nickname": "비_니"
+    },
+    "confirmedAt": "2026-10-03T16:39:11.465Z"
+  }
 }
