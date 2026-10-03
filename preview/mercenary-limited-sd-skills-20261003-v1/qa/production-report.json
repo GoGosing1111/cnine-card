@@ -1,0 +1,51 @@
+{
+  "url": "https://cnine-card.pages.dev/preview/mercenary-limited-sd-skills-20261003-v1/?character=valter&v=20261004-native-size",
+  "checkedAt": "2026-10-03T15:31:20.126Z",
+  "deployedCommit": "6fd9ba7b3d5ee494a1d9cde517f4695ff7e77bd6",
+  "pages": "https://a74acb3f.cnine-card.pages.dev",
+  "apiVersion": "7aeb248d-8b8e-45c5-a442-4acda1379e16",
+  "clanVersion": "73969051-70ac-43ab-917e-9c6e34489885",
+  "errors": [],
+  "failures": [],
+  "diagnostics": {
+    "character": "발테르",
+    "code": "V-996",
+    "rank": "SSS",
+    "time": 0.8,
+    "body": "static image preview; motion not claimed",
+    "formation": {
+      "bodyHeight": 226.875,
+      "textureHeight": 260,
+      "sizePolicy": "EXISTING_REGULAR_BATTLE_SPRITE",
+      "station": {
+        "x": 380,
+        "y": 240
+      },
+      "foot": {
+        "x": 380,
+        "y": 240
+      },
+      "scale": 0.5,
+      "regularScale": 0.5,
+      "regularTextureHeight": 260,
+      "visibleAllies": 5
+    },
+    "aura": {
+      "enabled": true,
+      "frame": 2,
+      "behindCharacter": true,
+      "color": "#ff2437",
+      "widthToBody": 1.32
+    },
+    "effectFrame": null,
+    "visibleSkillEffects": 0,
+    "emission": null,
+    "forwardOrigin": null,
+    "axisLateralError": 0,
+    "shotAngleDegrees": 0,
+    "singleClock": true,
+    "registeredTimelines": 1,
+    "liveEnabled": false
+  },
+  "approvedValterSdHash": "D2CAB7DDE716CF9A0554AF44A03A448A7BCCD9E402928D87620C72C73879A6CC"
+}
