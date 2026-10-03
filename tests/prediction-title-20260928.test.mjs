@@ -104,7 +104,7 @@ test('live title sync, catalogue gate, CMS, lazy loader and all title renderers 
  assert.match(server,/ACHIEVEMENT_TITLE_POWER_KEY,PREDICTION_TITLE_KEY/);
  assert.match(server,/await ensurePredictionTitle\(env\)/);
  assert.match(server,/syncPredictionHitTitle\(env,user.id\)/);
- assert.match(server,/progress:\{\.\.\.achievement.progress,\.\.\.prediction.progress\}/);
+ assert.match(server,/progress:\{\.\.\.achievement.progress,\.\.\.prediction.progress,\.\.\.blueBeast.progress\}/);
  for(const file of ['functions/_equipment.js','js/character-loadout-v2.js','js/equipment-v1274.js','admin/equipment-admin-v1278.js']){
   assert.ok(read(file).includes('GAMBLING_KING'),file);assert.ok(read(file).includes('PREDICTION_HITS'),file);
  }

@@ -1,0 +1,69 @@
+{
+  "dateKst": "2026-10-03",
+  "request": {
+    "supporter": {
+      "name": "서포터",
+      "description": "운영에 도움을 주신 감사 칭호",
+      "power": 75000,
+      "logo": "VIP",
+      "acquisition": "CMS_MANUAL"
+    },
+    "blueBeast": {
+      "name": "푸른 맹수",
+      "description": "챌린저 누적 10회 달성",
+      "power": 70000,
+      "acquisition": "CHALLENGER_TOTAL",
+      "count": 10
+    }
+  },
+  "behavior": {
+    "power": "Full configured amount applies to PVE and PVP while equipped through the existing one-title loadout.",
+    "counting": "Distinct COMPLETED ranked-season settlements with a completion timestamp, recorded tier_id=challenger and final_rank 1..20. Nonconsecutive seasons count. No reinterpretation of historical non-Challenger results.",
+    "award": "Existing authenticated character/title/sync, scheduled by the production title screen; one permanent ownership row; CMS policy and history checked again at insertion.",
+    "supporter": "Manual CMS grant only. No recipients or account grants inferred.",
+    "cms": "Both records retain later CMS edits; power/style/visibility/condition available through the existing title manager.",
+    "animation": "Supporter logo aura and perimeter sparkle CSS loops, static reduced-motion fallback; a 36-frame 5.4-second GIF export is also included."
+  },
+  "artifacts": {
+    "manifest": "assets/ui/titles/supporter-blue-beast-20261003.json",
+    "supporterPng": "assets/ui/titles/supporter-vip-v1.png",
+    "blueBeastPng": "assets/ui/titles/blue-beast-v1.png",
+    "gif": "assets/ui/titles/supporter-vip-effects-v1.gif",
+    "preview": "preview/supporter-blue-beast-titles-20261003/index.html"
+  },
+  "validation": {
+    "backendCommand": "node --test tests/supporter-blue-beast-titles-20261003.test.mjs tests/prediction-title-20260928.test.mjs tests/achievement-titles-20260927.test.mjs",
+    "passed": 24,
+    "databases": [
+      "SQLite",
+      "PostgreSQL (PGlite through production compatibility adapter)"
+    ],
+    "uiCommand": "node tests/qa-supporter-blue-beast-titles-20261003.mjs",
+    "viewports": [
+      "1440x1050",
+      "390x844"
+    ],
+    "checks": [
+      "Both logos load",
+      "Equip 75000 then 70000, PVE and PVP",
+      "Unequip removes bonus",
+      "9/10 progress and locked actions",
+      "VIP animation and reduced motion",
+      "CMS fields/condition/style"
+    ],
+    "screenshots": "C:/Users/User/.codex/worktrees/qa-supporter-blue-beast-20261003"
+  },
+  "release": {
+    "mode": "scoped",
+    "baseDeploymentId": "d87181a0-6bb7-492e-84e2-005656033a88",
+    "baseCommit": "00817c724308837a2ac054f7e8eb43f597184cda",
+    "reason": "Two title catalogue entries, their existing title-sync qualification and shared title appearance only. Existing tables and transaction adapter; no schema, dependency, authentication, battle engine or common transaction changes.",
+    "tests": [
+      "tests/supporter-blue-beast-titles-20261003.test.mjs"
+    ],
+    "checks": [
+      "check:worker"
+    ],
+    "status": "READY"
+  }
+}

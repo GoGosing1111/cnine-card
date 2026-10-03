@@ -1,0 +1,43 @@
+{
+  "createdDateKst": "2026-10-03",
+  "method": "Built-in image_gen, original PNG preserved; runtime WebP resized with sharp",
+  "prompts": {
+    "supporter": "Use case: stylized-concept. Asset: a finished premium fantasy-game TITLE INSIGNIA on a genuinely transparent background, square canvas, 1024x1024 or higher. This is the \"Supporter\" gratitude title for contributors to game operations. Design a spectacular but elegantly legible jewel-and-metal VIP crest. The central dominant element is the exact text \"VIP\", three large beautifully shaped uppercase serif letters, bold beveled polished champagne gold with pale platinum faces and warm reflections, occupying most of the crest width. They must read instantly even at a small UI icon size. An elegant small gold royal crown with faceted amethyst gems above, two beautifully sculpted gold laurel/wing ornaments curve around the letters, a subtle deep violet enamel inner backing only immediately behind the letters, tiny gold diamond accents. An expensive coherent silhouette with goldwork, precision bevels, rich reflective materials, high-end polished 2D fantasy game item illustration. The center letters are the focal point; surrounding ornaments support them. Symmetrical frontal view, slightly wider than tall overall crest but comfortably contained in a square canvas with 10% clear transparent breathing room on all sides. No hard outer rectangular frame. A few small isolated gold sparkle stars close to the rim, subtle tight jewel radiance, no large fog halo. No backdrop, no black square, no grey surface, no ground shadow, no checkerboard painted into the image. True alpha transparency outside the emblem including holes between ornaments. Only text: \"VIP\". No other lettering, no title name, no stats, no numbers, no watermark. Absolutely pristine polished premium UI resource.",
+    "blueBeast": "Use case: stylized-concept. Asset: a finished premium fantasy-game achievement TITLE INSIGNIA, genuinely transparent background, square canvas, 1024x1024 or higher. The title is \"Blue Beast\", earned by accumulating 10 completed Challenger seasons. Create an imposing, beautiful, fierce BLUE TIGER head emblem viewed straight on: royal sapphire blue and luminous ice-cyan stylized tiger face, unmistakable tiger ear shape and sleek symmetrical stripes, intense luminous pale cyan eyes, elegantly bared silver fangs, strong feline anatomy, powerful intelligent expression. Sculptural polished azure metal with restrained crystalline accents, edged in platinum and silver. Surround the head with a compact symmetrical ascending crest of silver blades and blue flame-like filigree, a small faceted sapphire above the forehead, and a few tiny frost-white glints. Refined championship insignia quality, rich depth and precision materials, coherent readable silhouette. High-end polished 2D fantasy game item illustration suitable for an elite title badge. Detailed but immediately legible at 88px, compact silhouette fills 80% of canvas with 10% transparent padding, entire crest visible. No human character, no body, no shield-shaped flat backdrop, no rectangular frame, no medal number, no stars denoting rank, no lettering or typography. No environment, no opaque background, no checkerboard, no ground shadow. True alpha transparency around the emblem and inside gaps. Cool blue energy stays tight around the outline, no large fog halo."
+  },
+  "assets": [
+    {
+      "name": "supporter-vip-v1",
+      "key": "supporter",
+      "source": "C:/Users/User/.codex/generated_images/01a0f5a2-d9a1-7181-8f4a-e8b950658e06/exec-29777d46-51fb-4a88-8de6-b67564321ce5.png",
+      "png": "assets/ui/titles/supporter-vip-v1.png",
+      "webp": "assets/ui/titles/supporter-vip-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "hasAlpha": true,
+      "sha256": "318DAA2540CB59FA116D61AD1F50EDF943AEF7B3DB3E323399DC230B8331D6F5"
+    },
+    {
+      "name": "blue-beast-v1",
+      "key": "blueBeast",
+      "source": "C:/Users/User/.codex/generated_images/01a0f5a2-d9a1-7181-8f4a-e8b950658e06/exec-a7d9072f-f5ae-4422-ac73-2df25b984c16.png",
+      "png": "assets/ui/titles/blue-beast-v1.png",
+      "webp": "assets/ui/titles/blue-beast-v1.webp",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "sha256": "517364A5A3DB22651936EE04CD0F4337B7B2A11CCD89BB8EE6254913E76B5460"
+    }
+  ],
+  "animation": "CSS aura and perimeter sparkles; reduced-motion static fallback",
+  "animationExport": {
+    "path": "assets/ui/titles/supporter-vip-effects-v1.gif",
+    "width": 400,
+    "height": 400,
+    "frames": 36,
+    "frameDelayMs": 150,
+    "durationMs": 5400,
+    "loop": 0,
+    "description": "Animated export of the production title renderer and CSS effects; runtime retains PNG/WebP with CSS and reduced-motion support."
+  }
+}

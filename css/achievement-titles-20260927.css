@@ -9,7 +9,7 @@
   --achievement-light:#8f6330;--achievement-glow:239,179,71;
   --achievement-logo:url('../assets/ui/titles/trophy-hunter-v1.webp');
 }
-:is(.title-style-completionist,.title-style-trophy_hunter,.title-style-gambling_king) {
+:is(.title-style-completionist,.title-style-trophy_hunter,.title-style-gambling_king,.title-style-supporter_vip,.title-style-blue_beast) {
   position:relative;display:inline-flex;align-items:center;vertical-align:middle;
   width:fit-content;max-width:100%;white-space:nowrap;box-sizing:border-box;
   padding:.4em .7em .4em 2.2em!important;line-height:1.15!important;
@@ -20,44 +20,44 @@
   font-weight:900;letter-spacing:.025em;text-shadow:0 1px 2px #000!important;
   animation:none!important;overflow:visible!important;
 }
-:is(.title-style-completionist,.title-style-trophy_hunter,.title-style-gambling_king)::before {
+:is(.title-style-completionist,.title-style-trophy_hunter,.title-style-gambling_king,.title-style-supporter_vip,.title-style-blue_beast)::before {
   content:"";position:absolute;left:.22em;top:50%;width:1.8em;height:1.8em;
   transform:translateY(-50%);background:var(--achievement-logo) center/contain no-repeat;
   pointer-events:none;filter:drop-shadow(0 1px 2px #0009);
 }
-:is(.title-style-completionist,.title-style-trophy_hunter,.title-style-gambling_king)::after { content:none!important; }
+:is(.title-style-completionist,.title-style-trophy_hunter,.title-style-gambling_king,.title-style-supporter_vip,.title-style-blue_beast)::after { content:none!important; }
 .clv2-title-sigil.has-emblem {
   width:clamp(150px,18vw,240px);border:0;transform:none;background:none;box-shadow:none;
 }
 .clv2-title-sigil.has-emblem img { display:block;width:100%;height:auto;object-fit:contain; }
-.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king) {
+.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-supporter_vip,.is-title-blue_beast) {
   border-color:var(--achievement-line);
   background:radial-gradient(ellipse at 50% 35%,rgba(var(--achievement-glow),.19),transparent 58%),linear-gradient(165deg,#17121e,#0a0b11 75%);
 }
-.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king)::before,
-.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king)::after { content:none; }
-.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king) > p { margin-top:26px;color:var(--achievement-ink); }
+.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-supporter_vip,.is-title-blue_beast)::before,
+.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-supporter_vip,.is-title-blue_beast)::after { content:none; }
+.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-supporter_vip,.is-title-blue_beast) > p { margin-top:26px;color:var(--achievement-ink); }
 .clv2-title-showcase h2 .public-title-badge { font-size:clamp(22px,2.3vw,36px); }
-.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king) > strong { font-size:12px;color:var(--achievement-ink);letter-spacing:.14em; }
-.clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king) {
+.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-supporter_vip,.is-title-blue_beast) > strong { font-size:12px;color:var(--achievement-ink);letter-spacing:.14em; }
+.clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-supporter_vip,.is-title-blue_beast) {
   align-items:center;text-align:center;min-height:300px;border-color:var(--achievement-line);
   background:radial-gradient(ellipse at 50% 0,rgba(var(--achievement-glow),.13),transparent 75%),#0e1019;
 }
 .clv2-title-emblem { display:block;object-fit:contain;width:88px;height:88px;margin:8px 0; }
 .clv2-title-card .public-title-badge { font-size:15px; }
 .clv2-title-card > strong { max-width:100%; }
-.clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king) > span { color:var(--achievement-ink); }
-.clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king) button { width:100%;margin-top:auto; }
-.clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king) em { margin-bottom:14px; }
-.clv2-title-card.is-locked:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king) { opacity:1;filter:none;border-color:#454051; }
+.clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-supporter_vip,.is-title-blue_beast) > span { color:var(--achievement-ink); }
+.clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-supporter_vip,.is-title-blue_beast) button { width:100%;margin-top:auto; }
+.clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-supporter_vip,.is-title-blue_beast) em { margin-bottom:14px; }
+.clv2-title-card.is-locked:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-supporter_vip,.is-title-blue_beast) { opacity:1;filter:none;border-color:#454051; }
 .clv2-title-card.is-locked .clv2-title-emblem { opacity:.55;filter:grayscale(.7); }
 .clv2-title-progress { display:grid;gap:5px;width:100%;margin:12px 0;font-size:11px;color:#a4a1b0; }
 .clv2-title-progress span { display:flex;justify-content:space-between;gap:8px; }
 .clv2-title-progress b { color:var(--achievement-ink);font-variant-numeric:tabular-nums; }
-.pc-equipped-title:is(.title-style-completionist,.title-style-trophy_hunter,.title-style-gambling_king) { font-size:13px; }
+.pc-equipped-title:is(.title-style-completionist,.title-style-trophy_hunter,.title-style-gambling_king,.title-style-supporter_vip,.title-style-blue_beast) { font-size:13px; }
 @media(max-width:640px) {
   .clv2-title-sigil.has-emblem { width:170px; }
-  .clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king) { padding:18px 12px; }
+  .clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-supporter_vip,.is-title-blue_beast) { padding:18px 12px; }
   .clv2-title-card .public-title-badge { font-size:13px; }
   .clv2-title-showcase h2 .public-title-badge { font-size:25px; }
 }
@@ -69,3 +69,62 @@
 }
 .clv2-title-progress-track { height:5px;overflow:hidden;border-radius:3px;background:#050d0a;border:1px solid #7fa98a33; }
 .clv2-title-progress-track i { display:block;height:100%;border-radius:2px;background:linear-gradient(90deg,#247153,#9de4aa); }
+
+/* Supporter and cumulative Challenger honours, 2026-10-03. */
+.title-style-supporter_vip,.is-title-supporter_vip {
+  --achievement-ink:#ffedbd;--achievement-line:#b99553;--achievement-dark:#261634;
+  --achievement-light:#906127;--achievement-glow:242,190,91;
+  --achievement-logo:url('../assets/ui/titles/supporter-vip-v1.webp');
+}
+.title-style-blue_beast,.is-title-blue_beast {
+  --achievement-ink:#bdefff;--achievement-line:#478fcc;--achievement-dark:#071e39;
+  --achievement-light:#165e91;--achievement-glow:62,176,255;
+  --achievement-logo:url('../assets/ui/titles/blue-beast-v1.webp');
+}
+.title-style-supporter_vip { padding-left:3.25em!important; }
+.title-style-supporter_vip::before { width:2.8em;height:2.1em;left:.14em; }
+.title-style-supporter_vip::after {
+  content:""!important;position:absolute;inset:-4px;pointer-events:none;border-radius:inherit;
+  background:radial-gradient(ellipse 5px 1px at 18% 0,#fff7d5 30%,transparent 100%),
+    radial-gradient(ellipse 1px 5px at 18% 0,#fff7d5 30%,transparent 100%),
+    radial-gradient(ellipse 4px 1px at 88% 100%,#ffe6a1 25%,transparent 100%),
+    radial-gradient(ellipse 1px 4px at 88% 100%,#ffe6a1 25%,transparent 100%);
+  box-shadow:0 0 10px #e5b46140;animation:supporter-title-twinkle 3.8s ease-in-out infinite;
+}
+.clv2-title-emblem-wrap { display:flex;align-items:center;justify-content:center;position:relative;isolation:isolate; }
+.is-title-supporter_vip .clv2-title-emblem-wrap { width:160px;height:118px;max-width:100%; }
+.is-title-supporter_vip .clv2-title-emblem { width:160px;height:118px;max-width:100%; }
+.is-title-blue_beast .clv2-title-emblem { width:112px;height:112px; }
+.clv2-title-showcase.is-title-supporter_vip .clv2-title-sigil.has-emblem { width:clamp(210px,24vw,340px); }
+.clv2-title-showcase.is-title-blue_beast .clv2-title-sigil.has-emblem { width:clamp(170px,20vw,270px); }
+.is-title-supporter_vip .clv2-title-sigil.has-emblem,
+.is-title-supporter_vip .clv2-title-emblem-wrap { position:relative;isolation:isolate; }
+.is-title-supporter_vip .clv2-title-sigil.has-emblem img,
+.is-title-supporter_vip .clv2-title-emblem { position:relative;z-index:1;filter:drop-shadow(0 0 9px #d6a75044); }
+.is-title-supporter_vip :is(.clv2-title-sigil.has-emblem,.clv2-title-emblem-wrap)::before {
+  content:"";position:absolute;inset:4% -8%;z-index:0;pointer-events:none;
+  border-radius:50%;background:radial-gradient(ellipse,#d9a64926 0,#9f51cf14 46%,transparent 72%);
+  box-shadow:inset 0 0 15px #f7d08512;animation:supporter-title-aura 4.8s ease-in-out infinite;
+}
+.is-title-supporter_vip :is(.clv2-title-sigil.has-emblem,.clv2-title-emblem-wrap)::after {
+  content:"";position:absolute;inset:-7%;z-index:2;pointer-events:none;
+  background:radial-gradient(ellipse 9px 2px at 14% 31%,#fff4c4 20%,transparent 100%),
+    radial-gradient(ellipse 2px 9px at 14% 31%,#fff4c4 20%,transparent 100%),
+    radial-gradient(ellipse 7px 1px at 85% 70%,#ffe4ab 20%,transparent 100%),
+    radial-gradient(ellipse 1px 7px at 85% 70%,#ffe4ab 20%,transparent 100%),
+    radial-gradient(circle 2px at 32% 88%,#fbdc96 25%,transparent 100%),
+    radial-gradient(circle 2px at 79% 12%,#ffe6af 25%,transparent 100%);
+  animation:supporter-title-sparks 5.4s ease-in-out infinite;
+}
+.is-title-blue_beast .clv2-title-progress-track i { background:linear-gradient(90deg,#1566c0,#99ecff); }
+.clv2-title-card.is-locked.is-title-supporter_vip .clv2-title-emblem { opacity:.65;filter:grayscale(.35); }
+.clv2-title-card.is-locked.is-title-supporter_vip .clv2-title-emblem-wrap::before,
+.clv2-title-card.is-locked.is-title-supporter_vip .clv2-title-emblem-wrap::after { animation:none;opacity:.35; }
+@keyframes supporter-title-twinkle { 0%,100%{opacity:.35} 50%{opacity:1} }
+@keyframes supporter-title-aura { 0%,100%{opacity:.45;transform:scale(.94)} 50%{opacity:1;transform:scale(1.03)} }
+@keyframes supporter-title-sparks { 0%,100%{opacity:.2;transform:translateY(3px) rotate(-3deg)} 45%{opacity:1;transform:translateY(-3px) rotate(3deg)} }
+@media(prefers-reduced-motion:reduce) {
+  .title-style-supporter_vip::after,
+  .is-title-supporter_vip :is(.clv2-title-sigil.has-emblem,.clv2-title-emblem-wrap)::before,
+  .is-title-supporter_vip :is(.clv2-title-sigil.has-emblem,.clv2-title-emblem-wrap)::after { animation:none!important;transform:none!important;opacity:.7; }
+}
