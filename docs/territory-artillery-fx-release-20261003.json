@@ -1,0 +1,117 @@
+{
+  "scope": "Existing territory-war artillery visual replacement requested by user",
+  "sourceCommit": "d04826b7bdd3da5e9d1ce68d4fe8a87e887b5da2",
+  "implementationCommits": [
+    "e96ce0ba",
+    "cbf23c3f"
+  ],
+  "previousDeployedCommit": "c6094b2aab1fae855c441776d350a41cbfb5ef8c",
+  "deploymentMode": "npm run deploy:production -- --scoped",
+  "pages": "https://23b9f296.cnine-card.pages.dev",
+  "productionPreview": "https://cnine-card.pages.dev/preview/territory-artillery-fx-20261003/",
+  "apiRuntimeVersion": "e020a057-ddef-46b8-adb4-c3191962784a",
+  "clanDraftVersion": "f6ef2315-7154-44b9-81b8-52e106f6536e",
+  "tests": {
+    "files": [
+      "tests/territory-artillery-fx-20261003.test.mjs",
+      "tests/pve-battlefield-entry-v2117.test.mjs"
+    ],
+    "passed": 14,
+    "failed": 0
+  },
+  "browser": {
+    "checks": [
+      "pc: authored 16/8/16 frames, exact flight/contact point, pause/seek/resume, 0.5x, FX off/on, repeat, cleanup",
+      "mobile: authored 16/8/16 frames, exact flight/contact point, pause/seek/resume, 0.5x, FX off/on, repeat, cleanup",
+      "pc: actual main loader, live territory entry, map pause, one renderer transfer to personal V3 combat, server result, return/replay",
+      "mobile: actual main loader, live territory entry, map pause, one renderer transfer to personal V3 combat, server result, return/replay"
+    ],
+    "errors": [],
+    "fixtureOnly": true,
+    "productionAttack": false
+  },
+  "production": {
+    "checkedAt": "2026-10-03T09:34:33.220Z",
+    "base": "https://cnine-card.pages.dev",
+    "manifestVersion": "20261003-authored-artillery-v1",
+    "hashes": [
+      {
+        "key": "muzzle",
+        "bytes": 632870,
+        "sha256": "a12d09baebce050a9773bc93cc58273091ac3b04c1958b4870cfc302f4d961cd"
+      },
+      {
+        "key": "projectile",
+        "bytes": 215378,
+        "sha256": "4e14ee4bd79552b1a161a062d929583193c678757075f1052885b7651de65175"
+      },
+      {
+        "key": "impact",
+        "bytes": 724420,
+        "sha256": "cc285de5729bf8cb1904219f9cfc5bad3533474db832ac320fbbfdfb46d2dab3"
+      },
+      {
+        "key": "turret",
+        "bytes": 87076,
+        "sha256": "9585b81677c8da685360d7e2ce45e1e5b0f6ba1bf3c8acebb95da09b464a284d"
+      }
+    ],
+    "diagnostic": {
+      "fx": {
+        "ready": true,
+        "renderer": "shared-v3-pixi",
+        "clock": "registered-v3-gsap",
+        "active": 1,
+        "paused": false,
+        "enabled": true,
+        "reduced": false,
+        "failed": "",
+        "frames": {
+          "muzzle": 16,
+          "projectile": 8,
+          "impact": 16
+        },
+        "timelines": 1,
+        "geometry": {
+          "w": 1448,
+          "h": 720,
+          "width": 405.44000000000005,
+          "height": 270.29333333333335
+        },
+        "last": {
+          "type": "CANNON_FIRED",
+          "time": 1.473,
+          "duration": 3.25,
+          "contact": {
+            "projectile": {
+              "x": 1273.6607999999999,
+              "y": 527.9706666666667
+            },
+            "target": {
+              "x": 1273.6607999999999,
+              "y": 527.9706666666667
+            },
+            "muzzle": {
+              "x": 390.43872,
+              "y": 347.9553066666666
+            },
+            "impactAt": 1.05,
+            "phase": "impact"
+          }
+        }
+      },
+      "version": "20261003-territory-authored-fx-v1",
+      "canvasCount": 1
+    },
+    "errors": [],
+    "productionAttack": false
+  },
+  "visualApproval": "USER_REVIEW_PENDING",
+  "evidenceDirectory": "C:/Users/User/.codex/worktrees/territory-artillery-final-qa-20261003/",
+  "notes": [
+    "Normal and half-speed playback, pause/seek, repeat, stop and desktop/mobile combat handoff verified.",
+    "Canonical app cache query order repaired before deployment.",
+    "Concurrent main branch operational records and legion-drop visual update preserved.",
+    "No gameplay damage, rewards, authentication or database changes in this task."
+  ]
+}
