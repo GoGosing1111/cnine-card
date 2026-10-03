@@ -1,0 +1,29 @@
+{
+  "operationKey": "ops:visualgang-aizen-plus15-upgrade:20261003:v1",
+  "status": "VERIFIED",
+  "actor": "SYSTEM_OPS",
+  "user": {
+    "id": 81,
+    "nickname": "비쥬얼깡패"
+  },
+  "card": {
+    "id": "CN-47AD4B47B6A7452C",
+    "title": "아이젠 족스케",
+    "grade": "FUR"
+  },
+  "levelBefore": 13,
+  "levelAfter": 15,
+  "quantityBefore": 1,
+  "quantityAfter": 1,
+  "changed": true,
+  "balancesPreserved": true,
+  "completedAt": "2026-10-03T13:29:33.054Z",
+  "adminLogId": "40452",
+  "currentQuantity": 1,
+  "currentLevel": 15,
+  "validation": {
+    "dryRunRollback": true,
+    "idempotentReplay": true,
+    "separateConnectionVerified": true
+  }
+}
