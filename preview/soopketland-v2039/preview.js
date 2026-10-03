@@ -2,7 +2,7 @@
 const prizes=[
   {key:'COIN',label:'코인',range:'1억 ~ 500억',min:1,max:500,unit:100000000,symbol:'C',color:0xffd477,amount:50000000000},
   {key:'EMPEROR_ENERGY',label:'엠퍼러 에너지',range:'1 ~ 5개',symbol:'E',color:0xffdf91,amount:5},
-  {key:'MASTER_STAR',label:'마스터의 별',range:'1,000 ~ 30,000개',symbol:'S',color:0xffe7a6,amount:30000},
+  {key:'MASTER_STAR',label:'마스터의 별',range:'1,000 ~ 300,000개',symbol:'S',color:0xffe7a6,amount:300000},
   {key:'STARLIGHT_ARMOR_CORE',label:'미스틱 에너지',range:'1 ~ 1,000개',symbol:'M',color:0xc5a5ff,amount:1000}
 ].map(p=>{const weight=p.key==='EMPEROR_ENERGY'?1500:p.key==='STARLIGHT_ARMOR_CORE'?3000:12750;return {...p,weight,percent:weight/300}});
 const select=document.querySelector('#previewPrize');select.innerHTML=prizes.map(p=>`<option value="${p.key}">${p.label}</option>`).join('');

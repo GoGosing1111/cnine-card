@@ -1,0 +1,35 @@
+{
+  "status": "SCOPED_RELEASE_READY",
+  "date": "2026-10-04",
+  "request": "30만개임 마스터의별",
+  "policy": {
+    "min": 1000,
+    "max": 300000,
+    "step": 1000,
+    "percent": 42.5,
+    "coinAndOtherPrizesUnchanged": true,
+    "legacyCouponsPreserved": true
+  },
+  "browser": {
+    "status": "PASSED",
+    "viewports": [
+      1440,
+      390
+    ],
+    "maximumStarResult": 300000,
+    "overflow": false,
+    "pageErrors": [],
+    "artifacts": "C:/Users/User/.codex/worktrees/soopketland-stars300k-20261004/browser"
+  },
+  "scoped": {
+    "base": "116ecb54012024ec458349b634cf5217e2231be6",
+    "reason": "Correct only Soopketland master-star quantity cap to 300000 in draw, redemption and UI; focused reward bounds, legacy coupons, atomic replay/concurrency and PostgreSQL checks.",
+    "tests": [
+      "tests/soopketland-v2039.test.mjs"
+    ],
+    "checks": [
+      "check:worker"
+    ]
+  },
+  "deployment": null
+}

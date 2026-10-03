@@ -330,5 +330,10 @@
       "readOnly": true,
       "checkedAt": "2026-10-03T18:37:54.771Z"
     }
+  },
+  "followupCorrection": {
+    "request": "30만개임 마스터의별",
+    "masterStarMax": 300000,
+    "record": "docs/soopketland-master-star-cap-20261004.json"
   }
 }

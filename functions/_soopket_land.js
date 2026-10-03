@@ -12,12 +12,12 @@ export const LAND_STREAMERS=Object.freeze(['진짜디임','조은','오리꿍','
 export const LAND_PRIZES=Object.freeze([
   {key:'COIN',label:'코인',range:'1억 ~ 500억',min:1,max:500,unit:100000000,symbol:'C',color:0xffd477},
   {key:EMPEROR_ENERGY,label:'엠퍼러 에너지',range:'1 ~ 5개',min:1,max:5,unit:1,symbol:'E',color:0xffdf91},
-  {key:'MASTER_STAR',label:'마스터의 별',range:'1,000 ~ 30,000개',min:1,max:30,unit:1000,symbol:'S',color:0xffe7a6},
+  {key:'MASTER_STAR',label:'마스터의 별',range:'1,000 ~ 300,000개',min:1,max:300,unit:1000,symbol:'S',color:0xffe7a6},
   {key:'STARLIGHT_ARMOR_CORE',label:'미스틱 에너지',range:'1 ~ 1,000개',min:1,max:1000,unit:1,symbol:'M',color:0xc5a5ff}
 ]);
 // Existing issued coupons remain redeemable; retired prizes cannot be spun again.
-// Preserve the old 100,000-star coupons even though new spins stop at 30,000.
-const REDEEM_PRIZES=[...LAND_PRIZES.map(p=>p.key==='MASTER_STAR'?{...p,max:100}:p),
+// The 300,000-star ceiling also accepts previously issued 30,000/100,000 coupons.
+const REDEEM_PRIZES=[...LAND_PRIZES,
  {key:SUPERSTAR_TICKET,min:1,max:1,unit:1},
  {key:'ZENITH_RANDOM_CARD',min:1,max:3,unit:1},
  {key:'FUR_RANDOM_CARD',min:1,max:5,unit:1},
