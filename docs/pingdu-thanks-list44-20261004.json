@@ -1,0 +1,1264 @@
+{
+  "status": "PARTIALLY_COMPLETED_PENDING_RECIPIENT_CONFIRMATION",
+  "requestedCount": 44,
+  "deliveredCount": 43,
+  "itemCode": "PINGDU_THANKS_GIFT_BOX",
+  "quantityEach": 1,
+  "pending": [
+    {
+      "inputNickname": "비니",
+      "reason": "Distinct ACTIVE accounts 비니 ID 4595 and 비_니 ID 5504; user confirmation requested because previous grant was corrected to 비_니."
+    }
+  ],
+  "aliases": [
+    {
+      "inputNickname": "커피마시는철구",
+      "nickname": "커피먹는철구",
+      "id": "22",
+      "evidence": "Previously reviewed account ID 22 in pingdu-thanks-list39-20261003.targets.json; current ACTIVE identity reconfirmed"
+    },
+    {
+      "inputNickname": "라피E",
+      "nickname": "라피e",
+      "id": "360",
+      "evidence": "UNIQUE_CASE_INSENSITIVE_CURRENT_NICKNAME"
+    }
+  ],
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:pingdu-thanks-list44:20261004:v1:53512b59c9ce4342773b2d9f",
+    "campaignKey": "pingdu-thanks-list44-20261004-v1",
+    "recipientHash": "53512b59c9ce4342773b2d9fee456c6e77b7586ebef5270b8bc3547be8696551",
+    "count": 43,
+    "boxes": 43,
+    "title": "핑두의 감사선물",
+    "itemCode": "PINGDU_THANKS_GIFT_BOX",
+    "delivery": "MESSAGE",
+    "quantityEach": 1,
+    "authorization": "사용자 제공 44명 명단에 핑두의 감사 선물 1개씩 지급. 이번 요청은 이전 선물 지급과 별도인 신규 지급 요청이다.",
+    "recipients": [
+      {
+        "id": "22",
+        "nickname": "커피먹는철구",
+        "inputNickname": "커피마시는철구",
+        "quantity": 1
+      },
+      {
+        "id": "32",
+        "nickname": "쑤댕",
+        "inputNickname": "쑤댕",
+        "quantity": 1
+      },
+      {
+        "id": "62",
+        "nickname": "숭구릭",
+        "inputNickname": "숭구릭",
+        "quantity": 1
+      },
+      {
+        "id": "65",
+        "nickname": "음순이",
+        "inputNickname": "음순이",
+        "quantity": 1
+      },
+      {
+        "id": "73",
+        "nickname": "란x2",
+        "inputNickname": "란x2",
+        "quantity": 1
+      },
+      {
+        "id": "183",
+        "nickname": "남수댕",
+        "inputNickname": "남수댕",
+        "quantity": 1
+      },
+      {
+        "id": "218",
+        "nickname": "현하루",
+        "inputNickname": "현하루",
+        "quantity": 1
+      },
+      {
+        "id": "277",
+        "nickname": "스갤가축",
+        "inputNickname": "스갤가축",
+        "quantity": 1
+      },
+      {
+        "id": "290",
+        "nickname": "Mild7",
+        "inputNickname": "Mild7",
+        "quantity": 1
+      },
+      {
+        "id": "360",
+        "nickname": "라피e",
+        "inputNickname": "라피E",
+        "quantity": 1
+      },
+      {
+        "id": "521",
+        "nickname": "대저동토마토",
+        "inputNickname": "대저동토마토",
+        "quantity": 1
+      },
+      {
+        "id": "750",
+        "nickname": "라페스타다",
+        "inputNickname": "라페스타다",
+        "quantity": 1
+      },
+      {
+        "id": "1195",
+        "nickname": "씨나인택갓",
+        "inputNickname": "씨나인택갓",
+        "quantity": 1
+      },
+      {
+        "id": "1255",
+        "nickname": "전게씹선미아웃",
+        "inputNickname": "전게씹선미아웃",
+        "quantity": 1
+      },
+      {
+        "id": "1768",
+        "nickname": "핫시",
+        "inputNickname": "핫시",
+        "quantity": 1
+      },
+      {
+        "id": "2420",
+        "nickname": "블랙캐슬",
+        "inputNickname": "블랙캐슬",
+        "quantity": 1
+      },
+      {
+        "id": "2505",
+        "nickname": "모아가려아가",
+        "inputNickname": "모아가려아가",
+        "quantity": 1
+      },
+      {
+        "id": "3884",
+        "nickname": "zkzk9999",
+        "inputNickname": "zkzk9999",
+        "quantity": 1
+      },
+      {
+        "id": "4209",
+        "nickname": "#유나랜드",
+        "inputNickname": "#유나랜드",
+        "quantity": 1
+      },
+      {
+        "id": "4222",
+        "nickname": "#크레파스",
+        "inputNickname": "#크레파스",
+        "quantity": 1
+      },
+      {
+        "id": "4235",
+        "nickname": "도댕",
+        "inputNickname": "도댕",
+        "quantity": 1
+      },
+      {
+        "id": "4391",
+        "nickname": "더듬이구",
+        "inputNickname": "더듬이구",
+        "quantity": 1
+      },
+      {
+        "id": "4400",
+        "nickname": "키위🥝",
+        "inputNickname": "키위🥝",
+        "quantity": 1
+      },
+      {
+        "id": "4562",
+        "nickname": "찡찡ෆ",
+        "inputNickname": "찡찡ෆ",
+        "quantity": 1
+      },
+      {
+        "id": "4570",
+        "nickname": "혜정",
+        "inputNickname": "혜정",
+        "quantity": 1
+      },
+      {
+        "id": "4572",
+        "nickname": "응맨",
+        "inputNickname": "응맨",
+        "quantity": 1
+      },
+      {
+        "id": "4582",
+        "nickname": "족단",
+        "inputNickname": "족단",
+        "quantity": 1
+      },
+      {
+        "id": "4597",
+        "nickname": "찬호",
+        "inputNickname": "찬호",
+        "quantity": 1
+      },
+      {
+        "id": "4598",
+        "nickname": "암살자..",
+        "inputNickname": "암살자..",
+        "quantity": 1
+      },
+      {
+        "id": "4609",
+        "nickname": "오랜만에",
+        "inputNickname": "오랜만에",
+        "quantity": 1
+      },
+      {
+        "id": "4615",
+        "nickname": "랭비!",
+        "inputNickname": "랭비!",
+        "quantity": 1
+      },
+      {
+        "id": "4627",
+        "nickname": "학벌",
+        "inputNickname": "학벌",
+        "quantity": 1
+      },
+      {
+        "id": "4628",
+        "nickname": "망순이ෆ",
+        "inputNickname": "망순이ෆ",
+        "quantity": 1
+      },
+      {
+        "id": "4651",
+        "nickname": "세라네꼬라지",
+        "inputNickname": "세라네꼬라지",
+        "quantity": 1
+      },
+      {
+        "id": "4668",
+        "nickname": "화성가뿌자",
+        "inputNickname": "화성가뿌자",
+        "quantity": 1
+      },
+      {
+        "id": "4705",
+        "nickname": "˚쟁이。",
+        "inputNickname": "˚쟁이。",
+        "quantity": 1
+      },
+      {
+        "id": "4757",
+        "nickname": "음주플레이어",
+        "inputNickname": "음주플레이어",
+        "quantity": 1
+      },
+      {
+        "id": "4774",
+        "nickname": "딤럼프",
+        "inputNickname": "딤럼프",
+        "quantity": 1
+      },
+      {
+        "id": "4836",
+        "nickname": "딤키우기",
+        "inputNickname": "딤키우기",
+        "quantity": 1
+      },
+      {
+        "id": "4866",
+        "nickname": "[C9]가시",
+        "inputNickname": "[C9]가시",
+        "quantity": 1
+      },
+      {
+        "id": "4908",
+        "nickname": "굳건창수",
+        "inputNickname": "굳건창수",
+        "quantity": 1
+      },
+      {
+        "id": "4965",
+        "nickname": "쁴로리",
+        "inputNickname": "쁴로리",
+        "quantity": 1
+      },
+      {
+        "id": "5010",
+        "nickname": "으악",
+        "inputNickname": "으악",
+        "quantity": 1
+      }
+    ],
+    "completedAt": "2026-10-03T16:32:27.624Z",
+    "auditId": "40510"
+  },
+  "verification": {
+    "verified": true,
+    "receipt": {
+      "status": "COMPLETED",
+      "operationKey": "ops:pingdu-thanks-list44:20261004:v1:53512b59c9ce4342773b2d9f",
+      "campaignKey": "pingdu-thanks-list44-20261004-v1",
+      "recipientHash": "53512b59c9ce4342773b2d9fee456c6e77b7586ebef5270b8bc3547be8696551",
+      "count": 43,
+      "boxes": 43,
+      "title": "핑두의 감사선물",
+      "itemCode": "PINGDU_THANKS_GIFT_BOX",
+      "delivery": "MESSAGE",
+      "quantityEach": 1,
+      "authorization": "사용자 제공 44명 명단에 핑두의 감사 선물 1개씩 지급. 이번 요청은 이전 선물 지급과 별도인 신규 지급 요청이다.",
+      "recipients": [
+        {
+          "id": "22",
+          "nickname": "커피먹는철구",
+          "inputNickname": "커피마시는철구",
+          "quantity": 1
+        },
+        {
+          "id": "32",
+          "nickname": "쑤댕",
+          "inputNickname": "쑤댕",
+          "quantity": 1
+        },
+        {
+          "id": "62",
+          "nickname": "숭구릭",
+          "inputNickname": "숭구릭",
+          "quantity": 1
+        },
+        {
+          "id": "65",
+          "nickname": "음순이",
+          "inputNickname": "음순이",
+          "quantity": 1
+        },
+        {
+          "id": "73",
+          "nickname": "란x2",
+          "inputNickname": "란x2",
+          "quantity": 1
+        },
+        {
+          "id": "183",
+          "nickname": "남수댕",
+          "inputNickname": "남수댕",
+          "quantity": 1
+        },
+        {
+          "id": "218",
+          "nickname": "현하루",
+          "inputNickname": "현하루",
+          "quantity": 1
+        },
+        {
+          "id": "277",
+          "nickname": "스갤가축",
+          "inputNickname": "스갤가축",
+          "quantity": 1
+        },
+        {
+          "id": "290",
+          "nickname": "Mild7",
+          "inputNickname": "Mild7",
+          "quantity": 1
+        },
+        {
+          "id": "360",
+          "nickname": "라피e",
+          "inputNickname": "라피E",
+          "quantity": 1
+        },
+        {
+          "id": "521",
+          "nickname": "대저동토마토",
+          "inputNickname": "대저동토마토",
+          "quantity": 1
+        },
+        {
+          "id": "750",
+          "nickname": "라페스타다",
+          "inputNickname": "라페스타다",
+          "quantity": 1
+        },
+        {
+          "id": "1195",
+          "nickname": "씨나인택갓",
+          "inputNickname": "씨나인택갓",
+          "quantity": 1
+        },
+        {
+          "id": "1255",
+          "nickname": "전게씹선미아웃",
+          "inputNickname": "전게씹선미아웃",
+          "quantity": 1
+        },
+        {
+          "id": "1768",
+          "nickname": "핫시",
+          "inputNickname": "핫시",
+          "quantity": 1
+        },
+        {
+          "id": "2420",
+          "nickname": "블랙캐슬",
+          "inputNickname": "블랙캐슬",
+          "quantity": 1
+        },
+        {
+          "id": "2505",
+          "nickname": "모아가려아가",
+          "inputNickname": "모아가려아가",
+          "quantity": 1
+        },
+        {
+          "id": "3884",
+          "nickname": "zkzk9999",
+          "inputNickname": "zkzk9999",
+          "quantity": 1
+        },
+        {
+          "id": "4209",
+          "nickname": "#유나랜드",
+          "inputNickname": "#유나랜드",
+          "quantity": 1
+        },
+        {
+          "id": "4222",
+          "nickname": "#크레파스",
+          "inputNickname": "#크레파스",
+          "quantity": 1
+        },
+        {
+          "id": "4235",
+          "nickname": "도댕",
+          "inputNickname": "도댕",
+          "quantity": 1
+        },
+        {
+          "id": "4391",
+          "nickname": "더듬이구",
+          "inputNickname": "더듬이구",
+          "quantity": 1
+        },
+        {
+          "id": "4400",
+          "nickname": "키위🥝",
+          "inputNickname": "키위🥝",
+          "quantity": 1
+        },
+        {
+          "id": "4562",
+          "nickname": "찡찡ෆ",
+          "inputNickname": "찡찡ෆ",
+          "quantity": 1
+        },
+        {
+          "id": "4570",
+          "nickname": "혜정",
+          "inputNickname": "혜정",
+          "quantity": 1
+        },
+        {
+          "id": "4572",
+          "nickname": "응맨",
+          "inputNickname": "응맨",
+          "quantity": 1
+        },
+        {
+          "id": "4582",
+          "nickname": "족단",
+          "inputNickname": "족단",
+          "quantity": 1
+        },
+        {
+          "id": "4597",
+          "nickname": "찬호",
+          "inputNickname": "찬호",
+          "quantity": 1
+        },
+        {
+          "id": "4598",
+          "nickname": "암살자..",
+          "inputNickname": "암살자..",
+          "quantity": 1
+        },
+        {
+          "id": "4609",
+          "nickname": "오랜만에",
+          "inputNickname": "오랜만에",
+          "quantity": 1
+        },
+        {
+          "id": "4615",
+          "nickname": "랭비!",
+          "inputNickname": "랭비!",
+          "quantity": 1
+        },
+        {
+          "id": "4627",
+          "nickname": "학벌",
+          "inputNickname": "학벌",
+          "quantity": 1
+        },
+        {
+          "id": "4628",
+          "nickname": "망순이ෆ",
+          "inputNickname": "망순이ෆ",
+          "quantity": 1
+        },
+        {
+          "id": "4651",
+          "nickname": "세라네꼬라지",
+          "inputNickname": "세라네꼬라지",
+          "quantity": 1
+        },
+        {
+          "id": "4668",
+          "nickname": "화성가뿌자",
+          "inputNickname": "화성가뿌자",
+          "quantity": 1
+        },
+        {
+          "id": "4705",
+          "nickname": "˚쟁이。",
+          "inputNickname": "˚쟁이。",
+          "quantity": 1
+        },
+        {
+          "id": "4757",
+          "nickname": "음주플레이어",
+          "inputNickname": "음주플레이어",
+          "quantity": 1
+        },
+        {
+          "id": "4774",
+          "nickname": "딤럼프",
+          "inputNickname": "딤럼프",
+          "quantity": 1
+        },
+        {
+          "id": "4836",
+          "nickname": "딤키우기",
+          "inputNickname": "딤키우기",
+          "quantity": 1
+        },
+        {
+          "id": "4866",
+          "nickname": "[C9]가시",
+          "inputNickname": "[C9]가시",
+          "quantity": 1
+        },
+        {
+          "id": "4908",
+          "nickname": "굳건창수",
+          "inputNickname": "굳건창수",
+          "quantity": 1
+        },
+        {
+          "id": "4965",
+          "nickname": "쁴로리",
+          "inputNickname": "쁴로리",
+          "quantity": 1
+        },
+        {
+          "id": "5010",
+          "nickname": "으악",
+          "inputNickname": "으악",
+          "quantity": 1
+        }
+      ],
+      "completedAt": "2026-10-03T16:32:27.624Z",
+      "auditId": "40510"
+    },
+    "verification": {
+      "messages": 43,
+      "rewards": 43,
+      "boxes": 43,
+      "missing": 0,
+      "duplicates": 0,
+      "claimed": 0,
+      "rows": [
+        {
+          "message_id": "183665",
+          "user_id": "22",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180032",
+          "reward_user_id": "22",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183666",
+          "user_id": "32",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180033",
+          "reward_user_id": "32",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183667",
+          "user_id": "62",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180034",
+          "reward_user_id": "62",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183668",
+          "user_id": "65",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180035",
+          "reward_user_id": "65",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183669",
+          "user_id": "73",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180036",
+          "reward_user_id": "73",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183670",
+          "user_id": "183",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180037",
+          "reward_user_id": "183",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183671",
+          "user_id": "218",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180038",
+          "reward_user_id": "218",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183672",
+          "user_id": "277",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180039",
+          "reward_user_id": "277",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183673",
+          "user_id": "290",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180040",
+          "reward_user_id": "290",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183674",
+          "user_id": "360",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180041",
+          "reward_user_id": "360",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183675",
+          "user_id": "521",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180042",
+          "reward_user_id": "521",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183676",
+          "user_id": "750",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180043",
+          "reward_user_id": "750",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183677",
+          "user_id": "1195",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180044",
+          "reward_user_id": "1195",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183678",
+          "user_id": "1255",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180045",
+          "reward_user_id": "1255",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183679",
+          "user_id": "1768",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180046",
+          "reward_user_id": "1768",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183680",
+          "user_id": "2420",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180047",
+          "reward_user_id": "2420",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183681",
+          "user_id": "2505",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180048",
+          "reward_user_id": "2505",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183682",
+          "user_id": "3884",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180049",
+          "reward_user_id": "3884",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183683",
+          "user_id": "4209",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180050",
+          "reward_user_id": "4209",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183684",
+          "user_id": "4222",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180051",
+          "reward_user_id": "4222",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183685",
+          "user_id": "4235",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180052",
+          "reward_user_id": "4235",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183686",
+          "user_id": "4391",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180053",
+          "reward_user_id": "4391",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183687",
+          "user_id": "4400",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180054",
+          "reward_user_id": "4400",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183688",
+          "user_id": "4562",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180055",
+          "reward_user_id": "4562",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183689",
+          "user_id": "4570",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180056",
+          "reward_user_id": "4570",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183690",
+          "user_id": "4572",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180057",
+          "reward_user_id": "4572",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183691",
+          "user_id": "4582",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180058",
+          "reward_user_id": "4582",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183692",
+          "user_id": "4597",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180059",
+          "reward_user_id": "4597",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183693",
+          "user_id": "4598",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180060",
+          "reward_user_id": "4598",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183694",
+          "user_id": "4609",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180061",
+          "reward_user_id": "4609",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183695",
+          "user_id": "4615",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180062",
+          "reward_user_id": "4615",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183696",
+          "user_id": "4627",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180063",
+          "reward_user_id": "4627",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183697",
+          "user_id": "4628",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180064",
+          "reward_user_id": "4628",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183698",
+          "user_id": "4651",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180065",
+          "reward_user_id": "4651",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183699",
+          "user_id": "4668",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180066",
+          "reward_user_id": "4668",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183700",
+          "user_id": "4705",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180067",
+          "reward_user_id": "4705",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183701",
+          "user_id": "4757",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180068",
+          "reward_user_id": "4757",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183702",
+          "user_id": "4774",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180069",
+          "reward_user_id": "4774",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183703",
+          "user_id": "4836",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180070",
+          "reward_user_id": "4836",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183704",
+          "user_id": "4866",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180071",
+          "reward_user_id": "4866",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183705",
+          "user_id": "4908",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180072",
+          "reward_user_id": "4908",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183706",
+          "user_id": "4965",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180073",
+          "reward_user_id": "4965",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        },
+        {
+          "message_id": "183707",
+          "user_id": "5010",
+          "title": "핑두의 감사선물",
+          "body": "핑두의 감사선물",
+          "sender_type": "ADMIN",
+          "message_type": "ITEM_REWARD",
+          "is_read": "0",
+          "hidden_at": null,
+          "reward_id": "180074",
+          "reward_user_id": "5010",
+          "reward_type": "PINGDU_THANKS_GIFT_BOX",
+          "reward_amount": "1",
+          "claimed_at": null
+        }
+      ]
+    },
+    "campaign": {
+      "messages": 43,
+      "recipients": 43,
+      "rewards": 43,
+      "boxes": "43"
+    }
+  },
+  "validation": {
+    "targetedTests": {
+      "command": "node --test tests/pingdu-thanks-list44-20261004.test.mjs",
+      "passed": 4,
+      "failed": 0
+    },
+    "productionDryRunRolledBack": true,
+    "rollbackCheck": {
+      "verified": true,
+      "messages": 0,
+      "rewards": 0,
+      "receipts": 0,
+      "audits": 0
+    },
+    "replayVerified": true,
+    "replayAuditId": "40510"
+  },
+  "deployment": {
+    "required": false,
+    "reason": "Production message rewards only; no game runtime changes."
+  },
+  "continuation": "Do not resend the 43 completed recipients. After the user confirms 비니 ID 4595 or 비_니 ID 5504, grant only that one account using the same campaign and a separately hashed one-recipient receipt.",
+  "recordedAt": "2026-10-03T16:33:44.545Z"
+}

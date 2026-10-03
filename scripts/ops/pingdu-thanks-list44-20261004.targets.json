@@ -1,0 +1,402 @@
+{
+  "authorization": "사용자 제공 44명 명단에 핑두의 감사 선물 1개씩 지급. 이번 요청은 이전 선물 지급과 별도인 신규 지급 요청이다.",
+  "sourceNames": [
+    "으악",
+    "zkzk9999",
+    "쁴로리",
+    "대저동토마토",
+    "블랙캐슬",
+    "키위🥝",
+    "스갤가축",
+    "전게씹선미아웃",
+    "#크레파스",
+    "찡찡ෆ",
+    "혜정",
+    "학벌",
+    "응맨",
+    "암살자..",
+    "비니",
+    "족단",
+    "숭구릭",
+    "쑤댕",
+    "도댕",
+    "굳건창수",
+    "화성가뿌자",
+    "음순이",
+    "오랜만에",
+    "핫시",
+    "#유나랜드",
+    "씨나인택갓",
+    "커피마시는철구",
+    "세라네꼬라지",
+    "Mild7",
+    "라피E",
+    "딤키우기",
+    "란x2",
+    "망순이ෆ",
+    "현하루",
+    "음주플레이어",
+    "찬호",
+    "모아가려아가",
+    "랭비!",
+    "더듬이구",
+    "[C9]가시",
+    "딤럼프",
+    "남수댕",
+    "라페스타다",
+    "˚쟁이。"
+  ],
+  "targets": [
+    {
+      "id": "22",
+      "nickname": "커피먹는철구",
+      "status": "ACTIVE",
+      "inputNickname": "커피마시는철구",
+      "quantity": 1,
+      "evidence": "Previously reviewed account ID 22 in pingdu-thanks-list39-20261003.targets.json; current ACTIVE identity reconfirmed"
+    },
+    {
+      "id": "32",
+      "nickname": "쑤댕",
+      "status": "ACTIVE",
+      "inputNickname": "쑤댕",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "62",
+      "nickname": "숭구릭",
+      "status": "ACTIVE",
+      "inputNickname": "숭구릭",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "65",
+      "nickname": "음순이",
+      "status": "ACTIVE",
+      "inputNickname": "음순이",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "73",
+      "nickname": "란x2",
+      "status": "ACTIVE",
+      "inputNickname": "란x2",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "183",
+      "nickname": "남수댕",
+      "status": "ACTIVE",
+      "inputNickname": "남수댕",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "218",
+      "nickname": "현하루",
+      "status": "ACTIVE",
+      "inputNickname": "현하루",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "277",
+      "nickname": "스갤가축",
+      "status": "ACTIVE",
+      "inputNickname": "스갤가축",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "290",
+      "nickname": "Mild7",
+      "status": "ACTIVE",
+      "inputNickname": "Mild7",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "360",
+      "nickname": "라피e",
+      "status": "ACTIVE",
+      "inputNickname": "라피E",
+      "quantity": 1,
+      "evidence": "UNIQUE_CASE_INSENSITIVE_CURRENT_NICKNAME"
+    },
+    {
+      "id": "521",
+      "nickname": "대저동토마토",
+      "status": "ACTIVE",
+      "inputNickname": "대저동토마토",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "750",
+      "nickname": "라페스타다",
+      "status": "ACTIVE",
+      "inputNickname": "라페스타다",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "1195",
+      "nickname": "씨나인택갓",
+      "status": "ACTIVE",
+      "inputNickname": "씨나인택갓",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "1255",
+      "nickname": "전게씹선미아웃",
+      "status": "ACTIVE",
+      "inputNickname": "전게씹선미아웃",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "1768",
+      "nickname": "핫시",
+      "status": "ACTIVE",
+      "inputNickname": "핫시",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "2420",
+      "nickname": "블랙캐슬",
+      "status": "ACTIVE",
+      "inputNickname": "블랙캐슬",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "2505",
+      "nickname": "모아가려아가",
+      "status": "ACTIVE",
+      "inputNickname": "모아가려아가",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "3884",
+      "nickname": "zkzk9999",
+      "status": "ACTIVE",
+      "inputNickname": "zkzk9999",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4209",
+      "nickname": "#유나랜드",
+      "status": "ACTIVE",
+      "inputNickname": "#유나랜드",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4222",
+      "nickname": "#크레파스",
+      "status": "ACTIVE",
+      "inputNickname": "#크레파스",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4235",
+      "nickname": "도댕",
+      "status": "ACTIVE",
+      "inputNickname": "도댕",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4391",
+      "nickname": "더듬이구",
+      "status": "ACTIVE",
+      "inputNickname": "더듬이구",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4400",
+      "nickname": "키위🥝",
+      "status": "ACTIVE",
+      "inputNickname": "키위🥝",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4562",
+      "nickname": "찡찡ෆ",
+      "status": "ACTIVE",
+      "inputNickname": "찡찡ෆ",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4570",
+      "nickname": "혜정",
+      "status": "ACTIVE",
+      "inputNickname": "혜정",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4572",
+      "nickname": "응맨",
+      "status": "ACTIVE",
+      "inputNickname": "응맨",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4582",
+      "nickname": "족단",
+      "status": "ACTIVE",
+      "inputNickname": "족단",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4597",
+      "nickname": "찬호",
+      "status": "ACTIVE",
+      "inputNickname": "찬호",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4598",
+      "nickname": "암살자..",
+      "status": "ACTIVE",
+      "inputNickname": "암살자..",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4609",
+      "nickname": "오랜만에",
+      "status": "ACTIVE",
+      "inputNickname": "오랜만에",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4615",
+      "nickname": "랭비!",
+      "status": "ACTIVE",
+      "inputNickname": "랭비!",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4627",
+      "nickname": "학벌",
+      "status": "ACTIVE",
+      "inputNickname": "학벌",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4628",
+      "nickname": "망순이ෆ",
+      "status": "ACTIVE",
+      "inputNickname": "망순이ෆ",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4651",
+      "nickname": "세라네꼬라지",
+      "status": "ACTIVE",
+      "inputNickname": "세라네꼬라지",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4668",
+      "nickname": "화성가뿌자",
+      "status": "ACTIVE",
+      "inputNickname": "화성가뿌자",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4705",
+      "nickname": "˚쟁이。",
+      "status": "ACTIVE",
+      "inputNickname": "˚쟁이。",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4757",
+      "nickname": "음주플레이어",
+      "status": "ACTIVE",
+      "inputNickname": "음주플레이어",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4774",
+      "nickname": "딤럼프",
+      "status": "ACTIVE",
+      "inputNickname": "딤럼프",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4836",
+      "nickname": "딤키우기",
+      "status": "ACTIVE",
+      "inputNickname": "딤키우기",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4866",
+      "nickname": "[C9]가시",
+      "status": "ACTIVE",
+      "inputNickname": "[C9]가시",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4908",
+      "nickname": "굳건창수",
+      "status": "ACTIVE",
+      "inputNickname": "굳건창수",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "4965",
+      "nickname": "쁴로리",
+      "status": "ACTIVE",
+      "inputNickname": "쁴로리",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "id": "5010",
+      "nickname": "으악",
+      "status": "ACTIVE",
+      "inputNickname": "으악",
+      "quantity": 1,
+      "evidence": "EXACT_CURRENT_NICKNAME"
+    }
+  ],
+  "pending": [
+    {
+      "inputNickname": "비니",
+      "reason": "Distinct ACTIVE accounts 비니 ID 4595 and 비_니 ID 5504; user confirmation requested because previous grant was corrected to 비_니."
+    }
+  ],
+  "excluded": []
+}
