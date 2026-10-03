@@ -1,0 +1,87 @@
+{
+  "receipt": {
+    "round": {
+      "id": "64",
+      "status": "FINISHED",
+      "battle_name": "독일차",
+      "winner_side": "B",
+      "settled_at": "2026-10-03 14:51:20",
+      "clan_season_id": "6"
+    },
+    "recipientHash": "a958f33ae5cb95063ba6cc0f8f4198ef474f3c1cebc32c562e51f250e2bb2c5f",
+    "operationKey": "ops:territory:64:winner-message:20261003:v1",
+    "title": "영토전 승리 보상",
+    "body": "영토전 64회차 독일차 B팀 승리 보상입니다.\n코인 3,000억 · 마스터의 별 300만 개 · 미스틱 에너지 1,000개를 보상별 메시지로 지급합니다.\n각 메시지의 보상 수령 버튼을 눌러주세요.",
+    "count": 84,
+    "gifts": [
+      {
+        "rewardType": "COIN",
+        "rewardAmount": "300000000000",
+        "messageType": "COIN_REWARD",
+        "campaignKey": "territory-winner-64-20261003-v1-coin",
+        "totalAmount": "25200000000000"
+      },
+      {
+        "rewardType": "MASTER_STAR",
+        "rewardAmount": "3000000",
+        "messageType": "ITEM_REWARD",
+        "campaignKey": "territory-winner-64-20261003-v1-star",
+        "totalAmount": "252000000"
+      },
+      {
+        "rewardType": "STARLIGHT_ARMOR_CORE",
+        "rewardAmount": "1000",
+        "messageType": "ITEM_REWARD",
+        "campaignKey": "territory-winner-64-20261003-v1-mystic",
+        "totalAmount": "84000"
+      }
+    ],
+    "status": "COMPLETED",
+    "delivery": "MESSAGE",
+    "noImmediateWalletCredit": true,
+    "actor": "SYSTEM_OPS",
+    "authorization": "방금 영토전 종료함 승리팀에 3000억코인 마별 300만개 미스틱에너지 1000개 메세지로 지급해",
+    "completedAt": "2026-10-03T14:55:59.686Z",
+    "auditId": "40487"
+  },
+  "verification": {
+    "recipients": 84,
+    "messages": 252,
+    "rewards": 252,
+    "missing": 0,
+    "duplicates": 0,
+    "campaigns": [
+      {
+        "rewardType": "COIN",
+        "recipients": 84,
+        "rewardAmount": "300000000000",
+        "totalAmount": "25200000000000",
+        "claimed": 4,
+        "pending": 80
+      },
+      {
+        "rewardType": "MASTER_STAR",
+        "recipients": 84,
+        "rewardAmount": "3000000",
+        "totalAmount": "252000000",
+        "claimed": 4,
+        "pending": 80
+      },
+      {
+        "rewardType": "STARLIGHT_ARMOR_CORE",
+        "recipients": 84,
+        "rewardAmount": "1000",
+        "totalAmount": "84000",
+        "claimed": 4,
+        "pending": 80
+      }
+    ]
+  },
+  "checks": {
+    "partialFailureRollback": true,
+    "dryRunRollback": true,
+    "idempotentReplay": true,
+    "separateConnectionVerified": true
+  },
+  "rosterEvidence": "Full roster and message/reward IDs are retained in the production receipt and external operation evidence."
+}
