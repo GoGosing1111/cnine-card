@@ -64,6 +64,78 @@
     "checks": [
       "check:worker"
     ],
-    "status": "READY"
+    "status": "DEPLOYED_VERIFIED",
+    "deployedCommit": "fead53fa5af3d445587e00b080969dbb4f5db585",
+    "pagesUrl": "https://6e025aaf.cnine-card.pages.dev",
+    "apiRuntimeVersion": "9f7066b1-61c0-4c96-bf18-390c5abbedfb",
+    "clanDraftVersion": "e8f71a07-ffac-4368-a83b-a712015d2dec",
+    "scopedTestsPassed": 7,
+    "command": "npm run deploy:production -- --scoped",
+    "hyperdriveCache": "DISABLED",
+    "publicPreview": "https://cnine-card.pages.dev/preview/supporter-blue-beast-titles-20261003/"
+  },
+  "productionSmoke": {
+    "baseUrl": "https://cnine-card.pages.dev",
+    "results": [
+      {
+        "path": "assets/ui/titles/supporter-vip-v1.webp",
+        "status": 200,
+        "bytes": 92422,
+        "sha256": "cc3a9f2acb9623303d5ef69d53b8c7a93bc8b477b70cbbc16149b40d5ca84fa7",
+        "matchesLocal": true
+      },
+      {
+        "path": "assets/ui/titles/blue-beast-v1.webp",
+        "status": 200,
+        "bytes": 152150,
+        "sha256": "9772c5c7728617a69026497a23b5c2f11af716ba6cfcc224fb04d649f5da7a3d",
+        "matchesLocal": true
+      },
+      {
+        "path": "assets/ui/titles/supporter-vip-effects-v1.gif",
+        "status": 200,
+        "bytes": 895271,
+        "sha256": "bdfc46cd0b8c919bcb8f9b91ec6873e7dd604530940adc1d7d02b18ffc742909",
+        "matchesLocal": true
+      },
+      {
+        "path": "css/achievement-titles-20260927.css",
+        "status": 200,
+        "bytes": 10538,
+        "sha256": "8edf302b62cd841790b72751a6143121e658dc26ac5c19e173dfc5c1748899fc",
+        "matchesLocal": true
+      },
+      {
+        "path": "js/character-loadout-v2.js",
+        "status": 200,
+        "bytes": 45881,
+        "sha256": "7f734dbcce3685425a8e260d93e4af90f381190f30f33f13290dc2054ba3daa8",
+        "matchesLocal": true
+      },
+      {
+        "path": "preview/supporter-blue-beast-titles-20261003/",
+        "status": 200,
+        "bytes": 1954,
+        "sha256": "794f9ef8754aefd4ab30e4b5b0e9dd20821a52dfa54fb9b227949e3e8b86f6d4",
+        "matchesLocal": true
+      }
+    ],
+    "auth": [
+      {
+        "path": "character/loadout",
+        "status": 401,
+        "body": {
+          "error": "로그인이 필요합니다."
+        }
+      },
+      {
+        "path": "character/title/sync",
+        "status": 401,
+        "body": {
+          "error": "로그인이 필요합니다."
+        }
+      }
+    ],
+    "loaderUpdated": true
   }
 }
