@@ -38,7 +38,9 @@ export class IceDualSwordFX{
   this.auraFilters=[];
   if(this.engine.app?.renderer){
    const outerColor=solidColor([.025,.19,1]),innerColor=solidColor([.04,.72,1]),cobaltColor=solidColor([.025,.33,1]),rimColor=solidColor([.46,.92,1]);
-   this.outerBlur=new BlurFilter({strength:14,quality:2,resolution:.65});this.innerBlur=new BlurFilter({strength:5,quality:2,resolution:1});
+   // Clear pooled WebGL blur intermediates when authored poses change bounds.
+   // Otherwise another actor's previous filter rectangle bleeds into this aura.
+   this.outerBlur=new BlurFilter({strength:14,quality:2,resolution:.65,legacy:true});this.innerBlur=new BlurFilter({strength:5,quality:2,resolution:1,legacy:true});
    this.outer.filters=[outerColor,this.outerBlur];this.inner.filters=[innerColor,this.innerBlur];this.cobalt.filters=[cobaltColor];this.rim.filters=[rimColor];
    this.auraFilters=[outerColor,innerColor,cobaltColor,rimColor,this.outerBlur,this.innerBlur];
   }else{this.outer.tint=0x1552ff;this.inner.tint=0x32cfff;this.cobaltCopies.forEach(s=>s.tint=0x0854ff);this.rimCopies.forEach(s=>s.tint=0x89edff);}

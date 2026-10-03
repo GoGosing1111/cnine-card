@@ -1273,7 +1273,11 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     // minimum repeatedly saturates the 130 cap and the fastest actor wins every
     // tie. Drain ready actors at the exact crossing in this high-speed range;
     // preserve the established cadence/balance below that saturation boundary.
-    const minimumGaugeStep=actors.some(card=>card.speed*.001>=100)?0:.001;
+    // In the nine-actor cooperative field even sub-threshold speed cards can
+    // repeatedly hit the cap during the minimum step and starve a slower owner
+    // (and the mercenary whose reserved turns come from that owner's cards).
+    // Existing rooms retain v1 when mechanics/withdrawals rebuild their history.
+    const minimumGaugeStep=cooperative?.turnClockVersion>=2||actors.some(card=>card.speed*.001>=100)?0:.001;
     const gaugeReadyAt=clock+Math.max(minimumGaugeStep,gaugeDt);
     const reservedMercenary=mercenaryTurns.pending(mercenaryActionAvailable);
     const nextCardAt=reservedMercenary?clock:gaugeReadyAt;

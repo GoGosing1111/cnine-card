@@ -1,0 +1,91 @@
+{
+  "status": "READY_FOR_SCOPED_DEPLOY",
+  "date": "2026-10-04",
+  "request": "격전지에서 용병이 카드가 줄어든 뒤에야 행동하며, 크라이베른 주변에 사각 테두리가 생기는 문제 수정",
+  "findings": {
+    "combat": {
+      "source": "사용자 지정 참여 계정의 현재 Durable Object 상태를 read()로 조회. 접속·ready·ping·전투 진행 명령 없이 저장된 상태만 읽음.",
+      "localEvidence": "C:/Users/User/.codex/tmp/cooperative-berkan-20261004/",
+      "before": {
+        "firstRegularMs": 116272,
+        "cryvernAttackEvents": 0
+      },
+      "cause": "격전지의 최소 게이지 시간 증가값 때문에 속도형 카드가 130 상한에서 계속 우선됨. 느린 참가자의 일반 카드와 그 카드에 연동된 용병 추가 행동이 함께 밀림.",
+      "afterSameInput": {
+        "firstRegularMs": 8044,
+        "firstCryvernMs": 8614,
+        "cryvernAttackEvents": 24
+      }
+    },
+    "resource": {
+      "cause": "크라이베른 광원의 WebGL 블러 중간 텍스처가 이전 픽셀을 남겨 리소스 주변에 사각 잔상 생성",
+      "change": "기존 베르칸과 동일하게 legacy blur 경로로 중간 렌더 타깃을 초기화",
+      "approvedAssets": "원본 SD·54개 모션·80개 효과 프레임은 해시·투명 가장자리 검사 통과. 재생성·재압축·변경 없음"
+    }
+  },
+  "scope": "새 격전지 방의 turnClockVersion 2에만 정확한 게이지 경계 진행 적용. 기존 방의 재계산은 기존 버전 유지. 일반 PVE/PVP 전투 순서·용병 능력치·스킬 수치·획득·보상 정책 변경 없음. 크라이베른 광원 합성 두 필터와 그 소비 번들만 갱신.",
+  "tests": {
+    "focusedCombat": {
+      "result": "PASS",
+      "file": "tests/cooperative-turn-fairness-20261004.test.mjs",
+      "passed": 3,
+      "coverage": [
+        "베르칸/크라이베른 및 6개 일반 카드 조기 행동",
+        "100만/2000만/1억 전투력에서 스킬 없는 기본 공격",
+        "신규 방 버전 및 기존 방 재계산·이탈 호환"
+      ]
+    },
+    "cryvernPose": {
+      "result": "PASS",
+      "file": "tests/mercenary-cryvern-pose-scale-20260925.test.mjs",
+      "passed": 4,
+      "coverage": "실제 Pixi WebGL 중간 타깃 clear 및 모션→대기 복귀 크기"
+    },
+    "assetVerification": {
+      "result": "PASS",
+      "file": "preview/mercenary-ice-crystal-dual-sword-v1/qa.test.mjs",
+      "selectedTests": 2,
+      "coverage": "승인 SD 및 원화 해시, 134프레임·아틀라스 해시/알파/가장자리"
+    },
+    "cooperativeBrowser": {
+      "result": "PASS",
+      "file": "tests/cooperative-mercenary-motion.browser.mjs",
+      "viewports": [
+        "1440x1000",
+        "390x844"
+      ],
+      "coverage": "실제 협동 컨트롤러/V3 번들에서 9명 배치·두 용병의 연속 포즈 변화·서버 공격 재생, 반복 스킬 이후 크라이베른 사각 잔상 제거",
+      "evidence": "C:/Users/User/AppData/Local/Temp/cooperative-qa-chqrqM/mercenary-motion",
+      "errors": []
+    },
+    "normalBrowser": {
+      "result": "PASS",
+      "file": "tests/cooperative-battleground.browser.mjs",
+      "mode": "COOP_QA_NORMAL_ONLY=1",
+      "coverage": "기존 5장+용병 PVE/PVP 전투 완료 및 복귀",
+      "evidence": "C:/Users/User/AppData/Local/Temp/cooperative-qa-tTJBf7/screenshots"
+    },
+    "deploymentRegressions": {
+      "status": "PENDING",
+      "files": [
+        "tests/cooperative-battleground.test.mjs",
+        "tests/cooperative-arke.test.mjs",
+        "tests/cooperative-websocket.test.mjs",
+        "tests/mercenary-turn-cadence-v2099.test.mjs",
+        "tests/pve-battlefield-entry-v2117.test.mjs"
+      ],
+      "checks": [
+        "check:worker",
+        "verify-production-release",
+        "Hyperdrive query cache"
+      ]
+    }
+  },
+  "release": {
+    "method": "npm run deploy:production -- --scoped",
+    "base": "73f34285339d2596da9636c06e60735f084c3102",
+    "basePagesDeployment": "c3ddf6f0-411f-4dbd-a6ad-4c54c987094f",
+    "reason": "격전지 전용 조건과 크라이베른 광원 두 필터의 국소 수정. 관련 신규 회귀·PC/모바일/기존 PVE/PVP 검수는 완료. 배포에서는 인접 협동 전투·공용 용병 차례·실제 번들/메인 로더 검사만 수행.",
+    "runtime": "20261004-coop-cryvern-fix-v1"
+  }
+}

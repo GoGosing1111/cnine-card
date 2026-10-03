@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {Container,Sprite,Texture,TextureSource} from 'pixi.js';
+import {Container,Sprite,Texture,TextureSource,DOMAdapter,RenderTexture,RendererType} from 'pixi.js';
 import {gsap} from 'gsap';
 import {BattleAnimation} from '../preview/project-v-v3/source/battle/BattleAnimation.js';
 import {BattleCharacter} from '../preview/project-v-v3/source/battle/BattleCharacter.js';
@@ -10,7 +10,7 @@ import {makePlan} from '../preview/mercenary-ice-crystal-dual-sword-v1/skill.mjs
 
 const manifest=JSON.parse(fs.readFileSync(new URL('../preview/mercenary-ice-crystal-dual-sword-v1/manifest.json',import.meta.url),'utf8'));
 
-function fixture(){
+function fixture({filters=false}={}){
  const world=new Container(),combatLayer=new Container(),effectLayer=new Container();
  world.addChild(combatLayer,effectLayer);
  const sources=[new TextureSource({width:1254,height:1254}),new TextureSource({width:768,height:768}),new TextureSource({width:512,height:512})];
@@ -21,13 +21,24 @@ function fixture(){
   neutralAvatarPose:{x:0,y:0,rotation:0,alpha:1,scaleX:1,scaleY:1,mainSprite:{x:0,y:0,rotation:0,alpha:1,scaleX:sprite.scale.x,scaleY:sprite.scale.y}},
   restoreNeutralAvatarPose:BattleCharacter.prototype.restoreNeutralAvatarPose};
  actor.animationController=new BattleAnimation(actor);
- const engine={effectLayer,combatLayer,simpleTimelines:new Set(),allies:[],scene:{width:1600,height:900},sortCombatDepth(){}};
+ const engine={...(filters?{app:{renderer:{}}}:{}),effectLayer,combatLayer,simpleTimelines:new Set(),allies:[],scene:{width:1600,height:900},sortCombatDepth(){}};
  const assets={motion:{},effects:{},flash:Texture.EMPTY,smoke:Texture.EMPTY};
  for(const [key,spec] of Object.entries(manifest.motion))assets.motion[key]=Array.from({length:spec.frameCount},()=>new Texture({source:sources[1]}));
  for(const [key,spec] of Object.entries(manifest.effects))assets.effects[key]=Array.from({length:spec.frameCount},()=>new Texture({source:sources[2]}));
- const fx=new IceDualSwordFX(engine,actor,[actor],assets,manifest,makePlan({mode:'guard'}),()=>{},{authoritative:true});
+ const adapter=DOMAdapter.get();if(filters)DOMAdapter.set({...adapter,createCanvas:()=>({getContext:()=>null})});
+ let fx;try{fx=new IceDualSwordFX(engine,actor,[actor],assets,manifest,makePlan({mode:'guard'}),()=>{},{authoritative:true});}finally{DOMAdapter.set(adapter);}
  return {actor,sprite,fx,idle,dispose(){fx.destroy();actor.animationController.destroy();world.destroy({children:true});idle.destroy(false);sources.forEach(s=>s.destroy());gsap.ticker.sleep();}};
 }
+
+test('Cryvern aura clears actual WebGL blur scratch textures instead of retaining rectangular pixels',()=>{
+ const f=fixture({filters:true}),input=RenderTexture.create({width:512,height:512}),output=RenderTexture.create({width:512,height:512});
+ try{
+  for(const blur of [f.fx.outerBlur,f.fx.innerBlur])for(const pass of [blur.blurXFilter,blur.blurYFilter]){
+   const calls=[];pass.apply({renderer:{type:RendererType.WEBGL},applyFilter(_filter,_input,target,clear){calls.push({target,clear});}},input,output,false);
+   assert.equal(calls.length,2);assert.equal(calls[0].clear,true);assert.notEqual(calls[0].target,output);assert.equal(calls[1].target,output);assert.equal(calls[1].clear,false);
+  }
+ }finally{input.destroy(true);output.destroy(true);f.dispose();}
+});
 
 for(const state of ['IDLE','HIT'])test(`Cryvern guard-to-idle does not inherit the atlas scale from a competing ${state} animation`,()=>{
  const f=fixture();

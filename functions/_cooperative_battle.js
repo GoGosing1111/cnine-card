@@ -3,7 +3,7 @@ import {buildMercenaryFighter} from './_mercenary_combat.js';
 import {cooperativeEnemies} from './_cooperative_enemies.js';
 import {COOP_RULES,COOP_ENCOUNTER,coopDifficulty} from '../shared/cooperative-battleground-v1.mjs';
 
-export function createCooperativeBattle({squads,difficulty='NORMAL',seed=1,withdrawals=[],effects=[],monsterSnapshot,combat}){
+export function createCooperativeBattle({squads,difficulty='NORMAL',seed=1,withdrawals=[],effects=[],monsterSnapshot,combat,turnClockVersion=2}){
  const config=typeof difficulty==='string'?coopDifficulty(difficulty):difficulty;
  if(!config||!Array.isArray(squads)||squads.length!==3||new Set(squads.map(s=>s.ownerId)).size!==3)throw Error('INVALID_COOPERATIVE_PARTY');
  const cards=[],mercenaries=[],members=[];
@@ -28,7 +28,7 @@ export function createCooperativeBattle({squads,difficulty='NORMAL',seed=1,withd
  const enemy={...buildMonsterFighter(monster),battleSprite:monster.battleSprite};
  const enemies=staged?.initial||[enemy];
  const result=simulateBattleV2Preview({teamA:[...cards,...mercenaries],teamB:enemies,reinforcements:staged?.pending||[],seed,maxActions:600,maxCombatDurationMs:maxBattleMs,
-  forcedMonsterEvery:tuned.forcedEvery,healerPenalty:true,singleHealerBonus:squads[0].singleHealerBonus||{},cooperative:{withdrawals,effects}});
+  forcedMonsterEvery:tuned.forcedEvery,healerPenalty:true,singleHealerBonus:squads[0].singleHealerBonus||{},cooperative:{withdrawals,effects,turnClockVersion}});
  // PVE survival is always a loss, regardless of HP-ratio tiebreaking.
  result.winner=!result.encounter?.remaining&&result.final.B.every(f=>f.hp<=0)&&result.final.A.some(f=>f.hp>0)?'A':'B';
  Object.assign(result.timeline.at(-1),{winner:result.winner});

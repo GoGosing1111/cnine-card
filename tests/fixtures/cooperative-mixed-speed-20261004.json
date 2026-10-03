@@ -1,0 +1,182 @@
+[
+  {
+    "ownerId": 1,
+    "ownerName": "검수 분대 1",
+    "equipmentBonus": 787300,
+    "mercenaryCode": "V-021",
+    "cards": [
+      {
+        "id": "CN-47AD4B47B6A7452C",
+        "title": "아이젠 족스케",
+        "rarity": "FUR",
+        "power_type": "FIXED",
+        "power": 124800,
+        "uniqueAbility": {
+          "cardId": "CN-47AD4B47B6A7452C",
+          "attackPercent": 100,
+          "defensePercent": 162.5,
+          "hpPercent": 125,
+          "speedPercent": 0,
+          "effectName": "",
+          "effectDescription": "",
+          "effectType": "NONE",
+          "triggerType": "PASSIVE",
+          "effectValue": 0,
+          "triggerChance": 100,
+          "maxActivations": 1,
+          "dominantType": "DEFENSE",
+          "dominantKey": "defensePercent",
+          "dominantLabel": "방어",
+          "dominantValue": 162.5,
+          "highBoostPercent": 150
+        }
+      },
+      {
+        "id": "CN-5D0E2E4D58C9416F",
+        "title": "치타구",
+        "rarity": "FUR",
+        "power_type": "FIXED",
+        "power": 195200,
+        "uniqueAbility": {
+          "cardId": "CN-5D0E2E4D58C9416F",
+          "attackPercent": 90,
+          "defensePercent": 90,
+          "hpPercent": 0,
+          "speedPercent": 150,
+          "effectName": "",
+          "effectDescription": "",
+          "effectType": "NONE",
+          "triggerType": "PASSIVE",
+          "effectValue": 0,
+          "triggerChance": 100,
+          "maxActivations": 1,
+          "dominantType": "SPEED",
+          "dominantKey": "speedPercent",
+          "dominantLabel": "속도",
+          "dominantValue": 150,
+          "highBoostPercent": 200
+        }
+      }
+    ]
+  },
+  {
+    "ownerId": 2,
+    "ownerName": "검수 분대 2",
+    "equipmentBonus": 844700,
+    "mercenaryCode": "V-055",
+    "cards": [
+      {
+        "id": "CN-5D0E2E4D58C9416F",
+        "title": "치타구",
+        "rarity": "FUR",
+        "power_type": "FIXED",
+        "power": 195200,
+        "uniqueAbility": {
+          "cardId": "CN-5D0E2E4D58C9416F",
+          "attackPercent": 90,
+          "defensePercent": 90,
+          "hpPercent": 0,
+          "speedPercent": 150,
+          "effectName": "",
+          "effectDescription": "",
+          "effectType": "NONE",
+          "triggerType": "PASSIVE",
+          "effectValue": 0,
+          "triggerChance": 100,
+          "maxActivations": 1,
+          "dominantType": "SPEED",
+          "dominantKey": "speedPercent",
+          "dominantLabel": "속도",
+          "dominantValue": 150,
+          "highBoostPercent": 200
+        }
+      },
+      {
+        "id": "CN-47AD4B47B6A7452C",
+        "title": "아이젠 족스케",
+        "rarity": "FUR",
+        "power_type": "FIXED",
+        "power": 83200,
+        "uniqueAbility": {
+          "cardId": "CN-47AD4B47B6A7452C",
+          "attackPercent": 80,
+          "defensePercent": 130,
+          "hpPercent": 100,
+          "speedPercent": 0,
+          "effectName": "",
+          "effectDescription": "",
+          "effectType": "NONE",
+          "triggerType": "PASSIVE",
+          "effectValue": 0,
+          "triggerChance": 100,
+          "maxActivations": 1,
+          "dominantType": "DEFENSE",
+          "dominantKey": "defensePercent",
+          "dominantLabel": "방어",
+          "dominantValue": 130,
+          "highBoostPercent": 100
+        }
+      }
+    ]
+  },
+  {
+    "ownerId": 3,
+    "ownerName": "검수 분대 3",
+    "equipmentBonus": 1112360,
+    "mercenaryCode": "V-049",
+    "cards": [
+      {
+        "id": "CN-346F8DB0DEB84D41",
+        "title": "철구",
+        "rarity": "FUR",
+        "power_type": "FIXED",
+        "power": 195200,
+        "uniqueAbility": {
+          "cardId": "CN-346F8DB0DEB84D41",
+          "attackPercent": 180,
+          "defensePercent": 90,
+          "hpPercent": 90,
+          "speedPercent": 0,
+          "effectName": "",
+          "effectDescription": "",
+          "effectType": "NONE",
+          "triggerType": "PASSIVE",
+          "effectValue": 0,
+          "triggerChance": 100,
+          "maxActivations": 1,
+          "dominantType": "ATTACK",
+          "dominantKey": "attackPercent",
+          "dominantLabel": "공격",
+          "dominantValue": 180,
+          "highBoostPercent": 200
+        }
+      },
+      {
+        "id": "CN-25F931CE393D474E",
+        "title": "꽃보다디임",
+        "rarity": "ZENITH",
+        "power_type": "FIXED",
+        "power": 75625,
+        "uniqueAbility": {
+          "cardId": "CN-25F931CE393D474E",
+          "attackPercent": 16,
+          "defensePercent": 16,
+          "hpPercent": 48,
+          "speedPercent": 0,
+          "effectName": "",
+          "effectDescription": "",
+          "effectType": "NONE",
+          "triggerType": "PASSIVE",
+          "effectValue": 0,
+          "triggerChance": 100,
+          "maxActivations": 1,
+          "dominantType": "HP",
+          "dominantKey": "hpPercent",
+          "dominantLabel": "HP",
+          "dominantValue": 48,
+          "highBoostPercent": 60
+        }
+      }
+    ]
+  }
+]
