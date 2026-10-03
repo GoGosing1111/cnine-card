@@ -1,5 +1,5 @@
 {
-  "status": "SCOPED_RELEASE_READY",
+  "status": "LIVE_VERIFIED",
   "date": "2026-10-04",
   "request": "SS 슈퍼스타팩 확정권 삭제, 엠퍼러 에너지 1~5개 5%, 미스틱 1~1000개, 마스터의 별 1000~30000개; 코인은 그대로",
   "before": {
@@ -191,8 +191,144 @@
       ],
       "checks": [
         "check:worker"
-      ]
+      ],
+      "result": {
+        "passed": 39,
+        "failed": 0,
+        "workerSyntax": "PASSED",
+        "releaseGuards": "PASSED",
+        "hyperdriveQueryCache": "DISABLED"
+      }
     }
   },
-  "deployment": null
+  "deployment": {
+    "source": "116ecb54012024ec458349b634cf5217e2231be6",
+    "pagesUrl": "https://c9d13453.cnine-card.pages.dev",
+    "apiRuntimeVersion": "34405e9a-e7f9-42f9-aa7a-8fa4daa4db9a",
+    "clanWorkerVersion": "38391b47-70e3-4642-bac7-a47c540249dd",
+    "command": "npm run deploy:production -- --scoped"
+  },
+  "production": {
+    "status": "PASSED",
+    "verifiedAt": "2026-10-03T18:38:05.279Z",
+    "source": "116ecb54012024ec458349b634cf5217e2231be6",
+    "files": [
+      {
+        "file": "index.html",
+        "status": 200,
+        "sha256": "6de37ea696debba5b016c516ed39e31b4e14ade2f41f2dd149d201540ab4642c"
+      },
+      {
+        "file": "js/app.js",
+        "status": 200,
+        "sha256": "ae2cb610e1c20b26cd7dbff7991f23810a80d3f31df172823d4fb7e86c62321a"
+      },
+      {
+        "file": "js/soopketland-v2039.bundle.js",
+        "status": 200,
+        "sha256": "3df18fb8c9022efdbe0b509a7af4ae2a7e32b9de8e4e2416c73f44bc0fe2d675"
+      },
+      {
+        "file": "preview/soopketland-v2039/index.html",
+        "status": 200,
+        "sha256": "40faec6b8a589f796c73578a28ef632736a573fa8223035ca15c90c2b7f71c6d"
+      },
+      {
+        "file": "preview/soopketland-v2039/preview.js",
+        "status": 200,
+        "sha256": "7717941843d0a41168235873650e67a0c32fb2e2631fd168aa235227b4d122f3"
+      }
+    ],
+    "databaseReadOnly": {
+      "ok": true,
+      "raw": {
+        "COIN": 9916,
+        "SUPERSTAR_GUARANTEED_PACK": 1500,
+        "MASTER_STAR": 9916,
+        "BLACK_MIRACLE_PACK": 5668,
+        "STARLIGHT_ARMOR_CORE": 3000
+      },
+      "effective": {
+        "COIN": 12750,
+        "EMPEROR_ENERGY": 1500,
+        "MASTER_STAR": 12750,
+        "STARLIGHT_ARMOR_CORE": 3000
+      },
+      "total": 30000,
+      "prizes": [
+        {
+          "key": "COIN",
+          "label": "코인",
+          "range": "1억 ~ 500억",
+          "min": 1,
+          "max": 500,
+          "unit": 100000000,
+          "symbol": "C",
+          "color": 16766071,
+          "weight": 12750,
+          "percent": 42.5
+        },
+        {
+          "key": "EMPEROR_ENERGY",
+          "label": "엠퍼러 에너지",
+          "range": "1 ~ 5개",
+          "min": 1,
+          "max": 5,
+          "unit": 1,
+          "symbol": "E",
+          "color": 16768913,
+          "weight": 1500,
+          "percent": 5
+        },
+        {
+          "key": "MASTER_STAR",
+          "label": "마스터의 별",
+          "range": "1,000 ~ 30,000개",
+          "min": 1,
+          "max": 30,
+          "unit": 1000,
+          "symbol": "S",
+          "color": 16770982,
+          "weight": 12750,
+          "percent": 42.5
+        },
+        {
+          "key": "STARLIGHT_ARMOR_CORE",
+          "label": "미스틱 에너지",
+          "range": "1 ~ 1,000개",
+          "min": 1,
+          "max": 1000,
+          "unit": 1,
+          "symbol": "M",
+          "color": 12953087,
+          "weight": 3000,
+          "percent": 10
+        }
+      ],
+      "items": [
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "is_active": "1"
+        },
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "is_active": "1"
+        },
+        {
+          "code": "STARLIGHT_ARMOR_CORE",
+          "name": "미스틱 에너지",
+          "is_active": "1"
+        },
+        {
+          "code": "SUPERSTAR_GUARANTEED_PACK",
+          "name": "슈퍼스타팩 확정권",
+          "is_active": "1"
+        }
+      ],
+      "readOnly": true,
+      "checkedAt": "2026-10-03T18:37:54.771Z"
+    }
+  }
 }
