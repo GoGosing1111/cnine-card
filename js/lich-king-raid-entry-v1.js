@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION = '20261004-input-unlock';
+  const VERSION = '20261004-seal-batch';
   let checkedAt = 0, visible = false, featureRequest = null, controller = null, revision = 0;
   const host = () => document.getElementById('pveLichRaidView');
   async function refresh() {

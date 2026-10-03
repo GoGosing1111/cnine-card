@@ -222,7 +222,7 @@ function coopContext(){return {record,wound,wipe,fail,resource,applyCombat};}
 export function actLichRoom(room,memberId,input,now) {
   if(!input||typeof input.requestId!=='string'||!/^[a-zA-Z0-9_-]{8,100}$/.test(input.requestId))fail('REQUEST_ID','유효한 요청 식별자가 필요합니다.',400);
   const member=room.members.find(m=>m.id===memberId);if(!member)fail('NOT_MEMBER','공대 참가자가 아닙니다.',403);
-  const signature=JSON.stringify([memberId,input.challengeId,input.action,input.target||'',...(room.rulesVersion===2?[input.stepToken||'']:[])]);
+  const signature=JSON.stringify([memberId,input.challengeId,input.action,input.target||'',...(room.rulesVersion===2?[input.stepToken||'',...(input.targets!==undefined?[input.targets]:[])]:[])]);
   if(room.receipts[input.requestId]){
     if(room.receipts[input.requestId]!==signature)fail('REQUEST_CONFLICT','같은 요청 식별자를 다른 행동에 사용할 수 없습니다.');
     tickLichRoom(room,now);return room;

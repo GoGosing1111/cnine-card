@@ -167,6 +167,7 @@ body.in-combat>.site-header{display:none}
 @media(max-height:660px){.lich-mechanic-screen[data-coop=true] .lk-console{max-height:50%;overflow-y:auto;pointer-events:auto}.lich-mechanic-screen[data-coop=true] .lk-host-mark{display:none}}
 
 .lk-coop-sequence .current{color:#fff4d8;font-weight:800;border-bottom:2px solid #edcb8b;padding-bottom:2px}
+.lk-coop-sequence .entered{color:#e9c990;background:#d9a55022;box-shadow:inset 0 -2px #d9a55077;border-radius:2px}
 .lk-coop-task header{flex-wrap:wrap}
 .lk-coop-task[data-kind=SHATTER][data-waiting=true]{--task:#8aaabc}
 .lk-coop-task[data-kind=SHATTER][data-waiting=false]{--task:#f2ce8e}

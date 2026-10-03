@@ -241,7 +241,7 @@ async function roomCommand(env,user,cfg,kind,body,deps,now,since=0){
         }else{room.members=room.members.filter(m=>m!==me);removeLichLoadout(room,me.id);room.revision++;}
         extra.push(env.DB.prepare('DELETE FROM '+ACTIVE+' WHERE user_id=? AND room_id=?').bind(user.id,room.id));
       }else if(kind==='action'){
-        actLichRoom(room,id(user.id),{requestId:body.requestId,challengeId:body.challengeId,action:body.action,target:body.target,stepToken:body.stepToken},now);
+        actLichRoom(room,id(user.id),{requestId:body.requestId,challengeId:body.challengeId,action:body.action,target:body.target,stepToken:body.stepToken,...(body.targets!==undefined?{targets:body.targets}:{})},now);
       }else fail('ROUTE','지원하지 않는 공대 명령입니다.',404);
     }
     const rewardPlan=await prepareLichClearRewards(env,row,room);
@@ -290,7 +290,7 @@ export async function handleLichRaid({path,request,env,deps}){
     }
     if(request.method!=='POST')return json({error:'지원하지 않는 요청입니다.'},405);
     const kind=path.slice('raid/lich/'.length);
-    const fields={open:['requestId','clientRulesVersion'],join:['requestId','roomId','clientRulesVersion'],assign:['requestId','roomId','targetId','role'],ready:['requestId','roomId','ready','clientRulesVersion'],kick:['requestId','roomId','targetId'],start:['requestId','roomId','clientRulesVersion'],leave:['requestId','roomId'],action:['requestId','roomId','challengeId','action','target','stepToken']}[kind];
+    const fields={open:['requestId','clientRulesVersion'],join:['requestId','roomId','clientRulesVersion'],assign:['requestId','roomId','targetId','role'],ready:['requestId','roomId','ready','clientRulesVersion'],kick:['requestId','roomId','targetId'],start:['requestId','roomId','clientRulesVersion'],leave:['requestId','roomId'],action:['requestId','roomId','challengeId','action','target','targets','stepToken']}[kind];
     if(!fields)fail('ROUTE','지원하지 않는 공대 명령입니다.',404);
     const body=await readJointBody(request,{fields});
     const since=Number(url.searchParams.get('since'))||0;

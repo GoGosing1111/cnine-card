@@ -1,0 +1,55 @@
+{
+  "status": "BROWSER_VERIFIED_PENDING_SCOPED_GATE",
+  "request": "개인 봉인 문양 입력마다 발생하는 입력 확인 대기 제거",
+  "reproduced": "Previous shipped bundle disables seal buttons after its first rune when the request is delayed; browser assertion reproduced the wait.",
+  "changes": [
+    "Three selected runes are collected immediately and sent together in one request; partial legacy seals submit only remaining runes",
+    "The server validates the actual selections, order, owner, current epoch, deadlines and receipts under the existing atomic room update",
+    "A wrong rune resets the personal seal once and cancels the rest of that submitted sequence",
+    "Unrelated mechanics stay usable; status polls preserve incomplete local selections; failed submissions can be retried safely"
+  ],
+  "unchanged": [
+    "Raid deadlines, rune order, role requirements, damage, rewards, weekly quota and CMS mode"
+  ],
+  "baseline": {
+    "source": "db34fa5593c4b4ecf4823995a5e8fdda30c3bf11",
+    "pagesId": "62726cf8-ef08-4665-b576-61e891d36dd4"
+  },
+  "browser": {
+    "reports": [
+      {
+        "width": 1440,
+        "reverse": false,
+        "immediateContinuousInput": true,
+        "oneSubmission": true,
+        "pollPreservesDraft": true,
+        "independentInterrupt": true,
+        "retryAfterFailure": true,
+        "authoritativeSeal": true,
+        "pageErrors": []
+      },
+      {
+        "width": 390,
+        "reverse": true,
+        "immediateContinuousInput": true,
+        "oneSubmission": true,
+        "pollPreservesDraft": true,
+        "independentInterrupt": true,
+        "retryAfterFailure": true,
+        "authoritativeSeal": true,
+        "pageErrors": []
+      }
+    ],
+    "artifacts": "C:/Users/User/AppData/Local/Temp/lich-seal-ui-Hiz6Xo"
+  },
+  "scopedTests": [
+    "tests/lich-seal-batch-20261004.test.mjs",
+    "tests/lich-raid-coop-20261002.test.mjs",
+    "tests/lich-raid-feedback-20261003.test.mjs",
+    "tests/lich-raid-inline-entry-20260929.test.mjs",
+    "tests/lich-input-unlock-20261004.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ]
+}

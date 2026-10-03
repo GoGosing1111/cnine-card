@@ -1,6 +1,6 @@
-import { mountLichRaid } from './live.mjs?v=20261004-input-unlock';
+import { mountLichRaid } from './live.mjs?v=20261004-seal-batch';
 
-const VERSION = '20261004-input-unlock';
+const VERSION = '20261004-seal-batch';
 let styles, battle;
 function loadAsset(tag, url) {
   return new Promise((resolve, reject) => {
@@ -13,7 +13,7 @@ function loadAsset(tag, url) {
   });
 }
 function loadBattle() {
-  return battle ||= loadAsset('script', '/preview/lich-king-raid-v1/battle.bundle.js?v=20261004-input-unlock')
+  return battle ||= loadAsset('script', '/preview/lich-king-raid-v1/battle.bundle.js?v=20261004-seal-batch')
     .catch(error => { battle = null; throw error; });
 }
 

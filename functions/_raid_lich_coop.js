@@ -127,6 +127,9 @@ export function tickCoopRoom(room,ctx){
 
 export function actCoopRoom(room,memberId,input,ctx){
   const {fail,record,wound,resource}=ctx,c=room.challenge,now=room.clock;
+  const batch=input.targets;
+  if(batch!==undefined&&(input.action!=='SEAL'||input.target!==undefined||!Array.isArray(batch)||batch.length<1||batch.length>3||batch.some(r=>!RUNES.includes(r))))
+    fail('SEAL_INPUT','봉인 문양을 순서대로 입력하세요.',400);
   if(typeof input.stepToken!=='string'||input.stepToken.length>220)fail('CLIENT_UPDATE','새 기믹 화면을 불러온 뒤 다시 입력하세요.',409);
   const controls=coopControls(room,memberId),control=controls.find(a=>a.token===input.stepToken&&a.action===input.action);
   if(!control){
@@ -138,6 +141,20 @@ export function actCoopRoom(room,memberId,input,ctx){
   if(control.blocked)fail('MECHANIC_LOCKED',control.note);
   if(control.startsAt&&now<control.startsAt)fail('TOO_EARLY','아직 입력 시간이 아닙니다. 전장 예고를 확인하세요.');
   if(control.deadline&&now>=control.deadline)fail('TOO_LATE','입력 시간이 끝났습니다.');
+  if(batch!==undefined){
+    const seal=c.seals.find(t=>t.id===control.taskId),epoch=seal.epoch;
+    if(batch.length>3-seal.index)fail('SEAL_INPUT','남은 봉인 문양 수를 확인하세요.',400);
+    // Validate the player's selections in order under the existing room CAS.
+    // A wrong rune ends this submission; queued keys cannot penalize a reset.
+    const {targets,...single}=input;
+    for(const target of batch){
+      const next=coopControls(room,memberId).find(a=>a.key===control.key&&a.action==='SEAL');
+      if(!next||next.blocked)break;
+      actCoopRoom(room,memberId,{...single,stepToken:next.token,target},ctx);
+      if(room.status!=='ACTIVE'||seal.epoch!==epoch)break;
+    }
+    return;
+  }
   const action=input.action,task=control.taskId;
   const expected=action==='SEAL'?(()=>{const t=c.seals.find(t=>t.id===task);return (t.reverse?[...t.sequence].reverse():t.sequence)[t.index];})():control.rune;
   const wrong=control.choices&&input.target!==expected;

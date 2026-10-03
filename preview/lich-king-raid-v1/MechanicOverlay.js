@@ -14,7 +14,7 @@ const time=ms=>{const s=seconds(ms);return String(Math.floor(s/60)).padStart(2,'
 export class MechanicOverlay{
   constructor(engine,host){
     const {Container,Graphics}=window.ProjectVPixiBattle.fxRuntime;
-    this.engine=engine;this.host=host;this.state=null;this.key='';this.offset=0;this.lastPaint=0;this.feedbackSeq=0;this.flashSerial=0;this.pending=false;this.pendingInputs=new Set();
+    this.engine=engine;this.host=host;this.state=null;this.key='';this.offset=0;this.lastPaint=0;this.feedbackSeq=0;this.flashSerial=0;this.pending=false;this.pendingInputs=new Set();this.sealInputs=new Map();
     this.element=document.createElement('section');
     this.element.className='lich-mechanic-screen';
     this.element.setAttribute('aria-label','리치왕 전장 기믹');
@@ -37,7 +37,17 @@ export class MechanicOverlay{
     this.onClick=e=>{const b=e.target.closest('[data-action]'),pressed=this.pressedInput;this.pressedInput=null;if(!b||b.disabled||this.isPending(b.dataset.stepToken)||!this.state)return;
       // Shared heal/phase updates during a held press must not turn the original
       // intent into a second charge or a new step when the pointer is released.
-      window.dispatchEvent(new CustomEvent('lich-raid-action',{detail:e.detail&&pressed?.button===b?pressed.detail:input(b)}));};
+      let detail=e.detail&&pressed?.button===b?pressed.detail:input(b);
+      if(this.state.rulesVersion===2&&detail.action==='SEAL'){
+        const control=this.state.controls.find(a=>a.action==='SEAL'&&a.token===detail.stepToken);
+        if(!control||control.blocked)return;
+        const draft=this.sealInputs.get(control.token)||[];
+        if(draft.length>=3-control.index)return;
+        draft.push(detail.target);this.sealInputs.set(control.token,draft);this.key='';this.tick(true);
+        if(draft.length<3-control.index)return;
+        const {target,...batch}=detail;detail={...batch,targets:[...draft]};
+      }
+      window.dispatchEvent(new CustomEvent('lich-raid-action',{detail}));};
     this.element.addEventListener('pointerdown',this.onPointerDown);
     this.element.addEventListener('pointercancel',this.clearPointer);
     this.element.addEventListener('keydown',this.clearPointer);
@@ -59,6 +69,8 @@ export class MechanicOverlay{
   }
   update(state,events=[]){
     this.state=state;this.offset=(state.responseNow||state.serverNow)-Date.now();
+    const seals=new Set((state.controls||[]).filter(a=>a.action==='SEAL'&&!a.blocked).map(a=>a.token));
+    for(const token of this.sealInputs.keys())if(!seals.has(token))this.sealInputs.delete(token);
     const c=state.challenge;if(!c)return;
     const critical=state.step==='MECHANIC'&&!c.interrupted&&c.cast==='SOUL_ANNIHILATION';
     this.element.dataset.step=state.step;this.element.dataset.kind=c.kind||state.step;
@@ -175,7 +187,11 @@ export class MechanicOverlay{
     for(const b of this.element.querySelectorAll('[data-action]'))if(this.isPending(b.dataset.stepToken))b.disabled=true;
   }
   isPending(token){return this.pending||this.pendingInputs.has(lichInputKey(token));}
-  setPending(value){this.pending=value===true;this.pendingInputs=new Set(Array.isArray(value)?value.map(input=>lichInputKey(input.stepToken)):[]);this.key='';this.tick(true);}
+  setPending(value){
+    this.pending=value===true;this.pendingInputs=new Set(Array.isArray(value)?value.map(input=>lichInputKey(input.stepToken)):[]);
+    for(const a of this.state?.controls||[])if(a.action==='SEAL'&&!this.isPending(a.token)&&(this.sealInputs.get(a.token)?.length||0)>=3-a.index)this.sealInputs.delete(a.token);
+    this.key='';this.tick(true);
+  }
   flash(label,danger){
     const node=this.node('feedback');node.hidden=false;node.textContent=label;node.classList.toggle('is-danger',danger);
     const serial=++this.flashSerial;

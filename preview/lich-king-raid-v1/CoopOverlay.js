@@ -31,7 +31,8 @@ function syncTasks(o,actions,mechanic){
       root.appendChild(card);
     }
     card.querySelector('header b').textContent=a.label;card.querySelector('[data-task-clock]').dataset.taskClock=a.key;
-    card.querySelector('p').textContent=a.note;
+    const draft=o.sealInputs.get(a.token)||[],entered=a.index+draft.length;
+    card.querySelector('p').textContent=draft.length?'선택 '+entered+' / 3 · '+draft.join(' → '):a.action==='SEAL'&&!a.blocked?a.note+' · 남은 '+(3-a.index)+'개 연속 입력':a.note;
     const runes=card.querySelector('[data-task-runes]'),runeKey=JSON.stringify([a.sequence,a.reverse,a.rune]);
     if(runes.dataset.key!==runeKey){
       runes.dataset.key=runeKey;
@@ -39,7 +40,7 @@ function syncTasks(o,actions,mechanic){
     }
     for(const node of runes.querySelectorAll('[data-sequence-index]')){
       const index=a.reverse?2-Number(node.dataset.sequenceIndex):Number(node.dataset.sequenceIndex);
-      node.classList.toggle('done',index<a.index);node.classList.toggle('current',index===a.index);
+      node.classList.toggle('done',index<a.index);node.classList.toggle('entered',index>=a.index&&index<entered);node.classList.toggle('current',index===entered);
     }
     syncButtons(card.querySelector('.lk-coop-keys'),[a]);
   }
@@ -92,9 +93,10 @@ export function tickCoop(o,c,now){
     const input=lichCoopInputState(s,c,a,now,o.isPending(a.token));
     const card=[...o.element.querySelectorAll('[data-task]')].find(n=>n.dataset.task===a.key);
     const clock=card?.querySelector('[data-task-clock]');
-    if(clock)clock.textContent=input.clock;
+    const sealedInput=a.action==='SEAL'&&(o.sealInputs.get(a.token)?.length||0)>=3-a.index;
+    if(clock)clock.textContent=sealedInput&&!input.expired&&!input.blocked?'3 / 3 입력 완료':input.clock;
     if(card){card.dataset.waiting=String(input.waiting||input.blocked);card.dataset.urgent=String(input.ready&&a.deadline>now&&a.deadline-now<4000);}
-    for(const b of o.element.querySelectorAll('[data-step-token]'))if(b.dataset.stepToken===a.token)b.disabled=!input.ready;
+    for(const b of o.element.querySelectorAll('[data-step-token]'))if(b.dataset.stepToken===a.token)b.disabled=!input.ready||sealedInput;
   }
   const breath=o.element.querySelector('[data-breath-clock]');
   if(breath)breath.textContent=Math.max(0,Math.ceil(((c.breathResolved?c.breathAt+6000:c.breathAt)-now)/1000))+'s';

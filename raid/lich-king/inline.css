@@ -2376,6 +2376,12 @@
   border-bottom: 2px solid #edcb8b;
   padding-bottom: 2px;
 }
+#pveLichRaidView .lk-coop-sequence .entered {
+  color: #e9c990;
+  background: #d9a55022;
+  box-shadow: inset 0 -2px #d9a55077;
+  border-radius: 2px;
+}
 #pveLichRaidView .lk-coop-task header {
   flex-wrap: wrap;
 }
