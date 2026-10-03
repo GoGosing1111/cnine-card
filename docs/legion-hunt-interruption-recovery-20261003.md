@@ -24,6 +24,13 @@
 - 군단토벌 단일 콘텐츠의 정산·복구 경로 변경이다. 기존 사용자 잠금·CAS·원자 배치를 재사용하며 공통 인증/DB 기반/마이그레이션/의존성/전투 규칙 변경이 없으므로 `npm run deploy:production -- --scoped`를 사용한다.
 - 최종 선정: `tests/legion-hunt-entry-account-20260926.test.mjs`, `tests/legion-hunt-owner-cms-20260926.test.mjs`, `tests/legion-hunt-drop-batch-20260928.test.mjs`, `tests/legion-hunt-deadline-20260928.test.mjs`, `check:worker`. 신규 복구·모드 회귀는 앞서 동일 서버 소스로 통과했고 `test:legion-hunt`에 추가했다.
 
+## 운영 반영 완료
+
+- 소스 커밋 `0dc0b253deca2a3d14a8bd9855204f304a7be8e3`을 origin/main에 반영하고 지정 scoped 배포 완료. 최종 선정 회귀 **26개 통과**, Worker 구문·번들 컴파일·출시 플래그/캐시·Hyperdrive query cache OFF 검사 통과.
+- Pages: `https://cbd978eb.cnine-card.pages.dev`. API Runtime `c8e0258f-7448-4320-a06c-fdde9aaa73ec`, clan-draft `92994ed5-fde5-40cb-b384-60d6f7da14a7`.
+- 2026-10-03 **22:26:57 KST** 운영 기본 주소의 메인 셸·입장 모듈·전투 페이지·전투 컨트롤러·CMS 셸/모듈 6개 모두 HTTP 200, SHA-256이 배포 후보와 일치. 복구 POST·bootstrap GET은 비로그인 401 및 no-store 유지.
+- 증거: `C:/Users/User/.codex/tmp/legion-hunt-recovery-20261003/deploy.log`, `production.json`. 확인 결과만 문서에 기록하며 동일 게임 빌드를 다시 배포하지 않는다.
+
 ## 유저 안내 문안
 
 군단토벌 중단 보정 및 보상 정산 방식이 개선되었습니다.
