@@ -1,70 +1,151 @@
 {
-  "existingCode": "V-055",
-  "canonicalName": "베르칸",
-  "userAlias": "벨르칸",
+  "existingCode": "V-996",
+  "canonicalName": "발테르",
+  "userCorrection": "발테르, not 베르칸 (2026-10-04)",
   "approvedSdReused": true,
   "newCharacterGeneration": false,
   "existingMotionAndEffectsChanged": false,
+  "displaySizingOnlyChanged": true,
   "entries": [
     {
-      "path": "assets/ui/project-v/characters/mercenary/berkan-sss-v1/berkan-sd-v1.png",
-      "sha256": "79D144E33E1113C82787A93E6AD49BE3583A8DA1BA8DAAF91037020EC31D6101"
+      "path": "assets/ui/project-v/mercenaries/approved-20260930/crimson-silver-knight-source-art-approved-v8.png",
+      "sha256": "8B94E60670355AF87D13802FD68AD4DE22F8E7F23C65028CC97DD1D1F78BE838"
     },
     {
-      "path": "assets/ui/project-v/mercenaries/approved-20260927/berkan-source-art-v1.png",
-      "sha256": "E782A14D37A115ABA29D46F13D2443DBF5761A7DD99DCDA816B9908BA896507D"
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/assets/knight-sd-v14-original-blade-approved-grip.png",
+      "sha256": "D2CAB7DDE716CF9A0554AF44A03A448A7BCCD9E402928D87620C72C73879A6CC"
     },
     {
-      "path": "preview/mercenary-berkan-sss-v1/manifest.json",
-      "sha256": "C54DA22C4635731C6102ADCA0F955195A6AAC76645051D0CC50EABEC6D43A8F6"
+      "path": "assets/ui/project-v/mercenaries/limited-20261002/valter-approved-sd.png",
+      "sha256": "D2CAB7DDE716CF9A0554AF44A03A448A7BCCD9E402928D87620C72C73879A6CC"
     },
     {
-      "path": "preview/mercenary-berkan-area-v1/manifest.json",
-      "sha256": "53D1B003C5F1CBB70D0B5625C9AAEA4DDF4C6543551979ECCF9195E9825F8EA8"
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/manifest.json",
+      "sha256": "FFFE858406352B35ABB2F8FB30E95741AB94D7493E5280EC306A75A1ABD329ED"
     },
     {
-      "path": "preview/mercenary-berkan-sss-v1/assets/idle-atlas.webp",
-      "sha256": "6E855BFF20D37F6516D378F6E41D85E667AB10082056B99BCBF71E8A7C8C742A"
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/motion-approval-20261001-v17.json",
+      "sha256": "C52B7FA25461E16CA2B769D9619672F2D4A0E415F4FEC7E4F012A05826FA6CA8"
     },
     {
-      "path": "preview/mercenary-berkan-sss-v1/assets/aim-atlas.webp",
-      "sha256": "77B391507C43414F105C84104FA7A8F76E057B432189BDC8828DC8FA7D685E40"
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v5/idle-atlas.webp",
+      "sha256": "C9931C1B14E5ED2854BD89CFE1C55B983AD82E0F2B55907ED7F7C17426F2054D"
     },
     {
-      "path": "preview/mercenary-berkan-sss-v1/assets/attack-atlas.webp",
-      "sha256": "A2831EA8B060A99EFC09CC91956D905D739757B10228BDF8E01B68A836D61285"
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v5/idle-atlas.png",
+      "sha256": "D97776707E78805D74D954833DBAED63341D7C24E4750748BB11ADAA76186FEA"
     },
     {
-      "path": "preview/mercenary-berkan-sss-v1/assets/hit-atlas.webp",
-      "sha256": "7BC46B1377ADC32B4E8FBE47C17B4F2E4D1CB859A04DCE715F516C35CA688E49"
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v5/dash-atlas.webp",
+      "sha256": "5CE9ACDAC2C33C359F51FBA232441E0F7672A8BB9527F6955A9B0B37C29BB7E4"
     },
     {
-      "path": "preview/mercenary-berkan-sss-v1/assets/defeat-atlas.webp",
-      "sha256": "535B0E2D9F7512D0961BBF401C136EE98F8FBAB9A779CA3C30247585B3A1AFB4"
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v5/dash-atlas.png",
+      "sha256": "3ABA4127CD68F2A0D41DA66AA8F38EEEF9DE6F0271C9FA1958EB3A0DDDBA7BC4"
     },
     {
-      "path": "preview/mercenary-berkan-sss-v1/assets/ultimate-atlas.webp",
-      "sha256": "546C34AAF723659A1C04541F45A3E9DC283757EDCF9C89B1128A6E467B7E6A1C"
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v13/twohandGrip-atlas.webp",
+      "sha256": "3B433EC0BA918A038AFDB9315AA289E41B5C06DC3F59C87B0FF2EC6837097046"
     },
     {
-      "path": "preview/mercenary-berkan-sss-v1/assets/fx-charge-atlas.webp",
-      "sha256": "F4DA16F75851DDCA7E9A3B24330C15994DB32DAD219DF5D4F46DB7603317FE9B"
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v13/twohandGrip-atlas.png",
+      "sha256": "524A17A516C4F60B7420AA3FAC5CF183441177A09715CCD0133BCD2351B2F6F5"
     },
     {
-      "path": "preview/mercenary-berkan-sss-v1/assets/fx-projectile-atlas.webp",
-      "sha256": "A01B1A2178C1C0BE4D7AA78BDD07ED7FCE9913F0E73A1BF460BF62444A980197"
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v13/twohandLift-atlas.webp",
+      "sha256": "AC4A7406652EEC034E71B87D956E2E7191AC5CB2DF813137939DE3C2F559F539"
     },
     {
-      "path": "preview/mercenary-berkan-sss-v1/assets/fx-impact-atlas.webp",
-      "sha256": "4C3266A57EFEEB2238BCD51BBA5C3ADBC648E35817FC1125570CE94B75C8785F"
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v13/twohandLift-atlas.png",
+      "sha256": "CDB66593D4B8169F0223BB3034655FC0804E97929EA055735DFF732918F894AE"
     },
     {
-      "path": "preview/mercenary-berkan-sss-v1/assets/fx-afterglow-atlas.webp",
-      "sha256": "C92F3A622D1FFD888D625670219AD76F01F08669E8B830C4017F52404B3793BF"
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v13/twohandStrike-atlas.webp",
+      "sha256": "14B289DE2622650C4A30CCFBB589367C3D503B0556DB7C83F18E369A8AC059E7"
     },
     {
-      "path": "preview/mercenary-berkan-sss-v1/assets/fx-aura-atlas.webp",
-      "sha256": "5164FAA2B263355A14352335F3ECB579A90F016AF9ECF692417B13611833CCB2"
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v13/twohandStrike-atlas.png",
+      "sha256": "DBCF8E6725C248505914DD027412C6F0C6C69D4AC045AF7B31F11424F4CF9AA2"
+    },
+    {
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v13/twohandReturn-atlas.webp",
+      "sha256": "75152A8C78CEF13DAE749076B5546D1D26631457010025A81C406D41839342AB"
+    },
+    {
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v13/twohandReturn-atlas.png",
+      "sha256": "884A36A7D0C631CB8A4E70CD6DA0A5C542471BDA8D1704B461207FAB7341A191"
+    },
+    {
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v5/hit-atlas.webp",
+      "sha256": "79EB0B4C8D111D21F0B9CE883A9E011EB4F284E5BB8A673361470481ECDE6141"
+    },
+    {
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v5/hit-atlas.png",
+      "sha256": "0FBACF1B19A160061E944D226DB3AF175D1BC3ABA35D3EF7E6995CCE64DB5F41"
+    },
+    {
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v5/defeat-atlas.webp",
+      "sha256": "5B37404CAB4300ABBA6159BB4D1844BED56D26B4B001CAE6186FC7A2C0F3D854"
+    },
+    {
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/assets/motion-v5/defeat-atlas.png",
+      "sha256": "0D04B1FF0484EF610B4C930DA06E121102FCC9317884D5D4B83BAC060281602E"
+    },
+    {
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-aura-atlas.webp",
+      "sha256": "D0EB269EDF87E158D29149A0FDD7C6A8DF95795D741D8B0F4755812B51902E97"
+    },
+    {
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-aura-atlas.png",
+      "sha256": "02CEA7CBFAEB0F9CE6BFAB552EA091C439CE8E727295F929E6A5277E6C9A51F7"
+    },
+    {
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-dash-atlas.webp",
+      "sha256": "48B98D7A36780126AC55FCE2AD6FFB0C238D64A1B16508B8E2B79F548161A9D3"
+    },
+    {
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-dash-atlas.png",
+      "sha256": "0088EC58D60BC7FDA527D21895477A9A4F7046FA29F922D748AEF136BBAB942B"
+    },
+    {
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-slash-atlas.webp",
+      "sha256": "D7B44C3390A52BB2E19BEF4A04893054BE6A1060BE5988D016B35C43AC9000F6"
+    },
+    {
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-slash-atlas.png",
+      "sha256": "AA6BAEA0DB740FD5032BF5A7F3FC0E2C6ABFDE6F66CD1506D1D5AB7C1BABF89A"
+    },
+    {
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-guard-atlas.webp",
+      "sha256": "A2F585DE6FCDA89F47511030DB8B58E091F90065BFA78AD38230DF3C12C6D122"
+    },
+    {
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-guard-atlas.png",
+      "sha256": "606980A7C2437A2082EAA5072F9C972B84F3972F4A0AB142EB2F8AC72A1F2037"
+    },
+    {
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-charge-atlas.webp",
+      "sha256": "CE6151B3C5C93756E9906408E8924882AB84533231BEB891DE7A7EF832A65684"
+    },
+    {
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-charge-atlas.png",
+      "sha256": "1AA300F0CCB5ADA8BD68DF0F341088016878B74F211D9AD6569067421E10963F"
+    },
+    {
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-execution-atlas.webp",
+      "sha256": "60F1CE80832E39E30FCC877CEA52982121AFD6C2AE8C12B2AFD4CA77988CC08F"
+    },
+    {
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-execution-atlas.png",
+      "sha256": "9FBB945B99B0B28FA1B30121DFB5233DFCAF9F186B04B09C175847CE445D54E5"
+    },
+    {
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-ultimate-atlas.webp",
+      "sha256": "DFB48405767719DECC2669C5422B6651C9E77FCA78D964A7F5CB1214AED31A23"
+    },
+    {
+      "path": "preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-ultimate-atlas.png",
+      "sha256": "F42F35C70B313C2D74924251E97F02368124003357BFA85690D2FF548BE8DD4F"
     }
   ]
 }

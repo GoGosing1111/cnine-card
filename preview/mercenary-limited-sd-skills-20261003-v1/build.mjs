@@ -1,6 +1,7 @@
 import {build} from 'esbuild';import fs from 'node:fs/promises';import {fileURLToPath} from 'node:url';import {createHash} from 'node:crypto';
 const root=fileURLToPath(new URL('./',import.meta.url));
-const result=await build({entryPoints:[root+'source/preview.js'],bundle:true,minify:true,format:'iife',target:['es2022'],legalComments:'none',outfile:root+'preview.bundle.js',metafile:true});
+const previewAssetRoots={name:'standalone-preview-asset-roots',setup(builder){builder.onLoad({filter:/[/\\]BattleEngine\.js$/},async args=>({contents:(await fs.readFile(args.path,'utf8')).replace(/(['"])\.\.\/\.\.\/assets\//g,'$1/assets/'),loader:'js'}));}};
+const result=await build({entryPoints:[root+'source/preview.js'],bundle:true,minify:true,format:'iife',target:['es2022'],legalComments:'none',outfile:root+'preview.bundle.js',metafile:true,plugins:[previewAssetRoots]});
 await fs.writeFile(root+'preview.bundle.js',(await fs.readFile(root+'preview.bundle.js','utf8')).replace(/[\t ]+$/gm,'').trimEnd()+'\n');
 const inputs=Object.keys(result.metafile.inputs).map(s=>s.replaceAll('\\','/')),pixi=inputs.filter(s=>s.endsWith('/pixi.js/lib/index.mjs')).length,gsap=inputs.filter(s=>s.endsWith('/gsap/index.js')).length;
 if(pixi!==1||gsap!==1)throw Error('Duplicate renderer or clock');

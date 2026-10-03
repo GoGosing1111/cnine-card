@@ -14,23 +14,41 @@
         "rank": "SS",
         "time": 1.4,
         "body": "static image preview; motion not claimed",
+        "formation": {
+          "bodyHeight": 228.34635416666669,
+          "textureHeight": 260,
+          "sizePolicy": "EXISTING_REGULAR_BATTLE_SPRITE",
+          "station": {
+            "x": 380,
+            "y": 240
+          },
+          "foot": {
+            "x": 380,
+            "y": 240
+          },
+          "scale": 0.5,
+          "regularScale": 0.5,
+          "regularTextureHeight": 260,
+          "visibleAllies": 5
+        },
         "aura": {
           "enabled": true,
           "frame": 4,
           "behindCharacter": true,
-          "color": "#8beaff"
+          "color": "#8beaff",
+          "widthToBody": 1.1715
         },
         "effectFrame": 6,
         "visibleSkillEffects": 1,
         "emission": {
-          "x": 593.1544996293551,
-          "y": 318.0493699036323
+          "x": 424.94140625,
+          "y": 144.36197916666666
         },
         "forwardOrigin": {
-          "x": 597.5963945591956,
-          "y": 318.1370388825107
+          "x": 426.9961232762144,
+          "y": 144.40253279218405
         },
-        "axisLateralError": 1.8693380177126073e-14,
+        "axisLateralError": 3.7470027081099033e-16,
         "shotAngleDegrees": 1.130690951237971,
         "singleClock": true,
         "registeredTimelines": 0,
@@ -42,23 +60,41 @@
         "rank": "SS",
         "time": 1.4,
         "body": "static image preview; motion not claimed",
+        "formation": {
+          "bodyHeight": 230.71614583333334,
+          "textureHeight": 260,
+          "sizePolicy": "EXISTING_REGULAR_BATTLE_SPRITE",
+          "station": {
+            "x": 380,
+            "y": 240
+          },
+          "foot": {
+            "x": 380,
+            "y": 240
+          },
+          "scale": 0.5,
+          "regularScale": 0.5,
+          "regularTextureHeight": 260,
+          "visibleAllies": 5
+        },
         "aura": {
           "enabled": true,
           "frame": 4,
           "behindCharacter": true,
-          "color": "#65cfff"
+          "color": "#65cfff",
+          "widthToBody": 1.254
         },
         "effectFrame": 6,
         "visibleSkillEffects": 1,
         "emission": {
-          "x": 597.770242112986,
-          "y": 362.5470873074101
+          "x": 427.56510416666663,
+          "y": 164.16666666666669
         },
         "forwardOrigin": {
-          "x": 602.1958079654847,
-          "y": 362.93757841204234
+          "x": 429.63351332439316,
+          "y": 164.34917335705433
         },
-        "axisLateralError": 6.661338147750939e-15,
+        "axisLateralError": 4.9960036108132044e-15,
         "shotAngleDegrees": 5.042451069170913,
         "singleClock": true,
         "registeredTimelines": 0,
@@ -70,21 +106,39 @@
         "rank": "SS",
         "time": 1.4,
         "body": "static image preview; motion not claimed",
+        "formation": {
+          "bodyHeight": 250.3515625,
+          "textureHeight": 260,
+          "sizePolicy": "EXISTING_REGULAR_BATTLE_SPRITE",
+          "station": {
+            "x": 380,
+            "y": 240
+          },
+          "foot": {
+            "x": 380,
+            "y": 240
+          },
+          "scale": 0.5,
+          "regularScale": 0.5,
+          "regularTextureHeight": 260,
+          "visibleAllies": 5
+        },
         "aura": {
           "enabled": true,
           "frame": 4,
           "behindCharacter": true,
-          "color": "#c390ff"
+          "color": "#c390ff",
+          "widthToBody": 1.2045
         },
         "effectFrame": 6,
         "visibleSkillEffects": 1,
         "emission": {
-          "x": 548.5681541582151,
-          "y": 317.1975118323191
+          "x": 406.6601562499999,
+          "y": 134.71354166666666
         },
         "forwardOrigin": {
-          "x": 553.0109141582151,
-          "y": 317.1975118323191
+          "x": 408.9133203124999,
+          "y": 134.71354166666666
         },
         "axisLateralError": 0,
         "shotAngleDegrees": 0,
@@ -98,23 +152,41 @@
         "rank": "SS",
         "time": 1.4,
         "body": "static image preview; motion not claimed",
+        "formation": {
+          "bodyHeight": 232.46354566385264,
+          "textureHeight": 260,
+          "sizePolicy": "EXISTING_REGULAR_BATTLE_SPRITE",
+          "station": {
+            "x": 380,
+            "y": 240
+          },
+          "foot": {
+            "x": 380,
+            "y": 240
+          },
+          "scale": 0.5,
+          "regularScale": 0.5,
+          "regularTextureHeight": 260,
+          "visibleAllies": 5
+        },
         "aura": {
           "enabled": true,
           "frame": 4,
           "behindCharacter": true,
-          "color": "#ffcf70"
+          "color": "#ffcf70",
+          "widthToBody": 1.5015
         },
         "effectFrame": 6,
         "visibleSkillEffects": 1,
         "emission": {
-          "x": 628.4141630901288,
-          "y": 373.10633476394844
+          "x": 442.3561013046815,
+          "y": 168.5648503453569
         },
         "forwardOrigin": {
-          "x": 632.856710636051,
-          "y": 373.14978266170806
+          "x": 444.4481731673858,
+          "y": 168.58531070587233
         },
-        "axisLateralError": 1.0845491171806998e-14,
+        "axisLateralError": 2.2967738821932926e-15,
         "shotAngleDegrees": 0.5603320575676948,
         "singleClock": true,
         "registeredTimelines": 0,
@@ -126,21 +198,39 @@
         "rank": "SS",
         "time": 1.4,
         "body": "static image preview; motion not claimed",
+        "formation": {
+          "bodyHeight": 238.33333333333334,
+          "textureHeight": 260,
+          "sizePolicy": "EXISTING_REGULAR_BATTLE_SPRITE",
+          "station": {
+            "x": 380,
+            "y": 240
+          },
+          "foot": {
+            "x": 380,
+            "y": 240
+          },
+          "scale": 0.5,
+          "regularScale": 0.5,
+          "regularTextureHeight": 260,
+          "visibleAllies": 5
+        },
         "aura": {
           "enabled": true,
           "frame": 4,
           "behindCharacter": true,
-          "color": "#cfddff"
+          "color": "#cfddff",
+          "widthToBody": 1.2374999999999998
         },
         "effectFrame": 6,
         "visibleSkillEffects": 1,
         "emission": {
-          "x": 547.712997159091,
-          "y": 326.18703124999996
+          "x": 404.96744791666663,
+          "y": 144.10807291666666
         },
         "forwardOrigin": {
-          "x": 552.155757159091,
-          "y": 326.18703124999996
+          "x": 407.1124479166666,
+          "y": 144.10807291666666
         },
         "axisLateralError": 0,
         "shotAngleDegrees": 0,
@@ -149,16 +239,34 @@
         "liveEnabled": false
       },
       {
-        "character": "베르칸",
-        "code": "V-055",
+        "character": "발테르",
+        "code": "V-996",
         "rank": "SSS",
         "time": 0.8,
         "body": "static image preview; motion not claimed",
+        "formation": {
+          "bodyHeight": 226.875,
+          "textureHeight": 260,
+          "sizePolicy": "EXISTING_REGULAR_BATTLE_SPRITE",
+          "station": {
+            "x": 380,
+            "y": 240
+          },
+          "foot": {
+            "x": 380,
+            "y": 240
+          },
+          "scale": 0.5,
+          "regularScale": 0.5,
+          "regularTextureHeight": 260,
+          "visibleAllies": 5
+        },
         "aura": {
           "enabled": true,
           "frame": 2,
           "behindCharacter": true,
-          "color": "#ff2437"
+          "color": "#ff2437",
+          "widthToBody": 1.32
         },
         "effectFrame": null,
         "visibleSkillEffects": 0,
@@ -175,12 +283,12 @@
       "rows": [
         {
           "speed": 0.25,
-          "time": 0.057,
+          "time": 0.05725,
           "pauseStable": true
         },
         {
           "speed": 1,
-          "time": 0.22,
+          "time": 0.221,
           "pauseStable": true
         },
         {
@@ -195,23 +303,41 @@
         "rank": "SS",
         "time": 1.4,
         "body": "static image preview; motion not claimed",
+        "formation": {
+          "bodyHeight": 230.71614583333334,
+          "textureHeight": 260,
+          "sizePolicy": "EXISTING_REGULAR_BATTLE_SPRITE",
+          "station": {
+            "x": 380,
+            "y": 240
+          },
+          "foot": {
+            "x": 380,
+            "y": 240
+          },
+          "scale": 0.5,
+          "regularScale": 0.5,
+          "regularTextureHeight": 260,
+          "visibleAllies": 5
+        },
         "aura": {
           "enabled": true,
           "frame": 4,
           "behindCharacter": true,
-          "color": "#65cfff"
+          "color": "#65cfff",
+          "widthToBody": 1.254
         },
         "effectFrame": null,
         "visibleSkillEffects": 0,
         "emission": {
-          "x": 597.770242112986,
-          "y": 362.5470873074101
+          "x": 427.56510416666663,
+          "y": 164.16666666666669
         },
         "forwardOrigin": {
-          "x": 602.1958079654847,
-          "y": 362.93757841204234
+          "x": 429.63351332439316,
+          "y": 164.34917335705433
         },
-        "axisLateralError": 6.661338147750939e-15,
+        "axisLateralError": 4.9960036108132044e-15,
         "shotAngleDegrees": 5.042451069170913,
         "singleClock": true,
         "registeredTimelines": 1,
@@ -223,23 +349,41 @@
         "rank": "SS",
         "time": 1.4,
         "body": "static image preview; motion not claimed",
+        "formation": {
+          "bodyHeight": 230.71614583333334,
+          "textureHeight": 260,
+          "sizePolicy": "EXISTING_REGULAR_BATTLE_SPRITE",
+          "station": {
+            "x": 380,
+            "y": 240
+          },
+          "foot": {
+            "x": 380,
+            "y": 240
+          },
+          "scale": 0.5,
+          "regularScale": 0.5,
+          "regularTextureHeight": 260,
+          "visibleAllies": 5
+        },
         "aura": {
           "enabled": false,
           "frame": 4,
           "behindCharacter": true,
-          "color": "#65cfff"
+          "color": "#65cfff",
+          "widthToBody": 1.254
         },
         "effectFrame": null,
         "visibleSkillEffects": 0,
         "emission": {
-          "x": 597.770242112986,
-          "y": 362.5470873074101
+          "x": 427.56510416666663,
+          "y": 164.16666666666669
         },
         "forwardOrigin": {
-          "x": 602.1958079654847,
-          "y": 362.93757841204234
+          "x": 429.63351332439316,
+          "y": 164.34917335705433
         },
-        "axisLateralError": 6.661338147750939e-15,
+        "axisLateralError": 4.9960036108132044e-15,
         "shotAngleDegrees": 5.042451069170913,
         "singleClock": true,
         "registeredTimelines": 1,
@@ -251,23 +395,41 @@
         "rank": "SS",
         "time": 1.4,
         "body": "static image preview; motion not claimed",
+        "formation": {
+          "bodyHeight": 230.71614583333334,
+          "textureHeight": 260,
+          "sizePolicy": "EXISTING_REGULAR_BATTLE_SPRITE",
+          "station": {
+            "x": 380,
+            "y": 240
+          },
+          "foot": {
+            "x": 380,
+            "y": 240
+          },
+          "scale": 0.5,
+          "regularScale": 0.5,
+          "regularTextureHeight": 260,
+          "visibleAllies": 5
+        },
         "aura": {
           "enabled": true,
           "frame": 4,
           "behindCharacter": true,
-          "color": "#65cfff"
+          "color": "#65cfff",
+          "widthToBody": 1.254
         },
         "effectFrame": 6,
         "visibleSkillEffects": 1,
         "emission": {
-          "x": 597.770242112986,
-          "y": 362.5470873074101
+          "x": 427.56510416666663,
+          "y": 164.16666666666669
         },
         "forwardOrigin": {
-          "x": 602.1958079654847,
-          "y": 362.93757841204234
+          "x": 429.63351332439316,
+          "y": 164.34917335705433
         },
-        "axisLateralError": 6.661338147750939e-15,
+        "axisLateralError": 4.9960036108132044e-15,
         "shotAngleDegrees": 5.042451069170913,
         "singleClock": true,
         "registeredTimelines": 1,
@@ -279,23 +441,41 @@
         "rank": "SS",
         "time": 0,
         "body": "static image preview; motion not claimed",
+        "formation": {
+          "bodyHeight": 230.71614583333334,
+          "textureHeight": 260,
+          "sizePolicy": "EXISTING_REGULAR_BATTLE_SPRITE",
+          "station": {
+            "x": 380,
+            "y": 240
+          },
+          "foot": {
+            "x": 380,
+            "y": 240
+          },
+          "scale": 0.5,
+          "regularScale": 0.5,
+          "regularTextureHeight": 260,
+          "visibleAllies": 5
+        },
         "aura": {
           "enabled": true,
           "frame": 0,
           "behindCharacter": true,
-          "color": "#65cfff"
+          "color": "#65cfff",
+          "widthToBody": 1.254
         },
         "effectFrame": null,
         "visibleSkillEffects": 0,
         "emission": {
-          "x": 597.770242112986,
-          "y": 362.5470873074101
+          "x": 427.56510416666663,
+          "y": 164.16666666666669
         },
         "forwardOrigin": {
-          "x": 602.1958079654847,
-          "y": 362.93757841204234
+          "x": 429.63351332439316,
+          "y": 164.34917335705433
         },
-        "axisLateralError": 6.661338147750939e-15,
+        "axisLateralError": 4.9960036108132044e-15,
         "shotAngleDegrees": 5.042451069170913,
         "singleClock": true,
         "registeredTimelines": 0,
@@ -318,23 +498,41 @@
         "rank": "SS",
         "time": 1.4,
         "body": "static image preview; motion not claimed",
+        "formation": {
+          "bodyHeight": 228.34635416666669,
+          "textureHeight": 260,
+          "sizePolicy": "EXISTING_REGULAR_BATTLE_SPRITE",
+          "station": {
+            "x": 364.11695906432743,
+            "y": 331.56595191682914
+          },
+          "foot": {
+            "x": 364.11695906432743,
+            "y": 331.56595191682914
+          },
+          "scale": 0.65,
+          "regularScale": 0.65,
+          "regularTextureHeight": 260,
+          "visibleAllies": 5
+        },
         "aura": {
           "enabled": true,
           "frame": 4,
           "behindCharacter": true,
-          "color": "#8beaff"
+          "color": "#8beaff",
+          "widthToBody": 1.1715
         },
         "effectFrame": 6,
         "visibleSkillEffects": 1,
         "emission": {
-          "x": 439.9803544432373,
-          "y": 783.8362884430958
+          "x": 422.5407871893275,
+          "y": 207.23652483349576
         },
         "forwardOrigin": {
-          "x": 446.80454101334107,
-          "y": 783.9709763359268
+          "x": 425.2119193234062,
+          "y": 207.28924454666836
         },
-        "axisLateralError": 4.299338662860919e-14,
+        "axisLateralError": 1.3829215550487106e-14,
         "shotAngleDegrees": 1.130690951237971,
         "singleClock": true,
         "registeredTimelines": 0,
@@ -346,23 +544,41 @@
         "rank": "SS",
         "time": 1.4,
         "body": "static image preview; motion not claimed",
+        "formation": {
+          "bodyHeight": 230.71614583333334,
+          "textureHeight": 260,
+          "sizePolicy": "EXISTING_REGULAR_BATTLE_SPRITE",
+          "station": {
+            "x": 364.11695906432743,
+            "y": 331.56595191682914
+          },
+          "foot": {
+            "x": 364.11695906432743,
+            "y": 331.56595191682914
+          },
+          "scale": 0.65,
+          "regularScale": 0.65,
+          "regularTextureHeight": 260,
+          "visibleAllies": 5
+        },
         "aura": {
           "enabled": true,
           "frame": 4,
           "behindCharacter": true,
-          "color": "#65cfff"
+          "color": "#65cfff",
+          "widthToBody": 1.254
         },
         "effectFrame": 6,
         "visibleSkillEffects": 1,
         "emission": {
-          "x": 447.07162705669896,
-          "y": 852.1991674178223
+          "x": 425.9515944809941,
+          "y": 232.9826185834958
         },
         "forwardOrigin": {
-          "x": 453.87072688520766,
-          "y": 852.7990879909261
+          "x": 428.64052638603863,
+          "y": 233.21987728099973
         },
-        "axisLateralError": 4.9960036108132044e-14,
+        "axisLateralError": 4.9960036108132044e-15,
         "shotAngleDegrees": 5.042451069170913,
         "singleClock": true,
         "registeredTimelines": 0,
@@ -374,21 +590,39 @@
         "rank": "SS",
         "time": 1.4,
         "body": "static image preview; motion not claimed",
+        "formation": {
+          "bodyHeight": 250.3515625,
+          "textureHeight": 260,
+          "sizePolicy": "EXISTING_REGULAR_BATTLE_SPRITE",
+          "station": {
+            "x": 364.11695906432743,
+            "y": 331.56595191682914
+          },
+          "foot": {
+            "x": 364.11695906432743,
+            "y": 331.56595191682914
+          },
+          "scale": 0.65,
+          "regularScale": 0.65,
+          "regularTextureHeight": 260,
+          "visibleAllies": 5
+        },
         "aura": {
           "enabled": true,
           "frame": 4,
           "behindCharacter": true,
-          "color": "#c390ff"
+          "color": "#c390ff",
+          "widthToBody": 1.2045
         },
         "effectFrame": 6,
         "visibleSkillEffects": 1,
         "emission": {
-          "x": 371.4813141057184,
-          "y": 782.5275590603189
+          "x": 398.77516218932743,
+          "y": 194.6935560834958
         },
         "forwardOrigin": {
-          "x": 378.30682970324364,
-          "y": 782.5275590603189
+          "x": 401.70427547057744,
+          "y": 194.6935560834958
         },
         "axisLateralError": 0,
         "shotAngleDegrees": 0,
@@ -402,23 +636,41 @@
         "rank": "SS",
         "time": 1.4,
         "body": "static image preview; motion not claimed",
+        "formation": {
+          "bodyHeight": 232.46354566385264,
+          "textureHeight": 260,
+          "sizePolicy": "EXISTING_REGULAR_BATTLE_SPRITE",
+          "station": {
+            "x": 364.11695906432743,
+            "y": 331.56595191682914
+          },
+          "foot": {
+            "x": 364.11695906432743,
+            "y": 331.56595191682914
+          },
+          "scale": 0.65,
+          "regularScale": 0.65,
+          "regularTextureHeight": 260,
+          "visibleAllies": 5
+        },
         "aura": {
           "enabled": true,
           "frame": 4,
           "behindCharacter": true,
-          "color": "#ffcf70"
+          "color": "#ffcf70",
+          "widthToBody": 1.5015
         },
         "effectFrame": 6,
         "visibleSkillEffects": 1,
         "emission": {
-          "x": 494.1505961207083,
-          "y": 868.4215850619739
+          "x": 445.1798907604134,
+          "y": 238.70025736579305
         },
         "forwardOrigin": {
-          "x": 500.9757853200889,
-          "y": 868.4883350785938
+          "x": 447.89958418192896,
+          "y": 238.72685583446312
         },
-        "axisLateralError": 2.391142839286431e-14,
+        "axisLateralError": 5.488665077990618e-15,
         "shotAngleDegrees": 0.5603320575676948,
         "singleClock": true,
         "registeredTimelines": 0,
@@ -430,21 +682,39 @@
         "rank": "SS",
         "time": 1.4,
         "body": "static image preview; motion not claimed",
+        "formation": {
+          "bodyHeight": 238.33333333333334,
+          "textureHeight": 260,
+          "sizePolicy": "EXISTING_REGULAR_BATTLE_SPRITE",
+          "station": {
+            "x": 364.11695906432743,
+            "y": 331.56595191682914
+          },
+          "foot": {
+            "x": 364.11695906432743,
+            "y": 331.56595191682914
+          },
+          "scale": 0.65,
+          "regularScale": 0.65,
+          "regularTextureHeight": 260,
+          "visibleAllies": 5
+        },
         "aura": {
           "enabled": true,
           "frame": 4,
           "behindCharacter": true,
-          "color": "#cfddff"
+          "color": "#cfddff",
+          "widthToBody": 1.2374999999999998
         },
         "effectFrame": 6,
         "visibleSkillEffects": 1,
         "emission": {
-          "x": 370.1675165033599,
-          "y": 796.3383669814393
+          "x": 396.5746413559941,
+          "y": 206.9064467084958
         },
         "forwardOrigin": {
-          "x": 376.9930321008851,
-          "y": 796.3383669814393
+          "x": 399.3631413559941,
+          "y": 206.9064467084958
         },
         "axisLateralError": 0,
         "shotAngleDegrees": 0,
@@ -453,16 +723,34 @@
         "liveEnabled": false
       },
       {
-        "character": "베르칸",
-        "code": "V-055",
+        "character": "발테르",
+        "code": "V-996",
         "rank": "SSS",
         "time": 0.8,
         "body": "static image preview; motion not claimed",
+        "formation": {
+          "bodyHeight": 226.875,
+          "textureHeight": 260,
+          "sizePolicy": "EXISTING_REGULAR_BATTLE_SPRITE",
+          "station": {
+            "x": 364.11695906432743,
+            "y": 331.56595191682914
+          },
+          "foot": {
+            "x": 364.11695906432743,
+            "y": 331.56595191682914
+          },
+          "scale": 0.65,
+          "regularScale": 0.65,
+          "regularTextureHeight": 260,
+          "visibleAllies": 5
+        },
         "aura": {
           "enabled": true,
           "frame": 2,
           "behindCharacter": true,
-          "color": "#ff2437"
+          "color": "#ff2437",
+          "widthToBody": 1.32
         },
         "effectFrame": null,
         "visibleSkillEffects": 0,
@@ -489,7 +777,7 @@
         },
         {
           "speed": 2,
-          "time": 0.44,
+          "time": 0.442,
           "pauseStable": true
         }
       ],
@@ -499,23 +787,41 @@
         "rank": "SS",
         "time": 1.4,
         "body": "static image preview; motion not claimed",
+        "formation": {
+          "bodyHeight": 230.71614583333334,
+          "textureHeight": 260,
+          "sizePolicy": "EXISTING_REGULAR_BATTLE_SPRITE",
+          "station": {
+            "x": 364.11695906432743,
+            "y": 331.56595191682914
+          },
+          "foot": {
+            "x": 364.11695906432743,
+            "y": 331.56595191682914
+          },
+          "scale": 0.65,
+          "regularScale": 0.65,
+          "regularTextureHeight": 260,
+          "visibleAllies": 5
+        },
         "aura": {
           "enabled": true,
           "frame": 4,
           "behindCharacter": true,
-          "color": "#65cfff"
+          "color": "#65cfff",
+          "widthToBody": 1.254
         },
         "effectFrame": null,
         "visibleSkillEffects": 0,
         "emission": {
-          "x": 447.07162705669896,
-          "y": 852.1991674178223
+          "x": 425.9515944809941,
+          "y": 232.9826185834958
         },
         "forwardOrigin": {
-          "x": 453.87072688520766,
-          "y": 852.7990879909261
+          "x": 428.64052638603863,
+          "y": 233.21987728099973
         },
-        "axisLateralError": 4.9960036108132044e-14,
+        "axisLateralError": 4.9960036108132044e-15,
         "shotAngleDegrees": 5.042451069170913,
         "singleClock": true,
         "registeredTimelines": 1,
@@ -527,23 +833,41 @@
         "rank": "SS",
         "time": 1.4,
         "body": "static image preview; motion not claimed",
+        "formation": {
+          "bodyHeight": 230.71614583333334,
+          "textureHeight": 260,
+          "sizePolicy": "EXISTING_REGULAR_BATTLE_SPRITE",
+          "station": {
+            "x": 364.11695906432743,
+            "y": 331.56595191682914
+          },
+          "foot": {
+            "x": 364.11695906432743,
+            "y": 331.56595191682914
+          },
+          "scale": 0.65,
+          "regularScale": 0.65,
+          "regularTextureHeight": 260,
+          "visibleAllies": 5
+        },
         "aura": {
           "enabled": false,
           "frame": 4,
           "behindCharacter": true,
-          "color": "#65cfff"
+          "color": "#65cfff",
+          "widthToBody": 1.254
         },
         "effectFrame": null,
         "visibleSkillEffects": 0,
         "emission": {
-          "x": 447.07162705669896,
-          "y": 852.1991674178223
+          "x": 425.9515944809941,
+          "y": 232.9826185834958
         },
         "forwardOrigin": {
-          "x": 453.87072688520766,
-          "y": 852.7990879909261
+          "x": 428.64052638603863,
+          "y": 233.21987728099973
         },
-        "axisLateralError": 4.9960036108132044e-14,
+        "axisLateralError": 4.9960036108132044e-15,
         "shotAngleDegrees": 5.042451069170913,
         "singleClock": true,
         "registeredTimelines": 1,
@@ -555,23 +879,41 @@
         "rank": "SS",
         "time": 1.4,
         "body": "static image preview; motion not claimed",
+        "formation": {
+          "bodyHeight": 230.71614583333334,
+          "textureHeight": 260,
+          "sizePolicy": "EXISTING_REGULAR_BATTLE_SPRITE",
+          "station": {
+            "x": 364.11695906432743,
+            "y": 331.56595191682914
+          },
+          "foot": {
+            "x": 364.11695906432743,
+            "y": 331.56595191682914
+          },
+          "scale": 0.65,
+          "regularScale": 0.65,
+          "regularTextureHeight": 260,
+          "visibleAllies": 5
+        },
         "aura": {
           "enabled": true,
           "frame": 4,
           "behindCharacter": true,
-          "color": "#65cfff"
+          "color": "#65cfff",
+          "widthToBody": 1.254
         },
         "effectFrame": 6,
         "visibleSkillEffects": 1,
         "emission": {
-          "x": 447.07162705669896,
-          "y": 852.1991674178223
+          "x": 425.9515944809941,
+          "y": 232.9826185834958
         },
         "forwardOrigin": {
-          "x": 453.87072688520766,
-          "y": 852.7990879909261
+          "x": 428.64052638603863,
+          "y": 233.21987728099973
         },
-        "axisLateralError": 4.9960036108132044e-14,
+        "axisLateralError": 4.9960036108132044e-15,
         "shotAngleDegrees": 5.042451069170913,
         "singleClock": true,
         "registeredTimelines": 1,
@@ -583,23 +925,41 @@
         "rank": "SS",
         "time": 0,
         "body": "static image preview; motion not claimed",
+        "formation": {
+          "bodyHeight": 230.71614583333334,
+          "textureHeight": 260,
+          "sizePolicy": "EXISTING_REGULAR_BATTLE_SPRITE",
+          "station": {
+            "x": 364.11695906432743,
+            "y": 331.56595191682914
+          },
+          "foot": {
+            "x": 364.11695906432743,
+            "y": 331.56595191682914
+          },
+          "scale": 0.65,
+          "regularScale": 0.65,
+          "regularTextureHeight": 260,
+          "visibleAllies": 5
+        },
         "aura": {
           "enabled": true,
           "frame": 0,
           "behindCharacter": true,
-          "color": "#65cfff"
+          "color": "#65cfff",
+          "widthToBody": 1.254
         },
         "effectFrame": null,
         "visibleSkillEffects": 0,
         "emission": {
-          "x": 447.07162705669896,
-          "y": 852.1991674178223
+          "x": 425.9515944809941,
+          "y": 232.9826185834958
         },
         "forwardOrigin": {
-          "x": 453.87072688520766,
-          "y": 852.7990879909261
+          "x": 428.64052638603863,
+          "y": 233.21987728099973
         },
-        "axisLateralError": 4.9960036108132044e-14,
+        "axisLateralError": 4.9960036108132044e-15,
         "shotAngleDegrees": 5.042451069170913,
         "singleClock": true,
         "registeredTimelines": 0,

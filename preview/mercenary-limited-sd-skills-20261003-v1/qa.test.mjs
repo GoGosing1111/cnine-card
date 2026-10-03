@@ -1,12 +1,13 @@
 import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs/promises';import path from 'node:path';import {fileURLToPath} from 'node:url';import {createHash} from 'node:crypto';import sharp from 'sharp';
 const dir=fileURLToPath(new URL('./',import.meta.url)),repo=path.resolve(dir,'../..'),m=JSON.parse(await fs.readFile(path.join(dir,'manifest.json'),'utf8'));
 const hash=async p=>createHash('sha256').update(await fs.readFile(p)).digest('hex').toUpperCase();
-test('original approved artwork and the requested Berkan SD remain byte-identical',async()=>{
+test('original approved artwork and the requested Valter SD remain byte-identical',async()=>{
  for(const c of m.characters){assert.equal(await hash(path.join(repo,c.source)),c.sourceHash,c.id);}
- const b=m.characters.find(c=>c.code==='V-055');assert.ok(b?.preserveExisting);assert.equal(b.name,'베르칸');assert.equal(b.auraTint,'#ff2437');
- assert.equal(await hash(path.join(repo,b.sprite)),'79D144E33E1113C82787A93E6AD49BE3583A8DA1BA8DAAF91037020EC31D6101');
- assert.ok(!m.characters.some(c=>c.code==='V-996'),'The earlier mistaken SSS must not be shown');
- assert.equal(await hash(path.join(repo,'assets/ui/project-v/mercenaries/limited-20261002/valter-approved-sd.png')),'D2CAB7DDE716CF9A0554AF44A03A448A7BCCD9E402928D87620C72C73879A6CC');
+ const b=m.characters.find(c=>c.code==='V-996');assert.ok(b?.preserveExisting);assert.equal(b.name,'발테르');assert.equal(b.auraTint,'#ff2437');
+ assert.equal(await hash(path.join(repo,b.sprite)),'D2CAB7DDE716CF9A0554AF44A03A448A7BCCD9E402928D87620C72C73879A6CC');
+ assert.ok(!m.characters.some(c=>c.code==='V-055'),'Unrelated Berkan must not be substituted for Valter');
+ const preserved=JSON.parse(await fs.readFile(path.join(dir,'preservation-report.json'),'utf8'));
+ for(const entry of preserved.entries)assert.equal(await hash(path.join(repo,entry.path)),entry.sha256,entry.path);
 });
 test('all delivered sprites and individual skill frames exist with genuine alpha and recorded hashes',async()=>{
  let count=0;for(const c of m.characters){

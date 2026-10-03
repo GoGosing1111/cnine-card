@@ -155,35 +155,33 @@
       "auraScale": 0.75
     },
     {
-      "id": "berkan",
-      "code": "V-055",
-      "name": "베르칸",
-      "userAlias": "벨르칸",
+      "id": "valter",
+      "code": "V-996",
+      "name": "발테르",
       "rank": "SSS",
-      "source": "assets/ui/project-v/mercenaries/approved-20260927/berkan-source-art-v1.png",
-      "sourceHash": "E782A14D37A115ABA29D46F13D2443DBF5761A7DD99DCDA816B9908BA896507D",
-      "sprite": "/assets/ui/project-v/characters/mercenary/berkan-sss-v1/berkan-sd-v1.png",
-      "spriteHash": "79D144E33E1113C82787A93E6AD49BE3583A8DA1BA8DAAF91037020EC31D6101",
+      "source": "assets/ui/project-v/mercenaries/limited-20261002/v-996-source-art.png",
+      "sourceHash": "8B94E60670355AF87D13802FD68AD4DE22F8E7F23C65028CC97DD1D1F78BE838",
+      "sprite": "/assets/ui/project-v/mercenaries/limited-20261002/valter-approved-sd.png",
+      "spriteHash": "D2CAB7DDE716CF9A0554AF44A03A448A7BCCD9E402928D87620C72C73879A6CC",
       "feet": {
-        "x": 716,
-        "y": 1237
+        "x": 728.9999999999999,
+        "y": 1507
       },
-      "headTop": 16,
+      "headTop": 55,
       "emission": null,
       "axisBack": null,
       "auraCenter": {
-        "x": 715,
-        "y": 382
+        "x": 730,
+        "y": 510
       },
       "auraTint": "#ff2437",
       "skill": null,
       "type": "existing",
       "auraScale": 0.8,
       "preserveExisting": true,
-      "existingApprovedMotion": "/preview/mercenary-berkan-sss-v1/manifest.json",
-      "existingApprovedSkillPreview": "/preview/mercenary-berkan-sss-v1/",
-      "existingApprovedAreaPreview": "/preview/mercenary-berkan-area-v1/"
+      "existingApprovedMotion": "/preview/mercenary-crimson-silver-knight-battle-v1/manifest.json",
+      "existingApprovedSkillPreview": "/preview/mercenary-crimson-silver-knight-battle-v1/"
     }
   ],
-  "correction": "SSS 벨르칸 refers to approved 베르칸 V-055. 발테르 V-996 was mistakenly shown during review and is excluded. Both approved sources are untouched."
+  "correction": "2026-10-04 user explicitly clarified 발테르. The earlier Berkan interpretation was incorrect. Reuse approved Valter V-996 SD and V17 battle assets unchanged."
 }

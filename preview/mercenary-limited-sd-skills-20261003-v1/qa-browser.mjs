@@ -9,8 +9,8 @@ try{
  await page.goto('http://127.0.0.1:8978/preview/mercenary-limited-sd-skills-20261003-v1/',{waitUntil:'networkidle',timeout:60000});
  await page.waitForFunction(()=>window.LimitedReview&&window.LimitedReview.diagnostics().character,null,{timeout:60000});
  const stages=[];
- for(const id of ['bongsoon','joeun','ines','orikkung','diim','berkan']){
- await page.evaluate(async id=>{await window.LimitedReview.select(id);window.LimitedReview.seek(id==='berkan'?.8:1.4);},id);
+ for(const id of ['bongsoon','joeun','ines','orikkung','diim','valter']){
+ await page.evaluate(async id=>{await window.LimitedReview.select(id);window.LimitedReview.seek(id==='valter'?.8:1.4);},id);
  await page.waitForTimeout(120);
  stages.push(await page.evaluate(()=>window.LimitedReview.diagnostics()));
  await page.locator('#stage').screenshot({path:dir+name+'-'+id+'-alignment.png'});
@@ -28,4 +28,4 @@ try{
  await page.close();
  }
 }finally{await browser.close();}
-if(reports.some(r=>r.errors.length||r.failures.length||r.overflow.scroll>r.overflow.client||r.stages.some(s=>s.axisLateralError>1e-6)||r.controls.rows.some(t=>t.time<=0||!t.pauseStable)||r.controls.cancel.registeredTimelines||r.controls.cancel.visibleSkillEffects))process.exitCode=1;
+if(reports.some(r=>r.errors.length||r.failures.length||r.overflow.scroll>r.overflow.client||r.stages.some(s=>s.axisLateralError>1e-6||s.formation.textureHeight!==s.formation.regularTextureHeight||s.formation.scale!==s.formation.regularScale||s.formation.visibleAllies!==5||Math.hypot(s.formation.foot.x-s.formation.station.x,s.formation.foot.y-s.formation.station.y)>1e-6)||r.controls.rows.some(t=>t.time<=0||!t.pauseStable)||r.controls.cancel.registeredTimelines||r.controls.cancel.visibleSkillEffects))process.exitCode=1;

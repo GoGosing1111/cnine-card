@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-04",
+  "userNameCorrection": "발테르",
+  "code": "V-996",
+  "formation": "Existing V3 mercenary station; same formation scale as regular units",
+  "foot": "Approved pixel foot pivot centered on station",
+  "aura": "Red #ff2437, independent rear layer",
+  "sourceFilesPreserved": true,
+  "latestUserRequest": "원래대로 맞추라니까? 니 좆대로하지말고?",
+  "sizePolicy": "Reuse existing regular battle actor fullBodyHeight, native formation scale and HUD position; no custom size percentage",
+  "referenceTextureHeight": 260,
+  "rejectedIntermediate": {
+    "bodyHeight": 200,
+    "proposedIncrease": "25% (not applied)"
+  }
+}
