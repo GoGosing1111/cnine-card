@@ -140,7 +140,7 @@
   },
   "copyCorrection": {
     "dateKst": "2026-10-03",
-    "status": "READY",
+    "status": "DEPLOYED_VERIFIED",
     "changes": [
       "Supporter heading: 운영에 도움을 주신",
       "Always show 운영에 도움을 주신 감사 칭호 for Supporter, including unowned state",
@@ -154,6 +154,63 @@
     "tests": [
       "tests/qa-supporter-blue-beast-titles-20261003.mjs"
     ],
-    "reason": "Small title-copy correction in the live renderer and fallback renderer with asset cache refresh. Only the directly affected desktop/mobile title display and existing UI flows are checked."
+    "reason": "Small title-copy correction in the live renderer and fallback renderer with asset cache refresh. Only the directly affected desktop/mobile title display and existing UI flows are checked.",
+    "deployedCommit": "48a3b9b12fe1c684fa5cb50540923b21f87bfe75",
+    "pagesUrl": "https://8ea106c1.cnine-card.pages.dev",
+    "apiRuntimeVersion": "4adef451-411d-4d2a-a4a3-0b8dd7d50607",
+    "clanDraftVersion": "57459198-fa2c-4c30-a94d-b0ea39d55d83",
+    "qa": {
+      "dateKst": "2026-10-03",
+      "results": [
+        {
+          "viewport": "desktop",
+          "powers": [
+            75000,
+            70000
+          ],
+          "pveAndPvp": true,
+          "lockAndProgress": true,
+          "animationAndReducedMotion": true,
+          "brokenImages": [],
+          "overflow": false,
+          "errors": []
+        },
+        {
+          "viewport": "mobile",
+          "powers": [
+            75000,
+            70000
+          ],
+          "pveAndPvp": true,
+          "lockAndProgress": true,
+          "animationAndReducedMotion": true,
+          "brokenImages": [],
+          "overflow": false,
+          "errors": []
+        }
+      ]
+    },
+    "liveSmoke": [
+      {
+        "path": "js/character-loadout-v2.js",
+        "status": 200,
+        "matchesLocal": true
+      },
+      {
+        "path": "js/equipment-v1274.js",
+        "status": 200,
+        "matchesLocal": true
+      },
+      {
+        "path": "index.html",
+        "status": 200,
+        "matchesLocal": true
+      },
+      {
+        "path": "preview/supporter-blue-beast-titles-20261003/index.html",
+        "status": 200,
+        "matchesLocal": true
+      }
+    ]
   }
 }
