@@ -1,0 +1,33 @@
+{
+  "status": "DEPLOYED",
+  "runtimeCommit": "3bae7b9a921e8b78a2c3818078265275b0d9561c",
+  "deployedBase": "48a3b9b12fe1c684fa5cb50540923b21f87bfe75",
+  "deploymentUrl": "https://edabd706.cnine-card.pages.dev",
+  "apiRuntimeVersion": "2449c1b2-3111-431a-bf30-d29de71227be",
+  "clanDraftVersion": "48ca4940-5834-4a4a-aa72-9e01d4a12144",
+  "behavior": {
+    "blankWeightEditable": true,
+    "legacyMissingBlankWeight": 0,
+    "zeroExcludesBlank": true,
+    "blankConsumesSealAndEssence": true,
+    "blankNeverAddsPetOwnership": true,
+    "sameRequestNeverRerolls": true,
+    "resultsPresentation": "NATIVE_MODAL_DIALOG",
+    "liveEnablementAndExistingProbabilitySettings": "PRESERVED"
+  },
+  "validation": {
+    "relatedServerTestsPassed": 13,
+    "sqliteAndPostgres": "PASS",
+    "workerCheckAndBundleCompilation": "PASS",
+    "pc1440AndMobile390": "PASS",
+    "editablePetAndBlankRates": "PASS",
+    "mixedAndAllBlankPopups": "PASS",
+    "confirmCloseAndContinue": "PASS",
+    "truncatedResponseReceiptRecovery": "PASS",
+    "pageErrors": [],
+    "popupOutsideViewportOrHorizontalOverflow": false,
+    "productionOpeningHtml": 200,
+    "deployedModalAndFreshResourceQueries": true,
+    "productionModuleCssCmsAndPolicyMatchLocalSha256": true
+  }
+}
