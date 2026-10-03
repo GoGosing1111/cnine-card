@@ -1,0 +1,198 @@
+{
+  "status": "SCOPED_RELEASE_READY",
+  "date": "2026-10-04",
+  "request": "SS 슈퍼스타팩 확정권 삭제, 엠퍼러 에너지 1~5개 5%, 미스틱 1~1000개, 마스터의 별 1000~30000개; 코인은 그대로",
+  "before": {
+    "ok": true,
+    "raw": {
+      "COIN": 9916,
+      "SUPERSTAR_GUARANTEED_PACK": 1500,
+      "MASTER_STAR": 9916,
+      "BLACK_MIRACLE_PACK": 5668,
+      "STARLIGHT_ARMOR_CORE": 3000
+    },
+    "effective": {
+      "COIN": 12750,
+      "SUPERSTAR_GUARANTEED_PACK": 1500,
+      "MASTER_STAR": 12750,
+      "STARLIGHT_ARMOR_CORE": 3000
+    },
+    "total": 30000,
+    "prizes": [
+      {
+        "key": "COIN",
+        "label": "코인",
+        "range": "1억 ~ 500억",
+        "min": 1,
+        "max": 500,
+        "unit": 100000000,
+        "symbol": "C",
+        "color": 16766071,
+        "weight": 12750,
+        "percent": 42.5
+      },
+      {
+        "key": "SUPERSTAR_GUARANTEED_PACK",
+        "label": "슈퍼스타팩 확정권",
+        "range": "1개 · 슈퍼스타 100%",
+        "min": 1,
+        "max": 1,
+        "unit": 1,
+        "symbol": "SS",
+        "color": 16768913,
+        "weight": 1500,
+        "percent": 5
+      },
+      {
+        "key": "MASTER_STAR",
+        "label": "마스터의 별",
+        "range": "1,000 ~ 100,000개",
+        "min": 1,
+        "max": 100,
+        "unit": 1000,
+        "symbol": "S",
+        "color": 16770982,
+        "weight": 12750,
+        "percent": 42.5
+      },
+      {
+        "key": "STARLIGHT_ARMOR_CORE",
+        "label": "미스틱 에너지",
+        "range": "1 ~ 200개",
+        "min": 1,
+        "max": 200,
+        "unit": 1,
+        "symbol": "M",
+        "color": 12953087,
+        "weight": 3000,
+        "percent": 10
+      }
+    ],
+    "items": [
+      {
+        "code": "EMPEROR_ENERGY",
+        "name": "엠퍼러 에너지",
+        "is_active": "1"
+      },
+      {
+        "code": "MASTER_STAR",
+        "name": "마스터의 별",
+        "is_active": "1"
+      },
+      {
+        "code": "STARLIGHT_ARMOR_CORE",
+        "name": "미스틱 에너지",
+        "is_active": "1"
+      },
+      {
+        "code": "SUPERSTAR_GUARANTEED_PACK",
+        "name": "슈퍼스타팩 확정권",
+        "is_active": "1"
+      }
+    ],
+    "readOnly": true,
+    "checkedAt": "2026-10-03T18:27:07.969Z"
+  },
+  "effectiveAfter": {
+    "weights": {
+      "COIN": 12750,
+      "EMPEROR_ENERGY": 1500,
+      "MASTER_STAR": 12750,
+      "STARLIGHT_ARMOR_CORE": 3000
+    },
+    "total": 30000,
+    "prizes": [
+      {
+        "key": "COIN",
+        "label": "코인",
+        "range": "1억 ~ 500억",
+        "min": 1,
+        "max": 500,
+        "unit": 100000000,
+        "symbol": "C",
+        "color": 16766071,
+        "weight": 12750,
+        "percent": 42.5
+      },
+      {
+        "key": "EMPEROR_ENERGY",
+        "label": "엠퍼러 에너지",
+        "range": "1 ~ 5개",
+        "min": 1,
+        "max": 5,
+        "unit": 1,
+        "symbol": "E",
+        "color": 16768913,
+        "weight": 1500,
+        "percent": 5
+      },
+      {
+        "key": "MASTER_STAR",
+        "label": "마스터의 별",
+        "range": "1,000 ~ 30,000개",
+        "min": 1,
+        "max": 30,
+        "unit": 1000,
+        "symbol": "S",
+        "color": 16770982,
+        "weight": 12750,
+        "percent": 42.5
+      },
+      {
+        "key": "STARLIGHT_ARMOR_CORE",
+        "label": "미스틱 에너지",
+        "range": "1 ~ 1,000개",
+        "min": 1,
+        "max": 1000,
+        "unit": 1,
+        "symbol": "M",
+        "color": 12953087,
+        "weight": 3000,
+        "percent": 10
+      }
+    ]
+  },
+  "compatibility": {
+    "superstarIssuedCouponsAndInventoryPreserved": true,
+    "priorMasterStarCouponCap": 100000,
+    "newMasterStarSpinCap": 30000,
+    "priorSpinReceiptsPreserved": true,
+    "ownerSavedNewWeightsPreserved": true,
+    "productionTestGrant": false
+  },
+  "validation": {
+    "developmentTestsPassed": 12,
+    "browser": {
+      "status": "PASSED",
+      "viewports": [
+        1440,
+        390
+      ],
+      "prizes": 4,
+      "emperorPercent": 5,
+      "coinRangeAndOddsUnchanged": true,
+      "maximumResults": [
+        50000000000,
+        5,
+        30000,
+        1000
+      ],
+      "retiredPrizeAbsent": true,
+      "ownerFields": 4,
+      "horizontalOverflow": false,
+      "pageErrors": [],
+      "artifacts": "C:/Users/User/.codex/worktrees/soopketland-prizes-20261004/browser"
+    },
+    "scoped": {
+      "base": "30ce2f5eec22a17eb5dadd8c0454817dd72ad4f5",
+      "reason": "Soopketland prize-only replacement and quantity bounds; preserve coin weights, legacy coupons and atomic redemption. Verify focused rewards, replay/concurrency, PostgreSQL and shipped UI.",
+      "tests": [
+        "tests/soopketland-v2039.test.mjs"
+      ],
+      "checks": [
+        "check:worker"
+      ]
+    }
+  },
+  "deployment": null
+}
