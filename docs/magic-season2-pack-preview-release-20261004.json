@@ -1,7 +1,7 @@
 {
   "date": "2026-10-04",
   "request": "소환 화면에 시즌1/시즌2 선택 추가. 시즌2 팩 1회 가격 10억 코인으로 라이브 공개하되 구매와 개봉은 잠금.",
-  "releaseStatus": "PREPARED_FOR_SCOPED_DEPLOYMENT",
+  "releaseStatus": "LIVE_PREVIEW_OPENING_LOCKED",
   "previousProduction": {
     "id": "6f3303ed-d3b6-4a13-b8f6-9fac118625f7",
     "source": "34bfa0cd4c7caa2f16c059a95605b47666863fc8"
@@ -55,6 +55,69 @@
         "check:worker"
       ],
       "command": "npm run deploy:production -- --scoped"
+    },
+    "production": {
+      "verifiedAt": "2026-10-03T17:19:33.515Z",
+      "url": "https://cnine-card.pages.dev/?screen=magic",
+      "files": [
+        {
+          "file": "index.html",
+          "status": 200,
+          "bytes": 20406,
+          "sha256": "f23dfd8ef5e98fea12355c8e75c8ea72a50be74bbc4ac08b6046a3243fa8ccfd"
+        },
+        {
+          "file": "js/app.js",
+          "status": 200,
+          "bytes": 731080,
+          "sha256": "241c1db22b50a6985dffbcd86522e3ac341bdb8b459a1779c4cd0c3ea4eb0b16"
+        },
+        {
+          "file": "js/magic-workbench-v1.js",
+          "status": 200,
+          "bytes": 25486,
+          "sha256": "ea0f565073f2ed15820d7802a82efd58501f714c0ed73d337240353a5de5b8df"
+        },
+        {
+          "file": "css/magic-workbench-v1.css",
+          "status": 200,
+          "bytes": 22409,
+          "sha256": "c3e10d07fc3cf4f96c7c6ce23a6385abdd612dab9c9766df933a31cfaede2f22"
+        },
+        {
+          "file": "service-worker.js",
+          "status": 200,
+          "bytes": 9151,
+          "sha256": "97ef2bc6a28383a3d46f4c5aa8f3418debe43e0566c156fe6255906f81df482f"
+        },
+        {
+          "file": "shared/magic-pack-seasons-v1.mjs",
+          "status": 200,
+          "bytes": 1465,
+          "sha256": "3fb40d167743c6c003c2687b06aa5f22d03f5918d496470c3f493e1e011eea68"
+        },
+        {
+          "file": "assets/cards/magic-season2-pack-768-v2.webp",
+          "status": 200,
+          "bytes": 280362,
+          "sha256": "e30c9a94949aa0e23f995dc06732a7dd2d6c805d4f47f738af134b1b13ac6415"
+        }
+      ],
+      "serviceStatus": 200
     }
+  },
+  "deployment": {
+    "source": "8acfce9d15923d0a76168676eb69832cf5d045ea",
+    "pagesId": "679ed04d-fbae-4e88-b3da-4500da188d6b",
+    "pagesUrl": "https://679ed04d.cnine-card.pages.dev",
+    "productionUrl": "https://cnine-card.pages.dev/?screen=magic",
+    "apiRuntimeVersion": "f1f42607-7bcb-4083-b34a-be0bca26dbb4",
+    "clanWorkerVersion": "08f5d358-3a9e-4884-943b-be904dcdc134",
+    "command": "npm run deploy:production -- --scoped",
+    "passedTests": 5,
+    "failedTests": 0,
+    "workerCompile": true,
+    "releaseCacheGate": true,
+    "hyperdriveCacheDisabled": true
   }
 }
