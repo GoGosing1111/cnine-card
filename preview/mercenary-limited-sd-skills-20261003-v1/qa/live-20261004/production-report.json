@@ -1,0 +1,110 @@
+{
+  "status": "PASSED",
+  "checkedAt": "2026-10-03T16:30:05.378Z",
+  "deployedCommit": "34bfa0cd4c7caa2f16c059a95605b47666863fc8",
+  "pages": "https://6f3303ed.cnine-card.pages.dev",
+  "apiRuntimeVersion": "70dcb155-9af2-4e6f-acb0-bab16adb43a2",
+  "scheduledWorkerVersion": "271f36b6-f91f-45f2-92ff-00be8b5f7e45",
+  "catalogUrl": "https://cnine-card.pages.dev/mercenary-codex/?view=limited",
+  "catalogCards": [
+    {
+      "code": "V-996",
+      "battleSprite": "assets/ui/project-v/mercenaries/limited-20261002/valter-approved-sd.png",
+      "visualApproval": "USER_APPROVED_20261004"
+    },
+    {
+      "code": "V-990",
+      "battleSprite": "assets/ui/project-v/mercenaries/limited-battle-20261004/bongsoon-sd.png",
+      "visualApproval": "USER_APPROVED_20261004"
+    },
+    {
+      "code": "V-991",
+      "battleSprite": "assets/ui/project-v/mercenaries/limited-battle-20261004/joeun-sd.png",
+      "visualApproval": "USER_APPROVED_20261004"
+    },
+    {
+      "code": "V-992",
+      "battleSprite": "assets/ui/project-v/mercenaries/limited-battle-20261004/ines-sd.png",
+      "visualApproval": "USER_APPROVED_20261004"
+    },
+    {
+      "code": "V-993",
+      "battleSprite": "assets/ui/project-v/mercenaries/limited-battle-20261004/orikkung-sd.png",
+      "visualApproval": "USER_APPROVED_20261004"
+    },
+    {
+      "code": "V-994",
+      "battleSprite": "assets/ui/project-v/mercenaries/limited-battle-20261004/diim-sd.png",
+      "visualApproval": "USER_APPROVED_20261004"
+    }
+  ],
+  "checks": [
+    {
+      "path": "js/battle-v3-live.js",
+      "status": 200,
+      "sha256": "c2966f85bc99f2ceebf4b7efe1b47fbc6e56f6d77ab808d973bfd917cb48e3be"
+    },
+    {
+      "path": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "status": 200,
+      "sha256": "8e258c4b44a2240f20ec0ac3dac665dccb78d44f8f15c62ca78d8413506c9cfd"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/limited-battle-20261004/manifest.json",
+      "status": 200,
+      "sha256": "594fc4a7010138f678d62c2452f48ba12d72ae8e4ec2ea330deff2c1a2bf4efe"
+    }
+  ],
+  "diagnostics": {
+    "runtime": "20261004-limited-approved-visuals-v1",
+    "limited": [
+      {
+        "code": "V-991",
+        "version": "20261004-approved",
+        "bodyHeight": 312.3894230769231,
+        "textureHeight": 352.03973136181503,
+        "foot": {
+          "x": 1220,
+          "y": 240
+        },
+        "station": {
+          "x": 1220,
+          "y": 240
+        },
+        "scale": 0.5,
+        "auraColor": "#65cfff",
+        "rearAura": true,
+        "originalValterFx": null,
+        "ownedAmbientClock": true,
+        "busy": false
+      },
+      {
+        "code": "V-996",
+        "version": "20261004-approved",
+        "bodyHeight": 312.3894230769231,
+        "textureHeight": 358,
+        "foot": {
+          "x": 380,
+          "y": 240
+        },
+        "station": {
+          "x": 380,
+          "y": 240
+        },
+        "scale": 0.5,
+        "auraColor": "#ff2437",
+        "rearAura": true,
+        "originalValterFx": {
+          "silhouetteCopies": 18,
+          "filters": 6,
+          "risingParticles": 12
+        },
+        "ownedAmbientClock": true,
+        "busy": false
+      }
+    ]
+  },
+  "errors": [],
+  "failures": [],
+  "note": "Deployed public assets loaded in an isolated browser fixture; no authenticated account changes or gameplay requests."
+}
