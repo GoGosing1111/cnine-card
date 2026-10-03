@@ -1,0 +1,188 @@
+{
+  "status": "VERIFIED",
+  "aizen": {
+    "operationKey": "ops:soopketland-bj-aizen-plus15:20261004:v1",
+    "status": "COMPLETED",
+    "actor": "SYSTEM_OPS",
+    "card": {
+      "id": "CN-47AD4B47B6A7452C",
+      "title": "아이젠 족스케",
+      "grade": "FUR"
+    },
+    "excluded": {
+      "id": 1,
+      "nickname": "핑크빛유두"
+    },
+    "registeredBjCount": 8,
+    "upgraded": 8,
+    "alreadyAt15": 0,
+    "users": [
+      {
+        "id": 4718,
+        "nickname": "강구열",
+        "levelBefore": 14,
+        "levelAfter": 15,
+        "quantityBefore": 31,
+        "quantityAfter": 31
+      },
+      {
+        "id": 4754,
+        "nickname": "조은",
+        "levelBefore": 13,
+        "levelAfter": 15,
+        "quantityBefore": 16,
+        "quantityAfter": 16
+      },
+      {
+        "id": 4773,
+        "nickname": "진짜디임",
+        "levelBefore": 14,
+        "levelAfter": 15,
+        "quantityBefore": 15,
+        "quantityAfter": 15
+      },
+      {
+        "id": 4913,
+        "nickname": "오리꿍",
+        "levelBefore": 13,
+        "levelAfter": 15,
+        "quantityBefore": 5,
+        "quantityAfter": 5
+      },
+      {
+        "id": 4977,
+        "nickname": "하이희야♡",
+        "levelBefore": 13,
+        "levelAfter": 15,
+        "quantityBefore": 1,
+        "quantityAfter": 1
+      },
+      {
+        "id": 5209,
+        "nickname": "김아윤",
+        "levelBefore": 13,
+        "levelAfter": 15,
+        "quantityBefore": 14,
+        "quantityAfter": 14
+      },
+      {
+        "id": 5393,
+        "nickname": "주성",
+        "levelBefore": 13,
+        "levelAfter": 15,
+        "quantityBefore": 2,
+        "quantityAfter": 2
+      },
+      {
+        "id": 5426,
+        "nickname": "나무늘봉순",
+        "levelBefore": 14,
+        "levelAfter": 15,
+        "quantityBefore": 11,
+        "quantityAfter": 11
+      }
+    ],
+    "copiesAndBalancesPreserved": true,
+    "excludedPreserved": true,
+    "completedAt": "2026-10-03T19:58:55.179Z",
+    "adminLogId": "40597",
+    "current": [
+      {
+        "id": 4718,
+        "quantity": 31,
+        "level": 15
+      },
+      {
+        "id": 4754,
+        "quantity": 16,
+        "level": 15
+      },
+      {
+        "id": 4773,
+        "quantity": 15,
+        "level": 15
+      },
+      {
+        "id": 4913,
+        "quantity": 5,
+        "level": 15
+      },
+      {
+        "id": 4977,
+        "quantity": 1,
+        "level": 15
+      },
+      {
+        "id": 5209,
+        "quantity": 14,
+        "level": 15
+      },
+      {
+        "id": 5393,
+        "quantity": 2,
+        "level": 15
+      },
+      {
+        "id": 5426,
+        "quantity": 11,
+        "level": 15
+      }
+    ]
+  },
+  "drill": {
+    "operationKey": "ops:bongsoon-solar-drill-revoke:20261004:v1",
+    "status": "COMPLETED",
+    "actor": "SYSTEM_OPS",
+    "user": {
+      "id": 5426,
+      "nickname": "나무늘봉순"
+    },
+    "itemCode": "MINE_SOLAR_DRILL",
+    "itemName": "태양광드릴",
+    "quantityBefore": 1,
+    "removed": 1,
+    "quantityAfter": 0,
+    "unseenAfter": 0,
+    "activeRunsPreserved": [
+      {
+        "id": "22e7bcae-3c46-4028-8f4f-51eab88aaf50",
+        "user_id": "5426",
+        "drill_code": "MINE_SOLAR_DRILL",
+        "reward": "100000",
+        "policy_revision": "4",
+        "started_at_ms": "1791056257489",
+        "ready_at_ms": "1791070657489",
+        "claimed_at_ms": null,
+        "claim_request_id": null
+      }
+    ],
+    "otherInventoryAndBalancesPreserved": true,
+    "inventoryLogId": "56360072",
+    "completedAt": "2026-10-03T19:58:53.194Z",
+    "adminLogId": "40596",
+    "currentQuantity": 0,
+    "currentPreservedRuns": [
+      {
+        "id": "22e7bcae-3c46-4028-8f4f-51eab88aaf50",
+        "user_id": "5426",
+        "drill_code": "MINE_SOLAR_DRILL",
+        "reward": "100000",
+        "policy_revision": "4",
+        "started_at_ms": "1791056257489",
+        "ready_at_ms": "1791070657489",
+        "claimed_at_ms": null,
+        "claim_request_id": null
+      }
+    ]
+  },
+  "verifiedAt": "2026-10-03T19:59:49.051Z",
+  "sourceCommit": "03f48b46",
+  "scopedTests": {
+    "passed": 4,
+    "failed": 0
+  },
+  "retryVerified": {
+    "aizen": true,
+    "drill": true
+  }
+}
