@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>영토전 · 공성포 포격</title>
+  <link rel="stylesheet" href="/css/territory-battlefield-v5.css">
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#080c17;color:#e6ebf3;font-family:Arial,"Malgun Gothic",sans-serif}button,select{font:inherit}button{cursor:pointer}
+    .review-head{display:flex;align-items:center;justify-content:space-between;gap:20px;max-width:1500px;margin:auto;padding:22px 28px}.review-head h1{font-size:22px;margin:6px 0}.eyebrow{font-size:10px;color:#c8ff6b;letter-spacing:.2em}.review-head p{font-size:12px;color:#99a7bd;margin:0}.controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.controls button,.controls select{padding:9px 12px;border:1px solid #36455c;border-radius:4px;background:#182130;color:#e7edf5}.controls button:first-child{background:#c8ff6b;color:#0e1913;border-color:#c8ff6b;font-weight:700}
+    .tw4-shell{position:relative;width:calc(100% - 40px);max-width:1450px;margin:0 auto;border:1px solid #28324a}.tw4-map-shell{position:relative;height:min(720px,calc(100vh - 190px));min-height:420px}.tw6-front-title{top:26px}.tw6-objectives{bottom:20px}.tw6-live-sitrep{bottom:104px}.tw6-field-navigation{display:none}.tw6-cut-in{top:22%}.timeline{display:flex;align-items:center;gap:14px;max-width:1480px;margin:14px auto;padding:0 24px;color:#9dacbd;font-size:12px}.timeline input{flex:1;accent-color:#c8ff6b}.timeline output{font-variant-numeric:tabular-nums;min-width:40px}.note{margin:16px 24px 24px;color:#74849b;font-size:11px;text-align:center}
+    @media(max-width:650px){.review-head{padding:14px 14px 12px;display:block}.review-head h1{font-size:19px}.controls{margin-top:12px}.controls button,.controls select{font-size:12px;padding:8px}.review-head p{font-size:11px}.tw4-shell{width:calc(100% - 20px)}.tw4-map-shell{height:540px;min-height:420px}.tw6-objectives{bottom:12px}.tw6-live-sitrep{bottom:100px}.tw6-cut-in{top:25%}.timeline{padding:0 14px;gap:8px}.note{text-align:left;line-height:1.6;margin:12px 14px}}
+  </style>
+  <script defer src="/preview/project-v-v3/project-v-pixi-battle.bundle.js?battleRuntime=20261003-territory-authored-fx-v1"></script>
+  <script defer src="/js/battle-v3-live.js?territoryFx=20261003-v1"></script>
+  <script defer src="/js/territory-artillery-fx-20261003.js?v=1"></script>
+  <script defer src="/js/territory-battlefield-v5.js?v=20261003-authored-fx"></script>
+  <script defer src="./review.js?v=1"></script>
+</head>
+<body>
+  <header class="review-head"><div><span class="eyebrow">TERRITORY WAR / ARTILLERY</span><h1>공성포 포격</h1><p>포구 화염 → 탄도 비행 → 방벽 착탄 → 파편과 잔연기</p></div><div class="controls"><button id="fire-a">벤츠 포격</button><button id="fire-b">BMW 포격</button><button id="pause">일시정지</button><select id="speed" aria-label="재생 속도"><option value="1">정상 속도</option><option value="0.5">0.5배속</option><option value="2">2배속</option></select><button id="toggle">연출 ON</button></div></header>
+  <main class="tw4-shell"><div class="tw4-map-shell"><button data-tw6-enter hidden>전장 진입</button><div id="scene"></div></div></main>
+  <div class="timeline"><span>재생 위치</span><input id="seek" aria-label="재생 위치" type="range" min="0" max="3.249" step="0.01" value="0"><output id="time">0.00초</output><span id="status">포격 준비 중</span></div>
+  <p class="note">영토전과 같은 포격 리소스·재생 엔진을 사용하는 연출 확인 화면입니다. 버튼은 게임 피해나 보상을 발생시키지 않습니다.</p>
+</body></html>

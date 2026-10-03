@@ -396,8 +396,9 @@ function addGlow(parent,width,height,color,alpha=.26){
   return glow;
 }
 
-class BaseBattleEngine{
-  constructor({host=null,onStatus=()=>{},battleData=null}={}){
+export class BaseBattleEngine{
+  constructor({host=null,onStatus=()=>{},battleData=null,effectScene=false}={}){
+    this.effectScene=Boolean(effectScene);
     this.host=host;
     this.onStatus=onStatus;
     this.app=null;
@@ -512,6 +513,17 @@ class BaseBattleEngine{
     this.app.canvas.className='pv-pixi-canvas';
     this.app.canvas.setAttribute('aria-hidden','true');
     target.appendChild(this.app.canvas);
+
+    // Territory's visual-only scene uses this same renderer and timeline owner.
+    // It does not load the preview roster, create combatants or simulate a battle.
+    if(this.effectScene){
+      this.root=new Container();this.stage=new Container({sortableChildren:true,label:'BattleStage'});
+      this.combatLayer=new Container({label:'CombatBillboardLayer'});
+      this.effectLayer=new Container({sortableChildren:true,label:'EffectLayer'});
+      this.stage.addChild(this.combatLayer,this.effectLayer);this.root.addChild(this.stage);this.app.stage.addChild(this.root);
+      this.app.ticker.maxFPS=45;this.app.renderer.on('resize',()=>this.resize());
+      this.resize();this.mounted=true;document.addEventListener('visibilitychange',this.onVisibility);this.app.stop();return this;
+    }
 
     const battlefieldTexturePromise=this.loadBattlefieldTexture(this.activeBattlefieldMode);
     if(this.livePayload){
@@ -3428,6 +3440,7 @@ class BaseBattleEngine{
     if(!this.app||!this.root)return;
     const viewportWidth=this.app.screen.width;
     const viewportHeight=this.app.screen.height;
+    if(this.effectScene){this.scene={width:viewportWidth,height:viewportHeight};this.onEffectResize?.();return;}
     this.mobile=viewportWidth<=760;
     this.scene=this.mobile?{...MOBILE}:{...DESKTOP};
     this.camera.setViewport(this.scene.width,this.scene.height);
@@ -3492,7 +3505,15 @@ class BaseBattleEngine{
     this.requestedVisible=Boolean(next);
     if(!this.mounted&&this.requestedVisible)await this.mount();
     if(!this.app)return;
+    const wasVisible=this.visible;
     this.visible=this.requestedVisible&&!document.hidden;
+    if(this.effectScene){
+      if(wasVisible!==this.visible)for(const entry of this.simpleTimelines){
+        if(!this.visible){entry.resumeOnVisible=!entry.instance.paused();entry.instance.pause();}
+        else if(entry.resumeOnVisible)entry.instance.resume();
+      }
+      this.visible?this.app.start():this.app.stop();return;
+    }
     if(this.visible){
       this.app.start();
       for(const character of this.characters){
@@ -3632,6 +3653,7 @@ class BaseBattleEngine{
 
   destroy(){
     this.disposed=true;
+    this.onEffectSceneDestroy?.();this.onEffectSceneDestroy=null;
     this.cancelTimelines();
     document.removeEventListener('visibilitychange',this.onVisibility);
     if(this.moteTicker)this.app?.ticker.remove(this.moteTicker);

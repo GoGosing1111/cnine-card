@@ -1,0 +1,619 @@
+{
+  "version": "20261003-authored-artillery-v1",
+  "generator": "image_gen.imagegen",
+  "visualApproval": "USER_REVIEW_PENDING",
+  "runtime": "Shared Project V V3 BattleEngine effectScene, PixiJS 8.20.0 and registered GSAP 3.13.0 timelines",
+  "processing": "Original PNGs preserved. Technical cell extraction, uniform packing and WebP encoding only. Generated alpha preserved; no keying, redrawing or recoloring.",
+  "assets": {
+    "muzzle": {
+      "source": "muzzle-source.png",
+      "sourceSha256": "494909a6980173fe06cf6ce8ab2c763aa5fc6a5ac7ed6360f4b13e4f99c0eea2",
+      "sourceWidth": 1254,
+      "sourceHeight": 1254,
+      "url": "/assets/ui/territory-war/artillery-fx-v1/muzzle-atlas.webp",
+      "sha256": "a12d09baebce050a9773bc93cc58273091ac3b04c1958b4870cfc302f4d961cd",
+      "bytes": 632870,
+      "columns": 4,
+      "rows": 4,
+      "cell": 320,
+      "anchor": [
+        0.18,
+        0.53
+      ],
+      "frames": [
+        {
+          "source": {
+            "x": 0,
+            "y": 0,
+            "w": 314,
+            "h": 314
+          },
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 320,
+          "sha256": "43fc1374e0aa367d82d432e79f43f619a385d4dcac2fdb6b230beffd1df913e3"
+        },
+        {
+          "source": {
+            "x": 314,
+            "y": 0,
+            "w": 313,
+            "h": 314
+          },
+          "x": 320,
+          "y": 0,
+          "w": 320,
+          "h": 320,
+          "sha256": "c15b89b6ff3c80903af609be4d969e4477c4ba325b89d71e9ca99c76bc9d8538"
+        },
+        {
+          "source": {
+            "x": 627,
+            "y": 0,
+            "w": 314,
+            "h": 314
+          },
+          "x": 640,
+          "y": 0,
+          "w": 320,
+          "h": 320,
+          "sha256": "dabb6a5fc0e65d1e61000cd1c82db33c572a2c3511e664f4e2f2f9dd19ad42af"
+        },
+        {
+          "source": {
+            "x": 941,
+            "y": 0,
+            "w": 313,
+            "h": 314
+          },
+          "x": 960,
+          "y": 0,
+          "w": 320,
+          "h": 320,
+          "sha256": "951294978dead2033c272d8fbf73cae515756524deed2c53053001ac03afad6a"
+        },
+        {
+          "source": {
+            "x": 0,
+            "y": 314,
+            "w": 314,
+            "h": 313
+          },
+          "x": 0,
+          "y": 320,
+          "w": 320,
+          "h": 320,
+          "sha256": "1d30981effa9991dc5a528c80d03cea98dba5b76425a06cfce7ce2bf04fe579f"
+        },
+        {
+          "source": {
+            "x": 314,
+            "y": 314,
+            "w": 313,
+            "h": 313
+          },
+          "x": 320,
+          "y": 320,
+          "w": 320,
+          "h": 320,
+          "sha256": "fceb1af983a9bc05564efc1f2e4666a686c55e9bbcce0c647cffcf203de97e49"
+        },
+        {
+          "source": {
+            "x": 627,
+            "y": 314,
+            "w": 314,
+            "h": 313
+          },
+          "x": 640,
+          "y": 320,
+          "w": 320,
+          "h": 320,
+          "sha256": "1aeaa6d520d4c5dea3d57bb5576aae9584a88306f4f9e73eb2e04a6b7af4458c"
+        },
+        {
+          "source": {
+            "x": 941,
+            "y": 314,
+            "w": 313,
+            "h": 313
+          },
+          "x": 960,
+          "y": 320,
+          "w": 320,
+          "h": 320,
+          "sha256": "41f23315936d9d5289e20e20506d3b53262d34a1c068bb6caa2c759fa48096bc"
+        },
+        {
+          "source": {
+            "x": 0,
+            "y": 627,
+            "w": 314,
+            "h": 314
+          },
+          "x": 0,
+          "y": 640,
+          "w": 320,
+          "h": 320,
+          "sha256": "bca86abad4e9a1270fbdfbb563607da1065618c5ab8c343cbf361cfe613b8d3a"
+        },
+        {
+          "source": {
+            "x": 314,
+            "y": 627,
+            "w": 313,
+            "h": 314
+          },
+          "x": 320,
+          "y": 640,
+          "w": 320,
+          "h": 320,
+          "sha256": "b6d7b358a8c01353753d770f81418c369bcca1eac815b9ba865138bbd9774de9"
+        },
+        {
+          "source": {
+            "x": 627,
+            "y": 627,
+            "w": 314,
+            "h": 314
+          },
+          "x": 640,
+          "y": 640,
+          "w": 320,
+          "h": 320,
+          "sha256": "826f52aba97671eb4b4b750f8ddfe25d66d9a0b59c7f459e5580536a49adfaf5"
+        },
+        {
+          "source": {
+            "x": 941,
+            "y": 627,
+            "w": 313,
+            "h": 314
+          },
+          "x": 960,
+          "y": 640,
+          "w": 320,
+          "h": 320,
+          "sha256": "16f4cdb712d5f8aec5bf2e61cee2b6aaad6bb901d08b67ed99649ea902ffac10"
+        },
+        {
+          "source": {
+            "x": 0,
+            "y": 941,
+            "w": 314,
+            "h": 313
+          },
+          "x": 0,
+          "y": 960,
+          "w": 320,
+          "h": 320,
+          "sha256": "92b4db1b1c7b43b6551e0f493e9d7faed6cd5a5fe802fc1bf91727f85ba77f3e"
+        },
+        {
+          "source": {
+            "x": 314,
+            "y": 941,
+            "w": 313,
+            "h": 313
+          },
+          "x": 320,
+          "y": 960,
+          "w": 320,
+          "h": 320,
+          "sha256": "a8847244519b113944be09ebd29a721af351d34e82c63bee6783c99ad0a733f1"
+        },
+        {
+          "source": {
+            "x": 627,
+            "y": 941,
+            "w": 314,
+            "h": 313
+          },
+          "x": 640,
+          "y": 960,
+          "w": 320,
+          "h": 320,
+          "sha256": "29593d41ba54b6006d1f90c4fd3cd7c081fc0769ad16e58d32159757cdd8637c"
+        },
+        {
+          "source": {
+            "x": 941,
+            "y": 941,
+            "w": 313,
+            "h": 313
+          },
+          "x": 960,
+          "y": 960,
+          "w": 320,
+          "h": 320,
+          "sha256": "aa1c2aba6a868bd12b8b7b89c3f510bb65d05901639fbd39cdabf7aaa2e7fc11"
+        }
+      ]
+    },
+    "projectile": {
+      "source": "projectile-source.png",
+      "sourceSha256": "02f834324b8135d4d89d6d2b61bf6b8b040027986eab8b000a990a844393cc02",
+      "sourceWidth": 1774,
+      "sourceHeight": 887,
+      "url": "/assets/ui/territory-war/artillery-fx-v1/projectile-atlas.webp",
+      "sha256": "4e14ee4bd79552b1a161a062d929583193c678757075f1052885b7651de65175",
+      "bytes": 215378,
+      "columns": 4,
+      "rows": 2,
+      "cell": 320,
+      "anchor": [
+        0.93,
+        0.5
+      ],
+      "frames": [
+        {
+          "source": {
+            "x": 0,
+            "y": 0,
+            "w": 444,
+            "h": 444
+          },
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 320,
+          "sha256": "4cd75d2ac2f29c4e356a3e6b7dd8e81e9755ed28c293a6bef8c60e88034d2550"
+        },
+        {
+          "source": {
+            "x": 444,
+            "y": 0,
+            "w": 443,
+            "h": 444
+          },
+          "x": 320,
+          "y": 0,
+          "w": 320,
+          "h": 320,
+          "sha256": "c817fb367caf6d78432a1251d386e9f9612c073de8a577cebd1065777791fb77"
+        },
+        {
+          "source": {
+            "x": 887,
+            "y": 0,
+            "w": 444,
+            "h": 444
+          },
+          "x": 640,
+          "y": 0,
+          "w": 320,
+          "h": 320,
+          "sha256": "e84d889603a019b973db7e00b2c259d3ef0188a8d1319877de5a3e932f998e53"
+        },
+        {
+          "source": {
+            "x": 1331,
+            "y": 0,
+            "w": 443,
+            "h": 444
+          },
+          "x": 960,
+          "y": 0,
+          "w": 320,
+          "h": 320,
+          "sha256": "d7bf84d04833298fff4a975a3ce327060bb0ac8d6c017723529a728fe8d368da"
+        },
+        {
+          "source": {
+            "x": 0,
+            "y": 444,
+            "w": 444,
+            "h": 443
+          },
+          "x": 0,
+          "y": 320,
+          "w": 320,
+          "h": 320,
+          "sha256": "eccab59c57393b23a9b9f78ea7e9e4a210db8a2ce9615c11aed2bc1d255ad755"
+        },
+        {
+          "source": {
+            "x": 444,
+            "y": 444,
+            "w": 443,
+            "h": 443
+          },
+          "x": 320,
+          "y": 320,
+          "w": 320,
+          "h": 320,
+          "sha256": "023a1a9b5e41c610030624e3b2d1366cdfda2b56f5589d231ed908eab05a237b"
+        },
+        {
+          "source": {
+            "x": 887,
+            "y": 444,
+            "w": 444,
+            "h": 443
+          },
+          "x": 640,
+          "y": 320,
+          "w": 320,
+          "h": 320,
+          "sha256": "f97a8273d4f70e12b5e96d98611f1e275e1508147df69d01988951263bc255a6"
+        },
+        {
+          "source": {
+            "x": 1331,
+            "y": 444,
+            "w": 443,
+            "h": 443
+          },
+          "x": 960,
+          "y": 320,
+          "w": 320,
+          "h": 320,
+          "sha256": "ec6e2bdedb20d6675ba177b3240d04f4356e2a2cd4898829eb0e4f1346bf6bb6"
+        }
+      ]
+    },
+    "impact": {
+      "source": "impact-source.png",
+      "sourceSha256": "8b8cad8684cd028b87e1a784d820d283aff27f2e05563bf12deac4206a431a55",
+      "sourceWidth": 1254,
+      "sourceHeight": 1254,
+      "url": "/assets/ui/territory-war/artillery-fx-v1/impact-atlas.webp",
+      "sha256": "cc285de5729bf8cb1904219f9cfc5bad3533474db832ac320fbbfdfb46d2dab3",
+      "bytes": 724420,
+      "columns": 4,
+      "rows": 4,
+      "cell": 320,
+      "anchor": [
+        0.5,
+        0.9
+      ],
+      "frames": [
+        {
+          "source": {
+            "x": 0,
+            "y": 0,
+            "w": 314,
+            "h": 314
+          },
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 320,
+          "sha256": "625a4af86677be6b54f9ef1833ea51bde5e8dba5372585e1ae772baa65cff2f9"
+        },
+        {
+          "source": {
+            "x": 314,
+            "y": 0,
+            "w": 313,
+            "h": 314
+          },
+          "x": 320,
+          "y": 0,
+          "w": 320,
+          "h": 320,
+          "sha256": "87ad2cb40a1f25374443891936e9013278cf13f7d085bf3dce71987ad5350a5d"
+        },
+        {
+          "source": {
+            "x": 627,
+            "y": 0,
+            "w": 314,
+            "h": 314
+          },
+          "x": 640,
+          "y": 0,
+          "w": 320,
+          "h": 320,
+          "sha256": "c26d0d4102c33ebb7ea71f22f1848f91d45575c11875641007fe0251ec9f4548"
+        },
+        {
+          "source": {
+            "x": 941,
+            "y": 0,
+            "w": 313,
+            "h": 314
+          },
+          "x": 960,
+          "y": 0,
+          "w": 320,
+          "h": 320,
+          "sha256": "d377b9cc05d7938d4c895164eb183d329973b61f9b56dcc2d70f0a6fa8274abf"
+        },
+        {
+          "source": {
+            "x": 0,
+            "y": 314,
+            "w": 314,
+            "h": 313
+          },
+          "x": 0,
+          "y": 320,
+          "w": 320,
+          "h": 320,
+          "sha256": "ddea874106396c90137456e3877bba1609c7de944a2e2f4cc57060a7c7c009a0"
+        },
+        {
+          "source": {
+            "x": 314,
+            "y": 314,
+            "w": 313,
+            "h": 313
+          },
+          "x": 320,
+          "y": 320,
+          "w": 320,
+          "h": 320,
+          "sha256": "d9db436d0d7cd3dcdb4c14869fbec47ff9f704a0efd1fe1d7f8a2b34dff711d6"
+        },
+        {
+          "source": {
+            "x": 627,
+            "y": 314,
+            "w": 314,
+            "h": 313
+          },
+          "x": 640,
+          "y": 320,
+          "w": 320,
+          "h": 320,
+          "sha256": "4be62a95f41c12db476843fe68d8ae67bd97deaddb7f6dfb988f987e793b99a2"
+        },
+        {
+          "source": {
+            "x": 941,
+            "y": 314,
+            "w": 313,
+            "h": 313
+          },
+          "x": 960,
+          "y": 320,
+          "w": 320,
+          "h": 320,
+          "sha256": "887abbbaaa41712b696005c51d9b1c3dcb8cbfef2eac16c7f361e15a6ef6a06d"
+        },
+        {
+          "source": {
+            "x": 0,
+            "y": 627,
+            "w": 314,
+            "h": 314
+          },
+          "x": 0,
+          "y": 640,
+          "w": 320,
+          "h": 320,
+          "sha256": "197bdc57a398218d1c09ed4a70a12a6ae166777b757f6c30e95432d100ba5b11"
+        },
+        {
+          "source": {
+            "x": 314,
+            "y": 627,
+            "w": 313,
+            "h": 314
+          },
+          "x": 320,
+          "y": 640,
+          "w": 320,
+          "h": 320,
+          "sha256": "cf4edbdf4c8071b75cfcabdc656ebaf3c21e807910aa9cf14c26f91911321821"
+        },
+        {
+          "source": {
+            "x": 627,
+            "y": 627,
+            "w": 314,
+            "h": 314
+          },
+          "x": 640,
+          "y": 640,
+          "w": 320,
+          "h": 320,
+          "sha256": "48d0f8a88c3f00287fdefa7907446f49be826282be4d1984121b873f5e349ba0"
+        },
+        {
+          "source": {
+            "x": 941,
+            "y": 627,
+            "w": 313,
+            "h": 314
+          },
+          "x": 960,
+          "y": 640,
+          "w": 320,
+          "h": 320,
+          "sha256": "abe7ac055618f65d12e67dc9a22cfe67a8f15f842905e4834daf9a7e881aeabc"
+        },
+        {
+          "source": {
+            "x": 0,
+            "y": 941,
+            "w": 314,
+            "h": 313
+          },
+          "x": 0,
+          "y": 960,
+          "w": 320,
+          "h": 320,
+          "sha256": "61fe95a95b933ee24358ed916ea3617a44e8df50a85df0249b761cd4c4d7c6fb"
+        },
+        {
+          "source": {
+            "x": 314,
+            "y": 941,
+            "w": 313,
+            "h": 313
+          },
+          "x": 320,
+          "y": 960,
+          "w": 320,
+          "h": 320,
+          "sha256": "18301a124f357ec96dd576d5cf01bf295e3d2e52001cf768494b147c8299a747"
+        },
+        {
+          "source": {
+            "x": 627,
+            "y": 941,
+            "w": 314,
+            "h": 313
+          },
+          "x": 640,
+          "y": 960,
+          "w": 320,
+          "h": 320,
+          "sha256": "e837c7320e06b5ecc9d8bddfc49e2a25b1a41d7bd5ead49041761827535475cc"
+        },
+        {
+          "source": {
+            "x": 941,
+            "y": 941,
+            "w": 313,
+            "h": 313
+          },
+          "x": 960,
+          "y": 960,
+          "w": 320,
+          "h": 320,
+          "sha256": "723ed37f3f144c5881ed796014793ae1a1a0da35aec5cc651b19ce09150a263f"
+        }
+      ]
+    },
+    "turret": {
+      "source": "turret-source.png",
+      "sourceSha256": "967ff65ceb4d88344399f849cee95a18d3757dccb8658fab1caf3935d58efbb6",
+      "url": "/assets/ui/territory-war/artillery-fx-v1/turret.webp",
+      "sha256": "9585b81677c8da685360d7e2ce45e1e5b0f6ba1bf3c8acebb95da09b464a284d",
+      "bytes": 87076,
+      "width": 768,
+      "height": 512,
+      "muzzle": [
+        0.953,
+        0.159
+      ],
+      "ground": [
+        0.42,
+        0.925
+      ],
+      "axisRadians": -0.324
+    }
+  },
+  "timing": {
+    "cannon": {
+      "fireAt": 0.14,
+      "impactAt": 1.05,
+      "endAt": 3.25
+    },
+    "shot": {
+      "fireAt": 0.06,
+      "impactAt": 0.62,
+      "endAt": 1.72
+    }
+  },
+  "constraints": [
+    "Straight single rigid barrel and rail axis; whole-gun rigid recoil only",
+    "One shared V3 renderer; no extra canvas, CDN or library copy",
+    "Authored evolving frames, never scaled static main effects",
+    "Visual events consume server state only; no gameplay damage or rewards"
+  ]
+}

@@ -68,17 +68,16 @@
   function showField(open){fieldOpen=Boolean(open);document.body.classList.toggle('territory-battlefield-entered',fieldOpen);const map=mount?.querySelector('.tw4-map-shell');if(map)map.dataset.tw6View=fieldOpen?'FIELD':'MAP';mount?.querySelector('.tw4-shell')?.classList.remove('zone-open');tick()}
   function tick(){
     mount?.querySelectorAll('[data-tw6-due]').forEach(node=>node.textContent=untilText(Number(node.dataset.tw6Due)));
-    const map=mount?.querySelector('.tw4-map-shell');engine?.setPaused(document.hidden||Boolean(current?.truce?.active)||current?.round?.status!=='ACTIVE'||map?.dataset.tw6View!=='FIELD');
+    const map=mount?.querySelector('.tw4-map-shell');engine?.setPaused(document.hidden||Boolean(current?.truce?.active)||current?.round?.status!=='ACTIVE'||map?.dataset.tw6View!=='FIELD'||Boolean(document.querySelector('.tw6-personal-battle')));
   }
   class BattlefieldFx{
-    constructor(){this.canvas=document.createElement('canvas');this.canvas.className='tw6-fx-canvas';this.canvas.setAttribute('aria-hidden','true');this.ctx=this.canvas.getContext('2d');this.effects=[];this.seen=new Set();this.baseline=null;this.raf=0;this.last=0;this.enabled=true;this.paused=false;this.width=1;this.height=1;this.reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;this.loop=this.loop.bind(this);this.start=performance.now();}
-    attach(target,cutin){this.cutin=cutin;if(!target)return;target.append(this.canvas);this.observer?.disconnect();this.observer=new ResizeObserver(()=>this.resize(target));this.observer.observe(target);this.resize(target);if(!this.raf)this.raf=requestAnimationFrame(this.loop);}
-    resize(target){const rect=target.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,1.5);this.width=rect.width;this.height=rect.height;this.canvas.width=Math.round(rect.width*dpr);this.canvas.height=Math.round(rect.height*dpr);this.ctx.setTransform(dpr,0,0,dpr,0,0);}
-    setEnabled(value){this.enabled=value;if(!value){this.effects=[];this.ctx.clearRect(0,0,this.width,this.height);}}
-    setPaused(value){this.paused=value;}
+    constructor(){this.renderer=new globalThis.CNineTerritoryArtilleryFx();this.seen=new Set();this.baseline=null;this.enabled=true;this.paused=true;}
+    attach(target,cutin){this.cutin=cutin;this.renderer.attach(target);}
+    setEnabled(value){this.enabled=value;this.renderer.setEnabled(value);}
+    setPaused(value){this.paused=value;this.renderer.setPaused(value);}
     sync(state){
       const key=state.round?.id+':'+state.front?.id,events=(state.battlefield?.events||[]).slice().reverse(),actions=(state.recentActionPulse||state.recentActions||[]).slice().reverse();
-      if(this.baseline!==key){this.baseline=key;this.effects=[];this.seen.clear();for(const event of events)this.seen.add(event.id);for(const action of actions)this.seen.add('action:'+action.id);this.notice=state.notice?.id;return;}
+      if(this.baseline!==key){this.baseline=key;this.renderer.clear();this.seen.clear();for(const event of events)this.seen.add(event.id);for(const action of actions)this.seen.add('action:'+action.id);this.notice=state.notice?.id;return;}
       for(const event of events)if(!this.seen.has(event.id)){this.seen.add(event.id);if(now()-event.created_at_ms<90000)this.play(event.type,event.side,event.payload);}
       if(state.notice?.id&&state.notice.id!==this.notice){this.notice=state.notice.id;if(state.notice.type==='TACTICAL_OPERATION')this.play(state.notice.payload?.operation,state.notice.side,state.notice.payload);}
       let count=0;for(const action of actions)if(!this.seen.has('action:'+action.id)){this.seen.add('action:'+action.id);if(count++<3)this.play('SHOT',action.side,{});}
@@ -86,26 +85,13 @@
     }
     play(type,side,payload={}){
       if(!this.enabled||this.paused)return;
-      this.effects.push({type,side,payload,start:performance.now(),duration:type==='CANNON_FIRED'?4200:type==='CARPET_BOMBING'?4000:2800});this.effects=this.effects.slice(-8);
+      const playback=this.renderer.play(type,side);
       const titles={EMP_PULSE:'EMP 파동 · 시설 정지',WALL_BREAKER:'성벽 파쇄탄',ENGINEER:'공병 투입 · 시설 복구',SIEGE_CANNON:'거대 공성포 · 발사 준비',CANNON_FIRED:'거대 공성포 착탄',RELAY_CAPTURED:'전력 중계탑 확보',SUPPLY_SECURED:'보급열차 호위 성공',CARPET_BOMBING:'융단폭격 개시',SPG_BARRAGE:'자주포 포격',AIR_DEFENSE:'통합 대공망 전개',COUNTER_BATTERY:'대포병 반격',IRON_WALL:'철벽 방어 전개',ASSAULT:'총공세 개시',INFILTRATION:'기습 침투',REGROUP:'재집결 돌파'};
       if(this.cutin&&titles[type]){this.cutin.className='tw6-cut-in side-'+String(side).toLowerCase()+' is-live';this.cutin.innerHTML='<span>'+escape(current?label(current,side):side)+'</span><b>'+titles[type]+'</b>'+(Number(payload.damage)>0?'<em>공성 피해 '+fmt(payload.damage)+'</em>':'');clearTimeout(this.cutinTimer);this.cutinTimer=setTimeout(()=>this.cutin?.classList.remove('is-live'),3200);}
+      return playback;
     }
-    glow(x,y,r,color,alpha=1){const ctx=this.ctx,g=ctx.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,color);g.addColorStop(.25,color);g.addColorStop(1,'transparent');ctx.globalAlpha=alpha;ctx.fillStyle=g;ctx.fillRect(x-r,y-r,r*2,r*2);ctx.globalAlpha=1;}
-    loop(now){
-      this.raf=requestAnimationFrame(this.loop);if(now-this.last<40)return;this.last=now;
-      const ctx=this.ctx,w=this.width,h=this.height;ctx.clearRect(0,0,w,h);if(!this.enabled||this.paused||!this.canvas.isConnected)return;
-      if(!this.reduced){for(let i=0;i<16;i++){const t=(now-this.start)/1000,x=((i*157+t*12)%Math.max(1,w)),y=h*.78-((i*43+t*(8+i%4))%Math.max(1,h*.6));this.glow(x,y,2.5,'#ffb74c',.35);}}
-      this.effects=this.effects.filter(effect=>now-effect.start<effect.duration);
-      for(const effect of this.effects){const t=(now-effect.start)/effect.duration,origin=effect.side==='B'?.85:.13,target=effect.side==='B'?.2:.8,color=effect.side==='B'?'#ff6b86':'#79e6ff';if(this.reduced){this.glow(w*target,h*.46,60,color,(1-t)*.25);continue;}
-        if(['EMP_PULSE','IRON_WALL','AIR_DEFENSE','ENGINEER','RELAY_CAPTURED'].includes(effect.type)){const x=w*(effect.type==='RELAY_CAPTURED'?.5:effect.type==='ENGINEER'?origin:target),y=h*.47,r=40+t*w*.55;ctx.strokeStyle=color;ctx.lineWidth=effect.type==='EMP_PULSE'?5:2;ctx.globalAlpha=(1-t)*.85;ctx.beginPath();ctx.ellipse(x,y,r,r*.45,0,0,Math.PI*2);ctx.stroke();ctx.globalAlpha=1;this.glow(x,y,65,color,(1-t)*.35);}
-        else if(effect.type==='CARPET_BOMBING'){for(let i=0;i<5;i++){const p=Math.max(0,Math.min(1,(t-i*.1)*2));const x=w*(.28+i*.12),y=h*(.42+i%2*.08);if(p>0)this.explosion(x,y,p,55);}ctx.fillStyle='#090e19';ctx.beginPath();ctx.moveTo(w*t,-8+h*.24);ctx.lineTo(w*t-70,h*.29);ctx.lineTo(w*t-15,h*.31);ctx.lineTo(w*t+18,h*.26);ctx.fill();}
-        else if(['WALL_BREAKER','CANNON_FIRED','SPG_BARRAGE','COUNTER_BATTERY','SHOT','ASSAULT','INFILTRATION'].includes(effect.type)){const travel=Math.min(1,t*2.8),x=w*(origin+(target-origin)*travel),y=h*(.62-.24*Math.sin(travel*Math.PI));ctx.strokeStyle=color;ctx.lineWidth=effect.type==='CANNON_FIRED'?8:3;ctx.shadowBlur=18;ctx.shadowColor=color;ctx.beginPath();ctx.moveTo(x-w*(target-origin)*.06,y+7);ctx.lineTo(x,y);ctx.stroke();ctx.shadowBlur=0;if(travel===1)this.explosion(w*target,h*.59,(t-.36)/.64,effect.type==='CANNON_FIRED'?125:effect.type==='SHOT'?32:75);}
-        else if(effect.type==='SIEGE_CANNON'){this.glow(w*origin,h*.64,45+Math.sin(t*20)*10,color,.55*(1-t));}
-        else if(effect.type==='SUPPLY_SECURED'||effect.type==='REGROUP'){for(let i=0;i<4;i++)this.glow(w*(.38+i*.09),h*(.7-t*.12),20,'#c8ff6b',(1-t)*.3);}
-      }
-    }
-    explosion(x,y,t,size){if(t<0)return;const p=Math.min(1,t);this.glow(x,y,size*(.35+p),p<.15?'#fff4bf':'#ffa742',(1-p)*.8);const ctx=this.ctx;ctx.strokeStyle='rgba(255,207,131,'+(1-p)*.75+')';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(x,y,size*(.4+p*2),size*(.2+p*.65),0,0,Math.PI*2);ctx.stroke();for(let i=0;i<12;i++){const a=i*2.39;ctx.fillStyle='#ffd58d';ctx.globalAlpha=1-p;ctx.fillRect(x+Math.cos(a)*size*p,y+Math.sin(a)*size*p-p*size*.3,3,3);}ctx.globalAlpha=1;}
-    destroy(){cancelAnimationFrame(this.raf);this.observer?.disconnect();clearTimeout(this.cutinTimer);this.canvas.remove();}
+    destroy(){clearTimeout(this.cutinTimer);this.renderer.destroy();}
   }
-  globalThis.CNineTerritoryBattlefield={stageHtml,facilitiesHtml,skillBlock,attach,tick,objective:()=>objective,attackPayload:()=>({objective,frontId:Number(current?.front?.id||0),...(objective==='SUPPLY'?{supplyCycle:current?.battlefield?.supply?.cycle}: {})}),dispose(){engine?.destroy();engine=null;mount=null;current=null;document.body.classList.remove('territory-battlefield-entered');objective='SIEGE';fieldOpen=false;lastFieldId=0;},playPreview(type,side='A'){engine?.play(type,side,{damage:1500000});}};
+
+  globalThis.CNineTerritoryBattlefield={stageHtml,facilitiesHtml,skillBlock,attach,tick,objective:()=>objective,attackPayload:()=>({objective,frontId:Number(current?.front?.id||0),...(objective==='SUPPLY'?{supplyCycle:current?.battlefield?.supply?.cycle}: {})}),dispose(){engine?.destroy();engine=null;mount=null;current=null;document.body.classList.remove('territory-battlefield-entered');objective='SIEGE';fieldOpen=false;lastFieldId=0;},playPreview(type,side='A'){return engine?.play(type,side,{damage:1500000});},diagnostics(){return engine?.renderer.diagnostics()||{ready:false};},previewControl(action,value){return engine?.renderer.control(action,value);}};
 })();

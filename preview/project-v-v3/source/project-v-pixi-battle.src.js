@@ -1,12 +1,16 @@
 import {BattleEngine} from './battle/BattleEngine.js';
+import {createEffectScene} from './battle/EffectScene.js';
 import {BattleEngine as ExpeditionBattleEngine} from '../../../pve-v3/BattleEngine.js';
 import {Assets,Container,Graphics,Sprite,Texture,Rectangle} from 'pixi.js';
 
 let engine=null;
+let effectMountPromise=null;
 let accountPreviewFirearmHook=null;
 const engineType=payload=>typeof __CNINE_NATIVE_CONTINUOUS__!=='undefined'&&__CNINE_NATIVE_CONTINUOUS__&&payload?.continuousEncounter?ExpeditionBattleEngine:BattleEngine;
 
 async function mount(target=document.getElementById('pvPixiBattle')){
+  if(effectMountPromise)await effectMountPromise.catch(()=>{});
+  if(engine?.effectScene)destroy();
   if(engine)return engine;
   const candidate=engine=new BattleEngine({host:target});
   candidate.setAccountBattleUnitPreviewFireHook(accountPreviewFirearmHook);
@@ -16,6 +20,8 @@ async function mount(target=document.getElementById('pvPixiBattle')){
 }
 
 async function mountForBattle(payload,target=document.getElementById('pvPixiBattle')){
+  if(effectMountPromise)await effectMountPromise.catch(()=>{});
+  if(engine?.effectScene)destroy();
   if(engine)return resetSession(payload,target);
   const Engine=engineType(payload);
   const candidate=engine=new Engine({host:target,battleData:payload});
@@ -33,6 +39,8 @@ async function mountForBattle(payload,target=document.getElementById('pvPixiBatt
 }
 
 async function resetSession(payload,target=document.getElementById('pvPixiBattle')){
+  if(effectMountPromise)await effectMountPromise.catch(()=>{});
+  if(engine?.effectScene)destroy();
   const Engine=engineType(payload);
   if(engine&&(engine.constructor!==Engine||engine.battleData?.title!==payload?.title&&payload?.continuousEncounter))destroy();
   if(!engine)return mountForBattle(payload,target);
@@ -53,6 +61,23 @@ function destroy(){
   const previous=engine;engine=null;
   previous?.destroy();
 }
+
+async function mountEffectScene(target){
+  if(effectMountPromise)await effectMountPromise.catch(()=>{});
+  if(engine?.effectScene&&engine.mounted)return engine.attachTo(target);
+  // An active personal battle owns the singleton. The territory scene retries
+  // after the battle view releases it; it must never create a second renderer.
+  if(engine?.visible||engine?.playing)return null;
+  if(engine)destroy();
+  const candidate=engine=createEffectScene(target);
+  effectMountPromise=candidate.mount().then(()=>{
+    if(engine!==candidate||candidate.disposed)throw Error('Cancelled territory effect scene');
+    return candidate;
+  });
+  try{return await effectMountPromise;}catch(error){if(engine===candidate)destroy();throw error;}
+  finally{effectMountPromise=null;}
+}
+function releaseEffectScene(scene){if(engine===scene&&engine?.effectScene)destroy();}
 
 async function playEvents(events,options){
   if(!engine)await mount();
@@ -140,7 +165,7 @@ async function playAccountPreviewShot({onAnticipation,onFire,damage=100000}={}){
 }
 
 const fxRuntime=Object.freeze({Assets,Container,Graphics,Sprite,Texture,Rectangle});
-const api={runtimeVersion:'20261003-territory-scene-v5',fxRuntime,mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,restoreDeployedFormation,setBattlePayload,setBattlefield,verifyTargetSwitch,playAccountPreviewShot,setAccountPreviewFirearmHook,startAccountBattleUnitSustainedFire,stopAccountBattleUnitSustainedFire,cancelActiveAnimations,completePlayback,syncFinalState,diagnostics,destroy};
+const api={runtimeVersion:'20261003-territory-authored-fx-v1',fxRuntime,mountEffectScene,releaseEffectScene,mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,restoreDeployedFormation,setBattlePayload,setBattlefield,verifyTargetSwitch,playAccountPreviewShot,setAccountPreviewFirearmHook,startAccountBattleUnitSustainedFire,stopAccountBattleUnitSustainedFire,cancelActiveAnimations,completePlayback,syncFinalState,diagnostics,destroy};
 if(typeof window!=='undefined')window.ProjectVPixiBattle=api;
 
 export {mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,restoreDeployedFormation,setBattlePayload,setBattlefield,verifyTargetSwitch,playAccountPreviewShot,setAccountPreviewFirearmHook,startAccountBattleUnitSustainedFire,stopAccountBattleUnitSustainedFire,cancelActiveAnimations,completePlayback,syncFinalState,diagnostics,destroy};
