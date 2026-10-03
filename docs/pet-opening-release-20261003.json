@@ -1,0 +1,21 @@
+{
+  "status": "DEPLOYED_WITH_LIVE_OPENING_CLOSED_PENDING_POOL",
+  "featureCommit": "355d53b2b6b443dbd7a92a288e810a673cc31298",
+  "finalRuntimeCommit": "9455a6a6",
+  "deploymentUrl": "https://f6c5c326.cnine-card.pages.dev",
+  "apiRuntimeVersion": "d1b89c8c-de4a-4818-a0c3-d813558a1445",
+  "defaults": {"essencePerOpen": 10, "lichClearEssencePerParticipant": 5, "openingEnabled": false, "pool": []},
+  "cms": {"opening": "펫 개봉·아이템", "lichReward": "정벌 / 리치왕 정벌", "bothQuantitiesEditable": true},
+  "validation": {
+    "focusedRegressionTests": 33,
+    "workerCheck": "PASS",
+    "browser": {"desktopWidth": 1440, "mobileWidth": 390, "quantityAndMax": "PASS", "poolRates": "PASS", "resultCards": "PASS", "truncatedResponseSameRequestRetry": "PASS", "horizontalOverflow": false, "pageErrors": []},
+    "production": {"openingHtml": 200, "openingModule": 200, "itemAndBackdropWebp": 200, "unauthenticatedState": 401, "unauthenticatedCms": 401, "privateStateCache": "private, no-store", "finalLichRewardCopy": "PASS"}
+  },
+  "notes": [
+    "Lich ON rooms created and started after deployment snapshot reward policy at departure.",
+    "TEST, failure, cancellation, departed or kicked participants receive no real essence reward.",
+    "Pet battle/equipment release remains separately locked.",
+    "Post-deployment lobby reward wording corrected with only the affected Lich regression; unchanged suites not repeated."
+  ]
+}
