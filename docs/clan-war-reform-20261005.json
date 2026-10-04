@@ -3,7 +3,7 @@
   "scope": "Clan war governance, weekly readiness and original cooperative-operations UI",
   "base": "3b879704",
   "releaseMode": "full",
-  "status": "PRE_DEPLOY_VALIDATED",
+  "status": "LIVE_VERIFIED",
   "userDecisions": {
     "signups": "Tue/Thu/Sat/Sun; non-signups can join",
     "ready": "15 minutes before start; responses never gate eligibility",
@@ -22,13 +22,49 @@
         "390x844"
       ]
     },
-    "postgresReformAndKick": {
-      "passed": 17
-    },
     "migration": "Production dry run rolled back; 16 future matches only; completed matches unchanged",
     "finalBalance": {
       "passed": 12,
       "scope": "Real PostgreSQL rollback/replay, supply ownership, all 8 clan skills, 9+3+3 ceiling, no score from returned resources, departure, time limits"
+    },
+    "fullGate": {
+      "status": "PASS",
+      "mode": "npm run deploy:production",
+      "clanTests": 227,
+      "initialCandidate": "750b8deea297bc02ed40bc64fe9f1dd9dc4fbc7e",
+      "finalCandidate": "7576d7f70034b3cf93dce92a09b248b27c60b7bf",
+      "reusedStages": 17,
+      "repairs": [
+        {
+          "file": "tests/mercenary-public-deployment-v2097.test.mjs",
+          "reason": "Isolated VM omitted the existing deckCardCount dependency"
+        },
+        {
+          "file": "tests/project-v-v3-live-payload-v1.mjs",
+          "reason": "Legacy literal timeScale assertion predates actionPlaybackSpeed helper; now checks actual clock behavior"
+        }
+      ],
+      "evidence": {
+        "base": "30e73c0ba9b0fc6ff9ccc4e3032984400b271142",
+        "originalCandidate": "750b8deea297bc02ed40bc64fe9f1dd9dc4fbc7e",
+        "sourceChanges": "tests/mercenary-public-deployment-v2097.test.mjs",
+        "inputs": [
+          {
+            "file": "C:/Users/User/AppData/Local/Temp/clan-reform-production-20261005.log",
+            "sha256": "fbca189792eade541c5fa40a993130435394082454759c87e97b850806fbf207",
+            "used": "before failed test:v3-joint"
+          },
+          {
+            "file": "C:/Users/User/AppData/Local/Temp/clan-reform-production-resume-20261005.log",
+            "sha256": "b9dc16cb17f5c37931a8487b69695c74c8d517f5b96dfb0b881383be6d0d51ce",
+            "used": "from actual test:v3-joint rerun onward"
+          }
+        ],
+        "output": "C:/Users/User/AppData/Local/Temp/clan-reform-production-chain-20261005.log",
+        "outputSha256": "898e23b039a6924c758a7116e5b8cfb4df588e73bc848c2d614ff600353fb8a7",
+        "finalLog": "C:/Users/User/AppData/Local/Temp/clan-reform-production-resume2-20261005.log",
+        "finalLogSha256": "515a0e13643b2aa828e1970783ee7e98ea5c9ff18b83805c08861cb8a3baf9f1"
+      }
     }
   },
   "assets": {
@@ -43,12 +79,7 @@
     "runtimeBytes": 632276,
     "visualReview": "Verified artwork, text, button bounds, clan crests and mobile layout"
   },
-  "remaining": [
-    "full release gate",
-    "production deployment",
-    "idempotent activation",
-    "short production verification"
-  ],
+  "remaining": [],
   "balanceExamples": {
     "assumption": "36 attacks per active member; every member earns all 15 operation points; stronger player 24 wins/12 losses, weaker player 14 wins/22 losses",
     "equal18": {
@@ -76,5 +107,226 @@
       "operations": 15,
       "total": 51
     }
-  }
+  },
+  "releaseCommit": "7576d7f70034b3cf93dce92a09b248b27c60b7bf",
+  "live": {
+    "production": "https://cnine-card.pages.dev",
+    "pagesDeployment": "https://1947d5fa.cnine-card.pages.dev",
+    "apiVersion": "0b3913af-5777-473d-806b-d8c0a18b85bb",
+    "clanWorkerVersion": "296ad28c-55f6-4937-9828-c268c83f3b47",
+    "activation": {
+      "operation": "ops:clan-reform:20261005:v1",
+      "releaseCommit": "7576d7f70034b3cf93dce92a09b248b27c60b7bf",
+      "checkedAt": "2026-10-04T21:05:12.789Z",
+      "result": {
+        "dryRun": false,
+        "seasonId": 6,
+        "seasonNo": 3,
+        "updatedWars": 16,
+        "warDurationMinutes": 120,
+        "openDays": [
+          0,
+          2,
+          4,
+          6
+        ],
+        "firstStartsAt": "2026-10-06T12:00:00.000Z",
+        "seasonEndsAt": "2026-10-11T14:00:00.000Z",
+        "activatedAt": "2026-10-04T21:05:08.675Z"
+      },
+      "flag": {
+        "enabled": true,
+        "activatedAt": "2026-10-04T21:05:08.675Z",
+        "operation": "ops:clan-reform:20261005:v1"
+      },
+      "settings": {
+        "durationMinutes": 120,
+        "participationEnabled": true,
+        "totalUseLimit": 50,
+        "repeatTargetLimit": 2
+      },
+      "scheduledWars": [
+        {
+          "id": "218",
+          "round_no": "4",
+          "starts_at": "2026-10-06T12:00:00.000Z",
+          "ends_at": "2026-10-06T14:00:00.000Z"
+        },
+        {
+          "id": "219",
+          "round_no": "4",
+          "starts_at": "2026-10-06T12:00:00.000Z",
+          "ends_at": "2026-10-06T14:00:00.000Z"
+        },
+        {
+          "id": "220",
+          "round_no": "4",
+          "starts_at": "2026-10-06T12:00:00.000Z",
+          "ends_at": "2026-10-06T14:00:00.000Z"
+        },
+        {
+          "id": "221",
+          "round_no": "4",
+          "starts_at": "2026-10-06T12:00:00.000Z",
+          "ends_at": "2026-10-06T14:00:00.000Z"
+        },
+        {
+          "id": "222",
+          "round_no": "5",
+          "starts_at": "2026-10-08T12:00:00.000Z",
+          "ends_at": "2026-10-08T14:00:00.000Z"
+        },
+        {
+          "id": "223",
+          "round_no": "5",
+          "starts_at": "2026-10-08T12:00:00.000Z",
+          "ends_at": "2026-10-08T14:00:00.000Z"
+        },
+        {
+          "id": "224",
+          "round_no": "5",
+          "starts_at": "2026-10-08T12:00:00.000Z",
+          "ends_at": "2026-10-08T14:00:00.000Z"
+        },
+        {
+          "id": "225",
+          "round_no": "5",
+          "starts_at": "2026-10-08T12:00:00.000Z",
+          "ends_at": "2026-10-08T14:00:00.000Z"
+        },
+        {
+          "id": "226",
+          "round_no": "6",
+          "starts_at": "2026-10-10T12:00:00.000Z",
+          "ends_at": "2026-10-10T14:00:00.000Z"
+        },
+        {
+          "id": "227",
+          "round_no": "6",
+          "starts_at": "2026-10-10T12:00:00.000Z",
+          "ends_at": "2026-10-10T14:00:00.000Z"
+        },
+        {
+          "id": "228",
+          "round_no": "6",
+          "starts_at": "2026-10-10T12:00:00.000Z",
+          "ends_at": "2026-10-10T14:00:00.000Z"
+        },
+        {
+          "id": "229",
+          "round_no": "6",
+          "starts_at": "2026-10-10T12:00:00.000Z",
+          "ends_at": "2026-10-10T14:00:00.000Z"
+        },
+        {
+          "id": "230",
+          "round_no": "7",
+          "starts_at": "2026-10-11T12:00:00.000Z",
+          "ends_at": "2026-10-11T14:00:00.000Z"
+        },
+        {
+          "id": "231",
+          "round_no": "7",
+          "starts_at": "2026-10-11T12:00:00.000Z",
+          "ends_at": "2026-10-11T14:00:00.000Z"
+        },
+        {
+          "id": "232",
+          "round_no": "7",
+          "starts_at": "2026-10-11T12:00:00.000Z",
+          "ends_at": "2026-10-11T14:00:00.000Z"
+        },
+        {
+          "id": "233",
+          "round_no": "7",
+          "starts_at": "2026-10-11T12:00:00.000Z",
+          "ends_at": "2026-10-11T14:00:00.000Z"
+        }
+      ],
+      "unchangedCompletedWars": {
+        "count": 12,
+        "sha256": "3a3637a6259369b251a1cce4990bb89da296ef5794105ec99f484a6db21d73af"
+      },
+      "schemas": [
+        "clan_executives",
+        "clan_war_field_receipts",
+        "clan_war_field_state",
+        "clan_war_readiness",
+        "clan_weekly_availability"
+      ],
+      "replayVerified": true
+    },
+    "assetVerification": {
+      "checkedAt": "2026-10-04T21:05:47.715Z",
+      "origin": "https://cnine-card.pages.dev",
+      "results": [
+        {
+          "path": "index.html",
+          "status": 200,
+          "sha256": "4ef70f7f535cb69440e1362a4e0168d8b67ed424b17f3162ef660dde16525965",
+          "bytes": 21058,
+          "durationMs": 130
+        },
+        {
+          "path": "js/clan-war-reform-v1.mjs",
+          "status": 200,
+          "sha256": "cb417f23a566be74f9aca2e39b38dae40126146cea12cae313caa630d99572eb",
+          "bytes": 21422,
+          "durationMs": 74
+        },
+        {
+          "path": "js/clan-v1.js",
+          "status": 200,
+          "sha256": "4c0ce347015ddcff75fb4d1df74cc575de26a175a15871c7e08081a4b4e15aae",
+          "bytes": 45365,
+          "durationMs": 76
+        },
+        {
+          "path": "css/clan-war-reform-v1.css",
+          "status": 200,
+          "sha256": "bbdf25c162c49c4ab0f9e7775cf87ec8cb4ff5033dafa478548defb74a51b45b",
+          "bytes": 29042,
+          "durationMs": 70
+        },
+        {
+          "path": "assets/ui/clan/war-operations-20261005/hero.webp",
+          "status": 200,
+          "sha256": "163130a7865525a4427f7736fea69a6881071aac69e07b2d6088a44ac8615839",
+          "bytes": 255292,
+          "durationMs": 373
+        },
+        {
+          "path": "assets/ui/clan/war-operations-20261005/assault.webp",
+          "status": 200,
+          "sha256": "16f45892f613c953c83aece045fdbff92547efd9b7a7a330c336befc0851de13",
+          "bytes": 137242,
+          "durationMs": 327
+        },
+        {
+          "path": "assets/ui/clan/war-operations-20261005/disrupt.webp",
+          "status": 200,
+          "sha256": "e7bf3470be59d10428f64f74373fd3350e5651c211c17da44570c28ac16813d3",
+          "bytes": 100374,
+          "durationMs": 459
+        },
+        {
+          "path": "assets/ui/clan/war-operations-20261005/support.webp",
+          "status": 200,
+          "sha256": "b1017114b3660790d34861a364e8b1e7a9d0c338266641bc18c4fcfa674e1a0e",
+          "bytes": 139368,
+          "durationMs": 612
+        }
+      ]
+    },
+    "browser": {
+      "accountContext": "Authenticated OWNER without current clan membership; no membership or gameplay changed",
+      "checked": [
+        "New weekly schedule menu visible",
+        "All eight clan marks show executive joint governance",
+        "No clan console errors"
+      ],
+      "memberUI": "29 local browser checks against real PostgreSQL-backed test API; live match not started"
+    }
+  },
+  "notice": "docs/clan-war-reform-notice-20261005.txt"
 }
