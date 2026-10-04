@@ -913,16 +913,27 @@ async function ensureRankedPvpFoundation(env){
       )`),
       env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_pvp_battle_audits_users_v1781 ON pvp_battle_audits_v1781(attacker_id,defender_id,created_at DESC)')
     ]);
+    // Unchanged catalog writes also invalidate duo ratings. Cold-start seeding
+    // must leave the policy revision stable so multi-batch pairing can finish.
     await env.DB.batch([
       env.DB.prepare(`INSERT INTO character_titles(code,name,description,badge_text,image_url,pve_power,unlock_type,unlock_config_json,is_active,is_public,sort_order,style_preset,updated_at)
         VALUES('TITLE_RANKED_CHALLENGER','챌린저★★★★','랭크전 시즌 최종 1~20위에게 다음 시즌 정산까지 지급되는 전용 칭호입니다.','챌린저★★★★','',0,'MANUAL','{}',1,1,43,'CHALLENGER',CURRENT_TIMESTAMP)
-        ON CONFLICT(code) DO UPDATE SET name=excluded.name,description=excluded.description,badge_text=excluded.badge_text,is_active=1,is_public=1,style_preset=excluded.style_preset,updated_at=CURRENT_TIMESTAMP`),
+        ON CONFLICT(code) DO UPDATE SET name=excluded.name,description=excluded.description,badge_text=excluded.badge_text,is_active=1,is_public=1,style_preset=excluded.style_preset,updated_at=CURRENT_TIMESTAMP
+        WHERE COALESCE(character_titles.name,'')<>excluded.name OR COALESCE(character_titles.description,'')<>excluded.description
+          OR COALESCE(character_titles.badge_text,'')<>excluded.badge_text OR COALESCE(character_titles.style_preset,'')<>excluded.style_preset
+          OR COALESCE(character_titles.is_active,0)<>1 OR COALESCE(character_titles.is_public,0)<>1`),
       env.DB.prepare(`INSERT INTO character_titles(code,name,description,badge_text,image_url,pve_power,unlock_type,unlock_config_json,is_active,is_public,sort_order,style_preset,updated_at)
         VALUES('TITLE_RANKED_GAMBLER','승부사','랭크전 시즌에서 그랜드마스터를 달성한 유저에게 다음 시즌 동안 지급됩니다.','승부사','',0,'MANUAL','{}',1,1,44,'CRIMSON',CURRENT_TIMESTAMP)
-        ON CONFLICT(code) DO UPDATE SET name=excluded.name,description=excluded.description,badge_text=excluded.badge_text,is_active=1,is_public=1,style_preset=excluded.style_preset,updated_at=CURRENT_TIMESTAMP`),
+        ON CONFLICT(code) DO UPDATE SET name=excluded.name,description=excluded.description,badge_text=excluded.badge_text,is_active=1,is_public=1,style_preset=excluded.style_preset,updated_at=CURRENT_TIMESTAMP
+        WHERE COALESCE(character_titles.name,'')<>excluded.name OR COALESCE(character_titles.description,'')<>excluded.description
+          OR COALESCE(character_titles.badge_text,'')<>excluded.badge_text OR COALESCE(character_titles.style_preset,'')<>excluded.style_preset
+          OR COALESCE(character_titles.is_active,0)<>1 OR COALESCE(character_titles.is_public,0)<>1`),
       env.DB.prepare(`INSERT INTO character_titles(code,name,description,badge_text,image_url,pve_power,unlock_type,unlock_config_json,is_active,is_public,sort_order,style_preset,updated_at)
         VALUES('TITLE_RANKED_DUELIST','결투가','랭크전 시즌에서 마스터를 달성한 유저에게 다음 시즌 동안 지급됩니다.','결투가','',0,'MANUAL','{}',1,1,45,'VOID',CURRENT_TIMESTAMP)
-        ON CONFLICT(code) DO UPDATE SET name=excluded.name,description=excluded.description,badge_text=excluded.badge_text,is_active=1,is_public=1,style_preset=excluded.style_preset,updated_at=CURRENT_TIMESTAMP`)
+        ON CONFLICT(code) DO UPDATE SET name=excluded.name,description=excluded.description,badge_text=excluded.badge_text,is_active=1,is_public=1,style_preset=excluded.style_preset,updated_at=CURRENT_TIMESTAMP
+        WHERE COALESCE(character_titles.name,'')<>excluded.name OR COALESCE(character_titles.description,'')<>excluded.description
+          OR COALESCE(character_titles.badge_text,'')<>excluded.badge_text OR COALESCE(character_titles.style_preset,'')<>excluded.style_preset
+          OR COALESCE(character_titles.is_active,0)<>1 OR COALESCE(character_titles.is_public,0)<>1`)
     ]);
     return true;
   })().catch(error=>{rankedPvpFoundationPromise=null;throw error});

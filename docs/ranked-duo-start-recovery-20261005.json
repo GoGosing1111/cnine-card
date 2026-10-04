@@ -1,0 +1,31 @@
+{
+  "date": "2026-10-05",
+  "status": "FIX_VERIFIED_DEPLOYMENT_PENDING",
+  "request": "모집이 끝난 랭크 듀오 시작",
+  "seasonId": "7efd3f56-4ac2-4bf2-a275-78daea6456f9",
+  "before": {
+    "observedAt": "2026-10-04T15:19:37.092Z",
+    "name": "랭크 듀오 시즌 2",
+    "status": "PAIRING",
+    "recruitUntil": "2026-10-04T13:48:31.048Z",
+    "participants": 134,
+    "teams": 0,
+    "pairCursor": 0,
+    "pairPolicyRevision": 334851,
+    "currentPolicyRevision": 334857
+  },
+  "cause": "The ranked PvP cold-start initializer upserted three unchanged character_titles rows. The existing catalog trigger correctly treated each updated row set as a policy change, so duo pairStep continually reset its cursor before completing team evaluation. Live statement statistics showed 37,671 calls/updated rows for this exact title upsert and no updates to the other battle catalogs in the observed statistics window.",
+  "change": "Guard the three title upserts with actual managed-field comparisons. Unchanged seeds no longer write rows or change rating policy; outdated fields still repair. CMS power/art, ownership, pairing checks, triggers, schedules and reward amounts are unchanged.",
+  "verification": {
+    "reproduction": "Both SQLite and PostgreSQL pipeline tests failed before the fix: five repeated initializers advanced policy revision from 4 to 19.",
+    "regression": "Both engines now preserve title rows and policy revision for unchanged seeds, repair a changed title exactly once, retain CMS power/art/id, finish the same weekly season's pairing, and admit a match.",
+    "scoped": {
+      "base": "3f7e9927fa5eebfe3716e500987bad14e25c0b49",
+      "reason": "Local idempotency fix in three ranked title catalog upserts. No schema, shared transaction/authentication foundation, reward rules, or dependencies changed. Verify the cold-start reset regression, independent weekly duo lifecycle and Worker compilation.",
+      "tests": ["tests/ranked-duo-title-refresh-20261005.test.mjs", "tests/ranked-duo-weekly.test.mjs"],
+      "checks": ["check:worker"],
+      "command": "npm run deploy:production -- --scoped"
+    }
+  },
+  "liveRecovery": null
+}
