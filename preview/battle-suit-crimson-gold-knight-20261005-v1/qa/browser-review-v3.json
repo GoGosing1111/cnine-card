@@ -1,0 +1,77 @@
+{
+  "version": "VALTER_AURA_V3_20261005",
+  "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+  "runtimeEnabled": false,
+  "generationMode": "REUSE_APPROVED_VALTER_ASSETS_BYTE_IDENTICAL",
+  "referenceInspection": {
+    "sourceCode": [
+      "preview/mercenary-crimson-silver-knight-battle-v1/source/KnightFX.js",
+      "preview/mercenary-limited-sd-skills-20261003-v1/source/preview.js"
+    ],
+    "approvedRender": "preview/mercenary-limited-sd-skills-20261003-v1/qa/production-valter-approved-size.png",
+    "oldPreviewPlayback": "Blocked by existing deployCards initialization error; not reported as successfully played.",
+    "sourceHashes": "qa/valter-aura-source-v3.json"
+  },
+  "desktop": {
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "canvas": {
+      "width": 1781,
+      "height": 800
+    },
+    "runtimeChecks": 42,
+    "passed": true,
+    "report": "qa/runtime-desktop-v3.json",
+    "capture": "qa/valter-aura-v3-desktop.png"
+  },
+  "mobile": {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "canvas": {
+      "width": 469,
+      "height": 575
+    },
+    "runtimeChecks": 42,
+    "passed": true,
+    "report": "qa/runtime-mobile-v3.json",
+    "captures": [
+      "qa/valter-aura-v3-mobile.png",
+      "qa/valter-aura-v3-mobile-jump.png"
+    ]
+  },
+  "verified": {
+    "paletteSwitches": 3,
+    "auraToggle": true,
+    "pauseSeek": true,
+    "poseMatchedAura": true,
+    "feetAnchoredFlames": true,
+    "upperBackHalo": true,
+    "groundRingStaysOnFloorDuringJump": true,
+    "thickFrontFogRemoved": true,
+    "sourcePngsAndSatinFilterUnchanged": true,
+    "bodyFrames": 44,
+    "skillEffectFrames": 132,
+    "auraFrames": 20,
+    "risingParticles": 12,
+    "totalEffectFrames": 152,
+    "originalBladePixels": 146011,
+    "fxBoundaryWarnings": 0,
+    "pixiInstances": 1,
+    "gsapInstances": 1
+  },
+  "video": {
+    "file": "review-valter-aura-v3.webm",
+    "bytes": 19893614,
+    "decodedWidth": 1781,
+    "decodedHeight": 800,
+    "readyState": 4,
+    "durationSeconds": 22.047017,
+    "playbackReachedEnd": true
+  },
+  "adaptation": "Preserve V2 palette. Use Valter approved flame/rear assets and timing; narrow body/cape outline to 3.2px with 1.2px gold rim, scaled to body height.",
+  "liveActivation": false
+}

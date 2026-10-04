@@ -6,7 +6,7 @@ import {RoyalAura} from './RoyalAura.js';
 const ROOT='/preview/battle-suit-crimson-gold-knight-20261005-v1/',HEIGHT=350,mix=(a,b,t)=>a+(b-a)*t;
 const TIGER_HEADS=[[.84,.66],[.76,.66],[.74,.65],[.74,.65],[.85,.56],[.76,.55],[.81,.73],[.77,.73],[.83,.47],[.80,.51],[.80,.53],[.80,.53]];
 export async function loadKnightAssets(m){
- const out={motion:{},effects:{},idle:await Assets.load(ROOT+m.sourceArt)};
+ const out={motion:{},effects:{},idle:await Assets.load(ROOT+m.sourceArt),auraFlash:await Assets.load('/preview/battle-suit-skill-chip-v1/assets/textures/flash.webp')};
  await Promise.all([
  ...Object.entries(m.motion).map(async([k,s])=>{const a=await Assets.load(ROOT+s.url);out.motion[k]=s.frames.map((f,i)=>new Texture({source:a.source,frame:new Rectangle(i%s.columns*s.frameWidth,Math.floor(i/s.columns)*s.frameHeight,s.frameWidth,s.frameHeight)}));}),
  ...Object.entries(m.effects).map(async([k,s])=>{const a=await Assets.load(ROOT+s.url);out.effects[k]=s.frames.map(f=>new Texture({source:a.source,frame:new Rectangle(f.rect.x,f.rect.y,f.rect.width,f.rect.height)}));})
@@ -24,7 +24,7 @@ export class KnightFX{
   // A planted blade passes behind the ground plane. Atlas always preserves the full blade.
   this.groundMask=new Graphics().rect(-2000,-3000,4000,3007).fill(0xffffff);unit.root.addChild(this.groundMask);this.groundMask.visible=false;
   this.matteEnabled=true;this.materialFilter=makeSatinGoldFilter();unit.bodySprite.filters=[this.materialFilter];
-  this.aura=new RoyalAura(unit,assets);
+  this.aura=new RoyalAura(unit,assets,manifest);
   this.capture();this.makeTimeline();this.render(0);
  }
  capture(){this.home={x:this.unit.root.baseX,y:this.unit.root.baseY};}
@@ -93,7 +93,7 @@ export class KnightFX{
   this.pool.forEach(s=>s.visible=false);this.shade.clear();this.applyPose(state);
   const r=t<=0?{...this.home,groundY:this.home.y}:this.rootFor(state);
   u.root.position.set(r.x,r.y);u.root.depthSortY=r.groundY;e.sortCombatDepth();this.drawGhosts(state);
-  this.aura.render(t,HEIGHT,state.impact);
+  this.aura.render(t,HEIGHT,state.impact,state.lift);
   const torso=this.contact(),feet=this.targetFeet(),bp=this.bladePoints(state,r),targetHeight=(this.target.fullBodyHeight||300)*this.target.root.scale.y;
   this.collision=bladeContact(bp.grip,bp.tip,torso,targetHeight*.28);
   this.groundError=Math.abs(r.y+state.lift*size-r.groundY);this.blade=bp;

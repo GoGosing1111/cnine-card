@@ -1,0 +1,21 @@
+{
+  "version": "VALTER_AURA_V3_20261005",
+  "deploymentMode": "scoped",
+  "deployedBase": "df4fd00a5721e5bd6b2fe094793b8ad1f21d51d6",
+  "baseEvidence": "qa/production-satin-aura-v2.json",
+  "scope": "This preview folder only: approved Valter aura byte copies, feet/back placement, thinner silhouette outline, refreshed review video and evidence.",
+  "rationale": "The preview is the only feature change. Intervening main commits 24791e2c and 13bdc079 add an unrelated ops script and delivery record outside the asset-only whitelist; preserve them without executing the ops script. No game runtime, API, CMS, economy or DB code changed.",
+  "command": "npm run deploy:production -- --scoped",
+  "checks": [
+    "build.mjs: one Pixi and one GSAP",
+    "qa-assets.mjs: 44 body frames, 152 effect frames, 146011 original blade pixels, no cell boundary warnings",
+    "Desktop/mobile: 42 runtime checks each",
+    "Visual: foot-anchored red/gold flames, upper-back halo, thin outline, 12 rising particles, no front fog bands",
+    "Three palettes, aura OFF, pause/seek and airborne aura following"
+  ],
+  "runtimeEnabled": false,
+  "userVisualApproval": "PENDING",
+  "tests": [
+    "preview/battle-suit-crimson-gold-knight-20261005-v1/qa-assets.mjs"
+  ]
+}

@@ -3,7 +3,7 @@
   "sourcePreserved": true,
   "exactSourceWeaponPixels": 146011,
   "bodyFrames": 44,
-  "effectFrames": 156,
+  "effectFrames": 152,
   "singleRenderer": true,
   "singleTimelineLibrary": true,
   "runtimeEnabled": false,
@@ -1243,147 +1243,123 @@
       "boundaryPixels": 0
     },
     {
-      "key": "aura-wrap",
+      "key": "aura-valter",
       "frame": 0,
-      "opaquePixels": 32909,
+      "opaquePixels": 17461,
       "boundaryPixels": 0
     },
     {
-      "key": "aura-wrap",
+      "key": "aura-valter",
       "frame": 1,
-      "opaquePixels": 34266,
+      "opaquePixels": 22165,
       "boundaryPixels": 0
     },
     {
-      "key": "aura-wrap",
+      "key": "aura-valter",
       "frame": 2,
-      "opaquePixels": 35716,
+      "opaquePixels": 27632,
       "boundaryPixels": 0
     },
     {
-      "key": "aura-wrap",
+      "key": "aura-valter",
       "frame": 3,
-      "opaquePixels": 35663,
+      "opaquePixels": 31558,
       "boundaryPixels": 0
     },
     {
-      "key": "aura-wrap",
+      "key": "aura-valter",
       "frame": 4,
-      "opaquePixels": 36138,
+      "opaquePixels": 38883,
       "boundaryPixels": 0
     },
     {
-      "key": "aura-wrap",
+      "key": "aura-valter",
       "frame": 5,
-      "opaquePixels": 36223,
+      "opaquePixels": 37817,
       "boundaryPixels": 0
     },
     {
-      "key": "aura-wrap",
+      "key": "aura-valter",
       "frame": 6,
-      "opaquePixels": 35371,
+      "opaquePixels": 39706,
       "boundaryPixels": 0
     },
     {
-      "key": "aura-wrap",
+      "key": "aura-valter",
       "frame": 7,
-      "opaquePixels": 35780,
+      "opaquePixels": 39892,
       "boundaryPixels": 0
     },
     {
-      "key": "aura-wrap",
+      "key": "aura-valter",
       "frame": 8,
-      "opaquePixels": 34373,
+      "opaquePixels": 34930,
       "boundaryPixels": 0
     },
     {
-      "key": "aura-wrap",
+      "key": "aura-valter",
       "frame": 9,
-      "opaquePixels": 34725,
+      "opaquePixels": 30389,
       "boundaryPixels": 0
     },
     {
-      "key": "aura-wrap",
+      "key": "aura-valter",
       "frame": 10,
-      "opaquePixels": 34214,
+      "opaquePixels": 27242,
       "boundaryPixels": 0
     },
     {
-      "key": "aura-wrap",
+      "key": "aura-valter",
       "frame": 11,
-      "opaquePixels": 32945,
+      "opaquePixels": 20871,
       "boundaryPixels": 0
     },
     {
-      "key": "aura-rear",
+      "key": "aura-valter-rear",
       "frame": 0,
-      "opaquePixels": 31952,
+      "opaquePixels": 11441,
       "boundaryPixels": 0
     },
     {
-      "key": "aura-rear",
+      "key": "aura-valter-rear",
       "frame": 1,
-      "opaquePixels": 34450,
+      "opaquePixels": 13143,
       "boundaryPixels": 0
     },
     {
-      "key": "aura-rear",
+      "key": "aura-valter-rear",
       "frame": 2,
-      "opaquePixels": 37629,
+      "opaquePixels": 13391,
       "boundaryPixels": 0
     },
     {
-      "key": "aura-rear",
+      "key": "aura-valter-rear",
       "frame": 3,
-      "opaquePixels": 38890,
+      "opaquePixels": 14771,
       "boundaryPixels": 0
     },
     {
-      "key": "aura-rear",
+      "key": "aura-valter-rear",
       "frame": 4,
-      "opaquePixels": 45906,
+      "opaquePixels": 14240,
       "boundaryPixels": 0
     },
     {
-      "key": "aura-rear",
+      "key": "aura-valter-rear",
       "frame": 5,
-      "opaquePixels": 47080,
+      "opaquePixels": 13760,
       "boundaryPixels": 0
     },
     {
-      "key": "aura-rear",
+      "key": "aura-valter-rear",
       "frame": 6,
-      "opaquePixels": 42328,
+      "opaquePixels": 11767,
       "boundaryPixels": 0
     },
     {
-      "key": "aura-rear",
+      "key": "aura-valter-rear",
       "frame": 7,
-      "opaquePixels": 41710,
-      "boundaryPixels": 0
-    },
-    {
-      "key": "aura-rear",
-      "frame": 8,
-      "opaquePixels": 34158,
-      "boundaryPixels": 0
-    },
-    {
-      "key": "aura-rear",
-      "frame": 9,
-      "opaquePixels": 34417,
-      "boundaryPixels": 0
-    },
-    {
-      "key": "aura-rear",
-      "frame": 10,
-      "opaquePixels": 32016,
-      "boundaryPixels": 0
-    },
-    {
-      "key": "aura-rear",
-      "frame": 11,
-      "opaquePixels": 32796,
+      "opaquePixels": 10485,
       "boundaryPixels": 0
     }
   ],

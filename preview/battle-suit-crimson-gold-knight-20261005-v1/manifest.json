@@ -1,5 +1,5 @@
 {
-  "version": "BATTLE_SUIT_CRIMSON_GOLD_20261005_SATIN_AURA_V2",
+  "version": "BATTLE_SUIT_CRIMSON_GOLD_20261005_VALTER_AURA_V3",
   "status": "USER_REVIEW_PENDING",
   "runtimeEnabled": false,
   "sourceArt": "assets/sources/knight-approved-20261005.png",
@@ -3658,16 +3658,20 @@
         }
       ]
     },
-    "aura-wrap": {
-      "url": "assets/atlases/aura-wrap.png",
+    "aura-valter": {
+      "url": "assets/atlases/aura-valter-v17.webp",
+      "sha256": "d0eb269edf87e158d29149a0fdd7c6a8df95795d741d8b0f4755812b51902e97",
       "columns": 4,
       "rows": 3,
       "width": 2048,
       "height": 1536,
-      "sha256": "8a98d5622e01b9b378bd0cc3c3801279fc1296565af532db89de6726c13eeb77",
       "frames": [
         {
           "index": 0,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.697265625
+          },
           "rect": {
             "x": 0,
             "y": 0,
@@ -3677,6 +3681,10 @@
         },
         {
           "index": 1,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.6953125
+          },
           "rect": {
             "x": 512,
             "y": 0,
@@ -3686,6 +3694,10 @@
         },
         {
           "index": 2,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.697265625
+          },
           "rect": {
             "x": 1024,
             "y": 0,
@@ -3695,6 +3707,10 @@
         },
         {
           "index": 3,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.6953125
+          },
           "rect": {
             "x": 1536,
             "y": 0,
@@ -3704,6 +3720,10 @@
         },
         {
           "index": 4,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.705078125
+          },
           "rect": {
             "x": 0,
             "y": 512,
@@ -3713,6 +3733,10 @@
         },
         {
           "index": 5,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.703125
+          },
           "rect": {
             "x": 512,
             "y": 512,
@@ -3722,6 +3746,10 @@
         },
         {
           "index": 6,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.703125
+          },
           "rect": {
             "x": 1024,
             "y": 512,
@@ -3731,6 +3759,10 @@
         },
         {
           "index": 7,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.705078125
+          },
           "rect": {
             "x": 1536,
             "y": 512,
@@ -3740,6 +3772,10 @@
         },
         {
           "index": 8,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7109375
+          },
           "rect": {
             "x": 0,
             "y": 1024,
@@ -3749,6 +3785,10 @@
         },
         {
           "index": 9,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.712890625
+          },
           "rect": {
             "x": 512,
             "y": 1024,
@@ -3758,6 +3798,10 @@
         },
         {
           "index": 10,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.708984375
+          },
           "rect": {
             "x": 1024,
             "y": 1024,
@@ -3767,6 +3811,10 @@
         },
         {
           "index": 11,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.71484375
+          },
           "rect": {
             "x": 1536,
             "y": 1024,
@@ -3776,120 +3824,84 @@
         }
       ]
     },
-    "aura-rear": {
-      "url": "assets/atlases/aura-rear.png",
+    "aura-valter-rear": {
+      "url": "assets/atlases/aura-valter-rear-approved.png",
+      "sha256": "433dff0f0d90cb93e990b31c5ed85f0f355159a397bfa152aaad69487d071f5d",
       "columns": 4,
-      "rows": 3,
-      "width": 2048,
-      "height": 1536,
-      "sha256": "269bf11449bc879e4983c9ae5d5bc9f7aafb778e5e816ad497aacc8e4be875dd",
+      "rows": 2,
+      "width": 1774,
+      "height": 887,
       "frames": [
         {
           "index": 0,
           "rect": {
             "x": 0,
             "y": 0,
-            "width": 512,
-            "height": 512
+            "width": 444,
+            "height": 444
           }
         },
         {
           "index": 1,
           "rect": {
-            "x": 512,
+            "x": 444,
             "y": 0,
-            "width": 512,
-            "height": 512
+            "width": 443,
+            "height": 444
           }
         },
         {
           "index": 2,
           "rect": {
-            "x": 1024,
+            "x": 887,
             "y": 0,
-            "width": 512,
-            "height": 512
+            "width": 444,
+            "height": 444
           }
         },
         {
           "index": 3,
           "rect": {
-            "x": 1536,
+            "x": 1331,
             "y": 0,
-            "width": 512,
-            "height": 512
+            "width": 443,
+            "height": 444
           }
         },
         {
           "index": 4,
           "rect": {
             "x": 0,
-            "y": 512,
-            "width": 512,
-            "height": 512
+            "y": 444,
+            "width": 444,
+            "height": 443
           }
         },
         {
           "index": 5,
           "rect": {
-            "x": 512,
-            "y": 512,
-            "width": 512,
-            "height": 512
+            "x": 444,
+            "y": 444,
+            "width": 443,
+            "height": 443
           }
         },
         {
           "index": 6,
           "rect": {
-            "x": 1024,
-            "y": 512,
-            "width": 512,
-            "height": 512
+            "x": 887,
+            "y": 444,
+            "width": 444,
+            "height": 443
           }
         },
         {
           "index": 7,
           "rect": {
-            "x": 1536,
-            "y": 512,
-            "width": 512,
-            "height": 512
-          }
-        },
-        {
-          "index": 8,
-          "rect": {
-            "x": 0,
-            "y": 1024,
-            "width": 512,
-            "height": 512
-          }
-        },
-        {
-          "index": 9,
-          "rect": {
-            "x": 512,
-            "y": 1024,
-            "width": 512,
-            "height": 512
-          }
-        },
-        {
-          "index": 10,
-          "rect": {
-            "x": 1024,
-            "y": 1024,
-            "width": 512,
-            "height": 512
-          }
-        },
-        {
-          "index": 11,
-          "rect": {
-            "x": 1536,
-            "y": 1024,
-            "width": 512,
-            "height": 512
+            "x": 1331,
+            "y": 444,
+            "width": 443,
+            "height": 443
           }
         }
       ]
@@ -3906,11 +3918,11 @@
   },
   "summary": {
     "bodyFrames": 44,
-    "effectFrames": 156,
+    "effectFrames": 152,
     "weaponSources": 1,
     "weaponRedraws": 0,
     "skillEffectFrames": 132,
-    "auraFrames": 24
+    "auraFrames": 20
   },
   "material": {
     "mode": "SATIN_GOLD_DISPLAY_SHADER",
@@ -3919,12 +3931,274 @@
     "shader": "source/SatinGoldFilter.js"
   },
   "aura": {
+    "version": 3,
     "defaultPalette": "crimson",
-    "body": "18 pose-matched silhouette copies",
-    "rearFrames": 12,
-    "wrapFrames": 12,
+    "body": "18 pose-matched silhouette copies; Valter V17 structure with a thinner 3.2px edge and 1.2px gold rim for the broad cape, scaled by visible body height",
+    "baseFlameFrames": 12,
+    "rearFrames": 8,
+    "frontFogSheets": 0,
+    "risingParticles": 12,
+    "footAnchored": true,
     "clock": "SHARED_V3_GSAP",
     "source": "source/RoyalAura.js",
-    "reference": "Approved Valter V17 silhouette / rim / rear aura layering"
+    "reference": "Approved Valter V17 flame atlas + approved limited rear aura, copied byte-for-byte",
+    "reusedAssets": [
+      {
+        "source": "preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-aura-atlas.webp",
+        "destination": "assets/atlases/aura-valter-v17.webp",
+        "sha256": "d0eb269edf87e158d29149a0fdd7c6a8df95795d741d8b0f4755812b51902e97",
+        "byteIdentical": true,
+        "frameCount": 12
+      },
+      {
+        "source": "preview/mercenary-limited-sd-skills-20261003-v1/assets/aura/limited-rear-aura-sheet-v1.png",
+        "destination": "assets/atlases/aura-valter-rear-approved.png",
+        "sha256": "433dff0f0d90cb93e990b31c5ed85f0f355159a397bfa152aaad69487d071f5d",
+        "byteIdentical": true,
+        "frameCount": 8
+      }
+    ]
+  },
+  "retiredAuraV2": {
+    "status": "REJECTED_LIGHT_SHAPE_PRESERVE_HISTORY",
+    "reason": "User accepted the palette but requested the approved Valter light structure; thick fog bands no longer load or render.",
+    "effects": {
+      "aura-wrap": {
+        "url": "assets/atlases/aura-wrap.png",
+        "columns": 4,
+        "rows": 3,
+        "width": 2048,
+        "height": 1536,
+        "sha256": "8a98d5622e01b9b378bd0cc3c3801279fc1296565af532db89de6726c13eeb77",
+        "frames": [
+          {
+            "index": 0,
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 1,
+            "rect": {
+              "x": 512,
+              "y": 0,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 2,
+            "rect": {
+              "x": 1024,
+              "y": 0,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 3,
+            "rect": {
+              "x": 1536,
+              "y": 0,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 4,
+            "rect": {
+              "x": 0,
+              "y": 512,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 5,
+            "rect": {
+              "x": 512,
+              "y": 512,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 6,
+            "rect": {
+              "x": 1024,
+              "y": 512,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 7,
+            "rect": {
+              "x": 1536,
+              "y": 512,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 8,
+            "rect": {
+              "x": 0,
+              "y": 1024,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 9,
+            "rect": {
+              "x": 512,
+              "y": 1024,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 10,
+            "rect": {
+              "x": 1024,
+              "y": 1024,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 11,
+            "rect": {
+              "x": 1536,
+              "y": 1024,
+              "width": 512,
+              "height": 512
+            }
+          }
+        ]
+      },
+      "aura-rear": {
+        "url": "assets/atlases/aura-rear.png",
+        "columns": 4,
+        "rows": 3,
+        "width": 2048,
+        "height": 1536,
+        "sha256": "269bf11449bc879e4983c9ae5d5bc9f7aafb778e5e816ad497aacc8e4be875dd",
+        "frames": [
+          {
+            "index": 0,
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 1,
+            "rect": {
+              "x": 512,
+              "y": 0,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 2,
+            "rect": {
+              "x": 1024,
+              "y": 0,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 3,
+            "rect": {
+              "x": 1536,
+              "y": 0,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 4,
+            "rect": {
+              "x": 0,
+              "y": 512,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 5,
+            "rect": {
+              "x": 512,
+              "y": 512,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 6,
+            "rect": {
+              "x": 1024,
+              "y": 512,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 7,
+            "rect": {
+              "x": 1536,
+              "y": 512,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 8,
+            "rect": {
+              "x": 0,
+              "y": 1024,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 9,
+            "rect": {
+              "x": 512,
+              "y": 1024,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 10,
+            "rect": {
+              "x": 1024,
+              "y": 1024,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 11,
+            "rect": {
+              "x": 1536,
+              "y": 1024,
+              "width": 512,
+              "height": 512
+            }
+          }
+        ]
+      }
+    }
   }
 }

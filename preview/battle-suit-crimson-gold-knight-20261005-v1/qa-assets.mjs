@@ -24,7 +24,7 @@ const effectReports=[];
 for(const [key,s]of Object.entries(m.effects)){
  const bytes=await read(s.url);assert.equal(hash(bytes),s.sha256);const hashes=new Set();
  for(const f of s.frames){const b=await sharp(bytes).extract({left:f.rect.x,top:f.rect.y,width:f.rect.width,height:f.rect.height}).ensureAlpha().raw().toBuffer({resolveWithObject:true});hashes.add(hash(b.data));let edge=0,opaque=0;for(let y=0;y<b.info.height;y++)for(let x=0;x<b.info.width;x++){const a=b.data[(y*b.info.width+x)*4+3];if(a>128){opaque++;if(x===0||y===0||x===b.info.width-1||y===b.info.height-1)edge++;}}effectReports.push({key,frame:f.index,opaquePixels:opaque,boundaryPixels:edge});assert.ok(opaque>0);}
- assert.equal(hashes.size,12,key+' duplicate frames');
+ assert.equal(hashes.size,s.frames.length,key+' duplicate frames');
 }
 for(const [key,s]of Object.entries(MODES))for(let t=0;t<=s.duration;t+=.015){const f=sample(key,t);assert.ok(m.motion[f.pose.bank].frames[f.pose.index]);assert.ok(Number.isFinite(f.lift));for(const e of f.effects)assert.ok(m.effects[e.key].frames[e.frame]);}
 const build=JSON.parse(await read('build-report.json'));assert.equal(build.pixiCopies,1);assert.equal(build.gsapCopies,1);

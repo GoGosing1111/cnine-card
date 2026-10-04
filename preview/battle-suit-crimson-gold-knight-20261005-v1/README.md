@@ -1,7 +1,16 @@
 # 흑금 기사 / 백호멸진 검수 리소스
 사용자 원본을 보존한 최종 슈트 제작안이다. 명칭은 가칭이며 **시각 승인 대기 / 운영 OFF**다.
 
-## 최신 방향
+## 최신 V3 · 발테르 승인 광원 적용
+2026-10-05 사용자: “색감 자체는 나쁘지않은데 광원효과 이상한거같은데 발테르 참고한거맞음?”. V2는 발테르의 레이어 구조를 참고했으나, 새로 만든 감싸기/후광 시트가 두꺼운 안개 띠처럼 보여 의도와 달라졌다. **색감과 반사광 완화는 유지하고 광원 형태를 교정**했다.
+
+발테르 V17의 승인 불꽃 12프레임과 리미티드 승인 뒤쪽 광원 8프레임을 **바이트 그대로 복사**했다. 발 기준 앵커, 몸 높이의1.85배 불꽃 폭, 등 뒤 상단 광원, 가는 금빛 바닥선과 상승 입자12개를 연결했다. V2의 전면 안개 시트는 로딩·표시에서 제외하고 이력으로 보존한다. 넓은 망토에서 테두리가 과해지지 않도록 실루엣 광원18개의 외곽 반경은3.2px, 금빛 림은1.2px를 기준으로 몸 높이에 비례시킨다. 색상3종과 원본 재질 비교는 유지한다.
+
+현재 리소스는 `assets/atlases/aura-valter-v17.webp`, `assets/atlases/aura-valter-rear-approved.png`다. [원본 해시 대조 기록](qa/valter-aura-source-v3.json), [실제 화면 검수](qa/browser-review-v3.json)를 따른다. **이번 광원 수정은 기존 승인 자산 재사용이며 새 이미지 생성이 아니다.** 발테르 기준 코드는 V17 `source/KnightFX.js`와 리미티드 `source/preview.js`; 실제 승인 화면 `production-valter-approved-size.png`도 대조했다. 과거 발테르 프리뷰는 현재 공유 엔진의 `deployCards` 초기화 오류로 재생되지 않아 이번에 재생 성공한 것으로 기록하지 않는다.
+
+몸 동작44프레임과 스킬132프레임, 원본 검 픽셀146,011개를 유지한다. 현재 오라20프레임을 합쳐 FX는152프레임이다. **시각 승인 대기 / 운영 OFF**를 유지한다.
+
+## V2 제작 이력 · 광원 형태는 V3로 대체
 2026-10-05 후속 사용자: “빛 반사되는 색감 빼야할거같은데 그리고 발테르 처럼 주변 광원효과 어올리는색 추천해봐 온몸을 휘감고 뒤에 광원효과도 넣어”. **현재 표시는 V2의 차분한 금속 재질 + 전신 오라**다. 기존 원화 형태·갑주·검·44개 동작 PNG는 그대로 보존하고, Pixi 표시 재질에서 금속 주변의 흰 반사광을 낮춘다. 원본 PNG에 무광을 구워 넣은 리소스로 오해하지 않는다. 반사광 완화 체크를 해제하면 원본 표시로 비교할 수 있다.
 
 추천은 **진홍 · 샴페인 골드**다. 붉은 망토에 이어지는 진홍 윤곽광과 전신을 감는 기운, 따뜻한 금색 뒤쪽 후광을 쓴다. **청보라 · 백금**, **청록 · 옅은 금빛**은 색상 선택기로 비교한다. 발테르 V17의 승인 레이어 구성을 확인해 현재 동작과 같은 실루엣 18개를 뒤에 배치하고, 새로 생성한 전신 감싸기 12프레임과 뒤쪽 후광 12프레임을 교차 재생한다. 모든 효과는 기존 V3/GSAP 시계에 따른다.
@@ -15,6 +24,7 @@ V1 스킬 방향은 유지한다.
 X-BODY 천룡 강림을 실제 V3에서 재생해 1.84초 돌파와 2.18초 적중을 확인했다. 백호는 **검기로 응축된 얼굴·발톱 형상이 전장을 통과하고 소멸하는 공격 효과**다. 독립 소환 유닛은 없다. 이전 `tiger-*.png` 2×2 신체 시트는 반려 이력이며 매니페스트/프리뷰에서 사용하지 않는다.
 
 ## 재생
+- [V3 전체 모션 영상](review-valter-aura-v3.webm), [V3 PC 광원](qa/valter-aura-v3-desktop.png), [V3 모바일 광원](qa/valter-aura-v3-mobile.png).
 - [검수 페이지](index.html): 외형·오라 / 대기 / 대시 / 대검 공격 / 삼연참 / 왕관의 처형 / 백호멸진.
 - [V2 전체 모션 영상](review-satin-aura-v2.webm), [추천 조합 PC](qa/satin-aura-v2-desktop-crimson.png), [모바일](qa/satin-aura-v2-mobile-crimson.png).
 - 대안 비교: [청보라·백금](qa/satin-aura-v2-desktop-violet.png), [청록·옅은 금빛](qa/satin-aura-v2-desktop-teal.png). 반사광만 비교: [원본 표시](qa/satin-aura-v2-material-before.png), [완화 표시](qa/satin-aura-v2-material-after.png).
@@ -40,7 +50,7 @@ X-BODY 천룡 강림을 실제 V3에서 재생해 1.84초 돌파와 2.18초 적�
 ```powershell
 node preview/battle-suit-crimson-gold-knight-20261005-v1/extract-weapon.mjs
 node preview/battle-suit-crimson-gold-knight-20261005-v1/pack-assets.mjs
-node preview/battle-suit-crimson-gold-knight-20261005-v1/pack-aura.mjs
+node preview/battle-suit-crimson-gold-knight-20261005-v1/bind-valter-aura.mjs
 node preview/battle-suit-crimson-gold-knight-20261005-v1/build.mjs
 node preview/battle-suit-crimson-gold-knight-20261005-v1/qa-assets.mjs
 node preview/battle-suit-crimson-gold-knight-20261005-v1/serve.mjs
@@ -50,6 +60,9 @@ node preview/battle-suit-crimson-gold-knight-20261005-v1/serve.mjs
 첫 공개 주소 확인에서 초기 전장 로딩이 공용 14초 제한을 넘는 현상을 확인했다. 빌려온 전장 fixture의 Z-BODY 지정 때문에 사용하지 않는 Z 모션·광역기까지 로딩하던 부분을 제거하고, 검수 전용 코드와 승인 원본을 직접 지정했다. 숨겨진 문서는 표시될 때 초기화하도록 보호했다. 공용 엔진과 제한 시간은 변경하지 않았다. 수정 후 PC·모바일 접점/지면/중단/5대상 검사 각각 38건을 다시 통과했으며 작화·동작·효과는 동일하다.
 
 ## 배포 범위
+V3는 이 프리뷰 폴더의 광원 연결·화면·검수 증빙만 변경한다. 실제 직전 운영 소스는 `df4fd00a5721e5bd6b2fe094793b8ad1f21d51d6`이며, 이를 기준으로 범위 배포한다. 도중 통합된 main의 운영 지급 스크립트/기록이 자산 전용 허용 경로를 벗어나므로 `--scoped`를 사용하며, 해당 지급 스크립트는 실행하지 않는다. [V3 배포 범위](release-valter-aura-v3.json). 공용 전투 런타임·CMS·경제·DB는 변경하지 않는다.
+
+아래는 V2 배포 이력이다.
 V2 범위는 이 프리뷰 폴더의 재질·오라·비교 UI와 증빙뿐이다. 실제 직전 배포 `c198f17d-cd71-4349-9237-558da912961a`의 소스는 `16a261586bcf5e138dc4fd92ce5949659bc4411f`다. 이후 main의 문서/테스트 커밋이 자산 전용 허용 경로를 벗어나므로 이번에도 `--scoped`와 이 프리뷰의 `qa-assets.mjs`를 사용한다. 게임 공용 런타임·경제·CMS·DB 변경은 없다. 자세한 범위는 [release-satin-aura-v2.json](release-satin-aura-v2.json)에 기록한다. 사용자 시각 승인·운영 활성화는 보류한다.
 
 아래는 V1 배포 이력이다.

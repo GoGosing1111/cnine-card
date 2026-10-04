@@ -1,0 +1,27 @@
+{
+  "passed": true,
+  "mode": "REUSE_APPROVED_ASSETS_NO_NEW_IMAGE_GENERATION",
+  "copies": [
+    {
+      "source": "preview/mercenary-crimson-silver-knight-battle-v1/assets/fx-aura-atlas.webp",
+      "destination": "assets/atlases/aura-valter-v17.webp",
+      "sha256": "d0eb269edf87e158d29149a0fdd7c6a8df95795d741d8b0f4755812b51902e97",
+      "byteIdentical": true,
+      "frameCount": 12
+    },
+    {
+      "source": "preview/mercenary-limited-sd-skills-20261003-v1/assets/aura/limited-rear-aura-sheet-v1.png",
+      "destination": "assets/atlases/aura-valter-rear-approved.png",
+      "sha256": "433dff0f0d90cb93e990b31c5ed85f0f355159a397bfa152aaad69487d071f5d",
+      "byteIdentical": true,
+      "frameCount": 8
+    }
+  ],
+  "referenceRenderers": [
+    "preview/mercenary-crimson-silver-knight-battle-v1/source/KnightFX.js",
+    "preview/mercenary-limited-sd-skills-20261003-v1/source/preview.js"
+  ],
+  "referenceBodyHeight": 312.3894230769231,
+  "rearCenterY": -0.6866391184573003,
+  "rearWidthToBody": 1.32
+}
