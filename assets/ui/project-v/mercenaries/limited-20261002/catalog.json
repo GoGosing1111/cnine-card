@@ -1,5 +1,5 @@
 {
-  "version": "limited-mercenary-ayoon-approved-20261004",
+  "version": "limited-mercenary-hi-heeya-approved-20261004",
   "acquisitionEnabled": false,
   "cards": [
     {
@@ -225,6 +225,37 @@
       "resourceStatus": "ART_READY_SD_PENDING",
       "artApproval": "USER_APPROVED_20261004",
       "approvalRecord": "preview/mercenary-ayoon-scythe-20261004-v1/approval-20261004.json"
+    },
+    {
+      "code": "V-998",
+      "name": "하이희야",
+      "title": "SS 리미티드",
+      "rank": "SS",
+      "rankStatus": "CONFIRMED_BY_USER",
+      "edition": "LIMITED",
+      "role": "LIMITED",
+      "position": null,
+      "artOnly": true,
+      "releaseStatus": "LIMITED_PREVIEW",
+      "sourceArt": "assets/ui/project-v/mercenaries/limited-20261004/v-998-hi-heeya-source-art-approved.png",
+      "sourceArtSha256": "7FE9B78CCA3243078BB47A4E9F358017F7C633B39E2D888BDEA76B8F7984D20D",
+      "battleSprite": null,
+      "accent": "#e6c98d",
+      "basePower": null,
+      "skills": [],
+      "acquisitionEnabled": false,
+      "deploymentEnabled": false,
+      "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+      "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+      "artWindow": {
+        "left": 5.957,
+        "top": 5.794,
+        "width": 88.086,
+        "height": 88.086
+      },
+      "resourceStatus": "ART_READY_SD_PENDING",
+      "artApproval": "USER_APPROVED_20261004",
+      "approvalRecord": "preview/mercenary-heeya-maid-arsenal-v1/approval-20261004.json"
     }
   ]
 }

@@ -1,0 +1,25 @@
+{
+  "dateKst": "2026-10-04",
+  "userInstruction": "등 부착 무기 승인, 고개 ,얼굴 탈락 다리 포즈 쭉핀 상태로 얼굴 아이콘 하이희야로 보고 다시만들어",
+  "status": "WEAPONS_ONLY_APPROVED_FACE_HEAD_REJECTED",
+  "approvedSource": "references/user-approved-weapons-v5.png",
+  "approvedSourceSha256": "5A67B5434C6F9152E473E57FA4D806AE69A65404D633B59DFF0E974B20F99B33",
+  "approvedScope": [
+    "7개 등 부착 무기의 디자인·수량·배치·색·등 연결 구조"
+  ],
+  "rejectedScope": [
+    "V5 고개 방향",
+    "V5 얼굴"
+  ],
+  "requestedChanges": [
+    "아이콘 하이희야 얼굴을 유일한 얼굴 기준으로 사용",
+    "고개·시선 새 각도로 구성",
+    "두 다리 무릎을 곧게 펴고 서 있는 자세"
+  ],
+  "identityReference": "assets/cards/ICON/hi-heeya-source-v1.png",
+  "identitySourceSha256": "3E62A900879231CEF996154F986DB2E9D09F2AEC0E9E5ABDFE3C2EF888DB66FF",
+  "wholeArtApproved": false,
+  "rankApproved": false,
+  "catalogOrCombatApproved": false
+}
+

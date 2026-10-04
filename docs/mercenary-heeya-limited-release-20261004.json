@@ -1,0 +1,59 @@
+{
+  "date": "2026-10-04",
+  "timezone": "Asia/Seoul",
+  "status": "READY_FOR_SCOPED_DEPLOY",
+  "request": "승인 SS 리미티드 하이희야로 올려",
+  "card": {
+    "code": "V-998",
+    "name": "하이희야",
+    "rank": "SS",
+    "edition": "LIMITED",
+    "approvedVersion": 7,
+    "sourceArt": "assets/ui/project-v/mercenaries/limited-20261004/v-998-hi-heeya-source-art-approved.png",
+    "sha256": "7FE9B78CCA3243078BB47A4E9F358017F7C633B39E2D888BDEA76B8F7984D20D",
+    "width": 1024,
+    "height": 1536,
+    "colorType": 2,
+    "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+    "sd": null,
+    "acquisitionEnabled": false,
+    "deploymentEnabled": false
+  },
+  "catalog": {
+    "limited": 8,
+    "SS": 7,
+    "SSS": 1
+  },
+  "sourcePreservation": "Approved V7 copied byte-for-byte; no regeneration, recompression, crop or pose/face/outfit/garter/weapon/background change after approval.",
+  "ui": {
+    "status": "PASSED",
+    "checks": 78,
+    "viewports": [
+      {
+        "width": 1440,
+        "height": 1000
+      },
+      {
+        "width": 390,
+        "height": 844
+      }
+    ],
+    "evidence": "C:/Users/User/.codex/tmp/heeya-limited-20261004/browser",
+    "visualReview": "Desktop and mobile SS label, approved common frame, original zoom and unavailable unproduced SD verified. No horizontal overflow, JS errors or failed resources. Correct 160 x 240 frame preview separately inspected."
+  },
+  "cms": "Existing saved rates/weights/revision remain unchanged on read. Missing new card weight projects as zero; no live CMS writes in this task.",
+  "release": {
+    "scope": "SMALL",
+    "baseCommit": "442766de7a9942f11f9497c1faee4e26b1a4753e",
+    "baseDeployment": "6bcfdb27-80ba-473f-8d86-625f979ad41d",
+    "reason": "Append one approved SS limited artwork to the existing read-only catalog; validate source/frame hashes, catalog projection, acquisition locks and older CMS policy compatibility.",
+    "tests": [
+      "tests/mercenary-limited-catalog-20261002.test.mjs"
+    ],
+    "checks": [
+      "check:worker"
+    ],
+    "cache": "Codex GET remains no-store; unique approved PNG URL. Existing client cache contracts unchanged.",
+    "productionVerification": "PENDING"
+  }
+}

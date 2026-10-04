@@ -1,5 +1,5 @@
 {
-  "version": 10,
+  "version": 11,
   "dateKST": "2026-10-04",
   "scope": "LIMITED_SOURCE_ART_COLLECTION_PREVIEW",
   "method": "built-in image_gen; approved source files preserved byte-for-byte",
@@ -177,6 +177,32 @@
         "sha256": "21623C96DFF0FAF9054FF04B4B925D28582E9716A6C40C5B1851E0954E287A39"
       },
       "approvedScope": "Approved illustration, name, SS LIMITED rank, commit and public mercenary codex registration.",
+      "frame": "../mercenary-limited-frame-slim-v3-20261001/assets/mercenary-limited-frame-slim-v3-glow.png",
+      "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+      "frameStatus": "USER_APPROVED_ALL_LIMITED"
+    },
+    {
+      "name": "하이희야",
+      "concept": "SS 리미티드 · 메이드 등 장착 복합 중화기",
+      "approval": "../mercenary-heeya-maid-arsenal-v1/approval-20261004.json",
+      "status": "APPROVED_SOURCE_ART",
+      "rank": "SS",
+      "rankStatus": "CONFIRMED_BY_USER",
+      "rankConfirmed": true,
+      "edition": "LIMITED",
+      "editionConfirmed": true,
+      "method": "BUILT_IN_IMAGE_GEN_APPROVED_ORIGINAL_PRESERVED",
+      "sourceArt": "../mercenary-heeya-maid-arsenal-v1/assets/mercenary-heeya-maid-arsenal-source-art-v7.png",
+      "source": {
+        "path": "../mercenary-heeya-maid-arsenal-v1/assets/mercenary-heeya-maid-arsenal-source-art-v7.png",
+        "width": 1024,
+        "height": 1536,
+        "bitDepth": 8,
+        "colorType": 2,
+        "bytes": 2813250,
+        "sha256": "7FE9B78CCA3243078BB47A4E9F358017F7C633B39E2D888BDEA76B8F7984D20D"
+      },
+      "approvedScope": "Approved complete V7 illustration, name, SS LIMITED rank and public mercenary codex registration.",
       "frame": "../mercenary-limited-frame-slim-v3-20261001/assets/mercenary-limited-frame-slim-v3-glow.png",
       "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
       "frameStatus": "USER_APPROVED_ALL_LIMITED"

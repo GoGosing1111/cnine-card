@@ -1,0 +1,21 @@
+{
+  "date": "2026-10-04",
+  "timezone": "Asia/Seoul",
+  "status": "APPROVED_SOURCE_ART",
+  "userInstruction": "어우 씨발 드디어 나왔네 승인 SS 리미티드 하이희야로 올려",
+  "name": "하이희야",
+  "code": "V-998",
+  "rank": "SS",
+  "edition": "LIMITED",
+  "approvedVersion": 7,
+  "sourceArt": "assets/ui/project-v/mercenaries/limited-20261004/v-998-hi-heeya-source-art-approved.png",
+  "sourceArtSha256": "7FE9B78CCA3243078BB47A4E9F358017F7C633B39E2D888BDEA76B8F7984D20D",
+  "previewOriginal": "preview/mercenary-heeya-maid-arsenal-v1/assets/mercenary-heeya-maid-arsenal-source-art-v7.png",
+  "generationRecord": "preview/mercenary-heeya-maid-arsenal-v1/prompt-v7.json",
+  "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+  "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+  "scope": "Approved complete V7 illustration, name, SS LIMITED rank and public mercenary codex registration.",
+  "battleSpriteStatus": "NOT_YET_PRODUCED",
+  "acquisitionEnabled": false,
+  "deploymentEnabled": false
+}
