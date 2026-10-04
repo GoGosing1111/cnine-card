@@ -9,5 +9,8 @@ export function equipmentCraftPolicy(raw){
   if(Number(raw.outputRef??raw.output_ref)===inputEquipmentId)throw Error('투입 장비와 결과 장비는 달라야 합니다.');
   const revision=Number(policy.revision??0);
   if(!Number.isSafeInteger(revision)||revision<0)throw Error('장비 조합식 설정 버전이 올바르지 않습니다.');
-  return {inputEquipmentId,pityAfter,revision,requiredLevel:10,successRate:10};
+  // Existing recipes always preserve the input unless the operator opts in.
+  const failureInputPolicy=policy.failureInputPolicy===undefined?'PRESERVE':policy.failureInputPolicy;
+  if(!['PRESERVE','CONSUME'].includes(failureInputPolicy))throw Error('실패 시 투입 장비 처리 방식을 보존 또는 소모로 선택하세요.');
+  return {inputEquipmentId,pityAfter,revision,requiredLevel:10,successRate:10,failureInputPolicy};
 }

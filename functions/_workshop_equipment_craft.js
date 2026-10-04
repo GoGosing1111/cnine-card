@@ -78,7 +78,7 @@ export async function executeEquipmentCraft(env,user,body,{randomInt=mercenaryRa
     if(!isEquipmentCraft(recipe)||!active(recipe,user))throw fail('현재 제작할 수 없는 장비 조합식입니다.');
     const raw=(await p('SELECT value FROM app_meta WHERE key=?',configKey(recipe.code)).first())?.value??null,policy=parse(raw);
     if(!policy)throw fail('장비 조합식 설정이 완료되지 않았습니다.');
-    equipmentCraftPolicy({...recipe,equipmentCraft:policy});
+    Object.assign(policy,equipmentCraftPolicy({...recipe,equipmentCraft:policy}));
     const input=await p(`SELECT x.id,f.revision FROM user_equipment_instances x JOIN equipment_forge_states_v1 f ON f.instance_id=x.id AND f.user_id=x.user_id AND f.level=10 JOIN character_equipment_items e ON e.id=x.equipment_id AND e.is_active=1 AND e.is_public=1 WHERE x.id=? AND x.user_id=? AND x.equipment_id=? AND NOT EXISTS(SELECT 1 FROM user_equipment_loadout l WHERE l.instance_id=x.id)`,instanceId,user.id,policy.inputEquipmentId).first();
     if(!input)throw fail('장착하지 않은 내 +10 대상 장비가 필요합니다.');
     const progressRaw=(await p('SELECT value FROM app_meta WHERE key=?',pityKey(user.id,recipeId)).first())?.value??null,progress=parse(progressRaw,{failures:0,revision:0});
@@ -92,7 +92,8 @@ export async function executeEquipmentCraft(env,user,body,{randomInt=mercenaryRa
     if(Number(wallet?.coin||0)<coin||Number(wallet?.stars||0)<stars)throw fail('코인 또는 마스터의 별이 부족합니다.');
     for(const m of materials){const owned=await p('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?',user.id,m.item_code).first();if(Number(owned?.quantity||0)<Number(m.quantity))throw fail('제작 재료가 부족합니다.');}
     const pity={failures:success?0:Number(progress.failures)+1,revision:Number(progress.revision)+1};
-    const result={ok:true,requestId:body.requestId,recipeId,recipeName:recipe.name,category:recipe.category,equipmentCraft:true,success,successRate:10,effectiveSuccessRate:guaranteed?100:10,guaranteed,attempts:1,successCount:success?1:0,failureCount:success?0:1,coinSpent:coin,masterStarSpent:stars,input:{instanceId,equipmentId:policy.inputEquipmentId,name:policy.inputName,level:10,preserved:!success},pity:{failures:pity.failures,pityAfter:policy.pityAfter,guaranteed:pity.failures>=policy.pityAfter},output:success?{type:'EQUIPMENT',ref:recipe.output_ref,name:recipe.output_name,image:recipe.output_image,rarity:recipe.output_rarity,quantity:1,level:0}:null};
+    const consumeInput=success||policy.failureInputPolicy==='CONSUME';
+    const result={ok:true,requestId:body.requestId,recipeId,recipeName:recipe.name,category:recipe.category,equipmentCraft:true,success,successRate:10,effectiveSuccessRate:guaranteed?100:10,guaranteed,attempts:1,successCount:success?1:0,failureCount:success?0:1,coinSpent:coin,masterStarSpent:stars,failureInputPolicy:policy.failureInputPolicy,input:{instanceId,equipmentId:policy.inputEquipmentId,name:policy.inputName,image:policy.inputImage,level:10,preserved:!consumeInput,consumed:consumeInput},pity:{failures:pity.failures,pityAfter:policy.pityAfter,guaranteed:pity.failures>=policy.pityAfter},output:success?{type:'EQUIPMENT',ref:recipe.output_ref,name:recipe.output_name,image:recipe.output_image,rarity:recipe.output_rarity,quantity:1,level:0}:null};
     return {result,recipe,policy,configRaw:raw,progressRaw,pity,materials,revision:Number(input.revision)};
   },statements:async plan=>{
     const {result,recipe,policy,materials}=plan,key=pityKey(user.id,recipeId);
@@ -107,9 +108,12 @@ export async function executeEquipmentCraft(env,user,body,{randomInt=mercenaryRa
     list.push(jointGuard(DB,pityToken,samePity,pityValues),jointGuard(DB,configToken,sameConfig,configValues),jointGuard(DB,token,`EXISTS(SELECT 1 FROM user_equipment_instances x JOIN equipment_forge_states_v1 f ON f.instance_id=x.id AND f.user_id=x.user_id AND f.level=10 AND f.revision=? JOIN character_equipment_items e ON e.id=x.equipment_id AND e.is_active=1 AND e.is_public=1 WHERE x.id=? AND x.user_id=? AND x.equipment_id=? AND NOT EXISTS(SELECT 1 FROM user_equipment_loadout l WHERE l.instance_id=x.id)) AND EXISTS(SELECT 1 FROM ${RECIPES} WHERE id=? AND is_active=1 AND is_public=1 AND (owner_test_only=0 OR ?='OWNER')) AND EXISTS(SELECT 1 FROM character_equipment_items WHERE id=? AND is_active=1 AND is_public=1) AND EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=?)`,[plan.revision,instanceId,user.id,policy.inputEquipmentId,recipeId,user.role,Number(recipe.output_ref),user.id,result.coinSpent]));
     list.push(p('UPDATE users SET coin=coin-? WHERE id=? AND coin>=?',result.coinSpent,user.id,result.coinSpent),p('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?',-result.coinSpent,KIND,user.id),...jointInventoryChange(DB,user.id,'MASTER_STAR',-result.masterStarSpent,KIND,body.requestId));
     for(const m of materials)list.push(...jointInventoryChange(DB,user.id,m.item_code,-Number(m.quantity),KIND,body.requestId));
-    if(result.success){
+    // Use the prepared receipt, including retries of pre-policy-change plans.
+    if(result.success||result.input?.preserved===false){
       list.push(p('DELETE FROM equipment_forge_states_v1 WHERE instance_id=? AND user_id=? AND level=10 AND revision=?',instanceId,user.id,plan.revision),p('DELETE FROM user_equipment_instances WHERE id=? AND user_id=? AND NOT EXISTS(SELECT 1 FROM user_equipment_loadout l WHERE l.instance_id=user_equipment_instances.id)',instanceId,user.id));
       list.push(p('UPDATE joint_atomic_guards_v1 SET verified=CASE WHEN NOT EXISTS(SELECT 1 FROM user_equipment_instances WHERE id=?) THEN 1 ELSE 0 END WHERE token=?',instanceId,token));
+    }
+    if(result.success){
       const grant="INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id) SELECT ?,id,'WORKSHOP_EQUIPMENT',?,? FROM character_equipment_items WHERE id=? AND is_active=1 AND is_public=1";
       const values=[user.id,String(recipeId),body.requestId,Number(recipe.output_ref)];
       if(DB.dialect==='postgres')list.push(p(`WITH granted AS (${grant} RETURNING id) UPDATE joint_atomic_guards_v1 SET verified=CASE WHEN (SELECT COUNT(*) FROM granted)=1 THEN 1 ELSE 0 END WHERE token=?`,...values,token));

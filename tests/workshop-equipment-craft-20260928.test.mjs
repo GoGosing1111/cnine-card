@@ -10,10 +10,49 @@ test('CMS requires an explicit ceiling and fixed 10% / combined costs',()=>{
   assert.throws(()=>equipmentCraftPolicy({...equipmentDraft(),successRate:100}),/10%/);
   assert.throws(()=>equipmentCraftPolicy({...equipmentDraft(),paymentMode:'COIN_ONLY'}),/코인/);
   assert.throws(()=>equipmentCraftPolicy({...equipmentDraft(),outputQuantity:2}),/1개/);
+  assert.equal(equipmentCraftPolicy(equipmentDraft()).failureInputPolicy,'PRESERVE');
+  for(const value of [null,'',true,'consume','DELETE'])assert.throws(()=>equipmentCraftPolicy({...equipmentDraft(),equipmentCraft:{...equipmentDraft().equipmentCraft,failureInputPolicy:value}}),/보존 또는 소모/);
 });
 
 for(const postgres of [false,true]){
   const dialect=postgres?'PostgreSQL':'SQLite';
+  test(`${dialect}: opt-in failure consumes exactly the selected +10 input, without output; receipt replay remains free after policy changes`,async t=>{
+    const f=await equipmentFixture(t,postgres);
+    await saveEquipmentCraftRecipe(f.env,f.user,{...equipmentDraft(),id:f.recipeId,equipmentCraft:{...equipmentDraft().equipmentCraft,revision:1,failureInputPolicy:'CONSUME'}});
+    assert.equal((await f.recipes())[0].equipmentCraft.failureInputPolicy,'CONSUME');
+    const first=await f.craft('consume-failed-input-01');
+    assert.equal(first.success,false);assert.equal(first.input.preserved,false);assert.equal(first.input.consumed,true);assert.equal(first.failureInputPolicy,'CONSUME');assert.equal(first.output,null);
+    assert.equal(await f.p('SELECT id FROM user_equipment_instances WHERE id=1').first(),null);assert.equal(await f.p('SELECT instance_id FROM equipment_forge_states_v1 WHERE instance_id=1').first(),null);
+    assert.equal(Number((await f.p('SELECT level FROM equipment_forge_states_v1 WHERE instance_id=2').first()).level),10);
+    assert.equal(await f.coin(),9000000000000);assert.equal(await f.quantity('MASTER_STAR'),80);assert.equal(await f.quantity('QA_MATERIAL'),97);assert.equal((await f.pity()).failures,1);
+    assert.equal(Number((await f.p('SELECT COUNT(*) n FROM user_equipment_instances WHERE equipment_id=102').first()).n),0);
+    await saveEquipmentCraftRecipe(f.env,f.user,{...equipmentDraft(),id:f.recipeId,equipmentCraft:{...equipmentDraft().equipmentCraft,revision:2,failureInputPolicy:'PRESERVE'}});
+    const replay=await f.craft('consume-failed-input-01','1',()=>{throw Error('must not reroll');});
+    assert.equal(replay.replayed,true);assert.equal(replay.input.preserved,false);assert.equal(replay.failureInputPolicy,'CONSUME');assert.equal(await f.coin(),9000000000000);
+    await assert.rejects(f.craft('consume-input-again-02'),/내 \+10/);assert.equal(await f.coin(),9000000000000);
+  });
+  test(`${dialect}: failed consume transaction restores +10 and all costs on ledger failure; same request keeps its failed roll`,async t=>{
+    const f=await equipmentFixture(t,postgres);let rolls=0;
+    await saveEquipmentCraftRecipe(f.env,f.user,{...equipmentDraft(),id:f.recipeId,equipmentCraft:{...equipmentDraft().equipmentCraft,revision:1,failureInputPolicy:'CONSUME'}});
+    f.fail('INSERT INTO workshop_craft_receipts_v1668');
+    await assert.rejects(f.craft('consume-failure-rollback','1',()=>{rolls++;return 9999}),/INJECTED_FAILURE/);f.fail('');
+    assert.equal(Number((await f.p('SELECT level FROM equipment_forge_states_v1 WHERE instance_id=1').first()).level),10);assert.ok(await f.p('SELECT id FROM user_equipment_instances WHERE id=1').first());
+    assert.equal(await f.coin(),12000000000000);assert.equal(await f.quantity('MASTER_STAR'),100);assert.equal(await f.quantity('QA_MATERIAL'),100);assert.equal((await f.pity()).failures,0);
+    const retry=await f.craft('consume-failure-rollback','1',()=>{rolls++;return 0});assert.equal(rolls,1);assert.equal(retry.success,false);assert.equal(retry.input.preserved,false);assert.equal(await f.coin(),9000000000000);
+  });
+  test(`${dialect}: concurrent failed consume requests cannot spend the same input twice; unreleased recipe is blocked`,async t=>{
+    const f=await equipmentFixture(t,postgres);
+    const draft={...equipmentDraft(),id:f.recipeId,isActive:false,isPublic:false,equipmentCraft:{...equipmentDraft().equipmentCraft,revision:1,failureInputPolicy:'CONSUME'}};
+    await saveEquipmentCraftRecipe(f.env,f.user,draft);await assert.rejects(f.craft('eastern-draft-is-closed'),/제작할 수 없는/);assert.equal(await f.coin(),12000000000000);
+    await saveEquipmentCraftRecipe(f.env,f.user,{...draft,isActive:true,isPublic:true,equipmentCraft:{...draft.equipmentCraft,revision:2}});
+    const results=await Promise.allSettled([f.craft('consume-concurrent-one'),f.craft('consume-concurrent-two')]);assert.equal(results.filter(r=>r.status==='fulfilled').length,1);
+    assert.equal(await f.coin(),9000000000000);assert.equal((await f.pity()).failures,1);assert.equal(await f.quantity('QA_MATERIAL'),97);
+  });
+  test(`${dialect}: historical policy without the new field still preserves Emperor input`,async t=>{
+    const f=await equipmentFixture(t,postgres),policy=(await f.recipes())[0].equipmentCraft;delete policy.failureInputPolicy;
+    await f.setting('WORKSHOP_EQUIPMENT_CRAFT_V1:QA_EQUIPMENT',policy);
+    const r=await f.craft('historical-emperor-preserve');assert.equal(r.input.preserved,true);assert.equal(r.failureInputPolicy,'PRESERVE');assert.ok(await f.p('SELECT id FROM user_equipment_instances WHERE id=1').first());
+  });
   test(`${dialect}: failed equipment survives; saved failures cross instances; N failures guarantee NEXT attempt; replay is free`,async t=>{
     const f=await equipmentFixture(t,postgres);
     const a=await f.craft('equipment-failure-0001');assert.equal(a.success,false);assert.equal(a.pity.failures,1);assert.equal(a.pity.guaranteed,false);

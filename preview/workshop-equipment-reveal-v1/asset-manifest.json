@@ -1,0 +1,10 @@
+{
+  "date": "2026-10-04",
+  "purpose": "엠퍼러 장비 제작 봉인 개방 연출 배경",
+  "generator": "built-in image_gen",
+  "prompt": "Create a premium dark fantasy game equipment-forging sanctuary background, landscape 1536 x 1024, no text anywhere, no UI, no characters, no weapons or armor. This is the full-screen cinematic backdrop for forging Emperor equipment. Centered symmetrical interior: a massive ancient obsidian imperial forge reliquary with restrained ornate antique gold edges, heavy carved black stone pillars on the left and right, arch above; red-hot furnace seams and dim ember orange sidelights, elegant gold inlaid bevels, fantastically crafted solid materials, controlled smoky atmosphere. A wide empty dark central vertical cavity taking up central 40% of composition will receive an animated seal and equipment from code, leave that center EMPTY, black with faint warm ambience. Upper central and lower central zones are dark and quiet for readable game text overlay. A low circular stone altar at bottom, with faint molten-gold cracks and warm reflected rimlight. Powerful depth, cinematic painterly game concept art of extraordinary quality, heavy sense of ancient luxury rather than sci-fi cockpit. Obsidian/navy 75%, rich antique gold 20%, restrained ember red 5%. Readable silhouettes, fine tasteful imperial filigree on side supports, volumetric light from the arch, natural material textures, luminous but not overexposed. No circles covering the center, no object in the center, no logo, watermark, glyphs, lettering, frames around the entire image or borders. Edge-to-edge illustration.",
+  "source": "emperor-forge-sanctum-source-v1.png",
+  "runtime": "assets/ui/workshop/emperor-forge-sanctum-v1.webp",
+  "integration": "js/equipment-craft-reveal-v1.js",
+  "note": "제작실 배경만 신규 생성. 실제 장비 이미지는 기존 CMS 카탈로그 원본 사용. 제작 결과·확률은 서버 영수증 기준."
+}
