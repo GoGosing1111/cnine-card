@@ -31,3 +31,13 @@ CMS 전투 관리의 아포칼립스 몬스터마다 `보스 처치 추가 보�
 - Worker 구문·빌드 및 지정 배포의 출시 플래그·캐시·Hyperdrive 확인.
 
 브라우저 검수는 1440×1000, 390×844에서 실제 index/앱/번들과 로컬 합성 계정을 사용했다. `tests/player-suggestions-20261005.browser.mjs`로 슬롯 교체·저장, 실제 아카드 전장 위 회피 입력·결과·닫기 잠금 해제, 쿠폰 실패·중복 제출·성공, 행동대장 배치를 확인했다. SVG 지도 좌표의 자동 클릭은 인접 구역에 닿을 수 있어 지원되는 Enter 키로 선택했다. `tests/player-suggestions-settings-20261005.browser.mjs`로 CMS 미설정 기본값·보스별 다른 수량 저장 및 중단된 결과 복구를 확인했다. 화면 이미지와 세부 결과는 로컬 임시 폴더 `cnine-player-suggestions-20261005`에 보존한다. 테스트 수량은 운영 CMS에 저장하지 않았다.
+
+## 운영 반영 결과
+
+- 배포 커밋: 8c19e4eb. 지정 명령으로 scoped 검사 70개 통과, Worker 컴파일·출시 조건·Hyperdrive 캐시 OFF 확인 후 운영 반영했다.
+- Pages: https://7c133715.cnine-card.pages.dev
+- API runtime: fd81e0b0-5da9-4363-acfd-484ef8adf278
+- Clan draft worker: 22faa6c2-d5cb-4f1d-b416-50349ad07d6b
+- 실제 PVP V3 WebGL 재생도 확인했다. 새 아포칼립스 입력창과 화면 잠금이 일반 PVP에 적용되지 않는다.
+- 운영 대표 파일 8개의 바이트 해시가 배포 소스와 일치한다. 서비스 상태 200, 미인증 아포칼립스 확인 요청 401을 확인했다.
+- 보스별 추가 보상 수량은 계속 미설정이다. 운영 CMS 값 쓰기나 테스트 보상 지급은 하지 않았다.

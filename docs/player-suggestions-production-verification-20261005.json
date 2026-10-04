@@ -1,0 +1,49 @@
+{
+  "deployment": "https://7c133715.cnine-card.pages.dev",
+  "commit": "8c19e4eb",
+  "checkedAt": "2026-10-04T17:34:23.448Z",
+  "checks": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "2bf346c55eed82f21e859032efaee5523214e96e9812abc565cd23ff520fcc0d"
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "3c69b6fab09e81158443914a484b9ee4710f31bc50cff9e511a87b5ed724ccf9"
+    },
+    {
+      "file": "js/pve-command-v2-live.js",
+      "status": 200,
+      "sha256": "3630dd06f74de6113b4364d15c0a3348639de482dc88f8c52ada1467acebfdb4"
+    },
+    {
+      "file": "js/soopketland-v2039.bundle.js",
+      "status": 200,
+      "sha256": "ad9c1a6c3b1f9c25e6675adde39431a29d5b57c24dfc253d0789994006298310"
+    },
+    {
+      "file": "js/apocalypse-challenge-v1.mjs",
+      "status": 200,
+      "sha256": "e52195ffba671374ae68e33a6f90fa22885a544caa118d6f92e9f6e8e5814e4b"
+    },
+    {
+      "file": "js/clan-faction-v1.mjs",
+      "status": 200,
+      "sha256": "6fbb19e4cdbf4b17bc10db5d5828ac135b8b5e4bc58e8cbc13ab734889144f22"
+    },
+    {
+      "file": "admin/apocalypse-admin-v1952.js",
+      "status": 200,
+      "sha256": "99fc16c4ada1a06c1160f756a365fd731d22f7d4ad7f3c54ffc51c92c04514d3"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "0ceca6971d2b5e99888e089cc94d1b656a375dc27baf363bfa742fc6b41926a1"
+    }
+  ],
+  "serviceStatus": 200,
+  "unauthenticatedChallenge": 401
+}
