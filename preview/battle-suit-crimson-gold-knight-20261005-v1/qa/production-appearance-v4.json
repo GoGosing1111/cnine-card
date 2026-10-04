@@ -1,0 +1,49 @@
+{
+  "deploymentUrl": "https://a22d54c3.cnine-card.pages.dev",
+  "previewUrl": "https://cnine-card.pages.dev/preview/battle-suit-crimson-gold-knight-20261005-v1/",
+  "sourceCommit": "0a1af5bbd77cdf7f87bc4b6d6fb78701a0b1e49c",
+  "command": "npm run deploy:production -- --assets-only",
+  "checks": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "hashMatches": true
+    },
+    {
+      "path": "manifest.json",
+      "status": 200,
+      "hashMatches": true
+    },
+    {
+      "path": "preview.bundle.js",
+      "status": 200,
+      "hashMatches": true
+    },
+    {
+      "path": "appearance-options.json",
+      "status": 200,
+      "hashMatches": true
+    }
+  ],
+  "videoHttpStatus": 200,
+  "hyperdriveCacheDisabled": true,
+  "defaultPaletteId": "crimson",
+  "retainedPalettes": [
+    "violet",
+    "teal"
+  ],
+  "idlePolicy": "STANDING_APPROVED_SOURCE",
+  "runtimeEnabled": false,
+  "playerSelectionEnabled": false,
+  "note": "Documentation-only follow-up; no repeat deployment.",
+  "browser": {
+    "phase": "정지 자세 · 대기",
+    "visualChecked": true,
+    "mode": "idle",
+    "time": 1.8,
+    "frame": 0,
+    "palette": "crimson",
+    "ready": true,
+    "liveEnabled": false
+  }
+}
