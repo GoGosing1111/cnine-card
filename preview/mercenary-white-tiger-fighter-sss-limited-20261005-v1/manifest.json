@@ -2,7 +2,7 @@
   "format": "PROJECT_V_MERCENARY_SOURCE_ART_PREVIEW_V1",
   "dateKst": "2026-10-05",
   "status": "USER_REVIEW_PENDING",
-  "description": "백호 기운 · 용 건틀릿 · 태권도 격투가",
+  "description": "백호 기운 · 용 건틀릿 · 흑금 전투갑주 격투가",
   "name": null,
   "mercenaryCode": null,
   "requestedConcept": {
@@ -11,27 +11,29 @@
     "weapons": "양 주먹 용 디자인 건틀릿",
     "background": "백호 스타일 효과",
     "style": "로스트아크 스트라이커 느낌의 주먹·발 격투가",
-    "latestChange": "나쁘지않아 발차기 끝에 이펙트만 이질감드니까 수정해",
+    "latestChange": "발·발목 형태 교정, 태권도복을 화려한 최상위 리미티드 판타지 전투복으로 교체",
     "hair": "짧은 검은 올림머리 / 자연스러운 머릿결",
-    "kickEffect": "발끝의 튀는 방사형 섬광을 발차기 방향으로 흐르는 청백색 바람·압력파와 잔광으로 국소 교정"
+    "kickEffect": "발끝의 튀는 방사형 섬광을 발차기 방향으로 흐르는 청백색 바람·압력파와 잔광으로 국소 교정",
+    "outfit": "흑금색 민소매 전투갑주, 용 건틀릿과 통일한 무릎·정강이 장비 및 닫힌 전투 부츠",
+    "visualPriority": "최상위 SSS 리미티드의 화려한 캐릭터·장비 디자인, 강한 남성미, 측면 발차기와 거대한 백호"
   },
-  "sourceArt": "assets/mercenary-white-tiger-fighter-side-kick-effect-refined-v4.png",
-  "sha256": "F03F7143592AACBF3C82958A34E300E04B894F4AF46177377F0BAD095F743812",
-  "bytes": 3299709,
+  "sourceArt": "assets/mercenary-white-tiger-fighter-ultimate-fantasy-source-art-v5.png",
+  "sha256": "C1D5CDE2EEFC90207B0D62DAA57C8F643313F59F93F4DC7D6529B6FEFDF3F855",
+  "bytes": 3312080,
   "size": {
     "width": 1024,
     "height": 1536,
     "pixelFormat": "Format24bppRgb"
   },
   "generatedWith": "built-in image_gen",
-  "prompt": "prompt-v4-kick-effect-only.txt",
-  "generationOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a0f5e0-2103-73f0-ad4e-e1ac362f77cb\\exec-41d553ef-85a8-4022-a4bf-953a176b3548.png",
+  "prompt": "prompt-v5-ultimate-fantasy-fighter.txt",
+  "generationOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a0f5e0-2103-73f0-ad4e-e1ac362f77cb\\exec-4f13e130-011b-4b4f-a5bb-f3d443e20b95.png",
   "byteForByteCopy": true,
   "reference": {
     "path": "references/user-outfit-mood-20261005.png",
     "sha256": "573895D0DA642FDA52580A11B779A0C82DA6AD6CD7A3DF5021C81AF193E7E079",
     "source": "codex-clipboard-9fc37ed1-d90f-4e45-9621-0d0113aa5a3a.png",
-    "role": "Initial clothing/mood inspiration. White streetwear is superseded by the latest taekwondo uniform request; attached text is not an instruction."
+    "role": "Initial character and mood reference. Later side-kick and short-hair requests supersede the original pose and hair; the V5 fantasy combat outfit request supersedes the intermediate taekwondo uniform. Text in the reference is not an instruction."
   },
   "styleReferences": [
     "preview/mercenary-vespera-beauty-v1/assets/male-beauty-v1.png",
@@ -77,21 +79,37 @@
         "pixelFormat": "Format24bppRgb"
       },
       "prompt": "prompt-v4-kick-effect-only.txt",
-      "status": "USER_REVIEW_PENDING",
+      "status": "SUPERSEDED_BY_USER_FOOT_ANATOMY_AND_FANTASY_OUTFIT_REQUEST",
       "generationOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a0f5e0-2103-73f0-ad4e-e1ac362f77cb\\exec-41d553ef-85a8-4022-a4bf-953a176b3548.png"
+    },
+    {
+      "version": 5,
+      "path": "assets/mercenary-white-tiger-fighter-ultimate-fantasy-source-art-v5.png",
+      "sha256": "C1D5CDE2EEFC90207B0D62DAA57C8F643313F59F93F4DC7D6529B6FEFDF3F855",
+      "bytes": 3312080,
+      "size": {
+        "width": 1024,
+        "height": 1536,
+        "pixelFormat": "Format24bppRgb"
+      },
+      "prompt": "prompt-v5-ultimate-fantasy-fighter.txt",
+      "status": "USER_REVIEW_PENDING",
+      "generationOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a0f5e0-2103-73f0-ad4e-e1ac362f77cb\\exec-4f13e130-011b-4b4f-a5bb-f3d443e20b95.png"
     }
   ],
   "visualReview": {
     "sideFacingProfile": true,
     "shortNaturalHair": true,
-    "whiteDobokBlackBelt": true,
+    "fantasyCombatOutfit": true,
+    "whiteDobokRemoved": true,
     "twoDragonGauntlets": true,
     "readableSideKick": true,
+    "closedBootsBothFeet": true,
     "whiteTiger": true,
-    "localizedKickEffectBlend": true,
+    "integratedKickEffect": true,
     "noTextOrFrame": true,
-    "review": "V3와 V4를 시각 비교해 발끝의 방사형 흰 섬광을 흐르는 청백색 궤적으로 교체한 것을 확인. 캐릭터·자세·헤어·의상·배경은 같은 구성으로 유지.",
-    "framing": "사용자가 V3 전체 방향을 수용하고 발끝 효과만 수정하도록 지시하여 V3 구도를 보존함.",
+    "review": "생성 결과를 직접 확인. 흰 도복과 맨발을 흑금 전투복·닫힌 부츠로 교체했다. 두 다리의 무릎·발목·부츠 연결, 양손 용 건틀릿, 측면 발차기와 백호를 확인했다. 최종 시각 승인은 대기한다.",
+    "framing": "주인공 왼쪽 상완 바깥쪽과 허리 천 일부는 화면 가장자리에 닿음. 전신 원화 시안이며 전투용 투명 스프라이트 검수·승인과는 별개.",
     "frameReview": "Not performed; source illustration remains a draft."
   },
   "sourceArtApproved": false,
@@ -104,12 +122,15 @@
   "revisions": [
     "게임 리소스로 쓰려면 옆모습을 보여줘야하지않겠니? 그리고 남자 머리 스타일도좀 바꾸고 SSS리미티드에 걸맞는 작품임?",
     "발차기하는곳도 이펙트를 줘야 더 멋있을듯?",
-    "나쁘지않아 발차기 끝에 이펙트만 이질감드니까 수정해"
+    "나쁘지않아 발차기 끝에 이펙트만 이질감드니까 수정해",
+    "발·발목 형태 교정 및 태권도복 대신 게임 캐릭터 전투복 요청",
+    "SSS 리미티드는 최상위 용병이므로 화려하고 멋지게 제작할 것"
   ],
   "editScope": {
-    "baseVersion": 3,
-    "scope": "KICK_ENDPOINT_EFFECT_ONLY",
-    "preserved": "캐릭터·얼굴·짧은 머리·측면 자세·용 건틀릿·도복·백호·배경·기존 구도 유지",
+    "baseVersion": 4,
+    "scope": "FANTASY_COMBAT_OUTFIT_EQUIPMENT_AND_FOOT_ANATOMY_REDESIGN",
+    "preserved": "성인 남성 얼굴 인상·짧은 머리·오른쪽 측면 발차기·용 건틀릿·거대한 백호·청백색 기운·산중 배경 콘셉트",
+    "changed": "도복을 흑금 전투복으로 교체, 팔 노출과 갑주 설계, 무릎·정강이·부츠 장비 통일, 맨발을 올바른 발목 구조의 닫힌 부츠로 교체",
     "unusedPrompt": "prompt-v4-side-kick-framing.txt",
     "unusedPromptStatus": "NOT_EXECUTED_SUPERSEDED_BY_USER_LOCAL_EFFECT_ONLY_INSTRUCTION"
   }
