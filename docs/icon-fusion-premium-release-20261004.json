@@ -1,0 +1,90 @@
+{
+  "verifiedAt": "2026-10-04T10:33:15.015Z",
+  "source": "dc3da2e0",
+  "origin": "https://cnine-card.pages.dev",
+  "files": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "98f296cb811c538e0e3633a175fe1916e97aa1f3176c607ea767561220033b8a"
+    },
+    {
+      "file": "js/icon-fusion-v1.bundle.js",
+      "status": 200,
+      "sha256": "f97ce9b7e7c5faf4a7abc116e7507fcf6e9988af3b91d1d367c8a3ac58d76d48"
+    },
+    {
+      "file": "css/icon-fusion-v1.css",
+      "status": 200,
+      "sha256": "6d3e8d1a2832d67377557bcb2b07ba1962bf9776e74df74006d95e9b4b6c8312"
+    },
+    {
+      "file": "shared/icon-fusion-policy-v1.mjs",
+      "status": 200,
+      "sha256": "50ba0c7d8ec09c013d8c6269c47f45591a1fad005b46fcab76fbbf01ca0a4561"
+    },
+    {
+      "file": "admin/icon-fusion-admin-v1.mjs",
+      "status": 200,
+      "sha256": "168f42d12bb5bce56e017ad6b805ddc19befe1ee09fced6d77fae4d4fc636a5f"
+    },
+    {
+      "file": "admin/icon-admin-v1.mjs",
+      "status": 200,
+      "sha256": "34b7102d7e8adb2824e12e4dfd80180161ec66035b9558a0aa66605ccf473b63"
+    },
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "sha256": "e67d581a010a11c2053f4907515ee5602343e4c32dc00bdc6667c7cabb2cbe12"
+    },
+    {
+      "file": "assets/ui/icon-fusion-20261004/coin.webp",
+      "status": 200,
+      "sha256": "d9f89b969bcb6aebe890016bb1f2e0cbcc9caff241959aae4dd1dd6b9d3244ea"
+    },
+    {
+      "file": "assets/ui/icon-fusion-20261004/master-star.webp",
+      "status": 200,
+      "sha256": "ae551542256d9b0056a9f0046b638cd9eaa5bb8ad4ea5be51b1feeeee07a6044"
+    },
+    {
+      "file": "assets/ui/icon-fusion-20261004/stage.webp",
+      "status": 200,
+      "sha256": "ea75c040ab7a7fb21522a19322867c0fdaed8a372ef7d9475d0276f22532cf8b"
+    }
+  ],
+  "publicIconCount": 7,
+  "anonymousOverviewStatus": 401,
+  "productionFusionRequests": 0,
+  "sourceCommit": "dc3da2e07de435d4e9a2935c8346bd9afb52d200",
+  "previousDeploymentSource": "f4d59e580daf82179220d5f9798ffc5163e9c766",
+  "pagesUrl": "https://e8d89abf.cnine-card.pages.dev",
+  "apiRuntimeVersion": "f6697044-933e-451b-bfda-7e4d5ae4e888",
+  "cronWorkerVersion": "63dfec14-e20a-4c21-ab32-3df59750b265",
+  "policy": {
+    "version": 2,
+    "coinCost": 500000000000,
+    "masterStarCost": 5000000,
+    "successRate": 10
+  },
+  "review": {
+    "enabled": false,
+    "revision": 2,
+    "attempts": 0,
+    "publicIcons": 7
+  },
+  "validation": {
+    "serverTests": 22,
+    "serverFailures": 0,
+    "browserWidths": [
+      1600,
+      390
+    ],
+    "browserExceptions": 0,
+    "horizontalOverflow": false,
+    "workerSyntax": "PASS",
+    "productionReleaseGate": "PASS",
+    "hyperdriveCache": "OFF"
+  }
+}

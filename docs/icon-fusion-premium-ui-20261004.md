@@ -24,3 +24,9 @@
 지정 명령 `npm run deploy:production -- --scoped`에서 `tests/icon-fusion-live-20260930.test.mjs` 및 `check:worker`를 실행한다. SQLite/PostgreSQL의 5천억 가격, 구버전 차단, 성공·실패 차감, 원자성, 재시도·응답 유실·중복 차감, OFF 결제 차단, 기존 카드 표시/전투 연결을 확인한다. 공통 출시/캐시/깨끗한 소스/Hyperdrive 검사는 배포 도구를 따른다. 전체 게임 검사는 반복하지 않는다.
 
 합성 CSS/번들과 CMS 모듈에 `20261004-premium-v2` 캐시 키를 부여했다. 변경 사항 반영과 공개 카드/운영 잠금을 짧게 확인한 뒤 결과를 추가한다.
+
+## 운영 반영 완료
+
+소스 `dc3da2e07de435d4e9a2935c8346bd9afb52d200`를 커밋·원격 반영하고 지정 scoped 경로로 배포했다. 서버 회귀 **22개 통과**, Worker 구문/출시/캐시/Hyperdrive 검사가 통과했다. Pages `e8d89abf`, API runtime `f6697044-933e-451b-bfda-7e4d5ae4e888`이다.
+
+배포된 메인 로더·합성 JS/CSS·정책·CMS·신규 WebP 3종 등 10개 파일 해시가 소스와 일치한다. 공개 ICON 7종과 비로그인 overview 401을 확인했고, 운영 설정 revision 2 / enabled false 및 합성 시도 0건을 읽기 조회했다. 운영 계정 합성/차감은 실행하지 않았다. 상세 증빙은 `icon-fusion-premium-release-20261004.json`, 최종 화면은 `preview/icon-fusion-premium-20261004/`에 보존한다. 이 결과 기록/스크린샷만의 후속 커밋으로 게임을 재배포하지 않는다.

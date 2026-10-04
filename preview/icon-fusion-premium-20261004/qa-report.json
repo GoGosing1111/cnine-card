@@ -1,0 +1,24 @@
+[
+  {
+    "width": 1600,
+    "reviewLockPreserved": true,
+    "success": true,
+    "failure": true,
+    "lostResponseRecovered": true,
+    "inlineVideoFallback": true,
+    "accountSynced": true,
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "width": 390,
+    "reviewLockPreserved": true,
+    "success": true,
+    "failure": true,
+    "lostResponseRecovered": true,
+    "inlineVideoFallback": true,
+    "accountSynced": true,
+    "overflow": false,
+    "errors": []
+  }
+]
