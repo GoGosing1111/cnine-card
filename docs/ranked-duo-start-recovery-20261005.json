@@ -1,6 +1,6 @@
 {
   "date": "2026-10-05",
-  "status": "FIX_VERIFIED_DEPLOYMENT_PENDING",
+  "status": "LIVE_STARTED",
   "request": "모집이 끝난 랭크 듀오 시작",
   "seasonId": "7efd3f56-4ac2-4bf2-a275-78daea6456f9",
   "before": {
@@ -32,7 +32,30 @@
       "command": "npm run deploy:production -- --scoped"
     }
   },
-  "liveRecovery": null,
+  "liveRecovery": {
+    "verifiedAt": "2026-10-04T15:34:46.845Z",
+    "status": "ACTIVE",
+    "visible": true,
+    "participants": 134,
+    "teams": 67,
+    "waiting": 0,
+    "distinctTeamMembers": 134,
+    "brokenEntryLinks": 0,
+    "startedAt": "2026-10-04T15:34:45.129Z",
+    "startedAtKst": "2026-10-05T00:34:45.129+09:00",
+    "endsAt": "2026-10-11T13:48:31.048Z",
+    "method": "Existing runRankedDuoMaintenance with its scheduler lease, latest-profile validation, normal strong/weak pairing and unchanged admission rules. Existing cron and bounded private operator continuation completed the season. No direct status/seed overrides.",
+    "lifecycleEvent": {
+      "action": "DUO_PAIR_COMPLETE",
+      "seasonId": "7efd3f56-4ac2-4bf2-a275-78daea6456f9",
+      "teams": 67,
+      "waiting": 0,
+      "spreadPercent": 38.27018139500123
+    },
+    "stablePolicyRevision": 334923,
+    "checks": "134 existing entries retained, 67 teams, 134 distinct team members, no waiting entries or broken member links. The visible ACTIVE season is within its original battle window.",
+    "evidenceDirectory": "C:/Users/User/.codex/worktrees/ranked-duo-start-ops-20261005"
+  },
   "followup": {
     "cause": "After policy churn stopped, a batch with active inventory writers repeatedly failed DUO_PROFILE_BUILDING. Rebuild discarded every completed profile when any one source version changed.",
     "change": "Cache and return only independently validated profiles; the existing bounded loop rechecks source/policy versions and retries only missing accounts. Continuously changing accounts remain blocked; no stale snapshot is accepted.",
@@ -50,5 +73,20 @@
       ],
       "command": "npm run deploy:production -- --scoped"
     }
+  },
+  "deployment": {
+    "source": "2b6914e006b855728425574258bdb2303ae5721e",
+    "pagesUrl": "https://493f5c88.cnine-card.pages.dev",
+    "apiRuntimeVersion": "c248ca1f-41d0-4e7f-9064-87ae5dbe3b5e",
+    "clanWorkerVersion": "f1f9d385-d5b3-4a19-b740-c8a46d387edd",
+    "firstFix": {
+      "source": "b09a8f0d7f04513300031ed3c2691a8dbd490ef0",
+      "pagesUrl": "https://57431215.cnine-card.pages.dev",
+      "testsPassed": 16
+    },
+    "followupTestsPassed": 34,
+    "releaseCacheGate": true,
+    "hyperdriveCacheDisabled": true,
+    "command": "npm run deploy:production -- --scoped"
   }
 }
