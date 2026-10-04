@@ -1,6 +1,8 @@
 import {Assets,Container,Sprite,Texture,Rectangle,Graphics} from 'pixi.js';
 import {gsap} from 'gsap';
 import {MODES,sample,bladeContact,smooth,clamp} from '../motion.mjs';
+import {makeSatinGoldFilter} from './SatinGoldFilter.js';
+import {RoyalAura} from './RoyalAura.js';
 const ROOT='/preview/battle-suit-crimson-gold-knight-20261005-v1/',HEIGHT=350,mix=(a,b,t)=>a+(b-a)*t;
 const TIGER_HEADS=[[.84,.66],[.76,.66],[.74,.65],[.74,.65],[.85,.56],[.76,.55],[.81,.73],[.77,.73],[.83,.47],[.80,.51],[.80,.53],[.80,.53]];
 export async function loadKnightAssets(m){
@@ -21,6 +23,8 @@ export class KnightFX{
   this.pool=Array.from({length:24},()=>{const s=new Sprite();s.visible=false;this.front.addChild(s);return s;});
   // A planted blade passes behind the ground plane. Atlas always preserves the full blade.
   this.groundMask=new Graphics().rect(-2000,-3000,4000,3007).fill(0xffffff);unit.root.addChild(this.groundMask);this.groundMask.visible=false;
+  this.matteEnabled=true;this.materialFilter=makeSatinGoldFilter();unit.bodySprite.filters=[this.materialFilter];
+  this.aura=new RoyalAura(unit,assets);
   this.capture();this.makeTimeline();this.render(0);
  }
  capture(){this.home={x:this.unit.root.baseX,y:this.unit.root.baseY};}
@@ -28,16 +32,19 @@ export class KnightFX{
  get playing(){return Boolean(this.timeline&&!this.timeline.paused()&&this.time<MODES[this.mode].duration);}
  removeTimeline(){if(this.registration)this.engine.simpleTimelines.delete(this.registration);this.timeline?.kill();this.timeline=null;this.registration=null;}
  makeTimeline(){
-  this.removeTimeline();this.timeline=gsap.timeline({paused:true,onUpdate:()=>this.render(this.clock.time),onComplete:()=>{this.engine.simpleTimelines.delete(this.registration);this.render(MODES[this.mode].duration);}})
+  this.removeTimeline();this.timeline=gsap.timeline({paused:true,repeat:this.mode==='look'||this.mode==='idle'?-1:0,onUpdate:()=>this.render(this.clock.time),onComplete:()=>{this.engine.simpleTimelines.delete(this.registration);this.render(MODES[this.mode].duration);}})
    .to(this.clock,{time:MODES[this.mode].duration,duration:MODES[this.mode].duration,ease:'none'}).timeScale(this.speed);
   this.registration={instance:this.timeline,settle:()=>this.cancel()};
  }
  play(){if(this.disposed)return;if(!this.timeline)this.makeTimeline();if(this.time>=MODES[this.mode].duration)this.seek(0);this.unit.stopIdle();this.engine.simpleTimelines.add(this.registration);this.timeline.play();this.onUpdate(this);}
  pause(){this.timeline?.pause();this.onUpdate(this);}
  seek(t){if(this.disposed)return;if(!this.timeline)this.makeTimeline();t=Math.max(0,Math.min(MODES[this.mode].duration,t));this.timeline.pause().time(t,true);this.clock.time=t;this.render(t);}
- setMode(mode){if(!MODES[mode])return;this.cancel();this.mode=mode;this.clock.time=0;this.makeTimeline();this.render(0);}
+ setMode(mode){if(!MODES[mode])return;this.cancel();this.mode=mode;for(const actor of [...this.engine.allies,...this.engine.enemies])actor.root.visible=mode!=='look';if(this.engine.isoFloorLayer)this.engine.isoFloorLayer.visible=mode!=='look';this.clock.time=0;this.makeTimeline();this.render(0);}
  setSpeed(n){this.speed=Math.max(.25,Math.min(2,Number(n)||1));this.timeline?.timeScale(this.speed);}
  setEffects(v){this.effectsEnabled=v;this.back.visible=this.front.visible=v;}
+ setMatte(v){this.matteEnabled=!!v;this.unit.bodySprite.filters=v?[this.materialFilter]:null;this.render(this.time);}
+ setAura(v){this.aura.enabled=!!v;this.render(this.time);}
+ setAuraPalette(key){this.aura.setPalette(key);this.render(this.time);}
  point(target,y=0){return this.unit.root.parent.toLocal(target.root.toGlobal({x:0,y}));}
  contact(){return this.point(this.target,-(this.target.fullBodyHeight||300)*.52);}
  targetFeet(){return this.point(this.target);}
@@ -59,7 +66,7 @@ export class KnightFX{
   return{x:mix(a.x,b.x,q),y:groundY-state.lift*size,groundY};
  }
  applyPose(state){
-  const s=this.unit.bodySprite,p=state.pose,f=this.pose(p),original=(state.time<=0||state.done)&&this.mode!=='idle';
+  const s=this.unit.bodySprite,p=state.pose,f=this.pose(p),original=this.mode==='look'||(state.time<=0||state.done)&&this.mode!=='idle';
   if(original){s.texture=this.assets.idle;s.anchor.set(550/1024,1511/1536);s.scale.set(HEIGHT/1495);}
   else{s.texture=this.assets.motion[p.bank][p.index];s.anchor.set(f.pivot.x/768,f.pivot.y/768);s.scale.set(HEIGHT/360);}
   s.position.set(0,0);this.unit.weaponSprite.visible=false;this.unit.view.position.set(0,0);this.unit.view.scale.set(original?1:p.facing,1);
@@ -86,6 +93,7 @@ export class KnightFX{
   this.pool.forEach(s=>s.visible=false);this.shade.clear();this.applyPose(state);
   const r=t<=0?{...this.home,groundY:this.home.y}:this.rootFor(state);
   u.root.position.set(r.x,r.y);u.root.depthSortY=r.groundY;e.sortCombatDepth();this.drawGhosts(state);
+  this.aura.render(t,HEIGHT,state.impact);
   const torso=this.contact(),feet=this.targetFeet(),bp=this.bladePoints(state,r),targetHeight=(this.target.fullBodyHeight||300)*this.target.root.scale.y;
   this.collision=bladeContact(bp.grip,bp.tip,torso,targetHeight*.28);
   this.groundError=Math.abs(r.y+state.lift*size-r.groundY);this.blade=bp;
@@ -127,14 +135,16 @@ export class KnightFX{
   });
   if(this.zoom){
    let left,right,top,bottom;
-   if(this.mode==='aoe'){
+   if(this.mode==='look'){
+    left=r.x-size*1.1;right=r.x+size*1.1;top=r.y-size*1.5;bottom=r.y+size*.28;
+   }else if(this.mode==='aoe'){
     left=Math.min(this.home.x,b.caster.x)-size*1.65;right=b.maxX+size*1.75;top=b.floor-size*3.8;bottom=Math.max(...b.points.map(p=>p.y))+size*.55;
    }else{
     left=Math.min(r.x,torso.x)-size*1.18;right=Math.max(r.x,torso.x)+size*1.28;
     const air=this.mode==='skill'&&t>2.15&&t<3.68;
     top=feet.y-size*(air?2.72:1.65);bottom=feet.y+size*.35;
    }
-   const maxZoom=e.mobile?2.2:2.35,zoom=Math.min(maxZoom,e.scene.width*.91/(right-left),e.scene.height*.80/(bottom-top));
+   const maxZoom=this.mode==='look'?4.4:e.mobile?2.2:2.35,zoom=Math.min(maxZoom,e.scene.width*.91/(right-left),e.scene.height*.80/(bottom-top));
    const focus={x:(left+right)/2,y:(top+bottom)/2+e.scene.height*.07/zoom};
    e.camera.focusAt(focus,zoom);const shake=this.effectsEnabled?state.impact*(this.mode==='skill'?5.8:3.3):0;
    e.stage.position.set(e.camera.base.x+Math.sin(t*112)*shake,e.camera.base.y+Math.cos(t*97)*shake*.6);
@@ -142,7 +152,7 @@ export class KnightFX{
   }else{e.camera.reset(true);this.restoreBackdrop();}
   this.onUpdate(this);
  }
- cancel(){this.removeTimeline();this.clock.time=0;if(!this.disposed)this.render(0);this.targets.forEach(t=>t.view.position.set(0,0));this.restoreBackdrop();}
- diagnostics(){return{ready:!this.disposed,mode:this.mode,time:this.time,playing:this.playing,speed:this.speed,phase:this.state?.phase,frame:this.state?.frame,pose:this.state?.pose,contactCount:this.state?.contactCount,bladeContact:this.collision,groundError:this.groundError,airborne:this.state?.lift>0,groundPlungeOcclusion:this.state?.buried,visibleEffects:this.pool.filter(s=>s.visible).length,visibleGhosts:this.ghostPool.filter(s=>s.visible).length,registeredTimelines:this.registration&&this.engine.simpleTimelines.has(this.registration)?1:0,...this.manifest.summary,weaponSha256:this.manifest.weapon.sha256,regularAllies:this.engine.allies.length,targetCount:this.targets.length,targets:this.targetContacts,clock:'V3_REGISTERED_GSAP',liveEnabled:false};}
- destroy(){if(this.disposed)return;this.cancel();this.disposed=true;this.engine.camera.reset(true);this.unit.view.mask=null;this.groundMask.destroy();this.targets.forEach(t=>t.view.position.set(0,0));this.front.destroy({children:true});this.back.destroy({children:true});for(const frames of [...Object.values(this.assets.motion),...Object.values(this.assets.effects)])for(const t of frames)t.destroy(false);}
+ cancel(){this.removeTimeline();this.clock.time=0;if(!this.disposed)this.render(0);this.targets.forEach(t=>t.view.position.set(0,0));}
+ diagnostics(){return{ready:!this.disposed,mode:this.mode,time:this.time,playing:this.playing,speed:this.speed,phase:this.state?.phase,frame:this.state?.frame,pose:this.state?.pose,contactCount:this.state?.contactCount,bladeContact:this.collision,groundError:this.groundError,airborne:this.state?.lift>0,groundPlungeOcclusion:this.state?.buried,visibleEffects:this.pool.filter(s=>s.visible).length,visibleGhosts:this.ghostPool.filter(s=>s.visible).length,registeredTimelines:this.registration&&this.engine.simpleTimelines.has(this.registration)?1:0,material:{satinGold:this.matteEnabled,sourcePixelsUnchanged:true},aura:this.aura.diagnostics(),...this.manifest.summary,weaponSha256:this.manifest.weapon.sha256,regularAllies:this.engine.allies.length,targetCount:this.targets.length,targets:this.targetContacts,clock:'V3_REGISTERED_GSAP',liveEnabled:false};}
+ destroy(){if(this.disposed)return;this.cancel();this.disposed=true;this.engine.camera.reset(true);this.restoreBackdrop();this.unit.bodySprite.filters=null;this.materialFilter.destroy();this.aura.destroy();this.unit.view.mask=null;this.groundMask.destroy();this.targets.forEach(t=>t.view.position.set(0,0));this.front.destroy({children:true});this.back.destroy({children:true});for(const frames of [...Object.values(this.assets.motion),...Object.values(this.assets.effects)])for(const t of frames)t.destroy(false);}
 }

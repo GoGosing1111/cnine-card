@@ -1,5 +1,5 @@
 {
-  "version": "BATTLE_SUIT_CRIMSON_GOLD_20261005_V1",
+  "version": "BATTLE_SUIT_CRIMSON_GOLD_20261005_SATIN_AURA_V2",
   "status": "USER_REVIEW_PENDING",
   "runtimeEnabled": false,
   "sourceArt": "assets/sources/knight-approved-20261005.png",
@@ -3657,6 +3657,242 @@
           }
         }
       ]
+    },
+    "aura-wrap": {
+      "url": "assets/atlases/aura-wrap.png",
+      "columns": 4,
+      "rows": 3,
+      "width": 2048,
+      "height": 1536,
+      "sha256": "8a98d5622e01b9b378bd0cc3c3801279fc1296565af532db89de6726c13eeb77",
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 512,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 1024,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 1536,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 512,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 1024,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1536,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 512,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 1024,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 1536,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        }
+      ]
+    },
+    "aura-rear": {
+      "url": "assets/atlases/aura-rear.png",
+      "columns": 4,
+      "rows": 3,
+      "width": 2048,
+      "height": 1536,
+      "sha256": "269bf11449bc879e4983c9ae5d5bc9f7aafb778e5e816ad497aacc8e4be875dd",
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 512,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 1024,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 1536,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 512,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 1024,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1536,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 512,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 1024,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 1536,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        }
+      ]
     }
   },
   "runtime": {
@@ -3670,8 +3906,25 @@
   },
   "summary": {
     "bodyFrames": 44,
-    "effectFrames": 132,
+    "effectFrames": 156,
     "weaponSources": 1,
-    "weaponRedraws": 0
+    "weaponRedraws": 0,
+    "skillEffectFrames": 132,
+    "auraFrames": 24
+  },
+  "material": {
+    "mode": "SATIN_GOLD_DISPLAY_SHADER",
+    "sourceFilesUnchanged": true,
+    "defaultEnabled": true,
+    "shader": "source/SatinGoldFilter.js"
+  },
+  "aura": {
+    "defaultPalette": "crimson",
+    "body": "18 pose-matched silhouette copies",
+    "rearFrames": 12,
+    "wrapFrames": 12,
+    "clock": "SHARED_V3_GSAP",
+    "source": "source/RoyalAura.js",
+    "reference": "Approved Valter V17 silhouette / rim / rear aura layering"
   }
 }

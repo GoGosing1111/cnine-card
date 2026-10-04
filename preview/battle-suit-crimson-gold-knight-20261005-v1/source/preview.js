@@ -10,6 +10,7 @@ function update(f){
  $('seek').max=spec().duration;$('seekNumber').max=spec().duration;$('seek').value=f.time;
  if(doc.activeElement!==$('seekNumber'))$('seekNumber').value=f.time.toFixed(3);
  $('time').textContent=f.time.toFixed(2)+' / '+spec().duration.toFixed(2)+' s';$('health').textContent=JSON.stringify(f.diagnostics(),null,2);
+ if(!recording)$('status').textContent=(f.matteEnabled?'차분한 금빛 갑주':'원본 반사광')+' · '+(f.aura.enabled?f.aura.diagnostics().label:'주변광 OFF');
  for(const b of doc.querySelectorAll('[data-mode]'))b.setAttribute('aria-pressed',String(b.dataset.mode===f.mode));
 }
 function gallery(){
@@ -21,7 +22,7 @@ let downloadURL;
 function save(blob,name){if(downloadURL)URL.revokeObjectURL(downloadURL);downloadURL=URL.createObjectURL(blob);const a=$('download');a.href=downloadURL;a.download=name;a.textContent=name+' 받기';a.hidden=false;a.click();}
 async function record(all=false){
  if(recording)return;recording=true;const canvas=engine.app.canvas,modes=all?Object.keys(MODES):[fx.mode],oldMode=fx.mode,oldSpeed=fx.speed;
- const stream=canvas.captureStream(60),chunks=[],type=['video/webm;codecs=vp9','video/webm;codecs=vp8','video/webm'].find(t=>MediaRecorder.isTypeSupported(t)),rec=new MediaRecorder(stream,{mimeType:type,videoBitsPerSecond:10000000});
+ const stream=canvas.captureStream(60),chunks=[],type=['video/webm;codecs=vp9','video/webm;codecs=vp8','video/webm'].find(t=>MediaRecorder.isTypeSupported(t)),rec=new MediaRecorder(stream,{mimeType:type,videoBitsPerSecond:8000000});
  const done=new Promise(resolve=>{rec.ondataavailable=e=>{if(e.data.size)chunks.push(e.data);};rec.onstop=()=>resolve(new Blob(chunks,{type:'video/webm'}));});
  try{
   fx.setSpeed(1);rec.start();
@@ -34,7 +35,7 @@ function checks(){
  for(const key of Object.keys(MODES)){
   select(key,false);
   for(const at of MODES[key].contacts){fx.seek(at);const d=fx.diagnostics();results.push({mode:key,time:at,contactCount:d.contactCount,groundError:d.groundError,bladeIntersects:key==='aoe'?null:d.bladeContact.intersects,pass:d.groundError<.001&&(key==='aoe'||d.bladeContact.intersects)});}
-  for(const at of [0,MODES[key].duration/2,MODES[key].duration]){fx.seek(at);const d=fx.diagnostics();results.push({mode:key,time:at,check:'finite grounded sample',pass:Number.isFinite(d.groundError)&&d.groundError<.001});}
+  for(const at of [0,MODES[key].duration/2,MODES[key].duration]){fx.seek(at);const d=fx.diagnostics();results.push({mode:key,time:at,check:'finite grounded sample and pose-following aura',pass:Number.isFinite(d.groundError)&&d.groundError<.001&&d.aura.poseMatched&&d.aura.independentClock===false});}
   fx.play();fx.pause();const held=fx.time;fx.seek(held);fx.cancel();const d=fx.diagnostics();results.push({mode:key,check:'cancel cleanup',pass:d.visibleEffects===0&&d.visibleGhosts===0&&d.registeredTimelines===0&&d.time===0});
  }
  results.push({check:'five visible distinct native enemies',pass:engine.enemies.filter(t=>t.battleActive&&t.root.visible&&t.root.alpha>0).length===5&&new Set(engine.enemies.map(t=>t.root.baseX+','+t.root.baseY)).size===5});
@@ -62,17 +63,18 @@ async function boot(){
  if(!engine)throw Error('현재 V3 엔진 연결을 확인해 주세요.');
  engine.audio?.destroy?.();engine.battlefieldAsset=()=>'/assets/ui/project-v/battlefields/v3-nightmare-forest-battlefield-v1.png';await engine.setBattlePayload(payload);await engine.deployCards({instant:true,force:true});engine.accountBattleUnitIsPaused=()=>true;if(engine.bottomShade)engine.bottomShade.visible=false;
  const unit=engine.accountBattleUnit;if(!unit||engine.enemies.length<2)throw Error('V3 다중 전장 미준비');
- const assets=await loadKnightAssets(manifest);fx=new KnightFX(engine,unit,engine.enemies,assets,manifest,update);select('aoe',false);
+ const assets=await loadKnightAssets(manifest);fx=new KnightFX(engine,unit,engine.enemies,assets,manifest,update);select('look',true);
  $('play').onclick=()=>fx.playing?fx.pause():fx.play();$('restart').onclick=()=>{fx.seek(0);fx.play();};$('cancel').onclick=()=>fx.cancel();
  $('seek').oninput=()=>fx.seek(Number($('seek').value));$('seekNumber').oninput=()=>fx.seek(Number($('seekNumber').value));
  $('speed').onchange=()=>fx.setSpeed(Number($('speed').value));$('effects').onchange=()=>{fx.setEffects($('effects').checked);fx.render(fx.time);};
  $('zoom').onchange=()=>{fx.zoom=$('zoom').checked;fx.render(fx.time);};
+ $('matte').onchange=()=>fx.setMatte($('matte').checked);$('aura').onchange=()=>fx.setAura($('aura').checked);$('palette').onchange=()=>fx.setAuraPalette($('palette').value);
  $('contact').onclick=()=>fx.seek(spec().contacts.find(t=>t>fx.time+.005)??spec().contacts[0]??.6);
  for(const b of doc.querySelectorAll('[data-mode]'))b.onclick=()=>select(b.dataset.mode);
- $('capture').onclick=()=>{engine.app.render();engine.app.canvas.toBlob(blob=>save(blob,'knight-'+fx.mode+'-'+fx.time.toFixed(2)+'.png'));};
+ $('capture').onclick=()=>{engine.app.render();engine.app.canvas.toBlob(blob=>save(blob,'knight-'+fx.mode+'-'+fx.aura.palette+'-'+(fx.matteEnabled?'satin':'original')+'-'+fx.time.toFixed(2)+'.png'));};
  $('record').onclick=()=>record();$('recordAll').onclick=()=>record(true);$('runChecks').onclick=checks;$('saveChecks').onclick=()=>save(new Blob([JSON.stringify(checkReport??checks(),null,2)],{type:'application/json'}),'knight-runtime-qa-'+innerWidth+'w.json');
  for(const b of doc.querySelectorAll('button,select,input'))b.disabled=false;
- $('status').textContent='6종 동작 · 백호 검기 광역 연출';
+ $('status').textContent='차분한 금빛 갑주 · 전신 오라 · 진홍과 샴페인 골드';
  let disposed=false;const review={engine,fx,manifest,select,checks,dispose(){if(disposed)return;disposed=true;fx.destroy();engine.destroy();if(downloadURL)URL.revokeObjectURL(downloadURL);}};window.KnightPreview=review;
  engine.app.renderer.on('resize',()=>{if(disposed)return;fx.pause();fx.capture();fx.render(fx.time);});
  window.addEventListener('pagehide',()=>review.dispose(),{once:true});document.addEventListener('visibilitychange',()=>{if(document.hidden&&!recording)fx.cancel();});

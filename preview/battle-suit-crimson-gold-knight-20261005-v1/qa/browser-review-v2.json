@@ -1,0 +1,72 @@
+{
+  "version": "SATIN_AURA_V2_20261005",
+  "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+  "runtimeEnabled": false,
+  "generationMode": "built-in image_gen",
+  "desktop": {
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "canvas": {
+      "width": 1425,
+      "height": 640
+    },
+    "runtimeChecks": 42,
+    "passed": true,
+    "report": "qa/runtime-desktop-v2.json",
+    "captures": [
+      "qa/satin-aura-v2-desktop-crimson.png",
+      "qa/satin-aura-v2-desktop-violet.png",
+      "qa/satin-aura-v2-desktop-teal.png",
+      "qa/satin-aura-v2-material-before.png",
+      "qa/satin-aura-v2-material-after.png"
+    ]
+  },
+  "mobile": {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "canvas": {
+      "width": 375,
+      "height": 460
+    },
+    "runtimeChecks": 42,
+    "passed": true,
+    "report": "qa/runtime-mobile-v2.json",
+    "captures": [
+      "qa/satin-aura-v2-mobile-crimson.png",
+      "qa/satin-aura-v2-mobile-attack.png",
+      "qa/satin-aura-v2-mobile-aoe.png"
+    ]
+  },
+  "verified": {
+    "paletteSwitches": 3,
+    "materialToggle": true,
+    "auraToggle": true,
+    "pauseSeek": true,
+    "poseMatchedAura": true,
+    "fullBodyAndRearVisible": true,
+    "sourceGeometryAndPngsPreserved": true,
+    "originalBladePixels": 146011,
+    "bodyFrames": 44,
+    "skillEffectFrames": 132,
+    "auraFrames": 24,
+    "totalEffectFrames": 156,
+    "fxBoundaryWarnings": 0,
+    "pixiInstances": 1,
+    "gsapInstances": 1
+  },
+  "video": {
+    "file": "review-satin-aura-v2.webm",
+    "bytes": 20023988,
+    "decodedWidth": 1425,
+    "decodedHeight": 640,
+    "readyState": 4,
+    "playbackConfirmed": true
+  },
+  "materialImplementation": "Native WebGL Pixi display pass. This is not a baked matte PNG replacement.",
+  "userApprovalRequiredForFinalVisual": true,
+  "liveActivation": false
+}

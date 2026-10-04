@@ -3,7 +3,7 @@
   "sourcePreserved": true,
   "exactSourceWeaponPixels": 146011,
   "bodyFrames": 44,
-  "effectFrames": 132,
+  "effectFrames": 156,
   "singleRenderer": true,
   "singleTimelineLibrary": true,
   "runtimeEnabled": false,
@@ -1240,6 +1240,150 @@
       "key": "tiger-ring",
       "frame": 11,
       "opaquePixels": 823,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "aura-wrap",
+      "frame": 0,
+      "opaquePixels": 32909,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "aura-wrap",
+      "frame": 1,
+      "opaquePixels": 34266,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "aura-wrap",
+      "frame": 2,
+      "opaquePixels": 35716,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "aura-wrap",
+      "frame": 3,
+      "opaquePixels": 35663,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "aura-wrap",
+      "frame": 4,
+      "opaquePixels": 36138,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "aura-wrap",
+      "frame": 5,
+      "opaquePixels": 36223,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "aura-wrap",
+      "frame": 6,
+      "opaquePixels": 35371,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "aura-wrap",
+      "frame": 7,
+      "opaquePixels": 35780,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "aura-wrap",
+      "frame": 8,
+      "opaquePixels": 34373,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "aura-wrap",
+      "frame": 9,
+      "opaquePixels": 34725,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "aura-wrap",
+      "frame": 10,
+      "opaquePixels": 34214,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "aura-wrap",
+      "frame": 11,
+      "opaquePixels": 32945,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "aura-rear",
+      "frame": 0,
+      "opaquePixels": 31952,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "aura-rear",
+      "frame": 1,
+      "opaquePixels": 34450,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "aura-rear",
+      "frame": 2,
+      "opaquePixels": 37629,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "aura-rear",
+      "frame": 3,
+      "opaquePixels": 38890,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "aura-rear",
+      "frame": 4,
+      "opaquePixels": 45906,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "aura-rear",
+      "frame": 5,
+      "opaquePixels": 47080,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "aura-rear",
+      "frame": 6,
+      "opaquePixels": 42328,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "aura-rear",
+      "frame": 7,
+      "opaquePixels": 41710,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "aura-rear",
+      "frame": 8,
+      "opaquePixels": 34158,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "aura-rear",
+      "frame": 9,
+      "opaquePixels": 34417,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "aura-rear",
+      "frame": 10,
+      "opaquePixels": 32016,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "aura-rear",
+      "frame": 11,
+      "opaquePixels": 32796,
       "boundaryPixels": 0
     }
   ],

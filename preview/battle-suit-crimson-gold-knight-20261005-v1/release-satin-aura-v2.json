@@ -1,0 +1,20 @@
+{
+  "version": "SATIN_AURA_V2_20261005",
+  "deploymentMode": "scoped",
+  "deployedBase": "16a261586bcf5e138dc4fd92ce5949659bc4411f",
+  "verifiedPreviousDeployment": {
+    "id": "c198f17d-cd71-4349-9237-558da912961a",
+    "source": "16a2615",
+    "url": "https://c198f17d.cnine-card.pages.dev"
+  },
+  "scope": "This preview folder only: native display material, pose-matched aura, 24 generated aura frames, color comparison UI and evidence.",
+  "reason": "The intervening origin/main commit 5400e7df contains docs and a test outside asset-only allowed paths. It adds no game runtime changes. Use the scoped gate with this preview's asset/geometry regression.",
+  "tests": [
+    "preview/battle-suit-crimson-gold-knight-20261005-v1/qa-assets.mjs"
+  ],
+  "checks": [],
+  "browserEvidence": "qa/browser-review-v2.json",
+  "runtimeEnabled": false,
+  "finalVisualApproval": "USER_REVIEW_PENDING",
+  "postBuildTargetedCheck": "Cancel returns to time 0 with zero registered timelines and preserves the camera-matched background. Shared battle engine remains unchanged."
+}
