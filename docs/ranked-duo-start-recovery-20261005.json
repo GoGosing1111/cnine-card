@@ -22,10 +22,33 @@
     "scoped": {
       "base": "3f7e9927fa5eebfe3716e500987bad14e25c0b49",
       "reason": "Local idempotency fix in three ranked title catalog upserts. No schema, shared transaction/authentication foundation, reward rules, or dependencies changed. Verify the cold-start reset regression, independent weekly duo lifecycle and Worker compilation.",
-      "tests": ["tests/ranked-duo-title-refresh-20261005.test.mjs", "tests/ranked-duo-weekly.test.mjs"],
-      "checks": ["check:worker"],
+      "tests": [
+        "tests/ranked-duo-title-refresh-20261005.test.mjs",
+        "tests/ranked-duo-weekly.test.mjs"
+      ],
+      "checks": [
+        "check:worker"
+      ],
       "command": "npm run deploy:production -- --scoped"
     }
   },
-  "liveRecovery": null
+  "liveRecovery": null,
+  "followup": {
+    "cause": "After policy churn stopped, a batch with active inventory writers repeatedly failed DUO_PROFILE_BUILDING. Rebuild discarded every completed profile when any one source version changed.",
+    "change": "Cache and return only independently validated profiles; the existing bounded loop rechecks source/policy versions and retries only missing accounts. Continuously changing accounts remain blocked; no stale snapshot is accepted.",
+    "reproduction": "Four SQLite/PostgreSQL regressions failed before the change and pass after it, including refusal to cache unstable profiles.",
+    "scoped": {
+      "base": "b09a8f0d7f04513300031ed3c2691a8dbd490ef0",
+      "reason": "Directly observed remaining duo startup blocker: preserve valid per-account cache work during bounded profile rebuild retries. Existing account/policy checks, leases, transaction implementation and schema remain unchanged.",
+      "tests": [
+        "tests/ranked-duo-partial-profile-20261005.test.mjs",
+        "tests/ranked-duo-server.test.mjs",
+        "tests/ranked-duo-direct-entry-20260927.test.mjs"
+      ],
+      "checks": [
+        "check:worker"
+      ],
+      "command": "npm run deploy:production -- --scoped"
+    }
+  }
 }

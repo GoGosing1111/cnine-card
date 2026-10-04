@@ -60,10 +60,12 @@ async function rebuild(env,versions,config,deps,hash,now){
  ]);
  entries.forEach((e,i)=>{const uniqueMap=new Map((unique[i]?.cards||[]).map(c=>[String(c.id),c])),mult=1+Number(synergy[i]?.totals?.attackPercent||0)/100;e.squad.cards=e.cards.map(c=>({...c,power:Math.max(1,Math.floor(c.power*mult)),uniqueAbility:uniqueMap.get(c.id)?.uniqueAbility||null,uniqueAdvancement:uniqueMap.get(c.id)?.uniqueAdvancement||null}));e.squad.magicCards=magic[i]?.cards||[];});
  const fresh=await duoVersions(env,ids),valid=profiles.filter(p=>fresh.some(v=>Number(v.user_id)===p.userId&&Number(v.source_version)===p.sourceVersion&&Number(v.policy_revision)===p.policyRevision));
- if(valid.length!==profiles.length)throw duoError('PROFILE_CHANGED','덱 또는 장비가 변경됐습니다. 다시 시도하세요.');
- for(const profile of profiles)profile.singleHealerBonus=deps.battleEngineState?.(battle,profile.user)?.singleHealerBonus||{};
- await env.DB.batch(profiles.map(p=>env.DB.prepare(`INSERT INTO ranked_duo_profiles_v1(user_id,source_version,policy_revision,config_hash,power,payload_json,expires_at) VALUES(?,?,?,?,?,?,?) ON CONFLICT(user_id) DO UPDATE SET source_version=excluded.source_version,policy_revision=excluded.policy_revision,config_hash=excluded.config_hash,power=excluded.power,payload_json=excluded.payload_json,expires_at=excluded.expires_at WHERE ranked_duo_profiles_v1.source_version<=excluded.source_version AND ranked_duo_profiles_v1.policy_revision<=excluded.policy_revision`).bind(p.userId,p.sourceVersion,p.policyRevision,hash,p.power,JSON.stringify(p),p.expiresAt)));
- return profiles;
+ // Keep independently verified accounts. Retrying the entire group whenever
+ // one active player changes inventory can prevent automatic pairing forever.
+ // The caller rechecks versions and retries only the missing accounts.
+ for(const profile of valid)profile.singleHealerBonus=deps.battleEngineState?.(battle,profile.user)?.singleHealerBonus||{};
+ if(valid.length)await env.DB.batch(valid.map(p=>env.DB.prepare(`INSERT INTO ranked_duo_profiles_v1(user_id,source_version,policy_revision,config_hash,power,payload_json,expires_at) VALUES(?,?,?,?,?,?,?) ON CONFLICT(user_id) DO UPDATE SET source_version=excluded.source_version,policy_revision=excluded.policy_revision,config_hash=excluded.config_hash,power=excluded.power,payload_json=excluded.payload_json,expires_at=excluded.expires_at WHERE ranked_duo_profiles_v1.source_version<=excluded.source_version AND ranked_duo_profiles_v1.policy_revision<=excluded.policy_revision`).bind(p.userId,p.sourceVersion,p.policyRevision,hash,p.power,JSON.stringify(p),p.expiresAt)));
+ return valid;
 }
 const profileRetryDelays=[200,400,800,1600];
 const profileWait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
