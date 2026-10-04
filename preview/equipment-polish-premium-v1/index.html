@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark"><title>장비 연마 · 고급 제작 리소스 프리뷰</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="/js/ui-fx-vendor-v2045.bundle.js"></script>
+</head>
+<body>
+  <main class="atelier">
+    <header class="masthead">
+      <a class="brand" href="#" aria-label="연마 프리뷰 처음"><span class="brand-glyph" aria-hidden="true">✦</span><span>숲켓몬<small>THE ATELIER</small></span></a>
+      <div class="edition"><i></i> 고급 제작 리소스 프리뷰</div>
+      <button class="text-button" id="sound" aria-pressed="false">사운드 OFF</button>
+    </header>
+    <section class="page-heading"><div><p class="eyebrow">EQUIPMENT POLISH</p><h1>장비 연마</h1></div><p>다섯 갈래의 힘.<br><strong>한 번의 연마, 하나의 성장.</strong></p></section>
+    <div class="workbench">
+      <section class="stage" aria-label="연마 연출">
+        <div class="canvas-host" id="canvas-host"></div>
+        <img class="fallback-stone" src="./assets/polishing-stone-v1.png" alt="푸른 결정과 금빛 세공으로 만든 연마석">
+        <div class="stage-top"><span class="stage-caption"><i></i> 연마의 성소</span><button class="text-button" id="skip" hidden>바로 결과 보기 ↗</button></div>
+        <div class="scene-heading"><span id="phase-label" class="eyebrow">READY TO POLISH</span><h2 id="scene-title">잠든 힘을 깨우세요</h2><p id="scene-description">연마석의 빛이 장비의 한 가지 능력을 끌어올립니다.</p></div>
+        <div class="scene-bottom">
+          <div id="idle-controls"><div class="material-cost"><img src="./assets/polishing-stone-v1.png" alt=""><span>연마석 <b>1</b></span><i></i><span>코인 <b id="cost">1,000</b></span><small>시연 비용</small></div><button class="primary-button" id="start" disabled><span>연마실 준비 중</span><b>↗</b></button></div>
+          <div id="charge-controls" hidden><div class="charging-label">연마석의 힘을 봉인에 담는 중</div><div class="charge-track"><span id="charge-progress"></span></div></div>
+          <div id="slide-controls" hidden><div class="slide-caption"><span>봉인 개방</span><strong id="slide-percent">0%</strong></div><div class="slide-track" id="slide-track"><div class="slide-fill" id="slide-fill"></div><span>밀어서 힘을 확인하세요 <i>› › ›</i></span><button id="slide-handle" class="slide-handle" role="slider" aria-label="밀어서 연마 결과 확인" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="오른쪽 끝으로 밀거나 Enter를 눌러 개방">⟫</button><b class="slide-end" aria-hidden="true">◇</b></div><small>마우스 · 터치 · 키보드 Enter</small></div>
+          <div id="result-controls" hidden aria-live="polite"><p class="result-eyebrow">POLISH COMPLETE</p><div class="result-line"><strong id="result-name"></strong><span id="result-before"></span><i>→</i><b id="result-after"></b></div><div class="result-actions"><button class="text-button" id="replay">연출 다시보기</button><button class="primary-button" id="next">한 번 더 연마 <b>↗</b></button></div></div>
+        </div>
+        <div class="scene-timeline" aria-hidden="true"><span data-step="0" class="current">01 충전</span><i></i><span data-step="1">02 봉인 개방</span><i></i><span data-step="2">03 옵션 상승</span></div>
+      </section>
+      <aside class="option-panel" aria-label="장비 연마 옵션">
+        <div class="equipment-heading"><span class="eyebrow">SELECTED EQUIPMENT</span><h2>아발론 M4A1</h2><span class="sample-label">연출 시연 장비</span></div>
+        <div class="progress-heading"><span>누적 연마</span><strong id="total">00<small> / 20</small></strong></div>
+        <div class="total-track"><span id="total-fill"></span></div>
+        <div class="options-label"><span>성장 옵션</span><span>다음 확률</span></div>
+        <div id="options" class="options"></div>
+        <div class="option-note"><span>✦</span><p>선택된 옵션이 <b>1단계</b> 상승합니다.<br>최대 단계에 도달한 옵션은 추첨에서 제외됩니다.</p></div>
+        <div class="inventory-line"><span>시연 보유 재료</span><b id="inventory">연마석 100개</b></div>
+      </aside>
+    </div>
+    <section class="review-tools" aria-label="재생 설정"><div><button id="pause" class="text-button" disabled>일시정지</button><label>재생 속도 <select id="speed"><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select></label><label class="check-label"><input type="checkbox" id="reduced"> 동작 줄이기</label></div><button id="reset" class="text-button">시연 초기화</button></section>
+    <p class="preview-note">리소스·연출 검수용입니다. 횟수·확률·비용·옵션 수치는 시연값이며 실제 보유 장비와 재화에 영향을 주지 않습니다.</p>
+    <details class="resource-library"><summary><span>RESOURCE COLLECTION <b>제작 리소스 원본</b></span><span>5종 · 연속 프레임 32개 <i>＋</i></span></summary><div class="resource-grid">
+      <a href="./assets/polishing-stone-v1.png" target="_blank"><img src="./assets/polishing-stone-v1.png" alt="연마석 원본"><span>01 연마석<small>투명 PNG</small></span></a>
+      <a href="./assets/polishing-seal-v1.png" target="_blank"><img src="./assets/polishing-seal-v1.png" alt="입체 봉인 원본"><span>02 입체 봉인<small>투명 PNG</small></span></a>
+      <a href="./assets/polishing-chamber-v1.png" target="_blank"><img src="./assets/polishing-chamber-v1.png" alt="제작실 배경 원본"><span>03 연마의 성소<small>배경 PNG</small></span></a>
+      <a href="./assets/polishing-charge-atlas-v1.png" target="_blank"><img src="./assets/polishing-charge-atlas-v1.png" alt="충전 연속 이펙트 시트"><span>04 힘의 응축<small>4×4 · 16프레임</small></span></a>
+      <a href="./assets/polishing-release-atlas-v1.png" target="_blank"><img src="./assets/polishing-release-atlas-v1.png" alt="개방 연속 이펙트 시트"><span>05 봉인 개방<small>4×4 · 16프레임</small></span></a>
+    </div></details>
+    <footer class="page-footer"><span>SOOPKETMON · EQUIPMENT ATELIER</span><a href="./manifest.json" target="_blank">리소스 명세 ↗</a></footer>
+  </main>
+  <script type="module" src="./source/app.mjs"></script>
+</body>
+</html>
