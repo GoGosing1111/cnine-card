@@ -12,6 +12,7 @@ import {ensureZBodySwordAppearance,Z_SWORD_IMAGE,Z_SWORD_APPEARANCE_KEY} from '.
 import {ensureEquipmentFoundation} from '../functions/_equipment.js';
 import {ACHIEVEMENT_TITLES_KEY,ACHIEVEMENT_TITLE_POWER_KEY} from '../functions/_achievement_titles.js';
 import {PREDICTION_TITLE_KEY} from '../functions/_prediction_title.js';
+import {SUPPORTER_BLUE_BEAST_TITLES_KEY} from '../functions/_supporter_blue_beast_titles.js';
 import {JointSQLiteDB} from './helpers/joint-db.mjs';
 import {createPveBattleV2} from '../functions/_battle_v2_preview.js';
 import {PGlite} from '@electric-sql/pglite';
@@ -106,7 +107,7 @@ test('an already initialized equipment catalog still applies the new Z appearanc
       'v1959_battle_suit_01_female','v1969_battle_suit_power_tiers','v2066_h_body','v2124_sz_body','x_body_20260927'
     ];
     for(const marker of priorMarkers)DB.sql.prepare("INSERT INTO app_meta(key,value) VALUES(?,'1')").run('safe_runtime_upgrade_'+marker);
-    for(const marker of [ACHIEVEMENT_TITLES_KEY,ACHIEVEMENT_TITLE_POWER_KEY,PREDICTION_TITLE_KEY])DB.sql.prepare("INSERT INTO app_meta(key,value) VALUES(?,'1')").run(marker);
+    for(const marker of [ACHIEVEMENT_TITLES_KEY,ACHIEVEMENT_TITLE_POWER_KEY,PREDICTION_TITLE_KEY,SUPPORTER_BLUE_BEAST_TITLES_KEY])DB.sql.prepare("INSERT INTO app_meta(key,value) VALUES(?,'1')").run(marker);
     DB.sql.prepare("INSERT INTO character_equipment_items(code,slot,image_url,pve_power) VALUES('BATTLE_SUIT_Z_BODY','BATTLE_SUIT','prior.png',9999999999)").run();
     let writes=0;DB.afterCommit=()=>{writes++;};
     await ensureEquipmentFoundation(env);
