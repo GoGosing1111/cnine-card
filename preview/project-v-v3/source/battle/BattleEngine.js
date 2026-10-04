@@ -2333,11 +2333,24 @@ export class BaseBattleEngine{
     return next;
   }
 
+  syncCooperativeState(frame){
+    if(!this.formationCoop||!frame)return;
+    this.cooperativeFrame=new Map([...(frame.A||[]),...(frame.B||[])].map(row=>[row.id,row]));
+    for(const actor of this.characters){
+      const row=this.cooperativeFrame.get(actor.id);if(!row)continue;
+      actor.serverMaxHp=row.maxHp;
+      this.syncTargetHp(actor,row.hp/Math.max(1,row.maxHp)*100);
+      this.syncTargetShield(actor,row.shield,row.maxShield);
+    }
+  }
+
   syncTargetHp(target,value){
     if(!target)return null;
     // Card impact callbacks and queued normal shots can finish after a chip
     // hit. Never restore an older HP snapshot over newer authoritative state.
     value=this.skillChipPlayback?.currentHp(target,value)??value;
+    const shared=this.formationCoop&&this.cooperativeFrame?.get(target.id);
+    if(shared)value=shared.hp/Math.max(1,shared.maxHp)*100;
     const hp=target.setHp(clamp(Number(value)||0,0,100));
     if(target.team===TEAM.ENEMY){
       if(target===this.currentEnemyTarget||target===this.boss){
@@ -2358,6 +2371,8 @@ export class BaseBattleEngine{
   syncTargetShield(target,value,maxValue=null){
     if(!target||!hasFiniteNumber(value))return null;
     value=this.skillChipPlayback?.currentShield(target,value)??value;
+    const shared=this.formationCoop&&this.cooperativeFrame?.get(target.id);
+    if(shared){value=shared.shield;maxValue=shared.maxShield??Math.max(shared.shield,target.maxShield||0);}
     const current=Math.max(0,Number(value)||0);
     const maximum=hasFiniteNumber(maxValue)
       ?Math.max(current,Number(maxValue)||0)
@@ -2406,16 +2421,16 @@ export class BaseBattleEngine{
         finished=true;
         this.simpleTimelines.delete(entry);
         if(ownerList)for(const owner of ownerList){
-          if(this.pendingTails.get(owner)===entry)this.pendingTails.delete(owner);
+          if(this.pendingTails.get(owner)===entry){this.pendingTails.delete(owner);owner.cooperativeActionActive=false;}
         }
         cleanup();
         release(value);
       };
       const instance=gsap.timeline({paused:true,onComplete:()=>settle(true),onInterrupt:()=>settle(false)});
       const entry={instance,settle};
-      const ownerList=Array.isArray(owners)?owners.filter(Boolean):null;
+      const ownerList=Array.isArray(owners)?(this.formationCoop?owners.slice(0,1):owners).filter(Boolean):null;
       this.simpleTimelines.add(entry);
-      if(ownerList)for(const owner of ownerList)this.pendingTails.set(owner,entry);
+      if(ownerList)for(const owner of ownerList){this.pendingTails.set(owner,entry);if(this.formationCoop)owner.cooperativeActionActive=true;}
       build(instance);
       if(Number.isFinite(Number(releaseAt))&&Number(releaseAt)>0){
         instance.call(()=>release(true),[],Number(releaseAt));
@@ -2454,11 +2469,12 @@ export class BaseBattleEngine{
   //   cleanup 이 공격자를 제자리로, 피격자 tint·상태를 원래대로 돌려놓으므로
   //   새 행동은 항상 깨끗한 상태에서 시작한다.
   settlePendingTails(characters=[]){
-    for(const character of characters){
+    // In a shared field the first actor owns the action. Being hit by a teammate's
+    // target must never cancel that target's own attack or another caster's windup.
+    for(const character of this.formationCoop?characters.slice(0,1):characters){
       if(!character)continue;
       const entry=this.pendingTails.get(character);
       if(!entry)continue;
-      this.pendingTails.delete(character);
       try{entry.instance.kill()}catch(_){}
       entry.settle(false);
     }
@@ -2470,6 +2486,7 @@ export class BaseBattleEngine{
     // start a stale combat timeline after recovery, reset, or modal close.
     this.playbackEpoch+=1;
     this.bannerQueue.length=0;
+    for(const actor of this.pendingTails.keys())actor.cooperativeActionActive=false;
     this.pendingTails.clear();
     this.bannerPlayback=null;
     this.skillChipPlayback?.cancel();
@@ -3124,6 +3141,7 @@ export class BaseBattleEngine{
         // START_EFFECT is the authoritative opening-shield snapshot. Targeted
         // GUARD_PROTECT events can also add a barrier during combat.
         syncEventShields();
+        if(this.formationCoop&&type==='GUARD_PROTECT')this.queueSupportEffect(target||explicitActor,{kind:SKILL_EFFECT_KIND.DEFENSE});
       }
       else if(type==='APOCALYPSE_SKILL')await playApocalypseLegionSkill(this,event);
       else if(type==='APOCALYPSE_STATUS')showApocalypseStatus(this,event);

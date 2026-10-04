@@ -33,6 +33,13 @@ export class BattleAnimation{
       else if(state===CHARACTER_STATE.ATTACK)this.playFullSpriteAttackAnimation();
       else if(state===CHARACTER_STATE.HIT)this.playFullSpriteHitAnimation();
       else if(state===CHARACTER_STATE.DEAD)this.playFullSpriteDeadAnimation();
+      if(this.character.cooperativeScaleLocked){
+        // Authored mercenary atlases already supply body motion. Keep the SD's
+        // size fixed through idle/hit state changes instead of stretching it.
+        const {mainSprite,neutralAvatarPose}=this.character;
+        gsap.killTweensOf(mainSprite.scale);
+        mainSprite.scale.set(neutralAvatarPose.mainSprite.scaleX,neutralAvatarPose.mainSprite.scaleY);
+      }
       return;
     }
     if(!this.character.rigged||!this.character.rig)return;

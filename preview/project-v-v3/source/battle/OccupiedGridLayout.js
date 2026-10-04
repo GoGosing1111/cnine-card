@@ -11,6 +11,7 @@ export const withOccupiedGrid = Base => class extends Base {
     this.formationMercenaries = [];
   }
   async applyBattlePayload(payload) {
+    this.cooperativeFrame=null;
     this.formationCoop = payload?.battleV2?.rules?.formation === 'COOP_THREE_SQUADS';
     this.formationDuo = payload?.battleV2?.rules?.formation === 'DUO_TWO_SQUADS';
     if(!this.formationDuo&&!this.formationCoop&&this.allies?.length>5){this.ensureAllyCapacity(5);this.ensureEnemyCapacity(payload?.battleV2?.rules?.enemyFormation==='BOSS_WITH_SIX_MINIONS'?7:5);}
@@ -196,6 +197,7 @@ export const withOccupiedGrid = Base => class extends Base {
   }
   layoutFormationMercenaries() {
     for (const item of this.formationMercenaries || []) {
+      item.cooperativeScaleLocked=Boolean(this.formationCoop);
       const p = this.station('mercenaries', (this.formationDuo||this.formationCoop)?Number(item.squadIndex):0, item.team);
       const scale = this.formationCoop?COOP_BOARDS[this.mobile?'compact':'desktop'].actorScale:this.formationDuo?DUO_BOARDS[this.mobile?'compact':'desktop'].actorScale:formationActorScale(Boolean(this.viewportFit), this.mobile);
       if (typeof item.setFormation === 'function') {

@@ -11,6 +11,7 @@ import {applyMercenaryCombatLink,mercenaryEffectiveAttack,mercenaryDamageCapHp} 
 import {validateDuoDeck} from '../shared/ranked-duo-v1.mjs';
 import {sustainedEncounterPlan} from './_sustained_encounter.js';
 import {cooperativeEffects,applyCooperativeEffect} from './_cooperative_effects.js';
+import {cooperativeCombatGroupMs} from '../shared/cooperative-combat-clock-v3.mjs';
 import {PVP_SPEED_REFORM,PVP_GUARD_SHIELD_CURVE,isPvpSpeedCard,speedComboPlan,speedComboSnapshots} from '../shared/pvp-speed-reform-v1.mjs';
 import {validatedIconSnapshot,iconDefinition,iconHealingAmount} from '../shared/icon-roles-v1.mjs';
 import {createIconCombatRuntime} from './_icon_combat.js';
@@ -1156,7 +1157,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   let combatMs=0,nextCombatMs=0,lastCardCombatMs=0,lastCardGaugeClock=0,combatGroup=0;
   const stampCombatGroup=(from,atMs,blocking)=>{
     if(!combatClockEnabled)return;
-    const events=timeline.slice(from),durationMs=blocking?events.reduce((sum,event)=>sum+skillChipCombatEventMs(event,chipClockOptions),0):0;
+    const events=timeline.slice(from),durationMs=!blocking?0:cooperative?.turnClockVersion>=3?cooperativeCombatGroupMs(events):events.reduce((sum,event)=>sum+skillChipCombatEventMs(event,chipClockOptions),0);
     for(const event of events)Object.assign(event,{combatClock:SKILL_CHIP_CLOCK,combatAtMs:atMs,combatGroup,combatGroupDurationMs:durationMs});
     if(cooperative)combatStates.push({atMs,group:combatGroup,A:a.map(c=>({id:c.id,hp:c.hp,maxHp:c.maxHp,shield:c.shield,isMercenary:!!c.isMercenary,ownerId:c.ownerId})),B:b.map(c=>({id:c.id,hp:c.hp,maxHp:c.maxHp,shield:c.shield,maxShield:c.maxShield,slot:c.slot,wave:c.encounterWave,isBoss:!!c.isBoss}))});
     combatGroup++;

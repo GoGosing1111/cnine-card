@@ -65,7 +65,7 @@ export async function playIconEvent(engine,event){
   const time={t:0},p=role==='MAGIC'||role==='SUPPORT'?foot(engine,target):point(engine,target),size=target.fullBodyHeight*.48,color=parseInt((def?.color||'#c8edff').slice(1),16);
   if(type==='ICON_GUARD')engine.queueBanner('수호 맹약 · 피해 분담',color,actor?.name||'ICON');
   else if(event.status==='CHANNEL')engine.queueBanner('정령 집중',color,actor?.name||'ICON');
-  await engine.timeline(t=>{t.to(time,{t:.55,duration:.55,onUpdate(){if(layer.destroyed)return;rune(g,role,p.x,p.y,size,color,time.t);layer.alpha=Math.min(1,(.55-time.t)*5);},ease:'none'});},()=>layer.destroy({children:true}),null,{releaseAt:.14,owners:[target]});return true;
+  await engine.timeline(t=>{t.to(time,{t:.55,duration:.55,onUpdate(){if(layer.destroyed)return;rune(g,role,p.x,p.y,size,color,time.t);layer.alpha=Math.min(1,(.55-time.t)*5);},ease:'none'});},()=>layer.destroy({children:true}),null,{releaseAt:.14,owners:engine.formationCoop?[]:[target]});return true;
  }
  if(!actor||!def){for(const row of [...(event.hits||[]),...(event.targets||[])])sync(engine,row);return true;}
  const spec=ICON_ROLE_VISUALS[actor.cardId],epoch=engine.playbackEpoch;

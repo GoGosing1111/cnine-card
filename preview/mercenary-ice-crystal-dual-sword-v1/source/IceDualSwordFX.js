@@ -22,7 +22,7 @@ export class IceDualSwordFX{
   this.layer=new Container({label:'IceDualSwordFX'});this.layer.eventMode='none';engine.effectLayer.addChild(this.layer);
   this.dim=new Graphics();this.ground=new Graphics();this.trails=new Graphics();this.screenFlash=new Graphics();this.layer.addChild(this.dim,this.ground,this.trails);
   this.pool=Array.from({length:80},()=>{const s=new Sprite(assets.flash);s.visible=false;s.anchor.set(.5);this.layer.addChild(s);return s;});this.layer.addChild(this.screenFlash);
-  const s=merc.fullBodySprite;this.idle={texture:s.texture,width:s.width,height:s.height,anchorX:s.anchor.x,anchorY:s.anchor.y};
+  const s=merc.fullBodySprite,base=merc.fullBodyRestPose;this.idle={texture:base?.texture||s.texture,width:base?.width||s.width,height:base?.height||s.height,anchorX:manifest.battleSpriteFootAnchor?.x??s.anchor.x,anchorY:manifest.battleSpriteFootAnchor?.y??s.anchor.y};
   this.bodyHeight=this.idle.height*manifest.bodyPixels/manifest.battleSpriteInfo.height;
   this.targetDefaults=targets.map(t=>({viewX:t.view.x,tint:t.fullBodySprite.tint}));
   this.makeAura();this.captureFormation();if(!options.authoritative)this.makeTimeline();this.render(0);
@@ -111,7 +111,7 @@ export class IceDualSwordFX{
  render(time){
   if(this.destroyed)return;for(const s of this.pool)s.visible=false;this.used=0;this.activeFrames=[];this.dim.clear();this.ground.clear();this.trails.clear();this.screenFlash.clear();
   const state=sample(this.plan,time);this.sample=state;this.applyPose(state.pose);this.updateAura(state);const position=this.positionAt(state);this.merc.root.position.set(position.x,position.y);
-  const guard=this.plan.mode==='guard';this.targets.forEach((target,i)=>{target.view.x=this.targetDefaults[i].viewX+(guard?0:(i===0?state.recoil:state.recoil*.5));target.fullBodySprite.tint=state.flash>.01&&!guard?0xc2f6ff:this.targetDefaults[i].tint;});this.engine.sortCombatDepth();
+  const guard=this.plan.mode==='guard';this.targets.forEach((target,i)=>{if(target.cooperativeActionActive&&target!==this.merc)return;target.view.x=this.targetDefaults[i].viewX+(guard?0:(i===0?state.recoil:state.recoil*.5));target.fullBodySprite.tint=state.flash>.01&&!guard?0xc2f6ff:this.targetDefaults[i].tint;});this.engine.sortCombatDepth();
   if(time<=0||state.done||state.cancelled){if(state.cancelled)this.audio.stop();this.onUpdate(this);return;}
   const scene=this.engine.scene,foot=this.point(this.merc),impact=this.point(this.targets[0]),torso=this.point(this.targets[0],.46),unit=Math.max(90,this.targets[0].fullBodyHeight*Math.abs(this.targets[0].root.scale.y));
   if(state.dim>0)this.dim.rect(0,0,scene.width,scene.height).fill({color:0x07152c,alpha:state.dim*.48});

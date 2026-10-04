@@ -1,6 +1,6 @@
 (() => {
  'use strict';
- const VERSION='20261004-list1';
+ const VERSION='20261005-responsive-v3';
  let visible=false,controller=null,revision=0,featureRequest,checked=0,loading=false;
  const host=()=>document.getElementById('pveCoopView');
  async function refresh(){

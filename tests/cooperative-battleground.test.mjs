@@ -76,6 +76,6 @@ test('server expiry resolves before victory and cannot award a victory after dep
 test('difficulty is fixed and clearing requires a dead boss, not a higher HP ratio',()=>{
  const weak=createCooperativeBattle({squads:coopSquads({equipment:0,level:0}),difficulty:'EXTREME',seed:5}).payload.battleV2;
  const strong=createCooperativeBattle({squads:coopSquads({equipment:2e7,mercenaries:COOP_MERCENARIES.SSS}),difficulty:'EXTREME',seed:7919}).payload.battleV2;
- assert.equal(weak.teams.B.cards[0].maxHp,strong.teams.B.cards[0].maxHp);assert.equal(weak.result.winner,'B');assert.ok(weak.result.final.B[0].hp>0);
+ assert.equal(weak.teams.B.cards[0].maxHp,strong.teams.B.cards[0].maxHp);assert.equal(weak.result.winner,'B');assert.ok(weak.result.encounter.remaining>0||weak.result.final.B.some(enemy=>enemy.hp>0));
  assert.ok(weak.result.timeline.at(-1).combatAtMs<=COOP_RULES.maxBattleMs);
 });

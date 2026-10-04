@@ -4,9 +4,14 @@ import {createCoopRoom,coopCommand,advanceCoopRoom,coopView} from '../functions/
 import {createCooperativeBattle} from '../functions/_cooperative_battle.js';
 import {COOP_ENCOUNTER} from '../shared/cooperative-battleground-v1.mjs';
 import {coopSquads} from './helpers/cooperative-fixture.mjs';
+import {defaultCoopCombat} from '../shared/cooperative-settings-v1.mjs';
 const users=[1,2,3].map(id=>({id,nickname:'분대 '+id})),client=id=>'arke-qa-client-'+id;
-function start(){
- const r=createCoopRoom({id:'ABC1234567',user:users[0],clientId:client(1),difficulty:'NORMAL',seed:7919,now:1000});
+function start({fastPatterns=false}={}){
+ const combat=defaultCoopCombat();
+ // Exercise the second mechanic inside the shorter concurrent battle, using
+ // the same validated CMS timing knobs as production rooms.
+ if(fastPatterns){combat.patterns.intervalSeconds=15;for(const d of combat.difficulties)d.responseSeconds=3;}
+ const r=createCoopRoom({id:'ABC1234567',user:users[0],clientId:client(1),difficulty:'NORMAL',seed:7919,now:1000,combat});
  for(const u of users.slice(1))coopCommand(r,u,'join',{clientId:client(u.id)},1000);
  const squads=coopSquads();for(const u of users)coopCommand(r,u,'ready',{clientId:client(u.id),loadout:squads[u.id-1]},2000);
  for(const u of users)coopCommand(r,u,'loaded',{clientId:client(u.id)},3000);return r;
@@ -59,7 +64,7 @@ test('missing input overloads once; stale and unauthorized commands cannot alter
  assert.equal(r.effects.length,1);
 });
 test('focus assigns guard to the target and jamming to two allies; all three actions reduce damage',()=>{
- const r=start();travel(r,r.startsAt+r.bossAtMs+40000);const p=r.pattern;assert.equal(p.kind,'FOCUS');
+ const r=start({fastPatterns:true});travel(r,r.startsAt+r.bossAtMs+25000);const p=r.pattern;assert.equal(p.kind,'FOCUS');
  assert.throws(()=>respond(r,p.targetId,'JAM',p.startsAt+1),/내 분대 행동/);
  for(const id of [1,2,3])respond(r,id,id===p.targetId?'GUARD':'JAM',p.startsAt+2);
  travel(r,p.endsAt);assert.equal(p.status,'SUCCESS');assert.equal(p.effect.percent,5);

@@ -207,6 +207,9 @@ export class BattleCharacter{
     this.fullBodyHeight=targetHeight;
     this.fullBodySprite.height=targetHeight;
     this.fullBodySprite.width=targetHeight*ratio;
+    // Immutable size/texture from the loaded SD, never sampled from an animated
+    // atlas or a hit stretch when a playback adapter is attached again.
+    this.fullBodyRestPose={texture,width:targetHeight*ratio,height:targetHeight};
     this.fullBodySprite.visible=true;
     this.rig.root.visible=false;
     this.fullSpriteMode=true;
@@ -340,6 +343,9 @@ export class BattleCharacter{
   }
 
   setState(next){
+    // A concurrent incoming hit/other attack's cleanup cannot replace an owned
+    // authored pose with the shared squash/stretch adapter mid-cast.
+    if(this.cooperativeActionActive&&(next===CHARACTER_STATE.HIT||next===CHARACTER_STATE.IDLE))return;
     if(!Object.values(CHARACTER_STATE).includes(next))throw new Error(`Unknown character state: ${next}`);
     if(this.state===CHARACTER_STATE.DEAD&&next!==CHARACTER_STATE.IDLE)return this.state;
     this.state=next;

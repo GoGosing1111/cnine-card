@@ -1,0 +1,78 @@
+{
+  "date": "2026-10-05",
+  "request": "격전지 협동 용병 크기 변화·느린 공격 및 힐/방어 반응 개선",
+  "scope": "Cooperative presentation and versioned cooperative combat clock only; no schema, authentication, economic settings, roster or source-art changes.",
+  "runtime": "20261005-coop-responsive-v3",
+  "findings": [
+    "Mixed-speed party on turn clock v2: defense first actions 20342/25472 ms, healer 28892 ms, owner 3 Cryvern 8942 ms.",
+    "Animations sharing an enemy registered that enemy as their owner; another card cancelled mercenary windups at time zero.",
+    "Shared hit/idle squash/stretch and sampling a live authored sprite as the base SD made apparent size unstable; stable source SD dimensions are now retained."
+  ],
+  "changes": [
+    "New rooms snapshot turnClockVersion 3: a 190 ms shared action slot (570 ms across three squads), 470 ms deployment; repeated support effects add no global wait and mercenary skill groups get a nonzero slot.",
+    "Keep exact gauge selection, owner-linked mercenary credit, RNG and damage/healing calculations. Elapsed encounter time is shorter; more actions can fit before the existing time limit. CMS monster stats, mechanic windows and battle limit are unchanged.",
+    "Actor-specific playback queues; cooperative action ownership excludes victims; shared incoming hit/idle cannot replace the active pose. Old queued groups expire on payload recovery and wave transitions.",
+    "Latest authoritative cooperative fighter frame controls HP/shield during concurrent effects, so a late animation cannot undo healing, damage or death.",
+    "Fixed rest SD dimensions, deduplicated Cryvern setup and no cooperative mercenary idle/hit scaling. Generic mercenary effects no longer move another actor's root.",
+    "Existing rooms with clock 1 or 2 retain their clock on disconnect/mechanic rebuild. New timing applies to newly created rooms."
+  ],
+  "reproductionAfter": {
+    "defenseFirstMs": [
+      7500,
+      9210
+    ],
+    "healerFirstMs": 10350,
+    "mercenaryFirstMs": [
+      1040,
+      660,
+      3320
+    ],
+    "sameFixtureCombatOrderAndFinalState": true
+  },
+  "validation": {
+    "unitTests": "Passed during development: cooperative room/withdrawal, all three clock versions, mechanics, animation ownership, stale HP guard, Cryvern base-pose restoration, nonblocking support, PVE/PVP result contracts. Final deployment gate repeats only the selected related tests.",
+    "browser": {
+      "path": "C:/Users/User/AppData/Local/Temp/cooperative-qa-cRB7lw/responsive-combat",
+      "viewports": [
+        "1440x1000",
+        "390x844"
+      ],
+      "durationSecondsEach": 31,
+      "firstAllNineActorsBeforeMs": 12000,
+      "mercenaryWindupInterruptions": 0,
+      "maximumPlaybackLagMs": [
+        1088,
+        1089
+      ],
+      "remainingQueuedActions": [
+        1,
+        2
+      ],
+      "cryvernIdleWidthAndHeight": 380,
+      "errors": [],
+      "normalPvePvp": "PASS; C:/Users/User/AppData/Local/Temp/cooperative-qa-OUsEXt/screenshots"
+    },
+    "testFixtureUpdates": "The staged-enemy defeat assertion checks any remaining enemy; the focused mechanic fixture uses validated CMS timing (15s interval, 3s response) so the second mechanic resolves before the faster party clears."
+  },
+  "release": {
+    "base": "8c19e4eb0668a51873587d3b83a43235b4f05944",
+    "baseDeployment": "https://7c133715.cnine-card.pages.dev",
+    "command": "npm run deploy:production -- --scoped",
+    "reason": "Bounded cooperative timing and sprite-ownership fix; preserve ordinary PVE/PVP behavior, old room snapshots, CMS configuration and all release flags.",
+    "checks": [
+      "check:worker"
+    ],
+    "tests": [
+      "tests/cooperative-responsive-combat-20261005.test.mjs",
+      "tests/cooperative-animation-ownership-20261005.test.mjs",
+      "tests/cooperative-battleground.test.mjs",
+      "tests/cooperative-arke.test.mjs",
+      "tests/cooperative-turn-fairness-20261004.test.mjs",
+      "tests/mercenary-cryvern-pose-scale-20260925.test.mjs",
+      "tests/project-v-v3-nonblocking-fx-v2060.test.mjs",
+      "tests/v3-fluid-combat-v2126.test.mjs",
+      "tests/pve-battlefield-entry-v2117.test.mjs"
+    ]
+  },
+  "deployment": null
+}

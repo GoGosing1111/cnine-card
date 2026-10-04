@@ -151,7 +151,8 @@ export const withMercenaryBattle=Base=>class extends Base{
  }
  async playEvents(events=[],options={}){
   if(!options.timedInternal&&events.some(e=>e.combatClock===SKILL_CHIP_CLOCK)||!events.some(e=>String(e.type).startsWith('MERCENARY_')))return super.playEvents(events,options);
-  for(const e of events){if(!this.visible)return false;const played=String(e.type).startsWith('MERCENARY_')?await this.playMercenaryEvent(e):await super.playEvents([e],options);if(played===false)return false;}return true;
+  const epoch=this.playbackEpoch;
+  for(const e of events){if(!this.visible||this.formationCoop&&epoch!==this.playbackEpoch)return false;const played=String(e.type).startsWith('MERCENARY_')?await this.playMercenaryEvent(e):await super.playEvents([e],options);if(played===false)return false;}return true;
  }
  diagnostics(){return {...super.diagnostics(),mercenaryPlayback:{last:this.lastMercenaryPlayback||null,active:this.mercenaryFx?.diagnostics()||null,audio:this.mercenaryAudio?.diagnostics()||null,limited:limitedDiagnostics(this)}};}
  destroy(){this.mercenaryDisposed=true;this.clearMercenaryActors();void this.mercenaryAudio?.destroy();for(const sequence of this.mercenarySequences?.values()||[])releaseFrameViews(sequence);this.mercenarySequences?.clear();super.destroy();}

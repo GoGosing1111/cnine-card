@@ -19,7 +19,7 @@ function fixture({filters=false}={}){
  root.position.set(400,500);root.scale.set(.6);sprite.anchor.set(.5,.9);sprite.width=380;sprite.height=380;
  const actor={root,view,baseX:400,baseY:500,fullBodyHeight:380,fullBodySprite:sprite,mainSprite:sprite,fullSpriteMode:true,team:'ALLY',
   neutralAvatarPose:{x:0,y:0,rotation:0,alpha:1,scaleX:1,scaleY:1,mainSprite:{x:0,y:0,rotation:0,alpha:1,scaleX:sprite.scale.x,scaleY:sprite.scale.y}},
-  restoreNeutralAvatarPose:BattleCharacter.prototype.restoreNeutralAvatarPose};
+  fullBodyRestPose:{texture:idle,width:380,height:380},restoreNeutralAvatarPose:BattleCharacter.prototype.restoreNeutralAvatarPose};
  actor.animationController=new BattleAnimation(actor);
  const engine={...(filters?{app:{renderer:{}}}:{}),effectLayer,combatLayer,simpleTimelines:new Set(),allies:[],scene:{width:1600,height:900},sortCombatDepth(){}};
  const assets={motion:{},effects:{},flash:Texture.EMPTY,smoke:Texture.EMPTY};
@@ -27,8 +27,19 @@ function fixture({filters=false}={}){
  for(const [key,spec] of Object.entries(manifest.effects))assets.effects[key]=Array.from({length:spec.frameCount},()=>new Texture({source:sources[2]}));
  const adapter=DOMAdapter.get();if(filters)DOMAdapter.set({...adapter,createCanvas:()=>({getContext:()=>null})});
  let fx;try{fx=new IceDualSwordFX(engine,actor,[actor],assets,manifest,makePlan({mode:'guard'}),()=>{},{authoritative:true});}finally{DOMAdapter.set(adapter);}
- return {actor,sprite,fx,idle,dispose(){fx.destroy();actor.animationController.destroy();world.destroy({children:true});idle.destroy(false);sources.forEach(s=>s.destroy());gsap.ticker.sleep();}};
+ return {actor,sprite,fx,idle,engine,assets,dispose(){fx.destroy();actor.animationController.destroy();world.destroy({children:true});idle.destroy(false);sources.forEach(s=>s.destroy());gsap.ticker.sleep();}};
 }
+
+test('reattaching Cryvern playback during an authored pose cannot promote the enlarged atlas into its base SD',()=>{
+ const f=fixture();let replacement;
+ try{
+  f.fx.plan=makePlan({mode:'cross'});f.fx.render(.68);
+  assert.ok(f.sprite.width>500,'reproduce attachment while the wide action cell is active');
+  replacement=new IceDualSwordFX(f.engine,f.actor,[f.actor],f.assets,manifest,makePlan({mode:'aura'}),()=>{},{authoritative:true});
+  assert.equal(replacement.idle.texture,f.idle);assert.equal(replacement.idle.width,380);assert.equal(replacement.idle.height,380);
+  replacement.render(0);assert.equal(f.sprite.width,380);assert.equal(f.sprite.height,380);
+ }finally{replacement?.destroy();f.dispose();}
+});
 
 test('Cryvern aura clears actual WebGL blur scratch textures instead of retaining rectangular pixels',()=>{
  const f=fixture({filters:true}),input=RenderTexture.create({width:512,height:512}),output=RenderTexture.create({width:512,height:512});

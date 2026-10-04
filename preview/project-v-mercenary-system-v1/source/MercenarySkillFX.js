@@ -61,7 +61,7 @@ export class MercenarySkillFX {
   restore(){
     if((this.lastShake.x||this.lastShake.y)&&this.engine.camera?.base)this.engine.stage.position.set(this.engine.camera.base.x,this.engine.camera.base.y);
     this.lastShake={x:0,y:0};
-    for(const [id,actor] of this.actors){const p=this.origins.get(id);actor.root.position.set(p.x,p.y);actor.root.rotation=p.rotation;actor.fullBodySprite.tint=0xffffff;}
+    for(const [id,actor] of this.actors){if(this.engine.formationCoop&&id!=='M')continue;const p=this.origins.get(id);actor.root.position.set(p.x,p.y);actor.root.rotation=p.rotation;actor.fullBodySprite.tint=0xffffff;}
   }
   syncFormation(){
     for(const [id,actor] of this.actors){const p=this.origins.get(id);p.x=actor.baseX;p.y=actor.baseY;}

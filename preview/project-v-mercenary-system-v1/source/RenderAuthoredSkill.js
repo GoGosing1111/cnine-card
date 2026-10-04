@@ -181,7 +181,7 @@ export function renderAuthored(fx,time){
   }
   let shake=0;
   for(const e of plan.events){const age=time-e.at;if(e.kind!=='HIT'||age<0||age>.22)continue;
-    for(const id of e.targets){const a=actors.get(id);if(!a)continue;if(age<.055)a.fullBodySprite.tint=color;
+    for(const id of e.targets){const a=actors.get(id);if(!a||engine.formationCoop&&id!=='M')continue;if(age<.055)a.fullBodySprite.tint=color;
       if(!engine.reducedMotion){a.root.x+=Math.sin(age/.22*Math.PI)*(id.startsWith('E')?7:-4);a.root.rotation+=Math.sin(age/.22*Math.PI)*.026;}}
     shake=Math.max(shake,Math.exp(-age*19)*(['FRACTURE','INTERRUPT','STILLNESS'].includes(mode)?3.5:1.6));
   }

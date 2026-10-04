@@ -14,13 +14,16 @@ export function cryvernPlaybackPlan(mode,contacts=[]){
   damageAuthority:'SERVER_ONLY',authoritative:true};
 }
 export async function setupCryvernActor(engine,actor){
- engine.cryvernStates||=new Map();
+ engine.cryvernStates||=new Map();engine.cryvernLoads||=new Map();
  if(engine.cryvernStates.has(actor))return engine.cryvernStates.get(actor);
+ if(engine.cryvernLoads.has(actor))return engine.cryvernLoads.get(actor);
+ const pending=(async()=>{
  const epoch=engine.mercenaryEpoch,playbackEpoch=engine.playbackEpoch,manifest=await loadManifest(),assets=await loadIceAssets(manifest);
  if(actor.root.destroyed||epoch!==engine.mercenaryEpoch||playbackEpoch!==engine.playbackEpoch||engine.mercenaryDisposed){release(assets);return null;}
  const fx=new IceDualSwordFX(engine,actor,[actor],assets,manifest,makePlan({mode:'aura'}),()=>{},
   {authoritative:true,useAuthoredPose:actor.cardId===CRYVERN_CODE});
  const state={fx,actor,busy:false,basicIndex:0};engine.cryvernStates.set(actor,state);return state;
+ })().finally(()=>engine.cryvernLoads.delete(actor));engine.cryvernLoads.set(actor,pending);return pending;
 }
 export function clearCryvernActors(engine){
  for(const {fx} of engine.cryvernStates?.values()||[])fx.destroy();

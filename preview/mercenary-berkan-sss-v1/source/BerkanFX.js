@@ -18,7 +18,7 @@ export class BerkanFX{
   this.layer=new Container({label:'BerkanFX'});this.layer.eventMode='none';engine.effectLayer.addChild(this.layer);
   this.ground=new Graphics();this.layer.addChild(this.ground);
   this.pool=Array.from({length:40},()=>{const s=new Sprite(Texture.EMPTY);s.visible=false;this.layer.addChild(s);return s;});
-  const s=merc.fullBodySprite;this.idle={texture:s.texture,width:s.width,height:s.height,anchorX:s.anchor.x,anchorY:s.anchor.y};
+  const s=merc.fullBodySprite,base=merc.fullBodyRestPose;this.idle={texture:base?.texture||s.texture,width:base?.width||s.width,height:base?.height||s.height,anchorX:manifest.battleSpriteFootAnchor?.x??s.anchor.x,anchorY:manifest.battleSpriteFootAnchor?.y??s.anchor.y};
   this.bodyHeight=this.idle.height*manifest.bodyPixels/manifest.battleSpriteInfo.height;
   // Idle, aim and reaction motions keep their authored pose height. Both firing
   // sequences were drawn much smaller inside the same 512px cells, so their

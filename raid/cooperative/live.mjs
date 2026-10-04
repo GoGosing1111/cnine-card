@@ -1,6 +1,6 @@
 import {jointAccountRequest} from '/js/joint-account-transport.mjs';
 import {COOP_DIFFICULTIES,COOP_RULES,COOP_VERSION,COOP_ENCOUNTER,COOP_STAGES} from '/shared/cooperative-battleground-v1.mjs?v=20261002-arke-v2';
-import {mountCoopBattle} from './battle.mjs?v=20261002-arke-v2';
+import {mountCoopBattle} from './battle.mjs?v=20261005-responsive-v3';
 import {COOP_LIST_REFRESH_MS} from '/shared/cooperative-room-list-v1.mjs?v=20261004-list1';
 import {coopCombatSummary} from '/shared/cooperative-settings-v1.mjs?v=20261002-cms1';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

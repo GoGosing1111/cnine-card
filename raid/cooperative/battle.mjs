@@ -10,6 +10,20 @@ export async function mountCoopBattle(host,payload){
  const renderer=await live.createRenderer({...prepared,modal:host,data:payload,mode:'RAID',playUltimateCinematics:false});
  const api=window.ProjectVPixiBattle;await api.restoreDeployedFormation();
  let groups=[],cursor=0,version=0,startsAt=0,offset=0,active=false,destroyed=false,frame=null,lastSync=0;
+ const lanes=new Map();let pendingActions=0;
+ function cancel(){version++;lanes.clear();api.cancelActiveAnimations();}
+ function play(group){
+  const epoch=version;
+  const action=group.events.find(e=>['TURN','ATTACK','COUNTER','SKILL','ULTIMATE','PVE_ULTIMATE','BOSS_ULTIMATE','ICON_SKILL'].includes(e.type))
+   ||group.events.find(e=>e.type==='MERCENARY_WINDUP')||group.events.find(e=>e.type.startsWith('MERCENARY_'));
+  const key=action?.actorId||'group:'+group.id;
+  const previous=lanes.get(key)||Promise.resolve();pendingActions++;
+  const current=previous.catch(()=>{}).then(()=>{
+   if(destroyed||epoch!==version)return;
+   return api.playEvents(group.events,{timedInternal:true});
+  }).catch(()=>{if(epoch===version)sync();}).finally(()=>{pendingActions--;if(lanes.get(key)===current)lanes.delete(key);});
+  lanes.set(key,current);
+ }
  const groupEvents=timeline=>{
   const result=[];
   for(const event of timeline.filter(e=>e.type!=='RESULT')){
@@ -24,28 +38,29 @@ export async function mountCoopBattle(host,payload){
  }
  function update(value){
   offset=value.serverNow-Date.now();frame=value.state.fighters;
+  if(frame)api.syncCooperativeState?.(frame);
   const state=value.state;startsAt=state.startsAt||0;active=state.status==='ACTIVE'&&!state.myResult;
-  if(value.payload){groups=groupEvents(value.payload.battleV2.result.timeline);version++;api.cancelActiveAnimations();cursor=0;
+  if(value.payload){groups=groupEvents(value.payload.battleV2.result.timeline);cancel();cursor=0;
    const elapsed=startsAt?Date.now()+offset-startsAt:0;while(cursor<groups.length&&groups[cursor].at<elapsed-300)cursor++;sync();}
-  if(!active&&state.status!=='LOADING'){api.cancelActiveAnimations();sync();}
+  if(!active&&state.status!=='LOADING'){cancel();sync();}
  }
  function pump(){
   if(destroyed)return;
   if(active&&startsAt){
    const elapsed=Date.now()+offset-startsAt;
-   if(cursor<groups.length&&elapsed-groups[cursor].at>1200){version++;api.cancelActiveAnimations();while(cursor<groups.length&&groups[cursor].at<elapsed-100)cursor++;sync();lastSync=elapsed;}
+   if(cursor<groups.length&&elapsed-groups[cursor].at>1200){cancel();while(cursor<groups.length&&groups[cursor].at<elapsed-100)cursor++;sync();lastSync=elapsed;}
    while(cursor<groups.length&&groups[cursor].at<=elapsed){
-    const group=groups[cursor++],epoch=version;
+    const group=groups[cursor++];
     // A wave boundary cancels previous-instance animation tails before reusing
     // a hostile slot. All three clients use the same server spawn timestamp.
-    if(group.events.some(e=>e.type==='ENEMY_SPAWN'))api.cancelActiveAnimations();
-    void api.playEvents(group.events,{timedInternal:true}).catch(()=>{if(epoch===version)sync();});
+    if(group.events.some(e=>e.type==='ENEMY_SPAWN'))cancel();
+    play(group);
    }
-   if(elapsed-lastSync>5000&&cursor>=groups.length){sync();lastSync=elapsed;}
+   if(elapsed-lastSync>5000&&cursor>=groups.length&&!pendingActions){sync();lastSync=elapsed;}
   }
   raf=requestAnimationFrame(pump);
  }
  let raf=requestAnimationFrame(pump);
  update({serverNow:Date.now(),state:{status:'LOADING',battleRevision:0},payload});
- return {update,destroy(){destroyed=true;cancelAnimationFrame(raf);version++;api.cancelActiveAnimations();renderer.destroy();},diagnostics:()=>({cursor,groups:groups.length,startsAt,engine:api.diagnostics()})};
+ return {update,destroy(){destroyed=true;cancelAnimationFrame(raf);cancel();renderer.destroy();},diagnostics:()=>({cursor,groups:groups.length,startsAt,pendingActions,engine:api.diagnostics()})};
 }
