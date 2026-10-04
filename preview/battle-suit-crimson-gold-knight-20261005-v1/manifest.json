@@ -1,5 +1,5 @@
 {
-  "version": "BATTLE_SUIT_CRIMSON_GOLD_20261005_APPEARANCE_V4",
+  "version": "OVERLORD_20261005_GRIP_V5",
   "status": "USER_REVIEW_PENDING",
   "runtimeEnabled": false,
   "sourceArt": "assets/sources/knight-approved-20261005.png",
@@ -495,22 +495,22 @@
       "frameWidth": 768,
       "frameHeight": 768,
       "bodyPixels": 360,
-      "sha256": "d4903fa4741df3c4fbbf2354cf8a83984ec2d9104bbfacd9e0a8f66b75384c50",
+      "sha256": "ec6eb72f0da8f09a1ba02275545fbaf181a986adf99fef2e6ba23fdce8306b5e",
       "frames": [
         {
           "id": "idle-01",
           "index": 0,
           "pivot": {
             "x": 372.2,
-            "y": 561.4
+            "y": 550.4
           },
           "grip": {
             "x": 360.31650485436893,
-            "y": 338.4097087378641
+            "y": 318.3223300970874
           },
           "tip": {
-            "x": 518.7422081961413,
-            "y": 564.9680376964609
+            "x": 363.2279795112766,
+            "y": 576.490659762975
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-idle-a.png",
@@ -527,15 +527,44 @@
           ],
           "sourceGrip": [
             313,
-            250
+            237
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": -31.856137094189123,
+            "rotationDegrees": 2.726310993906253,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 90,
+            "foregroundHand": {
+              "center": [
+                313,
+                220
+              ],
+              "along": 19,
+              "across": 27,
+              "angle": 90
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "e7ac9e99295a9318f2dc3b114c6745bfbaec3544b56fc42f0221307f1df63579",
+          "sha256": "4becb142f183e2b98e27ce736857734e73ceff67522b015a0c036d7c16332cd1",
           "file": "assets/frames/idle-01.png"
         },
         {
@@ -543,15 +572,15 @@
           "index": 1,
           "pivot": {
             "x": 397.2,
-            "y": 563.4
+            "y": 554.4
           },
           "grip": {
             "x": 373.4330097087378,
-            "y": 336.9145631067961
+            "y": 318.1281553398058
           },
           "tip": {
-            "x": 527.9614563776267,
-            "y": 566.0036394282915
+            "x": 376.2279795112766,
+            "y": 576.2906597629751
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-idle-a.png",
@@ -568,31 +597,60 @@
           ],
           "sourceGrip": [
             911,
-            246
+            232
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": -30.856137094189123,
+            "rotationDegrees": 2.726310993906253,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 90,
+            "foregroundHand": {
+              "center": [
+                911,
+                215
+              ],
+              "along": 20,
+              "across": 26,
+              "angle": 90
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "c60e99d050ea6aa8cc950cc22838bf6d15ca0a72b32d07ab00b2e5ea03eb525d",
+          "sha256": "46c6b56c90d4435644da8eea728f1a13e6efd1a9b7029ef83bcb13d225b62f33",
           "file": "assets/frames/idle-02.png"
         },
         {
           "id": "idle-03",
           "index": 2,
           "pivot": {
-            "x": 402,
-            "y": 558.2
+            "x": 411,
+            "y": 546.2
           },
           "grip": {
-            "x": 394.31067961165047,
-            "y": 341.5009708737864
+            "x": 403.31067961165047,
+            "y": 314.82135922330104
           },
           "tip": {
-            "x": 560.8270470517725,
-            "y": 562.3942312843366
+            "x": 406.2279795112766,
+            "y": 572.890659762975
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-idle-a.png",
@@ -609,15 +667,44 @@
           ],
           "sourceGrip": [
             354,
-            862
+            841
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": -33.85613709418912,
+            "rotationDegrees": 2.726310993906253,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 90,
+            "foregroundHand": {
+              "center": [
+                354,
+                821
+              ],
+              "along": 22,
+              "across": 27,
+              "angle": 90
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "7c65bf61014689659fa9fd601418a192d6b0cd536daa8cdc5edd9591312b3218",
+          "sha256": "cc33d5d7ff5951bac44f7beae2ffcb3231ddfa1fdc1792cb9c0d77a1b7688b75",
           "file": "assets/frames/idle-03.png"
         },
         {
@@ -625,15 +712,15 @@
           "index": 3,
           "pivot": {
             "x": 402.79999999999995,
-            "y": 556.4
+            "y": 551.4
           },
           "grip": {
             "x": 358.7611650485437,
-            "y": 340.4
+            "y": 316.52621359223303
           },
           "tip": {
-            "x": 513.1614563776268,
-            "y": 569.8036394282916
+            "x": 361.4279795112766,
+            "y": 575.0906597629751
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-idle-a.png",
@@ -650,15 +737,44 @@
           ],
           "sourceGrip": [
             903,
-            863
+            836
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": -30.856137094189123,
+            "rotationDegrees": 2.726310993906253,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 90,
+            "foregroundHand": {
+              "center": [
+                903,
+                817
+              ],
+              "along": 23,
+              "across": 28,
+              "angle": 90
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "69e3e624def7d44c279b8024fc32a435fbbdc97f315837149bfe272655ca8cba",
+          "sha256": "db94ca1b36b20ebf0bb498424e6ee0224596853884815c3ba684ca9ab030a160",
           "file": "assets/frames/idle-04.png"
         }
       ]
@@ -670,22 +786,22 @@
       "frameWidth": 768,
       "frameHeight": 768,
       "bodyPixels": 360,
-      "sha256": "c62c70fc20931aeb7d45951e9e5fc0f9349d63d225b5115e9aad733afba55dfe",
+      "sha256": "d1071aada3ce88fa40601896c888b4fe54bf6061de148cd2b4a6b306de4936a9",
       "frames": [
         {
           "id": "dash-01",
           "index": 0,
           "pivot": {
-            "x": 509.4,
+            "x": 492.59999999999997,
             "y": 563.2
           },
           "grip": {
-            "x": 412.14193548387095,
-            "y": 401.3451612903226
+            "x": 409.1322580645161,
+            "y": 394.81290322580645
           },
           "tip": {
-            "x": 155.49677730436193,
-            "y": 504.9414268168327
+            "x": 174.1625093017117,
+            "y": 502.21651979309206
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-dash-a.png",
@@ -701,32 +817,61 @@
             593
           ],
           "sourceGrip": [
-            247,
-            370
+            266,
+            361
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": 71.14386290581088,
+            "rotationDegrees": 68.72631099390625,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 156,
+            "foregroundHand": {
+              "center": [
+                278,
+                353
+              ],
+              "along": 20,
+              "across": 18,
+              "angle": 156
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "e645112c093b351b07961a44a760a9093344d4f162b8d6613c32314147afb938",
+          "sha256": "13b0e770d5070f506546c5515275fbf4a7003f9e7ed5617571a4fc8da98845be",
           "file": "assets/frames/dash-01.png"
         },
         {
           "id": "dash-02",
           "index": 1,
           "pivot": {
-            "x": 478.59999999999997,
+            "x": 460.59999999999997,
             "y": 527.2
           },
           "grip": {
-            "x": 382.06774193548387,
-            "y": 370.4258064516129
+            "x": 377.85806451612905,
+            "y": 366.07096774193553
           },
           "tip": {
-            "x": 112.46021609588786,
-            "y": 432.8371810102809
+            "x": 130.3842951108064,
+            "y": 439.6667922959091
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-dash-a.png",
@@ -742,32 +887,61 @@
             591
           ],
           "sourceGrip": [
-            815,
-            375
+            834,
+            369
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": 80.14386290581088,
+            "rotationDegrees": 76.72631099390625,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 164,
+            "foregroundHand": {
+              "center": [
+                849,
+                360
+              ],
+              "along": 22,
+              "across": 18,
+              "angle": 164
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "45954efe78542ab8be086c84b54e663e0b99a5f1ef65a04dd7b7dbedf83f431d",
+          "sha256": "dcf4daa1a3bf433547bc3e20901f9802971d35a8b2369dcab36f74ffb2eb7715",
           "file": "assets/frames/dash-02.png"
         },
         {
           "id": "dash-03",
           "index": 2,
           "pivot": {
-            "x": 437.2,
+            "x": 418,
             "y": 541.4
           },
           "grip": {
-            "x": 404.5387096774193,
-            "y": 351.96451612903223
+            "x": 399.85483870967744,
+            "y": 349.0612903225807
           },
           "tip": {
-            "x": 129.95188299289407,
-            "y": 385.5571204613889
+            "x": 147.81207714380773,
+            "y": 405.4555182342226
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-dash-a.png",
@@ -783,32 +957,61 @@
             1165
           ],
           "sourceGrip": [
-            241,
-            904
+            261,
+            900
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": 86.14386290581088,
+            "rotationDegrees": 80.72631099390625,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 168,
+            "foregroundHand": {
+              "center": [
+                274,
+                895
+              ],
+              "along": 22,
+              "across": 18,
+              "angle": 168
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "47cc5c8ea5decb9bd8aa452ece181a16d58ee7bf78666d402e72f529f53dabd0",
+          "sha256": "16f94f13fd0e65cbe272b4b5220e688abc5c8a1ec02f43b72395a90950785e5a",
           "file": "assets/frames/dash-03.png"
         },
         {
           "id": "dash-04",
           "index": 3,
           "pivot": {
-            "x": 497.4,
+            "x": 479.59999999999997,
             "y": 541.4
           },
           "grip": {
-            "x": 392.15806451612906,
-            "y": 353.4161290322581
+            "x": 388.8741935483871,
+            "y": 351.2387096774193
           },
           "tip": {
-            "x": 116.61891052187289,
-            "y": 377.7058481167411
+            "x": 134.34242077838883,
+            "y": 394.3872399868957
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-dash-a.png",
@@ -824,16 +1027,45 @@
             1168
           ],
           "sourceGrip": [
-            875,
-            909
+            895,
+            906
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": 88.14386290581088,
+            "rotationDegrees": 83.72631099390625,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 171,
+            "foregroundHand": {
+              "center": [
+                910,
+                902
+              ],
+              "along": 24,
+              "across": 18,
+              "angle": 171
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "e3adfb02458a52b8e443214f949894d15f2f4e1725dddb02d150737d4fea15a2",
+          "sha256": "ac0286ec1454b093d73878647cdd569f0004e69cb1d2913344c5fa99b10c2cad",
           "file": "assets/frames/dash-04.png"
         },
         {
@@ -844,12 +1076,12 @@
             "y": 548.2
           },
           "grip": {
-            "x": 417.8,
-            "y": 351.14736842105265
+            "x": 390.6421052631579,
+            "y": 343.5684210526316
           },
           "tip": {
-            "x": 142.95188299289407,
-            "y": 385.1571204613889
+            "x": 143.0067827140059,
+            "y": 270.3715833309031
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-dash-b.png",
@@ -865,32 +1097,61 @@
             598
           ],
           "sourceGrip": [
-            269,
-            286
+            226,
+            274
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": 86.14386290581088,
+            "rotationDegrees": 109.72631099390625,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 197,
+            "foregroundHand": {
+              "center": [
+                241,
+                279
+              ],
+              "along": 22,
+              "across": 19,
+              "angle": 197
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "6385990249a5c6684c333cc7bf914d8cc57befd964e9ddac6c853e79f53c97ff",
+          "sha256": "10d880f82d7b21a513f3ad0d48c37263bb1fb2f952e24210e209000183b050b2",
           "file": "assets/frames/dash-05.png"
         },
         {
           "id": "dash-06",
           "index": 5,
           "pivot": {
-            "x": 499.4,
+            "x": 489.8,
             "y": 556.2
           },
           "grip": {
-            "x": 355.4,
-            "y": 395.778947368421
+            "x": 354.0105263157895,
+            "y": 391.98947368421045
           },
           "tip": {
-            "x": 116.10604224928557,
-            "y": 533.8970643788143
+            "x": 125.23396785447122,
+            "y": 511.6342879205746
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-dash-b.png",
@@ -906,32 +1167,61 @@
             601
           ],
           "sourceGrip": [
-            775,
-            347
+            788,
+            341
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": 63.14386290581088,
+            "rotationDegrees": 65.72631099390625,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 153,
+            "foregroundHand": {
+              "center": [
+                798,
+                336
+              ],
+              "along": 24,
+              "across": 21,
+              "angle": 153
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "a635a1b9741f5b9480d951c43d9dc66c41f21f2bc963d852b19bbbc81ac56f6d",
+          "sha256": "1c72b6ed9e6049a81565726afc2dc903973fcd10c668ab394e4a0ce5b38487b7",
           "file": "assets/frames/dash-06.png"
         },
         {
           "id": "dash-07",
           "index": 6,
           "pivot": {
-            "x": 433.4,
-            "y": 515.2
+            "x": 458.4,
+            "y": 522.2
           },
           "grip": {
-            "x": 394.2421052631579,
-            "y": 361.72631578947374
+            "x": 387.0315789473684,
+            "y": 355.46315789473687
           },
           "tip": {
-            "x": 176.3430675457161,
-            "y": 532.2299507293405
+            "x": 149.77911892904635,
+            "y": 253.056510436559
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-dash-b.png",
@@ -947,16 +1237,45 @@
             1181
           ],
           "sourceGrip": [
-            300,
-            938
+            249,
+            917
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": 55.14386290581088,
+            "rotationDegrees": 116.72631099390625,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 204,
+            "foregroundHand": {
+              "center": [
+                268,
+                925
+              ],
+              "along": 27,
+              "across": 19,
+              "angle": 204
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "7559d4a8823288a9ca07927384a687ca71ad7eefd81bba2bf544edcc090c4c7e",
+          "sha256": "13c34826ef283db8c206d137a8b9b903f693de1096ab2ac174db03433c0d5042",
           "file": "assets/frames/dash-07.png"
         },
         {
@@ -967,12 +1286,12 @@
             "y": 568
           },
           "grip": {
-            "x": 368.65263157894736,
-            "y": 333.0526315789474
+            "x": 371.8105263157895,
+            "y": 319.15789473684214
           },
           "tip": {
-            "x": 515.2263045563712,
-            "y": 567.6700535857224
+            "x": 294.3159697998926,
+            "y": 565.5333574588308
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-dash-b.png",
@@ -988,16 +1307,45 @@
             1203
           ],
           "sourceGrip": [
-            920,
-            831
+            925,
+            809
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": -28.856137094189123,
+            "rotationDegrees": 20.726310993906253,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 108,
+            "foregroundHand": {
+              "center": [
+                933,
+                792
+              ],
+              "along": 26,
+              "across": 20,
+              "angle": 108
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "ec7b9c02b5b83d77b363150549fb70083988e6a211d1c2f9ed7daec53c43f519",
+          "sha256": "f1229f6d8f5aeb06759f6a2e952758fa65aec1a40c1c1ee054d9659b6cfc3d87",
           "file": "assets/frames/dash-08.png"
         }
       ]
@@ -1009,22 +1357,22 @@
       "frameWidth": 768,
       "frameHeight": 768,
       "bodyPixels": 360,
-      "sha256": "5dc85cb3fd53f5bfc8d0e1509b5f14c54c1741c9d0850a0015b7ac855e330979",
+      "sha256": "9f3bcc2f778d2987c1c3117df14645fcc2c926d6835213218e5d0800ab51a275",
       "frames": [
         {
           "id": "attack-01",
           "index": 0,
           "pivot": {
-            "x": 472.4,
-            "y": 604.2
+            "x": 476.59999999999997,
+            "y": 559.5999999999999
           },
           "grip": {
-            "x": 370.15999999999997,
-            "y": 301.0799999999999
+            "x": 382.28,
+            "y": 255.04000000000005
           },
           "tip": {
-            "x": 130.89910643052303,
-            "y": 162.77712663816556
+            "x": 128.22390753147312,
+            "y": 302.4856771041842
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-attack-a.png",
@@ -1040,32 +1388,61 @@
             562
           ],
           "sourceGrip": [
-            175,
-            141
+            186,
+            139
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": 123.14386290581088,
+            "rotationDegrees": 82.72631099390625,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 170,
+            "foregroundHand": {
+              "center": [
+                201,
+                133
+              ],
+              "along": 22,
+              "across": 18,
+              "angle": 170
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "44ac0c99843f2467cc65ee7ad5fcfb2985af2b5b571c2a0ae9641f3d5c97f4b4",
+          "sha256": "72f749dedbb11860dfb61abe254bdb0374d78aeb52302ef56f4c9c5ab752435a",
           "file": "assets/frames/attack-01.png"
         },
         {
           "id": "attack-02",
           "index": 1,
           "pivot": {
-            "x": 455.59999999999997,
-            "y": 621.5999999999999
+            "x": 465.2,
+            "y": 559.2
           },
           "grip": {
-            "x": 344.72,
-            "y": 339.36
+            "x": 362.24,
+            "y": 268.32000000000005
           },
           "tip": {
-            "x": 149.14046374551748,
-            "y": 144.00001994278344
+            "x": 140.04191956797942,
+            "y": 400.0666751660685
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-attack-a.png",
@@ -1081,32 +1458,61 @@
             562
           ],
           "sourceGrip": [
-            790,
-            170
+            801,
+            158
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": 138.14386290581086,
+            "rotationDegrees": 62.72631099390625,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 150,
+            "foregroundHand": {
+              "center": [
+                820,
+                149
+              ],
+              "along": 36,
+              "across": 18,
+              "angle": 150
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "9c5a776b7a3b7af8182d876ae25bfeffa004618f51b858bf880f195005723022",
+          "sha256": "a4288cd8358fc4eefa21293d9ffca931edcde0671d9a44b1b7ae679916ba74f1",
           "file": "assets/frames/attack-02.png"
         },
         {
           "id": "attack-03",
           "index": 2,
           "pivot": {
-            "x": 259.79999999999995,
+            "x": 275.79999999999995,
             "y": 556.5999999999999
           },
           "grip": {
-            "x": 416.75999999999993,
+            "x": 421.24000000000007,
             "y": 320.44000000000005
           },
           "tip": {
-            "x": 690.6443712713863,
-            "y": 358.72811968125086
+            "x": 675.1760924685268,
+            "y": 273.11432289581575
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-attack-a.png",
@@ -1122,16 +1528,45 @@
             1168
           ],
           "sourceGrip": [
-            531,
+            515,
             840
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": -78.85613709418912,
+            "rotationDegrees": -97.27368900609375,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": -10,
+            "foregroundHand": {
+              "center": [
+                493,
+                844
+              ],
+              "along": 34,
+              "across": 19,
+              "angle": -10
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "e1b232ddf2c4839dc3d57488f888b305c7d41dd306520b38aaaa5519fdec9565",
+          "sha256": "214b492de6b2001bb82669d5aef3bacbcd3961d897cb8f0130298490027d2374",
           "file": "assets/frames/attack-03.png"
         },
         {
@@ -1142,12 +1577,12 @@
             "y": 553.4
           },
           "grip": {
-            "x": 438.4,
+            "x": 419.67999999999995,
             "y": 317.24000000000007
           },
           "tip": {
-            "x": 677.9008935694769,
-            "y": 455.42287336183443
+            "x": 676.5629330905988,
+            "y": 291.8795453141466
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-attack-a.png",
@@ -1163,32 +1598,61 @@
             1168
           ],
           "sourceGrip": [
-            1165,
+            1139,
             840
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": -56.85613709418912,
+            "rotationDegrees": -92.27368900609375,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": -5,
+            "foregroundHand": {
+              "center": [
+                1120,
+                843
+              ],
+              "along": 31,
+              "across": 19,
+              "angle": -5
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "3cbaa78640f86562d3d2981a5631e0da070a838b8090169dabcc6e2cd52a3acf",
+          "sha256": "3cd2d301c1941f88188f831d9e2f9cd43766246739446c01508185abf336879f",
           "file": "assets/frames/attack-04.png"
         },
         {
           "id": "attack-05",
           "index": 4,
           "pivot": {
-            "x": 267.6,
+            "x": 284.6,
             "y": 556.2
           },
           "grip": {
-            "x": 431.52857142857147,
+            "x": 434.38571428571424,
             "y": 340.2
           },
           "tip": {
-            "x": 705.6443712713863,
-            "y": 378.72811968125086
+            "x": 688.1760924685268,
+            "y": 292.5143228958158
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-attack-b.png",
@@ -1204,32 +1668,61 @@
             592
           ],
           "sourceGrip": [
-            621,
+            599,
             256
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": -78.85613709418912,
+            "rotationDegrees": -97.27368900609375,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": -10,
+            "foregroundHand": {
+              "center": [
+                577,
+                261
+              ],
+              "along": 34,
+              "across": 20,
+              "angle": -10
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "982535cc5d91e4b4573e27141c6eff9214f97931b464281e2e3312e9f71d3142",
+          "sha256": "488de26baf5ef2f80bfe6f3d16c4b31a42096794df2bfcba5bb59b75705499cd",
           "file": "assets/frames/attack-05.png"
         },
         {
           "id": "attack-06",
           "index": 5,
           "pivot": {
-            "x": 352.4,
-            "y": 494
+            "x": 373.4,
+            "y": 496
           },
           "grip": {
-            "x": 414.75714285714275,
-            "y": 388.57142857142856
+            "x": 429.3285714285714,
+            "y": 382.2142857142857
           },
           "tip": {
-            "x": 599.9647001103604,
-            "y": 593.9828085873075
+            "x": 579.561805066075,
+            "y": 592.2584079786859
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-attack-b.png",
@@ -1245,32 +1738,61 @@
             594
           ],
           "sourceGrip": [
-            1090,
-            430
+            1080,
+            417
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": -38.85613709418912,
+            "rotationDegrees": -32.27368900609375,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 55,
+            "foregroundHand": {
+              "center": [
+                1062,
+                397
+              ],
+              "along": 28,
+              "across": 21,
+              "angle": 55
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "950f111c6089a460159a26be09658e57d26eb0fbaf729abaca20fa41c49d559a",
+          "sha256": "9fad5b29bf1184a24fab57c40914256346c8f69b3f3a012b272acd14d02016cf",
           "file": "assets/frames/attack-06.png"
         },
         {
           "id": "attack-07",
           "index": 6,
           "pivot": {
-            "x": 454,
+            "x": 443.59999999999997,
             "y": 563
           },
           "grip": {
-            "x": 419.9285714285714,
-            "y": 350.2142857142857
+            "x": 423.02857142857135,
+            "y": 348.92857142857144
           },
           "tip": {
-            "x": 160.02977117149857,
-            "y": 444.71928289930133
+            "x": 169.84717945117808,
+            "y": 400.67534582537377
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-attack-b.png",
@@ -1286,32 +1808,61 @@
             1191
           ],
           "sourceGrip": [
-            312,
-            860
+            333,
+            858
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": 73.14386290581088,
+            "rotationDegrees": 81.72631099390625,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 169,
+            "foregroundHand": {
+              "center": [
+                352,
+                853
+              ],
+              "along": 31,
+              "across": 19,
+              "angle": 169
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "c6191fd4fb9cc8cd3b5897948c512065cf23b714132f9f379dbb52847d24893d",
+          "sha256": "48d0d44ad113583e83c54a46c65fea942e86056acbcf2d98d16901ebddc257ac",
           "file": "assets/frames/attack-07.png"
         },
         {
           "id": "attack-08",
           "index": 7,
           "pivot": {
-            "x": 393.79999999999995,
-            "y": 628.5999999999999
+            "x": 386.79999999999995,
+            "y": 562.5999999999999
           },
           "grip": {
-            "x": 461.9428571428572,
-            "y": 386.88571428571424
+            "x": 446.58571428571423,
+            "y": 309.95714285714286
           },
           "tip": {
-            "x": 578.8388812819858,
-            "y": 135.92611418679792
+            "x": 585.4766837515135,
+            "y": 527.8041537302099
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-attack-b.png",
@@ -1327,16 +1878,45 @@
             1191
           ],
           "sourceGrip": [
-            1106,
-            815
+            1093,
+            798
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": -151.85613709418914,
+            "rotationDegrees": -29.273689006093747,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 58,
+            "foregroundHand": {
+              "center": [
+                1081,
+                776
+              ],
+              "along": 30,
+              "across": 19,
+              "angle": 58
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "4df81573fc2bdf46a1370f1cb3bc1efb05a3ae551241949cd87dd7607969482d",
+          "sha256": "c9d9f1c0a27006c1b783bbb53f79e08a89bc4b7561155f6ef02cb729877aae2e",
           "file": "assets/frames/attack-08.png"
         }
       ]
@@ -1348,22 +1928,22 @@
       "frameWidth": 768,
       "frameHeight": 768,
       "bodyPixels": 360,
-      "sha256": "f98a6a613bd7e97ac4f25e58941e9c14b5978d7c540da7b1c7383c14dca30849",
+      "sha256": "603bce023194c274cf3a2b9d006df86ba576dc2367347bdfe14cac299539eb53",
       "frames": [
         {
           "id": "combo-01",
           "index": 0,
           "pivot": {
-            "x": 458,
+            "x": 446,
             "y": 538.5999999999999
           },
           "grip": {
-            "x": 390.58181818181816,
-            "y": 409.6545454545454
+            "x": 390.3636363636364,
+            "y": 413.5818181818182
           },
           "tip": {
-            "x": 139.92611418679792,
-            "y": 292.96111871801423
+            "x": 151.7766452206095,
+            "y": 314.93024553646916
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-combo-a.png",
@@ -1379,32 +1959,61 @@
             587
           ],
           "sourceGrip": [
-            241,
-            390
+            259,
+            396
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": 118.14386290581088,
+            "rotationDegrees": 115.72631099390625,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 203,
+            "foregroundHand": {
+              "center": [
+                283,
+                405
+              ],
+              "along": 38,
+              "across": 20,
+              "angle": 203
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "ed9e8c7abfe2d064f5d92f15b9781220e750c3f5900a173d618ca33e5a7ba76d",
+          "sha256": "ee9599c96e269854a2cab7cb67e48da9775648b6c1ac2c0de29f0cb8f5fede29",
           "file": "assets/frames/combo-01.png"
         },
         {
           "id": "combo-02",
           "index": 1,
           "pivot": {
-            "x": 310,
+            "x": 342,
             "y": 543.2
           },
           "grip": {
-            "x": 422.5818181818181,
-            "y": 374.32727272727266
+            "x": 417.9272727272727,
+            "y": 397.23636363636365
           },
           "tip": {
-            "x": 666.9721551002241,
-            "y": 244.52123331194886
+            "x": 635.4041537302099,
+            "y": 258.12331624848656
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-combo-a.png",
@@ -1420,32 +2029,61 @@
             588
           ],
           "sourceGrip": [
-            1161,
-            330
+            1105,
+            365
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": -114.85613709418912,
+            "rotationDegrees": -119.27368900609375,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": -32,
+            "foregroundHand": {
+              "center": [
+                1090,
+                375
+              ],
+              "along": 26,
+              "across": 23,
+              "angle": -32
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "67678ee0b35e3a196d5c31edd0d462e9427300dedaa13aec3c707e2215274cb6",
+          "sha256": "06c07e1ca40ff76d078105573c88a34237b1b96dbfe05643b2ac776c7b72bd3a",
           "file": "assets/frames/combo-02.png"
         },
         {
           "id": "combo-03",
           "index": 2,
           "pivot": {
-            "x": 401.2,
-            "y": 674
+            "x": 414.79999999999995,
+            "y": 641.8
           },
           "grip": {
-            "x": 357.3454545454545,
-            "y": 318.58181818181816
+            "x": 378.79999999999995,
+            "y": 294.8909090909091
           },
           "tip": {
-            "x": 198.85779180385867,
-            "y": 92.03196230353902
+            "x": 185.26254142346983,
+            "y": 124.22599643126087
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-combo-a.png",
@@ -1461,32 +2099,61 @@
             1191
           ],
           "sourceGrip": [
-            279,
-            648
+            291,
+            661
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": -211.85613709418914,
+            "rotationDegrees": 134.72631099390625,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 222,
+            "foregroundHand": {
+              "center": [
+                310,
+                678
+              ],
+              "along": 27,
+              "across": 20,
+              "angle": 222
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "b4fd4a8d3650adc1d3288f72eca33e69bd6164e87de066f43f53e16ccaeeccdc",
+          "sha256": "b4a707c8e0a7f9978f22fe15c35fa1668f04b253b8e12bf2ff53e9ac51792f7e",
           "file": "assets/frames/combo-03.png"
         },
         {
           "id": "combo-04",
           "index": 3,
           "pivot": {
-            "x": 473.2,
-            "y": 576.4
+            "x": 448.4,
+            "y": 591.4
           },
           "grip": {
-            "x": 392.69090909090914,
-            "y": 307.38181818181823
+            "x": 377.05454545454546,
+            "y": 325
           },
           "tip": {
-            "x": 141.92611418679792,
-            "y": 190.3611187180142
+            "x": 166.80279591914365,
+            "y": 175.21998858220508
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-combo-a.png",
@@ -1502,32 +2169,61 @@
             1187
           ],
           "sourceGrip": [
-            870,
-            776
+            884,
+            780
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": 118.14386290581088,
+            "rotationDegrees": 128.72631099390625,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 216,
+            "foregroundHand": {
+              "center": [
+                897,
+                790
+              ],
+              "along": 23,
+              "across": 22,
+              "angle": 216
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "eb7d295204f54b2e615661c46826db276243b9b8b6727b5f1218e99c0f38f9f9",
+          "sha256": "89bc04affbf9a2aa5da5ba8139347b582636e6a940fbf3e600faf2d33c440d7f",
           "file": "assets/frames/combo-04.png"
         },
         {
           "id": "combo-05",
           "index": 4,
           "pivot": {
-            "x": 476.2,
-            "y": 602.4
+            "x": 476,
+            "y": 563.2
           },
           "grip": {
-            "x": 354.691921005386,
-            "y": 303.8003590664273
+            "x": 366.12567324955114,
+            "y": 262.6614003590664
           },
           "tip": {
-            "x": 114.89910643052303,
-            "y": 165.77712663816556
+            "x": 116.16604892740506,
+            "y": 327.88447713412404
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-combo-b.png",
@@ -1543,16 +2239,45 @@
             595
           ],
           "sourceGrip": [
-            149,
-            133
+            167,
+            130
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": 123.14386290581088,
+            "rotationDegrees": 78.72631099390625,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 166,
+            "foregroundHand": {
+              "center": [
+                188,
+                124
+              ],
+              "along": 27,
+              "across": 23,
+              "angle": 166
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "3e819bede36e7de2e58f0aa5ecccb730a619c9ec63f4245fe7ab28fa5efe1593",
+          "sha256": "edbf12b2371ee9494f09db067cc271c36fa083fcd1c210c956f83f410877464a",
           "file": "assets/frames/combo-05.png"
         },
         {
@@ -1563,12 +2288,12 @@
             "y": 554.4
           },
           "grip": {
-            "x": 429.2639138240575,
-            "y": 344.99245960502685
+            "x": 411.8132854578096,
+            "y": 345.6387791741472
           },
           "tip": {
-            "x": 669.100893569477,
-            "y": 483.42287336183443
+            "x": 669.6472961121476,
+            "y": 334.0856852930506
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-combo-b.png",
@@ -1584,32 +2309,61 @@
             593
           ],
           "sourceGrip": [
-            1189,
-            269
+            1162,
+            270
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": -56.85613709418912,
+            "rotationDegrees": -89.27368900609375,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": -2,
+            "foregroundHand": {
+              "center": [
+                1148,
+                270
+              ],
+              "along": 27,
+              "across": 22,
+              "angle": -2
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "f6b5ccc09c19feb86b4a6e77a7c91f3f21d178f6695b3e3beb05992b8cc1436b",
+          "sha256": "27ca96a52421ce34ef17c30fc60802f13eaa33b6eb9fd2af4a030698a4967a2b",
           "file": "assets/frames/combo-06.png"
         },
         {
           "id": "combo-07",
           "index": 6,
           "pivot": {
-            "x": 317.4,
-            "y": 529.2
+            "x": 308.4,
+            "y": 550.2
           },
           "grip": {
-            "x": 467.9924596050269,
-            "y": 371.4980251346499
+            "x": 447.3587073608618,
+            "y": 386.6811490125673
           },
           "tip": {
-            "x": 656.7263782435746,
-            "y": 573.7855106600307
+            "x": 665.356027578853,
+            "y": 525.2013585995576
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-combo-b.png",
@@ -1625,32 +2379,61 @@
             1182
           ],
           "sourceGrip": [
-            599,
-            938
+            581,
+            929
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": -39.85613709418912,
+            "rotationDegrees": -54.27368900609375,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 33,
+            "foregroundHand": {
+              "center": [
+                568,
+                919
+              ],
+              "along": 25,
+              "across": 22,
+              "angle": 33
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "0437f9db1dea5db3f97e469a63c7516e79e282cc98124ad666efd8cf32722ea9",
+          "sha256": "3b882baa326d9fca0644c6d66be6c17f0cdb0f497165868cbad2b111e8c0363c",
           "file": "assets/frames/combo-07.png"
         },
         {
           "id": "combo-08",
           "index": 7,
           "pivot": {
-            "x": 359.79999999999995,
+            "x": 333.79999999999995,
             "y": 565.8
           },
           "grip": {
-            "x": 435.41938958707357,
-            "y": 350.57558348294435
+            "x": 387.4445242369838,
+            "y": 351.86822262118494
           },
           "tip": {
-            "x": 620.5647001103605,
-            "y": 555.9828085873075
+            "x": 644.833550072832,
+            "y": 331.01081998968425
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-combo-b.png",
@@ -1666,16 +2449,45 @@
             1190
           ],
           "sourceGrip": [
-            1118,
-            857
+            1084,
+            859
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": -38.85613709418912,
+            "rotationDegrees": -91.27368900609375,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": -4,
+            "foregroundHand": {
+              "center": [
+                1065,
+                861
+              ],
+              "along": 30,
+              "across": 22,
+              "angle": -4
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "1489368eacb52081bddf084d481dff847f052501fa0cba03b2402e427d25d74f",
+          "sha256": "d8061326b04bec4d4bffe92058b041e9837c4d44d748a5187ee89fa5e3da9fc2",
           "file": "assets/frames/combo-08.png"
         }
       ]
@@ -1687,22 +2499,22 @@
       "frameWidth": 768,
       "frameHeight": 768,
       "bodyPixels": 360,
-      "sha256": "574503e7322f02f446c65e5e69240b5e535c12d418ab85e0805565a6707242bf",
+      "sha256": "3d5b23de93f8a20f08608a08b5937a091d9ac843e167428e9117418cbf000fc3",
       "frames": [
         {
           "id": "skill-01",
           "index": 0,
           "pivot": {
-            "x": 391,
-            "y": 542.2
+            "x": 408,
+            "y": 536.2
           },
           "grip": {
-            "x": 421.46153846153845,
-            "y": 348.3538461538461
+            "x": 439.15384615384613,
+            "y": 324.3538461538461
           },
           "tip": {
-            "x": 576.3614563776267,
-            "y": 577.8036394282916
+            "x": 441.62797951127664,
+            "y": 582.690659762975
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-skill-a.png",
@@ -1718,16 +2530,45 @@
             611
           ],
           "sourceGrip": [
-            408,
-            331
+            409,
+            305
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": -30.856137094189123,
+            "rotationDegrees": 2.726310993906253,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 90,
+            "foregroundHand": {
+              "center": [
+                408,
+                278
+              ],
+              "along": 38,
+              "across": 22,
+              "angle": 90
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "b4ca4c1cb710cfb6343ad4eebf635adcb3883cb072484c15651143bbc8197bd4",
+          "sha256": "938169976e2b7e96182634be81d482658d71209cffcaa2a691a1e640c822df8a",
           "file": "assets/frames/skill-01.png"
         },
         {
@@ -1735,15 +2576,15 @@
           "index": 1,
           "pivot": {
             "x": 421.6,
-            "y": 710.1999999999999
+            "y": 694.4
           },
           "grip": {
-            "x": 382.8307692307692,
-            "y": 332.2
+            "x": 383.5230769230769,
+            "y": 329.5538461538462
           },
           "tip": {
-            "x": 392.68531581691843,
-            "y": 55.54302924446612
+            "x": 367.44644728787534,
+            "y": 71.43830575501002
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-skill-a.png",
@@ -1759,16 +2600,45 @@
             611
           ],
           "sourceGrip": [
-            944,
-            65
+            945,
+            84
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": -174.85613709418914,
+            "rotationDegrees": 179.72631099390625,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 267,
+            "foregroundHand": {
+              "center": [
+                946,
+                103
+              ],
+              "along": 29,
+              "across": 21,
+              "angle": 267
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "54152ad973fd53ad2f64fd46e54913178ea68486042c737bbf2b062046f1cbd2",
+          "sha256": "f0937a9e3cb2ef6cef2f2354b31fb3b894de1fe6e692258b080c426566b528fd",
           "file": "assets/frames/skill-02.png"
         },
         {
@@ -1776,15 +2646,15 @@
           "index": 2,
           "pivot": {
             "x": 418,
-            "y": 696
+            "y": 674
           },
           "grip": {
-            "x": 395.8461538461538,
-            "y": 320.0769230769231
+            "x": 402.0769230769231,
+            "y": 307.0769230769231
           },
           "tip": {
-            "x": 279.10439223564987,
-            "y": 69.19030442632112
+            "x": 259.3036751037072,
+            "y": 91.87620120432602
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-skill-a.png",
@@ -1800,32 +2670,61 @@
             1201
           ],
           "sourceGrip": [
-            328,
-            658
+            337,
+            671
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": -201.85613709418914,
+            "rotationDegrees": 149.72631099390625,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 237,
+            "foregroundHand": {
+              "center": [
+                348,
+                689
+              ],
+              "along": 28,
+              "across": 19,
+              "angle": 237
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "ec08269fbfb1a2a2c032d491f48173ab679257b727e2d6c70596e4990c4925cd",
+          "sha256": "655cd722af0ca4cb08dfeb6eb949135adea41127330408c77c0ed4d0e51ca4b3",
           "file": "assets/frames/skill-03.png"
         },
         {
           "id": "skill-04",
           "index": 3,
           "pivot": {
-            "x": 487.59999999999997,
-            "y": 622.2
+            "x": 457,
+            "y": 634.5999999999999
           },
           "grip": {
-            "x": 377.5230769230769,
-            "y": 302.35384615384623
+            "x": 355.9230769230769,
+            "y": 323.7538461538462
           },
           "tip": {
-            "x": 151.20897080466375,
-            "y": 143.90321909411784
+            "x": 181.0961073439151,
+            "y": 133.32216077539192
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-skill-a.png",
@@ -1841,32 +2740,61 @@
             1197
           ],
           "sourceGrip": [
-            846,
-            735
+            859,
+            748
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": -231.85613709418914,
+            "rotationDegrees": 140.72631099390625,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 228,
+            "foregroundHand": {
+              "center": [
+                872,
+                761
+              ],
+              "along": 24,
+              "across": 20,
+              "angle": 228
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "cc05be7c8501a7bd55a029637a99dad2804d1b26444e463bd77cdbc456fa11bc",
+          "sha256": "1d4f86d534980ea6631d5eb2af2064909cd0bfbb25605fec19bef546a6bbe081",
           "file": "assets/frames/skill-04.png"
         },
         {
           "id": "skill-05",
           "index": 4,
           "pivot": {
-            "x": 411.2,
-            "y": 659.6
+            "x": 420.6,
+            "y": 621.2
           },
           "grip": {
-            "x": 401.47027027027025,
-            "y": 302.84324324324325
+            "x": 423.1945945945946,
+            "y": 273.5243243243243
           },
           "tip": {
-            "x": 206.14046374551748,
-            "y": 107.0000199427834
+            "x": 198.0139400567028,
+            "y": 146.77601540309345
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-skill-b.png",
@@ -1882,32 +2810,61 @@
             611
           ],
           "sourceGrip": [
-            286,
-            61
+            305,
+            75
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": -221.85613709418914,
+            "rotationDegrees": 122.72631099390625,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 210,
+            "foregroundHand": {
+              "center": [
+                324,
+                88
+              ],
+              "along": 31,
+              "across": 23,
+              "angle": 210
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "a1e2e0a9933d4d14b996d195278e62338772c3ba9833f65ca81079b07ededb1b",
+          "sha256": "15ad73be43f6e2bf9799f8429e248b10f49528d0b63941f688945f5f901abbb2",
           "file": "assets/frames/skill-05.png"
         },
         {
           "id": "skill-06",
           "index": 5,
           "pivot": {
-            "x": 299.79999999999995,
+            "x": 324.79999999999995,
             "y": 520.4
           },
           "grip": {
-            "x": 419.15135135135137,
-            "y": 343.9675675675676
+            "x": 425.98918918918923,
+            "y": 333.5891891891892
           },
           "tip": {
-            "x": 682.245682617295,
-            "y": 429.56414784995707
+            "x": 657.4773515077985,
+            "y": 448.26536934869716
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-skill-b.png",
@@ -1923,32 +2880,61 @@
             600
           ],
           "sourceGrip": [
-            1170,
-            328
+            1142,
+            312
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": -68.85613709418912,
+            "rotationDegrees": -60.27368900609375,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 27,
+            "foregroundHand": {
+              "center": [
+                1127,
+                303
+              ],
+              "along": 26,
+              "across": 21,
+              "angle": 27
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "206f5a9609b6ce3c913144649051e7d748b8739cf21fac42bf411d86fbb5ee33",
+          "sha256": "7d01e6c824407da8c2f622d9b23d11ee0350f26a83a85ce70890110125b26c47",
           "file": "assets/frames/skill-06.png"
         },
         {
           "id": "skill-07",
           "index": 6,
           "pivot": {
-            "x": 329.79999999999995,
-            "y": 517.2
+            "x": 335.79999999999995,
+            "y": 485.2
           },
           "grip": {
-            "x": 416.71891891891886,
-            "y": 445.8486486486486
+            "x": 413.6378378378379,
+            "y": 408.01081081081077
           },
           "tip": {
-            "x": 634.8569324542839,
-            "y": 275.77004927065946
+            "x": 629.372434517298,
+            "y": 550.1838376393829
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-skill-b.png",
@@ -1964,32 +2950,61 @@
             1190
           ],
           "sourceGrip": [
-            495,
-            1080
+            481,
+            1071
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": -124.85613709418912,
+            "rotationDegrees": -53.27368900609375,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 34,
+            "foregroundHand": {
+              "center": [
+                467,
+                1061
+              ],
+              "along": 25,
+              "across": 20,
+              "angle": 34
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "e86423a9d5ed3b6b7da1f8aeecd38e993170d6c0c12d2032827abeba566b966f",
+          "sha256": "1a248ca774bce6d2f00118bc3ff87e0a88b4a5c544d339856bef7fdaca7e3f19",
           "file": "assets/frames/skill-07.png"
         },
         {
           "id": "skill-08",
           "index": 7,
           "pivot": {
-            "x": 359.6,
+            "x": 336.6,
             "y": 562
           },
           "grip": {
-            "x": 436.78918918918924,
-            "y": 309.6756756756756
+            "x": 400.8162162162162,
+            "y": 303.18918918918916
           },
           "tip": {
-            "x": 607.0299507293406,
-            "y": 527.4569324542838
+            "x": 630.4184684371593,
+            "y": 422.1706123606341
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-skill-b.png",
@@ -2005,16 +3020,45 @@
             1194
           ],
           "sourceGrip": [
-            1115,
-            805
+            1095,
+            795
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": -34.85613709418912,
+            "rotationDegrees": -59.27368900609375,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 28,
+            "foregroundHand": {
+              "center": [
+                1080,
+                786
+              ],
+              "along": 27,
+              "across": 20,
+              "angle": 28
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "cf4c449d12d017cf936203052e3a183df74a4f33751b9348b7ad286d026f20fc",
+          "sha256": "435c6283f7c2c7d05403a1c904b2c6e3dfa2a53917d664829a2df94630436e16",
           "file": "assets/frames/skill-08.png"
         }
       ]
@@ -2026,22 +3070,22 @@
       "frameWidth": 768,
       "frameHeight": 768,
       "bodyPixels": 360,
-      "sha256": "54c81a2044df3f78c6805433fdf9540ccc2e834b30153fd858aed48348d9d161",
+      "sha256": "7d4a091a2d663aaee6395e9f5e1dcac10749642f2f7ae8dcc2f505bccfe0683d",
       "frames": [
         {
           "id": "aoe-01",
           "index": 0,
           "pivot": {
             "x": 402.6,
-            "y": 538.2
+            "y": 555.2
           },
           "grip": {
-            "x": 433.1719237435009,
-            "y": 327.940034662045
+            "x": 431.3001733102253,
+            "y": 317.4876949740034
           },
           "tip": {
-            "x": 509.3933722087654,
-            "y": 593.9252864712441
+            "x": 433.8279795112767,
+            "y": 575.890659762975
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-aoe-a.png",
@@ -2057,16 +3101,45 @@
             614
           ],
           "sourceGrip": [
-            412,
-            277
+            409,
+            233
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": -12.856137094189123,
+            "rotationDegrees": 2.726310993906253,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 90,
+            "foregroundHand": {
+              "center": [
+                410,
+                216
+              ],
+              "along": 32,
+              "across": 21,
+              "angle": 90
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "f7a57d692f5e1abe5cdbf9345e22177ba06847b4a369ce80b30794a91cc267cf",
+          "sha256": "944cb4259b4a75b82be4f22c2c2a548490b8d6e82895f7765d8ea84d86495e6d",
           "file": "assets/frames/aoe-01.png"
         },
         {
@@ -2074,15 +3147,15 @@
           "index": 1,
           "pivot": {
             "x": 427,
-            "y": 549.8
+            "y": 557.8
           },
           "grip": {
             "x": 455.0762564991335,
-            "y": 293.3701906412478
+            "y": 283.9005199306759
           },
           "tip": {
-            "x": 484.13424622259976,
-            "y": 568.1857714488008
+            "x": 480.3204546858533,
+            "y": 540.9629330905989
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-aoe-a.png",
@@ -2099,15 +3172,44 @@
           ],
           "sourceGrip": [
             1029,
-            202
+            174
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": -2.8561370941891226,
+            "rotationDegrees": -2.273689006093747,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 85,
+            "foregroundHand": {
+              "center": [
+                1028,
+                155
+              ],
+              "along": 34,
+              "across": 18,
+              "angle": 85
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "57f69330c874800b622975b201b1d5fe4e30c06e0229cba77ac68811e24b3ccc",
+          "sha256": "390e903c35b342e25b18e6dad8578ca50ab69891e96ffc582e17a6a82b30962b",
           "file": "assets/frames/aoe-02.png"
         },
         {
@@ -2115,15 +3217,15 @@
           "index": 2,
           "pivot": {
             "x": 403,
-            "y": 676
+            "y": 679.8
           },
           "grip": {
-            "x": 406.1195840554593,
-            "y": 367.7850953206239
+            "x": 404.2478336221837,
+            "y": 344.7566724436741
           },
           "tip": {
-            "x": 415.4853158169184,
-            "y": 91.54302924446611
+            "x": 392.6856852930506,
+            "y": 86.95270388785235
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-aoe-a.png",
@@ -2139,16 +3241,45 @@
             1208
           ],
           "sourceGrip": [
-            389,
-            714
+            386,
+            671
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": -174.85613709418914,
+            "rotationDegrees": 180.72631099390625,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 268,
+            "foregroundHand": {
+              "center": [
+                388,
+                690
+              ],
+              "along": 25,
+              "across": 20,
+              "angle": 268
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "75528bf6c964cbf623e8c471075bedf69ae31619f96dd2360530d470ce7ca414",
+          "sha256": "01b7d6b480efb7d0245f733a115e96a46cda2e5933241acd96a16425ba8f072c",
           "file": "assets/frames/aoe-03.png"
         },
         {
@@ -2156,15 +3287,15 @@
           "index": 3,
           "pivot": {
             "x": 418.2,
-            "y": 485.4
+            "y": 505.4
           },
           "grip": {
-            "x": 471.8568457538994,
-            "y": 335.0360485268631
+            "x": 471.2329289428077,
+            "y": 333.19896013864815
           },
           "tip": {
-            "x": 486.0354406154635,
-            "y": 611.3443693962263
+            "x": 474.02797951127667,
+            "y": 591.490659762975
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-aoe-a.png",
@@ -2180,16 +3311,45 @@
             1200
           ],
           "sourceGrip": [
-            1071,
-            959
+            1070,
+            924
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": 0.14386290581087735,
+            "rotationDegrees": 2.726310993906253,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 90,
+            "foregroundHand": {
+              "center": [
+                1070,
+                899
+              ],
+              "along": 32,
+              "across": 20,
+              "angle": 90
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "8d81b3066d95d4052340e9fc11b16df43c391a386226d744093b6d07f263e0a1",
+          "sha256": "e8913d68870d68f133797a89a57de23ae8bde83938bfbfedc34e52d7632d7db1",
           "file": "assets/frames/aoe-04.png"
         },
         {
@@ -2197,15 +3357,15 @@
           "index": 4,
           "pivot": {
             "x": 407.6,
-            "y": 471.4
+            "y": 487.4
           },
           "grip": {
-            "x": 458.48339222614834,
-            "y": 349.9159010600706
+            "x": 457.2113074204947,
+            "y": 351.92296819787975
           },
           "tip": {
-            "x": 473.0354406154635,
-            "y": 626.1443693962264
+            "x": 459.8279795112767,
+            "y": 610.0906597629751
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-aoe-b.png",
@@ -2221,16 +3381,45 @@
             608
           ],
           "sourceGrip": [
-            443,
-            417
+            441,
+            395
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": 0.14386290581087735,
+            "rotationDegrees": 2.726310993906253,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 90,
+            "foregroundHand": {
+              "center": [
+                440,
+                370
+              ],
+              "along": 37,
+              "across": 22,
+              "angle": 90
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "a5465ab458114f678b707b690f4e09a6ef9e0c2c95b48de1a0a6c4126b027735",
+          "sha256": "c49bb28c2a5db18ca266f39a0476b54703bbfc867cb4c876a6129f74d138aaba",
           "file": "assets/frames/aoe-05.png"
         },
         {
@@ -2238,15 +3427,15 @@
           "index": 5,
           "pivot": {
             "x": 410.6,
-            "y": 467.59999999999997
+            "y": 484.59999999999997
           },
           "grip": {
-            "x": 453.21484098939925,
-            "y": 357.5646643109541
+            "x": 455.75901060070663,
+            "y": 358.66360424028267
           },
           "tip": {
-            "x": 467.6354406154635,
-            "y": 633.7443693962264
+            "x": 444.68999543332427,
+            "y": 616.6356465201322
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-aoe-b.png",
@@ -2262,16 +3451,45 @@
             595
           ],
           "sourceGrip": [
-            1063,
-            422
+            1067,
+            397
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": 0.14386290581087735,
+            "rotationDegrees": 5.726310993906253,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 93,
+            "foregroundHand": {
+              "center": [
+                1066,
+                377
+              ],
+              "along": 31,
+              "across": 21,
+              "angle": 93
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "a0969d104ed6bb692a6c346ca6d1cb8df93eb89d4ce0dfe9969b0ca2ceac361b",
+          "sha256": "96fb9a4964f6ba3dc5b4757f821e2737578d5d9141836216f5106bd711ae66b7",
           "file": "assets/frames/aoe-06.png"
         },
         {
@@ -2279,15 +3497,15 @@
           "index": 6,
           "pivot": {
             "x": 411.4,
-            "y": 537.4
+            "y": 548.4
           },
           "grip": {
             "x": 457.8310954063604,
-            "y": 321.7816254416961
+            "y": 314.9724381625441
           },
           "tip": {
-            "x": 543.2347361752829,
-            "y": 584.9782770849354
+            "x": 460.62797951127664,
+            "y": 573.2906597629751
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-aoe-b.png",
@@ -2304,31 +3522,60 @@
           ],
           "sourceGrip": [
             450,
-            854
+            826
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": -14.856137094189123,
+            "rotationDegrees": 2.726310993906253,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 90,
+            "foregroundHand": {
+              "center": [
+                450,
+                795
+              ],
+              "along": 40,
+              "across": 21,
+              "angle": 90
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "bf3e2195d7bc87365bd4d9189ca58490d9261f5225aae06e462e30a0677b060b",
+          "sha256": "e0536b17d603466ba91690fe80c10ec20d71d06b9402377381630d1296e27784",
           "file": "assets/frames/aoe-07.png"
         },
         {
           "id": "aoe-08",
           "index": 7,
           "pivot": {
-            "x": 406.6,
-            "y": 557
+            "x": 420.6,
+            "y": 553
           },
           "grip": {
-            "x": 418.68480565371027,
-            "y": 340.7455830388693
+            "x": 432.0487632508833,
+            "y": 318.30035335689047
           },
           "tip": {
-            "x": 569.2559515323023,
-            "y": 572.704453625237
+            "x": 434.4279795112766,
+            "y": 576.690659762975
           },
           "bodyPixels": 360,
           "source": "assets/sources/body-aoe-b.png",
@@ -2344,16 +3591,45 @@
             1200
           ],
           "sourceGrip": [
-            1024,
-            860
+            1023,
+            831
           ],
           "weapon": {
             "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
-            "rotationDegrees": -29.856137094189123,
+            "rotationDegrees": 2.726310993906253,
             "uniformScale": 0.2408026755852843,
-            "redrawnPixels": 0
+            "redrawnPixels": 0,
+            "attachment": {
+              "x": 195,
+              "y": 96
+            },
+            "shaftAxis": {
+              "from": {
+                "x": 193,
+                "y": 12
+              },
+              "to": {
+                "x": 198,
+                "y": 117
+              }
+            },
+            "sourceAxisDegrees": 90,
+            "foregroundHand": {
+              "center": [
+                1024,
+                807
+              ],
+              "along": 36,
+              "across": 22,
+              "angle": 90
+            },
+            "layerOrder": [
+              "unchangedBody",
+              "originalWeapon",
+              "originalGlovePixels"
+            ]
           },
-          "sha256": "8e358a0fcf5372261b96e7857fbf5a7c0dcc366956fd212df3484c8c0335ee2a",
+          "sha256": "0cefe06c61d95d9f446475f813bfd21beb38368641cb6bac7647b456793e50da",
           "file": "assets/frames/aoe-08.png"
         }
       ]
@@ -3924,12 +5200,9 @@
     "skillEffectFrames": 132,
     "auraFrames": 20
   },
-  "material": {
-    "mode": "SATIN_GOLD_DISPLAY_SHADER",
-    "sourceFilesUnchanged": true,
-    "defaultEnabled": true,
-    "shader": "source/SatinGoldFilter.js"
-  },
+  "displayName": "오버로드",
+  "englishName": "OVERLORD",
+  "nameApproval": "name-approval-20261005.json",
   "aura": {
     "version": 3,
     "defaultPalette": "crimson",
@@ -3958,6 +5231,33 @@
         "frameCount": 8
       }
     ]
+  },
+  "appearance": {
+    "url": "appearance-options.json",
+    "status": "DEFAULT_APPLIED_ALTERNATIVES_RETAINED",
+    "defaultPaletteId": "crimson",
+    "paletteIds": [
+      "crimson",
+      "violet",
+      "teal"
+    ],
+    "playerSelectionEnabled": false,
+    "selectionField": "auraPaletteId",
+    "approval": "appearance-selection-20261005.json"
+  },
+  "idle": {
+    "policy": "STANDING_APPROVED_SOURCE",
+    "source": "assets/sources/knight-approved-20261005.png",
+    "bodyMotionEnabled": false,
+    "auraAnimated": true,
+    "previousFourFrameBank": "PRESERVED_NOT_PLAYED"
+  },
+  "gripCorrection": {
+    "version": 5,
+    "record": "grip-correction-20261005.json",
+    "bodySourcePixelsChanged": false,
+    "motionTimingChanged": false,
+    "weaponPixelsChanged": false
   },
   "retiredAuraV2": {
     "status": "REJECTED_LIGHT_SHAPE_PRESERVE_HISTORY",
@@ -4200,25 +5500,5 @@
         ]
       }
     }
-  },
-  "appearance": {
-    "url": "appearance-options.json",
-    "status": "DEFAULT_APPLIED_ALTERNATIVES_RETAINED",
-    "defaultPaletteId": "crimson",
-    "paletteIds": [
-      "crimson",
-      "violet",
-      "teal"
-    ],
-    "playerSelectionEnabled": false,
-    "selectionField": "auraPaletteId",
-    "approval": "appearance-selection-20261005.json"
-  },
-  "idle": {
-    "policy": "STANDING_APPROVED_SOURCE",
-    "source": "assets/sources/knight-approved-20261005.png",
-    "bodyMotionEnabled": false,
-    "auraAnimated": true,
-    "previousFourFrameBank": "PRESERVED_NOT_PLAYED"
   }
 }

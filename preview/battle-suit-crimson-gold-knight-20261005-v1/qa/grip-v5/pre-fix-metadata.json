@@ -1,0 +1,1095 @@
+{
+  "version": "BATTLE_SUIT_CRIMSON_GOLD_20261005_APPEARANCE_V4",
+  "motion": {
+    "idle": [
+      {
+        "id": "idle-01",
+        "source": "assets/sources/body-idle-a.png",
+        "sourceSha256": "fd47862afc6ccea556e15a37052e48e47dde785a5eb03bd25a40b7189a8d08ad",
+        "sourceFoot": [
+          330,
+          569
+        ],
+        "sourceGrip": [
+          313,
+          250
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": -31.856137094189123,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "idle-02",
+        "source": "assets/sources/body-idle-a.png",
+        "sourceSha256": "fd47862afc6ccea556e15a37052e48e47dde785a5eb03bd25a40b7189a8d08ad",
+        "sourceFoot": [
+          945,
+          570
+        ],
+        "sourceGrip": [
+          911,
+          246
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": -30.856137094189123,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "idle-03",
+        "source": "assets/sources/body-idle-a.png",
+        "sourceSha256": "fd47862afc6ccea556e15a37052e48e47dde785a5eb03bd25a40b7189a8d08ad",
+        "sourceFoot": [
+          365,
+          1172
+        ],
+        "sourceGrip": [
+          354,
+          862
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": -33.85613709418912,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "idle-04",
+        "source": "assets/sources/body-idle-a.png",
+        "sourceSha256": "fd47862afc6ccea556e15a37052e48e47dde785a5eb03bd25a40b7189a8d08ad",
+        "sourceFoot": [
+          966,
+          1172
+        ],
+        "sourceGrip": [
+          903,
+          863
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": -30.856137094189123,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      }
+    ],
+    "dash": [
+      {
+        "id": "dash-01",
+        "source": "assets/sources/body-dash-a.png",
+        "sourceSha256": "e7df99e9842e994ee5fea45c13fc3ddf3df047c5f02358c8d2242a31632ef31e",
+        "sourceFoot": [
+          381,
+          593
+        ],
+        "sourceGrip": [
+          247,
+          370
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": 71.14386290581088,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "dash-02",
+        "source": "assets/sources/body-dash-a.png",
+        "sourceSha256": "e7df99e9842e994ee5fea45c13fc3ddf3df047c5f02358c8d2242a31632ef31e",
+        "sourceFoot": [
+          948,
+          591
+        ],
+        "sourceGrip": [
+          815,
+          375
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": 80.14386290581088,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "dash-03",
+        "source": "assets/sources/body-dash-a.png",
+        "sourceSha256": "e7df99e9842e994ee5fea45c13fc3ddf3df047c5f02358c8d2242a31632ef31e",
+        "sourceFoot": [
+          286,
+          1165
+        ],
+        "sourceGrip": [
+          241,
+          904
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": 86.14386290581088,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "dash-04",
+        "source": "assets/sources/body-dash-a.png",
+        "sourceSha256": "e7df99e9842e994ee5fea45c13fc3ddf3df047c5f02358c8d2242a31632ef31e",
+        "sourceFoot": [
+          1020,
+          1168
+        ],
+        "sourceGrip": [
+          875,
+          909
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": 88.14386290581088,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "dash-05",
+        "source": "assets/sources/body-dash-b.png",
+        "sourceSha256": "dd6a869aff19f176c0569bd04d43c2777587138929f93047a5c812ad389361e0",
+        "sourceFoot": [
+          345,
+          598
+        ],
+        "sourceGrip": [
+          269,
+          286
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": 86.14386290581088,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "dash-06",
+        "source": "assets/sources/body-dash-b.png",
+        "sourceSha256": "dd6a869aff19f176c0569bd04d43c2777587138929f93047a5c812ad389361e0",
+        "sourceFoot": [
+          1003,
+          601
+        ],
+        "sourceGrip": [
+          775,
+          347
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": 63.14386290581088,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "dash-07",
+        "source": "assets/sources/body-dash-b.png",
+        "sourceSha256": "dd6a869aff19f176c0569bd04d43c2777587138929f93047a5c812ad389361e0",
+        "sourceFoot": [
+          362,
+          1181
+        ],
+        "sourceGrip": [
+          300,
+          938
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": 55.14386290581088,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "dash-08",
+        "source": "assets/sources/body-dash-b.png",
+        "sourceSha256": "dd6a869aff19f176c0569bd04d43c2777587138929f93047a5c812ad389361e0",
+        "sourceFoot": [
+          1007,
+          1203
+        ],
+        "sourceGrip": [
+          920,
+          831
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": -28.856137094189123,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      }
+    ],
+    "attack": [
+      {
+        "id": "attack-01",
+        "source": "assets/sources/body-attack-a.png",
+        "sourceSha256": "f2ff70985acaf39f106ab0a591f0c477cbb757b5095099d1c463d5fef959c901",
+        "sourceFoot": [
+          317,
+          562
+        ],
+        "sourceGrip": [
+          175,
+          141
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": 123.14386290581088,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "attack-02",
+        "source": "assets/sources/body-attack-a.png",
+        "sourceSha256": "f2ff70985acaf39f106ab0a591f0c477cbb757b5095099d1c463d5fef959c901",
+        "sourceFoot": [
+          944,
+          562
+        ],
+        "sourceGrip": [
+          790,
+          170
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": 138.14386290581086,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "attack-03",
+        "source": "assets/sources/body-attack-a.png",
+        "sourceSha256": "f2ff70985acaf39f106ab0a591f0c477cbb757b5095099d1c463d5fef959c901",
+        "sourceFoot": [
+          313,
+          1168
+        ],
+        "sourceGrip": [
+          531,
+          840
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": -78.85613709418912,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "attack-04",
+        "source": "assets/sources/body-attack-a.png",
+        "sourceSha256": "f2ff70985acaf39f106ab0a591f0c477cbb757b5095099d1c463d5fef959c901",
+        "sourceFoot": [
+          935,
+          1168
+        ],
+        "sourceGrip": [
+          1165,
+          840
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": -56.85613709418912,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "attack-05",
+        "source": "assets/sources/body-attack-b.png",
+        "sourceSha256": "23db7877d1c6573bae089c71272505912b442dd204e1ee711de72f81430fa233",
+        "sourceFoot": [
+          366,
+          592
+        ],
+        "sourceGrip": [
+          621,
+          256
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": -78.85613709418912,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "attack-06",
+        "source": "assets/sources/body-attack-b.png",
+        "sourceSha256": "23db7877d1c6573bae089c71272505912b442dd204e1ee711de72f81430fa233",
+        "sourceFoot": [
+          993,
+          594
+        ],
+        "sourceGrip": [
+          1090,
+          430
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": -38.85613709418912,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "attack-07",
+        "source": "assets/sources/body-attack-b.png",
+        "sourceSha256": "23db7877d1c6573bae089c71272505912b442dd204e1ee711de72f81430fa233",
+        "sourceFoot": [
+          365,
+          1191
+        ],
+        "sourceGrip": [
+          312,
+          860
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": 73.14386290581088,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "attack-08",
+        "source": "assets/sources/body-attack-b.png",
+        "sourceSha256": "23db7877d1c6573bae089c71272505912b442dd204e1ee711de72f81430fa233",
+        "sourceFoot": [
+          1000,
+          1191
+        ],
+        "sourceGrip": [
+          1106,
+          815
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": -151.85613709418914,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      }
+    ],
+    "combo": [
+      {
+        "id": "combo-01",
+        "source": "assets/sources/body-combo-a.png",
+        "sourceSha256": "32dd83383da651b7027eb268125628b1b956879c813bb26626ed57aa580f56aa",
+        "sourceFoot": [
+          344,
+          587
+        ],
+        "sourceGrip": [
+          241,
+          390
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": 118.14386290581088,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "combo-02",
+        "source": "assets/sources/body-combo-a.png",
+        "sourceSha256": "32dd83383da651b7027eb268125628b1b956879c813bb26626ed57aa580f56aa",
+        "sourceFoot": [
+          989,
+          588
+        ],
+        "sourceGrip": [
+          1161,
+          330
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": -114.85613709418912,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "combo-03",
+        "source": "assets/sources/body-combo-a.png",
+        "sourceSha256": "32dd83383da651b7027eb268125628b1b956879c813bb26626ed57aa580f56aa",
+        "sourceFoot": [
+          346,
+          1191
+        ],
+        "sourceGrip": [
+          279,
+          648
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": -211.85613709418914,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "combo-04",
+        "source": "assets/sources/body-combo-a.png",
+        "sourceSha256": "32dd83383da651b7027eb268125628b1b956879c813bb26626ed57aa580f56aa",
+        "sourceFoot": [
+          993,
+          1187
+        ],
+        "sourceGrip": [
+          870,
+          776
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": 118.14386290581088,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "combo-05",
+        "source": "assets/sources/body-combo-b.png",
+        "sourceSha256": "4a28c81870e656d5be3d653e7f325f948dd4f5de7975cdafd58f5e6c2a936fa4",
+        "sourceFoot": [
+          337,
+          595
+        ],
+        "sourceGrip": [
+          149,
+          133
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": 123.14386290581088,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "combo-06",
+        "source": "assets/sources/body-combo-b.png",
+        "sourceSha256": "4a28c81870e656d5be3d653e7f325f948dd4f5de7975cdafd58f5e6c2a936fa4",
+        "sourceFoot": [
+          989,
+          593
+        ],
+        "sourceGrip": [
+          1189,
+          269
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": -56.85613709418912,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "combo-07",
+        "source": "assets/sources/body-combo-b.png",
+        "sourceSha256": "4a28c81870e656d5be3d653e7f325f948dd4f5de7975cdafd58f5e6c2a936fa4",
+        "sourceFoot": [
+          366,
+          1182
+        ],
+        "sourceGrip": [
+          599,
+          938
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": -39.85613709418912,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "combo-08",
+        "source": "assets/sources/body-combo-b.png",
+        "sourceSha256": "4a28c81870e656d5be3d653e7f325f948dd4f5de7975cdafd58f5e6c2a936fa4",
+        "sourceFoot": [
+          1001,
+          1190
+        ],
+        "sourceGrip": [
+          1118,
+          857
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": -38.85613709418912,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      }
+    ],
+    "skill": [
+      {
+        "id": "skill-01",
+        "source": "assets/sources/body-skill-a.png",
+        "sourceSha256": "42333298d027be27bae6dabb022d4cdb698c517f06e54c00a99c8d8661342c0b",
+        "sourceFoot": [
+          364,
+          611
+        ],
+        "sourceGrip": [
+          408,
+          331
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": -30.856137094189123,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "skill-02",
+        "source": "assets/sources/body-skill-a.png",
+        "sourceSha256": "42333298d027be27bae6dabb022d4cdb698c517f06e54c00a99c8d8661342c0b",
+        "sourceFoot": [
+          1000,
+          611
+        ],
+        "sourceGrip": [
+          944,
+          65
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": -174.85613709418914,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "skill-03",
+        "source": "assets/sources/body-skill-a.png",
+        "sourceSha256": "42333298d027be27bae6dabb022d4cdb698c517f06e54c00a99c8d8661342c0b",
+        "sourceFoot": [
+          360,
+          1201
+        ],
+        "sourceGrip": [
+          328,
+          658
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": -201.85613709418914,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "skill-04",
+        "source": "assets/sources/body-skill-a.png",
+        "sourceSha256": "42333298d027be27bae6dabb022d4cdb698c517f06e54c00a99c8d8661342c0b",
+        "sourceFoot": [
+          1005,
+          1197
+        ],
+        "sourceGrip": [
+          846,
+          735
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": -231.85613709418914,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "skill-05",
+        "source": "assets/sources/body-skill-b.png",
+        "sourceSha256": "ecaf68eaecfb58303c10ef8311b5a03037fce084f0c6634a78a8ebd3f92aefb7",
+        "sourceFoot": [
+          301,
+          611
+        ],
+        "sourceGrip": [
+          286,
+          61
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": -221.85613709418914,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "skill-06",
+        "source": "assets/sources/body-skill-b.png",
+        "sourceSha256": "ecaf68eaecfb58303c10ef8311b5a03037fce084f0c6634a78a8ebd3f92aefb7",
+        "sourceFoot": [
+          986,
+          600
+        ],
+        "sourceGrip": [
+          1170,
+          328
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": -68.85613709418912,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "skill-07",
+        "source": "assets/sources/body-skill-b.png",
+        "sourceSha256": "ecaf68eaecfb58303c10ef8311b5a03037fce084f0c6634a78a8ebd3f92aefb7",
+        "sourceFoot": [
+          361,
+          1190
+        ],
+        "sourceGrip": [
+          495,
+          1080
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": -124.85613709418912,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "skill-08",
+        "source": "assets/sources/body-skill-b.png",
+        "sourceSha256": "ecaf68eaecfb58303c10ef8311b5a03037fce084f0c6634a78a8ebd3f92aefb7",
+        "sourceFoot": [
+          996,
+          1194
+        ],
+        "sourceGrip": [
+          1115,
+          805
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": -34.85613709418912,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      }
+    ],
+    "aoe": [
+      {
+        "id": "aoe-01",
+        "source": "assets/sources/body-aoe-a.png",
+        "sourceSha256": "3052ca1e03c1546617b1d3bc725474f44618f4b6ca651b4125f4931188e9d57a",
+        "sourceFoot": [
+          363,
+          614
+        ],
+        "sourceGrip": [
+          412,
+          277
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": -12.856137094189123,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "aoe-02",
+        "source": "assets/sources/body-aoe-a.png",
+        "sourceSha256": "3052ca1e03c1546617b1d3bc725474f44618f4b6ca651b4125f4931188e9d57a",
+        "sourceFoot": [
+          984,
+          613
+        ],
+        "sourceGrip": [
+          1029,
+          202
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": -2.8561370941891226,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "aoe-03",
+        "source": "assets/sources/body-aoe-a.png",
+        "sourceSha256": "3052ca1e03c1546617b1d3bc725474f44618f4b6ca651b4125f4931188e9d57a",
+        "sourceFoot": [
+          384,
+          1208
+        ],
+        "sourceGrip": [
+          389,
+          714
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": -174.85613709418914,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "aoe-04",
+        "source": "assets/sources/body-aoe-a.png",
+        "sourceSha256": "3052ca1e03c1546617b1d3bc725474f44618f4b6ca651b4125f4931188e9d57a",
+        "sourceFoot": [
+          985,
+          1200
+        ],
+        "sourceGrip": [
+          1071,
+          959
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": 0.14386290581087735,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "aoe-05",
+        "source": "assets/sources/body-aoe-b.png",
+        "sourceSha256": "1a908931c4cc0accf755cf52eecb59878bd61343a708366e7aff3768f9129586",
+        "sourceFoot": [
+          363,
+          608
+        ],
+        "sourceGrip": [
+          443,
+          417
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": 0.14386290581087735,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "aoe-06",
+        "source": "assets/sources/body-aoe-b.png",
+        "sourceSha256": "1a908931c4cc0accf755cf52eecb59878bd61343a708366e7aff3768f9129586",
+        "sourceFoot": [
+          996,
+          595
+        ],
+        "sourceGrip": [
+          1063,
+          422
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": 0.14386290581087735,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "aoe-07",
+        "source": "assets/sources/body-aoe-b.png",
+        "sourceSha256": "1a908931c4cc0accf755cf52eecb59878bd61343a708366e7aff3768f9129586",
+        "sourceFoot": [
+          377,
+          1193
+        ],
+        "sourceGrip": [
+          450,
+          854
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": -14.856137094189123,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      },
+      {
+        "id": "aoe-08",
+        "source": "assets/sources/body-aoe-b.png",
+        "sourceSha256": "1a908931c4cc0accf755cf52eecb59878bd61343a708366e7aff3768f9129586",
+        "sourceFoot": [
+          1005,
+          1200
+        ],
+        "sourceGrip": [
+          1024,
+          860
+        ],
+        "weapon": {
+          "sourceSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "rotationDegrees": -29.856137094189123,
+          "uniformScale": 0.2408026755852843,
+          "redrawnPixels": 0
+        }
+      }
+    ]
+  },
+  "retiredAuraV2": {
+    "status": "REJECTED_LIGHT_SHAPE_PRESERVE_HISTORY",
+    "reason": "User accepted the palette but requested the approved Valter light structure; thick fog bands no longer load or render.",
+    "effects": {
+      "aura-wrap": {
+        "url": "assets/atlases/aura-wrap.png",
+        "columns": 4,
+        "rows": 3,
+        "width": 2048,
+        "height": 1536,
+        "sha256": "8a98d5622e01b9b378bd0cc3c3801279fc1296565af532db89de6726c13eeb77",
+        "frames": [
+          {
+            "index": 0,
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 1,
+            "rect": {
+              "x": 512,
+              "y": 0,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 2,
+            "rect": {
+              "x": 1024,
+              "y": 0,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 3,
+            "rect": {
+              "x": 1536,
+              "y": 0,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 4,
+            "rect": {
+              "x": 0,
+              "y": 512,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 5,
+            "rect": {
+              "x": 512,
+              "y": 512,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 6,
+            "rect": {
+              "x": 1024,
+              "y": 512,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 7,
+            "rect": {
+              "x": 1536,
+              "y": 512,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 8,
+            "rect": {
+              "x": 0,
+              "y": 1024,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 9,
+            "rect": {
+              "x": 512,
+              "y": 1024,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 10,
+            "rect": {
+              "x": 1024,
+              "y": 1024,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 11,
+            "rect": {
+              "x": 1536,
+              "y": 1024,
+              "width": 512,
+              "height": 512
+            }
+          }
+        ]
+      },
+      "aura-rear": {
+        "url": "assets/atlases/aura-rear.png",
+        "columns": 4,
+        "rows": 3,
+        "width": 2048,
+        "height": 1536,
+        "sha256": "269bf11449bc879e4983c9ae5d5bc9f7aafb778e5e816ad497aacc8e4be875dd",
+        "frames": [
+          {
+            "index": 0,
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 1,
+            "rect": {
+              "x": 512,
+              "y": 0,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 2,
+            "rect": {
+              "x": 1024,
+              "y": 0,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 3,
+            "rect": {
+              "x": 1536,
+              "y": 0,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 4,
+            "rect": {
+              "x": 0,
+              "y": 512,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 5,
+            "rect": {
+              "x": 512,
+              "y": 512,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 6,
+            "rect": {
+              "x": 1024,
+              "y": 512,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 7,
+            "rect": {
+              "x": 1536,
+              "y": 512,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 8,
+            "rect": {
+              "x": 0,
+              "y": 1024,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 9,
+            "rect": {
+              "x": 512,
+              "y": 1024,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 10,
+            "rect": {
+              "x": 1024,
+              "y": 1024,
+              "width": 512,
+              "height": 512
+            }
+          },
+          {
+            "index": 11,
+            "rect": {
+              "x": 1536,
+              "y": 1024,
+              "width": 512,
+              "height": 512
+            }
+          }
+        ]
+      }
+    }
+  }
+}

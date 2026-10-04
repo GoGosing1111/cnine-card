@@ -1,0 +1,17 @@
+{
+  "version": "OVERLORD_GRIP_V5_20261005",
+  "deploymentMode": "assets-only",
+  "deployedBase": "7576d7f70034b3cf93dce92a09b248b27c60b7bf",
+  "baseEvidence": "qa/grip-v5/production-base.json",
+  "scope": "Overlord preview display name, rigid sword grip registration, original glove occlusion, near-side ground contact and review artifacts.",
+  "command": "npm run deploy:production -- --assets-only",
+  "rationale": "Concurrent clan production deployment 1947d5fa already includes its full release gate and runtime changes. This release changes only the isolated suit preview folder from that actual deployed source. Do not rerun unrelated game tests.",
+  "validation": [
+    "Asset atlas/alpha audit: 44 body frames, 152 effect frames, zero boundary warnings",
+    "All 146011 selected original weapon pixels remain identical",
+    "11 body source sheets, feet, uniform scales and motion.mjs remain unchanged",
+    "Actual PC/mobile V3 checks: 43 passed per viewport",
+    "FX-off hand inspection, slow/normal/fast controls, cancellation and 22.007523-second video decoding"
+  ],
+  "runtimeEnabled": false
+}

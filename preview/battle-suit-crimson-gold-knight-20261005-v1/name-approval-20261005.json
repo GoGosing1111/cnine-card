@@ -1,0 +1,10 @@
+{
+  "date": "2026-10-05",
+  "userInstruction": "오버로드로 결정하고 모션 문제점 알려줌",
+  "displayName": "오버로드",
+  "englishName": "OVERLORD",
+  "status": "NAME_CONFIRMED",
+  "scope": "Display name only. Later hand/weapon feedback is recorded separately; body motion and timing remain unchanged.",
+  "runtimeEnabled": false,
+  "motionFeedback": "grip-correction-20261005.json"
+}

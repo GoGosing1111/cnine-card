@@ -56,7 +56,7 @@ async function boot(){
  const [manifest,fixtures]=await Promise.all([fetch(ROOT+'manifest.json').then(r=>r.json()),fetch('/preview/z-body-thunder-v3/fixtures.json').then(r=>r.json())]);
  const payload=structuredClone(fixtures.multi);delete payload.monster;payload.wideGridPreview={scenario:'PVE'};window.cnineCardCatalog=()=>payload.cards;
  // Use this review's body directly so the borrowed encounter does not load Z-BODY's unrelated motion/FX pack.
- payload.equippedBattleSuit={code:'PREVIEW_CRIMSON_GOLD_KNIGHT',name:'흑금의 군주',battleSprite:ROOT+manifest.sourceArt,appearance:{battleSprite:ROOT+manifest.sourceArt,battleHeight:278}};
+ payload.equippedBattleSuit={code:'PREVIEW_CRIMSON_GOLD_KNIGHT',name:APPEARANCE_OPTIONS.displayName,battleSprite:ROOT+manifest.sourceArt,appearance:{battleSprite:ROOT+manifest.sourceArt,battleHeight:278}};
  payload.equippedWeapon=null;
  await new Promise(r=>document.readyState==='complete'?r():window.addEventListener('load',r,{once:true}));
  // The shared first-frame watchdog needs animation frames; background tabs do not receive them.
@@ -67,9 +67,9 @@ async function boot(){
  $('status').textContent='전장과 동작 리소스를 준비하고 있습니다';
  const api=window.ProjectVPixiBattle,mount=api.mountForBattle;api.mountForBattle=async(...args)=>{engine=await mount(...args);return engine;};
  try{
-  const prepared=window.ProjectVBattleV3Live.prepareLoading({modal:document.getElementById('modal'),mode:'HUNT',playerName:'흑금의 군주',opponentName:'백호멸진'});
+  const prepared=window.ProjectVBattleV3Live.prepareLoading({modal:document.getElementById('modal'),mode:'HUNT',playerName:APPEARANCE_OPTIONS.displayName,opponentName:'백호멸진'});
   prepared.stage.querySelector('.battle-v3-canvas-host').style.backgroundImage='none';
-  await window.ProjectVBattleV3Live.createRenderer({...prepared,modal:document.getElementById('modal'),data:payload,mode:'HUNT',playerName:'흑금의 군주'});
+  await window.ProjectVBattleV3Live.createRenderer({...prepared,modal:document.getElementById('modal'),data:payload,mode:'HUNT',playerName:APPEARANCE_OPTIONS.displayName});
  }finally{api.mountForBattle=mount;}
  if(!engine)throw Error('현재 V3 엔진 연결을 확인해 주세요.');
  engine.audio?.destroy?.();engine.battlefieldAsset=()=>'/assets/ui/project-v/battlefields/v3-nightmare-forest-battlefield-v1.png';await engine.setBattlePayload(payload);await engine.deployCards({instant:true,force:true});engine.accountBattleUnitIsPaused=()=>true;if(engine.bottomShade)engine.bottomShade.visible=false;

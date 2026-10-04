@@ -1,0 +1,8 @@
+{
+  "verifiedAt": "2026-10-04T21:06:46.448Z",
+  "deploymentId": "1947d5fa-3fff-4f96-ac90-a3df9ebcac7a",
+  "source": "7576d7f70034b3cf93dce92a09b248b27c60b7bf",
+  "url": "https://1947d5fa.cnine-card.pages.dev",
+  "evidence": "Wrangler pages deployment list; full source resolved from Git",
+  "priorSuitDeployment": "0a1af5bbd77cdf7f87bc4b6d6fb78701a0b1e49c"
+}

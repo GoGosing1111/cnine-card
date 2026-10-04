@@ -1,0 +1,68 @@
+{
+  "date": "2026-10-05",
+  "version": "OVERLORD_GRIP_V5",
+  "status": "TECH_QA_COMPLETE_USER_VISUAL_REVIEW_PENDING",
+  "userInstruction": "칼 손잡이가 꺽인경우도 있고 너무 멀리 끝에 잡은경우도 있어서 어색하다 보고 수정해라 캐릭터 모션 자체에 문제는 없어",
+  "inputs": [
+    {
+      "attachment": "codex-clipboard-4a5927c7-5217-4f88-bc54-53be449d2979.png",
+      "file": "qa/grip-v5/user-report-1.png",
+      "sha256": "05e4330b98e2ece808952cb69af63f2c921cb8e057accc4163f76686fe7a0075"
+    },
+    {
+      "attachment": "codex-clipboard-bb734046-c5d3-4049-afd4-30683bf35e58.png",
+      "file": "qa/grip-v5/user-report-2.png",
+      "sha256": "44c151d39ae6a4961e8e0b6acb3cac4b5e31facf78413549c2d49c1a5aabdbd7"
+    },
+    {
+      "attachment": "codex-clipboard-b4480343-de2f-4e29-896b-cc021f38b6c3.png",
+      "file": "qa/grip-v5/user-report-3.png",
+      "sha256": "586dc97113d6abcb12a88343c3f745f69e30ece33d074f3caaddd2516785d2d5"
+    }
+  ],
+  "rootCauses": [
+    "Body proxy handle tip was used as the weapon anchor, concatenating two visible handle lengths.",
+    "Some weapon rotations disagreed with the held proxy shaft; the 30-degree downward contact workaround created a visible kink.",
+    "Weapon was composited over the gloves without foreground finger occlusion."
+  ],
+  "fixes": [
+    "Register all 44 frames at the leading fist and measured rigid shaft angle.",
+    "Use original weapon attachment (195,96), giving 9.59 packed pixels to the beginning of the guard; do not redraw or stretch any weapon section.",
+    "Composite unchanged body, rigid original weapon, then original glove pixels from recorded hand masks.",
+    "For nearly level cuts against a short target, approach the near side of its ground tile and align the middle of the blade; feet/shadow/depth sort share that ground anchor. No body/view vertical offset is added."
+  ],
+  "preserved": {
+    "bodySheets": 11,
+    "bodyFrames": 44,
+    "bodySourcePixels": true,
+    "poseSequence": true,
+    "timing": true,
+    "approvedSource": true,
+    "weaponSourcePixels": 146011,
+    "weaponUniformScale": true,
+    "staticStandingIdle": true,
+    "skillEffects": 132,
+    "valterAuraFrames": 20,
+    "palettes": [
+      "crimson",
+      "violet",
+      "teal"
+    ]
+  },
+  "implementation": [
+    "pose-registration.json",
+    "pack-assets.mjs",
+    "source/KnightFX.js"
+  ],
+  "proof": [
+    "qa/grip-v5/registration-report.json",
+    "qa/grip-v5/before-after-grip.png",
+    "qa/grip-v5/desktop-no-fx.png",
+    "qa/grip-v5/desktop-rising-cut.png",
+    "qa/grip-v5/runtime-desktop.json",
+    "qa/grip-v5/runtime-mobile.json",
+    "qa/grip-v5/browser-review.json",
+    "review-overlord-grip-v5.webm"
+  ],
+  "runtimeEnabled": false
+}

@@ -1,0 +1,74 @@
+{
+  "date": "2026-10-05",
+  "version": "OVERLORD_GRIP_V5",
+  "passed": true,
+  "desktop": {
+    "viewport": [
+      1440,
+      1000
+    ],
+    "canvas": [
+      1425,
+      640
+    ],
+    "checks": 43,
+    "passed": true,
+    "report": "qa/grip-v5/runtime-desktop.json",
+    "captures": [
+      "qa/grip-v5/desktop-no-fx.png",
+      "qa/grip-v5/desktop-rising-cut.png"
+    ]
+  },
+  "mobile": {
+    "viewport": [
+      390,
+      844
+    ],
+    "canvas": [
+      375,
+      460
+    ],
+    "checks": 43,
+    "passed": true,
+    "report": "qa/grip-v5/runtime-mobile.json",
+    "captures": [
+      "qa/grip-v5/mobile-no-fx.png",
+      "qa/grip-v5/mobile-rising-cut.png"
+    ]
+  },
+  "review": {
+    "sourceHandCrops": 44,
+    "packedBodyContactSheets": 6,
+    "issuePoseCloseups": [
+      "combo-02",
+      "combo-06",
+      "combo-07"
+    ],
+    "slowPlayback": 0.25,
+    "normalPlaybackAndCapture": 1,
+    "fastPlayback": 2,
+    "fxOff": true,
+    "seek": true,
+    "cancel": {
+      "effects": 0,
+      "ghosts": 0,
+      "registeredTimelines": 0,
+      "time": 0
+    },
+    "standingIdleFixed": true
+  },
+  "video": {
+    "file": "review-overlord-grip-v5.webm",
+    "bytes": 18267621,
+    "width": 1425,
+    "height": 640,
+    "duration": 22.007523,
+    "browserDecoded": true,
+    "browserPlaybackConfirmed": true,
+    "browserReachedEnd": true
+  },
+  "sourceArtAndWeaponPixelsUnchanged": true,
+  "motionTimingAndPoseOrderUnchanged": true,
+  "runtimeEnabled": false,
+  "userVisualApproval": "PENDING"
+}

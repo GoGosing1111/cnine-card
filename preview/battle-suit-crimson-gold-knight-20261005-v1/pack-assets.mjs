@@ -4,6 +4,9 @@ import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 const root=new URL('./',import.meta.url),file=p=>fileURLToPath(new URL(p,root)),hash=b=>createHash('sha256').update(b).digest('hex');
 const definitions=JSON.parse(await fs.readFile(file('pose-registration.json'))),blade=await fs.readFile(file('assets/locked/source-blade.png')),locked=JSON.parse(await fs.readFile(file('assets/locked/blade-provenance.json')));
+// The extraction origin is not the hand attachment: place the original lower hilt
+// inside the leading fist, rather than concatenate it with the body's proxy stub.
+const attachment={x:195,y:96},shaftAxis={from:{x:193,y:12},to:{x:198,y:117}};
 if(hash(blade)!==locked.sha256)throw Error('Locked blade changed');
 const manifest={version:'BATTLE_SUIT_CRIMSON_GOLD_20261005_V1',status:'USER_REVIEW_PENDING',runtimeEnabled:false,sourceArt:'assets/sources/knight-approved-20261005.png',weapon:{...locked,url:'assets/locked/source-blade.png',drawingPolicy:'ONE_IMMUTABLE_ORIGINAL_RASTER'},motion:{},effects:{},runtime:{pixi:'8.20.0',gsap:'3.13.0',engine:'preview/project-v-v3/source/battle/BattleEngine.js',clock:'V3_REGISTERED_GSAP'},audio:{enabled:false}};
 await fs.mkdir(file('assets/atlases'),{recursive:true});await fs.mkdir(file('assets/frames'),{recursive:true});await fs.mkdir(file('assets/thumbs'),{recursive:true});
@@ -33,16 +36,23 @@ for(const [key,def]of Object.entries(definitions)){
   // Same body size for every frame. Crouching frames are not scaled to their visible height.
   const bodyScale=600/def.upright,bw=Math.round(b.width*bodyScale),bh=Math.round(b.height*bodyScale);
   const body=await sharp(crop,{raw:{width:b.width,height:b.height,channels:4}}).resize(bw,bh).png().toBuffer();
+  const hand=def.foregroundHands[i],foreground=Buffer.alloc(crop.length),ha=hand.angle*Math.PI/180,hc=Math.cos(ha),hs=Math.sin(ha);
+  for(let y=0;y<b.height;y++)for(let x=0;x<b.width;x++){
+   const dx=x+b.left-hand.center[0],dy=y+b.top-hand.center[1],along=(dx*hc+dy*hs)/hand.along,across=(-dx*hs+dy*hc)/hand.across;
+   if(along*along+across*across<=1){const o=(y*b.width+x)*4;crop.copy(foreground,o,o,o+4);}
+  }
+  const fingers=await sharp(foreground,{raw:{width:b.width,height:b.height,channels:4}}).resize(bw,bh).png().toBuffer();
   const foot={x:(def.feet[i][0]-b.left)*bodyScale,y:(def.feet[i][1]-b.top)*bodyScale},grip={x:(def.grips[i][0]-def.feet[i][0])*bodyScale,y:(def.grips[i][1]-def.feet[i][1])*bodyScale};
   const factor=600/locked.standingHelmetToSole;
   const sw=Math.round(locked.width*factor),sh=Math.round(locked.height*factor);
-  const bladeAngle=Math.atan2(locked.tip.y-locked.grip.y,locked.tip.x-locked.grip.x)*180/Math.PI,rotation=def.angles[i]-bladeAngle;
+  const bladeAngle=Math.atan2(shaftAxis.to.y-shaftAxis.from.y,shaftAxis.to.x-shaftAxis.from.x)*180/Math.PI,rotation=def.angles[i]-bladeAngle;
   const scaled=await sharp(blade).resize({width:sw,kernel:'lanczos3'}).png().toBuffer(),rotated=await sharp(scaled).rotate(rotation,{background:'#00000000'}).png().toBuffer(),rm=await sharp(rotated).metadata();
   const theta=rotation*Math.PI/180,cos=Math.cos(theta),sin=Math.sin(theta);
   const transform=p=>{const x=p.x*factor-sw/2,y=p.y*factor-sh/2;return{x:rm.width/2+x*cos-y*sin,y:rm.height/2+x*sin+y*cos};};
-  const rg=transform(locked.grip),tip=transform(locked.tip),origin={x:1000,y:1300};
+  const rg=transform(attachment),tip=transform(locked.tip),origin={x:1000,y:1300};
   const weaponLeft=Math.round(origin.x+grip.x-rg.x),weaponTop=Math.round(origin.y+grip.y-rg.y);
-  const whole=await sharp({create:{width:2200,height:1800,channels:4,background:'#00000000'}}).composite([{input:body,left:Math.round(origin.x-foot.x),top:Math.round(origin.y-foot.y)},{input:rotated,left:weaponLeft,top:weaponTop}]).png().toBuffer();
+  const bodyPlacement={left:Math.round(origin.x-foot.x),top:Math.round(origin.y-foot.y)};
+  const whole=await sharp({create:{width:2200,height:1800,channels:4,background:'#00000000'}}).composite([{input:body,...bodyPlacement},{input:rotated,left:weaponLeft,top:weaponTop},{input:fingers,...bodyPlacement}]).png().toBuffer();
   const trimmed=await sharp(whole).trim({threshold:0}).png().toBuffer({resolveWithObject:true});
   const pack=.6,tw=Math.round(trimmed.info.width*pack),th=Math.round(trimmed.info.height*pack);
   if(tw>748||th>748)throw Error(key+i+' frame would clip '+tw+'x'+th);
@@ -51,6 +61,7 @@ for(const [key,def]of Object.entries(definitions)){
   const group=key.split('-')[0],index=rows[group].length,id=group+'-'+String(index+1).padStart(2,'0');
   const pivot={x:px+(origin.x-trimLeft)*pack,y:py+(origin.y-trimTop)*pack};
   const entry={id,index,pivot,grip:{x:px+(origin.x+grip.x-trimLeft)*pack,y:py+(origin.y+grip.y-trimTop)*pack},tip:{x:px+(weaponLeft+tip.x-trimLeft)*pack,y:py+(weaponTop+tip.y-trimTop)*pack},bodyPixels:360,source:'assets/sources/body-'+key+'.png',sourceSha256:hash(source),componentBox:b,sourceFoot:def.feet[i],sourceGrip:def.grips[i],weapon:{sourceSha256:locked.sha256,rotationDegrees:rotation,uniformScale:factor*pack,redrawnPixels:0},sha256:hash(frame),file:'assets/frames/'+id+'.png'};
+  entry.weapon.attachment=attachment;entry.weapon.shaftAxis=shaftAxis;entry.weapon.sourceAxisDegrees=def.angles[i];entry.weapon.foregroundHand=hand;entry.weapon.layerOrder=['unchangedBody','originalWeapon','originalGlovePixels'];
   await fs.writeFile(file(entry.file),frame);await sharp(frame).trim({threshold:0}).resize({width:300,height:300,fit:'contain',background:'#00000000'}).png().toFile(file('assets/thumbs/'+id+'.png'));rows[group].push({entry,frame});
  }
 }

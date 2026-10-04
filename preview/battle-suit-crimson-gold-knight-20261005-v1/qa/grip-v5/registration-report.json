@@ -1,0 +1,406 @@
+{
+  "passed": true,
+  "frames": 44,
+  "bodySheetsUnchanged": 11,
+  "motionSha256": "e2d8403544160bcbc3bd8ee5ed23d269222dd6efb5d44148b09ad81abbb14097",
+  "motionTimingAndPoseSequenceUnchanged": true,
+  "sourceWeaponUnchanged": true,
+  "results": [
+    {
+      "id": "idle-01",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "idle-02",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "idle-03",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "idle-04",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "dash-01",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "dash-02",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "dash-03",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "dash-04",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "dash-05",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "dash-06",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "dash-07",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "dash-08",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "attack-01",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "attack-02",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "attack-03",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "attack-04",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "attack-05",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "attack-06",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "attack-07",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "attack-08",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "combo-01",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "combo-02",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "combo-03",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "combo-04",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "combo-05",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "combo-06",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "combo-07",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "combo-08",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "skill-01",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "skill-02",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "skill-03",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "skill-04",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "skill-05",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "skill-06",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "skill-07",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "skill-08",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "aoe-01",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "aoe-02",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "aoe-03",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "aoe-04",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "aoe-05",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "aoe-06",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "aoe-07",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    },
+    {
+      "id": "aoe-08",
+      "bodySourceUnchanged": true,
+      "feetUnchanged": true,
+      "weaponSourceUnchanged": true,
+      "bodyAndWeaponScaleUnchanged": true,
+      "gripToGuardPixels": 9.586850201286929,
+      "originalGloveOcclusion": true
+    }
+  ]
+}

@@ -1,6 +1,8 @@
 {
   "schemaVersion": 1,
   "appearanceId": "crimson-gold-knight",
+  "displayName": "오버로드",
+  "englishName": "OVERLORD",
   "status": "DEFAULT_APPLIED_ALTERNATIVES_RETAINED",
   "defaultPaletteId": "crimson",
   "paletteOrder": [

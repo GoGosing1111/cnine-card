@@ -1,0 +1,385 @@
+{
+  "at": "2026-10-04T20:55:24.592Z",
+  "viewport": {
+    "width": 1425,
+    "height": 640
+  },
+  "canvas": {
+    "width": 1425,
+    "height": 640
+  },
+  "passed": true,
+  "results": [
+    {
+      "mode": "look",
+      "time": 0,
+      "check": "finite grounded sample and pose-following aura",
+      "pass": true
+    },
+    {
+      "mode": "look",
+      "time": 1.2,
+      "check": "finite grounded sample and pose-following aura",
+      "pass": true
+    },
+    {
+      "mode": "look",
+      "time": 2.4,
+      "check": "finite grounded sample and pose-following aura",
+      "pass": true
+    },
+    {
+      "mode": "look",
+      "check": "cancel cleanup",
+      "pass": true
+    },
+    {
+      "mode": "idle",
+      "check": "standing source and body transform stay fixed across the whole idle loop",
+      "snapshots": [
+        {
+          "time": 0,
+          "sourceMatches": true,
+          "transform": [
+            380,
+            416,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0.23411371237458195,
+            0.23411371237458195,
+            0,
+            0.537109375,
+            0.9837239583333334
+          ]
+        },
+        {
+          "time": 0.6,
+          "sourceMatches": true,
+          "transform": [
+            380,
+            416,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0.23411371237458195,
+            0.23411371237458195,
+            0,
+            0.537109375,
+            0.9837239583333334
+          ]
+        },
+        {
+          "time": 1.2,
+          "sourceMatches": true,
+          "transform": [
+            380,
+            416,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0.23411371237458195,
+            0.23411371237458195,
+            0,
+            0.537109375,
+            0.9837239583333334
+          ]
+        },
+        {
+          "time": 1.8,
+          "sourceMatches": true,
+          "transform": [
+            380,
+            416,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0.23411371237458195,
+            0.23411371237458195,
+            0,
+            0.537109375,
+            0.9837239583333334
+          ]
+        },
+        {
+          "time": 2.4,
+          "sourceMatches": true,
+          "transform": [
+            380,
+            416,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0.23411371237458195,
+            0.23411371237458195,
+            0,
+            0.537109375,
+            0.9837239583333334
+          ]
+        }
+      ],
+      "pass": true
+    },
+    {
+      "mode": "idle",
+      "time": 0,
+      "check": "finite grounded sample and pose-following aura",
+      "pass": true
+    },
+    {
+      "mode": "idle",
+      "time": 1.2,
+      "check": "finite grounded sample and pose-following aura",
+      "pass": true
+    },
+    {
+      "mode": "idle",
+      "time": 2.4,
+      "check": "finite grounded sample and pose-following aura",
+      "pass": true
+    },
+    {
+      "mode": "idle",
+      "check": "cancel cleanup",
+      "pass": true
+    },
+    {
+      "mode": "dash",
+      "time": 0,
+      "check": "finite grounded sample and pose-following aura",
+      "pass": true
+    },
+    {
+      "mode": "dash",
+      "time": 0.625,
+      "check": "finite grounded sample and pose-following aura",
+      "pass": true
+    },
+    {
+      "mode": "dash",
+      "time": 1.25,
+      "check": "finite grounded sample and pose-following aura",
+      "pass": true
+    },
+    {
+      "mode": "dash",
+      "check": "cancel cleanup",
+      "pass": true
+    },
+    {
+      "mode": "attack",
+      "time": 0.41,
+      "contactCount": 1,
+      "groundError": 0,
+      "bladeIntersects": true,
+      "pass": true
+    },
+    {
+      "mode": "attack",
+      "time": 0,
+      "check": "finite grounded sample and pose-following aura",
+      "pass": true
+    },
+    {
+      "mode": "attack",
+      "time": 0.75,
+      "check": "finite grounded sample and pose-following aura",
+      "pass": true
+    },
+    {
+      "mode": "attack",
+      "time": 1.5,
+      "check": "finite grounded sample and pose-following aura",
+      "pass": true
+    },
+    {
+      "mode": "attack",
+      "check": "cancel cleanup",
+      "pass": true
+    },
+    {
+      "mode": "combo",
+      "time": 0.46,
+      "contactCount": 1,
+      "groundError": 0,
+      "bladeIntersects": true,
+      "pass": true
+    },
+    {
+      "mode": "combo",
+      "time": 1.05,
+      "contactCount": 2,
+      "groundError": 0,
+      "bladeIntersects": true,
+      "pass": true
+    },
+    {
+      "mode": "combo",
+      "time": 1.72,
+      "contactCount": 3,
+      "groundError": 0,
+      "bladeIntersects": true,
+      "pass": true
+    },
+    {
+      "mode": "combo",
+      "time": 0,
+      "check": "finite grounded sample and pose-following aura",
+      "pass": true
+    },
+    {
+      "mode": "combo",
+      "time": 1.425,
+      "check": "finite grounded sample and pose-following aura",
+      "pass": true
+    },
+    {
+      "mode": "combo",
+      "time": 2.85,
+      "check": "finite grounded sample and pose-following aura",
+      "pass": true
+    },
+    {
+      "mode": "combo",
+      "check": "cancel cleanup",
+      "pass": true
+    },
+    {
+      "mode": "skill",
+      "time": 0.8,
+      "contactCount": 1,
+      "groundError": 0,
+      "bladeIntersects": true,
+      "pass": true
+    },
+    {
+      "mode": "skill",
+      "time": 1.25,
+      "contactCount": 2,
+      "groundError": 0,
+      "bladeIntersects": true,
+      "pass": true
+    },
+    {
+      "mode": "skill",
+      "time": 1.76,
+      "contactCount": 3,
+      "groundError": 0,
+      "bladeIntersects": true,
+      "pass": true
+    },
+    {
+      "mode": "skill",
+      "time": 3.32,
+      "contactCount": 4,
+      "groundError": 0,
+      "bladeIntersects": true,
+      "pass": true
+    },
+    {
+      "mode": "skill",
+      "time": 0,
+      "check": "finite grounded sample and pose-following aura",
+      "pass": true
+    },
+    {
+      "mode": "skill",
+      "time": 2.45,
+      "check": "finite grounded sample and pose-following aura",
+      "pass": true
+    },
+    {
+      "mode": "skill",
+      "time": 4.9,
+      "check": "finite grounded sample and pose-following aura",
+      "pass": true
+    },
+    {
+      "mode": "skill",
+      "check": "cancel cleanup",
+      "pass": true
+    },
+    {
+      "mode": "aoe",
+      "time": 2.27,
+      "contactCount": 1,
+      "groundError": 0,
+      "bladeIntersects": null,
+      "pass": true
+    },
+    {
+      "mode": "aoe",
+      "time": 2.34,
+      "contactCount": 2,
+      "groundError": 0,
+      "bladeIntersects": null,
+      "pass": true
+    },
+    {
+      "mode": "aoe",
+      "time": 2.41,
+      "contactCount": 3,
+      "groundError": 0,
+      "bladeIntersects": null,
+      "pass": true
+    },
+    {
+      "mode": "aoe",
+      "time": 2.48,
+      "contactCount": 4,
+      "groundError": 0,
+      "bladeIntersects": null,
+      "pass": true
+    },
+    {
+      "mode": "aoe",
+      "time": 2.55,
+      "contactCount": 5,
+      "groundError": 0,
+      "bladeIntersects": null,
+      "pass": true
+    },
+    {
+      "mode": "aoe",
+      "time": 0,
+      "check": "finite grounded sample and pose-following aura",
+      "pass": true
+    },
+    {
+      "mode": "aoe",
+      "time": 2.675,
+      "check": "finite grounded sample and pose-following aura",
+      "pass": true
+    },
+    {
+      "mode": "aoe",
+      "time": 5.35,
+      "check": "finite grounded sample and pose-following aura",
+      "pass": true
+    },
+    {
+      "mode": "aoe",
+      "check": "cancel cleanup",
+      "pass": true
+    },
+    {
+      "check": "five visible distinct native enemies",
+      "pass": true
+    }
+  ]
+}

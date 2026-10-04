@@ -58,8 +58,14 @@ export class KnightFX{
   const feet=this.targetFeet(),torso=this.contact(),size=HEIGHT*this.unit.root.scale.x,scale=size/360;
   const reach=(bank,index)=>{
    const f=this.manifest.motion[bank].frames[index],dy=(f.tip.y-f.grip.y)*scale;
-   const u=Math.abs(dy)>2?Math.max(.24,Math.min(.84,(torso.y-feet.y-(f.grip.y-f.pivot.y)*scale)/dy)):.58;
-   return{x:torso.x-((f.grip.x-f.pivot.x)+(f.tip.x-f.grip.x)*u)*scale,y:feet.y};
+   const u=Math.abs(dy)>size*.2?Math.max(.24,Math.min(.84,(torso.y-feet.y-(f.grip.y-f.pivot.y)*scale)/dy)):.58;
+   // A level two-handed cut approaches a short target from the near side of
+   // its ground tile. Keep the rigid hilt aligned with the hands; never bend
+   // the sword down to compensate for the target's height. This is ground
+   // placement (also used by depth sorting/shadow), not a body/view Y offset.
+   const bladeY=((f.grip.y-f.pivot.y)+(f.tip.y-f.grip.y)*u)*scale;
+   const nearSide=Math.max(0,Math.min(size*.28,torso.y-feet.y-bladeY));
+   return{x:torso.x-((f.grip.x-f.pivot.x)+(f.tip.x-f.grip.x)*u)*scale,y:feet.y+nearSide};
   };
   const anchors={home:this.home,strike:reach('attack',3),rise:reach('combo',1),reverse:reach('combo',5),finish:reach('skill',5),air:{x:feet.x-size*.88,y:feet.y},caster:this.bounds().caster};
   const a=anchors[state.path.from],b=anchors[state.path.to],q=state.path.mix,groundY=mix(a.y,b.y,q);
