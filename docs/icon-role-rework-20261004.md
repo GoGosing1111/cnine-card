@@ -40,3 +40,13 @@ preview/icon-roles-v1/balance-report.json: 동일 전투력 중립 카드와 비
 
 역할 정책 이상은 OWNER CMS에서 전체/모드/개별 역할 OFF로 새 전투 적용을 중단할 수 있다. 기존 승인 자산과 legacy 초안은 보존한다.
 런타임 문제는 이 개편 직전의 운영 커밋으로 정상 배포 절차를 거쳐 되돌린다. DB 마이그레이션·획득 지급·재화 변경은 없다.
+
+## 운영 반영 완료
+
+- 운영 후보 커밋: b043c91fdd9746a5a004f5380708efcc8a6dda8a. 정상 배포 명령의 전체 69개 검사 단계와 최종 운영 보호 검사를 모두 통과했다. 통과한 구간은 원본 로그·해시로 이어 실행했으며 실패 단계는 다시 통과시켰다.
+- 배포 URL: https://13667e2b.cnine-card.pages.dev. API Worker와 Pages, 클랜 Worker 배포가 모두 완료됐다.
+- 운영 12개 변경 파일의 본문 해시가 후보와 일치한다. 공개 ICON 역할 API는 7종·설정 리비전 1·20261004-rpg-v1을 반환하고, 비로그인 CMS 접근은 401로 차단된다.
+- 운영에 올라간 고정 전투 검수 화면에서 20261004-icon-rpg-v1 번들로 스킬 8회, 서버 이벤트 전부 적용, 결과 표시·복귀 및 오류 0건을 확인했다. 실계정 전투나 재화 변경은 하지 않았다. PC·모바일 실제 메인 로더와 CMS 저장은 앞서 로컬 격리 환경에서 검증했다.
+- 증적: preview/icon-roles-v1/release-verification.json, live-verification.json, live-browser.json, qa/live-battle.png. 전체 원본 로그는 C:/Users/User/.codex/tmp/icon-roles-20261004/에 보존한다.
+- 추가 테스트 정정은 기존 펫 카탈로그 함수 연결, 서버 우편 보상 메타데이터의 실제 표시 경로, 독립 배틀슈트 테스트의 기존 칭호 초기화 표식뿐이다. 관련 게임 실행 코드나 보상 정책은 바꾸지 않았다.
+- 유저 공지: docs/notice-icon-role-rework-20261004.txt. 배포 후 변경은 증적·문서 저장뿐이므로 추가 운영 재배포를 하지 않는다.

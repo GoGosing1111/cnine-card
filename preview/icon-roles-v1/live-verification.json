@@ -1,0 +1,205 @@
+{
+  "verifiedAt": "2026-10-04T12:23:35.573Z",
+  "source": "b043c91fdd9746a5a004f5380708efcc8a6dda8a",
+  "origin": "https://cnine-card.pages.dev",
+  "files": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "a3eb5c3cbfe0814d132cd808ce6ab008c9fd9fb0d7bfc54157c5012c1a92d280"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "a301a3eea0c7d1e4d6bd445ef6913d91da446a719875e22eaf5a090f572bc48a"
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "7909d8dd5dba96c79eee5e58cc38ed04b80559728d23490b9308e124e516be2e"
+    },
+    {
+      "file": "js/icon-fusion-v1.bundle.js",
+      "status": 200,
+      "sha256": "6e08b5fb1898c6994a794bbe687cf3a3e668c9ba023c6c23a3431c6ba99a124a"
+    },
+    {
+      "file": "css/icon-roles-v1.css",
+      "status": 200,
+      "sha256": "e0e5c2bf0ce87e5207fd2bf0eeb70a949858fc82899ce8cd09022ab0777ab52c"
+    },
+    {
+      "file": "shared/icon-roles-v1.mjs",
+      "status": 200,
+      "sha256": "43904036020376feecfd8a91fb8471bbce7450e2ced150c898b2c2e4f9b8d5f5"
+    },
+    {
+      "file": "admin/icon-role-editor-v1.mjs",
+      "status": 200,
+      "sha256": "303931495ec0f9e657df07d74c98e369c8dc78f1faf577b58c8993c14bd65a77"
+    },
+    {
+      "file": "admin/icon-admin-v1.mjs",
+      "status": 200,
+      "sha256": "3fbaf1c1527b7a4d5bc30f1efeda6193c8664bfaec2adefcd5cef606dd9babef"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "status": 200,
+      "sha256": "69d6da9bc7b88886504552cabf88dff573b1326323ac00931ecf860f43d12431"
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "status": 200,
+      "sha256": "d37698b956ae1b08c0de7822bfa893ac2d8258d770e744dff9e4d6ccc77b03e3"
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "status": 200,
+      "sha256": "7d09ff1004014e39cd3c9c578e194495192c4185823ec7c99c1f5d6f2afced2d"
+    },
+    {
+      "file": "preview/icon-roles-v1/index.html",
+      "status": 200,
+      "sha256": "0d62f23ad1f70508015c59851ef9146acacb0f7b61bf3bf83e68deb644e860a9"
+    }
+  ],
+  "rolePolicy": {
+    "version": "20261004-rpg-v1",
+    "revision": 1,
+    "enabled": true,
+    "scopes": {
+      "pve": true,
+      "pvp": true,
+      "captain": true
+    },
+    "cards": [
+      {
+        "code": "ICON-DIIM",
+        "enabled": true,
+        "tuning": {
+          "firstAction": 2,
+          "cooldownActions": 4,
+          "maxCasts": 6,
+          "pveScale": 100,
+          "pvpScale": 90,
+          "damagePercent": 180,
+          "damageCapPercent": 46,
+          "executePercent": 60,
+          "takedownGauge": 25,
+          "maxTakedowns": 2
+        }
+      },
+      {
+        "code": "ICON-HI-HEEYA",
+        "enabled": true,
+        "tuning": {
+          "firstAction": 3,
+          "cooldownActions": 4,
+          "maxCasts": 6,
+          "pveScale": 100,
+          "pvpScale": 90,
+          "damagePercent": 180,
+          "damageCapPercent": 46,
+          "stackPercent": 10,
+          "maxStacks": 3,
+          "shieldBreakPercent": 40
+        }
+      },
+      {
+        "code": "ICON-NAMUNEUL-BONGSOON",
+        "enabled": true,
+        "tuning": {
+          "firstAction": 2,
+          "cooldownActions": 4,
+          "maxCasts": 6,
+          "pveScale": 100,
+          "pvpScale": 90,
+          "damagePercent": 180,
+          "damageCapPercent": 46,
+          "maxTargets": 3,
+          "focusPercent": 20,
+          "penetrationPercent": 25
+        }
+      },
+      {
+        "code": "ICON-OH-JOEUN",
+        "enabled": true,
+        "tuning": {
+          "firstAction": 2,
+          "cooldownActions": 4,
+          "maxCasts": 6,
+          "pveScale": 100,
+          "pvpScale": 90,
+          "healPercent": 20,
+          "resonancePercent": 2,
+          "maxStacks": 5,
+          "healBudgetPercent": 80,
+          "nextAttackPercent": 25,
+          "durationActions": 2
+        }
+      },
+      {
+        "code": "ICON-ORIKKUNG",
+        "enabled": true,
+        "tuning": {
+          "firstAction": 3,
+          "cooldownActions": 4,
+          "maxCasts": 6,
+          "pveScale": 100,
+          "pvpScale": 90,
+          "damagePercent": 180,
+          "damageCapPercent": 46,
+          "maxStacks": 3,
+          "dotPercent": 9,
+          "healReductionPercent": 10,
+          "stackPercent": 15,
+          "durationActions": 3,
+          "bossVulnerabilityPercent": 6
+        }
+      },
+      {
+        "code": "ICON-KANGGUYEOL",
+        "enabled": true,
+        "tuning": {
+          "firstAction": 2,
+          "cooldownActions": 4,
+          "maxCasts": 6,
+          "pveScale": 100,
+          "pvpScale": 90,
+          "damagePercent": 180,
+          "damageCapPercent": 46,
+          "guardThresholdPercent": 50,
+          "guardSharePercent": 25,
+          "guardBudgetPercent": 100,
+          "shieldPercent": 20,
+          "storedDamagePercent": 40,
+          "storedCapPercent": 60,
+          "durationActions": 3
+        }
+      },
+      {
+        "code": "ICON-AYOON",
+        "enabled": true,
+        "tuning": {
+          "firstAction": 1,
+          "cooldownActions": 4,
+          "maxCasts": 6,
+          "pveScale": 100,
+          "pvpScale": 90,
+          "damagePercent": 140,
+          "damageCapPercent": 46,
+          "shieldPercent": 18,
+          "shieldBreakPercent": 65,
+          "gaugeDelay": 12,
+          "bossVulnerabilityPercent": 8,
+          "durationActions": 2
+        }
+      }
+    ]
+  },
+  "anonymousAdminStatus": 401,
+  "anonymousFusionOverviewStatus": 401,
+  "productionWrites": 0,
+  "productionBattles": 0
+}

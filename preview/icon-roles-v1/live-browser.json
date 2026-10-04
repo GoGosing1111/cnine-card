@@ -1,0 +1,49 @@
+{
+  "verifiedAt": "2026-10-04T12:23:47.998Z",
+  "publicPreviewOnly": true,
+  "productionBattles": 0,
+  "productionWrites": 0,
+  "result": {
+    "runtime": "20261004-icon-rpg-v1",
+    "icon": {
+      "last": {
+        "code": "ICON-ORIKKUNG",
+        "role": "CURSE",
+        "eventType": "ICON_SKILL",
+        "serverRows": 1,
+        "appliedRows": 1,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY"
+      },
+      "muzzle": {
+        "cardId": "CN-1C000002",
+        "origin": {
+          "x": 642,
+          "y": 182.714775
+        },
+        "direction": {
+          "x": 0.9761870601839528,
+          "y": 0.21693045781865591
+        },
+        "team": "ALLY"
+      },
+      "metrics": {
+        "skills": 8,
+        "basics": 19,
+        "serverRows": 32,
+        "appliedRows": 32,
+        "roles": [
+          "ASSAULT",
+          "SUPPORT",
+          "ASSASSIN",
+          "DEFENSE",
+          "MAGIC",
+          "CURSE"
+        ]
+      }
+    }
+  },
+  "errors": [],
+  "failedAssets": [],
+  "returned": true
+}
