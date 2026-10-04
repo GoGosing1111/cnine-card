@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
+import vm from 'node:vm';
 
 const read = file => readFile(new URL(`../${file}`, import.meta.url), 'utf8');
 
@@ -25,7 +26,16 @@ test('every server-supported message reward renders a client claim control', asy
   const clientTypes = objectKeys(app, 'const MESSAGE_REWARD_META=');
   const serverTypes = objectKeys(api, 'const VERIFIED_MESSAGE_REWARD_TYPES=');
 
-  assert.deepEqual([...serverTypes].filter(type => !clientTypes.has(type)), []);
+  const context=vm.createContext({});
+  vm.runInContext(api.slice(api.indexOf('const VERIFIED_MESSAGE_REWARD_TYPES='),api.indexOf('let verifiedRewardMessageV1276ReadyPromise='))+';this.present=presentMessageReward;',context);
+  vm.runInContext(app.slice(app.indexOf('const MESSAGE_REWARD_META='),app.indexOf('function messageClaimUser('))+';this.meta=messageRewardMeta;this.queue=claimableMessageRewards;',context);
+  for(const type of serverTypes){
+    const message=context.present({id:1,reward_type:type,reward_amount:1});
+    assert.equal(message.reward_supported,true,type);
+    assert.equal(context.meta(message).label,message.reward_label,type);
+    assert.equal(context.queue([message]).length,1,type+' has a claim control, including server-provided metadata');
+  }
+  assert.equal(context.queue([context.present({reward_type:'UNKNOWN',reward_amount:1})]).length,0);
   assert.ok(clientTypes.has('HIGH_GRADE_REROLL_TICKET'));
   assert.match(app, /messageReward=Boolean\(rewardMeta\)&&Number\(m\.reward_amount\)>0/);
   assert.match(app, /data-claim-message="\$\{m\.id\}"/);
