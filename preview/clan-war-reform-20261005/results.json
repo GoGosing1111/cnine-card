@@ -5,6 +5,8 @@
     "desktop production artwork and clan crests load",
     "desktop entire war screen fits width",
     "desktop low-power support adds visible contribution",
+    "desktop personal 9+3+3 categories and 15-point cap visible",
+    "desktop live API confirms capped operation policy",
     "desktop mission buttons fit and do not overlap",
     "desktop executive label visible",
     "desktop battle prevents intrusive popup",
@@ -17,6 +19,8 @@
     "mobile production artwork and clan crests load",
     "mobile entire war screen fits width",
     "mobile low-power support adds visible contribution",
+    "mobile personal 9+3+3 categories and 15-point cap visible",
+    "mobile live API confirms capped operation policy",
     "mobile mission buttons fit and do not overlap",
     "mobile executive label visible",
     "mobile battle prevents intrusive popup",
@@ -27,5 +31,5 @@
     "No browser exceptions: "
   ],
   "errors": [],
-  "output": "C:/Users/User/AppData/Local/Temp/clan-reform-art-final-20261005"
+  "output": "C:/Users/User/AppData/Local/Temp/clan-reform-balance-final-20261005"
 }

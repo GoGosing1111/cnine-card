@@ -1,6 +1,6 @@
 import {clanAdminTransaction} from './_clan_inactivity_cleanup.js';
 import {ensureClanReform,executiveRows,refreshClanExecutives} from './_clan_governance.js';
-import {WAR_DAYS,CLAN_SKILLS,READY_WINDOW_MS,weekOf,weekDates,readyOpen,utcMs,newField,fieldTeam,supportEnergy,applyFieldAction} from '../shared/clan-war-reform-v1.mjs';
+import {WAR_DAYS,CLAN_SKILLS,OPERATION_LIMITS,READY_WINDOW_MS,weekOf,weekDates,readyOpen,utcMs,newField,fieldTeam,fieldPlayer,commandCost,supportEnergy,applyFieldAction} from '../shared/clan-war-reform-v1.mjs';
 
 const check=(ok,message,status=409)=>{if(!ok)throw Object.assign(new Error(message),{status});};
 const pack=JSON.stringify;
@@ -25,9 +25,11 @@ export async function clanReformState(env,user,season,now=Date.now()){
   if(war){const row=await env.DB.prepare('SELECT state_json FROM clan_war_field_state WHERE war_id=?').bind(war.id).first();field=row?JSON.parse(row.state_json):newField();
     const own=fieldTeam(field,clanId),enemyId=Number(war.clan_a_id)===clanId?Number(war.clan_b_id):Number(war.clan_a_id);fieldTeam(field,enemyId);
     if(!people.some(p=>p.userId===own.commander))own.commander=0;
-    const ownPlayer=field.users[user.id]||{used:0,points:0,lastAt:0};
+    const ownPlayer=fieldPlayer(field,user.id);
     // Do not expose other users' per-user action clocks or request information.
-    field={teams:field.teams,events:field.events,my:ownPlayer,energy:supportEnergy(war,ownPlayer.used,now),skill:CLAN_SKILLS[mine.mark_key],canCommand:own.commander?own.commander===Number(user.id):executives.some(e=>e.userId===Number(user.id))};
+    field={teams:Object.fromEntries(Object.entries(field.teams).map(([id,{supplies,...team}])=>[id,team])),events:field.events,
+      my:{...ownPlayer,pendingSupply:own.supplies.filter(s=>s.userId===Number(user.id)).reduce((n,s)=>n+s.amount,0)},limits:OPERATION_LIMITS,skillCost:commandCost(own),
+      energy:supportEnergy(war,ownPlayer.used,now),skill:CLAN_SKILLS[mine.mark_key],canCommand:own.commander?own.commander===Number(user.id):executives.some(e=>e.userId===Number(user.id))};
   }
   return {enabled:true,membership:true,weekStart:weekOf(now),days:weekDates(now),myDays:available.get(Number(user.id))||[],submitted:available.has(Number(user.id)),executives,roster:people,field,
     war:war?{id:Number(war.id),status:war.status,clanAId:Number(war.clan_a_id),clanBId:Number(war.clan_b_id),scoreA:Number(war.score_a),scoreB:Number(war.score_b),startsAt:war.starts_at,endsAt:war.ends_at,readyAt:new Date(utcMs(war.starts_at)-READY_WINDOW_MS).toISOString(),readyOpen:readyOpen(war,now),myReady:readyById.get(Number(user.id))||'UNANSWERED'}:null,serverNow:new Date(now).toISOString()};

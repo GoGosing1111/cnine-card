@@ -129,3 +129,7 @@
 .cw-standby{min-height:370px;padding:25px}.cw-standby h2{font-size:27px}
 }
 @media(prefers-reduced-motion:reduce){.cw-mission-art>img,.cw-war-screen button{transition:none}.cw-mission:hover .cw-mission-art>img{transform:none}}
+.cw-my-contribution{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px 20px;margin:0 0 22px;padding:18px 22px;border-block:1px solid #bda46b50;background:linear-gradient(90deg,#bda46b10,#14243050)}
+.cw-my-contribution>div{display:grid;gap:7px;min-width:0;border-left:2px solid #7494a066;padding-left:16px}.cw-my-contribution>div:first-child{border-color:#d9bb7b}
+.cw-my-contribution small{font-size:11px;letter-spacing:0;color:#abbecb}.cw-my-contribution b{font-size:24px;color:#ebd9b6;line-height:1.1}.cw-my-contribution em{font-size:12px;color:#8c9f9e;font-style:normal}.cw-my-contribution span{font-size:10px;line-height:1.6;color:#8aa5b2;overflow-wrap:anywhere}
+@media(max-width:760px){.cw-my-contribution{grid-template-columns:repeat(2,minmax(0,1fr));padding:16px 12px;gap:19px 12px}.cw-my-contribution>div{padding-left:10px}.cw-my-contribution b{font-size:23px}.cw-my-contribution span{font-size:9px}}

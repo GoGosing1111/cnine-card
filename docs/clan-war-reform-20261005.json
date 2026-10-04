@@ -10,11 +10,12 @@
     "authority": "Top three latest ranked-deck power members are executives; appointed commander uses skills",
     "durationMinutes": 120,
     "scoring": "Existing win +3 / loss +1 attacker-only scoring retained; no attendance percentage bonus or equal win/loss score",
-    "operations": "Separate finite mission AP; fixed +2 regardless of card power; three different members complete the +8 team combo; bonus credited across all three members"
+    "operations": "Approved 15-point ceiling per member per war: three missions at 3 points (9), distinct three-member combo once (3), first actual spending of personally supplied command once (3). Tactical skills never add uncapped points; refunds have no member owner.",
+    "command": "Skills use 60 command minus 5 per intel (max 3); cooldown 120 seconds; FIFO supply provenance; departed-member supply never credits a new clan."
   },
   "verification": {
     "browser": {
-      "passed": 25,
+      "passed": 29,
       "report": "preview/clan-war-reform-20261005/results.json",
       "sizes": [
         "1440x1000",
@@ -24,7 +25,11 @@
     "postgresReformAndKick": {
       "passed": 17
     },
-    "migration": "Production dry run rolled back; 16 future matches only; completed matches unchanged"
+    "migration": "Production dry run rolled back; 16 future matches only; completed matches unchanged",
+    "finalBalance": {
+      "passed": 12,
+      "scope": "Real PostgreSQL rollback/replay, supply ownership, all 8 clan skills, 9+3+3 ceiling, no score from returned resources, departure, time limits"
+    }
   },
   "assets": {
     "method": "built-in image_gen",
@@ -43,5 +48,33 @@
     "production deployment",
     "idempotent activation",
     "short production verification"
-  ]
+  ],
+  "balanceExamples": {
+    "assumption": "36 attacks per active member; every member earns all 15 operation points; stronger player 24 wins/12 losses, weaker player 14 wins/22 losses",
+    "equal18": {
+      "before": [
+        1512,
+        1152
+      ],
+      "after": [
+        1782,
+        1422
+      ]
+    },
+    "strong14Weak18": {
+      "before": [
+        1176,
+        1152
+      ],
+      "after": [
+        1386,
+        1422
+      ]
+    },
+    "allLosses": {
+      "battle": 36,
+      "operations": 15,
+      "total": 51
+    }
+  }
 }

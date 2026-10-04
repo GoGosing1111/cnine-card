@@ -23,6 +23,9 @@ try{
   check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),label+' entire war screen fits width');
   await page.locator('[data-cw-action="assault"]').click();await page.waitForFunction(()=>document.querySelector('.cw-field-hero aside strong')?.textContent.match(/\+[1-9]/));
   check(true,label+' low-power support adds visible contribution');
+  check((await page.locator('.cw-my-contribution').textContent()).includes('지휘 지원')&&(await page.locator('.cw-field-hero aside').textContent()).includes('/ 15'),label+' personal 9+3+3 categories and 15-point cap visible');
+  const afterAction=await (await fetch(base+'/api/clan/war/planning',{headers:{'x-review-user':String(userId)}})).json();
+  check(afterAction.field.my.missionPoints===3&&afterAction.field.energy.limit===3&&afterAction.field.limits.total===15,label+' live API confirms capped operation policy');
   const boxes=await page.locator('.cw-mission .cw-action').evaluateAll(nodes=>nodes.map(n=>{const r=n.getBoundingClientRect(),p=n.closest('.cw-mission').getBoundingClientRect();return {width:r.width,inside:r.left>=p.left&&r.right<=p.right};}));
   check(boxes.every(b=>b.width>100&&b.inside),label+' mission buttons fit and do not overlap');
   await page.locator('.cw-missions').scrollIntoViewIfNeeded();await page.screenshot({path:out+'/'+label+'-battlefield.png'});
