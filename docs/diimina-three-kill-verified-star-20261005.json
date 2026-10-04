@@ -1,0 +1,35 @@
+{
+  "status": "VALIDATED_PENDING_SEND",
+  "authorization": "2차인증 전체 유저 마별 250만개 지급 메세지 내용 딤이나 3킬 미션 이벤트",
+  "operationKey": "ops:diimina-three-kill:verified-star:20261005:v1",
+  "campaignKey": "diimina-three-kill-verified-star-20261005-v1",
+  "operationScript": "scripts/ops/diimina-three-kill-verified-star-20261005.mjs",
+  "eligibility": "ACTIVE accounts with user_second_verifications records, all roles and verification providers",
+  "title": "딤이나 3킬 미션 이벤트",
+  "body": "딤이나 3킬 미션 이벤트",
+  "rewardType": "MASTER_STAR",
+  "rewardAmountEach": 2500000,
+  "delivery": "One claimable reward message per account; no automatic claim",
+  "recipientCount": 531,
+  "roles": {"USER": 526, "ADMIN": 3, "OWNER": 2},
+  "totalAmount": 1327500000,
+  "recipientHash": "55f60fb2c21a37c6c4f51cf0c38e5f63813356db0bf7a1dee6c149055e5251b2",
+  "validation": {
+    "syntax": "PASS",
+    "matchingCampaignBeforeSend": 0,
+    "receiptBeforeSend": false,
+    "dryRunMessageCount": 531,
+    "dryRunRewardCount": 531,
+    "partialFailureRolledBack": true,
+    "dryRunRolledBack": true,
+    "missing": 0,
+    "duplicates": 0,
+    "claimRegression": "PASS: existing real PostgreSQL message claim test in ppanghun-ck-verified-rewards-20261002.test.mjs"
+  },
+  "execution": {
+    "atomicWrites": ["frozenRecipientReceipt", "messages", "attachedRewards", "adminAudit"],
+    "gameDeployment": "NOT_REQUIRED_OPS_ONLY",
+    "privateEvidenceDirectory": "C:/Users/User/.codex/tmp/diimina-three-kill-verified-star-20261005",
+    "credentialsPersisted": false
+  }
+}
