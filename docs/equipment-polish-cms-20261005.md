@@ -34,3 +34,13 @@ CMS 정책·재화·감사 로그의 부분 저장을 막고 실패하면 함께
 - 실제 직전 Pages 배포 기준: 2b6914e006b855728425574258bdb2303ae5721e, 배포 493f5c88-04ea-4977-8fb8-3cb6c530cc97. Cloudflare 운영 배포 메타데이터에서 확인했다.
 - 범위: 독립 연마 설정·카탈로그·읽기 API·진입 UI이며 스키마, 공통 인증/세션, 기존 재화 거래, 전투 코어 변경이 없다. 관련 회귀와 Worker 컴파일을 포함한 npm run deploy:production -- --scoped로 반영한다.
 - 캐시 버전 polish-cms-20261005. 서비스 워커 기존 정책을 유지한다.
+
+## 운영 반영 결과
+
+- 소스: 373b827828a32504c7f2443773139ae097f7a5b5.
+- Pages 배포: 401ebac2-5616-443c-8d89-f207406866dc, https://401ebac2.cnine-card.pages.dev.
+- API Worker: bc2ff4e7-27dc-4533-b36b-294d8b8b448c. Clan draft Worker: e7957477-f8a6-45d8-a8bb-16f8a6c87fd1.
+- 범위 회귀 3개(정책 및 SQLite/Postgres), Worker 문법, 운영 출시 보호, Hyperdrive 캐시 OFF 검사 통과.
+- 2026-10-05 02:08 KST 운영 확인: status 200 / publicVisible false / executionMode OFF / canEnter false / canPolish false / executionReady false. 비로그인 state와 CMS는 401.
+- 강화 센터 진입 모듈, CMS 모듈, 연마 화면·공유 정책·연마석 PNG의 운영 제공을 확인했다. 고정 정책/재화 카탈로그 초기화도 status 요청에서 완료했다.
+- 상세 응답은 equipment-polish-production-verification-20261005.json에 보존한다. 실제 OWNER 화면 편집·저장 및 일반 USER 차단은 격리 DB에서 확인했으며 운영 계정으로 재화를 소모하거나 장비를 변경하지 않았다.

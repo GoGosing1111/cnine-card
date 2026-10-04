@@ -1,0 +1,62 @@
+{
+  "checkedAt": "2026-10-04T17:08:29.577Z",
+  "origin": "https://cnine-card.pages.dev",
+  "sourceCommit": "373b827828a32504c7f2443773139ae097f7a5b5",
+  "deploymentUrl": "https://401ebac2.cnine-card.pages.dev",
+  "checks": [
+    {
+      "path": "/api/character/equipment/polish/status",
+      "status": 200,
+      "data": {
+        "publicVisible": false,
+        "executionMode": "OFF",
+        "canPolish": false,
+        "executionReady": false,
+        "notice": "장비 연마를 준비하고 있습니다.",
+        "ownerReview": false,
+        "canEnter": false
+      }
+    },
+    {
+      "path": "/api/character/equipment/polish/state",
+      "status": 401,
+      "data": {
+        "error": "로그인이 필요합니다.",
+        "code": "POLISH_AUTH"
+      }
+    },
+    {
+      "path": "/api/admin/equipment-polish",
+      "status": 401,
+      "data": {
+        "error": "관리자 로그인이 필요합니다."
+      }
+    },
+    {
+      "path": "/equipment-forge/",
+      "status": 200,
+      "matched": "equipment-polish-entry-v1.mjs"
+    },
+    {
+      "path": "/admin/",
+      "status": 200,
+      "matched": "equipment-polish-admin-v1.mjs"
+    },
+    {
+      "path": "/equipment-polish/",
+      "status": 200,
+      "matched": "/equipment-polish/app.mjs"
+    },
+    {
+      "path": "/shared/equipment-polish-v1.mjs",
+      "status": 200,
+      "matched": "POLISH_EXECUTION_READY = false"
+    },
+    {
+      "path": "/preview/equipment-polish-premium-v1/assets/polishing-stone-v1.png",
+      "status": 200,
+      "type": "image/png",
+      "bytes": null
+    }
+  ]
+}
