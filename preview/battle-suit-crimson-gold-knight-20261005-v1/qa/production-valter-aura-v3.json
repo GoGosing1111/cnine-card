@@ -1,0 +1,50 @@
+{
+  "deploymentUrl": "https://f2526983.cnine-card.pages.dev",
+  "previewUrl": "https://cnine-card.pages.dev/preview/battle-suit-crimson-gold-knight-20261005-v1/",
+  "sourceCommit": "ccdbd08ce1b6466b7025eb4a046a28745d233f2e",
+  "command": "npm run deploy:production -- --scoped",
+  "scopedAssetRegression": "PASS",
+  "releaseGuards": "PASS",
+  "hyperdriveCacheDisabled": true,
+  "cleanSource": true,
+  "checks": [
+    {
+      "path": "manifest.json",
+      "httpStatus": 200,
+      "hashMatches": true
+    },
+    {
+      "path": "preview.bundle.js",
+      "httpStatus": 200,
+      "hashMatches": true
+    },
+    {
+      "path": "assets/atlases/aura-valter-v17.webp",
+      "httpStatus": 200,
+      "hashMatches": true
+    },
+    {
+      "path": "assets/atlases/aura-valter-rear-approved.png",
+      "httpStatus": 200,
+      "hashMatches": true
+    }
+  ],
+  "videoHttpStatus": 200,
+  "runtimeEnabled": false,
+  "finalVisualApproval": "USER_REVIEW_PENDING",
+  "note": "Documentation-only deployment evidence; no repeat deployment required.",
+  "browser": {
+    "frontFogSheets": 0,
+    "poseMatched": true,
+    "ready": true,
+    "risingParticles": 12,
+    "baseFlameFrames": 12,
+    "source": "VALTER_APPROVED_V17",
+    "mode": "look",
+    "liveEnabled": false,
+    "rearFrames": 8,
+    "satinGold": true,
+    "visualChecked": true,
+    "footAnchored": true
+  }
+}
