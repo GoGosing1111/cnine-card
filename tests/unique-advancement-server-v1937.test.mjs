@@ -126,7 +126,8 @@ test('battle preparation discards client advancement data and injects only DB-ow
   const advancementImports=magicSource.match(/import \{([^}]+)\} from '\.\/_unique_advancement\.js'/)?.[1].split(',').map(s=>s.trim())||[];
   for(const name of ['loadUniqueAdvancementsForCards','loadUniqueAdvancementsForDecks','uniqueAdvancementSettings'])assert.ok(advancementImports.includes(name),name);
   assert.match(magicSource,/uniqueAbility:null,uniqueAdvancement:null/);
-  assert.match(magicSource,/const uniqueAdvancement=advancementMap\.get\(String\(card\.id\)\)\|\|null/);
+  assert.match(magicSource,/const roleCard=iconDefinition\(card\)&&String\(card\.rarity\?\?card\.grade\?\?''\)\.toUpperCase\(\)==='ICON'/);
+  assert.match(magicSource,/const uniqueAdvancement=roleCard\?null:advancementMap\.get\(String\(card\.id\)\)\|\|null/);
   assert.match(magicSource,/return \{\.\.\.card,power:attack,maxHp:hp,uniqueAbility:effect,uniqueAdvancement,/);
   assert.match(magicSource,/const advancementSettings=await uniqueAdvancementSettings\(env,\{ensure:false,fresh\}\)/);
   assert.match(magicSource,/loadUniqueAdvancementsForDecks\(env,list\.map\(e=>advancementAllowed\(e\)\?e:\{\.\.\.e,cards:\[\]\}\)\)/);
