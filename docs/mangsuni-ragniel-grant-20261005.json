@@ -1,5 +1,5 @@
 {
-  "status": "VALIDATED_PENDING_APPLY",
+  "status": "COMPLETED",
   "authorization": "망순이ෆ 라그니엘 지급",
   "operationKey": "ops:mangsuni-ragniel:20261005:v1",
   "operationScript": "scripts/ops/mangsuni-ragniel-grant-20261005.mjs",
@@ -33,8 +33,60 @@
   },
   "execution": {
     "userLock": "user:4628",
-    "atomicWrites": ["holdings", "acquisition", "adminAudit", "completionReceipt"],
+    "atomicWrites": [
+      "holdings",
+      "acquisition",
+      "adminAudit",
+      "completionReceipt"
+    ],
     "siteDeployment": "NOT_REQUIRED_OPS_ONLY",
-    "notificationSent": false
+    "notificationSent": false,
+    "helperStopped": true,
+    "temporaryAuthKeyRemoved": true
+  },
+  "sourceCommit": "501b6257",
+  "operationScriptSha256": "f4252984721f137315658e40f5ee9c4b5ed562ebd7d635f16c3f1e38847112bd",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:mangsuni-ragniel:20261005:v1:4628:V-046",
+    "actor": "SYSTEM_OPS",
+    "userId": 4628,
+    "nickname": "망순이ෆ",
+    "mercenaryCode": "V-046",
+    "mercenaryName": "라그니엘",
+    "rank": "SSS",
+    "quantity": 1,
+    "permanent": true,
+    "expiresAt": null,
+    "beforeCopies": 0,
+    "totalCopies": 1,
+    "duplicates": 0,
+    "completedAt": "2026-10-04T19:13:05.986Z",
+    "adminLogId": "40955",
+    "replayed": false
+  },
+  "verification": {
+    "status": "COMPLETED",
+    "receipt": {
+      "status": "COMPLETED",
+      "operationKey": "ops:mangsuni-ragniel:20261005:v1:4628:V-046",
+      "actor": "SYSTEM_OPS",
+      "userId": 4628,
+      "nickname": "망순이ෆ",
+      "mercenaryCode": "V-046",
+      "mercenaryName": "라그니엘",
+      "rank": "SSS",
+      "quantity": 1,
+      "permanent": true,
+      "expiresAt": null,
+      "beforeCopies": 0,
+      "totalCopies": 1,
+      "duplicates": 0,
+      "completedAt": "2026-10-04T19:13:05.986Z",
+      "adminLogId": "40955"
+    },
+    "currentCopies": 1,
+    "missing": 0,
+    "duplicates": 0
   }
 }
