@@ -973,7 +973,7 @@ const FEATURE_RESOURCE_MANIFEST={
   },
   soopketland:{
     styles:['css/soopketland-v2039.css?v=2098-hyper-codex&suggestions=20261005'],
-    scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/soopketland-v2039.bundle.js?v=20261004-land-stars300k&suggestions=20261005'],
+    scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/soopketland-v2039.bundle.js?v=20261004-land-stars300k&suggestions=20261005&apocalypseCompletion=20261005-wipe2'],
     ready:()=>typeof window.soopketLandView==='function'&&typeof window.bindSoopketLandView==='function'
   },
   primeDraw:{
@@ -995,14 +995,14 @@ const FEATURE_RESOURCE_MANIFEST={
   battleV2:{
     styles:['css/battle-v2-live.css?v=1972-battle-suit-live','css/battle-v3-live.css?v=1930-mobile-context-recovery&flow=2126&duo=20260925&coop=20261002-hp-sync-v1'],
     scripts:[
-      'js/battle-v2-live.js?v=1991-sweep-result-front&cowPortal=20260913&joint=2090&furHigh=2114-frames20261002&flow=2126&cubeRemoval=20261003&suggestions=20261005',
+      'js/battle-v2-live.js?v=1991-sweep-result-front&cowPortal=20260913&joint=2090&furHigh=2114-frames20261002&flow=2126&cubeRemoval=20261003&suggestions=20261005&apocalypseCompletion=20261005-wipe2',
       'js/project-v-battle-art-adapter-v1.js?v=3.7.0-orikkung-heeya&sd=20260919-bongsoon-armed',
       'js/project-v-tier-battle-art-adapter-v1.js?v=3.7.1-cheetah-scale&sd=2115-joksuke&icon=20260930',
       'js/project-v-monster-battle-art-adapter-v1.js?v=5.5.0-apocalypse-legion',
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
       'preview/project-v-v3/project-v-firearm-qc-audio.js?v=8-gilded-dragon-battle-suit',
       'preview/project-v-v3/project-v-pixi-battle.bundle.js?limitedVisuals=20261004-approved&coop=20261005-coop-responsive-v3&territory=20261003-v5&lichFx=20261001&speedReform=20260930&v=106-combat-flow&joint=2090&mercenary=2100&projectiles=2106&coup=2115&pveEntry=2119&heeya=2118&suits=2124&flow=2126&zSword=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&policeRestraint=20260923&octaseeker=20260928-opening10&resultIdle=20260928-corpse&cryvern=20260924&duo=20260925&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&xBody=20260928-skill-order&icon=20260930',
-      'js/battle-v3-live.js?limitedVisuals=20261004-approved&territoryFx=20261003-v1&coop=20261005-coop-responsive-v3&territory=20261003-v5&lichFx=20261001&speedReform=20260930&v=3.36.0-combat-flow&furHigh=2114-frames20261002&battleRuntime=2124&heeya=2118&entry=2121&suits=2124&flow=2126&zSword=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&policeRestraint=20260923&octaseeker=20260928-opening10&resultIdle=20260928-corpse&cryvern=20261004-clean-aura&duo=20260925&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&xBody=20260928-skill-order&icon=20260930&suggestions=20261005'
+      'js/battle-v3-live.js?limitedVisuals=20261004-approved&territoryFx=20261003-v1&coop=20261005-coop-responsive-v3&territory=20261003-v5&lichFx=20261001&speedReform=20260930&v=3.36.0-combat-flow&furHigh=2114-frames20261002&battleRuntime=2124&heeya=2118&entry=2121&suits=2124&flow=2126&zSword=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&policeRestraint=20260923&octaseeker=20260928-opening10&resultIdle=20260928-corpse&cryvern=20261004-clean-aura&duo=20260925&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&xBody=20260928-skill-order&icon=20260930&suggestions=20261005&apocalypseCompletion=20261005-wipe2'
     ],
     initialize:()=>window.ProjectVBattleV3Live?.ensureRuntime?.(),
     ready:()=>Boolean(window.ProjectVFirearmAudio)&&Boolean(window.ProjectVBattleV3Live?.ready?.())&&typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPveBattleV2Live==='function'&&typeof window.playPvpBattleV2Live==='function'&&typeof window.playSiegeBattleV2Live==='function'
@@ -1275,7 +1275,7 @@ function markBlockedTabButtons(){
   });
 }
 function renderShell(tab,routeOptions={}) {
-  if(window.__apocalypsePlaybackActive)return false;
+  window.__activeApocalypseAttempt?.abandon();
   if(tab==='treasury'||tab==='idle')tab='battle';
   if(document.getElementById('magicSystemRoot')&&tab!=='magic'&&window.MagicWorkbench&&!window.MagicWorkbench.canLeave())return false;
   if(document.getElementById('pvpDeckSlots')&&tab!=='pvp'){
@@ -2525,11 +2525,11 @@ async function startBattle(){
   battleState.fightStarting=true;
   const entryButton=document.getElementById('battleStart'),entryButtonLabel=entryButton?.textContent||'전투 시작';
   if(entryButton){entryButton.disabled=true;entryButton.textContent='전장 연결 중…'}
-  let msg=null;
+  let msg=null,apocalypseAttempt=null;
 
   try{
     const playUltimateCinematics=!battleState.autoRunning||Number(battleState.autoSummary?.battles||0)===0;
-    const v2Playback=Boolean(battleState.battleEngine?.active);
+    const v2Playback=selectedPveIsApocalypse()||Boolean(battleState.battleEngine?.active);
     saveLastPveMonsterId(battleState.selectedMonster);
     const user=loadUser();
     let deckCards=battleState.deck.map(id=>cards.find(x=>String(x.id)===String(id))).filter(Boolean);
@@ -2545,10 +2545,12 @@ async function startBattle(){
       let resourceMs=null,fightMs=null;
       const resourceTask=ensureFeatureResources('battleV2')
         .then(value=>{resourceMs=Math.round(performance.now()-startedAt);tick();return value});
+      if(selectedPveIsApocalypse()){const module=await import('./apocalypse-challenge-v1.mjs?v=20261005-wipe2');apocalypseAttempt=module.beginBattle();}
       const fightTask=apiRequest('battle/fight',{
         method:'POST',
         body:JSON.stringify({
-          requestId:globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random()}`,
+          requestId:apocalypseAttempt?.requestId||globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random()}`,
+          apocalypseRunToken:apocalypseAttempt?.runToken,
           monsterId:battleState.selectedMonster,
           cardIds:battleState.deck,
           autoBattle:Boolean(battleState.autoRunning)
@@ -2561,6 +2563,7 @@ async function startBattle(){
         return done.join(' · ');
       };
       const [_, d] = await Promise.all([resourceTask,fightTask]);
+      apocalypseAttempt?.ensure();
       tick('전장 구성 중');
 
       if(!d?.battleV2)throw new Error('PROJECT V V3 전투 응답을 받지 못했습니다.');
@@ -2570,7 +2573,7 @@ async function startBattle(){
       const stage=live.stage,phase=live.phase;
       msg=live.msg;
       ensureBattleSoundButton(stage);
-      await window.playPveBattleV2Live({stage,phase,msg,modal,data:d,monster,playUltimateCinematics});
+      await window.playPveBattleV2Live({stage,phase,msg,modal,data:d,monster,playUltimateCinematics,apocalypseAttempt});
       return;
     }
 
@@ -2641,6 +2644,8 @@ async function startBattle(){
     else {setTimeout(()=>{modal.onclick=()=>renderShell('battle')},450);if(d.cowPortal)await window.CowRoomPortal?.offer([d.cowPortal],{mode:d.difficulty?.isApocalypse?'APOCALYPSE':'PVE'});}
 
   }catch(e){
+    if(apocalypseAttempt&&!modal.querySelector('.battle-v3-live-shell'))return;
+    apocalypseAttempt?.abandon();
     // V1803: 여기서 티커를 끄지 않아, 20초에 실패한 요청이 화면에서는 34초까지 도는 것처럼 보였다.
     try{window.__battleEntryPhase?.(false)}catch(_){}
     battleState.autoRunning=false;
@@ -3854,7 +3859,7 @@ function showAccountPanel() {
 // ===== V1.4 D1 API bridge: API가 없으면 기존 LocalStorage 모드로 자동 전환 =====
 let API_MODE=false, API_TOKEN=localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
 const API_GET_CACHE=new Map(),API_INFLIGHT=new Map();
-const ACCOUNT_RANK_QUIET_MUTATIONS=/^(?:draw|draw\/ack|superstar-pack\/draw|equipment\/supply-box\/(?:open|purchase)|equipment\/prime-supply-box\/(?:open|purchase)|vehicle-draw\/(?:open|purchase)|vehicle-draw\/prime\/(?:open|purchase))(?:\?|$)/;
+const ACCOUNT_RANK_QUIET_MUTATIONS=/^(?:battle\/apocalypse-challenge\/(?:open|answer|pulse|status|abandon)|draw|draw\/ack|superstar-pack\/draw|equipment\/supply-box\/(?:open|purchase)|equipment\/prime-supply-box\/(?:open|purchase)|vehicle-draw\/(?:open|purchase)|vehicle-draw\/prime\/(?:open|purchase))(?:\?|$)/;
 let MULTI_CLIENT_TERMINATING=false,MULTI_CLIENT_LAST_TOKEN='',MULTI_CLIENT_LAST_AT=0,MULTI_CLIENT_STRIKES=0;
 let PLAYER_STATE_MUTATION_EPOCH=0;
 // The Cloudflare account migration creates a brand-new Hyperdrive pool. Letting a

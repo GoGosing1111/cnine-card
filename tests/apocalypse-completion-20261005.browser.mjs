@@ -1,12 +1,12 @@
 // Real app, shipped bundles and synthetic accounts only. Run with the loopback
 // scripts/serve-clan-faction-preview.mjs server; no production credentials.
 import fs from 'node:fs';import path from 'node:path';import os from 'node:os';import assert from 'node:assert/strict';import {pathToFileURL} from 'node:url';
-import {createPveBattleV2} from '../functions/_battle_v2_preview.js';
+import {createPveBattleV2,createPvpBattleV2} from '../functions/_battle_v2_preview.js';
 import {APOCALYPSE_LEGION_BOSSES} from '../shared/apocalypse-legion-v1.mjs';
 import {apocalypseFixture} from './helpers/apocalypse-fixture.mjs';
 import {reserveApocalypseBattle,registerApocalypseChallenge,apocalypseChallengeAction} from '../functions/_apocalypse_challenge.js';
 const {chromium}=await import(process.env.PLAYWRIGHT_MODULE?pathToFileURL(process.env.PLAYWRIGHT_MODULE).href:'playwright');
-const base=process.env.SUGGESTIONS_QA_ORIGIN||'http://127.0.0.1:8985';
+const base=process.env.SUGGESTIONS_QA_ORIGIN||'http://127.0.0.1:8960';
 const out=process.env.SUGGESTIONS_QA_DIR||fs.mkdtempSync(path.join(os.tmpdir(),'player-suggestions-'));
 fs.mkdirSync(out,{recursive:true});
 const manifest=JSON.parse(fs.readFileSync('assets/ui/project-v/characters/prestige/manifest-v1.json','utf8'));
@@ -48,58 +48,48 @@ async function open(viewport){
  await page.goto(base+'/?screen=battle',{waitUntil:'domcontentloaded'});await page.locator('#battleDeck [data-remove]').first().waitFor();
  return {page,couponCalls:()=>couponCalls,fight:()=>fightResponse};
 }
+const resultCount=async()=>Number((await f.p("SELECT COUNT(*) n FROM battle_logs WHERE user_id=2 AND result='WIN'").first()).n);
+const state=async id=>apocalypseChallengeAction(f.env,user,'status',{requestId:id});
+async function enter(page){
+ await page.evaluate(()=>renderShell('battle'));await page.locator('#battleStart, #pveV2GoHunt').first().waitFor();if(await page.locator('#pveV2GoHunt').count())await page.locator('#pveV2GoHunt').click();await page.locator('[data-monster-tab="APOCALYPSE"]').click();await page.locator('#battleStart').click();await page.locator('.apocalypse-dodge').waitFor({timeout:60000});
+}
 try{
- await serverApi('preview/reset',{});await serverApi('clan/faction/captains',{captains:{attack1:2,attack2:4}});
- const own=(await serverApi('clan/faction/overview')).districts.find(d=>d.owner===1).id;
- for(const viewport of [{width:1440,height:1000},{width:390,height:844}]){
-  const {page,couponCalls}=await open(viewport),label=String(viewport.width);
-  if(!(process.env.SUGGESTIONS_QA_RESUME==='garrison'&&viewport.width===1440)){
-  await page.locator(`[data-remove="${deck[0]}"]`).click();
-  assert.deepEqual(await page.evaluate(()=>battleState.deck),['',...deck.slice(1)]);
-  check(await page.locator('#saveBattleDeck').isDisabled(),label+' PVE incomplete deck cannot save');
-  await page.locator('#battleDeck').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,'pve-slot-'+label+'.png')});
-  await page.locator(`[data-pick="${cards[5].id}"]`).click();
-  assert.deepEqual(await page.evaluate(()=>battleState.deck),[cards[5].id,...deck.slice(1)]);
-  await page.locator('#saveBattleDeck').click();check(true,label+' PVE saves replacement at original slot');
-
-  await page.evaluate(()=>renderShell('pvp'));await page.locator('[data-pvp="deck"]').click();
-  await page.locator(`[data-pvp-remove="${deck[0]}"]`).click();
-  assert.deepEqual(await page.evaluate(()=>pvpState.deck),['',...deck.slice(1)]);
-  await page.locator('#pvpDeckSlots').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,'pvp-slot-'+label+'.png')});
-  await page.locator(`[data-cid="${cards[5].id}"]`).click();
-  assert.deepEqual(await page.evaluate(()=>pvpState.deck),[cards[5].id,...deck.slice(1)]);
-  check(true,label+' PVP replacement preserves other positions');
-  await page.evaluate(()=>savePvpDeck());
-
-  await page.evaluate(()=>renderShell('battle'));await page.locator('#pveV2GoHunt').click();
-  await page.locator('[data-monster-tab="APOCALYPSE"]').click();await page.locator('#battleStart').click();
-  await page.locator('.apocalypse-dodge').waitFor({timeout:60000});
-  check(await page.locator('.battle-v3-canvas-host canvas').count()>0,label+' real V3 boss battlefield behind dodge');
-  check(await page.evaluate(()=>Boolean(window.__activeApocalypseAttempt)),label+' unfinished playback owns an in-memory attempt');
-  const panel=await page.locator('.apocalypse-dodge').boundingBox();check(panel.y>=0&&panel.y+panel.height<=viewport.height,label+' dodge controls fit viewport');
-  await page.screenshot({path:path.join(out,'apocalypse-'+label+'.png')});
-  await page.locator('.apocalypse-dodge [data-dodge-zone].is-safe').click();
-  await page.locator('#pveResultConfirm').waitFor({timeout:60000});
-  check(await page.locator('.v3-report-adjustment').textContent()==='충격파 회피 · 성공',label+' result keeps authoritative dodge status');
-  await page.locator('#pveResultConfirm').click();check(!(await page.evaluate(()=>window.__activeApocalypseAttempt)),label+' playback lock releases');
-
+ if(process.env.APOCALYPSE_CORE_ONLY!=='1')for(const viewport of [{width:1440,height:1000},{width:390,height:844}]){
+  const {page,fight}=await open(viewport),label=String(viewport.width);
+  await enter(page);const wrongId=fight().apocalypseChallenge.requestId;
+  check(await page.locator('.battle-v3-canvas-host canvas').count()>0,label+' real shipped V3 battlefield');
+  const panel=await page.locator('.apocalypse-dodge').boundingBox();check(panel.y>=0&&panel.y+panel.height<=viewport.height,label+' mechanic controls fit');
+  await page.screenshot({path:path.join(out,'wipe-mechanic-'+label+'.png')});
+  await page.locator('.apocalypse-dodge .is-danger').first().click();await page.locator('#pveResultConfirm').waitFor({timeout:60000});
+  check((await state(wrongId)).status==='FAILED',label+' wrong input is server defeat');
+  check((await page.locator('.v3-report-adjustment').textContent()).includes('전원 전멸'),label+' result says party wipe');
+  await page.screenshot({path:path.join(out,'wipe-result-'+label+'.png')});await page.locator('#pveResultConfirm').click();
+  const wins=await resultCount();await enter(page);await page.locator('.apocalypse-dodge .is-safe').click();await page.locator('#pveResultConfirm').waitFor({timeout:90000});
+  check(await resultCount()===wins+1,label+' successful mechanic and full playback grant one clear');
+  check((await page.locator('.v3-report-adjustment').textContent()).includes('성공'),label+' successful outcome');
+  await page.screenshot({path:path.join(out,'clear-result-'+label+'.png')});await page.locator('#pveResultConfirm').click();
   await page.evaluate(()=>renderShell('soopketland'));await page.locator('#slCouponCode').waitFor();
-  await page.locator('#slCouponCode').fill('INVALID');await page.locator('[data-sl-coupon-form] button').click();
-  await page.locator('[data-sl-coupon-status]').filter({hasText:'사용할 수 없는 쿠폰'}).waitFor();
-  await page.locator('#slCouponCode').fill('QA-LOCAL-ONLY');
-  await page.locator('[data-sl-coupon-form]').evaluate(el=>{el.requestSubmit();el.requestSubmit()});
-  await page.locator('[data-sl-coupon-status]').filter({hasText:'사용 완료'}).waitFor();
-  check(couponCalls()===2,label+' duplicate submit sends one coupon request');
-  check(await page.locator('[data-sl-balance]').textContent()==='3개',label+' coupon does not reset machine or ticket count');
-  await page.locator('.sl-coupon').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,'coupon-'+label+'.png')});
-
+  check(!(await page.locator('#main').textContent()).includes('메시지함에도'),label+' coupon history replaces inbox copy');
+  await page.locator('.sl-coupon').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,'land-coupon-'+label+'.png')});
+  if(viewport.width===1440){
+   await enter(page);const timeoutId=fight().apocalypseChallenge.requestId;await page.locator('#pveResultConfirm').waitFor({timeout:30000});check((await state(timeoutId)).status==='FAILED','no input causes wipe');await page.locator('#pveResultConfirm').click();
+   for(const stage of ['before-answer','after-answer','navigation']){
+    const before=await resultCount();await enter(page);const id=fight().apocalypseChallenge.requestId;
+    if(stage!=='before-answer'){await page.locator('.apocalypse-dodge .is-safe').click();await page.locator('.apocalypse-dodge').waitFor({state:'detached'});}
+    if(stage==='navigation')await page.evaluate(()=>renderShell('soopketland'));else await page.reload({waitUntil:'domcontentloaded'});
+    await page.waitForTimeout(1500);const saved=await state(id);check(saved.status==='FAILED',stage+' leaves terminal failure');check(await resultCount()===before,stage+' cannot create clear');
+   }
   }
-  await page.evaluate(()=>window.SoopketmonV21ExactShell.navigate('clanFaction'));await page.locator(`[data-fw-zone="${own}"]`).press('Enter');
-  await page.locator('#fw-defense-select').selectOption('defense2');await page.locator('[data-fw-garrison]').click();
-  await page.locator('.fw-notice').filter({hasText:'방어대를 배치'}).waitFor();check(true,label+' captain assigns garrison through live UI');
-  await page.locator('.fw-garrison').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,'garrison-'+label+'.png')});
-  check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),label+' no horizontal overflow');
   await page.close();
  }
+ const {page:corePage}=await open({width:1440,height:1000});
+ for(const mode of ['PVE','PVP']){
+  const battleV2=mode==='PVE'?snapshot:createPvpBattleV2({attackerCards:cards.slice(0,5),defenderCards:cards.slice(0,5).map(c=>({...c,power:2000000})),seed:21});
+  const data={result:battleV2.result.winner==='A'?'WIN':'LOSE',reward:1000,battleV2,user,energy,monster,difficulty:{difficulty:'NORMAL'},serverNow:new Date().toISOString()};
+  await corePage.evaluate(async({data,mode})=>{await ensureFeatureResources('battleV2');const modal=document.getElementById('modal'),live=window.prepareBattleV2LiveLoading({modal,mode,playerName:'검수',opponentName:'상대'});const options={...live,modal,data,monster:data.monster};await (mode==='PVE'?window.playPveBattleV2Live(options):window.playPvpBattleV2Live(options));},{data,mode});
+  check(await corePage.locator('.is-result-visible').count()>0,mode+' ordinary replay reaches result without Apocalypse input');
+  await corePage.evaluate(()=>renderShell('battle'));
+ }
+ await corePage.close();
  assert.deepEqual(errors,[]);fs.writeFileSync(path.join(out,'results.json'),JSON.stringify({checks,errors},null,2));console.log(JSON.stringify({out,checks,errors},null,2));
 }finally{await browser.close();await f.close()}

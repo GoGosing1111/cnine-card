@@ -262,7 +262,6 @@ async function spin(db,user,body){
   list.push(stmt(db,'UPDATE soopketland_ticket_lots SET remaining=remaining-1 WHERE id=?',lot.id));
   list.push(stmt(db,'INSERT INTO soopketland_coupons(code,issuer_id,request_id,reward_json,max_uses,created_at) VALUES(?,?,?,?,?,?)',code,user.id,body.requestId,JSON.stringify(prize),lot.coupon_uses,now()));
   list.push(stmt(db,'INSERT INTO soopketland_rolls(request_id,user_id,lot_id,response_json,created_at) VALUES(?,?,?,?,?)',body.requestId,user.id,lot.id,JSON.stringify(response),now()));
-  message(db,list,user.id,`숲켓랜드 · ${prize.label} 당첨`,`${prize.label} ${prize.amount.toLocaleString('ko-KR')}${prize.key==='COIN'?'코인':prize.key.endsWith('_CARD')?'장':'개'} · 시청자 공유용 쿠폰입니다. 선착순 ${lot.coupon_uses}명, 계정당 1회. 메시지의 코드를 복사해 방송에서 공유하세요.`,code,body.requestId);
   return await commit(db,list,read)||response;
 }
 

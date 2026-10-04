@@ -1001,12 +1001,14 @@
     return {
       async play() {
         if (destroyed) return false;
-        const timeline = Array.isArray(payload?.battleV2?.result?.timeline) ? payload.battleV2.result.timeline : [];
+        let timeline = Array.isArray(payload?.battleV2?.result?.timeline) ? payload.battleV2.result.timeline : [];
         if (phase) phase.textContent = options.continuousPlayback?'전장 진입':'V3 LIVE BATTLE';
         try {
           if (options.continuousPlayback) await root.ProjectVPixiBattle.playEvents([{ type: 'DEPLOY' }]);
           else await safePlayEvents([{ type: 'DEPLOY' }], 'V3 배치 연출이 지연되어 생략되었습니다.');
-          await options.afterDeployment?.({stage,phase,data:payload});
+          const deploymentResult=await options.afterDeployment?.({stage,phase,data:payload});
+          if(deploymentResult){payload={...payload,...deploymentResult};timeline=payload.battleV2?.result?.timeline||[];}
+          if(options.data?.apocalypseChallenge)payload.apocalypseChallenge=options.data.apocalypseChallenge;
           if(destroyed)return false;
           // The account Battle Suit is an independent PVE support actor. Its
           // weapon loop begins once deployment is visible and runs across every
@@ -1136,7 +1138,7 @@
           // V1796: 연출은 타임아웃으로 생략될 수 있어도 로스터와 판정 줄은
           // 항상 서버가 확정한 값으로 맞춘다.
           if (hasServerFinalState) markRosterFinalState(stage, finalState);
-          const verdict = showVerdict(stage, payload, mode);
+          const verdict = options.data?.result==='PENDING' ? null : showVerdict(stage, payload, mode);
           if (verdict && status) status.textContent = verdict;
         } catch (error) {
           releaseBlockingLayers();
@@ -1152,6 +1154,7 @@
       },
       showResult(verifiedResult) {
         if (destroyed) return;
+        if(options.data?.apocalypseChallenge)payload={...payload,...options.data};
         root.ProjectVPixiBattle.completePlayback?.();
         if(options.preserveServerTimeline && ['SUCCESS','FAILED'].includes(verifiedResult?.personalResult)) {
           payload.battleV2.result.winner = verifiedResult.personalResult === 'SUCCESS' ? 'A' : 'B';
@@ -1261,7 +1264,7 @@
         (bonus?.coin>0?stat('보스 추가 코인','+'+fmt(bonus.coin),'is-coin'):'') +
         (bonus?.masterStars>0?stat('마스터의 별','+'+fmt(bonus.masterStars)):'') +
         (bonus?.mysticEnergy>0?stat('미스틱 에너지','+'+fmt(bonus.mysticEnergy)):'') + '</dl>' +
-        (data.apocalypseChallenge?'<p class="v3-report-adjustment">충격파 회피 · '+(data.apocalypseChallenge.success?'성공':'실패')+(data.apocalypseBonus?'':' · 추가 보상 확인 대기')+'</p>':'') +
+        (data.apocalypseChallenge?'<p class="v3-report-adjustment">충격파 회피 · '+(data.apocalypseChallenge.success?'성공':data.apocalypseFailure==='MECHANIC_FAILED'?'실패 · 전원 전멸':'실패 · 전투 중단')+'</p>':'') +
         (card ? '<div class="v3-report-drop"><span>카드 획득</span><strong>' + esc(card.grade) + ' · ' + esc(card.title) + '</strong><small>' + (data.cardReward.duplicate ? '중복 카드 · 조각 +' + fmt(data.cardReward.shardGained) : '새로운 카드') + '</small></div>' : '') +
         (pvp && adjustment?.label && Number.isFinite(Number(adjustment.multiplier)) ? '<p class="v3-report-adjustment">' + esc(adjustment.label) + ' · ' + signed(adjustment.multiplier) + '%</p>' : '') +
         '<details class="v3-report-details"><summary>전투 상세<span>' + (n(result.actions) > 0 ? fmt(result.actions) + '회 행동' : '기록 확인') + '</span></summary><dl>' + stat('아군 전투력',fmt(playerPower)) + stat('상대 전투력',fmt(opponentPower)) +

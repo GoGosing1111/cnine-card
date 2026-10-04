@@ -601,6 +601,9 @@ export async function recordCharacterProgress(env,userId,eventType,eventKey){
   if(key!=='*')progressStatements.push(env.DB.prepare(`INSERT INTO user_title_progress_events(user_id,event_type,event_key,clear_count) VALUES(?,?,?,1)
     ON CONFLICT(user_id,event_type,event_key) DO UPDATE SET clear_count=clear_count+1,updated_at=CURRENT_TIMESTAMP`).bind(userId,type,'*'));
   await env.DB.batch(progressStatements);
+  return syncContentClearTitles(env,userId,type,key);
+}
+export async function syncContentClearTitles(env,userId,type,key){
   const titles=await env.DB.prepare("SELECT * FROM character_titles WHERE is_active=1 AND unlock_type='CONTENT_CLEAR'").all(),granted=[];
   for(const title of titles.results){const cfg=parseJson(title.unlock_config_json,{}),sourceType=String(cfg.sourceType||cfg.source_type||'').toUpperCase(),sourceKey=String(cfg.sourceKey??cfg.source_id??cfg.sourceId??'*');if(sourceType&&sourceType!==type)continue;if(sourceKey!=='*'&&sourceKey!==key)continue;const required=Math.max(1,cleanInt(cfg.count,1,100000)),progressKey=sourceKey==='*'?'*':sourceKey,progress=await env.DB.prepare('SELECT clear_count FROM user_title_progress_events WHERE user_id=? AND event_type=? AND event_key=?').bind(userId,type,progressKey).first();if(Number(progress?.clear_count||0)>=required&&await grantTitle(env,userId,title.id,type,progressKey))granted.push(Number(title.id))}
   return granted;

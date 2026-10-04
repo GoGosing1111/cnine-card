@@ -145,7 +145,7 @@ function rollPool(pool,entries,context={},random=randomUnit){
   return rewards;
 }
 
-async function applyDailyLimits(env,userId,rewards){
+export async function applyDailyLimits(env,userId,rewards){
   const limitedIds=[...new Set(rewards.filter(reward=>Number(reward.dailyLimit||0)>0).map(reward=>Number(reward.entryId)).filter(Boolean))],usedByEntry=new Map();
   if(limitedIds.length){const marks=limitedIds.map(()=>'?').join(','),rows=await env.DB.prepare(`SELECT entry_id,COALESCE(SUM(quantity),0) amount FROM ${LEDGER_TABLE} WHERE user_id=? AND entry_id IN (${marks}) AND date(created_at,'+9 hours')=date('now','+9 hours') GROUP BY entry_id`).bind(userId,...limitedIds).all();for(const row of rows.results||[])usedByEntry.set(Number(row.entry_id),Number(row.amount||0))}
   const result=[];

@@ -449,19 +449,24 @@
   }
 
   window.playPveBattleV2Live = async options => {
-    const challenge=options.data?.apocalypseChallenge?await import('./apocalypse-challenge-v1.mjs?v=20261005'):null;
-    let renderer;
+    const challenge=options.data?.apocalypseChallenge?await import('./apocalypse-challenge-v1.mjs?v=20261005-wipe2'):null;
+    const attempt=options.apocalypseAttempt;let renderer;
     try{
-      if(challenge){saveUser(apiUserToLocal(options.data.user));options.afterDeployment=()=>challenge.playDodge(options);window.__apocalypsePlaybackActive=true;}
+      if(challenge){
+        if(!attempt)throw new Error('아포칼립스 전투를 다시 시작하세요.');
+        attempt.attach(options.stage);saveUser(apiUserToLocal(options.data.user));
+        if(typeof window.applyPveEnergyResponse==='function')window.applyPveEnergyResponse(options.data);
+        options.afterDeployment=()=>challenge.playDodge(options);
+      }
       const v3=Boolean(window.ProjectVBattleV3Live?.ready?.());
+      if(challenge&&!v3)throw new Error('아포칼립스 V3 전투 화면을 불러오지 못했습니다.');
       renderer=v3?await window.ProjectVBattleV3Live.createRenderer({...options,mode:'PVE'}):createRenderer({...options,mode:'PVE'});
       options.modal.__battleV2Renderer=renderer;
-      if(challenge&&!v3)await challenge.playDodge(options);
       const played=await renderer.play();
       if(played===false)throw new Error('V3 전투 연출이 완료되지 않았습니다.');
-      if(challenge)await challenge.claimBonus(options);
+      if(challenge){await challenge.claimBonus(options);attempt.ensure();attempt.finish();}
       await sleep(v3?120:420);
-    }finally{window.__apocalypsePlaybackActive=false;}
+    }catch(error){attempt?.abandon();renderer?.destroy();throw error;}
     await finishPve({...options,renderer});
   };
   window.playPvpBattleV2Live = async options => {

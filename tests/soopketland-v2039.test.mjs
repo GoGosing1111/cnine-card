@@ -68,19 +68,21 @@ test('OWNER grants are idempotent, scoped to registered accounts, audited and ca
   assert.equal((await f.grant(4,10,2,id)).body.code,'LAND_REQUEST_MISMATCH');assert.equal((await f.grant(1,1,20)).status,403);
   assert.equal((await f.grant(-1)).status,400);assert.equal((await f.grant(1,0)).status,400);
 });
-test('spin atomically spends one ticket and sends viewer coupon, without crediting streamer; lost-response replay is identical',async()=>{
+test('spin atomically spends one ticket and keeps viewer coupon in land history, without crediting streamer; lost-response replay is identical',async()=>{
   const f=await fixture();await f.force('COIN');await f.grant(2,3);f.current.id=2;const id=crypto.randomUUID(),first=await f.spin(id),again=await f.spin(id);
   assert.equal(first.status,200);assert.equal(again.body.replayed,true);assert.equal(first.body.code,again.body.code);assert.equal(f.qty(LAND_TICKET),1);
   assert.equal(f.sqlite.prepare('SELECT coin FROM users WHERE id=2').get().coin,0);
   assert.equal(f.sqlite.prepare('SELECT COUNT(*) n FROM soopketland_coupons').get().n,1);
-  assert.equal(f.sqlite.prepare('SELECT COUNT(*) n FROM user_messages WHERE coupon_code IS NOT NULL').get().n,1);
+  assert.equal(f.sqlite.prepare('SELECT COUNT(*) n FROM user_messages WHERE coupon_code IS NOT NULL').get().n,0);
   assert.equal(first.body.couponUses,3);f.current.id=3;assert.equal((await f.spin(id)).status,409);
 });
-test('message insert failure rolls back ticket, lot, coupon and roll receipt',async()=>{
+test('coupon issuance no longer depends on streamer messages; ticket grant message stays',async()=>{
   const f=await fixture();await f.grant();await f.force('COIN');f.current.id=2;
+  assert.equal(f.sqlite.prepare('SELECT COUNT(*) n FROM user_messages').get().n,1);
   f.sqlite.exec("CREATE TRIGGER message_fault BEFORE INSERT ON user_messages BEGIN SELECT RAISE(ABORT,'message offline'); END");
-  await assert.rejects(()=>f.spin(),/message offline/);assert.equal(f.qty(LAND_TICKET),1);
-  assert.equal(f.sqlite.prepare('SELECT remaining FROM soopketland_ticket_lots').get().remaining,1);assert.equal(f.sqlite.prepare('SELECT COUNT(*) n FROM soopketland_coupons').get().n,0);
+  const result=await f.spin();assert.equal(result.status,200);assert.ok(result.body.code.startsWith('SLD-'));assert.equal(f.qty(LAND_TICKET),0);
+  assert.equal(f.sqlite.prepare('SELECT COUNT(*) n FROM user_messages').get().n,1);
+  const history=(await f.call('state')).body.history;assert.ok(history.some(row=>row.code===result.body.code));
 });
 test('each viewer can redeem once; cap is exact; retry does not pay twice',async()=>{
   const f=await fixture();await f.force('COIN');await f.grant(1,2);f.current.id=2;const roll=(await f.spin()).body,id=crypto.randomUUID();

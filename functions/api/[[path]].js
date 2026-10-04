@@ -1,4 +1,4 @@
-import {registerApocalypseChallenge,apocalypseChallengeAction,validateApocalypseRequestId} from '../_apocalypse_challenge.js';
+import {registerApocalypseChallenge,apocalypseChallengeAction,reserveApocalypseBattle} from '../_apocalypse_challenge.js';
 import {rankedScoreAdjustment,rankedPowerDifference,rankedCandidateAllowed,normalizeRankedRechargeMinutes} from '../../shared/ranked-reform-v1.mjs';
 import {RANKED_REFORM_SCHEMA,readRankedEnergy,rankedFightReceipt,commitRankedFight} from '../_ranked_reform.js';
 import {reopenRankedIfDue} from '../_ranked_reopen.js';
@@ -127,6 +127,8 @@ import { ensureTargetedSkillChipGrantV2055 } from '../_targeted_skill_chip_grant
 import { ensureTargetedEquipmentRevokeV2132 } from '../_targeted_equipment_revoke_v2132.js';
 import { ensureBattleSuitEbodyPityV2059 } from '../_battle_suit_ebody_pity_v2059.js';
 import { ensureIyejunFurRerollRecoveryV2023 } from '../_iyejun_fur_reroll_recovery_v2023.js';
+import {planApocalypseRewards} from '../_apocalypse_rewards.js';
+import {syncContentClearTitles} from '../_equipment.js';
 import { APOCALYPSE_ENERGY_CONFIG,normalizeApocalypseSettings,preserveApocalypseUltimateSettings,normalizeNightmareSettings,nightmareProgressionKey,nightmareProgressionPlan,pveDifficultyRuntime } from '../_pve_nightmare.js';
 import { defaultRaidSettingsV1293,cleanRaidSettingsV1293,raidScheduleStateV1293,raidCombatSnapshotV1293,ensureRaidOverhaulV1293,snapshotRaidInstanceV1293,raidInstanceSettingsV1293,raidInstanceSlotV1293,raidSlotEntryCountV1293,raidSlotEntryCountsV1296,finalizeRaidV1293,raidFinalParticipantV1293,ensureRaidUserRewardPlanV1293,raidInventoryGrantStatementsV1293,raidRewardDisplayV1293 } from '../_raid_overhaul.js';
 import { WEEKLY_RAID_BOSSES_V1,weeklyRaidBossForKst,weeklyRaidBossByName,weeklyRaidBossSettings,ensureWeeklyRaidBossesV1 } from '../_raid_weekly_bosses_v1.js';
@@ -4252,14 +4254,17 @@ async function drawOneWithPity(env,pack,ssrRate,criticalBonus=0){
   }
   return drawOne(env,pack,null,false,criticalBonus);
 }
-async function grantBattleCard(env,userId,settings){
+async function pickBattleCard(env,settings){
   const configured=settings.cardDrop?.gradeRates||defaultBattleSettings().cardDrop.gradeRates;
   const available=(await env.DB.prepare(`SELECT c.rarity,COUNT(*) AS cnt FROM cards_effective_v1210 c WHERE c.is_active=1 AND c.card_status='PUBLIC' AND c.limited_total IS NULL AND c.rarity IN ('C','U','R','SR','HR','UR','SSR','MA','FUR') GROUP BY c.rarity`).all()).results;
   const availableSet=new Set(available.filter(x=>Number(x.cnt)>0).map(x=>x.rarity));
   const gradePool=Object.entries(configured).filter(([grade,rate])=>availableSet.has(grade)&&Number(rate)>0).map(([grade,rate])=>({grade,rate:Number(rate)}));
   const pickedGrade=weightedPick(gradePool,row=>row.rate)?.grade;if(!pickedGrade)return null;
   const pool=(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.is_active=1 AND c.card_status='PUBLIC' AND c.limited_total IS NULL AND c.rarity=?`).bind(pickedGrade).all()).results;
-  if(!pool.length)return null;const card=pool[Math.floor(Math.random()*pool.length)];
+  return pool.length?pool[Math.floor(Math.random()*pool.length)]:null;
+}
+async function grantBattleCard(env,userId,settings){
+  const card=await pickBattleCard(env,settings);if(!card)return null;
   const previous=await env.DB.prepare('SELECT quantity FROM user_cards WHERE user_id=? AND card_id=?').bind(userId,card.id).first(),isNew=!previous||Number(previous.quantity||0)<=0;
   await env.DB.prepare(`INSERT INTO user_cards(user_id,card_id,quantity) VALUES(?,?,1) ON CONFLICT(user_id,card_id) DO UPDATE SET quantity=quantity+1,last_obtained_at=CURRENT_TIMESTAMP`).bind(userId,card.id).run();
   let shardGained=0,masterStarGained=0;if(!isNew){shardGained=SHARD_REWARD[card.grade]||0;if(shardGained>0){await env.DB.prepare('UPDATE users SET card_shards=card_shards+? WHERE id=?').bind(shardGained,userId).run();const u=await env.DB.prepare('SELECT card_shards FROM users WHERE id=?').bind(userId).first();await env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,'PVE_DUPLICATE',?)").bind(userId,shardGained,u.card_shards,card.id).run();}if(String(card.grade||'').toUpperCase()==='MA'){masterStarGained=1;await env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) VALUES(?,'MASTER_STAR',1,1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=quantity+1,unseen_quantity=unseen_quantity+1,updated_at=CURRENT_TIMESTAMP`).bind(userId).run();const star=await env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(userId).first();await env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,'MASTER_STAR',1,?,'MA_DUPLICATE','PVE',?)").bind(userId,Number(star?.quantity||0),String(card.id)).run();}}
@@ -4405,7 +4410,7 @@ const SERIALIZED_GAME_ACTIONS=new Set([
 // 강화 재화와 영치금 납부는 영수증·잔액·대상 상태가 반드시 한 사용자 락 안에서 확정되어야 한다.
 // 이 경로들은 락 저장소가 느리거나 실패했을 때도 락 없이 진행하지 않는다.
 const STRICT_MUTATION_LOCK_ACTIONS=new Set(['card/breakthrough','card/breakthrough/auto','card/unique-advancement','prison/fund','messages/claim-batch']);
-const SERIALIZED_GAME_PREFIXES=['quests/','evolution/','rift/','territory-war/','siege/','seal-battle/','captain/','magic/','inventory/','wago-daily-quest/','playdk-daily-quest/','auction/'];
+const SERIALIZED_GAME_PREFIXES=['battle/apocalypse-challenge/','quests/','evolution/','rift/','territory-war/','siege/','seal-battle/','captain/','magic/','inventory/','wago-daily-quest/','playdk-daily-quest/','auction/'];
 let userMutationLockReadyPromise=null;
 let breakthroughAutoReceiptReadyPromise=null;
 async function ensureBreakthroughAutoReceipts(env){
@@ -6443,7 +6448,15 @@ async function handleRequest(context){
     }
     if(path.startsWith('battle/apocalypse-challenge/')&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
-      try{const result=await apocalypseChallengeAction(env,user,path.split('/').at(-1),await readBody(request));return json({...result,serverNow:Date.now(),...(result.status==='CLAIMED'?{user:await battleResponseProfile(env,user,[])}:{})});}
+      try{
+        const body=await readBody(request),result=await apocalypseChallengeAction(env,user,path.split('/').at(-1),body);
+        if(result.status==='CLAIMED'&&result.settlement?.result==='WIN'){
+          result.settlement.cowPortal=await discoverCowPortal(env,user,{battleMode:'APOCALYPSE',sourceType:'HUNT',sourceRef:body.requestId,isApocalypse:true,result:'WIN'});
+          await syncContentClearTitles(env,user.id,'PVE',String(result.monsterId));
+        }
+        const terminal=['CLAIMED','FAILED'].includes(result.status),settled=result.settlement||{};
+        return json({...result,serverNow:Date.now(),...(terminal?{user:await battleResponseProfile(env,user,grantedCardIdsFromBattle({cardRewards:settled.cardReward?[settled.cardReward]:[],unifiedDrops:settled.unifiedDrop?[settled.unifiedDrop]:[]}))}:{})});
+      }
       catch(error){if(error.status)return json({error:error.message,code:error.code},error.status);throw error;}
     }
     if(path==='battle/fight'&&request.method==='POST'){
@@ -6467,8 +6480,11 @@ async function handleRequest(context){
       if(!monster)return json({error:'전투할 몬스터를 찾을 수 없습니다.'},404);
       const difficulty=pveDifficultyRuntime(settings,monster);
       if(!difficulty.enabled)return json({error:difficulty.isApocalypse?'현재 아포칼립스 토벌은 중지되어 있습니다.':'현재 나이트메어 토벌은 중지되어 있습니다.',code:difficulty.isApocalypse?'APOCALYPSE_DISABLED':'NIGHTMARE_DISABLED'},503);
-      if(difficulty.isApocalypse){try{validateApocalypseRequestId(requestId)}catch(error){return json({error:error.message},400)}}
       if(ownedRows.length!==5)return json({error:'보유하지 않은 카드가 포함되어 있습니다.'},400);
+      if(difficulty.isApocalypse){
+        if(payload.autoBattle===true)return json({error:'아포칼립스는 기믹을 직접 진행해야 합니다.',code:'APOCALYPSE_MANUAL_REQUIRED'},400);
+        try{await reserveApocalypseBattle(env,{userId:user.id,requestId,monsterId:monster.id,runToken:payload.apocalypseRunToken})}catch(error){if(error.status)return json({error:error.message,code:error.code},error.status);throw error;}
+      }
       let energyAfter;try{energyAfter=await consumePveEnergyForDifficulty(env,user,settings,difficulty)}catch(e){if(e.code==='NO_BATTLE_ENERGY'||e.code==='NO_APOCALYPSE_ENERGY')return json({error:e.message,code:e.code,energy:e.energy,energyKind:difficulty.isApocalypse?'APOCALYPSE':'STANDARD'},429);throw e}
       const ownedById=new Map(ownedRows.map(card=>[String(card.id),card]));
       const cards=ids.map(id=>ownedById.get(String(id))).filter(Boolean).map(c=>({...c,id:String(c.id),power:cardBattlePower(c,c.breakthrough_level,settings)}));
@@ -6519,6 +6535,7 @@ async function handleRequest(context){
         battleV2=createPveBattleV2({mercenary:mercenarySnapshot,cards:rankCards(engineCards,rankBenefits),magicCards:magicLoadout.cards,characterBonus:cardSupportBonus,battleSuit,monster:difficulty.engineMonster,seed,ultimateDamage,bossUltimatePercent:bossShouldCast?bossPveDamagePercent:0,bossUltimateCapPercent:difficulty.bossUltimateCapPercent,singleHealerBonus:engineState.singleHealerBonus});
         result=battleV2.result.winner==='A'?'WIN':'LOSE';
       }else result=effectiveBattleDamage>=monsterPower?'WIN':'LOSE';
+      const deferred=difficulty.isApocalypse;
       const eventReward=result==='WIN'?burningRewardAmount(difficulty.effectiveRewardCoin,burning):0,avatarCoin=applyAvatarCoinGain(eventReward,avatarEffect),reward=rankCoin(avatarCoin.total,rankBenefits);
       // V1803: 승패는 여기서 이미 결정돼 있는데, 보상 6종을 순차로 처리하느라 응답이 그만큼 늦었다.
       //   기존: 코인 → 카드드랍 → 장비 → 블랙미라클 → 통합드랍 → 큐브 → 마력결정  (7단 직렬)
@@ -6533,20 +6550,23 @@ async function handleRequest(context){
       const pveMagic=pveMagicSettings.acquisition?.pve||{};
       const cardDropRate=(await resolveAvatarDropRate(env,user.id,result==='WIN'&&settings.cardDrop?.enabled!==false?settings.cardDrop?.defaultRate??0:0)).total;
       const cardDropHit=cardDropRate>0&&Math.random()*100<cardDropRate;
+      if(deferred&&!battleV2)return json({error:'아포칼립스 전투 화면을 새로 불러오세요.',code:'APOCALYPSE_V3_REQUIRED'},409);
+      const pendingCard=deferred&&cardDropHit?await pickBattleCard(env,settings):null;
+      const apocalypsePlan=deferred?await planApocalypseRewards(env,{user,requestId,monster,reward,won:result==='WIN',card:pendingCard,duplicateShards:SHARD_REWARD[pendingCard?.grade]||0,pveMagic,bonus:settings.apocalypse?.monsterProfiles?.[String(monster.id)]?.clearBonus}):null;
       const [,cardReward,equipmentReward,blackMiracleReward,magicReward]=await Promise.all([
-        result==='WIN'?settleRankedHunt(env,user.id,difficulty.isApocalypse?'APOCALYPSE':'HUNT',requestId,reward,`PVE 승리 보상: ${monster.name}`):Promise.resolve(null),
-        cardDropHit?grantBattleCard(env,user.id,settings):Promise.resolve(null),
-        result==='WIN'?safeEquipmentDrop(env,{userId:user.id,sourceType:rewardSource,sourceId:String(monster.id),requestId}):Promise.resolve(null),
-        result==='WIN'?rollBlackMiracleDrop(env,{userId:user.id,source:rewardSource,referenceId:requestId}):Promise.resolve(null),
-        result==='WIN'?resolveMagicCrystalReward(env,{userId:user.id,source:'PVE_DROP',referenceId:requestId,enabled:pveMagic.enabled===true,chance:pveMagic.chance,amount:pveMagic.amount,dailyLimit:pveMagic.dailyLimit,reason:'일반 PVE 승리 확률 드랍'}):Promise.resolve(null)
+        !deferred&&result==='WIN'?settleRankedHunt(env,user.id,difficulty.isApocalypse?'APOCALYPSE':'HUNT',requestId,reward,`PVE 승리 보상: ${monster.name}`):Promise.resolve(null),
+        !deferred&&cardDropHit?grantBattleCard(env,user.id,settings):Promise.resolve(null),
+        !deferred&&result==='WIN'?safeEquipmentDrop(env,{userId:user.id,sourceType:rewardSource,sourceId:String(monster.id),requestId}):Promise.resolve(null),
+        !deferred&&result==='WIN'?rollBlackMiracleDrop(env,{userId:user.id,source:rewardSource,referenceId:requestId}):Promise.resolve(null),
+        !deferred&&result==='WIN'?resolveMagicCrystalReward(env,{userId:user.id,source:'PVE_DROP',referenceId:requestId,enabled:pveMagic.enabled===true,chance:pveMagic.chance,amount:pveMagic.amount,dailyLimit:pveMagic.dailyLimit,reason:'일반 PVE 승리 확률 드랍'}):Promise.resolve(null)
       ]);
-      const unifiedDrop=result==='WIN'?await safePveUnifiedDrop(env,{userId:user.id,requestId:`UNIFIED:${requestId}`,sourceType:rewardSource,sourceId:String(monster.id),triggerType:'WIN',context:{boss:bossIsBoss,difficulty:difficulty.difficulty},role:user.role,isNightmare:difficulty.isNightmare,isApocalypse:difficulty.isApocalypse}):null;
+      const unifiedDrop=!deferred&&result==='WIN'?await safePveUnifiedDrop(env,{userId:user.id,requestId:`UNIFIED:${requestId}`,sourceType:rewardSource,sourceId:String(monster.id),triggerType:'WIN',context:{boss:bossIsBoss,difficulty:difficulty.difficulty},role:user.role,isNightmare:difficulty.isNightmare,isApocalypse:difficulty.isApocalypse}):null;
       // V1785: battle_logs 는 감사 로그일 뿐 응답에서 읽지 않는다 → 응답 지연 경로에서 제외.
-      deferWrite('battle_logs',()=>env.DB.prepare('INSERT INTO battle_logs(user_id,monster_id,deck_cards,player_power,monster_power,result,reward_coin) VALUES(?,?,?,?,?,?,?)').bind(user.id,monster.id,JSON.stringify(ids),playerPower,monsterPower,result,reward).run());
+      if(!deferred)deferWrite('battle_logs',()=>env.DB.prepare('INSERT INTO battle_logs(user_id,monster_id,deck_cards,player_power,monster_power,result,reward_coin) VALUES(?,?,?,?,?,?,?)').bind(user.id,monster.id,JSON.stringify(ids),playerPower,monsterPower,result,reward).run());
       // 마법 수정 보상은 위 Promise.all에서 이미 받았다.
       // V1785: 고등급 리롤 티켓 지급 결과는 응답에 포함되지 않는다(기존에도 변수만 만들고 쓰지 않았다).
       // 지급 자체는 그대로 수행하되 응답을 기다리게 하지 않는다.
-      if(result==='WIN')deferWrite('highGradeRerollDrop',()=>grantHighGradeRerollDrop(env,{userId:user.id,content:'PVE',referenceId:requestId}));
+      if(!deferred&&result==='WIN')deferWrite('highGradeRerollDrop',()=>grantHighGradeRerollDrop(env,{userId:user.id,content:'PVE',referenceId:requestId}));
 
       // V1791: 전투가 바꾼 것만 배치 1회로 읽어 경량 프로필로 응답한다.
       // (기존: users 조회 1회 + profile() 10개 조회 + 보유 카드 전체 스캔)
@@ -6556,12 +6576,12 @@ async function handleRequest(context){
           cardRewards:cardReward?[cardReward]:[],
           unifiedDrops:unifiedDrop?[unifiedDrop]:[]
         })),
-        discoverCowPortal(env,user,{battleMode:difficulty.isApocalypse?'APOCALYPSE':'PVE',sourceType:'HUNT',sourceRef:requestId,isApocalypse:difficulty.isApocalypse,result})
+        deferred?null:discoverCowPortal(env,user,{battleMode:difficulty.isApocalypse?'APOCALYPSE':'PVE',sourceType:'HUNT',sourceRef:requestId,isApocalypse:difficulty.isApocalypse,result})
       ]);
       const battleSuitSupport=(battleV2?.result?.supports?.A||battleV2?.teams?.A?.supports||[]).find(item=>String(item?.actorKind||'').toUpperCase()==='BATTLE_SUIT')||null;
       const battleSuitRuntime={...engineState.battleSuitLive,actorId:String(battleSuitSupport?.id||''),actions:Math.max(0,Number(battleSuitSupport?.actions||0)),damageDealt:Math.max(0,Number(battleSuitSupport?.damageDealt??battleV2?.result?.damageBreakdown?.battleSuit??0)),authoritative:Boolean(battleSuitSupport?.authoritative&&battleV2?.rules?.battleSuitDamageAuthority==='SERVER_TIMELINE')};
-      const apocalypseChallenge=difficulty.isApocalypse?await registerApocalypseChallenge(env,{userId:user.id,requestId,monsterId:monster.id,won:result==='WIN',rewardCoin:reward,bonus:settings.apocalypse?.monsterProfiles?.[String(monster.id)]?.clearBonus}):null;
-      return json({apocalypseChallenge,result,reward,rewardBeforeAvatar:avatarCoin.base,avatarCoinBonus:avatarCoin.bonus,avatarCoinGainPercent:avatarCoin.percent,burningEvent:burningPublicState(burning),battleEngine:engineState,battleV2,battleSuitRuntime,equippedBattleSuit:characterBonus.equippedBattleSuit||null,equippedWeapon:characterBonus.equippedWeapon||null,battleSuitDamage:Number(battleV2?.result?.damageBreakdown?.battleSuit||characterBonus.battleSuitPve||0),damageBreakdown:battleV2?.result?.damageBreakdown||{cards:cardPower,support:Math.max(0,Number(characterBonus.pve||0)-Number(characterBonus.battleSuitPve||0)),battleSuit:Math.max(0,Number(characterBonus.battleSuitPve||0)),ultimate:ultimateDamage,total:totalBattleDamage,authority:'SERVER_POWER_FALLBACK'},cardReward,magicReward,equipmentReward,blackMiracleReward,unifiedDrop,cowPortal,playerPower,cardPower,characterBonus,basePlayerPower,totalBattleDamage,effectiveBattleDamage,bossUltimate,bossUltimateState:{configured:bossUltimateConfigured||apocalypseSkillCast,enabled:bossUltimateEnabled||apocalypseSkillCast,isBoss:bossIsBoss,forceCast:apocalypseSkillCast||bossForceCast,trigger:apocalypseSkillCast?'ALWAYS':bossTrigger,chance:apocalypseSkillCast?100:bossChance,shouldCast:bossShouldCast,capPercent:difficulty.bossUltimateCapPercent,damageCapUnlocked:difficulty.bossUltimateUnlocked,apocalypseExclusive:apocalypseSkillCast},ultimateDamage,bonusDamage:ultimateDamage,ultimateSourceCard:ultimateSourceCard?{id:ultimateSourceCard.id,title:ultimateSourceCard.title,rarity:ultimateSourceCard.rarity,power:ultimateSourceCard.power,breakthroughLevel:ultimateSourceCard.breakthrough_level}:null,activatedUltimate,deckSynergy:synergy,uniqueAbility:uniqueBattleResponsePayload(uniqueBattle,uniqueRuntime),monsterPower,difficulty:{...difficulty,engineMonster:undefined},monster:{id:monster.id,name:monster.name,image:monster.image_url,isBoss:Boolean(monster.is_boss),difficulty:difficulty.difficulty,nightmare:difficulty.isNightmare,apocalypse:difficulty.isApocalypse},cards:battleCards,energy:energyAfter,energyKind:difficulty.isApocalypse?'APOCALYPSE':'STANDARD',serverNow:new Date().toISOString(),user:battleProfile});
+      const apocalypseChallenge=deferred?await registerApocalypseChallenge(env,{userId:user.id,requestId,runToken:payload.apocalypseRunToken,monsterId:monster.id,won:result==='WIN',battleV2,plan:apocalypsePlan,log:{ids,playerPower,monsterPower}}):null;
+      return json({apocalypseChallenge,result:deferred?'PENDING':result,reward:deferred?0:reward,rewardBeforeAvatar:avatarCoin.base,avatarCoinBonus:avatarCoin.bonus,avatarCoinGainPercent:avatarCoin.percent,burningEvent:burningPublicState(burning),battleEngine:engineState,battleV2,battleSuitRuntime,equippedBattleSuit:characterBonus.equippedBattleSuit||null,equippedWeapon:characterBonus.equippedWeapon||null,battleSuitDamage:Number(battleV2?.result?.damageBreakdown?.battleSuit||characterBonus.battleSuitPve||0),damageBreakdown:battleV2?.result?.damageBreakdown||{cards:cardPower,support:Math.max(0,Number(characterBonus.pve||0)-Number(characterBonus.battleSuitPve||0)),battleSuit:Math.max(0,Number(characterBonus.battleSuitPve||0)),ultimate:ultimateDamage,total:totalBattleDamage,authority:'SERVER_POWER_FALLBACK'},cardReward,magicReward,equipmentReward,blackMiracleReward,unifiedDrop,cowPortal,playerPower,cardPower,characterBonus,basePlayerPower,totalBattleDamage,effectiveBattleDamage,bossUltimate,bossUltimateState:{configured:bossUltimateConfigured||apocalypseSkillCast,enabled:bossUltimateEnabled||apocalypseSkillCast,isBoss:bossIsBoss,forceCast:apocalypseSkillCast||bossForceCast,trigger:apocalypseSkillCast?'ALWAYS':bossTrigger,chance:apocalypseSkillCast?100:bossChance,shouldCast:bossShouldCast,capPercent:difficulty.bossUltimateCapPercent,damageCapUnlocked:difficulty.bossUltimateUnlocked,apocalypseExclusive:apocalypseSkillCast},ultimateDamage,bonusDamage:ultimateDamage,ultimateSourceCard:ultimateSourceCard?{id:ultimateSourceCard.id,title:ultimateSourceCard.title,rarity:ultimateSourceCard.rarity,power:ultimateSourceCard.power,breakthroughLevel:ultimateSourceCard.breakthrough_level}:null,activatedUltimate,deckSynergy:synergy,uniqueAbility:uniqueBattleResponsePayload(uniqueBattle,uniqueRuntime),monsterPower,difficulty:{...difficulty,engineMonster:undefined},monster:{id:monster.id,name:monster.name,image:monster.image_url,isBoss:Boolean(monster.is_boss),difficulty:difficulty.difficulty,nightmare:difficulty.isNightmare,apocalypse:difficulty.isApocalypse},cards:battleCards,energy:energyAfter,energyKind:difficulty.isApocalypse?'APOCALYPSE':'STANDARD',serverNow:new Date().toISOString(),user:battleProfile});
     }
 
 
