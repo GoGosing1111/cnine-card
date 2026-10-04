@@ -1,5 +1,5 @@
 {
-  "status": "VALIDATED_PENDING_SEND",
+  "status": "COMPLETED",
   "authorization": "2차인증 전체 유저 마별 250만개 지급 메세지 내용 딤이나 3킬 미션 이벤트",
   "operationKey": "ops:diimina-three-kill:verified-star:20261005:v1",
   "campaignKey": "diimina-three-kill-verified-star-20261005-v1",
@@ -11,7 +11,11 @@
   "rewardAmountEach": 2500000,
   "delivery": "One claimable reward message per account; no automatic claim",
   "recipientCount": 531,
-  "roles": {"USER": 526, "ADMIN": 3, "OWNER": 2},
+  "roles": {
+    "USER": 526,
+    "ADMIN": 3,
+    "OWNER": 2
+  },
   "totalAmount": 1327500000,
   "recipientHash": "55f60fb2c21a37c6c4f51cf0c38e5f63813356db0bf7a1dee6c149055e5251b2",
   "validation": {
@@ -27,9 +31,31 @@
     "claimRegression": "PASS: existing real PostgreSQL message claim test in ppanghun-ck-verified-rewards-20261002.test.mjs"
   },
   "execution": {
-    "atomicWrites": ["frozenRecipientReceipt", "messages", "attachedRewards", "adminAudit"],
+    "atomicWrites": [
+      "frozenRecipientReceipt",
+      "messages",
+      "attachedRewards",
+      "adminAudit"
+    ],
     "gameDeployment": "NOT_REQUIRED_OPS_ONLY",
     "privateEvidenceDirectory": "C:/Users/User/.codex/tmp/diimina-three-kill-verified-star-20261005",
-    "credentialsPersisted": false
+    "credentialsPersisted": false,
+    "databaseConnectionsClosed": true
+  },
+  "sourceCommit": "24791e2c",
+  "completedAt": "2026-10-04T20:08:30.585Z",
+  "completedAtKST": "2026-10-05 05:08:30 KST",
+  "auditId": "40959",
+  "operationScriptSha256": "b2fa3f064f745883c9fb5bc718f7cb96fd7e84237866f96243f7c99eabbafb06",
+  "verification": {
+    "messages": 531,
+    "rewards": 531,
+    "totalAmount": 1327500000,
+    "claimed": 2,
+    "missing": 0,
+    "duplicates": 0,
+    "replayAddedMessages": 0,
+    "replayAddedRewards": 0,
+    "independentReadOnlyCheck": true
   }
 }
