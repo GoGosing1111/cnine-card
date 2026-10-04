@@ -24,3 +24,11 @@
 - 공통 복구 거래·스키마·인증·의존성은 변경하지 않는다. 국소적인 장비제작/복구 연결이므로 `npm run deploy:production -- --scoped`, 위 두 검사와 `check:worker`를 사용한다.
 - 실제 직전 운영 배포는 ICON UI의 `dc3da2e` / `https://e8d89abf.cnine-card.pages.dev`로 확인했다. 그 이후 문서 커밋을 보존한다. 게임 로더·서비스워커·CMS·강화 센터 자산 버전을 갱신한다.
 - 검수 이미지/로그는 저장소 밖 `C:/Users/User/.codex/tmp/eastern-craft-repair-20261004/`, 운영 설정 작업은 `C:/Users/User/.codex/worktrees/eastern-craft-repair-ops-20261004/`에 보존한다. 실계정 제작·복구로 재화를 소모하는 검수는 하지 않는다.
+
+## 운영 반영 완료
+
+- 서버 검사 **36/36 PASS**, PC·모바일 **37개 확인 PASS**, Worker 컴파일·출시 게이트·Hyperdrive 캐시 OFF 확인 완료.
+- 실행 커밋 `76e1efd71bff6c8c27a89e845f29480ef03d0038`, Pages `https://cc29c556.cnine-card.pages.dev`. 실제 운영 별칭의 변경 파일 10개 내용 해시 일치와 로그인 보호를 확인했다.
+- **2026-10-04 20:02:57 KST** 동방무기상 레시피 526의 설명과 리페어 설정을 운영 반영했다. 정책 revision 3 → 4, `CONSUME` + `failureRepairable=true`, 감사 로그 **40771**. 원격 예행 ROLLBACK 후 실제 적용했고 별도 읽기 연결에서 일치 확인했다.
+- 레시피 운영 OFF·공개 ON, 기존 마별 비용 **1,000,000개** 및 나머지 경제 설정을 보존했다. CMS 장비제작 비용 **설정 상한만 20,000,000개**로 확대했다.
+- 실계정 제작·복구 검수는 0회다. 기존 리페어 정책은 쿠폰 1장 + 1,000억 코인 / 이전 단계 / 무기한으로 일치한다. 배포와 운영 증빙은 `eastern-craft-repair-release-20261004.json`에 기록한다. 이 완료 기록 커밋은 게임 재배포하지 않는다.

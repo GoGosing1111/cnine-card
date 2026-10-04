@@ -1,0 +1,115 @@
+{
+  "verified": true,
+  "verifiedAt": "2026-10-04T11:02:20.846Z",
+  "sourceCommit": "76e1efd71bff6c8c27a89e845f29480ef03d0038",
+  "origin": "https://cnine-card.pages.dev",
+  "files": [
+    {
+      "file": "js/equipment-craft-reveal-v1.js",
+      "status": 200,
+      "sha256": "da2ab3e96d4373e84f7dcb4838e29e45e2636cc3fbea0e606a81df7e5583f7f6",
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "file": "css/equipment-craft-reveal-v1.css",
+      "status": 200,
+      "sha256": "358383b44bc6b396f63a50e50049a942324ff1ac58e4d38283ba872aed9c4cb0",
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "file": "js/workshop-v1881.js",
+      "status": 200,
+      "sha256": "2d614f298167df89675282a4196d08b5b0d0a08a9fc94e1d6dd6a465aeb56c54",
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "d2c87b97e0ff06500f43b2457146306e1f43657be7a08fb61b4ec21e52be9ba3",
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "4f3914826000af3a725748a867555c3bc6e4c214c822425fd60d7dca81a838d0",
+      "cacheControl": "no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "c3e50bd084dcdaff17d503cabb7a0e4bb3dd35c3f3e44f772eded053f99d4b12",
+      "cacheControl": "no-store, no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "sha256": "c271614714fec16985d9eda5b14923d29396ed82bf95c6826f1900fced3f346a",
+      "cacheControl": "no-store, no-cache, must-revalidate, max-age=0, no-store, no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "file": "admin/workshop-admin-v1668.js",
+      "status": 200,
+      "sha256": "6450a7b6bd1700888dc3786adcf65659c88afa7c5a4af61f26ed0710d81d4335",
+      "cacheControl": "no-store, no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "file": "equipment-forge/app.mjs",
+      "status": 200,
+      "sha256": "e4333698dbf840c42fd88d8c68035c94d054e729772e0980ca427b92e6b0fe28",
+      "cacheControl": "no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "file": "equipment-forge/index.html",
+      "status": 200,
+      "sha256": "57037a2ac6c837f795ebaba88cb6ece7026e73caae819466e7fcfb53596a8ffb",
+      "cacheControl": "no-cache, must-revalidate, max-age=0, no-cache, must-revalidate, max-age=0"
+    }
+  ],
+  "restoration": {
+    "enabled": true,
+    "coinCost": 100000000000,
+    "itemCode": "PINGDU_REPAIR_COUPON",
+    "itemQuantity": 1,
+    "levelMode": "PREVIOUS",
+    "expiresHours": 0
+  },
+  "anonymousWorkshopStatus": 401,
+  "productionCraftRestoreRequests": 0,
+  "pagesUrl": "https://cc29c556.cnine-card.pages.dev",
+  "validation": {
+    "serverTests": 36,
+    "browserChecks": 37
+  },
+  "previousDeploymentSource": "dc3da2e07de435d4e9a2935c8346bd9afb52d200",
+  "apiRuntimeVersion": "027e9ec5-dafc-4e46-8cfb-e0a44a0d25e3",
+  "cronWorkerVersion": "41e4d942-6a47-474a-b99e-8a251075b8ad",
+  "hyperdriveQueryCache": "DISABLED",
+  "cmsCorrection": {
+    "operation": "ops:eastern-craft-repair:20261004:v1",
+    "auditId": "40771",
+    "completedAt": "2026-10-04T11:02:57.174Z",
+    "verified": true,
+    "recipes": [
+      {
+        "id": "526",
+        "code": "WORKSHOP_ITEM_SYNTHESIS_1790598488947",
+        "description": "+10 장비와 재료·마스터의 별·코인을 사용합니다. 실패 시 +10 장비가 소모되며 리페어권으로 복구할 수 있습니다.",
+        "policy": {
+          "inputEquipmentId": 31,
+          "pityAfter": 10,
+          "revision": 4,
+          "requiredLevel": 10,
+          "successRate": 10,
+          "failureInputPolicy": "CONSUME",
+          "inputName": "소버린 SKS",
+          "inputImage": "/assets\\items\\41515123.jpeg",
+          "inputRarity": "MYTHIC",
+          "failureRepairable": true
+        },
+        "isActive": 0,
+        "isPublic": 1,
+        "masterStarCost": 1000000
+      }
+    ]
+  }
+}
