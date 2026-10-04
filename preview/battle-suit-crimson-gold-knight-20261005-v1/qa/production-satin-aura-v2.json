@@ -1,0 +1,32 @@
+{
+  "deploymentUrl": "https://874b8f7a.cnine-card.pages.dev",
+  "previewUrl": "https://cnine-card.pages.dev/preview/battle-suit-crimson-gold-knight-20261005-v1/",
+  "sourceCommit": "df4fd00a5721e5bd6b2fe094793b8ad1f21d51d6",
+  "command": "npm run deploy:production -- --scoped",
+  "scopedAssetRegression": "PASS",
+  "releaseGuards": "PASS",
+  "hyperdriveCacheDisabled": true,
+  "cleanSource": true,
+  "verifiedHttp200AndLocalHashMatch": [
+    "manifest.json",
+    "preview.bundle.js",
+    "assets/atlases/aura-wrap.png",
+    "assets/atlases/aura-rear.png"
+  ],
+  "videoHttp200": true,
+  "browser": {
+    "ready": true,
+    "mode": "look",
+    "satinGold": true,
+    "auraEnabled": true,
+    "palette": "crimson",
+    "poseMatched": true,
+    "rearFrames": 12,
+    "wrapFrames": 12,
+    "registeredTimelines": 1,
+    "visualChecked": true
+  },
+  "runtimeEnabled": false,
+  "finalVisualApproval": "USER_REVIEW_PENDING",
+  "note": "This evidence file is a documentation-only follow-up; no additional deployment required."
+}
