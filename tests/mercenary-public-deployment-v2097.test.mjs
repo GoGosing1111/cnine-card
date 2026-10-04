@@ -49,7 +49,8 @@ test('deployment exposes 5+1 independently and both real deck builders provide t
 });
 test('displayed PVP power adds the separately deployed mercenary once without counting it as a card',()=>{
  const app=fs.readFileSync('js/app.js','utf8'),source=app.slice(app.indexOf('function pvpDeckStats('),app.indexOf("addEventListener('mercenary-deployment:changed'"));
- const context={cards,loadUser:()=>({}),battleCardPower:c=>c.power,pvpState:{characterBonus:{pvp:500},battleConfig:{}},battleState:{config:{}},MercenaryDeckSlot:{power:()=>120000}};vm.createContext(context);vm.runInContext(source,context);
+ const deckCount=app.match(/function deckCardCount\(deck\)\{[^\r\n]+\}/)?.[0];assert.ok(deckCount,'Load the real shared deck counter used by pvpDeckStats');
+ const context={cards,loadUser:()=>({}),battleCardPower:c=>c.power,pvpState:{characterBonus:{pvp:500},battleConfig:{}},battleState:{config:{}},MercenaryDeckSlot:{power:()=>120000}};vm.createContext(context);vm.runInContext(deckCount+'\n'+source,context);
  const stats=context.pvpDeckStats(cards.map(c=>c.id));assert.equal(stats.count,5);assert.equal(stats.cardPower,50000);assert.equal(stats.totalPower,170500);assert.equal(context.pvpDeckStats([]).totalPower,0);
  assert.match(fs.readFileSync('js/pve-command-v2-live.js','utf8'),/cardPower \+ Number\(bonus.pve \|\| 0\) \+ Number\(globalThis.MercenaryDeckSlot/);
 });
