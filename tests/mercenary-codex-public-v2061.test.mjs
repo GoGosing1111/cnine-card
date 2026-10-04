@@ -34,7 +34,7 @@ test('public document uses the native forge-inspired archive with game links and
   const limitedCss='<link rel="stylesheet" href="/mercenary-codex/limited.css?v=20261002">';
   assert.equal(html.split(limitedTab).length,2);assert.equal(html.split(limitedCss).length,2);
   assert.equal(html.split('&amp;mine=20261003').length,3);
-  assert.equal(html.replaceAll('\r\n', '\n').replaceAll('&amp;mine=20261003','').replaceAll('&limited=20261002-canonical2','').replace(limitedTab,'').replace(limitedCss,''), publicCodexHtml());
+  assert.equal(html.replaceAll('\r\n', '\n').replaceAll('&amp;mine=20261003','').replaceAll('&limited=20261002-canonical2','').replace('?limited=20261004-approved&amp;v=','?v=').replace(limitedTab,'').replace(limitedCss,''), publicCodexHtml());
   assert.match(html, /data-codex-mode="public"/);
   assert.match(html, /내 용병 확인 중/);
   assert.doesNotMatch(html, /검수용 프리뷰|유저 미공개|메뉴 배치입니다|target="_blank"/);
@@ -112,7 +112,7 @@ test('public page and live entry use synchronized cache tags and revalidation he
   assert.match(index, /exact-shell-adapter\.js\?v=2108-shared-navigation/);
   assert.match(index, /runtime-router\.js\?v=2083-clan-prison-camp/);
   assert.match(index, /command-icons\.js\?v=1\.5\.0-mercenary-codex/);
-  assert.match(html, /mercenary-codex\/app\.mjs\?v=2133/);
+  assert.match(html, /mercenary-codex\/app\.mjs\?limited=20261004-approved&amp;v=2133/);
   assert.match(html, /mercenary-codex\/style\.css\?v=2133/);
   assert.match(read('mercenary-codex/style.css'), /search-field input\{height:44px/);
   assert.match(client, /model\.mjs\?v=20261002-canonical2/);
