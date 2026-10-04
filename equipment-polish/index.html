@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark"><title>장비 연마 · 숲켓몬</title>
+  <link rel="stylesheet" href="/preview/equipment-polish-premium-v1/style.css?v=20261005">
+  <script src="/js/ui-fx-vendor-v2045.bundle.js"></script>
+<link rel="stylesheet" href="/equipment-polish/live.css?v=20261005"></head>
+<body>
+  <section id="access-gate"><h1>장비 연마</h1><p role="status">연마 정보를 불러오는 중…</p><a href="/equipment-forge/">장비 강화로 돌아가기 ↗</a><button id="retry-access" hidden>다시 불러오기</button></section><main class="atelier" hidden>
+    <header class="masthead">
+      <a class="brand" href="/equipment-forge/" aria-label="장비 강화로 돌아가기"><span class="brand-glyph" aria-hidden="true">✦</span><span>숲켓몬<small>THE ATELIER</small></span></a>
+      <div class="edition"><i></i> 장비 연마 · 준비 중</div>
+      <button class="text-button" id="sound" aria-pressed="false">사운드 OFF</button>
+    </header>
+    <section class="page-heading"><div><p class="eyebrow">EQUIPMENT POLISH</p><h1>장비 연마</h1></div><p>다섯 갈래의 힘.<br><strong>한 번의 연마, 하나의 성장.</strong></p></section>
+    <section class="equipment-picker"><label>연마할 장비<select id="equipment-select" aria-label="연마할 장비"></select></label><button id="equipment-more" hidden>장비 더 불러오기</button><a id="polish-cms-link" href="/admin/#equipment-polish" hidden>연마 CMS ↗</a></section><p id="live-message" role="status"></p><div class="workbench">
+      <section class="stage" aria-label="연마 연출">
+        <div class="canvas-host" id="canvas-host"></div>
+        <img class="fallback-stone" src="/preview/equipment-polish-premium-v1/assets/polishing-stone-v1.png" alt="푸른 결정과 금빛 세공으로 만든 연마석">
+        <div class="stage-top"><span class="stage-caption"><i></i> 연마의 성소</span><button class="text-button" id="skip" hidden>바로 결과 보기 ↗</button></div>
+        <div class="scene-heading"><span id="phase-label" class="eyebrow">READY TO POLISH</span><h2 id="scene-title">잠든 힘을 깨우세요</h2><p id="scene-description">연마석의 빛이 장비의 한 가지 능력을 끌어올립니다.</p></div>
+        <div class="scene-bottom">
+          <div id="idle-controls"><div class="material-cost"><img src="/preview/equipment-polish-premium-v1/assets/polishing-stone-v1.png" alt=""><span><span id="material-name">연마석</span> <b id="stone-cost">—</b></span><i></i><span>코인 <b id="cost">—</b></span><span>마별 <b id="star-cost">—</b></span><small>정책 비용</small></div><button class="primary-button" id="start" disabled><span>실제 연마 OFF</span><b>↗</b></button></div>
+          <div id="charge-controls" hidden><div class="charging-label">연마석의 힘을 봉인에 담는 중</div><div class="charge-track"><span id="charge-progress"></span></div></div>
+          <div id="slide-controls" hidden><div class="slide-caption"><span>봉인 개방</span><strong id="slide-percent">0%</strong></div><div class="slide-track" id="slide-track"><div class="slide-fill" id="slide-fill"></div><span>밀어서 힘을 확인하세요 <i>› › ›</i></span><button id="slide-handle" class="slide-handle" role="slider" aria-label="밀어서 연마 결과 확인" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="오른쪽 끝으로 밀거나 Enter를 눌러 개방">⟫</button><b class="slide-end" aria-hidden="true">◇</b></div><small>마우스 · 터치 · 키보드 Enter</small></div>
+          <div id="result-controls" hidden aria-live="polite"><p class="result-eyebrow">POLISH COMPLETE</p><div class="result-line"><strong id="result-name"></strong><span id="result-before"></span><i>→</i><b id="result-after"></b></div><div class="result-actions"><button class="text-button" id="replay">연출 다시보기</button><button class="primary-button" id="next">한 번 더 검수 <b>↗</b></button></div></div>
+        </div>
+        <div class="scene-timeline" aria-hidden="true"><span data-step="0" class="current">01 충전</span><i></i><span data-step="1">02 봉인 개방</span><i></i><span data-step="2">03 옵션 상승</span></div>
+      </section>
+      <aside class="option-panel" aria-label="장비 연마 옵션">
+        <div class="equipment-heading"><span class="eyebrow">SELECTED EQUIPMENT</span><h2 id="equipment-name">장비를 선택하세요</h2><span class="sample-label"><span id="equipment-detail"></span></span></div>
+        <div class="progress-heading"><span>검수 연마</span><strong id="total">00<small> / 20</small></strong></div>
+        <div class="total-track"><span id="total-fill"></span></div>
+        <div class="options-label"><span>성장 옵션</span><span>다음 확률</span></div>
+        <div id="options" class="options"></div>
+        <div class="option-note"><span>✦</span><p>선택된 옵션이 <b>1단계</b> 상승합니다.<br>최대 단계에 도달한 옵션은 추첨에서 제외됩니다.</p></div>
+        <div class="inventory-line"><span>보유 재화</span><b id="inventory">—</b></div>
+      </aside>
+    </div>
+    <section class="review-tools" aria-label="재생 설정"><div><button id="pause" class="text-button" disabled>일시정지</button><label>재생 속도 <select id="speed"><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select></label><label class="check-label"><input type="checkbox" id="reduced"> 동작 줄이기</label></div><button id="reset" class="text-button">검수 초기화</button></section>
+    <p class="preview-note"><span id="live-note">실제 연마 실행은 OFF입니다.</span></p>
+
+    <footer class="page-footer"><span>SOOPKETMON · EQUIPMENT ATELIER</span><a href="/equipment-forge/">장비 강화로 돌아가기 ↗</a></footer>
+  </main>
+  <script type="module" src="/equipment-polish/app.mjs?v=20261005"></script>
+</body>
+</html>

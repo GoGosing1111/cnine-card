@@ -49,9 +49,9 @@ export class PolishFX{
   const charge=clamp(t/TIMING.sealed),opening=smooth((t-TIMING.sealed)/1.22),post=t-TIMING.impact,settle=smooth((t-4.1)/1.5);
   this.root.position.set(this.cx,this.cy);this.back.clear();this.front.clear();this.glow.clear();
   const s=this.size,r=this.radius,spin=idle?this.ambient.time*.11:t*.20;
-  this.weapon.width=Math.min(this.w*.78,590);this.weapon.height=this.weapon.width*this.weapon.texture.height/this.weapon.texture.width;this.weapon.rotation=-.2+opening*.1;this.weapon.alpha=idle?.10:smooth((t-1.8)/.6);this.weapon.y=-8-opening*2;
+  this.weapon.width=this.itemSlot&&this.itemSlot!=='WEAPON'?Math.min(this.w*.48,this.h*.34*this.weapon.texture.width/this.weapon.texture.height):Math.min(this.w*.78,590);this.weapon.height=this.weapon.width*this.weapon.texture.height/this.weapon.texture.width;this.weapon.rotation=this.itemSlot&&this.itemSlot!=='WEAPON'?0:-.2+opening*.1;this.weapon.alpha=idle?.10:smooth((t-1.8)/.6);this.weapon.y=-8-opening*2;
   // Avalon receiver/barrel axis: (0.5, 0.30) in the unmodified source image.
-  const receiverY=-this.weapon.height*.20;
+  const receiverY=this.weapon.height*((this.impactV??.30)-.50);
   const impactX=this.weapon.x-receiverY*Math.sin(this.weapon.rotation),impactY=this.weapon.y+receiverY*Math.cos(this.weapon.rotation);
   for(let i=0;i<2;i++){const node=i?this.right:this.left;node.width=s/2*(1-opening*.42);node.height=s*(1-opening*.08);node.x=(i?1:-1)*opening*s*.73;node.y=idle?pulse*2:0;node.alpha=1-opening;}
   this.stone.width=s*.44;this.stone.height=s*.44;this.stone.rotation=-.08;this.stone.x=0;this.stone.y=idle?pulse*4: -charge*13;this.stone.alpha=idle?1:1-smooth((t-.2)/1.05);

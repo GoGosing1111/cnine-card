@@ -57,6 +57,7 @@ import {handleMasterStarMine} from '../_master_star_mine.js';
 import {handleForgeRuntime,isForgeRuntimePath} from '../_equipment_forge_routes.js';
 import {releasedMercenarySnapshot,releasedMercenarySnapshots,mercenarySnapshotPower} from '../_mercenary_account.js';
 import {handleEquipmentForgePublic} from '../_equipment_forge_public.js';
+import {handleEquipmentPolish} from '../_equipment_polish.js';
 import {ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM} from '../_forge_protection_catalog.js';
 import {ensureForgeRepairCatalog,FORGE_REPAIR_ITEM} from '../_forge_repair_catalog.js';
 import { handleAvatar,avatarFeatureAccess,equippedAvatarEffect,applyAvatarCoinGain,applyAvatarRaidEntryBonus,ensureAvatarFoundation } from '../_avatar.js';
@@ -5068,6 +5069,7 @@ async function handleRequest(context){
     const uniqueAdvancementResponse=await handleUniqueAdvancement({path,request,env,deps:{authenticate,readBody,json}});if(uniqueAdvancementResponse)return uniqueAdvancementResponse;
     const primeDrawResponse=await handlePrimeDraw({path,request,env,deps:{authenticate,readBody,json,ensureEquipmentFoundation,ensureVehicleDrawFoundation,ensureAvatarFoundation}});if(primeDrawResponse)return primeDrawResponse;
     const vehicleDrawResponse=await handleVehicleDraw({path,request,env,deps:{authenticate,readBody,json,ensureEquipmentFoundation}});if(vehicleDrawResponse)return vehicleDrawResponse;
+    const polishResponse=await handleEquipmentPolish({path,request,env,deps:{authenticate,requirePermission,json}});if(polishResponse)return polishResponse;
     const forgeRuntimeResponse=await handleForgeRuntime({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(forgeRuntimeResponse)return forgeRuntimeResponse;
     const forgePublicResponse=await handleEquipmentForgePublic({path,request,env,deps:{authenticate,requirePermission,json}});if(forgePublicResponse)return forgePublicResponse;
     const mercenaryCmsResponse=await handleMercenaryCms({path,request,env,deps:{requirePermission,json}});if(mercenaryCmsResponse)return mercenaryCmsResponse;
