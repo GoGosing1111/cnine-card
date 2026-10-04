@@ -1,10 +1,13 @@
 {
   "date": "2026-10-04",
-  "status": "IMPLEMENTED_PENDING_DEPLOYMENT",
+  "status": "LIVE_PREVIEW_REWARDS_CORRECTED_OPENING_LOCKED",
   "request": "시즌2 팩은 마법카드 + 마별 혼합. 마법카드 5%, 마별 10%. 마별 수량은 사용자가 설정.",
   "supersedes": "magic-season2-pack-preview-release-20261004.json의 MAGIC_CRYSTAL/CARD_SHARD 보상 구성",
   "policy": {
-    "rewardTypes": ["MAGIC_CARD", "MASTER_STAR"],
+    "rewardTypes": [
+      "MAGIC_CARD",
+      "MASTER_STAR"
+    ],
     "magicCardChancePercent": 5,
     "masterStarChancePercent": 10,
     "probabilityMode": "ABSOLUTE_PERCENT_NOT_RELATIVE_WEIGHT",
@@ -24,21 +27,132 @@
     "action": "SAVE_SEASON2_PACK",
     "role": "OWNER",
     "quantityMode": "Operator sets min/max; equal min/max means fixed quantity; blanks remain null",
-    "releaseBehavior": "Saving configuration never unlocks acquisition or changes the 10억 price"
+    "releaseBehavior": "Saving configuration never unlocks acquisition or changes the 10억 price",
+    "registration": {
+      "appliedAt": "2026-10-04T14:34:48.362Z",
+      "auditId": "40829",
+      "configuration": {
+        "season": "S2",
+        "code": "MAGIC_CARD_SEASON2_PACK",
+        "name": "마법카드 시즌2 팩",
+        "imageUrl": "assets/cards/magic-season2-pack-768-v2.webp",
+        "drawCoinCost": 1000000000,
+        "drawCost": 0,
+        "drawEnabled": false,
+        "openingEnabled": false,
+        "visible": true,
+        "status": "PREPARING",
+        "rewardPolicy": "MIXED_CARD_MASTER_STAR",
+        "purchaseEnabled": false,
+        "rewardTypes": [
+          "MAGIC_CARD",
+          "MASTER_STAR"
+        ],
+        "packRewards": {
+          "magicCardChance": 5,
+          "masterStarChance": 10,
+          "masterStarMin": null,
+          "masterStarMax": null,
+          "remainderPolicy": "UNASSIGNED"
+        },
+        "noRewardChance": 0,
+        "unassignedChance": 85,
+        "rewardConfigurationComplete": false
+      },
+      "independentReadVerified": true,
+      "season1HashUnchanged": "6d762f64188048b23fe588d047bb7458d5a88a2350d5d908c662b115d173cb3d",
+      "dryRunRollbackVerified": true,
+      "evidenceDirectory": "C:/Users/User/.codex/worktrees/magic-season2-rewards-ops-20261004"
+    }
   },
   "verification": {
     "browser": {
-      "widths": [1440, 390],
+      "widths": [
+        1440,
+        390
+      ],
       "evidenceDirectory": "C:/Users/User/.codex/tmp/magic-season2-rewards-20261004/qa",
-      "passed": ["Season2 reward labels and exact 5%/10%", "No crystal/shard rewards or crystal opening cost in Season2", "Disabled controls and direct API lock", "Season1 draw unchanged", "CMS quantity save/reload against isolated PostgreSQL", "CMS save leaves price, acquisition lock and Season1 settings unchanged"],
+      "passed": [
+        "Season2 reward labels and exact 5%/10%",
+        "No crystal/shard rewards or crystal opening cost in Season2",
+        "Disabled controls and direct API lock",
+        "Season1 draw unchanged",
+        "CMS quantity save/reload against isolated PostgreSQL",
+        "CMS save leaves price, acquisition lock and Season1 settings unchanged"
+      ],
       "errors": []
     },
     "scoped": {
       "previousProduction": "b043c91fdd9746a5a004f5380708efcc8a6dda8a",
       "reason": "Localized Season2 pack reward metadata/UI and isolated OWNER draft settings. No wallet/reward writes, migrations, shared transaction or authentication changes. Acquisition remains locked.",
-      "tests": ["tests/magic-season2-pack-locked-20261004.test.mjs", "tests/magic-season2-pack-rewards-20261004.test.mjs", "tests/magic-workbench-ui.test.mjs"],
-      "checks": ["check:worker"],
+      "tests": [
+        "tests/magic-season2-pack-locked-20261004.test.mjs",
+        "tests/magic-season2-pack-rewards-20261004.test.mjs",
+        "tests/magic-workbench-ui.test.mjs"
+      ],
+      "checks": [
+        "check:worker"
+      ],
       "command": "npm run deploy:production -- --scoped"
+    },
+    "production": {
+      "verifiedAt": "2026-10-04T14:35:03.509Z",
+      "url": "https://cnine-card.pages.dev/?screen=magic",
+      "files": [
+        {
+          "file": "index.html",
+          "status": 200,
+          "sha256Normalized": "36d984676b0463640dff32c89d5b5eed70732f6ccfd20af6fee0402bd5e0369c"
+        },
+        {
+          "file": "admin/index.html",
+          "status": 200,
+          "sha256Normalized": "ad50ba00d641564cc8cfd4621a4977a11c4ff081dfa4b153142e64a8fccb0d62"
+        },
+        {
+          "file": "admin/admin-v1094-magic.js",
+          "status": 200,
+          "sha256Normalized": "39bf89d96e5063c30b835c7fc65a3e0de56f9fe87d0b58e2ae3ece903d9a2160"
+        },
+        {
+          "file": "admin/admin-v1094-magic.css",
+          "status": 200,
+          "sha256Normalized": "757f6b02002ba6f2c968afc12e7dc70eb12c784d6f776c75374ea7b62cd10e06"
+        },
+        {
+          "file": "js/magic-workbench-v1.js",
+          "status": 200,
+          "sha256Normalized": "509428fc2f21c7ce5a7c6b6eda322a95f973e5922dcb6d265475c3d25272842e"
+        },
+        {
+          "file": "css/magic-workbench-v1.css",
+          "status": 200,
+          "sha256Normalized": "3b6cd8832d342488dd566f2dfd570af239448561ed5090be3a0305f2ed0892d2"
+        },
+        {
+          "file": "shared/magic-pack-seasons-v1.mjs",
+          "status": 200,
+          "sha256Normalized": "394908a292b748c1c63bf8723925e51ddd5250d2c74470f09bd170a08fd0b61d"
+        },
+        {
+          "file": "service-worker.js",
+          "status": 200,
+          "sha256Normalized": "f793d333395baaa3a39cb0b013e558b37522abd0c57f5fc8e6411ff49fd3560d"
+        }
+      ],
+      "serviceStatus": 200
     }
+  },
+  "deployment": {
+    "source": "d6f3a8973a474b0b8274ee38f06dd26f835fb26c",
+    "pagesUrl": "https://99dddfcf.cnine-card.pages.dev",
+    "productionUrl": "https://cnine-card.pages.dev/?screen=magic",
+    "apiRuntimeVersion": "fcd66261-d96a-40eb-a7a4-826da51a089a",
+    "clanWorkerVersion": "748a06c3-d9b1-4ef8-a998-ec1de5a6b752",
+    "command": "npm run deploy:production -- --scoped",
+    "passedTests": 8,
+    "failedTests": 0,
+    "workerCompile": true,
+    "hyperdriveCacheDisabled": true
   }
 }
