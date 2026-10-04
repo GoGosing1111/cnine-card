@@ -1,11 +1,11 @@
 {
   "format": "PROJECT_V_MERCENARY_SOURCE_ART_PREVIEW_V1",
   "dateKst": "2026-10-05",
-  "status": "USER_REVIEW_PENDING",
-  "description": "태양 광륜 · 백금 갑주 · 황금 대검 남성 용병 원화 시안",
+  "status": "APPROVED_SOURCE_ART",
+  "description": "태양 광륜 · 백금 갑주 · 황금 대검 남성 용병 SSS 리미티드 승인 원화",
   "name": null,
   "mercenaryCode": null,
-  "rank": null,
+  "rank": "SSS",
   "request": "사용자가 재첨부한 V2에서 머릿결의 층·판 형태만 자연스럽게 보정. 그 외 디자인은 유지.",
   "requestedConcept": {
     "visualAmbition": "앞선 사용자 지시의 SSS 리미티드급 화려함과 최고급 캐릭터 표현",
@@ -58,9 +58,10 @@
     "noTextFrameOrLogo": true,
     "review": "첨부 V2와 V3를 시각 비교했다. 머리카락의 단단한 층과 반복된 경계를 완화하고 부드러운 연속 모발 흐름으로 보정했다. 얼굴 인상·금빛 눈·전신 자세·갑주·검·광륜·배경의 동일 구성을 확인했다.",
     "preservationVerification": "Visual comparison of design and composition; pixel-exact equality outside hair is not claimed.",
-    "frameReview": "Not performed; final approval pending."
+    "frameReview": "NOT_RUN_ART_APPROVAL_ONLY",
+    "userVisualApproval": "EXPLICIT_FINAL_SOURCE_ART_APPROVAL"
   },
-  "sourceArtApproved": false,
+  "sourceArtApproved": true,
   "sdProduced": false,
   "cmsRegistered": false,
   "codexPublished": false,
@@ -92,7 +93,7 @@
       "sha256": "4E50454B4D33FBD1459D3983FD10B8BE0A9C53EED151C0610526ABEFE26E3AF1",
       "prompt": "prompt-v3-hair-only.txt",
       "generationOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a0f5e0-2103-73f0-ad4e-e1ac362f77cb\\exec-4d72ac6a-6c4b-4f3c-b54e-a84067ae6216.png",
-      "status": "USER_REVIEW_PENDING"
+      "status": "APPROVED_SOURCE_ART"
     }
   ],
   "editScope": {
@@ -103,5 +104,17 @@
     "requestedInvariants": "얼굴·각도·표정·눈 발광·신체·손·의상·갑주·검 전체·태양 광륜·배경·색감·구도",
     "latestInstruction": "아무것도 건드리지 않고 머릿결 층만 자연스럽게 수정",
     "basePreservedByteForByte": true
+  },
+  "edition": "LIMITED",
+  "approvalRecord": "approval-20261005.json",
+  "approvedVersion": 3,
+  "approvedDateKst": "2026-10-05",
+  "approvalInstruction": "SSS 리미티드 승인 출시 미정으로 기록해",
+  "release": {
+    "status": "UNSCHEDULED",
+    "label": "출시 미정",
+    "releaseDate": null,
+    "enabled": false,
+    "requiresSeparateUserLaunchApproval": true
   }
 }

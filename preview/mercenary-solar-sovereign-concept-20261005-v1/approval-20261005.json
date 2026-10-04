@@ -1,0 +1,66 @@
+{
+  "format": "PROJECT_V_MERCENARY_ART_APPROVAL_V1",
+  "date": "2026-10-05",
+  "timezone": "Asia/Seoul",
+  "status": "APPROVED_SOURCE_ART",
+  "scope": [
+    "SOURCE_ART",
+    "RANK",
+    "EDITION"
+  ],
+  "userInstruction": "SSS 리미티드 승인 출시 미정으로 기록해",
+  "conceptId": "solar-sovereign",
+  "lookupLabel": "태양 광륜 황금 대검 용병 · SSS 리미티드 승인 원화",
+  "name": null,
+  "nameStatus": "UNASSIGNED",
+  "code": null,
+  "rank": "SSS",
+  "rankStatus": "USER_CONFIRMED",
+  "edition": "LIMITED",
+  "editionStatus": "USER_CONFIRMED",
+  "approvedVersion": 3,
+  "sourceArt": "preview/mercenary-solar-sovereign-concept-20261005-v1/assets/mercenary-solar-sovereign-hair-refined-v3.png",
+  "sourceArtSha256": "4E50454B4D33FBD1459D3983FD10B8BE0A9C53EED151C0610526ABEFE26E3AF1",
+  "sourceArtInfo": {
+    "width": 1024,
+    "height": 1536,
+    "format": "PNG",
+    "mode": "RGB",
+    "bytes": 2946422
+  },
+  "reviewManifest": "preview/mercenary-solar-sovereign-concept-20261005-v1/manifest.json",
+  "generationRecord": "preview/mercenary-solar-sovereign-concept-20261005-v1/prompt-v3-hair-only.txt",
+  "lockedFeatures": [
+    "머릿결 보정이 완료된 V3 전체 원화",
+    "얼굴·고개 각도·표정·금빛 눈 발광",
+    "백금·금색 갑주와 흑백 의상·신체·손·전신 포즈",
+    "손잡이부터 검끝까지 전부 보이는 긴 황금 대검",
+    "태양 광륜·배경·조명·구도"
+  ],
+  "originalsModified": false,
+  "previousVariantsPreserved": true,
+  "release": {
+    "status": "UNSCHEDULED",
+    "label": "출시 미정",
+    "releaseDate": null,
+    "enabled": false,
+    "requiresSeparateUserLaunchApproval": true
+  },
+  "technicalQa": {
+    "sourceIntegrity": "VERIFIED_SHA256",
+    "userVisualApproval": "EXPLICIT_FINAL_SOURCE_ART_APPROVAL",
+    "cardFrameComposition": "NOT_RUN_ART_APPROVAL_ONLY",
+    "thumbnail160": "NOT_RUN_ART_APPROVAL_ONLY"
+  },
+  "battleSpriteStatus": "NOT_YET_PRODUCED",
+  "sdGenerationRequested": false,
+  "skillsAssigned": false,
+  "statsAssigned": false,
+  "cmsRegistered": false,
+  "codexPublished": false,
+  "acquisitionEnabled": false,
+  "formationEnabled": false,
+  "combatEnabled": false,
+  "deploymentPerformed": false,
+  "releaseAuthorization": "NOT_GRANTED_RELEASE_UNSCHEDULED"
+}
