@@ -1157,7 +1157,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   let combatMs=0,nextCombatMs=0,lastCardCombatMs=0,lastCardGaugeClock=0,combatGroup=0;
   const stampCombatGroup=(from,atMs,blocking)=>{
     if(!combatClockEnabled)return;
-    const events=timeline.slice(from),durationMs=!blocking?0:cooperative?.turnClockVersion>=3?cooperativeCombatGroupMs(events):events.reduce((sum,event)=>sum+skillChipCombatEventMs(event,chipClockOptions),0);
+    const events=timeline.slice(from),durationMs=!blocking?0:cooperative?.turnClockVersion>=3?cooperativeCombatGroupMs(events,cooperative.turnClockVersion):events.reduce((sum,event)=>sum+skillChipCombatEventMs(event,chipClockOptions),0);
     for(const event of events)Object.assign(event,{combatClock:SKILL_CHIP_CLOCK,combatAtMs:atMs,combatGroup,combatGroupDurationMs:durationMs});
     if(cooperative)combatStates.push({atMs,group:combatGroup,A:a.map(c=>({id:c.id,hp:c.hp,maxHp:c.maxHp,shield:c.shield,isMercenary:!!c.isMercenary,ownerId:c.ownerId})),B:b.map(c=>({id:c.id,hp:c.hp,maxHp:c.maxHp,shield:c.shield,maxShield:c.maxShield,slot:c.slot,wave:c.encounterWave,isBoss:!!c.isBoss}))});
     combatGroup++;

@@ -30,9 +30,9 @@ test('cooperative basic attacks remain available at 1m, 20m and 100m card power 
 });
 
 test('new rooms snapshot the fixed clock; existing rooms rebuild with their original clock',()=>{
- for(const version of [1,2,3]){
+ for(const version of [1,2,3,4]){
   const party=squads(),room=createCoopRoom({id:'ABC1234567',user:{id:1,nickname:'분대 1'},clientId:'qa-clock-client-1',difficulty:'HARD',seed:3375805316,now:1000});
-  assert.equal(room.turnClockVersion,3);if(version===1)delete room.turnClockVersion;else room.turnClockVersion=version;
+  assert.equal(room.turnClockVersion,4);if(version===1)delete room.turnClockVersion;else room.turnClockVersion=version;
   for(const id of [2,3])coopCommand(room,{id,nickname:'분대 '+id},'join',{clientId:'qa-clock-client-'+id},1000);
   for(const s of party)coopCommand(room,{id:s.ownerId},'ready',{clientId:'qa-clock-client-'+s.ownerId,loadout:s},1100);
   const expected=createCooperativeBattle({squads:party,difficulty:'HARD',seed:room.seed,combat:room.combat,turnClockVersion:version});

@@ -2341,6 +2341,24 @@ export class BaseBattleEngine{
       actor.serverMaxHp=row.maxHp;
       this.syncTargetHp(actor,row.hp/Math.max(1,row.maxHp)*100);
       this.syncTargetShield(actor,row.shield,row.maxShield);
+      if(row.hp>0&&actor.team===TEAM.ALLY&&!actor.isMercenary){
+        // The server identifies each owner's card separately, including copies
+        // of the same card. Recovery must restore its body as well as its HP.
+        // Do not reset position/scale here: another squad may be mid-attack.
+        if(actor.state===CHARACTER_STATE.DEAD){
+          this.settlePendingTails([actor]);
+          actor.setState(CHARACTER_STATE.IDLE);
+        }
+        actor.battleActive=true;
+        actor.root.visible=actor.root.renderable=true;
+        actor.root.alpha=1;
+        actor.view.visible=actor.view.renderable=true;
+        actor.view.alpha=1;
+        if(actor.fullSpriteMode){
+          actor.fullBodySprite.visible=actor.fullBodySprite.renderable=true;
+          actor.fullBodySprite.alpha=1;
+        }
+      }
     }
   }
 
@@ -2438,7 +2456,7 @@ export class BaseBattleEngine{
       const requestedScale=Number(fixedTimeScale);
       instance.timeScale(Number.isFinite(requestedScale)&&requestedScale>0
         ?requestedScale
-        :this.reducedMotion?8:PLAYBACK_SPEED*(this.paceScale||1));
+        :this.actionPlaybackSpeed());
       instance.play(0);
     });
   }
@@ -2763,9 +2781,7 @@ export class BaseBattleEngine{
     const impactAt=advancementProfile?.impactAt??.25;
     // Advancement buildup is an approved authored presentation. Do not let the
     // long-battle catch-up multiplier crop its visual/audio lead-in.
-    const playbackSpeed=advancementProfile
-      ?(this.reducedMotion?8:PLAYBACK_SPEED)
-      :(this.reducedMotion?8:PLAYBACK_SPEED*(this.paceScale||1));
+    const playbackSpeed=this.actionPlaybackSpeed({paced:!advancementProfile});
     const lastImpactAt=impactAt+(combo?(combo.length-1)*.12:0);
     const returnAt=combo?lastImpactAt+.18:advancementProfile?impactAt+.18:.43;
     return this.timeline(timeline=>{
@@ -2866,7 +2882,7 @@ export class BaseBattleEngine{
       whiteFlashHandle?.release();skillEffect.release();
     };
     this.updateStatus(`${actor.name} · ${event.objectiveStrikeLabel||'호송차 강제 공격'}${event.forced?' · 선제 타격':''}`);
-    const playbackSpeed=this.reducedMotion?8:PLAYBACK_SPEED*(this.paceScale||1);
+    const playbackSpeed=this.actionPlaybackSpeed();
     return this.timeline(timeline=>{
       timeline.call(()=>{
         actor.setState(CHARACTER_STATE.MOVE);
@@ -2941,7 +2957,7 @@ export class BaseBattleEngine{
     let whiteFlashHandle=null;
     let hitStopTimer=null;
     const impactAt=profile.impactAt;
-    const playbackSpeed=this.reducedMotion?8:PLAYBACK_SPEED;
+    const playbackSpeed=this.actionPlaybackSpeed({paced:false});
     const cleanup=()=>{
       if(hitStopTimer){clearTimeout(hitStopTimer);hitStopTimer=null}
       whiteFlashHandle?.release();
@@ -2975,7 +2991,7 @@ export class BaseBattleEngine{
     const participants=[...new Set((Array.isArray(targets)?targets:[targets]).filter(Boolean))];
     if(!participants.length){onImpact();return Promise.resolve(false)}
     const roleKind=normalizeSkillEffectKind(kind);
-    const playbackSpeed=this.reducedMotion?8:PLAYBACK_SPEED*(this.paceScale||1);
+    const playbackSpeed=this.actionPlaybackSpeed();
     const effects=participants.map(target=>{
       const view=target.root||target.view||target;
       const height=Math.max(0,Number(view?.height)||0);
@@ -3032,7 +3048,7 @@ export class BaseBattleEngine{
       this.uiLayer.addChild(label);
       return {label,target,hit};
     });
-    const playbackSpeed=this.reducedMotion?8:PLAYBACK_SPEED;
+    const playbackSpeed=this.actionPlaybackSpeed({paced:false});
     const impactAt=profile.impactAt;
     let whiteFlashHandle=null;
     let hitStopTimer=null;
@@ -3090,10 +3106,17 @@ export class BaseBattleEngine{
   // V1812: 재생 배속 단계. DEPLOY 로 매 전투 시작마다 초기화된다.
   //   40턴까지 원속도 → 80턴까지 1.28배 → 그 뒤 1.82배.
   advancePace(type){
+    // Shared server time already schedules three squads. Local long-battle
+    // acceleration makes their overlapping animations unreadable.
+    if(this.formationCoop){this.paceActions=0;this.paceScale=1;return}
     if(type==='DEPLOY'){this.paceActions=0;this.paceScale=1;return}
     if(type!=='TURN'&&type!=='ATTACK'&&type!=='COUNTER'&&type!=='ESCORT_OBJECTIVE_ATTACK')return;
     this.paceActions+=1;
     this.paceScale=this.paceActions>80?1.82:this.paceActions>40?1.28:1;
+  }
+
+  actionPlaybackSpeed({paced=true}={}){
+    return this.reducedMotion?8:this.formationCoop?1:PLAYBACK_SPEED*(paced?this.paceScale||1:1);
   }
 
   async playEvents(events=[],{forceDeploy=false,timedInternal=false,beforeEvent=null,afterEvent=null,sequential=false,isPaused=()=>false}={}){

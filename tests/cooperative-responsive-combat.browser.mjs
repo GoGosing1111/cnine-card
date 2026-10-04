@@ -49,10 +49,10 @@ try{
   reports.push({width:viewport.width,...report});
   console.log(JSON.stringify({width:viewport.width,sizes:Object.fromEntries(Object.entries(report.sizes).map(([id,rows])=>[id,{first:rows[0],last:rows.at(-1),maxWidth:Math.max(...rows.map(r=>r.width)),maxView:Math.max(...rows.map(r=>r.viewScale)),maxRoot:Math.max(...rows.map(r=>r.rootScale)),idleWidths:[...new Set(rows.filter(r=>r.idle).map(r=>Math.round(r.width)))]}])),earlyInterrupts:report.interrupts.filter(r=>r.time<.15).slice(0,12)}));
   console.log('Queue:',JSON.stringify({pending:report.pendingActions,maxDelay:Math.max(...report.actions.map(a=>a.at-a.planned)),slow:report.actions.filter(a=>a.at-a.planned>1500).slice(0,8)}));
-  assert.equal(report.runtime,'20261005-coop-responsive-v3');
+  assert.equal(report.runtime,'20261005-coop-readable-v4');
   assert.ok(report.pendingActions<=4,'actor queues must not accumulate');
   assert.ok(report.actions.every(a=>a.at-a.planned<1600),'actions must remain close to shared server clock');
-  for(const actor of [...built.payload.battleV2.teams.A.cards,...built.payload.battleV2.teams.A.mercenaries])assert.ok(report.actions.some(a=>a.actor===actor.id&&a.at<12000),'every card and mercenary must participate: '+actor.id);
+  for(const actor of [...built.payload.battleV2.teams.A.cards,...built.payload.battleV2.teams.A.mercenaries])assert.ok(report.actions.some(a=>a.actor===actor.id&&a.at<20000),'every card and mercenary must participate: '+actor.id);
   assert.equal(report.interrupts.filter(r=>r.id.includes('MERCENARY')&&r.time<.15).length,0,'another actor cannot cancel a mercenary windup');
   for(const rows of Object.values(report.sizes))for(const row of rows){assert.equal(row.viewScale,1);assert.equal(row.rootScale,row.restScale);}
   const cryvern=report.sizes['A:OWNER:3:MERCENARY:V-049'];

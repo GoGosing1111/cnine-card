@@ -3,7 +3,7 @@ import {buildMercenaryFighter} from './_mercenary_combat.js';
 import {cooperativeEnemies} from './_cooperative_enemies.js';
 import {COOP_RULES,COOP_ENCOUNTER,coopDifficulty} from '../shared/cooperative-battleground-v1.mjs';
 
-export function createCooperativeBattle({squads,difficulty='NORMAL',seed=1,withdrawals=[],effects=[],monsterSnapshot,combat,turnClockVersion=3}){
+export function createCooperativeBattle({squads,difficulty='NORMAL',seed=1,withdrawals=[],effects=[],monsterSnapshot,combat,turnClockVersion=4}){
  const config=typeof difficulty==='string'?coopDifficulty(difficulty):difficulty;
  if(!config||!Array.isArray(squads)||squads.length!==3||new Set(squads.map(s=>s.ownerId)).size!==3)throw Error('INVALID_COOPERATIVE_PARTY');
  const cards=[],mercenaries=[],members=[];

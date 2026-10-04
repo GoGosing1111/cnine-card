@@ -24,9 +24,23 @@ test('heals and guard reactions add no global delay; mercenary skills no longer 
 });
 test('v3 withdrawal preserves already-shared timeline and removes only departing owner',()=>{
  const initial=battle(3),atMs=9000;
- const withdrawn=createCooperativeBattle({squads:squads(),difficulty:'HARD',seed:3375805316,withdrawals:[{ownerId:2,atMs}]});
+ const withdrawn=createCooperativeBattle({squads:squads(),difficulty:'HARD',seed:3375805316,turnClockVersion:3,withdrawals:[{ownerId:2,atMs}]});
  const before=t=>t.filter(e=>e.combatAtMs<atMs);
  assert.deepEqual(before(withdrawn.payload.battleV2.result.timeline),before(initial.payload.battleV2.result.timeline));
  assert.ok(withdrawn.states.filter(s=>s.atMs>=atMs).every(s=>s.A.filter(a=>a.ownerId===2).every(a=>a.hp===0)));
  assert.equal(withdrawn.payload.battleV2.result.timeline.filter(e=>e.combatAtMs>=atMs&&e.actorId?.startsWith('A:OWNER:2:')).length,0);
+});
+
+test('new cooperative clock slows the shared cadence without changing action order or this battle result',()=>{
+ const before=battle(3).payload.battleV2,after=battle(4).payload.battleV2;
+ const strip=t=>t.map(({combatAtMs,combatGroupDurationMs,combatEndedAtMs,...event})=>event);
+ assert.deepEqual(strip(after.result.timeline),strip(before.result.timeline));
+ assert.deepEqual(after.result.final,before.result.final);
+ assert.equal(cooperativeCombatGroupMs([{type:'TURN'}],4),340);
+ assert.equal(cooperativeCombatGroupMs([{type:'TURN'}],3),190);
+ assert.equal(cooperativeCombatGroupMs([{type:'TEAM_HEAL'},{type:'GUARD_PROTECT'}],4),0);
+ for(const actor of after.teams.A.mercenaries){
+  const event=after.result.timeline.find(e=>e.actorId===actor.id&&['TURN','MERCENARY_WINDUP'].includes(e.type));
+  assert.ok(event&&event.combatAtMs<6500,'mercenaries still participate from the opening');
+ }
 });

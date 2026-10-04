@@ -1,0 +1,79 @@
+{
+  "date": "2026-10-05",
+  "request": "격전지 협동: 다른 참여자 치타구·이예준 등 전장 캐릭터 누락 및 배속처럼 빠른 진행",
+  "runtime": "20261005-coop-readable-v4",
+  "findings": [
+    "v3 shared action slots were 190 ms. In addition, the shared renderer auto-accelerated after 40 and 80 actions; at 80+ actions standard animation rate was 1.3 * 1.82 = 2.366.",
+    "Fresh duplicate-card reproduction did not naturally hide a living card. Six cards (three copies each of 치타구 and 철구/이예준) loaded correctly at both viewport sizes. The reported production trigger was not independently established.",
+    "Periodic cooperative frame sync updated HP/shield only and did not restore hidden/non-renderable/transparent card body layers. Added presentation recovery based on each owner's unique server fighter ID."
+  ],
+  "changes": [
+    "New rooms use turnClockVersion 4: 340 ms action slots and 600 ms deployment; support-only records still add no global wait. Existing room versions 1/2/3 preserve timestamps on rebuild.",
+    "Cooperative standard animations use 1x speed and no long-battle pace escalation. Ordinary PVE/PVP pace and authored mercenary fixed timelines remain intact.",
+    "Each living allied ordinary card regains root/view/body visibility, renderability and opacity on authoritative frame sync. Motion position/scale are preserved. Dead cards and mercenaries are not revived or overwritten.",
+    "Server RNG, gauge action order, damage/heal formulas, CMS/rewards and source art unchanged. Longer elapsed combat means fewer actions may fit the existing time limit; no claim of universal outcome equivalence."
+  ],
+  "validation": {
+    "focusedUnitTests": {
+      "count": 14,
+      "result": "PASS",
+      "files": [
+        "tests/cooperative-responsive-combat-20261005.test.mjs",
+        "tests/cooperative-animation-ownership-20261005.test.mjs",
+        "tests/cooperative-turn-fairness-20261004.test.mjs"
+      ]
+    },
+    "fixtureTiming": {
+      "v3DurationMs": 51960,
+      "v4DurationMs": 92740,
+      "mercenaryFirstActionsMs": [
+        1620,
+        940,
+        5700
+      ],
+      "sameGaugeOrderAndFinalState": true
+    },
+    "browser": {
+      "file": "tests/cooperative-card-visibility-20261005.browser.mjs",
+      "path": "C:/Users/User/AppData/Local/Temp/cooperative-qa-tqSE2L/card-visibility",
+      "viewports": [
+        "1440x1000",
+        "390x844"
+      ],
+      "secondsEach": 27,
+      "healthyHiddenSamples": 0,
+      "paceScale": [
+        1,
+        1
+      ],
+      "pendingActions": [
+        2,
+        1
+      ],
+      "errors": [],
+      "recovery": "Injected root renderability/visibility and body/view visibility/opacity faults on two other squads' living cards; next periodic frame repaired them.",
+      "visualReview": "Desktop opening and mobile combat screenshot inspected."
+    },
+    "normalPvePvp": {
+      "result": "PASS",
+      "path": "C:/Users/User/AppData/Local/Temp/cooperative-qa-3xiHva/screenshots"
+    }
+  },
+  "release": {
+    "command": "npm run deploy:production -- --scoped",
+    "base": "db37d646d8ef71b56c71fe892ed6e9763df71528",
+    "baseDeployment": "https://f915c624.cnine-card.pages.dev",
+    "reason": "Local cooperative visibility and pace fix. Remaining server regressions plus actual bundled engine/main loader checks and Worker compilation; no full suite.",
+    "remainingTests": [
+      "tests/cooperative-battleground.test.mjs",
+      "tests/cooperative-arke.test.mjs",
+      "tests/project-v-v3-nonblocking-fx-v2060.test.mjs",
+      "tests/v3-fluid-combat-v2126.test.mjs",
+      "tests/pve-battlefield-entry-v2117.test.mjs"
+    ],
+    "checks": [
+      "check:worker"
+    ],
+    "integration": "Rebased on latest production and verification commits; retained Apocalypse/land changes. Only cooperative cache query strings conflict-resolved in index.html and js/app.js."
+  }
+}
