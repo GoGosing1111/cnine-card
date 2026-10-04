@@ -1,0 +1,14 @@
+Use case: precise-object-edit
+Task: STRICTLY LOCAL HAIR RETOUCH of the single attached image. This is not a new illustration and not a redesign. The user's instruction is: change nothing except the artificial layered hair texture.
+
+EDIT ONLY the existing platinum-blond hair on the head and the strands directly attached to it.
+Remove the obvious stacked, stepped, feather-like clumps and rigid leaf/blade-shaped layers. Replace those internal divisions with naturally continuous, soft flowing hair from roots to tips: fine interwoven strands, subtly irregular waves, gentle volume transitions and narrow gradual highlights. Soften the harsh dark seams and repeated tiered ridges that separate the hair into plates. The hair must feel like one coherent organic head of hair flowing in the wind, not overlapping armor scales, cut paper or ribbons.
+Keep the exact existing hairstyle identity: platinum-blond color, hairline, part, length, overall volume, overall silhouette, wind direction and light direction. Smooth the stepped clumps without cutting the hair shorter, lengthening it, changing its part or making a different haircut. Do not blur or smear the hair; render convincing fine strands in the SAME painterly illustration style.
+Only the hair texture and its rigid internal lock boundaries should change. The surrounding bright white CLOTH, golden armor ornaments, halo rays and luminous energy are NOT hair and must not be edited.
+
+LOCK EVERYTHING ELSE:
+Keep the man's face absolutely identical: facial structure, head angle, expression, eyebrows, nose, mouth, skin and GOLDEN GLOWING EYES unchanged. Do not repaint or beautify the face.
+Keep the entire body, both arms and hands, fingers, leg positions, feet, armor, white cloth, chest sun emblem and its glow, waist details, sword, sword geometry, full long blade and tip, halo, background architecture, fire, sparks, light rays, shadows, palette and contrast unchanged.
+Keep the identical 1024 x 1536 framing and composition. No cropping, zoom, reframing, perspective changes, added details or removed objects.
+Preserve all non-hair pixels and every non-hair detail as faithfully as possible. No global repainting, no color grading, no skin retouching, no new effects and no redesign.
+Return the same complete artwork with ONLY natural continuous hair in place of the visibly stacked hair layers. Opaque RGB PNG, exact 2:3 portrait. No text, frame, logo or watermark.

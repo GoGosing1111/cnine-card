@@ -6,27 +6,29 @@
   "name": null,
   "mercenaryCode": null,
   "rank": null,
-  "request": "첨부를 참고해 프로젝트 고유 작화로 새로 디자인할 것",
+  "request": "사용자가 재첨부한 V2에서 머릿결의 층·판 형태만 자연스럽게 보정. 그 외 디자인은 유지.",
   "requestedConcept": {
     "visualAmbition": "앞선 사용자 지시의 SSS 리미티드급 화려함과 최고급 캐릭터 표현",
     "theme": "태양 광륜과 백금·금빛 장비",
-    "weapon": "태양 원반형 가드와 발광 채널을 가진 대검",
+    "weapon": "원본 첨부의 황금 태양 문양 대검. 손잡이부터 긴 검끝까지 전체 표시.",
     "style": "하이엔드 캐릭터 중심 세미리얼 판타지 스플래시 아트",
     "outfit": "백금 비대칭 갑주, 흑색 전투복, 상체 노출, 백색 망토",
-    "pose": "근접 로우앵글 3/4 전진 자세",
-    "identity": "별도 신규 남성 디자인 시안, 이전 백호 격투가 원본 유지"
+    "pose": "원본의 얼굴 각도를 유지한 로우앵글 3/4 전신 전투 자세",
+    "identity": "별도 신규 남성 디자인 시안, 이전 백호 격투가 원본 유지",
+    "eyes": "원본의 금빛 발광 눈 유지",
+    "hairRevision": "기존 길이·색·가르마·바람 방향을 유지하고 층층이 나뉜 판 모양 머리카락을 자연스럽게 이어지는 모발로 보정"
   },
-  "sourceArt": "assets/mercenary-solar-sovereign-source-art-v1.png",
-  "sha256": "49EF7351394BBBB26E696EC1E39678BFFF88F8EA549A2427D8368746EA0E20A1",
-  "bytes": 3178553,
+  "sourceArt": "assets/mercenary-solar-sovereign-hair-refined-v3.png",
+  "sha256": "4E50454B4D33FBD1459D3983FD10B8BE0A9C53EED151C0610526ABEFE26E3AF1",
+  "bytes": 2946422,
   "size": {
     "width": 1024,
     "height": 1536,
     "pixelFormat": "Format24bppRgb"
   },
   "generatedWith": "built-in image_gen",
-  "prompt": "prompt-v1.txt",
-  "generationOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a0f5e0-2103-73f0-ad4e-e1ac362f77cb\\exec-2a8ede1a-d094-4ca8-8762-cd8cd7df0de9.png",
+  "prompt": "prompt-v3-hair-only.txt",
+  "generationOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a0f5e0-2103-73f0-ad4e-e1ac362f77cb\\exec-4d72ac6a-6c4b-4f3c-b54e-a84067ae6216.png",
   "byteForByteCopy": true,
   "references": [
     {
@@ -48,16 +50,14 @@
   ],
   "visualReview": {
     "inspected": true,
-    "handsomeAdultMale": true,
-    "naturalHairFlow": true,
-    "solarArmorAndSword": true,
-    "twoHandsVisible": true,
-    "swordGripConnected": true,
-    "noReferenceSheetText": true,
+    "layeredHairSoftened": true,
+    "naturalContinuousHair": true,
+    "referenceCompositionRetained": true,
+    "faceAndGoldenEyeDesignRetained": true,
+    "wholeSwordVisible": true,
     "noTextFrameOrLogo": true,
-    "review": "생성 원화를 직접 확인. 태양 광륜·백금 갑주·대검을 별도 얼굴과 의상 구조로 재해석하고 프로젝트 작화 앵커의 얼굴·피부·금속 표현을 참조했다. 양손과 손목 연결, 검의 직선 구조, 문자 제거를 확인했다.",
-    "framing": "근접 구도로 하단에서 검끝과 부츠 일부가 잘린다. 전투 스프라이트용 전신 이미지가 아니다.",
-    "thumbnailReview": "Not performed; final approval pending.",
+    "review": "첨부 V2와 V3를 시각 비교했다. 머리카락의 단단한 층과 반복된 경계를 완화하고 부드러운 연속 모발 흐름으로 보정했다. 얼굴 인상·금빛 눈·전신 자세·갑주·검·광륜·배경의 동일 구성을 확인했다.",
+    "preservationVerification": "Visual comparison of design and composition; pixel-exact equality outside hair is not claimed.",
     "frameReview": "Not performed; final approval pending."
   },
   "sourceArtApproved": false,
@@ -66,5 +66,42 @@
   "codexPublished": false,
   "acquisitionEnabled": false,
   "formationEnabled": false,
-  "combatEnabled": false
+  "combatEnabled": false,
+  "versions": [
+    {
+      "version": 1,
+      "path": "assets/mercenary-solar-sovereign-source-art-v1.png",
+      "sha256": "49EF7351394BBBB26E696EC1E39678BFFF88F8EA549A2427D8368746EA0E20A1",
+      "prompt": "prompt-v1.txt",
+      "generationOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a0f5e0-2103-73f0-ad4e-e1ac362f77cb\\exec-2a8ede1a-d094-4ca8-8762-cd8cd7df0de9.png",
+      "status": "REJECTED_BY_USER_ORIGINAL_DESIGN_AND_FULL_SWORD_CORRECTION"
+    },
+    {
+      "version": 2,
+      "path": "assets/mercenary-solar-sovereign-source-art-v2.png",
+      "sha256": "7A073EF6242D634C35D2AD4C66F9724B28886FD7C4AD2FC33780C1EB5372A6A3",
+      "prompt": "prompt-v2-faithful-design-full-sword.txt",
+      "generationOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a0f5e0-2103-73f0-ad4e-e1ac362f77cb\\exec-83a6f3eb-d951-4153-8a22-3688cfe3d320.png",
+      "authoritativeSource": "C:\\Users\\User\\AppData\\Local\\Temp\\codex-clipboard-6d38076e-f730-48c0-bfdb-ba20b938cc21.png",
+      "attachmentMatchesGeneratedOriginal": false,
+      "status": "USER_LOCKED_NON_HAIR_DESIGN_HAIR_RETOUCH_REQUESTED"
+    },
+    {
+      "version": 3,
+      "path": "assets/mercenary-solar-sovereign-hair-refined-v3.png",
+      "sha256": "4E50454B4D33FBD1459D3983FD10B8BE0A9C53EED151C0610526ABEFE26E3AF1",
+      "prompt": "prompt-v3-hair-only.txt",
+      "generationOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a0f5e0-2103-73f0-ad4e-e1ac362f77cb\\exec-4d72ac6a-6c4b-4f3c-b54e-a84067ae6216.png",
+      "status": "USER_REVIEW_PENDING"
+    }
+  ],
+  "editScope": {
+    "baseVersion": 2,
+    "baseSource": "C:\\Users\\User\\AppData\\Local\\Temp\\codex-clipboard-6d38076e-f730-48c0-bfdb-ba20b938cc21.png",
+    "baseSha256": "7A073EF6242D634C35D2AD4C66F9724B28886FD7C4AD2FC33780C1EB5372A6A3",
+    "scope": "HAIR_TEXTURE_ONLY",
+    "requestedInvariants": "얼굴·각도·표정·눈 발광·신체·손·의상·갑주·검 전체·태양 광륜·배경·색감·구도",
+    "latestInstruction": "아무것도 건드리지 않고 머릿결 층만 자연스럽게 수정",
+    "basePreservedByteForByte": true
+  }
 }
