@@ -5,6 +5,8 @@ import {fileURLToPath} from 'node:url';
 import {equipmentFixture} from './workshop-equipment-fixture.mjs';
 import {handleWorkshop,__workshopReadTest} from '../../functions/_workshop.js';
 import {executeEquipmentCraft} from '../../functions/_workshop_equipment_craft.js';
+import {enableEquipmentRepairFixture} from './workshop-equipment-repair-fixture.mjs';
+import {handleForgeRuntime} from '../../functions/_equipment_forge_routes.js';
 import {readJointBody} from '../../functions/_joint_request.js';
 const root=path.resolve(fileURLToPath(new URL('../../',import.meta.url)));
 let f;
@@ -12,6 +14,11 @@ async function reset(mode="default"){if(f)await f.close();f=await equipmentFixtu
   for(const key of ['safe_runtime_upgrade_v1678_synthesis_rate_scrapyard_rewards','safe_runtime_upgrade_v1933_workshop_material_craft_no_schema_change','safe_runtime_upgrade_v2004_battle_suit_workshop','safe_runtime_upgrade_v2066_battle_suit_core_catalog','safe_runtime_upgrade_v2124_battle_suit_core_5_6'])await f.p('INSERT INTO app_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value',key,'1').run();
   await f.p("UPDATE character_equipment_items SET name=CASE id WHEN 101 THEN '금룡 돌격소총' WHEN 102 THEN '인피니티 AK' ELSE name END").run();
   const key='WORKSHOP_EQUIPMENT_CRAFT_V1:QA_EQUIPMENT',row=await f.p('SELECT value FROM app_meta WHERE key=?',key).first(),policy=JSON.parse(row.value);policy.inputName='금룡 돌격소총';await f.p('UPDATE app_meta SET value=? WHERE key=?',JSON.stringify(policy),key).run();
+  if(mode==='repair'){
+    await enableEquipmentRepairFixture(f);policy.failureInputPolicy='CONSUME';policy.failureRepairable=true;
+    await f.p('UPDATE app_meta SET value=? WHERE key=?',JSON.stringify(policy),key).run();
+    await f.p("UPDATE workshop_recipes_v1668 SET name='동방무기 제작 검수'").run();
+  }
   if(mode==='emperor'||mode==='consume'){
     await f.p("UPDATE character_equipment_items SET name='엠퍼러 슈트',image_url='assets/items/emperor-suit-v1.png' WHERE id=102").run();
     await f.p("UPDATE workshop_recipes_v1668 SET name='엠퍼러 슈트 제작'").run();
@@ -39,7 +46,8 @@ const server=http.createServer(async(req,res)=>{try{
    const body=await readJointBody(request,{fields:['recipeId','instanceId','attempts','requestId']});
    const result=await f.deps.withUserMutationLock(f.env,7,action,()=>executeEquipmentCraft(f.env,f.user,body,{randomInt:()=>9999}));
    response=Response.json({...result,state:await __workshopReadTest.userWorkshopState(f.env,f.user)});
-  }else response=await handleWorkshop({path:action,request,env:f.env,deps:{...f.deps,readBody:r=>r.json()}});
+  }else if(action.startsWith('character/equipment/forge/'))response=await handleForgeRuntime({path:action,request,env:f.env,deps:f.deps});
+  else response=await handleWorkshop({path:action,request,env:f.env,deps:{...f.deps,readBody:r=>r.json()}});
   res.writeHead(response?.status||404,Object.fromEntries(response?.headers||[]));res.end(response?await response.text():'{}');return;
  }
  let file=path.resolve(root,'.'+decodeURIComponent(url.pathname));if(!file.startsWith(path.resolve(root)+path.sep))throw Error('invalid path');

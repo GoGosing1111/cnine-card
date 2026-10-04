@@ -21,7 +21,7 @@ for(const postgres of [false,true]){
     await saveEquipmentCraftRecipe(f.env,f.user,{...equipmentDraft(),id:f.recipeId,equipmentCraft:{...equipmentDraft().equipmentCraft,revision:1,failureInputPolicy:'CONSUME'}});
     assert.equal((await f.recipes())[0].equipmentCraft.failureInputPolicy,'CONSUME');
     const first=await f.craft('consume-failed-input-01');
-    assert.equal(first.success,false);assert.equal(first.input.preserved,false);assert.equal(first.input.consumed,true);assert.equal(first.failureInputPolicy,'CONSUME');assert.equal(first.output,null);
+    assert.equal(first.success,false);assert.equal(first.input.preserved,false);assert.equal(first.input.consumed,true);assert.equal(first.failureInputPolicy,'CONSUME');assert.equal(first.input.repairRecordId,null);assert.equal(Number((await f.p('SELECT COUNT(*) n FROM equipment_forge_destroyed_v1').first()).n),0);assert.equal(first.output,null);
     assert.equal(await f.p('SELECT id FROM user_equipment_instances WHERE id=1').first(),null);assert.equal(await f.p('SELECT instance_id FROM equipment_forge_states_v1 WHERE instance_id=1').first(),null);
     assert.equal(Number((await f.p('SELECT level FROM equipment_forge_states_v1 WHERE instance_id=2').first()).level),10);
     assert.equal(await f.coin(),9000000000000);assert.equal(await f.quantity('MASTER_STAR'),80);assert.equal(await f.quantity('QA_MATERIAL'),97);assert.equal((await f.pity()).failures,1);
@@ -51,7 +51,7 @@ for(const postgres of [false,true]){
   test(`${dialect}: historical policy without the new field still preserves Emperor input`,async t=>{
     const f=await equipmentFixture(t,postgres),policy=(await f.recipes())[0].equipmentCraft;delete policy.failureInputPolicy;
     await f.setting('WORKSHOP_EQUIPMENT_CRAFT_V1:QA_EQUIPMENT',policy);
-    const r=await f.craft('historical-emperor-preserve');assert.equal(r.input.preserved,true);assert.equal(r.failureInputPolicy,'PRESERVE');assert.ok(await f.p('SELECT id FROM user_equipment_instances WHERE id=1').first());
+    const r=await f.craft('historical-emperor-preserve');assert.equal(r.input.preserved,true);assert.equal(r.failureInputPolicy,'PRESERVE');assert.equal(r.input.repairRecordId,null);assert.equal(Number((await f.p('SELECT COUNT(*) n FROM equipment_forge_destroyed_v1').first()).n),0);assert.ok(await f.p('SELECT id FROM user_equipment_instances WHERE id=1').first());
   });
   test(`${dialect}: failed equipment survives; saved failures cross instances; N failures guarantee NEXT attempt; replay is free`,async t=>{
     const f=await equipmentFixture(t,postgres);

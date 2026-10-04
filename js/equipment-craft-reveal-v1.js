@@ -13,6 +13,7 @@
     return new Promise(resolve=>{
       const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
       const success=data.success===true&&!!data.output,consumed=data.input?.preserved===false;
+      const repairable=!success&&consumed&&/^[A-Za-z0-9_-]{16,100}$/.test(data.input?.repairRecordId||'');
       const name=data.output?.name||recipe?.output_name||data.recipeName||'장비';
       const previousFocus=document.activeElement,previousOverflow=document.body.style.overflow;
       const root=document.createElement('div');root.className='ef-reveal';root.dataset.phase='sealed';root.dataset.motion=reduced?'reduced':'full';
@@ -25,7 +26,7 @@
           <div class="ef-relic" hidden><img alt=""><span class="ef-image-fallback" hidden>◆</span><div class="ef-relic-label"></div></div><div class="ef-failure" hidden><div class="ef-shard ef-shard-a"></div><div class="ef-shard ef-shard-b"></div><div class="ef-shard ef-shard-c"></div><span>FORGE FAILED</span></div>
         </div>
         <div class="ef-controls"><div class="ef-unseal"><div class="ef-slide-caption"><span>봉인 해제</span><b data-charge>0<small>%</small></b></div><div class="ef-track"><div class="ef-track-fill"></div><span class="ef-track-label">밀어서 확인하기 <i aria-hidden="true">› › ›</i></span><button type="button" class="ef-handle" role="slider" aria-label="밀어서 제작 결과 확인" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="0%, 오른쪽 끝으로 밀어서 결과 확인" aria-describedby="ef-hint"><span aria-hidden="true">⟫</span></button><span class="ef-track-end" aria-hidden="true">◇</span></div><p id="ef-hint">오른쪽 끝까지 밀어 봉인을 해제하세요.</p></div>
-          <div class="ef-result" hidden aria-live="polite"><strong data-item></strong><p data-note></p><div class="ef-pity"><span data-pity></span><b data-next></b></div><button type="button" class="ef-done">확인</button></div>
+          <div class="ef-result" hidden aria-live="polite"><strong data-item></strong><p data-note></p><div class="ef-pity"><span data-pity></span><b data-next></b></div><div class="ef-result-actions"><a class="ef-repair" hidden>리페어 복구 기록 보기 ↗</a><button type="button" class="ef-done">확인</button></div></div>
         </div>
         <footer class="ef-footer"><span>01 제작 <i></i> <b data-step>02 봉인 해제</b> <i></i> <span data-final-step>03 결과</span></span><button type="button" data-sound aria-pressed="false">사운드 OFF</button></footer>
       </section>`;
@@ -60,6 +61,7 @@
         $('[data-subtitle]').textContent=success?'새로운 힘이 완성되었습니다.':consumed?'투입한 +10 장비가 소모되었습니다.':'투입한 +10 장비는 보존되었습니다.';
         $('[data-item]').textContent=success?`${name} +0 획득`:`+10 ${data.input?.name||'투입 장비'} ${consumed?'소모':'보존'}`;
         $('[data-note]').textContent=success?'완성된 장비가 지급되었습니다. 투입 장비와 제작 재료·재화가 소모되었습니다.':'새 장비를 획득하지 못했습니다. 재료·마스터의 별·코인은 소모되었습니다.';
+        if(repairable){$('[data-note]').textContent='리페어권으로 소모 당시 +10 장비를 복구할 수 있습니다. 제작 재료·재화는 반환되지 않습니다.';$('.ef-repair').hidden=false;$('.ef-repair').href='/equipment-forge/?restoreRecord='+encodeURIComponent(data.input.repairRecordId);root.dataset.repairable='true';}
         $('[data-pity]').textContent=success?'실패 누적 초기화':`실패 누적 ${fmt(data.pity?.failures)} / ${fmt(data.pity?.pityAfter)}회`;
         $('[data-next]').textContent=success?'제작 완료':data.pity?.guaranteed?'다음 제작 100% 성공':'누적 횟수 유지';
         $('[data-final-step]').className='ef-current';
@@ -87,7 +89,7 @@
       listen(document,'keydown',e=>{
         if(e.key==='Escape'){e.preventDefault();e.stopImmediatePropagation();phase==='result'?finish():reveal(true);return;}
         if(e.key!=='Tab')return;
-        const buttons=[...root.querySelectorAll('button:not([disabled])')].filter(el=>el.getClientRects().length),first=buttons[0],last=buttons.at(-1);
+        const buttons=[...root.querySelectorAll('button:not([disabled]),a[href]')].filter(el=>el.getClientRects().length),first=buttons[0],last=buttons.at(-1);
         if(e.shiftKey&&(document.activeElement===first||document.activeElement===dialog)){e.preventDefault();last?.focus();}
         else if(!e.shiftKey&&(document.activeElement===last||!root.contains(document.activeElement))){e.preventDefault();first?.focus();}
       },true);

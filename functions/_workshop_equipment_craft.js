@@ -52,7 +52,7 @@ export async function saveEquipmentCraftRecipe(env,admin,raw){
   for(const m of materials){if(!/^[A-Z0-9_]{1,80}$/.test(m.code)||m.code==='MASTER_STAR'||!Number.isSafeInteger(m.quantity)||m.quantity<1||m.quantity>100000000||!await p("SELECT code FROM inventory_items WHERE code=? AND is_active=1 AND category='MATERIAL'",m.code).first())throw fail('활성 제작 재료와 정수 수량을 선택하세요. 마스터의 별은 전용 비용에 입력하세요.');}
   const coin=Number(raw.coinCost??raw.coin_cost),stars=Number(raw.masterStarCost??raw.master_star_cost);
   for(const value of [raw.coinCost??raw.coin_cost,raw.masterStarCost??raw.master_star_cost])if(value===null||value===undefined||String(value).trim()===''||!Number.isSafeInteger(Number(value))||Number(value)<1)throw fail('코인과 마스터의 별 비용을 양의 정수로 설정하세요.');
-  if(stars>1000000||Number(raw.cardShardCost??raw.card_shard_cost??0)!==0)throw fail('마스터의 별은 최대 1,000,000개이며 카드 조각 비용은 사용하지 않습니다.');
+  if(stars>20000000||Number(raw.cardShardCost??raw.card_shard_cost??0)!==0)throw fail('마스터의 별은 최대 20,000,000개이며 카드 조각 비용은 사용하지 않습니다.');
   const next={...policy,revision:policy.revision+1,inputName:input.name,inputImage:input.image_url,inputRarity:input.rarity},encoded=JSON.stringify(next),token=crypto.randomUUID(),[predicate,values]=sameMeta(oldKey,oldRaw);
   const sortOrder=Number(raw.sortOrder??raw.sort_order??0);
   if(!Number.isSafeInteger(sortOrder)||Math.abs(sortOrder)>100000)throw fail('정렬 값은 -100,000~100,000 범위의 정수여야 합니다.');
@@ -79,7 +79,7 @@ export async function executeEquipmentCraft(env,user,body,{randomInt=mercenaryRa
     const raw=(await p('SELECT value FROM app_meta WHERE key=?',configKey(recipe.code)).first())?.value??null,policy=parse(raw);
     if(!policy)throw fail('장비 조합식 설정이 완료되지 않았습니다.');
     Object.assign(policy,equipmentCraftPolicy({...recipe,equipmentCraft:policy}));
-    const input=await p(`SELECT x.id,f.revision FROM user_equipment_instances x JOIN equipment_forge_states_v1 f ON f.instance_id=x.id AND f.user_id=x.user_id AND f.level=10 JOIN character_equipment_items e ON e.id=x.equipment_id AND e.is_active=1 AND e.is_public=1 WHERE x.id=? AND x.user_id=? AND x.equipment_id=? AND NOT EXISTS(SELECT 1 FROM user_equipment_loadout l WHERE l.instance_id=x.id)`,instanceId,user.id,policy.inputEquipmentId).first();
+    const input=await p(`SELECT x.id,f.revision,e.code,e.name,e.slot,e.rarity,e.subtype,e.image_url,e.total_power,e.pve_power,e.pvp_power FROM user_equipment_instances x JOIN equipment_forge_states_v1 f ON f.instance_id=x.id AND f.user_id=x.user_id AND f.level=10 JOIN character_equipment_items e ON e.id=x.equipment_id AND e.is_active=1 AND e.is_public=1 WHERE x.id=? AND x.user_id=? AND x.equipment_id=? AND NOT EXISTS(SELECT 1 FROM user_equipment_loadout l WHERE l.instance_id=x.id)`,instanceId,user.id,policy.inputEquipmentId).first();
     if(!input)throw fail('장착하지 않은 내 +10 대상 장비가 필요합니다.');
     const progressRaw=(await p('SELECT value FROM app_meta WHERE key=?',pityKey(user.id,recipeId)).first())?.value??null,progress=parse(progressRaw,{failures:0,revision:0});
     if(!Number.isSafeInteger(progress.failures)||progress.failures<0||!Number.isSafeInteger(progress.revision)||progress.revision<0)throw fail('실패 누적 기록을 확인하지 못했습니다. 관리자에게 문의하세요.');
@@ -93,8 +93,14 @@ export async function executeEquipmentCraft(env,user,body,{randomInt=mercenaryRa
     for(const m of materials){const owned=await p('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?',user.id,m.item_code).first();if(Number(owned?.quantity||0)<Number(m.quantity))throw fail('제작 재료가 부족합니다.');}
     const pity={failures:success?0:Number(progress.failures)+1,revision:Number(progress.revision)+1};
     const consumeInput=success||policy.failureInputPolicy==='CONSUME';
-    const result={ok:true,requestId:body.requestId,recipeId,recipeName:recipe.name,category:recipe.category,equipmentCraft:true,success,successRate:10,effectiveSuccessRate:guaranteed?100:10,guaranteed,attempts:1,successCount:success?1:0,failureCount:success?0:1,coinSpent:coin,masterStarSpent:stars,failureInputPolicy:policy.failureInputPolicy,input:{instanceId,equipmentId:policy.inputEquipmentId,name:policy.inputName,image:policy.inputImage,level:10,preserved:!consumeInput,consumed:consumeInput},pity:{failures:pity.failures,pityAfter:policy.pityAfter,guaranteed:pity.failures>=policy.pityAfter},output:success?{type:'EQUIPMENT',ref:recipe.output_ref,name:recipe.output_name,image:recipe.output_image,rarity:recipe.output_rarity,quantity:1,level:0}:null};
-    return {result,recipe,policy,configRaw:raw,progressRaw,pity,materials,revision:Number(input.revision)};
+    // Reuse the existing repair archive and restoration transaction. Only a
+    // failed opt-in recipe creates a record, never successful input conversion.
+    const repairRecord=!success&&consumeInput&&policy.failureRepairable?{
+      recordId:body.requestId,destroyedAt:new Date().toISOString(),
+      item:{instanceId,equipmentId:String(policy.inputEquipmentId),name:input.name,code:input.code,slot:input.slot,grade:input.rarity,subtype:input.subtype,image:input.image_url,level:10,revision:Number(input.revision),basePower:{total:Number(input.total_power),pve:Number(input.pve_power),pvp:Number(input.pvp_power)},destructionSource:KIND,recipeId,recipeName:recipe.name}
+    }:null;
+    const result={ok:true,requestId:body.requestId,recipeId,recipeName:recipe.name,category:recipe.category,equipmentCraft:true,success,successRate:10,effectiveSuccessRate:guaranteed?100:10,guaranteed,attempts:1,successCount:success?1:0,failureCount:success?0:1,coinSpent:coin,masterStarSpent:stars,failureInputPolicy:policy.failureInputPolicy,input:{instanceId,equipmentId:policy.inputEquipmentId,name:input.name,image:input.image_url,level:10,preserved:!consumeInput,consumed:consumeInput,repairRecordId:repairRecord?.recordId||null},pity:{failures:pity.failures,pityAfter:policy.pityAfter,guaranteed:pity.failures>=policy.pityAfter},output:success?{type:'EQUIPMENT',ref:recipe.output_ref,name:recipe.output_name,image:recipe.output_image,rarity:recipe.output_rarity,quantity:1,level:0}:null};
+    return {result,recipe,policy,configRaw:raw,progressRaw,pity,materials,repairRecord,revision:Number(input.revision)};
   },statements:async plan=>{
     const {result,recipe,policy,materials}=plan,key=pityKey(user.id,recipeId);
     const latest=(await p('SELECT value FROM app_meta WHERE key=?',key).first())?.value??null;
@@ -108,6 +114,12 @@ export async function executeEquipmentCraft(env,user,body,{randomInt=mercenaryRa
     list.push(jointGuard(DB,pityToken,samePity,pityValues),jointGuard(DB,configToken,sameConfig,configValues),jointGuard(DB,token,`EXISTS(SELECT 1 FROM user_equipment_instances x JOIN equipment_forge_states_v1 f ON f.instance_id=x.id AND f.user_id=x.user_id AND f.level=10 AND f.revision=? JOIN character_equipment_items e ON e.id=x.equipment_id AND e.is_active=1 AND e.is_public=1 WHERE x.id=? AND x.user_id=? AND x.equipment_id=? AND NOT EXISTS(SELECT 1 FROM user_equipment_loadout l WHERE l.instance_id=x.id)) AND EXISTS(SELECT 1 FROM ${RECIPES} WHERE id=? AND is_active=1 AND is_public=1 AND (owner_test_only=0 OR ?='OWNER')) AND EXISTS(SELECT 1 FROM character_equipment_items WHERE id=? AND is_active=1 AND is_public=1) AND EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=?)`,[plan.revision,instanceId,user.id,policy.inputEquipmentId,recipeId,user.role,Number(recipe.output_ref),user.id,result.coinSpent]));
     list.push(p('UPDATE users SET coin=coin-? WHERE id=? AND coin>=?',result.coinSpent,user.id,result.coinSpent),p('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?',-result.coinSpent,KIND,user.id),...jointInventoryChange(DB,user.id,'MASTER_STAR',-result.masterStarSpent,KIND,body.requestId));
     for(const m of materials)list.push(...jointInventoryChange(DB,user.id,m.item_code,-Number(m.quantity),KIND,body.requestId));
+    if(plan.repairRecord){
+      const record=plan.repairRecord,itemJson=JSON.stringify(record.item);
+      list.push(p('INSERT INTO equipment_forge_destroyed_v1(record_id,user_id,original_instance_id,equipment_id,level,revision,item_json,destroyed_at) VALUES(?,?,?,?,?,?,?,?)',record.recordId,user.id,instanceId,policy.inputEquipmentId,10,plan.revision,itemJson,record.destroyedAt));
+      // A suppressed/invalid archive insert must roll back the input and costs.
+      list.push(p('UPDATE joint_atomic_guards_v1 SET verified=CASE WHEN EXISTS(SELECT 1 FROM equipment_forge_destroyed_v1 WHERE record_id=? AND user_id=? AND original_instance_id=? AND equipment_id=? AND level=10 AND item_json=? AND restored_instance_id IS NULL) THEN 1 ELSE 0 END WHERE token=?',record.recordId,user.id,instanceId,policy.inputEquipmentId,itemJson,token));
+    }
     // Use the prepared receipt, including retries of pre-policy-change plans.
     if(result.success||result.input?.preserved===false){
       list.push(p('DELETE FROM equipment_forge_states_v1 WHERE instance_id=? AND user_id=? AND level=10 AND revision=?',instanceId,user.id,plan.revision),p('DELETE FROM user_equipment_instances WHERE id=? AND user_id=? AND NOT EXISTS(SELECT 1 FROM user_equipment_loadout l WHERE l.instance_id=user_equipment_instances.id)',instanceId,user.id));

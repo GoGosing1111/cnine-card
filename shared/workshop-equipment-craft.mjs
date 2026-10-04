@@ -12,5 +12,7 @@ export function equipmentCraftPolicy(raw){
   // Existing recipes always preserve the input unless the operator opts in.
   const failureInputPolicy=policy.failureInputPolicy===undefined?'PRESERVE':policy.failureInputPolicy;
   if(!['PRESERVE','CONSUME'].includes(failureInputPolicy))throw Error('실패 시 투입 장비 처리 방식을 보존 또는 소모로 선택하세요.');
-  return {inputEquipmentId,pityAfter,revision,requiredLevel:10,successRate:10,failureInputPolicy};
+  const failureRepairable=policy.failureRepairable===undefined?false:policy.failureRepairable;
+  if(typeof failureRepairable!=='boolean'||failureRepairable&&failureInputPolicy!=='CONSUME')throw Error('리페어 복구는 실패 시 장비 소모 조합식에서만 설정할 수 있습니다.');
+  return {inputEquipmentId,pityAfter,revision,requiredLevel:10,successRate:10,failureInputPolicy,failureRepairable};
 }
