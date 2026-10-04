@@ -1,0 +1,49 @@
+{
+  "verifiedAt": "2026-10-04T21:09:01.097Z",
+  "deployment": "https://ec60ad2c.cnine-card.pages.dev",
+  "source": "b163e0cc6809fef8ebacf37893186a06b34f66ca",
+  "preview": "https://cnine-card.pages.dev/preview/battle-suit-crimson-gold-knight-20261005-v1/",
+  "passed": true,
+  "files": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "2f9f63f6431778422fae443f556e5c31ed1d5e037653f39e647dbe8f7d711815",
+      "localMatches": true
+    },
+    {
+      "file": "manifest.json",
+      "status": 200,
+      "sha256": "c1fbdd75e1520957873c5882e4b5bcda8646ecd800437522704f4f8102d60cea",
+      "localMatches": true
+    },
+    {
+      "file": "preview.bundle.js",
+      "status": 200,
+      "sha256": "953c37d796315c964507f3bcbe29b6b82c4a7fcad41fbc27bdcde7f9a4d46fa2",
+      "localMatches": true
+    },
+    {
+      "file": "assets/atlases/combo.png",
+      "status": 200,
+      "sha256": "603bce023194c274cf3a2b9d006df86ba576dc2367347bdfe14cac299539eb53",
+      "localMatches": true
+    }
+  ],
+  "video": {
+    "status": 200,
+    "length": null
+  },
+  "runtimeEnabled": false,
+  "browser": {
+    "title": "오버로드 · 최종 슈트",
+    "ready": true,
+    "mode": "combo",
+    "time": 1.05,
+    "bladeIntersects": true,
+    "groundError": 0,
+    "palette": "crimson",
+    "liveEnabled": false,
+    "cacheRevision": "20261005-overlord-grip-v5"
+  }
+}
