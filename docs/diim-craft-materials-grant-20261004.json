@@ -1,0 +1,39 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:diim-craft-materials:20261004:emperor20-blueprint1-stars15000000:v1",
+  "user": {
+    "id": 4773,
+    "nickname": "진짜디임"
+  },
+  "completedAt": "2026-10-04T11:36:49.355Z",
+  "gifts": [
+    {
+      "code": "EMPEROR_ENERGY",
+      "name": "엠퍼러 에너지",
+      "amount": 20,
+      "inventoryLogId": "63261396"
+    },
+    {
+      "code": "EASTERN_ARMS_WEAPON_BLUEPRINT",
+      "name": "동방무기상 무기설계도",
+      "amount": 1,
+      "inventoryLogId": "63261403"
+    },
+    {
+      "code": "MASTER_STAR",
+      "name": "마스터의 별",
+      "amount": 15000000,
+      "inventoryLogId": "63261407"
+    }
+  ],
+  "adminLogId": "40782",
+  "verifiedAt": "2026-10-04T11:37:34.326Z",
+  "grantLogs": 3,
+  "validation": {
+    "scopedTests": 3,
+    "remoteDryRunRollbackVerified": true,
+    "postCommitReadVerified": true
+  },
+  "gameRuntimeChanged": false,
+  "deploymentRequired": false
+}
