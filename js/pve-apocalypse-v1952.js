@@ -1,6 +1,8 @@
 /* Apocalypse presentation guard: decorate only an actual Apocalypse hunt. */
 (()=>{
+  let recovery;import('./apocalypse-challenge-v1.mjs?v=20261005').then(module=>{recovery=module;sync()}).catch(error=>console.warn('아포칼립스 보상 복구 화면을 준비하지 못했습니다.',error));
   function sync(){
+    recovery?.mountRecovery(document);
     const active=typeof window.selectedPveIsApocalypse==='function'&&window.selectedPveIsApocalypse();
     document.querySelectorAll('.battle-v3-live-shell[data-v3-field="HUNT"]').forEach(shell=>shell.classList.toggle('apocalypse-battle-field',Boolean(active)));
   }

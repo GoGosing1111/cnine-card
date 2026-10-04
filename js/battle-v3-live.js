@@ -545,6 +545,7 @@
     const field = battlefieldMode(mode);
     // Show the selected battlefield immediately. The lightweight loader stays
     // over that scene only until Pixi commits its first authoritative frame.
+    modal.onclick=null;
     modal.className = `modal show battle-modal battle-v3-modal battle-v3-preparing ${field === 'PVP' || field === 'SIEGE' ? 'pvp-battle-modal' : ''}`;
     modal.innerHTML = `<div class="modal-panel battle-stage battle-v3-live-shell" data-battle-v3-live="${VERSION}" data-v3-field="${field}">
       <header class="battle-v3-header">
@@ -1005,6 +1006,8 @@
         try {
           if (options.continuousPlayback) await root.ProjectVPixiBattle.playEvents([{ type: 'DEPLOY' }]);
           else await safePlayEvents([{ type: 'DEPLOY' }], 'V3 배치 연출이 지연되어 생략되었습니다.');
+          await options.afterDeployment?.({stage,phase,data:payload});
+          if(destroyed)return false;
           // The account Battle Suit is an independent PVE support actor. Its
           // weapon loop begins once deployment is visible and runs across every
           // card action, skill, QTE and action-gauge wait. V1990: the loop fires
@@ -1235,6 +1238,7 @@
     }[result.reason] || (draw ? '양 팀의 전투가 무승부로 끝났습니다.' : win ? '전투를 완료했습니다.' : '다음 전투를 준비하세요.');
     const coins = Math.max(0, n(pvp ? data.coinReward : data.reward));
     const magic = Math.max(0, n(data.magicReward?.amount));
+    const bonus=data.apocalypseBonus?.rewards;
     const finalTeam = side => [
       ...(Array.isArray(result.final?.[side]) ? result.final[side] : []),
       ...(Array.isArray(result.final?.mercenaries?.[side]) ? result.final.mercenaries[side] : [])
@@ -1253,7 +1257,11 @@
     return '<section class="v3-battle-report is-' + state + '" aria-labelledby="v3ReportTitle">' +
       '<header class="v3-report-header"><div class="v3-report-emblem" aria-hidden="true">' + (win ? '✓' : draw ? '＝' : '×') + '</div><div><span class="v3-report-mode">' + (pvp ? 'PVP · 랭크전' : 'PVE · 전투 결과') + '</span><h2 id="v3ReportTitle">' + title + '</h2><p>' + esc(!win && result.reason === 'ELIMINATION' ? '아군 진영 전멸' : reason) + '</p></div></header>' +
       '<div class="v3-report-body"><dl class="v3-report-rewards">' +
-        (pvp ? stat('시즌 점수',signed(data.scoreChange),'is-score') : '') + stat('획득 코인',signed(coins),'is-coin') + (magic > 0 ? stat('마력 수정','+' + fmt(magic)) : '') + '</dl>' +
+        (pvp ? stat('시즌 점수',signed(data.scoreChange),'is-score') : '') + stat('획득 코인',signed(coins),'is-coin') + (magic > 0 ? stat('마력 수정','+' + fmt(magic)) : '') +
+        (bonus?.coin>0?stat('보스 추가 코인','+'+fmt(bonus.coin),'is-coin'):'') +
+        (bonus?.masterStars>0?stat('마스터의 별','+'+fmt(bonus.masterStars)):'') +
+        (bonus?.mysticEnergy>0?stat('미스틱 에너지','+'+fmt(bonus.mysticEnergy)):'') + '</dl>' +
+        (data.apocalypseChallenge?'<p class="v3-report-adjustment">충격파 회피 · '+(data.apocalypseChallenge.success?'성공':'실패')+(data.apocalypseBonus?'':' · 추가 보상 확인 대기')+'</p>':'') +
         (card ? '<div class="v3-report-drop"><span>카드 획득</span><strong>' + esc(card.grade) + ' · ' + esc(card.title) + '</strong><small>' + (data.cardReward.duplicate ? '중복 카드 · 조각 +' + fmt(data.cardReward.shardGained) : '새로운 카드') + '</small></div>' : '') +
         (pvp && adjustment?.label && Number.isFinite(Number(adjustment.multiplier)) ? '<p class="v3-report-adjustment">' + esc(adjustment.label) + ' · ' + signed(adjustment.multiplier) + '%</p>' : '') +
         '<details class="v3-report-details"><summary>전투 상세<span>' + (n(result.actions) > 0 ? fmt(result.actions) + '회 행동' : '기록 확인') + '</span></summary><dl>' + stat('아군 전투력',fmt(playerPower)) + stat('상대 전투력',fmt(opponentPower)) +

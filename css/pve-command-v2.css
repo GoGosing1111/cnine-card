@@ -367,3 +367,5 @@
 /* Apocalypse owns a fixed five-charge pool and must never resemble Burning PVE energy. */
 .pvev2-energy.apocalypse-energy{padding:6px 9px;border:1px solid rgba(255,111,67,.42);background:linear-gradient(135deg,rgba(54,16,12,.78),rgba(15,11,14,.9));box-shadow:inset 3px 0 0 #ff7047}.pvev2-energy.apocalypse-energy small,.pvev2-energy.apocalypse-energy b{color:#ffc0a8}.pvev2-energy.apocalypse-energy>span i{background:linear-gradient(90deg,#b62b21,#ff764e);box-shadow:0 0 12px rgba(255,91,50,.42)}.pvev2-energy.apocalypse-energy>em{color:#d98f78}
 .pvev2-hunt-attempts.apocalypse-energy{border-color:rgba(255,111,67,.46);background:linear-gradient(90deg,rgba(48,14,11,.88),rgba(10,16,22,.96));box-shadow:inset 4px 0 0 #ff7047}.pvev2-hunt-attempts.apocalypse-energy small{color:#e99a7e}.pvev2-hunt-attempts.apocalypse-energy b{color:#ffd1c0}.pvev2-hunt-attempts.apocalypse-energy em{color:#d99078}
+
+.pvev2-live-card-slot.empty{cursor:pointer}.pvev2-live-card-slot.is-edit-target{border:2px solid #bef264;box-shadow:inset 0 0 25px #bef26415}.pvev2-live-card-slot:focus-visible{outline:2px solid #bef264;outline-offset:3px}

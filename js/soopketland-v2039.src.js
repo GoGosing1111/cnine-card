@@ -159,7 +159,22 @@ function view(){return `<section class="sl-land" data-soopketland><header class=
 function prizeTile(p){return `<article class="sl-prize"><span class="sl-symbol" style="--prize-color:#${Number(p.color).toString(16).padStart(6,'0')}">${esc(p.symbol)}</span><div><strong>${esc(p.label)}</strong><p>${esc(p.range)}</p></div><small>${Number(p.percent||0).toFixed(2)}%</small></article>`}
 function resultHtml(result,compact=false){
   const p=result.prize;
-  return `<article class="sl-receipt ${p.jackpot?'is-jackpot':''} ${compact?'is-compact':''}"><div class="sl-receipt-heading"><span>${result.delivery==='VIEWER_COUPON'?'VIEWER GIFT / 공유용 쿠폰':'STREAMER GIFT / 지급 완료'}</span>${result.createdAt?`<time>${stamp(result.createdAt)}</time>`:''}</div><h3>${esc(p.label)} <b>${esc(prizeAmount(p))}</b></h3>${result.code?`<p>선착순 ${num(result.couponUses)}명 · 계정당 1회 · 시청자에게 코드를 공유하세요</p><div class="sl-code"><input readonly aria-label="시청자 공유용 쿠폰 코드" value="${esc(result.code)}"><button type="button" data-sl-copy="${esc(result.code)}">코드 복사</button></div>`:'<p>인벤토리 → 하이퍼버닝 발동권에서 사용하세요.<br>서버 전체 ×15 · 60분, 기존 버닝 종료 후 발동 가능합니다.</p>'}</article>`;
+  return `<article class="sl-receipt ${p.jackpot?'is-jackpot':''} ${compact?'is-compact':''}"><div class="sl-receipt-heading"><span>${result.delivery==='VIEWER_COUPON'?'VIEWER GIFT / 공유용 쿠폰':'STREAMER GIFT / 지급 완료'}</span>${result.createdAt?`<time>${stamp(result.createdAt)}</time>`:''}</div><h3>${esc(p.label)} <b>${esc(prizeAmount(p))}</b></h3>${result.code?`<p>선착순 ${num(result.couponUses)}명 · 계정당 1회 · 시청자에게 코드를 공유하세요</p><div class="sl-code"><input readonly aria-label="시청자 공유용 쿠폰 코드" value="${esc(result.code)}"><button type="button" data-sl-copy="${esc(result.code)}">코드 복사</button><button type="button" data-sl-fill-coupon="${esc(result.code)}">내 쿠폰 입력</button></div>`:'<p>인벤토리 → 하이퍼버닝 발동권에서 사용하세요.<br>서버 전체 ×15 · 60분, 기존 버닝 종료 후 발동 가능합니다.</p>'}</article>`;
+}
+function couponPanel(){return '<section class="sl-coupon"><header><span>MY COUPON</span><h3>내 계정 쿠폰 사용</h3><p>방송을 이어가면서 여기서 바로 보상을 받으세요.</p></header><form data-sl-coupon-form><label for="slCouponCode">쿠폰 코드</label><div><input id="slCouponCode" name="code" maxlength="40" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" placeholder="쿠폰 코드 입력" required><button type="submit">쿠폰 사용</button></div><p data-sl-coupon-status role="status" aria-live="polite"></p></form></section>'}
+async function redeemLandCoupon(s){
+  if(session!==s||s.redeeming)return;
+  const form=s.host.querySelector('[data-sl-coupon-form]'),input=form.elements.code,button=form.querySelector('button'),status=form.querySelector('[data-sl-coupon-status]'),code=input.value.trim();
+  if(!code){input.focus();return;}
+  s.redeeming=true;button.disabled=true;button.textContent='지급 확인 중…';status.textContent='쿠폰을 확인하고 있습니다.';status.classList.remove('sl-error');
+  try{
+    const result=previewTransport?await previewTransport('coupon/redeem',{code}):await window.redeemCouponApi(code);
+    if(result.user)window.saveUser?.(window.apiUserToLocal(result.user));
+    for(const key of ['inventory','shell/summary','messages','magic/status'])window.clearApiCache?.(key);
+    if(session!==s)return;
+    input.value='';status.textContent='사용 완료 · '+(result.message||((Number(result.rewardAmount||result.rewardCoin||0)).toLocaleString()+' '+(result.rewardLabel||'보상')+' 지급'));
+  }catch(error){if(session===s){status.textContent=error.message||'쿠폰 사용 결과를 확인하지 못했습니다. 같은 코드로 다시 확인하세요.';status.classList.add('sl-error');}}
+  finally{s.redeeming=false;if(session===s){button.disabled=false;button.textContent='쿠폰 사용';}}
 }
 function ownerPanel(data){
   if(!data.owner)return '';
@@ -169,7 +184,7 @@ function ownerPanel(data){
 function render(data,s){
   if(session!==s||!s.host.isConnected)return;
   s.data=data;
-  s.host.innerHTML=`<div class="sl-marquee"><div><small>ONLY ON SOOPKETMON</small><h2>오늘 방송의<br><em>특별한 한 방.</em></h2><p>구슬을 쏘고, 행운을 열고.<br>시청자와 함께 나누는 라이브 선물.</p></div><div class="sl-guest"><span>INVITATION ONLY</span><strong>${num(data.tickets)}<small>EVENT PASSES</small></strong><p>OWNER 지급 이용권만 사용<br>자동 충전 · 코인 구매 없음</p></div></div><div class="sl-layout"><section class="sl-machine-section" aria-label="빠찡코 이벤트"><div class="sl-machine" data-sl-canvas><img src="${ART}" alt="숲켓랜드 기계"><span>기계를 준비하는 중입니다</span></div><div class="sl-machine-controls"><button type="button" data-sl-sound aria-pressed="false">SOUND OFF</button><span>GPU PACHINKO / 3 REELS</span><button type="button" data-sl-skip disabled>연출 건너뛰기</button></div></section><aside class="sl-console"><div class="sl-control-head"><span>LET THE SHOW BEGIN</span><h2>라이브 이벤트</h2><p>1회당 이용권 1개 · 결과는 메시지함에도 보관</p></div><div class="sl-pass-stat"><span>사용 가능한 이용권</span><strong data-sl-balance>${num(data.tickets)}<small>개</small></strong></div><button type="button" class="sl-launch" data-sl-play ${!data.tickets&&!readPending()?'disabled':''}><span>${readPending()?'RESULT RECOVERY':'LAUNCH THE BALL'}</span><b>${readPending()?'이전 결과 다시 확인':data.tickets?'이용권 1개로 시작':'이용권 지급 대기'}</b><i>↗</i></button><p class="sl-use-note">${data.nextCouponUses?`다음 당첨 쿠폰: 선착순 ${num(data.nextCouponUses)}명 · 계정당 1회`:'OWNER가 이용권을 지급하면 시작할 수 있습니다.'}</p><p class="sl-feedback" data-sl-feedback role="status"></p><div data-sl-result></div><div class="sl-prize-head"><h3>오늘의 선물 라인업</h3><span>SERVER VERIFIED</span></div><div class="sl-prizes">${data.prizes.map(prizeTile).join('')}</div></aside></div><section class="sl-history"><header><div><span>YOUR BROADCAST GIFTS</span><h2>당첨 보관함</h2></div><small>최근 30회 · 전체 코드는 메시지함 확인</small></header><div data-sl-history>${data.history.length?data.history.map(r=>resultHtml(r,true)).join(''):'<div class="sl-empty">첫 번째 방송 선물을 기다리고 있습니다.</div>'}</div></section>${ownerPanel(data)}`;
+  s.host.innerHTML=`<div class="sl-marquee"><div><small>ONLY ON SOOPKETMON</small><h2>오늘 방송의<br><em>특별한 한 방.</em></h2><p>구슬을 쏘고, 행운을 열고.<br>시청자와 함께 나누는 라이브 선물.</p></div><div class="sl-guest"><span>INVITATION ONLY</span><strong>${num(data.tickets)}<small>EVENT PASSES</small></strong><p>OWNER 지급 이용권만 사용<br>자동 충전 · 코인 구매 없음</p></div></div><div class="sl-layout"><section class="sl-machine-section" aria-label="빠찡코 이벤트"><div class="sl-machine" data-sl-canvas><img src="${ART}" alt="숲켓랜드 기계"><span>기계를 준비하는 중입니다</span></div><div class="sl-machine-controls"><button type="button" data-sl-sound aria-pressed="false">SOUND OFF</button><span>GPU PACHINKO / 3 REELS</span><button type="button" data-sl-skip disabled>연출 건너뛰기</button></div></section><aside class="sl-console"><div class="sl-control-head"><span>LET THE SHOW BEGIN</span><h2>라이브 이벤트</h2><p>1회당 이용권 1개 · 결과는 메시지함에도 보관</p></div><div class="sl-pass-stat"><span>사용 가능한 이용권</span><strong data-sl-balance>${num(data.tickets)}<small>개</small></strong></div><button type="button" class="sl-launch" data-sl-play ${!data.tickets&&!readPending()?'disabled':''}><span>${readPending()?'RESULT RECOVERY':'LAUNCH THE BALL'}</span><b>${readPending()?'이전 결과 다시 확인':data.tickets?'이용권 1개로 시작':'이용권 지급 대기'}</b><i>↗</i></button><p class="sl-use-note">${data.nextCouponUses?`다음 당첨 쿠폰: 선착순 ${num(data.nextCouponUses)}명 · 계정당 1회`:'OWNER가 이용권을 지급하면 시작할 수 있습니다.'}</p><p class="sl-feedback" data-sl-feedback role="status"></p><div data-sl-result></div>${couponPanel()}<div class="sl-prize-head"><h3>오늘의 선물 라인업</h3><span>SERVER VERIFIED</span></div><div class="sl-prizes">${data.prizes.map(prizeTile).join('')}</div></aside></div><section class="sl-history"><header><div><span>YOUR BROADCAST GIFTS</span><h2>당첨 보관함</h2></div><small>최근 30회 · 전체 코드는 메시지함 확인</small></header><div data-sl-history>${data.history.length?data.history.map(r=>resultHtml(r,true)).join(''):'<div class="sl-empty">첫 번째 방송 선물을 기다리고 있습니다.</div>'}</div></section>${ownerPanel(data)}`;
   const pending=readPending(),recovered=data.history.find(r=>r.requestId===pending);
   if(recovered){savePending('');s.host.querySelector('[data-sl-result]').innerHTML=resultHtml(recovered);s.host.querySelector('[data-sl-play]').disabled=!data.tickets;s.host.querySelector('[data-sl-play] b').textContent=data.tickets?'이용권 1개로 시작':'이용권 지급 대기'}
   s.renderer=new PachinkoStage(s.host.querySelector('[data-sl-canvas]'),data.prizes);
@@ -177,9 +192,9 @@ function render(data,s){
   bindControls(s);
   const pendingOwner=ownerPending();if(data.owner&&pendingOwner){const panel=s.host.querySelector('.sl-owner-body'),note=document.createElement('p');note.className='sl-error';note.textContent='응답을 확인하지 못한 OWNER 요청이 남아 있습니다. 같은 요청으로 먼저 확인하세요. ';const b=document.createElement('button');b.type='button';b.textContent='이전 요청 결과 확인';b.onclick=()=>mutation(s,b,pendingOwner.path,pendingOwner.body);note.append(b);panel.prepend(note);panel.parentElement.open=true}
 }
-function bindCopies(host){host.querySelectorAll('[data-sl-copy]').forEach(b=>b.onclick=()=>copy(b.dataset.slCopy,b))}
+function bindCopies(host){host.querySelectorAll('[data-sl-copy]').forEach(b=>b.onclick=()=>copy(b.dataset.slCopy,b));host.querySelectorAll('[data-sl-fill-coupon]').forEach(b=>b.onclick=()=>{const input=host.querySelector('#slCouponCode');if(!input)return;input.value=b.dataset.slFillCoupon;input.focus();input.scrollIntoView({block:'center',behavior:'smooth'})})}
 function bindControls(s){
-  const host=s.host;bindCopies(host);
+  const host=s.host;bindCopies(host);host.querySelector('[data-sl-coupon-form]').addEventListener('submit',event=>{event.preventDefault();void redeemLandCoupon(s)});
   host.querySelector('[data-sl-sound]').onclick=e=>{const on=e.currentTarget.getAttribute('aria-pressed')!=='true';e.currentTarget.setAttribute('aria-pressed',String(on));e.currentTarget.textContent=on?'SOUND ON · 10%':'SOUND OFF';if(s.renderer)s.renderer.soundOn=on};
   host.querySelector('[data-sl-skip]').onclick=()=>s.renderer?.finishShow?.();
   host.querySelector('[data-sl-play]').onclick=()=>play(s);
@@ -238,7 +253,7 @@ async function play(s){
 async function bind(){
   const host=document.querySelector('[data-sl-body]');if(!host)return;stop();
   const s=session={host,busy:false,renderer:null};
-  const refresh=document.querySelector('[data-sl-refresh]');if(refresh)refresh.onclick=()=>{if(!s.busy)bind()};
+  const refresh=document.querySelector('[data-sl-refresh]');if(refresh)refresh.onclick=()=>{if(!s.busy&&!s.redeeming)bind()};
   try{const data=await api('state');if(session===s)render(data,s)}catch(error){if(session===s)host.innerHTML=`<div class="sl-empty"><b>${esc(error.message)}</b><p>등록된 스트리머 5개 계정과 OWNER만 이용할 수 있는 방송 이벤트 공간입니다.</p><button type="button" data-sl-retry>다시 확인</button></div>`;host.querySelector('[data-sl-retry]')?.addEventListener('click',bind)}
 }
 function stop(){if(session){session.renderer?.destroy();session=null}}

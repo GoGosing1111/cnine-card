@@ -77,7 +77,7 @@ export async function factionOverview(env,season,user,deps,{alertsOnly=false}={}
   const alerts=activeSeason(season,now)&&(!sessions||sessions.view.active)?battles.filter(b=>b.status==='ACTIVE'&&battleSide(b,mine,Number(user.id))).map(b=>battleAlert(b,mine,Number(user.id))):[];
   if(alertsOnly)return {ok:true,seasonId:Number(season.id),userId:Number(user.id),alerts,serverNow:now};
   return {ok:true,serverNow:now,revision:Number(stored.revision),season:{id:Number(season.id),seasonNo:Number(season.season_no),phase:season.phase,endsAt:date(season.ends_at),active:activeSeason(season,now)},
-    userId:Number(user.id),mine:mine?{clanId:mine,isMaster:ctx.isMaster,canManageFormation:ctx.isMaster||Object.values(captains).includes(Number(user.id))}:null,clans:ctx.clans,roster:ctx.roster.filter(m=>m.clanId===mine),formation,captains,
+    userId:Number(user.id),mine:mine?{clanId:mine,isMaster:ctx.isMaster,canManageFormation:ctx.isMaster||Object.values(captains).includes(Number(user.id)),canManageGarrison:ctx.isMaster||Object.values(captains).includes(Number(user.id))}:null,clans:ctx.clans,roster:ctx.roster.filter(m=>m.clanId===mine),formation,captains,
     districts:state.districts.map(d=>({...d,defenders:d.owner?(formationOf(state,ctx,d.owner)[d.defense]||[]).map(id=>ctx.roster.find(m=>m.userId===id)).filter(Boolean):[]})),
     battles,events:state.events,alerts,holdings:state.districts.filter(d=>d.owner===mine&&mine).length,
     ...(sessions?{sessions:{...sessions.view,recipientPolicy:sessions.policy.recipients,mapPolicy:sessions.policy.mapPolicy,history:sessions.view.history.map(h=>{const reward=state.sessionHistory?.find(s=>s.key===h.key)?.recipients?.find(r=>r.userId===Number(user.id));return {...h,myReward:reward?.amount||0,myMasterStars:reward?.masterStars||0,myMysticEnergy:reward?.mysticEnergy||0};})}}:{}),
@@ -124,7 +124,7 @@ export async function mutateFaction(env,season,user,kind,body,deps,mode='ON'){
         names:Object.fromEntries(Object.entries(captains).map(([squad,id])=>[squad,ctx.roster.find(m=>m.userId===id)?.nickname||'미지정'])),at:now});
     }
     if(kind==='garrison'){
-      if(!ctx.isMaster)fail('방어대 배치는 클랜장만 변경할 수 있습니다.',403);
+      if(!ctx.isMaster&&!Object.values(factionCaptains(state.captains[clanId],memberIds)).includes(userId))fail('방어대 배치는 클랜장 또는 행동대장만 변경할 수 있습니다.',403);
       const d=state.districts.find(d=>d.id===String(body.districtId));
       if(!d||d.owner!==clanId)fail('우리 클랜의 점령지를 선택하세요.');
       if(state.battles.some(b=>b.status==='ACTIVE'&&b.districtId===d.id))fail('교전 중에는 방어대를 변경할 수 없습니다.');
@@ -188,7 +188,7 @@ export async function mutateFaction(env,season,user,kind,body,deps,mode='ON'){
     }
     // A compare-and-swap and every guarded side effect share one transaction.
     // Losing races cannot create receipts, mint tax, or advance cooldowns.
-    const master=['captains','garrison'].includes(kind)||(kind==='formation'&&ctx.isMaster);
+    const master=kind==='captains'||(['formation','garrison'].includes(kind)&&ctx.isMaster);
     const sessionCombat=Boolean(row.sessions&&['launch','enter','strike'].includes(kind));
     if(sessionCombat&&nowOf(deps)>=state.session.endsAt)continue;
     const phaseGuard=(kind==='collect'?'':" AND EXISTS(SELECT 1 FROM clan_seasons WHERE id=? AND phase='ACTIVE' AND ends_at=?)")+(sessionCombat?` AND NOT EXISTS(SELECT 1 FROM territory_war_v3_rounds WHERE ${factionTerritoryBlockSql(env)})`:'');

@@ -1,4 +1,5 @@
 import {apocalypseLegionBoss,apocalypseLegionUltimate,apocalypseLegionSuitDefense,configuredApocalypseLegionSkills} from '../shared/apocalypse-legion-v1.mjs';
+import {normalizeApocalypseBonus} from './_apocalypse_challenge.js';
 import {apocalypseSignatureSkill} from '../shared/apocalypse-boss-skills-v2048.mjs';
 
 const clamp=(value,min,max,fallback=min)=>{
@@ -42,6 +43,7 @@ function normalizeApocalypseMonsterProfiles(raw={}){
     profiles[String(id)]={
       battlePower:clamp(value.battlePower,1,1000000000,1),
       rewardCoin:clamp(value.rewardCoin,0,1000000000,0),
+      clearBonus:normalizeApocalypseBonus(value.clearBonus),
       hpPercent:clamp(value.hpPercent,240,1200,260),
       attackPercent:clamp(value.attackPercent,190,1200,220),
       defensePercent:clamp(value.defensePercent,175,1200,190),
@@ -113,7 +115,9 @@ export function normalizeApocalypseSettings(raw={}){
 export function preserveApocalypseUltimateSettings(raw={},previous={}){
  const profiles=raw.monsterProfiles??previous.monsterProfiles??{};
  return {...raw,monsterProfiles:Object.fromEntries(Object.entries(profiles).map(([id,profile])=>{
-  if(!apocalypseLegionBoss(id)||!profile||typeof profile!=='object')return [id,profile];
+  if(!profile||typeof profile!=='object')return [id,profile];
+  profile={...profile,clearBonus:profile.clearBonus??previous.monsterProfiles?.[id]?.clearBonus};
+  if(!apocalypseLegionBoss(id))return [id,profile];
   return [id,{...profile,legionUltimate:{...previous.monsterProfiles?.[id]?.legionUltimate,...profile.legionUltimate},battleSuitSkillDefensePercent:profile.battleSuitSkillDefensePercent??previous.monsterProfiles?.[id]?.battleSuitSkillDefensePercent??apocalypseLegionSuitDefense(id)}];
  }))};
 }
