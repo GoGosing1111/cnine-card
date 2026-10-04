@@ -30,7 +30,7 @@
     "sameFixtureCombatOrderAndFinalState": true
   },
   "validation": {
-    "unitTests": "Passed during development: cooperative room/withdrawal, all three clock versions, mechanics, animation ownership, stale HP guard, Cryvern base-pose restoration, nonblocking support, PVE/PVP result contracts. Final deployment gate repeats only the selected related tests.",
+    "unitTests": "63 unique related regressions passed. The first final gate passed 62/63; its hardcoded support-effect count was updated for the new guard cue. The unchanged runtime then passed the 22-case support/bundle/loader retry, Worker syntax check, production release gate and Hyperdrive cache check. No unrelated full suite was run.",
     "browser": {
       "path": "C:/Users/User/AppData/Local/Temp/cooperative-qa-cRB7lw/responsive-combat",
       "viewports": [
@@ -74,5 +74,25 @@
       "tests/pve-battlefield-entry-v2117.test.mjs"
     ]
   },
-  "deployment": null
+  "deployment": {
+    "source": "981257cc9c3e3c5088b53a0dd6902909b4ac41fb",
+    "pagesUrl": "https://f16b737e.cnine-card.pages.dev",
+    "apiRuntimeVersion": "9bb16132-ae49-4c2a-ad59-1de2f7f088b3",
+    "clanWorkerVersion": "ea2f04fb-447c-46fc-9f71-36a67f16a29b",
+    "command": "npm run deploy:production -- --scoped",
+    "productionVerification": {
+      "origin": "https://cnine-card.pages.dev",
+      "matchingHttp200Files": [
+        "index.html",
+        "js/cooperative-battleground-entry.js",
+        "raid/cooperative/live.mjs",
+        "raid/cooperative/battle.mjs",
+        "js/battle-v3-live.js",
+        "preview/project-v-v3/project-v-pixi-battle.bundle.js"
+      ],
+      "comparison": "SHA-256 after CRLF normalization matches the tested local files",
+      "unauthenticatedCoopFeatureStatus": 401,
+      "livePlayerRoomMutations": 0
+    }
+  }
 }
