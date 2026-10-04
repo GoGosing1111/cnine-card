@@ -1,0 +1,67 @@
+{
+  "deployment": "https://f915c624.cnine-card.pages.dev",
+  "origin": "https://cnine-card.pages.dev",
+  "commit": "db37d646",
+  "checkedAt": "2026-10-04T18:10:45.433Z",
+  "apiRuntime": "ce0ae791-1019-4ac8-9d77-69513350dfc3",
+  "clanWorker": "ce2353b6-0c44-4712-abf5-8ebabe3b4ca8",
+  "scopedTests": {
+    "passed": 51,
+    "failed": 0
+  },
+  "adjacentRegressions": {
+    "passed": 21,
+    "failed": 0
+  },
+  "browser": {
+    "desktop": "1440x1000",
+    "mobile": "390x844",
+    "checks": 21,
+    "normalPvePvpChecks": 2,
+    "pageErrors": 0
+  },
+  "checks": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "8864a974b08751c37f79d906423e2bc2220205af77514345567a96e058979e3a"
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "0238b273150fa9c58069b3455f7193e1e4d42901746ac61e9abd4ae96dd6e72a"
+    },
+    {
+      "file": "js/battle-v2-live.js",
+      "status": 200,
+      "sha256": "564bbdef71ad66f8a462691ebfa7c343c765d8c3221318de4149538ff531ec16"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "status": 200,
+      "sha256": "1af66e2f70075caf45712b1170f3439d537ca43d60f1dc9b390643e9b63e71a1"
+    },
+    {
+      "file": "js/apocalypse-challenge-v1.mjs",
+      "status": 200,
+      "sha256": "ca248f90e99a98745c019eb1833d15ccc718a351959fc54c0b8e2a299c0402d7"
+    },
+    {
+      "file": "js/pve-apocalypse-v1952.js",
+      "status": 200,
+      "sha256": "8b6c0ff59d06c7391df925e7c64a64ec47d3a51e71e5b9436964ba2f9093be1b"
+    },
+    {
+      "file": "js/soopketland-v2039.bundle.js",
+      "status": 200,
+      "sha256": "e1e3b96a61a627004e9e9a0627db875d91c489bfa92f2d4324f3b5d4039e5cd5"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "4c410a7287a83f24c53e2659c19dfb4a99161601fba191f12aa21044ce1fbdc7"
+    }
+  ],
+  "serviceStatus": 200,
+  "unauthenticatedChallenge": 401
+}
