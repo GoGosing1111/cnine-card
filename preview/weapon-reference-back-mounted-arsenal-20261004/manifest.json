@@ -1,0 +1,39 @@
+{
+  "referenceId": "weapon-reference-back-mounted-arsenal-20261004",
+  "recordedDateKst": "2026-10-04",
+  "status": "REFERENCE_SAVED_CREATION_NOT_REQUESTED",
+  "label": "등 장착 복합 중화기",
+  "aliases": ["중화기 백팩", "등 장착 복합 중화기", "개틀링·붉은 코어 포·어깨포·발사 포드 참고"],
+  "userInstruction": "첨부사진 캐릭터에 달려있는 무기를 기억해놔 우리 스타일로 새로 만들거야 지금 만들라는건 아님",
+  "scope": "캐릭터에 장착된 무기의 구성과 배치를 나중 제작용으로 기억한다. 지금은 생성·편집·시안 제작을 시작하지 않는다.",
+  "source": {
+    "file": "source-reference.png",
+    "originalFilename": "codex-clipboard-09645dd4-06a7-402d-ab84-040cc6d22937.png",
+    "sha256": "97B530A175C756A36B3E4985ED8EE652D10D1C4DBC50D3F4FA705283CC89D9A6",
+    "bytes": 778308,
+    "width": 1000,
+    "height": 718,
+    "preservation": "사용자 첨부 PNG를 바이트 그대로 복사. 생성·수정·크롭·재압축 없음."
+  },
+  "observedWeaponDesign": {
+    "orientation": "좌우는 첨부를 보는 화면 기준",
+    "overall": "등 뒤의 기계식 지지 프레임/백팩에 여러 중화기가 연결되어 몸 양옆과 어깨 뒤로 펼쳐지는 착용형 복합 무장. 양손은 허리 높이의 조작 손잡이를 잡는다.",
+    "screenLeft": "허리 옆 대형 다총열 개틀링 두 묶음이 위아래로 겹쳐 있다. 긴 총열 묶음과 둥근 회전부가 옆으로 돌출된다.",
+    "screenRight": "길게 노출된 붉은 발광 코어와 평행한 외곽 레일이 있는 대형 포. 그 아래에는 별도의 굵은 원통형 보조 포가 나란히 붙어 있다.",
+    "behindShoulders": "좌우 어깨 뒤에서 두 개의 긴 포신이 바깥쪽 위로 벌어지며 뻗는다.",
+    "upperBack": "머리 양옆 위에 덮개가 열린 사각 다연장 발사 포드 두 개가 솟아 있다. 각 포드 전면에 여러 원형 발사구가 보인다.",
+    "connections": "등과 허리의 큰 기계 지지부·관절 연결로 무기 무게를 받치는 인상. 얼굴과 몸통을 가운데 두고 상하·좌우 무기 실루엣이 펼쳐진다.",
+    "visibleMaterials": "검정·짙은 회색 금속, 일부 금색 테두리와 붉은 에너지 발광. 이는 첨부의 관찰 기록이며 향후 새 디자인의 색상 확정은 아니다.",
+    "interpretationLimit": "포·발사 포드·에너지 코어라는 명칭은 보이는 형태를 설명한다. 원작의 공식 무기명이나 작동 방식으로 확정하지 않는다."
+  },
+  "futureDirection": {
+    "requested": "이 무기 구성을 참고하여 우리 스타일로 새로 제작한다. 실제 제작은 후속 지시를 기다린다.",
+    "styleReference": "docs/project-v-mercenary-card-art-standard.md",
+    "style": "베스페라 기준의 하이엔드 캐릭터 중심 세미리얼 판타지 스플래시 아트, 정돈된 2D 게임 일러스트 채색과 재질",
+    "existingQualityRule": "각 총몸부터 총열·총구까지 한 개의 강체 축을 유지하고 총신 휨·연결부 꺾임을 만들지 않는다.",
+    "unassigned": ["캐릭터 정체성", "이름", "등급", "스킬·성능", "운영 연결"]
+  },
+  "actionsCompleted": ["첨부 시각 확인", "원본 복사 및 SHA-256 일치 확인", "무기 구성 참고 기록", "AGENTS.md 검색용 포인터 추가"],
+  "creationStarted": false,
+  "runtimeChanges": false
+}
