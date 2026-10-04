@@ -1,6 +1,6 @@
 /* Apocalypse presentation guard: decorate only an actual Apocalypse hunt. */
 (()=>{
-  let recovery;import('./apocalypse-challenge-v1.mjs?v=20261005-wipe2').then(module=>{recovery=module;sync()}).catch(error=>console.warn('아포칼립스 전투 기록을 준비하지 못했습니다.',error));
+  let recovery;import('./apocalypse-challenge-v1.mjs?v=20261005-settlement3').then(module=>{recovery=module;sync()}).catch(error=>console.warn('아포칼립스 전투 기록을 준비하지 못했습니다.',error));
   function sync(){
     recovery?.mountRecovery(document);
     const active=typeof window.selectedPveIsApocalypse==='function'&&window.selectedPveIsApocalypse();

@@ -734,8 +734,11 @@ export class BaseBattleEngine{
     });
     this.backgroundSprite=this.parallaxLayers[0].sprite;
     this.layoutParallax(DESKTOP.width,DESKTOP.height);
-    this.backgroundLayer.addChild(rectangle(DESKTOP.width,DESKTOP.height,0x03060b,.17));
-    this.bottomShade=rectangle(DESKTOP.width,250,0x02040a,.62);
+    this.backgroundShade=rectangle(DESKTOP.width,DESKTOP.height,0x03060b,.17);
+    this.backgroundLayer.addChild(this.backgroundShade);
+    this.bottomShade=new Graphics();
+    // Fade into the roster area without another hard horizontal seam.
+    for(let band=0;band<48;band++)this.bottomShade.rect(0,band*250/48,DESKTOP.width,250/48).fill({color:0x02040a,alpha:.62*((band+1)/48)**1.5});
     this.bottomShade.y=DESKTOP.height-250;
     this.backgroundLayer.addChild(this.bottomShade);
 
@@ -836,9 +839,19 @@ export class BaseBattleEngine{
   }
 
   layoutParallax(width,height){
+    // Actors keep their fit-to-screen scale. Extend only the backdrop through
+    // the root's letterbox margins so the CSS loading image cannot show twice.
+    const screen=this.app?.screen||{width,height};
+    const scale=Math.min(screen.width/width,screen.height/height)||1;
+    // Extra edge pixels also cover the authored camera shake/rotation.
+    const coverWidth=Math.max(width,screen.width/scale)+96,coverHeight=Math.max(height,screen.height/scale)+96;
+    const x=(width-coverWidth)/2,y=(height-coverHeight)/2;
+    this.backdropBounds={x,y,width:coverWidth,height:coverHeight};
+    if(this.backgroundShade){this.backgroundShade.position.set(x,y);this.backgroundShade.width=coverWidth;this.backgroundShade.height=coverHeight}
     this.parallaxLayers.forEach(({sprite,mask,start,end})=>{
-      setCover(sprite,width,height);
-      mask.clear().rect(-48,height*start-4,width+96,height*(end-start)+8).fill(0xffffff);
+      setCover(sprite,coverWidth,coverHeight);
+      sprite.position.set(width/2,height/2);
+      mask.clear().rect(x-48,y+coverHeight*start-4,coverWidth+96,coverHeight*(end-start)+8).fill(0xffffff);
     });
   }
 
@@ -3495,7 +3508,7 @@ export class BaseBattleEngine{
     this.layoutParallax(this.scene.width,this.scene.height);
     this.configureIsometricScene();
     this.drawIsometricFloor();
-    if(this.bottomShade){this.bottomShade.width=this.scene.width;this.bottomShade.height=this.mobile?430:250;this.bottomShade.y=this.scene.height-this.bottomShade.height}
+    if(this.bottomShade){const shadeHeight=this.mobile?430:250,bounds=this.backdropBounds;this.bottomShade.width=bounds.width;this.bottomShade.height=shadeHeight-bounds.y;this.bottomShade.position.set(bounds.x,this.scene.height-shadeHeight)}
     if(this.mobile){
       this.cards.forEach((card,index)=>{card.baseX=47+index*195;card.baseY=1100+[12,5,-5,5,12][index];card.position.set(card.baseX,card.baseY);card.restScale=.78;card.scale.set(card.restScale)});
       this.uiLayer.statusPanel.position.set(225,1354);this.uiLayer.status.position.set(525,1375);

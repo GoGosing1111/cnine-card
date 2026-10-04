@@ -3,7 +3,32 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 const storageKey=()=>`apocalypse-dodge-pending-v1:${window.loadUser?.()?.serverUserId||window.loadUser?.()?.id||''}`;
 function pending(){try{return JSON.parse(localStorage.getItem(storageKey())||'[]').filter(row=>row.expiresAt>Date.now())}catch{return []}}
 function remember(row){try{const rows=pending().filter(item=>item.requestId!==row.requestId);if(!['CLAIMED','FAILED'].includes(row.status))rows.push({requestId:row.requestId,expiresAt:row.expiresAt});localStorage.setItem(storageKey(),JSON.stringify(rows.slice(-20)))}catch{}}
-async function request(action,requestId,body={},keepalive=false){return window.apiRequest(`battle/apocalypse-challenge/${action}`,{method:'POST',body:JSON.stringify({requestId,...body}),keepalive},{timeoutMs:12000,ttl:0})}
+// A heartbeat must not race a dodge answer or settlement under the account lock.
+// Retry only a rejected lock acquisition, always with the same attempt and nonce.
+export function createApocalypseRequestQueue(transport,{pause=wait}={}){
+  let tail=Promise.resolve(),pending=0;
+  const delays=[150,250,400,650,1000,1500];
+  return {
+    get busy(){return pending>0},
+    send(action,requestId,body={},ensure=()=>{}){
+      pending++;
+      const run=async()=>{
+        for(let index=0;;index++){
+          ensure();
+          try{return await transport(action,requestId,body)}catch(error){
+            if(error.code!=='USER_ACTION_IN_PROGRESS'||index>=delays.length)throw error;
+            await pause(delays[index]);
+          }
+        }
+      };
+      const result=tail.then(run);tail=result.catch(()=>{});
+      return result.finally(()=>{pending--});
+    }
+  };
+}
+const send=(action,requestId,body={},keepalive=false)=>window.apiRequest(`battle/apocalypse-challenge/${action}`,{method:'POST',body:JSON.stringify({requestId,...body}),keepalive},{timeoutMs:12000,ttl:0});
+const requests=createApocalypseRequestQueue(send);
+const request=(action,requestId,body={},ensure)=>requests.send(action,requestId,body,ensure);
 function style(){if(document.querySelector('[data-apocalypse-challenge-css]'))return;const link=document.createElement('link');link.rel='stylesheet';link.href='/css/apocalypse-challenge-v1.css?v=20261005';link.dataset.apocalypseChallengeCss='';document.head.append(link)}
 
 // Nonce exists only in this document's memory. Refresh/back/new tabs cannot
@@ -16,9 +41,9 @@ export function beginBattle(){
   const attempt={requestId,runToken,
     ensure(){if(abandoned||(stage&&(!stage.isConnected||!stage.closest('.modal')?.classList.contains('show'))))throw new Error('아포칼립스 전투가 중단되어 패배했습니다.');},
     attach(nextStage){stage=nextStage;this.ensure();observer=new MutationObserver(()=>{if(!stage.isConnected||!stage.closest('.modal')?.classList.contains('show'))attempt.abandon()});observer.observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
-      timer=setInterval(async()=>{if(ended||abandoned||pulsing)return;pulsing=true;try{const result=await request('pulse',requestId,{runToken});if(result.status==='FAILED'){attempt.failure=result;attempt.stopPulse()}}catch{}finally{pulsing=false}},4000);},
+      timer=setInterval(async()=>{if(ended||abandoned||pulsing||requests.busy)return;pulsing=true;try{const result=await request('pulse',requestId,{runToken},()=>attempt.ensure());if(result.status==='FAILED'){attempt.failure=result;attempt.stopPulse()}}catch{}finally{pulsing=false}},4000);},
     stopPulse(){clearInterval(timer);timer=null;},
-    abandon(){if(ended||abandoned)return;abandoned=true;attempt.stopPulse();observer?.disconnect();window.removeEventListener('pagehide',onLeave);void request('abandon',requestId,{},true).then(remember).catch(()=>{});},
+    abandon(){if(ended||abandoned)return;abandoned=true;attempt.stopPulse();observer?.disconnect();window.removeEventListener('pagehide',onLeave);void send('abandon',requestId,{},true).then(remember).catch(()=>{});},
     finish(){ended=true;attempt.stopPulse();observer?.disconnect();window.removeEventListener('pagehide',onLeave);if(window.__activeApocalypseAttempt===attempt)window.__activeApocalypseAttempt=null;}
   };
   const onLeave=()=>attempt.abandon();window.addEventListener('pagehide',onLeave);window.__activeApocalypseAttempt=attempt;return attempt;
@@ -26,7 +51,7 @@ export function beginBattle(){
 function apply(data,result){if(result.serverNow)data._apocalypseServerOffset=Number(result.serverNow)-Date.now();remember(result);data.apocalypseChallenge=result;if(result.settlement)Object.assign(data,result.settlement);if(result.user)data.user=result.user;return result;}
 export async function playDodge({stage,phase,data,apocalypseAttempt:attempt}){
   style();attempt.ensure();const initial=data.apocalypseChallenge;
-  const opened=apply(data,await request('open',initial.requestId,{runToken:attempt.runToken}));
+  const opened=apply(data,await request('open',initial.requestId,{runToken:attempt.runToken},()=>attempt.ensure()));
   if(opened.status==='FAILED'){attempt.stopPulse();return opened.settlement;}
   if(opened.status!=='OPEN')throw new Error('회피 기믹을 시작하지 못했습니다.');
   const remaining=Math.max(0,opened.openedAt+opened.windowMs-Number(opened.serverNow||Date.now()));
@@ -39,7 +64,7 @@ export async function playDodge({stage,phase,data,apocalypseAttempt:attempt}){
     if(selected)return;selected=true;
     panel.querySelectorAll('button').forEach(button=>{button.disabled=true;button.classList.toggle('is-selected',Number(button.dataset.dodgeZone)===zone)});
     feedback.textContent=zone<0?'회피 시간 종료':'이동 결과 확인 중…';
-    answerPromise=request('answer',initial.requestId,{runToken:attempt.runToken,zone}).then(result=>{
+    answerPromise=request('answer',initial.requestId,{runToken:attempt.runToken,zone},()=>attempt.ensure()).then(result=>{
       apply(data,result);if(result.status==='FAILED')attempt.stopPulse();feedback.textContent=result.success?'안전 구역 도착 · 충격파를 피했습니다.':'회피 실패 · 전원 전멸';
     }).catch(error=>{answerError=error;feedback.textContent='입력 결과 연결을 다시 확인합니다.'});
   };
@@ -48,7 +73,7 @@ export async function playDodge({stage,phase,data,apocalypseAttempt:attempt}){
   try{
     while(performance.now()-start<remaining){attempt.ensure();const left=Math.max(0,remaining-(performance.now()-start));panel.querySelector('[data-dodge-time]').textContent=(left/1000).toFixed(1)+'초';panel.querySelector('.apocalypse-dodge-track i').style.width=(left/Math.max(1,remaining)*100)+'%';await wait(60);}
     attempt.ensure();if(!selected)choose(-1);await answerPromise;
-    if(answerError){const recovered=await request('status',initial.requestId);if(!['ANSWERED','FAILED'].includes(recovered.status))throw answerError;apply(data,recovered);}
+    if(answerError){const recovered=await request('status',initial.requestId,{},()=>attempt.ensure());if(!['ANSWERED','FAILED'].includes(recovered.status))throw answerError;apply(data,recovered);}
     await wait(500);attempt.ensure();
     return data.apocalypseChallenge.settlement||null;
   }finally{document.removeEventListener('keydown',onKey);panel.remove();}
@@ -57,7 +82,7 @@ export async function claimBonus({data,stage,apocalypseAttempt:attempt}){
   attempt.ensure();if(data.apocalypseChallenge.status==='FAILED')return;
   const claim=async()=>{
     attempt.ensure();if(attempt.failure){apply(data,attempt.failure);return;}
-    const result=await request('claim',attempt.requestId,{runToken:attempt.runToken,played:true});attempt.ensure();apply(data,result);
+    const result=await request('claim',attempt.requestId,{runToken:attempt.runToken,played:true},()=>attempt.ensure());attempt.ensure();apply(data,result);
     if(!['CLAIMED','FAILED'].includes(result.status))throw new Error('전투 완료 결과를 확인하지 못했습니다.');
     window.clearApiCache?.('inventory');window.clearApiCache?.('shell/summary');return result;
   };

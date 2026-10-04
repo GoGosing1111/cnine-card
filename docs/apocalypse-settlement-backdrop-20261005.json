@@ -1,0 +1,110 @@
+{
+  "date": "2026-10-05",
+  "request": [
+    "아포칼립스 전투 완료 시 같은 계정 요청 처리 중 팝업",
+    "전장 배경의 달·성이 위아래로 중복 표시"
+  ],
+  "findings": [
+    "Heartbeat and settlement POSTs could run concurrently under the account mutation lock. Challenge requests had no transient lock retry, so one rejection immediately opened manual recovery.",
+    "The fitted Pixi combat scene left vertical/horizontal margins, exposing a separately scaled CSS background behind the transparent canvas."
+  ],
+  "changes": [
+    "Serialize challenge requests, skip heartbeat ticks while another request is pending, and retry only USER_ACTION_IN_PROGRESS with bounded backoff and the original request ID/nonce. Recheck same-page validity before each attempt.",
+    "Cover the whole viewport with the existing background while retaining actor scale and layout. Disable CSS fallback after the first ready frame, extend backdrop masks/shading, and cover camera-shake edges. Fade the roster shade without a hard horizontal line."
+  ],
+  "preserved": [
+    "No account lock, server reward, energy, completion receipt, dodge deadline, or abandonment rule changes.",
+    "No new images, character scale changes, source-art changes, or reward grants.",
+    "Latest cooperative visibility and 1x readable tempo update preserved when rebasing."
+  ],
+  "validation": {
+    "browser": {
+      "file": "tests/apocalypse-settlement-backdrop-20261005.browser.mjs",
+      "path": "C:/Users/User/AppData/Local/Temp/apocalypse-settlement-backdrop-final-20261005",
+      "checks": [
+        "1788 ready canvas has no duplicate CSS backdrop",
+        "1788 original actor scale retained",
+        "1788 backdrop covers viewport",
+        "1788 backdrop covers viewport",
+        "1788 backdrop covers viewport",
+        "1788 backdrop masks cover letterbox margins",
+        "1788 uniform backdrop shading through letterbox margins",
+        "1788 exactly one clear after automatic lock retries",
+        "1788 server receipt claimed",
+        "1788 no manual recovery popup",
+        "1788 transient claim collisions injected and recovered",
+        "1788 heartbeat active during real battle",
+        {
+          "viewport": {
+            "width": 1788,
+            "height": 1300
+          },
+          "traffic": {
+            "claimCalls": 3,
+            "collisions": 0,
+            "pulses": 5
+          }
+        },
+        "390 ready canvas has no duplicate CSS backdrop",
+        "390 original actor scale retained",
+        "390 backdrop covers viewport",
+        "390 backdrop covers viewport",
+        "390 backdrop covers viewport",
+        "390 backdrop masks cover letterbox margins",
+        "390 uniform backdrop shading through letterbox margins",
+        "390 exactly one clear after automatic lock retries",
+        "390 server receipt claimed",
+        "390 no manual recovery popup",
+        "390 transient claim collisions injected and recovered",
+        "390 heartbeat active during real battle",
+        {
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "traffic": {
+            "claimCalls": 3,
+            "collisions": 0,
+            "pulses": 5
+          }
+        },
+        "PVE ordinary replay reaches result",
+        "PVP ordinary replay reaches result"
+      ],
+      "errors": []
+    },
+    "finalShading": {
+      "path": "C:/Users/User/AppData/Local/Temp/apocalypse-backdrop-shading-final-20261005",
+      "status": "PASS",
+      "checks": [
+        "1788 ready canvas has no duplicate CSS backdrop",
+        "1788 original actor scale retained",
+        "1788 backdrop covers viewport",
+        "1788 backdrop covers viewport",
+        "1788 backdrop covers viewport",
+        "1788 backdrop masks cover letterbox margins",
+        "1788 uniform backdrop shading through letterbox margins",
+        "390 ready canvas has no duplicate CSS backdrop",
+        "390 original actor scale retained",
+        "390 backdrop covers viewport",
+        "390 backdrop covers viewport",
+        "390 backdrop covers viewport",
+        "390 backdrop masks cover letterbox margins",
+        "390 uniform backdrop shading through letterbox margins"
+      ],
+      "errors": [],
+      "visualReview": "Desktop and mobile final screenshots inspected: single moon/castle backdrop, no letterbox seam or hard roster-shade edge."
+    },
+    "scopedTests": [
+      "tests/apocalypse-request-queue-20261005.test.mjs",
+      "tests/apocalypse-completion-20261005.test.mjs",
+      "tests/pve-battlefield-entry-v2117.test.mjs"
+    ]
+  },
+  "release": {
+    "base": "08035e0e28954335602485cc1e3e44f2e05b8e7a",
+    "baseDeployment": "https://db41ab04.cnine-card.pages.dev",
+    "command": "npm run deploy:production -- --scoped",
+    "reason": "Localized Apocalypse client request ordering and viewport backdrop fix. Verify transient retry/cancellation, server completion atomicity, and shipped renderer loader; PC/mobile battle and ordinary PVE/PVP already checked."
+  }
+}
