@@ -1,0 +1,605 @@
+[
+  {
+    "width": 1440,
+    "cmsSaveReload": true,
+    "mainFusionProfile": true,
+    "cardDetail": true,
+    "errors": []
+  },
+  {
+    "width": 390,
+    "cmsSaveReload": true,
+    "mainFusionProfile": true,
+    "cardDetail": true,
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "mode": "PVP",
+    "role": "ASSASSIN",
+    "complete": true,
+    "returned": true,
+    "diagnostics": {
+      "last": {
+        "code": "ICON-AYOON",
+        "role": "ASSAULT",
+        "eventType": "ICON_SKILL",
+        "serverRows": 1,
+        "appliedRows": 1,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY"
+      },
+      "muzzle": null,
+      "metrics": {
+        "skills": 7,
+        "basics": 22,
+        "serverRows": 29,
+        "appliedRows": 29,
+        "roles": [
+          "ASSAULT",
+          "ASSASSIN",
+          "DEFENSE",
+          "CURSE",
+          "SUPPORT"
+        ]
+      }
+    },
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "mode": "PVP",
+    "role": "ATTACK",
+    "complete": true,
+    "returned": true,
+    "diagnostics": {
+      "last": {
+        "code": "ICON-ORIKKUNG",
+        "role": "CURSE",
+        "eventType": "ICON_SKILL",
+        "serverRows": 1,
+        "appliedRows": 1,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY"
+      },
+      "muzzle": {
+        "cardId": "CN-1C000002",
+        "origin": {
+          "x": 222.00000000000003,
+          "y": 358.3078745
+        },
+        "direction": {
+          "x": 0.9761870601839533,
+          "y": 0.2169304578186534
+        },
+        "team": "ALLY"
+      },
+      "metrics": {
+        "skills": 7,
+        "basics": 25,
+        "serverRows": 35,
+        "appliedRows": 35,
+        "roles": [
+          "ASSAULT",
+          "DEFENSE",
+          "SUPPORT",
+          "ASSASSIN",
+          "CURSE",
+          "ATTACK"
+        ]
+      }
+    },
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "mode": "PVP",
+    "role": "MAGIC",
+    "complete": true,
+    "returned": true,
+    "diagnostics": {
+      "last": {
+        "code": "ICON-NAMUNEUL-BONGSOON",
+        "role": "MAGIC",
+        "eventType": "ICON_SKILL",
+        "serverRows": 1,
+        "appliedRows": 1,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY"
+      },
+      "muzzle": {
+        "cardId": "CN-1C000002",
+        "origin": {
+          "x": 1168,
+          "y": 534.5483250000001
+        },
+        "direction": {
+          "x": -0.9761870601839535,
+          "y": 0.21693045781865264
+        },
+        "team": "ENEMY"
+      },
+      "metrics": {
+        "skills": 8,
+        "basics": 18,
+        "serverRows": 31,
+        "appliedRows": 31,
+        "roles": [
+          "ASSAULT",
+          "DEFENSE",
+          "ASSASSIN",
+          "MAGIC",
+          "ATTACK"
+        ]
+      }
+    },
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "mode": "PVP",
+    "role": "SUPPORT",
+    "complete": true,
+    "returned": true,
+    "diagnostics": {
+      "last": {
+        "code": "ICON-AYOON",
+        "role": "ASSAULT",
+        "eventType": "ICON_SKILL",
+        "serverRows": 1,
+        "appliedRows": 1,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY"
+      },
+      "muzzle": {
+        "cardId": "CN-1C000002",
+        "origin": {
+          "x": 958.0000000000001,
+          "y": 358.40798900000004
+        },
+        "direction": {
+          "x": -0.976187060183952,
+          "y": 0.21693045781865916
+        },
+        "team": "ENEMY"
+      },
+      "metrics": {
+        "skills": 9,
+        "basics": 18,
+        "serverRows": 32,
+        "appliedRows": 32,
+        "roles": [
+          "ASSAULT",
+          "ASSASSIN",
+          "DEFENSE",
+          "SUPPORT",
+          "MAGIC",
+          "ATTACK"
+        ]
+      }
+    },
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "mode": "PVP",
+    "role": "CURSE",
+    "complete": true,
+    "returned": true,
+    "diagnostics": {
+      "last": {
+        "code": "ICON-ORIKKUNG",
+        "role": "CURSE",
+        "eventType": "ICON_SKILL",
+        "serverRows": 1,
+        "appliedRows": 1,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY"
+      },
+      "muzzle": {
+        "cardId": "CN-1C000002",
+        "origin": {
+          "x": 432.00000000000006,
+          "y": 534.6538045000001
+        },
+        "direction": {
+          "x": 0.9761870601839533,
+          "y": 0.21693045781865314
+        },
+        "team": "ALLY"
+      },
+      "metrics": {
+        "skills": 6,
+        "basics": 18,
+        "serverRows": 29,
+        "appliedRows": 29,
+        "roles": [
+          "ASSAULT",
+          "ASSASSIN",
+          "MAGIC",
+          "CURSE",
+          "ATTACK",
+          "SUPPORT"
+        ]
+      }
+    },
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "mode": "PVP",
+    "role": "DEFENSE",
+    "complete": true,
+    "returned": true,
+    "diagnostics": {
+      "last": {
+        "code": "ICON-ORIKKUNG",
+        "role": "CURSE",
+        "eventType": "ICON_SKILL",
+        "serverRows": 1,
+        "appliedRows": 1,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY"
+      },
+      "muzzle": {
+        "cardId": "CN-1C000002",
+        "origin": {
+          "x": 642,
+          "y": 358.387104
+        },
+        "direction": {
+          "x": 0.9761870601839528,
+          "y": 0.21693045781865591
+        },
+        "team": "ALLY"
+      },
+      "metrics": {
+        "skills": 8,
+        "basics": 19,
+        "serverRows": 34,
+        "appliedRows": 34,
+        "roles": [
+          "ASSAULT",
+          "SUPPORT",
+          "ASSASSIN",
+          "DEFENSE",
+          "ATTACK",
+          "MAGIC",
+          "CURSE"
+        ]
+      }
+    },
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "mode": "PVP",
+    "role": "ASSAULT",
+    "complete": true,
+    "returned": true,
+    "diagnostics": {
+      "last": {
+        "code": "ICON-OH-JOEUN",
+        "role": "SUPPORT",
+        "eventType": "ICON_SKILL",
+        "serverRows": 1,
+        "appliedRows": 1,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY"
+      },
+      "muzzle": {
+        "cardId": "CN-1C000002",
+        "origin": {
+          "x": 642,
+          "y": 182.6314305
+        },
+        "direction": {
+          "x": 0.9761870601839528,
+          "y": 0.21693045781865591
+        },
+        "team": "ALLY"
+      },
+      "metrics": {
+        "skills": 8,
+        "basics": 18,
+        "serverRows": 31,
+        "appliedRows": 31,
+        "roles": [
+          "ASSAULT",
+          "SUPPORT",
+          "ASSASSIN",
+          "DEFENSE",
+          "MAGIC",
+          "CURSE"
+        ]
+      }
+    },
+    "errors": []
+  },
+  {
+    "width": 390,
+    "mode": "PVE",
+    "role": "ASSASSIN",
+    "complete": true,
+    "returned": true,
+    "diagnostics": {
+      "last": {
+        "code": "ICON-DIIM",
+        "role": "ASSASSIN",
+        "eventType": "ICON_SKILL",
+        "serverRows": 2,
+        "appliedRows": 2,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY"
+      },
+      "muzzle": {
+        "cardId": "CN-1C000002",
+        "origin": {
+          "x": 211.42723382557378,
+          "y": 673.2819089895738
+        },
+        "direction": {
+          "x": 0.9770259409038305,
+          "y": 0.21312041385325914
+        },
+        "team": "ALLY"
+      },
+      "metrics": {
+        "skills": 11,
+        "basics": 33,
+        "serverRows": 51,
+        "appliedRows": 51,
+        "roles": [
+          "ASSASSIN",
+          "MAGIC",
+          "SUPPORT",
+          "CURSE",
+          "ATTACK"
+        ]
+      }
+    },
+    "errors": []
+  },
+  {
+    "width": 390,
+    "mode": "PVE",
+    "role": "ATTACK",
+    "complete": true,
+    "returned": true,
+    "diagnostics": {
+      "last": {
+        "code": "ICON-ORIKKUNG",
+        "role": "CURSE",
+        "eventType": "ICON_SKILL",
+        "serverRows": 1,
+        "appliedRows": 1,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY"
+      },
+      "muzzle": {
+        "cardId": "CN-1C000002",
+        "origin": {
+          "x": 211.0098360655738,
+          "y": 1272.9245955655736
+        },
+        "direction": {
+          "x": 0.9761870601839544,
+          "y": 0.21693045781864864
+        },
+        "team": "ALLY"
+      },
+      "metrics": {
+        "skills": 10,
+        "basics": 33,
+        "serverRows": 47,
+        "appliedRows": 47,
+        "roles": [
+          "DEFENSE",
+          "MAGIC",
+          "SUPPORT",
+          "ATTACK",
+          "CURSE"
+        ]
+      }
+    },
+    "errors": []
+  },
+  {
+    "width": 390,
+    "mode": "PVE",
+    "role": "MAGIC",
+    "complete": true,
+    "returned": true,
+    "diagnostics": {
+      "last": {
+        "code": "ICON-NAMUNEUL-BONGSOON",
+        "role": "MAGIC",
+        "eventType": "ICON_SKILL",
+        "serverRows": 1,
+        "appliedRows": 1,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY"
+      },
+      "muzzle": null,
+      "metrics": {
+        "skills": 12,
+        "basics": 34,
+        "serverRows": 46,
+        "appliedRows": 46,
+        "roles": [
+          "ASSAULT",
+          "DEFENSE",
+          "CURSE",
+          "MAGIC",
+          "SUPPORT"
+        ]
+      }
+    },
+    "errors": []
+  },
+  {
+    "width": 390,
+    "mode": "PVE",
+    "role": "SUPPORT",
+    "complete": true,
+    "returned": true,
+    "diagnostics": {
+      "last": {
+        "code": "ICON-OH-JOEUN",
+        "role": "SUPPORT",
+        "eventType": "ICON_SKILL",
+        "serverRows": 1,
+        "appliedRows": 1,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY"
+      },
+      "muzzle": null,
+      "metrics": {
+        "skills": 11,
+        "basics": 34,
+        "serverRows": 47,
+        "appliedRows": 47,
+        "roles": [
+          "ASSAULT",
+          "ASSASSIN",
+          "DEFENSE",
+          "CURSE",
+          "SUPPORT"
+        ]
+      }
+    },
+    "errors": []
+  },
+  {
+    "width": 390,
+    "mode": "PVE",
+    "role": "CURSE",
+    "complete": true,
+    "returned": true,
+    "diagnostics": {
+      "last": {
+        "code": "ICON-DIIM",
+        "role": "ASSASSIN",
+        "eventType": "ICON_SKILL",
+        "serverRows": 1,
+        "appliedRows": 1,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY"
+      },
+      "muzzle": {
+        "cardId": "CN-1C000002",
+        "origin": {
+          "x": 211.00983606557384,
+          "y": 1572.9020165155735
+        },
+        "direction": {
+          "x": 0.9761870601839497,
+          "y": 0.2169304578186695
+        },
+        "team": "ALLY"
+      },
+      "metrics": {
+        "skills": 12,
+        "basics": 31,
+        "serverRows": 49,
+        "appliedRows": 49,
+        "roles": [
+          "ASSAULT",
+          "ASSASSIN",
+          "DEFENSE",
+          "CURSE",
+          "ATTACK"
+        ]
+      }
+    },
+    "errors": []
+  },
+  {
+    "width": 390,
+    "mode": "PVE",
+    "role": "DEFENSE",
+    "complete": true,
+    "returned": true,
+    "diagnostics": {
+      "last": {
+        "code": "ICON-NAMUNEUL-BONGSOON",
+        "role": "MAGIC",
+        "eventType": "ICON_SKILL",
+        "serverRows": 1,
+        "appliedRows": 1,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY"
+      },
+      "muzzle": {
+        "cardId": "CN-1C000002",
+        "origin": {
+          "x": 427.0098360655737,
+          "y": 1272.5700725655736
+        },
+        "direction": {
+          "x": 0.976187060183953,
+          "y": 0.2169304578186558
+        },
+        "team": "ALLY"
+      },
+      "metrics": {
+        "skills": 11,
+        "basics": 30,
+        "serverRows": 47,
+        "appliedRows": 47,
+        "roles": [
+          "ASSAULT",
+          "ASSASSIN",
+          "DEFENSE",
+          "ATTACK",
+          "MAGIC"
+        ]
+      }
+    },
+    "errors": []
+  },
+  {
+    "width": 390,
+    "mode": "PVE",
+    "role": "ASSAULT",
+    "complete": true,
+    "returned": true,
+    "diagnostics": {
+      "last": {
+        "code": "ICON-HI-HEEYA",
+        "role": "ATTACK",
+        "eventType": "ICON_SKILL",
+        "serverRows": 1,
+        "appliedRows": 1,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY"
+      },
+      "muzzle": {
+        "cardId": "CN-1C000002",
+        "origin": {
+          "x": 212.2441247055738,
+          "y": 974.2863119215734
+        },
+        "direction": {
+          "x": 0.9786008383048225,
+          "y": 0.20576782855708683
+        },
+        "team": "ALLY"
+      },
+      "metrics": {
+        "skills": 11,
+        "basics": 33,
+        "serverRows": 50,
+        "appliedRows": 50,
+        "roles": [
+          "ASSAULT",
+          "ASSASSIN",
+          "ATTACK",
+          "SUPPORT",
+          "MAGIC"
+        ]
+      }
+    },
+    "errors": []
+  }
+]

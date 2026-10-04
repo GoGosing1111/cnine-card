@@ -44,6 +44,7 @@ import { handleEquipment,userEquipmentBonuses,grantEquipmentDrop,publicEquippedT
 import { ensureSkillChipFoundation } from '../_skill_chips.js';
 import {handleMercenaryCms} from '../_mercenary_cms.js';
 import {handleIconCms} from '../_icon_cms.js';
+import {handleIconRoles} from '../_icon_roles.js';
 import {handlePetCompanionCms} from '../_pet_companion_cms.js';
 import {handlePetEquipment} from '../_pet_equipment.js';
 import {handlePetOpening,ensurePetOpeningItems,openPetSeal} from '../_pet_opening.js';
@@ -5059,6 +5060,7 @@ async function handleRequest(context){
     const forgeRuntimeResponse=await handleForgeRuntime({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(forgeRuntimeResponse)return forgeRuntimeResponse;
     const forgePublicResponse=await handleEquipmentForgePublic({path,request,env,deps:{authenticate,requirePermission,json}});if(forgePublicResponse)return forgePublicResponse;
     const mercenaryCmsResponse=await handleMercenaryCms({path,request,env,deps:{requirePermission,json}});if(mercenaryCmsResponse)return mercenaryCmsResponse;
+    const iconRolesResponse=await handleIconRoles({path,request,env,deps:{requirePermission,json}});if(iconRolesResponse)return iconRolesResponse;
     const iconCmsResponse=await handleIconCms({path,request,env,deps:{requirePermission,json}});if(iconCmsResponse)return iconCmsResponse;
     const petCompanionCmsResponse=await handlePetCompanionCms({path,request,env,deps:{requirePermission,json}});if(petCompanionCmsResponse)return petCompanionCmsResponse;
     const petEquipmentResponse=await handlePetEquipment({path,request,env,deps:{authenticate,requirePermission,json}});if(petEquipmentResponse)return petEquipmentResponse;

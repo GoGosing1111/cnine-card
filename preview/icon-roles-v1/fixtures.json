@@ -1,0 +1,104 @@
+{
+  "version": "20261004-rpg-v1",
+  "authority": "SERVER_SIMULATION_OFFLINE_NO_REWARDS",
+  "results": [
+    {
+      "code": "ICON-DIIM",
+      "mode": "PVE",
+      "file": "icon-diim-pve.json",
+      "actions": 51,
+      "casts": 3
+    },
+    {
+      "code": "ICON-DIIM",
+      "mode": "PVP",
+      "file": "icon-diim-pvp.json",
+      "actions": 30,
+      "casts": 1
+    },
+    {
+      "code": "ICON-HI-HEEYA",
+      "mode": "PVE",
+      "file": "icon-hi-heeya-pve.json",
+      "actions": 49,
+      "casts": 2
+    },
+    {
+      "code": "ICON-HI-HEEYA",
+      "mode": "PVP",
+      "file": "icon-hi-heeya-pvp.json",
+      "actions": 30,
+      "casts": 1
+    },
+    {
+      "code": "ICON-NAMUNEUL-BONGSOON",
+      "mode": "PVE",
+      "file": "icon-namuneul-bongsoon-pve.json",
+      "actions": 54,
+      "casts": 2
+    },
+    {
+      "code": "ICON-NAMUNEUL-BONGSOON",
+      "mode": "PVP",
+      "file": "icon-namuneul-bongsoon-pvp.json",
+      "actions": 32,
+      "casts": 1
+    },
+    {
+      "code": "ICON-OH-JOEUN",
+      "mode": "PVE",
+      "file": "icon-oh-joeun-pve.json",
+      "actions": 50,
+      "casts": 2
+    },
+    {
+      "code": "ICON-OH-JOEUN",
+      "mode": "PVP",
+      "file": "icon-oh-joeun-pvp.json",
+      "actions": 30,
+      "casts": 1
+    },
+    {
+      "code": "ICON-ORIKKUNG",
+      "mode": "PVE",
+      "file": "icon-orikkung-pve.json",
+      "actions": 50,
+      "casts": 2
+    },
+    {
+      "code": "ICON-ORIKKUNG",
+      "mode": "PVP",
+      "file": "icon-orikkung-pvp.json",
+      "actions": 25,
+      "casts": 1
+    },
+    {
+      "code": "ICON-KANGGUYEOL",
+      "mode": "PVE",
+      "file": "icon-kangguyeol-pve.json",
+      "actions": 46,
+      "casts": 2
+    },
+    {
+      "code": "ICON-KANGGUYEOL",
+      "mode": "PVP",
+      "file": "icon-kangguyeol-pvp.json",
+      "actions": 30,
+      "casts": 1
+    },
+    {
+      "code": "ICON-AYOON",
+      "mode": "PVE",
+      "file": "icon-ayoon-pve.json",
+      "actions": 51,
+      "casts": 3
+    },
+    {
+      "code": "ICON-AYOON",
+      "mode": "PVP",
+      "file": "icon-ayoon-pvp.json",
+      "actions": 31,
+      "casts": 1
+    }
+  ]
+}

@@ -5,6 +5,7 @@ import path from 'node:path';
 import {iconFusionFixture} from './helpers/icon-fusion-db.mjs';
 import {handleIconFusion,runIconFusion} from '../functions/_icon_fusion.js';
 import {handleIconCms} from '../functions/_icon_cms.js';
+import {handleIconRoles} from '../functions/_icon_roles.js';
 import {ICON_LIVE_CARDS} from '../shared/icon-fusion-policy-v1.mjs';
 const root=path.resolve(import.meta.dirname,'..'),port=Number(process.env.ICON_QA_PORT||8977),origin=`http://127.0.0.1:${port}`;
 let f,roll=0,posts=0,lose=false;
@@ -21,14 +22,14 @@ const server=http.createServer(async(req,res)=>{try{
  if(url.pathname==='/__qa/reset'&&req.method==='POST'){await reset();return send(res,200,{ok:true});}
  if(url.pathname==='/__qa/control'&&req.method==='POST'){const c=JSON.parse(body);roll=c.roll??roll;lose=c.lose===true;if(c.video)await f.setting('icon_fusion_settings_v1',{revision:1,enabled:true,successVideoUrl:'/assets/videos/qa-missing.mp4',successVideoDurationMs:1000});if(typeof c.enabled==='boolean')await f.setting('icon_fusion_settings_v1',{revision:1,enabled:c.enabled,successVideoUrl:'',successVideoDurationMs:12000});if(c.rearm)await f.p("UPDATE user_cards SET breakthrough_level=13 WHERE card_id IN ('CN-SUPER','CN-FUR')").run();return send(res,200,{ok:true});}
  if(url.pathname==='/__qa/state')return send(res,200,{...await f.snapshot(),posts});
- if(url.pathname==='/__qa/cms')return send(res,200,`<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><link rel="stylesheet" href="/admin/admin-v945.css"><link rel="stylesheet" href="/css/icon-grade-v1.css"><link rel="stylesheet" href="/admin/icon-admin-v1.css"><style>body{display:block;background:#0a0d14;color:#fff;padding:16px}main{max-width:1320px;margin:auto}</style><main id="root"></main><script>localStorage.setItem('cnine_admin_token','local-account-7');</script><script type="module">import {mountIconCms} from '/admin/icon-admin-v1.mjs';mountIconCms(document.querySelector('#root'));</script></html>`,'text/html; charset=utf-8');
+ if(url.pathname==='/__qa/cms')return send(res,200,`<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><link rel="stylesheet" href="/admin/admin-v945.css"><link rel="stylesheet" href="/css/icon-grade-v1.css"><link rel="stylesheet" href="/css/icon-roles-v1.css"><link rel="stylesheet" href="/admin/icon-admin-v1.css"><style>body{display:block;background:#0a0d14;color:#fff;padding:16px}main{max-width:1320px;margin:auto}</style><main id="root"></main><script>localStorage.setItem('cnine_admin_token','local-account-7');</script><script type="module">import {mountIconCms} from '/admin/icon-admin-v1.mjs';mountIconCms(document.querySelector('#root'));</script></html>`,'text/html; charset=utf-8');
  if(url.pathname.startsWith('/api/')){
   const apiPath=url.pathname.slice(5),request=new Request(url,{method:req.method,headers:req.headers,...(body.length?{body}: {})});
   if(apiPath==='icons/fusion'&&req.method==='POST'){
    posts++;const result=await f.deps.withUserMutationLock(f.env,7,apiPath,()=>runIconFusion(f.env,f.user,JSON.parse(body),{randomInt:()=>roll}));
    if(lose){lose=false;return send(res,503,{error:'QA lost acknowledgement',retryable:true});}return send(res,200,result);
   }
-  const response=await handleIconFusion({path:apiPath,request,env:f.env,deps:f.deps})||await handleIconCms({path:apiPath,request,env:f.env,deps:f.deps});
+  const response=await handleIconFusion({path:apiPath,request,env:f.env,deps:f.deps})||await handleIconCms({path:apiPath,request,env:f.env,deps:f.deps})||await handleIconRoles({path:apiPath,request,env:f.env,deps:f.deps});
   if(response)return send(res,response.status,await response.json());
   if(['me','me/summary'].includes(apiPath))return send(res,200,{user:await profile(),prison:{incarcerated:false}});
   if(apiPath==='me/collection')return send(res,200,{collection:await profile()});

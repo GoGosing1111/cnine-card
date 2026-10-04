@@ -1,0 +1,84 @@
+{
+  "version": "20261004-rpg-v1",
+  "method": "One ICON in rear slot 3, four neutral allies, equal-power neutral five-card opponent. 80 seeds, both sides. Diagnostic comparison, not a live ladder win-rate forecast.",
+  "pvpBattles": 1120,
+  "rows": [
+    {
+      "role": "ASSASSIN",
+      "name": "디임",
+      "pvpBattles": 160,
+      "wins": 104,
+      "winPercent": 65,
+      "averageCasts": 1.2,
+      "unresolved": 0,
+      "maxEvents": 59,
+      "pveCasts": 48
+    },
+    {
+      "role": "ATTACK",
+      "name": "하이희야",
+      "pvpBattles": 160,
+      "wins": 97,
+      "winPercent": 60.625,
+      "averageCasts": 0.91875,
+      "unresolved": 0,
+      "maxEvents": 54,
+      "pveCasts": 40
+    },
+    {
+      "role": "MAGIC",
+      "name": "나무늘봉순",
+      "pvpBattles": 160,
+      "wins": 108,
+      "winPercent": 67.5,
+      "averageCasts": 0.81875,
+      "unresolved": 0,
+      "maxEvents": 50,
+      "pveCasts": 32
+    },
+    {
+      "role": "SUPPORT",
+      "name": "오조은",
+      "pvpBattles": 160,
+      "wins": 73,
+      "winPercent": 45.625,
+      "averageCasts": 1.06875,
+      "unresolved": 0,
+      "maxEvents": 57,
+      "pveCasts": 46
+    },
+    {
+      "role": "CURSE",
+      "name": "오리꿍",
+      "pvpBattles": 160,
+      "wins": 97,
+      "winPercent": 60.625,
+      "averageCasts": 0.9125,
+      "unresolved": 0,
+      "maxEvents": 61,
+      "pveCasts": 38
+    },
+    {
+      "role": "DEFENSE",
+      "name": "강구열",
+      "pvpBattles": 160,
+      "wins": 80,
+      "winPercent": 50,
+      "averageCasts": 1.0625,
+      "unresolved": 0,
+      "maxEvents": 57,
+      "pveCasts": 48
+    },
+    {
+      "role": "ASSAULT",
+      "name": "아윤",
+      "pvpBattles": 160,
+      "wins": 124,
+      "winPercent": 77.5,
+      "averageCasts": 1.5,
+      "unresolved": 0,
+      "maxEvents": 53,
+      "pveCasts": 48
+    }
+  ]
+}

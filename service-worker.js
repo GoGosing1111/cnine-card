@@ -4,7 +4,7 @@
 // Z-BODY dash V2: approved 245 ms contact, 640 ms motion and authored wake/cut FX.
 // Inventory UI v2125: shared navy panels and compact item selection.
 // S-BODY / Z-BODY resources v2124; battle scripts keep network-first refresh.
-const SHELL_CACHE='soop-card-shell-v2108-shared-navigation-ranked-reform-20261002-retired-20261001-gift-recovery-ranked-energy150-furFrames14-15-pingdu-thanks-open-20261002-hp-sync-20261002-cube-retirement-20261003-territory-battlefield-v5-mine-20261003-limited-visuals-20261004-magic-s2-preview-20261004-lich-weekly3-20261004-lich-input-unlock-20261004-lich-seal-batch-20261004-newgift14-20261004-forge-reveal-20261004-craft-repair';
+const SHELL_CACHE='soop-card-shell-v2108-shared-navigation-ranked-reform-20261002-retired-20261001-gift-recovery-ranked-energy150-furFrames14-15-pingdu-thanks-open-20261002-hp-sync-20261002-cube-retirement-20261003-territory-battlefield-v5-mine-20261003-limited-visuals-20261004-magic-s2-preview-20261004-lich-weekly3-20261004-lich-input-unlock-20261004-lich-seal-batch-20261004-newgift14-20261004-forge-reveal-20261004-craft-repair-icon-rpg-20261004';
 const CONTENT_CACHE='soop-card-content-v3-media-integrity';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';

@@ -1,4 +1,5 @@
 import {MAGIC_S2_RULES,magicS2Card,magicS2Params,MAGIC_S2_MIRROR_ALLOW} from '../shared/magic-season2-v1.mjs';
+import {iconHealingAmount} from '../shared/icon-roles-v1.mjs';
 const living=a=>a&&a.alive!==false&&a.hp>0;
 const regular=a=>a&&!a.isMercenary&&!a.isMonster&&!a.isBattleSuit&&a.actorKind!=='BATTLE_SUIT'&&!a.isEscortObjective;
 const order=(a,b)=>a.slot-b.slot||String(a.id).localeCompare(String(b.id));
@@ -89,7 +90,7 @@ export function createMagicSeason2Runtime({teams,loadouts,emit,rawDamage,knockou
  }
  function heal(target,requested,{allowOvertime=false}={}){
   if(!living(target)||!allowOvertime&&!isHealingAllowed())return 0;
-  const approved=n(spendHeal(target.side,n(requested))),actual=Math.min(approved,Math.max(0,target.maxHp-target.hp));
+  const approved=n(spendHeal(target.side,iconHealingAmount(target,n(requested)))),actual=Math.min(approved,Math.max(0,target.maxHp-target.hp));
   target.hp+=actual;healed(target,approved,actual);return actual;
  }
  function afterDamage(target,result,options={}){

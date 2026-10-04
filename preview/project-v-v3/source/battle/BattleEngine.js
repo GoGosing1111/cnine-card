@@ -24,6 +24,8 @@ import {withOccupiedGrid} from './OccupiedGridLayout.js';
 import {withMercenaryBattle} from './MercenaryCombatPlayback.js';
 import {preloadCooperativeArke,playCooperativeArkeAttack,playCooperativeWatcherAttack,playCooperativeArkeMechanic} from './CooperativeArkePlayback.js';
 import {bindCooperativeEnemy,cooperativeSnapshot,spawnCooperativeEnemy} from './CooperativeEncounter.js';
+import {preloadIconPlayback,playIconEvent,playIconBasic,disposeIconPlayback} from './IconRolePlayback.js';
+import {iconDefinition} from '../../../../shared/icon-roles-v1.mjs';
 
 const DESKTOP={width:1600,height:820};
 const MOBILE={width:1050,height:1500};
@@ -612,6 +614,7 @@ export class BaseBattleEngine{
     // All critical Pixi/character work is complete. Warm the compact combat
     // sprite outside mount() so first-frame readiness never awaits audio.
     this.audio?.schedulePreload?.(60);
+    preloadIconPlayback(this);
     return this;
   }
 
@@ -2674,6 +2677,7 @@ export class BaseBattleEngine{
       this.updateStatus('공격 가능한 생존 대상이 없습니다.');
       return Promise.resolve(false);
     }
+    if(iconDefinition(actor.cardId))return playIconBasic(this,actor,victim,{damage,targetHp,targetShield,critical,onImpact});
     if(this.coopArkeBattlefield&&actor.team===TEAM.ENEMY&&actor.coopFinalBoss)return playCooperativeArkeAttack(this,actor,victim,{damage,targetHp,targetShield,critical,onImpact});
     if(this.coopArkeBattlefield&&actor.team===TEAM.ENEMY&&actor.attackStyle==='RANGED')return playCooperativeWatcherAttack(this,actor,victim,{damage,targetHp,targetShield,onImpact});
     const actorView=actor.root;
@@ -3123,6 +3127,7 @@ export class BaseBattleEngine{
       }
       else if(type==='APOCALYPSE_SKILL')await playApocalypseLegionSkill(this,event);
       else if(type==='APOCALYPSE_STATUS')showApocalypseStatus(this,event);
+      else if(type.startsWith('ICON_'))await playIconEvent(this,event);
       else if(type==='COOP_MECHANIC'&&this.coopArkeBattlefield)await playCooperativeArkeMechanic(this,event);
       else if(type==='ESCORT_OBJECTIVE_ATTACK')await this.escortObjectiveAttack(event);
       else if(type==='ESCORT_OBJECTIVE_RECOVERY'){
@@ -3544,6 +3549,7 @@ export class BaseBattleEngine{
       layerOrder:this.stage?.children.map(layer=>layer.label)||[],
       backgroundDepth:this.parallaxLayers.map(item=>({layer:item.label,coefficient:item.coefficient})),
       cooperativePlayback:this.lastCoopPlayback||null,
+      iconRoles:{last:this.lastIconPlayback||null,muzzle:this.lastIconMuzzle||null,metrics:this.iconPlaybackMetrics||null},
       battlefield:{
         mode:this.activeBattlefieldMode,
         asset:this.activeBattlefieldAsset,
@@ -3656,6 +3662,7 @@ export class BaseBattleEngine{
     this.onEffectSceneDestroy?.();this.onEffectSceneDestroy=null;
     this.cancelTimelines();
     document.removeEventListener('visibilitychange',this.onVisibility);
+    disposeIconPlayback(this);
     if(this.moteTicker)this.app?.ticker.remove(this.moteTicker);
     if(this.parallaxTicker)this.app?.ticker.remove(this.parallaxTicker);
     if(this.depthTicker)this.app?.ticker.remove(this.depthTicker);

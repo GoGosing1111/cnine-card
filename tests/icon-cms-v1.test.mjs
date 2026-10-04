@@ -71,7 +71,7 @@ test('seven original portraits and SDs stay separate; every character has a dist
 });
 test('effect draft CMS remains OWNER-only and separate from the approved live fusion release',async()=>{
   const api=await read('functions/api/[[path]].js'),admin=await read('admin/index.html'),ui=await read('admin/icon-admin-v1.mjs');
-  assert.match(api,/handleIconCms\(\{path,request,env,deps:\{requirePermission,json\}\}\)/);assert.match(admin,/icon-admin-v1.mjs\?v=20260930/);
+  assert.match(api,/handleIconCms\(\{path,request,env,deps:\{requirePermission,json\}\}\)/);assert.match(admin,/icon-admin-v1.mjs\?v=20261004-rpg-v1/);
   for(const path of ['index.html','js/app.js','functions/_magic.js','service-worker.js','js/battle-v3-live.js'])assert.doesNotMatch(await read(path),/icon-cms|icon-admin|icon-card-roster|icon-battle-assets/);
   assert.match(ui,/role.textContent.trim\(\)!=='OWNER'/);assert.doesNotMatch(ui,/setInterval|Promise.all/);
   assert.match(ui,/pending=\{requestId:crypto.randomUUID/);assert.match(ui,/body:JSON.stringify\(pending\)/);assert.match(ui,/closePlayback/);

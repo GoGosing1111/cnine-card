@@ -1,5 +1,6 @@
 import {BERKAN_CODE,BERKAN_SKILL_ID,BERKAN_CAP_SCALE,BERKAN_MECHANIC,BERKAN_AREA_MECHANIC,isBerkanAreaSkill,BERKAN_TEMPO,berkanActionCredit,berkanPvpBasicDamageScale,berkanStarfallCapScale} from '../shared/mercenary-berkan-v1.mjs';
 import {resolveBerkanStarfall,resolveBerkanArrowRain} from './_mercenary_berkan.js';
+import {iconHealingAmount} from '../shared/icon-roles-v1.mjs';
 import {SNIPER_ORIKKUNG_SKILL_ID,SNIPER_ORIKKUNG_CAP_SCALE} from '../shared/mercenary-sniper-orikkung-v1.mjs';
 import {resolveCryvernCrown} from './_mercenary_cryvern.js';
 import {CRYVERN_SKILL_ID,CRYVERN_CAP_SCALE,cryvernPvpBasicDamageScale,cryvernCrownCapScale} from '../shared/mercenary-cryvern-v1.mjs';
@@ -239,7 +240,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
     const budget=Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio),share=Math.floor(budget/p.targets.length);
     const heals=ts.map(t=>{
      const reduction=Math.max(0,Math.min(100,Number(t.healingReductionPercent)||0));
-     const requested=apocalypseHealing(t,Math.floor(share*(1-reduction/100))),converted=season2?.heal?.(t,requested),amount=converted??Math.max(0,Math.min(t.maxHp-t.hp,requested));
+     const requested=apocalypseHealing(t,Math.floor(share*(1-reduction/100))),converted=season2?.heal?.(t,requested),amount=converted??Math.max(0,Math.min(t.maxHp-t.hp,iconHealingAmount(t,requested)));
      if(converted==null)t.hp+=amount;a.healingDone+=amount;
      return {targetId:t.id,amount,targetHpAfter:t.hp,targetMaxHp:t.maxHp};
     });
@@ -296,7 +297,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
    case 'FRONT_OFFENSE_VEIL':once(t=>{table(debuffs,t).veil={percent:c.veilPercent};send(a,s,'DEBUFF',t,{effect:'OFFENSIVE_SKILL_ONLY'});});break;
    case 'CLEANSE_THEN_MEND':
     if(!p.step){const removed=cleanse(ts[0],true);send(a,s,'CLEANSE',ts[0],{removed});p.step=1;p.due=a.actions+1;break;}
-    once(t=>{const requested=Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio*(1-Math.min(100,Number(t.healingReductionPercent||0))/100)),converted=season2?.heal?.(t,apocalypseHealing(t,requested)),amount=converted??apocalypseHealing(t,Math.min(t.maxHp-t.hp,requested));if(converted==null)t.hp+=amount;a.healingDone+=amount;send(a,s,'HEAL',t,{amount,targetHpAfter:t.hp,targetMaxHp:t.maxHp});});break;
+    once(t=>{const requested=Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio*(1-Math.min(100,Number(t.healingReductionPercent||0))/100)),converted=season2?.heal?.(t,apocalypseHealing(t,requested)),amount=converted??apocalypseHealing(t,Math.min(t.maxHp-t.hp,iconHealingAmount(t,requested)));if(converted==null)t.hp+=amount;a.healingDone+=amount;send(a,s,'HEAL',t,{amount,targetHpAfter:t.hp,targetMaxHp:t.maxHp});});break;
    case 'BREAK_ARMOR_WINDOW':once(t=>{const hadShield=t.shield>0;strike(a,s,t);if(hadShield&&living(t)){const d=table(debuffs,t),original=d.armor?.original??t.defense;d.armor={original,expires:t.actions+c.statusTurns};t.defense=original*(1-c.armorReductionPercent/100);send(a,s,'DEBUFF',t,{effect:'ARMOR_WINDOW',defenseAfter:t.defense});}});break;
    case 'ADVANCE_SUPPRESSION':once(t=>{strike(a,s,t,1/p.targets.length);if(living(t)&&!t.controlImmune&&!t.isBoss&&t.row==='FRONT'&&t.attackStyle==='MELEE'){t.gauge=Math.max(0,t.gauge-c.suppressGauge);send(a,s,'DEBUFF',t,{effect:'APPROACH_DELAY',targetGaugeAfter:t.gauge});}});break;
    case 'EMERALD_ANTIMATERIEL':case 'LOCKED_THREAT_SHOT':once(t=>strike(a,s,t));break;

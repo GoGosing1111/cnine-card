@@ -1,4 +1,6 @@
 import { resolveAvatarDropRate } from './_avatar_drop.js';
+import {iconRoleDeckSettings,applyIconRoleDeckState} from './_icon_roles.js';
+import {iconDefinition} from '../shared/icon-roles-v1.mjs';
 import { magicSummonSeasons, magicPackRequestGuard } from '../shared/magic-pack-seasons-v1.mjs';
 const MAGIC_DECK_TYPES=['PVE','PVP'];
 import {loadUniqueAdvancementsForCards,loadUniqueAdvancementsForDecks,uniqueAdvancementSettings} from './_unique_advancement.js';
@@ -228,7 +230,7 @@ function normalizeUniqueCards(cards=[]){
   return (Array.isArray(cards)?cards:[]).map((card,index)=>{
     const base=Math.max(0,Number(card?.baseBattlePower??card?.power??card?.battlePower??card?.battle_power??0)||0);
     // 전직 상태는 클라이언트 입력을 신뢰하지 않고 아래 DB 조회 결과로만 덮어쓴다.
-    return {...card,id:String(card?.id??card?.card_id??`slot-${index}`),power:base,maxHp:base,baseBattlePower:base,uniqueAbility:null,uniqueAdvancement:null,uniqueDefensePercent:0,uniqueSpeedPercent:0};
+    return {...card,id:String(card?.id??card?.card_id??`slot-${index}`),power:base,maxHp:base,baseBattlePower:base,uniqueAbility:null,uniqueAdvancement:null,iconRole:null,uniqueDefensePercent:0,uniqueSpeedPercent:0};
   });
 }
 // V1802/V1940: FUR/ZENITH/SUPERSTAR +11~+13 "고유효과 강화".
@@ -301,8 +303,9 @@ function buildCardUniqueDeckState(user,cards,cfg,effectMap,boostTable=null,advan
   let attackPower=0,durabilityPower=0,speedWeight=0,speedBase=0;
   const appliedEffects=[];
   const appliedCards=normalized.map(card=>{
-    const uniqueAdvancement=advancementMap.get(String(card.id))||null;
-    const baseEffect=visible?(effectMap.get(String(card.id))||null):null,effect=baseEffect?scaleUniqueEffect(baseEffect,uniqueBoostMultiplier(card,boostTable)):null,rawPower=Math.max(0,Number(card.power||0));
+    const roleCard=iconDefinition(card)&&String(card.rarity??card.grade??'').toUpperCase()==='ICON';
+    const uniqueAdvancement=roleCard?null:advancementMap.get(String(card.id))||null;
+    const baseEffect=visible&&!roleCard?(effectMap.get(String(card.id))||null):null,effect=baseEffect?scaleUniqueEffect(baseEffect,uniqueBoostMultiplier(card,boostTable)):null,rawPower=Math.max(0,Number(card.power||0));
     if(!effect){attackPower+=rawPower;durabilityPower+=rawPower;speedBase+=rawPower;return {...card,uniqueAdvancement};}
     appliedEffects.push(effect);
     const attack=Math.max(0,Math.round(rawPower*(1+effect.attackPercent/100)));
@@ -342,7 +345,8 @@ export async function cardUniqueDeckStates(env,entries=[],scope='PVE',{fresh=fal
     const cardIds=entry.cards.map(card=>String(card?.id??card?.card_id??'')).filter(Boolean);
     return loadUniqueAdvancementsForCards(env,entry.user?.id,cardIds);
   }));
-  return list.map((entry,index)=>buildCardUniqueDeckState(entry.user,entry.cards,cfg,effectMap,boostTable,advancementMaps[index]));
+  const iconSettings=await iconRoleDeckSettings(env,list);
+  return list.map((entry,index)=>applyIconRoleDeckState(buildCardUniqueDeckState(entry.user,entry.cards,cfg,effectMap,boostTable,advancementMaps[index]),iconSettings,scope));
 }
 export async function cardUniqueDeckState(env,user,cards=[],scope='PVE'){
   return (await cardUniqueDeckStates(env,[{user,cards}],scope))[0];

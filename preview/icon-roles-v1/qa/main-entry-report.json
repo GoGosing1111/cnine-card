@@ -1,0 +1,82 @@
+[
+  {
+    "width": 1440,
+    "mode": "PVP",
+    "mainLoader": true,
+    "actualLiveWrapper": true,
+    "result": true,
+    "return": true,
+    "diagnostics": {
+      "last": {
+        "code": "ICON-AYOON",
+        "role": "ASSAULT",
+        "eventType": "ICON_SKILL",
+        "serverRows": 1,
+        "appliedRows": 1,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY"
+      },
+      "muzzle": {
+        "cardId": "CN-1C000002",
+        "origin": {
+          "x": 222.00000000000003,
+          "y": 358.56182900000005
+        },
+        "direction": {
+          "x": 0.9761870601839528,
+          "y": 0.21693045781865566
+        },
+        "team": "ALLY"
+      },
+      "metrics": {
+        "skills": 10,
+        "basics": 20,
+        "serverRows": 31,
+        "appliedRows": 31,
+        "roles": [
+          "ASSAULT",
+          "SUPPORT",
+          "DEFENSE",
+          "ASSASSIN",
+          "CURSE",
+          "ATTACK"
+        ]
+      }
+    },
+    "errors": []
+  },
+  {
+    "width": 390,
+    "mode": "PVE",
+    "mainLoader": true,
+    "actualLiveWrapper": true,
+    "result": true,
+    "return": true,
+    "diagnostics": {
+      "last": {
+        "code": "ICON-AYOON",
+        "role": "ASSAULT",
+        "eventType": "ICON_SKILL",
+        "serverRows": 1,
+        "appliedRows": 1,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY"
+      },
+      "muzzle": null,
+      "metrics": {
+        "skills": 11,
+        "basics": 35,
+        "serverRows": 48,
+        "appliedRows": 48,
+        "roles": [
+          "ASSAULT",
+          "ASSASSIN",
+          "DEFENSE",
+          "CURSE",
+          "SUPPORT"
+        ]
+      }
+    },
+    "errors": []
+  }
+]
