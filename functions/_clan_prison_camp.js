@@ -61,6 +61,8 @@ export async function clanCampSettlementStatements(env, season, settings, ranked
   if (!completed) return [];
   await ensureClanCampSchema(env);
   const last = rankedTeams.at(-1), token = crypto.randomUUID();
+  const {clanReformEnabled}=await import('./_clan_governance.js');
+  const reformOn=await clanReformEnabled(env);
   return [
     env.DB.prepare(`DELETE FROM clan_prison_chat WHERE NOT EXISTS(SELECT 1 ${ACTIVE})`).bind(sqlTime(now)),
     env.DB.prepare(`INSERT OR IGNORE INTO clan_prison_camps
@@ -68,13 +70,13 @@ export async function clanCampSettlementStatements(env, season, settings, ranked
       VALUES(?,?,?,?,?,?,?,?)`).bind(season.id, season.season_no, last.clan_id, last.name, rankedTeams.length,
         token, sqlTime(now), sqlTime(now + CLAN_CAMP_HOURS * 3600000)),
     env.DB.prepare(`INSERT OR IGNORE INTO clan_prison_captives(season_id,user_id,member_role)
-      SELECT m.season_id,m.user_id,m.member_role FROM clan_members m
+      SELECT m.season_id,m.user_id,${reformOn?"CASE WHEN EXISTS(SELECT 1 FROM clan_executives e WHERE e.season_id=m.season_id AND e.clan_id=m.clan_id AND e.user_id=m.user_id) THEN 'EXECUTIVE' ELSE 'MEMBER' END":'m.member_role'} FROM clan_members m
       JOIN clan_prison_camps c ON c.season_id=m.season_id AND c.clan_id=m.clan_id
       WHERE c.season_id=? AND c.creation_token=?`).bind(season.id, token),
-    env.DB.prepare(`INSERT OR IGNORE INTO clan_prison_captives(season_id,user_id,member_role)
+    ...(reformOn?[]:[env.DB.prepare(`INSERT OR IGNORE INTO clan_prison_captives(season_id,user_id,member_role)
       SELECT c.season_id,t.master_user_id,'MASTER' FROM clan_prison_camps c
       JOIN clan_season_teams t ON t.season_id=c.season_id AND t.clan_id=c.clan_id
-      WHERE c.season_id=? AND c.creation_token=?`).bind(season.id, token)
+      WHERE c.season_id=? AND c.creation_token=?`).bind(season.id, token)])
   ];
 }
 

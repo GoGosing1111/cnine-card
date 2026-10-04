@@ -19,17 +19,17 @@ test('CMS 사이드바와 독립 클랜전 운영 화면을 로드한다',()=>{
   assert.match(html,/id="view-clanwar"/);
   assert.match(html,/id="clanWarAdminRoot"/);
   assert.match(html,/clan-war-admin-v1943\.css\?v=1943-clan-war-cms/);
-  assert.match(html,/clan-war-admin-v1943\.js\?v=2123-draft-1h-30s/);
+  assert.match(html,/clan-war-admin-v1943\.js\?v=20261005-reform/);
   assert.match(baseAdmin,/clanwar:'클랜전 관리'/);
   assert.match(cms,/SOOPKETMON · CLAN WAR CMS/);
   assert.match(cms,/observe\(viewNode,\{attributes:true,attributeFilter:\['hidden'\]\}\)/);
   assert.doesNotMatch(cms,/childList:true/);
 });
 
-test('60분·10 행동력·5분 회복·랜덤 승점전·최신 덱을 한 설정 계약으로 고정한다',()=>{
+test('120분·10 행동력·5분 회복·랜덤 승점전·최신 덱을 한 설정 계약으로 고정한다',()=>{
   const defaults=__clanTest.CLAN_ADMIN_SETTINGS_DEFAULTS;
   assert.equal(defaults.warOpenTime,'21:00');
-  assert.equal(defaults.warDurationMinutes,60);
+  assert.equal(defaults.warDurationMinutes,120);
   assert.equal(defaults.initialEnergy,10);
   assert.equal(defaults.energyCap,10);
   assert.equal(defaults.energyRecoverySeconds,300);

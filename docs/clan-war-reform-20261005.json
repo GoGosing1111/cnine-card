@@ -1,0 +1,47 @@
+{
+  "date": "2026-10-05",
+  "scope": "Clan war governance, weekly readiness and original cooperative-operations UI",
+  "base": "3b879704",
+  "releaseMode": "full",
+  "status": "PRE_DEPLOY_VALIDATED",
+  "userDecisions": {
+    "signups": "Tue/Thu/Sat/Sun; non-signups can join",
+    "ready": "15 minutes before start; responses never gate eligibility",
+    "authority": "Top three latest ranked-deck power members are executives; appointed commander uses skills",
+    "durationMinutes": 120,
+    "scoring": "Existing win +3 / loss +1 attacker-only scoring retained; no attendance percentage bonus or equal win/loss score",
+    "operations": "Separate finite mission AP; fixed +2 regardless of card power; three different members complete the +8 team combo; bonus credited across all three members"
+  },
+  "verification": {
+    "browser": {
+      "passed": 25,
+      "report": "preview/clan-war-reform-20261005/results.json",
+      "sizes": [
+        "1440x1000",
+        "390x844"
+      ]
+    },
+    "postgresReformAndKick": {
+      "passed": 17
+    },
+    "migration": "Production dry run rolled back; 16 future matches only; completed matches unchanged"
+  },
+  "assets": {
+    "method": "built-in image_gen",
+    "prompts": "assets/ui/clan/war-operations-20261005/prompts.json",
+    "types": [
+      "hero",
+      "assault",
+      "disrupt",
+      "support"
+    ],
+    "runtimeBytes": 632276,
+    "visualReview": "Verified artwork, text, button bounds, clan crests and mobile layout"
+  },
+  "remaining": [
+    "full release gate",
+    "production deployment",
+    "idempotent activation",
+    "short production verification"
+  ]
+}

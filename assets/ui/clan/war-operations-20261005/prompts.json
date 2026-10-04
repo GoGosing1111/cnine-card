@@ -1,0 +1,114 @@
+{
+  "createdAt": "2026-10-05",
+  "mode": "built-in image_gen",
+  "assets": [
+    {
+      "key": "hero",
+      "prompt": "Use case: stylized-concept.\nAsset type: production artwork for a premium Korean fantasy RPG clan-versus-clan war interface.\nStyle: high-end painterly semi-realistic 2D game key art; coherent cinematic lighting, beautiful precise materials, readable silhouettes and exquisite atmospheric depth, polished game illustration rather than a live-action photograph or plastic 3D render.\nConstraints: no writing, no letters, no numbers, no UI, no border, no logo, no watermark. Anonymous adult fantasy squad members only, no existing named characters. Naturally flowing hair, no segmented plastic hair strands. Anatomically correct hands. Weapons have straight rigid coherent construction. No guns needed. Do not depict a territory map, relay tower, supply train or siege cannon.\nPrimary request: a cinematic wide clan war command chamber overlooking a close-scale arena where rival clan squads are about to face each other.\nScene: an exquisitely built midnight stone and bronze war room with a round tactical table in the foreground, blank crimson and blue standards, narrow shafts of light through tall windows. Across the far arched opening, a circular duel courtyard and two small disciplined groups can be seen.\nComposition: ultra-wide panoramic 21:9, environmental establishing shot, low table in the foreground center, foreground edges softly shadowed, open center upper half for two clan crests and score UI composited later. No dominant close-up person, no giant battlefield or city.\nLighting and palette: deep ink navy, warm antique brass light, small cool teal highlights, atmospheric smoky amber rim lighting. Rich and prestigious rather than gaudy. Actual detailed art, not a diagram.",
+      "generatedSource": "C:\\Users\\User\\.codex\\generated_images\\01a0f1f2-cc91-72c3-a322-19e4d45ed867\\exec-196cc2d9-1b60-4e6c-a7a8-5d2fd488d140.png",
+      "source": "assets/ui/clan/war-operations-20261005/source/hero.png",
+      "runtime": "assets/ui/clan/war-operations-20261005/hero.webp",
+      "sha256": "fd57f1917560898b1107a499032020ad02a976f6cc5090bf2a81d680f49e7334",
+      "metadata": {
+        "format": "png",
+        "mediaType": "image/png",
+        "width": 1916,
+        "height": 821,
+        "space": "srgb",
+        "channels": 3,
+        "depth": "uchar",
+        "density": 72,
+        "isProgressive": false,
+        "isPalette": false,
+        "bitsPerSample": 8,
+        "hasProfile": false,
+        "hasAlpha": false,
+        "autoOrient": {
+          "width": 1916,
+          "height": 821
+        }
+      }
+    },
+    {
+      "key": "assault",
+      "prompt": "Use case: stylized-concept.\nAsset type: production artwork for a premium Korean fantasy RPG clan-versus-clan war interface.\nStyle: high-end painterly semi-realistic 2D game key art; coherent cinematic lighting, beautiful precise materials, readable silhouettes and exquisite atmospheric depth, polished game illustration rather than a live-action photograph or plastic 3D render.\nConstraints: no writing, no letters, no numbers, no UI, no border, no logo, no watermark. Anonymous adult fantasy squad members only, no existing named characters. Naturally flowing hair, no segmented plastic hair strands. Anatomically correct hands. Weapons have straight rigid coherent construction. No guns needed. Do not depict a territory map, relay tower, supply train or siege cannon.\nPrimary request: a dynamic fantasy strike team's decisive breakthrough operation for a clan war mission card.\nScene: three adult armored fighters charge through an opened stone arch into a small torchlit dueling courtyard. Lead fighter at the right center uses a strong rectangular shield to protect a teammate with a long sword. A dramatic shower of sparks and directional amber light communicates force and coordinated action.\nComposition: landscape 3:2, full action scene; middle-distance waist-up to full-body squad, focal shield and hero silhouettes near center, important shapes readable when displayed at 360px wide. Room above and below for later UI cropping.\nLighting and palette: molten amber highlights and antique brass against ink navy armor, smoky charcoal walls, restrained red cape accent. No gore. Sophisticated painterly rendering with strong depth and real compositional intent.",
+      "generatedSource": "C:\\Users\\User\\.codex\\generated_images\\01a0f1f2-cc91-72c3-a322-19e4d45ed867\\exec-1a71028d-fd8f-488a-ba17-98a67e87c80f.png",
+      "source": "assets/ui/clan/war-operations-20261005/source/assault.png",
+      "runtime": "assets/ui/clan/war-operations-20261005/assault.webp",
+      "sha256": "d598210effbf66c3c918ace7c06b40e23d54cfbf4dfc2c48ec4ab413a2fdc4fd",
+      "metadata": {
+        "format": "png",
+        "mediaType": "image/png",
+        "width": 1536,
+        "height": 1024,
+        "space": "srgb",
+        "channels": 3,
+        "depth": "uchar",
+        "density": 72,
+        "isProgressive": false,
+        "isPalette": false,
+        "bitsPerSample": 8,
+        "hasProfile": false,
+        "hasAlpha": false,
+        "autoOrient": {
+          "width": 1536,
+          "height": 1024
+        }
+      }
+    },
+    {
+      "key": "disrupt",
+      "prompt": "Use case: stylized-concept.\nAsset type: production artwork for a premium Korean fantasy RPG clan-versus-clan war interface.\nStyle: high-end painterly semi-realistic 2D game key art; coherent cinematic lighting, beautiful precise materials, readable silhouettes and exquisite atmospheric depth, polished game illustration rather than a live-action photograph or plastic 3D render.\nConstraints: no writing, no letters, no numbers, no UI, no border, no logo, no watermark. Anonymous adult fantasy squad members only, no existing named characters. Naturally flowing hair, no segmented plastic hair strands. Anatomically correct hands. Weapons have straight rigid coherent construction. No guns needed. Do not depict a territory map, relay tower, supply train or siege cannon.\nPrimary request: a stealth and intelligence disruption operation for a clan war mission card.\nScene: two adult cloak-wearing fantasy scouts silently infiltrate a moonlit stone archive and interrupt an enemy magical communication device. A female scout in tailored dark indigo gear at center delicately traces a cyan rune in the air while her teammate watches the doorway. The communication device is a small tabletop crystal mechanism with clean geometric light, not a tower.\nComposition: landscape 3:2, medium scene with clear scout silhouettes and luminous interrupted communications at the visual center; important subjects remain readable in a 360px mission tile. Dynamic oblique perspective, natural faces and hands, no oversized heads.\nLighting and palette: icy cyan and sapphire highlights, violet shadows, ink navy material, small dust motes. Elegant secret operation atmosphere, not an abstract diagram.",
+      "generatedSource": "C:\\Users\\User\\.codex\\generated_images\\01a0f1f2-cc91-72c3-a322-19e4d45ed867\\exec-26a402a1-4e25-43cb-a27c-088817335b7e.png",
+      "source": "assets/ui/clan/war-operations-20261005/source/disrupt.png",
+      "runtime": "assets/ui/clan/war-operations-20261005/disrupt.webp",
+      "sha256": "d448f9cd6a201468c57894cefb159fb7918654d4696631e3242421d7fbf4bc92",
+      "metadata": {
+        "format": "png",
+        "mediaType": "image/png",
+        "width": 1536,
+        "height": 1024,
+        "space": "srgb",
+        "channels": 3,
+        "depth": "uchar",
+        "density": 72,
+        "isProgressive": false,
+        "isPalette": false,
+        "bitsPerSample": 8,
+        "hasProfile": false,
+        "hasAlpha": false,
+        "autoOrient": {
+          "width": 1536,
+          "height": 1024
+        }
+      }
+    },
+    {
+      "key": "support",
+      "prompt": "Use case: stylized-concept.\nAsset type: production artwork for a premium Korean fantasy RPG clan-versus-clan war interface.\nStyle: high-end painterly semi-realistic 2D game key art; coherent cinematic lighting, beautiful precise materials, readable silhouettes and exquisite atmospheric depth, polished game illustration rather than a live-action photograph or plastic 3D render.\nConstraints: no writing, no letters, no numbers, no UI, no border, no logo, no watermark. Anonymous adult fantasy squad members only, no existing named characters. Naturally flowing hair, no segmented plastic hair strands. Anatomically correct hands. Weapons have straight rigid coherent construction. No guns needed. Do not depict a territory map, relay tower, supply train or siege cannon.\nPrimary request: a heroic rescue and support operation for a clan war mission card showing that support members are valuable.\nScene: an adult battle medic in ivory and muted teal fantasy field clothes kneels to help a fatigued adult armored teammate rise at the edge of a small stone arena. Another adult guardian holds a translucent curved protective shield overhead against a few distant sparks. Warm healing light flows from the medic's hands and protects the three-person group. No injury details, no blood.\nComposition: landscape 3:2, characters form a strong central triangular composition; calm determined expressions and natural hands, scene readable at 360px wide. Focus on genuine teamwork and protection, not religious iconography.\nLighting and palette: luminous pale jade and warm ivory healing light against deep blue stone, a little antique gold trim. Premium cinematic painterly game illustration with atmospheric depth.",
+      "generatedSource": "C:\\Users\\User\\.codex\\generated_images\\01a0f1f2-cc91-72c3-a322-19e4d45ed867\\exec-8273e6af-e0e1-42b4-958c-85c3cafa6b71.png",
+      "source": "assets/ui/clan/war-operations-20261005/source/support.png",
+      "runtime": "assets/ui/clan/war-operations-20261005/support.webp",
+      "sha256": "baba8338236c6aa69c403ab9a0328c5e71fe45f6e88537db0ee6b89a927e54e0",
+      "metadata": {
+        "format": "png",
+        "mediaType": "image/png",
+        "width": 1536,
+        "height": 1024,
+        "space": "srgb",
+        "channels": 3,
+        "depth": "uchar",
+        "density": 72,
+        "isProgressive": false,
+        "isPalette": false,
+        "bitsPerSample": 8,
+        "hasProfile": false,
+        "hasAlpha": false,
+        "autoOrient": {
+          "width": 1536,
+          "height": 1024
+        }
+      }
+    }
+  ]
+}

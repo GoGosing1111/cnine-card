@@ -1,3 +1,4 @@
+import {clanReformEnabled,clanExecutive} from './_clan_governance.js';
 import {FACTION_RULES as R,SQUADS,districtById} from '../shared/clan-faction-rules-v1.mjs';
 import {newFactionState,advanceFactionState,validateFormation,factionCaptains,validateFactionCaptains,factionEvent,finishFactionBattle,factionStrikeDamage,splitFactionTax,factionFail as fail} from './_clan_faction_model.js';
 import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
@@ -32,7 +33,8 @@ async function context(env,season,user){
   const roster=rows(members).map(m=>({userId:Number(m.user_id),clanId:Number(m.clan_id),nickname:m.nickname}));
   const clans=rows(teams).map(t=>({clanId:Number(t.clan_id),masterUserId:Number(t.master_user_id),name:t.name,markKey:t.mark_key,color:t.primary_color}));
   const mine=roster.find(m=>m.userId===Number(user.id));
-  return {roster,clans,mine,isMaster:Boolean(mine)&&clans.some(t=>t.clanId===mine.clanId&&t.masterUserId===Number(user.id))};
+  const reformOn=await clanReformEnabled(env),isExecutive=reformOn&&Boolean(mine)&&await clanExecutive(env,season.id,user.id);
+  return {roster,clans,mine,reformOn,isMaster:reformOn?isExecutive:Boolean(mine)&&clans.some(t=>t.clanId===mine.clanId&&t.masterUserId===Number(user.id))};
 }
 async function readState(env,season,now,deps={}){
   const sessions=await syncFactionSessions(env,season,deps);
@@ -107,8 +109,8 @@ export async function mutateFaction(env,season,user,kind,body,deps,mode='ON'){
     const clanId=ctx.mine.clanId,userId=Number(user.id),memberIds=ctx.roster.filter(m=>m.clanId===clanId).map(m=>m.userId);
     const token=crypto.randomUUID(),formation=formationOf(state,ctx,clanId),payouts=[],result={ok:true,kind,seasonId:Number(season.id)};
     if(kind==='formation'){
-      if(!ctx.isMaster&&!Object.values(factionCaptains(state.captains[clanId],memberIds)).includes(userId))fail('공격대·방어대 편성은 클랜장 또는 행동대장만 변경할 수 있습니다.',403);
-      if(!ctx.isMaster&&body.captains!==undefined)fail('행동대장 임명·해제는 클랜장만 할 수 있습니다.',403);
+      if(!ctx.isMaster&&!Object.values(factionCaptains(state.captains[clanId],memberIds)).includes(userId))fail('공격대·방어대 편성은 집행관 또는 행동대장만 변경할 수 있습니다.',403);
+      if(!ctx.isMaster&&body.captains!==undefined)fail('행동대장 임명·해제는 집행관만 할 수 있습니다.',403);
       if(body.baseFormation!==undefined&&JSON.stringify(validateFormation(body.baseFormation,memberIds))!==JSON.stringify(formation))fail('다른 편성자가 라인업을 변경했습니다. 전황을 새로고침한 뒤 다시 편성하세요.');
       if(state.battles.some(b=>b.status==='ACTIVE'&&(b.attacker===clanId||b.defender===clanId)))fail('진행 중인 교전이 끝난 뒤 부대를 변경하세요.');
       const nextFormation=validateFormation(body.formation,memberIds);
@@ -117,14 +119,14 @@ export async function mutateFaction(env,season,user,kind,body,deps,mode='ON'){
       factionEvent(state,{id:token,kind:'FORMATION',clanId,captains,by:ctx.mine.nickname,at:now});
     }
     if(kind==='captains'){
-      if(!ctx.isMaster)fail('행동대장 임명·해제는 클랜장만 할 수 있습니다.',403);
+      if(!ctx.isMaster)fail('행동대장 임명·해제는 집행관만 할 수 있습니다.',403);
       const captains=validateFactionCaptains(body.captains,memberIds);
       state.captains[clanId]=captains;result.captains=captains;
       factionEvent(state,{id:token,kind:'CAPTAINS',clanId,captains,by:ctx.mine.nickname,
         names:Object.fromEntries(Object.entries(captains).map(([squad,id])=>[squad,ctx.roster.find(m=>m.userId===id)?.nickname||'미지정'])),at:now});
     }
     if(kind==='garrison'){
-      if(!ctx.isMaster&&!Object.values(factionCaptains(state.captains[clanId],memberIds)).includes(userId))fail('방어대 배치는 클랜장 또는 행동대장만 변경할 수 있습니다.',403);
+      if(!ctx.isMaster&&!Object.values(factionCaptains(state.captains[clanId],memberIds)).includes(userId))fail('방어대 배치는 집행관 또는 행동대장만 변경할 수 있습니다.',403);
       const d=state.districts.find(d=>d.id===String(body.districtId));
       if(!d||d.owner!==clanId)fail('우리 클랜의 점령지를 선택하세요.');
       if(state.battles.some(b=>b.status==='ACTIVE'&&b.districtId===d.id))fail('교전 중에는 방어대를 변경할 수 없습니다.');
@@ -134,7 +136,7 @@ export async function mutateFaction(env,season,user,kind,body,deps,mode='ON'){
     if(kind==='launch'){
       const squad=String(body.squad),d=state.districts.find(d=>d.id===String(body.districtId));
       if(!SQUADS.some(s=>s.id===squad&&s.role==='ATTACK')||!formation[squad]?.length)fail('편성된 공격대를 선택하세요.');
-      if(!ctx.isMaster&&!formation[squad].includes(userId))fail('해당 공격대원이나 클랜장만 출정할 수 있습니다.',403);
+      if(!ctx.isMaster&&!formation[squad].includes(userId))fail('해당 공격대원이나 집행관만 출정할 수 있습니다.',403);
       if(!d||d.owner===clanId)fail('다른 클랜의 지역이나 무주지를 선택하세요.');
       if(d.protectedUntil>now)fail('점령 보호 중인 지역입니다.');
       if(state.battles.some(b=>b.status==='ACTIVE'&&b.districtId===d.id))fail('이미 교전 중인 지역입니다.');
@@ -188,11 +190,11 @@ export async function mutateFaction(env,season,user,kind,body,deps,mode='ON'){
     }
     // A compare-and-swap and every guarded side effect share one transaction.
     // Losing races cannot create receipts, mint tax, or advance cooldowns.
-    const master=kind==='captains'||(['formation','garrison'].includes(kind)&&ctx.isMaster);
+    const master=kind==='captains'||(['formation','garrison','launch'].includes(kind)&&ctx.isMaster);
     const sessionCombat=Boolean(row.sessions&&['launch','enter','strike'].includes(kind));
     if(sessionCombat&&nowOf(deps)>=state.session.endsAt)continue;
     const phaseGuard=(kind==='collect'?'':" AND EXISTS(SELECT 1 FROM clan_seasons WHERE id=? AND phase='ACTIVE' AND ends_at=?)")+(sessionCombat?` AND NOT EXISTS(SELECT 1 FROM territory_war_v3_rounds WHERE ${factionTerritoryBlockSql(env)})`:'');
-    const masterGuard=master?' AND EXISTS(SELECT 1 FROM clan_season_teams WHERE season_id=? AND clan_id=? AND master_user_id=?)':'';
+    const masterGuard=master?(ctx.reformOn?' AND EXISTS(SELECT 1 FROM clan_executives WHERE season_id=? AND clan_id=? AND user_id=?)':' AND EXISTS(SELECT 1 FROM clan_season_teams WHERE season_id=? AND clan_id=? AND master_user_id=?)'):'';
     const rosterGuard=` AND (SELECT COUNT(*) FROM clan_members WHERE season_id=? AND clan_id=?)=? AND NOT EXISTS(SELECT 1 FROM clan_members WHERE season_id=? AND clan_id=? AND user_id NOT IN (${memberIds.map(()=>'?').join(',')}))`;
     const targetMember=kind==='strike'?ctx.roster.find(m=>m.userId===computed.opponent.id):null;
     const enemyGuard=targetMember?' AND EXISTS(SELECT 1 FROM clan_members WHERE season_id=? AND user_id=? AND clan_id=?)':'';

@@ -78,10 +78,10 @@ test('공식 8클랜은 7개 정시 라운드에서 모든 상대를 정확히 �
   assert.equal(new Set(pairKeys).size,28);
 });
 
-test('정시 대진은 KST 21시에 열리고 각 창구는 60분 계약을 사용한다',()=>{
+test('정시 대진은 KST 21시에 열리고 새 창구는 120분 계약을 사용한다',()=>{
   const from=Date.parse('2026-08-31T11:00:00.000Z'),starts=__clanTest.scheduledWindowStarts(__clanTest.CLAN_ADMIN_SETTINGS_DEFAULTS,from,2);
   assert.deepEqual(starts.map(value=>new Date(value).toISOString()),['2026-08-31T12:00:00.000Z','2026-09-01T12:00:00.000Z']);
-  assert.equal(__clanTest.CLAN_ADMIN_SETTINGS_DEFAULTS.warDurationMinutes,60);
+  assert.equal(__clanTest.CLAN_ADMIN_SETTINGS_DEFAULTS.warDurationMinutes,120);
 });
 
 test('행동력은 10에서 시작해 300초마다 회복하고 60분간 최대 21회만 사용한다',()=>{
@@ -176,12 +176,12 @@ test('현 로비 기준 클랜 본부와 정규·세력전 진입을 제공한�
   assert.match(client,/\['faction','세력전'\]/);
   assert.match(client,/clan-season-lock/);
   assert.match(css,/@media\(max-width:760px\)[\s\S]*\.clan-season-lock/);
-  assert.match(html,/clan-v1\.css\?v=20260919-master-kick/);
+  assert.match(html,/clan-v1\.css\?v=20261005-reform/);
   assert.match(html,/clan-command-v1\.css\?v=2127/);
   assert.match(html,/clan-faction-v1\.css\?v=20261001-session-rewards/);
-  assert.match(html,/clan-v1\.js\?v=20261001-session-rewards/);
+  assert.match(html,/clan-v1\.js\?v=20261005-reform/);
   assert.match(html,/js\/app\.js\?[^"\n]+clanFaction=20261001-session-rewards/);
-  for(const loader of [app,client])assert.match(loader,/import\('\.\/clan-faction-v1\.mjs\?v=20261001-session-rewards'\)/);
+  for(const loader of [app,client])assert.match(loader,/import\('\.\/clan-faction-v1\.mjs\?v=20261005-executives'\)/);
 });
 
 test('조회 로그를 만들지 않고 전투 영수증 보존일은 서버 설정으로 제한한다',()=>{

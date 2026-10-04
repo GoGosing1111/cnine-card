@@ -1,3 +1,4 @@
+async function reformExecutives(q,seasonId){const [row]=await q("SELECT value FROM app_meta WHERE key='clan_reform_v1'");if(!row||JSON.parse(row.value).enabled!==true)return null;return new Set((await q('SELECT user_id FROM clan_executives WHERE season_id=$1',[seasonId])).map(r=>Number(r.user_id)));}
 // OWNER-only, explicitly invoked maintenance. No scheduler and no account deletion.
 // PostgreSQL is required so revalidation, membership removal and recovery records
 // share one transaction. Neither request SQL nor table/column names are accepted.
@@ -62,6 +63,7 @@ async function snapshot(q, cutoffMs, expectedSeasonId = null, days = 5) {
   const [season] = await q("SELECT * FROM clan_seasons WHERE phase<>'COMPLETE' ORDER BY season_no DESC,id DESC LIMIT 1");
   check(season && ['ACTIVE', 'DRAFT', 'REGISTRATION'].includes(season.phase), '정리 가능한 진행 중 클랜 시즌이 없습니다.');
   check(expectedSeasonId === null || Number(season.id) === expectedSeasonId, '클랜 시즌이 변경되었습니다. 명단을 다시 확인하세요.');
+  const executives=await reformExecutives(q,season.id);
   const members = await q(`SELECT m.*,u.nickname,u.last_login_at,t.master_user_id
     FROM clan_members m JOIN users u ON u.id=m.user_id
     JOIN clan_season_teams t ON t.season_id=m.season_id AND t.clan_id=m.clan_id
@@ -107,7 +109,7 @@ async function snapshot(q, cutoffMs, expectedSeasonId = null, days = 5) {
     const login = clanAccessMs(m.last_login_at), activityRow = byUser.get(Number(m.user_id));
     const last = activityRow && (!Number.isFinite(login) || activityRow.at > login) ? activityRow : {at: login, source: 'users.last_login_at'};
     const inactive = Number.isFinite(last.at) && last.at <= cutoffMs;
-    const master = m.member_role === 'MASTER' || Number(m.master_user_id) === Number(m.user_id);
+    const master = executives?executives.has(Number(m.user_id)):m.member_role === 'MASTER' || Number(m.master_user_id) === Number(m.user_id);
     const state = !Number.isFinite(last.at) ? 'UNKNOWN' : !inactive ? 'ACTIVE' : master ? 'MASTER_REVIEW' : busy.has(Number(m.user_id)) ? 'BATTLE_BUSY' : 'REMOVE';
     return {userId: Number(m.user_id), nickname: m.nickname, clanId: Number(m.clan_id), memberRole: m.member_role,
       joinedAt: m.joined_at, lastLoginAt: m.last_login_at, lastAccessAt: Number.isFinite(last.at) ? new Date(last.at).toISOString() : null,

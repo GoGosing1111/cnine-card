@@ -1,3 +1,4 @@
+async function reformExecutives(q,seasonId){const [row]=await q("SELECT value FROM app_meta WHERE key='clan_reform_v1'");if(!row||JSON.parse(row.value).enabled!==true)return null;return new Set((await q('SELECT user_id FROM clan_executives WHERE season_id=$1',[seasonId])).map(r=>Number(r.user_id)));}
 import {clanAdminTransaction} from './_clan_inactivity_cleanup.js';
 import {clanRedraftKey,parseClanRedraft,clanMemberCapacity} from './_clan_redraft.js';
 import {clanGiftSpec,clanGiftRecipients,clanGiftMoneyStorage,sendClanGift} from './_clan_member_gift.js';
@@ -29,6 +30,7 @@ function removalTargets(value, incomingUserId) {
 }
 
 async function removalState(q, target, clan) {
+  const executives=await reformExecutives(q,target.seasonId);
   const targets = target.removeMembers || [], ids = targets.map(m => m.userId);
   if (!ids.length) return {members:[],draftPool:[],identities:[]};
   const members = await q(`SELECT m.*,u.nickname FROM clan_members m JOIN users u ON u.id=m.user_id
@@ -37,15 +39,16 @@ async function removalState(q, target, clan) {
   for (const member of members) {
     const expected = targets.find(m => m.userId === Number(member.user_id));
     check(expected && expected.nickname === member.nickname && Number(member.clan_id) === target.clanId, '탈퇴 대상의 이름 또는 클랜이 변경되었습니다.');
-    check(member.member_role === 'MEMBER' && Number(clan.master_user_id) !== Number(member.user_id), '클랜 마스터는 일반 인원 교체로 탈퇴시킬 수 없습니다.');
+    check(executives?!executives.has(Number(member.user_id)):member.member_role === 'MEMBER' && Number(clan.master_user_id) !== Number(member.user_id), '집행관은 일반 인원 교체로 탈퇴시킬 수 없습니다.');
   }
   const draftPool = await q('SELECT * FROM clan_draft_pool WHERE season_id=$1 AND user_id=ANY($2::bigint[]) ORDER BY user_id', [target.seasonId,ids]);
-  check(draftPool.every(row => row.status === 'DRAFTED' && Number(row.drafted_clan_id) === target.clanId), '탈퇴 대상의 드래프트 소속 기록이 일치하지 않습니다.');
+  check(draftPool.every(row => (row.status === 'DRAFTED'||(executives&&row.status==='MASTER')) && Number(row.drafted_clan_id) === target.clanId), '탈퇴 대상의 드래프트 소속 기록이 일치하지 않습니다.');
   return {members,draftPool,identities:members.map(m => ({userId:Number(m.user_id),nickname:m.nickname,clanId:Number(m.clan_id),
     memberRole:m.member_role,joinedAt:m.joined_at,masterUserId:Number(clan.master_user_id)}))};
 }
 
 async function assignmentState(q, target) {
+  const executives=await reformExecutives(q,target.seasonId);
   const [season] = await q("SELECT id,season_no,phase,max_members FROM clan_seasons WHERE phase<>'COMPLETE' ORDER BY season_no DESC,id DESC LIMIT 1");
   check(season && Number(season.id) === target.seasonId && season.phase === 'ACTIVE', '진행 중인 클랜 시즌이 변경되었거나 편입할 수 없는 단계입니다.');
   const [clan] = await q(`SELECT o.id,o.name,t.master_user_id FROM clan_organizations o
@@ -59,14 +62,14 @@ async function assignmentState(q, target) {
   const [membership] = await q('SELECT * FROM clan_members WHERE season_id=$1 AND user_id=$2', [season.id,target.userId]);
   let sourceClan=null;
   if(target.fromClanId) {
-    check(membership&&Number(membership.clan_id)===target.fromClanId&&membership.member_role==='MEMBER','이적할 계정의 기존 클랜 소속이 일치하지 않습니다.');
+    check(membership&&Number(membership.clan_id)===target.fromClanId&&(executives||membership.member_role==='MEMBER'),'이적할 계정의 기존 클랜 소속이 일치하지 않습니다.');
     [sourceClan]=await q(`SELECT o.id,o.name,t.master_user_id,(SELECT COUNT(*) FROM clan_members m
       WHERE m.season_id=t.season_id AND m.clan_id=t.clan_id) member_count FROM clan_organizations o
       JOIN clan_season_teams t ON t.clan_id=o.id AND t.season_id=$1 WHERE o.id=$2 AND o.is_active=1`,[season.id,target.fromClanId]);
     check(sourceClan&&sourceClan.name===target.fromClanName,'이적 출발 클랜 ID와 이름이 일치하지 않습니다.');
   } else check(!membership, '이미 클랜에 소속된 계정입니다. 이 편입 기능은 기존 소속을 변경하지 않습니다.');
   const [master] = await q('SELECT clan_id FROM clan_season_teams WHERE season_id=$1 AND master_user_id=$2', [season.id,target.userId]);
-  check(!master, '클랜 마스터 계정은 일반 편입으로 변경할 수 없습니다.');
+  check(executives?!executives.has(target.userId):!master, '집행관 계정은 일반 편입으로 변경할 수 없습니다.');
   const removals = await removalState(q,target,clan);
   const [count] = await q('SELECT COUNT(*) n FROM clan_members WHERE season_id=$1 AND clan_id=$2', [season.id,target.clanId]);
   const [redraftRow] = await q('SELECT value FROM app_meta WHERE key=$1 FOR SHARE',[clanRedraftKey(season.id)]);
@@ -86,8 +89,8 @@ async function assignmentState(q, target) {
   const cards = parse(deck?.card_ids);
   check(Array.isArray(cards) && cards.length === 5 && new Set(cards.map(String)).size === 5, '클랜전에 사용할 랭크전 덱 5장을 먼저 저장해야 합니다.');
   const [draftPool] = await q('SELECT * FROM clan_draft_pool WHERE season_id=$1 AND user_id=$2', [season.id,target.userId]);
-  check(!draftPool || draftPool.status !== 'MASTER', '마스터 드래프트 기록을 먼저 확인해야 합니다.');
-  if(sourceClan)check(!draftPool||(draftPool.status==='DRAFTED'&&Number(draftPool.drafted_clan_id)===target.fromClanId),'이적 출발 드래프트 소속이 일치하지 않습니다.');
+  check(executives || !draftPool || draftPool.status !== 'MASTER', '마스터 드래프트 기록을 먼저 확인해야 합니다.');
+  if(sourceClan)check(!draftPool||((draftPool.status==='DRAFTED'||(executives&&draftPool.status==='MASTER'))&&Number(draftPool.drafted_clan_id)===target.fromClanId),'이적 출발 드래프트 소속이 일치하지 않습니다.');
   const sourceIdentity=sourceClan?{clanId:target.fromClanId,clanName:target.fromClanName,joinedAt:membership.joined_at,
     memberRole:membership.member_role,masterUserId:Number(sourceClan.master_user_id)}:null;
   return {target,seasonNo:Number(season.season_no),memberCount,maxMembers,deck:cards.map(String),draftPool:draftPool || null,removals,

@@ -13,7 +13,7 @@ import { CHAMPIONS_DEFAULTS, cleanChampionsSettings, validateChampionsSettings, 
   championsBattleSettings, deliverChampionsRewards } from '../functions/_clan_champions.js';
 
 const read = path => readFileSync(new URL('../' + path, import.meta.url), 'utf8');
-const settings = (extra = {}) => ({ ...__clanTest.CLAN_ADMIN_SETTINGS_DEFAULTS, mode: 'ON', ...extra });
+const settings = (extra = {}) => ({ ...__clanTest.CLAN_ADMIN_SETTINGS_DEFAULTS, mode: 'ON', warDurationMinutes:60, ...extra });
 class SQLiteDB {
   sql = new DatabaseSync(':memory:'); failAt = '';
   prepare(source) { const db = this; return { source, values: [], bind(...values) { this.values = values; return this; },
@@ -291,7 +291,7 @@ test('live/CMS expose the bracket, reward editor and scoped cache versions; no r
   assert.match(cms, /cwChampionsMysticEnergy/);
   assert.match(cms, /SEND_CHAMPIONS_REWARDS/);
   assert.match(read('index.html'), /clan-champions-v2071.css\?v=2109-champions-trophy/);
-  assert.match(read('admin/index.html'), /clan-war-admin-v1943.js\?v=2123-draft-1h-30s/);
+  assert.match(read('admin/index.html'), /clan-war-admin-v1943.js\?v=20261005-reform/);
   assert.match(cms,/cwTrophyAuditForm/);assert.match(cms,/태양의 선봉대장 14일/);
 });
 

@@ -103,7 +103,7 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} facti
   const f=await factionFixture({postgres});t.after(()=>f.close());
   const before=await f.p('SELECT * FROM clan_season_teams ORDER BY clan_id').all();
   const other=await f.p('SELECT * FROM users WHERE id=2').first();
-  await assert.rejects(call(f,'formation',{formation},other),/클랜장/);
+  await assert.rejects(call(f,'formation',{formation},other),/집행관/);
   await assert.rejects(call(f,'formation',{formation:{...formation,defense2:[1]}}),/하나의 부대/);
   await assert.rejects(call(f,'formation',{formation:{...formation,attack1:[101]}}),/현재 클랜원/);
   await call(f,'formation',{formation});

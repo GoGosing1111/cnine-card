@@ -4,7 +4,7 @@
 // Z-BODY dash V2: approved 245 ms contact, 640 ms motion and authored wake/cut FX.
 // Inventory UI v2125: shared navy panels and compact item selection.
 // S-BODY / Z-BODY resources v2124; battle scripts keep network-first refresh.
-const SHELL_CACHE='soop-card-shell-v2108-shared-navigation-ranked-reform-20261002-retired-20261001-gift-recovery-ranked-energy150-furFrames14-15-pingdu-thanks-open-20261002-hp-sync-20261002-cube-retirement-20261003-territory-battlefield-v5-mine-20261003-limited-visuals-20261004-magic-s2-preview-20261004-lich-weekly3-20261004-lich-input-unlock-20261004-lich-seal-batch-20261004-newgift14-20261004-forge-reveal-20261004-craft-repair-icon-rpg-20261004-s2-master-star-polish-cms-20261005-player-suggestions-20261005-apocalypse-wipe-land-inbox-20261005-settlement-backdrop';
+const SHELL_CACHE='soop-card-shell-v2108-shared-navigation-ranked-reform-20261002-retired-20261001-gift-recovery-ranked-energy150-furFrames14-15-pingdu-thanks-open-20261002-hp-sync-20261002-cube-retirement-20261003-territory-battlefield-v5-mine-20261003-limited-visuals-20261004-magic-s2-preview-20261004-lich-weekly3-20261004-lich-input-unlock-20261004-lich-seal-batch-20261004-newgift14-20261004-forge-reveal-20261004-craft-repair-icon-rpg-20261004-s2-master-star-polish-cms-20261005-player-suggestions-20261005-apocalypse-wipe-land-inbox-20261005-settlement-backdrop-clan-reform';
 const CONTENT_CACHE='soop-card-content-v3-media-integrity';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';
@@ -12,6 +12,7 @@ const APP_SHELL_URL='/index.html';
 const FRESH_BATTLE_SCRIPTS=new Set(['/js/app.js','/js/battle-v3-live.js','/preview/project-v-v3/project-v-pixi-battle.bundle.js','/pve-v3/battle.bundle.js','/preview/sustained-hunt-v2/battle.bundle.js']);
 const FRESH_ACCOUNT_SCRIPTS=new Set(['/js/character-loadout-v2.js','/js/character-loadout-v2-live.js','/js/equipment-thumbnails-v1.js','/js/adventure-lobby-v2107.js','/js/adventure-navigation-standalone.js','/js/soopketmon-v21-exact-shell-adapter.js','/js/player-card-v2052.js','/js/account-rank-v1.mjs','/js/joint-account-transport.mjs','/js/soopketmon-v21-runtime-router.js','/js/clan-v1.js','/js/clan-faction-v1.mjs']);
 FRESH_ACCOUNT_SCRIPTS.add('/js/clan-faction-sessions-v1.mjs');
+FRESH_ACCOUNT_SCRIPTS.add('/js/clan-war-reform-v1.mjs');
 FRESH_ACCOUNT_SCRIPTS.add('/js/magic-workbench-v1.js');
 FRESH_ACCOUNT_SCRIPTS.add('/js/workshop-v1881.js');
 FRESH_ACCOUNT_SCRIPTS.add('/js/icon-fusion-v1.bundle.js');

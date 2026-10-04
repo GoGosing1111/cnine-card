@@ -59,7 +59,7 @@ for(const postgres of [false,true]){
   test(`${prefix} ordinary attack members still launch and fight, while all lineups lock in battle`,async t=>{
     const f=await factionFixture({postgres,seeded:true});t.after(()=>f.close());
     await appoint(f,{attack1:12,attack2:4});const member=await account(f,3),captain=await account(f,12);
-    await assert.rejects(call(f,'launch',{squad:'attack1',districtId:'11680'},captain),/공격대원이나 클랜장/);
+    await assert.rejects(call(f,'launch',{squad:'attack1',districtId:'11680'},captain),/공격대원이나 집행관/);
     const b=await call(f,'launch',{squad:'attack1',districtId:'11680'},member);
     assert.ok(b.battleId);assert.equal(b.captured,undefined);
     const formation=(await view(f)).formation;

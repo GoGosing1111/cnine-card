@@ -1,0 +1,31 @@
+{
+  "checks": [
+    "desktop weekly signup saved to PostgreSQL",
+    "desktop no horizontal overflow",
+    "desktop production artwork and clan crests load",
+    "desktop entire war screen fits width",
+    "desktop low-power support adds visible contribution",
+    "desktop mission buttons fit and do not overlap",
+    "desktop executive label visible",
+    "desktop battle prevents intrusive popup",
+    "desktop ready popup fits viewport",
+    "desktop ready reply persists",
+    "desktop answered popup not resent on reload",
+    "desktop saved week survives reload",
+    "mobile weekly signup saved to PostgreSQL",
+    "mobile no horizontal overflow",
+    "mobile production artwork and clan crests load",
+    "mobile entire war screen fits width",
+    "mobile low-power support adds visible contribution",
+    "mobile mission buttons fit and do not overlap",
+    "mobile executive label visible",
+    "mobile battle prevents intrusive popup",
+    "mobile ready popup fits viewport",
+    "mobile ready reply persists",
+    "mobile answered popup not resent on reload",
+    "mobile saved week survives reload",
+    "No browser exceptions: "
+  ],
+  "errors": [],
+  "output": "C:/Users/User/AppData/Local/Temp/clan-reform-art-final-20261005"
+}

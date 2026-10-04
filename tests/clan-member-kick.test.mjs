@@ -28,6 +28,18 @@ async function fixture(){
  return {pg,body,faction,call:(patch={},actor=1)=>kickClanMember(env,{id:actor,role:'USER'},{...body,...patch}),failAudit:()=>{failAudit=true;},close:()=>pg.close()};
 }
 
+test('elected executive can remove a legacy master; old master cannot exercise authority',async()=>{
+ const f=await fixture();try{
+  await f.pg.exec(`INSERT INTO app_meta(key,value) VALUES('clan_reform_v1','{"enabled":true}');
+   CREATE TABLE clan_executives(season_id bigint,clan_id bigint,user_id bigint);
+   INSERT INTO clan_executives VALUES(5,8,2);
+   INSERT INTO clan_draft_pool VALUES(5,1,'MASTER',8,0,NULL);`);
+  await assert.rejects(f.call(),/집행관만/);
+  const result=await f.call({targetUserId:1,joinedAt:'2026-09-16'},2);
+  assert.equal(result.removedUserId,1);assert.equal(result.memberCount,1);
+ }finally{await f.close();}
+});
+
 test('master kick atomically removes membership, withdraws draft and cleans faction; replay is harmless',async()=>{
  const f=await fixture();try{
   const result=await f.call();assert.equal(result.memberCount,1);assert.equal(result.replayed,false);
@@ -41,7 +53,7 @@ test('master kick atomically removes membership, withdraws draft and cleans fact
 test('non-master, foreign master, self, stale membership and season cannot remove anyone',async()=>{
  const f=await fixture();try{
   await assert.rejects(f.call({},3),/같은 클랜/);
-  await assert.rejects(f.call({targetUserId:1},2),/클랜장만/);
+  await assert.rejects(f.call({targetUserId:1},2),/집행관만/);
   await assert.rejects(f.call({targetUserId:1}),/자신/);
   await assert.rejects(f.call({joinedAt:'stale'}),/가입 정보/);
   await assert.rejects(f.call({seasonId:4}),/시즌/);
