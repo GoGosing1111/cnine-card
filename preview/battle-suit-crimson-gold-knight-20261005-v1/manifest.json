@@ -1,5 +1,5 @@
 {
-  "version": "BATTLE_SUIT_CRIMSON_GOLD_20261005_VALTER_AURA_V3",
+  "version": "BATTLE_SUIT_CRIMSON_GOLD_20261005_APPEARANCE_V4",
   "status": "USER_REVIEW_PENDING",
   "runtimeEnabled": false,
   "sourceArt": "assets/sources/knight-approved-20261005.png",
@@ -4200,5 +4200,25 @@
         ]
       }
     }
+  },
+  "appearance": {
+    "url": "appearance-options.json",
+    "status": "DEFAULT_APPLIED_ALTERNATIVES_RETAINED",
+    "defaultPaletteId": "crimson",
+    "paletteIds": [
+      "crimson",
+      "violet",
+      "teal"
+    ],
+    "playerSelectionEnabled": false,
+    "selectionField": "auraPaletteId",
+    "approval": "appearance-selection-20261005.json"
+  },
+  "idle": {
+    "policy": "STANDING_APPROVED_SOURCE",
+    "source": "assets/sources/knight-approved-20261005.png",
+    "bodyMotionEnabled": false,
+    "auraAnimated": true,
+    "previousFourFrameBank": "PRESERVED_NOT_PLAYED"
   }
 }

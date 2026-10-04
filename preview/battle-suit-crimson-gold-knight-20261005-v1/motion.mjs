@@ -3,7 +3,7 @@ const pose=(at,bank,index,facing=1)=>({at,bank,index,facing});
 const path=(at,anchor,lift=0)=>({at,anchor,lift});
 export const MODES={
  look:{label:'외형 · 오라',duration:2.4,contacts:[],poses:[pose(0,'idle',0)],path:[path(0,'home')]},
- idle:{label:'대기',duration:2.4,contacts:[],poses:[pose(0,'idle',0),pose(.6,'idle',1),pose(1.2,'idle',2),pose(1.8,'idle',3)],path:[path(0,'home')]},
+ idle:{label:'대기',duration:2.4,contacts:[],poses:[pose(0,'idle',0)],path:[path(0,'home')]},
  dash:{label:'흑금 돌진',duration:1.25,contacts:[],poses:[pose(0,'dash',0),pose(.12,'dash',1),pose(.22,'dash',2),pose(.31,'dash',3),pose(.41,'dash',4),pose(.56,'dash',5),pose(.74,'dash',6),pose(.96,'dash',7)],path:[path(0,'home'),path(.2,'home'),path(.62,'strike'),path(1.25,'strike')]},
  attack:{label:'단죄',duration:1.5,contacts:[.41],poses:[pose(0,'attack',0),pose(.15,'attack',1),pose(.29,'attack',2),pose(.38,'attack',3),pose(.52,'attack',4),pose(.7,'attack',5),pose(.93,'attack',6),pose(1.2,'attack',7)],path:[path(0,'home'),path(.14,'home'),path(.38,'strike'),path(1.5,'strike')]},
  combo:{label:'왕의 삼연참',duration:2.85,contacts:[.46,1.05,1.72],poses:[pose(0,'attack',0),pose(.18,'dash',2),pose(.3,'attack',2),pose(.43,'attack',3),pose(.6,'attack',4),pose(.76,'combo',0),pose(1.01,'combo',1),pose(1.18,'combo',2),pose(1.39,'combo',3),pose(1.53,'combo',4),pose(1.69,'combo',5),pose(1.89,'combo',6),pose(2.13,'combo',7),pose(2.48,'attack',7)],path:[path(0,'home'),path(.15,'home'),path(.42,'strike'),path(.65,'strike'),path(.98,'rise'),path(1.26,'rise'),path(1.66,'reverse'),path(2.85,'reverse')]},
@@ -44,7 +44,7 @@ export function sample(mode,time){
   s.contacts.forEach((at,i)=>add('impact',at-.02,at+.57,{anchor:'enemyBody',target:i,width:.78,alpha:.8}));
  }
  const impact=s.contacts.reduce((n,at,i)=>Math.max(n,t>=at&&t<at+.24?(1-(t-at)/.24)*(mode==='skill'&&i===3?1:mode==='aoe'?.6:.35):0),0);
- let phase=mode==='look'?'전신 오라 · 외형 검수':mode==='idle'?'호흡 · 대기':mode==='dash'?(t<.22?'발진 준비':t<.56?'흑금 돌진':t<.96?'제동 · 착지':'자세 회복'):
+ let phase=mode==='look'?'전신 오라 · 외형 검수':mode==='idle'?'정지 자세 · 대기':mode==='dash'?(t<.22?'발진 준비':t<.56?'흑금 돌진':t<.96?'제동 · 착지':'자세 회복'):
  mode==='attack'?(t<.38?'어깨 감기 · 접근':t<.53?'대검 횡베기':t<.94?'검 회수':'자세 회복'):
  mode==='combo'?(t<.43?'접근':t<.77?'첫 베기':t<1.39?'올려베기':t<2.13?'역방향 마무리':'자세 회복'):
  mode==='skill'?(t<.49?'흑금 응축':t<1.94?'삼연참':t<2.43?'왕관 각성':t<3.03?'도약 · 대검 들기':t<3.28?'내려베기':t<3.68?'처형 · 타격 정지':t<4.18?'지면 파열':'검 회수'):

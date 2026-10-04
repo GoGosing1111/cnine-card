@@ -1,15 +1,12 @@
 import {Container,Sprite,Graphics,BlurFilter,ColorMatrixFilter} from 'pixi.js';
-export const AURA_PALETTES={
- crimson:{label:'진홍 · 샴페인 골드',outer:[.40,.005,.055],inner:[.90,.025,.13],rim:[.91,.68,.34],rear:0xda2446,wrap:0xda2446,light:0xe0bd7d},
- violet:{label:'청보라 · 백금',outer:[.12,.025,.38],inner:[.48,.22,.94],rim:[.71,.81,.95],rear:0x9866ef,wrap:0x9866ef,light:0xb9cffe},
- teal:{label:'청록 · 옅은 금빛',outer:[.005,.20,.22],inner:[.04,.71,.73],rim:[.91,.73,.38],rear:0x36c7c8,wrap:0x36c7c8,light:0xd9ba77}
-};
+import {AURA_PALETTES,DEFAULT_AURA_PALETTE,resolveAuraPaletteId} from './appearance-options.js';
+export {AURA_PALETTES} from './appearance-options.js';
 function matrix(f,[r,g,b]){f.matrix=[0,0,0,0,r,0,0,0,0,g,0,0,0,0,b,0,0,0,1,0];}
 const solid=()=>{const f=new ColorMatrixFilter();matrix(f,[0,0,0]);return f;};
 const rgb=n=>[(n>>16&255)/255,(n>>8&255)/255,(n&255)/255];
 export class RoyalAura{
  constructor(unit,assets,manifest){
-  Object.assign(this,{unit,assets,manifest,enabled:true,palette:'crimson'});
+  Object.assign(this,{unit,assets,manifest,enabled:true,palette:DEFAULT_AURA_PALETTE});
   this.back=new Container({label:'KnightValterAura',eventMode:'none',zIndex:9});
   this.front=new Container({label:'KnightRisingEmbers',eventMode:'none',zIndex:30});
   unit.view.addChild(this.back,this.front);unit.view.sortChildren();
@@ -23,10 +20,10 @@ export class RoyalAura{
   this.inner.blendMode='add';this.edge.blendMode='add';this.rim.blendMode='add';
   this.filters=[this.outerColor,this.innerColor,this.edgeColor,this.rimColor,this.sheetTone,this.outerBlur,this.innerBlur];
   this.particles=Array.from({length:12},()=>{const s=new Sprite(assets.auraFlash);s.anchor.set(.5);s.blendMode='add';this.front.addChild(s);return s;});
-  this.ground=new Graphics({label:'KnightValterAuraGround',zIndex:-8});unit.root.addChildAt(this.ground,0);this.setPalette('crimson');
+  this.ground=new Graphics({label:'KnightValterAuraGround',zIndex:-8});unit.root.addChildAt(this.ground,0);this.setPalette(DEFAULT_AURA_PALETTE);
  }
  setPalette(key){
-  this.palette=AURA_PALETTES[key]?key:'crimson';const p=AURA_PALETTES[this.palette];
+  this.palette=resolveAuraPaletteId(key);const p=AURA_PALETTES[this.palette];
   matrix(this.outerColor,p.outer);matrix(this.innerColor,p.inner);matrix(this.edgeColor,p.inner);matrix(this.rimColor,p.rim);
   this.rear.forEach(s=>s.tint=p.rear);this.particles.forEach((s,i)=>s.tint=i%3===0?p.light:p.wrap);
   // Crimson keeps the approved red/gold pixels. Alternatives map red to hue and gold to highlight.

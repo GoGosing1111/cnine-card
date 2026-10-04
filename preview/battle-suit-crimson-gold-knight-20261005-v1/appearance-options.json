@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "appearanceId": "crimson-gold-knight",
+  "status": "DEFAULT_APPLIED_ALTERNATIVES_RETAINED",
+  "defaultPaletteId": "crimson",
+  "paletteOrder": [
+    "crimson",
+    "violet",
+    "teal"
+  ],
+  "defaultMaterial": "satin-gold",
+  "selection": {
+    "field": "auraPaletteId",
+    "cosmeticOnly": true,
+    "playerSelectionEnabled": false,
+    "previewSelectionEnabled": true,
+    "previewStorageKey": "cnine.preview.crimson-gold-knight.auraPalette.v1",
+    "missingOrInvalidValue": "crimson"
+  },
+  "palettes": {
+    "crimson": {
+      "label": "진홍 · 샴페인 골드",
+      "retained": true,
+      "applied": true,
+      "role": "default",
+      "outer": [
+        0.4,
+        0.005,
+        0.055
+      ],
+      "inner": [
+        0.9,
+        0.025,
+        0.13
+      ],
+      "rim": [
+        0.91,
+        0.68,
+        0.34
+      ],
+      "rear": 14296134,
+      "wrap": 14296134,
+      "light": 14728573
+    },
+    "violet": {
+      "label": "청보라 · 백금",
+      "retained": true,
+      "applied": true,
+      "role": "alternative",
+      "outer": [
+        0.12,
+        0.025,
+        0.38
+      ],
+      "inner": [
+        0.48,
+        0.22,
+        0.94
+      ],
+      "rim": [
+        0.71,
+        0.81,
+        0.95
+      ],
+      "rear": 9987823,
+      "wrap": 9987823,
+      "light": 12177406
+    },
+    "teal": {
+      "label": "청록 · 옅은 금빛",
+      "retained": true,
+      "applied": true,
+      "role": "alternative",
+      "outer": [
+        0.005,
+        0.2,
+        0.22
+      ],
+      "inner": [
+        0.04,
+        0.71,
+        0.73
+      ],
+      "rim": [
+        0.91,
+        0.73,
+        0.38
+      ],
+      "rear": 3590088,
+      "wrap": 3590088,
+      "light": 14269047
+    }
+  }
+}

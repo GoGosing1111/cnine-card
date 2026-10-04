@@ -66,7 +66,7 @@ export class KnightFX{
   return{x:mix(a.x,b.x,q),y:groundY-state.lift*size,groundY};
  }
  applyPose(state){
-  const s=this.unit.bodySprite,p=state.pose,f=this.pose(p),original=this.mode==='look'||(state.time<=0||state.done)&&this.mode!=='idle';
+  const s=this.unit.bodySprite,p=state.pose,f=this.pose(p),original=this.mode==='look'||this.mode==='idle'||state.time<=0||state.done;
   if(original){s.texture=this.assets.idle;s.anchor.set(550/1024,1511/1536);s.scale.set(HEIGHT/1495);}
   else{s.texture=this.assets.motion[p.bank][p.index];s.anchor.set(f.pivot.x/768,f.pivot.y/768);s.scale.set(HEIGHT/360);}
   s.position.set(0,0);this.unit.weaponSprite.visible=false;this.unit.view.position.set(0,0);this.unit.view.scale.set(original?1:p.facing,1);

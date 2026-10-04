@@ -1,0 +1,15 @@
+{
+  "version": "APPEARANCE_V4_20261005",
+  "deploymentMode": "assets-only",
+  "deployedBase": "ccdbd08ce1b6466b7025eb4a046a28745d233f2e",
+  "baseEvidence": "qa/production-valter-aura-v3.json",
+  "scope": "Preview-only palette catalog, selection persistence, approved standing idle, latest video and evidence.",
+  "command": "npm run deploy:production -- --assets-only",
+  "rationale": "Only preview and documentation changes since actual deployed base; shared game runtime, backend and databases unchanged.",
+  "validation": [
+    "One Pixi/one GSAP build",
+    "Three stable palette IDs, default fallback and retained variants verified",
+    "PC/mobile actual UI persistence and fixed idle transform checks"
+  ],
+  "runtimeEnabled": false
+}

@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-05",
+  "userInstructions": [
+    "일단 맨위에거로 적용하고 나머지도 폐기하지말고 같이 적용해놔 차후에 유저가 선택할수도 있게끔",
+    "근데 대기모션 이상한거같다? 걍 가만히 서있으면 되지"
+  ],
+  "scope": "Default aura palette adopted; all three palette variants applied and preserved; idle body fixed to standing source.",
+  "defaultPaletteId": "crimson",
+  "preservedAlternatives": [
+    "violet",
+    "teal"
+  ],
+  "catalog": "appearance-options.json",
+  "selectionField": "auraPaletteId",
+  "previewPersistence": "localStorage; device only",
+  "futurePlayerSelectionPrepared": true,
+  "playerSelectionEnabled": false,
+  "idlePolicy": "STANDING_APPROVED_SOURCE_AURA_ONLY_ANIMATED",
+  "oldIdleFrames": "PRESERVED_NOT_PLAYED",
+  "runtimeEnabled": false,
+  "motionAndSkillFinalApproval": "PENDING",
+  "sha256": {
+    "appearance-options.json": "c478fe2228dc828be1865061cae3b8cb9e32e184b484c4df9b98a986aabb1c79",
+    "assets/sources/knight-approved-20261005.png": "02ccd3d717c94cd001c538bb8a08cb9272fa1e7cae512e01f12a31b32f68d236",
+    "source/SatinGoldFilter.js": "102fb2834b4520270298dce113562edb97caccebc7e856035377a2a5c7343588",
+    "assets/atlases/aura-valter-v17.webp": "d0eb269edf87e158d29149a0fdd7c6a8df95795d741d8b0f4755812b51902e97",
+    "assets/atlases/aura-valter-rear-approved.png": "433dff0f0d90cb93e990b31c5ed85f0f355159a397bfa152aaad69487d071f5d"
+  }
+}

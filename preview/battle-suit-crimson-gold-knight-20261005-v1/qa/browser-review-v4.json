@@ -1,0 +1,71 @@
+{
+  "version": "APPEARANCE_V4_20261005",
+  "status": "DEFAULT_PALETTE_APPLIED_AND_STANDING_IDLE_VERIFIED",
+  "runtimeEnabled": false,
+  "desktop": {
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "canvas": {
+      "width": 1781,
+      "height": 800
+    },
+    "checks": 43,
+    "passed": true,
+    "report": "qa/runtime-desktop-v4.json",
+    "capture": "qa/standing-idle-v4-desktop.png"
+  },
+  "mobile": {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "canvas": {
+      "width": 375,
+      "height": 460
+    },
+    "checks": 43,
+    "passed": true,
+    "report": "qa/runtime-mobile-v4.json",
+    "captures": [
+      "qa/standing-idle-v4-mobile.png",
+      "qa/appearance-v4-mobile.png"
+    ]
+  },
+  "verified": {
+    "defaultPalette": "crimson",
+    "paletteIds": [
+      "crimson",
+      "violet",
+      "teal"
+    ],
+    "violetRestoredAfterReload": true,
+    "tealSelectable": true,
+    "resetRestoresCrimson": true,
+    "previewDeviceStorageOnly": true,
+    "invalidPreferenceFallsBackToCrimson": true,
+    "standingSourceMatchedAt": [
+      0,
+      0.6,
+      1.2,
+      1.8,
+      2.4
+    ],
+    "bodyAndWeaponTransformUnchanged": true,
+    "auraContinuesAnimating": true,
+    "previousIdleFramesPreserved": true,
+    "existingArtAndAuraRasterUnchanged": true
+  },
+  "video": {
+    "file": "review-standing-palettes-v4.webm",
+    "bytes": 20228321,
+    "decodedWidth": 1425,
+    "decodedHeight": 640,
+    "readyState": 4,
+    "durationSeconds": 22.049031,
+    "playedToEnd": true
+  },
+  "liveUserSelection": false,
+  "motionAndSkillFinalApproval": "PENDING"
+}
