@@ -99,12 +99,75 @@
       "tests/apocalypse-request-queue-20261005.test.mjs",
       "tests/apocalypse-completion-20261005.test.mjs",
       "tests/pve-battlefield-entry-v2117.test.mjs"
-    ]
+    ],
+    "scopedResult": {
+      "passed": 16,
+      "failed": 0,
+      "releaseCacheGate": "PASS",
+      "hyperdriveQueryCache": "DISABLED"
+    }
   },
   "release": {
     "base": "08035e0e28954335602485cc1e3e44f2e05b8e7a",
     "baseDeployment": "https://db41ab04.cnine-card.pages.dev",
     "command": "npm run deploy:production -- --scoped",
     "reason": "Localized Apocalypse client request ordering and viewport backdrop fix. Verify transient retry/cancellation, server completion atomicity, and shipped renderer loader; PC/mobile battle and ordinary PVE/PVP already checked."
+  },
+  "deployment": {
+    "source": "d9ff3df0643bf7a0580d30a99fba604b6983aeee",
+    "pagesUrl": "https://335ea8bd.cnine-card.pages.dev",
+    "apiRuntimeVersion": "b6430bd5-78cf-421a-b2e9-47f19459beb2",
+    "clanWorkerVersion": "709121ec-86be-4a90-8e94-479f089e98e5",
+    "checkedAt": "2026-10-04T18:33:09.426Z",
+    "origin": "https://cnine-card.pages.dev",
+    "checks": [
+      {
+        "file": "index.html",
+        "status": 200,
+        "sha256": "07cb6669bdaa69e51d42e81335a391f6f8d1b78fd85c62252518a585c436f8cc"
+      },
+      {
+        "file": "js/app.js",
+        "status": 200,
+        "sha256": "bb46c316ea8f902279ebeffbe8db846a9890ac63f70c53d5b7b5aaa1e4873b44"
+      },
+      {
+        "file": "js/apocalypse-challenge-v1.mjs",
+        "status": 200,
+        "sha256": "6f09d1bbab37dd4b8d610f3fe1912d04b97548f1166abb268ede9aeff9e03146"
+      },
+      {
+        "file": "js/pve-apocalypse-v1952.js",
+        "status": 200,
+        "sha256": "3b7c651bd2d7d7c7b2b564d9f54339ebb202256b6f2480f18aa841170fb5e1ee"
+      },
+      {
+        "file": "js/battle-v2-live.js",
+        "status": 200,
+        "sha256": "1114be793addc083af90aa45fedb8ce2bb6d215d5d5062e0f0932814a1d581b9"
+      },
+      {
+        "file": "js/battle-v3-live.js",
+        "status": 200,
+        "sha256": "fe8c55af0415e9967044b5c5ee82f0e4f4538e2873abbed2ef2beaca9c05ae8c"
+      },
+      {
+        "file": "css/battle-v3-live.css",
+        "status": 200,
+        "sha256": "06feeb106dc2e24d476da11665a1ae1e0cbb95d76906e96bb2d16917db0afb61"
+      },
+      {
+        "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+        "status": 200,
+        "sha256": "0bcf3b0e1c4722cdfcd54741a57ae30b316a45a420fb37fbe0e286e44ba49bb2"
+      },
+      {
+        "file": "service-worker.js",
+        "status": 200,
+        "sha256": "c5f9612add92be360497468d40c2be9509967ab68449a9348cceff3f71342a39"
+      }
+    ],
+    "unauthenticatedChallenge": 401,
+    "productionBattleMutations": 0
   }
 }
