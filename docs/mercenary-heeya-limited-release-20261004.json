@@ -1,7 +1,7 @@
 {
   "date": "2026-10-04",
   "timezone": "Asia/Seoul",
-  "status": "READY_FOR_SCOPED_DEPLOY",
+  "status": "DEPLOYED_VERIFIED",
   "request": "승인 SS 리미티드 하이희야로 올려",
   "card": {
     "code": "V-998",
@@ -54,6 +54,50 @@
       "check:worker"
     ],
     "cache": "Codex GET remains no-store; unique approved PNG URL. Existing client cache contracts unchanged.",
-    "productionVerification": "PENDING"
-  }
+    "productionVerification": "VERIFIED",
+    "sourceCommit": "a8b18011a3def859ab33e851ec71a9bb6252ac01",
+    "testResult": {
+      "passed": 6,
+      "failed": 0,
+      "workerSyntax": "PASSED",
+      "productionGuard": "PASSED",
+      "hyperdriveQueryCache": "DISABLED"
+    },
+    "pagesDeployment": "288b9b93-1c67-4493-b0d3-ba9e0c6f069c",
+    "pagesUrl": "https://288b9b93.cnine-card.pages.dev",
+    "apiRuntimeVersion": "024f502b-c129-4074-8c12-595a507eed7a",
+    "clanWorkerVersion": "d0f4a561-8827-4443-85ad-5ea47d822f22",
+    "verifiedAt": "2026-10-04T02:28:53.522Z",
+    "liveChecks": [
+      {
+        "path": "/api/mercenary-codex",
+        "status": 200,
+        "cacheControl": "no-store",
+        "bytes": 111663,
+        "sha256": "98D4CB35BEB58D0E768070211D277313436F5F0F871F25C3FCEF61780B5CBB8A"
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/limited-20261004/v-998-hi-heeya-source-art-approved.png",
+        "status": 200,
+        "cacheControl": "public, max-age=86400, stale-while-revalidate=604800",
+        "bytes": 2813250,
+        "sha256": "7FE9B78CCA3243078BB47A4E9F358017F7C633B39E2D888BDEA76B8F7984D20D"
+      },
+      {
+        "path": "/assets/ui/project-v/mercenaries/limited-20261002/catalog.json",
+        "status": 200,
+        "cacheControl": "public, max-age=86400, stale-while-revalidate=604800",
+        "bytes": 10773,
+        "sha256": "E26221CE36947FEA9D015FD27671FEB2E71FCE0425974FCB2F93944EA3C33BE1"
+      },
+      {
+        "path": "/mercenary-codex/?view=limited",
+        "status": 200,
+        "cacheControl": "no-cache, must-revalidate, max-age=0, no-cache, must-revalidate, max-age=0",
+        "bytes": 7500,
+        "sha256": "6D6516D28A4CB1EF398557D86F438AF2F7D4E4EAAA58D0434A7465B305619E0A"
+      }
+    ]
+  },
+  "publicUrl": "https://cnine-card.pages.dev/mercenary-codex/?view=limited#V-998"
 }
