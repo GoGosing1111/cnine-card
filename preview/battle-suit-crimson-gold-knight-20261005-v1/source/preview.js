@@ -43,7 +43,16 @@ function checks(){
 async function boot(){
  const [manifest,fixtures]=await Promise.all([fetch(ROOT+'manifest.json').then(r=>r.json()),fetch('/preview/z-body-thunder-v3/fixtures.json').then(r=>r.json())]);
  const payload=structuredClone(fixtures.multi);delete payload.monster;payload.wideGridPreview={scenario:'PVE'};window.cnineCardCatalog=()=>payload.cards;
+ // Use this review's body directly so the borrowed encounter does not load Z-BODY's unrelated motion/FX pack.
+ payload.equippedBattleSuit={code:'PREVIEW_CRIMSON_GOLD_KNIGHT',name:'흑금의 군주',battleSprite:ROOT+manifest.sourceArt,appearance:{battleSprite:ROOT+manifest.sourceArt,battleHeight:278}};
+ payload.equippedWeapon=null;
  await new Promise(r=>document.readyState==='complete'?r():window.addEventListener('load',r,{once:true}));
+ // The shared first-frame watchdog needs animation frames; background tabs do not receive them.
+ if(document.hidden){
+  $('status').textContent='화면을 열면 전장을 준비합니다';
+  await new Promise(resolve=>{const visible=()=>{if(document.hidden)return;document.removeEventListener('visibilitychange',visible);resolve();};document.addEventListener('visibilitychange',visible);});
+ }
+ $('status').textContent='전장과 동작 리소스를 준비하고 있습니다';
  const api=window.ProjectVPixiBattle,mount=api.mountForBattle;api.mountForBattle=async(...args)=>{engine=await mount(...args);return engine;};
  try{
   const prepared=window.ProjectVBattleV3Live.prepareLoading({modal:document.getElementById('modal'),mode:'HUNT',playerName:'흑금의 군주',opponentName:'백호멸진'});
