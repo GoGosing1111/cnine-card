@@ -1,0 +1,40 @@
+{
+  "status": "VALIDATED_PENDING_APPLY",
+  "authorization": "망순이ෆ 라그니엘 지급",
+  "operationKey": "ops:mangsuni-ragniel:20261005:v1",
+  "operationScript": "scripts/ops/mangsuni-ragniel-grant-20261005.mjs",
+  "target": {
+    "userId": 4628,
+    "nickname": "망순이ෆ",
+    "mercenaryCode": "V-046",
+    "mercenaryName": "라그니엘",
+    "rank": "SSS",
+    "quantity": 1,
+    "permanent": true,
+    "beforeCopies": 0
+  },
+  "lookup": {
+    "exactNicknameMatches": 1,
+    "accountStatus": "ACTIVE",
+    "cmsRevision": 60,
+    "liveCardWeight": 30,
+    "previousOperationReceipt": false
+  },
+  "validation": {
+    "syntax": "PASS",
+    "dryRun": "DRY_RUN_ROLLED_BACK",
+    "partialFailureRolledBack": true,
+    "replayVerified": true,
+    "rollbackVerified": true,
+    "balancesPreserved": true,
+    "loadoutPreserved": true,
+    "growthPreserved": true,
+    "otherMercenariesPreserved": true
+  },
+  "execution": {
+    "userLock": "user:4628",
+    "atomicWrites": ["holdings", "acquisition", "adminAudit", "completionReceipt"],
+    "siteDeployment": "NOT_REQUIRED_OPS_ONLY",
+    "notificationSent": false
+  }
+}
