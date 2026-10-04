@@ -1,0 +1,55 @@
+{
+  "date": "2026-10-04",
+  "timezone": "Asia/Seoul",
+  "status": "READY_FOR_SCOPED_DEPLOY",
+  "request": "SS 리미티드 아윤으로 커밋,용병 도감에 올릴것",
+  "card": {
+    "code": "V-997",
+    "name": "아윤",
+    "rank": "SS",
+    "edition": "LIMITED",
+    "sourceArt": "assets/ui/project-v/mercenaries/limited-20261004/v-997-ayoon-source-art-approved.png",
+    "sha256": "21623C96DFF0FAF9054FF04B4B925D28582E9716A6C40C5B1851E0954E287A39",
+    "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+    "sd": null,
+    "acquisitionEnabled": false,
+    "deploymentEnabled": false
+  },
+  "catalog": {
+    "limited": 7,
+    "SS": 6,
+    "SSS": 1
+  },
+  "cms": "Read saved six-card policies without writing or replacing existing rates, weights, memo or revision; missing catalog weights project as zero.",
+  "ui": {
+    "status": "PASSED",
+    "checks": 62,
+    "viewports": [
+      {
+        "width": 1440,
+        "height": 1000
+      },
+      {
+        "width": 390,
+        "height": 844
+      }
+    ],
+    "evidence": "C:/Users/User/.codex/tmp/ayoon-limited-20261004/browser",
+    "visualReview": "Approved Valter frame, Ayoon SS label, full illustration, source zoom and disabled missing SD verified. No horizontal overflow or failed local resources."
+  },
+  "release": {
+    "scope": "SMALL",
+    "baseCommit": "b97226631e1deac3d9b0db50adad08d7c34372f7",
+    "baseDeployment": "69cd1982-1ca8-4e25-a2f8-614173b4f6c9",
+    "reason": "Append one approved SS limited card and preserve existing CMS policy reads; only catalog/media/lock/CMS regressions and Worker compilation are needed.",
+    "tests": [
+      "tests/mercenary-limited-catalog-20261002.test.mjs",
+      "tests/limited-battle-visuals-20261004.test.mjs"
+    ],
+    "checks": [
+      "check:worker"
+    ],
+    "cache": "Codex GET remains no-store; new unique image URL; no client script or cache contract changes.",
+    "productionVerification": "PENDING"
+  }
+}

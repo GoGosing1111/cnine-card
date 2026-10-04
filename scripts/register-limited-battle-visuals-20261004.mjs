@@ -32,6 +32,7 @@ await write(destination+'/manifest.json',visuals);
 await fs.writeFile('shared/mercenary-limited-visual-catalog-v1.mjs','// Approved presentation resources; this does not change acquisition, stats or skill assignments.\nexport const LIMITED_BATTLE_VISUALS = '+JSON.stringify(visuals,null,2)+';\n');
 const cards=LIMITED_MERCENARIES.map(c=>{
  const v=characters.find(v=>v.code===c.code);
+ if(!v)return c; // Later artwork-only additions have no approved SD yet.
  return {...c,battleSprite:v.sprite.replace(/^\//,''),battleSpriteSha256:v.spriteSha256,resourceStatus:c.code==='V-996'?'ART_SD_MOTION_READY':'ART_SD_SKILL_VISUAL_READY',visualApproval:'USER_APPROVED_20261004',battleVisualManifest:destination+'/manifest.json'};
 });
 await fs.writeFile('shared/mercenary-limited-catalog-v1.mjs','// Approved limited collection; acquisition policy remains separate.\nexport const LIMITED_MERCENARIES=Object.freeze('+JSON.stringify(cards,null,2)+'.map(card=>Object.freeze(card)));\nexport const isLimitedMercenary=code=>LIMITED_MERCENARIES.some(card=>card.code===code);\n');

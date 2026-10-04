@@ -54,7 +54,7 @@ try{
    stages.push({code:c.code,idle,attack,stopped});console.log(label+' '+c.code+' passed');
   }
   await page.evaluate(()=>window.ProjectVPixiBattle.destroy());
-  await page.goto(base+'/mercenary-codex/?view=limited');await page.locator('.roster-row').first().waitFor();assert.equal(await page.locator('.roster-row').count(),6);
+  await page.goto(base+'/mercenary-codex/?view=limited');await page.locator('.roster-row').first().waitFor();assert.equal(await page.locator('.roster-row').count(),catalog.cards.filter(c=>c.edition==='LIMITED').length);
   for(const c of LIMITED_VISUALS.characters){await page.locator('[data-code="'+c.code+'"]').click();assert.equal(await page.locator('#sdTab').isDisabled(),false);await page.locator('#sdTab').click();await page.locator('.sd-display img').evaluate(img=>img.decode());}
   await page.screenshot({path:path.join(out,label+'-codex.png'),fullPage:true});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
   assert.deepEqual(errors,[]);assert.deepEqual(failures,[]);reports.push({label,mode,stages,errors,failures});await context.close();

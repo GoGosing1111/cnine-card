@@ -3,6 +3,15 @@ export const LIMITED_POLICY_KEY='mercenary_limited_draw_policy_v1';
 export const LIMITED_RECEIPT_PREFIX='mercenary_limited_save:';
 export function limitedPolicyDraft(){return {format:'MERCENARY_LIMITED_POLICY_V1',acquisitionEnabled:false,rankRatesPpm:{SS:null,SSS:null},cardWeights:Object.fromEntries(LIMITED_MERCENARIES.map(c=>[c.code,1])),notes:''};}
 const exact=(v,keys)=>v&&typeof v==='object'&&!Array.isArray(v)&&Object.keys(v).sort().join(',')===[...keys].sort().join(',');
+// Catalog additions must not invalidate saved operator rates. New entries stay
+// at zero until an operator saves an explicit weight; reading never writes DB.
+export function readLimitedPolicy(value){
+ const policy=structuredClone(value);
+ if(policy?.cardWeights&&typeof policy.cardWeights==='object'&&!Array.isArray(policy.cardWeights)){
+  for(const card of LIMITED_MERCENARIES)if(!Object.hasOwn(policy.cardWeights,card.code))policy.cardWeights[card.code]=0;
+ }
+ return validateLimitedPolicy(policy);
+}
 export function validateLimitedPolicy(value){
  if(!exact(value,['format','acquisitionEnabled','rankRatesPpm','cardWeights','notes'])||value.format!=='MERCENARY_LIMITED_POLICY_V1'||value.acquisitionEnabled!==false)throw Error('리미티드 획득은 잠금 상태로만 저장할 수 있습니다.');
  if(!exact(value.rankRatesPpm,['SS','SSS'])||Object.values(value.rankRatesPpm).some(n=>n!==null&&(!Number.isSafeInteger(n)||n<0||n>1000000))||Object.values(value.rankRatesPpm).reduce((sum,n)=>sum+(n??0),0)>1000000)throw Error('SS·SSS 확률은 미정 또는 합계 100% 이내로 설정하세요.');

@@ -1,0 +1,37 @@
+{
+  "title": "아윤 · SS 리미티드",
+  "createdDate": "2026-10-04",
+  "status": "APPROVED_SOURCE_ART",
+  "sourceArt": "assets/mercenary-ayoon-scythe-source-art-v1.png",
+  "sha256": "21623C96DFF0FAF9054FF04B4B925D28582E9716A6C40C5B1851E0954E287A39",
+  "dimensions": {
+    "width": 1024,
+    "height": 1536,
+    "aspectRatio": "2:3",
+    "format": "PNG",
+    "colorSpace": "sRGB",
+    "channels": 3,
+    "alpha": false
+  },
+  "generation": {
+    "tool": "built-in image_gen",
+    "promptRecord": "prompt-v1.json",
+    "generatedOriginal": "C:/Users/User/.codex/generated_images/01a0f5e0-2103-73f0-ad4e-e1ac362f77cb/exec-285f2e75-b20f-4e91-a378-7d11731bb304.png",
+    "preservedWithoutRecompression": true
+  },
+  "review": {
+    "method": "Generated full-resolution image visually compared with approved LG Ayoon face, latest avatar and user outfit reference.",
+    "faceAndBody": "Approved LG Ayoon face and latest body used as distinct references; adult proportions and long black hair retained. User approved this generated illustration for SS LIMITED codex registration.",
+    "costume": "Black/magenta long coat, white abstract-emblem tee, pleated skirt, thigh-high stockings, silver bands and buckled boots visible.",
+    "weapon": "One crescent energy scythe with a circular core; visible shaft segments follow a straight rigid axis through the grip. The lower shaft extends out of the left canvas edge.",
+    "hair": "Natural continuous black hair flow; no repeated slab-like separated layers.",
+    "textAndFrame": "No lettering, names, rank, watermark, UI or card frame added.",
+    "scope": "Approved illustration, name, SS LIMITED rank, commit and public mercenary codex registration. SD, skills, acquisition and deployment remain unassigned or locked."
+  },
+  "battleSprite": null,
+  "rank": "SS",
+  "mercenaryCode": "V-997",
+  "edition": "LIMITED",
+  "approval": "approval-20261004.json",
+  "publicSourceArt": "assets/ui/project-v/mercenaries/limited-20261004/v-997-ayoon-source-art-approved.png"
+}

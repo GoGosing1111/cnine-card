@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-04",
+  "timezone": "Asia/Seoul",
+  "status": "APPROVED_SOURCE_ART",
+  "userInstruction": "SS 리미티드 아윤으로 커밋,용병 도감에 올릴것",
+  "name": "아윤",
+  "code": "V-997",
+  "rank": "SS",
+  "edition": "LIMITED",
+  "sourceArt": "assets/ui/project-v/mercenaries/limited-20261004/v-997-ayoon-source-art-approved.png",
+  "sourceArtSha256": "21623C96DFF0FAF9054FF04B4B925D28582E9716A6C40C5B1851E0954E287A39",
+  "generationRecord": "preview/mercenary-ayoon-scythe-20261004-v1/prompt-v1.json",
+  "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+  "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+  "scope": "Approved illustration, name, SS LIMITED rank, commit and public mercenary codex registration.",
+  "battleSpriteStatus": "NOT_YET_PRODUCED",
+  "acquisitionEnabled": false,
+  "deploymentEnabled": false
+}

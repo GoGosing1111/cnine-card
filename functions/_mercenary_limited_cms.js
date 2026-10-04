@@ -1,8 +1,8 @@
 import {LIMITED_MERCENARIES} from '../shared/mercenary-limited-catalog-v1.mjs';
-import {LIMITED_POLICY_KEY,LIMITED_RECEIPT_PREFIX,limitedPolicyDraft,validateLimitedPolicy} from '../shared/mercenary-limited-policy-v1.mjs';
+import {LIMITED_POLICY_KEY,LIMITED_RECEIPT_PREFIX,limitedPolicyDraft,validateLimitedPolicy,readLimitedPolicy} from '../shared/mercenary-limited-policy-v1.mjs';
 const hash=async s=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s))),x=>x.toString(16).padStart(2,'0')).join('');
 const initial=()=>({revision:1,policy:limitedPolicyDraft(),updatedAt:null});
-async function state(env){const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(LIMITED_POLICY_KEY).first();const saved=row?JSON.parse(row.value):initial();validateLimitedPolicy(saved.policy);return {...saved,cards:LIMITED_MERCENARIES,userOpeningEnabled:false};}
+async function state(env){const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(LIMITED_POLICY_KEY).first();const saved=row?JSON.parse(row.value):initial();return {...saved,policy:readLimitedPolicy(saved.policy),cards:LIMITED_MERCENARIES,userOpeningEnabled:false};}
 export async function handleLimitedMercenaryCms({path,request,env,deps}){
  if(path!=='admin/mercenaries/limited')return null;
  const admin=await deps.requirePermission(request,env,'BATTLE_MANAGE');

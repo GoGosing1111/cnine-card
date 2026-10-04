@@ -1,0 +1,30 @@
+{
+  "date": "2026-10-04",
+  "timezone": "Asia/Seoul",
+  "mode": "built-in image_gen",
+  "userRequest": "해당 의상,무기 토대로 아윤 LG 아바타 얼굴,체형 참고해서 용병 일러스트 만들어",
+  "references": [
+    {
+      "role": "authoritative face identity",
+      "path": "../avatar-lg-ayoon-v1/assets/avatar-lg-ayoon-face-approved-20261003.png",
+      "sha256": "CB6FAAE9846F90C37F2923CF163496537867039762EA26E20AFD749922A00DAD"
+    },
+    {
+      "role": "body proportions and long black hair",
+      "path": "../avatar-lg-ayoon-v1/assets/avatar-lg-ayoon-lobby-source-art-v3.png",
+      "sha256": "F753B93DE8C0613909C99C963730FF2B0E7989646BB6223F5EF6CB5D0F863F23"
+    },
+    {
+      "role": "outfit and scythe design only",
+      "path": "references/outfit-and-scythe-user-reference.png",
+      "originalFile": "codex-clipboard-6914d087-eb94-45ad-8ef4-7e9408e3f820.png",
+      "sha256": "4EDA10F509E9352B5DBEE455082EF999E9F3B7556B9493B5966B7C5621A50C67"
+    },
+    {
+      "role": "painting quality only; not face, body, costume or palette",
+      "path": "../../assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+      "sha256": "629564D768A4BCEFCD0BE746E744DA49A64F1CF2BE7D048E7485FC6CB14FF874"
+    }
+  ],
+  "prompt": "Use case: stylized-concept, identity-preserving reference composition.\nAsset type: one finished PROJECT V mercenary source illustration, exact portrait 2:3, 1024 x 1536 or larger at exactly 2:3, opaque RGB PNG. Create a single polished full-body illustration.\n\nREFERENCE ROLES, STRICT PRIORITY:\nImage 1 is the approved LG Ayoon face. Preserve this adult woman's specific identity: eye shape and spacing, dark iris color, eyebrows, nose, lips, cheek/jaw/chin structure, soft expression and natural head size. Her face must clearly remain the same woman.\nImage 2 is the latest LG Ayoon avatar. Use her natural adult body proportions, slender waist, shoulder/hip balance, long legs and long black hair. Use image 1 if a facial detail conflicts. Do not carry over the officer uniform, crest or palace.\nImage 3 is the user's outfit and weapon reference ONLY. Translate this costume and large pink energy scythe into the illustrated Ayoon character. Do not take its anime face, pink hair, body proportions, poster composition or typography.\nImage 4 is the PROJECT V painting-quality anchor ONLY: borrow refined painterly materials, facial readability and high-end 2D semi-real fantasy splash rendering. Do not borrow its woman's facial features, bob haircut, glasses, red outfit, gun, city or colors.\n\nCOSTUME:\nClosely follow image 3: open long black glossy streetwear combat coat with hot magenta lining, small iridescent silver panels and pink straps; white fitted opaque T-shirt with a simple abstract magenta angular emblem and no lettering; black pleated short skirt; black/pink belt and a restrained silver hip chain; dark thigh-high stockings with metallic silver bands and connected garter straps; black mid-calf platform combat boots with several silver buckles, pink accents and metallic toe details; small black choker. Keep the same clothing coverage and key garment construction. Fit the outfit naturally to image 2's body. No new armor suit, no school uniform, no exposed undergarments.\n\nWEAPON:\nOne large high-tech fantasy scythe closely based on image 3. A single long perfectly straight black-and-magenta rigid shaft, a mechanical silver-and-black collar with a circular magenta energy core, and a broad sweeping crescent blade with bright magenta energy within its silver/black cutting geometry. Preserve the recognizable silhouette and structural connection. The intentional curve belongs only to the blade. The shaft remains one rigid uninterrupted straight axis through the hand and head connector; no kink at the grip, no bent sections, no duplicate shaft or second weapon. Every visible portion of the shaft must be collinear.\n\nNEW COMPOSITION AND POSE:\nAn adult Ayoon poised on an elevated dark metal terrace with understated futuristic architecture receding behind her at blue-grey dusk. Confident relaxed combat readiness, torso turned slightly three-quarter with her face gently turned toward the viewer; one leg bears her weight and the other steps forward naturally. Compose a clear full-body silhouette showing the complete boots. Hold the scythe in a physically plausible shoulder-level grip, the shaft diagonally extending into open space beside her, the blade making a dramatic arc across the upper background without covering her face. Both arms and hands anatomically coherent, five fingers on each hand, convincing fingers around the shaft, natural wrist and elbow directions. Clearly change the old avatar pose and source poster pose. No extreme low angle or exaggerated foreshortening.\nKeep Ayoon large in the frame, her readable face near the upper quarter, all essential weapon and costume parts inside comfortable margins. The eye goes first to her face, then the pink scythe. New background and pose, not a pasted uniform swap.\n\nHAIR, LIGHT AND RENDERING:\nRetain her long black hair and its natural parting. Smooth continuous organic flow from roots to tips, fine strands and restrained flyaways; NEVER separated slabs, ribbon-like chunks, repeated stepped layers, harsh bands or plastic highlights. Let the coat have only one or two controlled folds of wind, leaving the hands, weapon and legs unobstructed.\nHigh-end character-centered semi-real 2D fantasy splash painting, sophisticated brush-painted skin, crisp expressive eyes, believable fabric, controlled patent-leather highlights and painted silver. Neutral soft light on her face, restrained magenta scythe rim light and cool desaturated background. Her body proportions remain faithful to LG Ayoon. Not a photograph, not a 3D render, not flat anime cel art, not a doll or chibi.\nKeep the background secondary and atmospheric with credible perspective. No extra people or creatures. No text, letters, brand marks, LG crest, captions, poster layouts, barcodes, watermark, signature, rank badge, UI or card frame."
+}

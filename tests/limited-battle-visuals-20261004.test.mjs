@@ -11,8 +11,9 @@ test('final approved assets are hash-identical in live storage and six codex SDs
  assert.equal(approval.userApproval,'최종승인');assert.equal(approval.userDeploymentInstruction,'라이브에 반영해');
  for(const f of approval.files){assert.equal(hash(f.source),f.sha256);assert.equal(hash(f.path),f.sha256);}
  assert.equal(createHash('sha256').update(fs.readFileSync(approval.visualManifest.path,'utf8').replace(/\r\n/g,'\n')).digest('hex').toUpperCase(),approval.visualManifest.sha256);
- assert.equal(LIMITED_MERCENARIES.length,6);
- for(const c of LIMITED_MERCENARIES){assert.equal(hash(c.battleSprite),c.battleSpriteSha256);assert.equal(c.visualApproval,'USER_APPROVED_20261004');assert.equal(c.acquisitionEnabled,false);assert.equal(c.deploymentEnabled,false);assert.deepEqual(c.skills,[]);}
+ const ready=LIMITED_MERCENARIES.filter(c=>c.battleSprite);assert.equal(ready.length,6);
+ for(const c of ready){assert.equal(hash(c.battleSprite),c.battleSpriteSha256);assert.equal(c.visualApproval,'USER_APPROVED_20261004');assert.equal(c.acquisitionEnabled,false);assert.equal(c.deploymentEnabled,false);assert.deepEqual(c.skills,[]);}
+ assert.equal(limitedBattleArt('V-997'),null,'Ayoon artwork is not a battle sprite');
 });
 test('six actual sprite transforms share original Valter body height; emission stays ahead on both teams',()=>{
  assert.equal(LIMITED_VISUALS.reference.textureHeight,358);
