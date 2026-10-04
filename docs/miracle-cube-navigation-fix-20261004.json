@@ -1,6 +1,6 @@
 {
   "date": "2026-10-04",
-  "status": "VERIFIED_PENDING_DEPLOYMENT",
+  "status": "LIVE_FIXED",
   "request": "미라클 큐브 개봉 화면에 들어가면 다른 메뉴를 불러오지 못하는 문제 수정",
   "cause": "The standalone cube page loaded the shared navigation UI without the navigation contract. Its menu captured an empty route catalog and retained only the standalone equipment-forge fallback.",
   "reproduction": {
@@ -10,23 +10,56 @@
   },
   "change": "Load the existing exact-shell adapter with data-enabled=false before the deferred lobby and standalone navigation scripts. This provides the shared route catalog without booting the main-app shell inside the cube page.",
   "scope": {
-    "runtimeFiles": ["miracle-cube/index.html"],
+    "runtimeFiles": [
+      "miracle-cube/index.html"
+    ],
     "openingAndEconomy": "UNCHANGED",
     "sharedNavigationImplementation": "UNCHANGED"
   },
   "verification": {
     "browserTest": "tests/miracle-cube-navigation-20261004.browser.mjs",
-    "widths": [1440, 390],
+    "widths": [
+      1440,
+      390
+    ],
     "passedChecks": 40,
     "visibleMenuCountInFixture": 41,
-    "checks": ["Full menu and category/search entries", "Cube to magic cards/inventory/messages with actual main-app rendering", "Browser back returns to cube and preserves working menus", "Return to main lobby", "Zero browser errors and zero purchase/opening/reward requests"],
+    "checks": [
+      "Full menu and category/search entries",
+      "Cube to magic cards/inventory/messages with actual main-app rendering",
+      "Browser back returns to cube and preserves working menus",
+      "Return to main lobby",
+      "Zero browser errors and zero purchase/opening/reward requests"
+    ],
     "evidenceDirectory": "C:/Users/User/.codex/tmp/miracle-cube-navigation-20261004/qa",
     "scoped": {
       "base": "d6f3a8973a474b0b8274ee38f06dd26f835fb26c",
       "reason": "One standalone HTML entry-point dependency fix. PC/mobile destination loading was checked in the browser; the shared navigation contract regression is the only deployment test. No server, auth, transaction, economy or shared navigation code changes.",
-      "tests": ["tests/navigation-contract-v1.mjs"],
+      "tests": [
+        "tests/navigation-contract-v1.mjs"
+      ],
       "checks": [],
       "command": "npm run deploy:production -- --scoped"
+    },
+    "production": {
+      "verifiedAt": "2026-10-04T14:48:45.538Z",
+      "url": "https://cnine-card.pages.dev/miracle-cube/",
+      "httpStatus": 200,
+      "sha256Normalized": "e8ea93783cbb2fb411b86097266785192c45b0b742119f953ea38d5e27f72fe3",
+      "menuCount": 42,
+      "errors": [],
+      "apiWrites": [],
+      "session": "Fresh anonymous browser; no operator/account mutations"
     }
+  },
+  "deployment": {
+    "source": "3f7e9927fa5eebfe3716e500987bad14e25c0b49",
+    "pagesUrl": "https://7bb4558c.cnine-card.pages.dev",
+    "apiRuntimeVersion": "d0282196-b2f3-4259-9254-52070da7c25d",
+    "clanWorkerVersion": "48a6317c-57f0-44b2-9d44-c72f50669ef4",
+    "command": "npm run deploy:production -- --scoped",
+    "navigationContractPassed": true,
+    "releaseCacheGate": true,
+    "hyperdriveCacheDisabled": true
   }
 }
