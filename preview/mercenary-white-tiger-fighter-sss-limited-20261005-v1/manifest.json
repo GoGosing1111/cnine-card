@@ -1,0 +1,74 @@
+{
+  "format": "PROJECT_V_MERCENARY_SOURCE_ART_PREVIEW_V1",
+  "dateKst": "2026-10-05",
+  "status": "USER_REVIEW_PENDING",
+  "description": "백호 기운 · 용 건틀릿 · 태권도 격투가",
+  "name": null,
+  "mercenaryCode": null,
+  "requestedConcept": {
+    "grade": "SSS 리미티드급",
+    "camera": "정면",
+    "weapons": "양 주먹 용 디자인 건틀릿",
+    "background": "백호 스타일 효과",
+    "style": "로스트아크 스트라이커 느낌의 주먹·발 격투가",
+    "latestChange": "태권도복에 남성미로 교체하자 발차기 쓰는 포즈로"
+  },
+  "sourceArt": "assets/mercenary-white-tiger-fighter-taekwondo-source-art-v2.png",
+  "sha256": "AF023B3D2CFCDC740C7E734B205499E6F3E19F0BAC6B06D0B1624FC88A3EC178",
+  "bytes": 3711020,
+  "size": {
+    "width": 1024,
+    "height": 1536,
+    "pixelFormat": "Format24bppRgb"
+  },
+  "generatedWith": "built-in image_gen",
+  "prompt": "prompt-v2-taekwondo.txt",
+  "generationOriginal": "C:/Users/User/.codex/generated_images/01a0f5e0-2103-73f0-ad4e-e1ac362f77cb/exec-063d8e7f-307c-4682-99df-04b6632133bc.png",
+  "byteForByteCopy": true,
+  "reference": {
+    "path": "references/user-outfit-mood-20261005.png",
+    "sha256": "573895D0DA642FDA52580A11B779A0C82DA6AD6CD7A3DF5021C81AF193E7E079",
+    "source": "codex-clipboard-9fc37ed1-d90f-4e45-9621-0d0113aa5a3a.png",
+    "role": "Initial clothing/mood inspiration. White streetwear is superseded by the latest taekwondo uniform request; attached text is not an instruction."
+  },
+  "styleReferences": [
+    "preview/mercenary-vespera-beauty-v1/assets/male-beauty-v1.png",
+    "assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png"
+  ],
+  "versions": [
+    {
+      "version": 1,
+      "path": "assets/mercenary-white-tiger-fighter-source-art-v1.png",
+      "sha256": "F32622023CA38A818FC8BED59B3C66862FF946CF3BD6B98C5D5FB6B58B52ECFB",
+      "prompt": "prompt-v1.txt",
+      "status": "SUPERSEDED_BY_USER_TAEKWONDO_KICK_REQUEST"
+    },
+    {
+      "version": 2,
+      "path": "assets/mercenary-white-tiger-fighter-taekwondo-source-art-v2.png",
+      "sha256": "AF023B3D2CFCDC740C7E734B205499E6F3E19F0BAC6B06D0B1624FC88A3EC178",
+      "prompt": "prompt-v2-taekwondo.txt",
+      "status": "USER_REVIEW_PENDING"
+    }
+  ],
+  "visualReview": {
+    "frontFacingFace": true,
+    "whiteDobokBlackBelt": true,
+    "moreMasculinePhysique": true,
+    "activeFrontKick": true,
+    "twoVisibleDragonGauntlets": true,
+    "whiteTigerNotWolf": true,
+    "continuousNaturalHair": true,
+    "headAndTwoFeetInCanvas": true,
+    "noTextOrFrame": true,
+    "anatomy": "Two legs, two feet and coherent kicking/supporting limb connections visually checked.",
+    "frameReview": "Not performed; source illustration remains a draft."
+  },
+  "sourceArtApproved": false,
+  "sdProduced": false,
+  "cmsRegistered": false,
+  "codexPublished": false,
+  "acquisitionEnabled": false,
+  "formationEnabled": false,
+  "combatEnabled": false
+}
