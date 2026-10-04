@@ -9,13 +9,23 @@ import {runIconFusion,iconFusionReceipt,iconFusionOverview,handleIconFusion} fro
 import {ICON_FUSION_POLICY as POLICY,ICON_LIVE_CARDS,formatIconAmount,validateIconVideoUrl} from '../shared/icon-fusion-policy-v1.mjs';
 
 test('approved recipe, exact Korean units and same-site video paths',()=>{
- assert.equal(POLICY.coinCost,100000000000);assert.equal(POLICY.masterStarCost,5000000);assert.equal(POLICY.successRate,10);assert.equal(POLICY.pityAttempts,0);assert.equal(ICON_LIVE_CARDS.length,7);
- for(const [n,s] of [[5000000,'500만'],[100000000000,'1천억'],[89000000000000,'89조'],[0,'0'],[100010000,'1억 1만']])assert.equal(formatIconAmount(n),s);
+ assert.equal(POLICY.coinCost,500000000000);assert.equal(POLICY.masterStarCost,5000000);assert.equal(POLICY.successRate,10);assert.equal(POLICY.pityAttempts,0);assert.equal(ICON_LIVE_CARDS.length,7);
+ for(const [n,s] of [[5000000,'500만'],[100000000000,'1천억'],[500000000000,'5천억'],[89000000000000,'89조'],[0,'0'],[100010000,'1억 1만']])assert.equal(formatIconAmount(n),s);
  for(const path of ['https://evil.test/a.mp4','//evil/a.mp4','assets/../secret.mp4','assets/a.svg','assets/a.mp4?x=1'])assert.throws(()=>validateIconVideoUrl(path));
  assert.equal(validateIconVideoUrl('assets/videos/icon.mp4'),'/assets/videos/icon.mp4');
 });
 for(const postgres of [false,true]){
  const mode=postgres?'PostgreSQL':'SQLite';
+ test(`${mode}: the 500 billion policy rejects stale clients without charging or creating an attempt`,async t=>{
+  const f=await iconFusionFixture(t,{postgres}),before=await f.snapshot();
+  await f.setting('icon_fusion_settings_v1',{revision:2,enabled:true,successVideoUrl:'',successVideoDurationMs:12000,policy:{...POLICY,version:1,coinCost:100000000000}});
+  const overview=await iconFusionOverview(f.env,f.user);
+  assert.equal(overview.policy.coinCost,500000000000);assert.equal(overview.policy.version,2);
+  assert.equal(overview.settings.policy.coinCost,500000000000);assert.equal(overview.settings.policy.version,2);
+  await assert.rejects(()=>runIconFusion(f.env,f.user,{...f.body(),policyVersion:1}),{code:'ICON_FUSION_POLICY'});
+  assert.deepEqual(await f.snapshot(),before);
+  assert.equal(Number((await f.p("SELECT COUNT(*) n FROM joint_operations_v1 WHERE user_id=7 AND kind='ICON_FUSION'").first()).n),0);
+ });
  test(`${mode}: review lock leaves all seven visible, blocks new and pending payments, and fails closed without settings`,async t=>{
   const f=await iconFusionFixture(t,{postgres}),body=f.body(),before=await f.snapshot();
   f.fail('INSERT INTO user_cards');await assert.rejects(()=>runIconFusion(f.env,f.user,body,{randomInt:()=>0}));f.fail('');
@@ -34,7 +44,7 @@ for(const postgres of [false,true]){
  test(`${mode}: 10% boundary success consumes one enhanced copy of each grade, charges atomically and replays`,async t=>{
   const f=await iconFusionFixture(t,{postgres}),body=f.body(),result=await runIconFusion(f.env,f.user,body,{randomInt:()=>99999});
   assert.equal(result.success,true);assert.equal(result.target.code,'ICON-ORIKKUNG');assert.equal(result.result.quantity,1);
-  const after=await f.snapshot();assert.equal(after.coin,200000000000);assert.equal(after.stars,10000000);
+  const after=await f.snapshot();assert.equal(after.coin,1000000000000);assert.equal(after.stars,10000000);
   for(const id of [body.superstarId,body.furId])assert.deepEqual(after.cards.find(c=>c.card_id===id),{card_id:id,quantity:2,breakthrough_level:0});
   assert.equal((await runIconFusion(f.env,f.user,body,{randomInt(){throw Error('reroll')}})).replayed,true);assert.deepEqual(await f.snapshot(),after);
   assert.equal((await iconFusionReceipt(f.env,f.user,body.requestId)).success,true);
@@ -44,7 +54,7 @@ for(const postgres of [false,true]){
  });
  test(`${mode}: 90% failure consumes both cards and full costs without granting or compensation`,async t=>{
   const f=await iconFusionFixture(t,{postgres}),result=await runIconFusion(f.env,f.user,f.body(),{randomInt:()=>100000}),after=await f.snapshot();
-  assert.equal(result.success,false);assert.equal(result.result,null);assert.equal(after.cards.length,2);assert.equal(after.coin,200000000000);assert.equal(after.stars,10000000);
+  assert.equal(result.success,false);assert.equal(result.result,null);assert.equal(after.cards.length,2);assert.equal(after.coin,1000000000000);assert.equal(after.stars,10000000);
   assert.ok(after.cards.every(c=>c.quantity===2&&c.breakthrough_level===0));
  });
  test(`${mode}: grant failure rolls everything back, keeps result private and retries original plan`,async t=>{
@@ -68,14 +78,14 @@ for(const postgres of [false,true]){
   await assert.rejects(()=>runIconFusion(f.env,f.user,f.body()),{code:'ICON_FUSION_DECK'});await f.p('DELETE FROM pvp_deck_presets WHERE user_id=7').run();
   await assert.rejects(()=>runIconFusion(f.env,f.user,{...f.body(),superstarId:'CN-FUR',furId:'CN-SUPER'}),{code:'ICON_FUSION_MATERIAL'});
   await f.p("UPDATE user_cards SET breakthrough_level=14 WHERE card_id='CN-FUR'").run();await assert.rejects(()=>runIconFusion(f.env,f.user,f.body()),{code:'ICON_FUSION_MATERIAL'});await f.p("UPDATE user_cards SET breakthrough_level=13 WHERE card_id='CN-FUR'").run();
-  await f.p('UPDATE users SET coin=99999999999 WHERE id=7').run();await assert.rejects(()=>runIconFusion(f.env,f.user,f.body()),{code:'ICON_FUSION_BALANCE'});await f.p('UPDATE users SET coin=300000000000 WHERE id=7').run();
+  await f.p('UPDATE users SET coin=499999999999 WHERE id=7').run();await assert.rejects(()=>runIconFusion(f.env,f.user,f.body()),{code:'ICON_FUSION_BALANCE'});await f.p('UPDATE users SET coin=1500000000000 WHERE id=7').run();
   await f.setting('icon_fusion_settings_v1',{revision:1,enabled:false,successVideoUrl:'',successVideoDurationMs:12000});await assert.rejects(()=>runIconFusion(f.env,f.user,f.body()),{code:'ICON_FUSION_CLOSED'});assert.deepEqual(await f.snapshot(),before);
  });
  test(`${mode}: lost commit acknowledgement and competing requests cannot charge twice`,async t=>{
   const f=await iconFusionFixture(t,{postgres}),batch=f.DB.batch.bind(f.DB);let lost=false;
   f.DB.batch=async statements=>{const result=await batch(statements);if(!lost&&statements.some(s=>s.source?.includes("SET status='COMPLETED'"))){lost=true;throw Error('LOST_ACK')}return result;};
   const results=await Promise.allSettled([f.body(),f.body()].map(body=>f.deps.withUserMutationLock(f.env,7,'icons/fusion',()=>runIconFusion(f.env,f.user,body,{randomInt:()=>0}))));
-  assert.equal(results.filter(r=>r.status==='fulfilled').length,1);assert.equal(lost,true);assert.equal((await f.snapshot()).coin,200000000000);
+  assert.equal(results.filter(r=>r.status==='fulfilled').length,1);assert.equal(lost,true);assert.equal((await f.snapshot()).coin,1000000000000);
  });
 }
 test('authenticated route enforces origin/body and OWNER video settings preserve policy with retries',async t=>{
@@ -87,7 +97,7 @@ test('authenticated route enforces origin/body and OWNER video settings preserve
  const first=await (await send('admin/icons/fusion',body,'PATCH')).json();assert.equal(first.settings.revision,2);
  assert.equal((await (await send('admin/icons/fusion',body,'PATCH')).json()).settings.revision,2);
  assert.equal((await send('admin/icons/fusion',{...body,requestId:crypto.randomUUID()},'PATCH')).status,409);
- assert.equal((await f.snapshot()).coin,300000000000);
+ assert.equal((await f.snapshot()).coin,1500000000000);
  const source=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8'),wire=source.match(/const iconFusionResponse=[^\n]+/)[0];let locks=0;
  const context={handleIconFusion,env:f.env,requirePermission:deps.requirePermission,json:deps.json,authenticate:deps.authenticate,withJointUserMutationLock:(...args)=>{locks++;return deps.withUserMutationLock(...args);},path:'icons/fusion',request:new Request('https://qa.test/api/icons/fusion',{method:'POST',headers:{origin:'https://qa.test','content-type':'application/json',authorization:'Bearer local-account-7'},body:JSON.stringify(f.body())})};
  assert.equal((await vm.runInNewContext('(async()=>{'+wire+'return null;})()',context)).status,200);assert.equal(locks,1);

@@ -3,7 +3,7 @@ import {ICON_CARD_ROSTER} from './icon-card-roster-v1.mjs';
 // Public browsing stays available. Synthesis needs explicit ON after final review.
 export const ICON_FUSION_RELEASE_ENABLED = true;
 export const ICON_FUSION_POLICY = Object.freeze({
-  version:1, coinCost:100000000000, masterStarCost:5000000,
+  version:2, coinCost:500000000000, masterStarCost:5000000,
   superstarCount:1, furCount:1, enhancementLevel:13,
   successChancePpm:100000, chanceTotal:1000000, successRate:10,
   resultMode:'SELECT', consumeOnFailure:true, pityAttempts:0, basePower:180000,

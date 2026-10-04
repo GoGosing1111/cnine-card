@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "generator": "OpenAI built-in imagegen",
+  "approvedCardArtModified": false,
+  "assets": [
+    {
+      "key": "coin",
+      "source": "assets/ui/icon-fusion-20261004/coin-source.png",
+      "sourceSha256": "563df36dad82afe2aeb3ca0e301419304c870a6e851831c73a91a9a663932f8e",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "output": "assets/ui/icon-fusion-20261004/coin.webp",
+      "bytes": 27412
+    },
+    {
+      "key": "master-star",
+      "source": "assets/ui/icon-fusion-20261004/master-star-source.png",
+      "sourceSha256": "21382047bff3bbece8eadbb5f46f297f17e952bb0fc666dacf45e7a2086ae5d1",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "output": "assets/ui/icon-fusion-20261004/master-star.webp",
+      "bytes": 20252
+    },
+    {
+      "key": "stage",
+      "source": "assets/ui/icon-fusion-20261004/stage-source.png",
+      "sourceSha256": "a47f8cfb1866985264af41dec4dd71f31101f691a7ea7ef6af06e3e703ecdd46",
+      "width": 1536,
+      "height": 1024,
+      "hasAlpha": false,
+      "output": "assets/ui/icon-fusion-20261004/stage.webp",
+      "bytes": 267916
+    }
+  ]
+}

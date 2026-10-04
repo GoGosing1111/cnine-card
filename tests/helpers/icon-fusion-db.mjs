@@ -1,5 +1,5 @@
 import {jointFixture} from './joint-db.mjs';
-import {ICON_LIVE_CARDS} from '../../shared/icon-fusion-policy-v1.mjs';
+import {ICON_LIVE_CARDS,ICON_FUSION_POLICY} from '../../shared/icon-fusion-policy-v1.mjs';
 import {ensureJointTransactionSchema} from '../../functions/_joint_transactions.js';
 import {readFileSync} from 'node:fs';
 export async function iconFusionFixture(t,{postgres=false}={}){
@@ -26,10 +26,10 @@ export async function iconFusionFixture(t,{postgres=false}={}){
  }
  await f.p("INSERT INTO inventory_items(code,name,is_active) VALUES('MASTER_STAR','마스터의 별',1)").run();
  await f.p("INSERT INTO cnine_user_inventory(user_id,item_code,quantity) VALUES(7,'MASTER_STAR',15000000)").run();
- await f.p('UPDATE users SET coin=300000000000 WHERE id=7').run();
+ await f.p('UPDATE users SET coin=1500000000000 WHERE id=7').run();
  // Successful-transaction tests explicitly opt in; production default is OFF.
  await f.setting('icon_fusion_settings_v1',{revision:1,enabled:true,successVideoUrl:'',successVideoDurationMs:12000});
- const body=()=>({requestId:crypto.randomUUID(),superstarId:'CN-SUPER',furId:'CN-FUR',targetCode:ICON_LIVE_CARDS[4].code,policyVersion:1});
+ const body=()=>({requestId:crypto.randomUUID(),superstarId:'CN-SUPER',furId:'CN-FUR',targetCode:ICON_LIVE_CARDS[4].code,policyVersion:ICON_FUSION_POLICY.version});
  const snapshot=async()=>({coin:await f.coin(),stars:Number((await f.p("SELECT quantity FROM cnine_user_inventory WHERE user_id=7 AND item_code='MASTER_STAR'").first()).quantity),cards:(await f.p('SELECT card_id,quantity,breakthrough_level FROM user_cards WHERE user_id=7 ORDER BY card_id').all()).results.map(c=>({...c,quantity:Number(c.quantity),breakthrough_level:Number(c.breakthrough_level)}))});
  return {...f,body,snapshot};
 }

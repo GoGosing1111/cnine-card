@@ -1,7 +1,7 @@
 import {ICON_EFFECTS} from '../shared/icon-grade-v1.mjs';
 import {createIconCard} from '../js/icon-card-v1.mjs';
 import {mercenaryCmsRequest} from './mercenary-request-v1.mjs';
-import {mountIconFusionSettings} from './icon-fusion-admin-v1.mjs';
+import {mountIconFusionSettings} from './icon-fusion-admin-v1.mjs?v=20261004-premium-v2';
 
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export function mountIconCms(root,{request=options=>mercenaryCmsRequest(options,'/api/admin/icons')}={}){

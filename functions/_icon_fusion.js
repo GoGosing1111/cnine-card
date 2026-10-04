@@ -1,4 +1,4 @@
-import {ICON_FUSION_RELEASE_ENABLED,ICON_FUSION_POLICY as POLICY,ICON_LIVE_CARDS,ICON_FUSION_SETTINGS_KEY,ICON_FUSION_DEFAULT_SETTINGS,validateIconVideoUrl} from '../shared/icon-fusion-policy-v1.mjs';
+import {ICON_FUSION_RELEASE_ENABLED,ICON_FUSION_POLICY as POLICY,ICON_LIVE_CARDS,ICON_FUSION_SETTINGS_KEY,ICON_FUSION_DEFAULT_SETTINGS,validateIconVideoUrl,formatIconAmount} from '../shared/icon-fusion-policy-v1.mjs';
 import {runJointOperation,readJointOperation,jointCoinDebit,jointInventoryChange} from './_joint_transactions.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {readJointBody,jointError,jointResponseError} from './_joint_request.js';
@@ -18,7 +18,8 @@ export async function readIconFusionSettings(env){
 function parseSettings(row){
   const value=row?JSON.parse(row.value):{...ICON_FUSION_DEFAULT_SETTINGS};
   if(!Number.isSafeInteger(value.revision)||value.revision<1||typeof value.enabled!=='boolean'||!Number.isInteger(value.successVideoDurationMs)||value.successVideoDurationMs<1000||value.successVideoDurationMs>60000)throw fail('SETTINGS','합성 운영 설정을 확인해 주세요.');
-  return {...value,successVideoUrl:validateIconVideoUrl(value.successVideoUrl)};
+  // Registration metadata may contain an old recipe; expose the current server policy.
+  return {...value,policy:POLICY,successVideoUrl:validateIconVideoUrl(value.successVideoUrl)};
 }
 async function registeredCards(DB){
   const rows=(await DB.prepare(`SELECT c.id FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.id IN (${ICON_LIVE_CARDS.map(()=>'?').join(',')}) AND c.rarity='ICON' AND c.base_power=180000 AND c.is_active=1 AND m.is_active=1 AND c.card_status='PUBLIC'`).bind(...ICON_LIVE_CARDS.map(c=>c.cardId)).all()).results||[];
@@ -69,7 +70,7 @@ export async function runIconFusion(env,user,body,{randomInt=mercenaryRandomInt}
         if(used.has(id))throw fail('DECK','재료 카드를 전투 덱과 저장 덱에서 먼저 해제해 주세요.');
         return {...plainCard(row),quantityBefore:Number(row.quantity)};
       });
-      if(BigInt(wallet.coin)<BigInt(POLICY.coinCost)||wallet.masterStars<POLICY.masterStarCost)throw fail('BALANCE','마스터의 별 500만 개와 코인 1천억이 필요합니다.');
+      if(BigInt(wallet.coin)<BigInt(POLICY.coinCost)||wallet.masterStars<POLICY.masterStarCost)throw fail('BALANCE',`마스터의 별 ${formatIconAmount(POLICY.masterStarCost)} 개와 코인 ${formatIconAmount(POLICY.coinCost)}이 필요합니다.`);
       const targetOwned=await p('SELECT quantity FROM user_cards WHERE user_id=? AND card_id=?',user.id,target.cardId).first();
       const roll=randomInt(POLICY.chanceTotal);if(!Number.isInteger(roll)||roll<0||roll>=POLICY.chanceTotal)throw Error('Invalid fusion roll');
       return {version:1,input,policy:{...POLICY},materials,target,targetQuantityBefore:Number(targetOwned?.quantity||0),targetRowExists:Boolean(targetOwned),success:roll<POLICY.successChancePpm,roll,successVideo:{url:settings.successVideoUrl,durationMs:settings.successVideoDurationMs},createdAt:new Date().toISOString()};

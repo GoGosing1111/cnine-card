@@ -1,0 +1,19 @@
+{
+  "generator": "OpenAI built-in imagegen",
+  "createdAt": "2026-10-04",
+  "purpose": "ICON synthesis premium UI currency icons and empty stage; original card art and frame unchanged",
+  "prompts": [
+    {
+      "key": "coin",
+      "prompt": "Use case: stylized-concept. Asset type: premium fantasy game currency UI icon, square 1024 by 1024. A beautiful solid antique-gold coin with a bold embossed abstract S-shaped spiral emblem at its center, dimensional beveled edges, thin concentric gold rings and a small restrained engraved laurel wreath. One main coin upright at a slight three-quarter angle with two smaller coin edges subtly behind its lower right side. Refined polished gold, warm champagne highlights, deep amber recesses, high-end hand-painted 2D game inventory art, bold highly readable silhouette at 48 pixels, jewel quality but clean and uncluttered. Center object occupies 82 percent of canvas, all edges inside generous transparent margin. Lit upper left. Entire outside background genuinely transparent, no checkerboard pattern, no floor, no backdrop, no enclosing icon box, no writing, no numerals, no watermark. Tight subtle warm glow only adjacent to coin; avoid huge bloom, avoid many floating sparkles, avoid a flat SVG or cheap emoji look."
+    },
+    {
+      "key": "master-star",
+      "prompt": "Use case: stylized-concept. Asset type: premium fantasy game currency UI icon, square 1024 by 1024. Master Star currency: one magnificent eight-point crystalline star, four long primary rays with four short diagonal rays, faceted translucent pale violet and icy blue opal crystal center set in a fine sculpted champagne-gold metallic star bezel, luminous small white core, polished gem facets and elegant gold edges. Beautiful high-end hand-painted 2D Korean fantasy game inventory art, sharply readable star silhouette at 48 pixels, symmetrical balanced front three-quarter product view, refined rather than cluttered. Center object occupies 82 percent of canvas with clear transparent margin, all tips fully inside frame. Lit upper left like a matching premium gold coin set. Entire background genuinely transparent, no checkerboard, no floor, no backdrop, no enclosing icon box, no text, no numerals, no watermark. Small restrained halo near star only, no long rays filling background, no cheap emoji or flat SVG style."
+    },
+    {
+      "key": "stage",
+      "prompt": "Use case: stylized-concept. Asset type: background for the ultimate ICON card synthesis chamber of a premium fantasy game, landscape 1536 by 1024. A symmetrical breathtaking obsidian and midnight navy ceremonial vault with intricately crafted slim champagne-gold architectural tracery, ascending curved arches framing a dark EMPTY central space for a card to be overlaid by the website. Elegant black polished stone stepped dais occupies bottom 20 percent, subtly reflecting gold. Far behind the EMPTY center a massive thin segmented gold celestial ring built into the architecture, delicate sparse gold dust, soft purple/blue atmospheric edges and focused overhead warm light. High-end painterly fantasy game environment, rich physical materials, exceptional depth, beautifully detailed corners but calm dark center. Main empty space is at least middle 50 percent width and top 70 percent height; absolutely no character, card, frame-shaped UI panel, text, lettering, logos, numbers, currency, or buttons drawn into image. Refined extravagant endgame rarity mood. Preserve dark navy readability; no white blown-out center, no rays covering the foreground."
+    }
+  ]
+}

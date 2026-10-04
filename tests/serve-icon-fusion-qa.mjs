@@ -34,6 +34,7 @@ const server=http.createServer(async(req,res)=>{try{
   if(apiPath==='me/collection')return send(res,200,{collection:await profile()});
   if(apiPath==='cards')return send(res,200,{cards:localCards});
   if(apiPath==='packs')return send(res,200,{packs:[]});
+  if(apiPath==='loot-shop/balance')return send(res,200,{pigCoins:0});
   if(!['GET','HEAD'].includes(req.method))return send(res,405,{error:'Unrelated QA write rejected'});
   return send(res,200,{ok:true,enabled:false,items:[],commands:[],maintenance:{active:false}});
  }
