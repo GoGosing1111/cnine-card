@@ -57,6 +57,14 @@
     "normalPvePvp": {
       "result": "PASS",
       "path": "C:/Users/User/AppData/Local/Temp/cooperative-qa-3xiHva/screenshots"
+    },
+    "releaseTests": {
+      "count": 47,
+      "result": "PASS",
+      "totalFocusedTests": 61,
+      "workerCompile": "PASS",
+      "releaseAndCacheGate": "PASS",
+      "hyperdriveQueryCache": "DISABLED"
     }
   },
   "release": {
@@ -75,5 +83,24 @@
       "check:worker"
     ],
     "integration": "Rebased on latest production and verification commits; retained Apocalypse/land changes. Only cooperative cache query strings conflict-resolved in index.html and js/app.js."
+  },
+  "deployment": {
+    "source": "08035e0e28954335602485cc1e3e44f2e05b8e7a",
+    "pagesUrl": "https://db41ab04.cnine-card.pages.dev",
+    "apiRuntimeVersion": "a20d1699-aa92-492c-b4a9-8809cde8126c",
+    "clanWorkerVersion": "d8ab173a-8016-4bc3-9261-9f4945caea1f",
+    "productionVerification": {
+      "origin": "https://cnine-card.pages.dev",
+      "http200AndNormalizedSha256Match": [
+        "index.html",
+        "js/cooperative-battleground-entry.js",
+        "raid/cooperative/live.mjs",
+        "js/battle-v3-live.js",
+        "preview/project-v-v3/project-v-pixi-battle.bundle.js"
+      ],
+      "unauthenticatedFeatureStatus": 401,
+      "livePlayerRoomMutations": 0
+    },
+    "userGuidance": "Finish the current battle before refreshing; new room uses the slower v4 clock."
   }
 }
