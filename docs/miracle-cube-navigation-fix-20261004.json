@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-04",
+  "status": "VERIFIED_PENDING_DEPLOYMENT",
+  "request": "미라클 큐브 개봉 화면에 들어가면 다른 메뉴를 불러오지 못하는 문제 수정",
+  "cause": "The standalone cube page loaded the shared navigation UI without the navigation contract. Its menu captured an empty route catalog and retained only the standalone equipment-forge fallback.",
+  "reproduction": {
+    "contractAvailable": false,
+    "menuCount": 1,
+    "notice": "메뉴 정보를 불러오지 못했습니다. 새로고침해 주세요."
+  },
+  "change": "Load the existing exact-shell adapter with data-enabled=false before the deferred lobby and standalone navigation scripts. This provides the shared route catalog without booting the main-app shell inside the cube page.",
+  "scope": {
+    "runtimeFiles": ["miracle-cube/index.html"],
+    "openingAndEconomy": "UNCHANGED",
+    "sharedNavigationImplementation": "UNCHANGED"
+  },
+  "verification": {
+    "browserTest": "tests/miracle-cube-navigation-20261004.browser.mjs",
+    "widths": [1440, 390],
+    "passedChecks": 40,
+    "visibleMenuCountInFixture": 41,
+    "checks": ["Full menu and category/search entries", "Cube to magic cards/inventory/messages with actual main-app rendering", "Browser back returns to cube and preserves working menus", "Return to main lobby", "Zero browser errors and zero purchase/opening/reward requests"],
+    "evidenceDirectory": "C:/Users/User/.codex/tmp/miracle-cube-navigation-20261004/qa",
+    "scoped": {
+      "base": "d6f3a8973a474b0b8274ee38f06dd26f835fb26c",
+      "reason": "One standalone HTML entry-point dependency fix. PC/mobile destination loading was checked in the browser; the shared navigation contract regression is the only deployment test. No server, auth, transaction, economy or shared navigation code changes.",
+      "tests": ["tests/navigation-contract-v1.mjs"],
+      "checks": [],
+      "command": "npm run deploy:production -- --scoped"
+    }
+  }
+}
