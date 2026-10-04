@@ -7,23 +7,25 @@
   "mercenaryCode": null,
   "requestedConcept": {
     "grade": "SSS 리미티드급",
-    "camera": "정면",
+    "camera": "옆모습 / 오른쪽 방향 측면 발차기",
     "weapons": "양 주먹 용 디자인 건틀릿",
     "background": "백호 스타일 효과",
     "style": "로스트아크 스트라이커 느낌의 주먹·발 격투가",
-    "latestChange": "태권도복에 남성미로 교체하자 발차기 쓰는 포즈로"
+    "latestChange": "나쁘지않아 발차기 끝에 이펙트만 이질감드니까 수정해",
+    "hair": "짧은 검은 올림머리 / 자연스러운 머릿결",
+    "kickEffect": "발끝의 튀는 방사형 섬광을 발차기 방향으로 흐르는 청백색 바람·압력파와 잔광으로 국소 교정"
   },
-  "sourceArt": "assets/mercenary-white-tiger-fighter-taekwondo-source-art-v2.png",
-  "sha256": "AF023B3D2CFCDC740C7E734B205499E6F3E19F0BAC6B06D0B1624FC88A3EC178",
-  "bytes": 3711020,
+  "sourceArt": "assets/mercenary-white-tiger-fighter-side-kick-effect-refined-v4.png",
+  "sha256": "F03F7143592AACBF3C82958A34E300E04B894F4AF46177377F0BAD095F743812",
+  "bytes": 3299709,
   "size": {
     "width": 1024,
     "height": 1536,
     "pixelFormat": "Format24bppRgb"
   },
   "generatedWith": "built-in image_gen",
-  "prompt": "prompt-v2-taekwondo.txt",
-  "generationOriginal": "C:/Users/User/.codex/generated_images/01a0f5e0-2103-73f0-ad4e-e1ac362f77cb/exec-063d8e7f-307c-4682-99df-04b6632133bc.png",
+  "prompt": "prompt-v4-kick-effect-only.txt",
+  "generationOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a0f5e0-2103-73f0-ad4e-e1ac362f77cb\\exec-41d553ef-85a8-4022-a4bf-953a176b3548.png",
   "byteForByteCopy": true,
   "reference": {
     "path": "references/user-outfit-mood-20261005.png",
@@ -48,20 +50,48 @@
       "path": "assets/mercenary-white-tiger-fighter-taekwondo-source-art-v2.png",
       "sha256": "AF023B3D2CFCDC740C7E734B205499E6F3E19F0BAC6B06D0B1624FC88A3EC178",
       "prompt": "prompt-v2-taekwondo.txt",
-      "status": "USER_REVIEW_PENDING"
+      "status": "SUPERSEDED_BY_USER_SIDE_VIEW_SHORT_HAIR_REQUEST"
+    },
+    {
+      "version": 3,
+      "path": "assets/mercenary-white-tiger-fighter-side-kick-source-art-v3.png",
+      "sha256": "A58C251E19F6F1C04DB558A2E5B6BFA587CAA19A7A2EF76B1D3F4400287F37FA",
+      "bytes": 3523578,
+      "size": {
+        "width": 1024,
+        "height": 1536,
+        "pixelFormat": "Format24bppRgb"
+      },
+      "prompt": "prompt-v3-side-kick.txt",
+      "status": "BASE_DIRECTION_ACCEPTED_LOCAL_KICK_EFFECT_REVISION_REQUESTED",
+      "generationOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a0f5e0-2103-73f0-ad4e-e1ac362f77cb\\exec-642a3568-3b9c-41fa-85ec-ea8c3b724712.png"
+    },
+    {
+      "version": 4,
+      "path": "assets/mercenary-white-tiger-fighter-side-kick-effect-refined-v4.png",
+      "sha256": "F03F7143592AACBF3C82958A34E300E04B894F4AF46177377F0BAD095F743812",
+      "bytes": 3299709,
+      "size": {
+        "width": 1024,
+        "height": 1536,
+        "pixelFormat": "Format24bppRgb"
+      },
+      "prompt": "prompt-v4-kick-effect-only.txt",
+      "status": "USER_REVIEW_PENDING",
+      "generationOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a0f5e0-2103-73f0-ad4e-e1ac362f77cb\\exec-41d553ef-85a8-4022-a4bf-953a176b3548.png"
     }
   ],
   "visualReview": {
-    "frontFacingFace": true,
+    "sideFacingProfile": true,
+    "shortNaturalHair": true,
     "whiteDobokBlackBelt": true,
-    "moreMasculinePhysique": true,
-    "activeFrontKick": true,
-    "twoVisibleDragonGauntlets": true,
-    "whiteTigerNotWolf": true,
-    "continuousNaturalHair": true,
-    "headAndTwoFeetInCanvas": true,
+    "twoDragonGauntlets": true,
+    "readableSideKick": true,
+    "whiteTiger": true,
+    "localizedKickEffectBlend": true,
     "noTextOrFrame": true,
-    "anatomy": "Two legs, two feet and coherent kicking/supporting limb connections visually checked.",
+    "review": "V3와 V4를 시각 비교해 발끝의 방사형 흰 섬광을 흐르는 청백색 궤적으로 교체한 것을 확인. 캐릭터·자세·헤어·의상·배경은 같은 구성으로 유지.",
+    "framing": "사용자가 V3 전체 방향을 수용하고 발끝 효과만 수정하도록 지시하여 V3 구도를 보존함.",
     "frameReview": "Not performed; source illustration remains a draft."
   },
   "sourceArtApproved": false,
@@ -70,5 +100,17 @@
   "codexPublished": false,
   "acquisitionEnabled": false,
   "formationEnabled": false,
-  "combatEnabled": false
+  "combatEnabled": false,
+  "revisions": [
+    "게임 리소스로 쓰려면 옆모습을 보여줘야하지않겠니? 그리고 남자 머리 스타일도좀 바꾸고 SSS리미티드에 걸맞는 작품임?",
+    "발차기하는곳도 이펙트를 줘야 더 멋있을듯?",
+    "나쁘지않아 발차기 끝에 이펙트만 이질감드니까 수정해"
+  ],
+  "editScope": {
+    "baseVersion": 3,
+    "scope": "KICK_ENDPOINT_EFFECT_ONLY",
+    "preserved": "캐릭터·얼굴·짧은 머리·측면 자세·용 건틀릿·도복·백호·배경·기존 구도 유지",
+    "unusedPrompt": "prompt-v4-side-kick-framing.txt",
+    "unusedPromptStatus": "NOT_EXECUTED_SUPERSEDED_BY_USER_LOCAL_EFFECT_ONLY_INSTRUCTION"
+  }
 }

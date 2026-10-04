@@ -1,0 +1,17 @@
+Use case: precise-object-edit.
+USER HAS NOW ACCEPTED THE OVERALL DIRECTION OF THIS EXACT IMAGE AND REQUESTED ONLY A LOCAL FIX TO THE EFFECT AT THE END OF THE KICK. Do not apply any earlier proposal to reframe the canvas, change the outfit material, modify the character, or redesign the composition.
+
+EDIT TARGET: supplied V3 side-view white-tiger taekwondo fighter, exact existing 1024x1536 composition.
+
+ONLY EDIT the unnatural bright radial starburst / pasted-on electric explosion at the OUTERMOST END of the extended kicking foot, near the RIGHT edge at roughly 94%-100% image width and 27%-40% image height, and its immediate adjoining effect wisps. Leave the physical foot and toes untouched.
+Replace that abrupt white hotspot and circular firework-like fan with a NATURAL DIRECTIONAL MARTIAL-ARTS ENERGY TRAIL:
+- A restrained, smooth translucent cyan / pearl-white wind blade flows along the existing kick direction and gently continues off the RIGHT edge.
+- Shape it as one elegant tapered pressure-wave crescent/sweep, with a small trailing mist and a few fine fading frost sparks. Vary opacity and line thickness organically.
+- The flow starts from the air immediately beyond the heel / outer edge of the foot and follows the forward motion, merging in color and painterly edge quality with the existing spectral white-tiger aura. It should feel painted into the same scene, not composited VFX.
+- Replace the pin-point white flare with a softer narrow energy highlight, reduce dense crossing lightning strands directly at the foot, and preserve visibility of the complete side contour of foot and ankle.
+- Avoid a glowing ball, radial spokes, starburst, circular portal/ring, detached explosion, flower-shaped spark or an oversized opaque white bloom.
+The final sensation is a powerful precise side-kick cutting through the air with white-tiger wind energy, not an electrical flash stuck onto the toes.
+
+LOCK EVERY OTHER ELEMENT: original framing/crop, exact pose and limb placement, body proportions, short black hair, masculine face/profile/expression, BOTH existing dragon gauntlets, exact white dobok embroidery and cloth rendering, belt and belt tails, supporting foot, the entire background tiger and its paw, mountains, temples, floating stones, floor, all background effects away from the local foot endpoint, overall palette and lighting. No camera change, no zoom, no recentering, no texture correction elsewhere. Do not move or regenerate the character or his foot. This is a narrow effect-blending repair only.
+
+Retain the same polished 2D semi-real fantasy splash illustration. Exact portrait 2:3, native 1024x1536 RGB PNG, opaque background. No text, watermark, frame or UI.
