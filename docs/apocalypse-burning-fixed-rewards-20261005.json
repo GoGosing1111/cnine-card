@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-05",
+  "request": "버닝 종류와 관계없이 아포칼립스 마스터의 별·미스틱 에너지 보상 수량에 배수를 적용하지 않는다.",
+  "finding": "Existing production logic already grants both configured item quantities without Burning multiplication. No gameplay change is needed.",
+  "policy": {
+    "MASTER_STAR": "Use the boss-specific clearBonus.masterStars unchanged",
+    "STARLIGHT_ARMOR_CORE": "Use the boss-specific clearBonus.mysticEnergy unchanged",
+    "coin": "Existing Burning coin multiplier remains effective",
+    "miracleRandomDrops": "Probability modifier only; per-drop item quantity is unchanged",
+    "unsetAmounts": "Remain zero; no production quantities were assigned"
+  },
+  "checkedSourceCommit": "73edcaa0",
+  "test": "tests/apocalypse-burning-fixed-rewards-20261005.test.mjs",
+  "validation": {
+    "passed": 3,
+    "failed": 0,
+    "databases": ["SQLite", "PostgreSQL compatibility adapter with PGlite"],
+    "modesAndMultipliers": ["OFF 1x", "BURNING 1.5x", "BURNING 10x", "HYPER 2.5x", "HYPER 30x", "MIRACLE 1x", "MIRACLE 100x"],
+    "syntheticBossBonuses": [
+      {"monsterId": 75, "masterStars": 300, "mysticEnergy": 4},
+      {"monsterId": 76, "masterStars": 1200, "mysticEnergy": 9}
+    ],
+    "coverage": ["Burning-adjusted settings and shipping reward planner", "Real mechanic success and atomic completion", "Inventory increments equal the configured fixed amounts", "Displayed reward receipt equals the inventory increment", "Repeated completion does not multiply awards", "Unspecified quantities remain zero", "Miracle independent and weighted drops retain their configured quantities"]
+  },
+  "productionMutations": 0,
+  "deployment": "Not needed: regression and policy documentation only; gameplay source is unchanged"
+}
