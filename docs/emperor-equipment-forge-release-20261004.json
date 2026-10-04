@@ -1,0 +1,81 @@
+{
+  "verifiedAt": "2026-10-04T10:28:45.832Z",
+  "origin": "https://cnine-card.pages.dev",
+  "files": [
+    {
+      "file": "js/equipment-craft-reveal-v1.js",
+      "status": 200,
+      "sha256": "18d2325fe23460e446d4d16da3129eebf72c61fd2eba56fbdb9e1ad7d9f8b151",
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "file": "css/equipment-craft-reveal-v1.css",
+      "status": 200,
+      "sha256": "3fe049a51c69c897fe89a940d4f7fcd6865c1747f676a684e71cf933a22791f6",
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "file": "assets/ui/workshop/emperor-forge-sanctum-v1.webp",
+      "status": 200,
+      "sha256": "7ffde032c32c5ebfd0693a1a1fcd00a772f43771d02bfa2dbf245f20755d1c9c",
+      "cacheControl": "public, max-age=86400, stale-while-revalidate=604800"
+    },
+    {
+      "file": "assets/ui/workshop/emperor-seal-v1.webp",
+      "status": 200,
+      "sha256": "95440e518d52683668de1fc4d8c9174f5e4de86b09fc673ed4d5a30e14260aba",
+      "cacheControl": "public, max-age=86400, stale-while-revalidate=604800"
+    },
+    {
+      "file": "js/workshop-v1881.js",
+      "status": 200,
+      "sha256": "a5daa48c971f275d4167474e4fd143b730f66efc40f13301e40f759692e16b31",
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "869e269e91136570df8074885dcb5b7fc3e5a274e84f159a815018affebfd09c",
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "1305b30360df7fec035ca4a5ea6009738bd226783ac309a11dd203072e7237fd",
+      "cacheControl": "no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "5e2ae812c05a71a76b1bb217f89d5bb8e9c51ec8d161fd77ab0f2f8e03e3428f",
+      "cacheControl": "no-store, no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "sha256": "a3af19a0910b840fcac483ef3b6fb970fa9bc697ced6ab53568c43cf59f572d6",
+      "cacheControl": "no-store, no-cache, must-revalidate, max-age=0, no-store, no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "file": "admin/workshop-admin-v1668.js",
+      "status": 200,
+      "sha256": "b9b0f3a6db8e108e9b6f6fd044edb48fbf6822b67af2584770e76fbe7ec442c5",
+      "cacheControl": "no-store, no-cache, must-revalidate, max-age=0"
+    }
+  ],
+  "anonymousWorkshopStatus": 401,
+  "productionMutationRequests": 0,
+  "sourceCommit": "f4d59e580daf82179220d5f9798ffc5163e9c766",
+  "previousDeploymentSource": "d39ba94bc8a9ee3925646e2be5e0e527ed24f19c",
+  "pagesUrl": "https://96ebbb3e.cnine-card.pages.dev",
+  "apiRuntimeVersion": "3c093029-a927-411c-be12-5c7dbdb46fb0",
+  "cronWorkerVersion": "9c88b148-ea02-49d2-ae2c-2b14e67693b7",
+  "validation": {
+    "serverTests": 20,
+    "uiIntegrationChecks": 77,
+    "finalPresentationChecks": 22,
+    "workerSyntax": "PASS",
+    "productionReleaseGate": "PASS",
+    "hyperdriveCache": "OFF"
+  }
+}
