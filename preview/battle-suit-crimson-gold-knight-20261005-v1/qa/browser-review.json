@@ -1,0 +1,95 @@
+{
+  "date": "2026-10-05",
+  "status": "TECHNICAL_QA_COMPLETE_USER_VISUAL_REVIEW_PENDING",
+  "referenceReviewed": {
+    "suit": "X-BODY V2",
+    "skill": "천룡 강림",
+    "actualV3TimelineSeconds": [
+      1.84,
+      2.18
+    ]
+  },
+  "direction": "White tiger-shaped sword aura; no independent summoned creature",
+  "desktop": {
+    "viewport": [
+      1440,
+      1000
+    ],
+    "canvas": [
+      1425,
+      640
+    ],
+    "runtimeChecks": "qa/runtime-desktop.json",
+    "capture": "qa/desktop-aoe.png",
+    "recording": "review-desktop.webm"
+  },
+  "mobile": {
+    "viewport": [
+      390,
+      844
+    ],
+    "canvas": [
+      375,
+      460
+    ],
+    "runtimeChecks": "qa/runtime-mobile.json",
+    "capture": "qa/mobile-aoe.png",
+    "recording": "review-mobile.webm"
+  },
+  "controls": {
+    "quarterSpeed": {
+      "observedSpeed": 0.25,
+      "advancedTo": 2.59075,
+      "paused": true
+    },
+    "halfSpeed": {
+      "observedSpeed": 0.5,
+      "seek": 2.27,
+      "playPause": true
+    },
+    "doubleSpeed": {
+      "observedSpeed": 2,
+      "restartAndCancel": true
+    },
+    "cancel": {
+      "time": 0,
+      "visibleEffects": 0,
+      "visibleGhosts": 0,
+      "registeredTimelines": 0
+    },
+    "effectsOff": {
+      "mode": "attack",
+      "time": 0.41,
+      "visuallyVerified": true,
+      "bladeReachesTarget": true
+    },
+    "restored": {
+      "speed": 1,
+      "effects": true
+    },
+    "savedVideoPlayback": {
+      "readyState": 4,
+      "currentTimeObserved": 8.928706,
+      "size": [
+        1425,
+        640
+      ],
+      "error": null
+    }
+  },
+  "visualReview": [
+    "Five visible enemy positions in native continuous V3 battlefield",
+    "Exact source greatsword and distinct articulated body poses",
+    "Tiger head made of flowing sword energy followed by claw impact and ground wave",
+    "PC and mobile effects remain within battlefield",
+    "FX disabled to inspect blade contact",
+    "No FX, ghost or registered timeline remains after cancel"
+  ],
+  "productionRuntimeEnabled": false,
+  "userVisualApproval": false,
+  "limitations": [
+    "Silent review preview",
+    "Preview target reactions do not apply server damage",
+    "Names are working titles"
+  ]
+}

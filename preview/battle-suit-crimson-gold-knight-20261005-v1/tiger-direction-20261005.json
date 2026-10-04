@@ -1,0 +1,11 @@
+{
+  "instruction": "스킬리소스 더 신경써서 만들어라 최종슈트라고 말했다 X슈트만큼 멋있어야한다 백호 관련 광역기를 만들던",
+  "concept": "백호 소환 → 포효 → 도약 돌진과 발톱 연격 → 착지 폭발",
+  "sourceSuit": "assets/sources/knight-approved-20261005.png",
+  "bodyArtUnchanged": true,
+  "tigerSpriteConstruction": "separate articulated 2x2 body sheets, original evolving summons/claw/landing effects",
+  "status": "SUPERSEDED_BY_USER_CORRECTION_NO_SUMMON",
+  "replacement": "direction-correction-20261005.json",
+  "approval": "USER_REVIEW_PENDING",
+  "runtimeEnabled": false
+}

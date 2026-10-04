@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "status": "FULL_BODY_DESIGN_DRAFT_USER_REVIEW_PENDING",
+  "createdDate": "2026-10-05",
+  "assetType": "BATTLE_SUIT_FULL_BODY_SOURCE",
+  "generationMode": "built-in image_gen",
+  "prompt": "prompt-v1.txt",
+  "sourceReference": {
+    "fileName": "codex-clipboard-58cc1e0f-ce1c-4d07-9c13-1985567873d1.png",
+    "role": "authoritative user-provided armor, sword, palette and rendering reference",
+    "redistributed": false,
+    "sha256": "6CD9C68EFF936146FF35C180668E45AC86EB7C314B67DDE03B2B9C1664C0D7C6"
+  },
+  "art": {
+    "path": "assets/crimson-gold-knight-fullbody-v1.png",
+    "width": 1024,
+    "height": 1536,
+    "format": "PNG",
+    "channels": 4,
+    "alpha": true,
+    "transparentPixelFractionAlphaBelow10": 0.3733641306559245,
+    "nearOpaquePixelFractionAlphaAbove240": 0.6080646514892578,
+    "visibleBoundsAlphaAbove32": [
+      10,
+      14,
+      1017,
+      1521
+    ],
+    "originalGeneratedFile": "exec-8e9ea81d-e40f-40aa-b819-7d56c650bf87.png",
+    "postProcessing": "none; byte-identical copy of the generated PNG",
+    "sha256": "5015BDD16D8A3166C2CECD656F2508EAFFC795313211792F8FE7B3D27759F2D6"
+  },
+  "visualReview": {
+    "fullBodyBothFeetVisible": true,
+    "completeSwordTipVisible": true,
+    "preservedDesignFeatures": [
+      "crown-spired closed black/gold helmet",
+      "cyan eye slit",
+      "black segmented armor and polished gold trim",
+      "crimson chest/shoulder lightning insets",
+      "crimson cape and white mane",
+      "ornate cyan-inlaid black/gold greatsword"
+    ],
+    "missingReferenceAreas": "lower legs, soles and sword tip are completed in the same design language",
+    "approval": "pending user visual review"
+  },
+  "runtime": {
+    "registered": false,
+    "combatConnected": false,
+    "acquisitionEnabled": false,
+    "atlasCreated": false
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "key": "tiger-impact-v3",
+  "prompt": "Edit this VFX atlas to fix clipping. Keep the SAME 4-column 3-row 12-frame sequence, same crimson-white-gold claw explosion design and transparent background. Important: SHRINK EACH INDIVIDUAL EFFECT to about 70% of its current size INSIDE its own cell, without shrinking the overall canvas. Each complete explosion, debris and all glow must be fully inside its cell with visible large TRANSPARENT margins on all four sides. Especially middle row second and third cells currently touch neighbors; reconstruct their outer tips inside their own cells. Arrange precise equal squares. Maintain consistent ground pivot at horizontal center and about 75% cell height. Preserve chronological shape progression. No tiger faces, no animals, no text, no grid, no extra elements. This is sprite spacing correction, not a new effect.",
+  "output": "C:/Users/User/.codex/worktrees/equipment-polish-cms/cnine-card/preview/battle-suit-crimson-gold-knight-20261005-v1/assets/sources/fx-tiger-impact.png",
+  "generatedSource": "C:\\Users\\User\\.codex\\generated_images\\01a10672-36df-75b1-9367-1507398e56e3\\exec-65156610-31d6-4842-871c-4b6eaa149807.png"
+}

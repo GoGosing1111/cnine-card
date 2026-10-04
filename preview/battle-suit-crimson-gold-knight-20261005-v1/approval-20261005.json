@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-05",
+  "status": "SOURCE_DESIGN_CONFIRMED",
+  "userInstruction": "그냥 이대로 해라",
+  "followup": "X슈트 급으로 해야한다 X슈트보다 상위다",
+  "source": "assets/sources/knight-approved-20261005.png",
+  "sha256": "02ccd3d717c94cd001c538bb8a08cb9272fa1e7cae512e01f12a31b32f68d236",
+  "preserve": [
+    "source file bytes",
+    "armor and helmet design",
+    "polished highlights and palette",
+    "cape and mane",
+    "sword silhouette and length"
+  ],
+  "supersedes": "Previous reduced-gloss edit request: use this exact reattached source.",
+  "scope": "source design and production of full motion/effect resources",
+  "motionApproval": "PENDING_USER_VISUAL_REVIEW",
+  "runtimeEnabled": false
+}

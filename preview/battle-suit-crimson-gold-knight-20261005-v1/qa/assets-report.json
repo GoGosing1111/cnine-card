@@ -1,0 +1,1254 @@
+{
+  "passed": true,
+  "sourcePreserved": true,
+  "exactSourceWeaponPixels": 146011,
+  "bodyFrames": 44,
+  "effectFrames": 132,
+  "singleRenderer": true,
+  "singleTimelineLibrary": true,
+  "runtimeEnabled": false,
+  "frameReports": [
+    {
+      "id": "idle-01",
+      "bounds": [
+        234,
+        203,
+        531,
+        564
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "idle-02",
+      "bounds": [
+        218,
+        204,
+        549,
+        565
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "idle-03",
+      "bounds": [
+        209,
+        207,
+        561,
+        562
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "idle-04",
+      "bounds": [
+        232,
+        198,
+        535,
+        569
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "dash-01",
+      "bounds": [
+        156,
+        204,
+        608,
+        563
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "dash-02",
+      "bounds": [
+        113,
+        240,
+        654,
+        527
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "dash-03",
+      "bounds": [
+        131,
+        227,
+        636,
+        541
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "dash-04",
+      "bounds": [
+        117,
+        226,
+        648,
+        541
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "dash-05",
+      "bounds": [
+        143,
+        219,
+        622,
+        548
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "dash-06",
+      "bounds": [
+        116,
+        212,
+        650,
+        556
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "dash-07",
+      "bounds": [
+        177,
+        237,
+        590,
+        531
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "dash-08",
+      "bounds": [
+        219,
+        201,
+        549,
+        568
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "attack-01",
+      "bounds": [
+        132,
+        163,
+        634,
+        604
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "attack-02",
+      "bounds": [
+        150,
+        145,
+        616,
+        621
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "attack-03",
+      "bounds": [
+        79,
+        212,
+        689,
+        557
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "attack-04",
+      "bounds": [
+        93,
+        214,
+        676,
+        553
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "attack-05",
+      "bounds": [
+        65,
+        212,
+        704,
+        556
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "attack-06",
+      "bounds": [
+        169,
+        175,
+        599,
+        593
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "attack-07",
+      "bounds": [
+        161,
+        205,
+        605,
+        563
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "attack-08",
+      "bounds": [
+        190,
+        137,
+        579,
+        629
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "combo-01",
+      "bounds": [
+        140,
+        227,
+        625,
+        540
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "combo-02",
+      "bounds": [
+        102,
+        222,
+        666,
+        544
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "combo-03",
+      "bounds": [
+        199,
+        93,
+        567,
+        673
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "combo-04",
+      "bounds": [
+        143,
+        190,
+        624,
+        576
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "combo-05",
+      "bounds": [
+        115,
+        166,
+        650,
+        602
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "combo-06",
+      "bounds": [
+        101,
+        211,
+        668,
+        555
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "combo-07",
+      "bounds": [
+        113,
+        197,
+        656,
+        573
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "combo-08",
+      "bounds": [
+        149,
+        202,
+        619,
+        566
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "skill-01",
+      "bounds": [
+        192,
+        193,
+        576,
+        577
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "skill-02",
+      "bounds": [
+        219,
+        56,
+        548,
+        710
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "skill-03",
+      "bounds": [
+        225,
+        70,
+        542,
+        696
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "skill-04",
+      "bounds": [
+        152,
+        145,
+        615,
+        621
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "skill-05",
+      "bounds": [
+        207,
+        108,
+        559,
+        659
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "skill-06",
+      "bounds": [
+        87,
+        246,
+        681,
+        521
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "skill-07",
+      "bounds": [
+        135,
+        252,
+        634,
+        517
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "skill-08",
+      "bounds": [
+        163,
+        203,
+        606,
+        563
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "aoe-01",
+      "bounds": [
+        220,
+        177,
+        547,
+        593
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "aoe-02",
+      "bounds": [
+        243,
+        202,
+        525,
+        566
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "aoe-03",
+      "bounds": [
+        207,
+        92,
+        561,
+        676
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "aoe-04",
+      "bounds": [
+        218,
+        157,
+        550,
+        610
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "aoe-05",
+      "bounds": [
+        213,
+        144,
+        553,
+        625
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "aoe-06",
+      "bounds": [
+        214,
+        135,
+        553,
+        632
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "aoe-07",
+      "bounds": [
+        210,
+        185,
+        558,
+        583
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    },
+    {
+      "id": "aoe-08",
+      "bounds": [
+        200,
+        196,
+        568,
+        572
+      ],
+      "uniformWeaponScale": 0.2408026755852843
+    }
+  ],
+  "effectReports": [
+    {
+      "key": "dash",
+      "frame": 0,
+      "opaquePixels": 2377,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "dash",
+      "frame": 1,
+      "opaquePixels": 5317,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "dash",
+      "frame": 2,
+      "opaquePixels": 8689,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "dash",
+      "frame": 3,
+      "opaquePixels": 19116,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "dash",
+      "frame": 4,
+      "opaquePixels": 18181,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "dash",
+      "frame": 5,
+      "opaquePixels": 23348,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "dash",
+      "frame": 6,
+      "opaquePixels": 16364,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "dash",
+      "frame": 7,
+      "opaquePixels": 11299,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "dash",
+      "frame": 8,
+      "opaquePixels": 5590,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "dash",
+      "frame": 9,
+      "opaquePixels": 3375,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "dash",
+      "frame": 10,
+      "opaquePixels": 1440,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "dash",
+      "frame": 11,
+      "opaquePixels": 201,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "slash",
+      "frame": 0,
+      "opaquePixels": 756,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "slash",
+      "frame": 1,
+      "opaquePixels": 3845,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "slash",
+      "frame": 2,
+      "opaquePixels": 8794,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "slash",
+      "frame": 3,
+      "opaquePixels": 14081,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "slash",
+      "frame": 4,
+      "opaquePixels": 17366,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "slash",
+      "frame": 5,
+      "opaquePixels": 28463,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "slash",
+      "frame": 6,
+      "opaquePixels": 19453,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "slash",
+      "frame": 7,
+      "opaquePixels": 12969,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "slash",
+      "frame": 8,
+      "opaquePixels": 8236,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "slash",
+      "frame": 9,
+      "opaquePixels": 4045,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "slash",
+      "frame": 10,
+      "opaquePixels": 793,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "slash",
+      "frame": 11,
+      "opaquePixels": 89,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "impact",
+      "frame": 0,
+      "opaquePixels": 2109,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "impact",
+      "frame": 1,
+      "opaquePixels": 4818,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "impact",
+      "frame": 2,
+      "opaquePixels": 8860,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "impact",
+      "frame": 3,
+      "opaquePixels": 12526,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "impact",
+      "frame": 4,
+      "opaquePixels": 27268,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "impact",
+      "frame": 5,
+      "opaquePixels": 27587,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "impact",
+      "frame": 6,
+      "opaquePixels": 20291,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "impact",
+      "frame": 7,
+      "opaquePixels": 12593,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "impact",
+      "frame": 8,
+      "opaquePixels": 4920,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "impact",
+      "frame": 9,
+      "opaquePixels": 3840,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "impact",
+      "frame": 10,
+      "opaquePixels": 2189,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "impact",
+      "frame": 11,
+      "opaquePixels": 628,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "charge",
+      "frame": 0,
+      "opaquePixels": 3928,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "charge",
+      "frame": 1,
+      "opaquePixels": 5825,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "charge",
+      "frame": 2,
+      "opaquePixels": 9976,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "charge",
+      "frame": 3,
+      "opaquePixels": 15505,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "charge",
+      "frame": 4,
+      "opaquePixels": 20368,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "charge",
+      "frame": 5,
+      "opaquePixels": 22064,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "charge",
+      "frame": 6,
+      "opaquePixels": 31559,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "charge",
+      "frame": 7,
+      "opaquePixels": 32397,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "charge",
+      "frame": 8,
+      "opaquePixels": 12111,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "charge",
+      "frame": 9,
+      "opaquePixels": 9511,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "charge",
+      "frame": 10,
+      "opaquePixels": 3602,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "charge",
+      "frame": 11,
+      "opaquePixels": 428,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "cleave",
+      "frame": 0,
+      "opaquePixels": 3810,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "cleave",
+      "frame": 1,
+      "opaquePixels": 9025,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "cleave",
+      "frame": 2,
+      "opaquePixels": 13358,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "cleave",
+      "frame": 3,
+      "opaquePixels": 19819,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "cleave",
+      "frame": 4,
+      "opaquePixels": 25877,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "cleave",
+      "frame": 5,
+      "opaquePixels": 34520,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "cleave",
+      "frame": 6,
+      "opaquePixels": 26950,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "cleave",
+      "frame": 7,
+      "opaquePixels": 16551,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "cleave",
+      "frame": 8,
+      "opaquePixels": 11689,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "cleave",
+      "frame": 9,
+      "opaquePixels": 6084,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "cleave",
+      "frame": 10,
+      "opaquePixels": 3113,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "cleave",
+      "frame": 11,
+      "opaquePixels": 1168,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "eruption",
+      "frame": 0,
+      "opaquePixels": 2693,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "eruption",
+      "frame": 1,
+      "opaquePixels": 8931,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "eruption",
+      "frame": 2,
+      "opaquePixels": 16734,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "eruption",
+      "frame": 3,
+      "opaquePixels": 24726,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "eruption",
+      "frame": 4,
+      "opaquePixels": 35649,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "eruption",
+      "frame": 5,
+      "opaquePixels": 35343,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "eruption",
+      "frame": 6,
+      "opaquePixels": 28043,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "eruption",
+      "frame": 7,
+      "opaquePixels": 14659,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "eruption",
+      "frame": 8,
+      "opaquePixels": 13037,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "eruption",
+      "frame": 9,
+      "opaquePixels": 7543,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "eruption",
+      "frame": 10,
+      "opaquePixels": 4966,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "eruption",
+      "frame": 11,
+      "opaquePixels": 2131,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "ring",
+      "frame": 0,
+      "opaquePixels": 3085,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "ring",
+      "frame": 1,
+      "opaquePixels": 7225,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "ring",
+      "frame": 2,
+      "opaquePixels": 14474,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "ring",
+      "frame": 3,
+      "opaquePixels": 17848,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "ring",
+      "frame": 4,
+      "opaquePixels": 21808,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "ring",
+      "frame": 5,
+      "opaquePixels": 28515,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "ring",
+      "frame": 6,
+      "opaquePixels": 23457,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "ring",
+      "frame": 7,
+      "opaquePixels": 18148,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "ring",
+      "frame": 8,
+      "opaquePixels": 9273,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "ring",
+      "frame": 9,
+      "opaquePixels": 6433,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "ring",
+      "frame": 10,
+      "opaquePixels": 2779,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "ring",
+      "frame": 11,
+      "opaquePixels": 1156,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-charge",
+      "frame": 0,
+      "opaquePixels": 26540,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-charge",
+      "frame": 1,
+      "opaquePixels": 28259,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-charge",
+      "frame": 2,
+      "opaquePixels": 35798,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-charge",
+      "frame": 3,
+      "opaquePixels": 34469,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-charge",
+      "frame": 4,
+      "opaquePixels": 34210,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-charge",
+      "frame": 5,
+      "opaquePixels": 39863,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-charge",
+      "frame": 6,
+      "opaquePixels": 58436,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-charge",
+      "frame": 7,
+      "opaquePixels": 33691,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-charge",
+      "frame": 8,
+      "opaquePixels": 32252,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-charge",
+      "frame": 9,
+      "opaquePixels": 25051,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-charge",
+      "frame": 10,
+      "opaquePixels": 25156,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-charge",
+      "frame": 11,
+      "opaquePixels": 5044,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-rush",
+      "frame": 0,
+      "opaquePixels": 31830,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-rush",
+      "frame": 1,
+      "opaquePixels": 33994,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-rush",
+      "frame": 2,
+      "opaquePixels": 34677,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-rush",
+      "frame": 3,
+      "opaquePixels": 42021,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-rush",
+      "frame": 4,
+      "opaquePixels": 31588,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-rush",
+      "frame": 5,
+      "opaquePixels": 39149,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-rush",
+      "frame": 6,
+      "opaquePixels": 25983,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-rush",
+      "frame": 7,
+      "opaquePixels": 25919,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-rush",
+      "frame": 8,
+      "opaquePixels": 25450,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-rush",
+      "frame": 9,
+      "opaquePixels": 20573,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-rush",
+      "frame": 10,
+      "opaquePixels": 13082,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-rush",
+      "frame": 11,
+      "opaquePixels": 4306,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-impact",
+      "frame": 0,
+      "opaquePixels": 16851,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-impact",
+      "frame": 1,
+      "opaquePixels": 18529,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-impact",
+      "frame": 2,
+      "opaquePixels": 22332,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-impact",
+      "frame": 3,
+      "opaquePixels": 28590,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-impact",
+      "frame": 4,
+      "opaquePixels": 30873,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-impact",
+      "frame": 5,
+      "opaquePixels": 34351,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-impact",
+      "frame": 6,
+      "opaquePixels": 24546,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-impact",
+      "frame": 7,
+      "opaquePixels": 23916,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-impact",
+      "frame": 8,
+      "opaquePixels": 21955,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-impact",
+      "frame": 9,
+      "opaquePixels": 20147,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-impact",
+      "frame": 10,
+      "opaquePixels": 14172,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-impact",
+      "frame": 11,
+      "opaquePixels": 7329,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-ring",
+      "frame": 0,
+      "opaquePixels": 5325,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-ring",
+      "frame": 1,
+      "opaquePixels": 11268,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-ring",
+      "frame": 2,
+      "opaquePixels": 22558,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-ring",
+      "frame": 3,
+      "opaquePixels": 28073,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-ring",
+      "frame": 4,
+      "opaquePixels": 38138,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-ring",
+      "frame": 5,
+      "opaquePixels": 37078,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-ring",
+      "frame": 6,
+      "opaquePixels": 33818,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-ring",
+      "frame": 7,
+      "opaquePixels": 11543,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-ring",
+      "frame": 8,
+      "opaquePixels": 13162,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-ring",
+      "frame": 9,
+      "opaquePixels": 4835,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-ring",
+      "frame": 10,
+      "opaquePixels": 4520,
+      "boundaryPixels": 0
+    },
+    {
+      "key": "tiger-ring",
+      "frame": 11,
+      "opaquePixels": 823,
+      "boundaryPixels": 0
+    }
+  ],
+  "contactSheets": [
+    "qa/body-idle.png",
+    "qa/body-dash.png",
+    "qa/body-attack.png",
+    "qa/body-combo.png",
+    "qa/body-skill.png",
+    "qa/body-aoe.png"
+  ]
+}
