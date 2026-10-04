@@ -4465,8 +4465,9 @@ async function completePendingPlaydkVerification(){
   const token=pendingPlaydkVerificationToken;pendingPlaydkVerificationToken='';
   try{
     const result=await apiRequest('secondary-verification/playdk',{method:'POST',body:JSON.stringify({token})},{timeoutMs:12000});
+    clearApiCache('messages');clearApiCache('secondary-verification/status');clearApiCache('new-user-gift');clearApiCache('shell/summary');
     if(result?.newlyVerified===false||result?.duplicate===true||result?.status==='ALREADY_VERIFIED')return true;
-    alert(`${result.verification?.providerName?`${result.verification.providerName} · `:''}PLAY DK 2차 인증이 완료되었습니다.`);
+    alert(`${result.verification?.providerName?`${result.verification.providerName} · `:''}PLAY DK 2차 인증이 완료되었습니다.${result.giftMessage?.sent?'\n기프트 박스 1개가 메시지함에 도착했습니다. 메시지에서 수령해 주세요.':''}`);
     renderShell('messages');requestAnimationFrame(()=>openWagoVerification());
     return true;
   }catch(error){alert(error.message||'PLAY DK 2차 인증을 완료하지 못했습니다. 메시지함에서 다시 시도해주세요.');return false}

@@ -1,9 +1,10 @@
-// A CMS-issued entitlement, not a freely grantable or repeatable loot box.
+// A once-only verified-account entitlement, delivered automatically through messages.
 export const NEW_USER_GIFT_CODE = 'NEW_USER_GIFT_BOX';
-export const NEW_USER_GIFT_DAYS = 7;
+export const NEW_USER_GIFT_DAYS = 14;
+export const NEW_USER_GIFT_MESSAGE_CAMPAIGN = 'new-user-gift:first-verification:v1';
 export const NEW_USER_GIFT_COIN = 10_000_000_000;
 export const NEW_USER_GIFT_CARD_LEVELS = Object.freeze({ SUPERSTAR: 11, FUR: 13, ZENITH: 13 });
-export const NEW_USER_GIFT_DESCRIPTION = '100억 코인 · 공개 슈퍼스타 전체 각 1장 +11 · FUR·제니스 전체 각 1장 +13 · 미스틱 장비 4종과 소버린 SKS 각 1개 · 활성 마법카드 전체 각 1장 +5. CMS 지급 전용, 계정·2차 인증 계정당 1회.';
+export const NEW_USER_GIFT_DESCRIPTION = '100억 코인 · 공개 슈퍼스타 전체 각 1장 +11 · FUR·제니스 전체 각 1장 +13 · 미스틱 장비 4종과 소버린 SKS 각 1개 · 활성 마법카드 전체 각 1장 +5. 가입 14일 이내 첫 PLAY DK 2차 인증 완료 시 메시지 자동 지급, 계정·2차 인증 계정당 1회.';
 export const NEW_USER_GIFT_EQUIPMENT = Object.freeze([
   { code: 'EQ_1787156691265', name: '미스틱 슈트', slot: 'TOP', subtype: 'TOP' },
   { code: 'EQ_1787156640727', name: '미스틱 레깅스', slot: 'BOTTOM', subtype: 'BOTTOM' },
@@ -61,11 +62,11 @@ export function giftEligibility(user, verification, now, receipt = null) {
   const joined = giftTimestamp(user?.created_at), current = giftTimestamp(now);
   const verified = ['WAGO', 'PLAYDK'].includes(verification?.provider)
     && Boolean(String(verification?.provider_user_id || '').trim()) && Number.isFinite(giftTimestamp(verification?.verified_at));
-  let code = 'ELIGIBLE', message = '가입 7일 이내 · 2차 인증 완료 · 최초 지급 가능';
+  let code = 'ELIGIBLE', message = '가입 14일 이내 첫 2차 인증 완료 시 메시지 자동 지급 · 계정·인증 계정당 1회';
   if (receipt) { code = 'ALREADY_ISSUED'; message = receipt.status === 'OPENED' ? '이미 개봉한 계정입니다. 재지급할 수 없습니다.' : '이미 박스를 지급한 계정입니다. 재지급할 수 없습니다.'; }
   else if (!user || user.status !== 'ACTIVE') { code = 'INACTIVE_USER'; message = '활성 계정에만 지급할 수 있습니다.'; }
   else if (!Number.isFinite(joined) || !Number.isFinite(current) || joined > current) { code = 'JOIN_DATE_INVALID'; message = '숲켓몬 가입일을 검증할 수 없어 지급을 차단했습니다.'; }
-  else if (current - joined > NEW_USER_GIFT_DAYS * 86400000) { code = 'EXPIRED'; message = '숲켓몬 가입 후 7일이 지나 지급할 수 없습니다.'; }
+  else if (current - joined > NEW_USER_GIFT_DAYS * 86400000) { code = 'EXPIRED'; message = '숲켓몬 가입 후 14일이 지나 지급할 수 없습니다.'; }
   else if (!verified) { code = 'SECOND_VERIFICATION_REQUIRED'; message = 'PLAY DK 2차 인증을 완료해야 지급할 수 있습니다.'; }
   return { eligible: code === 'ELIGIBLE', code, message, joinedAt: Number.isFinite(joined) ? new Date(joined).toISOString() : null,
     deadline: Number.isFinite(joined) ? new Date(joined + NEW_USER_GIFT_DAYS * 86400000).toISOString() : null,
@@ -102,6 +103,7 @@ async function transaction(env, operation) {
       return result;
     } catch (error) {
       try { await q('ROLLBACK'); } catch {}
+      if (error.code === '23505' && /user_second_verifications/.test(String(error.constraint || ''))) fail('SECONDARY_VERIFICATION_RACE', '다른 2차 인증이 먼저 연결되었습니다.');
       if (error.code === '23505') fail('DUPLICATE_GIFT', '이미 지급한 계정 또는 2차 인증 계정입니다. 새로고침해 확인하세요.');
       throw error;
     }
@@ -124,6 +126,88 @@ function receiptSummary(row) {
 }
 function parseManifest(row) {
   try { return JSON.parse(row.manifest_json); } catch { fail('RECEIPT_INVALID', '보상 지급 기록을 확인해야 합니다. 관리자에게 문의하세요.'); }
+}
+// Only the verified server identity enters this function. Verification and its
+// reward message commit together; a failed catalog/message write leaves both retryable.
+export async function completePlaydkVerificationWithGift(env, userId, verifiedIdentity) {
+  const id = safeId(userId);
+  if (!String(verifiedIdentity?.uuid || '').trim()) fail('PLAYDK_TOKEN_INVALID', '인증된 PLAY DK 계정 정보가 필요합니다.', 400);
+  return transaction(env, async q => {
+    const [user] = await q('SELECT id,nickname,status,role,created_at FROM users WHERE id=$1 FOR UPDATE', [id]);
+    if (!user || user.status !== 'ACTIVE') fail('INACTIVE_USER', '활성 계정에서만 인증할 수 있습니다.');
+    const [existing] = await q('SELECT provider,provider_user_id FROM user_second_verifications WHERE user_id=$1 FOR UPDATE', [id]);
+    if (existing) {
+      if (existing.provider !== 'PLAYDK' || String(existing.provider_user_id) !== verifiedIdentity.uuid) fail('SECONDARY_VERIFICATION_RACE', '다른 2차 인증이 먼저 연결되었습니다.');
+      return { newlyVerified: false, giftMessage: { sent: false, code: 'ALREADY_VERIFIED' } };
+    }
+    await q(`INSERT INTO user_second_verifications(user_id,provider,provider_user_id,provider_name,verified_at,updated_at)
+      VALUES($1,'PLAYDK',$2,$3,${STAMP},${STAMP})`, [id, verifiedIdentity.uuid, verifiedIdentity.name]);
+    await q("DELETE FROM wago_verifications WHERE user_id=$1 AND status<>'VERIFIED'", [id]);
+    const identityHash = await identity({ provider: 'PLAYDK', provider_user_id: verifiedIdentity.uuid });
+    await q('SELECT pg_advisory_xact_lock(hashtextextended($1,0))', [`new-user-gift:PLAYDK:${identityHash}`]);
+    const prior = await q(`SELECT user_id FROM ${TABLE} WHERE user_id=$1 OR (provider='PLAYDK' AND identity_hash=$2)`, [id, identityHash]);
+    if (prior.length) return { newlyVerified: true, giftMessage: { sent: false, code: 'ALREADY_ISSUED' } };
+    const [{ now }] = await q('SELECT CURRENT_TIMESTAMP AS now');
+    const eligible = giftEligibility(user, { provider: 'PLAYDK', provider_user_id: verifiedIdentity.uuid, verified_at: now }, now);
+    if (!eligible.eligible) return { newlyVerified: true, giftMessage: { sent: false, code: eligible.code } };
+    const [item] = await q('SELECT is_active FROM inventory_items WHERE code=$1 FOR SHARE', [NEW_USER_GIFT_CODE]);
+    if (Number(item?.is_active) !== 1) return { newlyVerified: true, giftMessage: { sent: false, code: 'GIFT_DISABLED' } };
+    const [owned] = await q('SELECT quantity FROM cnine_user_inventory WHERE user_id=$1 AND item_code=$2 FOR UPDATE', [id, NEW_USER_GIFT_CODE]);
+    if (Number(owned?.quantity || 0) !== 0) fail('UNTRACKED_BOX', '기존 박스의 지급 기록을 확인해야 합니다.');
+    const [owner] = await q("SELECT id FROM users WHERE role='OWNER' AND status='ACTIVE' ORDER BY id LIMIT 1 FOR SHARE");
+    if (!owner) fail('ADMIN_REQUIRED', '자동 지급 감사 기록에 필요한 운영 계정을 찾지 못했습니다.', 503);
+    const rewards = await catalog(q);
+    const messages = await q(`INSERT INTO user_messages(user_id,sender_type,title,body,message_type,campaign_key)
+      VALUES($1,'SYSTEM','첫 2차 인증 기프트 박스','PLAY DK 첫 2차 인증을 축하합니다! 신규유저 기프트 박스 1개가 도착했습니다. 메시지에서 수령한 뒤 인벤토리에서 개봉해 주세요. 계정 및 인증 계정당 1회 지급됩니다.','ITEM_REWARD',$2) RETURNING id`, [id, NEW_USER_GIFT_MESSAGE_CAMPAIGN]);
+    if (messages.length !== 1) fail('GRANT_FAILED', '기프트 박스 메시지를 저장하지 못했습니다.');
+    const messageId = Number(messages[0].id);
+    const messageRewards = await q(`INSERT INTO user_message_rewards(message_id,user_id,reward_type,reward_amount)
+      VALUES($1,$2,$3,1) RETURNING id`, [messageId, id, NEW_USER_GIFT_CODE]);
+    if (messageRewards.length !== 1) fail('GRANT_FAILED', '메시지 보상을 저장하지 못했습니다.');
+    const rewardId = Number(messageRewards[0].id);
+    const manifest = JSON.stringify({ ...rewards, delivery: 'MESSAGE', messageId, rewardId });
+    await q(`INSERT INTO ${TABLE}(user_id,provider,identity_hash,status,issued_by,issued_at,joined_at,request_id,manifest_json,manifest_hash)
+      VALUES($1,'PLAYDK',$2,'ISSUED',$3,${STAMP},$4,$5,$6,$7)`, [id, identityHash, owner.id, user.created_at || '', `auto-verification-${id}`, manifest, await digest(manifest)]);
+    await q(`INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data)
+      VALUES($1,'NEW_USER_GIFT_AUTO_MESSAGE','USER',$2,$3,$4)`, [owner.id, String(id), JSON.stringify({ actor: 'SYSTEM', quantity: 0 }), JSON.stringify({ actor: 'SYSTEM', messageId, rewardId, quantity: 1, provider: 'PLAYDK' })]);
+    return { newlyVerified: true, giftMessage: { sent: true, messageId } };
+  });
+}
+
+export async function claimNewUserGiftMessage(env, user, reward, messageId) {
+  const id = safeId(user.id), mid = safeId(messageId), rid = safeId(reward.id);
+  return transaction(env, async q => {
+    const [account] = await q('SELECT * FROM users WHERE id=$1 FOR UPDATE', [id]);
+    if (!account || account.status !== 'ACTIVE') fail('INACTIVE_USER', '활성 계정에서만 보상을 수령할 수 있습니다.');
+    const [receipt] = await q(`SELECT * FROM ${TABLE} WHERE user_id=$1 FOR UPDATE`, [id]);
+    const manifest = receipt ? parseManifest(receipt) : null;
+    const [stored] = await q(`SELECT r.*,m.campaign_key FROM user_message_rewards r JOIN user_messages m ON m.id=r.message_id
+      WHERE r.id=$1 AND r.message_id=$2 AND r.user_id=$3 AND m.user_id=$3 FOR UPDATE OF r,m`, [rid, mid, id]);
+    if (!stored || stored.reward_type !== NEW_USER_GIFT_CODE || Number(stored.reward_amount) !== 1
+      || stored.campaign_key !== NEW_USER_GIFT_MESSAGE_CAMPAIGN || manifest?.delivery !== 'MESSAGE'
+      || manifest.messageId !== mid || manifest.rewardId !== rid || await digest(receipt.manifest_json) !== receipt.manifest_hash)
+      fail('RECEIPT_INVALID', '첫 인증 기프트 박스의 정식 메시지와 지급 기록이 일치하지 않습니다.');
+    const [previous] = await q('SELECT * FROM user_message_reward_claim_receipts_v1222 WHERE reward_id=$1 AND user_id=$2', [rid, id]);
+    if (previous) return { credited: false, duplicate: true, updated: account, receipt: previous, itemCode: NEW_USER_GIFT_CODE, rewardLabel: '신규유저 기프트 박스' };
+    if (stored.claimed_at || receipt.status !== 'ISSUED') fail('RECEIPT_INVALID', '기프트 박스 수령 기록을 다시 확인해야 합니다.');
+    const [verification] = await q('SELECT provider,provider_user_id FROM user_second_verifications WHERE user_id=$1 FOR SHARE', [id]);
+    if (!verification || verification.provider !== receipt.provider || await identity(verification) !== receipt.identity_hash) fail('SECOND_VERIFICATION_REQUIRED', '지급 당시의 2차 인증 계정이 유지되어야 수령할 수 있습니다.');
+    const [item] = await q('SELECT is_active FROM inventory_items WHERE code=$1 FOR SHARE', [NEW_USER_GIFT_CODE]);
+    if (Number(item?.is_active) !== 1) fail('GIFT_DISABLED', '기프트 박스 지급이 중지되어 있습니다.');
+    const granted = await q(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES($1,$2,1,1)
+      ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=1,unseen_quantity=1,updated_at=${STAMP}
+      WHERE cnine_user_inventory.quantity=0 RETURNING quantity`, [id, NEW_USER_GIFT_CODE]);
+    if (granted.length !== 1) fail('UNTRACKED_BOX', '박스 수량과 지급 기록을 확인해야 합니다.');
+    const [claim] = await q(`INSERT INTO user_message_reward_claim_receipts_v1222
+      (reward_id,message_id,user_id,reward_type,reward_amount,claim_token,balance_before,balance_after,source)
+      VALUES($1,$2,$3,$4,1,$5,0,1,'MESSAGE_CLAIM') RETURNING *`, [rid, mid, id, NEW_USER_GIFT_CODE, crypto.randomUUID()]);
+    if (!claim) fail('GRANT_FAILED', '메시지 수령 영수증을 저장하지 못했습니다.');
+    await q(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id)
+      VALUES($1,$2,1,1,'첫 2차 인증 기프트 박스 수령','USER_MESSAGE',$3)`, [id, NEW_USER_GIFT_CODE, String(mid)]);
+    if ((await q(`UPDATE user_message_rewards SET claimed_at=${STAMP} WHERE id=$1 AND claimed_at IS NULL RETURNING id`, [rid])).length !== 1) fail('GRANT_FAILED', '메시지 수령 상태를 저장하지 못했습니다.');
+    await q(`UPDATE user_messages SET is_read=1,read_at=COALESCE(read_at,${STAMP}),hidden_at=COALESCE(hidden_at,${STAMP}) WHERE id=$1 AND user_id=$2`, [mid, id]);
+    return { credited: true, duplicate: false, updated: account, receipt: claim, balanceBefore: 0, balanceAfter: 1, itemCode: NEW_USER_GIFT_CODE, rewardLabel: '신규유저 기프트 박스' };
+  });
 }
 // Explicit 2026-10-01 contents replacement applies to unopened boxes too.
 // Call only with this receipt row locked. Completed rewards are immutable.
@@ -168,6 +252,7 @@ export async function newUserGiftStatus(env, userId, admin = null) {
     const matchingIdentity = receipt && eligibility.verified && receipt.provider === verification.provider && receipt.identity_hash === await identity(verification);
     const active = Number(item?.is_active) === 1;
     return { user: { id, nickname: user.nickname }, eligibility, receipt: receiptSummary(receipt), rewards, catalogError,
+      pendingMessageId: rewards?.delivery === 'MESSAGE' && receipt?.status === 'ISSUED' && Number(inventory?.quantity || 0) === 0 ? rewards.messageId : null,
       canIssue: Boolean(admin && eligibility.eligible && active && rewards && !catalogError),
       canOpen: Boolean(user.status === 'ACTIVE' && receipt?.status === 'ISSUED' && matchingIdentity && active && Number(inventory?.quantity) === 1),
       available: active, quantity: Number(inventory?.quantity || 0), serverNow: new Date(giftTimestamp(now)).toISOString() };
@@ -214,7 +299,7 @@ export async function openNewUserGift(env, userId) {
     const [user] = await q('SELECT id,status,coin FROM users WHERE id=$1 FOR UPDATE', [id]);
     if (!user || user.status !== 'ACTIVE') fail('INACTIVE_USER', '활성 계정에서만 개봉할 수 있습니다.');
     const [receipt] = await q(`SELECT * FROM ${TABLE} WHERE user_id=$1 FOR UPDATE`, [id]);
-    if (!receipt) fail('NOT_ISSUED', 'CMS에서 정식 지급받은 기프트 박스가 없습니다.');
+    if (!receipt) fail('NOT_ISSUED', '정식 지급받은 기프트 박스가 없습니다. 첫 인증 보상 메시지를 확인해 주세요.');
     if (receipt.status === 'OPENED') {
       try { return { ...JSON.parse(receipt.result_json), replayed: true }; } catch { fail('RECEIPT_INVALID', '개봉 기록을 확인해야 합니다.'); }
     }

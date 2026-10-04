@@ -6,9 +6,118 @@ import { PGlite } from '@electric-sql/pglite';
 import { __postgresCompatTest } from '../functions/_postgres_d1_compat.js';
 import { refreshIssuedNewUserGiftContents } from '../scripts/ops/new-user-gift-contents-20261001.mjs';
 import { giftEligibility, giftTimestamp, NEW_USER_GIFT_CODE, NEW_USER_GIFT_COIN, NEW_USER_GIFT_EQUIPMENT,
-  ensureNewUserGift, newUserGiftStatus, issueNewUserGift, openNewUserGift, handleNewUserGift } from '../functions/_new_user_gift.js';
+  ensureNewUserGift, newUserGiftStatus, issueNewUserGift, openNewUserGift, handleNewUserGift,
+  completePlaydkVerificationWithGift, claimNewUserGiftMessage } from '../functions/_new_user_gift.js';
 
 const admin = { id: 99, role: 'OWNER' };
+async function autoFixture() {
+  const f=await fixture();
+  await ensureNewUserGift(f.env);
+  await f.pg.exec(`
+    ALTER TABLE user_second_verifications ADD COLUMN provider_name TEXT;
+    ALTER TABLE user_second_verifications ADD COLUMN updated_at TEXT;
+    DELETE FROM user_second_verifications;
+    CREATE TABLE wago_verifications(user_id BIGINT,status TEXT);
+    CREATE TABLE user_messages(id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,user_id BIGINT,sender_type TEXT,title TEXT,body TEXT,message_type TEXT,campaign_key TEXT,is_read BIGINT DEFAULT 0,read_at TEXT,hidden_at TEXT,UNIQUE(user_id,campaign_key));
+    CREATE TABLE user_message_rewards(id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,message_id BIGINT UNIQUE,user_id BIGINT,reward_type TEXT,reward_amount BIGINT,claimed_at TEXT);
+    CREATE TABLE user_message_reward_claim_receipts_v1222(reward_id BIGINT PRIMARY KEY,message_id BIGINT UNIQUE,user_id BIGINT,reward_type TEXT,reward_amount BIGINT,claim_token TEXT UNIQUE,balance_before BIGINT,balance_after BIGINT,source TEXT);
+  `);
+  return {...f, verify:(id=1,uuid='uuid-1')=>completePlaydkVerificationWithGift(f.env,id,{uuid,name:'인증QA'}),
+    claim:async(id=1)=>{const reward=await f.row('SELECT * FROM user_message_rewards WHERE user_id=$1',[id]);return claimNewUserGiftMessage(f.env,{id},reward,reward.message_id);}};
+}
+
+test('first verification atomically sends one claimable box, claims once then opens the unchanged full contents',async()=>{
+  const f=await autoFixture();try{
+    await f.pg.exec("UPDATE users SET created_at=to_char(timezone('UTC',CURRENT_TIMESTAMP-INTERVAL '13 days'),'YYYY-MM-DD HH24:MI:SS') WHERE id=1");
+    const result=await f.verify();assert.equal(result.newlyVerified,true);assert.equal(result.giftMessage.sent,true);
+    assert.equal(Number((await f.row('SELECT COUNT(*) n FROM cnine_user_inventory')).n),0);
+    assert.equal(Number((await f.row('SELECT coin FROM users WHERE id=1')).coin),3000);
+    assert.equal((await f.status()).pendingMessageId,result.giftMessage.messageId);
+    assert.equal((await f.status()).canOpen,false);assert.equal((await f.status()).canIssue,false);
+    const repeat=await f.verify();assert.equal(repeat.newlyVerified,false);
+    await assert.rejects(f.verify(1,'other-uuid'),e=>e.code==='SECONDARY_VERIFICATION_RACE');
+    await assert.rejects(f.verify(2),e=>e.code==='SECONDARY_VERIFICATION_RACE');
+    assert.equal(Number((await f.row('SELECT COUNT(*) n FROM user_messages')).n),1);
+    const claims=await Promise.all([f.claim(),f.claim()]);assert.equal(claims.filter(x=>x.credited).length,1);
+    assert.equal(Number((await f.row('SELECT quantity FROM cnine_user_inventory')).quantity),1);
+    assert.equal(Number((await f.row('SELECT COUNT(*) n FROM inventory_logs')).n),1);
+    assert.equal((await f.status()).canOpen,true);
+    const opened=await f.open();assert.equal(opened.coin,NEW_USER_GIFT_COIN);
+    assert.deepEqual(opened.rewards.cardLevels,{SUPERSTAR:11,FUR:13,ZENITH:13});
+    assert.equal((await f.claim()).duplicate,true);assert.equal((await f.open()).replayed,true);
+    assert.equal(Number((await f.row('SELECT quantity FROM cnine_user_inventory')).quantity),0);
+  }finally{await f.close();}
+});
+
+test('over 14 days and invalid/future signup still verify successfully without sending a box',async()=>{
+  for(const joined of ["to_char(timezone('UTC',CURRENT_TIMESTAMP-INTERVAL '14 days 1 second'),'YYYY-MM-DD HH24:MI:SS')","'2026-02-30 00:00:00'","to_char(timezone('UTC',CURRENT_TIMESTAMP+INTERVAL '1 day'),'YYYY-MM-DD HH24:MI:SS')"]){
+    const f=await autoFixture();try{
+      await f.pg.exec(`UPDATE users SET created_at=${joined} WHERE id=1`);
+      const result=await f.verify();assert.equal(result.newlyVerified,true);assert.equal(result.giftMessage.sent,false);
+      assert.equal(Number((await f.row('SELECT COUNT(*) n FROM user_second_verifications')).n),1);
+      assert.equal(Number((await f.row('SELECT COUNT(*) n FROM user_messages')).n),0);
+      assert.equal(Number((await f.row('SELECT COUNT(*) n FROM new_user_gift_receipts_v1')).n),0);
+    }finally{await f.close();}
+  }
+});
+
+test('catalog/message/audit failure rolls back verification and entitlement together and permits retry',async()=>{
+  for(const fault of ['INSERT INTO user_messages','INSERT INTO user_message_rewards','INSERT INTO new_user_gift_receipts_v1','INSERT INTO admin_logs']){
+    const f=await autoFixture();try{
+      f.setFault(fault);await assert.rejects(f.verify(),/injected/);
+      for(const table of ['user_second_verifications','user_messages','user_message_rewards','new_user_gift_receipts_v1']) assert.equal(Number((await f.row(`SELECT COUNT(*) n FROM ${table}`)).n),0);
+      f.setFault(null);assert.equal((await f.verify()).giftMessage.sent,true);
+    }finally{await f.close();}
+  }
+});
+
+test('same identity, unlink/relink, concurrent first verification and old manual grants never issue a second box',async()=>{
+  const f=await autoFixture();try{
+    const results=await Promise.all([f.verify(),f.verify()]);assert.equal(results.filter(x=>x.giftMessage.sent).length,1);
+    await f.pg.exec('DELETE FROM user_second_verifications WHERE user_id=1');
+    assert.equal((await f.verify(2)).giftMessage.code,'ALREADY_ISSUED');
+    await f.pg.exec('DELETE FROM user_second_verifications WHERE user_id=2');
+    assert.equal((await f.verify(1,'different-uuid')).giftMessage.code,'ALREADY_ISSUED');
+    assert.equal(Number((await f.row('SELECT COUNT(*) n FROM user_messages')).n),1);
+    await assert.rejects(f.claim(),e=>e.code==='SECOND_VERIFICATION_REQUIRED');
+  }finally{await f.close();}
+  const m=await autoFixture();try{
+    await m.pg.exec("INSERT INTO user_second_verifications(user_id,provider,provider_user_id,verified_at) VALUES(1,'PLAYDK','manual-id',sqlite_now())");
+    await m.issue();await m.pg.exec('DELETE FROM user_second_verifications WHERE user_id=1');
+    assert.equal((await m.verify(1,'manual-id')).giftMessage.code,'ALREADY_ISSUED');
+    assert.equal(Number((await m.row('SELECT COUNT(*) n FROM user_messages')).n),0);
+  }finally{await m.close();}
+});
+
+test('failed or forged message claims cannot create extra boxes and genuine claim can retry',async()=>{
+  const f=await autoFixture();try{
+    await f.verify();
+    const reward=await f.row('SELECT * FROM user_message_rewards');
+    await assert.rejects(claimNewUserGiftMessage(f.env,{id:2},reward,reward.message_id),e=>e.code==='RECEIPT_INVALID');
+    await f.pg.exec("UPDATE user_message_rewards SET reward_amount=2");
+    await assert.rejects(f.claim(),e=>e.code==='RECEIPT_INVALID');
+    await f.pg.exec('UPDATE user_message_rewards SET reward_amount=1');
+    f.setFault('INSERT INTO inventory_logs');await assert.rejects(f.claim(),/injected/);
+    assert.equal(Number((await f.row('SELECT COUNT(*) n FROM cnine_user_inventory')).n),0);
+    assert.equal(Number((await f.row('SELECT COUNT(*) n FROM user_message_reward_claim_receipts_v1222')).n),0);
+    assert.equal((await f.row('SELECT claimed_at FROM user_message_rewards')).claimed_at,null);
+    assert.equal((await f.row('SELECT hidden_at FROM user_messages')).hidden_at,null);
+    f.setFault(null);assert.equal((await f.claim()).credited,true);
+  }finally{await f.close();}
+});
+
+test('disabled gift preserves verification; preexisting verification is not retroactively mailed',async()=>{
+  const f=await autoFixture();try{
+    await f.pg.exec('UPDATE inventory_items SET is_active=0');
+    assert.equal((await f.verify()).giftMessage.code,'GIFT_DISABLED');
+    await f.pg.exec('UPDATE inventory_items SET is_active=1');
+    assert.equal((await f.verify()).giftMessage.code,'ALREADY_VERIFIED');
+    assert.equal(Number((await f.row('SELECT COUNT(*) n FROM user_messages')).n),0);
+    await f.pg.exec("INSERT INTO user_second_verifications(user_id,provider,provider_user_id,verified_at) VALUES(2,'PLAYDK','old-id',sqlite_now())");
+    assert.equal((await f.verify(2,'old-id')).giftMessage.code,'ALREADY_VERIFIED');
+  }finally{await f.close();}
+});
+
 async function fixture() {
   const pg = new PGlite();
   await pg.exec(`
@@ -55,10 +164,11 @@ async function fixture() {
   return { pg, env, issue, row, open: (id=1)=>openNewUserGift(env,id), status:(id=1)=>newUserGiftStatus(env,id,admin), setFault(value){fault=value;}, close:()=>pg.close() };
 }
 
-test('7 days uses the real UTC signup timestamp, rejects missing/future/malformed dates and missing secondary verification', () => {
-  const now = '2026-09-09T10:00:00Z', user = {status:'ACTIVE',created_at:'2026-09-02 10:00:00'}, verification={provider:'PLAYDK',provider_user_id:'uuid',verified_at:'2026-09-09 09:00:00'};
+test('14 days uses the real UTC signup timestamp, accepts exactly 336 hours and rejects one second over', () => {
+  const now = '2026-09-09T10:00:00Z', user = {status:'ACTIVE',created_at:'2026-08-26 10:00:00'}, verification={provider:'PLAYDK',provider_user_id:'uuid',verified_at:'2026-09-09 09:00:00'};
   assert.equal(giftEligibility(user,verification,now).eligible,true);
-  assert.equal(giftEligibility({...user,created_at:'2026-09-02 09:59:59'},verification,now).code,'EXPIRED');
+  assert.equal(giftEligibility(user,verification,now).days,14);
+  assert.equal(giftEligibility({...user,created_at:'2026-08-26 09:59:59'},verification,now).code,'EXPIRED');
   for(const created_at of ['', '2026-02-30 10:00:00','2026-09-09','2026-09-10T00:00:00Z']) assert.equal(giftEligibility({...user,created_at},verification,now).code,'JOIN_DATE_INVALID');
   assert(Number.isNaN(giftTimestamp('2026-02-30T10:00:00Z')));
   assert.equal(giftTimestamp('2026-09-09T19:00:00+09:00'),Date.parse(now));
@@ -263,8 +373,8 @@ test('route permissions block anonymous/users before schema work and reject unsu
 
 test('client/CMS integrations load versioned assets and generic inventory grant cannot bypass the dedicated route',()=>{
   const read=file=>readFileSync(new URL('../'+file,import.meta.url),'utf8');
-  assert.match(read('index.html'),/js\/new-user-gift-v2075\.js\?v=20261001-rewards-v2/);
-  assert.match(read('admin/index.html'),/\.\.\/js\/new-user-gift-v2075\.js\?v=20261001-rewards-v2/);
+  assert.match(read('index.html'),/js\/new-user-gift-v2075\.js\?v=20261004-first-verify-14days/);
+  assert.match(read('admin/index.html'),/\.\.\/js\/new-user-gift-v2075\.js\?v=20261004-first-verify-14days/);
   assert.match(read('js/app.js'),/itemCode==='NEW_USER_GIFT_BOX'.*NewUserGiftV2075.open/);
   assert.match(read('functions/api/[[path]].js'),/if\(itemCode===NEW_USER_GIFT_CODE\)return json/);
   assert.match(read('admin/new-user-gift-v2075.js'),/USER|userDialog/);

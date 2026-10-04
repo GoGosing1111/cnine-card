@@ -129,7 +129,7 @@ import { defaultRaidSettingsV1293,cleanRaidSettingsV1293,raidScheduleStateV1293,
 import { WEEKLY_RAID_BOSSES_V1,weeklyRaidBossForKst,weeklyRaidBossByName,weeklyRaidBossSettings,ensureWeeklyRaidBossesV1 } from '../_raid_weekly_bosses_v1.js';
 import { readWeeklyRaidCms,saveWeeklyRaidCms } from '../_raid_weekly_cms_v2141.js';
 import { createPlaydkIdentityClient,PlaydkApiError } from '../_playdk_client.js';
-import { handleNewUserGift,NEW_USER_GIFT_CODE } from '../_new_user_gift.js';
+import { handleNewUserGift,NEW_USER_GIFT_CODE,completePlaydkVerificationWithGift,claimNewUserGiftMessage } from '../_new_user_gift.js';
 import { handleHyperPack,arrangeHyperPackCatalog } from '../_hyper_pack.js';
 import { handleWishLamp } from '../_wish_lamp.js';
 import { createPostgresD1Compat } from '../_postgres_d1_compat.js';
@@ -516,6 +516,7 @@ function messageRewardClaimToken(){
 }
 
 const VERIFIED_MESSAGE_REWARD_TYPES={
+  NEW_USER_GIFT_BOX:{label:'신규유저 기프트 박스',icon:'🎁',inventory:true,messageOnly:true,max:1,messageType:'ITEM_REWARD'},
   LICH_KING_ENTRY_TICKET:{label:'리치왕 정벌 입장권',icon:'🎟️',inventory:true,messageOnly:true,max:100000,messageType:'ITEM_REWARD'},
   MERCENARY_OMEGA_X:{label:'오메가-X SSS',icon:'🃏',inventory:false,messageOnly:true,max:1,messageType:'ITEM_REWARD'},
   PIG_COIN:{label:'피그코인',icon:'🐷',inventory:false,messageOnly:true,max:100000,messageType:'ITEM_REWARD'},
@@ -570,6 +571,7 @@ async function ensureVerifiedRewardMessageV1276(env){
 async function claimMessageRewardDirectV1222(env,user,reward,messageId,{allowClaimedRecovery=false}={}){
   await ensureVerifiedRewardMessageV1276(env);
   const rewardType=String(reward?.reward_type||'').toUpperCase();
+  if(rewardType==='NEW_USER_GIFT_BOX')return claimNewUserGiftMessage(env,user,reward,messageId);
   if(rewardType==='PIG_COIN')return claimPigCoinMessageReward(env,user,reward,messageId);
   if(rewardType==='MERCENARY_OMEGA_X')return claimOmegaMercenaryMessageReward(env,user,reward,messageId);
   const spec=verifiedMessageRewardSpec(rewardType);
@@ -6984,16 +6986,15 @@ async function handleRequest(context){
       }
       const linked=await env.DB.prepare("SELECT user_id FROM user_second_verifications WHERE provider='PLAYDK' AND provider_user_id=?").bind(identity.uuid).first();
       if(linked&&Number(linked.user_id)!==Number(user.id))return json({error:'이 PLAY DK 계정은 이미 다른 숲켓몬 계정에 인증되어 있습니다.',code:'PLAYDK_ALREADY_LINKED'},409);
+      let verificationResult;
       try{
-        await env.DB.batch([
-          env.DB.prepare("INSERT INTO user_second_verifications(user_id,provider,provider_user_id,provider_name,verified_at,updated_at) VALUES(?,'PLAYDK',?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)").bind(user.id,identity.uuid,identity.name),
-          env.DB.prepare("DELETE FROM wago_verifications WHERE user_id=? AND status<>'VERIFIED'").bind(user.id)
-        ]);
+        await ensureVerifiedRewardMessageV1276(env);
+        verificationResult=await completePlaydkVerificationWithGift(env,user.id,identity);
       }catch(error){
-        if(isSecondaryProviderConflict(error))return json({error:'다른 2차 인증이 먼저 연결되었습니다. 상태를 새로 확인해주세요.',code:'SECONDARY_VERIFICATION_RACE'},409);
+        if(error?.code==='SECONDARY_VERIFICATION_RACE'||isSecondaryProviderConflict(error))return json({error:'다른 2차 인증이 먼저 연결되었습니다. 상태를 새로 확인해주세요.',code:'SECONDARY_VERIFICATION_RACE'},409);
         throw error;
       }
-      return json({ok:true,verified:true,status:'VERIFIED',newlyVerified:true,verification:{provider:'PLAYDK',providerName:identity.name}});
+      return json({ok:true,verified:true,status:verificationResult.newlyVerified?'VERIFIED':'ALREADY_VERIFIED',newlyVerified:verificationResult.newlyVerified,verification:{provider:'PLAYDK',providerName:identity.name},giftMessage:verificationResult.giftMessage});
     }
     if(path==='wago-verification/status'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);

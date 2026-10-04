@@ -18,14 +18,14 @@
     if (!$('#userDialog')?.open || !userId || busy || (!force && currentUser === userId)) return;
     currentUser = userId; state = null;
     const run = ++serial, button = $('#newGiftIssue'); button.disabled = true;
-    $('#newGiftState').textContent = '가입일·2차 인증·1회 지급 이력을 확인 중입니다.';
+    $('#newGiftState').textContent = '가입 14일·2차 인증·1회 지급 이력을 확인 중입니다.';
     $('#newGiftRewards').innerHTML = ''; $('#newGiftDates').textContent = ''; $('#newGiftError').textContent = '';
     try {
       const data = await api(userId);
       if (run !== serial || activeUser() !== userId) return;
       state = data;
       $('#newGiftState').classList.toggle('blocked', !data.canIssue);
-      $('#newGiftState').textContent = data.catalogError || (!data.available ? '기프트 박스 지급이 중지되어 있습니다.' : data.eligibility.message);
+      $('#newGiftState').textContent = data.catalogError || (!data.available ? '기프트 박스 지급이 중지되어 있습니다.' : data.pendingMessageId ? '자동 발송 완료 · 메시지함에서 수령 대기 중입니다.' : data.eligibility.message);
       $('#newGiftDates').textContent = `숲켓몬 가입: ${date(data.eligibility.joinedAt)} · 지급 가능 기한: ${date(data.eligibility.deadline)} (KST)${data.receipt ? ' · 지급: ' + date(data.receipt.issuedAt) : ''}`;
       $('#newGiftRewards').innerHTML = window.NewUserGiftV2075.rewardsHtml(data.rewards);
       button.disabled = !data.canIssue;
@@ -48,7 +48,7 @@
   function mount() {
     const detail = $('#userDetail'), dialog = $('#userDialog');
     if (!detail || !dialog || $('#newGiftBlock')) return;
-    detail.insertAdjacentHTML('afterend', '<section id="newGiftBlock" class="actionBlock new-gift-panel"><p class="new-gift-kicker">VERIFIED NEW PLAYER · ONE TIME</p><h3>신규유저 기프트 박스</h3><p>숲켓몬 가입 후 7일 이내 + PLAY DK 2차 인증 완료 필수.<br>계정 초기화·인증 해제·재가입으로 수령 횟수가 초기화되지 않습니다.</p><div id="newGiftState" class="new-gift-state" role="status">유저를 선택하세요.</div><small id="newGiftDates"></small><div id="newGiftRewards"></div><label>지급 사유<input id="newGiftReason" maxlength="160" value="신규유저 7일 기프트 박스" aria-label="기프트 박스 지급 사유"></label><button id="newGiftIssue" class="new-gift-primary" type="button" disabled>기프트 박스 1개 지급</button><button id="newGiftRefresh" class="new-gift-secondary" type="button">조건 다시 확인</button><p id="newGiftError" class="new-gift-error" role="alert"></p><small>지급 시점의 공개·활성 보상 목록을 저장합니다. 개봉 기한은 없으며, 지급 당시의 2차 인증을 유지해야 합니다. 더 높은 기존 강화와 덱·장착 상태는 보존합니다.</small></section>');
+    detail.insertAdjacentHTML('afterend', '<section id="newGiftBlock" class="actionBlock new-gift-panel"><p class="new-gift-kicker">VERIFIED NEW PLAYER · ONE TIME</p><h3>신규유저 기프트 박스</h3><p>숲켓몬 가입 후 14일 이내 첫 PLAY DK 2차 인증 완료 시 메시지함으로 자동 지급합니다.<br>계정 초기화·인증 해제·재가입으로 수령 횟수가 초기화되지 않습니다. 아래 수동 지급은 미지급 계정 확인용입니다.</p><div id="newGiftState" class="new-gift-state" role="status">유저를 선택하세요.</div><small id="newGiftDates"></small><div id="newGiftRewards"></div><label>지급 사유<input id="newGiftReason" maxlength="160" value="신규유저 14일 기프트 박스" aria-label="기프트 박스 지급 사유"></label><button id="newGiftIssue" class="new-gift-primary" type="button" disabled>기프트 박스 1개 지급</button><button id="newGiftRefresh" class="new-gift-secondary" type="button">조건 다시 확인</button><p id="newGiftError" class="new-gift-error" role="alert"></p><small>지급 시점의 공개·활성 보상 목록을 저장합니다. 개봉 기한은 없으며, 지급 당시의 2차 인증을 유지해야 합니다. 더 높은 기존 강화와 덱·장착 상태는 보존합니다.</small></section>');
     $('#newGiftIssue').onclick = issue;
     $('#newGiftRefresh').onclick = () => refresh(true);
     new MutationObserver(() => refresh()).observe(detail, { childList: true, subtree: true });
