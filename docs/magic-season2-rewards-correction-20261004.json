@@ -1,0 +1,44 @@
+{
+  "date": "2026-10-04",
+  "status": "IMPLEMENTED_PENDING_DEPLOYMENT",
+  "request": "시즌2 팩은 마법카드 + 마별 혼합. 마법카드 5%, 마별 10%. 마별 수량은 사용자가 설정.",
+  "supersedes": "magic-season2-pack-preview-release-20261004.json의 MAGIC_CRYSTAL/CARD_SHARD 보상 구성",
+  "policy": {
+    "rewardTypes": ["MAGIC_CARD", "MASTER_STAR"],
+    "magicCardChancePercent": 5,
+    "masterStarChancePercent": 10,
+    "probabilityMode": "ABSOLUTE_PERCENT_NOT_RELATIVE_WEIGHT",
+    "masterStarMin": null,
+    "masterStarMax": null,
+    "unassignedChancePercent": 85,
+    "remainderPolicy": "UNASSIGNED_PENDING_USER_DECISION",
+    "drawCoinCost": 1000000000,
+    "purchaseEnabled": false,
+    "openingEnabled": false,
+    "ownerOpeningEnabled": false,
+    "season1": "UNCHANGED"
+  },
+  "cms": {
+    "path": "마법카드 관리 → 시즌2 마법카드 + 마별",
+    "settingsKey": "magic_season2_pack_settings_v1",
+    "action": "SAVE_SEASON2_PACK",
+    "role": "OWNER",
+    "quantityMode": "Operator sets min/max; equal min/max means fixed quantity; blanks remain null",
+    "releaseBehavior": "Saving configuration never unlocks acquisition or changes the 10억 price"
+  },
+  "verification": {
+    "browser": {
+      "widths": [1440, 390],
+      "evidenceDirectory": "C:/Users/User/.codex/tmp/magic-season2-rewards-20261004/qa",
+      "passed": ["Season2 reward labels and exact 5%/10%", "No crystal/shard rewards or crystal opening cost in Season2", "Disabled controls and direct API lock", "Season1 draw unchanged", "CMS quantity save/reload against isolated PostgreSQL", "CMS save leaves price, acquisition lock and Season1 settings unchanged"],
+      "errors": []
+    },
+    "scoped": {
+      "previousProduction": "b043c91fdd9746a5a004f5380708efcc8a6dda8a",
+      "reason": "Localized Season2 pack reward metadata/UI and isolated OWNER draft settings. No wallet/reward writes, migrations, shared transaction or authentication changes. Acquisition remains locked.",
+      "tests": ["tests/magic-season2-pack-locked-20261004.test.mjs", "tests/magic-season2-pack-rewards-20261004.test.mjs", "tests/magic-workbench-ui.test.mjs"],
+      "checks": ["check:worker"],
+      "command": "npm run deploy:production -- --scoped"
+    }
+  }
+}

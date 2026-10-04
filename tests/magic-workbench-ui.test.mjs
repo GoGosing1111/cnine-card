@@ -5,8 +5,8 @@ import vm from 'node:vm';
 const read=file=>fs.readFileSync(new URL('../'+file,import.meta.url),'utf8');
 test('new magic workbench is versioned and keeps the existing app cache contract',()=>{
   const index=read('index.html'),worker=read('service-worker.js'),app=read('js/app.js');
-  assert.match(index,/magic-workbench-v1\.css\?v=20261004-s2-preview/);
-  assert.match(index,/magic-workbench-v1\.js\?v=20261004-s2-preview/);
+  assert.match(index,/magic-workbench-v1\.css\?v=20261004-s2-master-star/);
+  assert.match(index,/magic-workbench-v1\.js\?v=20261004-s2-master-star/);
   assert.match(worker,/FRESH_ACCOUNT_SCRIPTS\.add\('\/js\/magic-workbench-v1\.js'\)/);
   assert.match(app,/cardIds:snapshot,presetNo,magicCardIds:magicSnapshot/);
   assert.match(app,/if\(window.MagicWorkbench\)return window.MagicWorkbench.render/);

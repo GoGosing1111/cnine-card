@@ -29,7 +29,7 @@ export async function magicFixture(postgres = false) {
   else sql = new DatabaseSync(':memory:');
   const env = { DB }, p = (query, ...args) => DB.prepare(query).bind(...args);
   const schema = [
-    'CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT)',
+    'CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT)',
     'CREATE TABLE users(id INTEGER PRIMARY KEY,nickname TEXT,role TEXT,coin INTEGER,card_shards INTEGER,magic_crystals INTEGER)',
     'CREATE TABLE magic_cards(id INTEGER PRIMARY KEY,code TEXT,name TEXT,image_url TEXT,description TEXT,effect_type TEXT,effect_value INTEGER,trigger_type TEXT,trigger_chance INTEGER,max_activations INTEGER,scope_pve INTEGER,scope_pvp INTEGER,scope_captain INTEGER,is_active INTEGER,sort_order INTEGER,draw_weight INTEGER DEFAULT 1)',
     'CREATE TABLE user_magic_cards(user_id INTEGER,magic_card_id INTEGER,quantity INTEGER,enhancement_level INTEGER,first_obtained_at TEXT,updated_at TEXT,PRIMARY KEY(user_id,magic_card_id))',
@@ -44,7 +44,7 @@ export async function magicFixture(postgres = false) {
   if (postgres) await pg.exec(schema.map(s => s.replaceAll('INTEGER','BIGINT').replaceAll('CURRENT_TIMESTAMP','sqlite_now()')).join(';'));
   else await DB.batch(schema.map(s => DB.prepare(s)));
   await ensurePvpMagicPresets(env);
-  await p("INSERT INTO app_meta VALUES('magic_card_settings_v1',?)", JSON.stringify({ ...defaultMagicSettings(), enabled: true, drawEnabled: true })).run();
+  await p("INSERT INTO app_meta(key,value) VALUES('magic_card_settings_v1',?)", JSON.stringify({ ...defaultMagicSettings(), enabled: true, drawEnabled: true })).run();
   for (const id of [1, 2]) await p('INSERT INTO users VALUES(?,?,?,?,?,?)', id, `검수 계정 ${id}`, 'USER', 1000000, 5000, 2000).run();
   const names = ['전투의 서막', '수호의 결계', '생명의 맥동', '위기의 치유', '응징의 함정', '마력의 반격', '속행의 바람', '침묵의 봉인', '파멸의 낙인', '보호막 강탈', '시간의 균열', '불사조의 귀환', '정화의 빛', '연쇄의 메아리'];
   const effects = ['OPENING_ATTACK', 'GUARD_BARRIER', 'LIFE_AMPLIFY', 'CRISIS_HEAL', 'PUNISH_TRAP', 'ARCANE_COUNTER', 'FOLLOWUP_HASTE', 'ARCANE_SEAL', 'DOOM_MARK', 'SHIELD_SIPHON', 'TIME_DISTORTION', 'PHOENIX_REVIVE', 'PURIFY_LIGHT', 'CHAIN_ECHO'];

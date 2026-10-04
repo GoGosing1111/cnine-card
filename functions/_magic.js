@@ -1,7 +1,8 @@
 import { resolveAvatarDropRate } from './_avatar_drop.js';
 import {iconRoleDeckSettings,applyIconRoleDeckState} from './_icon_roles.js';
 import {iconDefinition} from '../shared/icon-roles-v1.mjs';
-import { magicSummonSeasons, magicPackRequestGuard } from '../shared/magic-pack-seasons-v1.mjs';
+import { magicSummonSeasons, magicPackRequestGuard, magicSeason2PackDraft } from '../shared/magic-pack-seasons-v1.mjs';
+import {MAGIC_S2_PACK_SETTINGS_KEY,magicSeason2PackSettings,invalidateMagicSeason2PackCache} from './_magic_season2_pack.js';
 const MAGIC_DECK_TYPES=['PVE','PVP'];
 import {loadUniqueAdvancementsForCards,loadUniqueAdvancementsForDecks,uniqueAdvancementSettings} from './_unique_advancement.js';
 import { readRuntimeData, cacheRuntimeData, invalidateRuntimeData } from './_runtime_data_cache.js';
@@ -614,7 +615,7 @@ async function userStatus(env,user,cfg){
   return {
     visible:true,enabled:cfg.enabled,ownerTest:!cfg.enabled&&cfg.ownerTestEnabled&&isOwner(user),magicCrystals:balance,coin:Number(user.coin||0),cardShards:Number(user.card_shards||0),
     settings:{drawEnabled:cfg.drawEnabled,drawCost:cfg.drawCost,drawCoinCost:cfg.drawCoinCost,duplicateRefund:cfg.duplicateRefund,packRewards:cfg.packRewards,enhancement:cfg.enhancement,acquisitionNotice:cfg.acquisitionNotice},
-    summonSeasons:magicSummonSeasons(cfg),
+    summonSeasons:magicSummonSeasons(cfg,await magicSeason2PackSettings(env,{fresh:false})),
     cards:cards.results.map(row=>cardPayload(row,cfg)),pvp,
     loadouts:loadouts.results.map(x=>({deckType:String(x.deck_type),slotNo:Number(x.slot_no),magicCardId:Number(x.magic_card_id)}))
   };
@@ -637,6 +638,7 @@ async function adminData(env){
   return {
     settings:cfg,
     summonSeasons:magicSummonSeasons(cfg),
+    season2Pack:await magicSeason2PackSettings(env),
     uniqueEffectSettings:await cardUniqueSettings(env),
     cards:cards.results.map(row=>cardPayload(row,cfg)),
     uniqueEffects:effects.results.map(x=>({
@@ -833,6 +835,14 @@ export async function handleMagic({path,request,env,deps}){
     if(request.method==='GET')return json(await adminData(env));
     if(request.method==='POST'){
       const body=await readBody(request),action=String(body.action||'').toUpperCase();
+      if(action==='SAVE_SEASON2_PACK'){
+        let next;try{next=magicSeason2PackDraft(body.settings||{});}catch(error){return json({error:error.message,code:'INVALID_MAGIC_S2_PACK_SETTINGS'},400);}
+        const before=await magicSeason2PackSettings(env);
+        await env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(MAGIC_S2_PACK_SETTINGS_KEY,JSON.stringify(next)).run();
+        invalidateMagicSeason2PackCache(env);
+        await writeAdminLog(env,admin,'MAGIC_S2_PACK_SAVE','APP_META',MAGIC_S2_PACK_SETTINGS_KEY,before,next);
+        return json({ok:true,season2Pack:next});
+      }
       if(action==='SAVE_SETTINGS'){
         const before=await magicSettings(env),next=cleanMagicSettings(body.settings||body);
         await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('magic_card_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(next)).run();invalidateMagicSettingsCache(env);

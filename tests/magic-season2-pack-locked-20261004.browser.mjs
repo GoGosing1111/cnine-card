@@ -24,6 +24,10 @@ try{
   await page.locator('.is-season2 .mw-summon-art img').evaluate(img=>img.decode());
   assert.equal(await page.locator('[data-mw-season="S2"]').getAttribute('aria-pressed'),'true');
   const text=await page.locator('.mw-summon').innerText();
+  assert.ok(text.includes('마스터의 별')&&text.includes('5%')&&text.includes('10%'));
+  assert.ok(!text.includes('마법 결정')&&!text.includes('카드 조각'));
+  assert.equal(await page.locator('.mw-pool-preview > div').count(),2);
+  assert.ok(text.includes('수량 추후 공개'));
   assert.ok(text.includes('10억 코인')&&text.includes('1,000,000,000')&&text.includes('100억 코인')&&text.includes('10,000,000,000'));
   assert.equal(await page.locator('#magicDrawBtn').isDisabled(),true);assert.equal(await page.locator('#magicDraw10Btn').isDisabled(),true);
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),true,'no horizontal page overflow');

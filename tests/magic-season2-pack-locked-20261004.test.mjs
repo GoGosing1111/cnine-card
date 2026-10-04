@@ -10,7 +10,11 @@ test('magic status publishes the approved season 2 pack at one billion coins whi
  assert.equal(s1.season,'S1');assert.equal(s1.drawCoinCost,status.settings.drawCoinCost);assert.equal(s1.drawCost,status.settings.drawCost);assert.deepEqual(s1.packRewards,status.settings.packRewards);
  assert.equal(s1.drawEnabled,true);assert.equal(s2.season,'S2');assert.equal(s2.drawCoinCost,1_000_000_000);assert.equal(s2.drawCost,0);assert.equal(s2.drawEnabled,false);assert.equal(s2.openingEnabled,false);assert.equal(s2.visible,true);assert.equal(s2.drawCoinCost*10,10_000_000_000);
  assert.ok(fs.existsSync(new URL('../'+s2.imageUrl,import.meta.url)));
- assert.equal(s2.code,'MAGIC_CARD_SEASON2_PACK');assert.equal(MAGIC_SEASON2_PACK.rewardPolicy,'MIXED_CARD_CRYSTAL_SHARD');
+ assert.equal(s2.code,'MAGIC_CARD_SEASON2_PACK');assert.equal(MAGIC_SEASON2_PACK.rewardPolicy,'MIXED_CARD_MASTER_STAR');
+ assert.deepEqual(s2.rewardTypes,['MAGIC_CARD','MASTER_STAR']);
+ assert.equal(s2.packRewards.magicCardChance,5);assert.equal(s2.packRewards.masterStarChance,10);
+ assert.equal(s2.packRewards.masterStarMin,null);assert.equal(s2.packRewards.masterStarMax,null);
+ assert.equal(s2.unassignedChance,85);assert.equal(s2.noRewardChance,0);assert.equal(s2.rewardConfigurationComplete,false);
 });
 
 test('season 2 direct draw and inventory-open requests stay locked for users and OWNER without any writes',async t=>{
