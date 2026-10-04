@@ -33,7 +33,14 @@ assert.match(engine,/this\.playEvents\(\[\{type:'DEPLOY'\}\],\{forceDeploy:true\
 assert.match(engine,/root\.visible=true;\s*root\.renderable=true;\s*if\(this\.livePayload\)/,'forced QC deploy must restore both Pixi visibility gates before alpha animation');
 assert.match(engine,/this\.cards\.filter\(card=>card\.visible&&card\.renderable\)/,'hidden preview cards must not animate into live PVP');
 assert.match(engine,/const liveActor=explicitActor\|\|\(this\.livePayload/,'live ultimates must not fall back to the preview-only actor');
-assert.match(engine,/instance\.timeScale\(Number\.isFinite\(requestedScale\)&&requestedScale>0[\s\S]*\?requestedScale[\s\S]*:this\.reducedMotion\?8:PLAYBACK_SPEED\*\(this\.paceScale\|\|1\)\)/,'Pixi timelines must honor fixed clocks and otherwise use the 1.3x paced clock');
+assert.match(engine,/instance\.timeScale\(Number\.isFinite\(requestedScale\)&&requestedScale>0[\s\S]*\?requestedScale[\s\S]*:this\.actionPlaybackSpeed\(\)\)/,'Pixi timelines must honor fixed clocks and otherwise use the shared action clock');
+const clockMethod=engine.match(/  actionPlaybackSpeed\(\{paced=true\}=\{\}\)\{[\s\S]*?\n  \}/)?.[0];assert.ok(clockMethod);
+const clock=vm.runInNewContext('({'+clockMethod+'})',{PLAYBACK_SPEED:1.3});
+assert.equal(clock.actionPlaybackSpeed.call({paceScale:1}),1.3);
+assert.equal(clock.actionPlaybackSpeed.call({paceScale:1.82}),1.3*1.82);
+assert.equal(clock.actionPlaybackSpeed.call({paceScale:1.82},{paced:false}),1.3);
+assert.equal(clock.actionPlaybackSpeed.call({formationCoop:true,paceScale:1.82}),1);
+assert.equal(clock.actionPlaybackSpeed.call({reducedMotion:true}),8);
 assert.match(engine,/this\.textures=Object\.fromEntries\(Object\.keys\(ASSETS\)/,'live battles must skip the preview asset bundle');
 assert.match(engine,/const unique=\[\.\.\.new Set\(preloadUrls\)\]\.filter\(Boolean\);[\s\S]*Promise\.allSettled\(unique\.map\(url=>Assets\.load\(url\)\)\)/,'live card and monster assets must load concurrently');
 assert.match(engine,/onInterrupt:\(\)=>settle\(false\)/,'interrupted GSAP timelines must settle instead of hanging');
