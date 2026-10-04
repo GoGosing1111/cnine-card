@@ -139,7 +139,8 @@ test('all ten served V3 bundles including the account entry and hunt share the c
   const report = JSON.parse(read('preview/project-v-v3/grid-build-report.json'));
   assert.equal(report.version, 'OCCUPIED_GRID_V1');
   assert.equal(report.layoutVersion, 'UNIFORM_LATTICE_V2');
-  assert.equal(report.outputs.length, 10); assert.equal(report.sources.length, 70);
+  assert.equal(report.outputs.length, 10); assert.equal(report.sources.length, 76);
+  for(const file of ['preview/project-v-v3/source/battle/IconRolePlayback.js','shared/icon-roles-v1.mjs','shared/icon-role-visuals-v1.mjs'])assert.ok(report.sources.some(row=>row.file===file),file);
   for(const name of ['CooperativeEncounter.js','CooperativeArkePlayback.js'])assert.ok(report.sources.some(row=>row.file===`preview/project-v-v3/source/battle/${name}`));
   for(const name of ['XBodySwordAnimation.js','XBodySwordModel.mjs'])assert.ok(report.sources.some(row=>row.file===`preview/project-v-v3/source/battle/${name}`));
   assert.ok(report.outputs.some(row => row.file === 'preview/sustained-hunt-v2/battle.bundle.js'),
