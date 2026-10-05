@@ -1,0 +1,35 @@
+{
+  "createdAt": "2026-10-06",
+  "userRequest": "디자인 참고해서 sss리미티드 급으로 화려하게 만들어 일러스트 시작",
+  "useCase": "stylized-concept",
+  "intent": "generate_from_references",
+  "toolMode": "built-in image_gen",
+  "intendedTier": "SSS LIMITED",
+  "status": "USER_REVIEW_PENDING",
+  "prompt": "Use case: stylized-concept.\nCreate ONE spectacular, polished, highest-tier SSS Limited mercenary source illustration for a premium Korean fantasy collectible RPG. Vertical 2:3 canvas, 1024 x 1536 pixels or larger exact 2:3, full-bleed opaque RGB art.\n\nINPUT ROLES:\nImage 1 is the primary DESIGN AND ATMOSPHERE reference: an imposing handsome adult dark-haired oriental warlord, ornate black and antique-gold dragon armor, two long crimson pheasant feathers in his crown, enormous red-energy halberd, black armored warhorse, crimson lightning battlefield. Preserve these defining design ideas and the imposing low-angle presence. Ignore and completely omit every logo, letter, Chinese character, promotional layout and text panel in that image.\nImage 2 is ONLY a male beauty and painterly face-rendering reference, NOT its short hairstyle, clothing, palette, pose, weapon or background.\nImage 3 is ONLY the project's finish reference: expressive readable face, sophisticated 2D semi-real painting, rich coherent lighting and convincing cloth/leather/metal. Do NOT introduce a woman, glasses, gun, suit or its setting.\n\nART DIRECTION:\nThe male warlord is the unquestionable hero, standing firmly in a commanding three-quarter pose, broad shoulders and powerful adult anatomy, chin slightly lifted, focused narrow crimson-lit eyes, arrestingly handsome refined masculine features and a calm overwhelming expression. Face remains large and legible at card-thumbnail size, not lost in shadows. Long jet-black hair streams organically from the crown; fine connected strands, natural volume, smooth continuous root-to-tip flow, no stacked layers, no rigid blade-like hair plates, no plastic ribbon hair.\nHis ornate crown bears TWO magnificent long deep-crimson feather plumes. Luxurious obsidian-black overlapping armor with sculpted antique-gold dragon shoulder guards, embossed chest and waist motifs, deep ruby energy seams and precise bright metal edges. It must look like a unique endgame sovereign, with deliberate large armor shapes and exceptionally crafted details. One sweeping deep-crimson cape creates the main cloth motion. Dark silk and leather underlayers. No white/gold paladin costume.\n\nWEAPON AND COMPANION:\nOne colossal two-handed polearm, a dragon-carved black-gold fangtian halberd with a long absolutely straight rigid shaft, a coherent head with broad crescent cutting blades and a long central spear point. Hold it in a convincing firm anatomical grip and a strong diagonal composition across the right foreground. Make the magnificent whole blade head and tip clearly visible within the canvas, not clipped. Molten crimson light runs inside the blade, slender red lightning curls around its edges, cold bright highlights articulate the real cutting surfaces. It must remain a readable single weapon, no extra shafts or random floating blades.\nBehind the hero's left shoulder stands a powerful black warhorse with a noble equine head, black-gold armored chamfron, crimson-lit eye and windswept deep-burgundy mane. Horse reinforces the hero's majesty, partly behind him with clear spatial separation, never covering his face. Do not turn the horse into a dragon or a second person.\n\nCOMPOSITION / LIGHT:\nEpic low-angle portrait with dynamic depth: sharp hero face and foreground weapon, softer horse and distant ruined battlefield. Show the hero from crown through armored legs with the weapon composition comfortably inside frame. The feather tips can curve through the sky naturally. Storm-torn plum-black clouds, distant fortress silhouettes and battle banners. Brilliant branching crimson lightning illuminates the air and ground behind him; drifting red embers and subtle gold sparks; strong crimson rim light plus a clean soft neutral face light. The scene is lavish and luminous, not a dark muddy picture. Let the gold filigree and glowing red energy create breathtaking contrast, with a few calm dark areas for readability.\n\nPremium hand-painted semi-real fantasy splash art, beautiful sophisticated 2D character face, painterly transitions, immaculate material separation, exceptionally finished weapon and armor, cinematic scale, luxurious SSS Limited collectible impact.\nStrictly ONE integrated illustration. No text of any language, no rank letters, no name, no logos, no watermark, no border or card frame, no UI, no collage or character sheet. No photorealistic actor face, no pores or aged rough skin, no plastic 3D rendering, no chibi, no cartoon proportions. Natural hands with correct fingers, coherent joints, uninterrupted straight polearm structure. Do not simplify the requested dramatic design.",
+  "references": [
+    {
+      "role": "primary design and atmosphere",
+      "path": "reference/user-design-reference.png",
+      "originalPath": "C:/Users/User/AppData/Local/Temp/codex-clipboard-0a1cf6c2-d39f-48c1-a56b-a7f46c00ebf8.png"
+    },
+    {
+      "role": "male face rendering only",
+      "path": "../mercenary-vespera-beauty-v1/assets/male-beauty-v1.png"
+    },
+    {
+      "role": "project painting and materials only",
+      "path": "../../assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png"
+    }
+  ],
+  "output": "assets/mercenary-crimson-war-god-source-art-v1.png",
+  "approval": {
+    "illustration": false,
+    "name": null,
+    "releaseDate": null,
+    "cms": false,
+    "codex": false,
+    "acquisition": false,
+    "battle": false
+  }
+}

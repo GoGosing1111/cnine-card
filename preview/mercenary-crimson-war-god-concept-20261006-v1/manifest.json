@@ -1,0 +1,60 @@
+{
+  "createdAt": "2026-10-06",
+  "type": "mercenary_source_art_concept",
+  "intendedTier": "SSS LIMITED",
+  "status": "USER_REVIEW_PENDING",
+  "name": null,
+  "latestVersion": 5,
+  "sourceArt": "assets/mercenary-crimson-war-god-balanced-aura-v5.png",
+  "sha256": "DADCEEF69CAFA0C532EAFFB58C1D10EF6879AC0A4297426ADB1A1706F83959C2",
+  "width": 1024,
+  "height": 1536,
+  "colorMode": "RGB",
+  "toolMode": "built-in image_gen",
+  "latestPrompt": "prompt-v5.json",
+  "revisionIntent": "사용자가 재첨부한 깔끔한 원화를 기준으로 초기 작품과 중간 강도의 진홍 배경 아우라·무기 발광·금장 명암을 조정한다. 자연스러운 머릿결과 명확한 형태를 유지한다.",
+  "review": {
+    "imageInspected": true,
+    "notes": [
+      "얼굴·갑주가 읽히는 명암과 무기 전체 날 확인",
+      "주 효과를 배경과 무기에 집중",
+      "텍스트·로고·프레임 없음",
+      "사용자 시각 승인은 별도"
+    ]
+  },
+  "iterations": [
+    {
+      "version": 1,
+      "asset": "assets/mercenary-crimson-war-god-source-art-v1.png",
+      "prompt": "prompt-v1.json"
+    },
+    {
+      "version": 2,
+      "asset": "assets/mercenary-crimson-war-god-cleaner-v2.png",
+      "prompt": "prompt-v2.json"
+    },
+    {
+      "version": 3,
+      "asset": "assets/mercenary-crimson-war-god-clean-painting-v3.png",
+      "prompt": "prompt-v3.json"
+    },
+    {
+      "version": 4,
+      "asset": "assets/mercenary-crimson-war-god-hair-refined-v4.png",
+      "prompt": "prompt-v4.json"
+    },
+    {
+      "version": 5,
+      "asset": "assets/mercenary-crimson-war-god-balanced-aura-v5.png",
+      "prompt": "prompt-v5.json"
+    }
+  ],
+  "activation": {
+    "illustrationApproved": false,
+    "cmsRegistered": false,
+    "codexPublished": false,
+    "acquisitionEnabled": false,
+    "battleEnabled": false,
+    "releaseDate": null
+  }
+}
