@@ -1,0 +1,47 @@
+{
+  "date": "2026-10-06",
+  "status": "verified_pending_deployment",
+  "report": "랭크 듀오 전투 기록 화면에서 enchanted-card-battlefield-v4.webp Failed to fetch 오류로 재생 중단",
+  "diagnosis": {
+    "cause": "공용 V3가 주 배경 로드 실패를 처리한 뒤 호환 배경을 반환하지만 두 번째 로드의 실패는 처리하지 않아 mount/createRenderer까지 예외가 전파됨.",
+    "reproduction": "주 배경과 호환 배경을 모두 실패시키는 회귀 검사가 수정 전 Failed to fetch로 실패함.",
+    "productionAssets": "현재 cnine-card.pages.dev의 arena-v1.png와 enchanted-card-battlefield-v4.webp 모두 HTTP 200. 제보 당시 기기의 네트워크 실패 원인은 스크린샷만으로 확정할 수 없음."
+  },
+  "changes": [
+    "배경별 최대 2.5초 대기 후 다음 복구 단계로 진행",
+    "주 배경과 호환 배경 모두 실패하면 이전 정상 텍스처 또는 투명 텍스처로 전투 재생 유지",
+    "투명 텍스처를 사용하는 동안 기존 CSS 전장 원화를 유지하고 정상 텍스처 적용 시 중복 배경 제거",
+    "공용 V3 소비 번들 10종 재빌드 및 런타임/로더/CSS/서비스워커 캐시 버전 동기화"
+  ],
+  "preserved": "서버 전투 판정, 보상, 점수, 행동력, 저장 기록, 캐릭터 원화 및 모션 변경 없음",
+  "validation": {
+    "regression": {
+      "file": "tests/battlefield-load-recovery-20261006.test.mjs",
+      "passed": 5,
+      "failed": 0
+    },
+    "browser": {
+      "environment": "scripts/serve-ranked-duo-qa.mjs의 격리 SQLite fixture 및 실제 운영 듀오 UI/V3 번들",
+      "failureInjection": "로컬 프록시에서 Pixi 배경 fetch에 HTTP 503을 반환. CSS 이미지 및 나머지 전투 자산은 정상 제공.",
+      "desktop": "1440x1000: 새 경기 및 저장 기록 재생 완료, 동일 승리/1024점/250000코인 영수증 표시, 기존 CSS 전장 유지.",
+      "mobile": "390x844: 저장 기록 재생 완료, 동일 승리/1024점/250000코인 영수증 표시, 기존 CSS 전장 유지.",
+      "evidence": "C:/Users/User/.codex/tmp/duo-background-recovery-20261006/",
+      "pve": "정상 5장+용병+적 1명, 총 7명 진형 및 V3 READY 진입을 같은 배경 장애 환경에서 확인"
+    },
+    "build": "npm run build:v3-grid passed",
+    "diff": "git diff --check passed"
+  },
+  "release": {
+    "mode": "scoped",
+    "baseDeployment": "4b1d299c-a316-4e0d-b6a0-d397ee715f65",
+    "baseCommit": "89d3035169f92fc93496290e22a1c2857e59c6a3",
+    "reason": "공용 렌더러의 장식용 배경 로딩 복구만 수정. 서버/DB/인증/거래 기반 변화 없음. 직접 장애 회귀 5개는 통과했으며 배포 시 공용 실제 로더 연결, 배경 선택, 듀오 판정 핵심 회귀만 확인.",
+    "tests": [
+      "tests/pve-battlefield-entry-v2117.test.mjs",
+      "tests/project-v-v3-battlefields-v1.mjs",
+      "tests/ranked-duo-battle.test.mjs"
+    ],
+    "checks": [],
+    "productionVerification": "pending"
+  }
+}

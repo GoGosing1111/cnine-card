@@ -786,10 +786,21 @@ export class BaseBattleEngine{
   async loadBattlefieldTexture(mode){
     const normalized=normalizeBattlefieldMode(mode);
     const primary=this.resolveBattlefieldAsset(normalized);
-    try{return await Assets.load(primary)}catch(error){
-      console.warn(`[Project V V3] ${normalized} 전장 로드 실패; 호환 배경을 사용합니다.`,error);
-      return Assets.load(LEGACY_BATTLEFIELD);
+    // Backgrounds are decorative. A rejected or stalled image request must not
+    // prevent the authoritative battle/replay from mounting and playing.
+    for(const source of new Set([primary,LEGACY_BATTLEFIELD])){
+      let timer;
+      try{
+        return await Promise.race([Assets.load(source),new Promise((_,reject)=>{
+          timer=setTimeout(()=>reject(new Error('Battlefield image load timed out')),2500);
+        })]);
+      }catch(error){
+        console.warn(`[Project V V3] ${normalized} 배경 로드 실패; 전투 재생은 유지합니다.`,error);
+      }finally{clearTimeout(timer)}
     }
+    // The live shell already has a CSS battlefield; a transparent texture keeps
+    // it visible on first mount. Scene changes retain the last valid texture.
+    return this.activeBattlefieldTexture&&!this.activeBattlefieldTexture.destroyed?this.activeBattlefieldTexture:Texture.EMPTY;
   }
 
   async setBattlefield(mode,{immediate=false}={}){
@@ -841,6 +852,7 @@ export class BaseBattleEngine{
   }
 
   layoutParallax(width,height){
+    this.host?.classList?.toggle('is-v3-background-fallback',this.activeBattlefieldTexture===Texture.EMPTY);
     // Actors keep their fit-to-screen scale. Extend only the backdrop through
     // the root's letterbox margins so the CSS loading image cannot show twice.
     const screen=this.app?.screen||{width,height};
