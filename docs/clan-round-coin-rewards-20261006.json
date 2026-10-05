@@ -45,7 +45,7 @@
       "test": "tests/clan-war-item-rewards-20260929.test.mjs",
       "passed": 29,
       "failed": 0,
-      "note": "Before adding created_at index bounds; the final scoped gate rechecks the updated statements."
+      "note": "The final scoped gate also passed after adding the existing created_at index bounds."
     },
     "ui": {
       "viewports": [
@@ -65,7 +65,92 @@
       "nextRoundSnapshot": null,
       "productionDataWrites": 0
     },
-    "artifacts": "C:/Users/User/.codex/tmp/clan-round-coin-20261006"
+    "artifacts": "C:/Users/User/.codex/tmp/clan-round-coin-20261006",
+    "final": {
+      "passed": 68,
+      "failed": 0,
+      "workerCompilation": "PASS",
+      "releaseFlagsAndCache": "PASS",
+      "hyperdriveQueryCache": "DISABLED"
+    },
+    "production": {
+      "checkedAt": "2026-10-05T19:55:02.956Z",
+      "checks": [
+        {
+          "path": "admin/clan-war-admin-v1943.js",
+          "status": 200,
+          "sha256": "2ea216c74df36109b9cad65095cee0dc8586e6b17c77198f2ad0b60c3a7d0090",
+          "cacheControl": "no-store, no-cache, must-revalidate, max-age=0"
+        },
+        {
+          "path": "admin/index.html",
+          "status": 200,
+          "sha256": "5fc05f7d4b99f06030bdcc3d664a7a7d0fe2aab1577b82a0955f9539afd05a2a",
+          "cacheControl": "no-store, no-cache, must-revalidate, max-age=0, no-store, no-cache, must-revalidate, max-age=0"
+        },
+        {
+          "path": "shared/clan-war-item-rewards-v1.mjs",
+          "status": 200,
+          "sha256": "8edf749e8a6d47f9ec592002f67c08418ba2d5262fde05b4f9b2f869259c022b",
+          "cacheControl": "public, max-age=0, must-revalidate"
+        }
+      ],
+      "unauthenticatedAdminStatus": 401,
+      "effectiveRoundRewards": {
+        "roundParticipationMysticEnergy": 1000,
+        "roundVictoryMasterStars": 1500000,
+        "roundParticipationCoin": 50000000000,
+        "roundVictoryCoin": 100000000000
+      },
+      "nextRound": [
+        {
+          "id": "218",
+          "round_no": "4",
+          "starts_at": "2026-10-06T12:00:00.000Z",
+          "ends_at": "2026-10-06T14:00:00.000Z",
+          "rules_json": null
+        },
+        {
+          "id": "219",
+          "round_no": "4",
+          "starts_at": "2026-10-06T12:00:00.000Z",
+          "ends_at": "2026-10-06T14:00:00.000Z",
+          "rules_json": null
+        },
+        {
+          "id": "220",
+          "round_no": "4",
+          "starts_at": "2026-10-06T12:00:00.000Z",
+          "ends_at": "2026-10-06T14:00:00.000Z",
+          "rules_json": null
+        },
+        {
+          "id": "221",
+          "round_no": "4",
+          "starts_at": "2026-10-06T12:00:00.000Z",
+          "ends_at": "2026-10-06T14:00:00.000Z",
+          "rules_json": null
+        }
+      ],
+      "coinColumns": [
+        {
+          "table_name": "coin_logs",
+          "column_name": "balance_after",
+          "data_type": "bigint"
+        },
+        {
+          "table_name": "coin_logs",
+          "column_name": "change_amount",
+          "data_type": "bigint"
+        },
+        {
+          "table_name": "users",
+          "column_name": "coin",
+          "data_type": "bigint"
+        }
+      ],
+      "productionDataWrites": 0
+    }
   },
   "release": {
     "type": "scoped",
@@ -80,6 +165,11 @@
     "checks": [
       "check:worker"
     ],
-    "status": "READY_FOR_SCOPED_DEPLOY"
+    "status": "DEPLOYED_AND_VERIFIED",
+    "sourceCommit": "e3ef927a85f32e75078b45cda0436dbb63a0ce22",
+    "pagesUrl": "https://b9e04407.cnine-card.pages.dev",
+    "apiVersion": "da80e07e-1a54-4016-9a58-75edd6a64a3c",
+    "clanSchedulerVersion": "e7caed53-52a2-483f-9a26-98bfe58bc4a1",
+    "completedAtKST": "2026-10-06 04:55"
   }
 }
