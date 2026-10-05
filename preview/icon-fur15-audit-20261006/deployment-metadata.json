@@ -1,0 +1,35 @@
+{
+  "checkedAt": "2026-10-05T16:57:34.130Z",
+  "pages": {
+    "id": "4bb2b6b9-ac91-4a78-8de8-c5ef6fb0a334",
+    "url": "https://4bb2b6b9.cnine-card.pages.dev",
+    "createdAt": "2026-10-05T16:25:59.433516Z",
+    "sha": "69a14e31f593c0390840c03791880d63a5c51f98",
+    "stage": "success"
+  },
+  "api": {
+    "deployment": {
+      "id": "6bdd37e8-9ca4-49b0-8617-ce157378e3cc",
+      "createdAt": "2026-10-05T16:25:22.250354Z",
+      "versions": [
+        {
+          "version_id": "1b5c0012-1ac9-469b-a9b4-2c328f9f2e8a",
+          "percentage": 100
+        }
+      ]
+    },
+    "versions": [
+      {
+        "id": "1b5c0012-1ac9-469b-a9b4-2c328f9f2e8a",
+        "number": 131,
+        "metadata": {
+          "createdOn": "2026-10-05T16:25:19.915584Z",
+          "source": "wrangler"
+        },
+        "annotations": {
+          "workers/triggered_by": "version_upload"
+        }
+      }
+    ]
+  }
+}

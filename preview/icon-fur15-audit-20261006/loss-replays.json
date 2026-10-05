@@ -1,0 +1,4015 @@
+[
+  {
+    "scenario": {
+      "icon": "하이희야",
+      "opponent": "치타구",
+      "equipment": 0,
+      "slot": null,
+      "seed": 3042322684,
+      "iconSide": "A",
+      "winner": "B"
+    },
+    "battle": {
+      "schemaVersion": 2,
+      "engine": "BATTLE_ENGINE_V2_PVP",
+      "playbackSpeed": 1.3,
+      "seed": 3042322684,
+      "rules": {
+        "hpMode": "POWER_DISTRIBUTED",
+        "formation": "FRONT_2_BACK_3",
+        "actionMode": "SPEED_GAUGE",
+        "damageCapPercent": 46,
+        "maxActions": 83,
+        "suddenDeathAfter": 64,
+        "suddenDeathRule": "NO_HEAL_ESCALATING_DAMAGE_UNTIL_ELIMINATION",
+        "timeoutRule": "SURVIVOR_COUNT_THEN_HP_RATIO_THEN_POWER",
+        "drawRule": "POWER_THEN_ATTACKER",
+        "healerDuplicatePenalty": {
+          "2": 60,
+          "3": 75,
+          "4": 85,
+          "5": 90
+        },
+        "healerPenaltyScope": "PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED",
+        "singleHealerBonus": {
+          "enabled": true,
+          "teamHpPercent": 8,
+          "healPercent": 10,
+          "crisisThresholdPercent": 40,
+          "crisisHealPercent": 16,
+          "pvpMaxActivations": 4,
+          "pveMaxActivations": 6
+        },
+        "dbTimelineWrites": 0
+      },
+      "teams": {
+        "A": {
+          "summary": {
+            "power": 237840,
+            "basePower": 180000,
+            "equipmentBonus": 0,
+            "maxHp": 609024,
+            "attack": 278635,
+            "defense": 156546,
+            "averageSpeed": 20414
+          },
+          "cards": [
+            {
+              "id": "A:0:CN-1C000002",
+              "cardId": "CN-1C000002",
+              "side": "A",
+              "slot": 0,
+              "row": "FRONT",
+              "iconRole": {
+                "version": 1,
+                "code": "ICON-HI-HEEYA",
+                "role": "ATTACK",
+                "revision": 1,
+                "tuning": {
+                  "firstAction": 3,
+                  "cooldownActions": 4,
+                  "maxCasts": 6,
+                  "pveScale": 100,
+                  "pvpScale": 90,
+                  "damagePercent": 180,
+                  "damageCapPercent": 46,
+                  "stackPercent": 10,
+                  "maxStacks": 3,
+                  "shieldBreakPercent": 40
+                },
+                "supremacy": {
+                  "version": "20261005-fur15-v1",
+                  "power": 198200,
+                  "cardCount": 20,
+                  "CAPTAIN": {
+                    "attack": {
+                      "base": 546560,
+                      "perPower": 2.8
+                    },
+                    "maxHp": {
+                      "base": 488000,
+                      "perPower": 2.5
+                    },
+                    "defense": {
+                      "base": 295,
+                      "perPower": 0
+                    },
+                    "speed": {
+                      "base": 250,
+                      "perPower": 0
+                    }
+                  },
+                  "PVE": {
+                    "maxHp": {
+                      "base": 456768,
+                      "perPower": 2.340001
+                    },
+                    "attack": {
+                      "base": 220230,
+                      "perPower": 1.128226
+                    },
+                    "defense": {
+                      "base": 134499,
+                      "perPower": 0.689032
+                    },
+                    "speed": {
+                      "base": 17011,
+                      "perPower": 0.086251
+                    }
+                  },
+                  "PVP": {
+                    "maxHp": {
+                      "base": 507520,
+                      "perPower": 2.600001
+                    },
+                    "attack": {
+                      "base": 207317,
+                      "perPower": 1.062076
+                    },
+                    "defense": {
+                      "base": 130455,
+                      "perPower": 0.668313
+                    },
+                    "speed": {
+                      "base": 17011,
+                      "perPower": 0.086251
+                    }
+                  }
+                }
+              },
+              "iconRoleLabel": "공격",
+              "attackStyle": "RANGED",
+              "title": "하이희야",
+              "memberName": "",
+              "grade": "ICON",
+              "image": "",
+              "focusX": 50,
+              "focusY": 50,
+              "breakthroughLevel": 0,
+              "basePower": 180000,
+              "equipmentShare": 0,
+              "power": 237840,
+              "battleMode": "PVP",
+              "type": "NONE",
+              "typeLabel": "균형형",
+              "uniqueAbility": null,
+              "uniqueAdvancement": null,
+              "maxHp": 609024,
+              "hp": 609024,
+              "attack": 278635,
+              "defense": 156546,
+              "speed": 20414,
+              "shield": 0,
+              "maxShield": 0,
+              "gauge": 0,
+              "huntStacks": 0,
+              "speedUniqueSuppressed": false,
+              "defenseLineBreached": false
+            }
+          ]
+        },
+        "B": {
+          "summary": {
+            "power": 195200,
+            "basePower": 195200,
+            "equipmentBonus": 0,
+            "maxHp": 196918,
+            "attack": 75938,
+            "defense": 56745,
+            "averageSpeed": 17011
+          },
+          "cards": [
+            {
+              "id": "B:0:CN-5D0E2E4D58C9416F",
+              "cardId": "CN-5D0E2E4D58C9416F",
+              "side": "B",
+              "slot": 0,
+              "row": "FRONT",
+              "title": "치타구",
+              "memberName": "",
+              "grade": "FUR",
+              "image": "",
+              "focusX": 50,
+              "focusY": 50,
+              "breakthroughLevel": 15,
+              "basePower": 195200,
+              "equipmentShare": 0,
+              "power": 195200,
+              "battleMode": "PVP",
+              "type": "SPEED",
+              "typeLabel": "속도형",
+              "uniqueAbility": {
+                "effectName": "속도형",
+                "effectDescription": "",
+                "attackPercent": 90,
+                "defensePercent": 90,
+                "hpPercent": 0,
+                "speedPercent": 150,
+                "dominantType": "SPEED"
+              },
+              "uniqueAdvancement": {
+                "active": true,
+                "classCode": "AFTERIMAGE",
+                "dominantType": "SPEED",
+                "configVersion": "",
+                "modifiers": {
+                  "criticalChancePoints": 0,
+                  "penetrationPoints": 18,
+                  "openingGaugePoints": 0,
+                  "dodgeChancePoints": 10,
+                  "dodgeCapPoints": 10,
+                  "counterChancePoints": 0,
+                  "counterMultiplierPoints": 0,
+                  "unshieldedCounterChancePoints": 0,
+                  "maxHpPercent": -3,
+                  "damageDealtPercent": 0,
+                  "damageCapPoints": 0,
+                  "lastStandHealPoolPercent": 0,
+                  "sealedLastStandHealPoolPercent": 0,
+                  "healPoolBonusPercent": 0
+                }
+              },
+              "maxHp": 196918,
+              "hp": 196918,
+              "attack": 75938,
+              "defense": 56745,
+              "speed": 17011,
+              "shield": 0,
+              "maxShield": 0,
+              "gauge": 60,
+              "huntStacks": 0,
+              "speedUniqueSuppressed": false,
+              "defenseLineBreached": false
+            }
+          ]
+        }
+      },
+      "result": {
+        "winner": "B",
+        "reason": "ELIMINATION",
+        "actions": 15,
+        "duration": 0.043,
+        "timeline": [
+          {
+            "seq": 1,
+            "at": 0.002,
+            "type": "TURN",
+            "actorId": "B:0:CN-5D0E2E4D58C9416F",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "A:0:CN-1C000002",
+            "damage": 91982,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 21,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": "AFTERIMAGE",
+            "suddenDeath": false,
+            "speedCombo": true,
+            "hitCount": 3,
+            "hits": [
+              {
+                "damage": 45991,
+                "absorbed": 0,
+                "targetHpAfter": 563033,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 22996,
+                "absorbed": 0,
+                "targetHpAfter": 540037,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 22995,
+                "absorbed": 0,
+                "targetHpAfter": 517042,
+                "targetShieldAfter": 0
+              }
+            ],
+            "basicAttack": 1,
+            "targetHpAfter": 517042,
+            "targetMaxHp": 609024,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 26.28801719134421
+          },
+          {
+            "seq": 2,
+            "at": 0.006,
+            "type": "TURN",
+            "actorId": "A:0:CN-1C000002",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "B:0:CN-5D0E2E4D58C9416F",
+            "dodge": true,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 61.42424510424433,
+            "advancementClass": "AFTERIMAGE",
+            "label": "속도형 · 회피"
+          },
+          {
+            "seq": 3,
+            "at": 0.008,
+            "type": "TURN",
+            "actorId": "B:0:CN-5D0E2E4D58C9416F",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "A:0:CN-1C000002",
+            "damage": 69012,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 21,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": "AFTERIMAGE",
+            "suddenDeath": false,
+            "speedCombo": true,
+            "hitCount": 2,
+            "hits": [
+              {
+                "damage": 46008,
+                "absorbed": 0,
+                "targetHpAfter": 471034,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 23004,
+                "absorbed": 0,
+                "targetHpAfter": 448030,
+                "targetShieldAfter": 0
+              }
+            ],
+            "basicAttack": 2,
+            "targetHpAfter": 448030,
+            "targetMaxHp": 609024,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 28.292720030683455
+          },
+          {
+            "seq": 4,
+            "at": 0.011,
+            "type": "TURN",
+            "actorId": "A:0:CN-1C000002",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "B:0:CN-5D0E2E4D58C9416F",
+            "dodge": true,
+            "actorGaugeAfter": 1.4210854715202004e-14,
+            "targetGaugeAfter": 59.753724873030464,
+            "advancementClass": "AFTERIMAGE",
+            "label": "속도형 · 회피"
+          },
+          {
+            "seq": 5,
+            "at": 0.014,
+            "type": "TURN",
+            "actorId": "B:0:CN-5D0E2E4D58C9416F",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "A:0:CN-1C000002",
+            "damage": 73043,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 21,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": "AFTERIMAGE",
+            "suddenDeath": false,
+            "speedCombo": true,
+            "hitCount": 2,
+            "hits": [
+              {
+                "damage": 48695,
+                "absorbed": 0,
+                "targetHpAfter": 399335,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 24348,
+                "absorbed": 0,
+                "targetHpAfter": 374987,
+                "targetShieldAfter": 0
+              }
+            ],
+            "basicAttack": 3,
+            "targetHpAfter": 374987,
+            "targetMaxHp": 609024,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 30.29742287002272
+          },
+          {
+            "seq": 6,
+            "at": 0.017,
+            "type": "ICON_SKILL",
+            "actorId": "A:0:CN-1C000002",
+            "iconCode": "ICON-HI-HEEYA",
+            "iconRole": "ATTACK",
+            "label": "오버드라이브",
+            "configRevision": 1,
+            "targetId": "B:0:CN-5D0E2E4D58C9416F",
+            "hits": [
+              {
+                "targetId": "B:0:CN-5D0E2E4D58C9416F",
+                "targetHpAfter": 157534,
+                "targetMaxHp": 196918,
+                "targetShieldAfter": 0,
+                "targetMaxShield": 0,
+                "damage": 39384,
+                "absorbed": 0,
+                "critical": false,
+                "hit": 1
+              },
+              {
+                "targetId": "B:0:CN-5D0E2E4D58C9416F",
+                "targetHpAfter": 118150,
+                "targetMaxHp": 196918,
+                "targetShieldAfter": 0,
+                "targetMaxShield": 0,
+                "damage": 39384,
+                "absorbed": 0,
+                "critical": false,
+                "hit": 2
+              },
+              {
+                "targetId": "B:0:CN-5D0E2E4D58C9416F",
+                "targetHpAfter": 106336,
+                "targetMaxHp": 196918,
+                "targetShieldAfter": 0,
+                "targetMaxShield": 0,
+                "damage": 11814,
+                "absorbed": 0,
+                "critical": false,
+                "hit": 3
+              }
+            ],
+            "targets": [],
+            "cast": 1,
+            "maxCasts": 6,
+            "nextAction": 7,
+            "stacksConsumed": 0
+          },
+          {
+            "seq": 7,
+            "at": 0.02,
+            "type": "TURN",
+            "actorId": "B:0:CN-5D0E2E4D58C9416F",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "A:0:CN-1C000002",
+            "damage": 95974,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 21,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": "AFTERIMAGE",
+            "suddenDeath": false,
+            "speedCombo": true,
+            "hitCount": 3,
+            "hits": [
+              {
+                "damage": 47987,
+                "absorbed": 0,
+                "targetHpAfter": 327000,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 23994,
+                "absorbed": 0,
+                "targetHpAfter": 303006,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 23993,
+                "absorbed": 0,
+                "targetHpAfter": 279013,
+                "targetShieldAfter": 0
+              }
+            ],
+            "basicAttack": 4,
+            "targetHpAfter": 279013,
+            "targetMaxHp": 609024,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 1.4210854715202004e-14,
+            "targetGaugeAfter": 32.302125709361995
+          },
+          {
+            "seq": 8,
+            "at": 0.023,
+            "type": "TURN",
+            "actorId": "A:0:CN-1C000002",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "B:0:CN-5D0E2E4D58C9416F",
+            "dodge": true,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 56.41268441060267,
+            "advancementClass": "AFTERIMAGE",
+            "label": "속도형 · 회피"
+          },
+          {
+            "seq": 9,
+            "at": 0.025,
+            "type": "TURN",
+            "actorId": "B:0:CN-5D0E2E4D58C9416F",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "A:0:CN-1C000002",
+            "damage": 68703,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 21,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": "AFTERIMAGE",
+            "suddenDeath": false,
+            "speedCombo": true,
+            "hitCount": 2,
+            "hits": [
+              {
+                "damage": 45802,
+                "absorbed": 0,
+                "targetHpAfter": 233211,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 22901,
+                "absorbed": 0,
+                "targetHpAfter": 210310,
+                "targetShieldAfter": 0
+              }
+            ],
+            "basicAttack": 5,
+            "targetHpAfter": 210310,
+            "targetMaxHp": 609024,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 34.306828548701255
+          },
+          {
+            "seq": 10,
+            "at": 0.029,
+            "type": "TURN",
+            "actorId": "A:0:CN-1C000002",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "B:0:CN-5D0E2E4D58C9416F",
+            "dodge": true,
+            "actorGaugeAfter": 2.842170943040401e-14,
+            "targetGaugeAfter": 54.74216417938881,
+            "advancementClass": "AFTERIMAGE",
+            "label": "속도형 · 회피"
+          },
+          {
+            "seq": 11,
+            "at": 0.031,
+            "type": "TURN",
+            "actorId": "B:0:CN-5D0E2E4D58C9416F",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "A:0:CN-1C000002",
+            "damage": 66698,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 21,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": "AFTERIMAGE",
+            "suddenDeath": false,
+            "speedCombo": true,
+            "hitCount": 2,
+            "hits": [
+              {
+                "damage": 44465,
+                "absorbed": 0,
+                "targetHpAfter": 165845,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 22233,
+                "absorbed": 0,
+                "targetHpAfter": 143612,
+                "targetShieldAfter": 0
+              }
+            ],
+            "basicAttack": 6,
+            "targetHpAfter": 143612,
+            "targetMaxHp": 609024,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 2.842170943040401e-14,
+            "targetGaugeAfter": 36.31153138804057
+          },
+          {
+            "seq": 12,
+            "at": 0.034,
+            "type": "TURN",
+            "actorId": "A:0:CN-1C000002",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "B:0:CN-5D0E2E4D58C9416F",
+            "dodge": true,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 53.071643948174874,
+            "advancementClass": "AFTERIMAGE",
+            "label": "속도형 · 회피"
+          },
+          {
+            "seq": 13,
+            "at": 0.037,
+            "type": "TURN",
+            "actorId": "B:0:CN-5D0E2E4D58C9416F",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "A:0:CN-1C000002",
+            "damage": 95906,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 21,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": "AFTERIMAGE",
+            "suddenDeath": false,
+            "speedCombo": true,
+            "hitCount": 3,
+            "hits": [
+              {
+                "damage": 47953,
+                "absorbed": 0,
+                "targetHpAfter": 95659,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 23977,
+                "absorbed": 0,
+                "targetHpAfter": 71682,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 23976,
+                "absorbed": 0,
+                "targetHpAfter": 47706,
+                "targetShieldAfter": 0
+              }
+            ],
+            "basicAttack": 7,
+            "targetHpAfter": 47706,
+            "targetMaxHp": 609024,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 38.31623422737976
+          },
+          {
+            "seq": 14,
+            "at": 0.04,
+            "type": "ICON_SKILL",
+            "actorId": "A:0:CN-1C000002",
+            "iconCode": "ICON-HI-HEEYA",
+            "iconRole": "ATTACK",
+            "label": "오버드라이브",
+            "configRevision": 1,
+            "targetId": "B:0:CN-5D0E2E4D58C9416F",
+            "hits": [
+              {
+                "targetId": "B:0:CN-5D0E2E4D58C9416F",
+                "targetHpAfter": 106336,
+                "targetMaxHp": 196918,
+                "targetShieldAfter": 0,
+                "targetMaxShield": 0,
+                "damage": 0,
+                "absorbed": 0,
+                "dodge": true,
+                "hit": 1
+              },
+              {
+                "targetId": "B:0:CN-5D0E2E4D58C9416F",
+                "targetHpAfter": 106336,
+                "targetMaxHp": 196918,
+                "targetShieldAfter": 0,
+                "targetMaxShield": 0,
+                "damage": 0,
+                "absorbed": 0,
+                "dodge": true,
+                "hit": 2
+              },
+              {
+                "targetId": "B:0:CN-5D0E2E4D58C9416F",
+                "targetHpAfter": 66952,
+                "targetMaxHp": 196918,
+                "targetShieldAfter": 0,
+                "targetMaxShield": 0,
+                "damage": 39384,
+                "absorbed": 0,
+                "critical": false,
+                "hit": 3
+              }
+            ],
+            "targets": [],
+            "cast": 2,
+            "maxCasts": 6,
+            "nextAction": 11,
+            "stacksConsumed": 0
+          },
+          {
+            "seq": 15,
+            "at": 0.043,
+            "type": "TURN",
+            "actorId": "B:0:CN-5D0E2E4D58C9416F",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "A:0:CN-1C000002",
+            "damage": 47706,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 21,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": "AFTERIMAGE",
+            "suddenDeath": false,
+            "speedCombo": true,
+            "hitCount": 2,
+            "hits": [
+              {
+                "damage": 31804,
+                "absorbed": 0,
+                "targetHpAfter": 15902,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 15902,
+                "absorbed": 0,
+                "targetHpAfter": 0,
+                "targetShieldAfter": 0
+              }
+            ],
+            "basicAttack": 8,
+            "targetHpAfter": 0,
+            "targetMaxHp": 609024,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 4.263256414560601e-14,
+            "targetGaugeAfter": 40.32093706671912
+          },
+          {
+            "seq": 16,
+            "at": 0.043,
+            "type": "KO",
+            "targetId": "A:0:CN-1C000002"
+          },
+          {
+            "seq": 17,
+            "at": 0.044,
+            "type": "HUNT_ACCELERATION",
+            "actorId": "B:0:CN-5D0E2E4D58C9416F",
+            "gaugeAfter": 70.00000000000004,
+            "label": "속도형 · 추격"
+          },
+          {
+            "seq": 18,
+            "at": 0.053,
+            "type": "RESULT",
+            "winner": "B",
+            "reason": "ELIMINATION",
+            "actions": 15,
+            "duration": 0.043,
+            "teamAHpPercent": 0,
+            "teamBHpPercent": 34,
+            "originalReason": "ELIMINATION",
+            "survivorCountA": 0,
+            "survivorCountB": 1
+          }
+        ],
+        "iconRoles": [
+          {
+            "id": "A:0:CN-1C000002",
+            "role": "ATTACK",
+            "casts": 2,
+            "nextAction": 11,
+            "guardRemaining": 0,
+            "healRemaining": 0,
+            "stacks": 0,
+            "takedowns": 0
+          }
+        ],
+        "healerPenalty": {
+          "A": {
+            "healerCount": 0,
+            "reductionPercent": 0,
+            "multiplier": 1
+          },
+          "B": {
+            "healerCount": 0,
+            "reductionPercent": 0,
+            "multiplier": 1
+          }
+        },
+        "final": {
+          "A": [
+            {
+              "id": "A:0:CN-1C000002",
+              "cardId": "CN-1C000002",
+              "side": "A",
+              "slot": 0,
+              "row": "FRONT",
+              "iconRole": {
+                "version": 1,
+                "code": "ICON-HI-HEEYA",
+                "role": "ATTACK",
+                "revision": 1,
+                "tuning": {
+                  "firstAction": 3,
+                  "cooldownActions": 4,
+                  "maxCasts": 6,
+                  "pveScale": 100,
+                  "pvpScale": 90,
+                  "damagePercent": 180,
+                  "damageCapPercent": 46,
+                  "stackPercent": 10,
+                  "maxStacks": 3,
+                  "shieldBreakPercent": 40
+                },
+                "supremacy": {
+                  "version": "20261005-fur15-v1",
+                  "power": 198200,
+                  "cardCount": 20,
+                  "CAPTAIN": {
+                    "attack": {
+                      "base": 546560,
+                      "perPower": 2.8
+                    },
+                    "maxHp": {
+                      "base": 488000,
+                      "perPower": 2.5
+                    },
+                    "defense": {
+                      "base": 295,
+                      "perPower": 0
+                    },
+                    "speed": {
+                      "base": 250,
+                      "perPower": 0
+                    }
+                  },
+                  "PVE": {
+                    "maxHp": {
+                      "base": 456768,
+                      "perPower": 2.340001
+                    },
+                    "attack": {
+                      "base": 220230,
+                      "perPower": 1.128226
+                    },
+                    "defense": {
+                      "base": 134499,
+                      "perPower": 0.689032
+                    },
+                    "speed": {
+                      "base": 17011,
+                      "perPower": 0.086251
+                    }
+                  },
+                  "PVP": {
+                    "maxHp": {
+                      "base": 507520,
+                      "perPower": 2.600001
+                    },
+                    "attack": {
+                      "base": 207317,
+                      "perPower": 1.062076
+                    },
+                    "defense": {
+                      "base": 130455,
+                      "perPower": 0.668313
+                    },
+                    "speed": {
+                      "base": 17011,
+                      "perPower": 0.086251
+                    }
+                  }
+                }
+              },
+              "iconRoleLabel": "공격",
+              "attackStyle": "RANGED",
+              "title": "하이희야",
+              "memberName": "",
+              "grade": "ICON",
+              "image": "",
+              "focusX": 50,
+              "focusY": 50,
+              "breakthroughLevel": 0,
+              "basePower": 180000,
+              "equipmentShare": 0,
+              "power": 237840,
+              "battleMode": "PVP",
+              "type": "NONE",
+              "typeLabel": "균형형",
+              "uniqueAbility": null,
+              "uniqueAdvancement": null,
+              "maxHp": 609024,
+              "hp": 0,
+              "attack": 278635,
+              "defense": 156546,
+              "speed": 20414,
+              "shield": 0,
+              "maxShield": 0,
+              "gauge": 0,
+              "huntStacks": 0,
+              "speedUniqueSuppressed": false,
+              "defenseLineBreached": false,
+              "teamHealerCount": 0
+            }
+          ],
+          "B": [
+            {
+              "id": "B:0:CN-5D0E2E4D58C9416F",
+              "cardId": "CN-5D0E2E4D58C9416F",
+              "side": "B",
+              "slot": 0,
+              "row": "FRONT",
+              "title": "치타구",
+              "memberName": "",
+              "grade": "FUR",
+              "image": "",
+              "focusX": 50,
+              "focusY": 50,
+              "breakthroughLevel": 15,
+              "basePower": 195200,
+              "equipmentShare": 0,
+              "power": 195200,
+              "battleMode": "PVP",
+              "type": "SPEED",
+              "typeLabel": "속도형",
+              "uniqueAbility": {
+                "effectName": "속도형",
+                "effectDescription": "",
+                "attackPercent": 90,
+                "defensePercent": 90,
+                "hpPercent": 0,
+                "speedPercent": 150,
+                "dominantType": "SPEED"
+              },
+              "uniqueAdvancement": {
+                "active": true,
+                "classCode": "AFTERIMAGE",
+                "dominantType": "SPEED",
+                "configVersion": "",
+                "modifiers": {
+                  "criticalChancePoints": 0,
+                  "penetrationPoints": 18,
+                  "openingGaugePoints": 0,
+                  "dodgeChancePoints": 10,
+                  "dodgeCapPoints": 10,
+                  "counterChancePoints": 0,
+                  "counterMultiplierPoints": 0,
+                  "unshieldedCounterChancePoints": 0,
+                  "maxHpPercent": -3,
+                  "damageDealtPercent": 0,
+                  "damageCapPoints": 0,
+                  "lastStandHealPoolPercent": 0,
+                  "sealedLastStandHealPoolPercent": 0,
+                  "healPoolBonusPercent": 0
+                }
+              },
+              "maxHp": 196918,
+              "hp": 66952,
+              "attack": 75938,
+              "defense": 56745,
+              "speed": 17011,
+              "shield": 0,
+              "maxShield": 0,
+              "gauge": 70.00000000000004,
+              "huntStacks": 0,
+              "speedUniqueSuppressed": false,
+              "defenseLineBreached": false,
+              "teamHealerCount": 0,
+              "speedBasicAttacks": 8,
+              "speedChaseUses": 1
+            }
+          ]
+        },
+        "originalReason": "ELIMINATION",
+        "survivorCount": {
+          "A": 0,
+          "B": 1
+        }
+      }
+    }
+  },
+  {
+    "scenario": {
+      "icon": "나무늘봉순",
+      "opponent": "치타구",
+      "equipment": 0,
+      "slot": null,
+      "seed": 148536531,
+      "iconSide": "A",
+      "winner": "B"
+    },
+    "battle": {
+      "schemaVersion": 2,
+      "engine": "BATTLE_ENGINE_V2_PVP",
+      "playbackSpeed": 1.3,
+      "seed": 148536531,
+      "rules": {
+        "hpMode": "POWER_DISTRIBUTED",
+        "formation": "FRONT_2_BACK_3",
+        "actionMode": "SPEED_GAUGE",
+        "damageCapPercent": 46,
+        "maxActions": 83,
+        "suddenDeathAfter": 64,
+        "suddenDeathRule": "NO_HEAL_ESCALATING_DAMAGE_UNTIL_ELIMINATION",
+        "timeoutRule": "SURVIVOR_COUNT_THEN_HP_RATIO_THEN_POWER",
+        "drawRule": "POWER_THEN_ATTACKER",
+        "healerDuplicatePenalty": {
+          "2": 60,
+          "3": 75,
+          "4": 85,
+          "5": 90
+        },
+        "healerPenaltyScope": "PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED",
+        "singleHealerBonus": {
+          "enabled": true,
+          "teamHpPercent": 8,
+          "healPercent": 10,
+          "crisisThresholdPercent": 40,
+          "crisisHealPercent": 16,
+          "pvpMaxActivations": 4,
+          "pveMaxActivations": 6
+        },
+        "dbTimelineWrites": 0
+      },
+      "teams": {
+        "A": {
+          "summary": {
+            "power": 237840,
+            "basePower": 180000,
+            "equipmentBonus": 0,
+            "maxHp": 609024,
+            "attack": 278635,
+            "defense": 156546,
+            "averageSpeed": 20414
+          },
+          "cards": [
+            {
+              "id": "A:0:CN-1C000003",
+              "cardId": "CN-1C000003",
+              "side": "A",
+              "slot": 0,
+              "row": "FRONT",
+              "iconRole": {
+                "version": 1,
+                "code": "ICON-NAMUNEUL-BONGSOON",
+                "role": "MAGIC",
+                "revision": 1,
+                "tuning": {
+                  "firstAction": 2,
+                  "cooldownActions": 4,
+                  "maxCasts": 6,
+                  "pveScale": 100,
+                  "pvpScale": 90,
+                  "damagePercent": 180,
+                  "damageCapPercent": 46,
+                  "maxTargets": 3,
+                  "focusPercent": 20,
+                  "penetrationPercent": 25
+                },
+                "supremacy": {
+                  "version": "20261005-fur15-v1",
+                  "power": 198200,
+                  "cardCount": 20,
+                  "CAPTAIN": {
+                    "attack": {
+                      "base": 546560,
+                      "perPower": 2.8
+                    },
+                    "maxHp": {
+                      "base": 488000,
+                      "perPower": 2.5
+                    },
+                    "defense": {
+                      "base": 295,
+                      "perPower": 0
+                    },
+                    "speed": {
+                      "base": 250,
+                      "perPower": 0
+                    }
+                  },
+                  "PVE": {
+                    "maxHp": {
+                      "base": 456768,
+                      "perPower": 2.340001
+                    },
+                    "attack": {
+                      "base": 220230,
+                      "perPower": 1.128226
+                    },
+                    "defense": {
+                      "base": 134499,
+                      "perPower": 0.689032
+                    },
+                    "speed": {
+                      "base": 17011,
+                      "perPower": 0.086251
+                    }
+                  },
+                  "PVP": {
+                    "maxHp": {
+                      "base": 507520,
+                      "perPower": 2.600001
+                    },
+                    "attack": {
+                      "base": 207317,
+                      "perPower": 1.062076
+                    },
+                    "defense": {
+                      "base": 130455,
+                      "perPower": 0.668313
+                    },
+                    "speed": {
+                      "base": 17011,
+                      "perPower": 0.086251
+                    }
+                  }
+                }
+              },
+              "iconRoleLabel": "마법",
+              "attackStyle": "RANGED",
+              "title": "나무늘봉순",
+              "memberName": "",
+              "grade": "ICON",
+              "image": "",
+              "focusX": 50,
+              "focusY": 50,
+              "breakthroughLevel": 0,
+              "basePower": 180000,
+              "equipmentShare": 0,
+              "power": 237840,
+              "battleMode": "PVP",
+              "type": "NONE",
+              "typeLabel": "균형형",
+              "uniqueAbility": null,
+              "uniqueAdvancement": null,
+              "maxHp": 609024,
+              "hp": 609024,
+              "attack": 278635,
+              "defense": 156546,
+              "speed": 20414,
+              "shield": 0,
+              "maxShield": 0,
+              "gauge": 0,
+              "huntStacks": 0,
+              "speedUniqueSuppressed": false,
+              "defenseLineBreached": false
+            }
+          ]
+        },
+        "B": {
+          "summary": {
+            "power": 195200,
+            "basePower": 195200,
+            "equipmentBonus": 0,
+            "maxHp": 196918,
+            "attack": 75938,
+            "defense": 56745,
+            "averageSpeed": 17011
+          },
+          "cards": [
+            {
+              "id": "B:0:CN-5D0E2E4D58C9416F",
+              "cardId": "CN-5D0E2E4D58C9416F",
+              "side": "B",
+              "slot": 0,
+              "row": "FRONT",
+              "title": "치타구",
+              "memberName": "",
+              "grade": "FUR",
+              "image": "",
+              "focusX": 50,
+              "focusY": 50,
+              "breakthroughLevel": 15,
+              "basePower": 195200,
+              "equipmentShare": 0,
+              "power": 195200,
+              "battleMode": "PVP",
+              "type": "SPEED",
+              "typeLabel": "속도형",
+              "uniqueAbility": {
+                "effectName": "속도형",
+                "effectDescription": "",
+                "attackPercent": 90,
+                "defensePercent": 90,
+                "hpPercent": 0,
+                "speedPercent": 150,
+                "dominantType": "SPEED"
+              },
+              "uniqueAdvancement": {
+                "active": true,
+                "classCode": "AFTERIMAGE",
+                "dominantType": "SPEED",
+                "configVersion": "",
+                "modifiers": {
+                  "criticalChancePoints": 0,
+                  "penetrationPoints": 18,
+                  "openingGaugePoints": 0,
+                  "dodgeChancePoints": 10,
+                  "dodgeCapPoints": 10,
+                  "counterChancePoints": 0,
+                  "counterMultiplierPoints": 0,
+                  "unshieldedCounterChancePoints": 0,
+                  "maxHpPercent": -3,
+                  "damageDealtPercent": 0,
+                  "damageCapPoints": 0,
+                  "lastStandHealPoolPercent": 0,
+                  "sealedLastStandHealPoolPercent": 0,
+                  "healPoolBonusPercent": 0
+                }
+              },
+              "maxHp": 196918,
+              "hp": 196918,
+              "attack": 75938,
+              "defense": 56745,
+              "speed": 17011,
+              "shield": 0,
+              "maxShield": 0,
+              "gauge": 60,
+              "huntStacks": 0,
+              "speedUniqueSuppressed": false,
+              "defenseLineBreached": false
+            }
+          ]
+        }
+      },
+      "result": {
+        "winner": "B",
+        "reason": "ELIMINATION",
+        "actions": 13,
+        "duration": 0.037,
+        "timeline": [
+          {
+            "seq": 1,
+            "at": 0.002,
+            "type": "TURN",
+            "actorId": "B:0:CN-5D0E2E4D58C9416F",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "A:0:CN-1C000003",
+            "damage": 96156,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 21,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": "AFTERIMAGE",
+            "suddenDeath": false,
+            "speedCombo": true,
+            "hitCount": 3,
+            "hits": [
+              {
+                "damage": 48078,
+                "absorbed": 0,
+                "targetHpAfter": 560946,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 24039,
+                "absorbed": 0,
+                "targetHpAfter": 536907,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 24039,
+                "absorbed": 0,
+                "targetHpAfter": 512868,
+                "targetShieldAfter": 0
+              }
+            ],
+            "basicAttack": 1,
+            "targetHpAfter": 512868,
+            "targetMaxHp": 609024,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 25.88152053631775
+          },
+          {
+            "seq": 2,
+            "at": 0.006,
+            "type": "TURN",
+            "actorId": "A:0:CN-1C000003",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "B:0:CN-5D0E2E4D58C9416F",
+            "dodge": true,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 61.762979041672324,
+            "advancementClass": "AFTERIMAGE",
+            "label": "속도형 · 회피"
+          },
+          {
+            "seq": 3,
+            "at": 0.008,
+            "type": "TURN",
+            "actorId": "B:0:CN-5D0E2E4D58C9416F",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "A:0:CN-1C000003",
+            "damage": 104688,
+            "absorbed": 0,
+            "critical": true,
+            "penetration": 21,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": "AFTERIMAGE",
+            "suddenDeath": false,
+            "speedCombo": true,
+            "hitCount": 2,
+            "hits": [
+              {
+                "damage": 69792,
+                "absorbed": 0,
+                "targetHpAfter": 443076,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 34896,
+                "absorbed": 0,
+                "targetHpAfter": 408180,
+                "targetShieldAfter": 0
+              }
+            ],
+            "basicAttack": 2,
+            "targetHpAfter": 408180,
+            "targetMaxHp": 609024,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 1.4210854715202004e-14,
+            "targetGaugeAfter": 27.88622337565701
+          },
+          {
+            "seq": 4,
+            "at": 0.011,
+            "type": "ICON_STATUS",
+            "actorId": "A:0:CN-1C000003",
+            "iconCode": "ICON-NAMUNEUL-BONGSOON",
+            "iconRole": "MAGIC",
+            "label": "정령 집중",
+            "configRevision": 1,
+            "targetId": "A:0:CN-1C000003",
+            "targetHpAfter": 408180,
+            "targetMaxHp": 609024,
+            "targetShieldAfter": 0,
+            "targetMaxShield": 0,
+            "status": "CHANNEL",
+            "remaining": 1
+          },
+          {
+            "seq": 5,
+            "at": 0.014,
+            "type": "TURN",
+            "actorId": "B:0:CN-5D0E2E4D58C9416F",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "A:0:CN-1C000003",
+            "damage": 99389,
+            "absorbed": 0,
+            "critical": true,
+            "penetration": 21,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": "AFTERIMAGE",
+            "suddenDeath": false,
+            "speedCombo": true,
+            "hitCount": 2,
+            "hits": [
+              {
+                "damage": 66259,
+                "absorbed": 0,
+                "targetHpAfter": 341921,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 33130,
+                "absorbed": 0,
+                "targetHpAfter": 308791,
+                "targetShieldAfter": 0
+              }
+            ],
+            "basicAttack": 3,
+            "targetHpAfter": 308791,
+            "targetMaxHp": 609024,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 29.89092621499625
+          },
+          {
+            "seq": 6,
+            "at": 0.017,
+            "type": "ICON_SKILL",
+            "actorId": "A:0:CN-1C000003",
+            "iconCode": "ICON-NAMUNEUL-BONGSOON",
+            "iconRole": "MAGIC",
+            "label": "백화 유성우",
+            "configRevision": 1,
+            "targetId": "B:0:CN-5D0E2E4D58C9416F",
+            "hits": [
+              {
+                "targetId": "B:0:CN-5D0E2E4D58C9416F",
+                "targetHpAfter": 196918,
+                "targetMaxHp": 196918,
+                "targetShieldAfter": 0,
+                "targetMaxShield": 0,
+                "damage": 0,
+                "absorbed": 0,
+                "dodge": true,
+                "hit": 1
+              }
+            ],
+            "targets": [],
+            "cast": 1,
+            "maxCasts": 6,
+            "nextAction": 7
+          },
+          {
+            "seq": 7,
+            "at": 0.02,
+            "type": "TURN",
+            "actorId": "B:0:CN-5D0E2E4D58C9416F",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "A:0:CN-1C000003",
+            "damage": 95274,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 21,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": "AFTERIMAGE",
+            "suddenDeath": false,
+            "speedCombo": true,
+            "hitCount": 3,
+            "hits": [
+              {
+                "damage": 47637,
+                "absorbed": 0,
+                "targetHpAfter": 261154,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 23819,
+                "absorbed": 0,
+                "targetHpAfter": 237335,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 23818,
+                "absorbed": 0,
+                "targetHpAfter": 213517,
+                "targetShieldAfter": 0
+              }
+            ],
+            "basicAttack": 4,
+            "targetHpAfter": 213517,
+            "targetMaxHp": 609024,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 31.895629054335465
+          },
+          {
+            "seq": 8,
+            "at": 0.023,
+            "type": "TURN",
+            "actorId": "A:0:CN-1C000003",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "B:0:CN-5D0E2E4D58C9416F",
+            "dodge": true,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 56.75141834803074,
+            "advancementClass": "AFTERIMAGE",
+            "label": "속도형 · 회피"
+          },
+          {
+            "seq": 9,
+            "at": 0.026,
+            "type": "TURN",
+            "actorId": "B:0:CN-5D0E2E4D58C9416F",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "A:0:CN-1C000003",
+            "damage": 69384,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 21,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": "AFTERIMAGE",
+            "suddenDeath": false,
+            "speedCombo": true,
+            "hitCount": 2,
+            "hits": [
+              {
+                "damage": 46256,
+                "absorbed": 0,
+                "targetHpAfter": 167261,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 23128,
+                "absorbed": 0,
+                "targetHpAfter": 144133,
+                "targetShieldAfter": 0
+              }
+            ],
+            "basicAttack": 5,
+            "targetHpAfter": 144133,
+            "targetMaxHp": 609024,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 33.90033189367468
+          },
+          {
+            "seq": 10,
+            "at": 0.029,
+            "type": "TURN",
+            "actorId": "A:0:CN-1C000003",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "B:0:CN-5D0E2E4D58C9416F",
+            "damage": 118151,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 3,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": null,
+            "suddenDeath": false,
+            "targetHpAfter": 78767,
+            "targetMaxHp": 196918,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 55.0808981168169
+          },
+          {
+            "seq": 11,
+            "at": 0.031,
+            "type": "TURN",
+            "actorId": "B:0:CN-5D0E2E4D58C9416F",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "A:0:CN-1C000003",
+            "damage": 69801,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 21,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": "AFTERIMAGE",
+            "suddenDeath": false,
+            "speedCombo": true,
+            "hitCount": 2,
+            "hits": [
+              {
+                "damage": 46534,
+                "absorbed": 0,
+                "targetHpAfter": 97599,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 23267,
+                "absorbed": 0,
+                "targetHpAfter": 74332,
+                "targetShieldAfter": 0
+              }
+            ],
+            "basicAttack": 6,
+            "targetHpAfter": 74332,
+            "targetMaxHp": 609024,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 4.263256414560601e-14,
+            "targetGaugeAfter": 35.90503473301398
+          },
+          {
+            "seq": 12,
+            "at": 0.035,
+            "type": "TURN",
+            "actorId": "A:0:CN-1C000003",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "B:0:CN-5D0E2E4D58C9416F",
+            "dodge": true,
+            "actorGaugeAfter": 1.4210854715202004e-14,
+            "targetGaugeAfter": 53.41037788560303,
+            "advancementClass": "AFTERIMAGE",
+            "label": "속도형 · 회피"
+          },
+          {
+            "seq": 13,
+            "at": 0.037,
+            "type": "TURN",
+            "actorId": "B:0:CN-5D0E2E4D58C9416F",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "A:0:CN-1C000003",
+            "damage": 74332,
+            "absorbed": 0,
+            "critical": true,
+            "penetration": 21,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": "AFTERIMAGE",
+            "suddenDeath": false,
+            "speedCombo": true,
+            "hitCount": 3,
+            "hits": [
+              {
+                "damage": 37166,
+                "absorbed": 0,
+                "targetHpAfter": 37166,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 18583,
+                "absorbed": 0,
+                "targetHpAfter": 18583,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 18583,
+                "absorbed": 0,
+                "targetHpAfter": 0,
+                "targetShieldAfter": 0
+              }
+            ],
+            "basicAttack": 7,
+            "targetHpAfter": 0,
+            "targetMaxHp": 609024,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 37.90973757235314
+          },
+          {
+            "seq": 14,
+            "at": 0.037,
+            "type": "KO",
+            "targetId": "A:0:CN-1C000003"
+          },
+          {
+            "seq": 15,
+            "at": 0.038,
+            "type": "HUNT_ACCELERATION",
+            "actorId": "B:0:CN-5D0E2E4D58C9416F",
+            "gaugeAfter": 70,
+            "label": "속도형 · 추격"
+          },
+          {
+            "seq": 16,
+            "at": 0.047,
+            "type": "RESULT",
+            "winner": "B",
+            "reason": "ELIMINATION",
+            "actions": 13,
+            "duration": 0.037,
+            "teamAHpPercent": 0,
+            "teamBHpPercent": 40,
+            "originalReason": "ELIMINATION",
+            "survivorCountA": 0,
+            "survivorCountB": 1
+          }
+        ],
+        "iconRoles": [
+          {
+            "id": "A:0:CN-1C000003",
+            "role": "MAGIC",
+            "casts": 1,
+            "nextAction": 7,
+            "guardRemaining": 0,
+            "healRemaining": 0,
+            "stacks": 0,
+            "takedowns": 0
+          }
+        ],
+        "healerPenalty": {
+          "A": {
+            "healerCount": 0,
+            "reductionPercent": 0,
+            "multiplier": 1
+          },
+          "B": {
+            "healerCount": 0,
+            "reductionPercent": 0,
+            "multiplier": 1
+          }
+        },
+        "final": {
+          "A": [
+            {
+              "id": "A:0:CN-1C000003",
+              "cardId": "CN-1C000003",
+              "side": "A",
+              "slot": 0,
+              "row": "FRONT",
+              "iconRole": {
+                "version": 1,
+                "code": "ICON-NAMUNEUL-BONGSOON",
+                "role": "MAGIC",
+                "revision": 1,
+                "tuning": {
+                  "firstAction": 2,
+                  "cooldownActions": 4,
+                  "maxCasts": 6,
+                  "pveScale": 100,
+                  "pvpScale": 90,
+                  "damagePercent": 180,
+                  "damageCapPercent": 46,
+                  "maxTargets": 3,
+                  "focusPercent": 20,
+                  "penetrationPercent": 25
+                },
+                "supremacy": {
+                  "version": "20261005-fur15-v1",
+                  "power": 198200,
+                  "cardCount": 20,
+                  "CAPTAIN": {
+                    "attack": {
+                      "base": 546560,
+                      "perPower": 2.8
+                    },
+                    "maxHp": {
+                      "base": 488000,
+                      "perPower": 2.5
+                    },
+                    "defense": {
+                      "base": 295,
+                      "perPower": 0
+                    },
+                    "speed": {
+                      "base": 250,
+                      "perPower": 0
+                    }
+                  },
+                  "PVE": {
+                    "maxHp": {
+                      "base": 456768,
+                      "perPower": 2.340001
+                    },
+                    "attack": {
+                      "base": 220230,
+                      "perPower": 1.128226
+                    },
+                    "defense": {
+                      "base": 134499,
+                      "perPower": 0.689032
+                    },
+                    "speed": {
+                      "base": 17011,
+                      "perPower": 0.086251
+                    }
+                  },
+                  "PVP": {
+                    "maxHp": {
+                      "base": 507520,
+                      "perPower": 2.600001
+                    },
+                    "attack": {
+                      "base": 207317,
+                      "perPower": 1.062076
+                    },
+                    "defense": {
+                      "base": 130455,
+                      "perPower": 0.668313
+                    },
+                    "speed": {
+                      "base": 17011,
+                      "perPower": 0.086251
+                    }
+                  }
+                }
+              },
+              "iconRoleLabel": "마법",
+              "attackStyle": "RANGED",
+              "title": "나무늘봉순",
+              "memberName": "",
+              "grade": "ICON",
+              "image": "",
+              "focusX": 50,
+              "focusY": 50,
+              "breakthroughLevel": 0,
+              "basePower": 180000,
+              "equipmentShare": 0,
+              "power": 237840,
+              "battleMode": "PVP",
+              "type": "NONE",
+              "typeLabel": "균형형",
+              "uniqueAbility": null,
+              "uniqueAdvancement": null,
+              "maxHp": 609024,
+              "hp": 0,
+              "attack": 278635,
+              "defense": 156546,
+              "speed": 20414,
+              "shield": 0,
+              "maxShield": 0,
+              "gauge": 0,
+              "huntStacks": 0,
+              "speedUniqueSuppressed": false,
+              "defenseLineBreached": false,
+              "teamHealerCount": 0
+            }
+          ],
+          "B": [
+            {
+              "id": "B:0:CN-5D0E2E4D58C9416F",
+              "cardId": "CN-5D0E2E4D58C9416F",
+              "side": "B",
+              "slot": 0,
+              "row": "FRONT",
+              "title": "치타구",
+              "memberName": "",
+              "grade": "FUR",
+              "image": "",
+              "focusX": 50,
+              "focusY": 50,
+              "breakthroughLevel": 15,
+              "basePower": 195200,
+              "equipmentShare": 0,
+              "power": 195200,
+              "battleMode": "PVP",
+              "type": "SPEED",
+              "typeLabel": "속도형",
+              "uniqueAbility": {
+                "effectName": "속도형",
+                "effectDescription": "",
+                "attackPercent": 90,
+                "defensePercent": 90,
+                "hpPercent": 0,
+                "speedPercent": 150,
+                "dominantType": "SPEED"
+              },
+              "uniqueAdvancement": {
+                "active": true,
+                "classCode": "AFTERIMAGE",
+                "dominantType": "SPEED",
+                "configVersion": "",
+                "modifiers": {
+                  "criticalChancePoints": 0,
+                  "penetrationPoints": 18,
+                  "openingGaugePoints": 0,
+                  "dodgeChancePoints": 10,
+                  "dodgeCapPoints": 10,
+                  "counterChancePoints": 0,
+                  "counterMultiplierPoints": 0,
+                  "unshieldedCounterChancePoints": 0,
+                  "maxHpPercent": -3,
+                  "damageDealtPercent": 0,
+                  "damageCapPoints": 0,
+                  "lastStandHealPoolPercent": 0,
+                  "sealedLastStandHealPoolPercent": 0,
+                  "healPoolBonusPercent": 0
+                }
+              },
+              "maxHp": 196918,
+              "hp": 78767,
+              "attack": 75938,
+              "defense": 56745,
+              "speed": 17011,
+              "shield": 0,
+              "maxShield": 0,
+              "gauge": 70,
+              "huntStacks": 0,
+              "speedUniqueSuppressed": false,
+              "defenseLineBreached": false,
+              "teamHealerCount": 0,
+              "speedBasicAttacks": 7,
+              "speedChaseUses": 1
+            }
+          ]
+        },
+        "originalReason": "ELIMINATION",
+        "survivorCount": {
+          "A": 0,
+          "B": 1
+        }
+      }
+    }
+  },
+  {
+    "scenario": {
+      "icon": "오조은",
+      "opponent": "치타구",
+      "equipment": 5000000,
+      "slot": 0,
+      "seed": 1789068066,
+      "iconSide": "B",
+      "winner": "A"
+    },
+    "battle": {
+      "schemaVersion": 2,
+      "engine": "BATTLE_ENGINE_V2_PVP",
+      "playbackSpeed": 1.3,
+      "seed": 1789068066,
+      "rules": {
+        "hpMode": "POWER_DISTRIBUTED",
+        "formation": "FRONT_2_BACK_3",
+        "actionMode": "SPEED_GAUGE",
+        "damageCapPercent": 46,
+        "maxActions": 83,
+        "suddenDeathAfter": 64,
+        "suddenDeathRule": "NO_HEAL_ESCALATING_DAMAGE_UNTIL_ELIMINATION",
+        "timeoutRule": "SURVIVOR_COUNT_THEN_HP_RATIO_THEN_POWER",
+        "drawRule": "POWER_THEN_ATTACKER",
+        "healerDuplicatePenalty": {
+          "2": 60,
+          "3": 75,
+          "4": 85,
+          "5": 90
+        },
+        "healerPenaltyScope": "PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED",
+        "singleHealerBonus": {
+          "enabled": true,
+          "teamHpPercent": 8,
+          "healPercent": 10,
+          "crisisThresholdPercent": 40,
+          "crisisHealPercent": 16,
+          "pvpMaxActivations": 4,
+          "pveMaxActivations": 6
+        },
+        "dbTimelineWrites": 0
+      },
+      "teams": {
+        "A": {
+          "summary": {
+            "power": 5469650,
+            "basePower": 469650,
+            "equipmentBonus": 5000000,
+            "maxHp": 5617508,
+            "attack": 1824101,
+            "defense": 1149896,
+            "averageSpeed": 55927
+          },
+          "cards": [
+            {
+              "id": "A:0:CN-5D0E2E4D58C9416F",
+              "cardId": "CN-5D0E2E4D58C9416F",
+              "side": "A",
+              "slot": 0,
+              "row": "FRONT",
+              "title": "치타구",
+              "memberName": "",
+              "grade": "FUR",
+              "image": "",
+              "focusX": 50,
+              "focusY": 50,
+              "breakthroughLevel": 15,
+              "basePower": 195200,
+              "equipmentShare": 2078143,
+              "power": 2273343,
+              "battleMode": "PVP",
+              "type": "SPEED",
+              "typeLabel": "속도형",
+              "uniqueAbility": {
+                "effectName": "속도형",
+                "effectDescription": "",
+                "attackPercent": 90,
+                "defensePercent": 90,
+                "hpPercent": 0,
+                "speedPercent": 150,
+                "dominantType": "SPEED"
+              },
+              "uniqueAdvancement": {
+                "active": true,
+                "classCode": "AFTERIMAGE",
+                "dominantType": "SPEED",
+                "configVersion": "",
+                "modifiers": {
+                  "criticalChancePoints": 0,
+                  "penetrationPoints": 18,
+                  "openingGaugePoints": 0,
+                  "dodgeChancePoints": 10,
+                  "dodgeCapPoints": 10,
+                  "counterChancePoints": 0,
+                  "counterMultiplierPoints": 0,
+                  "unshieldedCounterChancePoints": 0,
+                  "maxHpPercent": -3,
+                  "damageDealtPercent": 0,
+                  "damageCapPoints": 0,
+                  "lastStandHealPoolPercent": 0,
+                  "sealedLastStandHealPoolPercent": 0,
+                  "healPoolBonusPercent": 0
+                }
+              },
+              "maxHp": 2293348,
+              "hp": 2293348,
+              "attack": 884387,
+              "defense": 660861,
+              "speed": 196251,
+              "shield": 0,
+              "maxShield": 0,
+              "gauge": 60,
+              "huntStacks": 0,
+              "speedUniqueSuppressed": false,
+              "defenseLineBreached": false
+            },
+            {
+              "id": "A:1:audit-common-superstar",
+              "cardId": "audit-common-superstar",
+              "side": "A",
+              "slot": 1,
+              "row": "FRONT",
+              "title": "CARD",
+              "memberName": "",
+              "grade": "SUPERSTAR",
+              "image": "",
+              "focusX": 50,
+              "focusY": 50,
+              "breakthroughLevel": 0,
+              "basePower": 93200,
+              "equipmentShare": 992228,
+              "power": 1085428,
+              "battleMode": "PVP",
+              "type": "NONE",
+              "typeLabel": "균형형",
+              "uniqueAbility": null,
+              "uniqueAdvancement": null,
+              "maxHp": 1128845,
+              "hp": 1128845,
+              "attack": 319116,
+              "defense": 166070,
+              "speed": 28291,
+              "shield": 0,
+              "maxShield": 0,
+              "gauge": 0,
+              "huntStacks": 0,
+              "speedUniqueSuppressed": false,
+              "defenseLineBreached": false
+            },
+            {
+              "id": "A:2:audit-common-zenith-1",
+              "cardId": "audit-common-zenith-1",
+              "side": "A",
+              "slot": 2,
+              "row": "BACK",
+              "title": "CARD",
+              "memberName": "",
+              "grade": "ZENITH",
+              "image": "",
+              "focusX": 50,
+              "focusY": 50,
+              "breakthroughLevel": 0,
+              "basePower": 75625,
+              "equipmentShare": 805120,
+              "power": 880745,
+              "battleMode": "PVP",
+              "type": "NONE",
+              "typeLabel": "균형형",
+              "uniqueAbility": null,
+              "uniqueAdvancement": null,
+              "maxHp": 915975,
+              "hp": 915975,
+              "attack": 258939,
+              "defense": 134754,
+              "speed": 22969,
+              "shield": 0,
+              "maxShield": 0,
+              "gauge": 0,
+              "huntStacks": 0,
+              "speedUniqueSuppressed": false,
+              "defenseLineBreached": false
+            },
+            {
+              "id": "A:3:audit-common-zenith-2",
+              "cardId": "audit-common-zenith-2",
+              "side": "A",
+              "slot": 3,
+              "row": "BACK",
+              "title": "CARD",
+              "memberName": "",
+              "grade": "ZENITH",
+              "image": "",
+              "focusX": 50,
+              "focusY": 50,
+              "breakthroughLevel": 0,
+              "basePower": 75625,
+              "equipmentShare": 805120,
+              "power": 880745,
+              "battleMode": "PVP",
+              "type": "NONE",
+              "typeLabel": "균형형",
+              "uniqueAbility": null,
+              "uniqueAdvancement": null,
+              "maxHp": 915975,
+              "hp": 915975,
+              "attack": 258939,
+              "defense": 134754,
+              "speed": 22969,
+              "shield": 0,
+              "maxShield": 0,
+              "gauge": 0,
+              "huntStacks": 0,
+              "speedUniqueSuppressed": false,
+              "defenseLineBreached": false
+            },
+            {
+              "id": "A:4:audit-common-ssr",
+              "cardId": "audit-common-ssr",
+              "side": "A",
+              "slot": 4,
+              "row": "BACK",
+              "title": "CARD",
+              "memberName": "",
+              "grade": "SSR",
+              "image": "",
+              "focusX": 50,
+              "focusY": 50,
+              "breakthroughLevel": 0,
+              "basePower": 30000,
+              "equipmentShare": 319389,
+              "power": 349389,
+              "battleMode": "PVP",
+              "type": "NONE",
+              "typeLabel": "균형형",
+              "uniqueAbility": null,
+              "uniqueAdvancement": null,
+              "maxHp": 363365,
+              "hp": 363365,
+              "attack": 102720,
+              "defense": 53457,
+              "speed": 9154,
+              "shield": 0,
+              "maxShield": 0,
+              "gauge": 0,
+              "huntStacks": 0,
+              "speedUniqueSuppressed": false,
+              "defenseLineBreached": false
+            }
+          ]
+        },
+        "B": {
+          "summary": {
+            "power": 5512290,
+            "basePower": 454450,
+            "equipmentBonus": 5000000,
+            "maxHp": 11028271,
+            "attack": 3741250,
+            "defense": 2248779,
+            "averageSpeed": 62263
+          },
+          "cards": [
+            {
+              "id": "B:0:CN-1C000004",
+              "cardId": "CN-1C000004",
+              "side": "B",
+              "slot": 0,
+              "row": "FRONT",
+              "iconRole": {
+                "version": 1,
+                "code": "ICON-OH-JOEUN",
+                "role": "SUPPORT",
+                "revision": 1,
+                "tuning": {
+                  "firstAction": 2,
+                  "cooldownActions": 4,
+                  "maxCasts": 6,
+                  "pveScale": 100,
+                  "pvpScale": 90,
+                  "healPercent": 20,
+                  "resonancePercent": 2,
+                  "maxStacks": 5,
+                  "healBudgetPercent": 80,
+                  "nextAttackPercent": 25,
+                  "durationActions": 2
+                },
+                "supremacy": {
+                  "version": "20261005-fur15-v1",
+                  "power": 198200,
+                  "cardCount": 20,
+                  "CAPTAIN": {
+                    "attack": {
+                      "base": 546560,
+                      "perPower": 2.8
+                    },
+                    "maxHp": {
+                      "base": 488000,
+                      "perPower": 2.5
+                    },
+                    "defense": {
+                      "base": 295,
+                      "perPower": 0
+                    },
+                    "speed": {
+                      "base": 250,
+                      "perPower": 0
+                    }
+                  },
+                  "PVE": {
+                    "maxHp": {
+                      "base": 456768,
+                      "perPower": 2.340001
+                    },
+                    "attack": {
+                      "base": 220230,
+                      "perPower": 1.128226
+                    },
+                    "defense": {
+                      "base": 134499,
+                      "perPower": 0.689032
+                    },
+                    "speed": {
+                      "base": 17011,
+                      "perPower": 0.086251
+                    }
+                  },
+                  "PVP": {
+                    "maxHp": {
+                      "base": 507520,
+                      "perPower": 2.600001
+                    },
+                    "attack": {
+                      "base": 207317,
+                      "perPower": 1.062076
+                    },
+                    "defense": {
+                      "base": 130455,
+                      "perPower": 0.668313
+                    },
+                    "speed": {
+                      "base": 17011,
+                      "perPower": 0.086251
+                    }
+                  }
+                }
+              },
+              "iconRoleLabel": "지원",
+              "attackStyle": "CAST",
+              "title": "오조은",
+              "memberName": "",
+              "grade": "ICON",
+              "image": "",
+              "focusX": 50,
+              "focusY": 50,
+              "breakthroughLevel": 0,
+              "basePower": 180000,
+              "equipmentShare": 1980415,
+              "power": 2218255,
+              "battleMode": "PVP",
+              "type": "NONE",
+              "typeLabel": "균형형",
+              "uniqueAbility": null,
+              "uniqueAdvancement": null,
+              "maxHp": 7602474,
+              "hp": 7602474,
+              "attack": 2772804,
+              "defense": 1744792,
+              "speed": 225390,
+              "shield": 0,
+              "maxShield": 0,
+              "gauge": 0,
+              "huntStacks": 0,
+              "speedUniqueSuppressed": false,
+              "defenseLineBreached": false
+            },
+            {
+              "id": "B:1:audit-common-superstar",
+              "cardId": "audit-common-superstar",
+              "side": "B",
+              "slot": 1,
+              "row": "FRONT",
+              "title": "CARD",
+              "memberName": "",
+              "grade": "SUPERSTAR",
+              "image": "",
+              "focusX": 50,
+              "focusY": 50,
+              "breakthroughLevel": 0,
+              "basePower": 93200,
+              "equipmentShare": 1025415,
+              "power": 1118615,
+              "battleMode": "PVP",
+              "type": "NONE",
+              "typeLabel": "균형형",
+              "uniqueAbility": null,
+              "uniqueAdvancement": null,
+              "maxHp": 1163360,
+              "hp": 1163360,
+              "attack": 328873,
+              "defense": 171148,
+              "speed": 29154,
+              "shield": 0,
+              "maxShield": 0,
+              "gauge": 0,
+              "huntStacks": 0,
+              "speedUniqueSuppressed": false,
+              "defenseLineBreached": false
+            },
+            {
+              "id": "B:2:audit-common-zenith-1",
+              "cardId": "audit-common-zenith-1",
+              "side": "B",
+              "slot": 2,
+              "row": "BACK",
+              "title": "CARD",
+              "memberName": "",
+              "grade": "ZENITH",
+              "image": "",
+              "focusX": 50,
+              "focusY": 50,
+              "breakthroughLevel": 0,
+              "basePower": 75625,
+              "equipmentShare": 832049,
+              "power": 907674,
+              "battleMode": "PVP",
+              "type": "NONE",
+              "typeLabel": "균형형",
+              "uniqueAbility": null,
+              "uniqueAdvancement": null,
+              "maxHp": 943981,
+              "hp": 943981,
+              "attack": 266856,
+              "defense": 138874,
+              "speed": 23670,
+              "shield": 0,
+              "maxShield": 0,
+              "gauge": 0,
+              "huntStacks": 0,
+              "speedUniqueSuppressed": false,
+              "defenseLineBreached": false
+            },
+            {
+              "id": "B:3:audit-common-zenith-2",
+              "cardId": "audit-common-zenith-2",
+              "side": "B",
+              "slot": 3,
+              "row": "BACK",
+              "title": "CARD",
+              "memberName": "",
+              "grade": "ZENITH",
+              "image": "",
+              "focusX": 50,
+              "focusY": 50,
+              "breakthroughLevel": 0,
+              "basePower": 75625,
+              "equipmentShare": 832049,
+              "power": 907674,
+              "battleMode": "PVP",
+              "type": "NONE",
+              "typeLabel": "균형형",
+              "uniqueAbility": null,
+              "uniqueAdvancement": null,
+              "maxHp": 943981,
+              "hp": 943981,
+              "attack": 266856,
+              "defense": 138874,
+              "speed": 23670,
+              "shield": 0,
+              "maxShield": 0,
+              "gauge": 0,
+              "huntStacks": 0,
+              "speedUniqueSuppressed": false,
+              "defenseLineBreached": false
+            },
+            {
+              "id": "B:4:audit-common-ssr",
+              "cardId": "audit-common-ssr",
+              "side": "B",
+              "slot": 4,
+              "row": "BACK",
+              "title": "CARD",
+              "memberName": "",
+              "grade": "SSR",
+              "image": "",
+              "focusX": 50,
+              "focusY": 50,
+              "breakthroughLevel": 0,
+              "basePower": 30000,
+              "equipmentShare": 330072,
+              "power": 360072,
+              "battleMode": "PVP",
+              "type": "NONE",
+              "typeLabel": "균형형",
+              "uniqueAbility": null,
+              "uniqueAdvancement": null,
+              "maxHp": 374475,
+              "hp": 374475,
+              "attack": 105861,
+              "defense": 55091,
+              "speed": 9432,
+              "shield": 0,
+              "maxShield": 0,
+              "gauge": 0,
+              "huntStacks": 0,
+              "speedUniqueSuppressed": false,
+              "defenseLineBreached": false
+            }
+          ]
+        }
+      },
+      "result": {
+        "winner": "A",
+        "reason": "ELIMINATION",
+        "actions": 33,
+        "duration": 0.009,
+        "timeline": [
+          {
+            "seq": 1,
+            "at": 0,
+            "type": "TURN",
+            "actorId": "A:0:CN-5D0E2E4D58C9416F",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "B:0:CN-1C000004",
+            "damage": 1161066,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 21,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": "AFTERIMAGE",
+            "suddenDeath": false,
+            "speedCombo": true,
+            "hitCount": 3,
+            "hits": [
+              {
+                "damage": 580533,
+                "absorbed": 0,
+                "targetHpAfter": 7021941,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 290267,
+                "absorbed": 0,
+                "targetHpAfter": 6731674,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 290266,
+                "absorbed": 0,
+                "targetHpAfter": 6441408,
+                "targetShieldAfter": 0
+              }
+            ],
+            "basicAttack": 1,
+            "targetHpAfter": 6441408,
+            "targetMaxHp": 7602474,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 25.741743647071374
+          },
+          {
+            "seq": 2,
+            "at": 0.001,
+            "type": "TURN",
+            "actorId": "B:0:CN-1C000004",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "A:1:audit-common-superstar",
+            "damage": 677307,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 3,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": null,
+            "suddenDeath": false,
+            "targetHpAfter": 451538,
+            "targetMaxHp": 1128845,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 15.645041162871092
+          },
+          {
+            "seq": 3,
+            "at": 0.001,
+            "type": "TURN",
+            "actorId": "A:0:CN-5D0E2E4D58C9416F",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "B:0:CN-1C000004",
+            "damage": 1298628,
+            "absorbed": 0,
+            "critical": true,
+            "penetration": 21,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": "AFTERIMAGE",
+            "suddenDeath": false,
+            "speedCombo": true,
+            "hitCount": 2,
+            "hits": [
+              {
+                "damage": 865752,
+                "absorbed": 0,
+                "targetHpAfter": 5575656,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 432876,
+                "absorbed": 0,
+                "targetHpAfter": 5142780,
+                "targetShieldAfter": 0
+              }
+            ],
+            "basicAttack": 2,
+            "targetHpAfter": 5142780,
+            "targetMaxHp": 7602474,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 22.589566078549446
+          },
+          {
+            "seq": 4,
+            "at": 0.001,
+            "type": "ICON_SKILL",
+            "actorId": "B:0:CN-1C000004",
+            "iconCode": "ICON-OH-JOEUN",
+            "iconRole": "SUPPORT",
+            "label": "프리즘 앙코르",
+            "configRevision": 1,
+            "targetId": "B:0:CN-1C000004",
+            "hits": [],
+            "targets": [
+              {
+                "targetId": "B:0:CN-1C000004",
+                "targetHpAfter": 6511225,
+                "targetMaxHp": 7602474,
+                "targetShieldAfter": 0,
+                "targetMaxShield": 0,
+                "amount": 1368445,
+                "cleaned": false,
+                "empowerPercent": 22.5
+              }
+            ],
+            "cast": 1,
+            "maxCasts": 6,
+            "nextAction": 6,
+            "stacksConsumed": 0
+          },
+          {
+            "seq": 5,
+            "at": 0.001,
+            "type": "TURN",
+            "actorId": "A:0:CN-5D0E2E4D58C9416F",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "B:0:CN-1C000004",
+            "damage": 803364,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 21,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": "AFTERIMAGE",
+            "suddenDeath": false,
+            "speedCombo": true,
+            "hitCount": 2,
+            "hits": [
+              {
+                "damage": 535576,
+                "absorbed": 0,
+                "targetHpAfter": 5975649,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 267788,
+                "absorbed": 0,
+                "targetHpAfter": 5707861,
+                "targetShieldAfter": 0
+              }
+            ],
+            "basicAttack": 3,
+            "targetHpAfter": 5707861,
+            "targetMaxHp": 7602474,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 19.43738851002749
+          },
+          {
+            "seq": 6,
+            "at": 0.002,
+            "type": "TURN",
+            "actorId": "B:0:CN-1C000004",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "A:1:audit-common-superstar",
+            "damage": 451538,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 3,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": null,
+            "suddenDeath": false,
+            "targetHpAfter": 0,
+            "targetMaxHp": 1128845,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 45.26781058476203
+          },
+          {
+            "seq": 7,
+            "at": 0.002,
+            "type": "KO",
+            "targetId": "A:1:audit-common-superstar"
+          },
+          {
+            "seq": 8,
+            "at": 0.002,
+            "type": "TURN",
+            "actorId": "A:0:CN-5D0E2E4D58C9416F",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "B:1:audit-common-superstar",
+            "damage": 558412,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 21,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": "AFTERIMAGE",
+            "suddenDeath": false,
+            "speedCombo": true,
+            "hitCount": 3,
+            "hits": [
+              {
+                "damage": 279206,
+                "absorbed": 0,
+                "targetHpAfter": 884154,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 139603,
+                "absorbed": 0,
+                "targetHpAfter": 744551,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 139603,
+                "absorbed": 0,
+                "targetHpAfter": 604948,
+                "targetShieldAfter": 0
+              }
+            ],
+            "basicAttack": 4,
+            "targetHpAfter": 604948,
+            "targetMaxHp": 1163360,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 1.4210854715202004e-14,
+            "targetGaugeAfter": 36.777026022274605
+          },
+          {
+            "seq": 9,
+            "at": 0.002,
+            "type": "TURN",
+            "actorId": "B:0:CN-1C000004",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "A:0:CN-5D0E2E4D58C9416F",
+            "dodge": true,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 57.21901179075643,
+            "advancementClass": "AFTERIMAGE",
+            "label": "속도형 · 회피"
+          },
+          {
+            "seq": 10,
+            "at": 0.002,
+            "type": "TURN",
+            "actorId": "A:0:CN-5D0E2E4D58C9416F",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "B:0:CN-1C000004",
+            "damage": 854264,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 21,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": "AFTERIMAGE",
+            "suddenDeath": false,
+            "speedCombo": true,
+            "hitCount": 2,
+            "hits": [
+              {
+                "damage": 569509,
+                "absorbed": 0,
+                "targetHpAfter": 5138352,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 284755,
+                "absorbed": 0,
+                "targetHpAfter": 4853597,
+                "targetShieldAfter": 0
+              }
+            ],
+            "basicAttack": 5,
+            "targetHpAfter": 4853597,
+            "targetMaxHp": 7602474,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 31.133033372983604
+          },
+          {
+            "seq": 11,
+            "at": 0.003,
+            "type": "TURN",
+            "actorId": "B:0:CN-1C000004",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "A:0:CN-5D0E2E4D58C9416F",
+            "dodge": true,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 59.96366772047825,
+            "advancementClass": "AFTERIMAGE",
+            "label": "속도형 · 회피"
+          },
+          {
+            "seq": 12,
+            "at": 0.003,
+            "type": "TURN",
+            "actorId": "A:0:CN-5D0E2E4D58C9416F",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "B:1:audit-common-superstar",
+            "damage": 558412,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 21,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": "AFTERIMAGE",
+            "suddenDeath": false,
+            "speedCombo": true,
+            "hitCount": 2,
+            "hits": [
+              {
+                "damage": 372275,
+                "absorbed": 0,
+                "targetHpAfter": 232673,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 186137,
+                "absorbed": 0,
+                "targetHpAfter": 46536,
+                "targetShieldAfter": 0
+              }
+            ],
+            "basicAttack": 6,
+            "targetHpAfter": 46536,
+            "targetMaxHp": 1163360,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 48.487957431541304
+          },
+          {
+            "seq": 13,
+            "at": 0.003,
+            "type": "ICON_SKILL",
+            "actorId": "B:0:CN-1C000004",
+            "iconCode": "ICON-OH-JOEUN",
+            "iconRole": "SUPPORT",
+            "label": "프리즘 앙코르",
+            "configRevision": 1,
+            "targetId": "B:1:audit-common-superstar",
+            "hits": [],
+            "targets": [
+              {
+                "targetId": "B:1:audit-common-superstar",
+                "targetHpAfter": 255940,
+                "targetMaxHp": 1163360,
+                "targetShieldAfter": 0,
+                "targetMaxShield": 0,
+                "amount": 209404,
+                "cleaned": false,
+                "empowerPercent": 22.5
+              }
+            ],
+            "cast": 2,
+            "maxCasts": 6,
+            "nextAction": 10,
+            "stacksConsumed": 0
+          },
+          {
+            "seq": 14,
+            "at": 0.003,
+            "type": "TURN",
+            "actorId": "A:0:CN-5D0E2E4D58C9416F",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "B:0:CN-1C000004",
+            "damage": 1693788,
+            "absorbed": 0,
+            "critical": true,
+            "penetration": 21,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": "AFTERIMAGE",
+            "suddenDeath": false,
+            "speedCombo": true,
+            "hitCount": 3,
+            "hits": [
+              {
+                "damage": 846894,
+                "absorbed": 0,
+                "targetHpAfter": 4006703,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 423447,
+                "absorbed": 0,
+                "targetHpAfter": 3583256,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 423447,
+                "absorbed": 0,
+                "targetHpAfter": 3159809,
+                "targetShieldAfter": 0
+              }
+            ],
+            "basicAttack": 7,
+            "targetHpAfter": 3159809,
+            "targetMaxHp": 7602474,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 42.82867823593967
+          },
+          {
+            "seq": 15,
+            "at": 0.003,
+            "type": "TURN",
+            "actorId": "B:0:CN-1C000004",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "A:0:CN-5D0E2E4D58C9416F",
+            "damage": 1376009,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 3,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": null,
+            "suddenDeath": false,
+            "targetHpAfter": 917339,
+            "targetMaxHp": 2293348,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 49.780065963523676
+          },
+          {
+            "seq": 16,
+            "at": 0.004,
+            "type": "TURN",
+            "actorId": "A:0:CN-5D0E2E4D58C9416F",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "B:1:audit-common-superstar",
+            "damage": 255940,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 21,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": "AFTERIMAGE",
+            "suddenDeath": false,
+            "speedCombo": true,
+            "hitCount": 2,
+            "hits": [
+              {
+                "damage": 170627,
+                "absorbed": 0,
+                "targetHpAfter": 85313,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 85313,
+                "absorbed": 0,
+                "targetHpAfter": 0,
+                "targetShieldAfter": 0
+              }
+            ],
+            "basicAttack": 8,
+            "targetHpAfter": 0,
+            "targetMaxHp": 1163360,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 60.19888884080801
+          },
+          {
+            "seq": 17,
+            "at": 0.004,
+            "type": "KO",
+            "targetId": "B:1:audit-common-superstar"
+          },
+          {
+            "seq": 18,
+            "at": 0.004,
+            "type": "HUNT_ACCELERATION",
+            "actorId": "A:0:CN-5D0E2E4D58C9416F",
+            "gaugeAfter": 70,
+            "label": "속도형 · 추격"
+          },
+          {
+            "seq": 19,
+            "at": 0.004,
+            "type": "TURN",
+            "actorId": "B:2:audit-common-zenith-1",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "A:0:CN-5D0E2E4D58C9416F",
+            "damage": 161605,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 3,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": null,
+            "suddenDeath": false,
+            "targetHpAfter": 755734,
+            "targetMaxHp": 2293348,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 99.97517717991607
+          },
+          {
+            "seq": 20,
+            "at": 0.004,
+            "type": "TURN",
+            "actorId": "A:0:CN-5D0E2E4D58C9416F",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "B:0:CN-1C000004",
+            "damage": 1296642,
+            "absorbed": 0,
+            "critical": true,
+            "penetration": 21,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": "AFTERIMAGE",
+            "suddenDeath": false,
+            "speedCombo": true,
+            "hitCount": 2,
+            "hits": [
+              {
+                "damage": 864428,
+                "absorbed": 0,
+                "targetHpAfter": 2295381,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 432214,
+                "absorbed": 0,
+                "targetHpAfter": 1863167,
+                "targetShieldAfter": 0
+              }
+            ],
+            "basicAttack": 9,
+            "targetHpAfter": 1863167,
+            "targetMaxHp": 7602474,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 2.842170943040401e-14,
+            "targetGaugeAfter": 74.13084739686118
+          },
+          {
+            "seq": 21,
+            "at": 0.004,
+            "type": "TURN",
+            "actorId": "B:3:audit-common-zenith-2",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "A:0:CN-5D0E2E4D58C9416F",
+            "damage": 163985,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 3,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": null,
+            "suddenDeath": false,
+            "targetHpAfter": 591749,
+            "targetMaxHp": 2293348,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 1.8089787845156053
+          },
+          {
+            "seq": 22,
+            "at": 0.004,
+            "type": "TURN",
+            "actorId": "B:0:CN-1C000004",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "A:0:CN-5D0E2E4D58C9416F",
+            "dodge": true,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 22.52472189324549,
+            "advancementClass": "AFTERIMAGE",
+            "label": "속도형 · 회피"
+          },
+          {
+            "seq": 23,
+            "at": 0.004,
+            "type": "TURN",
+            "actorId": "A:3:audit-common-zenith-2",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "B:0:CN-1C000004",
+            "damage": 158316,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 3,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": null,
+            "suddenDeath": false,
+            "targetHpAfter": 1704851,
+            "targetMaxHp": 7602474,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 31.70582031145862
+          },
+          {
+            "seq": 24,
+            "at": 0.004,
+            "type": "TURN",
+            "actorId": "A:2:audit-common-zenith-1",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "B:0:CN-1C000004",
+            "damage": 157936,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 3,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": null,
+            "suddenDeath": false,
+            "targetHpAfter": 1546915,
+            "targetMaxHp": 7602474,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 1.4210854715202004e-14,
+            "targetGaugeAfter": 36.41134619926075
+          },
+          {
+            "seq": 25,
+            "at": 0.004,
+            "type": "TURN",
+            "actorId": "A:0:CN-5D0E2E4D58C9416F",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "B:0:CN-1C000004",
+            "damage": 1101130,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 21,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": "AFTERIMAGE",
+            "suddenDeath": false,
+            "speedCombo": true,
+            "hitCount": 3,
+            "hits": [
+              {
+                "damage": 550565,
+                "absorbed": 0,
+                "targetHpAfter": 996350,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 275283,
+                "absorbed": 0,
+                "targetHpAfter": 721067,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 275282,
+                "absorbed": 0,
+                "targetHpAfter": 445785,
+                "targetShieldAfter": 0
+              }
+            ],
+            "basicAttack": 10,
+            "targetHpAfter": 445785,
+            "targetMaxHp": 7602474,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 70.9786698283392
+          },
+          {
+            "seq": 26,
+            "at": 0.005,
+            "type": "TURN",
+            "actorId": "B:0:CN-1C000004",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "A:0:CN-5D0E2E4D58C9416F",
+            "dodge": true,
+            "actorGaugeAfter": 7.105427357601002e-14,
+            "targetGaugeAfter": 25.269377822967375,
+            "advancementClass": "AFTERIMAGE",
+            "label": "속도형 · 회피"
+          },
+          {
+            "seq": 27,
+            "at": 0.005,
+            "type": "TURN",
+            "actorId": "A:0:CN-5D0E2E4D58C9416F",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "B:0:CN-1C000004",
+            "damage": 445785,
+            "absorbed": 0,
+            "critical": true,
+            "penetration": 21,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": "AFTERIMAGE",
+            "suddenDeath": false,
+            "speedCombo": true,
+            "hitCount": 2,
+            "hits": [
+              {
+                "damage": 297190,
+                "absorbed": 0,
+                "targetHpAfter": 148595,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 148595,
+                "absorbed": 0,
+                "targetHpAfter": 0,
+                "targetShieldAfter": 0
+              }
+            ],
+            "basicAttack": 11,
+            "targetHpAfter": 0,
+            "targetMaxHp": 7602474,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 5.684341886080802e-14,
+            "targetGaugeAfter": 67.82649225981733
+          },
+          {
+            "seq": 28,
+            "at": 0.005,
+            "type": "KO",
+            "targetId": "B:0:CN-1C000004"
+          },
+          {
+            "seq": 29,
+            "at": 0.006,
+            "type": "HUNT_ACCELERATION",
+            "actorId": "A:0:CN-5D0E2E4D58C9416F",
+            "gaugeAfter": 70.00000000000006,
+            "label": "속도형 · 추격"
+          },
+          {
+            "seq": 30,
+            "at": 0.005,
+            "type": "FRONTLINE_BREAK",
+            "side": "B",
+            "label": "적군 전열 붕괴"
+          },
+          {
+            "seq": 31,
+            "at": 0.005,
+            "type": "TURN",
+            "actorId": "A:0:CN-5D0E2E4D58C9416F",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "B:2:audit-common-zenith-1",
+            "damage": 453110,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 21,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": "AFTERIMAGE",
+            "suddenDeath": false,
+            "speedCombo": true,
+            "hitCount": 2,
+            "hits": [
+              {
+                "damage": 302073,
+                "absorbed": 0,
+                "targetHpAfter": 641908,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 151037,
+                "absorbed": 0,
+                "targetHpAfter": 490871,
+                "targetShieldAfter": 0
+              }
+            ],
+            "basicAttack": 12,
+            "targetHpAfter": 490871,
+            "targetMaxHp": 943981,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 9.743489491270807
+          },
+          {
+            "seq": 32,
+            "at": 0.006,
+            "type": "TURN",
+            "actorId": "A:0:CN-5D0E2E4D58C9416F",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "B:2:audit-common-zenith-1",
+            "damage": 453110,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 21,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": "AFTERIMAGE",
+            "suddenDeath": false,
+            "speedCombo": true,
+            "hitCount": 3,
+            "hits": [
+              {
+                "damage": 226555,
+                "absorbed": 0,
+                "targetHpAfter": 264316,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 113278,
+                "absorbed": 0,
+                "targetHpAfter": 151038,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 113277,
+                "absorbed": 0,
+                "targetHpAfter": 37761,
+                "targetShieldAfter": 0
+              }
+            ],
+            "basicAttack": 13,
+            "targetHpAfter": 37761,
+            "targetMaxHp": 943981,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 5.684341886080802e-14,
+            "targetGaugeAfter": 3.8045745303279404
+          },
+          {
+            "seq": 33,
+            "at": 0.006,
+            "type": "TURN",
+            "actorId": "A:0:CN-5D0E2E4D58C9416F",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "B:2:audit-common-zenith-1",
+            "damage": 37761,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 21,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": "AFTERIMAGE",
+            "suddenDeath": false,
+            "speedCombo": true,
+            "hitCount": 2,
+            "hits": [
+              {
+                "damage": 25174,
+                "absorbed": 0,
+                "targetHpAfter": 12587,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 12587,
+                "absorbed": 0,
+                "targetHpAfter": 0,
+                "targetShieldAfter": 0
+              }
+            ],
+            "basicAttack": 14,
+            "targetHpAfter": 0,
+            "targetMaxHp": 943981,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 0
+          },
+          {
+            "seq": 34,
+            "at": 0.006,
+            "type": "KO",
+            "targetId": "B:2:audit-common-zenith-1"
+          },
+          {
+            "seq": 35,
+            "at": 0.007,
+            "type": "HUNT_ACCELERATION",
+            "actorId": "A:0:CN-5D0E2E4D58C9416F",
+            "gaugeAfter": 70,
+            "label": "속도형 · 추격"
+          },
+          {
+            "seq": 36,
+            "at": 0.006,
+            "type": "TURN",
+            "actorId": "A:0:CN-5D0E2E4D58C9416F",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "B:3:audit-common-zenith-2",
+            "damage": 453110,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 21,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": "AFTERIMAGE",
+            "suddenDeath": false,
+            "speedCombo": true,
+            "hitCount": 2,
+            "hits": [
+              {
+                "damage": 302073,
+                "absorbed": 0,
+                "targetHpAfter": 641908,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 151037,
+                "absorbed": 0,
+                "targetHpAfter": 490871,
+                "targetShieldAfter": 0
+              }
+            ],
+            "basicAttack": 15,
+            "targetHpAfter": 490871,
+            "targetMaxHp": 943981,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 37.262808710123835
+          },
+          {
+            "seq": 37,
+            "at": 0.007,
+            "type": "TURN",
+            "actorId": "A:0:CN-5D0E2E4D58C9416F",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "B:4:audit-common-ssr",
+            "damage": 179748,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 21,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": "AFTERIMAGE",
+            "suddenDeath": false,
+            "speedCombo": true,
+            "hitCount": 3,
+            "hits": [
+              {
+                "damage": 89874,
+                "absorbed": 0,
+                "targetHpAfter": 284601,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 44937,
+                "absorbed": 0,
+                "targetHpAfter": 239664,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 44937,
+                "absorbed": 0,
+                "targetHpAfter": 194727,
+                "targetShieldAfter": 0
+              }
+            ],
+            "basicAttack": 16,
+            "targetHpAfter": 194727,
+            "targetMaxHp": 374475,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 5.684341886080802e-14,
+            "targetGaugeAfter": 45.93782617909582
+          },
+          {
+            "seq": 38,
+            "at": 0.007,
+            "type": "TURN",
+            "actorId": "A:0:CN-5D0E2E4D58C9416F",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "B:3:audit-common-zenith-2",
+            "damage": 453110,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 21,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": "AFTERIMAGE",
+            "suddenDeath": false,
+            "speedCombo": true,
+            "hitCount": 2,
+            "hits": [
+              {
+                "damage": 302073,
+                "absorbed": 0,
+                "targetHpAfter": 188798,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 151037,
+                "absorbed": 0,
+                "targetHpAfter": 37761,
+                "targetShieldAfter": 0
+              }
+            ],
+            "basicAttack": 17,
+            "targetHpAfter": 37761,
+            "targetMaxHp": 943981,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 43.38497878823808
+          },
+          {
+            "seq": 39,
+            "at": 0.008,
+            "type": "TURN",
+            "actorId": "A:0:CN-5D0E2E4D58C9416F",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "B:3:audit-common-zenith-2",
+            "damage": 37761,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 21,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": "AFTERIMAGE",
+            "suddenDeath": false,
+            "speedCombo": true,
+            "hitCount": 2,
+            "hits": [
+              {
+                "damage": 25174,
+                "absorbed": 0,
+                "targetHpAfter": 12587,
+                "targetShieldAfter": 0
+              },
+              {
+                "damage": 12587,
+                "absorbed": 0,
+                "targetHpAfter": 0,
+                "targetShieldAfter": 0
+              }
+            ],
+            "basicAttack": 18,
+            "targetHpAfter": 0,
+            "targetMaxHp": 943981,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 5.684341886080802e-14,
+            "targetGaugeAfter": 37.44606382729521
+          },
+          {
+            "seq": 40,
+            "at": 0.008,
+            "type": "KO",
+            "targetId": "B:3:audit-common-zenith-2"
+          },
+          {
+            "seq": 41,
+            "at": 0.008,
+            "type": "TURN",
+            "actorId": "A:0:CN-5D0E2E4D58C9416F",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "B:4:audit-common-ssr",
+            "dodge": true,
+            "actorGaugeAfter": 1.1368683772161603e-13,
+            "targetGaugeAfter": 60.35609665924625,
+            "advancementClass": null,
+            "label": "속도형 · 회피"
+          },
+          {
+            "seq": 42,
+            "at": 0.009,
+            "type": "TURN",
+            "actorId": "A:3:audit-common-zenith-2",
+            "actionClock": "SPEED_GAUGE",
+            "targetId": "B:4:audit-common-ssr",
+            "damage": 194727,
+            "absorbed": 0,
+            "critical": false,
+            "penetration": 3,
+            "execute": false,
+            "openingPressure": false,
+            "shieldBreaker": false,
+            "advancementClass": null,
+            "suddenDeath": false,
+            "targetHpAfter": 0,
+            "targetMaxHp": 374475,
+            "targetShieldAfter": 0,
+            "actorGaugeAfter": 0,
+            "targetGaugeAfter": 62.497130752254584
+          },
+          {
+            "seq": 43,
+            "at": 0.009,
+            "type": "KO",
+            "targetId": "B:4:audit-common-ssr"
+          },
+          {
+            "seq": 44,
+            "at": 0.019,
+            "type": "RESULT",
+            "winner": "A",
+            "reason": "ELIMINATION",
+            "actions": 33,
+            "duration": 0.009,
+            "teamAHpPercent": 49.6,
+            "teamBHpPercent": 0,
+            "originalReason": "ELIMINATION",
+            "survivorCountA": 4,
+            "survivorCountB": 0
+          }
+        ],
+        "iconRoles": [
+          {
+            "id": "B:0:CN-1C000004",
+            "role": "SUPPORT",
+            "casts": 2,
+            "nextAction": 10,
+            "guardRemaining": 0,
+            "healRemaining": 4504130.2,
+            "stacks": 2,
+            "takedowns": 0
+          }
+        ],
+        "healerPenalty": {
+          "A": {
+            "healerCount": 0,
+            "reductionPercent": 0,
+            "multiplier": 1
+          },
+          "B": {
+            "healerCount": 0,
+            "reductionPercent": 0,
+            "multiplier": 1
+          }
+        },
+        "final": {
+          "A": [
+            {
+              "id": "A:0:CN-5D0E2E4D58C9416F",
+              "cardId": "CN-5D0E2E4D58C9416F",
+              "side": "A",
+              "slot": 0,
+              "row": "FRONT",
+              "title": "치타구",
+              "memberName": "",
+              "grade": "FUR",
+              "image": "",
+              "focusX": 50,
+              "focusY": 50,
+              "breakthroughLevel": 15,
+              "basePower": 195200,
+              "equipmentShare": 2078143,
+              "power": 2273343,
+              "battleMode": "PVP",
+              "type": "SPEED",
+              "typeLabel": "속도형",
+              "uniqueAbility": {
+                "effectName": "속도형",
+                "effectDescription": "",
+                "attackPercent": 90,
+                "defensePercent": 90,
+                "hpPercent": 0,
+                "speedPercent": 150,
+                "dominantType": "SPEED"
+              },
+              "uniqueAdvancement": {
+                "active": true,
+                "classCode": "AFTERIMAGE",
+                "dominantType": "SPEED",
+                "configVersion": "",
+                "modifiers": {
+                  "criticalChancePoints": 0,
+                  "penetrationPoints": 18,
+                  "openingGaugePoints": 0,
+                  "dodgeChancePoints": 10,
+                  "dodgeCapPoints": 10,
+                  "counterChancePoints": 0,
+                  "counterMultiplierPoints": 0,
+                  "unshieldedCounterChancePoints": 0,
+                  "maxHpPercent": -3,
+                  "damageDealtPercent": 0,
+                  "damageCapPoints": 0,
+                  "lastStandHealPoolPercent": 0,
+                  "sealedLastStandHealPoolPercent": 0,
+                  "healPoolBonusPercent": 0
+                }
+              },
+              "maxHp": 2293348,
+              "hp": 591749,
+              "attack": 884387,
+              "defense": 660861,
+              "speed": 196251,
+              "shield": 0,
+              "maxShield": 0,
+              "gauge": 44.548354727203105,
+              "huntStacks": 0,
+              "speedUniqueSuppressed": false,
+              "defenseLineBreached": false,
+              "teamHealerCount": 0,
+              "speedBasicAttacks": 19,
+              "speedChaseUses": 3
+            },
+            {
+              "id": "A:1:audit-common-superstar",
+              "cardId": "audit-common-superstar",
+              "side": "A",
+              "slot": 1,
+              "row": "FRONT",
+              "title": "CARD",
+              "memberName": "",
+              "grade": "SUPERSTAR",
+              "image": "",
+              "focusX": 50,
+              "focusY": 50,
+              "breakthroughLevel": 0,
+              "basePower": 93200,
+              "equipmentShare": 992228,
+              "power": 1085428,
+              "battleMode": "PVP",
+              "type": "NONE",
+              "typeLabel": "균형형",
+              "uniqueAbility": null,
+              "uniqueAdvancement": null,
+              "maxHp": 1128845,
+              "hp": 0,
+              "attack": 319116,
+              "defense": 166070,
+              "speed": 28291,
+              "shield": 0,
+              "maxShield": 0,
+              "gauge": 0,
+              "huntStacks": 0,
+              "speedUniqueSuppressed": false,
+              "defenseLineBreached": false,
+              "teamHealerCount": 0
+            },
+            {
+              "id": "A:2:audit-common-zenith-1",
+              "cardId": "audit-common-zenith-1",
+              "side": "A",
+              "slot": 2,
+              "row": "BACK",
+              "title": "CARD",
+              "memberName": "",
+              "grade": "ZENITH",
+              "image": "",
+              "focusX": 50,
+              "focusY": 50,
+              "breakthroughLevel": 0,
+              "basePower": 75625,
+              "equipmentShare": 805120,
+              "power": 880745,
+              "battleMode": "PVP",
+              "type": "NONE",
+              "typeLabel": "균형형",
+              "uniqueAbility": null,
+              "uniqueAdvancement": null,
+              "maxHp": 915975,
+              "hp": 915975,
+              "attack": 258939,
+              "defense": 134754,
+              "speed": 22969,
+              "shield": 0,
+              "maxShield": 0,
+              "gauge": 99.52047018893064,
+              "huntStacks": 0,
+              "speedUniqueSuppressed": false,
+              "defenseLineBreached": false,
+              "teamHealerCount": 0
+            },
+            {
+              "id": "A:3:audit-common-zenith-2",
+              "cardId": "audit-common-zenith-2",
+              "side": "A",
+              "slot": 3,
+              "row": "BACK",
+              "title": "CARD",
+              "memberName": "",
+              "grade": "ZENITH",
+              "image": "",
+              "focusX": 50,
+              "focusY": 50,
+              "breakthroughLevel": 0,
+              "basePower": 75625,
+              "equipmentShare": 805120,
+              "power": 880745,
+              "battleMode": "PVP",
+              "type": "NONE",
+              "typeLabel": "균형형",
+              "uniqueAbility": null,
+              "uniqueAdvancement": null,
+              "maxHp": 915975,
+              "hp": 915975,
+              "attack": 258939,
+              "defense": 134754,
+              "speed": 22969,
+              "shield": 0,
+              "maxShield": 0,
+              "gauge": 0,
+              "huntStacks": 0,
+              "speedUniqueSuppressed": false,
+              "defenseLineBreached": false,
+              "teamHealerCount": 0
+            },
+            {
+              "id": "A:4:audit-common-ssr",
+              "cardId": "audit-common-ssr",
+              "side": "A",
+              "slot": 4,
+              "row": "BACK",
+              "title": "CARD",
+              "memberName": "",
+              "grade": "SSR",
+              "image": "",
+              "focusX": 50,
+              "focusY": 50,
+              "breakthroughLevel": 0,
+              "basePower": 30000,
+              "equipmentShare": 319389,
+              "power": 349389,
+              "battleMode": "PVP",
+              "type": "NONE",
+              "typeLabel": "균형형",
+              "uniqueAbility": null,
+              "uniqueAdvancement": null,
+              "maxHp": 363365,
+              "hp": 363365,
+              "attack": 102720,
+              "defense": 53457,
+              "speed": 9154,
+              "shield": 0,
+              "maxShield": 0,
+              "gauge": 85.84561608751234,
+              "huntStacks": 0,
+              "speedUniqueSuppressed": false,
+              "defenseLineBreached": false,
+              "teamHealerCount": 0
+            }
+          ],
+          "B": [
+            {
+              "id": "B:0:CN-1C000004",
+              "cardId": "CN-1C000004",
+              "side": "B",
+              "slot": 0,
+              "row": "FRONT",
+              "iconRole": {
+                "version": 1,
+                "code": "ICON-OH-JOEUN",
+                "role": "SUPPORT",
+                "revision": 1,
+                "tuning": {
+                  "firstAction": 2,
+                  "cooldownActions": 4,
+                  "maxCasts": 6,
+                  "pveScale": 100,
+                  "pvpScale": 90,
+                  "healPercent": 20,
+                  "resonancePercent": 2,
+                  "maxStacks": 5,
+                  "healBudgetPercent": 80,
+                  "nextAttackPercent": 25,
+                  "durationActions": 2
+                },
+                "supremacy": {
+                  "version": "20261005-fur15-v1",
+                  "power": 198200,
+                  "cardCount": 20,
+                  "CAPTAIN": {
+                    "attack": {
+                      "base": 546560,
+                      "perPower": 2.8
+                    },
+                    "maxHp": {
+                      "base": 488000,
+                      "perPower": 2.5
+                    },
+                    "defense": {
+                      "base": 295,
+                      "perPower": 0
+                    },
+                    "speed": {
+                      "base": 250,
+                      "perPower": 0
+                    }
+                  },
+                  "PVE": {
+                    "maxHp": {
+                      "base": 456768,
+                      "perPower": 2.340001
+                    },
+                    "attack": {
+                      "base": 220230,
+                      "perPower": 1.128226
+                    },
+                    "defense": {
+                      "base": 134499,
+                      "perPower": 0.689032
+                    },
+                    "speed": {
+                      "base": 17011,
+                      "perPower": 0.086251
+                    }
+                  },
+                  "PVP": {
+                    "maxHp": {
+                      "base": 507520,
+                      "perPower": 2.600001
+                    },
+                    "attack": {
+                      "base": 207317,
+                      "perPower": 1.062076
+                    },
+                    "defense": {
+                      "base": 130455,
+                      "perPower": 0.668313
+                    },
+                    "speed": {
+                      "base": 17011,
+                      "perPower": 0.086251
+                    }
+                  }
+                }
+              },
+              "iconRoleLabel": "지원",
+              "attackStyle": "CAST",
+              "title": "오조은",
+              "memberName": "",
+              "grade": "ICON",
+              "image": "",
+              "focusX": 50,
+              "focusY": 50,
+              "breakthroughLevel": 0,
+              "basePower": 180000,
+              "equipmentShare": 1980415,
+              "power": 2218255,
+              "battleMode": "PVP",
+              "type": "NONE",
+              "typeLabel": "균형형",
+              "uniqueAbility": null,
+              "uniqueAdvancement": null,
+              "maxHp": 7602474,
+              "hp": 0,
+              "attack": 2772804,
+              "defense": 1744792,
+              "speed": 225390,
+              "shield": 0,
+              "maxShield": 0,
+              "gauge": 0,
+              "huntStacks": 0,
+              "speedUniqueSuppressed": false,
+              "defenseLineBreached": false,
+              "teamHealerCount": 0
+            },
+            {
+              "id": "B:1:audit-common-superstar",
+              "cardId": "audit-common-superstar",
+              "side": "B",
+              "slot": 1,
+              "row": "FRONT",
+              "title": "CARD",
+              "memberName": "",
+              "grade": "SUPERSTAR",
+              "image": "",
+              "focusX": 50,
+              "focusY": 50,
+              "breakthroughLevel": 0,
+              "basePower": 93200,
+              "equipmentShare": 1025415,
+              "power": 1118615,
+              "battleMode": "PVP",
+              "type": "NONE",
+              "typeLabel": "균형형",
+              "uniqueAbility": null,
+              "uniqueAdvancement": null,
+              "maxHp": 1163360,
+              "hp": 0,
+              "attack": 328873,
+              "defense": 171148,
+              "speed": 29154,
+              "shield": 0,
+              "maxShield": 0,
+              "gauge": 0,
+              "huntStacks": 0,
+              "speedUniqueSuppressed": false,
+              "defenseLineBreached": false,
+              "teamHealerCount": 0,
+              "iconEmpower": {
+                "percent": 22.5,
+                "remaining": 2,
+                "sourceId": "B:0:CN-1C000004"
+              }
+            },
+            {
+              "id": "B:2:audit-common-zenith-1",
+              "cardId": "audit-common-zenith-1",
+              "side": "B",
+              "slot": 2,
+              "row": "BACK",
+              "title": "CARD",
+              "memberName": "",
+              "grade": "ZENITH",
+              "image": "",
+              "focusX": 50,
+              "focusY": 50,
+              "breakthroughLevel": 0,
+              "basePower": 75625,
+              "equipmentShare": 832049,
+              "power": 907674,
+              "battleMode": "PVP",
+              "type": "NONE",
+              "typeLabel": "균형형",
+              "uniqueAbility": null,
+              "uniqueAdvancement": null,
+              "maxHp": 943981,
+              "hp": 0,
+              "attack": 266856,
+              "defense": 138874,
+              "speed": 23670,
+              "shield": 0,
+              "maxShield": 0,
+              "gauge": 0,
+              "huntStacks": 0,
+              "speedUniqueSuppressed": false,
+              "defenseLineBreached": false,
+              "teamHealerCount": 0
+            },
+            {
+              "id": "B:3:audit-common-zenith-2",
+              "cardId": "audit-common-zenith-2",
+              "side": "B",
+              "slot": 3,
+              "row": "BACK",
+              "title": "CARD",
+              "memberName": "",
+              "grade": "ZENITH",
+              "image": "",
+              "focusX": 50,
+              "focusY": 50,
+              "breakthroughLevel": 0,
+              "basePower": 75625,
+              "equipmentShare": 832049,
+              "power": 907674,
+              "battleMode": "PVP",
+              "type": "NONE",
+              "typeLabel": "균형형",
+              "uniqueAbility": null,
+              "uniqueAdvancement": null,
+              "maxHp": 943981,
+              "hp": 0,
+              "attack": 266856,
+              "defense": 138874,
+              "speed": 23670,
+              "shield": 0,
+              "maxShield": 0,
+              "gauge": 0,
+              "huntStacks": 0,
+              "speedUniqueSuppressed": false,
+              "defenseLineBreached": false,
+              "teamHealerCount": 0
+            },
+            {
+              "id": "B:4:audit-common-ssr",
+              "cardId": "audit-common-ssr",
+              "side": "B",
+              "slot": 4,
+              "row": "BACK",
+              "title": "CARD",
+              "memberName": "",
+              "grade": "SSR",
+              "image": "",
+              "focusX": 50,
+              "focusY": 50,
+              "breakthroughLevel": 0,
+              "basePower": 30000,
+              "equipmentShare": 330072,
+              "power": 360072,
+              "battleMode": "PVP",
+              "type": "NONE",
+              "typeLabel": "균형형",
+              "uniqueAbility": null,
+              "uniqueAdvancement": null,
+              "maxHp": 374475,
+              "hp": 0,
+              "attack": 105861,
+              "defense": 55091,
+              "speed": 9432,
+              "shield": 0,
+              "maxShield": 0,
+              "gauge": 0,
+              "huntStacks": 0,
+              "speedUniqueSuppressed": false,
+              "defenseLineBreached": false,
+              "teamHealerCount": 0
+            }
+          ]
+        },
+        "originalReason": "ELIMINATION",
+        "survivorCount": {
+          "A": 4,
+          "B": 0
+        }
+      }
+    }
+  }
+]

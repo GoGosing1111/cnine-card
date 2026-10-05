@@ -1,0 +1,3778 @@
+{
+  "checkedAt": "2026-10-05T16:52:34.663Z",
+  "sourceCheckedAt": "2026-10-05T16:52:16.656Z",
+  "sourceCommit": "8296a54b9fafdf3be988485fcaef6fefe5da5659",
+  "policy": {
+    "comparison": "All seven ICONs vs Cheetah and Aizen FUR +15, fully advanced, actual live role tuning, equal total equipment, swapped attacker/defender; real server preparation and battle engine.",
+    "statFloor": "20% above all 20 FUR +15 starting stats at equal allocated equipment before external buffs; not a universal win guarantee.",
+    "commonTeammates": "Identical synthetic neutral reference teammates to isolate the compared slots; not specific player accounts.",
+    "magicMercenaryAvatarSynergy": "Absent on both sides in the controlled comparison.",
+    "seedCount": 32,
+    "seeds": "(imul(i,2654435761)+610006)>>>0, i=1..32",
+    "gearValues": [
+      0,
+      5000000
+    ],
+    "teamSlots": [
+      0,
+      4
+    ],
+    "pairFormations": "All 21 ICON pairs; reversed pair positions on both sides; identical three remaining cards",
+    "pve": "Same 5-card reference team, same 3 bosses, same equipment and seeds, only first card replaced",
+    "dbWrites": 0
+  },
+  "common": [
+    {
+      "id": "audit-common-superstar",
+      "grade": "SUPERSTAR",
+      "power": 93200
+    },
+    {
+      "id": "audit-common-zenith-1",
+      "grade": "ZENITH",
+      "power": 75625
+    },
+    {
+      "id": "audit-common-zenith-2",
+      "grade": "ZENITH",
+      "power": 75625
+    },
+    {
+      "id": "audit-common-ssr",
+      "grade": "SSR",
+      "power": 30000
+    }
+  ],
+  "stats": {
+    "PVP": {
+      "icons": [
+        {
+          "id": "CN-1C000001",
+          "name": "디임",
+          "role": "암살",
+          "collectionPower": 180000,
+          "battlePower": 237840,
+          "advancement": null,
+          "unique": null,
+          "stats": {
+            "maxHp": 609024,
+            "attack": 263708,
+            "defense": 156546,
+            "speed": 22047,
+            "shield": 0,
+            "gauge": 0
+          }
+        },
+        {
+          "id": "CN-1C000002",
+          "name": "하이희야",
+          "role": "공격",
+          "collectionPower": 180000,
+          "battlePower": 237840,
+          "advancement": null,
+          "unique": null,
+          "stats": {
+            "maxHp": 609024,
+            "attack": 278635,
+            "defense": 156546,
+            "speed": 20414,
+            "shield": 0,
+            "gauge": 0
+          }
+        },
+        {
+          "id": "CN-1C000003",
+          "name": "나무늘봉순",
+          "role": "마법",
+          "collectionPower": 180000,
+          "battlePower": 237840,
+          "advancement": null,
+          "unique": null,
+          "stats": {
+            "maxHp": 609024,
+            "attack": 278635,
+            "defense": 156546,
+            "speed": 20414,
+            "shield": 0,
+            "gauge": 0
+          }
+        },
+        {
+          "id": "CN-1C000004",
+          "name": "오조은",
+          "role": "지원",
+          "collectionPower": 180000,
+          "battlePower": 237840,
+          "advancement": null,
+          "unique": null,
+          "stats": {
+            "maxHp": 682107,
+            "attack": 248781,
+            "defense": 156546,
+            "speed": 20414,
+            "shield": 0,
+            "gauge": 0
+          }
+        },
+        {
+          "id": "CN-1C000005",
+          "name": "오리꿍",
+          "role": "저주",
+          "collectionPower": 180000,
+          "battlePower": 237840,
+          "advancement": null,
+          "unique": null,
+          "stats": {
+            "maxHp": 609024,
+            "attack": 248781,
+            "defense": 156546,
+            "speed": 22047,
+            "shield": 0,
+            "gauge": 0
+          }
+        },
+        {
+          "id": "CN-1C000006",
+          "name": "강구열",
+          "role": "방어",
+          "collectionPower": 180000,
+          "battlePower": 237840,
+          "advancement": null,
+          "unique": null,
+          "stats": {
+            "maxHp": 682107,
+            "attack": 248781,
+            "defense": 180028,
+            "speed": 20414,
+            "shield": 0,
+            "gauge": 0
+          }
+        },
+        {
+          "id": "CN-1C000007",
+          "name": "아윤",
+          "role": "돌격",
+          "collectionPower": 180000,
+          "battlePower": 237840,
+          "advancement": null,
+          "unique": null,
+          "stats": {
+            "maxHp": 657746,
+            "attack": 263708,
+            "defense": 156546,
+            "speed": 20414,
+            "shield": 0,
+            "gauge": 0
+          }
+        }
+      ],
+      "targets": [
+        {
+          "id": "CN-5D0E2E4D58C9416F",
+          "name": "치타구",
+          "role": "속도형",
+          "collectionPower": 195200,
+          "battlePower": 195200,
+          "advancement": "AFTERIMAGE",
+          "unique": {
+            "cardId": "CN-5D0E2E4D58C9416F",
+            "attackPercent": 90,
+            "defensePercent": 90,
+            "hpPercent": 0,
+            "speedPercent": 150,
+            "effectName": "",
+            "effectDescription": "",
+            "effectType": "NONE",
+            "triggerType": "PASSIVE",
+            "effectValue": 0,
+            "triggerChance": 100,
+            "maxActivations": 1,
+            "dominantType": "SPEED",
+            "dominantKey": "speedPercent",
+            "dominantLabel": "속도",
+            "dominantValue": 150,
+            "highBoostPercent": 200
+          },
+          "stats": {
+            "maxHp": 196918,
+            "attack": 75938,
+            "defense": 56745,
+            "speed": 17011,
+            "shield": 0,
+            "gauge": 60
+          }
+        },
+        {
+          "id": "CN-47AD4B47B6A7452C",
+          "name": "아이젠 족스케",
+          "role": "방어형",
+          "collectionPower": 195200,
+          "battlePower": 195200,
+          "advancement": "RIPOSTE",
+          "unique": {
+            "cardId": "CN-47AD4B47B6A7452C",
+            "attackPercent": 120,
+            "defensePercent": 195,
+            "hpPercent": 150,
+            "speedPercent": 0,
+            "effectName": "",
+            "effectDescription": "",
+            "effectType": "NONE",
+            "triggerType": "PASSIVE",
+            "effectValue": 0,
+            "triggerChance": 100,
+            "maxActivations": 1,
+            "dominantType": "DEFENSE",
+            "dominantKey": "defensePercent",
+            "dominantLabel": "방어",
+            "dominantValue": 195,
+            "highBoostPercent": 200
+          },
+          "stats": {
+            "maxHp": 507520,
+            "attack": 94692,
+            "defense": 130455,
+            "speed": 5145,
+            "shield": 162406,
+            "gauge": 0
+          }
+        }
+      ]
+    },
+    "PVE": {
+      "icons": [
+        {
+          "id": "CN-1C000001",
+          "name": "디임",
+          "role": "암살",
+          "collectionPower": 180000,
+          "battlePower": 237840,
+          "advancement": null,
+          "unique": null,
+          "stats": {
+            "maxHp": 548122,
+            "attack": 280133,
+            "defense": 161399,
+            "speed": 22047,
+            "shield": 0,
+            "gauge": 0
+          }
+        },
+        {
+          "id": "CN-1C000002",
+          "name": "하이희야",
+          "role": "공격",
+          "collectionPower": 180000,
+          "battlePower": 237840,
+          "advancement": null,
+          "unique": null,
+          "stats": {
+            "maxHp": 548122,
+            "attack": 295990,
+            "defense": 161399,
+            "speed": 20414,
+            "shield": 0,
+            "gauge": 0
+          }
+        },
+        {
+          "id": "CN-1C000003",
+          "name": "나무늘봉순",
+          "role": "마법",
+          "collectionPower": 180000,
+          "battlePower": 237840,
+          "advancement": null,
+          "unique": null,
+          "stats": {
+            "maxHp": 548122,
+            "attack": 295990,
+            "defense": 161399,
+            "speed": 20414,
+            "shield": 0,
+            "gauge": 0
+          }
+        },
+        {
+          "id": "CN-1C000004",
+          "name": "오조은",
+          "role": "지원",
+          "collectionPower": 180000,
+          "battlePower": 237840,
+          "advancement": null,
+          "unique": null,
+          "stats": {
+            "maxHp": 613897,
+            "attack": 264276,
+            "defense": 161399,
+            "speed": 20414,
+            "shield": 0,
+            "gauge": 0
+          }
+        },
+        {
+          "id": "CN-1C000005",
+          "name": "오리꿍",
+          "role": "저주",
+          "collectionPower": 180000,
+          "battlePower": 237840,
+          "advancement": null,
+          "unique": null,
+          "stats": {
+            "maxHp": 548122,
+            "attack": 264276,
+            "defense": 161399,
+            "speed": 22047,
+            "shield": 0,
+            "gauge": 0
+          }
+        },
+        {
+          "id": "CN-1C000006",
+          "name": "강구열",
+          "role": "방어",
+          "collectionPower": 180000,
+          "battlePower": 237840,
+          "advancement": null,
+          "unique": null,
+          "stats": {
+            "maxHp": 613897,
+            "attack": 264276,
+            "defense": 185609,
+            "speed": 20414,
+            "shield": 0,
+            "gauge": 0
+          }
+        },
+        {
+          "id": "CN-1C000007",
+          "name": "아윤",
+          "role": "돌격",
+          "collectionPower": 180000,
+          "battlePower": 237840,
+          "advancement": null,
+          "unique": null,
+          "stats": {
+            "maxHp": 591972,
+            "attack": 280133,
+            "defense": 161399,
+            "speed": 20414,
+            "shield": 0,
+            "gauge": 0
+          }
+        }
+      ],
+      "targets": [
+        {
+          "id": "CN-5D0E2E4D58C9416F",
+          "name": "치타구",
+          "role": "속도형",
+          "collectionPower": 195200,
+          "battlePower": 195200,
+          "advancement": "AFTERIMAGE",
+          "unique": {
+            "cardId": "CN-5D0E2E4D58C9416F",
+            "attackPercent": 90,
+            "defensePercent": 90,
+            "hpPercent": 0,
+            "speedPercent": 150,
+            "effectName": "",
+            "effectDescription": "",
+            "effectType": "NONE",
+            "triggerType": "PASSIVE",
+            "effectValue": 0,
+            "triggerChance": 100,
+            "maxActivations": 1,
+            "dominantType": "SPEED",
+            "dominantKey": "speedPercent",
+            "dominantLabel": "속도",
+            "dominantValue": 150,
+            "highBoostPercent": 200
+          },
+          "stats": {
+            "maxHp": 177226,
+            "attack": 75938,
+            "defense": 56745,
+            "speed": 17011,
+            "shield": 0,
+            "gauge": 30
+          }
+        },
+        {
+          "id": "CN-47AD4B47B6A7452C",
+          "name": "아이젠 족스케",
+          "role": "방어형",
+          "collectionPower": 195200,
+          "battlePower": 195200,
+          "advancement": "RIPOSTE",
+          "unique": {
+            "cardId": "CN-47AD4B47B6A7452C",
+            "attackPercent": 120,
+            "defensePercent": 195,
+            "hpPercent": 150,
+            "speedPercent": 0,
+            "effectName": "",
+            "effectDescription": "",
+            "effectType": "NONE",
+            "triggerType": "PASSIVE",
+            "effectValue": 0,
+            "triggerChance": 100,
+            "maxActivations": 1,
+            "dominantType": "DEFENSE",
+            "dominantKey": "defensePercent",
+            "dominantLabel": "방어",
+            "dominantValue": 195,
+            "highBoostPercent": 200
+          },
+          "stats": {
+            "maxHp": 456768,
+            "attack": 94692,
+            "defense": 134499,
+            "speed": 5145,
+            "shield": 173572,
+            "gauge": 0
+          }
+        }
+      ]
+    }
+  },
+  "single": [
+    {
+      "icon": "디임",
+      "opponent": "치타구",
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 6.13,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "디임",
+      "opponent": "치타구",
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 6.13,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "디임",
+      "opponent": "아이젠 족스케",
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 4.08,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "디임",
+      "opponent": "아이젠 족스케",
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 4.05,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "하이희야",
+      "opponent": "치타구",
+      "equipment": 0,
+      "wins": 62,
+      "total": 64,
+      "percent": 96.88,
+      "averageActions": 5.66,
+      "skillBattles": 34,
+      "losses": [
+        {
+          "seed": 3042322684,
+          "iconSide": "A",
+          "winner": "B"
+        },
+        {
+          "seed": 3042322684,
+          "iconSide": "B",
+          "winner": "A"
+        }
+      ]
+    },
+    {
+      "icon": "하이희야",
+      "opponent": "치타구",
+      "equipment": 5000000,
+      "wins": 62,
+      "total": 64,
+      "percent": 96.88,
+      "averageActions": 5.66,
+      "skillBattles": 34,
+      "losses": [
+        {
+          "seed": 3042322684,
+          "iconSide": "A",
+          "winner": "B"
+        },
+        {
+          "seed": 3042322684,
+          "iconSide": "B",
+          "winner": "A"
+        }
+      ]
+    },
+    {
+      "icon": "하이희야",
+      "opponent": "아이젠 족스케",
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 4.95,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "하이희야",
+      "opponent": "아이젠 족스케",
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 4.95,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "나무늘봉순",
+      "opponent": "치타구",
+      "equipment": 0,
+      "wins": 63,
+      "total": 64,
+      "percent": 98.44,
+      "averageActions": 7.3,
+      "skillBattles": 64,
+      "losses": [
+        {
+          "seed": 148536531,
+          "iconSide": "A",
+          "winner": "B"
+        }
+      ]
+    },
+    {
+      "icon": "나무늘봉순",
+      "opponent": "치타구",
+      "equipment": 5000000,
+      "wins": 63,
+      "total": 64,
+      "percent": 98.44,
+      "averageActions": 7.3,
+      "skillBattles": 64,
+      "losses": [
+        {
+          "seed": 148536531,
+          "iconSide": "A",
+          "winner": "B"
+        }
+      ]
+    },
+    {
+      "icon": "나무늘봉순",
+      "opponent": "아이젠 족스케",
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 6.06,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "나무늘봉순",
+      "opponent": "아이젠 족스케",
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 6.06,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "오조은",
+      "opponent": "치타구",
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 7.5,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "오조은",
+      "opponent": "치타구",
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 7.5,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "오조은",
+      "opponent": "아이젠 족스케",
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 5.98,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "오조은",
+      "opponent": "아이젠 족스케",
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 5.98,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "오리꿍",
+      "opponent": "치타구",
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 5.69,
+      "skillBattles": 34,
+      "losses": []
+    },
+    {
+      "icon": "오리꿍",
+      "opponent": "치타구",
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 5.69,
+      "skillBattles": 34,
+      "losses": []
+    },
+    {
+      "icon": "오리꿍",
+      "opponent": "아이젠 족스케",
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 4.16,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "오리꿍",
+      "opponent": "아이젠 족스케",
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 4.14,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "강구열",
+      "opponent": "치타구",
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 5.41,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "강구열",
+      "opponent": "치타구",
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 5.41,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "강구열",
+      "opponent": "아이젠 족스케",
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 4.98,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "강구열",
+      "opponent": "아이젠 족스케",
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 4.98,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "아윤",
+      "opponent": "치타구",
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 5.63,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "아윤",
+      "opponent": "치타구",
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 5.63,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "아윤",
+      "opponent": "아이젠 족스케",
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 4.16,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "아윤",
+      "opponent": "아이젠 족스케",
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 4.16,
+      "skillBattles": 64,
+      "losses": []
+    }
+  ],
+  "teams": [
+    {
+      "icon": "디임",
+      "opponent": "치타구",
+      "equipment": 0,
+      "slot": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 15.38,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "디임",
+      "opponent": "치타구",
+      "equipment": 0,
+      "slot": 4,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 22.25,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "디임",
+      "opponent": "치타구",
+      "equipment": 5000000,
+      "slot": 0,
+      "wins": 63,
+      "total": 64,
+      "percent": 98.44,
+      "averageActions": 16.05,
+      "skillBattles": 64,
+      "losses": [
+        {
+          "seed": 148536531,
+          "iconSide": "A",
+          "winner": "B"
+        }
+      ]
+    },
+    {
+      "icon": "디임",
+      "opponent": "치타구",
+      "equipment": 5000000,
+      "slot": 4,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 22.7,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "디임",
+      "opponent": "아이젠 족스케",
+      "equipment": 0,
+      "slot": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.98,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "디임",
+      "opponent": "아이젠 족스케",
+      "equipment": 0,
+      "slot": 4,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 20.59,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "디임",
+      "opponent": "아이젠 족스케",
+      "equipment": 5000000,
+      "slot": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.92,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "디임",
+      "opponent": "아이젠 족스케",
+      "equipment": 5000000,
+      "slot": 4,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 20.8,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "하이희야",
+      "opponent": "치타구",
+      "equipment": 0,
+      "slot": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 15.09,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "하이희야",
+      "opponent": "치타구",
+      "equipment": 0,
+      "slot": 4,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 22.19,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "하이희야",
+      "opponent": "치타구",
+      "equipment": 5000000,
+      "slot": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 15.44,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "하이희야",
+      "opponent": "치타구",
+      "equipment": 5000000,
+      "slot": 4,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 22.44,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "하이희야",
+      "opponent": "아이젠 족스케",
+      "equipment": 0,
+      "slot": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 19.88,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "하이희야",
+      "opponent": "아이젠 족스케",
+      "equipment": 0,
+      "slot": 4,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 21.64,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "하이희야",
+      "opponent": "아이젠 족스케",
+      "equipment": 5000000,
+      "slot": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 19.91,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "하이희야",
+      "opponent": "아이젠 족스케",
+      "equipment": 5000000,
+      "slot": 4,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 21.59,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "나무늘봉순",
+      "opponent": "치타구",
+      "equipment": 0,
+      "slot": 0,
+      "wins": 63,
+      "total": 64,
+      "percent": 98.44,
+      "averageActions": 14.77,
+      "skillBattles": 64,
+      "losses": [
+        {
+          "seed": 148536531,
+          "iconSide": "A",
+          "winner": "B"
+        }
+      ]
+    },
+    {
+      "icon": "나무늘봉순",
+      "opponent": "치타구",
+      "equipment": 0,
+      "slot": 4,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 21.16,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "나무늘봉순",
+      "opponent": "치타구",
+      "equipment": 5000000,
+      "slot": 0,
+      "wins": 63,
+      "total": 64,
+      "percent": 98.44,
+      "averageActions": 14.94,
+      "skillBattles": 64,
+      "losses": [
+        {
+          "seed": 1789068066,
+          "iconSide": "B",
+          "winner": "A"
+        }
+      ]
+    },
+    {
+      "icon": "나무늘봉순",
+      "opponent": "치타구",
+      "equipment": 5000000,
+      "slot": 4,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 21.38,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "나무늘봉순",
+      "opponent": "아이젠 족스케",
+      "equipment": 0,
+      "slot": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 19.94,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "나무늘봉순",
+      "opponent": "아이젠 족스케",
+      "equipment": 0,
+      "slot": 4,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 20.41,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "나무늘봉순",
+      "opponent": "아이젠 족스케",
+      "equipment": 5000000,
+      "slot": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 20.11,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "나무늘봉순",
+      "opponent": "아이젠 족스케",
+      "equipment": 5000000,
+      "slot": 4,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 20.44,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "오조은",
+      "opponent": "치타구",
+      "equipment": 0,
+      "slot": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 21.97,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "오조은",
+      "opponent": "치타구",
+      "equipment": 0,
+      "slot": 4,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 29.72,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "오조은",
+      "opponent": "치타구",
+      "equipment": 5000000,
+      "slot": 0,
+      "wins": 62,
+      "total": 64,
+      "percent": 96.88,
+      "averageActions": 22.22,
+      "skillBattles": 64,
+      "losses": [
+        {
+          "seed": 1789068066,
+          "iconSide": "B",
+          "winner": "A"
+        },
+        {
+          "seed": 1310367282,
+          "iconSide": "B",
+          "winner": "A"
+        }
+      ]
+    },
+    {
+      "icon": "오조은",
+      "opponent": "치타구",
+      "equipment": 5000000,
+      "slot": 4,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 29.53,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "오조은",
+      "opponent": "아이젠 족스케",
+      "equipment": 0,
+      "slot": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 23.67,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "오조은",
+      "opponent": "아이젠 족스케",
+      "equipment": 0,
+      "slot": 4,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 25.31,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "오조은",
+      "opponent": "아이젠 족스케",
+      "equipment": 5000000,
+      "slot": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 23.55,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "오조은",
+      "opponent": "아이젠 족스케",
+      "equipment": 5000000,
+      "slot": 4,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 25.89,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "오리꿍",
+      "opponent": "치타구",
+      "equipment": 0,
+      "slot": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 15.13,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "오리꿍",
+      "opponent": "치타구",
+      "equipment": 0,
+      "slot": 4,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 21.5,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "오리꿍",
+      "opponent": "치타구",
+      "equipment": 5000000,
+      "slot": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 14.98,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "오리꿍",
+      "opponent": "치타구",
+      "equipment": 5000000,
+      "slot": 4,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 22.88,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "오리꿍",
+      "opponent": "아이젠 족스케",
+      "equipment": 0,
+      "slot": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 19.69,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "오리꿍",
+      "opponent": "아이젠 족스케",
+      "equipment": 0,
+      "slot": 4,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 21.33,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "오리꿍",
+      "opponent": "아이젠 족스케",
+      "equipment": 5000000,
+      "slot": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 19.69,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "오리꿍",
+      "opponent": "아이젠 족스케",
+      "equipment": 5000000,
+      "slot": 4,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 21.45,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "강구열",
+      "opponent": "치타구",
+      "equipment": 0,
+      "slot": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 15.34,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "강구열",
+      "opponent": "치타구",
+      "equipment": 0,
+      "slot": 4,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 22.67,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "강구열",
+      "opponent": "치타구",
+      "equipment": 5000000,
+      "slot": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 15.69,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "강구열",
+      "opponent": "치타구",
+      "equipment": 5000000,
+      "slot": 4,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 22.5,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "강구열",
+      "opponent": "아이젠 족스케",
+      "equipment": 0,
+      "slot": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 19.78,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "강구열",
+      "opponent": "아이젠 족스케",
+      "equipment": 0,
+      "slot": 4,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 21.42,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "강구열",
+      "opponent": "아이젠 족스케",
+      "equipment": 5000000,
+      "slot": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 20.44,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "강구열",
+      "opponent": "아이젠 족스케",
+      "equipment": 5000000,
+      "slot": 4,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 21.88,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "아윤",
+      "opponent": "치타구",
+      "equipment": 0,
+      "slot": 0,
+      "wins": 63,
+      "total": 64,
+      "percent": 98.44,
+      "averageActions": 16.22,
+      "skillBattles": 64,
+      "losses": [
+        {
+          "seed": 3668949993,
+          "iconSide": "B",
+          "winner": "A"
+        }
+      ]
+    },
+    {
+      "icon": "아윤",
+      "opponent": "치타구",
+      "equipment": 0,
+      "slot": 4,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 23.13,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "아윤",
+      "opponent": "치타구",
+      "equipment": 5000000,
+      "slot": 0,
+      "wins": 62,
+      "total": 64,
+      "percent": 96.88,
+      "averageActions": 16.92,
+      "skillBattles": 64,
+      "losses": [
+        {
+          "seed": 3668949993,
+          "iconSide": "A",
+          "winner": "B"
+        },
+        {
+          "seed": 148536531,
+          "iconSide": "A",
+          "winner": "B"
+        }
+      ]
+    },
+    {
+      "icon": "아윤",
+      "opponent": "치타구",
+      "equipment": 5000000,
+      "slot": 4,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 23,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "아윤",
+      "opponent": "아이젠 족스케",
+      "equipment": 0,
+      "slot": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 19.34,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "아윤",
+      "opponent": "아이젠 족스케",
+      "equipment": 0,
+      "slot": 4,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 21.2,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "아윤",
+      "opponent": "아이젠 족스케",
+      "equipment": 5000000,
+      "slot": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 19.19,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icon": "아윤",
+      "opponent": "아이젠 족스케",
+      "equipment": 5000000,
+      "slot": 4,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 21.16,
+      "skillBattles": 64,
+      "losses": []
+    }
+  ],
+  "pairs": [
+    {
+      "icons": [
+        "디임",
+        "하이희야"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.23,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "하이희야",
+        "디임"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.81,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "디임",
+        "하이희야"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.53,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "하이희야",
+        "디임"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.83,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "디임",
+        "나무늘봉순"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.44,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "나무늘봉순",
+        "디임"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 19.28,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "디임",
+        "나무늘봉순"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.7,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "나무늘봉순",
+        "디임"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 19.53,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "디임",
+        "오조은"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 20.25,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "오조은",
+        "디임"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 20.88,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "디임",
+        "오조은"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 20.31,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "오조은",
+        "디임"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 20.98,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "디임",
+        "오리꿍"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 17.92,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "오리꿍",
+        "디임"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.39,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "디임",
+        "오리꿍"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.11,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "오리꿍",
+        "디임"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.92,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "디임",
+        "강구열"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.02,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "강구열",
+        "디임"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 19.17,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "디임",
+        "강구열"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.33,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "강구열",
+        "디임"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 19.36,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "디임",
+        "아윤"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.73,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "아윤",
+        "디임"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.42,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "디임",
+        "아윤"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.89,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "아윤",
+        "디임"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.44,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "하이희야",
+        "나무늘봉순"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.98,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "나무늘봉순",
+        "하이희야"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 19.23,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "하이희야",
+        "나무늘봉순"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.83,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "나무늘봉순",
+        "하이희야"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 19.28,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "하이희야",
+        "오조은"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 20.94,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "오조은",
+        "하이희야"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 20.78,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "하이희야",
+        "오조은"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 21.31,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "오조은",
+        "하이희야"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 20.75,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "하이희야",
+        "오리꿍"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 17.5,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "오리꿍",
+        "하이희야"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.34,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "하이희야",
+        "오리꿍"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 17.86,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "오리꿍",
+        "하이희야"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.42,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "하이희야",
+        "강구열"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.5,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "강구열",
+        "하이희야"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.95,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "하이희야",
+        "강구열"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.88,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "강구열",
+        "하이희야"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.75,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "하이희야",
+        "아윤"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 19.69,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "아윤",
+        "하이희야"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 19.17,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "하이희야",
+        "아윤"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 19.63,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "아윤",
+        "하이희야"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 19.33,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "나무늘봉순",
+        "오조은"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 21.58,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "오조은",
+        "나무늘봉순"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 21.58,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "나무늘봉순",
+        "오조은"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 21.67,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "오조은",
+        "나무늘봉순"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 21.63,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "나무늘봉순",
+        "오리꿍"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.03,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "오리꿍",
+        "나무늘봉순"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.56,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "나무늘봉순",
+        "오리꿍"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.22,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "오리꿍",
+        "나무늘봉순"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.75,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "나무늘봉순",
+        "강구열"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.64,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "강구열",
+        "나무늘봉순"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 19.41,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "나무늘봉순",
+        "강구열"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.77,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "강구열",
+        "나무늘봉순"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 19.63,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "나무늘봉순",
+        "아윤"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 19.94,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "아윤",
+        "나무늘봉순"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 19.67,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "나무늘봉순",
+        "아윤"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 19.73,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "아윤",
+        "나무늘봉순"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 20.14,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "오조은",
+        "오리꿍"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 19.98,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "오리꿍",
+        "오조은"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 20.44,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "오조은",
+        "오리꿍"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 20.27,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "오리꿍",
+        "오조은"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 20.78,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "오조은",
+        "강구열"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 20.59,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "강구열",
+        "오조은"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 20.63,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "오조은",
+        "강구열"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 21.33,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "강구열",
+        "오조은"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 20.63,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "오조은",
+        "아윤"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 22.45,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "아윤",
+        "오조은"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 21.09,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "오조은",
+        "아윤"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 22.02,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "아윤",
+        "오조은"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 21.08,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "오리꿍",
+        "강구열"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.38,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "강구열",
+        "오리꿍"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.44,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "오리꿍",
+        "강구열"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.61,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "강구열",
+        "오리꿍"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.5,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "오리꿍",
+        "아윤"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 19.09,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "아윤",
+        "오리꿍"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.59,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "오리꿍",
+        "아윤"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 19.23,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "아윤",
+        "오리꿍"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.78,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "강구열",
+        "아윤"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 19.95,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "아윤",
+        "강구열"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 0,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.75,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "강구열",
+        "아윤"
+      ],
+      "opponents": [
+        "치타구",
+        "아이젠 족스케"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 19.41,
+      "skillBattles": 64,
+      "losses": []
+    },
+    {
+      "icons": [
+        "아윤",
+        "강구열"
+      ],
+      "opponents": [
+        "아이젠 족스케",
+        "치타구"
+      ],
+      "equipment": 5000000,
+      "wins": 64,
+      "total": 64,
+      "percent": 100,
+      "averageActions": 18.89,
+      "skillBattles": 64,
+      "losses": []
+    }
+  ],
+  "pve": [
+    {
+      "card": "디임",
+      "grade": "ICON",
+      "equipment": 0,
+      "bossPower": 1000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 2783000,
+      "averageActions": 16.66,
+      "skillBattles": 32
+    },
+    {
+      "card": "디임",
+      "grade": "ICON",
+      "equipment": 0,
+      "bossPower": 4000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 11132000,
+      "averageActions": 65.78,
+      "skillBattles": 32
+    },
+    {
+      "card": "디임",
+      "grade": "ICON",
+      "equipment": 0,
+      "bossPower": 10000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 27830000,
+      "averageActions": 73.69,
+      "skillBattles": 32
+    },
+    {
+      "card": "디임",
+      "grade": "ICON",
+      "equipment": 5000000,
+      "bossPower": 1000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 2783000,
+      "averageActions": 3.09,
+      "skillBattles": 32
+    },
+    {
+      "card": "디임",
+      "grade": "ICON",
+      "equipment": 5000000,
+      "bossPower": 4000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 11132000,
+      "averageActions": 12.75,
+      "skillBattles": 32
+    },
+    {
+      "card": "디임",
+      "grade": "ICON",
+      "equipment": 5000000,
+      "bossPower": 10000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 27830000,
+      "averageActions": 31.78,
+      "skillBattles": 32
+    },
+    {
+      "card": "하이희야",
+      "grade": "ICON",
+      "equipment": 0,
+      "bossPower": 1000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 2783000,
+      "averageActions": 15.06,
+      "skillBattles": 32
+    },
+    {
+      "card": "하이희야",
+      "grade": "ICON",
+      "equipment": 0,
+      "bossPower": 4000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 11132000,
+      "averageActions": 60.47,
+      "skillBattles": 32
+    },
+    {
+      "card": "하이희야",
+      "grade": "ICON",
+      "equipment": 0,
+      "bossPower": 10000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 27830000,
+      "averageActions": 72.25,
+      "skillBattles": 32
+    },
+    {
+      "card": "하이희야",
+      "grade": "ICON",
+      "equipment": 5000000,
+      "bossPower": 1000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 2783000,
+      "averageActions": 3.06,
+      "skillBattles": 32
+    },
+    {
+      "card": "하이희야",
+      "grade": "ICON",
+      "equipment": 5000000,
+      "bossPower": 4000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 11132000,
+      "averageActions": 12.09,
+      "skillBattles": 32
+    },
+    {
+      "card": "하이희야",
+      "grade": "ICON",
+      "equipment": 5000000,
+      "bossPower": 10000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 27830000,
+      "averageActions": 29.88,
+      "skillBattles": 32
+    },
+    {
+      "card": "나무늘봉순",
+      "grade": "ICON",
+      "equipment": 0,
+      "bossPower": 1000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 2783000,
+      "averageActions": 18.69,
+      "skillBattles": 32
+    },
+    {
+      "card": "나무늘봉순",
+      "grade": "ICON",
+      "equipment": 0,
+      "bossPower": 4000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 11132000,
+      "averageActions": 68.38,
+      "skillBattles": 32
+    },
+    {
+      "card": "나무늘봉순",
+      "grade": "ICON",
+      "equipment": 0,
+      "bossPower": 10000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 27830000,
+      "averageActions": 77.5,
+      "skillBattles": 32
+    },
+    {
+      "card": "나무늘봉순",
+      "grade": "ICON",
+      "equipment": 5000000,
+      "bossPower": 1000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 2783000,
+      "averageActions": 4.22,
+      "skillBattles": 32
+    },
+    {
+      "card": "나무늘봉순",
+      "grade": "ICON",
+      "equipment": 5000000,
+      "bossPower": 4000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 11132000,
+      "averageActions": 15.75,
+      "skillBattles": 32
+    },
+    {
+      "card": "나무늘봉순",
+      "grade": "ICON",
+      "equipment": 5000000,
+      "bossPower": 10000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 27830000,
+      "averageActions": 36.63,
+      "skillBattles": 32
+    },
+    {
+      "card": "오조은",
+      "grade": "ICON",
+      "equipment": 0,
+      "bossPower": 1000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 2783000,
+      "averageActions": 26.16,
+      "skillBattles": 32
+    },
+    {
+      "card": "오조은",
+      "grade": "ICON",
+      "equipment": 0,
+      "bossPower": 4000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 11132000,
+      "averageActions": 76.59,
+      "skillBattles": 32
+    },
+    {
+      "card": "오조은",
+      "grade": "ICON",
+      "equipment": 0,
+      "bossPower": 10000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 27830000,
+      "averageActions": 77.47,
+      "skillBattles": 32
+    },
+    {
+      "card": "오조은",
+      "grade": "ICON",
+      "equipment": 5000000,
+      "bossPower": 1000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 2783000,
+      "averageActions": 3.06,
+      "skillBattles": 0
+    },
+    {
+      "card": "오조은",
+      "grade": "ICON",
+      "equipment": 5000000,
+      "bossPower": 4000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 11132000,
+      "averageActions": 21.56,
+      "skillBattles": 32
+    },
+    {
+      "card": "오조은",
+      "grade": "ICON",
+      "equipment": 5000000,
+      "bossPower": 10000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 27830000,
+      "averageActions": 49.41,
+      "skillBattles": 32
+    },
+    {
+      "card": "오리꿍",
+      "grade": "ICON",
+      "equipment": 0,
+      "bossPower": 1000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 2783000,
+      "averageActions": 15.5,
+      "skillBattles": 32
+    },
+    {
+      "card": "오리꿍",
+      "grade": "ICON",
+      "equipment": 0,
+      "bossPower": 4000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 11132000,
+      "averageActions": 58.31,
+      "skillBattles": 32
+    },
+    {
+      "card": "오리꿍",
+      "grade": "ICON",
+      "equipment": 0,
+      "bossPower": 10000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 27830000,
+      "averageActions": 68.66,
+      "skillBattles": 32
+    },
+    {
+      "card": "오리꿍",
+      "grade": "ICON",
+      "equipment": 5000000,
+      "bossPower": 1000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 2783000,
+      "averageActions": 3.09,
+      "skillBattles": 32
+    },
+    {
+      "card": "오리꿍",
+      "grade": "ICON",
+      "equipment": 5000000,
+      "bossPower": 4000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 11132000,
+      "averageActions": 12.19,
+      "skillBattles": 32
+    },
+    {
+      "card": "오리꿍",
+      "grade": "ICON",
+      "equipment": 5000000,
+      "bossPower": 10000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 27830000,
+      "averageActions": 29.66,
+      "skillBattles": 32
+    },
+    {
+      "card": "강구열",
+      "grade": "ICON",
+      "equipment": 0,
+      "bossPower": 1000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 2783000,
+      "averageActions": 18.78,
+      "skillBattles": 32
+    },
+    {
+      "card": "강구열",
+      "grade": "ICON",
+      "equipment": 0,
+      "bossPower": 4000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 11132000,
+      "averageActions": 66.41,
+      "skillBattles": 32
+    },
+    {
+      "card": "강구열",
+      "grade": "ICON",
+      "equipment": 0,
+      "bossPower": 10000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 27830000,
+      "averageActions": 75,
+      "skillBattles": 32
+    },
+    {
+      "card": "강구열",
+      "grade": "ICON",
+      "equipment": 5000000,
+      "bossPower": 1000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 2783000,
+      "averageActions": 3.09,
+      "skillBattles": 32
+    },
+    {
+      "card": "강구열",
+      "grade": "ICON",
+      "equipment": 5000000,
+      "bossPower": 4000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 11132000,
+      "averageActions": 16.78,
+      "skillBattles": 32
+    },
+    {
+      "card": "강구열",
+      "grade": "ICON",
+      "equipment": 5000000,
+      "bossPower": 10000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 27830000,
+      "averageActions": 36.22,
+      "skillBattles": 32
+    },
+    {
+      "card": "아윤",
+      "grade": "ICON",
+      "equipment": 0,
+      "bossPower": 1000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 2783000,
+      "averageActions": 18.09,
+      "skillBattles": 32
+    },
+    {
+      "card": "아윤",
+      "grade": "ICON",
+      "equipment": 0,
+      "bossPower": 4000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 11132000,
+      "averageActions": 66.16,
+      "skillBattles": 32
+    },
+    {
+      "card": "아윤",
+      "grade": "ICON",
+      "equipment": 0,
+      "bossPower": 10000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 27830000,
+      "averageActions": 72.44,
+      "skillBattles": 32
+    },
+    {
+      "card": "아윤",
+      "grade": "ICON",
+      "equipment": 5000000,
+      "bossPower": 1000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 2783000,
+      "averageActions": 3.09,
+      "skillBattles": 32
+    },
+    {
+      "card": "아윤",
+      "grade": "ICON",
+      "equipment": 5000000,
+      "bossPower": 4000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 11132000,
+      "averageActions": 15.22,
+      "skillBattles": 32
+    },
+    {
+      "card": "아윤",
+      "grade": "ICON",
+      "equipment": 5000000,
+      "bossPower": 10000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 27830000,
+      "averageActions": 34.31,
+      "skillBattles": 32
+    },
+    {
+      "card": "치타구",
+      "grade": "FUR",
+      "equipment": 0,
+      "bossPower": 1000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 2783000,
+      "averageActions": 68.81,
+      "skillBattles": 0
+    },
+    {
+      "card": "치타구",
+      "grade": "FUR",
+      "equipment": 0,
+      "bossPower": 4000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 11132000,
+      "averageActions": 72.75,
+      "skillBattles": 0
+    },
+    {
+      "card": "치타구",
+      "grade": "FUR",
+      "equipment": 0,
+      "bossPower": 10000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 27830000,
+      "averageActions": 72.75,
+      "skillBattles": 0
+    },
+    {
+      "card": "치타구",
+      "grade": "FUR",
+      "equipment": 5000000,
+      "bossPower": 1000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 2783000,
+      "averageActions": 12.16,
+      "skillBattles": 0
+    },
+    {
+      "card": "치타구",
+      "grade": "FUR",
+      "equipment": 5000000,
+      "bossPower": 4000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 11132000,
+      "averageActions": 51.59,
+      "skillBattles": 0
+    },
+    {
+      "card": "치타구",
+      "grade": "FUR",
+      "equipment": 5000000,
+      "bossPower": 10000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 27830000,
+      "averageActions": 72.75,
+      "skillBattles": 0
+    },
+    {
+      "card": "아이젠 족스케",
+      "grade": "FUR",
+      "equipment": 0,
+      "bossPower": 1000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 2783000,
+      "averageActions": 60.5,
+      "skillBattles": 0
+    },
+    {
+      "card": "아이젠 족스케",
+      "grade": "FUR",
+      "equipment": 0,
+      "bossPower": 4000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 11132000,
+      "averageActions": 72.53,
+      "skillBattles": 0
+    },
+    {
+      "card": "아이젠 족스케",
+      "grade": "FUR",
+      "equipment": 0,
+      "bossPower": 10000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 27830000,
+      "averageActions": 72.91,
+      "skillBattles": 0
+    },
+    {
+      "card": "아이젠 족스케",
+      "grade": "FUR",
+      "equipment": 5000000,
+      "bossPower": 1000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 2783000,
+      "averageActions": 12.72,
+      "skillBattles": 0
+    },
+    {
+      "card": "아이젠 족스케",
+      "grade": "FUR",
+      "equipment": 5000000,
+      "bossPower": 4000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 11132000,
+      "averageActions": 49.16,
+      "skillBattles": 0
+    },
+    {
+      "card": "아이젠 족스케",
+      "grade": "FUR",
+      "equipment": 5000000,
+      "bossPower": 10000000,
+      "wins": 32,
+      "total": 32,
+      "percent": 100,
+      "averageDamage": 27830000,
+      "averageActions": 70.81,
+      "skillBattles": 0
+    }
+  ],
+  "summary": {
+    "single": {
+      "wins": 1786,
+      "total": 1792,
+      "percent": 99.67,
+      "worstScenario": 96.88
+    },
+    "teams": {
+      "wins": 3576,
+      "total": 3584,
+      "percent": 99.78,
+      "worstScenario": 96.88
+    },
+    "pairs": {
+      "wins": 5376,
+      "total": 5376,
+      "percent": 100,
+      "worstScenario": 100
+    },
+    "byIcon": [
+      {
+        "name": "디임",
+        "single": {
+          "wins": 256,
+          "total": 256,
+          "percent": 100,
+          "worstScenario": 100
+        },
+        "teams": {
+          "wins": 511,
+          "total": 512,
+          "percent": 99.8,
+          "worstScenario": 98.44
+        }
+      },
+      {
+        "name": "하이희야",
+        "single": {
+          "wins": 252,
+          "total": 256,
+          "percent": 98.44,
+          "worstScenario": 96.88
+        },
+        "teams": {
+          "wins": 512,
+          "total": 512,
+          "percent": 100,
+          "worstScenario": 100
+        }
+      },
+      {
+        "name": "나무늘봉순",
+        "single": {
+          "wins": 254,
+          "total": 256,
+          "percent": 99.22,
+          "worstScenario": 98.44
+        },
+        "teams": {
+          "wins": 510,
+          "total": 512,
+          "percent": 99.61,
+          "worstScenario": 98.44
+        }
+      },
+      {
+        "name": "오조은",
+        "single": {
+          "wins": 256,
+          "total": 256,
+          "percent": 100,
+          "worstScenario": 100
+        },
+        "teams": {
+          "wins": 510,
+          "total": 512,
+          "percent": 99.61,
+          "worstScenario": 96.88
+        }
+      },
+      {
+        "name": "오리꿍",
+        "single": {
+          "wins": 256,
+          "total": 256,
+          "percent": 100,
+          "worstScenario": 100
+        },
+        "teams": {
+          "wins": 512,
+          "total": 512,
+          "percent": 100,
+          "worstScenario": 100
+        }
+      },
+      {
+        "name": "강구열",
+        "single": {
+          "wins": 256,
+          "total": 256,
+          "percent": 100,
+          "worstScenario": 100
+        },
+        "teams": {
+          "wins": 512,
+          "total": 512,
+          "percent": 100,
+          "worstScenario": 100
+        }
+      },
+      {
+        "name": "아윤",
+        "single": {
+          "wins": 256,
+          "total": 256,
+          "percent": 100,
+          "worstScenario": 100
+        },
+        "teams": {
+          "wins": 509,
+          "total": 512,
+          "percent": 99.41,
+          "worstScenario": 96.88
+        }
+      }
+    ],
+    "pve": [
+      {
+        "name": "디임",
+        "wins": 192,
+        "total": 192,
+        "percent": 100,
+        "worstScenario": 100
+      },
+      {
+        "name": "하이희야",
+        "wins": 192,
+        "total": 192,
+        "percent": 100,
+        "worstScenario": 100
+      },
+      {
+        "name": "나무늘봉순",
+        "wins": 192,
+        "total": 192,
+        "percent": 100,
+        "worstScenario": 100
+      },
+      {
+        "name": "오조은",
+        "wins": 192,
+        "total": 192,
+        "percent": 100,
+        "worstScenario": 100
+      },
+      {
+        "name": "오리꿍",
+        "wins": 192,
+        "total": 192,
+        "percent": 100,
+        "worstScenario": 100
+      },
+      {
+        "name": "강구열",
+        "wins": 192,
+        "total": 192,
+        "percent": 100,
+        "worstScenario": 100
+      },
+      {
+        "name": "아윤",
+        "wins": 192,
+        "total": 192,
+        "percent": 100,
+        "worstScenario": 100
+      }
+    ],
+    "pveFur": [
+      {
+        "name": "치타구",
+        "wins": 192,
+        "total": 192,
+        "percent": 100,
+        "worstScenario": 100
+      },
+      {
+        "name": "아이젠 족스케",
+        "wins": 192,
+        "total": 192,
+        "percent": 100,
+        "worstScenario": 100
+      }
+    ]
+  },
+  "battles": 12480,
+  "elapsedMs": 4477
+}
