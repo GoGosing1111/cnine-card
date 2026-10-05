@@ -50,6 +50,22 @@ test('changed tests in a completed stage rerun that stage without invalidating u
   assert.equal(plan.reused,0);assert.equal(plan.commands[1],'npm run test:a');
 });
 
+test('a hash-bound continuation preserves completed stages but reruns changed contracts and fails closed on gaps or runtime edits',()=>{
+  const candidate='c'.repeat(40),text=`[FULL RELEASE RESUME] Reuse 1 completed stages from ${base}; execute every remaining stage and production guard.\nℹ fail 0\n> test:b\nℹ fail 0\n> test:c\nℹ fail 1\n`;
+  const setup=(log=text,changed=['tests/c.test.mjs'])=>{
+    const f=fixture({changed:['tests/b.test.mjs',...changed]});
+    f.env.RELEASE_GATE_RESUME_CONTINUATION_LOG='continuation.log';f.env.RELEASE_GATE_RESUME_CONTINUATION_BASE=candidate;f.env.RELEASE_GATE_RESUME_CONTINUATION_SHA256=createHash('sha256').update(log).digest('hex');
+    const git=f.git;f.git=(...args)=>args[0]==='diff'&&args[2]===candidate?changed.join('\n'):git(...args);
+    f.read=path=>path==='continuation.log'?log:'';return f;
+  };
+  const plan=fullGateResumePlan(setup());assert.equal(plan.reused,2);assert.deepEqual(plan.commands.slice(1),['npm run test:c','node scripts/verify-production-release.mjs']);
+  const changed=fullGateResumePlan(setup(text,['tests/a.test.mjs']));assert.equal(changed.reused,1);assert.equal(changed.commands[1],'npm run test:a');
+  const f=setup();assert.throws(()=>fullGateResumePlan({...f,env:{...f.env,RELEASE_GATE_RESUME_CONTINUATION_SHA256:'0'.repeat(64)}}),/Continuation log hash/);
+  assert.throws(()=>fullGateResumePlan({...f,env:{...f.env,RELEASE_GATE_RESUME_CONTINUATION_BASE:'bad'}}),/actual candidate/);
+  for(const log of [text.replace('Reuse 1','Reuse 0'),text.replace('> test:b','> test:a'),text.replace('> test:b\nℹ fail 0\n',''),text.replace('ℹ fail 0','ℹ fail 1'),text.replace('ℹ fail 1','ℹ fail 0')])assert.throws(()=>fullGateResumePlan(setup(log)));
+  for(const runtime of ['js/mercenary-limited-pack-live.mjs','functions/_mercenary_limited_pack.js','shared/mercenary-limited-session-v1.mjs'])assert.throws(()=>fullGateResumePlan(setup(text,[runtime])),/Runtime changed after continuation/);
+});
+
 test('concurrent unreferenced JSON production receipts are documentation, never runtime configuration',()=>{
   const receipt='preview/example-feature/qa/production.json',f=fixture({changed:[receipt]});
   const git=(...args)=>args[0]==='ls-files'&&args.length===1?'js/live.js\n'+receipt:f.git(...args);

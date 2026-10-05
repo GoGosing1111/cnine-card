@@ -27,8 +27,30 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
   if(!logText.replace(/\r\n/g,'\n').includes(`> release:gate\n> ${gate}\n`))throw Error('Log does not contain the full gate command.');
   const commands=gate.split(' && '),names=commands.map(command=>command.match(/^npm run ([\w:-]+)$/)?.[1]);
   if(commands.at(-1)!=='node scripts/verify-production-release.mjs'||names.slice(0,-1).some(name=>!name))throw Error('Unsupported full gate structure.');
-  const seen=[...logText.matchAll(/^> ((?:test|check):[\w:-]+)\r?$/gm)].map(match=>match[1]);
+  const stageNames=text=>[...text.matchAll(/^> ((?:test|check):[\w:-]+)\r?$/gm)].map(match=>match[1]);
+  let seen=stageNames(logText),changesAfterLastRun=null;
   if(!seen.length||seen.some((name,i)=>name!==names[i]))throw Error('Log is not a contiguous gate prefix.');
+  // A resumed run can expose a later stale test. Keep both original logs intact,
+  // validate their hashes and candidate ancestry, and join only contiguous stages.
+  // After the continuation candidate, only test/document/tooling repairs qualify.
+  if(env.RELEASE_GATE_RESUME_CONTINUATION_LOG){
+    const continuation=read(env.RELEASE_GATE_RESUME_CONTINUATION_LOG),candidate=env.RELEASE_GATE_RESUME_CONTINUATION_BASE;
+    if(!/^[a-f0-9]{40}$/.test(candidate||''))throw Error('Continuation requires its actual candidate SHA.');
+    if(createHash('sha256').update(continuation).digest('hex')!==env.RELEASE_GATE_RESUME_CONTINUATION_SHA256)throw Error('Continuation log hash mismatch.');
+    git('merge-base','--is-ancestor',base,candidate);git('merge-base','--is-ancestor',candidate,'HEAD');
+    if(JSON.stringify(JSON.parse(git('show',`${candidate}:package.json`)).scripts)!==JSON.stringify(scripts))throw Error('Continuation gate commands changed: run a fresh full gate.');
+    const start=seen.length-1,originalLast=logText.lastIndexOf(`> ${seen.at(-1)}`),continued=stageNames(continuation);
+    if(!/^ℹ fail [1-9]/m.test(logText.slice(originalLast))||/^ℹ fail [1-9]/m.test(logText.slice(0,originalLast)))throw Error('Continuation requires the original failed final stage.');
+    const marker=`[FULL RELEASE RESUME] Reuse ${start} completed stages from ${base}; execute every remaining stage and production guard.`;
+    if(!continuation.includes(marker)||!continued.length||continued.some((name,i)=>name!==names[start+i]))throw Error('Continuation must start at the original failed stage without gaps.');
+    const continuationStart=continuation.indexOf(`> ${continued[0]}`);
+    if(/^ℹ fail [1-9]/m.test(continuation.slice(0,continuationStart)))throw Error('Continuation guard tests failed.');
+    changesAfterLastRun=new Set(git('diff','--name-only',candidate,'HEAD').split('\n').filter(Boolean));
+    const repairTools=new Set(['scripts/deploy-production.mjs','scripts/resume-release-gate.mjs','tests/resume-release-gate.test.mjs']);
+    for(const path of changesAfterLastRun)if(path!=='AGENTS.md'&&!path.startsWith('docs/')&&!/^tests\/[^/]+\.mjs$/.test(path)&&!repairTools.has(path)&&!/^preview\/[a-zA-Z0-9_-]+\/qa\/production\.json$/.test(path))throw Error(`Runtime changed after continuation (${path}): run a fresh full gate.`);
+    logText=logText.slice(0,originalLast)+continuation.slice(continuationStart);
+    seen=stageNames(logText);
+  }
   // A concurrent documentation/operations commit can advance main after every
   // test passed. Reuse that complete gate only when its exact candidate reached
   // the final source-identity guard. All runtime/dependency checks below remain.
@@ -101,7 +123,7 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
     // Re-run completed static contracts that directly inspect a changed view.
     for(let i=0;i<failedIndex;i++){
       const inputs=scripts[names[i]].split(/\s+/).filter(p=>/^(?:tests|preview)\/.*\.(?:mjs|js)$/.test(p));
-      for(const input of inputs){const source=read(input);if(changed.some(p=>browserProof.has(p)&&source.includes(p)))rerun.add(i);}
+      for(const input of inputs){const source=read(input);if(changed.some(p=>(!changesAfterLastRun||changesAfterLastRun.has(p))&&browserProof.has(p)&&source.includes(p)))rerun.add(i);}
     }
   }
   const tooling=new Set(['scripts/deploy-production.mjs','scripts/resume-release-gate.mjs','tests/resume-release-gate.test.mjs']);
@@ -114,7 +136,7 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
     // direct membership in a gate command below; shared helpers remain excluded.
     if(!/^tests\/[^/]+\.mjs$/.test(path))throw Error(`Runtime/shared helper changed (${path}): run a fresh full gate.`);
     let matched=false;
-    for(let i=0;i<names.length-1;i++)if(scripts[names[i]].split(/\s+/).includes(path)){matched=true;if(i<failedIndex)rerun.add(i);}
+    for(let i=0;i<names.length-1;i++)if(scripts[names[i]].split(/\s+/).includes(path)){matched=true;if(i<failedIndex&&(!changesAfterLastRun||changesAfterLastRun.has(path)))rerun.add(i);}
     if(!matched&&operations.length&&path.endsWith('.test.mjs')&&operations.some(operation=>read(path).includes('../'+operation)))operationTests.add(path);
     else if(!matched)throw Error(`Cannot map changed test to the full gate: ${path}`);
   }
