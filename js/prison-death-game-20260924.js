@@ -308,5 +308,8 @@
     if (!assignment || !['WAITING','ALIVE'].includes(assignment.playerStatus)) return;
     if (!root?.isConnected || !root.classList.contains('death-game-overlay')) open();
   }
-  window.PrisonDeathGame = Object.freeze({ open, stop, lockView, bindLock, enforceAssignment });
+  function starvationView() {
+    return `<section class="death-game-lock death-starvation-lock"><div class="death-lock-grain" aria-hidden="true"></div><div class="death-lock-copy"><span class="death-lock-eyebrow">행정부 감옥 · 굶주림</span><span class="death-lock-line" aria-hidden="true"></span><h1 id="prisonStarvationTitle">사망하였습니다</h1><p>사식을 받지 못해 생존 시간이 끝났습니다.</p><div class="death-lock-count"><small>사식 미수령</small><strong>30분</strong></div><p class="death-lock-note">형기와 수감 상태는 그대로 유지됩니다.<br>방문객이 사식을 보내면 다시 30분이 시작됩니다.</p><p data-starvation-notice role="status">확인 후 감옥 채팅과 수감 현황으로 돌아갑니다.</p><div class="death-lock-actions"><button type="button" data-starvation-ack>감옥으로 돌아가기</button></div></div></section>`;
+  }
+  window.PrisonDeathGame = Object.freeze({ open, stop, lockView, bindLock, enforceAssignment, starvationView });
 })();

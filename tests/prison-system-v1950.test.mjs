@@ -119,10 +119,12 @@ test('전체 메뉴 맨 아래에 행정부·감옥이 연결된다',()=>{
   assert.match(client,/prison: prisonView/);
 });
 
-test('잠금 화면은 계정명·평상·피격 죄수 캐릭터·창살·남은 형기와 전용 배경을 렌더링한다',async()=>{
+test('경비 감옥은 계정명·남은 형기·사식 UI를 표시하고 과거 승인 자산은 보존한다',async()=>{
   assert.match(client,/id="prisonSceneName"/);
-  assert.match(client,/prisoner-cartoon-servile-v1\.png/);
-  assert.match(client,/prisoner-cartoon-hit-v2031\.png/);
+  const renewedCss=await readFile(new URL('../css/prison-hunger-20261005.css',import.meta.url),'utf8');
+  assert.match(renewedCss,/general-guarded-prison-20261005\.png/);
+  assert.match(client,/PrisonHunger\?\.panel/);
+  assert.doesNotMatch(client,/prisoner-cartoon-(servile-v1|hit-v2031)\.png/);
   assert.match(client,/data-prison-fund/);
   assert.match(client,/data-prison-price/);
   assert.match(client,/data-prison-hit/);

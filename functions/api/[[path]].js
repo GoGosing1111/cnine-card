@@ -71,6 +71,7 @@ import { handleAuction } from '../_auction.js';
 import { handleSiege } from '../_siege.js';
 import { handleChief } from '../_chief.js';
 import { closePrisonReleaseCaseStatement,ensurePrisonCommunityFoundation,handlePrisonCommunity,openPrisonReleaseCaseStatement,prisonCommunityRoomState } from '../_prison_community.js';
+import { ensurePrisonHungerFoundation,handlePrisonHunger,prisonHungerRoomState } from '../_prison_hunger.js';
 import { clanCampStatusForUser,handleClanPrisonCamp,ensureClanCampSchema,clanCampActiveProbeSql,clanCampProbeTime } from '../_clan_prison_camp.js';
 import { handlePrisonDeathGame,deathGameBlockedPath,deathGameAssignmentForUser } from '../_prison_death_game.js';
 import { handlePrisonCampAdmin } from '../_prison_camp_admin.js';
@@ -4408,11 +4409,11 @@ const SERIALIZED_GAME_ACTIONS=new Set([
   'escort/start','escort/fight','escort/tactic','escort/claim','escort/abandon',
   'pvp/match','pvp/fight','clan/war/fight','pvp/reward/claim','pvp/rank-reward/claim','messages/claim','messages/claim-batch','coupon/redeem',
   'wago-daily-quest/claim','playdk-daily-quest/claim','high-grade-reroll/execute','mineral-exchange/request','chief/activate','workshop/craft','workshop/synthesis','alchemy/transmute','scrapyard/run',
-  'equipment/prime-supply-box/open','vehicle-draw/prime/open','prison/release-price','prison/fund','prison/hit'
+  'equipment/prime-supply-box/open','vehicle-draw/prime/open','prison/release-price','prison/fund','prison/hit','prison/meal'
 ]);
 // 강화 재화와 영치금 납부는 영수증·잔액·대상 상태가 반드시 한 사용자 락 안에서 확정되어야 한다.
 // 이 경로들은 락 저장소가 느리거나 실패했을 때도 락 없이 진행하지 않는다.
-const STRICT_MUTATION_LOCK_ACTIONS=new Set(['card/breakthrough','card/breakthrough/auto','card/unique-advancement','prison/fund','messages/claim-batch']);
+const STRICT_MUTATION_LOCK_ACTIONS=new Set(['card/breakthrough','card/breakthrough/auto','card/unique-advancement','prison/fund','prison/meal','messages/claim-batch']);
 const SERIALIZED_GAME_PREFIXES=['battle/apocalypse-challenge/','quests/','evolution/','rift/','territory-war/','siege/','seal-battle/','captain/','magic/','inventory/','wago-daily-quest/','playdk-daily-quest/','auction/'];
 let userMutationLockReadyPromise=null;
 let breakthroughAutoReceiptReadyPromise=null;
@@ -4568,6 +4569,7 @@ async function ensurePrisonFoundation(env){
       else await env.DB.batch(schema.map(sql=>env.DB.prepare(sql)));
     }
     await ensurePrisonCommunityFoundation(env);
+    await ensurePrisonHungerFoundation(env);
     return true;
   })().catch(error=>{prisonFoundationPromise=null;throw error});
   return prisonFoundationPromise;
@@ -4624,7 +4626,7 @@ async function prisonRoomState(env,user){
   const [inmateRows,messageRows]=await env.DB.batch([
     env.DB.prepare(`SELECT p.user_id AS userId,u.nickname,p.reason,p.jailed_at AS jailedAt,p.jailed_until AS jailedUntil
       FROM user_prison_status p JOIN users u ON u.id=p.user_id
-      WHERE p.active=1 AND p.jailed_until>CURRENT_TIMESTAMP ORDER BY p.jailed_until ASC LIMIT 50`),
+      WHERE p.active=1 AND p.jailed_until>CURRENT_TIMESTAMP ORDER BY CASE WHEN p.user_id=? THEN 0 ELSE 1 END,p.jailed_until ASC LIMIT 50`).bind(user.id),
     env.DB.prepare(`SELECT q.id,q.user_id AS userId,u.nickname,q.body,q.sender_was_incarcerated AS senderWasIncarcerated,q.created_at AS createdAt
       FROM (SELECT id,user_id,body,sender_was_incarcerated,created_at FROM prison_chat_messages ORDER BY id DESC LIMIT 80) q
       JOIN users u ON u.id=q.user_id ORDER BY q.id ASC`)
@@ -4633,9 +4635,11 @@ async function prisonRoomState(env,user){
   let messages=(messageRows?.results||[]).map(row=>({...row,id:Number(row.id),userId:Number(row.userId),senderWasIncarcerated:Number(row.senderWasIncarcerated)===1}));
   if(!inmates.length&&messages.length){await clearPrisonChatIfEmpty(env);messages=[]}
   const community=await prisonCommunityRoomState(env,user,inmates);
+  const hunger=await prisonHungerRoomState(env,user,community.inmates,prison);
   return {
     prison,
     ...community,
+    ...hunger,
     messages,
     chatEnabled:inmates.length>0,
     serverNow:new Date().toISOString()
@@ -4952,6 +4956,7 @@ async function handleRequest(context){
     }
 
     const prisonCommunityResponse=await handlePrisonCommunity({path,request,env,deps:{authenticate,readBody,json,prisonRoomState,clearPrisonChatIfEmpty}});if(prisonCommunityResponse)return prisonCommunityResponse;
+    const prisonHungerResponse=await handlePrisonHunger({path,request,env,deps:{authenticate,readBody,json,prisonRoomState,prisonStatusForUser}});if(prisonHungerResponse)return prisonHungerResponse;
 
     if(path==='me/summary'){
       const user=await authenticate(request,env);
@@ -9167,8 +9172,8 @@ async function handleRequestWithDatabase(context){
           if(typeof context.waitUntil==='function')context.waitUntil(releaseLateLock);
         }
         if(STRICT_MUTATION_LOCK_ACTIONS.has(actionPath)){
-          const prisonFund=actionPath==='prison/fund';
-          response=json({error:prisonFund?'영치금 요청 잠금 상태를 확인하지 못했습니다. 같은 요청 번호로 잠시 후 다시 시도해 주세요.':'강화 요청 잠금 상태를 확인하지 못했습니다. 같은 요청 번호로 잠시 후 다시 시도해 주세요.',code:prisonFund?'PRISON_FUND_LOCK_UNAVAILABLE':'BREAKTHROUGH_LOCK_UNAVAILABLE',retryable:true,retryAfterMs:600},503);
+          const prisonFund=actionPath==='prison/fund'||actionPath==='prison/meal';
+          response=json({error:prisonFund?'감옥 결제 요청 잠금 상태를 확인하지 못했습니다. 같은 요청 번호로 잠시 후 다시 시도해 주세요.':'강화 요청 잠금 상태를 확인하지 못했습니다. 같은 요청 번호로 잠시 후 다시 시도해 주세요.',code:prisonFund?'PRISON_FUND_LOCK_UNAVAILABLE':'BREAKTHROUGH_LOCK_UNAVAILABLE',retryable:true,retryAfterMs:600},503);
         }
         // 나머지 기존 경로는 서비스 연속성을 위해 종전 fail-open 정책을 유지한다.
       }else{

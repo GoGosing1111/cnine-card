@@ -1,0 +1,36 @@
+{
+  "status": "IMPLEMENTED_PENDING_RELEASE",
+  "createdAt": "2026-10-05",
+  "completedAfterMidnightKST": true,
+  "request": {
+    "theme": "공포스러운 장군 체제 · 무장 경비 감옥 일러스트",
+    "facility": "일반 감옥만",
+    "intervalMinutes": 30,
+    "mealCoin": 10000000000,
+    "sender": "방문객만",
+    "death": "눈치게임 사망 화면만 표시 · 기존 수감 유지"
+  },
+  "behavior": {
+    "firstInterval": "기존 수감자는 서버 rollout epoch부터 30분. 이후 새 수감은 실제 jailed_at부터 계산. 늦게 접속해도 초기화하지 않음",
+    "feeding": "수령 시점부터 30분. 남은 시간에 중첩하지 않음. 사망 이후 전달 가능",
+    "death": "서버 deadline 기록. 확인 후 감옥/채팅으로 복귀. 추가 플레이 제한·형기 변경·재화 패널티 없음. 사식이 올 때까지 굶주림 상태 유지",
+    "prisonCamp": "기존 포로수용소·눈치게임의 규칙과 5분 사망 제한 그대로 보존"
+  },
+  "security": {
+    "transaction": "payer row lock + recipient admission row lock + hunger row lock. receipt/coin debit/hunger update/coin log single DB batch",
+    "idempotency": "requestId + unique attempt token + exact case/deadline/mealVersion. Two visitors submitting same seen state only one charges",
+    "access": "authenticated visitors only; self, other inmates, camp captives denied. Death acknowledgement only own exact event",
+    "releaseRace": "active admission/case guarded inside transaction; old sentence cannot affect re-admission",
+    "cache": "no per-user state cache; epoch/schema only. Poll writes only missing/new death records"
+  },
+  "baseProduction": {
+    "sha": "c1bf20f7f2d0114d903e6f4e9849ed934ae642b7",
+    "pages": "https://133da1b9.cnine-card.pages.dev"
+  },
+  "checks": {
+    "server": "SQLite and actual PostgreSQL compatibility adapter via PGlite; boundary, retries, concurrent donors, response loss, rollback, insufficient coins, forged receipt, death ack, release/re-admission",
+    "browser": "Real index/loader, API fixtures only; 1440×1000,390×844,320×740. Inmate/visitor/death, mobile input, retry receipt, chat draft, no horizontal overflow",
+    "release": "Full release gate: introduces two feature tables for persistent hunger and paid receipts; common DB adapter/auth/transaction implementation unchanged."
+  },
+  "production": null
+}
