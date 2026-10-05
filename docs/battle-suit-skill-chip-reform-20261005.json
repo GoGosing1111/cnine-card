@@ -1,0 +1,101 @@
+{
+  "date": "2026-10-05",
+  "request": {
+    "skillDamageReduction": true,
+    "suitOwnPowerDamage": true,
+    "minimumSuitPowerGate": false
+  },
+  "changes": {
+    "ordinaryFinalMultiplier": 4,
+    "skillFinalMultiplier": {
+      "before": 12,
+      "after": 4
+    },
+    "suitMonsterHpDamageFloor": false,
+    "pierceReferenceCycle": "max(0.018, previous boss-derived cycle)",
+    "equipmentStoredPowerChanges": false,
+    "acquisitionOrBalanceDatabaseWrites": false,
+    "chipScheduleChanges": false,
+    "pvpFormulaChanges": false
+  },
+  "notice": "docs/battle-suit-skill-chip-reform-user-notice-20261005.md",
+  "engineSha256": "17eb712b7455d0da2afadc1bf58c4cf8ee72137ce0e38fcf2452641b8f158d32",
+  "simulation": {
+    "kind": "SYNTHETIC_SINGLE_BOSS_NOT_LIVE_USER_WIN_RATES",
+    "bossPower": 80000000,
+    "cases": [
+      {
+        "suitPower": 0,
+        "deckRatio": 1,
+        "seeds": 64,
+        "wins": 0,
+        "losses": 64
+      },
+      {
+        "suitPower": 1,
+        "deckRatio": 1,
+        "seeds": 64,
+        "wins": 0,
+        "losses": 64
+      },
+      {
+        "suitPower": 4000000,
+        "deckRatio": 1,
+        "seeds": 64,
+        "wins": 0,
+        "losses": 64
+      },
+      {
+        "suitPower": 6000000,
+        "deckRatio": 1,
+        "seeds": 64,
+        "wins": 13,
+        "losses": 51
+      },
+      {
+        "suitPower": 8000000,
+        "deckRatio": 1,
+        "seeds": 64,
+        "wins": 57,
+        "losses": 7
+      },
+      {
+        "suitPower": 12000000,
+        "deckRatio": 1,
+        "seeds": 64,
+        "wins": 64,
+        "losses": 0
+      },
+      {
+        "suitPower": 0,
+        "deckRatio": 1.7,
+        "seeds": 64,
+        "wins": 64,
+        "losses": 0
+      }
+    ],
+    "limitations": "No live CMS or account snapshot; no mercenary, magic, or seven-enemy legion. Demonstrates dependence on suit power and absence of a hard gate, not guaranteed clear rates."
+  },
+  "release": {
+    "mode": "scoped",
+    "baseCommit": "34c5dc5bfacdaf38be13a222ff1e6383c1fa9929",
+    "baseDeployment": "https://46aaa30a.cnine-card.pages.dev",
+    "reason": "배틀슈트 스킬 하향과 자체 전투력 피해 계산에 한정된 변경; 거래·인증·DB·입장 조건 변경 없음. 해당 슈트·칩·광역기·공용 로더 회귀와 Worker 검사만 수행.",
+    "tests": [
+      "tests/battle-suit-damage-v2063.test.mjs",
+      "tests/battle-suit-skill-chip-runtime-v2046.test.mjs",
+      "tests/pve-apocalypse-battle-suit-gate-v1990.test.mjs",
+      "tests/battle-suit-octaseeker-live-20260924.test.mjs",
+      "tests/x-body-area-skill-20260927.test.mjs",
+      "tests/z-body-area-skill-v3.test.mjs",
+      "tests/apocalypse-shanks-shisui-20261003.test.mjs",
+      "tests/legion-hunt-z-body-playback-20260926.test.mjs",
+      "tests/project-v-v3-live-payload-v1.mjs",
+      "tests/pve-battlefield-entry-v2117.test.mjs"
+    ],
+    "checks": [
+      "check:worker"
+    ],
+    "deploymentStatus": "PENDING"
+  }
+}

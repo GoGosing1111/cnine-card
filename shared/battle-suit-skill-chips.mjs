@@ -1,4 +1,6 @@
 // User-approved on 2026-09-06: normal Battle Suit shot x2.5 / x5, every 3s / 15s.
+// 2026-10-05: the server removes the separate skill-only x3 boost and derives
+// the shared shot base from suit power, without the monster-HP damage floor.
 // A new scheduler is created for every fight; inventory is never consumed by firing.
 export const SKILL_CHIP_MAX_SLOTS=3;
 export const SKILL_CHIP_RUNTIME_ENABLED=true;

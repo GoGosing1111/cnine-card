@@ -452,11 +452,12 @@ const MONSTER_MIN_DAMAGE_PERCENT = 0.016;
 // V2063 (2026-09-07): 현재 일반 사격·스킬칩 피해를 각각 3배 상향한다.
 //   스킬칩도 이 배율이 적용된 1발 피해를 사용하므로 칩 자체의 2.5/5배를 다시 올리지 않는다.
 //   정수 반올림·아포칼립스 덱 게이트 이후 누적 배율만 4→12로 변경한다.
-// V2063 후속 롤백: 일반 사격(아포칼립스 관통 포함)만 상향 전 누적 4배로 복원한다.
-//   스킬칩 산출 배율은 12배로 독립 유지해 일반공격 롤백이 스킬 피해를 낮추지 않게 한다.
+// 2026-10-05: 스킬 전용 3배 보정을 제거한다(12 -> 4).
+//   일반 사격·스킬칩·X/Z 고유기는 같은 슈트 1발 기준 피해를 사용한다.
+//   슈트는 몬스터 HP 비례 최소 피해를 받지 않으며 자체 전투력으로 공격한다.
 const BATTLE_SUIT_PREVIOUS_PVE_FIREPOWER = 2;
 const BATTLE_SUIT_DAMAGE_MULTIPLIER = 4;
-const BATTLE_SUIT_SKILL_CHIP_DAMAGE_MULTIPLIER = 12;
+const BATTLE_SUIT_SKILL_CHIP_DAMAGE_MULTIPLIER = 4;
 const BATTLE_SUIT_PVE_FIREPOWER = BATTLE_SUIT_PREVIOUS_PVE_FIREPOWER * BATTLE_SUIT_DAMAGE_MULTIPLIER;
 const BATTLE_SUIT_APOCALYPSE_GATE_EXPONENT = 3;
 const APOCALYPSE_FLOOR_GAIN = 1.7;
@@ -533,7 +534,7 @@ function hitResult(actor, target, random, multiplier = 1, counter = false, optio
   //        호송은 차량 피해가 별도 공식이라 전투가 짧아지면 난이도가 흔들린다.
   // V1975: 아포칼립스 몬스터는 덱 전투력 비례로 하한이 늘고 준다(위 APOCALYPSE_FLOOR_* 참고).
   const floorScale = target.isApocalypse && options.apocalypseFloorScale > 0 ? options.apocalypseFloorScale : 1;
-  const minDamage = !counter && target.isMonster && options.minDamagePercent > 0
+  const minDamage = !counter && !isBattleSuitSupport(actor) && target.isMonster && options.minDamagePercent > 0
     ? target.maxHp * options.minDamagePercent * floorScale
     : 0;
   const floored=Math.max(capped,minDamage);
@@ -1134,9 +1135,12 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     const basePower=Math.max(1,Number(target.power||1));
     const ratioScale=clamp(Math.max(0,Number(actor.power||0))/basePower/APOCALYPSE_SUIT_PIERCE_REFERENCE_RATIO,0,APOCALYPSE_SUIT_PIERCE_MAX_RATIO_SCALE);
     const deckGate=apocalypseDeckGate(actor,target);
+    // Cap the boss-derived clock at the suit's own cycle: high boss power must
+    // not grant free pierce. Retain slower legacy cycles for low-power enemies
+    // so this reduction cannot accidentally buff their incoming suit damage.
     const referenceCardPower=basePower/5;
     const referenceSpeed=Math.max(35,70+referenceCardPower*S1.speedBaseK+referenceCardPower*STAT_PROFILES.NONE.speed*0.10);
-    const referenceCycle=100/referenceSpeed;
+    const referenceCycle=Math.max(BATTLE_SUIT_REFERENCE_CYCLE,100/referenceSpeed);
     const interval=Math.max(.0002,Number(actor.independentFireInterval||BATTLE_SUIT_REFERENCE_CYCLE/10));
     const previousPierce=Math.max(0,Math.round(target.maxHp*APOCALYPSE_SUIT_PIERCE_CYCLE_PERCENT*ratioScale*deckGate*(interval/referenceCycle)));
     return previousPierce*damageMultiplier;

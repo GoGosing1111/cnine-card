@@ -78,17 +78,19 @@ test('a short battle does not invent a last-second rocket or helicopter',()=>{
   assert.equal(battle.result.winner,'A');
   assert.ok(!battle.result.timeline.some(e=>e.type.startsWith('SKILL_CHIP')));
 });
-test('after ordinary rollback, legacy no-chip winners, RNG stream, cadence and every HP snapshot are restored',async()=>{
+test('own-power reform preserves the legacy ordinary firing cadence and opening RNG stream without chips',async()=>{
   const source=execFileSync('git',['show','8dade82d:functions/_battle_v2_preview.js'],{encoding:'utf8',maxBuffer:2*1024*1024});
-  // The original no-chip engine is the requested ordinary-damage rollback target.
+  // The 2026-10-05 reform intentionally replaces damage/HP snapshots, but must
+  // not change ordinary firing cadence or consume a new random-number stream.
   assert.match(source,/const BATTLE_SUIT_DAMAGE_MULTIPLIER = 4;/);
   const baseline=await import(`data:text/javascript;base64,${Buffer.from(source).toString('base64')}`);
   for(const seed of [1,17,2011,98765])for(const apocalypse of [false,true]){
     const input={...options,seed,battleSuit:suit,monster:{...monster,...(apocalypse?{pve_difficulty:'APOCALYPSE'}:{})},bossUltimatePercent:28};
-    const before=baseline.createPveBattleV2(input).result,now=createPveBattleV2(input).result;
-    assert.deepEqual(now.timeline,before.timeline);assert.deepEqual(now.final,before.final);
-    assert.equal(now.actions,before.actions);assert.equal(now.winner,before.winner);
-    assert.equal(now.damageBreakdown.total,before.damageBreakdown.total);
+    const before=baseline.createPveBattleV2(input),now=createPveBattleV2(input);
+    for(const key of ['battleSuitFireInterval','battleSuitShotsPerCycle','battleSuitReferenceCycle'])assert.equal(now.rules[key],before.rules[key]);
+    const opening=battle=>battle.result.timeline.filter(e=>e.type==='TURN'&&e.actorKind==='BATTLE_SUIT').slice(0,12).map(e=>({at:e.at,dodge:Boolean(e.dodge),critical:Boolean(e.critical)}));
+    assert.equal(opening(now).length,12);assert.deepEqual(opening(now),opening(before));
+    assert.ok(!now.result.timeline.some(e=>e.type.startsWith('SKILL_CHIP')));
   }
 });
 test('PVP does not enable the PVE chip clock even if a support object contains chips',()=>{

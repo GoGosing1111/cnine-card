@@ -1,109 +1,123 @@
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
+import {fileURLToPath} from 'node:url';
 import test from 'node:test';
-import {createPveBattleV2,buildFighter,simulateBattleV2Preview} from '../functions/_battle_v2_preview.js';
+import {createPveBattleV2,buildFighter,buildBattleSuitFighter,buildMonsterFighter,simulateBattleV2Preview} from '../functions/_battle_v2_preview.js';
 import {SKILL_CHIP_CATALOG} from '../shared/battle-suit-skill-chips.mjs';
 
-// The actual production commit immediately before the user's 2026-09-07 x3 request.
-const previousSource=execFileSync('git',['show','507f2454812035592961696881b1f716bf24991d:functions/_battle_v2_preview.js'],{encoding:'utf8',maxBuffer:2*1024*1024});
-assert.match(previousSource,/const BATTLE_SUIT_DAMAGE_MULTIPLIER = 4;/);
-const resolvableSource=previousSource.replace("'../shared/battle-suit-skill-chips.mjs'",JSON.stringify(new URL('../shared/battle-suit-skill-chips.mjs',import.meta.url).href));
-const previous=await import(`data:text/javascript;base64,${Buffer.from(resolvableSource).toString('base64')}`);
-// Independently retain the actual x3 release: skills must remain identical to it.
-const boostedSource=execFileSync('git',['show','9896118b99fedf29371a8ae08b9e62cfb358c712:functions/_battle_v2_preview.js'],{encoding:'utf8',maxBuffer:2*1024*1024});
-assert.match(boostedSource,/const BATTLE_SUIT_DAMAGE_MULTIPLIER = 12;/);
-const boostedResolvableSource=boostedSource.replace("'../shared/battle-suit-skill-chips.mjs'",JSON.stringify(new URL('../shared/battle-suit-skill-chips.mjs',import.meta.url).href));
-const boosted=await import(`data:text/javascript;base64,${Buffer.from(boostedResolvableSource).toString('base64')}`);
-// Historical rollback matrix covers the two chips released in V2063; the new
-// approved x10/17s chip has its own server/rounding matrix.
-const legacyChips=SKILL_CHIP_CATALOG.filter(chip=>chip.code!=='SKILL_CHIP_OCTA_SEEKER');
-const chips=legacyChips.map(chip=>chip.code);
-const cards=['HP','DEFENSE','DEFENSE','ATTACK','SPEED'].map((power_type,i)=>({id:`BUFF-${i}`,title:`BUFF ${i}`,rarity:'FUR',power_type,power:400000}));
+// 2026-10-05 supersedes the V2063 requirement to preserve the skill-only x3.
+// Compare unaffected behavior with the actual last source before this reform.
+const engineUrl=new URL('../functions/_battle_v2_preview.js',import.meta.url);
+const root=fileURLToPath(new URL('../',import.meta.url));
+const beforeSource=execFileSync('git',['show','56b11c3ddc5b3d6b893abf2dd341c6f320f36097:functions/_battle_v2_preview.js'],{cwd:root,encoding:'utf8',maxBuffer:2*1024*1024});
+const resolvable=beforeSource.replace(/from\s+(['"])(\.\.?\/[^'"]+)\1/g,(_,q,p)=>'from '+JSON.stringify(new URL(p,engineUrl).href));
+const before=await import('data:text/javascript;base64,'+Buffer.from(resolvable).toString('base64'));
+const chips=SKILL_CHIP_CATALOG.map(c=>c.code);
+const suits=['BATTLE_SUIT_01','BATTLE_SUIT_02','BATTLE_SUIT_03','BATTLE_SUIT_H_BODY','BATTLE_SUIT_S_BODY','BATTLE_SUIT_Z_BODY','BATTLE_SUIT_X_BODY'];
 const weapons=['','EQ_1785427638137','EQ_1785961232958','EQ_1785961300455','EQ_1786966923833','EQ_1788486929132','EQ_1788486888336'];
-const monster={id:2063,name:'Damage regression target',battle_power:10000000,is_boss:1,pve_hp_percent:1200,pve_attack_percent:1,pve_shield_percent:10000,pve_speed_percent:1};
+const types=['HP','DEFENSE','DEFENSE','ATTACK','SPEED'];
+const deck=power=>types.map((power_type,i)=>({id:'REFORM-'+i,title:'Controlled '+i,rarity:'FUR',power_type,power}));
+const monster={id:999,name:'Controlled boss',battle_power:2_000_000,is_boss:1,pve_difficulty:'APOCALYPSE',pve_hp_percent:260,pve_attack_percent:220,pve_defense_percent:190,pve_speed_percent:160,pve_shield_percent:40,pve_attack_count:2,pve_forced_action_every:4};
 const applied=e=>Number(e.damage||0)+Number(e.absorbed||0);
-const suitShots=b=>b.result.timeline.filter(e=>e.type==='TURN'&&e.actorKind==='BATTLE_SUIT');
+const firstCast=(battle,code)=>battle.timeline.find(e=>e.type==='SKILL_CHIP_CAST'&&(!code||e.chipCode===code)&&!e.dodge);
 
-test('all suits and weapon cadences restore pre-buff ordinary damage while retaining x3 skills and skill pierce',()=>{
-  let checkedShots=0,checkedChipHits=0,checkedCasts=0,checkedCriticals=0,checkedPierces=0;
-  assert.deepEqual(legacyChips.map(chip=>[chip.damageMultiplier,chip.intervalMs]),[[2.5,3000],[5,15000]],'chip coefficients and cooldowns must not receive a second x3');
-  for(const apocalypse of [false,true])for(const [i,pvePower] of [100000,200000,300000].entries())for(const weaponCode of weapons)for(const seed of [1,2011]){
-    const input={cards,battleSuit:{code:`BATTLE_SUIT_0${i+1}`,pvePower,weapon:{code:weaponCode},skillChips:chips},monster:{...monster,...(apocalypse?{pve_difficulty:'APOCALYPSE'}:{})},seed};
-    const before=previous.createPveBattleV2(input),boostedBattle=boosted.createPveBattleV2(input),after=createPveBattleV2(input);
-    const label=`${apocalypse?'apocalypse':'normal'} ${pvePower} ${weaponCode||'default'} seed=${seed}`;
-    assert.equal(after.rules.battleSuitDamageMultiplier,4,label);
-    assert.equal(after.rules.battleSuitPveFirepower,8,label);
-    assert.equal(after.rules.battleSuitFireInterval,before.rules.battleSuitFireInterval,label);
-    assert.equal(after.rules.battleSuitShotsPerCycle,before.rules.battleSuitShotsPerCycle,label);
-    assert.deepEqual(after.teams.A.cards,before.teams.A.cards,`${label}: card stats must not inherit suit damage`);
-    assert.deepEqual(after.teams.A.supports,before.teams.A.supports,`${label}: equipment power and cadence stay unchanged`);
-    const oldShots=suitShots(before).slice(0,8),newShots=suitShots(after).slice(0,8);
-    assert.equal(newShots.length,8,`${label}: fixture must survive eight shots`);
-    assert.equal(oldShots.length,8,label);
-    for(let n=0;n<8;n++){
-      const a=oldShots[n],b=newShots[n];
-      assert.equal(b.at,a.at,label);assert.equal(b.dodge,a.dodge,label);assert.equal(b.critical,a.critical,label);
-      assert.equal(applied(b),applied(a),`${label}: ordinary shot ${n} must be restored exactly`);
-      assert.equal(Number(b.apocalypsePierce||0),Number(a.apocalypsePierce||0),`${label}: ordinary pierce ${n} must be restored exactly`);
-      assert.equal(applied(b)*3,applied(suitShots(boostedBattle)[n]),`${label}: ordinary x3 is cancelled`);
-      if(b.critical)checkedCriticals++;
-      if(b.apocalypsePierce)checkedPierces++;
-      checkedShots++;
+function controlled({code='BATTLE_SUIT_03',power=3000000,weapon='',bossPower=2000000,apocalypse=false,seed=2011}={}){
+  const teamA=deck(100_000_000).map((c,i)=>({...buildFighter(c,i,'A',null,'PVE'),speed:200,attack:1}));
+  const support=buildBattleSuitFighter({code,pvePower:power,weapon:{code:weapon},skillChips:chips});
+  // The default high-power suit exceeds the old HP floor, isolating the skill
+  // multiplier change. A large shield prevents overkill from hiding damage.
+  const enemy={...buildMonsterFighter({id:999,battle_power:bossPower,is_boss:1,pve_hp_percent:260}),isApocalypse:apocalypse,attack:1,speed:200,shield:1e12,maxShield:1e12};
+  return {teamA:[...teamA,...(support?[support]:[])],teamB:[enemy],seed,maxActions:80};
+}
+
+test('all live suits and weapon cadences remove only the separate skill x3 when the HP floor and pierce are absent',()=>{
+  assert.deepEqual(SKILL_CHIP_CATALOG.map(c=>[c.damageMultiplier,c.intervalMs]),[[2.5,3000],[5,15000],[10,10000]]);
+  let checked=0,intrinsic=0;
+  for(const code of suits)for(const weapon of weapons){
+    const input=controlled({code,weapon});
+    const old=before.simulateBattleV2Preview(input),now=simulateBattleV2Preview(input);
+    const oldShots=old.timeline.filter(e=>e.type==='TURN'&&e.actorKind==='BATTLE_SUIT').slice(0,8);
+    const newShots=now.timeline.filter(e=>e.type==='TURN'&&e.actorKind==='BATTLE_SUIT').slice(0,8);
+    assert.deepEqual(newShots,oldShots,`${code}/${weapon}: ordinary damage and clock`);
+    for(const chipCode of [...chips,...(code==='BATTLE_SUIT_X_BODY'?['BATTLE_SUIT_X_CELESTIAL_DRAGON']:code==='BATTLE_SUIT_Z_BODY'?['BATTLE_SUIT_Z_THUNDER_JUDGMENT']:[])]){
+      const a=firstCast(old,chipCode),b=firstCast(now,chipCode);
+      assert.ok(a&&b,`${code}/${weapon}: ${chipCode} must cast`);
+      assert.equal(a.baseDamage,b.baseDamage*3,chipCode);
+      assert.equal(a.calculatedDamage,b.calculatedDamage*3,chipCode);
+      for(const key of ['combatAtMs','intervalMs','critical','dodge','damageMultiplier'])assert.equal(b[key],a[key],key);
+      assert.deepEqual(b.impactOffsetsMs,a.impactOffsetsMs);
+      const oldHits=old.timeline.filter(e=>e.type==='SKILL_CHIP_HIT'&&e.castId===a.castId);
+      const hits=now.timeline.filter(e=>e.type==='SKILL_CHIP_HIT'&&e.castId===b.castId);
+      assert.equal(hits.length,b.impactOffsetsMs.length);
+      assert.equal(hits.reduce((n,e)=>n+applied(e),0),b.calculatedDamage);
+      assert.equal(oldHits.reduce((n,e)=>n+applied(e),0),b.calculatedDamage*3);
+      checked++;if(b.damageSource==='BATTLE_SUIT_INTRINSIC_SKILL')intrinsic++;
     }
-    const oldCasts=new Map(before.result.timeline.filter(e=>e.type==='SKILL_CHIP_CAST').map(e=>[e.castId,e]));
-    for(const code of chips){
-      const cast=after.result.timeline.find(e=>e.type==='SKILL_CHIP_CAST'&&e.chipCode===code);
-      assert.ok(cast,`${label}: fixture must reach first ${code}`);
-      const oldCast=oldCasts.get(cast.castId);
-      assert.ok(oldCast,label);
-      assert.equal(cast.combatAtMs,oldCast.combatAtMs,label);
-      assert.equal(cast.intervalMs,oldCast.intervalMs,label);
-      assert.deepEqual(cast.impactOffsetsMs,oldCast.impactOffsetsMs,label);
-      assert.equal(cast.damageMultiplier,oldCast.damageMultiplier,`${label}: no double multiplication`);
-      assert.equal(cast.baseDamage,oldCast.baseDamage*3,label);
-      assert.equal(cast.calculatedDamage,oldCast.calculatedDamage*3,`${label}: ${code} total is x3, not x9`);
-      const boostedCast=boostedBattle.result.timeline.find(e=>e.type==='SKILL_CHIP_CAST'&&e.castId===cast.castId);
-      assert.ok(boostedCast,label);
-      for(const key of ['baseDamage','calculatedDamage','damageMultiplier','critical','dodge','combatAtMs','intervalMs']){
-        assert.equal(cast[key],boostedCast[key],`${label}: ${code} ${key} stays at the x3 release`);
-      }
-      const oldHits=before.result.timeline.filter(e=>e.type==='SKILL_CHIP_HIT'&&e.castId===cast.castId);
-      const newHits=after.result.timeline.filter(e=>e.type==='SKILL_CHIP_HIT'&&e.castId===cast.castId);
-      const boostedHits=boostedBattle.result.timeline.filter(e=>e.type==='SKILL_CHIP_HIT'&&e.castId===cast.castId);
-      assert.equal(newHits.length,cast.impactOffsetsMs.length,`${label}: fixture must finish the whole skill`);
-      assert.equal(newHits.length,oldHits.length,label);
-      assert.equal(newHits.length,boostedHits.length,label);
-      assert.ok(newHits.at(-1).targetHpAfter>0,`${label}: skill comparison must not include overkill`);
-      assert.equal(newHits.reduce((sum,e)=>sum+applied(e),0),oldHits.reduce((sum,e)=>sum+applied(e),0)*3,label);
-      for(let n=0;n<newHits.length;n++){
-        assert.equal(newHits[n].combatAtMs,oldHits[n].combatAtMs,label);
-        assert.equal(applied(newHits[n]),applied(oldHits[n])*3,label);
-        assert.equal(Number(newHits[n].apocalypsePierce||0),Number(oldHits[n].apocalypsePierce||0)*3,label);
-        assert.equal(applied(newHits[n]),applied(boostedHits[n]),`${label}: skill hit damage is unchanged`);
-        assert.equal(Number(newHits[n].apocalypsePierce||0),Number(boostedHits[n].apocalypsePierce||0),`${label}: skill pierce is unchanged`);
-        checkedChipHits++;
-      }
-      checkedCasts++;
-    }
-    const breakdown=after.result.damageBreakdown;
-    assert.equal(breakdown.total,breakdown.cards+breakdown.battleSuit+breakdown.skillChips+breakdown.ultimate,label);
-    assert.equal(after.result.supports.A[0].damageDealt,breakdown.battleSuit+breakdown.skillChips,label);
   }
-  assert.equal(checkedShots,672);assert.equal(checkedCasts,168);assert.equal(checkedChipHits,420);
-  assert.ok(checkedCriticals>0,'matrix must include critical shots');
-  assert.ok(checkedPierces>0,'matrix must include shield-ignoring pierce');
+  assert.equal(checked,161);assert.equal(intrinsic,14);
 });
 
-test('unequipped/zero-power PVE and PVP without speed or duplicate guards preserve previous live outcomes',()=>{
-  for(const seed of [1,17,2011])for(const battleSuit of [null,{code:'BATTLE_SUIT_03',pvePower:0,skillChips:chips}]){
-    const input={cards,monster,battleSuit,seed};
-    assert.deepEqual(createPveBattleV2(input).result,previous.createPveBattleV2(input).result);
+test('ordinary and chip damage grow with suit power instead of inheriting monster-max-HP minimum damage',()=>{
+  for(const apocalypse of [false,true])for(const weapon of weapons){
+    const results=[1,100000,200000,400000].map(power=>createPveBattleV2({cards:deck(400000),monster:{...monster,pve_difficulty:apocalypse?'APOCALYPSE':'NORMAL',pve_hp_percent:1200},battleSuit:{code:'BATTLE_SUIT_03',pvePower:power,weapon:{code:weapon},skillChips:chips},seed:2011}));
+    const castDamage=results.map(b=>firstCast(b.result,chips[2]).calculatedDamage);
+    assert.ok(castDamage[0]<=400,'token power must not inherit a percent of boss HP');
+    assert.ok(castDamage[1]>castDamage[0]*100&&castDamage[2]>castDamage[1]&&castDamage[3]>castDamage[2],JSON.stringify({apocalypse,weapon,castDamage}));
+    const shots=results.map(b=>b.result.timeline.find(e=>e.type==='TURN'&&e.actorKind==='BATTLE_SUIT'&&!e.dodge));
+    assert.ok(shots.every(Boolean));
+    assert.ok(applied(shots[1])>applied(shots[0])&&applied(shots[2])>applied(shots[1])&&applied(shots[3])>applied(shots[2]));
+    for(const b of results){const d=b.result.damageBreakdown;assert.equal(d.total,d.cards+d.battleSuit+d.skillChips+d.ultimate);assert.equal(b.result.supports.A[0].damageDealt,d.battleSuit+d.skillChips);}
   }
-  // Speed combos and duplicate guard barriers intentionally changed in the
-  // approved 2026-09-30 reform. speed-suppression-v2063.test.mjs independently
-  // covers those rules; retain historical full-outcome parity for unaffected roles.
-  const pvpTypes=['HP','DEFENSE','ATTACK','ATTACK','ATTACK'];
-  const pvpCards=cards.map((c,i)=>({...c,power_type:pvpTypes[i]}));
-  const input={teamA:pvpCards.map((c,i)=>buildFighter(c,i,'A')),teamB:pvpCards.map((c,i)=>buildFighter({...c,id:`ENEMY-${i}`},i,'B')),maxActions:80,seed:2011};
-  assert.deepEqual(simulateBattleV2Preview(input),previous.simulateBattleV2Preview(input));
+});
+
+test('a stronger boss no longer grants free pierce through a faster reference-card clock',()=>{
+  for(const weapon of weapons){
+    const observed=[2_000_000,20_000_000,80_000_000].map(bossPower=>{
+      const r=simulateBattleV2Preview(controlled({power:100000,weapon,bossPower,apocalypse:true}));
+      const shot=r.timeline.find(e=>e.type==='TURN'&&e.actorKind==='BATTLE_SUIT'&&!e.dodge);
+      assert.ok(shot&&shot.apocalypsePierce>0);return shot.apocalypsePierce;
+    });
+    assert.ok(Math.max(...observed)-Math.min(...observed)<=4,JSON.stringify({weapon,observed}));
+    const single=simulateBattleV2Preview(controlled({power:100000,weapon,apocalypse:true}));
+    const doubled=simulateBattleV2Preview(controlled({power:200000,weapon,apocalypse:true}));
+    const pierce=r=>r.timeline.find(e=>e.type==='TURN'&&e.actorKind==='BATTLE_SUIT'&&!e.dodge).apocalypsePierce;
+    assert.ok(Math.abs(pierce(doubled)-pierce(single)*2)<=4);
+  }
+});
+
+test('normalization never buffs skill or ordinary pierce against low-power apocalypse enemies',()=>{
+  for(const bossPower of [10000,100000,300000,1000000])for(const weapon of weapons){
+    const input=controlled({power:300000,weapon,bossPower,apocalypse:true});
+    // Preserve the live enemy stats/HP ratio, but keep enough HP and shield to
+    // observe the first volley before residual health clips the receipt.
+    input.teamB[0].hp=1e12;input.teamB[0].maxHp=1e12;
+    const old=before.simulateBattleV2Preview(input),now=simulateBattleV2Preview(input);
+    const a=firstCast(old,chips[2]),b=firstCast(now,chips[2]);
+    assert.ok(a&&b);assert.ok(b.calculatedDamage*3<=a.calculatedDamage,JSON.stringify({bossPower,weapon}));
+    const shot=r=>r.timeline.find(e=>e.type==='TURN'&&e.actorKind==='BATTLE_SUIT'&&!e.dodge);
+    assert.ok(shot(now).apocalypsePierce<=shot(old).apocalypsePierce);
+  }
+});
+
+test('a token suit with all three chips cannot exploit the controlled baseline encounter; no minimum-suit gate is added',()=>{
+  let oldWins=0,newWins=0,strongDeckWins=0;
+  for(let seed=1;seed<=24;seed++){
+    const input={cards:deck(400000),monster,battleSuit:{code:'BATTLE_SUIT_03',pvePower:1,weapon:{code:'EQ_1785427638137'},skillChips:chips},seed,bossUltimatePercent:28};
+    oldWins+=before.createPveBattleV2(input).result.winner==='A';
+    newWins+=createPveBattleV2(input).result.winner==='A';
+    strongDeckWins+=createPveBattleV2({...input,cards:deck(680000),battleSuit:null}).result.winner==='A';
+  }
+  assert.equal(oldWins,24);assert.equal(newWins,0);
+  assert.ok(strongDeckWins>=20,'strong decks remain free to clear without a suit');
+});
+
+test('unaffected PVE without a suit and PVP preserve pre-reform results, including speed and duplicate guards',()=>{
+  for(const seed of [1,17,2011])for(const battleSuit of [null,{code:'BATTLE_SUIT_03',pvePower:0,skillChips:chips}]){
+    const input={cards:deck(400000),monster,battleSuit,seed};
+    assert.deepEqual(createPveBattleV2(input).result,before.createPveBattleV2(input).result);
+  }
+  for(const seed of [1,17,2011]){
+    const cards=deck(400000),input={teamA:cards.map((c,i)=>buildFighter(c,i,'A')),teamB:cards.map((c,i)=>buildFighter({...c,id:'ENEMY-'+i},i,'B')),maxActions:80,seed};
+    assert.deepEqual(simulateBattleV2Preview(input),before.simulateBattleV2Preview(input));
+  }
 });
