@@ -1,5 +1,5 @@
 {
-  "status": "READY_TO_APPLY",
+  "status": "COMPLETED",
   "request": "음순이 계정에 아이콘 하이희야 아이콘 조은 지급해",
   "operationKey": "ops:eumsuni-icon-heeya-joeun:20261006:v1",
   "user": {
@@ -40,25 +40,96 @@
   },
   "sourceHash": "7199ce8b7b8bcf158ab45d012f4cfe36c8c0604c82ea818f71d5491ace07c240",
   "evidenceDirectory": "C:/Users/User/.codex/tmp/eumsuni-icon-heeya-joeun-20261006/",
-  "plannedCards": [
-    {
-      "cardId": "CN-1C000002",
-      "cardTitle": "하이희야",
-      "grade": "ICON",
-      "quantity": 1,
-      "quantityBefore": 0,
-      "quantityAfter": 1,
-      "levelAfter": 0
+  "execution": {
+    "status": "COMPLETED",
+    "operationKey": "ops:eumsuni-icon-heeya-joeun:20261006:v1",
+    "actor": "SYSTEM_OPS",
+    "authorization": "음순이 계정에 아이콘 하이희야 아이콘 조은 지급해",
+    "userId": 65,
+    "nickname": "음순이",
+    "cards": [
+      {
+        "cardId": "CN-1C000002",
+        "cardTitle": "하이희야",
+        "grade": "ICON",
+        "quantity": 1,
+        "quantityBefore": 0,
+        "quantityAfter": 1,
+        "levelAfter": 0
+      },
+      {
+        "cardId": "CN-1C000004",
+        "cardTitle": "오조은",
+        "grade": "ICON",
+        "quantity": 1,
+        "quantityBefore": 0,
+        "quantityAfter": 1,
+        "levelAfter": 0
+      }
+    ],
+    "totalGranted": 2,
+    "permanent": true,
+    "balancesPreserved": true,
+    "otherCardsPreserved": true,
+    "completedAt": "2026-10-05T18:15:47.139Z",
+    "adminLogId": "41274",
+    "replayed": false,
+    "sourceHash": "7199ce8b7b8bcf158ab45d012f4cfe36c8c0604c82ea818f71d5491ace07c240",
+    "sourceCommit": "858b78bbf209904d5005aa517bcbc6334e0d83c9"
+  },
+  "verification": {
+    "status": "VERIFIED",
+    "receipt": {
+      "status": "COMPLETED",
+      "operationKey": "ops:eumsuni-icon-heeya-joeun:20261006:v1",
+      "actor": "SYSTEM_OPS",
+      "authorization": "음순이 계정에 아이콘 하이희야 아이콘 조은 지급해",
+      "userId": 65,
+      "nickname": "음순이",
+      "cards": [
+        {
+          "cardId": "CN-1C000002",
+          "cardTitle": "하이희야",
+          "grade": "ICON",
+          "quantity": 1,
+          "quantityBefore": 0,
+          "quantityAfter": 1,
+          "levelAfter": 0
+        },
+        {
+          "cardId": "CN-1C000004",
+          "cardTitle": "오조은",
+          "grade": "ICON",
+          "quantity": 1,
+          "quantityBefore": 0,
+          "quantityAfter": 1,
+          "levelAfter": 0
+        }
+      ],
+      "totalGranted": 2,
+      "permanent": true,
+      "balancesPreserved": true,
+      "otherCardsPreserved": true,
+      "completedAt": "2026-10-05T18:15:47.139Z",
+      "adminLogId": "41274"
     },
-    {
-      "cardId": "CN-1C000004",
-      "cardTitle": "오조은",
-      "grade": "ICON",
-      "quantity": 1,
-      "quantityBefore": 0,
-      "quantityAfter": 1,
-      "levelAfter": 0
-    }
-  ],
+    "currentHoldings": [
+      {
+        "cardId": "CN-1C000002",
+        "title": "하이희야",
+        "quantity": 1,
+        "level": 0
+      },
+      {
+        "cardId": "CN-1C000004",
+        "title": "오조은",
+        "quantity": 1,
+        "level": 0
+      }
+    ],
+    "auditCount": 1,
+    "sourceHash": "7199ce8b7b8bcf158ab45d012f4cfe36c8c0604c82ea818f71d5491ace07c240",
+    "sourceCommit": "858b78bbf209904d5005aa517bcbc6334e0d83c9"
+  },
   "scope": "지급 도구와 기록만 변경. 게임 코드·재화·기존 강화 단계·기존 지급/교체 이력 변경 없음. 운영 사이트 재배포 불필요."
 }
