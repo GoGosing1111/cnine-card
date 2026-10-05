@@ -1,0 +1,23 @@
+[
+  {
+    "name": "desktop",
+    "state": {
+      "runtime": "20261005-coop-readable-v4-backdrop",
+      "active": true,
+      "gunVisible": true,
+      "weaponSource": "/assets/ui/project-v/account-battle-suits/weapons/avalon-m4a1-v1.png",
+      "sword": null
+    },
+    "normal": null,
+    "cacheHits": [
+      "/js/battle-v3-live.js?limitedVisuals=20261004-approved&territoryFx=20261003-v1&coop=20261005-coop-readable-v4-backdrop&territory=20261003-v5&lichFx=20261001&speedReform=20260930&v=3.36.0-combat-flow&furHigh=2114-frames20261002&battleRuntime=2124&heeya=2118&entry=2121&suits=2124&flow=2126&zSword=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&policeRestraint=20260923&octaseeker=20260928-opening10&resultIdle=20260928-corpse&cryvern=20261004-clean-aura&duo=20260925&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&xBody=20260928-skill-order&icon=20260930&suggestions=20261005&apocalypseCompletion=20261005-settlement3",
+      "/preview/project-v-v3/project-v-pixi-battle.bundle.js?battleRuntime=20261005-coop-readable-v4-backdrop"
+    ],
+    "requests": [
+      "http://127.0.0.1:8996/preview/project-v-v3/project-v-pixi-battle.bundle.js?limitedVisuals=20261004-approved&coop=20261005-coop-readable-v4-backdrop&territory=20261003-v5&lichFx=20261001&speedReform=20260930&v=106-combat-flow&joint=2090&mercenary=2100&projectiles=2106&coup=2115&pveEntry=2119&heeya=2118&suits=2124&flow=2126&zSword=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&policeRestraint=20260923&octaseeker=20260928-opening10&resultIdle=20260928-corpse&cryvern=20260924&duo=20260925&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&xBody=20260928-skill-order&overlord=20261005-v1&icon=20260930",
+      "http://127.0.0.1:8996/js/battle-v3-live.js?limitedVisuals=20261004-approved&territoryFx=20261003-v1&coop=20261005-coop-readable-v4-backdrop&territory=20261003-v5&lichFx=20261001&speedReform=20260930&v=3.36.0-combat-flow&furHigh=2114-frames20261002&battleRuntime=2124&heeya=2118&entry=2121&suits=2124&flow=2126&zSword=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&policeRestraint=20260923&octaseeker=20260928-opening10&resultIdle=20260928-corpse&cryvern=20261004-clean-aura&duo=20260925&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&xBody=20260928-skill-order&icon=20260930&suggestions=20261005&apocalypseCompletion=20261005-settlement3",
+      "http://127.0.0.1:8996/preview/project-v-v3/project-v-pixi-battle.bundle.js?battleRuntime=20261005-coop-readable-v4-backdrop"
+    ],
+    "errors": []
+  }
+]

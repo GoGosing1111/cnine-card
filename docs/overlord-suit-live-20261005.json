@@ -82,5 +82,44 @@
     "deployment": "https://472e4978.cnine-card.pages.dev",
     "verification": "preview/overlord-live-v1/production.json",
     "liveEquipmentId": 50
+  },
+  "runtimeCacheFix": {
+    "date": "2026-10-05",
+    "status": "VERIFIED_PENDING_DEPLOYMENT",
+    "report": "칭호 안나오고 총 쏜다",
+    "rootCause": "The main entry versioned the new engine but reused the pre-Overlord wrapper URL. That cached wrapper could reload its cached pre-Overlord engine. The readiness gate also accepted an already loaded old pair because they agreed with each other.",
+    "changes": [
+      "Version lobby, engine and wrapper together with overlord=20261005-v2.",
+      "Require both wrapper and engine to match the lobby expected runtime.",
+      "Refresh native PVE and sustained PVE entry URLs, including the nested native loader."
+    ],
+    "preserved": [
+      "Approved artwork, sword motion, title and aura",
+      "Server damage and skill schedule",
+      "CMS balance; read-only live check found 75000000 PVE and preserved it"
+    ],
+    "verification": {
+      "regression": "tests/overlord-runtime-cache-20261005.test.mjs",
+      "before": "All three checks failed; actual browser reproduced visible gun, no sword controller and no title using the historical wrapper and engine.",
+      "after": "Three cache checks passed. Actual lobby loader on PC/mobile selected Overlord V6; no generic gun; crimson aura and title visible; sword damage receipts replayed exactly (115176).",
+      "browser": "preview/overlord-live-v1/qa-runtime-cache.mjs",
+      "evidence": [
+        "preview/overlord-live-v1/qa/cache/before.json",
+        "preview/overlord-live-v1/qa/cache/after.json",
+        "preview/overlord-live-v1/qa/cache/after-desktop.png",
+        "preview/overlord-live-v1/qa/cache/after-mobile.png"
+      ]
+    },
+    "release": {
+      "mode": "scoped",
+      "base": "c0b3e1aa801a54d37f05951c6d5e2deba652d362",
+      "baseDeployment": "472e4978-35e0-4fe6-94a6-e952b0fdb81d",
+      "reason": "Fix only battle entry cache compatibility for the approved Overlord; no assets, engine simulation, transactions or balance changes.",
+      "tests": [
+        "tests/overlord-runtime-cache-20261005.test.mjs",
+        "tests/pve-battlefield-entry-v2117.test.mjs"
+      ],
+      "command": "npm run deploy:production -- --scoped"
+    }
   }
 }
