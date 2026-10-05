@@ -1,0 +1,633 @@
+{
+  "cmsRevision": 60,
+  "combat": {
+    "lobbySeconds": 900,
+    "maxBattleSeconds": 180,
+    "patterns": {
+      "firstSeconds": 10,
+      "intervalSeconds": 30,
+      "count": 6,
+      "rupturePercent": 8
+    },
+    "stages": [
+      {
+        "wave": 1,
+        "name": "제련소 외곽",
+        "hint": "근접 추적자와 원거리 감시기 3기를 모두 격파하세요."
+      },
+      {
+        "wave": 2,
+        "name": "노심 관문",
+        "hint": "두꺼운 방벽을 돌파하세요. 수문장은 연속 공격을 사용합니다."
+      },
+      {
+        "wave": 3,
+        "name": "심층 노심",
+        "hint": "삼핵 차단과 집중 포화에 대응하며 거신을 격파하세요."
+      }
+    ],
+    "difficulties": [
+      {
+        "id": "NORMAL",
+        "recommendation": "SS 용병 3명 · 공격과 방어를 고르게",
+        "forcedEvery": 6,
+        "responseSeconds": 9,
+        "overloadPercent": 12,
+        "focusPercent": 40,
+        "monsters": [
+          {
+            "key": "STALKER_A",
+            "power": 1080000,
+            "hpPercent": 100,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 1
+          },
+          {
+            "key": "STALKER_B",
+            "power": 1080000,
+            "hpPercent": 100,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 1
+          },
+          {
+            "key": "WATCHER",
+            "power": 900000,
+            "hpPercent": 100,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 2
+          },
+          {
+            "key": "WARDEN",
+            "power": 3780000,
+            "hpPercent": 240,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 30,
+            "attackCount": 2
+          },
+          {
+            "key": "ARKE",
+            "power": 9000000,
+            "hpPercent": 380,
+            "attackPercent": 120,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 1
+          }
+        ]
+      },
+      {
+        "id": "HARD",
+        "recommendation": "SSS 1명 + SS 2명 · 방어와 회복 권장",
+        "forcedEvery": 6,
+        "responseSeconds": 8,
+        "overloadPercent": 18,
+        "focusPercent": 50,
+        "monsters": [
+          {
+            "key": "STALKER_A",
+            "power": 2600000,
+            "hpPercent": 100,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 1
+          },
+          {
+            "key": "STALKER_B",
+            "power": 2600000,
+            "hpPercent": 100,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 1
+          },
+          {
+            "key": "WATCHER",
+            "power": 2000000,
+            "hpPercent": 100,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 2
+          },
+          {
+            "key": "WARDEN",
+            "power": 7500000,
+            "hpPercent": 150,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 30,
+            "attackCount": 2
+          },
+          {
+            "key": "ARKE",
+            "power": 12500000,
+            "hpPercent": 500,
+            "attackPercent": 145,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 2
+          }
+        ]
+      },
+      {
+        "id": "EXTREME",
+        "recommendation": "SSS 2~3명 · 고유효과와 용병 스킬 연계",
+        "forcedEvery": 5,
+        "responseSeconds": 7,
+        "overloadPercent": 24,
+        "focusPercent": 60,
+        "monsters": [
+          {
+            "key": "STALKER_A",
+            "power": 7200000,
+            "hpPercent": 100,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 1
+          },
+          {
+            "key": "STALKER_B",
+            "power": 7200000,
+            "hpPercent": 100,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 1
+          },
+          {
+            "key": "WATCHER",
+            "power": 6000000,
+            "hpPercent": 100,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 2
+          },
+          {
+            "key": "WARDEN",
+            "power": 25200000,
+            "hpPercent": 240,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 30,
+            "attackCount": 2
+          },
+          {
+            "key": "ARKE",
+            "power": 60000000,
+            "hpPercent": 836,
+            "attackPercent": 200,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 2
+          }
+        ]
+      }
+    ]
+  },
+  "composition": "BALANCED",
+  "seedFormula": "7919*n, n=1..16",
+  "rows": [
+    {
+      "difficulty": "NORMAL",
+      "equipment": 1000000,
+      "kind": "ONE",
+      "variant": "BEFORE",
+      "wins": 16,
+      "seeds": 16,
+      "heal": 2845685,
+      "casts": 16.875,
+      "maxHealPercent": 32.32,
+      "alive": 4.1875
+    },
+    {
+      "difficulty": "NORMAL",
+      "equipment": 1000000,
+      "kind": "ONE",
+      "variant": "AFTER",
+      "wins": 16,
+      "seeds": 16,
+      "heal": 1181795,
+      "casts": 12.25,
+      "maxHealPercent": 15,
+      "alive": 3.0625
+    },
+    {
+      "difficulty": "NORMAL",
+      "equipment": 1000000,
+      "kind": "THREE",
+      "variant": "BEFORE",
+      "wins": 0,
+      "seeds": 16,
+      "heal": 11143954,
+      "casts": 50.5,
+      "maxHealPercent": 56.69,
+      "alive": 5.25
+    },
+    {
+      "difficulty": "NORMAL",
+      "equipment": 1000000,
+      "kind": "THREE",
+      "variant": "AFTER",
+      "wins": 0,
+      "seeds": 16,
+      "heal": 3080276,
+      "casts": 25.5,
+      "maxHealPercent": 15,
+      "alive": 3
+    },
+    {
+      "difficulty": "NORMAL",
+      "equipment": 5000000,
+      "kind": "ONE",
+      "variant": "BEFORE",
+      "wins": 16,
+      "seeds": 16,
+      "heal": 300831,
+      "casts": 0.9375,
+      "maxHealPercent": 11.96,
+      "alive": 9
+    },
+    {
+      "difficulty": "NORMAL",
+      "equipment": 5000000,
+      "kind": "ONE",
+      "variant": "AFTER",
+      "wins": 16,
+      "seeds": 16,
+      "heal": 158730,
+      "casts": 0.75,
+      "maxHealPercent": 5.98,
+      "alive": 9
+    },
+    {
+      "difficulty": "NORMAL",
+      "equipment": 5000000,
+      "kind": "THREE",
+      "variant": "BEFORE",
+      "wins": 16,
+      "seeds": 16,
+      "heal": 2820678,
+      "casts": 6.875,
+      "maxHealPercent": 23.25,
+      "alive": 9
+    },
+    {
+      "difficulty": "NORMAL",
+      "equipment": 5000000,
+      "kind": "THREE",
+      "variant": "AFTER",
+      "wins": 16,
+      "seeds": 16,
+      "heal": 1855780,
+      "casts": 6.125,
+      "maxHealPercent": 13.2,
+      "alive": 9
+    },
+    {
+      "difficulty": "NORMAL",
+      "equipment": 20000000,
+      "kind": "ONE",
+      "variant": "BEFORE",
+      "wins": 16,
+      "seeds": 16,
+      "heal": 0,
+      "casts": 0,
+      "maxHealPercent": 0,
+      "alive": 9
+    },
+    {
+      "difficulty": "NORMAL",
+      "equipment": 20000000,
+      "kind": "ONE",
+      "variant": "AFTER",
+      "wins": 16,
+      "seeds": 16,
+      "heal": 0,
+      "casts": 0,
+      "maxHealPercent": 0,
+      "alive": 9
+    },
+    {
+      "difficulty": "NORMAL",
+      "equipment": 20000000,
+      "kind": "THREE",
+      "variant": "BEFORE",
+      "wins": 16,
+      "seeds": 16,
+      "heal": 0,
+      "casts": 0,
+      "maxHealPercent": 0,
+      "alive": 9
+    },
+    {
+      "difficulty": "NORMAL",
+      "equipment": 20000000,
+      "kind": "THREE",
+      "variant": "AFTER",
+      "wins": 16,
+      "seeds": 16,
+      "heal": 0,
+      "casts": 0,
+      "maxHealPercent": 0,
+      "alive": 9
+    },
+    {
+      "difficulty": "HARD",
+      "equipment": 1000000,
+      "kind": "ONE",
+      "variant": "BEFORE",
+      "wins": 10,
+      "seeds": 16,
+      "heal": 4134798,
+      "casts": 15.125,
+      "maxHealPercent": 66.59,
+      "alive": 1.1875
+    },
+    {
+      "difficulty": "HARD",
+      "equipment": 1000000,
+      "kind": "ONE",
+      "variant": "AFTER",
+      "wins": 12,
+      "seeds": 16,
+      "heal": 2229724,
+      "casts": 13.75,
+      "maxHealPercent": 15,
+      "alive": 1.5
+    },
+    {
+      "difficulty": "HARD",
+      "equipment": 1000000,
+      "kind": "THREE",
+      "variant": "BEFORE",
+      "wins": 0,
+      "seeds": 16,
+      "heal": 9852469,
+      "casts": 32.625,
+      "maxHealPercent": 73.41,
+      "alive": 1.5
+    },
+    {
+      "difficulty": "HARD",
+      "equipment": 1000000,
+      "kind": "THREE",
+      "variant": "AFTER",
+      "wins": 0,
+      "seeds": 16,
+      "heal": 3568930,
+      "casts": 22.375,
+      "maxHealPercent": 15,
+      "alive": 2.125
+    },
+    {
+      "difficulty": "HARD",
+      "equipment": 5000000,
+      "kind": "ONE",
+      "variant": "BEFORE",
+      "wins": 16,
+      "seeds": 16,
+      "heal": 1937435,
+      "casts": 3.625,
+      "maxHealPercent": 17.17,
+      "alive": 7.0625
+    },
+    {
+      "difficulty": "HARD",
+      "equipment": 5000000,
+      "kind": "ONE",
+      "variant": "AFTER",
+      "wins": 16,
+      "seeds": 16,
+      "heal": 635578,
+      "casts": 2.25,
+      "maxHealPercent": 8.58,
+      "alive": 7
+    },
+    {
+      "difficulty": "HARD",
+      "equipment": 5000000,
+      "kind": "THREE",
+      "variant": "BEFORE",
+      "wins": 16,
+      "seeds": 16,
+      "heal": 15888637,
+      "casts": 18.5625,
+      "maxHealPercent": 40.76,
+      "alive": 6.8125
+    },
+    {
+      "difficulty": "HARD",
+      "equipment": 5000000,
+      "kind": "THREE",
+      "variant": "AFTER",
+      "wins": 16,
+      "seeds": 16,
+      "heal": 6844327,
+      "casts": 13.875,
+      "maxHealPercent": 15,
+      "alive": 5.3125
+    },
+    {
+      "difficulty": "HARD",
+      "equipment": 20000000,
+      "kind": "ONE",
+      "variant": "BEFORE",
+      "wins": 16,
+      "seeds": 16,
+      "heal": 0,
+      "casts": 0,
+      "maxHealPercent": 0,
+      "alive": 9
+    },
+    {
+      "difficulty": "HARD",
+      "equipment": 20000000,
+      "kind": "ONE",
+      "variant": "AFTER",
+      "wins": 16,
+      "seeds": 16,
+      "heal": 0,
+      "casts": 0,
+      "maxHealPercent": 0,
+      "alive": 9
+    },
+    {
+      "difficulty": "HARD",
+      "equipment": 20000000,
+      "kind": "THREE",
+      "variant": "BEFORE",
+      "wins": 16,
+      "seeds": 16,
+      "heal": 28582,
+      "casts": 0.125,
+      "maxHealPercent": 1.53,
+      "alive": 9
+    },
+    {
+      "difficulty": "HARD",
+      "equipment": 20000000,
+      "kind": "THREE",
+      "variant": "AFTER",
+      "wins": 16,
+      "seeds": 16,
+      "heal": 28582,
+      "casts": 0.125,
+      "maxHealPercent": 1.53,
+      "alive": 9
+    },
+    {
+      "difficulty": "EXTREME",
+      "equipment": 1000000,
+      "kind": "ONE",
+      "variant": "BEFORE",
+      "wins": 0,
+      "seeds": 16,
+      "heal": 5813586,
+      "casts": 18.125,
+      "maxHealPercent": 66.59,
+      "alive": 1.1875
+    },
+    {
+      "difficulty": "EXTREME",
+      "equipment": 1000000,
+      "kind": "ONE",
+      "variant": "AFTER",
+      "wins": 0,
+      "seeds": 16,
+      "heal": 2411436,
+      "casts": 13.8125,
+      "maxHealPercent": 15,
+      "alive": 0.3125
+    },
+    {
+      "difficulty": "EXTREME",
+      "equipment": 1000000,
+      "kind": "THREE",
+      "variant": "BEFORE",
+      "wins": 0,
+      "seeds": 16,
+      "heal": 10079383,
+      "casts": 35.875,
+      "maxHealPercent": 73.41,
+      "alive": 1.125
+    },
+    {
+      "difficulty": "EXTREME",
+      "equipment": 1000000,
+      "kind": "THREE",
+      "variant": "AFTER",
+      "wins": 0,
+      "seeds": 16,
+      "heal": 4211063,
+      "casts": 26.4375,
+      "maxHealPercent": 15,
+      "alive": 1.125
+    },
+    {
+      "difficulty": "EXTREME",
+      "equipment": 5000000,
+      "kind": "ONE",
+      "variant": "BEFORE",
+      "wins": 0,
+      "seeds": 16,
+      "heal": 17674265,
+      "casts": 14.5625,
+      "maxHealPercent": 66.59,
+      "alive": 0.125
+    },
+    {
+      "difficulty": "EXTREME",
+      "equipment": 5000000,
+      "kind": "ONE",
+      "variant": "AFTER",
+      "wins": 0,
+      "seeds": 16,
+      "heal": 10932640,
+      "casts": 14.5,
+      "maxHealPercent": 15,
+      "alive": 0.375
+    },
+    {
+      "difficulty": "EXTREME",
+      "equipment": 5000000,
+      "kind": "THREE",
+      "variant": "BEFORE",
+      "wins": 0,
+      "seeds": 16,
+      "heal": 35091416,
+      "casts": 26.125,
+      "maxHealPercent": 66.59,
+      "alive": 1.4375
+    },
+    {
+      "difficulty": "EXTREME",
+      "equipment": 5000000,
+      "kind": "THREE",
+      "variant": "AFTER",
+      "wins": 0,
+      "seeds": 16,
+      "heal": 14277628,
+      "casts": 18.75,
+      "maxHealPercent": 15,
+      "alive": 1.5
+    },
+    {
+      "difficulty": "EXTREME",
+      "equipment": 20000000,
+      "kind": "ONE",
+      "variant": "BEFORE",
+      "wins": 16,
+      "seeds": 16,
+      "heal": 55416265,
+      "casts": 12.9375,
+      "maxHealPercent": 64.64,
+      "alive": 2.1875
+    },
+    {
+      "difficulty": "EXTREME",
+      "equipment": 20000000,
+      "kind": "ONE",
+      "variant": "AFTER",
+      "wins": 16,
+      "seeds": 16,
+      "heal": 13685606,
+      "casts": 7.6875,
+      "maxHealPercent": 15,
+      "alive": 2
+    },
+    {
+      "difficulty": "EXTREME",
+      "equipment": 20000000,
+      "kind": "THREE",
+      "variant": "BEFORE",
+      "wins": 16,
+      "seeds": 16,
+      "heal": 85549707,
+      "casts": 20.3125,
+      "maxHealPercent": 62.83,
+      "alive": 2.875
+    },
+    {
+      "difficulty": "EXTREME",
+      "equipment": 20000000,
+      "kind": "THREE",
+      "variant": "AFTER",
+      "wins": 16,
+      "seeds": 16,
+      "heal": 24600361,
+      "casts": 12.25,
+      "maxHealPercent": 15,
+      "alive": 3
+    }
+  ]
+}

@@ -8,6 +8,7 @@ import {mercenaryAttackStyle} from '../shared/mercenary-attack-style-v1.mjs';
 import {rangedMercenarySkillText} from '../shared/mercenary-ranged-balance-v1.mjs';
 import {mercenaryGuardSkillText} from '../shared/mercenary-guard-balance-v1.mjs';
 import {mercenaryMoonDrawSkillText} from '../shared/mercenary-moon-draw-v1.mjs';
+import {nurseRuntimeSkill} from '../shared/mercenary-nurse-healers-v1.mjs';
 import {V3_JOINT_RELEASE_ENABLED} from '../shared/v3-joint-release-v1.mjs';
 import {MERCENARY_DEPLOYMENT_RELEASE_ENABLED,mercenaryDeploymentState} from '../shared/mercenary-public-release-v2097.mjs';
 import {pickMercenaryDraw,mercenaryCardAcquisitionStatements} from './_mercenary_draw_accounting.js';
@@ -67,7 +68,7 @@ function skillsReady(skills){return skills.every(s=>s&&s.review==='REVIEWED'&&Ob
 export function battleConfig(document,code,level){
   const c=document.mercenaries.find(c=>c.code===code),art=MERCENARY_CMS_SEED.catalog.cards.find(c=>c.code===code);
   if(!mercenaryBasePower(c?.rank))throw jointError('MERCENARY_STATS_PENDING','용병 등급을 확정하세요.',409);
-  const assigned=assignedSkills(document,code),skills=assigned.filter(s=>skillsReady([s]));
+  const assigned=assignedSkills(document,code),skills=assigned.filter(s=>skillsReady([s])).map(nurseRuntimeSkill);
   // Unconfigured skill assignments remain visible in the CMS and collection.
   // They cannot disable the approved rank-based basic fighter, nor acquire
   // invented balance values merely because deployment was released.

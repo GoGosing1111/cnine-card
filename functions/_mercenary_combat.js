@@ -240,7 +240,8 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
     const budget=Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio),share=Math.floor(budget/p.targets.length);
     const heals=ts.map(t=>{
      const reduction=Math.max(0,Math.min(100,Number(t.healingReductionPercent)||0));
-     const requested=apocalypseHealing(t,Math.floor(share*(1-reduction/100))),converted=season2?.heal?.(t,requested),amount=converted??Math.max(0,Math.min(t.maxHp-t.hp,iconHealingAmount(t,requested)));
+     const cappedShare=s.nurseHealing?.version===1?Math.min(share,Math.floor(t.maxHp*s.nurseHealing.maxTargetHpPercent/100)):share;
+     const requested=apocalypseHealing(t,Math.floor(cappedShare*(1-reduction/100))),converted=season2?.heal?.(t,requested),amount=converted??Math.max(0,Math.min(t.maxHp-t.hp,iconHealingAmount(t,requested)));
      if(converted==null)t.hp+=amount;a.healingDone+=amount;
      return {targetId:t.id,amount,targetHpAfter:t.hp,targetMaxHp:t.maxHp};
     });

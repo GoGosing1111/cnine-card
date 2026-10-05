@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 import {Container,Sprite,Texture,TextureSource} from 'pixi.js';
 import {MERCENARY_CMS_SEED as seed} from '../functions/_mercenary_cms_seed.js';
-import {NURSE_CODES,NURSE_NAMES,NURSE_SKILL_ID,NURSE_BALANCE,nurseSelectionWeights} from '../shared/mercenary-nurse-healers-v1.mjs';
+import {NURSE_CODES,NURSE_NAMES,NURSE_SKILL_ID,NURSE_BALANCE,nurseSelectionWeights,nurseRuntimeSkill} from '../shared/mercenary-nurse-healers-v1.mjs';
 import {expandMercenarySkillCatalog} from '../shared/mercenary-cms-model-v1.mjs';
 import {buildMercenaryFighter,mercenaryCombat} from '../functions/_mercenary_combat.js';
 import {MERCENARY_COMBAT_DRAFT as combat} from '../shared/mercenary-combat-policy-v1.mjs';
@@ -15,7 +15,7 @@ import {mercenaryCardChances,mercenaryGradePools} from '../shared/mercenary-draw
 import {planNurseRelease,applyNurseRelease,OPERATION_KEY} from '../scripts/ops/nurse-healers-release-20260927.mjs';
 import {playNurseHeal} from '../preview/project-v-v3/source/battle/NurseHealCombatPlayback.js';
 const skill=seed.document.skills.find(s=>s.id===NURSE_SKILL_ID);
-export const nurseSnapshot=(code='V-051')=>{const art=seed.catalog.cards.find(c=>c.code===code);return {code,name:art.name,rank:'SS',role:'SUPPORT',position:'REAR',level:1,basePower:120000,stats:{hp:100000,attack:1000,defense:100,speed:100},skills:[skill],combat,sourceArt:art.sourceArt,battleSprite:art.battleSprite};};
+export const nurseSnapshot=(code='V-051')=>{const art=seed.catalog.cards.find(c=>c.code===code);return {code,name:art.name,rank:'SS',role:'SUPPORT',position:'REAR',level:1,basePower:120000,stats:{hp:100000,attack:1000,defense:100,speed:100},skills:[nurseRuntimeSkill(skill)],combat,sourceArt:art.sourceArt,battleSprite:art.battleSprite};};
 const previous=d=>{const old=structuredClone(d);for(const k of ['mercenaries','assignments'])old[k]=old[k].filter(c=>!NURSE_CODES.includes(c.code));old.skills=old.skills.filter(s=>s.id!==NURSE_SKILL_ID);return old;};
 function setup(){
  const actor=buildMercenaryFighter(nurseSnapshot(),'A','PVP');actor.hp=50000;
@@ -26,7 +26,7 @@ function setup(){
  const cast=(options)=>{actor.actions++;return runtime.beforeAction(actor,options);};return {actor,allies,enemy,events,teams,runtime,cast};
 }
 test('four immutable user portraits and transparent SD register as SS with one reviewed shared skill',()=>{
- assert.equal(seed.catalog.cards.length,55);assert.equal(seed.catalog.skills.length,35);
+ assert.equal(seed.catalog.cards.length,55);assert.equal(seed.catalog.skills.filter(s=>s.id===NURSE_SKILL_ID).length,1);
  for(const [i,code]of NURSE_CODES.entries()){
   const art=seed.catalog.cards.find(c=>c.code===code),row=seed.document.mercenaries.find(c=>c.code===code);
   assert.equal(row.name,NURSE_NAMES[i]);assert.equal(row.rank,'SS');assert.equal(row.role,'SUPPORT');assert.equal(row.position,'REAR');
@@ -45,12 +45,12 @@ test('complete previous CMS expands four cards and exactly one skill, retaining 
  old.mercenaries.pop();assert.throws(()=>expandMercenarySkillCatalog(old,seed.document,seed.catalog));
  const partial=structuredClone(next);partial.mercenaries.pop();assert.throws(()=>expandMercenarySkillCatalog(partial,seed.document,seed.catalog));
 });
-test('a single 320% budget splits six ways, emits once and spends energy and cooldown once',()=>{
+test('a single 160% budget splits six ways, emits once and spends energy and six-turn cooldown once',()=>{
  const f=setup();assert.equal(f.cast(),false,'support still permits its ordinary basic attack');
- const heal=f.events.filter(e=>e.type==='MERCENARY_GROUP_HEAL');assert.equal(heal.length,1);assert.equal(heal[0].budget,3200);assert.equal(heal[0].amount,533*6);assert.equal(heal[0].heals.length,6);
- assert.ok(heal[0].heals.every(h=>h.amount===533));assert.equal(f.enemy.hp,1000);assert.equal(f.actor.healingDone,3198);
- assert.equal(f.runtime.state(f.actor).energy,75);assert.equal(f.runtime.state(f.actor).cooldown.get(NURSE_SKILL_ID),5);assert.equal(f.runtime.state(f.actor).pending,null);
- for(let i=0;i<3;i++)f.cast();assert.equal(f.events.filter(e=>e.type==='MERCENARY_GROUP_HEAL').length,1);
+ const heal=f.events.filter(e=>e.type==='MERCENARY_GROUP_HEAL');assert.equal(heal.length,1);assert.equal(heal[0].budget,1600);assert.equal(heal[0].amount,266*6);assert.equal(heal[0].heals.length,6);
+ assert.ok(heal[0].heals.every(h=>h.amount===266));assert.equal(f.enemy.hp,1000);assert.equal(f.actor.healingDone,1596);
+ assert.equal(f.runtime.state(f.actor).energy,75);assert.equal(f.runtime.state(f.actor).cooldown.get(NURSE_SKILL_ID),7);assert.equal(f.runtime.state(f.actor).pending,null);
+ for(let i=0;i<5;i++)f.cast();assert.equal(f.events.filter(e=>e.type==='MERCENARY_GROUP_HEAL').length,1);
  f.cast();assert.equal(f.events.filter(e=>e.type==='MERCENARY_GROUP_HEAL').length,2);assert.equal(f.runtime.state(f.actor).energy,50);
 });
 test('dead allies, suit and objective are excluded; overheal and healing reduction never transfer shares',()=>{
@@ -58,7 +58,7 @@ test('dead allies, suit and objective are excluded; overheal and healing reducti
  f.allies[2].healingReductionPercent=50;f.allies[3].healingReductionPercent=100;f.allies[4].hp=f.allies[4].maxHp-7;
  f.teams.A.push({...f.actor,id:'A:SUIT',isMercenary:false,isBattleSuit:true},{...f.actor,id:'ESCORT_OBJECTIVE',isMercenary:false});
  f.cast();const e=f.events.find(e=>e.type==='MERCENARY_GROUP_HEAL');assert.equal(e.heals.length,5);
- assert.deepEqual(e.heals.map(h=>h.amount),[0,320,0,7,640]);assert.equal(f.allies[0].hp,0);assert.equal(f.teams.A.at(-1).hp,50000);assert.equal(f.teams.A.at(-2).hp,50000);
+ assert.deepEqual(e.heals.map(h=>h.amount),[0,160,0,7,320]);assert.equal(f.allies[0].hp,0);assert.equal(f.teams.A.at(-1).hp,50000);assert.equal(f.teams.A.at(-2).hp,50000);
  assert.ok(e.amount<=e.budget);assert.ok(f.allies.every(a=>a.hp<=a.maxHp));
 });
 test('full health, control, no energy, and PVP overtime do not consume a heal',()=>{
@@ -73,7 +73,7 @@ test('PVE and PVP retain five cards plus a healer and authoritative aggregate HP
   for(const data of [createPveBattleV2({cards,mercenary:merc,monster:{id:1,name:'검수',battle_power:1000000},seed:17}),createPvpBattleV2({attackerCards:cards,defenderCards:cards,attackerMercenary:merc,defenderMercenary:merc,seed:12})]){
    assert.equal(data.teams.A.cards.length,5);assert.equal(data.teams.A.mercenaries.length,1);assert.equal(data.teams.A.mercenaries[0].cardId,code);
    const heals=data.result.timeline.filter(e=>e.type==='MERCENARY_GROUP_HEAL');assert.ok(heals.length>0);
-   for(const e of heals){assert.equal(e.skillId,NURSE_SKILL_ID);assert.ok(e.amount<=e.budget);assert.ok(e.heals.every(h=>h.targetHpAfter<=h.targetMaxHp&&h.targetId[0]===e.actorId[0]));}
+   for(const e of heals){assert.equal(e.skillId,NURSE_SKILL_ID);assert.ok(e.amount<=e.budget);assert.ok(e.heals.every(h=>h.targetHpAfter<=h.targetMaxHp&&h.amount<=Math.floor(h.targetMaxHp*.15)&&h.targetId[0]===e.actorId[0]));}
   }
  }
 });
@@ -84,7 +84,7 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} nurse
   const result=await openMercenaryCards(f.env,f.user,request,{randomInt:n=>n===1000000?0:ticket});assert.equal(result.draws[0].mercenaryCode,code);
   await openMercenaryCards(f.env,f.user,request,{randomInt:()=>{throw Error('Duplicate reroll')}});assert.equal(await f.coin(),before-1000);
   await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mercenaryCode:code,revision:revision++});const deployed=await loadMercenaryBattleSnapshot(f.env,f.user);
-  assert.equal(deployed.rank,'SS');assert.equal(deployed.basePower,120000);assert.deepEqual(deployed.skills.map(s=>s.id),[NURSE_SKILL_ID]);assert.deepEqual(deployed.skills[0].balance,NURSE_BALANCE);
+  assert.equal(deployed.rank,'SS');assert.equal(deployed.basePower,120000);assert.deepEqual(deployed.skills.map(s=>s.id),[NURSE_SKILL_ID]);assert.deepEqual(deployed.skills[0].balance,NURSE_BALANCE);assert.equal(deployed.skills[0].nurseHealing.maxTargetHpPercent,15);
  }
 });
 test('aggregate visual applies only server HP at the impact and cancellation never applies stale healing',async()=>{
