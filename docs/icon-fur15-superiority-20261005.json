@@ -84,7 +84,28 @@
   "release": {
     "mode": "scoped",
     "reason": "ICON-only stat floor, omitted role propagation and two-card contract. No authentication, schema, transactions, reward, dependency or combat mechanics rewrite. Affected combat and deck regressions plus live loader are selected.",
-    "priorDeployedSource": "34c5dc5",
-    "priorDeployment": "https://46aaa30a.cnine-card.pages.dev"
+    "priorDeployedSource": "fc397c48f8ceb4a5450f3c81da4f4510e2be0e3a",
+    "priorDeployment": "https://4abfc34c.cnine-card.pages.dev",
+    "tests": [
+      "tests/icon-fur15-superiority-v1.test.mjs",
+      "tests/icon-roles-v1.test.mjs",
+      "tests/icon-cms-v1.test.mjs",
+      "tests/icon-grade-preparation-v1.test.mjs",
+      "tests/superstar-power-deck-v2034.test.mjs",
+      "tests/deck-rules-api-contract-v1.mjs",
+      "tests/zenith-deck-limit-v1850.mjs",
+      "tests/fur-unique-normalization-20261002.test.mjs",
+      "tests/unique-advancement-engine-v1937.test.mjs",
+      "tests/unique-advancement-runtime-v1937.test.mjs",
+      "tests/ranked-duo-battle.test.mjs",
+      "tests/ranked-duo-batch.test.mjs",
+      "tests/pvp-survivor-equipment-v1777.mjs",
+      "tests/pve-battlefield-entry-v2117.test.mjs",
+      "tests/project-v-v3-live-payload-v1.mjs",
+      "tests/battle-v2-speed-time-limit.mjs"
+    ],
+    "checks": [
+      "check:worker"
+    ]
   }
 }
