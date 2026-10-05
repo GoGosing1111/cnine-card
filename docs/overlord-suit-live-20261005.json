@@ -1,0 +1,78 @@
+{
+  "version": "OVERLORD_LIVE_20261005_V6",
+  "date": "2026-10-05",
+  "status": "VALIDATED_READY_FOR_PRODUCTION",
+  "authorization": [
+    "오버로드 슈트 라이브 적용해",
+    "X-BODY보다 높게 추천해서 적용"
+  ],
+  "resources": {
+    "source": "preview/battle-suit-crimson-gold-knight-20261005-v1",
+    "production": "assets/ui/project-v/account-battle-suits/overlord-v1/manifest.json",
+    "sourceArtHash": "02ccd3d717c94cd001c538bb8a08cb9272fa1e7cae512e01f12a31b32f68d236",
+    "weaponHash": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+    "byteIdenticalAssets": 23,
+    "bodyFrames": 44,
+    "effectFrames": 152,
+    "defaultPalette": "crimson",
+    "retainedAlternatives": [
+      "violet",
+      "teal"
+    ],
+    "title": "종말 위에 군림하는 자"
+  },
+  "balance": {
+    "referenceReadAt": "2026-10-05T10:01:09.515Z",
+    "xBodyPvePower": 50000000,
+    "overlordPvePower": 62500000,
+    "powerIncreasePercent": 25,
+    "xBodyAreaMultiplier": 5,
+    "xBodyAreaIntervalMs": 20000,
+    "overlordAreaMultiplier": 6,
+    "overlordAreaIntervalMs": 18000,
+    "opening": true,
+    "targets": "ALL_LIVING_ENEMIES",
+    "visualHitsPerTarget": 5,
+    "pvpPower": 0,
+    "notes": "Existing own-power damage, defense, avoidance, critical, apocalypse reduction and damage caps are preserved; superiority is not a guaranteed win."
+  },
+  "scope": {
+    "cms": true,
+    "equipAndPve": true,
+    "automaticGrant": false,
+    "supplyDrop": false,
+    "recipe": false,
+    "accountTitleGrant": false,
+    "playerPaletteMenu": false,
+    "preserveLaterCmsChanges": true
+  },
+  "validation": {
+    "uniqueServerAssetTestsPassed": 33,
+    "priorFailedNewChecks": "Three initial Overlord tests exposed missing intrinsic damage lookup. Added explicit intrinsic resolver; all three and affected X/Z/common damage regressions passed.",
+    "logs": [
+      "C:/Users/User/AppData/Local/Temp/overlord-tests-20261005.log",
+      "C:/Users/User/AppData/Local/Temp/overlord-tests-final-20261005.log"
+    ],
+    "browser": "preview/overlord-live-v1/qa/browser-report.json",
+    "fullBattle": "preview/overlord-live-v1/qa/full-battle-report.json",
+    "latestAmbientCancelSafety": "preview/overlord-live-v1/qa/appearance-safety.json",
+    "screenshots": [
+      "preview/overlord-live-v1/qa/desktop-idle.png",
+      "preview/overlord-live-v1/qa/mobile-idle.png"
+    ],
+    "pcAndMobile": "Normal/three-cut/execution, area single/multi, server damage equality, pause/cancel, replacement identity, PVP exclusion, fixed idle and non-mirrored title passed; no console errors.",
+    "fullBattleDamage": "Each viewport: 220 normal receipts / 5917164 damage; 75 skill impacts / 2418096 damage; queue drained to zero.",
+    "compile": "node --check functions/api/[[path]].js"
+  },
+  "release": {
+    "mode": "scoped",
+    "lastVerifiedDeployedBase": "45059b3b78a8462e1c7b772559cadf8a857f9fe4",
+    "deploymentEvidence": "fbcb7b0d-948b-4c16-aeb3-a1a3c4680e89",
+    "rationale": "One new approved suit uses the established catalog and PVE rendering/scheduler extension points. No schema, transaction infrastructure, authentication, dependencies or launch gates were changed. Existing suit regressions and atomic catalog retry tests passed. Retain results for unchanged source and run final main-loader regression and required compiler/release/cache/Hyperdrive checks through designated scoped deployment.",
+    "tests": [
+      "tests/pve-battlefield-entry-v2117.test.mjs"
+    ],
+    "checks": [],
+    "command": "npm run deploy:production -- --scoped"
+  }
+}

@@ -1,5 +1,6 @@
 import {skillChipByCode,createSkillChipSchedule} from './battle-suit-skill-chips.mjs';
 import {X_BODY_AREA_SKILL} from './x-body-area-skill.mjs';
+import {OVERLORD_AREA_SKILL} from './overlord-suit-v1.mjs';
 
 // 2026-09-26: user approved the complete Z-body lightning effect package.
 export const Z_BODY_AREA_RELEASE_ENABLED=true;
@@ -13,10 +14,17 @@ export const Z_BODY_AREA_SKILL=Object.freeze({
   impactOffsetsMs:Object.freeze([1080,1210,1340,1430,1540]),effectDurationMs:3200,sortOrder:100
 });
 export function isZBodyAreaActor(actor){return actor?.cardId==='BATTLE_SUIT:BATTLE_SUIT_Z_BODY'&&actor.isBattleSuit===true;}
-export function battleSuitCombatSkillByCode(code){return code===Z_BODY_AREA_SKILL.code?Z_BODY_AREA_SKILL:code===X_BODY_AREA_SKILL.code?X_BODY_AREA_SKILL:skillChipByCode(code);}
-export function createBattleSuitCombatSchedule(codes,includeZ=false,includeX=false){
+export function battleSuitCombatSkillByCode(code){return code===OVERLORD_AREA_SKILL.code?OVERLORD_AREA_SKILL:code===Z_BODY_AREA_SKILL.code?Z_BODY_AREA_SKILL:code===X_BODY_AREA_SKILL.code?X_BODY_AREA_SKILL:skillChipByCode(code);}
+export function battleSuitIntrinsicDamage(baseDamage,code){
+  const skill=battleSuitCombatSkillByCode(code);
+  if(!skill?.intrinsic||!Number.isSafeInteger(baseDamage)||baseDamage<0)throw new RangeError('Invalid intrinsic suit damage');
+  const damage=Math.round(baseDamage*skill.damageMultiplier);
+  if(!Number.isSafeInteger(damage))throw new RangeError('Intrinsic suit damage exceeds safe integer range');
+  return damage;
+}
+export function createBattleSuitCombatSchedule(codes,includeZ=false,includeX=false,includeOverlord=false){
   const chips=createSkillChipSchedule(codes);let activation=0;
-  const intrinsic=includeX?X_BODY_AREA_SKILL:includeZ?Z_BODY_AREA_SKILL:null;
+  const intrinsic=includeOverlord?OVERLORD_AREA_SKILL:includeX?X_BODY_AREA_SKILL:includeZ?Z_BODY_AREA_SKILL:null;
   return {
     peek(){
       const next=chips.peek(),z=intrinsic?{chip:intrinsic,activation,atMs:(intrinsic.openingDelayMs??intrinsic.intervalMs)+activation*intrinsic.intervalMs}:null;

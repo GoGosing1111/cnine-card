@@ -1,0 +1,1422 @@
+[
+  {
+    "name": "desktop",
+    "errors": [],
+    "failures": [],
+    "normal": [
+      {
+        "mode": "attack",
+        "expected": 115176,
+        "kind": "multi",
+        "skillHits": 0,
+        "skillDamage": 0,
+        "expectedHits": 25,
+        "expectedDamage": 850488,
+        "error": null,
+        "sword": {
+          "version": "OVERLORD_LIVE_20261005_V6",
+          "mode": "ready",
+          "timeMs": 0,
+          "completed": 1,
+          "executions": 0,
+          "nextExecutionAtMs": 0,
+          "intrinsicArea": true,
+          "weaponSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "bodyFrames": 44,
+          "effectFrames": 152,
+          "damageAuthority": "SERVER_TIMELINE",
+          "aura": {
+            "enabled": true,
+            "palette": "crimson",
+            "label": "진홍 · 샴페인 골드",
+            "source": "VALTER_APPROVED_V17",
+            "coreBlend": "normal",
+            "coreOpacity": 0.96,
+            "glowBlend": "add",
+            "glowOpacity": 0.23,
+            "sourcePixelsUnchanged": true,
+            "fullBodySilhouette": true,
+            "silhouetteCopies": 18,
+            "poseMatched": true,
+            "baseFlameFrames": 12,
+            "rearFrames": 8,
+            "frontFogSheets": 0,
+            "risingParticles": 12,
+            "footAnchored": true,
+            "independentClock": false
+          },
+          "title": {
+            "enabled": true,
+            "text": "종말 위에 군림하는 자",
+            "actorAttached": true,
+            "mirrored": false,
+            "independentClock": false,
+            "screenBounds": {
+              "x": 238.05,
+              "y": 194.54450000000003,
+              "width": 207.89999999999998,
+              "height": 75.60000000000002
+            },
+            "font": "Black Han Sans / OFL",
+            "frameSource": "BUILT_IN_IMAGE_GEN"
+          },
+          "externalCast": null
+        },
+        "queue": 0,
+        "timelines": 1,
+        "normalHits": 4,
+        "normalDamage": 115176,
+        "allies": 5,
+        "enemies": 5
+      },
+      {
+        "mode": "combo",
+        "expected": 115176,
+        "kind": "multi",
+        "skillHits": 0,
+        "skillDamage": 0,
+        "expectedHits": 25,
+        "expectedDamage": 850488,
+        "error": null,
+        "sword": {
+          "version": "OVERLORD_LIVE_20261005_V6",
+          "mode": "ready",
+          "timeMs": 0,
+          "completed": 1,
+          "executions": 0,
+          "nextExecutionAtMs": 0,
+          "intrinsicArea": true,
+          "weaponSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "bodyFrames": 44,
+          "effectFrames": 152,
+          "damageAuthority": "SERVER_TIMELINE",
+          "aura": {
+            "enabled": true,
+            "palette": "crimson",
+            "label": "진홍 · 샴페인 골드",
+            "source": "VALTER_APPROVED_V17",
+            "coreBlend": "normal",
+            "coreOpacity": 0.96,
+            "glowBlend": "add",
+            "glowOpacity": 0.23,
+            "sourcePixelsUnchanged": true,
+            "fullBodySilhouette": true,
+            "silhouetteCopies": 18,
+            "poseMatched": true,
+            "baseFlameFrames": 12,
+            "rearFrames": 8,
+            "frontFogSheets": 0,
+            "risingParticles": 12,
+            "footAnchored": true,
+            "independentClock": false
+          },
+          "title": {
+            "enabled": true,
+            "text": "종말 위에 군림하는 자",
+            "actorAttached": true,
+            "mirrored": false,
+            "independentClock": false,
+            "screenBounds": {
+              "x": 238.05,
+              "y": 194.54450000000003,
+              "width": 207.89999999999998,
+              "height": 75.60000000000002
+            },
+            "font": "Black Han Sans / OFL",
+            "frameSource": "BUILT_IN_IMAGE_GEN"
+          },
+          "externalCast": null
+        },
+        "queue": 0,
+        "timelines": 1,
+        "normalHits": 4,
+        "normalDamage": 115176,
+        "allies": 5,
+        "enemies": 5
+      },
+      {
+        "mode": "skill",
+        "expected": 115176,
+        "kind": "multi",
+        "skillHits": 0,
+        "skillDamage": 0,
+        "expectedHits": 25,
+        "expectedDamage": 850488,
+        "error": null,
+        "sword": {
+          "version": "OVERLORD_LIVE_20261005_V6",
+          "mode": "ready",
+          "timeMs": 0,
+          "completed": 1,
+          "executions": 1,
+          "nextExecutionAtMs": 20000,
+          "intrinsicArea": true,
+          "weaponSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "bodyFrames": 44,
+          "effectFrames": 152,
+          "damageAuthority": "SERVER_TIMELINE",
+          "aura": {
+            "enabled": true,
+            "palette": "crimson",
+            "label": "진홍 · 샴페인 골드",
+            "source": "VALTER_APPROVED_V17",
+            "coreBlend": "normal",
+            "coreOpacity": 0.96,
+            "glowBlend": "add",
+            "glowOpacity": 0.23,
+            "sourcePixelsUnchanged": true,
+            "fullBodySilhouette": true,
+            "silhouetteCopies": 18,
+            "poseMatched": true,
+            "baseFlameFrames": 12,
+            "rearFrames": 8,
+            "frontFogSheets": 0,
+            "risingParticles": 12,
+            "footAnchored": true,
+            "independentClock": false
+          },
+          "title": {
+            "enabled": true,
+            "text": "종말 위에 군림하는 자",
+            "actorAttached": true,
+            "mirrored": false,
+            "independentClock": false,
+            "screenBounds": {
+              "x": 238.05,
+              "y": 194.54450000000003,
+              "width": 207.89999999999998,
+              "height": 75.60000000000002
+            },
+            "font": "Black Han Sans / OFL",
+            "frameSource": "BUILT_IN_IMAGE_GEN"
+          },
+          "externalCast": null
+        },
+        "queue": 0,
+        "timelines": 1,
+        "normalHits": 4,
+        "normalDamage": 115176,
+        "allies": 5,
+        "enemies": 5
+      }
+    ],
+    "area": [
+      {
+        "kind": "single",
+        "contact": {
+          "kind": "single",
+          "skillHits": 1,
+          "skillDamage": 30936,
+          "expectedHits": 5,
+          "expectedDamage": 154680,
+          "error": null,
+          "sword": {
+            "version": "OVERLORD_LIVE_20261005_V6",
+            "mode": "aoe",
+            "timeMs": 2300,
+            "completed": 0,
+            "executions": 0,
+            "nextExecutionAtMs": 0,
+            "intrinsicArea": true,
+            "weaponSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+            "bodyFrames": 44,
+            "effectFrames": 152,
+            "damageAuthority": "SERVER_TIMELINE",
+            "aura": {
+              "enabled": true,
+              "palette": "crimson",
+              "label": "진홍 · 샴페인 골드",
+              "source": "VALTER_APPROVED_V17",
+              "coreBlend": "normal",
+              "coreOpacity": 0.96,
+              "glowBlend": "add",
+              "glowOpacity": 0.23,
+              "sourcePixelsUnchanged": true,
+              "fullBodySilhouette": true,
+              "silhouetteCopies": 18,
+              "poseMatched": true,
+              "baseFlameFrames": 12,
+              "rearFrames": 8,
+              "frontFogSheets": 0,
+              "risingParticles": 12,
+              "footAnchored": true,
+              "independentClock": false
+            },
+            "title": {
+              "enabled": true,
+              "text": "종말 위에 군림하는 자",
+              "actorAttached": true,
+              "mirrored": false,
+              "independentClock": false,
+              "screenBounds": {
+                "x": 970.425,
+                "y": 64.49450000000003,
+                "width": 207.9000000000001,
+                "height": 75.60000000000001
+              },
+              "font": "Black Han Sans / OFL",
+              "frameSource": "BUILT_IN_IMAGE_GEN"
+            },
+            "externalCast": {
+              "skill": "BATTLE_SUIT_OVERLORD_WHITE_TIGER",
+              "timeMs": 2300,
+              "targets": [
+                "B:0:ENCOUNTER:OREVIEW-1"
+              ],
+              "confirmedImpacts": [
+                0
+              ],
+              "destroyed": false
+            }
+          },
+          "playback": {
+            "clock": "V3_COMBAT_MS_V1",
+            "timeMs": 4570,
+            "endMs": 5350,
+            "active": true,
+            "completed": false,
+            "casts": 1,
+            "hits": 1,
+            "barrierPauses": 0,
+            "dispatchWaits": 0,
+            "suppressedCasts": 0,
+            "activeEffects": 1,
+            "pendingGroups": 0,
+            "effects": [
+              {
+                "castId": "BATTLE_SUIT_OVERLORD_WHITE_TIGER:1",
+                "targetId": "B:0:ENCOUNTER:OREVIEW-1",
+                "skill": "BATTLE_SUIT_OVERLORD_WHITE_TIGER",
+                "timeMs": 2300,
+                "targets": [
+                  "B:0:ENCOUNTER:OREVIEW-1"
+                ],
+                "confirmedImpacts": [
+                  0
+                ],
+                "destroyed": false
+              }
+            ],
+            "audio": {
+              "ready": false,
+              "enabled": false,
+              "state": "unavailable",
+              "activeSources": 0,
+              "sync": [],
+              "outputCompensationMs": 0,
+              "baseLatencyMs": 0,
+              "outputLatencyMs": 0
+            }
+          },
+          "queue": 0,
+          "timelines": 0,
+          "normalHits": 0,
+          "normalDamage": 0,
+          "allies": 5,
+          "enemies": 1
+        },
+        "complete": {
+          "kind": "single",
+          "skillHits": 5,
+          "skillDamage": 154680,
+          "expectedHits": 5,
+          "expectedDamage": 154680,
+          "error": null,
+          "sword": {
+            "version": "OVERLORD_LIVE_20261005_V6",
+            "mode": "ready",
+            "timeMs": 0,
+            "completed": 0,
+            "executions": 0,
+            "nextExecutionAtMs": 0,
+            "intrinsicArea": true,
+            "weaponSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+            "bodyFrames": 44,
+            "effectFrames": 152,
+            "damageAuthority": "SERVER_TIMELINE",
+            "aura": {
+              "enabled": true,
+              "palette": "crimson",
+              "label": "진홍 · 샴페인 골드",
+              "source": "VALTER_APPROVED_V17",
+              "coreBlend": "normal",
+              "coreOpacity": 0.96,
+              "glowBlend": "add",
+              "glowOpacity": 0.23,
+              "sourcePixelsUnchanged": true,
+              "fullBodySilhouette": true,
+              "silhouetteCopies": 18,
+              "poseMatched": true,
+              "baseFlameFrames": 12,
+              "rearFrames": 8,
+              "frontFogSheets": 0,
+              "risingParticles": 12,
+              "footAnchored": true,
+              "independentClock": false
+            },
+            "title": {
+              "enabled": true,
+              "text": "종말 위에 군림하는 자",
+              "actorAttached": true,
+              "mirrored": false,
+              "independentClock": false,
+              "screenBounds": {
+                "x": 238.05,
+                "y": 194.54450000000003,
+                "width": 207.89999999999998,
+                "height": 75.60000000000002
+              },
+              "font": "Black Han Sans / OFL",
+              "frameSource": "BUILT_IN_IMAGE_GEN"
+            },
+            "externalCast": null
+          },
+          "playback": {
+            "clock": "V3_COMBAT_MS_V1",
+            "timeMs": 7624,
+            "endMs": 5350,
+            "active": false,
+            "completed": true,
+            "casts": 1,
+            "hits": 5,
+            "barrierPauses": 0,
+            "dispatchWaits": 0,
+            "suppressedCasts": 0,
+            "activeEffects": 0,
+            "pendingGroups": 0,
+            "effects": [],
+            "audio": {
+              "ready": false,
+              "enabled": false,
+              "state": "unavailable",
+              "activeSources": 0,
+              "sync": [],
+              "outputCompensationMs": 0,
+              "baseLatencyMs": 0,
+              "outputLatencyMs": 0
+            }
+          },
+          "queue": 0,
+          "timelines": 1,
+          "normalHits": 0,
+          "normalDamage": 0,
+          "allies": 5,
+          "enemies": 1
+        }
+      },
+      {
+        "kind": "multi",
+        "contact": {
+          "kind": "multi",
+          "skillHits": 5,
+          "skillDamage": 170100,
+          "expectedHits": 25,
+          "expectedDamage": 850488,
+          "error": null,
+          "sword": {
+            "version": "OVERLORD_LIVE_20261005_V6",
+            "mode": "aoe",
+            "timeMs": 2300,
+            "completed": 0,
+            "executions": 0,
+            "nextExecutionAtMs": 0,
+            "intrinsicArea": true,
+            "weaponSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+            "bodyFrames": 44,
+            "effectFrames": 152,
+            "damageAuthority": "SERVER_TIMELINE",
+            "aura": {
+              "enabled": true,
+              "palette": "crimson",
+              "label": "진홍 · 샴페인 골드",
+              "source": "VALTER_APPROVED_V17",
+              "coreBlend": "normal",
+              "coreOpacity": 0.96,
+              "glowBlend": "add",
+              "glowOpacity": 0.23,
+              "sourcePixelsUnchanged": true,
+              "fullBodySilhouette": true,
+              "silhouetteCopies": 18,
+              "poseMatched": true,
+              "baseFlameFrames": 12,
+              "rearFrames": 8,
+              "frontFogSheets": 0,
+              "risingParticles": 12,
+              "footAnchored": true,
+              "independentClock": false
+            },
+            "title": {
+              "enabled": true,
+              "text": "종말 위에 군림하는 자",
+              "actorAttached": true,
+              "mirrored": false,
+              "independentClock": false,
+              "screenBounds": {
+                "x": 592.425,
+                "y": 191.21450000000004,
+                "width": 207.9000000000001,
+                "height": 75.60000000000002
+              },
+              "font": "Black Han Sans / OFL",
+              "frameSource": "BUILT_IN_IMAGE_GEN"
+            },
+            "externalCast": {
+              "skill": "BATTLE_SUIT_OVERLORD_WHITE_TIGER",
+              "timeMs": 2300,
+              "targets": [
+                "B:0:ENCOUNTER:OREVIEW-1",
+                "B:1:ENCOUNTER:OREVIEW-2",
+                "B:2:ENCOUNTER:OREVIEW-3",
+                "B:3:ENCOUNTER:OREVIEW-4",
+                "B:4:ENCOUNTER:OREVIEW-5"
+              ],
+              "confirmedImpacts": [
+                0
+              ],
+              "destroyed": false
+            }
+          },
+          "playback": {
+            "clock": "V3_COMBAT_MS_V1",
+            "timeMs": 4570,
+            "endMs": 5350,
+            "active": true,
+            "completed": false,
+            "casts": 1,
+            "hits": 5,
+            "barrierPauses": 0,
+            "dispatchWaits": 0,
+            "suppressedCasts": 0,
+            "activeEffects": 1,
+            "pendingGroups": 0,
+            "effects": [
+              {
+                "castId": "BATTLE_SUIT_OVERLORD_WHITE_TIGER:1",
+                "targetId": "B:0:ENCOUNTER:OREVIEW-1",
+                "skill": "BATTLE_SUIT_OVERLORD_WHITE_TIGER",
+                "timeMs": 2300,
+                "targets": [
+                  "B:0:ENCOUNTER:OREVIEW-1",
+                  "B:1:ENCOUNTER:OREVIEW-2",
+                  "B:2:ENCOUNTER:OREVIEW-3",
+                  "B:3:ENCOUNTER:OREVIEW-4",
+                  "B:4:ENCOUNTER:OREVIEW-5"
+                ],
+                "confirmedImpacts": [
+                  0
+                ],
+                "destroyed": false
+              }
+            ],
+            "audio": {
+              "ready": false,
+              "enabled": false,
+              "state": "unavailable",
+              "activeSources": 0,
+              "sync": [],
+              "outputCompensationMs": 0,
+              "baseLatencyMs": 0,
+              "outputLatencyMs": 0
+            }
+          },
+          "queue": 0,
+          "timelines": 0,
+          "normalHits": 0,
+          "normalDamage": 0,
+          "allies": 5,
+          "enemies": 5
+        },
+        "complete": {
+          "kind": "multi",
+          "skillHits": 25,
+          "skillDamage": 850488,
+          "expectedHits": 25,
+          "expectedDamage": 850488,
+          "error": null,
+          "sword": {
+            "version": "OVERLORD_LIVE_20261005_V6",
+            "mode": "ready",
+            "timeMs": 0,
+            "completed": 0,
+            "executions": 0,
+            "nextExecutionAtMs": 0,
+            "intrinsicArea": true,
+            "weaponSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+            "bodyFrames": 44,
+            "effectFrames": 152,
+            "damageAuthority": "SERVER_TIMELINE",
+            "aura": {
+              "enabled": true,
+              "palette": "crimson",
+              "label": "진홍 · 샴페인 골드",
+              "source": "VALTER_APPROVED_V17",
+              "coreBlend": "normal",
+              "coreOpacity": 0.96,
+              "glowBlend": "add",
+              "glowOpacity": 0.23,
+              "sourcePixelsUnchanged": true,
+              "fullBodySilhouette": true,
+              "silhouetteCopies": 18,
+              "poseMatched": true,
+              "baseFlameFrames": 12,
+              "rearFrames": 8,
+              "frontFogSheets": 0,
+              "risingParticles": 12,
+              "footAnchored": true,
+              "independentClock": false
+            },
+            "title": {
+              "enabled": true,
+              "text": "종말 위에 군림하는 자",
+              "actorAttached": true,
+              "mirrored": false,
+              "independentClock": false,
+              "screenBounds": {
+                "x": 238.05,
+                "y": 194.54450000000003,
+                "width": 207.89999999999998,
+                "height": 75.60000000000002
+              },
+              "font": "Black Han Sans / OFL",
+              "frameSource": "BUILT_IN_IMAGE_GEN"
+            },
+            "externalCast": null
+          },
+          "playback": {
+            "clock": "V3_COMBAT_MS_V1",
+            "timeMs": 7620,
+            "endMs": 5350,
+            "active": false,
+            "completed": true,
+            "casts": 1,
+            "hits": 25,
+            "barrierPauses": 0,
+            "dispatchWaits": 0,
+            "suppressedCasts": 0,
+            "activeEffects": 0,
+            "pendingGroups": 0,
+            "effects": [],
+            "audio": {
+              "ready": false,
+              "enabled": false,
+              "state": "unavailable",
+              "activeSources": 0,
+              "sync": [],
+              "outputCompensationMs": 0,
+              "baseLatencyMs": 0,
+              "outputLatencyMs": 0
+            }
+          },
+          "queue": 0,
+          "timelines": 1,
+          "normalHits": 0,
+          "normalDamage": 0,
+          "allies": 5,
+          "enemies": 5
+        }
+      }
+    ],
+    "stopped": {
+      "kind": "multi",
+      "skillHits": 0,
+      "skillDamage": 0,
+      "expectedHits": 25,
+      "expectedDamage": 850488,
+      "error": null,
+      "sword": {
+        "version": "OVERLORD_LIVE_20261005_V6",
+        "mode": "ready",
+        "timeMs": 0,
+        "completed": 0,
+        "executions": 0,
+        "nextExecutionAtMs": 0,
+        "intrinsicArea": true,
+        "weaponSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+        "bodyFrames": 44,
+        "effectFrames": 152,
+        "damageAuthority": "SERVER_TIMELINE",
+        "aura": {
+          "enabled": true,
+          "palette": "crimson",
+          "label": "진홍 · 샴페인 골드",
+          "source": "VALTER_APPROVED_V17",
+          "coreBlend": "normal",
+          "coreOpacity": 0.96,
+          "glowBlend": "add",
+          "glowOpacity": 0.23,
+          "sourcePixelsUnchanged": true,
+          "fullBodySilhouette": true,
+          "silhouetteCopies": 18,
+          "poseMatched": true,
+          "baseFlameFrames": 12,
+          "rearFrames": 8,
+          "frontFogSheets": 0,
+          "risingParticles": 12,
+          "footAnchored": true,
+          "independentClock": false
+        },
+        "title": {
+          "enabled": true,
+          "text": "종말 위에 군림하는 자",
+          "actorAttached": true,
+          "mirrored": false,
+          "independentClock": false,
+          "screenBounds": {
+            "x": 238.05,
+            "y": 194.54450000000003,
+            "width": 207.89999999999998,
+            "height": 75.60000000000002
+          },
+          "font": "Black Han Sans / OFL",
+          "frameSource": "BUILT_IN_IMAGE_GEN"
+        },
+        "externalCast": null
+      },
+      "playback": {
+        "clock": "V3_COMBAT_MS_V1",
+        "timeMs": 3910,
+        "endMs": 5350,
+        "active": false,
+        "completed": false,
+        "casts": 1,
+        "hits": 0,
+        "barrierPauses": 0,
+        "dispatchWaits": 0,
+        "suppressedCasts": 0,
+        "activeEffects": 0,
+        "pendingGroups": 0,
+        "effects": [],
+        "audio": {
+          "ready": false,
+          "enabled": false,
+          "state": "unavailable",
+          "activeSources": 0,
+          "sync": [],
+          "outputCompensationMs": 0,
+          "baseLatencyMs": 0,
+          "outputLatencyMs": 0
+        }
+      },
+      "queue": 0,
+      "timelines": 1,
+      "normalHits": 0,
+      "normalDamage": 0,
+      "allies": 5,
+      "enemies": 5
+    },
+    "pvp": {
+      "active": false,
+      "sword": false
+    }
+  },
+  {
+    "name": "mobile",
+    "errors": [],
+    "failures": [],
+    "normal": [
+      {
+        "mode": "attack",
+        "expected": 115176,
+        "kind": "multi",
+        "skillHits": 0,
+        "skillDamage": 0,
+        "expectedHits": 25,
+        "expectedDamage": 850488,
+        "error": null,
+        "sword": {
+          "version": "OVERLORD_LIVE_20261005_V6",
+          "mode": "ready",
+          "timeMs": 0,
+          "completed": 1,
+          "executions": 0,
+          "nextExecutionAtMs": 0,
+          "intrinsicArea": true,
+          "weaponSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "bodyFrames": 44,
+          "effectFrames": 152,
+          "damageAuthority": "SERVER_TIMELINE",
+          "aura": {
+            "enabled": true,
+            "palette": "crimson",
+            "label": "진홍 · 샴페인 골드",
+            "source": "VALTER_APPROVED_V17",
+            "coreBlend": "normal",
+            "coreOpacity": 0.96,
+            "glowBlend": "add",
+            "glowOpacity": 0.23,
+            "sourcePixelsUnchanged": true,
+            "fullBodySilhouette": true,
+            "silhouetteCopies": 18,
+            "poseMatched": true,
+            "baseFlameFrames": 12,
+            "rearFrames": 8,
+            "frontFogSheets": 0,
+            "risingParticles": 12,
+            "footAnchored": true,
+            "independentClock": false
+          },
+          "title": {
+            "enabled": true,
+            "text": "종말 위에 군림하는 자",
+            "actorAttached": true,
+            "mirrored": false,
+            "independentClock": false,
+            "screenBounds": {
+              "x": 54.63289999999999,
+              "y": 180.67233322222225,
+              "width": 134.3342,
+              "height": 48.84879999999998
+            },
+            "font": "Black Han Sans / OFL",
+            "frameSource": "BUILT_IN_IMAGE_GEN"
+          },
+          "externalCast": null
+        },
+        "queue": 0,
+        "timelines": 1,
+        "normalHits": 4,
+        "normalDamage": 115176,
+        "allies": 5,
+        "enemies": 5
+      },
+      {
+        "mode": "combo",
+        "expected": 115176,
+        "kind": "multi",
+        "skillHits": 0,
+        "skillDamage": 0,
+        "expectedHits": 25,
+        "expectedDamage": 850488,
+        "error": null,
+        "sword": {
+          "version": "OVERLORD_LIVE_20261005_V6",
+          "mode": "ready",
+          "timeMs": 0,
+          "completed": 1,
+          "executions": 0,
+          "nextExecutionAtMs": 0,
+          "intrinsicArea": true,
+          "weaponSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "bodyFrames": 44,
+          "effectFrames": 152,
+          "damageAuthority": "SERVER_TIMELINE",
+          "aura": {
+            "enabled": true,
+            "palette": "crimson",
+            "label": "진홍 · 샴페인 골드",
+            "source": "VALTER_APPROVED_V17",
+            "coreBlend": "normal",
+            "coreOpacity": 0.96,
+            "glowBlend": "add",
+            "glowOpacity": 0.23,
+            "sourcePixelsUnchanged": true,
+            "fullBodySilhouette": true,
+            "silhouetteCopies": 18,
+            "poseMatched": true,
+            "baseFlameFrames": 12,
+            "rearFrames": 8,
+            "frontFogSheets": 0,
+            "risingParticles": 12,
+            "footAnchored": true,
+            "independentClock": false
+          },
+          "title": {
+            "enabled": true,
+            "text": "종말 위에 군림하는 자",
+            "actorAttached": true,
+            "mirrored": false,
+            "independentClock": false,
+            "screenBounds": {
+              "x": 54.63289999999999,
+              "y": 180.67233322222225,
+              "width": 134.3342,
+              "height": 48.84879999999998
+            },
+            "font": "Black Han Sans / OFL",
+            "frameSource": "BUILT_IN_IMAGE_GEN"
+          },
+          "externalCast": null
+        },
+        "queue": 0,
+        "timelines": 1,
+        "normalHits": 4,
+        "normalDamage": 115176,
+        "allies": 5,
+        "enemies": 5
+      },
+      {
+        "mode": "skill",
+        "expected": 115176,
+        "kind": "multi",
+        "skillHits": 0,
+        "skillDamage": 0,
+        "expectedHits": 25,
+        "expectedDamage": 850488,
+        "error": null,
+        "sword": {
+          "version": "OVERLORD_LIVE_20261005_V6",
+          "mode": "ready",
+          "timeMs": 0,
+          "completed": 1,
+          "executions": 1,
+          "nextExecutionAtMs": 20000,
+          "intrinsicArea": true,
+          "weaponSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "bodyFrames": 44,
+          "effectFrames": 152,
+          "damageAuthority": "SERVER_TIMELINE",
+          "aura": {
+            "enabled": true,
+            "palette": "crimson",
+            "label": "진홍 · 샴페인 골드",
+            "source": "VALTER_APPROVED_V17",
+            "coreBlend": "normal",
+            "coreOpacity": 0.96,
+            "glowBlend": "add",
+            "glowOpacity": 0.23,
+            "sourcePixelsUnchanged": true,
+            "fullBodySilhouette": true,
+            "silhouetteCopies": 18,
+            "poseMatched": true,
+            "baseFlameFrames": 12,
+            "rearFrames": 8,
+            "frontFogSheets": 0,
+            "risingParticles": 12,
+            "footAnchored": true,
+            "independentClock": false
+          },
+          "title": {
+            "enabled": true,
+            "text": "종말 위에 군림하는 자",
+            "actorAttached": true,
+            "mirrored": false,
+            "independentClock": false,
+            "screenBounds": {
+              "x": 54.63289999999999,
+              "y": 180.67233322222225,
+              "width": 134.3342,
+              "height": 48.84879999999998
+            },
+            "font": "Black Han Sans / OFL",
+            "frameSource": "BUILT_IN_IMAGE_GEN"
+          },
+          "externalCast": null
+        },
+        "queue": 0,
+        "timelines": 1,
+        "normalHits": 4,
+        "normalDamage": 115176,
+        "allies": 5,
+        "enemies": 5
+      }
+    ],
+    "area": [
+      {
+        "kind": "single",
+        "contact": {
+          "kind": "single",
+          "skillHits": 1,
+          "skillDamage": 30936,
+          "expectedHits": 5,
+          "expectedDamage": 154680,
+          "error": null,
+          "sword": {
+            "version": "OVERLORD_LIVE_20261005_V6",
+            "mode": "aoe",
+            "timeMs": 2300,
+            "completed": 0,
+            "executions": 0,
+            "nextExecutionAtMs": 0,
+            "intrinsicArea": true,
+            "weaponSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+            "bodyFrames": 44,
+            "effectFrames": 152,
+            "damageAuthority": "SERVER_TIMELINE",
+            "aura": {
+              "enabled": true,
+              "palette": "crimson",
+              "label": "진홍 · 샴페인 골드",
+              "source": "VALTER_APPROVED_V17",
+              "coreBlend": "normal",
+              "coreOpacity": 0.96,
+              "glowBlend": "add",
+              "glowOpacity": 0.23,
+              "sourcePixelsUnchanged": true,
+              "fullBodySilhouette": true,
+              "silhouetteCopies": 18,
+              "poseMatched": true,
+              "baseFlameFrames": 12,
+              "rearFrames": 8,
+              "frontFogSheets": 0,
+              "risingParticles": 12,
+              "footAnchored": true,
+              "independentClock": false
+            },
+            "title": {
+              "enabled": true,
+              "text": "종말 위에 군림하는 자",
+              "actorAttached": true,
+              "mirrored": false,
+              "independentClock": false,
+              "screenBounds": {
+                "x": 170.15165000000002,
+                "y": 92.88316655555558,
+                "width": 134.3342,
+                "height": 48.8488
+              },
+              "font": "Black Han Sans / OFL",
+              "frameSource": "BUILT_IN_IMAGE_GEN"
+            },
+            "externalCast": {
+              "skill": "BATTLE_SUIT_OVERLORD_WHITE_TIGER",
+              "timeMs": 2300,
+              "targets": [
+                "B:0:ENCOUNTER:OREVIEW-1"
+              ],
+              "confirmedImpacts": [
+                0
+              ],
+              "destroyed": false
+            }
+          },
+          "playback": {
+            "clock": "V3_COMBAT_MS_V1",
+            "timeMs": 4570,
+            "endMs": 5350,
+            "active": true,
+            "completed": false,
+            "casts": 1,
+            "hits": 1,
+            "barrierPauses": 0,
+            "dispatchWaits": 0,
+            "suppressedCasts": 0,
+            "activeEffects": 1,
+            "pendingGroups": 0,
+            "effects": [
+              {
+                "castId": "BATTLE_SUIT_OVERLORD_WHITE_TIGER:1",
+                "targetId": "B:0:ENCOUNTER:OREVIEW-1",
+                "skill": "BATTLE_SUIT_OVERLORD_WHITE_TIGER",
+                "timeMs": 2300,
+                "targets": [
+                  "B:0:ENCOUNTER:OREVIEW-1"
+                ],
+                "confirmedImpacts": [
+                  0
+                ],
+                "destroyed": false
+              }
+            ],
+            "audio": {
+              "ready": false,
+              "enabled": false,
+              "state": "unavailable",
+              "activeSources": 0,
+              "sync": [],
+              "outputCompensationMs": 0,
+              "baseLatencyMs": 0,
+              "outputLatencyMs": 0
+            }
+          },
+          "queue": 0,
+          "timelines": 1,
+          "normalHits": 0,
+          "normalDamage": 0,
+          "allies": 5,
+          "enemies": 1
+        },
+        "complete": {
+          "kind": "single",
+          "skillHits": 5,
+          "skillDamage": 154680,
+          "expectedHits": 5,
+          "expectedDamage": 154680,
+          "error": null,
+          "sword": {
+            "version": "OVERLORD_LIVE_20261005_V6",
+            "mode": "ready",
+            "timeMs": 0,
+            "completed": 0,
+            "executions": 0,
+            "nextExecutionAtMs": 0,
+            "intrinsicArea": true,
+            "weaponSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+            "bodyFrames": 44,
+            "effectFrames": 152,
+            "damageAuthority": "SERVER_TIMELINE",
+            "aura": {
+              "enabled": true,
+              "palette": "crimson",
+              "label": "진홍 · 샴페인 골드",
+              "source": "VALTER_APPROVED_V17",
+              "coreBlend": "normal",
+              "coreOpacity": 0.96,
+              "glowBlend": "add",
+              "glowOpacity": 0.23,
+              "sourcePixelsUnchanged": true,
+              "fullBodySilhouette": true,
+              "silhouetteCopies": 18,
+              "poseMatched": true,
+              "baseFlameFrames": 12,
+              "rearFrames": 8,
+              "frontFogSheets": 0,
+              "risingParticles": 12,
+              "footAnchored": true,
+              "independentClock": false
+            },
+            "title": {
+              "enabled": true,
+              "text": "종말 위에 군림하는 자",
+              "actorAttached": true,
+              "mirrored": false,
+              "independentClock": false,
+              "screenBounds": {
+                "x": 54.63289999999999,
+                "y": 180.67233322222225,
+                "width": 134.3342,
+                "height": 48.84879999999998
+              },
+              "font": "Black Han Sans / OFL",
+              "frameSource": "BUILT_IN_IMAGE_GEN"
+            },
+            "externalCast": null
+          },
+          "playback": {
+            "clock": "V3_COMBAT_MS_V1",
+            "timeMs": 7624,
+            "endMs": 5350,
+            "active": false,
+            "completed": true,
+            "casts": 1,
+            "hits": 5,
+            "barrierPauses": 0,
+            "dispatchWaits": 0,
+            "suppressedCasts": 0,
+            "activeEffects": 0,
+            "pendingGroups": 0,
+            "effects": [],
+            "audio": {
+              "ready": false,
+              "enabled": false,
+              "state": "unavailable",
+              "activeSources": 0,
+              "sync": [],
+              "outputCompensationMs": 0,
+              "baseLatencyMs": 0,
+              "outputLatencyMs": 0
+            }
+          },
+          "queue": 0,
+          "timelines": 1,
+          "normalHits": 0,
+          "normalDamage": 0,
+          "allies": 5,
+          "enemies": 1
+        }
+      },
+      {
+        "kind": "multi",
+        "contact": {
+          "kind": "multi",
+          "skillHits": 5,
+          "skillDamage": 170100,
+          "expectedHits": 25,
+          "expectedDamage": 850488,
+          "error": null,
+          "sword": {
+            "version": "OVERLORD_LIVE_20261005_V6",
+            "mode": "aoe",
+            "timeMs": 2300,
+            "completed": 0,
+            "executions": 0,
+            "nextExecutionAtMs": 0,
+            "intrinsicArea": true,
+            "weaponSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+            "bodyFrames": 44,
+            "effectFrames": 152,
+            "damageAuthority": "SERVER_TIMELINE",
+            "aura": {
+              "enabled": true,
+              "palette": "crimson",
+              "label": "진홍 · 샴페인 골드",
+              "source": "VALTER_APPROVED_V17",
+              "coreBlend": "normal",
+              "coreOpacity": 0.96,
+              "glowBlend": "add",
+              "glowOpacity": 0.23,
+              "sourcePixelsUnchanged": true,
+              "fullBodySilhouette": true,
+              "silhouetteCopies": 18,
+              "poseMatched": true,
+              "baseFlameFrames": 12,
+              "rearFrames": 8,
+              "frontFogSheets": 0,
+              "risingParticles": 12,
+              "footAnchored": true,
+              "independentClock": false
+            },
+            "title": {
+              "enabled": true,
+              "text": "종말 위에 군림하는 자",
+              "actorAttached": true,
+              "mirrored": false,
+              "independentClock": false,
+              "screenBounds": {
+                "x": 96.95165000000003,
+                "y": 255.54983322222233,
+                "width": 134.3342,
+                "height": 48.84879999999998
+              },
+              "font": "Black Han Sans / OFL",
+              "frameSource": "BUILT_IN_IMAGE_GEN"
+            },
+            "externalCast": {
+              "skill": "BATTLE_SUIT_OVERLORD_WHITE_TIGER",
+              "timeMs": 2300,
+              "targets": [
+                "B:0:ENCOUNTER:OREVIEW-1",
+                "B:1:ENCOUNTER:OREVIEW-2",
+                "B:2:ENCOUNTER:OREVIEW-3",
+                "B:3:ENCOUNTER:OREVIEW-4",
+                "B:4:ENCOUNTER:OREVIEW-5"
+              ],
+              "confirmedImpacts": [
+                0
+              ],
+              "destroyed": false
+            }
+          },
+          "playback": {
+            "clock": "V3_COMBAT_MS_V1",
+            "timeMs": 4570,
+            "endMs": 5350,
+            "active": true,
+            "completed": false,
+            "casts": 1,
+            "hits": 5,
+            "barrierPauses": 0,
+            "dispatchWaits": 0,
+            "suppressedCasts": 0,
+            "activeEffects": 1,
+            "pendingGroups": 0,
+            "effects": [
+              {
+                "castId": "BATTLE_SUIT_OVERLORD_WHITE_TIGER:1",
+                "targetId": "B:0:ENCOUNTER:OREVIEW-1",
+                "skill": "BATTLE_SUIT_OVERLORD_WHITE_TIGER",
+                "timeMs": 2300,
+                "targets": [
+                  "B:0:ENCOUNTER:OREVIEW-1",
+                  "B:1:ENCOUNTER:OREVIEW-2",
+                  "B:2:ENCOUNTER:OREVIEW-3",
+                  "B:3:ENCOUNTER:OREVIEW-4",
+                  "B:4:ENCOUNTER:OREVIEW-5"
+                ],
+                "confirmedImpacts": [
+                  0
+                ],
+                "destroyed": false
+              }
+            ],
+            "audio": {
+              "ready": false,
+              "enabled": false,
+              "state": "unavailable",
+              "activeSources": 0,
+              "sync": [],
+              "outputCompensationMs": 0,
+              "baseLatencyMs": 0,
+              "outputLatencyMs": 0
+            }
+          },
+          "queue": 0,
+          "timelines": 5,
+          "normalHits": 0,
+          "normalDamage": 0,
+          "allies": 5,
+          "enemies": 5
+        },
+        "complete": {
+          "kind": "multi",
+          "skillHits": 25,
+          "skillDamage": 850488,
+          "expectedHits": 25,
+          "expectedDamage": 850488,
+          "error": null,
+          "sword": {
+            "version": "OVERLORD_LIVE_20261005_V6",
+            "mode": "ready",
+            "timeMs": 0,
+            "completed": 0,
+            "executions": 0,
+            "nextExecutionAtMs": 0,
+            "intrinsicArea": true,
+            "weaponSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+            "bodyFrames": 44,
+            "effectFrames": 152,
+            "damageAuthority": "SERVER_TIMELINE",
+            "aura": {
+              "enabled": true,
+              "palette": "crimson",
+              "label": "진홍 · 샴페인 골드",
+              "source": "VALTER_APPROVED_V17",
+              "coreBlend": "normal",
+              "coreOpacity": 0.96,
+              "glowBlend": "add",
+              "glowOpacity": 0.23,
+              "sourcePixelsUnchanged": true,
+              "fullBodySilhouette": true,
+              "silhouetteCopies": 18,
+              "poseMatched": true,
+              "baseFlameFrames": 12,
+              "rearFrames": 8,
+              "frontFogSheets": 0,
+              "risingParticles": 12,
+              "footAnchored": true,
+              "independentClock": false
+            },
+            "title": {
+              "enabled": true,
+              "text": "종말 위에 군림하는 자",
+              "actorAttached": true,
+              "mirrored": false,
+              "independentClock": false,
+              "screenBounds": {
+                "x": 54.63289999999999,
+                "y": 180.67233322222225,
+                "width": 134.3342,
+                "height": 48.84879999999998
+              },
+              "font": "Black Han Sans / OFL",
+              "frameSource": "BUILT_IN_IMAGE_GEN"
+            },
+            "externalCast": null
+          },
+          "playback": {
+            "clock": "V3_COMBAT_MS_V1",
+            "timeMs": 7620,
+            "endMs": 5350,
+            "active": false,
+            "completed": true,
+            "casts": 1,
+            "hits": 25,
+            "barrierPauses": 0,
+            "dispatchWaits": 0,
+            "suppressedCasts": 0,
+            "activeEffects": 0,
+            "pendingGroups": 0,
+            "effects": [],
+            "audio": {
+              "ready": false,
+              "enabled": false,
+              "state": "unavailable",
+              "activeSources": 0,
+              "sync": [],
+              "outputCompensationMs": 0,
+              "baseLatencyMs": 0,
+              "outputLatencyMs": 0
+            }
+          },
+          "queue": 0,
+          "timelines": 1,
+          "normalHits": 0,
+          "normalDamage": 0,
+          "allies": 5,
+          "enemies": 5
+        }
+      }
+    ],
+    "stopped": {
+      "kind": "multi",
+      "skillHits": 0,
+      "skillDamage": 0,
+      "expectedHits": 25,
+      "expectedDamage": 850488,
+      "error": null,
+      "sword": {
+        "version": "OVERLORD_LIVE_20261005_V6",
+        "mode": "ready",
+        "timeMs": 0,
+        "completed": 0,
+        "executions": 0,
+        "nextExecutionAtMs": 0,
+        "intrinsicArea": true,
+        "weaponSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+        "bodyFrames": 44,
+        "effectFrames": 152,
+        "damageAuthority": "SERVER_TIMELINE",
+        "aura": {
+          "enabled": true,
+          "palette": "crimson",
+          "label": "진홍 · 샴페인 골드",
+          "source": "VALTER_APPROVED_V17",
+          "coreBlend": "normal",
+          "coreOpacity": 0.96,
+          "glowBlend": "add",
+          "glowOpacity": 0.23,
+          "sourcePixelsUnchanged": true,
+          "fullBodySilhouette": true,
+          "silhouetteCopies": 18,
+          "poseMatched": true,
+          "baseFlameFrames": 12,
+          "rearFrames": 8,
+          "frontFogSheets": 0,
+          "risingParticles": 12,
+          "footAnchored": true,
+          "independentClock": false
+        },
+        "title": {
+          "enabled": true,
+          "text": "종말 위에 군림하는 자",
+          "actorAttached": true,
+          "mirrored": false,
+          "independentClock": false,
+          "screenBounds": {
+            "x": 54.63289999999999,
+            "y": 180.67233322222225,
+            "width": 134.3342,
+            "height": 48.84879999999998
+          },
+          "font": "Black Han Sans / OFL",
+          "frameSource": "BUILT_IN_IMAGE_GEN"
+        },
+        "externalCast": null
+      },
+      "playback": {
+        "clock": "V3_COMBAT_MS_V1",
+        "timeMs": 3910,
+        "endMs": 5350,
+        "active": false,
+        "completed": false,
+        "casts": 1,
+        "hits": 0,
+        "barrierPauses": 0,
+        "dispatchWaits": 0,
+        "suppressedCasts": 0,
+        "activeEffects": 0,
+        "pendingGroups": 0,
+        "effects": [],
+        "audio": {
+          "ready": false,
+          "enabled": false,
+          "state": "unavailable",
+          "activeSources": 0,
+          "sync": [],
+          "outputCompensationMs": 0,
+          "baseLatencyMs": 0,
+          "outputLatencyMs": 0
+        }
+      },
+      "queue": 0,
+      "timelines": 1,
+      "normalHits": 0,
+      "normalDamage": 0,
+      "allies": 5,
+      "enemies": 5
+    },
+    "pvp": {
+      "active": false,
+      "sword": false
+    }
+  }
+]

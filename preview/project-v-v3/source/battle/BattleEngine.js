@@ -20,6 +20,8 @@ import {ZBodySwordAnimation} from './ZBodySwordAnimation.js';
 import {Z_SWORD,isZBody,takeSwordBatch} from './ZBodySwordModel.mjs';
 import {XBodySwordAnimation} from './XBodySwordAnimation.js';
 import {isXBody} from './XBodySwordModel.mjs';
+import {OverlordSuitAnimation} from './OverlordSuitAnimation.js';
+import {isOverlord} from '../../../../shared/overlord-suit-v1.mjs';
 import {withOccupiedGrid} from './OccupiedGridLayout.js';
 import {withMercenaryBattle} from './MercenaryCombatPlayback.js';
 import {preloadCooperativeArke,playCooperativeArkeAttack,playCooperativeWatcherAttack,playCooperativeArkeMechanic} from './CooperativeArkePlayback.js';
@@ -1244,7 +1246,7 @@ export class BaseBattleEngine{
       :null;
     const suitSource=appearanceUrl(battleSuit);
     const weaponSource=weaponAppearanceUrl(weapon);
-    const eligible=pveAllowed&&Boolean(battleSuit&&(isZBody(equipmentCode(battleSuit))||isXBody(equipmentCode(battleSuit))||authoredProfile||suitSource));
+    const eligible=pveAllowed&&Boolean(battleSuit&&(isOverlord(equipmentCode(battleSuit))||isZBody(equipmentCode(battleSuit))||isXBody(equipmentCode(battleSuit))||authoredProfile||suitSource));
     this.accountBattleUnitEquipment={battleSuit,weapon};
     this.accountBattleUnitEnabled=false;
     this.syncAccountBattleUnitTile();
@@ -1257,6 +1259,17 @@ export class BaseBattleEngine{
     const unit=this.ensureAccountBattleUnit();
     const suitAppearance=appearanceObject(battleSuit)||{};
     const weaponAppearance=appearanceObject(weapon)||{};
+    if(isOverlord(equipmentCode(battleSuit))){
+      const epoch=this.playbackEpoch;
+      unit.clearAppearance();
+      const textures=await OverlordSuitAnimation.load();
+      if(epoch!==this.playbackEpoch||unit.root.destroyed){OverlordSuitAnimation.release(textures);return false;}
+      new OverlordSuitAnimation(this,unit,textures);
+      unit.setName(accountNickname(payload));
+      this.accountBattleUnitEnabled=unit.setActive(true,{deployed:false});
+      this.syncAccountBattleUnitTile();this.layoutAccountBattleUnit();this.sortCombatDepth();
+      return this.accountBattleUnitEnabled;
+    }
     if(isXBody(equipmentCode(battleSuit))){
       const epoch=this.playbackEpoch;
       unit.clearAppearance();
@@ -1534,6 +1547,8 @@ export class BaseBattleEngine{
       }
       this.triggerAccountBattleUnitBallisticHit(victim,{cameraShake:mode==='area'?4:3.2},this.paceScale||1);
       if(total)this.showAccountBattleUnitDamage(victim,{damage:total,critical,playbackRate:this.paceScale||1});
+      const overlord=isOverlord(equipmentCode(this.accountBattleUnitEquipment?.battleSuit));
+      if(overlord){this.updateStatus('오버로드 '+(mode==='area'?'백호멸진':mode==='skill'?'왕관의 처형':mode==='combo'?'왕의 삼연참':'단죄')+' · '+Math.round(total).toLocaleString());return true;}
       const x=isXBody(equipmentCode(this.accountBattleUnitEquipment?.battleSuit));
       this.updateStatus(`${x?'X-BODY':'Z-BODY'} ${x?(mode==='area'?'천룡 강림':mode==='skill'?'천광 연섬':'일섬'):(mode==='area'?'뇌검 집행':'돌진 검격')} · ${Math.round(total).toLocaleString()}`);
       return true;

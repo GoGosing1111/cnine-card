@@ -1,5 +1,7 @@
 import {Z_BODY_AREA_RELEASE_ENABLED,Z_BODY_AREA_REVIEW,isZBodyAreaActor,createBattleSuitCombatSchedule} from '../shared/z-body-area-skill.mjs';
 import {X_BODY_AREA_RELEASE_ENABLED,X_BODY_AREA_REVIEW,isXBodyAreaActor} from '../shared/x-body-area-skill.mjs';
+import {OVERLORD_RELEASE_ENABLED,isOverlordAreaActor} from '../shared/overlord-suit-v1.mjs';
+import {battleSuitIntrinsicDamage} from '../shared/z-body-area-skill.mjs';
 import {buildApocalypseLegion,castApocalypseAction,apocalypseSealed,apocalypseCursed,clearApocalypseStatus,finishApocalypseAction} from './_apocalypse_legion.js';
 import {SKILL_CHIP_RUNTIME_ENABLED,SKILL_CHIP_CLOCK,normalizeSkillChipCodes,skillChipDamage,splitSkillChipDamage,skillChipCombatEventMs} from '../shared/battle-suit-skill-chips.mjs';
 import {buildMercenaryFighter,mercenaryCombat,mercenaryTurnCadence} from './_mercenary_combat.js';
@@ -1153,10 +1155,10 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const independentSupports=[...a,...b].filter(isBattleSuitSupport);
   const zAreaEnabled=Z_BODY_AREA_RELEASE_ENABLED||zAreaReview===true;
   const xAreaEnabled=X_BODY_AREA_RELEASE_ENABLED||xAreaReview===true;
-  const chipActor=SKILL_CHIP_RUNTIME_ENABLED&&isPveBattle?independentSupports.find(actor=>normalizeSkillChipCodes(actor.skillChips).length||(zAreaEnabled&&isZBodyAreaActor(actor))||(xAreaEnabled&&isXBodyAreaActor(actor))):null;
+  const chipActor=SKILL_CHIP_RUNTIME_ENABLED&&isPveBattle?independentSupports.find(actor=>normalizeSkillChipCodes(actor.skillChips).length||(zAreaEnabled&&isZBodyAreaActor(actor))||(xAreaEnabled&&isXBodyAreaActor(actor))||(OVERLORD_RELEASE_ENABLED&&isOverlordAreaActor(actor))):null;
   // Timed encounters need the same playback clock even without a suit/chip.
   const combatClockEnabled=Boolean(chipActor)||maxCombatDurationMs>0;
-  const chipSchedule=createBattleSuitCombatSchedule(chipActor?.skillChips,zAreaEnabled&&isZBodyAreaActor(chipActor),xAreaEnabled&&isXBodyAreaActor(chipActor));
+  const chipSchedule=createBattleSuitCombatSchedule(chipActor?.skillChips,zAreaEnabled&&isZBodyAreaActor(chipActor),xAreaEnabled&&isXBodyAreaActor(chipActor),OVERLORD_RELEASE_ENABLED&&isOverlordAreaActor(chipActor));
   const chipRandom=seededRandom((Number(seed)^0x534b494c)>>>0);
   const zAreaRandom=seededRandom((Number(seed)^0x534b494c)>>>0);
   const pendingChipHits=[];
@@ -1202,10 +1204,11 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         // Each enemy gets the full per-target skill total, divided over its
         // authored contacts. Never divide that total by the enemy count.
         const reference=chip.damageReference||chip.code;
-        const unmitigatedTotal=skillChipDamage(basePrimary+basePierce,reference);
+        const calculate=base=>chip.intrinsic?battleSuitIntrinsicDamage(base,chip.code):skillChipDamage(base,reference);
+        const unmitigatedTotal=calculate(basePrimary+basePierce);
         const skillDefensePercent=target.isApocalypse?clamp(Number(target.battleSuitSkillDefensePercent||0),0,100):0;
         const defenseScale=1-skillDefensePercent/100;
-        const total=Math.round(unmitigatedTotal*defenseScale),pierceTotal=Math.min(total,Math.round(skillChipDamage(basePierce,reference)*defenseScale));
+        const total=Math.round(unmitigatedTotal*defenseScale),pierceTotal=Math.min(total,Math.round(calculate(basePierce)*defenseScale));
         const parts=splitSkillChipDamage(total-pierceTotal,count),pierceParts=splitSkillChipDamage(pierceTotal,count);
         calculations.push({targetId:target.id,baseDamage:basePrimary+basePierce,calculatedDamage:total,...(skillDefensePercent>0?{battleSuitSkillDefensePercent:skillDefensePercent,unmitigatedDamage:unmitigatedTotal}:{}),dodge:hit.dodge,critical:hit.critical});
         for(let i=0;i<count;i++)pendingChipHits.push({atMs:cast.atMs+chip.impactOffsetsMs[i],target,damage:parts[i],pierce:pierceParts[i],chipCode:chip.code,castId,hitIndex:i,hitCount:count,critical:hit.critical,baseDamage:basePrimary+basePierce,multiplier:chip.damageMultiplier,skillDefensePercent,...(chip.intrinsic?{intrinsic:true}:{}),...(area?{targeting:chip.targeting}:{})});

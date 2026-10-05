@@ -29,6 +29,7 @@
     "preview/project-v-v3/source/battle/ApocalypseSignatureSkillFX.js",
     "shared/battle-suit-skill-chips.mjs",
     "shared/x-body-area-skill.mjs",
+    "shared/overlord-suit-v1.mjs",
     "shared/z-body-area-skill.mjs",
     "preview/battle-suit-skill-chip-v1/source/sequence.js",
     "preview/battle-suit-skill-chip-v1/assets/textures/explosion-origins.json",
@@ -56,6 +57,17 @@
     "assets/ui/project-v/account-battle-suits/x-sword-v1/manifest.json",
     "preview/project-v-v3/source/battle/XBodySwordModel.mjs",
     "preview/project-v-v3/source/battle/XBodySwordAnimation.js",
+    "preview/battle-suit-crimson-gold-knight-20261005-v1/motion.mjs",
+    "preview/battle-suit-crimson-gold-knight-20261005-v1/source/SatinGoldFilter.js",
+    "preview/battle-suit-crimson-gold-knight-20261005-v1/appearance-options.json",
+    "preview/battle-suit-crimson-gold-knight-20261005-v1/source/appearance-options.js",
+    "preview/battle-suit-crimson-gold-knight-20261005-v1/source/FlameCoreFilter.js",
+    "preview/battle-suit-crimson-gold-knight-20261005-v1/source/RoyalAura.js",
+    "preview/battle-suit-crimson-gold-knight-20261005-v1/source/OverlordTitle.js",
+    "preview/battle-suit-crimson-gold-knight-20261005-v1/source/KnightFX.js",
+    "assets/ui/project-v/account-battle-suits/overlord-v1/manifest.json",
+    "preview/project-v-v3/source/battle/OverlordSuitModel.mjs",
+    "preview/project-v-v3/source/battle/OverlordSuitAnimation.js",
     "preview/project-v-v3/source/battle/FormationLayout.mjs",
     "preview/project-v-v3/source/battle/ViewportLayout.mjs",
     "preview/project-v-v3/source/battle/OccupiedGridLayout.js",
@@ -120,6 +132,7 @@
     "preview/project-v-v3/source/battle/CooperativeArkePlayback.js",
     "preview/project-v-v3/source/battle/CooperativeEncounter.js",
     "shared/icon-role-visuals-v1.mjs",
+    "shared/icon-supremacy-v1.mjs",
     "shared/icon-roles-v1.mjs",
     "preview/project-v-v3/source/battle/IconRolePlayback.js",
     "preview/project-v-v3/source/battle/BattleEngine.js",
@@ -129,5 +142,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 1491836
+  "outputBytes": 1593579
 }

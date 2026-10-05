@@ -1,0 +1,244 @@
+[
+  {
+    "name": "desktop",
+    "idle": {
+      "first": [
+        0.537109375,
+        0.9837239583333334,
+        0.23411371237458195,
+        0.23411371237458195,
+        0,
+        0,
+        1,
+        1,
+        380,
+        416
+      ],
+      "second": [
+        0.537109375,
+        0.9837239583333334,
+        0.23411371237458195,
+        0.23411371237458195,
+        0,
+        0,
+        1,
+        1,
+        380,
+        416
+      ],
+      "title": {
+        "enabled": true,
+        "text": "종말 위에 군림하는 자",
+        "actorAttached": true,
+        "mirrored": false,
+        "independentClock": false,
+        "screenBounds": {
+          "x": 238.05,
+          "y": 194.54450000000003,
+          "width": 207.89999999999998,
+          "height": 75.60000000000002
+        },
+        "font": "Black Han Sans / OFL",
+        "frameSource": "BUILT_IN_IMAGE_GEN"
+      },
+      "aura": {
+        "enabled": true,
+        "palette": "crimson",
+        "label": "진홍 · 샴페인 골드",
+        "source": "VALTER_APPROVED_V17",
+        "coreBlend": "normal",
+        "coreOpacity": 0.96,
+        "glowBlend": "add",
+        "glowOpacity": 0.23,
+        "sourcePixelsUnchanged": true,
+        "fullBodySilhouette": true,
+        "silhouetteCopies": 18,
+        "poseMatched": true,
+        "baseFlameFrames": 12,
+        "rearFrames": 8,
+        "frontFogSheets": 0,
+        "risingParticles": 12,
+        "footAnchored": true,
+        "independentClock": false
+      }
+    },
+    "safety": {
+      "replacementNoDamage": true,
+      "canceled": false,
+      "sword": {
+        "version": "OVERLORD_LIVE_20261005_V6",
+        "mode": "ready",
+        "timeMs": 0,
+        "completed": 1,
+        "executions": 0,
+        "nextExecutionAtMs": 0,
+        "intrinsicArea": true,
+        "weaponSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+        "bodyFrames": 44,
+        "effectFrames": 152,
+        "damageAuthority": "SERVER_TIMELINE",
+        "effectsVisible": false,
+        "ambientRegistered": false,
+        "aura": {
+          "enabled": true,
+          "palette": "crimson",
+          "label": "진홍 · 샴페인 골드",
+          "source": "VALTER_APPROVED_V17",
+          "coreBlend": "normal",
+          "coreOpacity": 0.96,
+          "glowBlend": "add",
+          "glowOpacity": 0.23,
+          "sourcePixelsUnchanged": true,
+          "fullBodySilhouette": true,
+          "silhouetteCopies": 18,
+          "poseMatched": true,
+          "baseFlameFrames": 12,
+          "rearFrames": 8,
+          "frontFogSheets": 0,
+          "risingParticles": 12,
+          "footAnchored": true,
+          "independentClock": false
+        },
+        "title": {
+          "enabled": true,
+          "text": "종말 위에 군림하는 자",
+          "actorAttached": true,
+          "mirrored": false,
+          "independentClock": false,
+          "screenBounds": {
+            "x": 238.05,
+            "y": 194.54450000000003,
+            "width": 207.89999999999998,
+            "height": 75.60000000000002
+          },
+          "font": "Black Han Sans / OFL",
+          "frameSource": "BUILT_IN_IMAGE_GEN"
+        },
+        "externalCast": null
+      },
+      "timelines": 0
+    },
+    "errors": []
+  },
+  {
+    "name": "mobile",
+    "idle": {
+      "first": [
+        0.537109375,
+        0.9837239583333334,
+        0.23411371237458195,
+        0.23411371237458195,
+        0,
+        0,
+        1,
+        1,
+        359.40983606557376,
+        966.1372950819672
+      ],
+      "second": [
+        0.537109375,
+        0.9837239583333334,
+        0.23411371237458195,
+        0.23411371237458195,
+        0,
+        0,
+        1,
+        1,
+        359.40983606557376,
+        966.1372950819672
+      ],
+      "title": {
+        "enabled": true,
+        "text": "종말 위에 군림하는 자",
+        "actorAttached": true,
+        "mirrored": false,
+        "independentClock": false,
+        "screenBounds": {
+          "x": 54.63289999999999,
+          "y": 180.67233322222225,
+          "width": 134.3342,
+          "height": 48.84879999999998
+        },
+        "font": "Black Han Sans / OFL",
+        "frameSource": "BUILT_IN_IMAGE_GEN"
+      },
+      "aura": {
+        "enabled": true,
+        "palette": "crimson",
+        "label": "진홍 · 샴페인 골드",
+        "source": "VALTER_APPROVED_V17",
+        "coreBlend": "normal",
+        "coreOpacity": 0.96,
+        "glowBlend": "add",
+        "glowOpacity": 0.23,
+        "sourcePixelsUnchanged": true,
+        "fullBodySilhouette": true,
+        "silhouetteCopies": 18,
+        "poseMatched": true,
+        "baseFlameFrames": 12,
+        "rearFrames": 8,
+        "frontFogSheets": 0,
+        "risingParticles": 12,
+        "footAnchored": true,
+        "independentClock": false
+      }
+    },
+    "safety": {
+      "replacementNoDamage": true,
+      "canceled": false,
+      "sword": {
+        "version": "OVERLORD_LIVE_20261005_V6",
+        "mode": "ready",
+        "timeMs": 0,
+        "completed": 1,
+        "executions": 0,
+        "nextExecutionAtMs": 0,
+        "intrinsicArea": true,
+        "weaponSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+        "bodyFrames": 44,
+        "effectFrames": 152,
+        "damageAuthority": "SERVER_TIMELINE",
+        "effectsVisible": false,
+        "ambientRegistered": false,
+        "aura": {
+          "enabled": true,
+          "palette": "crimson",
+          "label": "진홍 · 샴페인 골드",
+          "source": "VALTER_APPROVED_V17",
+          "coreBlend": "normal",
+          "coreOpacity": 0.96,
+          "glowBlend": "add",
+          "glowOpacity": 0.23,
+          "sourcePixelsUnchanged": true,
+          "fullBodySilhouette": true,
+          "silhouetteCopies": 18,
+          "poseMatched": true,
+          "baseFlameFrames": 12,
+          "rearFrames": 8,
+          "frontFogSheets": 0,
+          "risingParticles": 12,
+          "footAnchored": true,
+          "independentClock": false
+        },
+        "title": {
+          "enabled": true,
+          "text": "종말 위에 군림하는 자",
+          "actorAttached": true,
+          "mirrored": false,
+          "independentClock": false,
+          "screenBounds": {
+            "x": 54.63289999999999,
+            "y": 180.67233322222225,
+            "width": 134.3342,
+            "height": 48.84879999999998
+          },
+          "font": "Black Han Sans / OFL",
+          "frameSource": "BUILT_IN_IMAGE_GEN"
+        },
+        "externalCast": null
+      },
+      "timelines": 0
+    },
+    "errors": []
+  }
+]
