@@ -1,0 +1,83 @@
+{
+  "status": "COMPLETED",
+  "authorization": "조은 계정에 크라이베른 지급해",
+  "operationKey": "ops:joeun-cryvern:20261006:v1",
+  "operationScript": "scripts/ops/joeun-cryvern-grant-20261006.mjs",
+  "operationScriptSha256": "cde5531892911a6cecdd1ca3d9f35f4c33c80128fda0ba2ef643acdb6b4b20f7",
+  "lookup": {
+    "exactNicknameMatches": 1,
+    "userId": 4754,
+    "nickname": "조은",
+    "accountStatus": "ACTIVE",
+    "cmsRevision": 61,
+    "liveCardWeight": 10,
+    "beforeCopies": 0
+  },
+  "validation": {
+    "syntax": "PASS",
+    "dryRun": "DRY_RUN_ROLLED_BACK",
+    "partialFailureRolledBack": true,
+    "replayVerified": true,
+    "rollbackVerified": true,
+    "balances": true,
+    "loadouts": true,
+    "growth": true,
+    "otherMercenaries": true
+  },
+  "execution": {
+    "userLock": "user:4754",
+    "atomicWrites": [
+      "holdings",
+      "acquisition",
+      "adminAudit",
+      "completionReceipt"
+    ],
+    "siteDeployment": "NOT_REQUIRED_OPS_ONLY",
+    "notificationSent": false,
+    "temporaryHelperStopped": true,
+    "temporaryAuthKey": "IN_MEMORY_DISCARDED"
+  },
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:joeun-cryvern:20261006:v1:4754:V-049",
+    "actor": "SYSTEM_OPS",
+    "userId": 4754,
+    "nickname": "조은",
+    "mercenaryCode": "V-049",
+    "mercenaryName": "크라이베른",
+    "rank": "SSS",
+    "quantity": 1,
+    "permanent": true,
+    "expiresAt": null,
+    "beforeCopies": 0,
+    "totalCopies": 1,
+    "duplicates": 0,
+    "completedAt": "2026-10-05T16:56:37.774Z",
+    "adminLogId": "41253",
+    "replayed": false
+  },
+  "verification": {
+    "status": "COMPLETED",
+    "receipt": {
+      "status": "COMPLETED",
+      "operationKey": "ops:joeun-cryvern:20261006:v1:4754:V-049",
+      "actor": "SYSTEM_OPS",
+      "userId": 4754,
+      "nickname": "조은",
+      "mercenaryCode": "V-049",
+      "mercenaryName": "크라이베른",
+      "rank": "SSS",
+      "quantity": 1,
+      "permanent": true,
+      "expiresAt": null,
+      "beforeCopies": 0,
+      "totalCopies": 1,
+      "duplicates": 0,
+      "completedAt": "2026-10-05T16:56:37.774Z",
+      "adminLogId": "41253"
+    },
+    "currentCopies": 1,
+    "missing": 0,
+    "duplicates": 0
+  }
+}
