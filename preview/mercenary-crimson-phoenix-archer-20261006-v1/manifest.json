@@ -3,8 +3,8 @@
   "createdAt": "2026-10-06",
   "title": "은백·흑금 봉황궁 남성 용병 원화 시안",
   "status": "USER_REVIEW_PENDING",
-  "latestCandidate": "assets/crimson-phoenix-archer-source-art-v3.png",
-  "generationMethod": "built-in image_gen; reference generation followed by two image edits",
+  "latestCandidate": "assets/crimson-phoenix-archer-clean-hair-v5.png",
+  "generationMethod": "built-in image_gen; reference generation and localized illustration edits",
   "sourceArt": {
     "width": 1024,
     "height": 1536,
@@ -27,6 +27,10 @@
     {
       "path": "C:/Users/User/.codex/worktrees/hanwha-diim-admission-20261001/cnine-card/assets/ui/project-v/art-references/male-style-anchor-silver-paladin-v1.png",
       "role": "Male adult anatomy, attractive illustrated face and polished painting quality only. Do not copy his sword, blue palette, costume, face or pose."
+    },
+    {
+      "path": "assets/user-cleanup-reference-20261006.png",
+      "role": "User reattached cleanup target; preserve face, pose, bow and ivory/crimson/black/gold design."
     }
   ],
   "files": [
@@ -49,12 +53,29 @@
       "name": "design-reference.png",
       "bytes": 2103273,
       "sha256": "A2D95ABD01A80CDE18975A1AB94ADDE33488DB81147975D9CAEB67C0940ED5AD"
+    },
+    {
+      "name": "crimson-phoenix-archer-clean-painting-v4.png",
+      "bytes": 2744614,
+      "sha256": "D3CAC8C77E752D3ED8453D89EF8E195C69C3F4D6CF1E0CB85380A891288D1643"
+    },
+    {
+      "name": "crimson-phoenix-archer-clean-hair-v5.png",
+      "bytes": 2600651,
+      "sha256": "8D55DAABF1090DC5DEC1BF417598B4015A947CE0405906778AA24E4559476968"
+    },
+    {
+      "name": "user-cleanup-reference-20261006.png",
+      "bytes": 3262017,
+      "sha256": "211DA5C9AD758CC6167FEF2BD7C997A9CD8EA427C04B6AD37D6613E62277393B"
     }
   ],
   "promptFiles": [
     "prompt-v1.json",
     "prompt-v2.json",
-    "prompt-v3.json"
+    "prompt-v3.json",
+    "prompt-clean-v4.json",
+    "prompt-clean-v5.json"
   ],
   "history": [
     {
@@ -73,12 +94,22 @@
       "status": "USER_REVIEW_PENDING",
       "changes": "활 상하 백색 외곽·결정·금속 장식의 볼륨 조화 및 전체 확대 요청 반영. 자연스러운 가는 연속 머릿결 수정.",
       "sizeTarget": "약 15% 확대는 생성 요청 목표이며 정밀 픽셀 측정 수치가 아님."
+    },
+    {
+      "version": "v4",
+      "status": "SUPERSEDED_CANDIDATE",
+      "changes": "사용자 재첨부 원화의 과도한 잔광·입자·금속 잔선과 배경 밀도를 정리하고 활·화살 중심 발광을 유지."
+    },
+    {
+      "version": "v5",
+      "status": "USER_REVIEW_PENDING",
+      "changes": "V4의 모발에 한해 굵은 층·띠와 날리는 밝은 잔가닥을 추가 정리. 기존 원본 보존."
     }
   ],
   "qa": {
     "fullResolutionViewed": true,
-    "thumbnail160Viewed": true,
-    "thumbnail": "qa-thumbnail-v3.png",
+    "thumbnail160Viewed": false,
+    "thumbnail": null,
     "dimensionsVerified": true,
     "originalBytesPreserved": true,
     "frameOverlayReview": false,
