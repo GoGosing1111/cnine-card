@@ -1,0 +1,26 @@
+{
+  "at": "2026-10-05T08:29:03.591Z",
+  "assets": [
+    {
+      "file": "assets/bus-driver-ornament-v1.png",
+      "width": 2172,
+      "height": 724,
+      "bytes": 1749625,
+      "sha256": "4b18de864a376eef037fb5a9aabf081fd7067c3bc9bbafc51220d0b5cec18fd6",
+      "hasAlpha": true,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "file": "assets/bus-driver-title-v1.png",
+      "width": 2252,
+      "height": 804,
+      "bytes": 2013527,
+      "sha256": "a923170414b9475f3366e2861b51e391aa2625bdb917291e1d9e8b4a0238ed17",
+      "hasAlpha": true,
+      "alphaMin": 0,
+      "alphaMax": 255
+    }
+  ],
+  "sourceByteIdentical": true
+}

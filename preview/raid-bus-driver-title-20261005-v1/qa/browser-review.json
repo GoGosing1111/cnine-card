@@ -1,0 +1,19 @@
+{
+  "mobile": {
+    "canvasHeight": 804,
+    "canvasWidth": 2252,
+    "ready": "true",
+    "scrollWidth": 375,
+    "subtitle": "행정부 정직원",
+    "title": "버스기사",
+    "width": 375
+  },
+  "errors": [],
+  "checked": [
+    "PC main lettering and subtitle",
+    "320px and 180px readable main title",
+    "mobile no horizontal overflow",
+    "alpha-background switch",
+    "transparent PNG export"
+  ]
+}
