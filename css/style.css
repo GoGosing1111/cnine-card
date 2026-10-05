@@ -1502,7 +1502,8 @@ div{
     min-height:0!important;
     padding:4px!important;
   }
-  .pvp-deck-slots img{
+  /* ICON portraits and cropped source photos keep their own frame geometry. */
+  .pvp-deck-slots img:not(.icon-live-card img){
     width:100%!important;
     height:auto!important;
     aspect-ratio:1/1.08!important;
