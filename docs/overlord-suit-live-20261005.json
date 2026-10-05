@@ -128,5 +128,43 @@
       "clanWorker": "a177ef71-b692-4d77-876b-f2332c984f29",
       "verification": "preview/overlord-live-v1/qa/cache/production.json"
     }
+  },
+  "titlePlacement": {
+    "date": "2026-10-05",
+    "status": "VERIFIED_PENDING_DEPLOYMENT",
+    "request": "오버로드 슈트 착용할때는 닉네임 대신 저 위치보다 살짝 위로해서 호칭 뜨게 해",
+    "behavior": "Only Overlord hides the account nickname. The ornamental title now occupies the line just above the old nickname, with no extra 72-unit gap reserved for a second label.",
+    "preserved": "Approved title artwork, font, size, crimson aura, sword motion and server/CMS values are unchanged.",
+    "verification": {
+      "pc": true,
+      "mobile": true,
+      "titleAboveOldNicknamePixels": {
+        "desktop": 24.46,
+        "mobile": 11.99
+      },
+      "states": [
+        "idle",
+        "normal attack and return",
+        "area skill",
+        "re-equip",
+        "switch to X-BODY restores nickname"
+      ],
+      "report": "preview/overlord-live-v1/qa/title-placement/report.json",
+      "screenshots": [
+        "preview/overlord-live-v1/qa/title-placement/desktop.png",
+        "preview/overlord-live-v1/qa/title-placement/mobile.png"
+      ]
+    },
+    "release": {
+      "mode": "scoped",
+      "base": "4f34e22f56aef72957bb3a5b1419226499da965d",
+      "baseDeployment": "b71a953f-4981-43b0-a532-8bfd9a823d38",
+      "tests": [
+        "tests/overlord-runtime-cache-20261005.test.mjs",
+        "tests/pve-battlefield-entry-v2117.test.mjs"
+      ],
+      "reason": "Local Overlord title/name presentation only. Shared consumers rebuilt, paired runtime versions refreshed; actual PC/mobile label lifecycle and entry/cache regressions cover the change.",
+      "command": "npm run deploy:production -- --scoped"
+    }
   }
 }

@@ -1265,7 +1265,8 @@ export class BaseBattleEngine{
       const textures=await OverlordSuitAnimation.load();
       if(epoch!==this.playbackEpoch||unit.root.destroyed){OverlordSuitAnimation.release(textures);return false;}
       new OverlordSuitAnimation(this,unit,textures);
-      unit.setName(accountNickname(payload));
+      // Overlord's exclusive title replaces the account nickname in battle.
+      unit.setName('');
       this.accountBattleUnitEnabled=unit.setActive(true,{deployed:false});
       this.syncAccountBattleUnitTile();this.layoutAccountBattleUnit();this.sortCombatDepth();
       return this.accountBattleUnitEnabled;

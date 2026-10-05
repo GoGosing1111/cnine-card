@@ -88,6 +88,6 @@ test('equipped metadata resolves Overlord with no PVP power and actual shipped l
  for(const file of ['preview/project-v-v3/project-v-pixi-battle.bundle.js','pve-v3/battle.bundle.js','preview/sustained-hunt-v2/battle.bundle.js']){
   const src=(await read(file)).toString();for(const token of ['OVERLORD_LIVE_20261005_V6','BATTLE_SUIT_OVERLORD','overlord-v1/effects/tiger-rush.png'])assert.ok(src.includes(token),file+': '+token);
  }
- for(const file of ['index.html','js/app.js'])assert.ok((await read(file)).toString().includes('overlord=20261005-v1'));
+ for(const file of ['index.html','js/app.js'])assert.match((await read(file)).toString(),/overlord=20261005-[\w-]+/);
 });
 

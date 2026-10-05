@@ -1,0 +1,400 @@
+[
+  {
+    "name": "desktop",
+    "idle": {
+      "nicknameVisible": false,
+      "nickname": "",
+      "gunVisible": false,
+      "title": {
+        "enabled": true,
+        "text": "종말 위에 군림하는 자",
+        "actorAttached": true,
+        "mirrored": false,
+        "independentClock": false,
+        "screenBounds": {
+          "x": 238.05,
+          "y": 226.9445,
+          "width": 207.89999999999998,
+          "height": 75.60000000000002
+        },
+        "font": "Black Han Sans / OFL",
+        "frameSource": "BUILT_IN_IMAGE_GEN"
+      },
+      "textCenterY": 270.59450000000004,
+      "oldNicknameCenterY": 295.052,
+      "swordVersion": "OVERLORD_LIVE_20261005_V6",
+      "bodyBounds": {
+        "minX": 284.056856187291,
+        "minY": 310.214381270903,
+        "maxX": 391.9364548494983,
+        "maxY": 472.0337792642141,
+        "matrix": {
+          "array": null,
+          "a": 1,
+          "b": 0,
+          "c": 0,
+          "d": 1,
+          "tx": 0,
+          "ty": 0
+        }
+      }
+    },
+    "afterAttack": {
+      "nicknameVisible": false,
+      "nickname": "",
+      "gunVisible": false,
+      "title": {
+        "enabled": true,
+        "text": "종말 위에 군림하는 자",
+        "actorAttached": true,
+        "mirrored": false,
+        "independentClock": false,
+        "screenBounds": {
+          "x": 238.05,
+          "y": 226.9445,
+          "width": 207.89999999999998,
+          "height": 75.60000000000002
+        },
+        "font": "Black Han Sans / OFL",
+        "frameSource": "BUILT_IN_IMAGE_GEN"
+      },
+      "textCenterY": 270.59450000000004,
+      "oldNicknameCenterY": 295.052,
+      "swordVersion": "OVERLORD_LIVE_20261005_V6",
+      "bodyBounds": {
+        "minX": 284.056856187291,
+        "minY": 310.214381270903,
+        "maxX": 391.9364548494983,
+        "maxY": 472.0337792642141,
+        "matrix": {
+          "array": null,
+          "a": 1,
+          "b": 0,
+          "c": 0,
+          "d": 1,
+          "tx": 0,
+          "ty": 0
+        }
+      }
+    },
+    "duringSkill": {
+      "nicknameVisible": false,
+      "nickname": "",
+      "gunVisible": false,
+      "title": {
+        "enabled": true,
+        "text": "종말 위에 군림하는 자",
+        "actorAttached": true,
+        "mirrored": false,
+        "independentClock": false,
+        "screenBounds": {
+          "x": 592.425,
+          "y": 223.61450000000002,
+          "width": 207.9000000000001,
+          "height": 75.60000000000002
+        },
+        "font": "Black Han Sans / OFL",
+        "frameSource": "BUILT_IN_IMAGE_GEN"
+      },
+      "textCenterY": 267.26450000000006,
+      "oldNicknameCenterY": 291.72200000000004,
+      "swordVersion": "OVERLORD_LIVE_20261005_V6",
+      "bodyBounds": {
+        "minX": 516.7375,
+        "minY": 254.05750000000003,
+        "maxX": 852.7375,
+        "maxY": 590.0575,
+        "matrix": {
+          "array": null,
+          "a": 1,
+          "b": 0,
+          "c": 0,
+          "d": 1,
+          "tx": 0,
+          "ty": 0
+        }
+      }
+    },
+    "returned": {
+      "nicknameVisible": false,
+      "nickname": "",
+      "gunVisible": false,
+      "title": {
+        "enabled": true,
+        "text": "종말 위에 군림하는 자",
+        "actorAttached": true,
+        "mirrored": false,
+        "independentClock": false,
+        "screenBounds": {
+          "x": 238.05,
+          "y": 226.9445,
+          "width": 207.89999999999998,
+          "height": 75.60000000000002
+        },
+        "font": "Black Han Sans / OFL",
+        "frameSource": "BUILT_IN_IMAGE_GEN"
+      },
+      "textCenterY": 270.59450000000004,
+      "oldNicknameCenterY": 295.052,
+      "swordVersion": "OVERLORD_LIVE_20261005_V6",
+      "bodyBounds": {
+        "minX": 284.056856187291,
+        "minY": 310.214381270903,
+        "maxX": 391.9364548494983,
+        "maxY": 472.0337792642141,
+        "matrix": {
+          "array": null,
+          "a": 1,
+          "b": 0,
+          "c": 0,
+          "d": 1,
+          "tx": 0,
+          "ty": 0
+        }
+      }
+    },
+    "other": {
+      "nicknameVisible": true,
+      "nickname": "오버로드 시각 검수",
+      "ornamentalTitle": false
+    },
+    "reequipped": {
+      "nicknameVisible": false,
+      "nickname": "",
+      "gunVisible": false,
+      "title": {
+        "enabled": true,
+        "text": "종말 위에 군림하는 자",
+        "actorAttached": true,
+        "mirrored": false,
+        "independentClock": false,
+        "screenBounds": {
+          "x": 238.05,
+          "y": 226.9445,
+          "width": 207.89999999999998,
+          "height": 75.60000000000002
+        },
+        "font": "Black Han Sans / OFL",
+        "frameSource": "BUILT_IN_IMAGE_GEN"
+      },
+      "textCenterY": 270.59450000000004,
+      "oldNicknameCenterY": 295.052,
+      "swordVersion": "OVERLORD_LIVE_20261005_V6",
+      "bodyBounds": {
+        "minX": 284.056856187291,
+        "minY": 310.214381270903,
+        "maxX": 391.9364548494983,
+        "maxY": 472.0337792642141,
+        "matrix": {
+          "array": null,
+          "a": 1,
+          "b": 0,
+          "c": 0,
+          "d": 1,
+          "tx": 0,
+          "ty": 0
+        }
+      }
+    },
+    "errors": []
+  },
+  {
+    "name": "mobile",
+    "idle": {
+      "nicknameVisible": false,
+      "nickname": "",
+      "gunVisible": false,
+      "title": {
+        "enabled": true,
+        "text": "종말 위에 군림하는 자",
+        "actorAttached": true,
+        "mirrored": false,
+        "independentClock": false,
+        "screenBounds": {
+          "x": 54.63289999999999,
+          "y": 196.53233322222223,
+          "width": 134.3342,
+          "height": 48.84879999999998
+        },
+        "font": "Black Han Sans / OFL",
+        "frameSource": "BUILT_IN_IMAGE_GEN"
+      },
+      "textCenterY": 224.7366998888889,
+      "oldNicknameCenterY": 236.72221031746034,
+      "swordVersion": "OVERLORD_LIVE_20261005_V6",
+      "bodyBounds": {
+        "minX": 93.43647342995169,
+        "minY": 249.49085144927537,
+        "maxX": 146.24420289855072,
+        "maxY": 328.70244565217394,
+        "matrix": {
+          "array": null,
+          "a": 1,
+          "b": 0,
+          "c": 0,
+          "d": 1,
+          "tx": 0,
+          "ty": 0
+        }
+      }
+    },
+    "afterAttack": {
+      "nicknameVisible": false,
+      "nickname": "",
+      "gunVisible": false,
+      "title": {
+        "enabled": true,
+        "text": "종말 위에 군림하는 자",
+        "actorAttached": true,
+        "mirrored": false,
+        "independentClock": false,
+        "screenBounds": {
+          "x": 54.63289999999999,
+          "y": 196.53233322222223,
+          "width": 134.3342,
+          "height": 48.84879999999998
+        },
+        "font": "Black Han Sans / OFL",
+        "frameSource": "BUILT_IN_IMAGE_GEN"
+      },
+      "textCenterY": 224.7366998888889,
+      "oldNicknameCenterY": 236.72221031746034,
+      "swordVersion": "OVERLORD_LIVE_20261005_V6",
+      "bodyBounds": {
+        "minX": 93.43647342995169,
+        "minY": 249.49085144927537,
+        "maxX": 146.24420289855072,
+        "maxY": 328.70244565217394,
+        "matrix": {
+          "array": null,
+          "a": 1,
+          "b": 0,
+          "c": 0,
+          "d": 1,
+          "tx": 0,
+          "ty": 0
+        }
+      }
+    },
+    "duringSkill": {
+      "nicknameVisible": false,
+      "nickname": "",
+      "gunVisible": false,
+      "title": {
+        "enabled": true,
+        "text": "종말 위에 군림하는 자",
+        "actorAttached": true,
+        "mirrored": false,
+        "independentClock": false,
+        "screenBounds": {
+          "x": 96.95165000000003,
+          "y": 271.4098332222223,
+          "width": 134.3342,
+          "height": 48.84879999999998
+        },
+        "font": "Black Han Sans / OFL",
+        "frameSource": "BUILT_IN_IMAGE_GEN"
+      },
+      "textCenterY": 299.61419988888895,
+      "oldNicknameCenterY": 311.5997103174604,
+      "swordVersion": "OVERLORD_LIVE_20261005_V6",
+      "bodyBounds": {
+        "minX": 76.18508487654323,
+        "minY": 298.5092669753087,
+        "maxX": 240.65915895061732,
+        "maxY": 462.9833410493828,
+        "matrix": {
+          "array": null,
+          "a": 1,
+          "b": 0,
+          "c": 0,
+          "d": 1,
+          "tx": 0,
+          "ty": 0
+        }
+      }
+    },
+    "returned": {
+      "nicknameVisible": false,
+      "nickname": "",
+      "gunVisible": false,
+      "title": {
+        "enabled": true,
+        "text": "종말 위에 군림하는 자",
+        "actorAttached": true,
+        "mirrored": false,
+        "independentClock": false,
+        "screenBounds": {
+          "x": 54.63289999999999,
+          "y": 196.53233322222223,
+          "width": 134.3342,
+          "height": 48.84879999999998
+        },
+        "font": "Black Han Sans / OFL",
+        "frameSource": "BUILT_IN_IMAGE_GEN"
+      },
+      "textCenterY": 224.7366998888889,
+      "oldNicknameCenterY": 236.72221031746034,
+      "swordVersion": "OVERLORD_LIVE_20261005_V6",
+      "bodyBounds": {
+        "minX": 93.43647342995169,
+        "minY": 249.49085144927537,
+        "maxX": 146.24420289855072,
+        "maxY": 328.70244565217394,
+        "matrix": {
+          "array": null,
+          "a": 1,
+          "b": 0,
+          "c": 0,
+          "d": 1,
+          "tx": 0,
+          "ty": 0
+        }
+      }
+    },
+    "other": {
+      "nicknameVisible": true,
+      "nickname": "오버로드 시각 검수",
+      "ornamentalTitle": false
+    },
+    "reequipped": {
+      "nicknameVisible": false,
+      "nickname": "",
+      "gunVisible": false,
+      "title": {
+        "enabled": true,
+        "text": "종말 위에 군림하는 자",
+        "actorAttached": true,
+        "mirrored": false,
+        "independentClock": false,
+        "screenBounds": {
+          "x": 54.63289999999999,
+          "y": 196.53233322222223,
+          "width": 134.3342,
+          "height": 48.84879999999998
+        },
+        "font": "Black Han Sans / OFL",
+        "frameSource": "BUILT_IN_IMAGE_GEN"
+      },
+      "textCenterY": 224.7366998888889,
+      "oldNicknameCenterY": 236.72221031746034,
+      "swordVersion": "OVERLORD_LIVE_20261005_V6",
+      "bodyBounds": {
+        "minX": 93.43647342995169,
+        "minY": 249.49085144927537,
+        "maxX": 146.24420289855072,
+        "maxY": 328.70244565217394,
+        "matrix": {
+          "array": null,
+          "a": 1,
+          "b": 0,
+          "c": 0,
+          "d": 1,
+          "tx": 0,
+          "ty": 0
+        }
+      }
+    },
+    "errors": []
+  }
+]

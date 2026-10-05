@@ -11,11 +11,6 @@ class LiveKnightFX extends KnightFX{
   if(target.valid&&!target.valid()&&target.savedPoints?.has(y))return target.savedPoints.get(y);
   const p=super.point(target,y);target.savedPoints?.set(y,p);return p;
  }
- render(t){
-  super.render(t);
-  // Leave a separate line for the account name below the ornamental title.
-  this.title.view.y-=72;
- }
 }
 const bindTarget=actor=>{
  const id=actor.id,valid=()=>actor.id===id&&!actor.root.destroyed&&actor.root.visible!==false;
@@ -65,14 +60,14 @@ export class OverlordSuitAnimation{
  ready(){
   if(this.disposed||this.timeline||this.externalCast||!this.fx)return;
   const {unit:u,fx}=this;fx.targets=[this.placeholder];fx.target=this.placeholder;fx.capture();fx.mode='idle';fx.front.visible=fx.back.visible=true;fx.render(0);
-  u.nameHud.position.set(0,-HEIGHT-60);u.nameHud.visible=Boolean(u.fullName);this.mode='ready';this.timeMs=0;
+  u.nameHud.visible=false;this.mode='ready';this.timeMs=0;
   if(this.ambient)return;
   const clock={time:0};
   this.ambient=gsap.timeline({repeat:-1,paused:true}).to(clock,{time:2.4,duration:2.4,ease:'none',onUpdate:()=>{
    if(!this.disposed&&!this.timeline&&!this.externalCast&&this.engine.visible){
     // Idle light must not reset another actor's camera or target transforms.
     fx.aura.render(clock.time,HEIGHT,0,0);
-    fx.title.render(clock.time,HEIGHT,true,this.engine.mobile);fx.title.view.y-=72;
+    fx.title.render(clock.time,HEIGHT,true,this.engine.mobile);
    }
   }});
   this.ambientRegistration={instance:this.ambient,settle:()=>this.stopAmbient()};this.engine.simpleTimelines.add(this.ambientRegistration);
