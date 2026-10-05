@@ -49,6 +49,18 @@ test('changed tests in a completed stage rerun that stage without invalidating u
   const plan=fullGateResumePlan(fixture({changed:['tests/a.test.mjs','docs/release.md']}));
   assert.equal(plan.reused,0);assert.equal(plan.commands[1],'npm run test:a');
 });
+
+test('concurrent unreferenced JSON production receipts are documentation, never runtime configuration',()=>{
+  const receipt='preview/example-feature/qa/production.json',f=fixture({changed:[receipt]});
+  const git=(...args)=>args[0]==='ls-files'&&args.length===1?'js/live.js\n'+receipt:f.git(...args);
+  const read=path=>path===receipt?'{"verifiedAt":"2026-10-06"}':'const live=true;';
+  assert.equal(fullGateResumePlan({...f,git,read}).reused,1);
+  for(const reference of [receipt,'./qa/production.json'])
+    assert.throws(()=>fullGateResumePlan({...f,git,read:path=>path===receipt?read(path):`fetch('${reference}')`}),/referenced by runtime/);
+  for(const invalid of ['broken','[]','null'])assert.throws(()=>fullGateResumePlan({...f,git,read:()=>invalid}));
+  for(const changed of [['preview/example-feature/qa/policy.json'],['preview/example-feature/production.json'],['preview/example-feature/qa/production.js']])
+    assert.throws(()=>fullGateResumePlan({...fixture({changed}),read}),/fresh full gate/);
+});
 test('runtime, shared helpers, unknown tests, dirty state and changed gate commands cannot reuse results',()=>{
   for(const changed of [['functions/live.js'],['tests/helpers/db.mjs'],['package.json'],['tests/unknown.test.mjs']])assert.throws(()=>fullGateResumePlan(fixture({changed})));
   for(const options of [{dirty:'M file'},{ignored:'tmp/a'},{remote:base},{ancestor:false},{previous:{'release:gate':'other'}}])assert.throws(()=>fullGateResumePlan(fixture(options)));

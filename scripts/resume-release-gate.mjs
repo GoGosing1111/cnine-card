@@ -41,6 +41,24 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
     &&String(env.RELEASE_GATE_RESUME_REASON||'').trim().length>=20;
   if(/^ℹ fail [1-9]/m.test(prefix)||(!failed&&!interrupted&&!sourceGuardBlocked))throw Error('Resume requires a failed or explicitly interrupted final stage, or the exact completed source-identity guard.');
   const changed=git('diff','--name-only',base,'HEAD').split('\n').filter(Boolean),rerun=new Set(),operationTests=new Set();
+  // Another task may append its deployment receipt while this gate is running.
+  // Treat only unreferenced JSON QA receipts as documentation; runtime manifests,
+  // executable preview files and referenced configuration still require a new gate.
+  const qaReceipts=changed.filter(path=>/^preview\/[a-zA-Z0-9_-]+\/qa\/production\.json$/.test(path));
+  if(qaReceipts.length){
+    for(const path of qaReceipts){
+      const value=JSON.parse(read(path));
+      if(!value||Array.isArray(value)||typeof value!=='object')throw Error('QA deployment receipt must be a JSON object.');
+    }
+    const candidates=git('ls-files').split('\n').filter(path=>/\.(?:[cm]?js|json|html|css)$/.test(path)
+      &&!path.startsWith('docs/')&&!path.startsWith('tests/')&&!path.includes('/qa/')
+      &&path!=='scripts/resume-release-gate.mjs');
+    for(const path of candidates){
+      const source=read(path);
+      if(qaReceipts.some(receipt=>source.includes(receipt)||source.includes(receipt.split('/').at(-1))))
+        throw Error(`QA receipt is referenced by runtime/tooling (${path}): run a fresh full gate.`);
+    }
+  }
   const operations=changed.filter(path=>/^scripts\/ops\/[a-zA-Z0-9_-]+\.(?:mjs|json)$/.test(path));
   if(operations.length){
     const runtimeFiles=git('ls-files','functions','workers','shared','js','admin','scripts','index.html','service-worker.js').split('\n').filter(path=>!path.startsWith('scripts/ops/')&&/\.(?:[cm]?js|jsonc?|html)$/.test(path));
@@ -86,6 +104,7 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
   const tooling=new Set(['scripts/deploy-production.mjs','scripts/resume-release-gate.mjs','tests/resume-release-gate.test.mjs']);
   for(const path of changed){
     if(path==='AGENTS.md'||path.startsWith('docs/')||path==='preview/project-v-mercenary-system-v1/README.md'||tooling.has(path))continue;
+    if(qaReceipts.includes(path))continue;
     if(operations.includes(path))continue;
     if(browserProof.has(path))continue;
     // Legacy gate entry points also use .mjs without the .test suffix. Require

@@ -37,7 +37,8 @@
     "scope": "Test expectations only. No battle runtime, balance, assets, reward or bundle changes.",
     "gridSources": "Previously shipped OverlordSuitModel/Animation increased the build manifest from 76 to 78. Assert both inputs explicitly; retain every source/output hash check.",
     "frozenComparison": "The existing preview already defeated 9, not 10, before this task (recorded in mercenary-level-preparation-20261005.md). Assert the authored 10-enemy roster and retain exact full battle snapshot equality; a layout test must not require a guaranteed win.",
-    "resume": "Resume the hash-bound full gate from test:v3-grid. Reuse completed stages; execute all remaining stages and production guards."
+    "resume": "Resume the hash-bound full gate from test:v3-grid. Reuse completed stages; execute all remaining stages and production guards.",
+    "concurrentReceipt": "Upstream 4d636de1 only adds documentation and an unreferenced JSON QA production receipt. Resume now validates JSON and rejects runtime/tool references before treating that exact receipt path pattern as documentation. Runtime, dependency, source identity and failed-stage guards stay enforced."
   },
   "production": null
 }
