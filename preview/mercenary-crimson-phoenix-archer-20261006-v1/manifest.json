@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-10-06",
+  "title": "은백·흑금 봉황궁 남성 용병 원화 시안",
+  "status": "USER_REVIEW_PENDING",
+  "latestCandidate": "assets/crimson-phoenix-archer-source-art-v3.png",
+  "generationMethod": "built-in image_gen; reference generation followed by two image edits",
+  "sourceArt": {
+    "width": 1024,
+    "height": 1536,
+    "format": "png",
+    "channels": 3,
+    "colorSpace": "srgb",
+    "aspectRatio": "2:3",
+    "upscaled": false,
+    "postProcessed": false
+  },
+  "inputs": [
+    {
+      "path": "C:/Users/User/AppData/Local/Temp/codex-clipboard-4f31212d-d6fa-40ee-b330-c1f44d5c7146.png",
+      "role": "Primary design and action reference: preserve the silver-haired male archer, ornate white/gold/crimson bow, black/gold armor, ivory/red cloth, luminous arrow and dramatic draw pose."
+    },
+    {
+      "path": "C:/Users/User/.codex/worktrees/hanwha-diim-admission-20261001/cnine-card/assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+      "role": "Painting, facial readability, hair and materials quality only. Do not copy her identity, outfit, weapon or background."
+    },
+    {
+      "path": "C:/Users/User/.codex/worktrees/hanwha-diim-admission-20261001/cnine-card/assets/ui/project-v/art-references/male-style-anchor-silver-paladin-v1.png",
+      "role": "Male adult anatomy, attractive illustrated face and polished painting quality only. Do not copy his sword, blue palette, costume, face or pose."
+    }
+  ],
+  "files": [
+    {
+      "name": "crimson-phoenix-archer-source-art-v1.png",
+      "bytes": 3162473,
+      "sha256": "83E337D3872677FF3DBC02F06D2FCFDAB2413E9B458283983D9149BDD62B998A"
+    },
+    {
+      "name": "crimson-phoenix-archer-source-art-v2.png",
+      "bytes": 3097621,
+      "sha256": "CB2CEACDD77D6CE8DDF87BA30C45E4B9A80E59E292D3DDDBFB839A27E76ACA6E"
+    },
+    {
+      "name": "crimson-phoenix-archer-source-art-v3.png",
+      "bytes": 2995562,
+      "sha256": "8B4F601247E840F93BC9F70405B4C9C2B58D64E394930A90DA50045DCE3D4B4C"
+    },
+    {
+      "name": "design-reference.png",
+      "bytes": 2103273,
+      "sha256": "A2D95ABD01A80CDE18975A1AB94ADDE33488DB81147975D9CAEB67C0940ED5AD"
+    }
+  ],
+  "promptFiles": [
+    "prompt-v1.json",
+    "prompt-v2.json",
+    "prompt-v3.json"
+  ],
+  "history": [
+    {
+      "version": "v1",
+      "status": "SUPERSEDED_CANDIDATE",
+      "changes": "첨부 활·은백 장발·흑금 갑주·홍백 천·황금 화살·활시위 당기는 자세를 반영한 최초 생성."
+    },
+    {
+      "version": "v2",
+      "status": "USER_REVISION_REQUESTED",
+      "changes": "상단 활 끝 여백, 가슴 문자형 무늬, 과도한 천 흐름 정리.",
+      "userFeedback": "활 상하 크기·비례가 맞지 않는 느낌. 활 확대 및 층지지 않는 자연스러운 모발 요청."
+    },
+    {
+      "version": "v3",
+      "status": "USER_REVIEW_PENDING",
+      "changes": "활 상하 백색 외곽·결정·금속 장식의 볼륨 조화 및 전체 확대 요청 반영. 자연스러운 가는 연속 머릿결 수정.",
+      "sizeTarget": "약 15% 확대는 생성 요청 목표이며 정밀 픽셀 측정 수치가 아님."
+    }
+  ],
+  "qa": {
+    "fullResolutionViewed": true,
+    "thumbnail160Viewed": true,
+    "thumbnail": "qa-thumbnail-v3.png",
+    "dimensionsVerified": true,
+    "originalBytesPreserved": true,
+    "frameOverlayReview": false,
+    "userVisualApproval": false
+  },
+  "runtime": {
+    "codexRegistered": false,
+    "cmsRegistered": false,
+    "gradeAssigned": false,
+    "battleConnected": false,
+    "productionDeployed": false
+  }
+}
