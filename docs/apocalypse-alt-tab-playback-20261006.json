@@ -1,6 +1,6 @@
 {
   "date": "2026-10-06",
-  "status": "validated_ready_for_scoped_deploy",
+  "status": "production_deployed_verified",
   "report": "카네키 켄 안전지대 선택 후 알트탭하면 전투가 멈춘 뒤 5~10초 내 토벌 성공 표시",
   "diagnosis": {
     "cause": "숨김 visibilitychange가 setVisible(true)를 거쳐 stopPresentation/cancelTimelines를 호출했다. 남은 이벤트는 visible=false에서 반환하고 래퍼는 취소/타임아웃을 완료처럼 받아들여 claim으로 진행했다.",
@@ -29,6 +29,12 @@
       "mobile": "390x844: 실제 토벌 버튼 재입장, 안전지대 성공 후 33초 숨김에서 ANSWERED/성공1회/코인1100 유지. 복귀·완주 후 성공2회/코인2100 및 결과/복귀 버튼 확인.",
       "pvp": "같은 페이지에서 PVE 결과 복귀 → 모바일 로비 → PVP 메뉴 → 랭크전 매칭 버튼 → 전투 → 승리(+20점/+1000코인) 완료. 숨김 시계가 다음 전투로 누출되지 않음.",
       "evidence": "C:/Users/User/.codex/tmp/apocalypse-alt-tab-20261006/"
+    },
+    "releaseChecks": {
+      "passed": 16,
+      "failed": 0,
+      "totalPassed": 30,
+      "guards": "Release flags, shell cache compatibility and Hyperdrive cache passed"
     }
   },
   "release": {
@@ -41,6 +47,65 @@
       "tests/apocalypse-completion-20261005.test.mjs",
       "tests/apocalypse-attempt-ownership-20261005.test.mjs"
     ],
-    "checks": []
+    "checks": [],
+    "sourceCommit": "a76b432236c687429f6eb9789a5a77540954cb2f",
+    "deploymentUrl": "https://840c20b1.cnine-card.pages.dev",
+    "apiRuntimeVersion": "af7976cc-6ef9-444d-8e01-81571d29afb3",
+    "clanWorkerVersion": "cd0f4814-71b5-4769-8147-59394482ea7e",
+    "productionVerification": {
+      "checkedAt": "2026-10-05T18:48:14.574Z",
+      "origin": "https://cnine-card.pages.dev",
+      "files": [
+        {
+          "path": "index.html",
+          "status": 200,
+          "matches": true,
+          "sha256": "c51c19ad63239070d5ae1776ddd913ab517d5cc74d31019399fb8067ca9656a7"
+        },
+        {
+          "path": "js/app.js",
+          "status": 200,
+          "matches": true,
+          "sha256": "daff23a17fd81698727b510219c01a90f5636a9adc0842d9e12700e77547edda"
+        },
+        {
+          "path": "js/battle-v2-live.js",
+          "status": 200,
+          "matches": true,
+          "sha256": "1627cacf14991a4d892ba18f751cc7d4b6098e406424df956f39c1a5958f9197"
+        },
+        {
+          "path": "js/battle-v3-live.js",
+          "status": 200,
+          "matches": true,
+          "sha256": "c32cedca1c189f8e07d73939f0791d572ffbe6423cb9edd2eff00ba84e467c34"
+        },
+        {
+          "path": "js/apocalypse-challenge-v1.mjs",
+          "status": 200,
+          "matches": true,
+          "sha256": "6ea45e02f426b9a24813a31de07b4379cac4b32fd8924d96e373fc14e3ecf23a"
+        },
+        {
+          "path": "js/pve-apocalypse-v1952.js",
+          "status": 200,
+          "matches": true,
+          "sha256": "4c5917becaa2970ab518d245922f0cba9cad421fb91883a31493c8ffc577948c"
+        },
+        {
+          "path": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+          "status": 200,
+          "matches": true,
+          "sha256": "f9a9369ba9e7c60a5de407a812406d1e67a497d0096cd88f21bc0c5dac2afa02"
+        },
+        {
+          "path": "service-worker.js",
+          "status": 200,
+          "matches": true,
+          "sha256": "59c67b4b3dacdfb555220f7eb2d31d002b826e0720c0382855bdf93d92dd666b"
+        }
+      ],
+      "pass": true
+    }
   }
 }
