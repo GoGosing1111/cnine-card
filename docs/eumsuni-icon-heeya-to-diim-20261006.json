@@ -1,0 +1,121 @@
+{
+  "status": "COMPLETED",
+  "authorization": "아이콘 희야 회수하고 아이콘 디임으로 지급해",
+  "operationScript": "scripts/ops/eumsuni-icon-heeya-to-diim-20261006.mjs",
+  "operationScriptSha256": "dfe3e44bb9bd5c1f2e344ab37314aa2ae561f04d10c9f6cbe9b05d5a62278162",
+  "lookup": {
+    "user": {
+      "id": 65,
+      "nickname": "음순이",
+      "status": "ACTIVE"
+    },
+    "card": {
+      "id": "CN-1C000001",
+      "title": "디임",
+      "grade": "ICON",
+      "is_active": "1",
+      "card_status": "PUBLIC",
+      "member_name": "디임",
+      "member_active": "1"
+    },
+    "sourceCard": {
+      "id": "CN-1C000002",
+      "title": "하이희야",
+      "grade": "ICON",
+      "is_active": "1",
+      "card_status": "PUBLIC",
+      "member_name": "하이희야",
+      "member_active": "1"
+    },
+    "sourceQuantity": 1,
+    "quantity": 0,
+    "receipt": null
+  },
+  "validation": {
+    "syntax": "PASS",
+    "dryRun": "DRY_RUN_ROLLED_BACK",
+    "partialFailureRolledBack": true,
+    "replayVerified": true,
+    "rollbackVerified": true,
+    "balancesPreserved": true,
+    "decksPreserved": true,
+    "otherCardsPreserved": true,
+    "originalGrantHistoryPreserved": true
+  },
+  "execution": {
+    "userLock": "user:65",
+    "atomicWrites": [
+      "Heeya quantity -1",
+      "Diim quantity +1",
+      "admin_logs",
+      "app_meta receipt"
+    ],
+    "siteDeployment": "NOT_REQUIRED_OPS_ONLY",
+    "notificationSent": false,
+    "temporaryHelperStopped": true,
+    "temporaryAuthKey": "IN_MEMORY_DISCARDED"
+  },
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:eumsuni-icon-heeya-to-diim:20261006:v1",
+    "actor": "SYSTEM_OPS",
+    "userId": 65,
+    "nickname": "음순이",
+    "sourceGrantKey": "ops:eumsuni-icon-heeya:20261006:v1",
+    "sourceGrantAuditId": "41266",
+    "sourceCardId": "CN-1C000002",
+    "sourceCardTitle": "하이희야",
+    "cardId": "CN-1C000001",
+    "cardTitle": "디임",
+    "grade": "ICON",
+    "quantity": 1,
+    "permanent": true,
+    "sourceQuantityBefore": 1,
+    "sourceQuantityAfter": 0,
+    "quantityBefore": 0,
+    "quantityAfter": 1,
+    "levelAfter": 0,
+    "balancesPreserved": true,
+    "decksPreserved": true,
+    "otherCardsPreserved": true,
+    "historyPreserved": true,
+    "completedAt": "2026-10-05T17:41:01.932Z",
+    "adminLogId": "41268",
+    "replayed": false
+  },
+  "verification": {
+    "status": "VERIFIED",
+    "receipt": {
+      "status": "COMPLETED",
+      "operationKey": "ops:eumsuni-icon-heeya-to-diim:20261006:v1",
+      "actor": "SYSTEM_OPS",
+      "userId": 65,
+      "nickname": "음순이",
+      "sourceGrantKey": "ops:eumsuni-icon-heeya:20261006:v1",
+      "sourceGrantAuditId": "41266",
+      "sourceCardId": "CN-1C000002",
+      "sourceCardTitle": "하이희야",
+      "cardId": "CN-1C000001",
+      "cardTitle": "디임",
+      "grade": "ICON",
+      "quantity": 1,
+      "permanent": true,
+      "sourceQuantityBefore": 1,
+      "sourceQuantityAfter": 0,
+      "quantityBefore": 0,
+      "quantityAfter": 1,
+      "levelAfter": 0,
+      "balancesPreserved": true,
+      "decksPreserved": true,
+      "otherCardsPreserved": true,
+      "historyPreserved": true,
+      "completedAt": "2026-10-05T17:41:01.932Z",
+      "adminLogId": "41268"
+    },
+    "currentSourceQuantity": 0,
+    "currentQuantity": 1,
+    "currentLevel": 0,
+    "auditCount": 1,
+    "sourceGrantPreserved": true
+  }
+}
