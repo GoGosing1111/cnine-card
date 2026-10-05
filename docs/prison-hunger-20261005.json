@@ -1,5 +1,5 @@
 {
-  "status": "IMPLEMENTED_PENDING_RELEASE",
+  "status": "LIVE_VERIFIED",
   "createdAt": "2026-10-05",
   "completedAfterMidnightKST": true,
   "request": {
@@ -47,5 +47,19 @@
     "zAppearanceFixture": "An initialized-catalog fixture lacked the shipped Overlord marker and incorrectly attempted unrelated seeding in a minimal table. Seed that marker. Compare the full nonempty Z basic/chip damage timeline before/after appearance. H no longer represents legacy Z because their shipped intrinsic schedules differ; do not change either suit's combat behavior.",
     "idlePrototype": "The old offline four-second idle prototype no longer guarantees every gate clears after later production balance changes. Its runtime inputs are unchanged by prison. Validate fixed enemy stats, improved trained damage, explicit player power, bounded actions and actual-death-only clears over the same 30 seeds. Test final-state transition with an explicit completed receipt. Prototype maximum-training all-clear balance remains unretuned and is not claimed fixed or released by this prison change."
   },
-  "production": null
+  "production": {
+    "source": "83886e94beeaeeca04a954d07a3ef726112fded7",
+    "verifiedAt": "2026-10-05T15:54:25.172Z",
+    "pages": "https://73c53856.cnine-card.pages.dev",
+    "apiRuntime": "b94ae77a-fc03-4aba-b636-875d89f80cbe",
+    "clanWorker": "38cac09f-af9b-480f-bc59-ec0e2f4c754a",
+    "rolloutAt": "2026-10-05T15:53:01.292Z",
+    "prisonServerChecks": 46,
+    "browserChecks": 43,
+    "releaseStages": 69,
+    "publicResourcesMatched": 6,
+    "unauthenticatedMealAndAckStatus": 401,
+    "actualPlayerMutationsDuringVerification": false,
+    "records": "preview/prison-hunger-20261005/qa/"
+  }
 }

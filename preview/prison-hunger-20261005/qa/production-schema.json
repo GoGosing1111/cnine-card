@@ -1,0 +1,107 @@
+{
+  "checkedAt": "2026-10-05T15:54:19.593Z",
+  "readOnly": true,
+  "passed": true,
+  "tables": {
+    "hunger": "prison_hunger_v20261005",
+    "meals": "prison_meals_v20261005"
+  },
+  "rolloutAt": "2026-10-05T15:53:01.292Z",
+  "metadata": [
+    {
+      "key": "prison_hunger_started_at_20261005",
+      "value": "1791215581292"
+    },
+    {
+      "key": "safe_runtime_upgrade_prison_hunger_20261005",
+      "value": "1"
+    }
+  ],
+  "columns": [
+    {
+      "table_name": "prison_hunger_v20261005",
+      "column_name": "case_id",
+      "data_type": "text"
+    },
+    {
+      "table_name": "prison_hunger_v20261005",
+      "column_name": "inmate_user_id",
+      "data_type": "bigint"
+    },
+    {
+      "table_name": "prison_hunger_v20261005",
+      "column_name": "started_at_ms",
+      "data_type": "bigint"
+    },
+    {
+      "table_name": "prison_hunger_v20261005",
+      "column_name": "deadline_ms",
+      "data_type": "bigint"
+    },
+    {
+      "table_name": "prison_hunger_v20261005",
+      "column_name": "last_fed_at_ms",
+      "data_type": "bigint"
+    },
+    {
+      "table_name": "prison_hunger_v20261005",
+      "column_name": "died_at_ms",
+      "data_type": "bigint"
+    },
+    {
+      "table_name": "prison_hunger_v20261005",
+      "column_name": "acknowledged_death_ms",
+      "data_type": "bigint"
+    },
+    {
+      "table_name": "prison_hunger_v20261005",
+      "column_name": "meal_version",
+      "data_type": "integer"
+    },
+    {
+      "table_name": "prison_meals_v20261005",
+      "column_name": "request_id",
+      "data_type": "text"
+    },
+    {
+      "table_name": "prison_meals_v20261005",
+      "column_name": "attempt_token",
+      "data_type": "text"
+    },
+    {
+      "table_name": "prison_meals_v20261005",
+      "column_name": "case_id",
+      "data_type": "text"
+    },
+    {
+      "table_name": "prison_meals_v20261005",
+      "column_name": "inmate_user_id",
+      "data_type": "bigint"
+    },
+    {
+      "table_name": "prison_meals_v20261005",
+      "column_name": "sender_user_id",
+      "data_type": "bigint"
+    },
+    {
+      "table_name": "prison_meals_v20261005",
+      "column_name": "coin",
+      "data_type": "bigint"
+    },
+    {
+      "table_name": "prison_meals_v20261005",
+      "column_name": "previous_deadline_ms",
+      "data_type": "bigint"
+    },
+    {
+      "table_name": "prison_meals_v20261005",
+      "column_name": "previous_version",
+      "data_type": "integer"
+    },
+    {
+      "table_name": "prison_meals_v20261005",
+      "column_name": "delivered_at_ms",
+      "data_type": "bigint"
+    }
+  ]
+}
