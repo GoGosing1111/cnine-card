@@ -1,0 +1,64 @@
+{
+  "status": "READY_TO_APPLY",
+  "request": "음순이 계정에 아이콘 하이희야 아이콘 조은 지급해",
+  "operationKey": "ops:eumsuni-icon-heeya-joeun:20261006:v1",
+  "user": {
+    "id": 65,
+    "nickname": "음순이",
+    "status": "ACTIVE"
+  },
+  "catalog": [
+    {
+      "id": "CN-1C000002",
+      "title": "하이희야",
+      "grade": "ICON",
+      "is_active": "1",
+      "card_status": "PUBLIC",
+      "member_name": "하이희야",
+      "member_active": "1"
+    },
+    {
+      "id": "CN-1C000004",
+      "title": "오조은",
+      "grade": "ICON",
+      "is_active": "1",
+      "card_status": "PUBLIC",
+      "member_name": "오조은",
+      "member_active": "1"
+    }
+  ],
+  "delivery": "각 카드 1장 영구 직접 지급. 이전 하이희야→디임 교체와 별개인 신규 요청.",
+  "checks": {
+    "syntax": true,
+    "productionUserLock": true,
+    "atomicTransaction": true,
+    "partialFailureRolledBack": true,
+    "replayVerified": true,
+    "rollbackVerified": true,
+    "balancesPreserved": true,
+    "otherCardsPreserved": true
+  },
+  "sourceHash": "7199ce8b7b8bcf158ab45d012f4cfe36c8c0604c82ea818f71d5491ace07c240",
+  "evidenceDirectory": "C:/Users/User/.codex/tmp/eumsuni-icon-heeya-joeun-20261006/",
+  "plannedCards": [
+    {
+      "cardId": "CN-1C000002",
+      "cardTitle": "하이희야",
+      "grade": "ICON",
+      "quantity": 1,
+      "quantityBefore": 0,
+      "quantityAfter": 1,
+      "levelAfter": 0
+    },
+    {
+      "cardId": "CN-1C000004",
+      "cardTitle": "오조은",
+      "grade": "ICON",
+      "quantity": 1,
+      "quantityBefore": 0,
+      "quantityAfter": 1,
+      "levelAfter": 0
+    }
+  ],
+  "scope": "지급 도구와 기록만 변경. 게임 코드·재화·기존 강화 단계·기존 지급/교체 이력 변경 없음. 운영 사이트 재배포 불필요."
+}
