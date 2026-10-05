@@ -85,7 +85,7 @@
   },
   "runtimeCacheFix": {
     "date": "2026-10-05",
-    "status": "VERIFIED_PENDING_DEPLOYMENT",
+    "status": "LIVE_VERIFIED",
     "report": "칭호 안나오고 총 쏜다",
     "rootCause": "The main entry versioned the new engine but reused the pre-Overlord wrapper URL. That cached wrapper could reload its cached pre-Overlord engine. The readiness gate also accepted an already loaded old pair because they agreed with each other.",
     "changes": [
@@ -108,7 +108,9 @@
         "preview/overlord-live-v1/qa/cache/after.json",
         "preview/overlord-live-v1/qa/cache/after-desktop.png",
         "preview/overlord-live-v1/qa/cache/after-mobile.png"
-      ]
+      ],
+      "testsPassed": 12,
+      "live": "Seven exact entry URL file hashes match production. Anonymous real production main shell loaded the paired runtime, then fixture-only rendering confirmed sword controller, hidden gun, crimson aura and the title. No player battle, rewards or writes were performed."
     },
     "release": {
       "mode": "scoped",
@@ -119,7 +121,12 @@
         "tests/overlord-runtime-cache-20261005.test.mjs",
         "tests/pve-battlefield-entry-v2117.test.mjs"
       ],
-      "command": "npm run deploy:production -- --scoped"
+      "command": "npm run deploy:production -- --scoped",
+      "source": "4f34e22f56aef72957bb3a5b1419226499da965d",
+      "deployment": "https://b71a953f.cnine-card.pages.dev",
+      "apiRuntime": "c82d81f0-d6ec-4871-a7f7-4b8fa64cf331",
+      "clanWorker": "a177ef71-b692-4d77-876b-f2332c984f29",
+      "verification": "preview/overlord-live-v1/qa/cache/production.json"
     }
   }
 }
