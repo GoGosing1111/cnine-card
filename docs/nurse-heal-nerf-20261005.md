@@ -44,4 +44,12 @@
 - `tests/pve-battlefield-entry-v2117.test.mjs`: 실제 번들/메인 로더 연결. Worker 컴파일, 출시 플래그·캐시·Hyperdrive 보호 검사는 지정 배포 명령에 포함한다.
 - UI 레이아웃·이미지·클라이언트 전투 연출은 바꾸지 않으며 도감 스킬 설명은 서버 CMS에서 갱신한다.
 
-운영 완료 기록은 배포 및 CMS 저장 영수증 확인 후 추가한다.
+## 운영 반영 완료
+
+- 실행 코드 커밋: `476ededcad35468ca3ed32f9a5ad08e26ae34e3b`, origin/main 반영.
+- 지정 회귀검사 44/44 통과. Worker 문법/번들 컴파일, 출시·캐시 보호, Hyperdrive query cache 비활성 확인 후 scoped 배포 성공.
+- API Runtime 버전: `f41daba0-6131-42ec-abf2-207ba54902c4`.
+- Pages 배포: `ee996285-366e-417f-a7d0-955b94d260bf` (`https://ee996285.cnine-card.pages.dev`).
+- 운영 CMS revision 60 → 61. `ops:nurse-heal-nerf:20261005:v1` 완료, admin audit `41131`. 동일 요청 재시도는 기존 영수증을 반환했고 추가 수정하지 않았다.
+- 2026-10-05 19:17 KST 공개 `/api/mercenary-codex`에서 간호사 4종 모두 160% / 6턴 / 자원25 및 최대HP15% 설명 확인. 배포된 정책 파일과 커밋 파일의 일치, Pages 성공 상태와 배포 SHA도 확인했다.
+- 기록 추가는 문서만 커밋·원격 반영하며 게임을 재배포하지 않는다. 기존 격전지에 저장된 전투 스냅샷은 유지한다.
