@@ -1,6 +1,6 @@
 {
   "date": "2026-10-05",
-  "status": "verified_pending_production_deploy",
+  "status": "production_deployed_verified",
   "request": "아포칼립스에서 내 덱이 살아 있는데 패배로 표시되는 영상 제보 확인 및 수정",
   "diagnosis": {
     "video": "회피 성공 후 아군이 생존한 채 재생되지만 최종 결과가 충격파 실패와 패배로 바뀜",
@@ -39,7 +39,8 @@
       "screenshots": "C:/Users/User/.codex/tmp/apocalypse-alive-defeat-20261005/pc-clear.png; mobile-clear.png",
       "requestEvidence": "C:/Users/User/.codex/tmp/apocalypse-alive-defeat-20261005/browser-qa.json"
     },
-    "diffCheck": "passed"
+    "diffCheck": "passed",
+    "releaseChecks": "실제 PVE/PVP 로더 연결 회귀 9개 통과, Worker 컴파일 통과, 운영 출시/캐시/Hyperdrive 검사 통과"
   },
   "release": {
     "mode": "scoped",
@@ -48,7 +49,18 @@
     "reason": "아포칼립스 1회 전투 소유권과 복구 조회에 한정된 수정. 공통 인증/DB 기반/의존성 변경 없음. 관련 11개 회귀는 이미 통과했으며 배포에서 실제 메인 로더 연결과 Worker 컴파일만 추가 확인.",
     "tests": ["tests/pve-battlefield-entry-v2117.test.mjs"],
     "checks": ["check:worker"],
-    "productionVerification": "pending"
+    "sourceCommit": "34c5dc5b",
+    "deploymentUrl": "https://46aaa30a.cnine-card.pages.dev",
+    "apiRuntimeVersion": "e940deaa-72f0-4918-b468-dc39b26864af",
+    "clanWorkerVersion": "2978c54b-a58c-4538-939b-e07e30db5f25",
+    "productionVerification": {
+      "checkedAt": "2026-10-05T04:36:33.957Z",
+      "origin": "https://cnine-card.pages.dev",
+      "files": "index.html, js/app.js, js/apocalypse-challenge-v1.mjs, js/battle-v2-live.js, js/pve-apocalypse-v1952.js, service-worker.js 모두 HTTP 200 및 로컬/운영 SHA-256 일치(개행 정규화)",
+      "challengeAuthentication": "인증 없는 status 요청 HTTP 401",
+      "result": "passed",
+      "evidence": "C:/Users/User/.codex/tmp/apocalypse-alive-defeat-20261005/production-verification.json"
+    }
   },
   "productionDataMutation": "none; 과거 전투/보상 변경 및 보상 지급은 수행하지 않음"
 }
