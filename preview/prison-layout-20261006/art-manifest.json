@@ -1,0 +1,14 @@
+{
+  "version": "20261006",
+  "mode": "built-in image_gen",
+  "useCase": "stylized-concept",
+  "asset": "assets/ui/prison/prisoner-guarded-hall-20261006.png",
+  "sha256": "F987079D84D8E3C4CD32C8447968701ACEAB505559A928DEFE3A3C632121A0A7",
+  "dimensions": { "width": 1024, "height": 1536, "channels": 4 },
+  "alphaVerified": true,
+  "visualReview": "Full adult figure, shackles, continuous natural hair, cold hall lighting. Checked in actual desktop and mobile prison scene; original guards/background preserved.",
+  "generatedSource": "C:/Users/User/.codex/generated_images/01a0f1f2-cc91-72c3-a322-19e4d45ed867/exec-0251efec-8714-402b-879e-dfb288bdb63a.png",
+  "reference": "assets/ui/prison/general-guarded-prison-20261005.png",
+  "referenceRole": "Style, perspective, lighting only. Original background preserved.",
+  "prompt": "Use case: stylized-concept\nAsset type: transparent foreground prisoner sprite for a dark fantasy prison game interface.\nPrimary request: create ONE new full-body adult prisoner whose painted rendering, materials, camera perspective and illumination fit the attached guarded prison hall.\nInput image: style / lighting / perspective reference ONLY. Preserve that prison background in the project; do not redraw it in this output. The output is only the new prisoner cutout.\nSubject: a generic adult human prisoner, natural realistic adult proportions, exhausted serious expression, short dark hair, worn charcoal-gray coarse prison tunic and trousers, frayed hems, simple dark leather boots. Both wrists held together in front at waist level in old iron shackles with a short hanging chain. Slightly slumped shoulders, standing with feet firmly grounded, three-quarter body turn with face toward camera. Anonymous game character, no resemblance to the guards.\nStyle: premium semi-realistic dark fantasy game illustration, painterly and coherent with the reference, detailed but readable small. Restrained face and silhouette, no cute or chibi features.\nLighting: cold blue overhead light on head and shoulders, faint muted warm red rim from the hall's crimson banners, readable shadow detail. Dirty ash cloth and dull iron, no vivid orange jail suit.\nComposition: portrait 2:3, full figure centered, all hair, hands, shackles and both boots fully visible with about 7 percent clear padding. Natural full-body proportions. Isolated on truly transparent alpha, no floor, no rectangular backdrop, no cast shadow card; the website supplies floor and contact shadow.\nConstraints: no environment, no guards, no bars, no weapons, no UI, no text, no symbols, no watermark, no gore or wounds, no oversized head. Hair follows continuous natural strands, not layered plates. One prisoner only."
+}
