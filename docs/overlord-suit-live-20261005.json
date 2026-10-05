@@ -176,7 +176,7 @@
   },
   "motionReform": {
     "date": "2026-10-05",
-    "status": "VERIFIED_PENDING_DEPLOYMENT",
+    "status": "LIVE_VERIFIED",
     "requests": [
       "오버로드 모션속도 3배에서 4배는 빨라야할거같은데",
       "그리고 삼연참 이펙트 크기좀 더 키워봐 30% 정도"
@@ -201,6 +201,8 @@
       },
       "presentation": "Slash and impact dimensions are exactly 1.3x with fixed centers and no cumulative scaling. Body/title scale unchanged. Pause/resume, receipt equality and effect cleanup passed without page errors.",
       "fullBattle": "Each viewport replayed all 220 normal receipts / 5917164 damage and 75 skill hits / 2418096 damage; queue drained to zero with no remaining effects or page errors.",
+      "testsPassed": 15,
+      "production": "Seven exact production entry URL hashes match. The actual anonymous production main loader selected the new engine/wrapper pair with motionSpeed 3.5 and comboEffectScale 1.3; title and crimson aura enabled, gun/nickname hidden, no page errors. Fixture-only verification without player writes.",
       "reports": [
         "preview/overlord-live-v1/qa/motion/report.json",
         "preview/overlord-live-v1/qa/motion/full-battle-report.json"
@@ -221,7 +223,13 @@
         "tests/pve-battlefield-entry-v2117.test.mjs"
       ],
       "checks": [],
-      "command": "npm run deploy:production -- --scoped"
+      "command": "npm run deploy:production -- --scoped",
+      "source": "493234e7a94c2c76a24a855f0b353fb856e1ec62",
+      "deployment": "https://082ed760.cnine-card.pages.dev",
+      "apiRuntime": "afa99e2b-afb2-4762-88ad-02357fed6724",
+      "clanWorker": "965ac3de-87db-4a35-b30c-50feca9941fc",
+      "verification": "preview/overlord-live-v1/qa/motion/production.json",
+      "integration": "Preserved concurrent territory reward message documentation and one-off operations script 0952085a; no unrelated runtime changes or reward operations were executed."
     }
   }
 }
