@@ -1,0 +1,156 @@
+{
+  "verifiedAt": "2026-10-05T21:20:53.760Z",
+  "base": "https://cnine-card.pages.dev",
+  "checks": [
+    "live API: eight mercenary-specific limits; zero issued; prices unset; opening OFF",
+    "shop API exposes the prepared limited mercenary pack without enabling purchase",
+    "deployed client, reveal bundle, pack asset and matching cache versions verified",
+    "unauthenticated opening denied; no authenticated paid opening performed"
+  ],
+  "requests": [
+    {
+      "path": "/assets/ui/packs/limited-v1/pack-640.webp",
+      "status": 200,
+      "ms": 51
+    },
+    {
+      "path": "/service-worker.js",
+      "status": 200,
+      "ms": 60
+    },
+    {
+      "path": "/js/mercenary-limited-pack-live.mjs?v=20261006",
+      "status": 200,
+      "ms": 62
+    },
+    {
+      "path": "/preview/mercenary-limited-pack-20261006-v1/",
+      "status": 200,
+      "ms": 63
+    },
+    {
+      "path": "/",
+      "status": 200,
+      "ms": 72
+    },
+    {
+      "path": "/api/mercenary-limited-pack/config",
+      "status": 200,
+      "ms": 226
+    },
+    {
+      "path": "/api/packs",
+      "status": 200,
+      "ms": 222
+    },
+    {
+      "path": "/js/hyper-pack-fx-v2076.bundle.js?v=2146-limited",
+      "status": 200,
+      "ms": 330
+    }
+  ],
+  "browser": {
+    "command": "node tests/mercenary-limited-shop-20261006.browser.mjs",
+    "exitCode": 0,
+    "sources": [
+      {
+        "file": "js/mercenary-limited-pack-live.mjs",
+        "sha256": "7c3dc01f297de6396dea020114f50310583fc5843f69512f7f4690ffa50ea6f2"
+      },
+      {
+        "file": "tests/mercenary-limited-shop-20261006.browser.mjs",
+        "sha256": "15c67743cb9cab505c31cb7f315f9da01f6ee4d4a1fff3b2368603b49bb92898"
+      }
+    ],
+    "checks": [
+      "desktop real shop component opens gated contract room; unset price never shows free purchase",
+      "mobile real shop component opens gated contract room; unset price never shows free purchase",
+      "a delayed price refresh cannot replace the price revision the user confirmed",
+      "receipt recovery still presents the card when the configuration read is unavailable"
+    ],
+    "errors": []
+  },
+  "releaseEnabled": false,
+  "prices": {
+    "single": null,
+    "ten": null
+  },
+  "stock": [
+    {
+      "code": "V-996",
+      "limit": null,
+      "issued": 0,
+      "remaining": null
+    },
+    {
+      "code": "V-990",
+      "limit": null,
+      "issued": 0,
+      "remaining": null
+    },
+    {
+      "code": "V-991",
+      "limit": null,
+      "issued": 0,
+      "remaining": null
+    },
+    {
+      "code": "V-992",
+      "limit": null,
+      "issued": 0,
+      "remaining": null
+    },
+    {
+      "code": "V-993",
+      "limit": null,
+      "issued": 0,
+      "remaining": null
+    },
+    {
+      "code": "V-994",
+      "limit": null,
+      "issued": 0,
+      "remaining": null
+    },
+    {
+      "code": "V-997",
+      "limit": null,
+      "issued": 0,
+      "remaining": null
+    },
+    {
+      "code": "V-998",
+      "limit": null,
+      "issued": 0,
+      "remaining": null
+    }
+  ],
+  "deployment": {
+    "commit": "d372e4446d5d846f05f961ae6d5877e0381de6b5",
+    "url": "https://1598ddb2.cnine-card.pages.dev",
+    "apiRuntimeVersion": "32519b0f-c7a4-4897-8a1e-b88597e23836",
+    "clanWorkerVersion": "1b5bcefe-03ee-4e4e-8277-59bb6c0342ca",
+    "command": "npm run deploy:production",
+    "exitCode": 0
+  },
+  "releaseGate": {
+    "mode": "full",
+    "completedStages": 70,
+    "originalCandidate": "26fb1d80c659ef60dcfa09910c2013519b7e27bf",
+    "continuationCandidate": "2dc832c627d9ac47bbf0e2ca09376d20e45daaa5",
+    "logs": [
+      {
+        "file": "cnine-limited-pack-full-deploy-20261006-v2.log",
+        "sha256": "19180f11305ed6a36ea2389194bb6c92c043e8c95c0bc3bfe75e5a1677c92b37"
+      },
+      {
+        "file": "cnine-limited-pack-deploy-resume-20261006.log",
+        "sha256": "09b7c6c7e9316973f9cec5f45cbbb0688918ac86daade0836ace7efe5602c778"
+      },
+      {
+        "file": "cnine-limited-pack-deploy-final-20261006.log",
+        "sha256": "6258ef871734b60755d95a636b4675cf2ab0916b59df3eee7a6065e596794ed5"
+      }
+    ]
+  }
+}
