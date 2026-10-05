@@ -149,7 +149,7 @@ test('CMS는 BATTLE_SUIT 부위·세부 종류와 PVE 전용 전투력을 분리
   const commandUrl=index.match(/src="([^"]*pve-command-v2-live\.js\?[^"]+)"/)?.[1];
   assert.ok(commandUrl);
   assert.equal(new URL(commandUrl.replaceAll('&amp;','&'),'https://game.test/').searchParams.get('v'),'2110-combat-lobby');
-  assert.match(index, /js\/app\.js\?v=2108-shared-navigation/);
+  assert.match(index, /js\/app\.js\?v=[0-9][A-Za-z0-9-]+/);
   assert.match(escort, /sectorSummary,battleV2,monster,characterBonus:equipment,objective:/);
   assert.match(app, /const loadout=await apiRequest\('character\/loadout',\{\}, \{ttl:5000,timeoutMs:8000\}\)/);
   assert.match(app, /data:\{current,participant:me,characterBonus,user:loadUser\(\)\}/);

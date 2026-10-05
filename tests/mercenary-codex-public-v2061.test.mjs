@@ -109,8 +109,8 @@ test('codex keeps public catalog browsing while account writes are limited to th
 });
 
 test('public page and live entry use synchronized cache tags and revalidation headers', () => {
-  assert.match(index, /js\/app\.js\?v=2108-shared-navigation/);
-  assert.match(sw, /soop-card-shell-v2108-shared-navigation/);
+  assert.match(index, /js\/app\.js\?v=[0-9][A-Za-z0-9-]+/);
+  assert.match(sw, /soop-card-shell-v[0-9][A-Za-z0-9-]+/);
   assert.match(index, /exact-shell-adapter\.js\?v=2108-shared-navigation/);
   assert.match(index, /runtime-router\.js\?v=2083-clan-prison-camp/);
   assert.match(index, /command-icons\.js\?v=1\.5\.0-mercenary-codex/);

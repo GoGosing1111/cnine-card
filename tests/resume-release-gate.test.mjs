@@ -109,6 +109,28 @@ test('an isolated raid UI fix reuses unrelated stages only with matching success
   }
 });
 
+test('limited-pack view proof is runner-specific and never permits shared policy, session or server changes',()=>{
+  const file='js/mercenary-limited-pack-live.mjs',runner='tests/mercenary-limited-shop-20261006.browser.mjs',source='const isolatedView=true;';
+  const hash=createHash('sha256').update(source).digest('hex');
+  const proof={command:'node '+runner,exitCode:0,sources:[file,runner].map(file=>({file,sha256:hash}))};
+  const withProof=(value=proof,changed=[file,runner],inspecting=false)=>{
+    const raw=JSON.stringify(value),f=fixture({changed});
+    f.env.RELEASE_GATE_RESUME_UI_REPORT='browser-proof.json';f.env.RELEASE_GATE_RESUME_UI_SHA256=createHash('sha256').update(raw).digest('hex');
+    f.read=p=>p==='browser-proof.json'?raw:value.sources.some(row=>row.file===p)?source:inspecting&&p==='tests/a.test.mjs'?`read('${file}')`:'';
+    return f;
+  };
+  assert.equal(fullGateResumePlan(withProof()).reused,1);
+  assert.equal(fullGateResumePlan(withProof(proof,undefined,true)).reused,0);
+  const f=withProof();assert.throws(()=>fullGateResumePlan({...f,read:p=>p===file?'changed':f.read(p)}),/source changed/);
+  assert.throws(()=>fullGateResumePlan(withProof({...proof,exitCode:1})),/successful browser/);
+  const wrongRunner='tests/other.browser.mjs';
+  assert.throws(()=>fullGateResumePlan(withProof({...proof,command:'node '+wrongRunner,sources:[...proof.sources,{file:wrongRunner,sha256:hash}]})),/Limited-pack view proof requires/);
+  for(const runtime of ['shared/mercenary-limited-pack-v1.mjs','shared/mercenary-limited-session-v1.mjs','functions/_mercenary_limited_pack.js','js/hyper-pack-fx-v2076.src.js']){
+    assert.throws(()=>fullGateResumePlan(withProof(proof,[file,runner,runtime])),/fresh full gate/);
+    assert.throws(()=>fullGateResumePlan(withProof({...proof,sources:[...proof.sources,{file:runtime,sha256:hash}]})),/Only isolated/);
+  }
+});
+
 test('offline skill preview proof binds source and bundle and reruns contracts that inspect it',()=>{
   const files=[
     'preview/project-v-mercenary-system-v1/skill-rehearsal.mjs',
