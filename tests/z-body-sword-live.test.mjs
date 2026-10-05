@@ -125,9 +125,11 @@ test('Z replacement retains existing authoritative weapon damage and skill-chip 
   const run=(code,battleSprite,skillChips=['SKILL_CHIP_ROCKET_LAUNCHER'])=>createPveBattleV2({cards,monster:{id:1,battle_power:3000000},seed:21,battleSuit:{code,pvePower:300000,weaponCode:'EQ_1788486929132',appearance:{battleSprite},skillChips}});
   const digest=b=>b.result.timeline.filter(e=>e.actorKind==='BATTLE_SUIT').map(({type,damage,absorbed,targetId,time,combatAtMs})=>({type,damage,absorbed,targetId,time,combatAtMs}));
   // Appearance replacement preserves this suit's combat. Z/H now deliberately
-  // have different chip cooldowns, so a cross-tier chip timeline is not a baseline.
-  assert.deepEqual(digest(run('BATTLE_SUIT_Z_BODY',Z_SWORD_IMAGE)),digest(run('BATTLE_SUIT_Z_BODY','prior.png')));
-  assert.deepEqual(digest(run('BATTLE_SUIT_Z_BODY',Z_SWORD_IMAGE,[])),digest(run('BATTLE_SUIT_H_BODY','prior.png',[])));
+  // have different intrinsic schedules, so H cannot stand in for the previous Z.
+  const before=digest(run('BATTLE_SUIT_Z_BODY','prior.png')),after=digest(run('BATTLE_SUIT_Z_BODY',Z_SWORD_IMAGE));
+  assert.ok(before.some(event=>event.type==='TURN'&&event.damage>0));
+  assert.ok(before.some(event=>event.type==='SKILL_CHIP_HIT'&&event.damage>0));
+  assert.deepEqual(after,before);
 });
 
 test('PostgreSQL appearance migration uses the live adapter and preserves CMS values',async()=>{

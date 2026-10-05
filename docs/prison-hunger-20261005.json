@@ -44,7 +44,7 @@
     "previewPower": "The same two-second scrapyard fixture has 2/9/9 defeats at powerScale 0.25/1/2 with current shipped balance. Replace guaranteed normal/high victory with stronger-deck progress and victory-only-on-total-clear invariants; retain fixed enemy snapshot equality, weak-deck loss, bounded actions and all 30-seed spawn/KO checks. No preview or combat code changed.",
     "titleMarker": "The existing equipment foundation already includes OVERLORD_UPGRADE_KEY between X-BODY and achievement keys. Add that shipped marker to the old adjacency assertion; retain all title registration and surface checks.",
     "codexTemplate": "Upstream growth preparation adds exactly one hidden growth link. Assert the hidden link explicitly before removing it for the legacy base-template comparison, as the test already does for released limited additions. Do not enable or change the growth feature.",
-    "zAppearanceFixture": "An initialized-catalog fixture lacked the shipped Overlord marker and incorrectly attempted unrelated seeding in a minimal table. Seed that marker. Compare Z before/after appearance for identical chip timeline, plus Z/H identical basic-only damage; shipped different tier chip cooldowns must not be treated as an appearance regression."
+    "zAppearanceFixture": "An initialized-catalog fixture lacked the shipped Overlord marker and incorrectly attempted unrelated seeding in a minimal table. Seed that marker. Compare the full nonempty Z basic/chip damage timeline before/after appearance. H no longer represents legacy Z because their shipped intrinsic schedules differ; do not change either suit's combat behavior."
   },
   "production": null
 }
