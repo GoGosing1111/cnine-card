@@ -3,8 +3,8 @@
   "id": "RAID_BUS_DRIVER_TITLE_V1",
   "title": "버스기사",
   "subtitle": "행정부 정직원",
-  "status": "USER_VISUAL_REVIEW_PENDING",
-  "runtimeEnabled": false,
+  "status": "LIVE_MANUAL_TITLE",
+  "runtimeEnabled": true,
   "palette": [
     "celadon mint",
     "ivory",
@@ -46,7 +46,11 @@
     "koreanTextSeparate": true,
     "transparentPadding": 40
   },
-  "catalogRegistered": false,
+  "catalogRegistered": true,
   "accountGrantPerformed": false,
-  "power": null
+  "power": 0,
+  "catalogCode": "RAID_BUS_DRIVER",
+  "stylePreset": "BUS_DRIVER",
+  "runtimeImage": "/assets/ui/titles/raid-bus-driver-v1.png",
+  "acquisition": "CMS_MANUAL"
 }

@@ -1,0 +1,65 @@
+{
+  "date": "2026-10-05",
+  "request": "버스기사 칭호 실제 게임 반영",
+  "catalog": {
+    "code": "RAID_BUS_DRIVER",
+    "name": "버스기사",
+    "unlockType": "MANUAL",
+    "power": 0,
+    "isActive": true,
+    "isPublic": true,
+    "style": "BUS_DRIVER",
+    "image": "/assets/ui/titles/raid-bus-driver-v1.png"
+  },
+  "behavior": {
+    "seed": "Catalogue row and marker use the existing atomic batch. No ownership grants. Existing CMS edits survive retries and future deployments.",
+    "grant": "Existing authenticated OWNER manual title grant/revoke. No recipients were specified.",
+    "equip": "Existing owned, active, unexpired title checks. One equipped title; zero initial power for both PVE and PVP.",
+    "visuals": "Approved full horizontal art in title wardrobe, public name badge, player card and CMS; portrait cropping avoided."
+  },
+  "releasePlan": {
+    "mode": "scoped",
+    "base": "b1859e08b5d30f750accf49bee4743bd380727af",
+    "reason": "칭호 카탈로그 한 종과 기존 표시 경로만 연결. 스키마·인증·공통 거래 기반은 변경하지 않으며 등록 원자성·권한·보유 조건·장착 UI와 Worker 컴파일만 검사한다.",
+    "tests": [
+      "tests/raid-bus-driver-title-20261005.test.mjs",
+      "tests/equipment-loading.test.mjs"
+    ],
+    "checks": [
+      "check:worker"
+    ]
+  },
+  "visualChecks": {
+    "at": "2026-10-05T08:47:44.397Z",
+    "mobile": {
+      "images": [
+        {
+          "height": 114.95000457763672,
+          "loaded": true,
+          "width": 322
+        },
+        {
+          "height": 107.0999984741211,
+          "loaded": true,
+          "width": 300
+        }
+      ],
+      "scrollWidth": 375,
+      "width": 375
+    },
+    "cms": {
+      "active": "1",
+      "code": "RAID_BUS_DRIVER",
+      "power": "0",
+      "public": "1",
+      "scrollWidth": 375,
+      "style": "BUS_DRIVER",
+      "unlock": "MANUAL",
+      "width": 375
+    },
+    "lockedEquipButtons": 0,
+    "equipAndUnequip": true,
+    "errors": []
+  },
+  "evidenceDirectory": "C:/Users/User/.codex/tmp/raid-bus-driver-title-live-v1"
+}

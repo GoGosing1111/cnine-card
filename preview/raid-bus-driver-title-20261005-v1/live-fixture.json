@@ -1,0 +1,19 @@
+{
+  "id": 906,
+  "code": "RAID_BUS_DRIVER",
+  "name": "버스기사",
+  "badgeText": "버스기사",
+  "description": "행정부 정직원 · 모두를 함께 데려가는 레이드 버스기사. 활동 확인 후 운영자가 지급합니다.",
+  "image": "/assets/ui/titles/raid-bus-driver-v1.png",
+  "stylePreset": "BUS_DRIVER",
+  "fontPreset": "DISPLAY",
+  "unlockType": "MANUAL",
+  "unlockConfig": {
+    "fontPreset": "DISPLAY"
+  },
+  "pvePower": 0,
+  "sortOrder": 906,
+  "isActive": true,
+  "isPublic": true,
+  "fixtureOnly": true
+}

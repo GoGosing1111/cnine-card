@@ -13,7 +13,7 @@ async function render(){
  ctx.fillStyle='#604017';ctx.strokeStyle='#05241e';ctx.lineWidth=h*.025;ctx.strokeText(TITLE,w*.5,baseline+h*.01);ctx.fillText(TITLE,w*.5,baseline+h*.01);
  ctx.lineWidth=h*.009;ctx.strokeStyle='#d5b66d';ctx.strokeText(TITLE,w*.5,baseline);
  const gold=ctx.createLinearGradient(0,h*.59,0,h*.84);gold.addColorStop(0,'#fffced');gold.addColorStop(.36,'#ffe6a2');gold.addColorStop(.53,'#f0c86a');gold.addColorStop(.56,'#fff0b5');gold.addColorStop(1,'#c78c3e');ctx.fillStyle=gold;ctx.fillText(TITLE,w*.5,baseline);
- const png=canvas.toDataURL('image/png');$('normalSize').src=$('smallSize').src=png;$('download').href=png;$('download').removeAttribute('aria-disabled');$('status').textContent='투명 PNG · 한글 별도 조판 · 칭호 시안';
+ const png=canvas.toDataURL('image/png');$('normalSize').src=$('smallSize').src=png;$('download').href=png;$('download').removeAttribute('aria-disabled');$('status').textContent='투명 PNG · 행정부 정직원 · 운영 칭호';
  canvas.dataset.ready='true';canvas.dataset.title=TITLE;canvas.dataset.subtitle=SUBTITLE;canvas.dataset.font='Black Han Sans / OFL';
 }
 for(const button of document.querySelectorAll('[data-background]'))button.addEventListener('click',()=>{const value=button.dataset.background;$('showcase').dataset.background=value;for(const other of document.querySelectorAll('[data-background]'))other.setAttribute('aria-pressed',String(other===button));});

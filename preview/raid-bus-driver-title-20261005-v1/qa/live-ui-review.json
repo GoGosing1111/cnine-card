@@ -1,0 +1,32 @@
+{
+  "at": "2026-10-05T08:47:44.397Z",
+  "mobile": {
+    "images": [
+      {
+        "height": 114.95000457763672,
+        "loaded": true,
+        "width": 322
+      },
+      {
+        "height": 107.0999984741211,
+        "loaded": true,
+        "width": 300
+      }
+    ],
+    "scrollWidth": 375,
+    "width": 375
+  },
+  "cms": {
+    "active": "1",
+    "code": "RAID_BUS_DRIVER",
+    "power": "0",
+    "public": "1",
+    "scrollWidth": 375,
+    "style": "BUS_DRIVER",
+    "unlock": "MANUAL",
+    "width": 375
+  },
+  "lockedEquipButtons": 0,
+  "equipAndUnequip": true,
+  "errors": []
+}

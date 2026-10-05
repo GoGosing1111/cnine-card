@@ -1,6 +1,7 @@
 import { ACHIEVEMENT_TITLES_KEY, ACHIEVEMENT_TITLE_POWER_KEY, ensureAchievementTitles, syncAchievementTitles } from './_achievement_titles.js';
 import { PREDICTION_TITLE_KEY, ensurePredictionTitle, syncPredictionHitTitle } from './_prediction_title.js';
 import { SUPPORTER_BLUE_BEAST_TITLES_KEY, ensureSupporterBlueBeastTitles, syncBlueBeastTitle } from './_supporter_blue_beast_titles.js';
+import { RAID_BUS_DRIVER_TITLE_KEY, ensureRaidBusDriverTitle } from './_raid_bus_driver_title.js';
 import { avatarFeatureAccess, equippedAvatarEffect } from './_avatar.js';
 import { resolveAvatarDropRate } from './_avatar_drop.js';
 import { burningEventIsLive } from './_burning_event_access.js';
@@ -25,7 +26,7 @@ const EQUIPMENT_RARITY_ALIASES={COMMON:'NORMAL',UNCOMMON:'MAGIC',ADVANCED:'MAGIC
 const GARAGE_RARITIES=[...EQUIPMENT_RARITIES];
 const SOURCE_TYPES=['PVE','PVE_AUTO','TOWER','RAID','RIFT','PVP','CAPTAIN'];
 const TITLE_UNLOCK_TYPES=['MANUAL','COLLECTION_COUNT','GRADE_COUNT','MEMBER_COMPLETE','CARD_SET','CONTENT_CLEAR','COLLECTION_MASTERY','TROPHY_KINDS','PREDICTION_HITS','CHALLENGER_TOTAL'];
-const TITLE_STYLE_PRESETS=['DEFAULT','FOREST','FLAME','FROST','STORM','SHADOW','GOLD','RAINBOW','VOID','CRIMSON','CHALLENGER','COMPLETIONIST','TROPHY_HUNTER','GAMBLING_KING','SUPPORTER_VIP','BLUE_BEAST'];
+const TITLE_STYLE_PRESETS=['DEFAULT','FOREST','FLAME','FROST','STORM','SHADOW','GOLD','RAINBOW','VOID','CRIMSON','CHALLENGER','COMPLETIONIST','TROPHY_HUNTER','GAMBLING_KING','SUPPORTER_VIP','BLUE_BEAST','BUS_DRIVER'];
 const TITLE_FONT_PRESETS=['DEFAULT','SERIF','DISPLAY','ARCADE','ROUNDED','SCIFI','BRUSH','HANDWRITING','MONO','CLASSIC'];
 const SUPPLY_BOX_CODE='EQUIPMENT_SUPPLY_BOX';
 const SUPPLY_BOX_IMAGE='assets/ui/packs/supply-high.jpeg';
@@ -110,7 +111,7 @@ export async function ensureEquipmentFoundation(env){
     'safe_runtime_upgrade_v1490_new_equipment_drop_quarantine','safe_runtime_upgrade_v1338_garage_system',
     'safe_runtime_upgrade_v1533_territory_commander_title','safe_runtime_upgrade_v1953_project_v_battle_suits',
     'safe_runtime_upgrade_v1959_battle_suit_01_female','safe_runtime_upgrade_v1969_battle_suit_power_tiers',
-    'safe_runtime_upgrade_v2066_h_body','safe_runtime_upgrade_v2124_sz_body',Z_SWORD_APPEARANCE_KEY,X_BODY_UPGRADE_KEY,ACHIEVEMENT_TITLES_KEY,ACHIEVEMENT_TITLE_POWER_KEY,PREDICTION_TITLE_KEY,SUPPORTER_BLUE_BEAST_TITLES_KEY
+    'safe_runtime_upgrade_v2066_h_body','safe_runtime_upgrade_v2124_sz_body',Z_SWORD_APPEARANCE_KEY,X_BODY_UPGRADE_KEY,ACHIEVEMENT_TITLES_KEY,ACHIEVEMENT_TITLE_POWER_KEY,PREDICTION_TITLE_KEY,SUPPORTER_BLUE_BEAST_TITLES_KEY,RAID_BUS_DRIVER_TITLE_KEY
   ],async()=>{
     const markerV1231=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1231_character_equipment_titles'").first();
     if(markerV1231?.value!=='1'){
@@ -522,6 +523,7 @@ export async function ensureEquipmentFoundation(env){
     await ensureAchievementTitles(env);
     await ensurePredictionTitle(env);
     await ensureSupporterBlueBeastTitles(env);
+    await ensureRaidBusDriverTitle(env);
     return true;
   },async()=>((await env.DB.prepare('PRAGMA table_info(user_character_titles)').all()).results||[]).some(row=>row.name==='expires_at'));
 }

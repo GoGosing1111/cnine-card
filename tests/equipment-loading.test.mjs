@@ -142,3 +142,13 @@ test('gambling king shows saved lifetime progress and the CMS target without an 
   assert.match(m.root.innerHTML,/title-style-gambling_king/);
   assert.match(m.root.innerHTML,/aria-valuenow="999"/);assert.doesNotMatch(m.root.innerHTML,/data-title-equip="3"/);
 });
+
+test('bus driver keeps its full title art and manual lock, and zero-power equip/unequip remains usable',async()=>{
+ const data=fixture();data.equipmentQuantitiesPending=false;
+ data.titles=[{id:9,code:'RAID_BUS_DRIVER',name:'버스기사',description:'행정부 정직원',image:'/assets/ui/titles/raid-bus-driver-v1.png',stylePreset:'BUS_DRIVER',unlockType:'MANUAL',unlockConfig:{},pvePower:0,owned:false}];
+ const locked=mount(async()=>data);await tick();locked.click({tab:'title'});
+ assert.match(locked.root.innerHTML,/행정부 정직원/);assert.match(locked.root.innerHTML,/title-style-bus_driver/);assert.match(locked.root.innerHTML,/raid-bus-driver-v1\.png/);assert.doesNotMatch(locked.root.innerHTML,/data-title-equip="9"/);
+ data.titles[0].owned=true;const calls=[];const owned=mount(async(path,init)=>{calls.push(path);return path==='character/loadout'?data:{ok:true}});await tick();owned.click({tab:'title'});owned.click({titleEquip:'9'});await tick();
+ assert.ok(calls.includes('character/title/equip'));assert.equal(owned.controller.getState().equippedTitleId,9);assert.equal(owned.controller.getState().bonuses.titlePve,0);assert.equal(owned.controller.getState().bonuses.titlePvp,0);assert.match(owned.root.innerHTML,/명예 칭호 · 전투력 보너스 없음/);
+ owned.click({},['data-title-unequip']);await tick();assert.equal(owned.controller.getState().equippedTitleId,null);
+});

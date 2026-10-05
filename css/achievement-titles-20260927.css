@@ -1,4 +1,39 @@
 /* Shared insignia treatment: chat/rankings, player cards and title wardrobe. */
+/* Bus driver uses the complete approved horizontal title, including its lettering. */
+.title-style-bus_driver {
+  --bus-title-width:156px;position:relative;display:inline-block!important;vertical-align:middle;
+  width:var(--bus-title-width)!important;max-width:100%;height:calc(var(--bus-title-width) * 804 / 2252)!important;
+  min-height:0!important;padding:0!important;border:0!important;border-radius:0!important;
+  background:transparent url('../assets/ui/titles/raid-bus-driver-v1.png') center/contain no-repeat!important;
+  box-shadow:none!important;color:transparent!important;-webkit-text-fill-color:transparent!important;
+  font-size:0!important;line-height:0!important;text-shadow:none!important;animation:none!important;overflow:visible!important;
+}
+.title-style-bus_driver>span { font-size:0!important;color:transparent!important;-webkit-text-fill-color:transparent!important;text-shadow:none!important; }
+.title-style-bus_driver::before,.title-style-bus_driver::after { content:none!important; }
+.title-style-bus_driver.compact { --bus-title-width:132px; }
+.title-preview-badge.title-style-bus_driver { --bus-title-width:260px; }
+.title-preview-badge.compact.title-style-bus_driver { --bus-title-width:190px; }
+.is-title-bus_driver { --achievement-ink:#ffe7a7;--achievement-line:#a08d59;--achievement-dark:#0a3029;--achievement-light:#3d8e75;--achievement-glow:129,227,190; }
+.clv2-title-showcase.is-title-bus_driver { border-color:#a08d59;background:radial-gradient(ellipse at 50% 26%,#387f6544,transparent 62%),linear-gradient(155deg,#112e28,#080f11 80%); }
+.clv2-title-showcase.is-title-bus_driver::before,.clv2-title-showcase.is-title-bus_driver::after { content:none; }
+.clv2-title-showcase.is-title-bus_driver .clv2-title-sigil.has-emblem { width:min(100%,460px);height:auto; }
+.clv2-title-showcase.is-title-bus_driver>p { margin-top:24px;color:#a1c6b5; }
+.clv2-title-showcase.is-title-bus_driver>strong { color:#e6d197;font-size:12px; }
+.clv2-title-card.is-title-bus_driver { align-items:center;text-align:center;min-height:300px;padding:20px 14px;border-color:#a08d59;background:radial-gradient(ellipse at 50% 0,#529e7533,transparent 70%),#0b1917; }
+.clv2-title-card.is-title-bus_driver .clv2-title-emblem-wrap { width:100%; }
+.clv2-title-card.is-title-bus_driver .clv2-title-emblem { width:min(100%,300px);height:auto;margin:12px 0; }
+.clv2-title-card.is-title-bus_driver>span { color:#f0dbaa; }
+.clv2-title-card.is-title-bus_driver button { width:100%;margin-top:auto; }
+.clv2-title-card.is-title-bus_driver em { margin-bottom:14px; }
+.clv2-title-card.is-locked.is-title-bus_driver { opacity:1;filter:none;border-color:#53675b; }
+.clv2-title-card.is-locked.is-title-bus_driver .clv2-title-emblem { opacity:.68;filter:grayscale(.3); }
+/* The catalogue already shows the full emblem above these semantic headings. */
+.clv2-title-showcase.is-title-bus_driver h2 .title-style-bus_driver,
+.clv2-title-card.is-title-bus_driver>strong .title-style-bus_driver {
+  width:auto!important;height:auto!important;background:none!important;color:#ffe7a7!important;
+  -webkit-text-fill-color:#ffe7a7!important;font-size:inherit!important;line-height:1.3!important;
+}
+@media(max-width:640px){.clv2-title-showcase.is-title-bus_driver .clv2-title-sigil.has-emblem{width:min(100%,330px)}}
 .title-style-completionist,.is-title-completionist {
   --achievement-ink:#e0c4ff;--achievement-line:#9070bd;--achievement-dark:#241536;
   --achievement-light:#715198;--achievement-glow:177,112,244;

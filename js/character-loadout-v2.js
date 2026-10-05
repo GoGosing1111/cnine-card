@@ -14,7 +14,7 @@
   const RARITY_ORDER = ['MYTHIC', 'LEGENDARY', 'EPIC', 'RARE', 'MAGIC', 'NORMAL'];
   const RARITY_LABELS = { NORMAL: '일반', MAGIC: '고급', RARE: '희귀', EPIC: '영웅', LEGENDARY: '전설', MYTHIC: '신화' };
   const TAB_LABELS = { equipment: '장비', title: '칭호', garage: '이동수단', skillChips: '스킬칩' };
-  const TITLE_STYLE_LABELS = { DEFAULT: '기본', FOREST: '숲', FLAME: '화염', FROST: '서리', STORM: '폭풍', SHADOW: '그림자', GOLD: '황금', RAINBOW: '무지개', VOID: '심연', CRIMSON: '진홍', CHALLENGER: '챌린저', COMPLETIONIST: '도감의 정점', TROPHY_HUNTER: '승리의 증명', GAMBLING_KING: '천 번의 적중', SUPPORTER_VIP: '운영에 도움을 주신', BLUE_BEAST: '챌린저 누적 10회 달성' };
+  const TITLE_STYLE_LABELS = { DEFAULT: '기본', FOREST: '숲', FLAME: '화염', FROST: '서리', STORM: '폭풍', SHADOW: '그림자', GOLD: '황금', RAINBOW: '무지개', VOID: '심연', CRIMSON: '진홍', CHALLENGER: '챌린저', COMPLETIONIST: '도감의 정점', TROPHY_HUNTER: '승리의 증명', GAMBLING_KING: '천 번의 적중', SUPPORTER_VIP: '운영에 도움을 주신', BLUE_BEAST: '챌린저 누적 10회 달성', BUS_DRIVER: '행정부 정직원' };
   const UNLOCK_LABELS = { MANUAL: '운영 지급', COLLECTION_COUNT: '도감 달성', GRADE_COUNT: '등급 도감', MEMBER_COMPLETE: '멤버 도감', CARD_SET: '카드 세트', CONTENT_CLEAR: '콘텐츠 클리어', COLLECTION_MASTERY: '카드 도감 100% · 차량 도감 90% 이상', TROPHY_KINDS: '서로 다른 트로피 4종', PREDICTION_HITS: '승부예측 누적 적중 1,000회', CHALLENGER_TOTAL: '챌린저 누적 10회 달성' };
 
   const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[char]));
@@ -253,11 +253,11 @@
 
     function titleBadge(row) {
       const style = String(row?.stylePreset || 'DEFAULT').toLowerCase().replace(/[^a-z0-9_-]/g, '');
-      const appearance = ['completionist','trophy_hunter','gambling_king','challenger','supporter_vip','blue_beast'].includes(style) ? 'public-title-badge title-style-' + style : titleStyleClass(row?.stylePreset);
+      const appearance = ['completionist','trophy_hunter','gambling_king','challenger','supporter_vip','blue_beast','bus_driver'].includes(style) ? 'public-title-badge title-style-' + style : titleStyleClass(row?.stylePreset);
       return '<span class="' + appearance + ' ' + titleFontClass(row?.fontPreset) + '">[' + escapeHtml(row?.badgeText || row?.name || '칭호 없음') + ']</span>';
     }
 
-    const titleBonusLabel = row => ['COLLECTION_MASTERY','TROPHY_KINDS'].includes(row?.unlockType) && !row.pvePower ? '업적 칭호' : '전체 전투 +' + formatNumber(row?.pvePower);
+    const titleBonusLabel = row => row?.code === 'RAID_BUS_DRIVER' && !row.pvePower ? '명예 칭호 · 전투력 보너스 없음' : ['COLLECTION_MASTERY','TROPHY_KINDS'].includes(row?.unlockType) && !row.pvePower ? '업적 칭호' : '전체 전투 +' + formatNumber(row?.pvePower);
 
     function titleProgress(row) {
       const progress = state.titleProgress[row.code];
@@ -297,7 +297,7 @@
             <span>${TITLE_STYLE_LABELS[String(row.stylePreset || 'DEFAULT').toUpperCase()] || '기본'}</span>
             ${row.image ? '<span class="clv2-title-emblem-wrap"><img class="clv2-title-emblem" src="' + escapeHtml(resolveAsset(row.image)) + '" alt="" width="88" height="88" loading="lazy"></span>' : ''}
             <strong class="${titleFontClass(row.fontPreset)}">${titleBadge(row)}</strong>
-            <small>${row.owned || ['SUPPORTER','BLUE_BEAST'].includes(row.code) ? escapeHtml(row.description || '보유 칭호') : titleRequirement(row)}</small>
+            <small>${row.owned || ['SUPPORTER','BLUE_BEAST','RAID_BUS_DRIVER'].includes(row.code) ? escapeHtml(row.description || '보유 칭호') : titleRequirement(row)}</small>
             ${titleProgress(row)}
             <em>${titleBonusLabel(row)}</em>
             ${row.owned ? (row.equipped ? '<button type="button" disabled>장착 중</button>' : `<button type="button" data-title-equip="${row.id}">장착</button>`) : '<button type="button" disabled>미획득</button>'}
