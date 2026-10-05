@@ -59,19 +59,25 @@ test('ordinary rollback restores the first three clears across thirty seeds with
     assert.equal(simulate(s, 0, seed).battleV2.result.winner, 'A');
   }
 });
-test('the first gate again requires training after the ordinary-damage rollback', () => {
+test('training improves the fixed first gate without turning a surviving enemy into a clear', () => {
   for (let seed = 1; seed <= 30; seed++) {
     const low = simulate(3, 0, seed).battleV2.result;
     assert.equal(low.winner, 'B');
     assert.ok(low.final.B[0].hp > 0);
     assert.ok(low.actions <= ACTION_LIMIT);
     assert.equal(low.timeline.at(-1).winner, 'B');
-    assert.equal(simulate(3, 3, seed).battleV2.result.winner, 'A');
+    const trained = simulate(3, 3, seed).battleV2.result;
+    assert.ok(trained.final.B[0].hp < low.final.B[0].hp);
+    assert.equal(trained.winner, trained.final.B.every(card => card.hp <= 0) ? 'A' : 'B');
   }
 });
-test('all gates are reachable at maximum training without hidden player scaling', () => {
+test('all gates preserve maximum-training power and require an actual clear under the current simulator', () => {
   for (let seed = 1; seed <= 30; seed++) for (const stage of STAGES) {
-    assert.equal(simulate(stage.index, MAX_TRAINING, seed).battleV2.result.winner, 'A');
+    const payload = simulate(stage.index, MAX_TRAINING, seed), result = payload.battleV2.result;
+    assert.deepEqual(payload.cards.map(card => card.power), buildPreviewDeck(catalog, MAX_TRAINING).map(card => card.power));
+    assert.equal(result.winner, result.final.B.every(card => card.hp <= 0) ? 'A' : 'B');
+    assert.equal(result.timeline.at(-1).winner, result.winner);
+    assert.ok(result.actions <= ACTION_LIMIT);
   }
 });
 test('first clear bonus paid only once, repeated farm pays normal reward', () => {
@@ -181,7 +187,12 @@ test('malformed and obsolete storage is normalized without pending state or unbo
 });
 test('all-clear transitions to a cleared normal farm and cannot retry past the final stage', () => {
   const session = new IdleSession({...freshState(), training: MAX_TRAINING, cleared: 10, farm: 10});
-  assert.equal(play(session).outcome.won, true);
+  // State-machine contract: supply a completed battle receipt independently of
+  // the old preview deck's balance against the changing production simulator.
+  const round = session.begin(), payload = {previewOnly: true, idlePreview: {...round}, battleV2: {result: {
+    winner: 'A', reason: 'ELIMINATION', final: {B: [{hp: 0, maxHp: 100}]}, damageBreakdown: {battleSuit: 100}
+  }}};
+  assert.equal(session.finish(round, payload).won, true);
   assert.equal(session.state.cleared, 11);
   assert.equal(session.state.mode, 'FARM');
   assert.equal(session.target, 10);
