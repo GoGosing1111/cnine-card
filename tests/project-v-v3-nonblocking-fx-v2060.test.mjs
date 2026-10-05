@@ -224,7 +224,8 @@ test('캐시 태그가 갱신되어 있다', () => {
   assert.ok(resource,'main loader must retain the cache-versioned V3 bundle');
   const params=new URL(resource,'https://test.invalid/').searchParams;
   assert.equal(params.get('v'),'106-combat-flow');
-  assert.equal(params.get('coop'),bundleSrc.match(/runtimeVersion:\s*["']([^"']+)["']/)[1]);
+  assert.equal(appSrc.match(/battleV2:\{\s*runtimeVersion:\s*['"]([^'"]+)['"]/)?.[1],bundleSrc.match(/runtimeVersion:\s*["']([^"']+)["']/)[1]);
+  assert.equal(params.get('overlord'),'20261005-motion-v4');
   const shell=read('service-worker.js').match(/const SHELL_CACHE='soop-card-shell-v(2108-shared-navigation(?:-[A-Za-z0-9]+)*)'/)?.[1];
   assert.ok(shell,'서비스워커 출시 태그가 없습니다');
   assert.equal(shell,read('index.html').match(/js\/app\.js\?v=([^"'&]+)/)?.[1],'앱과 서비스워커의 출시 태그가 같아야 합니다');
