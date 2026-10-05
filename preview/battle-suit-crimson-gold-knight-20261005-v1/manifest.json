@@ -1,5 +1,5 @@
 {
-  "version": "OVERLORD_20261005_GRIP_V5",
+  "version": "OVERLORD_20261005_AURA_TITLE_V6",
   "status": "USER_REVIEW_PENDING",
   "runtimeEnabled": false,
   "sourceArt": "assets/sources/knight-approved-20261005.png",
@@ -5204,7 +5204,7 @@
   "englishName": "OVERLORD",
   "nameApproval": "name-approval-20261005.json",
   "aura": {
-    "version": 3,
+    "version": 4,
     "defaultPalette": "crimson",
     "body": "18 pose-matched silhouette copies; Valter V17 structure with a thinner 3.2px edge and 1.2px gold rim for the broad cape, scaled by visible body height",
     "baseFlameFrames": 12,
@@ -5230,7 +5230,13 @@
         "byteIdentical": true,
         "frameCount": 8
       }
-    ]
+    ],
+    "coreBlend": "normal",
+    "coreOpacity": 0.96,
+    "glowBlend": "add",
+    "glowOpacity": 0.23,
+    "coreFilter": "source/FlameCoreFilter.js",
+    "sourcePixelsUnchanged": true
   },
   "appearance": {
     "url": "appearance-options.json",
@@ -5500,5 +5506,29 @@
         ]
       }
     }
+  },
+  "title": {
+    "schemaVersion": 1,
+    "code": "OVERLORD_EXCLUSIVE_TITLE",
+    "text": "종말 위에 군림하는 자",
+    "owner": "OVERLORD",
+    "status": "USER_VISUAL_REVIEW_PENDING",
+    "ornament": "assets/title/overlord-title-ornament-v1.png",
+    "generator": "BUILT_IN_IMAGE_GEN",
+    "promptRecord": "prompt-title-v1.json",
+    "font": {
+      "family": "Black Han Sans",
+      "path": "/assets/fonts/clan-camp/BlackHanSans-Regular.ttf",
+      "license": "/assets/fonts/clan-camp/BlackHanSans-OFL.txt"
+    },
+    "rendering": {
+      "type": "PIXI_ACTOR_ATTACHED_OVERHEAD",
+      "source": "source/OverlordTitle.js",
+      "clock": "SHARED_V3_GSAP",
+      "sourceTextSeparate": true,
+      "mirrored": false
+    },
+    "runtimeEnabled": false,
+    "sha256": "56a357918fb9c9777dab5a53cff6bd32fc812be186623aee5083ac17b09dcea1"
   }
 }

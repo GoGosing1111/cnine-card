@@ -1,0 +1,37 @@
+{
+  "variantChecks": [
+    {
+      "palette": "violet",
+      "coreBlend": "normal",
+      "glowBlend": "add",
+      "title": "종말 위에 군림하는 자"
+    },
+    {
+      "palette": "teal",
+      "coreBlend": "normal",
+      "glowBlend": "add",
+      "title": "종말 위에 군림하는 자"
+    },
+    {
+      "palette": "crimson",
+      "coreBlend": "normal",
+      "glowBlend": "add",
+      "title": "종말 위에 군림하는 자"
+    }
+  ],
+  "titleOff": {
+    "enabled": false,
+    "text": "종말 위에 군림하는 자",
+    "actorAttached": true,
+    "mirrored": false,
+    "independentClock": false,
+    "screenBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0
+    },
+    "font": "Black Han Sans / OFL",
+    "frameSource": "BUILT_IN_IMAGE_GEN"
+  }
+}

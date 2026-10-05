@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-05T08:15:22.231Z",
+  "type": "PREVIEW_ASSETS_ONLY",
+  "deployedBase": "2c104bbf2e18ff5fe891d94ed4b80bbf93beb385",
+  "scope": "preview/battle-suit-crimson-gold-knight-20261005-v1/",
+  "reason": "오버로드 프리뷰 불꽃의 표시 합성과 전용 칭호 자산만 변경하며 게임 런타임·CMS·서버·거래 경로를 수정하지 않는다.",
+  "command": "npm run deploy:production -- --assets-only",
+  "checks": [
+    "build.mjs: shared Pixi/GSAP bundle validation",
+    "qa/aura-title-v6/runtime-desktop.json: 43/43",
+    "qa/aura-title-v6/runtime-mobile.json: 43/43",
+    "qa/aura-title-v6/title-follow-mobile.json: attack/combo/airborne/aoe title orientation and bounds",
+    "qa/aura-title-v6/appearance-controls.json: three retained palettes and title toggle",
+    "qa/aura-title-v6/assets.json: approved source bytes and new alpha asset"
+  ],
+  "visualReview": "USER_REVIEW_PENDING",
+  "runtimeEnabled": false
+}

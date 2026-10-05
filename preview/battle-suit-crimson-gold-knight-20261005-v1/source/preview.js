@@ -81,7 +81,7 @@ async function boot(){
  $('seek').oninput=()=>fx.seek(Number($('seek').value));$('seekNumber').oninput=()=>fx.seek(Number($('seekNumber').value));
  $('speed').onchange=()=>fx.setSpeed(Number($('speed').value));$('effects').onchange=()=>{fx.setEffects($('effects').checked);fx.render(fx.time);};
  $('zoom').onchange=()=>{fx.zoom=$('zoom').checked;fx.render(fx.time);};
- $('matte').onchange=()=>fx.setMatte($('matte').checked);$('aura').onchange=()=>fx.setAura($('aura').checked);$('palette').onchange=()=>choosePalette($('palette').value);$('paletteReset').onclick=()=>choosePalette(DEFAULT_AURA_PALETTE);
+ $('matte').onchange=()=>fx.setMatte($('matte').checked);$('aura').onchange=()=>fx.setAura($('aura').checked);$('title').onchange=()=>fx.setTitle($('title').checked);$('palette').onchange=()=>choosePalette($('palette').value);$('paletteReset').onclick=()=>choosePalette(DEFAULT_AURA_PALETTE);
  $('contact').onclick=()=>fx.seek(spec().contacts.find(t=>t>fx.time+.005)??spec().contacts[0]??.6);
  for(const b of doc.querySelectorAll('[data-mode]'))b.onclick=()=>select(b.dataset.mode);
  $('capture').onclick=()=>{engine.app.render();engine.app.canvas.toBlob(blob=>save(blob,'knight-'+fx.mode+'-'+fx.aura.palette+'-'+(fx.matteEnabled?'satin':'original')+'-'+fx.time.toFixed(2)+'.png'));};

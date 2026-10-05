@@ -11,12 +11,14 @@ if(m.effects['aura-wrap'])m.retiredAuraV2={status:'REJECTED_LIGHT_SHAPE_PRESERVE
 delete m.effects['aura-wrap'];delete m.effects['aura-rear'];
 const copies=[];
 for(const s of refs){const bytes=await fs.readFile(new URL(s.source,repo)),sha256=hash(bytes);assert.equal(sha256,s.expected.toLowerCase());await fs.writeFile(file(s.url),bytes);m.effects[s.key]={url:s.url,sha256,columns:s.columns,rows:s.rows,width:s.width,height:s.height,frames:s.frames};copies.push({source:s.source,destination:s.url,sha256,byteIdentical:true,frameCount:s.frames.length});}
-m.version='OVERLORD_20261005_GRIP_V5';
+m.version='OVERLORD_20261005_AURA_TITLE_V6';
 m.gripCorrection={version:5,record:'grip-correction-20261005.json',bodySourcePixelsChanged:false,motionTimingChanged:false,weaponPixelsChanged:false};
 if(!m.retiredAuraV2){const previous=JSON.parse(await fs.readFile(file('qa/grip-v5/pre-fix-metadata.json')));if(previous.retiredAuraV2)m.retiredAuraV2=previous.retiredAuraV2;}
 m.displayName=appearance.displayName;m.englishName=appearance.englishName;m.nameApproval='name-approval-20261005.json';
 m.aura={version:3,defaultPalette:'crimson',body:'18 pose-matched silhouette copies; Valter V17 structure with a thinner 3.2px edge and 1.2px gold rim for the broad cape, scaled by visible body height',baseFlameFrames:12,rearFrames:8,frontFogSheets:0,risingParticles:12,footAnchored:true,clock:'SHARED_V3_GSAP',source:'source/RoyalAura.js',reference:'Approved Valter V17 flame atlas + approved limited rear aura, copied byte-for-byte',reusedAssets:copies};
 m.aura.defaultPalette=appearance.defaultPaletteId;
+m.aura={...m.aura,version:4,coreBlend:'normal',coreOpacity:.96,glowBlend:'add',glowOpacity:.23,coreFilter:'source/FlameCoreFilter.js',sourcePixelsUnchanged:true};
+m.title=JSON.parse(await fs.readFile(file('title-spec.json')));
 m.appearance={url:'appearance-options.json',status:appearance.status,defaultPaletteId:appearance.defaultPaletteId,paletteIds:appearance.paletteOrder,playerSelectionEnabled:appearance.selection.playerSelectionEnabled,selectionField:appearance.selection.field,approval:'appearance-selection-20261005.json'};
 m.idle={policy:'STANDING_APPROVED_SOURCE',source:m.sourceArt,bodyMotionEnabled:false,auraAnimated:true,previousFourFrameBank:'PRESERVED_NOT_PLAYED'};
 m.summary={...m.summary,effectFrames:Object.values(m.effects).reduce((n,s)=>n+s.frames.length,0),skillEffectFrames:132,auraFrames:20};

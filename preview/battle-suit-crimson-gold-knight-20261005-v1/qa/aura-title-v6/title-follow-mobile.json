@@ -1,0 +1,86 @@
+[
+  {
+    "viewport": "mobile",
+    "mode": "attack",
+    "time": 0.41,
+    "airborne": false,
+    "title": {
+      "enabled": true,
+      "text": "종말 위에 군림하는 자",
+      "actorAttached": true,
+      "mirrored": false,
+      "independentClock": false,
+      "screenBounds": {
+        "x": 49.24325980442555,
+        "y": 117.90391481226445,
+        "width": 181.17553228238643,
+        "height": 65.88201173904963
+      },
+      "font": "Black Han Sans / OFL",
+      "frameSource": "BUILT_IN_IMAGE_GEN"
+    }
+  },
+  {
+    "viewport": "mobile",
+    "mode": "combo",
+    "time": 1.05,
+    "airborne": false,
+    "title": {
+      "enabled": true,
+      "text": "종말 위에 군림하는 자",
+      "actorAttached": true,
+      "mirrored": false,
+      "independentClock": false,
+      "screenBounds": {
+        "x": 55.02153241264257,
+        "y": 81.72040003998724,
+        "width": 209.57839646964385,
+        "height": 76.2103259889614
+      },
+      "font": "Black Han Sans / OFL",
+      "frameSource": "BUILT_IN_IMAGE_GEN"
+    }
+  },
+  {
+    "viewport": "mobile",
+    "mode": "skill",
+    "time": 2.8,
+    "airborne": true,
+    "title": {
+      "enabled": true,
+      "text": "종말 위에 군림하는 자",
+      "actorAttached": true,
+      "mirrored": false,
+      "independentClock": false,
+      "screenBounds": {
+        "x": 48.42529867960445,
+        "y": 82.08069338768078,
+        "width": 178.02215303588594,
+        "height": 64.7353283766858
+      },
+      "font": "Black Han Sans / OFL",
+      "frameSource": "BUILT_IN_IMAGE_GEN"
+    }
+  },
+  {
+    "viewport": "mobile",
+    "mode": "aoe",
+    "time": 2.41,
+    "airborne": false,
+    "title": {
+      "enabled": true,
+      "text": "종말 위에 군림하는 자",
+      "actorAttached": true,
+      "mirrored": false,
+      "independentClock": false,
+      "screenBounds": {
+        "x": 89.26566844866011,
+        "y": 153.33038263046475,
+        "width": 95.16013576103973,
+        "height": 34.60368573128716
+      },
+      "font": "Black Han Sans / OFL",
+      "frameSource": "BUILT_IN_IMAGE_GEN"
+    }
+  }
+]

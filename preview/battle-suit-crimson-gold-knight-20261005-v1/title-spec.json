@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "code": "OVERLORD_EXCLUSIVE_TITLE",
+  "text": "종말 위에 군림하는 자",
+  "owner": "OVERLORD",
+  "status": "USER_VISUAL_REVIEW_PENDING",
+  "ornament": "assets/title/overlord-title-ornament-v1.png",
+  "generator": "BUILT_IN_IMAGE_GEN",
+  "promptRecord": "prompt-title-v1.json",
+  "font": {
+    "family": "Black Han Sans",
+    "path": "/assets/fonts/clan-camp/BlackHanSans-Regular.ttf",
+    "license": "/assets/fonts/clan-camp/BlackHanSans-OFL.txt"
+  },
+  "rendering": {
+    "type": "PIXI_ACTOR_ATTACHED_OVERHEAD",
+    "source": "source/OverlordTitle.js",
+    "clock": "SHARED_V3_GSAP",
+    "sourceTextSeparate": true,
+    "mirrored": false
+  },
+  "runtimeEnabled": false,
+  "sha256": "56a357918fb9c9777dab5a53cff6bd32fc812be186623aee5083ac17b09dcea1"
+}
