@@ -1,0 +1,31 @@
+{
+  "checks": [
+    "desktop uses one renderer",
+    "desktop dialog has no horizontal overflow",
+    "desktop manual draws once",
+    "desktop automatic opens are serial",
+    "desktop automatic 3 graphical results complete",
+    "desktop destroys dialog",
+    "desktop reopen has one canvas",
+    "desktop receipt replay creates no new purchase",
+    "mobile uses one renderer",
+    "mobile dialog has no horizontal overflow",
+    "mobile manual draws once",
+    "mobile automatic opens are serial",
+    "mobile automatic 3 graphical results complete",
+    "mobile destroys dialog",
+    "mobile reopen has one canvas",
+    "mobile receipt replay creates no new purchase",
+    "reduced motion still displays the exact confirmed card",
+    "CMS separate price saves",
+    "CMS per-mercenary cap saves",
+    "CMS mobile has no overflow",
+    "second tab cannot start another purchase during automatic opening",
+    "stop button beside reveal stops the next request",
+    "100 real renderer reveals dispose nodes/timers and reuse art",
+    "no JavaScript errors: ",
+    "all artwork and scripts loaded: "
+  ],
+  "errors": [],
+  "failed": []
+}

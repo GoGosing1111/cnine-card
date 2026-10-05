@@ -1,0 +1,11 @@
+{
+  "reveals": 100,
+  "elapsedMs": 3932,
+  "peak": {
+    "pendingDisposals": 5,
+    "liveChildren": 3
+  },
+  "pendingAfter": 0,
+  "artCache": 1,
+  "canvases": 0
+}

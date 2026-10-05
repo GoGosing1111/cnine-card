@@ -1,0 +1,7 @@
+{
+  "checks": [
+    "desktop real shop component opens gated contract room; unset price never shows free purchase",
+    "mobile real shop component opens gated contract room; unset price never shows free purchase"
+  ],
+  "errors": []
+}

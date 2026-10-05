@@ -1,0 +1,106 @@
+{
+  "version": "20261006",
+  "originalsPreserved": true,
+  "files": [
+    {
+      "source": "preview/mercenary-limited-pack-20261006-v1/assets/chamber-source.png",
+      "sourceSha256": "AE56F92C81A0A6EC2A8330AE1D1EAF51EE3C4A39422CBC6340E678AE70FD74C7",
+      "path": "assets/ui/packs/limited-v1/chamber.webp",
+      "sha256": "C2DDD5D13B1AB0DEB960DBA8AEBA3224C5B21FB6169687EAE47AD51AEF87BDA0",
+      "bytes": 165784,
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "source": "assets/ui/packs/mercenary-limited-edition-pack-20261003-v1.png",
+      "sourceSha256": "F4CE292B186D390DF9AD40D0C4854A35158AB7049900FE13417D5948B453C5B6",
+      "path": "assets/ui/packs/limited-v1/pack-640.webp",
+      "sha256": "93CCCC7D033AB427F1D3E96281872DC3F7B7E1F599476D918F6F1543367FF5A7",
+      "bytes": 206632,
+      "width": 640,
+      "height": 1137
+    },
+    {
+      "source": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+      "sourceSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+      "path": "assets/ui/packs/limited-v1/frame-640.webp",
+      "sha256": "DD3535E523E98F33CB3088FC0A8059D1CF5F2733955124B038CF8020A4CEC23F",
+      "bytes": 139710,
+      "width": 640,
+      "height": 960
+    },
+    {
+      "source": "assets/ui/project-v/mercenaries/limited-20261002/v-996-source-art.png",
+      "sourceSha256": "8B94E60670355AF87D13802FD68AD4DE22F8E7F23C65028CC97DD1D1F78BE838",
+      "path": "assets/ui/packs/limited-v1/v-996-640.webp",
+      "sha256": "437E1345F33A4E2FCEC245BB5FA216AD0C285EB24B1F1C97807B7FCD7559E6FF",
+      "bytes": 170852,
+      "width": 640,
+      "height": 960
+    },
+    {
+      "source": "assets/ui/project-v/mercenaries/limited-20261002/v-990-source-art-approved-20261002.png",
+      "sourceSha256": "EFC0B6D14A891917D517E8F9850D398165A0F94C11006DD6945BB2D05C627120",
+      "path": "assets/ui/packs/limited-v1/v-990-640.webp",
+      "sha256": "6367359BCB7BB6DEF46AAB141A1F4238AF53BCE0E98A18EA3CE2FA736AC8847A",
+      "bytes": 159752,
+      "width": 640,
+      "height": 960
+    },
+    {
+      "source": "assets/ui/project-v/mercenaries/limited-20261002/v-991-source-art.png",
+      "sourceSha256": "87E88A646E327FCBB6489B05D8C5287C5212B1D9105134ECE1C036D022C633DA",
+      "path": "assets/ui/packs/limited-v1/v-991-640.webp",
+      "sha256": "7DCE3180E1409DCF0C61201AE0C135F3D1A38ECAFFA432D55E459252454BFF96",
+      "bytes": 128818,
+      "width": 640,
+      "height": 960
+    },
+    {
+      "source": "assets/ui/project-v/mercenaries/limited-20261002/v-992-source-art.png",
+      "sourceSha256": "97D2120A91E7682130697476F6DA0C77FF5AA548C16B2AB128B539FF5ACB176D",
+      "path": "assets/ui/packs/limited-v1/v-992-640.webp",
+      "sha256": "6FB9025D45A631B1F2D1B490FBE40EB7AD7634045F9B9500AA485E60476D3888",
+      "bytes": 135566,
+      "width": 640,
+      "height": 960
+    },
+    {
+      "source": "assets/ui/project-v/mercenaries/limited-20261002/v-993-source-art.png",
+      "sourceSha256": "039E7CDD18D23CC05943E52157218FFE105F5F213C0B203237CD42FA2966F2A3",
+      "path": "assets/ui/packs/limited-v1/v-993-640.webp",
+      "sha256": "4C828B8937C513AE77202B67007468D0BE306D2E786891688D612D8416CEE50E",
+      "bytes": 95260,
+      "width": 640,
+      "height": 960
+    },
+    {
+      "source": "assets/ui/project-v/mercenaries/limited-20261002/v-994-source-art.png",
+      "sourceSha256": "838B9A71739EF4B442E00734584496A92136EFDAD6C71463E18527D6DF5E5CB4",
+      "path": "assets/ui/packs/limited-v1/v-994-640.webp",
+      "sha256": "ED44E224A90CECF698B7AC38FC983CA6A4BA6429B3A63363DFEB9CFE629CE302",
+      "bytes": 133588,
+      "width": 640,
+      "height": 960
+    },
+    {
+      "source": "assets/ui/project-v/mercenaries/limited-20261004/v-997-ayoon-source-art-approved.png",
+      "sourceSha256": "21623C96DFF0FAF9054FF04B4B925D28582E9716A6C40C5B1851E0954E287A39",
+      "path": "assets/ui/packs/limited-v1/v-997-640.webp",
+      "sha256": "867B36ABA8D89E7CC88C3333F06BEBF643EDC6416BBF1E9C10829B2C5DAA1E39",
+      "bytes": 156990,
+      "width": 640,
+      "height": 960
+    },
+    {
+      "source": "assets/ui/project-v/mercenaries/limited-20261004/v-998-hi-heeya-source-art-approved.png",
+      "sourceSha256": "7FE9B78CCA3243078BB47A4E9F358017F7C633B39E2D888BDEA76B8F7984D20D",
+      "path": "assets/ui/packs/limited-v1/v-998-640.webp",
+      "sha256": "E6C2F10C39D887B88D548E462A12BC46A1FC0F26BFC0979D41AEF2F569051529",
+      "bytes": 164400,
+      "width": 640,
+      "height": 960
+    }
+  ],
+  "totalBytes": 1657352
+}

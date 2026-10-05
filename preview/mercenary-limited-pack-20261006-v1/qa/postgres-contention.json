@@ -1,0 +1,23 @@
+{
+  "schema": "cnine_limited_qa_1791232945386_48916",
+  "checks": [
+    "atomic last-stock contention: no oversell, no duplicate serial, no losing debit",
+    "cross-connection receipt replay: exactly once",
+    "two OWNER connections saving the same revision: one success, one stale rejection",
+    "CMS save preserves global issued count"
+  ],
+  "contention": {
+    "clients": 8,
+    "concurrentRequests": 64,
+    "limit": 7,
+    "winners": 7,
+    "losersWithoutDebit": 57,
+    "elapsedMs": 3476,
+    "p50Ms": 2935,
+    "p95Ms": 3252,
+    "queries": 330,
+    "statements": 1008,
+    "batches": 56
+  },
+  "cleaned": true
+}
