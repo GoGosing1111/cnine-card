@@ -1,0 +1,78 @@
+{
+  "date": "2026-10-05T15:43:08.027Z",
+  "results": [
+    {
+      "screen": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "commonNavigation": true,
+      "rankFilter": true,
+      "materialValidation": true,
+      "overflowConsent": true,
+      "partialSlideReset": true,
+      "input": "mouse",
+      "keyboardAndEscape": true,
+      "success": true,
+      "failureKeepsPreviousBonus": true,
+      "skip": true,
+      "focusContained": true,
+      "soundToggle": true,
+      "noPreviewWrites": true,
+      "noHorizontalOverflow": true
+    },
+    {
+      "screen": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "commonNavigation": true,
+      "rankFilter": true,
+      "materialValidation": true,
+      "overflowConsent": true,
+      "partialSlideReset": true,
+      "input": "native touch",
+      "keyboardAndEscape": true,
+      "success": true,
+      "failureKeepsPreviousBonus": true,
+      "skip": true,
+      "focusContained": true,
+      "soundToggle": true,
+      "noPreviewWrites": true,
+      "noHorizontalOverflow": true
+    },
+    {
+      "screen": "narrow",
+      "viewport": {
+        "width": 320,
+        "height": 700
+      },
+      "commonNavigation": true,
+      "rankFilter": true,
+      "materialValidation": true,
+      "overflowConsent": true,
+      "partialSlideReset": true,
+      "input": "native touch",
+      "keyboardAndEscape": true,
+      "success": true,
+      "failureKeepsPreviousBonus": true,
+      "skip": true,
+      "focusContained": true,
+      "soundToggle": true,
+      "noPreviewWrites": true,
+      "noHorizontalOverflow": true
+    },
+    {
+      "screen": "tablet/off/error",
+      "reducedMotion": true,
+      "keyboardEnd": true,
+      "routeCleanup": true,
+      "offDisabled": true,
+      "unsetNumbers": true,
+      "emptyState": true,
+      "loadError": true
+    }
+  ]
+}

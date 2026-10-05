@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-10-06",
+  "purpose": "Mercenary leveling chamber and breakthrough presentation background",
+  "tool": "built-in image_gen",
+  "prompt": "prompt.txt",
+  "source": "chamber-source.png",
+  "sourceSha256": "96f2accab4d0a8c0c54658bdcdad20d09fd4b94e7d748545535fcaad03702a47",
+  "runtime": "chamber.webp",
+  "runtimeSha256": "7a8104705b9e8c01fdd28c9343c1049c24616e325f44caf3e58d453e9d2551c0",
+  "size": [1536,1024],
+  "encoding": "WebP quality 90; 258938 bytes. Generated source preserved unchanged.",
+  "constraints": "No character art modifications. Chamber only, no text, no UI baked into background. Seal, rings, particles and controls are native SVG/CSS/canvas.",
+  "approval": "Implementation preview; no change to mercenary art, ranks, leveling economics or release gates."
+}
