@@ -1,0 +1,44 @@
+{
+  "checks": [
+    {
+      "screen": "desktop",
+      "overflowConsent": true,
+      "failureReset": true,
+      "allMilestones": true,
+      "rankFilter": true,
+      "maxLevel": true,
+      "noNetworkWrites": true
+    },
+    {
+      "screen": "mobile",
+      "overflowConsent": true,
+      "failureReset": true,
+      "allMilestones": true,
+      "rankFilter": true,
+      "maxLevel": true,
+      "noNetworkWrites": true
+    },
+    {
+      "screen": "narrow",
+      "overflowConsent": true,
+      "failureReset": true,
+      "allMilestones": true,
+      "rankFilter": true,
+      "maxLevel": true,
+      "noNetworkWrites": true
+    },
+    {
+      "screen": "desktop-cms",
+      "saveDraft": true,
+      "preservedNull": true,
+      "releaseOff": true
+    },
+    {
+      "screen": "mobile-cms",
+      "saveDraft": true,
+      "preservedNull": true,
+      "releaseOff": true
+    }
+  ],
+  "saves": 2
+}

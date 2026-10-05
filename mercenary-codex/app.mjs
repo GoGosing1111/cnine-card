@@ -27,6 +27,7 @@ function controls(){
   document.querySelectorAll('[data-position]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.position===filters.position)));
 }
 function renderAccountSummary(){
+  $('openLeveling').hidden=!account?.leveling?.enabled;
   const owned=account?.cards?.length||0,active=ownedCard(activeCode());
   $('ownedCount').textContent=account?String(owned):'—';$('totalCount').textContent=catalog?String(catalog.cards.length):'—';
   $('limitedCount').textContent=catalog?String(catalog.cards.filter(c=>c.edition==='LIMITED').length):'—';

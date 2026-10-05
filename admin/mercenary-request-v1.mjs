@@ -11,7 +11,7 @@ export async function mercenaryCmsRequest(options={},endpoint='/api/admin/mercen
         throw Object.assign(Error('서버 응답을 확인하지 못했습니다. 다시 불러오거나 저장 결과 재확인을 눌러 주세요.'),{code:'CMS_RESPONSE_INVALID'});
       }
       if(!response.ok)throw Object.assign(Error(value?.error||`요청 실패 (${response.status})`),{status:response.status,code:value?.code});
-      if(!value||!Number.isSafeInteger(value.revision)||value.revision<1||!((endpoint.endsWith('/draw')||endpoint.endsWith('/limited'))?value.policy:value.document))
+      if(!value||!Number.isSafeInteger(value.revision)||value.revision<(endpoint.endsWith('/leveling')?0:1)||!((endpoint.endsWith('/draw')||endpoint.endsWith('/limited')||endpoint.endsWith('/leveling'))?value.policy:value.document))
         throw Object.assign(Error('운영 데이터를 확인하지 못했습니다. 다시 불러오거나 저장 결과 재확인을 눌러 주세요.'),{code:'CMS_RESPONSE_INVALID'});
       return value;
     },{timeoutMs:20000,message:'응답 확인이 지연됩니다. 다시 불러오거나 저장 결과 재확인을 눌러 주세요.'});

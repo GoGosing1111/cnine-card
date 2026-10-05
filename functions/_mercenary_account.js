@@ -1,4 +1,5 @@
 import {readJointReleaseComponent} from './_joint_release_document.js';
+import {attachReleasedMercenaryLevels,releasedMercenaryLevelSummary} from './_mercenary_level_policy.js';
 import {MERCENARY_CMS_SEED} from './_mercenary_cms_seed.js';
 import {expandMercenarySkillCatalog,validateMercenaryCms} from '../shared/mercenary-cms-model-v1.mjs';
 import {validateMercenaryDraw} from '../shared/mercenary-draw-policy-v1.mjs';
@@ -24,7 +25,7 @@ export async function releasedMercenarySnapshots(env,userIds){
   const ids=[...new Set(userIds.map(Number))];if(ids.some(id=>!Number.isSafeInteger(id)||id<=0)||ids.length>200)throw jointError('MERCENARY_USERS','계정 범위를 확인하세요.');
   const rows=(await env.DB.prepare(`SELECT l.user_id,l.mercenary_code,COALESCE(g.level,1) AS level FROM user_mercenary_loadout_v1 l JOIN user_mercenary_cards_v1 c ON c.user_id=l.user_id AND c.mercenary_code=l.mercenary_code LEFT JOIN user_mercenary_growth_v1 g ON g.user_id=l.user_id AND g.mercenary_code=l.mercenary_code WHERE l.user_id IN (${ids.map(()=>'?').join(',')}) AND l.mercenary_code IS NOT NULL`).bind(...ids).all()).results;
   if(!rows.length)return new Map();const [{document,revision},runtime]=await Promise.all([readMercenaryDocument(env),readMercenaryRuntime(env)]);
-  return new Map(rows.map(r=>[Number(r.user_id),{...battleConfig(document,r.mercenary_code,Number(r.level)),combat:runtime.combat,cmsRevision:revision,policyVersion:runtime.version}]));
+  return attachReleasedMercenaryLevels(env,new Map(rows.map(r=>[Number(r.user_id),{...battleConfig(document,r.mercenary_code,Number(r.level)),combat:runtime.combat,cmsRevision:revision,policyVersion:runtime.version}])));
 }
 export const mercenarySnapshotPower=m=>m?m.statMode==='RANK_FIXED'?mercenaryBasePower(m.rank):Math.round(m.basePower*(1+(m.combat?.powerGrowthPercentPerLevel||0)*(m.level-1)/100)):0;
 const mercenaryBasePower=rank=>MERCENARY_POWER_STANDARD.basePowerByRank[rank];
@@ -40,7 +41,7 @@ function itemCode(value,nullable=true){if(nullable&&value===null)return value;if
 export function validateMercenaryRuntime(raw){
   if(!raw||!['OFF','TEST'].includes(raw.mode)||typeof raw.version!=='string'||!/^[A-Za-z0-9_-]{8,80}$/.test(raw.version))throw jointError('MERCENARY_CONFIG','정책 버전과 OFF/TEST 모드를 확인하세요.');
   const o=raw.opening;if(!o||!['UNSET','COIN','ITEM'].includes(o.paymentKind))throw jointError('MERCENARY_CONFIG','개봉 비용을 설정하세요.');
-  if(raw.upgrade&&(Object.keys(raw.upgrade).length!==3||Object.entries(MERCENARY_UPGRADE_PLAN).some(([k,v])=>raw.upgrade[k]!==v)))throw jointError('MERCENARY_CONFIG','중복 카드 + 마스터의 별 업그레이드는 차후 공개합니다.');
+  if(raw.upgrade&&(Object.keys(raw.upgrade).length!==3||Object.entries(MERCENARY_UPGRADE_PLAN).some(([k,v])=>raw.upgrade[k]!==v)))throw jointError('MERCENARY_CONFIG','용병 레벨·돌파 활성화를 준비 중입니다. 현재 성장 재료는 소모되지 않습니다.');
   const opening={paymentKind:o.paymentKind,coinPerOpen:o.coinPerOpen===null?null:integer(o.coinPerOpen,1,1e12,'개봉 코인'),itemCode:itemCode(o.itemCode),itemsPerOpen:o.itemsPerOpen===null?null:integer(o.itemsPerOpen,1,10000,'개봉 재료'),maxBatch:integer(o.maxBatch,1,10,'최대 개봉 횟수')};
   if(o.paymentKind==='COIN'&&opening.coinPerOpen===null||o.paymentKind==='ITEM'&&(!opening.itemCode||!opening.itemsPerOpen))throw jointError('MERCENARY_CONFIG','개봉 비용 항목을 모두 설정하세요.');
   return {revision:integer(raw.revision??0,0,2147483646,'정책 수정 버전'),version:raw.version,mode:raw.mode,approved:false,opening,training:{itemCode:null,experiencePerItem:null},statMode:'RANK_FIXED',upgrade:{...MERCENARY_UPGRADE_PLAN},combat:{...validateMercenaryCombat(raw.combat),powerGrowthPercentPerLevel:0}};
@@ -79,11 +80,12 @@ export function battleConfig(document,code,level){
 export async function loadMercenaryBattleSnapshot(env,user){
   const row=await env.DB.prepare('SELECT mercenary_code FROM user_mercenary_loadout_v1 WHERE user_id=?').bind(user.id).first();if(!row?.mercenary_code)return null;
   await requireOwned(env,user,row.mercenary_code);const {document,revision}=await readMercenaryDocument(env),growth=await growthRow(env,user,row.mercenary_code);
-  const runtime=await readMercenaryRuntime(env);return {...battleConfig(document,row.mercenary_code,Number(growth.level)),combat:runtime.combat,cmsRevision:revision,policyVersion:runtime.version};
+  const runtime=await readMercenaryRuntime(env),snapshot={...battleConfig(document,row.mercenary_code,Number(growth.level)),combat:runtime.combat,cmsRevision:revision,policyVersion:runtime.version};return (await attachReleasedMercenaryLevels(env,new Map([[Number(user.id),snapshot]]))).get(Number(user.id));
 }
 export async function mercenaryAccountState(env,user){
+  const leveling=await releasedMercenaryLevelSummary(env,user.id);
   const [config,policy,owned,loadout,wallet]=await Promise.all([readMercenaryDocument(env),readMercenaryRuntime(env),env.DB.prepare('SELECT c.*,COALESCE(g.level,1) AS level,COALESCE(g.experience,0) AS experience,COALESCE(g.revision,0) AS growth_revision FROM user_mercenary_cards_v1 c LEFT JOIN user_mercenary_growth_v1 g ON g.user_id=c.user_id AND g.mercenary_code=c.mercenary_code WHERE c.user_id=? ORDER BY c.mercenary_code').bind(user.id).all(),env.DB.prepare('SELECT mercenary_code,revision FROM user_mercenary_loadout_v1 WHERE user_id=?').bind(user.id).first(),env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first()]);
-  return {accountId:Number(user.id),deployment:mercenaryDeploymentState(),available:MERCENARY_DEPLOYMENT_RELEASE_ENABLED||policy.mode==='ON'||policy.mode==='TEST'&&user.role==='OWNER',coin:String(wallet.coin),policy,cmsRevision:config.revision,loadout:{mercenaryCode:loadout?.mercenary_code||null,revision:Number(loadout?.revision||0)},cards:owned.results.map(row=>{const meta=config.document.mercenaries.find(c=>c.code===row.mercenary_code),art=MERCENARY_CMS_SEED.catalog.cards.find(c=>c.code===row.mercenary_code);return {code:row.mercenary_code,name:meta.name,rank:meta.rank,sourceArt:art.sourceArt,battleSprite:art.battleSprite,totalCopies:Number(row.total_copies),duplicates:Number(row.duplicate_count),level:1,experience:0,revision:Number(row.growth_revision),basePower:meta.rank?mercenaryBasePower(meta.rank):null,growth:config.document.settings.rankGrowth.find(r=>r.rank===meta.rank)||null,maxLevel:meta.growth.maxLevel,skills:assignedSkills(config.document,row.mercenary_code).map(s=>mercenaryMoonDrawSkillText(mercenaryGuardSkillText(rangedMercenarySkillText(s,{...meta,attackStyle:mercenaryAttackStyle(meta)})))),pendingSkillCount:assignedSkills(config.document,row.mercenary_code).filter(s=>!skillsReady([s])).length,canDeploy:Boolean(mercenaryBasePower(meta.rank))};})};
+  return {accountId:Number(user.id),leveling:{enabled:leveling.enabled},deployment:mercenaryDeploymentState(),available:MERCENARY_DEPLOYMENT_RELEASE_ENABLED||policy.mode==='ON'||policy.mode==='TEST'&&user.role==='OWNER',coin:String(wallet.coin),policy,cmsRevision:config.revision,loadout:{mercenaryCode:loadout?.mercenary_code||null,revision:Number(loadout?.revision||0)},cards:owned.results.map(row=>{const meta=config.document.mercenaries.find(c=>c.code===row.mercenary_code),art=MERCENARY_CMS_SEED.catalog.cards.find(c=>c.code===row.mercenary_code);return {code:row.mercenary_code,name:meta.name,rank:meta.rank,sourceArt:art.sourceArt,battleSprite:art.battleSprite,totalCopies:Number(row.total_copies),duplicates:Number(row.duplicate_count),level:1,experience:0,revision:Number(row.growth_revision),basePower:meta.rank?mercenaryBasePower(meta.rank):null,growth:config.document.settings.rankGrowth.find(r=>r.rank===meta.rank)||null,maxLevel:meta.growth.maxLevel,...(leveling.enabled?{level:1,experience:0,revision:0,...leveling.rows.find(r=>r.code===row.mercenary_code),maxLevel:20}:{}),skills:assignedSkills(config.document,row.mercenary_code).map(s=>mercenaryMoonDrawSkillText(mercenaryGuardSkillText(rangedMercenarySkillText(s,{...meta,attackStyle:mercenaryAttackStyle(meta)})))),pendingSkillCount:assignedSkills(config.document,row.mercenary_code).filter(s=>!skillsReady([s])).length,canDeploy:Boolean(mercenaryBasePower(meta.rank))};})};
 }
 
 export async function openMercenaryCards(env,user,body,{randomInt,readOpeningPolicy=readMercenaryRuntime,openingGuards}={}){
@@ -133,5 +135,5 @@ export async function saveMercenaryLoadout(env,user,body){
 }
 
 export async function growMercenary(){
-  throw jointError('MERCENARY_UPGRADE_PENDING','중복 카드 + 마스터의 별 업그레이드는 차후 공개합니다.',423);
+  throw jointError('MERCENARY_UPGRADE_PENDING','용병 레벨·돌파 활성화를 준비 중입니다. 현재 성장 재료는 소모되지 않습니다.',423);
 }

@@ -6,3 +6,5 @@
 #view-mercenaries,.mc-console{min-width:0;max-width:100%;width:100%}
 @media(max-width:800px){body.auth-active:has(#view-mercenaries:not([hidden])) .layout{grid-template-columns:minmax(0,1fr)}body:has(#view-mercenaries:not([hidden])) .layout>aside{min-width:0;height:auto;max-height:140px;position:relative;overflow:visible}body:has(#view-mercenaries:not([hidden])) .layout>aside .logo{font-size:16px}body:has(#view-mercenaries:not([hidden])) .layout>aside #nav{overflow-x:auto;scrollbar-width:thin}body:has(#view-mercenaries:not([hidden])) main{padding:10px}}
 @media(prefers-reduced-motion:reduce){.mc-admin *{scroll-behavior:auto!important}}
+
+.mc-admin .mc-level-form{border:0;padding:0;margin:0;min-width:0}.mc-admin .mc-level-xp{grid-template-columns:repeat(5,minmax(0,1fr))}.mc-admin [data-level-root]>.mc-savebar{z-index:5}@media(max-width:900px){.mc-admin .mc-level-xp{grid-template-columns:repeat(4,minmax(0,1fr))}}@media(max-width:600px){.mc-admin .mc-level-xp{grid-template-columns:repeat(2,minmax(0,1fr))}}

@@ -1,3 +1,4 @@
+import {applyMercenaryLevelStats} from './mercenary-level-v1.mjs';
 // Rank base power stays fixed. Combat linkage is an explicit additional
 // ability, frozen from this side's five ordinary fighters at battle start.
 export const MERCENARY_COMBAT_LINK=Object.freeze({
@@ -59,4 +60,5 @@ export function applyMercenaryCombatLink(teams,{regularCardsPerOwner=5}={}){
    m.shield+=openingShield;m.maxShield=Math.max(m.maxShield,m.shield);
   }
  }
+ for(const actor of teams.flat())applyMercenaryLevelStats(actor);
 }
