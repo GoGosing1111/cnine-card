@@ -1,6 +1,6 @@
 {
   "date": "2026-10-05",
-  "status": "VERIFIED_PENDING_DEPLOYMENT",
+  "status": "LIVE_ARMED_FOR_NEXT_APPOINTMENT",
   "request": "하이희야♡ 다음 족장 집권부터 장군 집권으로 변경 여자 장군으로 공포스러운 독재 분위기로 변경 로비 여왕 표시 뱃지 및 일러스트 변경",
   "confirmedScope": "다음 집권자부터 모두 장군",
   "baseline": {
@@ -62,7 +62,30 @@
     "pageErrors": [],
     "accountWrites": 0,
     "browserCommand": "node tests/chief-general-succession-20261005.browser.mjs",
-    "evidence": "preview/chief-general-20261005/qa/results.json"
+    "evidence": "preview/chief-general-20261005/qa/results.json",
+    "productionFilesMatched": 10,
+    "scopedTestsPassed": 11,
+    "postDeploymentCurrentTermUnchanged": {
+      "checkedAt": "2026-10-05T14:23:07.166Z",
+      "readOnly": true,
+      "appointment": {
+        "id": "7497d6d5-51f8-4b18-a545-0f57bebddfd5",
+        "userId": 4977,
+        "nickname": "하이희야♡",
+        "ordinal": 9,
+        "source": "PLAY DK 투표",
+        "startsAt": "2026-09-28T17:56:36.580Z",
+        "endsAt": "2026-10-05T17:56:36.580Z",
+        "inaugurationVersion": 1790618196580,
+        "appointedBy": 1
+      },
+      "user": {
+        "id": "4977",
+        "nickname": "하이희야♡",
+        "status": "ACTIVE"
+      }
+    },
+    "production": "Production files match exactly. Real public loader with fixture-only rendering keeps the current queen badge and renders the next general badge/art. No page errors or account writes. The read-only live database check confirms the current appointment and term are unchanged."
   },
   "release": {
     "mode": "scoped",
@@ -77,6 +100,11 @@
       "test:lobby",
       "check:worker"
     ],
-    "command": "npm run deploy:production -- --scoped"
+    "command": "npm run deploy:production -- --scoped",
+    "source": "c1bf20f7f2d0114d903e6f4e9849ed934ae642b7",
+    "deployment": "https://133da1b9.cnine-card.pages.dev",
+    "apiRuntime": "7b15b808-9053-44cb-bccb-33b5a8b0f0fa",
+    "clanWorker": "1916504f-8df0-4004-ae39-98b14ba65c61",
+    "verification": "preview/chief-general-20261005/qa/production.json"
   }
 }

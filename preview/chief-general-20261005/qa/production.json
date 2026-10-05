@@ -1,0 +1,76 @@
+{
+  "verifiedAt": "2026-10-05T14:23:07.565Z",
+  "source": "c1bf20f7f2d0114d903e6f4e9849ed934ae642b7",
+  "passed": true,
+  "checks": [
+    {
+      "url": "https://cnine-card.pages.dev/",
+      "status": 200,
+      "matches": true,
+      "sha256": "6254c298c49971419b0db54e7aec258e35e608e4eeb8df101a52362953c9660d"
+    },
+    {
+      "url": "https://cnine-card.pages.dev/js/adventure-lobby-v2107.js?accountRank=2122&v=2108-shared-navigation&coup=2115&loot=20260915&clanLineup=20260918&mercenary=2133&workshop=20260922&chuseok=20260923&questHub=20260924-2&menu=20260925-2&queen=20260928&general=20261005&retired=20261001&axeReopen=20261002&mine=20261003",
+      "status": 200,
+      "matches": true,
+      "sha256": "72455ad92bfd657ebffcca30e238f9c11c2037c8dcc83bff9e1727dc07172c85"
+    },
+    {
+      "url": "https://cnine-card.pages.dev/js/chief-system-v1.js?v=20261005-general",
+      "status": 200,
+      "matches": true,
+      "sha256": "704737751f3ac743095129482bf7ec8e356e8d3b46d2085d2583504ee7171af7"
+    },
+    {
+      "url": "https://cnine-card.pages.dev/js/queen-coronation-v1.js?v=20261005-general",
+      "status": 200,
+      "matches": true,
+      "sha256": "d6af056555a19400cbd369e9a3dd5adff8fd86cc5732834ae63aca7c2f35907d"
+    },
+    {
+      "url": "https://cnine-card.pages.dev/js/soopketmon-v21-exact-shell-adapter.js?v=2108-shared-navigation&goldenAxe=20260918&coup=2115&loot=20260915&clanLineup=20260918&magicDraft=20260922&workshop=20260922&chuseok=20260923&questHub=20260924-2&duo=20260925&queen=20260928-detail&general=20261005&icon=20260930&retired=20261001&axeReopen=20261002&mine=20261003",
+      "status": 200,
+      "matches": true,
+      "sha256": "c7912494ad5fbe13e7e4af8226cfc50f684676d833396905bf8ffd59c107dcd2"
+    },
+    {
+      "url": "https://cnine-card.pages.dev/css/queen-coronation-v1.css?v=20261005-general",
+      "status": 200,
+      "matches": true,
+      "sha256": "66f59624196c06d2e223c3f41548de852efe8e435b42070da515ca9678f994ed"
+    },
+    {
+      "url": "https://cnine-card.pages.dev/css/chief-system-v1.css?v=20261005-general",
+      "status": 200,
+      "matches": true,
+      "sha256": "16f1587ce3234de04c304da803e6f56bf1f518841d630f72d3849a015c1fc78f"
+    },
+    {
+      "url": "https://cnine-card.pages.dev/assets/ui/chief/general-command-v1.png",
+      "status": 200,
+      "matches": true,
+      "sha256": "c264fb034b5cde5a6e7a2ba15eb61f2ee04ac9db493143ef9aabac26b6a8a131"
+    },
+    {
+      "url": "https://cnine-card.pages.dev/assets/ui/chief/general-insignia-v1.svg",
+      "status": 200,
+      "matches": true,
+      "sha256": "0a2f26e8dbf17a9e1d031cb004fc4a394f2c062353a4c2edd3a77aa2f5ab64ed"
+    },
+    {
+      "url": "https://cnine-card.pages.dev/css/soopketmon-v21-production-integration.css?v=2108-shared-navigation&queen=20260928-detail&general=20261005",
+      "status": 200,
+      "matches": true,
+      "sha256": "10c0a96f62309c5027865100cf0166d48539f05a202a914aacdbdc9a3b7af82d"
+    }
+  ],
+  "smoke": {
+    "badge": "장군",
+    "style": "GENERAL",
+    "art": "https://cnine-card.pages.dev/assets/ui/chief/general-command-v1.png",
+    "insignia": "/assets/ui/chief/general-insignia-v1.svg"
+  },
+  "errors": [],
+  "writes": [],
+  "scope": "Real production entry and resources, fixture-only current/next lobby rendering. No real appointment or account writes."
+}
