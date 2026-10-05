@@ -2,11 +2,19 @@ import {Assets,Texture,Rectangle,Container} from 'pixi.js';
 import {gsap} from 'gsap';
 import {KnightFX} from '../../../battle-suit-crimson-gold-knight-20261005-v1/source/KnightFX.js';
 import {MODES} from '../../../battle-suit-crimson-gold-knight-20261005-v1/motion.mjs';
-import {OVERLORD_ASSETS as M,OVERLORD_EXECUTION_COOLDOWN_MS,takeOverlordBatch} from './OverlordSuitModel.mjs';
+import {OVERLORD_ASSETS as M,OVERLORD_EXECUTION_COOLDOWN_MS,OVERLORD_MOTION_SPEED,OVERLORD_COMBO_EFFECT_SCALE,overlordAreaMotionTime,overlordAreaMotionEnd,takeOverlordBatch} from './OverlordSuitModel.mjs';
 import {OVERLORD_AREA_SKILL} from '../../../../shared/overlord-suit-v1.mjs';
 const HEIGHT=350;
 class LiveKnightFX extends KnightFX{
  makeTimeline(){this.zoom=false;}
+ render(t){
+  super.render(t);
+  if(this.mode==='combo')this.state.effects.forEach((effect,i)=>{
+   if(effect.key==='slash'||effect.key==='impact'){
+    const sprite=this.pool[i];sprite.scale.set(sprite.scale.x*OVERLORD_COMBO_EFFECT_SCALE,sprite.scale.y*OVERLORD_COMBO_EFFECT_SCALE);
+   }
+  });
+ }
  point(target,y=0){
   if(target.valid&&!target.valid()&&target.savedPoints?.has(y))return target.savedPoints.get(y);
   const p=super.point(target,y);target.savedPoints?.set(y,p);return p;
@@ -94,15 +102,15 @@ export class OverlordSuitAnimation{
   const sync=()=>{this.catchupRate=Math.max(this.catchupRate,Math.min(4,1+(engine.accountBattleUnitDamageQueue?.length||0)*.18));this.timeline?.paused(Boolean(engine.skillChipPlayback?.holds||engine.skillChipPlayback?.userPaused||engine.accountBattleUnitIsPaused?.())).timeScale((engine.paceScale||1)*this.catchupRate);};
   const finish=()=>{engine.app?.ticker?.remove(sync);this.timeline=null;unit.fireTimeline=null;if(!engine.accountBattleUnitDamageQueue?.length)this.catchupRate=1;this.restore();};
   const result=await engine.timeline(tl=>{
-   this.timeline=unit.fireTimeline=tl;tl.to(clock,{time:MODES[mode].duration,duration:MODES[mode].duration,ease:'none',onUpdate:draw},0);
+   this.timeline=unit.fireTimeline=tl;tl.to(clock,{time:MODES[mode].duration,duration:MODES[mode].duration/OVERLORD_MOTION_SPEED,ease:'none',onUpdate:draw},0);
    const groups=new Map();for(const hit of batch.impacts){const rows=groups.get(hit.atMs)||[];rows.push(hit.entry);groups.set(hit.atMs,rows);}
-   for(const [at,rows]of groups)tl.call(()=>{if(valid())onImpact(rows);},[],at/1000);
+   for(const [at,rows]of groups)tl.call(()=>{if(valid())onImpact(rows);},[],at/1000/OVERLORD_MOTION_SPEED);
    engine.app?.ticker?.add(sync,null,10);draw();
   },finish,engine.paceScale||1);
   if(result){this.completed++;if(mode==='skill')this.executions++;}return result;
  }
  cancel(){this.stopAmbient();this.timeline?.kill();this.timeline=null;this.stopAmbient();if(this.fx){this.fx.front.visible=this.fx.back.visible=false;}}
- diagnostics(){return{version:M.version,mode:this.mode,timeMs:Math.round(this.timeMs),completed:this.completed,executions:this.executions,nextExecutionAtMs:this.nextExecutionAtMs,intrinsicArea:true,weaponSha256:M.weapon.sha256,bodyFrames:44,effectFrames:152,damageAuthority:'SERVER_TIMELINE',effectsVisible:Boolean(this.fx?.pool.some(s=>s.visible&&s.parent?.visible)),ambientRegistered:Boolean(this.ambientRegistration&&this.engine.simpleTimelines.has(this.ambientRegistration)),aura:this.fx?.aura.diagnostics(),title:this.fx?.title.diagnostics(),externalCast:this.externalCast?.diagnostics()||null};}
+ diagnostics(){return{version:M.version,motionSpeed:OVERLORD_MOTION_SPEED,comboEffectScale:OVERLORD_COMBO_EFFECT_SCALE,mode:this.mode,timeMs:Math.round(this.timeMs),completed:this.completed,executions:this.executions,nextExecutionAtMs:this.nextExecutionAtMs,intrinsicArea:true,weaponSha256:M.weapon.sha256,bodyFrames:44,effectFrames:152,damageAuthority:'SERVER_TIMELINE',effectsVisible:Boolean(this.fx?.pool.some(s=>s.visible&&s.parent?.visible)),ambientRegistered:Boolean(this.ambientRegistration&&this.engine.simpleTimelines.has(this.ambientRegistration)),aura:this.fx?.aura.diagnostics(),title:this.fx?.title.diagnostics(),externalCast:this.externalCast?.diagnostics()||null};}
  destroy(){
   if(this.disposed)return;this.externalCast?.destroy();this.cancel();this.disposed=true;
   if(this.engine.battleSuitSkillEffectFactories?.get(OVERLORD_AREA_SKILL.code)===this.skillFactory)this.engine.battleSuitSkillEffectFactories.delete(OVERLORD_AREA_SKILL.code);
@@ -112,8 +120,9 @@ export class OverlordSuitAnimation{
 class OverlordTigerCast{
  constructor(sword,engine,event,hits){
   Object.assign(this,{sword,engine,event,hits,key:OVERLORD_AREA_SKILL.effectKey,clock:{time:0},destroyed:false});
-  this.sequence={duration:MODES.aoe.duration,life:1.8,impacts:OVERLORD_AREA_SKILL.impactOffsetsMs.map(t=>t/1000)};
+  this.sequence={duration:MODES.aoe.duration/OVERLORD_MOTION_SPEED,life:1.8/OVERLORD_MOTION_SPEED,impacts:OVERLORD_AREA_SKILL.impactOffsetsMs.map(t=>t/1000)};
   this.confirmed=new Map();this.scheduled=new Map();this.cosmeticOnly=!hits.length;this.deferUntilImpact=!this.cosmeticOnly;
+  this.hitIndices=new Set(hits.map(hit=>Number(hit.hitIndex)||0));
   this.done=new Promise(resolve=>this.release=resolve);
   this.bindings=(event.targetIds||[event.targetId]).map(id=>engine.combatantById(id)).filter(a=>a?.root&&!a.root.destroyed&&a.root.visible!==false).map(bindTarget);
   sword.cancel();sword.unit.stopIdle();this.fx=sword.fx;
@@ -123,17 +132,30 @@ class OverlordTigerCast{
   sword.externalCast=this;sword.mode='aoe';sword.unit.nameHud.visible=false;
  }
  scheduleImpact(index,time){if(!this.confirmed.has(index))this.scheduled.set(index,time);}
- impactLeadSeconds(index){return index===0?this.sequence.impacts[0]:.07;}
+ impactLeadSeconds(index){return (index===0?this.sequence.impacts[0]:.07)/OVERLORD_MOTION_SPEED;}
  confirmImpact(index,time,event){if(!this.bindings.some(t=>t.id===event?.targetId&&t.valid()))return false;if(!this.confirmed.has(index))this.confirmed.set(index,time);return true;}
  render(time){
   if(this.destroyed||this.bodyReleased||!this.bindings.length)return;
   this.clock.time=time;const planned=this.scheduled.get(0),armed=this.cosmeticOnly||planned!==undefined;
-  const bodyTime=armed?Math.max(0,time-(this.cosmeticOnly?0:planned-this.sequence.impacts[0])):0;
+  let bodyTime=armed?overlordAreaMotionTime(time,this.contacts()):0;
+  if(!this.cosmeticOnly){
+   const next=MODES.aoe.contacts.findIndex((_,i)=>this.hitIndices.has(i)&&!this.confirmed.has(i));
+   if(next!==-1)bodyTime=Math.min(bodyTime,MODES.aoe.contacts[next]-.000001);
+  }
+  bodyTime=this.bodyTime=Math.max(this.bodyTime||0,bodyTime);
   this.fx.clock.time=Math.min(MODES.aoe.duration,bodyTime);this.fx.render(this.fx.clock.time);this.sword.timeMs=bodyTime*1000;
+  // Waiting for the recorded strike must not freeze the persistent ornament.
+  if(bodyTime===0){this.fx.aura.render(time,HEIGHT,0,0);this.fx.title.render(time,HEIGHT,true,this.engine.mobile);}
   if(bodyTime>=MODES.aoe.duration)this.releaseBody();
  }
- endTime(){return (this.scheduled.get(0)??this.sequence.impacts[0])-this.sequence.impacts[0]+MODES.aoe.duration;}
+ contacts(){
+  if(this.cosmeticOnly)return this.sequence.impacts.map(t=>t/OVERLORD_MOTION_SPEED);
+  const first=this.confirmed.get(0)??this.scheduled.get(0)??this.sequence.impacts[0];
+  return this.sequence.impacts.map((t,i)=>this.confirmed.get(i)??this.scheduled.get(i)??first+t-this.sequence.impacts[0]);
+ }
+ endTime(){return overlordAreaMotionEnd(this.contacts());}
+ get effectDurationSeconds(){return this.endTime();}
  releaseBody(){this.bodyReleased=true;if(this.sword.externalCast===this){this.sword.externalCast=null;this.sword.restore();}this.release?.();this.release=null;}
  diagnostics(){return{skill:OVERLORD_AREA_SKILL.code,timeMs:Math.round(this.clock.time*1000),targets:this.bindings.map(t=>t.id),confirmedImpacts:[...this.confirmed.keys()],destroyed:this.destroyed};}
- destroy(){if(this.destroyed)return;this.destroyed=true;for(const t of this.bindings)if(t.valid()&&!t.actor.view.destroyed)t.actor.view.position.set(0,0);this.releaseBody();}
+ destroy(){if(this.destroyed)return;this.destroyed=true;if(!this.bodyReleased)for(const t of this.bindings)if(t.valid()&&!t.actor.view.destroyed)t.actor.view.position.set(0,0);this.releaseBody();}
 }

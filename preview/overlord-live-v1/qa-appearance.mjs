@@ -16,9 +16,10 @@ try{
   const safety=await page.evaluate(async()=>{
    const r=window.OverlordLiveReview,e=r.engine,s=e.accountBattleUnit.swordAnimation,t=e.enemies.find(a=>a.root.visible),old=t.id;
    const receipt={target:t,options:{authoritative:true,damage:123,targetId:old}};
-   let hits=0,done=s.play(s.takeBatch([receipt]),rows=>hits+=rows.length);s.timeline.pause().time(.38);t.id='replacement-overlord-test';s.timeline.time(1.5);await done;
+   const speed=s.diagnostics().motionSpeed||1;
+   let hits=0,done=s.play(s.takeBatch([receipt]),rows=>hits+=rows.length);s.timeline.pause().time(.38/speed);t.id='replacement-overlord-test';s.timeline.time(1.5/speed);await done;
    const replacementNoDamage=hits===0;t.id=old;
-   done=s.play(s.takeBatch([receipt]),rows=>hits+=rows.length);s.timeline.pause().time(.2);s.cancel();const canceled=await done;
+   done=s.play(s.takeBatch([receipt]),rows=>hits+=rows.length);s.timeline.pause().time(.2/speed);s.cancel();const canceled=await done;
    return{replacementNoDamage,canceled,sword:s.diagnostics(),timelines:e.simpleTimelines.size};
   });
   report.push({name,idle,safety,errors});await page.close();

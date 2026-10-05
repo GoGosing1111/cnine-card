@@ -170,7 +170,7 @@ export class BattleSuitSkillChipPlayback{
       fx.clock.time=time;fx.render(time);
       const lastImpact=Math.max(0,...impacts.values());
       const pendingHit=(this.castHits.get(key)||[]).some(event=>!this.finishedEvents.has(event));
-      if(started&&!pendingHit&&time>=Math.max(chip.effectDurationMs/1000,lastImpact+fx.sequence.life,fx.endTime?.()||0)){
+      if(started&&!pendingHit&&time>=Math.max(fx.effectDurationSeconds??chip.effectDurationMs/1000,lastImpact+fx.sequence.life,fx.endTime?.()||0)){
         fx.destroy();this.fx.delete(key);
       }
     }

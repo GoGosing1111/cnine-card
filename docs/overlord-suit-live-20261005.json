@@ -173,5 +173,55 @@
       "clanWorker": "59e33a88-4788-4767-a9fe-6703dece22e6",
       "verification": "preview/overlord-live-v1/qa/title-placement/production.json"
     }
+  },
+  "motionReform": {
+    "date": "2026-10-05",
+    "status": "VERIFIED_PENDING_DEPLOYMENT",
+    "requests": [
+      "오버로드 모션속도 3배에서 4배는 빨라야할거같은데",
+      "그리고 삼연참 이펙트 크기좀 더 키워봐 30% 정도"
+    ],
+    "motionSpeed": 3.5,
+    "comboEffectScale": 1.3,
+    "behavior": "Normal attack, three-cut combo and execution use the original complete authored timeline at 3.5x speed. Combo slash and impact sprites expand uniformly about their existing centers by 30%. Area anticipation and recovery accelerate around the unchanged authoritative five-hit contacts; total wall-clock cast duration is not divided by 3.5.",
+    "preserved": "Approved image/atlas bytes, body/title size, crimson aura, hidden nickname, CMS stats, damage receipts, area multiplier 6 and interval 18000ms.",
+    "implementation": {
+      "renderer": "Existing PixiJS sprites and GSAP timeline in OverlordSuitAnimation.js; model contact mapper in OverlordSuitModel.mjs",
+      "cleanup": "Only Overlord opts into a shorter effect duration. Pending damage receipts still prevent disposal; other skill lifetimes are unchanged.",
+      "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3",
+      "entryVersion": "20261005-motion-v4"
+    },
+    "verification": {
+      "pc": true,
+      "mobile": true,
+      "normalDurationSeconds": {
+        "attack": 0.4285714,
+        "combo": 0.8142857,
+        "execution": 1.4
+      },
+      "presentation": "Slash and impact dimensions are exactly 1.3x with fixed centers and no cumulative scaling. Body/title scale unchanged. Pause/resume, receipt equality and effect cleanup passed without page errors.",
+      "fullBattle": "Each viewport replayed all 220 normal receipts / 5917164 damage and 75 skill hits / 2418096 damage; queue drained to zero with no remaining effects or page errors.",
+      "reports": [
+        "preview/overlord-live-v1/qa/motion/report.json",
+        "preview/overlord-live-v1/qa/motion/full-battle-report.json"
+      ],
+      "screenshots": [
+        "preview/overlord-live-v1/qa/motion/desktop-combo.png",
+        "preview/overlord-live-v1/qa/motion/mobile-combo.png"
+      ]
+    },
+    "release": {
+      "mode": "scoped",
+      "base": "789b9a2ef6947acbdbde80ebbaedc4cb4eedc8fd",
+      "baseDeployment": "789b81e0-4ab6-4538-bcbe-1de3f2c42cf2",
+      "reason": "Local Overlord presentation timing and combo effect size; ten shared V3 consumers rebuilt with paired cache tokens. No simulation, server, transaction, balance or asset changes. PC/mobile receipt replay and related motion/cache/entry regressions cover the affected paths.",
+      "tests": [
+        "tests/overlord-motion-20261005.test.mjs",
+        "tests/overlord-runtime-cache-20261005.test.mjs",
+        "tests/pve-battlefield-entry-v2117.test.mjs"
+      ],
+      "checks": [],
+      "command": "npm run deploy:production -- --scoped"
+    }
   }
 }

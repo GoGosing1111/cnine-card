@@ -1,0 +1,720 @@
+[
+  {
+    "name": "desktop",
+    "errors": [],
+    "speed": 1,
+    "elapsedMs": 48223,
+    "expected": {
+      "normalHits": 220,
+      "normalDamage": 5917164,
+      "skillHits": 75,
+      "skillDamage": 2418096
+    },
+    "actual": {
+      "kind": "multi",
+      "skillHits": 75,
+      "skillDamage": 2418096,
+      "expectedHits": 25,
+      "expectedDamage": 850488,
+      "error": null,
+      "sword": {
+        "version": "OVERLORD_LIVE_20261005_V6",
+        "motionSpeed": 3.5,
+        "comboEffectScale": 1.3,
+        "mode": "ready",
+        "timeMs": 0,
+        "completed": 101,
+        "executions": 0,
+        "nextExecutionAtMs": 0,
+        "intrinsicArea": true,
+        "weaponSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+        "bodyFrames": 44,
+        "effectFrames": 152,
+        "damageAuthority": "SERVER_TIMELINE",
+        "effectsVisible": false,
+        "ambientRegistered": true,
+        "aura": {
+          "enabled": true,
+          "palette": "crimson",
+          "label": "진홍 · 샴페인 골드",
+          "source": "VALTER_APPROVED_V17",
+          "coreBlend": "normal",
+          "coreOpacity": 0.96,
+          "glowBlend": "add",
+          "glowOpacity": 0.23,
+          "sourcePixelsUnchanged": true,
+          "fullBodySilhouette": true,
+          "silhouetteCopies": 18,
+          "poseMatched": true,
+          "baseFlameFrames": 12,
+          "rearFrames": 8,
+          "frontFogSheets": 0,
+          "risingParticles": 12,
+          "footAnchored": true,
+          "independentClock": false
+        },
+        "title": {
+          "enabled": true,
+          "text": "종말 위에 군림하는 자",
+          "actorAttached": true,
+          "mirrored": false,
+          "independentClock": false,
+          "screenBounds": {
+            "x": 238.05,
+            "y": 226.9445,
+            "width": 207.89999999999998,
+            "height": 75.60000000000002
+          },
+          "font": "Black Han Sans / OFL",
+          "frameSource": "BUILT_IN_IMAGE_GEN"
+        },
+        "externalCast": null
+      },
+      "playback": {
+        "clock": "V3_COMBAT_MS_V1",
+        "timeMs": 47705,
+        "endMs": 47702,
+        "active": false,
+        "completed": true,
+        "casts": 3,
+        "hits": 75,
+        "barrierPauses": 0,
+        "dispatchWaits": 31,
+        "suppressedCasts": 0,
+        "activeEffects": 0,
+        "pendingGroups": 0,
+        "effects": [],
+        "audio": {
+          "ready": false,
+          "enabled": false,
+          "state": "unavailable",
+          "activeSources": 0,
+          "sync": [],
+          "outputCompensationMs": 0,
+          "baseLatencyMs": 0,
+          "outputLatencyMs": 0
+        }
+      },
+      "queue": 0,
+      "timelines": 2,
+      "normalHits": 220,
+      "normalDamage": 5917164,
+      "allies": 5,
+      "enemies": 5
+    },
+    "error": null,
+    "samples": [
+      {
+        "at": 0.983,
+        "index": 7,
+        "queue": 0,
+        "mode": "aoe",
+        "normalHits": 5
+      },
+      {
+        "at": 1.983,
+        "index": 17,
+        "queue": 0,
+        "mode": "aoe",
+        "normalHits": 14
+      },
+      {
+        "at": 2.984,
+        "index": 20,
+        "queue": 0,
+        "mode": "aoe",
+        "normalHits": 16
+      },
+      {
+        "at": 3.983,
+        "index": 20,
+        "queue": 0,
+        "mode": "aoe",
+        "normalHits": 16
+      },
+      {
+        "at": 4.983,
+        "index": 27,
+        "queue": 0,
+        "mode": "aoe",
+        "normalHits": 17
+      },
+      {
+        "at": 5.983,
+        "index": 41,
+        "queue": 1,
+        "mode": "attack",
+        "normalHits": 27
+      },
+      {
+        "at": 6.983,
+        "index": 49,
+        "queue": 0,
+        "mode": "combo",
+        "normalHits": 33
+      },
+      {
+        "at": 7.983,
+        "index": 60,
+        "queue": 1,
+        "mode": "combo",
+        "normalHits": 38
+      },
+      {
+        "at": 8.983,
+        "index": 68,
+        "queue": 3,
+        "mode": "combo",
+        "normalHits": 43
+      },
+      {
+        "at": 9.983,
+        "index": 71,
+        "queue": 1,
+        "mode": "combo",
+        "normalHits": 47
+      },
+      {
+        "at": 10.983,
+        "index": 77,
+        "queue": 0,
+        "mode": "combo",
+        "normalHits": 51
+      },
+      {
+        "at": 11.983,
+        "index": 87,
+        "queue": 3,
+        "mode": "combo",
+        "normalHits": 56
+      },
+      {
+        "at": 12.983,
+        "index": 92,
+        "queue": 0,
+        "mode": "combo",
+        "normalHits": 62
+      },
+      {
+        "at": 13.983,
+        "index": 99,
+        "queue": 3,
+        "mode": "combo",
+        "normalHits": 65
+      },
+      {
+        "at": 14.983,
+        "index": 104,
+        "queue": 0,
+        "mode": "combo",
+        "normalHits": 72
+      },
+      {
+        "at": 15.983,
+        "index": 113,
+        "queue": 4,
+        "mode": "combo",
+        "normalHits": 75
+      },
+      {
+        "at": 16.983,
+        "index": 116,
+        "queue": 0,
+        "mode": "combo",
+        "normalHits": 80
+      },
+      {
+        "at": 17.983,
+        "index": 124,
+        "queue": 4,
+        "mode": "combo",
+        "normalHits": 83
+      },
+      {
+        "at": 18.983,
+        "index": 132,
+        "queue": 0,
+        "mode": "aoe",
+        "normalHits": 92
+      },
+      {
+        "at": 19.983,
+        "index": 138,
+        "queue": 0,
+        "mode": "aoe",
+        "normalHits": 96
+      },
+      {
+        "at": 20.983,
+        "index": 138,
+        "queue": 0,
+        "mode": "aoe",
+        "normalHits": 96
+      },
+      {
+        "at": 21.983,
+        "index": 138,
+        "queue": 0,
+        "mode": "aoe",
+        "normalHits": 96
+      },
+      {
+        "at": 22.979,
+        "index": 154,
+        "queue": 0,
+        "mode": "aoe",
+        "normalHits": 105
+      },
+      {
+        "at": 23.983,
+        "index": 162,
+        "queue": 0,
+        "mode": "attack",
+        "normalHits": 109
+      },
+      {
+        "at": 24.983,
+        "index": 177,
+        "queue": 6,
+        "mode": "attack",
+        "normalHits": 111
+      },
+      {
+        "at": 25.983,
+        "index": 182,
+        "queue": 0,
+        "mode": "combo",
+        "normalHits": 124
+      },
+      {
+        "at": 26.983,
+        "index": 186,
+        "queue": 0,
+        "mode": "attack",
+        "normalHits": 126
+      },
+      {
+        "at": 27.983,
+        "index": 198,
+        "queue": 8,
+        "mode": "attack",
+        "normalHits": 129
+      },
+      {
+        "at": 28.984,
+        "index": 204,
+        "queue": 1,
+        "mode": "combo",
+        "normalHits": 139
+      },
+      {
+        "at": 29.984,
+        "index": 206,
+        "queue": 0,
+        "mode": "attack",
+        "normalHits": 142
+      },
+      {
+        "at": 30.984,
+        "index": 210,
+        "queue": 0,
+        "mode": "attack",
+        "normalHits": 143
+      },
+      {
+        "at": 31.984,
+        "index": 216,
+        "queue": 2,
+        "mode": "combo",
+        "normalHits": 146
+      },
+      {
+        "at": 32.984,
+        "index": 226,
+        "queue": 6,
+        "mode": "combo",
+        "normalHits": 150
+      },
+      {
+        "at": 33.984,
+        "index": 229,
+        "queue": 1,
+        "mode": "attack",
+        "normalHits": 157
+      },
+      {
+        "at": 34.984,
+        "index": 233,
+        "queue": 0,
+        "mode": "attack",
+        "normalHits": 160
+      },
+      {
+        "at": 35.984,
+        "index": 248,
+        "queue": 9,
+        "mode": "attack",
+        "normalHits": 163
+      },
+      {
+        "at": 36.984,
+        "index": 252,
+        "queue": 0,
+        "mode": "aoe",
+        "normalHits": 174
+      },
+      {
+        "at": 37.984,
+        "index": 255,
+        "queue": 0,
+        "mode": "aoe",
+        "normalHits": 176
+      },
+      {
+        "at": 38.984,
+        "index": 257,
+        "queue": 0,
+        "mode": "aoe",
+        "normalHits": 177
+      },
+      {
+        "at": 39.98,
+        "index": 257,
+        "queue": 0,
+        "mode": "aoe",
+        "normalHits": 177
+      },
+      {
+        "at": 40.984,
+        "index": 270,
+        "queue": 0,
+        "mode": "aoe",
+        "normalHits": 184
+      },
+      {
+        "at": 41.984,
+        "index": 278,
+        "queue": 0,
+        "mode": "attack",
+        "normalHits": 189
+      },
+      {
+        "at": 42.984,
+        "index": 295,
+        "queue": 8,
+        "mode": "attack",
+        "normalHits": 195
+      },
+      {
+        "at": 43.984,
+        "index": 301,
+        "queue": 2,
+        "mode": "attack",
+        "normalHits": 204
+      },
+      {
+        "at": 44.984,
+        "index": 305,
+        "queue": 1,
+        "mode": "combo",
+        "normalHits": 207
+      },
+      {
+        "at": 45.984,
+        "index": 314,
+        "queue": 5,
+        "mode": "combo",
+        "normalHits": 211
+      },
+      {
+        "at": 46.984,
+        "index": 320,
+        "queue": 4,
+        "mode": "attack",
+        "normalHits": 215
+      },
+      {
+        "at": 47.705,
+        "index": 322,
+        "queue": 0,
+        "mode": "attack",
+        "normalHits": 219
+      }
+    ]
+  },
+  {
+    "name": "mobile",
+    "errors": [],
+    "speed": 2,
+    "elapsedMs": 24171,
+    "expected": {
+      "normalHits": 220,
+      "normalDamage": 5917164,
+      "skillHits": 75,
+      "skillDamage": 2418096
+    },
+    "actual": {
+      "kind": "multi",
+      "skillHits": 75,
+      "skillDamage": 2418096,
+      "expectedHits": 25,
+      "expectedDamage": 850488,
+      "error": null,
+      "sword": {
+        "version": "OVERLORD_LIVE_20261005_V6",
+        "motionSpeed": 3.5,
+        "comboEffectScale": 1.3,
+        "mode": "ready",
+        "timeMs": 0,
+        "completed": 99,
+        "executions": 0,
+        "nextExecutionAtMs": 0,
+        "intrinsicArea": true,
+        "weaponSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+        "bodyFrames": 44,
+        "effectFrames": 152,
+        "damageAuthority": "SERVER_TIMELINE",
+        "effectsVisible": false,
+        "ambientRegistered": true,
+        "aura": {
+          "enabled": true,
+          "palette": "crimson",
+          "label": "진홍 · 샴페인 골드",
+          "source": "VALTER_APPROVED_V17",
+          "coreBlend": "normal",
+          "coreOpacity": 0.96,
+          "glowBlend": "add",
+          "glowOpacity": 0.23,
+          "sourcePixelsUnchanged": true,
+          "fullBodySilhouette": true,
+          "silhouetteCopies": 18,
+          "poseMatched": true,
+          "baseFlameFrames": 12,
+          "rearFrames": 8,
+          "frontFogSheets": 0,
+          "risingParticles": 12,
+          "footAnchored": true,
+          "independentClock": false
+        },
+        "title": {
+          "enabled": true,
+          "text": "종말 위에 군림하는 자",
+          "actorAttached": true,
+          "mirrored": false,
+          "independentClock": false,
+          "screenBounds": {
+            "x": 54.63289999999999,
+            "y": 196.53233322222223,
+            "width": 134.3342,
+            "height": 48.84879999999998
+          },
+          "font": "Black Han Sans / OFL",
+          "frameSource": "BUILT_IN_IMAGE_GEN"
+        },
+        "externalCast": null
+      },
+      "playback": {
+        "clock": "V3_COMBAT_MS_V1",
+        "timeMs": 47706,
+        "endMs": 47702,
+        "active": false,
+        "completed": true,
+        "casts": 3,
+        "hits": 75,
+        "barrierPauses": 0,
+        "dispatchWaits": 31,
+        "suppressedCasts": 0,
+        "activeEffects": 0,
+        "pendingGroups": 0,
+        "effects": [],
+        "audio": {
+          "ready": false,
+          "enabled": false,
+          "state": "unavailable",
+          "activeSources": 0,
+          "sync": [],
+          "outputCompensationMs": 0,
+          "baseLatencyMs": 0,
+          "outputLatencyMs": 0
+        }
+      },
+      "queue": 0,
+      "timelines": 2,
+      "normalHits": 220,
+      "normalDamage": 5917164,
+      "allies": 5,
+      "enemies": 5
+    },
+    "error": null,
+    "samples": [
+      {
+        "at": 1.964,
+        "index": 17,
+        "queue": 0,
+        "mode": "aoe",
+        "normalHits": 14
+      },
+      {
+        "at": 3.964,
+        "index": 20,
+        "queue": 0,
+        "mode": "aoe",
+        "normalHits": 16
+      },
+      {
+        "at": 5.964,
+        "index": 41,
+        "queue": 1,
+        "mode": "attack",
+        "normalHits": 27
+      },
+      {
+        "at": 7.964,
+        "index": 60,
+        "queue": 1,
+        "mode": "combo",
+        "normalHits": 38
+      },
+      {
+        "at": 9.964,
+        "index": 71,
+        "queue": 1,
+        "mode": "attack",
+        "normalHits": 48
+      },
+      {
+        "at": 11.964,
+        "index": 86,
+        "queue": 5,
+        "mode": "attack",
+        "normalHits": 54
+      },
+      {
+        "at": 13.964,
+        "index": 99,
+        "queue": 3,
+        "mode": "attack",
+        "normalHits": 65
+      },
+      {
+        "at": 15.98,
+        "index": 113,
+        "queue": 5,
+        "mode": "attack",
+        "normalHits": 74
+      },
+      {
+        "at": 17.964,
+        "index": 124,
+        "queue": 4,
+        "mode": "attack",
+        "normalHits": 83
+      },
+      {
+        "at": 19.964,
+        "index": 138,
+        "queue": 0,
+        "mode": "aoe",
+        "normalHits": 96
+      },
+      {
+        "at": 21.964,
+        "index": 138,
+        "queue": 0,
+        "mode": "aoe",
+        "normalHits": 96
+      },
+      {
+        "at": 23.956,
+        "index": 162,
+        "queue": 1,
+        "mode": "ready",
+        "normalHits": 109
+      },
+      {
+        "at": 25.964,
+        "index": 182,
+        "queue": 1,
+        "mode": "attack",
+        "normalHits": 124
+      },
+      {
+        "at": 27.956,
+        "index": 198,
+        "queue": 8,
+        "mode": "combo",
+        "normalHits": 129
+      },
+      {
+        "at": 29.964,
+        "index": 206,
+        "queue": 0,
+        "mode": "attack",
+        "normalHits": 142
+      },
+      {
+        "at": 31.964,
+        "index": 216,
+        "queue": 2,
+        "mode": "attack",
+        "normalHits": 145
+      },
+      {
+        "at": 33.956,
+        "index": 229,
+        "queue": 1,
+        "mode": "combo",
+        "normalHits": 157
+      },
+      {
+        "at": 35.964,
+        "index": 248,
+        "queue": 9,
+        "mode": "combo",
+        "normalHits": 164
+      },
+      {
+        "at": 37.964,
+        "index": 255,
+        "queue": 0,
+        "mode": "aoe",
+        "normalHits": 176
+      },
+      {
+        "at": 39.964,
+        "index": 257,
+        "queue": 0,
+        "mode": "aoe",
+        "normalHits": 177
+      },
+      {
+        "at": 41.964,
+        "index": 278,
+        "queue": 0,
+        "mode": "combo",
+        "normalHits": 188
+      },
+      {
+        "at": 43.964,
+        "index": 301,
+        "queue": 2,
+        "mode": "attack",
+        "normalHits": 204
+      },
+      {
+        "at": 45.964,
+        "index": 314,
+        "queue": 5,
+        "mode": "attack",
+        "normalHits": 211
+      },
+      {
+        "at": 47.706,
+        "index": 322,
+        "queue": 0,
+        "mode": "combo",
+        "normalHits": 220
+      }
+    ]
+  }
+]
