@@ -19,12 +19,16 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: Apoc
  assert.equal(wrong.settlement.battleV2.result.final.A.length,6);assert.ok(wrong.settlement.battleV2.result.final.A.every(c=>c.hp===0));assert.equal(wrong.settlement.battleV2.result.winner,'B');
  assert.equal((await act('claim','fail-wrong-zone',{played:true},now+10000)).status,'FAILED');
  assert.equal((await act('answer','fail-wrong-zone',{zone:opened.safeZone},now+1000)).status,'FAILED');
- for(const [id,action,extra,at] of [['fail-no-input','answer',{zone:-1},6000],['fail-timeout','status',{},7001],['fail-refresh','abandon',{runToken:undefined},500],['fail-exit','abandon',{},500]]){
+ for(const [id,action,extra,at] of [['fail-no-input','answer',{zone:-1},6000],['fail-timeout','status',{},7001],['fail-refresh','abandon',{},500],['fail-exit','abandon',{},500]]){
   await register(id);await act('open',id);assert.equal((await act(action,id,extra,now+at)).status,'FAILED');
  }
  await register('fail-disconnected');let row=await act('open','fail-disconnected');await act('answer','fail-disconnected',{zone:row.safeZone},now+200);
  await assert.rejects(act('claim','fail-disconnected',{runToken:crypto.randomUUID(),played:true},now+10000),/화면/);
  assert.equal((await act('claim','fail-disconnected',{played:true},now+20201)).status,'FAILED');
+ await register('refresh-unload-lost');row=await act('open','refresh-unload-lost');await act('answer','refresh-unload-lost',{zone:row.safeZone},now+200);
+ await assert.rejects(act('abandon','refresh-unload-lost',{runToken:undefined},now+500),/시작한 화면/);
+ await assert.rejects(act('claim','refresh-unload-lost',{runToken:undefined,played:true},now+10000),/화면/);
+ assert.equal((await act('status','refresh-unload-lost',{},now+20201)).reason,'DISCONNECTED','lost unload still cannot clear from a refreshed page');
  assert.equal(await money(),100);assert.equal(await count('user_cards'),0);assert.equal(await count('inventory_logs'),0);assert.equal(await count('battle_logs',"WHERE result='WIN'"),0);
 
  await f.p('INSERT INTO user_cards(user_id,card_id,quantity) VALUES(1,?,1)','A').run();

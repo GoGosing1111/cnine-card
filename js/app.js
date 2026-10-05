@@ -995,7 +995,7 @@ const FEATURE_RESOURCE_MANIFEST={
   battleV2:{
     styles:['css/battle-v2-live.css?v=1972-battle-suit-live','css/battle-v3-live.css?v=1930-mobile-context-recovery&flow=2126&duo=20260925&coop=20261002-hp-sync-v1&backdrop=20261005'],
     scripts:[
-      'js/battle-v2-live.js?v=1991-sweep-result-front&cowPortal=20260913&joint=2090&furHigh=2114-frames20261002&flow=2126&cubeRemoval=20261003&suggestions=20261005&apocalypseCompletion=20261005-settlement3',
+      'js/battle-v2-live.js?v=1991-sweep-result-front&cowPortal=20260913&joint=2090&furHigh=2114-frames20261002&flow=2126&cubeRemoval=20261003&suggestions=20261005&apocalypseCompletion=20261005-attempt-owner',
       'js/project-v-battle-art-adapter-v1.js?v=3.7.0-orikkung-heeya&sd=20260919-bongsoon-armed',
       'js/project-v-tier-battle-art-adapter-v1.js?v=3.7.1-cheetah-scale&sd=2115-joksuke&icon=20260930',
       'js/project-v-monster-battle-art-adapter-v1.js?v=5.5.0-apocalypse-legion',
@@ -2545,7 +2545,7 @@ async function startBattle(){
       let resourceMs=null,fightMs=null;
       const resourceTask=ensureFeatureResources('battleV2')
         .then(value=>{resourceMs=Math.round(performance.now()-startedAt);tick();return value});
-      if(selectedPveIsApocalypse()){const module=await import('./apocalypse-challenge-v1.mjs?v=20261005-settlement3');apocalypseAttempt=module.beginBattle();}
+      if(selectedPveIsApocalypse()){const module=await import('./apocalypse-challenge-v1.mjs?v=20261005-attempt-owner');apocalypseAttempt=module.beginBattle();}
       const fightTask=apiRequest('battle/fight',{
         method:'POST',
         body:JSON.stringify({

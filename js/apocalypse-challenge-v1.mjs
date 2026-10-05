@@ -43,7 +43,7 @@ export function beginBattle(){
     attach(nextStage){stage=nextStage;this.ensure();observer=new MutationObserver(()=>{if(!stage.isConnected||!stage.closest('.modal')?.classList.contains('show'))attempt.abandon()});observer.observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
       timer=setInterval(async()=>{if(ended||abandoned||pulsing||requests.busy)return;pulsing=true;try{const result=await request('pulse',requestId,{runToken},()=>attempt.ensure());if(result.status==='FAILED'){attempt.failure=result;attempt.stopPulse()}}catch{}finally{pulsing=false}},4000);},
     stopPulse(){clearInterval(timer);timer=null;},
-    abandon(){if(ended||abandoned)return;abandoned=true;attempt.stopPulse();observer?.disconnect();window.removeEventListener('pagehide',onLeave);void send('abandon',requestId,{},true).then(remember).catch(()=>{});},
+    abandon(){if(ended||abandoned)return;abandoned=true;attempt.stopPulse();observer?.disconnect();window.removeEventListener('pagehide',onLeave);void send('abandon',requestId,{runToken},true).then(remember).catch(()=>{});},
     finish(){ended=true;attempt.stopPulse();observer?.disconnect();window.removeEventListener('pagehide',onLeave);if(window.__activeApocalypseAttempt===attempt)window.__activeApocalypseAttempt=null;}
   };
   const onLeave=()=>attempt.abandon();window.addEventListener('pagehide',onLeave);window.__activeApocalypseAttempt=attempt;return attempt;
@@ -97,13 +97,18 @@ export async function claimBonus({data,stage,apocalypseAttempt:attempt}){
   }
 }
 let recoveryRunning=false;
+const recoveryCheckedAt=new Map();
 export function mountRecovery(root){
-  const host=root.querySelector('.pvev2-content'),rows=pending().filter(row=>row.requestId!==window.__activeApocalypseAttempt?.requestId);if(!rows.length||recoveryRunning)return;
+  const host=root.querySelector('.pvev2-content'),now=Date.now(),rows=pending().filter(row=>row.requestId!==window.__activeApocalypseAttempt?.requestId&&now-(recoveryCheckedAt.get(row.requestId)||0)>=15000);if(!host||!rows.length||recoveryRunning)return;
   recoveryRunning=true;style();const panel=document.createElement('div');panel.className='apocalypse-recovery-notice';panel.dataset.apocalypseRecover='';panel.textContent='이전 전투 기록을 확인하고 있습니다.';host?.prepend(panel);
-  void (async()=>{let failed=false;try{for(const row of rows){try{
-    let saved=await request('status',row.requestId);if(!['CLAIMED','FAILED'].includes(saved.status))saved=await request('abandon',row.requestId);
+  void (async()=>{let failed=false,active=false;try{for(const row of rows){try{
+    if(row.requestId===window.__activeApocalypseAttempt?.requestId)continue;
+    recoveryCheckedAt.set(row.requestId,Date.now());
+    // Another tab may still be playing this shared record. Reading its status
+    // must never cancel it; a genuinely disconnected run expires on the server.
+    const saved=await request('status',row.requestId);active ||= !['CLAIMED','FAILED'].includes(saved.status);
     remember(saved);failed ||= saved.status==='FAILED';if(saved.user)window.saveUser?.(window.apiUserToLocal(saved.user));
   }catch(error){if(error.status===404||/찾지 못|찾을 수 없/.test(error.message)){remember({...row,status:'FAILED'});continue;}throw error;}}
-  panel.textContent=failed?'중단된 아포칼립스 전투는 패배 처리되었습니다. 클리어 보상은 지급되지 않습니다.':'완료된 전투 기록을 확인했습니다.';
+  panel.textContent=active?'진행 중인 아포칼립스 전투가 있습니다. 해당 전투 화면에서 계속 진행하세요.':failed?'중단된 아포칼립스 전투는 패배 처리되었습니다. 클리어 보상은 지급되지 않습니다.':'완료된 전투 기록을 확인했습니다.';
   }catch(error){panel.textContent=error.message}finally{recoveryRunning=false}})();
 }

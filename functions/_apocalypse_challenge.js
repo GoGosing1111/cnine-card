@@ -68,7 +68,9 @@ export async function apocalypseChallengeAction(env,user,action,body,now=Date.no
   for(let attempt=0;attempt<5;attempt++){
     const row=await read(env,user.id,body.requestId),{key,raw,state}=row;
     if(terminal(state))return snapshot(state);
-    // A new page may abandon the account's old attempt, never complete it.
+    // Shared pending IDs are visible to other tabs. Only the original page's
+    // in-memory nonce may actively cancel a live attempt; status expires stale runs.
+    if(action==='abandon'&&body.runToken!==state.runToken)fail('전투를 시작한 화면에서만 중단할 수 있습니다.');
     const expired=now>state.expiresAt||now>state.leaseUntil;
     const missed=state.status==='OPEN'&&now>state.openedAt+WINDOW_MS+GRACE_MS;
     if(action==='abandon'||expired||missed){
