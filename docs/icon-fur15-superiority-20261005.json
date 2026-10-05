@@ -1,6 +1,6 @@
 {
   "date": "2026-10-05",
-  "status": "IMPLEMENTED_PENDING_PRODUCTION",
+  "status": "DEPLOYED_AND_VERIFIED",
   "request": {
     "roles": [
       "공격",
@@ -120,6 +120,13 @@
     "retryTests": [
       "tests/icon-fur15-superiority-v1.test.mjs"
     ],
-    "reusedChecks": "Reuse the 105 passing checks from the unchanged executable build, per AGENTS.md 2026-09-27. Retry the focused ICON regression and complete compiler/release checks."
+    "reusedChecks": "Reuse the 105 passing checks from the unchanged executable build, per AGENTS.md 2026-09-27. Retry the focused ICON regression and complete compiler/release checks.",
+    "source": "2c104bbf2e18ff5fe891d94ed4b80bbf93beb385",
+    "deployment": "https://a975a211.cnine-card.pages.dev",
+    "apiWorker": "78c27a71-0aed-4145-bc69-ed9f0833e159",
+    "clanWorker": "bbe3c28c-9f30-49e1-ab6a-ccdb644f622d",
+    "log": "C:/Users/User/AppData/Local/Temp/icon-fur15-deploy-final-20261005.log",
+    "verification": "preview/icon-fur15-v1/production.json",
+    "result": "Scoped ICON regression 9/9; worker compile, release flags/clean checkout and Hyperdrive cache checks passed. All five live asset hashes match. Live role API reports seven enabled roles, deck limit 2, margin 1.2. Read-only production benchmark resolves 20 FUR cards; fusion remains OFF."
   }
 }

@@ -1,0 +1,152 @@
+{
+  "verifiedAt": "2026-10-05T04:52:12.151Z",
+  "base": "https://cnine-card.pages.dev",
+  "checks": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "51e52b07eca2886120618796040a29e6f8dcf58a7de19f1ef465dfe1eca20ac3",
+      "localMatches": true
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "66858768ef7f0effa873e326f9240b0c2f09bb7380df480115fe919b48f636e0",
+      "localMatches": true
+    },
+    {
+      "file": "js/pve-command-v2-live.js",
+      "status": 200,
+      "sha256": "60b0343a631de77744da3cc0666ba52ad0fb46f49b1b70cf1ab63702c234eec1",
+      "localMatches": true
+    },
+    {
+      "file": "js/icon-fusion-v1.bundle.js",
+      "status": 200,
+      "sha256": "023663202a001b7b129c01a82e9f743120147bbb2323d68f348891c960f0f3b2",
+      "localMatches": true
+    },
+    {
+      "file": "css/icon-roles-v1.css",
+      "status": 200,
+      "sha256": "5ec3440d83d082b15843d984f5ba9cc4fc6290095ca24ed3b4be5c617abfea3a",
+      "localMatches": true
+    }
+  ],
+  "roles": {
+    "status": 200,
+    "version": "20261005-fur15-v1",
+    "balance": {
+      "version": "20261005-fur15-v1",
+      "deckLimit": 2,
+      "margin": 1.2
+    },
+    "count": 7,
+    "roles": [
+      {
+        "name": "디임",
+        "role": "암살"
+      },
+      {
+        "name": "하이희야",
+        "role": "공격"
+      },
+      {
+        "name": "나무늘봉순",
+        "role": "마법"
+      },
+      {
+        "name": "오조은",
+        "role": "지원"
+      },
+      {
+        "name": "오리꿍",
+        "role": "저주"
+      },
+      {
+        "name": "강구열",
+        "role": "방어"
+      },
+      {
+        "name": "아윤",
+        "role": "돌격"
+      }
+    ],
+    "enabled": true,
+    "scopes": {
+      "pve": true,
+      "pvp": true,
+      "captain": true
+    }
+  },
+  "referenceCheck": {
+    "verifiedAt": "2026-10-05T04:52:56.454Z",
+    "readOnly": true,
+    "furCount": 20,
+    "fur15MaxPower": 198200,
+    "reference": {
+      "version": "20261005-fur15-v1",
+      "power": 198200,
+      "cardCount": 20,
+      "CAPTAIN": {
+        "attack": {
+          "base": 546560,
+          "perPower": 2.8
+        },
+        "maxHp": {
+          "base": 488000,
+          "perPower": 2.5
+        },
+        "defense": {
+          "base": 295,
+          "perPower": 0
+        },
+        "speed": {
+          "base": 250,
+          "perPower": 0
+        }
+      },
+      "PVE": {
+        "maxHp": {
+          "base": 456768,
+          "perPower": 2.340001
+        },
+        "attack": {
+          "base": 220230,
+          "perPower": 1.128226
+        },
+        "defense": {
+          "base": 134499,
+          "perPower": 0.689032
+        },
+        "speed": {
+          "base": 17011,
+          "perPower": 0.086251
+        }
+      },
+      "PVP": {
+        "maxHp": {
+          "base": 507520,
+          "perPower": 2.600001
+        },
+        "attack": {
+          "base": 207317,
+          "perPower": 1.062076
+        },
+        "defense": {
+          "base": 130455,
+          "perPower": 0.668313
+        },
+        "speed": {
+          "base": 17011,
+          "perPower": 0.086251
+        }
+      }
+    },
+    "fusionEnabled": false
+  },
+  "source": "2c104bbf2e18ff5fe891d94ed4b80bbf93beb385",
+  "deployment": "https://a975a211.cnine-card.pages.dev",
+  "apiWorker": "78c27a71-0aed-4145-bc69-ed9f0833e159",
+  "clanWorker": "bbe3c28c-9f30-49e1-ab6a-ccdb644f622d"
+}
