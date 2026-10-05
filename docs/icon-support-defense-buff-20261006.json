@@ -1,0 +1,711 @@
+{
+  "status": "READY_TO_APPLY",
+  "request": "강구열 조은 아이콘 성능 안좋다는데 상향좀해봐 임마",
+  "operationKey": "ops:icon-support-defense-buff:20261006:v1",
+  "scope": "기존 OWNER CMS의 두 ICON 역할 설정만 갱신. 전투 엔진·클라이언트 실행 코드 수정 없음. 새 전투가 즉시 읽는 운영 데이터이므로 Pages/Worker 재배포 불필요.",
+  "diagnosis": [
+    "강구열: 체력 50% 이하에서만 보호, 첫 2행동·4행동 주기와 작은 방벽으로 초반 보호 기여 제한.",
+    "오조은: 회복 총량이 본인 최대 HP 80%로 작음. 회복 행동이 평타를 대신하므로 3행동 주기 후보는 공격 기여 감소로 반려. 첫 2행동·4행동 주기를 유지하고 회복과 다음 공격 강화의 효율을 상향."
+  ],
+  "changes": [
+    {
+      "code": "ICON-KANGGUYEOL",
+      "fields": [
+        {
+          "key": "firstAction",
+          "before": 2,
+          "after": 1
+        },
+        {
+          "key": "cooldownActions",
+          "before": 4,
+          "after": 3
+        },
+        {
+          "key": "pvpScale",
+          "before": 90,
+          "after": 100
+        },
+        {
+          "key": "damagePercent",
+          "before": 180,
+          "after": 210
+        },
+        {
+          "key": "guardThresholdPercent",
+          "before": 50,
+          "after": 70
+        },
+        {
+          "key": "guardSharePercent",
+          "before": 25,
+          "after": 40
+        },
+        {
+          "key": "guardBudgetPercent",
+          "before": 100,
+          "after": 160
+        },
+        {
+          "key": "shieldPercent",
+          "before": 20,
+          "after": 35
+        },
+        {
+          "key": "storedDamagePercent",
+          "before": 40,
+          "after": 70
+        },
+        {
+          "key": "storedCapPercent",
+          "before": 60,
+          "after": 100
+        }
+      ]
+    },
+    {
+      "code": "ICON-OH-JOEUN",
+      "fields": [
+        {
+          "key": "firstAction",
+          "before": 2,
+          "after": 2
+        },
+        {
+          "key": "cooldownActions",
+          "before": 4,
+          "after": 4
+        },
+        {
+          "key": "pveScale",
+          "before": 100,
+          "after": 125
+        },
+        {
+          "key": "pvpScale",
+          "before": 90,
+          "after": 150
+        },
+        {
+          "key": "healPercent",
+          "before": 20,
+          "after": 25
+        },
+        {
+          "key": "resonancePercent",
+          "before": 2,
+          "after": 3
+        },
+        {
+          "key": "maxStacks",
+          "before": 5,
+          "after": 8
+        },
+        {
+          "key": "healBudgetPercent",
+          "before": 80,
+          "after": 150
+        },
+        {
+          "key": "nextAttackPercent",
+          "before": 25,
+          "after": 35
+        },
+        {
+          "key": "durationActions",
+          "before": 2,
+          "after": 3
+        }
+      ]
+    }
+  ],
+  "effectivePvp": {
+    "kangguyeol": {
+      "guardSharePercent": {
+        "before": 22.5,
+        "after": 40
+      },
+      "shieldPercent": {
+        "before": 18,
+        "after": 35
+      }
+    },
+    "joeun": {
+      "baseHealPercent": {
+        "before": 18,
+        "after": 37.5
+      },
+      "maxStackHealPercent": {
+        "before": 27,
+        "after": 73.5
+      },
+      "nextAttackPercent": {
+        "before": 22.5,
+        "after": 52.5
+      },
+      "note": "대상 최대 HP 기준. 실제 회복은 결손 HP·회복 저해·전투당 총량으로 제한됨."
+    }
+  },
+  "invariants": [
+    "다른 5개 ICON의 전체 설정",
+    "ICON 편성 2장",
+    "FUR +15 상위 스탯 기준",
+    "전투당 최대 스킬 6회",
+    "기존 전투 기록 및 승인 이미지",
+    "역할 활성화 범위·합성 출시·경제 정책"
+  ],
+  "validation": {
+    "tests": "node --test --test-concurrency=1 tests/icon-support-defense-buff-20261006.test.mjs",
+    "passed": 5,
+    "totalFinalComparisonBattles": 22528,
+    "productionDryRun": {
+      "partialFailureRolledBack": true,
+      "rollbackVerified": true
+    },
+    "reports": [
+      {
+        "teammateMode": "mixed",
+        "battles": 11264,
+        "summary": [
+          {
+            "target": "오조은",
+            "kind": "PVP_ICON",
+            "before": {
+              "battles": 1536,
+              "wins": 476,
+              "casts": 1917,
+              "healing": 663685999,
+              "ward": 0,
+              "guard": 0,
+              "storedDamage": 0,
+              "teamSurvivors": 1474,
+              "teamHpRatio": 1162.1729890687386,
+              "winPercent": 30.99,
+              "averageCasts": 1.25,
+              "averageHealing": 432087,
+              "averageWard": 0,
+              "averageGuard": 0,
+              "averageTeamSurvivors": 0.96
+            },
+            "after": {
+              "battles": 1536,
+              "wins": 566,
+              "casts": 1947,
+              "healing": 1419413805,
+              "ward": 0,
+              "guard": 0,
+              "storedDamage": 0,
+              "teamSurvivors": 1686,
+              "teamHpRatio": 1342.3114823422934,
+              "winPercent": 36.85,
+              "averageCasts": 1.27,
+              "averageHealing": 924098,
+              "averageWard": 0,
+              "averageGuard": 0,
+              "averageTeamSurvivors": 1.1
+            }
+          },
+          {
+            "target": "오조은",
+            "kind": "PVP_FUR",
+            "before": {
+              "battles": 512,
+              "wins": 440,
+              "casts": 969,
+              "healing": 520360293.2,
+              "ward": 0,
+              "guard": 0,
+              "storedDamage": 0,
+              "teamSurvivors": 1636,
+              "teamHpRatio": 1406.105848491965,
+              "winPercent": 85.94,
+              "averageCasts": 1.89,
+              "averageHealing": 1016329,
+              "averageWard": 0,
+              "averageGuard": 0,
+              "averageTeamSurvivors": 3.2
+            },
+            "after": {
+              "battles": 512,
+              "wins": 464,
+              "casts": 1000,
+              "healing": 986900550.5,
+              "ward": 0,
+              "guard": 0,
+              "storedDamage": 0,
+              "teamSurvivors": 1834,
+              "teamHpRatio": 1683.685486509402,
+              "winPercent": 90.63,
+              "averageCasts": 1.95,
+              "averageHealing": 1927540,
+              "averageWard": 0,
+              "averageGuard": 0,
+              "averageTeamSurvivors": 3.58
+            }
+          },
+          {
+            "target": "오조은",
+            "kind": "PVE",
+            "before": {
+              "battles": 384,
+              "wins": 384,
+              "casts": 780,
+              "healing": 148100067.79999995,
+              "ward": 0,
+              "guard": 0,
+              "storedDamage": 0,
+              "teamSurvivors": 1718,
+              "teamHpRatio": 1626.0617743239802,
+              "winPercent": 100,
+              "averageCasts": 2.03,
+              "averageHealing": 385677,
+              "averageWard": 0,
+              "averageGuard": 0,
+              "averageTeamSurvivors": 4.47
+            },
+            "after": {
+              "battles": 384,
+              "wins": 384,
+              "casts": 865,
+              "healing": 208927030,
+              "ward": 0,
+              "guard": 0,
+              "storedDamage": 0,
+              "teamSurvivors": 1819,
+              "teamHpRatio": 1740.419558148219,
+              "winPercent": 100,
+              "averageCasts": 2.25,
+              "averageHealing": 544081,
+              "averageWard": 0,
+              "averageGuard": 0,
+              "averageTeamSurvivors": 4.74
+            }
+          },
+          {
+            "target": "강구열",
+            "kind": "PVP_ICON",
+            "before": {
+              "battles": 1536,
+              "wins": 656,
+              "casts": 1919,
+              "healing": 0,
+              "ward": 1133759160,
+              "guard": 323038343,
+              "storedDamage": 134094147.48000002,
+              "teamSurvivors": 1952,
+              "teamHpRatio": 1480.4986557198486,
+              "winPercent": 42.71,
+              "averageCasts": 1.25,
+              "averageHealing": 0,
+              "averageWard": 738124,
+              "averageGuard": 210311,
+              "averageTeamSurvivors": 1.27
+            },
+            "after": {
+              "battles": 1536,
+              "wins": 1176,
+              "casts": 3594,
+              "healing": 0,
+              "ward": 4130462798,
+              "guard": 1351638651,
+              "storedDamage": 1213514106,
+              "teamSurvivors": 3971,
+              "teamHpRatio": 3290.0230560725017,
+              "winPercent": 76.56,
+              "averageCasts": 2.34,
+              "averageHealing": 0,
+              "averageWard": 2689103,
+              "averageGuard": 879973,
+              "averageTeamSurvivors": 2.59
+            }
+          },
+          {
+            "target": "강구열",
+            "kind": "PVP_FUR",
+            "before": {
+              "battles": 512,
+              "wins": 456,
+              "casts": 959,
+              "healing": 0,
+              "ward": 579461137,
+              "guard": 118183308,
+              "storedDamage": 42606610.20000001,
+              "teamSurvivors": 1836,
+              "teamHpRatio": 1515.3256842416517,
+              "winPercent": 89.06,
+              "averageCasts": 1.87,
+              "averageHealing": 0,
+              "averageWard": 1131760,
+              "averageGuard": 230827,
+              "averageTeamSurvivors": 3.59
+            },
+            "after": {
+              "battles": 512,
+              "wins": 474,
+              "casts": 1471,
+              "healing": 0,
+              "ward": 1718796432,
+              "guard": 287505503,
+              "storedDamage": 298581847.2,
+              "teamSurvivors": 1934,
+              "teamHpRatio": 1665.9603448552782,
+              "winPercent": 92.58,
+              "averageCasts": 2.87,
+              "averageHealing": 0,
+              "averageWard": 3357024,
+              "averageGuard": 561534,
+              "averageTeamSurvivors": 3.78
+            }
+          },
+          {
+            "target": "강구열",
+            "kind": "PVE",
+            "before": {
+              "battles": 384,
+              "wins": 384,
+              "casts": 1089,
+              "healing": 0,
+              "ward": 297873504,
+              "guard": 6757244,
+              "storedDamage": 17658089.6,
+              "teamSurvivors": 1660,
+              "teamHpRatio": 1545.503421813004,
+              "winPercent": 100,
+              "averageCasts": 2.84,
+              "averageHealing": 0,
+              "averageWard": 775712,
+              "averageGuard": 17597,
+              "averageTeamSurvivors": 4.32
+            },
+            "after": {
+              "battles": 384,
+              "wins": 384,
+              "casts": 1308,
+              "healing": 0,
+              "ward": 713631753,
+              "guard": 31926978,
+              "storedDamage": 50374047.49999999,
+              "teamSurvivors": 1710,
+              "teamHpRatio": 1591.164649919215,
+              "winPercent": 100,
+              "averageCasts": 3.41,
+              "averageHealing": 0,
+              "averageWard": 1858416,
+              "averageGuard": 83143,
+              "averageTeamSurvivors": 4.45
+            }
+          }
+        ],
+        "pairSummary": {
+          "before": {
+            "battles": 768,
+            "wins": 402,
+            "casts": 1864,
+            "healing": 596034689,
+            "ward": 580288321,
+            "guard": 83988103,
+            "storedDamage": 52275052.08000003,
+            "teamSurvivors": 1911,
+            "teamHpRatio": 1748.9003983579291,
+            "winPercent": 52.34,
+            "averageCasts": 2.43,
+            "averageHealing": 776087,
+            "averageWard": 755584,
+            "averageGuard": 109360,
+            "averageTeamSurvivors": 2.49
+          },
+          "after": {
+            "battles": 768,
+            "wins": 622,
+            "casts": 3084,
+            "healing": 1522599517,
+            "ward": 2078675268,
+            "guard": 374756573,
+            "storedDamage": 399479725.3999999,
+            "teamSurvivors": 2987,
+            "teamHpRatio": 2807.1730441622913,
+            "winPercent": 80.99,
+            "averageCasts": 4.02,
+            "averageHealing": 1982551,
+            "averageWard": 2706608,
+            "averageGuard": 487964,
+            "averageTeamSurvivors": 3.89
+          }
+        }
+      },
+      {
+        "teammateMode": "fur15",
+        "battles": 11264,
+        "summary": [
+          {
+            "target": "오조은",
+            "kind": "PVP_ICON",
+            "before": {
+              "battles": 1536,
+              "wins": 468,
+              "casts": 1974,
+              "healing": 947564997,
+              "ward": 0,
+              "guard": 0,
+              "storedDamage": 0,
+              "teamSurvivors": 1287,
+              "teamHpRatio": 920.3223164520839,
+              "winPercent": 30.47,
+              "averageCasts": 1.29,
+              "averageHealing": 616904,
+              "averageWard": 0,
+              "averageGuard": 0,
+              "averageTeamSurvivors": 0.84
+            },
+            "after": {
+              "battles": 1536,
+              "wins": 583,
+              "casts": 2044,
+              "healing": 2045102247,
+              "ward": 0,
+              "guard": 0,
+              "storedDamage": 0,
+              "teamSurvivors": 1599,
+              "teamHpRatio": 1198.6552062622807,
+              "winPercent": 37.96,
+              "averageCasts": 1.33,
+              "averageHealing": 1331447,
+              "averageWard": 0,
+              "averageGuard": 0,
+              "averageTeamSurvivors": 1.04
+            }
+          },
+          {
+            "target": "오조은",
+            "kind": "PVP_FUR",
+            "before": {
+              "battles": 512,
+              "wins": 428,
+              "casts": 872,
+              "healing": 443006530,
+              "ward": 0,
+              "guard": 0,
+              "storedDamage": 0,
+              "teamSurvivors": 1390,
+              "teamHpRatio": 1114.1719166219455,
+              "winPercent": 83.59,
+              "averageCasts": 1.7,
+              "averageHealing": 865247,
+              "averageWard": 0,
+              "averageGuard": 0,
+              "averageTeamSurvivors": 2.71
+            },
+            "after": {
+              "battles": 512,
+              "wins": 463,
+              "casts": 847,
+              "healing": 928799098,
+              "ward": 0,
+              "guard": 0,
+              "storedDamage": 0,
+              "teamSurvivors": 1619,
+              "teamHpRatio": 1396.8613659219327,
+              "winPercent": 90.43,
+              "averageCasts": 1.65,
+              "averageHealing": 1814061,
+              "averageWard": 0,
+              "averageGuard": 0,
+              "averageTeamSurvivors": 3.16
+            }
+          },
+          {
+            "target": "오조은",
+            "kind": "PVE",
+            "before": {
+              "battles": 384,
+              "wins": 384,
+              "casts": 656,
+              "healing": 177989373,
+              "ward": 0,
+              "guard": 0,
+              "storedDamage": 0,
+              "teamSurvivors": 1815,
+              "teamHpRatio": 1724.4344687811274,
+              "winPercent": 100,
+              "averageCasts": 1.71,
+              "averageHealing": 463514,
+              "averageWard": 0,
+              "averageGuard": 0,
+              "averageTeamSurvivors": 4.73
+            },
+            "after": {
+              "battles": 384,
+              "wins": 384,
+              "casts": 723,
+              "healing": 241292979,
+              "ward": 0,
+              "guard": 0,
+              "storedDamage": 0,
+              "teamSurvivors": 1864,
+              "teamHpRatio": 1786.4711803876526,
+              "winPercent": 100,
+              "averageCasts": 1.88,
+              "averageHealing": 628367,
+              "averageWard": 0,
+              "averageGuard": 0,
+              "averageTeamSurvivors": 4.85
+            }
+          },
+          {
+            "target": "강구열",
+            "kind": "PVP_ICON",
+            "before": {
+              "battles": 1536,
+              "wins": 739,
+              "casts": 1771,
+              "healing": 0,
+              "ward": 892510340,
+              "guard": 1028647254,
+              "storedDamage": 74200063.68,
+              "teamSurvivors": 2325,
+              "teamHpRatio": 1658.5455835319565,
+              "winPercent": 48.11,
+              "averageCasts": 1.15,
+              "averageHealing": 0,
+              "averageWard": 581061,
+              "averageGuard": 669692,
+              "averageTeamSurvivors": 1.51
+            },
+            "after": {
+              "battles": 1536,
+              "wins": 846,
+              "casts": 2710,
+              "healing": 0,
+              "ward": 2528085112,
+              "guard": 2569745674,
+              "storedDamage": 703654439.6000003,
+              "teamSurvivors": 2882,
+              "teamHpRatio": 1979.9120581999575,
+              "winPercent": 55.08,
+              "averageCasts": 1.76,
+              "averageHealing": 0,
+              "averageWard": 1645889,
+              "averageGuard": 1673012,
+              "averageTeamSurvivors": 1.88
+            }
+          },
+          {
+            "target": "강구열",
+            "kind": "PVP_FUR",
+            "before": {
+              "battles": 512,
+              "wins": 462,
+              "casts": 780,
+              "healing": 0,
+              "ward": 379664210,
+              "guard": 243984918,
+              "storedDamage": 43052310.36000002,
+              "teamSurvivors": 1740,
+              "teamHpRatio": 1350.7268772394568,
+              "winPercent": 90.23,
+              "averageCasts": 1.52,
+              "averageHealing": 0,
+              "averageWard": 741532,
+              "averageGuard": 476533,
+              "averageTeamSurvivors": 3.4
+            },
+            "after": {
+              "battles": 512,
+              "wins": 487,
+              "casts": 1064,
+              "healing": 0,
+              "ward": 1006541866,
+              "guard": 766835054,
+              "storedDamage": 314920263,
+              "teamSurvivors": 1913,
+              "teamHpRatio": 1470.0162034290388,
+              "winPercent": 95.12,
+              "averageCasts": 2.08,
+              "averageHealing": 0,
+              "averageWard": 1965902,
+              "averageGuard": 1497725,
+              "averageTeamSurvivors": 3.74
+            }
+          },
+          {
+            "target": "강구열",
+            "kind": "PVE",
+            "before": {
+              "battles": 384,
+              "wins": 384,
+              "casts": 926,
+              "healing": 0,
+              "ward": 293040904,
+              "guard": 12040235,
+              "storedDamage": 18129218,
+              "teamSurvivors": 1784,
+              "teamHpRatio": 1679.192234144657,
+              "winPercent": 100,
+              "averageCasts": 2.41,
+              "averageHealing": 0,
+              "averageWard": 763127,
+              "averageGuard": 31355,
+              "averageTeamSurvivors": 4.65
+            },
+            "after": {
+              "battles": 384,
+              "wins": 384,
+              "casts": 1210,
+              "healing": 0,
+              "ward": 718627922,
+              "guard": 35517508,
+              "storedDamage": 72175313.00000001,
+              "teamSurvivors": 1852,
+              "teamHpRatio": 1743.033347341418,
+              "winPercent": 100,
+              "averageCasts": 3.15,
+              "averageHealing": 0,
+              "averageWard": 1871427,
+              "averageGuard": 92494,
+              "averageTeamSurvivors": 4.82
+            }
+          }
+        ],
+        "pairSummary": {
+          "before": {
+            "battles": 768,
+            "wins": 501,
+            "casts": 2042,
+            "healing": 509457719,
+            "ward": 505653420,
+            "guard": 211343600,
+            "storedDamage": 48962832.84000001,
+            "teamSurvivors": 2075,
+            "teamHpRatio": 1540.9098244056272,
+            "winPercent": 65.23,
+            "averageCasts": 2.66,
+            "averageHealing": 663356,
+            "averageWard": 658403,
+            "averageGuard": 275187,
+            "averageTeamSurvivors": 2.7
+          },
+          "after": {
+            "battles": 768,
+            "wins": 626,
+            "casts": 2725,
+            "healing": 1442802575.5,
+            "ward": 1428751246,
+            "guard": 664223739,
+            "storedDamage": 294646742.5999999,
+            "teamSurvivors": 2684,
+            "teamHpRatio": 2170.5611662038664,
+            "winPercent": 81.51,
+            "averageCasts": 3.55,
+            "averageHealing": 1878649,
+            "averageWard": 1860353,
+            "averageGuard": 864875,
+            "averageTeamSurvivors": 3.49
+          }
+        }
+      }
+    ],
+    "method": "운영 카드·CMS를 읽고 실제 서버 준비 경로와 전투 엔진으로 같은 장비·편성·고정 시드를 비교. 두 진영 교대, 전열/후열, PVE/PVP, 두 ICON 동시 편성을 검증. 통제된 진단이며 실랭크 승률 예측이나 모든 상대에게 무조건 승리 보장은 아님."
+  },
+  "evidenceDirectory": "C:/Users/User/.codex/tmp/icon-support-defense-buff-20261006/",
+  "expectedStateHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+}

@@ -1,0 +1,1918 @@
+{
+  "checkedAt": "2026-10-05T18:52:03.975Z",
+  "source": "Production read-only catalog/CMS and public ICON role API",
+  "battle": {
+    "enabled": true,
+    "deckSize": 5,
+    "engine": {
+      "mode": "V2_PUBLIC",
+      "playbackSpeed": 1.6,
+      "singleHealerBonus": {
+        "enabled": true,
+        "teamHpPercent": 8,
+        "healPercent": 10,
+        "crisisThresholdPercent": 40,
+        "crisisHealPercent": 16,
+        "pvpMaxActivations": 4,
+        "pveMaxActivations": 6
+      }
+    },
+    "nightmare": {
+      "enabled": true,
+      "hpPercent": 150,
+      "attackPercent": 150,
+      "defensePercent": 150,
+      "speedPercent": 110,
+      "rewardPercent": 400,
+      "bossUltimateUnlocked": true,
+      "bossUltimateCapPercent": 150,
+      "bossProfiles": {
+        "42": {
+          "battlePower": 273973,
+          "rewardCoin": 1950,
+          "hpPercent": 150,
+          "attackPercent": 150,
+          "defensePercent": 150,
+          "speedPercent": 110,
+          "rewardPercent": 400,
+          "bossUltimateCapPercent": 150
+        },
+        "43": {
+          "battlePower": 304795,
+          "rewardCoin": 2225,
+          "hpPercent": 150,
+          "attackPercent": 150,
+          "defensePercent": 150,
+          "speedPercent": 110,
+          "rewardPercent": 400,
+          "bossUltimateCapPercent": 150
+        },
+        "44": {
+          "battlePower": 339042,
+          "rewardCoin": 2525,
+          "hpPercent": 150,
+          "attackPercent": 150,
+          "defensePercent": 150,
+          "speedPercent": 110,
+          "rewardPercent": 400,
+          "bossUltimateCapPercent": 150
+        },
+        "45": {
+          "battlePower": 246576,
+          "rewardCoin": 1725,
+          "hpPercent": 150,
+          "attackPercent": 150,
+          "defensePercent": 150,
+          "speedPercent": 110,
+          "rewardPercent": 400,
+          "bossUltimateCapPercent": 150
+        },
+        "46": {
+          "battlePower": 380137,
+          "rewardCoin": 2875,
+          "hpPercent": 150,
+          "attackPercent": 150,
+          "defensePercent": 150,
+          "speedPercent": 110,
+          "rewardPercent": 400,
+          "bossUltimateCapPercent": 150
+        },
+        "47": {
+          "battlePower": 424658,
+          "rewardCoin": 3275,
+          "hpPercent": 150,
+          "attackPercent": 150,
+          "defensePercent": 150,
+          "speedPercent": 110,
+          "rewardPercent": 400,
+          "bossUltimateCapPercent": 150
+        },
+        "48": {
+          "battlePower": 476028,
+          "rewardCoin": 3725,
+          "hpPercent": 150,
+          "attackPercent": 150,
+          "defensePercent": 150,
+          "speedPercent": 110,
+          "rewardPercent": 400,
+          "bossUltimateCapPercent": 150
+        },
+        "49": {
+          "battlePower": 534247,
+          "rewardCoin": 4225,
+          "hpPercent": 150,
+          "attackPercent": 150,
+          "defensePercent": 150,
+          "speedPercent": 110,
+          "rewardPercent": 400,
+          "bossUltimateCapPercent": 150
+        },
+        "50": {
+          "battlePower": 599316,
+          "rewardCoin": 4800,
+          "hpPercent": 150,
+          "attackPercent": 150,
+          "defensePercent": 150,
+          "speedPercent": 110,
+          "rewardPercent": 550,
+          "bossUltimateCapPercent": 150
+        },
+        "61": {
+          "battlePower": 750000,
+          "rewardCoin": 25000,
+          "hpPercent": 150,
+          "attackPercent": 200,
+          "defensePercent": 200,
+          "speedPercent": 200,
+          "rewardPercent": 600,
+          "bossUltimateCapPercent": 250
+        },
+        "62": {
+          "battlePower": 850000,
+          "rewardCoin": 30000,
+          "hpPercent": 150,
+          "attackPercent": 235,
+          "defensePercent": 225,
+          "speedPercent": 250,
+          "rewardPercent": 650,
+          "bossUltimateCapPercent": 275
+        },
+        "63": {
+          "battlePower": 1000000,
+          "rewardCoin": 40000,
+          "hpPercent": 200,
+          "attackPercent": 270,
+          "defensePercent": 250,
+          "speedPercent": 275,
+          "rewardPercent": 700,
+          "bossUltimateCapPercent": 325
+        },
+        "70": {
+          "battlePower": 1450000,
+          "rewardCoin": 80000,
+          "hpPercent": 300,
+          "attackPercent": 380,
+          "defensePercent": 300,
+          "speedPercent": 300,
+          "rewardPercent": 800,
+          "bossUltimateCapPercent": 400
+        }
+      }
+    },
+    "apocalypse": {
+      "enabled": true,
+      "hpPercent": 260,
+      "attackPercent": 220,
+      "defensePercent": 190,
+      "speedPercent": 160,
+      "rewardPercent": 400,
+      "shieldPercent": 40,
+      "attackCount": 2,
+      "forcedActionEvery": 4,
+      "skillEnabled": true,
+      "skillName": "종말 집행",
+      "skillDescription": "전투 개시와 동시에 모든 출전 카드에 종말 피해를 가합니다.",
+      "skillDamagePercent": 28,
+      "energy": {
+        "enabled": true,
+        "maxEnergy": 5,
+        "rechargeMinutes": 30,
+        "costPerBattle": 1,
+        "adminUnlimited": true,
+        "testUnlimited": true
+      },
+      "monsterProfiles": {
+        "71": {
+          "battlePower": 1300000,
+          "rewardCoin": 250000,
+          "hpPercent": 300,
+          "attackPercent": 400,
+          "defensePercent": 350,
+          "speedPercent": 350,
+          "rewardPercent": 800,
+          "shieldPercent": 50,
+          "attackCount": 2,
+          "forcedActionEvery": 4,
+          "skillEnabled": true,
+          "skillName": "종말 집행",
+          "skillDescription": "전투 개시와 동시에 모든 출전 카드에 종말 피해를 가합니다.",
+          "skillDamagePercent": 70
+        },
+        "72": {
+          "battlePower": 2050000,
+          "rewardCoin": 400000,
+          "hpPercent": 300,
+          "attackPercent": 425,
+          "defensePercent": 375,
+          "speedPercent": 375,
+          "rewardPercent": 1000,
+          "shieldPercent": 50,
+          "attackCount": 2,
+          "forcedActionEvery": 4,
+          "skillEnabled": true,
+          "skillName": "종말 집행",
+          "skillDescription": "전투 개시와 동시에 모든 출전 카드에 종말 피해를 가합니다.",
+          "skillDamagePercent": 70
+        },
+        "73": {
+          "battlePower": 4000000,
+          "rewardCoin": 500000,
+          "hpPercent": 350,
+          "attackPercent": 475,
+          "defensePercent": 375,
+          "speedPercent": 375,
+          "rewardPercent": 1000,
+          "shieldPercent": 60,
+          "attackCount": 2,
+          "forcedActionEvery": 4,
+          "skillEnabled": true,
+          "skillName": "팔문둔갑 · 밤가이",
+          "skillDescription": "붉은 용의 형상으로 돌진해 모든 출전 카드에 방어막을 관통하는 피해를 가합니다.",
+          "skillDamagePercent": 90
+        },
+        "74": {
+          "battlePower": 5500000,
+          "rewardCoin": 600000,
+          "hpPercent": 350,
+          "attackPercent": 475,
+          "defensePercent": 375,
+          "speedPercent": 375,
+          "rewardPercent": 1000,
+          "shieldPercent": 70,
+          "attackCount": 2,
+          "forcedActionEvery": 4,
+          "skillEnabled": true,
+          "skillName": "목둔 · 목룡 강림",
+          "skillDescription": "거대한 목룡과 뿌리가 솟구쳐 모든 출전 카드에 방어막을 관통하는 피해를 가합니다.",
+          "skillDamagePercent": 95
+        }
+      }
+    },
+    "powerByGrade": {
+      "C": 100,
+      "U": 160,
+      "R": 250,
+      "SR": 400,
+      "HR": 620,
+      "UR": 900,
+      "SSR": 1300,
+      "MA": 1850,
+      "LIMITED": 2350,
+      "PRESTIGE": 4000,
+      "FUR": 3200,
+      "ZENITH": 5500,
+      "SUPERSTAR": 15500
+    },
+    "breakthroughBonus": [
+      0,
+      18,
+      42,
+      72,
+      108,
+      150,
+      198,
+      252,
+      312,
+      378,
+      450,
+      500,
+      550,
+      600
+    ],
+    "highBreakthroughBonus": {
+      "FUR": [
+        1400,
+        1900,
+        2500
+      ],
+      "ZENITH": [
+        709,
+        973,
+        1275
+      ],
+      "SUPERSTAR": [
+        709,
+        973,
+        1275
+      ]
+    },
+    "cardDrop": {
+      "enabled": true,
+      "defaultRate": 3,
+      "gradeRates": {
+        "C": 40,
+        "U": 25,
+        "R": 15,
+        "SR": 15.9,
+        "HR": 3,
+        "UR": 1,
+        "SSR": 0.1,
+        "MA": 0,
+        "FUR": 0
+      }
+    },
+    "energy": {
+      "enabled": true,
+      "maxEnergy": 10,
+      "dailyRestore": 10,
+      "rechargeMinutes": 5,
+      "costPerBattle": 1,
+      "adminUnlimited": true,
+      "testUnlimited": false
+    },
+    "ultimateRules": [
+      {
+        "enabled": true,
+        "name": "Card ultimate",
+        "requiredGrade": "SSR",
+        "minBreakthrough": 7,
+        "requiredCount": 1,
+        "activationChance": 100,
+        "mediaUrl": "/assets/effects/SKILL.gif",
+        "durationMs": 7500,
+        "coefficientPercent": 100
+      },
+      {
+        "enabled": true,
+        "name": "GOD ULTIMATE",
+        "requiredGrade": "SSR",
+        "minBreakthrough": 10,
+        "requiredCount": 1,
+        "activationChance": 100,
+        "mediaUrl": "/assets/effects/maskill1.gif",
+        "durationMs": 3850,
+        "coefficientPercent": 125
+      },
+      {
+        "enabled": true,
+        "name": "LIMITED ULTIMATE",
+        "requiredGrade": "LIMITED",
+        "minBreakthrough": 7,
+        "requiredCount": 1,
+        "activationChance": 100,
+        "mediaUrl": "/assets/effects/newskill1.mp4",
+        "durationMs": 8000,
+        "coefficientPercent": 150
+      },
+      {
+        "enabled": true,
+        "name": "FUR ULTIMATE",
+        "requiredGrade": "FUR",
+        "minBreakthrough": 7,
+        "requiredCount": 1,
+        "activationChance": 100,
+        "mediaUrl": "/assets/effects/FURSKILL1.mp4",
+        "durationMs": 10000,
+        "coefficientPercent": 170
+      },
+      {
+        "enabled": true,
+        "name": "MA ULTIMATE",
+        "requiredGrade": "MA",
+        "minBreakthrough": 7,
+        "requiredCount": 1,
+        "activationChance": 100,
+        "mediaUrl": "/assets/effects/manewskil2.mp4",
+        "durationMs": 10000,
+        "coefficientPercent": 135
+      },
+      {
+        "enabled": true,
+        "name": "PRESTIGE ULTIMATE",
+        "requiredGrade": "PRESTIGE",
+        "minBreakthrough": 5,
+        "requiredCount": 1,
+        "activationChance": 100,
+        "mediaUrl": "/assets/effects/preskill.mp4",
+        "durationMs": 10000,
+        "coefficientPercent": 220
+      },
+      {
+        "enabled": true,
+        "name": "ZENITH ULTIMATE",
+        "requiredGrade": "ZENITH",
+        "minBreakthrough": 7,
+        "requiredCount": 1,
+        "activationChance": 100,
+        "mediaUrl": "/assets/effects/exodia.mp4",
+        "durationMs": 10000,
+        "coefficientPercent": 330
+      }
+    ]
+  },
+  "high": {
+    "enabled": true,
+    "steps": [
+      {
+        "cost": 200,
+        "duplicateCards": 1,
+        "rate": 35,
+        "pityThreshold": 3,
+        "uniqueBoostPercent": 30,
+        "retirementShardRefund": 6000
+      },
+      {
+        "cost": 400,
+        "duplicateCards": 1,
+        "rate": 25,
+        "pityThreshold": 4,
+        "uniqueBoostPercent": 60,
+        "retirementShardRefund": 8000
+      },
+      {
+        "cost": 800,
+        "duplicateCards": 1,
+        "rate": 15,
+        "pityThreshold": 6,
+        "uniqueBoostPercent": 100,
+        "retirementShardRefund": 10000
+      },
+      {
+        "cost": 1000000,
+        "duplicateCards": 10,
+        "rate": 5,
+        "pityThreshold": 15,
+        "powerBonusPercent": 3800,
+        "uniqueBoostPercent": 150,
+        "retirementShardRefund": 15000
+      },
+      {
+        "cost": 2000000,
+        "duplicateCards": 15,
+        "rate": 5,
+        "pityThreshold": 20,
+        "powerBonusPercent": 6000,
+        "uniqueBoostPercent": 200,
+        "retirementShardRefund": 30000
+      }
+    ],
+    "extendedEnabled": true
+  },
+  "uniqueSettings": {
+    "enabled": true,
+    "ownerTestEnabled": true,
+    "userDetailEnabled": true,
+    "version": 1
+  },
+  "advancementSettings": {
+    "mode": "ON",
+    "version": 1,
+    "costMasterStars": 1000,
+    "successChancePercent": 10,
+    "minimumBreakthrough": 13,
+    "allowedGrades": [
+      "FUR",
+      "ZENITH"
+    ]
+  },
+  "iconSettings": null,
+  "publicRoles": {
+    "revision": 1,
+    "document": {
+      "version": 1,
+      "enabled": true,
+      "scopes": {
+        "pve": true,
+        "pvp": true,
+        "captain": true
+      },
+      "cards": [
+        {
+          "code": "ICON-DIIM",
+          "enabled": true,
+          "tuning": {
+            "firstAction": 2,
+            "cooldownActions": 4,
+            "maxCasts": 6,
+            "pveScale": 100,
+            "pvpScale": 90,
+            "damagePercent": 180,
+            "damageCapPercent": 46,
+            "executePercent": 60,
+            "takedownGauge": 25,
+            "maxTakedowns": 2
+          }
+        },
+        {
+          "code": "ICON-HI-HEEYA",
+          "enabled": true,
+          "tuning": {
+            "firstAction": 3,
+            "cooldownActions": 4,
+            "maxCasts": 6,
+            "pveScale": 100,
+            "pvpScale": 90,
+            "damagePercent": 180,
+            "damageCapPercent": 46,
+            "stackPercent": 10,
+            "maxStacks": 3,
+            "shieldBreakPercent": 40
+          }
+        },
+        {
+          "code": "ICON-NAMUNEUL-BONGSOON",
+          "enabled": true,
+          "tuning": {
+            "firstAction": 2,
+            "cooldownActions": 4,
+            "maxCasts": 6,
+            "pveScale": 100,
+            "pvpScale": 90,
+            "damagePercent": 180,
+            "damageCapPercent": 46,
+            "maxTargets": 3,
+            "focusPercent": 20,
+            "penetrationPercent": 25
+          }
+        },
+        {
+          "code": "ICON-OH-JOEUN",
+          "enabled": true,
+          "tuning": {
+            "firstAction": 2,
+            "cooldownActions": 4,
+            "maxCasts": 6,
+            "pveScale": 100,
+            "pvpScale": 90,
+            "healPercent": 20,
+            "resonancePercent": 2,
+            "maxStacks": 5,
+            "healBudgetPercent": 80,
+            "nextAttackPercent": 25,
+            "durationActions": 2
+          }
+        },
+        {
+          "code": "ICON-ORIKKUNG",
+          "enabled": true,
+          "tuning": {
+            "firstAction": 3,
+            "cooldownActions": 4,
+            "maxCasts": 6,
+            "pveScale": 100,
+            "pvpScale": 90,
+            "damagePercent": 180,
+            "damageCapPercent": 46,
+            "maxStacks": 3,
+            "dotPercent": 9,
+            "healReductionPercent": 10,
+            "stackPercent": 15,
+            "durationActions": 3,
+            "bossVulnerabilityPercent": 6
+          }
+        },
+        {
+          "code": "ICON-KANGGUYEOL",
+          "enabled": true,
+          "tuning": {
+            "firstAction": 2,
+            "cooldownActions": 4,
+            "maxCasts": 6,
+            "pveScale": 100,
+            "pvpScale": 90,
+            "damagePercent": 180,
+            "damageCapPercent": 46,
+            "guardThresholdPercent": 50,
+            "guardSharePercent": 25,
+            "guardBudgetPercent": 100,
+            "shieldPercent": 20,
+            "storedDamagePercent": 40,
+            "storedCapPercent": 60,
+            "durationActions": 3
+          }
+        },
+        {
+          "code": "ICON-AYOON",
+          "enabled": true,
+          "tuning": {
+            "firstAction": 1,
+            "cooldownActions": 4,
+            "maxCasts": 6,
+            "pveScale": 100,
+            "pvpScale": 90,
+            "damagePercent": 140,
+            "damageCapPercent": 46,
+            "shieldPercent": 18,
+            "shieldBreakPercent": 65,
+            "gaugeDelay": 12,
+            "bossVulnerabilityPercent": 8,
+            "durationActions": 2
+          }
+        }
+      ]
+    },
+    "catalog": [
+      {
+        "code": "ICON-DIIM",
+        "cardId": "CN-1C000001",
+        "name": "디임",
+        "role": "ASSASSIN",
+        "label": "암살",
+        "archetype": "월영 추적자",
+        "color": "#75e4e0",
+        "glyph": "daggers",
+        "attackStyle": "MELEE",
+        "passive": "사냥 표식",
+        "skill": "월영 처형",
+        "passiveText": "체력이 가장 낮은 적에게 표식을 새겨 우선 공격합니다.",
+        "skillText": "표식 대상에게 연속 참격을 가합니다. 잃은 체력에 비례해 피해가 증가하며 처치 시 제한된 횟수만 행동 게이지를 회복합니다.",
+        "fields": [
+          {
+            "key": "firstAction",
+            "label": "첫 발동 행동",
+            "min": 1,
+            "max": 8,
+            "value": 2,
+            "unit": "행동",
+            "integer": true
+          },
+          {
+            "key": "cooldownActions",
+            "label": "재사용 간격",
+            "min": 2,
+            "max": 12,
+            "value": 4,
+            "unit": "본인 행동",
+            "integer": true
+          },
+          {
+            "key": "maxCasts",
+            "label": "전투당 최대 발동",
+            "min": 1,
+            "max": 15,
+            "value": 6,
+            "unit": "회",
+            "integer": true
+          },
+          {
+            "key": "pveScale",
+            "label": "PVE 효과 배율",
+            "min": 25,
+            "max": 150,
+            "value": 100,
+            "unit": "%",
+            "integer": false
+          },
+          {
+            "key": "pvpScale",
+            "label": "PVP 효과 배율",
+            "min": 25,
+            "max": 150,
+            "value": 90,
+            "unit": "%",
+            "integer": false
+          },
+          {
+            "key": "damagePercent",
+            "label": "대표 스킬 공격 배율",
+            "min": 40,
+            "max": 350,
+            "value": 180,
+            "unit": "%",
+            "integer": false
+          },
+          {
+            "key": "damageCapPercent",
+            "label": "대상별 1회 스킬 피해 상한",
+            "min": 10,
+            "max": 60,
+            "value": 46,
+            "unit": "대상 최대 HP %",
+            "integer": false
+          },
+          {
+            "key": "executePercent",
+            "label": "잃은 체력 비례 추가 배율",
+            "min": 0,
+            "max": 100,
+            "value": 60,
+            "unit": "%",
+            "integer": false
+          },
+          {
+            "key": "takedownGauge",
+            "label": "처치 후 게이지 회복",
+            "min": 0,
+            "max": 40,
+            "value": 25,
+            "unit": "게이지",
+            "integer": false
+          },
+          {
+            "key": "maxTakedowns",
+            "label": "처치 보너스 한도",
+            "min": 0,
+            "max": 3,
+            "value": 2,
+            "unit": "회",
+            "integer": true
+          }
+        ]
+      },
+      {
+        "code": "ICON-HI-HEEYA",
+        "cardId": "CN-1C000002",
+        "name": "하이희야",
+        "role": "ATTACK",
+        "label": "공격",
+        "archetype": "집중 포화 사수",
+        "color": "#ffae60",
+        "glyph": "barrage",
+        "attackStyle": "RANGED",
+        "passive": "집중 포화",
+        "skill": "오버드라이브",
+        "passiveText": "같은 적에게 평타를 적중시키면 화력이 중첩됩니다. 공격 대상을 바꾸면 중첩을 다시 쌓습니다.",
+        "skillText": "화력 중첩을 소비해 세 차례 집중 연사합니다. 남아 있는 방벽에 추가 피해를 줍니다.",
+        "fields": [
+          {
+            "key": "firstAction",
+            "label": "첫 발동 행동",
+            "min": 1,
+            "max": 8,
+            "value": 3,
+            "unit": "행동",
+            "integer": true
+          },
+          {
+            "key": "cooldownActions",
+            "label": "재사용 간격",
+            "min": 2,
+            "max": 12,
+            "value": 4,
+            "unit": "본인 행동",
+            "integer": true
+          },
+          {
+            "key": "maxCasts",
+            "label": "전투당 최대 발동",
+            "min": 1,
+            "max": 15,
+            "value": 6,
+            "unit": "회",
+            "integer": true
+          },
+          {
+            "key": "pveScale",
+            "label": "PVE 효과 배율",
+            "min": 25,
+            "max": 150,
+            "value": 100,
+            "unit": "%",
+            "integer": false
+          },
+          {
+            "key": "pvpScale",
+            "label": "PVP 효과 배율",
+            "min": 25,
+            "max": 150,
+            "value": 90,
+            "unit": "%",
+            "integer": false
+          },
+          {
+            "key": "damagePercent",
+            "label": "대표 스킬 공격 배율",
+            "min": 40,
+            "max": 350,
+            "value": 180,
+            "unit": "%",
+            "integer": false
+          },
+          {
+            "key": "damageCapPercent",
+            "label": "대상별 1회 스킬 피해 상한",
+            "min": 10,
+            "max": 60,
+            "value": 46,
+            "unit": "대상 최대 HP %",
+            "integer": false
+          },
+          {
+            "key": "stackPercent",
+            "label": "화력 중첩당 추가 피해",
+            "min": 0,
+            "max": 20,
+            "value": 10,
+            "unit": "%",
+            "integer": false
+          },
+          {
+            "key": "maxStacks",
+            "label": "화력 중첩 상한",
+            "min": 1,
+            "max": 5,
+            "value": 3,
+            "unit": "중첩",
+            "integer": true
+          },
+          {
+            "key": "shieldBreakPercent",
+            "label": "방벽 추가 피해",
+            "min": 0,
+            "max": 80,
+            "value": 40,
+            "unit": "%",
+            "integer": false
+          }
+        ]
+      },
+      {
+        "code": "ICON-NAMUNEUL-BONGSOON",
+        "cardId": "CN-1C000003",
+        "name": "나무늘봉순",
+        "role": "MAGIC",
+        "label": "마법",
+        "archetype": "백화 정령 마궁사",
+        "color": "#d9e9b7",
+        "glyph": "arcane",
+        "attackStyle": "RANGED",
+        "passive": "정령 집중",
+        "skill": "백화 유성우",
+        "passiveText": "마력을 집중한 뒤 다음 본인 행동에 마력 화살비를 방출합니다. 시전 도중 봉인되면 집중이 해제됩니다.",
+        "skillText": "최대 세 적에게 마력 화살비를 내립니다. 적이 적으면 남은 화력이 모이지만 단일 대상 상한을 넘지 않습니다.",
+        "fields": [
+          {
+            "key": "firstAction",
+            "label": "첫 발동 행동",
+            "min": 1,
+            "max": 8,
+            "value": 2,
+            "unit": "행동",
+            "integer": true
+          },
+          {
+            "key": "cooldownActions",
+            "label": "재사용 간격",
+            "min": 2,
+            "max": 12,
+            "value": 4,
+            "unit": "본인 행동",
+            "integer": true
+          },
+          {
+            "key": "maxCasts",
+            "label": "전투당 최대 발동",
+            "min": 1,
+            "max": 15,
+            "value": 6,
+            "unit": "회",
+            "integer": true
+          },
+          {
+            "key": "pveScale",
+            "label": "PVE 효과 배율",
+            "min": 25,
+            "max": 150,
+            "value": 100,
+            "unit": "%",
+            "integer": false
+          },
+          {
+            "key": "pvpScale",
+            "label": "PVP 효과 배율",
+            "min": 25,
+            "max": 150,
+            "value": 90,
+            "unit": "%",
+            "integer": false
+          },
+          {
+            "key": "damagePercent",
+            "label": "대표 스킬 공격 배율",
+            "min": 40,
+            "max": 350,
+            "value": 180,
+            "unit": "%",
+            "integer": false
+          },
+          {
+            "key": "damageCapPercent",
+            "label": "대상별 1회 스킬 피해 상한",
+            "min": 10,
+            "max": 60,
+            "value": 46,
+            "unit": "대상 최대 HP %",
+            "integer": false
+          },
+          {
+            "key": "maxTargets",
+            "label": "화살비 최대 대상",
+            "min": 1,
+            "max": 5,
+            "value": 3,
+            "unit": "명",
+            "integer": true
+          },
+          {
+            "key": "focusPercent",
+            "label": "빈 대상당 화력 집중",
+            "min": 0,
+            "max": 40,
+            "value": 20,
+            "unit": "%",
+            "integer": false
+          },
+          {
+            "key": "penetrationPercent",
+            "label": "마력 화살 방어 무시",
+            "min": 0,
+            "max": 45,
+            "value": 25,
+            "unit": "%",
+            "integer": false
+          }
+        ]
+      },
+      {
+        "code": "ICON-OH-JOEUN",
+        "cardId": "CN-1C000004",
+        "name": "오조은",
+        "role": "SUPPORT",
+        "label": "지원",
+        "archetype": "프리즘 공명술사",
+        "color": "#aaa8ff",
+        "glyph": "resonance",
+        "attackStyle": "CAST",
+        "passive": "공명 화음",
+        "skill": "프리즘 앙코르",
+        "passiveText": "아군의 본인 행동이 끝날 때 공명을 모읍니다. 추가타와 반격으로는 공명이 쌓이지 않습니다.",
+        "skillText": "공명을 소비해 부상한 아군을 회복하고 해로운 효과 한 종류를 정화합니다. 회복한 아군의 다음 직접 공격을 강화합니다.",
+        "fields": [
+          {
+            "key": "firstAction",
+            "label": "첫 발동 행동",
+            "min": 1,
+            "max": 8,
+            "value": 2,
+            "unit": "행동",
+            "integer": true
+          },
+          {
+            "key": "cooldownActions",
+            "label": "재사용 간격",
+            "min": 2,
+            "max": 12,
+            "value": 4,
+            "unit": "본인 행동",
+            "integer": true
+          },
+          {
+            "key": "maxCasts",
+            "label": "전투당 최대 발동",
+            "min": 1,
+            "max": 15,
+            "value": 6,
+            "unit": "회",
+            "integer": true
+          },
+          {
+            "key": "pveScale",
+            "label": "PVE 효과 배율",
+            "min": 25,
+            "max": 150,
+            "value": 100,
+            "unit": "%",
+            "integer": false
+          },
+          {
+            "key": "pvpScale",
+            "label": "PVP 효과 배율",
+            "min": 25,
+            "max": 150,
+            "value": 90,
+            "unit": "%",
+            "integer": false
+          },
+          {
+            "key": "healPercent",
+            "label": "기본 회복량",
+            "min": 1,
+            "max": 25,
+            "value": 20,
+            "unit": "대상 최대 HP %",
+            "integer": false
+          },
+          {
+            "key": "resonancePercent",
+            "label": "공명당 추가 회복량",
+            "min": 0,
+            "max": 3,
+            "value": 2,
+            "unit": "대상 최대 HP %",
+            "integer": false
+          },
+          {
+            "key": "maxStacks",
+            "label": "공명 중첩 상한",
+            "min": 1,
+            "max": 8,
+            "value": 5,
+            "unit": "중첩",
+            "integer": true
+          },
+          {
+            "key": "healBudgetPercent",
+            "label": "전투당 회복 총량",
+            "min": 10,
+            "max": 150,
+            "value": 80,
+            "unit": "시전자 최대 HP %",
+            "integer": false
+          },
+          {
+            "key": "nextAttackPercent",
+            "label": "다음 공격 강화",
+            "min": 0,
+            "max": 35,
+            "value": 25,
+            "unit": "%",
+            "integer": false
+          },
+          {
+            "key": "durationActions",
+            "label": "강화 유지",
+            "min": 1,
+            "max": 4,
+            "value": 2,
+            "unit": "대상 행동",
+            "integer": true
+          }
+        ]
+      },
+      {
+        "code": "ICON-ORIKKUNG",
+        "cardId": "CN-1C000005",
+        "name": "오리꿍",
+        "role": "CURSE",
+        "label": "저주",
+        "archetype": "낙화 주술사",
+        "color": "#f2a5c5",
+        "glyph": "curse",
+        "attackStyle": "CAST",
+        "passive": "낙화 저주",
+        "skill": "화접 낙인",
+        "passiveText": "평타 적중 시 저주를 중첩합니다. 저주받은 적은 본인 행동 시작에 지속 피해를 받고 회복량이 감소합니다.",
+        "skillText": "대상에게 쌓인 저주를 폭발시키고 다른 적 한 명에게 일부 전이합니다. 보스에게도 저주 피해와 약화가 적용됩니다.",
+        "fields": [
+          {
+            "key": "firstAction",
+            "label": "첫 발동 행동",
+            "min": 1,
+            "max": 8,
+            "value": 3,
+            "unit": "행동",
+            "integer": true
+          },
+          {
+            "key": "cooldownActions",
+            "label": "재사용 간격",
+            "min": 2,
+            "max": 12,
+            "value": 4,
+            "unit": "본인 행동",
+            "integer": true
+          },
+          {
+            "key": "maxCasts",
+            "label": "전투당 최대 발동",
+            "min": 1,
+            "max": 15,
+            "value": 6,
+            "unit": "회",
+            "integer": true
+          },
+          {
+            "key": "pveScale",
+            "label": "PVE 효과 배율",
+            "min": 25,
+            "max": 150,
+            "value": 100,
+            "unit": "%",
+            "integer": false
+          },
+          {
+            "key": "pvpScale",
+            "label": "PVP 효과 배율",
+            "min": 25,
+            "max": 150,
+            "value": 90,
+            "unit": "%",
+            "integer": false
+          },
+          {
+            "key": "damagePercent",
+            "label": "대표 스킬 공격 배율",
+            "min": 40,
+            "max": 350,
+            "value": 180,
+            "unit": "%",
+            "integer": false
+          },
+          {
+            "key": "damageCapPercent",
+            "label": "대상별 1회 스킬 피해 상한",
+            "min": 10,
+            "max": 60,
+            "value": 46,
+            "unit": "대상 최대 HP %",
+            "integer": false
+          },
+          {
+            "key": "maxStacks",
+            "label": "저주 중첩 상한",
+            "min": 1,
+            "max": 4,
+            "value": 3,
+            "unit": "중첩",
+            "integer": true
+          },
+          {
+            "key": "dotPercent",
+            "label": "중첩당 지속 피해",
+            "min": 1,
+            "max": 20,
+            "value": 9,
+            "unit": "시전자 공격력 %",
+            "integer": false
+          },
+          {
+            "key": "healReductionPercent",
+            "label": "중첩당 회복 감소",
+            "min": 0,
+            "max": 20,
+            "value": 10,
+            "unit": "%",
+            "integer": false
+          },
+          {
+            "key": "stackPercent",
+            "label": "폭발 중첩당 추가 피해",
+            "min": 0,
+            "max": 35,
+            "value": 15,
+            "unit": "%",
+            "integer": false
+          },
+          {
+            "key": "durationActions",
+            "label": "저주 지속",
+            "min": 1,
+            "max": 5,
+            "value": 3,
+            "unit": "대상 행동",
+            "integer": true
+          },
+          {
+            "key": "bossVulnerabilityPercent",
+            "label": "보스가 받는 피해 증가",
+            "min": 0,
+            "max": 15,
+            "value": 6,
+            "unit": "%",
+            "integer": false
+          }
+        ]
+      },
+      {
+        "code": "ICON-KANGGUYEOL",
+        "cardId": "CN-1C000006",
+        "name": "강구열",
+        "role": "DEFENSE",
+        "label": "방어",
+        "archetype": "철벽 수호자",
+        "color": "#e6a771",
+        "glyph": "guard",
+        "attackStyle": "MELEE",
+        "passive": "수호 맹약",
+        "skill": "철벽 반격",
+        "passiveText": "위기에 처한 아군의 직접 피해 일부를 대신 받습니다. 한 번의 타격에는 수호자 한 명만 개입하며 보호 총량이 정해져 있습니다.",
+        "skillText": "자신에게 수호 방벽을 두르고 흡수한 피해를 축적합니다. 다음 철벽 반격에 축적분을 소비해 충격파를 방출합니다.",
+        "fields": [
+          {
+            "key": "firstAction",
+            "label": "첫 발동 행동",
+            "min": 1,
+            "max": 8,
+            "value": 2,
+            "unit": "행동",
+            "integer": true
+          },
+          {
+            "key": "cooldownActions",
+            "label": "재사용 간격",
+            "min": 2,
+            "max": 12,
+            "value": 4,
+            "unit": "본인 행동",
+            "integer": true
+          },
+          {
+            "key": "maxCasts",
+            "label": "전투당 최대 발동",
+            "min": 1,
+            "max": 15,
+            "value": 6,
+            "unit": "회",
+            "integer": true
+          },
+          {
+            "key": "pveScale",
+            "label": "PVE 효과 배율",
+            "min": 25,
+            "max": 150,
+            "value": 100,
+            "unit": "%",
+            "integer": false
+          },
+          {
+            "key": "pvpScale",
+            "label": "PVP 효과 배율",
+            "min": 25,
+            "max": 150,
+            "value": 90,
+            "unit": "%",
+            "integer": false
+          },
+          {
+            "key": "damagePercent",
+            "label": "대표 스킬 공격 배율",
+            "min": 40,
+            "max": 350,
+            "value": 180,
+            "unit": "%",
+            "integer": false
+          },
+          {
+            "key": "damageCapPercent",
+            "label": "대상별 1회 스킬 피해 상한",
+            "min": 10,
+            "max": 60,
+            "value": 46,
+            "unit": "대상 최대 HP %",
+            "integer": false
+          },
+          {
+            "key": "guardThresholdPercent",
+            "label": "보호 발동 아군 체력",
+            "min": 10,
+            "max": 70,
+            "value": 50,
+            "unit": "%",
+            "integer": false
+          },
+          {
+            "key": "guardSharePercent",
+            "label": "대신 받는 피해",
+            "min": 5,
+            "max": 45,
+            "value": 25,
+            "unit": "%",
+            "integer": false
+          },
+          {
+            "key": "guardBudgetPercent",
+            "label": "전투당 보호 총량",
+            "min": 10,
+            "max": 180,
+            "value": 100,
+            "unit": "시전자 최대 HP %",
+            "integer": false
+          },
+          {
+            "key": "shieldPercent",
+            "label": "수호 방벽",
+            "min": 5,
+            "max": 40,
+            "value": 20,
+            "unit": "시전자 최대 HP %",
+            "integer": false
+          },
+          {
+            "key": "storedDamagePercent",
+            "label": "축적 피해 환산",
+            "min": 0,
+            "max": 80,
+            "value": 40,
+            "unit": "%",
+            "integer": false
+          },
+          {
+            "key": "storedCapPercent",
+            "label": "축적 반격 추가 피해 상한",
+            "min": 10,
+            "max": 120,
+            "value": 60,
+            "unit": "시전자 공격력 %",
+            "integer": false
+          },
+          {
+            "key": "durationActions",
+            "label": "방벽 지속",
+            "min": 1,
+            "max": 5,
+            "value": 3,
+            "unit": "본인 행동",
+            "integer": true
+          }
+        ]
+      },
+      {
+        "code": "ICON-AYOON",
+        "cardId": "CN-1C000007",
+        "name": "아윤",
+        "role": "ASSAULT",
+        "label": "돌격",
+        "archetype": "백야 선봉장",
+        "color": "#a5deed",
+        "glyph": "charge",
+        "attackStyle": "MELEE",
+        "passive": "선봉 돌파",
+        "skill": "백야 진격",
+        "passiveText": "첫 진격 때 일시 보호막을 얻어 교전의 선두를 엽니다.",
+        "skillText": "전방 적을 강하게 공격하며 방벽을 추가로 파괴하고 행동 게이지를 지연시킵니다. 보스에게는 지연 대신 받는 피해 증가를 적용합니다.",
+        "fields": [
+          {
+            "key": "firstAction",
+            "label": "첫 발동 행동",
+            "min": 1,
+            "max": 8,
+            "value": 1,
+            "unit": "행동",
+            "integer": true
+          },
+          {
+            "key": "cooldownActions",
+            "label": "재사용 간격",
+            "min": 2,
+            "max": 12,
+            "value": 4,
+            "unit": "본인 행동",
+            "integer": true
+          },
+          {
+            "key": "maxCasts",
+            "label": "전투당 최대 발동",
+            "min": 1,
+            "max": 15,
+            "value": 6,
+            "unit": "회",
+            "integer": true
+          },
+          {
+            "key": "pveScale",
+            "label": "PVE 효과 배율",
+            "min": 25,
+            "max": 150,
+            "value": 100,
+            "unit": "%",
+            "integer": false
+          },
+          {
+            "key": "pvpScale",
+            "label": "PVP 효과 배율",
+            "min": 25,
+            "max": 150,
+            "value": 90,
+            "unit": "%",
+            "integer": false
+          },
+          {
+            "key": "damagePercent",
+            "label": "대표 스킬 공격 배율",
+            "min": 40,
+            "max": 350,
+            "value": 140,
+            "unit": "%",
+            "integer": false
+          },
+          {
+            "key": "damageCapPercent",
+            "label": "대상별 1회 스킬 피해 상한",
+            "min": 10,
+            "max": 60,
+            "value": 46,
+            "unit": "대상 최대 HP %",
+            "integer": false
+          },
+          {
+            "key": "shieldPercent",
+            "label": "첫 진격 보호막",
+            "min": 5,
+            "max": 30,
+            "value": 18,
+            "unit": "시전자 최대 HP %",
+            "integer": false
+          },
+          {
+            "key": "shieldBreakPercent",
+            "label": "방벽 추가 피해",
+            "min": 0,
+            "max": 100,
+            "value": 65,
+            "unit": "%",
+            "integer": false
+          },
+          {
+            "key": "gaugeDelay",
+            "label": "적 행동 게이지 감소",
+            "min": 0,
+            "max": 25,
+            "value": 12,
+            "unit": "게이지",
+            "integer": false
+          },
+          {
+            "key": "bossVulnerabilityPercent",
+            "label": "보스가 받는 피해 증가",
+            "min": 0,
+            "max": 15,
+            "value": 8,
+            "unit": "%",
+            "integer": false
+          },
+          {
+            "key": "durationActions",
+            "label": "진격 효과 지속",
+            "min": 1,
+            "max": 4,
+            "value": 2,
+            "unit": "대상 행동",
+            "integer": true
+          }
+        ]
+      }
+    ],
+    "version": "20261005-fur15-v1",
+    "balance": {
+      "version": "20261005-fur15-v1",
+      "deckLimit": 2,
+      "margin": 1.2
+    }
+  },
+  "cards": [
+    {
+      "id": "CN-011CAD85BBB2470F",
+      "title": "조폭 감스트",
+      "power_type": "FIXED",
+      "base_power": "3200",
+      "attack_percent": 14,
+      "defense_percent": 7,
+      "hp_percent": 9,
+      "speed_percent": 0,
+      "effect_name": "16감스트",
+      "effect_description": "인..직",
+      "effect_type": "NONE",
+      "trigger_type": "PASSIVE",
+      "effect_value": 0,
+      "trigger_chance": 100,
+      "max_activations": "1",
+      "scope_pve": "1",
+      "scope_pvp": "1",
+      "scope_captain": "1",
+      "is_active": "0"
+    },
+    {
+      "id": "CN-02D9DC1E8A8A4209",
+      "title": "철와대 킴성태",
+      "power_type": "FIXED",
+      "base_power": "3200",
+      "attack_percent": 6,
+      "defense_percent": 14,
+      "hp_percent": 10,
+      "speed_percent": 0,
+      "effect_name": "코성태",
+      "effect_description": "북한군 무찌르듯이 무찌르겠습니다!!",
+      "effect_type": "NONE",
+      "trigger_type": "PASSIVE",
+      "effect_value": 0,
+      "trigger_chance": 100,
+      "max_activations": "1",
+      "scope_pve": "1",
+      "scope_pvp": "1",
+      "scope_captain": "1",
+      "is_active": "1"
+    },
+    {
+      "id": "CN-0B48C6FF8F9B4AC5",
+      "title": "Faker",
+      "power_type": "FIXED",
+      "base_power": "3200",
+      "attack_percent": 30,
+      "defense_percent": 30,
+      "hp_percent": 0,
+      "speed_percent": 50,
+      "effect_name": "",
+      "effect_description": "",
+      "effect_type": "NONE",
+      "trigger_type": "PASSIVE",
+      "effect_value": 0,
+      "trigger_chance": 100,
+      "max_activations": "1",
+      "scope_pve": "1",
+      "scope_pvp": "1",
+      "scope_captain": "1",
+      "is_active": "0"
+    },
+    {
+      "id": "CN-284FB135B2AB4D31",
+      "title": "프로필찍는 봉준",
+      "power_type": "FIXED",
+      "base_power": "3200",
+      "attack_percent": 14,
+      "defense_percent": 7,
+      "hp_percent": 9,
+      "speed_percent": 0,
+      "effect_name": "",
+      "effect_description": "",
+      "effect_type": "NONE",
+      "trigger_type": "PASSIVE",
+      "effect_value": 0,
+      "trigger_chance": 100,
+      "max_activations": "1",
+      "scope_pve": "1",
+      "scope_pvp": "1",
+      "scope_captain": "1",
+      "is_active": "1"
+    },
+    {
+      "id": "CN-2865A7B77B2A4E5F",
+      "title": "철구",
+      "power_type": "FIXED",
+      "base_power": "3200",
+      "attack_percent": null,
+      "defense_percent": null,
+      "hp_percent": null,
+      "speed_percent": null,
+      "effect_name": null,
+      "effect_description": null,
+      "effect_type": null,
+      "trigger_type": null,
+      "effect_value": null,
+      "trigger_chance": null,
+      "max_activations": null,
+      "scope_pve": null,
+      "scope_pvp": null,
+      "scope_captain": null,
+      "is_active": null
+    },
+    {
+      "id": "CN-2CEC24C0087A4B61",
+      "title": "와룡킹남순",
+      "power_type": "FIXED",
+      "base_power": "3200",
+      "attack_percent": 14,
+      "defense_percent": 7,
+      "hp_percent": 9,
+      "speed_percent": 0,
+      "effect_name": "상렬쇼",
+      "effect_description": "남순로겐",
+      "effect_type": "NONE",
+      "trigger_type": "PASSIVE",
+      "effect_value": 0,
+      "trigger_chance": 100,
+      "max_activations": "1",
+      "scope_pve": "1",
+      "scope_pvp": "1",
+      "scope_captain": "1",
+      "is_active": "1"
+    },
+    {
+      "id": "CN-346F8DB0DEB84D41",
+      "title": "철구",
+      "power_type": "FIXED",
+      "base_power": "3200",
+      "attack_percent": 60,
+      "defense_percent": 30,
+      "hp_percent": 30,
+      "speed_percent": 0,
+      "effect_name": "",
+      "effect_description": "",
+      "effect_type": "NONE",
+      "trigger_type": "PASSIVE",
+      "effect_value": 0,
+      "trigger_chance": 100,
+      "max_activations": "1",
+      "scope_pve": "1",
+      "scope_pvp": "1",
+      "scope_captain": "1",
+      "is_active": "1"
+    },
+    {
+      "id": "CN-45DE696C0A0B4609",
+      "title": "좆망구",
+      "power_type": "FIXED",
+      "base_power": "3200",
+      "attack_percent": 3,
+      "defense_percent": 0,
+      "hp_percent": 0,
+      "speed_percent": 5,
+      "effect_name": "고도중",
+      "effect_description": "고액 도박 중독자",
+      "effect_type": "NONE",
+      "trigger_type": "PASSIVE",
+      "effect_value": 0,
+      "trigger_chance": 100,
+      "max_activations": "1",
+      "scope_pve": "1",
+      "scope_pvp": "1",
+      "scope_captain": "1",
+      "is_active": "1"
+    },
+    {
+      "id": "CN-47AD4B47B6A7452C",
+      "title": "아이젠 족스케",
+      "power_type": "FIXED",
+      "base_power": "3200",
+      "attack_percent": 40,
+      "defense_percent": 65,
+      "hp_percent": 50,
+      "speed_percent": 0,
+      "effect_name": "",
+      "effect_description": "",
+      "effect_type": "NONE",
+      "trigger_type": "PASSIVE",
+      "effect_value": 0,
+      "trigger_chance": 100,
+      "max_activations": "1",
+      "scope_pve": "1",
+      "scope_pvp": "1",
+      "scope_captain": "1",
+      "is_active": "1"
+    },
+    {
+      "id": "CN-5D0E2E4D58C9416F",
+      "title": "치타구",
+      "power_type": "FIXED",
+      "base_power": "3200",
+      "attack_percent": 30,
+      "defense_percent": 30,
+      "hp_percent": 0,
+      "speed_percent": 50,
+      "effect_name": "",
+      "effect_description": "",
+      "effect_type": "NONE",
+      "trigger_type": "PASSIVE",
+      "effect_value": 0,
+      "trigger_chance": 100,
+      "max_activations": "1",
+      "scope_pve": "1",
+      "scope_pvp": "1",
+      "scope_captain": "1",
+      "is_active": "1"
+    },
+    {
+      "id": "CN-716F6A71EE5F488E",
+      "title": "이상호",
+      "power_type": "FIXED",
+      "base_power": "3200",
+      "attack_percent": 14,
+      "defense_percent": 7,
+      "hp_percent": 9,
+      "speed_percent": 0,
+      "effect_name": "",
+      "effect_description": "",
+      "effect_type": "NONE",
+      "trigger_type": "PASSIVE",
+      "effect_value": 0,
+      "trigger_chance": 100,
+      "max_activations": "1",
+      "scope_pve": "1",
+      "scope_pvp": "1",
+      "scope_captain": "1",
+      "is_active": "1"
+    },
+    {
+      "id": "CN-8D3E40884AC04D2C",
+      "title": "훈훈한 감스트",
+      "power_type": "FIXED",
+      "base_power": "3200",
+      "attack_percent": 6,
+      "defense_percent": 7,
+      "hp_percent": 8,
+      "speed_percent": 9,
+      "effect_name": "",
+      "effect_description": "",
+      "effect_type": "NONE",
+      "trigger_type": "PASSIVE",
+      "effect_value": 0,
+      "trigger_chance": 100,
+      "max_activations": "1",
+      "scope_pve": "1",
+      "scope_pvp": "1",
+      "scope_captain": "1",
+      "is_active": "0"
+    },
+    {
+      "id": "CN-A21C3D87C47D4D95",
+      "title": "거품목욕 이상호",
+      "power_type": "FIXED",
+      "base_power": "3200",
+      "attack_percent": 6,
+      "defense_percent": 14,
+      "hp_percent": 10,
+      "speed_percent": 0,
+      "effect_name": "",
+      "effect_description": "",
+      "effect_type": "NONE",
+      "trigger_type": "PASSIVE",
+      "effect_value": 0,
+      "trigger_chance": 100,
+      "max_activations": "1",
+      "scope_pve": "1",
+      "scope_pvp": "1",
+      "scope_captain": "1",
+      "is_active": "1"
+    },
+    {
+      "id": "CN-AD85A1AFB7234D1B",
+      "title": "NS남순",
+      "power_type": "FIXED",
+      "base_power": "3200",
+      "attack_percent": 5,
+      "defense_percent": 8,
+      "hp_percent": 17,
+      "speed_percent": 0,
+      "effect_name": "",
+      "effect_description": "",
+      "effect_type": "NONE",
+      "trigger_type": "PASSIVE",
+      "effect_value": 0,
+      "trigger_chance": 100,
+      "max_activations": "1",
+      "scope_pve": "1",
+      "scope_pvp": "1",
+      "scope_captain": "1",
+      "is_active": "1"
+    },
+    {
+      "id": "CN-B2D79A6239AA4A1B",
+      "title": "헬창 봉준",
+      "power_type": "FIXED",
+      "base_power": "3200",
+      "attack_percent": 5,
+      "defense_percent": 8,
+      "hp_percent": 17,
+      "speed_percent": 0,
+      "effect_name": "",
+      "effect_description": "",
+      "effect_type": "NONE",
+      "trigger_type": "PASSIVE",
+      "effect_value": 0,
+      "trigger_chance": 100,
+      "max_activations": "1",
+      "scope_pve": "1",
+      "scope_pvp": "1",
+      "scope_captain": "1",
+      "is_active": "1"
+    },
+    {
+      "id": "CN-BEE87AB06483449A",
+      "title": "프로필 김민교",
+      "power_type": "FIXED",
+      "base_power": "3200",
+      "attack_percent": 14,
+      "defense_percent": 7,
+      "hp_percent": 9,
+      "speed_percent": 0,
+      "effect_name": "",
+      "effect_description": "",
+      "effect_type": "NONE",
+      "trigger_type": "PASSIVE",
+      "effect_value": 0,
+      "trigger_chance": 100,
+      "max_activations": "1",
+      "scope_pve": "1",
+      "scope_pvp": "1",
+      "scope_captain": "1",
+      "is_active": "1"
+    },
+    {
+      "id": "CN-CE16D291605A47F0",
+      "title": "킹봉준",
+      "power_type": "FIXED",
+      "base_power": "3200",
+      "attack_percent": 6,
+      "defense_percent": 14,
+      "hp_percent": 10,
+      "speed_percent": 0,
+      "effect_name": "King",
+      "effect_description": "All Time No.1",
+      "effect_type": "NONE",
+      "trigger_type": "PASSIVE",
+      "effect_value": 0,
+      "trigger_chance": 100,
+      "max_activations": "1",
+      "scope_pve": "1",
+      "scope_pvp": "1",
+      "scope_captain": "1",
+      "is_active": "1"
+    },
+    {
+      "id": "CN-DAE98309A47C4CCA",
+      "title": "서수길",
+      "power_type": "FIXED",
+      "base_power": "3200",
+      "attack_percent": 6,
+      "defense_percent": 7,
+      "hp_percent": 8,
+      "speed_percent": 9,
+      "effect_name": "",
+      "effect_description": "",
+      "effect_type": "NONE",
+      "trigger_type": "PASSIVE",
+      "effect_value": 0,
+      "trigger_chance": 100,
+      "max_activations": "1",
+      "scope_pve": "1",
+      "scope_pvp": "1",
+      "scope_captain": "1",
+      "is_active": "1"
+    },
+    {
+      "id": "CN-F500880B2ED34350",
+      "title": "프로필 킴성태",
+      "power_type": "FIXED",
+      "base_power": "3200",
+      "attack_percent": 14,
+      "defense_percent": 7,
+      "hp_percent": 9,
+      "speed_percent": 0,
+      "effect_name": "",
+      "effect_description": "",
+      "effect_type": "NONE",
+      "trigger_type": "PASSIVE",
+      "effect_value": 0,
+      "trigger_chance": 100,
+      "max_activations": "1",
+      "scope_pve": "1",
+      "scope_pvp": "1",
+      "scope_captain": "1",
+      "is_active": "1"
+    },
+    {
+      "id": "card-0434",
+      "title": "철구",
+      "power_type": "FIXED",
+      "base_power": "3200",
+      "attack_percent": 12,
+      "defense_percent": 0,
+      "hp_percent": 6,
+      "speed_percent": 0,
+      "effect_name": "인방 GOAT",
+      "effect_description": "All Time No.1",
+      "effect_type": "NONE",
+      "trigger_type": "PASSIVE",
+      "effect_value": 0,
+      "trigger_chance": 100,
+      "max_activations": "1",
+      "scope_pve": "1",
+      "scope_pvp": "1",
+      "scope_captain": "1",
+      "is_active": "1"
+    }
+  ],
+  "icons": [
+    {
+      "id": "CN-1C000001",
+      "title": "디임",
+      "rarity": "ICON",
+      "base_power": "180000"
+    },
+    {
+      "id": "CN-1C000002",
+      "title": "하이희야",
+      "rarity": "ICON",
+      "base_power": "180000"
+    },
+    {
+      "id": "CN-1C000003",
+      "title": "나무늘봉순",
+      "rarity": "ICON",
+      "base_power": "180000"
+    },
+    {
+      "id": "CN-1C000004",
+      "title": "오조은",
+      "rarity": "ICON",
+      "base_power": "180000"
+    },
+    {
+      "id": "CN-1C000005",
+      "title": "오리꿍",
+      "rarity": "ICON",
+      "base_power": "180000"
+    },
+    {
+      "id": "CN-1C000006",
+      "title": "강구열",
+      "rarity": "ICON",
+      "base_power": "180000"
+    },
+    {
+      "id": "CN-1C000007",
+      "title": "아윤",
+      "rarity": "ICON",
+      "base_power": "180000"
+    }
+  ]
+}
