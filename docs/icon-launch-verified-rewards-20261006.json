@@ -1,5 +1,5 @@
 {
-  "status": "READY_TO_SEND",
+  "status": "COMPLETED",
   "operationKey": "ops:icon-launch:verified-rewards:20261006:v1",
   "request": "2차인증 유저 전원 1000억에 300만 마별 지급해 아이콘 출시 기념 사료",
   "title": "아이콘 출시 기념 사료",
@@ -26,6 +26,19 @@
     "dryRunDuplicates": 0,
     "partialFailureRolledBack": true,
     "dryRunRolledBack": true
+  },
+  "execution": {
+    "sourceCommit": "b7ca1be98f98c370b25c6dff57fd0f12cf28ff83",
+    "completedAt": "2026-10-05T17:59:46.124Z",
+    "completedAtKst": "2026-10-06 02:59:46 KST",
+    "auditId": "41271",
+    "messages": 1064,
+    "rewards": 1064,
+    "missing": 0,
+    "duplicates": 0,
+    "independentReadOnlyVerification": true,
+    "receiptAndAuditMatched": true,
+    "claimedAtVerification": {"COIN": 3, "MASTER_STAR": 4}
   },
   "evidenceDirectory": "C:/Users/User/.codex/tmp/icon-launch-verified-rewards-20261006/",
   "scope": "일회성 운영 발송 도구·관련 검사·기록만 변경. 일반 CMS 한도, 재화 정책, 게임 실행 파일 및 출시 플래그 변경 없음. 운영 빌드 재배포 불필요."
