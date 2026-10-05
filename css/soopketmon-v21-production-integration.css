@@ -614,3 +614,8 @@ body.soopketmon-v21-live .chief-election-body button:hover {
     min-height: 60px;
   }
 }
+
+.v21-command-dialog.general-command-dialog{border-color:#a4756880;box-shadow:0 24px 80px #000b,inset 0 2px #a65658;background:linear-gradient(130deg,#16131e,#10131d)}
+.general-command-dialog>header{border-color:#a6776444}.general-command-dialog>header small{color:#c89487}.general-command-dialog .v21-chief-dialog-body>picture img{object-position:50% 18%}
+.general-command-dialog .v21-chief-dialog-body .general-detail-insignia{width:48px;height:56px;object-fit:contain;margin-bottom:12px;border:0;background:none}
+.general-command-dialog .v21-chief-dialog-body button{min-height:44px;background:linear-gradient(110deg,#582731,#301c2a);border:1px solid #a76f655f;color:#f6dfce}.general-command-dialog .v21-chief-dialog-body b{color:#edcbb4}

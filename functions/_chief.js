@@ -1,5 +1,6 @@
 import { ensureCoupSchema, chiefDuty, chiefAuthorityGuard } from './_coup_schema.js';
 import { ensureAvatarFoundation } from './_avatar.js';
+import { chiefReignStyle } from '../shared/chief-presentation-v1.mjs';
 
 const CHIEF_META_KEY='chief_appointment_v1';
 const DISCOUNT_REMOVAL_MARKER='safe_runtime_upgrade_v1657_chief_discount_removed';
@@ -60,7 +61,8 @@ async function usage(env,a){
 function publicState(a,u,viewerId){
   const remaining=Math.max(0,Date.parse(a.endsAt||0)-Date.now());
   const active=a.active===true;
-  return {status:a.dutyStatus==='OPEN'?'SUSPENDED':a.dutyStatus==='REMOVED'?'REMOVED':active?'ACTIVE':'VACANT',trialId:a.trialId||null,active,appointmentId:a.id||null,userId:a.userId||null,nickname:a.nickname||'',avatar:a.avatar||null,viewerAvatar:a.viewerAvatar||null,ordinal:chiefOrdinal(a.ordinal),source:a.source==='COUP'?'COUP':'PLAY DK 투표',coupSuccession:a.source==='COUP'?a.coupSuccession||null:null,startsAt:a.startsAt||null,endsAt:a.endsAt||null,remainingMs:remaining,isChief:active&&Number(viewerId)===Number(a.userId),inaugurationVersion:Number(a.inaugurationVersion||1),usage:u||{burningToday:0,hyperToday:0,towerResetCount:0,towerResetUsed:false},limits:{burningControl:'CHIEF_FULL',burningPerDay:2,burningDurationMinutes:180,hyperPerDay:1,hyperDurationMinutes:60,towerResetsPerTerm:2}};
+  a={...a,reignStyle:chiefReignStyle(a)};
+  return {status:a.dutyStatus==='OPEN'?'SUSPENDED':a.dutyStatus==='REMOVED'?'REMOVED':active?'ACTIVE':'VACANT',trialId:a.trialId||null,active,reignStyle:a.reignStyle,appointmentId:a.id||null,userId:a.userId||null,nickname:a.nickname||'',avatar:a.avatar||null,viewerAvatar:a.viewerAvatar||null,ordinal:chiefOrdinal(a.ordinal),source:a.source==='COUP'?'COUP':'PLAY DK 투표',coupSuccession:a.source==='COUP'?a.coupSuccession||null:null,startsAt:a.startsAt||null,endsAt:a.endsAt||null,remainingMs:remaining,isChief:active&&Number(viewerId)===Number(a.userId),inaugurationVersion:Number(a.inaugurationVersion||1),usage:u||{burningToday:0,hyperToday:0,towerResetCount:0,towerResetUsed:false},limits:{burningControl:'CHIEF_FULL',burningPerDay:2,burningDurationMinutes:180,hyperPerDay:1,hyperDurationMinutes:60,towerResetsPerTerm:2}};
 }
 async function activate(env,a,user,type,activateBurningEvent){
   const u=await usage(env,a),now=new Date(),daily=type==='BURNING'||type==='HYPER',period=daily?kstDate(now):String(a.id);

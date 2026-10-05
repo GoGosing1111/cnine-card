@@ -1,0 +1,18 @@
+{
+  "tool": "built-in image_gen",
+  "intent": "generate",
+  "date": "2026-10-05",
+  "original": "C:/Users/User/.codex/generated_images/01a0f1f2-cc91-72c3-a322-19e4d45ed867/exec-747487e1-7d6b-4a47-b2f5-0a84a96a407e.png",
+  "asset": "assets/ui/chief/general-command-v1.png",
+  "sha256": "c264fb034b5cde5a6e7a2ba15eb61f2ee04ac9db493143ef9aabac26b6a8a131",
+  "width": 1024,
+  "height": 1536,
+  "sourceUnchanged": true,
+  "prompt": "Use case: stylized-concept. Asset type: premium Korean dark-fantasy game lobby illustration, vertical 2:3 portrait, 1024 x 1536. Primary request: a frightening adult FEMALE GENERAL who embodies an oppressive military dictatorship, replacing a queen aesthetic. She is a fictional beautiful adult woman in her late twenties with a cold imperious stare, mature natural proportions and a small readable face, depicted in high-end hand-painted 2D semi-real fantasy splash-art style, not a photograph, not 3D. Full body, viewed slightly from below. She stands upright on a stone command dais with one black-gloved hand holding a ceremonial officer's baton vertically at her side, other arm resting sternly behind her back. Uniform: severe fitted charcoal-black high-collared officer's tunic, structured broad epaulettes in worn champagne gold, restrained crimson piping, narrow belt, long angular military greatcoat opening around fitted black trousers, polished tall boots. A peaked military cap with a tiny original four-point diamond insignia, absolutely no crown. Beautiful face clearly readable beneath cap brim, pale skin, dark eyes, dark hair swept back naturally with connected fine strands; avoid stiff layered hair plates. Setting: immense shadowed fortress command hall with tall austere crimson banners, iron architecture, distant searchlight beams, ominous smoke and cold moonlit haze; not a royal palace. Mood: chilling, terrifying absolute authority, silence and oppression. Character is the unmistakable focus, face about 21% down from top, feet fully visible with safe margin, centered slightly right so a left-side lobby status UI can overlay negative space. Palette charcoal, steel blue, deep blood red, restrained antique gold, harsh crimson rim light and soft cold light on face. No additional foreground characters, no cute elements, no smile, no glamour pinup pose. No flags of real nations, no real political or extremist insignia. NO text, lettering, numbers, logos, watermark, UI or card frame baked into image. Keep meticulous fabric, leather and metal materials, elegant controlled silhouette and natural unsegmented hair. Generate one polished original illustration.",
+  "badge": {
+    "asset": "assets/ui/chief/general-insignia-v1.svg",
+    "sha256": "0a2f26e8dbf17a9e1d031cb004fc4a394f2c062353a4c2edd3a77aa2f5ab64ed",
+    "method": "Native SVG replacement for the existing native SVG crown; shield, diamond and command chevrons."
+  },
+  "visualReview": "Adult female general, severe black uniform, crimson banners, connected natural hair, face readable; portrait used without asset cropping or regeneration; viewport object-fit checked on desktop/mobile."
+}

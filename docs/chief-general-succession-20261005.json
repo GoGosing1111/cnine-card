@@ -1,0 +1,82 @@
+{
+  "date": "2026-10-05",
+  "status": "VERIFIED_PENDING_DEPLOYMENT",
+  "request": "하이희야♡ 다음 족장 집권부터 장군 집권으로 변경 여자 장군으로 공포스러운 독재 분위기로 변경 로비 여왕 표시 뱃지 및 일러스트 변경",
+  "confirmedScope": "다음 집권자부터 모두 장군",
+  "baseline": {
+    "checkedAt": "2026-10-05T14:06:49.889Z",
+    "readOnly": true,
+    "appointment": {
+      "id": "7497d6d5-51f8-4b18-a545-0f57bebddfd5",
+      "userId": 4977,
+      "nickname": "하이희야♡",
+      "ordinal": 9,
+      "source": "PLAY DK 투표",
+      "startsAt": "2026-09-28T17:56:36.580Z",
+      "endsAt": "2026-10-05T17:56:36.580Z",
+      "inaugurationVersion": 1790618196580,
+      "appointedBy": 1
+    },
+    "user": {
+      "id": "4977",
+      "nickname": "하이희야♡",
+      "status": "ACTIVE"
+    }
+  },
+  "policy": {
+    "source": "shared/chief-presentation-v1.mjs",
+    "currentTermRemainsQueen": true,
+    "newAppointmentAfterBaseline": "GENERAL",
+    "includesSamePersonReelection": true,
+    "includesCoupSuccession": true,
+    "allLaterTerms": true,
+    "extendingCurrentTermDoesNotSwitch": true,
+    "noAppointmentOrAuthorityWrites": true
+  },
+  "ui": {
+    "badge": "최고사령부 휘장 · 장군 · 집권 기간",
+    "illustration": "Fictional adult female general in black uniform and a crimson military fortress",
+    "surfaces": [
+      "public lobby default art",
+      "lobby status badge",
+      "reign detail",
+      "chief power panel",
+      "inauguration/replay"
+    ],
+    "equippedPersonalAvatarPreserved": true,
+    "existingDismissalAnd24HourWindowPreserved": true
+  },
+  "art": "preview/chief-general-20261005/art-manifest.json",
+  "validation": {
+    "unitTestsPassed": 8,
+    "browserChecksPassed": 58,
+    "viewports": [
+      "1440x1000",
+      "390x844",
+      "320x740"
+    ],
+    "currentQueenPreserved": true,
+    "nextGeneral": true,
+    "personalAvatarPreserved": true,
+    "overflow": false,
+    "pageErrors": [],
+    "accountWrites": 0,
+    "browserCommand": "node tests/chief-general-succession-20261005.browser.mjs",
+    "evidence": "preview/chief-general-20261005/qa/results.json"
+  },
+  "release": {
+    "mode": "scoped",
+    "base": "493234e7a94c2c76a24a855f0b353fb856e1ec62",
+    "baseDeployment": "082ed760-ab99-4e4c-9485-33aafa2eae76",
+    "reason": "Presentation-only chief succession boundary and lobby art/badge/ceremony. Current appointment and all authority/economy/transaction paths remain unchanged; focused boundary, ceremony, compiled lobby and Worker checks cover scope.",
+    "tests": [
+      "tests/chief-general-succession-20261005.test.mjs",
+      "tests/queen-coronation-v1.test.mjs"
+    ],
+    "checks": [
+      "test:lobby",
+      "check:worker"
+    ],
+    "command": "npm run deploy:production -- --scoped"
+  }
+}

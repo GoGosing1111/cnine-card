@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 112" fill="none">
+  <defs>
+    <linearGradient id="gold" x1="16" y1="4" x2="80" y2="106" gradientUnits="userSpaceOnUse"><stop stop-color="#8b6741"/><stop offset=".28" stop-color="#ffe7b1"/><stop offset=".53" stop-color="#b58b53"/><stop offset=".73" stop-color="#f2d49a"/><stop offset="1" stop-color="#775535"/></linearGradient>
+    <linearGradient id="steel" x2="1" y2="1"><stop stop-color="#34343b"/><stop offset="1" stop-color="#0a0c13"/></linearGradient>
+  </defs>
+  <path d="M48 5 75 18 77 64Q73 86 48 103 23 86 19 64L21 18Z" fill="url(#steel)" stroke="url(#gold)" stroke-width="2.5"/>
+  <path d="M48 12 68 22 70 62Q66 80 48 94 30 80 26 62L28 22Z" stroke="#b64448" stroke-width="1.2"/>
+  <path d="M48 23 53 39 69 44 53 49 48 67 43 49 27 44 43 39Z" fill="url(#gold)"/>
+  <path d="M48 31 52 44 48 57 44 44Z" fill="#8f2837"/>
+  <path d="M32 72 48 80 64 72M36 80 48 86 60 80" stroke="url(#gold)" stroke-width="3"/>
+  <g stroke="url(#gold)" stroke-width="2.5" stroke-linecap="round">
+    <path d="M11 33Q2 69 29 89M9 47 3 40M9 57 1 52M12 68 4 64M17 78 10 77M24 85 19 87"/>
+    <path d="M85 33Q94 69 67 89M87 47 93 40M87 57 95 52M84 68 92 64M79 78 86 77M72 85 77 87"/>
+  </g>
+  <path d="M35 104h26l-13 5Z" fill="url(#gold)"/>
+</svg>
