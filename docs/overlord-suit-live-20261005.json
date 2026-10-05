@@ -1,7 +1,7 @@
 {
   "version": "OVERLORD_LIVE_20261005_V6",
   "date": "2026-10-05",
-  "status": "VALIDATED_READY_FOR_PRODUCTION",
+  "status": "LIVE_VERIFIED",
   "authorization": [
     "오버로드 슈트 라이브 적용해",
     "X-BODY보다 높게 추천해서 적용"
@@ -62,7 +62,10 @@
     ],
     "pcAndMobile": "Normal/three-cut/execution, area single/multi, server damage equality, pause/cancel, replacement identity, PVP exclusion, fixed idle and non-mirrored title passed; no console errors.",
     "fullBattleDamage": "Each viewport: 220 normal receipts / 5917164 damage; 75 skill impacts / 2418096 damage; queue drained to zero.",
-    "compile": "node --check functions/api/[[path]].js"
+    "compile": "node --check functions/api/[[path]].js",
+    "finalLoaderTestsPassed": 9,
+    "totalUniqueTestsPassed": 42,
+    "production": "Eight production file hashes match; runtime catalog active/public at 62500000 PVE and zero PVP; foundation marker complete; X-BODY preserved at 50000000; no ownership grants."
   },
   "release": {
     "mode": "scoped",
@@ -74,6 +77,10 @@
       "tests/pve-battlefield-entry-v2117.test.mjs"
     ],
     "checks": [],
-    "command": "npm run deploy:production -- --scoped"
+    "command": "npm run deploy:production -- --scoped",
+    "source": "c0b3e1aa801a54d37f05951c6d5e2deba652d362",
+    "deployment": "https://472e4978.cnine-card.pages.dev",
+    "verification": "preview/overlord-live-v1/production.json",
+    "liveEquipmentId": 50
   }
 }

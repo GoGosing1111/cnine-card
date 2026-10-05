@@ -1,0 +1,91 @@
+{
+  "verifiedAt": "2026-10-05T10:22:52.657Z",
+  "source": "c0b3e1aa801a54d37f05951c6d5e2deba652d362",
+  "base": "https://cnine-card.pages.dev",
+  "checks": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "d4fd7683045607808f38e8a0eca9d6f7d3772ca08306ec6fd916ce6c9e17657b",
+      "matches": true
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "cbf64f6e945e0b7be8432b3c76c89311287018a401f3e829e96c3d12356b1c2a",
+      "matches": true
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "status": 200,
+      "sha256": "8d9f4757e97be609280845ef7493ef03a927988fa6b9e2c822e2f8ecff700820",
+      "matches": true
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "status": 200,
+      "sha256": "9426da11f987f62c6cb0e96c402c27b5debd1faefe1ad744d9cf6aaf2bdd3923",
+      "matches": true
+    },
+    {
+      "file": "assets/ui/project-v/account-battle-suits/overlord-v1/manifest.json",
+      "status": 200,
+      "sha256": "192459f7e7a630a37e164157e328cd62f6c22fab16e47078d5d97e9c47af3706",
+      "matches": true
+    },
+    {
+      "file": "assets/ui/project-v/account-battle-suits/overlord-v1/overlord.png",
+      "status": 200,
+      "sha256": "02ccd3d717c94cd001c538bb8a08cb9272fa1e7cae512e01f12a31b32f68d236",
+      "matches": true
+    },
+    {
+      "file": "assets/ui/project-v/account-battle-suits/overlord-v1/title-ornament.png",
+      "status": 200,
+      "sha256": "56a357918fb9c9777dab5a53cff6bd32fc812be186623aee5083ac17b09dcea1",
+      "matches": true
+    },
+    {
+      "file": "shared/overlord-suit-v1.mjs",
+      "status": 200,
+      "sha256": "b6081c4318afe5614ede8d29661f7a2cc74196f7486f8e973e44224e3f195e4c",
+      "matches": true
+    }
+  ],
+  "loadoutStatus": 401,
+  "readOnlyDatabaseCheck": true,
+  "catalog": [
+    {
+      "id": "50",
+      "code": "BATTLE_SUIT_OVERLORD",
+      "name": "오버로드",
+      "slot": "BATTLE_SUIT",
+      "pve_power": "62500000",
+      "pvp_power": "0",
+      "is_active": "1",
+      "is_public": "1",
+      "supply_enabled": "0",
+      "image_url": "/assets/ui/project-v/account-battle-suits/overlord-v1/overlord.png",
+      "description": "진홍 불꽃과 전용 칭호를 두른 상위 배틀슈트. 단죄·왕의 삼연참·왕관의 처형과 백호멸진을 사용합니다. 백호멸진은 전투 시작 즉시, 이후 18초마다 생존 적 전체에 슈트 기본 피해 6배를 가합니다. PVE 전용."
+    },
+    {
+      "id": "49",
+      "code": "BATTLE_SUIT_X_BODY",
+      "name": "X-BODY",
+      "slot": "BATTLE_SUIT",
+      "pve_power": "50000000",
+      "pvp_power": "0",
+      "is_active": "1",
+      "is_public": "1",
+      "supply_enabled": "0",
+      "image_url": "/assets/ui/project-v/account-battle-suits/x-sword-v1/x-body.png",
+      "description": "백금 검사의 X-BODY. 청광 대시·일섬·천광 연섬과 천룡 강림 전용 연출을 사용하는 PVE 전용 배틀슈트입니다."
+    }
+  ],
+  "marker": "1",
+  "ownershipCount": 0,
+  "passed": true,
+  "deployment": "https://472e4978.cnine-card.pages.dev",
+  "apiRuntimeVersion": "c9d136e8-5502-45f1-9bbb-f18450bb771b",
+  "clanWorkerVersion": "8ac75185-8254-4daa-a381-e37ddd399282"
+}
