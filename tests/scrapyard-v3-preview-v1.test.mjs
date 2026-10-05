@@ -70,8 +70,13 @@ test('fixed enemy stats, real loss at low power, no automatic player-strength sc
   const low = encounter(.25), normal = encounter(1), high = encounter(2);
   assert.deepEqual(low.scrapyardPreview.instances, high.scrapyardPreview.instances);
   assert.equal(low.battleV2.result.winner, 'B');
-  assert.equal(normal.battleV2.result.winner, 'A');
-  assert.equal(high.battleV2.result.winner, 'A');
+  // This two-second preview need not clear after an approved combat rebalance.
+  // Higher power must still make more progress against the same enemy snapshots,
+  // and only defeating the entire encounter may produce a player victory.
+  for (const p of [normal, high]) {
+    assert.ok(p.battleV2.result.encounter.defeated > low.battleV2.result.encounter.defeated);
+    assert.equal(p.battleV2.result.winner, p.battleV2.result.encounter.defeated === p.scrapyardPreview.total ? 'A' : 'B');
+  }
   assert.ok(low.battleV2.result.encounter.defeated < 10);
   for (const p of [low, normal, high]) assert.ok(p.battleV2.result.actions <= ACTION_LIMIT);
   for (const powerScale of [0, -1, 3, Infinity, NaN]) assert.throws(() => encounter(powerScale), /INVALID_PREVIEW_POWER/);

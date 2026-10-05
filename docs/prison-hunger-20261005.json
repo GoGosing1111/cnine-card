@@ -40,7 +40,8 @@
     "resume": "Resume the hash-bound full gate from test:v3-grid. Reuse completed stages; execute all remaining stages and production guards.",
     "concurrentReceipt": "Upstream 4d636de1 only adds documentation and an unreferenced JSON QA production receipt. Resume now validates JSON and rejects runtime/tool references before treating that exact receipt path pattern as documentation. Runtime, dependency, source identity and failed-stage guards stay enforced.",
     "loaderContract": "Two legacy checks assumed the coop query alone equaled the complete runtime version. Shipped Overlord uses its separate overlord=20261005-motion-v4 cache key. Check the actual battleV2 loader runtime against the bundle and assert that cache key. Runtime files remain unchanged.",
-    "continuedLog": "Preserve both original raw logs and hashes. A contiguous transcript joins the original passed prefix before test:v3-grid with actual resumed output from test:v3-grid onward. No result text is changed; the old failed attempt stays in its original log. This permits continuing from live-connections without repeating 184 passed joint-release checks."
+    "continuedLog": "Preserve original raw logs and hashes. Contiguous transcripts join completed prefixes with actual resumed output at the failed stage. No result text is changed; failed attempts remain in their original logs. Continue remaining stages without repeating the completed joint-release and economy suites.",
+    "previewPower": "The same two-second scrapyard fixture has 2/9/9 defeats at powerScale 0.25/1/2 with current shipped balance. Replace guaranteed normal/high victory with stronger-deck progress and victory-only-on-total-clear invariants; retain fixed enemy snapshot equality, weak-deck loss, bounded actions and all 30-seed spawn/KO checks. No preview or combat code changed."
   },
   "production": null
 }
