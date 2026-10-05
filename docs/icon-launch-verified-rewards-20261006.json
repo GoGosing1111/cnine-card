@@ -1,0 +1,32 @@
+{
+  "status": "READY_TO_SEND",
+  "operationKey": "ops:icon-launch:verified-rewards:20261006:v1",
+  "request": "2차인증 유저 전원 1000억에 300만 마별 지급해 아이콘 출시 기념 사료",
+  "title": "아이콘 출시 기념 사료",
+  "body": "아이콘 출시 기념 사료",
+  "delivery": "MESSAGE",
+  "eligibility": "발송 시점 ACTIVE 상태이며 user_second_verifications 기록이 있는 모든 계정. USER·ADMIN·OWNER 및 인증 제공자를 구분하지 않는다.",
+  "recipients": 532,
+  "roles": {"USER": 527, "ADMIN": 3, "OWNER": 2},
+  "recipientHash": "9708489493344284440962c2ff996e67d83141e5ec81522549871a18bf1d89ce",
+  "gifts": [
+    {"campaignKey": "icon-launch-verified-coin-20261006-v1", "rewardType": "COIN", "rewardAmount": 100000000000, "totalAmount": "53200000000000"},
+    {"campaignKey": "icon-launch-verified-star-20261006-v1", "rewardType": "MASTER_STAR", "rewardAmount": 3000000, "totalAmount": "1596000000"}
+  ],
+  "messageContract": "계정당 보상별 메시지 2통. 각 메시지 1회 수령. 같은 작업 키 재실행은 최초 영수증만 반환하며 신규 인증자에게 추가 발송하지 않는다.",
+  "atomicity": "대상 목록 해시 재확인 후 두 캠페인의 메시지·보상·감사 로그·완료 영수증을 한 트랜잭션으로 처리한다. 발송 시 잔액은 변경하지 않고 기존 수령 경로를 사용한다.",
+  "checks": {
+    "scopedTests": "node --test --test-concurrency=1 tests/icon-launch-verified-rewards-20261006.test.mjs",
+    "passed": 6,
+    "existingCampaigns": 0,
+    "relatedIconLaunchEvents": 0,
+    "dryRunMessages": 1064,
+    "dryRunRewards": 1064,
+    "dryRunMissing": 0,
+    "dryRunDuplicates": 0,
+    "partialFailureRolledBack": true,
+    "dryRunRolledBack": true
+  },
+  "evidenceDirectory": "C:/Users/User/.codex/tmp/icon-launch-verified-rewards-20261006/",
+  "scope": "일회성 운영 발송 도구·관련 검사·기록만 변경. 일반 CMS 한도, 재화 정책, 게임 실행 파일 및 출시 플래그 변경 없음. 운영 빌드 재배포 불필요."
+}
