@@ -19,7 +19,6 @@
     "pvpFormulaChanges": false
   },
   "notice": "docs/battle-suit-skill-chip-reform-user-notice-20261005.md",
-  "engineSha256": "17eb712b7455d0da2afadc1bf58c4cf8ee72137ce0e38fcf2452641b8f158d32",
   "simulation": {
     "kind": "SYNTHETIC_SINGLE_BOSS_NOT_LIVE_USER_WIN_RATES",
     "bossPower": 80000000,
@@ -96,6 +95,66 @@
     "checks": [
       "check:worker"
     ],
-    "deploymentStatus": "PENDING"
-  }
+    "deploymentStatus": "COMPLETED",
+    "sourceCommit": "fc397c48f8ceb4a5450f3c81da4f4510e2be0e3a",
+    "deploymentUrl": "https://4abfc34c.cnine-card.pages.dev",
+    "apiRuntimeVersion": "b633c578-5bcc-4c62-b359-9ff3d9c20cc4",
+    "clanWorkerVersion": "fc638858-20b1-4955-bd47-f68a8a0305f5",
+    "verification": {
+      "regressionsPassed": 74,
+      "regressionsFailed": 0,
+      "workerSyntax": "passed",
+      "productionReleaseGuards": "passed",
+      "hyperdriveQueryCache": "disabled",
+      "production": {
+        "checkedAt": "2026-10-05T04:44:36.939Z",
+        "origin": "https://cnine-card.pages.dev",
+        "sourceCommit": "fc397c48f8ceb4a5450f3c81da4f4510e2be0e3a",
+        "deploymentId": "4abfc34c-fc02-40dc-81be-6a63d5d9d2c8",
+        "deploymentUrl": "https://4abfc34c.cnine-card.pages.dev",
+        "files": [
+          {
+            "path": "docs/battle-suit-skill-chip-reform-user-notice-20261005.md",
+            "status": 200,
+            "sha256LF": "82000a6434092e1625cd07b8ba5caa41666734adb21fe897bd163455cb25b60d"
+          },
+          {
+            "path": "shared/battle-suit-skill-chips.mjs",
+            "status": 200,
+            "sha256LF": "1a0d72937a9cc91780990343d647057610c89cb64ed383a96c69fed215e95333"
+          }
+        ],
+        "authentication": [
+          {
+            "path": "/api/character/skill-chips",
+            "status": 401
+          },
+          {
+            "path": "/api/character/loadout",
+            "status": 401
+          }
+        ],
+        "worker": {
+          "checkedAt": "2026-10-05T04:43:00.291Z",
+          "sourceSha256": "c0329d34d76046b8b82aae510512268dc08965c2f043899937cb1a0e5843fea1",
+          "sourceBytes": 6317637,
+          "checks": {
+            "skillMultiplierFour": true,
+            "suitExcludedFromMonsterHpFloor": true,
+            "boundedPierceClock": true
+          },
+          "active": [
+            {
+              "version_id": "b633c578-5bcc-4c62-b359-9ff3d9c20cc4",
+              "percentage": 100
+            }
+          ]
+        },
+        "liveAccountBattleExecuted": false,
+        "productionDatabaseWrites": false
+      },
+      "log": "C:/Users/User/.codex/tmp/battle-suit-growth-audit-20261005/deploy.log"
+    }
+  },
+  "engineSha256LF": "af791bedee4df466232966c7202e282b9c01f4ee0a0530ee8f126ecb00c0f20f"
 }
