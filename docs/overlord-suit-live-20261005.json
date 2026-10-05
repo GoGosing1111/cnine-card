@@ -131,7 +131,7 @@
   },
   "titlePlacement": {
     "date": "2026-10-05",
-    "status": "VERIFIED_PENDING_DEPLOYMENT",
+    "status": "LIVE_VERIFIED",
     "request": "오버로드 슈트 착용할때는 닉네임 대신 저 위치보다 살짝 위로해서 호칭 뜨게 해",
     "behavior": "Only Overlord hides the account nickname. The ornamental title now occupies the line just above the old nickname, with no extra 72-unit gap reserved for a second label.",
     "preserved": "Approved title artwork, font, size, crimson aura, sword motion and server/CMS values are unchanged.",
@@ -153,7 +153,9 @@
       "screenshots": [
         "preview/overlord-live-v1/qa/title-placement/desktop.png",
         "preview/overlord-live-v1/qa/title-placement/mobile.png"
-      ]
+      ],
+      "entryTestsPassed": 12,
+      "production": "Seven exact production entry URLs match. The actual production main loader rendered the title with nickname hidden, no gun and crimson aura; fixture-only anonymous check performed without player writes."
     },
     "release": {
       "mode": "scoped",
@@ -164,7 +166,12 @@
         "tests/pve-battlefield-entry-v2117.test.mjs"
       ],
       "reason": "Local Overlord title/name presentation only. Shared consumers rebuilt, paired runtime versions refreshed; actual PC/mobile label lifecycle and entry/cache regressions cover the change.",
-      "command": "npm run deploy:production -- --scoped"
+      "command": "npm run deploy:production -- --scoped",
+      "source": "789b9a2ef6947acbdbde80ebbaedc4cb4eedc8fd",
+      "deployment": "https://789b81e0.cnine-card.pages.dev",
+      "apiRuntime": "cb5cc386-3808-4e0d-8419-975772dee453",
+      "clanWorker": "59e33a88-4788-4767-a9fe-6703dece22e6",
+      "verification": "preview/overlord-live-v1/qa/title-placement/production.json"
     }
   }
 }
