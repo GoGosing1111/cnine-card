@@ -1,0 +1,160 @@
+{
+  "checkedAt": "2026-10-05T17:34:48.937Z",
+  "sourceCommit": "b8352c3f",
+  "pages": "https://0ab95ef3.cnine-card.pages.dev",
+  "apiRuntimeVersion": "ad377e5f-6145-4e51-b798-7963ada5d00d",
+  "files": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "6577038e6705154e5135ddabf77574d339b31c3d1537e0c2e7327776c4406d08",
+      "matchesSource": true
+    },
+    {
+      "file": "js/icon-fusion-v1.bundle.js",
+      "status": 200,
+      "sha256": "1b2d35cb3e7c6fc4cfa493a29bd02265a5a529e520bc827878fcb51969db57d1",
+      "matchesSource": true
+    }
+  ],
+  "videoRange": {
+    "status": 200,
+    "contentRange": null,
+    "length": 7525823
+  },
+  "playback": {
+    "url": "https://cnine-card.pages.dev/assets/videos/icon/icon-fusion-success-20261006.mp4",
+    "checkedAt": "2026-10-05T17:34:45.435Z",
+    "metadata": {
+      "duration": 10.005,
+      "width": 720,
+      "height": 1280,
+      "currentTime": 0.307063,
+      "paused": false,
+      "error": null
+    },
+    "naturalEnded": true,
+    "productionAccountTransactions": 0
+  },
+  "settings": {
+    "revision": 3,
+    "enabled": true,
+    "successVideoUrl": "/assets/videos/icon/icon-fusion-success-20261006.mp4",
+    "successVideoDurationMs": 11000,
+    "approvedAt": "2026-10-05T17:34:48.558Z",
+    "approval": "USER_EXPLICIT_VIDEO_AND_OPEN_20261006",
+    "policy": {
+      "version": 2,
+      "coinCost": 500000000000,
+      "masterStarCost": 5000000,
+      "superstarCount": 1,
+      "furCount": 1,
+      "enhancementLevel": 13,
+      "successChancePpm": 100000,
+      "chanceTotal": 1000000,
+      "successRate": 10,
+      "resultMode": "SELECT",
+      "consumeOnFailure": true,
+      "pityAttempts": 0,
+      "basePower": 180000,
+      "enhancementEnabled": false,
+      "materialsResetRemainingEnhancement": true
+    },
+    "reviewStatus": "OPEN",
+    "requestId": "icon-video-open-20261006-v1",
+    "updatedAt": "2026-10-05T17:34:48.558Z",
+    "updatedBy": "USER_INSTRUCTION_CODEX"
+  },
+  "receipt": {
+    "operation": "icon_fusion_video_open_20261006_v1",
+    "authorization": "User: 영상 이거로 등록하고 아이콘 개방 해",
+    "createdAt": "2026-10-05T17:34:48.558Z",
+    "video": {
+      "url": "/assets/videos/icon/icon-fusion-success-20261006.mp4",
+      "durationMs": 10005,
+      "bytes": 7525823,
+      "sha256": "41efa5f11c861741425eabb5a69e48d63177c6b6494be9d6efa59ea4e20c7f78",
+      "width": 720,
+      "height": 1280
+    },
+    "published": {
+      "url": "https://cnine-card.pages.dev/assets/videos/icon/icon-fusion-success-20261006.mp4",
+      "status": 200,
+      "contentType": "video/mp4",
+      "sha256": "41efa5f11c861741425eabb5a69e48d63177c6b6494be9d6efa59ea4e20c7f78",
+      "checkedAt": "2026-10-05T17:34:48.105Z"
+    },
+    "before": {
+      "revision": 2,
+      "enabled": false,
+      "successVideoUrl": "",
+      "successVideoDurationMs": 12000,
+      "approvedAt": "2026-09-30",
+      "approval": "USER_EXPLICIT_LIVE_RELEASE",
+      "policy": {
+        "version": 1,
+        "coinCost": 100000000000,
+        "masterStarCost": 5000000,
+        "superstarCount": 1,
+        "furCount": 1,
+        "enhancementLevel": 13,
+        "successChancePpm": 100000,
+        "chanceTotal": 1000000,
+        "successRate": 10,
+        "resultMode": "SELECT",
+        "consumeOnFailure": true,
+        "pityAttempts": 0,
+        "basePower": 180000,
+        "enhancementEnabled": false,
+        "materialsResetRemainingEnhancement": true
+      },
+      "reviewStatus": "FINAL_REVIEW_PENDING",
+      "requestId": "ec58b36a-e4f5-4fcc-b96a-a107c6de4568",
+      "updatedAt": "2026-09-30T04:41:28.776Z",
+      "updatedBy": "USER_INSTRUCTION_CODEX"
+    },
+    "after": {
+      "revision": 3,
+      "enabled": true,
+      "successVideoUrl": "/assets/videos/icon/icon-fusion-success-20261006.mp4",
+      "successVideoDurationMs": 11000,
+      "approvedAt": "2026-10-05T17:34:48.558Z",
+      "approval": "USER_EXPLICIT_VIDEO_AND_OPEN_20261006",
+      "policy": {
+        "version": 2,
+        "coinCost": 500000000000,
+        "masterStarCost": 5000000,
+        "superstarCount": 1,
+        "furCount": 1,
+        "enhancementLevel": 13,
+        "successChancePpm": 100000,
+        "chanceTotal": 1000000,
+        "successRate": 10,
+        "resultMode": "SELECT",
+        "consumeOnFailure": true,
+        "pityAttempts": 0,
+        "basePower": 180000,
+        "enhancementEnabled": false,
+        "materialsResetRemainingEnhancement": true
+      },
+      "reviewStatus": "OPEN",
+      "requestId": "icon-video-open-20261006-v1",
+      "updatedAt": "2026-10-05T17:34:48.558Z",
+      "updatedBy": "USER_INSTRUCTION_CODEX"
+    },
+    "ownershipWrites": 0,
+    "currencyWrites": 0
+  },
+  "regressions": {
+    "file": "tests/icon-fusion-live-20260930.test.mjs",
+    "passed": 22,
+    "failed": 0
+  },
+  "operationalWrites": {
+    "settings": 1,
+    "receipt": 1,
+    "ownership": 0,
+    "currency": 0
+  },
+  "replayed": false
+}
