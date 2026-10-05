@@ -1,0 +1,43 @@
+{
+  "checkedAt": "2026-10-05T16:26:58.212Z",
+  "commit": "69a14e31f593c0390840c03791880d63a5c51f98",
+  "origin": "https://cnine-card.pages.dev",
+  "apiMode": "local fixtures; all API requests intercepted; no live account writes",
+  "assets": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "9724750480efc6452663fd85afcee2b838a803c75e9807d015517593c8bc2560",
+      "bytes": 21472
+    },
+    {
+      "path": "js/app.js",
+      "status": 200,
+      "sha256": "036d7afc91d0f8236f63d6071782e4661b3a225cb08d3c285bf51299ee8ce260",
+      "bytes": 735905
+    },
+    {
+      "path": "css/prison-layout-20261006.css",
+      "status": 200,
+      "sha256": "c139a41e0c670c7de0c2991fa3ec076e5cc89e4e874649b3c2e932ae4fe86362",
+      "bytes": 6070
+    },
+    {
+      "path": "assets/ui/prison/prisoner-guarded-hall-20261006.png",
+      "status": 200,
+      "sha256": "f987079d84d8e3c4cd32c8447968701aceab505559a928defe3a3c632121a0a7",
+      "bytes": 1660235
+    },
+    {
+      "path": "assets/ui/prison/general-guarded-prison-20261005.png",
+      "status": 200,
+      "sha256": "ce92b7a2de31ceff0adb5f7e8e17086c475e428cacd526320758451d280ef7bc",
+      "bytes": 2404460
+    }
+  ],
+  "checks": [
+    "Live public loader: new prisoner image loaded, chat above roster/funding, hit directly after selected meal"
+  ],
+  "errors": [],
+  "interceptedPosts": []
+}

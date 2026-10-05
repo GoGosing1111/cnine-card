@@ -21,3 +21,11 @@
 - 운영 변경은 `js/app.js`의 감옥 렌더링, 전용 스타일, 새 PNG 및 HTML 캐시에 한정한다. 공통 인증·서버·DB 변경이 없어 scoped 배포를 사용한다.
 - 실제 운영 기준 SHA: `ae09cc74a9e725809c4d0496420115aed2b14fba` (Pages `fcf3ce83-ab99-4a00-bd9d-c3b4723673c5`). 이후 기존 기록 커밋은 문서·검수 이미지뿐이다.
 - 지정 배포 검사: `SCOPED_DEPLOY_TESTS=["tests/prison-system-v1950.test.mjs"]`, `SCOPED_DEPLOY_CHECKS=[]`. 배포 명령 내부에서 감옥 회귀와 production guard·캐시 검사를 실행한다. 전체 검사 및 이미 통과한 브라우저 검수의 무관한 재실행은 하지 않는다.
+
+## 운영 반영 완료
+
+- 소스 `69a14e31f593c0390840c03791880d63a5c51f98`, Pages `https://4bb2b6b9.cnine-card.pages.dev`.
+- 감옥 회귀 12/12, production guard·Hyperdrive 캐시 검사 통과. 지정 scoped 배포 명령 정상 종료.
+- 2026-10-06 01:27 KST: 운영 HTML·JS·전용 CSS·신규 죄수·보존 배경 5개 파일의 SHA-256이 검수본과 일치했다.
+- 운영 공개 로더 화면에서 상단 채팅·사식 다음 때리기·신규 죄수 로딩 확인, 브라우저 오류 0. 모든 API를 로컬 검수 응답으로 대체했으며 POST 요청은 없었다.
+- 증빙: `preview/prison-layout-20261006/qa/production.json`, `production-layout-desktop.png`. 이 확인 기록은 문서·이미지뿐이므로 추가 게임 검사나 재배포하지 않는다.
