@@ -66,8 +66,9 @@
   },
   "release": {
     "mode": "scoped",
-    "lastVerifiedDeployedBase": "45059b3b78a8462e1c7b772559cadf8a857f9fe4",
-    "deploymentEvidence": "fbcb7b0d-948b-4c16-aeb3-a1a3c4680e89",
+    "lastVerifiedDeployedBase": "476ededcad35468ca3ed32f9a5ad08e26ae34e3b",
+    "deploymentEvidence": "ee996285-366e-417f-a7d0-955b94d260bf",
+    "integrated": "Preserved nurse healing nerf 476ededc and deployment record b3a20820; rebuilt ten V3 consumers from merged source.",
     "rationale": "One new approved suit uses the established catalog and PVE rendering/scheduler extension points. No schema, transaction infrastructure, authentication, dependencies or launch gates were changed. Existing suit regressions and atomic catalog retry tests passed. Retain results for unchanged source and run final main-loader regression and required compiler/release/cache/Hyperdrive checks through designated scoped deployment.",
     "tests": [
       "tests/pve-battlefield-entry-v2117.test.mjs"
