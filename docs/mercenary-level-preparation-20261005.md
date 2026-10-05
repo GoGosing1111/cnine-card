@@ -60,3 +60,14 @@
 `tests/v3-wide-grid-preview-v1.test.mjs:73`의 기존 비교용 PVE는 처치 10마리를 기대하지만 실제 9마리였다. 변경 전 배포 `c1bf20f7`의 `_mercenary_account.js`, `_mercenary_account_routes.js`, `mercenary-combat-link-v2103.mjs`를 Node 로더로 주입한 동일 테스트도 **9 ≠ 10**으로 실패했다. 나머지 입력/원본은 이번 작업에서 변경하지 않았으며, 성장 스냅샷이 없는 해당 경로에 새 보너스는 적용되지 않는다. 이 과거 기대값을 맞추기 위해 전투/보상/테스트를 수정하지 않는다.
 
 최초 실패로 실제 배포는 시작하지 않았다. 후속 scoped 배포는 기존 130개 결과를 유지하고 신규 성장 파일과 메인 로더 연결만 선택해 실행하며, 아직 실행하지 않은 Worker 컴파일 및 배포 보호 검사를 수행한다. 이는 AGENTS의 무관한 오래된 실패 분리·전체 반복 금지 규칙을 따른다.
+
+
+## 운영 준비본 배포 완료 · 2026-10-06 00:05 KST
+
+- 구현 커밋 `5cf2e4af`, 배포 커밋 `c0c82cd181520a1ec12ed2749a2a5c3ee78516b6`, origin/main 반영.
+- 후속 scoped 검사 **31/31 통과**, Worker 문법·번들 컴파일·출시 보호·Hyperdrive 캐시 OFF 확인 후 지정 명령으로 배포 성공.
+- API Runtime `fa46f3cd-b98c-4af0-bf4a-baa49515b055`, Pages `90f047d0-f8ce-4e81-81a7-0d0b42263d6f`.
+- 운영 공개 feature: `releaseEnabled=false`, 만렙 20, 돌파 `[5,10,15,20]`. 성장 POST는 **423 / MERCENARY_LEVEL_PREPARATION**, 비로그인 CMS 조회는 401.
+- 배포된 공통 성장 정책·CMS 편집기·성장실 모듈이 커밋과 일치하고, 검수 페이지 200을 확인했다.
+- 운영 DB 읽기 확인: 성장 정책 미등록(기본 OFF/전체 미정), 새 성장 테이블 미설치, 성장 거래 **0건**. 실제 카드·경험치·재화 변경 없음.
+- 상세 영수증은 `preview/mercenary-level-preparation-20261005/qa/production.json`. 이 기록 추가는 문서만 커밋·원격 반영하며 재배포하지 않는다.

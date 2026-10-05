@@ -1,0 +1,60 @@
+{
+  "web": {
+    "verifiedAt": "2026-10-05T15:04:34.192Z",
+    "commit": "c0c82cd181520a1ec12ed2749a2a5c3ee78516b6",
+    "deployment": {
+      "id": "90f047d0-f8ce-4e81-81a7-0d0b42263d6f",
+      "url": "https://90f047d0.cnine-card.pages.dev"
+    },
+    "feature": {
+      "releaseEnabled": false,
+      "rules": {
+        "version": "mercenary-level-20261005",
+        "maxLevel": 20,
+        "milestones": [
+          5,
+          10,
+          15,
+          20
+        ],
+        "materialKind": "MERCENARY",
+        "materialRank": "SAME_RANK",
+        "preserveOriginal": true,
+        "coinCost": 0,
+        "masterStarCost": 0,
+        "maxMaterials": 100,
+        "failure": "CURRENT_LEVEL_EXP_ZERO"
+      }
+    },
+    "trainingStatus": 423,
+    "trainingCode": "MERCENARY_LEVEL_PREPARATION",
+    "adminWithoutToken": 401,
+    "hashes": [
+      {
+        "file": "shared/mercenary-level-v1.mjs",
+        "sha256": "49fbee62543fe4cf8dc191fe83cf8b1dd75ca3dc39be2801e8ac1198023d5a11"
+      },
+      {
+        "file": "admin/mercenary-level-admin-v1.mjs",
+        "sha256": "e74f8df75f3d88d743ce72b7b6dd3a7dacba63709728e3624b2a96b404c392f0"
+      },
+      {
+        "file": "mercenary-codex/leveling/app.mjs",
+        "sha256": "5f3b2e6236d488a28aed8905116a7625d5486cb89d90bc21dbf8f3807f110e25"
+      }
+    ]
+  },
+  "databaseReadOnly": {
+    "verifiedAt": "2026-10-05T15:05:18.427Z",
+    "policy": "UNSET_DEFAULT_OFF",
+    "growthTable": null,
+    "operations": 0
+  },
+  "apiRuntimeVersion": "fa46f3cd-b98c-4af0-bf4a-baa49515b055",
+  "scopedChecks": {
+    "initialPassed": 130,
+    "existingBaselineFailure": 1,
+    "finalPassed": 31
+  },
+  "newFeatureMigrationsApplied": false
+}
