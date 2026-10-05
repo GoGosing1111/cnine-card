@@ -61,5 +61,22 @@
     "equipAndUnequip": true,
     "errors": []
   },
-  "evidenceDirectory": "C:/Users/User/.codex/tmp/raid-bus-driver-title-live-v1"
+  "evidenceDirectory": "C:/Users/User/.codex/tmp/raid-bus-driver-title-live-v1",
+  "validation": {
+    "equipmentLoading": {
+      "status": "passed",
+      "tests": 11,
+      "implementationCommit": "91714e9a",
+      "repeat": false
+    },
+    "retry": {
+      "reason": "Correct a missing brace in the newly added SQLite test fixture. Production implementation unchanged.",
+      "tests": [
+        "tests/raid-bus-driver-title-20261005.test.mjs"
+      ],
+      "checks": [
+        "check:worker"
+      ]
+    }
+  }
 }

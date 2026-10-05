@@ -19,7 +19,15 @@ async function fixture(t,postgres){
   DB=new __postgresCompatTest.PostgresD1Database({async query(input){const sql=typeof input==='string'?input:input.text,args=typeof input==='string'?[]:input.values||[];if(fail(sql,args))throw Error('INJECTED_FAILURE');const r=await pg.query(sql,args);return {...r,rowCount:r.affectedRows??r.rows.length};}});
  }else{
   sqlite=new DatabaseSync(':memory:');sqlite.exec(schema);
-  const prepare=(sql,args=[])=>({bind(...v){return prepare(sql,v)},async first(){return sqlite.prepare(sql).get(...args)||null},async all(){return {results:sqlite.prepare(sql).all(...args)}},async run(){if(fail(sql,args))throw Error('INJECTED_FAILURE');return {meta:{changes:Number(sqlite.prepare(sql).run(...args).changes)}}});
+  const prepare=(sql,args=[])=>({
+   bind(...v){return prepare(sql,v)},
+   async first(){return sqlite.prepare(sql).get(...args)||null},
+   async all(){return {results:sqlite.prepare(sql).all(...args)}},
+   async run(){
+    if(fail(sql,args))throw Error('INJECTED_FAILURE');
+    return {meta:{changes:Number(sqlite.prepare(sql).run(...args).changes)}};
+   }
+  });
   DB={prepare,async batch(rows){sqlite.exec('BEGIN');try{const result=[];for(const row of rows)result.push(await row.run());sqlite.exec('COMMIT');return result;}catch(e){sqlite.exec('ROLLBACK');throw e;}}};
  }
  t.after(()=>pg?pg.close():sqlite.close());
