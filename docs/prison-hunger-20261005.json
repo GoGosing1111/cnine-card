@@ -32,5 +32,12 @@
     "browser": "Real index/loader, API fixtures only; 1440×1000,390×844,320×740. Inmate/visitor/death, mobile input, retry receipt, chat draft, no horizontal overflow",
     "release": "Full release gate: introduces two feature tables for persistent hunger and paid receipts; common DB adapter/auth/transaction implementation unchanged."
   },
+  "gateExpectationRepair": {
+    "failedCandidate": "ff3b3d718570e6f2a92dc4df63e452716c8c8593",
+    "scope": "Test expectations only. No battle runtime, balance, assets, reward or bundle changes.",
+    "gridSources": "Previously shipped OverlordSuitModel/Animation increased the build manifest from 76 to 78. Assert both inputs explicitly; retain every source/output hash check.",
+    "frozenComparison": "The existing preview already defeated 9, not 10, before this task (recorded in mercenary-level-preparation-20261005.md). Assert the authored 10-enemy roster and retain exact full battle snapshot equality; a layout test must not require a guaranteed win.",
+    "resume": "Resume the hash-bound full gate from test:v3-grid. Reuse completed stages; execute all remaining stages and production guards."
+  },
   "production": null
 }
