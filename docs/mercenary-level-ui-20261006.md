@@ -44,3 +44,12 @@
 한 화면에 한정된 수정이므로 관련 브라우저 검수와 영수증 회귀 후 `npm run deploy:production -- --scoped`를 사용한다. 배포 직전 Cloudflare 실제 운영 SHA를 확인하며, 다른 작업의 미배포 서버 변경이 끼어 있으면 해당 배포가 완료된 뒤 적용한다. 같은 코드의 무관한 전체 검사는 반복하지 않는다.
 
 선행 감옥 배포 완료를 확인한 기준: `83886e94beeaeeca04a954d07a3ef726112fded7`, Pages `73c53856-0779-4744-9d6f-ea0bd0bf6c33`. 이 기준 이후 용병 UI만 scoped 반영한다. 선택 검사는 `tests/mercenary-level-ui-20261006.test.mjs`이며 광범위한 게임 검사나 DB 설치를 추가하지 않는다.
+
+## 운영 반영 완료
+
+- 커밋 `ae09cc74a9e725809c4d0496420115aed2b14fba`, Pages `fcf3ce83-ab99-4a00-bd9d-c3b4723673c5`.
+- 지정 회귀 **5/5 통과**, production guard·Hyperdrive 캐시 검사 통과 후 scoped 명령 정상 종료.
+- 2026-10-06 00:57 KST 운영 확인: HTML·JS·CSS·새 배경 7개 파일의 SHA-256 일치. 실제 운영 주소의 성장 화면, 봉인, 건너뛰기와 결과 복귀 확인. 브라우저 오류 0, 검수 화면 POST 0.
+- `/api/mercenaries/v3/leveling/feature`의 `releaseEnabled=false` 확인. 운영 활성화 및 미정 수치 설정은 수행하지 않았다.
+- 증빙: `preview/mercenary-level-ui-20261006/qa/production.json`, `production-growth.png`, `production-breakthrough.png`.
+- 이 확인 기록은 문서·QA 증빙만 추가하므로 추가 운영 배포나 게임 검사를 수행하지 않는다.

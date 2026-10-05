@@ -1,0 +1,45 @@
+{
+  "at": "2026-10-05T15:57:19.576Z",
+  "commit": "ae09cc74a9e725809c4d0496420115aed2b14fba",
+  "deployment": {
+    "id": "fcf3ce83-ab99-4a00-bd9d-c3b4723673c5",
+    "url": "https://fcf3ce83.cnine-card.pages.dev"
+  },
+  "releaseEnabled": false,
+  "files": [
+    {
+      "file": "mercenary-codex/leveling/index.html",
+      "sha256": "1e2b57300a78c53ae84604dd44ef2cf760ba0e0b8acd4134a416c7f9101f3dac"
+    },
+    {
+      "file": "mercenary-codex/leveling/app.mjs",
+      "sha256": "23d4840edbc58e0c5fb941e6a4d84a8203c026685230ed8b8a48ea89803672bd"
+    },
+    {
+      "file": "mercenary-codex/leveling/style.css",
+      "sha256": "9f6d634d79fe62cb6579222132bc10086c2f949d65a1763ea8917a20012350bc"
+    },
+    {
+      "file": "mercenary-codex/leveling/breakthrough.mjs",
+      "sha256": "c0b7f1027924bb19761525c38c2e8404bae97a9c525d5f6f97202f038538d95b"
+    },
+    {
+      "file": "mercenary-codex/leveling/breakthrough.css",
+      "sha256": "0022ff4201cbde1502d3347be73eb62bc608195bf646b09678ef1c821b071c00"
+    },
+    {
+      "file": "mercenary-codex/leveling/receipt-presentation.mjs",
+      "sha256": "d9d5462a7afac512b99f20a653345dbe66b5fda701a8e594dffca620eb774d4c"
+    },
+    {
+      "file": "assets/ui/mercenary-growth-20261006/chamber.webp",
+      "sha256": "7a8104705b9e8c01fdd28c9343c1049c24616e325f44caf3e58d453e9d2551c0"
+    }
+  ],
+  "preview": {
+    "rendered": true,
+    "breakthrough": true,
+    "noWrites": true,
+    "errors": []
+  }
+}
