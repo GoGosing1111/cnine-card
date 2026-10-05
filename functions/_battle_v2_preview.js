@@ -15,6 +15,7 @@ import {cooperativeCombatGroupMs} from '../shared/cooperative-combat-clock-v3.mj
 import {PVP_SPEED_REFORM,PVP_GUARD_SHIELD_CURVE,isPvpSpeedCard,speedComboPlan,speedComboSnapshots} from '../shared/pvp-speed-reform-v1.mjs';
 import {validatedIconSnapshot,iconDefinition,iconHealingAmount} from '../shared/icon-roles-v1.mjs';
 import {createIconCombatRuntime} from './_icon_combat.js';
+import {ICON_SUPREMACY,iconStatFloor} from '../shared/icon-supremacy-v1.mjs';
 
 // =====================================================================
 // V1936: 계열 개편 (S1)
@@ -278,7 +279,8 @@ export function buildFighter(card, index, side, uniqueAbility = null, battleMode
     speed:   neutral.speed   + (baseProfile.speed   - neutral.speed)   * stackFactor,
     label:   baseProfile.label
   };
-  const power = Math.max(1, Number(card.effectivePower || card.power || 1));
+  const superiority=iconRole?.supremacy;
+  const power = Math.max(1, Number(card.effectivePower || card.power || 1),superiority?Math.ceil(superiority.power*ICON_SUPREMACY.margin)+Number(card.equipmentShare||0):0);
   const mode = String(battleMode || 'PVP').toUpperCase();
   const attackRoleMultiplier = type === 'ATTACK' ? (mode === 'PVE' ? 1.15 : 1.05) : 1;
   const defenseRoleMultiplier = type === 'DEFENSE' ? (mode === 'PVE' ? 1.15 : 1.10) : 1;
@@ -302,11 +304,12 @@ export function buildFighter(card, index, side, uniqueAbility = null, battleMode
   const hpScale = mode === 'PVE' ? 2.34 : 2.6;
   const rankHp=mode==='PVE'&&side==='A'?clamp(card.accountRankBonus?.hpBp||0,0,1500):0;
   const rankAttack=mode==='PVE'&&side==='A'?clamp(card.accountRankBonus?.attackBp||0,0,1000):0;
-  const maxHp = Math.max(100, Math.round(power * profile.hp * hpScale * (1 + hpPct / 100) * (1 + Number(advancementModifiers.maxHpPercent || 0) / 100) * (1 + rankHp / 10000)));
-  const attack = Math.max(10, Math.round(power * profile.attack * 1.05 * (1 + attackPct / 100) * (1 + rankAttack / 10000)));
-  const defense = Math.max(1, Math.round(power * profile.defense * 0.85 * (1 + defensePct / 100)));
+  const floor=key=>iconStatFloor(superiority,mode,key,Number(card.equipmentShare||0),iconDef?.role);
+  const maxHp = Math.max(100, Math.round(power * profile.hp * hpScale * (1 + hpPct / 100) * (1 + Number(advancementModifiers.maxHpPercent || 0) / 100) * (1 + rankHp / 10000)),Math.ceil(floor('maxHp')*(1+rankHp/10000)));
+  const attack = Math.max(10, Math.round(power * profile.attack * 1.05 * (1 + attackPct / 100) * (1 + rankAttack / 10000)),Math.ceil(floor('attack')*(1+rankAttack/10000)));
+  const defense = Math.max(1, Math.round(power * profile.defense * 0.85 * (1 + defensePct / 100)),floor('defense'));
   // V1936: 기저값을 더해 행동 빈도 격차를 압축한다(속도형 1.6배 -> 1.2배).
-  const speed = Math.max(35, Math.round((70 + power * S1.speedBaseK + power * profile.speed * 0.10) * (1 + speedPct / 100)));
+  const speed = Math.max(35, Math.round((70 + power * S1.speedBaseK + power * profile.speed * 0.10) * (1 + speedPct / 100)),floor('speed'));
   const shieldFloor = mode === 'PVE' ? 0.22 : 0.18;
   const shieldCap = mode === 'PVE' ? 0.38 : 0.32;
   // V1830 호송작전은 구간 사이 카드 체력을 계승한다. 값이 없는 기존 PVE/PVP는
@@ -2213,8 +2216,8 @@ export async function handleBattleV2Preview({ path, request, env, deps }) {
   const enemyUniqueMap = new Map((uniqueStates[1]?.cards || []).map(card => [String(card.id), card]));
   const ownWithEquipment = distributeEquipment(ownCards, Number(ownBonus?.pvp || 0));
   const enemyWithEquipment = distributeEquipment(enemyCards, Number(enemyBonus?.pvp || 0));
-  const teamA = ownWithEquipment.map((card, index) => { const uniqueCard = ownUniqueMap.get(String(card.id)); return buildFighter({ ...card, uniqueAdvancement: uniqueCard?.uniqueAdvancement || null }, index, 'A', uniqueCard?.uniqueAbility || null); });
-  const teamB = enemyWithEquipment.map((card, index) => { const uniqueCard = enemyUniqueMap.get(String(card.id)); return buildFighter({ ...card, uniqueAdvancement: uniqueCard?.uniqueAdvancement || null }, index, 'B', uniqueCard?.uniqueAbility || null); });
+  const teamA = ownWithEquipment.map((card, index) => { const uniqueCard = ownUniqueMap.get(String(card.id)); return buildFighter({ ...card, uniqueAdvancement: uniqueCard?.uniqueAdvancement || null, iconRole: uniqueCard?.iconRole || null }, index, 'A', uniqueCard?.uniqueAbility || null); });
+  const teamB = enemyWithEquipment.map((card, index) => { const uniqueCard = enemyUniqueMap.get(String(card.id)); return buildFighter({ ...card, uniqueAdvancement: uniqueCard?.uniqueAdvancement || null, iconRole: uniqueCard?.iconRole || null }, index, 'B', uniqueCard?.uniqueAbility || null); });
   let magicA = [];
   let magicB = [];
   let registeredExamples = [];

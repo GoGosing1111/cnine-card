@@ -1,0 +1,94 @@
+[
+  {
+    "width": 1440,
+    "mode": "PVP",
+    "twoAllowedThreeBlocked": true,
+    "detail": true,
+    "realStartButton": true,
+    "resultAndReturn": true,
+    "diagnostics": {
+      "last": {
+        "code": "ICON-DIIM",
+        "role": "ASSASSIN",
+        "eventType": "ICON_SKILL",
+        "serverRows": 1,
+        "appliedRows": 1,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY"
+      },
+      "muzzle": {
+        "cardId": "CN-1C000002",
+        "origin": {
+          "x": 642,
+          "y": 182.18095950000003
+        },
+        "direction": {
+          "x": 0.9761870601839528,
+          "y": 0.21693045781865591
+        },
+        "team": "ALLY"
+      },
+      "metrics": {
+        "skills": 3,
+        "basics": 9,
+        "serverRows": 14,
+        "appliedRows": 14,
+        "roles": [
+          "ASSASSIN",
+          "ATTACK"
+        ]
+      }
+    },
+    "posts": [
+      "pvp/match",
+      "pvp/fight"
+    ],
+    "errors": []
+  },
+  {
+    "width": 390,
+    "mode": "PVE",
+    "twoAllowedThreeBlocked": true,
+    "detail": true,
+    "realStartButton": true,
+    "resultAndReturn": true,
+    "diagnostics": {
+      "last": {
+        "code": "ICON-DIIM",
+        "role": "ASSASSIN",
+        "eventType": "ICON_SKILL",
+        "serverRows": 1,
+        "appliedRows": 1,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY"
+      },
+      "muzzle": {
+        "cardId": "CN-1C000002",
+        "origin": {
+          "x": 211.01489462557376,
+          "y": 1120.1313806061312
+        },
+        "direction": {
+          "x": 0.9761972355357943,
+          "y": 0.21688466366313947
+        },
+        "team": "ALLY"
+      },
+      "metrics": {
+        "skills": 9,
+        "basics": 25,
+        "serverRows": 46,
+        "appliedRows": 46,
+        "roles": [
+          "ASSASSIN",
+          "ATTACK"
+        ]
+      }
+    },
+    "posts": [
+      "battle/deck",
+      "battle/fight"
+    ],
+    "errors": []
+  }
+]

@@ -1,0 +1,90 @@
+{
+  "date": "2026-10-05",
+  "status": "IMPLEMENTED_PENDING_PRODUCTION",
+  "request": {
+    "roles": [
+      "공격",
+      "암살",
+      "돌격",
+      "방어",
+      "저주",
+      "마법",
+      "지원"
+    ],
+    "deckLimit": 2,
+    "requirement": "FUR +15 settings must not overtake ICON combat performance."
+  },
+  "diagnosis": [
+    "ICON fixed collection power 180,000 was below current FUR +15 power 195,200 (Faker 198,200).",
+    "Several battle adapters copied uniqueAbility/uniqueAdvancement but omitted the authoritative iconRole, disabling RPG passives and skills."
+  ],
+  "policy": {
+    "version": "20261005-fur15-v1",
+    "scope": "Recognized, enabled ICON role cards only; same equipment and external buff conditions.",
+    "floor": "Each of attack, defense, maximum HP and speed is at least 1.2 times the highest FUR +15 benchmark for that stat, including eligible advancement. Current catalogue and CMS growth settings are read for each ICON battle.",
+    "extraRoleMultipliers": {
+      "ATTACK": {
+        "attack": 1.12
+      },
+      "ASSASSIN": {
+        "attack": 1.06,
+        "speed": 1.08
+      },
+      "ASSAULT": {
+        "attack": 1.06,
+        "maxHp": 1.08
+      },
+      "DEFENSE": {
+        "defense": 1.15,
+        "maxHp": 1.12
+      },
+      "CURSE": {
+        "speed": 1.08
+      },
+      "MAGIC": {
+        "attack": 1.12
+      },
+      "SUPPORT": {
+        "maxHp": 1.12
+      }
+    },
+    "deck": "Two ICONs allowed per five-card deck; third blocked by client, saves, old snapshots, matchmaking and common battle preparation.",
+    "captain": "Legacy Captain duels retain their existing combat model and use attack/HP/defense/speed floors; seven RPG skill timelines apply in the V3 engine, not the old Captain duel renderer.",
+    "preserved": [
+      "Collection base power 180,000 and approved photo/SD art",
+      "Existing FUR growth and unique-effect multipliers",
+      "ICON fusion enabled=false, currency costs and rewards",
+      "Skill cooldown, activation, damage, heal and protection budgets",
+      "Historical battle receipts and replay snapshots"
+    ]
+  },
+  "verification": {
+    "fixture": "tests/helpers/icon-fur15-reference-20261005.json",
+    "balance": "preview/icon-fur15-v1/balance-report.json",
+    "battles": 20160,
+    "individualWinPercent": {
+      "diim": 100,
+      "heeya": 100,
+      "bongsoon": 99.9,
+      "joeun": 100,
+      "orikkung": 100,
+      "kangguyeol": 100,
+      "ayoon": 100
+    },
+    "futureSettingsWinPercentRange": [
+      95.83,
+      100
+    ],
+    "twoIconPairs": 21,
+    "twoIconPairWinPercent": 100,
+    "method": "Fixed seeds; PVP sides reversed; all 20 current FURs and four maximum-growth archetypes; two-card combinations against elite FUR pairs with equal common teammates and zero / 5,000,000 equipment bonus.",
+    "limit": "Measured advantage and a starting-stat floor, not forced victory against any opponent, gear, magic, team composition or random seed.",
+    "browser": "Real player shell and start buttons on 1440px PVP and 390px PVE; picker 2 accepted / 3 rejected; role details; server ICON event counts exactly match playback; result and return verified; no page errors."
+  },
+  "release": {
+    "mode": "scoped",
+    "reason": "ICON-only stat floor, omitted role propagation and two-card contract. No authentication, schema, transactions, reward, dependency or combat mechanics rewrite. Affected combat and deck regressions plus live loader are selected.",
+    "priorDeployedSource": "34c5dc5",
+    "priorDeployment": "https://46aaa30a.cnine-card.pages.dev"
+  }
+}

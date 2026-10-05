@@ -1,7 +1,8 @@
 // ICON RPG identities. The legacy eight-stat CMS document is preserved separately.
 // All durations/cooldowns are actor actions, never animation time or browser clocks.
 export const ICON_ROLES_KEY='icon_role_settings_v1';
-export const ICON_ROLES_VERSION='20261004-rpg-v1';
+import {validatedIconSupremacy} from './icon-supremacy-v1.mjs';
+export const ICON_ROLES_VERSION='20261005-fur15-v1';
 const freeze=value=>{if(value&&typeof value==='object'){Object.values(value).forEach(freeze);Object.freeze(value);}return value;};
 const field=(key,label,min,max,value,unit='%',integer=false)=>({key,label,min,max,value,unit,integer});
 const common=(first,cooldown)=>[
@@ -55,7 +56,7 @@ export function iconRoleSnapshot(card,document=defaultIconRoles(),scope='PVE',re
 export function validatedIconSnapshot(card){
  const def=iconDefinition(card),s=card?.iconRole;
  if(!def||String(card.grade??card.rarity??'').toUpperCase()!=='ICON'||!s||s.version!==1||s.code!==def.code||s.role!==def.role||!Number.isSafeInteger(s.revision)||s.revision<1)return null;
- try{return {...s,tuning:validateIconRoleTuning(def,s.tuning)};}catch{return null;}
+ try{return {...s,tuning:validateIconRoleTuning(def,s.tuning),supremacy:validatedIconSupremacy(s.supremacy)};}catch{return null;}
 }
 export function iconHealingAmount(target,amount){
  const reduction=Math.max(0,Math.min(60,Number(target?.iconCurse?.healReductionPercent)||0));

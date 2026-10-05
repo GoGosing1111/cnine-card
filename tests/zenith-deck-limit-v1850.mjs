@@ -25,7 +25,7 @@ assert.doesNotMatch(server,/ZENITH 카드를 1장만 편성|ZENITH 1장 편성 �
 for(const [label,source] of [['live client',client],['legacy client',legacyClient]]){
   assert.match(source,/const ZENITH_DECK_LIMIT = 2;/,`${label} 제한값은 2여야 합니다.`);
   if(label==='live client'){
-    assert.match(source,/DEFAULT_DECK_GRADE_LIMITS = Object\.freeze\(\{ PRESTIGE: 2, FUR: 2, ZENITH: ZENITH_DECK_LIMIT, SUPERSTAR: SUPERSTAR_DECK_LIMIT \}\)/,`${label} 기본 서버 계약은 ZENITH 최대 2장을 포함해야 합니다.`);
+    assert.match(source,/DEFAULT_DECK_GRADE_LIMITS = Object\.freeze\(\{ PRESTIGE: 2, FUR: 2, ZENITH: ZENITH_DECK_LIMIT, SUPERSTAR: SUPERSTAR_DECK_LIMIT, ICON: ICON_DECK_LIMIT \}\)/,`${label} 기본 서버 계약은 ZENITH 최대 2장을 포함해야 합니다.`);
     assert.match(source,/deckGradeLimitViolation\(battleState\.deck/,`${label} PVE 선택기는 서버 등급 제한을 적용해야 합니다.`);
     assert.match(source,/deckGradeLimitViolation\(pvpState\.deck/,`${label} PVP 선택기는 서버 등급 제한을 적용해야 합니다.`);
   }else{

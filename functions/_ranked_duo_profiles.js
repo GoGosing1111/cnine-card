@@ -58,7 +58,7 @@ async function rebuild(env,versions,config,deps,hash,now){
   deps.cardUniqueDeckStates(env,entries,'PVP',{fresh:true,batched:true}),deps.evaluateDeckSynergiesBatch(env,entries.map(e=>({user:e.user,deckIds:e.cards.map(c=>c.id)})),'PVP'),
   deps.duoMagicLoadouts?deps.duoMagicLoadouts(env,entries.map(e=>({userId:e.user.id,presetNo:e.squad.presetNo}))):Promise.all(entries.map(e=>deps.magicBattleLoadout(env,e.user,'PVP',{presetNo:e.squad.presetNo})))
  ]);
- entries.forEach((e,i)=>{const uniqueMap=new Map((unique[i]?.cards||[]).map(c=>[String(c.id),c])),mult=1+Number(synergy[i]?.totals?.attackPercent||0)/100;e.squad.cards=e.cards.map(c=>({...c,power:Math.max(1,Math.floor(c.power*mult)),uniqueAbility:uniqueMap.get(c.id)?.uniqueAbility||null,uniqueAdvancement:uniqueMap.get(c.id)?.uniqueAdvancement||null}));e.squad.magicCards=magic[i]?.cards||[];});
+ entries.forEach((e,i)=>{const uniqueMap=new Map((unique[i]?.cards||[]).map(c=>[String(c.id),c])),mult=1+Number(synergy[i]?.totals?.attackPercent||0)/100;e.squad.cards=e.cards.map(c=>({...c,power:Math.max(1,Math.floor(c.power*mult)),uniqueAbility:uniqueMap.get(c.id)?.uniqueAbility||null,uniqueAdvancement:uniqueMap.get(c.id)?.uniqueAdvancement||null, iconRole:uniqueMap.get(c.id)?.iconRole||null}));e.squad.magicCards=magic[i]?.cards||[];});
  const fresh=await duoVersions(env,ids),valid=profiles.filter(p=>fresh.some(v=>Number(v.user_id)===p.userId&&Number(v.source_version)===p.sourceVersion&&Number(v.policy_revision)===p.policyRevision));
  // Keep independently verified accounts. Retrying the entire group whenever
  // one active player changes inventory can prevent automatic pairing forever.

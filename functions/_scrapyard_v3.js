@@ -58,7 +58,7 @@ export async function loadScrapyardV3Snapshot(env, user, deps, mode = 'PVE') {
     const rawPower = Number(deps.cardBattlePower(card, card.breakthrough_level ?? card.breakthroughLevel, deck.battleSettings));
     if (!Number.isFinite(rawPower) || rawPower <= 0 || !Number.isFinite(multiplier) || multiplier <= 0) fail('SCRAPYARD_V3_DECK', '카드 전투력을 확인할 수 없습니다.');
     return {...card, id:String(id), power:Math.max(1, Math.floor(rawPower * multiplier)),
-      uniqueAbility:unique.uniqueAbility || null, uniqueAdvancement:unique.uniqueAdvancement || null};
+      uniqueAbility:unique.uniqueAbility || null, uniqueAdvancement:unique.uniqueAdvancement || null, iconRole:unique.iconRole || null};
   });
   const equipment = deck.characterBonus || {}, suitPower = Math.max(0, Number(equipment.battleSuitPve || 0));
   const cardSupportBonus = Math.max(0, Number(equipment.pve || 0) - suitPower);

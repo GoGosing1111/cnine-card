@@ -1,6 +1,8 @@
 import { resolveAvatarDropRate } from './_avatar_drop.js';
 import {iconRoleDeckSettings,applyIconRoleDeckState} from './_icon_roles.js';
 import {iconDefinition} from '../shared/icon-roles-v1.mjs';
+import {readIconFurReference} from './_icon_fur_reference.js';
+import {ICON_SUPREMACY} from '../shared/icon-supremacy-v1.mjs';
 import { magicSummonSeasons, magicPackRequestGuard, magicSeason2PackDraft } from '../shared/magic-pack-seasons-v1.mjs';
 import {MAGIC_S2_PACK_SETTINGS_KEY,magicSeason2PackSettings,invalidateMagicSeason2PackCache} from './_magic_season2_pack.js';
 const MAGIC_DECK_TYPES=['PVE','PVP'];
@@ -320,7 +322,9 @@ function buildCardUniqueDeckState(user,cards,cfg,effectMap,boostTable=null,advan
   return {enabled:visible||hasAdvancement,ownerTest,settings:cfg,basePower,power,attackPower:Math.round(attackPower),durabilityPower:Math.round(durabilityPower),speedPercent:Number(speedPercent.toFixed(3)),cards:appliedCards,effects:appliedEffects};
 }
 export async function cardUniqueDeckStates(env,entries=[],scope='PVE',{fresh=false,batched=false}={}){
-  const cfg=await cardUniqueSettings(env,{fresh}),list=(Array.isArray(entries)?entries:[]).map(entry=>({user:entry?.user||null,cards:Array.isArray(entry?.cards)?entry.cards:[]}));
+  const list=(Array.isArray(entries)?entries:[]).map(entry=>({user:entry?.user||null,cards:Array.isArray(entry?.cards)?entry.cards:[]}));
+  for(const entry of list){const count=entry.cards.filter(c=>String(c.rarity??c.grade??'').toUpperCase()==='ICON').length;if(count>ICON_SUPREMACY.deckLimit)throw Object.assign(new Error('ICON 카드는 덱에 최대 2장까지만 편성할 수 있습니다. 덱을 다시 저장해주세요.'),{status:400,code:'ICON_DECK_LIMIT',grade:'ICON',count,limit:ICON_SUPREMACY.deckLimit});}
+  const cfg=await cardUniqueSettings(env,{fresh});
   const visibleEntries=list.filter(entry=>cardUniqueVisibleTo(entry.user,cfg));
   const ids=[...new Set(visibleEntries.flatMap(entry=>entry.cards.map(card=>String(card?.id??card?.card_id??'')).filter(Boolean)))];
   const effectMap=new Map();
@@ -347,6 +351,7 @@ export async function cardUniqueDeckStates(env,entries=[],scope='PVE',{fresh=fal
     return loadUniqueAdvancementsForCards(env,entry.user?.id,cardIds);
   }));
   const iconSettings=await iconRoleDeckSettings(env,list);
+  if(iconSettings?.document.enabled&&iconSettings.document.scopes[String(scope).toLowerCase()]&&iconSettings.document.cards.some(c=>c.enabled))iconSettings.supremacy=await readIconFurReference(env,scope);
   return list.map((entry,index)=>applyIconRoleDeckState(buildCardUniqueDeckState(entry.user,entry.cards,cfg,effectMap,boostTable,advancementMaps[index]),iconSettings,scope));
 }
 export async function cardUniqueDeckState(env,user,cards=[],scope='PVE'){

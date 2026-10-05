@@ -1,0 +1,4366 @@
+{
+  "source": "Production read-only card catalogue and CMS growth settings; no account data.",
+  "sourceCheckedAt": "2026-10-05T04:10:50.223Z",
+  "policy": {
+    "roles": 7,
+    "deckLimit": 2,
+    "margin": 1.2,
+    "comparison": "FUR +15 with highest current advancement; equal equipment, same common teammates, reversed PVP sides. Individual wins remain subject to role matchup and seed."
+  },
+  "seedRanges": {
+    "pvp": "510001..510024; pair 510001..510016",
+    "pve": "700001..700016"
+  },
+  "current": {
+    "reference": {
+      "version": "20261005-fur15-v1",
+      "power": 198200,
+      "cardCount": 20,
+      "PVE": {
+        "maxHp": {
+          "base": 456768,
+          "perPower": 2.340001
+        },
+        "attack": {
+          "base": 220230,
+          "perPower": 1.128226
+        },
+        "defense": {
+          "base": 134499,
+          "perPower": 0.689032
+        },
+        "speed": {
+          "base": 17011,
+          "perPower": 0.086251
+        }
+      },
+      "PVP": {
+        "maxHp": {
+          "base": 507520,
+          "perPower": 2.600001
+        },
+        "attack": {
+          "base": 207317,
+          "perPower": 1.062076
+        },
+        "defense": {
+          "base": 130455,
+          "perPower": 0.668313
+        },
+        "speed": {
+          "base": 17011,
+          "perPower": 0.086251
+        }
+      }
+    },
+    "roles": [
+      {
+        "name": "디임",
+        "role": "암살",
+        "code": "ASSASSIN",
+        "wins": 960,
+        "total": 960,
+        "percent": 100,
+        "worstPercent": 100,
+        "beforePercent": 0,
+        "stats": {
+          "maxHp": 609024,
+          "attack": 263708,
+          "defense": 156546,
+          "speed": 22047
+        },
+        "matchups": [
+          {
+            "name": "조폭 감스트",
+            "id": "CN-011CAD85BBB2470F",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2.0625,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 5.083333333333333
+            }
+          },
+          {
+            "name": "철와대 킴성태",
+            "id": "CN-02D9DC1E8A8A4209",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 4.125,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 5.541666666666667
+            }
+          },
+          {
+            "name": "Faker",
+            "id": "CN-0B48C6FF8F9B4AC5",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2.0625,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 5.083333333333333
+            }
+          },
+          {
+            "name": "프로필찍는 봉준",
+            "id": "CN-284FB135B2AB4D31",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2.0625,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "철구",
+            "id": "CN-2865A7B77B2A4E5F",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2.0625,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 5.083333333333333
+            }
+          },
+          {
+            "name": "와룡킹남순",
+            "id": "CN-2CEC24C0087A4B61",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2.0625,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "철구",
+            "id": "CN-346F8DB0DEB84D41",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2.0625,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "좆망구",
+            "id": "CN-45DE696C0A0B4609",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 4.166666666666667,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 4.125
+            }
+          },
+          {
+            "name": "아이젠 족스케",
+            "id": "CN-47AD4B47B6A7452C",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 4.125,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "치타구",
+            "id": "CN-5D0E2E4D58C9416F",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 6.833333333333333,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "이상호",
+            "id": "CN-716F6A71EE5F488E",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2.0625,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "훈훈한 감스트",
+            "id": "CN-8D3E40884AC04D2C",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2.0625,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 5.083333333333333
+            }
+          },
+          {
+            "name": "거품목욕 이상호",
+            "id": "CN-A21C3D87C47D4D95",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 4.125,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 5.541666666666667
+            }
+          },
+          {
+            "name": "NS남순",
+            "id": "CN-AD85A1AFB7234D1B",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 3.0625,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 5.666666666666667
+            }
+          },
+          {
+            "name": "헬창 봉준",
+            "id": "CN-B2D79A6239AA4A1B",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 3.0625,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 5.666666666666667
+            }
+          },
+          {
+            "name": "프로필 김민교",
+            "id": "CN-BEE87AB06483449A",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2.0625,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "킹봉준",
+            "id": "CN-CE16D291605A47F0",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 4.125,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 5.541666666666667
+            }
+          },
+          {
+            "name": "서수길",
+            "id": "CN-DAE98309A47C4CCA",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 4.1875,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3.2083333333333335
+            }
+          },
+          {
+            "name": "프로필 킴성태",
+            "id": "CN-F500880B2ED34350",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2.0625,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "철구",
+            "id": "card-0434",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2.0625,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          }
+        ]
+      },
+      {
+        "name": "하이희야",
+        "role": "공격",
+        "code": "ATTACK",
+        "wins": 960,
+        "total": 960,
+        "percent": 100,
+        "worstPercent": 100,
+        "beforePercent": 0,
+        "stats": {
+          "maxHp": 609024,
+          "attack": 278635,
+          "defense": 156546,
+          "speed": 20414
+        },
+        "matchups": [
+          {
+            "name": "조폭 감스트",
+            "id": "CN-011CAD85BBB2470F",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 5.083333333333333
+            }
+          },
+          {
+            "name": "철와대 킴성태",
+            "id": "CN-02D9DC1E8A8A4209",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 5,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 5.166666666666667
+            }
+          },
+          {
+            "name": "Faker",
+            "id": "CN-0B48C6FF8F9B4AC5",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 5.083333333333333
+            }
+          },
+          {
+            "name": "프로필찍는 봉준",
+            "id": "CN-284FB135B2AB4D31",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "철구",
+            "id": "CN-2865A7B77B2A4E5F",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 5.083333333333333
+            }
+          },
+          {
+            "name": "와룡킹남순",
+            "id": "CN-2CEC24C0087A4B61",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "철구",
+            "id": "CN-346F8DB0DEB84D41",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "좆망구",
+            "id": "CN-45DE696C0A0B4609",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 3.8125,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 4.125
+            }
+          },
+          {
+            "name": "아이젠 족스케",
+            "id": "CN-47AD4B47B6A7452C",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 5,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "치타구",
+            "id": "CN-5D0E2E4D58C9416F",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 5.75,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "이상호",
+            "id": "CN-716F6A71EE5F488E",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "훈훈한 감스트",
+            "id": "CN-8D3E40884AC04D2C",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 5.083333333333333
+            }
+          },
+          {
+            "name": "거품목욕 이상호",
+            "id": "CN-A21C3D87C47D4D95",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 5,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 5.166666666666667
+            }
+          },
+          {
+            "name": "NS남순",
+            "id": "CN-AD85A1AFB7234D1B",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 3,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 5.708333333333333
+            }
+          },
+          {
+            "name": "헬창 봉준",
+            "id": "CN-B2D79A6239AA4A1B",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 3,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 5.708333333333333
+            }
+          },
+          {
+            "name": "프로필 김민교",
+            "id": "CN-BEE87AB06483449A",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "킹봉준",
+            "id": "CN-CE16D291605A47F0",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 5,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 5.166666666666667
+            }
+          },
+          {
+            "name": "서수길",
+            "id": "CN-DAE98309A47C4CCA",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 3.9166666666666665,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3.2083333333333335
+            }
+          },
+          {
+            "name": "프로필 킴성태",
+            "id": "CN-F500880B2ED34350",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "철구",
+            "id": "card-0434",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          }
+        ]
+      },
+      {
+        "name": "나무늘봉순",
+        "role": "마법",
+        "code": "MAGIC",
+        "wins": 959,
+        "total": 960,
+        "percent": 99.9,
+        "worstPercent": 97.92,
+        "beforePercent": 0.83,
+        "stats": {
+          "maxHp": 609024,
+          "attack": 278635,
+          "defense": 156546,
+          "speed": 20414
+        },
+        "matchups": [
+          {
+            "name": "조폭 감스트",
+            "id": "CN-011CAD85BBB2470F",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 3.1041666666666665,
+            "before": {
+              "wins": 2,
+              "total": 48,
+              "percent": 4.17,
+              "averageActions": 5.125
+            }
+          },
+          {
+            "name": "철와대 킴성태",
+            "id": "CN-02D9DC1E8A8A4209",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 6,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 5.708333333333333
+            }
+          },
+          {
+            "name": "Faker",
+            "id": "CN-0B48C6FF8F9B4AC5",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 3.125,
+            "before": {
+              "wins": 2,
+              "total": 48,
+              "percent": 4.17,
+              "averageActions": 5.125
+            }
+          },
+          {
+            "name": "프로필찍는 봉준",
+            "id": "CN-284FB135B2AB4D31",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 3.125,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "철구",
+            "id": "CN-2865A7B77B2A4E5F",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 3.1041666666666665,
+            "before": {
+              "wins": 2,
+              "total": 48,
+              "percent": 4.17,
+              "averageActions": 5.125
+            }
+          },
+          {
+            "name": "와룡킹남순",
+            "id": "CN-2CEC24C0087A4B61",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 3.125,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "철구",
+            "id": "CN-346F8DB0DEB84D41",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 3.125,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "좆망구",
+            "id": "CN-45DE696C0A0B4609",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 4.979166666666667,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 4.125
+            }
+          },
+          {
+            "name": "아이젠 족스케",
+            "id": "CN-47AD4B47B6A7452C",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 6,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "치타구",
+            "id": "CN-5D0E2E4D58C9416F",
+            "wins": 47,
+            "total": 48,
+            "percent": 97.92,
+            "averageActions": 8.104166666666666,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "이상호",
+            "id": "CN-716F6A71EE5F488E",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 3.125,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "훈훈한 감스트",
+            "id": "CN-8D3E40884AC04D2C",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 3.1041666666666665,
+            "before": {
+              "wins": 2,
+              "total": 48,
+              "percent": 4.17,
+              "averageActions": 5.125
+            }
+          },
+          {
+            "name": "거품목욕 이상호",
+            "id": "CN-A21C3D87C47D4D95",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 6,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 5.708333333333333
+            }
+          },
+          {
+            "name": "NS남순",
+            "id": "CN-AD85A1AFB7234D1B",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 4.125,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 5.666666666666667
+            }
+          },
+          {
+            "name": "헬창 봉준",
+            "id": "CN-B2D79A6239AA4A1B",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 4.125,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 5.666666666666667
+            }
+          },
+          {
+            "name": "프로필 김민교",
+            "id": "CN-BEE87AB06483449A",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 3.125,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "킹봉준",
+            "id": "CN-CE16D291605A47F0",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 6,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 5.708333333333333
+            }
+          },
+          {
+            "name": "서수길",
+            "id": "CN-DAE98309A47C4CCA",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 5.041666666666667,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3.2083333333333335
+            }
+          },
+          {
+            "name": "프로필 킴성태",
+            "id": "CN-F500880B2ED34350",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 3.125,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "철구",
+            "id": "card-0434",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 3.125,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          }
+        ]
+      },
+      {
+        "name": "오조은",
+        "role": "지원",
+        "code": "SUPPORT",
+        "wins": 960,
+        "total": 960,
+        "percent": 100,
+        "worstPercent": 100,
+        "beforePercent": 0,
+        "stats": {
+          "maxHp": 682107,
+          "attack": 248781,
+          "defense": 156546,
+          "speed": 20414
+        },
+        "matchups": [
+          {
+            "name": "조폭 감스트",
+            "id": "CN-011CAD85BBB2470F",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 6.666666666666667
+            }
+          },
+          {
+            "name": "철와대 킴성태",
+            "id": "CN-02D9DC1E8A8A4209",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 5,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 6.708333333333333
+            }
+          },
+          {
+            "name": "Faker",
+            "id": "CN-0B48C6FF8F9B4AC5",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 6.583333333333333
+            }
+          },
+          {
+            "name": "프로필찍는 봉준",
+            "id": "CN-284FB135B2AB4D31",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "철구",
+            "id": "CN-2865A7B77B2A4E5F",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 6.666666666666667
+            }
+          },
+          {
+            "name": "와룡킹남순",
+            "id": "CN-2CEC24C0087A4B61",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "철구",
+            "id": "CN-346F8DB0DEB84D41",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "좆망구",
+            "id": "CN-45DE696C0A0B4609",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 5.354166666666667,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 4.125
+            }
+          },
+          {
+            "name": "아이젠 족스케",
+            "id": "CN-47AD4B47B6A7452C",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 5.8125,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "치타구",
+            "id": "CN-5D0E2E4D58C9416F",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 7.75,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "이상호",
+            "id": "CN-716F6A71EE5F488E",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "훈훈한 감스트",
+            "id": "CN-8D3E40884AC04D2C",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 6.666666666666667
+            }
+          },
+          {
+            "name": "거품목욕 이상호",
+            "id": "CN-A21C3D87C47D4D95",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 5,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 6.708333333333333
+            }
+          },
+          {
+            "name": "NS남순",
+            "id": "CN-AD85A1AFB7234D1B",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 3,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 6.083333333333333
+            }
+          },
+          {
+            "name": "헬창 봉준",
+            "id": "CN-B2D79A6239AA4A1B",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 3,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 6.083333333333333
+            }
+          },
+          {
+            "name": "프로필 김민교",
+            "id": "CN-BEE87AB06483449A",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "킹봉준",
+            "id": "CN-CE16D291605A47F0",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 5,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 6.708333333333333
+            }
+          },
+          {
+            "name": "서수길",
+            "id": "CN-DAE98309A47C4CCA",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 5.583333333333333,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3.2083333333333335
+            }
+          },
+          {
+            "name": "프로필 킴성태",
+            "id": "CN-F500880B2ED34350",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "철구",
+            "id": "card-0434",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          }
+        ]
+      },
+      {
+        "name": "오리꿍",
+        "role": "저주",
+        "code": "CURSE",
+        "wins": 960,
+        "total": 960,
+        "percent": 100,
+        "worstPercent": 100,
+        "beforePercent": 0,
+        "stats": {
+          "maxHp": 609024,
+          "attack": 248781,
+          "defense": 156546,
+          "speed": 22047
+        },
+        "matchups": [
+          {
+            "name": "조폭 감스트",
+            "id": "CN-011CAD85BBB2470F",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 5.083333333333333
+            }
+          },
+          {
+            "name": "철와대 킴성태",
+            "id": "CN-02D9DC1E8A8A4209",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 4.145833333333333,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 5.166666666666667
+            }
+          },
+          {
+            "name": "Faker",
+            "id": "CN-0B48C6FF8F9B4AC5",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 5.083333333333333
+            }
+          },
+          {
+            "name": "프로필찍는 봉준",
+            "id": "CN-284FB135B2AB4D31",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "철구",
+            "id": "CN-2865A7B77B2A4E5F",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 5.083333333333333
+            }
+          },
+          {
+            "name": "와룡킹남순",
+            "id": "CN-2CEC24C0087A4B61",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "철구",
+            "id": "CN-346F8DB0DEB84D41",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "좆망구",
+            "id": "CN-45DE696C0A0B4609",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 4.083333333333333,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 4.125
+            }
+          },
+          {
+            "name": "아이젠 족스케",
+            "id": "CN-47AD4B47B6A7452C",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 4.395833333333333,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "치타구",
+            "id": "CN-5D0E2E4D58C9416F",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 5.875,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "이상호",
+            "id": "CN-716F6A71EE5F488E",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "훈훈한 감스트",
+            "id": "CN-8D3E40884AC04D2C",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 5.083333333333333
+            }
+          },
+          {
+            "name": "거품목욕 이상호",
+            "id": "CN-A21C3D87C47D4D95",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 4.145833333333333,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 5.166666666666667
+            }
+          },
+          {
+            "name": "NS남순",
+            "id": "CN-AD85A1AFB7234D1B",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 3.0625,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 5.708333333333333
+            }
+          },
+          {
+            "name": "헬창 봉준",
+            "id": "CN-B2D79A6239AA4A1B",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 3.0625,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 5.708333333333333
+            }
+          },
+          {
+            "name": "프로필 김민교",
+            "id": "CN-BEE87AB06483449A",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "킹봉준",
+            "id": "CN-CE16D291605A47F0",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 4.145833333333333,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 5.166666666666667
+            }
+          },
+          {
+            "name": "서수길",
+            "id": "CN-DAE98309A47C4CCA",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 4.145833333333333,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3.2083333333333335
+            }
+          },
+          {
+            "name": "프로필 킴성태",
+            "id": "CN-F500880B2ED34350",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "철구",
+            "id": "card-0434",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          }
+        ]
+      },
+      {
+        "name": "강구열",
+        "role": "방어",
+        "code": "DEFENSE",
+        "wins": 960,
+        "total": 960,
+        "percent": 100,
+        "worstPercent": 100,
+        "beforePercent": 10.73,
+        "stats": {
+          "maxHp": 682107,
+          "attack": 248781,
+          "defense": 180028,
+          "speed": 20414
+        },
+        "matchups": [
+          {
+            "name": "조폭 감스트",
+            "id": "CN-011CAD85BBB2470F",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2.0625,
+            "before": {
+              "wins": 28,
+              "total": 48,
+              "percent": 58.33,
+              "averageActions": 6.083333333333333
+            }
+          },
+          {
+            "name": "철와대 킴성태",
+            "id": "CN-02D9DC1E8A8A4209",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 4.958333333333333,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 6.5625
+            }
+          },
+          {
+            "name": "Faker",
+            "id": "CN-0B48C6FF8F9B4AC5",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2.0625,
+            "before": {
+              "wins": 19,
+              "total": 48,
+              "percent": 39.58,
+              "averageActions": 6.1875
+            }
+          },
+          {
+            "name": "프로필찍는 봉준",
+            "id": "CN-284FB135B2AB4D31",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2.0625,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "철구",
+            "id": "CN-2865A7B77B2A4E5F",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2.0625,
+            "before": {
+              "wins": 28,
+              "total": 48,
+              "percent": 58.33,
+              "averageActions": 6.083333333333333
+            }
+          },
+          {
+            "name": "와룡킹남순",
+            "id": "CN-2CEC24C0087A4B61",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2.0625,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "철구",
+            "id": "CN-346F8DB0DEB84D41",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2.0625,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "좆망구",
+            "id": "CN-45DE696C0A0B4609",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 3.9791666666666665,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 4.125
+            }
+          },
+          {
+            "name": "아이젠 족스케",
+            "id": "CN-47AD4B47B6A7452C",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 5.041666666666667,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "치타구",
+            "id": "CN-5D0E2E4D58C9416F",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 5.875,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "이상호",
+            "id": "CN-716F6A71EE5F488E",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2.0625,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "훈훈한 감스트",
+            "id": "CN-8D3E40884AC04D2C",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2.0625,
+            "before": {
+              "wins": 28,
+              "total": 48,
+              "percent": 58.33,
+              "averageActions": 6.083333333333333
+            }
+          },
+          {
+            "name": "거품목욕 이상호",
+            "id": "CN-A21C3D87C47D4D95",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 4.958333333333333,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 6.5625
+            }
+          },
+          {
+            "name": "NS남순",
+            "id": "CN-AD85A1AFB7234D1B",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 3.0625,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 6.083333333333333
+            }
+          },
+          {
+            "name": "헬창 봉준",
+            "id": "CN-B2D79A6239AA4A1B",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 3.0625,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 6.083333333333333
+            }
+          },
+          {
+            "name": "프로필 김민교",
+            "id": "CN-BEE87AB06483449A",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2.0625,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "킹봉준",
+            "id": "CN-CE16D291605A47F0",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 4.958333333333333,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 6.5625
+            }
+          },
+          {
+            "name": "서수길",
+            "id": "CN-DAE98309A47C4CCA",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 3.9583333333333335,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3.2083333333333335
+            }
+          },
+          {
+            "name": "프로필 킴성태",
+            "id": "CN-F500880B2ED34350",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2.0625,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "철구",
+            "id": "card-0434",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2.0625,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          }
+        ]
+      },
+      {
+        "name": "아윤",
+        "role": "돌격",
+        "code": "ASSAULT",
+        "wins": 960,
+        "total": 960,
+        "percent": 100,
+        "worstPercent": 100,
+        "beforePercent": 1.25,
+        "stats": {
+          "maxHp": 657746,
+          "attack": 263708,
+          "defense": 156546,
+          "speed": 20414
+        },
+        "matchups": [
+          {
+            "name": "조폭 감스트",
+            "id": "CN-011CAD85BBB2470F",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2.0625,
+            "before": {
+              "wins": 3,
+              "total": 48,
+              "percent": 6.25,
+              "averageActions": 6.1875
+            }
+          },
+          {
+            "name": "철와대 킴성태",
+            "id": "CN-02D9DC1E8A8A4209",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 4.125,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 6.333333333333333
+            }
+          },
+          {
+            "name": "Faker",
+            "id": "CN-0B48C6FF8F9B4AC5",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2.0625,
+            "before": {
+              "wins": 3,
+              "total": 48,
+              "percent": 6.25,
+              "averageActions": 6.1875
+            }
+          },
+          {
+            "name": "프로필찍는 봉준",
+            "id": "CN-284FB135B2AB4D31",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2.0625,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3.1666666666666665
+            }
+          },
+          {
+            "name": "철구",
+            "id": "CN-2865A7B77B2A4E5F",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2.0625,
+            "before": {
+              "wins": 3,
+              "total": 48,
+              "percent": 6.25,
+              "averageActions": 6.1875
+            }
+          },
+          {
+            "name": "와룡킹남순",
+            "id": "CN-2CEC24C0087A4B61",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2.0625,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3.1666666666666665
+            }
+          },
+          {
+            "name": "철구",
+            "id": "CN-346F8DB0DEB84D41",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2.0625,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3.1666666666666665
+            }
+          },
+          {
+            "name": "좆망구",
+            "id": "CN-45DE696C0A0B4609",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 3.8958333333333335,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 4
+            }
+          },
+          {
+            "name": "아이젠 족스케",
+            "id": "CN-47AD4B47B6A7452C",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 4.208333333333333,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "치타구",
+            "id": "CN-5D0E2E4D58C9416F",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 6.625,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3
+            }
+          },
+          {
+            "name": "이상호",
+            "id": "CN-716F6A71EE5F488E",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2.0625,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3.1666666666666665
+            }
+          },
+          {
+            "name": "훈훈한 감스트",
+            "id": "CN-8D3E40884AC04D2C",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2.0625,
+            "before": {
+              "wins": 3,
+              "total": 48,
+              "percent": 6.25,
+              "averageActions": 6.1875
+            }
+          },
+          {
+            "name": "거품목욕 이상호",
+            "id": "CN-A21C3D87C47D4D95",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 4.125,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 6.333333333333333
+            }
+          },
+          {
+            "name": "NS남순",
+            "id": "CN-AD85A1AFB7234D1B",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 3.0625,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 6.083333333333333
+            }
+          },
+          {
+            "name": "헬창 봉준",
+            "id": "CN-B2D79A6239AA4A1B",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 3.0625,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 6.083333333333333
+            }
+          },
+          {
+            "name": "프로필 김민교",
+            "id": "CN-BEE87AB06483449A",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2.0625,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3.1666666666666665
+            }
+          },
+          {
+            "name": "킹봉준",
+            "id": "CN-CE16D291605A47F0",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 4.125,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 6.333333333333333
+            }
+          },
+          {
+            "name": "서수길",
+            "id": "CN-DAE98309A47C4CCA",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 3.9166666666666665,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3.2083333333333335
+            }
+          },
+          {
+            "name": "프로필 킴성태",
+            "id": "CN-F500880B2ED34350",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2.0625,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3.1666666666666665
+            }
+          },
+          {
+            "name": "철구",
+            "id": "card-0434",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 2.0625,
+            "before": {
+              "wins": 0,
+              "total": 48,
+              "percent": 0,
+              "averageActions": 3.1666666666666665
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "stress": {
+    "reference": {
+      "version": "20261005-fur15-v1",
+      "power": 123462345,
+      "cardCount": 4,
+      "PVE": {
+        "maxHp": {
+          "base": 946615924,
+          "perPower": 7.667245
+        },
+        "attack": {
+          "base": 306263780,
+          "perPower": 2.480626
+        },
+        "defense": {
+          "base": 177091301,
+          "perPower": 1.434376
+        },
+        "speed": {
+          "base": 17038084,
+          "perPower": 0.138001
+        }
+      },
+      "PVP": {
+        "maxHp": {
+          "base": 1051795471,
+          "perPower": 8.519161
+        },
+        "attack": {
+          "base": 283577574,
+          "perPower": 2.296876
+        },
+        "defense": {
+          "base": 170532364,
+          "perPower": 1.381251
+        },
+        "speed": {
+          "base": 17038084,
+          "perPower": 0.138001
+        }
+      }
+    },
+    "roles": [
+      {
+        "name": "디임",
+        "role": "암살",
+        "code": "ASSASSIN",
+        "wins": 192,
+        "total": 192,
+        "percent": 100,
+        "worstPercent": 100,
+        "stats": {
+          "maxHp": 1262154566,
+          "attack": 360710675,
+          "defense": 204638837,
+          "speed": 22081357
+        },
+        "matchups": [
+          {
+            "name": "ATTACK",
+            "id": "stress-0",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 3.0625
+          },
+          {
+            "name": "DEFENSE",
+            "id": "stress-1",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 6
+          },
+          {
+            "name": "HP",
+            "id": "stress-2",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 7.5
+          },
+          {
+            "name": "SPEED",
+            "id": "stress-3",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 6.833333333333333
+          }
+        ]
+      },
+      {
+        "name": "하이희야",
+        "role": "공격",
+        "code": "ATTACK",
+        "wins": 190,
+        "total": 192,
+        "percent": 98.96,
+        "worstPercent": 95.83,
+        "stats": {
+          "maxHp": 1262154566,
+          "attack": 381128260,
+          "defense": 204638837,
+          "speed": 20445701
+        },
+        "matchups": [
+          {
+            "name": "ATTACK",
+            "id": "stress-0",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 3
+          },
+          {
+            "name": "DEFENSE",
+            "id": "stress-1",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 6.083333333333333
+          },
+          {
+            "name": "HP",
+            "id": "stress-2",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 7.166666666666667
+          },
+          {
+            "name": "SPEED",
+            "id": "stress-3",
+            "wins": 46,
+            "total": 48,
+            "percent": 95.83,
+            "averageActions": 5.708333333333333
+          }
+        ]
+      },
+      {
+        "name": "나무늘봉순",
+        "role": "마법",
+        "code": "MAGIC",
+        "wins": 184,
+        "total": 192,
+        "percent": 95.83,
+        "worstPercent": 89.58,
+        "stats": {
+          "maxHp": 1262154566,
+          "attack": 381128260,
+          "defense": 204638837,
+          "speed": 20445701
+        },
+        "matchups": [
+          {
+            "name": "ATTACK",
+            "id": "stress-0",
+            "wins": 43,
+            "total": 48,
+            "percent": 89.58,
+            "averageActions": 4.3125
+          },
+          {
+            "name": "DEFENSE",
+            "id": "stress-1",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 8.166666666666666
+          },
+          {
+            "name": "HP",
+            "id": "stress-2",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 10.8125
+          },
+          {
+            "name": "SPEED",
+            "id": "stress-3",
+            "wins": 45,
+            "total": 48,
+            "percent": 93.75,
+            "averageActions": 7.979166666666667
+          }
+        ]
+      },
+      {
+        "name": "오조은",
+        "role": "지원",
+        "code": "SUPPORT",
+        "wins": 192,
+        "total": 192,
+        "percent": 100,
+        "worstPercent": 100,
+        "stats": {
+          "maxHp": 1413613114,
+          "attack": 340293089,
+          "defense": 204638837,
+          "speed": 20445701
+        },
+        "matchups": [
+          {
+            "name": "ATTACK",
+            "id": "stress-0",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 4.333333333333333
+          },
+          {
+            "name": "DEFENSE",
+            "id": "stress-1",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 8.041666666666666
+          },
+          {
+            "name": "HP",
+            "id": "stress-2",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 12.208333333333334
+          },
+          {
+            "name": "SPEED",
+            "id": "stress-3",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 7.75
+          }
+        ]
+      },
+      {
+        "name": "오리꿍",
+        "role": "저주",
+        "code": "CURSE",
+        "wins": 192,
+        "total": 192,
+        "percent": 100,
+        "worstPercent": 100,
+        "stats": {
+          "maxHp": 1262154566,
+          "attack": 340293089,
+          "defense": 204638837,
+          "speed": 22081357
+        },
+        "matchups": [
+          {
+            "name": "ATTACK",
+            "id": "stress-0",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 3
+          },
+          {
+            "name": "DEFENSE",
+            "id": "stress-1",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 6.104166666666667
+          },
+          {
+            "name": "HP",
+            "id": "stress-2",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 7.645833333333333
+          },
+          {
+            "name": "SPEED",
+            "id": "stress-3",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 5.875
+          }
+        ]
+      },
+      {
+        "name": "강구열",
+        "role": "방어",
+        "code": "DEFENSE",
+        "wins": 192,
+        "total": 192,
+        "percent": 100,
+        "worstPercent": 100,
+        "stats": {
+          "maxHp": 1413613114,
+          "attack": 340293089,
+          "defense": 235334663,
+          "speed": 20445701
+        },
+        "matchups": [
+          {
+            "name": "ATTACK",
+            "id": "stress-0",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 3.0833333333333335
+          },
+          {
+            "name": "DEFENSE",
+            "id": "stress-1",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 6.125
+          },
+          {
+            "name": "HP",
+            "id": "stress-2",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 8.479166666666666
+          },
+          {
+            "name": "SPEED",
+            "id": "stress-3",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 5.875
+          }
+        ]
+      },
+      {
+        "name": "아윤",
+        "role": "돌격",
+        "code": "ASSAULT",
+        "wins": 191,
+        "total": 192,
+        "percent": 99.48,
+        "worstPercent": 97.92,
+        "stats": {
+          "maxHp": 1363126931,
+          "attack": 360710675,
+          "defense": 204638837,
+          "speed": 20445701
+        },
+        "matchups": [
+          {
+            "name": "ATTACK",
+            "id": "stress-0",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 3.1666666666666665
+          },
+          {
+            "name": "DEFENSE",
+            "id": "stress-1",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 6.229166666666667
+          },
+          {
+            "name": "HP",
+            "id": "stress-2",
+            "wins": 48,
+            "total": 48,
+            "percent": 100,
+            "averageActions": 7.520833333333333
+          },
+          {
+            "name": "SPEED",
+            "id": "stress-3",
+            "wins": 47,
+            "total": 48,
+            "percent": 97.92,
+            "averageActions": 6.604166666666667
+          }
+        ]
+      }
+    ]
+  },
+  "pairs": [
+    {
+      "roles": [
+        "암살",
+        "공격"
+      ],
+      "wins": 192,
+      "total": 192,
+      "percent": 100,
+      "worstPercent": 100,
+      "opponents": [
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 14.625
+        },
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 14.65625
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 14
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 14.125
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 18.25
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 18.625
+        }
+      ]
+    },
+    {
+      "roles": [
+        "암살",
+        "마법"
+      ],
+      "wins": 192,
+      "total": 192,
+      "percent": 100,
+      "worstPercent": 100,
+      "opponents": [
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 14.28125
+        },
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 14.46875
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 13.9375
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 13.34375
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 18.625
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 19.5
+        }
+      ]
+    },
+    {
+      "roles": [
+        "암살",
+        "지원"
+      ],
+      "wins": 192,
+      "total": 192,
+      "percent": 100,
+      "worstPercent": 100,
+      "opponents": [
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 15.1875
+        },
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 15.40625
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 16.53125
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 16.5625
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 19.53125
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 20.34375
+        }
+      ]
+    },
+    {
+      "roles": [
+        "암살",
+        "저주"
+      ],
+      "wins": 192,
+      "total": 192,
+      "percent": 100,
+      "worstPercent": 100,
+      "opponents": [
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 14.5625
+        },
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 14.65625
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 13.75
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 14.25
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 18.65625
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 18.6875
+        }
+      ]
+    },
+    {
+      "roles": [
+        "암살",
+        "방어"
+      ],
+      "wins": 192,
+      "total": 192,
+      "percent": 100,
+      "worstPercent": 100,
+      "opponents": [
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 14.65625
+        },
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 14.65625
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 15.125
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 15.0625
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 18.59375
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 18.8125
+        }
+      ]
+    },
+    {
+      "roles": [
+        "암살",
+        "돌격"
+      ],
+      "wins": 192,
+      "total": 192,
+      "percent": 100,
+      "worstPercent": 100,
+      "opponents": [
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 15.5
+        },
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 15.53125
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 13.8125
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 13.84375
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 18.71875
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 18.8125
+        }
+      ]
+    },
+    {
+      "roles": [
+        "공격",
+        "마법"
+      ],
+      "wins": 192,
+      "total": 192,
+      "percent": 100,
+      "worstPercent": 100,
+      "opponents": [
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 14.9375
+        },
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 15.03125
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 14.5
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 14.4375
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 20.15625
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 20.5625
+        }
+      ]
+    },
+    {
+      "roles": [
+        "공격",
+        "지원"
+      ],
+      "wins": 192,
+      "total": 192,
+      "percent": 100,
+      "worstPercent": 100,
+      "opponents": [
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 16.53125
+        },
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 16.65625
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 16.125
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 16.125
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 21.96875
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 21.8125
+        }
+      ]
+    },
+    {
+      "roles": [
+        "공격",
+        "저주"
+      ],
+      "wins": 192,
+      "total": 192,
+      "percent": 100,
+      "worstPercent": 100,
+      "opponents": [
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 14.84375
+        },
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 14.96875
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 14.03125
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 14.09375
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 19.125
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 19.53125
+        }
+      ]
+    },
+    {
+      "roles": [
+        "공격",
+        "방어"
+      ],
+      "wins": 192,
+      "total": 192,
+      "percent": 100,
+      "worstPercent": 100,
+      "opponents": [
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 15.28125
+        },
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 15.4375
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 14.3125
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 14.65625
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 19.15625
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 19.90625
+        }
+      ]
+    },
+    {
+      "roles": [
+        "공격",
+        "돌격"
+      ],
+      "wins": 192,
+      "total": 192,
+      "percent": 100,
+      "worstPercent": 100,
+      "opponents": [
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 16.09375
+        },
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 16.4375
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 13.96875
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 14
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 19.53125
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 19.78125
+        }
+      ]
+    },
+    {
+      "roles": [
+        "마법",
+        "지원"
+      ],
+      "wins": 192,
+      "total": 192,
+      "percent": 100,
+      "worstPercent": 100,
+      "opponents": [
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 17.6875
+        },
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 17.96875
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 16.34375
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 16.71875
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 22.875
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 23.65625
+        }
+      ]
+    },
+    {
+      "roles": [
+        "마법",
+        "저주"
+      ],
+      "wins": 192,
+      "total": 192,
+      "percent": 100,
+      "worstPercent": 100,
+      "opponents": [
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 14.375
+        },
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 14.5
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 14.15625
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 14.21875
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 19.8125
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 20.15625
+        }
+      ]
+    },
+    {
+      "roles": [
+        "마법",
+        "방어"
+      ],
+      "wins": 192,
+      "total": 192,
+      "percent": 100,
+      "worstPercent": 100,
+      "opponents": [
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 15.25
+        },
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 15.46875
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 15.125
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 15.625
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 20.0625
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 21
+        }
+      ]
+    },
+    {
+      "roles": [
+        "마법",
+        "돌격"
+      ],
+      "wins": 192,
+      "total": 192,
+      "percent": 100,
+      "worstPercent": 100,
+      "opponents": [
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 16.15625
+        },
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 16.375
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 14.34375
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 14.3125
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 21.09375
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 21
+        }
+      ]
+    },
+    {
+      "roles": [
+        "지원",
+        "저주"
+      ],
+      "wins": 192,
+      "total": 192,
+      "percent": 100,
+      "worstPercent": 100,
+      "opponents": [
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 15.875
+        },
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 16.15625
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 16
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 16.21875
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 21.59375
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 21.96875
+        }
+      ]
+    },
+    {
+      "roles": [
+        "지원",
+        "방어"
+      ],
+      "wins": 192,
+      "total": 192,
+      "percent": 100,
+      "worstPercent": 100,
+      "opponents": [
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 16.5625
+        },
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 16.59375
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 16.65625
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 16.875
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 20.65625
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 21.8125
+        }
+      ]
+    },
+    {
+      "roles": [
+        "지원",
+        "돌격"
+      ],
+      "wins": 192,
+      "total": 192,
+      "percent": 100,
+      "worstPercent": 100,
+      "opponents": [
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 17.03125
+        },
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 17.25
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 16.84375
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 16.78125
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 21.28125
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 21.3125
+        }
+      ]
+    },
+    {
+      "roles": [
+        "저주",
+        "방어"
+      ],
+      "wins": 192,
+      "total": 192,
+      "percent": 100,
+      "worstPercent": 100,
+      "opponents": [
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 14.78125
+        },
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 14.84375
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 14.25
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 14.65625
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 19.03125
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 19.125
+        }
+      ]
+    },
+    {
+      "roles": [
+        "저주",
+        "돌격"
+      ],
+      "wins": 192,
+      "total": 192,
+      "percent": 100,
+      "worstPercent": 100,
+      "opponents": [
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 15.625
+        },
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 15.6875
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 14.09375
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 14.09375
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 18.90625
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 19.25
+        }
+      ]
+    },
+    {
+      "roles": [
+        "방어",
+        "돌격"
+      ],
+      "wins": 192,
+      "total": 192,
+      "percent": 100,
+      "worstPercent": 100,
+      "opponents": [
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 15.59375
+        },
+        {
+          "fur": [
+            "철구",
+            "아이젠 족스케"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 15.59375
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 15.09375
+        },
+        {
+          "fur": [
+            "철구",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 15.0625
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 0,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 19.03125
+        },
+        {
+          "fur": [
+            "아이젠 족스케",
+            "치타구"
+          ],
+          "equipment": 5000000,
+          "wins": 32,
+          "total": 32,
+          "percent": 100,
+          "averageActions": 19.34375
+        }
+      ]
+    }
+  ],
+  "pve": [
+    {
+      "name": "디임",
+      "role": "암살",
+      "wins": 48,
+      "total": 48,
+      "damage": 667920000,
+      "comparators": [
+        {
+          "name": "철구",
+          "wins": 48,
+          "total": 48,
+          "damage": 667920000
+        },
+        {
+          "name": "아이젠 족스케",
+          "wins": 48,
+          "total": 48,
+          "damage": 667920000
+        },
+        {
+          "name": "치타구",
+          "wins": 48,
+          "total": 48,
+          "damage": 667920000
+        }
+      ]
+    },
+    {
+      "name": "하이희야",
+      "role": "공격",
+      "wins": 48,
+      "total": 48,
+      "damage": 667920000,
+      "comparators": [
+        {
+          "name": "철구",
+          "wins": 48,
+          "total": 48,
+          "damage": 667920000
+        },
+        {
+          "name": "아이젠 족스케",
+          "wins": 48,
+          "total": 48,
+          "damage": 667920000
+        },
+        {
+          "name": "치타구",
+          "wins": 48,
+          "total": 48,
+          "damage": 667920000
+        }
+      ]
+    },
+    {
+      "name": "나무늘봉순",
+      "role": "마법",
+      "wins": 48,
+      "total": 48,
+      "damage": 667920000,
+      "comparators": [
+        {
+          "name": "철구",
+          "wins": 48,
+          "total": 48,
+          "damage": 667920000
+        },
+        {
+          "name": "아이젠 족스케",
+          "wins": 48,
+          "total": 48,
+          "damage": 667920000
+        },
+        {
+          "name": "치타구",
+          "wins": 48,
+          "total": 48,
+          "damage": 667920000
+        }
+      ]
+    },
+    {
+      "name": "오조은",
+      "role": "지원",
+      "wins": 48,
+      "total": 48,
+      "damage": 667920000,
+      "comparators": [
+        {
+          "name": "철구",
+          "wins": 48,
+          "total": 48,
+          "damage": 667920000
+        },
+        {
+          "name": "아이젠 족스케",
+          "wins": 48,
+          "total": 48,
+          "damage": 667920000
+        },
+        {
+          "name": "치타구",
+          "wins": 48,
+          "total": 48,
+          "damage": 667920000
+        }
+      ]
+    },
+    {
+      "name": "오리꿍",
+      "role": "저주",
+      "wins": 48,
+      "total": 48,
+      "damage": 667920000,
+      "comparators": [
+        {
+          "name": "철구",
+          "wins": 48,
+          "total": 48,
+          "damage": 667920000
+        },
+        {
+          "name": "아이젠 족스케",
+          "wins": 48,
+          "total": 48,
+          "damage": 667920000
+        },
+        {
+          "name": "치타구",
+          "wins": 48,
+          "total": 48,
+          "damage": 667920000
+        }
+      ]
+    },
+    {
+      "name": "강구열",
+      "role": "방어",
+      "wins": 48,
+      "total": 48,
+      "damage": 667920000,
+      "comparators": [
+        {
+          "name": "철구",
+          "wins": 48,
+          "total": 48,
+          "damage": 667920000
+        },
+        {
+          "name": "아이젠 족스케",
+          "wins": 48,
+          "total": 48,
+          "damage": 667920000
+        },
+        {
+          "name": "치타구",
+          "wins": 48,
+          "total": 48,
+          "damage": 667920000
+        }
+      ]
+    },
+    {
+      "name": "아윤",
+      "role": "돌격",
+      "wins": 48,
+      "total": 48,
+      "damage": 667920000,
+      "comparators": [
+        {
+          "name": "철구",
+          "wins": 48,
+          "total": 48,
+          "damage": 667920000
+        },
+        {
+          "name": "아이젠 족스케",
+          "wins": 48,
+          "total": 48,
+          "damage": 667920000
+        },
+        {
+          "name": "치타구",
+          "wins": 48,
+          "total": 48,
+          "damage": 667920000
+        }
+      ]
+    }
+  ],
+  "battles": 20160,
+  "elapsedMs": 13646
+}

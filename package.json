@@ -103,7 +103,7 @@
     "test:chuseok": "node --test tests/chuseok-v1.test.mjs tests/chuseok-coupon-v1.test.mjs tests/chuseok-retirement-v1.test.mjs",
     "test:daily-quest": "node --test tests/daily-quest-100eok-20260919.test.mjs tests/playdk-daily-quest-admin-access-v1909.test.mjs tests/quest-hub-20260924.test.mjs",
     "test:legion-hunt": "node --test tests/sustained-hunt-v2.test.mjs tests/legion-hunt-owner-cms-20260926.test.mjs tests/legion-hunt-entry-account-20260926.test.mjs tests/legion-hunt-z-body-playback-20260926.test.mjs tests/legion-hunt-duration-entries-20260926.test.mjs tests/legion-hunt-modes-rewards-20260928.test.mjs tests/legion-hunt-interruption-recovery-20261003.test.mjs",
-    "test:icon-cms": "node --test tests/icon-roles-v1.test.mjs tests/icon-cms-v1.test.mjs tests/icon-grade-preparation-v1.test.mjs preview/icon-battle-assets-v1/qa.test.mjs tests/icon-preview-pages-url.test.mjs",
+    "test:icon-cms": "node --test tests/icon-fur15-superiority-v1.test.mjs tests/icon-roles-v1.test.mjs tests/icon-cms-v1.test.mjs tests/icon-grade-preparation-v1.test.mjs preview/icon-battle-assets-v1/qa.test.mjs tests/icon-preview-pages-url.test.mjs",
     "test:cooperative": "node --test tests/cooperative-battleground.test.mjs tests/cooperative-arke.test.mjs tests/cooperative-websocket.test.mjs tests/cooperative-room-list.test.mjs tests/cooperative-turn-fairness-20261004.test.mjs",
     "simulate:cooperative": "node scripts/simulate-cooperative-battleground.mjs --write",
     "test:ranked-reform": "node --test tests/ranked-reform-20261002.test.mjs",

@@ -1,4 +1,5 @@
 import {ICON_ROLES,ICON_ROLES_KEY,ICON_ROLES_VERSION,defaultIconRoles,validateIconRoles,iconDefinition,iconRoleSnapshot} from '../shared/icon-roles-v1.mjs';
+import {ICON_SUPREMACY,iconStatFloor} from '../shared/icon-supremacy-v1.mjs';
 
 export async function readIconRoleState(env){
  const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(ICON_ROLES_KEY).first();
@@ -12,11 +13,24 @@ export async function iconRoleDeckSettings(env,entries){
 }
 export function applyIconRoleDeckState(state,settings,scope){
  if(!settings)return state;
- return {...state,cards:state.cards.map(card=>{
+ const cards=state.cards.map(card=>{
   if(!iconDefinition(card)||String(card.rarity??card.grade??'').toUpperCase()!=='ICON')return card;
-  // A role replaces the old stat/advancement layer; neither multiplies ICON HP.
-  return {...card,power:card.baseBattlePower,uniqueAbility:null,uniqueAdvancement:null,uniqueDefensePercent:0,uniqueSpeedPercent:0,power_type:'NONE',powerType:'NONE',iconRole:iconRoleSnapshot(card,settings.document,scope,settings.revision)};
- })};
+  // Old stat drafts never stack with the RPG role. The server attaches one
+  // current FUR+15 benchmark shared by both parties, independent of opponent.
+  const role=iconRoleSnapshot(card,settings.document,scope,settings.revision);
+  const result={...card,power:card.baseBattlePower,uniqueAbility:null,uniqueAdvancement:null,uniqueDefensePercent:0,uniqueSpeedPercent:0,power_type:'NONE',powerType:'NONE',iconRole:role?{...role,...(settings.supremacy?{supremacy:settings.supremacy}:{})}:null};
+  if(scope==='CAPTAIN'&&role&&settings.supremacy?.CAPTAIN){
+   const floor=key=>iconStatFloor(settings.supremacy,'CAPTAIN',key,0,role.role);
+   result.power=Math.max(result.power,floor('attack'));result.maxHp=Math.max(result.maxHp,floor('maxHp'));
+   result.uniqueDefensePercent=Math.max(0,floor('defense')-100);result.uniqueSpeedPercent=Math.max(0,floor('speed')-100);
+  }
+  return result;
+ });
+ if(scope==='CAPTAIN'&&cards.some(c=>c.iconRole?.supremacy?.CAPTAIN)){
+  const attackPower=cards.reduce((n,c)=>n+c.power,0),durabilityPower=cards.reduce((n,c)=>n+c.maxHp*(1+c.uniqueDefensePercent/100),0),base=cards.reduce((n,c)=>n+c.baseBattlePower,0),speedPercent=base>0?cards.reduce((n,c)=>n+c.baseBattlePower*c.uniqueSpeedPercent,0)/base:0;
+  return {...state,cards,attackPower,durabilityPower,speedPercent,power:Math.floor(Math.sqrt(attackPower*durabilityPower)*(1+speedPercent/200))};
+ }
+ return {...state,cards};
 }
 const digest=async s=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s))),b=>b.toString(16).padStart(2,'0')).join('');
 async function readBody(request){
@@ -37,7 +51,7 @@ export async function handleIconRoles({path,request,env,deps}){
  }catch(e){return reply({error:e instanceof SyntaxError?'올바른 JSON 요청이 필요합니다.':e.message},400);}
  try{
   let current=await readIconRoleState(env);
-  const output=state=>({revision:state.revision,document:state.document,catalog:ICON_ROLES,version:ICON_ROLES_VERSION,...(adminPath?{updatedAt:state.updatedAt,updatedBy:state.updatedBy,audit:state.audit}:{})});
+  const output=state=>({revision:state.revision,document:state.document,catalog:ICON_ROLES,version:ICON_ROLES_VERSION,balance:ICON_SUPREMACY,...(adminPath?{updatedAt:state.updatedAt,updatedBy:state.updatedBy,audit:state.audit}:{})});
   if(request.method==='GET')return reply(output(current.state));
   const payloadHash=await digest(JSON.stringify([String(admin.id),body.expectedRevision,body.document]));
   const replay=state=>{const a=state.audit.find(a=>a.requestId===body.requestId);return !a?null:a.payloadHash!==payloadHash||String(a.actorId)!==String(admin.id)?reply({error:'같은 요청 ID에 다른 내용이 포함되었습니다.',code:'REQUEST_ID_CONFLICT'},409):reply({...output(state),savedRevision:a.revision,replayed:true});};

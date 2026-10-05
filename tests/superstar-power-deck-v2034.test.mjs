@@ -32,8 +32,8 @@ function server(overrides={}){
     async pveDeckCards(env,id){return JSON.parse(env.sqlite.prepare('SELECT card_ids FROM pvp_decks WHERE user_id=?').get(id)?.card_ids||'[]')},...overrides
   });
   vm.runInContext([
-    ...['BATTLE_POWER_DEFAULT','BATTLE_BREAKTHROUGH_DEFAULT','HIGH_BREAKTHROUGH_BONUS_DEFAULT','FUR_MASTER_STAR_BREAKTHROUGH_DEFAULT','FAKER_CHAMPIONSHIP_CARD_ID','FAKER_FLAT_POWER_BONUS','PRESTIGE_DECK_LIMIT','FUR_DECK_LIMIT','ZENITH_DECK_LIMIT','SUPERSTAR_DECK_LIMIT'].map(n=>constantSource(api,n)),
-    ...['defaultBattleSettings','cleanBattleSettingsPayload','cleanHighBreakthroughSteps','cleanFurMasterStarBreakthrough','readBattleSettings','cardPowerBase','breakthroughBonusPercent','cardBattlePower','superstarDeckCount','deckRulesContract','deckGradeCounts','validateDeckGradeLimits','pvpDeckSnapshot','pvpDeckSnapshotByIds','pveDeckSnapshot','pvpDefenseFormationPowers','raidDeckPower','riftDeckCardsInfo'].map(n=>functionSource(api,n))
+    ...['BATTLE_POWER_DEFAULT','BATTLE_BREAKTHROUGH_DEFAULT','HIGH_BREAKTHROUGH_BONUS_DEFAULT','FUR_MASTER_STAR_BREAKTHROUGH_DEFAULT','FAKER_CHAMPIONSHIP_CARD_ID','FAKER_FLAT_POWER_BONUS','PRESTIGE_DECK_LIMIT','FUR_DECK_LIMIT','ZENITH_DECK_LIMIT','SUPERSTAR_DECK_LIMIT','ICON_DECK_LIMIT'].map(n=>constantSource(api,n)),
+    ...['defaultBattleSettings','cleanBattleSettingsPayload','cleanHighBreakthroughSteps','cleanFurMasterStarBreakthrough','readBattleSettings','cardPowerBase','breakthroughBonusPercent','cardBattlePower','superstarDeckCount','iconDeckCount','deckRulesContract','deckGradeCounts','validateDeckGradeLimits','pvpDeckSnapshot','pvpDeckSnapshotByIds','pveDeckSnapshot','pvpDefenseFormationPowers','raidDeckPower','riftDeckCardsInfo'].map(n=>functionSource(api,n))
   ].join('\n'),context);
   context.battleSettings=async()=>context.defaultBattleSettings();
   return context;
@@ -41,7 +41,7 @@ function server(overrides={}){
 function client(){
   const context=vm.createContext({cards:[]});
   vm.runInContext([
-    ...['FAKER_CHAMPIONSHIP_CARD_ID','FAKER_FLAT_POWER_BONUS','HIGH_BREAKTHROUGH_BONUS_FALLBACK','ZENITH_DECK_LIMIT','SUPERSTAR_DECK_LIMIT','DEFAULT_DECK_GRADE_LIMITS','DEFAULT_HEALER_PENALTIES'].map(n=>constantSource(app,n)),
+    ...['FAKER_CHAMPIONSHIP_CARD_ID','FAKER_FLAT_POWER_BONUS','HIGH_BREAKTHROUGH_BONUS_FALLBACK','ZENITH_DECK_LIMIT','SUPERSTAR_DECK_LIMIT','ICON_DECK_LIMIT','DEFAULT_DECK_GRADE_LIMITS','DEFAULT_HEALER_PENALTIES'].map(n=>constantSource(app,n)),
     ...['clientBreakthroughBonusPercent','battleCardPower','deckGradeCount','normalizeDeckRules','deckGradeLimitViolation','deckGradeRuleLabel','deckGradeRuleSummaryHtml'].map(n=>functionSource(app,n))
   ].join('\n'),context);
   return context;
@@ -134,7 +134,7 @@ function database(){
     CREATE TABLE members(id INTEGER PRIMARY KEY,name TEXT);
     CREATE TABLE pvp_decks(user_id INTEGER PRIMARY KEY,card_ids TEXT);
     INSERT INTO members VALUES(1,'fixture');`);
-  const fixtures=[['ss1','SUPERSTAR'],['ss2','SUPERSTAR'],['f1','FUR'],['f2','FUR'],['z1','ZENITH'],['z2','ZENITH'],['p1','PRESTIGE']];
+  const fixtures=[['ss1','SUPERSTAR'],['ss2','SUPERSTAR'],['f1','FUR'],['f2','FUR'],['z1','ZENITH'],['z2','ZENITH'],['p1','PRESTIGE'],['i1','ICON'],['i2','ICON'],['i3','ICON']];
   for(const [id,grade] of fixtures){
     db.prepare('INSERT INTO cards_effective_v1210 VALUES(?,?,?,NULL,3200,NULL,50,50,1)').run(id,id,grade);
     for(const user of [1,2])db.prepare('INSERT INTO user_cards VALUES(?,?,1,13)').run(user,id);
@@ -217,13 +217,13 @@ test('client defaults, stale cached contracts, counters and selection validation
   const s=server(),c=client();
   c.cards=[{id:'1',grade:'SUPERSTAR'},{id:'2',grade:'SUPERSTAR'},{id:'3',grade:'ZENITH'}];
   for(const rules of [{},{gradeLimits:{SUPERSTAR:5}},{grade_limits:{SUPERSTAR:0}},s.deckRulesContract('PVE'),s.deckRulesContract('PVP')]){
-    assert.deepEqual(plain(c.normalizeDeckRules(rules).gradeLimits),{PRESTIGE:2,FUR:2,ZENITH:2,SUPERSTAR:1});
+    assert.deepEqual(plain(c.normalizeDeckRules(rules).gradeLimits),{PRESTIGE:2,FUR:2,ZENITH:2,SUPERSTAR:1,ICON:2});
     assert.equal(c.deckGradeLimitViolation(['1','3'],rules),null);
     assert.deepEqual(plain(c.deckGradeLimitViolation(['1','2','3'],rules)),{grade:'SUPERSTAR',count:2,limit:1});
     assert.match(c.deckGradeRuleSummaryHtml(['1'],rules),/SUPERSTAR<\/b><em>1 \/ 1/);
   }
-  assert.match(pve,/const grades = \['PRESTIGE', 'FUR', 'ZENITH', 'SUPERSTAR'\]/);
-  assert.match(pve,/gradeLimits: \{ \.\.\.fallback\.gradeLimits, .*SUPERSTAR: 1 \}/);
+  assert.match(pve,/const grades = \['PRESTIGE', 'FUR', 'ZENITH', 'SUPERSTAR', 'ICON'\]/);
+  assert.match(pve,/gradeLimits: \{ \.\.\.fallback\.gradeLimits, .*SUPERSTAR: 1, ICON: 2 \}/);
   assert.match(read('css/pve-command-v2.css'),/\.pvev2-deck-rule-chips\{display:grid;grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
 });
 
@@ -245,4 +245,25 @@ test('CMS explains derived power and prevents direct SUPERSTAR overrides without
   assert.doesNotMatch(cms,/7,000|value="7000"/);
   assert.match(cms,/superstar-championship-frame-v1\.webp\?v=1-superstar-grade/);
   assert.match(app,/장비·고유효과 등의 보정은 별도로 적용됩니다/);
+});
+
+test('ICON two-card cap applies to client, saves, legacy snapshots and matchmaking',async()=>{
+ const s=server(),c=client(),{db,env}=database(),good=['i1','i2','f1','z1','ss1'],bad=['i1','i2','i3','f1','ss1'];
+ try{
+  db.prepare('UPDATE pvp_decks SET card_ids=? WHERE user_id=1').run(JSON.stringify(good));
+  db.prepare('UPDATE pvp_decks SET card_ids=? WHERE user_id=2').run(JSON.stringify(bad));
+  assert.equal((await s.validateDeckGradeLimits(env,good,'PVE')).iconCount,2);
+  for(const mode of ['PVE','PVP'])await assert.rejects(s.validateDeckGradeLimits(env,bad,mode),e=>e.code==='ICON_DECK_LIMIT'&&e.limit===2&&e.count===3);
+  assert.equal((await s.pvpDeckSnapshot(env,1)).length,5);
+  for(const promise of [s.pvpDeckSnapshot(env,2),s.pvpDeckSnapshot(env,2,true),s.pvpDeckSnapshotByIds(env,2,bad),s.pveDeckSnapshot(env,2),s.riftDeckCardsInfo(env,2,bad)])assert.equal((await promise).length,0);
+  await assert.rejects(s.raidDeckPower(env,2,bad),e=>e.code==='ICON_DECK_LIMIT');
+  const matched=await s.pvpDefenseFormationPowers(env,[1,2],s.defaultBattleSettings());
+  assert.equal(matched.get(1).deckReady,true);assert.equal(matched.get(2).deckReady,false);
+  c.cards=[1,2,3].map(i=>({id:'i'+i,grade:'ICON'}));
+  for(const rules of [{},{gradeLimits:{ICON:5}},{gradeLimits:{ICON:0}},s.deckRulesContract('PVE')]){
+   assert.equal(c.normalizeDeckRules(rules).gradeLimits.ICON,2);
+   assert.equal(c.deckGradeLimitViolation(['i1','i2'],rules),null);
+   assert.deepEqual(plain(c.deckGradeLimitViolation(['i1','i2','i3'],rules)),{grade:'ICON',count:3,limit:2});
+  }
+ }finally{db.close()}
 });

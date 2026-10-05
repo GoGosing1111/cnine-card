@@ -17,7 +17,7 @@ export const ICON_GRADE = freeze({
   releaseEnabled: false,
   acquisition: {status: 'UNDECIDED', enabled: false, methods: [], drawWeight: 0},
   enhancement: {status: 'UNDECIDED', enabled: false},
-  deckLimit: null,
+  deckLimit: 2,
   frame: {
     source: 'assets/ui/card-frames/icon-streamer-frame-v1.png',
     sha256: '1368693F6861B7ABDCC8601CBF7EB5DAA13B5063B579DB3A8A38285CDCD0CA6F',
@@ -100,7 +100,7 @@ export function iconReadiness(draft=emptyIconDraft()) {
       ...checked.errors,
       '획득 방법 미정',
       '신규 고유효과 종류·수치·중첩 규칙 확정 및 전투 검수 필요',
-      '강화·편성 제한·고유효과 전직 정책 미정',
+      '강화·고유효과 전직 정책 미정',
       '실제 아이콘 카드 대상 지정 및 운영 연결 승인 필요'
     ]
   };

@@ -1574,7 +1574,7 @@ export async function handleSiege({ path, request, env, deps }) {
       return {
         ...card,
         uniqueAbility: uniqueCard?.uniqueAbility || card.uniqueAbility || null,
-        uniqueAdvancement: uniqueCard?.uniqueAdvancement || null,
+        uniqueAdvancement: uniqueCard?.uniqueAdvancement || null, iconRole: uniqueCard?.iconRole || null,
       };
     });
     const refreshedEnergy = await refreshSiegeEnergy(env, event.id, user.id, mine, cfg);

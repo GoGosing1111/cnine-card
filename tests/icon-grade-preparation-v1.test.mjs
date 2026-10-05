@@ -14,7 +14,7 @@ test('ICON is a distinct streamer tier above ZENITH, fixed base 180,000 with und
   assert.equal(ICON_GRADE.category,'STREAMER_CARD');assert.equal(ICON_GRADE.aboveGrade,'ZENITH');
   for(const grade of ['ICON','icon',' ICON ']){assert.equal(isIconGrade(grade),true);assert.equal(iconCardBasePower(grade),180000);}
   for(const grade of ['ZENITH','SUPERSTAR','FUR','SSS',null,{},'ICONS'])assert.equal(iconCardBasePower(grade),null);
-  assert.equal(ICON_GRADE.enhancement.enabled,false);assert.equal(ICON_GRADE.deckLimit,null);
+  assert.equal(ICON_GRADE.enhancement.enabled,false);assert.equal(ICON_GRADE.deckLimit,2);
   assert.equal(ICON_GRADE.powerPolicy,'BASE_ONLY_GROWTH_UNDECIDED');
 });
 
