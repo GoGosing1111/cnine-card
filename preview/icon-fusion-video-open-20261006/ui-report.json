@@ -1,0 +1,54 @@
+[
+  {
+    "width": 1600,
+    "video": {
+      "duration": 10.005,
+      "width": 720,
+      "height": 1280,
+      "muted": true,
+      "playsInline": true,
+      "paused": false,
+      "rect": {
+        "top": 198,
+        "bottom": 951.734375,
+        "width": 808,
+        "height": 753.734375
+      },
+      "viewport": 1000,
+      "inViewport": true,
+      "currentTime": 0.260894,
+      "error": null
+    },
+    "completion": "natural-ended",
+    "posts": 1,
+    "success": true,
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "width": 390,
+    "video": {
+      "duration": 10.005,
+      "width": 720,
+      "height": 1280,
+      "muted": true,
+      "playsInline": true,
+      "paused": false,
+      "rect": {
+        "top": 205,
+        "bottom": 744,
+        "width": 364,
+        "height": 539
+      },
+      "viewport": 844,
+      "inViewport": true,
+      "currentTime": 0.257908,
+      "error": null
+    },
+    "completion": "skip",
+    "posts": 1,
+    "success": true,
+    "overflow": false,
+    "errors": []
+  }
+]

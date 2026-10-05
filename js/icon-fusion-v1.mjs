@@ -105,6 +105,8 @@ async function execute(plan){
 function playReveal(result,generation){
   return new Promise(resolve=>{
     const stage=state.root.querySelector('.if-stage'),canvas=stage.querySelector('canvas'),ctx=canvas.getContext('2d'),skip=stage.querySelector('.if-skip'),reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // Mobile checkout is below the stage; bring the video into view before playback.
+    stage.scrollIntoView({behavior:reduce?'instant':'smooth',block:'center'});
     let done=false,raf=0,video=null,timer=0,start=performance.now();
     const finish=()=>{if(done)return;done=true;cancelAnimationFrame(raf);clearTimeout(timer);if(video){video.pause();video.removeAttribute('src');video.load();video.remove();}skip.hidden=true;stage.classList.remove('is-committing','is-converging','is-revealing');if(ctx)ctx.clearRect(0,0,canvas.width,canvas.height);if(state.cleanup===finish)state.cleanup=null;resolve();};
     state.cleanup=finish;skip.hidden=false;skip.onclick=finish;
@@ -116,7 +118,7 @@ function playReveal(result,generation){
       video=document.createElement('video');video.className='if-success-video';video.playsInline=true;video.setAttribute('playsinline','');video.setAttribute('webkit-playsinline','');video.preload='auto';video.src=result.successVideo.url;
       video.muted=typeof globalThis.battleSoundEnabled==='function'?!globalThis.battleSoundEnabled():localStorage.getItem('cnine_battle_sound')==='OFF';video.controls=false;
       video.addEventListener('ended',finish,{once:true});video.addEventListener('error',finish,{once:true});stage.querySelector('.if-video-slot').append(video);
-      timer=setTimeout(finish,Math.min(65000,Math.max(5000,result.successVideo.durationMs+5000)));video.play().catch(finish);
+      timer=setTimeout(finish,Math.min(65000,Math.max(5000,result.successVideo.durationMs+5000)));video.play().catch(error=>{if(error.name==='AbortError'&&video?.dataset.runtimeWasPlaying==='1'&&!done)return;finish();});
     };
     const frame=now=>{if(done)return;if(generation!==state.generation||!stage.isConnected){finish();return;}const elapsed=now-start,duration=reduce?180:3100,t=Math.min(1,elapsed/duration);ctx?.clearRect(0,0,w,h);
       if(ctx){for(const p of particles){const a=p.angle+elapsed*.00025*p.speed,r=p.r*(1-t*.84),x=w/2+Math.cos(a)*r,y=h*.42+Math.sin(a)*r*.7;ctx.globalAlpha=Math.min(1,t*4)*(1-t*.3);ctx.fillStyle=result.success?'#fbe6a9':'#c98782';ctx.shadowColor=ctx.fillStyle;ctx.shadowBlur=8;ctx.beginPath();ctx.arc(x,y,p.size,0,Math.PI*2);ctx.fill();}ctx.globalAlpha=1;}
