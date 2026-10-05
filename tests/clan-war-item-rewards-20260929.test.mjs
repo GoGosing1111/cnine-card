@@ -13,9 +13,11 @@ import {CLAN_WAR_ITEM_REWARD_DEFAULTS,validateClanWarItemRewards} from '../share
 import {LOOT_SHOP_DEFAULTS} from '../shared/loot-shop-policy-v1.mjs';
 
 const start='2026-09-29T12:00:00.000Z',end='2026-09-29T13:00:00.000Z';
+const coinStart='2026-10-06T12:00:00.000Z',coinEnd='2026-10-06T14:00:00.000Z';
 async function fixture(t,postgres){
  const schema=[
   'CREATE TABLE users(id BIGINT PRIMARY KEY,coin BIGINT DEFAULT 300)',
+  'CREATE TABLE coin_logs(user_id BIGINT,change_amount BIGINT,balance_after BIGINT,reason TEXT,created_at TEXT)',
   'CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT)',
   'CREATE TABLE inventory_items(code TEXT PRIMARY KEY,is_active BIGINT)',
   'CREATE TABLE cnine_user_inventory(user_id BIGINT,item_code TEXT,quantity BIGINT NOT NULL,unseen_quantity BIGINT NOT NULL,created_at TEXT,updated_at TEXT,PRIMARY KEY(user_id,item_code))',
@@ -30,18 +32,19 @@ async function fixture(t,postgres){
   'CREATE TABLE clan_participation_receipts(season_id BIGINT,status TEXT,base_coin BIGINT,win_bonus_coin BIGINT,milestone_coin BIGINT)',
   ...JOINT_ATOMIC_SCHEMA
  ];
- let DB,fail='';
+ let DB,fail='',skip='';
  if(postgres){
   const pg=new PGlite();t.after(()=>pg.close());
   await pg.exec("CREATE FUNCTION sqlite_now() RETURNS text LANGUAGE SQL STABLE AS $$SELECT to_char(timezone('UTC',CURRENT_TIMESTAMP),'YYYY-MM-DD HH24:MI:SS')$$;");
   await pg.exec(schema.join(';'));
   DB=new __postgresCompatTest.PostgresD1Database({async query(input){
    const sql=typeof input==='string'?input:input.text;if(fail&&sql.includes(fail))throw Error('INJECTED');
+   if(skip&&sql.includes(skip))return {rows:[],rowCount:0};
    const r=await pg.query(sql,typeof input==='string'?[]:input.values||[]);return {...r,rowCount:r.affectedRows??r.rows.length};
   }});
  }else{
   const db=new DatabaseSync(':memory:');t.after(()=>db.close());db.exec(schema.join(';'));
-  const execute=s=>{if(fail&&s.sql.includes(fail))throw Error('INJECTED');const r=db.prepare(s.sql).run(...s.values);return {meta:{changes:Number(r.changes)}};};
+  const execute=s=>{if(fail&&s.sql.includes(fail))throw Error('INJECTED');if(skip&&s.sql.includes(skip))return {meta:{changes:0}};const r=db.prepare(s.sql).run(...s.values);return {meta:{changes:Number(r.changes)}};};
   const prepare=(sql,values=[])=>({sql,values,bind(...v){return prepare(sql,v);},async first(){return db.prepare(sql).get(...values)||null;},async all(){return {results:db.prepare(sql).all(...values)};},async run(){return execute(this);}});
   DB={prepare,async batch(list){db.exec('BEGIN');try{const r=list.map(execute);db.exec('COMMIT');return r;}catch(e){db.exec('ROLLBACK');throw e;}}};
  }
@@ -58,7 +61,7 @@ async function fixture(t,postgres){
  await p('INSERT INTO clan_participation_progress VALUES(64,1,30),(64,3,29),(64,4,1)').run();
  for(let i=0;i<30;i++)await p("INSERT INTO clan_war_battles VALUES(64,4,2,5,'COMPLETED')").run();
  await p("INSERT INTO clan_war_battles VALUES(64,3,2,1,'FAILED')").run();
- return {env,DB,p,settings,setting,fail:s=>{fail=s;},quantity:async(id,code)=>Number((await p('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?',id,code).first())?.quantity||0)};
+ return {env,DB,p,settings,setting,fail:s=>{fail=s;},skip:s=>{skip=s;},quantity:async(id,code)=>Number((await p('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?',id,code).first())?.quantity||0)};
 }
 
 test('CMS defaults, partial save and invalid item quantities',()=>{
@@ -68,10 +71,91 @@ test('CMS defaults, partial save and invalid item quantities',()=>{
  const partial=__clanTest.cleanClanAdminSettings({mode:'OFF'},saved);
  assert.equal(partial.roundParticipationMysticEnergy,750);assert.equal(partial.roundVictoryMasterStars,2000000);
  for(const key of Object.keys(CLAN_WAR_ITEM_REWARD_DEFAULTS)){
-  for(const value of [-1,1.5,1000000001,'bad','',null,true])assert.throws(()=>validateClanWarItemRewards({[key]:value}));
+  const max=key.endsWith('Coin')?1000000000000:1000000000;
+  for(const value of [-1,1.5,max+1,'bad','',null,true])assert.throws(()=>validateClanWarItemRewards({[key]:value}));
   for(const value of [0,500,1500000,1000000000])assert.doesNotThrow(()=>validateClanWarItemRewards({[key]:value}));
+  assert.doesNotThrow(()=>validateClanWarItemRewards({[key]:max}));
  }
 });
+
+async function coinFixture(t,postgres){
+ const f=await fixture(t,postgres);
+ await f.p('UPDATE clan_wars SET starts_at=?,ends_at=?',coinStart,coinEnd).run();
+ await f.p('UPDATE clan_members SET joined_at=? WHERE user_id=6','2026-10-06T14:00:01.000Z').run();
+ f.settings.roundParticipationMysticEnergy=1000;
+ await f.setting('clan_settings_v1',f.settings);
+ f.coins=async()=>Promise.all([1,2,3,4,5,6].map(async id=>Number((await f.p('SELECT coin FROM users WHERE id=?',id).first()).coin)));
+ return f;
+}
+for(const postgres of [false,true]){
+ const label=postgres?'PostgreSQL':'SQLite';
+ test(label+': round coin rewards pay 1000억 victory plus 500억 participation independently with existing items',async t=>{
+  const f=await coinFixture(t,postgres),r=await settleClanWarItems(f.env,64,f.settings);
+  assert.deepEqual(await f.coins(),[150000000300,100000000300,300,50000000300,300,300]);
+  assert.deepEqual(r.coinGrants.map(g=>[g.userId,g.victory,g.participation]),[[1,100000000000,50000000000],[2,100000000000,0],[4,0,50000000000]]);
+  assert.equal(await f.quantity(1,'MASTER_STAR'),1500000);assert.equal(await f.quantity(1,'STARLIGHT_ARMOR_CORE'),1000);
+  assert.equal(await f.quantity(4,'STARLIGHT_ARMOR_CORE'),1000);
+  const logs=(await f.p('SELECT l.* FROM coin_logs l JOIN users u ON u.id=l.user_id WHERE l.balance_after=u.coin').all()).results;
+  assert.equal(logs.length,3);assert.equal(logs.reduce((sum,r)=>sum+Number(r.change_amount),0),300000000000);
+ });
+ test(label+': round coins, items and receipt roll back together on wallet, log or item failures and zero-row writes',async t=>{
+  const f=await coinFixture(t,postgres);
+  for(const kind of ['fail','skip'])for(const point of ['INSERT INTO coin_logs','UPDATE users SET coin=coin+','INSERT INTO inventory_logs']){
+   f[kind](point);await assert.rejects(()=>settleClanWarItems(f.env,64,f.settings));f[kind]('');
+   assert.deepEqual(await f.coins(),[300,300,300,300,300,300]);
+   assert.equal(Number((await f.p('SELECT COUNT(*) n FROM coin_logs').first()).n),0);
+   assert.equal(Number((await f.p('SELECT COUNT(*) n FROM cnine_user_inventory').first()).n),0);
+   assert.equal(await f.p('SELECT value FROM app_meta WHERE key=?',clanWarItemReceiptKey(64)).first(),null);
+  }
+  await settleClanWarItems(f.env,64,f.settings);assert.equal((await f.coins())[0],150000000300);
+ });
+ test(label+': concurrent completion, response loss and repeated recovery cannot duplicate round coins',async t=>{
+  const f=await coinFixture(t,postgres);
+  const r=await Promise.all([settleClanWarItems(f.env,64,f.settings),settleClanWarItems(f.env,64,f.settings)]);
+  assert.equal(r.filter(x=>!x.replayed).length,1);
+  await settlePendingClanWarItems(f.env,5,f.settings);await settleClanWarItems(f.env,64,f.settings);
+  assert.equal((await f.coins())[0],150000000300);
+  await f.p("INSERT INTO clan_wars(id,season_id,round_no,clan_a_id,clan_b_id,winner_clan_id,status,starts_at,ends_at) VALUES(65,5,2,1,2,2,'COMPLETED',?,?)",coinStart,coinEnd).run();
+  const batch=f.DB.batch.bind(f.DB);let lost=true;
+  f.DB.batch=async statements=>{const result=await batch(statements);if(lost){lost=false;throw Error('LOST_ACK');}return result;};
+  assert.equal((await settleClanWarItems(f.env,65,f.settings)).replayed,true);
+  await settleClanWarItems(f.env,65,f.settings);
+  assert.deepEqual(await f.coins(),[150000000300,100000000300,100000000300,150000000300,100000000300,300]);
+  assert.equal(Number((await f.p('SELECT COUNT(*) n FROM coin_logs').first()).n),6);
+ });
+ test(label+': frozen coin rules survive CMS edits; next round uses the edited amount and zero disables it',async t=>{
+  const f=await coinFixture(t,postgres),changed={...f.settings,roundVictoryCoin:200000000000,roundParticipationCoin:0};
+  await f.p("UPDATE clan_wars SET status='ACTIVE'").run();
+  await prepareClanParticipationSettings(f.env,f.settings,changed,Date.parse(coinStart)+1000);
+  await f.setting('clan_settings_v1',changed);await f.p("UPDATE clan_wars SET status='COMPLETED'").run();
+  await settleClanWarItems(f.env,64,changed);assert.equal((await f.coins())[0],150000000300);
+  await f.p("INSERT INTO clan_wars(id,season_id,round_no,clan_a_id,clan_b_id,winner_clan_id,status,starts_at,ends_at) VALUES(65,5,2,1,2,2,'COMPLETED',?,?)",coinStart,coinEnd).run();
+  await f.p('INSERT INTO clan_participation_progress VALUES(65,1,30)').run();
+  await settleClanWarItems(f.env,65,changed);
+  assert.deepEqual(await f.coins(),[150000000300,100000000300,200000000300,250000000300,200000000300,300]);
+ });
+ test(label+': legacy snapshots, earlier rounds and existing receipts never gain retroactive coin grants',async t=>{
+  const f=await coinFixture(t,postgres);
+  await f.p("INSERT INTO clan_participation_round_rules VALUES(5,1,?)",JSON.stringify({roundParticipationMysticEnergy:1000,roundVictoryMasterStars:1500000})).run();
+  const r=await settleClanWarItems(f.env,64,f.settings);assert.deepEqual(r.coinGrants,[]);
+  assert.equal(await f.quantity(1,'MASTER_STAR'),1500000);
+  await f.p('DELETE FROM clan_participation_round_rules').run();
+  assert.equal((await settleClanWarItems(f.env,64,f.settings)).replayed,true);
+  await f.p("INSERT INTO clan_wars(id,season_id,round_no,clan_a_id,clan_b_id,winner_clan_id,status,starts_at,ends_at) VALUES(65,5,2,1,2,2,'COMPLETED',?,?)",start,end).run();
+  assert.deepEqual((await settleClanWarItems(f.env,65,f.settings)).coinGrants,[]);
+  assert.deepEqual(await f.coins(),[300,300,300,300,300,300]);
+ });
+ test(label+': coin-only rewards remain payable with item quantities zero and reject unsafe balances atomically',async t=>{
+  const f=await coinFixture(t,postgres),settings={...f.settings,roundParticipationMysticEnergy:0,roundVictoryMasterStars:0};
+  await f.setting('clan_settings_v1',settings);
+  await f.p('UPDATE users SET coin=? WHERE id=2',Number.MAX_SAFE_INTEGER-100000000000+1).run();
+  await assert.rejects(()=>settleClanWarItems(f.env,64,settings));assert.equal((await f.coins())[0],300);
+  await f.p('UPDATE users SET coin=? WHERE id=2',Number.MAX_SAFE_INTEGER-100000000000).run();
+  const r=await settleClanWarItems(f.env,64,settings);
+  assert.equal(r.grants.length,0);assert.equal(r.coinGrants.length,3);
+  assert.equal((await f.coins())[1],Number.MAX_SAFE_INTEGER);
+ });
+}
 for(const postgres of [false,true]){
  const label=postgres?'PostgreSQL':'SQLite';
  test(label+': completed attacks and winners receive cumulative inventory rewards once',async t=>{

@@ -1,0 +1,85 @@
+{
+  "date": "2026-10-06",
+  "request": "정규 클랜전 승리 보상에 1인당 1,000억 코인, 공격 30회 완료 참가 보상에 1인당 500억 코인을 추가한다.",
+  "policy": {
+    "roundVictoryCoin": 100000000000,
+    "roundParticipationCoin": 50000000000,
+    "combinedCoin": 150000000000,
+    "minCompletedAttacks": 30,
+    "automaticSettlement": true,
+    "configuredItemsPreserved": {
+      "roundParticipationMysticEnergy": 1000,
+      "roundVictoryMasterStars": 1500000
+    },
+    "pigCoinsPreserved": {
+      "participation": 30,
+      "victory": 30
+    },
+    "burningMultiplier": false,
+    "coinEligibilityStartsAt": "2026-10-05T19:44:27.000Z",
+    "firstScheduledRoundKST": "2026-10-06 21:00–23:00",
+    "firstWarIds": [
+      218,
+      219,
+      220,
+      221
+    ],
+    "noRetroactivePayment": true
+  },
+  "implementation": {
+    "cms": "클랜전 관리 → 04-D 회차 참가·승리팀 보상",
+    "coinSettingsRange": "0–1,000,000,000,000; 0 disables the corresponding coin award",
+    "missingConfig": "Approved defaults are merged with existing saved settings without rewriting other reward amounts",
+    "roundRules": "Existing snapshots and receipts retain their amounts; new round snapshots freeze both coin amounts",
+    "transaction": "Coin ledger, wallet updates, existing inventory items and the settlement receipt are committed in one existing DB batch",
+    "guards": [
+      "ON regular round, completed result and resolved attacks",
+      "Winner membership and participation qualification remain independent",
+      "Shared receipt prevents duplicate and concurrent payment",
+      "Wallet limits, missing/zero-row writes and every log are verified; any failure rolls back the bundle",
+      "Coin-log proof uses the existing created_at index"
+    ]
+  },
+  "validation": {
+    "development": {
+      "test": "tests/clan-war-item-rewards-20260929.test.mjs",
+      "passed": 29,
+      "failed": 0,
+      "note": "Before adding created_at index bounds; the final scoped gate rechecks the updated statements."
+    },
+    "ui": {
+      "viewports": [
+        "1440×900",
+        "390×844"
+      ],
+      "defaults": true,
+      "editSaveReloadRestore": true,
+      "coinFieldsClickable": true,
+      "itemAmountsPreserved": true,
+      "noHorizontalOverflow": true,
+      "errors": []
+    },
+    "productionReadOnly": {
+      "mode": "ON",
+      "coinColumns": "users.coin, coin_logs.change_amount and balance_after are BIGINT",
+      "nextRoundSnapshot": null,
+      "productionDataWrites": 0
+    },
+    "artifacts": "C:/Users/User/.codex/tmp/clan-round-coin-20261006"
+  },
+  "release": {
+    "type": "scoped",
+    "base": "a76b432236c687429f6eb9789a5a77540954cb2f",
+    "reason": "Regular clan-round settlement and CMS only; existing DB batch and schema are reused. Validate fixed amounts, qualification, atomicity, retries, frozen rules, pig-coin preservation and CMS integration.",
+    "tests": [
+      "tests/clan-war-item-rewards-20260929.test.mjs",
+      "tests/clan-war-pig-rewards.test.mjs",
+      "tests/clan-war-cms-v1943.test.mjs",
+      "tests/clan-participation-positive-v2040.test.mjs"
+    ],
+    "checks": [
+      "check:worker"
+    ],
+    "status": "READY_FOR_SCOPED_DEPLOY"
+  }
+}

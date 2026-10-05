@@ -1,4 +1,4 @@
-import {CLAN_WAR_ITEM_REWARDS_START,clanWarItemRewardRule,validateClanWarItemRewards} from '../shared/clan-war-item-rewards-v1.mjs';
+import {CLAN_WAR_ITEM_REWARDS_START,CLAN_WAR_COIN_REWARDS_START,clanWarItemRewardRule,validateClanWarItemRewards} from '../shared/clan-war-item-rewards-v1.mjs';
 import {clanWarParticipationSettings} from './_clan_participation.js';
 import {readLootShopPolicy,LOOT_SHOP_KEY} from './_loot_shop.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
@@ -15,6 +15,8 @@ export async function settleClanWarItems(env,warId,settings){
  const war=await p("SELECT * FROM clan_wars WHERE id=? AND round_no<1000 AND status='COMPLETED' AND winner_clan_id IN (clan_a_id,clan_b_id) AND NOT EXISTS(SELECT 1 FROM clan_war_battles b WHERE b.war_id=clan_wars.id AND b.status IN ('PENDING','RESOLVING'))",warId).first();
  if(!war||!Number.isFinite(time(war.starts_at))||time(war.starts_at)<Date.parse(CLAN_WAR_ITEM_REWARDS_START))return {status:'INELIGIBLE'};
  const rule=clanWarItemRewardRule(await clanWarParticipationSettings(env,war,settings));validateClanWarItemRewards(rule);
+ // New coin grants never backfill earlier rounds, including an old pending settlement.
+ if(time(war.starts_at)<Date.parse(CLAN_WAR_COIN_REWARDS_START))rule.roundParticipationCoin=rule.roundVictoryCoin=0;
  const config=await p('SELECT value FROM app_meta WHERE key=?',SETTINGS_KEY).first();
  if(!config||JSON.parse(config.value).mode!=='ON')return {status:'INELIGIBLE'};
  const loot=await readLootShopPolicy(env),minAttacks=loot.policy.sources.find(s=>s.code==='CLAN')?.minAttacks;
@@ -31,15 +33,31 @@ export async function settleClanWarItems(env,warId,settings){
   ...(m.attacks>=minAttacks&&rule.roundParticipationMysticEnergy>0?[{userId:m.userId,itemCode:'STARLIGHT_ARMOR_CORE',amount:rule.roundParticipationMysticEnergy}]:[]),
   ...(m.clanId===Number(war.winner_clan_id)&&rule.roundVictoryMasterStars>0?[{userId:m.userId,itemCode:'MASTER_STAR',amount:rule.roundVictoryMasterStars}]:[])
  ]);
+ const coinGrants=members.map(m=>{
+  const participation=m.attacks>=minAttacks?rule.roundParticipationCoin:0,victory=m.clanId===Number(war.winner_clan_id)?rule.roundVictoryCoin:0;
+  return {userId:m.userId,participation,victory,amount:participation+victory};
+ }).filter(g=>g.amount>0);
  const token=crypto.randomUUID(),at=new Date().toISOString(),reference=`WAR:${warId}:${token}`;
- const receipt={status:'COMPLETED',warId:Number(warId),seasonId:Number(war.season_id),roundNo:Number(war.round_no),winnerClanId:Number(war.winner_clan_id),rule:{...rule,minAttacks},members,grants,token,completedAt:at};
+ const receipt={status:'COMPLETED',warId:Number(warId),seasonId:Number(war.season_id),roundNo:Number(war.round_no),winnerClanId:Number(war.winner_clan_id),rule:{...rule,minAttacks},members,grants,coinGrants,token,completedAt:at};
  const packed=JSON.stringify(receipt),owned='EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',guard=crypto.randomUUID();
  const statements=[...(DB.dialect==='postgres'?[p('SELECT id FROM clan_wars WHERE id=? FOR UPDATE',warId),p('SELECT key FROM app_meta WHERE key IN (?,?) ORDER BY key FOR SHARE',SETTINGS_KEY,LOOT_SHOP_KEY)]:[]),
   jointGuard(DB,guard,`EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND EXISTS(SELECT 1 FROM clan_wars WHERE id=? AND status='COMPLETED' AND winner_clan_id=?) AND ${loot.raw===null?'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)':'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)'}`,
    [SETTINGS_KEY,config.value,warId,war.winner_clan_id,LOOT_SHOP_KEY,...(loot.raw===null?[]:[loot.raw])]),
   p('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING',key,packed)];
- const ids=[...new Set(grants.map(g=>g.userId))].sort((a,b)=>a-b);
+ const ids=[...new Set([...grants,...coinGrants].map(g=>g.userId))].sort((a,b)=>a-b);
  if(DB.dialect==='postgres'&&ids.length)statements.push(p(`SELECT id FROM users WHERE id IN (${ids.map(()=>'?').join(',')}) ORDER BY id FOR UPDATE`,...ids));
+ if(coinGrants.length){
+  const payload=coinGrants.map(()=> 'SELECT CAST(? AS BIGINT) user_id,CAST(? AS BIGINT) amount').join(' UNION ALL '),values=coinGrants.flatMap(g=>[g.userId,g.amount]);
+  const coinIds=coinGrants.map(g=>g.userId),marks=coinIds.map(()=>'?').join(','),reason=`클랜전 회차 승리·참가 코인 보상 ${reference}`,safe=crypto.randomUUID(),paid=crypto.randomUUID();
+  statements.push(jointGuard(DB,safe,`NOT (${owned}) OR NOT EXISTS(SELECT 1 FROM (${payload}) a LEFT JOIN users u ON u.id=a.user_id WHERE u.id IS NULL OR u.coin IS NULL OR u.coin<0 OR u.coin>?-a.amount)`,[key,packed,...values,Number.MAX_SAFE_INTEGER]));
+  // Record the expected balance under the user locks, then verify every credit.
+  // Both the coins and the existing items share this settlement receipt/batch.
+  statements.push(p(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason,created_at)
+   SELECT u.id,a.amount,u.coin+a.amount,?,? FROM (${payload}) a JOIN users u ON u.id=a.user_id WHERE ${owned}`,reason,at,...values,key,packed));
+  statements.push(p(`UPDATE users SET coin=coin+(SELECT a.amount FROM (${payload}) a WHERE a.user_id=users.id) WHERE id IN (${marks}) AND ${owned}`,...values,...coinIds,key,packed));
+  // created_at uses the existing log index; never scan the full coin history.
+  statements.push(jointGuard(DB,paid,`NOT (${owned}) OR ((SELECT COUNT(*) FROM coin_logs WHERE created_at=? AND user_id IN (${marks}) AND reason=?)=? AND NOT EXISTS(SELECT 1 FROM (${payload}) a LEFT JOIN users u ON u.id=a.user_id LEFT JOIN coin_logs l ON l.user_id=a.user_id AND l.reason=? AND l.created_at=? WHERE l.user_id IS NULL OR l.change_amount<>a.amount OR u.coin<>l.balance_after))`,[key,packed,at,...coinIds,reason,coinGrants.length,...values,reason,at]),jointGuardEnd(DB,paid),jointGuardEnd(DB,safe));
+ }
  for(const code of ['STARLIGHT_ARMOR_CORE','MASTER_STAR']){
   const eligible=grants.filter(g=>g.itemCode===code);if(!eligible.length)continue;
   const payload=eligible.map(()=> 'SELECT CAST(? AS BIGINT) user_id,CAST(? AS BIGINT) amount').join(' UNION ALL '),values=eligible.flatMap(g=>[g.userId,g.amount]);
