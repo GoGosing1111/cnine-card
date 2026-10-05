@@ -56,6 +56,7 @@ export async function mountLimitedPack({api,accountId,getAccountId,storage,previ
   catch{$('[data-lp-quote]').textContent='1~1,000회 · 가격 설정 후 이용 가능';}
  };
  const renderConfig=()=>{
+  if(!config)return;
   $('[data-lp-price-one]').textContent=fmt(config.packSettings.prices.single);$('[data-lp-price-ten]').textContent=fmt(config.packSettings.prices.ten);
   $('[data-lp-access]').textContent=preview?'연출 검수 모드':config.userOpeningEnabled?'계약 개봉 가능':'출시 준비 중 · 개봉 OFF';
   $('[data-lp-roster]').innerHTML=config.cards.map(c=>{
@@ -85,7 +86,7 @@ export async function mountLimitedPack({api,accountId,getAccountId,storage,previ
     window.dispatchEvent(new CustomEvent('limited-pack:receipt',{detail:{coin:r.coin,accountId,requestId:r.requestId}}));
    }
    for(const draw of r.draws){
-    if(draw.mercenaryCode){const stock=config.stock.find(s=>s.code===draw.mercenaryCode);if(stock){stock.issued++;if(stock.remaining!==null)stock.remaining=Math.max(0,stock.remaining-1);}}
+    if(draw.mercenaryCode){const stock=config?.stock?.find(s=>s.code===draw.mercenaryCode);if(stock){stock.issued++;if(stock.remaining!==null)stock.remaining=Math.max(0,stock.remaining-1);}}
     history.unshift(draw.mercenaryCode?draw.rank+' '+draw.name+' · No. '+String(draw.serial).padStart(6,'0'):(draw.outcomeId==='NONE'?'획득 없음':({MASTER_STAR:'마스터의 별',MYSTIC_ENERGY:'미스틱 에너지'}[draw.outcomeId]+' '+fmt(draw.quantity)+'개')));
    }
    history.splice(30);$('[data-lp-history]').innerHTML=history.map(s=>'<li>'+esc(s)+'</li>').join('');renderConfig();
@@ -108,7 +109,7 @@ export async function mountLimitedPack({api,accountId,getAccountId,storage,previ
   if(!config?.userOpeningEnabled||busy)return;
   try{
    const plan=limitedAutoPlan(config.packSettings,totalCount,batchCount);
-   confirmation={total:totalCount,batch:batchCount};mode=automatic?'auto':'manual';
+   confirmation={total:totalCount,batch:batchCount,config:structuredClone(config)};mode=automatic?'auto':'manual';
    $('[data-lp-confirm-text]').textContent=(preview?'검수용 개봉입니다. 실제 차감·지급은 없습니다. ':'')+(automatic?'자동 ':'')+totalCount+'회 · '+fmt(plan.cost)+' 코인'+(automatic?'\n카드 공개 연출 후 자동으로 다음 계약을 진행합니다.':'');
    $('[data-lp-confirm]').hidden=false;$('[data-lp-confirm-start]').focus();
   }catch(e){say(e.message);}
@@ -128,8 +129,8 @@ export async function mountLimitedPack({api,accountId,getAccountId,storage,previ
  $('[data-lp-auto]').onclick=()=>confirm(Number($('[data-lp-total]').value),Number($('[data-lp-batch]').value),true);
  $('[data-lp-cancel]').onclick=()=>{$('[data-lp-confirm]').hidden=true;confirmation=null;};
  $('[data-lp-confirm-start]').onclick=()=>{
-  if(!confirmation||busy)return;const plan=confirmation;confirmation=null;$('[data-lp-confirm]').hidden=true;
-  dialog.scrollTo({top:0,behavior:'instant'});total=plan.total;revealed=0;void run(()=>session.start(config,plan));
+  if(!confirmation||busy)return;const {config:confirmedConfig,...plan}=confirmation;confirmation=null;$('[data-lp-confirm]').hidden=true;
+  dialog.scrollTo({top:0,behavior:'instant'});total=plan.total;revealed=0;void run(()=>session.start(confirmedConfig,plan));
  };
  $('[data-lp-stop-stage]').onclick=$('[data-lp-stop]').onclick=()=>{session.stop();sync();};
  $('[data-lp-skip]').onclick=()=>{session.stop();fx?.skip();};

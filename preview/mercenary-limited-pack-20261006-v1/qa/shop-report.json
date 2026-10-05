@@ -1,7 +1,9 @@
 {
   "checks": [
     "desktop real shop component opens gated contract room; unset price never shows free purchase",
-    "mobile real shop component opens gated contract room; unset price never shows free purchase"
+    "mobile real shop component opens gated contract room; unset price never shows free purchase",
+    "a delayed price refresh cannot replace the price revision the user confirmed",
+    "receipt recovery still presents the card when the configuration read is unavailable"
   ],
   "errors": []
 }
