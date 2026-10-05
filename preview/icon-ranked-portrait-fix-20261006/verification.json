@@ -1,0 +1,127 @@
+{
+  "deployment": {
+    "id": "4b1d299c-a316-4e0d-b6a0-d397ee715f65",
+    "url": "https://4b1d299c.cnine-card.pages.dev",
+    "createdAt": "2026-10-05T18:03:05.973912Z",
+    "sha": "89d3035169f92fc93496290e22a1c2857e59c6a3",
+    "stage": "success"
+  },
+  "css": {
+    "href": "css/style.css?v=1879-player-ultimate-skip&cubeRemoval=20261003&iconPortrait=20261006",
+    "status": 200,
+    "sha256": "9caad937556ba88441d2e481113b5cfe32e05744330374bb0b19b3149c60cf24",
+    "matchesLocal": true
+  },
+  "before": [
+    {
+      "width": 390,
+      "coverage": 0,
+      "styles": {
+        "width": "94.8594px",
+        "height": "102.438px",
+        "aspectRatio": "1 / 1.08",
+        "objectFit": "cover",
+        "top": "-154.688px",
+        "left": "-20.0938px"
+      }
+    },
+    {
+      "width": 1440,
+      "coverage": 1,
+      "styles": {
+        "width": "286.125px",
+        "height": "667.625px",
+        "aspectRatio": "auto",
+        "objectFit": "fill",
+        "top": "-226.516px",
+        "left": "-29.4375px"
+      }
+    }
+  ],
+  "regression": [
+    {
+      "width": 390,
+      "cards": [
+        {
+          "id": "CN-1C000006",
+          "coverage": 1
+        },
+        {
+          "id": "CN-1C000001",
+          "coverage": 1
+        },
+        {
+          "id": "CN-1C000002",
+          "coverage": 1
+        },
+        {
+          "id": "CN-1C000003",
+          "coverage": 1
+        },
+        {
+          "id": "CN-1C000004",
+          "coverage": 1
+        },
+        {
+          "id": "CN-1C000005",
+          "coverage": 1
+        },
+        {
+          "id": "CN-1C000007",
+          "coverage": 1
+        }
+      ],
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "cards": [
+        {
+          "id": "CN-1C000006",
+          "coverage": 1
+        },
+        {
+          "id": "CN-1C000001",
+          "coverage": 1
+        },
+        {
+          "id": "CN-1C000002",
+          "coverage": 1
+        },
+        {
+          "id": "CN-1C000003",
+          "coverage": 1
+        },
+        {
+          "id": "CN-1C000004",
+          "coverage": 1
+        },
+        {
+          "id": "CN-1C000005",
+          "coverage": 1
+        },
+        {
+          "id": "CN-1C000007",
+          "coverage": 1
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "live": [
+    {
+      "width": 390,
+      "coverage": 1,
+      "styles": {
+        "width": "195.375px",
+        "height": "455.875px",
+        "aspectRatio": "auto",
+        "objectFit": "fill",
+        "top": "-154.688px",
+        "left": "-20.0938px"
+      },
+      "errors": []
+    }
+  ],
+  "apiResponses": "Local read-only fixture; deployed HTML, CSS, scripts and images used for production smoke check"
+}
