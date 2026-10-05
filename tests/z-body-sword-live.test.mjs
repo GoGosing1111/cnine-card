@@ -14,6 +14,7 @@ import {ensureEquipmentFoundation} from '../functions/_equipment.js';
 import {ACHIEVEMENT_TITLES_KEY,ACHIEVEMENT_TITLE_POWER_KEY} from '../functions/_achievement_titles.js';
 import {PREDICTION_TITLE_KEY} from '../functions/_prediction_title.js';
 import {SUPPORTER_BLUE_BEAST_TITLES_KEY} from '../functions/_supporter_blue_beast_titles.js';
+import {OVERLORD_UPGRADE_KEY} from '../functions/_battle_suit_overlord.js';
 import {JointSQLiteDB} from './helpers/joint-db.mjs';
 import {createPveBattleV2} from '../functions/_battle_v2_preview.js';
 import {PGlite} from '@electric-sql/pglite';
@@ -108,7 +109,7 @@ test('an already initialized equipment catalog still applies the new Z appearanc
       'v1959_battle_suit_01_female','v1969_battle_suit_power_tiers','v2066_h_body','v2124_sz_body','x_body_20260927'
     ];
     for(const marker of priorMarkers)DB.sql.prepare("INSERT INTO app_meta(key,value) VALUES(?,'1')").run('safe_runtime_upgrade_'+marker);
-    for(const marker of [ACHIEVEMENT_TITLES_KEY,ACHIEVEMENT_TITLE_POWER_KEY,PREDICTION_TITLE_KEY,SUPPORTER_BLUE_BEAST_TITLES_KEY,RAID_BUS_DRIVER_TITLE_KEY])DB.sql.prepare("INSERT INTO app_meta(key,value) VALUES(?,'1')").run(marker);
+    for(const marker of [OVERLORD_UPGRADE_KEY,ACHIEVEMENT_TITLES_KEY,ACHIEVEMENT_TITLE_POWER_KEY,PREDICTION_TITLE_KEY,SUPPORTER_BLUE_BEAST_TITLES_KEY,RAID_BUS_DRIVER_TITLE_KEY])DB.sql.prepare("INSERT INTO app_meta(key,value) VALUES(?,'1')").run(marker);
     DB.sql.prepare("INSERT INTO character_equipment_items(code,slot,image_url,pve_power) VALUES('BATTLE_SUIT_Z_BODY','BATTLE_SUIT','prior.png',9999999999)").run();
     let writes=0;DB.afterCommit=()=>{writes++;};
     await ensureEquipmentFoundation(env);
@@ -121,9 +122,12 @@ test('an already initialized equipment catalog still applies the new Z appearanc
 
 test('Z replacement retains existing authoritative weapon damage and skill-chip budgets',()=>{
   const cards=Array.from({length:5},(_,i)=>({id:String(i+1),title:'test',power:200000,basePower:200000,powerType:'ATTACK'}));
-  const run=code=>createPveBattleV2({cards,monster:{id:1,battle_power:3000000},seed:21,battleSuit:{code,pvePower:300000,weaponCode:'EQ_1788486929132',skillChips:['SKILL_CHIP_ROCKET_LAUNCHER']}});
+  const run=(code,battleSprite,skillChips=['SKILL_CHIP_ROCKET_LAUNCHER'])=>createPveBattleV2({cards,monster:{id:1,battle_power:3000000},seed:21,battleSuit:{code,pvePower:300000,weaponCode:'EQ_1788486929132',appearance:{battleSprite},skillChips}});
   const digest=b=>b.result.timeline.filter(e=>e.actorKind==='BATTLE_SUIT').map(({type,damage,absorbed,targetId,time,combatAtMs})=>({type,damage,absorbed,targetId,time,combatAtMs}));
-  assert.deepEqual(digest(run('BATTLE_SUIT_Z_BODY')),digest(run('BATTLE_SUIT_H_BODY')));
+  // Appearance replacement preserves this suit's combat. Z/H now deliberately
+  // have different chip cooldowns, so a cross-tier chip timeline is not a baseline.
+  assert.deepEqual(digest(run('BATTLE_SUIT_Z_BODY',Z_SWORD_IMAGE)),digest(run('BATTLE_SUIT_Z_BODY','prior.png')));
+  assert.deepEqual(digest(run('BATTLE_SUIT_Z_BODY',Z_SWORD_IMAGE,[])),digest(run('BATTLE_SUIT_H_BODY','prior.png',[])));
 });
 
 test('PostgreSQL appearance migration uses the live adapter and preserves CMS values',async()=>{
