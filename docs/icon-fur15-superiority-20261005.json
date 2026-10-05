@@ -106,6 +106,20 @@
     ],
     "checks": [
       "check:worker"
-    ]
+    ],
+    "firstChecks": {
+      "tests": 106,
+      "passed": 105,
+      "failed": 1,
+      "log": "C:/Users/User/AppData/Local/Temp/icon-fur15-deploy-20261005.log",
+      "unrelatedFailure": {
+        "test": "tests/pvp-survivor-equipment-v1777.mjs",
+        "reason": "Obsolete UI copy regex absent in the already-deployed base fc397c48. Underlying survivor/equipment assertions preceding that UI assertion passed. No unrelated UI or test rewrite."
+      }
+    },
+    "retryTests": [
+      "tests/icon-fur15-superiority-v1.test.mjs"
+    ],
+    "reusedChecks": "Reuse the 105 passing checks from the unchanged executable build, per AGENTS.md 2026-09-27. Retry the focused ICON regression and complete compiler/release checks."
   }
 }
