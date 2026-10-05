@@ -207,7 +207,7 @@ for (const postgres of [false, true]) {
 test('runtime foundation includes the new marker and every live surface loads the new styles', () => {
   const read = path => readFileSync(new URL('../'+path,import.meta.url),'utf8');
   const server = read('functions/_equipment.js');
-  assert.match(server,/Z_SWORD_APPEARANCE_KEY,X_BODY_UPGRADE_KEY,ACHIEVEMENT_TITLES_KEY,ACHIEVEMENT_TITLE_POWER_KEY/);
+  assert.match(server,/Z_SWORD_APPEARANCE_KEY,X_BODY_UPGRADE_KEY,OVERLORD_UPGRADE_KEY,ACHIEVEMENT_TITLES_KEY,ACHIEVEMENT_TITLE_POWER_KEY/);
   assert.match(server,/await ensureAchievementTitles\(env\)/);
   assert.match(server,/syncAchievementTitles\(env,user.id\)/);
   for (const path of ['index.html','admin/index.html','js/app.js']) assert.match(read(path),/achievement-titles-20260927.css/);
