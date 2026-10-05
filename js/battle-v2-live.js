@@ -449,7 +449,7 @@
   }
 
   window.playPveBattleV2Live = async options => {
-    const challenge=options.data?.apocalypseChallenge?await import('./apocalypse-challenge-v1.mjs?v=20261005-attempt-owner'):null;
+    const challenge=options.data?.apocalypseChallenge?await import('./apocalypse-challenge-v1.mjs?v=20261006-foreground'):null;
     const attempt=options.apocalypseAttempt;let renderer;
     try{
       if(challenge){

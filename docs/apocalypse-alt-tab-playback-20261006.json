@@ -1,0 +1,46 @@
+{
+  "date": "2026-10-06",
+  "status": "validated_ready_for_scoped_deploy",
+  "report": "카네키 켄 안전지대 선택 후 알트탭하면 전투가 멈춘 뒤 5~10초 내 토벌 성공 표시",
+  "diagnosis": {
+    "cause": "숨김 visibilitychange가 setVisible(true)를 거쳐 stopPresentation/cancelTimelines를 호출했다. 남은 이벤트는 visible=false에서 반환하고 래퍼는 취소/타임아웃을 완료처럼 받아들여 claim으로 진행했다.",
+    "reproduction": "수정 전 직접 회귀 5개 모두 실패. 새로고침(pagehide)과 다른 visibilitychange 경로."
+  },
+  "changes": [
+    "아포칼립스의 탭 숨김에서는 V3 단일 렌더러의 GSAP 시계를 정지하고 원래 재생 상태를 보존한다. 복귀/종료/리셋 시 해당 시계의 이전 paused 상태를 복원한다.",
+    "숨김 시간은 연출 watchdog 예산에서 제외하고, 전투 이벤트/최종 정산은 다시 보이는 화면에서 진행한다.",
+    "취소된 아포칼립스 재생 false 및 실제 타임아웃은 완료로 인정하지 않는다.",
+    "실제 번들 10종 및 앱/래퍼/동적 모듈/서비스워커 캐시 버전 동기화"
+  ],
+  "preserved": "서버 전투 승패/재화/행동력/회피 입력 6초/lease/원자 정산/중복 지급 방지 정책 유지",
+  "validation": {
+    "regression": {
+      "beforeFixFailed": 5,
+      "direct": 6,
+      "adjacent": 8,
+      "passed": 14,
+      "failed": 0
+    },
+    "build": "npm run build:v3-grid passed",
+    "browser": {
+      "environment": "실제 index.html 및 V3 번들 + 로컬 격리 SQLite 서버. 검수 전용 버튼으로 document.hidden/visibilityState와 visibilitychange를 주입; OS Alt-Tab 자체를 자동 조작한 것은 아님.",
+      "boss": "카네키 켄",
+      "desktop": "안전지대 선택 직후 26초, 공격 도중 48초 숨김: ANSWERED/성공0회/코인100 유지. 복귀 후 완주하여 CLAIMED/성공1회/코인1100.",
+      "mobile": "390x844: 실제 토벌 버튼 재입장, 안전지대 성공 후 33초 숨김에서 ANSWERED/성공1회/코인1100 유지. 복귀·완주 후 성공2회/코인2100 및 결과/복귀 버튼 확인.",
+      "pvp": "같은 페이지에서 PVE 결과 복귀 → 모바일 로비 → PVP 메뉴 → 랭크전 매칭 버튼 → 전투 → 승리(+20점/+1000코인) 완료. 숨김 시계가 다음 전투로 누출되지 않음.",
+      "evidence": "C:/Users/User/.codex/tmp/apocalypse-alt-tab-20261006/"
+    }
+  },
+  "release": {
+    "mode": "scoped",
+    "baseDeployment": "1177738e-2037-46bd-b07a-5133d2a92339",
+    "baseCommit": "b5ff3f5e550cf098b518de0bf54b618f380623aa",
+    "reason": "아포칼립스 화면 숨김을 종료로 오인하는 재생 경로만 수정. 서버/DB/인증/경제 기반 변경 없음. 직접 및 인접 회귀 14건 통과 후 배포에서는 실제 번들/메인 로더와 아포칼립스 정산·새로고침·다중창 회귀만 추가 확인.",
+    "tests": [
+      "tests/pve-battlefield-entry-v2117.test.mjs",
+      "tests/apocalypse-completion-20261005.test.mjs",
+      "tests/apocalypse-attempt-ownership-20261005.test.mjs"
+    ],
+    "checks": []
+  }
+}

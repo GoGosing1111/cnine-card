@@ -81,6 +81,7 @@ export async function playDodge({stage,phase,data,apocalypseAttempt:attempt}){
 export async function claimBonus({data,stage,apocalypseAttempt:attempt}){
   attempt.ensure();if(data.apocalypseChallenge.status==='FAILED')return;
   const claim=async()=>{
+    while(document.hidden){attempt.ensure();await wait(100);}
     attempt.ensure();if(attempt.failure){apply(data,attempt.failure);return;}
     const result=await request('claim',attempt.requestId,{runToken:attempt.runToken,played:true},()=>attempt.ensure());attempt.ensure();apply(data,result);
     if(!['CLAIMED','FAILED'].includes(result.status))throw new Error('전투 완료 결과를 확인하지 못했습니다.');

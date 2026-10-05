@@ -2540,6 +2540,7 @@ export class BaseBattleEngine{
   }
 
   cancelTimelines(){
+    this.releaseBackgroundClock();
     // Invalidate event handlers still waiting on an optional atlas or recorded
     // SFX decode. The late network result may warm a cache, but it must never
     // start a stale combat timeline after recovery, reset, or modal close.
@@ -3560,6 +3561,12 @@ export class BaseBattleEngine{
     banner.baseY=banner.y;
   }
 
+  releaseBackgroundClock(){
+    const hold=this.backgroundClock;
+    this.backgroundClock=null;
+    if(hold)hold.clock.paused(hold.wasPaused);
+  }
+
   stopPresentation(){
     this.cancelTimelines();
     this.accountBattleUnit?.stopIdle();
@@ -3592,6 +3599,20 @@ export class BaseBattleEngine{
     this.requestedVisible=Boolean(next);
     if(!this.mounted&&this.requestedVisible)await this.mount();
     if(!this.app)return;
+    // An interactive Apocalypse attempt must finish its actual playback.
+    // The singleton renderer owns this bundle's GSAP clock: hold the clock,
+    // including animations created by pending asset loads, without cancelling
+    // promises or advancing to the saved server result. Explicit close/reset
+    // releases the hold through cancelTimelines; a tab switch is not a close.
+    if(this.requestedVisible&&this.battleData?.apocalypseChallenge&&document.hidden){
+      this.visible=true;
+      if(!this.backgroundClock)this.backgroundClock={clock:gsap.globalTimeline,wasPaused:gsap.globalTimeline.paused()};
+      this.backgroundClock.clock.pause();
+      this.app.stop();
+      this.audio?.stopAll?.();
+      return;
+    }
+    this.releaseBackgroundClock?.();
     const wasVisible=this.visible;
     this.visible=this.requestedVisible&&!document.hidden;
     if(this.effectScene){

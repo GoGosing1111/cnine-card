@@ -3,7 +3,7 @@
 
   const root = window;
   const VERSION = '3.37.0-fluid-combat';
-  const BATTLE_RUNTIME = '20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery';
+  const BATTLE_RUNTIME = '20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus';
   let battleRuntimeRefresh = null;
   async function ensureCurrentBattleRuntime({effects=false}={}) {
     const ready=()=>root.ProjectVPixiBattle?.runtimeVersion===BATTLE_RUNTIME&&(!effects||Boolean(root.ProjectVPixiBattle.fxRuntime));
@@ -28,25 +28,34 @@
   const SEAL_ORB_IMAGE = '/assets/responsive/project-v/monsters/seal-crystal-orb-sd-v1-768.webp?v=550486A8E35C9935';
   const SEAL_ORB_PNG = '/assets/ui/project-v/monsters/seal-crystal-orb-sd-v1.png?v=550486A8E35C9935';
   const sleep = ms => new Promise(resolve => setTimeout(resolve, Math.max(0, Number(ms || 0))));
-  const withTimeout = (promise, ms, message, options = {}) => new Promise(resolve => {
+  const withTimeout = (promise, ms, message, options = {}) => new Promise((resolve, reject) => {
     let settled = false;
+    let timer, started=0, remaining=Math.max(50,Number(ms||0));
+    const onVisibility=()=>{
+      if(timer!==undefined){remaining=Math.max(0,remaining-(Date.now()-started));clearTimeout(timer);timer=undefined;}
+      if(!settled&&(!options.pauseWhenHidden||!document.hidden)){
+        started=Date.now();timer=setTimeout(()=>recover(new Error(message)),remaining);
+      }
+    };
+    const cleanup=()=>{clearTimeout(timer);if(options.pauseWhenHidden)document.removeEventListener('visibilitychange',onVisibility);};
     const fallback = options.fallback ?? false;
     const finish = value => {
       if (settled) return;
       settled = true;
-      clearTimeout(timer);
+      cleanup();
       resolve(value);
     };
     const recover = error => {
       if (settled) return;
       settled = true;
-      clearTimeout(timer);
+      cleanup();
       console.warn(`[PROJECT V V3] ${message}`, error);
       Promise.resolve(options.onFailure?.(error)).catch(recoveryError => {
         console.warn('[PROJECT V V3] 타임아웃 복구 처리 실패', recoveryError);
-      }).finally(() => resolve(fallback));
+      }).finally(() => options.rejectOnFailure?reject(error):resolve(fallback));
     };
-    const timer = setTimeout(() => recover(new Error(message)), Math.max(50, Number(ms || 0)));
+    if(options.pauseWhenHidden)document.addEventListener('visibilitychange',onVisibility);
+    onVisibility();
     Promise.resolve(promise).then(finish, recover);
   });
   const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({
@@ -879,12 +888,23 @@
       try { await root.ProjectVPixiBattle.setVisible(true); } catch {}
       startAccountBattleUnitContinuousFire();
     };
+    const interactiveApocalypse=Boolean(options.data?.apocalypseChallenge);
+    const waitForForeground=async()=>{
+      while(interactiveApocalypse&&document.hidden&&!destroyed)await sleep(100);
+      return !destroyed;
+    };
+    const playEventsChecked=async(events,playOptions)=>{
+      const result=await root.ProjectVPixiBattle.playEvents(events,playOptions);
+      if(interactiveApocalypse&&result===false)throw new Error('아포칼립스 전투 재생이 중단되었습니다.');
+      return result;
+    };
     const safePlayEvents = (events, message) => withTimeout(
-      Promise.resolve(root.ProjectVPixiBattle.playEvents(events)).then(() => true),
+      playEventsChecked(events).then(() => true),
       events.some(event => event.type === 'MERCENARY_JUDGMENT' && event.mechanic === 'PLATINUM_SANCTUARY' || event.type === 'MERCENARY_CRYSTAL_CROWN' && event.mechanic === 'CRYSTAL_CROWN') ? 9000 :
       events.some(event => event.type === 'MERCENARY_STARFALL' && event.mechanic === 'GILDED_STARFALL' || event.type === 'MERCENARY_HIT' && event.skillId === 'MS-055' || event.type === 'MERCENARY_GROUP_HEAL' && event.mechanic === 'WHITE_OATH_GROUP_HEAL' || event.type === 'MERCENARY_COMBO' && event.mechanic === 'BLACK_MOON_TRIPLE_SEVER' || event.type === 'MERCENARY_VOLLEY' && event.mechanic === 'GOLDEN_ORCHID_VOLLEY' || event.type === 'MERCENARY_HIT' && event.mechanic === 'LAVENDER_RICOCHET') ? 6000 : 2000,
       message,
-      { fallback: false, onFailure: () => recoverPlayback(message) }
+      { fallback: false, pauseWhenHidden:interactiveApocalypse, rejectOnFailure:interactiveApocalypse,
+        onFailure: () => interactiveApocalypse?root.ProjectVPixiBattle.cancelActiveAnimations?.():recoverPlayback(message) }
     );
     const revealBattle = () => modal?.classList.remove('battle-v3-preparing');
     const assertFirstFrame = async () => {
@@ -1001,6 +1021,7 @@
     return {
       async play() {
         if (destroyed) return false;
+        if(!await waitForForeground())return false;
         let timeline = Array.isArray(payload?.battleV2?.result?.timeline) ? payload.battleV2.result.timeline : [];
         if (phase) phase.textContent = options.continuousPlayback?'전장 진입':'V3 LIVE BATTLE';
         try {
@@ -1009,7 +1030,7 @@
           const deploymentResult=await options.afterDeployment?.({stage,phase,data:payload});
           if(deploymentResult){payload={...payload,...deploymentResult};timeline=payload.battleV2?.result?.timeline||[];}
           if(options.data?.apocalypseChallenge)payload.apocalypseChallenge=options.data.apocalypseChallenge;
-          if(destroyed)return false;
+          if(!await waitForForeground())return false;
           // The account Battle Suit is an independent PVE support actor. Its
           // weapon loop begins once deployment is visible and runs across every
           // card action, skill, QTE and action-gauge wait. V1990: the loop fires
@@ -1018,6 +1039,7 @@
           startAccountBattleUnitContinuousFire();
           const timedSkillChips = timeline.some(event => event.combatClock === 'V3_COMBAT_MS_V1');
           const prepareEvent = async sourceEvent => {
+            if(!await waitForForeground())return null;
             if(options.continuousPlayback)await options.beforeCombatEvent?.(sourceEvent);
             if (destroyed) return null;
             if (interactiveFailure) throw interactiveFailure;
@@ -1079,10 +1101,11 @@
             const timedEvents = timeline;
             const durationMs = Math.max(0, ...timedEvents.map(event => Number(event.combatAtMs || 0)));
             await withTimeout(
-              Promise.resolve(root.ProjectVPixiBattle.playEvents(timedEvents, { beforeEvent: prepareEvent })),
+              playEventsChecked(timedEvents, { beforeEvent: prepareEvent }),
               Math.max(30000, durationMs * 2 + 15000) + timeline.filter(event => /^RAID_QTE_/.test(event.type)).reduce((ms,event) => ms + Number(event.windowMs || 0) + 3500, 0),
               '스킬칩 전투 연출을 서버 최종 상태로 복구합니다.',
-              { fallback: false, onFailure: () => {
+              { fallback: false, pauseWhenHidden:interactiveApocalypse, rejectOnFailure:interactiveApocalypse, onFailure: () => {
+                if(interactiveApocalypse)return root.ProjectVPixiBattle.cancelActiveAnimations?.();
                 if(expectedQtes.length) { interactiveFailure = new Error('기믹 전장이 중단되었습니다. HP 차감 없이 같은 공략을 재개하세요.'); root.ProjectVRaidQteV1924?.cancel?.(); }
                 return recoverPlayback('스킬칩 전투 연출을 복구했습니다.');
               } }
@@ -1100,6 +1123,7 @@
               }
             }
           }
+          if(!await waitForForeground())return false;
           if (interactiveFailure) throw interactiveFailure;
           if (expectedQtes.some(id => !interactiveResults.get(id) || interactiveResults.get(id).cancelled)) throw new Error('기믹 기록이 완료되지 않았습니다. HP 차감 없이 같은 공략을 재개하세요.');
           const finalState = payload?.battleV2?.result?.final || {};
