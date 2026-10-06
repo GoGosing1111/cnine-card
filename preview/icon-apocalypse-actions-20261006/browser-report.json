@@ -1,0 +1,281 @@
+[
+  {
+    "width": 1440,
+    "mode": "PVE",
+    "settlement": "WIN",
+    "observation": {
+      "states": [
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "HIT",
+        "IDLE",
+        "HIT",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "HIT",
+        "IDLE",
+        "HIT",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "HIT",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "IDLE"
+      ],
+      "heals": [
+        {
+          "id": "CN-BA6BDEC789144D00",
+          "before": 41.34536519856605,
+          "after": 98.84535523938982
+        },
+        {
+          "id": "CN-BA6BDEC789144D00",
+          "before": 98.84535523938982,
+          "after": 100
+        },
+        {
+          "id": "CN-346F8DB0DEB84D41",
+          "before": 96.24848339726134,
+          "after": 100
+        },
+        {
+          "id": "CN-BA6BDEC789144D00",
+          "before": 1.7750350452345784,
+          "after": 31.775039471535127
+        },
+        {
+          "id": "CN-BA6BDEC789144D00",
+          "before": 0,
+          "after": 34.99999778684973
+        },
+        {
+          "id": "CN-BA6BDEC789144D00",
+          "before": 34.99999778684973,
+          "after": 92.49998782767351
+        },
+        {
+          "id": "CN-1C000001",
+          "before": 38.05391143674803,
+          "after": 88.05390438968563
+        },
+        {
+          "id": "CN-1C000004",
+          "before": 16.227760541838535,
+          "after": 56.195575602769196
+        }
+      ],
+      "popup": true,
+      "diagnostics": {
+        "last": {
+          "code": "ICON-DIIM",
+          "role": "ASSASSIN",
+          "eventType": "ICON_SKILL",
+          "serverRows": 2,
+          "appliedRows": 2,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY"
+        },
+        "muzzle": null,
+        "metrics": {
+          "skills": 11,
+          "basics": 31,
+          "serverRows": 47,
+          "appliedRows": 47,
+          "roles": [
+            "ASSASSIN",
+            "SUPPORT"
+          ]
+        }
+      },
+      "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006"
+    },
+    "errors": []
+  },
+  {
+    "width": 390,
+    "mode": "PVE",
+    "settlement": "WIN",
+    "observation": {
+      "states": [
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "HIT",
+        "IDLE",
+        "HIT",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "HIT",
+        "IDLE",
+        "HIT",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "HIT",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "IDLE"
+      ],
+      "heals": [
+        {
+          "id": "CN-BA6BDEC789144D00",
+          "before": 41.34536519856605,
+          "after": 98.84535523938982
+        },
+        {
+          "id": "CN-BA6BDEC789144D00",
+          "before": 98.84535523938982,
+          "after": 100
+        },
+        {
+          "id": "CN-346F8DB0DEB84D41",
+          "before": 96.24848339726134,
+          "after": 100
+        },
+        {
+          "id": "CN-BA6BDEC789144D00",
+          "before": 1.7750350452345784,
+          "after": 31.775039471535127
+        },
+        {
+          "id": "CN-BA6BDEC789144D00",
+          "before": 0,
+          "after": 34.99999778684973
+        },
+        {
+          "id": "CN-BA6BDEC789144D00",
+          "before": 34.99999778684973,
+          "after": 92.49998782767351
+        },
+        {
+          "id": "CN-1C000001",
+          "before": 38.05391143674803,
+          "after": 88.05390438968563
+        },
+        {
+          "id": "CN-1C000004",
+          "before": 16.227760541838535,
+          "after": 56.195575602769196
+        }
+      ],
+      "popup": true,
+      "diagnostics": {
+        "last": {
+          "code": "ICON-DIIM",
+          "role": "ASSASSIN",
+          "eventType": "ICON_SKILL",
+          "serverRows": 2,
+          "appliedRows": 2,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY"
+        },
+        "muzzle": null,
+        "metrics": {
+          "skills": 11,
+          "basics": 31,
+          "serverRows": 47,
+          "appliedRows": 47,
+          "roles": [
+            "ASSASSIN",
+            "SUPPORT"
+          ]
+        }
+      },
+      "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006"
+    },
+    "errors": []
+  },
+  {
+    "width": 390,
+    "mode": "PVP",
+    "complete": true,
+    "diagnostic": {
+      "last": {
+        "code": "ICON-OH-JOEUN",
+        "role": "SUPPORT",
+        "eventType": "ICON_SKILL",
+        "serverRows": 1,
+        "appliedRows": 1,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY"
+      },
+      "muzzle": null,
+      "metrics": {
+        "skills": 0,
+        "basics": 5,
+        "serverRows": 5,
+        "appliedRows": 5,
+        "roles": []
+      }
+    },
+    "errors": []
+  }
+]

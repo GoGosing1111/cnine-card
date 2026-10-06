@@ -1101,10 +1101,13 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     knockout:target=>settleKnockout(target,timeline,clock+0.00001,reviveFromMagic),emit:(type,data)=>emitTimeline(timeline,clock,type,data),clock:()=>clock,season2:{skillBlocked:actor=>season2Runtime?.skillBlocked(actor)||false,cleanse:target=>{const cleared=iconRuntime?.cleanse(target);return season2Runtime?.cleanse(target)||cleared||false;},heal:(target,amount)=>season2Runtime?season2Runtime.heal(target,amount):null}}):null;
   if([...a,...b].some(actor=>actor.iconRole)){
     const iconRandom={A:seededRandom((Number(seed)^0x49434f41)>>>0),B:seededRandom((Number(seed)^0x49434f42)>>>0)};
-    iconRuntime=createIconCombatRuntime({teams:{A:a,B:b},hit:(actor,target,multiplier,options)=>hitResult(actor,target,iconRandom[actor.side],multiplier,false,{...season2Runtime?.defenseOptions(target),...options,minDamagePercent:0}),
+    // A skill replaces a basic action, so it shares that action's PVE floor.
+    // multiplier already contains the per-pellet share; never repeat the full
+    // floor for every hit. Keep escort/cooperative floors off and retain caps.
+    iconRuntime=createIconCombatRuntime({teams:{A:a,B:b},hit:(actor,target,multiplier,options)=>hitResult(actor,target,iconRandom[actor.side],multiplier,false,{...hitOptions,...season2Runtime?.defenseOptions(target),...options,minDamagePercent:hitOptions.minDamagePercent*multiplier,capMinimumDamage:true}),
       damage:applyDamage,rawDamage,knockout:target=>settleKnockout(target,timeline,clock+.00001,reviveFromMagic),emit:(type,data)=>emitTimeline(timeline,clock,type,data),
       sealed:actor=>apocalypseSealed(actor)||Number(actor.magicSealCharges||0)>0||season2Runtime?.skillBlocked(actor),
-      cleanseOne:target=>{for(const key of ['magicSealCharges','doomMarks','timeDistortionStacks'])if(target[key]>0){target[key]=0;return true;}const key=Object.keys(target.apocalypseStatus||{})[0];if(key){delete target.apocalypseStatus[key];emitTimeline(timeline,clock,'APOCALYPSE_STATUS',{targetId:target.id,statuses:{...target.apocalypseStatus},label:'공명 정화'});return true;}return false;}});
+      cleanseOne:target=>{const key=apocalypseCursed(target)?'curse':Object.keys(target.apocalypseStatus||{})[0];if(key){delete target.apocalypseStatus[key];emitTimeline(timeline,clock,'APOCALYPSE_STATUS',{targetId:target.id,statuses:{...target.apocalypseStatus},label:'공명 정화'});return true;}for(const field of ['magicSealCharges','doomMarks','timeDistortionStacks'])if(target[field]>0){target[field]=0;return true;}return false;}});
   }
   // V1975: 아포칼립스는 덱 전투력(카드+장비 배분분, 배틀슈트 제외) / 몬스터 기본 전투력 로 하한을 스케일링.
   {
@@ -1941,7 +1944,9 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
   });
   // PVE는 제한 행동까지 몬스터가 살아 있으면 잔여 HP 비율과 무관하게 실패한다.
   const battleSuitActorId = battleSuitFighter?.id || '';
-  const appliedDamage = event => Math.max(0, Number(event?.damage || 0)) + Math.max(0, Number(event?.absorbed || 0));
+  const appliedDamage = event => event?.type==='ICON_SKILL'
+    ? (event.hits||[]).reduce((sum,hit)=>sum+Math.max(0,Number(hit.damage||0))+Math.max(0,Number(hit.absorbed||0)),0)
+    : Math.max(0, Number(event?.damage || 0)) + Math.max(0, Number(event?.absorbed || 0));
   const battleSuitEvents = battleSuitActorId
     ? simulated.timeline.filter(event => String(event?.actorId || '') === battleSuitActorId && event.type === 'TURN')
     : [];

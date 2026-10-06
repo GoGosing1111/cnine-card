@@ -1,0 +1,59 @@
+{
+  "status": "IMPLEMENTED_UI_VERIFIED_AWAITING_SCOPED_DEPLOY",
+  "request": "ICON 편성 시 아포칼립스 승패 역전 및 ICON 오조은 공격·회복 불능 수정",
+  "priorSource": "766c9095357371915f5d50cfa7a11e52ecaedfa3",
+  "lastProductionBase": "d372e4446d5d846f05f961ae6d5877e0381de6b5",
+  "rootCauses": [
+    "ICON 스킬의 hit 콜백이 minDamagePercent=0으로 고정되어 일반 공격에 적용되는 아포칼립스 덱 전투력 기반 피해 하한을 누락했다. 스킬이 행동을 소비해 하위 카드 일반 공격보다 피해가 낮아졌다.",
+    "조은의 피회복 차단 저주가 정화 스킬 사용까지 막았고, 대상의 스킬 봉인을 피회복 금지로 잘못 처리했다. 체력이 가득 찬 아포칼립스 상태이상 대상도 정화 후보에서 누락했다.",
+    "비근접 ICON 일반 공격·스킬은 시전자 ATTACK 동작 없이 대상 이펙트만 재생했다. 조은 회복은 상단 안내만 있었고 대상 위 회복 수치가 없었다.",
+    "PVE 피해 합산이 ICON_SKILL의 중첩 hits를 누락했다."
+  ],
+  "fixes": [
+    "ICON 스킬에 일반 공격과 동일한 PVE 하한 및 아포칼립스 배율을 적용. 연타별 배분·한 스킬의 대상별 상한을 유지하며 호송/협동전 하한 OFF와 PVP를 유지.",
+    "피회복 저주는 정화 사용을 막지 않는다. 저주를 우선 한 개 정화한 후 남은 대상 상태로 회복 판정. 시전자 스킬 봉인·쿨다운·최대 사용·회복 예산·연장전은 유지.",
+    "모든 ICON 시전자에 공격/시전 동작과 IDLE 복귀, 대상 회복 수치 표시. 풀 반납 시 회복 색 초기화.",
+    "실제 적용된 ICON 스킬 hits를 PVE 피해 합계에 포함."
+  ],
+  "reproduction": {
+    "source": "운영 보스/CMS 및 저장 전투의 카드 수치를 읽기 전용으로 확보. 계정 식별자를 제거한 통제 편성·장비·난수로 재현. 실제 유저 행동력/보상 변경 없음.",
+    "baseline": "하위 카드 편성 승리 / 동일 조건 ICON 하이희야(seed 5), 나무늘봉순(seed 4), 아윤(seed 3) 교체 패배. 수정 후 세 조건 모두 보스 및 여섯 부하 처치.",
+    "tests": "신규 회귀 6건: 기존 코드 4 실패/2 통과, 수정 코드 6 통과. 특정 통제 사례이며 모든 편성/장비의 무조건 승리를 의미하지 않는다."
+  },
+  "browser": {
+    "report": "preview/icon-apocalypse-actions-20261006/browser-report.json",
+    "viewports": [
+      1440,
+      390
+    ],
+    "path": "실제 index.html 메인 로더 → 배포 V3 번들 → 아포칼립스 안전구역 입력 → 끝까지 재생 → SQLite 서버 CLAIMED/WIN 정산",
+    "joeun": "PC/모바일 각각 공격/시전 ATTACK 20회, 대상 HP 증가 8회 관측 및 HEAL/+수치 표시 확인. HP 증가 관측은 전체 아군 회복을 포함하며 조은 스킬은 서버 SUPPORT 행과 재생 지표로 별도 확인.",
+    "pvp": "모바일 메인 PVP 래퍼 재생 완료; 서버 스냅샷 행 모두 적용, pageerror 0",
+    "visual": "PC·모바일 회복/결과 스크린샷 확인. 최종 풀 반납 색 초기화는 표시 변화 없이 추가했고 번들 재생성."
+  },
+  "scope": {
+    "kind": "SCOPED",
+    "reason": "ICON 스킬 피해 계산, 조은 정화/회복 조건 및 같은 전투 재생 수정. 인증·공통 DB/거래·의존성 변경 없음.",
+    "tests": [
+      "tests/icon-apocalypse-actions-20261006.test.mjs",
+      "tests/icon-roles-v1.test.mjs",
+      "tests/apocalypse-legion-v2127.test.mjs",
+      "tests/pve-apocalypse-battle-suit-gate-v1990.test.mjs",
+      "tests/apocalypse-background-playback-20261006.test.mjs"
+    ],
+    "automatic": [
+      "check:worker",
+      "tests/pve-battlefield-entry-v2117.test.mjs"
+    ],
+    "command": "npm run deploy:production -- --scoped"
+  },
+  "reproduceCommands": [
+    "node scripts/serve-icon-apocalypse-20261006.mjs",
+    "ICON_QA_OUT=<output> PLAYWRIGHT_MODULE=<playwright/index.mjs> node tests/icon-apocalypse-actions-20261006.browser.mjs"
+  ],
+  "policyPreserved": [
+    "보스별 CMS 수량/보상/버닝",
+    "기믹 실패 전멸·새로고침/이탈 정산 차단",
+    "ICON 튜닝 수치·카드/장비·원화·출시 플래그"
+  ]
+}

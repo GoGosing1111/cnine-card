@@ -68,8 +68,10 @@ export function createIconCombatRuntime({teams,hit,damage,rawDamage,knockout,emi
   if(def.role==='MAGIC'&&!s.charging){s.charging=true;s.next=actor.actions+1;status(s,actor,'CHANNEL',{remaining:1});return true;}
   let target=def.role==='ASSASSIN'?foes.sort(byHealth)[0]:foes.find(t=>t.id===s.focusId)||foes.sort((a,b)=>(a.row==='FRONT'?0:1)-(b.row==='FRONT'?0:1)||a.slot-b.slot)[0];
   if(def.role==='SUPPORT'){
-   target=friends(actor).filter(t=>t.hp<t.maxHp||t.iconCurse||t.iconVulnerability||t.magicSealCharges||t.doomMarks||t.timeDistortionStacks).sort(byHealth)[0];
-   if(!target||!healingAllowed||s.healLeft<=0||apocalypseCursed(actor))return false;
+   target=friends(actor).filter(t=>t.hp<t.maxHp||t.iconCurse||t.iconVulnerability||t.magicSealCharges||t.doomMarks||t.timeDistortionStacks||apocalypseCursed(t)||apocalypseSealed(t)).sort(byHealth)[0];
+   // Curse blocks received healing, not the support's ability to cleanse it.
+   // The caster's seal is still enforced above, as are budgets and overtime.
+   if(!target||!healingAllowed||s.healLeft<=0)return false;
   }
   s.casts++;s.next=actor.actions+c.cooldownActions;s.charging=false;
   let hits=[],targets=[],extra={};
@@ -103,9 +105,9 @@ export function createIconCombatRuntime({teams,hit,damage,rawDamage,knockout,emi
     for(const t of chosen)hits.push(...strike(s,t,c.damagePercent/100*focus,{defenseIgnore:c.penetrationPercent/100}));break;
    }
    case 'SUPPORT':{
-    const cleaned=cleanse(target)||cleanseOne(target);
+    const cleaned=cleanseOne(target)||cleanse(target);
     const request=target.maxHp*(c.healPercent+s.resonance*c.resonancePercent)/100*s.scale;
-    const amount=apocalypseCursed(target)||sealed(target)?0:Math.min(s.healLeft,target.maxHp-target.hp,iconHealingAmount(target,request));
+    const amount=apocalypseCursed(target)?0:Math.min(s.healLeft,target.maxHp-target.hp,iconHealingAmount(target,request));
     s.healLeft-=amount;target.hp+=amount;actor.healingDone+=amount;
     target.iconEmpower={percent:c.nextAttackPercent*s.scale,remaining:c.durationActions,sourceId:actor.id};
     targets=[{...snapshot(target),amount,cleaned,empowerPercent:target.iconEmpower.percent}];extra.stacksConsumed=s.resonance;s.resonance=0;break;

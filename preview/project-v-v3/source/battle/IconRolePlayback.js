@@ -19,20 +19,23 @@ const point=(engine,actor)=>engine.effectLayer.toLocal(actor.root.toGlobal({x:0,
 const foot=(engine,actor)=>engine.effectLayer.toLocal(actor.root.toGlobal({x:0,y:0}));
 function showDamage(engine,target,row){
  popups.get(target)?.cancel();
- const label=engine.pools.damage.acquire(),amount=Number(row.popupDamage??(Number(row.damage||0)+Number(row.absorbed||0)));
- configureDamageText(label,{damage:amount,critical:!!row.critical,compact:engine.mobile});
- label.roleTag.text=row.dodge?'DODGE':row.hit>1?row.hit+' HIT':'';
+ const healing=Number(row.amount||0)>0;
+ const label=engine.pools.damage.acquire(),amount=healing?Math.round(row.amount):Number(row.popupDamage??(Number(row.damage||0)+Number(row.absorbed||0)));
+ configureDamageText(label,{kind:healing?'HP':'ATTACK',damage:amount,critical:!!row.critical,compact:engine.mobile});
+ label.numberLabel.tint=label.numberGlow.tint=healing?0x75ffbd:0xffffff;
+ if(healing)label.numberLabel.text=label.numberGlow.text=`+${amount.toLocaleString()}`;
+ label.roleTag.text=healing?'HEAL':row.dodge?'DODGE':row.hit>1?row.hit+' HIT':'';
  const p=engine.uiLayer.toLocal(target.root.toGlobal({x:0,y:-target.fullBodyHeight*.82})),scale=.56;
  const margin=Math.max(74,label.getLocalBounds().width*scale*.55);
  label.position.set(Math.max(margin,Math.min(engine.scene.width-margin,p.x)),Math.max(90,p.y));label.scale.set(scale);label.visible=true;engine.uiLayer.addChild(label);
  let animation;const entry={cancel(){animation?.kill();}};popups.set(target,entry);
- void engine.timeline(t=>{animation=t;t.fromTo(label,{alpha:0},{alpha:1,duration:.07},0);t.to(label,{y:label.y-26,duration:.38,ease:'power1.out'},0);t.to(label,{alpha:0,duration:.14},.24);},()=>{if(popups.get(target)===entry)popups.delete(target);engine.pools.damage.release(label);});
+ void engine.timeline(t=>{animation=t;t.fromTo(label,{alpha:0},{alpha:1,duration:.07},0);t.to(label,{y:label.y-26,duration:.38,ease:'power1.out'},0);t.to(label,{alpha:0,duration:.14},.24);},()=>{if(popups.get(target)===entry)popups.delete(target);label.numberLabel.tint=label.numberGlow.tint=0xffffff;engine.pools.damage.release(label);});
 }
 function sync(engine,row){const target=engine.combatantById(row.targetId);if(!target)return;
  if(Number.isFinite(row.targetHpPercent))engine.syncTargetHp(target,row.targetHpPercent);
  else if(Number.isFinite(row.targetHpAfter))engine.syncTargetHp(target,engine.eventHpPercent(target,row.targetHpAfter,row.targetMaxHp));
  if(Number.isFinite(row.targetShieldAfter))engine.syncTargetShield(target,row.targetShieldAfter,row.targetMaxShield);
- if(row.damage||row.absorbed)showDamage(engine,target,row);
+ if(row.damage||row.absorbed||row.amount>0)showDamage(engine,target,row);
  if(row.amount>0)engine.queueBanner(`+${Math.round(row.amount).toLocaleString()} 회복`,0xaebcff,target.name);
 }
 function rune(g,role,x,y,size,color,t){
@@ -98,9 +101,10 @@ export async function playIconEvent(engine,event){
  const strikePoint=melee?{x:actor.baseX+(target.root.x-actor.baseX)*ratio,y:actor.baseY+(target.root.y-actor.baseY)*ratio}:null;
  const finished=await engine.timeline(t=>{
   if(melee){actor.setState('MOVE');t.to(actor.root,{...strikePoint,duration:.21,ease:'power3.out'},0);t.call(()=>{if(valid())actor.setState('ATTACK');},[],.21);t.to(actor.root,{x:actor.baseX,y:actor.baseY,duration:.22,ease:'power2.inOut'},lastContact+.06);}
+  else actor.setState('ATTACK');
   t.to(time,{t:duration,duration,ease:'none',onUpdate:render},0);
   impacts.forEach(p=>t.call(()=>{if(valid()){sync(engine,p.row);event.onImpact?.(p.target);applied++;}},[],p.at));
- },()=>{layer.destroy({children:true,texture:false,textureSource:false});if(melee&&!actor.root.destroyed){actor.root.position.set(actor.baseX,actor.baseY);actor.setState(actor.hp<=0?'DEAD':'IDLE');}},null,{releaseAt:lastContact+(melee?.30:.12),owners:[actor,...targets]});
+ },()=>{layer.destroy({children:true,texture:false,textureSource:false});if(!actor.root.destroyed){if(melee)actor.root.position.set(actor.baseX,actor.baseY);actor.setState(actor.hp<=0?'DEAD':'IDLE');}},null,{releaseAt:lastContact+(melee?.30:.12),owners:[actor,...targets]});
  engine.lastIconPlayback={code:def.code,role:def.role,eventType:type,serverRows:rows.length,appliedRows:applied,clockOwner:'V3_REGISTERED_GSAP',damageAuthority:'SERVER_ONLY'};
  const metrics=engine.iconPlaybackMetrics||(engine.iconPlaybackMetrics={skills:0,basics:0,serverRows:0,appliedRows:0,roles:[]});
  if(finished){metrics[event.basic?'basics':'skills']++;metrics.serverRows+=rows.length;metrics.appliedRows+=applied;if(!event.basic&&!metrics.roles.includes(def.role))metrics.roles.push(def.role);}

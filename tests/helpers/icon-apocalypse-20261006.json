@@ -1,0 +1,948 @@
+{
+  "source": "Production boss/role settings and stored card stats, 2026-10-06; controlled gear and seeds; no account identifiers.",
+  "lowArgs": {
+    "cards": [
+      {
+        "id": "CN-47AD4B47B6A7452C",
+        "title": "아이젠 족스케",
+        "name": "이예준",
+        "grade": "FUR",
+        "power": 195200,
+        "uniqueAbility": {
+          "effectName": "방어형",
+          "effectDescription": "",
+          "attackPercent": 120,
+          "defensePercent": 195,
+          "hpPercent": 150,
+          "speedPercent": 0,
+          "dominantType": "DEFENSE"
+        },
+        "uniqueAdvancement": {
+          "active": true,
+          "classCode": "RIPOSTE",
+          "dominantType": "DEFENSE",
+          "configVersion": "1",
+          "modifiers": {
+            "criticalChancePoints": 0,
+            "penetrationPoints": 0,
+            "openingGaugePoints": 0,
+            "dodgeChancePoints": 0,
+            "dodgeCapPoints": 0,
+            "counterChancePoints": 11,
+            "counterMultiplierPoints": 13,
+            "unshieldedCounterChancePoints": 5,
+            "maxHpPercent": 0,
+            "damageDealtPercent": 2,
+            "damageCapPoints": 0,
+            "lastStandHealPoolPercent": 0,
+            "sealedLastStandHealPoolPercent": 0,
+            "healPoolBonusPercent": 0
+          }
+        },
+        "iconRole": null
+      },
+      {
+        "id": "CN-BA6BDEC789144D00",
+        "title": "오조은",
+        "name": "오조은",
+        "grade": "ZENITH",
+        "power": 75625,
+        "uniqueAbility": {
+          "effectName": "생명형",
+          "effectDescription": "",
+          "attackPercent": 16,
+          "defensePercent": 16,
+          "hpPercent": 48,
+          "speedPercent": 0,
+          "dominantType": "HP"
+        },
+        "uniqueAdvancement": {
+          "active": true,
+          "classCode": "IMMORTAL",
+          "dominantType": "HP",
+          "configVersion": "1",
+          "modifiers": {
+            "criticalChancePoints": 0,
+            "penetrationPoints": 0,
+            "openingGaugePoints": 0,
+            "dodgeChancePoints": 0,
+            "dodgeCapPoints": 0,
+            "counterChancePoints": 0,
+            "counterMultiplierPoints": 0,
+            "unshieldedCounterChancePoints": 0,
+            "maxHpPercent": 27,
+            "damageDealtPercent": 0,
+            "damageCapPoints": 0,
+            "lastStandHealPoolPercent": 35,
+            "sealedLastStandHealPoolPercent": 25,
+            "healPoolBonusPercent": 35
+          }
+        },
+        "iconRole": null
+      },
+      {
+        "id": "test-lower-clone",
+        "title": "오조은",
+        "name": "오조은",
+        "grade": "ZENITH",
+        "power": 75625,
+        "uniqueAbility": {
+          "effectName": "생명형",
+          "effectDescription": "",
+          "attackPercent": 16,
+          "defensePercent": 16,
+          "hpPercent": 48,
+          "speedPercent": 0,
+          "dominantType": "HP"
+        },
+        "uniqueAdvancement": {
+          "active": true,
+          "classCode": "IMMORTAL",
+          "dominantType": "HP",
+          "configVersion": "1",
+          "modifiers": {
+            "criticalChancePoints": 0,
+            "penetrationPoints": 0,
+            "openingGaugePoints": 0,
+            "dodgeChancePoints": 0,
+            "dodgeCapPoints": 0,
+            "counterChancePoints": 0,
+            "counterMultiplierPoints": 0,
+            "unshieldedCounterChancePoints": 0,
+            "maxHpPercent": 27,
+            "damageDealtPercent": 0,
+            "damageCapPoints": 0,
+            "lastStandHealPoolPercent": 35,
+            "sealedLastStandHealPoolPercent": 25,
+            "healPoolBonusPercent": 35
+          }
+        },
+        "iconRole": null
+      },
+      {
+        "id": "CN-346F8DB0DEB84D41",
+        "title": "철구",
+        "name": "이예준",
+        "grade": "FUR",
+        "power": 195200,
+        "uniqueAbility": {
+          "effectName": "공격형",
+          "effectDescription": "",
+          "attackPercent": 180,
+          "defensePercent": 90,
+          "hpPercent": 90,
+          "speedPercent": 0,
+          "dominantType": "ATTACK"
+        },
+        "uniqueAdvancement": {
+          "active": true,
+          "classCode": "SHATTER",
+          "dominantType": "ATTACK",
+          "configVersion": "1",
+          "modifiers": {
+            "criticalChancePoints": 15,
+            "penetrationPoints": 35,
+            "openingGaugePoints": 10,
+            "dodgeChancePoints": 0,
+            "dodgeCapPoints": 0,
+            "counterChancePoints": 0,
+            "counterMultiplierPoints": 0,
+            "unshieldedCounterChancePoints": 0,
+            "maxHpPercent": 0,
+            "damageDealtPercent": 13,
+            "damageCapPoints": 20,
+            "lastStandHealPoolPercent": 0,
+            "sealedLastStandHealPoolPercent": 0,
+            "healPoolBonusPercent": 0
+          }
+        },
+        "iconRole": null
+      },
+      {
+        "id": "CN-1C000001",
+        "title": "디임",
+        "name": "디임",
+        "grade": "ICON",
+        "power": 180000,
+        "uniqueAbility": null,
+        "uniqueAdvancement": null,
+        "iconRole": {
+          "version": 1,
+          "code": "ICON-DIIM",
+          "role": "ASSASSIN",
+          "revision": 1,
+          "tuning": {
+            "firstAction": 2,
+            "cooldownActions": 4,
+            "maxCasts": 6,
+            "pveScale": 100,
+            "pvpScale": 90,
+            "damagePercent": 180,
+            "damageCapPercent": 46,
+            "executePercent": 60,
+            "takedownGauge": 25,
+            "maxTakedowns": 2
+          },
+          "supremacy": {
+            "version": "20261005-fur15-v1",
+            "power": 198200,
+            "cardCount": 20,
+            "CAPTAIN": {
+              "attack": {
+                "base": 546560,
+                "perPower": 2.8
+              },
+              "maxHp": {
+                "base": 488000,
+                "perPower": 2.5
+              },
+              "defense": {
+                "base": 295,
+                "perPower": 0
+              },
+              "speed": {
+                "base": 250,
+                "perPower": 0
+              }
+            },
+            "PVE": {
+              "maxHp": {
+                "base": 456768,
+                "perPower": 2.340001
+              },
+              "attack": {
+                "base": 220230,
+                "perPower": 1.128226
+              },
+              "defense": {
+                "base": 134499,
+                "perPower": 0.689032
+              },
+              "speed": {
+                "base": 17011,
+                "perPower": 0.086251
+              }
+            },
+            "PVP": {
+              "maxHp": {
+                "base": 507520,
+                "perPower": 2.600001
+              },
+              "attack": {
+                "base": 207317,
+                "perPower": 1.062076
+              },
+              "defense": {
+                "base": 130455,
+                "perPower": 0.668313
+              },
+              "speed": {
+                "base": 17011,
+                "perPower": 0.086251
+              }
+            }
+          }
+        }
+      }
+    ],
+    "monster": {
+      "id": "75",
+      "name": "아카드",
+      "image_url": "assets/ui/project-v/monsters/apocalypse-legion-v1/alucard-source.jpg",
+      "battle_power": 6500000,
+      "reward_coin": "600000",
+      "is_boss": "1",
+      "is_active": "1",
+      "sort_order": "39",
+      "created_at": "2026-09-18 11:37:49",
+      "updated_at": "2026-09-18 11:37:49",
+      "ultimate_enabled": "0",
+      "ultimate_name": "구속 해제 · 불사군단",
+      "ultimate_description": "보스 + 쫄몹 6마리. 보스 1·2·3행동에 봉인·힐불가 저주·궁극기를 사용합니다.",
+      "ultimate_trigger": "ON_LOSS",
+      "ultimate_chance": 100,
+      "ultimate_damage_percent": 15,
+      "ultimate_max_uses": "1",
+      "ultimate_target": "ALL",
+      "ultimate_theme": "CRIMSON",
+      "ultimate_warning_text": "BOSS ULTIMATE",
+      "ultimate_shake": "1",
+      "ultimate_zoom": "1",
+      "ultimate_media_url": "",
+      "ultimate_sound_url": "",
+      "ultimate_duration_ms": "2400",
+      "ultimate_force_cast": "0",
+      "ultimate_pve_damage_percent": 15,
+      "ultimate_tower_damage_percent": 15,
+      "monster_category": "BOSS",
+      "pve_tab": "APOCALYPSE",
+      "pve_display_order": "39",
+      "ultimate_volume_percent": 35,
+      "pve_enabled": "1",
+      "tower_enabled": "0",
+      "tower_only": "0",
+      "battlePower": 6500000,
+      "pve_difficulty": "APOCALYPSE",
+      "pve_hp_percent": 350,
+      "pve_attack_percent": 475,
+      "pve_defense_percent": 375,
+      "pve_speed_percent": 375,
+      "pve_shield_percent": 70,
+      "pve_attack_count": 2,
+      "pve_forced_action_every": 4,
+      "pve_apocalypse_skill": {
+        "trigger": "BOSS_ACTION",
+        "skills": [
+          {
+            "code": "ALUCARD_SEAL",
+            "boss": "alucard",
+            "kind": "seal",
+            "name": "혈계 · 구속의 사슬",
+            "description": "공격력이 높은 적 2명의 스킬을 각자 2행동 동안 봉인합니다. 일반 공격은 유지됩니다.",
+            "asset": "alucard-seal",
+            "atlas": "/assets/ui/project-v/monsters/apocalypse-legion-v1/alucard-seal-atlas.json",
+            "frameCount": 12,
+            "collisionFrame": 6,
+            "impactAt": 0.8,
+            "duration": 1.8,
+            "anchor": {
+              "x": 0.5,
+              "y": 0.9
+            },
+            "targetCount": 2,
+            "statusActions": 2,
+            "dispel": true
+          },
+          {
+            "code": "ALUCARD_CURSE",
+            "boss": "alucard",
+            "kind": "curse",
+            "name": "불사의 저주 · 메마른 성혈",
+            "description": "적 전체의 회복을 각자 2행동 동안 100% 차단합니다. 재생·흡혈도 차단하며 정화로 해제할 수 있습니다.",
+            "asset": "alucard-curse",
+            "atlas": "/assets/ui/project-v/monsters/apocalypse-legion-v1/alucard-curse-atlas.json",
+            "frameCount": 12,
+            "collisionFrame": 6,
+            "impactAt": 0.8,
+            "duration": 1.8,
+            "anchor": {
+              "x": 0.5,
+              "y": 0.9
+            },
+            "targetCount": "ALL",
+            "statusActions": 2,
+            "healReductionPercent": 100,
+            "dispel": true
+          },
+          {
+            "code": "ALUCARD_ULTIMATE",
+            "boss": "alucard",
+            "kind": "ultimate",
+            "name": "구속 해제 · 불사군단",
+            "description": "적 전체에 공격력 15% 피해를 가하며 피해의 40%가 보호막을 관통합니다.",
+            "asset": "alucard-ultimate",
+            "atlas": "/assets/ui/project-v/monsters/apocalypse-legion-v1/alucard-ultimate-atlas.json",
+            "frameCount": 12,
+            "collisionFrame": 6,
+            "impactAt": 1.15,
+            "duration": 2.25,
+            "anchor": {
+              "x": 0.5,
+              "y": 0.9
+            },
+            "targetCount": "ALL",
+            "attackPercent": 15,
+            "shieldPiercePercent": 40,
+            "enabled": true
+          }
+        ],
+        "ultimate": {
+          "enabled": true,
+          "attackPercent": 15,
+          "shieldPiercePercent": 40
+        },
+        "minionCount": 6,
+        "enabled": true,
+        "name": "봉인 · 힐불가 저주 · 궁극기",
+        "description": "보스 + 쫄몹 6마리. 보스 1·2·3행동에 봉인·힐불가 저주·궁극기를 사용합니다.",
+        "damagePercent": 95,
+        "code": null
+      },
+      "pve_battle_suit_skill_defense_percent": 0
+    },
+    "characterBonus": 9000000,
+    "seed": 5,
+    "singleHealerBonus": {
+      "enabled": true,
+      "teamHpPercent": 8,
+      "healPercent": 10,
+      "crisisThresholdPercent": 40,
+      "crisisHealPercent": 16,
+      "pvpMaxActivations": 4,
+      "pveMaxActivations": 6
+    },
+    "bossUltimatePercent": 0,
+    "bossUltimateCapPercent": 500
+  },
+  "iconArgs": {
+    "cards": [
+      {
+        "id": "CN-47AD4B47B6A7452C",
+        "title": "아이젠 족스케",
+        "name": "이예준",
+        "grade": "FUR",
+        "power": 195200,
+        "uniqueAbility": {
+          "effectName": "방어형",
+          "effectDescription": "",
+          "attackPercent": 120,
+          "defensePercent": 195,
+          "hpPercent": 150,
+          "speedPercent": 0,
+          "dominantType": "DEFENSE"
+        },
+        "uniqueAdvancement": {
+          "active": true,
+          "classCode": "RIPOSTE",
+          "dominantType": "DEFENSE",
+          "configVersion": "1",
+          "modifiers": {
+            "criticalChancePoints": 0,
+            "penetrationPoints": 0,
+            "openingGaugePoints": 0,
+            "dodgeChancePoints": 0,
+            "dodgeCapPoints": 0,
+            "counterChancePoints": 11,
+            "counterMultiplierPoints": 13,
+            "unshieldedCounterChancePoints": 5,
+            "maxHpPercent": 0,
+            "damageDealtPercent": 2,
+            "damageCapPoints": 0,
+            "lastStandHealPoolPercent": 0,
+            "sealedLastStandHealPoolPercent": 0,
+            "healPoolBonusPercent": 0
+          }
+        },
+        "iconRole": null
+      },
+      {
+        "id": "CN-BA6BDEC789144D00",
+        "title": "오조은",
+        "name": "오조은",
+        "grade": "ZENITH",
+        "power": 75625,
+        "uniqueAbility": {
+          "effectName": "생명형",
+          "effectDescription": "",
+          "attackPercent": 16,
+          "defensePercent": 16,
+          "hpPercent": 48,
+          "speedPercent": 0,
+          "dominantType": "HP"
+        },
+        "uniqueAdvancement": {
+          "active": true,
+          "classCode": "IMMORTAL",
+          "dominantType": "HP",
+          "configVersion": "1",
+          "modifiers": {
+            "criticalChancePoints": 0,
+            "penetrationPoints": 0,
+            "openingGaugePoints": 0,
+            "dodgeChancePoints": 0,
+            "dodgeCapPoints": 0,
+            "counterChancePoints": 0,
+            "counterMultiplierPoints": 0,
+            "unshieldedCounterChancePoints": 0,
+            "maxHpPercent": 27,
+            "damageDealtPercent": 0,
+            "damageCapPoints": 0,
+            "lastStandHealPoolPercent": 35,
+            "sealedLastStandHealPoolPercent": 25,
+            "healPoolBonusPercent": 35
+          }
+        },
+        "iconRole": null
+      },
+      {
+        "id": "CN-1C000002",
+        "title": "하이희야",
+        "grade": "ICON",
+        "power": 180000,
+        "iconRole": {
+          "version": 1,
+          "code": "ICON-HI-HEEYA",
+          "role": "ATTACK",
+          "revision": 1,
+          "tuning": {
+            "firstAction": 3,
+            "cooldownActions": 4,
+            "maxCasts": 6,
+            "pveScale": 100,
+            "pvpScale": 90,
+            "damagePercent": 180,
+            "damageCapPercent": 46,
+            "stackPercent": 10,
+            "maxStacks": 3,
+            "shieldBreakPercent": 40
+          },
+          "supremacy": {
+            "version": "20261005-fur15-v1",
+            "power": 198200,
+            "cardCount": 20,
+            "CAPTAIN": {
+              "attack": {
+                "base": 546560,
+                "perPower": 2.8
+              },
+              "maxHp": {
+                "base": 488000,
+                "perPower": 2.5
+              },
+              "defense": {
+                "base": 295,
+                "perPower": 0
+              },
+              "speed": {
+                "base": 250,
+                "perPower": 0
+              }
+            },
+            "PVE": {
+              "maxHp": {
+                "base": 456768,
+                "perPower": 2.340001
+              },
+              "attack": {
+                "base": 220230,
+                "perPower": 1.128226
+              },
+              "defense": {
+                "base": 134499,
+                "perPower": 0.689032
+              },
+              "speed": {
+                "base": 17011,
+                "perPower": 0.086251
+              }
+            },
+            "PVP": {
+              "maxHp": {
+                "base": 507520,
+                "perPower": 2.600001
+              },
+              "attack": {
+                "base": 207317,
+                "perPower": 1.062076
+              },
+              "defense": {
+                "base": 130455,
+                "perPower": 0.668313
+              },
+              "speed": {
+                "base": 17011,
+                "perPower": 0.086251
+              }
+            }
+          }
+        }
+      },
+      {
+        "id": "CN-346F8DB0DEB84D41",
+        "title": "철구",
+        "name": "이예준",
+        "grade": "FUR",
+        "power": 195200,
+        "uniqueAbility": {
+          "effectName": "공격형",
+          "effectDescription": "",
+          "attackPercent": 180,
+          "defensePercent": 90,
+          "hpPercent": 90,
+          "speedPercent": 0,
+          "dominantType": "ATTACK"
+        },
+        "uniqueAdvancement": {
+          "active": true,
+          "classCode": "SHATTER",
+          "dominantType": "ATTACK",
+          "configVersion": "1",
+          "modifiers": {
+            "criticalChancePoints": 15,
+            "penetrationPoints": 35,
+            "openingGaugePoints": 10,
+            "dodgeChancePoints": 0,
+            "dodgeCapPoints": 0,
+            "counterChancePoints": 0,
+            "counterMultiplierPoints": 0,
+            "unshieldedCounterChancePoints": 0,
+            "maxHpPercent": 0,
+            "damageDealtPercent": 13,
+            "damageCapPoints": 20,
+            "lastStandHealPoolPercent": 0,
+            "sealedLastStandHealPoolPercent": 0,
+            "healPoolBonusPercent": 0
+          }
+        },
+        "iconRole": null
+      },
+      {
+        "id": "CN-1C000001",
+        "title": "디임",
+        "name": "디임",
+        "grade": "ICON",
+        "power": 180000,
+        "uniqueAbility": null,
+        "uniqueAdvancement": null,
+        "iconRole": {
+          "version": 1,
+          "code": "ICON-DIIM",
+          "role": "ASSASSIN",
+          "revision": 1,
+          "tuning": {
+            "firstAction": 2,
+            "cooldownActions": 4,
+            "maxCasts": 6,
+            "pveScale": 100,
+            "pvpScale": 90,
+            "damagePercent": 180,
+            "damageCapPercent": 46,
+            "executePercent": 60,
+            "takedownGauge": 25,
+            "maxTakedowns": 2
+          },
+          "supremacy": {
+            "version": "20261005-fur15-v1",
+            "power": 198200,
+            "cardCount": 20,
+            "CAPTAIN": {
+              "attack": {
+                "base": 546560,
+                "perPower": 2.8
+              },
+              "maxHp": {
+                "base": 488000,
+                "perPower": 2.5
+              },
+              "defense": {
+                "base": 295,
+                "perPower": 0
+              },
+              "speed": {
+                "base": 250,
+                "perPower": 0
+              }
+            },
+            "PVE": {
+              "maxHp": {
+                "base": 456768,
+                "perPower": 2.340001
+              },
+              "attack": {
+                "base": 220230,
+                "perPower": 1.128226
+              },
+              "defense": {
+                "base": 134499,
+                "perPower": 0.689032
+              },
+              "speed": {
+                "base": 17011,
+                "perPower": 0.086251
+              }
+            },
+            "PVP": {
+              "maxHp": {
+                "base": 507520,
+                "perPower": 2.600001
+              },
+              "attack": {
+                "base": 207317,
+                "perPower": 1.062076
+              },
+              "defense": {
+                "base": 130455,
+                "perPower": 0.668313
+              },
+              "speed": {
+                "base": 17011,
+                "perPower": 0.086251
+              }
+            }
+          }
+        }
+      }
+    ],
+    "monster": {
+      "id": "75",
+      "name": "아카드",
+      "image_url": "assets/ui/project-v/monsters/apocalypse-legion-v1/alucard-source.jpg",
+      "battle_power": 6500000,
+      "reward_coin": "600000",
+      "is_boss": "1",
+      "is_active": "1",
+      "sort_order": "39",
+      "created_at": "2026-09-18 11:37:49",
+      "updated_at": "2026-09-18 11:37:49",
+      "ultimate_enabled": "0",
+      "ultimate_name": "구속 해제 · 불사군단",
+      "ultimate_description": "보스 + 쫄몹 6마리. 보스 1·2·3행동에 봉인·힐불가 저주·궁극기를 사용합니다.",
+      "ultimate_trigger": "ON_LOSS",
+      "ultimate_chance": 100,
+      "ultimate_damage_percent": 15,
+      "ultimate_max_uses": "1",
+      "ultimate_target": "ALL",
+      "ultimate_theme": "CRIMSON",
+      "ultimate_warning_text": "BOSS ULTIMATE",
+      "ultimate_shake": "1",
+      "ultimate_zoom": "1",
+      "ultimate_media_url": "",
+      "ultimate_sound_url": "",
+      "ultimate_duration_ms": "2400",
+      "ultimate_force_cast": "0",
+      "ultimate_pve_damage_percent": 15,
+      "ultimate_tower_damage_percent": 15,
+      "monster_category": "BOSS",
+      "pve_tab": "APOCALYPSE",
+      "pve_display_order": "39",
+      "ultimate_volume_percent": 35,
+      "pve_enabled": "1",
+      "tower_enabled": "0",
+      "tower_only": "0",
+      "battlePower": 6500000,
+      "pve_difficulty": "APOCALYPSE",
+      "pve_hp_percent": 350,
+      "pve_attack_percent": 475,
+      "pve_defense_percent": 375,
+      "pve_speed_percent": 375,
+      "pve_shield_percent": 70,
+      "pve_attack_count": 2,
+      "pve_forced_action_every": 4,
+      "pve_apocalypse_skill": {
+        "trigger": "BOSS_ACTION",
+        "skills": [
+          {
+            "code": "ALUCARD_SEAL",
+            "boss": "alucard",
+            "kind": "seal",
+            "name": "혈계 · 구속의 사슬",
+            "description": "공격력이 높은 적 2명의 스킬을 각자 2행동 동안 봉인합니다. 일반 공격은 유지됩니다.",
+            "asset": "alucard-seal",
+            "atlas": "/assets/ui/project-v/monsters/apocalypse-legion-v1/alucard-seal-atlas.json",
+            "frameCount": 12,
+            "collisionFrame": 6,
+            "impactAt": 0.8,
+            "duration": 1.8,
+            "anchor": {
+              "x": 0.5,
+              "y": 0.9
+            },
+            "targetCount": 2,
+            "statusActions": 2,
+            "dispel": true
+          },
+          {
+            "code": "ALUCARD_CURSE",
+            "boss": "alucard",
+            "kind": "curse",
+            "name": "불사의 저주 · 메마른 성혈",
+            "description": "적 전체의 회복을 각자 2행동 동안 100% 차단합니다. 재생·흡혈도 차단하며 정화로 해제할 수 있습니다.",
+            "asset": "alucard-curse",
+            "atlas": "/assets/ui/project-v/monsters/apocalypse-legion-v1/alucard-curse-atlas.json",
+            "frameCount": 12,
+            "collisionFrame": 6,
+            "impactAt": 0.8,
+            "duration": 1.8,
+            "anchor": {
+              "x": 0.5,
+              "y": 0.9
+            },
+            "targetCount": "ALL",
+            "statusActions": 2,
+            "healReductionPercent": 100,
+            "dispel": true
+          },
+          {
+            "code": "ALUCARD_ULTIMATE",
+            "boss": "alucard",
+            "kind": "ultimate",
+            "name": "구속 해제 · 불사군단",
+            "description": "적 전체에 공격력 15% 피해를 가하며 피해의 40%가 보호막을 관통합니다.",
+            "asset": "alucard-ultimate",
+            "atlas": "/assets/ui/project-v/monsters/apocalypse-legion-v1/alucard-ultimate-atlas.json",
+            "frameCount": 12,
+            "collisionFrame": 6,
+            "impactAt": 1.15,
+            "duration": 2.25,
+            "anchor": {
+              "x": 0.5,
+              "y": 0.9
+            },
+            "targetCount": "ALL",
+            "attackPercent": 15,
+            "shieldPiercePercent": 40,
+            "enabled": true
+          }
+        ],
+        "ultimate": {
+          "enabled": true,
+          "attackPercent": 15,
+          "shieldPiercePercent": 40
+        },
+        "minionCount": 6,
+        "enabled": true,
+        "name": "봉인 · 힐불가 저주 · 궁극기",
+        "description": "보스 + 쫄몹 6마리. 보스 1·2·3행동에 봉인·힐불가 저주·궁극기를 사용합니다.",
+        "damagePercent": 95,
+        "code": null
+      },
+      "pve_battle_suit_skill_defense_percent": 0
+    },
+    "characterBonus": 9000000,
+    "seed": 5,
+    "singleHealerBonus": {
+      "enabled": true,
+      "teamHpPercent": 8,
+      "healPercent": 10,
+      "crisisThresholdPercent": 40,
+      "crisisHealPercent": 16,
+      "pvpMaxActivations": 4,
+      "pveMaxActivations": 6
+    },
+    "bossUltimatePercent": 0,
+    "bossUltimateCapPercent": 500
+  },
+  "roles": {
+    "version": 1,
+    "enabled": true,
+    "scopes": {
+      "pve": true,
+      "pvp": true,
+      "captain": true
+    },
+    "cards": [
+      {
+        "code": "ICON-DIIM",
+        "enabled": true,
+        "tuning": {
+          "firstAction": 2,
+          "cooldownActions": 4,
+          "maxCasts": 6,
+          "pveScale": 100,
+          "pvpScale": 90,
+          "damagePercent": 180,
+          "damageCapPercent": 46,
+          "executePercent": 60,
+          "takedownGauge": 25,
+          "maxTakedowns": 2
+        }
+      },
+      {
+        "code": "ICON-HI-HEEYA",
+        "enabled": true,
+        "tuning": {
+          "firstAction": 3,
+          "cooldownActions": 4,
+          "maxCasts": 6,
+          "pveScale": 100,
+          "pvpScale": 90,
+          "damagePercent": 180,
+          "damageCapPercent": 46,
+          "stackPercent": 10,
+          "maxStacks": 3,
+          "shieldBreakPercent": 40
+        }
+      },
+      {
+        "code": "ICON-NAMUNEUL-BONGSOON",
+        "enabled": true,
+        "tuning": {
+          "firstAction": 2,
+          "cooldownActions": 4,
+          "maxCasts": 6,
+          "pveScale": 100,
+          "pvpScale": 90,
+          "damagePercent": 180,
+          "damageCapPercent": 46,
+          "maxTargets": 3,
+          "focusPercent": 20,
+          "penetrationPercent": 25
+        }
+      },
+      {
+        "code": "ICON-OH-JOEUN",
+        "enabled": true,
+        "tuning": {
+          "firstAction": 2,
+          "cooldownActions": 4,
+          "maxCasts": 6,
+          "pveScale": 125,
+          "pvpScale": 150,
+          "healPercent": 25,
+          "resonancePercent": 3,
+          "maxStacks": 8,
+          "healBudgetPercent": 150,
+          "nextAttackPercent": 35,
+          "durationActions": 3
+        }
+      },
+      {
+        "code": "ICON-ORIKKUNG",
+        "enabled": true,
+        "tuning": {
+          "firstAction": 3,
+          "cooldownActions": 4,
+          "maxCasts": 6,
+          "pveScale": 100,
+          "pvpScale": 90,
+          "damagePercent": 180,
+          "damageCapPercent": 46,
+          "maxStacks": 3,
+          "dotPercent": 9,
+          "healReductionPercent": 10,
+          "stackPercent": 15,
+          "durationActions": 3,
+          "bossVulnerabilityPercent": 6
+        }
+      },
+      {
+        "code": "ICON-KANGGUYEOL",
+        "enabled": true,
+        "tuning": {
+          "firstAction": 1,
+          "cooldownActions": 3,
+          "maxCasts": 6,
+          "pveScale": 100,
+          "pvpScale": 100,
+          "damagePercent": 210,
+          "damageCapPercent": 46,
+          "guardThresholdPercent": 70,
+          "guardSharePercent": 40,
+          "guardBudgetPercent": 160,
+          "shieldPercent": 35,
+          "storedDamagePercent": 70,
+          "storedCapPercent": 100,
+          "durationActions": 3
+        }
+      },
+      {
+        "code": "ICON-AYOON",
+        "enabled": true,
+        "tuning": {
+          "firstAction": 1,
+          "cooldownActions": 4,
+          "maxCasts": 6,
+          "pveScale": 100,
+          "pvpScale": 90,
+          "damagePercent": 140,
+          "damageCapPercent": 46,
+          "shieldPercent": 18,
+          "shieldBreakPercent": 65,
+          "gaugeDelay": 12,
+          "bossVulnerabilityPercent": 8,
+          "durationActions": 2
+        }
+      }
+    ]
+  }
+}
