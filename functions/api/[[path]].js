@@ -8079,7 +8079,7 @@ async function handleRequest(context){
       const admin=await requirePermission(request,env,'USER_MANAGE');if(!admin)return json({error:'유저 관리 권한이 없습니다.'},403);
       const payload=await readBody(request),userId=Number(payload.userId),amount=Number(payload.amount),reason=String(payload.reason||'관리자 마스터의 별 조정').trim().slice(0,100);
       if(!Number.isInteger(userId)||userId<1)return json({error:'대상 유저를 다시 선택하세요.'},400);
-      if(!Number.isInteger(amount)||amount===0||Math.abs(amount)>1000000)return json({error:'마스터의 별 수량은 -1,000,000~1,000,000 범위의 0이 아닌 정수로 입력하세요.'},400);
+      if(!Number.isInteger(amount)||amount===0||Math.abs(amount)>100000000)return json({error:'마스터의 별 수량은 -100,000,000~100,000,000 범위의 0이 아닌 정수로 입력하세요.'},400);
       if(!reason)return json({error:'처리 사유를 입력하세요.'},400);
       const target=await env.DB.prepare('SELECT id,nickname,role FROM users WHERE id=?').bind(userId).first();
       if(!target)return json({error:'유저를 찾을 수 없습니다.'},404);

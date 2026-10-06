@@ -1,7 +1,8 @@
 (() => {
   const $ = selector => document.querySelector(selector);
   const authToken = () => localStorage.getItem('cnine_admin_token') || sessionStorage.getItem('cnine_admin_token') || '';
-  const block = (id,title,reason) => `<div class="actionBlock" id="${id}Block"><h3>${title} 지급·회수</h3><p class="muted">양수는 지급, 음수는 회수이며 모든 변경은 관리자 로그에 기록됩니다.</p><div class="two"><input id="${id}Amount" type="number" min="-1000000" max="1000000" step="1" placeholder="지급은 +, 회수는 -"><input id="${id}Reason" maxlength="100" value="${reason}" placeholder="처리 사유"></div><button type="button" id="${id}Btn">${title} 지급/회수</button><small id="${id}Balance" class="muted"></small></div>`;
+  const amountLimits = Object.freeze({masterStar:100000000,magicCrystal:1000000});
+  const block = (id,title,reason) => `<div class="actionBlock" id="${id}Block"><h3>${title} 지급·회수</h3><p class="muted">양수는 지급, 음수는 회수이며 모든 변경은 관리자 로그에 기록됩니다.${id==='masterStar'?' 1회 최대 1억 개까지 지급·회수할 수 있습니다.':''}</p><div class="two"><input id="${id}Amount" type="number" min="${-amountLimits[id]}" max="${amountLimits[id]}" step="1" placeholder="지급은 +, 회수는 -"><input id="${id}Reason" maxlength="100" value="${reason}" placeholder="처리 사유"></div><button type="button" id="${id}Btn">${title} 지급/회수</button><small id="${id}Balance" class="muted"></small></div>`;
   function mount(){
     const shardBlock=$('#shardAmount')?.closest('.actionBlock');if(!shardBlock||$('#specialCurrencyBlocks'))return;
     shardBlock.insertAdjacentHTML('afterend',`<div id="specialCurrencyBlocks">${block('masterStar','마스터의 별','관리자 마스터의 별 조정')}${block('magicCrystal','마법 결정','관리자 마법 결정 조정')}</div>`);
@@ -11,7 +12,7 @@
   async function adjust(id,path,label){
     const userId=Number($('#selectedUserId')?.value||0),amount=Number($(`#${id}Amount`)?.value||0),reason=String($(`#${id}Reason`)?.value||'').trim();
     if(!userId)return alert('유저를 다시 선택하세요.');
-    if(!Number.isInteger(amount)||amount===0||Math.abs(amount)>1000000)return alert('수량은 -1,000,000~1,000,000 범위의 0이 아닌 정수로 입력하세요.');
+    if(!Number.isInteger(amount)||amount===0||Math.abs(amount)>amountLimits[id])return alert(`수량은 -${amountLimits[id].toLocaleString()}~${amountLimits[id].toLocaleString()} 범위의 0이 아닌 정수로 입력하세요.`);
     if(!reason)return alert('처리 사유를 입력하세요.');
     if(!confirm(`${label} ${Math.abs(amount).toLocaleString()}개를 ${amount>0?'지급':'회수'}할까요?`))return;
     const button=$(`#${id}Btn`);button.disabled=true;

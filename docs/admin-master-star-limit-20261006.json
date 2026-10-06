@@ -1,0 +1,39 @@
+{
+  "request": "CMS 유저관리 마스터의 별 100만 개 제한을 풀어 한 번에 수천만 개 지급",
+  "scope": {
+    "route": "POST /api/admin/users/master-star",
+    "previousAbsoluteLimit": 1000000,
+    "absoluteLimit": 100000000,
+    "allowedAmount": "0을 제외한 -100,000,000~100,000,000 정수; 회수는 실제 잔액 이내",
+    "ui": "admin/user-master-star-v1520.js",
+    "cacheVersion": "20261006-master-star-100m",
+    "unchanged": ["USER_MANAGE 권한 및 OWNER 계정 보호", "기존 재고 변경과 관리자 로그 처리", "마법 결정·쿠폰·메시지 보상 한도"],
+    "productionGrantsExecuted": 0
+  },
+  "validation": {
+    "serverTest": "tests/admin-master-star-limit-20261006.test.mjs",
+    "passed": 3,
+    "cases": [
+      "1,000,001 / 50,000,000 / 99,999,999 / 100,000,000 지급 및 100,000,000 회수: 잔액·미확인 수량·재고 로그·관리자 기록 일치",
+      "초과 수량·소수·0·잘못된 값·잔액 초과 회수·권한 없는 요청 차단",
+      "재고 UPDATE 실패 시 잔액 불변; 실패 후 50,000,000 재시도 정확히 반영",
+      "다른 계정·아이템 및 마법 결정 1,000,000 한도 유지"
+    ],
+    "browser": {
+      "fixture": "실제 admin/index.html 유저관리 dialog·스타일·대상 스크립트, 지급 API만 로컬 모의 응답",
+      "viewports": ["1440x900", "390x900"],
+      "passed": 25,
+      "runtimeErrors": [],
+      "visualInspection": "수량 입력·1억 개 안내·확인창·버튼 정상, 가로 잘림 없음",
+      "report": "C:/Users/User/.codex/tmp/admin-master-star-limit-20261006/browser-report.json"
+    }
+  },
+  "release": {
+    "mode": "scoped",
+    "base": "c819c122120094630567f2a83dd10fa42428609a",
+    "reason": "CMS 마스터의 별 수동 지급 한도만 변경; 해당 API 금액·권한·잔액 보호·쓰기 실패 재시도와 PC/모바일 입력 확인",
+    "tests": ["tests/admin-master-star-limit-20261006.test.mjs"],
+    "checks": ["check:worker"],
+    "status": "validated-before-deploy"
+  }
+}
