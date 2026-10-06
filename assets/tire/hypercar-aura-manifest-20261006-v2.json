@@ -1,0 +1,83 @@
+{
+  "version": 2,
+  "createdAt": "2026-10-06T14:55:36.272Z",
+  "status": "PREPARED_FOR_REVIEW",
+  "userRequest": "이것도 하나 더 만들고 3개 사진 다 기체 주변에 이펙트 추가해",
+  "supersedes": "assets/tire/armored-hypercars-manifest-20261006-v1.json",
+  "generation": {
+    "tool": "built-in image_gen",
+    "prompts": "assets/tire/hypercar-aura-prompts-20261006-v2.json"
+  },
+  "composition": {
+    "camera": "low front three-quarter, front toward image left",
+    "framing": "entire car, wide 16:9 landscape",
+    "background": "premium dark showroom with reflective circular platform"
+  },
+  "assets": [
+    {
+      "reference": 1,
+      "path": "assets/tire/black-armored-hypercar-aura-v2.png",
+      "source": "C:/Users/User/.codex/generated_images/01a107d4-bfe5-72d1-b980-f8b2592cf9e0/exec-c7c6ceb1-fc0a-443d-9ec5-01c615ff543d.png",
+      "aura": "cold white/silver with ice-blue edges",
+      "previous": "assets/tire/black-armored-hypercar-showroom-v1.png",
+      "width": 1671,
+      "height": 941,
+      "channels": 3,
+      "bytes": 2360172,
+      "sha256": "f824ebe728e9f34ffd2461b73234f5ccff31e22e97964d83db7b05c2fb31520f",
+      "opaque": true
+    },
+    {
+      "reference": 2,
+      "path": "assets/tire/silver-cyan-hypercar-aura-v2.png",
+      "source": "C:/Users/User/.codex/generated_images/01a107d4-bfe5-72d1-b980-f8b2592cf9e0/exec-f2d49161-0744-460d-a287-5fbaa72d70f9.png",
+      "aura": "electric azure/cyan",
+      "previous": "assets/tire/silver-cyan-hypercar-showroom-v1.png",
+      "width": 1672,
+      "height": 941,
+      "channels": 3,
+      "bytes": 2375957,
+      "sha256": "698185bb958959552f4c012ecdd6e00cb2f1a0bbb2df791412723ee8c9ea6733",
+      "opaque": true
+    },
+    {
+      "reference": 3,
+      "path": "assets/tire/orange-aero-hypercar-aura-v1.png",
+      "source": "C:/Users/User/.codex/generated_images/01a107d4-bfe5-72d1-b980-f8b2592cf9e0/exec-59512c88-0b47-4662-b669-1d7fbcc68b00.png",
+      "aura": "gold/amber",
+      "referenceImage": "C:/Users/User/AppData/Local/Temp/codex-clipboard-b89bf757-ac03-4d82-8ce7-0cfedefe6c54.png",
+      "width": 1671,
+      "height": 941,
+      "channels": 3,
+      "bytes": 2270825,
+      "sha256": "7638b9e3039dc94d801e498a7bfeedbc94fed2b3c65c229442b8d1ee7310d61f",
+      "opaque": true
+    }
+  ],
+  "effects": {
+    "type": "static artwork",
+    "animated": false,
+    "components": [
+      "surrounding aura",
+      "aerodynamic flow ribbons",
+      "fine particles",
+      "floor reflections"
+    ]
+  },
+  "qa": {
+    "allThreeVisuallyInspected": true,
+    "firstTwoDesignsAndCameraPreserved": true,
+    "fullVehicleVisible": true,
+    "visibleSurroundEffectsOnAllThree": true,
+    "opaqueBackgroundVerified": true,
+    "generatedPixelsPreserved": true,
+    "originalV1FilesPreserved": true
+  },
+  "catalog": {
+    "registered": false,
+    "name": null,
+    "rarity": null,
+    "power": null,
+    "acquisitionEnabled": false
+  }
+}
