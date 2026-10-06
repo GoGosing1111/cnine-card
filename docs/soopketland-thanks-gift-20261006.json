@@ -1,0 +1,149 @@
+{
+  "status": "LIVE",
+  "checkedAt": "2026-10-06T13:25:54.688Z",
+  "sourceCommit": "ecd2986e375291bcec67ea9b08eb0c12b758712c",
+  "deployedBase": "dd322fe1b04eb4a1010be21472e31f7f8f4b3501",
+  "pages": "https://c9f7709a.cnine-card.pages.dev",
+  "apiWorkerVersion": "7f6d368b-5381-4c50-8d71-df810ff8b134",
+  "clanWorkerVersion": "e7898002-b7dd-4517-9c72-d4636c21379d",
+  "weights": {
+    "COIN": 12600,
+    "EMPEROR_ENERGY": 1500,
+    "MASTER_STAR": 12600,
+    "STARLIGHT_ARMOR_CORE": 3000,
+    "PINGDU_THANKS_GIFT_BOX": 300
+  },
+  "prizes": [
+    {
+      "key": "COIN",
+      "label": "코인",
+      "min": 100000000,
+      "max": 50000000000,
+      "percent": 42
+    },
+    {
+      "key": "EMPEROR_ENERGY",
+      "label": "엠퍼러 에너지",
+      "min": 1,
+      "max": 5,
+      "percent": 5
+    },
+    {
+      "key": "MASTER_STAR",
+      "label": "마스터의 별",
+      "min": 1000,
+      "max": 1000000,
+      "percent": 42
+    },
+    {
+      "key": "STARLIGHT_ARMOR_CORE",
+      "label": "미스틱 에너지",
+      "min": 1,
+      "max": 1000,
+      "percent": 10
+    },
+    {
+      "key": "PINGDU_THANKS_GIFT_BOX",
+      "label": "핑두의 감사 선물",
+      "min": 1,
+      "max": 1,
+      "percent": 1
+    }
+  ],
+  "operation": {
+    "operationKey": "ops:soopketland-stars1m-thanks1:20261006:v1",
+    "status": "APPLIED",
+    "before": {
+      "weights": {
+        "COIN": 9916,
+        "SUPERSTAR_GUARANTEED_PACK": 1500,
+        "MASTER_STAR": 9916,
+        "BLACK_MIRACLE_PACK": 5668,
+        "STARLIGHT_ARMOR_CORE": 3000
+      }
+    },
+    "after": {
+      "weights": {
+        "COIN": 12600,
+        "EMPEROR_ENERGY": 1500,
+        "MASTER_STAR": 12600,
+        "STARLIGHT_ARMOR_CORE": 3000,
+        "PINGDU_THANKS_GIFT_BOX": 300
+      }
+    },
+    "starMin": 1000,
+    "starMax": 1000000,
+    "starStep": 1000,
+    "giftAmount": 1,
+    "giftPercent": 1,
+    "createdAt": "2026-10-06T13:25:14.367Z",
+    "authorization": "숲켓랜드 마별 100만까지 늘리고 1%확률로 핑두의 감사선물 넣어",
+    "auditId": "41921"
+  },
+  "tests": {
+    "checks": [
+      "check:worker",
+      "verify-production-release",
+      "Hyperdrive query cache disabled"
+    ],
+    "files": [
+      "tests/soopketland-v2039.test.mjs",
+      "tests/soopketland-thanks-gift-policy-20261006.test.mjs"
+    ],
+    "passed": 45,
+    "failed": 0
+  },
+  "visual": {
+    "mobile": {
+      "method": "iframe document viewport",
+      "width": 390,
+      "height": 844
+    },
+    "desktop": {
+      "height": 720,
+      "width": 1280
+    },
+    "evidence": "docs/evidence/soopketland-thanks-gift-20261006-mobile.png",
+    "consoleErrors": 0,
+    "tool": "CUA",
+    "horizontalOverflow": false
+  },
+  "http": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "13070f37ad264969eb25308891ec645bd315be70bd3623f0e1cb34bdc4e21769",
+      "bytes": 21332
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "3eebb21479812e18dc584ad3efb3d0ebc0150ba18a8c09db239eeb848d4ada25",
+      "bytes": 738253
+    },
+    {
+      "file": "js/soopketland-v2039.bundle.js",
+      "status": 200,
+      "sha256": "9376d7015acd9234bbf4129efe459cab8666a76262167c22b8e9dd4bd65f0b78",
+      "bytes": 29757
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "3841a000d1a2914a7a3d62ca06a19f7bdf5f23087257b1eda0a326019f9310d0",
+      "bytes": 8976
+    },
+    {
+      "file": "preview/soopketland-v2039/index.html",
+      "status": 200,
+      "sha256": "3bdf9f79886905df6d16a91ada7be0ffd900caeb544f145f6c7b1638171e8a3c",
+      "bytes": 1271
+    },
+    {
+      "file": "preview/soopketland-v2039/preview.js",
+      "status": 200,
+      "sha256": "c5453227cfa07852670f684ff30dc6f912629a5c0c43468400890f88eb44c2c0",
+      "bytes": 1782
+    }
+  ]
+}
