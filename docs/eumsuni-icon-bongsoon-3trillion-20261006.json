@@ -1,0 +1,62 @@
+{
+  "status": "READY_TO_APPLY",
+  "authorization": "음순이 계정에 아이콘 나무늘봉순 지급하고 3조 지급해",
+  "operationScript": "scripts/ops/eumsuni-icon-bongsoon-3trillion-20261006.mjs",
+  "operationScriptSha256": "9a6d4998bfa97829bf8096c47a2705de56b9816204badd1ca0835c9636a99a12",
+  "lookup": {
+    "user": {
+      "id": 65,
+      "nickname": "음순이",
+      "status": "ACTIVE",
+      "coin": "2563839429"
+    },
+    "cards": [
+      {
+        "id": "CN-1C000003",
+        "title": "나무늘봉순",
+        "grade": "ICON",
+        "is_active": "1",
+        "card_status": "PUBLIC",
+        "member_name": "나무늘봉순",
+        "member_active": "1"
+      }
+    ],
+    "quantities": [
+      {
+        "cardId": "CN-1C000003",
+        "title": "나무늘봉순",
+        "quantity": 0
+      }
+    ],
+    "receipt": null,
+    "sourceHash": "9a6d4998bfa97829bf8096c47a2705de56b9816204badd1ca0835c9636a99a12"
+  },
+  "validation": {
+    "syntax": "PASS",
+    "dryRun": "DRY_RUN_ROLLED_BACK",
+    "failurePoints": [
+      "coin ledger insert",
+      "admin audit insert",
+      "idempotency receipt insert"
+    ],
+    "partialFailureRolledBack": true,
+    "replayVerified": true,
+    "rollbackVerified": true,
+    "exactCoinDelta": "3000000000000",
+    "otherBalancesPreserved": true,
+    "otherCardsPreserved": true
+  },
+  "execution": {
+    "userLock": "user:65",
+    "atomicWrites": [
+      "user_cards quantity +1",
+      "users coin +3000000000000",
+      "coin_logs",
+      "admin_logs",
+      "app_meta receipt"
+    ],
+    "siteDeployment": "NOT_REQUIRED_OPS_ONLY",
+    "notificationSent": false
+  },
+  "artifacts": "C:/Users/User/.codex/tmp/eumsuni-icon-bongsoon-3trillion-20261006"
+}
