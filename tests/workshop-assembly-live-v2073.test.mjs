@@ -147,3 +147,25 @@ test('S-BODY uses approved item art on success and failure, including renamed CM
     assert.equal(liveAssemblyReceipt(data,recipe).model,null);
   }
 });
+
+test('Z-BODY uses the current sword artwork for both saved outcomes while CMS launch controls remain separate',()=>{
+  for(const success of [true,false]){
+    const {data,recipe}=fixture('z',success);
+    recipe.output_ref='48';recipe.output_name='CMS에서 바꾼 이름';
+    recipe.is_active=0;recipe.is_public=0;recipe.owner_test_only=1;
+    if(data.output)data.output.ref='48';
+    const before=structuredClone(recipe);
+    assert.equal(liveAssemblyReceipt(data,recipe).model,'z');
+    assert.deepEqual(recipe,before,'presentation cannot enable or save a recipe');
+    recipe.output_image=MODELS.z.catalogSource.slice(1);
+    assert.equal(liveAssemblyReceipt(data,recipe).model,'z');
+    for(const image of ['/assets/items/z-body-v2124.png','/assets/ui/project-v/account-battle-suits/x-sword-v1/x-body.png']){
+      recipe.output_image=image;recipe.output_name='Z-BODY';
+      assert.equal(liveAssemblyReceipt(data,recipe).model,null);
+    }
+  }
+  const app=read('js/app.js'),index=read('index.html');
+  assert.match(app,/workshop-assembly-live-v2073\.bundle\.js\?v=20261006-z-body/);
+  assert.match(app,/workshop-assembly-fx-v2073\.bundle\.js\?v=20261006-z-body/);
+  assert.match(index,/zBodyAssembly=20261006/);
+});

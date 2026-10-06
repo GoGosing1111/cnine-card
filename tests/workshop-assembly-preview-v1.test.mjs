@@ -75,6 +75,16 @@ test('real GSAP timelines seek, skip, restart and cancel without altering outcom
       film.seek(6.3);assert.ok(helmet.sprite.y<helmet.target.y);assert.ok(helmet.sprite.alpha>0);
       assert.equal(film.corePoint.x,film.suitGroup.x+MODELS.s.core[0]*film.suitGroup.scale.x);
     }
+    if(key==='z'){
+      const sword=film.renderedParts.find(p=>p.name==='sword'),helmet=film.renderedParts.find(p=>p.name==='helmet');
+      assert.equal(film.renderedParts.length,12);
+      film.seek(6.2);assert.equal(sword.sprite.alpha,0);assert.ok(helmet.sprite.y<helmet.target.y);
+      film.seek(7);assert.ok(sword.sprite.x>sword.target.x);assert.ok(sword.sprite.y<sword.target.y);assert.equal(sword.sprite.rotation,0);
+      assert.equal(sword.sprite.scale.x,sword.sprite.scale.y);
+      film.seek(7.9);assert.equal(sword.sprite.x,sword.target.x);assert.equal(sword.sprite.y,sword.target.y);
+      assert.equal(film.corePoint.x,film.suitGroup.x+MODELS.z.core[0]*film.suitGroup.scale.x);
+      assert.equal(phaseAt('suit',7,true,'z')[1],'HELMET & GREATSWORD LOCK');
+    }
     film.seek(9);for(const p of film.renderedParts){assert.equal(p.sprite.alpha,1);assert.equal(p.sprite.rotation,0);assert.equal(p.sprite.x,p.target.x);assert.equal(p.sprite.y,p.target.y);}
     film.skip();assert.equal(film.diagnostics().finished,true);assert.equal(film.result.success,success);
     if(mode==='vehicle'){assert.equal(film.carGroup.x,success?-44:0);assert.equal(film.carGroup.y,success?20:0);}
@@ -86,7 +96,7 @@ test('real GSAP timelines seek, skip, restart and cancel without altering outcom
   delete globalThis.location;delete globalThis.document;
 });
 test('E/F/G and Ignis-X map to verified CMS identities with model-specific geometry',()=>{
-  assert.deepEqual(MODEL_ORDER.suit,['e','f','g','h','s']);assert.deepEqual(MODEL_ORDER.vehicle,['solaris','ignis','veneno']);
+  assert.deepEqual(MODEL_ORDER.suit,['e','f','g','h','s','z']);assert.deepEqual(MODEL_ORDER.vehicle,['solaris','ignis','veneno']);
   assert.equal(MODELS.e.code,'BATTLE_SUIT_01');assert.equal(MODELS.f.code,'BATTLE_SUIT_02');assert.equal(MODELS.g.code,'BATTLE_SUIT_03');assert.equal(MODELS.ignis.code,'GARAGE_1787232065012');
   for(const key of ['e','f','g']){const m=modelFor('suit',key),p=suitPlacement(m);assert.equal(p.scale*(m.box[3]-m.box[1]),650);assert.equal(modelPhases('suit',key,MODES.suit.phases)[4][2].includes('INTERFACE'),true);}
   assert.throws(()=>modelFor('suit','ignis'));assert.throws(()=>modelFor('vehicle','e'));assert.equal(resolveModel('suit','unknown'),'h');

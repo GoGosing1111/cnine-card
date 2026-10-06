@@ -1,0 +1,83 @@
+{
+  "passed": true,
+  "reports": [
+    {
+      "width": 1440,
+      "assembled": {
+        "mode": "suit",
+        "model": "z",
+        "modelName": "Z-BODY",
+        "modelCode": "BATTLE_SUIT_Z_BODY",
+        "authoredPartCount": 12,
+        "time": 13.4,
+        "duration": 13.4,
+        "phase": [
+          "조립 완료",
+          "ASSEMBLY COMPLETE"
+        ],
+        "success": true,
+        "playing": false,
+        "complete": true,
+        "finished": true,
+        "progress": 1,
+        "rate": 1,
+        "reducedMotion": false,
+        "activeTimelines": 1,
+        "pixiTickerRunning": false,
+        "sceneChildren": 7,
+        "generation": 1,
+        "audioEnabled": false,
+        "audioError": null,
+        "apiMutations": 0,
+        "disposed": false
+      },
+      "success": true,
+      "pauseResume": true,
+      "skip": true,
+      "closed": true,
+      "unlocked": true,
+      "mockCraftRequests": 1,
+      "realApiMutations": 0,
+      "pageErrors": []
+    },
+    {
+      "width": 390,
+      "assembled": {
+        "mode": "suit",
+        "model": "z",
+        "modelName": "Z-BODY",
+        "modelCode": "BATTLE_SUIT_Z_BODY",
+        "authoredPartCount": 12,
+        "time": 13.4,
+        "duration": 13.4,
+        "phase": [
+          "조립 완료",
+          "ASSEMBLY COMPLETE"
+        ],
+        "success": true,
+        "playing": false,
+        "complete": true,
+        "finished": true,
+        "progress": 1,
+        "rate": 1,
+        "reducedMotion": false,
+        "activeTimelines": 1,
+        "pixiTickerRunning": false,
+        "sceneChildren": 7,
+        "generation": 1,
+        "audioEnabled": false,
+        "audioError": null,
+        "apiMutations": 0,
+        "disposed": false
+      },
+      "success": false,
+      "pauseResume": true,
+      "skip": true,
+      "closed": true,
+      "unlocked": true,
+      "mockCraftRequests": 1,
+      "realApiMutations": 0,
+      "pageErrors": []
+    }
+  ]
+}

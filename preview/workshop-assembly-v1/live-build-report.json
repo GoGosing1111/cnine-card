@@ -12,17 +12,17 @@
     {
       "source": "js/workshop-assembly-live-v2073.src.js",
       "path": "js/workshop-assembly-live-v2073.bundle.js",
-      "sha256": "0c034544b29a70eebe567652447d1b61ae4606a4013637b14d11d742d26f463e"
+      "sha256": "989620c1cb0045fbe3ef638955e711e03e7bdc506a89e063469f13809f9b4248"
     },
     {
       "source": "js/workshop-assembly-fx-v2073.src.js",
       "path": "js/workshop-assembly-fx-v2073.bundle.js",
-      "sha256": "6c64375c2e54cd5c7b392256c99041648e9ac48ce9d8d4a76ba69fe3abc74ac3"
+      "sha256": "a3c22f0a419e71a04a607c0b202045fc1abe102a2301bb93fa058067f67ebdb3"
     },
     {
       "source": "preview/workshop-assembly-v1/source/preview.js",
       "path": "preview/workshop-assembly-v1/assembly.bundle.js",
-      "sha256": "73890b47ec5890c0248a70447d1a10501de8b4960d929d514393dcec5001243a"
+      "sha256": "262d4709532297b173a17dfd93db58fffc975c35b7e6d4d7cfa108480109ac38"
     }
   ]
 }

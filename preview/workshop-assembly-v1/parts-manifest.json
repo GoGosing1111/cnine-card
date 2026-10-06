@@ -421,5 +421,122 @@
         "pixels": 44192
       }
     ]
+  },
+  "z": {
+    "source": "/assets/ui/project-v/account-battle-suits/z-sword-v1/z-body.png",
+    "sourceSha256": "214d3dee28359192f824246c5bf6c369f16c16df4c7392e2321ff93441920890",
+    "width": 474,
+    "height": 740,
+    "visibleRgbaExact": true,
+    "parts": [
+      {
+        "name": "sword",
+        "path": "assets/parts/z/sword.png",
+        "x": 255,
+        "y": 20,
+        "width": 199,
+        "height": 397,
+        "pixels": 18157
+      },
+      {
+        "name": "coat",
+        "path": "assets/parts/z/coat.png",
+        "x": 20,
+        "y": 23,
+        "width": 433,
+        "height": 682,
+        "pixels": 55302
+      },
+      {
+        "name": "helmet",
+        "path": "assets/parts/z/helmet.png",
+        "x": 176,
+        "y": 84,
+        "width": 98,
+        "height": 154,
+        "pixels": 8984
+      },
+      {
+        "name": "shoulderL",
+        "path": "assets/parts/z/shoulderL.png",
+        "x": 112,
+        "y": 175,
+        "width": 90,
+        "height": 96,
+        "pixels": 6521
+      },
+      {
+        "name": "shoulderR",
+        "path": "assets/parts/z/shoulderR.png",
+        "x": 266,
+        "y": 204,
+        "width": 48,
+        "height": 67,
+        "pixels": 1969
+      },
+      {
+        "name": "torso",
+        "path": "assets/parts/z/torso.png",
+        "x": 181,
+        "y": 221,
+        "width": 110,
+        "height": 96,
+        "pixels": 4955
+      },
+      {
+        "name": "core",
+        "path": "assets/parts/z/core.png",
+        "x": 249,
+        "y": 248,
+        "width": 19,
+        "height": 22,
+        "pixels": 287
+      },
+      {
+        "name": "armR",
+        "path": "assets/parts/z/armR.png",
+        "x": 262,
+        "y": 253,
+        "width": 31,
+        "height": 137,
+        "pixels": 1767
+      },
+      {
+        "name": "armL",
+        "path": "assets/parts/z/armL.png",
+        "x": 163,
+        "y": 258,
+        "width": 150,
+        "height": 99,
+        "pixels": 6000
+      },
+      {
+        "name": "hips",
+        "path": "assets/parts/z/hips.png",
+        "x": 181,
+        "y": 334,
+        "width": 120,
+        "height": 66,
+        "pixels": 3790
+      },
+      {
+        "name": "legL",
+        "path": "assets/parts/z/legL.png",
+        "x": 62,
+        "y": 393,
+        "width": 171,
+        "height": 327,
+        "pixels": 19408
+      },
+      {
+        "name": "legR",
+        "path": "assets/parts/z/legR.png",
+        "x": 248,
+        "y": 403,
+        "width": 201,
+        "height": 311,
+        "pixels": 19608
+      }
+    ]
   }
 }

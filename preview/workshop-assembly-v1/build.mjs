@@ -9,9 +9,9 @@ import {partFor} from './source/part-regions.mjs';
 
 const dir=path.dirname(fileURLToPath(import.meta.url));
 const root=path.resolve(dir,'../..');
-const variantKeys=['e','f','g','s'];
+const variantKeys=['e','f','g','s','z'];
 const target=process.argv.find(arg=>arg.startsWith('--model='))?.slice(8);
-if(target&&!variantKeys.includes(target))throw Error('Use --model=e|f|g|s for a scoped asset build');
+if(target&&!variantKeys.includes(target))throw Error('Use --model=e|f|g|s|z for a scoped asset build');
 const previousManifest=JSON.parse(await readFile(path.join(dir,'asset-manifest.json'),'utf8'));
 const previousReport=JSON.parse(await readFile(path.join(dir,'build-report.json'),'utf8'));
 await mkdir(path.join(dir,'assets/parts'),{recursive:true});

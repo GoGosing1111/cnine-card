@@ -81,7 +81,7 @@ export class AssemblyFilm {
       if(this.disposed)return;
       // Preserve source artwork while filtering detailed new parts cleanly
       // at mobile scale. Configure before the first GPU texture upload.
-      if(key==='ignis'||key==='solaris'||/^[efgs](?::|$)/.test(key)){
+      if(key==='ignis'||key==='solaris'||/^[efgsz](?::|$)/.test(key)){
         texture.source.autoGenerateMipmaps=true;texture.source.scaleMode='linear';
       }
       this.buffers[key]=texture;
@@ -149,6 +149,9 @@ export class AssemblyFilm {
     // Human heads keep the existing stationary interface reveal.
     specs.helmet=[0,-190,6,1.1,0];
     specs.backpack=[0,-145,2.4,1.2,0];
+    // Z keeps the approved whole blade and guard together while docking
+    // into the assembled gauntlets; no stretch or independent blade rotation.
+    specs.sword=[130,-160,6.5,1.4,0];
     this.impacts=[];
     for(const p of v.parts){
       const [dx,dy,at,duration,rotation]=specs[p.name],cx=p.x+p.width/2,cy=p.y+p.height/2;

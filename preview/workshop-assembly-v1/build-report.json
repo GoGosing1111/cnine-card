@@ -28,6 +28,7 @@
     "f",
     "g",
     "s",
+    "z",
     "ignis",
     "solaris"
   ],
@@ -59,7 +60,14 @@
       "sha256": "6d789c0a1cd2e4681dc56297ae85ee7c747e141d9e573eae64d9d00787c041da",
       "visibleRgbaExact": true,
       "parts": 11
+    },
+    {
+      "key": "z",
+      "source": "/assets/ui/project-v/account-battle-suits/z-sword-v1/z-body.png",
+      "sha256": "214d3dee28359192f824246c5bf6c369f16c16df4c7392e2321ff93441920890",
+      "visibleRgbaExact": true,
+      "parts": 12
     }
   ],
-  "bundleSha256": "73890b47ec5890c0248a70447d1a10501de8b4960d929d514393dcec5001243a"
+  "bundleSha256": "262d4709532297b173a17dfd93db58fffc975c35b7e6d4d7cfa108480109ac38"
 }

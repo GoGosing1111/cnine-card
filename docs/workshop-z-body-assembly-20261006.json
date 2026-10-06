@@ -1,0 +1,96 @@
+{
+  "status": "BROWSER_VERIFIED_PENDING_SCOPED_RELEASE",
+  "request": "Z바디 제작 연출을 S바디 배틀슈트 조립 방식으로 추가·연결. 제작식과 CMS ON은 사용자가 직접 관리.",
+  "approvedSource": {
+    "path": "/assets/ui/project-v/account-battle-suits/z-sword-v1/z-body.png",
+    "sha256": "214d3dee28359192f824246c5bf6c369f16c16df4c7392e2321ff93441920890",
+    "width": 474,
+    "height": 740,
+    "originalUnchanged": true
+  },
+  "implementation": {
+    "renderer": "Existing PixiJS 8.20.0",
+    "timeline": "Existing GSAP 3.13.0",
+    "durationSeconds": 13.4,
+    "partCount": 12,
+    "visibleRgbaExact": true,
+    "preservedModels": [
+      "e",
+      "f",
+      "g",
+      "s"
+    ],
+    "swordDockSeconds": [
+      6.5,
+      7.9
+    ],
+    "swordSingleRigidLayer": true,
+    "recipeIdentity": "Exact current Z sword-form image path",
+    "successAndOutputlessFailure": true,
+    "cacheKey": "20261006-z-body"
+  },
+  "scope": {
+    "cmsWrites": 0,
+    "recipesCreated": 0,
+    "recipesEnabled": 0,
+    "costOrRateChanges": false,
+    "balanceOrCombatChanges": false,
+    "equipmentSealRevealUsed": false,
+    "originalArtRegenerated": false
+  },
+  "validation": {
+    "assetBuild": "node preview/workshop-assembly-v1/build.mjs --model=z",
+    "browserRunner": "tests/workshop-z-body-assembly-20261006.browser.mjs",
+    "browserReport": "preview/workshop-assembly-v1/qa/z-body-20261006/browser-report.json",
+    "browserPassed": true,
+    "screenshotsReviewed": true,
+    "screenshots": [
+      "preview/workshop-assembly-v1/qa/z-body-20261006/1440-preview-6.9.png",
+      "preview/workshop-assembly-v1/qa/z-body-20261006/390-preview-8.5.png",
+      "preview/workshop-assembly-v1/qa/z-body-20261006/1440-live-assembly.png",
+      "preview/workshop-assembly-v1/qa/z-body-20261006/1440-live-result.png",
+      "preview/workshop-assembly-v1/qa/z-body-20261006/390-live-assembly.png",
+      "preview/workshop-assembly-v1/qa/z-body-20261006/390-live-result.png"
+    ],
+    "viewports": [
+      {
+        "width": 1440,
+        "height": 1000
+      },
+      {
+        "width": 390,
+        "height": 1000
+      }
+    ],
+    "realCraftApiRequests": 0,
+    "mockCraftRequestsPerViewport": 1
+  },
+  "productionBefore": {
+    "checkedAt": "2026-10-06T07:14:32.690Z",
+    "equipment": [
+      {
+        "id": "48",
+        "code": "BATTLE_SUIT_Z_BODY",
+        "name": "Z-BODY",
+        "image_url": "/assets/ui/project-v/account-battle-suits/z-sword-v1/z-body.png",
+        "is_active": "1",
+        "is_public": "1",
+        "pve_power": "25000000",
+        "pvp_power": "0"
+      }
+    ],
+    "recipes": [],
+    "readOnly": true
+  },
+  "release": {
+    "mode": "scoped",
+    "baseCommit": "bd779f1db25e3fb7caaf60859ea7ee86bab4cc7f",
+    "baseDeployment": "https://587d54f6.cnine-card.pages.dev",
+    "reason": "Z-only presentation model, source-preserving assembly parts and image identity. No server transactions, database, authentication, recipes or launch-state changes.",
+    "tests": [
+      "tests/workshop-assembly-preview-v1.test.mjs",
+      "tests/workshop-assembly-live-v2073.test.mjs"
+    ],
+    "checks": []
+  }
+}
