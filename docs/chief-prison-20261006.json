@@ -1,0 +1,34 @@
+{
+  "feature": "족장 감옥 수감 권한 및 최고사령부 체포 통지",
+  "date": "2026-10-06",
+  "authorization": ["족장 권한에 감옥 수감 기능 추가해", "족장이 수감할때는 감옥에 보내고 팝업띄워 최고사령부에서 당신을 체포하였습니다"],
+  "behavior": {
+    "entry": "집권자 임기 현황 → 권한 열기 → 감옥 수감",
+    "target": "닉네임/유저 번호 검색 후 선택",
+    "durationMinutes": {"min": 10, "max": 360},
+    "reason": "필수, 1~200자",
+    "facility": "일반 감옥",
+    "arrestNotice": "최고사령부에서 당신을 체포하였습니다",
+    "offlineNotice": "형기 내 다시 접속하면 미확인 체포 명령을 표시",
+    "access": "현재 임기의 활성 족장; 만료·직무정지·파면·일반 유저 차단",
+    "protections": ["본인 대상 차단", "기존 OWNER 보호 유지", "기존 수감자 중복 수감 차단", "수용소·데스게임 대상 중복 수감 차단", "재화와 기존 관리자 권한 유지"],
+    "transaction": "기존 계정 잠금 및 임기/직무 원자 검증 아래 형기·감옥 전환 명령·석방금 사건·요청 영수증·감사 로그를 한 번에 저장",
+    "replay": "같은 요청 번호는 동일 결과 반환; 형기·팝업 중복 갱신 방지"
+  },
+  "validation": {
+    "server": "tests/chief-prison-20261006.test.mjs: 4 passed",
+    "browser": "tests/chief-prison-20261006.browser.mjs: 15 passed, 0 JavaScript errors",
+    "viewports": ["1440x1000", "390x844"],
+    "visualReview": "수감 폼과 체포 팝업의 데스크톱·모바일 스크린샷 확인",
+    "evidence": "C:/Users/User/.codex/tmp/chief-prison-20261006/qa",
+    "liveAccountChangesDuringQA": false
+  },
+  "release": {
+    "scope": "기존 족장과 일반 감옥 경로에 한정한 권한/화면 추가; 공통 인증·DB 기반·마이그레이션 변경 없음",
+    "lastProductionCommit": "614bd38d52fa12f0de429447e7707565eb20b7cf",
+    "lastProductionDeployment": "d6f30f88-3acd-4d57-a19c-3391827cc40a",
+    "command": "npm run deploy:production -- --scoped",
+    "tests": ["tests/chief-prison-20261006.test.mjs", "tests/prison-system-v1950.test.mjs", "tests/chief-general-succession-20261005.test.mjs"],
+    "checks": ["check:worker"]
+  }
+}

@@ -668,6 +668,7 @@ function renderLockedPrison(prison=null){
   app.innerHTML=`<main class="prison-lock-shell" data-cnine-prison-lock="1">${camp?camp.view(user,true):prisonView(user,true)}</main><div id="modal" class="modal"></div>`;
   app.querySelector('[data-cnine-prison-lock="1"]').dataset.prisonLockKey=lockKey;
   if(camp)camp.bind(user,true);else bindPrisonView();
+  if(!camp)void window.ChiefPrison?.checkArrestNotice(prisonUiState);
 }
 window.PrisonV1=Object.freeze({isLocked:isPrisonLocked,apply:applyPrisonStatus,renderLocked:renderLockedPrison,view:prisonView,bind:bindPrisonView});
 function publicTitleBadgeHtml(title,{compact=true}={}){if(!title)return '';const style=String(title.stylePreset||'DEFAULT').toLowerCase().replace(/[^a-z0-9_-]/g,''),font=String(title.fontPreset||'DEFAULT').toLowerCase().replace(/[^a-z0-9_-]/g,''),code=String(title.code||'').toLowerCase().replace(/[^a-z0-9_-]/g,'');const challenger=style==='challenger'&&(title.badgeText||title.name)==='챌린저★★★★';const text=challenger?'<span class="challenger-title-name">챌린저</span><span class="challenger-title-stars">★★★★</span>':escapeHtml(title.badgeText||title.name||'');return text?`<span class="public-title-badge ${compact?'compact':''} title-style-${style} title-font-${font}${code?` title-code-${code}`:''}">${challenger?text:`[${text}]`}</span>`:'';}
@@ -4652,6 +4653,7 @@ async function pollRuntimeCommand(){
       if(!data?.prison?.incarcerated)applyPrisonStatus({incarcerated:true,reason:command.payload?.reason,jailedUntil:command.payload?.jailedUntil,jailedByNickname:'행정부'});
       apiRequest('user/runtime-command',{method:'POST',body:JSON.stringify({commandId:Number(command.id)})},{allowEmpty:true}).catch(()=>{});
       renderLockedPrison();
+      window.ChiefPrison?.showArrestNotice(command,prisonUiState);
     }else if(command&&Number(command.id)>last&&commandType==='PRISON_RELEASE'){
       try{sessionStorage.setItem(runtimeCommandStorageKey(),String(command.id))}catch(_){}
       applyPrisonStatus(data?.prison||{incarcerated:false});

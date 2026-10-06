@@ -1,6 +1,7 @@
 import { ensureCoupSchema, chiefDuty, chiefAuthorityGuard } from './_coup_schema.js';
 import { ensureAvatarFoundation } from './_avatar.js';
 import { chiefReignStyle } from '../shared/chief-presentation-v1.mjs';
+import { handleChiefPrison } from './_chief_prison.js';
 
 const CHIEF_META_KEY='chief_appointment_v1';
 const DISCOUNT_REMOVAL_MARKER='safe_runtime_upgrade_v1657_chief_discount_removed';
@@ -95,6 +96,7 @@ export async function handleChief({path,request,env,deps}){
   if(!path.startsWith('chief/')&&!path.startsWith('admin/chief'))return null;
   const {authenticate,readBody,json,requirePermission,writeAdminLog,activateBurningEvent}=deps;await ensure(env);
   const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+  if(path==='chief/prison'||path.startsWith('chief/prison/'))return handleChiefPrison({path,request,env,user,appointment:await appointment(env,user.id),deps});
   if(path==='chief/status'&&request.method==='GET'){const a=await appointment(env,user.id);return json({chief:publicState(a,await usage(env,a),user.id),serverNow:new Date().toISOString()})}
   if(path==='chief/activate'&&request.method==='POST'){
     const a=await appointment(env,user.id);if(!a.active||Number(a.userId)!==Number(user.id))return json({error:a.dutyStatus==='OPEN'?'재판 중에는 족장 직무가 정지됩니다.':'현재 족장만 권한을 발동할 수 있습니다.'},403);

@@ -5113,7 +5113,7 @@ async function handleRequest(context){
     const clanResponse=await handleClan({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,magicBattleLoadout}});if(clanResponse)return clanResponse;
     const siegeResponse=await handleSiege({path,request,env,deps:{authenticate,readBody,json,isAdminRole,pveDeckSnapshot,battleSettings,cardBattlePower,createPveBattleV2,userEquipmentBonuses,cardUniqueDeckState,writeAdminLog}});if(siegeResponse)return siegeResponse;
     const escortResponse=await handleEscortOperation({path,request,env,deps:{authenticate,readBody,json,pveDeckSnapshot,battleSettings,cardBattlePower,createPveBattleV2,userEquipmentBonuses,cardUniqueDeckState,magicBattleLoadout,writeAdminLog}});if(escortResponse)return escortResponse;
-    const chiefResponse=await handleChief({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog,activateBurningEvent:activateChiefBurningEvent}});if(chiefResponse)return chiefResponse;
+    const chiefResponse=await handleChief({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog,activateBurningEvent:activateChiefBurningEvent,ensurePrisonFoundation,prisonStatusForUser,withUserMutationLock:withJointUserMutationLock}});if(chiefResponse)return chiefResponse;
 
     if(path==='user/runtime-command'){
       const user=await authenticate(request,env);
