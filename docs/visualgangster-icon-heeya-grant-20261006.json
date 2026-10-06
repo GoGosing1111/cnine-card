@@ -1,0 +1,90 @@
+{
+  "status": "COMPLETED",
+  "authorization": "비쥬얼깡패 계정에 아이콘 하이희야 지급해",
+  "operationScript": "scripts/ops/visualgangster-icon-heeya-grant-20261006.mjs",
+  "operationScriptSha256": "c28dc1f8f6376224a8874099c774f0796777fa28ae6d59292bd473b65714dcfa",
+  "lookup": {
+    "user": {
+      "id": 81,
+      "nickname": "비쥬얼깡패",
+      "status": "ACTIVE"
+    },
+    "card": {
+      "id": "CN-1C000002",
+      "title": "하이희야",
+      "grade": "ICON",
+      "is_active": "1",
+      "card_status": "PUBLIC",
+      "member_name": "하이희야",
+      "member_active": "1"
+    },
+    "quantity": 0,
+    "receipt": null
+  },
+  "validation": {
+    "syntax": "PASS",
+    "dryRun": "DRY_RUN_ROLLED_BACK",
+    "partialFailureRolledBack": true,
+    "replayVerified": true,
+    "rollbackVerified": true,
+    "balancesPreserved": true,
+    "otherCardsPreserved": true
+  },
+  "execution": {
+    "userLock": "user:81",
+    "atomicWrites": [
+      "user_cards",
+      "admin_logs",
+      "app_meta receipt"
+    ],
+    "siteDeployment": "NOT_REQUIRED_OPS_ONLY",
+    "notificationSent": false,
+    "temporaryHelperStopped": true,
+    "temporaryAuthKey": "IN_MEMORY_DISCARDED"
+  },
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:visualgangster-icon-heeya:20261006:v1",
+    "actor": "SYSTEM_OPS",
+    "userId": 81,
+    "nickname": "비쥬얼깡패",
+    "cardId": "CN-1C000002",
+    "cardTitle": "하이희야",
+    "grade": "ICON",
+    "quantity": 1,
+    "permanent": true,
+    "quantityBefore": 0,
+    "quantityAfter": 1,
+    "levelAfter": 0,
+    "balancesPreserved": true,
+    "otherCardsPreserved": true,
+    "completedAt": "2026-10-06T00:38:58.829Z",
+    "adminLogId": "41385",
+    "replayed": false
+  },
+  "verification": {
+    "status": "VERIFIED",
+    "receipt": {
+      "status": "COMPLETED",
+      "operationKey": "ops:visualgangster-icon-heeya:20261006:v1",
+      "actor": "SYSTEM_OPS",
+      "userId": 81,
+      "nickname": "비쥬얼깡패",
+      "cardId": "CN-1C000002",
+      "cardTitle": "하이희야",
+      "grade": "ICON",
+      "quantity": 1,
+      "permanent": true,
+      "quantityBefore": 0,
+      "quantityAfter": 1,
+      "levelAfter": 0,
+      "balancesPreserved": true,
+      "otherCardsPreserved": true,
+      "completedAt": "2026-10-06T00:38:58.829Z",
+      "adminLogId": "41385"
+    },
+    "currentQuantity": 1,
+    "currentLevel": 0,
+    "auditCount": 1
+  }
+}
