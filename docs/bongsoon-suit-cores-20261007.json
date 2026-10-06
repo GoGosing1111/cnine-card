@@ -1,0 +1,64 @@
+{
+  "request": "나무늘봉순 계정에 슈트코어4 20개랑 슈트코어5 10개 지급해",
+  "status": "COMPLETED",
+  "operationKey": "ops:bongsoon-suit-cores:20261007:core4-20-core5-10:v1",
+  "user": {
+    "id": 5426,
+    "nickname": "나무늘봉순"
+  },
+  "allocations": [
+    {
+      "code": "SUIT_CORE_4",
+      "name": "슈트 코어 4",
+      "amount": 20,
+      "before": {
+        "quantity": "1",
+        "unseenQuantity": "0"
+      },
+      "after": {
+        "quantity": "21",
+        "unseenQuantity": "20"
+      },
+      "logId": "76490374"
+    },
+    {
+      "code": "SUIT_CORE_5",
+      "name": "슈트 코어 5",
+      "amount": 10,
+      "before": {
+        "quantity": "0",
+        "unseenQuantity": "0"
+      },
+      "after": {
+        "quantity": "10",
+        "unseenQuantity": "10"
+      },
+      "logId": "76490378"
+    }
+  ],
+  "completedAt": "2026-10-06T15:51:39.727Z",
+  "auditId": "42006",
+  "currentInventoryAtVerification": [
+    {
+      "item_code": "SUIT_CORE_4",
+      "quantity": "21",
+      "unseen_quantity": "20"
+    },
+    {
+      "item_code": "SUIT_CORE_5",
+      "quantity": "10",
+      "unseen_quantity": "10"
+    }
+  ],
+  "verifiedAt": "2026-10-06T15:52:12.546Z",
+  "validation": {
+    "scopedTestsPassed": 4,
+    "productionDryRunRollbackVerified": true,
+    "postCommitReadVerified": true,
+    "grantLogCount": 2,
+    "transaction": "account row lock, ordered inventory row locks, atomic quantity increment, inventory logs, audit and one-time receipt",
+    "connection": "direct PostgreSQL; temporary remote read-only inspection timed out before any write"
+  },
+  "gameRuntimeChanged": false,
+  "deploymentRequired": false
+}
