@@ -2,7 +2,8 @@
 (() => {
   'use strict';
   const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const fmt = value => Number(value || 0).toLocaleString('ko-KR');
+  const amountFormat = new Intl.NumberFormat('ko-KR', {notation:'compact', maximumFractionDigits:2, roundingMode:'trunc'});
+  const fmt = value => Math.abs(Number(value || 0)) < 10000 ? Number(value || 0).toLocaleString('ko-KR') : amountFormat.format(Number(value || 0));
   function image(value) {
     const raw = String(value || '').trim().replace(/\\/g, '/');
     if (!raw || /^(?!https?:)[a-z][a-z\d+.-]*:/i.test(raw) || raw.startsWith('//')) return '';

@@ -1,0 +1,24 @@
+{
+  "status": "READY_FOR_SCOPED_RELEASE",
+  "request": "제작소 숫자를 1조·10억·100억처럼 한글 단위로 간단하게 표시",
+  "previousProductionCommit": "903093e98b21c892f8f12c7251c80c4c1dd5ac36",
+  "scope": ["제작소 보유량", "차량·배틀슈트 제작 비용", "재료·장비 제작 수량과 부족분", "제작 확인창", "차량·배틀슈트 조립 결과 사용량"],
+  "format": {"locale": "ko-KR", "notation": "compact", "maximumFractionDigits": 2, "roundingMode": "trunc", "plainNumbersBelow": 10000},
+  "examples": {"1000000000000": "1조", "1000000000": "10억", "10000000000": "100억", "1000000": "100만", "7187090466615": "7.18조"},
+  "arithmeticAndRequestAmountsChanged": false,
+  "artChanged": false,
+  "actualMainIndexVisualVerification": {
+    "widths": [1440, 390],
+    "coinCost": "1조",
+    "masterStarCost": "100만",
+    "ownedCoin": "7.18조",
+    "vehicleCost": "10억",
+    "materialCost": "100억",
+    "confirmationUsesKoreanAmounts": true,
+    "horizontalOverflow": 0,
+    "pageErrors": [],
+    "productionAccountMutation": false
+  },
+  "scopedTests": ["tests/workshop-battle-suit-payment-20260930.test.mjs", "tests/workshop-assembly-live-v2073.test.mjs"],
+  "shellCache": "20261007-workshop-korean-amounts"
+}

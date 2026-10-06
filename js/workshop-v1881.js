@@ -4,7 +4,8 @@
   const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
   }[char]));
-  const fmt = value => Number(value || 0).toLocaleString('ko-KR');
+  const amountFormat = new Intl.NumberFormat('ko-KR', {notation:'compact', maximumFractionDigits:2, roundingMode:'trunc'});
+  const fmt = value => Math.abs(Number(value || 0)) < 10000 ? Number(value || 0).toLocaleString('ko-KR') : amountFormat.format(Number(value || 0));
   const asset = value => {
     const raw = String(value || '').trim().replace(/\\/g, '/');
     if (!raw) return '';

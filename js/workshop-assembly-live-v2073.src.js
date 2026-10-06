@@ -2,7 +2,8 @@ import {liveAssemblyReceipt} from '../preview/workshop-assembly-v1/source/live-c
 import {MODELS} from '../preview/workshop-assembly-v1/source/models.mjs';
 
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const fmt=value=>Number(value||0).toLocaleString('ko-KR');
+const amountFormat=new Intl.NumberFormat('ko-KR',{notation:'compact',maximumFractionDigits:2,roundingMode:'trunc'});
+const fmt=value=>Math.abs(Number(value||0))<10000?Number(value||0).toLocaleString('ko-KR'):amountFormat.format(Number(value||0));
 function imageUrl(value){
   const raw=String(value||'').replace(/\\/g,'/');
   if(!raw)return '';
