@@ -1,0 +1,214 @@
+{
+  "checkedAt": "2026-10-06T01:44:18.694Z",
+  "authorization": "댓글 명단과 핫시의 아이젠 족스케 +15강 업그레이드. 후속: 타마=싸이타마, 남수단 제외, 애장=애장이, 처음와봄=뽑기고수71.",
+  "aliasEvidence": {
+    "놀숲": "scripts/ops/saengbyuwang-recipients-20260930.json: userId 4629 / Veil",
+    "타마": "사용자 직접 정정: 싸이타마",
+    "뚱초환": "scripts/ops/saengbyuwang-new-recipients-20261002.json: sourceNickname 뚱초환🫐 / userId 787"
+  },
+  "excluded": [
+    {
+      "id": 6,
+      "nickname": "남수단",
+      "reason": "사용자 제외"
+    },
+    {
+      "id": 257,
+      "nickname": "애장",
+      "reason": "동명이인; 사용자 정정 계정은 애장이 83"
+    },
+    {
+      "id": 309,
+      "nickname": "처음와봄",
+      "reason": "동명이인; 사용자 정정 계정은 뽑기고수71 850"
+    }
+  ],
+  "targets": [
+    {
+      "id": 5,
+      "nickname": "싸이타마",
+      "inputNickname": "타마",
+      "observedLevel": 13
+    },
+    {
+      "id": 19,
+      "nickname": "토닭토닭",
+      "inputNickname": "토닭토닭",
+      "observedLevel": 13
+    },
+    {
+      "id": 34,
+      "nickname": "씨나인짱",
+      "inputNickname": "씨나인짱",
+      "observedLevel": 14
+    },
+    {
+      "id": 76,
+      "nickname": "랄네미탱탱",
+      "inputNickname": "랄네미탱탱",
+      "observedLevel": 14
+    },
+    {
+      "id": 83,
+      "nickname": "애장이",
+      "inputNickname": "애장",
+      "observedLevel": 13
+    },
+    {
+      "id": 85,
+      "nickname": "카르푸",
+      "inputNickname": "카르푸",
+      "observedLevel": 14
+    },
+    {
+      "id": 91,
+      "nickname": "정원이",
+      "inputNickname": "정원이",
+      "observedLevel": 13
+    },
+    {
+      "id": 92,
+      "nickname": "불곰덫",
+      "inputNickname": "불곰덫",
+      "observedLevel": 14
+    },
+    {
+      "id": 148,
+      "nickname": "혜루",
+      "inputNickname": "혜루",
+      "observedLevel": 14
+    },
+    {
+      "id": 156,
+      "nickname": "좌지구녕",
+      "inputNickname": "좌지구녕",
+      "observedLevel": 14
+    },
+    {
+      "id": 187,
+      "nickname": "파르르구",
+      "inputNickname": "파르르구",
+      "observedLevel": 13
+    },
+    {
+      "id": 226,
+      "nickname": "햬카세",
+      "inputNickname": "햬카세",
+      "observedLevel": 15
+    },
+    {
+      "id": 233,
+      "nickname": "ShowMaker",
+      "inputNickname": "ShowMaker",
+      "observedLevel": 14
+    },
+    {
+      "id": 236,
+      "nickname": "유나이은",
+      "inputNickname": "유나이은",
+      "observedLevel": 13
+    },
+    {
+      "id": 277,
+      "nickname": "스갤가축",
+      "inputNickname": "스갤가축",
+      "observedLevel": 13
+    },
+    {
+      "id": 681,
+      "nickname": "페이트런",
+      "inputNickname": "페이트런",
+      "observedLevel": 13
+    },
+    {
+      "id": 787,
+      "nickname": "뚱초환",
+      "inputNickname": "뚱초환🫐",
+      "observedLevel": 13
+    },
+    {
+      "id": 850,
+      "nickname": "뽑기고수71",
+      "inputNickname": "처음와봄",
+      "observedLevel": 14
+    },
+    {
+      "id": 1768,
+      "nickname": "핫시",
+      "inputNickname": "핫시",
+      "observedLevel": 14
+    },
+    {
+      "id": 2734,
+      "nickname": "그냥지은닉",
+      "inputNickname": "그냥지은닉",
+      "observedLevel": 13
+    },
+    {
+      "id": 3480,
+      "nickname": "족짜미♡",
+      "inputNickname": "족짜미♡",
+      "observedLevel": 13
+    },
+    {
+      "id": 3646,
+      "nickname": "까잡셔",
+      "inputNickname": "까잡셔",
+      "observedLevel": 13
+    },
+    {
+      "id": 4540,
+      "nickname": "지아영",
+      "inputNickname": "지아영",
+      "observedLevel": 14
+    },
+    {
+      "id": 4595,
+      "nickname": "비니",
+      "inputNickname": "비니",
+      "observedLevel": 13
+    },
+    {
+      "id": 4597,
+      "nickname": "찬호",
+      "inputNickname": "찬호",
+      "observedLevel": 13
+    },
+    {
+      "id": 4625,
+      "nickname": "제롬",
+      "inputNickname": "제롬",
+      "observedLevel": 13
+    },
+    {
+      "id": 4629,
+      "nickname": "Veil",
+      "inputNickname": "놀숲",
+      "observedLevel": 14
+    },
+    {
+      "id": 4643,
+      "nickname": "깡총",
+      "inputNickname": "깡총",
+      "observedLevel": 11
+    },
+    {
+      "id": 4647,
+      "nickname": "피카츄",
+      "inputNickname": "피카츄",
+      "observedLevel": 13
+    },
+    {
+      "id": 4760,
+      "nickname": "추종",
+      "inputNickname": "추종",
+      "observedLevel": 13
+    },
+    {
+      "id": 4866,
+      "nickname": "[C9]가시",
+      "inputNickname": "[C9]가시",
+      "observedLevel": 13
+    }
+  ]
+}
