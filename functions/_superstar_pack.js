@@ -175,6 +175,27 @@ function superstarPackSchemaStatements(env) {
 
 async function ensureSuperstarPackFoundation(env) {
   if (readRuntimeData(env,'superstar:foundation:v2048-bigint')) return;
+  if (env.DB?.dialect === 'postgres' && typeof env.DB.execSchema === 'function') {
+    // CREATE INDEX IF NOT EXISTS still takes table locks. Running receipt ->
+    // debit DDL alongside a draw's debit -> receipt writes caused deadlocks.
+    // Cold/expired Workers check catalog metadata only on an installed DB.
+    const ready = await env.DB.prepare(`SELECT CASE WHEN
+      (SELECT COUNT(*) FROM pg_catalog.pg_attribute
+        WHERE attrelid IN (to_regclass('superstar_pack_receipts_v1'),to_regclass('superstar_pack_debits_v1'))
+          AND attname='cost' AND atttypid='int8'::regtype AND NOT attisdropped)=2
+      AND to_regclass('superstar_pack_atomic_guard_v2047') IS NOT NULL
+      AND EXISTS(SELECT 1 FROM pg_catalog.pg_index WHERE indexrelid=to_regclass('idx_superstar_pack_receipts_user')
+        AND indrelid=to_regclass('superstar_pack_receipts_v1') AND indisvalid)
+      AND EXISTS(SELECT 1 FROM pg_catalog.pg_index WHERE indexrelid=to_regclass('idx_superstar_pack_one_pending_per_user')
+        AND indrelid=to_regclass('superstar_pack_receipts_v1') AND indisvalid AND indisunique)
+      AND EXISTS(SELECT 1 FROM pg_catalog.pg_index WHERE indexrelid=to_regclass('idx_superstar_pack_debits_user')
+        AND indrelid=to_regclass('superstar_pack_debits_v1') AND indisvalid)
+      THEN 1 ELSE 0 END AS ready`).first();
+    if (Number(ready?.ready) === 1) {
+      cacheRuntimeData(env,'superstar:foundation:v2048-bigint',true,60000);
+      return;
+    }
+  }
   const schema = superstarPackSchemaStatements(env);
   // PostgreSQL 호환 계층은 일반 prepare()/batch()의 DDL을 의도적으로 건너뛴다.
   // 사용자 입력이 없는 고정 DDL만 execSchema()로 전달해 신규 배포에서도 relation을 만든다.
@@ -365,15 +386,19 @@ export async function handleSuperstarPackDraw({ request, env, deps }) {
       env.DB.prepare(`UPDATE users SET coin=coin-?,card_shards=card_shards+? WHERE id=? AND ${guarded}`)
         .bind(cost, shardGained, user.id, requestId, user.id),
     );
+    // Bind the same UTC value to every log and its atomic count guard. The
+    // existing (user_id,created_at) index then visits this opening's time slice,
+    // not a heavy user's entire draw history while holding the wallet lock.
+    const drawLoggedAt = new Date().toISOString().replace('T',' ').slice(0,19);
     for(const result of results.filter(result=>result.hit)) {
       statements.push(
         env.DB.prepare(`INSERT INTO user_cards(user_id,card_id,quantity)
           SELECT ?,?,1 WHERE ${guarded}
           ON CONFLICT(user_id,card_id) DO UPDATE SET quantity=user_cards.quantity+1,last_obtained_at=CURRENT_TIMESTAMP`)
           .bind(user.id, result.card.id, requestId, user.id),
-        env.DB.prepare(`INSERT INTO draw_logs(draw_group_id,user_id,pack_id,card_id,rarity,coin_used,is_new)
-          SELECT ?,?,?,?,?,?,? WHERE ${guarded}`)
-          .bind(requestId, user.id, SUPERSTAR_PACK_ID, result.card.id, "SUPERSTAR", settings.price, result.duplicate ? 0 : 1, requestId, user.id),
+        env.DB.prepare(`INSERT INTO draw_logs(draw_group_id,user_id,pack_id,card_id,rarity,coin_used,is_new,created_at)
+          SELECT ?,?,?,?,?,?,?,? WHERE ${guarded}`)
+          .bind(requestId, user.id, SUPERSTAR_PACK_ID, result.card.id, "SUPERSTAR", settings.price, result.duplicate ? 0 : 1, drawLoggedAt, requestId, user.id),
       );
     }
     statements.push(
@@ -392,8 +417,8 @@ export async function handleSuperstarPackDraw({ request, env, deps }) {
     const finalConditions=[
       'EXISTS(SELECT 1 FROM users WHERE id=? AND coin=? AND card_shards=?)',
       'EXISTS(SELECT 1 FROM superstar_pack_debits_v1 WHERE request_id=? AND user_id=? AND cost=?)',
-      '(SELECT COUNT(*) FROM draw_logs WHERE draw_group_id=? AND user_id=?)=?'
-    ],finalBindings=[user.id,coinAfter,shardsAfter,requestId,user.id,cost,requestId,user.id,hitCount];
+      '(SELECT COUNT(*) FROM draw_logs WHERE draw_group_id=? AND user_id=? AND created_at=?)=?'
+    ],finalBindings=[user.id,coinAfter,shardsAfter,requestId,user.id,cost,requestId,user.id,drawLoggedAt,hitCount];
     for(const id of ids){finalConditions.push('EXISTS(SELECT 1 FROM user_cards WHERE user_id=? AND card_id=? AND quantity=?)');finalBindings.push(user.id,id,afterQuantities.get(id));}
     statements.push(env.DB.prepare(`INSERT INTO superstar_pack_atomic_guard_v2047(id,verified) SELECT ?,CASE WHEN ${finalConditions.join(' AND ')} THEN 1 ELSE 0 END`).bind(`${requestId}:final`,...finalBindings));
     statements.push(
@@ -445,4 +470,5 @@ export const __superstarPackTest = {
   resolveSuperstarPackRoll,
   canOpenSuperstarPack,
   superstarPackSchemaStatements,
+  ensureSuperstarPackFoundation,
 };

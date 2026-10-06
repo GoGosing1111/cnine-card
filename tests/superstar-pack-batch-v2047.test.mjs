@@ -41,7 +41,8 @@ function fixture({coin=5000000000,owned=0,enabled=true,winSlots=[],release=true,
     INSERT INTO cards VALUES('S1','슈퍼스타','SUPERSTAR','assets/superstar/1.jpg',50,50,'FIXED',15500,1,1,'PUBLIC');
     CREATE VIEW cards_effective_v1210 AS SELECT * FROM cards;
     CREATE TABLE user_cards(user_id INTEGER,card_id TEXT,quantity INTEGER,last_obtained_at TEXT,PRIMARY KEY(user_id,card_id));
-    CREATE TABLE draw_logs(draw_group_id TEXT,user_id INTEGER,pack_id TEXT,card_id TEXT,rarity TEXT,coin_used INTEGER,is_new INTEGER);
+    CREATE TABLE draw_logs(draw_group_id TEXT,user_id INTEGER,pack_id TEXT,card_id TEXT,rarity TEXT,coin_used INTEGER,is_new INTEGER,created_at TEXT DEFAULT CURRENT_TIMESTAMP);
+    CREATE INDEX idx_draw_logs_user ON draw_logs(user_id,created_at);
     CREATE TABLE coin_logs(user_id INTEGER,change_amount INTEGER,balance_after INTEGER,reason TEXT);
     CREATE TABLE shard_logs(user_id INTEGER,change_amount INTEGER,balance_after INTEGER,reason TEXT,card_id TEXT);
     CREATE TABLE administration_treasury_v2030(id INTEGER PRIMARY KEY,balance INTEGER,total_collected INTEGER,total_disbursed INTEGER,total_refunded INTEGER,tax_bps INTEGER,reserve_bps INTEGER,version INTEGER,updated_at TEXT);
@@ -183,11 +184,12 @@ test('request IDs cannot change count or transfer a receipt to another user',asy
 });
 
 test('wallet/ownership changes and zero-row grants roll back the entire batch',async()=>{
-  for(const fault of ['wallet','ownership','zero-grant','zero-receipt','write-error']){
+  for(const fault of ['wallet','ownership','zero-grant','zero-log','zero-receipt','write-error']){
     const f=fixture({owned:1,winSlots:[0,2]});
     if(fault==='wallet')f.db.beforePayment=()=>f.sqlite.exec('UPDATE users SET coin=coin-100 WHERE id=1');
     if(fault==='ownership')f.db.beforePayment=()=>f.sqlite.exec('UPDATE user_cards SET quantity=2 WHERE user_id=1');
     if(fault==='zero-grant')f.db.skip=statement=>statement.sql.includes('INSERT INTO user_cards');
+    if(fault==='zero-log')f.db.skip=statement=>statement.sql.includes('INSERT INTO draw_logs');
     if(fault==='zero-receipt')f.db.skip=statement=>statement.sql.includes("SET status='COMPLETED'");
     if(fault==='write-error')f.db.fail=statement=>statement.sql.includes('INSERT INTO draw_logs');
     const r=await f.call();assert.equal(r.status,409,fault);
