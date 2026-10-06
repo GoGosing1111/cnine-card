@@ -31,4 +31,11 @@ UI 확인: 로컬에서 실제 제공 V3 번들을 로드해 PC 1280px 및 모�
 
 검수 화면과 실행용 임시 페이지: `C:/Users/User/.codex/tmp/damage-font-20261007/`. 이 임시 페이지는 배포하지 않는다.
 
-운영 배포 결과는 아래에 후속 기록한다.
+## 운영 반영 결과
+
+- 배포 커밋: `730afc9b0f48ea67d59da92e5d9e6ab0f63286d8`.
+- `npm run deploy:production -- --scoped` 완료. 선정한 4개 파일의 **22개 테스트 전부 통과**, 출시 플래그·캐시 버전·Hyperdrive query cache OFF 검사 통과.
+- Pages: [18d76747](https://18d76747.cnine-card.pages.dev).
+- API worker: `7b1d46c3-eac2-412f-b200-d82c59ef6649`, clan-draft worker: `1f5ee2fc-56f9-4699-9bbf-99fed20cc4cd`.
+- `https://cnine-card.pages.dev`에서 TTF·공통 폰트 모듈·V2 CSS/JS·V3 wrapper·메인 앱·V3/사냥 번들·서비스워커·index 총 10개 변경 대표 파일 HTTP 200 및 로컬 배포본과 SHA-256 일치 확인. TTF는 `font/ttf`, 모듈은 `application/javascript`로 제공된다.
+- 배포 로그 및 HTTP 해시 결과는 임시 검수 폴더의 `deploy.log`, `live-check.json`에 보존한다. 최종 결과 기록만 추가한 후에는 운영 재배포·전체 재검사를 반복하지 않는다.
