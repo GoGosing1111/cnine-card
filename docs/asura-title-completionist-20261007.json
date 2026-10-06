@@ -1,5 +1,5 @@
 {
-  "status": "PREPARED",
+  "status": "LIVE",
   "request": "승부예측 누적 1만회 적중 아수라발발타 칭호 추가 및 폐인 최근 차량 제외",
   "title": {
     "code": "ASURA_BALBALTA",
@@ -67,5 +67,23 @@
     "horizontalOverflow": 0,
     "pageErrors": [],
     "productionAccountMutation": false
+  },
+  "productionCommit": "f09a22f4f7e93b8e5f48a9f908d0f371d8bd9bf0",
+  "productionDeployment": "https://5d96aaac.cnine-card.pages.dev",
+  "verifiedAt": "2026-10-06T20:50:47.931Z",
+  "liveVerification": {
+    "changedAssetsMatchSource": 8,
+    "liveIndexUpdated": true,
+    "titleId": 738538,
+    "titleAlreadyRegisteredByRuntime": true,
+    "existingTitleCmsPreserved": true,
+    "visibleVehicles": 34,
+    "requiredVehicles": 31,
+    "requiredOwnedVehicles": 28,
+    "manualUserGrants": 0
+  },
+  "workerVersions": {
+    "api": "59aeb58a-b6de-4a3e-b346-f5af47749aa6",
+    "clan": "456fabf1-d83a-4c2c-847f-f94343335dce"
   }
 }
