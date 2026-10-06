@@ -10,6 +10,8 @@
     "preview/project-v-v3/source/battle/BattleAnimation.js",
     "preview/project-v-v3/source/battle/HumanoidRig.js",
     "preview/project-v-v3/source/battle/BattleCharacter.js",
+    "shared/battle-damage-font.mjs",
+    "preview/project-v-v3/source/battle/DamageCriticalFont.mjs",
     "preview/project-v-v3/source/battle/ObjectPool.js",
     "preview/project-v-v3/source/battle/SkillEffectFX.js",
     "preview/project-v-v3/source/battle/SkillTimeline.js",
@@ -144,5 +146,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 1603042
+  "outputBytes": 1605319
 }

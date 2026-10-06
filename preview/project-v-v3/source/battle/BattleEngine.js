@@ -7,6 +7,7 @@ import {CameraController} from './CameraController.js';
 import {SkillTimeline} from './SkillTimeline.js';
 import {BattleAudioMixer} from './BattleAudioMixer.js';
 import {configureDamageText, createBattlePools} from './ObjectPool.js';
+import {ensureDamageFont} from '../../../../shared/battle-damage-font.mjs';
 import {AVATAR_LAYER_ORDER, BattleCharacter, CHARACTER_STATE, TEAM} from './BattleCharacter.js';
 import {normalizeSkillEffectKind, roleEffectProfile, SkillEffectFX, SKILL_EFFECT_KIND, triggerWhiteFlash} from './SkillEffectFX.js';
 import {AdvancementEffectFX, advancementEffectProfile, normalizeAdvancementEffectCode} from './AdvancementEffectFX.js';
@@ -531,6 +532,7 @@ export class BaseBattleEngine{
     }
 
     const battlefieldTexturePromise=this.loadBattlefieldTexture(this.activeBattlefieldMode);
+    const damageFontPromise=ensureDamageFont();
     if(this.livePayload){
       // Production battles must not download the 10MB preview roster before
       // the authoritative server cards and monster are known. Empty textures
@@ -541,7 +543,7 @@ export class BaseBattleEngine{
       Assets.addBundle(BUNDLE,ASSETS);
       this.textures=await Assets.loadBundle(BUNDLE);
     }
-    this.activeBattlefieldTexture=await battlefieldTexturePromise;
+    [this.activeBattlefieldTexture]=await Promise.all([battlefieldTexturePromise,damageFontPromise]);
     assertMount();
 
     this.root=new Container();
@@ -2779,8 +2781,8 @@ export class BaseBattleEngine{
     configureDamageText(damageLabel,{kind:roleKind,damage,critical,healing,hitCount,hitValues:combo?[]:null,compact:this.mobile});
     // Keep the taller combo readout inside the existing battlefield viewport.
     const damageY=combo?Math.max(190,victimView.y-340):victimView.y-340;
-    const damageMargin=this.formationCoop?Math.max(200,damageLabel.getLocalBounds().width*.6+24):200;
-    const damageX=combo||this.formationCoop?clamp(impact.x,damageMargin,this.scene.width-damageMargin):impact.x;
+    const damageMargin=this.formationCoop||this.mobile?Math.max(200,damageLabel.getLocalBounds().width*.6+24):200;
+    const damageX=combo||this.formationCoop||this.mobile?clamp(impact.x,damageMargin,this.scene.width-damageMargin):impact.x;
     damageLabel.position.set(damageX,damageY);damageLabel.visible=true;this.uiLayer.addChild(damageLabel);
     if(roleKind===SKILL_EFFECT_KIND.HP&&damageLabel.healLabel){
       damageLabel.healLabel.position.set(actor.baseX-damageX,actor.baseY-165-(victimView.y-340));

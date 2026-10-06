@@ -139,7 +139,7 @@ test('all ten served V3 bundles including the account entry and hunt share the c
   const report = JSON.parse(read('preview/project-v-v3/grid-build-report.json'));
   assert.equal(report.version, 'OCCUPIED_GRID_V1');
   assert.equal(report.layoutVersion, 'UNIFORM_LATTICE_V2');
-  assert.equal(report.outputs.length, 10); assert.equal(report.sources.length, 79);
+  assert.equal(report.outputs.length, 10); assert.equal(report.sources.length, 81);
   for (const name of ['PetSupportPlayback.js','OverlordSuitModel.mjs', 'OverlordSuitAnimation.js'])
     assert.ok(report.sources.some(row => row.file === `preview/project-v-v3/source/battle/${name}`), `${name} must participate in bundle freshness checks`);
   for(const file of ['preview/project-v-v3/source/battle/IconRolePlayback.js','shared/icon-roles-v1.mjs','shared/icon-role-visuals-v1.mjs'])assert.ok(report.sources.some(row=>row.file===file),file);
@@ -148,6 +148,7 @@ test('all ten served V3 bundles including the account entry and hunt share the c
   assert.ok(report.outputs.some(row => row.file === 'preview/sustained-hunt-v2/battle.bundle.js'),
     'the live twelve-slot hunt must be rebuilt with the common runtime');
   assert.ok(report.sources.some(row=>row.file==='preview/project-v-v3/source/battle/SkillEffectFX.js'));
+  assert.ok(report.sources.some(row=>row.file==='shared/battle-damage-font.mjs'));
   for(const file of ['preview/project-v-v3/source/battle/BerkanCombatPlayback.js','preview/mercenary-berkan-sss-v1/source/BerkanFX.js','preview/mercenary-berkan-sss-v1/skill.mjs','shared/mercenary-berkan-v1.mjs'])assert.ok(report.sources.some(row=>row.file===file),file);
   // The already released Sniper Orikkung contributes three inputs to these same bundles.
   for(const file of ['preview/project-v-v3/source/battle/SniperOrikkungCombatPlayback.js','preview/mercenary-sniper-orikkung-v1/source/SniperOrikkungSkillFX.js','shared/mercenary-sniper-orikkung-v1.mjs'])

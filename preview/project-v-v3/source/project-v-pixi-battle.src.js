@@ -166,7 +166,7 @@ async function playAccountPreviewShot({onAnticipation,onFire,damage=100000}={}){
 }
 
 const fxRuntime=Object.freeze({Assets,Container,Graphics,Sprite,Texture,Rectangle});
-const api={runtimeVersion:'20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1',fxRuntime,mountEffectScene,releaseEffectScene,mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,restoreDeployedFormation,setBattlePayload,setBattlefield,verifyTargetSwitch,playAccountPreviewShot,setAccountPreviewFirearmHook,startAccountBattleUnitSustainedFire,stopAccountBattleUnitSustainedFire,cancelActiveAnimations,completePlayback,syncFinalState,syncCooperativeState,diagnostics,destroy};
+const api={runtimeVersion:'20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v1',fxRuntime,mountEffectScene,releaseEffectScene,mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,restoreDeployedFormation,setBattlePayload,setBattlefield,verifyTargetSwitch,playAccountPreviewShot,setAccountPreviewFirearmHook,startAccountBattleUnitSustainedFire,stopAccountBattleUnitSustainedFire,cancelActiveAnimations,completePlayback,syncFinalState,syncCooperativeState,diagnostics,destroy};
 if(typeof window!=='undefined')window.ProjectVPixiBattle=api;
 
 export {mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,restoreDeployedFormation,setBattlePayload,setBattlefield,verifyTargetSwitch,playAccountPreviewShot,setAccountPreviewFirearmHook,startAccountBattleUnitSustainedFire,stopAccountBattleUnitSustainedFire,cancelActiveAnimations,completePlayback,syncFinalState,syncCooperativeState,diagnostics,destroy};

@@ -188,9 +188,12 @@
 .battle-v2-message strong { font-size: clamp(30px, 4vw, 54px); line-height: 1; margin: 8px 0; color: var(--gold); text-shadow: 0 0 28px rgba(255, 207, 100, .25); }
 .battle-v2-message span { max-width: 220px; color: #9eb6cb; font-weight: 800; font-size: 12px; }
 .battle-v2-fx { position: absolute; inset: 0; pointer-events: none; z-index: 45; overflow: visible; }
-.damage-number { position: absolute; transform: translate(-50%, -50%); font-size: 28px; font-weight: 1000; color: #fff; text-shadow: 0 3px 12px #000; animation: damageFloat .9s ease forwards; }
-.damage-number.critical { color: #ffd66f; font-size: 36px; }
-.damage-number.heal { color: #69f0ae; }
+@font-face { font-family:'Russo One';src:url('/assets/fonts/battle/RussoOne-Regular.ttf') format('truetype');font-style:normal;font-weight:400;font-display:swap; }
+.damage-number { position: absolute; transform: translate(-50%, -50%); font-family:'Russo One',Arial,sans-serif;font-synthesis:none;font-size: 28px; font-weight:400; color:#f4f8ff;paint-order:stroke fill;-webkit-text-stroke:3px #07101e;text-shadow:0 2px 0 #152034;white-space:nowrap;animation: damageFloat .9s ease forwards; }
+.damage-number.critical { color:#07101e;font-size:36px; }
+.damage-number-tag { position:absolute;top:-14px;left:50%;transform:translateX(-50%);color:#ff9db4;font-size:11px;font-weight:400;letter-spacing:1px;-webkit-text-stroke:0;text-shadow:0 1px 2px #07101e; }
+.damage-number-color { position:absolute;inset:0;color:transparent;-webkit-text-stroke:0;text-shadow:none;background:linear-gradient(180deg,#fff 14%,#fff 28%,#ffadbb 56%,#ff3864 92%);background-clip:text;-webkit-background-clip:text; }
+.damage-number.heal { color:#70f5cd; }
 .damage-number.shield { color: #72d7ff; }
 .battle-v2-arena.flash-a::before, .battle-v2-arena.flash-b::before { content: ''; position: absolute; inset: 0; z-index: 14; pointer-events: none; animation: arenaFlash .42s ease; }
 .battle-v2-arena.flash-a::before { background: linear-gradient(90deg, rgba(52, 196, 255, .22), transparent 55%); }

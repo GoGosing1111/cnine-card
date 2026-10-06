@@ -1,4 +1,6 @@
 import {BitmapText, Container, Graphics, TextStyle} from 'pixi.js';
+import {damageFontFamily} from '../../../../shared/battle-damage-font.mjs';
+import {criticalDamageFont} from './DamageCriticalFont.mjs';
 
 /**
  * Fixed-cost reusable object pool.
@@ -78,32 +80,36 @@ const normalizeDamageKind=value=>{
 // Share immutable style instances for the finite role/critical/viewport states.
 const damageStyles=new Map();
 function sharedDamageStyle(options){
-  const key=JSON.stringify(options);if(!damageStyles.has(key))damageStyles.set(key,new TextStyle(options));return damageStyles.get(key);
+  const key=JSON.stringify(options);
+  if(!damageStyles.has(key))damageStyles.set(key,new TextStyle(options));return damageStyles.get(key);
 }
 
 export function configureDamageText(view,{kind='ATTACK',damage=0,critical=false,healing=0,hitCount=1,hitValues=null,compact=false}={}){
   const normalized=normalizeDamageKind(kind);
   const profile=DAMAGE_STYLE[normalized];
   const amount=Math.max(0,Number(damage)||0);
+  const fontFamily=damageFontFamily();
+  const fontSize=compact?(critical?84:76):(critical?76:68);
   view.effectKind=normalized;
   view.numberGlow.text=amount.toLocaleString('ko-KR');
-  view.numberGlow.style=sharedDamageStyle({fontFamily:'Arial Black, Arial',fontSize:compact?(critical?86:78):(critical?78:68),fill:profile.tagColor,stroke:{color:profile.stroke,width:critical?18:16,join:'round'},letterSpacing:-2});
+  view.numberGlow.style=sharedDamageStyle({fontFamily,fontSize,fill:0x07101e,stroke:{color:0x07101e,width:9,join:'round'},letterSpacing:-2});
   view.numberLabel.text=amount.toLocaleString('ko-KR');
-  view.numberLabel.style=sharedDamageStyle({fontFamily:'Arial Black, Arial',fontSize:compact?(critical?84:76):(critical?76:68),fill:critical?0xffffff:profile.fill,stroke:{color:profile.stroke,width:critical?15:13,join:'round'},letterSpacing:-2});
+  view.numberLabel.style=sharedDamageStyle({fontFamily:critical?criticalDamageFont(fontFamily):fontFamily,fontSize,fill:critical?0xff3864:0xf4f8ff,stroke:{color:0x07101e,width:6,join:'round'},letterSpacing:-2});
   view.roleTag.text=normalized==='SPEED'?`${Math.max(1,Math.floor(Number(hitCount)||1))} HIT · TOTAL`:profile.tag;
   view.roleTag.style=sharedDamageStyle({fontFamily:'Arial',fontSize:compact?24:17,fill:0xf5fbff,letterSpacing:2});
   view.roleTag.alpha=amount>0?1:0;
   view.criticalLabel.text=critical?'CRITICAL':'';
-  view.criticalLabel.style=sharedDamageStyle({fontFamily:'Arial',fontSize:compact?21:12,fill:profile.tagColor,letterSpacing:2});
+  view.criticalLabel.style=sharedDamageStyle({fontFamily:'Arial',fontSize:compact?21:12,fill:0xff9db4,letterSpacing:2});
   view.healLabel.text=Number(healing)>0?`+${Number(healing).toLocaleString('ko-KR')} HP`:'';
-  view.healLabel.style=sharedDamageStyle({fontFamily:'Arial',fontSize:compact?31:28,fill:0x75ffbd,letterSpacing:.5});
+  view.healLabel.style=sharedDamageStyle({fontFamily,fontSize:compact?31:28,fill:0x70f5cd,stroke:{color:0x07101e,width:3,join:'round'},letterSpacing:.5});
   view.hitLabel.text='';
-  view.hitLabel.style=sharedDamageStyle({fontFamily:'Arial',fontSize:compact?21:13,fill:profile.tagColor,letterSpacing:1});
+  view.hitLabel.style=sharedDamageStyle({fontFamily,fontSize:compact?21:13,fill:profile.tagColor,letterSpacing:1});
   view.underline.tint=profile.tagColor;
   const speedValues=Array.isArray(hitValues)?hitValues:[.1428,.1333,.1514].map(rate=>Math.round(amount*rate));
   view.speedHitLabels?.forEach((label,index)=>{
     const shown=normalized==='SPEED'&&index<speedValues.length;
     label.text=shown?Math.max(0,Number(speedValues[index])||0).toLocaleString('ko-KR'):'';
+    label.style=sharedDamageStyle({fontFamily,fontSize:22,fill:0xf4f8ff,stroke:{color:0x07101e,width:3,join:'round'}});
     label.alpha=shown?.86:0;
   });
   return view;
@@ -120,26 +126,26 @@ export function createDamageTextPool(size=24){
         style:{
           // BitmapText keeps damage-number glyphs in a texture atlas instead
           // of rasterising a fresh canvas texture for every hit.
-          fontFamily:'Arial Black, Arial',
+          fontFamily:damageFontFamily(),
           fontSize:56,
-          fill:0xfff4a6,
-          stroke:{color:0x130b00,width:9,join:'round'},
+          fill:0xf4f8ff,
+          stroke:{color:0x07101e,width:6,join:'round'},
           letterSpacing:-2
         }
       });
       numberLabel.anchor.set(.5);
-      const numberGlow=new BitmapText({text:'0',style:{fontFamily:'Arial Black, Arial',fontSize:72,fill:0xff5a64,stroke:{color:0x250207,width:16,join:'round'},letterSpacing:-2}});
+      const numberGlow=new BitmapText({text:'0',style:{fontFamily:damageFontFamily(),fontSize:56,fill:0x07101e,stroke:{color:0x07101e,width:9,join:'round'},letterSpacing:-2}});
       numberGlow.anchor.set(.5);numberGlow.alpha=.5;
       const roleTag=new BitmapText({text:'ARMOR BREAK',style:{fontFamily:'Arial',fontSize:13,fill:0xff5a64,letterSpacing:2}});
       roleTag.anchor.set(.5);roleTag.position.y=47;
       const criticalLabel=new BitmapText({text:'',style:{fontFamily:'Arial',fontSize:12,fill:0xff5a64,letterSpacing:2}});
       criticalLabel.anchor.set(.5);criticalLabel.position.y=-48;
-      const healLabel=new BitmapText({text:'',style:{fontFamily:'Arial',fontSize:15,fill:0x75ffbd,letterSpacing:.5}});
+      const healLabel=new BitmapText({text:'',style:{fontFamily:damageFontFamily(),fontSize:15,fill:0x70f5cd,letterSpacing:.5}});
       healLabel.anchor.set(.5);healLabel.position.set(0,67);
-      const hitLabel=new BitmapText({text:'',style:{fontFamily:'Arial',fontSize:13,fill:0xb778ff,letterSpacing:1}});
+      const hitLabel=new BitmapText({text:'',style:{fontFamily:damageFontFamily(),fontSize:13,fill:0xb778ff,letterSpacing:1}});
       hitLabel.anchor.set(0,.5);hitLabel.position.set(60,-35);
       const speedHitLabels=[-1,0,1].map((offset,index)=>{
-        const label=new BitmapText({text:'',style:{fontFamily:'Arial',fontSize:22,fill:index%2?0x66f7ff:0xb795ff,stroke:{color:0x05070b,width:7,join:'round'}}});
+        const label=new BitmapText({text:'',style:sharedDamageStyle({fontFamily:damageFontFamily(),fontSize:22,fill:0xf4f8ff,stroke:{color:0x07101e,width:3,join:'round'}})});
         label.anchor.set(.5);label.position.set(offset*92,88+(index%2)*8);label.alpha=0;return label;
       });
       const underline=new Graphics().roundRect(-58,37,116,2,1).fill(0xffffff);

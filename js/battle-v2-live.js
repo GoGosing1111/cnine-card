@@ -168,6 +168,11 @@
   };
 
   function createRenderer({ stage, phase, msg, modal, data, mode, monster, playUltimateCinematics = true }) {
+    const damageFontReady=new Promise(resolve=>{
+      const timer=setTimeout(()=>resolve(false),1500);
+      import('/shared/battle-damage-font.mjs?v=20261007-russo-v1').then(module=>module.ensureDamageFont()).catch(()=>false)
+        .then(ready=>{clearTimeout(timer);resolve(ready);});
+    });
     const v2 = data.battleV2;
     const state = {
       cards: new Map(), cursor: 0, activeAId: '', activeBId: '', layout: '', destroyed: false,
@@ -273,7 +278,17 @@
     }
     function pointFor(node) { const ar = arena.getBoundingClientRect(), r = node?.getBoundingClientRect?.(); return r ? { x:r.left-ar.left+r.width/2, y:r.top-ar.top+r.height/2 } : { x:ar.width/2, y:ar.height/2 }; }
     function magicPointFor(node,host){const hr=host.getBoundingClientRect(),r=node?.getBoundingClientRect?.(),margin=Math.min(132,Math.max(76,Math.min(hr.width,hr.height)*.16)),rawX=r?r.left-hr.left+r.width/2:hr.width*.7,rawY=r?r.top-hr.top+r.height/2:hr.height*.46;return{x:Math.max(margin,Math.min(hr.width-margin,rawX)),y:Math.max(margin,Math.min(hr.height-margin,rawY))};}
-    function damageNumber(node, value, className = '') { if (!node) return; const p=pointFor(node), el=document.createElement('b'); el.className=`damage-number ${className}`; el.style.left=`${p.x}px`;el.style.top=`${p.y}px`;el.textContent=value;fxRoot.appendChild(el);setTimeout(()=>el.remove(),700); }
+    function damageNumber(node, value, className = '') {
+      if (!node) return;
+      const p=pointFor(node),el=document.createElement('b'),critical=className==='critical';
+      const shown=critical?String(value).replace(/^CRITICAL\s+/,''):value;
+      el.className=`damage-number ${className}`;el.style.left=`${p.x}px`;el.style.top=`${p.y}px`;el.textContent=shown;
+      if(critical){
+        const color=document.createElement('span');color.className='damage-number-color';color.setAttribute('aria-hidden','true');color.textContent=shown;
+        const tag=document.createElement('small');tag.className='damage-number-tag';tag.textContent='CRITICAL';el.append(color,tag);
+      }
+      fxRoot.appendChild(el);setTimeout(()=>el.remove(),700);
+    }
     function pulse(node, cls, duration=420) { if (!node) return; node.classList.remove(cls);void node.offsetWidth;node.classList.add(cls);setTimeout(()=>node.classList.remove(cls),Math.round(duration/PLAYBACK_SPEED)); }
     function triggerFx(node, type, event='attack') { if (!node || !type) return; node.classList.remove('unique-fx-active','unique-fx-attack-active','unique-fx-defense-active','unique-fx-low-hp-active');void node.offsetWidth;node.classList.add('unique-fx-active',`unique-fx-${event}-active`,'unique-fx-source-active');clearTimeout(node._v2Fx);node._v2Fx=setTimeout(()=>node.classList.remove('unique-fx-active',`unique-fx-${event}-active`,'unique-fx-source-active'),Math.round((type==='hp'?1450:1100)/PLAYBACK_SPEED)); }
     function impactFx(actorNode,targetNode,type='attack',label='') { if(!actorNode||!targetNode)return;if(MOBILE_LOW_FX){const t=pointFor(targetNode),beam=document.createElement('i');beam.className=`battle-v2-burst burst-${type}`;beam.style.left=`${t.x}px`;beam.style.top=`${t.y}px`;fxRoot.appendChild(beam);setTimeout(()=>beam.remove(),360);return;}const s=pointFor(actorNode),t=pointFor(targetNode),mx=(s.x+t.x)/2,my=(s.y+t.y)/2,d=Math.max(90,Math.hypot(t.x-s.x,t.y-s.y)),angle=Math.atan2(t.y-s.y,t.x-s.x)*180/Math.PI,host=document.createElement('div'),size=Math.min(190,Math.max(118,d*.32));host.className=`unique-stage-fx unique-card-fx-host unique-fx-${type} unique-fx-active unique-fx-attack-active${type==='attack'?' unique-fx-between-targets':''}`;host.style.left=`${mx-size/2}px`;host.style.top=`${my-size/2}px`;host.style.width=`${size}px`;host.style.height=`${size}px`;host.style.setProperty('--unique-fx-angle',`${angle}deg`);if(t.x<s.x)host.classList.add('unique-fx-reverse');host.innerHTML=uniqueFxMarkup(type);if(label)host.querySelector('b')?.replaceChildren(document.createTextNode(label));fxRoot.appendChild(host);const beam=document.createElement('i');beam.className=`battle-v2-impact impact-${type}`;beam.style.left=`${s.x}px`;beam.style.top=`${s.y}px`;beam.style.width=`${d}px`;beam.style.setProperty('--impact-angle',`${angle}deg`);fxRoot.appendChild(beam);setTimeout(()=>{host.remove();beam.remove()},Math.round(1100/PLAYBACK_SPEED)); }
@@ -353,7 +368,7 @@
     applyLayout(true);syncFocusStage();renderOrder(0);setMessage('TACTICAL BATTLE','READY','HP·공격·방어·속도와 고유효과 전투 준비 완료');
 
     return {
-      async play() { const timeline=v2.result?.timeline||[];for(let i=0;i<timeline.length;i++){if(!document.documentElement.contains(root))break;state.cursor=i;await eventPlay(timeline[i]);} },
+      async play() { await damageFontReady;const timeline=v2.result?.timeline||[];for(let i=0;i<timeline.length;i++){if(!document.documentElement.contains(root))break;state.cursor=i;await eventPlay(timeline[i]);} },
       async previewMagicEffect(card={}) {
         if(state.magicPreviewing||!document.documentElement.contains(root))return false;
         const effectType=String(card.effectType||'').toUpperCase(),resource=MAGIC_EFFECT_RESOURCES[effectType];if(!resource)return false;
