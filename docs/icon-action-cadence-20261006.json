@@ -2659,5 +2659,25 @@
     }
   ],
   "notice": "docs/notice-icon-action-cadence-20261006.txt",
-  "deployment": null
+  "deployment": null,
+  "releasePlan": {
+    "mode": "scoped",
+    "base": "c79c9ea550a5733374b2250373125953174920e3",
+    "reason": "ICON action fairness, finite seal recovery and synchronized playback: directly related server/renderer regressions and actual shipped loader checks.",
+    "tests": [
+      "tests/icon-action-cadence-20261006.test.mjs",
+      "tests/icon-roles-v1.test.mjs",
+      "tests/icon-apocalypse-actions-20261006.test.mjs",
+      "tests/icon-fur15-superiority-v1.test.mjs",
+      "tests/icon-support-defense-buff-20261006.test.mjs",
+      "tests/magic-season2-runtime-20260930.test.mjs",
+      "tests/battle-suit-skill-chip-runtime-v2046.test.mjs",
+      "tests/cooperative-turn-fairness-20261004.test.mjs",
+      "tests/v3-common-grid-v1.test.mjs",
+      "tests/pve-battlefield-entry-v2117.test.mjs"
+    ],
+    "checks": [
+      "check:worker"
+    ]
+  }
 }
