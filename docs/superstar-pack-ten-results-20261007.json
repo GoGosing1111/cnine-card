@@ -1,5 +1,5 @@
 {
-  "status": "READY_FOR_SCOPED_RELEASE",
+  "status": "LIVE",
   "request": "슈퍼스타팩 10개 개봉 일일이 화면 연출하지말고 한번에 10개 결과 사진 보여줘",
   "change": "서버가 확정한 10회 영수증을 개별 연출 없이 카드 원본 이미지·꽝 10칸으로 즉시 표시한다. 중복 카드도 별도 슬롯으로 유지한다.",
   "unchanged": [
@@ -74,6 +74,40 @@
       "tests/superstar-pack-client-v2047.test.mjs"
     ],
     "checks": [],
-    "cacheVersion": "20261007-superstar-ten-results"
+    "cacheVersion": "20261007-superstar-ten-results",
+    "passed": 13,
+    "failed": 0,
+    "sourceCommit": "b42db5c979ae8025a082344994d7c5f556f54189",
+    "pages": "https://fa69e1f0.cnine-card.pages.dev",
+    "apiWorkerVersion": "a13ad775-2079-482b-b0ca-ab350a3d8b7e",
+    "clanWorkerVersion": "455f0229-3b79-4348-893c-0d143c265d4b",
+    "liveVerification": {
+      "status": "LIVE_VERIFIED",
+      "checkedAt": "2026-10-06T17:50:40.384Z",
+      "origin": "https://cnine-card.pages.dev",
+      "sourceCommit": "b42db5c979ae8025a082344994d7c5f556f54189",
+      "cacheVersion": "20261007-superstar-ten-results",
+      "resources": [
+        {
+          "file": "js/app.js",
+          "bytes": 737622,
+          "sha256": "8b49d5f453d652900b15d05239d9413be6a9103e15ab0b20010a031a912ec380",
+          "matched": true
+        },
+        {
+          "file": "css/superstar-pack-v1894.css",
+          "bytes": 38037,
+          "sha256": "8a22c346b3f3da507746267a94a2c5b07ebb8582da39330cb8dd6ce2a603b5e7",
+          "matched": true
+        },
+        {
+          "file": "service-worker.js",
+          "bytes": 8971,
+          "sha256": "36d7281d0391431cbc8d30cc62e1654bb84f298e9c4d37a8f19c4bd8dc801325",
+          "matched": true
+        }
+      ]
+    },
+    "verifiedAtKst": "2026-10-07 02:50:40 KST"
   }
 }
