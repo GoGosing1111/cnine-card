@@ -1,0 +1,50 @@
+{
+  "status": "LIVE_VERIFIED",
+  "request": "해당 인원들에 5천억 코인,500만 마별 지급해",
+  "recipientClarification": "TOP 100 전체 100명",
+  "delivery": "DIRECT",
+  "snapshotAtKst": "2026-10-06 10:12:19",
+  "recipientCount": 100,
+  "recipientHash": "c4fc44872e818d1476ec13d91361d41ed9918db292153071454445af6bb8bafe",
+  "targets": "scripts/ops/attendance-top100-gift-20261006.targets.json",
+  "operationScript": "scripts/ops/attendance-top100-gift-20261006.mjs",
+  "operationKey": "ops:attendance-top100-gift:20261006:v1",
+  "coinPerUser": "500000000000",
+  "starsPerUser": "5000000",
+  "totalCoin": "50000000000000",
+  "totalStars": "500000000",
+  "adminLogId": "41403",
+  "completedAt": "2026-10-06T01:23:52.672Z",
+  "verifiedAt": "2026-10-06T01:23:56.986Z",
+  "verification": {
+    "coinLogs": 100,
+    "masterStarLogs": 100,
+    "allRecipientIdsAndNamesMatched": true,
+    "allPerUserBalanceIncrementsMatched": true,
+    "unrelatedAccountAndInventoryFieldsPreserved": true,
+    "independentConnectionVerified": true,
+    "replayReturnedOriginalReceipt": true,
+    "productionDryRunRolledBack": true,
+    "scopedTests": "node --test tests/attendance-top100-gift-20261006.test.mjs",
+    "testsPassed": 3,
+    "testsFailed": 0,
+    "coverage": [
+      "Exact fixed 100 recipients, existing and absent inventory rows, unrelated accounts and items preserved",
+      "Star-ledger or completion-receipt failure rolls back all 100 grants; clean retry pays once",
+      "Lost commit response and subsequent normal spending still replay the original receipt without another grant"
+    ]
+  },
+  "concurrency": {
+    "initialDeadlocks": 2,
+    "initialAttemptsRolledBackBeforeCredits": true,
+    "correction": "Acquire existing inventory rows then wallets with FOR UPDATE NOWAIT; release the entire transaction immediately when a live game transaction already holds a required row.",
+    "correctionTestsPassed": true,
+    "finalRunBusyRowRetries": 1,
+    "successfulGrantCommits": 1
+  },
+  "release": {
+    "runtimeFilesChanged": false,
+    "applicationRedeployed": false,
+    "reason": "One-time authorized database grant through an isolated operations script. Only the grant script, fixed recipient list, scoped tests and verification record are committed."
+  }
+}
