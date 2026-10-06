@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {PGlite} from '@electric-sql/pglite';
-import {CARD,TARGETS,EXCLUDED,upgradeCards,verifyUpgrade} from '../scripts/ops/aizen-seven-plus15-20261006.mjs';
+import {CARD,TARGETS,EXCLUDED,upgradeCards,verifyUpgrade} from '../scripts/ops/aizen-eight-plus15-20261006.mjs';
 
 async function fixture(t){
  const db=new PGlite();t.after(()=>db.close());
@@ -33,22 +33,22 @@ async function run(db,{commit=true,failAt='',day='2026-10-06'}={}){
  try{const r=await upgradeCards(q);await db.exec(commit?'COMMIT':'ROLLBACK');return r;}catch(e){await db.exec('ROLLBACK');throw e;}
 }
 
-test('seven requested accounts reach +15 once; excluded accounts, existing +15 state, copies, dates, other cards and currencies stay intact',async t=>{
- assert.equal(TARGETS.length,7);
- for(const [id,name] of [[10,"관상은과학"],[23,"하이희야"],[76,"랄네미탱탱"],[2246,"옹가망함1"],[4598,"암살자.."],[4610,"고라니ㅇ"],[4965,"쁴로리"]])assert.equal(TARGETS.find(t=>t.id===id)?.nickname,name);
+test('eight requested accounts reach +15 once; excluded accounts, existing +15 state, copies, dates, other cards and currencies stay intact',async t=>{
+ assert.equal(TARGETS.length,8);
+ for(const [id,name] of [[10,"관상은과학"],[23,"하이희야"],[76,"랄네미탱탱"],[2246,"옹가망함1"],[4580,"CHO22"],[4598,"암살자.."],[4610,"고라니ㅇ"],[4965,"쁴로리"]])assert.equal(TARGETS.find(t=>t.id===id)?.nickname,name);
  assert.deepEqual(EXCLUDED,[]);assert.ok(!TARGETS.some(t=>t.id===5));
  const db=await fixture(t),before=await snapshot(db),receipt=await run(db),after=await snapshot(db);
- assert.equal(receipt.accounts,7);assert.equal(receipt.changed,6);assert.equal(receipt.already15,1);assert.ok(receipt.recipients.every(r=>r.levelAfter===15&&r.quantityBefore===r.quantityAfter));
+ assert.equal(receipt.accounts,8);assert.equal(receipt.changed,7);assert.equal(receipt.already15,1);assert.ok(receipt.recipients.every(r=>r.levelAfter===15&&r.quantityBefore===r.quantityAfter));
  assert.deepEqual(after.users,before.users);assert.deepEqual(after.cnine_user_inventory,before.cnine_user_inventory);
  const expected=before.user_cards.map(r=>r.card_id===CARD.id&&TARGETS.some(t=>t.id===Number(r.user_id))&&Number(r.breakthrough_level)<15?{...r,breakthrough_level:15,breakthrough_fail_count:0}:r);
- assert.deepEqual(norm(after.user_cards),norm(expected));assert.equal(after.admin_logs.length,7);assert.equal(after.app_meta.length,1);
- assert.equal((await run(db)).replayed,true);assert.deepEqual(await snapshot(db),after);assert.equal((await verifyUpgrade(async(sql,args)=>(await db.query(sql,args)).rows)).current.length,7);
+ assert.deepEqual(norm(after.user_cards),norm(expected));assert.equal(after.admin_logs.length,8);assert.equal(after.app_meta.length,1);
+ assert.equal((await run(db)).replayed,true);assert.deepEqual(await snapshot(db),after);assert.equal((await verifyUpgrade(async(sql,args)=>(await db.query(sql,args)).rows)).current.length,8);
 });
 
 test('dry run and audit/receipt failures roll back all changes; retry leaves a newly completed +15 holding intact',async t=>{
  const db=await fixture(t);await db.query('UPDATE user_cards SET breakthrough_level=15,breakthrough_fail_count=7 WHERE user_id=$1 AND card_id=$2',[TARGETS[0].id,CARD.id]);const before=await snapshot(db);await run(db,{commit:false});assert.deepEqual(await snapshot(db),before);
  for(const failAt of ['audit','receipt']){await assert.rejects(run(db,{failAt}),/Injected/);assert.deepEqual(await snapshot(db),before);}
- const receipt=await run(db);assert.equal(receipt.changed,5);assert.equal(receipt.already15,2);assert.equal(Number((await db.query('SELECT breakthrough_fail_count FROM user_cards WHERE user_id=$1 AND card_id=$2',[TARGETS[0].id,CARD.id])).rows[0].breakthrough_fail_count),7);
+ const receipt=await run(db);assert.equal(receipt.changed,6);assert.equal(receipt.already15,2);assert.equal(Number((await db.query('SELECT breakthrough_fail_count FROM user_cards WHERE user_id=$1 AND card_id=$2',[TARGETS[0].id,CARD.id])).rows[0].breakthrough_fail_count),7);
 });
 
 test('wrong identity, missing ownership, enhancement in progress and expired operation reject all writes',async t=>{

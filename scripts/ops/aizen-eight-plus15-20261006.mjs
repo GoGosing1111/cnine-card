@@ -1,11 +1,11 @@
 import assert from 'node:assert/strict';
-import manifest from './aizen-seven-plus15-20261006.targets.json' with {type:'json'};
-export const OPERATION_KEY='ops:aizen-seven-plus15:20261006:v1';
+import manifest from './aizen-eight-plus15-20261006.targets.json' with {type:'json'};
+export const OPERATION_KEY='ops:aizen-eight-plus15:20261006:v1';
 export const CARD=Object.freeze({id:'CN-47AD4B47B6A7452C',title:'아이젠 족스케',grade:'FUR'});
 export const TARGETS=Object.freeze(manifest.targets.map(Object.freeze));
 export const EXCLUDED=Object.freeze(manifest.excluded.map(Object.freeze));
 const ids=TARGETS.map(t=>t.id);
-assert.equal(ids.length,7);assert.equal(new Set(ids).size,7);
+assert.equal(ids.length,8);assert.equal(new Set(ids).size,8);
 assert.ok(EXCLUDED.every(e=>!ids.includes(e.id)));
 const parse=v=>typeof v==='string'?JSON.parse(v):v;
 const numeric=row=>Object.fromEntries(Object.entries(row).map(([k,v])=>[k,['user_id','quantity','breakthrough_level','breakthrough_fail_count'].includes(k)?Number(v):v]));
@@ -64,7 +64,7 @@ export async function upgradeCards(q){
 
 export async function verifyUpgrade(q){
  const state=await inspectUpgrade(q),r=state.receipt;assert.ok(r,'Receipt missing');
- assert.equal(r.operationKey,OPERATION_KEY);assert.equal(r.status,'COMPLETED');assert.equal(r.accounts,7);assert.deepEqual(r.card,CARD);
+ assert.equal(r.operationKey,OPERATION_KEY);assert.equal(r.status,'COMPLETED');assert.equal(r.accounts,8);assert.deepEqual(r.card,CARD);
  assert.deepEqual(r.recipients.map(t=>t.userId),ids);assert.deepEqual(r.excluded,EXCLUDED);
  assert.equal(state.holdings.length,ids.length);
  for(let i=0;i<ids.length;i++){
