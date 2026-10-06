@@ -1,0 +1,76 @@
+{
+  "date": "2026-10-06",
+  "status": "PREPARED_FOR_DEPLOYMENT_AND_SEND",
+  "authorization": [
+    "2차인증 전체유저 전동드릴 지급해",
+    "메세지로"
+  ],
+  "operationKey": "ops:verified-electric-drill-message:20261006:v1",
+  "campaignKey": "verified-electric-drill-message-20261006-v1",
+  "eligibility": "All currently ACTIVE secondary-verified accounts, all roles/providers; one-time frozen audience",
+  "reward": {
+    "type": "MINE_ELECTRIC_DRILL",
+    "name": "전동드릴",
+    "amountPerRecipient": 1,
+    "delivery": "CLAIMABLE_IN_GAME_MESSAGE"
+  },
+  "message": {
+    "title": "2차 인증 유저 전동드릴 지급",
+    "body": "2차 인증을 완료하신 유저 여러분께 전동드릴 1개를 드립니다. 메시지함에서 보상을 수령해 주세요."
+  },
+  "initialInspection": {
+    "at": "2026-10-06T08:35:32.203Z",
+    "count": 533,
+    "recipientHash": "dcfd3164a12db046f071d221f1decc1866f7a83ccce9c17c160496f544703406",
+    "roles": {
+      "OWNER": 2,
+      "USER": 528,
+      "ADMIN": 3
+    },
+    "priorCampaigns": 0
+  },
+  "safeguards": [
+    "Single transaction for recipient snapshot, messages, rewards, audit and completion receipt",
+    "Stable campaign and operation keys; a retry verifies existing delivery without adding recipients",
+    "Inventory credits use the existing atomic claim receipt; no inventory or wallet credit during send",
+    "Existing holdings are preserved; no mine configuration changes"
+  ],
+  "verification": {
+    "browser": {
+      "fixture": "Actual inbox view/loader and stylesheet with simulated authorized message response; no live claims",
+      "results": [
+        {
+          "width": 1440,
+          "title": "2차 인증 유저 전동드릴 지급",
+          "reward": "🛠️ 1 전동드릴\n보상 받기",
+          "individualClaim": true,
+          "claimAll": true,
+          "noOverflow": true,
+          "pageErrors": []
+        },
+        {
+          "width": 390,
+          "title": "2차 인증 유저 전동드릴 지급",
+          "reward": "🛠️ 1 전동드릴\n보상 받기",
+          "individualClaim": true,
+          "claimAll": true,
+          "noOverflow": true,
+          "pageErrors": []
+        }
+      ]
+    },
+    "selectedTests": [
+      "tests/verified-electric-drill-message-20261006.test.mjs"
+    ],
+    "selectedChecks": [
+      "check:worker"
+    ],
+    "status": "DEPLOY_GATE_PENDING"
+  },
+  "release": {
+    "mode": "scoped",
+    "base": "3b0c4cd6cc72b932fc7019971538324f40bbebb9",
+    "baseDeployment": "https://1649de01.cnine-card.pages.dev",
+    "reason": "Add one message-only inventory reward type and client label. Validate verified audience, all-or-nothing delivery, commit retry, single/batch claims and cached clients."
+  }
+}

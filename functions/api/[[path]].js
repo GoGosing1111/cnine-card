@@ -523,6 +523,7 @@ function messageRewardClaimToken(){
 }
 
 const VERIFIED_MESSAGE_REWARD_TYPES={
+  MINE_ELECTRIC_DRILL:{label:'전동드릴',icon:'🛠️',inventory:true,messageOnly:true,max:1,messageType:'ITEM_REWARD'},
   NEW_USER_GIFT_BOX:{label:'신규유저 기프트 박스',icon:'🎁',inventory:true,messageOnly:true,max:1,messageType:'ITEM_REWARD'},
   LICH_KING_ENTRY_TICKET:{label:'리치왕 정벌 입장권',icon:'🎟️',inventory:true,messageOnly:true,max:100000,messageType:'ITEM_REWARD'},
   MERCENARY_OMEGA_X:{label:'오메가-X SSS',icon:'🃏',inventory:false,messageOnly:true,max:1,messageType:'ITEM_REWARD'},
