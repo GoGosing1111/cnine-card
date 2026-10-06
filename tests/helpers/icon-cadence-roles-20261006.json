@@ -1,0 +1,143 @@
+{
+  "checkedAt": "2026-10-06T12:18:00.192Z",
+  "revision": 2,
+  "document": {
+    "version": 1,
+    "enabled": true,
+    "scopes": {
+      "pve": true,
+      "pvp": true,
+      "captain": true
+    },
+    "cards": [
+      {
+        "code": "ICON-DIIM",
+        "enabled": true,
+        "tuning": {
+          "firstAction": 2,
+          "cooldownActions": 4,
+          "maxCasts": 6,
+          "pveScale": 100,
+          "pvpScale": 90,
+          "damagePercent": 180,
+          "damageCapPercent": 46,
+          "executePercent": 60,
+          "takedownGauge": 25,
+          "maxTakedowns": 2
+        }
+      },
+      {
+        "code": "ICON-HI-HEEYA",
+        "enabled": true,
+        "tuning": {
+          "firstAction": 3,
+          "cooldownActions": 4,
+          "maxCasts": 6,
+          "pveScale": 100,
+          "pvpScale": 90,
+          "damagePercent": 180,
+          "damageCapPercent": 46,
+          "stackPercent": 10,
+          "maxStacks": 3,
+          "shieldBreakPercent": 40
+        }
+      },
+      {
+        "code": "ICON-NAMUNEUL-BONGSOON",
+        "enabled": true,
+        "tuning": {
+          "firstAction": 2,
+          "cooldownActions": 4,
+          "maxCasts": 6,
+          "pveScale": 100,
+          "pvpScale": 90,
+          "damagePercent": 180,
+          "damageCapPercent": 46,
+          "maxTargets": 3,
+          "focusPercent": 20,
+          "penetrationPercent": 25
+        }
+      },
+      {
+        "code": "ICON-OH-JOEUN",
+        "enabled": true,
+        "tuning": {
+          "firstAction": 2,
+          "cooldownActions": 4,
+          "maxCasts": 6,
+          "pveScale": 125,
+          "pvpScale": 150,
+          "healPercent": 25,
+          "resonancePercent": 3,
+          "maxStacks": 8,
+          "healBudgetPercent": 150,
+          "nextAttackPercent": 35,
+          "durationActions": 3
+        }
+      },
+      {
+        "code": "ICON-ORIKKUNG",
+        "enabled": true,
+        "tuning": {
+          "firstAction": 3,
+          "cooldownActions": 4,
+          "maxCasts": 6,
+          "pveScale": 100,
+          "pvpScale": 90,
+          "damagePercent": 180,
+          "damageCapPercent": 46,
+          "maxStacks": 3,
+          "dotPercent": 9,
+          "healReductionPercent": 10,
+          "stackPercent": 15,
+          "durationActions": 3,
+          "bossVulnerabilityPercent": 6
+        }
+      },
+      {
+        "code": "ICON-KANGGUYEOL",
+        "enabled": true,
+        "tuning": {
+          "firstAction": 1,
+          "cooldownActions": 3,
+          "maxCasts": 6,
+          "pveScale": 100,
+          "pvpScale": 100,
+          "damagePercent": 210,
+          "damageCapPercent": 46,
+          "guardThresholdPercent": 70,
+          "guardSharePercent": 40,
+          "guardBudgetPercent": 160,
+          "shieldPercent": 35,
+          "storedDamagePercent": 70,
+          "storedCapPercent": 100,
+          "durationActions": 3
+        }
+      },
+      {
+        "code": "ICON-AYOON",
+        "enabled": true,
+        "tuning": {
+          "firstAction": 1,
+          "cooldownActions": 4,
+          "maxCasts": 6,
+          "pveScale": 100,
+          "pvpScale": 90,
+          "damagePercent": 140,
+          "damageCapPercent": 46,
+          "shieldPercent": 18,
+          "shieldBreakPercent": 65,
+          "gaugeDelay": 12,
+          "bossVulnerabilityPercent": 8,
+          "durationActions": 2
+        }
+      }
+    ]
+  },
+  "version": "20261005-fur15-v1",
+  "balance": {
+    "version": "20261005-fur15-v1",
+    "deckLimit": 2,
+    "margin": 1.2
+  }
+}

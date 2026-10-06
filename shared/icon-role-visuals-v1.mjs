@@ -1,5 +1,18 @@
 // Existing authored sixteen-frame sequences and approved SDs, without mutation.
 // Muzzle coordinates are in the original 768 x 768 texture and follow its full transform.
+import {iconDefinition} from './icon-roles-v1.mjs';
+
+// Contact + return/release budget shared by authoritative timed encounters and
+// V3 playback. Passive notices never become extra card actions.
+export function iconEventReleaseSeconds(event){
+ if(event.type==='ICON_SKILL'){
+  const role=event.iconRole||iconDefinition(event.iconCode)?.role;
+  const rows=(event.hits?.length||0)+(event.targets?.length||0);
+  return .24+Math.max(0,rows-1)*.13+(['ASSASSIN','ASSAULT','DEFENSE'].includes(role)?.30:.12);
+ }
+ if(event.type==='ICON_STATUS')return ['HEAT','EXPIRED','CLEANSED','WARD_END'].includes(event.status)?0:.14;
+ return ['ICON_DOT','ICON_GUARD'].includes(event.type)?.14:0;
+}
 export const ICON_ROLE_VISUALS=Object.freeze({
  'CN-1C000001':{id:'diim',skillDuration:1.28,hitDuration:.64},
  'CN-1C000002':{id:'hi-heeya',skillDuration:1.36,hitDuration:.60,muzzle:{x:.900,y:.540},axis:{x:.720,y:.500}},

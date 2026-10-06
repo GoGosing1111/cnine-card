@@ -1,5 +1,5 @@
 import {Assets,Container,Graphics,Sprite,Texture,Rectangle} from 'pixi.js';
-import {ICON_ROLE_VISUALS,iconMuzzle} from '../../../../shared/icon-role-visuals-v1.mjs';
+import {ICON_ROLE_VISUALS,iconMuzzle,iconEventReleaseSeconds} from '../../../../shared/icon-role-visuals-v1.mjs';
 import {iconDefinition} from '../../../../shared/icon-roles-v1.mjs';
 import {configureDamageText} from './ObjectPool.js';
 
@@ -68,6 +68,7 @@ export async function playIconEvent(engine,event){
   const time={t:0},p=role==='MAGIC'||role==='SUPPORT'?foot(engine,target):point(engine,target),size=target.fullBodyHeight*.48,color=parseInt((def?.color||'#c8edff').slice(1),16);
   if(type==='ICON_GUARD')engine.queueBanner('수호 맹약 · 피해 분담',color,actor?.name||'ICON');
   else if(event.status==='CHANNEL')engine.queueBanner('정령 집중',color,actor?.name||'ICON');
+  else if(event.status==='SEAL_BLOCK')engine.queueBanner(event.label,color,actor?.name||'ICON');
   await engine.timeline(t=>{t.to(time,{t:.55,duration:.55,onUpdate(){if(layer.destroyed)return;rune(g,role,p.x,p.y,size,color,time.t);layer.alpha=Math.min(1,(.55-time.t)*5);},ease:'none'});},()=>layer.destroy({children:true}),null,{releaseAt:.14,owners:engine.formationCoop?[]:[target]});return true;
  }
  if(!actor||!def){for(const row of [...(event.hits||[]),...(event.targets||[])])sync(engine,row);return true;}
@@ -104,7 +105,7 @@ export async function playIconEvent(engine,event){
   else actor.setState('ATTACK');
   t.to(time,{t:duration,duration,ease:'none',onUpdate:render},0);
   impacts.forEach(p=>t.call(()=>{if(valid()){sync(engine,p.row);event.onImpact?.(p.target);applied++;}},[],p.at));
- },()=>{layer.destroy({children:true,texture:false,textureSource:false});if(!actor.root.destroyed){if(melee)actor.root.position.set(actor.baseX,actor.baseY);actor.setState(actor.hp<=0?'DEAD':'IDLE');}},null,{releaseAt:lastContact+(melee?.30:.12),owners:[actor,...targets]});
+ },()=>{layer.destroy({children:true,texture:false,textureSource:false});if(!actor.root.destroyed){if(melee)actor.root.position.set(actor.baseX,actor.baseY);actor.setState(actor.hp<=0?'DEAD':'IDLE');}},null,{releaseAt:iconEventReleaseSeconds(event),owners:[actor,...targets]});
  engine.lastIconPlayback={code:def.code,role:def.role,eventType:type,serverRows:rows.length,appliedRows:applied,clockOwner:'V3_REGISTERED_GSAP',damageAuthority:'SERVER_ONLY'};
  const metrics=engine.iconPlaybackMetrics||(engine.iconPlaybackMetrics={skills:0,basics:0,serverRows:0,appliedRows:0,roles:[]});
  if(finished){metrics[event.basic?'basics':'skills']++;metrics.serverRows+=rows.length;metrics.appliedRows+=applied;if(!event.basic&&!metrics.roles.includes(def.role))metrics.roles.push(def.role);}

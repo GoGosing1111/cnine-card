@@ -27,6 +27,9 @@
     "preview/project-v-v3/source/battle/ApocalypseBossUltimateFX.js",
     "shared/apocalypse-boss-skills-v2048.mjs",
     "preview/project-v-v3/source/battle/ApocalypseSignatureSkillFX.js",
+    "shared/icon-supremacy-v1.mjs",
+    "shared/icon-roles-v1.mjs",
+    "shared/icon-role-visuals-v1.mjs",
     "shared/battle-suit-skill-chips.mjs",
     "shared/x-body-area-skill.mjs",
     "shared/overlord-suit-v1.mjs",
@@ -131,9 +134,6 @@
     "preview/project-v-v3/source/battle/MercenaryCombatPlayback.js",
     "preview/project-v-v3/source/battle/CooperativeArkePlayback.js",
     "preview/project-v-v3/source/battle/CooperativeEncounter.js",
-    "shared/icon-role-visuals-v1.mjs",
-    "shared/icon-supremacy-v1.mjs",
-    "shared/icon-roles-v1.mjs",
     "preview/project-v-v3/source/battle/IconRolePlayback.js",
     "shared/pet-buff-visuals-v1.mjs",
     "preview/project-v-v3/source/battle/PetSupportPlayback.js",
@@ -144,5 +144,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 1602451
+  "outputBytes": 1603042
 }

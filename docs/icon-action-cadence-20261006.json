@@ -1,0 +1,2663 @@
+{
+  "checkedAt": "2026-10-06T12:47:49.146Z",
+  "deployedBase": "c79c9ea550a5733374b2250373125953174920e3",
+  "scope": "ICON 7-role action fairness, finite seal consumption and synchronized V3 playback",
+  "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1",
+  "server": {
+    "checkedAt": "2026-10-06T12:30:54.621Z",
+    "baseline": "fdc06e87a2eeb82b771a749d7e689c037582492a",
+    "sources": {
+      "functions/_battle_v2_preview.js": "a46fa2912e5d5182f9ec062f0df2c43532bf82ca0a451db3eda494c98828a91e",
+      "functions/_icon_combat.js": "a28678854da5f60503f0f506af876ba8044bdf0305963611659ae75698e3613f",
+      "shared/battle-suit-skill-chips.mjs": "815e36619d7789f560598f0e763156374fb0d0dabee65a2c853ba6e5b1632921",
+      "shared/icon-role-visuals-v1.mjs": "c4870e45f150d24b54e766be68a44ed7a479a7f6005086542eb14828be67f37c"
+    },
+    "battles": 3024,
+    "actorObservations": 5376,
+    "scope": {
+      "gearPerCard": [
+        0,
+        100000,
+        500000,
+        1000000,
+        20000000,
+        100000000
+      ],
+      "seeds": [
+        1,
+        11,
+        37,
+        91
+      ],
+      "slots": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "allIconPairs": 21,
+      "side": "PVP both sides",
+      "note": "Local authoritative simulator, live role settings and saved FUR reference; controlled rosters, no production accounts or economic writes. Zero skills can reflect short fights, seals or no injured allies, not automatically a failure."
+    },
+    "liveRoleRevision": 2,
+    "liveRoleReadAt": "2026-10-06T12:18:00.192Z",
+    "controlBattles": 28,
+    "control": {
+      "starvation": [
+        {
+          "name": "디임",
+          "before": [
+            {
+              "id": "A:0:CN-1C000001",
+              "speed": 77939,
+              "actions": 50
+            },
+            {
+              "id": "A:1:CN-1C000002",
+              "speed": 72165,
+              "actions": 0
+            },
+            {
+              "id": "A:2:neutral-0",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "A:3:neutral-1",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "A:4:neutral-2",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "B:0:CN-1C000001",
+              "speed": 77939,
+              "actions": 50
+            },
+            {
+              "id": "B:1:CN-1C000002",
+              "speed": 72165,
+              "actions": 0
+            },
+            {
+              "id": "B:2:neutral-0",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "B:3:neutral-1",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "B:4:neutral-2",
+              "speed": 17750,
+              "actions": 0
+            }
+          ],
+          "after": [
+            {
+              "id": "A:0:CN-1C000001",
+              "speed": 77939,
+              "actions": 20
+            },
+            {
+              "id": "A:1:CN-1C000002",
+              "speed": 72165,
+              "actions": 18
+            },
+            {
+              "id": "A:2:neutral-0",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "A:3:neutral-1",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "A:4:neutral-2",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "B:0:CN-1C000001",
+              "speed": 77939,
+              "actions": 20
+            },
+            {
+              "id": "B:1:CN-1C000002",
+              "speed": 72165,
+              "actions": 18
+            },
+            {
+              "id": "B:2:neutral-0",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "B:3:neutral-1",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "B:4:neutral-2",
+              "speed": 17750,
+              "actions": 4
+            }
+          ]
+        },
+        {
+          "name": "하이희야",
+          "before": [
+            {
+              "id": "A:0:CN-1C000002",
+              "speed": 72165,
+              "actions": 0
+            },
+            {
+              "id": "A:1:CN-1C000001",
+              "speed": 77939,
+              "actions": 50
+            },
+            {
+              "id": "A:2:neutral-0",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "A:3:neutral-1",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "A:4:neutral-2",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "B:0:CN-1C000002",
+              "speed": 72165,
+              "actions": 0
+            },
+            {
+              "id": "B:1:CN-1C000001",
+              "speed": 77939,
+              "actions": 50
+            },
+            {
+              "id": "B:2:neutral-0",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "B:3:neutral-1",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "B:4:neutral-2",
+              "speed": 17750,
+              "actions": 0
+            }
+          ],
+          "after": [
+            {
+              "id": "A:0:CN-1C000002",
+              "speed": 72165,
+              "actions": 18
+            },
+            {
+              "id": "A:1:CN-1C000001",
+              "speed": 77939,
+              "actions": 20
+            },
+            {
+              "id": "A:2:neutral-0",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "A:3:neutral-1",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "A:4:neutral-2",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "B:0:CN-1C000002",
+              "speed": 72165,
+              "actions": 18
+            },
+            {
+              "id": "B:1:CN-1C000001",
+              "speed": 77939,
+              "actions": 20
+            },
+            {
+              "id": "B:2:neutral-0",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "B:3:neutral-1",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "B:4:neutral-2",
+              "speed": 17750,
+              "actions": 4
+            }
+          ]
+        },
+        {
+          "name": "나무늘봉순",
+          "before": [
+            {
+              "id": "A:0:CN-1C000003",
+              "speed": 72165,
+              "actions": 0
+            },
+            {
+              "id": "A:1:CN-1C000001",
+              "speed": 77939,
+              "actions": 50
+            },
+            {
+              "id": "A:2:neutral-0",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "A:3:neutral-1",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "A:4:neutral-2",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "B:0:CN-1C000003",
+              "speed": 72165,
+              "actions": 0
+            },
+            {
+              "id": "B:1:CN-1C000001",
+              "speed": 77939,
+              "actions": 50
+            },
+            {
+              "id": "B:2:neutral-0",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "B:3:neutral-1",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "B:4:neutral-2",
+              "speed": 17750,
+              "actions": 0
+            }
+          ],
+          "after": [
+            {
+              "id": "A:0:CN-1C000003",
+              "speed": 72165,
+              "actions": 18
+            },
+            {
+              "id": "A:1:CN-1C000001",
+              "speed": 77939,
+              "actions": 20
+            },
+            {
+              "id": "A:2:neutral-0",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "A:3:neutral-1",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "A:4:neutral-2",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "B:0:CN-1C000003",
+              "speed": 72165,
+              "actions": 18
+            },
+            {
+              "id": "B:1:CN-1C000001",
+              "speed": 77939,
+              "actions": 20
+            },
+            {
+              "id": "B:2:neutral-0",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "B:3:neutral-1",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "B:4:neutral-2",
+              "speed": 17750,
+              "actions": 4
+            }
+          ]
+        },
+        {
+          "name": "오조은",
+          "before": [
+            {
+              "id": "A:0:CN-1C000004",
+              "speed": 72165,
+              "actions": 0
+            },
+            {
+              "id": "A:1:CN-1C000001",
+              "speed": 77939,
+              "actions": 50
+            },
+            {
+              "id": "A:2:neutral-0",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "A:3:neutral-1",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "A:4:neutral-2",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "B:0:CN-1C000004",
+              "speed": 72165,
+              "actions": 0
+            },
+            {
+              "id": "B:1:CN-1C000001",
+              "speed": 77939,
+              "actions": 50
+            },
+            {
+              "id": "B:2:neutral-0",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "B:3:neutral-1",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "B:4:neutral-2",
+              "speed": 17750,
+              "actions": 0
+            }
+          ],
+          "after": [
+            {
+              "id": "A:0:CN-1C000004",
+              "speed": 72165,
+              "actions": 18
+            },
+            {
+              "id": "A:1:CN-1C000001",
+              "speed": 77939,
+              "actions": 20
+            },
+            {
+              "id": "A:2:neutral-0",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "A:3:neutral-1",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "A:4:neutral-2",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "B:0:CN-1C000004",
+              "speed": 72165,
+              "actions": 18
+            },
+            {
+              "id": "B:1:CN-1C000001",
+              "speed": 77939,
+              "actions": 20
+            },
+            {
+              "id": "B:2:neutral-0",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "B:3:neutral-1",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "B:4:neutral-2",
+              "speed": 17750,
+              "actions": 4
+            }
+          ]
+        },
+        {
+          "name": "오리꿍",
+          "before": [
+            {
+              "id": "A:0:CN-1C000005",
+              "speed": 77939,
+              "actions": 50
+            },
+            {
+              "id": "A:1:CN-1C000001",
+              "speed": 77939,
+              "actions": 0
+            },
+            {
+              "id": "A:2:neutral-0",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "A:3:neutral-1",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "A:4:neutral-2",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "B:0:CN-1C000005",
+              "speed": 77939,
+              "actions": 50
+            },
+            {
+              "id": "B:1:CN-1C000001",
+              "speed": 77939,
+              "actions": 0
+            },
+            {
+              "id": "B:2:neutral-0",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "B:3:neutral-1",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "B:4:neutral-2",
+              "speed": 17750,
+              "actions": 0
+            }
+          ],
+          "after": [
+            {
+              "id": "A:0:CN-1C000005",
+              "speed": 77939,
+              "actions": 19
+            },
+            {
+              "id": "A:1:CN-1C000001",
+              "speed": 77939,
+              "actions": 19
+            },
+            {
+              "id": "A:2:neutral-0",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "A:3:neutral-1",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "A:4:neutral-2",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "B:0:CN-1C000005",
+              "speed": 77939,
+              "actions": 19
+            },
+            {
+              "id": "B:1:CN-1C000001",
+              "speed": 77939,
+              "actions": 19
+            },
+            {
+              "id": "B:2:neutral-0",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "B:3:neutral-1",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "B:4:neutral-2",
+              "speed": 17750,
+              "actions": 4
+            }
+          ]
+        },
+        {
+          "name": "강구열",
+          "before": [
+            {
+              "id": "A:0:CN-1C000006",
+              "speed": 72165,
+              "actions": 0
+            },
+            {
+              "id": "A:1:CN-1C000001",
+              "speed": 77939,
+              "actions": 50
+            },
+            {
+              "id": "A:2:neutral-0",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "A:3:neutral-1",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "A:4:neutral-2",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "B:0:CN-1C000006",
+              "speed": 72165,
+              "actions": 0
+            },
+            {
+              "id": "B:1:CN-1C000001",
+              "speed": 77939,
+              "actions": 50
+            },
+            {
+              "id": "B:2:neutral-0",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "B:3:neutral-1",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "B:4:neutral-2",
+              "speed": 17750,
+              "actions": 0
+            }
+          ],
+          "after": [
+            {
+              "id": "A:0:CN-1C000006",
+              "speed": 72165,
+              "actions": 18
+            },
+            {
+              "id": "A:1:CN-1C000001",
+              "speed": 77939,
+              "actions": 20
+            },
+            {
+              "id": "A:2:neutral-0",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "A:3:neutral-1",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "A:4:neutral-2",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "B:0:CN-1C000006",
+              "speed": 72165,
+              "actions": 18
+            },
+            {
+              "id": "B:1:CN-1C000001",
+              "speed": 77939,
+              "actions": 20
+            },
+            {
+              "id": "B:2:neutral-0",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "B:3:neutral-1",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "B:4:neutral-2",
+              "speed": 17750,
+              "actions": 4
+            }
+          ]
+        },
+        {
+          "name": "아윤",
+          "before": [
+            {
+              "id": "A:0:CN-1C000007",
+              "speed": 72165,
+              "actions": 0
+            },
+            {
+              "id": "A:1:CN-1C000001",
+              "speed": 77939,
+              "actions": 50
+            },
+            {
+              "id": "A:2:neutral-0",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "A:3:neutral-1",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "A:4:neutral-2",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "B:0:CN-1C000007",
+              "speed": 72165,
+              "actions": 0
+            },
+            {
+              "id": "B:1:CN-1C000001",
+              "speed": 77939,
+              "actions": 50
+            },
+            {
+              "id": "B:2:neutral-0",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "B:3:neutral-1",
+              "speed": 17750,
+              "actions": 0
+            },
+            {
+              "id": "B:4:neutral-2",
+              "speed": 17750,
+              "actions": 0
+            }
+          ],
+          "after": [
+            {
+              "id": "A:0:CN-1C000007",
+              "speed": 72165,
+              "actions": 18
+            },
+            {
+              "id": "A:1:CN-1C000001",
+              "speed": 77939,
+              "actions": 20
+            },
+            {
+              "id": "A:2:neutral-0",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "A:3:neutral-1",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "A:4:neutral-2",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "B:0:CN-1C000007",
+              "speed": 72165,
+              "actions": 18
+            },
+            {
+              "id": "B:1:CN-1C000001",
+              "speed": 77939,
+              "actions": 20
+            },
+            {
+              "id": "B:2:neutral-0",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "B:3:neutral-1",
+              "speed": 17750,
+              "actions": 4
+            },
+            {
+              "id": "B:4:neutral-2",
+              "speed": 17750,
+              "actions": 4
+            }
+          ]
+        }
+      ],
+      "seals": [
+        {
+          "name": "디임",
+          "beforeCasts": 0,
+          "afterCasts": 5,
+          "blocks": 1
+        },
+        {
+          "name": "하이희야",
+          "beforeCasts": 0,
+          "afterCasts": 5,
+          "blocks": 1
+        },
+        {
+          "name": "나무늘봉순",
+          "beforeCasts": 0,
+          "afterCasts": 4,
+          "blocks": 1
+        },
+        {
+          "name": "오조은",
+          "beforeCasts": 0,
+          "afterCasts": 3,
+          "blocks": 1
+        },
+        {
+          "name": "오리꿍",
+          "beforeCasts": 0,
+          "afterCasts": 5,
+          "blocks": 1
+        },
+        {
+          "name": "강구열",
+          "beforeCasts": 0,
+          "afterCasts": 6,
+          "blocks": 1
+        },
+        {
+          "name": "아윤",
+          "beforeCasts": 0,
+          "afterCasts": 5,
+          "blocks": 1
+        }
+      ]
+    },
+    "summary": [
+      {
+        "name": "디임",
+        "roles": 480,
+        "scopes": [
+          {
+            "scope": "PVP",
+            "observations": 240,
+            "totalActions": 1379,
+            "totalSkills": 419,
+            "zeroActionBattles": 0,
+            "zeroSkillBattles": 0,
+            "firstCastActionRange": [
+              2,
+              2
+            ]
+          },
+          {
+            "scope": "PVE",
+            "observations": 120,
+            "totalActions": 962,
+            "totalSkills": 257,
+            "zeroActionBattles": 0,
+            "zeroSkillBattles": 0,
+            "firstCastActionRange": [
+              2,
+              2
+            ]
+          },
+          {
+            "scope": "APOCALYPSE",
+            "observations": 120,
+            "totalActions": 2311,
+            "totalSkills": 550,
+            "zeroActionBattles": 0,
+            "zeroSkillBattles": 0,
+            "firstCastActionRange": [
+              2,
+              2
+            ]
+          }
+        ]
+      },
+      {
+        "name": "하이희야",
+        "roles": 480,
+        "scopes": [
+          {
+            "scope": "PVP",
+            "observations": 240,
+            "totalActions": 1708,
+            "totalSkills": 405,
+            "zeroActionBattles": 0,
+            "zeroSkillBattles": 36,
+            "firstCastActionRange": [
+              3,
+              3
+            ]
+          },
+          {
+            "scope": "PVE",
+            "observations": 120,
+            "totalActions": 912,
+            "totalSkills": 237,
+            "zeroActionBattles": 0,
+            "zeroSkillBattles": 0,
+            "firstCastActionRange": [
+              3,
+              3
+            ]
+          },
+          {
+            "scope": "APOCALYPSE",
+            "observations": 120,
+            "totalActions": 2063,
+            "totalSkills": 495,
+            "zeroActionBattles": 0,
+            "zeroSkillBattles": 0,
+            "firstCastActionRange": [
+              3,
+              3
+            ]
+          }
+        ]
+      },
+      {
+        "name": "나무늘봉순",
+        "roles": 480,
+        "scopes": [
+          {
+            "scope": "PVP",
+            "observations": 240,
+            "totalActions": 1482,
+            "totalSkills": 331,
+            "zeroActionBattles": 0,
+            "zeroSkillBattles": 0,
+            "firstCastActionRange": [
+              3,
+              3
+            ]
+          },
+          {
+            "scope": "PVE",
+            "observations": 120,
+            "totalActions": 1030,
+            "totalSkills": 221,
+            "zeroActionBattles": 0,
+            "zeroSkillBattles": 0,
+            "firstCastActionRange": [
+              3,
+              3
+            ]
+          },
+          {
+            "scope": "APOCALYPSE",
+            "observations": 120,
+            "totalActions": 2020,
+            "totalSkills": 408,
+            "zeroActionBattles": 0,
+            "zeroSkillBattles": 0,
+            "firstCastActionRange": [
+              3,
+              3
+            ]
+          }
+        ]
+      },
+      {
+        "name": "오조은",
+        "roles": 480,
+        "scopes": [
+          {
+            "scope": "PVP",
+            "observations": 240,
+            "totalActions": 2368,
+            "totalSkills": 604,
+            "zeroActionBattles": 0,
+            "zeroSkillBattles": 0,
+            "firstCastActionRange": [
+              2,
+              2
+            ]
+          },
+          {
+            "scope": "PVE",
+            "observations": 120,
+            "totalActions": 1156,
+            "totalSkills": 1,
+            "zeroActionBattles": 0,
+            "zeroSkillBattles": 119,
+            "firstCastActionRange": [
+              10,
+              10
+            ]
+          },
+          {
+            "scope": "APOCALYPSE",
+            "observations": 120,
+            "totalActions": 2335,
+            "totalSkills": 452,
+            "zeroActionBattles": 0,
+            "zeroSkillBattles": 0,
+            "firstCastActionRange": [
+              6,
+              6
+            ]
+          }
+        ]
+      },
+      {
+        "name": "오리꿍",
+        "roles": 480,
+        "scopes": [
+          {
+            "scope": "PVP",
+            "observations": 240,
+            "totalActions": 1556,
+            "totalSkills": 380,
+            "zeroActionBattles": 0,
+            "zeroSkillBattles": 24,
+            "firstCastActionRange": [
+              3,
+              3
+            ]
+          },
+          {
+            "scope": "PVE",
+            "observations": 120,
+            "totalActions": 899,
+            "totalSkills": 222,
+            "zeroActionBattles": 0,
+            "zeroSkillBattles": 0,
+            "firstCastActionRange": [
+              3,
+              3
+            ]
+          },
+          {
+            "scope": "APOCALYPSE",
+            "observations": 120,
+            "totalActions": 2177,
+            "totalSkills": 511,
+            "zeroActionBattles": 0,
+            "zeroSkillBattles": 0,
+            "firstCastActionRange": [
+              3,
+              3
+            ]
+          }
+        ]
+      },
+      {
+        "name": "강구열",
+        "roles": 480,
+        "scopes": [
+          {
+            "scope": "PVP",
+            "observations": 240,
+            "totalActions": 2367,
+            "totalSkills": 849,
+            "zeroActionBattles": 0,
+            "zeroSkillBattles": 0,
+            "firstCastActionRange": [
+              1,
+              1
+            ]
+          },
+          {
+            "scope": "PVE",
+            "observations": 120,
+            "totalActions": 969,
+            "totalSkills": 377,
+            "zeroActionBattles": 0,
+            "zeroSkillBattles": 0,
+            "firstCastActionRange": [
+              1,
+              1
+            ]
+          },
+          {
+            "scope": "APOCALYPSE",
+            "observations": 120,
+            "totalActions": 2305,
+            "totalSkills": 599,
+            "zeroActionBattles": 0,
+            "zeroSkillBattles": 0,
+            "firstCastActionRange": [
+              1,
+              1
+            ]
+          }
+        ]
+      },
+      {
+        "name": "아윤",
+        "roles": 480,
+        "scopes": [
+          {
+            "scope": "PVP",
+            "observations": 240,
+            "totalActions": 1810,
+            "totalSkills": 539,
+            "zeroActionBattles": 0,
+            "zeroSkillBattles": 0,
+            "firstCastActionRange": [
+              1,
+              1
+            ]
+          },
+          {
+            "scope": "PVE",
+            "observations": 120,
+            "totalActions": 1013,
+            "totalSkills": 300,
+            "zeroActionBattles": 0,
+            "zeroSkillBattles": 0,
+            "firstCastActionRange": [
+              1,
+              1
+            ]
+          },
+          {
+            "scope": "APOCALYPSE",
+            "observations": 120,
+            "totalActions": 2063,
+            "totalSkills": 532,
+            "zeroActionBattles": 0,
+            "zeroSkillBattles": 0,
+            "firstCastActionRange": [
+              1,
+              1
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "browser": {
+    "scenarios": [
+      {
+        "name": "1440-PVE-0-1",
+        "mainLoader": true,
+        "serverSkills": 6,
+        "error": null,
+        "metrics": {
+          "skills": 6,
+          "basics": 19,
+          "serverRows": 35,
+          "appliedRows": 35,
+          "roles": [
+            "ASSASSIN",
+            "ATTACK"
+          ]
+        },
+        "visible": {
+          "actors": [
+            {
+              "id": "CN-1C000001",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/diim-sd-v1.webp?v=563BECD8CCE81A8C",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "CN-0505936A0CBB4E59",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.avif?v=FFD03C22343AB649",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-25F931CE393D474E",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.avif?v=F1A07185C5BB1AA8",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-23EB4B19986D4818",
+              "url": "/assets/ui/project-v/characters/superstar/superstar-cn-23eb4b19986d4818-sd-v1.png?v=21B791D0B0BFDA20",
+              "width": 1200,
+              "visible": true
+            },
+            {
+              "id": "CN-1C000002",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/hi-heeya-sd-v1.webp?v=3DC5FEB99D903A62",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:75",
+              "url": "/assets/ui/project-v/monsters/apocalypse-legion-v1/alucard-sd-v1.png?v=22B518E0648C3D75",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:19",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-019-vampire-sd-v1.png?v=B40107BE887A41A6",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:19",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-019-vampire-sd-v1.png?v=B40107BE887A41A6",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:21",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-021-fallen-paladin-sd-v1.png?v=618D8755BDB3E192",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:21",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-021-fallen-paladin-sd-v1.png?v=618D8755BDB3E192",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:27",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-027-moon-wraith-sd-v1.png?v=A3CC49C8A7AE21B0",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:27",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-027-moon-wraith-sd-v1.png?v=A3CC49C8A7AE21B0",
+              "width": 1254,
+              "visible": true
+            }
+          ],
+          "fallbacks": 0,
+          "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1"
+        }
+      },
+      {
+        "name": "390-PVE-0-1",
+        "mainLoader": true,
+        "serverSkills": 6,
+        "error": null,
+        "metrics": {
+          "skills": 6,
+          "basics": 19,
+          "serverRows": 35,
+          "appliedRows": 35,
+          "roles": [
+            "ASSASSIN",
+            "ATTACK"
+          ]
+        },
+        "visible": {
+          "actors": [
+            {
+              "id": "CN-1C000001",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/diim-sd-v1.webp?v=563BECD8CCE81A8C",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "CN-0505936A0CBB4E59",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.avif?v=FFD03C22343AB649",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-25F931CE393D474E",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.avif?v=F1A07185C5BB1AA8",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-23EB4B19986D4818",
+              "url": "/assets/ui/project-v/characters/superstar/superstar-cn-23eb4b19986d4818-sd-v1.png?v=21B791D0B0BFDA20",
+              "width": 1200,
+              "visible": true
+            },
+            {
+              "id": "CN-1C000002",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/hi-heeya-sd-v1.webp?v=3DC5FEB99D903A62",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:75",
+              "url": "/assets/ui/project-v/monsters/apocalypse-legion-v1/alucard-sd-v1.png?v=22B518E0648C3D75",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:19",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-019-vampire-sd-v1.png?v=B40107BE887A41A6",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:19",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-019-vampire-sd-v1.png?v=B40107BE887A41A6",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:21",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-021-fallen-paladin-sd-v1.png?v=618D8755BDB3E192",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:21",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-021-fallen-paladin-sd-v1.png?v=618D8755BDB3E192",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:27",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-027-moon-wraith-sd-v1.png?v=A3CC49C8A7AE21B0",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:27",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-027-moon-wraith-sd-v1.png?v=A3CC49C8A7AE21B0",
+              "width": 1254,
+              "visible": true
+            }
+          ],
+          "fallbacks": 0,
+          "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1"
+        }
+      },
+      {
+        "name": "390-PVP-0-1",
+        "mainLoader": true,
+        "serverSkills": 4,
+        "error": null,
+        "metrics": {
+          "skills": 4,
+          "basics": 12,
+          "serverRows": 20,
+          "appliedRows": 20,
+          "roles": [
+            "ASSASSIN",
+            "ATTACK"
+          ]
+        },
+        "visible": {
+          "actors": [
+            {
+              "id": "CN-1C000001",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/diim-sd-v1.webp?v=563BECD8CCE81A8C",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "CN-0505936A0CBB4E59",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.avif?v=FFD03C22343AB649",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-25F931CE393D474E",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.avif?v=F1A07185C5BB1AA8",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-23EB4B19986D4818",
+              "url": "/assets/ui/project-v/characters/superstar/superstar-cn-23eb4b19986d4818-sd-v1.png?v=21B791D0B0BFDA20",
+              "width": 1200,
+              "visible": true
+            },
+            {
+              "id": "CN-1C000002",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/hi-heeya-sd-v1.webp?v=3DC5FEB99D903A62",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "CN-1C000001",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/diim-sd-v1.webp?v=563BECD8CCE81A8C",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "CN-0505936A0CBB4E59",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.avif?v=FFD03C22343AB649",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-25F931CE393D474E",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.avif?v=F1A07185C5BB1AA8",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-23EB4B19986D4818",
+              "url": "/assets/ui/project-v/characters/superstar/superstar-cn-23eb4b19986d4818-sd-v1.png?v=21B791D0B0BFDA20",
+              "width": 1200,
+              "visible": true
+            },
+            {
+              "id": "CN-1C000002",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/hi-heeya-sd-v1.webp?v=3DC5FEB99D903A62",
+              "width": 768,
+              "visible": true
+            }
+          ],
+          "fallbacks": 0,
+          "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1"
+        }
+      },
+      {
+        "name": "1440-PVP-0-1",
+        "mainLoader": true,
+        "serverSkills": 4,
+        "error": null,
+        "metrics": {
+          "skills": 4,
+          "basics": 12,
+          "serverRows": 20,
+          "appliedRows": 20,
+          "roles": [
+            "ASSASSIN",
+            "ATTACK"
+          ]
+        },
+        "visible": {
+          "actors": [
+            {
+              "id": "CN-1C000001",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/diim-sd-v1.webp?v=563BECD8CCE81A8C",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "CN-0505936A0CBB4E59",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.avif?v=FFD03C22343AB649",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-25F931CE393D474E",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.avif?v=F1A07185C5BB1AA8",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-23EB4B19986D4818",
+              "url": "/assets/ui/project-v/characters/superstar/superstar-cn-23eb4b19986d4818-sd-v1.png?v=21B791D0B0BFDA20",
+              "width": 1200,
+              "visible": true
+            },
+            {
+              "id": "CN-1C000002",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/hi-heeya-sd-v1.webp?v=3DC5FEB99D903A62",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "CN-1C000001",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/diim-sd-v1.webp?v=563BECD8CCE81A8C",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "CN-0505936A0CBB4E59",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.avif?v=FFD03C22343AB649",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-25F931CE393D474E",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.avif?v=F1A07185C5BB1AA8",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-23EB4B19986D4818",
+              "url": "/assets/ui/project-v/characters/superstar/superstar-cn-23eb4b19986d4818-sd-v1.png?v=21B791D0B0BFDA20",
+              "width": 1200,
+              "visible": true
+            },
+            {
+              "id": "CN-1C000002",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/hi-heeya-sd-v1.webp?v=3DC5FEB99D903A62",
+              "width": 768,
+              "visible": true
+            }
+          ],
+          "fallbacks": 0,
+          "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1"
+        }
+      },
+      {
+        "name": "390-PVE-2-3",
+        "mainLoader": true,
+        "serverSkills": 6,
+        "error": null,
+        "metrics": {
+          "skills": 6,
+          "basics": 18,
+          "serverRows": 26,
+          "appliedRows": 26,
+          "roles": [
+            "SUPPORT",
+            "MAGIC"
+          ]
+        },
+        "visible": {
+          "actors": [
+            {
+              "id": "CN-1C000003",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/namuneul-bongsoon-sd-v1.webp?v=72A60BB72F477DBE",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "CN-0505936A0CBB4E59",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.avif?v=FFD03C22343AB649",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-25F931CE393D474E",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.avif?v=F1A07185C5BB1AA8",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-23EB4B19986D4818",
+              "url": "/assets/ui/project-v/characters/superstar/superstar-cn-23eb4b19986d4818-sd-v1.png?v=21B791D0B0BFDA20",
+              "width": 1200,
+              "visible": true
+            },
+            {
+              "id": "CN-1C000004",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/oh-joeun-medic-sd-20261006.webp?v=E5DCA0FF5A423FD9",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:75",
+              "url": "/assets/ui/project-v/monsters/apocalypse-legion-v1/alucard-sd-v1.png?v=22B518E0648C3D75",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:19",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-019-vampire-sd-v1.png?v=B40107BE887A41A6",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:19",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-019-vampire-sd-v1.png?v=B40107BE887A41A6",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:21",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-021-fallen-paladin-sd-v1.png?v=618D8755BDB3E192",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:21",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-021-fallen-paladin-sd-v1.png?v=618D8755BDB3E192",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:27",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-027-moon-wraith-sd-v1.png?v=A3CC49C8A7AE21B0",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:27",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-027-moon-wraith-sd-v1.png?v=A3CC49C8A7AE21B0",
+              "width": 1254,
+              "visible": true
+            }
+          ],
+          "fallbacks": 0,
+          "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1"
+        }
+      },
+      {
+        "name": "1440-PVE-2-3",
+        "mainLoader": true,
+        "serverSkills": 6,
+        "error": null,
+        "metrics": {
+          "skills": 6,
+          "basics": 18,
+          "serverRows": 26,
+          "appliedRows": 26,
+          "roles": [
+            "SUPPORT",
+            "MAGIC"
+          ]
+        },
+        "visible": {
+          "actors": [
+            {
+              "id": "CN-1C000003",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/namuneul-bongsoon-sd-v1.webp?v=72A60BB72F477DBE",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "CN-0505936A0CBB4E59",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.avif?v=FFD03C22343AB649",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-25F931CE393D474E",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.avif?v=F1A07185C5BB1AA8",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-23EB4B19986D4818",
+              "url": "/assets/ui/project-v/characters/superstar/superstar-cn-23eb4b19986d4818-sd-v1.png?v=21B791D0B0BFDA20",
+              "width": 1200,
+              "visible": true
+            },
+            {
+              "id": "CN-1C000004",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/oh-joeun-medic-sd-20261006.webp?v=E5DCA0FF5A423FD9",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:75",
+              "url": "/assets/ui/project-v/monsters/apocalypse-legion-v1/alucard-sd-v1.png?v=22B518E0648C3D75",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:19",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-019-vampire-sd-v1.png?v=B40107BE887A41A6",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:19",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-019-vampire-sd-v1.png?v=B40107BE887A41A6",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:21",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-021-fallen-paladin-sd-v1.png?v=618D8755BDB3E192",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:21",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-021-fallen-paladin-sd-v1.png?v=618D8755BDB3E192",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:27",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-027-moon-wraith-sd-v1.png?v=A3CC49C8A7AE21B0",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:27",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-027-moon-wraith-sd-v1.png?v=A3CC49C8A7AE21B0",
+              "width": 1254,
+              "visible": true
+            }
+          ],
+          "fallbacks": 0,
+          "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1"
+        }
+      },
+      {
+        "name": "1440-PVP-2-3",
+        "mainLoader": true,
+        "serverSkills": 5,
+        "error": null,
+        "metrics": {
+          "skills": 5,
+          "basics": 12,
+          "serverRows": 19,
+          "appliedRows": 19,
+          "roles": [
+            "SUPPORT",
+            "MAGIC"
+          ]
+        },
+        "visible": {
+          "actors": [
+            {
+              "id": "CN-1C000003",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/namuneul-bongsoon-sd-v1.webp?v=72A60BB72F477DBE",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "CN-0505936A0CBB4E59",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.avif?v=FFD03C22343AB649",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-25F931CE393D474E",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.avif?v=F1A07185C5BB1AA8",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-23EB4B19986D4818",
+              "url": "/assets/ui/project-v/characters/superstar/superstar-cn-23eb4b19986d4818-sd-v1.png?v=21B791D0B0BFDA20",
+              "width": 1200,
+              "visible": true
+            },
+            {
+              "id": "CN-1C000004",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/oh-joeun-medic-sd-20261006.webp?v=E5DCA0FF5A423FD9",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "CN-1C000003",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/namuneul-bongsoon-sd-v1.webp?v=72A60BB72F477DBE",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "CN-0505936A0CBB4E59",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.avif?v=FFD03C22343AB649",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-25F931CE393D474E",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.avif?v=F1A07185C5BB1AA8",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-23EB4B19986D4818",
+              "url": "/assets/ui/project-v/characters/superstar/superstar-cn-23eb4b19986d4818-sd-v1.png?v=21B791D0B0BFDA20",
+              "width": 1200,
+              "visible": true
+            },
+            {
+              "id": "CN-1C000004",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/oh-joeun-medic-sd-20261006.webp?v=E5DCA0FF5A423FD9",
+              "width": 768,
+              "visible": true
+            }
+          ],
+          "fallbacks": 0,
+          "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1"
+        }
+      },
+      {
+        "name": "390-PVP-2-3",
+        "mainLoader": true,
+        "serverSkills": 5,
+        "error": null,
+        "metrics": {
+          "skills": 5,
+          "basics": 12,
+          "serverRows": 19,
+          "appliedRows": 19,
+          "roles": [
+            "SUPPORT",
+            "MAGIC"
+          ]
+        },
+        "visible": {
+          "actors": [
+            {
+              "id": "CN-1C000003",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/namuneul-bongsoon-sd-v1.webp?v=72A60BB72F477DBE",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "CN-0505936A0CBB4E59",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.avif?v=FFD03C22343AB649",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-25F931CE393D474E",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.avif?v=F1A07185C5BB1AA8",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-23EB4B19986D4818",
+              "url": "/assets/ui/project-v/characters/superstar/superstar-cn-23eb4b19986d4818-sd-v1.png?v=21B791D0B0BFDA20",
+              "width": 1200,
+              "visible": true
+            },
+            {
+              "id": "CN-1C000004",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/oh-joeun-medic-sd-20261006.webp?v=E5DCA0FF5A423FD9",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "CN-1C000003",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/namuneul-bongsoon-sd-v1.webp?v=72A60BB72F477DBE",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "CN-0505936A0CBB4E59",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.avif?v=FFD03C22343AB649",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-25F931CE393D474E",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.avif?v=F1A07185C5BB1AA8",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-23EB4B19986D4818",
+              "url": "/assets/ui/project-v/characters/superstar/superstar-cn-23eb4b19986d4818-sd-v1.png?v=21B791D0B0BFDA20",
+              "width": 1200,
+              "visible": true
+            },
+            {
+              "id": "CN-1C000004",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/oh-joeun-medic-sd-20261006.webp?v=E5DCA0FF5A423FD9",
+              "width": 768,
+              "visible": true
+            }
+          ],
+          "fallbacks": 0,
+          "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1"
+        }
+      },
+      {
+        "name": "1440-PVE-4-5",
+        "mainLoader": true,
+        "serverSkills": 8,
+        "error": null,
+        "metrics": {
+          "skills": 8,
+          "basics": 18,
+          "serverRows": 26,
+          "appliedRows": 26,
+          "roles": [
+            "DEFENSE",
+            "CURSE"
+          ]
+        },
+        "visible": {
+          "actors": [
+            {
+              "id": "CN-1C000005",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/orikkung-sd-v1.webp?v=A4E82D5ABA48F9A0",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "CN-0505936A0CBB4E59",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.avif?v=FFD03C22343AB649",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-25F931CE393D474E",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.avif?v=F1A07185C5BB1AA8",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-23EB4B19986D4818",
+              "url": "/assets/ui/project-v/characters/superstar/superstar-cn-23eb4b19986d4818-sd-v1.png?v=21B791D0B0BFDA20",
+              "width": 1200,
+              "visible": true
+            },
+            {
+              "id": "CN-1C000006",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/kangguyeol-sd-v1.webp?v=91290CD544A0A156",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:75",
+              "url": "/assets/ui/project-v/monsters/apocalypse-legion-v1/alucard-sd-v1.png?v=22B518E0648C3D75",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:19",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-019-vampire-sd-v1.png?v=B40107BE887A41A6",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:19",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-019-vampire-sd-v1.png?v=B40107BE887A41A6",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:21",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-021-fallen-paladin-sd-v1.png?v=618D8755BDB3E192",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:21",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-021-fallen-paladin-sd-v1.png?v=618D8755BDB3E192",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:27",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-027-moon-wraith-sd-v1.png?v=A3CC49C8A7AE21B0",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:27",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-027-moon-wraith-sd-v1.png?v=A3CC49C8A7AE21B0",
+              "width": 1254,
+              "visible": true
+            }
+          ],
+          "fallbacks": 0,
+          "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1"
+        }
+      },
+      {
+        "name": "390-PVE-4-5",
+        "mainLoader": true,
+        "serverSkills": 8,
+        "error": null,
+        "metrics": {
+          "skills": 8,
+          "basics": 18,
+          "serverRows": 26,
+          "appliedRows": 26,
+          "roles": [
+            "DEFENSE",
+            "CURSE"
+          ]
+        },
+        "visible": {
+          "actors": [
+            {
+              "id": "CN-1C000005",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/orikkung-sd-v1.webp?v=A4E82D5ABA48F9A0",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "CN-0505936A0CBB4E59",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.avif?v=FFD03C22343AB649",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-25F931CE393D474E",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.avif?v=F1A07185C5BB1AA8",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-23EB4B19986D4818",
+              "url": "/assets/ui/project-v/characters/superstar/superstar-cn-23eb4b19986d4818-sd-v1.png?v=21B791D0B0BFDA20",
+              "width": 1200,
+              "visible": true
+            },
+            {
+              "id": "CN-1C000006",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/kangguyeol-sd-v1.webp?v=91290CD544A0A156",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:75",
+              "url": "/assets/ui/project-v/monsters/apocalypse-legion-v1/alucard-sd-v1.png?v=22B518E0648C3D75",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:19",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-019-vampire-sd-v1.png?v=B40107BE887A41A6",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:19",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-019-vampire-sd-v1.png?v=B40107BE887A41A6",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:21",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-021-fallen-paladin-sd-v1.png?v=618D8755BDB3E192",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:21",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-021-fallen-paladin-sd-v1.png?v=618D8755BDB3E192",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:27",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-027-moon-wraith-sd-v1.png?v=A3CC49C8A7AE21B0",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:27",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-027-moon-wraith-sd-v1.png?v=A3CC49C8A7AE21B0",
+              "width": 1254,
+              "visible": true
+            }
+          ],
+          "fallbacks": 0,
+          "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1"
+        }
+      },
+      {
+        "name": "1440-PVP-4-5",
+        "mainLoader": true,
+        "serverSkills": 6,
+        "error": null,
+        "metrics": {
+          "skills": 6,
+          "basics": 11,
+          "serverRows": 17,
+          "appliedRows": 17,
+          "roles": [
+            "DEFENSE",
+            "CURSE"
+          ]
+        },
+        "visible": {
+          "actors": [
+            {
+              "id": "CN-1C000005",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/orikkung-sd-v1.webp?v=A4E82D5ABA48F9A0",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "CN-0505936A0CBB4E59",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.avif?v=FFD03C22343AB649",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-25F931CE393D474E",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.avif?v=F1A07185C5BB1AA8",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-23EB4B19986D4818",
+              "url": "/assets/ui/project-v/characters/superstar/superstar-cn-23eb4b19986d4818-sd-v1.png?v=21B791D0B0BFDA20",
+              "width": 1200,
+              "visible": true
+            },
+            {
+              "id": "CN-1C000006",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/kangguyeol-sd-v1.webp?v=91290CD544A0A156",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "CN-1C000005",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/orikkung-sd-v1.webp?v=A4E82D5ABA48F9A0",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "CN-0505936A0CBB4E59",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.avif?v=FFD03C22343AB649",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-25F931CE393D474E",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.avif?v=F1A07185C5BB1AA8",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-23EB4B19986D4818",
+              "url": "/assets/ui/project-v/characters/superstar/superstar-cn-23eb4b19986d4818-sd-v1.png?v=21B791D0B0BFDA20",
+              "width": 1200,
+              "visible": true
+            },
+            {
+              "id": "CN-1C000006",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/kangguyeol-sd-v1.webp?v=91290CD544A0A156",
+              "width": 768,
+              "visible": true
+            }
+          ],
+          "fallbacks": 0,
+          "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1"
+        }
+      },
+      {
+        "name": "390-PVP-4-5",
+        "mainLoader": true,
+        "serverSkills": 6,
+        "error": null,
+        "metrics": {
+          "skills": 6,
+          "basics": 11,
+          "serverRows": 17,
+          "appliedRows": 17,
+          "roles": [
+            "DEFENSE",
+            "CURSE"
+          ]
+        },
+        "visible": {
+          "actors": [
+            {
+              "id": "CN-1C000005",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/orikkung-sd-v1.webp?v=A4E82D5ABA48F9A0",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "CN-0505936A0CBB4E59",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.avif?v=FFD03C22343AB649",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-25F931CE393D474E",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.avif?v=F1A07185C5BB1AA8",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-23EB4B19986D4818",
+              "url": "/assets/ui/project-v/characters/superstar/superstar-cn-23eb4b19986d4818-sd-v1.png?v=21B791D0B0BFDA20",
+              "width": 1200,
+              "visible": true
+            },
+            {
+              "id": "CN-1C000006",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/kangguyeol-sd-v1.webp?v=91290CD544A0A156",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "CN-1C000005",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/orikkung-sd-v1.webp?v=A4E82D5ABA48F9A0",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "CN-0505936A0CBB4E59",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.avif?v=FFD03C22343AB649",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-25F931CE393D474E",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.avif?v=F1A07185C5BB1AA8",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-23EB4B19986D4818",
+              "url": "/assets/ui/project-v/characters/superstar/superstar-cn-23eb4b19986d4818-sd-v1.png?v=21B791D0B0BFDA20",
+              "width": 1200,
+              "visible": true
+            },
+            {
+              "id": "CN-1C000006",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/kangguyeol-sd-v1.webp?v=91290CD544A0A156",
+              "width": 768,
+              "visible": true
+            }
+          ],
+          "fallbacks": 0,
+          "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1"
+        }
+      },
+      {
+        "name": "390-PVE-6-3",
+        "mainLoader": true,
+        "serverSkills": 8,
+        "error": null,
+        "metrics": {
+          "skills": 8,
+          "basics": 30,
+          "serverRows": 38,
+          "appliedRows": 38,
+          "roles": [
+            "ASSAULT",
+            "SUPPORT"
+          ]
+        },
+        "visible": {
+          "actors": [
+            {
+              "id": "CN-1C000007",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/ayoon-sd-v1.webp?v=FC7899251548C12D",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "CN-0505936A0CBB4E59",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.avif?v=FFD03C22343AB649",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-25F931CE393D474E",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.avif?v=F1A07185C5BB1AA8",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-23EB4B19986D4818",
+              "url": "/assets/ui/project-v/characters/superstar/superstar-cn-23eb4b19986d4818-sd-v1.png?v=21B791D0B0BFDA20",
+              "width": 1200,
+              "visible": true
+            },
+            {
+              "id": "CN-1C000004",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/oh-joeun-medic-sd-20261006.webp?v=E5DCA0FF5A423FD9",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:75",
+              "url": "/assets/ui/project-v/monsters/apocalypse-legion-v1/alucard-sd-v1.png?v=22B518E0648C3D75",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:19",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-019-vampire-sd-v1.png?v=B40107BE887A41A6",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:19",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-019-vampire-sd-v1.png?v=B40107BE887A41A6",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:21",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-021-fallen-paladin-sd-v1.png?v=618D8755BDB3E192",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:21",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-021-fallen-paladin-sd-v1.png?v=618D8755BDB3E192",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:27",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-027-moon-wraith-sd-v1.png?v=A3CC49C8A7AE21B0",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:27",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-027-moon-wraith-sd-v1.png?v=A3CC49C8A7AE21B0",
+              "width": 1254,
+              "visible": true
+            }
+          ],
+          "fallbacks": 0,
+          "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1"
+        }
+      },
+      {
+        "name": "1440-PVE-6-3",
+        "mainLoader": true,
+        "serverSkills": 8,
+        "error": null,
+        "metrics": {
+          "skills": 8,
+          "basics": 30,
+          "serverRows": 38,
+          "appliedRows": 38,
+          "roles": [
+            "ASSAULT",
+            "SUPPORT"
+          ]
+        },
+        "visible": {
+          "actors": [
+            {
+              "id": "CN-1C000007",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/ayoon-sd-v1.webp?v=FC7899251548C12D",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "CN-0505936A0CBB4E59",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.avif?v=FFD03C22343AB649",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-25F931CE393D474E",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.avif?v=F1A07185C5BB1AA8",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-23EB4B19986D4818",
+              "url": "/assets/ui/project-v/characters/superstar/superstar-cn-23eb4b19986d4818-sd-v1.png?v=21B791D0B0BFDA20",
+              "width": 1200,
+              "visible": true
+            },
+            {
+              "id": "CN-1C000004",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/oh-joeun-medic-sd-20261006.webp?v=E5DCA0FF5A423FD9",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:75",
+              "url": "/assets/ui/project-v/monsters/apocalypse-legion-v1/alucard-sd-v1.png?v=22B518E0648C3D75",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:19",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-019-vampire-sd-v1.png?v=B40107BE887A41A6",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:19",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-019-vampire-sd-v1.png?v=B40107BE887A41A6",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:21",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-021-fallen-paladin-sd-v1.png?v=618D8755BDB3E192",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:21",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-021-fallen-paladin-sd-v1.png?v=618D8755BDB3E192",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:27",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-027-moon-wraith-sd-v1.png?v=A3CC49C8A7AE21B0",
+              "width": 1254,
+              "visible": true
+            },
+            {
+              "id": "MONSTER:27",
+              "url": "/assets/ui/project-v/monsters/hunt-tower/tower-027-moon-wraith-sd-v1.png?v=A3CC49C8A7AE21B0",
+              "width": 1254,
+              "visible": true
+            }
+          ],
+          "fallbacks": 0,
+          "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1"
+        }
+      },
+      {
+        "name": "390-PVP-6-3",
+        "mainLoader": true,
+        "serverSkills": 4,
+        "error": null,
+        "metrics": {
+          "skills": 4,
+          "basics": 10,
+          "serverRows": 14,
+          "appliedRows": 14,
+          "roles": [
+            "ASSAULT",
+            "SUPPORT"
+          ]
+        },
+        "visible": {
+          "actors": [
+            {
+              "id": "CN-1C000007",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/ayoon-sd-v1.webp?v=FC7899251548C12D",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "CN-0505936A0CBB4E59",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.avif?v=FFD03C22343AB649",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-25F931CE393D474E",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.avif?v=F1A07185C5BB1AA8",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-23EB4B19986D4818",
+              "url": "/assets/ui/project-v/characters/superstar/superstar-cn-23eb4b19986d4818-sd-v1.png?v=21B791D0B0BFDA20",
+              "width": 1200,
+              "visible": true
+            },
+            {
+              "id": "CN-1C000004",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/oh-joeun-medic-sd-20261006.webp?v=E5DCA0FF5A423FD9",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "CN-1C000007",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/ayoon-sd-v1.webp?v=FC7899251548C12D",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "CN-0505936A0CBB4E59",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.avif?v=FFD03C22343AB649",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-25F931CE393D474E",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.avif?v=F1A07185C5BB1AA8",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-23EB4B19986D4818",
+              "url": "/assets/ui/project-v/characters/superstar/superstar-cn-23eb4b19986d4818-sd-v1.png?v=21B791D0B0BFDA20",
+              "width": 1200,
+              "visible": true
+            },
+            {
+              "id": "CN-1C000004",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/oh-joeun-medic-sd-20261006.webp?v=E5DCA0FF5A423FD9",
+              "width": 768,
+              "visible": true
+            }
+          ],
+          "fallbacks": 0,
+          "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1"
+        }
+      },
+      {
+        "name": "1440-PVP-6-3",
+        "mainLoader": true,
+        "serverSkills": 4,
+        "error": null,
+        "metrics": {
+          "skills": 4,
+          "basics": 10,
+          "serverRows": 14,
+          "appliedRows": 14,
+          "roles": [
+            "ASSAULT",
+            "SUPPORT"
+          ]
+        },
+        "visible": {
+          "actors": [
+            {
+              "id": "CN-1C000007",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/ayoon-sd-v1.webp?v=FC7899251548C12D",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "CN-0505936A0CBB4E59",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.avif?v=FFD03C22343AB649",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-25F931CE393D474E",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.avif?v=F1A07185C5BB1AA8",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-23EB4B19986D4818",
+              "url": "/assets/ui/project-v/characters/superstar/superstar-cn-23eb4b19986d4818-sd-v1.png?v=21B791D0B0BFDA20",
+              "width": 1200,
+              "visible": true
+            },
+            {
+              "id": "CN-1C000004",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/oh-joeun-medic-sd-20261006.webp?v=E5DCA0FF5A423FD9",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "CN-1C000007",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/ayoon-sd-v1.webp?v=FC7899251548C12D",
+              "width": 768,
+              "visible": true
+            },
+            {
+              "id": "CN-0505936A0CBB4E59",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.avif?v=FFD03C22343AB649",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-25F931CE393D474E",
+              "url": "/assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.avif?v=F1A07185C5BB1AA8",
+              "width": 384,
+              "visible": true
+            },
+            {
+              "id": "CN-23EB4B19986D4818",
+              "url": "/assets/ui/project-v/characters/superstar/superstar-cn-23eb4b19986d4818-sd-v1.png?v=21B791D0B0BFDA20",
+              "width": 1200,
+              "visible": true
+            },
+            {
+              "id": "CN-1C000004",
+              "url": "/preview/icon-battle-assets-v1/assets/sd/oh-joeun-medic-sd-20261006.webp?v=E5DCA0FF5A423FD9",
+              "width": 768,
+              "visible": true
+            }
+          ],
+          "fallbacks": 0,
+          "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1"
+        }
+      }
+    ],
+    "entry": [
+      {
+        "name": "1440-PVE-entry",
+        "actualStartButton": true,
+        "resultAndReturn": true,
+        "metrics": {
+          "skills": 3,
+          "basics": 8,
+          "serverRows": 15,
+          "appliedRows": 15,
+          "roles": [
+            "ASSASSIN",
+            "ATTACK"
+          ]
+        },
+        "posts": [
+          "/api/battle/fight"
+        ]
+      },
+      {
+        "name": "390-PVE-entry",
+        "actualStartButton": true,
+        "resultAndReturn": true,
+        "metrics": {
+          "skills": 3,
+          "basics": 8,
+          "serverRows": 15,
+          "appliedRows": 15,
+          "roles": [
+            "ASSASSIN",
+            "ATTACK"
+          ]
+        },
+        "posts": [
+          "/api/battle/fight"
+        ]
+      },
+      {
+        "name": "1440-PVP-entry",
+        "actualStartButton": true,
+        "resultAndReturn": true,
+        "metrics": {
+          "skills": 4,
+          "basics": 12,
+          "serverRows": 20,
+          "appliedRows": 20,
+          "roles": [
+            "ASSASSIN",
+            "ATTACK"
+          ]
+        },
+        "posts": [
+          "/api/pvp/match",
+          "/api/pvp/fight"
+        ]
+      },
+      {
+        "name": "390-PVP-entry",
+        "actualStartButton": true,
+        "resultAndReturn": true,
+        "metrics": {
+          "skills": 4,
+          "basics": 12,
+          "serverRows": 20,
+          "appliedRows": 20,
+          "roles": [
+            "ASSASSIN",
+            "ATTACK"
+          ]
+        },
+        "posts": [
+          "/api/pvp/match",
+          "/api/pvp/fight"
+        ]
+      }
+    ],
+    "errors": [],
+    "visualReview": {
+      "viewports": [
+        1440,
+        390
+      ],
+      "approvedSdVisible": true,
+      "reviewedScreens": [
+        "1440-PVE-4-5-battle.png",
+        "390-PVE-0-1-battle.png",
+        "390-PVP-2-3-battle.png",
+        "1440-PVE-6-3-battle.png",
+        "390-PVP-entry-result.png"
+      ],
+      "fixtureCorrections": [
+        "PVE monster omitted from PVP data",
+        "Battle suit and weapon appearance included with authoritative suit turns"
+      ]
+    }
+  },
+  "artifacts": [
+    {
+      "path": "C:\\Users\\User\\.codex\\tmp\\icon-cadence-20261006\\server-audit.json",
+      "sha256": "9a5f0a887fee7ff6e8e1bf7ee797889722b805cd2f2c8638f0e66f57c525e606"
+    },
+    {
+      "path": "C:\\Users\\User\\.codex\\tmp\\icon-cadence-20261006\\browser-suit-final\\browser-report.json",
+      "sha256": "ffbfefcab0869c4744e87d319e8eeba0d2e39eabf8deefc120a041c72a370ab0"
+    },
+    {
+      "path": "C:\\Users\\User\\.codex\\tmp\\icon-cadence-20261006\\browser-entry\\browser-report.json",
+      "sha256": "bffaea4b33506aade65563b34a71b14653691f176cbdd9ba8f4c12b158c8fed3"
+    }
+  ],
+  "notice": "docs/notice-icon-action-cadence-20261006.txt",
+  "deployment": null
+}

@@ -3150,12 +3150,12 @@ export class BaseBattleEngine{
    */
   // V1812: 재생 배속 단계. DEPLOY 로 매 전투 시작마다 초기화된다.
   //   40턴까지 원속도 → 80턴까지 1.28배 → 그 뒤 1.82배.
-  advancePace(type){
+  advancePace(type,event=null){
     // Shared server time already schedules three squads. Local long-battle
     // acceleration makes their overlapping animations unreadable.
     if(this.formationCoop){this.paceActions=0;this.paceScale=1;return}
     if(type==='DEPLOY'){this.paceActions=0;this.paceScale=1;return}
-    if(type!=='TURN'&&type!=='ATTACK'&&type!=='COUNTER'&&type!=='ESCORT_OBJECTIVE_ATTACK')return;
+    if(type!=='TURN'&&type!=='ATTACK'&&type!=='COUNTER'&&type!=='ESCORT_OBJECTIVE_ATTACK'&&type!=='ICON_SKILL'&&!(type==='ICON_STATUS'&&event?.status==='CHANNEL'))return;
     this.paceActions+=1;
     this.paceScale=this.paceActions>80?1.82:this.paceActions>40?1.28:1;
   }
@@ -3176,7 +3176,7 @@ export class BaseBattleEngine{
       if(!this.visible)break;
       if(this.cooperativeInstances&&invocationEpoch!==this.playbackEpoch)break;
       const type=String(event?.type||'').toUpperCase();
-      this.advancePace(type);
+      this.advancePace(type,event);
       const explicitActor=this.combatantById(event.actorId)||null;
       const actor=explicitActor||clamp(Number(event.actorIndex||0),0,this.cards.length-1);
       const target=this.combatantById(event.targetId)||null;

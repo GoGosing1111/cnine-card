@@ -1112,7 +1112,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     // floor for every hit. Keep escort/cooperative floors off and retain caps.
     iconRuntime=createIconCombatRuntime({teams:{A:a,B:b},hit:(actor,target,multiplier,options)=>hitResult(actor,target,iconRandom[actor.side],multiplier,false,{...hitOptions,...season2Runtime?.defenseOptions(target),...options,minDamagePercent:hitOptions.minDamagePercent*multiplier,capMinimumDamage:true}),
       damage:applyDamage,rawDamage,knockout:target=>settleKnockout(target,timeline,clock+.00001,reviveFromMagic),emit:(type,data)=>emitTimeline(timeline,clock,type,data),
-      sealed:actor=>apocalypseSealed(actor)||Number(actor.magicSealCharges||0)>0||season2Runtime?.skillBlocked(actor),
+      sealed:actor=>apocalypseSealed(actor)||season2Runtime?.skillBlocked(actor),
       cleanseOne:target=>{const key=apocalypseCursed(target)?'curse':Object.keys(target.apocalypseStatus||{})[0];if(key){delete target.apocalypseStatus[key];emitTimeline(timeline,clock,'APOCALYPSE_STATUS',{targetId:target.id,statuses:{...target.apocalypseStatus},label:'공명 정화'});return true;}for(const field of ['magicSealCharges','doomMarks','timeDistortionStacks'])if(target[field]>0){target[field]=0;return true;}return false;}});
   }
   // V1975: 아포칼립스는 덱 전투력(카드+장비 배분분, 배틀슈트 제외) / 몬스터 기본 전투력 로 하한을 스케일링.
@@ -1171,7 +1171,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const chipRandom=seededRandom((Number(seed)^0x534b494c)>>>0);
   const zAreaRandom=seededRandom((Number(seed)^0x534b494c)>>>0);
   const pendingChipHits=[];
-  const chipClockOptions={apocalypseBoss:b.some(actor=>actor.isMonster&&actor.isApocalypse)};
+  const chipClockOptions={apocalypseBoss:b.some(actor=>actor.isMonster&&actor.isApocalypse),iconActions:!cooperative};
   let combatMs=0,nextCombatMs=0,lastCardCombatMs=0,lastCardGaugeClock=0,combatGroup=0;
   const stampCombatGroup=(from,atMs,blocking)=>{
     if(!combatClockEnabled)return;
@@ -1309,7 +1309,11 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     // repeatedly hit the cap during the minimum step and starve a slower owner
     // (and the mercenary whose reserved turns come from that owner's cards).
     // Existing rooms retain v1 when mechanics/withdrawals rebuild their history.
-    const minimumGaugeStep=cooperative?.turnClockVersion>=2||actors.some(card=>card.speed*.001>=100)?0:.001;
+    // Several ICONs can saturate the shared queue while EVERY individual speed
+    // is below 100,000. Drain their actual ready times instead of advancing
+    // another millisecond and letting the same side win each capped tie.
+    // Keep versioned cooperative replays on their existing clock contract.
+    const minimumGaugeStep=cooperative?.turnClockVersion>=2||(!cooperative&&iconRuntime)||actors.some(card=>card.speed*.001>=100)?0:.001;
     const gaugeReadyAt=clock+Math.max(minimumGaugeStep,gaugeDt);
     const reservedMercenary=mercenaryTurns.pending(mercenaryActionAvailable);
     const nextCardAt=reservedMercenary?clock:gaugeReadyAt;

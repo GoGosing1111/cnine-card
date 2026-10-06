@@ -8,6 +8,7 @@ const byHealth=(a,b)=>a.hp/a.maxHp-b.hp/b.maxHp||a.slot-b.slot||a.id.localeCompa
 // action, another skill, a retaliation loop, or an on-hit magic chain.
 export function createIconCombatRuntime({teams,hit,damage,rawDamage,knockout,emit,sealed=apocalypseSealed,cleanseOne=()=>false}){
  const fighters=()=>[...teams.A,...teams.B];
+ const passiveSealed=actor=>sealed(actor)||Number(actor.magicSealCharges||0)>0;
  const states=new Map(fighters().filter(a=>a.iconRole).map(a=>{
   const tuning=a.iconRole.tuning,def=iconDefinition(a.cardId),scale=(a.battleMode==='PVE'?tuning.pveScale:tuning.pvpScale)/100;
   return [a.id,{actor:a,def,tuning,scale,casts:0,next:tuning.firstAction,heat:0,focusId:null,resonance:0,takedowns:0,stored:0,charging:false,ward:0,wardExpires:0,guardLeft:a.maxHp*(tuning.guardBudgetPercent||0)/100,healLeft:a.maxHp*(tuning.healBudgetPercent||0)/100}];
@@ -53,7 +54,7 @@ export function createIconCombatRuntime({teams,hit,damage,rawDamage,knockout,emi
   emit('ICON_DOT',{...(source?label(source,'낙화 저주'):{}),...snapshot(actor),damage:r.hpDamage,absorbed:r.absorbed,stacks:c.stacks});knockout(actor);
  }
  function selectTarget(actor,pool){
-  const s=states.get(actor.id);if(!s||sealed(actor))return null;
+  const s=states.get(actor.id);if(!s||passiveSealed(actor))return null;
   if(s.def.role==='ASSASSIN')return enemies(actor).sort(byHealth)[0]||null;
   if(s.def.role==='ATTACK')return pool.find(t=>t.id===s.focusId)||null;
   return null;
@@ -65,7 +66,6 @@ export function createIconCombatRuntime({teams,hit,damage,rawDamage,knockout,emi
   const {def,tuning:c}=s;
   if(s.casts>=c.maxCasts||actor.actions<s.next)return false;
   const foes=enemies(actor);if(!foes.length)return false;
-  if(def.role==='MAGIC'&&!s.charging){s.charging=true;s.next=actor.actions+1;status(s,actor,'CHANNEL',{remaining:1});return true;}
   let target=def.role==='ASSASSIN'?foes.sort(byHealth)[0]:foes.find(t=>t.id===s.focusId)||foes.sort((a,b)=>(a.row==='FRONT'?0:1)-(b.row==='FRONT'?0:1)||a.slot-b.slot)[0];
   if(def.role==='SUPPORT'){
    target=friends(actor).filter(t=>t.hp<t.maxHp||t.iconCurse||t.iconVulnerability||t.magicSealCharges||t.doomMarks||t.timeDistortionStacks||apocalypseCursed(t)||apocalypseSealed(t)).sort(byHealth)[0];
@@ -73,6 +73,18 @@ export function createIconCombatRuntime({teams,hit,damage,rawDamage,knockout,emi
    // The caster's seal is still enforced above, as are budgets and overtime.
    if(!target||!healingAllowed||s.healLeft<=0)return false;
   }
+  // A finite magic seal spends one charge on an eligible skill attempt. Merely
+  // checking the flag used to lock an ICON forever unless equipped magic or a
+  // cleanse happened to consume it. The blocked action still makes its basic
+  // attack, and neither the cast budget nor the cooldown is consumed.
+  if(Number(actor.magicSealCharges||0)>0){
+   actor.magicSealCharges=Math.max(0,actor.magicSealCharges-1);
+   if(!actor.magicSealCharges)actor.magicSealSourceId='';
+   if(s.charging){s.charging=false;status(s,actor,'INTERRUPTED');}
+   emit('ICON_STATUS',{...label(s,'봉인의 칙령 · 스킬 1회 차단'),...snapshot(actor),status:'SEAL_BLOCK',remaining:actor.magicSealCharges});
+   return false;
+  }
+  if(def.role==='MAGIC'&&!s.charging){s.charging=true;s.next=actor.actions+1;status(s,actor,'CHANNEL',{remaining:1});return true;}
   s.casts++;s.next=actor.actions+c.cooldownActions;s.charging=false;
   let hits=[],targets=[],extra={};
   switch(def.role){
@@ -117,9 +129,9 @@ export function createIconCombatRuntime({teams,hit,damage,rawDamage,knockout,emi
   const seen=new Set();for(const row of hits){if(seen.has(row.targetId))continue;seen.add(row.targetId);const t=fighters().find(a=>a.id===row.targetId);if(t&&knockout(t)&&def.role==='ASSASSIN'&&s.takedowns<c.maxTakedowns){s.takedowns++;actor.gauge=Math.min(95,actor.gauge+c.takedownGauge);status(s,actor,'TAKEDOWN',{actorGaugeAfter:actor.gauge,uses:s.takedowns});}}
   return true;
  }
- function basicMultiplier(actor){const s=states.get(actor.id);return s&&s.def.role==='ATTACK'&&!sealed(actor)?1+s.heat*s.tuning.stackPercent/100*s.scale:1;}
+ function basicMultiplier(actor){const s=states.get(actor.id);return s&&s.def.role==='ATTACK'&&!passiveSealed(actor)?1+s.heat*s.tuning.stackPercent/100*s.scale:1;}
  function afterBasic(actor,target,landed){
-  const s=states.get(actor.id);if(!s||!landed||sealed(actor))return;
+  const s=states.get(actor.id);if(!s||!landed||passiveSealed(actor))return;
   if(s.def.role==='ATTACK'){s.heat=target.id===s.focusId?Math.min(s.tuning.maxStacks,s.heat+1):1;s.focusId=target.id;status(s,actor,'HEAT',{stacks:s.heat});}
   if(s.def.role==='CURSE')addCurse(s,target);
   if(s.def.role==='ASSASSIN'&&live(target))status(s,target,'MARK');
@@ -130,7 +142,7 @@ export function createIconCombatRuntime({teams,hit,damage,rawDamage,knockout,emi
   if(a?.iconEmpower&&options.direct&&!options.iconSecondary){amount*=1+a.iconEmpower.percent/100;delete a.iconEmpower;}
   if(Number.isFinite(options.iconDamageCap))amount=Math.min(amount,Math.max(0,options.iconDamageCap));
   if(options.iconIndirect||!a||a.side===target.side||!options.direct)return Math.round(amount);
-  const guards=[...states.values()].filter(s=>s.def.role==='DEFENSE'&&s.actor.side===target.side&&s.actor.id!==target.id&&live(s.actor)&&!sealed(s.actor)&&s.guardLeft>0&&target.hp/target.maxHp<=s.tuning.guardThresholdPercent/100).sort((a,b)=>a.actor.slot-b.actor.slot);
+  const guards=[...states.values()].filter(s=>s.def.role==='DEFENSE'&&s.actor.side===target.side&&s.actor.id!==target.id&&live(s.actor)&&!passiveSealed(s.actor)&&s.guardLeft>0&&target.hp/target.maxHp<=s.tuning.guardThresholdPercent/100).sort((a,b)=>a.actor.slot-b.actor.slot);
   const s=guards[0];if(!s)return Math.round(amount);
   const share=Math.min(s.guardLeft,Math.round(amount*s.tuning.guardSharePercent/100*s.scale));if(share<=0)return Math.round(amount);
   s.guardLeft-=share;const r=rawDamage(s.actor,share,{iconIndirect:true,iconSecondary:true});
@@ -144,7 +156,7 @@ export function createIconCombatRuntime({teams,hit,damage,rawDamage,knockout,emi
   if(!actor||actor.isBattleSuit)return;
   for(const key of ['iconCurse','iconVulnerability','iconEmpower'])if(actor[key]&&--actor[key].remaining<=0){delete actor[key];emit('ICON_STATUS',{...snapshot(actor),status:'EXPIRED',statusKey:key,label:'효과 종료'});}
   const s=states.get(actor.id);if(s?.ward&&actor.actions>=s.wardExpires){actor.shield=Math.max(0,actor.shield-Math.min(actor.shield,s.ward));s.ward=0;status(s,actor,'WARD_END');}
-  if(live(actor))for(const other of states.values())if(other.def.role==='SUPPORT'&&other.actor.side===actor.side&&other.actor.id!==actor.id&&live(other.actor)&&!sealed(other.actor))other.resonance=Math.min(other.tuning.maxStacks,other.resonance+1);
+  if(live(actor))for(const other of states.values())if(other.def.role==='SUPPORT'&&other.actor.side===actor.side&&other.actor.id!==actor.id&&live(other.actor)&&!passiveSealed(other.actor))other.resonance=Math.min(other.tuning.maxStacks,other.resonance+1);
  }
  return {beforeAction,selectTarget,basicMultiplier,afterBasic,beforeDamage,onDamage,endAction,cleanse,hasDebuff:t=>!!(t.iconCurse||t.iconVulnerability),snapshot:()=>[...states.values()].map(s=>({id:s.actor.id,role:s.def.role,casts:s.casts,nextAction:s.next,guardRemaining:s.guardLeft,healRemaining:s.healLeft,stacks:s.heat||s.resonance,takedowns:s.takedowns}))};
 }

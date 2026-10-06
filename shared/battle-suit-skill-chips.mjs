@@ -2,6 +2,7 @@
 // 2026-10-05: the server removes the separate skill-only x3 boost and derives
 // the shared shot base from suit power, without the monster-HP damage floor.
 // A new scheduler is created for every fight; inventory is never consumed by firing.
+import {iconEventReleaseSeconds} from './icon-role-visuals-v1.mjs';
 export const SKILL_CHIP_MAX_SLOTS=3;
 export const SKILL_CHIP_RUNTIME_ENABLED=true;
 export const SKILL_CHIP_BALANCE_STATUS=null;
@@ -41,10 +42,11 @@ export function createSkillChipSchedule(codes){
 // Canonical 1x V3 presentation budgets, separate from the legacy speed-gauge clock.
 // These describe the existing authored animations at their base 1.3 playback scale.
 // Replaying faster only scales this clock, never the server's cast count or damage.
-export function skillChipCombatEventMs(event,{apocalypseBoss=false}={}){
+export function skillChipCombatEventMs(event,{apocalypseBoss=false,iconActions=true}={}){
   const type=String(event?.type||'').toUpperCase();
   if(type==='TURN'&&event.actorKind==='BATTLE_SUIT')return 0;
   const ms=seconds=>Math.ceil(seconds/1.3*1000)+8;
+  if(iconActions&&type.startsWith('ICON_')){const seconds=iconEventReleaseSeconds(event);return seconds>0?ms(seconds):0;}
   const damage=Number(event?.damage||0)+Number(event?.absorbed||0);
   const advancement=String(event.advancementClass||event.classCode||'');
   if(type==='DEPLOY')return ms(.6);
