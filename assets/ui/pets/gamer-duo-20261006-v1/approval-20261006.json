@@ -30,14 +30,24 @@
   "connection": {
     "catalog": "shared/pet-art-catalog-v1.mjs",
     "surfaces": [
-      "OWNER 펫·동료 준비 → 펫 설정",
+      "OWNER 펫 관리",
       "OWNER 펫 장착창",
       "펫 개봉·아이템 관리의 획득 풀 후보"
     ],
     "approval": "라이브 원화 및 기존 펫 설정 경로 등록",
     "openingPoolWeights": "existing settings unchanged; no automatic pool enrollment",
-    "buffValues": "unspecified; not inferred",
+    "buffValues": {
+      "PET-HEADSET-SHIBA": {
+        "type": "ATTACK_PERCENT",
+        "percent": 10
+      },
+      "PET-BEANIE-CAT": {
+        "type": "DEFENSE_PERCENT",
+        "percent": 10
+      }
+    },
     "releaseFlags": "existing settings unchanged",
     "autoGrant": false
-  }
+  },
+  "buffDirection": "등록된 펫 모두 버프 한 개, 효과 10% 지정 — 2026-10-06 후속 지시"
 }

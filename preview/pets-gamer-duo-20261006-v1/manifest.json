@@ -17,7 +17,8 @@
     "userApproved": true,
     "runtimeConnected": true,
     "acquisitionOrBattlePolicyChanged": false,
-    "connectionScope": "기존 운영 펫 원화 카탈로그·펫 설정·개봉 풀 후보 연결"
+    "connectionScope": "기존 운영 펫 원화 카탈로그·펫 설정·개봉 풀 후보 연결",
+    "buffConfigurationChanged": true
   },
   "assets": [
     {
@@ -108,7 +109,7 @@
   "notes": [
     "2026-10-06 사용자 승인으로 두 원화를 무가공 승인본으로 고정하고 기존 운영 펫 경로에 등록한다.",
     "원본 PNG와 해시·알파를 그대로 보존한다.",
-    "획득 풀 편입·가중치·버프·일반 유저 실전 활성화는 기존 CMS 설정을 유지한다."
+    "후속 사용자 지시에 따라 펫당 버프 한 개·10%를 지정한다. 획득 풀·가중치·일반 유저 실전 출시 상태는 유지한다."
   ],
   "approvalRecord": "assets/ui/pets/gamer-duo-20261006-v1/approval-20261006.json",
   "userApproval": "2개다 펫 승인하고 펫라이브 연결해"
