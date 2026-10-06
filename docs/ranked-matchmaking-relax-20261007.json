@@ -1,0 +1,23 @@
+{
+  "status": "READY_FOR_SCOPED_RELEASE",
+  "date": "2026-10-07",
+  "previousProductionCommit": "b42db5c979ae8025a082344994d7c5f556f54189",
+  "previousProductionDeployment": "https://fa69e1f0.cnine-card.pages.dev",
+  "scope": "Regular ranked matchmaking candidate selection and bounded relaxation",
+  "settingsMutation": false,
+  "maximumCandidates": 768,
+  "formationBatchSize": 96,
+  "scopedTests": [
+    "tests/ranked-matchmaking-20261007.test.mjs",
+    "tests/ranked-reform-20261002.test.mjs"
+  ],
+  "checks": ["check:worker"],
+  "readOnlySnapshot": {
+    "capturedAt": "2026-10-06T19:28:29.248Z",
+    "registeredDecks": 661,
+    "validDecks": 657,
+    "oldMatchable": 646,
+    "newMatchable": 656,
+    "firstBatchNormalMatch": 646
+  }
+}

@@ -124,7 +124,7 @@ test('server wiring excludes burning energy, keeps defense untouched and uses th
  const original={energy:{maxEnergy:10,rechargeMinutes:5}};assert.deepEqual(burn(original,{enabled:true,pvpMaxEnergy:50,rechargeMinutes:1,activatedAt:new Date().toISOString()}),original);
  const fight=api.slice(api.indexOf("if(path==='pvp/fight'"),api.indexOf("if(path==='pvp/history'"));
  assert.ok(fight.includes('commitRankedFight'));assert.equal((fight.match(/UPDATE pvp_profiles SET/g)||[]).length,1);assert.ok(fight.includes('dAfter=dBefore'));assert.ok(!fight.includes('Math.max(0,aBefore'),'no score-floor farming drift');
- assert.ok(api.includes('if(!rankedCandidateAllowed({scoreDiff,powerDiff},settings))continue'));
+ assert.ok(api.includes('if(rankedMatchBand({scoreDiff,powerDiff},settings)<0)continue'));
 });
 test('minute cron opens through the same operation and always closes its database connection',async()=>{
  let closed=0;await runRankedReopenSchedule({},{openDatabase:async()=>({db:{},close:async()=>closed++}),reopen:async()=>({changed:false})});assert.equal(closed,1);
