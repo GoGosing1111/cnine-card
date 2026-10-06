@@ -1,5 +1,10 @@
 {
-  "status": "READY_FOR_SCOPED_RELEASE",
+  "status": "LIVE",
+  "productionCommit": "facabd3afde0ea2304877dfad06ed5eadf044aff",
+  "productionDeployment": "https://b7b38ad6.cnine-card.pages.dev",
+  "verifiedAt": "2026-10-06T19:49:57.728Z",
+  "tests": {"passed": 9, "failed": 0},
+  "liveVerification": {"changedAssetsMatchSource": 6, "indexAndServiceWorkerCacheUpdated": true},
   "request": "제작소 숫자를 1조·10억·100억처럼 한글 단위로 간단하게 표시",
   "previousProductionCommit": "903093e98b21c892f8f12c7251c80c4c1dd5ac36",
   "scope": ["제작소 보유량", "차량·배틀슈트 제작 비용", "재료·장비 제작 수량과 부족분", "제작 확인창", "차량·배틀슈트 조립 결과 사용량"],
