@@ -51,3 +51,11 @@ UI 확인: 로컬에서 실제 제공 V3 번들을 로드해 PC 1280px 및 모�
 - 직전 운영은 Pages `18d76747-de2e-420a-ab8c-ed3d3b46f17b`, 커밋 `730afc9b0f48ea67d59da92e5d9e6ab0f63286d8`이다. 운영 배포 목록에서 확인했다.
 - 색상과 ICON 회복 표시 범위만 변경하므로 scoped 배포를 사용한다. 기존 `battle-damage-font-20261007`, `v3-damage-style-cache`, `v3-common-grid-v1`, `pve-battlefield-entry-v2117`의 4개 테스트 파일로 값·회복 분리·풀 재사용·번들/메인 로더 연결을 확인한다. 변경 없는 서버 테스트·전체 게이트는 반복하지 않는다.
 - 이번 UI 검수와 배포 로그 경로: `C:/Users/User/.codex/tmp/damage-palette-20261007/`.
+
+후속 배포 완료:
+
+- PC 1280px·모바일 390px에서 실제 제공 V3 번들의 PVE 일반 피해, PVP 치명타, 민트 회복과 숫자 잘림을 확인했다. 실제 타격 재생 완료 및 기존 V2의 빨강 피해/파랑 그라데이션/민트 회복도 확인했다. 테스트 사운드는 OFF였다.
+- 관련 22개 테스트 통과, 출시/캐시/Hyperdrive 검사 통과 후 `npm run deploy:production -- --scoped` 완료.
+- 배포 커밋 `d604a349a316aa2e0859a8970cff37683810bf14`, Pages [52f180c9](https://52f180c9.cnine-card.pages.dev).
+- API worker `af976488-84c9-4ef6-a489-32c64e2ac291`, clan-draft worker `a71032d9-5f95-4f75-851b-a73b1a389f61`.
+- 운영 호스트의 대표 파일 10개 모두 HTTP 200·로컬 배포본과 SHA-256 일치. 결과는 이번 검수 폴더의 `live-check.json`, 화면은 `palette-proof.png`다.
