@@ -1,5 +1,5 @@
 {
-  "status": "VERIFIED_PENDING_PRODUCTION_DEPLOY",
+  "status": "DEPLOYED_AND_PRODUCTION_VERIFIED",
   "request": "Z-BODY=슈트 코어 6, 상위 X-BODY=슈트 코어 7. 리소스와 아이템만 연결하고 제작식은 사용자가 직접 추가.",
   "mapping": [
     {
@@ -58,7 +58,10 @@
     "browser": {
       "runner": "tests/battle-suit-core-7-20261006.browser.mjs",
       "report": "preview/battle-suit-core-7-20261006/qa/browser-report.json",
-      "viewports": [1440, 390],
+      "viewports": [
+        1440,
+        390
+      ],
       "height": 900,
       "passed": true,
       "screenshotsReviewed": true,
@@ -71,12 +74,95 @@
     "mode": "scoped",
     "baseCommit": "ec8f14f24e0089e0441f8e1095813678dceb13b3",
     "reason": "Core 7 catalog and asset hookup only. No schema, authentication, recipe, acquisition or balance changes. Validate affected catalog consumers and Worker compilation.",
-    "remainingTestsRunByDeploy": [
+    "scopedTests": [
       "tests/battle-suit-workshop-v2004.test.mjs",
       "tests/prime-draw-live-v1985.test.mjs",
       "tests/inventory-ui-v2125.test.mjs"
     ],
-    "checks": ["check:worker"],
-    "repeatCompletedRegression": false
+    "checks": [
+      "check:worker"
+    ],
+    "repeatCompletedRegression": false,
+    "deployedCommit": "bd779f1db25e3fb7caaf60859ea7ee86bab4cc7f",
+    "deploymentUrl": "https://587d54f6.cnine-card.pages.dev",
+    "apiRuntimeVersion": "28d28ecc-55ac-43d9-af6a-e6f82cb329a0",
+    "clanSchedulerVersion": "b8653396-30c5-4375-982e-8f4026405741",
+    "selectedTestsPassed": 31,
+    "selectedTestsFailed": 0,
+    "workerSyntaxPassed": true,
+    "releaseFlagsAndCachePassed": true,
+    "hyperdriveQueryCacheEnabled": false,
+    "verifiedAt": "2026-10-06T07:00:01.482Z"
+  },
+  "production": {
+    "checkedAt": "2026-10-06T07:00:01.482Z",
+    "catalog": [
+      {
+        "code": "SUIT_CORE_6",
+        "name": "슈트 코어 6",
+        "category": "MATERIAL",
+        "rarity": "MYTHIC",
+        "image": "assets/items/suit-core-6-v2124.png",
+        "sortOrder": 200406,
+        "active": 1
+      },
+      {
+        "code": "SUIT_CORE_7",
+        "name": "슈트 코어 7",
+        "category": "MATERIAL",
+        "rarity": "MYTHIC",
+        "image": "assets/items/suit-core-7-20261006.png",
+        "sortOrder": 200407,
+        "active": 1
+      }
+    ],
+    "core7RegistrationMarker": "1",
+    "core7Ownership": {
+      "accounts": 0,
+      "quantity": 0
+    },
+    "bodyOrderAndPower": [
+      {
+        "code": "BATTLE_SUIT_Z_BODY",
+        "sortOrder": 60,
+        "pvePower": 25000000,
+        "pvpPower": 0,
+        "active": 1
+      },
+      {
+        "code": "BATTLE_SUIT_X_BODY",
+        "sortOrder": 70,
+        "pvePower": 50000000,
+        "pvpPower": 0,
+        "active": 1
+      }
+    ],
+    "assets": [
+      {
+        "url": "https://cnine-card.pages.dev/assets/items/suit-core-6-v2124.png",
+        "status": 200,
+        "bytes": 3329631,
+        "sha256": "931CC30E72B37A78BC4D0C39E90C5687F89F378C8ECBC27461D79299D26F123A"
+      },
+      {
+        "url": "https://cnine-card.pages.dev/assets/items/suit-core-7-20261006.png",
+        "status": 200,
+        "bytes": 1791653,
+        "sha256": "4B1775428A1BDAC452E3BFBBD91968DF81AB59E9A3DA5BBF9C56B0C7BFAE08A4"
+      }
+    ],
+    "recipes": {
+      "hash": "84cb96a35dc90fbd7b3392915434208b",
+      "count": 27
+    },
+    "recipeMaterials": {
+      "hash": "01778646a1206ac1cfbf9632e636143a",
+      "count": 48
+    },
+    "recipeSnapshotUnchangedSinceInspection": true,
+    "recipesUnchangedDuringRegistration": true,
+    "bodiesUnchangedDuringRegistration": true,
+    "oldCoresUnchangedDuringRegistration": true,
+    "noGrants": true
   }
 }
