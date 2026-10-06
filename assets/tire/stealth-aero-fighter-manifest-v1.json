@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "createdAt": "2026-10-06T14:40:55.282Z",
+  "technicalAssetKey": "stealth-aero-fighter",
+  "userFeedback": "배경없이 그렇게만 넣어? 디자인은 좋네",
+  "designStatus": "USER_APPROVED",
+  "backgroundStatus": "PREPARED_FOR_REVIEW",
+  "displayAsset": "assets/tire/stealth-aero-fighter-scene-v1.png",
+  "compositingSource": "assets/tire/stealth-aero-fighter-cutout-v1.png",
+  "assets": [
+    {
+      "path": "assets/tire/stealth-aero-fighter-cutout-v1.png",
+      "role": "transparent compositing source",
+      "width": 1254,
+      "height": 1254,
+      "channels": 4,
+      "alpha": true,
+      "opaque": false,
+      "bytes": 1916616,
+      "sha256": "d108d7c39e2c0d31ddb181f2df3ee731a0fd7bd9f0ad7224b51ef54eb71d8d65"
+    },
+    {
+      "path": "assets/tire/stealth-aero-fighter-scene-v1.png",
+      "role": "background-composed vehicle artwork",
+      "width": 1536,
+      "height": 1024,
+      "channels": 3,
+      "alpha": false,
+      "opaque": true,
+      "bytes": 2711948,
+      "sha256": "bcf89cd8774a266e869b7f6c22df2c1ca94b2b2db6a4fbba446cc295dae344f8"
+    }
+  ],
+  "effects": {
+    "type": "static artwork",
+    "included": [
+      "lime/mint aura",
+      "wingtip aero curls",
+      "rear exhaust wakes"
+    ],
+    "animated": false
+  },
+  "generation": {
+    "tool": "built-in image_gen",
+    "prompts": "assets/tire/stealth-aero-fighter-prompts-v1.json"
+  },
+  "catalog": {
+    "registered": false,
+    "name": null,
+    "rarity": null,
+    "power": null,
+    "acquisitionEnabled": false
+  },
+  "verification": {
+    "entireAircraftVisible": true,
+    "straightRigidStructuralEdges": true,
+    "clearAircraftSilhouette": true,
+    "sceneHasFullBackground": true,
+    "noGeneratedTextOrLogo": true,
+    "sourceImagesUnmodified": true
+  }
+}
