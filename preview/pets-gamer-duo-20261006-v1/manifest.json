@@ -3,7 +3,7 @@
   "title": "사진 기반 게이머 펫 2종",
   "date": "2026-10-06",
   "timezone": "Asia/Seoul",
-  "status": "GENERATED_FOR_USER_REVIEW",
+  "status": "SOURCE_ART_APPROVED",
   "generation": {
     "mode": "built-in image_gen",
     "useCase": "stylized-concept",
@@ -14,9 +14,10 @@
   "scope": {
     "staticFullBodyAssets": true,
     "animationPrepared": false,
-    "userApproved": false,
-    "runtimeConnected": false,
-    "acquisitionOrBattlePolicyChanged": false
+    "userApproved": true,
+    "runtimeConnected": true,
+    "acquisitionOrBattlePolicyChanged": false,
+    "connectionScope": "기존 운영 펫 원화 카탈로그·펫 설정·개봉 풀 후보 연결"
   },
   "assets": [
     {
@@ -58,7 +59,8 @@
         "completeEarsPawsAndTail": true,
         "backgroundRemoved": true
       },
-      "sourceSha256": "43237F1CE7664E00E5C22F814657FADFD980F181F75E9D14E0A7E3A066B7D6DC"
+      "sourceSha256": "43237F1CE7664E00E5C22F814657FADFD980F181F75E9D14E0A7E3A066B7D6DC",
+      "petCode": "PET-HEADSET-SHIBA"
     },
     {
       "id": "beanie-headset-cat",
@@ -99,12 +101,15 @@
         "completeCapPawsAndTail": true,
         "backgroundRemoved": true
       },
-      "sourceSha256": "D8A42135655DF6B114BC6D05D83FF6B66575D8C3C3C459B3206426295C13A9AC"
+      "sourceSha256": "D8A42135655DF6B114BC6D05D83FF6B66575D8C3C3C459B3206426295C13A9AC",
+      "petCode": "PET-BEANIE-CAT"
     }
   ],
   "notes": [
-    "정지 전신 펫 리소스 2종. 정식 이름과 사용자 최종 승인은 아직 지정되지 않았다.",
-    "기존 펫 승인 원본은 스타일 참조에만 사용했으며 변경하지 않았다.",
-    "운영 코드·출시 플래그·획득·편성·전투 수치는 변경하지 않았다."
-  ]
+    "2026-10-06 사용자 승인으로 두 원화를 무가공 승인본으로 고정하고 기존 운영 펫 경로에 등록한다.",
+    "원본 PNG와 해시·알파를 그대로 보존한다.",
+    "획득 풀 편입·가중치·버프·일반 유저 실전 활성화는 기존 CMS 설정을 유지한다."
+  ],
+  "approvalRecord": "assets/ui/pets/gamer-duo-20261006-v1/approval-20261006.json",
+  "userApproval": "2개다 펫 승인하고 펫라이브 연결해"
 }
