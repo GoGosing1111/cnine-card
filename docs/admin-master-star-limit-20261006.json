@@ -34,6 +34,20 @@
     "reason": "CMS 마스터의 별 수동 지급 한도만 변경; 해당 API 금액·권한·잔액 보호·쓰기 실패 재시도와 PC/모바일 입력 확인",
     "tests": ["tests/admin-master-star-limit-20261006.test.mjs"],
     "checks": ["check:worker"],
-    "status": "validated-before-deploy"
+    "status": "deployed-and-verified",
+    "sourceCommit": "d08eadd1691163fdf54ec2b1ddfb903391eb79ae",
+    "deployment": "https://f26f78b4.cnine-card.pages.dev",
+    "apiRuntimeVersion": "49c6c8dd-874a-4b21-afae-c48c7b2c26b3",
+    "clanSchedulerVersion": "534fe31b-4a14-4262-81d5-fb136da74187",
+    "verification": {
+      "checkedAt": "2026-10-06T09:36:10.705Z",
+      "productionAlias": "https://cnine-card.pages.dev",
+      "localAndBothDeployedHostsMatch": {
+        "admin/index.html": "80c67e608990685db04b62863582f01ae7eae24732592568fe0fc7a6ac6e06b1",
+        "admin/user-master-star-v1520.js": "c72be47aeb25279ab69c29c0ac245b490ac4a672f7fe26713c8bc3a6953632be"
+      },
+      "unauthenticatedRequest": {"status": 401, "error": "관리자 로그인이 필요합니다."},
+      "productionGrantsExecuted": 0
+    }
   }
 }
