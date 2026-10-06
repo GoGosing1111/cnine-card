@@ -1,0 +1,48 @@
+{
+  "date": "2026-10-06",
+  "cardId": "CN-1C000004",
+  "code": "ICON-OH-JOEUN",
+  "userRequest": "첫번째 아이콘 조은 SD 리소스 , 두번째 아이콘 일러스트로 적용",
+  "status": "USER_APPROVED_LIVE_ASSET_REPLACEMENT",
+  "sourceArt": {
+    "path": "assets/cards/ICON/oh-joeun-medic-art-approved-20261006.png",
+    "sha256": "64C78BA6CF48413B9992752A5CE2BFAF6DB7A107B55F08132E7F690C0DD82E17",
+    "size": [
+      1080,
+      1456
+    ],
+    "attachment": "codex-clipboard-27d5768f-10cb-4ad2-bad1-f091d0b859b2.png"
+  },
+  "battleSd": {
+    "path": "preview/icon-battle-assets-v1/assets/source/oh-joeun-medic-sd-approved-20261006.png",
+    "sha256": "C7F9249BF6C319806EFC42EB0BC962FAD6930525336EE8A769D72D4B68CE7514",
+    "size": [
+      1024,
+      1536
+    ],
+    "attachment": "codex-clipboard-100910d2-b12e-42f7-acb3-290aa3e46a34.png"
+  },
+  "runtime": {
+    "path": "preview/icon-battle-assets-v1/assets/sd/oh-joeun-medic-sd-20261006.webp",
+    "sha256": "E5DCA0FF5A423FD9246DD0DD4A61B5A10555A950410B6F37E5FD9298FE7A0AF2",
+    "footAnchor": {
+      "x": 0.5182291666666666,
+      "y": 0.9261067708333334
+    },
+    "export": "Uniform contain resize and transparent padding; lossless WebP. Approved PNG bytes preserved."
+  },
+  "preservedPrevious": {
+    "sourceArt": "assets/cards/ICON/oh-joeun-source-v1.png",
+    "battleSd": "preview/icon-battle-assets-v1/assets/source/oh-joeun-sd-v1.png",
+    "runtime": "preview/icon-battle-assets-v1/assets/sd/oh-joeun-sd-v1.webp"
+  },
+  "unchanged": [
+    "card ID",
+    "ownership",
+    "combat stats",
+    "skills",
+    "fusion policy",
+    "release state",
+    "other characters"
+  ]
+}

@@ -44,12 +44,12 @@
       "cardId": "CN-1C000004",
       "title": "오조은",
       "member": "오조은",
-      "sourceArt": "assets/cards/ICON/oh-joeun-source-v1.png",
-      "battleSprite": "preview/icon-battle-assets-v1/assets/sd/oh-joeun-sd-v1.webp",
-      "sha256": "EFC8D2F395D3D6F3BFCCAA212655502DF0642EF53D95B0A2905F775097148935",
+      "sourceArt": "assets/cards/ICON/oh-joeun-medic-art-approved-20261006.png",
+      "battleSprite": "preview/icon-battle-assets-v1/assets/sd/oh-joeun-medic-sd-20261006.webp",
+      "sha256": "E5DCA0FF5A423FD9246DD0DD4A61B5A10555A950410B6F37E5FD9298FE7A0AF2",
       "footAnchor": {
-        "x": 0.51575,
-        "y": 0.898125
+        "x": 0.5182291666666666,
+        "y": 0.9261067708333334
       }
     },
     {

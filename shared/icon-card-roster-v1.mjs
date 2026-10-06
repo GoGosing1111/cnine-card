@@ -1,4 +1,4 @@
-// User-supplied photographs for ICON previews. IDs are preparation identifiers,
+// User-approved source art for ICON previews. IDs are preparation identifiers,
 // not cards-table IDs; importing this roster never creates or grants a card.
 export const ICON_CARD_ROSTER=Object.freeze([
   {code:'ICON-DIIM',name:'디임',sourceArt:'assets/cards/ICON/diim-source-v1.png',
@@ -8,8 +8,10 @@ export const ICON_CARD_ROSTER=Object.freeze([
   {code:'ICON-NAMUNEUL-BONGSOON',name:'나무늘봉순',sourceArt:'assets/cards/ICON/namuneul-bongsoon-source-v2.jpg',
     sourceSha256:'B056757989C7F4E5FED48668AE4FA46C2276598B7FB6E8C1A655C265E8B2856E',sourceWidth:720,sourceHeight:1280,focusX:50,focusY:100,
     portraitApproval:{date:'2026-09-22',scope:'SOURCE_PHOTO_ONLY',userRequest:'나무늘봉순 아이콘 이미지 이거로 바꿔',supersedes:'assets/cards/ICON/namuneul-bongsoon-source-v1.png'}},
-  {code:'ICON-OH-JOEUN',name:'오조은',sourceArt:'assets/cards/ICON/oh-joeun-source-v1.png',
-    sourceSha256:'4EE4C379716C5BE1CD2F9EA4FF30F4B9A90AA6401F506DD6D02E1A765F250EDC',sourceWidth:828,sourceHeight:896,focusX:50,focusY:50},
+  {code:'ICON-OH-JOEUN',name:'오조은',sourceArt:'assets/cards/ICON/oh-joeun-medic-art-approved-20261006.png',
+    sourceSha256:'64C78BA6CF48413B9992752A5CE2BFAF6DB7A107B55F08132E7F690C0DD82E17',sourceWidth:1080,sourceHeight:1456,focusX:50,focusY:50,
+    status:'USER_APPROVED_ILLUSTRATION_20261006',
+    portraitApproval:{date:'2026-10-06',scope:'SOURCE_ILLUSTRATION_AND_BATTLE_SD',userRequest:'첫번째 아이콘 조은 SD 리소스 , 두번째 아이콘 일러스트로 적용',supersedes:'assets/cards/ICON/oh-joeun-source-v1.png'}},
   {code:'ICON-ORIKKUNG',name:'오리꿍',sourceArt:'assets/cards/ICON/orikkung-source-v1.png',
     sourceSha256:'6562ACF5B146CB621487955A62729BDAC84D2760AB237B0205A9665E40935BC6',sourceWidth:720,sourceHeight:960,focusX:50,focusY:50,
     status:'USER_REGISTERED_PORTRAIT_20260927',

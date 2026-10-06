@@ -1,0 +1,204 @@
+{
+  "date": "2026-10-06",
+  "environment": "Local real index.html and V3 renderer with synthetic API account/battle payloads",
+  "originalAttachmentsPreserved": true,
+  "portraits": [
+    {
+      "width": 390,
+      "portraits": [
+        {
+          "id": "CN-1C000004",
+          "portrait": {
+            "x": 149,
+            "y": 445.4375,
+            "width": 118,
+            "height": 177
+          },
+          "art": {
+            "x": 160.5625,
+            "y": 461.71875,
+            "width": 94.859375,
+            "height": 146.546875
+          },
+          "image": {
+            "x": 160.5625,
+            "y": 461.71875,
+            "width": 94.859375,
+            "height": 146.546875
+          },
+          "frame": {
+            "x": 149,
+            "y": 445.4375,
+            "width": 118,
+            "height": 177
+          },
+          "coverage": 1,
+          "natural": [
+            1080,
+            1456
+          ],
+          "objectFit": "cover"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "portraits": [
+        {
+          "id": "CN-1C000004",
+          "portrait": {
+            "x": 553.296875,
+            "y": 692.296875,
+            "width": 172.796875,
+            "height": 259.1875
+          },
+          "art": {
+            "x": 570.21875,
+            "y": 716.140625,
+            "width": 138.921875,
+            "height": 214.59375
+          },
+          "image": {
+            "x": 570.21875,
+            "y": 716.140625,
+            "width": 138.921875,
+            "height": 214.59375
+          },
+          "frame": {
+            "x": 553.296875,
+            "y": 692.296875,
+            "width": 172.796875,
+            "height": 259.1875
+          },
+          "coverage": 1,
+          "natural": [
+            1080,
+            1456
+          ],
+          "objectFit": "cover"
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "battles": [
+    {
+      "width": 1440,
+      "mode": "PVP",
+      "mainLoader": true,
+      "actualLiveWrapper": true,
+      "result": true,
+      "return": true,
+      "loaded": [
+        {
+          "path": "/assets/ui/project-v/characters/icon/manifest-v1.json",
+          "status": 200
+        },
+        {
+          "path": "/assets/cards/ICON/oh-joeun-medic-art-approved-20261006.png",
+          "status": 200
+        },
+        {
+          "path": "/assets/cards/ICON/oh-joeun-medic-art-approved-20261006.png",
+          "status": 200
+        },
+        {
+          "path": "/preview/icon-battle-assets-v1/assets/sd/oh-joeun-medic-sd-20261006.webp",
+          "status": 200
+        }
+      ],
+      "diagnostics": {
+        "last": {
+          "code": "ICON-DIIM",
+          "role": "ASSASSIN",
+          "eventType": "ICON_SKILL",
+          "serverRows": 1,
+          "appliedRows": 1,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY"
+        },
+        "muzzle": {
+          "cardId": "CN-1C000002",
+          "origin": {
+            "x": 958.5044805990055,
+            "y": 358.2265966103821
+          },
+          "direction": {
+            "x": -0.9785179382960191,
+            "y": 0.20616169487300076
+          },
+          "team": "ENEMY"
+        },
+        "metrics": {
+          "skills": 10,
+          "basics": 19,
+          "serverRows": 34,
+          "appliedRows": 34,
+          "roles": [
+            "ASSAULT",
+            "ASSASSIN",
+            "DEFENSE",
+            "SUPPORT",
+            "MAGIC",
+            "ATTACK"
+          ]
+        }
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "mode": "PVE",
+      "mainLoader": true,
+      "actualLiveWrapper": true,
+      "result": true,
+      "return": true,
+      "loaded": [
+        {
+          "path": "/assets/ui/project-v/characters/icon/manifest-v1.json",
+          "status": 200
+        },
+        {
+          "path": "/assets/cards/ICON/oh-joeun-medic-art-approved-20261006.png",
+          "status": 200
+        },
+        {
+          "path": "/preview/icon-battle-assets-v1/assets/sd/oh-joeun-medic-sd-20261006.webp",
+          "status": 200
+        },
+        {
+          "path": "/assets/cards/ICON/oh-joeun-medic-art-approved-20261006.png",
+          "status": 200
+        }
+      ],
+      "diagnostics": {
+        "last": {
+          "code": "ICON-AYOON",
+          "role": "ASSAULT",
+          "eventType": "ICON_SKILL",
+          "serverRows": 1,
+          "appliedRows": 1,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY"
+        },
+        "muzzle": null,
+        "metrics": {
+          "skills": 11,
+          "basics": 35,
+          "serverRows": 48,
+          "appliedRows": 48,
+          "roles": [
+            "ASSAULT",
+            "ASSASSIN",
+            "DEFENSE",
+            "CURSE",
+            "SUPPORT"
+          ]
+        }
+      },
+      "errors": []
+    }
+  ],
+  "productionDatabaseDryRun": "PASS: image_url only; all other card columns preserved"
+}

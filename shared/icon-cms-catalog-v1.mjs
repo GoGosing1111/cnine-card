@@ -127,25 +127,26 @@ export const ICON_CMS_CATALOG=[
   {
     "code": "ICON-OH-JOEUN",
     "name": "오조은",
-    "sourceArt": "assets/cards/ICON/oh-joeun-source-v1.png",
-    "sourceSha256": "4EE4C379716C5BE1CD2F9EA4FF30F4B9A90AA6401F506DD6D02E1A765F250EDC",
-    "sourceWidth": 828,
-    "sourceHeight": 896,
+    "sourceArt": "assets/cards/ICON/oh-joeun-medic-art-approved-20261006.png",
+    "sourceSha256": "64C78BA6CF48413B9992752A5CE2BFAF6DB7A107B55F08132E7F690C0DD82E17",
+    "sourceWidth": 1080,
+    "sourceHeight": 1456,
     "focusX": 50,
     "focusY": 50,
-    "sourceGrade": "ICON",
-    "status": "USER_APPROVED_PORTRAIT_20260922",
+    "status": "USER_APPROVED_ILLUSTRATION_20261006",
     "portraitApproval": {
-      "date": "2026-09-22",
-      "scope": "SOURCE_PHOTO_ONLY",
-      "userRequest": "사진 4종 승인"
+      "date": "2026-10-06",
+      "scope": "SOURCE_ILLUSTRATION_AND_BATTLE_SD",
+      "userRequest": "첫번째 아이콘 조은 SD 리소스 , 두번째 아이콘 일러스트로 적용",
+      "supersedes": "assets/cards/ICON/oh-joeun-source-v1.png"
     },
+    "sourceGrade": "ICON",
     "releaseEnabled": false,
     "id": "oh-joeun",
-    "weapon": "음파 지팡이",
+    "weapon": "의료 슈트 · 녹색 주입기",
     "accent": "#aaa8ff",
-    "battleSprite": "preview/icon-battle-assets-v1/assets/sd/oh-joeun-sd-v1.webp",
-    "visualApproval": "USER_REVIEW_PENDING",
+    "battleSprite": "preview/icon-battle-assets-v1/assets/sd/oh-joeun-medic-sd-20261006.webp",
+    "visualApproval": "USER_APPROVED_20261006",
     "effects": [
       {
         "id": "oh-joeun-hit",

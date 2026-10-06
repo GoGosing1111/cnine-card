@@ -25,9 +25,10 @@ test('all seven approved photographs remain separate from SD and playable releas
   assert.equal(manifest.characters.length,7);assert.equal(manifest.releaseEnabled,false);assert.equal(manifest.acquisitionEnabled,false);assert.equal(manifest.damageCalculation,false);
   for(const c of manifest.characters){
     const card=ICON_CARD_ROSTER.find(row=>row.code===c.code);
-    assert.equal(card.portraitApproval.scope,'SOURCE_PHOTO_ONLY');assert.equal(c.sourceArt,card.sourceArt);assert.equal(c.sourceArtSha256,card.sourceSha256);
+    const joeun=c.code==='ICON-OH-JOEUN';
+    assert.equal(card.portraitApproval.scope,joeun?'SOURCE_ILLUSTRATION_AND_BATTLE_SD':'SOURCE_PHOTO_ONLY');assert.equal(c.sourceArt,card.sourceArt);assert.equal(c.sourceArtSha256,card.sourceSha256);
     assert.equal(hash(await read('../../'+card.sourceArt)),card.sourceSha256);
-    assert.notEqual(c.runtime,c.sourceArt);assert.equal(c.visualApproval,'USER_REVIEW_PENDING');assert.equal(c.releaseEnabled,false);
+    assert.notEqual(c.runtime,c.sourceArt);assert.equal(c.visualApproval,joeun?'USER_APPROVED_20261006':'USER_REVIEW_PENDING');assert.equal(c.releaseEnabled,false);
     assert.equal(hash(await read(c.source)),c.sourceSha256);assert.equal(hash(await read(c.runtime)),c.runtimeSha256);
     const meta=await sharp(await read(c.runtime)).metadata();assert.deepEqual([meta.width,meta.height,meta.hasAlpha],[768,768,true]);
     assert.ok(c.runtimeAlpha.transparentFraction>.2);assert.equal(c.runtimeAlpha.edgeMax,0);

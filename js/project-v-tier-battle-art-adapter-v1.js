@@ -6,7 +6,7 @@
     FUR: '/assets/ui/project-v/characters/fur/manifest-v2.json?v=4-cheetah-scale&sd=2115-joksuke',
     PRESTIGE: '/assets/ui/project-v/characters/prestige/manifest-v1.json?v=2-full-roster',
     SUPERSTAR: '/assets/ui/project-v/characters/superstar/manifest-v1.json?v=3-haaland',
-    ICON: '/assets/ui/project-v/characters/icon/manifest-v1.json?v=20260930'
+    ICON: '/assets/ui/project-v/characters/icon/manifest-v1.json?v=20261006-joeun-medic'
   });
   const PLAY_ENTRY_POINTS = Object.freeze(['playPveBattleV2Live', 'playPvpBattleV2Live', 'playSiegeBattleV2Live']);
   const clean = value => String(value ?? '').trim();
