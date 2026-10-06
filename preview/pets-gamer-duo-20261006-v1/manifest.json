@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "title": "사진 기반 게이머 펫 2종",
+  "date": "2026-10-06",
+  "timezone": "Asia/Seoul",
+  "status": "GENERATED_FOR_USER_REVIEW",
+  "generation": {
+    "mode": "built-in image_gen",
+    "useCase": "stylized-concept",
+    "transparentBackground": true,
+    "styleReference": "assets/ui/pets/gusudaeng/pet-tokki-gusudaeng-approved-20261002.png",
+    "postProcessing": "none; byte-for-byte copies of generated PNGs, original alpha preserved"
+  },
+  "scope": {
+    "staticFullBodyAssets": true,
+    "animationPrepared": false,
+    "userApproved": false,
+    "runtimeConnected": false,
+    "acquisitionOrBattlePolicyChanged": false
+  },
+  "assets": [
+    {
+      "id": "headset-shiba",
+      "label": "헤드셋 시바견",
+      "labelType": "descriptive working label",
+      "asset": "assets/ui/pets/gamer-duo-20261006-v1/pet-headset-shiba-v1.png",
+      "source": "preview/pets-gamer-duo-20261006-v1/sources/headset-shiba-reference.png",
+      "sourceAttachment": "codex-clipboard-49ddb8a2-5cb5-46ca-991c-e2542b6d0966.png",
+      "prompt": "preview/pets-gamer-duo-20261006-v1/prompts/headset-shiba-v1.txt",
+      "width": 1254,
+      "height": 1254,
+      "format": "PNG",
+      "mode": "RGBA",
+      "sha256": "98810DE99B1D2C9D33D96937555442F870D050ABD130375F76645ACD06572445",
+      "identityFeatures": [
+        "황금빛 털과 크림색 주둥이·가슴",
+        "원본의 곁눈질과 닫힌 입",
+        "검정·빨강 헤드셋과 붐 마이크"
+      ],
+      "technicalQA": {
+        "transparentCorners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "nontransparentOuterBorderPixelsAbove16": 0,
+        "contentBoundsAlphaAbove16": [
+          266,
+          41,
+          1191,
+          1217
+        ],
+        "alphaPreserved": true
+      },
+      "visualQA": {
+        "expressionAndHeadsetRetained": true,
+        "completeEarsPawsAndTail": true,
+        "backgroundRemoved": true
+      },
+      "sourceSha256": "43237F1CE7664E00E5C22F814657FADFD980F181F75E9D14E0A7E3A066B7D6DC"
+    },
+    {
+      "id": "beanie-headset-cat",
+      "label": "비니 헤드셋 고양이",
+      "labelType": "descriptive working label",
+      "asset": "assets/ui/pets/gamer-duo-20261006-v1/pet-beanie-headset-cat-v1.png",
+      "source": "preview/pets-gamer-duo-20261006-v1/sources/beanie-headset-cat-reference.png",
+      "sourceAttachment": "codex-clipboard-3e791d21-0408-44cb-ab3a-fce9086f1fcf.png",
+      "prompt": "preview/pets-gamer-duo-20261006-v1/prompts/beanie-headset-cat-v1.txt",
+      "width": 1254,
+      "height": 1254,
+      "format": "PNG",
+      "mode": "RGBA",
+      "sha256": "173C92958DA275AF6B6A600EE4D576512A91F2FF0D8DCF721DC8757E17A3D9EC",
+      "identityFeatures": [
+        "크림색 털과 작은 분홍색 코",
+        "원본의 무심한 눈매와 닫힌 입",
+        "회갈색 니트 모자와 검정 헤드셋·붐 마이크"
+      ],
+      "technicalQA": {
+        "transparentCorners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "nontransparentOuterBorderPixelsAbove16": 0,
+        "contentBoundsAlphaAbove16": [
+          95,
+          16,
+          1055,
+          1234
+        ],
+        "alphaPreserved": true
+      },
+      "visualQA": {
+        "expressionAndHeadsetRetained": true,
+        "completeCapPawsAndTail": true,
+        "backgroundRemoved": true
+      },
+      "sourceSha256": "D8A42135655DF6B114BC6D05D83FF6B66575D8C3C3C459B3206426295C13A9AC"
+    }
+  ],
+  "notes": [
+    "정지 전신 펫 리소스 2종. 정식 이름과 사용자 최종 승인은 아직 지정되지 않았다.",
+    "기존 펫 승인 원본은 스타일 참조에만 사용했으며 변경하지 않았다.",
+    "운영 코드·출시 플래그·획득·편성·전투 수치는 변경하지 않았다."
+  ]
+}
