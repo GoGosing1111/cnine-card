@@ -1,0 +1,607 @@
+{
+  "asOfKst": "2026-10-06 10:12:19",
+  "metric": "누적 출석일수 (attendance_logs의 계정별 출석 날짜 수)",
+  "recipientCount": 100,
+  "recipients": [
+    {
+      "userId": "7",
+      "nickname": "에비런",
+      "attendanceDays": 89,
+      "position": 1
+    },
+    {
+      "userId": "19",
+      "nickname": "토닭토닭",
+      "attendanceDays": 89,
+      "position": 2
+    },
+    {
+      "userId": "22",
+      "nickname": "커피먹는철구",
+      "attendanceDays": 89,
+      "position": 3
+    },
+    {
+      "userId": "23",
+      "nickname": "하이희야",
+      "attendanceDays": 89,
+      "position": 4
+    },
+    {
+      "userId": "32",
+      "nickname": "쑤댕",
+      "attendanceDays": 89,
+      "position": 5
+    },
+    {
+      "userId": "39",
+      "nickname": "라네트",
+      "attendanceDays": 89,
+      "position": 6
+    },
+    {
+      "userId": "71",
+      "nickname": "진땅콩_",
+      "attendanceDays": 89,
+      "position": 7
+    },
+    {
+      "userId": "91",
+      "nickname": "정원이",
+      "attendanceDays": 89,
+      "position": 8
+    },
+    {
+      "userId": "92",
+      "nickname": "불곰덫",
+      "attendanceDays": 89,
+      "position": 9
+    },
+    {
+      "userId": "156",
+      "nickname": "좌지구녕",
+      "attendanceDays": 89,
+      "position": 10
+    },
+    {
+      "userId": "164",
+      "nickname": "박사",
+      "attendanceDays": 89,
+      "position": 11
+    },
+    {
+      "userId": "176",
+      "nickname": "시우스",
+      "attendanceDays": 89,
+      "position": 12
+    },
+    {
+      "userId": "187",
+      "nickname": "파르르구",
+      "attendanceDays": 89,
+      "position": 13
+    },
+    {
+      "userId": "216",
+      "nickname": "x수댕",
+      "attendanceDays": 89,
+      "position": 14
+    },
+    {
+      "userId": "220",
+      "nickname": "족알못",
+      "attendanceDays": 89,
+      "position": 15
+    },
+    {
+      "userId": "289",
+      "nickname": "베베킹",
+      "attendanceDays": 89,
+      "position": 16
+    },
+    {
+      "userId": "295",
+      "nickname": "모래",
+      "attendanceDays": 89,
+      "position": 17
+    },
+    {
+      "userId": "3",
+      "nickname": "ε연두з",
+      "attendanceDays": 88,
+      "position": 18
+    },
+    {
+      "userId": "45",
+      "nickname": "박세라-ㅂ-",
+      "attendanceDays": 88,
+      "position": 19
+    },
+    {
+      "userId": "52",
+      "nickname": "폭군#",
+      "attendanceDays": 88,
+      "position": 20
+    },
+    {
+      "userId": "65",
+      "nickname": "음순이",
+      "attendanceDays": 88,
+      "position": 21
+    },
+    {
+      "userId": "73",
+      "nickname": "란x2",
+      "attendanceDays": 88,
+      "position": 22
+    },
+    {
+      "userId": "130",
+      "nickname": "족구선생",
+      "attendanceDays": 88,
+      "position": 23
+    },
+    {
+      "userId": "183",
+      "nickname": "남수댕",
+      "attendanceDays": 88,
+      "position": 24
+    },
+    {
+      "userId": "197",
+      "nickname": "무버지",
+      "attendanceDays": 88,
+      "position": 25
+    },
+    {
+      "userId": "226",
+      "nickname": "햬카세",
+      "attendanceDays": 88,
+      "position": 26
+    },
+    {
+      "userId": "261",
+      "nickname": "둘리소다",
+      "attendanceDays": 88,
+      "position": 27
+    },
+    {
+      "userId": "352",
+      "nickname": "경북",
+      "attendanceDays": 88,
+      "position": 28
+    },
+    {
+      "userId": "787",
+      "nickname": "뚱초환",
+      "attendanceDays": 88,
+      "position": 29
+    },
+    {
+      "userId": "850",
+      "nickname": "뽑기고수71",
+      "attendanceDays": 88,
+      "position": 30
+    },
+    {
+      "userId": "1421",
+      "nickname": "다시생각",
+      "attendanceDays": 88,
+      "position": 31
+    },
+    {
+      "userId": "81",
+      "nickname": "비쥬얼깡패",
+      "attendanceDays": 88,
+      "position": 32
+    },
+    {
+      "userId": "120",
+      "nickname": "롤리",
+      "attendanceDays": 88,
+      "position": 33
+    },
+    {
+      "userId": "88",
+      "nickname": "0수표",
+      "attendanceDays": 87,
+      "position": 34
+    },
+    {
+      "userId": "490",
+      "nickname": "경화수월팬",
+      "attendanceDays": 87,
+      "position": 35
+    },
+    {
+      "userId": "493",
+      "nickname": "치타구",
+      "attendanceDays": 87,
+      "position": 36
+    },
+    {
+      "userId": "681",
+      "nickname": "페이트런",
+      "attendanceDays": 87,
+      "position": 37
+    },
+    {
+      "userId": "1195",
+      "nickname": "씨나인택갓",
+      "attendanceDays": 87,
+      "position": 38
+    },
+    {
+      "userId": "1768",
+      "nickname": "핫시",
+      "attendanceDays": 87,
+      "position": 39
+    },
+    {
+      "userId": "2246",
+      "nickname": "옹가망함1",
+      "attendanceDays": 87,
+      "position": 40
+    },
+    {
+      "userId": "266",
+      "nickname": "에렌25",
+      "attendanceDays": 87,
+      "position": 41
+    },
+    {
+      "userId": "10",
+      "nickname": "관상은과학",
+      "attendanceDays": 86,
+      "position": 42
+    },
+    {
+      "userId": "53",
+      "nickname": "씨파타",
+      "attendanceDays": 86,
+      "position": 43
+    },
+    {
+      "userId": "87",
+      "nickname": "설윤이",
+      "attendanceDays": 86,
+      "position": 44
+    },
+    {
+      "userId": "148",
+      "nickname": "혜루",
+      "attendanceDays": 86,
+      "position": 45
+    },
+    {
+      "userId": "290",
+      "nickname": "Mild7",
+      "attendanceDays": 86,
+      "position": 46
+    },
+    {
+      "userId": "312",
+      "nickname": "밍",
+      "attendanceDays": 86,
+      "position": 47
+    },
+    {
+      "userId": "521",
+      "nickname": "대저동토마토",
+      "attendanceDays": 86,
+      "position": 48
+    },
+    {
+      "userId": "750",
+      "nickname": "라페스타다",
+      "attendanceDays": 86,
+      "position": 49
+    },
+    {
+      "userId": "1255",
+      "nickname": "전게씹선미아웃",
+      "attendanceDays": 86,
+      "position": 50
+    },
+    {
+      "userId": "2333",
+      "nickname": "구와함",
+      "attendanceDays": 86,
+      "position": 51
+    },
+    {
+      "userId": "24",
+      "nickname": "만봄",
+      "attendanceDays": 86,
+      "position": 52
+    },
+    {
+      "userId": "13",
+      "nickname": "불법사행산업신고센터",
+      "attendanceDays": 85,
+      "position": 53
+    },
+    {
+      "userId": "62",
+      "nickname": "숭구릭",
+      "attendanceDays": 85,
+      "position": 54
+    },
+    {
+      "userId": "85",
+      "nickname": "카르푸",
+      "attendanceDays": 85,
+      "position": 55
+    },
+    {
+      "userId": "202",
+      "nickname": "진땅콩간바레",
+      "attendanceDays": 85,
+      "position": 56
+    },
+    {
+      "userId": "303",
+      "nickname": "[C9]족쪽이",
+      "attendanceDays": 85,
+      "position": 57
+    },
+    {
+      "userId": "359",
+      "nickname": "갓삼족삼",
+      "attendanceDays": 85,
+      "position": 58
+    },
+    {
+      "userId": "364",
+      "nickname": "풍으로말해요",
+      "attendanceDays": 85,
+      "position": 59
+    },
+    {
+      "userId": "525",
+      "nickname": "족구조아",
+      "attendanceDays": 85,
+      "position": 60
+    },
+    {
+      "userId": "792",
+      "nickname": "센텀신사",
+      "attendanceDays": 85,
+      "position": 61
+    },
+    {
+      "userId": "1301",
+      "nickname": "팩트만쓴다15",
+      "attendanceDays": 85,
+      "position": 62
+    },
+    {
+      "userId": "2420",
+      "nickname": "블랙캐슬",
+      "attendanceDays": 85,
+      "position": 63
+    },
+    {
+      "userId": "2505",
+      "nickname": "모아가려아가",
+      "attendanceDays": 85,
+      "position": 64
+    },
+    {
+      "userId": "2734",
+      "nickname": "그냥지은닉",
+      "attendanceDays": 85,
+      "position": 65
+    },
+    {
+      "userId": "25",
+      "nickname": "여우",
+      "attendanceDays": 84,
+      "position": 66
+    },
+    {
+      "userId": "236",
+      "nickname": "유나이은",
+      "attendanceDays": 84,
+      "position": 67
+    },
+    {
+      "userId": "242",
+      "nickname": "벚꽃엔딩",
+      "attendanceDays": 84,
+      "position": 68
+    },
+    {
+      "userId": "660",
+      "nickname": "Bazzi3",
+      "attendanceDays": 84,
+      "position": 69
+    },
+    {
+      "userId": "631",
+      "nickname": "키친789",
+      "attendanceDays": 84,
+      "position": 70
+    },
+    {
+      "userId": "75",
+      "nickname": "미미미눙",
+      "attendanceDays": 83,
+      "position": 71
+    },
+    {
+      "userId": "3674",
+      "nickname": "연보라",
+      "attendanceDays": 83,
+      "position": 72
+    },
+    {
+      "userId": "118",
+      "nickname": "mse56",
+      "attendanceDays": 83,
+      "position": 73
+    },
+    {
+      "userId": "83",
+      "nickname": "애장이",
+      "attendanceDays": 82,
+      "position": 74
+    },
+    {
+      "userId": "277",
+      "nickname": "스갤가축",
+      "attendanceDays": 82,
+      "position": 75
+    },
+    {
+      "userId": "3480",
+      "nickname": "족짜미♡",
+      "attendanceDays": 82,
+      "position": 76
+    },
+    {
+      "userId": "431",
+      "nickname": "아바이도망왕순대",
+      "attendanceDays": 82,
+      "position": 77
+    },
+    {
+      "userId": "2300",
+      "nickname": "싸우지마애들아",
+      "attendanceDays": 82,
+      "position": 78
+    },
+    {
+      "userId": "115",
+      "nickname": "쁠리의무사시",
+      "attendanceDays": 81,
+      "position": 79
+    },
+    {
+      "userId": "3011",
+      "nickname": "오일바른가지",
+      "attendanceDays": 81,
+      "position": 80
+    },
+    {
+      "userId": "1944",
+      "nickname": "족메시",
+      "attendanceDays": 81,
+      "position": 81
+    },
+    {
+      "userId": "145",
+      "nickname": "슬랜더조아",
+      "attendanceDays": 81,
+      "position": 82
+    },
+    {
+      "userId": "29",
+      "nickname": "엑셀괴물",
+      "attendanceDays": 80,
+      "position": 83
+    },
+    {
+      "userId": "2282",
+      "nickname": "블랙랜드",
+      "attendanceDays": 80,
+      "position": 84
+    },
+    {
+      "userId": "162",
+      "nickname": "차단하다",
+      "attendanceDays": 80,
+      "position": 85
+    },
+    {
+      "userId": "185",
+      "nickname": "지유나",
+      "attendanceDays": 80,
+      "position": 86
+    },
+    {
+      "userId": "1843",
+      "nickname": "흐린눈깔",
+      "attendanceDays": 79,
+      "position": 87
+    },
+    {
+      "userId": "3884",
+      "nickname": "zkzk9999",
+      "attendanceDays": 79,
+      "position": 88
+    },
+    {
+      "userId": "76",
+      "nickname": "랄네미탱탱",
+      "attendanceDays": 79,
+      "position": 89
+    },
+    {
+      "userId": "567",
+      "nickname": "망순이",
+      "attendanceDays": 79,
+      "position": 90
+    },
+    {
+      "userId": "2545",
+      "nickname": "연",
+      "attendanceDays": 78,
+      "position": 91
+    },
+    {
+      "userId": "619",
+      "nickname": "PangEEE",
+      "attendanceDays": 78,
+      "position": 92
+    },
+    {
+      "userId": "360",
+      "nickname": "라피e",
+      "attendanceDays": 77,
+      "position": 93
+    },
+    {
+      "userId": "4010",
+      "nickname": "슈라",
+      "attendanceDays": 77,
+      "position": 94
+    },
+    {
+      "userId": "143",
+      "nickname": "족카다시안",
+      "attendanceDays": 77,
+      "position": 95
+    },
+    {
+      "userId": "5",
+      "nickname": "싸이타마",
+      "attendanceDays": 76,
+      "position": 96
+    },
+    {
+      "userId": "3892",
+      "nickname": "슈파두파",
+      "attendanceDays": 76,
+      "position": 97
+    },
+    {
+      "userId": "34",
+      "nickname": "씨나인짱",
+      "attendanceDays": 75,
+      "position": 98
+    },
+    {
+      "userId": "3867",
+      "nickname": "레드클라우드",
+      "attendanceDays": 75,
+      "position": 99
+    },
+    {
+      "userId": "3974",
+      "nickname": "우회하세요",
+      "attendanceDays": 75,
+      "position": 100
+    }
+  ]
+}
