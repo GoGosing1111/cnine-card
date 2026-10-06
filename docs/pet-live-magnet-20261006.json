@@ -1,0 +1,195 @@
+{
+  "feature": "실제 펫 전투·잠재력 물약·군단토벌 자석 자동 흡수",
+  "date": "2026-10-06",
+  "authorization": [
+    "펫 전투 구현 및 자석 잠재력",
+    "잠재력 물약으로 확률 도전",
+    "확률·획득처는 사용자가 CMS에서 설정"
+  ],
+  "defaults": {
+    "potentialEnabled": false,
+    "successPpm": null,
+    "potionPerAttempt": 1,
+    "liveOddsOrSourcesSetByThisTask": false,
+    "productionAccountGrants": false
+  },
+  "validation": {
+    "initialScoped": {
+      "tests": 254,
+      "passed": 252,
+      "failed": 2,
+      "log": "C:/Users/User/.codex/tmp/pet-live-magnet-20261006/deploy.log"
+    },
+    "resolved": "새 PetSupportPlayback.js를 포함해 공통 빌드 원본 79개로 검사 갱신; 후속 회귀 통과",
+    "preExistingFailure": {
+      "file": "tests/escort-operation-v1830.test.mjs",
+      "line": 95,
+      "reason": "bundle query must start with ?v=106-combat-flow",
+      "baseline": "54414ba1deebcfb719bf4892b02a3e641a525b88",
+      "baselineAlsoFails": true,
+      "unrelatedTestNotModified": true
+    },
+    "finalScoped": {
+      "tests": 18,
+      "passed": 18,
+      "failed": 0,
+      "workerCheck": "passed",
+      "releaseGate": "scoped production checks passed",
+      "log": "C:/Users/User/.codex/tmp/pet-live-magnet-20261006/deploy-final.log"
+    },
+    "mainBrowser": {
+      "usesActualMainIndex": true,
+      "usesProductionLoaderAndRegisteredSD": true,
+      "fixtures": "loopback-only synthetic accounts; actual pet/Legion handlers and server battle simulator",
+      "viewports": [
+        {
+          "viewport": "desktop",
+          "modes": [
+            {
+              "mode": "pve",
+              "allies": 5,
+              "enemies": 1,
+              "pets": 1,
+              "fallbacks": 0,
+              "registeredSdVisible": true
+            },
+            {
+              "mode": "pvp",
+              "allies": 5,
+              "enemies": 5,
+              "pets": 2,
+              "fallbacks": 0,
+              "registeredSdVisible": true
+            }
+          ],
+          "legionAutomaticPickup": true,
+          "legionSettlement": true
+        },
+        {
+          "viewport": "mobile",
+          "modes": [
+            {
+              "mode": "pve",
+              "allies": 5,
+              "enemies": 1,
+              "pets": 1,
+              "fallbacks": 0,
+              "registeredSdVisible": true
+            },
+            {
+              "mode": "pvp",
+              "allies": 5,
+              "enemies": 5,
+              "pets": 2,
+              "fallbacks": 0,
+              "registeredSdVisible": true
+            }
+          ],
+          "legionAutomaticPickup": true,
+          "legionSettlement": true
+        }
+      ],
+      "mainResultPlayback": "PVE/PVP completion checked in qa-main before the final pet-position-only adjustment; final capture pass does not re-run combat results",
+      "javascriptErrors": 0,
+      "oldMannequinHarnessRejected": true,
+      "evidence": "C:/Users/User/.codex/tmp/pet-live-magnet-20261006/qa-main-final/"
+    },
+    "equipmentCmsUi": {
+      "viewports": [
+        "1440x1050",
+        "390x844"
+      ],
+      "evidence": "C:/Users/User/.codex/tmp/pet-live-magnet-20261006/qa/",
+      "verified": "equipment, CMS odds, failed/successful potion attempt and lost-response result recovery; old standalone battle captures in this folder are excluded"
+    }
+  },
+  "release": {
+    "status": "success",
+    "commit": "fdc06e87a2eeb82b771a749d7e689c037582492a",
+    "command": "npm run deploy:production -- --scoped",
+    "lastProductionCommit": "54414ba1deebcfb719bf4892b02a3e641a525b88",
+    "deploymentUrl": "https://22de9c4f.cnine-card.pages.dev",
+    "apiRuntimeVersion": "c74094ab-bab7-4237-8911-9d729019626d",
+    "clanDraftVersion": "d184df4d-60b4-47d6-84f3-3ebaccb6b324",
+    "hyperdriveQueryCache": "disabled; Pages/clan-draft bindings match"
+  },
+  "productionVerification": {
+    "verifiedAt": "2026-10-06T11:51:23.635Z",
+    "origin": "https://cnine-card.pages.dev",
+    "checks": [
+      {
+        "path": "/",
+        "status": 200,
+        "sha256": "fc8c932d66c12eed1437a9fd52da09e2a5691ef125119f4f81549d8ced130599",
+        "matches": true
+      },
+      {
+        "path": "/js/app.js",
+        "status": 200,
+        "sha256": "d2cba64d44a3aa1c6ca5d1be68ba8c3d5c9d07b513044443f32c5ed34937613d",
+        "matches": true
+      },
+      {
+        "path": "/js/pet-equipment-window-v1.mjs",
+        "status": 200,
+        "sha256": "8ce92848170d40014c658a2e9f84e9cd250fa03274126dbc9d4026094e3df348",
+        "matches": true
+      },
+      {
+        "path": "/admin/pet-potential-admin-v1.mjs",
+        "status": 200,
+        "sha256": "8768f991411f9bba0c6b03a10ba4921fce187a963de8af83455e90e06dbcf557",
+        "matches": true
+      },
+      {
+        "path": "/pve/legion-hunt/",
+        "status": 200,
+        "sha256": "f30e14cdecfeeedf8af3ba9d24bfaabb70ab70299744a799c63ef50038818be1",
+        "matches": true
+      },
+      {
+        "path": "/preview/sustained-hunt-v2/app.js",
+        "status": 200,
+        "sha256": "42d8a8fe0f879867febd3cc4d820df87f7de7ec1f9b44f4aaad4d37f01073227",
+        "matches": true
+      },
+      {
+        "path": "/preview/project-v-v3/project-v-pixi-battle.bundle.js",
+        "status": 200,
+        "sha256": "d4fe66c062730bb36215a18423aafa3fba9e8349694fbb56f3b93d914b872680",
+        "matches": true
+      },
+      {
+        "path": "/service-worker.js",
+        "status": 200,
+        "sha256": "5a88fbeff2dbca56a37fffc2abe7c7df2e991b9bf22ddda1f5aad766c313677f",
+        "matches": true
+      },
+      {
+        "path": "/assets/items/pet-opening-v1/potential-potion.svg",
+        "status": 200,
+        "sha256": "fbec4f53e9bfa8334ae190df8fa3379d7f37280f0795d6241b067c773aee7178",
+        "matches": true
+      },
+      {
+        "path": "/api/pets/v1/state",
+        "method": "GET",
+        "status": 401,
+        "unauthenticatedBlocked": true
+      },
+      {
+        "path": "/api/pets/v1/potential",
+        "method": "POST",
+        "status": 401,
+        "unauthenticatedBlocked": true
+      },
+      {
+        "path": "/api/admin/pets/potential",
+        "method": "GET",
+        "status": 401,
+        "unauthenticatedBlocked": true
+      }
+    ],
+    "liveAccountMutations": false
+  }
+}
