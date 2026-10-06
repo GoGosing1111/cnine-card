@@ -1,9 +1,9 @@
 import {BitmapFont,Cache,CanvasTextMetrics,TextStyle,Texture} from 'pixi.js';
 
-const NAME='Russo One Critical v1';
+const NAME='Russo One Critical Neon Blue v2';
 
 // Pixi's dynamic bitmap atlas paints a FillGradient without glyph metrics,
-// collapsing a local vertical gradient to one pixel. Bake the eleven numeric
+// collapsing a local vertical gradient to one pixel. Bake the twelve numeric
 // glyphs once, with a separate gradient origin for each glyph. Hits still use
 // BitmapText and share one small atlas instead of rasterising each hit string.
 export function criticalDamageFont(family){
@@ -23,10 +23,10 @@ export function criticalDamageFont(family){
     const width=Math.ceil(metrics.width)+padding*2,height=Math.ceil(metrics.height)+padding*2;
     const baseline=padding-strokeWidth/2+metrics.height-metrics.fontProperties.descent;
     const bounds=context.measureText(char);
-    // Use the digits' cap height for commas too: punctuation stays coral.
+    // Use the digits' cap height for commas too: punctuation stays blue.
     const cap=context.measureText('0').actualBoundingBoxAscent||72;
     const gradient=context.createLinearGradient(0,baseline-cap,0,baseline);
-    gradient.addColorStop(0,'#ffffff');gradient.addColorStop(.28,'#ffffff');gradient.addColorStop(.56,'#ffadbb');gradient.addColorStop(1,'#ff3864');
+    gradient.addColorStop(0,'#effdff');gradient.addColorStop(.22,'#effdff');gradient.addColorStop(.56,'#74ebff');gradient.addColorStop(1,'#268cff');
     context.fillStyle=gradient;
     context.strokeText(char,x+padding+strokeWidth/2,baseline);
     context.fillText(char,x+padding+strokeWidth/2,baseline);

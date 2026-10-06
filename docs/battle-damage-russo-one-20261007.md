@@ -39,3 +39,15 @@ UI 확인: 로컬에서 실제 제공 V3 번들을 로드해 PC 1280px 및 모�
 - API worker: `7b1d46c3-eac2-412f-b200-d82c59ef6649`, clan-draft worker: `1f5ee2fc-56f9-4699-9bbf-99fed20cc4cd`.
 - `https://cnine-card.pages.dev`에서 TTF·공통 폰트 모듈·V2 CSS/JS·V3 wrapper·메인 앱·V3/사냥 번들·서비스워커·index 총 10개 변경 대표 파일 HTTP 200 및 로컬 배포본과 SHA-256 일치 확인. TTF는 `font/ttf`, 모듈은 `application/javascript`로 제공된다.
 - 배포 로그 및 HTTP 해시 결과는 임시 검수 폴더의 `deploy.log`, `live-check.json`에 보존한다. 최종 결과 기록만 추가한 후에는 운영 재배포·전체 재검사를 반복하지 않는다.
+
+## 후속 승인: 일반 빨강 · 형광 파랑 치명타
+
+사용자 `일반공격을 빨간색으로 두고 크리티컬을 형광 느낌의 파랑으로` → `적용해 그냥`에 따라 위 초기 배색을 교체한다.
+
+- 일반 피해 `#ff4a4a`, 치명타 `#effdff` → `#74ebff` → `#268cff`, 치명타 문구 `#94edff`. 어두운 외곽선과 얇은 파란 광원을 함께 사용한다.
+- V3 공통 숫자·연타 숫자·기존 V2 피해에 적용한다. 회복 `#70f5cd`는 유지한다. ICON의 회복 숫자는 일반 숫자에 녹색 tint를 곱하던 경로를 전용 회복색으로 지정하여 빨강과 섞이지 않도록 한다.
+- 폰트·서버 수치·판정·속도는 유지하고, 기존 공용 비트맵 아틀라스 및 고정 스타일 캐시를 재사용한다.
+- 런타임은 `damage-russo-20261007-v2`, 앱/서비스워커는 `20261007-damage-russo-v2`로 함께 갱신한다. 공통 소비 번들 10개를 재빌드한다.
+- 직전 운영은 Pages `18d76747-de2e-420a-ab8c-ed3d3b46f17b`, 커밋 `730afc9b0f48ea67d59da92e5d9e6ab0f63286d8`이다. 운영 배포 목록에서 확인했다.
+- 색상과 ICON 회복 표시 범위만 변경하므로 scoped 배포를 사용한다. 기존 `battle-damage-font-20261007`, `v3-damage-style-cache`, `v3-common-grid-v1`, `pve-battlefield-entry-v2117`의 4개 테스트 파일로 값·회복 분리·풀 재사용·번들/메인 로더 연결을 확인한다. 변경 없는 서버 테스트·전체 게이트는 반복하지 않는다.
+- 이번 UI 검수와 배포 로그 경로: `C:/Users/User/.codex/tmp/damage-palette-20261007/`.

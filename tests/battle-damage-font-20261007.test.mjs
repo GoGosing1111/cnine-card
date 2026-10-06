@@ -58,6 +58,10 @@ test('Russo damage, combo and healing labels retain the server values across poo
     assert.deepEqual(view.speedHitLabels.map(label=>label.text),['123','456','789']);
     for(const label of [view.numberLabel,view.numberGlow,view.healLabel,view.hitLabel,...view.speedHitLabels])assert.equal(label.style.fontFamily,DAMAGE_FONT_FAMILY);
     pool.release(view);const reused=pool.acquire();assert.equal(reused,view);
+    configureDamageText(reused,{kind:'HP',damage:64220,critical:true,healingOnly:true});
+    assert.equal(reused.numberLabel.text,'64,220');
+    assert.equal(reused.numberLabel.style.fill,0x70f5cd);
+    assert.equal(reused.criticalLabel.text,'');
     configureDamageText(reused,{damage:0});
     assert.equal(reused.numberLabel.text,'0');assert.equal(reused.healLabel.text,'');assert.equal(reused.criticalLabel.text,'');
   }finally{pool.destroy();}

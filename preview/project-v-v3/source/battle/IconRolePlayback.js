@@ -21,8 +21,8 @@ function showDamage(engine,target,row){
  popups.get(target)?.cancel();
  const healing=Number(row.amount||0)>0;
  const label=engine.pools.damage.acquire(),amount=healing?Math.round(row.amount):Number(row.popupDamage??(Number(row.damage||0)+Number(row.absorbed||0)));
- configureDamageText(label,{kind:healing?'HP':'ATTACK',damage:amount,critical:!!row.critical,compact:engine.mobile});
- label.numberLabel.tint=label.numberGlow.tint=healing?0x75ffbd:0xffffff;
+ configureDamageText(label,{kind:healing?'HP':'ATTACK',damage:amount,critical:!!row.critical,healingOnly:healing,compact:engine.mobile});
+ label.numberLabel.tint=label.numberGlow.tint=0xffffff;
  if(healing)label.numberLabel.text=label.numberGlow.text=`+${amount.toLocaleString()}`;
  label.roleTag.text=healing?'HEAL':row.dodge?'DODGE':row.hit>1?row.hit+' HIT':'';
  const p=engine.uiLayer.toLocal(target.root.toGlobal({x:0,y:-target.fullBodyHeight*.82})),scale=.56;

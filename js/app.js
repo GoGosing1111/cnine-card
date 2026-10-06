@@ -1008,8 +1008,8 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>Boolean(window.WeeklyRaidUltimateFxV1?.play)
   },
   battleV2:{
-    runtimeVersion:'20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v1',
-    styles:['css/battle-v2-live.css?v=20261007-damage-russo-v1','css/battle-v3-live.css?v=1930-mobile-context-recovery&flow=2126&duo=20260925&coop=20261002-hp-sync-v1&backdrop=20261006-bg-recovery'],
+    runtimeVersion:'20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2',
+    styles:['css/battle-v2-live.css?v=20261007-damage-russo-v2','css/battle-v3-live.css?v=1930-mobile-context-recovery&flow=2126&duo=20260925&coop=20261002-hp-sync-v1&backdrop=20261006-bg-recovery'],
     scripts:[
       'js/battle-v2-live.js?v=1991-sweep-result-front&cowPortal=20260913&joint=2090&furHigh=2114-frames20261002&flow=2126&cubeRemoval=20261003&suggestions=20261005&apocalypseCompletion=20261006-foreground&damageFont=20261007-russo-v1',
       'js/project-v-battle-art-adapter-v1.js?v=3.7.0-orikkung-heeya&sd=20260919-bongsoon-armed',
