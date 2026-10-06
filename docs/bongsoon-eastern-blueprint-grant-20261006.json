@@ -1,0 +1,39 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:bongsoon-eastern-blueprint:20261006:one:v1",
+  "user": {
+    "id": 5426,
+    "nickname": "나무늘봉순"
+  },
+  "allocations": [
+    {
+      "code": "EASTERN_ARMS_WEAPON_BLUEPRINT",
+      "name": "동방무기상 무기설계도",
+      "amount": 1,
+      "before": {
+        "quantity": "0",
+        "unseenQuantity": "0"
+      },
+      "after": {
+        "quantity": "1",
+        "unseenQuantity": "1"
+      },
+      "logId": "76263319"
+    }
+  ],
+  "completedAt": "2026-10-06T10:07:08.497Z",
+  "auditId": "41793",
+  "currentInventoryAtVerification": {
+    "item_code": "EASTERN_ARMS_WEAPON_BLUEPRINT",
+    "quantity": "1",
+    "unseen_quantity": "0"
+  },
+  "verifiedAt": "2026-10-06T10:07:42.836Z",
+  "validation": {
+    "scopedTestsPassed": 4,
+    "remoteDryRunRollbackVerified": true,
+    "postCommitReadVerified": true
+  },
+  "gameRuntimeChanged": false,
+  "deploymentRequired": false
+}
