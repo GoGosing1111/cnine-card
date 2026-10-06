@@ -1,0 +1,3353 @@
+{
+  "version": "SX_SUIT_CONNECTED_V8_20261007",
+  "name": "SX슈트",
+  "title": "푸른 사신",
+  "status": "MOTION_REVIEW_PENDING",
+  "runtimeEnabled": false,
+  "sourceArt": "assets/sources/sx-standing-approved-20261007.png",
+  "sourceSha256": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+  "idle": {
+    "pivot": {
+      "x": 485,
+      "y": 1474
+    },
+    "bodyPixels": 1330
+  },
+  "method": "CONNECTED_FULL_FIGURE_DRAWINGS",
+  "colorPolicy": "ORIGINAL_COBALT_SILVER_GOLD_NO_BODY_TINT",
+  "proportionPolicy": "Preserve drawn adult limb lengths. One uniform scale per source sheet; never fit crouched bodies to standing height.",
+  "motion": {
+    "dash": {
+      "url": "assets/runtime/atlases/dash.png",
+      "columns": 4,
+      "rows": 2,
+      "frameWidth": 768,
+      "frameHeight": 768,
+      "bodyPixels": 360,
+      "sha256": "86bc80c8e51cf8fc3802051f909e39a661bc467796dad7f1b530e221db59b013",
+      "frames": [
+        {
+          "id": "dash-01",
+          "index": 0,
+          "pivot": {
+            "x": 316.8727272727273,
+            "y": 561.6909090909091
+          },
+          "grip": {
+            "x": 345.0181818181818,
+            "y": 379.07272727272726
+          },
+          "tip": {
+            "x": 544.6545454545454,
+            "y": 558.4181818181819
+          },
+          "head": {
+            "x": 407.8545454545455,
+            "y": 228.52727272727273
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/dash-a.png",
+          "sourceSha256": "8759ee3b4a027d3d2514d51b9a8e154d2109da03ea7a5dc54197aae3ea6f623c",
+          "componentBox": {
+            "left": 84,
+            "top": 74,
+            "width": 501,
+            "height": 555
+          },
+          "sourceFoot": [
+            232,
+            622
+          ],
+          "sourceGrip": [
+            275,
+            343
+          ],
+          "sourceTip": [
+            580,
+            617
+          ],
+          "sourceHead": [
+            371,
+            113
+          ],
+          "uniformScale": 0.6545454545454545,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "521f266bf8be18f9d3af7d69638ce057e086324f79e0dcdd648cdce446906ebd",
+          "file": "assets/runtime/frames/dash-01.png"
+        },
+        {
+          "id": "dash-02",
+          "index": 1,
+          "pivot": {
+            "x": 377.8,
+            "y": 531.1272727272727
+          },
+          "grip": {
+            "x": 354.8909090909091,
+            "y": 323.6363636363636
+          },
+          "tip": {
+            "x": 172.92727272727274,
+            "y": 274.54545454545456
+          },
+          "head": {
+            "x": 541.4363636363637,
+            "y": 273.23636363636365
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/dash-a.png",
+          "sourceSha256": "8759ee3b4a027d3d2514d51b9a8e154d2109da03ea7a5dc54197aae3ea6f623c",
+          "componentBox": {
+            "left": 587,
+            "top": 157,
+            "width": 659,
+            "height": 466
+          },
+          "sourceFoot": [
+            906,
+            614
+          ],
+          "sourceGrip": [
+            871,
+            297
+          ],
+          "sourceTip": [
+            593,
+            222
+          ],
+          "sourceHead": [
+            1156,
+            220
+          ],
+          "uniformScale": 0.6545454545454545,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "623811f8b0fa9d5b2077dca0203b4900321001c0cfdb91083c5c1374ef9f698f",
+          "file": "assets/runtime/frames/dash-02.png"
+        },
+        {
+          "id": "dash-03",
+          "index": 2,
+          "pivot": {
+            "x": 276.6181818181818,
+            "y": 525.0363636363636
+          },
+          "grip": {
+            "x": 359.74545454545455,
+            "y": 305.1090909090909
+          },
+          "tip": {
+            "x": 168.61818181818182,
+            "y": 265.1818181818182
+          },
+          "head": {
+            "x": 542.3636363636364,
+            "y": 275.6545454545454
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/dash-a.png",
+          "sourceSha256": "8759ee3b4a027d3d2514d51b9a8e154d2109da03ea7a5dc54197aae3ea6f623c",
+          "componentBox": {
+            "left": 12,
+            "top": 739,
+            "width": 666,
+            "height": 444
+          },
+          "sourceFoot": [
+            181,
+            1176
+          ],
+          "sourceGrip": [
+            308,
+            840
+          ],
+          "sourceTip": [
+            16,
+            779
+          ],
+          "sourceHead": [
+            587,
+            795
+          ],
+          "uniformScale": 0.6545454545454545,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "5c380566050e2aa0c67cda63c16879fb0def4e53e7f4ba05a4790c2510bb24a1",
+          "file": "assets/runtime/frames/dash-03.png"
+        },
+        {
+          "id": "dash-04",
+          "index": 3,
+          "pivot": {
+            "x": 316.3636363636364,
+            "y": 522.4181818181819
+          },
+          "grip": {
+            "x": 373.3090909090909,
+            "y": 311
+          },
+          "tip": {
+            "x": 195.27272727272728,
+            "y": 273.6909090909091
+          },
+          "head": {
+            "x": 543.4909090909091,
+            "y": 281.54545454545456
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/dash-a.png",
+          "sourceSha256": "8759ee3b4a027d3d2514d51b9a8e154d2109da03ea7a5dc54197aae3ea6f623c",
+          "componentBox": {
+            "left": 661,
+            "top": 740,
+            "width": 587,
+            "height": 443
+          },
+          "sourceFoot": [
+            851,
+            1173
+          ],
+          "sourceGrip": [
+            938,
+            850
+          ],
+          "sourceTip": [
+            666,
+            793
+          ],
+          "sourceHead": [
+            1198,
+            805
+          ],
+          "uniformScale": 0.6545454545454545,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "158f80dcf25d3362614d27d82f9a40ff31de432b578923abdd8bf093bc5fb863",
+          "file": "assets/runtime/frames/dash-04.png"
+        },
+        {
+          "id": "dash-05",
+          "index": 4,
+          "pivot": {
+            "x": 285.69565217391306,
+            "y": 529.0173913043478
+          },
+          "grip": {
+            "x": 355.81739130434784,
+            "y": 294.23478260869564
+          },
+          "tip": {
+            "x": 176.1304347826087,
+            "y": 234.1304347826087
+          },
+          "head": {
+            "x": 515.4695652173914,
+            "y": 309.2608695652174
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/dash-b.png",
+          "sourceSha256": "f13812e5f6a0248e818c6a5634e6fb272eaffe13fd719571b25645a26e1997bc",
+          "componentBox": {
+            "left": 30,
+            "top": 67,
+            "width": 675,
+            "height": 490
+          },
+          "sourceFoot": [
+            210,
+            543
+          ],
+          "sourceGrip": [
+            322,
+            168
+          ],
+          "sourceTip": [
+            35,
+            72
+          ],
+          "sourceHead": [
+            577,
+            192
+          ],
+          "uniformScale": 0.6260869565217392,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "247a2f0b166924db9e11bf60d1b6cb30a8f8bb81cd58f12289cc54c501e3d02e",
+          "file": "assets/runtime/frames/dash-05.png"
+        },
+        {
+          "id": "dash-06",
+          "index": 5,
+          "pivot": {
+            "x": 553.4869565217391,
+            "y": 545.3217391304348
+          },
+          "grip": {
+            "x": 360.02608695652174,
+            "y": 283.61739130434785
+          },
+          "tip": {
+            "x": 205.38260869565218,
+            "y": 240.41739130434783
+          },
+          "head": {
+            "x": 494.6347826086957,
+            "y": 247.9304347826087
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/dash-b.png",
+          "sourceSha256": "f13812e5f6a0248e818c6a5634e6fb272eaffe13fd719571b25645a26e1997bc",
+          "componentBox": {
+            "left": 666,
+            "top": 111,
+            "width": 586,
+            "height": 536
+          },
+          "sourceFoot": [
+            1229,
+            637
+          ],
+          "sourceGrip": [
+            920,
+            219
+          ],
+          "sourceTip": [
+            673,
+            150
+          ],
+          "sourceHead": [
+            1135,
+            162
+          ],
+          "uniformScale": 0.6260869565217392,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "df29c01e61726f01ac2912ee010f96a610f138f1c0de237a133fe31d013b8967",
+          "file": "assets/runtime/frames/dash-06.png"
+        },
+        {
+          "id": "dash-07",
+          "index": 6,
+          "pivot": {
+            "x": 305.4869565217391,
+            "y": 529.8869565217392
+          },
+          "grip": {
+            "x": 348.68695652173915,
+            "y": 352.0782608695652
+          },
+          "tip": {
+            "x": 172.1304347826087,
+            "y": 303.24347826086955
+          },
+          "head": {
+            "x": 503.95652173913044,
+            "y": 278.82608695652175
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/dash-b.png",
+          "sourceSha256": "f13812e5f6a0248e818c6a5634e6fb272eaffe13fd719571b25645a26e1997bc",
+          "componentBox": {
+            "left": 19,
+            "top": 746,
+            "width": 688,
+            "height": 478
+          },
+          "sourceFoot": [
+            237,
+            1217
+          ],
+          "sourceGrip": [
+            306,
+            933
+          ],
+          "sourceTip": [
+            24,
+            855
+          ],
+          "sourceHead": [
+            554,
+            816
+          ],
+          "uniformScale": 0.6260869565217392,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "3b5e4b57ae28aba1d797b2e962f6cdb1637e1129e0691f26bd16b105632b724f",
+          "file": "assets/runtime/frames/dash-07.png"
+        },
+        {
+          "id": "dash-08",
+          "index": 7,
+          "pivot": {
+            "x": 318.26956521739135,
+            "y": 562
+          },
+          "grip": {
+            "x": 333.295652173913,
+            "y": 362.2782608695652
+          },
+          "tip": {
+            "x": 529.8869565217392,
+            "y": 550.104347826087
+          },
+          "head": {
+            "x": 387.1391304347826,
+            "y": 230.8
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/dash-b.png",
+          "sourceSha256": "f13812e5f6a0248e818c6a5634e6fb272eaffe13fd719571b25645a26e1997bc",
+          "componentBox": {
+            "left": 758,
+            "top": 642,
+            "width": 477,
+            "height": 583
+          },
+          "sourceFoot": [
+            891,
+            1217
+          ],
+          "sourceGrip": [
+            915,
+            898
+          ],
+          "sourceTip": [
+            1229,
+            1198
+          ],
+          "sourceHead": [
+            1001,
+            688
+          ],
+          "uniformScale": 0.6260869565217392,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "39ea449e7a53be3d7bf1c10dd476c04993f1fec50427137bed8d707969d15a65",
+          "file": "assets/runtime/frames/dash-08.png"
+        }
+      ]
+    },
+    "attack": {
+      "url": "assets/runtime/atlases/attack.png",
+      "columns": 4,
+      "rows": 2,
+      "frameWidth": 768,
+      "frameHeight": 768,
+      "bodyPixels": 360,
+      "sha256": "4419fc43a35344e9cd6a8f4185a4d67e734a72e8f95d1a0aa7c4553416d6e14f",
+      "frames": [
+        {
+          "id": "attack-01",
+          "index": 0,
+          "pivot": {
+            "x": 255.13513513513513,
+            "y": 591.3243243243244
+          },
+          "grip": {
+            "x": 310.9189189189189,
+            "y": 267.64864864864865
+          },
+          "tip": {
+            "x": 443.2432432432432,
+            "y": 174.8918918918919
+          },
+          "head": {
+            "x": 403.6756756756757,
+            "y": 292.94594594594594
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/attack-a.png",
+          "sourceSha256": "249505db6a7300b0a72b962beea73ed1cd6fe23699cf59d9024c9895071311b5",
+          "componentBox": {
+            "left": 22,
+            "top": 6,
+            "width": 568,
+            "height": 657
+          },
+          "sourceFoot": [
+            107,
+            654
+          ],
+          "sourceGrip": [
+            193,
+            155
+          ],
+          "sourceTip": [
+            397,
+            12
+          ],
+          "sourceHead": [
+            336,
+            194
+          ],
+          "uniformScale": 0.6486486486486487,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "49f29614225f32e59e70ae497d233cc452222928e640506819542be5120ef910",
+          "file": "assets/runtime/frames/attack-01.png"
+        },
+        {
+          "id": "attack-02",
+          "index": 1,
+          "pivot": {
+            "x": 262.21621621621625,
+            "y": 571.7027027027027
+          },
+          "grip": {
+            "x": 385.4594594594595,
+            "y": 320.02702702702703
+          },
+          "tip": {
+            "x": 562.5405405405406,
+            "y": 193.54054054054055
+          },
+          "head": {
+            "x": 365.35135135135135,
+            "y": 277.8648648648649
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/attack-a.png",
+          "sourceSha256": "249505db6a7300b0a72b962beea73ed1cd6fe23699cf59d9024c9895071311b5",
+          "componentBox": {
+            "left": 641,
+            "top": 70,
+            "width": 573,
+            "height": 600
+          },
+          "sourceFoot": [
+            740,
+            660
+          ],
+          "sourceGrip": [
+            930,
+            272
+          ],
+          "sourceTip": [
+            1203,
+            77
+          ],
+          "sourceHead": [
+            899,
+            207
+          ],
+          "uniformScale": 0.6486486486486487,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "ca9e5a3eeca9c89f7fd9a15cb1f01ce5587b853b48a917c404b93ab4ba5ba177",
+          "file": "assets/runtime/frames/attack-02.png"
+        },
+        {
+          "id": "attack-03",
+          "index": 2,
+          "pivot": {
+            "x": 207.6216216216216,
+            "y": 550.8918918918919
+          },
+          "grip": {
+            "x": 387.94594594594594,
+            "y": 335.5405405405405
+          },
+          "tip": {
+            "x": 616.2702702702703,
+            "y": 348.51351351351354
+          },
+          "head": {
+            "x": 333.4594594594595,
+            "y": 251.86486486486487
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/attack-a.png",
+          "sourceSha256": "249505db6a7300b0a72b962beea73ed1cd6fe23699cf59d9024c9895071311b5",
+          "componentBox": {
+            "left": 8,
+            "top": 682,
+            "width": 734,
+            "height": 535
+          },
+          "sourceFoot": [
+            103,
+            1206
+          ],
+          "sourceGrip": [
+            381,
+            874
+          ],
+          "sourceTip": [
+            733,
+            894
+          ],
+          "sourceHead": [
+            297,
+            745
+          ],
+          "uniformScale": 0.6486486486486487,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "50605e6c6d5192d1dad8114e683a2d05280e8a8888337da1bf3e7022c2f87efd",
+          "file": "assets/runtime/frames/attack-03.png"
+        },
+        {
+          "id": "attack-04",
+          "index": 3,
+          "pivot": {
+            "x": 227.75675675675677,
+            "y": 543.0270270270271
+          },
+          "grip": {
+            "x": 423,
+            "y": 306.27027027027026
+          },
+          "tip": {
+            "x": 582.5675675675676,
+            "y": 303.02702702702703
+          },
+          "head": {
+            "x": 379.5405405405405,
+            "y": 247.24324324324326
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/attack-a.png",
+          "sourceSha256": "249505db6a7300b0a72b962beea73ed1cd6fe23699cf59d9024c9895071311b5",
+          "componentBox": {
+            "left": 631,
+            "top": 701,
+            "width": 622,
+            "height": 507
+          },
+          "sourceFoot": [
+            700,
+            1199
+          ],
+          "sourceGrip": [
+            1001,
+            834
+          ],
+          "sourceTip": [
+            1247,
+            829
+          ],
+          "sourceHead": [
+            934,
+            743
+          ],
+          "uniformScale": 0.6486486486486487,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "367a6ba5c6f06d837463ae0063fc4e974a86843e6c1f3b3e703352a65e934dd8",
+          "file": "assets/runtime/frames/attack-04.png"
+        },
+        {
+          "id": "attack-05",
+          "index": 4,
+          "pivot": {
+            "x": 184.76923076923077,
+            "y": 546.3076923076924
+          },
+          "grip": {
+            "x": 423.6153846153846,
+            "y": 351.7692307692308
+          },
+          "tip": {
+            "x": 644.4615384615385,
+            "y": 383.61538461538464
+          },
+          "head": {
+            "x": 369.61538461538464,
+            "y": 259
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/attack-b.png",
+          "sourceSha256": "272b6de49186051fd1f2595e6f11031d12de88a539196e06699e4946d023cd4d",
+          "componentBox": {
+            "left": 27,
+            "top": 26,
+            "width": 766,
+            "height": 492
+          },
+          "sourceFoot": [
+            122,
+            506
+          ],
+          "sourceGrip": [
+            467,
+            225
+          ],
+          "sourceTip": [
+            786,
+            271
+          ],
+          "sourceHead": [
+            389,
+            91
+          ],
+          "uniformScale": 0.6923076923076923,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "5bc11d5ed9fbc9ed0a70eb0cf09d4ffe80c97f720484ec2104f947603452cbca",
+          "file": "assets/runtime/frames/attack-05.png"
+        },
+        {
+          "id": "attack-06",
+          "index": 5,
+          "pivot": {
+            "x": 226,
+            "y": 541.7692307692307
+          },
+          "grip": {
+            "x": 412.9230769230769,
+            "y": 404.6923076923077
+          },
+          "tip": {
+            "x": 600.5384615384615,
+            "y": 547.3076923076924
+          },
+          "head": {
+            "x": 399.0769230769231,
+            "y": 258.61538461538464
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/attack-b.png",
+          "sourceSha256": "272b6de49186051fd1f2595e6f11031d12de88a539196e06699e4946d023cd4d",
+          "componentBox": {
+            "left": 796,
+            "top": 36,
+            "width": 638,
+            "height": 488
+          },
+          "sourceFoot": [
+            887,
+            508
+          ],
+          "sourceGrip": [
+            1157,
+            310
+          ],
+          "sourceTip": [
+            1428,
+            516
+          ],
+          "sourceHead": [
+            1137,
+            99
+          ],
+          "uniformScale": 0.6923076923076923,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "8825523dd0adee806a6ca94fe7884660ea374940a62a4c12c889012056a98a03",
+          "file": "assets/runtime/frames/attack-06.png"
+        },
+        {
+          "id": "attack-07",
+          "index": 6,
+          "pivot": {
+            "x": 236.53846153846155,
+            "y": 547.1538461538462
+          },
+          "grip": {
+            "x": 378.46153846153845,
+            "y": 368.53846153846155
+          },
+          "tip": {
+            "x": 548.7692307692307,
+            "y": 553.3846153846154
+          },
+          "head": {
+            "x": 417.9230769230769,
+            "y": 262.61538461538464
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/attack-b.png",
+          "sourceSha256": "272b6de49186051fd1f2595e6f11031d12de88a539196e06699e4946d023cd4d",
+          "componentBox": {
+            "left": 65,
+            "top": 559,
+            "width": 600,
+            "height": 505
+          },
+          "sourceFoot": [
+            151,
+            1046
+          ],
+          "sourceGrip": [
+            356,
+            788
+          ],
+          "sourceTip": [
+            602,
+            1055
+          ],
+          "sourceHead": [
+            413,
+            635
+          ],
+          "uniformScale": 0.6923076923076923,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "3a5d0ee2d94aa67781171347a2fa16bc9c28b974eb31b80ce0f63bb95640689e",
+          "file": "assets/runtime/frames/attack-07.png"
+        },
+        {
+          "id": "attack-08",
+          "index": 7,
+          "pivot": {
+            "x": 299.8461538461538,
+            "y": 557.4615384615385
+          },
+          "grip": {
+            "x": 344.8461538461538,
+            "y": 377.46153846153845
+          },
+          "tip": {
+            "x": 558.0769230769231,
+            "y": 545.6923076923076
+          },
+          "head": {
+            "x": 376,
+            "y": 239
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/attack-b.png",
+          "sourceSha256": "272b6de49186051fd1f2595e6f11031d12de88a539196e06699e4946d023cd4d",
+          "componentBox": {
+            "left": 839,
+            "top": 552,
+            "width": 517,
+            "height": 523
+          },
+          "sourceFoot": [
+            976,
+            1064
+          ],
+          "sourceGrip": [
+            1041,
+            804
+          ],
+          "sourceTip": [
+            1349,
+            1047
+          ],
+          "sourceHead": [
+            1086,
+            604
+          ],
+          "uniformScale": 0.6923076923076923,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "570c9756ad9a4f8825fcb1c9c526a94b8f974216270ed4a39d029ab761f05772",
+          "file": "assets/runtime/frames/attack-08.png"
+        }
+      ]
+    },
+    "skill": {
+      "url": "assets/runtime/atlases/skill.png",
+      "columns": 4,
+      "rows": 2,
+      "frameWidth": 768,
+      "frameHeight": 768,
+      "bodyPixels": 360,
+      "sha256": "4c84d04dea013d3376fa82c1089e550c80a6dfa63323be23e72996c12d6f259d",
+      "frames": [
+        {
+          "id": "skill-01",
+          "index": 0,
+          "pivot": {
+            "x": 203.77419354838707,
+            "y": 543.1612903225806
+          },
+          "grip": {
+            "x": 405.83870967741933,
+            "y": 388.3225806451613
+          },
+          "tip": {
+            "x": 631.1290322580645,
+            "y": 289.2258064516129
+          },
+          "head": {
+            "x": 358.61290322580646,
+            "y": 263.6774193548387
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/skill-a.png",
+          "sourceSha256": "6d28452b37bcb6d06621fe74056ff378bc2454a7c5a4a94e44a0208b91487f3d",
+          "componentBox": {
+            "left": 45,
+            "top": 59,
+            "width": 654,
+            "height": 431
+          },
+          "sourceFoot": [
+            139,
+            479
+          ],
+          "sourceGrip": [
+            400,
+            279
+          ],
+          "sourceTip": [
+            691,
+            151
+          ],
+          "sourceHead": [
+            339,
+            118
+          ],
+          "uniformScale": 0.7741935483870968,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "6b059ce9da26b8c3e26025361b15ed622099f32963f46117cb927408d76c1347",
+          "file": "assets/runtime/frames/skill-01.png"
+        },
+        {
+          "id": "skill-02",
+          "index": 1,
+          "pivot": {
+            "x": 184.5806451612903,
+            "y": 534.1290322580645
+          },
+          "grip": {
+            "x": 409.8709677419355,
+            "y": 370.7741935483871
+          },
+          "tip": {
+            "x": 645.2258064516129,
+            "y": 328.19354838709677
+          },
+          "head": {
+            "x": 383.5483870967742,
+            "y": 266.258064516129
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/skill-a.png",
+          "sourceSha256": "6d28452b37bcb6d06621fe74056ff378bc2454a7c5a4a94e44a0208b91487f3d",
+          "componentBox": {
+            "left": 743,
+            "top": 83,
+            "width": 689,
+            "height": 408
+          },
+          "sourceFoot": [
+            829,
+            481
+          ],
+          "sourceGrip": [
+            1120,
+            270
+          ],
+          "sourceTip": [
+            1424,
+            215
+          ],
+          "sourceHead": [
+            1086,
+            135
+          ],
+          "uniformScale": 0.7741935483870968,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "c1f6860cedb23a7d74bcc611cab5a1917fb70c6cb75b58f769c1827f88ab89e5",
+          "file": "assets/runtime/frames/skill-02.png"
+        },
+        {
+          "id": "skill-03",
+          "index": 2,
+          "pivot": {
+            "x": 257.38709677419354,
+            "y": 588.741935483871
+          },
+          "grip": {
+            "x": 362.67741935483866,
+            "y": 260.48387096774195
+          },
+          "tip": {
+            "x": 544.6129032258065,
+            "y": 178.41935483870967
+          },
+          "head": {
+            "x": 396.741935483871,
+            "y": 317
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/skill-a.png",
+          "sourceSha256": "6d28452b37bcb6d06621fe74056ff378bc2454a7c5a4a94e44a0208b91487f3d",
+          "componentBox": {
+            "left": 110,
+            "top": 530,
+            "width": 546,
+            "height": 546
+          },
+          "sourceFoot": [
+            219,
+            1067
+          ],
+          "sourceGrip": [
+            355,
+            643
+          ],
+          "sourceTip": [
+            590,
+            537
+          ],
+          "sourceHead": [
+            399,
+            716
+          ],
+          "uniformScale": 0.7741935483870968,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "35d15f1b9182986798a2be0c372aa30bf69e7c358fae9fdc090841b5f44411d8",
+          "file": "assets/runtime/frames/skill-03.png"
+        },
+        {
+          "id": "skill-04",
+          "index": 3,
+          "pivot": {
+            "x": 363.58620689655174,
+            "y": 689.9655172413793
+          },
+          "grip": {
+            "x": 459.1724137931035,
+            "y": 268.31034482758616
+          },
+          "tip": {
+            "x": 455.44827586206895,
+            "y": 76.72413793103448
+          },
+          "head": {
+            "x": 448.41379310344826,
+            "y": 353.9655172413793
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/skill-takeoff-repair.png",
+          "sourceSha256": "fbf94d2bcfbc6ef8732c8cddb26c44085d20f7bf58a012a57e58c42fbb5cf713",
+          "componentBox": {
+            "left": 126,
+            "top": 14,
+            "width": 679,
+            "height": 1503
+          },
+          "sourceFoot": [
+            415,
+            1505
+          ],
+          "sourceGrip": [
+            646,
+            486
+          ],
+          "sourceTip": [
+            637,
+            23
+          ],
+          "sourceHead": [
+            620,
+            693
+          ],
+          "uniformScale": 0.41379310344827586,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": "The fourth sheet pose shortened the vertical sword. Redraw the complete connected figure with long adult legs and a full straight sword.",
+          "sha256": "ce678a5107b642ba192542d914feb41d67223a99f38b1de450e99a124e2d654f",
+          "file": "assets/runtime/frames/skill-04.png"
+        },
+        {
+          "id": "skill-05",
+          "index": 4,
+          "pivot": {
+            "x": 432.3571428571429,
+            "y": 641.1428571428572
+          },
+          "grip": {
+            "x": 434.28571428571433,
+            "y": 283.7142857142857
+          },
+          "tip": {
+            "x": 418.8571428571429,
+            "y": 126.85714285714286
+          },
+          "head": {
+            "x": 441.3571428571429,
+            "y": 371.14285714285717
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/skill-b.png",
+          "sourceSha256": "74f78ca3afcd8d602d79ef79dba0e47b761540532f1ad1df5092c6411967dd7b",
+          "componentBox": {
+            "left": 39,
+            "top": 9,
+            "width": 437,
+            "height": 814
+          },
+          "sourceFoot": [
+            332,
+            815
+          ],
+          "sourceGrip": [
+            335,
+            259
+          ],
+          "sourceTip": [
+            311,
+            15
+          ],
+          "sourceHead": [
+            346,
+            395
+          ],
+          "uniformScale": 0.6428571428571429,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "e5ee832eda642740f0230f8ef0d4fb28c3a627d7d75830d2dd8572aa68d67e41",
+          "file": "assets/runtime/frames/skill-05.png"
+        },
+        {
+          "id": "skill-06",
+          "index": 5,
+          "pivot": {
+            "x": 267.07142857142856,
+            "y": 534.9285714285714
+          },
+          "grip": {
+            "x": 416.8571428571429,
+            "y": 394.78571428571433
+          },
+          "tip": {
+            "x": 548,
+            "y": 524
+          },
+          "head": {
+            "x": 391.78571428571433,
+            "y": 259.7857142857143
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/skill-b.png",
+          "sourceSha256": "74f78ca3afcd8d602d79ef79dba0e47b761540532f1ad1df5092c6411967dd7b",
+          "componentBox": {
+            "left": 550,
+            "top": 348,
+            "width": 527,
+            "height": 488
+          },
+          "sourceFoot": [
+            631,
+            827
+          ],
+          "sourceGrip": [
+            864,
+            609
+          ],
+          "sourceTip": [
+            1068,
+            810
+          ],
+          "sourceHead": [
+            825,
+            399
+          ],
+          "uniformScale": 0.6428571428571429,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "2c9c8997c12de576809b7f4d7529c34530f8eb3267ba1fdf2a3e7747e8892d75",
+          "file": "assets/runtime/frames/skill-06.png"
+        },
+        {
+          "id": "skill-07",
+          "index": 6,
+          "pivot": {
+            "x": 234.21428571428572,
+            "y": 523.8571428571429
+          },
+          "grip": {
+            "x": 396.8571428571429,
+            "y": 340.64285714285717
+          },
+          "tip": {
+            "x": 578.1428571428571,
+            "y": 343.2142857142857
+          },
+          "head": {
+            "x": 366.64285714285717,
+            "y": 274.42857142857144
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/skill-b.png",
+          "sourceSha256": "74f78ca3afcd8d602d79ef79dba0e47b761540532f1ad1df5092c6411967dd7b",
+          "componentBox": {
+            "left": 13,
+            "top": 948,
+            "width": 618,
+            "height": 447
+          },
+          "sourceFoot": [
+            88,
+            1388
+          ],
+          "sourceGrip": [
+            341,
+            1103
+          ],
+          "sourceTip": [
+            623,
+            1107
+          ],
+          "sourceHead": [
+            294,
+            1000
+          ],
+          "uniformScale": 0.6428571428571429,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "c9f1bbe45e35ba2a8dc8c3be5aa1490bc0e0226411d0ab2a31be5bd12eb045c1",
+          "file": "assets/runtime/frames/skill-07.png"
+        },
+        {
+          "id": "skill-08",
+          "index": 7,
+          "pivot": {
+            "x": 283.57142857142856,
+            "y": 545.7857142857143
+          },
+          "grip": {
+            "x": 386.42857142857144,
+            "y": 379.28571428571433
+          },
+          "tip": {
+            "x": 536.8571428571429,
+            "y": 523.2857142857143
+          },
+          "head": {
+            "x": 376.78571428571433,
+            "y": 250.71428571428572
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/skill-b.png",
+          "sourceSha256": "74f78ca3afcd8d602d79ef79dba0e47b761540532f1ad1df5092c6411967dd7b",
+          "componentBox": {
+            "left": 586,
+            "top": 886,
+            "width": 489,
+            "height": 523
+          },
+          "sourceFoot": [
+            674,
+            1399
+          ],
+          "sourceGrip": [
+            834,
+            1140
+          ],
+          "sourceTip": [
+            1068,
+            1364
+          ],
+          "sourceHead": [
+            819,
+            940
+          ],
+          "uniformScale": 0.6428571428571429,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "31328852cb1e96b1ae8c102a62868278fc3012fabd37443e46801a212889018d",
+          "file": "assets/runtime/frames/skill-08.png"
+        }
+      ]
+    },
+    "ultimate": {
+      "url": "assets/runtime/atlases/ultimate.png",
+      "columns": 4,
+      "rows": 2,
+      "frameWidth": 768,
+      "frameHeight": 768,
+      "bodyPixels": 360,
+      "sha256": "af99230c9e46c853e61d15c20761e1246e64fe96375dc781955222c6a36f6751",
+      "frames": [
+        {
+          "id": "ultimate-01",
+          "index": 0,
+          "pivot": {
+            "x": 310.35849056603774,
+            "y": 634.3962264150944
+          },
+          "grip": {
+            "x": 404.09433962264154,
+            "y": 374.2452830188679
+          },
+          "tip": {
+            "x": 404.09433962264154,
+            "y": 131.75471698113208
+          },
+          "head": {
+            "x": 421.07547169811323,
+            "y": 351.1509433962264
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/ultimate-a.png",
+          "sourceSha256": "786d6c7d737dc35eecbaa8f0c7b3532b89503261061085a6824af49753ce6946",
+          "componentBox": {
+            "left": 53,
+            "top": 18,
+            "width": 434,
+            "height": 757
+          },
+          "sourceFoot": [
+            161,
+            765
+          ],
+          "sourceGrip": [
+            299,
+            382
+          ],
+          "sourceTip": [
+            299,
+            25
+          ],
+          "sourceHead": [
+            324,
+            348
+          ],
+          "uniformScale": 0.6792452830188679,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "cedb1ecfdc59e649cc6496e275b8dd01da36c33cfa67c3aebaf96616c99c2986",
+          "file": "assets/runtime/frames/ultimate-01.png"
+        },
+        {
+          "id": "ultimate-02",
+          "index": 1,
+          "pivot": {
+            "x": 299.6792452830189,
+            "y": 638.188679245283
+          },
+          "grip": {
+            "x": 398.1698113207547,
+            "y": 303.3207547169811
+          },
+          "tip": {
+            "x": 397.49056603773585,
+            "y": 128.75471698113208
+          },
+          "head": {
+            "x": 400.88679245283015,
+            "y": 378.0377358490566
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/ultimate-a.png",
+          "sourceSha256": "786d6c7d737dc35eecbaa8f0c7b3532b89503261061085a6824af49753ce6946",
+          "componentBox": {
+            "left": 590,
+            "top": 7,
+            "width": 462,
+            "height": 767
+          },
+          "sourceFoot": [
+            697,
+            764
+          ],
+          "sourceGrip": [
+            842,
+            271
+          ],
+          "sourceTip": [
+            841,
+            14
+          ],
+          "sourceHead": [
+            846,
+            381
+          ],
+          "uniformScale": 0.6792452830188679,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "0fb9dcd2f15a05ee7fda46e1872532ef8ae9fc6c49d4fcda8e21b6d41af61547",
+          "file": "assets/runtime/frames/ultimate-02.png"
+        },
+        {
+          "id": "ultimate-03",
+          "index": 2,
+          "pivot": {
+            "x": 295.6792452830189,
+            "y": 595.6037735849056
+          },
+          "grip": {
+            "x": 396.2075471698113,
+            "y": 289.9433962264151
+          },
+          "tip": {
+            "x": 319.45283018867923,
+            "y": 172.43396226415095
+          },
+          "head": {
+            "x": 407.7547169811321,
+            "y": 363.9811320754717
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/ultimate-a.png",
+          "sourceSha256": "786d6c7d737dc35eecbaa8f0c7b3532b89503261061085a6824af49753ce6946",
+          "componentBox": {
+            "left": 48,
+            "top": 794,
+            "width": 476,
+            "height": 640
+          },
+          "sourceFoot": [
+            155,
+            1425
+          ],
+          "sourceGrip": [
+            303,
+            975
+          ],
+          "sourceTip": [
+            190,
+            802
+          ],
+          "sourceHead": [
+            320,
+            1084
+          ],
+          "uniformScale": 0.6792452830188679,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "75e43192b6abe37ce56c6ce959a9d12619fcb4a55f35340dc1792e754a7f08f1",
+          "file": "assets/runtime/frames/ultimate-03.png"
+        },
+        {
+          "id": "ultimate-04",
+          "index": 3,
+          "pivot": {
+            "x": 410.3207547169811,
+            "y": 611.5283018867924
+          },
+          "grip": {
+            "x": 436.1320754716981,
+            "y": 285.49056603773585
+          },
+          "tip": {
+            "x": 425.2641509433962,
+            "y": 156.43396226415095
+          },
+          "head": {
+            "x": 436.811320754717,
+            "y": 380.58490566037733
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/ultimate-a.png",
+          "sourceSha256": "786d6c7d737dc35eecbaa8f0c7b3532b89503261061085a6824af49753ce6946",
+          "componentBox": {
+            "left": 600,
+            "top": 740,
+            "width": 344,
+            "height": 687
+          },
+          "sourceFoot": [
+            811,
+            1418
+          ],
+          "sourceGrip": [
+            849,
+            938
+          ],
+          "sourceTip": [
+            833,
+            748
+          ],
+          "sourceHead": [
+            850,
+            1078
+          ],
+          "uniformScale": 0.6792452830188679,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "a379fa0e3dfe1e01b104a1040f84e680918e343fb884aed1cb3c7a51ec1f7934",
+          "file": "assets/runtime/frames/ultimate-04.png"
+        },
+        {
+          "id": "ultimate-05",
+          "index": 4,
+          "pivot": {
+            "x": 280.8421052631579,
+            "y": 631.1052631578947
+          },
+          "grip": {
+            "x": 336.42105263157896,
+            "y": 266.0526315789474
+          },
+          "tip": {
+            "x": 457.05263157894734,
+            "y": 133.42105263157896
+          },
+          "head": {
+            "x": 386.9473684210526,
+            "y": 350.6842105263158
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/ultimate-b.png",
+          "sourceSha256": "d7827899e5dce4a1e8a7157ac187cec6cea1bf005af9ab8af1b635c1d52e917e",
+          "componentBox": {
+            "left": 27,
+            "top": 5,
+            "width": 506,
+            "height": 807
+          },
+          "sourceFoot": [
+            117,
+            800
+          ],
+          "sourceGrip": [
+            205,
+            222
+          ],
+          "sourceTip": [
+            396,
+            12
+          ],
+          "sourceHead": [
+            285,
+            356
+          ],
+          "uniformScale": 0.631578947368421,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "8d17822ed884f26971aaf0f8659bfd40ba1ec62a91815364982b85acb56cff46",
+          "file": "assets/runtime/frames/ultimate-05.png"
+        },
+        {
+          "id": "ultimate-06",
+          "index": 5,
+          "pivot": {
+            "x": 261.89473684210526,
+            "y": 540.6842105263158
+          },
+          "grip": {
+            "x": 399.57894736842104,
+            "y": 357.52631578947364
+          },
+          "tip": {
+            "x": 551.1578947368421,
+            "y": 276.05263157894734
+          },
+          "head": {
+            "x": 365.4736842105263,
+            "y": 255.8421052631579
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/ultimate-b.png",
+          "sourceSha256": "d7827899e5dce4a1e8a7157ac187cec6cea1bf005af9ab8af1b635c1d52e917e",
+          "componentBox": {
+            "left": 536,
+            "top": 307,
+            "width": 547,
+            "height": 512
+          },
+          "sourceFoot": [
+            615,
+            810
+          ],
+          "sourceGrip": [
+            833,
+            520
+          ],
+          "sourceTip": [
+            1073,
+            391
+          ],
+          "sourceHead": [
+            779,
+            359
+          ],
+          "uniformScale": 0.631578947368421,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "fe0af1ef21c72e0b0314711b6aa2835de0ad8a446a997cd6357fc1c539a1e762",
+          "file": "assets/runtime/frames/ultimate-06.png"
+        },
+        {
+          "id": "ultimate-07",
+          "index": 6,
+          "pivot": {
+            "x": 220.89473684210526,
+            "y": 520.5263157894736
+          },
+          "grip": {
+            "x": 393.9473684210526,
+            "y": 329.1578947368421
+          },
+          "tip": {
+            "x": 580.2631578947369,
+            "y": 331.0526315789474
+          },
+          "head": {
+            "x": 353.52631578947364,
+            "y": 276.10526315789474
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/ultimate-b.png",
+          "sourceSha256": "d7827899e5dce4a1e8a7157ac187cec6cea1bf005af9ab8af1b635c1d52e917e",
+          "componentBox": {
+            "left": 7,
+            "top": 958,
+            "width": 638,
+            "height": 450
+          },
+          "sourceFoot": [
+            67,
+            1399
+          ],
+          "sourceGrip": [
+            341,
+            1096
+          ],
+          "sourceTip": [
+            636,
+            1099
+          ],
+          "sourceHead": [
+            277,
+            1012
+          ],
+          "uniformScale": 0.631578947368421,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "2699d04f6ab6ef75a7d5dfa42aaa58ef22d1471571337ec8b38e6e405a10ec8c",
+          "file": "assets/runtime/frames/ultimate-07.png"
+        },
+        {
+          "id": "ultimate-08",
+          "index": 7,
+          "pivot": {
+            "x": 300.7894736842105,
+            "y": 561
+          },
+          "grip": {
+            "x": 339.3157894736842,
+            "y": 368.36842105263156
+          },
+          "tip": {
+            "x": 526.8947368421052,
+            "y": 549
+          },
+          "head": {
+            "x": 362.6842105263158,
+            "y": 245.21052631578948
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/ultimate-b.png",
+          "sourceSha256": "d7827899e5dce4a1e8a7157ac187cec6cea1bf005af9ab8af1b635c1d52e917e",
+          "componentBox": {
+            "left": 612,
+            "top": 837,
+            "width": 466,
+            "height": 582
+          },
+          "sourceFoot": [
+            713,
+            1407
+          ],
+          "sourceGrip": [
+            774,
+            1102
+          ],
+          "sourceTip": [
+            1071,
+            1388
+          ],
+          "sourceHead": [
+            811,
+            907
+          ],
+          "uniformScale": 0.631578947368421,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "a2432e8aed18390b87b0d07b74ca94b25c07db5b92f29ab167621053bbef142f",
+          "file": "assets/runtime/frames/ultimate-08.png"
+        }
+      ]
+    }
+  },
+  "effects": {
+    "aura": {
+      "url": "assets/runtime/effects/aura.png",
+      "sourceUrl": "assets/sources/fx-aura.png",
+      "sourceSha256": "e05efcd8e9afb18c1d41c86cb81ca94404cb9a06f0f99646f3f99dd8a13fd269",
+      "columns": 4,
+      "rows": 3,
+      "width": 2048,
+      "height": 1536,
+      "sha256": "bb630903cbc2e1bd27c4ab8af026c99e0c28c42a65f897810deacd67069bdec1",
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "19df2aa864b874e5a9f5ba6970fca4c3cd9e62f731fc1792e46b236469f015c3"
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 512,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 362,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "54d7708eb159f9643eb4a554c80013493f3deb8962056ac10ebe6c0a68f6c9d5"
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 1024,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 724,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "a9e394319a03884446152fa2631244bad52891cedc223c399cdb3afcf2fb98bf"
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 1536,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1086,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "757c51b08e1d53785d290ec0897f7d76e5e3ef42adbd2791659cac5c36f6e436"
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "22c821ef57fd249640088e8ac0378cf35d056328750471318e4ecc39d077b646"
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 512,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 362,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "a96cc3583065d54a67254d2815a98343fbd425249b4b6e9d816b2f379378f728"
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 1024,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 724,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "f2733c4f50c501b6142ca15315f95cda182a618f4dc9ed9b336868f621b76596"
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1536,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1086,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "c25671f18377eca99a5793f68cfea8257ac4f53209acdcf7aaf65804cd1b8f28"
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "29ac95df1c43dc047c00a91c1c226121fc313e992c26ad5f64205a242b9351a4"
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 512,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 362,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "74d9f39886191ff0271428eeeab70a554d628f280240bdd6c912781056302b31"
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 1024,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 724,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "19a0ccabd90ccca1374b0cecfe369f794f5f87f0cc5f899046b9d17d2b3db1e7"
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 1536,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1086,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "a701e2f3061b9afbf497c786b358b5ae7cdfa3ba133452fbc0c72e7b00fdabf1"
+        }
+      ]
+    },
+    "bladestorm": {
+      "url": "assets/runtime/effects/bladestorm.png",
+      "sourceUrl": "assets/sources/fx-bladestorm.png",
+      "sourceSha256": "80a846f8d0c0af09b06f5a3c10843c99f25113ea7857d34ac3449dd1ba343064",
+      "columns": 4,
+      "rows": 3,
+      "width": 2048,
+      "height": 1536,
+      "sha256": "0c7d229a26b5922e14474be247f8070d7c2c40b93fc94bea1c81372c7cbbe210",
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "ede07585e968de778fd29cf670c9c71f2fb96b95210ffd9b37964ec2df8fb69e"
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 512,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 362,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "daf1fbaac15759d48f53c4da16b166e9b9627d26885d3c62d412a0c370d37a4c"
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 1024,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 724,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "fc293a6fdc5dc7990479cc430fbd5bebcec17d1dc926867c2e78ad0f1cac478c"
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 1536,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1086,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "40747336b458c2b11e8fe4ec2addbf2fddc6f6c53b5a8a5c558d30e5a8bd26ac"
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "c1014998fab324bfbcffe5168446abaff1c211b96268006cdad8718a969e830c"
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 512,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 362,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "d7ded93c81fecd95a6164b0c66af0d208cb014450c00d9202b436f78e305d906"
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 1024,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 724,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "e825407af7c4cc740d54c9e7a07c11c9afc7600ecf5b0dc1f7d5c56a4cdbf677"
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1536,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1086,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "6bc1eb3b31d99d981f49fd5b713d6446a210cfc23401bdb25bd93fcd9565123a"
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "1bf2370e624ba00bad8febfbdb67ee52155e8023710919d436384c24fb3183b7"
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 512,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 362,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "d9265a70ab0e2581e7eea88cccc0e5037f33183623085746ab1c10486883d460"
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 1024,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 724,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "afafc88aae1f3a316d92220ff312692224479c089d902762aa5ab55588642093"
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 1536,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1086,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "7a23cb0d0c58bcd65f8996de93cd3a0c2235d5b6ee059b849711ce60d00acb3e"
+        }
+      ]
+    },
+    "cross": {
+      "url": "assets/runtime/effects/cross.png",
+      "sourceUrl": "assets/sources/fx-cross.png",
+      "sourceSha256": "98f237db8504ea7f36da0f80446de4fe70b6fb76cfc3cc4b4e2b2c585cb7f394",
+      "columns": 4,
+      "rows": 3,
+      "width": 2048,
+      "height": 1536,
+      "sha256": "2b4d744b88a9c9da8cc872effff05864dfcd8fee2d953d145360ac41bfdcfe43",
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "2f2a74d139285a4f717864bc1f08e8e8a9d835da537b92b95d955045b51f2478"
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 512,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 362,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "d2a7faaf70224ed54004ab8b729e59de2ae57fe59c7affcd0414de6047624884"
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 1024,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 724,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "bdf84103ae7f80dfaf27e1dd9b53ba553d9ba500c7ad20966a4f369f366501a7"
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 1536,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1086,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "4e3883d27130f87ff82fada50b4ee38f2fa74f9063f9b7cef3aca59186c3a9a9"
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "24d19f9d3b314148b713f6a3b8c5c505207173a8662da6c1dd0059ec81c37053"
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 512,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 362,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "fab3bdad009f16a09049cc08d47f5a705618239c4b3a7aaf776b4cca23a67e00"
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 1024,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 724,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "f8605015bdd692a7c82feb3717ece45364218d4ccefb296568331bb27a9ef245"
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1536,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1086,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "bae69608ae61356a0848b5ae60236a0df2852f54c5a73903f0a9f6d4f2560409"
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "8560c1e43a9a9cea15be9e346046348f0ab3a4c6ca6d47ef8b86f5060210a7de"
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 512,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 362,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "30a794cd6c9f2ffe98e79d218e7464d7cd55728c24d0b3f9d005bc9524ddc1d4"
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 1024,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 724,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "0903b6d51835dc15834d3aa97ddb2a970adc7f83044b749e319506605a13ba8b"
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 1536,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1086,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "1c055c680e13aa1f2fec07dd6eae1c6906827b3a647e22dd8e55defd5d6b0ac4"
+        }
+      ]
+    },
+    "cut": {
+      "url": "assets/runtime/effects/cut.png",
+      "sourceUrl": "assets/sources/fx-cut.png",
+      "sourceSha256": "b471e682efe77d2e401731e1f6dcfb76b4dc9bf0e74bffbcb30605e938780189",
+      "columns": 4,
+      "rows": 3,
+      "width": 2048,
+      "height": 1536,
+      "sha256": "8821473591434338dba4ae87aa190d41ad247f352f5f0744ef5ae7ca4421d470",
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "812b7d8578944fe1c9421952e9051f749067dbcb1b8fce2b42b00e157225a357"
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 512,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 362,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "5cd1e7fa8df062f27fd4a9a62758f5e54ff9970826ba5abd89aaebca5643c6a2"
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 1024,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 724,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "69fe8d6114a59f122b4457cd0f66ee47a3c3700bbcb48a4f125a9aed051c643d"
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 1536,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1086,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "98012e23dc662763ddb352bca7796bd73ca1a8108940419e4280b256c9774e2e"
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "d065ce348c7517b54585eb9b7e88a6f53073093901f68632507f4af4c6dc722f"
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 512,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 362,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "d13edbb43c57e010a4f633c6f5b07b01129ecf695bc86b0c10a7c2c0099e375e"
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 1024,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 724,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "3e9f88f98febb84861cc5eb5efa49ba3523f09c483963c6b944400f53bca064e"
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1536,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1086,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "5dc6d2367a7fb63931da033dd9c2bfe6dc26bd2ad6ad5490665cf8445fe8d09c"
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "506038988f11ad11c91f7143a1126242728253589f6e0939e8b8f5d6c85d9633"
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 512,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 362,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "afed5ae065d5a59d197ef8c21565d894825ed77bb40da843cefd63809e50bd79"
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 1024,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 724,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "5b7ab211f33b2d79d4b7b03accf984235272ce5fb6935ebcc0f9db4782155aa8"
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 1536,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1086,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "bd5fd17576f0b0c5130ff6f96a4e497fdc8bf2aaec8e410ebd12b4bce67c8255"
+        }
+      ]
+    },
+    "dash": {
+      "url": "assets/runtime/effects/dash.png",
+      "sourceUrl": "assets/sources/fx-dash.png",
+      "sourceSha256": "07c53abbda32f8ffc62190dcf782f5754878e7eb6574eee9d13cad5b5167627c",
+      "columns": 4,
+      "rows": 3,
+      "width": 2048,
+      "height": 1536,
+      "sha256": "c0342f72292ace27ec8f51e3919fa254b4cf48b595dc3840fd3adfbba1533271",
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "d5b3e359d4b48dd2839d7228ccaafb7a7dbbc813aabb8ac09008d1566acf7c32"
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 512,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 362,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "6b461d5025eb9937b616a14589b95b3e504b76210b27b84fc17d1583d70906bc"
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 1024,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 724,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "791cfa83ec8f41a87fcd2b173140fb136977b48f891c4dbb185b00121c6f820c"
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 1536,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1086,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "0b1161410ff91a2c95ac0d53dc92708d9a328fcde2d7d7f4b273af72d19da722"
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "2c82ec710c3d843c85c26b7ebb1cf23d5e17ae49641a2729d507efcbbe56a2e3"
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 512,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 362,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "3cf938acd5656a6963525bf73580136619dab63faa94034a7dcd4fe78383dcb8"
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 1024,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 724,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "40d4b04cec42a480360ca830f2fa2e4d7039b2c08de1b7d52eb53ea66b38c212"
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1536,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1086,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "000c6e7ec462d103e0ffe336d4e2585f6cb25d54066f12e0ac42b64205af0d35"
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "b944b2301473ccfa7e914a202a6f0b9f7a71641ed8f67770022b5a7a5dcb1fce"
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 512,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 362,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "b3422ffa759e2c22b42661ed2a5549c9aad89de58869eaa2f9670e6ca3770f3e"
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 1024,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 724,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "f067a47842ad9a9d730c6e9013fff9c064f55892dda6bf2005d9a2b4eca4cdd4"
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 1536,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1086,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "934689492408b4e74dd7c1460c8120e6926626a8e6b245f62251094b6d5537b9"
+        }
+      ]
+    },
+    "execution": {
+      "url": "assets/runtime/effects/execution.png",
+      "sourceUrl": "assets/sources/fx-execution.png",
+      "sourceSha256": "716536b08ddc7454fb29b274f5cc8211e5695a64bff917400c7536b6cb93d021",
+      "columns": 4,
+      "rows": 3,
+      "width": 2048,
+      "height": 1536,
+      "sha256": "a98f779eac73d54cbe35ac6b93259d9c0b05702de1616e4bb8c92687e10ee12d",
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "8b82ef3cfa2eb07748ade3f66f4f84c90e388e443453602aa938d4f4bebf296b"
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 512,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 362,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "12776c1fa863706e39822d698e1a2cb2f94582740f965d95f52489c84546cd58"
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 1024,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 724,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "6609ed141e067d8b2849865dfea9a01367aa4e8745c743f867f75e5aa7f9d015"
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 1536,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1086,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "912eb6e8f432126026eb33b0b61f420821d8914cdb2d2f5119b79b479d884597"
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "0d0fb6747f8d0ebe3769ee057c0acfd07b404a2bee770ec5fa3ab9b09addedf9"
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 512,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 362,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "0eb2c0564f9fc01b31dfbff96d103ea77fa324cf51e122c74f69e5abfdec67b8"
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 1024,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 724,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "2f5f6b4ea5dc536365da738984a92b299cfcb16f933b7721a505584cb4d2820d"
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1536,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1086,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "2f7610e149546b526daeea3e8f45b75d831fa9c8b7885e827debb250b2b1945c"
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "eb5dac04da1297762027e1588e4ca1b7b6a91b96ba8275eb6ccfc2334f189225"
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 512,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 362,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "1a8b8359c5000b993275790a1736afdf462ad43ca266352820517bef168189db"
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 1024,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 724,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "42b7f3692d4b03f51e266c2a281db68c1f1d71da07512c08bd3f40a6632f66f5"
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 1536,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1086,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "23bba8885dc296c8add8ef5cafe01c95f96debb73caeb92cad129c2876d1850d"
+        }
+      ]
+    },
+    "ground": {
+      "url": "assets/runtime/effects/ground.png",
+      "sourceUrl": "assets/sources/fx-ground.png",
+      "sourceSha256": "b4e23a0d12f1aa414e24ed11032e3fbca68348f5ffc19dc14acafe7398b5929f",
+      "columns": 4,
+      "rows": 3,
+      "width": 2048,
+      "height": 1536,
+      "sha256": "aed3b6d4ca263307951436186478d6611359121186a973599c44e6cdcd8127aa",
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "c3cb48d098a5ba1d53716c84c500d12cb7ad1f7b06920938ca2989d6b290427d"
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 512,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 362,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "561694cc3ef3aff5e1001a3468c6158e8d6a2dd76487b4d0dfe704a5934329ff"
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 1024,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 724,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "870f98c47445981f35710f2ca9e6547417ab64739581885fdcd2a3907ca224d7"
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 1536,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1086,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "167ab685919080b8bffc6e1bb488b70215910603eb0979a02fe50bc91698a49d"
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "d24b10a62a14df30b52eb59584d08cc797fbc0d60de983eb78ab5071336a14a4"
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 512,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 362,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "fc269a7b68e2d61bb073895c36fb2c2e08066f23927fb797aba79a4a05173af4"
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 1024,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 724,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "9e63f7a72713ba029172d31cd26ca23327dc47f8b5cf37e7eb9f9ee68ce18ab9"
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1536,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1086,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "3653b1973bf72352d815ce10408ea11f13869c7045f4d583a11fd0edf78a0dee"
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "def814998fd02202746a7cd4bd61b1811981b4dedf82ea3af8027b8daf2292ac"
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 512,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 362,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "d013484159b1be0982320175b402fccc38b35c1ad39f7ac500025d8211b4c5b7"
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 1024,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 724,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "2dda074a7a18c7eddc814d371c9acbc27c12f3889aa40a28fbd0a0c922e01a70"
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 1536,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1086,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "788766799aef62acc7bef3347dc42c279b4a857fa45792aa151efe405a5df46f"
+        }
+      ]
+    },
+    "light": {
+      "url": "assets/runtime/effects/light.png",
+      "sourceUrl": "assets/sources/fx-light.png",
+      "sourceSha256": "0b95680369153db8fcf302ccb10f7a124b9d73d2053f0f6b2037d511bbc9aaca",
+      "columns": 4,
+      "rows": 3,
+      "width": 2048,
+      "height": 1536,
+      "sha256": "eecaa16b5855d5e66858b5183ba012ba0295c5f948b86a738cd8bb1fbe270a1e",
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "5e4523af0829cffd89748fd00e758cff3751675df66337f30c00754eeb6f65cc"
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 512,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 362,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "38ea9bb9360add8f67be076eef3153c41af4dd8f6de9e7b0c291629004fa9876"
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 1024,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 724,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "0b68c1c0a13006442de3066146f5bcd12cc297f57ec4da3e8dc2a83f928bbd87"
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 1536,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1086,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "29736d6a264d334742ccea098628bf2c55ba27e545239f9d765ddd259eab88ec"
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "6f402f85d23c53133fbf080477ee7d30877c54089690e5c1ded438c4671a7d53"
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 512,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 362,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "5750b98f74a453f0acfdebb6eea1cf938f7eb490a6a4605cd8257c69689af035"
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 1024,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 724,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "12962486c61fb812814ef7c8dbce46bbcb0e7f02743e72c86547314237c29899"
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1536,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1086,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "3d30700f1b2eb6240021a3d2ac27be5ccfaa6c6bf8b3fb0028fc452b677c77eb"
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "0945ffb84e3bef6a05995e2f3f2eadd62b0f0fec70769065707716c12ad79b68"
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 512,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 362,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "8ce93e3f721f403a6df2c2f788428275094f64e3e15561af75adbaf3f586561c"
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 1024,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 724,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "878c5cb344c8dd30ae27b9e4354635bddc9de53274c387e48f10143edcfba14f"
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 1536,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1086,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "060c8d0d143c266274afa54a4b441a08ce8f21d0c631705f18fdaa7105fa69a5"
+        }
+      ]
+    }
+  },
+  "titleArt": "assets/connected/title-open-v2.png",
+  "runtime": {
+    "engine": "preview/project-v-v3/source/battle/BattleEngine.js",
+    "clock": "V3_REGISTERED_GSAP"
+  },
+  "audio": {
+    "enabled": false
+  },
+  "summary": {
+    "bodyFrames": 32,
+    "effectFrames": 96,
+    "completeFigureSheets": 8,
+    "detachedHeads": 0,
+    "weaponComposites": 0,
+    "bodyColorTransforms": 0
+  },
+  "titleTypography": {
+    "font": "Noto Serif KR 900",
+    "fontAsset": "assets/fonts/NotoSerifKR-blue-reaper-900.ttf",
+    "ornament": "OPEN_SWORD_WINGS",
+    "rectangularFrame": false
+  }
+}

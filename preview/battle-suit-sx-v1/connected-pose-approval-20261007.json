@@ -1,0 +1,21 @@
+{
+  "date": "2026-10-07",
+  "userMessages": [
+    "그래 그리고 색감 변하지 않게 주의해라",
+    "좋네 지금"
+  ],
+  "scope": "현재 표시한 V8 완전 연결 작화의 대시-a 및 공격-a 시트와 색감 기준. 후속 모션/이펙트/운영 활성화는 별도 검수.",
+  "method": "머리·목·어깨·손·대검을 함께 그린다. 머리 절취 합성 방식은 반려됐다.",
+  "images": {
+    "dash-a": {
+      "path": "assets/connected/dash-a.png",
+      "sha256": "8759ee3b4a027d3d2514d51b9a8e154d2109da03ea7a5dc54197aae3ea6f623c"
+    },
+    "attack-a": {
+      "path": "assets/connected/attack-a.png",
+      "sha256": "249505db6a7300b0a72b962beea73ed1cd6fe23699cf59d9024c9895071311b5"
+    }
+  },
+  "colorPolicy": "짙은 코발트 블루·은백색 장갑·기존 비중의 금색 장식 고정. 푸른 발광은 별도 효과. 본체 재색칠/과채도/금색 면적 확대 금지.",
+  "runtimeEnabled": false
+}

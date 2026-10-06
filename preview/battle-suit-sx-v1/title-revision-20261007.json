@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-07",
+  "title": "푸른 사신",
+  "userRequest": "오버로드 칭호처럼 간지나게 만들어봐 직사각형 프레임 없애고 고급스러운 폰트로",
+  "followup": "글자 조금 더 올려도 될듯",
+  "activeOrnament": "assets/connected/title-open-v2.png",
+  "sha256": "2b07cf792e808dbd12dd60f042a83291b37899bd4d5631425cfe8b5361b72b60",
+  "text": "Native Pixi Text, Noto Serif KR 900, silver metallic gradient, dark-blue shallow depth",
+  "textOffsetChange": {
+    "fromY": 32,
+    "toY": 20,
+    "deltaY": -12,
+    "ornamentAndFontSizeUnchanged": true,
+    "gleamMaskAlsoMoved": true
+  },
+  "closedFrame": false,
+  "backgroundPanel": false,
+  "clock": "SHARED_V3_GSAP",
+  "status": "USER_REVIEW_PENDING",
+  "sourcePrompt": "prompt-title-open-v2.json",
+  "license": "assets/fonts/OFL.txt"
+}

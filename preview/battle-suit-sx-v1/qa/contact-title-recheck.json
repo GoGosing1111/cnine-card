@@ -1,0 +1,2912 @@
+{
+  "scope": "ultimate first contact + redesigned open title + affected PC/mobile framing",
+  "priorReport": "browser-report.json",
+  "resolved": "ultimate at 0.94 uses coherent lower slash attack[4]",
+  "results": [
+    {
+      "name": "desktop",
+      "errors": [],
+      "failures": [],
+      "fontLoaded": true,
+      "snapshots": [
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "idle",
+          "time": 1.2,
+          "playing": false,
+          "speed": 1,
+          "frame": 0,
+          "pose": {
+            "at": 0,
+            "bank": "dash",
+            "index": 0,
+            "facing": 1
+          },
+          "phase": "푸른 사신 · 영혼의 오라",
+          "contactCount": 0,
+          "bladeContact": {
+            "u": 1,
+            "distance": 528.2551567483404,
+            "intersects": false
+          },
+          "groundError": 0,
+          "airborne": false,
+          "visibleEffects": 6,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 644.7398483275483,
+            "y": 176.47656178953255,
+            "width": 149.9473684210526,
+            "height": 204.01929824561407
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 602.2875185045585,
+              "y": 74.38362110790928,
+              "width": 235.42496299088293,
+              "height": 88.28436112158113
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 380,
+            "y": 416
+          },
+          "contact": {
+            "x": 1009.9999999999999,
+            "y": 351.00000000000006
+          },
+          "ground": {
+            "x": 1009.9999999999999,
+            "y": 416.00000000000006
+          },
+          "actorScale": 0.5,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 1440,
+            "height": 518
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "dash",
+          "time": 0.35,
+          "playing": false,
+          "speed": 1,
+          "frame": 3,
+          "pose": {
+            "at": 0.29,
+            "bank": "dash",
+            "index": 3,
+            "facing": 1
+          },
+          "phase": "잔영 돌진",
+          "contactCount": 0,
+          "bladeContact": {
+            "u": 0,
+            "distance": 384.91065694419655,
+            "intersects": false
+          },
+          "groundError": 0,
+          "airborne": false,
+          "visibleEffects": 7,
+          "visibleGhosts": 6,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 403.9860790527496,
+            "y": 213.09559299911348,
+            "width": 207.4563062208307,
+            "height": 156.5641288855673
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 480.1871527496053,
+              "y": 73.23312917427016,
+              "width": 227.16867523179508,
+              "height": 85.18825321192311
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 600.112301772471,
+            "y": 416
+          },
+          "contact": {
+            "x": 1010,
+            "y": 350.99999999999994
+          },
+          "ground": {
+            "x": 1010,
+            "y": 416
+          },
+          "actorScale": 0.5,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 1440,
+            "height": 518
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "dash",
+          "time": 1.15,
+          "playing": false,
+          "speed": 1,
+          "frame": 9,
+          "pose": {
+            "at": 1.04,
+            "bank": "dash",
+            "index": 3,
+            "facing": -1
+          },
+          "phase": "잔영 복귀",
+          "contactCount": 0,
+          "bladeContact": {
+            "u": 1,
+            "distance": 356.31937790644395,
+            "intersects": false
+          },
+          "groundError": 0,
+          "airborne": false,
+          "visibleEffects": 7,
+          "visibleGhosts": 6,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 417.4086201594303,
+            "y": 213.09559299911348,
+            "width": 207.45630622083075,
+            "height": 156.5641288855673
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 321.49517745161063,
+              "y": 73.23312917427016,
+              "width": 227.16867523179496,
+              "height": 85.18825321192311
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 601.1223947113764,
+            "y": 416
+          },
+          "contact": {
+            "x": 1009.9999999999999,
+            "y": 350.99999999999994
+          },
+          "ground": {
+            "x": 1009.9999999999999,
+            "y": 416
+          },
+          "actorScale": 0.5,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 1440,
+            "height": 518
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "attack",
+          "time": 0.43,
+          "playing": false,
+          "speed": 1,
+          "frame": 4,
+          "pose": {
+            "at": 0.38,
+            "bank": "attack",
+            "index": 4,
+            "facing": 1
+          },
+          "phase": "횡베기",
+          "contactCount": 1,
+          "bladeContact": {
+            "u": 0.6029156635083203,
+            "distance": 16.434596231347438,
+            "intersects": true
+          },
+          "groundError": 0,
+          "airborne": false,
+          "visibleEffects": 8,
+          "visibleGhosts": 4,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 559.1429548344513,
+            "y": 186.56590573464047,
+            "width": 286.3364624912724,
+            "height": 183.9132370048381
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 580.8768932261787,
+              "y": 73.10104030324833,
+              "width": 227.16867523179508,
+              "height": 85.18825321192311
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 839.930549173678,
+            "y": 416.00000000000006
+          },
+          "contact": {
+            "x": 1010,
+            "y": 350.99999999999994
+          },
+          "ground": {
+            "x": 1010,
+            "y": 416
+          },
+          "actorScale": 0.5,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 1440,
+            "height": 518
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "skill",
+          "time": 0.43,
+          "playing": false,
+          "speed": 1,
+          "frame": 4,
+          "pose": {
+            "at": 0.39,
+            "bank": "attack",
+            "index": 4,
+            "facing": 1
+          },
+          "phase": "교차 돌진 · 연속 검격",
+          "contactCount": 1,
+          "bladeContact": {
+            "u": 0.6029156635083203,
+            "distance": 16.434596231347438,
+            "intersects": true
+          },
+          "groundError": 0,
+          "airborne": false,
+          "visibleEffects": 8,
+          "visibleGhosts": 5,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 559.1429548344513,
+            "y": 186.56590573464047,
+            "width": 286.3364624912724,
+            "height": 183.9132370048381
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 580.8768932261787,
+              "y": 73.10104030324833,
+              "width": 227.16867523179508,
+              "height": 85.18825321192311
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 839.930549173678,
+            "y": 416.00000000000006
+          },
+          "contact": {
+            "x": 1010,
+            "y": 350.99999999999994
+          },
+          "ground": {
+            "x": 1010,
+            "y": 416
+          },
+          "actorScale": 0.5,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 1440,
+            "height": 518
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "skill",
+          "time": 0.72,
+          "playing": false,
+          "speed": 1,
+          "frame": 8,
+          "pose": {
+            "at": 0.68,
+            "bank": "attack",
+            "index": 4,
+            "facing": -1
+          },
+          "phase": "교차 돌진 · 연속 검격",
+          "contactCount": 2,
+          "bladeContact": {
+            "u": 0.6029156635083203,
+            "distance": 16.434596231347438,
+            "intersects": true
+          },
+          "groundError": 0,
+          "airborne": false,
+          "visibleEffects": 8,
+          "visibleGhosts": 5,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 593.8150557349923,
+            "y": 186.85119756456027,
+            "width": 286.3364624912724,
+            "height": 183.9132370048381
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 631.248904602742,
+              "y": 73.38633213316811,
+              "width": 227.16867523179508,
+              "height": 85.18825321192313
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 1180.069450826322,
+            "y": 416.00000000000006
+          },
+          "contact": {
+            "x": 1009.9999999999999,
+            "y": 351
+          },
+          "ground": {
+            "x": 1009.9999999999999,
+            "y": 416
+          },
+          "actorScale": 0.5,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 1440,
+            "height": 518
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "skill",
+          "time": 1.01,
+          "playing": false,
+          "speed": 1,
+          "frame": 12,
+          "pose": {
+            "at": 0.97,
+            "bank": "attack",
+            "index": 4,
+            "facing": 1
+          },
+          "phase": "교차 돌진 · 연속 검격",
+          "contactCount": 3,
+          "bladeContact": {
+            "u": 0.6029156635083203,
+            "distance": 16.434596231347438,
+            "intersects": true
+          },
+          "groundError": 0,
+          "airborne": false,
+          "visibleEffects": 8,
+          "visibleGhosts": 5,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 559.504444962125,
+            "y": 186.52686358744563,
+            "width": 286.3364624912724,
+            "height": 183.9132370048381
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 581.2383833538524,
+              "y": 73.0619981560535,
+              "width": 227.16867523179508,
+              "height": 85.18825321192313
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 839.930549173678,
+            "y": 416.00000000000006
+          },
+          "contact": {
+            "x": 1009.9999999999999,
+            "y": 351
+          },
+          "ground": {
+            "x": 1009.9999999999999,
+            "y": 415.99999999999994
+          },
+          "actorScale": 0.5,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 1440,
+            "height": 518
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "skill",
+          "time": 1.3,
+          "playing": false,
+          "speed": 1,
+          "frame": 16,
+          "pose": {
+            "at": 1.26,
+            "bank": "attack",
+            "index": 4,
+            "facing": -1
+          },
+          "phase": "교차 돌진 · 연속 검격",
+          "contactCount": 4,
+          "bladeContact": {
+            "u": 0.6029156635083203,
+            "distance": 16.434596231347438,
+            "intersects": true
+          },
+          "groundError": 0,
+          "airborne": false,
+          "visibleEffects": 8,
+          "visibleGhosts": 5,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 594.5306873608936,
+            "y": 186.88349482039874,
+            "width": 286.3364624912724,
+            "height": 183.91323700483812
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 631.9645362286433,
+              "y": 73.4186293890066,
+              "width": 227.16867523179508,
+              "height": 85.18825321192314
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 1180.069450826322,
+            "y": 416.00000000000006
+          },
+          "contact": {
+            "x": 1010,
+            "y": 350.99999999999994
+          },
+          "ground": {
+            "x": 1010,
+            "y": 415.99999999999994
+          },
+          "actorScale": 0.5,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 1440,
+            "height": 518
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "skill",
+          "time": 1.58,
+          "playing": false,
+          "speed": 1,
+          "frame": 18,
+          "pose": {
+            "at": 1.46,
+            "bank": "skill",
+            "index": 1,
+            "facing": 1
+          },
+          "phase": "올려베기",
+          "contactCount": 5,
+          "bladeContact": {
+            "u": 0.5444129232023044,
+            "distance": 21.804952377972477,
+            "intersects": true
+          },
+          "groundError": 0,
+          "airborne": false,
+          "visibleEffects": 8,
+          "visibleGhosts": 4,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 561.0150825285617,
+            "y": 199.59371708451758,
+            "width": 288.0165860393977,
+            "height": 170.55263730634866
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 590.8120061775604,
+              "y": 73.07372896338605,
+              "width": 227.16867523179508,
+              "height": 85.18825321192314
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 842.3132257728495,
+            "y": 416.00000000000006
+          },
+          "contact": {
+            "x": 1010,
+            "y": 351
+          },
+          "ground": {
+            "x": 1010,
+            "y": 416
+          },
+          "actorScale": 0.5,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 1440,
+            "height": 518
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "skill",
+          "time": 2.39,
+          "playing": false,
+          "speed": 1,
+          "frame": 23,
+          "pose": {
+            "at": 2.34,
+            "bank": "skill",
+            "index": 6,
+            "facing": 1
+          },
+          "phase": "낙하 검격",
+          "contactCount": 6,
+          "bladeContact": {
+            "u": 0.5832449381010668,
+            "distance": 19.223731647201195,
+            "intersects": true
+          },
+          "groundError": 0,
+          "airborne": false,
+          "visibleEffects": 9,
+          "visibleGhosts": 6,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 617.974970497183,
+            "y": 245.20833928562058,
+            "width": 181.88863636363635,
+            "height": 131.56022727272727
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 604.368167455458,
+              "y": 126.35956963701976,
+              "width": 192.62042426526796,
+              "height": 72.23265909947544
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 885.884239453125,
+            "y": 416.00000000000006
+          },
+          "contact": {
+            "x": 1010,
+            "y": 351
+          },
+          "ground": {
+            "x": 1010,
+            "y": 416
+          },
+          "actorScale": 0.5,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 1440,
+            "height": 518
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "skill",
+          "time": 1.9,
+          "playing": false,
+          "speed": 1,
+          "frame": 20,
+          "pose": {
+            "at": 1.82,
+            "bank": "skill",
+            "index": 3,
+            "facing": 1
+          },
+          "phase": "도약 · 검압 응축",
+          "contactCount": 5,
+          "bladeContact": {
+            "u": 0,
+            "distance": 219.85950732019114,
+            "intersects": false
+          },
+          "groundError": 0,
+          "airborne": true,
+          "visibleEffects": 8,
+          "visibleGhosts": 6,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 631.6170738182232,
+            "y": 127.6010014325388,
+            "width": 93.35197634074598,
+            "height": 206.63920536103268
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 629.6403659373686,
+              "y": 66.98135292651655,
+              "width": 139.78810298506232,
+              "height": 52.4205386193984
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 888.5860716932627,
+            "y": 340.53716995046443
+          },
+          "contact": {
+            "x": 1010.0000000000002,
+            "y": 351
+          },
+          "ground": {
+            "x": 1010.0000000000002,
+            "y": 416
+          },
+          "actorScale": 0.5,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 1440,
+            "height": 518
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "skill",
+          "time": 3.3,
+          "playing": false,
+          "speed": 1,
+          "frame": 25,
+          "pose": {
+            "at": 3.05,
+            "bank": "dash",
+            "index": 2,
+            "facing": -1
+          },
+          "phase": "잔영 복귀",
+          "contactCount": 6,
+          "bladeContact": {
+            "u": 1,
+            "distance": 305.02699908218443,
+            "intersects": false
+          },
+          "groundError": 0,
+          "airborne": false,
+          "visibleEffects": 8,
+          "visibleGhosts": 6,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 426.78614428939665,
+            "y": 211.68192140646732,
+            "width": 235.3763201755932,
+            "height": 156.91754678372882
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 345.3628354062006,
+              "y": 73.23312917427015,
+              "width": 227.16867523179496,
+              "height": 85.18825321192313
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 659.9969710894441,
+            "y": 416.00000000000006
+          },
+          "contact": {
+            "x": 1010,
+            "y": 351
+          },
+          "ground": {
+            "x": 1010,
+            "y": 416
+          },
+          "actorScale": 0.5,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 1440,
+            "height": 518
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "ultimate",
+          "time": 0.94,
+          "playing": false,
+          "speed": 1,
+          "frame": 5,
+          "pose": {
+            "at": 0.9,
+            "bank": "attack",
+            "index": 4,
+            "facing": 1
+          },
+          "phase": "사방 검무",
+          "contactCount": 1,
+          "bladeContact": {
+            "u": 0.6029156635083203,
+            "distance": 16.434596231347438,
+            "intersects": true
+          },
+          "groundError": 0,
+          "airborne": false,
+          "visibleEffects": 9,
+          "visibleGhosts": 5,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 558.472489365575,
+            "y": 186.18770496393202,
+            "width": 286.3364624912724,
+            "height": 183.91323700483812
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 580.2064277573024,
+              "y": 72.72283953253988,
+              "width": 227.16867523179508,
+              "height": 85.18825321192314
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 839.930549173678,
+            "y": 416.00000000000006
+          },
+          "contact": {
+            "x": 1010,
+            "y": 351
+          },
+          "ground": {
+            "x": 1010,
+            "y": 415.99999999999994
+          },
+          "actorScale": 0.5,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 1440,
+            "height": 518
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "ultimate",
+          "time": 1.23,
+          "playing": false,
+          "speed": 1,
+          "frame": 8,
+          "pose": {
+            "at": 1.19,
+            "bank": "attack",
+            "index": 4,
+            "facing": -1
+          },
+          "phase": "사방 검무",
+          "contactCount": 2,
+          "bladeContact": {
+            "u": 0.6029156635083203,
+            "distance": 16.434596231347438,
+            "intersects": true
+          },
+          "groundError": 0,
+          "airborne": false,
+          "visibleEffects": 9,
+          "visibleGhosts": 5,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 593.70483097785,
+            "y": 187.2084057119163,
+            "width": 286.3364624912724,
+            "height": 183.91323700483812
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 631.1386798455997,
+              "y": 73.74354028052416,
+              "width": 227.16867523179508,
+              "height": 85.18825321192314
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 1180.069450826322,
+            "y": 416.00000000000006
+          },
+          "contact": {
+            "x": 1010,
+            "y": 350.99999999999994
+          },
+          "ground": {
+            "x": 1010,
+            "y": 415.9999999999999
+          },
+          "actorScale": 0.5,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 1440,
+            "height": 518
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "ultimate",
+          "time": 1.52,
+          "playing": false,
+          "speed": 1,
+          "frame": 11,
+          "pose": {
+            "at": 1.48,
+            "bank": "attack",
+            "index": 4,
+            "facing": 1
+          },
+          "phase": "사방 검무",
+          "contactCount": 3,
+          "bladeContact": {
+            "u": 0.6029156635083203,
+            "distance": 16.434596231347438,
+            "intersects": true
+          },
+          "groundError": 0,
+          "airborne": false,
+          "visibleEffects": 9,
+          "visibleGhosts": 5,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 560.0679230792493,
+            "y": 186.19807661029654,
+            "width": 286.3364624912724,
+            "height": 183.9132370048381
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 581.8018614709767,
+              "y": 72.73321117890441,
+              "width": 227.16867523179508,
+              "height": 85.18825321192313
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 839.930549173678,
+            "y": 416.00000000000006
+          },
+          "contact": {
+            "x": 1010,
+            "y": 351
+          },
+          "ground": {
+            "x": 1010,
+            "y": 415.9999999999999
+          },
+          "actorScale": 0.5,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 1440,
+            "height": 518
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "ultimate",
+          "time": 1.81,
+          "playing": false,
+          "speed": 1,
+          "frame": 14,
+          "pose": {
+            "at": 1.77,
+            "bank": "attack",
+            "index": 4,
+            "facing": -1
+          },
+          "phase": "사방 검무",
+          "contactCount": 4,
+          "bladeContact": {
+            "u": 0.6029156635083203,
+            "distance": 16.434596231347438,
+            "intersects": true
+          },
+          "groundError": 0,
+          "airborne": false,
+          "visibleEffects": 9,
+          "visibleGhosts": 5,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 595.1878403498075,
+            "y": 187.17702313081958,
+            "width": 286.3364624912724,
+            "height": 183.9132370048381
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 632.6216892175572,
+              "y": 73.71215769942745,
+              "width": 227.16867523179508,
+              "height": 85.18825321192313
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 1180.069450826322,
+            "y": 416.00000000000006
+          },
+          "contact": {
+            "x": 1010,
+            "y": 350.99999999999994
+          },
+          "ground": {
+            "x": 1010,
+            "y": 415.99999999999994
+          },
+          "actorScale": 0.5,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 1440,
+            "height": 518
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "ultimate",
+          "time": 3.53,
+          "playing": false,
+          "speed": 1,
+          "frame": 22,
+          "pose": {
+            "at": 3.48,
+            "bank": "ultimate",
+            "index": 6,
+            "facing": 1
+          },
+          "phase": "사신의 일격",
+          "contactCount": 5,
+          "bladeContact": {
+            "u": 0.5827303115937226,
+            "distance": 23.18568791677872,
+            "intersects": true
+          },
+          "groundError": 0,
+          "airborne": false,
+          "visibleEffects": 11,
+          "visibleGhosts": 5,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 634.3118488794469,
+            "y": 271.90794094761424,
+            "width": 156.0990553306342,
+            "height": 110.10121457489873
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 618.8793212044652,
+              "y": 169.66586460527586,
+              "width": 162.9865128398419,
+              "height": 61.11994231494077
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 879.7072850191886,
+            "y": 416.00000000000006
+          },
+          "contact": {
+            "x": 1009.9999999999998,
+            "y": 351
+          },
+          "ground": {
+            "x": 1009.9999999999998,
+            "y": 415.99999999999994
+          },
+          "actorScale": 0.5,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 1440,
+            "height": 518
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "ultimate",
+          "time": 2.97,
+          "playing": false,
+          "speed": 1,
+          "frame": 20,
+          "pose": {
+            "at": 2.89,
+            "bank": "ultimate",
+            "index": 4,
+            "facing": 1
+          },
+          "phase": "도약 · 창천검",
+          "contactCount": 4,
+          "bladeContact": {
+            "u": 0,
+            "distance": 272.216481088458,
+            "intersects": false
+          },
+          "groundError": 0,
+          "airborne": true,
+          "visibleEffects": 8,
+          "visibleGhosts": 3,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 654.9692393285682,
+            "y": 124.29938984192995,
+            "width": 101.2173483317979,
+            "height": 161.42766818925077
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 639.9516592878886,
+              "y": 66.51377837965177,
+              "width": 133.252851265564,
+              "height": 49.969819224586445
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 896.5390781250001,
+            "y": 262.494046875
+          },
+          "contact": {
+            "x": 1010,
+            "y": 350.99999999999994
+          },
+          "ground": {
+            "x": 1010,
+            "y": 415.99999999999994
+          },
+          "actorScale": 0.5,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 1440,
+            "height": 518
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "ultimate",
+          "time": 4.95,
+          "playing": false,
+          "speed": 1,
+          "frame": 25,
+          "pose": {
+            "at": 4.94,
+            "bank": "dash",
+            "index": 5,
+            "facing": -1
+          },
+          "phase": "잔영 복귀",
+          "contactCount": 5,
+          "bladeContact": {
+            "u": 1,
+            "distance": 226.1252698268748,
+            "intersects": false
+          },
+          "groundError": 0,
+          "airborne": false,
+          "visibleEffects": 8,
+          "visibleGhosts": 6,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 492.9342176886409,
+            "y": 188.31024214108822,
+            "width": 198.0984149173358,
+            "height": 181.19581978787022
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 418.90195267569266,
+              "y": 73.23312917427015,
+              "width": 227.16867523179508,
+              "height": 85.18825321192313
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 635.8020391464644,
+            "y": 416.00000000000006
+          },
+          "contact": {
+            "x": 1009.9999999999999,
+            "y": 351
+          },
+          "ground": {
+            "x": 1009.9999999999999,
+            "y": 416
+          },
+          "actorScale": 0.5,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 1440,
+            "height": 518
+          }
+        }
+      ]
+    },
+    {
+      "name": "mobile",
+      "errors": [],
+      "failures": [],
+      "fontLoaded": true,
+      "snapshots": [
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "idle",
+          "time": 1.2,
+          "playing": false,
+          "speed": 1,
+          "frame": 0,
+          "pose": {
+            "at": 0,
+            "bank": "dash",
+            "index": 0,
+            "facing": 1
+          },
+          "phase": "푸른 사신 · 영혼의 오라",
+          "contactCount": 0,
+          "bladeContact": {
+            "u": 1,
+            "distance": 306.0902667667903,
+            "intersects": false
+          },
+          "groundError": 0,
+          "airborne": false,
+          "visibleEffects": 6,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 133.20826492855673,
+            "y": 244.02391500719574,
+            "width": 123.11306658614308,
+            "height": 167.5083845369037
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 69.3590625,
+              "y": 135.0545634446957,
+              "width": 251.281875,
+              "height": 94.23070312499999
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 359.40983606557376,
+            "y": 713.842213114754
+          },
+          "contact": {
+            "x": 791.4098360655737,
+            "y": 629.342213114754
+          },
+          "ground": {
+            "x": 791.4098360655737,
+            "y": 713.842213114754
+          },
+          "actorScale": 0.65,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 390,
+            "height": 613
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "dash",
+          "time": 0.35,
+          "playing": false,
+          "speed": 1,
+          "frame": 3,
+          "pose": {
+            "at": 0.29,
+            "bank": "dash",
+            "index": 3,
+            "facing": 1
+          },
+          "phase": "잔영 돌진",
+          "contactCount": 0,
+          "bladeContact": {
+            "u": 0,
+            "distance": 299.8349336485894,
+            "intersects": false
+          },
+          "groundError": 0,
+          "airborne": false,
+          "visibleEffects": 7,
+          "visibleGhosts": 6,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 40.058883595781,
+            "y": 275.00463972483817,
+            "width": 142.48090909090905,
+            "height": 107.52818181818174
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 68.99084743322503,
+              "y": 158.64963668245355,
+              "width": 202.82516323420265,
+              "height": 76.05943621282597
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 460.3464289528765,
+            "y": 713.842213114754
+          },
+          "contact": {
+            "x": 791.4098360655737,
+            "y": 629.342213114754
+          },
+          "ground": {
+            "x": 791.4098360655737,
+            "y": 713.842213114754
+          },
+          "actorScale": 0.65,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 390,
+            "height": 613
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "dash",
+          "time": 1.15,
+          "playing": false,
+          "speed": 1,
+          "frame": 9,
+          "pose": {
+            "at": 1.04,
+            "bank": "dash",
+            "index": 3,
+            "facing": -1
+          },
+          "phase": "잔영 복귀",
+          "contactCount": 0,
+          "bladeContact": {
+            "u": 1,
+            "distance": 265.8019873548247,
+            "intersects": false
+          },
+          "groundError": 0,
+          "airborne": false,
+          "visibleEffects": 7,
+          "visibleGhosts": 6,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 97.24797624961072,
+            "y": 276.89086387317576,
+            "width": 103.95229969974427,
+            "height": 78.45122447527552
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 32.11315764965353,
+              "y": 191.99970038327098,
+              "width": 147.9787172169065,
+              "height": 55.492018956339905
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 460.8096258706845,
+            "y": 713.842213114754
+          },
+          "contact": {
+            "x": 791.4098360655738,
+            "y": 629.3422131147541
+          },
+          "ground": {
+            "x": 791.4098360655738,
+            "y": 713.8422131147541
+          },
+          "actorScale": 0.65,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 390,
+            "height": 613
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "attack",
+          "time": 0.43,
+          "playing": false,
+          "speed": 1,
+          "frame": 4,
+          "pose": {
+            "at": 0.38,
+            "bank": "attack",
+            "index": 4,
+            "facing": 1
+          },
+          "phase": "횡베기",
+          "contactCount": 1,
+          "bladeContact": {
+            "u": 0.6029156635083209,
+            "distance": 21.364975100751693,
+            "intersects": true
+          },
+          "groundError": 0,
+          "airborne": false,
+          "visibleEffects": 8,
+          "visibleGhosts": 4,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 90.1145776934948,
+            "y": 256.8039185239687,
+            "width": 196.6557692307691,
+            "height": 126.31153846153836
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 81.63853453793182,
+              "y": 158.5787756214442,
+              "width": 202.82516323420265,
+              "height": 76.05943621282603
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 570.3195499913551,
+            "y": 713.8422131147539
+          },
+          "contact": {
+            "x": 791.4098360655737,
+            "y": 629.342213114754
+          },
+          "ground": {
+            "x": 791.4098360655737,
+            "y": 713.8422131147539
+          },
+          "actorScale": 0.65,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 390,
+            "height": 613
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "skill",
+          "time": 0.43,
+          "playing": false,
+          "speed": 1,
+          "frame": 4,
+          "pose": {
+            "at": 0.39,
+            "bank": "attack",
+            "index": 4,
+            "facing": 1
+          },
+          "phase": "교차 돌진 · 연속 검격",
+          "contactCount": 1,
+          "bladeContact": {
+            "u": 0.6029156635083209,
+            "distance": 21.364975100751693,
+            "intersects": true
+          },
+          "groundError": 0,
+          "airborne": false,
+          "visibleEffects": 8,
+          "visibleGhosts": 4,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 90.1145776934948,
+            "y": 256.8039185239687,
+            "width": 196.6557692307691,
+            "height": 126.31153846153836
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 81.63853453793182,
+              "y": 158.5787756214442,
+              "width": 202.82516323420265,
+              "height": 76.05943621282603
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 570.3195499913551,
+            "y": 713.8422131147539
+          },
+          "contact": {
+            "x": 791.4098360655737,
+            "y": 629.342213114754
+          },
+          "ground": {
+            "x": 791.4098360655737,
+            "y": 713.8422131147539
+          },
+          "actorScale": 0.65,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 390,
+            "height": 613
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "skill",
+          "time": 0.72,
+          "playing": false,
+          "speed": 1,
+          "frame": 8,
+          "pose": {
+            "at": 0.68,
+            "bank": "attack",
+            "index": 4,
+            "facing": -1
+          },
+          "phase": "교차 돌진 · 연속 검격",
+          "contactCount": 2,
+          "bladeContact": {
+            "u": 0.6029156635083209,
+            "distance": 21.364975100751693,
+            "intersects": true
+          },
+          "groundError": 0,
+          "airborne": false,
+          "visibleEffects": 8,
+          "visibleGhosts": 5,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 102.8511625405261,
+            "y": 256.9569676159098,
+            "width": 196.65576923076912,
+            "height": 126.31153846153836
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 105.15781169265541,
+              "y": 158.73182471338532,
+              "width": 202.8251632342027,
+              "height": 76.05943621282597
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 1012.5001221397926,
+            "y": 713.8422131147539
+          },
+          "contact": {
+            "x": 791.4098360655737,
+            "y": 629.342213114754
+          },
+          "ground": {
+            "x": 791.4098360655737,
+            "y": 713.842213114754
+          },
+          "actorScale": 0.65,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 390,
+            "height": 613
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "skill",
+          "time": 1.01,
+          "playing": false,
+          "speed": 1,
+          "frame": 12,
+          "pose": {
+            "at": 0.97,
+            "bank": "attack",
+            "index": 4,
+            "facing": 1
+          },
+          "phase": "교차 돌진 · 연속 검격",
+          "contactCount": 3,
+          "bladeContact": {
+            "u": 0.6029156635083209,
+            "distance": 21.364975100751693,
+            "intersects": true
+          },
+          "groundError": 0,
+          "airborne": false,
+          "visibleEffects": 8,
+          "visibleGhosts": 5,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 90.30850450801901,
+            "y": 256.78297377705013,
+            "width": 196.65576923076915,
+            "height": 126.31153846153836
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 81.83246135245604,
+              "y": 158.55783087452568,
+              "width": 202.82516323420265,
+              "height": 76.05943621282603
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 570.3195499913551,
+            "y": 713.8422131147539
+          },
+          "contact": {
+            "x": 791.4098360655737,
+            "y": 629.3422131147539
+          },
+          "ground": {
+            "x": 791.4098360655737,
+            "y": 713.8422131147539
+          },
+          "actorScale": 0.65,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 390,
+            "height": 613
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "skill",
+          "time": 1.3,
+          "playing": false,
+          "speed": 1,
+          "frame": 16,
+          "pose": {
+            "at": 1.26,
+            "bank": "attack",
+            "index": 4,
+            "facing": -1
+          },
+          "phase": "교차 돌진 · 연속 검격",
+          "contactCount": 4,
+          "bladeContact": {
+            "u": 0.6029156635083209,
+            "distance": 21.364975100751693,
+            "intersects": true
+          },
+          "groundError": 0,
+          "airborne": false,
+          "visibleEffects": 8,
+          "visibleGhosts": 5,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 103.23507388681071,
+            "y": 256.97429396444085,
+            "width": 196.65576923076912,
+            "height": 126.31153846153836
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 105.54172303894002,
+              "y": 158.7491510619164,
+              "width": 202.8251632342027,
+              "height": 76.05943621282597
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 1012.5001221397926,
+            "y": 713.8422131147539
+          },
+          "contact": {
+            "x": 791.4098360655738,
+            "y": 629.3422131147539
+          },
+          "ground": {
+            "x": 791.4098360655738,
+            "y": 713.8422131147539
+          },
+          "actorScale": 0.65,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 390,
+            "height": 613
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "skill",
+          "time": 1.58,
+          "playing": false,
+          "speed": 1,
+          "frame": 18,
+          "pose": {
+            "at": 1.46,
+            "bank": "skill",
+            "index": 1,
+            "facing": 1
+          },
+          "phase": "올려베기",
+          "contactCount": 5,
+          "bladeContact": {
+            "u": 0.5444129232023033,
+            "distance": 28.34643809136434,
+            "intersects": true
+          },
+          "groundError": 0,
+          "airborne": false,
+          "visibleEffects": 8,
+          "visibleGhosts": 4,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 88.52579394494907,
+            "y": 265.75552004677047,
+            "width": 197.8096774193548,
+            "height": 117.13548387096773
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 85.5874058762348,
+              "y": 158.5641240425091,
+              "width": 202.82516323420265,
+              "height": 76.05943621282597
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 573.4170295702781,
+            "y": 713.8422131147539
+          },
+          "contact": {
+            "x": 791.4098360655738,
+            "y": 629.3422131147539
+          },
+          "ground": {
+            "x": 791.4098360655738,
+            "y": 713.8422131147539
+          },
+          "actorScale": 0.65,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 390,
+            "height": 613
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "skill",
+          "time": 2.39,
+          "playing": false,
+          "speed": 1,
+          "frame": 23,
+          "pose": {
+            "at": 2.34,
+            "bank": "skill",
+            "index": 6,
+            "facing": 1
+          },
+          "phase": "낙하 검격",
+          "contactCount": 6,
+          "bladeContact": {
+            "u": 0.5832449381010676,
+            "distance": 24.99085114136162,
+            "intersects": true
+          },
+          "groundError": 0,
+          "airborne": false,
+          "visibleEffects": 9,
+          "visibleGhosts": 6,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 124.54978892530337,
+            "y": 287.46784353353434,
+            "width": 147.3267857142857,
+            "height": 106.56160714285716
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 90.12560016534489,
+              "y": 170.90478854309777,
+              "width": 202.82516323420265,
+              "height": 76.05943621282603
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 630.0593473546363,
+            "y": 713.8422131147539
+          },
+          "contact": {
+            "x": 791.4098360655737,
+            "y": 629.3422131147539
+          },
+          "ground": {
+            "x": 791.4098360655737,
+            "y": 713.8422131147539
+          },
+          "actorScale": 0.65,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 390,
+            "height": 613
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "skill",
+          "time": 1.9,
+          "playing": false,
+          "speed": 1,
+          "frame": 20,
+          "pose": {
+            "at": 1.82,
+            "bank": "skill",
+            "index": 3,
+            "facing": 1
+          },
+          "phase": "도약 · 검압 응축",
+          "contactCount": 5,
+          "bladeContact": {
+            "u": 0,
+            "distance": 285.81735951624864,
+            "intersects": false
+          },
+          "groundError": 0,
+          "airborne": true,
+          "visibleEffects": 8,
+          "visibleGhosts": 6,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 108.35613244607765,
+            "y": 168.77098179782936,
+            "width": 104.19137931034476,
+            "height": 230.63275862068954
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 82.74699910483822,
+              "y": 80.81506966453571,
+              "width": 202.8251632342027,
+              "height": 76.059436212826
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 633.5717292668153,
+            "y": 615.7405340503576
+          },
+          "contact": {
+            "x": 791.4098360655737,
+            "y": 629.342213114754
+          },
+          "ground": {
+            "x": 791.4098360655737,
+            "y": 713.842213114754
+          },
+          "actorScale": 0.65,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 390,
+            "height": 613
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "skill",
+          "time": 3.3,
+          "playing": false,
+          "speed": 1,
+          "frame": 25,
+          "pose": {
+            "at": 3.05,
+            "bank": "dash",
+            "index": 2,
+            "facing": -1
+          },
+          "phase": "잔영 복귀",
+          "contactCount": 6,
+          "bladeContact": {
+            "u": 1,
+            "distance": 228.77609185779787,
+            "intersects": false
+          },
+          "groundError": 0,
+          "airborne": false,
+          "visibleEffects": 8,
+          "visibleGhosts": 6,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 92.29033994983857,
+            "y": 275.9876848343063,
+            "width": 121.90574404452155,
+            "height": 81.27049602968106
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 32.47147627599827,
+              "y": 188.97605406610347,
+              "width": 152.9513090535408,
+              "height": 57.35674089507779
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 509.20901437106363,
+            "y": 713.8422131147539
+          },
+          "contact": {
+            "x": 791.4098360655739,
+            "y": 629.342213114754
+          },
+          "ground": {
+            "x": 791.4098360655739,
+            "y": 713.8422131147541
+          },
+          "actorScale": 0.65,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 390,
+            "height": 613
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "ultimate",
+          "time": 0.94,
+          "playing": false,
+          "speed": 1,
+          "frame": 5,
+          "pose": {
+            "at": 0.9,
+            "bank": "attack",
+            "index": 4,
+            "facing": 1
+          },
+          "phase": "사방 검무",
+          "contactCount": 1,
+          "bladeContact": {
+            "u": 0.6029156635083209,
+            "distance": 21.364975100751693,
+            "intersects": true
+          },
+          "groundError": 0,
+          "airborne": false,
+          "visibleEffects": 9,
+          "visibleGhosts": 5,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 89.7548964112855,
+            "y": 256.6010270337195,
+            "width": 196.6557692307691,
+            "height": 126.31153846153836
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 81.27885325572258,
+              "y": 158.37588413119505,
+              "width": 202.82516323420265,
+              "height": 76.05943621282597
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 570.3195499913551,
+            "y": 713.8422131147541
+          },
+          "contact": {
+            "x": 791.4098360655737,
+            "y": 629.342213114754
+          },
+          "ground": {
+            "x": 791.4098360655737,
+            "y": 713.8422131147539
+          },
+          "actorScale": 0.65,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 390,
+            "height": 613
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "ultimate",
+          "time": 1.23,
+          "playing": false,
+          "speed": 1,
+          "frame": 8,
+          "pose": {
+            "at": 1.19,
+            "bank": "attack",
+            "index": 4,
+            "facing": -1
+          },
+          "phase": "사방 검무",
+          "contactCount": 2,
+          "bladeContact": {
+            "u": 0.6029156635083209,
+            "distance": 21.364975100751693,
+            "intersects": true
+          },
+          "groundError": 0,
+          "airborne": false,
+          "visibleEffects": 9,
+          "visibleGhosts": 5,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 102.79203081216622,
+            "y": 257.1485972977067,
+            "width": 196.65576923076912,
+            "height": 126.31153846153836
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 105.09867996429553,
+              "y": 158.92345439518226,
+              "width": 202.8251632342027,
+              "height": 76.05943621282603
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 1012.5001221397926,
+            "y": 713.8422131147539
+          },
+          "contact": {
+            "x": 791.4098360655737,
+            "y": 629.3422131147539
+          },
+          "ground": {
+            "x": 791.4098360655737,
+            "y": 713.8422131147538
+          },
+          "actorScale": 0.65,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 390,
+            "height": 613
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "ultimate",
+          "time": 1.52,
+          "playing": false,
+          "speed": 1,
+          "frame": 11,
+          "pose": {
+            "at": 1.48,
+            "bank": "attack",
+            "index": 4,
+            "facing": 1
+          },
+          "phase": "사방 검무",
+          "contactCount": 3,
+          "bladeContact": {
+            "u": 0.6029156635083209,
+            "distance": 21.364975100751693,
+            "intersects": true
+          },
+          "groundError": 0,
+          "airborne": false,
+          "visibleEffects": 9,
+          "visibleGhosts": 5,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 90.61079081666935,
+            "y": 256.60659105936463,
+            "width": 196.65576923076912,
+            "height": 126.31153846153836
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 82.13474766110637,
+              "y": 158.38144815684012,
+              "width": 202.8251632342027,
+              "height": 76.05943621282603
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 570.3195499913551,
+            "y": 713.8422131147539
+          },
+          "contact": {
+            "x": 791.4098360655738,
+            "y": 629.342213114754
+          },
+          "ground": {
+            "x": 791.4098360655738,
+            "y": 713.842213114754
+          },
+          "actorScale": 0.65,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 390,
+            "height": 613
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "ultimate",
+          "time": 1.81,
+          "playing": false,
+          "speed": 1,
+          "frame": 14,
+          "pose": {
+            "at": 1.77,
+            "bank": "attack",
+            "index": 4,
+            "facing": -1
+          },
+          "phase": "사방 검무",
+          "contactCount": 4,
+          "bladeContact": {
+            "u": 0.6029156635083209,
+            "distance": 21.364975100751693,
+            "intersects": true
+          },
+          "groundError": 0,
+          "airborne": false,
+          "visibleEffects": 9,
+          "visibleGhosts": 5,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 103.58761348897161,
+            "y": 257.1317616401943,
+            "width": 196.65576923076912,
+            "height": 126.31153846153836
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 105.89426264110092,
+              "y": 158.90661873766987,
+              "width": 202.8251632342027,
+              "height": 76.05943621282597
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 1012.5001221397926,
+            "y": 713.8422131147539
+          },
+          "contact": {
+            "x": 791.4098360655737,
+            "y": 629.3422131147539
+          },
+          "ground": {
+            "x": 791.4098360655737,
+            "y": 713.8422131147539
+          },
+          "actorScale": 0.65,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 390,
+            "height": 613
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "ultimate",
+          "time": 3.53,
+          "playing": false,
+          "speed": 1,
+          "frame": 22,
+          "pose": {
+            "at": 3.48,
+            "bank": "ultimate",
+            "index": 6,
+            "facing": 1
+          },
+          "phase": "사신의 일격",
+          "contactCount": 5,
+          "bladeContact": {
+            "u": 0.5827303115937226,
+            "distance": 30.141394291812375,
+            "intersects": true
+          },
+          "groundError": 0,
+          "airborne": false,
+          "visibleEffects": 11,
+          "visibleGhosts": 5,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 125.52931500892058,
+            "y": 314.76837021223,
+            "width": 149.4263157894736,
+            "height": 105.39473684210515
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 87.35357549708236,
+              "y": 196.59930018419948,
+              "width": 202.82516323420265,
+              "height": 76.05943621282597
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 622.029306590519,
+            "y": 713.8422131147539
+          },
+          "contact": {
+            "x": 791.4098360655737,
+            "y": 629.342213114754
+          },
+          "ground": {
+            "x": 791.4098360655737,
+            "y": 713.842213114754
+          },
+          "actorScale": 0.65,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 390,
+            "height": 613
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "ultimate",
+          "time": 2.97,
+          "playing": false,
+          "speed": 1,
+          "frame": 20,
+          "pose": {
+            "at": 2.89,
+            "bank": "ultimate",
+            "index": 4,
+            "facing": 1
+          },
+          "phase": "도약 · 창천검",
+          "contactCount": 4,
+          "bladeContact": {
+            "u": 0,
+            "distance": 353.88142541499536,
+            "intersects": false
+          },
+          "groundError": 0,
+          "airborne": true,
+          "visibleEffects": 8,
+          "visibleGhosts": 3,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 133.1787155966554,
+            "y": 163.298050630008,
+            "width": 114.22644472527583,
+            "height": 182.17537725948142
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 93.67407770837333,
+              "y": 78.52168984680287,
+              "width": 195.49316012091646,
+              "height": 73.30993504534365
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 643.9106376280738,
+            "y": 514.2844740522539
+          },
+          "contact": {
+            "x": 791.4098360655738,
+            "y": 629.342213114754
+          },
+          "ground": {
+            "x": 791.4098360655738,
+            "y": 713.842213114754
+          },
+          "actorScale": 0.65,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 390,
+            "height": 613
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_SUIT_CONNECTED_V8_20261007",
+          "mode": "ultimate",
+          "time": 4.95,
+          "playing": false,
+          "speed": 1,
+          "frame": 25,
+          "pose": {
+            "at": 4.94,
+            "bank": "dash",
+            "index": 5,
+            "facing": -1
+          },
+          "phase": "잔영 복귀",
+          "contactCount": 5,
+          "bladeContact": {
+            "u": 1,
+            "distance": 132.4987285125094,
+            "intersects": false
+          },
+          "groundError": 0,
+          "airborne": false,
+          "visibleEffects": 8,
+          "visibleGhosts": 6,
+          "registeredTimelines": 0,
+          "bodyFrames": 32,
+          "effectFrames": 96,
+          "completeFigureSheets": 8,
+          "detachedHeads": 0,
+          "weaponComposites": 0,
+          "bodyColorTransforms": 0,
+          "artScreenBounds": {
+            "x": 109.73741314282017,
+            "y": 258.13766015442445,
+            "width": 135.17181303165836,
+            "height": 123.63838188561243
+          },
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 35.970564755867784,
+              "y": 159.4492440771,
+              "width": 201.51015453739979,
+              "height": 75.56630795152489
+            }
+          },
+          "regularAllies": 5,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 493.84573102609284,
+            "y": 713.8422131147539
+          },
+          "contact": {
+            "x": 791.4098360655737,
+            "y": 629.342213114754
+          },
+          "ground": {
+            "x": 791.4098360655737,
+            "y": 713.842213114754
+          },
+          "actorScale": 0.65,
+          "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "canvas": {
+            "width": 390,
+            "height": 613
+          }
+        }
+      ]
+    }
+  ],
+  "problems": []
+}

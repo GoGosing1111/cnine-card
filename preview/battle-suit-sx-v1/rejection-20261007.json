@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-07",
+  "status": "REJECTED",
+  "userFeedback": [
+    "완전 대가리 병신됐는데 칼도 그렇고",
+    "그 목 때고 하는 방식 실패임 내가볼때"
+  ],
+  "rejected": [
+    "assets/frames/*",
+    "assets/atlases/dash.png",
+    "assets/atlases/attack.png",
+    "assets/atlases/skill.png",
+    "assets/atlases/ultimate.png",
+    "qa/body-contact-sheet.png"
+  ],
+  "reason": "Detached-head composition fails visual continuity at head, neck and shoulders. Sword silhouette and grip also rejected. Exact pixel provenance alone does not establish visual correctness.",
+  "replacementMethod": "User explicitly corrected: 그려야함. Draw the entire head, neck, shoulders, body, hand and sword together in every new pose. No detached head/weapon composition. This specific instruction replaces the former rigid composition workflow for SX. Approved original remains unchanged. Generated poses require new visual review.",
+  "runtimeEnabled": false
+}

@@ -1,0 +1,46 @@
+{
+  "baseCommit": "10a4a7ad",
+  "reason": "Remote runtime damage-font update integrated; SX motion and VFX unchanged. Rebuilt shared bundle and checked load plus corrected contact.",
+  "results": [
+    {
+      "name": "desktop",
+      "errors": [],
+      "contact": true,
+      "title": {
+        "text": "푸른 사신",
+        "mirrored": false,
+        "actorAttached": true,
+        "independentClock": false,
+        "font": "Noto Serif KR 900 / OFL",
+        "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+        "bounds": {
+          "x": 580.2064277573024,
+          "y": 72.72283953253988,
+          "width": 227.16867523179508,
+          "height": 85.18825321192314
+        }
+      },
+      "bodyUnchanged": true
+    },
+    {
+      "name": "mobile",
+      "errors": [],
+      "contact": true,
+      "title": {
+        "text": "푸른 사신",
+        "mirrored": false,
+        "actorAttached": true,
+        "independentClock": false,
+        "font": "Noto Serif KR 900 / OFL",
+        "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+        "bounds": {
+          "x": 81.27885325572258,
+          "y": 158.37588413119505,
+          "width": 202.82516323420265,
+          "height": 76.05943621282597
+        }
+      },
+      "bodyUnchanged": true
+    }
+  ]
+}

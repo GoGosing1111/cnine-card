@@ -1,0 +1,10 @@
+{
+  "date": "2026-10-07",
+  "userRequest": "오버로드 칭호처럼 간지나게 만들어봐 직사각형 프레임 없애고 고급스러운 폰트로",
+  "tool": "BUILT_IN_IMAGE_GEN",
+  "prompt": "Use case: stylized-concept\nAsset type: transparent ornamental flourish for a premium Korean action-RPG character title, NOT a nameplate.\nPrimary request: create an open, airborne silver-and-cobalt sword-wing ornament for \"Blue Reaper\". The attached gold/red Overlord ornament is only a quality and visual-mass reference. Invent a cooler, more elegant swordmaster identity.\nComposition: wide 2048 x 768 transparent canvas. Two separate refined blade-like silver flourishes at left and right, curving upward and outward like elegant reaper wings, with tiny sapphire-blue facets and faint flowing cobalt soul wisps behind them. A small needle-sharp silver/cobalt diamond crest above the center. The large central space and the entire lower middle remain completely transparent for native Korean lettering. The title text will occupy the center and be the main subject.\nMaterials: polished silver and gunmetal edged in electric cobalt, minimal very subtle champagne gold accents. Crisp high-end painted game ornament, not 3D plastic.\nCRITICAL: NO rectangular frame. NO background panel. NO filled dark nameplate. NO horizontal bars connecting the side pieces. NO closed boundary around the text. NO bottom border. No text or letters at all. Ornaments together cover less than 35 percent of the canvas. Mostly open transparent negative space, compact graceful silhouettes, restrained wisps, no huge fog cloud. Keep all tips fully inside canvas. True alpha transparency.",
+  "reference": "../battle-suit-crimson-gold-knight-20261005-v1/assets/title/overlord-title-ornament-v1.png",
+  "output": "assets/connected/title-open-v2.png",
+  "textRender": "Native Pixi Text / Noto Serif KR 900",
+  "status": "VISUAL_REVIEW_PENDING"
+}

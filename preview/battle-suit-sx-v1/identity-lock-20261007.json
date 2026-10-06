@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-07",
+  "source": "assets/sources/sx-standing-approved-20261007.png",
+  "sourceSha256": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+  "name": "SX슈트",
+  "title": "푸른 사신",
+  "supersedes": "Earlier detached original helmet/blade composite policy in this file",
+  "userCorrections": [
+    "그 목 때고 하는 방식 실패임 내가볼때",
+    "그려야함",
+    "칼좀 안휘게 잘 만들어봐",
+    "그래 그리고 색감 변하지 않게 주의해라",
+    "다리 짧게 만들지 말고 몸 비율 항상 유지해라 검수할때"
+  ],
+  "method": "CONNECTED_FULL_FIGURE_DRAWINGS",
+  "policy": {
+    "original": "Byte-identical approved source; no overwrites or recoloring",
+    "helmet": "Redraw together with the connected neck, shoulders, body and weapon in each action pose; preserve original face/crest identity",
+    "blade": "Draw a coherent single straight pommel-handle-guard-blade-tip axis with full greatsword length and width",
+    "body": "Preserve original adult head/torso/pelvis/thigh/shin proportions; bent legs must retain their full limb lengths",
+    "packing": "Uniform whole-figure scale per sheet; no per-pose fit-to-height, no body tint or color transformation",
+    "detachedHead": false,
+    "weaponComposites": false
+  },
+  "acceptedPartialArtwork": "connected-pose-approval-20261007.json",
+  "rejectedMethod": "rejection-20261007.json",
+  "status": "CONNECTED_MOTION_REVIEW_PENDING",
+  "runtimeEnabled": false
+}

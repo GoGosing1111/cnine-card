@@ -1,0 +1,11 @@
+{
+  "skill-a:3": {
+    "source": "assets/connected/skill-takeoff-repair.png",
+    "reason": "The fourth sheet pose shortened the vertical sword. Redraw the complete connected figure with long adult legs and a full straight sword.",
+    "standingHeight": 870,
+    "foot": [415,1505],
+    "grip": [646,486],
+    "tip": [637,23],
+    "head": [620,693]
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "date": "2026-10-07",
+  "status": "TECHNICAL_REVIEW_COMPLETE_USER_VISUAL_REVIEW_PENDING",
+  "scope": "ISOLATED_SX_PREVIEW_ONLY",
+  "baseCommit": "10a4a7ad",
+  "sourceSha256": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+  "bundleSha256": "01c20d51bc537392f3889a3a950bc1d1f43084bb602c5f082a18a6f6853778cf",
+  "counts": {
+    "bodyFrames": 32,
+    "effectFrames": 96,
+    "completeFigureSheets": 8,
+    "detachedHeads": 0,
+    "weaponComposites": 0,
+    "bodyColorTransforms": 0
+  },
+  "unitTests": {
+    "passed": 5,
+    "failed": 0
+  },
+  "browserControls": "qa/browser-report.json",
+  "resolvedInitialFailure": "The old report has the first ultimate contact failure. Current contact-title-recheck.json supersedes it after attack[4] correction.",
+  "currentGeometry": {
+    "screens": [
+      "desktop",
+      "mobile"
+    ],
+    "contactsPerScreen": 12,
+    "problems": []
+  },
+  "titleFinalFollowup": {
+    "letterShiftY": -12,
+    "fontAndOrnamentUnchanged": true,
+    "viewed": [
+      "qa/title-open-v2.png",
+      "qa/desktop-idle-1.2.png",
+      "qa/mobile-idle-1.2.png",
+      "qa/mobile-ultimate-2.97.png"
+    ]
+  },
+  "proportionReview": {
+    "basis": "Approved original adult proportions; full thigh and shin lengths through bending and jumping; uniform full-figure packing is not anatomical proof",
+    "comparison": "comparison.html",
+    "captures": [
+      "qa/proportion-dash.png",
+      "qa/proportion-slash.png",
+      "qa/proportion-takeoff.png",
+      "qa/proportion-ultimate.png"
+    ]
+  },
+  "integration": {
+    "baseCommit": "10a4a7ad",
+    "reason": "Remote runtime damage-font update integrated; SX motion and VFX unchanged. Rebuilt shared bundle and checked load plus corrected contact.",
+    "results": [
+      {
+        "name": "desktop",
+        "errors": [],
+        "contact": true,
+        "title": {
+          "text": "푸른 사신",
+          "mirrored": false,
+          "actorAttached": true,
+          "independentClock": false,
+          "font": "Noto Serif KR 900 / OFL",
+          "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+          "bounds": {
+            "x": 580.2064277573024,
+            "y": 72.72283953253988,
+            "width": 227.16867523179508,
+            "height": 85.18825321192314
+          }
+        },
+        "bodyUnchanged": true
+      },
+      {
+        "name": "mobile",
+        "errors": [],
+        "contact": true,
+        "title": {
+          "text": "푸른 사신",
+          "mirrored": false,
+          "actorAttached": true,
+          "independentClock": false,
+          "font": "Noto Serif KR 900 / OFL",
+          "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+          "bounds": {
+            "x": 81.27885325572258,
+            "y": 158.37588413119505,
+            "width": 202.82516323420265,
+            "height": 76.05943621282597
+          }
+        },
+        "bodyUnchanged": true
+      }
+    ]
+  },
+  "video": {
+    "desktop": {
+      "file": "review-desktop.webm",
+      "sha256": "b753001d1456a25f62b2b417bc5bb0c30eaf214a85973abd987f03304a93ff7a"
+    },
+    "mobile": {
+      "file": "review-mobile.webm",
+      "sha256": "b84fd443601a4526ca77b1f309ef959b102099c847c28fda17e7674fe628134c"
+    },
+    "recordReport": "qa/recording-report.json",
+    "decodeReport": "qa/video-decode-report.json"
+  },
+  "release": {
+    "runtimeEnabled": false,
+    "cmsWrites": 0,
+    "productionDeploy": false,
+    "commitPrefix": "[CF-Pages-Skip]",
+    "reason": "Motion preview pending final visual approval; no live entry point or feature flag changed"
+  }
+}
