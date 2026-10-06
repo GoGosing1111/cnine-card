@@ -1,0 +1,229 @@
+{
+  "checkedAt": "2026-10-06T06:31:56.942Z",
+  "authorization": "사용자 추가 명단 31명(씨나인택갓부터 딤럼프까지)의 아이젠 족스케 +15강 업그레이드. 딤키우기 뒤의 43시간 문구는 요청 메모.",
+  "requested": [
+    "씨나인택갓",
+    "경화수월팬",
+    "박사",
+    "음주플레이어",
+    "#유나랜드",
+    "라페스타다",
+    "시소둥이",
+    "펜타",
+    "택신",
+    "전게씹선미아웃",
+    "굳건창수",
+    "x수댕",
+    "둘리소다",
+    "불법사행산업신고센터",
+    "다시생각",
+    "오일바른가지",
+    "[C9]족쪽이",
+    "족버지",
+    "ε연두з",
+    "학벌",
+    "깜찍소녀",
+    "화성가뿌자",
+    "스루형2↑",
+    "족알못",
+    "딤키우기",
+    "나도한번",
+    "시로",
+    "설윤이",
+    "센텀신사",
+    "쑤댕",
+    "딤럼프"
+  ],
+  "aliasEvidence": {
+    "족버지": "scripts/ops/saengbyuwang-recipients-20260930.json: userId 197 / 무버지; 이번 운영 조회에서 동일 계정과 보유 확인"
+  },
+  "excluded": [],
+  "targets": [
+    {
+      "id": 3,
+      "nickname": "ε연두з",
+      "inputNickname": "ε연두з",
+      "observedLevel": 14
+    },
+    {
+      "id": 13,
+      "nickname": "불법사행산업신고센터",
+      "inputNickname": "불법사행산업신고센터",
+      "observedLevel": 13
+    },
+    {
+      "id": 32,
+      "nickname": "쑤댕",
+      "inputNickname": "쑤댕",
+      "observedLevel": 14
+    },
+    {
+      "id": 87,
+      "nickname": "설윤이",
+      "inputNickname": "설윤이",
+      "observedLevel": 14
+    },
+    {
+      "id": 164,
+      "nickname": "박사",
+      "inputNickname": "박사",
+      "observedLevel": 14
+    },
+    {
+      "id": 197,
+      "nickname": "무버지",
+      "inputNickname": "족버지",
+      "observedLevel": 13
+    },
+    {
+      "id": 216,
+      "nickname": "x수댕",
+      "inputNickname": "x수댕",
+      "observedLevel": 14
+    },
+    {
+      "id": 220,
+      "nickname": "족알못",
+      "inputNickname": "족알못",
+      "observedLevel": 13
+    },
+    {
+      "id": 261,
+      "nickname": "둘리소다",
+      "inputNickname": "둘리소다",
+      "observedLevel": 13
+    },
+    {
+      "id": 303,
+      "nickname": "[C9]족쪽이",
+      "inputNickname": "[C9]족쪽이",
+      "observedLevel": 14
+    },
+    {
+      "id": 490,
+      "nickname": "경화수월팬",
+      "inputNickname": "경화수월팬",
+      "observedLevel": 13
+    },
+    {
+      "id": 750,
+      "nickname": "라페스타다",
+      "inputNickname": "라페스타다",
+      "observedLevel": 14
+    },
+    {
+      "id": 792,
+      "nickname": "센텀신사",
+      "inputNickname": "센텀신사",
+      "observedLevel": 14
+    },
+    {
+      "id": 1195,
+      "nickname": "씨나인택갓",
+      "inputNickname": "씨나인택갓",
+      "observedLevel": 14
+    },
+    {
+      "id": 1255,
+      "nickname": "전게씹선미아웃",
+      "inputNickname": "전게씹선미아웃",
+      "observedLevel": 14
+    },
+    {
+      "id": 1421,
+      "nickname": "다시생각",
+      "inputNickname": "다시생각",
+      "observedLevel": 13
+    },
+    {
+      "id": 3011,
+      "nickname": "오일바른가지",
+      "inputNickname": "오일바른가지",
+      "observedLevel": 14
+    },
+    {
+      "id": 4199,
+      "nickname": "택신",
+      "inputNickname": "택신",
+      "observedLevel": 13
+    },
+    {
+      "id": 4209,
+      "nickname": "#유나랜드",
+      "inputNickname": "#유나랜드",
+      "observedLevel": 14
+    },
+    {
+      "id": 4504,
+      "nickname": "깜찍소녀",
+      "inputNickname": "깜찍소녀",
+      "observedLevel": 14
+    },
+    {
+      "id": 4581,
+      "nickname": "나도한번",
+      "inputNickname": "나도한번",
+      "observedLevel": 14
+    },
+    {
+      "id": 4627,
+      "nickname": "학벌",
+      "inputNickname": "학벌",
+      "observedLevel": 14
+    },
+    {
+      "id": 4668,
+      "nickname": "화성가뿌자",
+      "inputNickname": "화성가뿌자",
+      "observedLevel": 13
+    },
+    {
+      "id": 4693,
+      "nickname": "시소둥이",
+      "inputNickname": "시소둥이",
+      "observedLevel": 14
+    },
+    {
+      "id": 4757,
+      "nickname": "음주플레이어",
+      "inputNickname": "음주플레이어",
+      "observedLevel": 14
+    },
+    {
+      "id": 4772,
+      "nickname": "펜타",
+      "inputNickname": "펜타",
+      "observedLevel": 13
+    },
+    {
+      "id": 4774,
+      "nickname": "딤럼프",
+      "inputNickname": "딤럼프",
+      "observedLevel": 14
+    },
+    {
+      "id": 4836,
+      "nickname": "딤키우기",
+      "inputNickname": "딤키우기",
+      "observedLevel": 14
+    },
+    {
+      "id": 4908,
+      "nickname": "굳건창수",
+      "inputNickname": "굳건창수",
+      "observedLevel": 13
+    },
+    {
+      "id": 4910,
+      "nickname": "스루형2↑",
+      "inputNickname": "스루형2↑",
+      "observedLevel": 14
+    },
+    {
+      "id": 4954,
+      "nickname": "시로",
+      "inputNickname": "시로",
+      "observedLevel": 13
+    }
+  ]
+}
