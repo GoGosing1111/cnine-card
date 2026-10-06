@@ -1,6 +1,6 @@
 {
   "date": "2026-10-06",
-  "status": "READY_FOR_SCOPED_DEPLOYMENT",
+  "status": "DEPLOYED_AND_VERIFIED_PREPARATION_ONLY",
   "request": "모든 일반 용병이 등장하는 준비 중 리미티드 용병팩; SS 리미티드·SSS 리미티드 확률을 일반 등급과 별도 관리",
   "behavior": {
     "ordinaryRanks": [
@@ -167,6 +167,66 @@
       "js/hyper-pack-fx-v2076.bundle.js": "f98422201af6acd780f15129469651bcc59724154488aadee19cf6e22f361b51",
       "js/mercenary-limited-pack-live.mjs": "20a2de828aa22e3d8eac518e284acd0d8ee58c19806d9dee14a70f4db86f5a59",
       "admin/mercenary-limited-admin-v1.js": "b79051f448103691b225a5a59c5b07dfae3791c2dbd15713c15a77b344592619"
+    },
+    "scopedTestsPassed": 25,
+    "workerCheck": "PASSED",
+    "production": {
+      "checkedAt": "2026-10-06T09:11:02.375Z",
+      "deployment": "https://9faa96a1.cnine-card.pages.dev",
+      "normalCards": 55,
+      "normalRanks": {
+        "C": 13,
+        "B": 5,
+        "A": 10,
+        "S": 6,
+        "SS": 17,
+        "SSS": 4
+      },
+      "limitedCards": 8,
+      "normalRankRatesPpm": {
+        "C": null,
+        "B": null,
+        "A": null,
+        "S": null,
+        "SS": null,
+        "SSS": null
+      },
+      "limitedRankRatesPpm": {
+        "SS": null,
+        "SSS": null
+      },
+      "prices": {
+        "single": 800000000,
+        "ten": 8000000000
+      },
+      "unchangedSettings": true,
+      "unchangedPolicy": true,
+      "unchangedStock": true,
+      "packRevision": 1,
+      "policyRevision": 2,
+      "releaseEnabled": false,
+      "userOpeningEnabled": false,
+      "mode": "OFF",
+      "assets": [
+        {
+          "file": "shared/mercenary-limited-pack-v1.mjs",
+          "sha256": "f3d8c9f07a2a4106cfba295a4367be94b05b758c77f81376ca6411ec68ef8629"
+        },
+        {
+          "file": "admin/mercenary-limited-admin-v1.js",
+          "sha256": "b79051f448103691b225a5a59c5b07dfae3791c2dbd15713c15a77b344592619"
+        },
+        {
+          "file": "js/hyper-pack-fx-v2076.bundle.js",
+          "sha256": "f98422201af6acd780f15129469651bcc59724154488aadee19cf6e22f361b51"
+        },
+        {
+          "file": "js/mercenary-limited-pack-live.mjs",
+          "sha256": "20a2de828aa22e3d8eac518e284acd0d8ee58c19806d9dee14a70f4db86f5a59"
+        }
+      ],
+      "mainCacheMarker": true,
+      "adminCacheMarker": true
     }
   },
   "release": {
@@ -181,6 +241,10 @@
     "selectedChecks": [
       "check:worker"
     ],
-    "reason": "Localized mixed-pool addition to the prepared limited pack. Reuses existing schema and atomic transaction framework; validates combined grants, quota protection, retry, and both ordinary/limited rendering. No authentication, session, dependency or common transaction infrastructure changes."
+    "reason": "Localized mixed-pool addition to the prepared limited pack. Reuses existing schema and atomic transaction framework; validates combined grants, quota protection, retry, and both ordinary/limited rendering. No authentication, session, dependency or common transaction infrastructure changes.",
+    "commit": "c819c122120094630567f2a83dd10fa42428609a",
+    "url": "https://9faa96a1.cnine-card.pages.dev",
+    "apiRuntimeVersion": "25709ee1-50f8-432d-9491-ed0b1ed117fb",
+    "clanSchedulerVersion": "1fba3bfb-1000-4fdd-897b-99fe281e1cc4"
   }
 }
