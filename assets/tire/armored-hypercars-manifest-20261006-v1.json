@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "createdAt": "2026-10-06T14:48:55.533Z",
+  "status": "PREPARED_FOR_REVIEW",
+  "userRequest": "사진 각각 이동수단 리소스 만들어봐 우리 차량 구도 ,각도 스타일 참고해서 만들어라",
+  "generation": {
+    "tool": "built-in image_gen",
+    "prompts": "assets/tire/armored-hypercars-prompts-20261006-v1.json"
+  },
+  "composition": {
+    "reference": "assets/tire/lamborghini-veneno-showroom-v1.png",
+    "camera": "low front three-quarter, front toward image left",
+    "framing": "complete car in a wide 16:9 landscape",
+    "background": "dark premium circular showroom with reflective floor"
+  },
+  "assets": [
+    {
+      "reference": 1,
+      "path": "assets/tire/black-armored-hypercar-showroom-v1.png",
+      "source": "C:/Users/User/.codex/generated_images/01a107d4-bfe5-72d1-b980-f8b2592cf9e0/exec-2ade3046-6e92-4db4-b0fb-0e1901558c00.png",
+      "theme": "black gunmetal armor, cool-white lighting",
+      "width": 1672,
+      "height": 941,
+      "channels": 3,
+      "opaque": true,
+      "bytes": 1909377,
+      "sha256": "121a0c3f0092cd03b173194abb1429a68a16ff9b0ac9bb54f81da27ac673a621"
+    },
+    {
+      "reference": 2,
+      "path": "assets/tire/silver-cyan-hypercar-showroom-v1.png",
+      "source": "C:/Users/User/.codex/generated_images/01a107d4-bfe5-72d1-b980-f8b2592cf9e0/exec-b2b71225-8537-4270-b7d3-debb915c9193.png",
+      "theme": "silver alloy armor, cyan cores and wheel rings",
+      "width": 1672,
+      "height": 941,
+      "channels": 3,
+      "opaque": true,
+      "bytes": 2004586,
+      "sha256": "a957f391d59ea3cc8b925473f766284ae0c0c30a7f386c1cb79ba1d03d4aeb38"
+    }
+  ],
+  "qa": {
+    "bothVehiclesVisuallyInspected": true,
+    "fullVehicleVisible": true,
+    "noCroppedBumpersWheelsOrFins": true,
+    "existingStyleAnchorInspected": true,
+    "opaqueBackgroundVerified": true,
+    "generatedOriginalPixelsPreserved": true
+  },
+  "catalog": {
+    "registered": false,
+    "namesAssigned": false,
+    "raritiesAssigned": false,
+    "powerAssigned": false,
+    "acquisitionEnabled": false
+  },
+  "effects": {
+    "animated": false,
+    "type": "static painted highlights and emission"
+  }
+}
