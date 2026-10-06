@@ -1,5 +1,5 @@
 {
-  "status": "IMPLEMENTED_UI_VERIFIED_AWAITING_SCOPED_DEPLOY",
+  "status": "DEPLOYED_AND_PRODUCTION_VERIFIED",
   "request": "ICON 편성 시 아포칼립스 승패 역전 및 ICON 오조은 공격·회복 불능 수정",
   "priorSource": "766c9095357371915f5d50cfa7a11e52ecaedfa3",
   "lastProductionBase": "d372e4446d5d846f05f961ae6d5877e0381de6b5",
@@ -55,5 +55,59 @@
     "보스별 CMS 수량/보상/버닝",
     "기믹 실패 전멸·새로고침/이탈 정산 차단",
     "ICON 튜닝 수치·카드/장비·원화·출시 플래그"
-  ]
+  ],
+  "deployment": {
+    "implementationCommit": "1142743132f4ac6a21d0320775fb89dad944c360",
+    "releaseCommit": "ec8f14f24e0089e0441f8e1095813678dceb13b3",
+    "pages": "https://aeef9de6.cnine-card.pages.dev",
+    "apiRuntimeVersion": "9570d38c-326b-45d6-bc9e-7adb0296f772",
+    "schedulerVersion": "7467977c-7897-411e-ba75-73453faeb6d7",
+    "scopedTests": {
+      "passed": 48,
+      "failed": 0
+    },
+    "workerCompile": true,
+    "releaseCacheFlagsAndHyperdrive": true,
+    "verification": {
+      "checkedAt": "2026-10-06T01:27:17.251Z",
+      "origin": "https://cnine-card.pages.dev",
+      "files": [
+        {
+          "path": "index.html",
+          "status": 200,
+          "matches": true,
+          "sha256": "9fa145b4fcc98e58425ab6af1735bfea4958a541a424eb8daab07b725908cc2f"
+        },
+        {
+          "path": "js/app.js",
+          "status": 200,
+          "matches": true,
+          "sha256": "5e9c196060214e402577334e306df412284de031f96973dff2739208e2dc9d81"
+        },
+        {
+          "path": "js/battle-v3-live.js",
+          "status": 200,
+          "matches": true,
+          "sha256": "ba4d4227a2bb9f87e8f54b93a32cccdf26a79d720b32136b56748b75147522c4"
+        },
+        {
+          "path": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+          "status": 200,
+          "matches": true,
+          "sha256": "963fe5c2b2507513b64a14c30cbba90aa9e3435327444764d443388cf208c1a4"
+        },
+        {
+          "path": "service-worker.js",
+          "status": 200,
+          "matches": true,
+          "sha256": "0557252aa86383588067f31ec82537388028bab4688b22b869b465af4b6a56de"
+        }
+      ],
+      "publicRoles": {
+        "status": 200,
+        "revision": 2
+      },
+      "pass": true
+    }
+  }
 }
