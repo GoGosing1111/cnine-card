@@ -13,3 +13,7 @@
 검수 결과: 승인 원본 두 파일 SHA-256 일치, SD 투명 여백·768×768 내보내기 통과. 실제 메인 index.html과 V3 렌더러에 로컬 검수 데이터를 연결해 390px/1440px 랭크전 카드, PC PVP·모바일 PVE의 새 SD·원화 로드(HTTP 200), 전투 종료와 복귀를 확인했다. 브라우저 오류 0건이며 승인 원화와 SD를 별도로 사용한다. [화면·검수 기록](../preview/icon-joeun-medic-20261006/qa-report.json)을 보존한다.
 
 운영 DB dry-run은 통과 후 롤백했다. 해당 카드의 image_url 외 컬럼은 그대로 유지됨을 비교했다. 배포 게이트는 `tests/icon-fusion-live-20260930.test.mjs`, `tests/icon-cms-v1.test.mjs`를 선택한다. 직전 운영 기준은 `fdc06e87a2eeb82b771a749d7e689c037582492a`이며 이후 문서 기록과 이번 자산 연결 변경만 포함한다. 자산 첫 회귀·브라우저 확인을 배포 전에 반복하지 않는다.
+
+운영 반영 완료: 관련 회귀 31개 통과 후 `c79c9ea550a5733374b2250373125953174920e3`를 scoped 배포했다. Pages 배포 `e0575d0c-6d73-4bc5-87e8-ac07cfd1f34b`, API runtime `1198201e-2e16-4957-836e-8b6179d02546`다. 운영 주소에서 원본 2개·표시 SD의 HTTP 200과 SHA-256, 전투 manifest·메인 로더 캐시를 확인했다.
+
+그 뒤 운영 영수증 `icon_joeun_medic_assets_20261006_v1`로 카드 이미지 경로를 전환했다. 공개 `/api/cards`에서 새 원화 경로·ICON 등급·기본 전투력 180,000 유지까지 확인했다. [운영 확인 기록](icon-joeun-medic-assets-20261006-production.json). 이 후속 기록은 문서 전용이며 재배포하지 않는다.
