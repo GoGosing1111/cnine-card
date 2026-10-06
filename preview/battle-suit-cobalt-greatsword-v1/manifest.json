@@ -1,0 +1,129 @@
+{
+  "version": 3,
+  "createdAt": "2026-10-06T16:31:32.907Z",
+  "status": "BODY_APPROVED_HEAD_REVIEW_PENDING",
+  "scope": "One standing full-body resource with greatsword; no animation or gameplay integration",
+  "currentAsset": "assets/cobalt-greatsword-standing-v3-head-scale.png",
+  "approvedBelowHeadSource": "assets/cobalt-greatsword-standing-v1-body-approved.png",
+  "partialApproval": {
+    "date": "2026-10-07",
+    "quote": "머리 아래로는 다 합격임",
+    "scope": [
+      "body design",
+      "greatsword design",
+      "grip",
+      "standing pose"
+    ],
+    "headApproved": false
+  },
+  "headCorrection": {
+    "request": "머리 뒤 뿔 제거 및 최초 참고 사진의 얼굴 장갑 디테일 반영",
+    "rearTallHeadHornsRemoved": true,
+    "originalHelmetDetailsCompared": true,
+    "userApprovalPending": true
+  },
+  "assets": [
+    {
+      "path": "assets/cobalt-greatsword-standing-v1-body-approved.png",
+      "status": "BODY_AND_GREATSWORD_APPROVED_HEAD_REJECTED",
+      "width": 1024,
+      "height": 1536,
+      "channels": 4,
+      "hasAlpha": true,
+      "isOpaque": false,
+      "bytes": 2332265,
+      "sha256": "61708d27c1495fd941ea6a1fae969ac0380043ec3a752f8540df97043a38a27a",
+      "source": "C:/Users/User/.codex/generated_images/01a107d4-bfe5-72d1-b980-f8b2592cf9e0/exec-f9f2bcda-de49-4cc3-9ad8-8023ab900b1e.png",
+      "sourceBytesPreserved": true
+    },
+    {
+      "path": "assets/cobalt-greatsword-standing-v2-head-revised.png",
+      "status": "HEAD_REVISION_REVIEW_PENDING",
+      "width": 1024,
+      "height": 1536,
+      "channels": 4,
+      "hasAlpha": true,
+      "isOpaque": false,
+      "bytes": 2216000,
+      "sha256": "2f1a0854ffe2bd4875554b258a24f8d179f4e4fb4ba534d905f65d6a31c377b1",
+      "source": "C:/Users/User/.codex/generated_images/01a107d4-bfe5-72d1-b980-f8b2592cf9e0/exec-7bf09b49-acc2-4ac1-b200-cddd14aa4eb0.png",
+      "sourceBytesPreserved": true
+    },
+    {
+      "path": "assets/cobalt-greatsword-standing-v3-head-scale.png",
+      "status": "HEAD_SCALE_COMPARISON_REVIEW_PENDING",
+      "width": 1024,
+      "height": 1536,
+      "channels": 4,
+      "hasAlpha": true,
+      "isOpaque": false,
+      "bytes": 2224989,
+      "sha256": "70bec50db402fa9445dc453a73f410d4448b7d74f1647bf57627f201a1bb0bd9",
+      "source": "C:/Users/User/.codex/generated_images/01a107d4-bfe5-72d1-b980-f8b2592cf9e0/exec-55091df1-8d75-4bb6-aeae-b69b32af713a.png",
+      "sourceBytesPreserved": true
+    }
+  ],
+  "references": [
+    {
+      "role": "original armor and helmet design",
+      "path": "C:/Users/User/AppData/Local/Temp/codex-clipboard-938fb3e2-0128-44b2-93c8-d7eca91ea962.png",
+      "sha256": "dead12cebdd1b17760207598367c79124b4e81a3e9ba7be898385a351188cece"
+    },
+    {
+      "role": "greatsword design reference only",
+      "path": "C:/Users/User/Downloads/b85e98821e49ac9078a356fca553881e.jpg",
+      "sha256": "a915578d9ec7d7c3d229c74597068e6793d03ed886f4e92ed33fdee870b8da2f"
+    },
+    {
+      "role": "existing sprite rendering/camera reference for initial generation only",
+      "path": "assets/ui/project-v/account-battle-suits/x-sword-v1/x-body.png",
+      "sha256": "91cdd399bb2e042b32b6fa7573c8491a913a97d456dcbb8a13dffbb5d49b8ddc"
+    },
+    {
+      "role": "user crop identifying rejected helmet",
+      "path": "C:/Users/User/AppData/Local/Temp/codex-clipboard-21b6bcef-eb1a-4ea3-8e91-085ba2737b2c.png",
+      "sha256": "c19cf6a339baadb48e0508938f750ca40b15303eed8be2d89744a7a6f08efea6"
+    }
+  ],
+  "generation": {
+    "mode": "built-in image_gen",
+    "prompts": "prompts.json",
+    "postprocessing": "none; original PNG byte copy only"
+  },
+  "verification": {
+    "trueAlpha": true,
+    "fullBodyAndSwordVisible": true,
+    "bodyAndSwordDesignVisuallyCompared": true,
+    "bodyPixelsCopiedFromV1": false,
+    "approvedV1SourcePreserved": true
+  },
+  "catalog": {
+    "registered": false,
+    "name": null,
+    "rank": null,
+    "power": null,
+    "liveEnabled": false
+  },
+  "animation": {
+    "frames": 1,
+    "animated": false,
+    "atlasCreated": false
+  },
+  "release": {
+    "previewOnly": true,
+    "liveConnection": false,
+    "productionDeployRequired": false
+  },
+  "updatedAt": "2026-10-06T16:34:11.484Z",
+  "headScale": {
+    "request": "머리크기 한 10~15% 키우면 어때?",
+    "reference": "assets/cobalt-greatsword-standing-v2-head-revised.png",
+    "targetUniformScale": 1.125,
+    "actualScaleType": "image-generation approximation; not deterministic resampling",
+    "neckConnectionAnchored": true,
+    "headDesignPreservedVisually": true,
+    "rearTallHornsRemainRemoved": true,
+    "bodyAndGreatswordDesignCompared": true,
+    "userApprovalPending": true
+  }
+}
