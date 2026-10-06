@@ -1,5 +1,5 @@
 {
-  "status": "READY_TO_APPLY",
+  "status": "COMPLETED",
   "authorization": "음순이 계정에 아이콘 나무늘봉순 지급하고 3조 지급해",
   "operationScript": "scripts/ops/eumsuni-icon-bongsoon-3trillion-20261006.mjs",
   "operationScriptSha256": "9a6d4998bfa97829bf8096c47a2705de56b9816204badd1ca0835c9636a99a12",
@@ -56,7 +56,88 @@
       "app_meta receipt"
     ],
     "siteDeployment": "NOT_REQUIRED_OPS_ONLY",
-    "notificationSent": false
+    "notificationSent": false,
+    "sourceCommit": "0add1a941584231cce1a6dddaebbf7d14a27eb96",
+    "temporaryHelperStopped": true,
+    "temporaryAuthKey": "IN_MEMORY_DISCARDED",
+    "completedAtKST": "2026-10-06 09:41:08"
   },
-  "artifacts": "C:/Users/User/.codex/tmp/eumsuni-icon-bongsoon-3trillion-20261006"
+  "artifacts": "C:/Users/User/.codex/tmp/eumsuni-icon-bongsoon-3trillion-20261006",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:eumsuni-icon-bongsoon-3trillion:20261006:v1",
+    "actor": "SYSTEM_OPS",
+    "authorization": "음순이 계정에 아이콘 나무늘봉순 지급하고 3조 지급해",
+    "userId": 65,
+    "nickname": "음순이",
+    "cards": [
+      {
+        "cardId": "CN-1C000003",
+        "cardTitle": "나무늘봉순",
+        "grade": "ICON",
+        "quantity": 1,
+        "quantityBefore": 0,
+        "quantityAfter": 1,
+        "levelAfter": 0
+      }
+    ],
+    "totalGranted": 1,
+    "permanent": true,
+    "coinAmount": 3000000000000,
+    "coinBefore": "2563839429",
+    "coinAfter": "3002563839429",
+    "coinLogId": "82771996",
+    "otherBalancesPreserved": true,
+    "otherCardsPreserved": true,
+    "completedAt": "2026-10-06T00:41:08.816Z",
+    "adminLogId": "41388",
+    "replayed": false,
+    "sourceHash": "9a6d4998bfa97829bf8096c47a2705de56b9816204badd1ca0835c9636a99a12",
+    "sourceCommit": "0add1a941584231cce1a6dddaebbf7d14a27eb96"
+  },
+  "verification": {
+    "status": "VERIFIED",
+    "receipt": {
+      "status": "COMPLETED",
+      "operationKey": "ops:eumsuni-icon-bongsoon-3trillion:20261006:v1",
+      "actor": "SYSTEM_OPS",
+      "authorization": "음순이 계정에 아이콘 나무늘봉순 지급하고 3조 지급해",
+      "userId": 65,
+      "nickname": "음순이",
+      "cards": [
+        {
+          "cardId": "CN-1C000003",
+          "cardTitle": "나무늘봉순",
+          "grade": "ICON",
+          "quantity": 1,
+          "quantityBefore": 0,
+          "quantityAfter": 1,
+          "levelAfter": 0
+        }
+      ],
+      "totalGranted": 1,
+      "permanent": true,
+      "coinAmount": 3000000000000,
+      "coinBefore": "2563839429",
+      "coinAfter": "3002563839429",
+      "coinLogId": "82771996",
+      "otherBalancesPreserved": true,
+      "otherCardsPreserved": true,
+      "completedAt": "2026-10-06T00:41:08.816Z",
+      "adminLogId": "41388"
+    },
+    "currentHoldings": [
+      {
+        "cardId": "CN-1C000003",
+        "title": "나무늘봉순",
+        "quantity": 1,
+        "level": 0
+      }
+    ],
+    "currentCoin": "3002563839429",
+    "auditCount": 1,
+    "coinLogCount": 1,
+    "sourceHash": "9a6d4998bfa97829bf8096c47a2705de56b9816204badd1ca0835c9636a99a12",
+    "sourceCommit": "0add1a941584231cce1a6dddaebbf7d14a27eb96"
+  }
 }
