@@ -40,3 +40,5 @@
 - 공식 명령: `npm run deploy:production -- --scoped`.
 - 관련 펫/전투/군단/소유자별 전투 회귀, Worker 컴파일, 메인 로더, 출시 플래그·캐시·Hyperdrive 검사를 수행한다.
 - 배포 결과와 운영 확인은 완료 후 별도 JSON에 기록한다.
+
+1차 scoped 회귀는 254개 중 252개 통과했다. 공통 번들 검사는 새 PetSupportPlayback 원본 1개를 포함해 79개가 된 점을 검사 명세에 반영하고 해당 검사만 다시 수행한다. 호송의 오래된 URL 계약 1개(`escort-operation-v1830.test.mjs:95`, 번들 쿼리가 반드시 `?v=106-combat-flow`로 시작한다는 가정)는 직전 운영 커밋 54414ba1에서도 실패함을 확인했다. 이번 변경으로 생긴 오류가 아니며 기존 호송 검사를 고치거나 전체 회귀를 재시작하지 않는다. 새 메인 로더 연결은 실제 메인 PC/모바일 브라우저와 pve-battlefield-entry 검사로 별도 확인했다. 1차 상세 로그는 외부 검수 폴더의 deploy.log다. 통과한 252개는 그대로 보존하고 후속 공식 scoped 배포는 공통 번들·메인 로더·Worker 및 출시/캐시/Hyperdrive 검사를 수행한다.
