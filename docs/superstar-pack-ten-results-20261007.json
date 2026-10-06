@@ -1,0 +1,79 @@
+{
+  "status": "READY_FOR_SCOPED_RELEASE",
+  "request": "슈퍼스타팩 10개 개봉 일일이 화면 연출하지말고 한번에 10개 결과 사진 보여줘",
+  "change": "서버가 확정한 10회 영수증을 개별 연출 없이 카드 원본 이미지·꽝 10칸으로 즉시 표시한다. 중복 카드도 별도 슬롯으로 유지한다.",
+  "unchanged": [
+    "기존 1회 개봉 연출",
+    "최초 스와이프 결제",
+    "가격·확률·서버 지급 및 차감·중복 보상 정책",
+    "같은 요청번호의 영수증 복구"
+  ],
+  "recovery": "과거 nextIndex가 남아 있는 10회 요청도 첫 칸부터 10개 전체를 표시하며 결과판이 표시되면 대기 기록을 해제한다.",
+  "visual": {
+    "actualMainIndex": true,
+    "actualPackFunctions": true,
+    "previewOnly": true,
+    "viewports": [
+      {
+        "name": "desktop-mixed",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "winCount": 3,
+        "badImages": 0,
+        "sequentialButtons": 0,
+        "splitEffects": false
+      },
+      {
+        "name": "mobile-mixed",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "winCount": 3,
+        "badImages": 0,
+        "sequentialButtons": 0,
+        "splitEffects": false
+      },
+      {
+        "name": "mobile-miss",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "winCount": 0,
+        "badImages": 0,
+        "sequentialButtons": 0,
+        "splitEffects": false
+      },
+      {
+        "name": "desktop-win",
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "winCount": 10,
+        "badImages": 0,
+        "sequentialButtons": 0,
+        "splitEffects": false
+      }
+    ],
+    "pageErrors": [],
+    "singleOpeningPassed": true,
+    "checks": "PC 5열·모바일 3열. 모바일은 결과 영역만 스크롤하며 합계·확인 버튼을 고정 표시. 모든 이미지 로드·가로 넘침 없음·마지막 결과 접근·확인 후 닫기 확인.",
+    "evidenceDirectory": "C:/Users/User/.codex/tmp/superstar-ten-results-20261007/"
+  },
+  "release": {
+    "mode": "scoped",
+    "lastDeployedCommit": "d604a349a316aa2e0859a8970cff37683810bf14",
+    "lastPagesDeployment": "https://52f180c9.cnine-card.pages.dev",
+    "reason": "슈퍼스타팩 10회 결과 표시만 변경. 서버 거래·공통 인증·DB는 변경하지 않으며 즉시 결과판과 기존 클라이언트 영수증 복구 회귀만 확인한다.",
+    "tests": [
+      "tests/superstar-pack-instant-batch-20261007.test.mjs",
+      "tests/superstar-pack-client-v2047.test.mjs"
+    ],
+    "checks": [],
+    "cacheVersion": "20261007-superstar-ten-results"
+  }
+}

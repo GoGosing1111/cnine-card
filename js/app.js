@@ -1648,7 +1648,7 @@ function superstarPackHero(pack) {
   const access=superstarPackAccess(),enabled=pack.drawEnabled===true||(access.owner&&pack.ownerDrawEnabled===true)||access.early,price=Number(pack.price??300000000),success=Number(pack.successRate??10),miss=Number(pack.missRate??Math.max(0,100-success));
   const counts=Number(pack.maxDrawCount)>=10?[1,10]:[1];
   const buttons=enabled?counts.map(count=>`<button class="btn superstar-draw" data-pack-id="${escapeHtml(pack.id)}" data-count="${count}" data-cost="${price*count}"><small>${count}회 개봉 · SWIPE REVEAL</small>${(price*count).toLocaleString()}코인</button>`).join(''):'<button class="btn superstar-opening-off" type="button" disabled><small>DISPLAY ONLY · OPENING OFF</small>개봉 준비 중</button>';
-  return `<section class="game-hero pack-theme-superstar superstar-pack-store-hero ${enabled?'opening-on':'opening-off'} ${access.owner?'owner-access':access.early?'early-access':''}"><div class="superstar-hero-grid" aria-hidden="true"></div><div class="hero-copy"><p class="eyebrow">${escapeHtml(pack.subtitle)}</p><div class="superstar-launch-status"><i></i><b>${enabled?'OPENING ON':'OPENING OFF'}</b><span>${enabled?'개봉 가능':'유저 미리보기 전용'}</span></div><h2>${escapeHtml(pack.name)}<br><em>${enabled?'챔피언을 확인하세요':'개봉 준비 중입니다'}</em></h2><p>1회 또는 10회 개봉을 선택하세요.<br>화면을 밀면 결제가 확정되고, 기존 개봉 연출로 결과를 한 팩씩 확인합니다.</p><div class="superstar-pack-odds"><span><small>SUPERSTAR</small><b>${success}%</b></span><span class="miss"><small>꽝</small><b>${miss}%</b></span><span><small>1회 가격</small><b>${price.toLocaleString()}</b><em>COIN</em></span></div><div class="draw-options superstar-draw-options" data-draw-mode="SUPERSTAR_CHANCE">${buttons}<small class="superstar-opening-rule">매회 독립 판정 · ${success}% 당첨 · ${miss}% 꽝 · 10회 당첨 보장 없음</small></div></div><div class="hero-pack-zone superstar-pack-display"><div class="pack-aura"></div><div class="superstar-pack-halo"><i></i><i></i><i></i></div>${packArt(pack)}<span class="superstar-pack-display-label"><b>SUPERSTAR</b><small>CHAMPIONSHIP EDITION</small></span></div></section>`;
+  return `<section class="game-hero pack-theme-superstar superstar-pack-store-hero ${enabled?'opening-on':'opening-off'} ${access.owner?'owner-access':access.early?'early-access':''}"><div class="superstar-hero-grid" aria-hidden="true"></div><div class="hero-copy"><p class="eyebrow">${escapeHtml(pack.subtitle)}</p><div class="superstar-launch-status"><i></i><b>${enabled?'OPENING ON':'OPENING OFF'}</b><span>${enabled?'개봉 가능':'유저 미리보기 전용'}</span></div><h2>${escapeHtml(pack.name)}<br><em>${enabled?'챔피언을 확인하세요':'개봉 준비 중입니다'}</em></h2><p>1회 또는 10회 개봉을 선택하세요.<br>화면을 밀면 결제가 확정됩니다. 10회 개봉은 전체 결과를 한 번에 보여드립니다.</p><div class="superstar-pack-odds"><span><small>SUPERSTAR</small><b>${success}%</b></span><span class="miss"><small>꽝</small><b>${miss}%</b></span><span><small>1회 가격</small><b>${price.toLocaleString()}</b><em>COIN</em></span></div><div class="draw-options superstar-draw-options" data-draw-mode="SUPERSTAR_CHANCE">${buttons}<small class="superstar-opening-rule">매회 독립 판정 · ${success}% 당첨 · ${miss}% 꽝 · 10회 당첨 보장 없음</small></div></div><div class="hero-pack-zone superstar-pack-display"><div class="pack-aura"></div><div class="superstar-pack-halo"><i></i><i></i><i></i></div>${packArt(pack)}<span class="superstar-pack-display-label"><b>SUPERSTAR</b><small>CHAMPIONSHIP EDITION</small></span></div></section>`;
 }
 
 function limitedMercenaryPackHero(pack) {
@@ -5223,32 +5223,25 @@ function validateSuperstarPackResponse(result,{requestId,count,cost}){
   return result;
 }
 
-async function revealSuperstarPackBatch(stage,result,{preview=false,startIndex=0}={}){
+async function revealSuperstarPackBatch(stage,result,{preview=false}={}){
   if(!preview)applySuperstarPackResultToUser(result);
-  stage.classList.add('superstar-batch-opening');
-  const progress=document.createElement('div');progress.className='superstar-batch-progress';progress.setAttribute('aria-label','10회 개봉 진행');
-  progress.innerHTML=result.results.map((_,index)=>`<span data-batch-slot="${index}">${index+1}</span>`).join('');
-  stage.querySelector('header').append(progress);
-  for(let index=Number.isInteger(startIndex)?Math.max(0,Math.min(result.count-1,startIndex)):0;index<result.count;index++){
-    stage.querySelector('.superstar-result-actions')?.remove();stage.querySelector('.superstar-opening-result').innerHTML='';
-    stage.classList.remove('seal-breaking','pack-splitting','outcome-win','outcome-miss','result-revealed');
-    stage.querySelector('header h2').textContent=`10회 개봉 · ${index+1} / 10`;
-    stage.querySelector('header p').textContent=`총 ${Number(result.cost).toLocaleString()}코인 결제 완료 · 추가 결제 없음`;
-    progress.querySelectorAll('span').forEach((node,slot)=>{node.className=slot<index?(result.results[slot].hit?'is-win':'is-miss'):slot===index?'is-current':'';node.textContent=slot<index?(result.results[slot].hit?'★':'−'):String(slot+1);});
-    // Reset the original CSS timeline before replaying the same seal/split/reveal.
-    await superstarOpeningSleep(40);
-    let advance;const next=new Promise(resolve=>{advance=resolve});
-    await revealSuperstarPackResult(stage,result.results[index],{preview,applyResult:false,onConfirm:advance,confirmLabel:index<result.count-1?`다음 팩 연출 보기 (${index+2}/10)`:'전체 결과 확인'});
-    await next;
-    if(!preview&&index<result.count-1){const pending=readPendingSuperstarDraw();if(pending?.requestId===result.requestId)writePendingSuperstarDraw({...pending,nextIndex:index+1});}
-  }
-  const won=result.results.filter(item=>item.hit).length;
-  progress.querySelectorAll('span').forEach((node,slot)=>{node.className=result.results[slot].hit?'is-win':'is-miss';node.textContent=result.results[slot].hit?'★':'−';});
-  stage.classList.add('superstar-batch-summary');stage.querySelector('header h2').textContent='10회 개봉 완료';
-  stage.querySelector('.superstar-opening-result').innerHTML=`<div class="superstar-batch-results">${result.results.map((item,index)=>`<article class="${item.hit?'is-win':'is-miss'}"><small>${index+1} / 10</small>${item.hit?`<img src="${escapeHtml(item.card.image||'')}" alt=""><b>${escapeHtml(item.card.title)}</b><span>${item.duplicate?`중복 · 조각 +${item.shardGained}`:'NEW SUPERSTAR'}</span>`:'<i>−</i><b>꽝</b><span>카드 없음</span>'}</article>`).join('')}</div>`;
-  stage.querySelector('.superstar-opening-status').innerHTML=`<i></i><b>당첨 ${won}회 · 꽝 ${10-won}회</b><span>카드 조각 +${Number(result.shardGained||0).toLocaleString()}</span>`;
-  const button=stage.querySelector('.superstar-result-confirm');button.disabled=false;button.textContent='결과 확인 완료';
+  // One paid receipt, one result board. Legacy nextIndex never hides earlier slots.
+  const won=result.results.filter(item=>item.hit).length,packImage=stage.querySelector('.pack-half-left').getAttribute('src');
+  stage.querySelector('.superstar-result-actions')?.remove();
+  stage.querySelector('header h2').textContent='10개 개봉 결과';
+  stage.querySelector('header p').textContent=preview?'10개 결과 미리보기 · 실제 결제 없음':`총 ${Number(result.cost).toLocaleString()}코인 결제 완료`;
+  stage.querySelector('.superstar-opening-result').innerHTML=`<div class="superstar-batch-results" role="list" aria-label="슈퍼스타팩 10개 개봉 결과" tabindex="0">${result.results.map((item,index)=>{
+    const title=item.hit?(item.card.title||'SUPERSTAR'):'꽝',shards=Number(item.shardGained||0);
+    const detail=item.hit?(item.duplicate?`중복 카드 +1${shards>0?` · 조각 +${shards.toLocaleString()}`:''}`:'새 카드 획득'):'카드 없음';
+    return `<article class="${item.hit?'is-win':'is-miss'}" role="listitem" aria-label="${index+1}번째 결과: ${escapeHtml(title)}"><div class="superstar-batch-art"><img src="${escapeHtml(item.hit?item.card.image||packImage:packImage)}" alt="${item.hit?escapeHtml(title):''}" decoding="async"><small class="superstar-batch-slot">${String(index+1).padStart(2,'0')}</small>${item.hit?`<em class="superstar-batch-badge">${item.duplicate?'획득':'NEW'}</em>`:'<i aria-hidden="true">×</i>'}</div><b>${escapeHtml(title)}</b><span>${escapeHtml(detail)}</span></article>`;
+  }).join('')}</div>`;
+  stage.querySelector('.superstar-opening-status').innerHTML=`<i></i><b>SUPERSTAR ${won}장 · 꽝 ${10-won}개</b><span>카드 조각 +${Number(result.shardGained||0).toLocaleString()}</span>`;
+  stage.classList.add('superstar-batch-summary','result-revealed');stage.dataset.state='revealed';
+  stage.querySelector('.superstar-opening-close').disabled=false;
+  const actions=document.createElement('div');actions.className='superstar-result-actions';actions.innerHTML='<button type="button" class="btn superstar-result-confirm">결과 확인 완료</button>';stage.append(actions);
+  const button=actions.querySelector('button');
   button.onclick=()=>{document.getElementById('modal').className='modal';document.getElementById('modal').innerHTML='';if(!preview)renderShell('buy')};
+  button.focus({preventScroll:true});
 }
 
 function mountSuperstarPackOpening(pack,cost,requestFactory,{preview=false,count=1,pending=null}={}){
