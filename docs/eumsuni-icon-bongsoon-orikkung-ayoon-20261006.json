@@ -1,5 +1,5 @@
 {
-  "status": "READY_TO_APPLY",
+  "status": "COMPLETED",
   "authorization": "음순이 계정에 봉순 오리꿍 아윤 아이콘도 지급해",
   "interpretation": "각각 1장 신규 추가 지급. 나무늘봉순은 앞선 1장 지급에 더해 추가 1장.",
   "operationScript": "scripts/ops/eumsuni-icon-bongsoon-orikkung-ayoon-20261006.mjs",
@@ -81,7 +81,126 @@
       "app_meta receipt"
     ],
     "siteDeployment": "NOT_REQUIRED_OPS_ONLY",
-    "notificationSent": false
+    "notificationSent": false,
+    "sourceCommit": "fad1a84e429b5bd3796365797628eaa3bf987b69",
+    "temporaryHelperStopped": true,
+    "temporaryAuthKey": "IN_MEMORY_DISCARDED",
+    "completedAtKST": "2026-10-06 09:44:34"
   },
-  "artifacts": "C:/Users/User/.codex/tmp/eumsuni-icon-bongsoon-orikkung-ayoon-20261006"
+  "artifacts": "C:/Users/User/.codex/tmp/eumsuni-icon-bongsoon-orikkung-ayoon-20261006",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:eumsuni-icon-bongsoon-orikkung-ayoon:20261006:v1",
+    "actor": "SYSTEM_OPS",
+    "authorization": "음순이 계정에 봉순 오리꿍 아윤 아이콘도 지급해",
+    "userId": 65,
+    "nickname": "음순이",
+    "cards": [
+      {
+        "cardId": "CN-1C000003",
+        "cardTitle": "나무늘봉순",
+        "grade": "ICON",
+        "quantity": 1,
+        "quantityBefore": 1,
+        "quantityAfter": 2,
+        "levelAfter": 0
+      },
+      {
+        "cardId": "CN-1C000005",
+        "cardTitle": "오리꿍",
+        "grade": "ICON",
+        "quantity": 1,
+        "quantityBefore": 0,
+        "quantityAfter": 1,
+        "levelAfter": 0
+      },
+      {
+        "cardId": "CN-1C000007",
+        "cardTitle": "아윤",
+        "grade": "ICON",
+        "quantity": 1,
+        "quantityBefore": 0,
+        "quantityAfter": 1,
+        "levelAfter": 0
+      }
+    ],
+    "totalGranted": 3,
+    "permanent": true,
+    "balancesPreserved": true,
+    "otherCardsPreserved": true,
+    "completedAt": "2026-10-06T00:44:34.135Z",
+    "adminLogId": "41391",
+    "replayed": false,
+    "sourceHash": "b75c52d2e0abe9266700e85226acf26d80e4fd5310a0c75ac489bb96e165c2a4",
+    "sourceCommit": "fad1a84e429b5bd3796365797628eaa3bf987b69"
+  },
+  "verification": {
+    "status": "VERIFIED",
+    "receipt": {
+      "status": "COMPLETED",
+      "operationKey": "ops:eumsuni-icon-bongsoon-orikkung-ayoon:20261006:v1",
+      "actor": "SYSTEM_OPS",
+      "authorization": "음순이 계정에 봉순 오리꿍 아윤 아이콘도 지급해",
+      "userId": 65,
+      "nickname": "음순이",
+      "cards": [
+        {
+          "cardId": "CN-1C000003",
+          "cardTitle": "나무늘봉순",
+          "grade": "ICON",
+          "quantity": 1,
+          "quantityBefore": 1,
+          "quantityAfter": 2,
+          "levelAfter": 0
+        },
+        {
+          "cardId": "CN-1C000005",
+          "cardTitle": "오리꿍",
+          "grade": "ICON",
+          "quantity": 1,
+          "quantityBefore": 0,
+          "quantityAfter": 1,
+          "levelAfter": 0
+        },
+        {
+          "cardId": "CN-1C000007",
+          "cardTitle": "아윤",
+          "grade": "ICON",
+          "quantity": 1,
+          "quantityBefore": 0,
+          "quantityAfter": 1,
+          "levelAfter": 0
+        }
+      ],
+      "totalGranted": 3,
+      "permanent": true,
+      "balancesPreserved": true,
+      "otherCardsPreserved": true,
+      "completedAt": "2026-10-06T00:44:34.135Z",
+      "adminLogId": "41391"
+    },
+    "currentHoldings": [
+      {
+        "cardId": "CN-1C000003",
+        "title": "나무늘봉순",
+        "quantity": 2,
+        "level": 0
+      },
+      {
+        "cardId": "CN-1C000005",
+        "title": "오리꿍",
+        "quantity": 1,
+        "level": 0
+      },
+      {
+        "cardId": "CN-1C000007",
+        "title": "아윤",
+        "quantity": 1,
+        "level": 0
+      }
+    ],
+    "auditCount": 1,
+    "sourceHash": "b75c52d2e0abe9266700e85226acf26d80e4fd5310a0c75ac489bb96e165c2a4",
+    "sourceCommit": "fad1a84e429b5bd3796365797628eaa3bf987b69"
+  }
 }
