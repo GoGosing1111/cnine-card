@@ -1,0 +1,59 @@
+{
+  "status": "VERIFIED",
+  "request": "타마 계정에 이예준 카드 확인해보고 15강 아닌거 15강으로 업그레이드해",
+  "accountCorrection": "싸이타마",
+  "operationKey": "ops:saitama-fur-iyejun-plus15:20261007:v1",
+  "user": {
+    "id": 5,
+    "nickname": "싸이타마"
+  },
+  "card": {
+    "id": "CN-346F8DB0DEB84D41",
+    "title": "철구",
+    "grade": "FUR"
+  },
+  "levelBefore": 14,
+  "levelAfter": 15,
+  "quantityBefore": 15,
+  "quantityAfter": 15,
+  "otherOwnedIyejunCards": [
+    {
+      "cardId": "CN-47AD4B47B6A7452C",
+      "title": "아이젠 족스케",
+      "grade": "FUR",
+      "levelBefore": 15,
+      "levelAfter": 15,
+      "quantity": 403,
+      "changed": false
+    },
+    {
+      "cardId": "CN-5D0E2E4D58C9416F",
+      "title": "치타구",
+      "grade": "FUR",
+      "levelBefore": 15,
+      "levelAfter": 15,
+      "quantity": 3376,
+      "changed": false
+    }
+  ],
+  "balancesPreserved": true,
+  "copyCountPreserved": true,
+  "newCardsGranted": 0,
+  "validation": {
+    "testCommand": "node --test --test-concurrency=1 tests/saitama-fur-iyejun-plus15-20261007.test.mjs",
+    "passed": 3,
+    "dryRunRolledBack": true,
+    "auditFailureRollbackAndRetryTested": true,
+    "independentReadOnlyVerification": true,
+    "allThreeOwnedIyejunFurCardsNowPlus15": true
+  },
+  "execution": {
+    "sourceCommit": "bb504fac44f2b29e61bd0fac90a936bbdba55982",
+    "completedAt": "2026-10-06T17:30:21.503Z",
+    "completedAtKst": "2026-10-07 02:30:21 KST",
+    "adminLogId": "42030",
+    "verifiedAt": "2026-10-06T17:30:24.880Z"
+  },
+  "evidenceDirectory": "C:/Users/User/.codex/tmp/saitama-fur-iyejun-plus15-20261007/",
+  "scope": "요청된 기존 보유 카드의 강화 단계와 성공 후 실패 누적 초기화만 반영. 수량·재화·다른 카드 보존. 감사 로그와 작업 영수증을 같은 트랜잭션으로 저장. 게임 실행 파일 변경과 운영 빌드 재배포 없음."
+}
