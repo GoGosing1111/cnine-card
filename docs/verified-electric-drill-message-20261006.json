@@ -1,6 +1,6 @@
 {
   "date": "2026-10-06",
-  "status": "PREPARED_FOR_DEPLOYMENT_AND_SEND",
+  "status": "COMPLETED_AND_VERIFIED",
   "authorization": [
     "2차인증 전체유저 전동드릴 지급해",
     "메세지로"
@@ -65,12 +65,87 @@
     "selectedChecks": [
       "check:worker"
     ],
-    "status": "DEPLOY_GATE_PENDING"
+    "status": "PASSED",
+    "testsPassed": 6,
+    "workerCheck": "PASSED",
+    "productionDryRun": {
+      "at": "2026-10-06T08:39:49.629Z",
+      "rolledBack": true,
+      "result": {
+        "messages": 533,
+        "rewards": 533,
+        "totalAmount": 533,
+        "claimed": 0,
+        "missing": 0,
+        "duplicates": 0
+      }
+    },
+    "productionStatic": {
+      "checkedAt": "2026-10-06T08:40:21.040Z",
+      "records": [
+        {
+          "base": "https://d667f6a8.cnine-card.pages.dev",
+          "status": 200,
+          "cacheMarker": true,
+          "appHash": "7cc63cbaeb797ce49dcee18b5f61919924afb8073dfb02f989b3b8fefc57690b",
+          "localAppHash": "7cc63cbaeb797ce49dcee18b5f61919924afb8073dfb02f989b3b8fefc57690b",
+          "rewardMetadata": true
+        },
+        {
+          "base": "https://cnine-card.pages.dev",
+          "status": 200,
+          "cacheMarker": true,
+          "appHash": "7cc63cbaeb797ce49dcee18b5f61919924afb8073dfb02f989b3b8fefc57690b",
+          "localAppHash": "7cc63cbaeb797ce49dcee18b5f61919924afb8073dfb02f989b3b8fefc57690b",
+          "rewardMetadata": true
+        }
+      ]
+    },
+    "idempotentReplay": {
+      "at": "2026-10-06T08:40:56.269Z",
+      "replayed": true,
+      "sameAudit": true,
+      "result": {
+        "messages": 533,
+        "rewards": 533,
+        "totalAmount": 533,
+        "claimed": 4,
+        "missing": 0,
+        "duplicates": 0
+      }
+    }
   },
   "release": {
     "mode": "scoped",
     "base": "3b0c4cd6cc72b932fc7019971538324f40bbebb9",
     "baseDeployment": "https://1649de01.cnine-card.pages.dev",
-    "reason": "Add one message-only inventory reward type and client label. Validate verified audience, all-or-nothing delivery, commit retry, single/batch claims and cached clients."
+    "reason": "Add one message-only inventory reward type and client label. Validate verified audience, all-or-nothing delivery, commit retry, single/batch claims and cached clients.",
+    "commit": "841889a2ca0f8a1a1e7eff4e46cee8e69cea7119",
+    "url": "https://d667f6a8.cnine-card.pages.dev",
+    "apiRuntimeVersion": "9e6ab13e-20d7-4c2c-89cd-3b52e26106cb",
+    "clanSchedulerVersion": "2b52358c-241a-4cb3-ad8c-891ffb5358bd"
+  },
+  "delivery": {
+    "completedAt": "2026-10-06T08:40:31.032Z",
+    "count": 533,
+    "totalAmount": 533,
+    "amountPerRecipient": 1,
+    "recipientHash": "dcfd3164a12db046f071d221f1decc1866f7a83ccce9c17c160496f544703406",
+    "roles": {
+      "OWNER": 2,
+      "USER": 528,
+      "ADMIN": 3
+    },
+    "auditId": "41712",
+    "result": {
+      "messages": 533,
+      "rewards": 533,
+      "totalAmount": 533,
+      "claimed": 0,
+      "missing": 0,
+      "duplicates": 0
+    },
+    "receiptLocation": "app_meta:ops:verified-electric-drill-message:20261006:v1",
+    "recipientIdsStoredOnlyInProtectedReceipt": true
   }
 }
