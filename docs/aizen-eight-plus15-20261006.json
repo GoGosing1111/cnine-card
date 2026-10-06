@@ -1,0 +1,169 @@
+{
+  "operationKey": "ops:aizen-eight-plus15:20261006:v1",
+  "status": "VERIFIED",
+  "authorization": "옹가망함1, 랄네미탱탱, 고라니ㅇ, 하이희야, 관상은과학, 암살자.., 쁴로리의 기존 아이젠 족스케 카드를 +15강으로 업그레이드. 후속 사용자 지시 'CHO22 추가'를 반영해 총 8명. 이미 +15강인 보유 상태는 유지.",
+  "card": {
+    "id": "CN-47AD4B47B6A7452C",
+    "title": "아이젠 족스케",
+    "grade": "FUR"
+  },
+  "completedAt": "2026-10-06T07:03:51.092Z",
+  "verifiedAt": "2026-10-06T07:03:52.094Z",
+  "sourceCommit": "b043bc04e000af5b51aec9cf4bce3b7a3feef09a",
+  "sourceHash": "75c34a513ed6d705168ad9bc71516613161a8f216fd700e892459171bcb70109",
+  "accounts": 8,
+  "changed": 7,
+  "already15": 1,
+  "recipients": [
+    {
+      "userId": 10,
+      "nickname": "관상은과학",
+      "inputNickname": "관상은과학",
+      "levelBefore": 13,
+      "levelAfter": 15,
+      "quantityBefore": 123,
+      "quantityAfter": 123,
+      "changed": true,
+      "adminLogId": "41658"
+    },
+    {
+      "userId": 23,
+      "nickname": "하이희야",
+      "inputNickname": "하이희야",
+      "levelBefore": 14,
+      "levelAfter": 15,
+      "quantityBefore": 22,
+      "quantityAfter": 22,
+      "changed": true,
+      "adminLogId": "41659"
+    },
+    {
+      "userId": 76,
+      "nickname": "랄네미탱탱",
+      "inputNickname": "랄네미탱탱",
+      "levelBefore": 15,
+      "levelAfter": 15,
+      "quantityBefore": 7,
+      "quantityAfter": 7,
+      "changed": false,
+      "adminLogId": "41660"
+    },
+    {
+      "userId": 2246,
+      "nickname": "옹가망함1",
+      "inputNickname": "옹가망함1",
+      "levelBefore": 13,
+      "levelAfter": 15,
+      "quantityBefore": 92,
+      "quantityAfter": 92,
+      "changed": true,
+      "adminLogId": "41661"
+    },
+    {
+      "userId": 4580,
+      "nickname": "CHO22",
+      "inputNickname": "CHO22",
+      "levelBefore": 14,
+      "levelAfter": 15,
+      "quantityBefore": 8,
+      "quantityAfter": 8,
+      "changed": true,
+      "adminLogId": "41662"
+    },
+    {
+      "userId": 4598,
+      "nickname": "암살자..",
+      "inputNickname": "암살자..",
+      "levelBefore": 14,
+      "levelAfter": 15,
+      "quantityBefore": 7,
+      "quantityAfter": 7,
+      "changed": true,
+      "adminLogId": "41663"
+    },
+    {
+      "userId": 4610,
+      "nickname": "고라니ㅇ",
+      "inputNickname": "고라니ㅇ",
+      "levelBefore": 14,
+      "levelAfter": 15,
+      "quantityBefore": 14,
+      "quantityAfter": 14,
+      "changed": true,
+      "adminLogId": "41664"
+    },
+    {
+      "userId": 4965,
+      "nickname": "쁴로리",
+      "inputNickname": "쁴로리",
+      "levelBefore": 14,
+      "levelAfter": 15,
+      "quantityBefore": 14,
+      "quantityAfter": 14,
+      "changed": true,
+      "adminLogId": "41665"
+    }
+  ],
+  "current": [
+    {
+      "userId": 10,
+      "level": 15,
+      "quantity": 123
+    },
+    {
+      "userId": 23,
+      "level": 15,
+      "quantity": 22
+    },
+    {
+      "userId": 76,
+      "level": 15,
+      "quantity": 7
+    },
+    {
+      "userId": 2246,
+      "level": 15,
+      "quantity": 92
+    },
+    {
+      "userId": 4580,
+      "level": 15,
+      "quantity": 8
+    },
+    {
+      "userId": 4598,
+      "level": 15,
+      "quantity": 7
+    },
+    {
+      "userId": 4610,
+      "level": 15,
+      "quantity": 14
+    },
+    {
+      "userId": 4965,
+      "level": 15,
+      "quantity": 14
+    }
+  ],
+  "balancesPreserved": true,
+  "otherCardsPreserved": true,
+  "noNewCopies": true,
+  "verification": {
+    "scopedTest": "node --test tests/aizen-eight-plus15-20261006.test.mjs",
+    "passed": 3,
+    "failed": 0,
+    "dryRunAt": "2026-10-06T07:03:23.864Z",
+    "partialFailureRolledBack": true,
+    "replayVerified": true,
+    "rollbackVerified": true,
+    "accountLocks": "All eight production USER_LOCK leases held through transaction; card and wallet rows locked FOR UPDATE NOWAIT",
+    "atomicity": "Card upgrades, eight admin audit logs, and one operation receipt committed in one PostgreSQL transaction",
+    "independentReadVerified": true,
+    "allEightAt15": true,
+    "temporaryHelperStopped": true,
+    "inMemoryOperationKeyDiscarded": true,
+    "applicationRedeployed": false,
+    "releaseScope": "One-time authorized production account data operation; no game runtime or asset changes"
+  }
+}
