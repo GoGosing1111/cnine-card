@@ -1,0 +1,47 @@
+{
+  "request": "나무늘봉순 오버로드 슈트 회수해",
+  "verified": true,
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:bongsoon-overlord-revoke:20261007:v1",
+    "actor": "SYSTEM_OPS",
+    "userId": 5426,
+    "nickname": "나무늘봉순",
+    "itemCode": "BATTLE_SUIT_OVERLORD",
+    "quantity": 1,
+    "removedInstanceIds": [
+      "2121907794"
+    ],
+    "remainingQuantity": 0,
+    "clearedSlots": [
+      "BATTLE_SUIT"
+    ],
+    "balancesPreserved": true,
+    "otherEquipmentPreserved": true,
+    "skillChipsPreserved": true,
+    "completedAt": "2026-10-06T20:09:58.701Z",
+    "adminLogId": "42156"
+  },
+  "currentOverlordQuantity": 0,
+  "battleSuitInstanceId": null,
+  "skillChips": [
+    {
+      "slot": 1,
+      "code": "SKILL_CHIP_HELICOPTER_AIRSTRIKE"
+    },
+    {
+      "slot": 2,
+      "code": "SKILL_CHIP_ROCKET_LAUNCHER"
+    }
+  ],
+  "recordedAt": "2026-10-06T20:10:52.452Z",
+  "validation": {
+    "scopedTestsPassed": 2,
+    "productionDryRunRollbackVerified": true,
+    "postCommitReadVerified": true,
+    "accountMutationLock": true,
+    "transaction": "USER_LOCK, DB mutation lock, account and instance row locks; atomic unequip, revoke, ownership-count trigger, audit and unique receipt"
+  },
+  "gameRuntimeChanged": false,
+  "deploymentRequired": false
+}
