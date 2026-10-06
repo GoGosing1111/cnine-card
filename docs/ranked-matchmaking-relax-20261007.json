@@ -1,6 +1,10 @@
 {
-  "status": "READY_FOR_SCOPED_RELEASE",
+  "status": "LIVE",
   "date": "2026-10-07",
+  "productionCommit": "903093e98b21c892f8f12c7251c80c4c1dd5ac36",
+  "productionDeployment": "https://996fe666.cnine-card.pages.dev",
+  "apiRuntimeVersion": "485e4bc6-0e94-44ad-ac36-1ce52755b6fa",
+  "clanWorkerVersion": "cd782e61-cf67-4566-82df-cd600388262e",
   "previousProductionCommit": "b42db5c979ae8025a082344994d7c5f556f54189",
   "previousProductionDeployment": "https://fa69e1f0.cnine-card.pages.dev",
   "scope": "Regular ranked matchmaking candidate selection and bounded relaxation",
@@ -12,6 +16,16 @@
     "tests/ranked-reform-20261002.test.mjs"
   ],
   "checks": ["check:worker"],
+  "testResult": {"passed": 24, "failed": 0},
+  "liveVerification": {
+    "verifiedAt": "2026-10-06T19:35:42.490Z",
+    "deployedPolicyMatchesSource": true,
+    "policySha256": "c6f6cff97f42c17409b3fa34ba9377748e59b3a88feee81d1dcab317b6e50e76",
+    "serviceStatus": 200,
+    "unauthenticatedMatchStatus": 401,
+    "productionAccountMutation": false,
+    "productionBattleExecuted": false
+  },
   "readOnlySnapshot": {
     "capturedAt": "2026-10-06T19:28:29.248Z",
     "registeredDecks": 661,
