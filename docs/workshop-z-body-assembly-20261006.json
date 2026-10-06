@@ -1,5 +1,5 @@
 {
-  "status": "BROWSER_VERIFIED_PENDING_SCOPED_RELEASE",
+  "status": "DEPLOYED_AND_VERIFIED_CMS_LAUNCH_UNCHANGED",
   "request": "Z바디 제작 연출을 S바디 배틀슈트 조립 방식으로 추가·연결. 제작식과 CMS ON은 사용자가 직접 관리.",
   "approvedSource": {
     "path": "/assets/ui/project-v/account-battle-suits/z-sword-v1/z-body.png",
@@ -63,7 +63,9 @@
       }
     ],
     "realCraftApiRequests": 0,
-    "mockCraftRequestsPerViewport": 1
+    "mockCraftRequestsPerViewport": 1,
+    "scopedTestsPassed": 19,
+    "scopedTestsFailed": 0
   },
   "productionBefore": {
     "checkedAt": "2026-10-06T07:14:32.690Z",
@@ -91,6 +93,73 @@
       "tests/workshop-assembly-preview-v1.test.mjs",
       "tests/workshop-assembly-live-v2073.test.mjs"
     ],
-    "checks": []
+    "checks": [],
+    "deployedCommit": "3b0c4cd6cc72b932fc7019971538324f40bbebb9",
+    "deploymentUrl": "https://1649de01.cnine-card.pages.dev",
+    "apiRuntimeVersion": "2b2d1fec-1c59-4a36-875e-6c4686537815",
+    "clanSchedulerVersion": "17fd3136-a5b3-4683-9440-bc6eac3bee15",
+    "verifiedAt": "2026-10-06T07:21:00.145Z",
+    "productionFlagsAndCachePassed": true,
+    "hyperdriveQueryCacheEnabled": false
+  },
+  "productionAfter": {
+    "checkedAt": "2026-10-06T07:20:19.378Z",
+    "equipment": [
+      {
+        "id": "48",
+        "code": "BATTLE_SUIT_Z_BODY",
+        "name": "Z-BODY",
+        "image_url": "/assets/ui/project-v/account-battle-suits/z-sword-v1/z-body.png",
+        "is_active": "1",
+        "is_public": "1",
+        "pve_power": "25000000",
+        "pvp_power": "0"
+      }
+    ],
+    "recipes": [],
+    "readOnly": true
+  },
+  "productionVerification": {
+    "checkedFiles": [
+      {
+        "path": "js/workshop-assembly-live-v2073.bundle.js",
+        "status": 200,
+        "sha256": "989620c1cb0045fbe3ef638955e711e03e7bdc506a89e063469f13809f9b4248"
+      },
+      {
+        "path": "js/workshop-assembly-fx-v2073.bundle.js",
+        "status": 200,
+        "sha256": "a3c22f0a419e71a04a607c0b202045fc1abe102a2301bb93fa058067f67ebdb3"
+      },
+      {
+        "path": "preview/workshop-assembly-v1/assembly.bundle.js",
+        "status": 200,
+        "sha256": "262d4709532297b173a17dfd93db58fffc975c35b7e6d4d7cfa108480109ac38"
+      },
+      {
+        "path": "index.html",
+        "status": 200,
+        "cacheKeyVerified": true
+      },
+      {
+        "path": "js/app.js",
+        "status": 200,
+        "cacheKeyVerified": true
+      }
+    ],
+    "smoke": {
+      "passed": true,
+      "model": "z",
+      "authoredPartsLoaded": 12,
+      "success": true,
+      "skipAndClose": true,
+      "activeTimelinesAfterClose": 0,
+      "realApiMutations": 0,
+      "pageErrors": []
+    },
+    "cmsEquipmentUnchanged": true,
+    "cmsRecipesUnchanged": true,
+    "cmsWrites": 0,
+    "productionPreview": "https://cnine-card.pages.dev/preview/workshop-assembly-v1/?mode=suit&item=z&play=1"
   }
 }
