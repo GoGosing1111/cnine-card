@@ -1,22 +1,25 @@
 import { readRuntimeData, cacheRuntimeData } from './_runtime_data_cache.js';
 import {ensureEmperorEnergyCatalog} from './_emperor_energy.js';
+import {ensurePingduThanksGiftCatalog,PINGDU_THANKS_GIFT} from './_pingdu_thanks_gift.js';
 // Streamer event rewards are committed before the client starts its pachinko show.
 // No daily allowance, client-side prize selection, or nickname-based ongoing access.
 export const LAND_TICKET='SOOPKETLAND_TICKET';
 export const HYPER_TICKET='SOOPKETLAND_HYPER_BURNING_TICKET';
 export const SUPERSTAR_TICKET='SUPERSTAR_GUARANTEED_PACK';
 export const EMPEROR_ENERGY='EMPEROR_ENERGY';
+export const LAND_THANKS_GIFT=PINGDU_THANKS_GIFT.code;
 export const LAND_IYEJUN_PRIZE='IYEJUN_CARD';
 export const LAND_IYEJUN_CARD_ID='CN-346F8DB0DEB84D41';
 export const LAND_STREAMERS=Object.freeze(['진짜디임','조은','오리꿍','강구열','하이희야♡']);
 export const LAND_PRIZES=Object.freeze([
   {key:'COIN',label:'코인',range:'1억 ~ 500억',min:1,max:500,unit:100000000,symbol:'C',color:0xffd477},
   {key:EMPEROR_ENERGY,label:'엠퍼러 에너지',range:'1 ~ 5개',min:1,max:5,unit:1,symbol:'E',color:0xffdf91},
-  {key:'MASTER_STAR',label:'마스터의 별',range:'1,000 ~ 300,000개',min:1,max:300,unit:1000,symbol:'S',color:0xffe7a6},
-  {key:'STARLIGHT_ARMOR_CORE',label:'미스틱 에너지',range:'1 ~ 1,000개',min:1,max:1000,unit:1,symbol:'M',color:0xc5a5ff}
+  {key:'MASTER_STAR',label:'마스터의 별',range:'1,000 ~ 1,000,000개',min:1,max:1000,unit:1000,symbol:'S',color:0xffe7a6},
+  {key:'STARLIGHT_ARMOR_CORE',label:'미스틱 에너지',range:'1 ~ 1,000개',min:1,max:1000,unit:1,symbol:'M',color:0xc5a5ff},
+  {key:LAND_THANKS_GIFT,label:PINGDU_THANKS_GIFT.name,range:'1개',min:1,max:1,unit:1,symbol:'G',color:0xff91c2}
 ]);
 // Existing issued coupons remain redeemable; retired prizes cannot be spun again.
-// The 300,000-star ceiling also accepts previously issued 30,000/100,000 coupons.
+// The 1,000,000-star ceiling also accepts previously issued 30,000/100,000/300,000 coupons.
 const REDEEM_PRIZES=[...LAND_PRIZES,
  {key:SUPERSTAR_TICKET,min:1,max:1,unit:1},
  {key:'ZENITH_RANDOM_CARD',min:1,max:3,unit:1},
@@ -28,7 +31,7 @@ const SCHEMA='soopketland_schema_v2039',SETTINGS='soopketland_settings_v2039';
 const BURNING=['burning_event_settings_v1','hyper_burning_event_settings_v1310','miracle_burning_event_settings_v1'];
 const PREVIOUS_KEYS=['COIN',SUPERSTAR_TICKET,'MASTER_STAR','BLACK_MIRACLE_PACK',HYPER_TICKET,'ZENITH_RANDOM_CARD','FUR_RANDOM_CARD','STARLIGHT_ARMOR_CORE'];
 const PREVIOUS_PRIZE_KEYS=['COIN',SUPERSTAR_TICKET,'MASTER_STAR','BLACK_MIRACLE_PACK','STARLIGHT_ARMOR_CORE'];
-const defaults=()=>({weights:{COIN:12750,[EMPEROR_ENERGY]:1500,MASTER_STAR:12750,STARLIGHT_ARMOR_CORE:3000}});
+const defaults=()=>({weights:{COIN:12600,[EMPEROR_ENERGY]:1500,MASTER_STAR:12600,STARLIGHT_ARMOR_CORE:3000,[LAND_THANKS_GIFT]:300}});
 const parse=(value,fallback=null)=>{try{return JSON.parse(value)}catch{return fallback}};
 const fail=(message,status=400,code='LAND_INVALID')=>Object.assign(new Error(message),{status,code});
 const validId=value=>typeof value==='string'&&/^[A-Za-z0-9._:-]{8,100}$/.test(value);
@@ -74,13 +77,16 @@ function removeRandomCardWeights(raw){
   }
   // Replace the retired ticket's 5% slot only after the historical conversions.
   // A saved Emperor configuration takes the direct path below and is untouched.
-  return validateLandWeights({COIN:weights.COIN,[EMPEROR_ENERGY]:weights[SUPERSTAR_TICKET],MASTER_STAR:weights.MASTER_STAR,STARLIGHT_ARMOR_CORE:weights.STARLIGHT_ARMOR_CORE});
+  return validateLandWeights({COIN:weights.COIN,[EMPEROR_ENERGY]:weights[SUPERSTAR_TICKET],MASTER_STAR:weights.MASTER_STAR,STARLIGHT_ARMOR_CORE:weights.STARLIGHT_ARMOR_CORE,[LAND_THANKS_GIFT]:0});
 }
 // Apply the historical v2065 conversion first, then remove Hyper once.
 // Retire Black Miracle, then replace Superstar with Emperor. Saved new weights stay unchanged;
 // conversion is pure, so repeated reads cannot redistribute the same chance twice.
 export function storedLandWeights(raw){
-  if(raw&&Object.hasOwn(raw,EMPEROR_ENERGY))return validateLandWeights(raw);
+  if(raw&&Object.hasOwn(raw,LAND_THANKS_GIFT))return validateLandWeights(raw);
+  // Preserve saved odds on read. The authorized 1% live update is an explicit,
+  // audited settings operation, so future deployments cannot reset OWNER edits.
+  if(raw&&Object.hasOwn(raw,EMPEROR_ENERGY))return validateLandWeights({...raw,[LAND_THANKS_GIFT]:0});
   if(raw&&Object.hasOwn(raw,SUPERSTAR_TICKET)&&Object.hasOwn(raw,'STARLIGHT_ARMOR_CORE'))return removeHyperWeight(raw);
   const common=PREVIOUS_KEYS.filter(key=>![SUPERSTAR_TICKET,'STARLIGHT_ARMOR_CORE'].includes(key)).map(key=>({key}));
   if(!raw)return defaults().weights;
@@ -94,12 +100,13 @@ export function storedLandWeights(raw){
 }
 export function pickLandPrize(weights,random=secureLandInt){
   const total=Object.values(weights).reduce((a,b)=>a+b,0);let roll=random(total);
-  for(const p of LAND_PRIZES){roll-=weights[p.key];if(roll<0){const amount=(p.min+random(p.max-p.min+1))*p.unit;return {...p,amount,jackpot:p.key.endsWith('_CARD')||amount===p.max*p.unit&&p.min!==p.max}}}
+  for(const p of LAND_PRIZES){roll-=weights[p.key];if(roll<0){const amount=(p.min+random(p.max-p.min+1))*p.unit;return {...p,amount,jackpot:p.key===LAND_THANKS_GIFT||p.key.endsWith('_CARD')||amount===p.max*p.unit&&p.min!==p.max}}}
   throw new Error('Invalid prize weights');
 }
 
 export async function ensureLand(db,env={DB:db}){
   await ensureEmperorEnergyCatalog(env);
+  await ensurePingduThanksGiftCatalog(env);
   const catalogKey='soopketland_superstar_catalog_v2065';
   if(!readRuntimeData(env,catalogKey)){
     if((await one(db,'SELECT value FROM app_meta WHERE key=?',catalogKey))?.value!=='1')await db.batch([

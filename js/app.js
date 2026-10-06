@@ -988,7 +988,7 @@ const FEATURE_RESOURCE_MANIFEST={
   },
   soopketland:{
     styles:['css/soopketland-v2039.css?v=2098-hyper-codex&suggestions=20261005'],
-    scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/soopketland-v2039.bundle.js?v=20261004-land-stars300k&suggestions=20261005&apocalypseCompletion=20261005-settlement3'],
+    scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/soopketland-v2039.bundle.js?v=20261006-land-gift1-stars1m&suggestions=20261005&apocalypseCompletion=20261005-settlement3'],
     ready:()=>typeof window.soopketLandView==='function'&&typeof window.bindSoopketLandView==='function'
   },
   primeDraw:{
