@@ -20,14 +20,6 @@ test('new land policy assigns exactly 1% to one unopened thanks gift and preserv
  assert.deepEqual(storedLandWeights(edited),edited);
 });
 
-test('all 1000 equal master-star quantity slots span 1000 through 1000000 without gaps',()=>{
- const weights=Object.fromEntries(LAND_PRIZES.map(p=>[p.key,p.key==='MASTER_STAR'?1:0]));
- for(let amountRoll=0;amountRoll<1000;amountRoll++){
-  let call=0;const prize=pickLandPrize(weights,max=>{assert.equal(max,call?1000:1);return call++?amountRoll:0;});
-  assert.equal(prize.amount,(amountRoll+1)*1000);
- }
-});
-
 test('thanks gift coupon is not opened automatically and inactive inventory catalog preserves the coupon',async()=>{
  const f=await fixture();await f.force(LAND_THANKS_GIFT);await f.grant(1,2);f.current.id=2;
  const result=(await f.spin()).body;assert.equal(result.prize.key,LAND_THANKS_GIFT);assert.equal(result.delivery,'VIEWER_COUPON');assert.equal(f.qty(LAND_THANKS_GIFT),0);
@@ -241,7 +233,7 @@ function addIyejun(f){
 }
 
 test('expanded prize bounds are exact, inclusive and keep the original minimum/step',()=>{
-  const expected={COIN:[1,500,100000000],MASTER_STAR:[1,300,1000],EMPEROR_ENERGY:[1,5,1],STARLIGHT_ARMOR_CORE:[1,1000,1]};
+  const expected={COIN:[1,500,100000000],MASTER_STAR:[1,1000,1000],EMPEROR_ENERGY:[1,5,1],STARLIGHT_ARMOR_CORE:[1,1000,1],[LAND_THANKS_GIFT]:[1,1,1]};
   for(const [key,bounds] of Object.entries(expected)){
     const prize=LAND_PRIZES.find(p=>p.key===key);assert.deepEqual([prize.min,prize.max,prize.unit],bounds);
     const weights=Object.fromEntries(LAND_PRIZES.map(p=>[p.key,p.key===key?1:0]));
