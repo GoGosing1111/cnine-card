@@ -5,7 +5,7 @@ import { PGlite } from '@electric-sql/pglite';
 import { JointSQLiteDB } from './helpers/joint-db.mjs';
 import { __postgresCompatTest } from '../functions/_postgres_d1_compat.js';
 import { ensureRuntimeFoundation } from '../functions/_runtime_foundation.js';
-import { ACHIEVEMENT_TITLES_KEY, ACHIEVEMENT_TITLE_POWER_KEY, ensureAchievementTitles, readCollectionMastery, collectionMasteryMet, syncAchievementTitles } from '../functions/_achievement_titles.js';
+import { ACHIEVEMENT_TITLES_KEY, ACHIEVEMENT_TITLE_POWER_KEY, COMPLETIONIST_OPTIONAL_VEHICLES, ensureAchievementTitles, readCollectionMastery, collectionMasteryMet, syncAchievementTitles } from '../functions/_achievement_titles.js';
 
 const schema = `
 CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT);
@@ -13,7 +13,7 @@ CREATE TABLE character_titles(id INTEGER PRIMARY KEY AUTOINCREMENT,code TEXT UNI
 CREATE TABLE user_character_titles(user_id INTEGER,title_id INTEGER,source_type TEXT,source_id TEXT,PRIMARY KEY(user_id,title_id));
 CREATE TABLE cards_effective_v1210(id TEXT PRIMARY KEY,is_active INTEGER,card_status TEXT,rarity TEXT DEFAULT 'C');
 CREATE TABLE user_cards(user_id INTEGER,card_id TEXT,quantity INTEGER,PRIMARY KEY(user_id,card_id));
-CREATE TABLE character_garage_items(id INTEGER PRIMARY KEY,is_active INTEGER,is_public INTEGER);
+CREATE TABLE character_garage_items(id INTEGER PRIMARY KEY,is_active INTEGER,is_public INTEGER,code TEXT);
 CREATE TABLE user_garage_vehicles(user_id INTEGER,garage_id INTEGER,PRIMARY KEY(user_id,garage_id));
 CREATE TABLE pvp_season_settlements(id INTEGER PRIMARY KEY,season_name TEXT,status TEXT,started_at TEXT,completed_at TEXT);
 CREATE TABLE pvp_season_settlement_ranks(settlement_id INTEGER,user_id INTEGER,tier_id TEXT,tier_name TEXT,final_rank INTEGER,season_score INTEGER,wins INTEGER,losses INTEGER);
@@ -63,6 +63,27 @@ test('exact collection thresholds: no rounding, empty catalogues cannot qualify'
 
 for (const postgres of [false, true]) {
   const label = postgres ? 'PostgreSQL' : 'SQLite';
+  test(`${label}: recent four vehicles are optional for completionist but cannot fill a missing required vehicle`, async t => {
+    const f=await fixture(t,postgres);await ensureAchievementTitles(f.env);
+    await f.p("INSERT INTO cards_effective_v1210 VALUES('c1',1,'PUBLIC','C')").run();
+    await f.p("INSERT INTO user_cards VALUES(7,'c1',1)").run();
+    for(let i=1;i<=10;i++){
+      await f.p('INSERT INTO character_garage_items VALUES(?,1,1,?)',i,'OLD_'+i).run();
+      if(i<=8)await f.p('INSERT INTO user_garage_vehicles VALUES(7,?)',i).run();
+    }
+    for(const [i,code] of COMPLETIONIST_OPTIONAL_VEHICLES.entries()){
+      await f.p('INSERT INTO character_garage_items VALUES(?,?,?,?)',100+i,i===1?0:1,i===1?0:1,code).run();
+      await f.p('INSERT INTO user_garage_vehicles VALUES(7,?)',100+i).run();
+    }
+    assert.deepEqual((await readCollectionMastery(f.env,7)).vehicles,{owned:8,total:10});
+    assert.deepEqual((await syncAchievementTitles(f.env,7)).granted,[],'four optional holdings cannot replace a required vehicle');
+    await f.p('INSERT INTO user_garage_vehicles VALUES(7,9)').run();
+    await f.p('DELETE FROM user_garage_vehicles WHERE garage_id>=100').run();
+    await f.p('UPDATE character_garage_items SET is_active=1,is_public=1 WHERE id>=100').run();
+    assert.deepEqual((await readCollectionMastery(f.env,7)).vehicles,{owned:9,total:10},'publishing all four while none owned keeps the same denominator');
+    assert.equal((await syncAchievementTitles(f.env,7)).granted.length,1);
+    assert.equal((await syncAchievementTitles(f.env,7)).granted.length,0);
+  });
   test(`${label}: ICON cards never change completionist progress or replace missing required cards`, async t => {
     const f = await fixture(t, postgres); await ensureAchievementTitles(f.env);
     for (const [id, rarity] of [['c1','C'],['c2','FUR'],['c3','SUPERSTAR'],['c4','ZENITH'],['icon-owned','ICON'],['icon-missing','ICON']]) {
@@ -70,7 +91,7 @@ for (const postgres of [false, true]) {
       if (!['c4','icon-missing'].includes(id)) await f.p('INSERT INTO user_cards VALUES(7,?,100)', id).run();
     }
     for (let i = 1; i <= 10; i++) {
-      await f.p('INSERT INTO character_garage_items VALUES(?,1,1)', i).run();
+      await f.p('INSERT INTO character_garage_items(id,is_active,is_public) VALUES(?,1,1)', i).run();
       if (i < 10) await f.p('INSERT INTO user_garage_vehicles VALUES(7,?)', i).run();
     }
     let mastery = await readCollectionMastery(f.env,7);
@@ -138,11 +159,11 @@ for (const postgres of [false, true]) {
     for (let i = 1; i <= 10; i++) {
       await f.p("INSERT INTO cards_effective_v1210(id,is_active,card_status) VALUES(?,1,'PUBLIC')", 'c'+i).run();
       await f.p('INSERT INTO user_cards VALUES(7,?,100)', 'c'+i).run();
-      await f.p('INSERT INTO character_garage_items VALUES(?,1,1)', i).run();
+      await f.p('INSERT INTO character_garage_items(id,is_active,is_public) VALUES(?,1,1)', i).run();
       if (i < 10) await f.p('INSERT INTO user_garage_vehicles VALUES(7,?)', i).run();
     }
     await f.p("INSERT INTO cards_effective_v1210(id,is_active,card_status) VALUES('inactive',0,'PUBLIC'),('hidden',1,'DRAFT'),('retired',1,'RETIRED')").run();
-    await f.p('INSERT INTO character_garage_items VALUES(11,0,1),(12,1,0)').run();
+    await f.p('INSERT INTO character_garage_items(id,is_active,is_public) VALUES(11,0,1),(12,1,0)').run();
     await f.p("INSERT INTO user_cards VALUES(7,'inactive',999),(8,'c10',1)").run();
     await f.p("UPDATE user_cards SET quantity=0 WHERE user_id=7 AND card_id='c10'").run();
     let mastery = await readCollectionMastery(f.env,7);

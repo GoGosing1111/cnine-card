@@ -4,7 +4,8 @@ import {readFileSync} from 'node:fs';
 import {DatabaseSync} from 'node:sqlite';
 import {PGlite} from '@electric-sql/pglite';
 import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
-import {ensurePredictionTitle,readPredictionHitCount,syncPredictionHitTitle,PREDICTION_TITLE_KEY} from '../functions/_prediction_title.js';
+import {ensurePredictionTitle,ensureAsuraTitle,readPredictionHitCount,syncPredictionHitTitle,PREDICTION_TITLE_KEY,ASURA_TITLE_KEY} from '../functions/_prediction_title.js';
+import {ensureRuntimeFoundation} from '../functions/_runtime_foundation.js';
 
 const schema=`CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT);
  CREATE TABLE character_titles(id INTEGER PRIMARY KEY AUTOINCREMENT,code TEXT UNIQUE,name TEXT,description TEXT,badge_text TEXT,image_url TEXT,pve_power INTEGER,unlock_type TEXT,unlock_config_json TEXT,style_preset TEXT,is_active INTEGER,is_public INTEGER,sort_order INTEGER);
@@ -40,6 +41,43 @@ async function fixture(t,postgres){
 
 for(const postgres of [false,true]){
  const label=postgres?'PostgreSQL':'SQLite';
+ test(`${label}: new Asura catalogue marker upgrades an existing installation without resetting CMS titles`,async t=>{
+  const f=await fixture(t,postgres);await ensurePredictionTitle(f.env);
+  await f.p("UPDATE character_titles SET pve_power=75000 WHERE code='GAMBLING_KING'").run();
+  const initialize=()=>ensureRuntimeFoundation(f.env,Symbol('asura'),[PREDICTION_TITLE_KEY,ASURA_TITLE_KEY],()=>ensureAsuraTitle(f.env));
+  f.fail((sql,args)=>sql.startsWith('INSERT INTO app_meta')&&args[0]===ASURA_TITLE_KEY);
+  await assert.rejects(initialize,/INJECTED_FAILURE/);
+  assert.equal(await f.p("SELECT id FROM character_titles WHERE code='ASURA_BALBALTA'").first(),null);
+  f.fail(()=>false);await initialize();await initialize();
+  const title=await f.p("SELECT * FROM character_titles WHERE code='ASURA_BALBALTA'").first();
+  assert.equal(title.name,'아수라발발타');assert.equal(Number(title.pve_power),100000);
+  assert.deepEqual(JSON.parse(title.unlock_config_json),{count:10000});assert.equal(title.style_preset,'ASURA_BALBALTA');
+  assert.equal(Number((await f.p("SELECT pve_power FROM character_titles WHERE code='GAMBLING_KING'").first()).pve_power),75000);
+  await f.p("UPDATE character_titles SET pve_power=110000,is_public=0 WHERE code='ASURA_BALBALTA'").run();
+  await ensureAsuraTitle(f.env);
+  assert.equal(Number((await f.p("SELECT pve_power FROM character_titles WHERE code='ASURA_BALBALTA'").first()).pve_power),110000);
+  assert.equal((await syncPredictionHitTitle(f.env,7)).progress.ASURA_BALBALTA,undefined);
+ });
+ test(`${label}: Asura requires 10000 historical hits; one scan serves both titles and failed/retried grants stay unique`,async t=>{
+  const f=await fixture(t,postgres);await ensurePredictionTitle(f.env);await ensureAsuraTitle(f.env);await f.history(10000);
+  await f.p("UPDATE coin_prediction_bets SET status='ACTIVE' WHERE event_id=10000").run();
+  const prepare=f.DB.prepare.bind(f.DB);let scans=0;
+  f.DB.prepare=sql=>{if(sql.includes('COUNT(*) AS hit_count'))scans++;return prepare(sql)};
+  let result=await syncPredictionHitTitle(f.env,7);
+  assert.equal(scans,1,'both prediction titles use a single history aggregation');
+  assert.equal(result.granted.length,1,'only the older 1000-hit title unlocks at 9999');
+  assert.deepEqual(result.progress.ASURA_BALBALTA,{owned:9999,goal:10000,complete:false});
+  await f.p("UPDATE coin_prediction_bets SET status='SETTLED' WHERE event_id=10000").run();
+  f.fail((sql,args)=>sql.includes('INSERT')&&sql.includes('user_character_titles')&&args.includes('ASURA_BALBALTA'));
+  await assert.rejects(()=>syncPredictionHitTitle(f.env,7),/INJECTED_FAILURE/);
+  f.fail(()=>false);
+  const pair=await Promise.all([syncPredictionHitTitle(f.env,7),syncPredictionHitTitle(f.env,7)]);
+  assert.equal(pair.flatMap(r=>r.granted).length,1);assert.equal(pair[0].progress.ASURA_BALBALTA.complete,true);
+  const before=scans;assert.deepEqual(await syncPredictionHitTitle(f.env,7),{granted:[],progress:{}});
+  assert.equal(scans,before,'owned titles skip history scans');
+  assert.equal(Number((await f.p('SELECT COUNT(*) n FROM user_character_titles WHERE user_id=7').first()).n),2);
+  assert.equal((await syncPredictionHitTitle(f.env,8)).granted.length,0);
+ });
  test(`${label}: catalogue seed and marker are atomic, retriable and retain later CMS settings`,async t=>{
   const f=await fixture(t,postgres);
   f.fail(sql=>sql.startsWith('INSERT INTO app_meta'));
@@ -103,10 +141,13 @@ test('live title sync, catalogue gate, CMS, lazy loader and all title renderers 
  const server=read('functions/_equipment.js');
  assert.match(server,/ACHIEVEMENT_TITLE_POWER_KEY,PREDICTION_TITLE_KEY/);
  assert.match(server,/await ensurePredictionTitle\(env\)/);
+ assert.match(server,/PREDICTION_TITLE_KEY,ASURA_TITLE_KEY/);
+ assert.match(server,/await ensureAsuraTitle\(env\)/);
  assert.match(server,/syncPredictionHitTitle\(env,user.id\)/);
  assert.match(server,/progress:\{\.\.\.achievement.progress,\.\.\.prediction.progress,\.\.\.blueBeast.progress\}/);
  for(const file of ['functions/_equipment.js','js/character-loadout-v2.js','js/equipment-v1274.js','admin/equipment-admin-v1278.js']){
   assert.ok(read(file).includes('GAMBLING_KING'),file);assert.ok(read(file).includes('PREDICTION_HITS'),file);
+  assert.ok(read(file).includes('ASURA_BALBALTA'),file);
  }
  for(const file of ['index.html','admin/index.html','js/app.js'])assert.ok(read(file).includes('achievement-titles-20260927.css?v=2-gambling-king'),file);
  for(const file of ['admin/index.html','js/app.js'])assert.ok(read(file).includes('gamblingKing=20260928'),file);

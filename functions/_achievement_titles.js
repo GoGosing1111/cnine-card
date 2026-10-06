@@ -2,6 +2,9 @@ import { readTrophyHonors } from './_trophy_honors.js';
 
 export const ACHIEVEMENT_TITLES_KEY = 'achievement_titles_collection_trophies_20260927';
 export const ACHIEVEMENT_TITLE_POWER_KEY = 'achievement_title_power_50000_75000_20260927';
+// The four vehicles added on 2026-10-07 are optional for this achievement only.
+// Match stable codes so later publication or ownership cannot change its denominator.
+export const COMPLETIONIST_OPTIONAL_VEHICLES = Object.freeze(['AETHER_ZERO','OBSIDIAN_RAVEN','ASTRA_VOLT','HELIOS_R']);
 export const ACHIEVEMENT_TITLES = Object.freeze([
   { code: 'COLLECTION_COMPLETIONIST', name: '폐인', description: '카드 도감 100%와 차량 도감 90% 이상을 완성한 수집가.',
     image: '/assets/ui/titles/completionist-v1.webp', style: 'COMPLETIONIST', type: 'COLLECTION_MASTERY',
@@ -48,7 +51,9 @@ export async function readCollectionMastery(env, userId) {
         AND COALESCE(c.rarity,'')<>'ICON'`).bind(userId).first(),
     env.DB.prepare(`SELECT COUNT(*) AS total,COALESCE(SUM(CASE WHEN EXISTS(
       SELECT 1 FROM user_garage_vehicles u WHERE u.user_id=? AND u.garage_id=g.id
-      ) THEN 1 ELSE 0 END),0) AS owned FROM character_garage_items g WHERE g.is_active=1 AND g.is_public=1`).bind(userId).first()
+      ) THEN 1 ELSE 0 END),0) AS owned FROM character_garage_items g WHERE g.is_active=1 AND g.is_public=1
+        AND COALESCE(g.code,'') NOT IN (${COMPLETIONIST_OPTIONAL_VEHICLES.map(()=>'?').join(',')})`)
+      .bind(userId,...COMPLETIONIST_OPTIONAL_VEHICLES).first()
   ]);
   const normalize = row => ({ owned: Number(row?.owned || 0), total: Number(row?.total || 0) });
   return { cards: normalize(cards), vehicles: normalize(vehicles) };

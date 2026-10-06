@@ -1,0 +1,71 @@
+{
+  "status": "PREPARED",
+  "request": "승부예측 누적 1만회 적중 아수라발발타 칭호 추가 및 폐인 최근 차량 제외",
+  "title": {
+    "code": "ASURA_BALBALTA",
+    "name": "아수라발발타",
+    "unlockType": "PREDICTION_HITS",
+    "count": 10000,
+    "power": 100000,
+    "art": "assets/ui/titles/asura-balbalta-v1.webp",
+    "historicalHitsIncluded": true,
+    "grant": "칭호 화면 진입 시 자동 판정, 영구 획득, 중복 지급 방지",
+    "validHit": "베팅과 이벤트 모두 SETTLED, 정답 옵션 일치, payout > 0"
+  },
+  "completionist": {
+    "cardPercent": 100,
+    "iconExcluded": true,
+    "vehiclePercent": 90,
+    "optionalVehicleCodes": [
+      "AETHER_ZERO",
+      "OBSIDIAN_RAVEN",
+      "ASTRA_VOLT",
+      "HELIOS_R"
+    ],
+    "optionalVehicleNames": [
+      "에테르 - 제로",
+      "옵시디언 - 레이븐",
+      "아스트라 - 볼트",
+      "헬리오스 - R"
+    ],
+    "policy": "신규 4종을 보유 수와 대상 수 양쪽에서 제외. 도감 공개·출시 상태와 다른 차량 조건은 보존.",
+    "existingAwardsRetained": true
+  },
+  "tests": {
+    "passed": 23,
+    "failed": 0,
+    "engines": [
+      "SQLite",
+      "PostgreSQL (PGlite with production adapter)"
+    ],
+    "coverage": [
+      "9999/10000 경계 및 기존 도박왕 동시 판정",
+      "적중 기록 1회 집계",
+      "지급 실패·동시 재시도 중복 방지",
+      "신규 카탈로그 원자적 등록·기존 CMS 값 보존",
+      "신규 4종 공개 상태·보유 여부와 무관한 폐인 판정",
+      "기존 차량 부족분을 신규 차량으로 대체 불가"
+    ]
+  },
+  "previousProductionCommit": "facabd3afde0ea2304877dfad06ed5eadf044aff",
+  "scopeReason": "칭호 1종과 폐인 차량 집계의 국소 변경. DB 구조·인증·전투 공식 변경 없음.",
+  "scopedTests": [
+    "tests/prediction-title-20260928.test.mjs",
+    "tests/achievement-titles-20260927.test.mjs"
+  ],
+  "shellCache": "20261007-asura-title",
+  "actualMainIndexVisualVerification": {
+    "passed": true,
+    "widths": [
+      1440,
+      390
+    ],
+    "lockedAndEquipped": true,
+    "equipAndUnequip": true,
+    "cms": true,
+    "hwatuBadge": true,
+    "horizontalOverflow": 0,
+    "pageErrors": [],
+    "productionAccountMutation": false
+  }
+}

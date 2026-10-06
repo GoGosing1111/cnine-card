@@ -44,7 +44,7 @@
   --achievement-light:#8f6330;--achievement-glow:239,179,71;
   --achievement-logo:url('../assets/ui/titles/trophy-hunter-v1.webp');
 }
-:is(.title-style-completionist,.title-style-trophy_hunter,.title-style-gambling_king,.title-style-supporter_vip,.title-style-blue_beast) {
+:is(.title-style-completionist,.title-style-trophy_hunter,.title-style-gambling_king,.title-style-asura_balbalta,.title-style-supporter_vip,.title-style-blue_beast) {
   position:relative;display:inline-flex;align-items:center;vertical-align:middle;
   width:fit-content;max-width:100%;white-space:nowrap;box-sizing:border-box;
   padding:.4em .7em .4em 2.2em!important;line-height:1.15!important;
@@ -55,44 +55,44 @@
   font-weight:900;letter-spacing:.025em;text-shadow:0 1px 2px #000!important;
   animation:none!important;overflow:visible!important;
 }
-:is(.title-style-completionist,.title-style-trophy_hunter,.title-style-gambling_king,.title-style-supporter_vip,.title-style-blue_beast)::before {
+:is(.title-style-completionist,.title-style-trophy_hunter,.title-style-gambling_king,.title-style-asura_balbalta,.title-style-supporter_vip,.title-style-blue_beast)::before {
   content:"";position:absolute;left:.22em;top:50%;width:1.8em;height:1.8em;
   transform:translateY(-50%);background:var(--achievement-logo) center/contain no-repeat;
   pointer-events:none;filter:drop-shadow(0 1px 2px #0009);
 }
-:is(.title-style-completionist,.title-style-trophy_hunter,.title-style-gambling_king,.title-style-supporter_vip,.title-style-blue_beast)::after { content:none!important; }
+:is(.title-style-completionist,.title-style-trophy_hunter,.title-style-gambling_king,.title-style-asura_balbalta,.title-style-supporter_vip,.title-style-blue_beast)::after { content:none!important; }
 .clv2-title-sigil.has-emblem {
   width:clamp(150px,18vw,240px);border:0;transform:none;background:none;box-shadow:none;
 }
 .clv2-title-sigil.has-emblem img { display:block;width:100%;height:auto;object-fit:contain; }
-.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-supporter_vip,.is-title-blue_beast) {
+.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-asura_balbalta,.is-title-supporter_vip,.is-title-blue_beast) {
   border-color:var(--achievement-line);
   background:radial-gradient(ellipse at 50% 35%,rgba(var(--achievement-glow),.19),transparent 58%),linear-gradient(165deg,#17121e,#0a0b11 75%);
 }
-.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-supporter_vip,.is-title-blue_beast)::before,
-.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-supporter_vip,.is-title-blue_beast)::after { content:none; }
-.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-supporter_vip,.is-title-blue_beast) > p { margin-top:26px;color:var(--achievement-ink); }
+.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-asura_balbalta,.is-title-supporter_vip,.is-title-blue_beast)::before,
+.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-asura_balbalta,.is-title-supporter_vip,.is-title-blue_beast)::after { content:none; }
+.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-asura_balbalta,.is-title-supporter_vip,.is-title-blue_beast) > p { margin-top:26px;color:var(--achievement-ink); }
 .clv2-title-showcase h2 .public-title-badge { font-size:clamp(22px,2.3vw,36px); }
-.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-supporter_vip,.is-title-blue_beast) > strong { font-size:12px;color:var(--achievement-ink);letter-spacing:.14em; }
-.clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-supporter_vip,.is-title-blue_beast) {
+.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-asura_balbalta,.is-title-supporter_vip,.is-title-blue_beast) > strong { font-size:12px;color:var(--achievement-ink);letter-spacing:.14em; }
+.clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-asura_balbalta,.is-title-supporter_vip,.is-title-blue_beast) {
   align-items:center;text-align:center;min-height:300px;border-color:var(--achievement-line);
   background:radial-gradient(ellipse at 50% 0,rgba(var(--achievement-glow),.13),transparent 75%),#0e1019;
 }
 .clv2-title-emblem { display:block;object-fit:contain;width:88px;height:88px;margin:8px 0; }
 .clv2-title-card .public-title-badge { font-size:15px; }
 .clv2-title-card > strong { max-width:100%; }
-.clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-supporter_vip,.is-title-blue_beast) > span { color:var(--achievement-ink); }
-.clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-supporter_vip,.is-title-blue_beast) button { width:100%;margin-top:auto; }
-.clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-supporter_vip,.is-title-blue_beast) em { margin-bottom:14px; }
-.clv2-title-card.is-locked:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-supporter_vip,.is-title-blue_beast) { opacity:1;filter:none;border-color:#454051; }
+.clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-asura_balbalta,.is-title-supporter_vip,.is-title-blue_beast) > span { color:var(--achievement-ink); }
+.clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-asura_balbalta,.is-title-supporter_vip,.is-title-blue_beast) button { width:100%;margin-top:auto; }
+.clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-asura_balbalta,.is-title-supporter_vip,.is-title-blue_beast) em { margin-bottom:14px; }
+.clv2-title-card.is-locked:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-asura_balbalta,.is-title-supporter_vip,.is-title-blue_beast) { opacity:1;filter:none;border-color:#454051; }
 .clv2-title-card.is-locked .clv2-title-emblem { opacity:.55;filter:grayscale(.7); }
 .clv2-title-progress { display:grid;gap:5px;width:100%;margin:12px 0;font-size:11px;color:#a4a1b0; }
 .clv2-title-progress span { display:flex;justify-content:space-between;gap:8px; }
 .clv2-title-progress b { color:var(--achievement-ink);font-variant-numeric:tabular-nums; }
-.pc-equipped-title:is(.title-style-completionist,.title-style-trophy_hunter,.title-style-gambling_king,.title-style-supporter_vip,.title-style-blue_beast) { font-size:13px; }
+.pc-equipped-title:is(.title-style-completionist,.title-style-trophy_hunter,.title-style-gambling_king,.title-style-asura_balbalta,.title-style-supporter_vip,.title-style-blue_beast) { font-size:13px; }
 @media(max-width:640px) {
   .clv2-title-sigil.has-emblem { width:170px; }
-  .clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-supporter_vip,.is-title-blue_beast) { padding:18px 12px; }
+  .clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-asura_balbalta,.is-title-supporter_vip,.is-title-blue_beast) { padding:18px 12px; }
   .clv2-title-card .public-title-badge { font-size:13px; }
   .clv2-title-showcase h2 .public-title-badge { font-size:25px; }
 }
@@ -163,3 +163,13 @@
   .is-title-supporter_vip :is(.clv2-title-sigil.has-emblem,.clv2-title-emblem-wrap)::before,
   .is-title-supporter_vip :is(.clv2-title-sigil.has-emblem,.clv2-title-emblem-wrap)::after { animation:none!important;transform:none!important;opacity:.7; }
 }
+
+/* Asura Balbalta: ten thousand correct predictions, hwatu insignia. */
+.title-style-asura_balbalta,.is-title-asura_balbalta {
+  --achievement-ink:#ffe4bd;--achievement-line:#ba7e46;--achievement-dark:#310c18;
+  --achievement-light:#ac3439;--achievement-glow:228,69,68;
+  --achievement-logo:url('../assets/ui/titles/asura-balbalta-v1.webp');
+}
+.is-title-asura_balbalta .clv2-title-emblem { width:112px;height:112px; }
+.is-title-asura_balbalta .clv2-title-progress-track i { background:linear-gradient(90deg,#a42b43,#ffcf81); }
+.clv2-title-showcase.is-title-asura_balbalta .clv2-title-sigil.has-emblem { width:clamp(190px,21vw,280px);filter:drop-shadow(0 5px 16px #b3323933); }

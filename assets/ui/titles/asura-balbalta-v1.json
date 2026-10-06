@@ -1,0 +1,37 @@
+{
+  "dateKst": "2026-10-07",
+  "title": "아수라발발타",
+  "mode": "built-in image_gen",
+  "prompt": "Create one premium fantasy RPG achievement TITLE EMBLEM as a clean isolated game UI asset with a truly transparent background. Name of the achievement concept: Asura Balbalta, awarded for 10,000 correct predictions. DO NOT put any letters, words, numbers, Chinese characters, logo text or watermark anywhere. Square 1024x1024 image, centered complete emblem, all edges fully visible with generous 8% transparent safety padding. Main subject MUST be recognizable Korean HWATU flower playing cards, not Western poker cards. Three tall upright small rectangular hwatu cards fanned neatly: central dominant card shows a graceful white crane, a red sun and a black pine branch on an ivory face; left card shows a full ivory moon above a black hill with red field; right card shows red plum blossoms and a red ribbon motif on ivory. Each card has glossy dark crimson outer edges and very thin gold bevels, unmistakable physical flat playing cards. Around the cards, build a compact symmetrical prestigious black-lacquer and burnished-gold ornamental title crest with restrained red magical ember accents and a deep ruby centerpiece below, no skulls, no character faces, no hands, no crowns and no poker suits or dice. Cards remain the clear dominant silhouette and the main visual at small size. Refined illustrated metal materials and elegant carving, polished semi-real 2D Korean fantasy RPG UI insignia. Strong crimson, ivory, black and gold palette. Crisp readable large shapes, controlled highlights, not excessive micro-detail, no surrounding scenery, no solid background, no fake checkerboard, no ground shadow.",
+  "transparentBackground": true,
+  "sourcePreserved": true,
+  "derivative": "512px WebP, quality 94, alpha quality 100",
+  "assets": [
+    {
+      "file": "assets/ui/titles/asura-balbalta-source-v1.png",
+      "sha256": "2915c343c9ba033f48a3cf50a81304a51d74e7452fc2631d972f1429420b1de2",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "bytes": 2186880
+    },
+    {
+      "file": "assets/ui/titles/asura-balbalta-v1.webp",
+      "sha256": "803c41a5cfe67147cf18ab60b9828351c3506014001eb73c9d20441857a5082c",
+      "width": 512,
+      "height": 512,
+      "hasAlpha": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "bytes": 103698
+    }
+  ],
+  "visualReview": {
+    "hwatuCards": true,
+    "noText": true,
+    "completeSilhouette": true,
+    "transparentCorners": true
+  }
+}
