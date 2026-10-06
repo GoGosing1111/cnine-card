@@ -62,11 +62,13 @@ export async function grantAttendanceGift(client, {commit=false}={}) {
     assert.ok(item?.name==='마스터의 별' && Number(item.is_active)===1, 'Master Star catalog changed');
     const [owner] = await q("SELECT id FROM users WHERE id=1 AND role='OWNER' AND status='ACTIVE'");
     assert.ok(owner, 'Owner audit identity missing');
-    const wallets = await q(walletSql+' FOR UPDATE', [ids]);
+    // Normal game purchases can lock inventory before the wallet. Acquire both
+    // without waiting so this bulk operation never joins a live lock cycle.
+    const inventory = await q(inventorySql+' FOR UPDATE NOWAIT', [ids]);
+    const wallets = await q(walletSql+' FOR UPDATE NOWAIT', [ids]);
     assert.deepEqual(sortedIds(wallets,'id'), ids, 'Missing target account');
     assert.deepEqual(wallets.map(r => r.nickname), TARGETS.map(r => r.nickname), 'Target nickname changed');
     assert.ok(wallets.every(r => r.status==='ACTIVE'), 'Target account inactive');
-    const inventory = await q(inventorySql+' FOR UPDATE', [ids]);
     const oldStars = new Map(inventory.map(r => [String(r.user_id),r]));
     for (const wallet of wallets) {
       const held=oldStars.get(String(wallet.id));
