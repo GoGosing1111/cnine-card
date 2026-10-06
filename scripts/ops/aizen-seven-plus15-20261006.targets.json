@@ -1,0 +1,58 @@
+{
+  "checkedAt": "2026-10-06T06:56:49.632Z",
+  "authorization": "옹가망함1, 랄네미탱탱, 고라니ㅇ, 하이희야, 관상은과학, 암살자.., 쁴로리의 기존 아이젠 족스케 카드를 +15강으로 업그레이드. 이미 +15강인 보유 상태는 유지.",
+  "requested": [
+    "옹가망함1",
+    "랄네미탱탱",
+    "고라니ㅇ",
+    "하이희야",
+    "관상은과학",
+    "암살자..",
+    "쁴로리"
+  ],
+  "targets": [
+    {
+      "id": 10,
+      "nickname": "관상은과학",
+      "inputNickname": "관상은과학",
+      "observedLevel": 13
+    },
+    {
+      "id": 23,
+      "nickname": "하이희야",
+      "inputNickname": "하이희야",
+      "observedLevel": 14
+    },
+    {
+      "id": 76,
+      "nickname": "랄네미탱탱",
+      "inputNickname": "랄네미탱탱",
+      "observedLevel": 15
+    },
+    {
+      "id": 2246,
+      "nickname": "옹가망함1",
+      "inputNickname": "옹가망함1",
+      "observedLevel": 13
+    },
+    {
+      "id": 4598,
+      "nickname": "암살자..",
+      "inputNickname": "암살자..",
+      "observedLevel": 14
+    },
+    {
+      "id": 4610,
+      "nickname": "고라니ㅇ",
+      "inputNickname": "고라니ㅇ",
+      "observedLevel": 14
+    },
+    {
+      "id": 4965,
+      "nickname": "쁴로리",
+      "inputNickname": "쁴로리",
+      "observedLevel": 14
+    }
+  ],
+  "excluded": []
+}
