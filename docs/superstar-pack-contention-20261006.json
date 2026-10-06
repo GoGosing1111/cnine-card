@@ -1,0 +1,143 @@
+{
+  "status": "LIVE",
+  "checkedAt": "2026-10-06T14:29:56.447Z",
+  "observationFrom": "2026-10-06 14:29:56",
+  "sourceCommit": "3f2be5770cfea1fd44cd737ad3fad72c54ff7e02",
+  "pages": "https://6c2dfe4d.cnine-card.pages.dev",
+  "apiWorkerVersion": "c609b017-9654-46bf-9eaf-611388102bef",
+  "clanWorkerVersion": "11d0921a-a203-4916-b5cd-44950071bdb3",
+  "readOnly": true,
+  "requests": [
+    {
+      "origin": "https://cnine-card.pages.dev",
+      "path": "/api/packs",
+      "status": 200,
+      "elapsedMs": 254.0675,
+      "superstar": {
+        "price": 300000000,
+        "successRate": 10,
+        "drawEnabled": true,
+        "allowedDrawCounts": [
+          1,
+          10
+        ]
+      }
+    },
+    {
+      "origin": "https://6c2dfe4d.cnine-card.pages.dev",
+      "path": "/api/packs",
+      "status": 200,
+      "elapsedMs": 1082.4994000000002,
+      "superstar": {
+        "price": 300000000,
+        "successRate": 10,
+        "drawEnabled": true,
+        "allowedDrawCounts": [
+          1,
+          10
+        ]
+      }
+    }
+  ],
+  "receiptsCheckedAt": "2026-10-06T14:30:34.057Z",
+  "postDeployReceipts": [
+    {
+      "status": "COMPLETED",
+      "count": "11",
+      "debits": "11",
+      "completed_debit_mismatches": "0",
+      "sample_error": null,
+      "max_elapsed_seconds_resolution": "00:00:01"
+    }
+  ],
+  "activeSuperstarWaits": {
+    "active": "0",
+    "blocked": "0"
+  },
+  "regressions": {
+    "passed": 41,
+    "failed": 0,
+    "server": 24,
+    "clientAndApi": 17
+  },
+  "before": {
+    "checkedAt": "2026-10-06T14:14:35.293Z",
+    "count": 200,
+    "from": "2026-10-06 11:52:36",
+    "to": "2026-10-06 14:14:28",
+    "statuses": {
+      "PENDING": 1,
+      "COMPLETED": 167,
+      "FAILED": 32
+    },
+    "errors": {
+      "canceling statement due to lock timeout": 4,
+      "deadlock detected": 27,
+      "new row for relation \"superstar_pack_atomic_guard_v2047\" violates check constraint \"superstar_pack_atomic_guard_v2047_verified_check\"": 1
+    }
+  },
+  "readOnlySqlMeasurement": {
+    "beforeMs": 1955.269,
+    "beforeSharedReadBlocks": 69321,
+    "beforeUserIndexRows": 134796,
+    "afterMs": 0.091,
+    "afterBufferAccesses": 5,
+    "afterCandidateRows": 1,
+    "index": "idx_draw_logs_user(user_id,created_at)",
+    "scope": "One representative SQL EXPLAIN ANALYZE, not whole API latency or a sustained load guarantee"
+  },
+  "isolatedPostgres": {
+    "checks": [
+      "legacy existing-index DDL deadlock reproduced between two PostgreSQL connections",
+      "new cold readiness completes with a debit write lock held, without DDL or blocking the receipt",
+      "8 connections / 16 cold-scope ten-packs: 16 correct debits, 160 grants, exact duplicate shards",
+      "concurrent duplicate ID and replay on a third connection debit/grant exactly once",
+      "a second request ID for the same user stays blocked while the first payment is pending",
+      "real pipelined transaction failure after receipt writing rolls back wallet, grants and logs"
+    ],
+    "legacyDeadlockCode": "40P01",
+    "fixedConcurrentReadiness": {
+      "ms": 84.9184000000023,
+      "ddlCalls": 0
+    },
+    "load": {
+      "clients": 8,
+      "requests": 16,
+      "allColdScopes": true,
+      "completed": 16,
+      "failed": 0,
+      "elapsedMs": 1792.4137999999984,
+      "databaseRoundTrips": 168,
+      "p50Ms": 797.3666999999987,
+      "p95Ms": 898.5744000000013,
+      "paymentBatchP50Ms": 84.57589999999982,
+      "paymentBatchP95Ms": 96.39949999999953,
+      "atomicity": {
+        "debits": "16",
+        "logs": "160",
+        "coin_logs": "16",
+        "correct_wallets": "8",
+        "correct_cards": "8"
+      }
+    },
+    "productionAccountsTouched": false,
+    "cleaned": true
+  },
+  "accounting": {
+    "checkedAt": "2026-10-06T14:25:42.835Z",
+    "readOnly": true,
+    "readiness": {
+      "ready": true,
+      "ddlCalls": 0
+    },
+    "failedReceiptAccounting": {
+      "failed_receipts": "33",
+      "failed_with_debit": "0",
+      "failed_debit_total": "0"
+    },
+    "pending": {
+      "n": "0",
+      "stale": "0"
+    }
+  }
+}
