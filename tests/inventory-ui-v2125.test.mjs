@@ -50,7 +50,7 @@ test('pack tickets, event tickets and actual admission tickets remain distinct',
 test('search combines with category/new filters and accepts Korean or item code',()=>{
   const m=model(),items=inventoryUiFixture().items;
   Object.assign(m.state,{filter:'MATERIAL',query:'  슈트 코어 ',newOnly:true});
-  assert.deepEqual(codes(m.visible(items)),['SUIT_CORE_5','SUIT_CORE_6']);
+  assert.deepEqual(codes(m.visible(items)),['SUIT_CORE_5','SUIT_CORE_6','SUIT_CORE_7']);
   m.state.query='suit_core_6';assert.deepEqual(codes(m.visible(items)),['SUIT_CORE_6']);
   m.state.query='not-an-item';assert.equal(m.visible(items).length,0);
 });

@@ -2,7 +2,7 @@ import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
 
 export const X_BODY_UPGRADE_KEY='safe_runtime_upgrade_x_body_20260927';
 export const X_BODY_ITEM=Object.freeze({
- code:'BATTLE_SUIT_X_BODY',name:'X-BODY',slot:'BATTLE_SUIT',
+ code:'BATTLE_SUIT_X_BODY',name:'X-BODY',slot:'BATTLE_SUIT',coreCode:'SUIT_CORE_7',
  image:'/assets/ui/project-v/account-battle-suits/x-sword-v1/x-body.png',
  battleSprite:'/assets/ui/project-v/account-battle-suits/x-sword-v1/x-body.png',
  description:'백금 검사의 X-BODY. 청광 대시·일섬·천광 연섬과 천룡 강림 전용 연출을 사용하는 PVE 전용 배틀슈트입니다.',

@@ -1,0 +1,25 @@
+{
+  "passed": true,
+  "reports": [
+    {
+      "width": 1440,
+      "inventoryIconLoaded": true,
+      "materialNotDirectlyUsable": true,
+      "zBeforeX": true,
+      "cmsCore7OutputAndMaterialSelectable": true,
+      "cmsXBodySelectable": true,
+      "recipeWrites": 0,
+      "pageErrors": []
+    },
+    {
+      "width": 390,
+      "inventoryIconLoaded": true,
+      "materialNotDirectlyUsable": true,
+      "zBeforeX": true,
+      "cmsCore7OutputAndMaterialSelectable": true,
+      "cmsXBodySelectable": true,
+      "recipeWrites": 0,
+      "pageErrors": []
+    }
+  ]
+}

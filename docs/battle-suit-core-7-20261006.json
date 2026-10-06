@@ -1,0 +1,82 @@
+{
+  "status": "VERIFIED_PENDING_PRODUCTION_DEPLOY",
+  "request": "Z-BODY=슈트 코어 6, 상위 X-BODY=슈트 코어 7. 리소스와 아이템만 연결하고 제작식은 사용자가 직접 추가.",
+  "mapping": [
+    {
+      "equipmentCode": "BATTLE_SUIT_Z_BODY",
+      "name": "Z-BODY",
+      "coreCode": "SUIT_CORE_6",
+      "sortOrder": 60,
+      "image": "assets/items/suit-core-6-v2124.png",
+      "sha256": "931CC30E72B37A78BC4D0C39E90C5687F89F378C8ECBC27461D79299D26F123A",
+      "preserved": true
+    },
+    {
+      "equipmentCode": "BATTLE_SUIT_X_BODY",
+      "name": "X-BODY",
+      "coreCode": "SUIT_CORE_7",
+      "sortOrder": 70,
+      "image": "assets/items/suit-core-7-20261006.png",
+      "sha256": "4B1775428A1BDAC452E3BFBBD91968DF81AB59E9A3DA5BBF9C56B0C7BFAE08A4"
+    }
+  ],
+  "generation": {
+    "tool": "built-in image_gen",
+    "mode": "generate",
+    "transparentBackground": true,
+    "prompt": "Use case: stylized-concept. Asset type: transparent square PNG inventory material icon for a polished Korean fantasy science-fiction RPG. Create one new 'Suit Core 7' reactor item for the X-BODY platinum sword knight, a higher-tier successor to the existing Suit Core 6. The object is a compact premium mechanical reactor cartridge, viewed straight on with subtle dimensional depth, centered and completely visible with approximately 8% transparent margin. A vivid turquoise-cyan circular energy heart is enclosed in concentric precision gold and platinum metal rings, with pearl-white armor and restrained dark graphite recesses. Four elegantly swept platinum armored fins and an integrated small crown-like upper crest echo the X-BODY white-gold knight. Make its silhouette and cyan core clearly distinct from a lower-tier square gold paladin reactor. Refined painted 2D game-item rendering, coherent metal thickness, crisp bevel highlights, excellent readability at 64px, controlled luminous core without large bloom. This is a tangible crafting reactor, not a character portrait, weapon, badge or UI panel. No humans, no letters, no numbers or Roman numerals, no labels, no watermark, no surrounding card frame, no pedestal, no background and no shadow plane. Genuine transparent RGBA background. Do not redesign any existing character or asset.",
+    "original": "exec-664858ef-0ee1-4844-920e-4f3d4fd10022.png",
+    "sourcePreserved": true
+  },
+  "scope": {
+    "runtimeFiles": [
+      "functions/_battle_suit_materials.js",
+      "functions/_battle_suit_x_body.js"
+    ],
+    "registrationKey": "safe_runtime_upgrade_x_body_core_7_20261006",
+    "category": "MATERIAL",
+    "rarity": "MYTHIC",
+    "coreSortOrder": 200407,
+    "recipesChanged": false,
+    "ownedItemsGranted": false,
+    "balanceChanged": false,
+    "lootPoolsActivated": false,
+    "bodyResourcesChanged": false
+  },
+  "validation": {
+    "catalogRegression": {
+      "command": "node --test tests/battle-suit-core-7-20261006.test.mjs",
+      "passed": 3,
+      "failed": 0,
+      "coverage": [
+        "SQLite and production PostgreSQL adapter atomic rollback and retry",
+        "Completed core 1–6 registration still allows core 7",
+        "Preserve existing CMS fields, recipes and owned quantities",
+        "Z=6 and upper X=7 mapping, original core 6 hash and core 7 alpha"
+      ]
+    },
+    "browser": {
+      "runner": "tests/battle-suit-core-7-20261006.browser.mjs",
+      "report": "preview/battle-suit-core-7-20261006/qa/browser-report.json",
+      "viewports": [1440, 390],
+      "height": 900,
+      "passed": true,
+      "screenshotsReviewed": true,
+      "recipeWrites": 0,
+      "pageErrors": 0,
+      "coverage": "Actual inventory and CMS scripts with local fixtures: image decode, name, direct-use disabled, core 6/7 materials, core 7 output and X-BODY selection."
+    }
+  },
+  "release": {
+    "mode": "scoped",
+    "baseCommit": "ec8f14f24e0089e0441f8e1095813678dceb13b3",
+    "reason": "Core 7 catalog and asset hookup only. No schema, authentication, recipe, acquisition or balance changes. Validate affected catalog consumers and Worker compilation.",
+    "remainingTestsRunByDeploy": [
+      "tests/battle-suit-workshop-v2004.test.mjs",
+      "tests/prime-draw-live-v1985.test.mjs",
+      "tests/inventory-ui-v2125.test.mjs"
+    ],
+    "checks": ["check:worker"],
+    "repeatCompletedRegression": false
+  }
+}
