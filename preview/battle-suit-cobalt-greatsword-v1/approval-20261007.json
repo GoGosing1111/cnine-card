@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "date": "2026-10-07",
+  "status": "USER_APPROVED_STANDING_RESOURCE",
+  "userQuote": "그냥 이거로 승인",
+  "approvedAsset": {
+    "path": "assets/cobalt-greatsword-standing-approved-20261007.png",
+    "status": "USER_APPROVED_STANDING_RESOURCE",
+    "selected": true,
+    "width": 1024,
+    "height": 1536,
+    "channels": 4,
+    "hasAlpha": true,
+    "isOpaque": false,
+    "bytes": 1761611,
+    "sha256": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+    "source": "C:/Users/User/AppData/Local/Temp/codex-clipboard-b9c4cf5d-69bc-44fd-9d1d-5c506012a2cb.png",
+    "sourceBytesPreserved": true
+  },
+  "approvedScope": [
+    "standing full-body visual resource",
+    "helmet and head size",
+    "body proportions and armor",
+    "cape",
+    "greatsword and grip",
+    "pose",
+    "original alpha"
+  ],
+  "preservation": {
+    "byteIdenticalCopy": true,
+    "regenerated": false,
+    "resized": false,
+    "recompressed": false,
+    "alphaEdited": false,
+    "additionalHeadScaleApplied": false
+  },
+  "supersedes": [
+    "V1 below-head-only approval as the current visual baseline",
+    "V2 helmet review pending",
+    "V3 10-15% head enlargement comparison",
+    "subsequent 9% head enlargement request"
+  ],
+  "authority": "This exact user attachment is the complete standing visual baseline; previous generated variants are history only.",
+  "notIncluded": [
+    "name",
+    "rank and stats",
+    "CMS registration",
+    "recipe",
+    "animation and effects",
+    "gameplay integration",
+    "production activation"
+  ]
+}

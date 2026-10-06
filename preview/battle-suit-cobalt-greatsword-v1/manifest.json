@@ -1,31 +1,13 @@
 {
-  "version": 3,
+  "version": 4,
   "createdAt": "2026-10-06T16:31:32.907Z",
-  "status": "BODY_APPROVED_HEAD_REVIEW_PENDING",
+  "status": "USER_APPROVED_STANDING_RESOURCE",
   "scope": "One standing full-body resource with greatsword; no animation or gameplay integration",
-  "currentAsset": "assets/cobalt-greatsword-standing-v3-head-scale.png",
-  "approvedBelowHeadSource": "assets/cobalt-greatsword-standing-v1-body-approved.png",
-  "partialApproval": {
-    "date": "2026-10-07",
-    "quote": "머리 아래로는 다 합격임",
-    "scope": [
-      "body design",
-      "greatsword design",
-      "grip",
-      "standing pose"
-    ],
-    "headApproved": false
-  },
-  "headCorrection": {
-    "request": "머리 뒤 뿔 제거 및 최초 참고 사진의 얼굴 장갑 디테일 반영",
-    "rearTallHeadHornsRemoved": true,
-    "originalHelmetDetailsCompared": true,
-    "userApprovalPending": true
-  },
+  "currentAsset": "assets/cobalt-greatsword-standing-approved-20261007.png",
   "assets": [
     {
       "path": "assets/cobalt-greatsword-standing-v1-body-approved.png",
-      "status": "BODY_AND_GREATSWORD_APPROVED_HEAD_REJECTED",
+      "status": "HISTORICAL_SUPERSEDED",
       "width": 1024,
       "height": 1536,
       "channels": 4,
@@ -34,11 +16,14 @@
       "bytes": 2332265,
       "sha256": "61708d27c1495fd941ea6a1fae969ac0380043ec3a752f8540df97043a38a27a",
       "source": "C:/Users/User/.codex/generated_images/01a107d4-bfe5-72d1-b980-f8b2592cf9e0/exec-f9f2bcda-de49-4cc3-9ad8-8023ab900b1e.png",
-      "sourceBytesPreserved": true
+      "sourceBytesPreserved": true,
+      "historicalStatus": "BODY_AND_GREATSWORD_APPROVED_HEAD_REJECTED",
+      "selected": false,
+      "supersededBy": "assets/cobalt-greatsword-standing-approved-20261007.png"
     },
     {
       "path": "assets/cobalt-greatsword-standing-v2-head-revised.png",
-      "status": "HEAD_REVISION_REVIEW_PENDING",
+      "status": "HISTORICAL_SUPERSEDED",
       "width": 1024,
       "height": 1536,
       "channels": 4,
@@ -47,11 +32,14 @@
       "bytes": 2216000,
       "sha256": "2f1a0854ffe2bd4875554b258a24f8d179f4e4fb4ba534d905f65d6a31c377b1",
       "source": "C:/Users/User/.codex/generated_images/01a107d4-bfe5-72d1-b980-f8b2592cf9e0/exec-7bf09b49-acc2-4ac1-b200-cddd14aa4eb0.png",
-      "sourceBytesPreserved": true
+      "sourceBytesPreserved": true,
+      "historicalStatus": "HEAD_REVISION_REVIEW_PENDING",
+      "selected": false,
+      "supersededBy": "assets/cobalt-greatsword-standing-approved-20261007.png"
     },
     {
       "path": "assets/cobalt-greatsword-standing-v3-head-scale.png",
-      "status": "HEAD_SCALE_COMPARISON_REVIEW_PENDING",
+      "status": "HISTORICAL_SUPERSEDED",
       "width": 1024,
       "height": 1536,
       "channels": 4,
@@ -60,6 +48,23 @@
       "bytes": 2224989,
       "sha256": "70bec50db402fa9445dc453a73f410d4448b7d74f1647bf57627f201a1bb0bd9",
       "source": "C:/Users/User/.codex/generated_images/01a107d4-bfe5-72d1-b980-f8b2592cf9e0/exec-55091df1-8d75-4bb6-aeae-b69b32af713a.png",
+      "sourceBytesPreserved": true,
+      "historicalStatus": "HEAD_SCALE_COMPARISON_REVIEW_PENDING",
+      "selected": false,
+      "supersededBy": "assets/cobalt-greatsword-standing-approved-20261007.png"
+    },
+    {
+      "path": "assets/cobalt-greatsword-standing-approved-20261007.png",
+      "status": "USER_APPROVED_STANDING_RESOURCE",
+      "selected": true,
+      "width": 1024,
+      "height": 1536,
+      "channels": 4,
+      "hasAlpha": true,
+      "isOpaque": false,
+      "bytes": 1761611,
+      "sha256": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+      "source": "C:/Users/User/AppData/Local/Temp/codex-clipboard-b9c4cf5d-69bc-44fd-9d1d-5c506012a2cb.png",
       "sourceBytesPreserved": true
     }
   ],
@@ -83,19 +88,26 @@
       "role": "user crop identifying rejected helmet",
       "path": "C:/Users/User/AppData/Local/Temp/codex-clipboard-21b6bcef-eb1a-4ea3-8e91-085ba2737b2c.png",
       "sha256": "c19cf6a339baadb48e0508938f750ca40b15303eed8be2d89744a7a6f08efea6"
+    },
+    {
+      "role": "sole final approved standing visual source",
+      "path": "C:/Users/User/AppData/Local/Temp/codex-clipboard-b9c4cf5d-69bc-44fd-9d1d-5c506012a2cb.png",
+      "sha256": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b"
     }
   ],
   "generation": {
-    "mode": "built-in image_gen",
-    "prompts": "prompts.json",
-    "postprocessing": "none; original PNG byte copy only"
+    "mode": "user-approved attachment preservation",
+    "source": "C:/Users/User/AppData/Local/Temp/codex-clipboard-b9c4cf5d-69bc-44fd-9d1d-5c506012a2cb.png",
+    "postprocessing": "none; byte-identical copy of exact user attachment",
+    "previousGenerationHistory": "history.generation"
   },
   "verification": {
+    "sha256MatchesUserAttachment": true,
+    "sourceBytesPreserved": true,
     "trueAlpha": true,
-    "fullBodyAndSwordVisible": true,
-    "bodyAndSwordDesignVisuallyCompared": true,
-    "bodyPixelsCopiedFromV1": false,
-    "approvedV1SourcePreserved": true
+    "width": 1024,
+    "height": 1536,
+    "previousVersionsPreserved": true
   },
   "catalog": {
     "registered": false,
@@ -114,16 +126,62 @@
     "liveConnection": false,
     "productionDeployRequired": false
   },
-  "updatedAt": "2026-10-06T16:34:11.484Z",
-  "headScale": {
-    "request": "머리크기 한 10~15% 키우면 어때?",
-    "reference": "assets/cobalt-greatsword-standing-v2-head-revised.png",
-    "targetUniformScale": 1.125,
-    "actualScaleType": "image-generation approximation; not deterministic resampling",
-    "neckConnectionAnchored": true,
-    "headDesignPreservedVisually": true,
-    "rearTallHornsRemainRemoved": true,
-    "bodyAndGreatswordDesignCompared": true,
-    "userApprovalPending": true
-  }
+  "updatedAt": "2026-10-06T16:43:28.948Z",
+  "history": {
+    "partialApproval": {
+      "date": "2026-10-07",
+      "quote": "머리 아래로는 다 합격임",
+      "scope": [
+        "body design",
+        "greatsword design",
+        "grip",
+        "standing pose"
+      ],
+      "headApproved": false,
+      "historical": true,
+      "supersededBy": "approval-20261007.json"
+    },
+    "approvedBelowHeadSource": "assets/cobalt-greatsword-standing-v1-body-approved.png",
+    "headCorrection": {
+      "request": "머리 뒤 뿔 제거 및 최초 참고 사진의 얼굴 장갑 디테일 반영",
+      "rearTallHeadHornsRemoved": true,
+      "originalHelmetDetailsCompared": true,
+      "historical": true,
+      "supersededBy": "approval-20261007.json",
+      "userApprovalPendingAtThatTime": true
+    },
+    "headScale": {
+      "request": "머리크기 한 10~15% 키우면 어때?",
+      "reference": "assets/cobalt-greatsword-standing-v2-head-revised.png",
+      "targetUniformScale": 1.125,
+      "actualScaleType": "image-generation approximation; not deterministic resampling",
+      "neckConnectionAnchored": true,
+      "headDesignPreservedVisually": true,
+      "rearTallHornsRemainRemoved": true,
+      "bodyAndGreatswordDesignCompared": true,
+      "historical": true,
+      "supersededBy": "approval-20261007.json",
+      "userApprovalPendingAtThatTime": true
+    },
+    "laterHeadScaleRequest": {
+      "request": "망토 이미지가 바뀐다 머리 9%만 키워봐",
+      "targetUniformScale": 1.09,
+      "historical": true,
+      "supersededBy": "approval-20261007.json"
+    },
+    "generation": {
+      "mode": "built-in image_gen",
+      "prompts": "prompts.json",
+      "postprocessing": "none; original PNG byte copy only"
+    },
+    "verification": {
+      "trueAlpha": true,
+      "fullBodyAndSwordVisible": true,
+      "bodyAndSwordDesignVisuallyCompared": true,
+      "bodyPixelsCopiedFromV1": false,
+      "approvedV1SourcePreserved": true
+    }
+  },
+  "approvedSource": "assets/cobalt-greatsword-standing-approved-20261007.png",
+  "approval": "approval-20261007.json"
 }
