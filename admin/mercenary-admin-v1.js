@@ -12,7 +12,7 @@ const thumb=(code,size=320)=>`/assets/ui/project-v/mercenaries/codex-v1/${code.t
 const date=value=>new Intl.DateTimeFormat('ko-KR',{dateStyle:'short',timeStyle:'short'}).format(new Date(value));
 let section,button,data,savedDocument,tab='roster',selected='V-004',skill='MS-021',query='',dirty=false,busy=false,pending=null,notice='',error=false,generation=0;
 const $=selector=>section?.querySelector(selector);
-import {createLimitedMercenaryEditor} from './mercenary-limited-admin-v1.js?v=20261006-pack';
+import {createLimitedMercenaryEditor} from './mercenary-limited-admin-v1.js?v=20261006-mixed';
 const tabs={roster:'용병 도감',skills:'스킬 목록',assignments:'스킬 배정',draw:'개봉 확률',fusion:'합성 관리',limited:'리미티드팩',leveling:'레벨 · 돌파',economy:'획득 · 성장',review:'리소스 · 검수'};
 const drawEditor=createMercenaryDrawEditor({request:options=>api(options,'/api/admin/mercenaries/draw'),onRender:()=>render()});
 const limitedEditor=createLimitedMercenaryEditor({request:options=>api(options,'/api/admin/mercenaries/limited-pack'),onRender:()=>render()});

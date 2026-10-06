@@ -1,5 +1,8 @@
-import {LIMITED_MERCENARIES} from './mercenary-limited-catalog-v1.mjs';
+import {LIMITED_MERCENARIES,isLimitedMercenary} from './mercenary-limited-catalog-v1.mjs';
 import {readLimitedPolicy} from './mercenary-limited-policy-v1.mjs';
+import {MERCENARY_RANKS} from './mercenary-ranks-v1.mjs';
+import {mercenaryGradePools,mercenaryCardChances} from './mercenary-draw-policy-v1.mjs';
+export const LIMITED_NORMAL_RANKS=MERCENARY_RANKS;
 // Preparation only. CMS values never bypass this explicit release gate.
 export const LIMITED_PACK_RELEASE_ENABLED=false;
 export const LIMITED_PACK_KEY='mercenary_limited_pack_v1';
@@ -19,14 +22,15 @@ export const LIMITED_EXTRA_REWARDS=Object.freeze([
 const codes=LIMITED_MERCENARIES.map(c=>c.code);
 const exact=(v,keys)=>v&&typeof v==='object'&&!Array.isArray(v)&&Object.keys(v).sort().join(',')===[...keys].sort().join(',');
 export function limitedPackDraft(){
- return {format:'MERCENARY_LIMITED_PACK_V1',mode:'OFF',prices:{single:null,ten:null},
+ return {format:'MERCENARY_LIMITED_PACK_V1',mode:'OFF',prices:{single:null,ten:null},normalRankRatesPpm:Object.fromEntries(MERCENARY_RANKS.map(rank=>[rank,null])),
  stockLimits:Object.fromEntries(codes.map(code=>[code,null])),
  extraRewards:LIMITED_EXTRA_REWARDS.map(r=>({id:r.id,chancePpm:null,quantity:r.id==='NONE'?0:null}))};
 }
 export function validateLimitedPack(raw,{releaseEnabled=LIMITED_PACK_RELEASE_ENABLED}={}){
- if(!exact(raw,['format','mode','prices','stockLimits','extraRewards'])||raw.format!=='MERCENARY_LIMITED_PACK_V1'||
+ if(!exact(raw,['format','mode','prices','normalRankRatesPpm','stockLimits','extraRewards'])||raw.format!=='MERCENARY_LIMITED_PACK_V1'||
  !['OFF','ON'].includes(raw.mode)||(!releaseEnabled&&raw.mode!=='OFF'))throw Error('리미티드팩은 출시 준비 중입니다. 개봉 OFF로 저장하세요.');
  if(!exact(raw.prices,['single','ten'])||Object.values(raw.prices).some(n=>n!==null&&(!Number.isSafeInteger(n)||n<1||n>100000000000000)))throw Error('가격은 미정 또는 1~100조 코인 정수로 입력하세요.');
+ if(!exact(raw.normalRankRatesPpm,MERCENARY_RANKS)||Object.values(raw.normalRankRatesPpm).some(n=>n!==null&&(!Number.isSafeInteger(n)||n<0||n>1000000)))throw Error('일반 용병 C·B·A·S·SS·SSS 확률은 미정 또는 0~100%로 입력하세요.');
  if(!exact(raw.stockLimits,codes)||Object.values(raw.stockLimits).some(n=>n!==null&&(!Number.isSafeInteger(n)||n<0||n>1000000)))throw Error('용병별 발행 한도는 미정 또는 0~1,000,000장으로 입력하세요.');
  if(!Array.isArray(raw.extraRewards)||raw.extraRewards.length!==3)throw Error('마스터의 별·미스틱 에너지·꽝을 각각 설정하세요.');
  for(const meta of LIMITED_EXTRA_REWARDS){
@@ -38,13 +42,20 @@ export function validateLimitedPack(raw,{releaseEnabled=LIMITED_PACK_RELEASE_ENA
 }
 export function readLimitedPack(value,options){
  const next=structuredClone(value??limitedPackDraft());
+ // Existing drafts keep their prices/limited odds; new ordinary odds require an explicit CMS save.
+ if(!Object.hasOwn(next,'normalRankRatesPpm'))next.normalRankRatesPpm=limitedPackDraft().normalRankRatesPpm;
  if(next.stockLimits)for(const code of codes)if(!Object.hasOwn(next.stockLimits,code))next.stockLimits[code]=null;
  return validateLimitedPack(next,options);
 }
-export function limitedPackReadiness(settings,policy,stock=[]){
- const blockers=[],rates=[...Object.values(policy.rankRatesPpm),...settings.extraRewards.map(r=>r.chancePpm)];
+export function limitedNormalCards(mercenaries,catalog,rules){
+ const pools=mercenaryGradePools(mercenaries,catalog.map(c=>c.code),rules),byCode=new Map(mercenaries.map(c=>[c.code,c])),art=new Map(catalog.map(c=>[c.code,c.sourceArt]));
+ return MERCENARY_RANKS.flatMap(rank=>mercenaryCardChances(1000000,pools[rank],rules).filter(c=>c.weight>0&&!isLimitedMercenary(c.code)).map(c=>({code:c.code,name:byCode.get(c.code).name,rank,sourceArt:art.get(c.code),weight:c.weight})));
+}
+export function limitedPackReadiness(settings,policy,stock=[],normalCards=[]){
+ const blockers=[],rates=[...Object.values(settings.normalRankRatesPpm),...Object.values(policy.rankRatesPpm),...settings.extraRewards.map(r=>r.chancePpm)];
  if(Object.values(settings.prices).some(n=>n===null))blockers.push('1회·10회 가격을 설정하세요.');
- if(rates.some(n=>n===null)||rates.reduce((a,n)=>a+(n??0),0)!==1000000)blockers.push('리미티드 등급·재료·꽝 확률의 합계를 100%로 설정하세요.');
+ if(rates.some(n=>n===null)||rates.reduce((a,n)=>a+(n??0),0)!==1000000)blockers.push('일반 용병 6등급·SS 리미티드·SSS 리미티드·재료·꽝 확률의 합계를 100%로 설정하세요.');
+ for(const rank of MERCENARY_RANKS)if(settings.normalRankRatesPpm[rank]>0&&!normalCards.some(c=>c.rank===rank&&c.weight>0))blockers.push(rank+' 일반 용병의 획득 대상을 확인하세요.');
  for(const r of settings.extraRewards)if(r.chancePpm>0&&r.id!=='NONE'&&r.quantity===null)blockers.push('재료 보상 수량을 설정하세요.');
  const counts=new Map(stock.map(r=>[r.code,Number(r.issued||0)])),pools={};
  for(const rank of ['SS','SSS']){
@@ -73,14 +84,14 @@ export function validateLimitedOpeningBody(body){
 }
 export function limitedPackCatalogRow(settings=limitedPackDraft()){
  return {id:LIMITED_PACK.id,name:LIMITED_PACK.name,subtitle:'LIMITED EDITION / MERCENARY',theme:'mercenary-limited',
- description:'용병별 서버 한정 발행 · 전용 계약 개봉',range:'SS · SSS LIMITED',price:settings.prices.single,
+ description:'일반 용병 C~SSS 등장 · SS·SSS 리미티드 별도 희귀 확률',range:'C~SSS · SS LIMITED · SSS LIMITED',price:settings.prices.single,
  prices:settings.prices,allowed:[],drawMode:'MERCENARY_LIMITED',drawEnabled:LIMITED_PACK_RELEASE_ENABLED&&settings.mode==='ON',
  ownerDrawEnabled:false,maxDrawCount:10,imageUrl:LIMITED_PACK.image,revealMode:'LIMITED_SEQUENCE'};
 }
 export function limitedReceiptResults(receipt){
  if(receipt?.status!=='COMPLETED'||!Array.isArray(receipt.draws)||!receipt.draws.length||receipt.draws.length>10)throw Error('확정된 리미티드 개봉 결과가 필요합니다.');
- return receipt.draws.map((r,index)=>({...r,kind:r.mercenaryCode?'MERCENARY':r.outcomeId==='NONE'?'MISS':r.outcomeId,
+ return receipt.draws.map((r,index)=>({...r,limited:Boolean(r.mercenaryCode&&isLimitedMercenary(r.mercenaryCode)),kind:r.mercenaryCode?'MERCENARY':r.outcomeId==='NONE'?'MISS':r.outcomeId,
  receiptId:receipt.requestId+':'+index,preview:false,granted:true,
- artUrl:r.mercenaryCode?'/assets/ui/packs/limited-v1/'+r.mercenaryCode.toLowerCase()+'-640.webp':null}));
+ artUrl:r.mercenaryCode?(isLimitedMercenary(r.mercenaryCode)?'/assets/ui/packs/limited-v1/'+r.mercenaryCode.toLowerCase()+'-640.webp':'/assets/ui/project-v/mercenaries/codex-v1/'+r.mercenaryCode.toLowerCase()+'-art-640.webp'):null}));
 }
 export function limitedPolicyForPack(value){return readLimitedPolicy(value);}

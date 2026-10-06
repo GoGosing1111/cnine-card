@@ -1,10 +1,13 @@
-import {LIMITED_MERCENARIES} from '../shared/mercenary-limited-catalog-v1.mjs';
+import {LIMITED_MERCENARIES,isLimitedMercenary} from '../shared/mercenary-limited-catalog-v1.mjs';
 import {LIMITED_POLICY_KEY,limitedPolicyDraft,readLimitedPolicy,validateLimitedPolicy} from '../shared/mercenary-limited-policy-v1.mjs';
-import {LIMITED_PACK,LIMITED_PACK_KEY,LIMITED_PACK_KIND,LIMITED_PACK_RELEASE_ENABLED,LIMITED_EXTRA_REWARDS,limitedPackDraft,readLimitedPack,validateLimitedPack,limitedPackReadiness,limitedPackPrice,limitedPackCatalogRow,validateLimitedOpeningBody} from '../shared/mercenary-limited-pack-v1.mjs';
+import {LIMITED_PACK,LIMITED_PACK_KEY,LIMITED_PACK_KIND,LIMITED_PACK_RELEASE_ENABLED,LIMITED_EXTRA_REWARDS,LIMITED_NORMAL_RANKS,limitedNormalCards,limitedPackDraft,readLimitedPack,validateLimitedPack,limitedPackReadiness,limitedPackPrice,limitedPackCatalogRow,validateLimitedOpeningBody} from '../shared/mercenary-limited-pack-v1.mjs';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {runJointOperation,readJointOperation,jointHash,jointCoinDebit,jointInventoryChange} from './_joint_transactions.js';
 import {jointError,readJointBody,jointResponseError} from './_joint_request.js';
-import {mercenaryRandomInt} from './_mercenary_draw_accounting.js';
+import {mercenaryRandomInt,mercenaryCardAcquisitionStatements} from './_mercenary_draw_accounting.js';
+import {readMercenaryDocument} from './_mercenary_account.js';
+import {MERCENARY_CMS_SEED} from './_mercenary_cms_seed.js';
+import {validateMercenaryCardRules} from '../shared/mercenary-draw-policy-v1.mjs';
 
 export const LIMITED_PACK_SCHEMA=[
  "CREATE TABLE IF NOT EXISTS mercenary_limited_stock_v1(code TEXT PRIMARY KEY,stock_limit BIGINT,issued BIGINT NOT NULL DEFAULT 0 CHECK(issued>=0),revision BIGINT NOT NULL DEFAULT 0,last_token TEXT,CHECK((stock_limit IS NULL AND issued=0) OR (stock_limit>=issued AND stock_limit<=1000000)))",
@@ -18,18 +21,21 @@ const initialPack=()=>({revision:0,settings:limitedPackDraft(),updatedAt:null});
 const terminal=(code,message)=>Object.assign(jointError(code,message,409),{terminal:true});
 const parse=(raw,fallback)=>raw===null?fallback():JSON.parse(raw);
 export async function readLimitedPackState(env,{releaseEnabled=LIMITED_PACK_RELEASE_ENABLED}={}){
- const [settingsRows,stockRows]=await Promise.all([
+ const [settingsRows,stockRows,cms,normalDraw]=await Promise.all([
   env.DB.prepare('SELECT key,value FROM app_meta WHERE key IN (?,?)').bind(LIMITED_POLICY_KEY,LIMITED_PACK_KEY).all(),
-  env.DB.prepare('SELECT code,stock_limit,issued,revision FROM mercenary_limited_stock_v1 ORDER BY code').all()
+  env.DB.prepare('SELECT code,stock_limit,issued,revision FROM mercenary_limited_stock_v1 ORDER BY code').all(),
+  readMercenaryDocument(env),env.DB.prepare('SELECT payload_json,revision FROM mercenary_draw_config_v1 WHERE id=1').first()
  ]);
  const values=new Map(settingsRows.results.map(r=>[r.key,r.value]));
  const rawPolicy=values.get(LIMITED_POLICY_KEY)??null,rawPack=values.get(LIMITED_PACK_KEY)??null;
  const old=parse(rawPolicy,initialPolicy),pack=parse(rawPack,initialPack);
  const policy=readLimitedPolicy(old.policy),settings=readLimitedPack(pack.settings,{releaseEnabled});
  const stock=LIMITED_MERCENARIES.map(card=>{const r=stockRows.results.find(s=>s.code===card.code);return {code:card.code,limit:settings.stockLimits[card.code],issued:Number(r?.issued||0),remaining:settings.stockLimits[card.code]===null?null:Math.max(0,settings.stockLimits[card.code]-Number(r?.issued||0))};});
- const readiness=limitedPackReadiness(settings,policy,stock);
+ const normalRules=normalDraw?validateMercenaryCardRules(JSON.parse(normalDraw.payload_json).cardRules,MERCENARY_CMS_SEED.catalog.cards.map(c=>c.code)):null;
+ const normalCards=normalRules?limitedNormalCards(cms.document.mercenaries,MERCENARY_CMS_SEED.catalog.cards,normalRules):[];
+ const readiness=limitedPackReadiness(settings,policy,stock,normalCards);
  return {revision:Number(old.revision),packRevision:Number(pack.revision),policy,packSettings:settings,stock,cards:LIMITED_MERCENARIES,
-  readiness:{ready:readiness.ready,blockers:readiness.blockers,totalPpm:readiness.totalPpm},
+  normalCards,normalCmsRevision:cms.revision,normalDrawRevision:Number(normalDraw?.revision||0),readiness:{ready:readiness.ready,blockers:readiness.blockers,totalPpm:readiness.totalPpm},
   releaseEnabled,userOpeningEnabled:releaseEnabled&&settings.mode==='ON'&&readiness.ready,rawPolicy,rawPack};
 }
 const publicState=state=>{const {rawPolicy,rawPack,...safe}=state;return safe;};
@@ -82,17 +88,23 @@ export async function saveLimitedPack(env,actor,body){
 function sample(random,max){const n=random(max);if(!Number.isSafeInteger(n)||n<0||n>=max)throw Error('Invalid random sample');return n;}
 export function pickLimitedBatch(state,count,random=mercenaryRandomInt){
  const {packSettings:settings,policy}=state,used=Object.fromEntries(state.stock.map(r=>[r.code,r.issued]));
- const outcomes=[...['SS','SSS'].map(rank=>({id:'LIMITED_'+rank,rank,chancePpm:policy.rankRatesPpm[rank]})),...settings.extraRewards];
+ const outcomes=[...['SS','SSS'].map(rank=>({id:'LIMITED_'+rank,rank,limited:true,chancePpm:policy.rankRatesPpm[rank]})),...LIMITED_NORMAL_RANKS.map(rank=>({id:'CARD_'+rank,rank,limited:false,chancePpm:settings.normalRankRatesPpm[rank]})),...settings.extraRewards];
  const draws=[];
  for(let i=0;i<count;i++){
   let n=sample(random,1000000);const outcome=outcomes.find(r=>{n-=r.chancePpm;return n<0;});
   if(!outcome)throw jointError('MERCENARY_LIMITED_CONFIG','개봉 확률 설정을 확인하세요.',409);
   if(!outcome.rank){draws.push({outcomeId:outcome.id,quantity:outcome.quantity});continue;}
+  if(!outcome.limited){
+   const pool=state.normalCards.filter(c=>c.rank===outcome.rank&&c.weight>0&&!isLimitedMercenary(c.code));
+   if(!pool.length)throw terminal('MERCENARY_LIMITED_NORMAL_POOL','선택된 등급의 일반 용병이 없습니다. 코인은 차감되지 않았습니다.');
+   let ticket=sample(random,pool.reduce((sum,c)=>sum+c.weight,0));const card=pool.find(c=>{ticket-=c.weight;return ticket<0;});
+   draws.push({outcomeId:outcome.id,mercenaryCode:card.code,name:card.name,rank:card.rank,edition:'STANDARD',quantity:1,sourceArt:card.sourceArt});continue;
+  }
   const pool=LIMITED_MERCENARIES.filter(c=>c.rank===outcome.rank&&policy.cardWeights[c.code]>0&&Number.isSafeInteger(settings.stockLimits[c.code])&&settings.stockLimits[c.code]>(used[c.code]||0));
   if(!pool.length)throw terminal('MERCENARY_LIMITED_SOLD_OUT','선택한 횟수에 필요한 리미티드 잔여 수량이 없습니다. 코인은 차감되지 않았습니다.');
   let ticket=sample(random,pool.reduce((sum,c)=>sum+policy.cardWeights[c.code],0));
   const card=pool.find(c=>{ticket-=policy.cardWeights[c.code];return ticket<0;});used[card.code]=(used[card.code]||0)+1;
-  draws.push({outcomeId:outcome.id,mercenaryCode:card.code,name:card.name,rank:card.rank,quantity:1,sourceArt:card.sourceArt});
+  draws.push({outcomeId:outcome.id,mercenaryCode:card.code,name:card.name,rank:card.rank,edition:'LIMITED',quantity:1,sourceArt:card.sourceArt});
  }
  return draws;
 }
@@ -115,7 +127,7 @@ export function createLimitedPackService({releaseEnabled=LIMITED_PACK_RELEASE_EN
     const state=await readLimitedPackState(env,{releaseEnabled});
     if(state.packSettings.mode!=='ON'||state.rawPack!==plan.rawPack||state.rawPolicy!==plan.rawPolicy)throw terminal('MERCENARY_LIMITED_POLICY_CHANGED','개봉 설정이 변경됐습니다. 저장된 미완료 요청을 취소했습니다.');
     const DB=env.DB,p=(sql,...v)=>DB.prepare(sql).bind(...v),grouped=new Map(),items=new Map(),token=crypto.randomUUID(),now=new Date().toISOString();
-    plan.draws.forEach((r,i)=>{if(r.mercenaryCode){if(!grouped.has(r.mercenaryCode))grouped.set(r.mercenaryCode,[]);grouped.get(r.mercenaryCode).push(i);}else if(r.quantity){const code=LIMITED_EXTRA_REWARDS.find(m=>m.id===r.outcomeId)?.itemCode;if(!code)throw Error('Unknown limited reward');items.set(code,(items.get(code)||0)+r.quantity);}});
+    plan.draws.forEach((r,i)=>{if(r.mercenaryCode){if(isLimitedMercenary(r.mercenaryCode)){if(!grouped.has(r.mercenaryCode))grouped.set(r.mercenaryCode,[]);grouped.get(r.mercenaryCode).push(i);}else if(!state.normalCards.some(c=>c.code===r.mercenaryCode&&c.rank===r.rank&&c.weight>0))throw terminal('MERCENARY_LIMITED_NORMAL_POOL','일반 용병 획득 설정이 변경됐습니다. 코인은 차감되지 않았습니다.');}else if(r.quantity){const code=LIMITED_EXTRA_REWARDS.find(m=>m.id===r.outcomeId)?.itemCode;if(!code)throw Error('Unknown limited reward');items.set(code,(items.get(code)||0)+r.quantity);}});
     for(const [code,indices] of grouped)if((state.stock.find(s=>s.code===code)?.remaining??0)<indices.length)throw terminal('MERCENARY_LIMITED_SOLD_OUT','다른 유저가 마지막 수량을 획득했습니다. 코인은 차감되지 않았습니다.');
     const list=[];
     if(DB.dialect==='postgres')list.push(p('SELECT key FROM app_meta WHERE key IN (?,?) ORDER BY key FOR SHARE',LIMITED_PACK_KEY,LIMITED_POLICY_KEY));
@@ -133,6 +145,7 @@ export function createLimitedPackService({releaseEnabled=LIMITED_PACK_RELEASE_EN
      });
      list.push(jointGuardEnd(DB,claim));
     }
+    plan.draws.forEach((r,i)=>{if(r.mercenaryCode&&!isLimitedMercenary(r.mercenaryCode))list.push(...mercenaryCardAcquisitionStatements(DB,{userId:Number(user.id),mercenaryCode:r.mercenaryCode,acquisitionId:requestId+':'+i}));});
     list.push(...jointCoinDebit(DB,user.id,plan.coinCost,'리미티드 용병팩 '+requestId));
     for(const [code,quantity] of items)list.push(...jointInventoryChange(DB,user.id,code,quantity,'리미티드 용병팩',requestId));
     list.push(jointGuardEnd(DB,token));return list;
@@ -143,7 +156,7 @@ export function createLimitedPackService({releaseEnabled=LIMITED_PACK_RELEASE_EN
    const row=await env.DB.prepare('SELECT status,plan_json FROM joint_operations_v1 WHERE request_id=? AND user_id=? AND kind=?').bind(requestId,user.id,LIMITED_PACK_KIND).first();
    if(row?.status==='PENDING'){
     const plan=JSON.parse(row.plan_json),state=await readLimitedPackState(env,{releaseEnabled});
-    const counts={};for(const r of plan.draws)if(r.mercenaryCode)counts[r.mercenaryCode]=(counts[r.mercenaryCode]||0)+1;
+    const counts={};for(const r of plan.draws)if(isLimitedMercenary(r.mercenaryCode))counts[r.mercenaryCode]=(counts[r.mercenaryCode]||0)+1;
     const sold=Object.entries(counts).some(([code,n])=>(state.stock.find(s=>s.code===code)?.remaining??0)<n),changed=state.rawPack!==plan.rawPack||state.rawPolicy!==plan.rawPolicy;
     if(sold||changed){
      await env.DB.prepare("UPDATE joint_operations_v1 SET status='CANCELLED',completed_at=? WHERE request_id=? AND user_id=? AND status='PENDING'").bind(new Date().toISOString(),requestId,user.id).run();
@@ -157,8 +170,9 @@ export function createLimitedPackService({releaseEnabled=LIMITED_PACK_RELEASE_EN
  async function receipt(env,user,requestId,replayed=true){
   const op=await readJointOperation(env,user.id,requestId,LIMITED_PACK_KIND);
   if(op.status!=='COMPLETED')return {requestId,status:'PENDING',retryable:true};
-  const found=(await env.DB.prepare('SELECT l.acquisition_id,l.code,l.serial,a.is_duplicate,a.total_copies_after,a.duplicate_count_after FROM mercenary_limited_issues_v1 l JOIN mercenary_card_acquisitions_v1 a ON a.acquisition_id=l.acquisition_id WHERE l.user_id=? AND l.request_id=?').bind(user.id,requestId).all()).results;
-  const byId=new Map(found.map(r=>[r.acquisition_id,r])),draws=op.plan.draws.map((r,i)=>{if(!r.mercenaryCode)return r;const row=byId.get(requestId+':'+i);if(!row)throw jointError('MERCENARY_LIMITED_RECEIPT','지급 영수증 확인이 필요합니다.',503);return {...r,serial:Number(row.serial),duplicate:Boolean(Number(row.is_duplicate)),totalCopies:Number(row.total_copies_after),duplicateCount:Number(row.duplicate_count_after)};});
+  const ids=op.plan.draws.flatMap((r,i)=>r.mercenaryCode?[requestId+':'+i]:[]);
+  const found=ids.length?(await env.DB.prepare(`SELECT a.acquisition_id,a.mercenary_code,l.serial,a.is_duplicate,a.total_copies_after,a.duplicate_count_after FROM mercenary_card_acquisitions_v1 a LEFT JOIN mercenary_limited_issues_v1 l ON l.acquisition_id=a.acquisition_id AND l.user_id=a.user_id AND l.code=a.mercenary_code WHERE a.user_id=? AND a.acquisition_id IN (${ids.map(()=>'?').join(',')})`).bind(user.id,...ids).all()).results:[];
+  const byId=new Map(found.map(r=>[r.acquisition_id,r])),draws=op.plan.draws.map((r,i)=>{if(!r.mercenaryCode)return r;const row=byId.get(requestId+':'+i),limited=isLimitedMercenary(r.mercenaryCode);if(!row||row.mercenary_code!==r.mercenaryCode||limited&&!row.serial)throw jointError('MERCENARY_LIMITED_RECEIPT','지급 영수증 확인이 필요합니다.',503);return {...r,edition:limited?'LIMITED':'STANDARD',...(limited?{serial:Number(row.serial)}:{}),duplicate:Boolean(Number(row.is_duplicate)),totalCopies:Number(row.total_copies_after),duplicateCount:Number(row.duplicate_count_after)};});
   const wallet=await env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first();
   return {requestId,status:'COMPLETED',accountId:Number(user.id),count:op.plan.count,coinCost:op.plan.coinCost,coin:String(wallet.coin),draws,replayed,packRevision:op.plan.packRevision,policyRevision:op.plan.policyRevision};
  }

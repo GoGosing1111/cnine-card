@@ -7,6 +7,8 @@ import {MERCENARY_ACCOUNTING_SCHEMA} from '../functions/_mercenary_draw_accounti
 import {ensureLimitedPackSchema,createLimitedPackService,saveLimitedPack,readLimitedPackState} from '../functions/_mercenary_limited_pack.js';
 import {limitedPackDraft,LIMITED_PACK_KEY} from '../shared/mercenary-limited-pack-v1.mjs';
 import {limitedPolicyDraft,LIMITED_POLICY_KEY} from '../shared/mercenary-limited-policy-v1.mjs';
+import {MERCENARY_CMS_SEED} from '../functions/_mercenary_cms_seed.js';
+import {suggestedMercenaryDraw} from '../shared/mercenary-draw-policy-v1.mjs';
 if(!process.env.LIMITED_QA_CONNECT_MODULE)throw Error('An explicit QA connection provider is required.');
 const {connect}=await import(pathToFileURL(process.env.LIMITED_QA_CONNECT_MODULE).href),first=await connect();
 const schemaName='cnine_limited_qa_'+Date.now()+'_'+process.pid,proof=crypto.randomUUID(),clients=[first],metrics={queries:0,statements:0,batches:0},report={schema:schemaName,checks:[]};
@@ -26,7 +28,10 @@ try{
  const DB=makeDB(first),env={DB},p=(sql,...args)=>DB.prepare(sql).bind(...args);
  await ensureJointTransactionSchema(env);await DB.execSchema(MERCENARY_ACCOUNTING_SCHEMA);await ensureLimitedPackSchema(env);
  await first.query("INSERT INTO users(id) SELECT generate_series(1,70); INSERT INTO inventory_items(code) VALUES('MASTER_STAR'),('STARLIGHT_ARMOR_CORE')");
+ await p('INSERT INTO mercenary_cms_documents_v1(doc_key,payload_json,revision) VALUES(?,?,1)','config',JSON.stringify(MERCENARY_CMS_SEED.document)).run();
+ await p('INSERT INTO mercenary_draw_config_v1(id,payload_json,revision) VALUES(1,?,1)',JSON.stringify(suggestedMercenaryDraw())).run();
  const policy=limitedPolicyDraft(),settings=limitedPackDraft();policy.rankRatesPpm={SS:1000000,SSS:0};policy.cardWeights=Object.fromEntries(Object.keys(policy.cardWeights).map(c=>[c,c==='V-990'?1:0]));
+ settings.normalRankRatesPpm=Object.fromEntries(Object.keys(settings.normalRankRatesPpm).map(rank=>[rank,0]));
  settings.mode='ON';settings.prices={single:100,ten:900};settings.stockLimits=Object.fromEntries(Object.keys(settings.stockLimits).map(c=>[c,7]));settings.extraRewards=settings.extraRewards.map(r=>({...r,chancePpm:0,quantity:r.id==='NONE'?0:10}));
  await p('INSERT INTO app_meta(key,value) VALUES(?,?),(?,?)',LIMITED_POLICY_KEY,JSON.stringify({revision:1,policy}),LIMITED_PACK_KEY,JSON.stringify({revision:1,settings})).run();
  for(const code in settings.stockLimits)await p('INSERT INTO mercenary_limited_stock_v1(code,stock_limit) VALUES(?,7)',code).run();

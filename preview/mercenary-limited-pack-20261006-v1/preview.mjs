@@ -1,4 +1,4 @@
-import {mountLimitedPack} from '../../js/mercenary-limited-pack-live.mjs?v=20261006';
+import {mountLimitedPack} from '../../js/mercenary-limited-pack-live.mjs?v=20261006-mixed';
 import {previewService,memoryStorage} from './fixture.mjs';
 const service=previewService(),storage=memoryStorage();if(new URL(location.href).searchParams.has('off'))service.state.userOpeningEnabled=false;
 window.limitedPreview={...service,storage};

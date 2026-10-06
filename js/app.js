@@ -1652,12 +1652,12 @@ function superstarPackHero(pack) {
 
 function limitedMercenaryPackHero(pack) {
  const price=key=>pack.prices?.[key]==null?'설정 전':Number(pack.prices[key]).toLocaleString('ko-KR')+' 코인';
- return '<section class="limited-shop-hero"><div class="limited-shop-copy"><p class="eyebrow">LIMITED / MERCENARY CONTRACT</p><span class="limited-shop-badge">SERVER LIMITED EDITION</span><h2>단 한 번의 계약,<br><em>서버에 남을 이름.</em></h2><p>용병마다 정해진 발행 수량.<br>봉인을 열고 리미티드 용병과 계약하세요.</p><div class="limited-shop-prices"><span>1회 <b>'+price('single')+'</b></span><span>10회 <b>'+price('ten')+'</b></span></div><button class="limited-shop-enter" data-limited-pack-enter>리미티드 계약실 <span>→</span></button><small>연속 개봉 · 자동 진행 · 용병별 잔여 수량 확인</small></div><div class="limited-shop-art"><div></div><img src="/assets/ui/packs/limited-v1/pack-640.webp" alt="리미티드 용병팩"><span>LIMITED COLLECTION</span></div></section>';
+ return '<section class="limited-shop-hero"><div class="limited-shop-copy"><p class="eyebrow">LIMITED / MERCENARY CONTRACT</p><span class="limited-shop-badge">SERVER LIMITED EDITION</span><h2>모든 등급의 용병,<br><em>희귀한 리미티드.</em></h2><p>일반 용병 C~SSS가 등장하며,<br>SS·SSS 리미티드는 별도 희귀 확률로 만납니다.</p><div class="limited-shop-prices"><span>1회 <b>'+price('single')+'</b></span><span>10회 <b>'+price('ten')+'</b></span></div><button class="limited-shop-enter" data-limited-pack-enter>리미티드 계약실 <span>→</span></button><small>연속 개봉 · 자동 진행 · 용병별 잔여 수량 확인</small></div><div class="limited-shop-art"><div></div><img src="/assets/ui/packs/limited-v1/pack-640.webp" alt="리미티드 용병팩"><span>LIMITED COLLECTION</span></div></section>';
 }
 document.addEventListener('click',event=>{
  const button=event.target.closest?.('[data-limited-pack-enter]');if(!button||button.disabled)return;
  button.disabled=true;
- import('/js/mercenary-limited-pack-live.mjs?v=20261006').then(module=>module.openLimitedPack()).catch(error=>alert(error.message)).finally(()=>{button.disabled=false;});
+ import('/js/mercenary-limited-pack-live.mjs?v=20261006-mixed').then(module=>module.openLimitedPack()).catch(error=>alert(error.message)).finally(()=>{button.disabled=false;});
 });
 function standardPackHero(pack) {
   if (pack.id === 'mercenary-limited') return limitedMercenaryPackHero(pack);

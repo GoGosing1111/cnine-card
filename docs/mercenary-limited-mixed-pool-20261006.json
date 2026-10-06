@@ -1,0 +1,186 @@
+{
+  "date": "2026-10-06",
+  "status": "READY_FOR_SCOPED_DEPLOYMENT",
+  "request": "모든 일반 용병이 등장하는 준비 중 리미티드 용병팩; SS 리미티드·SSS 리미티드 확률을 일반 등급과 별도 관리",
+  "behavior": {
+    "ordinaryRanks": [
+      "C",
+      "B",
+      "A",
+      "S",
+      "SS",
+      "SSS"
+    ],
+    "limitedRanks": [
+      "SS",
+      "SSS"
+    ],
+    "probabilityUnitPercent": 0.0001,
+    "probabilityBasis": "Absolute chance per opening; all ordinary/limited/material/miss outcomes total 100%; no conditional multiplier",
+    "ordinaryPool": "Live mercenary CMS ranks and acquisition weights; global acquisition OFF remains effective",
+    "limitedStock": "Only limited cards consume stock and receive serials",
+    "mixedReceipts": "Ordinary acquisitions and limited issues settle together with cost and receipt; failed settlement rolls back; replay never rerolls"
+  },
+  "compatibility": {
+    "readLegacyWithoutWrite": true,
+    "newOrdinaryOdds": null,
+    "limitedOdds": {
+      "SS": null,
+      "SSS": null
+    },
+    "prices": {
+      "single": 800000000,
+      "ten": 8000000000
+    },
+    "limitedPolicyRevision": 2,
+    "packRevision": 1,
+    "releaseEnabled": false,
+    "mode": "OFF",
+    "noProductionSettingsMutation": true
+  },
+  "verification": {
+    "mixedUnitTests": 5,
+    "mixedUnitStatus": "PASSED",
+    "browserChecks": 44,
+    "browser": {
+      "checks": [
+        "1440 contract has no horizontal overflow",
+        "1440 ordinary SSS odds visible",
+        "1440 separate rare SSS odds retain precision",
+        "1440 STANDARD confirmed edition",
+        "1440 STANDARD correct artwork and labels",
+        "1440 STANDARD correct contract status",
+        "1440 LIMITED_SS confirmed edition",
+        "1440 LIMITED_SS correct artwork and labels",
+        "1440 LIMITED_SS correct contract status",
+        "1440 LIMITED_SSS confirmed edition",
+        "1440 LIMITED_SSS correct artwork and labels",
+        "1440 LIMITED_SSS correct contract status",
+        "1440 ordinary receipt has no false serial",
+        "1440 CMS exposes six ordinary rank rates",
+        "1440 CMS exposes two separate limited rates",
+        "1440 all absolute rates sum to 100%",
+        "1440 independently saved [data-limited-normal-rate=\"SS\"]",
+        "1440 independently saved [data-limited-normal-rate=\"SSS\"]",
+        "1440 independently saved [data-limited-rate=\"SS\"]",
+        "1440 independently saved [data-limited-rate=\"SSS\"]",
+        "1440 CMS has no horizontal overflow",
+        "390 contract has no horizontal overflow",
+        "390 ordinary SSS odds visible",
+        "390 separate rare SSS odds retain precision",
+        "390 STANDARD confirmed edition",
+        "390 STANDARD correct artwork and labels",
+        "390 STANDARD correct contract status",
+        "390 LIMITED_SS confirmed edition",
+        "390 LIMITED_SS correct artwork and labels",
+        "390 LIMITED_SS correct contract status",
+        "390 LIMITED_SSS confirmed edition",
+        "390 LIMITED_SSS correct artwork and labels",
+        "390 LIMITED_SSS correct contract status",
+        "390 ordinary receipt has no false serial",
+        "390 CMS exposes six ordinary rank rates",
+        "390 CMS exposes two separate limited rates",
+        "390 all absolute rates sum to 100%",
+        "390 independently saved [data-limited-normal-rate=\"SS\"]",
+        "390 independently saved [data-limited-normal-rate=\"SSS\"]",
+        "390 independently saved [data-limited-rate=\"SS\"]",
+        "390 independently saved [data-limited-rate=\"SSS\"]",
+        "390 CMS has no horizontal overflow",
+        "no browser runtime errors",
+        "no missing artwork/modules"
+      ],
+      "observed": [
+        {
+          "width": 1440,
+          "edition": "STANDARD",
+          "code": "V-017",
+          "rank": "C",
+          "art": "/assets/ui/project-v/mercenaries/codex-v1/v-017-art-640.webp",
+          "texts": [
+            "C · 마레나",
+            "연출 검수 · 실제 지급 없음"
+          ]
+        },
+        {
+          "width": 1440,
+          "edition": "LIMITED_SS",
+          "code": "V-990",
+          "rank": "SS",
+          "art": "/assets/ui/packs/limited-v1/v-990-640.webp",
+          "texts": [
+            "SS 리미티드 · 나무늘봉순",
+            "연출 검수 · 실제 지급 없음"
+          ]
+        },
+        {
+          "width": 1440,
+          "edition": "LIMITED_SSS",
+          "code": "V-996",
+          "rank": "SSS",
+          "art": "/assets/ui/packs/limited-v1/v-996-640.webp",
+          "texts": [
+            "SSS 리미티드 · 발테르",
+            "연출 검수 · 실제 지급 없음"
+          ]
+        },
+        {
+          "width": 390,
+          "edition": "STANDARD",
+          "code": "V-017",
+          "rank": "C",
+          "art": "/assets/ui/project-v/mercenaries/codex-v1/v-017-art-640.webp",
+          "texts": [
+            "C · 마레나",
+            "연출 검수 · 실제 지급 없음"
+          ]
+        },
+        {
+          "width": 390,
+          "edition": "LIMITED_SS",
+          "code": "V-990",
+          "rank": "SS",
+          "art": "/assets/ui/packs/limited-v1/v-990-640.webp",
+          "texts": [
+            "SS 리미티드 · 나무늘봉순",
+            "연출 검수 · 실제 지급 없음"
+          ]
+        },
+        {
+          "width": 390,
+          "edition": "LIMITED_SSS",
+          "code": "V-996",
+          "rank": "SSS",
+          "art": "/assets/ui/packs/limited-v1/v-996-640.webp",
+          "texts": [
+            "SSS 리미티드 · 발테르",
+            "연출 검수 · 실제 지급 없음"
+          ]
+        }
+      ],
+      "errors": [],
+      "failed": []
+    },
+    "sourceHashes": {
+      "shared/mercenary-limited-pack-v1.mjs": "f3d8c9f07a2a4106cfba295a4367be94b05b758c77f81376ca6411ec68ef8629",
+      "functions/_mercenary_limited_pack.js": "a46e3b90188be7820b83e2e26f60268152ae2a7e33b067155a0e7767f7ef9ab2",
+      "js/hyper-pack-fx-v2076.src.js": "ace8bba211182e958ab7829bdcf73e31b4e50327e7b109da2dda0f817d98fac5",
+      "js/hyper-pack-fx-v2076.bundle.js": "f98422201af6acd780f15129469651bcc59724154488aadee19cf6e22f361b51",
+      "js/mercenary-limited-pack-live.mjs": "20a2de828aa22e3d8eac518e284acd0d8ee58c19806d9dee14a70f4db86f5a59",
+      "admin/mercenary-limited-admin-v1.js": "b79051f448103691b225a5a59c5b07dfae3791c2dbd15713c15a77b344592619"
+    }
+  },
+  "release": {
+    "mode": "scoped",
+    "base": "841889a2ca0f8a1a1e7eff4e46cee8e69cea7119",
+    "baseUrl": "https://d667f6a8.cnine-card.pages.dev",
+    "selectedTests": [
+      "tests/mercenary-limited-mixed-pool-20261006.test.mjs",
+      "tests/mercenary-limited-pack-20261006.test.mjs",
+      "tests/hyper-pack-v2076.test.mjs"
+    ],
+    "selectedChecks": [
+      "check:worker"
+    ],
+    "reason": "Localized mixed-pool addition to the prepared limited pack. Reuses existing schema and atomic transaction framework; validates combined grants, quota protection, retry, and both ordinary/limited rendering. No authentication, session, dependency or common transaction infrastructure changes."
+  }
+}

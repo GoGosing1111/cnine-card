@@ -13,6 +13,8 @@ const LIVE_ART = ['pack','energy','frame'];
 const codexArt = code => `/assets/ui/project-v/mercenaries/codex-v1/${String(code||'').toLowerCase()}-art-640.webp`;
 const TONES = {MISS:0x83909f,MASTER_STAR:0xffd17b,MYSTIC_ENERGY:0xaa7bff,MERCENARY:0xf2c9ff};
 const LABELS = {MISS:'꽝',MASTER_STAR:'마스터의 별',MYSTIC_ENERGY:'미스틱 에너지',MERCENARY:'용병카드'};
+const limitedResult = result => result.kind==='MERCENARY'&&(result.limited===true||result.edition==='LIMITED'||/^LIMITED_(SS|SSS)$/.test(result.outcomeId||''));
+const cardLabel = result => result.rank+(limitedResult(result)?' 리미티드':'')+' · '+result.name;
 const text = (value,size=20,color=0xf5eeff) => new Text({text:value,style:{fontFamily:'Pretendard, Arial, sans-serif',fontSize:size,fill:color,fontWeight:'600',letterSpacing:2}});
 const fit = (sprite,w,h) => { sprite.anchor.set(.5); sprite.scale.set(Math.min(w/sprite.texture.width,h/sprite.texture.height)); return sprite; };
 const destroyVisual = node => {
@@ -45,6 +47,7 @@ class HyperPackPresentation {
     this.resize=()=>{const scale=Math.min(this.host.clientWidth/this.width,this.host.clientHeight/this.height);this.root.scale.set(scale);this.root.position.set(this.host.clientWidth/2,this.host.clientHeight/2);};
     this.observer=new ResizeObserver(this.resize); this.observer.observe(this.host); this.resize();
     await Promise.all((this.live||this.limited?LIVE_ART.map(key=>this.art[key]):Object.values(this.art)).map(url=>Assets.load(url)));
+    if(this.limited)await Assets.load(ART.frame);
     if(generation!==this.generation)return;
     this.idle(); this.emit('ready');
   }
@@ -105,7 +108,7 @@ class HyperPackPresentation {
   reward(result) {
     const kind=result.kind;
     const group=new Container();
-    if(kind==='MERCENARY'&&this.limited){
+    if(kind==='MERCENARY'&&this.limited&&limitedResult(result)){
       const frame=fit(new Sprite(Assets.get(this.art.frame)),300,450);
       const art=fit(new Sprite(Assets.get(this.mercenaryTexture(result))),frame.width*.88086,frame.height*.88086);
       art.position.set(frame.width*(.05957+.88086/2-.5),frame.height*(.05794+.88086/2-.5));
@@ -118,19 +121,19 @@ class HyperPackPresentation {
       group.addChild(new Graphics().circle(0,0,72).stroke({color:0x677086,width:1,alpha:.65}));
       const dash=text('—',74,0x8f96a4);dash.anchor.set(.5);group.addChild(dash);
     }else{
-      const card=fit(new Sprite(Assets.get(kind==='MERCENARY'?(this.live?this.mercenaryTexture(result):ART.mercenary):ART.energy)),kind==='MERCENARY'?260:210,kind==='MERCENARY'?390:240);
+      const card=fit(new Sprite(Assets.get(kind==='MERCENARY'?(this.live||this.limited?this.mercenaryTexture(result):ART.mercenary):ART.energy)),kind==='MERCENARY'?260:210,kind==='MERCENARY'?390:240);
       group.addChild(card);
       if(kind==='MERCENARY'){
-        const frame=fit(new Sprite(Assets.get(this.art.frame)),card.width+30,card.height+30);group.addChild(frame);
+        const frame=fit(new Sprite(Assets.get(this.limited?ART.frame:this.art.frame)),card.width+30,card.height+30);group.addChild(frame);
       }
     }
     return group;
   }
   segment(result,index,cinematic=false) {
-    this.clear();const color=this.limited&&result.kind==='MERCENARY'?(result.rank==='SSS'?0xffd77c:0xd2a1ff):TONES[result.kind],timeline=gsap.timeline({paused:true});this.timeline=timeline;
+    this.clear();const color=this.limited&&limitedResult(result)?(result.rank==='SSS'?0xffd77c:0xd2a1ff):TONES[result.kind],timeline=gsap.timeline({paused:true});this.timeline=timeline;
     if(this.limited&&this.reducedMotion){
       const reward=this.reward(result);reward.y=-35;this.root.addChild(reward);
-      const label=text(result.kind==='MERCENARY'?result.rank+' · '+result.name:LABELS[result.kind],28,color);label.anchor.set(.5);label.y=245;this.root.addChild(label);
+      const label=text(result.kind==='MERCENARY'?cardLabel(result):LABELS[result.kind],28,color);label.anchor.set(.5);label.y=245;this.root.addChild(label);
       this.app.render();this.emit('revealed',{index,result});
       return new Promise(resolve=>{this.resolveSegment=resolve;this.reducedTimer=setTimeout(()=>{this.resolveSegment=null;resolve();},1250);});
     }
@@ -143,8 +146,8 @@ class HyperPackPresentation {
     if(result.kind!=='MISS')this.burst(timeline,1.04,color,result.kind==='MERCENARY');
     const reward=this.reward(result);reward.alpha=0;reward.y=-30;reward.scale.set(.8);this.root.addChild(reward);
     timeline.to(reward,{alpha:1,duration:.32},1.12).to(reward.scale,{x:1,y:1,duration:.65,ease:'back.out(1.3)'},1.12);
-    const label=text((this.live||this.limited)&&result.kind==='MERCENARY'?`${result.rank} · ${result.name}`:LABELS[result.kind],result.kind==='MERCENARY'?32:30,color);label.anchor.set(.5);label.y=this.limited?245:230;label.alpha=0;this.root.addChild(label);
-    const hint=text(this.limited&&result.kind==='MERCENARY'?(this.live?'서버 발행 No. '+String(result.serial).padStart(6,'0')+(result.duplicate?' · 중복 계약':' · 신규 계약'):'연출 검수 · 실제 지급 없음'):result.kind==='MISS'?'획득 없음':this.live?(result.kind==='MERCENARY'?(result.duplicate?`중복 +1 · 누적 ${result.duplicateCount}장`:'새 용병 계약'):`${Number(result.quantity).toLocaleString('ko-KR')}개 획득`):result.kind==='MERCENARY'?'베스페라 · 원화 예시 / 등급 미정':'수량은 CMS에서 설정',13,0xb3a6c3);hint.anchor.set(.5);hint.y=this.limited?285:270;hint.alpha=0;this.root.addChild(hint);
+    const label=text((this.live||this.limited)&&result.kind==='MERCENARY'?cardLabel(result):LABELS[result.kind],result.kind==='MERCENARY'?32:30,color);label.anchor.set(.5);label.y=this.limited?245:230;label.alpha=0;this.root.addChild(label);
+    const hint=text(this.limited&&limitedResult(result)?(this.live?'서버 발행 No. '+String(result.serial).padStart(6,'0')+(result.duplicate?' · 중복 계약':' · 신규 계약'):'연출 검수 · 실제 지급 없음'):result.kind==='MISS'?'획득 없음':this.live?(result.kind==='MERCENARY'?(result.duplicate?`중복 +1 · 누적 ${result.duplicateCount}장`:'새 용병 계약'):`${Number(result.quantity).toLocaleString('ko-KR')}개 획득`):this.limited?'연출 검수 · 실제 지급 없음':result.kind==='MERCENARY'?'베스페라 · 원화 예시 / 등급 미정':'수량은 CMS에서 설정',13,0xb3a6c3);hint.anchor.set(.5);hint.y=this.limited?285:270;hint.alpha=0;this.root.addChild(hint);
     timeline.to([label,hint],{alpha:1,duration:.3},1.35);
     timeline.call(()=>this.emit('revealed',{index,result}),[],1.4);
     const dwell=this.limited&&this.fastReveal?2.6:result.kind==='MERCENARY'?3.7:3.0;
@@ -159,8 +162,8 @@ class HyperPackPresentation {
   async loadMercenaryArt(result) {
     const code=result.mercenaryCode,original='/'+String(result.sourceArt||'').replace(/^\//,'');
     if(this.artUrl.has(code))return;
-    try{const light=this.limited?`/assets/ui/packs/limited-v1/${String(code).toLowerCase()}-640.webp`:codexArt(code);await Assets.load(light);this.artUrl.set(code,light);}
-    catch(error){console.warn('MERCENARY_CODEX_ART_UNAVAILABLE',code,error?.message||error);if(this.limited)throw error;await Assets.load(original);this.artUrl.set(code,original);}
+    try{const light=this.limited&&limitedResult(result)?`/assets/ui/packs/limited-v1/${String(code).toLowerCase()}-640.webp`:codexArt(code);await Assets.load(light);this.artUrl.set(code,light);}
+    catch(error){console.warn('MERCENARY_CODEX_ART_UNAVAILABLE',code,error?.message||error);if(this.limited&&limitedResult(result))throw error;await Assets.load(original);this.artUrl.set(code,original);}
   }
   mercenaryTexture(result) { return this.artUrl.get(result.mercenaryCode)||'/'+String(result.sourceArt||'').replace(/^\//,''); }
   async play(results) {
@@ -195,7 +198,7 @@ class HyperPackPresentation {
     this.running=false;this.paused=false;this.app?.start();this.clear();
     if(this.results.length===1||this.limited){
       const result=this.limited?this.results.at(-1):this.results[0],reward=this.reward(result);reward.y=-40;this.root.addChild(reward);
-      const label=text((this.live||this.limited)&&result.kind==='MERCENARY'?`${result.rank} · ${result.name}`:LABELS[result.kind],30,TONES[result.kind]);label.anchor.set(.5);label.y=220;
+      const label=text((this.live||this.limited)&&result.kind==='MERCENARY'?cardLabel(result):LABELS[result.kind],30,TONES[result.kind]);label.anchor.set(.5);label.y=220;
       const hint=text(this.live?'계정에 저장된 개봉 결과':'연출 미리보기 · 실제 지급 없음',14,0xb9a9cd);hint.anchor.set(.5);hint.y=260;this.root.addChild(label,hint);
       if(this.limited){this.app.render();this.app.stop();}
       this.emit('complete',{results:this.results});return;
@@ -216,4 +219,4 @@ class HyperPackPresentation {
     if(this.initialized){this.app?.destroy(true,{children:true,texture:false,textureSource:false});this.app=null;}this.root=null;this.emit('destroyed');
   }
 }
-globalThis.HyperPackFX=Object.freeze({version:2146,create:(host,onState,options)=>new HyperPackPresentation(host,onState,options)});
+globalThis.HyperPackFX=Object.freeze({version:2147,create:(host,onState,options)=>new HyperPackPresentation(host,onState,options)});

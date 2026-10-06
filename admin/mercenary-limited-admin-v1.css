@@ -1,5 +1,6 @@
 .mc-admin [data-limited-root] .mc-savebar{position:static;inset:auto;margin-top:20px;z-index:auto}
 .mc-admin [data-limited-root]>.mc-field{margin-top:18px}
+.mc-admin .mlc-limited-odds{border-color:#8d734b;background:linear-gradient(120deg,#282032,#17151e)}.mc-admin .mlc-limited-odds .mc-section-title h3{color:#e5ce96}
 .mc-admin [data-limited-root]>.mc-savebar{border:1px solid var(--mc-line);border-radius:6px}
 .mlc-hero{display:flex;align-items:center;justify-content:space-between;min-height:230px;padding:26px 40px;border:1px solid #695775;background:linear-gradient(90deg,#161020eb,#17102077),url('/assets/ui/packs/limited-v1/chamber.webp') center 48%/cover}
 .mlc-hero small{color:#e1c98f;letter-spacing:.16em}.mlc-hero h3{font-size:30px!important;margin:14px 0!important}.mlc-hero b{display:inline-block;padding:7px 12px;color:#e1c98f;border:1px solid #756343;background:#261d29}.mlc-hero img{width:120px;height:175px;object-fit:contain}

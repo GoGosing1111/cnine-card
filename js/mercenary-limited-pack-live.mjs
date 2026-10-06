@@ -1,5 +1,5 @@
 import {jointAccountRequest} from './joint-account-transport.mjs?v=20260924-response';
-import {LIMITED_PACK,limitedReceiptResults} from '../shared/mercenary-limited-pack-v1.mjs?v=20261006';
+import {LIMITED_PACK,LIMITED_NORMAL_RANKS,limitedReceiptResults} from '../shared/mercenary-limited-pack-v1.mjs?v=20261006-mixed';
 import {LimitedOpeningSession,limitedAutoPlan} from '../shared/mercenary-limited-session-v1.mjs?v=20261006';
 import {formatDrawPercent} from '../shared/mercenary-draw-policy-v1.mjs';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -28,9 +28,9 @@ export async function mountLimitedPack({api,accountId,getAccountId,storage,previ
  if(active){active.focus();return active;}
  stylesheet();const previous=document.activeElement,dialog=document.createElement('dialog');active=dialog;
  dialog.className='lp-dialog';dialog.setAttribute('aria-labelledby','lp-title');
- dialog.innerHTML='<header class="lp-header"><div><span class="lp-sigil" aria-hidden="true">✦</span><div><small>SOOPKETMON / LIMITED EDITION</small><h1 id="lp-title">리미티드 계약실</h1></div></div><div><span class="lp-tag">'+(preview?'연출 검수 · 실제 지급 없음':'용병별 서버 한정')+'</span><button data-lp-close aria-label="계약실 닫기">×</button></div></header>'+
+ dialog.innerHTML='<header class="lp-header"><div><span class="lp-sigil" aria-hidden="true">✦</span><div><small>SOOPKETMON / LIMITED EDITION</small><h1 id="lp-title">리미티드 계약실</h1></div></div><div><span class="lp-tag">'+(preview?'연출 검수 · 실제 지급 없음':'리미티드만 서버 한정')+'</span><button data-lp-close aria-label="계약실 닫기">×</button></div></header>'+
  '<div class="lp-body"><section class="lp-theatre"><div class="lp-stage-heading"><span>THE SEALED CONTRACT</span><b data-lp-counter>LIMITED COLLECTION</b></div><div class="lp-canvas" data-lp-canvas></div><div class="lp-stage-foot"><span class="lp-live-dot"></span><p data-lp-status role="status" aria-live="polite">계약실을 준비하고 있습니다.</p><button data-lp-stop-stage hidden>중지</button><button data-lp-skip hidden>연출 건너뛰기</button></div></section>'+
- '<aside class="lp-controls"><span class="lp-eyebrow">A CONTRACT BEYOND RARITY</span><h2>리미티드<br>용병팩</h2><p class="lp-intro">서버에 정해진 수량만 존재하는<br>특별한 용병과의 계약.</p><div class="lp-availability" data-lp-access>개봉 상태 확인 중</div>'+
+ '<aside class="lp-controls"><span class="lp-eyebrow">A CONTRACT BEYOND RARITY</span><h2>리미티드<br>용병팩</h2><p class="lp-intro">일반 용병 C~SSS와의 계약.<br>극히 희귀한 확률로 SS·SSS 리미티드가 등장합니다.</p><div class="lp-availability" data-lp-access>개봉 상태 확인 중</div>'+
  '<div class="lp-prices"><div><small>1회 개봉</small><b data-lp-price-one>—</b><span>코인</span></div><div><small>10회 개봉</small><b data-lp-price-ten>—</b><span>코인</span></div></div>'+
  '<div class="lp-buy"><button data-lp-buy="1" class="lp-primary" disabled>1회 개봉</button><button data-lp-buy="10" class="lp-primary" disabled>10회 개봉</button></div>'+
  '<section class="lp-auto"><div><h3>자동 계약</h3><span>HALF SKIP</span></div><p>봉인 해제부터 카드 공개까지.<br>매 결과를 확인하며 자동으로 이어집니다.</p><div class="lp-auto-fields"><label>총 개봉 횟수<input data-lp-total type="number" min="1" max="1000" step="1" value="10" inputmode="numeric"></label><label>한 번에<select data-lp-batch><option value="1">1회씩</option><option value="10" selected>10회씩</option></select></label></div><p class="lp-quote" data-lp-quote>최대 1,000회 · 언제든 중지 가능</p><button data-lp-auto disabled>자동 진행 설정</button><button data-lp-stop class="lp-stop" hidden>이 개봉 후 중지</button></section>'+
@@ -63,8 +63,9 @@ export async function mountLimitedPack({api,accountId,getAccountId,storage,previ
    const s=config.stock.find(r=>r.code===c.code),weight=config.policy.cardWeights[c.code];
    return '<article><div class="lp-portrait"><img src="/assets/ui/packs/limited-v1/'+c.code.toLowerCase()+'-640.webp" alt="" loading="lazy"><span>'+esc(c.rank)+'</span></div><b>'+esc(c.name)+'</b><small>'+(weight===0?'추첨 제외':s.limit===null?'수량 설정 전':fmt(s.remaining)+' / '+fmt(s.limit))+'</small></article>';
   }).join('');
-  const rates=[...['SS','SSS'].map(rank=>[rank+' 리미티드',config.policy.rankRatesPpm[rank]]),...config.packSettings.extraRewards.map(r=>[{MASTER_STAR:'마스터의 별',MYSTIC_ENERGY:'미스틱 에너지',NONE:'꽝'}[r.id]+(r.quantity?' '+fmt(r.quantity)+'개':''),r.chancePpm])];
-  $('[data-lp-odds]').innerHTML='<p>'+rates.map(([name,rate])=>esc(name)+' '+(rate===null?'미정':formatDrawPercent(rate)+'%')).join(' · ')+'</p><p>같은 등급에서 잔여 용병의 가중치에 따라 추첨합니다. 등급 전체가 소진되면 개봉을 중지하며, 10회는 전부 확정된 경우에만 결제합니다.</p><p>'+config.cards.map(c=>esc(c.name)+' 가중치 '+config.policy.cardWeights[c.code]).join(' · ')+'</p>';
+  const formatRates=rows=>rows.map(([name,rate])=>esc(name)+' '+(rate==null?'미정':formatDrawPercent(rate)+'%')).join(' · ');
+  const normalRates=LIMITED_NORMAL_RANKS.map(rank=>[rank+' 일반 용병',config.packSettings.normalRankRatesPpm[rank]]),limitedRates=['SS','SSS'].map(rank=>[rank+' 리미티드',config.policy.rankRatesPpm[rank]]),extras=config.packSettings.extraRewards.map(r=>[{MASTER_STAR:'마스터의 별',MYSTIC_ENERGY:'미스틱 에너지',NONE:'꽝'}[r.id]+(r.quantity?' '+fmt(r.quantity)+'개':''),r.chancePpm]);
+  $('[data-lp-odds]').innerHTML='<p><b>일반 용병</b><br>'+formatRates(normalRates)+'</p><p><b>리미티드 별도 확률</b><br>'+formatRates(limitedRates)+'</p><p>'+formatRates(extras)+'</p><p>각 확률은 개봉 1회 기준입니다. 일반 용병은 발행 한도 없이 같은 등급의 획득 대상에서 가중치로 추첨합니다. 리미티드만 발행 한도가 적용되며, 한 등급의 리미티드가 모두 소진되면 개봉을 중지합니다. 10회는 전부 확정된 경우에만 결제합니다.</p><p>일반 용병: '+(config.normalCards||[]).map(c=>esc(c.rank+' '+c.name)+' 가중치 '+c.weight).join(' · ')+'</p><p>리미티드: '+config.cards.map(c=>esc(c.name)+' 가중치 '+config.policy.cardWeights[c.code]).join(' · ')+'</p>';
   quote();sync();
  };
  const load=async()=>{try{const next=await api(LIMITED_PACK.featurePath);if(disposed)return;config=next;renderConfig();say(preview?'검수 모드입니다. 코인 차감·실제 지급이 없습니다.':config.userOpeningEnabled?'개봉할 계약 수를 선택하세요.':'가격·확률·발행 수량 설정을 준비하고 있습니다.');}catch(e){if(!disposed)say(e.message);}};
@@ -87,7 +88,7 @@ export async function mountLimitedPack({api,accountId,getAccountId,storage,previ
    }
    for(const draw of r.draws){
     if(draw.mercenaryCode){const stock=config?.stock?.find(s=>s.code===draw.mercenaryCode);if(stock){stock.issued++;if(stock.remaining!==null)stock.remaining=Math.max(0,stock.remaining-1);}}
-    history.unshift(draw.mercenaryCode?draw.rank+' '+draw.name+' · No. '+String(draw.serial).padStart(6,'0'):(draw.outcomeId==='NONE'?'획득 없음':({MASTER_STAR:'마스터의 별',MYSTIC_ENERGY:'미스틱 에너지'}[draw.outcomeId]+' '+fmt(draw.quantity)+'개')));
+    history.unshift(draw.mercenaryCode?draw.rank+(draw.edition==='LIMITED'||draw.outcomeId?.startsWith('LIMITED_')?' 리미티드':'')+' '+draw.name+(draw.serial?' · No. '+String(draw.serial).padStart(6,'0'):''):(draw.outcomeId==='NONE'?'획득 없음':({MASTER_STAR:'마스터의 별',MYSTIC_ENERGY:'미스틱 에너지'}[draw.outcomeId]+' '+fmt(draw.quantity)+'개')));
    }
    history.splice(30);$('[data-lp-history]').innerHTML=history.map(s=>'<li>'+esc(s)+'</li>').join('');renderConfig();
   }
@@ -141,11 +142,11 @@ export async function mountLimitedPack({api,accountId,getAccountId,storage,previ
  try{
   await script('/js/ui-fx-vendor-v2045.bundle.js?v=2145',()=>Boolean(globalThis.CNineUiFxVendor));
   if(disposed)return dialog;
-  await script('/js/hyper-pack-fx-v2076.bundle.js?v=2146-limited',()=>globalThis.HyperPackFX?.version>=2146);
+  await script('/js/hyper-pack-fx-v2076.bundle.js?v=2147-mixed',()=>globalThis.HyperPackFX?.version>=2147);
   if(disposed)return dialog;
   fx=globalThis.HyperPackFX.create($('[data-lp-canvas]'),event=>{
    if(disposed)return;
-   if(event.state==='revealed'){revealed++;$('[data-lp-counter]').textContent='CONTRACT '+String(revealed).padStart(2,'0')+(total?' / '+String(total).padStart(2,'0'):'');say(event.result.kind==='MERCENARY'?event.result.rank+' '+event.result.name+' · 서버 한정 계약':{MASTER_STAR:'마스터의 별 획득',MYSTIC_ENERGY:'미스틱 에너지 획득',MISS:'획득 없음'}[event.result.kind]);}
+   if(event.state==='revealed'){revealed++;$('[data-lp-counter]').textContent='CONTRACT '+String(revealed).padStart(2,'0')+(total?' / '+String(total).padStart(2,'0'):'');say(event.result.kind==='MERCENARY'?event.result.rank+(event.result.limited?' 리미티드':'')+' '+event.result.name+(event.result.limited?' · 서버 한정 계약':' · 일반 용병 계약'):{MASTER_STAR:'마스터의 별 획득',MYSTIC_ENERGY:'미스틱 에너지 획득',MISS:'획득 없음'}[event.result.kind]);}
    sync();
   },{live:!preview,appearance:'limited',fastReveal:false,reducedMotion:matchMedia('(prefers-reduced-motion: reduce)').matches});
   await fx.init();if(disposed)return dialog;ready=true;sync();
