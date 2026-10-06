@@ -4,7 +4,7 @@
   "technicalAssetKey": "stealth-aero-fighter",
   "userFeedback": "배경없이 그렇게만 넣어? 디자인은 좋네",
   "designStatus": "USER_APPROVED",
-  "backgroundStatus": "PREPARED_FOR_REVIEW",
+  "backgroundStatus": "SELECTED_FOR_CMS_REGISTRATION",
   "displayAsset": "assets/tire/stealth-aero-fighter-scene-v1.png",
   "compositingSource": "assets/tire/stealth-aero-fighter-cutout-v1.png",
   "assets": [
@@ -45,11 +45,20 @@
     "prompts": "assets/tire/stealth-aero-fighter-prompts-v1.json"
   },
   "catalog": {
-    "registered": false,
-    "name": null,
+    "registered": true,
+    "status": "CMS_REGISTERED_DRAFT",
+    "id": 34,
+    "code": "AETHER_ZERO",
+    "name": "에테르 - 제로",
     "rarity": null,
     "power": null,
-    "acquisitionEnabled": false
+    "cmsRarityPlaceholder": "NORMAL",
+    "cmsPowerPlaceholder": 0,
+    "isActive": false,
+    "isPublic": false,
+    "acquisitionEnabled": false,
+    "registrationRecord": "docs/aura-vehicle-cms-20261007.json",
+    "operationKey": "ops:aura-vehicle-cms:20261007:v1"
   },
   "verification": {
     "entireAircraftVisible": true,

@@ -1,7 +1,7 @@
 {
   "version": 2,
   "createdAt": "2026-10-06T14:55:36.272Z",
-  "status": "PREPARED_FOR_REVIEW",
+  "status": "CMS_REGISTERED_DRAFT",
   "userRequest": "이것도 하나 더 만들고 3개 사진 다 기체 주변에 이펙트 추가해",
   "supersedes": "assets/tire/armored-hypercars-manifest-20261006-v1.json",
   "generation": {
@@ -74,10 +74,62 @@
     "originalV1FilesPreserved": true
   },
   "catalog": {
-    "registered": false,
-    "name": null,
+    "registered": true,
+    "status": "CMS_REGISTERED_DRAFT",
+    "items": [
+      {
+        "registered": true,
+        "status": "CMS_REGISTERED_DRAFT",
+        "id": 35,
+        "code": "OBSIDIAN_RAVEN",
+        "name": "옵시디언 - 레이븐",
+        "rarity": null,
+        "power": null,
+        "cmsRarityPlaceholder": "NORMAL",
+        "cmsPowerPlaceholder": 0,
+        "isActive": false,
+        "isPublic": false,
+        "acquisitionEnabled": false,
+        "registrationRecord": "docs/aura-vehicle-cms-20261007.json",
+        "operationKey": "ops:aura-vehicle-cms:20261007:v1"
+      },
+      {
+        "registered": true,
+        "status": "CMS_REGISTERED_DRAFT",
+        "id": 36,
+        "code": "ASTRA_VOLT",
+        "name": "아스트라 - 볼트",
+        "rarity": null,
+        "power": null,
+        "cmsRarityPlaceholder": "NORMAL",
+        "cmsPowerPlaceholder": 0,
+        "isActive": false,
+        "isPublic": false,
+        "acquisitionEnabled": false,
+        "registrationRecord": "docs/aura-vehicle-cms-20261007.json",
+        "operationKey": "ops:aura-vehicle-cms:20261007:v1"
+      },
+      {
+        "registered": true,
+        "status": "CMS_REGISTERED_DRAFT",
+        "id": 37,
+        "code": "HELIOS_R",
+        "name": "헬리오스 - R",
+        "rarity": null,
+        "power": null,
+        "cmsRarityPlaceholder": "NORMAL",
+        "cmsPowerPlaceholder": 0,
+        "isActive": false,
+        "isPublic": false,
+        "acquisitionEnabled": false,
+        "registrationRecord": "docs/aura-vehicle-cms-20261007.json",
+        "operationKey": "ops:aura-vehicle-cms:20261007:v1"
+      }
+    ],
     "rarity": null,
     "power": null,
-    "acquisitionEnabled": false
+    "acquisitionEnabled": false,
+    "registrationRecord": "docs/aura-vehicle-cms-20261007.json",
+    "operationKey": "ops:aura-vehicle-cms:20261007:v1"
   }
 }
