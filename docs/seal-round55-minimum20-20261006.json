@@ -1,0 +1,48 @@
+{
+  "status": "LIVE_VERIFIED",
+  "request": "봉인전 현재 진행회차 20회넘으면 받게 수정해",
+  "clarification": "20회 이상부터 수령 (20회 포함)",
+  "eventId": 55,
+  "eventKey": "seal-1791209642068-252acb2364e2",
+  "observedStatus": "CLEARED",
+  "clearedAtKst": "2026-10-06T10:06:35+09:00",
+  "minimumAttemptsBefore": 30,
+  "minimumAttemptsAfter": 20,
+  "participants": 149,
+  "eligibleParticipants": 19,
+  "exactly20Participants": 6,
+  "application": {
+    "operationKey": "ops:seal:55:min20:20261006:v1",
+    "adminLogId": "41401",
+    "committedAt": "2026-10-06T01:09:11.280Z",
+    "verifiedAt": "2026-10-06T01:09:15.563Z",
+    "script": "scripts/ops/seal-round55-minimum20-20261006.mjs",
+    "scope": "Current round 55 only. Existing clear and contribution-rank claim paths read this round's minimum.",
+    "directGrants": 0,
+    "cmsMinimumAttempts": 20
+  },
+  "validation": {
+    "serverEligibilityBoundaries": {
+      "0": false,
+      "19": false,
+      "20": true,
+      "21": true,
+      "30": true
+    },
+    "productionDryRunRolledBack": true,
+    "eventAndSettingsPreservedAfterRollback": true,
+    "unrelatedRoundFieldsPreserved": true,
+    "cmsSettingsPreserved": true,
+    "participationAndRewardsPreserved": true,
+    "replayReturnedOriginalReceipt": true,
+    "independentConnectionVerified": true,
+    "javascriptSyntax": "passed",
+    "diffCheck": "passed"
+  },
+  "release": {
+    "classification": "Existing per-round configuration adjustment",
+    "runtimeFilesChanged": false,
+    "applicationRedeployed": false,
+    "reason": "The existing production eligibility logic already supports the requested value. Only the round snapshot, operation receipt and audit log were changed. No application deployment is needed."
+  }
+}
