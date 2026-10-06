@@ -102,7 +102,7 @@ test('actual PostgreSQL message claim grants one electric drill once, rolls back
  assert.equal((await claimMessageRewardBatch(env,{id:1},[Number(ownerMessage)],deps))[0].ok,true);
  assert.equal((await claimMessageRewardBatch(env,{id:1},[Number(ownerMessage)],deps))[0].alreadyClaimed,true);
  const stock=(await db.query('SELECT user_id,item_code,quantity,unseen_quantity FROM cnine_user_inventory ORDER BY user_id,item_code')).rows;
- assert.deepEqual(stock.map(r=>[Number(r.user_id),r.item_code,Number(r.quantity),Number(r.unseen_quantity)]),[[1,ITEM_CODE,1,1],[3,ITEM_CODE,8,1],[3,'MASTER_STAR',33,0]]);
+ assert.deepEqual(stock.map(r=>[Number(r.user_id),r.item_code,Number(r.quantity),Number(r.unseen_quantity)]),[[1,ITEM_CODE,1,1],[3,'MASTER_STAR',33,0],[3,ITEM_CODE,8,1]]);
  assert.equal((await db.query('SELECT * FROM inventory_logs')).rows.length,2);
  assert.equal((await db.query('SELECT * FROM user_message_reward_claim_receipts_v1222')).rows.length,2);
  assert.ok((await db.query('SELECT coin,card_shards FROM users')).rows.every(r=>Number(r.coin)===123&&Number(r.card_shards)===456));
