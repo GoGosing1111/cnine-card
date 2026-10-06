@@ -1,0 +1,28 @@
+{
+  "status": "COMPLETED",
+  "authorization": "족다니 계정 ADMIN 으로 승격",
+  "operationKey": "ops:user-role:5849:admin:20261007",
+  "script": "scripts/ops/jokdani-admin-20261007.mjs",
+  "userId": 5849,
+  "nickname": "족다니",
+  "beforeRole": "USER",
+  "afterRole": "ADMIN",
+  "accountStatus": "ACTIVE",
+  "adminLogId": 42001,
+  "completedAt": "2026-10-06T15:42:28.160Z",
+  "verifiedAt": "2026-10-06T15:42:36.570Z",
+  "verification": {
+    "exactNicknameAndIdMatched": true,
+    "singleAccountUpdated": true,
+    "roleAuditAndReceiptSavedAtomically": true,
+    "independentReadConfirmedAdmin": true,
+    "accountStatusPreserved": true,
+    "reapplicationNeverOverwritesLaterRoleChanges": true
+  },
+  "release": {
+    "runtimeCodeChanged": false,
+    "productionDataApplied": true,
+    "gameRedeploymentRequired": false,
+    "checks": ["operation script syntax", "exact target and previous role", "stored role, audit and receipt"]
+  }
+}
