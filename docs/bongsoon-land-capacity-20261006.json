@@ -1,0 +1,103 @@
+{
+  "request": "나무늘봉순 보유 숲켓랜드 이용권 전체 및 방금 발급된 쿠폰 2개를 200명으로 변경",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:bongsoon-land-capacity:5426:20261006:v1",
+    "userId": 5426,
+    "nickname": "나무늘봉순",
+    "couponUses": 200,
+    "heldTickets": 53,
+    "convertedTickets": 48,
+    "changedLotCount": 1,
+    "coupons": [
+      {
+        "requestId": "3c20180f-fb15-482e-96d6-dc7800fab8f4",
+        "codeTail": "94983395",
+        "reward": {
+          "key": "STARLIGHT_ARMOR_CORE",
+          "label": "미스틱 에너지",
+          "range": "1 ~ 1,000개",
+          "min": 1,
+          "max": 1000,
+          "unit": 1,
+          "symbol": "M",
+          "color": 12953087,
+          "amount": 927,
+          "jackpot": false
+        },
+        "maxUses": 200,
+        "usedCount": 1,
+        "remainingUses": 199
+      },
+      {
+        "requestId": "ac8aef83-033e-446d-9f2c-b2364ac1be14",
+        "codeTail": "8948EABC",
+        "reward": {
+          "key": "COIN",
+          "label": "코인",
+          "range": "1억 ~ 500억",
+          "min": 1,
+          "max": 500,
+          "unit": 100000000,
+          "symbol": "C",
+          "color": 16766071,
+          "amount": 46200000000,
+          "jackpot": false
+        },
+        "maxUses": 200,
+        "usedCount": 1,
+        "remainingUses": 199
+      }
+    ],
+    "quantityAndRedemptionsPreserved": true,
+    "archiveKey": "ops:bongsoon-land-capacity:5426:20261006:v1:before",
+    "completedAt": "2026-10-06T10:22:33.548Z",
+    "adminLogId": "41799"
+  },
+  "verification": {
+    "at": "2026-10-06T10:23:23.576Z",
+    "readOnlyConnection": true,
+    "inventory": {
+      "quantity": "53",
+      "unseen_quantity": "5"
+    },
+    "lots": [
+      {
+        "id": "63463da0-fb0b-45dc-bf89-d05603cc70bb",
+        "remaining": 48,
+        "coupon_uses": 200
+      },
+      {
+        "id": "181baf2f-2f96-4ece-902c-dbf31fba5484",
+        "remaining": 5,
+        "coupon_uses": 200
+      }
+    ],
+    "coupons": [
+      {
+        "request_id": "3c20180f-fb15-482e-96d6-dc7800fab8f4",
+        "max_uses": 200,
+        "used_count": 1,
+        "is_active": 1,
+        "displayed_capacity": "200",
+        "redemption_count": "1"
+      },
+      {
+        "request_id": "ac8aef83-033e-446d-9f2c-b2364ac1be14",
+        "max_uses": 200,
+        "used_count": 2,
+        "is_active": 1,
+        "displayed_capacity": "200",
+        "redemption_count": "2"
+      }
+    ],
+    "passed": true
+  },
+  "checks": {
+    "targetedTests": 2,
+    "dryRun": "passed",
+    "atomicityAndRetry": "passed"
+  },
+  "runtimeChanged": false,
+  "productionCodeDeploymentRequired": false
+}
