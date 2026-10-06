@@ -2656,10 +2656,140 @@
     {
       "path": "C:\\Users\\User\\.codex\\tmp\\icon-cadence-20261006\\browser-entry\\browser-report.json",
       "sha256": "bffaea4b33506aade65563b34a71b14653691f176cbdd9ba8f4c12b158c8fed3"
+    },
+    {
+      "path": "C:/Users/User/.codex/tmp/icon-cadence-20261006/deploy-scoped.log",
+      "sha256": "8695dd6334a6d332e6fb1322f7b939b30c77c1e67877a858cbc2724487f8dc58"
+    },
+    {
+      "path": "C:/Users/User/.codex/tmp/icon-cadence-20261006/production-assets.json",
+      "sha256": "d65b1847ebbfa6443a4ba27c3a8cba54cbf671eec48aada935ef92cc1f0bea7d"
+    },
+    {
+      "path": "C:/Users/User/.codex/tmp/icon-cadence-20261006/production-main/report.json",
+      "sha256": "c6e1c84b3733d88b9453ee4f0ccaa1a00ebfa0f18f7e2ecc3ee450accc449541"
+    },
+    {
+      "path": "C:/Users/User/.codex/tmp/icon-cadence-20261006/production-main.mjs",
+      "sha256": "7918b5a94d1e19d8867111d041ab4f2a04db440e477277802c90c62d6065e069"
     }
   ],
   "notice": "docs/notice-icon-action-cadence-20261006.txt",
-  "deployment": null,
+  "deployment": {
+    "completedAt": "2026-10-06T12:53:24.523Z",
+    "commit": "dd322fe1b04eb4a1010be21472e31f7f8f4b3501",
+    "pagesUrl": "https://5f688795.cnine-card.pages.dev",
+    "apiRuntimeVersion": "7e3deb48-75a2-4504-928e-8cdcbe6a5e99",
+    "clanWorkerVersion": "f1beedf4-4473-4420-bb89-8be99721c382",
+    "command": "npm run deploy:production -- --scoped",
+    "exitCode": 0,
+    "regressions": {
+      "passed": 107,
+      "failed": 0
+    },
+    "workerSyntax": true,
+    "productionReleaseGuard": true,
+    "hyperdriveCacheDisabled": true,
+    "staticAssets": {
+      "checkedAt": "2026-10-06T12:52:07.662Z",
+      "origin": "https://cnine-card.pages.dev",
+      "assets": [
+        {
+          "path": "index.html",
+          "status": 200,
+          "sha256Lf": "ec9bd3b1906d6c41070e7d0a032779324cd2b28f1ef5cdbce5d8037b942f4cb0"
+        },
+        {
+          "path": "js/app.js",
+          "status": 200,
+          "sha256Lf": "baa8bf4d1d990a0fd536e8aa3568ddd2a5774173ef851f471024eb6d044d84ae"
+        },
+        {
+          "path": "js/battle-v3-live.js",
+          "status": 200,
+          "sha256Lf": "b85165cd317e4781f23385b7e499209b473902a9048521b37fe1bf52596b924b"
+        },
+        {
+          "path": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+          "status": 200,
+          "sha256Lf": "08fed9075c005b31a8aaf1f358ba8c328e4aefc1ed132e9cfc161c94c301642c"
+        },
+        {
+          "path": "service-worker.js",
+          "status": 200,
+          "sha256Lf": "8af47ed54edaec793a212e454c417da446f08ba114917eac1ea72fbc6ed77cc5"
+        }
+      ],
+      "roleApi": {
+        "status": 200,
+        "keys": [
+          "revision",
+          "document",
+          "catalog",
+          "version",
+          "balance"
+        ]
+      }
+    },
+    "publicRoles": {
+      "revision": 2,
+      "documentUnchanged": true,
+      "allSevenActive": true
+    },
+    "productionBrowser": {
+      "checkedAt": "2026-10-06T12:52:27.530Z",
+      "reports": [
+        {
+          "width": 1440,
+          "mode": "PVP",
+          "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1",
+          "actualProductionFiles": true,
+          "allApiRequestsMockedLocally": true,
+          "actualStartButton": true,
+          "resultAndReturn": true,
+          "metrics": {
+            "skills": 3,
+            "basics": 12,
+            "serverRows": 17,
+            "appliedRows": 17,
+            "roles": [
+              "ATTACK"
+            ]
+          },
+          "posts": [
+            "pvp/match",
+            "pvp/fight"
+          ],
+          "errors": []
+        },
+        {
+          "width": 390,
+          "mode": "PVE",
+          "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1",
+          "actualProductionFiles": true,
+          "allApiRequestsMockedLocally": true,
+          "actualStartButton": true,
+          "resultAndReturn": true,
+          "metrics": {
+            "skills": 3,
+            "basics": 9,
+            "serverRows": 16,
+            "appliedRows": 16,
+            "roles": [
+              "ASSASSIN",
+              "ATTACK"
+            ]
+          },
+          "posts": [
+            "battle/fight"
+          ],
+          "errors": []
+        }
+      ]
+    },
+    "accountAndEconomyWrites": 0,
+    "noticePublished": false
+  },
   "releasePlan": {
     "mode": "scoped",
     "base": "c79c9ea550a5733374b2250373125953174920e3",
