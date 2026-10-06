@@ -1,0 +1,87 @@
+{
+  "status": "READY_TO_APPLY",
+  "authorization": "음순이 계정에 봉순 오리꿍 아윤 아이콘도 지급해",
+  "interpretation": "각각 1장 신규 추가 지급. 나무늘봉순은 앞선 1장 지급에 더해 추가 1장.",
+  "operationScript": "scripts/ops/eumsuni-icon-bongsoon-orikkung-ayoon-20261006.mjs",
+  "operationScriptSha256": "b75c52d2e0abe9266700e85226acf26d80e4fd5310a0c75ac489bb96e165c2a4",
+  "lookup": {
+    "user": {
+      "id": 65,
+      "nickname": "음순이",
+      "status": "ACTIVE"
+    },
+    "cards": [
+      {
+        "id": "CN-1C000003",
+        "title": "나무늘봉순",
+        "grade": "ICON",
+        "is_active": "1",
+        "card_status": "PUBLIC",
+        "member_name": "나무늘봉순",
+        "member_active": "1"
+      },
+      {
+        "id": "CN-1C000005",
+        "title": "오리꿍",
+        "grade": "ICON",
+        "is_active": "1",
+        "card_status": "PUBLIC",
+        "member_name": "오리꿍",
+        "member_active": "1"
+      },
+      {
+        "id": "CN-1C000007",
+        "title": "아윤",
+        "grade": "ICON",
+        "is_active": "1",
+        "card_status": "PUBLIC",
+        "member_name": "아윤",
+        "member_active": "1"
+      }
+    ],
+    "quantities": [
+      {
+        "cardId": "CN-1C000003",
+        "title": "나무늘봉순",
+        "quantity": 1
+      },
+      {
+        "cardId": "CN-1C000005",
+        "title": "오리꿍",
+        "quantity": 0
+      },
+      {
+        "cardId": "CN-1C000007",
+        "title": "아윤",
+        "quantity": 0
+      }
+    ],
+    "receipt": null,
+    "sourceHash": "b75c52d2e0abe9266700e85226acf26d80e4fd5310a0c75ac489bb96e165c2a4"
+  },
+  "validation": {
+    "syntax": "PASS",
+    "dryRun": "DRY_RUN_ROLLED_BACK",
+    "failurePoints": [
+      "second card insert",
+      "admin audit insert",
+      "idempotency receipt insert"
+    ],
+    "partialFailureRolledBack": true,
+    "replayVerified": true,
+    "rollbackVerified": true,
+    "balancesPreserved": true,
+    "otherCardsPreserved": true
+  },
+  "execution": {
+    "userLock": "user:65",
+    "atomicWrites": [
+      "three user_cards quantities +1 each",
+      "admin_logs",
+      "app_meta receipt"
+    ],
+    "siteDeployment": "NOT_REQUIRED_OPS_ONLY",
+    "notificationSent": false
+  },
+  "artifacts": "C:/Users/User/.codex/tmp/eumsuni-icon-bongsoon-orikkung-ayoon-20261006"
+}
