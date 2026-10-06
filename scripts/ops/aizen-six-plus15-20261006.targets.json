@@ -1,0 +1,14 @@
+{
+  "checkedAt": "2026-10-06T10:34:45.919Z",
+  "authorization": "사용자 '음주, 게임닉네임, 치타구, 세라네꼬라지, 타몽, 숭구릭 똑같이 업그레이드' 지시에 따라 6명의 기존 아이젠 족스케 카드를 +15강으로 업그레이드. 카드 수량·코인·마별은 보존하며 이미 +15강인 경우 유지.",
+  "requested": ["음주", "게임닉네임", "치타구", "세라네꼬라지", "타몽", "숭구릭"],
+  "targets": [
+    {"id": 62, "nickname": "숭구릭", "inputNickname": "숭구릭", "observedLevel": 14},
+    {"id": 493, "nickname": "치타구", "inputNickname": "치타구", "observedLevel": 13},
+    {"id": 4084, "nickname": "게임닉네임", "inputNickname": "게임닉네임", "observedLevel": 14},
+    {"id": 4651, "nickname": "세라네꼬라지", "inputNickname": "세라네꼬라지", "observedLevel": 13},
+    {"id": 4817, "nickname": "음주", "inputNickname": "음주", "observedLevel": 14},
+    {"id": 5148, "nickname": "타몽", "inputNickname": "타몽", "observedLevel": 14}
+  ],
+  "excluded": []
+}
