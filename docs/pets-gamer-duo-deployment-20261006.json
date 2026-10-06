@@ -1,0 +1,147 @@
+{
+  "date": "2026-10-06",
+  "userRequest": "두 게이머 펫 승인·운영 등록, 등록된 펫 버프 한 개씩 10%, CMS 단순화",
+  "release": {
+    "id": "d6f30f88-3acd-4d57-a19c-3391827cc40a",
+    "url": "https://d6f30f88.cnine-card.pages.dev",
+    "createdOn": "2026-10-06T09:40:31.379081Z",
+    "commit": "614bd38d52fa12f0de429447e7707565eb20b7cf",
+    "status": "success",
+    "environment": "production",
+    "mode": "scoped",
+    "base": "d08eadd1691163fdf54ec2b1ddfb903391eb79ae",
+    "command": "npm run deploy:production -- --scoped",
+    "apiRuntimeVersion": "f934ed51-a71e-477f-b482-c9addffc3af3",
+    "clanDraftVersion": "76030d1d-3332-4507-b3a0-6f0f824cd371"
+  },
+  "validation": {
+    "tests": [
+      "tests/pet-equipment-20261002.test.mjs",
+      "tests/companion-preparation-20261002.test.mjs"
+    ],
+    "passed": 20,
+    "failed": 0,
+    "checks": [
+      "check:worker",
+      "production release flags/cache checks",
+      "Hyperdrive cache disabled"
+    ],
+    "assets": [
+      {
+        "code": "PET-HEADSET-SHIBA",
+        "status": 200,
+        "sha256": "98810DE99B1D2C9D33D96937555442F870D050ABD130375F76645ACD06572445",
+        "bytes": 1463080
+      },
+      {
+        "code": "PET-BEANIE-CAT",
+        "status": 200,
+        "sha256": "173C92958DA275AF6B6A600EE4D576512A91F2FF0D8DCF721DC8757E17A3D9EC",
+        "bytes": 1599821
+      }
+    ],
+    "ui": [
+      "local real API fixture desktop/mobile",
+      "production admin selection/save/reload",
+      "production mobile component no horizontal overflow"
+    ],
+    "backupReadback": "Production exported document exactly matches local verified document",
+    "screenshot": "C:/Users/User/.codex/tmp/pets-gamer-duo-20261006/cms-live-final.jpg"
+  },
+  "cms": {
+    "previousRevision": 3,
+    "savedRevision": 4,
+    "registeredPets": 7,
+    "preservedUnfinishedDrafts": 1,
+    "pets": [
+      {
+        "code": "PET-GUSUDAENG",
+        "name": "토끼 구수댕",
+        "buffs": [
+          {
+            "type": "MAX_HP_PERCENT",
+            "percent": 10
+          }
+        ]
+      },
+      {
+        "code": "PET-BONGSOON",
+        "name": "봉순",
+        "buffs": [
+          {
+            "type": "SPEED_PERCENT",
+            "percent": 10
+          }
+        ]
+      },
+      {
+        "code": "PET-JOEUN",
+        "name": "조은",
+        "buffs": [
+          {
+            "type": "ATTACK_PERCENT",
+            "percent": 10
+          }
+        ]
+      },
+      {
+        "code": "PET-HEEYA",
+        "name": "희야",
+        "buffs": [
+          {
+            "type": "START_SHIELD_PERCENT",
+            "percent": 10
+          }
+        ]
+      },
+      {
+        "code": "PET-DIIM",
+        "name": "디임",
+        "buffs": [
+          {
+            "type": "DEFENSE_PERCENT",
+            "percent": 10
+          }
+        ]
+      },
+      {
+        "code": "PET-001",
+        "name": "새 펫",
+        "buffs": [
+          {
+            "type": "ATTACK_PERCENT",
+            "percent": 10
+          }
+        ]
+      },
+      {
+        "code": "PET-HEADSET-SHIBA",
+        "name": "헤드셋 시바견",
+        "buffs": [
+          {
+            "type": "ATTACK_PERCENT",
+            "percent": 10
+          }
+        ]
+      },
+      {
+        "code": "PET-BEANIE-CAT",
+        "name": "비니 헤드셋 고양이",
+        "buffs": [
+          {
+            "type": "DEFENSE_PERCENT",
+            "percent": 10
+          }
+        ]
+      }
+    ],
+    "unchanged": {
+      "visibility": "CMS_ONLY",
+      "battleEnabled": false,
+      "acquisitionEnabled": false,
+      "existingNonBuffFields": true,
+      "openingPoolAndWeights": true,
+      "accountOwnership": true
+    }
+  }
+}
