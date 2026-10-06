@@ -1,0 +1,545 @@
+{
+  "operationKey": "ops:aizen-extra-plus15:20261006:v1",
+  "status": "COMPLETED_AND_VERIFIED",
+  "authorization": "사용자 추가 명단 31명(씨나인택갓부터 딤럼프까지)의 아이젠 족스케 +15강 업그레이드. 딤키우기 뒤의 43시간 문구는 요청 메모.",
+  "card": {
+    "id": "CN-47AD4B47B6A7452C",
+    "title": "아이젠 족스케",
+    "grade": "FUR"
+  },
+  "completedAt": "2026-10-06T06:35:25.713Z",
+  "verifiedAt": "2026-10-06T06:35:29.285Z",
+  "sourceCommit": "d7fefaa87e0c6d6a5decdecafab97c7c3d09844f",
+  "sourceHash": "7596044ec82b31ebb6211dfb50532df8565cd419056242d4dccfb20c5ebaea4b",
+  "scope": "One-time production data upgrade only; no game runtime or release flag changes.",
+  "accounts": 31,
+  "changed": 31,
+  "already15": 0,
+  "recipients": [
+    {
+      "userId": 3,
+      "nickname": "ε연두з",
+      "inputNickname": "ε연두з",
+      "levelBefore": 14,
+      "levelAfter": 15,
+      "quantityBefore": 61,
+      "quantityAfter": 61,
+      "changed": true,
+      "adminLogId": "41595"
+    },
+    {
+      "userId": 13,
+      "nickname": "불법사행산업신고센터",
+      "inputNickname": "불법사행산업신고센터",
+      "levelBefore": 13,
+      "levelAfter": 15,
+      "quantityBefore": 10,
+      "quantityAfter": 10,
+      "changed": true,
+      "adminLogId": "41596"
+    },
+    {
+      "userId": 32,
+      "nickname": "쑤댕",
+      "inputNickname": "쑤댕",
+      "levelBefore": 14,
+      "levelAfter": 15,
+      "quantityBefore": 3,
+      "quantityAfter": 3,
+      "changed": true,
+      "adminLogId": "41597"
+    },
+    {
+      "userId": 87,
+      "nickname": "설윤이",
+      "inputNickname": "설윤이",
+      "levelBefore": 14,
+      "levelAfter": 15,
+      "quantityBefore": 7,
+      "quantityAfter": 7,
+      "changed": true,
+      "adminLogId": "41598"
+    },
+    {
+      "userId": 164,
+      "nickname": "박사",
+      "inputNickname": "박사",
+      "levelBefore": 14,
+      "levelAfter": 15,
+      "quantityBefore": 16,
+      "quantityAfter": 16,
+      "changed": true,
+      "adminLogId": "41599"
+    },
+    {
+      "userId": 197,
+      "nickname": "무버지",
+      "inputNickname": "족버지",
+      "levelBefore": 13,
+      "levelAfter": 15,
+      "quantityBefore": 11,
+      "quantityAfter": 11,
+      "changed": true,
+      "adminLogId": "41600"
+    },
+    {
+      "userId": 216,
+      "nickname": "x수댕",
+      "inputNickname": "x수댕",
+      "levelBefore": 14,
+      "levelAfter": 15,
+      "quantityBefore": 754,
+      "quantityAfter": 754,
+      "changed": true,
+      "adminLogId": "41601"
+    },
+    {
+      "userId": 220,
+      "nickname": "족알못",
+      "inputNickname": "족알못",
+      "levelBefore": 13,
+      "levelAfter": 15,
+      "quantityBefore": 42,
+      "quantityAfter": 42,
+      "changed": true,
+      "adminLogId": "41602"
+    },
+    {
+      "userId": 261,
+      "nickname": "둘리소다",
+      "inputNickname": "둘리소다",
+      "levelBefore": 13,
+      "levelAfter": 15,
+      "quantityBefore": 1,
+      "quantityAfter": 1,
+      "changed": true,
+      "adminLogId": "41603"
+    },
+    {
+      "userId": 303,
+      "nickname": "[C9]족쪽이",
+      "inputNickname": "[C9]족쪽이",
+      "levelBefore": 14,
+      "levelAfter": 15,
+      "quantityBefore": 175,
+      "quantityAfter": 175,
+      "changed": true,
+      "adminLogId": "41604"
+    },
+    {
+      "userId": 490,
+      "nickname": "경화수월팬",
+      "inputNickname": "경화수월팬",
+      "levelBefore": 13,
+      "levelAfter": 15,
+      "quantityBefore": 10,
+      "quantityAfter": 10,
+      "changed": true,
+      "adminLogId": "41605"
+    },
+    {
+      "userId": 750,
+      "nickname": "라페스타다",
+      "inputNickname": "라페스타다",
+      "levelBefore": 14,
+      "levelAfter": 15,
+      "quantityBefore": 20,
+      "quantityAfter": 20,
+      "changed": true,
+      "adminLogId": "41606"
+    },
+    {
+      "userId": 792,
+      "nickname": "센텀신사",
+      "inputNickname": "센텀신사",
+      "levelBefore": 14,
+      "levelAfter": 15,
+      "quantityBefore": 28,
+      "quantityAfter": 28,
+      "changed": true,
+      "adminLogId": "41607"
+    },
+    {
+      "userId": 1195,
+      "nickname": "씨나인택갓",
+      "inputNickname": "씨나인택갓",
+      "levelBefore": 14,
+      "levelAfter": 15,
+      "quantityBefore": 21,
+      "quantityAfter": 21,
+      "changed": true,
+      "adminLogId": "41608"
+    },
+    {
+      "userId": 1255,
+      "nickname": "전게씹선미아웃",
+      "inputNickname": "전게씹선미아웃",
+      "levelBefore": 14,
+      "levelAfter": 15,
+      "quantityBefore": 60,
+      "quantityAfter": 60,
+      "changed": true,
+      "adminLogId": "41609"
+    },
+    {
+      "userId": 1421,
+      "nickname": "다시생각",
+      "inputNickname": "다시생각",
+      "levelBefore": 13,
+      "levelAfter": 15,
+      "quantityBefore": 6,
+      "quantityAfter": 6,
+      "changed": true,
+      "adminLogId": "41610"
+    },
+    {
+      "userId": 3011,
+      "nickname": "오일바른가지",
+      "inputNickname": "오일바른가지",
+      "levelBefore": 14,
+      "levelAfter": 15,
+      "quantityBefore": 10,
+      "quantityAfter": 10,
+      "changed": true,
+      "adminLogId": "41611"
+    },
+    {
+      "userId": 4199,
+      "nickname": "택신",
+      "inputNickname": "택신",
+      "levelBefore": 13,
+      "levelAfter": 15,
+      "quantityBefore": 34,
+      "quantityAfter": 34,
+      "changed": true,
+      "adminLogId": "41612"
+    },
+    {
+      "userId": 4209,
+      "nickname": "#유나랜드",
+      "inputNickname": "#유나랜드",
+      "levelBefore": 14,
+      "levelAfter": 15,
+      "quantityBefore": 48,
+      "quantityAfter": 48,
+      "changed": true,
+      "adminLogId": "41613"
+    },
+    {
+      "userId": 4504,
+      "nickname": "깜찍소녀",
+      "inputNickname": "깜찍소녀",
+      "levelBefore": 14,
+      "levelAfter": 15,
+      "quantityBefore": 12,
+      "quantityAfter": 12,
+      "changed": true,
+      "adminLogId": "41614"
+    },
+    {
+      "userId": 4581,
+      "nickname": "나도한번",
+      "inputNickname": "나도한번",
+      "levelBefore": 14,
+      "levelAfter": 15,
+      "quantityBefore": 61,
+      "quantityAfter": 61,
+      "changed": true,
+      "adminLogId": "41615"
+    },
+    {
+      "userId": 4627,
+      "nickname": "학벌",
+      "inputNickname": "학벌",
+      "levelBefore": 14,
+      "levelAfter": 15,
+      "quantityBefore": 93,
+      "quantityAfter": 93,
+      "changed": true,
+      "adminLogId": "41616"
+    },
+    {
+      "userId": 4668,
+      "nickname": "화성가뿌자",
+      "inputNickname": "화성가뿌자",
+      "levelBefore": 13,
+      "levelAfter": 15,
+      "quantityBefore": 61,
+      "quantityAfter": 61,
+      "changed": true,
+      "adminLogId": "41617"
+    },
+    {
+      "userId": 4693,
+      "nickname": "시소둥이",
+      "inputNickname": "시소둥이",
+      "levelBefore": 14,
+      "levelAfter": 15,
+      "quantityBefore": 15,
+      "quantityAfter": 15,
+      "changed": true,
+      "adminLogId": "41618"
+    },
+    {
+      "userId": 4757,
+      "nickname": "음주플레이어",
+      "inputNickname": "음주플레이어",
+      "levelBefore": 14,
+      "levelAfter": 15,
+      "quantityBefore": 157,
+      "quantityAfter": 157,
+      "changed": true,
+      "adminLogId": "41619"
+    },
+    {
+      "userId": 4772,
+      "nickname": "펜타",
+      "inputNickname": "펜타",
+      "levelBefore": 13,
+      "levelAfter": 15,
+      "quantityBefore": 307,
+      "quantityAfter": 307,
+      "changed": true,
+      "adminLogId": "41620"
+    },
+    {
+      "userId": 4774,
+      "nickname": "딤럼프",
+      "inputNickname": "딤럼프",
+      "levelBefore": 14,
+      "levelAfter": 15,
+      "quantityBefore": 88,
+      "quantityAfter": 88,
+      "changed": true,
+      "adminLogId": "41621"
+    },
+    {
+      "userId": 4836,
+      "nickname": "딤키우기",
+      "inputNickname": "딤키우기",
+      "levelBefore": 14,
+      "levelAfter": 15,
+      "quantityBefore": 5,
+      "quantityAfter": 5,
+      "changed": true,
+      "adminLogId": "41622"
+    },
+    {
+      "userId": 4908,
+      "nickname": "굳건창수",
+      "inputNickname": "굳건창수",
+      "levelBefore": 13,
+      "levelAfter": 15,
+      "quantityBefore": 20,
+      "quantityAfter": 20,
+      "changed": true,
+      "adminLogId": "41623"
+    },
+    {
+      "userId": 4910,
+      "nickname": "스루형2↑",
+      "inputNickname": "스루형2↑",
+      "levelBefore": 14,
+      "levelAfter": 15,
+      "quantityBefore": 2,
+      "quantityAfter": 2,
+      "changed": true,
+      "adminLogId": "41624"
+    },
+    {
+      "userId": 4954,
+      "nickname": "시로",
+      "inputNickname": "시로",
+      "levelBefore": 13,
+      "levelAfter": 15,
+      "quantityBefore": 78,
+      "quantityAfter": 78,
+      "changed": true,
+      "adminLogId": "41625"
+    }
+  ],
+  "excluded": [],
+  "aliasEvidence": {
+    "족버지": "scripts/ops/saengbyuwang-recipients-20260930.json: userId 197 / 무버지; 이번 운영 조회에서 동일 계정과 보유 확인"
+  },
+  "preservation": {
+    "balances": true,
+    "otherCards": true,
+    "noNewCopies": true,
+    "excludedAccounts": true
+  },
+  "verification": {
+    "current": [
+      {
+        "userId": 3,
+        "level": 15,
+        "quantity": 61
+      },
+      {
+        "userId": 13,
+        "level": 15,
+        "quantity": 10
+      },
+      {
+        "userId": 32,
+        "level": 15,
+        "quantity": 3
+      },
+      {
+        "userId": 87,
+        "level": 15,
+        "quantity": 7
+      },
+      {
+        "userId": 164,
+        "level": 15,
+        "quantity": 16
+      },
+      {
+        "userId": 197,
+        "level": 15,
+        "quantity": 11
+      },
+      {
+        "userId": 216,
+        "level": 15,
+        "quantity": 754
+      },
+      {
+        "userId": 220,
+        "level": 15,
+        "quantity": 42
+      },
+      {
+        "userId": 261,
+        "level": 15,
+        "quantity": 1
+      },
+      {
+        "userId": 303,
+        "level": 15,
+        "quantity": 175
+      },
+      {
+        "userId": 490,
+        "level": 15,
+        "quantity": 10
+      },
+      {
+        "userId": 750,
+        "level": 15,
+        "quantity": 20
+      },
+      {
+        "userId": 792,
+        "level": 15,
+        "quantity": 28
+      },
+      {
+        "userId": 1195,
+        "level": 15,
+        "quantity": 21
+      },
+      {
+        "userId": 1255,
+        "level": 15,
+        "quantity": 60
+      },
+      {
+        "userId": 1421,
+        "level": 15,
+        "quantity": 6
+      },
+      {
+        "userId": 3011,
+        "level": 15,
+        "quantity": 10
+      },
+      {
+        "userId": 4199,
+        "level": 15,
+        "quantity": 34
+      },
+      {
+        "userId": 4209,
+        "level": 15,
+        "quantity": 48
+      },
+      {
+        "userId": 4504,
+        "level": 15,
+        "quantity": 12
+      },
+      {
+        "userId": 4581,
+        "level": 15,
+        "quantity": 61
+      },
+      {
+        "userId": 4627,
+        "level": 15,
+        "quantity": 93
+      },
+      {
+        "userId": 4668,
+        "level": 15,
+        "quantity": 61
+      },
+      {
+        "userId": 4693,
+        "level": 15,
+        "quantity": 15
+      },
+      {
+        "userId": 4757,
+        "level": 15,
+        "quantity": 157
+      },
+      {
+        "userId": 4772,
+        "level": 15,
+        "quantity": 307
+      },
+      {
+        "userId": 4774,
+        "level": 15,
+        "quantity": 88
+      },
+      {
+        "userId": 4836,
+        "level": 15,
+        "quantity": 5
+      },
+      {
+        "userId": 4908,
+        "level": 15,
+        "quantity": 20
+      },
+      {
+        "userId": 4910,
+        "level": 15,
+        "quantity": 2
+      },
+      {
+        "userId": 4954,
+        "level": 15,
+        "quantity": 78
+      }
+    ],
+    "receiptAnd31AuditsVerified": true,
+    "focusedTests": {
+      "command": "node --test tests/aizen-extra-plus15-20261006.test.mjs",
+      "passed": 3,
+      "failed": 0
+    },
+    "dryRun": {
+      "checkedAt": "2026-10-06T06:33:43.502Z",
+      "partialFailureRolledBack": true,
+      "replayVerified": true,
+      "rollbackVerified": true,
+      "excludedPreserved": true
+    },
+    "concurrency": "All 31 USER_LOCKs acquired in ID order; current holding and wallet rows locked before the comparison snapshot; one PostgreSQL READ COMMITTED transaction contains upgrade, per-account audits and completion receipt. Ledger and other-card equality checked before commit.",
+    "temporaryHelperStopped": true
+  }
+}
