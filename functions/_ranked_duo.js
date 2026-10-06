@@ -1,3 +1,4 @@
+import {loadPetBattleSnapshot} from './_pet_account.js';
 import {DUO_DEFAULTS,DUO_LIMITS,DUO_VERSION,DUO_ADDITIONAL_RECRUIT_HOURS,duoError,duoEnergy,validateDuoConfig,pairDuoParticipants} from '../shared/ranked-duo-v1.mjs';
 import {DUO_CURRENT_KEY,prepareDuoSchema} from './_ranked_duo_schema.js';
 import {loadDuoProfiles} from './_ranked_duo_profiles.js';
@@ -251,6 +252,8 @@ async function fight(env,user,s,body,deps,now){
  const [a,b]=await Promise.all([team(env,ticket.team_id),team(env,ticket.opponent_id)]);if(!a||!b||a.id===b.id)throw duoError('TEAM','참가 팀을 확인하세요.');
  const profiles=await loadDuoProfiles(env,[a.user_a,a.user_b,b.user_a,b.user_b],s.config,deps,{now});
  if(profiles.some((profile,i)=>!(i<2?profile.attackReady:profile.defenseReady)))throw duoError('DECK','출전 덱이 변경됐습니다. 편성을 확인하세요.');
+ const pets=await Promise.all(profiles.map(p=>loadPetBattleSnapshot(env,p.userId,'PVP')));
+ profiles.forEach((p,i)=>{p.attack={...p.attack,pet:pets[i]};p.defense={...p.defense,pet:pets[i]};});
  const seed=crypto.getRandomValues(new Uint32Array(1))[0],input={version:DUO_VERSION,score:s.config.score,rewards:s.config.rewards||null,battle:{seed,singleHealerBonus:profiles[0].singleHealerBonus,attackerSquads:profiles.slice(0,2).map(p=>p.attack),defenderSquads:profiles.slice(2).map(p=>p.defense)}},id=crypto.randomUUID(),lease=crypto.randomUUID(),energy=duoEnergy(mine,s.config,now);
  if(energy.current<energy.cost)throw duoError('ENERGY','듀오 행동력이 부족합니다.');
  const ids=profiles.map(p=>p.userId).sort((a,b)=>a-b),inputJson=JSON.stringify(input),conds=profiles.map(()=>'(user_id=? AND source_version=?)').join(' OR '),args=profiles.flatMap(p=>[p.userId,p.sourceVersion]);

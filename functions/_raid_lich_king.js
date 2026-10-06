@@ -1,6 +1,8 @@
 // Authoritative encounter shared by the isolated review and the live room adapter.
 // All deadlines, HP, resources, role checks and outcomes belong to the authority.
 import { buildFighter, buildMonsterFighter, buildPvePlayerTeam, simulateBattleV2Preview } from './_battle_v2_preview.js';
+import {applyPetOpeningBuff} from '../shared/companion-opening-v1.mjs';
+import {applyMercenaryCombatLink} from '../shared/mercenary-combat-link-v2103.mjs';
 import {openCoopRound,tickCoopRoom,actCoopRoom,coopControls,reconcileCoopDuties} from './_raid_lich_coop.js';
 
 export const LICH_RELEASE = Object.freeze({ mode:'OFF', rewardLocked:true, scope:'LOCAL_REVIEW_ONLY' });
@@ -96,7 +98,7 @@ export function setLichLoadout(room,memberId,deck,accountNickname) {
   if(team.mercenaryFighter)fighters.push(owned(team.mercenaryFighter));
   const supports=team.battleSuitFighter?[{...owned(team.battleSuitFighter),authoritative:true,damageAuthority:'SERVER_TIMELINE'}]:[];
   room.loadouts||={};
-  room.loadouts[memberId]=clone({cards,fighters,supports,characterBonus:bonus,accountNickname});
+  room.loadouts[memberId]=clone({cards,fighters,supports,pet:deck.pet||null,characterBonus:bonus,accountNickname});
   room.fighters=room.members.flatMap(m=>room.loadouts[m.id]?.fighters||[]);
   room.revision++;return room;
 }
@@ -116,6 +118,12 @@ export function startLichRoom(room,memberId,now=room.clock) {
   room.clock=Math.max(room.clock,now);room.startedAt=room.clock+12000;room.endsAt=room.startedAt+(room.rulesVersion===2?300000:210000);room.status='ACTIVE';
   if(room.combatRevision===2)room.combatPartySize=room.members.length;
   if(room.rulesVersion===2){room.resources={interrupt:7,cleanse:7,guard:0,heal:4,revive:1,burst:0};room.personalBurst=Object.fromEntries(room.members.map(m=>[m.id,2]));}
+  for(const member of room.members){
+    const pet=room.loadouts?.[member.id]?.pet;if(!pet)continue;
+    const fighters=room.fighters.filter(f=>f.ownerId===member.id);applyMercenaryCombatLink([fighters]);
+    const opening=applyPetOpeningBuff(fighters,pet,'A','PVE');
+    if(opening)record(room,'PET_OPENING_BUFF',opening.label,{...opening,ownerId:Number(member.id)});
+  }
   room.step='READY';room.challenge={id:room.id+':READY',startedAt:room.clock,deadline:room.startedAt};
   record(room,'RAID_LICH_READY','전장 집결 · 12초 뒤 전투가 시작됩니다.');room.revision++;return room;
 }
@@ -293,7 +301,7 @@ export function lichBattlePayload(room,memberId=room.hostId) {
   return {mode:'RAID',battlefieldMode:'RAID',cards:clone(loadout?.cards||room.cards),monster:{...monster,projectVMonsterArt:art},
     characterBonus,equippedBattleSuit:characterBonus.equippedBattleSuit,equippedWeapon:characterBonus.equippedWeapon,accountNickname:loadout?.accountNickname,
     battleV2:{schemaVersion:2,rules:{battleSuitDamageAuthority:supports.length?'SERVER_TIMELINE':'NONE',battleSuitActionClock:'INDEPENDENT_TIME_CADENCE'},
-      teams:{A:{cards:clone(fighters.filter(f=>!f.isMercenary)),mercenaries,supports},B:{cards:[{...clone(room.boss),isBoss:true,projectVMonsterArt:art}]}},result:{timeline:[],supports:{A:supports,B:[]}}},
+      teams:{A:{pet:clone(loadout?.pet||null),cards:clone(fighters.filter(f=>!f.isMercenary)),mercenaries,supports},B:{cards:[{...clone(room.boss),isBoss:true,projectVMonsterArt:art}]}},result:{timeline:[],supports:{A:supports,B:[]}}},
     playUltimateCinematics:false,reviewOnly};
 }
 export function lichView(room,memberId,since=0) {

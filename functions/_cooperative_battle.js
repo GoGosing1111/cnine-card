@@ -27,7 +27,8 @@ export function createCooperativeBattle({squads,difficulty='NORMAL',seed=1,withd
  monster.projectVMonsterArt??={scope:'BATTLE_ENGINE_ONLY',kind:'COOP_ARKE',primaryUrl:monster.battleSprite,pngFallbackUrl:monster.battleSprite,footAnchor:{x:.5,y:.94},objectFit:'contain',objectPosition:'50% 100%',scaleMultiplier:1.5,technicalPass:true,reviewOnly:false};
  const enemy={...buildMonsterFighter(monster),battleSprite:monster.battleSprite};
  const enemies=staged?.initial||[enemy];
- const result=simulateBattleV2Preview({teamA:[...cards,...mercenaries],teamB:enemies,reinforcements:staged?.pending||[],seed,maxActions:600,maxCombatDurationMs:maxBattleMs,
+ const pets=squads.filter(s=>s.pet).map(s=>({...s.pet,ownerId:s.ownerId}));
+ const result=simulateBattleV2Preview({pets:{A:pets},petMode:'PVE',teamA:[...cards,...mercenaries],teamB:enemies,reinforcements:staged?.pending||[],seed,maxActions:600,maxCombatDurationMs:maxBattleMs,
   forcedMonsterEvery:tuned.forcedEvery,healerPenalty:true,singleHealerBonus:squads[0].singleHealerBonus||{},cooperative:{withdrawals,effects,turnClockVersion}});
  // PVE survival is always a loss, regardless of HP-ratio tiebreaking.
  result.winner=!result.encounter?.remaining&&result.final.B.every(f=>f.hp<=0)&&result.final.A.some(f=>f.hp>0)?'A':'B';
@@ -37,5 +38,5 @@ export function createCooperativeBattle({squads,difficulty='NORMAL',seed=1,withd
  result.final={...result.final,A:result.final.A.filter(f=>!f.isMercenary),mercenaries:{A:finalMercs,B:[]}};
  return {states,payload:{mode:'RAID',sceneAssetKey:monster.id===COOP_ENCOUNTER.id?COOP_ENCOUNTER.sceneAssetKey:undefined,monster,...(staged?{cooperativeEncounter:staged.encounter}:{}),accountNickname:'격전지 연합',battleV2:{schemaVersion:2,engine:'BATTLE_ENGINE_V2',seed,playbackSpeed:1,
   rules:{formation:'COOP_THREE_SQUADS',mercenaryLinkScope:'OWNER',supportScope:'TEAM',monsterMinDamagePercent:0,maxCombatDurationMs:maxBattleMs},
-  teams:{A:{cards:cards.map(publicFighter),mercenaries:result.openingMercenaries.A,members,summary:teamSummary(cards)},B:{cards:enemies.map(publicFighter),summary:teamSummary(enemies)}},result}}};
+  teams:{A:{pets,cards:result.openingTeams?.A.filter(c=>!c.isMercenary)||cards.map(publicFighter),mercenaries:result.openingMercenaries.A,members,summary:teamSummary(cards)},B:{cards:enemies.map(publicFighter),summary:teamSummary(enemies)}},result}}};
 }

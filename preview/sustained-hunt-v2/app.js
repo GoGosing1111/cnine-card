@@ -57,8 +57,9 @@
       if(token!==epoch)return;
       const seqs=pendingReveals.splice(0,24),r=await request('reveal',{id,seqs});
       if(token!==epoch||!playing||finishing)return;
-      await Promise.all((r.drops||[]).filter(Boolean).map(drop=>engine.groundDrops.add(drop,r.serverNow)));
-      if(r.drops?.some(Boolean))message('아이템 드랍 · 필드의 빛나는 아이템을 직접 클릭하세요.');
+      const automatic=new Map((r.autoClaims||[]).map(receipt=>[receipt.dropId,{...receipt,inventory:r.inventory,picked:r.picked,pendingRewards:r.pendingRewards===true}]));
+      await Promise.all((r.drops||[]).filter(Boolean).map(drop=>engine.groundDrops.add(drop,r.serverNow,automatic.get(drop.id))));
+      if(r.drops?.some(Boolean))message(automatic.size?'자석 펫이 드랍 아이템을 흡수했습니다. 종료 시 획득 보상을 정산합니다.':'아이템 드랍 · 필드의 빛나는 아이템을 직접 클릭하세요.');
     }).catch(e=>{if(token===epoch)message(errorText(e));});
   }
   function buttons(){
@@ -106,11 +107,11 @@
     await api.restoreDeployedFormation();
     engine.attachGroundDrops({
       claim:drop=>request('claim',{id:session,dropId:drop.id,token:drop.token,x:drop.position.x,y:drop.position.y}),
-      onPicked:r=>{picked++;if(r.liveRewards&&picked===1)notifyParent('legion-hunt-rewards-changed');$('hunt-picked').textContent=picked;inventory(r.inventory);toast(r.item.name+' +'+r.item.quantity+(r.pendingRewards?' · 종료 후 지급':r.liveRewards?' · 계정 지급':' · 검수 획득'));},
+      onPicked:r=>{picked=Number.isSafeInteger(r.picked)?Math.max(picked,r.picked):picked+1;if(r.liveRewards&&picked===1)notifyParent('legion-hunt-rewards-changed');$('hunt-picked').textContent=picked;inventory(r.inventory);toast((r.automatic?'자석 흡수 · ':'')+r.item.name+' +'+r.item.quantity+(r.pendingRewards?' · 종료 후 지급':r.liveRewards?' · 계정 지급':' · 검수 획득'));},
       onExpired:()=>{if(playing)message('드랍이 사라졌습니다. 다음 아이템은 다른 위치에 나타납니다.');},
       onError:e=>message(errorText(e))
     });
-    $('hunt-time').textContent=time(payload.huntPolicy.limitMs);$('hunt-threat').textContent=payload.huntPolicy.name+' · '+time(payload.huntPolicy.huntDurationMs)+'에 최종 보스 출현';message('아이템은 필드에서 직접 클릭해야 획득합니다.');buttons();
+    $('hunt-time').textContent=time(payload.huntPolicy.limitMs);$('hunt-threat').textContent=payload.huntPolicy.name+' · '+time(payload.huntPolicy.huntDurationMs)+'에 최종 보스 출현';message(payload.pet?.magnet?'자석 펫 장착 · 드랍 아이템을 자동 흡수합니다.':'아이템은 필드에서 직접 클릭해야 획득합니다.');buttons();
   }
   function updateClock(){
     const at=Math.max(renderedAt,(engine?.skillChipPlayback?.clock.time||0)*1000);
@@ -142,7 +143,7 @@
   async function start(){
     if(playing||starting||!engine)return;const token=epoch;starting=true;buttons();
     try{
-      const begun=await request('begin',{id:session});entries=begun.entries||entries;starting=false;playing=true;buttons();message('전투 중 · 드랍 아이템을 놓치지 마세요.');
+      const begun=await request('begin',{id:session});entries=begun.entries||entries;starting=false;playing=true;buttons();message(payload.pet?.magnet?'전투 중 · 자석 펫이 드랍 아이템을 자동으로 흡수합니다.':'전투 중 · 드랍 아이템을 놓치지 마세요.');
       await engine.initialArrival();if(token!==epoch||!playing)return;
       engine.startAccountBattleUnitSustainedFire();
       clockTimer=setInterval(updateClock,250);
@@ -168,9 +169,9 @@
     try{
       await reveals;const receipt=await request('finish',{id:session,seq:ack});playing=false;ending=false;entries=receipt.entries||entries;
       if(receipt.liveRewards)notifyParent('legion-hunt-rewards-changed');
-      const labels={CLEAR:['사냥 클리어','제한 시간 안에 태고의 수호자를 처치했습니다.'],DEFEAT:['원정 실패','전력이 부족해 끝까지 돌파하지 못했습니다.'],TIME_LIMIT:['시간 초과','총 15분이 종료되어 토벌을 마쳤습니다.'],RETREAT:['원정 철수','사냥을 중단했습니다. 직접 획득한 전리품만 집계합니다.']};
+      const labels={CLEAR:['사냥 클리어','제한 시간 안에 태고의 수호자를 처치했습니다.'],DEFEAT:['원정 실패','전력이 부족해 끝까지 돌파하지 못했습니다.'],TIME_LIMIT:['시간 초과','총 15분이 종료되어 토벌을 마쳤습니다.'],RETREAT:['원정 철수','사냥을 중단했습니다. 획득한 전리품을 집계합니다.']};
       const [title,reason]=labels[receipt.reason];$('result-title').textContent=title;$('result-reason').textContent=reason;$('result-eyebrow').textContent=payload.huntPolicy.name+' · 원정 결과';
-      const note=$('hunt-result').querySelector('.review-note');if(note)note.textContent=receipt.liveRewards?'종료가 확정되어 직접 주운 전리품을 계정에 지급했습니다.':'TEST · 검수용 획득 기록입니다. 계정에는 보상이 지급되지 않습니다.';
+      const note=$('hunt-result').querySelector('.review-note');if(note)note.textContent=receipt.liveRewards?'종료가 확정되어 획득한 전리품을 계정에 지급했습니다.':'TEST · 검수용 획득 기록입니다. 계정에는 보상이 지급되지 않습니다.';
       $('result-kills').textContent=receipt.kills+'마리 · 보스 '+receipt.bosses+' / 1';
       $('hunt-again').disabled=entries?.remaining===0;$('hunt-again').textContent=entries?.remaining===0?'오늘 입장 횟수 소진':'같은 난이도 재도전';
       $('result-picked').textContent=receipt.picked+'개';$('result-missed').textContent=receipt.missed+'개';$('result-time').textContent=time(receipt.combatMs);

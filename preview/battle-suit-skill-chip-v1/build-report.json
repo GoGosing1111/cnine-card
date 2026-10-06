@@ -135,6 +135,8 @@
     "shared/icon-supremacy-v1.mjs",
     "shared/icon-roles-v1.mjs",
     "preview/project-v-v3/source/battle/IconRolePlayback.js",
+    "shared/pet-buff-visuals-v1.mjs",
+    "preview/project-v-v3/source/battle/PetSupportPlayback.js",
     "preview/project-v-v3/source/battle/BattleEngine.js",
     "preview/project-v-v3/source/battle/EffectScene.js",
     "preview/scrapyard-v3-v1/source/ScrapyardBattleEngine.js",
@@ -142,5 +144,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 1596243
+  "outputBytes": 1602451
 }

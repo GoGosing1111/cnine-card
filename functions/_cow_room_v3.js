@@ -33,7 +33,7 @@ export function buildCowRoomBattle({snapshot, seed = 7123, config = COW_ROOM_DRA
       // No card/source illustration is substituted by a battle sprite.
       sourceArt:null};
   });
-  const battleV2 = createPveBattleV2({cards:snapshot.cards, magicCards:snapshot.magicCards || [],
+  const battleV2 = createPveBattleV2({pet:snapshot.pet,cards:snapshot.cards, magicCards:snapshot.magicCards || [],
     characterBonus:snapshot.cardSupportBonus || 0, battleSuit:snapshot.battleSuit || null,mercenary:snapshot.mercenary||null,
     singleHealerBonus:snapshot.singleHealerBonus || {}, ultimateDamage:snapshot.ultimateDamage || 0, seed,
     encounter:{...config, initialCount:config.simultaneous, instances}});

@@ -1,3 +1,4 @@
+import {loadPetBattleSnapshot} from './_pet_account.js';
 import {territoryPigCoinStatements,territoryPigCoinPreview} from './_pig_coin_content_rewards.js';
 import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
 import {ensureTerritoryClanSchema,openClanWarfare,syncRecruitingClanRoster,isClanWarfare,finishTerritoryClanRound,territoryClanView,territorySkillCatalog,territorySkillState,territorySkillReceipt,applyTerritorySkill} from './_territory_clan_warfare.js';
@@ -668,7 +669,7 @@ async function singleFormationSnapshot(env,deps,user,deck,battle){
   const synergyPromise=typeof deps.evaluateDeckSynergiesBatch==='function'?deps.evaluateDeckSynergiesBatch(env,[{user,deckIds:ids}],'PVP').then(rows=>rows[0]):typeof deps.evaluateDeckSynergies==='function'?deps.evaluateDeckSynergies(env,user,ids,'PVP',{forceOwnerTest:String(user?.role||'').toUpperCase()==='OWNER'}):Promise.resolve({totals:{attackPercent:0}});
   const magicPromise=typeof deps.magicBattleLoadouts==='function'?deps.magicBattleLoadouts(env,[user],'PVP').then(rows=>rows[0]):typeof deps.magicBattleLoadout==='function'?deps.magicBattleLoadout(env,user,'PVP'):Promise.resolve({enabled:false,cards:[]});
   const [loadoutBonus,uniqueStates,synergy,magicLoadout]=await Promise.all([typeof deps.userEquipmentBonuses==='function'?deps.userEquipmentBonuses(env,user.id):Promise.resolve({pvp:0}),uniquePromise,synergyPromise,magicPromise]);
-  return buildFormationSnapshot({cards,uniqueState:uniqueStates[0],synergy,loadoutBonus:{...loadoutBonus,mercenary:await releasedMercenarySnapshot(env,user)},magicLoadout});
+  return buildFormationSnapshot({cards,uniqueState:uniqueStates[0],synergy,loadoutBonus:{...loadoutBonus,pet:await loadPetBattleSnapshot(env,user,'PVP'),mercenary:await releasedMercenarySnapshot(env,user)},magicLoadout});
 }
 async function formationDecks(env,deps,users,battle){
   const byKey=new Map();if(!users.length)return new Map();
@@ -691,7 +692,7 @@ async function refreshFormationSnapshots(env,deps,roundId,users,battle){
       const deck=await deps.pvpDeckSnapshotByIds(env,user.id,snapshotIds(row.deck_snapshot));
       row.deck_snapshot=deck.length===5?JSON.stringify(deck.map(card=>String(card.id))):'[]';
     }
-    row.loadout_bonus_json=JSON.stringify({...equipment,mercenary:await releasedMercenarySnapshot(env,user),clanRosterHydrated:true});
+    row.loadout_bonus_json=JSON.stringify({...equipment,pet:await loadPetBattleSnapshot(env,user,'PVP'),mercenary:await releasedMercenarySnapshot(env,user),clanRosterHydrated:true});
   }));
   if(pending.length)await batchChunks(env,pending.map(row=>env.DB.prepare('UPDATE territory_war_v3_users SET deck_snapshot=? WHERE round_id=? AND user_id=?').bind(row.deck_snapshot,roundId,row.user_id)));
   const deckMap=await formationDecks(env,deps,users,battle),entries=users.map(row=>({user:{id:Number(row.user_id),nickname:String(row.nickname||''),role:String(row.role||'USER')},cards:deckMap.get(Number(row.user_id))||[]}));
@@ -776,7 +777,7 @@ async function simulateTerritoryBattle(env,deps,attackerUser,mine,opponent,reque
   const attackerEngineCards=attackerCards.map(card=>{const uniqueCard=aMap.get(String(card.id));return {...card,power:Math.max(1,Math.floor(Number(card.power||0)*aMultiplier*matchBalance.attackerScale)),uniqueAbility:uniqueCard?.uniqueAbility||card.uniqueAbility||null,uniqueAdvancement:uniqueCard?.uniqueAdvancement||null, iconRole:uniqueCard?.iconRole||null}});
   const defenderEngineCards=defenderCards.map(card=>{const uniqueCard=dMap.get(String(card.id));return {...card,power:Math.max(1,Math.floor(Number(card.power||0)*dMultiplier*matchBalance.defenderScale)),uniqueAbility:uniqueCard?.uniqueAbility||card.uniqueAbility||null,uniqueAdvancement:uniqueCard?.uniqueAdvancement||null, iconRole:uniqueCard?.iconRole||null}});
   const battleSeed=seedOverride==null?seedOf(`${mine.round_id}:${requestId}:TWV3_BATTLE_V2`):Number(seedOverride)>>>0;
-  const battleV2=deps.createPvpBattleV2({attackerMercenary:storedBonusA?.mercenary||null,defenderMercenary:storedBonusB?.mercenary||null,attackerCards:attackerEngineCards,defenderCards:defenderEngineCards,attackerMagicCards:aMagic?.cards||[],defenderMagicCards:bMagic?.cards||[],attackerEquipmentBonus:Number(aBonus?.pvp||0),defenderEquipmentBonus:Number(bBonus?.pvp||0),seed:battleSeed,singleHealerBonus:battle?.engine?.singleHealerBonus});
+  const battleV2=deps.createPvpBattleV2({attackerPet:storedBonusA?.pet||null,defenderPet:storedBonusB?.pet||null,attackerMercenary:storedBonusA?.mercenary||null,defenderMercenary:storedBonusB?.mercenary||null,attackerCards:attackerEngineCards,defenderCards:defenderEngineCards,attackerMagicCards:aMagic?.cards||[],defenderMagicCards:bMagic?.cards||[],attackerEquipmentBonus:Number(aBonus?.pvp||0),defenderEquipmentBonus:Number(bBonus?.pvp||0),seed:battleSeed,singleHealerBonus:battle?.engine?.singleHealerBonus});
   return{battleV2,battleSeed,attackerCards,defenderCards,attackerPower:Number(battleV2.teams?.A?.summary?.power||mine.deck_power||0),defenderPower:Number(battleV2.teams?.B?.summary?.power||opponent.deck_power||0),matchBalance,opponent:{id:Number(opponent.user_id),nickname:defenderUser.nickname,side:String(opponent.side||''),deckPower:Number(opponent.deck_power||0)}};
 }
 async function hydrateBattleReplay(env,deps,user,action,result){if(!action?.opponent_user_id||!action?.round_id||!action?.battle_seed)return result;try{const mine=await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(action.round_id,action.user_id).first(),opponent=await env.DB.prepare(`SELECT w.*,u.nickname,u.role FROM territory_war_v3_users w JOIN users u ON u.id=w.user_id WHERE w.round_id=? AND w.user_id=?`).bind(action.round_id,action.opponent_user_id).first();if(!mine||!opponent)return result;const simulation=await simulateTerritoryBattle(env,deps,user,mine,opponent,action.request_id,action.battle_seed);return{...result,battleV2:simulation.battleV2,opponent:simulation.opponent,attackerPower:simulation.attackerPower,defenderPower:simulation.defenderPower,replayedBattle:true}}catch(error){console.warn('territory battle replay hydration failed',error);return result}}

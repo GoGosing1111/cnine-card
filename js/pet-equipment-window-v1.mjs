@@ -8,7 +8,8 @@ export const petUiIcon=name=>`<svg class="pe-icon" viewBox="0 0 24 24" aria-hidd
 let activeDialog=null;
 
 export function mountPetEquipment(root,{review=false,request=review?jointAdminRequest:jointAccountRequest}={}){
-  let state=null,selected=null,busy=false,pending=null,needsRefresh=false,disposed=false,controller=null;
+  let state=null,selected=null,busy=false,pending=null,pendingPotential=null,lastPotential=null,needsRefresh=false,disposed=false,controller=null;
+  const potentialKey=()=>`cnine_pet_potential_pending_v1:${state?.userId}`;
   const endpoint=review?'admin/pets/equipment/':'pets/v1/';
   root.classList.add('pet-equipment');
   root.innerHTML=`<header class="pe-heading"><div class="pe-heading-title"><span class="pe-heading-icon">${petUiIcon('paw')}</span><div><span class="pe-eyebrow">지원 편성</span><h1>펫 장착</h1><p>함께할 동료를 선택하고 시작 버프를 확인하세요.</p></div></div><div class="pe-capacity"><span>펫 지원 슬롯</span><b><i data-pet-equipped-count>0</i><em>/ 1</em></b></div></header>
@@ -20,14 +21,15 @@ export function mountPetEquipment(root,{review=false,request=review?jointAdminRe
   const $=selector=>root.querySelector(selector),pet=()=>state?.cards?.find(row=>row.code===selected),equipped=()=>state?.cards?.find(row=>row.code===state.loadout?.petCode);
   function status(message,error=false){$('[data-pet-status]').textContent=message;$('[data-pet-status]').classList.toggle('pe-error',error);}
   function sync(){
-    const locked=busy||Boolean(pending)||needsRefresh,row=pet();
+    const locked=busy||Boolean(pending)||Boolean(pendingPotential)||needsRefresh,row=pet();
     root.setAttribute('aria-busy',String(busy));
-    $('[data-pet-equip]').disabled=busy||needsRefresh||!state?.canEquip||(!pending&&(!row||!row.owned||row.code===state.loadout?.petCode));
+    $('[data-pet-equip]').disabled=busy||!!pendingPotential||needsRefresh||!state?.canEquip||(!pending&&(!row||!row.owned||row.code===state.loadout?.petCode));
     const isEquipped=Boolean(row&&row.code===state?.loadout?.petCode),label=pending?'장착 결과 재확인':isEquipped?'장착 중':row?`${row.name} 장착`:'펫을 선택하세요';
     $('[data-pet-equip]').innerHTML=`<span>${esc(label)}</span>${petUiIcon(busy?'refresh':isEquipped?'check':'arrow')}`;
     $('[data-pet-equip]').dataset.processing=String(busy);
     $('[data-pet-unequip]').disabled=locked||!state?.canEquip||!state.loadout?.petCode;
-    $('[data-pet-refresh]').disabled=busy||Boolean(pending);
+    $('[data-pet-refresh]').disabled=busy||Boolean(pending)||Boolean(pendingPotential);
+    const attemptButton=$('[data-pet-potential-attempt]');if(attemptButton){attemptButton.disabled=busy||Boolean(pending)||needsRefresh||(!pendingPotential&&(!row?.owned||row.potential==='MAGNET'||!state?.potential?.settings.enabled||state?.potential?.settings.successPpm===null||state?.potential?.potion.quantity<1));attemptButton.textContent=busy?'도전 결과 확인 중…':pendingPotential?'도전 결과 재확인':row?.potential==='MAGNET'?'자석 잠재력 획득 완료':'물약 1개로 도전';}
     root.querySelectorAll('[data-pet-select]').forEach(button=>button.disabled=locked||!state?.canEquip);
   }
   function render(){
@@ -45,7 +47,12 @@ export function mountPetEquipment(root,{review=false,request=review?jointAdminRe
     $('[data-pet-grid]').innerHTML=state?.cards?.length?state.cards.map(card=>{
       const source=imagePath(card.sourceArt||card.battleSprite),active=card.code===selected,worn=card.code===state.loadout?.petCode;
       return `<button type="button" class="pe-card ${active?'pe-selected':''}" data-pet-select="${esc(card.code)}" aria-pressed="${active}" aria-label="${esc(card.name)} 선택"><span class="pe-card-art">${source?`<img src="${esc(source)}" alt="" loading="lazy">`:petUiIcon('paw')}</span><span class="pe-card-identity"><strong>${esc(card.name)}</strong><small>${worn?'장착 중':card.reviewOwned?'검수용 보유':card.owned?'보유':'미보유'}</small></span><span class="pe-card-indicator" aria-hidden="true">${petUiIcon(worn?'check':'arrow')}</span></button>`;
-    }).join(''):'<p class="pe-empty-collection">펫 획득 기능을 준비하고 있습니다.</p>';
+    }).join(''):'<p class="pe-empty-collection">아직 보유한 펫이 없습니다. 펫 봉인구 개봉 후 장착할 수 있습니다.</p>';
+    if(row&&!state.reviewOnly&&state.potential){
+      const potential=state.potential,chance=potential.settings.successPpm===null?'설정 대기':(potential.settings.successPpm/10000).toLocaleString('ko-KR',{maximumFractionDigits:4})+'%';
+      $('[data-pet-detail]').insertAdjacentHTML('beforeend',`<section class="pe-potential ${row.potential==='MAGNET'?'is-magnet':''}" aria-label="펫 잠재력"><div class="pe-potential-heading"><img src="/${esc(potential.potion.image)}" alt="잠재력 물약"><div><span class="pe-eyebrow">펫 잠재력</span><h3>${row.potential==='MAGNET'?'자석 · 활성':'자석 잠재력에 도전'}</h3></div></div><p>장착한 자석 펫이 군단토벌 드랍 아이템을 자동으로 흡수합니다. 획득 보상은 원정 종료 시 지급됩니다.</p><dl><div><dt>물약 보유</dt><dd>${potential.potion.quantity.toLocaleString()}개</dd></div><div><dt>성공확률</dt><dd>${chance}</dd></div></dl><button type="button" class="pe-button pe-potential-button" data-pet-potential-attempt>물약 1개로 도전</button><p class="pe-potential-result" data-pet-potential-result role="status">${esc(lastPotential||(!potential.settings.enabled?'잠재력 도전을 준비 중입니다.':'성공·실패와 관계없이 물약 1개를 소모합니다.'))}</p><small>같은 펫의 중복 보유분은 잠재력을 공유합니다.</small></section>`);
+    }
+    if(pendingPotential&&!row)$('[data-pet-detail]').insertAdjacentHTML('beforeend','<p>이전 물약 도전 결과를 확인해 주세요.</p><button type="button" data-pet-potential-attempt>도전 결과 재확인</button>');
     root.querySelectorAll('img').forEach(img=>img.addEventListener('error',()=>{img.hidden=true;if(img.classList.contains('pe-hero'))$('.pe-art-error').hidden=false;},{once:true}));sync();
   }
   function accessFailure(error){
@@ -57,13 +64,16 @@ export function mountPetEquipment(root,{review=false,request=review?jointAdminRe
     try{
       const value=await request(endpoint+'state',{signal:controller.signal});if(disposed)return;
       if(value.version!==1||!Array.isArray(value.cards)||!value.loadout)throw Error('펫 정보를 확인하지 못했습니다. 다시 불러와 주세요.');
-      state=value;needsRefresh=false;if(!state.cards.some(row=>row.code===selected))selected=state.loadout.petCode||state.cards[0]?.code||null;
+      state=value;needsRefresh=false;
+      if(!review&&state.userId)try{pendingPotential=JSON.parse(localStorage.getItem(potentialKey())||'null');}catch{pendingPotential=null;}
+      if(pendingPotential)selected=pendingPotential.petCode;else if(!state.cards.some(row=>row.code===selected))selected=state.loadout.petCode||state.cards[0]?.code||null;
+      if(pendingPotential&&!/^PET-[A-Z0-9-]{1,28}$/.test(pendingPotential.petCode)){pendingPotential=null;localStorage.removeItem(potentialKey());}
       render();status(state.orphaned?'장착했던 펫이 목록에서 제외되어 빈 슬롯으로 표시합니다.':state.reviewOnly?'검수용 펫을 선택해 장착·해제를 확인하세요.':state.message||'장착할 펫을 선택하세요.');
     }catch(error){if(!disposed){if([401,403].includes(error.status))accessFailure(error);else if(!state){render();$('[data-pet-detail]').innerHTML=`<div class="pe-detail-empty"><h2>펫 정보를 확인해 주세요</h2><p>${esc(error.message)}</p></div>`;}status(error.message,true);}}
     finally{if(!disposed){busy=false;sync();}}
   }
   async function save(code){
-    if(busy||disposed||needsRefresh||!state?.canEquip)return;
+    if(busy||disposed||needsRefresh||pendingPotential||!state?.canEquip)return;
     if(!pending)pending={petCode:code,expectedRevision:state.loadout.revision,petCmsRevision:state.petCmsRevision,requestId:crypto.randomUUID()};
     busy=true;controller=new AbortController();sync();status('장착 정보를 저장하고 있습니다.');
     try{
@@ -74,12 +84,33 @@ export function mountPetEquipment(root,{review=false,request=review?jointAdminRe
     }catch(error){if(!disposed){if([401,403].includes(error.status))accessFailure(error);else if(!error.retryable&&error.status&&error.status<500&&![408,429].includes(error.status)){pending=null;needsRefresh=true;}status(error.message,true);}}
     finally{if(!disposed){busy=false;sync();}}
   }
+  async function attemptPotential(){
+    if(busy||disposed||review)return;
+    if(!pendingPotential){
+      const row=pet(),p=state?.potential;if(!row?.owned||row.potential==='MAGNET'||!p?.settings.enabled||p.settings.successPpm===null||p.potion.quantity<1)return;
+      const chance=(p.settings.successPpm/10000).toLocaleString('ko-KR',{maximumFractionDigits:4});
+      if(!confirm(`${row.name}의 자석 잠재력에 도전할까요?\n성공확률 ${chance}% · 성공/실패 시 잠재력 물약 1개 소모`))return;
+      pendingPotential={petCode:row.code,requestId:crypto.randomUUID(),expectedRevision:p.revision,settingsRevision:p.settings.revision};
+      try{localStorage.setItem(potentialKey(),JSON.stringify(pendingPotential));}catch{pendingPotential=null;status('도전 요청을 보관할 수 없습니다. 브라우저 저장 공간을 확인해 주세요.',true);return;}
+    }
+    busy=true;controller=new AbortController();sync();status('잠재력 물약으로 도전하고 있습니다.');
+    try{
+      const result=await request('pets/v1/potential',{method:'POST',body:pendingPotential,signal:controller.signal});
+      if(typeof result.success!=='boolean'||result.requestId!==pendingPotential.requestId)throw Error('도전 결과를 확인하지 못했습니다. 같은 요청으로 다시 확인하세요.');
+      localStorage.removeItem(potentialKey());pendingPotential=null;
+      needsRefresh=true;lastPotential=result.success?'자석 잠재력을 획득했습니다! 장착 후 다음 군단토벌부터 자동 흡수합니다.':'자석 잠재력을 얻지 못했습니다. 잠재력 물약 1개를 소모했습니다.';
+      const value=await request(endpoint+'state',{signal:controller.signal});if(disposed)return;state=value;needsRefresh=false;render();status(lastPotential);
+      window.dispatchEvent(new CustomEvent('cnine:pet-equipment-changed',{detail:{reviewOnly:false}}));
+    }catch(error){if(!disposed){if(error.status&&error.status<500&&!error.retryable&&![408,429].includes(error.status)){localStorage.removeItem(potentialKey());pendingPotential=null;needsRefresh=true;}status(error.message,true);}}
+    finally{if(!disposed){busy=false;sync();}}
+  }
   function click(event){
     const button=event.target.closest('button');if(!button||button.disabled)return;
     if(button.hasAttribute('data-pet-select')){selected=button.dataset.petSelect;render();root.querySelector(`[data-pet-select="${selected}"]`)?.focus({preventScroll:true});status(`${pet().name} · 시작 버프를 확인한 뒤 장착하세요.`);}
     if(button.hasAttribute('data-pet-equip'))void save(selected);
     if(button.hasAttribute('data-pet-unequip'))void save(null);
     if(button.hasAttribute('data-pet-refresh'))void load();
+    if(button.hasAttribute('data-pet-potential-attempt'))void attemptPotential();
   }
   root.addEventListener('click',click);void load();
   return {reload:load,dispose(){disposed=true;controller?.abort();root.removeEventListener('click',click);root.replaceChildren();}};

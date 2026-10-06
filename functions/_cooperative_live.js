@@ -1,3 +1,4 @@
+import {loadPetBattleSnapshot} from './_pet_account.js';
 import {readJointBody,assertJointOrigin,jointError} from './_joint_request.js';
 import {readMercenaryDocument,readMercenaryRuntime,battleConfig,mercenaryAccountState,mercenarySnapshotPower} from './_mercenary_account.js';
 import {COOP_DIFFICULTIES,COOP_RULES,validCoopRoom,validCoopClient,validateCoopSelection} from '../shared/cooperative-battleground-v1.mjs';
@@ -42,7 +43,7 @@ export async function loadCoopSelection(env,user,body,deps){
  if(cards.filter(c=>c.grade==='SUPERSTAR').length>1)fail('SUPERSTAR_LIMIT','한 사람은 슈퍼스타를 1장까지 선택할 수 있습니다.',400);
  const mercenary={...battleConfig(document.document,selected.mercenaryCode,1),combat:runtime.combat,cmsRevision:document.revision,policyVersion:runtime.version};
  const equipmentBonus=Math.max(0,Number(bonus.pve||0)-Number(bonus.battleSuitPve||0));
- return {ownerId:Number(user.id),ownerName:user.nickname,cards:selected.cardIds.map(id=>cards.find(c=>c.id===id)),mercenary,
+ return {pet:await loadPetBattleSnapshot(env,user,'PVE'),ownerId:Number(user.id),ownerName:user.nickname,cards:selected.cardIds.map(id=>cards.find(c=>c.id===id)),mercenary,
   equipmentBonus,singleHealerBonus:battleSettings.engine?.singleHealerBonus||{},
   power:cards.reduce((sum,c)=>sum+c.power,0)+equipmentBonus+mercenarySnapshotPower(mercenary)};
 }

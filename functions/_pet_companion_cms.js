@@ -16,7 +16,7 @@ export async function readPetCms(env){
   if(!row)return {raw:null,state:{revision:0,document:emptyPetCmsDocument(),updatedAt:null,updatedBy:null,audit:[]}};
   const stored=JSON.parse(row.value);
   if(!Number.isSafeInteger(stored.revision)||stored.revision<1||!Array.isArray(stored.audit)||stored.audit.length>50)throw Error('Invalid PET CMS record');
-  stored.document=validatePetCmsDocument(stored.document);
+  stored.document=validatePetCmsDocument(stored.document,{allowLegacy:true});
   return {raw:row.value,state:stored};
 }
 export async function readCompanionReviewCatalog(env){

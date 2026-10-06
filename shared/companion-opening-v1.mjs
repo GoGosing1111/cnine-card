@@ -6,7 +6,7 @@ const living=actor=>actor?.alive!==false&&actor?.hp>0&&!actor.isMonster&&!actor.
 const stats=actor=>Object.fromEntries(['maxHp','hp','attack','defense','speed','shield'].map(key=>[key,key==='attack'?mercenaryEffectiveAttack(actor):Number(actor[key]||0)]));
 export function applyPetOpeningBuff(team,raw,side,mode){
   if(!raw)return null;
-  const ready=petReadiness(raw,mode);
+  const ready=petReadiness(raw.definition||raw,mode);
   if(!ready.ok)throw Error(ready.reasons.join(' '));
   const pet=ready.pet;
   const targets=team.filter(actor=>living(actor)&&(pet.target==='ALL_ALLIES'||pet.target==='MERCENARIES'&&actor.isMercenary||pet.target==='REGULAR_CARDS'&&!actor.isMercenary));
@@ -27,7 +27,7 @@ export function applyPetOpeningBuff(team,raw,side,mode){
     actor.petOpeningApplied=true;
     return {targetId:actor.id,before,after:stats(actor)};
   });
-  return {actorId:`${side}:PET:${pet.code}`,actorSide:side,petCode:pet.code,name:pet.name,battleSprite:pet.battleSprite,phase:'BATTLE_START',frequency:'ONCE_PER_BATTLE',duration:'BATTLE',target:pet.target,buffs:pet.buffs,hits,label:`${pet.name} · 시작 버프`};
+  return {actorId:`${side}:PET:${pet.code}`,actorSide:side,petCode:pet.code,name:pet.name,battleSprite:pet.battleSprite,magnet:raw.magnet===true,phase:'BATTLE_START',frequency:'ONCE_PER_BATTLE',duration:'BATTLE',target:pet.target,buffs:pet.buffs,hits,label:`${pet.name} · 시작 버프`};
 }
 
 // Review-only independent credit prevents the first companion starving the second.

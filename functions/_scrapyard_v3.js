@@ -1,5 +1,6 @@
 import {accountRankBenefits,rankCards} from './_account_rank.js';
 import {createPveBattleV2} from './_battle_v2_preview.js';
+import {loadPetBattleSnapshot} from './_pet_account.js';
 import {SCRAPYARD_ENEMIES} from './_scrapyard.js';
 
 // Staged as part of the entire PVE overhaul. Not imported by an HTTP route.
@@ -71,7 +72,8 @@ export async function loadScrapyardV3Snapshot(env, user, deps, mode = 'PVE') {
   const ultimateDamage = ultimateSource ? Math.max(0, Math.floor(Number(ultimateSource.power || 0) * Number(ultimate.rule?.coefficientPercent || 0) / 100)) : 0;
   if (!Number.isSafeInteger(ultimateDamage)) fail('SCRAPYARD_V3_DECK', '궁극기 전투력을 확인할 수 없습니다.');
   const mercenary=deps.loadMercenaryBattleSnapshot?await deps.loadMercenaryBattleSnapshot(env,user):null;
-  const snapshot = {schemaVersion:1, userId:user.id, accountNickname:String(user.nickname || ''), cards:rankCards(cards,env.DB?await accountRankBenefits(env,user.id,mode==='PVE'?'SCRAPYARD':mode):{attackBp:0,hpBp:0}),...(mercenary?{mercenary}:{}),
+  const pet=Object.hasOwn(deck,'pet')?deck.pet:env.DB?await (deps.loadPetBattleSnapshot||loadPetBattleSnapshot)(env,user,'PVE'):null;
+  const snapshot = {pet,schemaVersion:1, userId:user.id, accountNickname:String(user.nickname || ''), cards:rankCards(cards,env.DB?await accountRankBenefits(env,user.id,mode==='PVE'?'SCRAPYARD':mode):{attackBp:0,hpBp:0}),...(mercenary?{mercenary}:{}),
     cardSupportBonus, battleSuit, characterBonus:equipment, magicCards:magic?.cards || [], ultimateDamage,
     singleHealerBonus:deck.battleSettings?.engine?.singleHealerBonus || {},
     power:{...(mercenary?{mercenary:Math.round(mercenary.basePower*(1+(mercenary.combat?.powerGrowthPercentPerLevel||0)*(mercenary.level-1)/100))}:{}),cards:cards.reduce((sum, card) => sum + card.power, 0), equipment:cardSupportBonus, battleSuit:battleSuit ? suitPower : 0},
@@ -95,7 +97,7 @@ export function buildScrapyardV3Battle({snapshot, difficulty, config, seed}) {
       monster:{id:art.id, name:art.name, image:art.image, battle_power:power, is_boss:boss ? 1 : 0},
       sourceArt:'/' + art.image, battleSprite:ART[art.id] || null};
   });
-  const battleV2 = createPveBattleV2({cards:snapshot.cards, magicCards:snapshot.magicCards,
+  const battleV2 = createPveBattleV2({pet:snapshot.pet,cards:snapshot.cards, magicCards:snapshot.magicCards,
     characterBonus:snapshot.cardSupportBonus, battleSuit:snapshot.battleSuit, mercenary:snapshot.mercenary, singleHealerBonus:snapshot.singleHealerBonus,
     ultimateDamage:snapshot.ultimateDamage, seed,
     encounter:{...cfg, initialCount:cfg.simultaneous, instances}});

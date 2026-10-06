@@ -1,3 +1,4 @@
+import {loadPetBattleSnapshot} from './_pet_account.js';
 import {accountRankAward} from './_account_rank.js';
 import {releasedMercenarySnapshot} from './_mercenary_account.js';
 const KEY = "monster_siege_settings_v1";
@@ -1608,6 +1609,7 @@ export async function handleSiege({ path, request, env, deps }) {
         formation: "DEFENSE",
       },
       battleV2 = createPveBattleV2({
+        pet:await loadPetBattleSnapshot(env,user,'PVE'),
         cards: engineDeck,
         mercenary: await releasedMercenarySnapshot(env,user),
         characterBonus: siegePveBonus,

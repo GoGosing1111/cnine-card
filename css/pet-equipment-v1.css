@@ -69,3 +69,6 @@
 @media(prefers-reduced-motion:reduce){.pet-equipment *,.pe-dialog *{animation:none!important;transition:none!important}}
 
 .pe-buff-label{display:flex;align-items:center;gap:9px}.pe-buff-label .pet-buff-icon{width:32px;height:32px;object-fit:contain;flex-shrink:0}
+/* Potion attempts stay next to the selected pet and its support effects. */
+.pe-potential{margin-top:24px;padding:18px;border:1px solid #51634a;border-radius:16px;background:linear-gradient(145deg,#192721,#0c1420 74%)}
+.pe-potential-heading{display:flex;gap:12px;align-items:center}.pe-potential-heading>img{width:56px;height:64px;object-fit:contain}.pe-potential h3{margin:5px 0;color:#e3f9c5;font-size:17px}.pe-potential p{font-size:13px;line-height:1.65;color:#b4c4c0}.pe-potential dl{display:flex;justify-content:space-between;gap:16px;margin:16px 0}.pe-potential dt{font-size:11px;color:#91a79a}.pe-potential dd{margin:4px 0;color:#e5fac9;font-size:16px;font-weight:800;font-variant-numeric:tabular-nums}.pe-potential .pe-potential-button{width:100%;min-height:46px;border-color:#bfe592;background:linear-gradient(#c9f094,#9fcb6b);color:#162318;font-weight:800}.pe-potential .pe-potential-button:disabled{opacity:.5}.pe-potential small{font-size:10px;line-height:1.5;color:#8fa293}.pe-potential.is-magnet{border-color:#badd86;box-shadow:inset 0 0 25px #a9d9780b}.pe-potential-result{min-height:42px}

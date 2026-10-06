@@ -4,11 +4,12 @@ import {gsap} from 'gsap';
 // supplies a keyboard/touch target; it never grants an item without a receipt.
 export class GroundDrops{
   constructor(engine,{claim,onPicked,onExpired,onError}={}){
-    this.engine=engine;this.claim=claim;this.onPicked=onPicked;this.onExpired=onExpired;this.onError=onError;this.rows=new Map();this.revision=0;
+    this.engine=engine;this.claim=claim;this.onPicked=onPicked;this.onExpired=onExpired;this.onError=onError;this.rows=new Map();this.absorbed=new Set();this.revision=0;
     this.host=document.createElement('div');this.host.className='ground-drops';this.host.setAttribute('aria-label','필드 드랍 아이템');document.body.append(this.host);
     this.tick=()=>this.render();engine.app.ticker.add(this.tick,null,-30);
   }
-  async add(drop,serverNow){
+  async add(drop,serverNow,automaticReceipt=null){
+    if(drop?.state==='CLAIMED'&&automaticReceipt?.automatic)return this.absorb(drop,automaticReceipt);
     if(!drop||this.rows.has(drop.id))return;
     const rev=this.revision,receivedAt=performance.now(),texture=await Assets.load(drop.item.image);if(rev!==this.revision)return;
     const remaining=Math.max(0,drop.expiresAt-serverNow-(performance.now()-receivedAt));
@@ -39,6 +40,23 @@ export class GroundDrops{
     row.tween=gsap.fromTo(root.scale,{x:.5,y:.5},{x:1,y:1,duration:.22,ease:'back.out(1.7)'});
     this.render();
   }
+  async absorb(drop,receipt){
+    if(this.absorbed.has(drop.id))return;this.absorbed.add(drop.id);
+    const revision=this.revision;let texture;
+    try{texture=await Assets.load(drop.item.image);}catch{if(revision===this.revision)this.onPicked?.(receipt);return;}
+    if(revision!==this.revision)return;
+    const field=this.field(),pet=this.engine.petSupports?.get('A'),destination=pet?.root.position||{x:field.x,y:field.y+field.height};
+    const root=new Container({label:'PET_MAGNET_DROP_'+drop.id}),halo=new Graphics().circle(0,0,32).stroke({color:0xc4f588,width:3,alpha:.8}),icon=new Sprite(texture);
+    icon.anchor.set(.5);icon.scale.set(52/Math.max(texture.width,texture.height));root.addChild(halo,icon);
+    root.position.set(field.x+drop.position.x*field.width,field.y+drop.position.y*field.height);this.engine.effectLayer.addChild(root);
+    this.onPicked?.(receipt);
+    void this.engine.timeline(t=>{
+      t.fromTo(root.scale,{x:.65,y:.65},{x:1,y:1,duration:.12},0);
+      t.to(root,{x:destination.x,y:destination.y-55,duration:this.engine.reducedMotion ? .15 : .6,ease:'power2.in'},.08);
+      t.to(root.scale,{x:.12,y:.12,duration:.45,ease:'power2.in'},.2);
+      t.to(root,{alpha:0,duration:.12},.55);
+    },()=>{if(!root.destroyed)root.destroy({children:true});});
+  }
   field(){
     const e=this.engine,ox=e.viewportFit?.offsetX||0,oy=e.viewportFit?.offsetY||0;
     // Keep the field stable across casualties and waves; existing loot must not slide.
@@ -68,7 +86,7 @@ export class GroundDrops{
     }
   }
   remove(id){const r=this.rows.get(id);if(!r)return;r.expired=true;r.tween?.kill();r.button.remove();r.root.destroy({children:true});this.rows.delete(id);}
-  clear(){this.revision++;for(const id of [...this.rows.keys()])this.remove(id);}
+  clear(){this.revision++;this.absorbed.clear();for(const id of [...this.rows.keys()])this.remove(id);}
   diagnostics(){return {active:this.rows.size,items:[...this.rows.values()].map(r=>({id:r.drop.id,position:r.drop.position,expiresInMs:Math.max(0,r.deadline-performance.now()),pending:r.pending}))};}
   destroy(){this.clear();this.engine.app?.ticker?.remove(this.tick);this.host.remove();}
 }

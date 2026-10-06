@@ -150,7 +150,9 @@ export async function handleLegionHunt({path,request,env,deps}){
       }
       if(action==='reveal'){
         if(body.seqs!==undefined&&body.seq!==undefined)throw jointError('HUNT_DROP_BATCH','드랍 확인 요청을 다시 확인하세요.');
+        if(before.run.state.magnet&&before.run.liveRewards&&!access.liveRewards)throw jointError('HUNT_REWARD_PAUSED','실계정 보상 지급이 중지됐습니다. 운영 모드를 확인해 주세요.',423);
         result=body.seqs!==undefined?session.revealMany(body.seqs):session.reveal(body.seq);
+        if(before.run.state.magnet){result.pendingRewards=before.run.liveRewards===true;result.liveRewards=false;}
       }
       if(action==='claim'){
         result=session.claim(body);

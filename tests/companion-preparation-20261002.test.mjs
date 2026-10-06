@@ -16,7 +16,7 @@ test('five regular cards, two distinct ranks and one noncombat pet; legacy deck 
   const checked=validateCompanionLoadout(loadout,options);assert.equal(checked.ok,true);assert.equal(checked.combatUnitCount,7);
   const formation=preparedFormation(checked.loadout);assert.deepEqual(formation.mercenaries.map(row=>row.slotIndex),[6,7]);assert.equal(formation.pet.occupiesCombatSlot,false);
   const prior={cardIds:cards.map(card=>card.id),mercenaryCode:'V-013'};assert.deepEqual(legacyCompanionLoadout(prior),{cardIds:prior.cardIds,mercenaryCodes:['V-013'],petCode:null});assert.equal(prior.mercenaryCode,'V-013');
-  assert.deepEqual(COMPANION_RELEASE,{dualMercenaries:false,pets:false,petAcquisition:false});
+  assert.deepEqual(COMPANION_RELEASE,{dualMercenaries:false,pets:true,petAcquisition:false});
 });
 test('server rank/ownership enforce duplicates, unknown codes, five cards and client fields',()=>{
   for(const changed of [{mercenaryCodes:['V-013','V-022']},{mercenaryCodes:['V-013','V-013']},{mercenaryCodes:['V-999']},{mercenaryCodes:['V-013','V-021','V-022']},{cardIds:[...loadout.cardIds,'V-021']},{cardIds:['V-021',...loadout.cardIds.slice(1)]},{petCode:'PET-UNKNOWN'},{mercenaryRanks:['SS','SSS']}])assert.equal(validateCompanionLoadout({...loadout,...changed},options).ok,false,JSON.stringify(changed));
@@ -26,7 +26,7 @@ test('server rank/ownership enforce duplicates, unknown codes, five cards and cl
 });
 test('pet CMS rejects unsafe resources, unknown buffs, duplicates, invalid numbers and ON flags',()=>{
   for(const mutate of [p=>p.battleSprite='https://bad.test/x.png',p=>p.battleSprite='assets/../x.png',p=>p.buffs[0].percent=Infinity,p=>p.buffs[0].percent=-1,p=>p.buffs.push({...p.buffs[0]}),p=>p.buffs[0].type='INSTANT_WIN']){const doc=document();mutate(doc.pets[0]);assert.throws(()=>validatePetCmsDocument(doc));}
-  assert.throws(()=>validatePetCmsDocument({...document(),battleEnabled:true}));
+  assert.throws(()=>validatePetCmsDocument({...document(),acquisitionEnabled:true}));
   assert.throws(()=>validatePetCmsDocument({...document(),pets:[reviewPet(),reviewPet()]}));
   const pending=reviewPet();pending.buffs[0].percent=null;assert.equal(petReadiness(pending).ok,false);
 });
@@ -61,9 +61,9 @@ test('PVP supports two distinct ranks on each side and independent pet openings'
   assert.equal(result.result.timeline.filter(event=>event.type==='PET_OPENING_BUFF').length,2);
   for(const side of ['A','B']){assert.equal(result.result.final[side].length,7);for(const row of team.mercenaries)assert.ok(result.result.timeline.some(event=>event.type==='TURN'&&event.actorId===`${side}:MERCENARY:${row.code}`));}
 });
-test('legacy live PVE/PVP ignore preparation pet/dual fields and retain original contract',()=>{
+test('legacy live PVE/PVP continue ignoring unconnected dual mercenary fields',()=>{
   const pve={cards,mercenary:rows[0],monster:{power:300000,isBoss:true},seed:17};
-  assert.deepEqual(createPveBattleV2(pve),createPveBattleV2({...pve,mercenaryCodes:['V-013','V-021'],pet:reviewPet()}));
+  assert.deepEqual(createPveBattleV2(pve),createPveBattleV2({...pve,mercenaryCodes:['V-013','V-021']}));
   const pvp={attackerCards:cards,defenderCards:cards,attackerMercenary:rows[0],seed:17};
   assert.deepEqual(createPvpBattleV2(pvp),createPvpBattleV2({...pvp,pet:reviewPet(),attackerMercenaries:rows}));
 });
@@ -83,7 +83,7 @@ test('atomic first-save race, failed save retry and corrupt ON records fail clos
     const attempts=await Promise.all([fx.call(save()),fx.call(save(0,'pet-cms-race-000002'))]);assert.deepEqual(attempts.map(row=>row.status).sort(),[200,409]);
     fx.fail(true);const body=save(1,'pet-cms-retry-00001');assert.equal((await fx.call(body)).status,503);fx.fail(false);
     assert.equal((await fx.call(body)).status,200);assert.equal((await fx.call(body)).body.replayed,true);
-    const record=JSON.parse((await fx.pg.query('SELECT value FROM app_meta WHERE key=$1',[PET_CMS_KEY])).rows[0].value);record.document.battleEnabled=true;
+    const record=JSON.parse((await fx.pg.query('SELECT value FROM app_meta WHERE key=$1',[PET_CMS_KEY])).rows[0].value);record.document.acquisitionEnabled=true;
     await fx.pg.query('UPDATE app_meta SET value=$1 WHERE key=$2',[JSON.stringify(record),PET_CMS_KEY]);assert.equal((await fx.call()).status,503);
   }finally{await fx.close();}
 });

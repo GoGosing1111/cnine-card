@@ -57,10 +57,11 @@ for(const file of ['preview/project-v-v3/source/battle/NurseHealCombatPlayback.j
 for(const file of ['shared/mercenary-limited-visuals-v1.mjs','shared/mercenary-limited-visual-catalog-v1.mjs'])sources.push({file,sha256:hash(await readFile(file,'utf8'))});
 for(const file of ['preview/project-v-v3/source/battle/IconRolePlayback.js','shared/icon-roles-v1.mjs','shared/icon-role-visuals-v1.mjs'])sources.push({file,sha256:hash(await readFile(file,'utf8'))});
 const layoutClient = 'preview/v3-wide-grid-v1/app.bundle.js';
-await build({entryPoints: ['preview/v3-wide-grid-v1/source/app.mjs'], outfile: layoutClient,
+const layoutBuild=await build({entryPoints: ['preview/v3-wide-grid-v1/source/app.mjs'], outfile: layoutClient,write:false,
   bundle: true, minify: true, format: 'iife', target: ['es2022'], legalComments: 'none'});
+await writeBundle(layoutClient,layoutBuild.outputFiles[0].text);
 const layoutClients = [{file: layoutClient, sha256: hash(await readFile(layoutClient, 'utf8'))}];
-for (const name of ['CooperativeEncounter.js','CooperativeArkePlayback.js','ApocalypseLegionFX.js','ApocalypseLegionPlayback.js','BattleEngine.js', 'BattleCharacter.js', 'AccountBattleUnit.js','ZBodySwordAnimation.js','ZBodySwordModel.mjs','XBodySwordAnimation.js','XBodySwordModel.mjs','OverlordSuitModel.mjs','OverlordSuitAnimation.js','ZBodyDashProfile.mjs','ZBodyDashFX.mjs','ObjectPool.js', 'OccupiedGridLayout.js', 'FormationLayout.mjs', 'ViewportLayout.mjs','MercenaryCombatPlayback.js','LimitedMercenaryPlayback.js','MercenaryRoleAttackFX.js','ProjectileTrail.mjs']) {
+for (const name of ['PetSupportPlayback.js','CooperativeEncounter.js','CooperativeArkePlayback.js','ApocalypseLegionFX.js','ApocalypseLegionPlayback.js','BattleEngine.js', 'BattleCharacter.js', 'AccountBattleUnit.js','ZBodySwordAnimation.js','ZBodySwordModel.mjs','XBodySwordAnimation.js','XBodySwordModel.mjs','OverlordSuitModel.mjs','OverlordSuitAnimation.js','ZBodyDashProfile.mjs','ZBodyDashFX.mjs','ObjectPool.js', 'OccupiedGridLayout.js', 'FormationLayout.mjs', 'ViewportLayout.mjs','MercenaryCombatPlayback.js','LimitedMercenaryPlayback.js','MercenaryRoleAttackFX.js','ProjectileTrail.mjs']) {
   const file = `preview/project-v-v3/source/battle/${name}`;
   sources.push({file, sha256: hash(await readFile(file, 'utf8'))});
 }

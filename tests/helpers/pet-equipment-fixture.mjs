@@ -2,6 +2,8 @@ import {companionCmsFixture} from './companion-preparation-fixture.mjs';
 import {handlePetEquipment} from '../../functions/_pet_equipment.js';
 export async function petEquipmentFixture(){
   const fixture=await companionCmsFixture();
+  await fixture.pg.exec(`CREATE TABLE inventory_items(code TEXT PRIMARY KEY,name TEXT,subtitle TEXT,description TEXT,category TEXT,rarity TEXT,image_url TEXT,sort_order BIGINT,is_active BIGINT);
+    CREATE TABLE cnine_user_inventory(user_id BIGINT,item_code TEXT,quantity BIGINT,unseen_quantity BIGINT,updated_at TEXT,PRIMARY KEY(user_id,item_code));`);
   const handle=async(request,options={})=>{
     const path=options.path||'admin/pets/equipment/state',deps={requirePermission:async()=>options.denied?null:{id:options.owner||1,role:options.role||'OWNER'},authenticate:async()=>options.denied?null:{id:options.owner||1,role:'USER'},json:(data,status=200)=>Response.json(data,{status})};
     return await handlePetEquipment({request,path,env:fixture.env,deps})||fixture.handle(request,{...options,path});

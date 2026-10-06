@@ -1,13 +1,13 @@
 {
   "date": "2026-09-26",
   "engineBase": "0d67ae862a1f9763605ad7323e889acf5d51ad41",
-  "sourceRevision": "766c9095357371915f5d50cfa7a11e52ecaedfa3",
+  "sourceRevision": "22db2979143bf997d38d66893cfff9f6d09f8b37",
   "pixi": "8.20.0",
   "gsap": "3.13.0",
-  "serverHash": "b79e7211f578353505101141cd410ef033a07a9745940f3c760297e4eb15ed7e",
-  "engineHash": "3f2e7c7f0d7bae6a3a9b2d0eeacce0c748e9e7f8b6d3a188e0ff7671665af100",
+  "serverHash": "ef2161db687700de30370e74347e315a60e8e29b80d6dcc365adce270fa0fe70",
+  "engineHash": "0812fcf5c9a34de385437337f73bb87ff51ff233bbc3416d01292ed2ed8a343e",
   "playbackHash": "8c83dc265c0c08c23d66e9f563e3009db3f4fd312ab80978c6135488f0107edd",
-  "bundleHash": "fbce0e8cf50e390b6bf7caee38222c00e48948f1ad09fb62b3be940718f162a2",
+  "bundleHash": "27f69ffff4fec5be9e6303932ff60a253a1e34a87d92d8c4d233bbc47055e1fb",
   "commonInputs": [
     "preview/project-v-v3/source/battle/ApocalypseLegionFX.js",
     "preview/project-v-v3/source/battle/ApocalypseLegionPlayback.js",
@@ -58,6 +58,7 @@
     "preview/project-v-v3/source/battle/CooperativeArkePlayback.js",
     "preview/project-v-v3/source/battle/CooperativeEncounter.js",
     "preview/project-v-v3/source/battle/IconRolePlayback.js",
+    "preview/project-v-v3/source/battle/PetSupportPlayback.js",
     "preview/project-v-v3/source/battle/BattleEngine.js",
     "preview/project-v-v3/source/battle/EffectScene.js",
     "preview/project-v-v3/source/project-v-pixi-battle.src.js"

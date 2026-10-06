@@ -27,6 +27,7 @@ import {withMercenaryBattle} from './MercenaryCombatPlayback.js';
 import {preloadCooperativeArke,playCooperativeArkeAttack,playCooperativeWatcherAttack,playCooperativeArkeMechanic} from './CooperativeArkePlayback.js';
 import {bindCooperativeEnemy,cooperativeSnapshot,spawnCooperativeEnemy} from './CooperativeEncounter.js';
 import {preloadIconPlayback,playIconEvent,playIconBasic,disposeIconPlayback} from './IconRolePlayback.js';
+import {preparePetSupport,playPetOpening,disposePetSupport} from './PetSupportPlayback.js';
 import {iconDefinition} from '../../../../shared/icon-roles-v1.mjs';
 
 const DESKTOP={width:1600,height:820};
@@ -1832,7 +1833,9 @@ export class BaseBattleEngine{
 
   async setBattlePayload(payload){
     try{
-      return await this.applyBattlePayload(payload);
+      const result=await this.applyBattlePayload(payload);
+      await preparePetSupport(this,payload);
+      return result;
     }finally{
       try{await this.releaseStaleLiveAssets()}catch(error){
         console.warn('[Project V V3] 텍스처 회수 예외',error);
@@ -3208,6 +3211,7 @@ export class BaseBattleEngine{
         syncEventShields();
         if(this.formationCoop&&type==='GUARD_PROTECT')this.queueSupportEffect(target||explicitActor,{kind:SKILL_EFFECT_KIND.DEFENSE});
       }
+      else if(type==='PET_OPENING_BUFF')playPetOpening(this,event);
       else if(type==='APOCALYPSE_SKILL')await playApocalypseLegionSkill(this,event);
       else if(type==='APOCALYPSE_STATUS')showApocalypseStatus(this,event);
       else if(type.startsWith('ICON_'))await playIconEvent(this,event);
@@ -3766,6 +3770,7 @@ export class BaseBattleEngine{
     this.cancelTimelines();
     document.removeEventListener('visibilitychange',this.onVisibility);
     disposeIconPlayback(this);
+    disposePetSupport(this);
     if(this.moteTicker)this.app?.ticker.remove(this.moteTicker);
     if(this.parallaxTicker)this.app?.ticker.remove(this.parallaxTicker);
     if(this.depthTicker)this.app?.ticker.remove(this.depthTicker);

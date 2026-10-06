@@ -1,3 +1,4 @@
+import {loadPetBattleSnapshot} from './_pet_account.js';
 import {clanReformEnabled,ensureClanReform,refreshClanExecutives,clanExecutive} from './_clan_governance.js';
 import {clanReformState,handleClanReform} from './_clan_war_reform.js';
 import {readClanRedraft,applyClanRedraftQuotas,clanDraftCapacity,assertClanRedraftComplete,clanRedraftPublicState,clanRedraftKey,balancedClanDraftPlan} from './_clan_redraft.js';
@@ -911,7 +912,7 @@ async function buildClanBattle(env,deps,attackerUser,defenderUser,seed){
   ]);
   const [aUnique,dUnique]=unique,aMap=new Map((aUnique?.cards||[]).map(c=>[String(c.id),c])),dMap=new Map((dUnique?.cards||[]).map(c=>[String(c.id),c])),aMult=1+Number(aSynergy?.totals?.attackPercent||0)/100,dMult=1+Number(dSynergy?.totals?.attackPercent||0)/100;
   const attackerDeck=aCards.map(c=>{const uniqueCard=aMap.get(String(c.id));return {...c,power:Math.max(1,Math.floor(Number(c.power||0)*aMult)),uniqueAbility:uniqueCard?.uniqueAbility||c.uniqueAbility||null,uniqueAdvancement:uniqueCard?.uniqueAdvancement||null, iconRole:uniqueCard?.iconRole||null}}),defenderDeck=dCards.map(c=>{const uniqueCard=dMap.get(String(c.id));return {...c,power:Math.max(1,Math.floor(Number(c.power||0)*dMult)),uniqueAbility:uniqueCard?.uniqueAbility||c.uniqueAbility||null,uniqueAdvancement:uniqueCard?.uniqueAdvancement||null, iconRole:uniqueCard?.iconRole||null}});
-  const battleV2=deps.createPvpBattleV2({attackerMercenary:await releasedMercenarySnapshot(env,attackerUser),defenderMercenary:await releasedMercenarySnapshot(env,defenderUser),attackerCards:attackerDeck,defenderCards:defenderDeck,attackerMagicCards:aMagic?.cards||[],defenderMagicCards:dMagic?.cards||[],attackerEquipmentBonus:Number(aBonus?.pvp||0),defenderEquipmentBonus:Number(dBonus?.pvp||0),seed,singleHealerBonus:battle?.engine?.singleHealerBonus});
+  const battleV2=deps.createPvpBattleV2({attackerPet:await loadPetBattleSnapshot(env,attackerUser,'PVP'),defenderPet:await loadPetBattleSnapshot(env,defenderUser,'PVP'),attackerMercenary:await releasedMercenarySnapshot(env,attackerUser),defenderMercenary:await releasedMercenarySnapshot(env,defenderUser),attackerCards:attackerDeck,defenderCards:defenderDeck,attackerMagicCards:aMagic?.cards||[],defenderMagicCards:dMagic?.cards||[],attackerEquipmentBonus:Number(aBonus?.pvp||0),defenderEquipmentBonus:Number(dBonus?.pvp||0),seed,singleHealerBonus:battle?.engine?.singleHealerBonus});
   return{battleV2,attackerDeck,defenderDeck,attackerPower:Number(battleV2.teams?.A?.summary?.power||0),defenderPower:Number(battleV2.teams?.B?.summary?.power||0)};
 }
 

@@ -33,7 +33,7 @@ export function createHuntSession({snapshot,catalog,equipment,difficulty='normal
   const result=simulateBattleV2Preview({teamA:simulationTeamA,teamB:fighters,
     sustainedEncounter:{durationMs:policy.huntDurationMs,templates,finalBoss},
     encounterCapacity:CAPACITY,maxCombatDurationMs:timeLimit,maxActions:6000,forcedMonsterEvery:policy.forced,healerPenalty:true,seed,
-    magicA:snapshot?.magicCards||[],singleHealerBonus:snapshot?.singleHealerBonus||{},openingPlayerUltimateDamage:snapshot?.ultimateDamage||0});
+    pets:snapshot?.pet?{A:snapshot.pet}:null,petMode:'PVE',magicA:snapshot?.magicCards||[],singleHealerBonus:snapshot?.singleHealerBonus||{},openingPlayerUltimateDamage:snapshot?.ultimateDamage||0});
   const artMap=new Map([...MONSTERS,...BOSSES].map(art=>[art.id,art]));
   const instances=result.encounter.instances.map(f=>{
     const art=artMap.get(f.huntArtId),boss=!!f.isBoss;
@@ -52,19 +52,19 @@ export function createHuntSession({snapshot,catalog,equipment,difficulty='normal
   const accountNickname=snapshot?.accountNickname||'검수 원정대',mercenaries=result.openingMercenaries?.A||[];
   const payload={previewOnly:!snapshot,liveRewards:false,engineBase:ENGINE_BASE,title:'군단토벌 · 잊혀진 섬',mode:'HUNT',battlefieldMode:'HUNT',accountNickname,playerName:accountNickname,opponentName:'몬스터 군단',
     cards,equippedBattleSuit,equippedWeapon,characterBonus:snapshot?.characterBonus||{battleSuitPve:partyPolicy.suitPower,equippedBattleSuit,equippedWeapon},
-    ...(snapshot?{loadoutSource:snapshot.source,mercenary:snapshot.mercenary||null}:{}),
+    ...(snapshot?{loadoutSource:snapshot.source,mercenary:snapshot.mercenary||null,pet:snapshot.pet||null}:{}),
     huntPolicy:{...policy,limitMs:timeLimit,totalEnemies:instances.length,totalBosses:1,party:snapshot?'account':partyPolicy.id,partyPower:teamSummary(simulationTeamA).power},
     huntPlayback:{limitMs:timeLimit,boss:bossEvent?{combatAtMs:bossEvent.combatAtMs,final:playbackFinal(result.encounter.bossCheckpoint.final),seq:bossEvent.seq,targetId:bossEvent.targetId}:null,
       final:playbackFinal(result.final)},
     continuousEncounter:{schemaVersion:2,capacity:CAPACITY,initialIds:fighters.slice(0,CAPACITY).map(r=>r.id),instances},
     battleV2:{schemaVersion:2,engine:'BATTLE_ENGINE_V2',seed,rules:{battleSuitDamageAuthority:'SERVER_TIMELINE',battleSuitActionClock:'INDEPENDENT_TIME_CADENCE',battleSuitTargetable:false,battleSuitOccupiesCardSlot:false},
-      teams:{A:{cards:teamA.map(publicFighter),summary:teamSummary([...teamA,...mercenaries]),...(mercenary?{mercenaries}:{}),supports:support?[{...publicFighter(support),authoritative:true,damageAuthority:'SERVER_TIMELINE'}]:[]},B:{cards:fighters.slice(0,CAPACITY).map(publicFighter),summary:teamSummary(fighters.slice(0,CAPACITY))}},
+      teams:{A:{cards:result.openingTeams?.A.filter(c=>!c.isMercenary&&!c.isBattleSuit)||teamA.map(publicFighter),summary:teamSummary(result.openingTeams?.A.filter(c=>!c.isBattleSuit)||[...teamA,...mercenaries]),...(mercenary?{mercenaries}:{}),...(snapshot?.pet?{pet:snapshot.pet}:{}),supports:support?[{...publicFighter(support),authoritative:true,damageAuthority:'SERVER_TIMELINE'}]:[]},B:{cards:fighters.slice(0,CAPACITY).map(publicFighter),summary:teamSummary(fighters.slice(0,CAPACITY))}},
       result:{winner:null,reason:'RUNNING',timeline,final:{A:result.final.A.filter(c=>!c.isMercenary&&!c.isBattleSuit),B:result.final.B,...(mercenary?{mercenaries:{A:result.final.A.filter(c=>c.isMercenary),B:[]}}:{})}}}};
-  return Object.assign(restoreHuntSession({id,policy,timeLimit,eventTimes:timeline.map(e=>Math.floor(e.combatAtMs)),timeline:timeline.filter(e=>e.huntKill||e.type==='RESULT').map(({seq,combatAtMs,huntKill,boss,type,winner,reason})=>({seq,combatAtMs,huntKill,boss,type:type==='RESULT'?type:undefined,winner,reason})),outcome:{winner:result.winner,reason:result.reason,events:timeline.length,combatMs:timeline.at(-1)?.combatAtMs}},{now,random}),{payload});
+  return Object.assign(restoreHuntSession({id,policy,timeLimit,magnet:snapshot?.pet?.magnet===true,eventTimes:timeline.map(e=>Math.floor(e.combatAtMs)),timeline:timeline.filter(e=>e.huntKill||e.type==='RESULT').map(({seq,combatAtMs,huntKill,boss,type,winner,reason})=>({seq,combatAtMs,huntKill,boss,type:type==='RESULT'?type:undefined,winner,reason})),outcome:{winner:result.winner,reason:result.reason,events:timeline.length,combatMs:timeline.at(-1)?.combatAtMs}},{now,random}),{payload});
 }
 // Compact, JSON-safe state is persisted by the account API; no isolate-local session map.
 export function restoreHuntSession(state,{now=Date.now,random=secureRandom}={}){
-  const {id,policy,timeLimit,timeline,outcome}=state;
+  const {id,policy,timeLimit,timeline,outcome}=state,magnet=state.magnet===true;
   const eventTimes=state.eventTimes||timeline.map(e=>e.combatAtMs),eventsBySeq=new Map(timeline.map(e=>[e.seq,e]));
   let {startedAt=null,lastAck=0,ended=false,receipt=null}=state;
   const drops=new Map(state.drops||[]),claims=new Map(state.claims||[]),inventory=new Map(state.inventory||[]),positions=state.positions||[],claimTimes=state.claimTimes||[];
@@ -79,9 +79,9 @@ export function restoreHuntSession(state,{now=Date.now,random=secureRandom}={}){
     if(commit)lastAck=Math.max(lastAck,seq);return event;
   }
   function expire(){for(const d of drops.values())if(d.state==='GROUND'&&now()>=d.expiresAt)d.state='EXPIRED';}
-  function reveal(seq){
+  function revealDrop(seq,settling=false){
     // Late retries reuse their original roll/deadline, never resurrect an earlier unseen kill.
-    if(Number.isSafeInteger(seq)&&seq<lastAck&&!observed.has(seq))throw Error('HUNT_STALE_DROP_EVENT');
+    if(!settling&&Number.isSafeInteger(seq)&&seq<lastAck&&!observed.has(seq))throw Error('HUNT_STALE_DROP_EVENT');
     const event=acknowledge(seq);if(!event?.huntKill)throw Error('HUNT_DROP_REQUIRES_KILL');
     expire();
     if(observed.has(seq))return {drop:observed.get(seq),serverNow:now()};
@@ -95,8 +95,10 @@ export function restoreHuntSession(state,{now=Date.now,random=secureRandom}={}){
     const min=item.minQuantity??1,max=item.maxQuantity??min,quantity=min+Math.floor(random()*(max-min+1));
     const drop={id:randomUUID(),token:randomUUID(),seq,item:{...item,quantity},position,createdAt:now(),expiresAt:now()+policy.dropLifeMs,state:'GROUND'};
     drops.set(drop.id,drop);positions.push(position);observed.set(seq,drop);
+    if(magnet)collect(drop,true);
     return {drop,serverNow:now()};
   }
+  function reveal(seq){const result=revealDrop(seq);return magnet?{...result,autoClaims:result.drop?[claims.get(result.drop.id)]:[],inventory:[...inventory.values()],picked:claims.size}:result;}
   function revealMany(seqs){
     if(!Array.isArray(seqs)||seqs.length<1||seqs.length>24||!seqs.every((seq,i)=>Number.isSafeInteger(seq)&&seq>0&&(!i||seq>seqs[i-1])))throw Error('HUNT_DROP_BATCH');
     // Validate the complete batch before rolling or advancing any receipt.
@@ -104,7 +106,8 @@ export function restoreHuntSession(state,{now=Date.now,random=secureRandom}={}){
       if(seq<lastAck&&!observed.has(seq))throw Error('HUNT_STALE_DROP_EVENT');
       if(!acknowledge(seq,false)?.huntKill)throw Error('HUNT_DROP_REQUIRES_KILL');
     }
-    return {drops:seqs.map(seq=>reveal(seq).drop),serverNow:now()};
+    const revealed=seqs.map(seq=>reveal(seq).drop);
+    return {drops:revealed,serverNow:now(),...(magnet?{autoClaims:revealed.filter(Boolean).map(d=>claims.get(d.id)),inventory:[...inventory.values()],picked:claims.size}:{})};
   }
   function claim({dropId,token,x,y}={}){
     const d=drops.get(dropId);if(!d||d.token!==token)throw Error('INVALID_DROP_CLAIM');
@@ -115,14 +118,22 @@ export function restoreHuntSession(state,{now=Date.now,random=secureRandom}={}){
     // Rate-limit valid claims without consuming or re-rolling a drop.
     while(claimTimes.length&&now()-claimTimes[0]>1000)claimTimes.shift();
     if(claimTimes.length>=6)throw Error('DROP_CLICK_RATE_LIMIT');
-    claimTimes.push(now());d.state='CLAIMED';
+    claimTimes.push(now());return collect(d,false);
+  }
+  function collect(d,automatic){
+    if(claims.has(d.id))return claims.get(d.id);
+    d.state='CLAIMED';
     inventory.set(d.item.code,{...d.item,quantity:(inventory.get(d.item.code)?.quantity||0)+d.item.quantity});
-    const r={dropId,item:d.item,inventory:[...inventory.values()],serverNow:now()};
-    claims.set(dropId,r);return r;
+    const r={dropId:d.id,item:d.item,inventory:[...inventory.values()],serverNow:now(),...(automatic?{automatic:true}:{})};
+    claims.set(d.id,r);return r;
   }
   function finish(seq){
     if(receipt)return receipt;
-    acknowledge(seq);expire();ended=true;
+    acknowledge(seq);
+    // A final acknowledgement also absorbs reached kills whose reveal response
+    // was delayed. The start-of-run server snapshot alone grants this ability.
+    if(magnet)for(const event of timeline)if(event.seq<=lastAck&&event.huntKill&&!observed.has(event.seq))revealDrop(event.seq,true);
+    expire();ended=true;
     for(const d of drops.values())if(d.state==='GROUND')d.state='MISSED';
     const seen=timeline.filter(e=>e.seq<=lastAck),terminal=seen.find(e=>e.type==='RESULT');
     const reason=terminal?(terminal.winner==='A'?'CLEAR':terminal.reason==='TIME_LIMIT'?'TIME_LIMIT':'DEFEAT'):'RETREAT';
@@ -132,5 +143,5 @@ export function restoreHuntSession(state,{now=Date.now,random=secureRandom}={}){
       picked:claims.size,dropped:drops.size,missed:[...drops.values()].filter(d=>d.state!=='CLAIMED').length};
     return receipt;
   }
-  return {id,begin,reveal,revealMany,claim,finish,cancel(){ended=true;},exportState(){return {id,policy,timeLimit,eventTimes,timeline,outcome,startedAt,lastAck,ended,receipt,drops:[...drops],claims:[...claims],inventory:[...inventory],positions,claimTimes,observed:[...observed].map(([seq,d])=>[seq,d?.id||null])};},get diagnostics(){expire();return {startedAt,lastAck,ended,inventory:[...inventory.values()],drops:[...drops.values()].map(({token,...d})=>d),outcome};}};
+  return {id,begin,reveal,revealMany,claim,finish,cancel(){ended=true;},exportState(){return {id,policy,timeLimit,magnet,eventTimes,timeline,outcome,startedAt,lastAck,ended,receipt,drops:[...drops],claims:[...claims],inventory:[...inventory],positions,claimTimes,observed:[...observed].map(([seq,d])=>[seq,d?.id||null])};},get diagnostics(){expire();return {startedAt,lastAck,ended,inventory:[...inventory.values()],drops:[...drops.values()].map(({token,...d})=>d),outcome};}};
 }

@@ -1,7 +1,7 @@
 import {isMercenaryRank} from './mercenary-ranks-v1.mjs';
 
 export const COMPANION_PREPARATION_REVIEW = '__companionPreparationReviewV2';
-export const COMPANION_RELEASE = Object.freeze({dualMercenaries:false,pets:false,petAcquisition:false});
+export const COMPANION_RELEASE = Object.freeze({dualMercenaries:false,pets:true,petAcquisition:false});
 export const COMPANION_FORMATION_RULES = Object.freeze({version:2,regularCardSlots:5,mercenarySlots:2,petSlots:1,maxCombatUnits:7,uniqueMercenaryRanks:true,petCombatActor:false});
 const mercenaryCode = value => typeof value === 'string' && /^V-\d{3}$/.test(value.trim().toUpperCase()) ? value.trim().toUpperCase() : null;
 export const isPetCode = value => typeof value === 'string' && /^PET-[A-Z0-9-]{1,28}$/.test(value);

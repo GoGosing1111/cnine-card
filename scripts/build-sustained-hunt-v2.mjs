@@ -3,12 +3,17 @@ import path from 'node:path';
 import fs from 'node:fs/promises';
 import crypto from 'node:crypto';
 import {execFileSync} from 'node:child_process';
+import {setTimeout as delay} from 'node:timers/promises';
 import {ENGINE_BASE} from '../preview/sustained-hunt-v2/hunt-rules.mjs';
 const base='preview/sustained-hunt-v2/';
-const result=await build({entryPoints:['preview/project-v-v3/source/project-v-pixi-battle.src.js'],bundle:true,minify:true,format:'iife',target:['es2022'],legalComments:'none',metafile:true,
+const result=await build({entryPoints:['preview/project-v-v3/source/project-v-pixi-battle.src.js'],write:false,bundle:true,minify:true,format:'iife',target:['es2022'],legalComments:'none',metafile:true,
  outfile:base+'battle.bundle.js',plugins:[{name:'hunt-v2-extension',setup(b){b.onResolve({filter:/battle\/BattleEngine\.js$/},args=>{
    if(args.importer.replaceAll('\\','/').endsWith('/project-v-pixi-battle.src.js'))return {path:path.resolve(base+'source/HuntBattleEngine.js')};
  });}}]});
+for(let attempt=0;;attempt++){
+ try{await fs.writeFile(base+'battle.bundle.js',result.outputFiles[0].text);break;}
+ catch(error){if(attempt>=6||!['EPERM','EBUSY','EACCES','UNKNOWN'].includes(error.code))throw error;await delay(100*(attempt+1));}
+}
 const hash=async file=>crypto.createHash('sha256').update(await fs.readFile(file)).digest('hex');
 const lock=JSON.parse(await fs.readFile('package-lock.json','utf8'));
 await fs.writeFile(base+'engine-build.json',JSON.stringify({date:'2026-09-26',engineBase:ENGINE_BASE,sourceRevision:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),

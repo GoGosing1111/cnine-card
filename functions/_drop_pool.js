@@ -1,3 +1,4 @@
+import {ensurePetPotentialItem} from './_pet_potential.js';
 import { applyAvatarDropRate,avatarDropIncreasePercent,miracleDropIncreasePercent } from './_avatar_drop.js';
 import { applyMiracleDropChance } from './_miracle_burning.js';
 import {guardForgeProtectionGrant} from './_forge_protection_drop.js';
@@ -347,6 +348,7 @@ function cleanEntry(raw,index){
 }
 
 async function adminSnapshot(env){
+  await ensurePetPotentialItem(env);
   await env.DB.prepare("UPDATE inventory_items SET name='미스틱 에너지',subtitle='MYSTIC ENERGY',description='미스틱 장비 제작에 투입되는 고밀도 결정 에너지입니다. 직접 사용할 수 없는 제작 재료입니다.',category='MATERIAL',rarity='MYTHIC',image_url='assets/items/starlight-armor-core-v1749.png',is_active=1,updated_at=CURRENT_TIMESTAMP WHERE code='STARLIGHT_ARMOR_CORE'").run();
   const [pools,entries,bindings,items,vehicles,ledger,previewEquipment,dropCards,equipmentItems]=await Promise.all([
     env.DB.prepare(`SELECT * FROM ${POOL_TABLE} WHERE code<>'SCRAPYARD_PARTS' ORDER BY is_enabled DESC,name,id`).all(),

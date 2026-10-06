@@ -49,6 +49,8 @@ import {handleIconCms} from '../_icon_cms.js';
 import {handleIconRoles} from '../_icon_roles.js';
 import {handlePetCompanionCms} from '../_pet_companion_cms.js';
 import {handlePetEquipment} from '../_pet_equipment.js';
+import {loadPetBattleSnapshot} from '../_pet_account.js';
+import {handlePetPotential,ensurePetPotentialItem} from '../_pet_potential.js';
 import {handlePetOpening,ensurePetOpeningItems,openPetSeal} from '../_pet_opening.js';
 import {handleIconFusion} from '../_icon_fusion.js';
 import {handleMercenaryCodex} from '../_mercenary_codex.js';
@@ -1454,7 +1456,7 @@ async function raidDeckPower(env,userId,cardIds,mode='RAID'){
   const basePower=Number(unique.power||cards.reduce((n,c)=>n+Number(c.power||0),0));
   const cardPower=Math.max(0,Math.floor(basePower*(1+Number(synergy.totals.attackPercent||0)/100+Number(synergy.totals.bossDamagePercent||0)/100)));
   const mercenary=await releasedMercenarySnapshot(env,deckUser),mercenaryPower=mercenarySnapshotPower(mercenary),power=cardPower+Number(characterBonus.pve||0)+mercenaryPower;
-  return {ids,power,basePower,cardPower,characterBonus,synergy,unique,cards:battleCards,battleSettings:battleCfg,...(mercenary?{mercenary,mercenaryPower}:{})};
+  return {ids,power,basePower,cardPower,characterBonus,synergy,unique,pet:await loadPetBattleSnapshot(env,deckUser,'PVE'),cards:battleCards,battleSettings:battleCfg,...(mercenary?{mercenary,mercenaryPower}:{})};
 }
 
 /* V1191: 차원의 균열 원정 */
@@ -1724,7 +1726,7 @@ async function resolveAutoBattle(env,user,settings,monster,cards,ids,uniqueBattl
     const seed=parseInt(drawIntegrityHash(`${user.id}:${monster.id}:${requestId}`),16)>>>0;
     const engineCards=cards.map(card=>{const uniqueCard=uniqueCardsById.get(String(card.id));return {...card,id:String(card.id),power:Math.max(1,Math.floor(Number(card.power||0)*synergyMultiplier)),uniqueAbility:uniqueCard?.uniqueAbility||null,uniqueAdvancement:uniqueCard?.uniqueAdvancement||null, iconRole:uniqueCard?.iconRole||null}});
     const battleSuit=battleSuitDamage>0&&characterBonus.equippedBattleSuit?{...characterBonus.equippedBattleSuit,pvePower:battleSuitDamage,weapon:characterBonus.equippedWeapon||null,accountNickname:user.nickname}:null;
-    battleV2=createPveBattleV2({mercenary:await releasedMercenarySnapshot(env,user),cards:rankCards(engineCards,await accountRankBenefits(env,user.id,difficulty.isApocalypse?'APOCALYPSE':'HUNT')),magicCards:magicLoadout.cards||[],characterBonus:nonBattleSuitSupport,battleSuit,monster:difficulty.engineMonster,seed,ultimateDamage,bossUltimatePercent:bossShouldCast?bossPveDamagePercent:0,bossUltimateCapPercent:difficulty.bossUltimateCapPercent,singleHealerBonus:engineState.singleHealerBonus});
+    battleV2=createPveBattleV2({pet:await loadPetBattleSnapshot(env,user,'PVE'),mercenary:await releasedMercenarySnapshot(env,user),cards:rankCards(engineCards,await accountRankBenefits(env,user.id,difficulty.isApocalypse?'APOCALYPSE':'HUNT')),magicCards:magicLoadout.cards||[],characterBonus:nonBattleSuitSupport,battleSuit,monster:difficulty.engineMonster,seed,ultimateDamage,bossUltimatePercent:bossShouldCast?bossPveDamagePercent:0,bossUltimateCapPercent:difficulty.bossUltimateCapPercent,singleHealerBonus:engineState.singleHealerBonus});
     result=battleV2.result.winner==='A'?'WIN':'LOSE';
   }else result=Math.max(0,uniquePlayerPower+ultimateDamage-bossUltimatePenalty)>=monsterPower?'WIN':'LOSE';
   const damageBreakdown=battleV2?.result?.damageBreakdown||{cards:cardPower,support:nonBattleSuitSupport,battleSuit:battleSuitDamage,ultimate:ultimateDamage,total:uniquePlayerPower+ultimateDamage,authority:'SERVER_SWEEP_FALLBACK'};
@@ -5093,7 +5095,8 @@ async function handleRequest(context){
     const iconRolesResponse=await handleIconRoles({path,request,env,deps:{requirePermission,json}});if(iconRolesResponse)return iconRolesResponse;
     const iconCmsResponse=await handleIconCms({path,request,env,deps:{requirePermission,json}});if(iconCmsResponse)return iconCmsResponse;
     const petCompanionCmsResponse=await handlePetCompanionCms({path,request,env,deps:{requirePermission,json}});if(petCompanionCmsResponse)return petCompanionCmsResponse;
-    const petEquipmentResponse=await handlePetEquipment({path,request,env,deps:{authenticate,requirePermission,json}});if(petEquipmentResponse)return petEquipmentResponse;
+    const petEquipmentResponse=await handlePetEquipment({path,request,env,deps:{authenticate,requirePermission,json,withUserMutationLock:withJointUserMutationLock}});if(petEquipmentResponse)return petEquipmentResponse;
+    const petPotentialResponse=await handlePetPotential({path,request,env,deps:{authenticate,requirePermission,json,withUserMutationLock:withJointUserMutationLock}});if(petPotentialResponse)return petPotentialResponse;
     const petOpeningResponse=await handlePetOpening({path,request,env,deps:{authenticate,requirePermission,json,withUserMutationLock:withJointUserMutationLock}});if(petOpeningResponse)return petOpeningResponse;
     const iconFusionResponse=await handleIconFusion({path,request,env,deps:{requirePermission,json,authenticate,withUserMutationLock:withJointUserMutationLock}});if(iconFusionResponse)return iconFusionResponse;
     const avatarResponse=await handleAvatar({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(avatarResponse)return avatarResponse;
@@ -5222,7 +5225,7 @@ async function handleRequest(context){
     }
     if(path==='inventory'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
-      await ensurePetOpeningItems(env);
+      await ensurePetOpeningItems(env);await ensurePetPotentialItem(env);
       await ensureTournamentGiftCatalog(env);
       await ensureFundingGiftCatalog(env);
       await ensureRecruitmentGiftCatalog(env);
@@ -6543,7 +6546,7 @@ async function handleRequest(context){
         const battleSuitPve=Math.max(0,Number(characterBonus.battleSuitPve||0));
         const cardSupportBonus=Math.max(0,Number(characterBonus.pve||0)-battleSuitPve);
         const battleSuit=battleSuitPve>0&&characterBonus.equippedBattleSuit?{...characterBonus.equippedBattleSuit,pvePower:battleSuitPve,weapon:characterBonus.equippedWeapon||null,accountNickname:user.nickname}:null;
-        battleV2=createPveBattleV2({mercenary:mercenarySnapshot,cards:rankCards(engineCards,rankBenefits),magicCards:magicLoadout.cards,characterBonus:cardSupportBonus,battleSuit,monster:difficulty.engineMonster,seed,ultimateDamage,bossUltimatePercent:bossShouldCast?bossPveDamagePercent:0,bossUltimateCapPercent:difficulty.bossUltimateCapPercent,singleHealerBonus:engineState.singleHealerBonus});
+        battleV2=createPveBattleV2({pet:await loadPetBattleSnapshot(env,user,'PVE'),mercenary:mercenarySnapshot,cards:rankCards(engineCards,rankBenefits),magicCards:magicLoadout.cards,characterBonus:cardSupportBonus,battleSuit,monster:difficulty.engineMonster,seed,ultimateDamage,bossUltimatePercent:bossShouldCast?bossPveDamagePercent:0,bossUltimateCapPercent:difficulty.bossUltimateCapPercent,singleHealerBonus:engineState.singleHealerBonus});
         result=battleV2.result.winner==='A'?'WIN':'LOSE';
       }else result=effectiveBattleDamage>=monsterPower?'WIN':'LOSE';
       const deferred=difficulty.isApocalypse;
@@ -6884,7 +6887,7 @@ async function handleRequest(context){
       if(dZenithCount>ZENITH_DECK_LIMIT)return rejectRankedMatch({error:`상대의 랭크전 덱이 ZENITH ${ZENITH_DECK_LIMIT}장 편성 제한을 초과해 대전할 수 없습니다.`,code:'OPPONENT_ZENITH_DECK_LIMIT'},409);
       const defUserRole=defUser,aIds=aDeck.map(c=>String(c.id)),dIds=dDeck.map(c=>String(c.id));
       const aCards=aDeck.map(card=>({...card,power:cardBattlePower(card,card.breakthrough_level,battle)})),dCards=dDeck.map(card=>({...card,power:cardBattlePower(card,card.breakthrough_level,battle)}));
-      const [aSyn,dSyn,uniqueStates,aCharacterBonus,dCharacterBonus,aMagic,dMagic,aAvatarEffect,aMercenary,dMercenary]=await Promise.all([
+      const [aSyn,dSyn,uniqueStates,aCharacterBonus,dCharacterBonus,aMagic,dMagic,aAvatarEffect,aMercenary,dMercenary,aPet,dPet]=await Promise.all([
         evaluateDeckSynergies(env,user,aIds,'PVP',{forceOwnerTest:String(user.role||'').toUpperCase()==='OWNER'}),
         evaluateDeckSynergies(env,defUserRole,dIds,'PVP',{forceOwnerTest:String(defUserRole?.role||'').toUpperCase()==='OWNER'}),
         cardUniqueDeckStates(env,[{user,cards:aCards},{user:defUserRole,cards:dCards}],'PVP'),
@@ -6893,7 +6896,7 @@ async function handleRequest(context){
         magicBattleLoadout(env,user,'PVP'),
         magicBattleLoadout(env,defUserRole,'PVP',{presetNo:1}),
         equippedAvatarEffect(env,user.id),
-        releasedMercenarySnapshot(env,user),releasedMercenarySnapshot(env,defUser)
+        releasedMercenarySnapshot(env,user),releasedMercenarySnapshot(env,defUser),loadPetBattleSnapshot(env,user,'PVP'),loadPetBattleSnapshot(env,defUser,'PVP')
       ]);
       context.pvpTiming?.mark('loadouts');
       const [aUnique,dUnique]=uniqueStates;
@@ -6909,7 +6912,7 @@ async function handleRequest(context){
         const seed=parseInt(drawIntegrityHash(`${user.id}:${defenderId}:${requestId}:PVP_V2`),16)>>>0;battleSeed=seed;
         const attackerEngineCards=aCards.map(card=>{const uniqueCard=aUniqueById.get(String(card.id));return {...card,id:String(card.id),power:Math.max(1,Math.floor(Number(card.power||0)*aSynergyMultiplier)),uniqueAbility:uniqueCard?.uniqueAbility||card.uniqueAbility||null,uniqueAdvancement:uniqueCard?.uniqueAdvancement||null, iconRole:uniqueCard?.iconRole||null}});
         const defenderEngineCards=dCards.map(card=>{const uniqueCard=dUniqueById.get(String(card.id));return {...card,id:String(card.id),power:Math.max(1,Math.floor(Number(card.power||0)*dSynergyMultiplier)),uniqueAbility:uniqueCard?.uniqueAbility||card.uniqueAbility||null,uniqueAdvancement:uniqueCard?.uniqueAdvancement||null, iconRole:uniqueCard?.iconRole||null}});
-        battleV2=createPvpBattleV2({attackerMercenary:aMercenary,defenderMercenary:dMercenary,attackerCards:attackerEngineCards,defenderCards:defenderEngineCards,attackerMagicCards:aMagic.cards,defenderMagicCards:dMagic.cards,attackerEquipmentBonus:Number(aCharacterBonus.pvp||0),defenderEquipmentBonus:Number(dCharacterBonus.pvp||0),seed,singleHealerBonus:engineState.singleHealerBonus});
+        battleV2=createPvpBattleV2({attackerPet:aPet,defenderPet:dPet,attackerMercenary:aMercenary,defenderMercenary:dMercenary,attackerCards:attackerEngineCards,defenderCards:defenderEngineCards,attackerMagicCards:aMagic.cards,defenderMagicCards:dMagic.cards,attackerEquipmentBonus:Number(aCharacterBonus.pvp||0),defenderEquipmentBonus:Number(dCharacterBonus.pvp||0),seed,singleHealerBonus:engineState.singleHealerBonus});
       }
       const attackerWin=engineState.active?battleV2.result.winner==='A':legacyAPower>=legacyDPower;
       const aPower=engineState.active?Number(battleV2.teams.A.summary.power||legacyAPower):legacyAPower,dPower=engineState.active?Number(battleV2.teams.B.summary.power||legacyDPower):legacyDPower;
@@ -8171,6 +8174,7 @@ async function handleRequest(context){
         if(itemCode===EMPEROR_ENERGY_ITEM.code)await ensureEmperorEnergyCatalog(env);
         if(itemCode===LICH_TICKET)await ensureLichLive(env);
         if(['PET_SEAL_ORB','PET_ESSENCE'].includes(itemCode))await ensurePetOpeningItems(env);
+        if(itemCode==='PET_POTENTIAL_POTION')await ensurePetPotentialItem(env);
         if(itemCode==='CORE_RAID_ENTRY_TICKET'){
           await env.DB.prepare(`INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active)
             VALUES('CORE_RAID_ENTRY_TICKET','붕괴 코어 입장권','CORE PROTOCOL ENTRY','붕괴 코어 공대를 생성할 때 1장이 소모됩니다. 참가자는 입장권을 소모하지 않습니다.','ENTRY_TICKET','ZENITH','assets/items/core-raid-entry-ticket-v1.png',126,1)

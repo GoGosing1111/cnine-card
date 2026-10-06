@@ -1,6 +1,7 @@
 import {petBuffIcon} from '../js/pet-buff-fx-v1.mjs?v=20261003';
-import {emptyPetDraft,validatePetCmsDocument,PET_BUFF_TYPES,PET_BUFF_TARGETS} from '../shared/pet-cms-v1.mjs?v=20261002-pet-equipment1';
+import {emptyPetDraft,validatePetCmsDocument,PET_BUFF_TYPES,PET_BUFF_TARGETS} from '../shared/pet-cms-v1.mjs?v=20261006-pet-live-v1';
 import {withMercenaryDeadline} from '../shared/mercenary-loading-v1.mjs?v=20260925';
+import {mountPetPotentialCms} from './pet-potential-admin-v1.mjs?v=20261006-pet-live';
 
 const esc=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 const resource=path=>path?'/'+path.replace(/^\//,''):'';
@@ -29,12 +30,13 @@ export function mountCompanionCms(root){
       <div class="cp-review-controls"><label>전투 모드<select data-mode><option value="PVE">PvE</option><option value="PVP">PvP</option></select></label><label>검수 시드<input data-seed type="number" value="17" min="0" max="4294967295" step="1"></label><button type="button" data-run class="cp-primary">시작 버프 검수</button></div>
       <p class="cp-review-note">저장한 설정으로 검수합니다. 실제 보유·편성·획득 상태는 기존 설정을 따릅니다.</p><div class="cp-result" aria-live="polite"></div></section></details>`;
   const $=selector=>root.querySelector(selector);
+  const potentialRoot=document.createElement('section');$('[data-review-panel]').before(potentialRoot);const potentialCms=mountPetPotentialCms(potentialRoot);
   let state=null,draft=null,selected=null,dirty=false,busy=false,pending=null,disposed=false,timer=null,runSerial=0,reviewLoaded=false,reviewLoading=false;
   const choices=['',''];let chosenPet='';
   const pet=()=>draft?.pets.find(row=>row.code===selected);
   const status=(message,error=false)=>{$('[data-status]').textContent=message;$('[data-status]').classList.toggle('cp-error',error);};
   function syncButtons(){
-    root.querySelectorAll('button,input,select,textarea').forEach(element=>element.disabled=busy||!draft&&!element.matches('[data-reload]')||Boolean(pending)&&!element.matches('[data-save],[data-export]'));
+    root.querySelectorAll('button,input,select,textarea').forEach(element=>{if(!element.closest('.cp-potential'))element.disabled=busy||!draft&&!element.matches('[data-reload]')||Boolean(pending)&&!element.matches('[data-save],[data-export]');});
     $('[data-save]').disabled=busy||!draft||!dirty&&!pending;
     $('[data-save]').textContent=pending?'저장 결과 재확인':'변경사항 저장';
     $('[data-run]').disabled=busy||!state||!reviewLoaded||reviewLoading||dirty||Boolean(pending);
@@ -82,7 +84,7 @@ export function mountCompanionCms(root){
       <div class="cp-buff-summary"><span data-buff-icon>${petBuffIcon(buff.type)}</span><strong data-buff-title>${esc(PET_BUFF_TYPES[buff.type])}</strong><b data-buff-value>${buff.percent===null?'미정':esc(buff.percent)+'<small>%</small>'}</b></div>
       <div class="cp-buff-row"><label>버프 종류<select data-buff-type="0" aria-label="버프 종류">${Object.entries(PET_BUFF_TYPES).map(([key,label])=>`<option value="${key}" ${key===buff.type?'selected':''}>${label}</option>`).join('')}</select></label><label>효과<span class="cp-percent"><input data-buff-percent="0" type="number" min="0" max="1000" step="any" aria-label="버프 효과" placeholder="미정" value="${buff.percent??''}"><i>%</i></span></label></div>
       ${row.buffs.length>1?'<p class="cp-legacy-buffs">기존 버프가 여러 개입니다. 버프 종류를 선택하면 한 개로 정리됩니다.</p>':''}
-      <div class="cp-field-grid"><label>적용 대상<select data-field="target" aria-label="적용 대상">${Object.entries(PET_BUFF_TARGETS).map(([key,label])=>`<option value="${key}" ${key===row.target?'selected':''}>${label}</option>`).join('')}</select></label><fieldset class="cp-mode-field"><legend>사용 모드</legend>${['PVE','PVP'].map(mode=>`<label><input data-pet-mode="${mode}" type="checkbox" ${row.modes.includes(mode)?'checked':''}> ${mode==='PVE'?'PvE':'PvP'}</label>`).join('')}</fieldset></div>
+      <label class="cp-switch"><input data-field="liveEnabled" type="checkbox" ${row.liveEnabled!==false?'checked':''}> 실제 전투에서 사용</label><div class="cp-field-grid"><label>적용 대상<select data-field="target" aria-label="적용 대상">${Object.entries(PET_BUFF_TARGETS).map(([key,label])=>`<option value="${key}" ${key===row.target?'selected':''}>${label}</option>`).join('')}</select></label><fieldset class="cp-mode-field"><legend>사용 모드</legend>${['PVE','PVP'].map(mode=>`<label><input data-pet-mode="${mode}" type="checkbox" ${row.modes.includes(mode)?'checked':''}> ${mode==='PVE'?'PvE':'PvP'}</label>`).join('')}</fieldset></div>
       <p class="cp-helper">전투 시작에 한 번 적용합니다.</p>
       <details class="cp-advanced"><summary>상세 설정<span>이름 · 리소스 · 검수</span></summary><div class="cp-advanced-body"><label>이름<input data-field="name" maxlength="40" value="${esc(row.name)}"></label><label>장착창 일러스트 경로<input data-field="sourceArt" value="${esc(row.sourceArt||'')}" placeholder="assets/ui/pets/파일명.png"></label><label>전투 SD 경로<input data-field="battleSprite" value="${esc(row.battleSprite)}" placeholder="assets/ui/pets/파일명.png"></label><label class="cp-switch"><input data-field="enabled" type="checkbox" ${row.enabled?'checked':''}> 전투 검수에 사용</label><label>운영 메모<textarea data-field="notes" maxlength="1200" rows="2">${esc(row.notes)}</textarea></label><div class="cp-advanced-actions"><code>${esc(row.code)}</code><button type="button" data-delete class="cp-delete">펫 삭제</button></div></div></details></div>`;
   }
@@ -168,7 +170,7 @@ export function mountCompanionCms(root){
   });
   $('[data-review-panel]').addEventListener('toggle',()=>{if($('[data-review-panel]').open)void loadReview();});
   void load();
-  return {dispose(){disposed=true;runSerial++;clearTimeout(timer);root.replaceChildren();}};
+  return {dispose(){disposed=true;runSerial++;clearTimeout(timer);potentialCms.dispose();root.replaceChildren();}};
 }
 
 function install(){

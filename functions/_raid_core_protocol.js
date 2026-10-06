@@ -904,6 +904,7 @@ export function buildCoreRaidBattlePayload({
   );
   const engine = typeof createBattle === 'function'
     ? createBattle({
+        pet:snapshot.pet||null,
         cards,
         characterBonus: Math.max(0, Number(equipment.pve || 0) - battleSuitPve),
         battleSuit,
@@ -1646,6 +1647,7 @@ async function startRoom(env, user, cfg, body) {
 
 function deckSnapshot(deckInfo, cards) {
   return {
+    pet:deckInfo.pet||null,
     ids: deckInfo.ids,
     power: Math.max(1, Math.round(deckInfo.power)),
     basePower: deckInfo.basePower,
