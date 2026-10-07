@@ -515,7 +515,7 @@ function hitResult(actor, target, random, multiplier = 1, counter = false, optio
   const usePvpDamageModel = actor.battleMode !== 'PVE' && !target.isMonster && !actor.isMonster;
   const reduction = usePvpDamageModel
     ? clamp(effectiveDefense / (effectiveDefense + Math.max(1, mercenaryEffectiveAttack(actor) * S1.defenseDenomK)), 0, S1.defenseCapPercent)
-    : clamp(effectiveDefense / (effectiveDefense + 600), 0, 0.65);
+    : clamp(effectiveDefense / (effectiveDefense + 600), 0, target.isMonster&&target.statCapsUnlocked?1:0.65);
   const variance = 0.95 + random() * 0.10;
   const weakTarget = actor.type === 'ATTACK' && target.hp / Math.max(1, target.maxHp) <= 0.50;
   // V1936: PVP 마무리 배율 상향. 공격형의 역할을 '뚫고 마무리' 로 명확히 한다.
@@ -534,13 +534,13 @@ function hitResult(actor, target, random, multiplier = 1, counter = false, optio
   // cap so a tiny fixed base HP cannot make a large ward nearly unbreakable.
   // Berkan's PVP volley keeps the same already-rolled variance when capped;
   // otherwise a tiny cap edit flips every shielded rear target at once.
-  const hitCap=mercenaryDamageCapHp(target)*capPct*clamp(Number(options.damageCapScale??1),0,4)*(options.varyDamageCap?variance:1);
+  const hitCap=actor.isMonster&&actor.statCapsUnlocked?Infinity:mercenaryDamageCapHp(target)*capPct*clamp(Number(options.damageCapScale??1),0,4)*(options.varyDamageCap?variance:1);
   const capped = Math.min(raw * (1 - reduction), hitCap);
   // V1902: 반격과 호송작전은 제외한다. 반격까지 올리면 카드가 훨씬 빨리 죽고,
   //        호송은 차량 피해가 별도 공식이라 전투가 짧아지면 난이도가 흔들린다.
   // V1975: 아포칼립스 몬스터는 덱 전투력 비례로 하한이 늘고 준다(위 APOCALYPSE_FLOOR_* 참고).
   const floorScale = target.isApocalypse && options.apocalypseFloorScale > 0 ? options.apocalypseFloorScale : 1;
-  const minDamage = !counter && !isBattleSuitSupport(actor) && target.isMonster && options.minDamagePercent > 0
+  const minDamage = !counter && !isBattleSuitSupport(actor) && target.isMonster && !target.statCapsUnlocked && options.minDamagePercent > 0
     ? target.maxHp * options.minDamagePercent * floorScale
     : 0;
   const floored=Math.max(capped,minDamage);
@@ -773,6 +773,10 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const mercenaryActionAvailable=actor=>!actor.isMercenary||mercenaryActionsBySide[actor.side]<maxActions*2;
   // V1813: 몬스터 강제 행동까지 남은 플레이어 행동 수를 센다.
   let playerStreak = 0;
+  // Only an explicitly accelerated monster earns a distributed action budget.
+  // Seven completed card actions used to buy one boss turn; Akaza earns five
+  // evenly spaced turns instead, without waiting for a whole five-hit burst.
+  const monsterActionCredit = new Map();
   // APOCALYPSE monsters can own a real multi-attack sequence. The repeat is
   // resolved as additional authoritative turns so shields, counters, KO and
   // the V3 timeline all observe the same outcome.
@@ -1375,8 +1379,12 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     }
     if (!independentAction && !actor.isMercenary && !repeatedMonsterAction && forcedMonsterEvery > 0) {
       if (actor.side === 'A') {
-        playerStreak += 1;
-        if (playerStreak >= forcedMonsterEvery) {
+        const accelerated = alive(b).filter(card => card.isMonster && card.actionFrequency > 1);
+        if (accelerated.length) {
+          const due = accelerated.find(card => (monsterActionCredit.get(card.id) || 0) >= Math.max(1, forcedMonsterEvery - 1));
+          if (due) { actor = due; actor.gauge = 100; }
+          else for (const card of accelerated) monsterActionCredit.set(card.id, (monsterActionCredit.get(card.id) || 0) + card.actionFrequency);
+        } else if (++playerStreak >= forcedMonsterEvery) {
           const waiting = alive(b).filter(card => card.isMonster);
           if (waiting.length) {
             actor = waiting.sort((x, y) => y.gauge - x.gauge || x.slot - y.slot)[0];
@@ -1387,6 +1395,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     }
     if (actor.isMonster) {
       playerStreak = 0;
+      if (actor.actionFrequency > 1) monsterActionCredit.set(actor.id, Math.max(0, (monsterActionCredit.get(actor.id) || 0) - Math.max(1, forcedMonsterEvery - 1)));
       if (!repeatedMonsterAction) {
         const attackCount = Math.max(1, Math.min(5, Math.floor(Number(actor.attackCount || 1))));
         repeatMonsterId = String(actor.id);
@@ -1842,12 +1851,14 @@ export function buildBattleSuitFighter(battleSuit = {}, index = 5) {
 export function buildMonsterFighter(monster = {}) {
   const power = Math.max(1, Number(monster.battle_power ?? monster.battlePower ?? monster.power ?? 1));
   const isBoss = Number(monster.is_boss ?? monster.isBoss ?? 0) === 1 || monster.isBoss === true;
+  const statCapsUnlocked = monster.pve_stat_caps_unlocked === true;
   const difficultyHpPercent = clamp(Number(monster.pve_hp_percent ?? 100), 100, 1200);
-  const difficultyAttackPercent = clamp(Number(monster.pve_attack_percent ?? 100), 100, 1200);
-  const difficultyDefensePercent = clamp(Number(monster.pve_defense_percent ?? 100), 100, 1200);
+  const difficultyAttackPercent = clamp(Number(monster.pve_attack_percent ?? 100), 100, statCapsUnlocked?Number.MAX_SAFE_INTEGER:1200);
+  const difficultyDefensePercent = clamp(Number(monster.pve_defense_percent ?? 100), 100, statCapsUnlocked?Number.MAX_SAFE_INTEGER:1200);
   const difficultySpeedPercent = clamp(Number(monster.pve_speed_percent ?? 100), 100, 500);
   const difficultyShieldPercent = clamp(Number(monster.pve_shield_percent ?? 0), 0, 300);
   const attackCount = Math.max(1, Math.min(5, Math.floor(Number(monster.pve_attack_count ?? 1))));
+  const actionFrequency = Math.max(1, Math.min(5, Math.floor(Number(monster.pve_action_frequency ?? 1))));
   const forcedActionEvery = Math.max(0, Math.min(20, Math.floor(Number(monster.pve_forced_action_every ?? 0))));
   // V1975: pveDifficultyRuntime 이 engineMonster.pve_difficulty 로 넘긴다. 아포칼립스만 하한 스케일링 대상.
   const isApocalypse = String(monster.pve_difficulty || '').toUpperCase() === 'APOCALYPSE';
@@ -1883,9 +1894,9 @@ export function buildMonsterFighter(monster = {}) {
     basePower: Math.round(power), equipmentShare: 0, power: Math.round(power),
     type: 'NONE', typeLabel: isBoss ? '보스' : '몬스터', uniqueAbility: null,
     maxHp, hp: maxHp, attack, defense, speed, shield: startingShield, maxShield: startingShield, gauge: isBoss ? 12 : 4,
-    pveBuffs: { hpPercent: hpBuffPercent, attackPercent: attackBuffPercent, defensePercent: defenseBuffPercent, difficultyHpPercent, difficultyAttackPercent, difficultyDefensePercent, difficultySpeedPercent, difficultyShieldPercent, attackCount, forcedActionEvery },
+    pveBuffs: { hpPercent: hpBuffPercent, attackPercent: attackBuffPercent, defensePercent: defenseBuffPercent, difficultyHpPercent, difficultyAttackPercent, difficultyDefensePercent, difficultySpeedPercent, difficultyShieldPercent, attackCount, actionFrequency, forcedActionEvery },
     alive: true, emergencyUsed: false, survivalUsed: false, frontlineAnnounced: false,
-    actions: 0, damageDealt: 0, healingDone: 0, isMonster: true, isBoss, attackCount, forcedActionEvery, isApocalypse
+    actions: 0, damageDealt: 0, healingDone: 0, isMonster: true, isBoss, attackCount, actionFrequency, statCapsUnlocked, forcedActionEvery, isApocalypse
   };
 }
 
@@ -2012,7 +2023,7 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
     engine: 'BATTLE_ENGINE_V2',
     playbackSpeed: 1.3,
     seed: Number(seed) >>> 0,
-    rules: { ...(legion?{enemyFormation:'BOSS_WITH_SIX_MINIONS',enemyCount:7,apocalypseSkillSchedule:'BOSS_ACTION_1_2_3',victoryCondition:'ALL_ENEMIES_DEFEATED'}:{}), hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3_PLUS_BATTLE_SUIT_SUPPORT', actionMode: escortObjective?'ESCORT_OBJECTIVE_PRIORITY':'SPEED_GAUGE_WITH_INDEPENDENT_BATTLE_SUIT', damageCapPercent: 46, bossUltimateCapPercent: clamp(bossUltimateCapPercent, 100, 500), maxActions: encounterPlan ? encounterPlan.maxActions : 2000, maxDuration: encounterPlan ? encounterPlan.maxDuration : 4.0, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF_SHIELD_REPEAT', forcedMonsterEvery, monsterAttackCount:teamB[0]?.attackCount||1, monsterShieldPercent:teamB[0]?.pveBuffs?.difficultyShieldPercent||0, monsterMinDamagePercent: escortObjective ? 0 : MONSTER_MIN_DAMAGE_PERCENT * 100, apocalypseFloorScaling: teamB[0]?.isApocalypse ? { gain: APOCALYPSE_FLOOR_GAIN, min: APOCALYPSE_FLOOR_SCALE_MIN, max: APOCALYPSE_FLOOR_SCALE_MAX } : null, apocalypseRules: teamB[0]?.isApocalypse ? { ...APOCALYPSE_RULES, magicEffectCap: 'ONE_FLOORED_HIT_PER_ACTIVATION', battleSuitPierce: 'SHIELD_IGNORING_MAXHP_PERCENT_PER_SHOT' } : null, escortObjectivePriority:Boolean(escortObjective), escortForcedOpeningStrike:Boolean(escortObjective), battleSuitDamageAuthority:battleSuitFighter?'SERVER_TIMELINE':'NONE', battleSuitActionClock:battleSuitFighter?'INDEPENDENT_TIME_CADENCE':'NONE', battleSuitFireInterval:battleSuitFighter?battleSuitFighter.independentFireInterval:0, battleSuitShotsPerCycle:battleSuitFighter?battleSuitFighter.independentShotsPerCycle:0, battleSuitReferenceCycle:BATTLE_SUIT_REFERENCE_CYCLE, battleSuitPveFirepower:BATTLE_SUIT_PVE_FIREPOWER, battleSuitDamageMultiplier:BATTLE_SUIT_DAMAGE_MULTIPLIER, battleSuitConsumesAction:false, battleSuitUsesSpeedGauge:false, battleSuitTargetable:false, battleSuitOccupiesCardSlot:false, healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED', singleHealerBonus: normalizeSingleHealerBonus(singleHealerBonus), dbTimelineWrites: 0 },
+    rules: { ...(legion?{enemyFormation:'BOSS_WITH_SIX_MINIONS',enemyCount:7,apocalypseSkillSchedule:'BOSS_ACTION_1_2_3',victoryCondition:'ALL_ENEMIES_DEFEATED'}:{}), hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3_PLUS_BATTLE_SUIT_SUPPORT', actionMode: escortObjective?'ESCORT_OBJECTIVE_PRIORITY':'SPEED_GAUGE_WITH_INDEPENDENT_BATTLE_SUIT', damageCapPercent: 46, bossUltimateCapPercent: clamp(bossUltimateCapPercent, 100, 500), maxActions: encounterPlan ? encounterPlan.maxActions : 2000, maxDuration: encounterPlan ? encounterPlan.maxDuration : 4.0, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF_SHIELD_REPEAT', forcedMonsterEvery, monsterAttackCount:teamB[0]?.attackCount||1,monsterActionFrequency:teamB[0]?.actionFrequency||1,...(teamB[0]?.statCapsUnlocked?{monsterStatCapsUnlocked:true,monsterDamageCapPercent:null,monsterDefenseReductionCapPercent:null}:{}), monsterShieldPercent:teamB[0]?.pveBuffs?.difficultyShieldPercent||0, monsterMinDamagePercent: escortObjective||teamB[0]?.statCapsUnlocked ? 0 : MONSTER_MIN_DAMAGE_PERCENT * 100, apocalypseFloorScaling: teamB[0]?.isApocalypse ? { gain: APOCALYPSE_FLOOR_GAIN, min: APOCALYPSE_FLOOR_SCALE_MIN, max: APOCALYPSE_FLOOR_SCALE_MAX } : null, apocalypseRules: teamB[0]?.isApocalypse ? { ...APOCALYPSE_RULES, magicEffectCap: 'ONE_FLOORED_HIT_PER_ACTIVATION', battleSuitPierce: 'SHIELD_IGNORING_MAXHP_PERCENT_PER_SHOT' } : null, escortObjectivePriority:Boolean(escortObjective), escortForcedOpeningStrike:Boolean(escortObjective), battleSuitDamageAuthority:battleSuitFighter?'SERVER_TIMELINE':'NONE', battleSuitActionClock:battleSuitFighter?'INDEPENDENT_TIME_CADENCE':'NONE', battleSuitFireInterval:battleSuitFighter?battleSuitFighter.independentFireInterval:0, battleSuitShotsPerCycle:battleSuitFighter?battleSuitFighter.independentShotsPerCycle:0, battleSuitReferenceCycle:BATTLE_SUIT_REFERENCE_CYCLE, battleSuitPveFirepower:BATTLE_SUIT_PVE_FIREPOWER, battleSuitDamageMultiplier:BATTLE_SUIT_DAMAGE_MULTIPLIER, battleSuitConsumesAction:false, battleSuitUsesSpeedGauge:false, battleSuitTargetable:false, battleSuitOccupiesCardSlot:false, healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED', singleHealerBonus: normalizeSingleHealerBonus(singleHealerBonus), dbTimelineWrites: 0 },
     ...(encounterPlan ? {encounter: {schemaVersion:1, initialIds:teamB.map(row => row.id), instances:[...teamB,...encounterPlan.pending].map(publicFighter),
       maxActions:encounterPlan.maxActions, maxDuration:encounterPlan.maxDuration, forcedMonsterEvery,
       stateContinuity:['HP','SHIELD','GAUGE','MAGIC_BUDGET','REVIVE_BUDGET','BATTLE_SUIT_CLOCK'], fixedEnemyStats:true}} : {}),

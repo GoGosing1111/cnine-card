@@ -23,8 +23,8 @@ function normalizeNightmareBossProfiles(raw={}){
       battlePower:clamp(value.battlePower,1,1000000000,1),
       rewardCoin:clamp(value.rewardCoin,0,1000000000,0),
       hpPercent:clamp(value.hpPercent,100,1000,200),
-      attackPercent:clamp(value.attackPercent,100,1000,160),
-      defensePercent:clamp(value.defensePercent,100,1000,150),
+      attackPercent:clamp(value.attackPercent,100,id===79?Number.MAX_SAFE_INTEGER:1000,160),
+      defensePercent:clamp(value.defensePercent,100,id===79?Number.MAX_SAFE_INTEGER:1000,150),
       speedPercent:clamp(value.speedPercent,100,300,120),
       rewardPercent:clamp(value.rewardPercent,100,2000,250),
       bossUltimateCapPercent:clamp(value.bossUltimateCapPercent,100,500,120)
@@ -122,8 +122,12 @@ export function preserveApocalypseUltimateSettings(raw={},previous={}){
  }))};
 }
 
-export function nightmareChallengeMultiplier(raw={}){
+export function nightmareChallengeMultiplier(raw={},statCapsUnlocked=false){
   const settings=normalizeNightmareSettings(raw);
+  if(statCapsUnlocked){
+    settings.attackPercent=clamp(raw.attackPercent,100,Number.MAX_SAFE_INTEGER,settings.attackPercent);
+    settings.defensePercent=clamp(raw.defensePercent,100,Number.MAX_SAFE_INTEGER,settings.defensePercent);
+  }
   return (settings.hpPercent*.35+settings.attackPercent*.30+settings.defensePercent*.25+settings.speedPercent*.10)/100;
 }
 
@@ -182,18 +186,18 @@ export function monsterPveDifficulty(monster={}){
 
 export function pveDifficultyRuntime(settings={},monster={}){
   const difficulty=monsterPveDifficulty(monster),nightmare=normalizeNightmareSettings(settings.nightmare||{}),apocalypse=normalizeApocalypseSettings(settings.apocalypse||{}),isNightmare=difficulty===PVE_NIGHTMARE,isApocalypse=difficulty===PVE_APOCALYPSE;
-  const monsterId=String(Math.floor(Number(monster.id)||0));
+  const monsterId=String(Math.floor(Number(monster.id)||0)),statCapsUnlocked=isNightmare&&monsterId==='79';
   const profile=isNightmare?nightmare.bossProfiles?.[monsterId]:isApocalypse?apocalypse.monsterProfiles?.[monsterId]:null;
   const baseTuning=isApocalypse?apocalypse:nightmare,tuning=profile?{...baseTuning,...profile}:baseTuning;
   const special=isNightmare||isApocalypse;
   const hpPercent=special?tuning.hpPercent:100,attackPercent=special?tuning.attackPercent:100,defensePercent=special?tuning.defensePercent:100,speedPercent=special?tuning.speedPercent:100;
-  const challengeMultiplier=isNightmare?nightmareChallengeMultiplier(tuning):isApocalypse?apocalypseChallengeMultiplier(tuning):1;
+  const challengeMultiplier=isNightmare?nightmareChallengeMultiplier(tuning,statCapsUnlocked):isApocalypse?apocalypseChallengeMultiplier(tuning):1;
   const storedPower=Math.max(1,Number(monster.battle_power??monster.battlePower??1)),storedReward=Math.max(0,Number(monster.reward_coin??monster.rewardCoin??0));
   const basePower=special&&profile?profile.battlePower:storedPower,baseReward=special&&profile?profile.rewardCoin:storedReward;
-  // Akaza alone spends each Nightmare action opportunity on five real attacks.
-  // Reuse the authoritative repeat-turn path; damage, speed, rewards and ultimate stay unchanged.
-  const nightmareAttackCount=isNightmare&&monsterId==='79'?5:1;
-  const shieldPercent=isApocalypse?Number(tuning.shieldPercent||0):0,attackCount=isApocalypse?Number(tuning.attackCount||1):nightmareAttackCount,forcedActionEvery=isApocalypse?Number(tuning.forcedActionEvery||8):0;
+  // Spread Akaza's fivefold action budget across the old waiting period.
+  // A five-hit burst still waited for seven player actions before it began.
+  const actionFrequency=statCapsUnlocked?5:1;
+  const shieldPercent=isApocalypse?Number(tuning.shieldPercent||0):0,attackCount=isApocalypse?Number(tuning.attackCount||1):1,forcedActionEvery=isApocalypse?Number(tuning.forcedActionEvery||8):0;
   const legion=isApocalypse?apocalypseLegionBoss(monster):null;
   const battleSuitSkillDefensePercent=legion?apocalypseLegionSuitDefense(monster,tuning.battleSuitSkillDefensePercent):0;
   const apocalypseSkill=isApocalypse?{trigger:legion?'BOSS_ACTION':'OPENING',...(legion?{skills:configuredApocalypseLegionSkills(monster,tuning.legionUltimate),ultimate:apocalypseLegionUltimate(monster,tuning.legionUltimate),minionCount:6}:{}),enabled:tuning.skillEnabled!==false,name:tuning.skillName,description:tuning.skillDescription,damagePercent:Number(tuning.skillDamagePercent||0),code:apocalypseSignatureSkill(monster)?.code||null}:null;
@@ -201,12 +205,12 @@ export function pveDifficultyRuntime(settings={},monster={}){
     difficulty,isNightmare,isApocalypse,enabled:isNightmare?nightmare.enabled:isApocalypse?apocalypse.enabled:true,
     hpPercent,attackPercent,defensePercent,speedPercent,
     rewardPercent:special?tuning.rewardPercent:100,
-    shieldPercent,attackCount,forcedActionEvery,apocalypseSkill,battleSuitSkillDefensePercent,
+    shieldPercent,attackCount,actionFrequency,statCapsUnlocked,forcedActionEvery,apocalypseSkill,battleSuitSkillDefensePercent,
     bossUltimateCapPercent:isNightmare&&nightmare.bossUltimateUnlocked?tuning.bossUltimateCapPercent:isApocalypse?500:100,
     bossUltimateUnlocked:isNightmare?nightmare.bossUltimateUnlocked:isApocalypse,
     profileSource:isNightmare&&profile?'BOSS':isApocalypse&&profile?'MONSTER':'GLOBAL',
     effectiveBattlePower:Math.max(1,Math.round(basePower*challengeMultiplier)),
     effectiveRewardCoin:Math.max(0,Math.floor(baseReward*(special?tuning.rewardPercent:100)/100)),
-    engineMonster:{...monster,battle_power:basePower,battlePower:basePower,pve_difficulty:difficulty,pve_hp_percent:hpPercent,pve_attack_percent:attackPercent,pve_defense_percent:defensePercent,pve_speed_percent:speedPercent,pve_shield_percent:shieldPercent,pve_attack_count:attackCount,pve_forced_action_every:forcedActionEvery,pve_apocalypse_skill:apocalypseSkill,...(legion?{pve_battle_suit_skill_defense_percent:battleSuitSkillDefensePercent}:{})}
+    engineMonster:{...monster,battle_power:basePower,battlePower:basePower,pve_difficulty:difficulty,pve_hp_percent:hpPercent,pve_attack_percent:attackPercent,pve_defense_percent:defensePercent,pve_speed_percent:speedPercent,pve_shield_percent:shieldPercent,pve_attack_count:attackCount,pve_action_frequency:actionFrequency,pve_stat_caps_unlocked:statCapsUnlocked,pve_forced_action_every:forcedActionEvery,pve_apocalypse_skill:apocalypseSkill,...(legion?{pve_battle_suit_skill_defense_percent:battleSuitSkillDefensePercent}:{})}
   };
 }
