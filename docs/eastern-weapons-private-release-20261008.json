@@ -1,0 +1,18 @@
+{
+  "date": "2026-10-08",
+  "request": "운영서버에 올려놔 비공개로 해놓고",
+  "deploymentCommand": "npm run deploy:production -- --assets-only",
+  "previousProductionCommit": "a69312761bc00aeec0b3abb9d04c439521122d89",
+  "previousDeployment": "https://70637e29.cnine-card.pages.dev",
+  "scope": "Four 512x512 framed weapon images and shared frame, original art provenance preserved; no game runtime changes",
+  "checks": [
+    "Exact approved PNG SHA-256 and dimensions",
+    "Assets-only changed-path gate",
+    "Clean committed tree and origin/main match",
+    "Production Hyperdrive query cache disabled",
+    "After deploy: HTTP 200 and exact hashes",
+    "After registration: four admin-visible rows, public/active/supply all zero, no owned instances or drop entries"
+  ],
+  "cmsStatus": "Register inactive, non-public drafts after asset upload",
+  "rarityPowerPolicy": "NORMAL/0 are required schema placeholders only, not approved gameplay balance"
+}

@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "date": "2026-10-08",
+  "authorization": "운영서버에 올려놔 비공개로 해놓고",
+  "operationKey": "ops:eastern-weapons-private:20261008:v1",
+  "resolution": [
+    512,
+    512
+  ],
+  "muzzleDirection": "LEFT",
+  "nameStatus": "temporary-identifiers",
+  "policyStatus": "DRAFT_UNCONFIGURED",
+  "cmsDefaults": {
+    "rarity": "NORMAL",
+    "total_power": 0,
+    "pve_power": 0,
+    "pvp_power": 0,
+    "is_active": 0,
+    "is_public": 0,
+    "supply_enabled": 0,
+    "supply_weight": 0
+  },
+  "items": [
+    {
+      "number": 1,
+      "name": "금은장 무기 01 · 베어",
+      "sha256": "9f03736ca60c051dee3d6e2f710c4ee025cbb3e3ebe84e06286251f05d7901be",
+      "code": "EASTERN_WEAPON_DRAFT_01",
+      "slot": "WEAPON",
+      "subtype": "RIFLE",
+      "image": "/assets/items/eastern-weapons-gold-silver-v1/weapon-01-512.png",
+      "description": "비공개 무기 리소스 1번. 고급 금장·은장 디자인. 임시 식별명이며 이름·등급·능력치·획득 조건 설정 대기."
+    },
+    {
+      "number": 2,
+      "name": "금은장 무기 02 · 코어",
+      "sha256": "fb075bac4dcd178f626c4890595a4247f4584682e2bbf1b60a846495dda61894",
+      "code": "EASTERN_WEAPON_DRAFT_02",
+      "slot": "WEAPON",
+      "subtype": "RIFLE",
+      "image": "/assets/items/eastern-weapons-gold-silver-v1/weapon-02-512.png",
+      "description": "비공개 무기 리소스 2번. 고급 금장·은장 디자인. 임시 식별명이며 이름·등급·능력치·획득 조건 설정 대기."
+    },
+    {
+      "number": 3,
+      "name": "금은장 무기 03 · 나비",
+      "sha256": "1dcb4d7b7e2ce23924388393ea99c43406a539a1bba092aea9df946e2b54f8f2",
+      "code": "EASTERN_WEAPON_DRAFT_03",
+      "slot": "WEAPON",
+      "subtype": "RIFLE",
+      "image": "/assets/items/eastern-weapons-gold-silver-v1/weapon-03-512.png",
+      "description": "비공개 무기 리소스 3번. 고급 금장·은장 디자인. 임시 식별명이며 이름·등급·능력치·획득 조건 설정 대기."
+    },
+    {
+      "number": 4,
+      "name": "원색 무기 04 · 진주",
+      "sha256": "ec6954a6ece24f41951d68d9f7033ab3ff967984712e095bf64ce9a41c18d5b2",
+      "code": "EASTERN_WEAPON_DRAFT_04",
+      "slot": "WEAPON",
+      "subtype": "RIFLE",
+      "image": "/assets/items/eastern-weapons-gold-silver-v1/weapon-04-512.png",
+      "description": "비공개 무기 리소스 4번. 백색·검정·금색과 진주 장식 원색 유지. 임시 식별명이며 이름·등급·능력치·획득 조건 설정 대기."
+    }
+  ],
+  "frame": {
+    "image": "/assets/items/eastern-weapons-gold-silver-v1/frame-background-512.png",
+    "sha256": "5c7f7739f557252ec4460ff89b8ec28d03ce8076bf10898f691dcf4d6e9bc8fe"
+  },
+  "provenance": "preview/eastern-weapons-gold-silver-20261008-v1/manifest.json"
+}
