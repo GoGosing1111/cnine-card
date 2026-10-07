@@ -1,6 +1,6 @@
 {
   "date": "2026-10-08",
-  "status": "APPROVED_RELEASE_CANDIDATE",
+  "status": "LIVE",
   "request": "승부예측 누적 베팅액 300조 이상 감사패 · 라이브 올려",
   "trophyCode": "PREDICTION_STAKE_300T",
   "threshold": 300000000000000,
@@ -52,7 +52,18 @@
       "runtimeCommit": "d63c3082",
       "reused": true
     },
-    "fixtureCorrections": "Isolated PostgreSQL fixtures create their schema directly and use UTC like production; runtime code unchanged after first gate attempt."
+    "fixtureCorrections": "Isolated PostgreSQL fixtures create their schema directly and use UTC like production; runtime code unchanged after first gate attempt.",
+    "commit": "cd42351407620b0bd8f6ce39e600ee9edb709098",
+    "deployment": "https://43777ffa.cnine-card.pages.dev",
+    "apiRuntimeVersion": "f26b3c28-b66f-4c5d-b214-1cd89c14d361",
+    "clanDraftVersion": "d6be09f8-17c6-4749-b875-924083b27809",
+    "validation": {
+      "relatedTestsPassed": 35,
+      "workerSyntax": "PASS",
+      "releaseFlags": "PASS",
+      "hyperdriveQueryCache": "OFF",
+      "desktopMobile": "PASS"
+    }
   },
   "preReleaseLiveRead": {
     "ok": true,
@@ -98,5 +109,39 @@
       "errors": [],
       "lockedState": true
     }
-  ]
+  ],
+  "liveVerification": {
+    "checkedAt": "2026-10-07T17:29:35.126Z",
+    "origin": "https://cnine-card.pages.dev",
+    "assets": [
+      {
+        "path": "assets/ui/player-card/prediction-300trillion-appreciation-v1.webp",
+        "status": 200,
+        "sha256": "afbf5c74ea2aa52e5391f1e67b1f4af0130d241fe85ff32313ea92f719b444b6"
+      },
+      {
+        "path": "assets/ui/player-card/prediction-300trillion-appreciation-v1.png",
+        "status": 200,
+        "sha256": "ad728e4d81f2594a152fc66adb5e2a1e23362207a8d5e58d33eccc4da3b9e17a"
+      },
+      {
+        "path": "js/player-card-v2052.js",
+        "status": 200,
+        "sha256": "340f86993faf29f8c9c00b52ce31ec9910ed92e63f60f25d78d348706f369f4f"
+      },
+      {
+        "path": "js/player-card-model-v2052.js",
+        "status": 200,
+        "sha256": "1eee79525454e5b1412e5a2a3824727f5cf9d331b6ab67d0b4eb2f0e433e493e"
+      }
+    ],
+    "indexCacheKey": true,
+    "anonymousApiStatus": 401,
+    "preview": {
+      "trophies": 6,
+      "detail": "✦\n\n승부예측 300조 감사패 2026. 10. 08. 달성\n정산 완료된 승부예측 누적 베팅액 300조 이상 · 적중 여부 무관 · 진행 중·무효·환불 제외\n효과 추후 공개 · 현재 능력치에 영향 없음",
+      "errors": [],
+      "fixture": true
+    }
+  }
 }
