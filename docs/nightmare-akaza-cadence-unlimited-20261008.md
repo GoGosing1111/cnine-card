@@ -26,3 +26,9 @@ CMS는 아카자 행의 공격·방어 입력 `max`만 제거하고 두 항목�
 ## 범위 배포
 
 작업 중 새 무기 자산 배포가 완료되어, 배포 직전 실제 운영 소스는 `410b75ed9ef865ab8695ff8dc5583a5f387806b0`, Pages는 `ead8f539-5b15-4506-a261-9449803bd5ae`로 갱신됐다. 새 자산과 문서만 추가됐으며 전투 코드 변경은 없었다. 해당 원격 이력을 통합해 보존했다. 아카자 전용 분기와 CMS 입력 제한 변경이므로 `npm run deploy:production -- --scoped`를 사용한다. 새 회귀 8건과 타임라인 비교는 이미 통과했으므로 중복 실행하지 않는다. 배포에서는 `tests/pve-nightmare-v1692.mjs`, `tests/pve-apocalypse-v1952.test.mjs`, `tests/pve-battlefield-entry-v2117.test.mjs` 및 자동 추가되는 `check:worker`만 실행하며 필수 출시·캐시·Hyperdrive 보호는 유지한다.
+
+## 운영 완료
+
+소스 `d1c04a64c2aca44debbb568c20b3ed99af26c4b4` 배포 완료. Pages `https://70e4e48b.cnine-card.pages.dev`, API 런타임 `15f071ab-72db-4d9d-a0a0-e38c954cb9c9`, 클랜 워커 `95693a5a-4c07-4b6b-93bc-24b6c9de805f`다. 지정 관련 검사 11/11 및 Worker 컴파일·필수 출시·Hyperdrive 검사가 통과했다.
+
+운영 배포 목록의 소스 일치, `admin/index.html`과 `admin/nightmare-admin-v1692.js`의 운영 SHA-256 일치, 실제 regional API의 `/api/service/status` HTTP 200·정상 운영 상태를 확인했다. 앞선 GitHub 장애로 미반영됐던 5연타 완료 문서도 이번 원격 이력에 함께 반영했다. 이 마지막 영수증은 문서만 커밋·원격 반영하며 게임을 다시 배포하지 않는다.
