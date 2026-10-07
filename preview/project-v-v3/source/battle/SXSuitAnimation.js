@@ -17,6 +17,9 @@ const bindTarget=actor=>{
 // by the engine, not by either preview controller's play/seek timeline.
 class LiveSXFX extends SXUltimateFX{
   makeTimeline(){this.zoom=false;}
+  // Preview framing owns its camera/parallax. A live suit only owns its actor
+  // and FX, including while an Apocalypse input holds the combat clock.
+  restoreBackdrop(){}
   point(target,y=0){
     if(target.valid&&!target.valid()&&target.savedPoints?.has(y))return target.savedPoints.get(y);
     const p=this.unit.root.parent.toLocal(target.root.toGlobal({x:0,y}));target.savedPoints?.set(y,p);return p;
@@ -25,16 +28,16 @@ class LiveSXFX extends SXUltimateFX{
   targetFeet(){return this.point(this.target);}
   render(t){
     if(this.disposed)return;
-    if(this.mode==='ultimate'&&this.targets){this.zoom=true;return super.render(t);}
-    this.areaPool?.forEach(s=>s.visible=false);this.swordTrails?.forEach(s=>s.visible=false);
-    if(this.giantSword)this.giantSword.visible=false;
-    this.rays?.clear();this.flash?.clear();this.groundMask?.clear();
-    // Ambient light and ordinary sword motions must not reset another actor's
-    // camera every frame. The approved ultimate retains its safe-area framing.
     const engine=this.engine;
     this.cameraNeutralEngine??=Object.assign(Object.create(engine),{camera:{reset(){}}});
     this.engine=this.cameraNeutralEngine;this.zoom=false;
-    try{return SXBodyFX.prototype.render.call(this,t);}finally{this.engine=engine;}
+    try{
+      if(this.mode==='ultimate'&&this.targets)return super.render(t);
+      this.areaPool?.forEach(s=>s.visible=false);this.swordTrails?.forEach(s=>s.visible=false);
+      if(this.giantSword)this.giantSword.visible=false;
+      this.rays?.clear();this.flash?.clear();this.groundMask?.clear();
+      return SXBodyFX.prototype.render.call(this,t);
+    }finally{this.engine=engine;}
   }
   destroy(){
     if(this.disposed)return;this.removeTimeline();this.disposed=true;
@@ -91,7 +94,7 @@ export class SXSuitAnimation{
     if(this.disposed||this.unit.root.destroyed)return;
     const u=this.unit;u.root.position.set(u.root.baseX,u.root.baseY);u.root.depthSortY=u.root.baseY;
     for(const t of this.fx.targets)if(t.valid?.()&&!t.actor.view.destroyed)t.actor.view.position.set(0,0);
-    this.fx.restoreBackdrop();this.engine.camera.reset(true);this.ready();this.engine.sortCombatDepth();
+    this.ready();this.engine.sortCombatDepth();
   }
   async play(batch,onImpact){
     if(this.disposed||!batch?.entries?.length)return false;
@@ -128,7 +131,7 @@ export class SXSuitAnimation{
   destroy(){
     if(this.disposed)return;this.externalCast?.destroy();this.cancel();this.disposed=true;
     if(this.engine.battleSuitSkillEffectFactories?.get(SX_AREA_SKILL.code)===this.skillFactory)this.engine.battleSuitSkillEffectFactories.delete(SX_AREA_SKILL.code);
-    this.fx.restoreBackdrop();this.engine.camera.reset(true);this.fx.destroy();this.placeholder.view.destroy();this.unit.view.scale.set(1);this.unit.bodySprite.texture=Texture.EMPTY;SXSuitAnimation.release(this.textures);
+    this.fx.destroy();this.placeholder.view.destroy();this.unit.view.scale.set(1);this.unit.bodySprite.texture=Texture.EMPTY;SXSuitAnimation.release(this.textures);
   }
 }
 // The server supplies all five impacts and their exact target identities. No

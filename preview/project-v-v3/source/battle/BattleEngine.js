@@ -2334,9 +2334,18 @@ export class BaseBattleEngine{
 
   updateStatus(message){
     if(this.uiLayer?.status)this.uiLayer.status.text=message;
-    const dom=document.getElementById('pvBattleStatus');
+    const dom=this.syncStatusSurface()||document.getElementById('pvBattleStatus');
     if(dom)dom.textContent=message;
     this.onStatus(message);
+  }
+
+  syncStatusSurface(){
+    // Live shells already render an accessible DOM notice above the roster.
+    // Keep the old canvas notice only for standalone scenes without that HUD.
+    const dom=this.host?.closest?.('.battle-v3-live-shell')?.querySelector('#pvBattleStatus');
+    if(this.uiLayer?.status)this.uiLayer.status.visible=!dom;
+    if(this.uiLayer?.statusPanel)this.uiLayer.statusPanel.visible=!dom;
+    return dom;
   }
 
   isAlive(character){
@@ -3581,6 +3590,7 @@ export class BaseBattleEngine{
     banner.scale.set(noticeScale);
     banner.position.set(((viewportWidth-320*noticeScale*scale)/2-this.root.x)/scale,((this.mobile?50:20)-this.root.y)/scale);
     banner.baseY=banner.y;
+    this.syncStatusSurface();
   }
 
   releaseBackgroundClock(){

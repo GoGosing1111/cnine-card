@@ -54,8 +54,12 @@ export const withOccupiedGrid = Base => class extends Base {
     const dock = shell?.querySelector('.battle-v3-dock')?.getBoundingClientRect();
     const status = shell?.querySelector('.battle-v3-status');
     const statusRect = status && getComputedStyle(status).display !== 'none' ? status.getBoundingClientRect() : null;
-    const bottom = dock?.height > 0 ? Math.max(0, hostRect.bottom - dock.top) : 130;
-    let top = statusRect?.height > 0 ? Math.max(0, statusRect.bottom - hostRect.top) : 8;
+    // The live notice now sits above the card dock. Reserve it at the bottom;
+    // treating its bottom edge as a top inset collapses the mobile battlefield.
+    const statusAtDock = statusRect?.height > 0 && shell?.classList.contains('is-roster-visible');
+    const bottom = Math.max(dock?.height > 0 ? Math.max(0, hostRect.bottom - dock.top) : 130,
+      statusAtDock ? hostRect.bottom - statusRect.top + 8 : 0);
+    let top = !statusAtDock && statusRect?.height > 0 ? Math.max(0, statusRect.bottom - hostRect.top) : 8;
     let objectiveHudFit = null;
     if (this.objectiveData && this.objectiveHud?.visible) {
       const b = this.objectiveHud.getLocalBounds(), scale = Math.min(1, (this.app.screen.width - 24) / b.width);
