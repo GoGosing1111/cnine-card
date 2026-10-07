@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "date": "2026-10-08",
+  "title": "승부예측 300조 감사패",
+  "criterion": {
+    "amount": 300000000000000,
+    "comparison": ">=",
+    "label": "승부예측 누적 베팅액 300조 이상"
+  },
+  "status": "ART_REVIEW_READY",
+  "automaticAwardConnected": false,
+  "tool": "OpenAI built-in image_gen",
+  "export": "Native master preserved without modification; uniform Lanczos3 delivery-size exports only",
+  "inscriptions": [
+    "감사패",
+    "승부예측",
+    "누적 베팅액",
+    "300조",
+    "달성",
+    "함께해 주셔서 감사합니다",
+    "숲켓몬"
+  ],
+  "assets": [
+    {
+      "path": "assets/prediction-300trillion-appreciation-256.png",
+      "width": 256,
+      "height": 256,
+      "hasAlpha": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "sha256": "9bfaf294bc9e70ddd681ad8ff75a9f81990fe853d8887a023764d9ccd943dc43",
+      "bytes": 115461
+    },
+    {
+      "path": "assets/prediction-300trillion-appreciation-512.png",
+      "width": 512,
+      "height": 512,
+      "hasAlpha": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "sha256": "56a83b4e11021ca65d7aa1f3ca4f5d990fa98f9043b09c21eeb332412d2f11bb",
+      "bytes": 437264
+    },
+    {
+      "path": "assets/prediction-300trillion-appreciation-master.png",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "sha256": "ad728e4d81f2594a152fc66adb5e2a1e23362207a8d5e58d33eccc4da3b9e17a",
+      "bytes": 1916220
+    }
+  ]
+}

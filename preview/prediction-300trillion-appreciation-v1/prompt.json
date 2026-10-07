@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-08",
+  "tool": "OpenAI built-in image_gen",
+  "title": "승부예측 300조 감사패",
+  "latestUserInstruction": "아니다 300조로 하자",
+  "criterion": {
+    "description": "승부예측 누적 베팅액 300조 이상",
+    "comparison": ">=",
+    "amount": 300000000000000,
+    "currency": "숲켓몬 게임 코인"
+  },
+  "prompt": "Use case: stylized-concept.\nAsset type: ONE premium transparent game trophy resource for the Korean game 숲켓몬. This is a dignified commemorative APPRECIATION PLAQUE, celebrating cumulative prediction-event betting of at least 300 trillion virtual game coins. The latest threshold is 300조, NEVER 100조.\n\nDesign: a beautiful upright thick optical-crystal appreciation plaque mounted on a substantial two-tier polished obsidian-and-champagne-gold pedestal. The crystal has a clean broad rectangular/octagonal silhouette with elegantly beveled upper corners and a softly arched top, precise glass thickness and luminous platinum-silver edges. Inside the clear crystal is a deep midnight-blue enamel presentation panel framed with fine warm gold metalwork, paired sculpted champagne-gold laurel branches rising gently along the sides, and a small refined star-and-leaf crest at the top. Restrained silver highlights contrast the gold. A solemn, expensive Korean commemorative award with highly legible face, fine engraved metal borders and considered negative space. Not a generic cup trophy, no giant crown, no large wings, no surrounding card frame.\n\nTypography is central to the object. Render the following Korean inscriptions EXACTLY, perfectly spelled and readable:\ntop title: \"감사패\"\nbeneath title: \"승부예측\"\nmiddle small line: \"누적 베팅액\"\nlarge central hero inscription in raised gold, the focal point: \"300조\"\nsmaller line directly underneath: \"달성\"\na short elegant dedication near lower plaque: \"함께해 주셔서 감사합니다\"\non the pedestal name strip: \"숲켓몬\"\nUse refined Korean serif engraved lettering, the numeral 300 and Korean 조 very large and clear; metallic gold lettering on the dark blue panel. Hierarchy should still read at 512x512. No recipient name, no date, no rank, no other text, no English, no incorrect extra characters.\n\nStyle: high-end semi-real painted game collectible art, crisp silhouette and precise gold reflections, premium crystal refraction, coherent physically convincing construction with beautiful material separation. Existing game trophies are richly illustrated polished-metal items; match that level of visual finish, but keep the dignified appreciation-plaque identity. Front-facing near-symmetrical presentation with only a very slight visible side thickness, not strongly angled so text remains clear. Entire award and pedestal fully visible, centered, taking about 84% of square canvas height, generous safe transparent margins. Square 1:1 high-resolution master PNG. Genuine transparent RGBA outside the physical trophy, clean antialiased edges, no checkerboard, no scene, no floor, no surrounding background panel, no cast shadow plane, no extra objects, no confetti, no enormous glow clouds. Subtle contained warm glints are sufficient.",
+  "generatedSource": "C:\\Users\\User\\.codex\\generated_images\\01a116e3-abee-7f01-9911-6a9796665778\\exec-1f4db584-7757-4a52-a302-f007f6ac162b.png",
+  "scope": "Trophy artwork resource",
+  "automaticAwardConnected": false
+}
