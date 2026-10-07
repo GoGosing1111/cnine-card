@@ -60,7 +60,7 @@ for(const dialect of ['sqlite','postgres']){
     const chips=body.catalog.inventory_item.filter(row=>row.category==='SKILL_CHIP');
     assert.deepEqual(chips.map(row=>[row.code,row.name,row.rewardType]),[[ROCKET,'로켓런처 스킬칩','INVENTORY_ITEM'],[HELI,'헬기폭격 스킬칩','INVENTORY_ITEM'],[OCTA,'8방향 유도탄 스킬칩','INVENTORY_ITEM']]);
     assert.ok(chips.every(row=>row.image.endsWith('.webp')));
-    assert.equal(body.catalog.inventory_item.filter(row=>row.category==='MATERIAL').length,6);
+    assert.deepEqual(body.catalog.inventory_item.filter(row=>row.category==='MATERIAL').map(row=>row.code).sort(),['SUIT_CORE_1','SUIT_CORE_2','SUIT_CORE_3','SUIT_CORE_4','SUIT_CORE_5','SUIT_CORE_6','SUIT_CORE_7']);
     assert.deepEqual(body.equipment.pool.entries.map(row=>[row.code,row.drawWeight]),[['EQUIP_1',100]]);
     assert.deepEqual(await f.q('SELECT * FROM prime_equipment_draw_pool_v1985'),before);
     assert.deepEqual(await f.q('SELECT * FROM prime_draw_extra_pool_v1987'),[]);
