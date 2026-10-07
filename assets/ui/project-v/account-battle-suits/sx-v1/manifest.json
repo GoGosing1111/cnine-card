@@ -3,8 +3,8 @@
   "name": "SX슈트",
   "title": "푸른 사신",
   "status": "USER_VISUAL_APPROVED",
-  "scope": "STATIC_RESOURCE_UPLOAD",
-  "runtimeEnabled": false,
+  "scope": "LIVE_RUNTIME",
+  "runtimeEnabled": true,
   "appearanceUrl": "/preview/battle-suit-sx-v1/assets/sources/sx-standing-approved-20261007.png",
   "approvals": {
     "auraDashSkill": "/preview/battle-suit-sx-v1/approval-aura-dash-skill-20261007.json",
@@ -483,5 +483,10 @@
       "bytes": 13760,
       "kind": "implementation"
     }
-  ]
+  ],
+  "suitCode": "BATTLE_SUIT_SX",
+  "liveVersion": "SX_LIVE_20261007_2X_V1",
+  "attackSpeedMultiplier": 2,
+  "liveController": "preview/project-v-v3/source/battle/SXSuitAnimation.js",
+  "liveReview": "/preview/sx-live-v1/"
 }

@@ -35,6 +35,7 @@
     "shared/battle-suit-skill-chips.mjs",
     "shared/x-body-area-skill.mjs",
     "shared/overlord-suit-v1.mjs",
+    "shared/sx-suit-v1.mjs",
     "shared/z-body-area-skill.mjs",
     "preview/battle-suit-skill-chip-v1/source/sequence.js",
     "preview/battle-suit-skill-chip-v1/assets/textures/explosion-origins.json",
@@ -73,6 +74,15 @@
     "assets/ui/project-v/account-battle-suits/overlord-v1/manifest.json",
     "preview/project-v-v3/source/battle/OverlordSuitModel.mjs",
     "preview/project-v-v3/source/battle/OverlordSuitAnimation.js",
+    "preview/battle-suit-sx-v1/motion.mjs",
+    "preview/battle-suit-sx-v1/source/SXTitle.js",
+    "preview/battle-suit-sx-v1/source/SXBodyFX.js",
+    "preview/battle-suit-sx-v1/ultimate-v3/motion.mjs",
+    "preview/battle-suit-sx-v1/ultimate-v3/source/SXUltimateFX.js",
+    "preview/battle-suit-sx-v1/manifest.json",
+    "preview/battle-suit-sx-v1/ultimate-v3/manifest.json",
+    "preview/project-v-v3/source/battle/SXSuitModel.mjs",
+    "preview/project-v-v3/source/battle/SXSuitAnimation.js",
     "preview/project-v-v3/source/battle/FormationLayout.mjs",
     "preview/project-v-v3/source/battle/ViewportLayout.mjs",
     "preview/project-v-v3/source/battle/OccupiedGridLayout.js",
@@ -146,5 +156,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 1605399
+  "outputBytes": 1717955
 }

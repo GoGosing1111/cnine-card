@@ -1,6 +1,7 @@
 import {Z_BODY_AREA_RELEASE_ENABLED,Z_BODY_AREA_REVIEW,isZBodyAreaActor,createBattleSuitCombatSchedule} from '../shared/z-body-area-skill.mjs';
 import {X_BODY_AREA_RELEASE_ENABLED,X_BODY_AREA_REVIEW,isXBodyAreaActor} from '../shared/x-body-area-skill.mjs';
 import {OVERLORD_RELEASE_ENABLED,isOverlordAreaActor} from '../shared/overlord-suit-v1.mjs';
+import {SX_RELEASE_ENABLED,SX_ATTACK_SPEED,isSxSuit,isSxAreaActor} from '../shared/sx-suit-v1.mjs';
 import {battleSuitIntrinsicDamage} from '../shared/z-body-area-skill.mjs';
 import {buildApocalypseLegion,castApocalypseAction,apocalypseSealed,apocalypseCursed,clearApocalypseStatus,finishApocalypseAction} from './_apocalypse_legion.js';
 import {SKILL_CHIP_RUNTIME_ENABLED,SKILL_CHIP_CLOCK,normalizeSkillChipCodes,skillChipDamage,splitSkillChipDamage,skillChipCombatEventMs} from '../shared/battle-suit-skill-chips.mjs';
@@ -1164,10 +1165,10 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const independentSupports=[...a,...b].filter(isBattleSuitSupport);
   const zAreaEnabled=Z_BODY_AREA_RELEASE_ENABLED||zAreaReview===true;
   const xAreaEnabled=X_BODY_AREA_RELEASE_ENABLED||xAreaReview===true;
-  const chipActor=SKILL_CHIP_RUNTIME_ENABLED&&isPveBattle?independentSupports.find(actor=>normalizeSkillChipCodes(actor.skillChips).length||(zAreaEnabled&&isZBodyAreaActor(actor))||(xAreaEnabled&&isXBodyAreaActor(actor))||(OVERLORD_RELEASE_ENABLED&&isOverlordAreaActor(actor))):null;
+  const chipActor=SKILL_CHIP_RUNTIME_ENABLED&&isPveBattle?independentSupports.find(actor=>normalizeSkillChipCodes(actor.skillChips).length||(zAreaEnabled&&isZBodyAreaActor(actor))||(xAreaEnabled&&isXBodyAreaActor(actor))||(OVERLORD_RELEASE_ENABLED&&isOverlordAreaActor(actor))||(SX_RELEASE_ENABLED&&isSxAreaActor(actor))):null;
   // Timed encounters need the same playback clock even without a suit/chip.
   const combatClockEnabled=Boolean(chipActor)||maxCombatDurationMs>0;
-  const chipSchedule=createBattleSuitCombatSchedule(chipActor?.skillChips,zAreaEnabled&&isZBodyAreaActor(chipActor),xAreaEnabled&&isXBodyAreaActor(chipActor),OVERLORD_RELEASE_ENABLED&&isOverlordAreaActor(chipActor));
+  const chipSchedule=createBattleSuitCombatSchedule(chipActor?.skillChips,zAreaEnabled&&isZBodyAreaActor(chipActor),xAreaEnabled&&isXBodyAreaActor(chipActor),OVERLORD_RELEASE_ENABLED&&isOverlordAreaActor(chipActor),SX_RELEASE_ENABLED&&isSxAreaActor(chipActor));
   const chipRandom=seededRandom((Number(seed)^0x534b494c)>>>0);
   const zAreaRandom=seededRandom((Number(seed)^0x534b494c)>>>0);
   const pendingChipHits=[];
@@ -1313,7 +1314,11 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     // is below 100,000. Drain their actual ready times instead of advancing
     // another millisecond and letting the same side win each capped tie.
     // Keep versioned cooperative replays on their existing clock contract.
-    const minimumGaugeStep=cooperative?.turnClockVersion>=2||(!cooperative&&iconRuntime)||actors.some(card=>card.speed*.001>=100)?0:.001;
+    // SX can fire inside the legacy .001 minimum. Reapplying that minimum
+    // after every support shot moves a ready card's deadline forward forever.
+    // Drain its exact gauge crossing while retaining the old rule for other suits.
+    const fastSxSupport=independentSupports.some(support=>isSxAreaActor(support)&&support.independentFireInterval<.001);
+    const minimumGaugeStep=cooperative?.turnClockVersion>=2||(!cooperative&&iconRuntime)||fastSxSupport||actors.some(card=>card.speed*.001>=100)?0:.001;
     const gaugeReadyAt=clock+Math.max(minimumGaugeStep,gaugeDt);
     const reservedMercenary=mercenaryTurns.pending(mercenaryActionAvailable);
     const nextCardAt=reservedMercenary?clock:gaugeReadyAt;
@@ -1818,7 +1823,9 @@ export function buildBattleSuitFighter(battleSuit = {}, index = 5) {
   fighter.usesSpeedGauge = false;
   fighter.consumesBattleAction = false;
   fighter.independentShotsPerCycle = Math.max(1, Math.round(cadence.shotsPerCycle));
-  fighter.independentFireInterval = BATTLE_SUIT_REFERENCE_CYCLE / fighter.independentShotsPerCycle;
+  fighter.independentAttackSpeed = isSxSuit(code)?SX_ATTACK_SPEED:1;
+  // Keep the per-hit divisor and damage unchanged; only SX's interval is halved.
+  fighter.independentFireInterval = BATTLE_SUIT_REFERENCE_CYCLE / fighter.independentShotsPerCycle / fighter.independentAttackSpeed;
   fighter.independentOpeningDelay = fighter.independentFireInterval * .35;
   fighter.independentAttackMultiplier = cadence.attackMultiplier;
   fighter.skillChips = SKILL_CHIP_RUNTIME_ENABLED?normalizeSkillChipCodes(battleSuit.skillChips):[];

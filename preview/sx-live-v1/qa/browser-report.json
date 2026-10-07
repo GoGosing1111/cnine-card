@@ -1,0 +1,1116 @@
+[
+  {
+    "name": "desktop",
+    "errors": [],
+    "failures": [],
+    "normal": [
+      {
+        "mode": "attack",
+        "expected": 115176,
+        "kind": "multi",
+        "skillHits": 0,
+        "skillDamage": 0,
+        "expectedHits": 25,
+        "expectedDamage": 708740,
+        "error": null,
+        "sword": {
+          "version": "SX_LIVE_20261007_2X_V1",
+          "attackSpeed": 2,
+          "mode": "ready",
+          "timeMs": 0,
+          "completed": 1,
+          "skills": 0,
+          "nextSkillAtMs": 0,
+          "intrinsicArea": true,
+          "damageAuthority": "SERVER_TIMELINE",
+          "sourceSha256": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "effectsVisible": true,
+          "bladeAuraVisible": true,
+          "bodyAuraAlpha": 1,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 257.625,
+              "y": 241.76997574013166,
+              "width": 175.5,
+              "height": 65.8125
+            }
+          },
+          "ambientRegistered": true,
+          "externalCast": null
+        },
+        "queue": 0,
+        "timelines": 1,
+        "normalHits": 4,
+        "normalDamage": 115176,
+        "allies": 5,
+        "enemies": 5
+      },
+      {
+        "mode": "skill",
+        "expected": 115176,
+        "kind": "multi",
+        "skillHits": 0,
+        "skillDamage": 0,
+        "expectedHits": 25,
+        "expectedDamage": 708740,
+        "error": null,
+        "sword": {
+          "version": "SX_LIVE_20261007_2X_V1",
+          "attackSpeed": 2,
+          "mode": "ready",
+          "timeMs": 0,
+          "completed": 1,
+          "skills": 1,
+          "nextSkillAtMs": 20000,
+          "intrinsicArea": true,
+          "damageAuthority": "SERVER_TIMELINE",
+          "sourceSha256": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "effectsVisible": true,
+          "bladeAuraVisible": true,
+          "bodyAuraAlpha": 1,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 257.625,
+              "y": 241.76997574013166,
+              "width": 175.5,
+              "height": 65.8125
+            }
+          },
+          "ambientRegistered": true,
+          "externalCast": null
+        },
+        "queue": 0,
+        "timelines": 1,
+        "normalHits": 4,
+        "normalDamage": 115176,
+        "allies": 5,
+        "enemies": 5
+      }
+    ],
+    "area": [
+      {
+        "kind": "single",
+        "contact": {
+          "kind": "single",
+          "skillHits": 5,
+          "skillDamage": 128900,
+          "expectedHits": 5,
+          "expectedDamage": 128900,
+          "error": null,
+          "sword": {
+            "version": "SX_LIVE_20261007_2X_V1",
+            "attackSpeed": 2,
+            "mode": "ultimate",
+            "timeMs": 2380,
+            "completed": 0,
+            "skills": 0,
+            "nextSkillAtMs": 0,
+            "intrinsicArea": true,
+            "damageAuthority": "SERVER_TIMELINE",
+            "sourceSha256": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+            "mainBodyTint": 16777215,
+            "bodyUniformScale": true,
+            "effectsVisible": true,
+            "bladeAuraVisible": true,
+            "bodyAuraAlpha": 1,
+            "title": {
+              "text": "푸른 사신",
+              "mirrored": false,
+              "actorAttached": true,
+              "independentClock": false,
+              "font": "Noto Serif KR 900 / OFL",
+              "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+              "bounds": {
+                "x": 875.3427829613772,
+                "y": 434.0930120404473,
+                "width": 149.16140381144237,
+                "height": 55.93552642929092
+              }
+            },
+            "ambientRegistered": false,
+            "externalCast": {
+              "version": "SX_LIVE_20261007_2X_V1",
+              "skill": "BATTLE_SUIT_SX_SKYFALL",
+              "timeMs": 2380,
+              "bodyTimeMs": 2380,
+              "targets": [
+                "B:0:ENCOUNTER:SXREVIEW-1"
+              ],
+              "confirmedImpacts": [
+                0,
+                1,
+                2,
+                3,
+                4
+              ],
+              "destroyed": false
+            }
+          },
+          "playback": {
+            "clock": "V3_COMBAT_MS_V1",
+            "timeMs": 4400,
+            "endMs": 5700,
+            "active": true,
+            "completed": false,
+            "casts": 1,
+            "hits": 5,
+            "barrierPauses": 0,
+            "dispatchWaits": 0,
+            "suppressedCasts": 0,
+            "activeEffects": 1,
+            "pendingGroups": 0,
+            "effects": [
+              {
+                "castId": "BATTLE_SUIT_SX_SKYFALL:1",
+                "targetId": "B:0:ENCOUNTER:SXREVIEW-1",
+                "version": "SX_LIVE_20261007_2X_V1",
+                "skill": "BATTLE_SUIT_SX_SKYFALL",
+                "timeMs": 2380,
+                "bodyTimeMs": 2380,
+                "targets": [
+                  "B:0:ENCOUNTER:SXREVIEW-1"
+                ],
+                "confirmedImpacts": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+                ],
+                "destroyed": false
+              }
+            ],
+            "audio": {
+              "ready": false,
+              "enabled": false,
+              "state": "unavailable",
+              "activeSources": 0,
+              "sync": [],
+              "outputCompensationMs": 0,
+              "baseLatencyMs": 0,
+              "outputLatencyMs": 0
+            }
+          },
+          "queue": 0,
+          "timelines": 0,
+          "normalHits": 0,
+          "normalDamage": 0,
+          "allies": 5,
+          "enemies": 1
+        },
+        "complete": {
+          "kind": "single",
+          "skillHits": 5,
+          "skillDamage": 128900,
+          "expectedHits": 5,
+          "expectedDamage": 128900,
+          "error": null,
+          "sword": {
+            "version": "SX_LIVE_20261007_2X_V1",
+            "attackSpeed": 2,
+            "mode": "ready",
+            "timeMs": 0,
+            "completed": 0,
+            "skills": 0,
+            "nextSkillAtMs": 0,
+            "intrinsicArea": true,
+            "damageAuthority": "SERVER_TIMELINE",
+            "sourceSha256": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+            "mainBodyTint": 16777215,
+            "bodyUniformScale": true,
+            "effectsVisible": true,
+            "bladeAuraVisible": true,
+            "bodyAuraAlpha": 1,
+            "title": {
+              "text": "푸른 사신",
+              "mirrored": false,
+              "actorAttached": true,
+              "independentClock": false,
+              "font": "Noto Serif KR 900 / OFL",
+              "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+              "bounds": {
+                "x": 257.625,
+                "y": 241.76997574013166,
+                "width": 175.5,
+                "height": 65.8125
+              }
+            },
+            "ambientRegistered": true,
+            "externalCast": null
+          },
+          "playback": {
+            "clock": "V3_COMBAT_MS_V1",
+            "timeMs": 7728,
+            "endMs": 5700,
+            "active": false,
+            "completed": true,
+            "casts": 1,
+            "hits": 5,
+            "barrierPauses": 0,
+            "dispatchWaits": 0,
+            "suppressedCasts": 0,
+            "activeEffects": 0,
+            "pendingGroups": 0,
+            "effects": [],
+            "audio": {
+              "ready": false,
+              "enabled": false,
+              "state": "unavailable",
+              "activeSources": 0,
+              "sync": [],
+              "outputCompensationMs": 0,
+              "baseLatencyMs": 0,
+              "outputLatencyMs": 0
+            }
+          },
+          "queue": 0,
+          "timelines": 1,
+          "normalHits": 0,
+          "normalDamage": 0,
+          "allies": 5,
+          "enemies": 1
+        }
+      },
+      {
+        "kind": "multi",
+        "contact": {
+          "kind": "multi",
+          "skillHits": 25,
+          "skillDamage": 708740,
+          "expectedHits": 25,
+          "expectedDamage": 708740,
+          "error": null,
+          "sword": {
+            "version": "SX_LIVE_20261007_2X_V1",
+            "attackSpeed": 2,
+            "mode": "ultimate",
+            "timeMs": 2380,
+            "completed": 0,
+            "skills": 0,
+            "nextSkillAtMs": 0,
+            "intrinsicArea": true,
+            "damageAuthority": "SERVER_TIMELINE",
+            "sourceSha256": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+            "mainBodyTint": 16777215,
+            "bodyUniformScale": true,
+            "effectsVisible": true,
+            "bladeAuraVisible": true,
+            "bodyAuraAlpha": 1,
+            "title": {
+              "text": "푸른 사신",
+              "mirrored": false,
+              "actorAttached": true,
+              "independentClock": false,
+              "font": "Noto Serif KR 900 / OFL",
+              "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+              "bounds": {
+                "x": 580.6219386864992,
+                "y": 374.3949768816565,
+                "width": 125.2943185493234,
+                "height": 46.985369455996306
+              }
+            },
+            "ambientRegistered": false,
+            "externalCast": {
+              "version": "SX_LIVE_20261007_2X_V1",
+              "skill": "BATTLE_SUIT_SX_SKYFALL",
+              "timeMs": 2380,
+              "bodyTimeMs": 2380,
+              "targets": [
+                "B:0:ENCOUNTER:SXREVIEW-1",
+                "B:1:ENCOUNTER:SXREVIEW-2",
+                "B:2:ENCOUNTER:SXREVIEW-3",
+                "B:3:ENCOUNTER:SXREVIEW-4",
+                "B:4:ENCOUNTER:SXREVIEW-5"
+              ],
+              "confirmedImpacts": [
+                0,
+                1,
+                2,
+                3,
+                4
+              ],
+              "destroyed": false
+            }
+          },
+          "playback": {
+            "clock": "V3_COMBAT_MS_V1",
+            "timeMs": 4400,
+            "endMs": 5700,
+            "active": true,
+            "completed": false,
+            "casts": 1,
+            "hits": 25,
+            "barrierPauses": 0,
+            "dispatchWaits": 0,
+            "suppressedCasts": 0,
+            "activeEffects": 1,
+            "pendingGroups": 0,
+            "effects": [
+              {
+                "castId": "BATTLE_SUIT_SX_SKYFALL:1",
+                "targetId": "B:0:ENCOUNTER:SXREVIEW-1",
+                "version": "SX_LIVE_20261007_2X_V1",
+                "skill": "BATTLE_SUIT_SX_SKYFALL",
+                "timeMs": 2380,
+                "bodyTimeMs": 2380,
+                "targets": [
+                  "B:0:ENCOUNTER:SXREVIEW-1",
+                  "B:1:ENCOUNTER:SXREVIEW-2",
+                  "B:2:ENCOUNTER:SXREVIEW-3",
+                  "B:3:ENCOUNTER:SXREVIEW-4",
+                  "B:4:ENCOUNTER:SXREVIEW-5"
+                ],
+                "confirmedImpacts": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+                ],
+                "destroyed": false
+              }
+            ],
+            "audio": {
+              "ready": false,
+              "enabled": false,
+              "state": "unavailable",
+              "activeSources": 0,
+              "sync": [],
+              "outputCompensationMs": 0,
+              "baseLatencyMs": 0,
+              "outputLatencyMs": 0
+            }
+          },
+          "queue": 0,
+          "timelines": 0,
+          "normalHits": 0,
+          "normalDamage": 0,
+          "allies": 5,
+          "enemies": 5
+        },
+        "complete": {
+          "kind": "multi",
+          "skillHits": 25,
+          "skillDamage": 708740,
+          "expectedHits": 25,
+          "expectedDamage": 708740,
+          "error": null,
+          "sword": {
+            "version": "SX_LIVE_20261007_2X_V1",
+            "attackSpeed": 2,
+            "mode": "ready",
+            "timeMs": 0,
+            "completed": 0,
+            "skills": 0,
+            "nextSkillAtMs": 0,
+            "intrinsicArea": true,
+            "damageAuthority": "SERVER_TIMELINE",
+            "sourceSha256": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+            "mainBodyTint": 16777215,
+            "bodyUniformScale": true,
+            "effectsVisible": true,
+            "bladeAuraVisible": true,
+            "bodyAuraAlpha": 1,
+            "title": {
+              "text": "푸른 사신",
+              "mirrored": false,
+              "actorAttached": true,
+              "independentClock": false,
+              "font": "Noto Serif KR 900 / OFL",
+              "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+              "bounds": {
+                "x": 257.625,
+                "y": 241.76997574013166,
+                "width": 175.5,
+                "height": 65.8125
+              }
+            },
+            "ambientRegistered": true,
+            "externalCast": null
+          },
+          "playback": {
+            "clock": "V3_COMBAT_MS_V1",
+            "timeMs": 7726,
+            "endMs": 5700,
+            "active": false,
+            "completed": true,
+            "casts": 1,
+            "hits": 25,
+            "barrierPauses": 0,
+            "dispatchWaits": 0,
+            "suppressedCasts": 0,
+            "activeEffects": 0,
+            "pendingGroups": 0,
+            "effects": [],
+            "audio": {
+              "ready": false,
+              "enabled": false,
+              "state": "unavailable",
+              "activeSources": 0,
+              "sync": [],
+              "outputCompensationMs": 0,
+              "baseLatencyMs": 0,
+              "outputLatencyMs": 0
+            }
+          },
+          "queue": 0,
+          "timelines": 1,
+          "normalHits": 0,
+          "normalDamage": 0,
+          "allies": 5,
+          "enemies": 5
+        }
+      }
+    ],
+    "stopped": {
+      "kind": "multi",
+      "skillHits": 0,
+      "skillDamage": 0,
+      "expectedHits": 25,
+      "expectedDamage": 708740,
+      "error": null,
+      "sword": {
+        "version": "SX_LIVE_20261007_2X_V1",
+        "attackSpeed": 2,
+        "mode": "ready",
+        "timeMs": 0,
+        "completed": 0,
+        "skills": 0,
+        "nextSkillAtMs": 0,
+        "intrinsicArea": true,
+        "damageAuthority": "SERVER_TIMELINE",
+        "sourceSha256": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+        "mainBodyTint": 16777215,
+        "bodyUniformScale": true,
+        "effectsVisible": false,
+        "bladeAuraVisible": true,
+        "bodyAuraAlpha": 1,
+        "title": {
+          "text": "푸른 사신",
+          "mirrored": false,
+          "actorAttached": true,
+          "independentClock": false,
+          "font": "Noto Serif KR 900 / OFL",
+          "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+          "bounds": {
+            "x": 257.625,
+            "y": 241.76997574013166,
+            "width": 175.5,
+            "height": 65.8125
+          }
+        },
+        "ambientRegistered": false,
+        "externalCast": null
+      },
+      "playback": {
+        "clock": "V3_COMBAT_MS_V1",
+        "timeMs": 3660,
+        "endMs": 5700,
+        "active": false,
+        "completed": false,
+        "casts": 1,
+        "hits": 0,
+        "barrierPauses": 0,
+        "dispatchWaits": 0,
+        "suppressedCasts": 0,
+        "activeEffects": 0,
+        "pendingGroups": 0,
+        "effects": [],
+        "audio": {
+          "ready": false,
+          "enabled": false,
+          "state": "unavailable",
+          "activeSources": 0,
+          "sync": [],
+          "outputCompensationMs": 0,
+          "baseLatencyMs": 0,
+          "outputLatencyMs": 0
+        }
+      },
+      "queue": 0,
+      "timelines": 0,
+      "normalHits": 0,
+      "normalDamage": 0,
+      "allies": 5,
+      "enemies": 5
+    },
+    "pvp": {
+      "active": false,
+      "sword": false
+    }
+  },
+  {
+    "name": "mobile",
+    "errors": [],
+    "failures": [],
+    "normal": [
+      {
+        "mode": "attack",
+        "expected": 115176,
+        "kind": "multi",
+        "skillHits": 0,
+        "skillDamage": 0,
+        "expectedHits": 25,
+        "expectedDamage": 708740,
+        "error": null,
+        "sword": {
+          "version": "SX_LIVE_20261007_2X_V1",
+          "attackSpeed": 2,
+          "mode": "ready",
+          "timeMs": 0,
+          "completed": 1,
+          "skills": 0,
+          "nextSkillAtMs": 0,
+          "intrinsicArea": true,
+          "damageAuthority": "SERVER_TIMELINE",
+          "sourceSha256": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "effectsVisible": true,
+          "bladeAuraVisible": true,
+          "bodyAuraAlpha": 1,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 67.61166666666665,
+              "y": 204.8105486956323,
+              "width": 111.68083333333337,
+              "height": 41.8803125
+            }
+          },
+          "ambientRegistered": true,
+          "externalCast": null
+        },
+        "queue": 0,
+        "timelines": 1,
+        "normalHits": 4,
+        "normalDamage": 115176,
+        "allies": 5,
+        "enemies": 5
+      },
+      {
+        "mode": "skill",
+        "expected": 115176,
+        "kind": "multi",
+        "skillHits": 0,
+        "skillDamage": 0,
+        "expectedHits": 25,
+        "expectedDamage": 708740,
+        "error": null,
+        "sword": {
+          "version": "SX_LIVE_20261007_2X_V1",
+          "attackSpeed": 2,
+          "mode": "ready",
+          "timeMs": 0,
+          "completed": 1,
+          "skills": 1,
+          "nextSkillAtMs": 20000,
+          "intrinsicArea": true,
+          "damageAuthority": "SERVER_TIMELINE",
+          "sourceSha256": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "effectsVisible": true,
+          "bladeAuraVisible": true,
+          "bodyAuraAlpha": 1,
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 67.61166666666665,
+              "y": 204.8105486956323,
+              "width": 111.68083333333337,
+              "height": 41.8803125
+            }
+          },
+          "ambientRegistered": true,
+          "externalCast": null
+        },
+        "queue": 0,
+        "timelines": 1,
+        "normalHits": 4,
+        "normalDamage": 115176,
+        "allies": 5,
+        "enemies": 5
+      }
+    ],
+    "area": [
+      {
+        "kind": "single",
+        "contact": {
+          "kind": "single",
+          "skillHits": 5,
+          "skillDamage": 128900,
+          "expectedHits": 5,
+          "expectedDamage": 128900,
+          "error": null,
+          "sword": {
+            "version": "SX_LIVE_20261007_2X_V1",
+            "attackSpeed": 2,
+            "mode": "ultimate",
+            "timeMs": 2380,
+            "completed": 0,
+            "skills": 0,
+            "nextSkillAtMs": 0,
+            "intrinsicArea": true,
+            "damageAuthority": "SERVER_TIMELINE",
+            "sourceSha256": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+            "mainBodyTint": 16777215,
+            "bodyUniformScale": true,
+            "effectsVisible": true,
+            "bladeAuraVisible": true,
+            "bodyAuraAlpha": 1,
+            "title": {
+              "text": "푸른 사신",
+              "mirrored": false,
+              "actorAttached": true,
+              "independentClock": false,
+              "font": "Noto Serif KR 900 / OFL",
+              "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+              "bounds": {
+                "x": 150.78668466338127,
+                "y": 360.0590215796826,
+                "width": 109.94964432946506,
+                "height": 41.23111662354938
+              }
+            },
+            "ambientRegistered": false,
+            "externalCast": {
+              "version": "SX_LIVE_20261007_2X_V1",
+              "skill": "BATTLE_SUIT_SX_SKYFALL",
+              "timeMs": 2380,
+              "bodyTimeMs": 2380,
+              "targets": [
+                "B:0:ENCOUNTER:SXREVIEW-1"
+              ],
+              "confirmedImpacts": [
+                0,
+                1,
+                2,
+                3,
+                4
+              ],
+              "destroyed": false
+            }
+          },
+          "playback": {
+            "clock": "V3_COMBAT_MS_V1",
+            "timeMs": 4400,
+            "endMs": 5700,
+            "active": true,
+            "completed": false,
+            "casts": 1,
+            "hits": 5,
+            "barrierPauses": 0,
+            "dispatchWaits": 0,
+            "suppressedCasts": 0,
+            "activeEffects": 1,
+            "pendingGroups": 0,
+            "effects": [
+              {
+                "castId": "BATTLE_SUIT_SX_SKYFALL:1",
+                "targetId": "B:0:ENCOUNTER:SXREVIEW-1",
+                "version": "SX_LIVE_20261007_2X_V1",
+                "skill": "BATTLE_SUIT_SX_SKYFALL",
+                "timeMs": 2380,
+                "bodyTimeMs": 2380,
+                "targets": [
+                  "B:0:ENCOUNTER:SXREVIEW-1"
+                ],
+                "confirmedImpacts": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+                ],
+                "destroyed": false
+              }
+            ],
+            "audio": {
+              "ready": false,
+              "enabled": false,
+              "state": "unavailable",
+              "activeSources": 0,
+              "sync": [],
+              "outputCompensationMs": 0,
+              "baseLatencyMs": 0,
+              "outputLatencyMs": 0
+            }
+          },
+          "queue": 0,
+          "timelines": 5,
+          "normalHits": 0,
+          "normalDamage": 0,
+          "allies": 5,
+          "enemies": 1
+        },
+        "complete": {
+          "kind": "single",
+          "skillHits": 5,
+          "skillDamage": 128900,
+          "expectedHits": 5,
+          "expectedDamage": 128900,
+          "error": null,
+          "sword": {
+            "version": "SX_LIVE_20261007_2X_V1",
+            "attackSpeed": 2,
+            "mode": "ready",
+            "timeMs": 0,
+            "completed": 0,
+            "skills": 0,
+            "nextSkillAtMs": 0,
+            "intrinsicArea": true,
+            "damageAuthority": "SERVER_TIMELINE",
+            "sourceSha256": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+            "mainBodyTint": 16777215,
+            "bodyUniformScale": true,
+            "effectsVisible": true,
+            "bladeAuraVisible": true,
+            "bodyAuraAlpha": 1,
+            "title": {
+              "text": "푸른 사신",
+              "mirrored": false,
+              "actorAttached": true,
+              "independentClock": false,
+              "font": "Noto Serif KR 900 / OFL",
+              "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+              "bounds": {
+                "x": 67.61166666666665,
+                "y": 204.8105486956323,
+                "width": 111.68083333333337,
+                "height": 41.8803125
+              }
+            },
+            "ambientRegistered": true,
+            "externalCast": null
+          },
+          "playback": {
+            "clock": "V3_COMBAT_MS_V1",
+            "timeMs": 7722,
+            "endMs": 5700,
+            "active": false,
+            "completed": true,
+            "casts": 1,
+            "hits": 5,
+            "barrierPauses": 0,
+            "dispatchWaits": 0,
+            "suppressedCasts": 0,
+            "activeEffects": 0,
+            "pendingGroups": 0,
+            "effects": [],
+            "audio": {
+              "ready": false,
+              "enabled": false,
+              "state": "unavailable",
+              "activeSources": 0,
+              "sync": [],
+              "outputCompensationMs": 0,
+              "baseLatencyMs": 0,
+              "outputLatencyMs": 0
+            }
+          },
+          "queue": 0,
+          "timelines": 1,
+          "normalHits": 0,
+          "normalDamage": 0,
+          "allies": 5,
+          "enemies": 1
+        }
+      },
+      {
+        "kind": "multi",
+        "contact": {
+          "kind": "multi",
+          "skillHits": 25,
+          "skillDamage": 708740,
+          "expectedHits": 25,
+          "expectedDamage": 708740,
+          "error": null,
+          "sword": {
+            "version": "SX_LIVE_20261007_2X_V1",
+            "attackSpeed": 2,
+            "mode": "ultimate",
+            "timeMs": 2380,
+            "completed": 0,
+            "skills": 0,
+            "nextSkillAtMs": 0,
+            "intrinsicArea": true,
+            "damageAuthority": "SERVER_TIMELINE",
+            "sourceSha256": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+            "mainBodyTint": 16777215,
+            "bodyUniformScale": true,
+            "effectsVisible": true,
+            "bladeAuraVisible": true,
+            "bodyAuraAlpha": 1,
+            "title": {
+              "text": "푸른 사신",
+              "mirrored": false,
+              "actorAttached": true,
+              "independentClock": false,
+              "font": "Noto Serif KR 900 / OFL",
+              "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+              "bounds": {
+                "x": 78.72137386027265,
+                "y": 300.8508921822647,
+                "width": 109.94964432946506,
+                "height": 41.23111662354938
+              }
+            },
+            "ambientRegistered": false,
+            "externalCast": {
+              "version": "SX_LIVE_20261007_2X_V1",
+              "skill": "BATTLE_SUIT_SX_SKYFALL",
+              "timeMs": 2380,
+              "bodyTimeMs": 2380,
+              "targets": [
+                "B:0:ENCOUNTER:SXREVIEW-1",
+                "B:1:ENCOUNTER:SXREVIEW-2",
+                "B:2:ENCOUNTER:SXREVIEW-3",
+                "B:3:ENCOUNTER:SXREVIEW-4",
+                "B:4:ENCOUNTER:SXREVIEW-5"
+              ],
+              "confirmedImpacts": [
+                0,
+                1,
+                2,
+                3,
+                4
+              ],
+              "destroyed": false
+            }
+          },
+          "playback": {
+            "clock": "V3_COMBAT_MS_V1",
+            "timeMs": 4400,
+            "endMs": 5700,
+            "active": true,
+            "completed": false,
+            "casts": 1,
+            "hits": 25,
+            "barrierPauses": 0,
+            "dispatchWaits": 0,
+            "suppressedCasts": 0,
+            "activeEffects": 1,
+            "pendingGroups": 0,
+            "effects": [
+              {
+                "castId": "BATTLE_SUIT_SX_SKYFALL:1",
+                "targetId": "B:0:ENCOUNTER:SXREVIEW-1",
+                "version": "SX_LIVE_20261007_2X_V1",
+                "skill": "BATTLE_SUIT_SX_SKYFALL",
+                "timeMs": 2380,
+                "bodyTimeMs": 2380,
+                "targets": [
+                  "B:0:ENCOUNTER:SXREVIEW-1",
+                  "B:1:ENCOUNTER:SXREVIEW-2",
+                  "B:2:ENCOUNTER:SXREVIEW-3",
+                  "B:3:ENCOUNTER:SXREVIEW-4",
+                  "B:4:ENCOUNTER:SXREVIEW-5"
+                ],
+                "confirmedImpacts": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+                ],
+                "destroyed": false
+              }
+            ],
+            "audio": {
+              "ready": false,
+              "enabled": false,
+              "state": "unavailable",
+              "activeSources": 0,
+              "sync": [],
+              "outputCompensationMs": 0,
+              "baseLatencyMs": 0,
+              "outputLatencyMs": 0
+            }
+          },
+          "queue": 0,
+          "timelines": 25,
+          "normalHits": 0,
+          "normalDamage": 0,
+          "allies": 5,
+          "enemies": 5
+        },
+        "complete": {
+          "kind": "multi",
+          "skillHits": 25,
+          "skillDamage": 708740,
+          "expectedHits": 25,
+          "expectedDamage": 708740,
+          "error": null,
+          "sword": {
+            "version": "SX_LIVE_20261007_2X_V1",
+            "attackSpeed": 2,
+            "mode": "ready",
+            "timeMs": 0,
+            "completed": 0,
+            "skills": 0,
+            "nextSkillAtMs": 0,
+            "intrinsicArea": true,
+            "damageAuthority": "SERVER_TIMELINE",
+            "sourceSha256": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+            "mainBodyTint": 16777215,
+            "bodyUniformScale": true,
+            "effectsVisible": true,
+            "bladeAuraVisible": true,
+            "bodyAuraAlpha": 1,
+            "title": {
+              "text": "푸른 사신",
+              "mirrored": false,
+              "actorAttached": true,
+              "independentClock": false,
+              "font": "Noto Serif KR 900 / OFL",
+              "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+              "bounds": {
+                "x": 67.61166666666665,
+                "y": 204.8105486956323,
+                "width": 111.68083333333337,
+                "height": 41.8803125
+              }
+            },
+            "ambientRegistered": true,
+            "externalCast": null
+          },
+          "playback": {
+            "clock": "V3_COMBAT_MS_V1",
+            "timeMs": 7724,
+            "endMs": 5700,
+            "active": false,
+            "completed": true,
+            "casts": 1,
+            "hits": 25,
+            "barrierPauses": 0,
+            "dispatchWaits": 0,
+            "suppressedCasts": 0,
+            "activeEffects": 0,
+            "pendingGroups": 0,
+            "effects": [],
+            "audio": {
+              "ready": false,
+              "enabled": false,
+              "state": "unavailable",
+              "activeSources": 0,
+              "sync": [],
+              "outputCompensationMs": 0,
+              "baseLatencyMs": 0,
+              "outputLatencyMs": 0
+            }
+          },
+          "queue": 0,
+          "timelines": 1,
+          "normalHits": 0,
+          "normalDamage": 0,
+          "allies": 5,
+          "enemies": 5
+        }
+      }
+    ],
+    "stopped": {
+      "kind": "multi",
+      "skillHits": 0,
+      "skillDamage": 0,
+      "expectedHits": 25,
+      "expectedDamage": 708740,
+      "error": null,
+      "sword": {
+        "version": "SX_LIVE_20261007_2X_V1",
+        "attackSpeed": 2,
+        "mode": "ready",
+        "timeMs": 0,
+        "completed": 0,
+        "skills": 0,
+        "nextSkillAtMs": 0,
+        "intrinsicArea": true,
+        "damageAuthority": "SERVER_TIMELINE",
+        "sourceSha256": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+        "mainBodyTint": 16777215,
+        "bodyUniformScale": true,
+        "effectsVisible": false,
+        "bladeAuraVisible": true,
+        "bodyAuraAlpha": 1,
+        "title": {
+          "text": "푸른 사신",
+          "mirrored": false,
+          "actorAttached": true,
+          "independentClock": false,
+          "font": "Noto Serif KR 900 / OFL",
+          "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+          "bounds": {
+            "x": 67.61166666666665,
+            "y": 204.8105486956323,
+            "width": 111.68083333333337,
+            "height": 41.8803125
+          }
+        },
+        "ambientRegistered": false,
+        "externalCast": null
+      },
+      "playback": {
+        "clock": "V3_COMBAT_MS_V1",
+        "timeMs": 3660,
+        "endMs": 5700,
+        "active": false,
+        "completed": false,
+        "casts": 1,
+        "hits": 0,
+        "barrierPauses": 0,
+        "dispatchWaits": 0,
+        "suppressedCasts": 0,
+        "activeEffects": 0,
+        "pendingGroups": 0,
+        "effects": [],
+        "audio": {
+          "ready": false,
+          "enabled": false,
+          "state": "unavailable",
+          "activeSources": 0,
+          "sync": [],
+          "outputCompensationMs": 0,
+          "baseLatencyMs": 0,
+          "outputLatencyMs": 0
+        }
+      },
+      "queue": 0,
+      "timelines": 0,
+      "normalHits": 0,
+      "normalDamage": 0,
+      "allies": 5,
+      "enemies": 5
+    },
+    "pvp": {
+      "active": false,
+      "sword": false
+    }
+  }
+]

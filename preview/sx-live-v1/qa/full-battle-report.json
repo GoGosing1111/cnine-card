@@ -1,0 +1,898 @@
+[
+  {
+    "name": "desktop",
+    "errors": [],
+    "speed": 1,
+    "elapsedMs": 55175,
+    "expected": {
+      "normalHits": 434,
+      "normalDamage": 11692692,
+      "skillHits": 75,
+      "skillDamage": 2015080
+    },
+    "actual": {
+      "kind": "multi",
+      "skillHits": 75,
+      "skillDamage": 2015080,
+      "expectedHits": 25,
+      "expectedDamage": 708740,
+      "error": null,
+      "sword": {
+        "version": "SX_LIVE_20261007_2X_V1",
+        "attackSpeed": 2,
+        "mode": "ready",
+        "timeMs": 0,
+        "completed": 117,
+        "skills": 0,
+        "nextSkillAtMs": 0,
+        "intrinsicArea": true,
+        "damageAuthority": "SERVER_TIMELINE",
+        "sourceSha256": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+        "mainBodyTint": 16777215,
+        "bodyUniformScale": true,
+        "effectsVisible": true,
+        "bladeAuraVisible": true,
+        "bodyAuraAlpha": 1,
+        "title": {
+          "text": "푸른 사신",
+          "mirrored": false,
+          "actorAttached": true,
+          "independentClock": false,
+          "font": "Noto Serif KR 900 / OFL",
+          "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+          "bounds": {
+            "x": 257.625,
+            "y": 241.76997574013166,
+            "width": 175.5,
+            "height": 65.8125
+          }
+        },
+        "ambientRegistered": true,
+        "externalCast": null
+      },
+      "playback": {
+        "clock": "V3_COMBAT_MS_V1",
+        "timeMs": 54542,
+        "endMs": 53650,
+        "active": false,
+        "completed": true,
+        "casts": 3,
+        "hits": 75,
+        "barrierPauses": 0,
+        "dispatchWaits": 47,
+        "suppressedCasts": 0,
+        "activeEffects": 0,
+        "pendingGroups": 0,
+        "effects": [],
+        "audio": {
+          "ready": false,
+          "enabled": false,
+          "state": "unavailable",
+          "activeSources": 0,
+          "sync": [],
+          "outputCompensationMs": 0,
+          "baseLatencyMs": 0,
+          "outputLatencyMs": 0
+        }
+      },
+      "queue": 0,
+      "timelines": 1,
+      "normalHits": 434,
+      "normalDamage": 11692692,
+      "allies": 5,
+      "enemies": 5
+    },
+    "stopped": {
+      "kind": "multi",
+      "skillHits": 75,
+      "skillDamage": 2015080,
+      "expectedHits": 25,
+      "expectedDamage": 708740,
+      "error": null,
+      "sword": {
+        "version": "SX_LIVE_20261007_2X_V1",
+        "attackSpeed": 2,
+        "mode": "ready",
+        "timeMs": 0,
+        "completed": 117,
+        "skills": 0,
+        "nextSkillAtMs": 0,
+        "intrinsicArea": true,
+        "damageAuthority": "SERVER_TIMELINE",
+        "sourceSha256": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+        "mainBodyTint": 16777215,
+        "bodyUniformScale": true,
+        "effectsVisible": false,
+        "bladeAuraVisible": true,
+        "bodyAuraAlpha": 1,
+        "title": {
+          "text": "푸른 사신",
+          "mirrored": false,
+          "actorAttached": true,
+          "independentClock": false,
+          "font": "Noto Serif KR 900 / OFL",
+          "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+          "bounds": {
+            "x": 257.625,
+            "y": 241.76997574013166,
+            "width": 175.5,
+            "height": 65.8125
+          }
+        },
+        "ambientRegistered": false,
+        "externalCast": null
+      },
+      "playback": {
+        "clock": "V3_COMBAT_MS_V1",
+        "timeMs": 54542,
+        "endMs": 53650,
+        "active": false,
+        "completed": true,
+        "casts": 3,
+        "hits": 75,
+        "barrierPauses": 0,
+        "dispatchWaits": 47,
+        "suppressedCasts": 0,
+        "activeEffects": 0,
+        "pendingGroups": 0,
+        "effects": [],
+        "audio": {
+          "ready": false,
+          "enabled": false,
+          "state": "unavailable",
+          "activeSources": 0,
+          "sync": [],
+          "outputCompensationMs": 0,
+          "baseLatencyMs": 0,
+          "outputLatencyMs": 0
+        }
+      },
+      "queue": 0,
+      "timelines": 0,
+      "normalHits": 434,
+      "normalDamage": 11692692,
+      "allies": 5,
+      "enemies": 5
+    },
+    "error": null,
+    "samples": [
+      {
+        "at": 0.995,
+        "index": 12,
+        "queue": 0,
+        "mode": "ultimate",
+        "normalHits": 10
+      },
+      {
+        "at": 1.995,
+        "index": 31,
+        "queue": 0,
+        "mode": "ultimate",
+        "normalHits": 28
+      },
+      {
+        "at": 2.995,
+        "index": 32,
+        "queue": 0,
+        "mode": "ultimate",
+        "normalHits": 29
+      },
+      {
+        "at": 3.996,
+        "index": 32,
+        "queue": 0,
+        "mode": "ultimate",
+        "normalHits": 29
+      },
+      {
+        "at": 4.995,
+        "index": 45,
+        "queue": 0,
+        "mode": "ultimate",
+        "normalHits": 34
+      },
+      {
+        "at": 5.996,
+        "index": 77,
+        "queue": 0,
+        "mode": "ultimate",
+        "normalHits": 62
+      },
+      {
+        "at": 6.996,
+        "index": 84,
+        "queue": 0,
+        "mode": "ultimate",
+        "normalHits": 66
+      },
+      {
+        "at": 7.996,
+        "index": 107,
+        "queue": 2,
+        "mode": "attack",
+        "normalHits": 85
+      },
+      {
+        "at": 8.996,
+        "index": 115,
+        "queue": 5,
+        "mode": "attack",
+        "normalHits": 87
+      },
+      {
+        "at": 9.996,
+        "index": 117,
+        "queue": 3,
+        "mode": "attack",
+        "normalHits": 91
+      },
+      {
+        "at": 10.996,
+        "index": 131,
+        "queue": 10,
+        "mode": "attack",
+        "normalHits": 96
+      },
+      {
+        "at": 11.996,
+        "index": 134,
+        "queue": 5,
+        "mode": "attack",
+        "normalHits": 103
+      },
+      {
+        "at": 12.994,
+        "index": 152,
+        "queue": 13,
+        "mode": "attack",
+        "normalHits": 112
+      },
+      {
+        "at": 13.996,
+        "index": 154,
+        "queue": 1,
+        "mode": "attack",
+        "normalHits": 123
+      },
+      {
+        "at": 14.996,
+        "index": 169,
+        "queue": 5,
+        "mode": "attack",
+        "normalHits": 132
+      },
+      {
+        "at": 15.996,
+        "index": 180,
+        "queue": 3,
+        "mode": "attack",
+        "normalHits": 145
+      },
+      {
+        "at": 16.996,
+        "index": 188,
+        "queue": 1,
+        "mode": "attack",
+        "normalHits": 154
+      },
+      {
+        "at": 17.996,
+        "index": 191,
+        "queue": 1,
+        "mode": "ready",
+        "normalHits": 155
+      },
+      {
+        "at": 18.992,
+        "index": 193,
+        "queue": 0,
+        "mode": "attack",
+        "normalHits": 157
+      },
+      {
+        "at": 19.996,
+        "index": 212,
+        "queue": 12,
+        "mode": "attack",
+        "normalHits": 161
+      },
+      {
+        "at": 20.996,
+        "index": 212,
+        "queue": 0,
+        "mode": "attack",
+        "normalHits": 175
+      },
+      {
+        "at": 21.996,
+        "index": 228,
+        "queue": 0,
+        "mode": "ultimate",
+        "normalHits": 187
+      },
+      {
+        "at": 22.996,
+        "index": 228,
+        "queue": 0,
+        "mode": "ultimate",
+        "normalHits": 187
+      },
+      {
+        "at": 23.992,
+        "index": 228,
+        "queue": 0,
+        "mode": "ultimate",
+        "normalHits": 187
+      },
+      {
+        "at": 24.998,
+        "index": 260,
+        "queue": 0,
+        "mode": "ultimate",
+        "normalHits": 211
+      },
+      {
+        "at": 25.996,
+        "index": 269,
+        "queue": 0,
+        "mode": "ultimate",
+        "normalHits": 218
+      },
+      {
+        "at": 26.996,
+        "index": 272,
+        "queue": 0,
+        "mode": "ultimate",
+        "normalHits": 219
+      },
+      {
+        "at": 27.996,
+        "index": 283,
+        "queue": 4,
+        "mode": "attack",
+        "normalHits": 225
+      },
+      {
+        "at": 28.996,
+        "index": 303,
+        "queue": 14,
+        "mode": "attack",
+        "normalHits": 233
+      },
+      {
+        "at": 29.996,
+        "index": 306,
+        "queue": 6,
+        "mode": "attack",
+        "normalHits": 238
+      },
+      {
+        "at": 30.996,
+        "index": 306,
+        "queue": 0,
+        "mode": "attack",
+        "normalHits": 249
+      },
+      {
+        "at": 31.996,
+        "index": 312,
+        "queue": 2,
+        "mode": "attack",
+        "normalHits": 250
+      },
+      {
+        "at": 32.996,
+        "index": 337,
+        "queue": 21,
+        "mode": "attack",
+        "normalHits": 254
+      },
+      {
+        "at": 33.996,
+        "index": 337,
+        "queue": 10,
+        "mode": "attack",
+        "normalHits": 265
+      },
+      {
+        "at": 34.996,
+        "index": 343,
+        "queue": 4,
+        "mode": "attack",
+        "normalHits": 274
+      },
+      {
+        "at": 35.996,
+        "index": 346,
+        "queue": 2,
+        "mode": "attack",
+        "normalHits": 276
+      },
+      {
+        "at": 36.992,
+        "index": 360,
+        "queue": 7,
+        "mode": "attack",
+        "normalHits": 283
+      },
+      {
+        "at": 37.996,
+        "index": 380,
+        "queue": 21,
+        "mode": "attack",
+        "normalHits": 288
+      },
+      {
+        "at": 38.996,
+        "index": 380,
+        "queue": 10,
+        "mode": "attack",
+        "normalHits": 298
+      },
+      {
+        "at": 39.996,
+        "index": 380,
+        "queue": 0,
+        "mode": "attack",
+        "normalHits": 307
+      },
+      {
+        "at": 40.996,
+        "index": 386,
+        "queue": 0,
+        "mode": "attack",
+        "normalHits": 310
+      },
+      {
+        "at": 41.996,
+        "index": 419,
+        "queue": 0,
+        "mode": "ultimate",
+        "normalHits": 339
+      },
+      {
+        "at": 42.996,
+        "index": 421,
+        "queue": 0,
+        "mode": "ultimate",
+        "normalHits": 339
+      },
+      {
+        "at": 43.996,
+        "index": 421,
+        "queue": 0,
+        "mode": "ultimate",
+        "normalHits": 339
+      },
+      {
+        "at": 44.996,
+        "index": 436,
+        "queue": 0,
+        "mode": "ultimate",
+        "normalHits": 347
+      },
+      {
+        "at": 45.996,
+        "index": 463,
+        "queue": 0,
+        "mode": "ultimate",
+        "normalHits": 370
+      },
+      {
+        "at": 46.996,
+        "index": 478,
+        "queue": 0,
+        "mode": "ultimate",
+        "normalHits": 382
+      },
+      {
+        "at": 47.996,
+        "index": 500,
+        "queue": 0,
+        "mode": "ultimate",
+        "normalHits": 401
+      },
+      {
+        "at": 48.992,
+        "index": 502,
+        "queue": 0,
+        "mode": "ready",
+        "normalHits": 401
+      },
+      {
+        "at": 49.996,
+        "index": 517,
+        "queue": 8,
+        "mode": "attack",
+        "normalHits": 407
+      },
+      {
+        "at": 50.992,
+        "index": 532,
+        "queue": 15,
+        "mode": "attack",
+        "normalHits": 413
+      },
+      {
+        "at": 51.992,
+        "index": 537,
+        "queue": 10,
+        "mode": "attack",
+        "normalHits": 421
+      },
+      {
+        "at": 52.997,
+        "index": 537,
+        "queue": 3,
+        "mode": "attack",
+        "normalHits": 428
+      },
+      {
+        "at": 53.997,
+        "index": 540,
+        "queue": 0,
+        "mode": "attack",
+        "normalHits": 431
+      },
+      {
+        "at": 54.542,
+        "index": 545,
+        "queue": 0,
+        "mode": "attack",
+        "normalHits": 434
+      }
+    ],
+    "rejected": [],
+    "missing": []
+  },
+  {
+    "name": "mobile",
+    "errors": [],
+    "speed": 2,
+    "elapsedMs": 27615,
+    "expected": {
+      "normalHits": 434,
+      "normalDamage": 11692692,
+      "skillHits": 75,
+      "skillDamage": 2015080
+    },
+    "actual": {
+      "kind": "multi",
+      "skillHits": 75,
+      "skillDamage": 2015080,
+      "expectedHits": 25,
+      "expectedDamage": 708740,
+      "error": null,
+      "sword": {
+        "version": "SX_LIVE_20261007_2X_V1",
+        "attackSpeed": 2,
+        "mode": "ready",
+        "timeMs": 0,
+        "completed": 116,
+        "skills": 0,
+        "nextSkillAtMs": 0,
+        "intrinsicArea": true,
+        "damageAuthority": "SERVER_TIMELINE",
+        "sourceSha256": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+        "mainBodyTint": 16777215,
+        "bodyUniformScale": true,
+        "effectsVisible": true,
+        "bladeAuraVisible": true,
+        "bodyAuraAlpha": 1,
+        "title": {
+          "text": "푸른 사신",
+          "mirrored": false,
+          "actorAttached": true,
+          "independentClock": false,
+          "font": "Noto Serif KR 900 / OFL",
+          "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+          "bounds": {
+            "x": 67.61166666666665,
+            "y": 204.8105486956323,
+            "width": 111.68083333333337,
+            "height": 41.8803125
+          }
+        },
+        "ambientRegistered": true,
+        "externalCast": null
+      },
+      "playback": {
+        "clock": "V3_COMBAT_MS_V1",
+        "timeMs": 54532,
+        "endMs": 53650,
+        "active": false,
+        "completed": true,
+        "casts": 3,
+        "hits": 75,
+        "barrierPauses": 0,
+        "dispatchWaits": 49,
+        "suppressedCasts": 0,
+        "activeEffects": 0,
+        "pendingGroups": 0,
+        "effects": [],
+        "audio": {
+          "ready": false,
+          "enabled": false,
+          "state": "unavailable",
+          "activeSources": 0,
+          "sync": [],
+          "outputCompensationMs": 0,
+          "baseLatencyMs": 0,
+          "outputLatencyMs": 0
+        }
+      },
+      "queue": 0,
+      "timelines": 1,
+      "normalHits": 434,
+      "normalDamage": 11692692,
+      "allies": 5,
+      "enemies": 5
+    },
+    "stopped": {
+      "kind": "multi",
+      "skillHits": 75,
+      "skillDamage": 2015080,
+      "expectedHits": 25,
+      "expectedDamage": 708740,
+      "error": null,
+      "sword": {
+        "version": "SX_LIVE_20261007_2X_V1",
+        "attackSpeed": 2,
+        "mode": "ready",
+        "timeMs": 0,
+        "completed": 116,
+        "skills": 0,
+        "nextSkillAtMs": 0,
+        "intrinsicArea": true,
+        "damageAuthority": "SERVER_TIMELINE",
+        "sourceSha256": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+        "mainBodyTint": 16777215,
+        "bodyUniformScale": true,
+        "effectsVisible": false,
+        "bladeAuraVisible": true,
+        "bodyAuraAlpha": 1,
+        "title": {
+          "text": "푸른 사신",
+          "mirrored": false,
+          "actorAttached": true,
+          "independentClock": false,
+          "font": "Noto Serif KR 900 / OFL",
+          "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+          "bounds": {
+            "x": 67.61166666666665,
+            "y": 204.8105486956323,
+            "width": 111.68083333333337,
+            "height": 41.8803125
+          }
+        },
+        "ambientRegistered": false,
+        "externalCast": null
+      },
+      "playback": {
+        "clock": "V3_COMBAT_MS_V1",
+        "timeMs": 54532,
+        "endMs": 53650,
+        "active": false,
+        "completed": true,
+        "casts": 3,
+        "hits": 75,
+        "barrierPauses": 0,
+        "dispatchWaits": 49,
+        "suppressedCasts": 0,
+        "activeEffects": 0,
+        "pendingGroups": 0,
+        "effects": [],
+        "audio": {
+          "ready": false,
+          "enabled": false,
+          "state": "unavailable",
+          "activeSources": 0,
+          "sync": [],
+          "outputCompensationMs": 0,
+          "baseLatencyMs": 0,
+          "outputLatencyMs": 0
+        }
+      },
+      "queue": 0,
+      "timelines": 0,
+      "normalHits": 434,
+      "normalDamage": 11692692,
+      "allies": 5,
+      "enemies": 5
+    },
+    "error": null,
+    "samples": [
+      {
+        "at": 1.974,
+        "index": 30,
+        "queue": 0,
+        "mode": "ultimate",
+        "normalHits": 27
+      },
+      {
+        "at": 3.974,
+        "index": 32,
+        "queue": 0,
+        "mode": "ultimate",
+        "normalHits": 29
+      },
+      {
+        "at": 5.974,
+        "index": 77,
+        "queue": 0,
+        "mode": "ultimate",
+        "normalHits": 62
+      },
+      {
+        "at": 7.974,
+        "index": 107,
+        "queue": 0,
+        "mode": "attack",
+        "normalHits": 85
+      },
+      {
+        "at": 9.974,
+        "index": 117,
+        "queue": 2,
+        "mode": "attack",
+        "normalHits": 91
+      },
+      {
+        "at": 11.982,
+        "index": 134,
+        "queue": 5,
+        "mode": "attack",
+        "normalHits": 104
+      },
+      {
+        "at": 13.974,
+        "index": 153,
+        "queue": 1,
+        "mode": "attack",
+        "normalHits": 122
+      },
+      {
+        "at": 15.982,
+        "index": 180,
+        "queue": 4,
+        "mode": "attack",
+        "normalHits": 144
+      },
+      {
+        "at": 17.974,
+        "index": 191,
+        "queue": 1,
+        "mode": "ready",
+        "normalHits": 155
+      },
+      {
+        "at": 19.974,
+        "index": 212,
+        "queue": 14,
+        "mode": "attack",
+        "normalHits": 161
+      },
+      {
+        "at": 21.974,
+        "index": 228,
+        "queue": 0,
+        "mode": "ultimate",
+        "normalHits": 187
+      },
+      {
+        "at": 23.974,
+        "index": 228,
+        "queue": 0,
+        "mode": "ultimate",
+        "normalHits": 187
+      },
+      {
+        "at": 25.974,
+        "index": 269,
+        "queue": 0,
+        "mode": "ultimate",
+        "normalHits": 218
+      },
+      {
+        "at": 27.974,
+        "index": 282,
+        "queue": 3,
+        "mode": "attack",
+        "normalHits": 225
+      },
+      {
+        "at": 29.974,
+        "index": 306,
+        "queue": 6,
+        "mode": "attack",
+        "normalHits": 238
+      },
+      {
+        "at": 31.974,
+        "index": 312,
+        "queue": 2,
+        "mode": "attack",
+        "normalHits": 250
+      },
+      {
+        "at": 33.974,
+        "index": 337,
+        "queue": 10,
+        "mode": "attack",
+        "normalHits": 262
+      },
+      {
+        "at": 35.974,
+        "index": 345,
+        "queue": 2,
+        "mode": "attack",
+        "normalHits": 276
+      },
+      {
+        "at": 37.966,
+        "index": 380,
+        "queue": 22,
+        "mode": "attack",
+        "normalHits": 288
+      },
+      {
+        "at": 39.974,
+        "index": 380,
+        "queue": 2,
+        "mode": "attack",
+        "normalHits": 307
+      },
+      {
+        "at": 41.974,
+        "index": 419,
+        "queue": 0,
+        "mode": "ultimate",
+        "normalHits": 339
+      },
+      {
+        "at": 43.974,
+        "index": 421,
+        "queue": 0,
+        "mode": "ultimate",
+        "normalHits": 339
+      },
+      {
+        "at": 45.974,
+        "index": 462,
+        "queue": 0,
+        "mode": "ultimate",
+        "normalHits": 370
+      },
+      {
+        "at": 47.974,
+        "index": 499,
+        "queue": 0,
+        "mode": "ultimate",
+        "normalHits": 401
+      },
+      {
+        "at": 49.974,
+        "index": 517,
+        "queue": 8,
+        "mode": "attack",
+        "normalHits": 407
+      },
+      {
+        "at": 51.974,
+        "index": 537,
+        "queue": 10,
+        "mode": "attack",
+        "normalHits": 420
+      },
+      {
+        "at": 53.974,
+        "index": 540,
+        "queue": 0,
+        "mode": "attack",
+        "normalHits": 431
+      }
+    ],
+    "rejected": [],
+    "missing": []
+  }
+]
