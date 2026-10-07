@@ -1,0 +1,54 @@
+{
+  "operationKey": "ops:aizen-ohseunghwan-plus15:20261007:v1",
+  "status": "VERIFIED",
+  "actor": "SYSTEM_OPS",
+  "authorization": "사용자 후속 지시: 오승환이다 계정에도 직전과 동일하게 기존 아이젠 족스케 +15강 업그레이드. 기존 카드 수량과 재화 보존.",
+  "card": {
+    "id": "CN-47AD4B47B6A7452C",
+    "title": "아이젠 족스케",
+    "grade": "FUR"
+  },
+  "recipients": [
+    {
+      "userId": 16,
+      "nickname": "오승환이다",
+      "inputNickname": "오승환이다",
+      "levelBefore": 14,
+      "levelAfter": 15,
+      "quantityBefore": 128,
+      "quantityAfter": 128,
+      "changed": true,
+      "adminLogId": "42224"
+    }
+  ],
+  "accounts": 1,
+  "changed": 1,
+  "already15": 0,
+  "excluded": [],
+  "balancesPreserved": true,
+  "otherCardsPreserved": true,
+  "noNewCopies": true,
+  "completedAt": "2026-10-07T07:20:17.767Z",
+  "verifiedAt": "2026-10-07T07:20:19.095Z",
+  "sourceCommit": "dcbc6e58d88a175f86dfaa0232bb784b4a235dcd",
+  "sourceHash": "5d20583a1f4c846434dcd6a8bbc63e27817d0f83f6736a0d6d866cb3ce525942",
+  "current": [
+    {
+      "userId": 16,
+      "level": 15,
+      "quantity": 128
+    }
+  ],
+  "verification": {
+    "executor": "Same previously verified Aizen plus15 transaction; target manifest, receipt key and account-count guards only changed",
+    "dryRunAt": "2026-10-07T07:19:30.431Z",
+    "partialFailureRolledBack": true,
+    "replayVerified": true,
+    "rollbackVerified": true,
+    "accountLocks": "Production USER_LOCK for user 16 plus card and wallet row locks",
+    "independentReadVerified": true,
+    "temporaryHelperStopped": true,
+    "inMemoryOperationKeyDiscarded": true,
+    "applicationRedeployed": false
+  }
+}
