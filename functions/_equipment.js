@@ -47,6 +47,11 @@ let supplySettingsCache=null,supplySettingsCacheAt=0,equipmentPromotionCache=nul
 
 function cleanText(value,max=120){return String(value??'').trim().slice(0,max)}
 function cleanInt(value,min=0,max=100000000){const n=Math.floor(Number(value)||0);return Math.max(min,Math.min(max,n))}
+function cleanEquipmentInstanceId(value){
+  if(typeof value!=='number'&&(typeof value!=='string'||!/^[1-9]\d{0,15}$/.test(value)))return null;
+  const id=Number(value);
+  return Number.isSafeInteger(id)&&id>0?id:null;
+}
 function cleanRate(value){const n=Number(value);return Math.max(0,Math.min(100,Number.isFinite(n)?n:0))}
 function cleanBool(value,defaultValue=true){if(value===undefined||value===null)return defaultValue;return value===true||value===1||String(value)==='1'}
 function cleanWeight(value,defaultValue=1){const n=Number(value);return Math.max(0,Math.min(1000000,Number.isFinite(n)?n:defaultValue))}
@@ -805,7 +810,8 @@ export async function handleEquipment({path,request,env,deps}){
   }
   if(path==='character/equipment/equip'&&request.method==='POST'){
     const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
-    const body=await readBody(request),instanceId=cleanInt(body.instanceId,1,2147483647);
+    const body=await readBody(request),instanceId=cleanEquipmentInstanceId(body?.instanceId);
+    if(instanceId===null)return json({error:'올바른 장비 번호를 확인하세요.'},400);
     const owned=await env.DB.prepare(`SELECT x.id,i.slot FROM user_equipment_instances x JOIN character_equipment_items i ON i.id=x.equipment_id WHERE x.id=? AND x.user_id=? AND i.is_active=1`).bind(instanceId,user.id).first();
     if(!owned)return json({error:'장착할 장비를 찾을 수 없습니다.'},404);
     await env.DB.prepare(`INSERT INTO user_equipment_loadout(user_id,slot,instance_id,updated_at) VALUES(?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id,slot) DO UPDATE SET instance_id=excluded.instance_id,updated_at=CURRENT_TIMESTAMP`).bind(user.id,owned.slot,instanceId).run();
