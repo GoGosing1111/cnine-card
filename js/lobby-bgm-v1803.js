@@ -1,5 +1,5 @@
 /* =============================================================
-   V1803 · 메인 로비 BGM
+   V1803 · 메인 로비·카드상점 BGM
    -------------------------------------------------------------
    경매장(js/auction-house-v1553.js)의 오디오 처리 방식을 그대로 따른다.
      · 브라우저는 사용자 조작 없이 소리를 못 낸다. 무음 WAV 데이터URI 를
@@ -13,8 +13,8 @@
    실려 오므로 이 파일은 요청을 직접 만들지 않는다. 첫 폴링 전에도 소리가
    나도록 마지막 설정을 localStorage 에 캐시해 둔다.
 
-   로비를 벗어나면 재생이 끊긴다 — renderShell(tab) 이 home 이 아닐 때
-   stop() 을 부른다.
+   로비와 카드상점은 한 오디오와 음소거 설정을 공유한다.
+   두 화면 사이에서는 곡을 이어 재생하고 다른 화면으로 이동하면 멈춘다.
    ============================================================= */
 (() => {
   'use strict';
@@ -22,6 +22,7 @@
   const MUTE_KEY = 'soop-lobby-bgm-muted-v1';
   const CACHE_KEY = 'soop-lobby-bgm-settings-v1';
   const BUTTON_ID = 'lobbyBgmToggleV1803';
+  const SHOP_BUTTON_ID = 'cardShopBgmToggleV1803';
   const STYLE_ID = 'lobbyBgmStyleV1803';
   // 1프레임짜리 무음 WAV. 오토플레이 잠금 해제 전용이다.
   const SILENT = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQQAAACAgICA';
@@ -171,6 +172,7 @@
   border-radius:999px;background:rgba(10,16,30,.62);color:#cfe2ff;font-size:11px;font-weight:700;letter-spacing:.04em;
   line-height:1;cursor:pointer;pointer-events:auto;backdrop-filter:blur(6px);transition:border-color .18s,color .18s,background .18s}
 .lobby-bgm-toggle:hover{border-color:rgba(160,200,255,.62);color:#eaf3ff;background:rgba(14,22,42,.78)}
+.lobby-bgm-toggle:focus-visible{outline:2px solid #a4d6ff;outline-offset:3px}
 .lobby-bgm-toggle i{font-style:normal;font-size:13px;line-height:1}
 .lobby-bgm-toggle em{font-style:normal}
 .lobby-bgm-toggle.is-muted{color:#8b9ab4;border-color:rgba(120,140,170,.3)}
@@ -178,6 +180,11 @@
 [data-lobby-bgm-host]>.lobby-bgm-toggle{position:static;min-height:34px;margin:0;white-space:nowrap;font-family:'Noto Sans KR','Malgun Gothic',sans-serif}
 .pc-lobby-brand>.lobby-bgm-toggle{position:absolute;left:296px;top:8px;z-index:20;min-height:34px;white-space:nowrap}
 .mobile-lobby-brand>.lobby-bgm-toggle{justify-self:start;margin-top:5px;white-space:nowrap}
+.pack-selector-head>.card-shop-bgm-heading{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;column-gap:16px}
+.card-shop-bgm-heading>.eyebrow{grid-column:1/-1}
+.card-shop-bgm-heading>h2{grid-column:1;grid-row:2}
+.card-shop-bgm-heading>.lobby-bgm-toggle{grid-column:2;grid-row:2;position:static;min-height:44px;padding:10px 14px;margin:0;white-space:nowrap;background:#152b43;border-color:#709ecb;color:#dfedff}
+.card-shop-bgm-heading>.lobby-bgm-toggle.is-muted{background:#15202c;border-color:#607286;color:#b9c8d8}
 @media (max-width:759px){.lobby-bgm-toggle{padding:5px 9px;font-size:10px}.mobile-lobby-brand>.lobby-bgm-toggle em{display:inline}}
 @media (prefers-reduced-motion: reduce){.lobby-bgm-toggle{transition:none}}`;
     document.head.appendChild(style);
@@ -205,20 +212,25 @@
     button.dataset.bgmMuted = String(off);
     button.classList.toggle('is-muted', off);
     button.setAttribute('aria-pressed', off ? 'true' : 'false');
-    button.setAttribute('aria-label', off ? '로비 배경음 켜기' : '로비 배경음 끄기');
+    const place = button.id === SHOP_BUTTON_ID ? '카드상점' : '로비';
+    button.setAttribute('aria-label', `${place} 배경음 ${off ? '켜기' : '끄기'}`);
     button.title = off ? 'BGM 켜기' : 'BGM 음소거';
     button.innerHTML = `<i>${off ? '🔇' : '🎵'}</i><em>${off ? 'BGM OFF' : 'BGM ON'}</em>`;
   }
 
   function mountButton() {
-    const existing = document.getElementById(BUTTON_ID);
+    const shop = inCardShop(), id = shop ? SHOP_BUTTON_ID : BUTTON_ID;
+    const existing = document.getElementById(id);
+    document.getElementById(shop ? BUTTON_ID : SHOP_BUTTON_ID)?.remove();
     if (!active || !playable()) { existing?.remove(); return }
     injectStyle();
-    const host = buttonHost();
+    const host = shop ? visibleHost('.pack-selector-head > div') : buttonHost();
+    if (!host) { existing?.remove(); return }
+    if (shop && host.matches('.pack-selector-head > div')) host.classList.add('card-shop-bgm-heading');
     if (existing && existing.parentElement === host) { syncButton(existing); return }
     existing?.remove();
     const button = document.createElement('button');
-    button.id = BUTTON_ID;
+    button.id = id;
     button.type = 'button';
     button.className = 'lobby-bgm-toggle' + (host === document.body ? ' is-floating' : '');
     button.addEventListener('click', event => { event.preventDefault(); event.stopPropagation(); toggleMute() });
@@ -237,8 +249,7 @@
       if (unlocked) play(trackIndex);
       else { pendingPlay = () => play(trackIndex); unlock() }
     }
-    const button = document.getElementById(BUTTON_ID);
-    if (button) syncButton(button);
+    [BUTTON_ID, SHOP_BUTTON_ID].forEach(id => { const button = document.getElementById(id); if (button) syncButton(button); });
   }
 
   // ── 수명주기 ──────────────────────────────────────────────
@@ -251,10 +262,20 @@
     try { return String(window.SoopketmonV21ExactShell?.currentRoute || '') === 'home' } catch { return false }
   }
 
+  function inCardShop() {
+    // The same native buy screen also bootstraps the lobby. Honor the final
+    // adapter route so a temporary/hidden store never starts a second player.
+    const route = window.SoopketmonV21ExactShell?.currentRoute;
+    // Native rerenders briefly hide the heading. The settled router state,
+    // rather than layout geometry, keeps the current track alive during that gap.
+    if (route) return route === 'buy' && Boolean(document.querySelector('#app main.page'));
+    return Boolean(visibleHost('.pack-selector-head'));
+  }
+
   function syncRoute() {
-    const lobby = inLobby();
-    if (lobby === active) { if (active) mountButton(); return }
-    if (lobby) start(); else stop();
+    const supported = inLobby() || inCardShop();
+    if (supported === active) { if (active) mountButton(); return }
+    if (supported) start(); else stop();
   }
 
   function start() {
@@ -271,6 +292,7 @@
     active = false;
     pendingPlay = null;
     document.getElementById(BUTTON_ID)?.remove();
+    document.getElementById(SHOP_BUTTON_ID)?.remove();
     if (audio) {
       audio.pause();
       // pause 만으로는 버퍼링이 계속된다. src 를 비워야 실제로 끊긴다.
@@ -293,6 +315,7 @@
     if (!playable()) {
       if (audio) { audio.pause(); try { audio.removeAttribute('src'); audio.load() } catch { /* 무시 */ } }
       document.getElementById(BUTTON_ID)?.remove();
+      document.getElementById(SHOP_BUTTON_ID)?.remove();
       return;
     }
     if (!active) return;
@@ -309,7 +332,7 @@
   ['pointerdown', 'touchend', 'keydown'].forEach(type => {
     document.addEventListener(type, () => { unlock() }, { capture: true, passive: true });
   });
-  // 탭을 숨기면 소리를 멈추고, 돌아오면 로비일 때만 다시 잇는다.
+  // 탭을 숨기면 소리를 멈추고, 돌아오면 로비·카드상점에서 다시 잇는다.
   document.addEventListener('visibilitychange', () => {
     syncRouteWatch();
     if (document.hidden) { if (audio) audio.pause(); return }

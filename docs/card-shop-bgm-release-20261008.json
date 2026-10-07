@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-08",
+  "status": "APPROVED_RELEASE_CANDIDATE",
+  "request": "카드상점에도 BGM 재생 및 잘 보이는 ON/OFF 버튼 추가",
+  "behavior": {
+    "surfaces": [
+      "로비",
+      "카드상점"
+    ],
+    "button": "카드상점 상단 제목 옆 · PC/모바일 44px 터치 영역",
+    "sharedMuteKey": "soop-lobby-bgm-muted-v1",
+    "audio": "기존 Audio 한 개와 CMS 곡 목록·볼륨 공유; 화면 이동 및 팩 변경 시 이어 재생",
+    "otherRoutes": "재생 정지 및 소스 해제",
+    "cms": "설정 변경 없음",
+    "testAudio": "Chromium --mute-audio; 초기 개인 BGM OFF 및 전투 효과음 OFF"
+  },
+  "release": {
+    "mode": "scoped",
+    "base": "cd42351407620b0bd8f6ce39e600ee9edb709098",
+    "previousDeployment": "https://43777ffa.cnine-card.pages.dev",
+    "reason": "Local BGM route eligibility and additional card-shop mute control only. Shared preference, player continuity, CMS settings and desktop/mobile placement are checked with isolated API traffic.",
+    "tests": [
+      "tests/card-shop-bgm-20261008.test.mjs"
+    ],
+    "checks": []
+  }
+}
