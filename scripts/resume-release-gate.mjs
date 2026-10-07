@@ -46,7 +46,7 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
   // validate their hashes and candidate ancestry, and join only contiguous stages.
   // After the continuation candidate, only test/document/tooling repairs qualify.
   const continuations=env.RELEASE_GATE_RESUME_CONTINUATIONS?JSON.parse(env.RELEASE_GATE_RESUME_CONTINUATIONS):env.RELEASE_GATE_RESUME_CONTINUATION_LOG?[{log:env.RELEASE_GATE_RESUME_CONTINUATION_LOG,base:env.RELEASE_GATE_RESUME_CONTINUATION_BASE,sha256:env.RELEASE_GATE_RESUME_CONTINUATION_SHA256}]:[];
-  if(!Array.isArray(continuations)||continuations.length>8)throw Error('At most eight hash-bound continuation logs are supported.');
+  if(!Array.isArray(continuations)||continuations.length>16)throw Error('At most sixteen hash-bound continuation logs are supported.');
   let previousCandidate=base;
   for(const continuationSpec of continuations){
     const continuation=read(continuationSpec.log),candidate=continuationSpec.base;

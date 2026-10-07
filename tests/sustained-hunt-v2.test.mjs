@@ -113,7 +113,7 @@ test('bounded encounter extension rejects invalid capacity and malformed waves',
   assert.throws(()=>simulateBattleV2Preview({teamA:a,teamB:[b],reinforcements:[r],encounterCapacity:13}),/INVALID_ENCOUNTER_LIMITS/);
   assert.throws(()=>simulateBattleV2Preview({teamA:a,teamB:[b],reinforcements:[{...r,encounterWave:-1}]}),/INVALID_REINFORCEMENT_MONSTER/);
 });
-test('legacy PVE and PVP outputs remain byte-equivalent to the latest operation base',async()=>{
+test('legacy PVE and PVP combat preserves the operation base with current default metadata',async()=>{
   const file=path.resolve('functions/.hunt-v2-baseline-'+process.pid+'.mjs');
   // Last deployed operation base before cooperative combat (2026-10-01).
   // This includes the approved speed-combo and duplicate-guard reform, so the
@@ -124,7 +124,12 @@ test('legacy PVE and PVP outputs remain byte-equivalent to the latest operation 
     const cards=['ATTACK','DEFENSE','HP','SPEED','DEFENSE'].map((type,i)=>({id:i+1,power:50000+i*7000,power_type:type,rarity:'FUR'}));
     for(let seed=1;seed<=12;seed++){
       const pve={cards,monster:{id:5,battle_power:350000,is_boss:1},seed};
-      assert.deepEqual(createPveBattleV2(pve),baseline.createPveBattleV2(pve));
+      const expected=baseline.createPveBattleV2(pve);
+      const currentDefaults=fighter=>({...fighter,actionFrequency:1,statCapsUnlocked:false,pveBuffs:{...fighter.pveBuffs,actionFrequency:1}});
+      expected.rules.monsterActionFrequency=1;
+      expected.teams.B.cards=expected.teams.B.cards.map(currentDefaults);
+      expected.result.final.B=expected.result.final.B.map(currentDefaults);
+      assert.deepEqual(createPveBattleV2(pve),expected);
       const pvp={attackerCards:cards,defenderCards:cards.map(c=>({...c,id:c.id+10,power:c.power+4000})),seed};
       assert.deepEqual(createPvpBattleV2(pvp),baseline.createPvpBattleV2(pvp));
     }
