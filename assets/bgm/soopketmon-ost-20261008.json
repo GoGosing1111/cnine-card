@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "description": "User-provided soundtrack; original MP3 bytes preserved under requested OST filenames",
+  "tracks": [
+    {
+      "title": "숲켓몬 OST1",
+      "file": "assets/bgm/숲켓몬 OST1.mp3",
+      "url": "/assets/bgm/%EC%88%B2%EC%BC%93%EB%AA%AC%20OST1.mp3",
+      "source": "DEMO 5.mp3",
+      "bytes": 4972546,
+      "sha256": "5f32e202ccac02c91722e84ea012640d6efa1ab4abfc5f6c446dadac1ec1b575"
+    },
+    {
+      "title": "숲켓몬 OST2",
+      "file": "assets/bgm/숲켓몬 OST2.mp3",
+      "url": "/assets/bgm/%EC%88%B2%EC%BC%93%EB%AA%AC%20OST2.mp3",
+      "source": "DEMO 8.mp3",
+      "bytes": 3406138,
+      "sha256": "f93ad5e2dcd6d1d5a543e0eb61bda5da036f963214f5c7fdf0bb4a66a8feda1b"
+    },
+    {
+      "title": "숲켓몬 OST3",
+      "file": "assets/bgm/숲켓몬 OST3.mp3",
+      "url": "/assets/bgm/%EC%88%B2%EC%BC%93%EB%AA%AC%20OST3.mp3",
+      "source": "DEMO 9.mp3",
+      "bytes": 3326239,
+      "sha256": "a9013bf48de9e9fe8b165e2962b65c91978434d58a831f2eff3d97a87cd80439"
+    },
+    {
+      "title": "숲켓몬 OST4",
+      "file": "assets/bgm/숲켓몬 OST4.mp3",
+      "url": "/assets/bgm/%EC%88%B2%EC%BC%93%EB%AA%AC%20OST4.mp3",
+      "source": "DEMO 10.mp3",
+      "bytes": 2174255,
+      "sha256": "f22b0f281e91e54498a5bea7c63fda3998c6324845c0e7220d1f2a736f00c0b8"
+    },
+    {
+      "title": "숲켓몬 OST5",
+      "file": "assets/bgm/숲켓몬 OST5.mp3",
+      "url": "/assets/bgm/%EC%88%B2%EC%BC%93%EB%AA%AC%20OST5.mp3",
+      "source": "DEMO 12.mp3",
+      "bytes": 3563853,
+      "sha256": "e9839a1b042b4e5a987932f99af949579dd74f75b2fee4b10728592c2aad62ee"
+    }
+  ]
+}

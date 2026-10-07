@@ -1950,7 +1950,7 @@ async function towerSettings(env){return cachedRuntimeSetting(env,'tower',10000,
 // 이 설정은 user/runtime-command 응답에 함께 실려 45초마다 전원에게 퍼진다.
 // 별도 요청을 만들지 않으려는 의도이므로 여기서 캐시를 넉넉히(60초) 잡는다.
 const LOBBY_BGM_SETTINGS_KEY='lobby_bgm_settings_v1803';
-const LOBBY_BGM_DEFAULT={enabled:false,volumePercent:35,loopPlaylist:true,tracks:[]};
+const LOBBY_BGM_DEFAULT={enabled:false,volumePercent:15,loopPlaylist:true,tracks:[]};
 // 파일명에 공백·한글이 있으면 그대로는 요청이 깨진다. 경로 조각만 인코딩한다.
 // 이미 %XX 로 인코딩된 조각은 두 번 인코딩하지 않는다.
 function encodeLobbyBgmPath(path){

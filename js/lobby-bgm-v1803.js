@@ -21,23 +21,34 @@
 
   const MUTE_KEY = 'soop-lobby-bgm-muted-v1';
   const CACHE_KEY = 'soop-lobby-bgm-settings-v1';
+  const TRACK_KEY = 'soop-lobby-bgm-track-v1';
+  const VOLUME_KEY = 'soop-lobby-bgm-volume-v1';
   const BUTTON_ID = 'lobbyBgmToggleV1803';
   const SHOP_BUTTON_ID = 'cardShopBgmToggleV1803';
+  const CONTROLS_ID = 'lobbyBgmControlsV1';
+  const PLAYLIST_ID = 'lobbyBgmPlaylistV1';
+  const DIALOG_ID = 'lobbyBgmPlayerV1';
   const STYLE_ID = 'lobbyBgmStyleV1803';
   // 1프레임짜리 무음 WAV. 오토플레이 잠금 해제 전용이다.
   const SILENT = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQQAAACAgICA';
 
-  const DEFAULTS = { enabled: false, volumePercent: 35, loopPlaylist: true, tracks: [] };
+  const DEFAULTS = { enabled: false, volumePercent: 15, loopPlaylist: true, tracks: [] };
 
   let settings = readCachedSettings();
   let audio = null;
+  let gainContext = null;
+  let volumeGain = null;
   let unlocked = false;
   let unlockPromise = null;
   let pendingPlay = null;
   let active = false;
-  let trackIndex = 0;
+  let trackIndex = restoredTrackIndex(settings);
   let consecutiveErrors = 0;
   let routeTimer = null;
+  let playSequence = 0;
+  let playbackError = '';
+  let playlistOpener = null;
+  let preferredVolume = readPreferredVolume();
 
   // ── 저장소 ────────────────────────────────────────────────
   function isMuted() {
@@ -56,6 +67,32 @@
   function cacheSettings(value) {
     try { localStorage.setItem(CACHE_KEY, JSON.stringify(value)) } catch { /* 무시 */ }
   }
+  function restoredTrackIndex(value) {
+    let url = '';
+    try { url = localStorage.getItem(TRACK_KEY) || '' } catch { /* 무시 */ }
+    return Math.max(0, value.tracks.findIndex(track => track.url === url));
+  }
+  function rememberTrack() {
+    try { localStorage.setItem(TRACK_KEY, settings.tracks[trackIndex]?.url || '') } catch { /* 무시 */ }
+  }
+  function readPreferredVolume() {
+    try {
+      const raw = localStorage.getItem(VOLUME_KEY);
+      if (raw === null || !Number.isFinite(Number(raw))) return null;
+      return Math.max(0, Math.min(100, Math.round(Number(raw))));
+    } catch { return null }
+  }
+  function volumePercent() { return preferredVolume ?? settings.volumePercent }
+  function setVolume(value) {
+    if (value !== null && !Number.isFinite(Number(value))) return;
+    preferredVolume = value === null ? null : Math.max(0, Math.min(100, Math.round(Number(value))));
+    try {
+      if (preferredVolume === null) localStorage.removeItem(VOLUME_KEY);
+      else localStorage.setItem(VOLUME_KEY, String(preferredVolume));
+    } catch { /* 무시 */ }
+    applyVolume();
+    syncPlayer();
+  }
 
   function normalize(raw) {
     const list = Array.isArray(raw?.tracks) ? raw.tracks : [];
@@ -63,7 +100,7 @@
     for (const item of list) {
       const url = String(item?.url || '').trim();
       if (!url || tracks.length >= 20) continue;
-      tracks.push({ title: String(item?.title || '').trim() || `TRACK ${tracks.length + 1}`, url });
+      tracks.push({ title: String(item?.title || '').trim() || `숲켓몬 OST${tracks.length + 1}`, url });
     }
     return {
       enabled: raw?.enabled === true && tracks.length > 0,
@@ -74,7 +111,14 @@
   }
 
   function playable() { return settings.enabled && settings.tracks.length > 0 }
-  function volume() { return Math.max(0, Math.min(1, Number(settings.volumePercent || 0) / 100)) }
+  function volume() { return Math.max(0, Math.min(1, Number(volumePercent() || 0) / 100)) }
+  function applyVolume() {
+    if (volumeGain) volumeGain.gain.value = volume();
+    if (audio) audio.volume = volumeGain ? 1 : volume();
+  }
+  function resumeVolumeContext() {
+    if (gainContext && gainContext.state !== 'running') gainContext.resume().catch(() => {});
+  }
 
   // ── 오디오 ────────────────────────────────────────────────
   function media() {
@@ -85,13 +129,32 @@
     audio.muted = isMuted();
     audio.setAttribute('playsinline', '');
     audio.setAttribute('webkit-playsinline', '');
-    audio.addEventListener('ended', () => { consecutiveErrors = 0; advance() });
+    // iOS can ignore HTMLMediaElement.volume. Keep the same player and use
+    // a gain node on those devices; the soundtrack is served from this origin.
+    audio.volume = .5;
+    const Context = window.AudioContext || window.webkitAudioContext;
+    if (audio.volume !== .5 && Context) {
+      try {
+        audio.crossOrigin = 'anonymous';
+        gainContext = new Context();
+        volumeGain = gainContext.createGain();
+        volumeGain.gain.value = volume();
+        gainContext.createMediaElementSource(audio).connect(volumeGain);
+        volumeGain.connect(gainContext.destination);
+      } catch { volumeGain = null; gainContext = null }
+    }
+    applyVolume();
+    audio.addEventListener('ended', () => { consecutiveErrors = 0; advance(); syncPlayer() });
+    for (const type of ['playing', 'pause', 'loadedmetadata', 'timeupdate']) audio.addEventListener(type, syncPlayer);
     // 곡 하나가 404 여도 목록 전체가 멈추면 안 된다. 다만 전부 실패하면 조용히 포기한다.
     audio.addEventListener('error', () => {
-      if (!active) return;
+      if (!active || isMuted()) return;
       consecutiveErrors += 1;
-      if (consecutiveErrors >= Math.max(1, settings.tracks.length)) return;
+      pendingPlay = null;
+      playbackError = '음원을 재생할 수 없습니다. 다른 곡을 선택해 주세요.';
+      if (consecutiveErrors >= Math.max(1, settings.tracks.length)) { syncPlayer(); return }
       advance();
+      syncPlayer();
     });
     return audio;
   }
@@ -104,25 +167,35 @@
   }
 
   function play(index) {
-    if (!active || !playable() || isMuted()) return;
+    if (!active || !playable() || isMuted() || document.hidden) return;
+    const sequence = ++playSequence;
     const total = settings.tracks.length;
     trackIndex = ((Number(index) || 0) % total + total) % total;
+    rememberTrack();
+    playbackError = '';
     const track = settings.tracks[trackIndex];
     if (!track?.url) return;
     const el = media();
     el.muted = false;
     // 곡이 하나뿐이면 ended 를 기다리지 말고 태그 반복에 맡긴다(끊김이 없다).
     el.loop = total === 1 && settings.loopPlaylist !== false;
-    el.volume = volume();
+    applyVolume();
+    resumeVolumeContext();
     if (el.getAttribute('src') !== track.url) {
       el.setAttribute('src', track.url);
       try { el.load() } catch { /* 무시 */ }
     }
     const started = el.play();
+    syncPlayer();
     if (started && typeof started.catch === 'function') {
-      started.then(() => { unlocked = true; pendingPlay = null }).catch(() => {
+      started.then(() => {
+        if (sequence !== playSequence) return;
+        unlocked = true; pendingPlay = null; syncPlayer();
+      }).catch(error => {
+        if (sequence !== playSequence || !active || isMuted()) return;
         // 아직 사용자 조작이 없어 막힌 경우다. 다음 조작 때 이어서 재생한다.
-        pendingPlay = () => play(trackIndex);
+        if (error?.name === 'NotAllowedError') pendingPlay = () => play(trackIndex);
+        syncPlayer();
       });
     }
   }
@@ -136,6 +209,7 @@
 
   function unlock() {
     const el = media();
+    resumeVolumeContext();
     if (unlocked) {
       el.muted = isMuted();
       if (!isMuted() && pendingPlay) { const run = pendingPlay; pendingPlay = null; run() }
@@ -152,7 +226,7 @@
       unlocked = true;
       el.pause();
       if (priorSrc) { el.setAttribute('src', priorSrc); try { el.currentTime = priorTime } catch { /* 무시 */ } }
-      el.volume = volume();
+      applyVolume();
       el.muted = isMuted();
       if (isMuted()) { pendingPlay = null; return true }
       if (pendingPlay) { const run = pendingPlay; pendingPlay = null; run() }
@@ -162,7 +236,18 @@
     return unlockPromise;
   }
 
-  // ── 음소거 버튼 ───────────────────────────────────────────
+  function selectTrack(index) {
+    if (!active || !playable() || !Number.isInteger(index) || index < 0 || index >= settings.tracks.length) return;
+    trackIndex = index;
+    rememberTrack();
+    consecutiveErrors = 0;
+    playbackError = '';
+    pendingPlay = null;
+    if (!isMuted()) requestPlay(index);
+    syncPlayer();
+  }
+
+  // ── 음소거·플레이리스트 ────────────────────────────────────
   function injectStyle() {
     if (document.getElementById(STYLE_ID)) return;
     const style = document.createElement('style');
@@ -176,17 +261,70 @@
 .lobby-bgm-toggle i{font-style:normal;font-size:13px;line-height:1}
 .lobby-bgm-toggle em{font-style:normal}
 .lobby-bgm-toggle.is-muted{color:#8b9ab4;border-color:rgba(120,140,170,.3)}
-.lobby-bgm-toggle.is-floating{position:fixed;z-index:60;right:14px;top:calc(94px + env(safe-area-inset-top,0px))}
-[data-lobby-bgm-host]>.lobby-bgm-toggle{position:static;min-height:34px;margin:0;white-space:nowrap;font-family:'Noto Sans KR','Malgun Gothic',sans-serif}
-.pc-lobby-brand>.lobby-bgm-toggle{position:absolute;left:296px;top:8px;z-index:20;min-height:34px;white-space:nowrap}
-.mobile-lobby-brand>.lobby-bgm-toggle{justify-self:start;margin-top:5px;white-space:nowrap}
+.lobby-bgm-controls{display:flex;align-items:center;gap:6px;pointer-events:auto;min-width:0;font-family:'Noto Sans KR','Malgun Gothic',sans-serif}
+.lobby-bgm-controls>.lobby-bgm-toggle{min-height:44px;margin:0;white-space:nowrap}
+.lobby-bgm-controls.is-floating{position:fixed;z-index:60;right:14px;top:calc(94px + env(safe-area-inset-top,0px))}
+.lobby-bgm-playlist{border-color:#556b3b;color:#d8f3b0;background:#1a261a}
+.lobby-bgm-playlist b{font-family:'Barlow Condensed',sans-serif;font-size:14px}
+.pc-lobby-brand>.lobby-bgm-controls{position:absolute;left:296px;top:8px;z-index:20}
+.mobile-lobby-brand>.lobby-bgm-controls{justify-self:start;margin-top:5px}
 .pack-selector-head>.card-shop-bgm-heading{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;column-gap:16px}
 .card-shop-bgm-heading>.eyebrow{grid-column:1/-1}
 .card-shop-bgm-heading>h2{grid-column:1;grid-row:2}
-.card-shop-bgm-heading>.lobby-bgm-toggle{grid-column:2;grid-row:2;position:static;min-height:44px;padding:10px 14px;margin:0;white-space:nowrap;background:#152b43;border-color:#709ecb;color:#dfedff}
-.card-shop-bgm-heading>.lobby-bgm-toggle.is-muted{background:#15202c;border-color:#607286;color:#b9c8d8}
+.card-shop-bgm-heading>.lobby-bgm-controls{grid-column:2;grid-row:2}
+.card-shop-bgm-heading .lobby-bgm-toggle{padding:10px 12px;background:#152b43;border-color:#709ecb;color:#dfedff}
+.card-shop-bgm-heading .lobby-bgm-toggle.is-muted{background:#15202c;border-color:#607286;color:#b9c8d8}
+.card-shop-bgm-heading .lobby-bgm-playlist{background:#1a261a;border-color:#556b3b;color:#d8f3b0}
+.bgm-player{box-sizing:border-box;width:min(460px,calc(100vw - 28px));max-height:calc(100dvh - 28px);margin:auto;padding:0;overflow:auto;color:#f3f5ff;background:linear-gradient(145deg,#172132,#080c17 65%);border:1px solid #405034;border-radius:18px;box-shadow:0 24px 90px #000b;font-family:'Noto Sans KR','Malgun Gothic',sans-serif}
+.bgm-player::backdrop{background:#020610c9;backdrop-filter:blur(7px)}
+.bgm-player *{box-sizing:border-box}
+.bgm-player button{font:inherit;cursor:pointer;color:inherit}
+.bgm-player button:focus-visible{outline:2px solid #c8ff6b;outline-offset:3px}
+.bgm-player-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 20px 14px;border-bottom:1px solid #28324a}
+.bgm-player-head h2{margin:0;font-size:16px;font-weight:800;letter-spacing:-.03em}
+.bgm-player-head p{margin:4px 0 0;color:#9ba9bf;font-size:11px}
+.bgm-player-close{width:44px;height:44px;flex-shrink:0;border:1px solid #344159;border-radius:12px;background:#111828;font-size:24px!important}
+.bgm-now{display:flex;align-items:center;gap:18px;padding:23px 24px 18px}
+.bgm-cover{width:76px;height:76px;flex-shrink:0;display:flex;align-items:center;justify-content:center;gap:4px;border:1px solid #94ba553d;border-radius:16px;background:radial-gradient(circle at 30% 20%,#c8ff6b22,transparent 65%),#141f20;box-shadow:inset 0 0 20px #b8ff6208}
+.bgm-cover i{width:4px;height:14px;border-radius:5px;background:#c8ff6b}
+.bgm-cover i:nth-child(2),.bgm-cover i:nth-child(4){height:30px}
+.bgm-cover i:nth-child(3){height:42px}
+.bgm-player[data-playing=true] .bgm-cover i{animation:bgm-wave 1s ease-in-out infinite alternate}
+.bgm-player[data-playing=true] .bgm-cover i:nth-child(2n){animation-delay:-.4s}
+.bgm-player[data-playing=true] .bgm-cover i:nth-child(3){animation-delay:-.7s}
+@keyframes bgm-wave{to{transform:scaleY(.4);opacity:.65}}
+.bgm-now-copy{min-width:0}
+.bgm-now-copy small{display:block;color:#c8ff6b;font:600 12px 'Barlow Condensed',sans-serif;letter-spacing:.18em}
+.bgm-now-copy h3{font-size:22px;letter-spacing:-.05em;margin:6px 0;overflow-wrap:anywhere}
+.bgm-now-copy p{font-size:11px;color:#9ba9bf;margin:0;line-height:1.6}
+.bgm-progress{padding:0 24px}
+.bgm-progress progress{display:block;width:100%;height:3px;border:0;appearance:none;border-radius:4px;overflow:hidden;background:#28324a;accent-color:#c8ff6b}
+.bgm-progress progress::-webkit-progress-bar{background:#28324a}.bgm-progress progress::-webkit-progress-value{background:#c8ff6b}.bgm-progress progress::-moz-progress-bar{background:#c8ff6b}
+.bgm-time{display:flex;justify-content:space-between;margin-top:7px;color:#8b97b0;font:500 13px 'Barlow Condensed',sans-serif;font-variant-numeric:tabular-nums}
+.bgm-transport{display:flex;align-items:center;justify-content:center;gap:12px;padding:16px 24px 20px}
+.bgm-step{width:46px;height:46px;border:1px solid #344159;border-radius:50%;background:#111828;display:grid;place-items:center}
+.bgm-step svg{width:18px;height:18px;fill:currentColor}
+.bgm-step:disabled{opacity:.35;cursor:default}
+.bgm-power{min-width:130px;min-height:46px;padding:10px 20px;border:1px solid #c8ff6b;border-radius:999px;background:#c8ff6b;color:#111b10!important;font-size:13px!important;font-weight:800!important}
+.bgm-volume{display:grid;grid-template-columns:auto minmax(0,1fr) 34px auto;align-items:center;gap:10px;padding:0 24px 14px;color:#9ba9bf;font-size:11px}
+.bgm-volume input[type=range]{appearance:auto;min-width:0;width:100%;height:44px;padding:0;margin:0;border:0;background:transparent;box-shadow:none;accent-color:#c8ff6b;cursor:pointer}
+.bgm-volume input:focus-visible{outline:2px solid #c8ff6b;outline-offset:2px;border-radius:6px}
+.bgm-volume output{color:#d8e0ee;text-align:right;font:600 14px 'Barlow Condensed',sans-serif;font-variant-numeric:tabular-nums}
+.bgm-volume button{min-width:44px;min-height:44px;padding:6px;border:1px solid #344159;border-radius:9px;background:#111828;font-size:10px}
+.bgm-track-heading{display:flex;justify-content:space-between;gap:12px;padding:14px 22px 10px;border-top:1px solid #28324a;color:#8b97b0;font-size:11px}
+.bgm-track-heading strong{color:#d1d9e8;font-weight:600}
+.bgm-track-list{list-style:none;max-height:320px;overflow:auto;overscroll-behavior:contain;margin:0;padding:0 12px 8px;scrollbar-width:thin;scrollbar-color:#425037 #111828}
+.bgm-track{display:flex;align-items:center;gap:12px;width:100%;min-height:58px;padding:10px 12px;margin:2px 0;border:1px solid transparent;border-radius:10px;background:transparent;text-align:left}
+.bgm-track:hover{background:#ffffff08}
+.bgm-track[aria-current=true]{background:#c8ff6b0d;border-color:#c8ff6b45}
+.bgm-track-no{width:24px;color:#718199;font:600 18px 'Barlow Condensed',sans-serif}
+.bgm-track-name{flex:1;min-width:0;font-size:13px;font-weight:650;overflow-wrap:anywhere}
+.bgm-track-state{font-size:10px;color:#8b97b0;white-space:nowrap}
+.bgm-track[aria-current=true] .bgm-track-no,.bgm-track[aria-current=true] .bgm-track-state{color:#c8ff6b}
+.bgm-player-note{margin:0;padding:12px 22px 18px;color:#8390a7;font-size:10px;line-height:1.6}
+@media (max-width:420px){.card-shop-bgm-heading{column-gap:8px!important}.card-shop-bgm-heading .lobby-bgm-toggle{padding:8px;font-size:10px}.bgm-now{padding:20px;gap:14px}.bgm-now-copy h3{font-size:20px}}
 @media (max-width:759px){.lobby-bgm-toggle{padding:5px 9px;font-size:10px}.mobile-lobby-brand>.lobby-bgm-toggle em{display:inline}}
-@media (prefers-reduced-motion: reduce){.lobby-bgm-toggle{transition:none}}`;
+@media (prefers-reduced-motion: reduce){.lobby-bgm-toggle{transition:none}.bgm-player .bgm-cover i{animation:none!important}}`;
     document.head.appendChild(style);
   }
 
@@ -221,21 +359,127 @@
   function mountButton() {
     const shop = inCardShop(), id = shop ? SHOP_BUTTON_ID : BUTTON_ID;
     const existing = document.getElementById(id);
-    document.getElementById(shop ? BUTTON_ID : SHOP_BUTTON_ID)?.remove();
-    if (!active || !playable()) { existing?.remove(); return }
+    const controls = document.getElementById(CONTROLS_ID);
+    if (!active || !playable()) { controls?.remove(); closePlaylist(false); return }
     injectStyle();
     const host = shop ? visibleHost('.pack-selector-head > div') : buttonHost();
-    if (!host) { existing?.remove(); return }
+    if (!host) { controls?.remove(); return }
     if (shop && host.matches('.pack-selector-head > div')) host.classList.add('card-shop-bgm-heading');
-    if (existing && existing.parentElement === host) { syncButton(existing); return }
-    existing?.remove();
+    if (existing && controls?.parentElement === host) { syncButton(existing); syncPlayer(); return }
+    controls?.remove();
+    const group = document.createElement('div');
+    group.id = CONTROLS_ID;
+    group.className = 'lobby-bgm-controls' + (host === document.body ? ' is-floating' : '');
     const button = document.createElement('button');
     button.id = id;
     button.type = 'button';
-    button.className = 'lobby-bgm-toggle' + (host === document.body ? ' is-floating' : '');
+    button.className = 'lobby-bgm-toggle';
     button.addEventListener('click', event => { event.preventDefault(); event.stopPropagation(); toggleMute() });
-    host.appendChild(button);
+    const playlist = document.createElement('button');
+    playlist.id = PLAYLIST_ID;
+    playlist.type = 'button';
+    playlist.className = 'lobby-bgm-toggle lobby-bgm-playlist';
+    playlist.setAttribute('aria-label', 'BGM 플레이리스트 열기');
+    playlist.setAttribute('aria-haspopup', 'dialog');
+    playlist.setAttribute('aria-controls', DIALOG_ID);
+    playlist.addEventListener('click', () => openPlaylist(playlist));
+    group.append(button, playlist);
+    host.appendChild(group);
     syncButton(button);
+    syncPlayer();
+  }
+
+  const escapeHtml = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const timeLabel = value => { const seconds = Math.max(0, Math.floor(Number(value) || 0)); return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}` };
+  function closePlaylist(restoreFocus = true) {
+    const dialog = document.getElementById(DIALOG_ID);
+    const opener = playlistOpener;
+    playlistOpener = null;
+    dialog?.close();
+    dialog?.remove();
+    document.getElementById(PLAYLIST_ID)?.setAttribute('aria-expanded', 'false');
+    if (restoreFocus && opener?.isConnected) opener.focus();
+  }
+  function openPlaylist(opener) {
+    if (!active || !playable()) return;
+    closePlaylist(false);
+    playlistOpener = opener;
+    const dialog = document.createElement('dialog');
+    dialog.id = DIALOG_ID;
+    dialog.className = 'bgm-player';
+    dialog.setAttribute('aria-labelledby', 'bgmPlayerHeading');
+    const arrow = reverse => `<svg viewBox="0 0 24 24" aria-hidden="true"${reverse ? ' style="transform:rotate(180deg)"' : ''}><path d="M5 5v14l10-7zM17 5h2v14h-2z"/></svg>`;
+    dialog.innerHTML = `<header class="bgm-player-head"><div><h2 id="bgmPlayerHeading">플레이리스트</h2><p>숲켓몬 오리지널 사운드트랙</p></div><button type="button" class="bgm-player-close" aria-label="플레이리스트 닫기">×</button></header>
+      <section class="bgm-now"><div class="bgm-cover" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><div class="bgm-now-copy"><small>SOOPKETMON OST</small><h3 data-bgm-now-title></h3><p data-bgm-status role="status"></p></div></section>
+      <div class="bgm-progress"><progress max="1" value="0" aria-label="현재 곡 재생 진행"></progress><div class="bgm-time"><span data-bgm-elapsed>0:00</span><span data-bgm-duration>0:00</span></div></div>
+      <div class="bgm-transport"><button type="button" class="bgm-step" data-bgm-prev aria-label="이전 곡">${arrow(true)}</button><button type="button" class="bgm-power" data-bgm-power></button><button type="button" class="bgm-step" data-bgm-next aria-label="다음 곡">${arrow(false)}</button></div>
+      <div class="bgm-volume"><label for="bgmPlayerVolume">음량</label><input id="bgmPlayerVolume" type="range" min="0" max="100" step="1" aria-label="BGM 음량"><output for="bgmPlayerVolume"></output><button type="button" data-bgm-volume-reset aria-label="기본 음량으로 되돌리기">기본</button></div>
+      <div class="bgm-track-heading"><strong data-bgm-count></strong><span data-bgm-loop></span></div><ol class="bgm-track-list" aria-label="BGM 곡 목록"></ol>
+      <p class="bgm-player-note">곡 선택·음량·음소거 설정은 이 기기에 저장됩니다.</p>`;
+    dialog.querySelector('.bgm-player-close').onclick = () => closePlaylist();
+    dialog.addEventListener('cancel', event => { event.preventDefault(); closePlaylist() });
+    dialog.querySelector('[data-bgm-prev]').onclick = () => selectTrack((trackIndex - 1 + settings.tracks.length) % settings.tracks.length);
+    dialog.querySelector('[data-bgm-next]').onclick = () => selectTrack((trackIndex + 1) % settings.tracks.length);
+    dialog.querySelector('[data-bgm-power]').onclick = () => {
+      if (!isMuted() && audio?.ended) requestPlay(trackIndex); else toggleMute();
+    };
+    dialog.querySelector('#bgmPlayerVolume').oninput = event => setVolume(event.target.value);
+    dialog.querySelector('[data-bgm-volume-reset]').onclick = () => setVolume(null);
+    dialog.querySelector('.bgm-track-list').onclick = event => {
+      const button = event.target.closest('[data-bgm-track]');
+      if (button) selectTrack(Number(button.dataset.bgmTrack));
+    };
+    document.body.appendChild(dialog);
+    syncPlayer();
+    dialog.showModal();
+    opener.setAttribute('aria-expanded', 'true');
+    dialog.querySelector('[aria-current="true"]')?.focus({preventScroll:true});
+  }
+  function syncPlayer() {
+    const trigger = document.getElementById(PLAYLIST_ID);
+    if (trigger && trigger.dataset.count !== String(settings.tracks.length)) {
+      trigger.dataset.count = String(settings.tracks.length);
+      trigger.innerHTML = `<span>곡 선택</span><b>${settings.tracks.length}</b>`;
+    }
+    const dialog = document.getElementById(DIALOG_ID);
+    if (trigger) {
+      const expanded = String(Boolean(dialog?.open));
+      if (trigger.getAttribute('aria-expanded') !== expanded) trigger.setAttribute('aria-expanded', expanded);
+    }
+    if (!dialog) return;
+    const track = settings.tracks[trackIndex];
+    const loaded = audio?.getAttribute('src') === track?.url;
+    const playing = Boolean(loaded && !audio.paused && !audio.ended && !isMuted());
+    dialog.dataset.playing = String(playing);
+    const text = (selector, value) => { const node = dialog.querySelector(selector); if (node.textContent !== value) node.textContent = value };
+    text('[data-bgm-now-title]', track?.title || '곡을 선택하세요');
+    text('[data-bgm-status]', playbackError || (isMuted() ? '음소거 중 · BGM을 켜면 선택한 곡이 재생됩니다.' : playing ? '재생 중' : audio?.ended && loaded ? '재생 완료' : '재생 준비 중'));
+    text('[data-bgm-power]', isMuted() ? 'BGM 켜기' : loaded && audio?.ended ? '다시 재생' : 'BGM 끄기');
+    text('[data-bgm-count]', `전체 ${settings.tracks.length}곡`);
+    text('[data-bgm-loop]', settings.loopPlaylist ? '순서대로 · 전체 반복' : '순서대로 재생');
+    const slider = dialog.querySelector('#bgmPlayerVolume'), percent = String(volumePercent());
+    if (slider.value !== percent) slider.value = percent;
+    slider.setAttribute('aria-valuetext', `${percent}%`);
+    text('.bgm-volume output', `${percent}%`);
+    dialog.querySelector('[data-bgm-volume-reset]').title = `기본 ${settings.volumePercent}%로 되돌리기`;
+    const duration = loaded && Number.isFinite(audio.duration) ? audio.duration : 0;
+    const elapsed = loaded ? audio.currentTime || 0 : 0;
+    text('[data-bgm-elapsed]', timeLabel(elapsed));
+    text('[data-bgm-duration]', timeLabel(duration));
+    const progress = dialog.querySelector('progress');
+    progress.value = duration > 0 ? Math.min(1, elapsed / duration) : 0;
+    for (const button of dialog.querySelectorAll('.bgm-step')) button.disabled = settings.tracks.length < 2;
+    const list = dialog.querySelector('.bgm-track-list'), signature = JSON.stringify(settings.tracks);
+    if (list.dataset.tracks !== signature) {
+      list.dataset.tracks = signature;
+      list.innerHTML = settings.tracks.map((item, index) => `<li><button type="button" class="bgm-track" data-bgm-track="${index}"><span class="bgm-track-no">${String(index + 1).padStart(2, '0')}</span><span class="bgm-track-name">${escapeHtml(item.title)}</span><span class="bgm-track-state"></span></button></li>`).join('');
+    }
+    for (const button of list.querySelectorAll('[data-bgm-track]')) {
+      const selected = Number(button.dataset.bgmTrack) === trackIndex;
+      button.setAttribute('aria-current', String(selected));
+      const state = button.querySelector('.bgm-track-state'), label = selected ? playing ? '재생 중' : '선택됨' : '';
+      if (state.textContent !== label) state.textContent = label;
+    }
   }
 
   function toggleMute() {
@@ -243,13 +487,14 @@
     setMuted(next);
     const el = media();
     el.muted = next;
-    if (next) { pendingPlay = null; el.pause() }
+    if (next) { ++playSequence; pendingPlay = null; el.pause() }
     else {
       consecutiveErrors = 0;
       if (unlocked) play(trackIndex);
       else { pendingPlay = () => play(trackIndex); unlock() }
     }
     [BUTTON_ID, SHOP_BUTTON_ID].forEach(id => { const button = document.getElementById(id); if (button) syncButton(button); });
+    syncPlayer();
   }
 
   // ── 수명주기 ──────────────────────────────────────────────
@@ -290,9 +535,10 @@
 
   function stop() {
     active = false;
+    ++playSequence;
     pendingPlay = null;
-    document.getElementById(BUTTON_ID)?.remove();
-    document.getElementById(SHOP_BUTTON_ID)?.remove();
+    closePlaylist(false);
+    document.getElementById(CONTROLS_ID)?.remove();
     if (audio) {
       audio.pause();
       // pause 만으로는 버퍼링이 계속된다. src 를 비워야 실제로 끊긴다.
@@ -307,22 +553,26 @@
       || next.enabled !== settings.enabled
       || next.loopPlaylist !== settings.loopPlaylist;
     const volumeChanged = next.volumePercent !== settings.volumePercent;
+    const selectedUrl = settings.tracks[trackIndex]?.url;
     settings = next;
+    const preservedIndex = settings.tracks.findIndex(track => track.url === selectedUrl);
+    trackIndex = preservedIndex >= 0 ? preservedIndex : restoredTrackIndex(settings);
     cacheSettings(next);
-    if (volumeChanged && audio) audio.volume = volume();
+    if (volumeChanged) applyVolume();
     if (!listChanged) { if (active) mountButton(); return }
     consecutiveErrors = 0;
     if (!playable()) {
       if (audio) { audio.pause(); try { audio.removeAttribute('src'); audio.load() } catch { /* 무시 */ } }
-      document.getElementById(BUTTON_ID)?.remove();
-      document.getElementById(SHOP_BUTTON_ID)?.remove();
+      ++playSequence;
+      pendingPlay = null;
+      closePlaylist(false);
+      document.getElementById(CONTROLS_ID)?.remove();
       return;
     }
     if (!active) return;
-    trackIndex = 0;
     mountButton();
     if (isMuted()) return;
-    requestPlay(0);
+    requestPlay(trackIndex);
   }
 
   // ── 이벤트 ────────────────────────────────────────────────
@@ -357,6 +607,8 @@
   window.lobbyBgm = {
     start, stop, syncRoute, applySettings,
     isMuted, toggleMute,
+    selectTrack, setVolume,
+    get currentTrack() { return settings.tracks[trackIndex] || null },
     get settings() { return settings },
     get active() { return active }
   };
