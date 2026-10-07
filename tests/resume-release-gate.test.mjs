@@ -61,6 +61,17 @@ test('changed tests in a completed stage rerun that stage without invalidating u
   assert.equal(plan.reused,0);assert.equal(plan.commands[1],'npm run test:a');
 });
 
+test('concurrent new BGM retains passes only with its exact bytes and an unreferenced additive receipt',()=>{
+  const path='assets/bgm/example.mp3',receipt='assets/bgm/example.json',bytes=Buffer.from('ID3 fixture audio');
+  const f=fixture({changed:[path,receipt]}),metadata={path:'/'+path,bytes:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex')};
+  const setup=({added=[path,receipt],body=metadata,source='',audio=bytes}={})=>({...f,
+    git:(...args)=>args.includes('--diff-filter=A')?added.join('\n'):args[0]==='ls-files'&&args[1]==='functions'?'js/live.js':f.git(...args),
+    read:file=>file===receipt?JSON.stringify(body):source,readBytes:()=>audio});
+  assert.equal(fullGateResumePlan(setup()).reused,1);
+  for(const options of [{added:[receipt]},{added:[path]},{body:{...metadata,path:'/wrong.mp3'}},{body:{...metadata,bytes:0}},{audio:Buffer.from('changed')},{source:`fetch('${receipt}')`},{source:"fetch('example.json')"}])assert.throws(()=>fullGateResumePlan(setup(options)));
+  assert.throws(()=>fullGateResumePlan({...fixture({changed:[receipt]}),read:()=>JSON.stringify(metadata)}),/fresh full gate/);
+});
+
 test('a hash-bound continuation preserves completed stages but reruns changed contracts and fails closed on gaps or runtime edits',()=>{
   const candidate='c'.repeat(40),text=`[FULL RELEASE RESUME] Reuse 1 completed stages from ${base}; execute every remaining stage and production guard.\nℹ fail 0\n> test:b\nℹ fail 0\n> test:c\nℹ fail 1\n`;
   const setup=(log=text,changed=['tests/c.test.mjs'])=>{

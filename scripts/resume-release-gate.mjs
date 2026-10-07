@@ -14,7 +14,7 @@ const offlineSkillPreview=new Set([
 ]);
 const limitedPackView='js/mercenary-limited-pack-live.mjs';
 const limitedPackBrowser='tests/mercenary-limited-shop-20261006.browser.mjs';
-export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileSync(path,'utf8')}){
+export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileSync(path,'utf8'),readBytes=path=>readFileSync(path)}){
   const base=env.RELEASE_GATE_RESUME_BASE;
   if(!/^[a-f0-9]{40}$/.test(base||''))throw Error('Resume requires the original candidate SHA.');
   if(!/^[a-f0-9]{64}$/.test(env.RELEASE_GATE_RESUME_SHA256||'')||createHash('sha256').update(logText).digest('hex')!==env.RELEASE_GATE_RESUME_SHA256)throw Error('Resume log hash mismatch.');
@@ -27,6 +27,18 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
   if(!logText.replace(/\r\n/g,'\n').includes(`> release:gate\n> ${gate}\n`))throw Error('Log does not contain the full gate command.');
   const commands=gate.split(' && '),names=commands.map(command=>command.match(/^npm run ([\w:-]+)$/)?.[1]);
   if(commands.at(-1)!=='node scripts/verify-production-release.mjs'||names.slice(0,-1).some(name=>!name))throw Error('Unsupported full gate structure.');
+  const changed=git('diff','--name-only',base,'HEAD').split('\n').filter(Boolean),bgmAdditions=new Set();
+  // A concurrent, additive audio upload cannot change game execution. Keep its
+  // exact source bytes and paired, unreferenced receipt bound to their hash.
+  for(const path of changed.filter(path=>/^assets\/bgm\/[a-z0-9-]+\.mp3$/.test(path))){
+    const receipt=path.replace(/\.mp3$/,'.json'),added=git('diff','--name-only','--diff-filter=A',base,'HEAD').split('\n');
+    if(!changed.includes(receipt)||!added.includes(path)||!added.includes(receipt))throw Error('BGM reuse requires a new audio file and its new receipt.');
+    const metadata=JSON.parse(read(receipt)),bytes=readBytes(path);
+    if(metadata.path!=='/'+path||metadata.bytes!==bytes.length||metadata.sha256!==createHash('sha256').update(bytes).digest('hex'))throw Error('BGM receipt does not match audio bytes.');
+    const runtime=git('ls-files','functions','workers','shared','js','admin','scripts','index.html','service-worker.js').split('\n').filter(file=>/\.(?:[cm]?js|jsonc?|html)$/.test(file)&&file!=='scripts/resume-release-gate.mjs');
+    if(runtime.some(file=>{const source=read(file);return source.includes(receipt)||source.includes(receipt.split('/').at(-1));}))throw Error('BGM receipt is runtime configuration: run a fresh full gate.');
+    bgmAdditions.add(path);bgmAdditions.add(receipt);
+  }
   const stageNames=text=>[...text.matchAll(/^> ((?:test|check):[\w:-]+)\r?$/gm)].map(match=>match[1]);
   let seen=stageNames(logText),changesAfterLastRun=null;
   if(!seen.length||seen.some((name,i)=>name!==names[i]))throw Error('Log is not a contiguous gate prefix.');
@@ -50,7 +62,7 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
     if(/^ℹ fail [1-9]/m.test(continuation.slice(0,continuationStart)))throw Error('Continuation guard tests failed.');
     changesAfterLastRun=new Set(git('diff','--name-only',candidate,'HEAD').split('\n').filter(Boolean));
     const repairTools=new Set(['scripts/deploy-production.mjs','scripts/resume-release-gate.mjs','tests/resume-release-gate.test.mjs']);
-    for(const path of changesAfterLastRun)if(path!=='AGENTS.md'&&!path.startsWith('docs/')&&!/^tests\/[^/]+\.mjs$/.test(path)&&!repairTools.has(path)&&!/^preview\/[a-zA-Z0-9_-]+\/qa\/production\.json$/.test(path))throw Error(`Runtime changed after continuation (${path}): run a fresh full gate.`);
+    for(const path of changesAfterLastRun)if(path!=='AGENTS.md'&&!path.startsWith('docs/')&&!/^tests\/[^/]+\.mjs$/.test(path)&&!repairTools.has(path)&&!bgmAdditions.has(path)&&!/^preview\/[a-zA-Z0-9_-]+\/qa\/production\.json$/.test(path))throw Error(`Runtime changed after continuation (${path}): run a fresh full gate.`);
     logText=logText.slice(0,originalLast)+continuation.slice(continuationStart);
     seen=stageNames(logText);
   }
@@ -67,7 +79,7 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
   const interrupted=env.RELEASE_GATE_RESUME_INTERRUPTED==='1'&&!/^ℹ fail \d+/m.test(tail)
     &&String(env.RELEASE_GATE_RESUME_REASON||'').trim().length>=20;
   if(/^ℹ fail [1-9]/m.test(prefix)||(!failed&&!interrupted&&!sourceGuardBlocked))throw Error('Resume requires a failed or explicitly interrupted final stage, or the exact completed source-identity guard.');
-  const changed=git('diff','--name-only',base,'HEAD').split('\n').filter(Boolean),rerun=new Set(),operationTests=new Set();
+  const rerun=new Set(),operationTests=new Set();
   // Another task may append its deployment receipt while this gate is running.
   // Treat only unreferenced JSON QA receipts as documentation; runtime manifests,
   // executable preview files and referenced configuration still require a new gate.
@@ -132,6 +144,7 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
   const tooling=new Set(['scripts/deploy-production.mjs','scripts/resume-release-gate.mjs','tests/resume-release-gate.test.mjs']);
   for(const path of changed){
     if(path==='AGENTS.md'||path.startsWith('docs/')||path==='preview/project-v-mercenary-system-v1/README.md'||tooling.has(path))continue;
+    if(bgmAdditions.has(path))continue;
     if(qaReceipts.includes(path))continue;
     if(operations.includes(path))continue;
     if(browserProof.has(path))continue;
