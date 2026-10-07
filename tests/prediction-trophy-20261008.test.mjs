@@ -10,7 +10,7 @@ async function fixture(t, postgres) {
   const statements = [];
   if (postgres) {
     pg = new PGlite();
-    await pg.exec("CREATE FUNCTION sqlite_datetime(text) RETURNS text LANGUAGE SQL STABLE AS $$SELECT to_char(timezone('UTC',$1::timestamptz),'YYYY-MM-DD HH24:MI:SS')$$;");
+    await pg.exec("SET TIME ZONE 'UTC'; CREATE FUNCTION sqlite_datetime(text) RETURNS text LANGUAGE SQL STABLE AS $$SELECT to_char(timezone('UTC',$1::timestamptz),'YYYY-MM-DD HH24:MI:SS')$$;");
     DB = new __postgresCompatTest.PostgresD1Database({ async query(input) {
       const sql = typeof input === 'string' ? input : input.text;
       statements.push(sql);
@@ -26,7 +26,11 @@ async function fixture(t, postgres) {
     DB = { prepare };
   }
   t.after(() => pg ? pg.close() : sqlite.close());
-  const run = (sql, ...args) => DB.prepare(sql).bind(...args).run();
+  // Runtime PostgreSQL compatibility deliberately ignores schema mutations.
+  // Fixtures create/drop their own temporary tables directly in the test DB.
+  const run = (sql, ...args) => /^\s*(CREATE|DROP)\b/.test(sql)
+    ? pg ? pg.exec(sql) : sqlite.exec(sql)
+    : DB.prepare(sql).bind(...args).run();
   await run('CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT)');
   const env = { DB };
   assert.deepEqual(await readPredictionStakeHonors(env, 7), { count: 0, acquiredAt: null, progress: 0, goal: GOAL });

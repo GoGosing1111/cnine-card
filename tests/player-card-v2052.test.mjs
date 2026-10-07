@@ -61,7 +61,7 @@ const trophy = (r, code) => r.body.trophies.find(t => t.code === code);
 
 test('prediction appreciation trophy is the same settled milestone in the public card and collection honors', async () => {
   const f = await fixture(); try {
-    await f.pg.exec(`CREATE TABLE coin_prediction_events(id bigint PRIMARY KEY,status text,settled_at text);
+    await f.pg.exec(`SET TIME ZONE 'UTC'; CREATE TABLE coin_prediction_events(id bigint PRIMARY KEY,status text,settled_at text);
       CREATE TABLE coin_prediction_bets(event_id bigint,user_id bigint,amount bigint,status text,PRIMARY KEY(event_id,user_id));
       INSERT INTO app_meta VALUES('coin_prediction_settings_v1','{}');
       INSERT INTO coin_prediction_events VALUES(1,'SETTLED','2026-10-08 03:00:00');

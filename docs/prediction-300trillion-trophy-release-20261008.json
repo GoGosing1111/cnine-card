@@ -36,17 +36,23 @@
   },
   "release": {
     "mode": "scoped",
-    "base": "766b2fcf65d0bfb2f0e06b1a89e5b14e0aca28c7",
+    "base": "d89ba9a89937e26bc1ba021263cd035e8f3bb904",
     "reason": "One read-only prediction stake milestone added to existing player card trophy catalogue and shared collection honors; no schema, authentication, transaction or economic policy changes.",
     "tests": [
       "tests/prediction-trophy-20261008.test.mjs",
-      "tests/player-card-v2052.test.mjs",
-      "tests/achievement-titles-20260927.test.mjs"
+      "tests/player-card-v2052.test.mjs"
     ],
     "checks": [
       "check:worker"
     ],
-    "previousDeployment": "https://f1cfc4f9.cnine-card.pages.dev"
+    "previousDeployment": "https://f1cfc4f9.cnine-card.pages.dev",
+    "priorChecks": {
+      "file": "tests/achievement-titles-20260927.test.mjs",
+      "status": "PASS",
+      "runtimeCommit": "d63c3082",
+      "reused": true
+    },
+    "fixtureCorrections": "Isolated PostgreSQL fixtures create their schema directly and use UTC like production; runtime code unchanged after first gate attempt."
   },
   "preReleaseLiveRead": {
     "ok": true,
