@@ -14,7 +14,7 @@ import {
 import {APOCALYPSE_RULES,battleSuitLiveRuntime,buildBattleSuitFighter,createPveBattleV2} from '../functions/_battle_v2_preview.js';
 import {ensureForgeTransactionSchema} from '../functions/_equipment_forge_transactions.js';
 import {ACHIEVEMENT_TITLES_KEY,ACHIEVEMENT_TITLE_POWER_KEY} from '../functions/_achievement_titles.js';
-import {PREDICTION_TITLE_KEY} from '../functions/_prediction_title.js';
+import {PREDICTION_TITLE_KEY,ASURA_TITLE_KEY} from '../functions/_prediction_title.js';
 import {SUPPORTER_BLUE_BEAST_TITLES_KEY} from '../functions/_supporter_blue_beast_titles.js';
 
 const migrationUrl=new URL('../database/migrations/0087_v1953_project_v_battle_suits.sql',import.meta.url);
@@ -370,7 +370,7 @@ test('loadout reports render-ready suit/weapon metadata and isolates suit power 
     CREATE TABLE cnine_user_inventory(user_id INTEGER NOT NULL,item_code TEXT NOT NULL,quantity INTEGER NOT NULL DEFAULT 0,PRIMARY KEY(user_id,item_code));
   `);
   const completedMarkers=[
-    ACHIEVEMENT_TITLES_KEY,ACHIEVEMENT_TITLE_POWER_KEY,PREDICTION_TITLE_KEY,SUPPORTER_BLUE_BEAST_TITLES_KEY,RAID_BUS_DRIVER_TITLE_KEY, // This fixture supplies its own fixed title catalog below.
+    ACHIEVEMENT_TITLES_KEY,ACHIEVEMENT_TITLE_POWER_KEY,PREDICTION_TITLE_KEY,ASURA_TITLE_KEY,SUPPORTER_BLUE_BEAST_TITLES_KEY,RAID_BUS_DRIVER_TITLE_KEY, // This fixture supplies its own fixed title catalog below.
     'safe_runtime_upgrade_v1231_character_equipment_titles','safe_runtime_upgrade_v1232_character_title_styles','safe_runtime_upgrade_v1247_equipment_supply_box',
     'safe_runtime_upgrade_v1274_supply_drop_quantity','safe_runtime_upgrade_v1473_mythic_equipment_unique','safe_runtime_upgrade_v1676_mythic_equipment_duplicates',
     'safe_runtime_upgrade_v1488_prime_equipment_recall','safe_runtime_upgrade_v1489_infinity_weapon_recall','safe_runtime_upgrade_v1490_new_equipment_drop_quarantine',

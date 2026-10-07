@@ -114,7 +114,11 @@ test('a token suit with all three chips cannot exploit the controlled baseline e
 test('unaffected PVE without a suit and PVP preserve pre-reform results, including speed and duplicate guards',()=>{
   for(const seed of [1,17,2011])for(const battleSuit of [null,{code:'BATTLE_SUIT_03',pvePower:0,skillChips:chips}]){
     const input={cards:deck(400000),monster,battleSuit,seed};
-    assert.deepEqual(createPveBattleV2(input).result,before.createPveBattleV2(input).result);
+    const expected=before.createPveBattleV2(input).result;
+    // Later monster metadata makes the old defaults explicit; combat and every
+    // timeline event still have to match the pre-damage-reform engine exactly.
+    expected.final.B=expected.final.B.map(fighter=>({...fighter,actionFrequency:1,statCapsUnlocked:false,pveBuffs:{...fighter.pveBuffs,actionFrequency:1}}));
+    assert.deepEqual(createPveBattleV2(input).result,expected);
   }
   for(const seed of [1,17,2011]){
     const cards=deck(400000),input={teamA:cards.map((c,i)=>buildFighter(c,i,'A')),teamB:cards.map((c,i)=>buildFighter({...c,id:'ENEMY-'+i},i,'B')),maxActions:80,seed};
