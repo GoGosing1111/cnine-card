@@ -1,0 +1,325 @@
+{
+  "authorization": "사용자 지정 52명: 오리꿍 사은품 메시지로 계정당 코인 5000억, 마스터의 별 500만개, 엠퍼러 에너지 5개 지급",
+  "sourceNames": [
+    "모래",
+    "핫시",
+    "화성가뿌자",
+    "우회하세요",
+    "으악",
+    "망순이ෆ",
+    "더듬이구",
+    "음주",
+    "족게이다",
+    "슈라",
+    "커피먹는철구",
+    "족구조아",
+    "족단",
+    "스갤가축",
+    "ShowMaker",
+    "란x2",
+    "다시생각",
+    "폭군#",
+    "박세라-ㅂ-",
+    "숭구릭",
+    "펜타",
+    "현하루",
+    "[C9]족쪽이",
+    "Mild7",
+    "학벌",
+    "세라네꼬라지",
+    "전게씹선미아웃",
+    "설윤이",
+    "라피e",
+    "혜루",
+    "암살자..",
+    "˚쟁이。",
+    "페이트런",
+    "씨나인택갓",
+    "대지",
+    "굳건창수",
+    "라페스타다",
+    "찬호",
+    "랄네미탱탱",
+    "시소둥이",
+    "제롬",
+    "불법사행산업신고센터",
+    "zkzk9999",
+    "0수표",
+    "박사",
+    "레기파",
+    "음주플레이어",
+    "쁴로리",
+    "좌지구녕",
+    "랭비!",
+    "남수댕",
+    "딤키우기"
+  ],
+  "count": 52,
+  "targets": [
+    {
+      "id": "295",
+      "nickname": "모래",
+      "inputNickname": "모래"
+    },
+    {
+      "id": "1768",
+      "nickname": "핫시",
+      "inputNickname": "핫시"
+    },
+    {
+      "id": "4668",
+      "nickname": "화성가뿌자",
+      "inputNickname": "화성가뿌자"
+    },
+    {
+      "id": "3974",
+      "nickname": "우회하세요",
+      "inputNickname": "우회하세요"
+    },
+    {
+      "id": "5010",
+      "nickname": "으악",
+      "inputNickname": "으악"
+    },
+    {
+      "id": "4628",
+      "nickname": "망순이ෆ",
+      "inputNickname": "망순이ෆ"
+    },
+    {
+      "id": "4391",
+      "nickname": "더듬이구",
+      "inputNickname": "더듬이구"
+    },
+    {
+      "id": "4817",
+      "nickname": "음주",
+      "inputNickname": "음주"
+    },
+    {
+      "id": "4111",
+      "nickname": "족게이다",
+      "inputNickname": "족게이다"
+    },
+    {
+      "id": "4010",
+      "nickname": "슈라",
+      "inputNickname": "슈라"
+    },
+    {
+      "id": "22",
+      "nickname": "커피먹는철구",
+      "inputNickname": "커피먹는철구"
+    },
+    {
+      "id": "525",
+      "nickname": "족구조아",
+      "inputNickname": "족구조아"
+    },
+    {
+      "id": "4582",
+      "nickname": "족단",
+      "inputNickname": "족단"
+    },
+    {
+      "id": "277",
+      "nickname": "스갤가축",
+      "inputNickname": "스갤가축"
+    },
+    {
+      "id": "233",
+      "nickname": "ShowMaker",
+      "inputNickname": "ShowMaker"
+    },
+    {
+      "id": "73",
+      "nickname": "란x2",
+      "inputNickname": "란x2"
+    },
+    {
+      "id": "1421",
+      "nickname": "다시생각",
+      "inputNickname": "다시생각"
+    },
+    {
+      "id": "52",
+      "nickname": "폭군#",
+      "inputNickname": "폭군#"
+    },
+    {
+      "id": "45",
+      "nickname": "박세라-ㅂ-",
+      "inputNickname": "박세라-ㅂ-"
+    },
+    {
+      "id": "62",
+      "nickname": "숭구릭",
+      "inputNickname": "숭구릭"
+    },
+    {
+      "id": "4772",
+      "nickname": "펜타",
+      "inputNickname": "펜타"
+    },
+    {
+      "id": "218",
+      "nickname": "현하루",
+      "inputNickname": "현하루"
+    },
+    {
+      "id": "303",
+      "nickname": "[C9]족쪽이",
+      "inputNickname": "[C9]족쪽이"
+    },
+    {
+      "id": "290",
+      "nickname": "Mild7",
+      "inputNickname": "Mild7"
+    },
+    {
+      "id": "4627",
+      "nickname": "학벌",
+      "inputNickname": "학벌"
+    },
+    {
+      "id": "4651",
+      "nickname": "세라네꼬라지",
+      "inputNickname": "세라네꼬라지"
+    },
+    {
+      "id": "1255",
+      "nickname": "전게씹선미아웃",
+      "inputNickname": "전게씹선미아웃"
+    },
+    {
+      "id": "87",
+      "nickname": "설윤이",
+      "inputNickname": "설윤이"
+    },
+    {
+      "id": "360",
+      "nickname": "라피e",
+      "inputNickname": "라피e"
+    },
+    {
+      "id": "148",
+      "nickname": "혜루",
+      "inputNickname": "혜루"
+    },
+    {
+      "id": "4598",
+      "nickname": "암살자..",
+      "inputNickname": "암살자.."
+    },
+    {
+      "id": "4705",
+      "nickname": "˚쟁이。",
+      "inputNickname": "˚쟁이。"
+    },
+    {
+      "id": "681",
+      "nickname": "페이트런",
+      "inputNickname": "페이트런"
+    },
+    {
+      "id": "1195",
+      "nickname": "씨나인택갓",
+      "inputNickname": "씨나인택갓"
+    },
+    {
+      "id": "4479",
+      "nickname": "대지",
+      "inputNickname": "대지"
+    },
+    {
+      "id": "4908",
+      "nickname": "굳건창수",
+      "inputNickname": "굳건창수"
+    },
+    {
+      "id": "750",
+      "nickname": "라페스타다",
+      "inputNickname": "라페스타다"
+    },
+    {
+      "id": "4597",
+      "nickname": "찬호",
+      "inputNickname": "찬호"
+    },
+    {
+      "id": "76",
+      "nickname": "랄네미탱탱",
+      "inputNickname": "랄네미탱탱"
+    },
+    {
+      "id": "4693",
+      "nickname": "시소둥이",
+      "inputNickname": "시소둥이"
+    },
+    {
+      "id": "4625",
+      "nickname": "제롬",
+      "inputNickname": "제롬"
+    },
+    {
+      "id": "13",
+      "nickname": "불법사행산업신고센터",
+      "inputNickname": "불법사행산업신고센터"
+    },
+    {
+      "id": "3884",
+      "nickname": "zkzk9999",
+      "inputNickname": "zkzk9999"
+    },
+    {
+      "id": "88",
+      "nickname": "0수표",
+      "inputNickname": "0수표"
+    },
+    {
+      "id": "164",
+      "nickname": "박사",
+      "inputNickname": "박사"
+    },
+    {
+      "id": "4408",
+      "nickname": "레가파",
+      "inputNickname": "레기파",
+      "identityEvidence": [
+        "scripts/ops/bongsoon-recruitment-gift-20261002.targets.json",
+        "scripts/ops/diim-recruitment-gift-20261001.targets.json",
+        "scripts/ops/pingdu-thanks-ppanghun-20261002.targets.json"
+      ]
+    },
+    {
+      "id": "4757",
+      "nickname": "음주플레이어",
+      "inputNickname": "음주플레이어"
+    },
+    {
+      "id": "4965",
+      "nickname": "쁴로리",
+      "inputNickname": "쁴로리"
+    },
+    {
+      "id": "156",
+      "nickname": "좌지구녕",
+      "inputNickname": "좌지구녕"
+    },
+    {
+      "id": "4615",
+      "nickname": "랭비!",
+      "inputNickname": "랭비!"
+    },
+    {
+      "id": "183",
+      "nickname": "남수댕",
+      "inputNickname": "남수댕"
+    },
+    {
+      "id": "4836",
+      "nickname": "딤키우기",
+      "inputNickname": "딤키우기"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "status": "PREPARED",
+  "operationKey": "ops:orikkung-gift:20261007:v1",
+  "title": "오리꿍 사은품",
+  "sourceCount": 52,
+  "recipientCount": 52,
+  "messagesPerAccount": 3,
+  "gifts": [
+    {
+      "type": "COIN",
+      "amount": 500000000000
+    },
+    {
+      "type": "MASTER_STAR",
+      "amount": 5000000
+    },
+    {
+      "type": "EMPEROR_ENERGY",
+      "amount": 5
+    }
+  ],
+  "identityNotes": [
+    "음주(4817)와 음주플레이어(4757)는 별도 계정으로 각각 포함",
+    "레기파는 과거 확정 지급 명단의 레가파(4408)로 연결"
+  ],
+  "delivery": "세 보상을 기존 메시지당 보상 1종 구조로 전송. 실제 잔액·인벤토리는 사용자 수령 시 반영.",
+  "previousProductionCommit": "68174e68c546875a53bc7827c8a6bfd66dcdff50",
+  "previousProductionDeployment": "https://48ab144b.cnine-card.pages.dev",
+  "scopeReason": "메시지 수령 목록에 EMPEROR_ENERGY 1종 추가. 기존 거래·인증·UI 흐름 유지, 명단과 보상 3종을 일회성 원자적 메시지로 전송.",
+  "scopedTests": [
+    "tests/message-gift-rewards-v2044.test.mjs",
+    "tests/message-reward-client-parity-v1929.test.mjs",
+    "tests/orikkung-gift-20261007.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "verification": "배포 과정의 관련 수령·동시 재시도·실패 롤백·명단 동결·재전송 방지 검사 후 발송. UI는 기존 서버 메타데이터 지원을 사용."
+}

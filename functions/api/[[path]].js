@@ -534,6 +534,7 @@ const VERIFIED_MESSAGE_REWARD_TYPES={
   COIN:{label:'코인',icon:'🪙',inventory:false,max:5000000000,messageType:'COIN_REWARD'},
   SHARDS:{label:'카드 조각',icon:'🧩',inventory:false,max:100000000,messageType:'SHARD_REWARD'},
   MASTER_STAR:{label:'마스터의 별',icon:'⭐',inventory:true,max:100000,messageType:'ITEM_REWARD'},
+  EMPEROR_ENERGY:{label:'엠퍼러 에너지',icon:'💠',inventory:true,messageOnly:true,max:100000,messageType:'ITEM_REWARD'},
   EQUIPMENT_SUPPLY_BOX:{label:'장비 보급상자',icon:'📦',inventory:true,max:100000,messageType:'ITEM_REWARD'},
   PINGDU_REPAIR_COUPON:{label:'핑두 리페어 쿠폰',icon:'🎟️',inventory:true,messageOnly:true,max:100000,messageType:'ITEM_REWARD'},
   FUNDING_GIFT_BOX:{label:'펀딩 사은품',icon:'🎁',inventory:true,messageOnly:true,max:9999,messageType:'ITEM_REWARD'},
@@ -593,6 +594,7 @@ async function claimMessageRewardDirectV1222(env,user,reward,messageId,{allowCla
   if(rewardType==='FUNDING_GIFT_BOX')await ensureFundingGiftCatalog(env);
   if(rewardType==='RECRUITMENT_GIFT_BOX')await ensureRecruitmentGiftCatalog(env);
   if(rewardType==='PINGDU_THANKS_GIFT_BOX')await ensurePingduThanksGiftCatalog(env);
+  if(rewardType==='EMPEROR_ENERGY')await ensureEmperorEnergyCatalog(env);
   const current=await env.DB.prepare('SELECT id,coin,card_shards FROM users WHERE id=?').bind(user.id).first();
   if(!current)throw new Error('보상을 받을 계정을 찾을 수 없습니다.');
   let balanceBefore=0;
