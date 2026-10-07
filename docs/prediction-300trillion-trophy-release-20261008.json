@@ -1,0 +1,96 @@
+{
+  "date": "2026-10-08",
+  "status": "APPROVED_RELEASE_CANDIDATE",
+  "request": "승부예측 누적 베팅액 300조 이상 감사패 · 라이브 올려",
+  "trophyCode": "PREDICTION_STAKE_300T",
+  "threshold": 300000000000000,
+  "criterion": {
+    "amount": 300000000000000,
+    "comparison": ">=",
+    "label": "승부예측 누적 베팅액 300조 이상",
+    "source": "정산 완료된 베팅 원금 합산, 적중 여부 무관",
+    "excluded": [
+      "ACTIVE",
+      "REFUNDED",
+      "VOID",
+      "불완전 정산"
+    ],
+    "retrospective": true
+  },
+  "delivery": {
+    "art": "/assets/ui/player-card/prediction-300trillion-appreciation-v1.webp",
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "sha256": "afbf5c74ea2aa52e5391f1e67b1f4af0130d241fe85ff32313ea92f719b444b6",
+    "preservedMasterSha256": "ad728e4d81f2594a152fc66adb5e2a1e23362207a8d5e58d33eccc4da3b9e17a"
+  },
+  "implementation": {
+    "entry": "플레이어 명함 → 트로피 진열장",
+    "source": "functions/_prediction_trophy.js",
+    "awardCount": 1,
+    "firstAchievedAt": "처음 300조를 넘긴 이벤트의 정산 완료 시각",
+    "projection": "서버 정산 기록 조회로 자동 표시; 지급·차감·마이그레이션 없음",
+    "collection": "기존 트로피 4종 수집 판정에도 같은 자격 결과 적용",
+    "effectsEnabled": false
+  },
+  "release": {
+    "mode": "scoped",
+    "base": "766b2fcf65d0bfb2f0e06b1a89e5b14e0aca28c7",
+    "reason": "One read-only prediction stake milestone added to existing player card trophy catalogue and shared collection honors; no schema, authentication, transaction or economic policy changes.",
+    "tests": [
+      "tests/prediction-trophy-20261008.test.mjs",
+      "tests/player-card-v2052.test.mjs",
+      "tests/achievement-titles-20260927.test.mjs"
+    ],
+    "checks": [
+      "check:worker"
+    ],
+    "previousDeployment": "https://f1cfc4f9.cnine-card.pages.dev"
+  },
+  "preReleaseLiveRead": {
+    "ok": true,
+    "checkedAt": "2026-10-07T17:20:45.097Z",
+    "readOnly": true,
+    "criterion": 300000000000000,
+    "usersWithSettledStakes": 364,
+    "eligibleAccounts": 0,
+    "checked": [
+      {
+        "qualifies": false,
+        "queryMs": 140,
+        "acquiredAt": null
+      }
+    ]
+  },
+  "visualQA": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 1100,
+      "viewport": 1440,
+      "body": 1440,
+      "dialogWidth": 1080,
+      "dialogScroll": 1080,
+      "trophies": 6,
+      "images": true,
+      "detail": "✦승부예측 300조 감사패 2026. 10. 08. 달성정산 완료된 승부예측 누적 베팅액 300조 이상 · 적중 여부 무관 · 진행 중·무효·환불 제외효과 추후 공개 · 현재 능력치에 영향 없음",
+      "errors": [],
+      "lockedState": true
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844,
+      "viewport": 390,
+      "body": 390,
+      "dialogWidth": 374,
+      "dialogScroll": 374,
+      "trophies": 6,
+      "images": true,
+      "detail": "✦승부예측 300조 감사패 2026. 10. 08. 달성정산 완료된 승부예측 누적 베팅액 300조 이상 · 적중 여부 무관 · 진행 중·무효·환불 제외효과 추후 공개 · 현재 능력치에 영향 없음",
+      "errors": [],
+      "lockedState": true
+    }
+  ]
+}

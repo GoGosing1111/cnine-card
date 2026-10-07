@@ -5,10 +5,18 @@
   "criterion": {
     "amount": 300000000000000,
     "comparison": ">=",
-    "label": "승부예측 누적 베팅액 300조 이상"
+    "label": "승부예측 누적 베팅액 300조 이상",
+    "source": "정산 완료된 베팅 원금 합산, 적중 여부 무관",
+    "excluded": [
+      "ACTIVE",
+      "REFUNDED",
+      "VOID",
+      "불완전 정산"
+    ],
+    "retrospective": true
   },
-  "status": "ART_REVIEW_READY",
-  "automaticAwardConnected": false,
+  "status": "APPROVED_FOR_LIVE",
+  "automaticAwardConnected": true,
   "tool": "OpenAI built-in image_gen",
   "export": "Native master preserved without modification; uniform Lanczos3 delivery-size exports only",
   "inscriptions": [
@@ -51,5 +59,8 @@
       "sha256": "ad728e4d81f2594a152fc66adb5e2a1e23362207a8d5e58d33eccc4da3b9e17a",
       "bytes": 1916220
     }
-  ]
+  ],
+  "approval": "사용자: 라이브 올려",
+  "productionAsset": "/assets/ui/player-card/prediction-300trillion-appreciation-v1.webp",
+  "trophyCode": "PREDICTION_STAKE_300T"
 }

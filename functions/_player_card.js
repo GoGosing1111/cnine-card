@@ -4,6 +4,7 @@ import { TROPHY_CATALOG } from '../js/player-card-model-v2052.js';
 export { TROPHY_CATALOG };
 
 import { OFFICIAL, CLAN_HONORS, RANKED_HONORS_SQL, CHAMPIONS_HONORS_SQL, trophyHonors } from './_trophy_honors.js';
+import { readPredictionStakeHonors } from './_prediction_trophy.js';
 export { RANKED_HONORS_SQL };
 const n = value => Math.max(0, Number(value) || 0);
 
@@ -43,15 +44,16 @@ export async function handlePlayerCard({ path, request, env, deps, now = Date.no
       env.DB.prepare(`SELECT t.name,t.badge_text,t.style_preset FROM user_title_loadout l
         JOIN user_character_titles u ON u.user_id=l.user_id AND u.title_id=l.title_id AND (u.expires_at IS NULL OR u.expires_at>CURRENT_TIMESTAMP)
         JOIN character_titles t ON t.id=l.title_id AND t.is_active=1 AND t.is_public=1 WHERE l.user_id=?`).bind(id).first(),
-      env.DB.prepare(CHAMPIONS_HONORS_SQL).bind(id).first()
+      env.DB.prepare(CHAMPIONS_HONORS_SQL).bind(id).first(),
+      readPredictionStakeHonors(env, id)
     ]);
-    const [rank, settlement, stats = {}, history, clanStats = {}, clanHistory, clan, avatar, title, champions = {}] = result;
+    const [rank, settlement, stats = {}, history, clanStats = {}, clanHistory, clan, avatar, title, champions = {}, prediction] = result;
     const duo=deps.readDuoHonors?await deps.readDuoHonors(env,id):{count:0,acquiredAt:null};
     const endAt = settings.endsAt && Date.parse(settings.endsAt);
     const startAt = settings.startsAt && Date.parse(settings.startsAt);
     const openSeason = !settlement && (!endAt || endAt > now) && (!startAt || startAt <= now);
     const tier = rank && openSeason ? resolvePvpTier(n(rank.season_score), settings, n(rank.position)) : null;
-    const earned = trophyHonors({ stats, clanStats, champions, duo });
+    const earned = trophyHonors({ stats, clanStats, champions, duo, prediction });
     return json({ version: PLAYER_CARD_VERSION, serverNow: new Date(now).toISOString(),
       player: { id, accountRank:deps.readAccountRank?await deps.readAccountRank(env,id):null, nickname: user.nickname, title: title ? { name: title.name, badgeText: title.badge_text, stylePreset: title.style_preset } : null,
         avatar: avatar ? { name: avatar.name, image: avatar.lobby_image } : null,

@@ -1,4 +1,5 @@
 import { readDuoHonors } from './_ranked_duo_seasons.js';
+import { readPredictionStakeHonors, PREDICTION_TROPHY_GOAL } from './_prediction_trophy.js';
 
 const QUALIFIED = "tier_id='challenger' AND final_rank BETWEEN 1 AND 20";
 // Include EVERY completed season before marking streaks. An absent player breaks the chain.
@@ -36,22 +37,24 @@ export const CHAMPIONS_HONORS_SQL = `SELECT COUNT(DISTINCT r.season_id) wins,MIN
         WHERE r.user_id=? AND r.reward_type='CLAN_CHAMPIONS_TROPHY' AND r.reward_amount=1 AND r.status='SENT'
           AND c.status='COMPLETED' AND c.completed_at IS NOT NULL AND c.reward_status<>'DISABLED_TEST'`;
 
-export function trophyHonors({ stats = {}, clanStats = {}, champions = {}, duo = {} }) {
+export function trophyHonors({ stats = {}, clanStats = {}, champions = {}, duo = {}, prediction = {} }) {
   return {
       DUO_CHALLENGER: { count: n(duo.count), acquiredAt: duo.acquiredAt, progress: n(duo.count), goal: 1 },
       CLAN_CHAMPION: { count: n(clanStats.wins), acquiredAt: clanStats.first_at || null, progress: n(clanStats.wins), goal: 1 },
       CHALLENGER_STREAK_3: { count: n(stats.longest_streak) >= 3 ? 1 : 0, acquiredAt: stats.streak_at || null, progress: n(stats.current_streak), goal: 3 },
       RANKED_CHAMPION: { count: n(stats.champion_count), acquiredAt: stats.champion_at || null, progress: n(stats.champion_count), goal: 1 },
-      CLAN_CHAMPIONS_TROPHY: { count: n(champions.wins), acquiredAt: champions.first_at || null, progress: n(champions.wins), goal: 1 }
+      CLAN_CHAMPIONS_TROPHY: { count: n(champions.wins), acquiredAt: champions.first_at || null, progress: n(champions.wins), goal: 1 },
+      PREDICTION_STAKE_300T: { count: n(prediction.count), acquiredAt: prediction.acquiredAt || null, progress: n(prediction.progress), goal: PREDICTION_TROPHY_GOAL }
     };
 }
 
 export async function readTrophyHonors(env, userId) {
-  const [stats, clanStats, champions, duo] = await Promise.all([
+  const [stats, clanStats, champions, duo, prediction] = await Promise.all([
     env.DB.prepare(RANKED_HONORS_SQL).bind(userId).first(),
     env.DB.prepare(`SELECT COUNT(*) wins,MIN(x.completed_at) first_at ${CLAN_HONORS}`).bind(userId).first(),
     env.DB.prepare(CHAMPIONS_HONORS_SQL).bind(userId).first(),
-    readDuoHonors(env, userId)
+    readDuoHonors(env, userId),
+    readPredictionStakeHonors(env, userId)
   ]);
-  return trophyHonors({ stats: stats || {}, clanStats: clanStats || {}, champions: champions || {}, duo });
+  return trophyHonors({ stats: stats || {}, clanStats: clanStats || {}, champions: champions || {}, duo, prediction });
 }

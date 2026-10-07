@@ -34,8 +34,8 @@
     return `<button type="button" class="pc-trophy ${t.owned ? 'is-owned' : 'is-locked'} pc-tone-${tone}${champions ? ' pc-trophy-champions' : ''}" data-pc-trophy="${i}" aria-pressed="false" aria-label="${esc(t.name)} · ${t.owned ? '획득' : '미획득'} · 상세 보기">
       <span class="pc-trophy-stage">${art ? `<img src="${esc(art)}" alt="" width="512" height="512" decoding="async">` : ''}<span class="pc-plinth"></span></span>
       <span class="pc-trophy-copy">${champions ? '<span class="pc-champions-kicker">CHAMPIONS LEAGUE</span>' : ''}
-        <span class="pc-trophy-name">${esc(t.name)}</span>
-        <span class="pc-trophy-subtitle">${t.code === 'DUO_CHALLENGER' ? '듀오 시즌 최종 상위 10팀' : champions ? '최종 우승 클랜의 영예' : t.code === 'CLAN_CHAMPION' ? '클랜 시즌 우승' : t.code === 'CHALLENGER_STREAK_3' ? '3시즌 연속 챌린저' : '랭크 시즌 1위'}</span>
+        <span class="pc-trophy-name">${esc(t.code === 'PREDICTION_STAKE_300T' ? '300조 감사패' : t.name)}</span>
+        <span class="pc-trophy-subtitle">${t.code === 'PREDICTION_STAKE_300T' ? '누적 베팅액 300조 달성' : t.code === 'DUO_CHALLENGER' ? '듀오 시즌 최종 상위 10팀' : champions ? '최종 우승 클랜의 영예' : t.code === 'CLAN_CHAMPION' ? '클랜 시즌 우승' : t.code === 'CHALLENGER_STREAK_3' ? '3시즌 연속 챌린저' : '랭크 시즌 1위'}</span>
         <span class="pc-trophy-status">${t.owned ? champions ? `<b>${num(t.count)}</b>회 우승` : `획득${t.count > 1 ? ' ×' + num(t.count) : ''}` : '미획득'}</span>
         ${champions ? `<span class="pc-champions-date">${t.owned ? date(t.acquiredAt) + ' 달성' : '챔피언스리그 우승 시 획득'}</span>` : ''}
       </span><span class="pc-trophy-arrow" aria-hidden="true">↗</span>

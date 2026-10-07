@@ -4,6 +4,7 @@ import { PGlite } from '@electric-sql/pglite';
 import { __postgresCompatTest } from '../functions/_postgres_d1_compat.js';
 import { handlePlayerCard, TROPHY_CATALOG } from '../functions/_player_card.js';
 import {readDuoHonors} from '../functions/_ranked_duo_seasons.js';
+import {readTrophyHonors} from '../functions/_trophy_honors.js';
 import { championsSchema } from '../functions/_clan_champions.js';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
@@ -54,9 +55,35 @@ async function fixture() {
     authenticate: async () => options.anonymous ? null : { id: 1 }, json: (body, status = 200) => ({ body, status }), pvpSettings: async () => settings, pvpSeasonKey: () => 's4',readDuoHonors,
     resolvePvpTier: (score, _, rank) => rank >= 1 && rank <= 20 ? { id: 'challenger', name: '챌린저', color: '#79c8ef' } : { id: 'bronze', name: '브론즈' }
   } });
-  return { pg, sql, call, settings, close: () => pg.close() };
+  return { pg, db, sql, call, settings, close: () => pg.close() };
 }
 const trophy = (r, code) => r.body.trophies.find(t => t.code === code);
+
+test('prediction appreciation trophy is the same settled milestone in the public card and collection honors', async () => {
+  const f = await fixture(); try {
+    await f.pg.exec(`CREATE TABLE coin_prediction_events(id bigint PRIMARY KEY,status text,settled_at text);
+      CREATE TABLE coin_prediction_bets(event_id bigint,user_id bigint,amount bigint,status text,PRIMARY KEY(event_id,user_id));
+      INSERT INTO app_meta VALUES('coin_prediction_settings_v1','{}');
+      INSERT INTO coin_prediction_events VALUES(1,'SETTLED','2026-10-08 03:00:00');
+      INSERT INTO coin_prediction_bets VALUES(1,2,300000000000000,'SETTLED')`);
+    const response = await f.call(), award = trophy(response, 'PREDICTION_STAKE_300T');
+    assert.equal(response.status, 200); assert.equal(award.owned, true); assert.equal(award.count, 1);
+    assert.equal(award.acquiredAt, '2026-10-08 03:00:00'); assert.equal(award.effect.enabled, false);
+    const honors = await readTrophyHonors({ DB: f.db }, 2);
+    assert.equal(honors.PREDICTION_STAKE_300T.count, 1);
+    assert.equal(Object.values(honors).filter(t => t.count > 0).length, 4, 'new milestone joins the existing four-kind collection');
+    assert.equal(trophy(await f.call('userId=3'), 'PREDICTION_STAKE_300T').owned, false);
+    const window = { location: { origin: 'https://game.test' } };
+    vm.runInNewContext(read('js/player-card-v2052.js'), { window, URL, Intl, AbortController });
+    const html = window.PlayerCallingCard.render(response.body);
+    assert.match(html, /누적 베팅액 300조 달성/);
+    assert.match(window.PlayerCallingCard.detail(award), /2026\. 10\. 08\./);
+    assert.match(window.PlayerCallingCard.detail(award), /적중 여부 무관/);
+    assert.ok(f.sql.every(s => /^\s*(SELECT|WITH)\b/i.test(s)));
+    await f.pg.exec('DROP TABLE coin_prediction_bets');
+    assert.equal((await f.call()).status, 503);
+  } finally { await f.close(); }
+});
 
 test('duo challenger trophy is projected only from each owner’s permanent season receipts',async()=>{
  const f=await fixture();try{
