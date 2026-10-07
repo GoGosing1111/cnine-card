@@ -190,7 +190,10 @@ export function pveDifficultyRuntime(settings={},monster={}){
   const challengeMultiplier=isNightmare?nightmareChallengeMultiplier(tuning):isApocalypse?apocalypseChallengeMultiplier(tuning):1;
   const storedPower=Math.max(1,Number(monster.battle_power??monster.battlePower??1)),storedReward=Math.max(0,Number(monster.reward_coin??monster.rewardCoin??0));
   const basePower=special&&profile?profile.battlePower:storedPower,baseReward=special&&profile?profile.rewardCoin:storedReward;
-  const shieldPercent=isApocalypse?Number(tuning.shieldPercent||0):0,attackCount=isApocalypse?Number(tuning.attackCount||1):1,forcedActionEvery=isApocalypse?Number(tuning.forcedActionEvery||8):0;
+  // Akaza alone spends each Nightmare action opportunity on five real attacks.
+  // Reuse the authoritative repeat-turn path; damage, speed, rewards and ultimate stay unchanged.
+  const nightmareAttackCount=isNightmare&&monsterId==='79'?5:1;
+  const shieldPercent=isApocalypse?Number(tuning.shieldPercent||0):0,attackCount=isApocalypse?Number(tuning.attackCount||1):nightmareAttackCount,forcedActionEvery=isApocalypse?Number(tuning.forcedActionEvery||8):0;
   const legion=isApocalypse?apocalypseLegionBoss(monster):null;
   const battleSuitSkillDefensePercent=legion?apocalypseLegionSuitDefense(monster,tuning.battleSuitSkillDefensePercent):0;
   const apocalypseSkill=isApocalypse?{trigger:legion?'BOSS_ACTION':'OPENING',...(legion?{skills:configuredApocalypseLegionSkills(monster,tuning.legionUltimate),ultimate:apocalypseLegionUltimate(monster,tuning.legionUltimate),minionCount:6}:{}),enabled:tuning.skillEnabled!==false,name:tuning.skillName,description:tuning.skillDescription,damagePercent:Number(tuning.skillDamagePercent||0),code:apocalypseSignatureSkill(monster)?.code||null}:null;
