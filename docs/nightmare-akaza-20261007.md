@@ -46,3 +46,5 @@
 서버에서 생성한 공통 궁극기 및 첫 5연타 타임라인을 실제 V3 번들에서 재생했다. PC 1440×1000·모바일 390×844에서 대상 전환과 전장 표시를 직접 확인했으며 SD 로드 성공, 가로 넘침/JS 오류 없음, 공통 궁극기 완료를 확인했다. 음소거 검수 기록과 화면은 `C:/Users/User/.codex/tmp/nightmare-akaza-20261007/action-rate/`에 보존한다.
 
 작은 보스별 서버 설정 변경이므로 `npm run deploy:production -- --scoped`를 사용한다. 실제 직전 운영 소스는 `820a7080a3306fc5011fcfdf404960762b786b0c`다. 위 4건은 이미 통과했으므로 중복 실행하지 않고, 배포 시 `tests/pve-battlefield-entry-v2117.test.mjs`로 실제 PVE/PVP 번들·메인 로더 연결을 확인하며 `check:worker`와 필수 출시·캐시·Hyperdrive 보호 검사를 수행한다.
+
+후속 배포 완료: 소스 `a6931276`, Pages `https://70637e29.cnine-card.pages.dev`, API 런타임 `e5c71df7-ea0e-4161-9244-7f39d34c14f0`, 클랜 워커 `d682a980-5526-4db4-9c6c-47e7571942b7`. 배포 시 로더 검사 9/9와 컴파일·출시 보호·Hyperdrive 검사가 통과했다. 운영 배포 목록의 소스 일치와 운영 `/api/service/status` HTTP 200·정상 운영 상태를 확인했다. 완료 기록은 문서만 범위 커밋·원격 반영하며 추가 재배포하지 않는다.
