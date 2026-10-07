@@ -729,6 +729,40 @@
         "approval": "2026-09-18 사용자 전부 승인",
         "transparentRgbaVerified": true
       }
+    },
+    {
+      "monsterId": 79,
+      "mode": "HUNT",
+      "modes": [
+        "HUNT",
+        "NIGHTMARE"
+      ],
+      "name": "아카자",
+      "sourceArt": "assets/ui/project-v/monsters/nightmare-akaza-v1/akaza-source-v1.png",
+      "battleSprite": "assets/ui/project-v/monsters/nightmare-akaza-v1/akaza-sd-v1.png",
+      "isBoss": true,
+      "sha256": "4066D554A52617D3F0FFB46A03C7C2AA60349225A7332C63C2A1AEFBC91FD5E1",
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true,
+        "reviewedBy": "CODEX_VISUAL_QA",
+        "releaseAuthorization": "사용자: SD리소스만 만들어서 올리면돼",
+        "transparentRgbaVerified": true,
+        "edgeAlphaClear": false,
+        "edgeAlphaMax": 1,
+        "edgeVisuallyClear": true,
+        "bounds": {
+          "minX": 142,
+          "minY": 12,
+          "maxX": 1144,
+          "maxY": 1241
+        },
+        "safeMarginPx": 12,
+        "transparentRatio": 0.6840337395613145,
+        "naturalAdultProportions": true,
+        "fullBodyAndFeetVisible": true,
+        "sharedNightmareUltimate": true
+      }
     }
   ]
 }
