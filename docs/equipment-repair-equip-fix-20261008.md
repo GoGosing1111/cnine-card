@@ -17,3 +17,12 @@
 - 직전 실제 운영 커밋: `2897e15a3bb05e224caf0c7e91a5d6ccf74af72e`, Pages `325131ea-4d8d-40df-a35a-9b6b34d88e73`.
 - 운영 조회는 `BEGIN READ ONLY`와 5초 제한을 적용한 최신 PK 1건이다. 실계정의 쿠폰 소모·장착 변경은 하지 않았다.
 - 외부 검수 증거: 작업 트리 상위 `equipment-repair-repro.log`, `equipment-repair-equip-test.log`, `qa-equipment-repair-equip/production-baseline.json`. 최종 검사는 지정 배포 과정에서 기록한다.
+
+## 운영 반영 완료
+
+- 배포 커밋: `adc0b9f9baf0c69723f385a7ed680c96d97c9520`. 관련 회귀 10개와 Worker 컴파일, 출시·Hyperdrive 검사를 통과하고 지정 scoped 명령으로 1회 배포했다.
+- Pages: `24cfb234-bfc5-49ae-a171-2e3626725425` / `https://24cfb234.cnine-card.pages.dev`.
+- API Worker: `721256cc-a8bc-40d0-b9c3-f3dfe841e996`.
+- 2026-10-08 03:36 KST: 운영 canonical 커밋 일치, 배포된 Worker의 수정된 번호 처리 함수와 장착 경로 연결, 기존 32비트 강제 보정 제거, `/api/health` 200을 확인했다. 배포 코드의 함수 자체도 큰 번호·문자열 번호·잘못된 입력으로 확인했다.
+- 배포 로그: 작업 트리 상위 `equipment-repair-equip-deploy.log`. 운영 증거: `qa-equipment-repair-equip/production-proof.json`, `equipment-repair-equip-production.log`.
+- 유저 안내: 새로고침 후 이미 복구된 장비를 다시 장착한다. 리페어 쿠폰을 다시 사용할 필요가 없다.
