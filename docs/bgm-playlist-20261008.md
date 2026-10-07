@@ -41,3 +41,15 @@
 직전 실제 운영 기준은 `adc0b9f9baf0c69723f385a7ed680c96d97c9520`, Pages `24cfb234-bfc5-49ae-a171-2e3626725425`다. 지정 검사 파일은 `tests/card-shop-bgm-20261008.test.mjs`이며 API 기본값 수정에 필요한 Worker 컴파일·출시·Hyperdrive 검사를 함께 실행한다.
 
 배포된 클라이언트와 5곡 원본 해시를 확인한 뒤 `scripts/ops/bgm-playlist-20261008.mjs`로 운영 BGM 설정 한 행을 잠가 목록과 기본 음량 15%를 저장한다. 직전 설정 일치, 기존 ON/반복 보존, 관리 로그와 일회 영수증의 원자적 저장을 확인한다. 영수증 키는 `ops:lobby-bgm-playlist:20261008:v1`이며 재실행으로 후속 CMS 편집을 덮어쓰지 않는다.
+
+## 운영 완료 — 2026-10-08 04:52 KST
+
+- 코드 커밋: `71f5dc6338c8e0c247e716877e033b38495a136c` (`origin/main` 반영).
+- 지정 배포의 관련 검사 4개, Worker 컴파일, 출시 보호, Hyperdrive 검사를 모두 통과했다.
+- Pages: `de1388a8-ac72-4112-a814-519091f615ee`, [배포 주소](https://de1388a8.cnine-card.pages.dev).
+- API Worker: `e49d5cf9-b82a-4d27-80f4-35caaf10697b`; clan-draft Worker: `ee7f57f3-caff-4f76-adc1-0377244dcef3`.
+- 운영 기본 주소에서 5곡 모두 HTTP 200·오디오 형식·바이트 수·SHA-256 일치를 확인했다. 메인 HTML·서비스 워커·BGM 코드·관리 화면도 배포 커밋과 해시가 일치하고 `/api/health`는 200이다.
+- 운영 CMS 반영 완료: BGM ON, 기본 음량 **15%**, 전체 반복 ON, **숲켓몬 OST1~5**. 영수증과 설정·관리 로그를 다시 조회해 일치 확인했다. 관리 로그 ID는 `42598`이다.
+- 운영 증거: 체크아웃 밖 `../qa-bgm-playlist/production-proof.json`, `production-activation.json`; 배포 검사 화면: `../qa-bgm-playlist-release/`.
+
+이 완료 기록은 문서만 변경하므로 내용·diff 확인과 범위 커밋·원격 반영으로 종료하고 재배포하지 않는다.
