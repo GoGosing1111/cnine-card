@@ -1,0 +1,140 @@
+{
+  "status": "SENT_AND_VERIFIED",
+  "request": "블랙케슬 한명 더 추가 지급해",
+  "identity": {
+    "inputNickname": "블랙케슬",
+    "nickname": "블랙캐슬",
+    "userId": "2420",
+    "playdkId": "a2c1e499",
+    "evidence": "라이브 동일 계정 및 기존 사은품 확정 명단, 블랙케슬 정확 일치 계정 없음"
+  },
+  "sourceCommit": "3d1b9e8d4af8889e2189cb6cca0bb68ea3aba936",
+  "priorCampaignRecipients": 52,
+  "totalRecipients": 53,
+  "delivery": "오리꿍 사은품 보상별 메시지 3건",
+  "receipt": {
+    "operationKey": "ops:orikkung-gift-blackcastle:20261007:v1",
+    "title": "오리꿍 사은품",
+    "body": "오리꿍 사은품",
+    "count": 1,
+    "recipientHash": "f33e2c25df41c89d6ff98c6e1d8777e7c9f22003e832d373e73ffebea633498a",
+    "recipients": [
+      {
+        "id": "2420",
+        "nickname": "블랙캐슬",
+        "inputNickname": "블랙케슬"
+      }
+    ],
+    "items": [
+      {
+        "code": "EMPEROR_ENERGY",
+        "name": "엠퍼러 에너지",
+        "is_active": "1"
+      },
+      {
+        "code": "MASTER_STAR",
+        "name": "마스터의 별",
+        "is_active": "1"
+      }
+    ],
+    "gifts": [
+      {
+        "campaignKey": "orikkung-gift-blackcastle-coin-20261007-v1",
+        "rewardType": "COIN",
+        "rewardAmount": 500000000000,
+        "messageType": "COIN_REWARD",
+        "totalAmount": "500000000000"
+      },
+      {
+        "campaignKey": "orikkung-gift-blackcastle-star-20261007-v1",
+        "rewardType": "MASTER_STAR",
+        "rewardAmount": 5000000,
+        "messageType": "ITEM_REWARD",
+        "totalAmount": "5000000"
+      },
+      {
+        "campaignKey": "orikkung-gift-blackcastle-energy-20261007-v1",
+        "rewardType": "EMPEROR_ENERGY",
+        "rewardAmount": 5,
+        "messageType": "ITEM_REWARD",
+        "totalAmount": "5"
+      }
+    ],
+    "status": "COMPLETED",
+    "delivery": "MESSAGE",
+    "actor": "SYSTEM_OPS",
+    "authorization": "블랙케슬 한명 더 추가 지급해 — 이전 오리꿍 사은품과 동일한 보상 3종",
+    "eligibility": "Additional ACTIVE 블랙캐슬 account 2420; PLAYDK a2c1e499; previous named gift rosters confirm identity",
+    "completedAt": "2026-10-07T11:20:52.630Z",
+    "auditId": "42308"
+  },
+  "verification": {
+    "messages": 3,
+    "rewards": 3,
+    "missing": 0,
+    "duplicates": 0,
+    "campaigns": [
+      {
+        "campaignKey": "orikkung-gift-blackcastle-coin-20261007-v1",
+        "recipients": 1,
+        "rewards": 1,
+        "claimed": 0,
+        "duplicates": 0
+      },
+      {
+        "campaignKey": "orikkung-gift-blackcastle-star-20261007-v1",
+        "recipients": 1,
+        "rewards": 1,
+        "claimed": 0,
+        "duplicates": 0
+      },
+      {
+        "campaignKey": "orikkung-gift-blackcastle-energy-20261007-v1",
+        "recipients": 1,
+        "rewards": 1,
+        "claimed": 0,
+        "duplicates": 0
+      }
+    ]
+  },
+  "messageRows": [
+    {
+      "id": "197732",
+      "user_id": "2420",
+      "title": "오리꿍 사은품",
+      "body": "오리꿍 사은품",
+      "campaign_key": "orikkung-gift-blackcastle-coin-20261007-v1",
+      "reward_id": "193924",
+      "reward_type": "COIN",
+      "reward_amount": "500000000000"
+    },
+    {
+      "id": "197733",
+      "user_id": "2420",
+      "title": "오리꿍 사은품",
+      "body": "오리꿍 사은품",
+      "campaign_key": "orikkung-gift-blackcastle-star-20261007-v1",
+      "reward_id": "193925",
+      "reward_type": "MASTER_STAR",
+      "reward_amount": "5000000"
+    },
+    {
+      "id": "197734",
+      "user_id": "2420",
+      "title": "오리꿍 사은품",
+      "body": "오리꿍 사은품",
+      "campaign_key": "orikkung-gift-blackcastle-energy-20261007-v1",
+      "reward_id": "193926",
+      "reward_type": "EMPEROR_ENERGY",
+      "reward_amount": "5"
+    }
+  ],
+  "checks": {
+    "faultRollback": true,
+    "dryRunRollback": true,
+    "replayNoChanges": true,
+    "prior39MessageClaimTestsReused": true
+  },
+  "runtimeDeploymentRequired": false,
+  "verifiedAt": "2026-10-07T11:21:36.643Z"
+}
