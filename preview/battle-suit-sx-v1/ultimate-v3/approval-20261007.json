@@ -1,0 +1,691 @@
+{
+  "date": "2026-10-07",
+  "timezone": "Asia/Seoul",
+  "userMessage": "좋다 승인",
+  "status": "USER_VISUAL_APPROVED",
+  "sourceCommit": "b55b0590557932b25a7ad274eab7d15f9eb514af",
+  "previewVersion": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+  "name": "창천멸진",
+  "scope": "ULTIMATE_V3_VISUAL_SEQUENCE_ONLY",
+  "approved": {
+    "description": "거대 청색 검신 소환, 수직 낙하와 지면 강타, 전열·후열 5개 대상 광역 파열과 충격파, 잔상 및 자세 복귀",
+    "durationSeconds": 5.7,
+    "groundImpactSeconds": 2.02,
+    "colossalBladeHeightInActorHeights": 3.28,
+    "poses": [
+      {
+        "at": 0,
+        "bank": "ultimate",
+        "index": 0,
+        "facing": 1
+      },
+      {
+        "at": 0.32,
+        "bank": "ultimate",
+        "index": 0,
+        "facing": 1
+      },
+      {
+        "at": 0.76,
+        "bank": "sweep",
+        "index": 0,
+        "facing": 1
+      },
+      {
+        "at": 1.1,
+        "bank": "spin",
+        "index": 2,
+        "facing": 1
+      },
+      {
+        "at": 1.72,
+        "bank": "sweep",
+        "index": 1,
+        "facing": 1
+      },
+      {
+        "at": 1.96,
+        "bank": "spin",
+        "index": 3,
+        "facing": 1
+      },
+      {
+        "at": 3.35,
+        "bank": "rise",
+        "index": 0,
+        "facing": 1
+      },
+      {
+        "at": 4.05,
+        "bank": "dash",
+        "index": 7,
+        "facing": 1
+      }
+    ],
+    "timelineSource": {
+      "path": "motion.mjs",
+      "sha256": "97a51b84099aa629d9b371aceb2662866bc9d7f2257fde6baa0a64332cbd23cc"
+    },
+    "activePoses": [
+      {
+        "bank": "ultimate",
+        "index": 0,
+        "frame": {
+          "path": "../assets/runtime/frames/ultimate-01.png",
+          "sha256": "cedb1ecfdc59e649cc6496e275b8dd01da36c33cfa67c3aebaf96616c99c2986"
+        },
+        "source": {
+          "path": "../assets/connected/ultimate-a.png",
+          "sha256": "786d6c7d737dc35eecbaa8f0c7b3532b89503261061085a6824af49753ce6946"
+        },
+        "atlas": {
+          "path": "../assets/runtime/atlases/ultimate.png",
+          "sha256": "af99230c9e46c853e61d15c20761e1246e64fe96375dc781955222c6a36f6751"
+        },
+        "registration": {
+          "id": "ultimate-01",
+          "index": 0,
+          "pivot": {
+            "x": 310.35849056603774,
+            "y": 634.3962264150944
+          },
+          "grip": {
+            "x": 404.09433962264154,
+            "y": 374.2452830188679
+          },
+          "tip": {
+            "x": 404.09433962264154,
+            "y": 131.75471698113208
+          },
+          "head": {
+            "x": 421.07547169811323,
+            "y": 351.1509433962264
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/ultimate-a.png",
+          "sourceSha256": "786d6c7d737dc35eecbaa8f0c7b3532b89503261061085a6824af49753ce6946",
+          "componentBox": {
+            "left": 53,
+            "top": 18,
+            "width": 434,
+            "height": 757
+          },
+          "sourceFoot": [
+            161,
+            765
+          ],
+          "sourceGrip": [
+            299,
+            382
+          ],
+          "sourceTip": [
+            299,
+            25
+          ],
+          "sourceHead": [
+            324,
+            348
+          ],
+          "uniformScale": 0.6792452830188679,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "cedb1ecfdc59e649cc6496e275b8dd01da36c33cfa67c3aebaf96616c99c2986",
+          "file": "assets/runtime/frames/ultimate-01.png"
+        }
+      },
+      {
+        "bank": "sweep",
+        "index": 0,
+        "frame": {
+          "path": "../assets/runtime/frames/sweep-01.png",
+          "sha256": "3cfd3d063295bafbf1f9a0833e6bb580699535e7093e489fae46c1966ed2a7f3"
+        },
+        "source": {
+          "path": "../assets/connected/slash-v2/down.png",
+          "sha256": "2e2bfb9e3d665f71bfdd3cba604b92b845199561fea1463432a9bca2eb804f9b"
+        },
+        "atlas": {
+          "path": "../assets/runtime/atlases/sweep.png",
+          "sha256": "a36aeb3cb7f73994fe7ffaef8e62821e4a2774088eadcdede935cb02d76ba807"
+        },
+        "registration": {
+          "id": "sweep-01",
+          "index": 0,
+          "pivot": {
+            "x": 406.5,
+            "y": 615.0714285714287
+          },
+          "grip": {
+            "x": 351.2142857142857,
+            "y": 252.5
+          },
+          "tip": {
+            "x": 236.14285714285714,
+            "y": 151.57142857142858
+          },
+          "head": {
+            "x": 439.92857142857144,
+            "y": 293
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/slash-v2/down.png",
+          "sourceSha256": "2e2bfb9e3d665f71bfdd3cba604b92b845199561fea1463432a9bca2eb804f9b",
+          "componentBox": {
+            "left": 25,
+            "top": 58,
+            "width": 504,
+            "height": 732
+          },
+          "sourceFoot": [
+            312,
+            783
+          ],
+          "sourceGrip": [
+            226,
+            219
+          ],
+          "sourceTip": [
+            47,
+            62
+          ],
+          "sourceHead": [
+            364,
+            282
+          ],
+          "uniformScale": 0.6428571428571429,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "3cfd3d063295bafbf1f9a0833e6bb580699535e7093e489fae46c1966ed2a7f3",
+          "file": "assets/runtime/frames/sweep-01.png"
+        }
+      },
+      {
+        "bank": "spin",
+        "index": 2,
+        "frame": {
+          "path": "../assets/runtime/frames/spin-03.png",
+          "sha256": "842849337dab12fb53ecc8629b8eabe33fd5db489eec6bd54c71cf3d6bdd1db5"
+        },
+        "source": {
+          "path": "../assets/connected/slash-v2/spin.png",
+          "sha256": "cb4a2f39f17c4a8d02dfbb82eb4d863c538f5800c4ffc150d924d1f15c09a2c6"
+        },
+        "atlas": {
+          "path": "../assets/runtime/atlases/spin.png",
+          "sha256": "4a709f00a8ff4c0b4a7d39dac889b45bbfefc14d34f7cdbf7bfb66686471ae61"
+        },
+        "registration": {
+          "id": "spin-03",
+          "index": 2,
+          "pivot": {
+            "x": 392.61538461538464,
+            "y": 598.6923076923077
+          },
+          "grip": {
+            "x": 385.84615384615387,
+            "y": 239.92307692307693
+          },
+          "tip": {
+            "x": 233.23076923076923,
+            "y": 166.07692307692307
+          },
+          "head": {
+            "x": 419.69230769230774,
+            "y": 287.3076923076923
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/slash-v2/spin.png",
+          "sourceSha256": "cb4a2f39f17c4a8d02dfbb82eb4d863c538f5800c4ffc150d924d1f15c09a2c6",
+          "componentBox": {
+            "left": 14,
+            "top": 777,
+            "width": 522,
+            "height": 720
+          },
+          "sourceFoot": [
+            288,
+            1485
+          ],
+          "sourceGrip": [
+            277,
+            902
+          ],
+          "sourceTip": [
+            29,
+            782
+          ],
+          "sourceHead": [
+            332,
+            979
+          ],
+          "uniformScale": 0.6153846153846154,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "842849337dab12fb53ecc8629b8eabe33fd5db489eec6bd54c71cf3d6bdd1db5",
+          "file": "assets/runtime/frames/spin-03.png"
+        }
+      },
+      {
+        "bank": "sweep",
+        "index": 1,
+        "frame": {
+          "path": "../assets/runtime/frames/sweep-02.png",
+          "sha256": "65dda37007ba47ffd2ff9ff699fd81e676c3453651262ff3f18577dc691df77c"
+        },
+        "source": {
+          "path": "../assets/connected/slash-v2/down.png",
+          "sha256": "2e2bfb9e3d665f71bfdd3cba604b92b845199561fea1463432a9bca2eb804f9b"
+        },
+        "atlas": {
+          "path": "../assets/runtime/atlases/sweep.png",
+          "sha256": "a36aeb3cb7f73994fe7ffaef8e62821e4a2774088eadcdede935cb02d76ba807"
+        },
+        "registration": {
+          "id": "sweep-02",
+          "index": 1,
+          "pivot": {
+            "x": 395,
+            "y": 624.3571428571429
+          },
+          "grip": {
+            "x": 392.42857142857144,
+            "y": 256
+          },
+          "tip": {
+            "x": 533.2142857142858,
+            "y": 142.21428571428572
+          },
+          "head": {
+            "x": 390.5,
+            "y": 331.2142857142857
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/slash-v2/down.png",
+          "sourceSha256": "2e2bfb9e3d665f71bfdd3cba604b92b845199561fea1463432a9bca2eb804f9b",
+          "componentBox": {
+            "left": 537,
+            "top": 28,
+            "width": 471,
+            "height": 762
+          },
+          "sourceFoot": [
+            789,
+            783
+          ],
+          "sourceGrip": [
+            785,
+            210
+          ],
+          "sourceTip": [
+            1004,
+            33
+          ],
+          "sourceHead": [
+            782,
+            327
+          ],
+          "uniformScale": 0.6428571428571429,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "65dda37007ba47ffd2ff9ff699fd81e676c3453651262ff3f18577dc691df77c",
+          "file": "assets/runtime/frames/sweep-02.png"
+        }
+      },
+      {
+        "bank": "spin",
+        "index": 3,
+        "frame": {
+          "path": "../assets/runtime/frames/spin-04.png",
+          "sha256": "de22dfb99bb804412f709eb3447dc5167eacd7c73c7005a5bbc5ca3f4c695061"
+        },
+        "source": {
+          "path": "../assets/connected/slash-v2/spin.png",
+          "sha256": "cb4a2f39f17c4a8d02dfbb82eb4d863c538f5800c4ffc150d924d1f15c09a2c6"
+        },
+        "atlas": {
+          "path": "../assets/runtime/atlases/spin.png",
+          "sha256": "4a709f00a8ff4c0b4a7d39dac889b45bbfefc14d34f7cdbf7bfb66686471ae61"
+        },
+        "registration": {
+          "id": "spin-04",
+          "index": 3,
+          "pivot": {
+            "x": 396.84615384615387,
+            "y": 557
+          },
+          "grip": {
+            "x": 385.1538461538462,
+            "y": 373
+          },
+          "tip": {
+            "x": 538.3846153846155,
+            "y": 534.8461538461538
+          },
+          "head": {
+            "x": 386.38461538461536,
+            "y": 256.6923076923077
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/slash-v2/spin.png",
+          "sourceSha256": "cb4a2f39f17c4a8d02dfbb82eb4d863c538f5800c4ffc150d924d1f15c09a2c6",
+          "componentBox": {
+            "left": 502,
+            "top": 910,
+            "width": 512,
+            "height": 583
+          },
+          "sourceFoot": [
+            778,
+            1482
+          ],
+          "sourceGrip": [
+            759,
+            1183
+          ],
+          "sourceTip": [
+            1008,
+            1446
+          ],
+          "sourceHead": [
+            761,
+            994
+          ],
+          "uniformScale": 0.6153846153846154,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "de22dfb99bb804412f709eb3447dc5167eacd7c73c7005a5bbc5ca3f4c695061",
+          "file": "assets/runtime/frames/spin-04.png"
+        }
+      },
+      {
+        "bank": "rise",
+        "index": 0,
+        "frame": {
+          "path": "../assets/runtime/frames/rise-01.png",
+          "sha256": "4f015905f8b3ac812321a02f6897795be10bc461bf9f969ac96cb7d1acb5a598"
+        },
+        "source": {
+          "path": "../assets/connected/slash-v2/up.png",
+          "sha256": "83bdc165326ca29fce77ebbd118303799bdd84c90e54482636ade4b694b9fadb"
+        },
+        "atlas": {
+          "path": "../assets/runtime/atlases/rise.png",
+          "sha256": "062184dd19b20b888ce1f5bce838dda01276e0e6b18734bfb6f86e1e260bc0b7"
+        },
+        "registration": {
+          "id": "rise-01",
+          "index": 0,
+          "pivot": {
+            "x": 409.78571428571433,
+            "y": 567.2857142857143
+          },
+          "grip": {
+            "x": 368.64285714285717,
+            "y": 391.14285714285717
+          },
+          "tip": {
+            "x": 216.92857142857142,
+            "y": 539.6428571428571
+          },
+          "head": {
+            "x": 439.3571428571429,
+            "y": 241.35714285714286
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/slash-v2/up.png",
+          "sourceSha256": "83bdc165326ca29fce77ebbd118303799bdd84c90e54482636ade4b694b9fadb",
+          "componentBox": {
+            "left": 8,
+            "top": 130,
+            "width": 525,
+            "height": 583
+          },
+          "sourceFoot": [
+            311,
+            706
+          ],
+          "sourceGrip": [
+            247,
+            432
+          ],
+          "sourceTip": [
+            11,
+            663
+          ],
+          "sourceHead": [
+            357,
+            199
+          ],
+          "uniformScale": 0.6428571428571429,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "4f015905f8b3ac812321a02f6897795be10bc461bf9f969ac96cb7d1acb5a598",
+          "file": "assets/runtime/frames/rise-01.png"
+        }
+      },
+      {
+        "bank": "dash",
+        "index": 7,
+        "frame": {
+          "path": "../assets/runtime/frames/dash-08.png",
+          "sha256": "39ea449e7a53be3d7bf1c10dd476c04993f1fec50427137bed8d707969d15a65"
+        },
+        "source": {
+          "path": "../assets/connected/dash-b.png",
+          "sha256": "f13812e5f6a0248e818c6a5634e6fb272eaffe13fd719571b25645a26e1997bc"
+        },
+        "atlas": {
+          "path": "../assets/runtime/atlases/dash.png",
+          "sha256": "86bc80c8e51cf8fc3802051f909e39a661bc467796dad7f1b530e221db59b013"
+        },
+        "registration": {
+          "id": "dash-08",
+          "index": 7,
+          "pivot": {
+            "x": 318.26956521739135,
+            "y": 562
+          },
+          "grip": {
+            "x": 333.295652173913,
+            "y": 362.2782608695652
+          },
+          "tip": {
+            "x": 529.8869565217392,
+            "y": 550.104347826087
+          },
+          "head": {
+            "x": 387.1391304347826,
+            "y": 230.8
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/dash-b.png",
+          "sourceSha256": "f13812e5f6a0248e818c6a5634e6fb272eaffe13fd719571b25645a26e1997bc",
+          "componentBox": {
+            "left": 758,
+            "top": 642,
+            "width": 477,
+            "height": 583
+          },
+          "sourceFoot": [
+            891,
+            1217
+          ],
+          "sourceGrip": [
+            915,
+            898
+          ],
+          "sourceTip": [
+            1229,
+            1198
+          ],
+          "sourceHead": [
+            1001,
+            688
+          ],
+          "uniformScale": 0.6260869565217392,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "39ea449e7a53be3d7bf1c10dd476c04993f1fec50427137bed8d707969d15a65",
+          "file": "assets/runtime/frames/dash-08.png"
+        }
+      }
+    ],
+    "sourceArt": {
+      "path": "../assets/sources/sx-standing-approved-20261007.png",
+      "sha256": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b"
+    },
+    "effects": {
+      "blade": {
+        "path": "assets/source/blade.png",
+        "sha256": "0061dc93e6a9d39cc09a26eed430f18218f5d2f868f21146f88e764c5d420904"
+      },
+      "eruption": {
+        "source": {
+          "path": "assets/source/eruption.png",
+          "sha256": "27ea2abda9f7bcea1c5343b8c3496592d816341bd2b0f2d3dda70fea2d6191c6"
+        },
+        "atlas": {
+          "path": "assets/runtime/eruption.png",
+          "sha256": "9a3782d94258b016e8fe941c0e996cc37a9512fc0d45fc6f42795e41950e6d50"
+        },
+        "activeIndices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "inactiveIndices": [
+          8,
+          9,
+          10,
+          11
+        ]
+      },
+      "ring": {
+        "source": {
+          "path": "assets/source/ring.png",
+          "sha256": "b2ff7f97ee5e432e86342292b3abdda7de083b256b2ecae769844dd5bbf4c5a1"
+        },
+        "atlas": {
+          "path": "assets/runtime/ring.png",
+          "sha256": "2ae949bcee89e33f1b675aa513f5449dfe2e8f380b449d9c0f423de3ecd6fca9"
+        },
+        "activeIndices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ]
+      }
+    },
+    "preservation": [
+      "본체 코발트·은백색·금색과 균일 신체 비율",
+      "전신 연결 작화·긴 다리·일직선 검축",
+      "짙은 주변 오라·검신 오라·광원·잔상",
+      "검신 낙하·충격파 범위·타격 반응·시점·복귀 타이밍"
+    ]
+  },
+  "approvedPlaybackBaseline": [
+    {
+      "path": "manifest.json",
+      "sha256": "84345ebc01b0c36531369c84fc138c92e3d6fbbecd04933b4047a86f0a2c3183"
+    },
+    {
+      "path": "motion.mjs",
+      "sha256": "97a51b84099aa629d9b371aceb2662866bc9d7f2257fde6baa0a64332cbd23cc"
+    },
+    {
+      "path": "source/SXUltimateFX.js",
+      "sha256": "195b8166ad0dbc4611bf853bfbefc3ad5ac5aa9870215838a7bb4f077f76fbf0"
+    },
+    {
+      "path": "source/preview.js",
+      "sha256": "a72c59b22275fa02427dda64ddc41727c7d0f7f417bb7837ae76cb8880c6e3f0"
+    },
+    {
+      "path": "preview.bundle.js",
+      "sha256": "bd1985d4e157b21447dd3cb0ff4048f30472b636ff882ac6947e88d9d9d75e09"
+    },
+    {
+      "path": "build-report.json",
+      "sha256": "ef3c17a6caaee687e6f8779487dd1ca2c9b0869c21d851a3dfb598fb2e99e336"
+    },
+    {
+      "path": "../source/SXBodyFX.js",
+      "sha256": "80d6aa7293f77c86e550cc6fcd2a7de40306ecb6ff21b02dfe1e8fef1f6dd495"
+    },
+    {
+      "path": "../motion.mjs",
+      "sha256": "499d81070113a2dd4925ec50889630f3034cf51013d6b7fa05d757c5dfaf6e6e"
+    },
+    {
+      "path": "../manifest.json",
+      "sha256": "88fa0539f18ab2d463be426b41845af218ae4fa40f354351ed9a3656376984bc"
+    },
+    {
+      "path": "../pose-registration-connected.json",
+      "sha256": "5c00980bad5076963c9f33e0558663a3c31cae32277a3cfeb0eab57eecec474f"
+    }
+  ],
+  "inheritedApproval": {
+    "path": "../approval-aura-dash-skill-20261007.json",
+    "sha256": "351b8998a30b110b1c83392cfd66e549c5ef7ce3926da2d53e39c9589f0065f8"
+  },
+  "approvalHistory": {
+    "path": "rejection-and-review-20261007.json",
+    "sha256": "e0d6b622feb5950989d8df80f90edb68d4a1c61864503eae986edbeb760f52b7"
+  },
+  "verifiedPreview": [
+    {
+      "path": "qa/verified/browser-report.json",
+      "sha256": "0fba3fe185be93bfd07420c9ddc2d61d6f67b083783a7b787ba47ed8b931e563"
+    },
+    {
+      "path": "qa/video/video-report.json",
+      "sha256": "2a9c1221b4af9e70aae9c326fe0112a8b58103e247156a8676be829953a0328a"
+    },
+    {
+      "path": "review-desktop-v3.webm",
+      "sha256": "bd06bdad80c936b924e625cf908e4658ef66c129d4b37ba41b4d137fd9468fd2"
+    },
+    {
+      "path": "review-mobile-v3.webm",
+      "sha256": "09dddcee3c0b49bbba8c1450191788801f1195d81f2eff943ec1a0ce296e8ecc"
+    }
+  ],
+  "pendingOutsideScope": [
+    "기본 공격의 최종 시각 승인",
+    "이 궁극기에서 사용하지 않는 자세의 별도 승인",
+    "칭호 단독 최종 승인",
+    "실제 피해·능력치·밸런스",
+    "CMS·제작식·계정 지급·운영 활성화"
+  ],
+  "runtimeEnabled": false,
+  "productionDeployed": false,
+  "supersedes": "현재 궁극기에 대한 이전 USER_REVIEW_PENDING 상태와 프리뷰 문구. 과거 매니페스트·반려 및 검수 기록은 이력으로 보존한다.",
+  "validation": {
+    "reviewedArtifactHashesVerified": 10,
+    "approvalOnlyChange": true,
+    "runtimeAndArtworkChanged": false,
+    "previousRelevantTestsReused": true
+  }
+}
