@@ -2,6 +2,7 @@ import {accountRankAward,accountRankBenefits,rankCoin} from './_account_rank.js'
 import {planForgeProtectionDrop} from './_forge_protection_drop.js';
 import {loadScrapyardV3Snapshot, buildScrapyardV3Battle, validateScrapyardV3Config} from './_scrapyard_v3.js';
 import {planUnifiedDropRoll, prepareUnifiedDropGrant} from './_drop_pool.js';
+import {encodeScrapyardRecord,decodeScrapyardRecord} from './_scrapyard_v3_record.js';
 
 // No HTTP registration: this is exercised with local databases only until the
 // whole PVE overhaul is ready. The future route must retain the shared user
@@ -67,9 +68,9 @@ async function claim(env, uid, rid, token, at) {
 
 async function reserve(env, user, rid, difficulty, cfg, snapshot, battle, plan, seed, token, at) {
   const uid = Number(user.id), day = kstRange(at), owner = String(user.role).toUpperCase() === 'OWNER';
-  const snapshotJson = encoded(snapshot), battleJson = encoded({...battle, difficulty}), planJson = encoded(plan);
+  const snapshotJson = encoded(snapshot), battleJson = await encodeScrapyardRecord({...battle, difficulty}), planJson = encoded(plan);
   // Keep headroom for presented rewards and per-row limits across backends.
-  if (new TextEncoder().encode(encoded({snapshot,battle,difficulty,plan})).byteLength > 700000) throw error('SCRAPYARD_V3_PAYLOAD','원정 기록이 너무 큽니다. 입장권은 사용하지 않았습니다.');
+  if (new TextEncoder().encode(snapshotJson+battleJson+planJson).byteLength > 700000) throw error('SCRAPYARD_V3_PAYLOAD','원정 기록이 너무 큽니다. 입장권은 사용하지 않았습니다.');
   // A partial unique index allows only one unfinished expedition per account.
   // Every economic write shares this transaction with its frozen result.
   const stmts = [
@@ -94,7 +95,7 @@ async function reserve(env, user, rid, difficulty, cfg, snapshot, battle, plan, 
 }
 
 async function settle(env, user, op, token) {
-  const uid = Number(user.id), rid = op.request_id, saved = parse(op.battle_json), plan = parse(op.drop_plan_json);
+  const uid = Number(user.id), rid = op.request_id, saved = await decodeScrapyardRecord(op.battle_json), plan = parse(op.drop_plan_json);
   if (Number(op.user_id) !== uid || plan.userId !== uid || plan.requestId !== `SCRAPYARD:${rid}` ||
       plan.sourceType !== 'SCRAPYARD' || plan.sourceId !== saved.difficulty?.id) throw error('SCRAPYARD_V3_RECORD', '저장된 원정 기록의 소유자를 확인할 수 없습니다.');
   const grants = await prepareUnifiedDropGrant(env,plan);
@@ -103,7 +104,7 @@ async function settle(env, user, op, token) {
   const inventory = await p(env,'SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?',uid,ITEM).first();
   const response = {...saved, ok:true, status:'COMPLETED', requestId:rid, rewards, partDropped:grants.rewards.length>0,
     entryTicket:{code:ITEM,consumed:1,remaining:Number(inventory?.quantity || 0)}, refreshAccount:true};
-  const responseJson = encoded(response);
+  const responseJson = await encodeScrapyardRecord(response);
   const proofs = grants.proofs.length ? grants.proofs.map(proof => `(${proof.sql})`).join(' AND ') : '1=1';
   const proofValues = grants.proofs.flatMap(proof => proof.values);
   await env.DB.batch([
@@ -134,7 +135,7 @@ async function settle(env, user, op, token) {
 
 export async function runScrapyardV3(env,user,body,deps) {
   const {uid,rid} = key(user,body), prior = await receipt(env,uid,rid);
-  if (prior?.status === 'COMPLETED') return {...parse(prior.response_json),replayed:true};
+  if (prior?.status === 'COMPLETED') return {...await decodeScrapyardRecord(prior.response_json),replayed:true};
   let op = await operation(env,uid,rid);
   if (prior && !op) throw error('SCRAPYARD_V3_LEGACY_REQUEST','이 요청은 이전 폐차장 기록입니다. 기존 결과를 먼저 확인하세요.');
   const token = crypto.randomUUID(), at = Date.now();
@@ -157,7 +158,7 @@ export async function runScrapyardV3(env,user,body,deps) {
     catch (cause) {
       const activeNow = await p(env,`SELECT request_id,battle_json FROM ${OPS} WHERE user_id=? AND state<>'COMPLETED'`,uid).first();
       const completed = await receipt(env,uid,rid);
-      if (completed?.status === 'COMPLETED') return {...parse(completed.response_json),replayed:true};
+      if (completed?.status === 'COMPLETED') return {...await decodeScrapyardRecord(completed.response_json),replayed:true};
       const reserved = activeNow?.request_id === rid ? await operation(env,uid,rid) : null;
       // A reservation COMMIT can succeed while its response is lost. This
       // worker still owns that lease and can settle immediately, without 120s wait.
@@ -171,7 +172,7 @@ export async function runScrapyardV3(env,user,body,deps) {
     // Never refund a frozen successful battle and leave its reward behind.
     // Failed finalization rolls back all grants; the same saved plan is resumed.
     const completed = await receipt(env,uid,rid);
-    if (completed?.status === 'COMPLETED') return {...parse(completed.response_json),replayed:true};
+    if (completed?.status === 'COMPLETED') return {...await decodeScrapyardRecord(completed.response_json),replayed:true};
     await p(env,`UPDATE ${OPS} SET lease_token=NULL,lease_until=0,last_error=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND lease_token=? AND state='PREPARED'`,String(cause?.message||cause).slice(0,400),rid,uid,token).run();
     return pending(rid,'SCRAPYARD_V3_SETTLEMENT_PENDING',parse(op.battle_json).difficulty.id);
   }
@@ -185,7 +186,7 @@ export async function scrapyardV3RecoveryStatus(env,user) {
 
 export async function scrapyardV3Result(env,user,requestId){
   const {uid,rid}=key(user,{requestId,difficulty:'OUTER'}),row=await receipt(env,uid,rid);
-  if(row?.status==='COMPLETED')return {...parse(row.response_json),replayed:true};
+  if(row?.status==='COMPLETED')return {...await decodeScrapyardRecord(row.response_json),replayed:true};
   const op=await operation(env,uid,rid);
   return op?{...pending(rid,'SCRAPYARD_V3_RUNNING',parse(op.battle_json).difficulty.id),canResume:Number(op.lease_until)<=Date.now()}:{ok:true,status:'NOT_FOUND'};
 }

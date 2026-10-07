@@ -3,6 +3,7 @@ import {readJointReleaseComponent} from './_joint_release_document.js';
 import { ensureEquipmentFoundation } from './_equipment.js';
 import { ensureUnifiedDropPoolFoundation } from './_drop_pool.js';
 import {SCRAPYARD_REFORM_DIFFICULTIES,SCRAPYARD_REWARD_COIN_LIMIT} from '../shared/pve-reform-20261008.mjs';
+import {decodeScrapyardRecord} from './_scrapyard_v3_record.js';
 
 const META_KEY='scrapyard_settings_v1676';
 const RECEIPT_TABLE='scrapyard_run_receipts_v1676';
@@ -165,7 +166,7 @@ async function run(env,user,body,deps){
     settings(env,{fresh:true}),
     recoverStaleEntryTickets(env,user.id)
   ]);
-  if(prior?.status==='COMPLETED')return {...parse(prior.response_json,{ok:true}),replayed:true};
+  if(prior?.status==='COMPLETED')return {...await decodeScrapyardRecord(prior.response_json||'{"ok":true}'),replayed:true};
   if(prior?.status==='PENDING')throw new Error('같은 폐차장 원정을 처리 중입니다.');
   const difficulty=cfg.difficulties.find(row=>row.id===difficultyId);if(!difficulty)throw new Error('폐차장 난이도를 선택하세요.');
   if(!canAccess(cfg.mode,user))throw new Error('현재 폐차장 입장이 잠겨 있습니다.');
