@@ -47,7 +47,7 @@ function extractMethod(source, startNeedle) {
 const playEventsSrc = extractMethod(engineSrc, '  async playEvents(events=[]');
 const queueBannerSrc = extractMethod(engineSrc, '  queueBanner(name,color=');
 const queueSupportSrc = extractMethod(engineSrc, '  queueSupportEffect(targets,options=');
-const advancePaceSrc = extractMethod(engineSrc, '  advancePace(type)');
+const advancePaceSrc = extractMethod(engineSrc, '  advancePace(type,');
 
 // ---------------------------------------------------------------- 목 하네스
 const BANNER_MS = 60;
@@ -212,7 +212,7 @@ test('번들이 소스와 같은 계약을 담고 있다', () => {
   assert.ok(bundleSrc.includes('this.bannerQueue=[],this.bannerPump=null'), '번들 생성자에 배너 큐 초기화가 없습니다');
   assert.ok(bundleSrc.includes('this.playbackEpoch+=1,this.bannerQueue.length=0'), '번들 cancelTimelines 에 큐 비우기가 없습니다');
   const bannerSources=read('preview/project-v-v3/source/battle/BerkanCombatPlayback.js')+read('preview/project-v-v3/source/battle/NurseHealCombatPlayback.js')+read('preview/project-v-v3/source/battle/SniperOrikkungCombatPlayback.js')+read('preview/project-v-v3/source/battle/CryvernCombatPlayback.js')+read('preview/project-v-v3/source/battle/HeukwolCombatPlayback.js')+read('preview/project-v-v3/source/battle/BikiniJoeunCombatPlayback.js')+read('preview/project-v-v3/source/battle/RagnielCombatPlayback.js')+read('preview/project-v-v3/source/battle/MangisaCombatPlayback.js')+engineSrc+read('preview/project-v-v3/source/battle/MercenaryCombatPlayback.js')+read('preview/project-v-v3/source/battle/ApocalypseLegionPlayback.js')+read('preview/project-v-v3/source/battle/CooperativeEncounter.js')+read('preview/project-v-v3/source/battle/CooperativeArkePlayback.js')+read('preview/scrapyard-v3-v1/source/ScrapyardBattleEngine.js');
-  const allBannerSources=bannerSources+read('preview/project-v-v3/source/battle/IconRolePlayback.js')+read('preview/project-v-v3/source/battle/LimitedMercenaryPlayback.js');
+  const allBannerSources=bannerSources+read('preview/project-v-v3/source/battle/IconRolePlayback.js')+read('preview/project-v-v3/source/battle/LimitedMercenaryPlayback.js')+read('preview/project-v-v3/source/battle/PetSupportPlayback.js');
   assert.equal((bundleSrc.match(/queueBanner\(/g) || []).length, (allBannerSources.match(/queueBanner\(/g) || []).length, '공용 엔진·용병·아포칼립스·ICON 어댑터의 배너 큐가 번들에 그대로 포함되어야 합니다');
   assert.equal((bundleSrc.match(/queueSupportEffect\(/g) || []).length, (engineSrc.match(/queueSupportEffect\(/g) || []).length, '번들의 queueSupportEffect 호출 수가 소스와 다릅니다');
   // Only the independent notice pump waits for a previous notice.
