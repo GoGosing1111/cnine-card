@@ -1,0 +1,30 @@
+{
+  "checkedAt": "2026-10-07T07:00:45.003Z",
+  "authorization": "사용자 지시: 레드클라우드, 정말잘하시네요, 대지 계정의 기존 아이젠 족스케를 +15강으로 업그레이드. 새 카드 지급이나 재화 차감 없이 기존 보유 카드 강화 단계만 변경.",
+  "requested": [
+    "레드클라우드",
+    "정말잘하시네요",
+    "대지"
+  ],
+  "targets": [
+    {
+      "id": 3867,
+      "nickname": "레드클라우드",
+      "inputNickname": "레드클라우드",
+      "observedLevel": 14
+    },
+    {
+      "id": 4479,
+      "nickname": "대지",
+      "inputNickname": "대지",
+      "observedLevel": 13
+    },
+    {
+      "id": 4820,
+      "nickname": "정말잘하시네요",
+      "inputNickname": "정말잘하시네요",
+      "observedLevel": 14
+    }
+  ],
+  "excluded": []
+}
