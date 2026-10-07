@@ -121,6 +121,7 @@ test('a trigger suppressing output delivery rolls the successful transaction bac
 
 test('HTTP route validates origin/body, calls the shared user lock and replays a committed result after response loss',async t=>{
   const f=await equipmentFixture(t);let locks=0;
+  await f.p('ALTER TABLE inventory_items ADD COLUMN updated_at TEXT').run();
   await f.setting(`WORKSHOP_EQUIPMENT_PITY_V1:7:${f.recipeId}`,{failures:2,revision:2});
   const body={recipeId:f.recipeId,instanceId:'1',requestId:'equipment-http-request1'},url='https://local.test/api/workshop/equipment-craft';
   const call=async(value=body,origin='https://local.test')=>handleWorkshop({path:'workshop/equipment-craft',env:f.env,request:new Request(url,{method:'POST',headers:{origin,'content-type':'application/json',authorization:'Bearer local-account-7'},body:JSON.stringify(value)}),deps:{...f.deps,withUserMutationLock:(env,uid,path,work)=>{locks++;assert.equal(path,'workshop/equipment-craft');return f.deps.withUserMutationLock(env,uid,path,work)}}});
