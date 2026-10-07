@@ -1,6 +1,6 @@
 {
   "date": "2026-10-08",
-  "status": "APPROVED_RELEASE_CANDIDATE",
+  "status": "LIVE",
   "request": "카드상점에도 BGM 재생 및 잘 보이는 ON/OFF 버튼 추가",
   "behavior": {
     "surfaces": [
@@ -22,6 +22,34 @@
     "tests": [
       "tests/card-shop-bgm-20261008.test.mjs"
     ],
-    "checks": []
+    "checks": [],
+    "commit": "bac712f87fe584586a733289ec77f71030fef537",
+    "deployment": "https://7cfa9e9c.cnine-card.pages.dev",
+    "apiVersion": "1388ab01-1815-4bf8-bd6a-bdea3c54b2fd",
+    "clanVersion": "c581356b-2e22-43c3-ba3a-43cdf16117d4"
+  },
+  "verification": {
+    "checkedAt": "2026-10-07T17:57:06.036Z",
+    "script": {
+      "url": "https://cnine-card.pages.dev/js/lobby-bgm-v1803.js?v=20261008-card-shop",
+      "status": 200,
+      "sha256": "d61db02372407f509ec8e913443b71723be7bd39808518f00146f4bd43429fe5"
+    },
+    "indexCacheKey": true,
+    "scopedRegression": "PASS: desktop and mobile full-app browser tests",
+    "playback": {
+      "players": 1,
+      "volume": 0.25,
+      "loop": true,
+      "routeAndPackChangesReloads": 0,
+      "sharedMutePersistence": true
+    },
+    "button": {
+      "desktopHeight": 44,
+      "mobileHeight": 44
+    },
+    "javascriptErrors": [],
+    "releaseFlags": "PASS",
+    "hyperdriveQueryCache": "OFF"
   }
 }
