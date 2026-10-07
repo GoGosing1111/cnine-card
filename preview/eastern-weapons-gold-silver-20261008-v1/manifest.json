@@ -1,0 +1,118 @@
+{
+  "version": 1,
+  "date": "2026-10-08",
+  "status": "PREVIEW_READY",
+  "task": "Eastern Arms Merchant style gold/silver weapons with 512x512 square frames",
+  "tool": "OpenAI built-in image_gen",
+  "sourcePreservation": "Original attachments copied without modifications",
+  "export": "Native image_gen artwork uniformly downsampled with Lanczos3; no repaint, crop, palette or geometry changes",
+  "visualReview": {
+    "muzzleDirection": "All four final framed icons face left",
+    "rigidAxis": "Receiver, barrel and muzzle checked continuously; no visible bends at their connections",
+    "completeness": "Muzzle, stock, magazines, charms, pearls and corner ornaments visible",
+    "color4": "White/black/gold palette, pearl chains and warm bottle retained",
+    "resolution": "All delivery assets exactly 512x512"
+  },
+  "runtimeConnected": false,
+  "equipmentRegistrationChanged": false,
+  "initialCutouts": "masters/weapon-XX-cutout-initial.png are the preserved first-generation sources, before the all-left framed follow-up",
+  "references": [
+    {
+      "number": 1,
+      "path": "sources/weapon-01-reference.png",
+      "sha256": "40EEF89C2263810373A8AE741E306A3D8FC86342CB30498D4B1F7C010F6F8BC5"
+    },
+    {
+      "number": 2,
+      "path": "sources/weapon-02-reference.png",
+      "sha256": "4B8DF4DC6874E481A966D39A7BBC83631D1F9F4B8A881525961DE442726FF277"
+    },
+    {
+      "number": 3,
+      "path": "sources/weapon-03-reference.png",
+      "sha256": "C9E5ADA25F279A2675CF45946500DE2E89B9343A94C690E6AB3FCE483E38E14A"
+    },
+    {
+      "number": 4,
+      "path": "sources/weapon-04-reference.png",
+      "sha256": "106014F222F4B62C71FEAFCA5FB23BF1FFD0CCA92392EE35BB15A425D9F6E0D7"
+    }
+  ],
+  "assets": [
+    {
+      "number": 0,
+      "role": "shared-frame-and-backdrop",
+      "path": "assets/frame-background-512.png",
+      "width": 512,
+      "height": 512,
+      "bytes": 371605,
+      "sha256": "5C7F7739F557252EC4460FF89B8EC28D03CE8076BF10898F691DCF4D6E9BC8FE",
+      "masterPath": "masters/frame-background-framed-master.png",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "masterSha256": "32FAE5A324DD4547F35B848A5AA789000E42B51662A88A0BE35955B2E277E1F0",
+      "muzzleDirection": null,
+      "colorPolicy": "Gold and silver frame, burgundy-black background"
+    },
+    {
+      "number": 1,
+      "role": "framed-weapon-icon",
+      "path": "assets/weapon-01-512.png",
+      "width": 512,
+      "height": 512,
+      "bytes": 475416,
+      "sha256": "9F03736CA60C051DEE3D6E2F710C4EE025CBB3E3EBE84E06286251F05D7901BE",
+      "masterPath": "masters/weapon-01-framed-master.png",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "masterSha256": "6A19226AEFDD90D51335EB1071F774454CC393D77BCAC691D8F38BFCCD09EDCE",
+      "muzzleDirection": "LEFT",
+      "colorPolicy": "Champagne gold and silver, dark mechanical recesses"
+    },
+    {
+      "number": 2,
+      "role": "framed-weapon-icon",
+      "path": "assets/weapon-02-512.png",
+      "width": 512,
+      "height": 512,
+      "bytes": 433773,
+      "sha256": "FB075BAC4DCD178F626C4890595A4247F4584682E2BBF1B60A846495DDA61894",
+      "masterPath": "masters/weapon-02-framed-master.png",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "masterSha256": "90325B7F89D5003910F2A83F76BFA047C1F4FDDB3FD36D500D08925DDD96DB49",
+      "muzzleDirection": "LEFT",
+      "colorPolicy": "Champagne gold and silver, dark mechanical recesses"
+    },
+    {
+      "number": 3,
+      "role": "framed-weapon-icon",
+      "path": "assets/weapon-03-512.png",
+      "width": 512,
+      "height": 512,
+      "bytes": 443442,
+      "sha256": "1DCB4D7B7E2CE23924388393EA99C43406A539A1BBA092AEA9DF946E2B54F8F2",
+      "masterPath": "masters/weapon-03-framed-master.png",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "masterSha256": "6CBE8DC7901B301AC4E815326AB502C8DCCBD0B1AAC93C609AD2FA815816E9BF",
+      "muzzleDirection": "LEFT",
+      "colorPolicy": "Champagne gold and silver, dark mechanical recesses"
+    },
+    {
+      "number": 4,
+      "role": "framed-weapon-icon",
+      "path": "assets/weapon-04-512.png",
+      "width": 512,
+      "height": 512,
+      "bytes": 435331,
+      "sha256": "EC6954A6ECE24F41951D68D9F7033AB3FF967984712E095BF64CE9A41C18D5B2",
+      "masterPath": "masters/weapon-04-framed-master.png",
+      "masterWidth": 1254,
+      "masterHeight": 1254,
+      "masterSha256": "CC76900714DEF1F249F642113CC7E905DE7DCDC223AF4E37A10A8AC6B1AC207D",
+      "muzzleDirection": "LEFT",
+      "colorPolicy": "Original white/silver, black, gold and ivory pearl palette preserved"
+    }
+  ]
+}
