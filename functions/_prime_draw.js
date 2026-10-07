@@ -3,6 +3,7 @@ import { readRuntimeData, cacheRuntimeData, invalidateRuntimeData } from './_run
 import { BATTLE_SUIT_CORE_CODES,ensureBattleSuitCoreCatalog } from './_battle_suit_materials.js';
 import { SKILL_CHIP_CATALOG } from '../shared/battle-suit-skill-chips.mjs';
 import { ensureSkillChipFoundation } from './_skill_chips.js';
+import { SUIT_CORE_BOX,SUIT_CORE_BOX_CODES } from '../shared/suit-core-box-v1.mjs';
 
 const UPGRADE_KEY='safe_runtime_upgrade_v1985_prime_draw_live';
 const EQUIPMENT_POOL_TABLE='prime_equipment_draw_pool_v1985';
@@ -20,6 +21,7 @@ const PRIME_EQUIPMENT_ITEM_CODES=new Set([...BATTLE_SUIT_CORE_CODES,...SKILL_CHI
 const PRIME_ITEM_PLACEHOLDERS=[...PRIME_EQUIPMENT_ITEM_CODES].map(()=>'?').join(',');
 
 const PRODUCTS=Object.freeze({
+  suit_core:SUIT_CORE_BOX,
   equipment:Object.freeze({
     kind:'equipment',
     itemCode:'PRIME_EQUIPMENT_SUPPLY_BOX',
@@ -69,7 +71,7 @@ const owner=user=>Boolean(user&&String(user.role||'').toUpperCase()==='OWNER');
 const bool=(value,fallback=true)=>value===undefined||value===null?fallback:(value===true||value===1||String(value)==='1');
 
 function defaultProductSettings(product){
-  return {openEnabled:true,shopEnabled:true,shopPrice:product.unitPrice,poolVersion:product.poolVersion,priceRatio:product.priceRatio};
+  return {openEnabled:!product.coreOnly,shopEnabled:!product.coreOnly,shopPrice:product.unitPrice,poolVersion:product.poolVersion,priceRatio:product.priceRatio};
 }
 
 function cleanProductSettings(raw,product){
@@ -212,10 +214,10 @@ function checkedOpenMutationStatements(env,{sql,values,requestId,userId,boxCode}
 
 // PERF-0919: 프라임 구매의 코인 차감도 같은 방식으로 확인한다. 구매는 사용자 락 대상이 아니라서
 //   PostgreSQL 에서 다른 코인 사용과 겹치면 차감 0행 + 상자 지급이 가능했다.
-function checkedPurchaseDebitStatements(env,{sql,values,requestId,userId,itemCode}){
+function checkedPurchaseDebitStatements(env,{sql,values,requestId,userId,itemCode,returnColumn='id'}){
   const guardValues=[requestId,userId,itemCode];
   const guard=proof=>`UPDATE ${PURCHASE_RECEIPTS} SET count=CASE WHEN ${proof} THEN count ELSE NULL END WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING'`;
-  if(env.DB?.dialect==='postgres')return [env.DB.prepare(`WITH changed AS (${sql} RETURNING id) ${guard('(SELECT COUNT(*) FROM changed)=1')}`).bind(...values,...guardValues)];
+  if(env.DB?.dialect==='postgres')return [env.DB.prepare(`WITH changed AS (${sql} RETURNING ${returnColumn}) ${guard('(SELECT COUNT(*) FROM changed)=1')}`).bind(...values,...guardValues)];
   return [env.DB.prepare(sql).bind(...values),env.DB.prepare(guard('changes()=1')).bind(...guardValues)];
 }
 // PERF-0919: 완료 UPDATE 의 RETURNING 결과를 쓰고, 0행일 때만(동일 요청 경쟁·재고 부족) 영수증을 다시 읽는다.
@@ -287,6 +289,7 @@ function poolRow(row,rewardType,isExtra=false){
 }
 
 async function loadPool(env,product,{includeZero=false,fresh=true}={}){
+  if(product.coreOnly)return loadSuitCorePool(env,{includeZero});
   // includeZero 는 CMS 편집 화면 전용이라 캐시하지 않는다.
   if(!includeZero&&!fresh){const cached=readRuntimeData(env,primePoolCacheKey(product));if(cached)return cached}
   const weightClause=includeZero?'':' AND p.draw_weight>0',extraWeightClause=includeZero?'':' AND x.draw_weight>0';
@@ -313,6 +316,7 @@ async function loadPool(env,product,{includeZero=false,fresh=true}={}){
 //   운영 변경(비활성·비공개·확률 0)을 바로 반영하도록 여전히 매번 새로 읽으며, 공개 설정 화면용
 //   캐시(loadPool)에는 쓰지 않는다. 각 구간의 정렬·중복 제거 순서는 loadPool 과 같다.
 async function loadDrawPool(env,product){
+  if(product.coreOnly)return loadSuitCorePool(env);
   const equipment=product.kind==='equipment',nativeType=equipment?'EQUIPMENT':'VEHICLE',nativeTable=equipment?'character_equipment_items':'character_garage_items';
   const baseSql=equipment
     ?`SELECT 1 pool_part,i.id,i.code,i.name,i.rarity,i.image_url,i.description,i.slot,NULL category,NULL role_label,NULL accent,i.total_power,i.pve_power,i.pvp_power,0 duplicate_shards,p.draw_weight,p.presentation_enabled,p.presentation_tier,p.effect_key,i.id pool_sort_number,'' pool_sort_text FROM ${EQUIPMENT_POOL_TABLE} p JOIN character_equipment_items i ON i.id=p.equipment_id WHERE i.is_active=1 AND i.is_public=1 AND p.draw_weight>0`
@@ -344,10 +348,10 @@ async function configPayload(env,user,product,{includePool=true,includeZero=fals
     env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,product.itemCode).first(),
     env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first(),
     includePool?loadPool(env,product,{includeZero,fresh:includeZero}):Promise.resolve([]),
-    loadProductSettings(env,product,{fresh:includeZero})
+    loadProductSettings(env,product,{fresh:includeZero||Boolean(product.coreOnly)})
   ]);
   const available=pool.length>0;
-  return {kind:product.kind,itemCode:product.itemCode,legacyItemCode:product.legacyItemCode,name:product.name,subtitle:product.subtitle,image:product.image,openEnabled:available&&settings.openEnabled,maxOpen:OPEN_LIMIT,maxPurchase:PURCHASE_LIMIT,batchOpenEnabled:true,poolVersion:product.poolVersion,priceRatio:product.priceRatio,balance:Number(balance?.quantity||0),ticketQuantity:Number(balance?.quantity||0),coin:Number(account?.coin||0),settings,shop:{enabled:available&&settings.shopEnabled,unitPrice:product.unitPrice,originalUnitPrice:product.unitPrice,promotionDiscountPercent:0},pool:{independent:true,legacyShared:false,entryCount:pool.length,entries:pool.map(row=>({id:Number(row.id),poolKey:row.poolKey,rewardType:row.rewardType,rewardRef:row.rewardRef,isExtra:Boolean(row.isExtra),removable:Boolean(row.removable),code:row.code,name:row.name,rarity:row.rarity,image:row.image_url||'',category:row.category||'',power:Number(row.total_power||0),sourceProbability:Number(row.source_probability||0),boostMultiplier:Number(row.boost_multiplier||0),drawWeight:Number(row.draw_weight||0),presentation:row.presentation}))}};
+  return {kind:product.kind,itemCode:product.itemCode,legacyItemCode:product.legacyItemCode,name:product.name,subtitle:product.subtitle,image:product.image,openEnabled:available&&settings.openEnabled,maxOpen:OPEN_LIMIT,maxPurchase:Math.min(PURCHASE_LIMIT,Math.floor(Number.MAX_SAFE_INTEGER/product.unitPrice)),batchOpenEnabled:true,poolVersion:product.poolVersion,priceRatio:product.priceRatio,balance:Number(balance?.quantity||0),ticketQuantity:Number(balance?.quantity||0),coin:Number(account?.coin||0),settings,shop:{enabled:available&&settings.shopEnabled,unitPrice:product.unitPrice,originalUnitPrice:product.unitPrice,promotionDiscountPercent:0},pool:{independent:true,legacyShared:false,entryCount:pool.length,entries:pool.map(row=>({id:Number(row.id),poolKey:row.poolKey,rewardType:row.rewardType,rewardRef:row.rewardRef,isExtra:Boolean(row.isExtra),removable:Boolean(row.removable),code:row.code,name:row.name,rarity:row.rarity,image:row.image_url||'',category:row.category||'',power:Number(row.total_power||0),sourceProbability:Number(row.source_probability||0),boostMultiplier:Number(row.boost_multiplier||0),drawWeight:Number(row.draw_weight||0),presentation:row.presentation}))}};
 }
 
 async function purchase({request,env,user,product,readBody,json}){
@@ -362,6 +366,7 @@ async function purchase({request,env,user,product,readBody,json}){
   if(prior?.status==='COMPLETED'&&prior.response_json)return json(parse(prior.response_json,{}));
   if(prior)return json({error:'같은 구매 요청을 처리 중입니다.'},409);
   const totalPrice=product.unitPrice*count;
+  if(!Number.isSafeInteger(totalPrice))return json({error:'구매 총액이 허용 범위를 초과합니다. 수량을 줄여 주세요.'},400);
   const response={ok:true,itemCode:product.itemCode,count,unitPrice:product.unitPrice,totalPrice,coin:0,balance:0,requestId};
   const completeSql=env.DB?.dialect==='postgres'
     ?`UPDATE ${PURCHASE_RECEIPTS} SET status='COMPLETED',response_json=(jsonb_set(jsonb_set(?::jsonb,'{coin}',to_jsonb(COALESCE((SELECT coin FROM users WHERE id=?),0)),true),'{balance}',to_jsonb(COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?),0)),true))::text,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'`
@@ -370,7 +375,7 @@ async function purchase({request,env,user,product,readBody,json}){
   const statements=[
     env.DB.prepare(`INSERT INTO ${PURCHASE_RECEIPTS}(request_id,user_id,item_code,count,unit_price,total_price,status) SELECT ?,?,?,?,?,?,'PENDING' WHERE EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=?)`).bind(requestId,user.id,product.itemCode,count,product.unitPrice,totalPrice,user.id,totalPrice),
     ...checkedPurchaseDebitStatements(env,{sql:`UPDATE users SET coin=coin-? WHERE id=? AND coin>=? AND EXISTS(SELECT 1 FROM ${PURCHASE_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING')`,values:[totalPrice,user.id,totalPrice,requestId,user.id,product.itemCode],requestId,userId:user.id,itemCode:product.itemCode}),
-    env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) SELECT ?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP WHERE EXISTS(SELECT 1 FROM ${PURCHASE_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING') ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=quantity+excluded.quantity,unseen_quantity=unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(user.id,product.itemCode,count,count,requestId,user.id,product.itemCode),
+    ...(product.coreOnly?checkedPurchaseDebitStatements(env,{sql:`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) SELECT ?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP WHERE EXISTS(SELECT 1 FROM ${PURCHASE_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING') ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`,values:[user.id,product.itemCode,count,count,requestId,user.id,product.itemCode],requestId,userId:user.id,itemCode:product.itemCode,returnColumn:'item_code'}):[env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) SELECT ?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP WHERE EXISTS(SELECT 1 FROM ${PURCHASE_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING') ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=quantity+excluded.quantity,unseen_quantity=unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(user.id,product.itemCode,count,count,requestId,user.id,product.itemCode)]),
     env.DB.prepare(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT ?,-?,coin,? FROM users WHERE id=? AND EXISTS(SELECT 1 FROM ${PURCHASE_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING')`).bind(user.id,totalPrice,product.purchaseReason,user.id,requestId,user.id,product.itemCode),
     env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,?,?,quantity,'SHOP_PURCHASE',?,? FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND EXISTS(SELECT 1 FROM ${PURCHASE_RECEIPTS} WHERE request_id=? AND user_id=? AND item_code=? AND status='PENDING')`).bind(user.id,product.itemCode,count,product.referenceType,requestId,user.id,product.itemCode,requestId,user.id,product.itemCode)
   ];
@@ -385,16 +390,16 @@ async function purchase({request,env,user,product,readBody,json}){
 
 async function openEquipment({request,env,user,product,readBody,json}){
   const body=await readBody(request),rawCount=Number(body.count??body.quantity),count=int(rawCount,1,OPEN_LIMIT),requestId=text(body.requestId||crypto.randomUUID(),120);
-  if(!Number.isInteger(rawCount)||rawCount<1||rawCount>OPEN_LIMIT)return json({error:`프라임 아머리 상자는 1개 이상 ${OPEN_LIMIT}개 이하로 개봉할 수 있습니다.`},400);
+  if(!Number.isInteger(rawCount)||rawCount<1||rawCount>OPEN_LIMIT)return json({error:`${product.name}는 1개 이상 ${OPEN_LIMIT}개 이하로 개봉할 수 있습니다.`},400);
   if(body.poolVersion&&body.poolVersion!==product.poolVersion)return json({error:'상품 확률표 버전이 변경되었습니다. 다시 확인해 주세요.',code:'POOL_VERSION_CHANGED',poolVersion:product.poolVersion},409);
-  if(!(await loadProductSettings(env,product)).openEnabled)return json({error:'현재 프라임 아머리 상자 개봉이 중지되어 있습니다.'},423);
+  if(!(await loadProductSettings(env,product)).openEnabled)return json({error:`현재 ${product.name} 개봉이 중지되어 있습니다.`},423);
   const prior=await env.DB.prepare(`SELECT status,response_json,item_code FROM ${OPEN_RECEIPTS} WHERE request_id=? AND user_id=?`).bind(requestId,user.id).first();
   if(prior&&prior.item_code!==product.itemCode)return json({error:'같은 요청 ID를 다른 프라임 상품에 재사용할 수 없습니다.'},409);
   if(prior?.status==='COMPLETED'&&prior.response_json)return json(parse(prior.response_json,{}));
   if(prior)return json({error:'같은 개봉 요청을 처리 중입니다.'},409);
   const [poolRows,stock,ownedAvatarRows]=await Promise.all([loadDrawPool(env,product),env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,product.itemCode).first(),env.DB.prepare('SELECT avatar_code FROM avatar_user_ownership_v1 WHERE user_id=? AND (expires_at IS NULL OR expires_at>CURRENT_TIMESTAMP)').bind(user.id).all()]);
   if(!poolRows.length)return json({error:'프라임 장비 전용 드랍풀이 비어 있습니다.'},503);
-  if(Number(stock?.quantity||0)<count)return json({error:`프라임 아머리 상자가 ${count}개 필요합니다.`},409);
+  if(Number(stock?.quantity||0)<count)return json({error:`${product.name} ${count}개가 필요합니다.`},409);
   const ownedAvatarCodes=new Set((ownedAvatarRows.results||[]).map(row=>String(row.avatar_code))),newAvatarCodes=new Set(),inventoryItemCounts=new Map(),results=[];
   for(let index=0;index<count;index++){
     const candidates=eligiblePool(poolRows,ownedAvatarCodes),row=weightedPick(candidates);
@@ -407,7 +412,7 @@ async function openEquipment({request,env,user,product,readBody,json}){
     else results.push({type:'EQUIPMENT',item:publicEquipment(row),presentation:row.presentation});
   }
   const aggregated=aggregateResults('equipment',results),specialQueue=specialQueueFrom(aggregated);
-  const response={ok:true,kind:'equipment',itemCode:product.itemCode,count,poolVersion:product.poolVersion,receiptId:requestId,requestId,results,aggregated,specialQueue,remainingQuantity:0};
+  const response={ok:true,kind:product.kind,itemCode:product.itemCode,count,poolVersion:product.poolVersion,receiptId:requestId,requestId,results,aggregated,specialQueue,remainingQuantity:0};
   const rewardRows=JSON.stringify(results.filter(result=>result.type==='EQUIPMENT').map((result,index)=>[Number(result.item.id),index]));
   const completeSql=env.DB?.dialect==='postgres'
     ?`UPDATE ${OPEN_RECEIPTS} SET status='COMPLETED',response_json=(jsonb_set(?::jsonb,'{remainingQuantity}',to_jsonb(COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?),0)),true))::text,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'`
@@ -430,7 +435,7 @@ async function openEquipment({request,env,user,product,readBody,json}){
   );
   const batched=await env.DB.batch(statements);
   const receipt=await completedReceipt(env,batched,OPEN_RECEIPTS,requestId,user.id);
-  if(!receipt)return json({error:`프라임 아머리 상자가 ${count}개 필요합니다.`},409);
+  if(!receipt)return json({error:`${product.name} ${count}개가 필요합니다.`},409);
   if(receipt.status!=='COMPLETED'||!receipt.response_json)return json({error:'프라임 장비 개봉 처리에 실패했습니다.'},500);
   return json(parse(receipt.response_json,{}));
 }
@@ -486,6 +491,9 @@ async function openVehicle({request,env,user,product,readBody,json}){
 export async function handlePrimeDraw({path,request,env,deps}){
   const {authenticate,readBody,json,ensureEquipmentFoundation,ensureVehicleDrawFoundation,ensureAvatarFoundation}=deps;
   const routes={
+    'suit-core-box/config':{product:PRODUCTS.suit_core,action:'config'},
+    'suit-core-box/purchase':{product:PRODUCTS.suit_core,action:'purchase'},
+    'suit-core-box/open':{product:PRODUCTS.suit_core,action:'open'},
     'equipment/prime-supply-box/config':{product:PRODUCTS.equipment,action:'config'},
     'equipment/prime-supply-box/purchase':{product:PRODUCTS.equipment,action:'purchase'},
     'equipment/prime-supply-box/open':{product:PRODUCTS.equipment,action:'open'},
@@ -500,19 +508,24 @@ export async function handlePrimeDraw({path,request,env,deps}){
   if(path==='admin/prime-draw/status'&&request.method==='GET'){
     if(!owner(user))return json({error:'OWNER 권한이 필요합니다.'},403);
     const [equipment,vehicle,catalog,marker]=await Promise.all([configPayload(env,user,PRODUCTS.equipment,{includeZero:true}),configPayload(env,user,PRODUCTS.vehicle,{includeZero:true}),loadAdminCatalog(env),env.DB.prepare('SELECT value,updated_at FROM app_meta WHERE key=?').bind(UPGRADE_KEY).first()]);
-    return json({ok:true,legacyShop:{equipment:false,vehicle:false},equipment,vehicle,catalog,migration:parse(marker?.value,{}),updatedAt:marker?.updated_at||null});
+    const suit_core=await configPayload(env,user,PRODUCTS.suit_core,{includeZero:true});
+    return json({ok:true,legacyShop:{equipment:false,vehicle:false},equipment,vehicle,suit_core,catalog,migration:parse(marker?.value,{}),updatedAt:marker?.updated_at||null});
   }
   if(path==='admin/prime-draw/pool'&&request.method==='POST'){
     if(!owner(user))return json({error:'OWNER 권한이 필요합니다.'},403);
     const body=await readBody(request),product=PRODUCTS[String(body.kind||'').toLowerCase()],entries=Array.isArray(body.entries)?body.entries:[];
     if(!product)return json({error:'수정할 풀 종류가 올바르지 않습니다.'},400);
-    const currentPool=await loadPool(env,product,{includeZero:true}),currentByKey=new Map(currentPool.map(row=>[row.poolKey,row])),catalog=await loadAdminCatalog(env),allowedCatalog=[...(product.kind==='equipment'?[...catalog.equipment,...catalog.inventory_item]:catalog.vehicle),...catalog.avatar],catalogByKey=new Map(allowedCatalog.map(row=>[row.poolKey,row]));
+    const currentPool=await loadPool(env,product,{includeZero:true}),currentByKey=new Map(currentPool.map(row=>[row.poolKey,row])),catalog=await loadAdminCatalog(env),allowedCatalog=product.coreOnly?catalog.inventory_item.filter(row=>SUIT_CORE_BOX_CODES.includes(row.code)):[...(product.kind==='equipment'?[...catalog.equipment,...catalog.inventory_item]:catalog.vehicle),...catalog.avatar],catalogByKey=new Map(allowedCatalog.map(row=>[row.poolKey,row]));
     const normalized=entries.map(row=>{
       const poolKey=text(row.poolKey||`${row.rewardType||''}:${row.rewardRef||row.code||''}`,180),current=currentByKey.get(poolKey),candidate=catalogByKey.get(poolKey),source=current||candidate;
       return {poolKey,source,current,isExtra:Boolean(current?.isExtra||(!current&&candidate)),id:Number(current?.id||candidate?.id||0),rewardType:String(source?.rewardType||'').toUpperCase(),rewardRef:String(source?.rewardRef||source?.code||''),weight:Number(Number(row.drawWeight).toFixed(6)),enabled:bool(row.presentation?.enabled,false),tier:['STANDARD','FEATURED','HERO','CINEMATIC'].includes(String(row.presentation?.tier||'').toUpperCase())?String(row.presentation.tier).toUpperCase():'STANDARD',effectKey:text(row.presentation?.effectKey||'NONE',80)};
     });
     if(normalized.some(row=>!Number.isFinite(row.weight)||row.weight<0||row.weight>100))return json({error:'각 아이템 확률은 0% 이상 100% 이하여야 합니다.'},400);
     if(normalized.some(row=>!row.source||!row.rewardRef))return json({error:'현재 활성 카탈로그에 없는 품목이 포함됐습니다. 새로고침 후 다시 저장해 주세요.'},409);
+    if(product.coreOnly){
+      if(normalized.length!==SUIT_CORE_BOX_CODES.length||SUIT_CORE_BOX_CODES.some(code=>!normalized.some(row=>row.rewardRef===code)))return json({error:'슈트코어 전용 상자는 코어 1~4 네 종류를 모두 포함해야 합니다.'},400);
+      for(const row of normalized){row.isExtra=true;row.enabled=false;row.tier='STANDARD';row.effectKey='NONE';}
+    }
     const submittedKeys=new Set(normalized.map(row=>row.poolKey)),requiredBaseKeys=new Set(currentPool.filter(row=>!row.isExtra).map(row=>row.poolKey));
     if(submittedKeys.size!==normalized.length||[...requiredBaseKeys].some(key=>!submittedKeys.has(key)))return json({error:'기본 독립 드랍풀 항목은 삭제하거나 중복 제출할 수 없습니다. 확률을 0%로 설정해 주세요.'},409);
     const total=normalized.reduce((sum,row)=>sum+(Number.isFinite(row.weight)&&row.weight>0?row.weight:0),0);
@@ -533,8 +546,17 @@ export async function handlePrimeDraw({path,request,env,deps}){
   }
   if(route.action==='config'&&request.method==='GET')return json(await configPayload(env,user,route.product));
   if(route.action==='purchase'&&request.method==='POST')return purchase({request,env,user,product:route.product,readBody,json});
-  if(route.action==='open'&&request.method==='POST')return route.product.kind==='equipment'?openEquipment({request,env,user,product:route.product,readBody,json}):openVehicle({request,env,user,product:route.product,readBody,json});
+  if(route.action==='open'&&request.method==='POST')return route.product.kind!=='vehicle'?openEquipment({request,env,user,product:route.product,readBody,json}):openVehicle({request,env,user,product:route.product,readBody,json});
   return null;
 }
 
 export const __primeDrawTest=Object.freeze({PRODUCTS,OPEN_LIMIT,PURCHASE_LIMIT,PRIME_EQUIPMENT_ITEM_CODES:Object.freeze([...PRIME_EQUIPMENT_ITEM_CODES]),buildBoostedPool,presentationFor,aggregateResults,primeSchemaStatements,cleanProductSettings});
+
+async function loadSuitCorePool(env,{includeZero=false}={}){
+  const result=await env.DB.prepare(`SELECT x.*,i.code,i.name,i.rarity,i.image_url,i.description,i.category FROM ${EXTRA_POOL_TABLE} x JOIN inventory_items i ON i.code=x.reward_ref WHERE x.product_kind=? AND x.reward_type='INVENTORY_ITEM' AND i.is_active=1 AND i.code IN (${SUIT_CORE_BOX_CODES.map(()=>'?').join(',')}) ORDER BY i.sort_order,i.code`).bind(SUIT_CORE_BOX.kind,...SUIT_CORE_BOX_CODES).all();
+  const rows=(result.results||[]).map(row=>({...poolRow(row,'INVENTORY_ITEM',true),removable:false,presentation:{enabled:false,tier:'STANDARD',effectKey:'NONE'}}));
+  // An inactive/missing core must stop purchases and opening, not silently
+  // redistribute its probability to the other grades.
+  if(!includeZero&&(rows.length!==4||Math.abs(rows.reduce((sum,row)=>sum+Number(row.draw_weight),0)-100)>.0001))return [];
+  return includeZero?rows:rows.filter(row=>Number(row.draw_weight)>0);
+}

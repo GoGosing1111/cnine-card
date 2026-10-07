@@ -61,7 +61,7 @@ test('구매는 원하는 정수 수량을 허용하고 개봉 원자 영수증�
   assert.equal(__primeDrawTest.OPEN_LIMIT,500);
   assert.equal(__primeDrawTest.PURCHASE_LIMIT,2_000_000_000);
   const backend=read('functions/_prime_draw.js');
-  assert.match(backend,/maxPurchase:PURCHASE_LIMIT/);
+  assert.match(backend,/maxPurchase:Math\.min\(PURCHASE_LIMIT,Math\.floor\(Number\.MAX_SAFE_INTEGER\/product\.unitPrice\)\)/);
   assert.match(backend,/rawCount>PURCHASE_LIMIT/);
   assert.match(backend,/rawCount>OPEN_LIMIT/);
 });
@@ -117,7 +117,7 @@ test('OWNER CMS에서 상품 상태·독립 확률·아이템별 특별 연출�
   const html=read('admin/index.html'),cms=read('admin/prime-draw-admin-v1986.js');
   assert.match(html,/data-view="primedraw"/);
   assert.match(html,/prime-draw-admin-v1986\.css\?v=20260917-skill-chip-catalog/);
-  assert.match(html,/prime-draw-admin-v1986\.js\?v=20260917-skill-chip-catalog/);
+  assert.match(html,/prime-draw-admin-v1986\.js\?v=20261008-core-box/);
   assert.match(cms,/admin\/prime-draw\/status/);
   assert.match(cms,/admin\/prime-draw\/pool/);
   assert.match(cms,/data-prime-weight/);
@@ -174,7 +174,7 @@ test('개봉은 단일 원자 영수증과 WebGL·GSAP 잠금 해제 연출을 �
   assert.match(fx,/waitTimeline\(timeline,timeoutMs=2200\)/);
   assert.match(fx,/showSpecialSafely/);
   assert.doesNotMatch(index,/prime-draw-live-v1985\.bundle\.js/);
-  assert.match(read('js/app.js'),/primeDraw:[\s\S]*prime-draw-live-v1985\.bundle\.js\?v=2045-lazy-prime/);
+  assert.match(read('js/app.js'),/primeDraw:[\s\S]*prime-draw-live-v1985\.bundle\.js\?v=20261008-core-box/);
   assert.doesNotMatch(fx,/OscillatorNode|createOscillator|AudioContext/);
   const bundle=new URL('js/prime-draw-live-v1985.bundle.js',root);
   assert.ok(existsSync(bundle));

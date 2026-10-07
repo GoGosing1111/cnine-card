@@ -4,9 +4,10 @@
   const $=selector=>document.querySelector(selector);
   const esc=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
   const state={data:null,kind:'equipment',busy:false,loadedAt:0,loadPromise:null};
-  const labels={equipment:'프라임 아머리 상자',vehicle:'프라임 하이퍼드라이브 팩'};
+  const labels={suit_core:'슈트코어 전용 상자',equipment:'프라임 아머리 상자',vehicle:'프라임 하이퍼드라이브 팩'};
   const tiers=[['STANDARD','일반'],['FEATURED','강조'],['HERO','영웅'],['CINEMATIC','시네마틱']];
   const effects={
+    suit_core:[['NONE','간결한 개봉']],
     equipment:[['NONE','기본'],['PRIME_FORGE','프라임 포지'],['VIOLET_CORE','바이올렛 코어'],['ASTRAL_ARMORY','아스트랄 아머리']],
     vehicle:[['NONE','기본'],['SCARLET_VELOCITY','스칼렛 벨로시티'],['CRIMSON_APEX','크림슨 에이펙스'],['NOIRE_SOVEREIGN','누아르 소버린']]
   };
@@ -42,9 +43,9 @@
 
   function product(){return state.data?.[state.kind]||{}}
   function poolRows(){return Array.isArray(product().pool?.entries)?product().pool.entries:[]}
-  function nativeType(){return state.kind==='equipment'?'EQUIPMENT':'VEHICLE'}
+  function nativeType(){return state.kind==='suit_core'?'INVENTORY_ITEM':state.kind==='equipment'?'EQUIPMENT':'VEHICLE'}
   function rewardTypeLabel(row){return row.rewardType==='AVATAR'?'아바타':row.rewardType==='VEHICLE'?'이동수단':row.rewardType==='INVENTORY_ITEM'?(row.category==='SKILL_CHIP'?'스킬칩':'제작 재료'):'장비'}
-  function catalogRows(type){const key=type==='SKILL_CHIP'?'inventory_item':String(type||'').toLowerCase(),rows=Array.isArray(state.data?.catalog?.[key])?state.data.catalog[key]:[];return type==='SKILL_CHIP'?rows.filter(row=>row.category==='SKILL_CHIP'):type==='INVENTORY_ITEM'?rows.filter(row=>row.category!=='SKILL_CHIP'):rows}
+  function catalogRows(type){const key=type==='SKILL_CHIP'?'inventory_item':String(type||'').toLowerCase(),rows=Array.isArray(state.data?.catalog?.[key])?state.data.catalog[key]:[];return state.kind==='suit_core'?rows.filter(row=>/^SUIT_CORE_[1-4]$/.test(row.code)):type==='SKILL_CHIP'?rows.filter(row=>row.category==='SKILL_CHIP'):type==='INVENTORY_ITEM'?rows.filter(row=>row.category!=='SKILL_CHIP'):rows}
   function catalogOptions(type){const selected=new Set(poolRows().map(row=>row.poolKey)),rows=catalogRows(type).filter(row=>!selected.has(row.poolKey));return rows.length?rows.map(row=>`<option value="${esc(row.poolKey)}">${esc(row.name)} · ${esc(row.code)}</option>`).join(''):'<option value="">추가 가능한 품목 없음</option>'}
   function weightTotal(){return poolRows().reduce((sum,row)=>sum+number(row.drawWeight),0)}
   function fmt(value,digits=0){return number(value).toLocaleString('ko-KR',{minimumFractionDigits:digits,maximumFractionDigits:digits})}
@@ -60,10 +61,10 @@
         <div class="primeDrawCmsHeroActionsV1986"><span class="primeDrawCmsDbV1986">독립 풀 · ${esc(item.poolVersion||'-')}</span><button type="button" class="ghost" id="primeDrawReloadV1986">새로고침</button></div>
       </header>
       <nav class="primeDrawCmsTabsV1986" aria-label="프라임 상품 선택">
-        ${['equipment','vehicle'].map(kind=>{const data=state.data?.[kind]||{};return `<button type="button" data-prime-kind="${kind}" class="${state.kind===kind?'active':''}"><span>${kind==='equipment'?'ARMORY':'HYPERDRIVE'}</span><b>${esc(labels[kind])}</b><small>${fmt(data.shop?.unitPrice||0)}코인 · ${fmt(data.pool?.entryCount||0)}종</small></button>`}).join('')}
+        ${['equipment','suit_core','vehicle'].map(kind=>{const data=state.data?.[kind]||{};return `<button type="button" data-prime-kind="${kind}" class="${state.kind===kind?'active':''}"><span>${kind==='suit_core'?'SUIT CORE':kind==='equipment'?'ARMORY':'HYPERDRIVE'}</span><b>${esc(labels[kind])}</b><small>${fmt(data.shop?.unitPrice||0)}코인 · ${fmt(data.pool?.entryCount||0)}종</small></button>`}).join('')}
       </nav>
       <section class="primeDrawCmsSummaryV1986">
-        <article><small>판매 가격</small><b>${fmt(item.shop?.unitPrice||0)} 코인</b><span>기존 대비 ${fmt(item.priceRatio||1)}배</span></article>
+        <article><small>판매 가격</small><b>${fmt(item.shop?.unitPrice||0)} 코인</b><span>${state.kind==='suit_core'?'상자당 코어 1개 확정':`기존 대비 ${fmt(item.priceRatio||1)}배`}</span></article>
         <article><small>독립 드랍풀</small><b>${fmt(rows.length)}종</b><span>기존 상품과 공유하지 않음</span></article>
         <article class="${Math.abs(total-100)<=.0001?'ok':'bad'}"><small>활성 확률 합계</small><b id="primeDrawTotalV1986">${fmt(total,6)}%</b><span>저장 조건 100.000000%</span></article>
         <article><small>특별 연출 대상</small><b id="primeDrawSpecialV1986">${fmt(special)}종</b><span>항목별 즉시 선택</span></article>
@@ -73,7 +74,7 @@
         <label><span>상점 판매</span><select id="primeDrawShopEnabledV1986"><option value="1" ${settings.shopEnabled!==false?'selected':''}>ON · 판매</option><option value="0" ${settings.shopEnabled===false?'selected':''}>OFF · 판매 중지</option></select></label>
         <label><span>인벤토리 개봉</span><select id="primeDrawOpenEnabledV1986"><option value="1" ${settings.openEnabled!==false?'selected':''}>ON · 개봉</option><option value="0" ${settings.openEnabled===false?'selected':''}>OFF · 개봉 중지</option></select></label>
       </section>
-      <section class="primeDrawCmsAddV1987">
+      <section class="primeDrawCmsAddV1987" ${state.kind==='suit_core'?'hidden':''}>
         <div><small>POOL CATALOG</small><h3>드랍풀 품목 추가</h3><p>${state.kind==='equipment'?'장비·공개 아바타·배틀슈트 재료·스킬칩을 추가합니다. 품목과 확률을 설정한 뒤 저장하면 개봉에 반영됩니다.':'이동수단·공개 아바타를 현재 상품의 독립 풀에 추가합니다.'}</p></div>
         <label><span>보상 종류</span><select id="primeDrawAddTypeV1987"><option value="${nativeType()}">${state.kind==='equipment'?'장비':'이동수단'}</option>${state.kind==='equipment'?'<option value="INVENTORY_ITEM">배틀슈트 재료</option><option value="SKILL_CHIP">스킬칩</option>':''}<option value="AVATAR">아바타</option></select></label>
         <label class="wide"><span>추가 품목</span><select id="primeDrawAddItemV1987">${catalogOptions(nativeType())}</select></label>
@@ -88,9 +89,9 @@
             <td><span class="primeDrawTypeV1987 ${String(row.rewardType||'').toLowerCase()}">${rewardTypeLabel(row)}</span></td>
             <td><b>${row.rewardType==='AVATAR'||row.rewardType==='INVENTORY_ITEM'?'—':fmt(row.power)}</b></td><td>${row.isExtra?'추가 품목':`${fmt(row.sourceProbability,6)}%`}</td><td>${row.isExtra?'독립':`×${fmt(row.boostMultiplier,4)}`}</td>
             <td><input class="primeDrawWeightV1986" data-prime-weight type="number" min="0" max="100" step="0.000001" value="${number(row.drawWeight).toFixed(6)}"></td>
-            <td><label class="primeDrawCmsCheckV1986"><input data-prime-presentation type="checkbox" ${row.presentation?.enabled?'checked':''}><span>${row.presentation?.enabled?'ON':'OFF'}</span></label></td>
-            <td><select data-prime-tier>${tierOptions(String(row.presentation?.tier||'STANDARD'))}</select></td>
-            <td><select data-prime-effect>${effectOptions(String(row.presentation?.effectKey||'NONE'))}</select></td>
+            <td><label class="primeDrawCmsCheckV1986"><input data-prime-presentation type="checkbox" ${state.kind==='suit_core'?'disabled':''} ${row.presentation?.enabled?'checked':''}><span>${row.presentation?.enabled?'ON':'OFF'}</span></label></td>
+            <td><select data-prime-tier ${state.kind==='suit_core'?'disabled':''}>${tierOptions(String(row.presentation?.tier||'STANDARD'))}</select></td>
+            <td><select data-prime-effect ${state.kind==='suit_core'?'disabled':''}>${effectOptions(String(row.presentation?.effectKey||'NONE'))}</select></td>
             <td>${row.removable?`<button type="button" class="primeDrawRemoveV1987" data-prime-remove="${esc(row.poolKey)}">풀에서 제거</button>`:'<span class="primeDrawBaseV1987">기본 품목</span>'}</td>
           </tr>`).join('')}
         </tbody></table></div>

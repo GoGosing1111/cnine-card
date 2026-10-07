@@ -1,0 +1,13 @@
+.prime-draw-suit_core .equipment-supply-art{background:radial-gradient(ellipse,rgba(59,173,211,.15),#07111b 74%)}
+.prime-draw-suit_core .equipment-supply-art img{object-fit:contain}
+.prime-draw-suit_core .equipment-supply-copy h3{font-size:clamp(21px,2.1vw,28px)}
+.suit-core-box-odds{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:17px;max-width:380px}
+.suit-core-box-odds>span{display:grid;grid-template-columns:1fr;gap:4px;text-align:center;min-width:0;padding:8px 4px;border:1px solid rgba(118,199,218,.16);border-radius:10px;background:rgba(4,13,23,.55)}
+.suit-core-box-odds img{width:42px;height:42px;object-fit:contain;margin:auto}.suit-core-box-odds b{font-size:12px;color:#e3f5fa}.suit-core-box-odds small{font-size:12px;color:#7fdef2;font-variant-numeric:tabular-nums}
+.prime-draw-suit_core .equipment-supply-actions{min-width:218px}.prime-draw-suit_core .equipment-supply-actions button{min-height:44px}.prime-draw-suit_core .prime-purchase-custom input{min-height:44px;font-size:16px}
+.suit-core-box-modal .supply-open-stage img{object-fit:contain}.suit-core-box-modal .supply-result-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.suit-core-box-modal .supply-result-head{flex-wrap:wrap;gap:12px}.suit-core-box-modal .supply-result-again{min-height:48px}
+.prime-core-result-skip{position:absolute;left:50%;bottom:max(18px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:3;min-height:44px;padding:10px 22px;border:1px solid #47728a;border-radius:10px;background:#0c1c2c;color:#d7eef7;font:600 14px Pretendard,SUIT,sans-serif;cursor:pointer}.prime-core-result-skip:focus-visible{outline:2px solid #83e6ff;outline-offset:4px}
+.primeDrawCmsAddV1987[hidden]{display:none}.primeDrawCmsTabsV1986{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:820px){.prime-draw-suit_core .equipment-supply-actions{min-width:0}.prime-draw-suit_core .prime-purchase-custom{grid-column:1/-1}}
+@media(max-width:520px){.suit-core-box-odds{margin:17px auto 0}.prime-draw-suit_core .equipment-supply-actions{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.prime-draw-suit_core .equipment-supply-actions button{justify-content:center;flex-wrap:wrap;gap:5px 10px}.prime-draw-suit_core .vehicle-shop-open,.prime-draw-suit_core .equipment-supply-actions>small{grid-column:1/-1}.suit-core-box-modal .supply-result-grid{grid-template-columns:1fr}.suit-core-box-modal .supply-result-head .supply-result-again{order:3;width:100%}.primeDrawCmsTabsV1986{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.suit-core-box-modal *,.prime-draw-suit_core *{animation:none!important;transition:none!important}}

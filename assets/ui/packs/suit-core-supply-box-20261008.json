@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-10-08",
+  "file": "assets/ui/packs/suit-core-supply-box-20261008.png",
+  "bytes": 1809618,
+  "sha256": "dffcf20cc152aeefe51c3965e7e278f1a72e3e20e6e43b313feb24e346857f0b",
+  "width": 1254,
+  "height": 1254,
+  "pngColorType": 6,
+  "tool": "image_gen.imagegen",
+  "transparentBackground": true,
+  "originalBytesPreserved": true,
+  "prompt": "Use case: stylized-concept. Asset type: one square transparent PNG game inventory chest illustration for the Korean fantasy sci-fi game Soopketmon. Primary request: a dedicated SUIT CORE supply chest, in the polished metal materials and premium readable item style of the recently viewed Prime Armory chest and suit reactor reference, but a distinct new asset. Create a compact closed heavy rectangular equipment case in three-quarter front view, centered, whole case visible with 8 percent empty transparent margin. Brushed platinum-silver armor plates, dark graphite body and restrained gold edge hardware. A single inset cyan-blue circular reactor lock on its front clearly identifies suit energy cores; two small amber status lamps. Broad coherent panels, practical mechanical latches and a clearly separable hinged lid. A collectible premium game item rather than a treasure chest. Refined painted 2D game asset with realistic coherent volume, sharp readable silhouette, clean metal highlights. Controlled blue light only near the central lock, no extravagant beams, surrounding particles, oversized ornaments or background scene. No characters, no weapons, no labels, no lettering, no numbers, no watermark, no pedestal. Genuine transparent RGBA background. Create only the chest; do not alter any existing asset."
+}

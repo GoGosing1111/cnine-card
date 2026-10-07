@@ -4420,7 +4420,7 @@ const SERIALIZED_GAME_ACTIONS=new Set([
   'escort/start','escort/fight','escort/tactic','escort/claim','escort/abandon',
   'pvp/match','pvp/fight','clan/war/fight','pvp/reward/claim','pvp/rank-reward/claim','messages/claim','messages/claim-batch','coupon/redeem',
   'wago-daily-quest/claim','playdk-daily-quest/claim','high-grade-reroll/execute','mineral-exchange/request','chief/activate','workshop/craft','workshop/synthesis','alchemy/transmute','scrapyard/run',
-  'equipment/prime-supply-box/open','vehicle-draw/prime/open','prison/release-price','prison/fund','prison/hit','prison/meal'
+  'equipment/prime-supply-box/open','vehicle-draw/prime/open','suit-core-box/open','suit-core-box/purchase','prison/release-price','prison/fund','prison/hit','prison/meal'
 ]);
 // 강화 재화와 영치금 납부는 영수증·잔액·대상 상태가 반드시 한 사용자 락 안에서 확정되어야 한다.
 // 이 경로들은 락 저장소가 느리거나 실패했을 때도 락 없이 진행하지 않는다.
@@ -5048,7 +5048,7 @@ async function handleRequest(context){
     // 레이드 스키마는 기존 안전 업그레이드에서 설치되므로 상태 조회에서는 경량 인덱스 확인만 수행한다.
     const vehicleDrawPath=path==='vehicle-draw/config'||path==='vehicle-draw/open'||path==='vehicle-draw/purchase'||path==='admin/vehicle-draw/settings'||path==='admin/vehicle-draw/grant';
     const equipmentDrawPath=path==='equipment/supply-box/config'||path==='equipment/supply-box/open'||path==='equipment/supply-box/purchase';
-    const primeDrawPath=path.startsWith('equipment/prime-supply-box/')||path.startsWith('vehicle-draw/prime/')||path==='admin/prime-draw/status'||path==='admin/prime-draw/pool';
+    const primeDrawPath=path.startsWith('equipment/prime-supply-box/')||path.startsWith('vehicle-draw/prime/')||path.startsWith('suit-core-box/')||path==='admin/prime-draw/status'||path==='admin/prime-draw/pool';
     // High-traffic routes must never wait for the legacy all-schema runtime gate.
     // Route-local guards below still validate the small set of tables they mutate.
     // Full migrations belong to deployment/setup, not the player request path.
