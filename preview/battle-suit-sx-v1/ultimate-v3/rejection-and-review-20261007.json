@@ -1,0 +1,111 @@
+{
+  "version": "SX_ULTIMATE_REJECTION_REVIEW_20261007_V3",
+  "date": "2026-10-07",
+  "userInstructions": [
+    "궁극기 미승인 존나 멋없음 차라리 기존 X슈트나 오버로드 슈트같은 광역기가 필요함",
+    "아니지 그게 아니고 청룡느낌을 만들거나 거대한 검신이 지면을 강타하는 화려한 느낌으로 가야 그게 광역기란다"
+  ],
+  "previousUltimate": {
+    "status": "REJECTED",
+    "name": "창천사신검",
+    "historyPreserved": true
+  },
+  "currentPreview": {
+    "status": "USER_REVIEW_PENDING",
+    "name": "창천멸진",
+    "direction": "COLOSSAL_BLUE_GREATSWORD_GROUND_IMPACT",
+    "blueDragonIncluded": false,
+    "scope": "ULTIMATE_ONLY",
+    "runtimeEnabled": false,
+    "durationSeconds": 5.7,
+    "groundImpactSeconds": 2.02,
+    "visualTargets": 5,
+    "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY"
+  },
+  "approvedModes": {
+    "record": "../approval-aura-dash-skill-20261007.json",
+    "unchanged": [
+      "idle",
+      "dash",
+      "skill"
+    ],
+    "referencedHashesVerified": 96,
+    "sharedImplementationUnchanged": true
+  },
+  "resources": {
+    "generator": "BUILTIN_IMAGE_GEN",
+    "prompts": "prompts.json",
+    "bodyArtRegenerated": false,
+    "packedEffectFrames": 24,
+    "activeEffectFrames": 20,
+    "eruptionActiveIndices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "eruptionExcludedIndices": [
+      8,
+      9,
+      10,
+      11
+    ],
+    "exclusionReason": "Original source sheet has clipped upper-edge fragments in the third row. Runtime holds clean frame 8 and fades it."
+  },
+  "validation": {
+    "scopedTests": {
+      "passed": 3,
+      "total": 3
+    },
+    "browser": "qa/verified/browser-report.json",
+    "actualVideoFrames": "qa/video/video-report.json",
+    "userVisualApproval": false,
+    "productionDeployed": false
+  },
+  "artifacts": [
+    {
+      "path": "manifest.json",
+      "sha256": "84345ebc01b0c36531369c84fc138c92e3d6fbbecd04933b4047a86f0a2c3183"
+    },
+    {
+      "path": "prompts.json",
+      "sha256": "d2ed6303fab311c740677467da9664dafcf51e4b6b7bde237cc7cc7e4aa8ea8c"
+    },
+    {
+      "path": "source/SXUltimateFX.js",
+      "sha256": "195b8166ad0dbc4611bf853bfbefc3ad5ac5aa9870215838a7bb4f077f76fbf0"
+    },
+    {
+      "path": "source/preview.js",
+      "sha256": "a72c59b22275fa02427dda64ddc41727c7d0f7f417bb7837ae76cb8880c6e3f0"
+    },
+    {
+      "path": "motion.mjs",
+      "sha256": "97a51b84099aa629d9b371aceb2662866bc9d7f2257fde6baa0a64332cbd23cc"
+    },
+    {
+      "path": "preview.bundle.js",
+      "sha256": "bd1985d4e157b21447dd3cb0ff4048f30472b636ff882ac6947e88d9d9d75e09"
+    },
+    {
+      "path": "qa/verified/browser-report.json",
+      "sha256": "0fba3fe185be93bfd07420c9ddc2d61d6f67b083783a7b787ba47ed8b931e563"
+    },
+    {
+      "path": "qa/video/video-report.json",
+      "sha256": "2a9c1221b4af9e70aae9c326fe0112a8b58103e247156a8676be829953a0328a"
+    },
+    {
+      "path": "review-desktop-v3.webm",
+      "sha256": "bd06bdad80c936b924e625cf908e4658ef66c129d4b37ba41b4d137fd9468fd2"
+    },
+    {
+      "path": "review-mobile-v3.webm",
+      "sha256": "09dddcee3c0b49bbba8c1450191788801f1195d81f2eff943ec1a0ce296e8ecc"
+    }
+  ]
+}

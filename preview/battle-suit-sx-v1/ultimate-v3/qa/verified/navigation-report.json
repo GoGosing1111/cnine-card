@@ -1,0 +1,34 @@
+[
+  {
+    "name": "desktop",
+    "entry": {
+      "width": 1440,
+      "scroll": 1440,
+      "mode": "idle",
+      "href": "http://127.0.0.1:8975/preview/battle-suit-sx-v1/ultimate-v3/"
+    },
+    "target": {
+      "width": 1440,
+      "scroll": 1440,
+      "count": 5,
+      "url": "http://127.0.0.1:8975/preview/battle-suit-sx-v1/ultimate-v3/"
+    },
+    "errors": []
+  },
+  {
+    "name": "mobile",
+    "entry": {
+      "width": 390,
+      "scroll": 390,
+      "mode": "idle",
+      "href": "http://127.0.0.1:8975/preview/battle-suit-sx-v1/ultimate-v3/"
+    },
+    "target": {
+      "width": 390,
+      "scroll": 390,
+      "count": 5,
+      "url": "http://127.0.0.1:8975/preview/battle-suit-sx-v1/ultimate-v3/"
+    },
+    "errors": []
+  }
+]

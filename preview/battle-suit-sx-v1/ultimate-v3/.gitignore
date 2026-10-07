@@ -1,0 +1,9 @@
+# Intermediate captures are kept locally; the verified run is committed.
+qa/*-first-*.png
+qa/*-formation-*.png
+qa/*-framed-*.png
+qa/final/
+qa/playback-debug.png
+qa/verified/*-video-*.png
+qa/verified/filmstrip-*.png
+qa/verified/video-report.json

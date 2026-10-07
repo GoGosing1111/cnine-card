@@ -1,0 +1,5581 @@
+{
+  "results": [
+    {
+      "name": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1040
+      },
+      "errors": [],
+      "failures": [],
+      "overflow": {
+        "width": 1440,
+        "scroll": 1440
+      },
+      "snapshots": [
+        {
+          "ready": true,
+          "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+          "mode": "ultimate",
+          "time": 0,
+          "playing": false,
+          "speed": 1,
+          "frame": 0,
+          "phase": "검압 응축",
+          "pose": {
+            "at": 0,
+            "bank": "ultimate",
+            "index": 0,
+            "facing": 1
+          },
+          "targetCount": 5,
+          "contactCount": 0,
+          "targets": [
+            {
+              "id": "B:0:ENCOUNTER:ZREVIEW-1",
+              "index": 0,
+              "at": 2.305,
+              "hit": false,
+              "ground": {
+                "x": 1429.9999999999995,
+                "y": 240
+              },
+              "visible": true
+            },
+            {
+              "id": "B:1:ENCOUNTER:ZREVIEW-2",
+              "index": 1,
+              "at": 2.305,
+              "hit": false,
+              "ground": {
+                "x": 1009.9999999999999,
+                "y": 240
+              },
+              "visible": true
+            },
+            {
+              "id": "B:2:ENCOUNTER:ZREVIEW-3",
+              "index": 2,
+              "at": 2.2566267105492175,
+              "hit": false,
+              "ground": {
+                "x": 1429.9999999999995,
+                "y": 416
+              },
+              "visible": true
+            },
+            {
+              "id": "B:3:ENCOUNTER:ZREVIEW-4",
+              "index": 3,
+              "at": 2.256626710549218,
+              "hit": false,
+              "ground": {
+                "x": 1009.9999999999999,
+                "y": 416
+              },
+              "visible": true
+            },
+            {
+              "id": "B:4:ENCOUNTER:ZREVIEW-5",
+              "index": 4,
+              "at": 2.2839803638381353,
+              "hit": false,
+              "ground": {
+                "x": 1220,
+                "y": 592
+              },
+              "visible": true
+            }
+          ],
+          "groundError": 0,
+          "giantTip": null,
+          "visibleEffects": 0,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "bodyAuraAlpha": 0,
+          "bladeAuraVisible": false,
+          "bladeAuraAttachmentError": null,
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "artScreenBounds": {
+            "x": 441.97865651802266,
+            "y": 351.3533837846559,
+            "width": 57.60425535556027,
+            "height": 78.37669895347443
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 423.93077370212205,
+              "y": 280.32850546897004,
+              "width": 90.44159846219821,
+              "height": 33.91559942332435
+            }
+          },
+          "giantSwordBounds": null,
+          "safeFrame": {
+            "left": 12,
+            "right": 1428,
+            "top": 61,
+            "bottom": 528.09375
+          },
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY",
+          "regularAllies": 5,
+          "targetBounds": [
+            {
+              "x": 925.9975959345815,
+              "y": 268.1980152048434,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 731.2003069390777,
+              "y": 268.1980152048434,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 925.9975959345815,
+              "y": 349.8273553553402,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 731.2003069390777,
+              "y": 349.8273553553402,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 828.5989514368296,
+              "y": 431.45669550583705,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            }
+          ],
+          "canvas": {
+            "width": 1440,
+            "height": 748
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+          "mode": "ultimate",
+          "time": 0.36,
+          "playing": false,
+          "speed": 1,
+          "frame": 1,
+          "phase": "검압 응축",
+          "pose": {
+            "at": 0.32,
+            "bank": "ultimate",
+            "index": 0,
+            "facing": 1
+          },
+          "targetCount": 5,
+          "contactCount": 0,
+          "targets": [
+            {
+              "id": "B:0:ENCOUNTER:ZREVIEW-1",
+              "index": 0,
+              "at": 2.305,
+              "hit": false,
+              "ground": {
+                "x": 1430,
+                "y": 240
+              },
+              "visible": true
+            },
+            {
+              "id": "B:1:ENCOUNTER:ZREVIEW-2",
+              "index": 1,
+              "at": 2.305,
+              "hit": false,
+              "ground": {
+                "x": 1010,
+                "y": 240
+              },
+              "visible": true
+            },
+            {
+              "id": "B:2:ENCOUNTER:ZREVIEW-3",
+              "index": 2,
+              "at": 2.256626710549218,
+              "hit": false,
+              "ground": {
+                "x": 1430,
+                "y": 416
+              },
+              "visible": true
+            },
+            {
+              "id": "B:3:ENCOUNTER:ZREVIEW-4",
+              "index": 3,
+              "at": 2.256626710549218,
+              "hit": false,
+              "ground": {
+                "x": 1010,
+                "y": 416
+              },
+              "visible": true
+            },
+            {
+              "id": "B:4:ENCOUNTER:ZREVIEW-5",
+              "index": 4,
+              "at": 2.2839803638381353,
+              "hit": false,
+              "ground": {
+                "x": 1220,
+                "y": 592
+              },
+              "visible": true
+            }
+          ],
+          "groundError": 0,
+          "giantTip": null,
+          "visibleEffects": 7,
+          "visibleGhosts": 6,
+          "registeredTimelines": 0,
+          "bodyAuraAlpha": 1,
+          "bladeAuraVisible": true,
+          "bladeAuraAttachmentError": 0,
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "artScreenBounds": {
+            "x": 522.1844907065106,
+            "y": 322.79195025572307,
+            "width": 63.37017014739172,
+            "height": 110.53276221561197
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 492.7332269037948,
+              "y": 282.7539236154839,
+              "width": 90.44159846219821,
+              "height": 33.91559942332435
+            }
+          },
+          "giantSwordBounds": null,
+          "safeFrame": {
+            "left": 12,
+            "right": 1428,
+            "top": 61,
+            "bottom": 528.09375
+          },
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY",
+          "regularAllies": 5,
+          "targetBounds": [
+            {
+              "x": 925.9975959345813,
+              "y": 268.1980152048434,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 731.2003069390776,
+              "y": 268.1980152048434,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 925.9975959345813,
+              "y": 349.8273553553402,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 731.2003069390776,
+              "y": 349.8273553553402,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 828.5989514368295,
+              "y": 431.45669550583705,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            }
+          ],
+          "canvas": {
+            "width": 1440,
+            "height": 748
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+          "mode": "ultimate",
+          "time": 0.85,
+          "playing": false,
+          "speed": 1,
+          "frame": 2,
+          "phase": "거대 영혼검 · 천공 개방",
+          "pose": {
+            "at": 0.76,
+            "bank": "sweep",
+            "index": 0,
+            "facing": 1
+          },
+          "targetCount": 5,
+          "contactCount": 0,
+          "targets": [
+            {
+              "id": "B:0:ENCOUNTER:ZREVIEW-1",
+              "index": 0,
+              "at": 2.305,
+              "hit": false,
+              "ground": {
+                "x": 1429.9999999999995,
+                "y": 240
+              },
+              "visible": true
+            },
+            {
+              "id": "B:1:ENCOUNTER:ZREVIEW-2",
+              "index": 1,
+              "at": 2.305,
+              "hit": false,
+              "ground": {
+                "x": 1009.9999999999999,
+                "y": 240
+              },
+              "visible": true
+            },
+            {
+              "id": "B:2:ENCOUNTER:ZREVIEW-3",
+              "index": 2,
+              "at": 2.2566267105492175,
+              "hit": false,
+              "ground": {
+                "x": 1429.9999999999995,
+                "y": 416
+              },
+              "visible": true
+            },
+            {
+              "id": "B:3:ENCOUNTER:ZREVIEW-4",
+              "index": 3,
+              "at": 2.256626710549218,
+              "hit": false,
+              "ground": {
+                "x": 1009.9999999999999,
+                "y": 416
+              },
+              "visible": true
+            },
+            {
+              "id": "B:4:ENCOUNTER:ZREVIEW-5",
+              "index": 4,
+              "at": 2.2839803638381353,
+              "hit": false,
+              "ground": {
+                "x": 1220,
+                "y": 592
+              },
+              "visible": true
+            }
+          ],
+          "groundError": 0,
+          "giantTip": {
+            "world": {
+              "x": 1219.9999999999998,
+              "y": 193.9231875
+            },
+            "ground": {
+              "x": 1219.9999999999998,
+              "y": 380.8
+            },
+            "buried": false,
+            "burialDepth": 0,
+            "rigidScale": true
+          },
+          "visibleEffects": 10,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "bodyAuraAlpha": 1,
+          "bladeAuraVisible": true,
+          "bladeAuraAttachmentError": 0,
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "artScreenBounds": {
+            "x": 624.9519760372318,
+            "y": 336.14032523301626,
+            "width": 69.64878147535933,
+            "height": 101.15656357135504
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 619.3922884796011,
+              "y": 287.21889793065714,
+              "width": 90.44159846219827,
+              "height": 33.91559942332435
+            }
+          },
+          "giantSwordBounds": {
+            "minX": 771.6989099787355,
+            "minY": 70.05791810881823,
+            "maxX": 945.7933918697219,
+            "maxY": 331.19964094529786,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "safeFrame": {
+            "left": 12,
+            "right": 1428,
+            "top": 61,
+            "bottom": 528.09375
+          },
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY",
+          "regularAllies": 5,
+          "targetBounds": [
+            {
+              "x": 925.9975959345815,
+              "y": 268.1980152048434,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 731.2003069390777,
+              "y": 268.1980152048434,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 925.9975959345815,
+              "y": 349.8273553553402,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 731.2003069390777,
+              "y": 349.8273553553402,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 828.5989514368296,
+              "y": 431.45669550583705,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            }
+          ],
+          "canvas": {
+            "width": 1440,
+            "height": 748
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+          "mode": "ultimate",
+          "time": 1.32,
+          "playing": false,
+          "speed": 1,
+          "frame": 3,
+          "phase": "거대 영혼검 · 천공 개방",
+          "pose": {
+            "at": 1.1,
+            "bank": "spin",
+            "index": 2,
+            "facing": 1
+          },
+          "targetCount": 5,
+          "contactCount": 0,
+          "targets": [
+            {
+              "id": "B:0:ENCOUNTER:ZREVIEW-1",
+              "index": 0,
+              "at": 2.305,
+              "hit": false,
+              "ground": {
+                "x": 1430,
+                "y": 240
+              },
+              "visible": true
+            },
+            {
+              "id": "B:1:ENCOUNTER:ZREVIEW-2",
+              "index": 1,
+              "at": 2.305,
+              "hit": false,
+              "ground": {
+                "x": 1010,
+                "y": 240
+              },
+              "visible": true
+            },
+            {
+              "id": "B:2:ENCOUNTER:ZREVIEW-3",
+              "index": 2,
+              "at": 2.256626710549218,
+              "hit": false,
+              "ground": {
+                "x": 1430,
+                "y": 416
+              },
+              "visible": true
+            },
+            {
+              "id": "B:3:ENCOUNTER:ZREVIEW-4",
+              "index": 3,
+              "at": 2.256626710549218,
+              "hit": false,
+              "ground": {
+                "x": 1010,
+                "y": 416
+              },
+              "visible": true
+            },
+            {
+              "id": "B:4:ENCOUNTER:ZREVIEW-5",
+              "index": 4,
+              "at": 2.2839803638381353,
+              "hit": false,
+              "ground": {
+                "x": 1220,
+                "y": 592
+              },
+              "visible": true
+            }
+          ],
+          "groundError": 0,
+          "giantTip": {
+            "world": {
+              "x": 1220,
+              "y": 193.9231875
+            },
+            "ground": {
+              "x": 1220,
+              "y": 380.8
+            },
+            "buried": false,
+            "burialDepth": 0,
+            "rigidScale": true
+          },
+          "visibleEffects": 10,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "bodyAuraAlpha": 1,
+          "bladeAuraVisible": true,
+          "bladeAuraAttachmentError": 5.684341886080802e-14,
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "artScreenBounds": {
+            "x": 628.3666183389083,
+            "y": 342.67078434265636,
+            "width": 69.05349274480056,
+            "height": 95.24619688938014
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 619.392288479601,
+              "y": 287.21889793065714,
+              "width": 90.44159846219827,
+              "height": 33.91559942332435
+            }
+          },
+          "giantSwordBounds": {
+            "minX": 771.6989099787356,
+            "minY": 70.05791810881823,
+            "maxX": 945.793391869722,
+            "maxY": 331.19964094529786,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "safeFrame": {
+            "left": 12,
+            "right": 1428,
+            "top": 61,
+            "bottom": 528.09375
+          },
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY",
+          "regularAllies": 5,
+          "targetBounds": [
+            {
+              "x": 925.9975959345813,
+              "y": 268.1980152048434,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 731.2003069390776,
+              "y": 268.1980152048434,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 925.9975959345813,
+              "y": 349.8273553553402,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 731.2003069390776,
+              "y": 349.8273553553402,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 828.5989514368295,
+              "y": 431.45669550583705,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            }
+          ],
+          "canvas": {
+            "width": 1440,
+            "height": 748
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+          "mode": "ultimate",
+          "time": 1.78,
+          "playing": false,
+          "speed": 1,
+          "frame": 4,
+          "phase": "낙하 · 지면 강타",
+          "pose": {
+            "at": 1.72,
+            "bank": "sweep",
+            "index": 1,
+            "facing": 1
+          },
+          "targetCount": 5,
+          "contactCount": 0,
+          "targets": [
+            {
+              "id": "B:0:ENCOUNTER:ZREVIEW-1",
+              "index": 0,
+              "at": 2.305,
+              "hit": false,
+              "ground": {
+                "x": 1429.9999999999995,
+                "y": 240
+              },
+              "visible": true
+            },
+            {
+              "id": "B:1:ENCOUNTER:ZREVIEW-2",
+              "index": 1,
+              "at": 2.305,
+              "hit": false,
+              "ground": {
+                "x": 1009.9999999999999,
+                "y": 240
+              },
+              "visible": true
+            },
+            {
+              "id": "B:2:ENCOUNTER:ZREVIEW-3",
+              "index": 2,
+              "at": 2.2566267105492175,
+              "hit": false,
+              "ground": {
+                "x": 1429.9999999999995,
+                "y": 416
+              },
+              "visible": true
+            },
+            {
+              "id": "B:3:ENCOUNTER:ZREVIEW-4",
+              "index": 3,
+              "at": 2.256626710549218,
+              "hit": false,
+              "ground": {
+                "x": 1009.9999999999999,
+                "y": 416
+              },
+              "visible": true
+            },
+            {
+              "id": "B:4:ENCOUNTER:ZREVIEW-5",
+              "index": 4,
+              "at": 2.2839803638381353,
+              "hit": false,
+              "ground": {
+                "x": 1220,
+                "y": 592
+              },
+              "visible": true
+            }
+          ],
+          "groundError": 0,
+          "giantTip": {
+            "world": {
+              "x": 1219.9999999999998,
+              "y": 195.418202
+            },
+            "ground": {
+              "x": 1219.9999999999998,
+              "y": 380.8
+            },
+            "buried": false,
+            "burialDepth": 0,
+            "rigidScale": true
+          },
+          "visibleEffects": 13,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "bodyAuraAlpha": 1,
+          "bladeAuraVisible": true,
+          "bladeAuraAttachmentError": 5.684341886080802e-14,
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "artScreenBounds": {
+            "x": 629.7886969730207,
+            "y": 331.9945644309115,
+            "width": 65.08844459304396,
+            "height": 105.30232437345978
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 619.3922884796011,
+              "y": 287.21889793065714,
+              "width": 90.44159846219827,
+              "height": 33.91559942332435
+            }
+          },
+          "giantSwordBounds": {
+            "minX": 771.6989099787355,
+            "minY": 70.75131042217288,
+            "maxX": 945.7933918697219,
+            "maxY": 331.8930332586525,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "safeFrame": {
+            "left": 12,
+            "right": 1428,
+            "top": 61,
+            "bottom": 528.09375
+          },
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY",
+          "regularAllies": 5,
+          "targetBounds": [
+            {
+              "x": 925.9975959345815,
+              "y": 268.1980152048434,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 731.2003069390777,
+              "y": 268.1980152048434,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 925.9975959345815,
+              "y": 349.8273553553402,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 731.2003069390777,
+              "y": 349.8273553553402,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 828.5989514368296,
+              "y": 431.45669550583705,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            }
+          ],
+          "canvas": {
+            "width": 1440,
+            "height": 748
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+          "mode": "ultimate",
+          "time": 1.97,
+          "playing": false,
+          "speed": 1,
+          "frame": 5,
+          "phase": "낙하 · 지면 강타",
+          "pose": {
+            "at": 1.96,
+            "bank": "spin",
+            "index": 3,
+            "facing": 1
+          },
+          "targetCount": 5,
+          "contactCount": 0,
+          "targets": [
+            {
+              "id": "B:0:ENCOUNTER:ZREVIEW-1",
+              "index": 0,
+              "at": 2.305,
+              "hit": false,
+              "ground": {
+                "x": 1430,
+                "y": 240
+              },
+              "visible": true
+            },
+            {
+              "id": "B:1:ENCOUNTER:ZREVIEW-2",
+              "index": 1,
+              "at": 2.305,
+              "hit": false,
+              "ground": {
+                "x": 1010,
+                "y": 240
+              },
+              "visible": true
+            },
+            {
+              "id": "B:2:ENCOUNTER:ZREVIEW-3",
+              "index": 2,
+              "at": 2.256626710549218,
+              "hit": false,
+              "ground": {
+                "x": 1430,
+                "y": 416
+              },
+              "visible": true
+            },
+            {
+              "id": "B:3:ENCOUNTER:ZREVIEW-4",
+              "index": 3,
+              "at": 2.256626710549218,
+              "hit": false,
+              "ground": {
+                "x": 1010,
+                "y": 416
+              },
+              "visible": true
+            },
+            {
+              "id": "B:4:ENCOUNTER:ZREVIEW-5",
+              "index": 4,
+              "at": 2.2839803638381353,
+              "hit": false,
+              "ground": {
+                "x": 1220,
+                "y": 592
+              },
+              "visible": true
+            }
+          ],
+          "groundError": 0,
+          "giantTip": {
+            "world": {
+              "x": 1220,
+              "y": 302.06949103009254
+            },
+            "ground": {
+              "x": 1220,
+              "y": 380.8
+            },
+            "buried": false,
+            "burialDepth": 0,
+            "rigidScale": true
+          },
+          "visibleEffects": 11,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "bodyAuraAlpha": 1,
+          "bladeAuraVisible": true,
+          "bladeAuraAttachmentError": 0,
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "artScreenBounds": {
+            "x": 628.1020455697712,
+            "y": 360.6617326439837,
+            "width": 67.73062889911466,
+            "height": 77.12296220348418
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 619.392288479601,
+              "y": 287.21889793065714,
+              "width": 90.44159846219827,
+              "height": 33.91559942332435
+            }
+          },
+          "giantSwordBounds": {
+            "minX": 771.6989099787356,
+            "minY": 120.21650559107269,
+            "maxX": 945.793391869722,
+            "maxY": 381.3582284275523,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "safeFrame": {
+            "left": 12,
+            "right": 1428,
+            "top": 61,
+            "bottom": 528.09375
+          },
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY",
+          "regularAllies": 5,
+          "targetBounds": [
+            {
+              "x": 925.9975959345813,
+              "y": 268.1980152048434,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 731.2003069390776,
+              "y": 268.1980152048434,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 925.9975959345813,
+              "y": 349.8273553553402,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 731.2003069390776,
+              "y": 349.8273553553402,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 828.5989514368295,
+              "y": 431.45669550583705,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            }
+          ],
+          "canvas": {
+            "width": 1440,
+            "height": 748
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+          "mode": "ultimate",
+          "time": 2.02,
+          "playing": false,
+          "speed": 1,
+          "frame": 5,
+          "phase": "창천멸진 · 전열 광역 파열",
+          "pose": {
+            "at": 1.96,
+            "bank": "spin",
+            "index": 3,
+            "facing": 1
+          },
+          "targetCount": 5,
+          "contactCount": 0,
+          "targets": [
+            {
+              "id": "B:0:ENCOUNTER:ZREVIEW-1",
+              "index": 0,
+              "at": 2.305,
+              "hit": false,
+              "ground": {
+                "x": 1429.9999999999995,
+                "y": 240
+              },
+              "visible": true
+            },
+            {
+              "id": "B:1:ENCOUNTER:ZREVIEW-2",
+              "index": 1,
+              "at": 2.305,
+              "hit": false,
+              "ground": {
+                "x": 1009.9999999999999,
+                "y": 240
+              },
+              "visible": true
+            },
+            {
+              "id": "B:2:ENCOUNTER:ZREVIEW-3",
+              "index": 2,
+              "at": 2.2566267105492175,
+              "hit": false,
+              "ground": {
+                "x": 1429.9999999999995,
+                "y": 416
+              },
+              "visible": true
+            },
+            {
+              "id": "B:3:ENCOUNTER:ZREVIEW-4",
+              "index": 3,
+              "at": 2.256626710549218,
+              "hit": false,
+              "ground": {
+                "x": 1009.9999999999999,
+                "y": 416
+              },
+              "visible": true
+            },
+            {
+              "id": "B:4:ENCOUNTER:ZREVIEW-5",
+              "index": 4,
+              "at": 2.2839803638381353,
+              "hit": false,
+              "ground": {
+                "x": 1220,
+                "y": 592
+              },
+              "visible": true
+            }
+          ],
+          "groundError": 0,
+          "giantTip": {
+            "world": {
+              "x": 1219.9999999999998,
+              "y": 392.47980078125
+            },
+            "ground": {
+              "x": 1219.9999999999998,
+              "y": 380.8
+            },
+            "buried": true,
+            "burialDepth": 11.67980078125,
+            "rigidScale": true
+          },
+          "visibleEffects": 10,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "bodyAuraAlpha": 1,
+          "bladeAuraVisible": true,
+          "bladeAuraAttachmentError": 1.1368683772161603e-13,
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "artScreenBounds": {
+            "x": 631.8131133295841,
+            "y": 362.3777440717131,
+            "width": 67.73062889911478,
+            "height": 77.12296220348418
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 623.1033562394139,
+              "y": 288.9349093583865,
+              "width": 90.44159846219827,
+              "height": 33.91559942332435
+            }
+          },
+          "giantSwordBounds": {
+            "minX": 775.4099777385484,
+            "minY": 163.86509615396693,
+            "maxX": 949.5044596295347,
+            "maxY": 414.8292955531561,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "safeFrame": {
+            "left": 12,
+            "right": 1428,
+            "top": 61,
+            "bottom": 528.09375
+          },
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY",
+          "regularAllies": 5,
+          "targetBounds": [
+            {
+              "x": 929.7086636943943,
+              "y": 269.9140266325727,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 734.9113746988905,
+              "y": 269.9140266325727,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 929.7086636943943,
+              "y": 351.54336678306953,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 734.9113746988905,
+              "y": 351.54336678306953,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 832.3100191966424,
+              "y": 433.1727069335664,
+              "width": 60.294398974798696,
+              "height": 83.90777272714064,
+              "visible": true
+            }
+          ],
+          "canvas": {
+            "width": 1440,
+            "height": 748
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+          "mode": "ultimate",
+          "time": 2.24,
+          "playing": false,
+          "speed": 1,
+          "frame": 5,
+          "phase": "창천멸진 · 전열 광역 파열",
+          "pose": {
+            "at": 1.96,
+            "bank": "spin",
+            "index": 3,
+            "facing": 1
+          },
+          "targetCount": 5,
+          "contactCount": 0,
+          "targets": [
+            {
+              "id": "B:0:ENCOUNTER:ZREVIEW-1",
+              "index": 0,
+              "at": 2.305,
+              "hit": false,
+              "ground": {
+                "x": 1429.9999999999998,
+                "y": 239.9999999999999
+              },
+              "visible": true
+            },
+            {
+              "id": "B:1:ENCOUNTER:ZREVIEW-2",
+              "index": 1,
+              "at": 2.305,
+              "hit": false,
+              "ground": {
+                "x": 1009.9999999999998,
+                "y": 239.9999999999999
+              },
+              "visible": true
+            },
+            {
+              "id": "B:2:ENCOUNTER:ZREVIEW-3",
+              "index": 2,
+              "at": 2.256626710549218,
+              "hit": false,
+              "ground": {
+                "x": 1429.9999999999998,
+                "y": 415.9999999999999
+              },
+              "visible": true
+            },
+            {
+              "id": "B:3:ENCOUNTER:ZREVIEW-4",
+              "index": 3,
+              "at": 2.256626710549218,
+              "hit": false,
+              "ground": {
+                "x": 1009.9999999999998,
+                "y": 415.9999999999999
+              },
+              "visible": true
+            },
+            {
+              "id": "B:4:ENCOUNTER:ZREVIEW-5",
+              "index": 4,
+              "at": 2.2839803638381353,
+              "hit": false,
+              "ground": {
+                "x": 1219.9999999999998,
+                "y": 591.9999999999999
+              },
+              "visible": true
+            }
+          ],
+          "groundError": 0,
+          "giantTip": {
+            "world": {
+              "x": 1219.9999999999998,
+              "y": 392.4798007812499
+            },
+            "ground": {
+              "x": 1219.9999999999998,
+              "y": 380.7999999999999
+            },
+            "buried": true,
+            "burialDepth": 11.67980078125,
+            "rigidScale": true
+          },
+          "visibleEffects": 12,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "bodyAuraAlpha": 1,
+          "bladeAuraVisible": true,
+          "bladeAuraAttachmentError": 5.684341886080802e-14,
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "artScreenBounds": {
+            "x": 628.1020455697711,
+            "y": 360.6617326439838,
+            "width": 67.73062889911478,
+            "height": 77.12296220348412
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 619.3922884796011,
+              "y": 287.2188979306571,
+              "width": 90.44159846219827,
+              "height": 33.91559942332435
+            }
+          },
+          "giantSwordBounds": {
+            "minX": 771.6989099787355,
+            "minY": 162.14908472623756,
+            "maxX": 945.7933918697219,
+            "maxY": 413.11328412542684,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "safeFrame": {
+            "left": 12,
+            "right": 1428,
+            "top": 61,
+            "bottom": 528.09375
+          },
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY",
+          "regularAllies": 5,
+          "targetBounds": [
+            {
+              "x": 925.9975959345813,
+              "y": 268.19801520484344,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 731.2003069390776,
+              "y": 268.19801520484344,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 925.9975959345813,
+              "y": 349.8273553553403,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 731.2003069390776,
+              "y": 349.8273553553403,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 828.5989514368296,
+              "y": 431.4566955058371,
+              "width": 60.294398974798696,
+              "height": 83.90777272714064,
+              "visible": true
+            }
+          ],
+          "canvas": {
+            "width": 1440,
+            "height": 748
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+          "mode": "ultimate",
+          "time": 2.47,
+          "playing": false,
+          "speed": 1,
+          "frame": 5,
+          "phase": "창천멸진 · 전열 광역 파열",
+          "pose": {
+            "at": 1.96,
+            "bank": "spin",
+            "index": 3,
+            "facing": 1
+          },
+          "targetCount": 5,
+          "contactCount": 5,
+          "targets": [
+            {
+              "id": "B:0:ENCOUNTER:ZREVIEW-1",
+              "index": 0,
+              "at": 2.305,
+              "hit": true,
+              "ground": {
+                "x": 1429.9999999999995,
+                "y": 240
+              },
+              "visible": true
+            },
+            {
+              "id": "B:1:ENCOUNTER:ZREVIEW-2",
+              "index": 1,
+              "at": 2.305,
+              "hit": true,
+              "ground": {
+                "x": 1009.9999999999999,
+                "y": 240
+              },
+              "visible": true
+            },
+            {
+              "id": "B:2:ENCOUNTER:ZREVIEW-3",
+              "index": 2,
+              "at": 2.2566267105492175,
+              "hit": true,
+              "ground": {
+                "x": 1429.9999999999995,
+                "y": 416
+              },
+              "visible": true
+            },
+            {
+              "id": "B:3:ENCOUNTER:ZREVIEW-4",
+              "index": 3,
+              "at": 2.256626710549218,
+              "hit": true,
+              "ground": {
+                "x": 1009.9999999999999,
+                "y": 416
+              },
+              "visible": true
+            },
+            {
+              "id": "B:4:ENCOUNTER:ZREVIEW-5",
+              "index": 4,
+              "at": 2.2839803638381353,
+              "hit": true,
+              "ground": {
+                "x": 1220,
+                "y": 591.9999999999999
+              },
+              "visible": true
+            }
+          ],
+          "groundError": 0,
+          "giantTip": {
+            "world": {
+              "x": 1219.9999999999998,
+              "y": 392.47980078125
+            },
+            "ground": {
+              "x": 1219.9999999999998,
+              "y": 380.8
+            },
+            "buried": true,
+            "burialDepth": 11.67980078125,
+            "rigidScale": true
+          },
+          "visibleEffects": 24,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "bodyAuraAlpha": 1,
+          "bladeAuraVisible": true,
+          "bladeAuraAttachmentError": 0,
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "artScreenBounds": {
+            "x": 628.1020455697712,
+            "y": 360.6617326439837,
+            "width": 67.73062889911478,
+            "height": 77.12296220348418
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 619.3922884796011,
+              "y": 287.21889793065714,
+              "width": 90.44159846219827,
+              "height": 33.91559942332435
+            }
+          },
+          "giantSwordBounds": {
+            "minX": 771.6989099787355,
+            "minY": 162.1490847262375,
+            "maxX": 945.7933918697219,
+            "maxY": 413.11328412542673,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "safeFrame": {
+            "left": 12,
+            "right": 1428,
+            "top": 61,
+            "bottom": 528.09375
+          },
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY",
+          "regularAllies": 5,
+          "targetBounds": [
+            {
+              "x": 926.7720070503141,
+              "y": 268.1980152048434,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 731.9747180548103,
+              "y": 268.1980152048434,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 925.9586811688781,
+              "y": 349.8273553553402,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 731.1613921733743,
+              "y": 349.8273553553402,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 828.1658083838421,
+              "y": 431.45669550583705,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            }
+          ],
+          "canvas": {
+            "width": 1440,
+            "height": 748
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+          "mode": "ultimate",
+          "time": 3.1,
+          "playing": false,
+          "speed": 1,
+          "frame": 5,
+          "phase": "청색 충격파 · 지면 균열",
+          "pose": {
+            "at": 1.96,
+            "bank": "spin",
+            "index": 3,
+            "facing": 1
+          },
+          "targetCount": 5,
+          "contactCount": 5,
+          "targets": [
+            {
+              "id": "B:0:ENCOUNTER:ZREVIEW-1",
+              "index": 0,
+              "at": 2.305,
+              "hit": true,
+              "ground": {
+                "x": 1430,
+                "y": 240
+              },
+              "visible": true
+            },
+            {
+              "id": "B:1:ENCOUNTER:ZREVIEW-2",
+              "index": 1,
+              "at": 2.305,
+              "hit": true,
+              "ground": {
+                "x": 1010,
+                "y": 240
+              },
+              "visible": true
+            },
+            {
+              "id": "B:2:ENCOUNTER:ZREVIEW-3",
+              "index": 2,
+              "at": 2.256626710549218,
+              "hit": true,
+              "ground": {
+                "x": 1430,
+                "y": 416
+              },
+              "visible": true
+            },
+            {
+              "id": "B:3:ENCOUNTER:ZREVIEW-4",
+              "index": 3,
+              "at": 2.256626710549218,
+              "hit": true,
+              "ground": {
+                "x": 1010,
+                "y": 416
+              },
+              "visible": true
+            },
+            {
+              "id": "B:4:ENCOUNTER:ZREVIEW-5",
+              "index": 4,
+              "at": 2.2839803638381353,
+              "hit": true,
+              "ground": {
+                "x": 1220,
+                "y": 592
+              },
+              "visible": true
+            }
+          ],
+          "groundError": 0,
+          "giantTip": {
+            "world": {
+              "x": 1220,
+              "y": 392.47980078125
+            },
+            "ground": {
+              "x": 1220,
+              "y": 380.8
+            },
+            "buried": true,
+            "burialDepth": 11.67980078125,
+            "rigidScale": true
+          },
+          "visibleEffects": 13,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "bodyAuraAlpha": 1,
+          "bladeAuraVisible": true,
+          "bladeAuraAttachmentError": 0,
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "artScreenBounds": {
+            "x": 628.1020455697712,
+            "y": 360.6617326439837,
+            "width": 67.73062889911466,
+            "height": 77.12296220348418
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 619.392288479601,
+              "y": 287.21889793065714,
+              "width": 90.44159846219827,
+              "height": 33.91559942332435
+            }
+          },
+          "giantSwordBounds": {
+            "minX": 771.6989099787356,
+            "minY": 162.14908472623762,
+            "maxX": 945.793391869722,
+            "maxY": 413.11328412542673,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "safeFrame": {
+            "left": 12,
+            "right": 1428,
+            "top": 61,
+            "bottom": 528.09375
+          },
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY",
+          "regularAllies": 5,
+          "targetBounds": [
+            {
+              "x": 925.9975959345813,
+              "y": 268.1980152048434,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 731.2003069390776,
+              "y": 268.1980152048434,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 925.9975959345813,
+              "y": 349.8273553553402,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 731.2003069390776,
+              "y": 349.8273553553402,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 828.5989514368295,
+              "y": 431.45669550583705,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            }
+          ],
+          "canvas": {
+            "width": 1440,
+            "height": 748
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+          "mode": "ultimate",
+          "time": 3.8,
+          "playing": false,
+          "speed": 1,
+          "frame": 6,
+          "phase": "청색 충격파 · 지면 균열",
+          "pose": {
+            "at": 3.35,
+            "bank": "rise",
+            "index": 0,
+            "facing": 1
+          },
+          "targetCount": 5,
+          "contactCount": 5,
+          "targets": [
+            {
+              "id": "B:0:ENCOUNTER:ZREVIEW-1",
+              "index": 0,
+              "at": 2.305,
+              "hit": true,
+              "ground": {
+                "x": 1429.9999999999995,
+                "y": 240
+              },
+              "visible": true
+            },
+            {
+              "id": "B:1:ENCOUNTER:ZREVIEW-2",
+              "index": 1,
+              "at": 2.305,
+              "hit": true,
+              "ground": {
+                "x": 1009.9999999999999,
+                "y": 240
+              },
+              "visible": true
+            },
+            {
+              "id": "B:2:ENCOUNTER:ZREVIEW-3",
+              "index": 2,
+              "at": 2.2566267105492175,
+              "hit": true,
+              "ground": {
+                "x": 1429.9999999999995,
+                "y": 416
+              },
+              "visible": true
+            },
+            {
+              "id": "B:3:ENCOUNTER:ZREVIEW-4",
+              "index": 3,
+              "at": 2.256626710549218,
+              "hit": true,
+              "ground": {
+                "x": 1009.9999999999999,
+                "y": 416
+              },
+              "visible": true
+            },
+            {
+              "id": "B:4:ENCOUNTER:ZREVIEW-5",
+              "index": 4,
+              "at": 2.2839803638381353,
+              "hit": true,
+              "ground": {
+                "x": 1220,
+                "y": 592
+              },
+              "visible": true
+            }
+          ],
+          "groundError": 0,
+          "giantTip": {
+            "world": {
+              "x": 1219.9999999999998,
+              "y": 392.47980078125
+            },
+            "ground": {
+              "x": 1219.9999999999998,
+              "y": 380.8
+            },
+            "buried": true,
+            "burialDepth": 11.67980078125,
+            "rigidScale": true
+          },
+          "visibleEffects": 11,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "bodyAuraAlpha": 1,
+          "bladeAuraVisible": true,
+          "bladeAuraAttachmentError": 0,
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "artScreenBounds": {
+            "x": 622.7409036094426,
+            "y": 356.73093721680294,
+            "width": 72.55081403683255,
+            "height": 80.56595158756835
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 619.3922884796011,
+              "y": 287.21889793065714,
+              "width": 90.44159846219827,
+              "height": 33.91559942332435
+            }
+          },
+          "giantSwordBounds": {
+            "minX": 771.6989099787355,
+            "minY": 162.14908472623762,
+            "maxX": 945.7933918697219,
+            "maxY": 413.11328412542673,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "safeFrame": {
+            "left": 12,
+            "right": 1428,
+            "top": 61,
+            "bottom": 528.09375
+          },
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY",
+          "regularAllies": 5,
+          "targetBounds": [
+            {
+              "x": 925.9975959345815,
+              "y": 268.1980152048434,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 731.2003069390777,
+              "y": 268.1980152048434,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 925.9975959345815,
+              "y": 349.8273553553402,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 731.2003069390777,
+              "y": 349.8273553553402,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 828.5989514368296,
+              "y": 431.45669550583705,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            }
+          ],
+          "canvas": {
+            "width": 1440,
+            "height": 748
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+          "mode": "ultimate",
+          "time": 4.4,
+          "playing": false,
+          "speed": 1,
+          "frame": 7,
+          "phase": "검신 소멸 · 잔향",
+          "pose": {
+            "at": 4.05,
+            "bank": "dash",
+            "index": 7,
+            "facing": 1
+          },
+          "targetCount": 5,
+          "contactCount": 5,
+          "targets": [
+            {
+              "id": "B:0:ENCOUNTER:ZREVIEW-1",
+              "index": 0,
+              "at": 2.305,
+              "hit": true,
+              "ground": {
+                "x": 1430,
+                "y": 240
+              },
+              "visible": true
+            },
+            {
+              "id": "B:1:ENCOUNTER:ZREVIEW-2",
+              "index": 1,
+              "at": 2.305,
+              "hit": true,
+              "ground": {
+                "x": 1010,
+                "y": 240
+              },
+              "visible": true
+            },
+            {
+              "id": "B:2:ENCOUNTER:ZREVIEW-3",
+              "index": 2,
+              "at": 2.256626710549218,
+              "hit": true,
+              "ground": {
+                "x": 1430,
+                "y": 416
+              },
+              "visible": true
+            },
+            {
+              "id": "B:3:ENCOUNTER:ZREVIEW-4",
+              "index": 3,
+              "at": 2.256626710549218,
+              "hit": true,
+              "ground": {
+                "x": 1010,
+                "y": 416
+              },
+              "visible": true
+            },
+            {
+              "id": "B:4:ENCOUNTER:ZREVIEW-5",
+              "index": 4,
+              "at": 2.2839803638381353,
+              "hit": true,
+              "ground": {
+                "x": 1220,
+                "y": 592
+              },
+              "visible": true
+            }
+          ],
+          "groundError": 0,
+          "giantTip": null,
+          "visibleEffects": 9,
+          "visibleGhosts": 6,
+          "registeredTimelines": 0,
+          "bodyAuraAlpha": 1,
+          "bladeAuraVisible": true,
+          "bladeAuraAttachmentError": 0,
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "artScreenBounds": {
+            "x": 600.5477346344142,
+            "y": 357.3145951836018,
+            "width": 64.19800727293978,
+            "height": 78.46423111137085
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 573.2270087100258,
+              "y": 285.5914834696667,
+              "width": 90.44159846219827,
+              "height": 33.91559942332435
+            }
+          },
+          "giantSwordBounds": null,
+          "safeFrame": {
+            "left": 12,
+            "right": 1428,
+            "top": 61,
+            "bottom": 528.09375
+          },
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY",
+          "regularAllies": 5,
+          "targetBounds": [
+            {
+              "x": 925.9975959345813,
+              "y": 268.1980152048434,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 731.2003069390776,
+              "y": 268.1980152048434,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 925.9975959345813,
+              "y": 349.8273553553402,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 731.2003069390776,
+              "y": 349.8273553553402,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 828.5989514368295,
+              "y": 431.45669550583705,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            }
+          ],
+          "canvas": {
+            "width": 1440,
+            "height": 748
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+          "mode": "ultimate",
+          "time": 5.7,
+          "playing": false,
+          "speed": 1,
+          "frame": 7,
+          "phase": "자세 회복",
+          "pose": {
+            "at": 4.05,
+            "bank": "dash",
+            "index": 7,
+            "facing": 1
+          },
+          "targetCount": 5,
+          "contactCount": 5,
+          "targets": [
+            {
+              "id": "B:0:ENCOUNTER:ZREVIEW-1",
+              "index": 0,
+              "at": 2.305,
+              "hit": true,
+              "ground": {
+                "x": 1429.9999999999995,
+                "y": 240
+              },
+              "visible": true
+            },
+            {
+              "id": "B:1:ENCOUNTER:ZREVIEW-2",
+              "index": 1,
+              "at": 2.305,
+              "hit": true,
+              "ground": {
+                "x": 1009.9999999999999,
+                "y": 240
+              },
+              "visible": true
+            },
+            {
+              "id": "B:2:ENCOUNTER:ZREVIEW-3",
+              "index": 2,
+              "at": 2.2566267105492175,
+              "hit": true,
+              "ground": {
+                "x": 1429.9999999999995,
+                "y": 416
+              },
+              "visible": true
+            },
+            {
+              "id": "B:3:ENCOUNTER:ZREVIEW-4",
+              "index": 3,
+              "at": 2.256626710549218,
+              "hit": true,
+              "ground": {
+                "x": 1009.9999999999999,
+                "y": 416
+              },
+              "visible": true
+            },
+            {
+              "id": "B:4:ENCOUNTER:ZREVIEW-5",
+              "index": 4,
+              "at": 2.2839803638381353,
+              "hit": true,
+              "ground": {
+                "x": 1220,
+                "y": 592
+              },
+              "visible": true
+            }
+          ],
+          "groundError": 0,
+          "giantTip": null,
+          "visibleEffects": 0,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "bodyAuraAlpha": 0,
+          "bladeAuraVisible": false,
+          "bladeAuraAttachmentError": null,
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "artScreenBounds": {
+            "x": 441.97865651802266,
+            "y": 351.3533837846559,
+            "width": 57.60425535556027,
+            "height": 78.37669895347443
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 423.93077370212205,
+              "y": 280.32850546897004,
+              "width": 90.44159846219821,
+              "height": 33.91559942332435
+            }
+          },
+          "giantSwordBounds": null,
+          "safeFrame": {
+            "left": 12,
+            "right": 1428,
+            "top": 61,
+            "bottom": 528.09375
+          },
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY",
+          "regularAllies": 5,
+          "targetBounds": [
+            {
+              "x": 925.9975959345815,
+              "y": 268.1980152048434,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 731.2003069390777,
+              "y": 268.1980152048434,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 925.9975959345815,
+              "y": 349.8273553553402,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 731.2003069390777,
+              "y": 349.8273553553402,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            },
+            {
+              "x": 828.5989514368296,
+              "y": 431.45669550583705,
+              "width": 60.294398974798696,
+              "height": 83.9077727271407,
+              "visible": true
+            }
+          ],
+          "canvas": {
+            "width": 1440,
+            "height": 748
+          }
+        }
+      ],
+      "controls": {
+        "speeds": [
+          {
+            "speed": 0.25,
+            "advance": 0.05825,
+            "pauseStable": true
+          },
+          {
+            "speed": 0.5,
+            "advance": 0.117,
+            "pauseStable": true
+          },
+          {
+            "speed": 1,
+            "advance": 0.233,
+            "pauseStable": true
+          },
+          {
+            "speed": 2,
+            "advance": 0.466,
+            "pauseStable": true
+          }
+        ],
+        "off": {
+          "ready": true,
+          "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+          "mode": "ultimate",
+          "time": 2.4,
+          "playing": false,
+          "speed": 1,
+          "frame": 5,
+          "phase": "창천멸진 · 전열 광역 파열",
+          "pose": {
+            "at": 1.96,
+            "bank": "spin",
+            "index": 3,
+            "facing": 1
+          },
+          "targetCount": 5,
+          "contactCount": 5,
+          "targets": [
+            {
+              "id": "B:0:ENCOUNTER:ZREVIEW-1",
+              "index": 0,
+              "at": 2.305,
+              "hit": true,
+              "ground": {
+                "x": 1430,
+                "y": 240
+              },
+              "visible": true
+            },
+            {
+              "id": "B:1:ENCOUNTER:ZREVIEW-2",
+              "index": 1,
+              "at": 2.305,
+              "hit": true,
+              "ground": {
+                "x": 1010,
+                "y": 240
+              },
+              "visible": true
+            },
+            {
+              "id": "B:2:ENCOUNTER:ZREVIEW-3",
+              "index": 2,
+              "at": 2.256626710549218,
+              "hit": true,
+              "ground": {
+                "x": 1430,
+                "y": 416
+              },
+              "visible": true
+            },
+            {
+              "id": "B:3:ENCOUNTER:ZREVIEW-4",
+              "index": 3,
+              "at": 2.256626710549218,
+              "hit": true,
+              "ground": {
+                "x": 1010,
+                "y": 416
+              },
+              "visible": true
+            },
+            {
+              "id": "B:4:ENCOUNTER:ZREVIEW-5",
+              "index": 4,
+              "at": 2.2839803638381353,
+              "hit": true,
+              "ground": {
+                "x": 1220,
+                "y": 592
+              },
+              "visible": true
+            }
+          ],
+          "groundError": 0,
+          "giantTip": null,
+          "visibleEffects": 0,
+          "visibleGhosts": 0,
+          "registeredTimelines": 1,
+          "bodyAuraAlpha": 0,
+          "bladeAuraVisible": false,
+          "bladeAuraAttachmentError": null,
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "artScreenBounds": {
+            "x": 628.1020455697712,
+            "y": 360.6617326439837,
+            "width": 67.73062889911466,
+            "height": 77.12296220348418
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 619.392288479601,
+              "y": 287.21889793065714,
+              "width": 90.44159846219827,
+              "height": 33.91559942332435
+            }
+          },
+          "giantSwordBounds": null,
+          "safeFrame": {
+            "left": 12,
+            "right": 1428,
+            "top": 61,
+            "bottom": 528.09375
+          },
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY",
+          "regularAllies": 5
+        },
+        "canceled": {
+          "ready": true,
+          "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+          "mode": "ultimate",
+          "time": 0,
+          "playing": false,
+          "speed": 1,
+          "frame": 0,
+          "phase": "검압 응축",
+          "pose": {
+            "at": 0,
+            "bank": "ultimate",
+            "index": 0,
+            "facing": 1
+          },
+          "targetCount": 5,
+          "contactCount": 0,
+          "targets": [
+            {
+              "id": "B:0:ENCOUNTER:ZREVIEW-1",
+              "index": 0,
+              "at": 2.305,
+              "hit": false,
+              "ground": {
+                "x": 1430,
+                "y": 240
+              },
+              "visible": true
+            },
+            {
+              "id": "B:1:ENCOUNTER:ZREVIEW-2",
+              "index": 1,
+              "at": 2.305,
+              "hit": false,
+              "ground": {
+                "x": 1010,
+                "y": 240
+              },
+              "visible": true
+            },
+            {
+              "id": "B:2:ENCOUNTER:ZREVIEW-3",
+              "index": 2,
+              "at": 2.256626710549218,
+              "hit": false,
+              "ground": {
+                "x": 1430,
+                "y": 416
+              },
+              "visible": true
+            },
+            {
+              "id": "B:3:ENCOUNTER:ZREVIEW-4",
+              "index": 3,
+              "at": 2.256626710549218,
+              "hit": false,
+              "ground": {
+                "x": 1010,
+                "y": 416
+              },
+              "visible": true
+            },
+            {
+              "id": "B:4:ENCOUNTER:ZREVIEW-5",
+              "index": 4,
+              "at": 2.2839803638381353,
+              "hit": false,
+              "ground": {
+                "x": 1220,
+                "y": 592
+              },
+              "visible": true
+            }
+          ],
+          "groundError": 0,
+          "giantTip": null,
+          "visibleEffects": 0,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "bodyAuraAlpha": 0,
+          "bladeAuraVisible": false,
+          "bladeAuraAttachmentError": null,
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "artScreenBounds": {
+            "x": 441.97865651802255,
+            "y": 351.3533837846559,
+            "width": 57.60425535556027,
+            "height": 78.37669895347443
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 423.93077370212205,
+              "y": 280.32850546897004,
+              "width": 90.44159846219821,
+              "height": 33.91559942332435
+            }
+          },
+          "giantSwordBounds": null,
+          "safeFrame": {
+            "left": 12,
+            "right": 1428,
+            "top": 61,
+            "bottom": 528.09375
+          },
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY",
+          "regularAllies": 5
+        }
+      },
+      "recording": {
+        "bytes": 3728663,
+        "mimeType": "video/webm;codecs=vp9",
+        "requestedDuration": 6.3,
+        "final": {
+          "ready": true,
+          "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+          "mode": "ultimate",
+          "time": 5.7,
+          "playing": false,
+          "speed": 1,
+          "frame": 7,
+          "phase": "자세 회복",
+          "pose": {
+            "at": 4.05,
+            "bank": "dash",
+            "index": 7,
+            "facing": 1
+          },
+          "targetCount": 5,
+          "contactCount": 5,
+          "targets": [
+            {
+              "id": "B:0:ENCOUNTER:ZREVIEW-1",
+              "index": 0,
+              "at": 2.305,
+              "hit": true,
+              "ground": {
+                "x": 1429.9999999999995,
+                "y": 240
+              },
+              "visible": true
+            },
+            {
+              "id": "B:1:ENCOUNTER:ZREVIEW-2",
+              "index": 1,
+              "at": 2.305,
+              "hit": true,
+              "ground": {
+                "x": 1009.9999999999999,
+                "y": 240
+              },
+              "visible": true
+            },
+            {
+              "id": "B:2:ENCOUNTER:ZREVIEW-3",
+              "index": 2,
+              "at": 2.2566267105492175,
+              "hit": true,
+              "ground": {
+                "x": 1429.9999999999995,
+                "y": 416
+              },
+              "visible": true
+            },
+            {
+              "id": "B:3:ENCOUNTER:ZREVIEW-4",
+              "index": 3,
+              "at": 2.256626710549218,
+              "hit": true,
+              "ground": {
+                "x": 1009.9999999999999,
+                "y": 416
+              },
+              "visible": true
+            },
+            {
+              "id": "B:4:ENCOUNTER:ZREVIEW-5",
+              "index": 4,
+              "at": 2.2839803638381353,
+              "hit": true,
+              "ground": {
+                "x": 1220,
+                "y": 592
+              },
+              "visible": true
+            }
+          ],
+          "groundError": 0,
+          "giantTip": null,
+          "visibleEffects": 0,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "bodyAuraAlpha": 0,
+          "bladeAuraVisible": false,
+          "bladeAuraAttachmentError": null,
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "artScreenBounds": {
+            "x": 441.97865651802266,
+            "y": 351.3533837846559,
+            "width": 57.60425535556027,
+            "height": 78.37669895347443
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 423.93077370212205,
+              "y": 280.32850546897004,
+              "width": 90.44159846219821,
+              "height": 33.91559942332435
+            }
+          },
+          "giantSwordBounds": null,
+          "safeFrame": {
+            "left": 12,
+            "right": 1428,
+            "top": 61,
+            "bottom": 528.09375
+          },
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY",
+          "regularAllies": 5
+        }
+      },
+      "lifecycle": {
+        "hidden": {
+          "ready": true,
+          "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+          "mode": "ultimate",
+          "time": 0,
+          "playing": false,
+          "speed": 1,
+          "frame": 0,
+          "phase": "검압 응축",
+          "pose": {
+            "at": 0,
+            "bank": "ultimate",
+            "index": 0,
+            "facing": 1
+          },
+          "targetCount": 5,
+          "contactCount": 0,
+          "targets": [
+            {
+              "id": "B:0:ENCOUNTER:ZREVIEW-1",
+              "index": 0,
+              "at": 2.305,
+              "hit": false,
+              "ground": {
+                "x": 1430,
+                "y": 240.00000000000003
+              },
+              "visible": true
+            },
+            {
+              "id": "B:1:ENCOUNTER:ZREVIEW-2",
+              "index": 1,
+              "at": 2.305,
+              "hit": false,
+              "ground": {
+                "x": 1010,
+                "y": 240.00000000000003
+              },
+              "visible": true
+            },
+            {
+              "id": "B:2:ENCOUNTER:ZREVIEW-3",
+              "index": 2,
+              "at": 2.256626710549218,
+              "hit": false,
+              "ground": {
+                "x": 1430,
+                "y": 416.00000000000006
+              },
+              "visible": true
+            },
+            {
+              "id": "B:3:ENCOUNTER:ZREVIEW-4",
+              "index": 3,
+              "at": 2.256626710549218,
+              "hit": false,
+              "ground": {
+                "x": 1010,
+                "y": 416.00000000000006
+              },
+              "visible": true
+            },
+            {
+              "id": "B:4:ENCOUNTER:ZREVIEW-5",
+              "index": 4,
+              "at": 2.2839803638381353,
+              "hit": false,
+              "ground": {
+                "x": 1220,
+                "y": 592.0000000000001
+              },
+              "visible": true
+            }
+          ],
+          "groundError": 0,
+          "giantTip": null,
+          "visibleEffects": 0,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "bodyAuraAlpha": 0,
+          "bladeAuraVisible": false,
+          "bladeAuraAttachmentError": null,
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "artScreenBounds": {
+            "x": 441.97865651802255,
+            "y": 351.3533837846559,
+            "width": 57.60425535556027,
+            "height": 78.37669895347443
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 423.93077370212205,
+              "y": 280.3285054689701,
+              "width": 90.44159846219821,
+              "height": 33.91559942332435
+            }
+          },
+          "giantSwordBounds": null,
+          "safeFrame": {
+            "left": 12,
+            "right": 1428,
+            "top": 61,
+            "bottom": 528.09375
+          },
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY",
+          "regularAllies": 5
+        },
+        "disposed": true,
+        "timelineCleared": true,
+        "backdropsReset": true
+      }
+    },
+    {
+      "name": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "errors": [],
+      "failures": [],
+      "overflow": {
+        "width": 390,
+        "scroll": 390
+      },
+      "snapshots": [
+        {
+          "ready": true,
+          "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+          "mode": "ultimate",
+          "time": 0,
+          "playing": false,
+          "speed": 1,
+          "frame": 0,
+          "phase": "검압 응축",
+          "pose": {
+            "at": 0,
+            "bank": "ultimate",
+            "index": 0,
+            "facing": 1
+          },
+          "targetCount": 5,
+          "contactCount": 0,
+          "targets": [
+            {
+              "id": "B:0:ENCOUNTER:ZREVIEW-1",
+              "index": 0,
+              "at": 2.305,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655739,
+                "y": 413.8422131147541
+              },
+              "visible": true
+            },
+            {
+              "id": "B:1:ENCOUNTER:ZREVIEW-2",
+              "index": 1,
+              "at": 2.158775246995319,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655739,
+                "y": 713.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:2:ENCOUNTER:ZREVIEW-3",
+              "index": 2,
+              "at": 2.13288781131583,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655739,
+                "y": 1013.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:3:ENCOUNTER:ZREVIEW-4",
+              "index": 3,
+              "at": 2.13288781131583,
+              "hit": false,
+              "ground": {
+                "x": 791.4098360655737,
+                "y": 1013.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:4:ENCOUNTER:ZREVIEW-5",
+              "index": 4,
+              "at": 2.274980971422286,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655739,
+                "y": 1313.842213114754
+              },
+              "visible": true
+            }
+          ],
+          "groundError": 0,
+          "giantTip": null,
+          "visibleEffects": 0,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "bodyAuraAlpha": 0,
+          "bladeAuraVisible": false,
+          "bladeAuraAttachmentError": null,
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "artScreenBounds": {
+            "x": 74.39841166829449,
+            "y": 217.5549450694332,
+            "width": 46.27780149409547,
+            "height": 62.96585718439047
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 49.00042534977046,
+              "y": 151.04276421685068,
+              "width": 94.45603990521491,
+              "height": 35.421014964455594
+            }
+          },
+          "giantSwordBounds": null,
+          "safeFrame": {
+            "left": 12,
+            "right": 378,
+            "top": 49,
+            "bottom": 465.9375
+          },
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY",
+          "regularAllies": 5,
+          "targetBounds": [
+            {
+              "x": 257.7395315915256,
+              "y": 130.34259109148442,
+              "width": 48.43899482318716,
+              "height": 67.4093819303834,
+              "visible": true
+            },
+            {
+              "x": 257.7395315915256,
+              "y": 216.32897243442014,
+              "width": 48.43899482318716,
+              "height": 67.40938193038338,
+              "visible": true
+            },
+            {
+              "x": 257.7395315915256,
+              "y": 302.3153537773558,
+              "width": 48.43899482318716,
+              "height": 67.4093819303834,
+              "visible": true
+            },
+            {
+              "x": 195.8293370246118,
+              "y": 302.3153537773558,
+              "width": 48.43899482318716,
+              "height": 67.4093819303834,
+              "visible": true
+            },
+            {
+              "x": 257.7395315915256,
+              "y": 388.30173512029165,
+              "width": 48.43899482318716,
+              "height": 67.40938193038335,
+              "visible": true
+            }
+          ],
+          "canvas": {
+            "width": 390,
+            "height": 613
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+          "mode": "ultimate",
+          "time": 0.36,
+          "playing": false,
+          "speed": 1,
+          "frame": 1,
+          "phase": "검압 응축",
+          "pose": {
+            "at": 0.32,
+            "bank": "ultimate",
+            "index": 0,
+            "facing": 1
+          },
+          "targetCount": 5,
+          "contactCount": 0,
+          "targets": [
+            {
+              "id": "B:0:ENCOUNTER:ZREVIEW-1",
+              "index": 0,
+              "at": 2.305,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655739,
+                "y": 413.8422131147541
+              },
+              "visible": true
+            },
+            {
+              "id": "B:1:ENCOUNTER:ZREVIEW-2",
+              "index": 1,
+              "at": 2.158775246995319,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655739,
+                "y": 713.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:2:ENCOUNTER:ZREVIEW-3",
+              "index": 2,
+              "at": 2.13288781131583,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655739,
+                "y": 1013.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:3:ENCOUNTER:ZREVIEW-4",
+              "index": 3,
+              "at": 2.13288781131583,
+              "hit": false,
+              "ground": {
+                "x": 791.4098360655737,
+                "y": 1013.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:4:ENCOUNTER:ZREVIEW-5",
+              "index": 4,
+              "at": 2.274980971422286,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655739,
+                "y": 1313.842213114754
+              },
+              "visible": true
+            }
+          ],
+          "groundError": 0,
+          "giantTip": null,
+          "visibleEffects": 7,
+          "visibleGhosts": 6,
+          "registeredTimelines": 0,
+          "bodyAuraAlpha": 1,
+          "bladeAuraVisible": true,
+          "bladeAuraAttachmentError": 0,
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "artScreenBounds": {
+            "x": 99.78905378727258,
+            "y": 217.386493509538,
+            "width": 50.90999157313088,
+            "height": 88.79922493285738
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 65.2298796639235,
+              "y": 175.76836539510776,
+              "width": 94.45603990521491,
+              "height": 35.421014964455594
+            }
+          },
+          "giantSwordBounds": null,
+          "safeFrame": {
+            "left": 12,
+            "right": 378,
+            "top": 49,
+            "bottom": 465.9375
+          },
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY",
+          "regularAllies": 5,
+          "targetBounds": [
+            {
+              "x": 257.7395315915256,
+              "y": 130.34259109148442,
+              "width": 48.43899482318716,
+              "height": 67.4093819303834,
+              "visible": true
+            },
+            {
+              "x": 257.7395315915256,
+              "y": 216.32897243442014,
+              "width": 48.43899482318716,
+              "height": 67.40938193038338,
+              "visible": true
+            },
+            {
+              "x": 257.7395315915256,
+              "y": 302.3153537773558,
+              "width": 48.43899482318716,
+              "height": 67.4093819303834,
+              "visible": true
+            },
+            {
+              "x": 195.8293370246118,
+              "y": 302.3153537773558,
+              "width": 48.43899482318716,
+              "height": 67.4093819303834,
+              "visible": true
+            },
+            {
+              "x": 257.7395315915256,
+              "y": 388.30173512029165,
+              "width": 48.43899482318716,
+              "height": 67.40938193038335,
+              "visible": true
+            }
+          ],
+          "canvas": {
+            "width": 390,
+            "height": 613
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+          "mode": "ultimate",
+          "time": 0.85,
+          "playing": false,
+          "speed": 1,
+          "frame": 2,
+          "phase": "거대 영혼검 · 천공 개방",
+          "pose": {
+            "at": 0.76,
+            "bank": "sweep",
+            "index": 0,
+            "facing": 1
+          },
+          "targetCount": 5,
+          "contactCount": 0,
+          "targets": [
+            {
+              "id": "B:0:ENCOUNTER:ZREVIEW-1",
+              "index": 0,
+              "at": 2.305,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655739,
+                "y": 413.8422131147541
+              },
+              "visible": true
+            },
+            {
+              "id": "B:1:ENCOUNTER:ZREVIEW-2",
+              "index": 1,
+              "at": 2.158775246995319,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655739,
+                "y": 713.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:2:ENCOUNTER:ZREVIEW-3",
+              "index": 2,
+              "at": 2.13288781131583,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655739,
+                "y": 1013.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:3:ENCOUNTER:ZREVIEW-4",
+              "index": 3,
+              "at": 2.13288781131583,
+              "hit": false,
+              "ground": {
+                "x": 791.4098360655737,
+                "y": 1013.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:4:ENCOUNTER:ZREVIEW-5",
+              "index": 4,
+              "at": 2.274980971422286,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655739,
+                "y": 1313.842213114754
+              },
+              "visible": true
+            }
+          ],
+          "groundError": 0,
+          "giantTip": {
+            "world": {
+              "x": 899.4098360655738,
+              "y": 650.9023568647541
+            },
+            "ground": {
+              "x": 899.4098360655738,
+              "y": 893.8422131147541
+            },
+            "buried": false,
+            "burialDepth": 0,
+            "rigidScale": true
+          },
+          "visibleEffects": 10,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "bodyAuraAlpha": 1,
+          "bladeAuraVisible": true,
+          "bladeAuraAttachmentError": 0,
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "artScreenBounds": {
+            "x": 110.47211582272396,
+            "y": 270.0407768586033,
+            "width": 55.954069079224524,
+            "height": 81.26662413887374
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 95.10682965134154,
+              "y": 221.2859493823537,
+              "width": 94.45603990521494,
+              "height": 35.421014964455594
+            }
+          },
+          "giantSwordBounds": {
+            "minX": 181.07238044416437,
+            "minY": 56.276902263596384,
+            "maxX": 320.9354829951601,
+            "maxY": 266.07155609009004,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "safeFrame": {
+            "left": 12,
+            "right": 378,
+            "top": 49,
+            "bottom": 465.9375
+          },
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY",
+          "regularAllies": 5,
+          "targetBounds": [
+            {
+              "x": 257.7395315915256,
+              "y": 130.34259109148442,
+              "width": 48.43899482318716,
+              "height": 67.4093819303834,
+              "visible": true
+            },
+            {
+              "x": 257.7395315915256,
+              "y": 216.32897243442014,
+              "width": 48.43899482318716,
+              "height": 67.40938193038338,
+              "visible": true
+            },
+            {
+              "x": 257.7395315915256,
+              "y": 302.3153537773558,
+              "width": 48.43899482318716,
+              "height": 67.4093819303834,
+              "visible": true
+            },
+            {
+              "x": 195.8293370246118,
+              "y": 302.3153537773558,
+              "width": 48.43899482318716,
+              "height": 67.4093819303834,
+              "visible": true
+            },
+            {
+              "x": 257.7395315915256,
+              "y": 388.30173512029165,
+              "width": 48.43899482318716,
+              "height": 67.40938193038335,
+              "visible": true
+            }
+          ],
+          "canvas": {
+            "width": 390,
+            "height": 613
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+          "mode": "ultimate",
+          "time": 1.32,
+          "playing": false,
+          "speed": 1,
+          "frame": 3,
+          "phase": "거대 영혼검 · 천공 개방",
+          "pose": {
+            "at": 1.1,
+            "bank": "spin",
+            "index": 2,
+            "facing": 1
+          },
+          "targetCount": 5,
+          "contactCount": 0,
+          "targets": [
+            {
+              "id": "B:0:ENCOUNTER:ZREVIEW-1",
+              "index": 0,
+              "at": 2.305,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655739,
+                "y": 413.8422131147541
+              },
+              "visible": true
+            },
+            {
+              "id": "B:1:ENCOUNTER:ZREVIEW-2",
+              "index": 1,
+              "at": 2.158775246995319,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655739,
+                "y": 713.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:2:ENCOUNTER:ZREVIEW-3",
+              "index": 2,
+              "at": 2.13288781131583,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655739,
+                "y": 1013.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:3:ENCOUNTER:ZREVIEW-4",
+              "index": 3,
+              "at": 2.13288781131583,
+              "hit": false,
+              "ground": {
+                "x": 791.4098360655737,
+                "y": 1013.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:4:ENCOUNTER:ZREVIEW-5",
+              "index": 4,
+              "at": 2.274980971422286,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655739,
+                "y": 1313.842213114754
+              },
+              "visible": true
+            }
+          ],
+          "groundError": 0,
+          "giantTip": {
+            "world": {
+              "x": 899.4098360655738,
+              "y": 650.9023568647541
+            },
+            "ground": {
+              "x": 899.4098360655738,
+              "y": 893.8422131147541
+            },
+            "buried": false,
+            "burialDepth": 0,
+            "rigidScale": true
+          },
+          "visibleEffects": 10,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "bodyAuraAlpha": 1,
+          "bladeAuraVisible": true,
+          "bladeAuraAttachmentError": 5.859285502108464e-14,
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "artScreenBounds": {
+            "x": 113.21535306509335,
+            "y": 275.28718250130834,
+            "width": 55.47582917256449,
+            "height": 76.5183850656062
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 95.10682965134154,
+              "y": 221.2859493823537,
+              "width": 94.45603990521494,
+              "height": 35.421014964455594
+            }
+          },
+          "giantSwordBounds": {
+            "minX": 181.07238044416437,
+            "minY": 56.276902263596384,
+            "maxX": 320.9354829951601,
+            "maxY": 266.07155609009004,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "safeFrame": {
+            "left": 12,
+            "right": 378,
+            "top": 49,
+            "bottom": 465.9375
+          },
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY",
+          "regularAllies": 5,
+          "targetBounds": [
+            {
+              "x": 257.7395315915256,
+              "y": 130.34259109148442,
+              "width": 48.43899482318716,
+              "height": 67.4093819303834,
+              "visible": true
+            },
+            {
+              "x": 257.7395315915256,
+              "y": 216.32897243442014,
+              "width": 48.43899482318716,
+              "height": 67.40938193038338,
+              "visible": true
+            },
+            {
+              "x": 257.7395315915256,
+              "y": 302.3153537773558,
+              "width": 48.43899482318716,
+              "height": 67.4093819303834,
+              "visible": true
+            },
+            {
+              "x": 195.8293370246118,
+              "y": 302.3153537773558,
+              "width": 48.43899482318716,
+              "height": 67.4093819303834,
+              "visible": true
+            },
+            {
+              "x": 257.7395315915256,
+              "y": 388.30173512029165,
+              "width": 48.43899482318716,
+              "height": 67.40938193038335,
+              "visible": true
+            }
+          ],
+          "canvas": {
+            "width": 390,
+            "height": 613
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+          "mode": "ultimate",
+          "time": 1.78,
+          "playing": false,
+          "speed": 1,
+          "frame": 4,
+          "phase": "낙하 · 지면 강타",
+          "pose": {
+            "at": 1.72,
+            "bank": "sweep",
+            "index": 1,
+            "facing": 1
+          },
+          "targetCount": 5,
+          "contactCount": 0,
+          "targets": [
+            {
+              "id": "B:0:ENCOUNTER:ZREVIEW-1",
+              "index": 0,
+              "at": 2.305,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655739,
+                "y": 413.8422131147541
+              },
+              "visible": true
+            },
+            {
+              "id": "B:1:ENCOUNTER:ZREVIEW-2",
+              "index": 1,
+              "at": 2.158775246995319,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655739,
+                "y": 713.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:2:ENCOUNTER:ZREVIEW-3",
+              "index": 2,
+              "at": 2.13288781131583,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655739,
+                "y": 1013.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:3:ENCOUNTER:ZREVIEW-4",
+              "index": 3,
+              "at": 2.13288781131583,
+              "hit": false,
+              "ground": {
+                "x": 791.4098360655737,
+                "y": 1013.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:4:ENCOUNTER:ZREVIEW-5",
+              "index": 4,
+              "at": 2.274980971422286,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655739,
+                "y": 1313.842213114754
+              },
+              "visible": true
+            }
+          ],
+          "groundError": 0,
+          "giantTip": {
+            "world": {
+              "x": 899.4098360655738,
+              "y": 652.8458757147541
+            },
+            "ground": {
+              "x": 899.4098360655738,
+              "y": 893.8422131147541
+            },
+            "buried": false,
+            "burialDepth": 0,
+            "rigidScale": true
+          },
+          "visibleEffects": 13,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "bodyAuraAlpha": 1,
+          "bladeAuraVisible": true,
+          "bladeAuraAttachmentError": 5.684341886080802e-14,
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "artScreenBounds": {
+            "x": 114.35781506433678,
+            "y": 266.71017750864945,
+            "width": 52.290409794275305,
+            "height": 84.59722348882758
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 95.10682965134154,
+              "y": 221.2859493823537,
+              "width": 94.45603990521494,
+              "height": 35.421014964455594
+            }
+          },
+          "giantSwordBounds": {
+            "minX": 181.07238044416437,
+            "minY": 56.83395610687407,
+            "maxX": 320.9354829951601,
+            "maxY": 266.6286099333677,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "safeFrame": {
+            "left": 12,
+            "right": 378,
+            "top": 49,
+            "bottom": 465.9375
+          },
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY",
+          "regularAllies": 5,
+          "targetBounds": [
+            {
+              "x": 257.7395315915256,
+              "y": 130.34259109148442,
+              "width": 48.43899482318716,
+              "height": 67.4093819303834,
+              "visible": true
+            },
+            {
+              "x": 257.7395315915256,
+              "y": 216.32897243442014,
+              "width": 48.43899482318716,
+              "height": 67.40938193038338,
+              "visible": true
+            },
+            {
+              "x": 257.7395315915256,
+              "y": 302.3153537773558,
+              "width": 48.43899482318716,
+              "height": 67.4093819303834,
+              "visible": true
+            },
+            {
+              "x": 195.8293370246118,
+              "y": 302.3153537773558,
+              "width": 48.43899482318716,
+              "height": 67.4093819303834,
+              "visible": true
+            },
+            {
+              "x": 257.7395315915256,
+              "y": 388.30173512029165,
+              "width": 48.43899482318716,
+              "height": 67.40938193038335,
+              "visible": true
+            }
+          ],
+          "canvas": {
+            "width": 390,
+            "height": 613
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+          "mode": "ultimate",
+          "time": 1.97,
+          "playing": false,
+          "speed": 1,
+          "frame": 5,
+          "phase": "낙하 · 지면 강타",
+          "pose": {
+            "at": 1.96,
+            "bank": "spin",
+            "index": 3,
+            "facing": 1
+          },
+          "targetCount": 5,
+          "contactCount": 0,
+          "targets": [
+            {
+              "id": "B:0:ENCOUNTER:ZREVIEW-1",
+              "index": 0,
+              "at": 2.305,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655739,
+                "y": 413.8422131147541
+              },
+              "visible": true
+            },
+            {
+              "id": "B:1:ENCOUNTER:ZREVIEW-2",
+              "index": 1,
+              "at": 2.158775246995319,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655739,
+                "y": 713.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:2:ENCOUNTER:ZREVIEW-3",
+              "index": 2,
+              "at": 2.13288781131583,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655739,
+                "y": 1013.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:3:ENCOUNTER:ZREVIEW-4",
+              "index": 3,
+              "at": 2.13288781131583,
+              "hit": false,
+              "ground": {
+                "x": 791.4098360655737,
+                "y": 1013.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:4:ENCOUNTER:ZREVIEW-5",
+              "index": 4,
+              "at": 2.274980971422286,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655739,
+                "y": 1313.842213114754
+              },
+              "visible": true
+            }
+          ],
+          "groundError": 0,
+          "giantTip": {
+            "world": {
+              "x": 899.4098360655738,
+              "y": 791.4925514538745
+            },
+            "ground": {
+              "x": 899.4098360655738,
+              "y": 893.8422131147541
+            },
+            "buried": false,
+            "burialDepth": 0,
+            "rigidScale": true
+          },
+          "visibleEffects": 11,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "bodyAuraAlpha": 1,
+          "bladeAuraVisible": true,
+          "bladeAuraAttachmentError": 5.684341886080802e-14,
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "artScreenBounds": {
+            "x": 113.00280199546668,
+            "y": 289.7406552359229,
+            "width": 54.41307382443105,
+            "height": 61.958636796178325
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 95.10682965134154,
+              "y": 221.2859493823537,
+              "width": 94.45603990521494,
+              "height": 35.421014964455594
+            }
+          },
+          "giantSwordBounds": {
+            "minX": 181.07238044416437,
+            "minY": 96.5730425469886,
+            "maxX": 320.9354829951601,
+            "maxY": 306.36769637348226,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "safeFrame": {
+            "left": 12,
+            "right": 378,
+            "top": 49,
+            "bottom": 465.9375
+          },
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY",
+          "regularAllies": 5,
+          "targetBounds": [
+            {
+              "x": 257.7395315915256,
+              "y": 130.34259109148442,
+              "width": 48.43899482318716,
+              "height": 67.4093819303834,
+              "visible": true
+            },
+            {
+              "x": 257.7395315915256,
+              "y": 216.32897243442014,
+              "width": 48.43899482318716,
+              "height": 67.40938193038338,
+              "visible": true
+            },
+            {
+              "x": 257.7395315915256,
+              "y": 302.3153537773558,
+              "width": 48.43899482318716,
+              "height": 67.4093819303834,
+              "visible": true
+            },
+            {
+              "x": 195.8293370246118,
+              "y": 302.3153537773558,
+              "width": 48.43899482318716,
+              "height": 67.4093819303834,
+              "visible": true
+            },
+            {
+              "x": 257.7395315915256,
+              "y": 388.30173512029165,
+              "width": 48.43899482318716,
+              "height": 67.40938193038335,
+              "visible": true
+            }
+          ],
+          "canvas": {
+            "width": 390,
+            "height": 613
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+          "mode": "ultimate",
+          "time": 2.02,
+          "playing": false,
+          "speed": 1,
+          "frame": 5,
+          "phase": "창천멸진 · 전열 광역 파열",
+          "pose": {
+            "at": 1.96,
+            "bank": "spin",
+            "index": 3,
+            "facing": 1
+          },
+          "targetCount": 5,
+          "contactCount": 0,
+          "targets": [
+            {
+              "id": "B:0:ENCOUNTER:ZREVIEW-1",
+              "index": 0,
+              "at": 2.305,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655739,
+                "y": 413.8422131147541
+              },
+              "visible": true
+            },
+            {
+              "id": "B:1:ENCOUNTER:ZREVIEW-2",
+              "index": 1,
+              "at": 2.158775246995319,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655739,
+                "y": 713.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:2:ENCOUNTER:ZREVIEW-3",
+              "index": 2,
+              "at": 2.13288781131583,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655739,
+                "y": 1013.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:3:ENCOUNTER:ZREVIEW-4",
+              "index": 3,
+              "at": 2.13288781131583,
+              "hit": false,
+              "ground": {
+                "x": 791.4098360655737,
+                "y": 1013.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:4:ENCOUNTER:ZREVIEW-5",
+              "index": 4,
+              "at": 2.274980971422286,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655739,
+                "y": 1313.842213114754
+              },
+              "visible": true
+            }
+          ],
+          "groundError": 0,
+          "giantTip": {
+            "world": {
+              "x": 899.4098360655738,
+              "y": 909.0259541303791
+            },
+            "ground": {
+              "x": 899.4098360655738,
+              "y": 893.8422131147541
+            },
+            "buried": true,
+            "burialDepth": 15.183741015625001,
+            "rigidScale": true
+          },
+          "visibleEffects": 10,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "bodyAuraAlpha": 1,
+          "bladeAuraVisible": true,
+          "bladeAuraAttachmentError": 5.684341886080802e-14,
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "artScreenBounds": {
+            "x": 114.40017936181596,
+            "y": 290.3868076871049,
+            "width": 54.41307382443108,
+            "height": 61.958636796178325
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 96.50420701769085,
+              "y": 221.93210183353574,
+              "width": 94.45603990521494,
+              "height": 35.421014964455594
+            }
+          },
+          "giantSwordBounds": {
+            "minX": 182.4697578105136,
+            "minY": 130.90676827508648,
+            "maxX": 322.3328603615094,
+            "maxY": 332.52505724059506,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "safeFrame": {
+            "left": 12,
+            "right": 378,
+            "top": 49,
+            "bottom": 465.9375
+          },
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY",
+          "regularAllies": 5,
+          "targetBounds": [
+            {
+              "x": 259.1369089578748,
+              "y": 130.98874354266647,
+              "width": 48.43899482318716,
+              "height": 67.4093819303834,
+              "visible": true
+            },
+            {
+              "x": 259.1369089578748,
+              "y": 216.97512488560218,
+              "width": 48.43899482318716,
+              "height": 67.40938193038338,
+              "visible": true
+            },
+            {
+              "x": 259.1369089578748,
+              "y": 302.96150622853787,
+              "width": 48.43899482318716,
+              "height": 67.4093819303834,
+              "visible": true
+            },
+            {
+              "x": 197.2267143909611,
+              "y": 302.96150622853787,
+              "width": 48.43899482318716,
+              "height": 67.4093819303834,
+              "visible": true
+            },
+            {
+              "x": 259.1369089578748,
+              "y": 388.9478875714737,
+              "width": 48.43899482318716,
+              "height": 67.40938193038335,
+              "visible": true
+            }
+          ],
+          "canvas": {
+            "width": 390,
+            "height": 613
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+          "mode": "ultimate",
+          "time": 2.24,
+          "playing": false,
+          "speed": 1,
+          "frame": 5,
+          "phase": "창천멸진 · 전열 광역 파열",
+          "pose": {
+            "at": 1.96,
+            "bank": "spin",
+            "index": 3,
+            "facing": 1
+          },
+          "targetCount": 5,
+          "contactCount": 3,
+          "targets": [
+            {
+              "id": "B:0:ENCOUNTER:ZREVIEW-1",
+              "index": 0,
+              "at": 2.305,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655737,
+                "y": 413.8422131147541
+              },
+              "visible": true
+            },
+            {
+              "id": "B:1:ENCOUNTER:ZREVIEW-2",
+              "index": 1,
+              "at": 2.158775246995319,
+              "hit": true,
+              "ground": {
+                "x": 1007.4098360655737,
+                "y": 713.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:2:ENCOUNTER:ZREVIEW-3",
+              "index": 2,
+              "at": 2.1328878113158303,
+              "hit": true,
+              "ground": {
+                "x": 1007.4098360655737,
+                "y": 1013.8422131147538
+              },
+              "visible": true
+            },
+            {
+              "id": "B:3:ENCOUNTER:ZREVIEW-4",
+              "index": 3,
+              "at": 2.1328878113158303,
+              "hit": true,
+              "ground": {
+                "x": 791.4098360655738,
+                "y": 1013.8422131147538
+              },
+              "visible": true
+            },
+            {
+              "id": "B:4:ENCOUNTER:ZREVIEW-5",
+              "index": 4,
+              "at": 2.2749809714222864,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655737,
+                "y": 1313.8422131147538
+              },
+              "visible": true
+            }
+          ],
+          "groundError": 0,
+          "giantTip": {
+            "world": {
+              "x": 899.4098360655737,
+              "y": 909.0259541303788
+            },
+            "ground": {
+              "x": 899.4098360655737,
+              "y": 893.8422131147538
+            },
+            "buried": true,
+            "burialDepth": 15.183741015625001,
+            "rigidScale": true
+          },
+          "visibleEffects": 18,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "bodyAuraAlpha": 1,
+          "bladeAuraVisible": true,
+          "bladeAuraAttachmentError": 0,
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "artScreenBounds": {
+            "x": 113.0028019954668,
+            "y": 289.7406552359229,
+            "width": 54.41307382443105,
+            "height": 61.95863679617827
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 95.10682965134167,
+              "y": 221.28594938235364,
+              "width": 94.4560399052149,
+              "height": 35.421014964455594
+            }
+          },
+          "giantSwordBounds": {
+            "minX": 181.0723804441644,
+            "minY": 130.26061582390435,
+            "maxX": 320.9354829951601,
+            "maxY": 331.87890478941307,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "safeFrame": {
+            "left": 12,
+            "right": 378,
+            "top": 49,
+            "bottom": 465.9375
+          },
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY",
+          "regularAllies": 5,
+          "targetBounds": [
+            {
+              "x": 257.7395315915256,
+              "y": 130.3425910914845,
+              "width": 48.43899482318716,
+              "height": 67.4093819303834,
+              "visible": true
+            },
+            {
+              "x": 258.56647728474115,
+              "y": 216.3289724344202,
+              "width": 48.43899482318716,
+              "height": 67.40938193038338,
+              "visible": true
+            },
+            {
+              "x": 257.7384826098953,
+              "y": 302.31535377735594,
+              "width": 48.43899482318716,
+              "height": 67.40938193038335,
+              "visible": true
+            },
+            {
+              "x": 195.82828804298157,
+              "y": 302.31535377735594,
+              "width": 48.4389948231871,
+              "height": 67.40938193038335,
+              "visible": true
+            },
+            {
+              "x": 257.7395315915256,
+              "y": 388.3017351202917,
+              "width": 48.43899482318716,
+              "height": 67.40938193038335,
+              "visible": true
+            }
+          ],
+          "canvas": {
+            "width": 390,
+            "height": 613
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+          "mode": "ultimate",
+          "time": 2.47,
+          "playing": false,
+          "speed": 1,
+          "frame": 5,
+          "phase": "창천멸진 · 전열 광역 파열",
+          "pose": {
+            "at": 1.96,
+            "bank": "spin",
+            "index": 3,
+            "facing": 1
+          },
+          "targetCount": 5,
+          "contactCount": 5,
+          "targets": [
+            {
+              "id": "B:0:ENCOUNTER:ZREVIEW-1",
+              "index": 0,
+              "at": 2.305,
+              "hit": true,
+              "ground": {
+                "x": 1007.4098360655738,
+                "y": 413.8422131147541
+              },
+              "visible": true
+            },
+            {
+              "id": "B:1:ENCOUNTER:ZREVIEW-2",
+              "index": 1,
+              "at": 2.158775246995319,
+              "hit": true,
+              "ground": {
+                "x": 1007.4098360655738,
+                "y": 713.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:2:ENCOUNTER:ZREVIEW-3",
+              "index": 2,
+              "at": 2.13288781131583,
+              "hit": true,
+              "ground": {
+                "x": 1007.4098360655738,
+                "y": 1013.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:3:ENCOUNTER:ZREVIEW-4",
+              "index": 3,
+              "at": 2.13288781131583,
+              "hit": true,
+              "ground": {
+                "x": 791.4098360655738,
+                "y": 1013.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:4:ENCOUNTER:ZREVIEW-5",
+              "index": 4,
+              "at": 2.274980971422286,
+              "hit": true,
+              "ground": {
+                "x": 1007.4098360655738,
+                "y": 1313.8422131147543
+              },
+              "visible": true
+            }
+          ],
+          "groundError": 0,
+          "giantTip": {
+            "world": {
+              "x": 899.4098360655738,
+              "y": 909.0259541303791
+            },
+            "ground": {
+              "x": 899.4098360655738,
+              "y": 893.8422131147541
+            },
+            "buried": true,
+            "burialDepth": 15.183741015625001,
+            "rigidScale": true
+          },
+          "visibleEffects": 24,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "bodyAuraAlpha": 1,
+          "bladeAuraVisible": true,
+          "bladeAuraAttachmentError": 0,
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "artScreenBounds": {
+            "x": 113.00280199546675,
+            "y": 289.7406552359228,
+            "width": 54.413073824431066,
+            "height": 61.958636796178325
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 95.10682965134167,
+              "y": 221.28594938235364,
+              "width": 94.4560399052149,
+              "height": 35.421014964455594
+            }
+          },
+          "giantSwordBounds": {
+            "minX": 181.07238044416437,
+            "minY": 130.2606158239044,
+            "maxX": 320.9354829951601,
+            "maxY": 331.87890478941296,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "safeFrame": {
+            "left": 12,
+            "right": 378,
+            "top": 49,
+            "bottom": 465.9375
+          },
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY",
+          "regularAllies": 5,
+          "targetBounds": [
+            {
+              "x": 258.36167389103946,
+              "y": 130.3425910914844,
+              "width": 48.43899482318716,
+              "height": 67.4093819303834,
+              "visible": true
+            },
+            {
+              "x": 257.7395315915255,
+              "y": 216.32897243442008,
+              "width": 48.43899482318716,
+              "height": 67.40938193038338,
+              "visible": true
+            },
+            {
+              "x": 257.7395315915255,
+              "y": 302.3153537773558,
+              "width": 48.43899482318716,
+              "height": 67.40938193038335,
+              "visible": true
+            },
+            {
+              "x": 195.82933702461185,
+              "y": 302.3153537773558,
+              "width": 48.4389948231871,
+              "height": 67.40938193038335,
+              "visible": true
+            },
+            {
+              "x": 257.22154631662636,
+              "y": 388.3017351202916,
+              "width": 48.43899482318716,
+              "height": 67.40938193038335,
+              "visible": true
+            }
+          ],
+          "canvas": {
+            "width": 390,
+            "height": 613
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+          "mode": "ultimate",
+          "time": 3.1,
+          "playing": false,
+          "speed": 1,
+          "frame": 5,
+          "phase": "청색 충격파 · 지면 균열",
+          "pose": {
+            "at": 1.96,
+            "bank": "spin",
+            "index": 3,
+            "facing": 1
+          },
+          "targetCount": 5,
+          "contactCount": 5,
+          "targets": [
+            {
+              "id": "B:0:ENCOUNTER:ZREVIEW-1",
+              "index": 0,
+              "at": 2.305,
+              "hit": true,
+              "ground": {
+                "x": 1007.4098360655738,
+                "y": 413.8422131147541
+              },
+              "visible": true
+            },
+            {
+              "id": "B:1:ENCOUNTER:ZREVIEW-2",
+              "index": 1,
+              "at": 2.158775246995319,
+              "hit": true,
+              "ground": {
+                "x": 1007.4098360655738,
+                "y": 713.8422131147538
+              },
+              "visible": true
+            },
+            {
+              "id": "B:2:ENCOUNTER:ZREVIEW-3",
+              "index": 2,
+              "at": 2.1328878113158303,
+              "hit": true,
+              "ground": {
+                "x": 1007.4098360655738,
+                "y": 1013.8422131147538
+              },
+              "visible": true
+            },
+            {
+              "id": "B:3:ENCOUNTER:ZREVIEW-4",
+              "index": 3,
+              "at": 2.1328878113158303,
+              "hit": true,
+              "ground": {
+                "x": 791.4098360655739,
+                "y": 1013.8422131147538
+              },
+              "visible": true
+            },
+            {
+              "id": "B:4:ENCOUNTER:ZREVIEW-5",
+              "index": 4,
+              "at": 2.2749809714222864,
+              "hit": true,
+              "ground": {
+                "x": 1007.4098360655738,
+                "y": 1313.842213114754
+              },
+              "visible": true
+            }
+          ],
+          "groundError": 0,
+          "giantTip": {
+            "world": {
+              "x": 899.4098360655739,
+              "y": 909.0259541303788
+            },
+            "ground": {
+              "x": 899.4098360655739,
+              "y": 893.8422131147538
+            },
+            "buried": true,
+            "burialDepth": 15.183741015625001,
+            "rigidScale": true
+          },
+          "visibleEffects": 13,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "bodyAuraAlpha": 1,
+          "bladeAuraVisible": true,
+          "bladeAuraAttachmentError": 0,
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "artScreenBounds": {
+            "x": 113.00280199546675,
+            "y": 289.74065523592276,
+            "width": 54.413073824431066,
+            "height": 61.958636796178325
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 95.10682965134167,
+              "y": 221.28594938235364,
+              "width": 94.4560399052149,
+              "height": 35.421014964455594
+            }
+          },
+          "giantSwordBounds": {
+            "minX": 181.07238044416442,
+            "minY": 130.2606158239043,
+            "maxX": 320.93548299516016,
+            "maxY": 331.878904789413,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "safeFrame": {
+            "left": 12,
+            "right": 378,
+            "top": 49,
+            "bottom": 465.9375
+          },
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY",
+          "regularAllies": 5,
+          "targetBounds": [
+            {
+              "x": 257.7395315915255,
+              "y": 130.34259109148442,
+              "width": 48.43899482318716,
+              "height": 67.4093819303834,
+              "visible": true
+            },
+            {
+              "x": 257.7395315915255,
+              "y": 216.32897243442014,
+              "width": 48.43899482318716,
+              "height": 67.40938193038338,
+              "visible": true
+            },
+            {
+              "x": 257.7395315915255,
+              "y": 302.3153537773559,
+              "width": 48.43899482318716,
+              "height": 67.40938193038335,
+              "visible": true
+            },
+            {
+              "x": 195.82933702461185,
+              "y": 302.3153537773559,
+              "width": 48.4389948231871,
+              "height": 67.40938193038335,
+              "visible": true
+            },
+            {
+              "x": 257.7395315915255,
+              "y": 388.30173512029165,
+              "width": 48.43899482318716,
+              "height": 67.40938193038335,
+              "visible": true
+            }
+          ],
+          "canvas": {
+            "width": 390,
+            "height": 613
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+          "mode": "ultimate",
+          "time": 3.8,
+          "playing": false,
+          "speed": 1,
+          "frame": 6,
+          "phase": "청색 충격파 · 지면 균열",
+          "pose": {
+            "at": 3.35,
+            "bank": "rise",
+            "index": 0,
+            "facing": 1
+          },
+          "targetCount": 5,
+          "contactCount": 5,
+          "targets": [
+            {
+              "id": "B:0:ENCOUNTER:ZREVIEW-1",
+              "index": 0,
+              "at": 2.305,
+              "hit": true,
+              "ground": {
+                "x": 1007.4098360655738,
+                "y": 413.8422131147541
+              },
+              "visible": true
+            },
+            {
+              "id": "B:1:ENCOUNTER:ZREVIEW-2",
+              "index": 1,
+              "at": 2.158775246995319,
+              "hit": true,
+              "ground": {
+                "x": 1007.4098360655738,
+                "y": 713.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:2:ENCOUNTER:ZREVIEW-3",
+              "index": 2,
+              "at": 2.13288781131583,
+              "hit": true,
+              "ground": {
+                "x": 1007.4098360655738,
+                "y": 1013.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:3:ENCOUNTER:ZREVIEW-4",
+              "index": 3,
+              "at": 2.13288781131583,
+              "hit": true,
+              "ground": {
+                "x": 791.4098360655739,
+                "y": 1013.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:4:ENCOUNTER:ZREVIEW-5",
+              "index": 4,
+              "at": 2.274980971422286,
+              "hit": true,
+              "ground": {
+                "x": 1007.4098360655738,
+                "y": 1313.8422131147543
+              },
+              "visible": true
+            }
+          ],
+          "groundError": 0,
+          "giantTip": {
+            "world": {
+              "x": 899.4098360655739,
+              "y": 909.0259541303791
+            },
+            "ground": {
+              "x": 899.4098360655739,
+              "y": 893.8422131147541
+            },
+            "buried": true,
+            "burialDepth": 15.183741015625001,
+            "rigidScale": true
+          },
+          "visibleEffects": 11,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "bodyAuraAlpha": 1,
+          "bladeAuraVisible": true,
+          "bladeAuraAttachmentError": 0,
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "artScreenBounds": {
+            "x": 108.69579616941532,
+            "y": 286.58275363004066,
+            "width": 58.28548862419221,
+            "height": 64.72464736743632
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 95.10682965134167,
+              "y": 221.28594938235364,
+              "width": 94.4560399052149,
+              "height": 35.421014964455594
+            }
+          },
+          "giantSwordBounds": {
+            "minX": 181.07238044416442,
+            "minY": 130.2606158239044,
+            "maxX": 320.93548299516016,
+            "maxY": 331.87890478941296,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "safeFrame": {
+            "left": 12,
+            "right": 378,
+            "top": 49,
+            "bottom": 465.9375
+          },
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY",
+          "regularAllies": 5,
+          "targetBounds": [
+            {
+              "x": 257.7395315915255,
+              "y": 130.3425910914844,
+              "width": 48.43899482318716,
+              "height": 67.4093819303834,
+              "visible": true
+            },
+            {
+              "x": 257.7395315915255,
+              "y": 216.32897243442008,
+              "width": 48.43899482318716,
+              "height": 67.40938193038338,
+              "visible": true
+            },
+            {
+              "x": 257.7395315915255,
+              "y": 302.3153537773558,
+              "width": 48.43899482318716,
+              "height": 67.40938193038335,
+              "visible": true
+            },
+            {
+              "x": 195.82933702461185,
+              "y": 302.3153537773558,
+              "width": 48.4389948231871,
+              "height": 67.40938193038335,
+              "visible": true
+            },
+            {
+              "x": 257.7395315915255,
+              "y": 388.3017351202916,
+              "width": 48.43899482318716,
+              "height": 67.40938193038335,
+              "visible": true
+            }
+          ],
+          "canvas": {
+            "width": 390,
+            "height": 613
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+          "mode": "ultimate",
+          "time": 4.4,
+          "playing": false,
+          "speed": 1,
+          "frame": 7,
+          "phase": "검신 소멸 · 잔향",
+          "pose": {
+            "at": 4.05,
+            "bank": "dash",
+            "index": 7,
+            "facing": 1
+          },
+          "targetCount": 5,
+          "contactCount": 5,
+          "targets": [
+            {
+              "id": "B:0:ENCOUNTER:ZREVIEW-1",
+              "index": 0,
+              "at": 2.305,
+              "hit": true,
+              "ground": {
+                "x": 1007.4098360655738,
+                "y": 413.8422131147541
+              },
+              "visible": true
+            },
+            {
+              "id": "B:1:ENCOUNTER:ZREVIEW-2",
+              "index": 1,
+              "at": 2.158775246995319,
+              "hit": true,
+              "ground": {
+                "x": 1007.4098360655738,
+                "y": 713.8422131147538
+              },
+              "visible": true
+            },
+            {
+              "id": "B:2:ENCOUNTER:ZREVIEW-3",
+              "index": 2,
+              "at": 2.1328878113158303,
+              "hit": true,
+              "ground": {
+                "x": 1007.4098360655738,
+                "y": 1013.8422131147538
+              },
+              "visible": true
+            },
+            {
+              "id": "B:3:ENCOUNTER:ZREVIEW-4",
+              "index": 3,
+              "at": 2.1328878113158303,
+              "hit": true,
+              "ground": {
+                "x": 791.4098360655739,
+                "y": 1013.8422131147538
+              },
+              "visible": true
+            },
+            {
+              "id": "B:4:ENCOUNTER:ZREVIEW-5",
+              "index": 4,
+              "at": 2.2749809714222864,
+              "hit": true,
+              "ground": {
+                "x": 1007.4098360655738,
+                "y": 1313.842213114754
+              },
+              "visible": true
+            }
+          ],
+          "groundError": 0,
+          "giantTip": null,
+          "visibleEffects": 9,
+          "visibleGhosts": 6,
+          "registeredTimelines": 0,
+          "bodyAuraAlpha": 1,
+          "bladeAuraVisible": true,
+          "bladeAuraAttachmentError": 5.684341886080802e-14,
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "artScreenBounds": {
+            "x": 117.06469481552622,
+            "y": 271.7686140373783,
+            "width": 51.57505497737219,
+            "height": 63.03617830567708
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 84.21714092579195,
+              "y": 204.69549013638255,
+              "width": 94.4560399052149,
+              "height": 35.421014964455594
+            }
+          },
+          "giantSwordBounds": null,
+          "safeFrame": {
+            "left": 12,
+            "right": 378,
+            "top": 49,
+            "bottom": 465.9375
+          },
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY",
+          "regularAllies": 5,
+          "targetBounds": [
+            {
+              "x": 257.7395315915255,
+              "y": 130.34259109148442,
+              "width": 48.43899482318716,
+              "height": 67.4093819303834,
+              "visible": true
+            },
+            {
+              "x": 257.7395315915255,
+              "y": 216.32897243442014,
+              "width": 48.43899482318716,
+              "height": 67.40938193038338,
+              "visible": true
+            },
+            {
+              "x": 257.7395315915255,
+              "y": 302.3153537773559,
+              "width": 48.43899482318716,
+              "height": 67.40938193038335,
+              "visible": true
+            },
+            {
+              "x": 195.82933702461185,
+              "y": 302.3153537773559,
+              "width": 48.4389948231871,
+              "height": 67.40938193038335,
+              "visible": true
+            },
+            {
+              "x": 257.7395315915255,
+              "y": 388.30173512029165,
+              "width": 48.43899482318716,
+              "height": 67.40938193038335,
+              "visible": true
+            }
+          ],
+          "canvas": {
+            "width": 390,
+            "height": 613
+          }
+        },
+        {
+          "ready": true,
+          "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+          "mode": "ultimate",
+          "time": 5.7,
+          "playing": false,
+          "speed": 1,
+          "frame": 7,
+          "phase": "자세 회복",
+          "pose": {
+            "at": 4.05,
+            "bank": "dash",
+            "index": 7,
+            "facing": 1
+          },
+          "targetCount": 5,
+          "contactCount": 5,
+          "targets": [
+            {
+              "id": "B:0:ENCOUNTER:ZREVIEW-1",
+              "index": 0,
+              "at": 2.305,
+              "hit": true,
+              "ground": {
+                "x": 1007.4098360655738,
+                "y": 413.8422131147541
+              },
+              "visible": true
+            },
+            {
+              "id": "B:1:ENCOUNTER:ZREVIEW-2",
+              "index": 1,
+              "at": 2.158775246995319,
+              "hit": true,
+              "ground": {
+                "x": 1007.4098360655738,
+                "y": 713.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:2:ENCOUNTER:ZREVIEW-3",
+              "index": 2,
+              "at": 2.13288781131583,
+              "hit": true,
+              "ground": {
+                "x": 1007.4098360655738,
+                "y": 1013.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:3:ENCOUNTER:ZREVIEW-4",
+              "index": 3,
+              "at": 2.13288781131583,
+              "hit": true,
+              "ground": {
+                "x": 791.4098360655739,
+                "y": 1013.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:4:ENCOUNTER:ZREVIEW-5",
+              "index": 4,
+              "at": 2.274980971422286,
+              "hit": true,
+              "ground": {
+                "x": 1007.4098360655738,
+                "y": 1313.8422131147543
+              },
+              "visible": true
+            }
+          ],
+          "groundError": 0,
+          "giantTip": null,
+          "visibleEffects": 0,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "bodyAuraAlpha": 0,
+          "bladeAuraVisible": false,
+          "bladeAuraAttachmentError": null,
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "artScreenBounds": {
+            "x": 74.3984116682945,
+            "y": 217.55494506943313,
+            "width": 46.277801494095456,
+            "height": 62.96585718439047
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 49.00042534977044,
+              "y": 151.04276421685063,
+              "width": 94.45603990521491,
+              "height": 35.421014964455594
+            }
+          },
+          "giantSwordBounds": null,
+          "safeFrame": {
+            "left": 12,
+            "right": 378,
+            "top": 49,
+            "bottom": 465.9375
+          },
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY",
+          "regularAllies": 5,
+          "targetBounds": [
+            {
+              "x": 257.7395315915255,
+              "y": 130.3425910914844,
+              "width": 48.43899482318716,
+              "height": 67.4093819303834,
+              "visible": true
+            },
+            {
+              "x": 257.7395315915255,
+              "y": 216.32897243442008,
+              "width": 48.43899482318716,
+              "height": 67.40938193038338,
+              "visible": true
+            },
+            {
+              "x": 257.7395315915255,
+              "y": 302.3153537773558,
+              "width": 48.43899482318716,
+              "height": 67.40938193038335,
+              "visible": true
+            },
+            {
+              "x": 195.82933702461185,
+              "y": 302.3153537773558,
+              "width": 48.4389948231871,
+              "height": 67.40938193038335,
+              "visible": true
+            },
+            {
+              "x": 257.7395315915255,
+              "y": 388.3017351202916,
+              "width": 48.43899482318716,
+              "height": 67.40938193038335,
+              "visible": true
+            }
+          ],
+          "canvas": {
+            "width": 390,
+            "height": 613
+          }
+        }
+      ],
+      "controls": {
+        "speeds": [
+          {
+            "speed": 0.25,
+            "advance": 0.0585,
+            "pauseStable": true
+          },
+          {
+            "speed": 0.5,
+            "advance": 0.117,
+            "pauseStable": true
+          },
+          {
+            "speed": 1,
+            "advance": 0.233,
+            "pauseStable": true
+          },
+          {
+            "speed": 2,
+            "advance": 0.458,
+            "pauseStable": true
+          }
+        ],
+        "off": {
+          "ready": true,
+          "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+          "mode": "ultimate",
+          "time": 2.4,
+          "playing": false,
+          "speed": 1,
+          "frame": 5,
+          "phase": "창천멸진 · 전열 광역 파열",
+          "pose": {
+            "at": 1.96,
+            "bank": "spin",
+            "index": 3,
+            "facing": 1
+          },
+          "targetCount": 5,
+          "contactCount": 5,
+          "targets": [
+            {
+              "id": "B:0:ENCOUNTER:ZREVIEW-1",
+              "index": 0,
+              "at": 2.305,
+              "hit": true,
+              "ground": {
+                "x": 1007.4098360655738,
+                "y": 413.8422131147541
+              },
+              "visible": true
+            },
+            {
+              "id": "B:1:ENCOUNTER:ZREVIEW-2",
+              "index": 1,
+              "at": 2.158775246995319,
+              "hit": true,
+              "ground": {
+                "x": 1007.4098360655738,
+                "y": 713.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:2:ENCOUNTER:ZREVIEW-3",
+              "index": 2,
+              "at": 2.13288781131583,
+              "hit": true,
+              "ground": {
+                "x": 1007.4098360655738,
+                "y": 1013.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:3:ENCOUNTER:ZREVIEW-4",
+              "index": 3,
+              "at": 2.13288781131583,
+              "hit": true,
+              "ground": {
+                "x": 791.4098360655739,
+                "y": 1013.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:4:ENCOUNTER:ZREVIEW-5",
+              "index": 4,
+              "at": 2.274980971422286,
+              "hit": true,
+              "ground": {
+                "x": 1007.4098360655738,
+                "y": 1313.8422131147543
+              },
+              "visible": true
+            }
+          ],
+          "groundError": 0,
+          "giantTip": null,
+          "visibleEffects": 0,
+          "visibleGhosts": 0,
+          "registeredTimelines": 1,
+          "bodyAuraAlpha": 0,
+          "bladeAuraVisible": false,
+          "bladeAuraAttachmentError": null,
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "artScreenBounds": {
+            "x": 113.00280199546675,
+            "y": 289.7406552359228,
+            "width": 54.413073824431066,
+            "height": 61.958636796178325
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 95.10682965134167,
+              "y": 221.28594938235364,
+              "width": 94.4560399052149,
+              "height": 35.421014964455594
+            }
+          },
+          "giantSwordBounds": null,
+          "safeFrame": {
+            "left": 12,
+            "right": 378,
+            "top": 49,
+            "bottom": 465.9375
+          },
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY",
+          "regularAllies": 5
+        },
+        "canceled": {
+          "ready": true,
+          "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+          "mode": "ultimate",
+          "time": 0,
+          "playing": false,
+          "speed": 1,
+          "frame": 0,
+          "phase": "검압 응축",
+          "pose": {
+            "at": 0,
+            "bank": "ultimate",
+            "index": 0,
+            "facing": 1
+          },
+          "targetCount": 5,
+          "contactCount": 0,
+          "targets": [
+            {
+              "id": "B:0:ENCOUNTER:ZREVIEW-1",
+              "index": 0,
+              "at": 2.305,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655738,
+                "y": 413.8422131147541
+              },
+              "visible": true
+            },
+            {
+              "id": "B:1:ENCOUNTER:ZREVIEW-2",
+              "index": 1,
+              "at": 2.158775246995319,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655738,
+                "y": 713.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:2:ENCOUNTER:ZREVIEW-3",
+              "index": 2,
+              "at": 2.13288781131583,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655738,
+                "y": 1013.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:3:ENCOUNTER:ZREVIEW-4",
+              "index": 3,
+              "at": 2.13288781131583,
+              "hit": false,
+              "ground": {
+                "x": 791.4098360655739,
+                "y": 1013.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:4:ENCOUNTER:ZREVIEW-5",
+              "index": 4,
+              "at": 2.274980971422286,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655738,
+                "y": 1313.8422131147543
+              },
+              "visible": true
+            }
+          ],
+          "groundError": 0,
+          "giantTip": null,
+          "visibleEffects": 0,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "bodyAuraAlpha": 0,
+          "bladeAuraVisible": false,
+          "bladeAuraAttachmentError": null,
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "artScreenBounds": {
+            "x": 74.3984116682945,
+            "y": 217.55494506943313,
+            "width": 46.277801494095456,
+            "height": 62.96585718439047
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 49.00042534977044,
+              "y": 151.04276421685063,
+              "width": 94.45603990521491,
+              "height": 35.421014964455594
+            }
+          },
+          "giantSwordBounds": null,
+          "safeFrame": {
+            "left": 12,
+            "right": 378,
+            "top": 49,
+            "bottom": 465.9375
+          },
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY",
+          "regularAllies": 5
+        }
+      },
+      "recording": {
+        "bytes": 3032402,
+        "mimeType": "video/webm;codecs=vp9",
+        "requestedDuration": 6.3,
+        "final": {
+          "ready": true,
+          "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+          "mode": "ultimate",
+          "time": 5.7,
+          "playing": false,
+          "speed": 1,
+          "frame": 7,
+          "phase": "자세 회복",
+          "pose": {
+            "at": 4.05,
+            "bank": "dash",
+            "index": 7,
+            "facing": 1
+          },
+          "targetCount": 5,
+          "contactCount": 5,
+          "targets": [
+            {
+              "id": "B:0:ENCOUNTER:ZREVIEW-1",
+              "index": 0,
+              "at": 2.305,
+              "hit": true,
+              "ground": {
+                "x": 1007.4098360655739,
+                "y": 413.8422131147541
+              },
+              "visible": true
+            },
+            {
+              "id": "B:1:ENCOUNTER:ZREVIEW-2",
+              "index": 1,
+              "at": 2.158775246995319,
+              "hit": true,
+              "ground": {
+                "x": 1007.4098360655739,
+                "y": 713.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:2:ENCOUNTER:ZREVIEW-3",
+              "index": 2,
+              "at": 2.13288781131583,
+              "hit": true,
+              "ground": {
+                "x": 1007.4098360655739,
+                "y": 1013.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:3:ENCOUNTER:ZREVIEW-4",
+              "index": 3,
+              "at": 2.13288781131583,
+              "hit": true,
+              "ground": {
+                "x": 791.4098360655737,
+                "y": 1013.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:4:ENCOUNTER:ZREVIEW-5",
+              "index": 4,
+              "at": 2.274980971422286,
+              "hit": true,
+              "ground": {
+                "x": 1007.4098360655739,
+                "y": 1313.842213114754
+              },
+              "visible": true
+            }
+          ],
+          "groundError": 0,
+          "giantTip": null,
+          "visibleEffects": 0,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "bodyAuraAlpha": 0,
+          "bladeAuraVisible": false,
+          "bladeAuraAttachmentError": null,
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "artScreenBounds": {
+            "x": 74.39841166829449,
+            "y": 217.5549450694332,
+            "width": 46.27780149409547,
+            "height": 62.96585718439047
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 49.00042534977046,
+              "y": 151.04276421685068,
+              "width": 94.45603990521491,
+              "height": 35.421014964455594
+            }
+          },
+          "giantSwordBounds": null,
+          "safeFrame": {
+            "left": 12,
+            "right": 378,
+            "top": 49,
+            "bottom": 465.9375
+          },
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY",
+          "regularAllies": 5
+        }
+      },
+      "lifecycle": {
+        "hidden": {
+          "ready": true,
+          "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+          "mode": "ultimate",
+          "time": 0,
+          "playing": false,
+          "speed": 1,
+          "frame": 0,
+          "phase": "검압 응축",
+          "pose": {
+            "at": 0,
+            "bank": "ultimate",
+            "index": 0,
+            "facing": 1
+          },
+          "targetCount": 5,
+          "contactCount": 0,
+          "targets": [
+            {
+              "id": "B:0:ENCOUNTER:ZREVIEW-1",
+              "index": 0,
+              "at": 2.305,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655738,
+                "y": 413.84221311475403
+              },
+              "visible": true
+            },
+            {
+              "id": "B:1:ENCOUNTER:ZREVIEW-2",
+              "index": 1,
+              "at": 2.158775246995319,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655738,
+                "y": 713.842213114754
+              },
+              "visible": true
+            },
+            {
+              "id": "B:2:ENCOUNTER:ZREVIEW-3",
+              "index": 2,
+              "at": 2.13288781131583,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655738,
+                "y": 1013.8422131147539
+              },
+              "visible": true
+            },
+            {
+              "id": "B:3:ENCOUNTER:ZREVIEW-4",
+              "index": 3,
+              "at": 2.13288781131583,
+              "hit": false,
+              "ground": {
+                "x": 791.4098360655738,
+                "y": 1013.8422131147539
+              },
+              "visible": true
+            },
+            {
+              "id": "B:4:ENCOUNTER:ZREVIEW-5",
+              "index": 4,
+              "at": 2.274980971422286,
+              "hit": false,
+              "ground": {
+                "x": 1007.4098360655738,
+                "y": 1313.842213114754
+              },
+              "visible": true
+            }
+          ],
+          "groundError": 0,
+          "giantTip": null,
+          "visibleEffects": 0,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "bodyAuraAlpha": 0,
+          "bladeAuraVisible": false,
+          "bladeAuraAttachmentError": null,
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "artScreenBounds": {
+            "x": 74.39841166829449,
+            "y": 217.5549450694332,
+            "width": 46.27780149409547,
+            "height": 62.96585718439047
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 49.000425349770445,
+              "y": 151.04276421685068,
+              "width": 94.45603990521494,
+              "height": 35.421014964455594
+            }
+          },
+          "giantSwordBounds": null,
+          "safeFrame": {
+            "left": 12,
+            "right": 378,
+            "top": 49,
+            "bottom": 465.9375
+          },
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY",
+          "regularAllies": 5
+        },
+        "disposed": true,
+        "timelineCleared": true,
+        "backdropsReset": true
+      }
+    }
+  ],
+  "problems": []
+}

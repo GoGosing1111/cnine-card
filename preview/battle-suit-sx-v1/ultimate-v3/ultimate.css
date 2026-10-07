@@ -1,0 +1,2 @@
+.action-bar{min-height:53px}.approved-link{font-size:12px;padding:14px 0}.area-caption{color:#82a7de;font-size:12px;margin-left:auto}.battle-viewport{height:820px}.readout{min-width:260px}.review{border-color:#405ea2;background:#172b5033}
+@media(max-width:700px){.action-bar{padding:8px 12px}.approved-link{font-size:11px;padding:4px 0}.area-caption{font-size:10px}.battle-viewport{height:575px}.readout{margin:4px 0 0;width:100%;justify-content:space-between}.action-bar #zoom{margin-left:0}}

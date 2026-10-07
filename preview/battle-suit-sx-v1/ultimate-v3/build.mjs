@@ -1,0 +1,11 @@
+import {build} from 'esbuild';
+import fs from 'node:fs/promises';
+import {fileURLToPath} from 'node:url';
+import {createHash} from 'node:crypto';
+const root=fileURLToPath(new URL('./',import.meta.url));
+const result=await build({entryPoints:[root+'source/preview.js'],bundle:true,minify:true,format:'iife',target:['es2022'],legalComments:'none',outfile:root+'preview.bundle.js',metafile:true});
+await fs.writeFile(root+'preview.bundle.js',(await fs.readFile(root+'preview.bundle.js','utf8')).replace(/[\t ]+$/gm,'').trimEnd()+'\n');
+const inputs=Object.keys(result.metafile.inputs).map(p=>p.replaceAll('\\','/')),pixi=inputs.filter(p=>p.endsWith('/pixi.js/lib/index.mjs')).length,gsap=inputs.filter(p=>p.endsWith('/gsap/index.js')).length;
+if(pixi!==1||gsap!==1)throw Error('Duplicate renderer/clock');
+await fs.writeFile(root+'build-report.json',JSON.stringify({previewOnly:true,pixiCopies:pixi,gsapCopies:gsap,bundleSha256:createHash('sha256').update(await fs.readFile(root+'preview.bundle.js')).digest('hex'),sharedRuntime:inputs.filter(p=>p.includes('/project-v-v3/source/battle/'))},null,2)+'\n');
+console.log('SX area ultimate built with the existing V3 engine and one clock.');

@@ -1,0 +1,120 @@
+[
+  {
+    "name": "desktop",
+    "width": 1440,
+    "height": 748,
+    "duration": 6.268682,
+    "decodedFrames": 12,
+    "timestamps": [
+      {
+        "requested": 0.34,
+        "decoded": 0.337
+      },
+      {
+        "requested": 0.8,
+        "decoded": 0.769
+      },
+      {
+        "requested": 1.4,
+        "decoded": 1.369
+      },
+      {
+        "requested": 1.95,
+        "decoded": 1.935
+      },
+      {
+        "requested": 2.2,
+        "decoded": 2.169
+      },
+      {
+        "requested": 2.42,
+        "decoded": 2.402
+      },
+      {
+        "requested": 2.76,
+        "decoded": 2.736
+      },
+      {
+        "requested": 3.4,
+        "decoded": 3.369
+      },
+      {
+        "requested": 4.1,
+        "decoded": 4.069
+      },
+      {
+        "requested": 4.9,
+        "decoded": 4.867
+      },
+      {
+        "requested": 5.6,
+        "decoded": 5.569
+      },
+      {
+        "requested": 6.15,
+        "decoded": 6.135
+      }
+    ],
+    "bytes": 3728663,
+    "sha256": "bd06bdad80c936b924e625cf908e4658ef66c129d4b37ba41b4d137fd9468fd2"
+  },
+  {
+    "name": "mobile",
+    "width": 390,
+    "height": 613,
+    "duration": 6.269471,
+    "decodedFrames": 12,
+    "timestamps": [
+      {
+        "requested": 0.34,
+        "decoded": 0.337
+      },
+      {
+        "requested": 0.8,
+        "decoded": 0.771
+      },
+      {
+        "requested": 1.4,
+        "decoded": 1.37
+      },
+      {
+        "requested": 1.95,
+        "decoded": 1.936
+      },
+      {
+        "requested": 2.2,
+        "decoded": 2.17
+      },
+      {
+        "requested": 2.42,
+        "decoded": 2.403
+      },
+      {
+        "requested": 2.76,
+        "decoded": 2.736
+      },
+      {
+        "requested": 3.4,
+        "decoded": 3.369
+      },
+      {
+        "requested": 4.1,
+        "decoded": 4.069
+      },
+      {
+        "requested": 4.9,
+        "decoded": 4.869
+      },
+      {
+        "requested": 5.6,
+        "decoded": 5.57
+      },
+      {
+        "requested": 6.15,
+        "decoded": 6.136
+      }
+    ],
+    "bytes": 3032402,
+    "sha256": "09dddcee3c0b49bbba8c1450191788801f1195d81f2eff943ec1a0ce296e8ecc"
+  }
+]

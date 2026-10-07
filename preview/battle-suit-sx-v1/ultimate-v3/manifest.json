@@ -1,0 +1,530 @@
+{
+  "version": "SX_ULTIMATE_GROUNDSTRIKE_V3_20261007",
+  "name": "창천멸진",
+  "status": "USER_REVIEW_PENDING",
+  "runtimeEnabled": false,
+  "scope": "ULTIMATE_ONLY",
+  "previousUltimate": "REJECTED",
+  "approvedModes": "../approval-aura-dash-skill-20261007.json",
+  "blade": {
+    "url": "assets/source/blade.png",
+    "sha256": "0061dc93e6a9d39cc09a26eed430f18218f5d2f868f21146f88e764c5d420904",
+    "width": 1024,
+    "height": 1536,
+    "tip": {
+      "x": 512,
+      "y": 1508
+    },
+    "pommel": {
+      "x": 512,
+      "y": 15
+    },
+    "rigid": true
+  },
+  "effects": {
+    "eruption": {
+      "url": "assets/runtime/eruption.png",
+      "sourceUrl": "assets/source/eruption.png",
+      "sourceSha256": "27ea2abda9f7bcea1c5343b8c3496592d816341bd2b0f2d3dda70fea2d6191c6",
+      "sha256": "9a3782d94258b016e8fe941c0e996cc37a9512fc0d45fc6f42795e41950e6d50",
+      "columns": 4,
+      "rows": 3,
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 0,
+            "width": 384,
+            "height": 341
+          },
+          "origin": {
+            "x": 271,
+            "y": 398
+          },
+          "sha256": "d65be70146fdcc8739113bd86c08f7861bda17a38c215573a8f5d2d9d579e1fe"
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 512,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 384,
+            "y": 0,
+            "width": 384,
+            "height": 341
+          },
+          "origin": {
+            "x": 243.5,
+            "y": 426.75
+          },
+          "sha256": "ba54f1fb78cc51ec693824b90a481cf62340378d7898b89d5b2cbd8b7af717d6"
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 1024,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 768,
+            "y": 0,
+            "width": 384,
+            "height": 341
+          },
+          "origin": {
+            "x": 249.75,
+            "y": 426.75
+          },
+          "sha256": "3bcb2f6669d7bc9744d7c2168d13d8b2aec6515b73d08d7fb315e19abada5439"
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 1536,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1152,
+            "y": 0,
+            "width": 384,
+            "height": 341
+          },
+          "origin": {
+            "x": 261,
+            "y": 436.75
+          },
+          "sha256": "edf6d599d6e49184ba8dba2f166919ff426d2aba366f4b605d1347c2dbb5028f"
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 341,
+            "width": 384,
+            "height": 342
+          },
+          "origin": {
+            "x": 257.25,
+            "y": 442
+          },
+          "sha256": "876901aebc21f29338b10c9a0cf4dd03d6d4da4307b5bd3f2b887102153f7b5f"
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 512,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 384,
+            "y": 341,
+            "width": 384,
+            "height": 342
+          },
+          "origin": {
+            "x": 246,
+            "y": 445.75
+          },
+          "sha256": "828445b8f1f19c9daf853f0771ddf7d657fdbca4f3c37137ba94da03ddcfd22e"
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 1024,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 768,
+            "y": 341,
+            "width": 384,
+            "height": 342
+          },
+          "origin": {
+            "x": 249.75,
+            "y": 445.75
+          },
+          "sha256": "740b5a13afa88d9848b65283d756cdf15f835affd7bffbb3353e06e9d4e6cd73"
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1536,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1152,
+            "y": 341,
+            "width": 384,
+            "height": 342
+          },
+          "origin": {
+            "x": 258.5,
+            "y": 448.25
+          },
+          "sha256": "bd1e66ee5349fa3fbf331001e50550439be02976d7ad311ff0dcce331a9c5364"
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 683,
+            "width": 384,
+            "height": 341
+          },
+          "origin": {
+            "x": 271,
+            "y": 400.5
+          },
+          "sha256": "3b0c168dca765cddd5790156b7d0f21aa415359b5bc863b3c66d20c655f0be23"
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 512,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 384,
+            "y": 683,
+            "width": 384,
+            "height": 341
+          },
+          "origin": {
+            "x": 257.25,
+            "y": 403
+          },
+          "sha256": "afa450b1db9afa91fcd859047f35b12c00a4d1580c4a7a117b32c62520f86bd0"
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 1024,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 768,
+            "y": 683,
+            "width": 384,
+            "height": 341
+          },
+          "origin": {
+            "x": 256,
+            "y": 406.75
+          },
+          "sha256": "e3853e5857f2d31e525271b586fcffe49e5214eb8ed9be4d234e0a58ad7c09b3"
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 1536,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1152,
+            "y": 683,
+            "width": 384,
+            "height": 341
+          },
+          "origin": {
+            "x": 259.75,
+            "y": 408
+          },
+          "sha256": "0aa0a592b6f6dd39d8304c9ebcc381e82231b828bed5f6a987faf285303471ed"
+        }
+      ]
+    },
+    "ring": {
+      "url": "assets/runtime/ring.png",
+      "sourceUrl": "assets/source/ring.png",
+      "sourceSha256": "b2ff7f97ee5e432e86342292b3abdda7de083b256b2ecae769844dd5bbf4c5a1",
+      "sha256": "2ae949bcee89e33f1b675aa513f5449dfe2e8f380b449d9c0f423de3ecd6fca9",
+      "columns": 4,
+      "rows": 3,
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 0,
+            "width": 384,
+            "height": 341
+          },
+          "origin": {
+            "x": 261,
+            "y": 326.75
+          },
+          "sha256": "d5a73bcf41d0eeafe6c3f3ffc15cba8b017eadbf19ccb5aacad2b010ad4797b3"
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 512,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 384,
+            "y": 0,
+            "width": 384,
+            "height": 341
+          },
+          "origin": {
+            "x": 258.5,
+            "y": 326.75
+          },
+          "sha256": "ebb7708e2c253744b6769841b3a49354930008df44ed2d1ff89e55fd8894bc55"
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 1024,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 768,
+            "y": 0,
+            "width": 384,
+            "height": 341
+          },
+          "origin": {
+            "x": 259.75,
+            "y": 323
+          },
+          "sha256": "ea4c8171c1ceb688cecc3aa142eaef8b35123af4f3e95064aaf439121b1bfce8"
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 1536,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1152,
+            "y": 0,
+            "width": 384,
+            "height": 341
+          },
+          "origin": {
+            "x": 259.75,
+            "y": 323
+          },
+          "sha256": "55b701b49cc98b81976f59986377bce901af315fa9f96a88540f14adaf0de3aa"
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 341,
+            "width": 384,
+            "height": 342
+          },
+          "origin": {
+            "x": 258.5,
+            "y": 274.5
+          },
+          "sha256": "d435b0477f45288af08f94bdbd79d0fca9e00dfa246914e7fe11cc89dd63922a"
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 512,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 384,
+            "y": 341,
+            "width": 384,
+            "height": 342
+          },
+          "origin": {
+            "x": 257.25,
+            "y": 274.5
+          },
+          "sha256": "147502ce0e0238d0b1c427b8c8e7d5f5f587fb7e281d7c6bbbc0dc023fca47d6"
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 1024,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 768,
+            "y": 341,
+            "width": 384,
+            "height": 342
+          },
+          "origin": {
+            "x": 259.75,
+            "y": 274.5
+          },
+          "sha256": "124bcd5e4f0f35ef037efcb3edc27c7475bc2e0b220101b3f8c47c97da7d229c"
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1536,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1152,
+            "y": 341,
+            "width": 384,
+            "height": 342
+          },
+          "origin": {
+            "x": 259.75,
+            "y": 274.5
+          },
+          "sha256": "78a22ea97fdb721d28dad48b52279afb1850bee880264238c87226076f99f989"
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 683,
+            "width": 384,
+            "height": 341
+          },
+          "origin": {
+            "x": 258.5,
+            "y": 310.5
+          },
+          "sha256": "62adf96a5749f3ff55a51720214df042247b22740c3d103477c548a8227ac6aa"
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 512,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 384,
+            "y": 683,
+            "width": 384,
+            "height": 341
+          },
+          "origin": {
+            "x": 257.25,
+            "y": 310.5
+          },
+          "sha256": "8e33e35bebeb655879f831f902158eea0906468158dfdf5683ebc2d39e0982cc"
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 1024,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 768,
+            "y": 683,
+            "width": 384,
+            "height": 341
+          },
+          "origin": {
+            "x": 259.75,
+            "y": 310.5
+          },
+          "sha256": "5e46bf17b5ed50753880a687dffe5391e29263040cd3d8576f7324224f2dc033"
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 1536,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1152,
+            "y": 683,
+            "width": 384,
+            "height": 341
+          },
+          "origin": {
+            "x": 259.75,
+            "y": 310.5
+          },
+          "sha256": "02eb90da97006cc3a72d4730b5360fb66f3fe71a39b6d1efcc533cf49c28345c"
+        }
+      ]
+    }
+  },
+  "audio": {
+    "enabled": false
+  },
+  "damageAuthority": "NONE_PREVIEW_VISUAL_ONLY"
+}
