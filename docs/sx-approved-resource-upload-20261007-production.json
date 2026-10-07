@@ -1,0 +1,542 @@
+{
+  "date": "2026-10-07",
+  "timezone": "Asia/Seoul",
+  "userRequest": "운영서버에 업로드 커밋해",
+  "status": "PRODUCTION_UPLOAD_VERIFIED",
+  "release": {
+    "commit": "863088450012de28ff7280ae2ba8c9d1bbb8739c",
+    "id": "f1f08b53-1a1b-42a4-86f9-f8887086cc53",
+    "url": "https://f1f08b53.cnine-card.pages.dev",
+    "environment": "production",
+    "command": "npm run deploy:production -- --assets-only",
+    "base": "06cab440e24d9f51e94f8ca4d6e70439294212d7",
+    "initialUpload": {
+      "commit": "06cab440e24d9f51e94f8ca4d6e70439294212d7",
+      "id": "3e0f9a15-9b4d-451b-9bbd-71c787237970",
+      "command": "npm run deploy:production -- --scoped",
+      "testsPassed": 3,
+      "testsFailed": 0,
+      "apiRuntimeVersion": "0ac4cd97-0b15-4566-a185-b1767ff74ba1",
+      "clanDraftVersion": "80f734c2-6ca5-4ce8-8040-058f9e6da015"
+    },
+    "hyperdriveCache": "DISABLED_VERIFIED"
+  },
+  "validation": {
+    "checkedAt": "2026-10-07T08:46:06.244Z",
+    "origin": "https://cnine-card.pages.dev",
+    "manifestVersion": "SX_APPROVED_RESOURCES_20261007_V1",
+    "resourceCount": 73,
+    "hashVerified": 11,
+    "resources": [
+      {
+        "url": "/preview/battle-suit-sx-v1/approval-aura-dash-skill-20261007.json",
+        "status": 200,
+        "contentType": "application/json",
+        "hashCheck": true,
+        "sha256": "351b8998a30b110b1c83392cfd66e549c5ef7ce3926da2d53e39c9589f0065f8"
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/connected/dash-a.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/connected/dash-b.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/connected/skill-a.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/connected/slash-v2/down.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/connected/slash-v2/spin.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/connected/slash-v2/up.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/connected/ultimate-a.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/runtime/atlases/dash.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": true,
+        "sha256": "86bc80c8e51cf8fc3802051f909e39a661bc467796dad7f1b530e221db59b013"
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/runtime/atlases/rise.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/runtime/atlases/skill.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/runtime/atlases/spin.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/runtime/atlases/sweep.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/runtime/atlases/ultimate.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/runtime/effects/aura.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": true,
+        "sha256": "bb630903cbc2e1bd27c4ab8af026c99e0c28c42a65f897810deacd67069bdec1"
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/runtime/effects/blade.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": true,
+        "sha256": "d85fcf2df521d49108e949ec2b3a6e1dedc7e054607a78fc857c470bf292efe9"
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/runtime/effects/cross.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/runtime/effects/cut.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/runtime/effects/dash.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/runtime/effects/flurry.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": true,
+        "sha256": "9bf3df68b6ada6d09c1e4627a3f4bfa8937e128036e7a4dae3cb354fb28684c1"
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/runtime/effects/ground.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/runtime/effects/light.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/runtime/frames/dash-01.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/runtime/frames/dash-02.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/runtime/frames/dash-03.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/runtime/frames/dash-04.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/runtime/frames/dash-05.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/runtime/frames/dash-06.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/runtime/frames/dash-07.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/runtime/frames/dash-08.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/runtime/frames/rise-01.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/runtime/frames/rise-02.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/runtime/frames/rise-03.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/runtime/frames/skill-01.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/runtime/frames/spin-03.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/runtime/frames/spin-04.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/runtime/frames/sweep-01.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/runtime/frames/sweep-02.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/runtime/frames/sweep-03.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/runtime/frames/ultimate-01.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/sources/fx-aura.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/sources/fx-blade.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/sources/fx-cross.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/sources/fx-cut.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/sources/fx-dash.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/sources/fx-flurry.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/sources/fx-ground.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/sources/fx-light.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/assets/sources/sx-standing-approved-20261007.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": true,
+        "sha256": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b"
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/manifest.json",
+        "status": 200,
+        "contentType": "application/json",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/motion.mjs",
+        "status": 200,
+        "contentType": "application/javascript",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/pose-registration-connected.json",
+        "status": 200,
+        "contentType": "application/json",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/preview.bundle.js",
+        "status": 200,
+        "contentType": "application/javascript",
+        "hashCheck": true,
+        "sha256": "f5a6423e551089553fc9227b262169b396d0b99fb59bb8dddfff1dc4144c9214"
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/qa/slash-v2/review-summary.json",
+        "status": 200,
+        "contentType": "application/json",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/review-desktop-v2.webm",
+        "status": 200,
+        "contentType": "video/webm",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/review-mobile-v2.webm",
+        "status": 200,
+        "contentType": "video/webm",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/source/SXBodyFX.js",
+        "status": 200,
+        "contentType": "application/javascript",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/ultimate-v3/assets/runtime/eruption.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": true,
+        "sha256": "9a3782d94258b016e8fe941c0e996cc37a9512fc0d45fc6f42795e41950e6d50"
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/ultimate-v3/assets/runtime/ring.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": true,
+        "sha256": "2ae949bcee89e33f1b675aa513f5449dfe2e8f380b449d9c0f423de3ecd6fca9"
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/ultimate-v3/assets/source/blade.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": true,
+        "sha256": "0061dc93e6a9d39cc09a26eed430f18218f5d2f868f21146f88e764c5d420904"
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/ultimate-v3/assets/source/eruption.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/ultimate-v3/assets/source/ring.png",
+        "status": 200,
+        "contentType": "image/png",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/ultimate-v3/build-report.json",
+        "status": 200,
+        "contentType": "application/json",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/ultimate-v3/manifest.json",
+        "status": 200,
+        "contentType": "application/json",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/ultimate-v3/motion.mjs",
+        "status": 200,
+        "contentType": "application/javascript",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/ultimate-v3/preview.bundle.js",
+        "status": 200,
+        "contentType": "application/javascript",
+        "hashCheck": true,
+        "sha256": "bd1985d4e157b21447dd3cb0ff4048f30472b636ff882ac6947e88d9d9d75e09"
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/ultimate-v3/qa/verified/browser-report.json",
+        "status": 200,
+        "contentType": "application/json",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/ultimate-v3/qa/video/video-report.json",
+        "status": 200,
+        "contentType": "application/json",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/ultimate-v3/rejection-and-review-20261007.json",
+        "status": 200,
+        "contentType": "application/json",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/ultimate-v3/review-desktop-v3.webm",
+        "status": 200,
+        "contentType": "video/webm",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/ultimate-v3/review-mobile-v3.webm",
+        "status": 200,
+        "contentType": "video/webm",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/ultimate-v3/source/preview.js",
+        "status": 200,
+        "contentType": "application/javascript",
+        "hashCheck": false
+      },
+      {
+        "url": "/preview/battle-suit-sx-v1/ultimate-v3/source/SXUltimateFX.js",
+        "status": 200,
+        "contentType": "application/javascript",
+        "hashCheck": false
+      }
+    ],
+    "ultimateApproval": "USER_VISUAL_APPROVED",
+    "scenes": [
+      {
+        "name": "desktop-base",
+        "url": "https://cnine-card.pages.dev/preview/battle-suit-sx-v1/",
+        "viewport": {
+          "width": 1440,
+          "height": 1040
+        },
+        "playedTime": 1.167,
+        "contactCount": 3,
+        "canceled": {
+          "effects": 0,
+          "ghosts": 0,
+          "timelines": 0
+        },
+        "overflow": {
+          "width": 1440,
+          "scroll": 1440
+        },
+        "errors": [],
+        "failures": [],
+        "screenshot": "preview/battle-suit-sx-v1/qa/production-20261007/desktop-base.png"
+      },
+      {
+        "name": "mobile-ultimate",
+        "url": "https://cnine-card.pages.dev/preview/battle-suit-sx-v1/ultimate-v3/",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "playedTime": 2.557,
+        "targetCount": 5,
+        "contactCount": 5,
+        "canceled": {
+          "effects": 0,
+          "ghosts": 0,
+          "timelines": 0
+        },
+        "overflow": {
+          "width": 390,
+          "scroll": 390
+        },
+        "errors": [],
+        "failures": [],
+        "screenshot": "preview/battle-suit-sx-v1/qa/production-20261007/mobile-ultimate.png"
+      }
+    ],
+    "runtimeEnabled": false
+  },
+  "scope": {
+    "approvedModes": [
+      "idle",
+      "dash",
+      "skill",
+      "ultimate"
+    ],
+    "approvedArtAndRuntimeBytesPreserved": true,
+    "productionGameplayEnabled": false,
+    "cmsOrGrantChanges": false
+  }
+}

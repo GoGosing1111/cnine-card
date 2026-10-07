@@ -38,3 +38,13 @@ npm run deploy:production -- --scoped
 운영 확인에서 리소스 색인 전체와 대표 파일 해시는 통과했지만 기본 연출 페이지의 Pixi 배경 두 경로가 `/preview/assets/`로 해석돼 404가 발생했다. `battle.html`에 명시적 base URL을 추가하고 부모 iframe의 버전 쿼리를 갱신했다. 승인된 이미지·모션·렌더러·번들은 변경하지 않았다. 운영 URL에 수정 HTML만 연결한 PC 1440px·모바일 390px 검사에서 해당 요청을 포함해 리소스 오류 0건을 확인했다.
 
 보정은 위 1차 운영 커밋을 `ASSET_DEPLOY_BASE`로 지정한 `npm run deploy:production -- --assets-only`로 반영한다. 차이는 프리뷰 HTML 2개와 이 문서뿐이므로 이미 완료한 전체 자산 검사와 게임 테스트·변경 없는 Worker 배포를 반복하지 않는다. 최종 운영 재생 결과는 아래 완료 기록을 따른다.
+
+## 운영 확인 완료
+
+**2026-10-07 17:46 KST**, 최종 커밋 `863088450012de28ff7280ae2ba8c9d1bbb8739c`의 운영 배포 **f1f08b53-1a1b-42a4-86f9-f8887086cc53**를 확인했다. 경로 보정 배포는 새 파일 3개만 올리고 기존 14,341개를 재사용했으며 API/clan-draft Worker는 재배포하지 않았다.
+
+- 운영 기본 도메인에서 색인의 **73개 파일 모두 HTTP 200**, 대표 이미지·효과·번들·승인 기록 **11개 SHA-256 일치**.
+- PC 기본 프리뷰의 검무 실제 재생·중단, 모바일 궁극기 실제 재생·적 5개 반응·중단 확인. 콘솔 오류·리소스 오류·가로 넘침 0, 중단 후 효과·잔상·등록 타임라인 0.
+- [운영 확인 원시 기록](sx-approved-resource-upload-20261007-production.json), [PC 화면](../preview/battle-suit-sx-v1/qa/production-20261007/desktop-base.png), [모바일 궁극기 화면](../preview/battle-suit-sx-v1/qa/production-20261007/mobile-ultimate.png).
+
+운영 업로드는 완료됐다. 승인된 색감·모션·타이밍은 그대로이며 게임 내 SX슈트 장비·피해·제작·지급 설정은 변경하지 않았다. 이 완료 기록은 문서·증거 커밋만 원격 반영하고 재배포하지 않는다.
