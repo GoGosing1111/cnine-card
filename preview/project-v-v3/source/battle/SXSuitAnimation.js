@@ -6,6 +6,7 @@ import {MODES} from '../../../battle-suit-sx-v1/motion.mjs';
 import {DURATION} from '../../../battle-suit-sx-v1/ultimate-v3/motion.mjs';
 import {SX_AREA_SKILL,SX_ATTACK_SPEED} from '../../../../shared/sx-suit-v1.mjs';
 import {SX_BASE as M,SX_ULTIMATE as U,SX_RUNTIME_VERSION,SX_SKILL_COOLDOWN_MS,takeSxBatch,sxAreaMotionTime,sxAreaMotionEnd} from './SXSuitModel.mjs';
+import {SXSuitCamera} from './SXSuitCamera.js';
 const ROOT='/preview/battle-suit-sx-v1/',HEIGHT=333.70859375;
 const bindTarget=actor=>{
   const id=actor.id,valid=()=>actor.id===id&&!actor.root.destroyed&&actor.root.visible!==false;
@@ -17,9 +18,23 @@ const bindTarget=actor=>{
 // by the engine, not by either preview controller's play/seek timeline.
 class LiveSXFX extends SXUltimateFX{
   makeTimeline(){this.zoom=false;}
-  // Preview framing owns its camera/parallax. A live suit only owns its actor
-  // and FX, including while an Apocalypse input holds the combat clock.
+  // Live framing has its own scoped camera; never run the preview's parallax
+  // mutations or its unconditional camera reset during normal attacks.
   restoreBackdrop(){}
+  drawBladeAura(t,state,bp){
+    // The approved blue blade is a permanent part of the live actor. Cast FX
+    // cleanup must not switch it off between attacks or after combat stops.
+    const s=this.bladeAura,layer=this.unit.view;
+    if(s.parent!==layer)layer.addChild(s);
+    s.zIndex=this.unit.bodySprite.zIndex+1;
+    s.visible=this.effectsEnabled&&!this.disposed;if(!s.visible)return;
+    const frame=Math.floor(Math.max(0,t)*12)%12,a=this.manifest.effects.blade.frames[frame].attachment;
+    const point=p=>layer.toLocal(this.unit.root.parent.toGlobal(p));
+    const start=point({x:bp.grip.x+(bp.tip.x-bp.grip.x)*.065,y:bp.grip.y+(bp.tip.y-bp.grip.y)*.065}),end=point(bp.tip),dx=end.x-start.x,dy=end.y-start.y;
+    const scale=Math.hypot(dx,dy)/(a.tip.x-a.root.x);
+    s.texture=this.assets.effects.blade[frame];s.anchor.set(a.root.x/512,a.root.y/512);s.position.set(start.x,start.y);s.rotation=Math.atan2(dy,dx);s.scale.set(scale,scale*.82);s.alpha=1;s.tint=0xffffff;s.blendMode='normal';
+    const actual=s.toGlobal({x:a.tip.x-a.root.x,y:a.tip.y-a.root.y}),expected=layer.toGlobal(end);this.bladeAuraError=Math.hypot(actual.x-expected.x,actual.y-expected.y);
+  }
   point(target,y=0){
     if(target.valid&&!target.valid()&&target.savedPoints?.has(y))return target.savedPoints.get(y);
     const p=this.unit.root.parent.toLocal(target.root.toGlobal({x:0,y}));target.savedPoints?.set(y,p);return p;
@@ -29,6 +44,9 @@ class LiveSXFX extends SXUltimateFX{
   render(t){
     if(this.disposed)return;
     const engine=this.engine;
+    if(this.mode==='ultimate'&&this.targets&&t>0&&t<DURATION){
+      this.liveCamera??=new SXSuitCamera(engine,this);this.liveCamera.frame(t);
+    }else this.liveCamera?.release();
     this.cameraNeutralEngine??=Object.assign(Object.create(engine),{camera:{reset(){}}});
     this.engine=this.cameraNeutralEngine;this.zoom=false;
     try{
@@ -40,8 +58,9 @@ class LiveSXFX extends SXUltimateFX{
     }finally{this.engine=engine;}
   }
   destroy(){
-    if(this.disposed)return;this.removeTimeline();this.disposed=true;
+    if(this.disposed)return;this.liveCamera?.release();this.removeTimeline();this.disposed=true;
     if(this.giantSword)this.giantSword.mask=null;
+    this.bladeAura.destroy();
     this.title.destroy();this.front.destroy({children:true});this.back.destroy({children:true});
     // SXSuitAnimation owns subtextures; both modes share one resource set.
   }
@@ -122,11 +141,11 @@ export class SXSuitAnimation{
     // Cancellation and a replaced target never apply this completion fallback.
     if(result){deliver(batch.entries);this.completed++;if(mode==='skill')this.skills++;}return result;
   }
-  cancel(){this.stopAmbient();this.timeline?.kill();this.timeline=null;this.stopAmbient();if(this.fx)this.fx.front.visible=this.fx.back.visible=false;}
+  cancel(){this.stopAmbient();this.timeline?.kill();this.timeline=null;this.stopAmbient();this.fx?.liveCamera?.release();if(this.fx)this.fx.front.visible=this.fx.back.visible=false;}
   onBattleCancel(){this.cancel();}
   diagnostics(){return {version:SX_RUNTIME_VERSION,attackSpeed:SX_ATTACK_SPEED,mode:this.mode,timeMs:Math.round(this.timeMs),completed:this.completed,skills:this.skills,nextSkillAtMs:this.nextSkillAtMs,intrinsicArea:true,damageAuthority:'SERVER_TIMELINE',
     sourceSha256:M.sourceSha256,mainBodyTint:this.unit.bodySprite.tint,bodyUniformScale:Math.abs(this.unit.bodySprite.scale.x)===Math.abs(this.unit.bodySprite.scale.y),
-    effectsVisible:Boolean(this.fx?.front.visible||this.fx?.back.visible),bladeAuraVisible:this.fx?.bladeAura.visible,bodyAuraAlpha:this.fx?.ambient[0].alpha,
+    effectsVisible:Boolean(this.fx?.front.visible||this.fx?.back.visible),bladeAuraVisible:this.fx?.bladeAura.visible,bladeAuraAttachmentError:this.fx?.bladeAuraError,bodyAuraAlpha:this.fx?.ambient[0].alpha,camera:this.fx?.liveCamera?.diagnostics()||null,
     title:this.fx?.title.diagnostics(),ambientRegistered:Boolean(this.ambientRegistration&&this.engine.simpleTimelines.has(this.ambientRegistration)),externalCast:this.externalCast?.diagnostics()||null};}
   destroy(){
     if(this.disposed)return;this.externalCast?.destroy();this.cancel();this.disposed=true;

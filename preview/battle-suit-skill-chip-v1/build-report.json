@@ -82,6 +82,7 @@
     "preview/battle-suit-sx-v1/manifest.json",
     "preview/battle-suit-sx-v1/ultimate-v3/manifest.json",
     "preview/project-v-v3/source/battle/SXSuitModel.mjs",
+    "preview/project-v-v3/source/battle/SXSuitCamera.js",
     "preview/project-v-v3/source/battle/SXSuitAnimation.js",
     "preview/project-v-v3/source/battle/FormationLayout.mjs",
     "preview/project-v-v3/source/battle/ViewportLayout.mjs",
@@ -156,5 +157,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 1718239
+  "outputBytes": 1722191
 }
