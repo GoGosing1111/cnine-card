@@ -33,7 +33,7 @@ function fixture({win=true,deckLength=5,stale=false}={}){
     evaluateDeckSynergies:async()=>({totals:{attackPercent:0}}),
     cardUniqueDeckStates:async(_,entries)=>entries.map(x=>({enabled:false,power:500,cards:x.cards})),
     userEquipmentBonuses:async()=>({pvp:0}),magicBattleLoadout:async()=>({cards:[]}),equippedAvatarEffect:async()=>null,
-    releasedMercenarySnapshot:async()=>null,mercenarySnapshotPower:()=>0,
+    releasedMercenarySnapshot:async()=>null,mercenarySnapshotPower:()=>0,loadPetBattleSnapshot:async()=>null,
     battleEngineState:()=>({active:true}),drawIntegrityHash:()=> 'abc123',
     createPvpBattleV2:()=>({result:{winner:win?'A':'B',reason:'ELIMINATION',actions:5,final:{A:[],B:[]}},teams:{A:{summary:{power:500}},B:{summary:{power:500}}}}),
     pvpSeasonScoreAdjustment:w=>({change:24}),consumePvpEnergy:async()=>{effects.push('energy');return {state:{energy}};},commitRankedFight:async(_,options)=>{await env.DB.batch(options.writes);receipt={...options.response,energy:{energy:--energy}};return receipt;},
