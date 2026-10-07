@@ -33,11 +33,14 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
   // A resumed run can expose a later stale test. Keep both original logs intact,
   // validate their hashes and candidate ancestry, and join only contiguous stages.
   // After the continuation candidate, only test/document/tooling repairs qualify.
-  if(env.RELEASE_GATE_RESUME_CONTINUATION_LOG){
-    const continuation=read(env.RELEASE_GATE_RESUME_CONTINUATION_LOG),candidate=env.RELEASE_GATE_RESUME_CONTINUATION_BASE;
+  const continuations=env.RELEASE_GATE_RESUME_CONTINUATIONS?JSON.parse(env.RELEASE_GATE_RESUME_CONTINUATIONS):env.RELEASE_GATE_RESUME_CONTINUATION_LOG?[{log:env.RELEASE_GATE_RESUME_CONTINUATION_LOG,base:env.RELEASE_GATE_RESUME_CONTINUATION_BASE,sha256:env.RELEASE_GATE_RESUME_CONTINUATION_SHA256}]:[];
+  if(!Array.isArray(continuations)||continuations.length>8)throw Error('At most eight hash-bound continuation logs are supported.');
+  let previousCandidate=base;
+  for(const continuationSpec of continuations){
+    const continuation=read(continuationSpec.log),candidate=continuationSpec.base;
     if(!/^[a-f0-9]{40}$/.test(candidate||''))throw Error('Continuation requires its actual candidate SHA.');
-    if(createHash('sha256').update(continuation).digest('hex')!==env.RELEASE_GATE_RESUME_CONTINUATION_SHA256)throw Error('Continuation log hash mismatch.');
-    git('merge-base','--is-ancestor',base,candidate);git('merge-base','--is-ancestor',candidate,'HEAD');
+    if(createHash('sha256').update(continuation).digest('hex')!==continuationSpec.sha256)throw Error('Continuation log hash mismatch.');
+    git('merge-base','--is-ancestor',previousCandidate,candidate);previousCandidate=candidate;git('merge-base','--is-ancestor',candidate,'HEAD');
     if(JSON.stringify(JSON.parse(git('show',`${candidate}:package.json`)).scripts)!==JSON.stringify(scripts))throw Error('Continuation gate commands changed: run a fresh full gate.');
     const start=seen.length-1,originalLast=logText.lastIndexOf(`> ${seen.at(-1)}`),continued=stageNames(continuation);
     if(!/^ℹ fail [1-9]/m.test(logText.slice(originalLast))||/^ℹ fail [1-9]/m.test(logText.slice(0,originalLast)))throw Error('Continuation requires the original failed final stage.');

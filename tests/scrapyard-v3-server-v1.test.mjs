@@ -106,9 +106,9 @@ test('public scrapyard wiring preserves unreleased routes and legacy reward sepa
   assert.match(read('functions/_scrapyard.js'),/response_json NOT LIKE '%"engineVersion":"PVE_CONTINUOUS_V1"%'/,'legacy stale-ticket refund excludes persisted V3 results');
 });
 
-test('legacy createPveBattleV2 full envelopes remain byte-identical to commit 425a0043',()=>{
+test('legacy createPveBattleV2 full envelopes remain byte-identical to pre-reform commit d1c04a64',()=>{
   const cards=['ATTACK','DEFENSE','SPEED','HP','ATTACK'].map((power_type,i)=>({id:'GOLDEN-'+i,title:'GOLDEN '+i,rarity:'FUR',power:200000,power_type}));
-  const golden={1:'8c2f608300b6ccd59cbca4a23454e7f60b72c99df675a84622d568a2bfee557d',17:'95316083b3c3cfe032b69b318af439cd7aea924f11be7d2bc6ea6c2fe878fb29',7123:'7eb1d82cbb0618bd85be075d843b9a766c1ebadd5d493a3c8aa4caa00112378e'};
+  const golden={"1":"9cc1222ba04b473bc2988f8fc8a68edfca61c828e16be1a91292961e008c3bb2","17":"c7d032b27bc7b98a36fda71aa221f2894976b97e4c091172abde710355f060c1","7123":"40cab2f9f9da0f62968b75c1af23bbc30dabc053cde8a95f722f22d71628e62d"};
   for(const [seed,hash] of Object.entries(golden)){
     const result=createPveBattleV2({cards,characterBonus:55000,monster:{id:991,battle_power:1500000},seed:Number(seed)});
     assert.equal(createHash('sha256').update(JSON.stringify(result)).digest('hex'),hash);

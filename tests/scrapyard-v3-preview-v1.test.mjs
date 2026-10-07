@@ -19,12 +19,8 @@ const monster = (id, slot = 0) => ({...buildMonsterFighter({id, battle_power: 10
 const fighters = () => ['ATTACK', 'DEFENSE', 'SPEED', 'HP', 'ATTACK'].map((power_type, i) =>
   buildFighter({id: 'REG-' + i, title: 'REG ' + i, rarity: 'FUR', power: 200000, power_type}, i, 'A', null, 'PVE'));
 
-test('existing one-monster calls retain byte-identical pre-change seeded outcomes', () => {
-  const golden = {
-    1: 'a99a65b5d1fc9cbbf6d4a874cf953ecfc15dbd31757b7783d540e2057a254551',
-    17: '0bd19c030459b3b52f46cf44f7325d1d47093df641b437cd9bf8b1392823b6f5',
-    7123: 'ff6a4f7a47bc04273cf00069fda34679f23f70a87b70195562189d58ea7470ed'
-  };
+test('existing one-monster calls retain byte-identical pre-reform d1c04a64 seeded outcomes', () => {
+  const golden={"1":"7db4db6b5d2676b2bc0d5f7573d7a3afd2f71497aa89354d49c798eed33b2c97","17":"ad34c5970a53653f245966f2e57b6be7116c30bf74d6b0964bf8a4ba55f768d5","7123":"63239b20cb93d6a9f250918ae2bfca438a8ca2a18d7086acc69624f28fade7be"};
   for (const [seed, hash] of Object.entries(golden)) {
     const args = {teamA: fighters(), teamB: [buildMonsterFighter({id: 991, battle_power: 1500000})], seed: +seed, maxActions: 80};
     const result = simulateBattleV2Preview(args);

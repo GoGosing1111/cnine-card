@@ -25,6 +25,17 @@ test('full gate resumes a proven prefix and retains failed, remaining and final 
   assert.match(plan.commands[0],/resume-release-gate\.test\.mjs/);
 });
 
+test('multiple immutable continuation logs keep contiguous passes and reject a changed log or gap',()=>{
+  const f=fixture({changed:['tests/c.test.mjs']}),candidate='c'.repeat(40),next='d'.repeat(40);
+  const logs={one:`[FULL RELEASE RESUME] Reuse 1 completed stages from ${base}; execute every remaining stage and production guard.\n> test:b\nℹ fail 0\n> test:c\nℹ fail 1\n`,two:`[FULL RELEASE RESUME] Reuse 2 completed stages from ${base}; execute every remaining stage and production guard.\n> test:c\nℹ fail 1\n`};
+  const chain=[{log:'one',base:candidate,sha256:createHash('sha256').update(logs.one).digest('hex')},{log:'two',base:next,sha256:createHash('sha256').update(logs.two).digest('hex')}];
+  f.env.RELEASE_GATE_RESUME_CONTINUATIONS=JSON.stringify(chain);f.read=path=>logs[path]||'';
+  const plan=fullGateResumePlan(f);assert.equal(plan.reused,2);assert.deepEqual(plan.commands.slice(1),['npm run test:c','node scripts/verify-production-release.mjs']);
+  assert.throws(()=>fullGateResumePlan({...f,read:path=>(logs[path]||'')+'changed'}),/log hash/);
+  assert.throws(()=>fullGateResumePlan({...f,env:{...f.env,RELEASE_GATE_RESUME_CONTINUATIONS:JSON.stringify([chain[1]])}}),/without gaps/);
+  assert.throws(()=>fullGateResumePlan({...f,env:{...f.env,RELEASE_GATE_RESUME_CONTINUATIONS:JSON.stringify(Array(9).fill(chain[0]))}}),/At most eight/);
+});
+
 test('a completed gate blocked only by concurrent main advancement retains all tests and reruns the production guard',()=>{
   const f=fixture({changed:['docs/operations.json']});
   const log=`> release:gate\n> ${f.scripts['release:gate']}\n> test:a\nℹ fail 0\n> test:b\nℹ fail 0\n> test:c\nℹ fail 0\n[PRODUCTION RELEASE BLOCKED] deploy source differs from origin/main: HEAD=${base} origin/main=${head}\n`;
