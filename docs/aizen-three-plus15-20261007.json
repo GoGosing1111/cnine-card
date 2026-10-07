@@ -1,0 +1,90 @@
+{
+  "operationKey": "ops:aizen-three-plus15:20261007:v1",
+  "status": "VERIFIED",
+  "actor": "SYSTEM_OPS",
+  "authorization": "사용자 지시: 레드클라우드, 정말잘하시네요, 대지 계정의 기존 아이젠 족스케를 +15강으로 업그레이드. 새 카드 지급이나 재화 차감 없이 기존 보유 카드 강화 단계만 변경.",
+  "card": {
+    "id": "CN-47AD4B47B6A7452C",
+    "title": "아이젠 족스케",
+    "grade": "FUR"
+  },
+  "recipients": [
+    {
+      "userId": 3867,
+      "nickname": "레드클라우드",
+      "inputNickname": "레드클라우드",
+      "levelBefore": 14,
+      "levelAfter": 15,
+      "quantityBefore": 184,
+      "quantityAfter": 184,
+      "changed": true,
+      "adminLogId": "42220"
+    },
+    {
+      "userId": 4479,
+      "nickname": "대지",
+      "inputNickname": "대지",
+      "levelBefore": 13,
+      "levelAfter": 15,
+      "quantityBefore": 3,
+      "quantityAfter": 3,
+      "changed": true,
+      "adminLogId": "42221"
+    },
+    {
+      "userId": 4820,
+      "nickname": "정말잘하시네요",
+      "inputNickname": "정말잘하시네요",
+      "levelBefore": 14,
+      "levelAfter": 15,
+      "quantityBefore": 3,
+      "quantityAfter": 3,
+      "changed": true,
+      "adminLogId": "42222"
+    }
+  ],
+  "accounts": 3,
+  "changed": 3,
+  "already15": 0,
+  "excluded": [],
+  "balancesPreserved": true,
+  "otherCardsPreserved": true,
+  "noNewCopies": true,
+  "completedAt": "2026-10-07T07:02:32.331Z",
+  "verifiedAt": "2026-10-07T07:02:33.689Z",
+  "sourceCommit": "4c3405a88a92d562a058e5429b31ffaec35721ea",
+  "sourceHash": "fce7cbac0b3734628b30b5dfed3da47df537032e985ed48135ec06fcc1088571",
+  "current": [
+    {
+      "userId": 3867,
+      "level": 15,
+      "quantity": 184
+    },
+    {
+      "userId": 4479,
+      "level": 15,
+      "quantity": 3
+    },
+    {
+      "userId": 4820,
+      "level": 15,
+      "quantity": 3
+    }
+  ],
+  "verification": {
+    "scopedTest": "node --test tests/aizen-three-plus15-20261007.test.mjs",
+    "passed": 3,
+    "failed": 0,
+    "dryRunAt": "2026-10-07T07:01:37.869Z",
+    "partialFailureRolledBack": true,
+    "replayVerified": true,
+    "rollbackVerified": true,
+    "accountLocks": "All three production USER_LOCK leases held through one transaction; card and wallet rows locked FOR UPDATE NOWAIT",
+    "atomicity": "Three card upgrades, three audit logs and one operation receipt committed together",
+    "independentReadVerified": true,
+    "allThreeAt15": true,
+    "temporaryHelperStopped": true,
+    "inMemoryOperationKeyDiscarded": true,
+    "applicationRedeployed": false
+  }
+}
