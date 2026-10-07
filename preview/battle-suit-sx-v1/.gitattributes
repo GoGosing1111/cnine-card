@@ -1,0 +1,8 @@
+# Approved source/manifest hashes use LF. Preserve those bytes in clean deploy checkouts.
+*.js text eol=lf
+*.mjs text eol=lf
+*.json text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.md text eol=lf
+.gitattributes text eol=lf
