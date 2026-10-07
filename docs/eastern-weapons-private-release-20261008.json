@@ -13,6 +13,26 @@
     "After deploy: HTTP 200 and exact hashes",
     "After registration: four admin-visible rows, public/active/supply all zero, no owned instances or drop entries"
   ],
-  "cmsStatus": "Register inactive, non-public drafts after asset upload",
-  "rarityPowerPolicy": "NORMAL/0 are required schema placeholders only, not approved gameplay balance"
+  "cmsStatus": "COMPLETED_PRIVATE_INACTIVE",
+  "rarityPowerPolicy": "NORMAL/0 are required schema placeholders only, not approved gameplay balance",
+  "deployedCommit": "410b75ed9ef865ab8695ff8dc5583a5f387806b0",
+  "deployment": "https://ead8f539.cnine-card.pages.dev",
+  "cmsIds": [
+    53,
+    54,
+    55,
+    56
+  ],
+  "operationKey": "ops:eastern-weapons-private:20261008:v1",
+  "verifiedAt": "2026-10-07T15:24:23.629Z",
+  "verification": {
+    "cmsVisibleCount": 4,
+    "publicCount": 0,
+    "ownedCount": 0,
+    "dropEntryCount": 0,
+    "weaponImageHashesVerified": 4,
+    "frameHashVerified": true,
+    "registrationAuditLogsVerified": 4,
+    "rewardSettingsUnchanged": true
+  }
 }
