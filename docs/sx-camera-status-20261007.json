@@ -1,0 +1,175 @@
+{
+  "status": "DEPLOYED_AND_VERIFIED",
+  "runtimeCommit": "c6225a74",
+  "deployedCommit": "a0dd63e81933de9db2788a5ec75ca17974e02beb",
+  "previousProductionCommit": "d653fddcb03f652428c9e05229fa95964b81b7c3",
+  "pagesUrl": "https://d201418b.cnine-card.pages.dev",
+  "apiRuntimeVersion": "02794969-836f-441f-a173-f3240197ce30",
+  "clanDraftVersion": "33e39b20-442a-48d7-805c-2a1ca2874e32",
+  "tests": {
+    "scopedPassed": 14,
+    "commonGridBehaviorPassed": 7,
+    "legacyCountMismatch": {
+      "expected": 81,
+      "previousAndCurrent": 89,
+      "sourceHashesVerified": 89,
+      "bundleHashesVerified": 10
+    }
+  },
+  "screens": [
+    {
+      "name": "desktop",
+      "actorHeight": 150.4155,
+      "cameraFixed": true,
+      "skillHits": 25,
+      "skillDamage": 708740,
+      "status": {
+        "x": 679.2734375,
+        "y": 753,
+        "width": 429.453125,
+        "height": 36
+      },
+      "dock": {
+        "x": 0,
+        "y": 799.09375,
+        "width": 1788,
+        "height": 200.90625
+      },
+      "cameraOwnership": true,
+      "pvp": {
+        "active": false,
+        "sword": false
+      },
+      "errors": []
+    },
+    {
+      "name": "mobile",
+      "actorHeight": 59.29877777777779,
+      "cameraFixed": true,
+      "skillHits": 25,
+      "skillDamage": 708740,
+      "status": {
+        "x": 17.5625,
+        "y": 676,
+        "width": 354.875,
+        "height": 29
+      },
+      "dock": {
+        "x": 0,
+        "y": 714.9375,
+        "width": 390,
+        "height": 129.0625
+      },
+      "cameraOwnership": true,
+      "pvp": {
+        "active": false,
+        "sword": false
+      },
+      "errors": []
+    }
+  ],
+  "apocalypseQte": {
+    "sx": true,
+    "scale": 1,
+    "pivot": {
+      "x": 800,
+      "y": 410
+    },
+    "base": {
+      "x": 800,
+      "y": 410,
+      "pivotX": 800,
+      "pivotY": 410,
+      "scale": 1
+    },
+    "layers": [
+      {
+        "scale": 1,
+        "pivotX": 0,
+        "pivotY": 0
+      },
+      {
+        "scale": 1,
+        "pivotX": 0,
+        "pivotY": 0
+      },
+      {
+        "scale": 1,
+        "pivotX": 0,
+        "pivotY": 0
+      }
+    ]
+  },
+  "pvpFlow": {
+    "active": false,
+    "rosters": 2,
+    "win": "LOSE"
+  },
+  "production": {
+    "verifiedAt": "2026-10-07T12:05:20.614Z",
+    "files": [
+      {
+        "file": "index.html",
+        "status": 200,
+        "sha256": "2ee17bf1e125f9ca16424648548c1e2020db69a01d118e86c8bc2551ade8c8ed"
+      },
+      {
+        "file": "js/app.js",
+        "status": 200,
+        "sha256": "40dfdfc3688a66f47f971d391080c6b781bced5ffb4ff0cd775fa6cbfc004358"
+      },
+      {
+        "file": "js/battle-v3-live.js",
+        "status": 200,
+        "sha256": "fb23a714760bfda73b265581ddd91d293ba15780c647ed0a23e8f77483f2e547"
+      },
+      {
+        "file": "css/battle-v3-live.css",
+        "status": 200,
+        "sha256": "93dffee352f8c48ff92345159e8b615d147d5fb6dd350e3ec9822275751a4fb3"
+      },
+      {
+        "file": "service-worker.js",
+        "status": 200,
+        "sha256": "532043d4c60e58baaf49511384445aa92915760fe1c4419eda5c42f8592c0102"
+      },
+      {
+        "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+        "status": 200,
+        "sha256": "40df8e977231c194dba425e10a438aa2390edbc3547c29c69631951fff5b3bdd"
+      }
+    ],
+    "smoke": {
+      "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-camera-status-v2",
+      "scale": 1,
+      "pivot": [
+        800,
+        410
+      ],
+      "base": [
+        800,
+        410
+      ],
+      "layers": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0
+        ]
+      ],
+      "noticeAboveCards": true,
+      "canvasStatus": false
+    },
+    "errors": []
+  }
+}
