@@ -1,0 +1,15 @@
+{
+  "title": "DEMO 5",
+  "source": "User-provided DEMO 5.mp3",
+  "path": "/assets/bgm/demo-5-20261008.mp3",
+  "bytes": 4972546,
+  "sha256": "5f32e202ccac02c91722e84ea012640d6efa1ab4abfc5f6c446dadac1ec1b575",
+  "processing": "None; original bytes preserved",
+  "settingsKey": "lobby_bgm_settings_v1803",
+  "settings": {
+    "enabled": true,
+    "volumePercent": 25,
+    "loopPlaylist": true,
+    "tracks": [{ "title": "DEMO 5", "url": "/assets/bgm/demo-5-20261008.mp3" }]
+  }
+}
