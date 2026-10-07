@@ -1,0 +1,25 @@
+{
+  "verified": true,
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:diim-sx-revoke:20261008:0230:v1",
+    "actor": "SYSTEM_OPS",
+    "userId": 4773,
+    "nickname": "진짜디임",
+    "itemCode": "BATTLE_SUIT_SX",
+    "quantity": 1,
+    "removedInstanceIds": [
+      "2145735547"
+    ],
+    "remainingQuantity": 0,
+    "clearedSlots": [],
+    "balancesPreserved": true,
+    "otherEquipmentPreserved": true,
+    "skillChipsPreserved": true,
+    "scheduledAt": "2026-10-07T17:30:00.000Z",
+    "completedAt": "2026-10-07T17:34:12.225Z",
+    "adminLogId": "42586"
+  },
+  "currentSxQuantity": 0,
+  "battleSuitInstanceId": "209487710"
+}
