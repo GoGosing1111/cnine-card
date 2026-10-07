@@ -170,7 +170,7 @@ test('팩 원본·반응형 리소스와 전용 스타일이 배포 엔트리에
   assert.equal(png.readUInt32BE(20), 1536);
   const index = read('index.html');
   const serviceWorker = read('service-worker.js');
-  assert.match(index, /superstar-pack-v1894\.css\?v=2051-superstar-duplicates/);
+  assert.match(index, /superstar-pack-v1894\.css\?v=20261007-ten-results/);
   assert.match(index, /app\.js\?v=[0-9][A-Za-z0-9-]+/);
   assert.match(serviceWorker, /soop-card-shell-v[0-9][A-Za-z0-9-]+/);
   const css = read('css/superstar-pack-v1894.css');
