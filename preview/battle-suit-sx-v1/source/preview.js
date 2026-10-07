@@ -22,7 +22,7 @@ async function boot(){
  $('effects').onchange=()=>{fx.setEffects($('effects').checked);};
  for(const b of doc.querySelectorAll('[data-mode]'))b.onclick=()=>{fx.setMode(b.dataset.mode);gallery(fx.mode);fx.play();};
  for(const b of doc.querySelectorAll('button,select,input'))b.disabled=false;
- $('status').textContent='SX슈트 · 이동 잔상 · 검무 · 궁극기 검수';gallery('idle');fx.seek(0);
+ $('status').textContent='SX슈트 · 영상 참조 검무 · 회전 검풍 · 목 교정 검수';gallery('idle');fx.seek(1.2);
  const review={fx,engine,manifest,diagnostics:()=>fx.diagnostics(),dispose:()=>{fx.destroy();engine.destroy();}};window.SXBodyPreview=review;parent.SXBodyPreview=review;
  engine.app.renderer.on('resize',()=>{fx.pause();fx.capture();fx.render(fx.time);});
  window.addEventListener('pagehide',()=>review.dispose(),{once:true});document.addEventListener('visibilitychange',()=>{if(document.hidden)fx.cancel();});

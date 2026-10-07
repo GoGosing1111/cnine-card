@@ -1,0 +1,138 @@
+[
+  {
+    "name": "desktop",
+    "duration": 17.233544,
+    "width": 1440,
+    "height": 518,
+    "marks": [
+      {
+        "requested": 0.55,
+        "frameTime": 0.534
+      },
+      {
+        "requested": 1.48,
+        "frameTime": 1.468
+      },
+      {
+        "requested": 2.3,
+        "frameTime": 2.269
+      },
+      {
+        "requested": 3.4,
+        "frameTime": 3.368
+      },
+      {
+        "requested": 5.3,
+        "frameTime": 5.267
+      },
+      {
+        "requested": 6.28,
+        "frameTime": 6.267
+      },
+      {
+        "requested": 7.08,
+        "frameTime": 7.067
+      },
+      {
+        "requested": 8.5,
+        "frameTime": 8.5
+      },
+      {
+        "requested": 9.72,
+        "frameTime": 9.701
+      },
+      {
+        "requested": 10.52,
+        "frameTime": 10.501
+      },
+      {
+        "requested": 11.52,
+        "frameTime": 11.501
+      },
+      {
+        "requested": 12.62,
+        "frameTime": 12.6
+      },
+      {
+        "requested": 13.53,
+        "frameTime": 13.5
+      },
+      {
+        "requested": 14.32,
+        "frameTime": 14.3
+      },
+      {
+        "requested": 16.7,
+        "frameTime": 16.7
+      }
+    ]
+  },
+  {
+    "name": "mobile",
+    "duration": 17.209601,
+    "width": 390,
+    "height": 613,
+    "marks": [
+      {
+        "requested": 0.55,
+        "frameTime": 0.543
+      },
+      {
+        "requested": 1.48,
+        "frameTime": 1.476
+      },
+      {
+        "requested": 2.3,
+        "frameTime": 2.276
+      },
+      {
+        "requested": 3.4,
+        "frameTime": 3.372
+      },
+      {
+        "requested": 5.3,
+        "frameTime": 5.276
+      },
+      {
+        "requested": 6.28,
+        "frameTime": 6.276
+      },
+      {
+        "requested": 7.08,
+        "frameTime": 7.076
+      },
+      {
+        "requested": 8.5,
+        "frameTime": 8.477
+      },
+      {
+        "requested": 9.72,
+        "frameTime": 9.706
+      },
+      {
+        "requested": 10.52,
+        "frameTime": 10.509
+      },
+      {
+        "requested": 11.52,
+        "frameTime": 11.51
+      },
+      {
+        "requested": 12.62,
+        "frameTime": 12.61
+      },
+      {
+        "requested": 13.53,
+        "frameTime": 13.51
+      },
+      {
+        "requested": 14.32,
+        "frameTime": 14.31
+      },
+      {
+        "requested": 16.7,
+        "frameTime": 16.676
+      }
+    ]
+  }
+]

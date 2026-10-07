@@ -2,12 +2,13 @@ import fs from 'node:fs/promises';
 import {createRequire} from 'node:module';
 import {fileURLToPath} from 'node:url';
 const require=createRequire(import.meta.url),{chromium}=require('C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
-const b=await chromium.launch({channel:'chrome',headless:true}),report=[],out=fileURLToPath(new URL('qa/',import.meta.url));
+const b=await chromium.launch({channel:'chrome',headless:true}),report=[],out=fileURLToPath(new URL('qa/slash-v2/',import.meta.url));
+await fs.mkdir(out,{recursive:true});
 try{for(const name of ['desktop','mobile']){
  const p=await b.newPage({viewport:{width:1500,height:1300}});await p.goto('http://127.0.0.1:8975/preview/battle-suit-sx-v1/battle.html');
  await p.setContent('<video id="v" muted preload="auto" style="width:320px;display:block"></video><canvas id="c"></canvas>');
  const r=await p.evaluate(async name=>{
-  const v=document.querySelector('video'),c=document.querySelector('canvas');v.src=URL.createObjectURL(await(await fetch('http://127.0.0.1:8975/preview/battle-suit-sx-v1/review-'+name+'.webm')).blob());
+  const v=document.querySelector('video'),c=document.querySelector('canvas');v.src=URL.createObjectURL(await(await fetch('http://127.0.0.1:8975/preview/battle-suit-sx-v1/review-'+name+'-v2.webm')).blob());
   await new Promise((r,j)=>{v.onloadedmetadata=r;v.onerror=()=>j(Error(v.error?.message));});
   const width=name==='mobile'?234:480,height=Math.round(width*v.videoHeight/v.videoWidth),times=[.55,1.48,2.3,3.4,5.3,6.28,7.08,8.5,9.72,10.52,11.52,12.62,13.53,14.32,16.7],cols=name==='mobile'?5:3;
   c.width=cols*width;c.height=Math.ceil(times.length/cols)*(height+28);const x=c.getContext('2d');x.fillStyle='#0a1426';x.fillRect(0,0,c.width,c.height);const marks=[];

@@ -1,0 +1,80 @@
+{
+  "initial": {
+    "ready": true,
+    "version": "SX_SUIT_SLASH_V2_20261007",
+    "mode": "idle",
+    "time": 1.2,
+    "playing": false,
+    "speed": 1,
+    "frame": 0,
+    "pose": {
+      "at": 0,
+      "bank": "dash",
+      "index": 0,
+      "facing": 1
+    },
+    "phase": "푸른 사신 · 영혼의 오라",
+    "contactCount": 0,
+    "bladeContact": {
+      "u": 1,
+      "distance": 567.335666172424,
+      "intersects": false
+    },
+    "groundError": 0,
+    "airborne": false,
+    "visibleEffects": 7,
+    "bodyAuraAlpha": 1,
+    "bladeAuraVisible": true,
+    "bladeAuraAttachmentError": 1.2710574864626038e-13,
+    "visibleGhosts": 0,
+    "registeredTimelines": 0,
+    "bodyFrames": 42,
+    "activeBodyFrames": 20,
+    "effectFrames": 144,
+    "activeEffectFrames": 120,
+    "completeFigureSheets": 11,
+    "detachedHeads": 0,
+    "weaponComposites": 0,
+    "bodyColorTransforms": 0,
+    "artScreenBounds": {
+      "x": 474.7398483275483,
+      "y": 176.47656178953255,
+      "width": 149.9473684210526,
+      "height": 204.01929824561407
+    },
+    "mainBodyTint": 16777215,
+    "bodyUniformScale": true,
+    "title": {
+      "text": "푸른 사신",
+      "mirrored": false,
+      "actorAttached": true,
+      "independentClock": false,
+      "font": "Noto Serif KR 900 / OFL",
+      "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+      "bounds": {
+        "x": 432.28751850455853,
+        "y": 74.38362110790928,
+        "width": 235.42496299088293,
+        "height": 88.28436112158113
+      }
+    },
+    "regularAllies": 5,
+    "clock": "V3_REGISTERED_GSAP",
+    "liveEnabled": false,
+    "actor": {
+      "x": 380,
+      "y": 416
+    },
+    "contact": {
+      "x": 1010.0000000000001,
+      "y": 351.00000000000006
+    },
+    "ground": {
+      "x": 1010.0000000000001,
+      "y": 416.00000000000006
+    },
+    "actorScale": 0.5,
+    "source": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b"
+  },
+  "comparison": "spin-01 / assets/connected/slash-v2/spin-neck-v1.png · 검 길이를 유지하도록 전신 재작화"
+}

@@ -3,7 +3,7 @@ import {fileURLToPath} from 'node:url';
 import {createRequire} from 'node:module';
 import {MODES} from './motion.mjs';
 const require=createRequire(import.meta.url),{chromium}=require('C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
-const dir=fileURLToPath(new URL('qa/',import.meta.url));await fs.mkdir(dir,{recursive:true});const browser=await chromium.launch({channel:'chrome',headless:true}),results=[];
+const dir=fileURLToPath(new URL('qa/slash-v2/',import.meta.url));await fs.mkdir(dir,{recursive:true});const browser=await chromium.launch({channel:'chrome',headless:true}),results=[];
 try{
  for(const [name,viewport]of [['desktop',{width:1440,height:1000}],['mobile',{width:390,height:844}]]){
   const page=await browser.newPage({viewport,deviceScaleFactor:1}),errors=[],failures=[];page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400)failures.push({status:r.status(),url:r.url()});});
@@ -33,7 +33,7 @@ for(const r of results){
  if(!r.lifecycle.disposed||!r.lifecycle.timelineCleared)problems.push([r.name,'dispose']);
  if(r.speeds.some(s=>s.advance<=0||!s.pauseStable)||!r.idleLoop.playing||r.idleLoop.time>=4.8)problems.push([r.name,'clock']);
  if(r.effectsOff.visibleEffects||r.effectsOff.visibleGhosts)problems.push([r.name,'effects toggle']);
- for(const s of r.snapshots){if(s.mainBodyTint!==0xffffff||!s.bodyUniformScale||s.title.mirrored||s.groundError>1e-8)problems.push([r.name,'body identity or ground',s.mode,s.time]);if(MODES[s.mode].contacts.includes(s.time)&&(!s.bladeContact.intersects||s.airborne))problems.push([r.name,'contact',s.mode,s.time,s.bladeContact]);}
+ for(const s of r.snapshots){if(s.mainBodyTint!==0xffffff||!s.bodyUniformScale||s.title.mirrored||s.groundError>1e-8)problems.push([r.name,'body identity or ground',s.mode,s.time]);if(MODES[s.mode].contacts.includes(s.time)&&(!s.bladeContact.intersects||s.airborne))problems.push([r.name,'contact',s.mode,s.time,s.bladeContact]);if(s.bodyAuraAlpha!==1||!s.bladeAuraVisible||s.bladeAuraAttachmentError>1e-5)problems.push([r.name,'aura alignment/density',s.mode,s.time,s.bladeAuraAttachmentError]);}
  for(const [mode,time]of [['dash',.35],['dash',1.15],['skill',3.3],['ultimate',4.95]])if(!r.snapshots.find(s=>s.mode===mode&&s.time===time)?.visibleGhosts)problems.push([r.name,'missing movement afterimage',mode,time]);
 }
 console.log(JSON.stringify({screens:results.map(r=>({name:r.name,contacts:r.snapshots.filter(s=>MODES[s.mode].contacts.includes(s.time)).length,errors:r.errors.length,speeds:r.speeds,cleanup:r.lifecycle.disposed&&r.lifecycle.timelineCleared})),problems},null,2));if(problems.length)process.exitCode=1;

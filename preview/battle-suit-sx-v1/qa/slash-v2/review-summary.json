@@ -1,0 +1,64 @@
+{
+  "status": "TECHNICAL_QA_PASSED_USER_VISUAL_APPROVAL_PENDING",
+  "scope": "SX preview only: diagonal slashes, two video references, dense body aura, attached blue blade aura, whole-body neck correction",
+  "liveEnabled": false,
+  "bodySource": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+  "summary": {
+    "bodyFrames": 42,
+    "activeBodyFrames": 20,
+    "effectFrames": 144,
+    "activeEffectFrames": 120,
+    "completeFigureSheets": 11,
+    "detachedHeads": 0,
+    "weaponComposites": 0,
+    "bodyColorTransforms": 0
+  },
+  "tests": {
+    "passed": 6,
+    "failed": 0
+  },
+  "screens": [
+    {
+      "name": "desktop",
+      "errors": 0,
+      "resourceFailures": 0,
+      "bodyAuraAlpha": 1,
+      "maxBladeAuraEndpointError": 1.1718571004216928e-13,
+      "lifecycleDisposed": true
+    },
+    {
+      "name": "mobile",
+      "errors": 0,
+      "resourceFailures": 0,
+      "bodyAuraAlpha": 1,
+      "maxBladeAuraEndpointError": 8.038873388460929e-14,
+      "lifecycleDisposed": true
+    }
+  ],
+  "framingProblems": [],
+  "rendererCopies": {
+    "pixi": 1,
+    "gsap": 1
+  },
+  "hashes": {
+    "manifest.json": "88fa0539f18ab2d463be426b41845af218ae4fa40f354351ed9a3656376984bc",
+    "motion.mjs": "499d81070113a2dd4925ec50889630f3034cf51013d6b7fa05d757c5dfaf6e6e",
+    "preview.bundle.js": "f5a6423e551089553fc9227b262169b396d0b99fb59bb8dddfff1dc4144c9214",
+    "assets/connected/slash-v2/spin-neck-v1.png": "fe68ed85fc9fd09933ae95593d4bb0d5e4fda708e94aca315461431214d1de35",
+    "review-desktop-v2.webm": "5d3bb52a38e59db69340e571ffed3c4c083578cb03a86ac6826aa369ebc2d1fd",
+    "review-mobile-v2.webm": "ecba275510ebc2dc165a0f85bbdad61399c4434afa23e881b7e65842155b1a88"
+  },
+  "excluded": [
+    "legacy horizontal attack bank",
+    "down sheet index 3: right boot at edge",
+    "rise sheet index 3: short vertical blade",
+    "spin sheet index 0: rejected neck twist"
+  ],
+  "neckReplacement": "assets/connected/slash-v2/spin-neck-v1.png",
+  "notes": [
+    "Reference MP4s decoded locally; newly generated SX body/effects, not copied game pixels.",
+    "Initial preview now starts paused at the already-verified idle 1.2s with both auras visible.",
+    "Final finisher core attached to target ground; subsequent framing check and video reflect this adjustment.",
+    "Production deployment and CMS activation await user preview approval."
+  ]
+}

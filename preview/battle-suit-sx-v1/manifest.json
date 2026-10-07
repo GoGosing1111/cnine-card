@@ -1,5 +1,5 @@
 {
-  "version": "SX_SUIT_CONNECTED_V8_20261007",
+  "version": "SX_SUIT_SLASH_V2_20261007",
   "name": "SX슈트",
   "title": "푸른 사신",
   "status": "MOTION_REVIEW_PENDING",
@@ -10,6 +10,14 @@
     "pivot": {
       "x": 485,
       "y": 1474
+    },
+    "grip": {
+      "x": 329,
+      "y": 719
+    },
+    "tip": {
+      "x": 1005,
+      "y": 1386
     },
     "bodyPixels": 1330
   },
@@ -1692,6 +1700,549 @@
           "file": "assets/runtime/frames/ultimate-08.png"
         }
       ]
+    },
+    "sweep": {
+      "url": "assets/runtime/atlases/sweep.png",
+      "columns": 4,
+      "rows": 1,
+      "frameWidth": 768,
+      "frameHeight": 768,
+      "bodyPixels": 360,
+      "sha256": "a36aeb3cb7f73994fe7ffaef8e62821e4a2774088eadcdede935cb02d76ba807",
+      "frames": [
+        {
+          "id": "sweep-01",
+          "index": 0,
+          "pivot": {
+            "x": 406.5,
+            "y": 615.0714285714287
+          },
+          "grip": {
+            "x": 351.2142857142857,
+            "y": 252.5
+          },
+          "tip": {
+            "x": 236.14285714285714,
+            "y": 151.57142857142858
+          },
+          "head": {
+            "x": 439.92857142857144,
+            "y": 293
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/slash-v2/down.png",
+          "sourceSha256": "2e2bfb9e3d665f71bfdd3cba604b92b845199561fea1463432a9bca2eb804f9b",
+          "componentBox": {
+            "left": 25,
+            "top": 58,
+            "width": 504,
+            "height": 732
+          },
+          "sourceFoot": [
+            312,
+            783
+          ],
+          "sourceGrip": [
+            226,
+            219
+          ],
+          "sourceTip": [
+            47,
+            62
+          ],
+          "sourceHead": [
+            364,
+            282
+          ],
+          "uniformScale": 0.6428571428571429,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "3cfd3d063295bafbf1f9a0833e6bb580699535e7093e489fae46c1966ed2a7f3",
+          "file": "assets/runtime/frames/sweep-01.png"
+        },
+        {
+          "id": "sweep-02",
+          "index": 1,
+          "pivot": {
+            "x": 395,
+            "y": 624.3571428571429
+          },
+          "grip": {
+            "x": 392.42857142857144,
+            "y": 256
+          },
+          "tip": {
+            "x": 533.2142857142858,
+            "y": 142.21428571428572
+          },
+          "head": {
+            "x": 390.5,
+            "y": 331.2142857142857
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/slash-v2/down.png",
+          "sourceSha256": "2e2bfb9e3d665f71bfdd3cba604b92b845199561fea1463432a9bca2eb804f9b",
+          "componentBox": {
+            "left": 537,
+            "top": 28,
+            "width": 471,
+            "height": 762
+          },
+          "sourceFoot": [
+            789,
+            783
+          ],
+          "sourceGrip": [
+            785,
+            210
+          ],
+          "sourceTip": [
+            1004,
+            33
+          ],
+          "sourceHead": [
+            782,
+            327
+          ],
+          "uniformScale": 0.6428571428571429,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "65dda37007ba47ffd2ff9ff699fd81e676c3453651262ff3f18577dc691df77c",
+          "file": "assets/runtime/frames/sweep-02.png"
+        },
+        {
+          "id": "sweep-03",
+          "index": 2,
+          "pivot": {
+            "x": 374.07142857142856,
+            "y": 564.2142857142858
+          },
+          "grip": {
+            "x": 406.8571428571429,
+            "y": 330.2142857142857
+          },
+          "tip": {
+            "x": 559.2142857142858,
+            "y": 470.3571428571429
+          },
+          "head": {
+            "x": 412,
+            "y": 238.92857142857144
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/slash-v2/down.png",
+          "sourceSha256": "2e2bfb9e3d665f71bfdd3cba604b92b845199561fea1463432a9bca2eb804f9b",
+          "componentBox": {
+            "left": 15,
+            "top": 880,
+            "width": 557,
+            "height": 571
+          },
+          "sourceFoot": [
+            278,
+            1445
+          ],
+          "sourceGrip": [
+            329,
+            1081
+          ],
+          "sourceTip": [
+            566,
+            1299
+          ],
+          "sourceHead": [
+            337,
+            939
+          ],
+          "uniformScale": 0.6428571428571429,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "1c5ac472a40c130999be9e76af0a77b11ad27c3057b23d5e8e18b36abe043bf7",
+          "file": "assets/runtime/frames/sweep-03.png"
+        }
+      ]
+    },
+    "rise": {
+      "url": "assets/runtime/atlases/rise.png",
+      "columns": 4,
+      "rows": 1,
+      "frameWidth": 768,
+      "frameHeight": 768,
+      "bodyPixels": 360,
+      "sha256": "062184dd19b20b888ce1f5bce838dda01276e0e6b18734bfb6f86e1e260bc0b7",
+      "frames": [
+        {
+          "id": "rise-01",
+          "index": 0,
+          "pivot": {
+            "x": 409.78571428571433,
+            "y": 567.2857142857143
+          },
+          "grip": {
+            "x": 368.64285714285717,
+            "y": 391.14285714285717
+          },
+          "tip": {
+            "x": 216.92857142857142,
+            "y": 539.6428571428571
+          },
+          "head": {
+            "x": 439.3571428571429,
+            "y": 241.35714285714286
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/slash-v2/up.png",
+          "sourceSha256": "83bdc165326ca29fce77ebbd118303799bdd84c90e54482636ade4b694b9fadb",
+          "componentBox": {
+            "left": 8,
+            "top": 130,
+            "width": 525,
+            "height": 583
+          },
+          "sourceFoot": [
+            311,
+            706
+          ],
+          "sourceGrip": [
+            247,
+            432
+          ],
+          "sourceTip": [
+            11,
+            663
+          ],
+          "sourceHead": [
+            357,
+            199
+          ],
+          "uniformScale": 0.6428571428571429,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "4f015905f8b3ac812321a02f6897795be10bc461bf9f969ac96cb7d1acb5a598",
+          "file": "assets/runtime/frames/rise-01.png"
+        },
+        {
+          "id": "rise-02",
+          "index": 1,
+          "pivot": {
+            "x": 402.42857142857144,
+            "y": 573.1428571428571
+          },
+          "grip": {
+            "x": 376.7142857142857,
+            "y": 360.3571428571429
+          },
+          "tip": {
+            "x": 540,
+            "y": 519.1428571428571
+          },
+          "head": {
+            "x": 412.07142857142856,
+            "y": 243.35714285714286
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/slash-v2/up.png",
+          "sourceSha256": "83bdc165326ca29fce77ebbd118303799bdd84c90e54482636ade4b694b9fadb",
+          "componentBox": {
+            "left": 520,
+            "top": 114,
+            "width": 494,
+            "height": 605
+          },
+          "sourceFoot": [
+            796,
+            710
+          ],
+          "sourceGrip": [
+            756,
+            379
+          ],
+          "sourceTip": [
+            1010,
+            626
+          ],
+          "sourceHead": [
+            811,
+            197
+          ],
+          "uniformScale": 0.6428571428571429,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "e298ed02cbf6efc783fea32618eaa3446e6a89cc8254660e2c460d741f93f680",
+          "file": "assets/runtime/frames/rise-02.png"
+        },
+        {
+          "id": "rise-03",
+          "index": 2,
+          "pivot": {
+            "x": 381.92857142857144,
+            "y": 602.6428571428571
+          },
+          "grip": {
+            "x": 404.42857142857144,
+            "y": 296
+          },
+          "tip": {
+            "x": 563.8571428571429,
+            "y": 164.21428571428572
+          },
+          "head": {
+            "x": 381.92857142857144,
+            "y": 269.64285714285717
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/slash-v2/up.png",
+          "sourceSha256": "83bdc165326ca29fce77ebbd118303799bdd84c90e54482636ade4b694b9fadb",
+          "componentBox": {
+            "left": 23,
+            "top": 781,
+            "width": 572,
+            "height": 695
+          },
+          "sourceFoot": [
+            306,
+            1468
+          ],
+          "sourceGrip": [
+            341,
+            991
+          ],
+          "sourceTip": [
+            589,
+            786
+          ],
+          "sourceHead": [
+            306,
+            950
+          ],
+          "uniformScale": 0.6428571428571429,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "58b9ebe3f03d429fd90e1401b213c029b711a421c599015acd2180f971004934",
+          "file": "assets/runtime/frames/rise-03.png"
+        }
+      ]
+    },
+    "spin": {
+      "url": "assets/runtime/atlases/spin.png",
+      "columns": 4,
+      "rows": 1,
+      "frameWidth": 768,
+      "frameHeight": 768,
+      "bodyPixels": 360,
+      "sha256": "4a709f00a8ff4c0b4a7d39dac889b45bbfefc14d34f7cdbf7bfb66686471ae61",
+      "frames": [
+        {
+          "id": "spin-01",
+          "index": 0,
+          "pivot": {
+            "x": 387.44615384615383,
+            "y": 564.1076923076923
+          },
+          "grip": {
+            "x": 331.5076923076923,
+            "y": 350.87692307692305
+          },
+          "tip": {
+            "x": 245.1076923076923,
+            "y": 517.5846153846154
+          },
+          "head": {
+            "x": 425.6615384615385,
+            "y": 235.4
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/slash-v2/spin-neck-v1.png",
+          "sourceSha256": "fe68ed85fc9fd09933ae95593d4bb0d5e4fda708e94aca315461431214d1de35",
+          "componentBox": {
+            "left": 9,
+            "top": 90,
+            "width": 1011,
+            "height": 1312
+          },
+          "sourceFoot": [
+            527,
+            1394
+          ],
+          "sourceGrip": [
+            325,
+            624
+          ],
+          "sourceTip": [
+            13,
+            1226
+          ],
+          "sourceHead": [
+            665,
+            207
+          ],
+          "uniformScale": 0.27692307692307694,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": "User rejected neck twist. Entire head, neck, shoulders, torso, arms, legs and weapon redrawn together; no detached parts. Helmet follows upper torso in right side profile.",
+          "sha256": "8946b73d45eaf084cd9291d44862cf25e2d91d665eb4434856e61e0d39613cda",
+          "file": "assets/runtime/frames/spin-01.png"
+        },
+        {
+          "id": "spin-02",
+          "index": 1,
+          "pivot": {
+            "x": 385.3076923076923,
+            "y": 601.3846153846155
+          },
+          "grip": {
+            "x": 402.53846153846155,
+            "y": 282
+          },
+          "tip": {
+            "x": 531.1538461538462,
+            "y": 165.07692307692307
+          },
+          "head": {
+            "x": 338.53846153846155,
+            "y": 257.38461538461536
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/slash-v2/spin.png",
+          "sourceSha256": "cb4a2f39f17c4a8d02dfbb82eb4d863c538f5800c4ffc150d924d1f15c09a2c6",
+          "componentBox": {
+            "left": 511,
+            "top": 33,
+            "width": 504,
+            "height": 723
+          },
+          "sourceFoot": [
+            765,
+            747
+          ],
+          "sourceGrip": [
+            793,
+            228
+          ],
+          "sourceTip": [
+            1002,
+            38
+          ],
+          "sourceHead": [
+            689,
+            188
+          ],
+          "uniformScale": 0.6153846153846154,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "6b018da6d4498b3d8921f125510949af4c7c24dd152729af11ec08ce2f588f80",
+          "file": "assets/runtime/frames/spin-02.png"
+        },
+        {
+          "id": "spin-03",
+          "index": 2,
+          "pivot": {
+            "x": 392.61538461538464,
+            "y": 598.6923076923077
+          },
+          "grip": {
+            "x": 385.84615384615387,
+            "y": 239.92307692307693
+          },
+          "tip": {
+            "x": 233.23076923076923,
+            "y": 166.07692307692307
+          },
+          "head": {
+            "x": 419.69230769230774,
+            "y": 287.3076923076923
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/slash-v2/spin.png",
+          "sourceSha256": "cb4a2f39f17c4a8d02dfbb82eb4d863c538f5800c4ffc150d924d1f15c09a2c6",
+          "componentBox": {
+            "left": 14,
+            "top": 777,
+            "width": 522,
+            "height": 720
+          },
+          "sourceFoot": [
+            288,
+            1485
+          ],
+          "sourceGrip": [
+            277,
+            902
+          ],
+          "sourceTip": [
+            29,
+            782
+          ],
+          "sourceHead": [
+            332,
+            979
+          ],
+          "uniformScale": 0.6153846153846154,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "842849337dab12fb53ecc8629b8eabe33fd5db489eec6bd54c71cf3d6bdd1db5",
+          "file": "assets/runtime/frames/spin-03.png"
+        },
+        {
+          "id": "spin-04",
+          "index": 3,
+          "pivot": {
+            "x": 396.84615384615387,
+            "y": 557
+          },
+          "grip": {
+            "x": 385.1538461538462,
+            "y": 373
+          },
+          "tip": {
+            "x": 538.3846153846155,
+            "y": 534.8461538461538
+          },
+          "head": {
+            "x": 386.38461538461536,
+            "y": 256.6923076923077
+          },
+          "bodyPixels": 360,
+          "source": "assets/connected/slash-v2/spin.png",
+          "sourceSha256": "cb4a2f39f17c4a8d02dfbb82eb4d863c538f5800c4ffc150d924d1f15c09a2c6",
+          "componentBox": {
+            "left": 502,
+            "top": 910,
+            "width": 512,
+            "height": 583
+          },
+          "sourceFoot": [
+            778,
+            1482
+          ],
+          "sourceGrip": [
+            759,
+            1183
+          ],
+          "sourceTip": [
+            1008,
+            1446
+          ],
+          "sourceHead": [
+            761,
+            994
+          ],
+          "uniformScale": 0.6153846153846154,
+          "partComposites": 0,
+          "colorTransforms": 0,
+          "repairReason": null,
+          "sha256": "de22dfb99bb804412f709eb3447dc5167eacd7c73c7005a5bbc5ca3f4c695061",
+          "file": "assets/runtime/frames/spin-04.png"
+        }
+      ]
     }
   },
   "effects": {
@@ -1899,6 +2450,330 @@
         }
       ]
     },
+    "blade": {
+      "url": "assets/runtime/effects/blade.png",
+      "sourceUrl": "assets/sources/fx-blade.png",
+      "sourceSha256": "fa8fb61fc62b1a7c0c5d6aef279aa6d51296da3d9cf471ef3b35633ab4525c38",
+      "columns": 4,
+      "rows": 3,
+      "width": 2048,
+      "height": 1536,
+      "sha256": "d85fcf2df521d49108e949ec2b3a6e1dedc7e054607a78fc857c470bf292efe9",
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "0513d9094c9f5de940c2b9ada75366a1b132e41d7e8a4846618ff46f69affa39",
+          "attachment": {
+            "root": {
+              "x": 50.47513812154696,
+              "y": 320.97237569060775
+            },
+            "tip": {
+              "x": 472.13259668508283,
+              "y": 320.97237569060775
+            }
+          }
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 512,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 362,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "852f63154fca232eb8cae740c227cf128792b44dbf9c5f872d47bf1303eb85bf",
+          "attachment": {
+            "root": {
+              "x": 50.47513812154696,
+              "y": 320.97237569060775
+            },
+            "tip": {
+              "x": 472.13259668508283,
+              "y": 320.97237569060775
+            }
+          }
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 1024,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 724,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "fbaf9406336960a8539783526431226771a997fcd4bde20c77eb60f0ed0f0c72",
+          "attachment": {
+            "root": {
+              "x": 50.47513812154696,
+              "y": 320.97237569060775
+            },
+            "tip": {
+              "x": 472.13259668508283,
+              "y": 320.97237569060775
+            }
+          }
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 1536,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1086,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "46a56aecea35f5e4bcba3a53db0b7efcdf271e472d89c2bdbd48323fdee2c59b",
+          "attachment": {
+            "root": {
+              "x": 50.47513812154696,
+              "y": 320.97237569060775
+            },
+            "tip": {
+              "x": 472.13259668508283,
+              "y": 320.97237569060775
+            }
+          }
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "4024dadde04f78561881905fb783f496782a89a81a5c99c7d5179b4dd42eab42",
+          "attachment": {
+            "root": {
+              "x": 50.47513812154696,
+              "y": 279.8674033149171
+            },
+            "tip": {
+              "x": 472.13259668508283,
+              "y": 279.8674033149171
+            }
+          }
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 512,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 362,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "131ccfe264f737cd6f093a0b1a5a17130a76010e8c5811b30ed0127e8705ecea",
+          "attachment": {
+            "root": {
+              "x": 50.47513812154696,
+              "y": 279.8674033149171
+            },
+            "tip": {
+              "x": 472.13259668508283,
+              "y": 279.8674033149171
+            }
+          }
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 1024,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 724,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "c41067343796d2e694ebace352a60ea1b730638d21a20b5fc51efef9d61cf7ae",
+          "attachment": {
+            "root": {
+              "x": 50.47513812154696,
+              "y": 279.8674033149171
+            },
+            "tip": {
+              "x": 472.13259668508283,
+              "y": 279.8674033149171
+            }
+          }
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1536,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1086,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "b6b6c5103266a48f85421c5adf8761ccc3da48d2e1c186f66e721719215b0c88",
+          "attachment": {
+            "root": {
+              "x": 50.47513812154696,
+              "y": 279.8674033149171
+            },
+            "tip": {
+              "x": 472.13259668508283,
+              "y": 279.8674033149171
+            }
+          }
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "6767626fd9216272fadbb78738d67b433a546bb73697995d56043e312c2cdf7c",
+          "attachment": {
+            "root": {
+              "x": 50.47513812154696,
+              "y": 237.43646408839777
+            },
+            "tip": {
+              "x": 472.13259668508283,
+              "y": 237.43646408839777
+            }
+          }
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 512,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 362,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "d403b0f8f8aac2e521eca6754b747f407f69deb65055c31efd2885d093add22c",
+          "attachment": {
+            "root": {
+              "x": 50.47513812154696,
+              "y": 237.43646408839777
+            },
+            "tip": {
+              "x": 472.13259668508283,
+              "y": 237.43646408839777
+            }
+          }
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 1024,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 724,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "2d5671d5c25cb1f5830805b2b79f9eab1f7676c4b5ead65a8f1d7e9e55f091da",
+          "attachment": {
+            "root": {
+              "x": 50.47513812154696,
+              "y": 237.43646408839777
+            },
+            "tip": {
+              "x": 472.13259668508283,
+              "y": 237.43646408839777
+            }
+          }
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 1536,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1086,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "36d0ba776d69df15db1ecf874e47f44ce4dc0b359a40536c0a2a98cb002be3d5",
+          "attachment": {
+            "root": {
+              "x": 50.47513812154696,
+              "y": 237.43646408839777
+            },
+            "tip": {
+              "x": 472.13259668508283,
+              "y": 237.43646408839777
+            }
+          }
+        }
+      ]
+    },
     "bladestorm": {
       "url": "assets/runtime/effects/bladestorm.png",
       "sourceUrl": "assets/sources/fx-bladestorm.png",
@@ -2100,6 +2975,210 @@
             "height": 362
           },
           "sha256": "7a23cb0d0c58bcd65f8996de93cd3a0c2235d5b6ee059b849711ce60d00acb3e"
+        }
+      ]
+    },
+    "cleave": {
+      "url": "assets/runtime/effects/cleave.png",
+      "sourceUrl": "assets/sources/fx-cleave.png",
+      "sourceSha256": "c98a4061da853a957c2c5411c21c98543c55d4b4f3db6f16055509e4a8dd3037",
+      "columns": 4,
+      "rows": 3,
+      "width": 2048,
+      "height": 1536,
+      "sha256": "b1505acd2c66fb760c282d86ccf2b5d9e71aec4a922359401bb3c4a350daa780",
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 0,
+            "width": 384,
+            "height": 341
+          },
+          "sha256": "33e272b9bdc55d4475c47d64016bd80f115708f86d519d8d465c7d039f03de5c"
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 512,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 384,
+            "y": 0,
+            "width": 384,
+            "height": 341
+          },
+          "sha256": "85939c8e8b2eb15ecc9c1a75f1987eeac30c1d93fc44cd25c30d165d0699dd3e"
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 1024,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 768,
+            "y": 0,
+            "width": 384,
+            "height": 341
+          },
+          "sha256": "5dc00c535a09a7dc78a82af2c31e53b88de66fbe3c8a6450a47419e7092923f2"
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 1536,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1152,
+            "y": 0,
+            "width": 384,
+            "height": 341
+          },
+          "sha256": "36a978382483d0f8e7f7ee9cc02f0ac3de8ad08c6f163c5c6eda3879f4e85774"
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 341,
+            "width": 384,
+            "height": 342
+          },
+          "sha256": "b223bc6c27a7d865412d132937591238a3ac3482e33e59436e7de0c2608d29ba"
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 512,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 384,
+            "y": 341,
+            "width": 384,
+            "height": 342
+          },
+          "sha256": "a16162a9881f7f03bf3037f34246b98eaa3ce5255fae3983f4d8a359f78b5ac3"
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 1024,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 768,
+            "y": 341,
+            "width": 384,
+            "height": 342
+          },
+          "sha256": "11323ed123381846e576856113eb62b5f0eb52f00e7b681d59fd0fdaacbbbdd3"
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1536,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1152,
+            "y": 341,
+            "width": 384,
+            "height": 342
+          },
+          "sha256": "220caa681d45483ae99f2ed60dff3bd2324cb57dce4d5c2b0ad49b0ead8aeddd"
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 683,
+            "width": 384,
+            "height": 341
+          },
+          "sha256": "998a8254cd6c487ffdb7fbc005dd08adab8389088012bccfa428c27b85d1bd6a"
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 512,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 384,
+            "y": 683,
+            "width": 384,
+            "height": 341
+          },
+          "sha256": "145c991395064753a0854774c5efffd9057fe16c53a708fb2a0d020f3fc34afd"
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 1024,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 768,
+            "y": 683,
+            "width": 384,
+            "height": 341
+          },
+          "sha256": "853f7dde2a3d838d336106e3a089947a6de9895fdd64f0cdee10f20d6ef99a5c"
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 1536,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1152,
+            "y": 683,
+            "width": 384,
+            "height": 341
+          },
+          "sha256": "ecd908b1092a4981aa89e6867619bc2bdd7193587b1aed5962ff3a3c395e5d13"
         }
       ]
     },
@@ -2919,6 +3998,210 @@
         }
       ]
     },
+    "flurry": {
+      "url": "assets/runtime/effects/flurry.png",
+      "sourceUrl": "assets/sources/fx-flurry.png",
+      "sourceSha256": "641cfb6d731c578cd98197f254097aae6739b396c024ac0c531b6fbe5f84528b",
+      "columns": 4,
+      "rows": 3,
+      "width": 2048,
+      "height": 1536,
+      "sha256": "9bf3df68b6ada6d09c1e4627a3f4bfa8937e128036e7a4dae3cb354fb28684c1",
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 0,
+            "width": 384,
+            "height": 341
+          },
+          "sha256": "519a7a051c21dd2e0d100dfde809afc52a9af3e102c6f5738c0b578b2631a6b1"
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 512,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 384,
+            "y": 0,
+            "width": 384,
+            "height": 341
+          },
+          "sha256": "45866f8355969749b54075c111320a7f45b935fe080da59d0ea6c8701209dd9c"
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 1024,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 768,
+            "y": 0,
+            "width": 384,
+            "height": 341
+          },
+          "sha256": "344ef04919b932f79a634bbb5a296b60a01788c7e54e8d2026b801d45f4a3c94"
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 1536,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1152,
+            "y": 0,
+            "width": 384,
+            "height": 341
+          },
+          "sha256": "cf5f4fdb3ccc8b1b10176e2b401f246f10d3a97719f114453c69e6b3f777df44"
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 341,
+            "width": 384,
+            "height": 342
+          },
+          "sha256": "853b30a5c85ccd499f938f07a9e66c86496c1863500cec9f1bb96eb4b61cce6c"
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 512,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 384,
+            "y": 341,
+            "width": 384,
+            "height": 342
+          },
+          "sha256": "8783f604f1b4c795a8fb4e126743376b4f7a6a5763b60be151061de2e29970e3"
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 1024,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 768,
+            "y": 341,
+            "width": 384,
+            "height": 342
+          },
+          "sha256": "7a337ae87cb40e07b5619f81c0b4107483a1d0b8a0ee0a085fa8c5264c68bc59"
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1536,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1152,
+            "y": 341,
+            "width": 384,
+            "height": 342
+          },
+          "sha256": "64782b0c812325b3f7bc090f6639ce6062d7e0bb79ac820c61a3826beb0e6ae0"
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 683,
+            "width": 384,
+            "height": 341
+          },
+          "sha256": "0a49111e0b1891f59de3ff91fd2837566114578ce6b018b3a4fa6d522ddf20d1"
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 512,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 384,
+            "y": 683,
+            "width": 384,
+            "height": 341
+          },
+          "sha256": "ca64bc9821e7d8690fd785e87be0d7388595249a3bb89e84ce8d255c7039c3d0"
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 1024,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 768,
+            "y": 683,
+            "width": 384,
+            "height": 341
+          },
+          "sha256": "27ac75b6e81cd05e20f1b41bbd8dbb99f2e04742bdaaf27571f9823a2db3af5e"
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 1536,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1152,
+            "y": 683,
+            "width": 384,
+            "height": 341
+          },
+          "sha256": "7a9d7d3a12f2280cac9c55ee09454d3fe1f478f082cddf60cfcdf21d93765000"
+        }
+      ]
+    },
     "ground": {
       "url": "assets/runtime/effects/ground.png",
       "sourceUrl": "assets/sources/fx-ground.png",
@@ -3326,9 +4609,219 @@
           "sha256": "060c8d0d143c266274afa54a4b441a08ce8f21d0c631705f18fdaa7105fa69a5"
         }
       ]
+    },
+    "tempest": {
+      "url": "assets/runtime/effects/tempest.png",
+      "sourceUrl": "assets/sources/fx-tempest.png",
+      "sourceSha256": "b51aa45c016d98035bfbf2ce3e1fc8a6a6a56cdcb990759aa0daf7566bd450c4",
+      "columns": 4,
+      "rows": 3,
+      "width": 2048,
+      "height": 1536,
+      "sha256": "0efb9fd5125ac97d392225c3c2025592dc5f62cc1d2906d3cfeee97083bf9ff5",
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 0,
+            "width": 384,
+            "height": 341
+          },
+          "sha256": "91cad19b57b7c9fc837136b69c728b1df736cd9e3ac645e1c0bb9266d5f6c02d"
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 512,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 384,
+            "y": 0,
+            "width": 384,
+            "height": 341
+          },
+          "sha256": "ad9c2d7ab8fe19b559856f89e19c89d598c9b2ea5547fc13e05d43beea366eab"
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 1024,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 768,
+            "y": 0,
+            "width": 384,
+            "height": 341
+          },
+          "sha256": "1e019c5b3620a15a2e921438718c7966067733a926d978b774884efc35cdeb12"
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 1536,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1152,
+            "y": 0,
+            "width": 384,
+            "height": 341
+          },
+          "sha256": "d953fe59daa94ccfe4f52a023e30b420a0618c6a93c61ff94c103a508176c441"
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 341,
+            "width": 384,
+            "height": 342
+          },
+          "sha256": "48f896de41f3bd06ef1befee95e99ae1389dbb10d83ef3593e76723f7bc50e4c"
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 512,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 384,
+            "y": 341,
+            "width": 384,
+            "height": 342
+          },
+          "sha256": "de0cb64f2bf7c37e7cad623022a382408fff6c49dcbfc50ebe4f3dd93ea7a569"
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 1024,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 768,
+            "y": 341,
+            "width": 384,
+            "height": 342
+          },
+          "sha256": "ceaafb73aaa06492a7330f671422a8b8e8ca2f95ca2853f74e4825c02a5df498"
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1536,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1152,
+            "y": 341,
+            "width": 384,
+            "height": 342
+          },
+          "sha256": "7489331195fa5d40d086d6fca1903353663ed0df34b1b0063623142cbf4d872f"
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 0,
+            "y": 683,
+            "width": 384,
+            "height": 341
+          },
+          "sha256": "4ccde22f17e5359e055073ba79f9f4785a4a2a8dbaa97fa4eafbd1b41d9692dc"
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 512,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 384,
+            "y": 683,
+            "width": 384,
+            "height": 341
+          },
+          "sha256": "1229073784f8f66a528467a8a4440263d7a525a5167a0b52a0e09f0d93798dd1"
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 1024,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 768,
+            "y": 683,
+            "width": 384,
+            "height": 341
+          },
+          "sha256": "0629dd420944ec760e32a214782cc132c6c69b3f1f172b9e75cd8c1e09cf79f5"
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 1536,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "sourceRect": {
+            "x": 1152,
+            "y": 683,
+            "width": 384,
+            "height": 341
+          },
+          "sha256": "9a558fcb43daed3eaa8b94a1703559a5e1a68d10fc19db38bea8cf3e09492a4e"
+        }
+      ]
     }
   },
   "titleArt": "assets/connected/title-open-v2.png",
+  "titleTypography": {
+    "font": "Noto Serif KR 900",
+    "fontAsset": "assets/fonts/NotoSerifKR-blue-reaper-900.ttf",
+    "ornament": "OPEN_SWORD_WINGS",
+    "rectangularFrame": false
+  },
   "runtime": {
     "engine": "preview/project-v-v3/source/battle/BattleEngine.js",
     "clock": "V3_REGISTERED_GSAP"
@@ -3336,18 +4829,48 @@
   "audio": {
     "enabled": false
   },
+  "activeMotion": [
+    "dash:0",
+    "dash:1",
+    "dash:2",
+    "dash:3",
+    "dash:4",
+    "dash:5",
+    "dash:6",
+    "dash:7",
+    "rise:0",
+    "sweep:0",
+    "sweep:1",
+    "sweep:2",
+    "skill:0",
+    "rise:1",
+    "rise:2",
+    "ultimate:0",
+    "spin:0",
+    "spin:1",
+    "spin:2",
+    "spin:3"
+  ],
+  "activeEffects": [
+    "aura",
+    "light",
+    "blade",
+    "dash",
+    "cut",
+    "cross",
+    "ground",
+    "flurry",
+    "tempest",
+    "cleave"
+  ],
   "summary": {
-    "bodyFrames": 32,
-    "effectFrames": 96,
-    "completeFigureSheets": 8,
+    "bodyFrames": 42,
+    "activeBodyFrames": 20,
+    "effectFrames": 144,
+    "activeEffectFrames": 120,
+    "completeFigureSheets": 11,
     "detachedHeads": 0,
     "weaponComposites": 0,
     "bodyColorTransforms": 0
-  },
-  "titleTypography": {
-    "font": "Noto Serif KR 900",
-    "fontAsset": "assets/fonts/NotoSerifKR-blue-reaper-900.ttf",
-    "ornament": "OPEN_SWORD_WINGS",
-    "rectangularFrame": false
   }
 }
