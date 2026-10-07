@@ -2,6 +2,7 @@ import {accountRankAward,accountRankBenefits,rankCoin} from './_account_rank.js'
 import {readJointReleaseComponent} from './_joint_release_document.js';
 import { ensureEquipmentFoundation } from './_equipment.js';
 import { ensureUnifiedDropPoolFoundation } from './_drop_pool.js';
+import {SCRAPYARD_REFORM_DIFFICULTIES,SCRAPYARD_REWARD_COIN_LIMIT} from '../shared/pve-reform-20261008.mjs';
 
 const META_KEY='scrapyard_settings_v1676';
 const RECEIPT_TABLE='scrapyard_run_receipts_v1676';
@@ -24,6 +25,8 @@ export const SCRAPYARD_ENEMIES={
     boss:[{id:'SCRAP_FURNACE_MOLOCH',name:'용광로 군주 몰로크',image:'assets/ui/scrapyard/monsters/furnace-sovereign-moloch-v1698.webp'}]
   }
 };
+SCRAPYARD_ENEMIES.FURNACE_ELITE=SCRAPYARD_ENEMIES.FURNACE;
+SCRAPYARD_ENEMIES.FURNACE_ABYSS=SCRAPYARD_ENEMIES.FURNACE;
 let foundationPromise=null,settingsCache=null;
 const staleRecoveryAt=new Map();
 
@@ -56,7 +59,8 @@ function hashUnit(seed){let h=2166136261;for(const ch of String(seed||'')){h^=ch
 function cleanSettings(raw={}){
   const base=DEFAULT_SETTINGS,mode=MODE_SET.has(String(raw.mode||'').toUpperCase())?String(raw.mode).toUpperCase():base.mode;
   const input=Array.isArray(raw.difficulties)?raw.difficulties:base.difficulties;
-  const difficulties=base.difficulties.map((fallback,index)=>{const row=input[index]||fallback,start=integer(row.requiredPowerStart,1000,1000000000,fallback.requiredPowerStart),end=integer(row.requiredPowerEnd,start,1000000000,fallback.requiredPowerEnd);return{id:fallback.id,name:text(row.name,40)||fallback.name,waves:integer(row.waves,3,10,fallback.waves),requiredPowerStart:start,requiredPowerEnd:end,clearCoin:integer(row.clearCoin,0,100000000,fallback.clearCoin),accent:/^#[0-9a-f]{6}$/i.test(String(row.accent||''))?String(row.accent):fallback.accent}});
+  const templates=[...base.difficulties,...SCRAPYARD_REFORM_DIFFICULTIES.slice(3).filter(tier=>input.some(row=>row.id===tier.id))];
+  const difficulties=templates.map((fallback,index)=>{const row=input.find(item=>item.id===fallback.id)||(input[index]?.id?fallback:input[index])||fallback,start=integer(row.requiredPowerStart,1000,1000000000,fallback.requiredPowerStart),end=integer(row.requiredPowerEnd,start,1000000000,fallback.requiredPowerEnd);return{id:fallback.id,name:text(row.name,40)||fallback.name,waves:integer(row.waves,3,10,fallback.waves),requiredPowerStart:start,requiredPowerEnd:end,clearCoin:integer(row.clearCoin,0,SCRAPYARD_REWARD_COIN_LIMIT,fallback.clearCoin),accent:/^#[0-9a-f]{6}$/i.test(String(row.accent||''))?String(row.accent):fallback.accent}});
   return {mode,dailyRuns:integer(raw.dailyRuns,1,100,base.dailyRuns),difficulties};
 }
 
@@ -216,5 +220,5 @@ export async function handleScrapyard({path,request,env,deps}){
   return deps.json({error:'지원하지 않는 폐차장 요청입니다.'},405);
 }
 
-export const __scrapyardTest={kstDayRange,FOUNDATION_SQL,DEFAULT_SETTINGS};
+export const __scrapyardTest={kstDayRange,FOUNDATION_SQL,DEFAULT_SETTINGS,cleanSettings};
 export {settings as readScrapyardSettings,status as readScrapyardStatus};

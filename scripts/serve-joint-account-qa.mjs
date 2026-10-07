@@ -121,6 +121,14 @@ if(native){
  await f.p('INSERT INTO tower_floor_ranges(id,season_id,start_floor,end_floor,reward_coin,monster_id,is_active,power_override,is_boss) VALUES(2095,1,70,70,500000000,69,1,2000000,1)').run();
 }
 if(native){await f.p('ALTER TABLE user_cards ADD COLUMN quantity INTEGER DEFAULT 1').run();await f.p('CREATE TABLE pve_decks(user_id INTEGER PRIMARY KEY,card_ids TEXT,updated_at TEXT)').run();await f.p('INSERT INTO pve_decks(user_id,card_ids) VALUES(7,?)',JSON.stringify(ids)).run();}
+if(process.env.JOINT_QA_PVE_REFORM==='1'){
+ const {SCRAPYARD_REFORM_DIFFICULTIES,COW_REFORM_REWARDS}=await import('../shared/pve-reform-20261008.mjs');
+ const cow=JSON.parse((await f.p("SELECT value FROM app_meta WHERE key='expedition_v3_cow_room'").first()).value);
+ await f.setting('expedition_v3_cow_room',{...cow,clearCoin:[...COW_REFORM_REWARDS],dailyCoinCap:18000000000});
+ await f.setting('scrapyard_settings_v1676',{mode:'ON',dailyRuns:30,difficulties:SCRAPYARD_REFORM_DIFFICULTIES});
+ await f.p('UPDATE tower_floor_ranges SET reward_coin=5000000000,power_override=20000000 WHERE id=2095').run();
+ await f.p('INSERT INTO tower_floor_ranges(id,season_id,start_floor,end_floor,reward_coin,monster_id,is_active,power_override,is_boss) VALUES(2096,1,71,100,20000000000,69,1,200000000,1)').run();
+}
 const profile=async()=>({accountRank:await readAccountRank(f.env,7),id:7,nickname:'로컬 검수',role:'OWNER',coin:await f.coin(),owned:ids,quantities:Object.fromEntries(ids.map(id=>[id,1])),breakthroughs:{},masterStars:100});
 const mime={'.html':'text/html','.mjs':'text/javascript','.js':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.webp':'image/webp','.jpg':'image/jpeg','.jpeg':'image/jpeg','.jfif':'image/jpeg','.svg':'image/svg+xml','.mp3':'audio/mpeg','.wav':'audio/wav','.ogg':'audio/ogg','.ttf':'font/ttf','.woff2':'font/woff2'};
 const send=(res,status,body,type='application/json')=>{res.writeHead(status,{'content-type':type,'cache-control':'no-store'});res.end(typeof body==='string'?body:JSON.stringify(body));};

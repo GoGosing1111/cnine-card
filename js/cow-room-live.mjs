@@ -6,13 +6,14 @@ const number=n=>Math.max(0,Number(n)||0).toLocaleString('ko-KR');
 const coin=n=>Number(n)>=100000000?`${number(Number(n)/100000000)}억`:Number(n)>=10000?`${number(Number(n)/10000)}만`:number(n);
 let host,state,session,opening=false,active=false,renderer,modal,runId='',epoch=0,paused=false,releasePause,entryError='';
 let deck=[],deckReady=false;
+let selectedDifficulty='BLOOD_PASTURE';
 const busy=()=>opening||session&&session.getState().phase!=='IDLE';
 const catalog=()=>globalThis.cnineCardCatalog?.()||[];
 const signedIn=()=>globalThis.loadUser?.()||{};
 const emitCount=()=>window.dispatchEvent(new CustomEvent('cow-portal:availability',{detail:{available:Number(state?.portals?.available||0)}}));
 function ensureStyle(){
   if(document.querySelector('[data-cow-live-style]'))return;
-  const link=document.createElement('link');link.rel='stylesheet';link.href='/css/cow-room-live.css?v=2093';link.dataset.cowLiveStyle='';document.head.append(link);
+  const link=document.createElement('link');link.rel='stylesheet';link.href='/css/cow-room-live.css?v=2093&reform=20261008';link.dataset.cowLiveStyle='';document.head.append(link);
 }
 function entryBlock(){
   if(!state)return '입장 정보 확인 중';
@@ -26,19 +27,22 @@ function entryBlock(){
 function render(){
   if(!host?.isConnected||!state)return;
   const p=state.policy,b=state.budget,count=Number(state.portals.available||0),blocked=entryBlock();
+  const tiers=state.difficulties||[{id:'PASTURE',name:'붉은 목초지',clearCoin:p.clearCoin?.[0]}];
+  const tier=tiers.find(item=>item.id===selectedDifficulty)||tiers[0];selectedDifficulty=tier.id;
   const cards=deck.map(id=>catalog().find(c=>String(c.id)===String(id))).filter(Boolean);
   host.innerHTML=`<section class="cow-live-gate" aria-labelledby="cowLiveTitle">
     <div class="cow-live-landscape" aria-hidden="true"></div>
-    <header class="cow-live-location"><span><i></i> 숨겨진 전장</span><b>붉은 목초지</b></header>
+    <header class="cow-live-location"><span><i></i> 숨겨진 전장</span><b>${esc(tier.name)}</b></header>
     <div class="cow-live-story"><p class="cow-live-eyebrow">THE UNKNOWN PASTURE</p><h1 id="cowLiveTitle">미지의<br><strong>젖소방</strong></h1><p class="cow-live-prologue">붉은 달 아래, 포탈이 열렸다.<br>도끼병의 군단을 뚫고 카우 킹을 처치하세요.</p>
-      <div class="cow-live-prize"><span>카우 킹 클리어 보상</span><strong>${coin(p.clearCoin?.[0]||0)}<small>코인</small></strong></div>
+      <div class="cow-live-prize"><span>카우 킹 클리어 보상</span><strong>${coin(tier.clearCoin??p.clearCoin?.[0]??0)}<small>코인</small></strong></div>
+      ${tiers.length>1?`<fieldset class="cow-live-difficulties"><legend>도전할 목초지</legend><div>${tiers.map(item=>`<button type="button" data-cow-difficulty="${esc(item.id)}" aria-pressed="${item.id===selectedDifficulty}" ${busy()?'disabled':''}><b>${esc(item.name)}</b><span>카우 킹 ${coin(item.bossPower)} · 보상 ${coin(item.clearCoin)} 코인</span></button>`).join('')}</div><p>모든 난도의 입장 횟수를 합해 하루 ${number(p.dailyRuns)}회까지 도전할 수 있습니다.</p></fieldset>`:''}
     </div>
     <aside class="cow-live-entry" aria-label="카우방 입장">
       <div class="cow-live-portal-count"><span class="cow-live-seal" aria-hidden="true">◌</span><div><span>보관 중인 포탈</span><strong>${number(count)}<small>개</small></strong></div><b>${count?'입장 가능':'탐색 필요'}</b></div>
       <dl><div><dt>이번 입장 비용</dt><dd>${coin(p.entryCoin)} 코인 <small>+ 포탈 1개</small></dd></div><div><dt>오늘 남은 입장</dt><dd>${number(b.remaining)} <small>/ ${number(p.dailyRuns)}회</small></dd></div></dl>
       <div class="cow-live-budget"><div><span>오늘 획득한 클리어 코인</span><b>${coin(b.coin)} <small>/ ${coin(p.dailyCoinCap)}</small></b></div><progress max="${p.dailyCoinCap||1}" value="${b.coin}" aria-label="오늘 획득한 클리어 코인"></progress></div>
       <button type="button" class="cow-live-enter" data-cow-start ${busy()||blocked?'disabled':''}>${busy()?'전투 기록 확인 중':blocked||'포탈 입장'}<span aria-hidden="true">↗</span></button>
-      <p class="cow-live-entry-note">${count?'입장하면 포탈 1개를 사용합니다.':'일반 PVE 2% · 아포칼립스 3% 확률로 발견'}</p>
+      <p class="cow-live-entry-note">${count?'입장하면 포탈 1개를 사용합니다.':`일반 토벌·소탕 ${state.portals.policy?.standardPercent??0.5}% · 아포칼립스 ${state.portals.policy?.apocalypsePercent??0.5}% 확률로 발견`}</p>
       <button type="button" class="cow-live-hunt" data-cow-hunt>PVE 토벌로 이동 <span aria-hidden="true">→</span></button>
       <p class="cow-live-error" role="status">${esc(entryError)}</p><button type="button" class="cow-live-recover" data-cow-recover ${session?.getState().phase==='RECOVERABLE'?'':'hidden'}>전투 결과 다시 확인</button>
     </aside>
@@ -46,6 +50,7 @@ function render(){
   </section>
   <section class="cow-live-deck" aria-label="저장된 PVE 편성"><header><div><span>출전 편성</span><h2>나의 PVE 덱</h2></div><button type="button" data-cow-deck>편성 변경 →</button></header><div class="cow-live-card-list">${cards.length?cards.map(c=>`<div class="cow-live-card-cell">${globalThis.cardHtml?.(c,true,'pve-deck-card-display')||`<img src="${esc(c.image)}" alt="${esc(c.title)}">`}</div>`).join(''):'<p>저장된 PVE 덱을 확인한 뒤 입장할 수 있습니다.</p>'}</div><p>저장한 일반 카드 5장과 장착 중인 배틀슈트로 출전합니다.</p></section>`;
   host.querySelector('[data-cow-start]').onclick=()=>void start();
+  host.querySelectorAll('[data-cow-difficulty]').forEach(button=>button.onclick=()=>{if(busy())return;selectedDifficulty=button.dataset.cowDifficulty;entryError='';render();host.querySelector(`[data-cow-difficulty="${selectedDifficulty}"]`)?.focus();});
   host.querySelector('[data-cow-recover]').onclick=()=>{entryError='';runId='';void session?.resume();};
   host.querySelector('[data-cow-hunt]').onclick=()=>{hide();globalThis.switchPveMode?.('hunt');};
   host.querySelector('[data-cow-deck]').onclick=()=>{hide();globalThis.switchPveMode?.('deck');};
@@ -66,7 +71,7 @@ function closeBattle(){
   modal?.remove();modal=null;document.body.classList.remove('cow-live-battle-open');
 }
 function resultMarkup(result,issue=''){
-  return `<section class="cow-live-result ${result.success?'is-clear':''}" aria-labelledby="cowResultTitle"><p>${result.replayed?'복구한 전투 결과':'붉은 목초지 · 전투 종료'}</p><h2 id="cowResultTitle">${result.success?'카우 킹 토벌 완료':'원정 종료'}</h2><div class="cow-live-result-rewards">${(result.rewards||[]).map(r=>`<div><span>${esc(r.rewardName||r.rewardRef)}</span><strong>+${r.rewardType==='COIN'||r.rewardRef==='COIN'?coin(r.quantity):number(r.quantity)}</strong></div>`).join('')||'<span>이번 전투에서 획득한 보상이 없습니다.</span>'}</div><p>${esc(issue||'보상이 계정에 반영되었습니다.')}</p><button type="button" data-cow-confirm>카우방으로 돌아가기</button></section>`;
+  return `<section class="cow-live-result ${result.success?'is-clear':''}" aria-labelledby="cowResultTitle"><p>${result.replayed?'복구한 전투 결과':esc((result.difficulty?.name||'목초지')+' · 전투 종료')}</p><h2 id="cowResultTitle">${result.success?'카우 킹 토벌 완료':'원정 종료'}</h2><div class="cow-live-result-rewards">${(result.rewards||[]).map(r=>`<div><span>${esc(r.rewardName||r.rewardRef)}</span><strong>+${r.rewardType==='COIN'||r.rewardRef==='COIN'?coin(r.quantity):number(r.quantity)}</strong></div>`).join('')||'<span>이번 전투에서 획득한 보상이 없습니다.</span>'}</div><p>${esc(issue||'보상이 계정에 반영되었습니다.')}</p><button type="button" data-cow-confirm>카우방으로 돌아가기</button></section>`;
 }
 async function present(result){
   if(runId===result.requestId||!active)return;closeBattle();runId=result.requestId;const token=epoch;
@@ -88,7 +93,7 @@ async function present(result){
   try{
     await globalThis.ensureFeatureResources('battleV2');if(token!==epoch)return;
     const view=globalThis.ProjectVBattleV3Live.prepareLoading({modal,mode:'PVE',playerName:result.playerName,opponentName:'카우 군단',autoText:'붉은 목초지로 이동하고 있습니다.'});
-    modal.classList.add('cow-live-battle');view.stage.querySelector('.battle-v3-header small').textContent='붉은 목초지';view.stage.querySelector('.battle-v3-header strong').textContent='카우방';
+    modal.classList.add('cow-live-battle');view.stage.querySelector('.battle-v3-header small').textContent=result.difficulty?.name||'목초지';view.stage.querySelector('.battle-v3-header strong').textContent='카우방';
     const field=view.stage.querySelector('.battle-v3-canvas-host');field.style.backgroundImage="url('/assets/ui/project-v/battlefields/v3-cow-pasture-v1.png')";
     view.stage.insertAdjacentHTML('beforeend','<div class="cow-live-battle-controls" data-cow-controls><button type="button" data-cow-pause disabled>일시정지</button><button type="button" data-cow-result disabled>결과 보기</button></div>');
     modal.querySelector('[data-cow-pause]').onclick=()=>{if(paused)resumePlayback();else{paused=true;modal.querySelector('[data-cow-pause]').textContent='재개';}};
@@ -107,7 +112,7 @@ async function present(result){
   }catch(error){showResult('전투 화면을 불러오지 못해 저장된 결과를 표시합니다.');console.warn('Cow Room presentation',error);}
 }
 async function start(){
-  if(busy()||entryBlock())return;entryError='';void session.start('PASTURE');
+  if(busy()||entryBlock())return;entryError='';void session.start(selectedDifficulty);
 }
 export function hide(){active=false;if(host)host.hidden=true;session?.setVisible(false);if(modal){closeBattle();runId='';}}
 export async function open({enter=false}={}){
@@ -126,7 +131,7 @@ export async function open({enter=false}={}){
   try{
     const [next,configuration]=await Promise.all([request('cow-room/v3/state'),request('battle/config')]);state=next;deck=Array.isArray(configuration.deck)?configuration.deck:[];deckReady=true;emitCount();
     if(!active)return true;
-    if(!session||session.storageKey!==`cnine.pve-continuous.v1:COW_ROOM:${state.accountId}`){session?.dispose();session=createPveContinuousSession({accountId:state.accountId,transport:{run:body=>request('cow-room/v3/run',{method:'POST',body}),status:()=>request('cow-room/v3/status')},storage:localStorage,onChange:change,content:'COW_ROOM',validateSelection:value=>value==='PASTURE'});}
+    if(!session||session.storageKey!==`cnine.pve-continuous.v1:COW_ROOM:${state.accountId}`){session?.dispose();session=createPveContinuousSession({accountId:state.accountId,transport:{run:body=>request('cow-room/v3/run',{method:'POST',body}),status:()=>request('cow-room/v3/status')},storage:localStorage,onChange:change,content:'COW_ROOM',validateSelection:value=>['PASTURE','BLOOD_PASTURE','ABYSS_PASTURE'].includes(value)});}
     session.setVisible(true);await session.resume();
     if(session.getState().phase==='READY')void present(session.getState().result);
     opening=false;render();if(enter)await start();

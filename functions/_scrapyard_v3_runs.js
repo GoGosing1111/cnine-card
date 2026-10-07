@@ -35,7 +35,7 @@ export async function ensureScrapyardV3Schema(env) {
 function key(user, body) {
   if (!Number.isSafeInteger(Number(user?.id)) || Number(user.id) <= 0) throw error('SCRAPYARD_V3_AUTH', '로그인이 필요합니다.');
   if (typeof body?.requestId !== 'string' || !/^[A-Za-z0-9_:-]{1,105}$/.test(body.requestId)) throw error('SCRAPYARD_V3_REQUEST', '원정 요청번호가 올바르지 않습니다.');
-  if (!['OUTER','CORE','FURNACE'].includes(body?.difficulty)) throw error('SCRAPYARD_V3_ZONE', '폐차장 구역을 선택하세요.');
+  if (!['OUTER','CORE','FURNACE','FURNACE_ELITE','FURNACE_ABYSS'].includes(body?.difficulty)) throw error('SCRAPYARD_V3_ZONE', '폐차장 구역을 선택하세요.');
   return {uid:Number(user.id), rid:body.requestId};
 }
 

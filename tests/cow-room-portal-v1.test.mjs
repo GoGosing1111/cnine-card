@@ -17,17 +17,17 @@ test('closed cow CMS blocks discovery; public portal inspection requires login',
   assert.equal(await discoverCowPortal(env,{id:7},event('held')),null);
   const response=await handlePveV3({path:'cow-room/v3/portals',request:new Request(origin+'/api/cow-room/v3/portals'),env,deps:{json:(b,s)=>Response.json(b,{status:s}),authenticate:async()=>null}});
   assert.equal(response.status,401);
-  assert.equal(cowPortalRate({isApocalypse:false}),2);assert.equal(cowPortalRate({isApocalypse:true}),3);
+  assert.equal(cowPortalRate({isApocalypse:false}),0.5);assert.equal(cowPortalRate({isApocalypse:true}),0.5);
 });
 
 for(const postgres of[false,true]){
   const backend=postgres?'PostgreSQL':'SQLite';
-  test(`${backend}: exact 2%/3% boundaries, completed losses, individual sweep rolls and replay protection`,async t=>{
+  test(`${backend}: exact 0.5%/0.5% boundaries, completed losses, individual sweep rolls and replay protection`,async t=>{
     const f=await jointFixture(t,{postgres});await clean(f);
     for(const [ref,roll,source,apocalypse,hit] of[
-      ['normal-hit',19999,'HUNT',false,true],['normal-miss',20000,'HUNT',false,false],
-      ['apocalypse-hit',29999,'HUNT',true,true],['apocalypse-miss',30000,'HUNT',true,false],
-      ['sweep:1',0,'SWEEP',false,true],['sweep:2',999999,'SWEEP',false,false],['sweep:3',19999,'SWEEP',false,true]
+      ['normal-hit',4999,'HUNT',false,true],['normal-miss',5000,'HUNT',false,false],
+      ['apocalypse-hit',4999,'HUNT',true,true],['apocalypse-miss',5000,'HUNT',true,false],
+      ['sweep:1',0,'SWEEP',false,true],['sweep:2',999999,'SWEEP',false,false],['sweep:3',4999,'SWEEP',false,true]
     ])assert.equal(Boolean(await grant(f,ref,roll,source,apocalypse)),hit,ref);
     assert.ok(await grant(f,'completed-loss',0,'HUNT',false,'LOSE'));
     assert.equal(await grant(f,'apocalypse-sweep',0,'SWEEP',true),null);

@@ -1,7 +1,8 @@
 import {accountRankAward,accountRankBenefits,rankCoin} from './_account_rank.js';
 import {planForgeProtectionDrop} from './_forge_protection_drop.js';
 import {loadScrapyardV3Snapshot} from './_scrapyard_v3.js';
-import {buildCowRoomBattle} from './_cow_room_v3.js';
+import {buildCowRoomBattle,COW_ROOM_DRAFT} from './_cow_room_v3.js';
+import {COW_REFORM_TIERS,cowTiersForPolicy} from '../shared/pve-reform-20261008.mjs';
 import {readExpeditionPolicy,validateExpeditionPolicy} from './_expedition_v3_settings.js';
 import {planUnifiedDropRoll,prepareUnifiedDropGrant} from './_drop_pool.js';
 import {jointError} from './_joint_request.js';
@@ -39,7 +40,7 @@ export async function expeditionV3Status(env,user,content,deps={}){
   const attempts=Number(budget?.attempts||0),coin=Number(budget?.coin||0);
   return {ok:true,accountId:uid,content,status:current?'RUNNING':'IDLE',...(current?{...pending(current),activeContent:current.content}:{}),policy,progress:{bestCleared:Number(progress?.best_cleared||0),maxUnlocked:1},
     budget:{day,attempts,remaining:Math.max(0,policy.dailyRuns-attempts),coin,coinRemaining:Math.max(0,policy.dailyCoinCap-coin)},
-    portals,difficulties:[{id:'PASTURE',name:'붉은 목초지'}]};
+    portals,difficulties:cowTiersForPolicy(policy).map(tier=>({...tier,clearCoin:policy.clearCoin[tier.rewardIndex]}))};
 }
 export async function expeditionV3Result(env,user,content,rid){const row=await get(env,key(user,content,rid),content,rid);return row?.state==='COMPLETED'?{...parse(row.response_json),replayed:true}:row?pending(row):{ok:true,status:'NOT_FOUND'};}
 async function settle(env,user,row,token,deps){
@@ -61,7 +62,7 @@ async function settle(env,user,row,token,deps){
 }
 export async function runExpeditionV3(env,user,content,body,deps={}){
   const uid=key(user,content,body?.requestId),rid=body.requestId,selection=body.difficulty;
-  if(selection!=='PASTURE')throw jointError('PVE_V3_SELECTION','원정 구간을 확인하세요.');
+  if(!COW_REFORM_TIERS.some(tier=>tier.id===selection))throw jointError('PVE_V3_SELECTION','원정 구간을 확인하세요.');
   let row=await get(env,uid,content,rid);
   if(row&&row.selection!==selection)throw jointError('PVE_V3_REQUEST_CONFLICT','같은 요청 번호의 구간이 다릅니다.',409);
   if(row?.state==='COMPLETED')return {...parse(row.response_json),replayed:true};
@@ -76,9 +77,12 @@ export async function runExpeditionV3(env,user,content,body,deps={}){
     const state=await expeditionV3Status(env,user,content,deps),policy=state.policy;
     if(policy.mode==='OFF'||policy.mode==='TEST'&&user.role!=='OWNER'||policy.mode==='ON'&&!policy.approved)throw jointError('PVE_V3_CLOSED','현재 입장할 수 없는 원정입니다.',423);
     if(state.budget.remaining<=0)throw jointError('PVE_V3_DAILY_LIMIT','오늘 입장 횟수를 모두 사용했습니다.',409);
+    const tier=state.difficulties.find(item=>item.id===selection);
+    if(!tier)throw jointError('PVE_V3_SELECTION','현재 운영 중인 원정 구간을 선택하세요.');
     const portal=await requireCowPortal(env,user);
-    const snapshot=await (deps.loadSnapshot||loadScrapyardV3Snapshot)(env,user,deps),seed=crypto.getRandomValues(new Uint32Array(1))[0],battle=buildCowRoomBattle({snapshot,seed});
-    const success=battle.battleV2.result.winner==='A',coin=success?Math.min(rankCoin(policy.clearCoin[0],await accountRankBenefits(env,uid,'COW_ROOM')),state.budget.coinRemaining):0;
+    const snapshot=await (deps.loadSnapshot||loadScrapyardV3Snapshot)(env,user,deps),seed=crypto.getRandomValues(new Uint32Array(1))[0],battle=buildCowRoomBattle({snapshot,seed,config:{...COW_ROOM_DRAFT,normalPower:tier.normalPower,elitePower:tier.elitePower,bossPower:tier.bossPower}});
+    battle.phaseLabel=tier.name;
+    const success=battle.battleV2.result.winner==='A',coin=success?Math.min(rankCoin(tier.clearCoin,await accountRankBenefits(env,uid,'COW_ROOM')),state.budget.coinRemaining):0;
     const plan=await planUnifiedDropRoll(env,{userId:uid,requestId:`${content}_V3:${rid}`,sourceType:content,sourceId:selection,triggerType:success?'CLEAR':'DEFEAT',role:user.role,context:{difficulty:selection}});
     // Defeats have no rewards; CMS material drops cannot circumvent the coin cap.
     plan.rewards=success?plan.rewards.filter(r=>r.rewardType!=='COIN'):[];

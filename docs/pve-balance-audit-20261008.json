@@ -1,6 +1,6 @@
 {
-  "documentVersion": 1,
-  "status": "ANALYSIS_PROPOSAL_NOT_APPLIED",
+  "documentVersion": 2,
+  "status": "USER_APPROVED_IMPLEMENTATION",
   "createdAt": "2026-10-07T15:10:25.215Z",
   "sourceCommit": "df64e536",
   "season20StartedAt": "2026-10-06T16:01:28Z",
@@ -86,8 +86,9 @@
       "sameGaugeDuration": 101
     },
     "v3Trials": 7032,
-    "scrapyardTrials": 58500,
-    "scrapyardUniqueActivationIncluded": true
+    "scrapyardTrials": 440,
+    "legacyScrapyardTrials": 58500,
+    "scrapyardEngine": "PVE_CONTINUOUS_V1"
   },
   "simulations": [
     {
@@ -1059,524 +1060,52 @@
   ],
   "scrapyardSimulations": [
     {
-      "cohort": "S",
-      "type": "CURRENT",
-      "end": 1500000,
-      "trials": 1400,
-      "winRate": 100,
-      "medianHp": 100,
-      "minPower": 16122305,
-      "maxPower": 18297772
-    },
-    {
-      "cohort": "S",
-      "type": "CURRENT",
-      "end": 3000000,
-      "trials": 1400,
-      "winRate": 100,
-      "medianHp": 99,
-      "minPower": 16122305,
-      "maxPower": 18297772
-    },
-    {
-      "cohort": "S",
-      "type": "CURRENT",
-      "end": 6000000,
-      "trials": 1400,
-      "winRate": 100,
-      "medianHp": 88,
-      "minPower": 16122305,
-      "maxPower": 18297772
-    },
-    {
-      "cohort": "S",
-      "type": "CURRENT",
+      "cohort": "H",
+      "future": false,
+      "variant": "CURRENT",
       "end": 8000000,
-      "trials": 1400,
+      "players": 13,
+      "trials": 104,
+      "wins": 104,
       "winRate": 100,
-      "medianHp": 76,
-      "minPower": 16122305,
-      "maxPower": 18297772
+      "medianHp": 81.5,
+      "medianSeconds": 67.85970081277807
     },
     {
       "cohort": "S",
-      "type": "CURRENT",
-      "end": 10000000,
-      "trials": 1400,
-      "winRate": 100,
-      "medianHp": 62,
-      "minPower": 16122305,
-      "maxPower": 18297772
-    },
-    {
-      "cohort": "S",
-      "type": "CURRENT",
+      "future": false,
+      "variant": "CURRENT",
       "end": 12000000,
-      "trials": 1400,
+      "players": 14,
+      "trials": 112,
+      "wins": 112,
       "winRate": 100,
-      "medianHp": 42,
-      "minPower": 16122305,
-      "maxPower": 18297772
+      "medianHp": 78.7,
+      "medianSeconds": 59.87763735045442
     },
     {
       "cohort": "S",
-      "type": "CURRENT",
-      "end": 14000000,
-      "trials": 1400,
-      "winRate": 96.6,
-      "medianHp": 22,
-      "minPower": 16122305,
-      "maxPower": 18297772
-    },
-    {
-      "cohort": "S",
-      "type": "CURRENT",
-      "end": 16000000,
-      "trials": 1400,
-      "winRate": 44.4,
-      "medianHp": 8,
-      "minPower": 16176029,
-      "maxPower": 18297772
-    },
-    {
-      "cohort": "S",
-      "type": "CURRENT",
-      "end": 40000000,
-      "trials": 1400,
-      "winRate": 0,
-      "medianHp": null,
-      "minPower": 16176029,
-      "maxPower": 18351496
-    },
-    {
-      "cohort": "S",
-      "type": "CURRENT",
-      "end": 50000000,
-      "trials": 1400,
-      "winRate": 0,
-      "medianHp": null,
-      "minPower": 16176029,
-      "maxPower": 18351496
-    },
-    {
-      "cohort": "S",
-      "type": "CURRENT",
+      "future": true,
+      "variant": "BATTLE_SUIT_SX",
       "end": 60000000,
-      "trials": 1400,
-      "winRate": 0,
-      "medianHp": null,
-      "minPower": 16176029,
-      "maxPower": 18351496
-    },
-    {
-      "cohort": "S",
-      "type": "CURRENT",
-      "end": 65000000,
-      "trials": 1400,
-      "winRate": 0,
-      "medianHp": null,
-      "minPower": 16176029,
-      "maxPower": 18351496
-    },
-    {
-      "cohort": "S",
-      "type": "CURRENT",
-      "end": 70000000,
-      "trials": 1400,
-      "winRate": 0,
-      "medianHp": null,
-      "minPower": 16176029,
-      "maxPower": 18351496
-    },
-    {
-      "cohort": "S",
-      "type": "80M",
-      "end": 1500000,
-      "trials": 1400,
+      "players": 14,
+      "trials": 112,
+      "wins": 112,
       "winRate": 100,
-      "medianHp": 100,
-      "minPower": 83622305,
-      "maxPower": 85797772
+      "medianHp": 81.8,
+      "medianSeconds": 35.9658
     },
     {
       "cohort": "S",
-      "type": "80M",
-      "end": 3000000,
-      "trials": 1400,
-      "winRate": 100,
-      "medianHp": 100,
-      "minPower": 83622305,
-      "maxPower": 85797772
-    },
-    {
-      "cohort": "S",
-      "type": "80M",
-      "end": 6000000,
-      "trials": 1400,
-      "winRate": 100,
-      "medianHp": 100,
-      "minPower": 83622305,
-      "maxPower": 85797772
-    },
-    {
-      "cohort": "S",
-      "type": "80M",
-      "end": 8000000,
-      "trials": 1400,
-      "winRate": 100,
-      "medianHp": 100,
-      "minPower": 83622305,
-      "maxPower": 85797772
-    },
-    {
-      "cohort": "S",
-      "type": "80M",
-      "end": 10000000,
-      "trials": 1400,
-      "winRate": 100,
-      "medianHp": 99,
-      "minPower": 83622305,
-      "maxPower": 85797772
-    },
-    {
-      "cohort": "S",
-      "type": "80M",
-      "end": 12000000,
-      "trials": 1400,
-      "winRate": 100,
-      "medianHp": 99,
-      "minPower": 83622305,
-      "maxPower": 85797772
-    },
-    {
-      "cohort": "S",
-      "type": "80M",
-      "end": 14000000,
-      "trials": 1400,
-      "winRate": 100,
-      "medianHp": 99,
-      "minPower": 83622305,
-      "maxPower": 85797772
-    },
-    {
-      "cohort": "S",
-      "type": "80M",
-      "end": 16000000,
-      "trials": 1400,
-      "winRate": 100,
-      "medianHp": 99,
-      "minPower": 83622305,
-      "maxPower": 85797772
-    },
-    {
-      "cohort": "S",
-      "type": "80M",
-      "end": 40000000,
-      "trials": 1400,
-      "winRate": 100,
-      "medianHp": 75,
-      "minPower": 83622305,
-      "maxPower": 85797772
-    },
-    {
-      "cohort": "S",
-      "type": "80M",
-      "end": 50000000,
-      "trials": 1400,
-      "winRate": 100,
-      "medianHp": 59,
-      "minPower": 83622305,
-      "maxPower": 85797772
-    },
-    {
-      "cohort": "S",
-      "type": "80M",
+      "future": true,
+      "variant": "BATTLE_SUIT_OVERLORD",
       "end": 60000000,
-      "trials": 1400,
+      "players": 14,
+      "trials": 112,
+      "wins": 112,
       "winRate": 100,
-      "medianHp": 39,
-      "minPower": 83622305,
-      "maxPower": 85797772
-    },
-    {
-      "cohort": "S",
-      "type": "80M",
-      "end": 65000000,
-      "trials": 1400,
-      "winRate": 100,
-      "medianHp": 30,
-      "minPower": 83622305,
-      "maxPower": 85797772
-    },
-    {
-      "cohort": "S",
-      "type": "80M",
-      "end": 70000000,
-      "trials": 1400,
-      "winRate": 94.1,
-      "medianHp": 16,
-      "minPower": 83622305,
-      "maxPower": 85797772
-    },
-    {
-      "cohort": "H",
-      "type": "CURRENT",
-      "end": 1500000,
-      "trials": 1300,
-      "winRate": 100,
-      "medianHp": 99,
-      "minPower": 10278719,
-      "maxPower": 12376232
-    },
-    {
-      "cohort": "H",
-      "type": "CURRENT",
-      "end": 3000000,
-      "trials": 1300,
-      "winRate": 100,
-      "medianHp": 92,
-      "minPower": 10278719,
-      "maxPower": 12376232
-    },
-    {
-      "cohort": "H",
-      "type": "CURRENT",
-      "end": 6000000,
-      "trials": 1300,
-      "winRate": 100,
-      "medianHp": 67,
-      "minPower": 10278719,
-      "maxPower": 12376232
-    },
-    {
-      "cohort": "H",
-      "type": "CURRENT",
-      "end": 8000000,
-      "trials": 1300,
-      "winRate": 100,
-      "medianHp": 40,
-      "minPower": 10278719,
-      "maxPower": 12376232
-    },
-    {
-      "cohort": "H",
-      "type": "CURRENT",
-      "end": 10000000,
-      "trials": 1300,
-      "winRate": 62.2,
-      "medianHp": 12,
-      "minPower": 10332443,
-      "maxPower": 12376232
-    },
-    {
-      "cohort": "H",
-      "type": "CURRENT",
-      "end": 12000000,
-      "trials": 1300,
-      "winRate": 0.4,
-      "medianHp": 5,
-      "minPower": 10332443,
-      "maxPower": 12429956
-    },
-    {
-      "cohort": "H",
-      "type": "CURRENT",
-      "end": 14000000,
-      "trials": 1300,
-      "winRate": 0,
-      "medianHp": null,
-      "minPower": 10332443,
-      "maxPower": 12429956
-    },
-    {
-      "cohort": "H",
-      "type": "CURRENT",
-      "end": 16000000,
-      "trials": 1300,
-      "winRate": 0,
-      "medianHp": null,
-      "minPower": 10332443,
-      "maxPower": 12429956
-    },
-    {
-      "cohort": "H",
-      "type": "CURRENT",
-      "end": 40000000,
-      "trials": 1300,
-      "winRate": 0,
-      "medianHp": null,
-      "minPower": 10332443,
-      "maxPower": 12429956
-    },
-    {
-      "cohort": "H",
-      "type": "CURRENT",
-      "end": 50000000,
-      "trials": 1300,
-      "winRate": 0,
-      "medianHp": null,
-      "minPower": 10332443,
-      "maxPower": 12429956
-    },
-    {
-      "cohort": "H",
-      "type": "CURRENT",
-      "end": 60000000,
-      "trials": 1300,
-      "winRate": 0,
-      "medianHp": null,
-      "minPower": 10332443,
-      "maxPower": 12429956
-    },
-    {
-      "cohort": "H",
-      "type": "CURRENT",
-      "end": 65000000,
-      "trials": 1300,
-      "winRate": 0,
-      "medianHp": null,
-      "minPower": 10332443,
-      "maxPower": 12429956
-    },
-    {
-      "cohort": "H",
-      "type": "CURRENT",
-      "end": 70000000,
-      "trials": 1300,
-      "winRate": 0,
-      "medianHp": null,
-      "minPower": 10332443,
-      "maxPower": 12429956
-    },
-    {
-      "cohort": "OTHER",
-      "type": "CURRENT",
-      "end": 1500000,
-      "trials": 400,
-      "winRate": 75,
-      "medianHp": 94,
-      "minPower": 605870,
-      "maxPower": 7968337
-    },
-    {
-      "cohort": "OTHER",
-      "type": "CURRENT",
-      "end": 3000000,
-      "trials": 400,
-      "winRate": 75,
-      "medianHp": 76,
-      "minPower": 605870,
-      "maxPower": 7968337
-    },
-    {
-      "cohort": "OTHER",
-      "type": "CURRENT",
-      "end": 6000000,
-      "trials": 400,
-      "winRate": 38.5,
-      "medianHp": 25,
-      "minPower": 605870,
-      "maxPower": 7968337
-    },
-    {
-      "cohort": "OTHER",
-      "type": "CURRENT",
-      "end": 8000000,
-      "trials": 400,
-      "winRate": 0.3,
-      "medianHp": 3,
-      "minPower": 605870,
-      "maxPower": 8022061
-    },
-    {
-      "cohort": "OTHER",
-      "type": "CURRENT",
-      "end": 10000000,
-      "trials": 400,
-      "winRate": 0,
-      "medianHp": null,
-      "minPower": 605870,
-      "maxPower": 8022061
-    },
-    {
-      "cohort": "OTHER",
-      "type": "CURRENT",
-      "end": 12000000,
-      "trials": 400,
-      "winRate": 0,
-      "medianHp": null,
-      "minPower": 605870,
-      "maxPower": 8022061
-    },
-    {
-      "cohort": "OTHER",
-      "type": "CURRENT",
-      "end": 14000000,
-      "trials": 400,
-      "winRate": 0,
-      "medianHp": null,
-      "minPower": 605870,
-      "maxPower": 8022061
-    },
-    {
-      "cohort": "OTHER",
-      "type": "CURRENT",
-      "end": 16000000,
-      "trials": 400,
-      "winRate": 0,
-      "medianHp": null,
-      "minPower": 605870,
-      "maxPower": 8022061
-    },
-    {
-      "cohort": "OTHER",
-      "type": "CURRENT",
-      "end": 40000000,
-      "trials": 400,
-      "winRate": 0,
-      "medianHp": null,
-      "minPower": 605870,
-      "maxPower": 8022061
-    },
-    {
-      "cohort": "OTHER",
-      "type": "CURRENT",
-      "end": 50000000,
-      "trials": 400,
-      "winRate": 0,
-      "medianHp": null,
-      "minPower": 605870,
-      "maxPower": 8022061
-    },
-    {
-      "cohort": "OTHER",
-      "type": "CURRENT",
-      "end": 60000000,
-      "trials": 400,
-      "winRate": 0,
-      "medianHp": null,
-      "minPower": 605870,
-      "maxPower": 8022061
-    },
-    {
-      "cohort": "OTHER",
-      "type": "CURRENT",
-      "end": 65000000,
-      "trials": 400,
-      "winRate": 0,
-      "medianHp": null,
-      "minPower": 605870,
-      "maxPower": 8022061
-    },
-    {
-      "cohort": "OTHER",
-      "type": "CURRENT",
-      "end": 70000000,
-      "trials": 400,
-      "winRate": 0,
-      "medianHp": null,
-      "minPower": 605870,
-      "maxPower": 8022061
+      "medianHp": 79.4,
+      "medianSeconds": 41.26
     }
   ],
   "rewardProposal": {
@@ -1593,5 +1122,531 @@
     "accounts-31.json": "872aa2f05f0a89a347c9f28f893f46596f140d56e9a916f49d02c2262c0b1715",
     "telemetry.json": "f8782d7ee433886f7e6fbf1e4dc7f9fa1d2815e740f230343457a231c1a99651",
     "grid.json": "0897a9af0e15274f96ec3f449f6449c18d737c38d481480660fce985d4f6afc8"
-  }
+  },
+  "legacyScrapyardSimulations": {
+    "status": "NOT_LIVE_ENGINE_DO_NOT_USE_FOR_BALANCE",
+    "results": [
+      {
+        "cohort": "S",
+        "type": "CURRENT",
+        "end": 1500000,
+        "trials": 1400,
+        "winRate": 100,
+        "medianHp": 100,
+        "minPower": 16122305,
+        "maxPower": 18297772
+      },
+      {
+        "cohort": "S",
+        "type": "CURRENT",
+        "end": 3000000,
+        "trials": 1400,
+        "winRate": 100,
+        "medianHp": 99,
+        "minPower": 16122305,
+        "maxPower": 18297772
+      },
+      {
+        "cohort": "S",
+        "type": "CURRENT",
+        "end": 6000000,
+        "trials": 1400,
+        "winRate": 100,
+        "medianHp": 88,
+        "minPower": 16122305,
+        "maxPower": 18297772
+      },
+      {
+        "cohort": "S",
+        "type": "CURRENT",
+        "end": 8000000,
+        "trials": 1400,
+        "winRate": 100,
+        "medianHp": 76,
+        "minPower": 16122305,
+        "maxPower": 18297772
+      },
+      {
+        "cohort": "S",
+        "type": "CURRENT",
+        "end": 10000000,
+        "trials": 1400,
+        "winRate": 100,
+        "medianHp": 62,
+        "minPower": 16122305,
+        "maxPower": 18297772
+      },
+      {
+        "cohort": "S",
+        "type": "CURRENT",
+        "end": 12000000,
+        "trials": 1400,
+        "winRate": 100,
+        "medianHp": 42,
+        "minPower": 16122305,
+        "maxPower": 18297772
+      },
+      {
+        "cohort": "S",
+        "type": "CURRENT",
+        "end": 14000000,
+        "trials": 1400,
+        "winRate": 96.6,
+        "medianHp": 22,
+        "minPower": 16122305,
+        "maxPower": 18297772
+      },
+      {
+        "cohort": "S",
+        "type": "CURRENT",
+        "end": 16000000,
+        "trials": 1400,
+        "winRate": 44.4,
+        "medianHp": 8,
+        "minPower": 16176029,
+        "maxPower": 18297772
+      },
+      {
+        "cohort": "S",
+        "type": "CURRENT",
+        "end": 40000000,
+        "trials": 1400,
+        "winRate": 0,
+        "medianHp": null,
+        "minPower": 16176029,
+        "maxPower": 18351496
+      },
+      {
+        "cohort": "S",
+        "type": "CURRENT",
+        "end": 50000000,
+        "trials": 1400,
+        "winRate": 0,
+        "medianHp": null,
+        "minPower": 16176029,
+        "maxPower": 18351496
+      },
+      {
+        "cohort": "S",
+        "type": "CURRENT",
+        "end": 60000000,
+        "trials": 1400,
+        "winRate": 0,
+        "medianHp": null,
+        "minPower": 16176029,
+        "maxPower": 18351496
+      },
+      {
+        "cohort": "S",
+        "type": "CURRENT",
+        "end": 65000000,
+        "trials": 1400,
+        "winRate": 0,
+        "medianHp": null,
+        "minPower": 16176029,
+        "maxPower": 18351496
+      },
+      {
+        "cohort": "S",
+        "type": "CURRENT",
+        "end": 70000000,
+        "trials": 1400,
+        "winRate": 0,
+        "medianHp": null,
+        "minPower": 16176029,
+        "maxPower": 18351496
+      },
+      {
+        "cohort": "S",
+        "type": "80M",
+        "end": 1500000,
+        "trials": 1400,
+        "winRate": 100,
+        "medianHp": 100,
+        "minPower": 83622305,
+        "maxPower": 85797772
+      },
+      {
+        "cohort": "S",
+        "type": "80M",
+        "end": 3000000,
+        "trials": 1400,
+        "winRate": 100,
+        "medianHp": 100,
+        "minPower": 83622305,
+        "maxPower": 85797772
+      },
+      {
+        "cohort": "S",
+        "type": "80M",
+        "end": 6000000,
+        "trials": 1400,
+        "winRate": 100,
+        "medianHp": 100,
+        "minPower": 83622305,
+        "maxPower": 85797772
+      },
+      {
+        "cohort": "S",
+        "type": "80M",
+        "end": 8000000,
+        "trials": 1400,
+        "winRate": 100,
+        "medianHp": 100,
+        "minPower": 83622305,
+        "maxPower": 85797772
+      },
+      {
+        "cohort": "S",
+        "type": "80M",
+        "end": 10000000,
+        "trials": 1400,
+        "winRate": 100,
+        "medianHp": 99,
+        "minPower": 83622305,
+        "maxPower": 85797772
+      },
+      {
+        "cohort": "S",
+        "type": "80M",
+        "end": 12000000,
+        "trials": 1400,
+        "winRate": 100,
+        "medianHp": 99,
+        "minPower": 83622305,
+        "maxPower": 85797772
+      },
+      {
+        "cohort": "S",
+        "type": "80M",
+        "end": 14000000,
+        "trials": 1400,
+        "winRate": 100,
+        "medianHp": 99,
+        "minPower": 83622305,
+        "maxPower": 85797772
+      },
+      {
+        "cohort": "S",
+        "type": "80M",
+        "end": 16000000,
+        "trials": 1400,
+        "winRate": 100,
+        "medianHp": 99,
+        "minPower": 83622305,
+        "maxPower": 85797772
+      },
+      {
+        "cohort": "S",
+        "type": "80M",
+        "end": 40000000,
+        "trials": 1400,
+        "winRate": 100,
+        "medianHp": 75,
+        "minPower": 83622305,
+        "maxPower": 85797772
+      },
+      {
+        "cohort": "S",
+        "type": "80M",
+        "end": 50000000,
+        "trials": 1400,
+        "winRate": 100,
+        "medianHp": 59,
+        "minPower": 83622305,
+        "maxPower": 85797772
+      },
+      {
+        "cohort": "S",
+        "type": "80M",
+        "end": 60000000,
+        "trials": 1400,
+        "winRate": 100,
+        "medianHp": 39,
+        "minPower": 83622305,
+        "maxPower": 85797772
+      },
+      {
+        "cohort": "S",
+        "type": "80M",
+        "end": 65000000,
+        "trials": 1400,
+        "winRate": 100,
+        "medianHp": 30,
+        "minPower": 83622305,
+        "maxPower": 85797772
+      },
+      {
+        "cohort": "S",
+        "type": "80M",
+        "end": 70000000,
+        "trials": 1400,
+        "winRate": 94.1,
+        "medianHp": 16,
+        "minPower": 83622305,
+        "maxPower": 85797772
+      },
+      {
+        "cohort": "H",
+        "type": "CURRENT",
+        "end": 1500000,
+        "trials": 1300,
+        "winRate": 100,
+        "medianHp": 99,
+        "minPower": 10278719,
+        "maxPower": 12376232
+      },
+      {
+        "cohort": "H",
+        "type": "CURRENT",
+        "end": 3000000,
+        "trials": 1300,
+        "winRate": 100,
+        "medianHp": 92,
+        "minPower": 10278719,
+        "maxPower": 12376232
+      },
+      {
+        "cohort": "H",
+        "type": "CURRENT",
+        "end": 6000000,
+        "trials": 1300,
+        "winRate": 100,
+        "medianHp": 67,
+        "minPower": 10278719,
+        "maxPower": 12376232
+      },
+      {
+        "cohort": "H",
+        "type": "CURRENT",
+        "end": 8000000,
+        "trials": 1300,
+        "winRate": 100,
+        "medianHp": 40,
+        "minPower": 10278719,
+        "maxPower": 12376232
+      },
+      {
+        "cohort": "H",
+        "type": "CURRENT",
+        "end": 10000000,
+        "trials": 1300,
+        "winRate": 62.2,
+        "medianHp": 12,
+        "minPower": 10332443,
+        "maxPower": 12376232
+      },
+      {
+        "cohort": "H",
+        "type": "CURRENT",
+        "end": 12000000,
+        "trials": 1300,
+        "winRate": 0.4,
+        "medianHp": 5,
+        "minPower": 10332443,
+        "maxPower": 12429956
+      },
+      {
+        "cohort": "H",
+        "type": "CURRENT",
+        "end": 14000000,
+        "trials": 1300,
+        "winRate": 0,
+        "medianHp": null,
+        "minPower": 10332443,
+        "maxPower": 12429956
+      },
+      {
+        "cohort": "H",
+        "type": "CURRENT",
+        "end": 16000000,
+        "trials": 1300,
+        "winRate": 0,
+        "medianHp": null,
+        "minPower": 10332443,
+        "maxPower": 12429956
+      },
+      {
+        "cohort": "H",
+        "type": "CURRENT",
+        "end": 40000000,
+        "trials": 1300,
+        "winRate": 0,
+        "medianHp": null,
+        "minPower": 10332443,
+        "maxPower": 12429956
+      },
+      {
+        "cohort": "H",
+        "type": "CURRENT",
+        "end": 50000000,
+        "trials": 1300,
+        "winRate": 0,
+        "medianHp": null,
+        "minPower": 10332443,
+        "maxPower": 12429956
+      },
+      {
+        "cohort": "H",
+        "type": "CURRENT",
+        "end": 60000000,
+        "trials": 1300,
+        "winRate": 0,
+        "medianHp": null,
+        "minPower": 10332443,
+        "maxPower": 12429956
+      },
+      {
+        "cohort": "H",
+        "type": "CURRENT",
+        "end": 65000000,
+        "trials": 1300,
+        "winRate": 0,
+        "medianHp": null,
+        "minPower": 10332443,
+        "maxPower": 12429956
+      },
+      {
+        "cohort": "H",
+        "type": "CURRENT",
+        "end": 70000000,
+        "trials": 1300,
+        "winRate": 0,
+        "medianHp": null,
+        "minPower": 10332443,
+        "maxPower": 12429956
+      },
+      {
+        "cohort": "OTHER",
+        "type": "CURRENT",
+        "end": 1500000,
+        "trials": 400,
+        "winRate": 75,
+        "medianHp": 94,
+        "minPower": 605870,
+        "maxPower": 7968337
+      },
+      {
+        "cohort": "OTHER",
+        "type": "CURRENT",
+        "end": 3000000,
+        "trials": 400,
+        "winRate": 75,
+        "medianHp": 76,
+        "minPower": 605870,
+        "maxPower": 7968337
+      },
+      {
+        "cohort": "OTHER",
+        "type": "CURRENT",
+        "end": 6000000,
+        "trials": 400,
+        "winRate": 38.5,
+        "medianHp": 25,
+        "minPower": 605870,
+        "maxPower": 7968337
+      },
+      {
+        "cohort": "OTHER",
+        "type": "CURRENT",
+        "end": 8000000,
+        "trials": 400,
+        "winRate": 0.3,
+        "medianHp": 3,
+        "minPower": 605870,
+        "maxPower": 8022061
+      },
+      {
+        "cohort": "OTHER",
+        "type": "CURRENT",
+        "end": 10000000,
+        "trials": 400,
+        "winRate": 0,
+        "medianHp": null,
+        "minPower": 605870,
+        "maxPower": 8022061
+      },
+      {
+        "cohort": "OTHER",
+        "type": "CURRENT",
+        "end": 12000000,
+        "trials": 400,
+        "winRate": 0,
+        "medianHp": null,
+        "minPower": 605870,
+        "maxPower": 8022061
+      },
+      {
+        "cohort": "OTHER",
+        "type": "CURRENT",
+        "end": 14000000,
+        "trials": 400,
+        "winRate": 0,
+        "medianHp": null,
+        "minPower": 605870,
+        "maxPower": 8022061
+      },
+      {
+        "cohort": "OTHER",
+        "type": "CURRENT",
+        "end": 16000000,
+        "trials": 400,
+        "winRate": 0,
+        "medianHp": null,
+        "minPower": 605870,
+        "maxPower": 8022061
+      },
+      {
+        "cohort": "OTHER",
+        "type": "CURRENT",
+        "end": 40000000,
+        "trials": 400,
+        "winRate": 0,
+        "medianHp": null,
+        "minPower": 605870,
+        "maxPower": 8022061
+      },
+      {
+        "cohort": "OTHER",
+        "type": "CURRENT",
+        "end": 50000000,
+        "trials": 400,
+        "winRate": 0,
+        "medianHp": null,
+        "minPower": 605870,
+        "maxPower": 8022061
+      },
+      {
+        "cohort": "OTHER",
+        "type": "CURRENT",
+        "end": 60000000,
+        "trials": 400,
+        "winRate": 0,
+        "medianHp": null,
+        "minPower": 605870,
+        "maxPower": 8022061
+      },
+      {
+        "cohort": "OTHER",
+        "type": "CURRENT",
+        "end": 65000000,
+        "trials": 400,
+        "winRate": 0,
+        "medianHp": null,
+        "minPower": 605870,
+        "maxPower": 8022061
+      },
+      {
+        "cohort": "OTHER",
+        "type": "CURRENT",
+        "end": 70000000,
+        "trials": 400,
+        "winRate": 0,
+        "medianHp": null,
+        "minPower": 605870,
+        "maxPower": 8022061
+      }
+    ]
+  },
+  "correction": "Live scrapyard already uses /scrapyard/v3/run; supersede legacy scalar simulations with 440 actual V3 runs."
 }

@@ -15,7 +15,7 @@ for(const postgres of [false,true]){
     const next={...original,clearCoin:[10000000000],dailyCoinCap:10000000000};
     for(const value of [-1,0.5,10000000001]){
       assert.throws(()=>validateExpeditionPolicy('COW_ROOM',{...next,clearCoin:[value]}),{code:'PVE_V3_POLICY'});
-      assert.throws(()=>validateExpeditionPolicy('COW_ROOM',{...next,dailyCoinCap:value}),{code:'PVE_V3_POLICY'});
+      assert.throws(()=>validateExpeditionPolicy('COW_ROOM',{...next,dailyCoinCap:value===10000000001?18000000001:value}),{code:'PVE_V3_POLICY'});
     }
     const request=new Request('https://game.example/api/admin/pve-v3',{method:'PATCH',headers:{authorization:'Bearer local-account-7',origin:'https://game.example','content-type':'application/json'},body:JSON.stringify({content:'COW_ROOM',revision:original.revision,economy:next})});
     const response=await handlePveV3({path:'admin/pve-v3',request,env:f.env,deps:f.deps});

@@ -4,10 +4,10 @@ import {readExpeditionPolicy} from './_expedition_v3_settings.js';
 import {jointError} from './_joint_request.js';
 import {cowPortalBattleEligible} from '../shared/cow-portal-eligibility.mjs';
 
-export const COW_PORTAL_POLICY=Object.freeze({standardPercent:2,apocalypsePercent:3,basis:'COMPLETED_BATTLE',entry:'ONE_PORTAL_ONE_RUN'});
+export const COW_PORTAL_POLICY=Object.freeze({standardPercent:0.5,apocalypsePercent:0.5,basis:'COMPLETED_BATTLE',entry:'ONE_PORTAL_ONE_RUN'});
 export const COW_PORTAL_TABLE='cow_room_portal_rolls_v1';
 export const COW_PORTAL_SCHEMA=[
-  `CREATE TABLE IF NOT EXISTS ${COW_PORTAL_TABLE}(id TEXT PRIMARY KEY,user_id INTEGER NOT NULL,source_type TEXT NOT NULL CHECK(source_type IN('HUNT','SWEEP')),source_ref TEXT NOT NULL,difficulty TEXT NOT NULL,result TEXT NOT NULL CHECK(result IN('WIN','LOSE')),rate_percent INTEGER NOT NULL,roll_ppm INTEGER NOT NULL CHECK(roll_ppm>=0 AND roll_ppm<1000000),state TEXT NOT NULL CHECK(state IN('MISSED','OPEN','CONSUMED')),consumed_request_id TEXT,created_at TEXT NOT NULL,consumed_at TEXT,UNIQUE(user_id,source_type,source_ref))`,
+  `CREATE TABLE IF NOT EXISTS ${COW_PORTAL_TABLE}(id TEXT PRIMARY KEY,user_id INTEGER NOT NULL,source_type TEXT NOT NULL CHECK(source_type IN('HUNT','SWEEP')),source_ref TEXT NOT NULL,difficulty TEXT NOT NULL,result TEXT NOT NULL CHECK(result IN('WIN','LOSE')),rate_percent REAL NOT NULL,roll_ppm INTEGER NOT NULL CHECK(roll_ppm>=0 AND roll_ppm<1000000),state TEXT NOT NULL CHECK(state IN('MISSED','OPEN','CONSUMED')),consumed_request_id TEXT,created_at TEXT NOT NULL,consumed_at TEXT,UNIQUE(user_id,source_type,source_ref))`,
   `CREATE INDEX IF NOT EXISTS cow_room_portal_open_user_v1 ON ${COW_PORTAL_TABLE}(user_id,state,created_at)`,
   `CREATE UNIQUE INDEX IF NOT EXISTS cow_room_portal_run_v1 ON ${COW_PORTAL_TABLE}(user_id,consumed_request_id) WHERE consumed_request_id IS NOT NULL`
 ];

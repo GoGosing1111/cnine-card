@@ -17,6 +17,8 @@ const SCRAPYARD_DIFFICULTIES=[
   ['FURNACE','SCRAPYARD_PARTS_FURNACE','폐차장 · 용광로 부품']
 ];
 const SCRAPYARD_POOL_CODES=new Set(SCRAPYARD_DIFFICULTIES.map(([,poolCode])=>poolCode));
+// The upper tiers retain the furnace material policy, including CMS edits.
+const SCRAPYARD_BINDING_DIFFICULTIES=[...SCRAPYARD_DIFFICULTIES,['FURNACE_ELITE','SCRAPYARD_PARTS_FURNACE'],['FURNACE_ABYSS','SCRAPYARD_PARTS_FURNACE']];
 let foundationPromise=null;
 const bindingCache=new Map();
 const entryCache=new Map();
@@ -396,7 +398,7 @@ export async function handleDropPool({path,request,env,deps}){
   if(action==='SAVE_BINDINGS'){
     const bindings=(Array.isArray(body.bindings)?body.bindings:[]).slice(0,200).map((raw,index)=>({sourceType:code(raw.sourceType||raw.source_type),sourceId:text(raw.sourceId||raw.source_id||'*',120)||'*',triggerType:code(raw.triggerType||raw.trigger_type||'WIN'),poolId:int(raw.poolId||raw.pool_id,1),priority:int(raw.priority,-100000,100000,index),isEnabled:raw.isEnabled!==false&&Number(raw.is_enabled)!==0})).filter(binding=>binding.sourceType!=='SCRAPYARD');
     for(const binding of bindings){if(!binding.sourceType||!binding.triggerType)return deps.json({error:'콘텐츠와 지급 조건을 입력하세요.'},400);if(!await env.DB.prepare(`SELECT id FROM ${POOL_TABLE} WHERE id=?`).bind(binding.poolId).first())return deps.json({error:`드랍풀 #${binding.poolId}을 찾을 수 없습니다.`},400)}
-    for(const [difficulty,poolCode] of SCRAPYARD_DIFFICULTIES){const pool=await env.DB.prepare(`SELECT id FROM ${POOL_TABLE} WHERE code=?`).bind(poolCode).first();if(!pool)return deps.json({error:`폐차장 ${difficulty} 난이도 드랍풀이 없습니다.`},500);bindings.push({sourceType:'SCRAPYARD',sourceId:difficulty,triggerType:'CLEAR',poolId:Number(pool.id),priority:100,isEnabled:true})}
+    for(const [difficulty,poolCode] of SCRAPYARD_BINDING_DIFFICULTIES){const pool=await env.DB.prepare(`SELECT id FROM ${POOL_TABLE} WHERE code=?`).bind(poolCode).first();if(!pool)return deps.json({error:`폐차장 ${difficulty} 난이도 드랍풀이 없습니다.`},500);bindings.push({sourceType:'SCRAPYARD',sourceId:difficulty,triggerType:'CLEAR',poolId:Number(pool.id),priority:100,isEnabled:true})}
     const statements=[env.DB.prepare(`DELETE FROM ${BINDING_TABLE}`)];for(const binding of bindings)statements.push(env.DB.prepare(`INSERT INTO ${BINDING_TABLE}(source_type,source_id,trigger_type,pool_id,priority,is_enabled) VALUES(?,?,?,?,?,?)`).bind(binding.sourceType,binding.sourceId,binding.triggerType,binding.poolId,binding.priority,binding.isEnabled?1:0));await env.DB.batch(statements);invalidateUnifiedDropPoolCache();if(deps.writeAdminLog)await deps.writeAdminLog(env,admin,'UNIFIED_DROP_BINDINGS_SAVE','DROP_BINDING','ALL',null,{count:bindings.length});return deps.json({ok:true,snapshot:await adminSnapshot(env)});
   }
   if(action==='SAVE_NIGHTMARE_BINDINGS'){

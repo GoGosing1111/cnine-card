@@ -1,0 +1,255 @@
+{
+  "meta": [
+    {
+      "key": "expedition_v3_cow_room",
+      "value": "{\"revision\":2,\"version\":\"cow-economy-v2-20260913\",\"mode\":\"ON\",\"approved\":true,\"entryCoin\":250000,\"dailyRuns\":6,\"dailyCoinCap\":3000000000,\"clearCoin\":[500000000],\"updatedBy\":1,\"updatedAt\":\"2026-09-13T04:28:28.486Z\"}"
+    },
+    {
+      "key": "scrapyard_settings_v1676",
+      "value": "{\"mode\":\"ON\",\"dailyRuns\":30,\"difficulties\":[{\"id\":\"OUTER\",\"name\":\"외곽 폐차장\",\"waves\":10,\"requiredPowerStart\":70000,\"requiredPowerEnd\":150000,\"clearCoin\":10000000,\"accent\":\"#58ddff\"},{\"id\":\"CORE\",\"name\":\"압축 설비 구역\",\"waves\":10,\"requiredPowerStart\":500000,\"requiredPowerEnd\":1200000,\"clearCoin\":20000000,\"accent\":\"#ffb85c\"},{\"id\":\"FURNACE\",\"name\":\"용광로 심부\",\"waves\":10,\"requiredPowerStart\":950000,\"requiredPowerEnd\":1800000,\"clearCoin\":40000000,\"accent\":\"#ff596f\"}]}"
+    }
+  ],
+  "season": {
+    "id": "1",
+    "name": "무한의탑 시즌 1",
+    "status": "ACTIVE",
+    "starts_at": "2026-07-17 16:59:31",
+    "ends_at": null,
+    "max_floor": "100",
+    "created_at": "2026-07-17 16:59:31",
+    "updated_at": "2026-07-17 16:59:31"
+  },
+  "ranges": [
+    {
+      "id": "2",
+      "season_id": "1",
+      "monster_id": "17",
+      "start_floor": "1",
+      "end_floor": "9",
+      "power_override": "5000",
+      "reward_coin": "1000000",
+      "is_boss": "0",
+      "is_active": "1",
+      "created_at": "2026-07-20 02:06:30",
+      "updated_at": "2026-09-04 15:06:14"
+    },
+    {
+      "id": "3",
+      "season_id": "1",
+      "monster_id": "18",
+      "start_floor": "10",
+      "end_floor": "10",
+      "power_override": "15000",
+      "reward_coin": "5000000",
+      "is_boss": "1",
+      "is_active": "1",
+      "created_at": "2026-07-20 02:06:53",
+      "updated_at": "2026-09-04 15:06:25"
+    },
+    {
+      "id": "4",
+      "season_id": "1",
+      "monster_id": "19",
+      "start_floor": "11",
+      "end_floor": "19",
+      "power_override": "10000",
+      "reward_coin": "2000000",
+      "is_boss": "0",
+      "is_active": "1",
+      "created_at": "2026-07-20 02:07:08",
+      "updated_at": "2026-09-04 15:06:35"
+    },
+    {
+      "id": "5",
+      "season_id": "1",
+      "monster_id": "20",
+      "start_floor": "20",
+      "end_floor": "20",
+      "power_override": "25000",
+      "reward_coin": "10000000",
+      "is_boss": "1",
+      "is_active": "1",
+      "created_at": "2026-07-20 02:09:10",
+      "updated_at": "2026-09-04 15:06:47"
+    },
+    {
+      "id": "6",
+      "season_id": "1",
+      "monster_id": "21",
+      "start_floor": "21",
+      "end_floor": "29",
+      "power_override": "27000",
+      "reward_coin": "3000000",
+      "is_boss": "0",
+      "is_active": "1",
+      "created_at": "2026-07-20 02:09:46",
+      "updated_at": "2026-09-04 15:07:05"
+    },
+    {
+      "id": "7",
+      "season_id": "1",
+      "monster_id": "22",
+      "start_floor": "30",
+      "end_floor": "30",
+      "power_override": "45000",
+      "reward_coin": "30000000",
+      "is_boss": "1",
+      "is_active": "1",
+      "created_at": "2026-07-20 02:10:05",
+      "updated_at": "2026-09-04 15:07:22"
+    },
+    {
+      "id": "8",
+      "season_id": "1",
+      "monster_id": "24",
+      "start_floor": "31",
+      "end_floor": "39",
+      "power_override": "30000",
+      "reward_coin": "4000000",
+      "is_boss": "0",
+      "is_active": "1",
+      "created_at": "2026-07-20 07:24:39",
+      "updated_at": "2026-09-04 15:07:37"
+    },
+    {
+      "id": "9",
+      "season_id": "1",
+      "monster_id": "23",
+      "start_floor": "40",
+      "end_floor": "40",
+      "power_override": "55000",
+      "reward_coin": "50000000",
+      "is_boss": "0",
+      "is_active": "1",
+      "created_at": "2026-07-20 07:25:16",
+      "updated_at": "2026-09-04 15:07:50"
+    },
+    {
+      "id": "10",
+      "season_id": "1",
+      "monster_id": "27",
+      "start_floor": "41",
+      "end_floor": "49",
+      "power_override": "35000",
+      "reward_coin": "5000000",
+      "is_boss": "0",
+      "is_active": "1",
+      "created_at": "2026-07-30 09:34:10",
+      "updated_at": "2026-09-04 15:08:00"
+    },
+    {
+      "id": "11",
+      "season_id": "1",
+      "monster_id": "28",
+      "start_floor": "50",
+      "end_floor": "50",
+      "power_override": "100000",
+      "reward_coin": "100000000",
+      "is_boss": "1",
+      "is_active": "1",
+      "created_at": "2026-07-30 09:34:40",
+      "updated_at": "2026-09-04 15:08:11"
+    },
+    {
+      "id": "12",
+      "season_id": "1",
+      "monster_id": "64",
+      "start_floor": "51",
+      "end_floor": "59",
+      "power_override": "350000",
+      "reward_coin": "10000000",
+      "is_boss": "0",
+      "is_active": "1",
+      "created_at": "2026-08-19 21:03:19",
+      "updated_at": "2026-09-04 15:08:20"
+    },
+    {
+      "id": "13",
+      "season_id": "1",
+      "monster_id": "67",
+      "start_floor": "60",
+      "end_floor": "60",
+      "power_override": "250000",
+      "reward_coin": "300000000",
+      "is_boss": "1",
+      "is_active": "1",
+      "created_at": "2026-08-19 21:26:56",
+      "updated_at": "2026-09-04 15:08:35"
+    },
+    {
+      "id": "14",
+      "season_id": "1",
+      "monster_id": "68",
+      "start_floor": "61",
+      "end_floor": "69",
+      "power_override": "400000",
+      "reward_coin": "25000000",
+      "is_boss": "0",
+      "is_active": "1",
+      "created_at": "2026-08-19 21:30:04",
+      "updated_at": "2026-09-04 15:08:45"
+    },
+    {
+      "id": "15",
+      "season_id": "1",
+      "monster_id": "69",
+      "start_floor": "70",
+      "end_floor": "70",
+      "power_override": "2000000",
+      "reward_coin": "500000000",
+      "is_boss": "1",
+      "is_active": "1",
+      "created_at": "2026-08-19 21:30:39",
+      "updated_at": "2026-09-04 15:08:54"
+    }
+  ],
+  "floors": [
+    {
+      "id": "1",
+      "season_id": "1",
+      "floor_no": "10",
+      "monster_id": "1",
+      "power_override": null,
+      "reward_coin": "1000",
+      "is_boss": "0",
+      "is_active": "1",
+      "created_at": "2026-07-20 01:35:56",
+      "updated_at": "2026-07-20 01:35:56"
+    }
+  ],
+  "bindings": [
+    {
+      "id": "2269",
+      "source_type": "SCRAPYARD",
+      "source_id": "OUTER",
+      "trigger_type": "CLEAR",
+      "pool_id": "1916",
+      "priority": "100",
+      "is_enabled": "1",
+      "created_at": "2026-09-08 01:59:57",
+      "updated_at": "2026-09-08 01:59:57"
+    },
+    {
+      "id": "2270",
+      "source_type": "SCRAPYARD",
+      "source_id": "CORE",
+      "trigger_type": "CLEAR",
+      "pool_id": "1917",
+      "priority": "100",
+      "is_enabled": "1",
+      "created_at": "2026-09-08 01:59:57",
+      "updated_at": "2026-09-08 01:59:57"
+    },
+    {
+      "id": "2271",
+      "source_type": "SCRAPYARD",
+      "source_id": "FURNACE",
+      "trigger_type": "CLEAR",
+      "pool_id": "1918",
+      "priority": "100",
+      "is_enabled": "1",
+      "created_at": "2026-09-08 01:59:57",
+      "updated_at": "2026-09-08 01:59:57"
+    }
+  ]
+}

@@ -3,13 +3,16 @@ import {createPveBattleV2} from './_battle_v2_preview.js';
 import {loadPetBattleSnapshot} from './_pet_account.js';
 import {SCRAPYARD_ENEMIES} from './_scrapyard.js';
 
-// Staged as part of the entire PVE overhaul. Not imported by an HTTP route.
+// Public /scrapyard/v3 uses this engine; the old joint-release flag is not its
+// current route gate (see pve-public-release-v2092).
 export const PVE_CONTINUOUS_OVERHAUL_RELEASE_ENABLED = false;
 export const SCRAPYARD_V3_VERSION = 'PVE_CONTINUOUS_V1';
 export const SCRAPYARD_V3_DRAFT = Object.freeze({
   OUTER: Object.freeze({normalCount:9, simultaneous:3, maxActions:180, maxDuration:2, forcedMonsterEvery:6}),
   CORE: Object.freeze({normalCount:12, simultaneous:3, maxActions:240, maxDuration:2.5, forcedMonsterEvery:6}),
-  FURNACE: Object.freeze({normalCount:15, simultaneous:3, maxActions:300, maxDuration:3, forcedMonsterEvery:6})
+  FURNACE: Object.freeze({normalCount:15, simultaneous:3, maxActions:300, maxDuration:3, forcedMonsterEvery:6}),
+  FURNACE_ELITE: Object.freeze({normalCount:15, simultaneous:3, maxActions:300, maxDuration:3, forcedMonsterEvery:6}),
+  FURNACE_ABYSS: Object.freeze({normalCount:15, simultaneous:3, maxActions:300, maxDuration:3, forcedMonsterEvery:6})
 });
 const ART = Object.freeze({
   SCRAP_OUTER_GEARJAW:'/preview/scrapyard-v3-v1/assets/gearjaw-sd-v1.png',
