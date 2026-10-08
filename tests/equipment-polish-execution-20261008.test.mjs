@@ -1,0 +1,69 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {polishFixture} from './helpers/equipment-polish-db.mjs';
+import {readPolishSettings} from '../functions/_equipment_polish.js';
+import {executePolish,polishReceipt} from '../functions/_equipment_polish_transactions.js';
+import {equipmentGrowthRuntime,polishStateKey,decodePolishState,restoredPolishStatements} from '../functions/_equipment_growth.js';
+import {createPolishRequest} from '../js/equipment-polish-request-v1.mjs';
+import {equipmentEnhancementRows} from '../functions/_equipment_inventory.js';
+const user={id:7,role:'OWNER'};
+for(const postgres of [false,true])test(`real polish: atomic debit, replay, conflict, owned growth and restore (${postgres?'PG':'SQLite'})`,async t=>{
+  const f=await polishFixture(t,{postgres});
+  const settings=(await f.call('',{admin:true})).body.settings;
+  settings.publicVisible=true;settings.executionMode='ON';settings.costs[0].masterStars=5;
+  assert.equal((await f.call('',{admin:true,method:'PATCH',body:{settings,expectedRevision:0}})).status,200);
+  const policy=await readPolishSettings(f.env),body={instanceId:'72',expectedAttempts:0,revision:1,requestId:'polish-request-00000001'};
+  for(const stage of ['INSERT INTO inventory_logs','INSERT INTO app_meta','DELETE FROM joint_atomic_guards_v1']){
+    f.fail(stage);await assert.rejects(executePolish(f.env,user,policy,body,{unit:0}),{code:'POLISH_RETRY'});f.fail('');
+    assert.equal(Number((await f.p('SELECT coin FROM users WHERE id=7').first()).coin),1000000);
+    assert.equal(await polishReceipt(f.env,user,body.requestId),null);
+  }
+  const receipt=await executePolish(f.env,user,policy,body,{unit:0});
+  assert.equal(receipt.state.attempts,1);assert.equal(receipt.values[0],.5);
+  assert.deepEqual(await executePolish(f.env,user,policy,body,{unit:.99}),receipt);
+  assert.equal(Number((await f.p('SELECT coin FROM users WHERE id=7').first()).coin),999000);
+  assert.equal(Number((await f.p("SELECT quantity FROM cnine_user_inventory WHERE user_id=7 AND item_code='EQUIPMENT_POLISH_STONE'").first()).quantity),19);
+  assert.equal(Number((await f.p('SELECT COUNT(*) n FROM inventory_logs').first()).n),2);
+  await assert.rejects(executePolish(f.env,user,policy,{...body,instanceId:'71'}),{code:'POLISH_REQUEST_CONFLICT'});
+  await assert.rejects(executePolish(f.env,user,policy,{...body,requestId:'polish-request-00000002'}),{code:'POLISH_CONFLICT'});
+  await assert.rejects(executePolish(f.env,user,policy,{...body,instanceId:'81',requestId:'polish-request-00000003'}),{code:'POLISH_NOT_OWNED'});
+  assert.equal((await equipmentGrowthRuntime(f.env,7)).effects.attackPercent,undefined);
+  await f.p('UPDATE user_equipment_loadout SET instance_id=72 WHERE user_id=7').run();
+  assert.equal((await equipmentGrowthRuntime(f.env,7)).effects.attackPercent,.5);
+  assert.equal((await f.call('state?instanceId=72')).body.items[0].polish.attempts,1);
+  assert.equal((await f.call('state?instanceId=81')).body.items.length,0);
+  await f.p('INSERT INTO user_equipment_instances(id,user_id,equipment_id) VALUES(73,7,1)').run();
+  const inventory=await equipmentEnhancementRows(f.env,7,[{id:1,instance_id:72,quantity:3}]);
+  assert.equal(inventory.length,3);assert.deepEqual(new Set(inventory.map(i=>String(i.instance_id))),new Set(['71','72','73']));
+  assert.equal(inventory.find(i=>String(i.instance_id)==='72').quantity,1);
+  await f.p("INSERT INTO equipment_forge_destroyed_v1 VALUES('repair',7,'72','74')").run();
+  await f.env.DB.batch(await restoredPolishStatements(f.env.DB,7,'repair'));
+  const restored=await f.p('SELECT value FROM app_meta WHERE key=?',polishStateKey('74',7)).first();
+  assert.equal(decodePolishState(restored.value,'74',7).values[0],.5);
+  assert.deepEqual(await restoredPolishStatements(f.env.DB,8,'repair'),[]);
+  const fresh={...body,instanceId:'73',requestId:'polish-request-00000004'};
+  const batch=f.env.DB.batch;
+  f.env.DB.batch=async statements=>{f.env.DB.batch=batch;await f.p('UPDATE user_equipment_instances SET user_id=8 WHERE id=73').run();return batch.call(f.env.DB,statements);};
+  await assert.rejects(executePolish(f.env,user,policy,fresh,{unit:0}),{code:'POLISH_RETRY'});
+  assert.equal(await polishReceipt(f.env,user,fresh.requestId),null);
+});
+test('durable polish intent recovers after reload and cannot double roll on a lost reply',async()=>{
+  const values=new Map(),storage={getItem:k=>values.get(k),setItem:(k,v)=>values.set(k,v),removeItem:k=>values.delete(k)};
+  let calls=0,saved=null,offline=true;
+  const request=async(path,options)=>{if(path==='execute'){calls++;saved={...options.body,selected:2};throw Error('lost reply');}if(offline)throw Error('offline');return {receipt:saved};};
+  let client=createPolishRequest({request,storage,userId:7,uuid:()=> 'durable-request-001'});
+  await assert.rejects(client.execute({instanceId:'71',expectedAttempts:0,revision:1}));assert.ok(client.pending);
+  client=createPolishRequest({request,storage,userId:7});
+  await assert.rejects(client.execute({instanceId:'72'}));assert.equal(calls,1);
+  offline=false;assert.equal((await client.recover()).selected,2);assert.equal(client.pending,null);assert.equal(calls,1);
+  const bad=createPolishRequest({request,storage:{...storage,setItem(){throw Error('quota');}},userId:7});
+  await assert.rejects(bad.execute({instanceId:'71',expectedAttempts:1,revision:1}));assert.equal(calls,1);
+});
+
+test('missing owned equipment releases a stale polish intent without another charge',async()=>{
+  const values=new Map([['cnine_polish_pending_v1:7',JSON.stringify({requestId:'missing-equipment-001',instanceId:'71',expectedAttempts:0,revision:1})]]);
+  const storage={getItem:k=>values.get(k),setItem:(k,v)=>values.set(k,v),removeItem:k=>values.delete(k)},paths=[];
+  const client=createPolishRequest({storage,userId:7,request:async path=>{paths.push(path);return path.startsWith('receipt?')?{receipt:null}:{items:[]};}});
+  assert.equal(await client.recover(),null);assert.equal(client.pending,null);assert.equal(values.size,0);
+  assert.deepEqual(paths,['receipt?requestId=missing-equipment-001','state?instanceId=71']);
+});

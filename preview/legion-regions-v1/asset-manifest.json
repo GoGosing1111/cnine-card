@@ -1,0 +1,510 @@
+{
+  "generator": "built-in imagegen",
+  "records": [
+    {
+      "id": "coast",
+      "kind": "background",
+      "source": "preview/legion-regions-v1/sources/coast-background-source-v1.png",
+      "sourceSha256": "7069036e36a8261f45079afc02e5e910450436da18188d402f4171e517b9eb9d",
+      "files": [
+        {
+          "path": "assets/ui/legion-regions-v1/coast/background-v1.webp",
+          "sha256": "bb9b82bc658d2d121d086b9ccd9976dbcd8a000f58970be3560292da461897c6",
+          "width": 1672,
+          "height": 941,
+          "alpha": false
+        }
+      ]
+    },
+    {
+      "id": "desert",
+      "kind": "background",
+      "source": "preview/legion-regions-v1/sources/desert-background-source-v1.png",
+      "sourceSha256": "1374772f7a7dad5c447eb284fbbb923573087a49302294f88d3869908b01b61d",
+      "files": [
+        {
+          "path": "assets/ui/legion-regions-v1/desert/background-v1.webp",
+          "sha256": "5c46316fe41dddf72c1c8b2af8ba527dfdd184f4999c064900e8f0e9cf635c7d",
+          "width": 1672,
+          "height": 941,
+          "alpha": false
+        }
+      ]
+    },
+    {
+      "id": "theatre",
+      "kind": "background",
+      "source": "preview/legion-regions-v1/sources/theatre-background-source-v1.png",
+      "sourceSha256": "94b1ed0febdb9655362784ce1bb6a3a77f35b91a3260fe56b4979269d47a6e11",
+      "files": [
+        {
+          "path": "assets/ui/legion-regions-v1/theatre/background-v1.webp",
+          "sha256": "1d88a9b2f5103a2da24122460e038515005e578ab6494df3a611b240846ec3ef",
+          "width": 1672,
+          "height": 941,
+          "alpha": false
+        }
+      ]
+    },
+    {
+      "id": "viscera",
+      "kind": "background",
+      "source": "preview/legion-regions-v1/sources/viscera-background-source-v1.png",
+      "sourceSha256": "9b681dd4f77ead3ea651e32a3848310db85df4f0236efe7733c18507e52a46ec",
+      "files": [
+        {
+          "path": "assets/ui/legion-regions-v1/viscera/background-v1.webp",
+          "sha256": "8f9544eff8ef1b61eb5b7c43ab4395c375fbe78530c3c8e617e8780ad14d4f49",
+          "width": 1672,
+          "height": 941,
+          "alpha": false
+        }
+      ]
+    },
+    {
+      "id": "sky",
+      "kind": "background",
+      "source": "preview/legion-regions-v1/sources/sky-background-source-v1.png",
+      "sourceSha256": "b4c5cb4467218a6c05598a2237bcaa1b5b9188c89216f671fcf25483636f50f2",
+      "files": [
+        {
+          "path": "assets/ui/legion-regions-v1/sky/background-v1.webp",
+          "sha256": "fe8fec5021e90ea6c2f7b0af5672c9999dd15dfd392c6ed37573bdaa4a2265e4",
+          "width": 1672,
+          "height": 941,
+          "alpha": false
+        }
+      ]
+    },
+    {
+      "id": "coast",
+      "kind": "monsters",
+      "source": "preview/legion-regions-v1/sources/coast-monsters-source-v1.png",
+      "sourceSha256": "c1487ffc66f10d56ec390579dbf0bb4f763b54ea76ecf3b2c4561551de54db0e",
+      "files": [
+        {
+          "path": "assets/ui/legion-regions-v1/coast/monster-1-v1.webp",
+          "sha256": "8fc53cc935cf9aba7e0cacfdcc25e9e8f37a3aa656b596834ebac357e7a136c1",
+          "width": 642,
+          "height": 430,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/coast/monster-2-v1.webp",
+          "sha256": "76e230d11acd36a95bb333f880199522b9c31413f8cb3d713317801cd02cf04e",
+          "width": 653,
+          "height": 548,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/coast/monster-3-v1.webp",
+          "sha256": "3ac5daf4d4035a9d949dbb12e088ee3c9be2dd8d470e4861c2b2ae60fbc4eb7d",
+          "width": 544,
+          "height": 628,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/coast/boss-v1.webp",
+          "sha256": "51a53eb986cc76b5d3f8e498c035152ee4702238e65f9cfa91648580705b9bff",
+          "width": 700,
+          "height": 698,
+          "alpha": true
+        }
+      ]
+    },
+    {
+      "id": "desert",
+      "kind": "monsters",
+      "source": "preview/legion-regions-v1/sources/desert-monsters-source-v1.png",
+      "sourceSha256": "45b32d69aed43ba7488820a9717ae95bd495af370459db77b9e514e5a4e9b8b7",
+      "files": [
+        {
+          "path": "assets/ui/legion-regions-v1/desert/monster-1-v1.webp",
+          "sha256": "f81f8b78cf5a0ceb621ce825263fa09fadf7918d1d538c272e71dac4f1a5f0bf",
+          "width": 583,
+          "height": 610,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/desert/monster-2-v1.webp",
+          "sha256": "9a189dbfab579d8b80576b2ebdc55a02561168b74c6b17a956ffad3e42c3af44",
+          "width": 497,
+          "height": 623,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/desert/monster-3-v1.webp",
+          "sha256": "d3c54bbb660e5c4661e3cb1e4c04b1d28c057abc3c3c28ed9d7080188790a6dc",
+          "width": 657,
+          "height": 559,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/desert/boss-v1.webp",
+          "sha256": "8a2779e5c883ea4aace3f86a27d18d021ac67ef48b4c779bc570594362bb33da",
+          "width": 656,
+          "height": 627,
+          "alpha": true
+        }
+      ]
+    },
+    {
+      "id": "theatre",
+      "kind": "monsters",
+      "source": "preview/legion-regions-v1/sources/theatre-monsters-source-v1.png",
+      "sourceSha256": "4ec2704dd6ddb3dc5a50529387fdfd2a4100388350059e22664f4c513ce621d2",
+      "files": [
+        {
+          "path": "assets/ui/legion-regions-v1/theatre/monster-1-v1.webp",
+          "sha256": "ab6ca7c91b701a1a3a5b5e193260a23b55a2c9509179f9a110f9769fd67d11f0",
+          "width": 537,
+          "height": 632,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/theatre/monster-2-v1.webp",
+          "sha256": "7ef41cdc272d903e63af131fcaadfff5fd7ff67623b16f49b845a0195138fe47",
+          "width": 515,
+          "height": 642,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/theatre/monster-3-v1.webp",
+          "sha256": "23f7fc0c52d51ba36907c33e783bb55a021c4cb65daaff1be7e0b2c7b606fb7c",
+          "width": 468,
+          "height": 641,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/theatre/boss-v1.webp",
+          "sha256": "dc9838e21beb4ec87f6fbef650c0e15ddec33a8bff7947d7f3eb33ec3e7031f7",
+          "width": 608,
+          "height": 636,
+          "alpha": true
+        }
+      ]
+    },
+    {
+      "id": "viscera",
+      "kind": "monsters",
+      "source": "preview/legion-regions-v1/sources/viscera-monsters-source-v1.png",
+      "sourceSha256": "f484bc9a629818d636d922f371b27cbe94cfbfca05b85671afad4f300f0e639b",
+      "files": [
+        {
+          "path": "assets/ui/legion-regions-v1/viscera/monster-1-v1.webp",
+          "sha256": "12156975725263b87d233b89bfb7e1ea463f4f1c5fd7686b2f26020ea54402d7",
+          "width": 548,
+          "height": 527,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/viscera/monster-2-v1.webp",
+          "sha256": "a95f2621caba02a975580ba6275ba7bb4d85b38b2d71dfe67574fc6dc9b87058",
+          "width": 617,
+          "height": 535,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/viscera/monster-3-v1.webp",
+          "sha256": "6bf0c2ce9d1e139c1f43e33f5f11497d6fa05ae1f0a9699ed82d846500dcd052",
+          "width": 533,
+          "height": 718,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/viscera/boss-v1.webp",
+          "sha256": "5885938c25852f86cb933dbbd1ac151c9fbd98d912021fee613c59d30a64408a",
+          "width": 670,
+          "height": 726,
+          "alpha": true
+        }
+      ]
+    },
+    {
+      "id": "sky",
+      "kind": "monsters",
+      "source": "preview/legion-regions-v1/sources/sky-monsters-source-v1.png",
+      "sourceSha256": "804662b5a6e95aa5e3f5c7e7b04c851be4bf9440445d0536ecc9366ced88ff52",
+      "files": [
+        {
+          "path": "assets/ui/legion-regions-v1/sky/monster-1-v1.webp",
+          "sha256": "7cb87d0e54efda7aa43e9d870cecae7a948399f7fa4c68410a95136e9c0539c8",
+          "width": 591,
+          "height": 603,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/sky/monster-2-v1.webp",
+          "sha256": "41dbc3fcb4bbdd57cdbe2d7af842960cdc00467852b9abb41f8f3041db0b714e",
+          "width": 593,
+          "height": 512,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/sky/monster-3-v1.webp",
+          "sha256": "095e8f22de40b09ac5ece83ef1dec51032b64ebe450b4f5327267da10259441f",
+          "width": 600,
+          "height": 613,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/sky/boss-v1.webp",
+          "sha256": "49f4b0da70704c265e6d0676957a07bfde2dda115372fb3a67abc64562511fe0",
+          "width": 644,
+          "height": 686,
+          "alpha": true
+        }
+      ]
+    },
+    {
+      "id": "coast",
+      "kind": "equipment",
+      "source": "preview/legion-regions-v1/sources/coast-equipment-source-v1.png",
+      "sourceSha256": "9a536f5e36a42d77b4c23ec4a37b3c856b136b772ff0fb95ad24cf260096ad3e",
+      "files": [
+        {
+          "path": "assets/ui/legion-regions-v1/coast/equipment-1-v1.webp",
+          "sha256": "17bac6f19796593faccd5427015eeec99fee1e2cea39490ca1240279ae94244c",
+          "width": 493,
+          "height": 166,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/coast/equipment-2-v1.webp",
+          "sha256": "d1f9d73267ba73364e3f0dd39402379801d9ef283639663fe64c70c9a9d17a38",
+          "width": 371,
+          "height": 470,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/coast/equipment-3-v1.webp",
+          "sha256": "fb5f0f962c6ddbb3d81989dbc5bfdfbf30521043738fdf2b216cd4c197585c57",
+          "width": 279,
+          "height": 462,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/coast/equipment-4-v1.webp",
+          "sha256": "968ccc24a7e9cb9304d037b7cd5d6523c7a1d7fd871b4bc2fbc79ee7f743513a",
+          "width": 425,
+          "height": 390,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/coast/equipment-5-v1.webp",
+          "sha256": "db1a0ac2e2fc68590c5d23f40b9d59faef4a3ff310be2da7bde48870349243cf",
+          "width": 277,
+          "height": 447,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/coast/equipment-6-v1.webp",
+          "sha256": "eb96ba0be6d017040721207dcaad8a134fab1d94ccb1a481dffbd5f0d2744c4b",
+          "width": 556,
+          "height": 180,
+          "alpha": true
+        }
+      ]
+    },
+    {
+      "id": "desert",
+      "kind": "equipment",
+      "source": "preview/legion-regions-v1/sources/desert-equipment-source-v1.png",
+      "sourceSha256": "f501b7d0759c11170d6db0c7e793d1833f58b92b74d70eced2e4069ff2f2d5b9",
+      "files": [
+        {
+          "path": "assets/ui/legion-regions-v1/desert/equipment-1-v1.webp",
+          "sha256": "42310c242974c69af773dcf65da10c74be7d8fdbec5d6169d87a4295dde2f936",
+          "width": 506,
+          "height": 170,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/desert/equipment-2-v1.webp",
+          "sha256": "328d919b110bdd1ab99e5a72724800fb1d5b83c5093305b57b7c2b25f9c991c4",
+          "width": 388,
+          "height": 434,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/desert/equipment-3-v1.webp",
+          "sha256": "3e4d4371c75705763abb52d4fdf47d834678bbac035f8539a414cfc2e2b1feed",
+          "width": 249,
+          "height": 447,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/desert/equipment-4-v1.webp",
+          "sha256": "8799ccb0f03b521b09bdcfb1444e83e02b00d41f32ec55c4bd468c89909f17f8",
+          "width": 354,
+          "height": 348,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/desert/equipment-5-v1.webp",
+          "sha256": "df5084c8f67ae52c67c448dbf9efdbd8ac06e0a378a87cf3ca98083a4070610a",
+          "width": 303,
+          "height": 408,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/desert/equipment-6-v1.webp",
+          "sha256": "826cb0a2a7826df285943360b13508c89eaf35a59260808111c76a61c21188f7",
+          "width": 538,
+          "height": 154,
+          "alpha": true
+        }
+      ]
+    },
+    {
+      "id": "theatre",
+      "kind": "equipment",
+      "source": "preview/legion-regions-v1/sources/theatre-equipment-source-v1.png",
+      "sourceSha256": "c1ab3001f576094a249435d483d29edb7781ab6028778344c36569451805066f",
+      "files": [
+        {
+          "path": "assets/ui/legion-regions-v1/theatre/equipment-1-v1.webp",
+          "sha256": "5472d158c63683f39e1f2fedf3ba00196367185cd69cbc5b4a6c36a69d678211",
+          "width": 582,
+          "height": 414,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/theatre/equipment-2-v1.webp",
+          "sha256": "7090d71861b02e98187daca3351dc47e5349ce5f7eb2a496690a3dda51ab3bd3",
+          "width": 437,
+          "height": 499,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/theatre/equipment-3-v1.webp",
+          "sha256": "5ebb4d9e6bd7ec0fc310a9e231759e521d5dcedcf5d87b697583f1afad2a3444",
+          "width": 229,
+          "height": 493,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/theatre/equipment-4-v1.webp",
+          "sha256": "daff95753cd7f0d8f9320e845fdc371c06e56a116290bbbfacc529557e808688",
+          "width": 401,
+          "height": 457,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/theatre/equipment-5-v1.webp",
+          "sha256": "8d8680e88cfb5f179250afd65793aa4332637d22170455dfb572543a95c6bafa",
+          "width": 327,
+          "height": 480,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/theatre/equipment-6-v1.webp",
+          "sha256": "3614c4e8c54a94150913f035f49f3ed3c78adc74caa3aa664c82f454b3fe159d",
+          "width": 326,
+          "height": 493,
+          "alpha": true
+        }
+      ]
+    },
+    {
+      "id": "viscera",
+      "kind": "equipment",
+      "source": "preview/legion-regions-v1/sources/viscera-equipment-source-v1.png",
+      "sourceSha256": "28846677e38fa5dfd79835438171930419c23cf454a6514ed6801f5205dec1e6",
+      "files": [
+        {
+          "path": "assets/ui/legion-regions-v1/viscera/equipment-1-v1.webp",
+          "sha256": "6ec5efb6fb962050cbb7dfd1c253bb76a98dd9352f9f43200b42d4e75f966d2a",
+          "width": 662,
+          "height": 214,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/viscera/equipment-2-v1.webp",
+          "sha256": "52635ab0280fe58733513d07d20f1141236717666f5ccfc4972df782131199e6",
+          "width": 311,
+          "height": 492,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/viscera/equipment-3-v1.webp",
+          "sha256": "ad67a1dcaf14f3106cd59ac5c86eec90e7773ba7b260d1729b48de64b388dd79",
+          "width": 242,
+          "height": 487,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/viscera/equipment-4-v1.webp",
+          "sha256": "ee7465d75277f0a8ed02defd7fd92e53b3d717cbf2f7a599ca71a701948dd386",
+          "width": 415,
+          "height": 427,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/viscera/equipment-5-v1.webp",
+          "sha256": "bd894ca3ed9233210d3310eaa30fe10b5bc69c0e7e0daab08ce6251c27956375",
+          "width": 174,
+          "height": 362,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/viscera/equipment-6-v1.webp",
+          "sha256": "b155887f9a1cf1288b7570b46632e8a514431cfbac4d92540c21f674c5ce7d34",
+          "width": 571,
+          "height": 506,
+          "alpha": true
+        }
+      ]
+    },
+    {
+      "id": "sky",
+      "kind": "equipment",
+      "source": "preview/legion-regions-v1/sources/sky-equipment-source-v1.png",
+      "sourceSha256": "3f170ece2b569ddc4cb52400b95d0f60810149878de6aff725b04311e4696e1f",
+      "files": [
+        {
+          "path": "assets/ui/legion-regions-v1/sky/equipment-1-v1.webp",
+          "sha256": "9daa8a2b02e20922cf5c1b7986536d53931acd313161c3ceda884fd3ffe71a2b",
+          "width": 645,
+          "height": 218,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/sky/equipment-2-v1.webp",
+          "sha256": "42b9a01bed13c093fad1aa8b302d6c01b4341bc2c9a89475bcf688d357869673",
+          "width": 436,
+          "height": 456,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/sky/equipment-3-v1.webp",
+          "sha256": "ae258b2ba988e5ecb83ef2c35664422833f1fd659359004e9342dfa76d9843c9",
+          "width": 255,
+          "height": 485,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/sky/equipment-4-v1.webp",
+          "sha256": "176944181b33fbe7be9018a4b35c714293fe721d0fb0489cd84744763be4152b",
+          "width": 365,
+          "height": 422,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/sky/equipment-5-v1.webp",
+          "sha256": "e39bc60dd97961f2e74c40a6d2ceb09f23166a1059fe57effaa89c42e2c9181c",
+          "width": 366,
+          "height": 421,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/legion-regions-v1/sky/equipment-6-v1.webp",
+          "sha256": "b7c43a118c0102f0b18cf91a3fc19426efc554500cbef3a989f04e862d268ea8",
+          "width": 250,
+          "height": 493,
+          "alpha": true
+        }
+      ]
+    }
+  ]
+}

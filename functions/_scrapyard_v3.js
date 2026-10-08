@@ -100,7 +100,7 @@ export function buildScrapyardV3Battle({snapshot, difficulty, config, seed}) {
       monster:{id:art.id, name:art.name, image:art.image, battle_power:power, is_boss:boss ? 1 : 0},
       sourceArt:'/' + art.image, battleSprite:ART[art.id] || null};
   });
-  const battleV2 = createPveBattleV2({pet:snapshot.pet,cards:snapshot.cards, magicCards:snapshot.magicCards,
+  const battleV2 = createPveBattleV2({pet:snapshot.pet,pveEquipmentRuntime:snapshot.characterBonus?.pveEquipmentRuntime,cards:snapshot.cards, magicCards:snapshot.magicCards,
     characterBonus:snapshot.cardSupportBonus, battleSuit:snapshot.battleSuit, mercenary:snapshot.mercenary, singleHealerBonus:snapshot.singleHealerBonus,
     ultimateDamage:snapshot.ultimateDamage, seed,
     encounter:{...cfg, initialCount:cfg.simultaneous, instances}});

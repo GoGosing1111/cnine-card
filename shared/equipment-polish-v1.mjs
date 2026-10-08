@@ -1,6 +1,6 @@
 export const POLISH_KEY = 'equipment_polish_settings_v1';
 export const POLISH_ITEM_CODE = 'EQUIPMENT_POLISH_STONE';
-export const POLISH_EXECUTION_READY = false;
+export const POLISH_EXECUTION_READY = true;
 export const POLISH_ART = '/preview/equipment-polish-premium-v1/assets/';
 export const POLISH_SLOTS = ['WEAPON', 'TOP', 'BOTTOM', 'SHOES', 'ACCESSORY'];
 export const POLISH_OPTIONS = Object.freeze([
@@ -20,7 +20,7 @@ export function polishDefaults() {
 function fail(message){throw Object.assign(Error(message),{code:'POLISH_POLICY',status:400});}
 function integer(v,min,max,label){if(!Number.isSafeInteger(v)||v<min||v>max)fail(label+' 범위를 확인하세요.');return v;}
 export function validatePolishSettings(raw) {
-  if(!raw||raw.schemaVersion!==1||typeof raw.publicVisible!=='boolean'||raw.executionMode!=='OFF')fail('공개 설정을 확인하세요. 실제 연마 실행은 현재 OFF만 저장할 수 있습니다.');
+  if(!raw||raw.schemaVersion!==1||typeof raw.publicVisible!=='boolean'||!['OFF','ON'].includes(raw.executionMode))fail('공개 및 연마 실행 설정을 확인하세요.');
   if(typeof raw.notice!=='string'||raw.notice.length>500)fail('안내는 500자 이내로 입력하세요.');
   const maxAttempts=integer(raw.maxAttempts,1,100,'전체 연마 횟수');
   if(!Array.isArray(raw.slots)||!raw.slots.length||new Set(raw.slots).size!==raw.slots.length||raw.slots.some(s=>!POLISH_SLOTS.includes(s)))fail('대상 장비 부위를 선택하세요.');
@@ -35,7 +35,8 @@ export function validatePolishSettings(raw) {
   const costs=raw.costs.map((c,i)=>{if(!c||c.attempt!==i+1)fail('비용표 순서를 확인하세요.');return {attempt:i+1,coins:integer(c.coins,0,1e12,'코인'),masterStars:integer(c.masterStars,0,20000000,'마스터의 별'),stones:integer(c.stones,1,1000000,'연마석')};});
   const m=raw.material;
   if(!m||m.code!==POLISH_ITEM_CODE||typeof m.name!=='string'||!m.name.trim()||m.name.length>60||typeof m.description!=='string'||m.description.length>500||typeof m.active!=='boolean')fail('연마석 이름·설명·활성 여부를 확인하세요.');
-  return {schemaVersion:1,revision:integer(raw.revision,0,2147483646,'설정 버전'),publicVisible:raw.publicVisible,executionMode:'OFF',notice:raw.notice,maxAttempts,slots:[...raw.slots],options,costs,material:{code:POLISH_ITEM_CODE,name:m.name.trim(),description:m.description,active:m.active}};
+  if(raw.executionMode==='ON'&&(!raw.publicVisible||!m.active))fail('실행 ON에는 화면 공개와 연마석 활성화가 필요합니다.');
+  return {schemaVersion:1,revision:integer(raw.revision,0,2147483646,'설정 버전'),publicVisible:raw.publicVisible,executionMode:raw.executionMode,notice:raw.notice,maxAttempts,slots:[...raw.slots],options,costs,material:{code:POLISH_ITEM_CODE,name:m.name.trim(),description:m.description,active:m.active}};
 }
 export function polishRates(settings,levels=[0,0,0,0,0]){
   const weights=settings.options.map((o,i)=>o.enabled&&levels[i]<o.maxLevel?o.weight:0),sum=weights.reduce((a,b)=>a+b,0);

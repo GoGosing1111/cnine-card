@@ -972,3 +972,4 @@
 /* LG Ayoon: preserve the complete posed silhouette above the readout. */
 .clv2-armory-stage[data-avatar-code='LG_AYOON'] .clv2-quartermaster.is-equipped-avatar { width: min(64%, 440px); height: 76%; bottom: 15%; }
 .clv2-armory-stage[data-avatar-code='LG_AYOON']::after { height: 16%; }
+.clv2-item-copy .clv2-growth{color:#bdebcf;white-space:normal;line-height:1.7}.clv2-active-growth{margin:18px 0;padding:14px;border:1px solid #304d57;background:#11232c;color:#bcdae4;font-size:11px;line-height:1.8}.clv2-active-growth b{color:#b9edca}.clv2-active-growth p{margin:8px 0}.clv2-active-growth small{color:#87a6ba}

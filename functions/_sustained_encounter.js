@@ -3,6 +3,8 @@
 export function sustainedEncounterPlan(config, initial, capacity) {
   if (!config) return null;
   const {durationMs, templates, finalBoss} = config;
+  const finalAdds=config.regionId?(config.finalAdds||[]):[];
+  if(finalAdds.length>2||finalAdds.some(c=>!c.isMonster||c.isBoss||c.side!=='B'||c.hp<=0))throw Error('INVALID_SUSTAINED_ADDS');
   if (![750000,765000,780000,900000].includes(durationMs) || capacity !== 12 || initial.length !== capacity ||
       !Array.isArray(templates) || templates.length < 1 || templates.length > 12 || !finalBoss) {
     throw Error('INVALID_SUSTAINED_ENCOUNTER');
@@ -36,12 +38,15 @@ export function sustainedEncounterPlan(config, initial, capacity) {
           emit('ENEMY_DESPAWN', {targetId:card.id,slot:card.slot,label:'군단 후퇴'});
         }
         enemies.length = 0;
+        for(const [index,add] of finalAdds.entries())spawn({...add,slot:index});
         spawn({...finalBoss,slot:4}); bossSpawned = true; nextAt = Infinity;
       } else {
         const occupied = new Set(enemies.map(card => card.slot));
+        let eliteDue=Boolean(config.regionId&&wave>0&&wave%12===0);
         for (let slot = 0; slot < capacity; slot++) if (!occupied.has(slot)) {
           const template = templates[(wave + slot) % templates.length];
-          spawn({...template,id:initial[slot].id+':R'+(wave+1),slot});
+          const elite=eliteDue;eliteDue=false;
+          spawn({...template,id:initial[slot].id+':R'+(wave+1),slot,...(elite?{huntElite:true,title:'정예 '+template.title,maxHp:Math.round(template.maxHp*2),hp:Math.round(template.maxHp*2),attack:Math.round(template.attack*1.25)}:{})});
         }
         wave++; nextAt = Math.min(durationMs, at + intervalMs);
       }

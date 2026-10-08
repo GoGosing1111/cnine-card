@@ -5,8 +5,10 @@ import {claimLegionHuntReward,settleLegionHuntRewards} from './_legion_hunt_rewa
 import {readJointBody,jointError,jointResponseError} from './_joint_request.js';
 import {DAILY_ENTRIES} from '../preview/sustained-hunt-v2/hunt-rules.mjs';
 import {readMiracleDropPercent,applyMiracleDropChance} from './_miracle_burning.js';
+import {readRegionPolicy,saveRegionPolicy,regionAccess,regionBootstrap,regionRewardCatalog} from './_legion_regions.js';
+import {regionalDifficulty,regionById} from '../shared/legion-regions-v1.mjs';
 const TTL=30*60*1000;
-const ACTIONS={start:['difficulty','version'],begin:['id'],reveal:['id','seq','seqs'],claim:['id','dropId','token','x','y'],finish:['id','seq'],cancel:['id'],recover:[]};
+const ACTIONS={start:['difficulty','version','regionId'],begin:['id'],reveal:['id','seq','seqs'],claim:['id','dropId','token','x','y'],finish:['id','seq'],cancel:['id'],recover:[]};
 export function legionHuntEntries(run,at,user){
   const day=new Date(at+9*3600000).toISOString().slice(0,10);
   const used=run?.daily?.day===day?Number(run.daily.used):0;
@@ -49,7 +51,9 @@ async function settleRun(env,user,{key,before,policyRaw,access}){
     return {saved,result:saved.run.state.receipt};
   }
   if(!access.liveRewards)throw jointError('HUNT_REWARD_PAUSED','보상 지급이 일시 중지됐습니다. 종료 기록은 보관되며 재개 후 정산됩니다.',423);
-  const result=await settleLegionHuntRewards(env,user,{key,before:before.raw,run:before.run,policyRaw});
+  let regionPolicyRaw=null;
+  if(before.run.state.policy.regionId){const current=await readRegionPolicy(env);if(current.policy.mode!=='ON')throw jointError('HUNT_REWARD_PAUSED','지역 보상 지급이 일시 중지됐습니다. 원정 기록은 보관됩니다.',423);regionPolicyRaw=current.raw;}
+  const result=await settleLegionHuntRewards(env,user,{key,before:before.raw,run:before.run,policyRaw,regionPolicyRaw});
   return {saved:await loadRun(env,key),result};
 }
 // Entering the lobby/start of a new run abandons only an unfinished expedition.
@@ -71,13 +75,19 @@ async function recoverRun(env,user,{key,before,policyRaw,access,at}){
   return {saved,recovery:interruption};
 }
 export async function handleLegionHunt({path,request,env,deps}){
-  if(!path.startsWith('legion-hunt/')&&!['admin/legion-hunt','admin/legion-hunt/test-users'].includes(path))return null;
+  if(!path.startsWith('legion-hunt/')&&!['admin/legion-hunt','admin/legion-hunt/test-users','admin/legion-hunt/regions'].includes(path))return null;
   const json=deps.json;
   try{
     const user=await deps.authenticate(request,env);
     if(!user)throw jointError('JOINT_AUTH','로그인이 필요합니다.',401);
-    if(path==='admin/legion-hunt'||path==='admin/legion-hunt/test-users'){
+    if(path==='admin/legion-hunt'||path==='admin/legion-hunt/test-users'||path==='admin/legion-hunt/regions'){
       if(user.role!=='OWNER')throw jointError('JOINT_PERMISSION','운영 설정은 OWNER만 변경할 수 있습니다.',403);
+      if(path==='admin/legion-hunt/regions'){
+        if(request.method==='GET'){const {policy}=await readRegionPolicy(env);return json({ok:true,policy,...regionBootstrap({...policy,mode:'TEST'},user),mode:policy.mode});}
+        if(request.method!=='PATCH')return json({error:'지원하지 않는 요청입니다.'},405);
+        const body=await readJointBody(request,{maxBytes:32000,fields:['policy']});
+        return json({ok:true,policy:await deps.withUserMutationLock(env,user.id,path,()=>saveRegionPolicy(env,user,body.policy))});
+      }
       if(path==='admin/legion-hunt/test-users'){
         if(request.method!=='GET')return json({error:'지원하지 않는 요청입니다.'},405);
         return json({ok:true,users:await searchLegionHuntTestUsers(env,new URL(request.url).searchParams.get('q'))});
@@ -102,13 +112,14 @@ export async function handleLegionHunt({path,request,env,deps}){
       const saved=await loadRun(env,key);
       let loadout=null,loadoutError=null;
       try{loadout=await accountSnapshot(env,user,deps);}catch(error){if(error.code!=='HUNT_DECK')throw error;loadoutError=error.message;}
-      return json({ok:true,access,difficulties:DIFFICULTIES,entries:legionHuntEntries(saved.run,now(),user),loadout,loadoutError,revision:policy.revision,activeItems:policy.items.filter(i=>i.enabled&&i.weight>0).length});
+      const regional=await readRegionPolicy(env);
+      return json({ok:true,access,difficulties:DIFFICULTIES,regionExpansion:regionBootstrap(regional.policy,user,regionAccess(regional.policy,user)?await regionRewardCatalog(env):[]),entries:legionHuntEntries(saved.run,now(),user),loadout,loadoutError,revision:policy.revision,activeItems:policy.items.filter(i=>i.enabled&&i.weight>0).length});
     }
     if(!Object.hasOwn(ACTIONS,action))return json({error:'군단토벌 경로를 확인하세요.'},404);
     if(request.method!=='POST')return json({error:'지원하지 않는 요청입니다.'},405);
     const body=await readJointBody(request,{maxBytes:4096,fields:ACTIONS[action]});
-    if(action==='start'&&!DIFFICULTIES.some(d=>d.id===body.difficulty))throw jointError('HUNT_SELECTION','난이도를 선택하세요.');
-    if(action==='start'&&body.version!==4)throw jointError('HUNT_CLIENT_UPDATE','군단토벌 중단 복구와 보상 정산이 개선됐습니다. 게임을 새로고침한 뒤 입장하세요.',409);
+    if(action==='start'&&!(body.regionId?regionById(body.regionId)&&regionalDifficulty(body.difficulty):DIFFICULTIES.some(d=>d.id===body.difficulty)))throw jointError('HUNT_SELECTION','지역과 난이도를 선택하세요.');
+    if(action==='start'&&!(body.regionId?body.version===5:[4,5].includes(body.version)))throw jointError('HUNT_CLIENT_UPDATE','군단토벌이 개선됐습니다. 게임을 새로고침한 뒤 입장하세요.',409);
     if(!['start','recover'].includes(action)&&!idValid(body.id))throw jointError('HUNT_SESSION','원정 번호를 확인하세요.');
     return json(await deps.withUserMutationLock(env,user.id,path,async()=>{
       const {policy,raw:policyRaw}=await readLegionHuntPolicy(env),access=action==='recover'?legionHuntAccess(policy):requireAccess(policy,user);
@@ -120,13 +131,19 @@ export async function handleLegionHunt({path,request,env,deps}){
       if(action==='recover')return {ok:true,recovery,entries};
       if(action==='start'){
         requireEntry(entries);
-        const d=policy.difficulties.find(r=>r.id===body.difficulty);
+        let regionPolicy=null,regionDifficulty=null;
+        if(body.regionId){regionPolicy=(await readRegionPolicy(env)).policy;if(!regionAccess(regionPolicy,user)||!regionPolicy.regions.find(r=>r.id===body.regionId)?.enabled)throw jointError('HUNT_REGION_CLOSED','선택한 지역은 현재 이용할 수 없습니다.',403);regionDifficulty=regionPolicy.difficulties.find(d=>d.id===body.difficulty);}
+        const d=regionDifficulty||policy.difficulties.find(r=>r.id===body.difficulty);
         if(!d)throw jointError('HUNT_POLICY_UNAVAILABLE','난이도별 드랍 설정을 확인하세요.',503);
         const snapshot=await accountSnapshot(env,user,deps);
         const miracleDropPercent=await readMiracleDropPercent(env);
-        const session=(deps.createSession||createHuntSession)({snapshot,...body,now,dropPolicy:{dropChance:applyMiracleDropChance(d.dropPercent,miracleDropPercent)/100,bossDropChance:applyMiracleDropChance(d.bossDropPercent,miracleDropPercent)/100,dropLifeMs:d.lifetimeSeconds*1000,items:policy.items}});
-        await saveRun(env,key,before.raw,{daily:before.run?.daily||null,expiresAt:now()+TTL,configRevision:policy.revision,liveRewards:access.liveRewards,rewardTiming:'FINISH',entry:{charged:false,status:'READY'},state:session.exportState()});
-        return {ok:true,id:session.id,payload:session.payload,entries,access,recovery,configRevision:policy.revision};
+        const paying=access.liveRewards&&(!regionPolicy||regionPolicy.mode==='ON');
+        const regionLoot=regionDifficulty?{...regionDifficulty.loot}:null;
+        if(regionLoot)for(const key of ['stonePercent','eliteStonePercent','eliteSetPercent','bossSetPercent','bossUniquePercent'])regionLoot[key]=applyMiracleDropChance(regionLoot[key],miracleDropPercent);
+        const dropPolicy=regionPolicy?{regionLoot,dropLifeMs:regionLoot.lifetimeSeconds*1000,items:await regionRewardCatalog(env,{live:paying})}:{dropChance:applyMiracleDropChance(d.dropPercent,miracleDropPercent)/100,bossDropChance:applyMiracleDropChance(d.bossDropPercent,miracleDropPercent)/100,dropLifeMs:d.lifetimeSeconds*1000,items:policy.items};
+        const session=(deps.createSession||createHuntSession)({snapshot,...body,regionDifficulty,now,dropPolicy});
+        await saveRun(env,key,before.raw,{daily:before.run?.daily||null,expiresAt:now()+TTL,configRevision:policy.revision,regionRevision:regionPolicy?.revision??null,liveRewards:paying,rewardTiming:'FINISH',entry:{charged:false,status:'READY'},state:session.exportState()});
+        return {ok:true,id:session.id,payload:session.payload,entries,access:{...access,liveRewards:paying,...(regionPolicy&&!paying?{mode:'TEST'}:{})},recovery,configRevision:policy.revision};
       }
       if(!before.run||before.run.state?.id!==body.id)throw jointError('HUNT_SESSION_EXPIRED','원정이 만료됐습니다. 입장 화면에서 복구 후 다시 출전하세요.',409);
       if(action==='cancel'){

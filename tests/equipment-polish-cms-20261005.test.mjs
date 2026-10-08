@@ -56,7 +56,8 @@ for(const postgres of [false,true])test('polish CMS atomic settings/material, OF
   assert.equal(response.status,200);assert.equal(response.body.previewOnly,true);assert.equal(response.body.total,1);
   assert.equal((await f.call('preview',{method:'POST',body:{instanceId:'81',levels:[0,0,0,0,0],revision:1}})).status,404);
   assert.equal((await f.call('preview',{method:'POST',body:{instanceId:'71',levels:[0,0,0,0,0],revision:0}})).status,409);
-  for(const action of ['quote','execute','receipt'])assert.equal((await f.call(action,{method:'POST',body:{}})).status,423);
+  for(const action of ['quote','execute'])assert.equal((await f.call(action,{method:'POST',body:{}})).status,423);
+  assert.equal((await f.call('receipt',{method:'POST',body:{}})).status,405);
   assert.equal(await snapshot(),untouched);
   settings.revision=1;settings.publicVisible=true;
   const on=await savePolishSettings(f.env,{id:7},{expectedRevision:1,settings});

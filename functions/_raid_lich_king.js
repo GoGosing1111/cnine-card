@@ -92,7 +92,7 @@ export function setLichLoadout(room,memberId,deck,accountNickname) {
   if(cards.length!==5||cards.some(c=>!c))fail('INVALID_PARTY','저장된 덱을 확인하세요.',400);
   const bonus=deck.characterBonus||{},suitPower=Math.max(0,Number(bonus.battleSuitPve)||0);
   const battleSuit=bonus.equippedBattleSuit?{...bonus.equippedBattleSuit,pvePower:suitPower,weapon:bonus.equippedWeapon||null,accountNickname}:null;
-  const team=buildPvePlayerTeam({cards,characterBonus:Math.max(0,(Number(bonus.pve)||0)-suitPower),battleSuit,mercenary:deck.mercenary||null});
+  const team=buildPvePlayerTeam({cards,pveEquipmentRuntime:bonus.pveEquipmentRuntime,characterBonus:Math.max(0,(Number(bonus.pve)||0)-suitPower),battleSuit,mercenary:deck.mercenary||null});
   const owned=actor=>({...actor,id:'A:OWNER:'+memberId+':'+actor.id,ownerId:memberId,ownerName:accountNickname});
   const fighters=team.teamA.map(actor=>({...owned(actor),battleSprite:byId.get(String(actor.cardId))?.battleSprite}));
   if(team.mercenaryFighter)fighters.push(owned(team.mercenaryFighter));
