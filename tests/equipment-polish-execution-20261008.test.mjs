@@ -59,3 +59,11 @@ test('durable polish intent recovers after reload and cannot double roll on a lo
   const bad=createPolishRequest({request,storage:{...storage,setItem(){throw Error('quota');}},userId:7});
   await assert.rejects(bad.execute({instanceId:'71',expectedAttempts:1,revision:1}));assert.equal(calls,1);
 });
+
+test('missing owned equipment releases a stale polish intent without another charge',async()=>{
+  const values=new Map([['cnine_polish_pending_v1:7',JSON.stringify({requestId:'missing-equipment-001',instanceId:'71',expectedAttempts:0,revision:1})]]);
+  const storage={getItem:k=>values.get(k),setItem:(k,v)=>values.set(k,v),removeItem:k=>values.delete(k)},paths=[];
+  const client=createPolishRequest({storage,userId:7,request:async path=>{paths.push(path);return path.startsWith('receipt?')?{receipt:null}:{items:[]};}});
+  assert.equal(await client.recover(),null);assert.equal(client.pending,null);assert.equal(values.size,0);
+  assert.deepEqual(paths,['receipt?requestId=missing-equipment-001','state?instanceId=71']);
+});

@@ -11,6 +11,8 @@ export function createPolishRequest({request,storage,userId,uuid=()=>crypto.rand
       if(!pending)return null;
       const result=await request('receipt?requestId='+encodeURIComponent(pending.requestId));
       if(result.receipt){clear();return result.receipt;}
+      const owned=await request('state?instanceId='+encodeURIComponent(pending.instanceId));
+      if(Array.isArray(owned.items)&&!owned.items.some(item=>String(item.instanceId)===String(pending.instanceId)))clear();
       return null;
     },
     async execute(input){

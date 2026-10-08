@@ -16,4 +16,10 @@ test('catalog preparation is atomic, inactive, excluded from supply and preserve
   await db.query("UPDATE character_equipment_items SET total_power=123456 WHERE code='HUNT_COAST_UNIQUE'");
   const again=await prepareLegionRegions(client,{apply:true});assert.equal(again.created.length,0);assert.equal(again.policyCreated,false);assert.equal(Number(again.equipment.find(i=>i.code==='HUNT_COAST_UNIQUE').total_power),123456);
   assert.equal((await db.query('SELECT * FROM admin_logs')).rows.length,1);
+  const policy=(await db.query("SELECT key,value FROM app_meta WHERE key <> 'ops:legion-regions-prepare:20261008:v1'")).rows[0], settings=JSON.parse(policy.value);
+  settings.mode='ON';settings.testUserIds=[42];settings.difficulties[0].power=123456;
+  await db.query('UPDATE app_meta SET value=$2 WHERE key=$1',[policy.key,JSON.stringify(settings)]);
+  const locked=await prepareLegionRegions(client,{apply:true,lockForReview:true});assert.equal(locked.mode,'TEST');assert.deepEqual(locked.testUserIds,[]);
+  const after=JSON.parse((await db.query('SELECT value FROM app_meta WHERE key=$1',[policy.key])).rows[0].value);
+  assert.equal(after.difficulties[0].power,123456);assert.equal(after.revision,settings.revision+1);
 });

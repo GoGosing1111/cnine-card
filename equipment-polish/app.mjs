@@ -48,7 +48,7 @@ function renderPicker(){$('#equipment-select').innerHTML=items.length?items.map(
 async function load(){
   const stamp=++loadGeneration;$('#retry-access').hidden=true;
   try{
-    data=await api('state');if(stamp!==loadGeneration)return;items=data.items;intent=createPolishRequest({request:api,storage:localStorage,userId:data.userId});const recovered=await intent.recover();
+    data=await api('state');if(stamp!==loadGeneration)return;intent=createPolishRequest({request:api,storage:localStorage,userId:data.userId});const recovered=await intent.recover();if(recovered)data=await api('state');items=data.items;
     const focusId=intent.pending?.instanceId||params.get('instanceId');
     if(focusId&&!items.some(i=>i.instanceId===focusId)){const focus=await api('state?instanceId='+encodeURIComponent(focusId));items.push(...focus.items);}
     $('#access-gate').hidden=true;$('.atelier').hidden=false;renderPicker();
@@ -56,7 +56,7 @@ async function load(){
     if(intent.pending&&items.some(i=>i.instanceId===intent.pending.instanceId))$('#equipment-select').value=intent.pending.instanceId;
     $('#polish-cms-link').hidden=!data.ownerReview;$('#live-note').textContent=data.canPolish?'연마 옵션은 장착한 장비의 PVE 전투에 적용됩니다. 봉인을 열거나 연출을 건너뛰어도 결과와 재료 소모는 동일합니다.':data.ownerReview?'OWNER 연출 검수 · 실제 장비 성장과 재화 차감은 OFF이며, 검수 수치는 새로고침 시 초기화됩니다.':data.notice;
     $('#reset').textContent=data.canPolish?'장비 상태 새로고침':'검수 초기화';
-    $('.review-tools').hidden=!data.ownerReview;
+    $('.review-tools').hidden=false;$('#speed').closest('label').hidden=!data.ownerReview;$('#next').textContent=data.canPolish?'한 번 더 연마 ↗':'한 번 더 검수 ↗';$('.edition').lastChild.textContent=data.canPolish?' 장비 연마':' 장비 연마 · 준비 중';
     fx=new PolishFX($('#canvas-host'),{
       onSealed:()=>{controls('slide');title('SEAL READY','봉인을 열어 확인하세요','선택된 힘은 봉인 안에 담겨 있습니다.');step(1);$('#pause').disabled=true;chargeSet(0);$('#slide-handle').focus({preventScroll:true});},
       onOpening:()=>{controls('charge');title('RESONANCE','장비와 힘이 공명합니다','선택된 옵션으로 연마석의 빛이 모입니다.');$('.charging-label').textContent='새로운 힘이 깨어나는 중';$('#pause').disabled=false;},

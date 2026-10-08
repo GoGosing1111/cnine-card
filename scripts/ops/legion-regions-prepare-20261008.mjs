@@ -3,7 +3,7 @@ import {REGION_EQUIPMENT,LEGION_REGIONS_KEY,legionRegionDefaults} from '../../sh
 export const REGION_PREPARE_KEY='ops:legion-regions-prepare:20261008:v1';
 // One-time draft registration, never imported by runtime startup. Existing CMS
 // edits and every acquisition pool remain untouched. No account grants.
-export async function prepareLegionRegions(client,{apply=false}={}){
+export async function prepareLegionRegions(client,{apply=false,lockForReview=false}={}){
   await client.query('BEGIN');
   try{
     await client.query('SELECT pg_advisory_xact_lock(hashtext($1))',[REGION_PREPARE_KEY]);
@@ -22,9 +22,11 @@ export async function prepareLegionRegions(client,{apply=false}={}){
     const rows=(await client.query('SELECT id,code,name,slot,total_power,pve_power,pvp_power,is_active,is_public,supply_enabled,supply_weight FROM character_equipment_items WHERE code=ANY($1::text[]) ORDER BY code',[REGION_EQUIPMENT.map(i=>i.code)])).rows;
     assert.equal(rows.length,30);
     for(const item of created){const row=rows.find(r=>r.code===item.code);for(const field of ['is_active','is_public','supply_enabled','supply_weight'])assert.equal(Number(row[field]),0);}
-    const policy=JSON.parse((await client.query('SELECT value FROM app_meta WHERE key=$1',[LEGION_REGIONS_KEY])).rows[0].value);
-    const result={operationKey:REGION_PREPARE_KEY,at:new Date().toISOString(),created,policyCreated:inserted.rows.length===1,mode:policy.mode,equipment:rows,grants:0,polishPolicyChanged:false};
-    if(created.length||inserted.rows.length){
+    const policy=JSON.parse((await client.query('SELECT value FROM app_meta WHERE key=$1 FOR UPDATE',[LEGION_REGIONS_KEY])).rows[0].value);
+    const locked=lockForReview&&(policy.mode!=='TEST'||policy.testUserIds.length>0);
+    if(locked){policy.mode='TEST';policy.testUserIds=[];policy.revision++;await client.query('UPDATE app_meta SET value=$2,updated_at=CURRENT_TIMESTAMP WHERE key=$1',[LEGION_REGIONS_KEY,JSON.stringify(policy)]);}
+    const result={operationKey:REGION_PREPARE_KEY,at:new Date().toISOString(),created,policyCreated:inserted.rows.length===1,mode:policy.mode,testUserIds:policy.testUserIds,lockedForReview:lockForReview,equipment:rows,grants:0,polishPolicyChanged:false};
+    if(created.length||inserted.rows.length||locked){
       await client.query("INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES($1,'LEGION_REGIONS_PREPARE','APP_META',$2,NULL,$3)",[owner.id,LEGION_REGIONS_KEY,JSON.stringify(result)]);
       await client.query('INSERT INTO app_meta(key,value,updated_at) VALUES($1,$2,CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING',[REGION_PREPARE_KEY,JSON.stringify(result)]);
     }
