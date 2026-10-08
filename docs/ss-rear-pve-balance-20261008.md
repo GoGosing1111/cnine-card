@@ -51,4 +51,12 @@ scripts/measure-ss-rear-pve-20261008.mjs 및 tests/fixtures/ss-rear-pve-20261008
 - 실제 도감 화면에 변경 API 응답을 연결해 PC 1440×1000·모바일 390×844에서 PVE 120% / PVP 160%, 회복 상한 설명과 가로 넘침 없음을 직접 확인했다.
 - 배포는 npm run deploy:production -- --scoped. 직전 운영 기준 05de0142adb4cdde6641d017181f5155637c4388; 이후 보상 운영 도구·문서 커밋에는 게임 런타임 변경이 없다.
 
-운영 배포 결과는 관련 검사 통과 후 아래에 기록한다.
+## 운영 반영 완료
+
+- 2026-10-08 **19:35 KST** 확인. 코드 커밋 7c3233060f5d424a6b68998c8e62747132b04713.
+- 관련 회귀 **74/74 통과**, Worker 구문·출시 플래그/캐시 검사 통과, Hyperdrive query cache 비활성 확인. 배포 검사에서 한 번 실행했고 통과한 검사를 반복하지 않았다.
+- Pages: https://974a00ab.cnine-card.pages.dev
+- API Worker: 5feab9ff-28fd-4a66-a78e-acd2aa1a8c9d. Clan draft Worker: cc148a44-dd39-4e28-84d9-7f6a0c5b4b95.
+- 운영 공개 도감 API에서 대상 15종의 PVE 2회/PVP 1회 행동, 간호사 4종의 PVE 120%·10% 상한 및 PVP 160%·15%를 확인했다. SS 전열·SSS 6종 대조 설명은 유지된다.
+- 운영 정책 모듈과 도감 모듈이 로컬 승인 커밋과 동일한 SHA-256이며 도감 HTML의 새 캐시 식별자도 확인했다. CMS revision은 61로 유지된다.
+- 상세 운영 확인 영수증은 docs/ss-rear-pve-balance-20261008-release.json. 완료 기록만 추가 커밋하며 게임을 다시 배포하지 않는다.
