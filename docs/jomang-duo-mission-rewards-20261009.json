@@ -1,0 +1,342 @@
+{
+  "title": "조망듀오 미션 사은품",
+  "operationKey": "ops:jomang-duo-mission:20261009:v1",
+  "status": "COMPLETED",
+  "completedAt": "2026-10-08T18:58:38.170Z",
+  "completedAtKst": "2026-10-09 03:58:38 KST",
+  "delivery": "DIRECT",
+  "authorization": [
+    "위 명단에 1조 2천억 마별 1200만개 지급해 조망듀오 미션 사은품",
+    "ΘωΘ비니 > 비_니",
+    "던닉은 > 비쥬얼깡패",
+    "손나바카 > 망순이네봉빡이"
+  ],
+  "coinPerRecipient": "1200000000000",
+  "masterStarsPerRecipient": "12000000",
+  "totals": {
+    "recipients": 25,
+    "coin": "30000000000000",
+    "masterStars": "300000000"
+  },
+  "planHash": "beddd5517ae6cdb4388e2fa34cbdc7de714223987af1cf846fac1e0be57b07e3",
+  "operationScript": "scripts/ops/jomang-duo-mission-20261009.mjs",
+  "plan": "scripts/ops/jomang-duo-mission-20261009.json",
+  "receiptLocation": {
+    "table": "app_meta",
+    "key": "ops:jomang-duo-mission:20261009:v1"
+  },
+  "validation": {
+    "dryRun": {
+      "operationKey": "ops:jomang-duo-mission:20261009:v1",
+      "planHash": "beddd5517ae6cdb4388e2fa34cbdc7de714223987af1cf846fac1e0be57b07e3",
+      "status": "DRY_RUN_ROLLED_BACK",
+      "completedAt": "2026-10-08T18:58:23.095Z",
+      "replayed": false,
+      "recipients": 25,
+      "coinLogs": 25,
+      "inventoryLogs": 25,
+      "adminLogs": 25,
+      "missing": 0,
+      "duplicates": 0,
+      "totalCoin": "30000000000000",
+      "totalMasterStars": "300000000",
+      "partialFailureRolledBack": true,
+      "replayVerified": true,
+      "balancesRestored": true,
+      "logsRolledBack": true
+    },
+    "postCommit": {
+      "operationKey": "ops:jomang-duo-mission:20261009:v1",
+      "planHash": "beddd5517ae6cdb4388e2fa34cbdc7de714223987af1cf846fac1e0be57b07e3",
+      "status": "COMPLETED",
+      "completedAt": "2026-10-08T18:58:38.170Z",
+      "replayed": true,
+      "recipients": 25,
+      "coinLogs": 25,
+      "inventoryLogs": 25,
+      "adminLogs": 25,
+      "missing": 0,
+      "duplicates": 0,
+      "totalCoin": "30000000000000",
+      "totalMasterStars": "300000000"
+    },
+    "scope": "일회성 운영 데이터 지급. 계정 연결·거래 원자성·재시도·잔액 증분·로그·커밋 후 영수증 검증. 게임 실행 코드 변경 및 사이트 재배포 없음."
+  },
+  "grants": [
+    {
+      "participant": "망액이",
+      "userId": "4628",
+      "gameNickname": "망순이ෆ",
+      "identityBasis": "ops:recruit-gift:20260930:2104-2109:v1",
+      "coin": "1200000000000",
+      "masterStars": "12000000",
+      "coinLogId": "86046083",
+      "inventoryLogId": "78460961",
+      "adminLogId": "43011"
+    },
+    {
+      "participant": "숭한놈",
+      "userId": "65",
+      "gameNickname": "음순이",
+      "identityBasis": "ops:ayoon-pinball-gift:20260928:v1:89ec95aff3f0f84ddefb5822",
+      "coin": "1200000000000",
+      "masterStars": "12000000",
+      "coinLogId": "86046063",
+      "inventoryLogId": "78460958",
+      "adminLogId": "43012"
+    },
+    {
+      "participant": "늘그니생키",
+      "userId": "183",
+      "gameNickname": "남수댕",
+      "identityBasis": "ops:recruit-gift:20260930:2104-2109:v1",
+      "coin": "1200000000000",
+      "masterStars": "12000000",
+      "coinLogId": "86046070",
+      "inventoryLogId": "78460964",
+      "adminLogId": "43013"
+    },
+    {
+      "participant": "유나랜드",
+      "userId": "4209",
+      "gameNickname": "#유나랜드",
+      "identityBasis": "ops:recruit-gift:20260930:2104-2109:v1",
+      "coin": "1200000000000",
+      "masterStars": "12000000",
+      "coinLogId": "86046078",
+      "inventoryLogId": "78460966",
+      "adminLogId": "43014"
+    },
+    {
+      "participant": "딤럼프",
+      "userId": "4774",
+      "gameNickname": "딤럼프",
+      "identityBasis": "EXACT_GAME_NICKNAME",
+      "coin": "1200000000000",
+      "masterStars": "12000000",
+      "coinLogId": "86046085",
+      "inventoryLogId": "78460971",
+      "adminLogId": "43015"
+    },
+    {
+      "participant": "족치기족치기",
+      "userId": "303",
+      "gameNickname": "[C9]족쪽이",
+      "identityBasis": "ops:ayoon-pinball-gift:20260928:v1:89ec95aff3f0f84ddefb5822",
+      "coin": "1200000000000",
+      "masterStars": "12000000",
+      "coinLogId": "86046074",
+      "inventoryLogId": "78460976",
+      "adminLogId": "43016"
+    },
+    {
+      "participant": "гain",
+      "userId": "1195",
+      "gameNickname": "씨나인택갓",
+      "identityBasis": "ops:recruit-gift:20260930:2104-2109:v1",
+      "coin": "1200000000000",
+      "masterStars": "12000000",
+      "coinLogId": "86046076",
+      "inventoryLogId": "78460957",
+      "adminLogId": "43017"
+    },
+    {
+      "participant": "족쌤",
+      "userId": "130",
+      "gameNickname": "족구선생",
+      "identityBasis": "ops:recruit-gift:20260930:2104-2109:v1:supplement:130",
+      "coin": "1200000000000",
+      "masterStars": "12000000",
+      "coinLogId": "86046067",
+      "inventoryLogId": "78460959",
+      "adminLogId": "43018"
+    },
+    {
+      "participant": "[C9]족단",
+      "userId": "4582",
+      "gameNickname": "족단",
+      "identityBasis": "ops:recruit-gift:20260930:2104-2109:v1",
+      "coin": "1200000000000",
+      "masterStars": "12000000",
+      "coinLogId": "86046081",
+      "inventoryLogId": "78460978",
+      "adminLogId": "43019"
+    },
+    {
+      "participant": "moo.던닉",
+      "userId": "81",
+      "gameNickname": "비쥬얼깡패",
+      "identityBasis": "USER_CONFIRMED",
+      "coin": "1200000000000",
+      "masterStars": "12000000",
+      "coinLogId": "86046064",
+      "inventoryLogId": "78460977",
+      "adminLogId": "43020"
+    },
+    {
+      "participant": "인스타감성",
+      "userId": "190",
+      "gameNickname": "557",
+      "identityBasis": "EXACT_VERIFIED_NICKNAME",
+      "coin": "1200000000000",
+      "masterStars": "12000000",
+      "coinLogId": "86046071",
+      "inventoryLogId": "78460956",
+      "adminLogId": "43021"
+    },
+    {
+      "participant": "Mild7",
+      "userId": "290",
+      "gameNickname": "Mild7",
+      "identityBasis": "EXACT_GAME_NICKNAME",
+      "coin": "1200000000000",
+      "masterStars": "12000000",
+      "coinLogId": "86046073",
+      "inventoryLogId": "78460970",
+      "adminLogId": "43022"
+    },
+    {
+      "participant": "0수표",
+      "userId": "88",
+      "gameNickname": "0수표",
+      "identityBasis": "EXACT_GAME_NICKNAME",
+      "coin": "1200000000000",
+      "masterStars": "12000000",
+      "coinLogId": "86046066",
+      "inventoryLogId": "78460967",
+      "adminLogId": "43023"
+    },
+    {
+      "participant": "핫시:D",
+      "userId": "1768",
+      "gameNickname": "핫시",
+      "identityBasis": "ops:recruit-gift:20260930:2104-2109:v1",
+      "coin": "1200000000000",
+      "masterStars": "12000000",
+      "coinLogId": "86046077",
+      "inventoryLogId": "78460973",
+      "adminLogId": "43024"
+    },
+    {
+      "participant": "쫘지구뇽",
+      "userId": "156",
+      "gameNickname": "좌지구녕",
+      "identityBasis": "ops:pingdu-thanks-ppanghun:20261002:v1:d55823adaad5b3bd7cb9d27e",
+      "coin": "1200000000000",
+      "masterStars": "12000000",
+      "coinLogId": "86046068",
+      "inventoryLogId": "78460962",
+      "adminLogId": "43025"
+    },
+    {
+      "participant": "#초월",
+      "userId": "164",
+      "gameNickname": "박사",
+      "identityBasis": "ops:ayoon-pinball-gift:20260928:v1:89ec95aff3f0f84ddefb5822",
+      "coin": "1200000000000",
+      "masterStars": "12000000",
+      "coinLogId": "86046069",
+      "inventoryLogId": "78460963",
+      "adminLogId": "43026"
+    },
+    {
+      "participant": "현하루",
+      "userId": "218",
+      "gameNickname": "현하루",
+      "identityBasis": "EXACT_GAME_NICKNAME",
+      "coin": "1200000000000",
+      "masterStars": "12000000",
+      "coinLogId": "86046072",
+      "inventoryLogId": "78460979",
+      "adminLogId": "43027"
+    },
+    {
+      "participant": "#LafeStar",
+      "userId": "750",
+      "gameNickname": "라페스타다",
+      "identityBasis": "ops:pingdu-thanks-ppanghun:20261002:v1:d55823adaad5b3bd7cb9d27e",
+      "coin": "1200000000000",
+      "masterStars": "12000000",
+      "coinLogId": "86046075",
+      "inventoryLogId": "78460960",
+      "adminLogId": "43028"
+    },
+    {
+      "participant": "ΘωΘ비니",
+      "userId": "5504",
+      "gameNickname": "비_니",
+      "identityBasis": "USER_CONFIRMED",
+      "coin": "1200000000000",
+      "masterStars": "12000000",
+      "coinLogId": "86046087",
+      "inventoryLogId": "78460969",
+      "adminLogId": "43029"
+    },
+    {
+      "participant": "학벌",
+      "userId": "4627",
+      "gameNickname": "학벌",
+      "identityBasis": "EXACT_GAME_NICKNAME",
+      "coin": "1200000000000",
+      "masterStars": "12000000",
+      "coinLogId": "86046082",
+      "inventoryLogId": "78460975",
+      "adminLogId": "43030"
+    },
+    {
+      "participant": "[늘]손나바카",
+      "userId": "5238",
+      "gameNickname": "망순이네봉빡이",
+      "identityBasis": "USER_CONFIRMED",
+      "coin": "1200000000000",
+      "masterStars": "12000000",
+      "coinLogId": "86046086",
+      "inventoryLogId": "78460972",
+      "adminLogId": "43031"
+    },
+    {
+      "participant": "STARRR0",
+      "userId": "87",
+      "gameNickname": "설윤이",
+      "identityBasis": "ops:ayoon-pinball-gift:20260928:v1:89ec95aff3f0f84ddefb5822",
+      "coin": "1200000000000",
+      "masterStars": "12000000",
+      "coinLogId": "86046065",
+      "inventoryLogId": "78460965",
+      "adminLogId": "43032"
+    },
+    {
+      "participant": "탱탱노",
+      "userId": "4391",
+      "gameNickname": "더듬이구",
+      "identityBasis": "ops:recruit-gift:20260930:2104-2109:v1",
+      "coin": "1200000000000",
+      "masterStars": "12000000",
+      "coinLogId": "86046080",
+      "inventoryLogId": "78460974",
+      "adminLogId": "43033"
+    },
+    {
+      "participant": "진짜디임",
+      "userId": "4773",
+      "gameNickname": "진짜디임",
+      "identityBasis": "EXACT_GAME_NICKNAME",
+      "coin": "1200000000000",
+      "masterStars": "12000000",
+      "coinLogId": "86046084",
+      "inventoryLogId": "78460955",
+      "adminLogId": "43034"
+    },
+    {
+      "participant": "#크레파스",
+      "userId": "4222",
+      "gameNickname": "#크레파스",
+      "identityBasis": "EXACT_GAME_NICKNAME",
+      "coin": "1200000000000",
+      "masterStars": "12000000",
+      "coinLogId": "86046079",
+      "inventoryLogId": "78460968",
+      "adminLogId": "43035"
+    }
+  ]
+}

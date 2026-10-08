@@ -1,0 +1,270 @@
+{
+  "operationKey": "ops:jomang-duo-mission:20261009:v1",
+  "title": "조망듀오 미션 사은품",
+  "delivery": "DIRECT",
+  "authorization": [
+    "위 명단에 1조 2천억 마별 1200만개 지급해 조망듀오 미션 사은품",
+    "ΘωΘ비니 > 비_니",
+    "던닉은 > 비쥬얼깡패",
+    "손나바카 > 망순이네봉빡이"
+  ],
+  "coinPerRecipient": "1200000000000",
+  "masterStarsPerRecipient": "12000000",
+  "totals": {
+    "recipients": 25,
+    "coin": "30000000000000",
+    "masterStars": "300000000"
+  },
+  "recipients": [
+    {
+      "participant": "망액이",
+      "soopId": "10420474",
+      "userId": "4628",
+      "gameNickname": "망순이ෆ",
+      "provider": "PLAYDK",
+      "providerName": "망순이ෆ",
+      "providerUserId": "0b464ee5",
+      "identityBasis": "ops:recruit-gift:20260930:2104-2109:v1"
+    },
+    {
+      "participant": "숭한놈",
+      "soopId": "opqropqropqr",
+      "userId": "65",
+      "gameNickname": "음순이",
+      "provider": "PLAYDK",
+      "providerName": "음순",
+      "providerUserId": "9f0cdb34",
+      "identityBasis": "ops:ayoon-pinball-gift:20260928:v1:89ec95aff3f0f84ddefb5822"
+    },
+    {
+      "participant": "늘그니생키",
+      "soopId": "sjk05073",
+      "userId": "183",
+      "gameNickname": "남수댕",
+      "provider": "PLAYDK",
+      "providerName": "남수댕1",
+      "providerUserId": "c6762516",
+      "identityBasis": "ops:recruit-gift:20260930:2104-2109:v1"
+    },
+    {
+      "participant": "유나랜드",
+      "soopId": "snake1",
+      "userId": "4209",
+      "gameNickname": "#유나랜드",
+      "provider": "PLAYDK",
+      "providerName": "#유나랜드",
+      "providerUserId": "d98a8c3a",
+      "identityBasis": "ops:recruit-gift:20260930:2104-2109:v1"
+    },
+    {
+      "participant": "딤럼프",
+      "soopId": "hnhb03",
+      "userId": "4774",
+      "gameNickname": "딤럼프",
+      "provider": "PLAYDK",
+      "providerName": "북부대공",
+      "providerUserId": "373b1b92",
+      "identityBasis": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "participant": "족치기족치기",
+      "soopId": "kwkqu007",
+      "userId": "303",
+      "gameNickname": "[C9]족쪽이",
+      "provider": "PLAYDK",
+      "providerName": "[C9]핑쪽이",
+      "providerUserId": "4779b1f1",
+      "identityBasis": "ops:ayoon-pinball-gift:20260928:v1:89ec95aff3f0f84ddefb5822"
+    },
+    {
+      "participant": "гain",
+      "soopId": "kkyd4785",
+      "userId": "1195",
+      "gameNickname": "씨나인택갓",
+      "provider": "PLAYDK",
+      "providerName": "씨나인택갓",
+      "providerUserId": "5c0809e6",
+      "identityBasis": "ops:recruit-gift:20260930:2104-2109:v1"
+    },
+    {
+      "participant": "족쌤",
+      "soopId": "ktw8018",
+      "userId": "130",
+      "gameNickname": "족구선생",
+      "provider": "PLAYDK",
+      "providerName": "족구선생",
+      "providerUserId": "7a5d068c",
+      "identityBasis": "ops:recruit-gift:20260930:2104-2109:v1:supplement:130"
+    },
+    {
+      "participant": "[C9]족단",
+      "soopId": "bailjon280",
+      "userId": "4582",
+      "gameNickname": "족단",
+      "provider": "PLAYDK",
+      "providerName": "족단",
+      "providerUserId": "22c31ef9",
+      "identityBasis": "ops:recruit-gift:20260930:2104-2109:v1"
+    },
+    {
+      "participant": "moo.던닉",
+      "soopId": "kicknanio",
+      "userId": "81",
+      "gameNickname": "비쥬얼깡패",
+      "provider": "PLAYDK",
+      "providerName": "비쥬얼깡패",
+      "providerUserId": "03320b3e",
+      "identityBasis": "USER_CONFIRMED"
+    },
+    {
+      "participant": "인스타감성",
+      "soopId": "marine1193",
+      "userId": "190",
+      "gameNickname": "557",
+      "provider": "PLAYDK",
+      "providerName": "인스타감성",
+      "providerUserId": "422b3998",
+      "identityBasis": "EXACT_VERIFIED_NICKNAME"
+    },
+    {
+      "participant": "Mild7",
+      "soopId": "kk247k6",
+      "userId": "290",
+      "gameNickname": "Mild7",
+      "provider": "PLAYDK",
+      "providerName": "Mild7",
+      "providerUserId": "c080c2f3",
+      "identityBasis": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "participant": "0수표",
+      "soopId": "singer0913",
+      "userId": "88",
+      "gameNickname": "0수표",
+      "provider": "PLAYDK",
+      "providerName": "0수표",
+      "providerUserId": "2ed65346",
+      "identityBasis": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "participant": "핫시:D",
+      "soopId": "limsbx",
+      "userId": "1768",
+      "gameNickname": "핫시",
+      "provider": "PLAYDK",
+      "providerName": "핫시",
+      "providerUserId": "8dd27727",
+      "identityBasis": "ops:recruit-gift:20260930:2104-2109:v1"
+    },
+    {
+      "participant": "쫘지구뇽",
+      "soopId": "zqyt80",
+      "userId": "156",
+      "gameNickname": "좌지구녕",
+      "provider": "PLAYDK",
+      "providerName": "좌지구녕",
+      "providerUserId": "dac6af89",
+      "identityBasis": "ops:pingdu-thanks-ppanghun:20261002:v1:d55823adaad5b3bd7cb9d27e"
+    },
+    {
+      "participant": "#초월",
+      "soopId": "monstruo",
+      "userId": "164",
+      "gameNickname": "박사",
+      "provider": "PLAYDK",
+      "providerName": "박사",
+      "providerUserId": "00a28fb2",
+      "identityBasis": "ops:ayoon-pinball-gift:20260928:v1:89ec95aff3f0f84ddefb5822"
+    },
+    {
+      "participant": "현하루",
+      "soopId": "aeoab1122",
+      "userId": "218",
+      "gameNickname": "현하루",
+      "provider": "PLAYDK",
+      "providerName": "현하루",
+      "providerUserId": "a05e2d57",
+      "identityBasis": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "participant": "#LafeStar",
+      "soopId": "hejpolo2",
+      "userId": "750",
+      "gameNickname": "라페스타다",
+      "provider": "PLAYDK",
+      "providerName": "라페스타다",
+      "providerUserId": "7045ba47",
+      "identityBasis": "ops:pingdu-thanks-ppanghun:20261002:v1:d55823adaad5b3bd7cb9d27e"
+    },
+    {
+      "participant": "ΘωΘ비니",
+      "soopId": "gjwnqls",
+      "userId": "5504",
+      "gameNickname": "비_니",
+      "provider": "PLAYDK",
+      "providerName": "비_니",
+      "providerUserId": "c633da6a",
+      "identityBasis": "USER_CONFIRMED"
+    },
+    {
+      "participant": "학벌",
+      "soopId": "leeeun12",
+      "userId": "4627",
+      "gameNickname": "학벌",
+      "provider": "PLAYDK",
+      "providerName": "학벌",
+      "providerUserId": "6da5a7a7",
+      "identityBasis": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "participant": "[늘]손나바카",
+      "soopId": "gosxkdl",
+      "userId": "5238",
+      "gameNickname": "망순이네봉빡이",
+      "provider": "PLAYDK",
+      "providerName": "봉순이네망빡이",
+      "providerUserId": "0321a56c",
+      "identityBasis": "USER_CONFIRMED"
+    },
+    {
+      "participant": "STARRR0",
+      "soopId": "whdgus2965",
+      "userId": "87",
+      "gameNickname": "설윤이",
+      "provider": "PLAYDK",
+      "providerName": "설윤이",
+      "providerUserId": "fe28fcd4",
+      "identityBasis": "ops:ayoon-pinball-gift:20260928:v1:89ec95aff3f0f84ddefb5822"
+    },
+    {
+      "participant": "탱탱노",
+      "soopId": "shgustjq1317",
+      "userId": "4391",
+      "gameNickname": "더듬이구",
+      "provider": "PLAYDK",
+      "providerName": "더듬이구",
+      "providerUserId": "b86ce1fb",
+      "identityBasis": "ops:recruit-gift:20260930:2104-2109:v1"
+    },
+    {
+      "participant": "진짜디임",
+      "soopId": null,
+      "userId": "4773",
+      "gameNickname": "진짜디임",
+      "provider": "PLAYDK",
+      "providerName": "진짜디임",
+      "providerUserId": "f6c66b68",
+      "identityBasis": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "participant": "#크레파스",
+      "soopId": null,
+      "userId": "4222",
+      "gameNickname": "#크레파스",
+      "provider": "PLAYDK",
+      "providerName": "#크레파스",
+      "providerUserId": "979169df",
+      "identityBasis": "EXACT_GAME_NICKNAME"
+    }
+  ]
+}
