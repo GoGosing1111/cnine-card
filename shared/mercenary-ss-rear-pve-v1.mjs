@@ -4,7 +4,10 @@ import {NURSE_CODES,NURSE_MECHANIC} from './mercenary-nurse-healers-v1.mjs';
 
 // Captured when a new server loadout is created. Missing policy means a saved
 // battle from before this adjustment; replay must retain its original cadence.
-export const SS_REAR_PVE_POLICY=Object.freeze({version:1,regularActionsPerTurn:2,nurseBudgetPercent:75,nurseMaxTargetHpPercent:10});
+// Keep version 1 immutable for rooms opened before the tier-order follow-up.
+export const SS_REAR_PVE_POLICY_V1=Object.freeze({version:1,regularActionsPerTurn:2,nurseBudgetPercent:75,nurseMaxTargetHpPercent:10});
+export const SS_REAR_PVE_POLICY=Object.freeze({version:2,regularActionsPerTurn:2,enemyBasicPriority:true,nurseBudgetPercent:75,nurseMaxTargetHpPercent:1});
+const policies=Object.freeze({1:SS_REAR_PVE_POLICY_V1,2:SS_REAR_PVE_POLICY});
 export function isSsRearPveMercenary(actor){
  return actor?.rank==='SS'&&!Object.hasOwn(SS_LIMITED_COMBAT,actor.code)&&
   ['REAR','BACK','MIDDLE'].includes(actor.position)&&
@@ -14,12 +17,19 @@ export function ssRearPveSnapshot(actor){
  return isSsRearPveMercenary(actor)?{pveRearCadence:{...SS_REAR_PVE_POLICY}}:{};
 }
 export function ssRearPveInterval(actor,fallback=1){
- return actor?.battleMode==='PVE'&&actor.statMode==='RANK_FIXED'&&isSsRearPveMercenary(actor)&&
-  actor.pveRearCadence?.version===SS_REAR_PVE_POLICY.version?
-  SS_REAR_PVE_POLICY.regularActionsPerTurn:fallback;
+ return ssRearPvePolicy(actor)?.regularActionsPerTurn??fallback;
+}
+export function ssRearPvePriorityTargets(attacker,targets){
+ if(!attacker?.isMonster||attacker.battleMode==='PVP')return [];
+ return targets.filter(actor=>actor.isMercenary&&actor.alive!==false&&actor.hp>0&&ssRearPvePolicy(actor)?.enemyBasicPriority===true);
+}
+function ssRearPvePolicy(actor){
+ const version=actor?.pveRearCadence?.version;
+ return actor?.battleMode==='PVE'&&actor.statMode==='RANK_FIXED'&&isSsRearPveMercenary(actor)?
+  Number.isInteger(version)&&Object.hasOwn(policies,version)?policies[version]:null:null;
 }
 export function ssRearPveHealing(actor){
- return NURSE_CODES.includes(actor?.code)&&ssRearPveInterval(actor)===2?SS_REAR_PVE_POLICY:null;
+ return NURSE_CODES.includes(actor?.code)?ssRearPvePolicy(actor):null;
 }
 export function ssRearPveSkillText(skill,actor){
  if(!isSsRearPveMercenary(actor)||!NURSE_CODES.includes(actor.code)||skill?.mechanic!==NURSE_MECHANIC)return skill;
