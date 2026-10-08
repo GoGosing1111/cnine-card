@@ -5,6 +5,7 @@ import {fixture as axeFixture} from './fixtures/golden-axe-v1.mjs';
 import {LIMITED_PACK_SCHEMA} from '../functions/_mercenary_limited_pack.js';
 import {prepareChickenEvent,chickenAdmin,chickenState,orderChicken,handleChickenEvent} from '../functions/_chicken_event.js';
 import {CHICKEN_KEY,CHICKEN_TICKET,chickenDraft,cleanChickenSettings,chickenPhase,pickChickenReward} from '../shared/chicken-event-v1.mjs';
+import {chickenLimitedOnceKey,chickenLimitedOnceState} from '../functions/_chicken_limited_once.js';
 const coin={kind:'COIN',code:'COIN',quantity:300000000000,chancePpm:1000000};
 const star={kind:'ITEM',code:'MASTER_STAR',quantity:10000000,chancePpm:1000000};
 const limited={kind:'LIMITED',code:'V-996',quantity:1,chancePpm:1000000};
@@ -72,3 +73,36 @@ test('HTTP requires authentication, OWNER settings and same origin',async()=>{
 test('public and preview share the exact experience; no live preview switch or ticket-cost input',()=>{
  const read=p=>readFileSync(new URL('../'+p,import.meta.url),'utf8');assert.match(read('events/chicken/index.html'),/startChickenEvent\(\)/);assert.match(read('preview/chicken-event-v1/index.html'),/preview:true/);assert.match(read('js/chicken-event-v1.js'),/receipt\?requestId/);assert.match(read('functions/api/[[path]].js'),/handleChickenEvent\(/);assert.match(read('admin/index.html'),/chicken-event-v1.js/);assert.match(read('js/soopketmon-v21-exact-shell-adapter.js'),/events\/chicken\/feature/);
 });
+
+async function armOnce(f,userId=1){const state=chickenLimitedOnceState({userId,actorId:99,operationId:'test:chicken-limited-once:1',mercenaryCode:'V-996',reason:'Next valid order only'});await f.pg.query('INSERT INTO app_meta(key,value) VALUES($1,$2)',[chickenLimitedOnceKey(userId),JSON.stringify(state)]);return JSON.stringify(state);}
+const onceValue=async f=>(await f.row('SELECT value FROM app_meta WHERE key=$1',[chickenLimitedOnceKey(1)])).value;
+
+test('account guarantee applies once across concurrent orders; replay and later natural SSS remain correct',async()=>{const f=await fixture();try{
+ await f.pg.query("UPDATE mercenary_limited_stock_v1 SET stock_limit=3 WHERE code='V-996'");await f.config();await armOnce(f);
+ const settings=await f.row('SELECT value FROM app_meta WHERE key=$1',[CHICKEN_KEY]);
+ assert.equal((await f.order(await f.body(),2)).kind,'COIN');assert.equal(JSON.parse(await onceValue(f)).status,'ARMED');
+ const a=await f.body('YANGNYEOM'),b=await f.body();const results=await Promise.all([f.order(a),f.order(b)]);
+ assert.deepEqual(results.map(r=>r.kind),['LIMITED','COIN']);assert.equal(results[0].reward.rank,'SSS');assert.equal(results[0].reward.code,'V-996');assert.equal(results[0].ticketCost,1);assert.equal(results[0].grantKind,'ONE_TIME_SSS_LIMITED_GUARANTEE');assert.equal(results[1].grantKind,undefined);
+ assert.equal((await f.order(a)).replayed,true);assert.equal((await f.chicken()).tickets,1);assert.equal(JSON.parse(await onceValue(f)).requestId,a.requestId);
+ assert.deepEqual(await f.row('SELECT value FROM app_meta WHERE key=$1',[CHICKEN_KEY]),settings);
+ await f.config([limited]);const natural=await f.order(await f.body());assert.equal(natural.kind,'LIMITED');assert.equal(natural.grantKind,undefined);assert.equal(natural.reward.serial,2);assert.equal(natural.reward.duplicate,true);
+ assert.equal((await f.row("SELECT COUNT(*)::int n FROM admin_logs WHERE action_type='CHICKEN_LIMITED_ONCE_CONSUMED'")).n,1);
+ }finally{await f.close();}});
+
+test('invalid participation, unavailable stock and transaction failures preserve the entire guarantee',async()=>{const f=await fixture();try{
+ const original=await armOnce(f);let body=await f.body();await assert.rejects(f.order(body),e=>e.code==='EVENT_CLOSED');
+ await f.config();body=await f.body();await f.config([star]);await assert.rejects(f.order(body),e=>e.code==='SETTINGS_CHANGED');body=await f.body();
+ await assert.rejects(f.order({...body,guarantee:true}),e=>e.code==='INVALID_ORDER');
+ await f.pg.query("UPDATE users SET banned_until='2099-01-01' WHERE id=1");await assert.rejects(f.order(body),e=>e.code==='USER_INACTIVE');await f.pg.query('UPDATE users SET banned_until=NULL WHERE id=1');
+ await f.pg.query('UPDATE cnine_user_inventory SET quantity=0 WHERE user_id=1 AND item_code=$1',[CHICKEN_TICKET]);await assert.rejects(f.order(body),e=>e.code==='TICKET_REQUIRED');await f.pg.query('UPDATE cnine_user_inventory SET quantity=3 WHERE user_id=1 AND item_code=$1',[CHICKEN_TICKET]);
+ await f.pg.query("UPDATE mercenary_limited_stock_v1 SET stock_limit=0 WHERE code='V-996'");await assert.rejects(f.order(body),e=>e.code==='REWARD_UNAVAILABLE');await f.pg.query("UPDATE mercenary_limited_stock_v1 SET stock_limit=1 WHERE code='V-996'");
+ for(const fault of ['INSERT INTO chicken_event_receipts_v1','CHICKEN_LIMITED_ONCE_CONSUMED']){f.fault(fault);await assert.rejects(f.order(body),/injected/);f.fault(null);assert.equal(await onceValue(f),original);assert.equal((await f.chicken()).tickets,3);assert.equal((await f.row("SELECT issued FROM mercenary_limited_stock_v1 WHERE code='V-996'")).issued,0);assert.equal((await f.row('SELECT COUNT(*)::int n FROM mercenary_card_acquisitions_v1')).n,0);}
+ f.expire();await assert.rejects(f.order(body),e=>e.code==='EVENT_CLOSED');assert.equal(await onceValue(f),original);assert.equal((await f.chicken()).tickets,3);
+ assert.equal((await f.order(body)).kind,'LIMITED');assert.equal(JSON.parse(await onceValue(f)).status,'CONSUMED');
+ }finally{await f.close();}});
+
+test('one-time guarantee rejects mismatched account and non-SSS configuration without payment',async()=>{const f=await fixture();try{
+ assert.throws(()=>chickenLimitedOnceState({userId:1,actorId:99,operationId:'test:chicken-limited-once:1',mercenaryCode:'V-990',reason:'wrong rank'}),e=>e.code==='CHICKEN_ONCE_CONFIG');
+ await f.config();const original=JSON.parse(await armOnce(f));await f.pg.query('UPDATE app_meta SET value=$1 WHERE key=$2',[JSON.stringify({...original,userId:2}),chickenLimitedOnceKey(1)]);
+ await assert.rejects(f.order(await f.body()),e=>e.code==='CHICKEN_ONCE_CONFIG');assert.equal((await f.chicken()).tickets,3);
+ }finally{await f.close();}});
