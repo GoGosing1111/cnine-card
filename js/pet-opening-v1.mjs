@@ -76,7 +76,7 @@ $('rates').onclick=()=>{if(!state)return;const pool=state.pool||[],demo=review&&
 if(review){document.body.classList.add('po-review-mode');$('reviewNote').hidden=false;$('back').href='/admin/';$('back').innerHTML='<span aria-hidden="true">←</span> 펫 CMS';$('equipment').href='/pets/?review=1';}
 await load();
 if(!review){
-  for(const [src,attributes] of [['/js/soopketmon-v21-exact-shell-adapter.js?v=2108-shared-navigation',{enabled:'false'}],['/js/adventure-lobby-v2107.js?v=2108-shared-navigation',{}],['/js/adventure-navigation-standalone.js?v=2108-shared-navigation',{route:'deck'}]]){
+  for(const [src,attributes] of [['/js/soopketmon-v21-exact-shell-adapter.js?v=2108-shared-navigation&petCodex=20261009',{enabled:'false'}],['/js/adventure-lobby-v2107.js?v=2108-shared-navigation&petCodex=20261009',{}],['/js/adventure-navigation-standalone.js?v=2108-shared-navigation',{route:'deck'}]]){
     await new Promise(resolve=>{const script=document.createElement('script');script.src=src;Object.assign(script.dataset,attributes);script.onload=resolve;script.onerror=resolve;document.head.append(script);});
   }
 }

@@ -218,3 +218,4 @@ slot[name="bgm"]{display:block;min-width:1px;min-height:34px}
 .general-command-plaque .queen-plaque-term{color:#c5bec6}.general-command-plaque #chief-name{color:#f6e8e5}
 @media(max-width:650px){.general-command-plaque .queen-plaque-crown img{width:44px;max-height:62px}}
 @media(max-width:360px){.general-command-plaque .queen-plaque-crown img{width:36px}}
+.skip-link:not(:focus){visibility:hidden}

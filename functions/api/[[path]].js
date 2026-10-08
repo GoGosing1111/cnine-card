@@ -51,6 +51,7 @@ import {handleIconCms} from '../_icon_cms.js';
 import {handleIconRoles} from '../_icon_roles.js';
 import {handlePetCompanionCms} from '../_pet_companion_cms.js';
 import {handlePetEquipment} from '../_pet_equipment.js';
+import {handlePetGrants} from '../_pet_grants.js';
 import {loadPetBattleSnapshot} from '../_pet_account.js';
 import {handlePetPotential,ensurePetPotentialItem} from '../_pet_potential.js';
 import {handlePetOpening,ensurePetOpeningItems,openPetSeal} from '../_pet_opening.js';
@@ -5106,6 +5107,7 @@ async function handleRequest(context){
     const iconCmsResponse=await handleIconCms({path,request,env,deps:{requirePermission,json}});if(iconCmsResponse)return iconCmsResponse;
     const petCompanionCmsResponse=await handlePetCompanionCms({path,request,env,deps:{requirePermission,json}});if(petCompanionCmsResponse)return petCompanionCmsResponse;
     const petEquipmentResponse=await handlePetEquipment({path,request,env,deps:{authenticate,requirePermission,json,withUserMutationLock:withJointUserMutationLock}});if(petEquipmentResponse)return petEquipmentResponse;
+    const petGrantsResponse=await handlePetGrants({path,request,env,deps:{requirePermission,json,withUserMutationLock:withJointUserMutationLock}});if(petGrantsResponse)return petGrantsResponse;
     const petPotentialResponse=await handlePetPotential({path,request,env,deps:{authenticate,requirePermission,json,withUserMutationLock:withJointUserMutationLock}});if(petPotentialResponse)return petPotentialResponse;
     const petOpeningResponse=await handlePetOpening({path,request,env,deps:{authenticate,requirePermission,json,withUserMutationLock:withJointUserMutationLock}});if(petOpeningResponse)return petOpeningResponse;
     const iconFusionResponse=await handleIconFusion({path,request,env,deps:{requirePermission,json,authenticate,withUserMutationLock:withJointUserMutationLock}});if(iconFusionResponse)return iconFusionResponse;

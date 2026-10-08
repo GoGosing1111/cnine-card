@@ -1,5 +1,6 @@
 import {Assets,Container,Graphics,Sprite,Text,Texture,Rectangle} from 'pixi.js';
 import {petBuffVisual} from '../../../../shared/pet-buff-visuals-v1.mjs';
+import {petSupportPosition} from './PetSupportLayout.mjs';
 
 export function disposePetSupport(engine){
   if(engine.petSupportTick)engine.app?.ticker?.remove(engine.petSupportTick);
@@ -34,16 +35,21 @@ export async function preparePetSupport(engine,payload){
     const matrix=engine.effectLayer.worldTransform,box=engine.app.canvas.getBoundingClientRect(),scale=Math.max(.1,Math.hypot(matrix.a,matrix.b)*box.width/engine.app.screen.width);
     for(const row of rows.values()){
       const {side,ownerId}=row,actors=(side==='A'?engine.allies:engine.enemies)||[],points=actors.filter(a=>a.root&&Number.isFinite(a.baseX)&&(!ownerId||Number(a.ownerId)===ownerId));if(!points.length)continue;
-      const foot=side==='A'?points.reduce((a,b)=>a.baseX<b.baseX?a:b):points.reduce((a,b)=>a.baseX>b.baseX?a:b);
-      const p=engine.effectLayer.toLocal(foot.root.parent.toGlobal({x:foot.baseX,y:Math.max(...points.map(a=>a.baseY))}));
+      const feet=points.map(a=>engine.effectLayer.toLocal(a.root.parent.toGlobal({x:a.baseX,y:a.baseY})));
       const width=engine.scene?.width||1280,height=engine.scene?.height||720;
-      const margin=Math.max(70,38/scale),size=Math.max(126,56/scale);
-      row.sprite.scale.set(size/Math.max(row.sprite.texture.width,row.sprite.texture.height));row.halo.scale.set(size/126);
+      const size=Math.max(126,56/scale);
       row.name.style.fontSize=Math.max(15,11/scale);
       if(row.badge){row.badge.style.fontSize=Math.max(13,10/scale);row.badge.y=9+row.name.style.fontSize*1.4;}
-      const belowFormation=scale<.65?Math.max(68,size+12/scale):68;
-      const x=scale<.65?width*(side==='A'?.36:.64):p.x+(side==='A'?-55:55);
-      row.root.position.set(Math.max(margin,Math.min(width-margin,x)),Math.min(height-60/scale,p.y+belowFormation));
+      const pvp=String(payload.battleV2?.mode||payload.mode||engine.activeBattlefieldMode).toUpperCase()==='PVP',unit=engine.accountBattleUnit;
+      let suit=null;
+      if(!pvp&&side==='A'&&unit?.active&&unit.root.parent&&[...rows.values()].filter(r=>r.side==='A').length===1){
+        const base={x:unit.root.baseX,y:unit.root.baseY},p=engine.effectLayer.toLocal(unit.root.parent.toGlobal(base));
+        const edge=engine.effectLayer.toLocal(unit.root.parent.toGlobal({x:base.x+(unit.bodySprite.width||120)*(unit.root.restScale||1)/2,y:base.y}));
+        suit={x:p.x,y:p.y,halfWidth:Math.abs(edge.x-p.x)};
+      }
+      const position=petSupportPosition({points:feet,side,pvp,suit,width,height,scale,size});
+      row.sprite.scale.set(position.size/Math.max(row.sprite.texture.width,row.sprite.texture.height));row.halo.scale.set(position.size/126);
+      row.root.position.set(position.x,position.y);
       row.root.visible=engine.visible!==false;
     }
   };
