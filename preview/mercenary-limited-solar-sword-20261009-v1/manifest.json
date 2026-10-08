@@ -1,0 +1,5811 @@
+{
+  "version": "SOLAR_SWORD_SSS_LIMITED_REVIEW_20261009_V2_WEAPON",
+  "status": "USER_REVIEW_PENDING",
+  "sourceArt": "/assets/ui/project-v/mercenaries/approved-20261009/solar-sword-sss-limited-source-art.png",
+  "sourceArtSha256": "be6bf7819c24c53a7cdb0c2c86d85802afa1e39fdf62d8f4306b8013cce62492",
+  "approval": "approval-20261009.json",
+  "grade": "SSS",
+  "edition": "LIMITED",
+  "workingTitle": "태양검 군주",
+  "runtimeEnabled": false,
+  "weapon": {
+    "version": "FULL_SWORD_V2_ORIGINAL_CONTOUR_CORRECTION",
+    "source": "../../assets/ui/project-v/mercenaries/approved-20261009/solar-sword-sss-limited-source-art.png",
+    "sourceSha256": "be6bf7819c24c53a7cdb0c2c86d85802afa1e39fdf62d8f4306b8013cce62492",
+    "sha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+    "visibleRasterSha256": "13a305672c7c7335c1f9f13ad6bae644f245f364f2156753a0dffeec9b433f38",
+    "width": 826,
+    "height": 1068,
+    "rect": {
+      "left": 42,
+      "top": 403,
+      "width": 826,
+      "height": 1068
+    },
+    "sourceGrip": {
+      "x": 150,
+      "y": 525
+    },
+    "sourceTip": {
+      "x": 853,
+      "y": 1459
+    },
+    "grip": {
+      "x": 108,
+      "y": 122
+    },
+    "tip": {
+      "x": 811,
+      "y": 1056
+    },
+    "standingHelmetToSole": 1345,
+    "polygons": [
+      [
+        [
+          65,
+          413
+        ],
+        [
+          69,
+          418
+        ],
+        [
+          76,
+          420
+        ],
+        [
+          80,
+          413
+        ],
+        [
+          84,
+          415
+        ],
+        [
+          83,
+          421
+        ],
+        [
+          93,
+          424
+        ],
+        [
+          109,
+          425
+        ],
+        [
+          104,
+          435
+        ],
+        [
+          106,
+          442
+        ],
+        [
+          109,
+          449
+        ],
+        [
+          113,
+          453
+        ],
+        [
+          114,
+          462
+        ],
+        [
+          121,
+          470
+        ],
+        [
+          130,
+          478
+        ],
+        [
+          139,
+          487
+        ],
+        [
+          142,
+          492
+        ],
+        [
+          133,
+          498
+        ],
+        [
+          124,
+          489
+        ],
+        [
+          114,
+          479
+        ],
+        [
+          105,
+          470
+        ],
+        [
+          99,
+          471
+        ],
+        [
+          95,
+          468
+        ],
+        [
+          87,
+          461
+        ],
+        [
+          83,
+          460
+        ],
+        [
+          81,
+          467
+        ],
+        [
+          81,
+          481
+        ],
+        [
+          76,
+          471
+        ],
+        [
+          72,
+          455
+        ],
+        [
+          71,
+          443
+        ],
+        [
+          65,
+          443
+        ],
+        [
+          50,
+          439
+        ],
+        [
+          61,
+          433
+        ],
+        [
+          67,
+          425
+        ]
+      ],
+      [
+        [
+          176,
+          535
+        ],
+        [
+          184,
+          537
+        ],
+        [
+          187,
+          544
+        ],
+        [
+          192,
+          548
+        ],
+        [
+          201,
+          550
+        ],
+        [
+          208,
+          548
+        ],
+        [
+          215,
+          543
+        ],
+        [
+          216,
+          538
+        ],
+        [
+          214,
+          532
+        ],
+        [
+          211,
+          528
+        ],
+        [
+          219,
+          534
+        ],
+        [
+          225,
+          536
+        ],
+        [
+          229,
+          532
+        ],
+        [
+          229,
+          539
+        ],
+        [
+          233,
+          540
+        ],
+        [
+          238,
+          536
+        ],
+        [
+          239,
+          530
+        ],
+        [
+          242,
+          515
+        ],
+        [
+          244,
+          529
+        ],
+        [
+          248,
+          535
+        ],
+        [
+          254,
+          535
+        ],
+        [
+          268,
+          533
+        ],
+        [
+          259,
+          538
+        ],
+        [
+          259,
+          541
+        ],
+        [
+          271,
+          539
+        ],
+        [
+          287,
+          534
+        ],
+        [
+          281,
+          540
+        ],
+        [
+          278,
+          546
+        ],
+        [
+          278,
+          552
+        ],
+        [
+          282,
+          557
+        ],
+        [
+          288,
+          560
+        ],
+        [
+          291,
+          555
+        ],
+        [
+          293,
+          548
+        ],
+        [
+          299,
+          553
+        ],
+        [
+          311,
+          556
+        ],
+        [
+          326,
+          559
+        ],
+        [
+          349,
+          558
+        ],
+        [
+          336,
+          563
+        ],
+        [
+          326,
+          568
+        ],
+        [
+          319,
+          574
+        ],
+        [
+          315,
+          581
+        ],
+        [
+          311,
+          591
+        ],
+        [
+          306,
+          583
+        ],
+        [
+          301,
+          579
+        ],
+        [
+          294,
+          576
+        ],
+        [
+          287,
+          578
+        ],
+        [
+          282,
+          583
+        ],
+        [
+          279,
+          591
+        ],
+        [
+          279,
+          600
+        ],
+        [
+          281,
+          610
+        ],
+        [
+          287,
+          618
+        ],
+        [
+          292,
+          619
+        ],
+        [
+          297,
+          615
+        ],
+        [
+          302,
+          606
+        ],
+        [
+          298,
+          622
+        ],
+        [
+          294,
+          635
+        ],
+        [
+          294,
+          643
+        ],
+        [
+          298,
+          650
+        ],
+        [
+          301,
+          651
+        ],
+        [
+          304,
+          644
+        ],
+        [
+          306,
+          661
+        ],
+        [
+          313,
+          681
+        ],
+        [
+          323,
+          700
+        ],
+        [
+          336,
+          720
+        ],
+        [
+          318,
+          708
+        ],
+        [
+          301,
+          697
+        ],
+        [
+          284,
+          689
+        ],
+        [
+          270,
+          684
+        ],
+        [
+          257,
+          681
+        ],
+        [
+          239,
+          679
+        ],
+        [
+          224,
+          679
+        ],
+        [
+          213,
+          681
+        ],
+        [
+          190,
+          681
+        ],
+        [
+          203,
+          677
+        ],
+        [
+          210,
+          672
+        ],
+        [
+          213,
+          666
+        ],
+        [
+          211,
+          659
+        ],
+        [
+          207,
+          655
+        ],
+        [
+          201,
+          653
+        ],
+        [
+          194,
+          653
+        ],
+        [
+          187,
+          655
+        ],
+        [
+          185,
+          661
+        ],
+        [
+          183,
+          650
+        ],
+        [
+          177,
+          650
+        ],
+        [
+          169,
+          654
+        ],
+        [
+          162,
+          661
+        ],
+        [
+          160,
+          670
+        ],
+        [
+          160,
+          682
+        ],
+        [
+          151,
+          672
+        ],
+        [
+          142,
+          667
+        ],
+        [
+          132,
+          664
+        ],
+        [
+          119,
+          665
+        ],
+        [
+          107,
+          668
+        ],
+        [
+          122,
+          657
+        ],
+        [
+          137,
+          645
+        ],
+        [
+          145,
+          635
+        ],
+        [
+          147,
+          628
+        ],
+        [
+          146,
+          625
+        ],
+        [
+          142,
+          624
+        ],
+        [
+          138,
+          626
+        ],
+        [
+          139,
+          620
+        ],
+        [
+          137,
+          617
+        ],
+        [
+          133,
+          614
+        ],
+        [
+          122,
+          613
+        ],
+        [
+          105,
+          609
+        ],
+        [
+          120,
+          605
+        ],
+        [
+          131,
+          600
+        ],
+        [
+          137,
+          593
+        ],
+        [
+          138,
+          586
+        ],
+        [
+          136,
+          578
+        ],
+        [
+          147,
+          586
+        ],
+        [
+          153,
+          589
+        ],
+        [
+          158,
+          589
+        ],
+        [
+          160,
+          585
+        ],
+        [
+          159,
+          582
+        ],
+        [
+          152,
+          572
+        ],
+        [
+          165,
+          576
+        ],
+        [
+          170,
+          575
+        ],
+        [
+          175,
+          570
+        ],
+        [
+          180,
+          562
+        ],
+        [
+          178,
+          553
+        ],
+        [
+          176,
+          546
+        ]
+      ],
+      [
+        [
+          299,
+          644
+        ],
+        [
+          309,
+          673
+        ],
+        [
+          334,
+          711
+        ],
+        [
+          363,
+          752
+        ],
+        [
+          400,
+          801
+        ],
+        [
+          440,
+          853
+        ],
+        [
+          479,
+          903
+        ],
+        [
+          516,
+          952
+        ],
+        [
+          554,
+          1002
+        ],
+        [
+          591,
+          1051
+        ],
+        [
+          630,
+          1104
+        ],
+        [
+          667,
+          1154
+        ],
+        [
+          701,
+          1204
+        ],
+        [
+          735,
+          1255
+        ],
+        [
+          767,
+          1306
+        ],
+        [
+          795,
+          1355
+        ],
+        [
+          823,
+          1404
+        ],
+        [
+          853,
+          1459
+        ],
+        [
+          803,
+          1408
+        ],
+        [
+          754,
+          1357
+        ],
+        [
+          708,
+          1307
+        ],
+        [
+          662,
+          1256
+        ],
+        [
+          618,
+          1206
+        ],
+        [
+          574,
+          1154
+        ],
+        [
+          534,
+          1104
+        ],
+        [
+          495,
+          1053
+        ],
+        [
+          456,
+          1003
+        ],
+        [
+          418,
+          951
+        ],
+        [
+          382,
+          902
+        ],
+        [
+          345,
+          852
+        ],
+        [
+          309,
+          803
+        ],
+        [
+          278,
+          756
+        ],
+        [
+          255,
+          715
+        ],
+        [
+          231,
+          687
+        ],
+        [
+          223,
+          676
+        ],
+        [
+          245,
+          678
+        ],
+        [
+          271,
+          689
+        ],
+        [
+          292,
+          700
+        ],
+        [
+          303,
+          708
+        ],
+        [
+          289,
+          682
+        ]
+      ]
+    ],
+    "copiedPixels": 83468,
+    "completionPixels": 840,
+    "redrawnVisiblePixels": 0,
+    "completion": {
+      "guide": "assets/sources/weapon-grip-completion-guide-v2.png",
+      "guideSha256": "0b22ba6c3a92763149d138c281eb7d59e420b7c440bc300d8e24feb94d450585",
+      "scope": "ONLY_HANDLE_HIDDEN_BY_ORIGINAL_FINGERS",
+      "polygon": [
+        [
+          129,
+          493
+        ],
+        [
+          139,
+          489
+        ],
+        [
+          184,
+          539
+        ],
+        [
+          174,
+          549
+        ]
+      ]
+    },
+    "transformsAllowed": [
+      "uniformScale",
+      "translation",
+      "rotation"
+    ],
+    "status": "CORRECTED_USER_REVIEW_PENDING",
+    "url": "assets/locked/v2/complete-sword.png",
+    "drawingPolicy": "ONE_FIXED_SWORD_VISIBLE_ORIGINAL_PIXELS_ONLY_HIDDEN_GRIP_COMPLETED"
+  },
+  "motion": {
+    "idle": {
+      "url": "assets/atlases/idle.png",
+      "columns": 4,
+      "rows": 1,
+      "frameWidth": 768,
+      "frameHeight": 768,
+      "bodyPixels": 330,
+      "sha256": "661bc2be261709e0ad2ff02c51aad8546f13ff4ac37e607af965092d0c6302f0",
+      "frames": [
+        {
+          "id": "idle-00",
+          "index": 0,
+          "pivot": {
+            "x": 359.70000000000005,
+            "y": 548
+          },
+          "grip": {
+            "x": 302.6491525423729,
+            "y": 367.8983050847458
+          },
+          "head": {
+            "x": 372.564406779661,
+            "y": 245.96610169491524
+          },
+          "tip": {
+            "x": 537.7357648104575,
+            "y": 532.6533536021107
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-idle.png",
+          "sourceIndex": 0,
+          "sourceSha256": "098872d8635a96505a860a7b816351e91cc8c1d4357585b55bf088facde32d13",
+          "componentBox": {
+            "left": 124,
+            "top": 16,
+            "width": 465,
+            "height": 597
+          },
+          "sourceFoot": [
+            355,
+            608
+          ],
+          "sourceGrip": [
+            253,
+            286
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -18.032077164060972,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": 35
+            }
+          },
+          "sha256": "92bf32f56c57c467e60d9c2b51a420bb3961a144f3cf58d376a91867c73b49a3",
+          "file": "assets/frames/idle-00.png",
+          "margin": {
+            "left": 231,
+            "top": 218,
+            "right": 230,
+            "bottom": 218
+          }
+        },
+        {
+          "id": "idle-01",
+          "index": 1,
+          "pivot": {
+            "x": 360.6,
+            "y": 549.75
+          },
+          "grip": {
+            "x": 305.7864406779661,
+            "y": 370.20762711864404
+          },
+          "head": {
+            "x": 372.3457627118644,
+            "y": 244.91949152542375
+          },
+          "tip": {
+            "x": 546.1527348813013,
+            "y": 526.4177421607578
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-idle.png",
+          "sourceIndex": 1,
+          "sourceSha256": "098872d8635a96505a860a7b816351e91cc8c1d4357585b55bf088facde32d13",
+          "componentBox": {
+            "left": 696,
+            "top": 13,
+            "width": 520,
+            "height": 601
+          },
+          "sourceFoot": [
+            945,
+            610
+          ],
+          "sourceGrip": [
+            847,
+            289
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -20.032077164060972,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": 33
+            }
+          },
+          "sha256": "21729fb81da8d79d7aadeb538efe2786b9f37ceab726ee5f08badeef2ba2df95",
+          "file": "assets/frames/idle-01.png",
+          "margin": {
+            "left": 222,
+            "top": 217,
+            "right": 222,
+            "bottom": 216
+          }
+        },
+        {
+          "id": "idle-02",
+          "index": 2,
+          "pivot": {
+            "x": 375.95000000000005,
+            "y": 550.3
+          },
+          "grip": {
+            "x": 327.8483050847458,
+            "y": 366.2830508474577
+          },
+          "head": {
+            "x": 391.05169491525425,
+            "y": 251.0627118644068
+          },
+          "tip": {
+            "x": 562.7857648104575,
+            "y": 530.5533536021106
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-idle.png",
+          "sourceIndex": 2,
+          "sourceSha256": "098872d8635a96505a860a7b816351e91cc8c1d4357585b55bf088facde32d13",
+          "componentBox": {
+            "left": 49,
+            "top": 642,
+            "width": 551,
+            "height": 601
+          },
+          "sourceFoot": [
+            354,
+            1240
+          ],
+          "sourceGrip": [
+            268,
+            911
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -18.032077164060972,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": 35
+            }
+          },
+          "sha256": "7b796dba4ecf2baaa238070afc00472df01a8a84873495acdf0be6957330409d",
+          "file": "assets/frames/idle-02.png",
+          "margin": {
+            "left": 206,
+            "top": 217,
+            "right": 205,
+            "bottom": 217
+          }
+        },
+        {
+          "id": "idle-03",
+          "index": 3,
+          "pivot": {
+            "x": 388,
+            "y": 549.3
+          },
+          "grip": {
+            "x": 309.135593220339,
+            "y": 366.9610169491525
+          },
+          "head": {
+            "x": 379.6101694915255,
+            "y": 246.14745762711868
+          },
+          "tip": {
+            "x": 535.20850033812,
+            "y": 543.520708110279
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-idle.png",
+          "sourceIndex": 3,
+          "sourceSha256": "098872d8635a96505a860a7b816351e91cc8c1d4357585b55bf088facde32d13",
+          "componentBox": {
+            "left": 729,
+            "top": 642,
+            "width": 475,
+            "height": 603
+          },
+          "sourceFoot": [
+            1005,
+            1240
+          ],
+          "sourceGrip": [
+            864,
+            914
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -15.032077164060972,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": 38
+            }
+          },
+          "sha256": "18e6dfa60002a2c31435e424ac747316bdc9be3d109e657313f2cbf1e0bd9441",
+          "file": "assets/frames/idle-03.png",
+          "margin": {
+            "left": 234,
+            "top": 216,
+            "right": 233,
+            "bottom": 216
+          }
+        }
+      ]
+    },
+    "dash": {
+      "url": "assets/atlases/dash.png",
+      "columns": 4,
+      "rows": 1,
+      "frameWidth": 768,
+      "frameHeight": 768,
+      "bodyPixels": 330,
+      "sha256": "6e612e7b5d5f43002354d6b7bfded09493bfef61a6d44f1f0ec082d921cfebc9",
+      "frames": [
+        {
+          "id": "dash-00",
+          "index": 0,
+          "pivot": {
+            "x": 377.75,
+            "y": 502.35
+          },
+          "grip": {
+            "x": 319.021186440678,
+            "y": 361.40084745762715
+          },
+          "head": {
+            "x": 501.3601694915255,
+            "y": 297.63813559322034
+          },
+          "tip": {
+            "x": 559.4527348813012,
+            "y": 517.5177421607577
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-dash.png",
+          "sourceIndex": 0,
+          "sourceSha256": "aaceb9fc909d5e9ed4ce7c39ef4691b184fdcc238614baa23dd102a131ffb40d",
+          "componentBox": {
+            "left": 13,
+            "top": 148,
+            "width": 614,
+            "height": 454
+          },
+          "sourceFoot": [
+            315,
+            598
+          ],
+          "sourceGrip": [
+            210,
+            346
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -20.032077164060972,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": 33
+            }
+          },
+          "sha256": "0f7f4c4b43b1d6498a083e0e1e4c52a2dfd272f9e2a0b86ceae5feb0a5c26fb9",
+          "file": "assets/frames/dash-00.png",
+          "margin": {
+            "left": 210,
+            "top": 251,
+            "right": 209,
+            "bottom": 250
+          }
+        },
+        {
+          "id": "dash-01",
+          "index": 1,
+          "pivot": {
+            "x": 382.8,
+            "y": 536.8
+          },
+          "grip": {
+            "x": 320.71525423728815,
+            "y": 343.8338983050847
+          },
+          "head": {
+            "x": 483.4779661016949,
+            "y": 268.3254237288136
+          },
+          "tip": {
+            "x": 571.6118062540745,
+            "y": 482.88457801229674
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-dash.png",
+          "sourceIndex": 1,
+          "sourceSha256": "aaceb9fc909d5e9ed4ce7c39ef4691b184fdcc238614baa23dd102a131ffb40d",
+          "componentBox": {
+            "left": 618,
+            "top": 71,
+            "width": 634,
+            "height": 551
+          },
+          "sourceFoot": [
+            950,
+            618
+          ],
+          "sourceGrip": [
+            839,
+            273
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -24.032077164060972,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": 29
+            }
+          },
+          "sha256": "507bf9b390ab4bd02ce17c5c0a95b204fe2dcbe7bf1cfe2c091f0d4b1933fcbf",
+          "file": "assets/frames/dash-01.png",
+          "margin": {
+            "left": 198,
+            "top": 231,
+            "right": 197,
+            "bottom": 230
+          }
+        },
+        {
+          "id": "dash-02",
+          "index": 2,
+          "pivot": {
+            "x": 382.95000000000005,
+            "y": 530.9000000000001
+          },
+          "grip": {
+            "x": 339.32288135593217,
+            "y": 338.4932203389831
+          },
+          "head": {
+            "x": 500.4076271186441,
+            "y": 269.6966101694916
+          },
+          "tip": {
+            "x": 576.8646952016632,
+            "y": 498.6491485742922
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-dash.png",
+          "sourceIndex": 2,
+          "sourceSha256": "aaceb9fc909d5e9ed4ce7c39ef4691b184fdcc238614baa23dd102a131ffb40d",
+          "componentBox": {
+            "left": 30,
+            "top": 659,
+            "width": 689,
+            "height": 535
+          },
+          "sourceFoot": [
+            375,
+            1190
+          ],
+          "sourceGrip": [
+            297,
+            846
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -19.032077164060972,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": 34
+            }
+          },
+          "sha256": "0412ca8f5deae7d4c6bd0bdd552f61690ea5f59368bc67def07559468f8d908d",
+          "file": "assets/frames/dash-02.png",
+          "margin": {
+            "left": 191,
+            "top": 235,
+            "right": 191,
+            "bottom": 235
+          }
+        },
+        {
+          "id": "dash-03",
+          "index": 3,
+          "pivot": {
+            "x": 411.25,
+            "y": 516.75
+          },
+          "grip": {
+            "x": 314.4872881355932,
+            "y": 367.97033898305096
+          },
+          "head": {
+            "x": 475.57203389830505,
+            "y": 268.4110169491525
+          },
+          "tip": {
+            "x": 552.3646952016632,
+            "y": 528.4991485742921
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-dash.png",
+          "sourceIndex": 3,
+          "sourceSha256": "aaceb9fc909d5e9ed4ce7c39ef4691b184fdcc238614baa23dd102a131ffb40d",
+          "componentBox": {
+            "left": 700,
+            "top": 711,
+            "width": 552,
+            "height": 502
+          },
+          "sourceFoot": [
+            1050,
+            1209
+          ],
+          "sourceGrip": [
+            877,
+            943
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -19.032077164060972,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": 34
+            }
+          },
+          "sha256": "92375044d42b2c9a66b5d87e978db774ec75117836ee8142cad0a4dfe3e5129f",
+          "file": "assets/frames/dash-03.png",
+          "margin": {
+            "left": 216,
+            "top": 239,
+            "right": 216,
+            "bottom": 239
+          }
+        }
+      ]
+    },
+    "attack": {
+      "url": "assets/atlases/attack.png",
+      "columns": 4,
+      "rows": 2,
+      "frameWidth": 768,
+      "frameHeight": 768,
+      "bodyPixels": 330,
+      "sha256": "bb8f1e06a3ac09ac4363f776bd5c884402a1595f560f0970eddf0d93be6166f8",
+      "frames": [
+        {
+          "id": "attack-00",
+          "index": 0,
+          "pivot": {
+            "x": 406.1,
+            "y": 543.75
+          },
+          "grip": {
+            "x": 318.65,
+            "y": 355.65
+          },
+          "head": {
+            "x": 434.15,
+            "y": 244
+          },
+          "tip": {
+            "x": 521.65925308024,
+            "y": 558.2976130803399
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-attack-a.png",
+          "sourceIndex": 0,
+          "sourceSha256": "a939ee2afd7b2ab0810f9dc3e14c7dcbdf2e03f774c75cbf2cb24972e2b70c80",
+          "componentBox": {
+            "left": 13,
+            "top": 15,
+            "width": 608,
+            "height": 610
+          },
+          "sourceFoot": [
+            356,
+            621
+          ],
+          "sourceGrip": [
+            197,
+            279
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -8.032077164060972,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": 45
+            }
+          },
+          "sha256": "e0f4f75aa1f49f2679aa2348ea0a66b36ff9fda4f876bb109080f99a2c84e203",
+          "file": "assets/frames/attack-00.png",
+          "margin": {
+            "left": 218,
+            "top": 211,
+            "right": 217,
+            "bottom": 210
+          }
+        },
+        {
+          "id": "attack-01",
+          "index": 1,
+          "pivot": {
+            "x": 389.85,
+            "y": 629.25
+          },
+          "grip": {
+            "x": 301.3,
+            "y": 321.25
+          },
+          "head": {
+            "x": 397.55,
+            "y": 324.55
+          },
+          "tip": {
+            "x": 521.2163256354384,
+            "y": 136.7997041179336
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-attack-a.png",
+          "sourceIndex": 1,
+          "sourceSha256": "a939ee2afd7b2ab0810f9dc3e14c7dcbdf2e03f774c75cbf2cb24972e2b70c80",
+          "componentBox": {
+            "left": 698,
+            "top": 23,
+            "width": 556,
+            "height": 606
+          },
+          "sourceFoot": [
+            986,
+            625
+          ],
+          "sourceGrip": [
+            825,
+            65
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -93.03207716406098,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": -40
+            }
+          },
+          "sha256": "128cca945cb66de20707b296007314971ee6f02c80a11041a6883b2235e17c38",
+          "file": "assets/frames/attack-01.png",
+          "margin": {
+            "left": 232,
+            "top": 137,
+            "right": 231,
+            "bottom": 137
+          }
+        },
+        {
+          "id": "attack-02",
+          "index": 2,
+          "pivot": {
+            "x": 322.95000000000005,
+            "y": 613.9000000000001
+          },
+          "grip": {
+            "x": 424.15000000000003,
+            "y": 316.9
+          },
+          "head": {
+            "x": 349.9,
+            "y": 324.6
+          },
+          "tip": {
+            "x": 659.0251415288308,
+            "y": 152.62840087148723
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-attack-a.png",
+          "sourceIndex": 2,
+          "sourceSha256": "a939ee2afd7b2ab0810f9dc3e14c7dcbdf2e03f774c75cbf2cb24972e2b70c80",
+          "componentBox": {
+            "left": 9,
+            "top": 645,
+            "width": 650,
+            "height": 597
+          },
+          "sourceFoot": [
+            399,
+            1238
+          ],
+          "sourceGrip": [
+            583,
+            698
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -88.03207716406098,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": -35
+            }
+          },
+          "sha256": "aa9c71fc3f99544b496cae9b26958eb89839aa3415d5fd89d62387ae0f399a1e",
+          "file": "assets/frames/attack-02.png",
+          "margin": {
+            "left": 109,
+            "top": 153,
+            "right": 109,
+            "bottom": 152
+          }
+        },
+        {
+          "id": "attack-03",
+          "index": 3,
+          "pivot": {
+            "x": 287.6,
+            "y": 548
+          },
+          "grip": {
+            "x": 398.70000000000005,
+            "y": 275.2
+          },
+          "head": {
+            "x": 309.05,
+            "y": 241.1
+          },
+          "tip": {
+            "x": 685.3252012192395,
+            "y": 275.2664644444172
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-attack-b.png",
+          "sourceIndex": 0,
+          "sourceSha256": "f667ae772e42348278d7b575f99bc4f9973ae799357c9ba879139e1e283661f3",
+          "componentBox": {
+            "left": 33,
+            "top": 17,
+            "width": 652,
+            "height": 605
+          },
+          "sourceFoot": [
+            406,
+            618
+          ],
+          "sourceGrip": [
+            608,
+            122
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -53.03207716406097,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": 0
+            }
+          },
+          "sha256": "53cd0188e5e30c2663cf05c6c5d79c3fb2837c3a7a4e2482e260c441d84e1e9f",
+          "file": "assets/frames/attack-03.png",
+          "margin": {
+            "left": 83,
+            "top": 218,
+            "right": 83,
+            "bottom": 218
+          }
+        },
+        {
+          "id": "attack-04",
+          "index": 4,
+          "pivot": {
+            "x": 348.25,
+            "y": 532.25
+          },
+          "grip": {
+            "x": 401.05,
+            "y": 349.1
+          },
+          "head": {
+            "x": 359.25,
+            "y": 249
+          },
+          "tip": {
+            "x": 604.05925308024,
+            "y": 551.7476130803399
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-attack-b.png",
+          "sourceIndex": 1,
+          "sourceSha256": "f667ae772e42348278d7b575f99bc4f9973ae799357c9ba879139e1e283661f3",
+          "componentBox": {
+            "left": 674,
+            "top": 49,
+            "width": 535,
+            "height": 580
+          },
+          "sourceFoot": [
+            1010,
+            625
+          ],
+          "sourceGrip": [
+            1106,
+            292
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -8.032077164060972,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": 45
+            }
+          },
+          "sha256": "f0fe108d9cc0e7a71308c0fe0744e85b6e21cb673e811843bca5e3a4f7e97aab",
+          "file": "assets/frames/attack-04.png",
+          "margin": {
+            "left": 164,
+            "top": 216,
+            "right": 164,
+            "bottom": 216
+          }
+        },
+        {
+          "id": "attack-05",
+          "index": 5,
+          "pivot": {
+            "x": 354.55,
+            "y": 549.75
+          },
+          "grip": {
+            "x": 330.9,
+            "y": 330.3
+          },
+          "head": {
+            "x": 384.25,
+            "y": 255.5
+          },
+          "tip": {
+            "x": 591.0314463314952,
+            "y": 451.67501296586556
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-attack-b.png",
+          "sourceIndex": 2,
+          "sourceSha256": "f667ae772e42348278d7b575f99bc4f9973ae799357c9ba879139e1e283661f3",
+          "componentBox": {
+            "left": 68,
+            "top": 626,
+            "width": 600,
+            "height": 610
+          },
+          "sourceFoot": [
+            390,
+            1232
+          ],
+          "sourceGrip": [
+            347,
+            833
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -28.032077164060972,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": 25
+            }
+          },
+          "sha256": "97f71f369934b950ddde9f78a29d4e32dc35dcc1f14c0646d7eae42d78035eaf",
+          "file": "assets/frames/attack-05.png",
+          "margin": {
+            "left": 178,
+            "top": 217,
+            "right": 177,
+            "bottom": 217
+          }
+        },
+        {
+          "id": "attack-06",
+          "index": 6,
+          "pivot": {
+            "x": 397.65,
+            "y": 546.4000000000001
+          },
+          "grip": {
+            "x": 345.4,
+            "y": 353.9
+          },
+          "head": {
+            "x": 405.35,
+            "y": 234.55
+          },
+          "tip": {
+            "x": 537.0987832522369,
+            "y": 567.0721037496289
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-attack-b.png",
+          "sourceIndex": 3,
+          "sourceSha256": "f667ae772e42348278d7b575f99bc4f9973ae799357c9ba879139e1e283661f3",
+          "componentBox": {
+            "left": 685,
+            "top": 602,
+            "width": 553,
+            "height": 633
+          },
+          "sourceFoot": [
+            989,
+            1231
+          ],
+          "sourceGrip": [
+            894,
+            881
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -5.032077164060972,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": 48
+            }
+          },
+          "sha256": "440b4c48bdb7907f577aa0acb0940669057497032c80049a58dcf812973b8795",
+          "file": "assets/frames/attack-06.png",
+          "margin": {
+            "left": 231,
+            "top": 201,
+            "right": 231,
+            "bottom": 201
+          }
+        }
+      ]
+    },
+    "skill": {
+      "url": "assets/atlases/skill.png",
+      "columns": 4,
+      "rows": 2,
+      "frameWidth": 768,
+      "frameHeight": 768,
+      "bodyPixels": 330,
+      "sha256": "165bc003b5c4e28f063cd993ebbf4f7bd0f5f54598992d7a4c2b3c9f447de3c2",
+      "frames": [
+        {
+          "id": "skill-00",
+          "index": 0,
+          "pivot": {
+            "x": 358.5,
+            "y": 552.05
+          },
+          "grip": {
+            "x": 320.55,
+            "y": 349.1
+          },
+          "head": {
+            "x": 364.55,
+            "y": 244.6
+          },
+          "tip": {
+            "x": 603.2552997074413,
+            "y": 398.9036285575534
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-skill-a.png",
+          "sourceIndex": 0,
+          "sourceSha256": "412e41b101e0c3be79d8bead261712dd5051e12225b8b7fe507e2319d935d184",
+          "componentBox": {
+            "left": 13,
+            "top": 15,
+            "width": 615,
+            "height": 616
+          },
+          "sourceFoot": [
+            364,
+            627
+          ],
+          "sourceGrip": [
+            295,
+            258
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -43.03207716406097,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": 10
+            }
+          },
+          "sha256": "60fc5c47f0193f3841b36d86821ff3e23dfa83941d5753947c59f0f98bfbe016",
+          "file": "assets/frames/skill-00.png",
+          "margin": {
+            "left": 166,
+            "top": 216,
+            "right": 165,
+            "bottom": 215
+          }
+        },
+        {
+          "id": "skill-01",
+          "index": 1,
+          "pivot": {
+            "x": 369.55,
+            "y": 541.7
+          },
+          "grip": {
+            "x": 292.55,
+            "y": 329.95
+          },
+          "head": {
+            "x": 403.1,
+            "y": 262.3
+          },
+          "tip": {
+            "x": 575.2552997074413,
+            "y": 379.7536285575534
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-skill-a.png",
+          "sourceIndex": 1,
+          "sourceSha256": "412e41b101e0c3be79d8bead261712dd5051e12225b8b7fe507e2319d935d184",
+          "componentBox": {
+            "left": 667,
+            "top": 55,
+            "width": 584,
+            "height": 579
+          },
+          "sourceFoot": [
+            989,
+            630
+          ],
+          "sourceGrip": [
+            849,
+            245
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -43.03207716406097,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": 10
+            }
+          },
+          "sha256": "3ff3f70776c029695b490ede6af28f359e7e9710b60b8ecfc390b32b32a82ed5",
+          "file": "assets/frames/skill-01.png",
+          "margin": {
+            "left": 193,
+            "top": 226,
+            "right": 193,
+            "bottom": 225
+          }
+        },
+        {
+          "id": "skill-02",
+          "index": 2,
+          "pivot": {
+            "x": 277.75,
+            "y": 542.35
+          },
+          "grip": {
+            "x": 395.45000000000005,
+            "y": 305.3
+          },
+          "head": {
+            "x": 318.45000000000005,
+            "y": 256.35
+          },
+          "tip": {
+            "x": 682.0752012192395,
+            "y": 305.36646444441715
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-skill-a.png",
+          "sourceIndex": 2,
+          "sourceSha256": "412e41b101e0c3be79d8bead261712dd5051e12225b8b7fe507e2319d935d184",
+          "componentBox": {
+            "left": 30,
+            "top": 653,
+            "width": 604,
+            "height": 582
+          },
+          "sourceFoot": [
+            376,
+            1231
+          ],
+          "sourceGrip": [
+            590,
+            800
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -53.03207716406097,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": 0
+            }
+          },
+          "sha256": "b22562c3717992b0f0eddf5dc6d3b50b30b5b26cce0430dd8616e53a2ae2dea4",
+          "file": "assets/frames/skill-02.png",
+          "margin": {
+            "left": 88,
+            "top": 225,
+            "right": 87,
+            "bottom": 224
+          }
+        },
+        {
+          "id": "skill-03",
+          "index": 3,
+          "pivot": {
+            "x": 264.75,
+            "y": 531.45
+          },
+          "grip": {
+            "x": 397.3,
+            "y": 297.7
+          },
+          "head": {
+            "x": 333.5,
+            "y": 263.6
+          },
+          "tip": {
+            "x": 683.9252012192395,
+            "y": 297.7664644444172
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-skill-a.png",
+          "sourceIndex": 3,
+          "sourceSha256": "412e41b101e0c3be79d8bead261712dd5051e12225b8b7fe507e2319d935d184",
+          "componentBox": {
+            "left": 641,
+            "top": 684,
+            "width": 613,
+            "height": 544
+          },
+          "sourceFoot": [
+            967,
+            1224
+          ],
+          "sourceGrip": [
+            1208,
+            799
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -53.03207716406097,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": 0
+            }
+          },
+          "sha256": "32abc1eef924cb49cefe3632838c5e15abf75c15e8cb83053adba0aea9995d25",
+          "file": "assets/frames/skill-03.png",
+          "margin": {
+            "left": 86,
+            "top": 235,
+            "right": 85,
+            "bottom": 235
+          }
+        },
+        {
+          "id": "skill-04",
+          "index": 4,
+          "pivot": {
+            "x": 271.75,
+            "y": 530.8
+          },
+          "grip": {
+            "x": 399.625,
+            "y": 286.909375
+          },
+          "head": {
+            "x": 311.453125,
+            "y": 260.6125
+          },
+          "tip": {
+            "x": 686.5252012192395,
+            "y": 286.66646444441716
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-skill-b.png",
+          "sourceIndex": 0,
+          "sourceSha256": "32e48324454fb527a2008b5d267a284b46730cb7e40a86bcd93a165f78777600",
+          "componentBox": {
+            "left": 14,
+            "top": 34,
+            "width": 667,
+            "height": 577
+          },
+          "sourceFoot": [
+            382,
+            607
+          ],
+          "sourceGrip": [
+            630,
+            134
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -53.03207716406097,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": 0
+            }
+          },
+          "sha256": "a06829d11e3e4775bfb6404468ef927263ce2fbbc074f7f8484be6e357a36f54",
+          "file": "assets/frames/skill-04.png",
+          "margin": {
+            "left": 82,
+            "top": 236,
+            "right": 82,
+            "bottom": 236
+          }
+        },
+        {
+          "id": "skill-05",
+          "index": 5,
+          "pivot": {
+            "x": 325.75,
+            "y": 532.55
+          },
+          "grip": {
+            "x": 305.640625,
+            "y": 308.76875
+          },
+          "head": {
+            "x": 280.375,
+            "y": 263.909375
+          },
+          "tip": {
+            "x": 588.0213565758794,
+            "y": 258.78570378614313
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-skill-b.png",
+          "sourceIndex": 1,
+          "sourceSha256": "32e48324454fb527a2008b5d267a284b46730cb7e40a86bcd93a165f78777600",
+          "componentBox": {
+            "left": 702,
+            "top": 28,
+            "width": 542,
+            "height": 583
+          },
+          "sourceFoot": [
+            985,
+            607
+          ],
+          "sourceGrip": [
+            946,
+            173
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -63.03207716406097,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": -10
+            }
+          },
+          "sha256": "3809aff177f00c68389d849765ccb73aa43ac146d09bf997eeb46dfee683a4b2",
+          "file": "assets/frames/skill-05.png",
+          "margin": {
+            "left": 180,
+            "top": 235,
+            "right": 180,
+            "bottom": 234
+          }
+        },
+        {
+          "id": "skill-06",
+          "index": 6,
+          "pivot": {
+            "x": 351.05,
+            "y": 548.45
+          },
+          "grip": {
+            "x": 319.596875,
+            "y": 332.91875
+          },
+          "head": {
+            "x": 360.846875,
+            "y": 246.809375
+          },
+          "tip": {
+            "x": 589.2556218492953,
+            "y": 431.02106069381307
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-skill-b.png",
+          "sourceIndex": 2,
+          "sourceSha256": "32e48324454fb527a2008b5d267a284b46730cb7e40a86bcd93a165f78777600",
+          "componentBox": {
+            "left": 52,
+            "top": 595,
+            "width": 603,
+            "height": 644
+          },
+          "sourceFoot": [
+            384,
+            1235
+          ],
+          "sourceGrip": [
+            323,
+            817
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -33.03207716406097,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": 20
+            }
+          },
+          "sha256": "0bf638dd403d8d892cf747de0a051baf53b0b22939e5072a2f37c995650c8c41",
+          "file": "assets/frames/skill-06.png",
+          "margin": {
+            "left": 180,
+            "top": 219,
+            "right": 179,
+            "bottom": 218
+          }
+        },
+        {
+          "id": "skill-07",
+          "index": 7,
+          "pivot": {
+            "x": 386.8,
+            "y": 540.6
+          },
+          "grip": {
+            "x": 330.596875,
+            "y": 350.334375
+          },
+          "head": {
+            "x": 366.690625,
+            "y": 232.771875
+          },
+          "tip": {
+            "x": 522.398783252237,
+            "y": 563.472103749629
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-skill-b.png",
+          "sourceIndex": 3,
+          "sourceSha256": "32e48324454fb527a2008b5d267a284b46730cb7e40a86bcd93a165f78777600",
+          "componentBox": {
+            "left": 708,
+            "top": 589,
+            "width": 515,
+            "height": 658
+          },
+          "sourceFoot": [
+            982,
+            1243
+          ],
+          "sourceGrip": [
+            873,
+            874
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -5.032077164060972,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": 48
+            }
+          },
+          "sha256": "46ee9fa225f8f61a57b1a7c1645eead47180cd9032e4c2a274af6958fd254b65",
+          "file": "assets/frames/skill-07.png",
+          "margin": {
+            "left": 246,
+            "top": 204,
+            "right": 245,
+            "bottom": 204
+          }
+        }
+      ]
+    },
+    "ultimate": {
+      "url": "assets/atlases/ultimate.png",
+      "columns": 4,
+      "rows": 2,
+      "frameWidth": 768,
+      "frameHeight": 768,
+      "bodyPixels": 330,
+      "sha256": "4be98fed156823862d73a7382319609c15b95cb777dc9c449948f3d318106b84",
+      "frames": [
+        {
+          "id": "ultimate-00",
+          "index": 0,
+          "pivot": {
+            "x": 391.05,
+            "y": 551.5
+          },
+          "grip": {
+            "x": 312.95,
+            "y": 369.45000000000005
+          },
+          "head": {
+            "x": 399.3,
+            "y": 244.05
+          },
+          "tip": {
+            "x": 538.80850033812,
+            "y": 546.270708110279
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-ultimate-a.png",
+          "sourceIndex": 0,
+          "sourceSha256": "bfb07a61631d0718be044e312834dacca683fd6a3fcfc3eff76f9058b4f18620",
+          "componentBox": {
+            "left": 73,
+            "top": 13,
+            "width": 525,
+            "height": 615
+          },
+          "sourceFoot": [
+            365,
+            624
+          ],
+          "sourceGrip": [
+            223,
+            293
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -15.032077164060972,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": 38
+            }
+          },
+          "sha256": "741c4f7e4a4df16239ed06ba81f8a70181158411445bdfd5abca46cdd244cacc",
+          "file": "assets/frames/ultimate-00.png",
+          "margin": {
+            "left": 231,
+            "top": 216,
+            "right": 230,
+            "bottom": 215
+          }
+        },
+        {
+          "id": "ultimate-01",
+          "index": 1,
+          "pivot": {
+            "x": 403.75,
+            "y": 673.7
+          },
+          "grip": {
+            "x": 360.3,
+            "y": 359.1
+          },
+          "head": {
+            "x": 403.75,
+            "y": 373.40000000000003
+          },
+          "tip": {
+            "x": 252.74569911820856,
+            "y": 93.12676571389073
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-ultimate-a.png",
+          "sourceIndex": 1,
+          "sourceSha256": "bfb07a61631d0718be044e312834dacca683fd6a3fcfc3eff76f9058b4f18620",
+          "componentBox": {
+            "left": 661,
+            "top": 6,
+            "width": 583,
+            "height": 623
+          },
+          "sourceFoot": [
+            987,
+            625
+          ],
+          "sourceGrip": [
+            908,
+            53
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -165.03207716406098,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": -112
+            }
+          },
+          "sha256": "a66c2cecac3c4a1827fba0915644f4e582fa4b0e1515bd989905ef24e4469e72",
+          "file": "assets/frames/ultimate-01.png",
+          "margin": {
+            "left": 225,
+            "top": 94,
+            "right": 225,
+            "bottom": 93
+          }
+        },
+        {
+          "id": "ultimate-02",
+          "index": 2,
+          "pivot": {
+            "x": 417,
+            "y": 706.25
+          },
+          "grip": {
+            "x": 374.1,
+            "y": 345.45000000000005
+          },
+          "head": {
+            "x": 418.1,
+            "y": 427.95000000000005
+          },
+          "tip": {
+            "x": 374.16646444441716,
+            "y": 58.824798780760496
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-ultimate-a.png",
+          "sourceIndex": 2,
+          "sourceSha256": "bfb07a61631d0718be044e312834dacca683fd6a3fcfc3eff76f9058b4f18620",
+          "componentBox": {
+            "left": 30,
+            "top": 553,
+            "width": 603,
+            "height": 698
+          },
+          "sourceFoot": [
+            391,
+            1247
+          ],
+          "sourceGrip": [
+            313,
+            591
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -143.03207716406098,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": -90
+            }
+          },
+          "sha256": "062bb4c49a931e302fcc2851a14d5c8e88397d7eeb19ac381484453d7b5ad337",
+          "file": "assets/frames/ultimate-02.png",
+          "margin": {
+            "left": 219,
+            "top": 60,
+            "right": 218,
+            "bottom": 60
+          }
+        },
+        {
+          "id": "ultimate-03",
+          "index": 3,
+          "pivot": {
+            "x": 419.65,
+            "y": 702.5500000000001
+          },
+          "grip": {
+            "x": 371.8,
+            "y": 345.6
+          },
+          "head": {
+            "x": 413.05,
+            "y": 418.20000000000005
+          },
+          "tip": {
+            "x": 321.88570378614315,
+            "y": 62.9786434241206
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-ultimate-a.png",
+          "sourceIndex": 3,
+          "sourceSha256": "bfb07a61631d0718be044e312834dacca683fd6a3fcfc3eff76f9058b4f18620",
+          "componentBox": {
+            "left": 648,
+            "top": 553,
+            "width": 601,
+            "height": 698
+          },
+          "sourceFoot": [
+            1012,
+            1247
+          ],
+          "sourceGrip": [
+            925,
+            598
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -153.03207716406098,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": -100
+            }
+          },
+          "sha256": "c5ea555fe676468288624a8471a68f8be366705c61f078b207f9085d3e9031c7",
+          "file": "assets/frames/ultimate-03.png",
+          "margin": {
+            "left": 220,
+            "top": 64,
+            "right": 219,
+            "bottom": 64
+          }
+        },
+        {
+          "id": "ultimate-04",
+          "index": 4,
+          "pivot": {
+            "x": 317.70000000000005,
+            "y": 544.95
+          },
+          "grip": {
+            "x": 391.95000000000005,
+            "y": 392.6
+          },
+          "head": {
+            "x": 393.6,
+            "y": 285.35
+          },
+          "tip": {
+            "x": 635.3744153475861,
+            "y": 544.8098521457279
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-ultimate-b.png",
+          "sourceIndex": 0,
+          "sourceSha256": "7796df91194af2b0a28e66f60f10d856180eeabe7319f362fc673cd400ca6d53",
+          "componentBox": {
+            "left": 19,
+            "top": 22,
+            "width": 627,
+            "height": 594
+          },
+          "sourceFoot": [
+            354,
+            612
+          ],
+          "sourceGrip": [
+            489,
+            335
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -21.032077164060972,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": 32
+            }
+          },
+          "sha256": "a8724f043455dedb06e49ff68b9693de83f892c142dd0f1102d1d18aee3847fd",
+          "file": "assets/frames/ultimate-04.png",
+          "margin": {
+            "left": 134,
+            "top": 221,
+            "right": 133,
+            "bottom": 221
+          }
+        },
+        {
+          "id": "ultimate-05",
+          "index": 5,
+          "pivot": {
+            "x": 353.85,
+            "y": 545.5
+          },
+          "grip": {
+            "x": 326.35,
+            "y": 321.65
+          },
+          "head": {
+            "x": 374.75,
+            "y": 251.8
+          },
+          "tip": {
+            "x": 606.7621596255427,
+            "y": 262.093445488108
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-ultimate-b.png",
+          "sourceIndex": 2,
+          "sourceSha256": "7796df91194af2b0a28e66f60f10d856180eeabe7319f362fc673cd400ca6d53",
+          "componentBox": {
+            "left": 30,
+            "top": 633,
+            "width": 597,
+            "height": 595
+          },
+          "sourceFoot": [
+            378,
+            1224
+          ],
+          "sourceGrip": [
+            328,
+            817
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -65.03207716406098,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": -12
+            }
+          },
+          "sha256": "24bc0a24e698c3a61b32d18940f6a481ab9a653f8af98b55afdcd3118c4c3285",
+          "file": "assets/frames/ultimate-05.png",
+          "margin": {
+            "left": 163,
+            "top": 221,
+            "right": 162,
+            "bottom": 221
+          }
+        },
+        {
+          "id": "ultimate-06",
+          "index": 6,
+          "pivot": {
+            "x": 391.45000000000005,
+            "y": 544.95
+          },
+          "grip": {
+            "x": 326.55,
+            "y": 363.45000000000005
+          },
+          "head": {
+            "x": 380.45000000000005,
+            "y": 243
+          },
+          "tip": {
+            "x": 536.1925172599601,
+            "y": 559.2744427779372
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-ultimate-b.png",
+          "sourceIndex": 3,
+          "sourceSha256": "7796df91194af2b0a28e66f60f10d856180eeabe7319f362fc673cd400ca6d53",
+          "componentBox": {
+            "left": 655,
+            "top": 614,
+            "width": 572,
+            "height": 614
+          },
+          "sourceFoot": [
+            955,
+            1224
+          ],
+          "sourceGrip": [
+            837,
+            894
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -10.032077164060972,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": 43
+            }
+          },
+          "sha256": "74dafbbc1a6f09f7dd63df47931e1c3daa044f06f659b57a9479501dde60c7d8",
+          "file": "assets/frames/ultimate-06.png",
+          "margin": {
+            "left": 227,
+            "top": 210,
+            "right": 227,
+            "bottom": 209
+          }
+        }
+      ]
+    },
+    "cut": {
+      "url": "assets/atlases/cut.png",
+      "columns": 4,
+      "rows": 1,
+      "frameWidth": 768,
+      "frameHeight": 768,
+      "bodyPixels": 330,
+      "sha256": "c89976bcdc1befc73359c5ee93249dec607bdb6bd9bb53789e9a07f0c2d7ec8f",
+      "frames": [
+        {
+          "id": "cut-00",
+          "index": 0,
+          "pivot": {
+            "x": 453.6,
+            "y": 639.5
+          },
+          "grip": {
+            "x": 392,
+            "y": 323.25
+          },
+          "head": {
+            "x": 451.95000000000005,
+            "y": 356.25
+          },
+          "tip": {
+            "x": 182.35748274003984,
+            "y": 127.42555722206286
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-cut.png",
+          "sourceIndex": 0,
+          "sourceSha256": "a7c0e057e4598e8393c3a440977288c6b178baf4e2dcfc285e58d728793156db",
+          "componentBox": {
+            "left": 65,
+            "top": 9,
+            "width": 530,
+            "height": 613
+          },
+          "sourceFoot": [
+            354,
+            618
+          ],
+          "sourceGrip": [
+            242,
+            43
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -190.03207716406098,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": -137
+            }
+          },
+          "sha256": "bc9b28e5fd55a0e9250e217b2c48da4a6aa0e044543cab9ba662994a5a2fd8c7",
+          "file": "assets/frames/cut-00.png",
+          "margin": {
+            "left": 183,
+            "top": 128,
+            "right": 182,
+            "bottom": 127
+          }
+        },
+        {
+          "id": "cut-01",
+          "index": 1,
+          "pivot": {
+            "x": 373.8,
+            "y": 654.85
+          },
+          "grip": {
+            "x": 402.95000000000005,
+            "y": 346.3
+          },
+          "head": {
+            "x": 404.6,
+            "y": 388.1
+          },
+          "tip": {
+            "x": 567.4533536021108,
+            "y": 111.61423518954263
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-cut.png",
+          "sourceIndex": 1,
+          "sourceSha256": "a7c0e057e4598e8393c3a440977288c6b178baf4e2dcfc285e58d728793156db",
+          "componentBox": {
+            "left": 683,
+            "top": 19,
+            "width": 563,
+            "height": 607
+          },
+          "sourceFoot": [
+            1000,
+            622
+          ],
+          "sourceGrip": [
+            1053,
+            61
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -108.03207716406098,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": -55
+            }
+          },
+          "sha256": "e7621cd65fdd53f60f02a7c0a3d2ff0936f78958bb8c23fb27ad5e76ea283905",
+          "file": "assets/frames/cut-01.png",
+          "margin": {
+            "left": 200,
+            "top": 112,
+            "right": 200,
+            "bottom": 111
+          }
+        },
+        {
+          "id": "cut-02",
+          "index": 2,
+          "pivot": {
+            "x": 322.35,
+            "y": 541.25
+          },
+          "grip": {
+            "x": 377.35,
+            "y": 303.1
+          },
+          "head": {
+            "x": 343.8,
+            "y": 257.45
+          },
+          "tip": {
+            "x": 643.5475727534116,
+            "y": 410.3877459212772
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-cut.png",
+          "sourceIndex": 2,
+          "sourceSha256": "a7c0e057e4598e8393c3a440977288c6b178baf4e2dcfc285e58d728793156db",
+          "componentBox": {
+            "left": 25,
+            "top": 655,
+            "width": 625,
+            "height": 580
+          },
+          "sourceFoot": [
+            383,
+            1231
+          ],
+          "sourceGrip": [
+            483,
+            798
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -31.032077164060972,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": 22
+            }
+          },
+          "sha256": "a8812471b4ec832781761eae2e27d4bf76c6ba67dec5e2d6af9349291269e69e",
+          "file": "assets/frames/cut-02.png",
+          "margin": {
+            "left": 126,
+            "top": 225,
+            "right": 125,
+            "bottom": 225
+          }
+        }
+      ]
+    },
+    "command": {
+      "url": "assets/atlases/command.png",
+      "columns": 4,
+      "rows": 1,
+      "frameWidth": 768,
+      "frameHeight": 768,
+      "bodyPixels": 330,
+      "sha256": "2f52a547a3932ec26939a8c79eafd07fed7275954a08f92d2518cac1d9d47853",
+      "frames": [
+        {
+          "id": "command-00",
+          "index": 0,
+          "pivot": {
+            "x": 388.45000000000005,
+            "y": 547.2
+          },
+          "grip": {
+            "x": 317.04016393442623,
+            "y": 364.8885245901639
+          },
+          "head": {
+            "x": 404.1385245901639,
+            "y": 239.38032786885245
+          },
+          "tip": {
+            "x": 533.631264266527,
+            "y": 553.1932297753942
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-command.png",
+          "sourceIndex": 0,
+          "sourceSha256": "0ee302c1cb8a572860d4e3cbdb3326ae045dafb629a5c6ae1fd76d35a17756b2",
+          "componentBox": {
+            "left": 60,
+            "top": 15,
+            "width": 533,
+            "height": 619
+          },
+          "sourceFoot": [
+            345,
+            630
+          ],
+          "sourceGrip": [
+            213,
+            293
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -12.032077164060972,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": 41
+            }
+          },
+          "sha256": "2d6be2c853ed0dacadc9c0bafced3bdd05ab76b17e6bd3fc3b98e6d6cd5011c9",
+          "file": "assets/frames/command-00.png",
+          "margin": {
+            "left": 235,
+            "top": 215,
+            "right": 234,
+            "bottom": 215
+          }
+        },
+        {
+          "id": "command-01",
+          "index": 1,
+          "pivot": {
+            "x": 396.8,
+            "y": 535.9000000000001
+          },
+          "grip": {
+            "x": 323.22622950819675,
+            "y": 359.5393442622951
+          },
+          "head": {
+            "x": 398.4229508196721,
+            "y": 235.11311475409838
+          },
+          "tip": {
+            "x": 526.10925308024,
+            "y": 562.5476130803399
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-command.png",
+          "sourceIndex": 1,
+          "sourceSha256": "0ee302c1cb8a572860d4e3cbdb3326ae045dafb629a5c6ae1fd76d35a17756b2",
+          "componentBox": {
+            "left": 679,
+            "top": 26,
+            "width": 558,
+            "height": 613
+          },
+          "sourceFoot": [
+            981,
+            635
+          ],
+          "sourceGrip": [
+            845,
+            309
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -8.032077164060972,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": 45
+            }
+          },
+          "sha256": "9e4596eecd5b9dd7188dfc1ef649f55f08ff91248ed6c64cb9aede7fc08d1231",
+          "file": "assets/frames/command-01.png",
+          "margin": {
+            "left": 234,
+            "top": 207,
+            "right": 233,
+            "bottom": 206
+          }
+        },
+        {
+          "id": "command-02",
+          "index": 2,
+          "pivot": {
+            "x": 387.95000000000005,
+            "y": 539.6500000000001
+          },
+          "grip": {
+            "x": 314.37622950819673,
+            "y": 365.4532786885245
+          },
+          "head": {
+            "x": 410.1303278688525,
+            "y": 234.53524590163937
+          },
+          "tip": {
+            "x": 523.8925172599602,
+            "y": 561.1244427779372
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-command.png",
+          "sourceIndex": 2,
+          "sourceSha256": "0ee302c1cb8a572860d4e3cbdb3326ae045dafb629a5c6ae1fd76d35a17756b2",
+          "componentBox": {
+            "left": 45,
+            "top": 624,
+            "width": 617,
+            "height": 618
+          },
+          "sourceFoot": [
+            360,
+            1238
+          ],
+          "sourceGrip": [
+            224,
+            916
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -10.032077164060972,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": 43
+            }
+          },
+          "sha256": "a6cf143f33a96bfaeb66afc78ca58ff626444e417d5e84b76a94a13d74440001",
+          "file": "assets/frames/command-02.png",
+          "margin": {
+            "left": 218,
+            "top": 208,
+            "right": 217,
+            "bottom": 207
+          }
+        },
+        {
+          "id": "command-03",
+          "index": 3,
+          "pivot": {
+            "x": 403.05,
+            "y": 535.9000000000001
+          },
+          "grip": {
+            "x": 323.5254098360656,
+            "y": 359.5393442622951
+          },
+          "head": {
+            "x": 409.5418032786886,
+            "y": 242.68688524590164
+          },
+          "tip": {
+            "x": 526.30925308024,
+            "y": 562.5476130803399
+          },
+          "bodyPixels": 330,
+          "source": "assets/sources/body-command.png",
+          "sourceIndex": 3,
+          "sourceSha256": "0ee302c1cb8a572860d4e3cbdb3326ae045dafb629a5c6ae1fd76d35a17756b2",
+          "componentBox": {
+            "left": 695,
+            "top": 631,
+            "width": 519,
+            "height": 613
+          },
+          "sourceFoot": [
+            992,
+            1240
+          ],
+          "sourceGrip": [
+            845,
+            914
+          ],
+          "weapon": {
+            "sourceSha256": "99a7543cbd96a054221c320cf83fd062d05a5eb11f2f0c03d5dcf697b0ef0109",
+            "rotationDegrees": -8.032077164060972,
+            "uniformScale": 0.24535315985130113,
+            "redrawnPixels": 0,
+            "gripOcclusion": "BODY_THEN_SINGLE_SWORD_THEN_REGISTERED_SOURCE_HAND",
+            "proxyRemoval": {
+              "halfWidth": 11,
+              "from": 18,
+              "to": 48,
+              "axisDegrees": 45
+            }
+          },
+          "sha256": "432f51cb06a4c9932f3c8d0a17ae1aa09ca24529087508b317696a9cb98ec78d",
+          "file": "assets/frames/command-03.png",
+          "margin": {
+            "left": 243,
+            "top": 207,
+            "right": 242,
+            "bottom": 206
+          }
+        }
+      ]
+    }
+  },
+  "effects": {
+    "aura": {
+      "url": "assets/atlases/fx-aura.png",
+      "source": "assets/sources/fx-aura.png",
+      "sourceSha256": "d50c86a70375d6634c8498ccb9aefbc983c3a2ba5185bc5942c5a8f3fa0d6cf2",
+      "columns": 4,
+      "rows": 3,
+      "width": 1536,
+      "height": 1152,
+      "sha256": "7ad8b583a8eb5a1d1dff3e104e197313559964367927859f802cf1218a4ff0fb",
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/fx-aura-00.png",
+          "sha256": "6a95e08cdad06729f451e58b11664fe8d46734651df8fbbe98491d36094b71f7",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/fx-aura-01.png",
+          "sha256": "f95483d809a559da3f6eba9daac16e02bfe95ddc4a2f1c925e0ed6fcfbe0af7f",
+          "sourceRect": {
+            "left": 362,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/fx-aura-02.png",
+          "sha256": "d9c621593552ec9936c8557ad3b6bbd3ef948a6fd3a0c6639f62cd7b3f40a82c",
+          "sourceRect": {
+            "left": 724,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/fx-aura-03.png",
+          "sha256": "9d5b5892fb1108464bcbcf5c933a5225cbe571c0f523972d18e07e7e9860ee1d",
+          "sourceRect": {
+            "left": 1086,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/fx-aura-04.png",
+          "sha256": "a251a3d324aa36af5bb9167dfb3cfd26e61e4c61a7973f21c1d33cb9f1be3ca4",
+          "sourceRect": {
+            "left": 0,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/fx-aura-05.png",
+          "sha256": "ba452079201155e8eecae2d0ade5a9bbeece8e0da30466a582afa766ec91780e",
+          "sourceRect": {
+            "left": 362,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/fx-aura-06.png",
+          "sha256": "79be841dc4febdfd0ae912421591dd95faa31ffb432cf04792e82e083c0fc7b5",
+          "sourceRect": {
+            "left": 724,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/fx-aura-07.png",
+          "sha256": "d0dd1631cd3f515797065ac1bb9a9c8c5a9f21b6c87a6f99733ecd6f75b07319",
+          "sourceRect": {
+            "left": 1086,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/fx-aura-08.png",
+          "sha256": "1374270f16fb38f776448db310da91e93972dac9bba559d906bd41576f495757",
+          "sourceRect": {
+            "left": 0,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/fx-aura-09.png",
+          "sha256": "e8ebbdf46ce0a847e24fb4941b8e37540eda7ed2a0ab41e3994edfc389db78f4",
+          "sourceRect": {
+            "left": 362,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/fx-aura-10.png",
+          "sha256": "75e83ea0c0399e52f8fb67245d52ba340891a28af8773dd17c036b9b945ff40a",
+          "sourceRect": {
+            "left": 724,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/fx-aura-11.png",
+          "sha256": "621780daf68391dcdfcde9117ea4eed3bc501a96c133e84b0beacccbe221b34d",
+          "sourceRect": {
+            "left": 1086,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        }
+      ]
+    },
+    "dash": {
+      "url": "assets/atlases/fx-dash.png",
+      "source": "assets/sources/fx-dash.png",
+      "sourceSha256": "6c9c99e7bdeb6313c2bdc2ad0f2dd9f61057d43fe8ee776bce73fa660b3bea4f",
+      "columns": 4,
+      "rows": 3,
+      "width": 1536,
+      "height": 1152,
+      "sha256": "ad612976d8cee192253d260b9e183817c4b4b218c7e23a92c1fdcf25c1e5ff47",
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/fx-dash-00.png",
+          "sha256": "0b54199ece87bd9f7bde9458707d55b52f7486627d4421fe2db8f7c1fa1a87e5",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/fx-dash-01.png",
+          "sha256": "12f922be95ae93e1f409db4c6cbed70b8502aad4ae8abcb4f880ad26ff798f31",
+          "sourceRect": {
+            "left": 362,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/fx-dash-02.png",
+          "sha256": "fadce9a3b670879e242d5f36fd8d767f15bcad980cc45e17750dd5e35c7d37d5",
+          "sourceRect": {
+            "left": 724,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/fx-dash-03.png",
+          "sha256": "a76c7cce5de7ac7f5ad43494e9e669f6ffba4908c734fa048334469c48b51de7",
+          "sourceRect": {
+            "left": 1086,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/fx-dash-04.png",
+          "sha256": "3a0a9b519d20fe852c172b6b8173c65d15dcec057bc0abfaf4e4baba34a10140",
+          "sourceRect": {
+            "left": 0,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/fx-dash-05.png",
+          "sha256": "6f7504ec4f600d4b9f458f0cae23b252cf70c9b2f41b310170affc66fd4d1dea",
+          "sourceRect": {
+            "left": 362,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/fx-dash-06.png",
+          "sha256": "99b38c516c8fa592681ebd691265b56a8c08963668583e8ebf798d7114987dea",
+          "sourceRect": {
+            "left": 724,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/fx-dash-07.png",
+          "sha256": "b8f975fc250c391ada2a52a6cf320ab8dd9561a169a5c72521c1b7358de770a1",
+          "sourceRect": {
+            "left": 1086,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/fx-dash-08.png",
+          "sha256": "434baabe62c9d72c835dd26fe8800832cc37bd331455a3d2a1174974402cf21b",
+          "sourceRect": {
+            "left": 0,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/fx-dash-09.png",
+          "sha256": "179945250ad5b00353aec70f3ad2354b7b8bd5050e6dd2ab12699e27304ae9c2",
+          "sourceRect": {
+            "left": 362,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/fx-dash-10.png",
+          "sha256": "4c814492356c326247ecafd8c11124de16ab246286160e80dd42225c5c6dfcd2",
+          "sourceRect": {
+            "left": 724,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/fx-dash-11.png",
+          "sha256": "3613ddb9cd868aef08ec3713dcd55aad979ed99f5ff55bd71a18a55be5476971",
+          "sourceRect": {
+            "left": 1086,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        }
+      ]
+    },
+    "basic": {
+      "url": "assets/atlases/fx-basic.png",
+      "source": "assets/sources/fx-basic.png",
+      "sourceSha256": "5a9656f8a5ef0b2e62dfdc6765cd56609ff5af2680c11fe0c72fa3a4ac78056a",
+      "columns": 4,
+      "rows": 3,
+      "width": 1536,
+      "height": 1152,
+      "sha256": "3de836d2bea430fc3f6ac765d39dc40a22771cd5984e847fdbd52760816d15f5",
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/fx-basic-00.png",
+          "sha256": "b9d190faaf51496292c45798d0aa0895b947f17774a7c3791ed15baf3c8f7b20",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/fx-basic-01.png",
+          "sha256": "2871e8ff6c8d1adcc76f183de4fda0310734b94572b6b619d5a1fa3bf9a53311",
+          "sourceRect": {
+            "left": 362,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/fx-basic-02.png",
+          "sha256": "d2e89db8c7c4b0fb19e6566703883c07eb976143fa927979ecf94502ea6261a0",
+          "sourceRect": {
+            "left": 724,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/fx-basic-03.png",
+          "sha256": "bb7f3260fc1ad92f25464ec969da43a92245f0011a1b10af69bf7947b72f54f3",
+          "sourceRect": {
+            "left": 1086,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/fx-basic-04.png",
+          "sha256": "728e9e60a668685b0d13b8edd45b32d678cd38a4bf261752718e3cdb966a140e",
+          "sourceRect": {
+            "left": 0,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/fx-basic-05.png",
+          "sha256": "b7de8530e01a376db3aba875da0829946e0f9b5b996f27d2d21ffed76d7c7a6c",
+          "sourceRect": {
+            "left": 362,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/fx-basic-06.png",
+          "sha256": "63b89a0e437f76392eb558d5942e1492abbaa297d767a3f43bd984620532929c",
+          "sourceRect": {
+            "left": 724,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/fx-basic-07.png",
+          "sha256": "90fb973336c6b975a3a20b5633077f4e78c6b43e333947547dc03746c47f2fba",
+          "sourceRect": {
+            "left": 1086,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/fx-basic-08.png",
+          "sha256": "6a503dc65671d45ef71a449f64b243b1f7aa8b75864a466c731ef1534b2fa1c3",
+          "sourceRect": {
+            "left": 0,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/fx-basic-09.png",
+          "sha256": "7d8308ef84203490e3988edcabf15724b0c679ce260b7774b2d5dd52f16a267a",
+          "sourceRect": {
+            "left": 362,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/fx-basic-10.png",
+          "sha256": "abd5a5d161f7a7623873e2d11b491fc0397d037a57cf832c527f2382657ca150",
+          "sourceRect": {
+            "left": 724,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/fx-basic-11.png",
+          "sha256": "6fefa0c8e7b87cc3af4d4398d23e2dd893b9a425f98d837e11e6ba37016ec269",
+          "sourceRect": {
+            "left": 1086,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        }
+      ]
+    },
+    "skill": {
+      "url": "assets/atlases/fx-skill.png",
+      "source": "assets/sources/fx-skill.png",
+      "sourceSha256": "556e83580f3cebbc2ca9771a1b6cd1368873f8a457b2668c33435b7aa82ffa1f",
+      "columns": 4,
+      "rows": 3,
+      "width": 1536,
+      "height": 1152,
+      "sha256": "47979d9433abd4ecaa6a9a7fc6b10a18fd576816f6bbb40f492ebf5811d797a4",
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/fx-skill-00.png",
+          "sha256": "324d1f899a971370f536fcc95fd8eda2137ca6d32bb400d0b205a612cdb78f21",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/fx-skill-01.png",
+          "sha256": "0e47023764bd6bd315d65b44ff979a930768d2cd71cc532f7e28614909cccb66",
+          "sourceRect": {
+            "left": 362,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/fx-skill-02.png",
+          "sha256": "3865687276c96069f2a7f543560cb16cdb3eb38bd6c6d4d975f4fa7eec8d4699",
+          "sourceRect": {
+            "left": 724,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/fx-skill-03.png",
+          "sha256": "ca69e73c2872ed90b051873b09f34a85bf17c98b33a444f1e1b95e803f2a2308",
+          "sourceRect": {
+            "left": 1086,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/fx-skill-04.png",
+          "sha256": "b9c0708a34f303ac5b80092994cf25d9aed6939168b71227999f1f2bec09813b",
+          "sourceRect": {
+            "left": 0,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/fx-skill-05.png",
+          "sha256": "0c47371ebc685c3042a281f4438881302598a7f07f43b9a5446a92399eaaf981",
+          "sourceRect": {
+            "left": 362,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/fx-skill-06.png",
+          "sha256": "2712057626f317db0be9a2dce7e09ac1f9baa61f1d5c7737969c6ad9e4819313",
+          "sourceRect": {
+            "left": 724,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/fx-skill-07.png",
+          "sha256": "6e563c85eeef91f04bcdb78cb3ae79c2a894d800aaed2597deb221fba504260c",
+          "sourceRect": {
+            "left": 1086,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/fx-skill-08.png",
+          "sha256": "b16d7cec8c3b68457a84f6e0000c008c0782617f1138d244f580152828c1d27c",
+          "sourceRect": {
+            "left": 0,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/fx-skill-09.png",
+          "sha256": "5de072026f5cd6e64cd79baec9b3f40d520fc63a19029162a891343dbadc5ecf",
+          "sourceRect": {
+            "left": 362,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/fx-skill-10.png",
+          "sha256": "f18bbe688d83df364977f6672aa0353b27e99471cbd4ac51fac7fc9b57178833",
+          "sourceRect": {
+            "left": 724,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/fx-skill-11.png",
+          "sha256": "b0430a8c65ebaf3eb23f0e759410dc121ae8f0aa91b5626b0989bbfaeb959749",
+          "sourceRect": {
+            "left": 1086,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        }
+      ]
+    },
+    "ultimate": {
+      "url": "assets/atlases/fx-ultimate.png",
+      "source": "assets/sources/fx-ultimate.png",
+      "sourceSha256": "0d679e6de2c98541c24e580358899712a617ebcec7f796601cd04c0ab5df2a88",
+      "columns": 4,
+      "rows": 3,
+      "width": 1536,
+      "height": 1152,
+      "sha256": "df952968624402d6df4cd551f589ebc0f8560dedb791448b53726770f31978ac",
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/fx-ultimate-00.png",
+          "sha256": "81482cdebacf43b9986740c7fd12af7b791057bd3a2ae7dea32145b07c7a9d6d",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/fx-ultimate-01.png",
+          "sha256": "05518750677f322d61523a6fe7a26551552f3f12b329f3c23c6f9afa82698ace",
+          "sourceRect": {
+            "left": 362,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/fx-ultimate-02.png",
+          "sha256": "e5acaf2a48f87e8e807dec0cc6c07c5be3919715e5abb394f523d5b24fbb3be6",
+          "sourceRect": {
+            "left": 724,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/fx-ultimate-03.png",
+          "sha256": "7b8714e5f53e25c2673d81115803c9fe8c07a86df428a9adfd421f326c78c70d",
+          "sourceRect": {
+            "left": 1086,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/fx-ultimate-04.png",
+          "sha256": "d02f3007c5317faad8ff1dd0b2d6b439842bb8b8609a6379a92ab55a5243240f",
+          "sourceRect": {
+            "left": 0,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/fx-ultimate-05.png",
+          "sha256": "fbd2bc7ef492703c65da20c02b2db65ecddcab060232fb9d8267a24eed86ef39",
+          "sourceRect": {
+            "left": 362,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/fx-ultimate-06.png",
+          "sha256": "3d5bc8ea0cecc1af4298961b479897661809e9980a96e5eaefa98ad6ed6560ea",
+          "sourceRect": {
+            "left": 724,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/fx-ultimate-07.png",
+          "sha256": "14adb37658d5eaeeea2fc1e79d9b5aef4423fd4fba50f600cbd7287b755e32e0",
+          "sourceRect": {
+            "left": 1086,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/fx-ultimate-08.png",
+          "sha256": "a8ca2e3c8fb0019f10cf5f9d6d92f440e2ce39285dae0123f1108706cce55c07",
+          "sourceRect": {
+            "left": 0,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/fx-ultimate-09.png",
+          "sha256": "ac22b1b3f104cb4f788ad6e945429958f487517e4709e6448ab65dd9793d53af",
+          "sourceRect": {
+            "left": 362,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/fx-ultimate-10.png",
+          "sha256": "cd96d1238ddb9ced3c52057a54be1118157714511bbb49232751b6fde88ed751",
+          "sourceRect": {
+            "left": 724,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/fx-ultimate-11.png",
+          "sha256": "4983d0ce9534c263eec25b1dfb1eb870811b710bde4fe89187c8e026e1914b16",
+          "sourceRect": {
+            "left": 1086,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        }
+      ]
+    },
+    "ground": {
+      "url": "assets/atlases/fx-ground.png",
+      "source": "assets/sources/fx-ground.png",
+      "sourceSha256": "293cd5821ffed41687bb68a64441218369361e9b1acf5cfbae3f118c7ff7174a",
+      "columns": 4,
+      "rows": 3,
+      "width": 1536,
+      "height": 1152,
+      "sha256": "515aa3e68486474fbefb48806230e8544e1a68aaebf83db36aea7f47753d475b",
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/fx-ground-00.png",
+          "sha256": "e42cbc5b7822281e4e3d7786bd911d4fd3413beb41f015db2c404c17a974636b",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/fx-ground-01.png",
+          "sha256": "b9e4bd070cc088459004e9c5f8060838d417ac01a4f0653cee34fd047af2db1e",
+          "sourceRect": {
+            "left": 362,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/fx-ground-02.png",
+          "sha256": "32f60b7b79c43b6373493729784de874b93418cc3dc35ca5a03cbda7180518fb",
+          "sourceRect": {
+            "left": 724,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/fx-ground-03.png",
+          "sha256": "237652e114b5ec3dcf9cedbc53aa18e53e12d1599a4debbb4acd732ef74b26a8",
+          "sourceRect": {
+            "left": 1086,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/fx-ground-04.png",
+          "sha256": "83e6ba89252c11104ccc97b1ace0fd6dc7a798e078e5b72c3985b873754bb702",
+          "sourceRect": {
+            "left": 0,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/fx-ground-05.png",
+          "sha256": "58b8f0bd30ad1c6a88df75700acb7014723c7cf526a37d616e7a5723dbd4fc81",
+          "sourceRect": {
+            "left": 362,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/fx-ground-06.png",
+          "sha256": "4c41964ecfece2fba0d844ccbb76e60548909a9e4af347eda63a60955182e32a",
+          "sourceRect": {
+            "left": 724,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/fx-ground-07.png",
+          "sha256": "7859e7dd3dbb6dd396aad628e9d36cf34f60793a932e9df035d1ddb6be177f64",
+          "sourceRect": {
+            "left": 1086,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/fx-ground-08.png",
+          "sha256": "5a0f718c018d1aab75b80e6fb3389086aacf286b0a5acf93bd6de3094b678b71",
+          "sourceRect": {
+            "left": 0,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/fx-ground-09.png",
+          "sha256": "eda070240d752d8b9a79af8954d2461c8955d3a31c700609959bf807c184ced4",
+          "sourceRect": {
+            "left": 362,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/fx-ground-10.png",
+          "sha256": "537342ec6ccb4abd0baf08045d85ad684716dfae8d9d767e40830fe11b904c67",
+          "sourceRect": {
+            "left": 724,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/fx-ground-11.png",
+          "sha256": "cdf2c651df6b1352c4eeab3c03de7f32a57d1e59de058c7eaa17201769ddffec",
+          "sourceRect": {
+            "left": 1086,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        }
+      ]
+    },
+    "eclipse": {
+      "url": "assets/atlases/fx-eclipse.png",
+      "source": "assets/sources/fx-eclipse.png",
+      "sourceSha256": "eccea0df098f7ab41678285181d94a905976a55e1fcad0d7a0c1009879120756",
+      "columns": 4,
+      "rows": 3,
+      "width": 1536,
+      "height": 1152,
+      "sha256": "383806832cb0252694d6374f092288699a8bafb08aca3fc58b38264958458885",
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/fx-eclipse-00.png",
+          "sha256": "8e54149416b9491e05325175e0733cf7d97e6a47054f22281ee081a067573c6e",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/fx-eclipse-01.png",
+          "sha256": "e9eb189361ad07d657d6fea8e92ca84b1a818aef645ab134a6d74f37010c70c1",
+          "sourceRect": {
+            "left": 362,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/fx-eclipse-02.png",
+          "sha256": "c1c942d4641dd96189e091d1df9b190087cc9c841aec5a2e2c09ae6f228b0e5f",
+          "sourceRect": {
+            "left": 724,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/fx-eclipse-03.png",
+          "sha256": "2ee0857287774c27f7969b7e5a0c1635fc99b24e11a3668ed34ccf6bbcf5beaf",
+          "sourceRect": {
+            "left": 1086,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/fx-eclipse-04.png",
+          "sha256": "be58faf973673673b5b33da365d56576f4951cc4e5454a781abdd7a2d8e40a0f",
+          "sourceRect": {
+            "left": 0,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/fx-eclipse-05.png",
+          "sha256": "0428a88d57b5e0b7fbdba394af980df633096cfeda163fed6379029a91af537a",
+          "sourceRect": {
+            "left": 362,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/fx-eclipse-06.png",
+          "sha256": "60c349754f5db73ac916f58d2253a6a4b898020faaf89cb4777297fca7e0dd58",
+          "sourceRect": {
+            "left": 724,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/fx-eclipse-07.png",
+          "sha256": "028dca69bb122bfd65a29de52ebd43c68ac9f5a55b8bb9bdd8e36b4c251f2653",
+          "sourceRect": {
+            "left": 1086,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/fx-eclipse-08.png",
+          "sha256": "624067b01f9dcce121195678aa18beb77a3e793393f7bb3e3c2496ca93883786",
+          "sourceRect": {
+            "left": 0,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/fx-eclipse-09.png",
+          "sha256": "64204f97839ed988636ac0cf15b7d3ad4f8f0560fe0f3a62bd13a11de59338d2",
+          "sourceRect": {
+            "left": 362,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/fx-eclipse-10.png",
+          "sha256": "f40505a882a556b75dc9ea2cec0bbdb62175ab037ccce4fd851a5f666945e493",
+          "sourceRect": {
+            "left": 724,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/fx-eclipse-11.png",
+          "sha256": "259d68d274d5d4d0894696f816195ac4dc227a8a4878e0bdff10bea96ce67f75",
+          "sourceRect": {
+            "left": 1086,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        }
+      ]
+    },
+    "formation": {
+      "url": "assets/atlases/fx-formation.png",
+      "source": "assets/sources/fx-formation.png",
+      "sourceSha256": "d58ecf27f4a0e474c6fa7a9d679a1f28b27dff2f1cb8c1da1d3d2d2418b50966",
+      "columns": 4,
+      "rows": 3,
+      "width": 1536,
+      "height": 1152,
+      "sha256": "8073110a9d99d2e63f15471747abaafaebc950f53533c585a07c06473a3253ee",
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/fx-formation-00.png",
+          "sha256": "b01b2800405c2708874e4e6bde884bfda240b19f5e586bfd03dfbfe4a308395d",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/fx-formation-01.png",
+          "sha256": "c41a01b3c2d4ea523892136041abd2d55b96298149524f880fe4c23875e1bc85",
+          "sourceRect": {
+            "left": 362,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/fx-formation-02.png",
+          "sha256": "915e1ea1415384c9c1c9a208aa807734f5e9f5c1c44b45c52e99ae6ad00da33b",
+          "sourceRect": {
+            "left": 724,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/fx-formation-03.png",
+          "sha256": "2498abb4ca0b11d24023b25e2ff9173c0673252f874b66562fab35e3f3623050",
+          "sourceRect": {
+            "left": 1086,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/fx-formation-04.png",
+          "sha256": "9b9e95231d8492e3999d60c44dc4b7e6a5438db8e0bdb0ca8a5b5a9a369857bf",
+          "sourceRect": {
+            "left": 0,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/fx-formation-05.png",
+          "sha256": "2bd13e2b9d08e98cb1d15e2a5c3dade648e127fb47b93ce78afecec0e34237d9",
+          "sourceRect": {
+            "left": 362,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/fx-formation-06.png",
+          "sha256": "ec70ed7a099b71b38240fdc88aa94285435e3bf841676d61669bb4bdcf764f0a",
+          "sourceRect": {
+            "left": 724,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/fx-formation-07.png",
+          "sha256": "e49a0ef48464575ebf3d55a7b384ea722ef786f017f9e429f682c9184594d01b",
+          "sourceRect": {
+            "left": 1086,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/fx-formation-08.png",
+          "sha256": "dbb7c833f84132f14113b03455645a421d9b396bd51a7f3ceedeb48b873adf5d",
+          "sourceRect": {
+            "left": 0,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/fx-formation-09.png",
+          "sha256": "9c4f936189122e4126efeea4debe5162bb3a7706a07c479cd2bd4768cbcf8b64",
+          "sourceRect": {
+            "left": 362,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/fx-formation-10.png",
+          "sha256": "b35ad1562513e8ded449ea3bd96f530e4e2942a528bfad8ea6c54c6b00b43cdf",
+          "sourceRect": {
+            "left": 724,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/fx-formation-11.png",
+          "sha256": "018e014dde3601443fee4d0ac9b426ac47db2c7e7f3d3c68d3cd195b9b8ca39b",
+          "sourceRect": {
+            "left": 1086,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        }
+      ]
+    },
+    "sun-gate": {
+      "url": "assets/atlases/fx-sun-gate.png",
+      "source": "assets/sources/fx-sun-gate.png",
+      "sourceSha256": "b5c991f8ec405cabad7a113a88b48e17ac4b3ad064704aa8fdde461f2efd901b",
+      "columns": 4,
+      "rows": 3,
+      "width": 1536,
+      "height": 1152,
+      "sha256": "f6fffad37dee6f5c2e11771592b3383d04c141c3c7c99b53dff0c0b5bc29ac99",
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/fx-sun-gate-00.png",
+          "sha256": "7312956973bacff6cc7887fb5c231fed239e78bcd95b36e146f6c62e974c73d1",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/fx-sun-gate-01.png",
+          "sha256": "f4fdd136e7b12f7a547a1afe97f103b642e36fed1fefeb599ca7c544c1e4efbc",
+          "sourceRect": {
+            "left": 362,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/fx-sun-gate-02.png",
+          "sha256": "634e7a8d95cf9f85bfa580bb813bc091a5a6e77e65bd33f84d82671b06242713",
+          "sourceRect": {
+            "left": 724,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/fx-sun-gate-03.png",
+          "sha256": "8cbba6f29c5a8c24ab5bfccd00e34065a7eaa350f6aaf56a7cb6f1600077a1f9",
+          "sourceRect": {
+            "left": 1086,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/fx-sun-gate-04.png",
+          "sha256": "38378891d5a1e08724ebee39edfc4f4dea1543ad8f30e23f8f39c3b9473cc84d",
+          "sourceRect": {
+            "left": 0,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/fx-sun-gate-05.png",
+          "sha256": "f402638860ac66baad46406355428aed1a4b66b4c8427a9ca5bbb17c5a7484e3",
+          "sourceRect": {
+            "left": 362,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/fx-sun-gate-06.png",
+          "sha256": "d6375ae7c6c08b47b061522c0fe811dc840d438bed1ff9a740d24fce161cdb93",
+          "sourceRect": {
+            "left": 724,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/fx-sun-gate-07.png",
+          "sha256": "884260c70880d6c0bcac35af715839c85c6058a9b340feb552aed50a982fc516",
+          "sourceRect": {
+            "left": 1086,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/fx-sun-gate-08.png",
+          "sha256": "18c2ed9f59daf8eac7a235ba71706a849171b8aaaff5c21b484406d7474a6e3b",
+          "sourceRect": {
+            "left": 0,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/fx-sun-gate-09.png",
+          "sha256": "838c95838911927250057c8c8311701396af5bc73a954152252e79e678912285",
+          "sourceRect": {
+            "left": 362,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/fx-sun-gate-10.png",
+          "sha256": "8417c2ad12b758425ea3974af7c8017c28dd62050936085a3078c0e000872bba",
+          "sourceRect": {
+            "left": 724,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/fx-sun-gate-11.png",
+          "sha256": "588b2454dde40586f3ca86b690e2b64a651e4d173d05f8eedfcadc4ba05bd02b",
+          "sourceRect": {
+            "left": 1086,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        }
+      ]
+    },
+    "fault": {
+      "url": "assets/atlases/fx-fault.png",
+      "source": "assets/sources/fx-fault.png",
+      "sourceSha256": "b73f01cbe02f6871b426802605dec01a4a05835a177fba2afc1e65ee299dd3ed",
+      "columns": 4,
+      "rows": 3,
+      "width": 1536,
+      "height": 1152,
+      "sha256": "8e72fb3c7735aaf5204183ccae5cf6364648b3b8cdd5ae9eb816eb693effa8e5",
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/fx-fault-00.png",
+          "sha256": "6842230bb15b3dfa8bfdb8b3986f44efec3756fad4e07aa682098dee810158cc",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/fx-fault-01.png",
+          "sha256": "7f115df334a60069a94240cd904f5cb1be1d8f40e3a10161ba8af5cd89bf504a",
+          "sourceRect": {
+            "left": 362,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/fx-fault-02.png",
+          "sha256": "734588b6bde6629618f4ca39152f7b01c63e2fe456ccaeb0951483ab9433e0c2",
+          "sourceRect": {
+            "left": 724,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/fx-fault-03.png",
+          "sha256": "7ac3f398fabf4bc20068d02cbe1b0bcd13b8d9a3811d4db1babdf597a0af313e",
+          "sourceRect": {
+            "left": 1086,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/fx-fault-04.png",
+          "sha256": "113574c6a3b894af38fd307b9c5e0c934679f04f0a3551075d3f36cf44f5b058",
+          "sourceRect": {
+            "left": 0,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/fx-fault-05.png",
+          "sha256": "0f25185d3c9519ee185c9011d8453aa94fd5ac9e0801a11319f3adb1cc64c635",
+          "sourceRect": {
+            "left": 362,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/fx-fault-06.png",
+          "sha256": "9e2197f7e7d2ae2f003c5f11847a4193d698e1a6750eba6e04aa976215db51c6",
+          "sourceRect": {
+            "left": 724,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/fx-fault-07.png",
+          "sha256": "cacedb5e495a10b3e0e14fd374f20d66c1047d38afbbf48c8ec670c963f46384",
+          "sourceRect": {
+            "left": 1086,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/fx-fault-08.png",
+          "sha256": "b7703a94e9f990425df2896ca1548c0089429901179da721a81e5ab005db21c1",
+          "sourceRect": {
+            "left": 0,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/fx-fault-09.png",
+          "sha256": "ac641b10424cd24ce66fc3af8291fc9dcdac93d828b57d21a75927e7e561aaca",
+          "sourceRect": {
+            "left": 362,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/fx-fault-10.png",
+          "sha256": "1231755a858e9aaedda4bda3008d09407688956b1d52bffff4acf214d8a111c4",
+          "sourceRect": {
+            "left": 724,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/fx-fault-11.png",
+          "sha256": "c33b1992dfa2ef6af7c006994102581abd7d1a1defb93ab602ca8b4031da82a4",
+          "sourceRect": {
+            "left": 1086,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        }
+      ]
+    },
+    "mantle": {
+      "url": "assets/atlases/fx-mantle.png",
+      "source": "assets/sources/fx-mantle.png",
+      "sourceSha256": "735360d6bf4a2b6462676f2748280c0e0ca8e9d694e4006f9ffde02592442550",
+      "columns": 4,
+      "rows": 3,
+      "width": 1536,
+      "height": 1152,
+      "sha256": "6275a65daca728bbe93b075d99002abb0175d3955304385ccc07a2ca7f9dda88",
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/fx-mantle-00.png",
+          "sha256": "49ed5f5b1d394ff2c408f641c5cbb151a0d9e7863d242f556870ccdaba1d108d",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/fx-mantle-01.png",
+          "sha256": "c6163d25efde201faa8dc830ffa921499cad800e51f475317a38d652871b42e6",
+          "sourceRect": {
+            "left": 362,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/fx-mantle-02.png",
+          "sha256": "2c2395849b3ccea255004999a30f92540a2640dfde8f2bb0b55539daf8f70e20",
+          "sourceRect": {
+            "left": 724,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/fx-mantle-03.png",
+          "sha256": "31af424162d18d5c3ed451ff6e5ad7e0d341a0ce43fa11e0fa0c8c82f8ae998a",
+          "sourceRect": {
+            "left": 1086,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/fx-mantle-04.png",
+          "sha256": "5e66dfe126e9a254e2ab82ffb03899be9cd7e82b26be754872c1f8f97ee03f32",
+          "sourceRect": {
+            "left": 0,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/fx-mantle-05.png",
+          "sha256": "05143cc45515093973462df9fbf4afa85c833dcf22aa62288cc28d76271ce39e",
+          "sourceRect": {
+            "left": 362,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/fx-mantle-06.png",
+          "sha256": "bf8fb5967306f70bfc88390ea183dbffe4b969c5d70d0692a532cbed10858477",
+          "sourceRect": {
+            "left": 724,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/fx-mantle-07.png",
+          "sha256": "d8e038fcee43ae4c975bf69fc6202dcb8ea27ea5d5a85323db9696cc5928d244",
+          "sourceRect": {
+            "left": 1086,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/fx-mantle-08.png",
+          "sha256": "235022864bff88bdcf3ba029f3a542dff0c495be9a871909a9d422edd49960b4",
+          "sourceRect": {
+            "left": 0,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/fx-mantle-09.png",
+          "sha256": "52a9bb53d645385cfc99e60a2a5ff241df60247934b95666d1f1b8700d8e78db",
+          "sourceRect": {
+            "left": 362,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/fx-mantle-10.png",
+          "sha256": "a99ded48df4d125c7695dd4fba1bedb6d97ef06b879fb3e73a8063305c91382b",
+          "sourceRect": {
+            "left": 724,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/fx-mantle-11.png",
+          "sha256": "4f6488ca920dbbab42211db5985445fb4c0f3be2b653174bee97dbed4b8bfd97",
+          "sourceRect": {
+            "left": 1086,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        }
+      ]
+    },
+    "blade": {
+      "url": "assets/atlases/fx-blade.png",
+      "source": "assets/sources/fx-blade.png",
+      "sourceSha256": "da93a35136ad42f87b56da6350d2e647d4778762c027cfdb400bc46640173c21",
+      "columns": 4,
+      "rows": 3,
+      "width": 1536,
+      "height": 1152,
+      "sha256": "5856db39fa6d19428dc8106c9701a1b7f79a885b4315dfabdab6a845728592a5",
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/fx-blade-00.png",
+          "sha256": "ca15c4d31c7a9714a2097b6938f41d84615e6124f5a4bd372386d34497364c1d",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/fx-blade-01.png",
+          "sha256": "ce94d66ee39bcc59058e8757e6feece2a53536fb696c20787a6eedd3d9bedd2d",
+          "sourceRect": {
+            "left": 362,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/fx-blade-02.png",
+          "sha256": "6cc98bf25ff9c5d8df0cdb4db0298b03fd3bac72271f2170e9d01aa243077e53",
+          "sourceRect": {
+            "left": 724,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/fx-blade-03.png",
+          "sha256": "5483ec54d98f1bbf8fca2c6b73a6552af2760f04af0c6a067b172f3f2ac1c964",
+          "sourceRect": {
+            "left": 1086,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/fx-blade-04.png",
+          "sha256": "4d2addb99d79cfa6d5a46a1c90863d7ad1f50a37d6754870508cba9b232cb7cf",
+          "sourceRect": {
+            "left": 0,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/fx-blade-05.png",
+          "sha256": "ab8660ef7e2d141a1720a4ca40db40e11befb45d2e31d78d58193adb86059ec8",
+          "sourceRect": {
+            "left": 362,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/fx-blade-06.png",
+          "sha256": "90fbabbac372cd9a17ad7594f00f8d98baf253676e009a281acb0bc57859d176",
+          "sourceRect": {
+            "left": 724,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/fx-blade-07.png",
+          "sha256": "40fcd92fcc69eaa1dd1b7e11c7217c90c260dde88614f061a24645d5bde80461",
+          "sourceRect": {
+            "left": 1086,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/fx-blade-08.png",
+          "sha256": "40651f73d597bb6e1ba58b2442f3c1fd8d9b9e61359f4a2b553345ea382d0c5a",
+          "sourceRect": {
+            "left": 0,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 0,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/fx-blade-09.png",
+          "sha256": "611beab9913ade37c7ea549067b5cecc45f855d1793115053a6c315821feb413",
+          "sourceRect": {
+            "left": 362,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 384,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/fx-blade-10.png",
+          "sha256": "1aacddf1da8e2882b2ccf57e55828cbdf1d676edc768da7dfed4e75a2490abbb",
+          "sourceRect": {
+            "left": 724,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 768,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/fx-blade-11.png",
+          "sha256": "3f69554f9fb65668f410d8afe88f2d3a542cc3a8c74917b32a6dc1912c5a677a",
+          "sourceRect": {
+            "left": 1086,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "rect": {
+            "x": 1152,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          }
+        }
+      ]
+    }
+  },
+  "rejectedFrames": [
+    {
+      "source": "assets/sources/body-attack-a.png",
+      "index": 3,
+      "reason": "RIGHT_EDGE_CLIPPED_HAND; full follow-through is body-attack-b frame 0"
+    },
+    {
+      "source": "assets/sources/body-ultimate-b.png",
+      "index": 1,
+      "reason": "Grip is too close to ground for approved long blade; exclude rather than shorten sword"
+    },
+    {
+      "source": "assets/sources/body-cut.png",
+      "index": 3,
+      "reason": "Foot touches right source boundary; use existing full recovery pose"
+    }
+  ],
+  "runtime": {
+    "engine": "preview/project-v-v3/source/battle/BattleEngine.js",
+    "clock": "V3_REGISTERED_GSAP",
+    "source": "source/SolarFX.js"
+  },
+  "audio": {
+    "enabled": false,
+    "reason": "Silent visual review; no new synthesized audio"
+  },
+  "activeEffects": [
+    "aura",
+    "dash",
+    "basic",
+    "ground",
+    "eclipse",
+    "formation",
+    "sun-gate",
+    "fault",
+    "mantle",
+    "blade"
+  ],
+  "activeMotion": {
+    "idle": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "dash": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "attack": [
+      4,
+      5,
+      6
+    ],
+    "ultimate": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "cut": [
+      0,
+      1,
+      2
+    ],
+    "command": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "summary": {
+    "bodyFrames": 37,
+    "activeBodyFrames": 25,
+    "effectFrames": 144,
+    "activeEffectFrames": 120,
+    "weaponSources": 1,
+    "visibleWeaponRedraws": 0,
+    "hiddenGripCompletionPixels": 840
+  }
+}

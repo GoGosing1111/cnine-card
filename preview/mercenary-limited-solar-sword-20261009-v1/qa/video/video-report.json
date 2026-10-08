@@ -1,0 +1,118 @@
+[
+  {
+    "name": "desktop",
+    "width": 1374,
+    "height": 646,
+    "duration": 18.898878,
+    "bytes": 10993679,
+    "sha256": "8459c773a92d6965fa428e68ad048a8ca18e2edf83370e6d46d833203ed3cc52",
+    "frames": [
+      {
+        "requested": 0.702,
+        "decoded": 0.666
+      },
+      {
+        "requested": 2.1963999999761583,
+        "decoded": 2.165
+      },
+      {
+        "requested": 3.896399999976158,
+        "decoded": 3.867
+      },
+      {
+        "requested": 4.096399999976159,
+        "decoded": 4.066
+      },
+      {
+        "requested": 6.2363999999761575,
+        "decoded": 6.232
+      },
+      {
+        "requested": 6.686399999976158,
+        "decoded": 6.665
+      },
+      {
+        "requested": 7.956399999976158,
+        "decoded": 7.933
+      },
+      {
+        "requested": 11.246500000000001,
+        "decoded": 11.232
+      },
+      {
+        "requested": 12.076500000000001,
+        "decoded": 12.065
+      },
+      {
+        "requested": 12.4365,
+        "decoded": 12.432
+      },
+      {
+        "requested": 16.117100000023843,
+        "decoded": 16.099
+      },
+      {
+        "requested": 16.417100000023844,
+        "decoded": 16.399
+      }
+    ]
+  },
+  {
+    "name": "mobile",
+    "width": 364,
+    "height": 568,
+    "duration": 18.93266,
+    "bytes": 8839072,
+    "sha256": "8510f6379270a768fc86e7df7db1882c91f2a2cbef6b5f3998d27b6a4fbec26a",
+    "frames": [
+      {
+        "requested": 0.7020999999642372,
+        "decoded": 0.699
+      },
+      {
+        "requested": 2.197300000011921,
+        "decoded": 2.166
+      },
+      {
+        "requested": 3.896800000011921,
+        "decoded": 3.867
+      },
+      {
+        "requested": 4.096800000011921,
+        "decoded": 4.067
+      },
+      {
+        "requested": 6.2415,
+        "decoded": 6.233
+      },
+      {
+        "requested": 6.6915,
+        "decoded": 6.666
+      },
+      {
+        "requested": 7.9615,
+        "decoded": 7.933
+      },
+      {
+        "requested": 11.251399999976158,
+        "decoded": 11.233
+      },
+      {
+        "requested": 12.081399999976158,
+        "decoded": 12.066
+      },
+      {
+        "requested": 12.441399999976158,
+        "decoded": 12.433
+      },
+      {
+        "requested": 16.1215,
+        "decoded": 16.099
+      },
+      {
+        "requested": 16.4215,
+        "decoded": 16.4
+      }
+    ]
+  }
+]

@@ -1,0 +1,11 @@
+{
+  "date": "2026-10-09",
+  "status": "USER_REJECTED_WEAPON_AND_GRIP",
+  "userInstruction": "애초에 칼 손잡이부터 검신까지 다 잘못됐네",
+  "rejectedWeapon": "assets/locked/approved-blade.png",
+  "sha256": "c6076ebff158e9ff6bcdc5202d61262a1b72efde7000081b99569607cac3e821",
+  "reason": "Pommel and upper grip omitted; right blade edge clipped; proxy hilt and foreground glow obscured the shape.",
+  "replacementCandidate": "assets/locked/v2/complete-sword.png",
+  "replacementStatus": "TECHNICAL_QA_COMPLETE_USER_VISUAL_REVIEW_PENDING",
+  "sourceIllustrationApprovalPreserved": true
+}

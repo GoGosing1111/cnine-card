@@ -1,0 +1,104 @@
+[
+  {
+    "name": "desktop",
+    "segments": [
+      {
+        "mode": "aura",
+        "from": 4.3,
+        "speed": 1,
+        "effects": true,
+        "start": 0.002
+      },
+      {
+        "mode": "dash",
+        "from": 0,
+        "speed": 1,
+        "effects": true,
+        "start": 1.696399999976158
+      },
+      {
+        "mode": "attack",
+        "from": 0,
+        "speed": 1,
+        "effects": true,
+        "start": 3.5963999999761582
+      },
+      {
+        "mode": "skill",
+        "from": 0,
+        "speed": 1,
+        "effects": true,
+        "start": 5.296399999976158
+      },
+      {
+        "mode": "ultimate",
+        "from": 0,
+        "speed": 1,
+        "effects": true,
+        "start": 9.5965
+      },
+      {
+        "mode": "attack",
+        "from": 0,
+        "speed": 0.5,
+        "effects": false,
+        "start": 15.397100000023842
+      }
+    ],
+    "width": 1374,
+    "height": 646,
+    "silent": true,
+    "actualV3Renderer": true
+  },
+  {
+    "name": "mobile",
+    "segments": [
+      {
+        "mode": "aura",
+        "from": 4.3,
+        "speed": 1,
+        "effects": true,
+        "start": 0.002099999964237213
+      },
+      {
+        "mode": "dash",
+        "from": 0,
+        "speed": 1,
+        "effects": true,
+        "start": 1.697300000011921
+      },
+      {
+        "mode": "attack",
+        "from": 0,
+        "speed": 1,
+        "effects": true,
+        "start": 3.596800000011921
+      },
+      {
+        "mode": "skill",
+        "from": 0,
+        "speed": 1,
+        "effects": true,
+        "start": 5.3015
+      },
+      {
+        "mode": "ultimate",
+        "from": 0,
+        "speed": 1,
+        "effects": true,
+        "start": 9.601399999976158
+      },
+      {
+        "mode": "attack",
+        "from": 0,
+        "speed": 0.5,
+        "effects": false,
+        "start": 15.4015
+      }
+    ],
+    "width": 364,
+    "height": 568,
+    "silent": true,
+    "actualV3Renderer": true
+  }
+]

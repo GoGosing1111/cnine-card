@@ -1,0 +1,23 @@
+{
+  "version": "SOLAR_SWORD_SSS_LIMITED_ART_20261009",
+  "approvedAt": "2026-10-09",
+  "userInstruction": "SSS리미티드로 일러스트 확정하고 전투 리소스 만들어 주변 광원,아우라 대쉬이펙트, 공격스킬,광역기,기본 공격 이펙트 화려하게 컨셉에 맞게",
+  "sourceArtStatus": "USER_APPROVED",
+  "grade": "SSS",
+  "edition": "LIMITED",
+  "gradeStatus": "USER_CONFIRMED",
+  "workingTitle": "태양검 군주",
+  "nameStatus": "WORKING_TITLE_ONLY",
+  "sourceArt": "/assets/ui/project-v/mercenaries/approved-20261009/solar-sword-sss-limited-source-art.png",
+  "sha256": "BE6BF7819C24C53A7CDB0C2C86D85802AFA1E39FDF62D8F4306B8013CCE62492",
+  "inputFile": "codex-clipboard-6ad37a08-834f-43a5-b082-79736040f4fc.png",
+  "preservation": "EXACT_ORIGINAL_BYTES_NO_RECOMPRESSION",
+  "battleResourceStatus": "TECHNICAL_QA_COMPLETE_USER_VISUAL_REVIEW_PENDING",
+  "weaponCandidate": "assets/locked/v2/complete-sword.png",
+  "weaponCorrection": "Full original contour restored; source-visible pixels retained, original-hidden grip completion declared separately.",
+  "runtimeEnabled": false,
+  "acquisitionEnabled": false,
+  "formationEnabled": false,
+  "balanceConfigured": false,
+  "scope": ["source illustration approval", "SSS limited grade confirmation", "battle character, motions and separate solar effects production"]
+}
