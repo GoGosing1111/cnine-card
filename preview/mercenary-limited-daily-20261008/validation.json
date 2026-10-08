@@ -1,0 +1,37 @@
+{
+  "checkedAt": "2026-10-08T12:33:36.066Z",
+  "server": {
+    "command": "node --test tests/mercenary-limited-daily-20261008.test.mjs",
+    "tests": 9,
+    "passed": 9,
+    "failed": 0
+  },
+  "browser": {
+    "command": "node tests/mercenary-limited-daily-20261008.browser.mjs",
+    "passed": true,
+    "viewports": [
+      "1440x1000",
+      "390x844"
+    ],
+    "visuallyReviewed": [
+      "desktop-remaining.png",
+      "mobile-exhausted.png"
+    ]
+  },
+  "sourceHashes": {
+    "shared/mercenary-limited-daily-v1.mjs": "58cc1660ad923c8cf3c4bf3dd99c281603c8b2f9276b1a3b880cd5e50427df13",
+    "functions/_mercenary_limited_pack.js": "00ae7970145f06d7730235d510f811aaab86c74ba302f0fb0f50281441249e16",
+    "shared/mercenary-limited-session-v1.mjs": "7bd644db96817841b31584d518c7e58e06b958a12472af3f51fd0a598d39119b",
+    "js/mercenary-limited-pack-live.mjs": "3575fbb95969fc5b2b0a21920bf2fe19c63e0a3e4b026e6cde6b55e56d2cac2e",
+    "css/mercenary-limited-pack-v1.css": "caabbbcda139ff1cb99c3fe228d6207df5694bb443eba092452f74b91c029a29",
+    "tests/mercenary-limited-daily-20261008.test.mjs": "d12df00d501db247c65114b4207b179d5adeb0f7b6aec351cc69e1ab74eca6b3"
+  },
+  "hashNormalization": "CRLF normalized to LF",
+  "productionBefore": {
+    "completedOrPendingLimitedOpeningOperations": 0,
+    "mode": "OFF",
+    "singlePrice": 1000000000,
+    "tenPrice": 10000000000
+  },
+  "actualPlayerMutation": false
+}

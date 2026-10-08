@@ -8,6 +8,7 @@ import {mercenaryRandomInt,mercenaryCardAcquisitionStatements} from './_mercenar
 import {readMercenaryDocument} from './_mercenary_account.js';
 import {MERCENARY_CMS_SEED} from './_mercenary_cms_seed.js';
 import {validateMercenaryCardRules} from '../shared/mercenary-draw-policy-v1.mjs';
+import {LIMITED_DAILY_CAP,limitedDailyStatus,limitedDailyLimitError} from '../shared/mercenary-limited-daily-v1.mjs';
 
 export const LIMITED_PACK_SCHEMA=[
  "CREATE TABLE IF NOT EXISTS mercenary_limited_stock_v1(code TEXT PRIMARY KEY,stock_limit BIGINT,issued BIGINT NOT NULL DEFAULT 0 CHECK(issued>=0),revision BIGINT NOT NULL DEFAULT 0,last_token TEXT,CHECK((stock_limit IS NULL AND issued=0) OR (stock_limit>=issued AND stock_limit<=1000000)))",
@@ -39,6 +40,12 @@ export async function readLimitedPackState(env,{releaseEnabled=LIMITED_PACK_RELE
   releaseEnabled,userOpeningEnabled:releaseEnabled&&settings.mode==='ON'&&readiness.ready,rawPolicy,rawPack};
 }
 const publicState=state=>{const {rawPolicy,rawPack,...safe}=state;return safe;};
+const dailyKey=(userId,day)=>'mercenary_limited_daily_v1:'+userId+':'+day;
+export async function readLimitedPackDaily(env,userId,now=Date.now()){
+ if(!userId)return limitedDailyStatus(null,now);
+ const {day}=limitedDailyStatus(0,now),row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(dailyKey(userId,day)).first();
+ return limitedDailyStatus(Number(row?.value??0),now);
+}
 export async function limitedPackShopRow(env){
  const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(LIMITED_PACK_KEY).first();
  return limitedPackCatalogRow(row?readLimitedPack(JSON.parse(row.value).settings):limitedPackDraft());
@@ -109,16 +116,19 @@ export function pickLimitedBatch(state,count,random=mercenaryRandomInt){
  return draws;
 }
 // Private factory dependency is for isolated tests; HTTP never accepts a release override.
-export function createLimitedPackService({releaseEnabled=LIMITED_PACK_RELEASE_ENABLED,randomInt=mercenaryRandomInt}={}){
+export function createLimitedPackService({releaseEnabled=LIMITED_PACK_RELEASE_ENABLED,randomInt=mercenaryRandomInt,now=()=>Date.now()}={}){
  async function open(env,user,raw){
   if(!releaseEnabled)throw jointError('MERCENARY_LIMITED_DISABLED','리미티드 용병팩은 출시 준비 중입니다. 코인은 차감되지 않았습니다.',423);
   const body=validateLimitedOpeningBody(raw),{requestId,count,expectedRevision,expectedPolicyRevision}=body;
+  let usageTime;
   const result=await runJointOperation(env,user,{requestId,kind:LIMITED_PACK_KIND,input:{count,expectedRevision,expectedPolicyRevision},
    prepare:async()=>{
     const state=await readLimitedPackState(env,{releaseEnabled});
     if(state.packSettings.mode!=='ON')throw terminal('MERCENARY_LIMITED_DISABLED','리미티드팩 개봉이 중지됐습니다.');
     if(state.packRevision!==expectedRevision||state.revision!==expectedPolicyRevision)throw terminal('MERCENARY_LIMITED_PRICE_CHANGED','가격 또는 확률이 변경됐습니다. 새 가격을 확인하세요.');
     if(!state.readiness.ready)throw terminal('MERCENARY_LIMITED_NOT_READY',state.readiness.blockers.join(' '));
+    const daily=await readLimitedPackDaily(env,user.id,now());
+    if(count>daily.remaining)throw limitedDailyLimitError(daily.remaining);
     const coinCost=limitedPackPrice(state.packSettings,count),wallet=await env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first();
     if(!wallet||Number(wallet.coin)<coinCost)throw terminal('MERCENARY_LIMITED_FUNDS','코인이 부족합니다.');
     return {count,coinCost,draws:pickLimitedBatch(state,count,randomInt),packRevision:state.packRevision,policyRevision:state.revision,rawPack:state.rawPack,rawPolicy:state.rawPolicy};
@@ -126,22 +136,30 @@ export function createLimitedPackService({releaseEnabled=LIMITED_PACK_RELEASE_EN
    statements:async plan=>{
     const state=await readLimitedPackState(env,{releaseEnabled});
     if(state.packSettings.mode!=='ON'||state.rawPack!==plan.rawPack||state.rawPolicy!==plan.rawPolicy)throw terminal('MERCENARY_LIMITED_POLICY_CHANGED','개봉 설정이 변경됐습니다. 저장된 미완료 요청을 취소했습니다.');
-    const DB=env.DB,p=(sql,...v)=>DB.prepare(sql).bind(...v),grouped=new Map(),items=new Map(),token=crypto.randomUUID(),now=new Date().toISOString();
+    usageTime=now();
+    const DB=env.DB,p=(sql,...v)=>DB.prepare(sql).bind(...v),grouped=new Map(),items=new Map(),token=crypto.randomUUID(),timestamp=new Date(usageTime).toISOString();
+    const daily=await readLimitedPackDaily(env,user.id,usageTime),key=dailyKey(user.id,daily.day);
+    if(plan.count>daily.remaining)throw limitedDailyLimitError(daily.remaining);
     plan.draws.forEach((r,i)=>{if(r.mercenaryCode){if(isLimitedMercenary(r.mercenaryCode)){if(!grouped.has(r.mercenaryCode))grouped.set(r.mercenaryCode,[]);grouped.get(r.mercenaryCode).push(i);}else if(!state.normalCards.some(c=>c.code===r.mercenaryCode&&c.rank===r.rank&&c.weight>0))throw terminal('MERCENARY_LIMITED_NORMAL_POOL','일반 용병 획득 설정이 변경됐습니다. 코인은 차감되지 않았습니다.');}else if(r.quantity){const code=LIMITED_EXTRA_REWARDS.find(m=>m.id===r.outcomeId)?.itemCode;if(!code)throw Error('Unknown limited reward');items.set(code,(items.get(code)||0)+r.quantity);}});
     for(const [code,indices] of grouped)if((state.stock.find(s=>s.code===code)?.remaining??0)<indices.length)throw terminal('MERCENARY_LIMITED_SOLD_OUT','다른 유저가 마지막 수량을 획득했습니다. 코인은 차감되지 않았습니다.');
     const list=[];
     if(DB.dialect==='postgres')list.push(p('SELECT key FROM app_meta WHERE key IN (?,?) ORDER BY key FOR SHARE',LIMITED_PACK_KEY,LIMITED_POLICY_KEY));
     list.push(jointGuard(DB,token,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[LIMITED_PACK_KEY,plan.rawPack,LIMITED_POLICY_KEY,plan.rawPolicy]));
+    // runJointOperation locks this user's row first. Recheck inside that same
+    // transaction so concurrent devices cannot exceed the cap. All outcomes count.
+    const dailyToken=crypto.randomUUID();
+    list.push(jointGuard(DB,dailyToken,'COALESCE((SELECT CAST(value AS BIGINT) FROM app_meta WHERE key=?),0)+?<=?',[key,plan.count,LIMITED_DAILY_CAP]),
+     p('INSERT INTO app_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=CAST(CAST(app_meta.value AS BIGINT)+CAST(excluded.value AS BIGINT) AS TEXT)',key,String(plan.count)),jointGuardEnd(DB,dailyToken));
     // Stable code ordering prevents cross-card deadlocks; no global stock counter.
     for(const [code,indices] of [...grouped].sort(([a],[b])=>a.localeCompare(b))){
      const size=indices.length,claim=crypto.randomUUID();
      list.push(p('UPDATE mercenary_limited_stock_v1 SET issued=issued+?,revision=revision+1,last_token=? WHERE code=? AND issued+?<=stock_limit',size,claim,code,size),
       jointGuard(DB,claim,'EXISTS(SELECT 1 FROM mercenary_limited_stock_v1 WHERE code=? AND last_token=?)',[code,claim]),
-      p('INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,first_obtained_at,last_obtained_at) VALUES(?,?,?,?,?,?) ON CONFLICT(user_id,mercenary_code) DO UPDATE SET total_copies=user_mercenary_cards_v1.total_copies+excluded.total_copies,duplicate_count=user_mercenary_cards_v1.duplicate_count+excluded.total_copies,last_obtained_at=excluded.last_obtained_at',user.id,code,size,size-1,now,now));
+      p('INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,first_obtained_at,last_obtained_at) VALUES(?,?,?,?,?,?) ON CONFLICT(user_id,mercenary_code) DO UPDATE SET total_copies=user_mercenary_cards_v1.total_copies+excluded.total_copies,duplicate_count=user_mercenary_cards_v1.duplicate_count+excluded.total_copies,last_obtained_at=excluded.last_obtained_at',user.id,code,size,size-1,timestamp,timestamp));
      indices.forEach((index,j)=>{
       const aid=requestId+':'+index,offset=size-j-1;
-      list.push(p('INSERT INTO mercenary_limited_issues_v1(acquisition_id,request_id,user_id,code,serial,created_at) SELECT ?,?,?,code,issued-?,? FROM mercenary_limited_stock_v1 WHERE code=? AND last_token=?',aid,requestId,user.id,offset,now,code,claim),
-       p('INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplicate,total_copies_after,duplicate_count_after,created_at) SELECT ?,user_id,mercenary_code,CASE WHEN total_copies-?>1 THEN 1 ELSE 0 END,total_copies-?,total_copies-?-1,? FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code=?',aid,offset,offset,offset,now,user.id,code));
+      list.push(p('INSERT INTO mercenary_limited_issues_v1(acquisition_id,request_id,user_id,code,serial,created_at) SELECT ?,?,?,code,issued-?,? FROM mercenary_limited_stock_v1 WHERE code=? AND last_token=?',aid,requestId,user.id,offset,timestamp,code,claim),
+       p('INSERT INTO mercenary_card_acquisitions_v1(acquisition_id,user_id,mercenary_code,is_duplicate,total_copies_after,duplicate_count_after,created_at) SELECT ?,user_id,mercenary_code,CASE WHEN total_copies-?>1 THEN 1 ELSE 0 END,total_copies-?,total_copies-?-1,? FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code=?',aid,offset,offset,offset,timestamp,user.id,code));
      });
      list.push(jointGuardEnd(DB,claim));
     }
@@ -158,8 +176,10 @@ export function createLimitedPackService({releaseEnabled=LIMITED_PACK_RELEASE_EN
     const plan=JSON.parse(row.plan_json),state=await readLimitedPackState(env,{releaseEnabled});
     const counts={};for(const r of plan.draws)if(isLimitedMercenary(r.mercenaryCode))counts[r.mercenaryCode]=(counts[r.mercenaryCode]||0)+1;
     const sold=Object.entries(counts).some(([code,n])=>(state.stock.find(s=>s.code===code)?.remaining??0)<n),changed=state.rawPack!==plan.rawPack||state.rawPolicy!==plan.rawPolicy;
-    if(sold||changed){
+    const daily=await readLimitedPackDaily(env,user.id,usageTime??now()),dailyExceeded=plan.count>daily.remaining;
+    if(sold||changed||dailyExceeded){
      await env.DB.prepare("UPDATE joint_operations_v1 SET status='CANCELLED',completed_at=? WHERE request_id=? AND user_id=? AND status='PENDING'").bind(new Date().toISOString(),requestId,user.id).run();
+     if(dailyExceeded)throw limitedDailyLimitError(daily.remaining);
      throw terminal(sold?'MERCENARY_LIMITED_SOLD_OUT':'MERCENARY_LIMITED_POLICY_CHANGED',sold?'리미티드 잔여 수량이 소진됐습니다. 코인은 차감되지 않았습니다.':'설정이 변경되어 개봉을 취소했습니다. 코인은 차감되지 않았습니다.');
     }
    }
@@ -174,7 +194,7 @@ export function createLimitedPackService({releaseEnabled=LIMITED_PACK_RELEASE_EN
   const found=ids.length?(await env.DB.prepare(`SELECT a.acquisition_id,a.mercenary_code,l.serial,a.is_duplicate,a.total_copies_after,a.duplicate_count_after FROM mercenary_card_acquisitions_v1 a LEFT JOIN mercenary_limited_issues_v1 l ON l.acquisition_id=a.acquisition_id AND l.user_id=a.user_id AND l.code=a.mercenary_code WHERE a.user_id=? AND a.acquisition_id IN (${ids.map(()=>'?').join(',')})`).bind(user.id,...ids).all()).results:[];
   const byId=new Map(found.map(r=>[r.acquisition_id,r])),draws=op.plan.draws.map((r,i)=>{if(!r.mercenaryCode)return r;const row=byId.get(requestId+':'+i),limited=isLimitedMercenary(r.mercenaryCode);if(!row||row.mercenary_code!==r.mercenaryCode||limited&&!row.serial)throw jointError('MERCENARY_LIMITED_RECEIPT','지급 영수증 확인이 필요합니다.',503);return {...r,edition:limited?'LIMITED':'STANDARD',...(limited?{serial:Number(row.serial)}:{}),duplicate:Boolean(Number(row.is_duplicate)),totalCopies:Number(row.total_copies_after),duplicateCount:Number(row.duplicate_count_after)};});
   const wallet=await env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first();
-  return {requestId,status:'COMPLETED',accountId:Number(user.id),count:op.plan.count,coinCost:op.plan.coinCost,coin:String(wallet.coin),draws,replayed,packRevision:op.plan.packRevision,policyRevision:op.plan.policyRevision};
+  return {requestId,status:'COMPLETED',accountId:Number(user.id),count:op.plan.count,coinCost:op.plan.coinCost,coin:String(wallet.coin),draws,replayed,packRevision:op.plan.packRevision,policyRevision:op.plan.policyRevision,daily:await readLimitedPackDaily(env,user.id,now())};
  }
  return {open,receipt};
 }
@@ -191,7 +211,8 @@ export async function handleLimitedPack({path,request,env,deps}){
   }
   if(path===LIMITED_PACK.featurePath){
    if(request.method!=='GET')return deps.json({error:'지원하지 않는 요청입니다.'},405);
-   return deps.json(publicState(await readLimitedPackState(env)));
+   const user=await deps.authenticate(request,env);
+   return deps.json({...publicState(await readLimitedPackState(env)),daily:await readLimitedPackDaily(env,user?.id)});
   }
   const user=await deps.authenticate(request,env);
   if(!user)throw jointError('MERCENARY_LIMITED_AUTH','로그인이 필요합니다.',401);

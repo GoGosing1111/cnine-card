@@ -1,8 +1,10 @@
 import {LIMITED_PACK,limitedPackPrice} from './mercenary-limited-pack-v1.mjs';
+import {assertLimitedDailyCapacity} from './mercenary-limited-daily-v1.mjs';
 const fail=(message,code)=>Object.assign(Error(message),{code});
-const terminalCodes=new Set(['MERCENARY_LIMITED_SOLD_OUT','MERCENARY_LIMITED_POLICY_CHANGED','MERCENARY_LIMITED_PRICE_CHANGED','MERCENARY_LIMITED_NOT_READY','MERCENARY_LIMITED_FUNDS','MERCENARY_LIMITED_DISABLED','MERCENARY_LIMITED_INPUT','MERCENARY_LIMITED_COUNT','JOINT_OPERATION_SUPERSEDED']);
-export function limitedAutoPlan(settings,total,batch){
+const terminalCodes=new Set(['MERCENARY_LIMITED_DAILY_LIMIT','MERCENARY_LIMITED_SOLD_OUT','MERCENARY_LIMITED_POLICY_CHANGED','MERCENARY_LIMITED_PRICE_CHANGED','MERCENARY_LIMITED_NOT_READY','MERCENARY_LIMITED_FUNDS','MERCENARY_LIMITED_DISABLED','MERCENARY_LIMITED_INPUT','MERCENARY_LIMITED_COUNT','JOINT_OPERATION_SUPERSEDED']);
+export function limitedAutoPlan(settings,total,batch,daily){
  if(!Number.isSafeInteger(total)||total<1||total>LIMITED_PACK.maxAuto||![1,10].includes(batch))throw fail('자동 개봉은 1~1,000회, 묶음은 1회 또는 10회로 선택하세요.','LIMITED_AUTO_INPUT');
+ assertLimitedDailyCapacity(daily,total);
  const tens=batch===10?Math.floor(total/10):0,ones=total-tens*10;
  return {total,batch,tens,ones,cost:(BigInt(limitedPackPrice(settings,1))*BigInt(ones)+(tens?BigInt(limitedPackPrice(settings,10))*BigInt(tens):0n)).toString()};
 }
@@ -42,7 +44,7 @@ export class LimitedOpeningSession{
   }
  }
  async start(config,{total=1,batch=1}={}){
-  const plan=limitedAutoPlan(config.packSettings,total,batch);
+  const plan=limitedAutoPlan(config.packSettings,total,batch,config.daily);let daily=config.daily;
   return this.exclusive(async()=>{
    if(!config.userOpeningEnabled)throw fail('리미티드 용병팩은 출시 준비 중입니다.','MERCENARY_LIMITED_DISABLED');
    if(this.pending())throw fail('이전 개봉 결과부터 확인해 주세요.','LIMITED_RECOVERY_REQUIRED');
@@ -50,10 +52,12 @@ export class LimitedOpeningSession{
    while(this.completed<total&&!this.stopped&&this.canContinue()){
     this.assertAccount();
     const count=batch===10&&total-this.completed>=10?10:1;
+    assertLimitedDailyCapacity(daily,count);
     const body={requestId:this.makeId(),count,expectedRevision:config.packRevision,expectedPolicyRevision:config.revision};
     this.storage.setItem(this.pendingKey,JSON.stringify({accountId:this.accountId,body,createdAt:new Date().toISOString()}));
     this.onState({state:'requesting',completed:this.completed,count});
     const receipt=await this.submit(body);
+    daily=receipt.daily??daily;
     if(!await this.accept(receipt)){this.stopped=true;break;}
    }
    this.onState({state:this.completed===total?'complete':'stopped',completed:this.completed,total});

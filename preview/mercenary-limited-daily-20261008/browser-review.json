@@ -1,0 +1,10 @@
+{
+  "checkedAt": "2026-10-08T12:30:33.586Z",
+  "passed": true,
+  "fixture": "synthetic account; actual live contract component and Pixi renderer",
+  "checks": [
+    "desktop: remaining count, bundle limit, automatic plan, last opening, exhausted controls, reset, cleanup, no horizontal overflow",
+    "mobile: remaining count, bundle limit, automatic plan, last opening, exhausted controls, reset, cleanup, no horizontal overflow"
+  ],
+  "errors": []
+}
