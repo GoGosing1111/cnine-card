@@ -1,0 +1,735 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-08T12:01:43.865Z",
+  "sourceCommit": "4c1d46d6b454697d8b98b562388085798c4f5c12",
+  "release": {
+    "command": "npm run deploy:production",
+    "strategy": "shared full gate with immutable continuation logs; completed stages preserved, failed/changed stages rerun",
+    "fullGateBase": "7077d0e56f4dbeb7d8efeaf8a80ed087f8f2efd6",
+    "finalResumePreservedStages": 70,
+    "result": "PASS",
+    "pagesUrl": "https://07043f1a.cnine-card.pages.dev",
+    "productionUrl": "https://cnine-card.pages.dev",
+    "apiRuntimeVersion": "e3052c19-4723-4c6c-9aa4-faf50d4bb2c8",
+    "clanDraftVersion": "bee28f27-3395-469f-b440-f30375305735",
+    "hyperdriveQueryCacheDisabled": true,
+    "logs": [
+      {
+        "name": "world-raid-production-deploy-20261008.log",
+        "sha256": "ae8db2eec046e7a7c163fcb3df3a2f7de553c390f24eb690226ba6911db5cf86",
+        "bytes": 223238
+      },
+      {
+        "name": "world-raid-production-resume1-20261008.log",
+        "sha256": "ab82f3416d939f463bb45aad6101076dd2104286c4a3805d408b1be4e7af076f",
+        "bytes": 102064
+      },
+      {
+        "name": "world-raid-production-resume2-20261008.log",
+        "sha256": "4708a4d5ee3fc360d1cfee174a325b62ec3d88d4afdbed46a9eb1563235f0533",
+        "bytes": 52636
+      },
+      {
+        "name": "world-raid-production-resume3-20261008.log",
+        "sha256": "feed94023af650d9709e0f8e228ac11060cdb11551bdada46657b9342c3d9145",
+        "bytes": 45438
+      },
+      {
+        "name": "world-raid-production-resume4-20261008.log",
+        "sha256": "1629ba881fed8edd4aa6aed31186e6ee94c3dbffc12dea10f37f15b4373de55b",
+        "bytes": 118159
+      },
+      {
+        "name": "world-raid-production-resume5-20261008.log",
+        "sha256": "f91f23b57177f3f7759b33ddc137ff6f4cfd21566170fc3fffbe9f6fd0d897e6",
+        "bytes": 17136
+      }
+    ]
+  },
+  "validation": {
+    "newRegionAndPolishTests": 14,
+    "newRegionAndPolishPass": 14,
+    "balanceSimulations": 1200,
+    "manualUi": [
+      {
+        "viewport": "1440x1000",
+        "regions": [
+          "coast"
+        ],
+        "screens": [
+          "entry",
+          "loot",
+          "difficulty",
+          "battle",
+          "CMS",
+          "polish"
+        ]
+      },
+      {
+        "viewport": "390x844",
+        "regions": [
+          "desert"
+        ],
+        "screens": [
+          "entry",
+          "loot",
+          "difficulty",
+          "battle",
+          "CMS",
+          "polish"
+        ]
+      }
+    ],
+    "manualFull15MinuteEveryRegionClear": false
+  },
+  "liveSmoke": {
+    "at": "2026-10-08T12:00:03.882Z",
+    "files": 65,
+    "exactReleasedMatches": 65,
+    "lineEndingDifferencesVsOwnCheckout": 7,
+    "note": "Seven text files use CRLF in the deployment worktree. Served bytes match that worktree exactly; LF-normalized source also matches the feature worktree. All other files, including all 55 WebP assets, match byte-for-byte.",
+    "healthStatus": 200,
+    "unauthenticatedRegionAdminStatus": 401,
+    "rows": [
+      {
+        "file": "assets/ui/legion-regions-v1/coast/background-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "bb9b82bc658d2d121d086b9ccd9976dbcd8a000f58970be3560292da461897c6",
+        "servedSha256": "bb9b82bc658d2d121d086b9ccd9976dbcd8a000f58970be3560292da461897c6",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/desert/background-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "5c46316fe41dddf72c1c8b2af8ba527dfdd184f4999c064900e8f0e9cf635c7d",
+        "servedSha256": "5c46316fe41dddf72c1c8b2af8ba527dfdd184f4999c064900e8f0e9cf635c7d",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/theatre/background-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "1d88a9b2f5103a2da24122460e038515005e578ab6494df3a611b240846ec3ef",
+        "servedSha256": "1d88a9b2f5103a2da24122460e038515005e578ab6494df3a611b240846ec3ef",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/viscera/background-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "8f9544eff8ef1b61eb5b7c43ab4395c375fbe78530c3c8e617e8780ad14d4f49",
+        "servedSha256": "8f9544eff8ef1b61eb5b7c43ab4395c375fbe78530c3c8e617e8780ad14d4f49",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/sky/background-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "fe8fec5021e90ea6c2f7b0af5672c9999dd15dfd392c6ed37573bdaa4a2265e4",
+        "servedSha256": "fe8fec5021e90ea6c2f7b0af5672c9999dd15dfd392c6ed37573bdaa4a2265e4",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/coast/monster-1-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "8fc53cc935cf9aba7e0cacfdcc25e9e8f37a3aa656b596834ebac357e7a136c1",
+        "servedSha256": "8fc53cc935cf9aba7e0cacfdcc25e9e8f37a3aa656b596834ebac357e7a136c1",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/coast/monster-2-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "76e230d11acd36a95bb333f880199522b9c31413f8cb3d713317801cd02cf04e",
+        "servedSha256": "76e230d11acd36a95bb333f880199522b9c31413f8cb3d713317801cd02cf04e",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/coast/monster-3-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "3ac5daf4d4035a9d949dbb12e088ee3c9be2dd8d470e4861c2b2ae60fbc4eb7d",
+        "servedSha256": "3ac5daf4d4035a9d949dbb12e088ee3c9be2dd8d470e4861c2b2ae60fbc4eb7d",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/coast/boss-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "51a53eb986cc76b5d3f8e498c035152ee4702238e65f9cfa91648580705b9bff",
+        "servedSha256": "51a53eb986cc76b5d3f8e498c035152ee4702238e65f9cfa91648580705b9bff",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/desert/monster-1-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "f81f8b78cf5a0ceb621ce825263fa09fadf7918d1d538c272e71dac4f1a5f0bf",
+        "servedSha256": "f81f8b78cf5a0ceb621ce825263fa09fadf7918d1d538c272e71dac4f1a5f0bf",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/desert/monster-2-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "9a189dbfab579d8b80576b2ebdc55a02561168b74c6b17a956ffad3e42c3af44",
+        "servedSha256": "9a189dbfab579d8b80576b2ebdc55a02561168b74c6b17a956ffad3e42c3af44",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/desert/monster-3-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "d3c54bbb660e5c4661e3cb1e4c04b1d28c057abc3c3c28ed9d7080188790a6dc",
+        "servedSha256": "d3c54bbb660e5c4661e3cb1e4c04b1d28c057abc3c3c28ed9d7080188790a6dc",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/desert/boss-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "8a2779e5c883ea4aace3f86a27d18d021ac67ef48b4c779bc570594362bb33da",
+        "servedSha256": "8a2779e5c883ea4aace3f86a27d18d021ac67ef48b4c779bc570594362bb33da",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/theatre/monster-1-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "ab6ca7c91b701a1a3a5b5e193260a23b55a2c9509179f9a110f9769fd67d11f0",
+        "servedSha256": "ab6ca7c91b701a1a3a5b5e193260a23b55a2c9509179f9a110f9769fd67d11f0",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/theatre/monster-2-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "7ef41cdc272d903e63af131fcaadfff5fd7ff67623b16f49b845a0195138fe47",
+        "servedSha256": "7ef41cdc272d903e63af131fcaadfff5fd7ff67623b16f49b845a0195138fe47",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/theatre/monster-3-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "23f7fc0c52d51ba36907c33e783bb55a021c4cb65daaff1be7e0b2c7b606fb7c",
+        "servedSha256": "23f7fc0c52d51ba36907c33e783bb55a021c4cb65daaff1be7e0b2c7b606fb7c",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/theatre/boss-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "dc9838e21beb4ec87f6fbef650c0e15ddec33a8bff7947d7f3eb33ec3e7031f7",
+        "servedSha256": "dc9838e21beb4ec87f6fbef650c0e15ddec33a8bff7947d7f3eb33ec3e7031f7",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/viscera/monster-1-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "12156975725263b87d233b89bfb7e1ea463f4f1c5fd7686b2f26020ea54402d7",
+        "servedSha256": "12156975725263b87d233b89bfb7e1ea463f4f1c5fd7686b2f26020ea54402d7",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/viscera/monster-2-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "a95f2621caba02a975580ba6275ba7bb4d85b38b2d71dfe67574fc6dc9b87058",
+        "servedSha256": "a95f2621caba02a975580ba6275ba7bb4d85b38b2d71dfe67574fc6dc9b87058",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/viscera/monster-3-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "6bf0c2ce9d1e139c1f43e33f5f11497d6fa05ae1f0a9699ed82d846500dcd052",
+        "servedSha256": "6bf0c2ce9d1e139c1f43e33f5f11497d6fa05ae1f0a9699ed82d846500dcd052",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/viscera/boss-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "5885938c25852f86cb933dbbd1ac151c9fbd98d912021fee613c59d30a64408a",
+        "servedSha256": "5885938c25852f86cb933dbbd1ac151c9fbd98d912021fee613c59d30a64408a",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/sky/monster-1-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "7cb87d0e54efda7aa43e9d870cecae7a948399f7fa4c68410a95136e9c0539c8",
+        "servedSha256": "7cb87d0e54efda7aa43e9d870cecae7a948399f7fa4c68410a95136e9c0539c8",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/sky/monster-2-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "41dbc3fcb4bbdd57cdbe2d7af842960cdc00467852b9abb41f8f3041db0b714e",
+        "servedSha256": "41dbc3fcb4bbdd57cdbe2d7af842960cdc00467852b9abb41f8f3041db0b714e",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/sky/monster-3-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "095e8f22de40b09ac5ece83ef1dec51032b64ebe450b4f5327267da10259441f",
+        "servedSha256": "095e8f22de40b09ac5ece83ef1dec51032b64ebe450b4f5327267da10259441f",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/sky/boss-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "49f4b0da70704c265e6d0676957a07bfde2dda115372fb3a67abc64562511fe0",
+        "servedSha256": "49f4b0da70704c265e6d0676957a07bfde2dda115372fb3a67abc64562511fe0",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/coast/equipment-1-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "17bac6f19796593faccd5427015eeec99fee1e2cea39490ca1240279ae94244c",
+        "servedSha256": "17bac6f19796593faccd5427015eeec99fee1e2cea39490ca1240279ae94244c",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/coast/equipment-2-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "d1f9d73267ba73364e3f0dd39402379801d9ef283639663fe64c70c9a9d17a38",
+        "servedSha256": "d1f9d73267ba73364e3f0dd39402379801d9ef283639663fe64c70c9a9d17a38",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/coast/equipment-3-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "fb5f0f962c6ddbb3d81989dbc5bfdfbf30521043738fdf2b216cd4c197585c57",
+        "servedSha256": "fb5f0f962c6ddbb3d81989dbc5bfdfbf30521043738fdf2b216cd4c197585c57",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/coast/equipment-4-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "968ccc24a7e9cb9304d037b7cd5d6523c7a1d7fd871b4bc2fbc79ee7f743513a",
+        "servedSha256": "968ccc24a7e9cb9304d037b7cd5d6523c7a1d7fd871b4bc2fbc79ee7f743513a",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/coast/equipment-5-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "db1a0ac2e2fc68590c5d23f40b9d59faef4a3ff310be2da7bde48870349243cf",
+        "servedSha256": "db1a0ac2e2fc68590c5d23f40b9d59faef4a3ff310be2da7bde48870349243cf",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/coast/equipment-6-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "eb96ba0be6d017040721207dcaad8a134fab1d94ccb1a481dffbd5f0d2744c4b",
+        "servedSha256": "eb96ba0be6d017040721207dcaad8a134fab1d94ccb1a481dffbd5f0d2744c4b",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/desert/equipment-1-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "42310c242974c69af773dcf65da10c74be7d8fdbec5d6169d87a4295dde2f936",
+        "servedSha256": "42310c242974c69af773dcf65da10c74be7d8fdbec5d6169d87a4295dde2f936",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/desert/equipment-2-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "328d919b110bdd1ab99e5a72724800fb1d5b83c5093305b57b7c2b25f9c991c4",
+        "servedSha256": "328d919b110bdd1ab99e5a72724800fb1d5b83c5093305b57b7c2b25f9c991c4",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/desert/equipment-3-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "3e4d4371c75705763abb52d4fdf47d834678bbac035f8539a414cfc2e2b1feed",
+        "servedSha256": "3e4d4371c75705763abb52d4fdf47d834678bbac035f8539a414cfc2e2b1feed",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/desert/equipment-4-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "8799ccb0f03b521b09bdcfb1444e83e02b00d41f32ec55c4bd468c89909f17f8",
+        "servedSha256": "8799ccb0f03b521b09bdcfb1444e83e02b00d41f32ec55c4bd468c89909f17f8",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/desert/equipment-5-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "df5084c8f67ae52c67c448dbf9efdbd8ac06e0a378a87cf3ca98083a4070610a",
+        "servedSha256": "df5084c8f67ae52c67c448dbf9efdbd8ac06e0a378a87cf3ca98083a4070610a",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/desert/equipment-6-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "826cb0a2a7826df285943360b13508c89eaf35a59260808111c76a61c21188f7",
+        "servedSha256": "826cb0a2a7826df285943360b13508c89eaf35a59260808111c76a61c21188f7",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/theatre/equipment-1-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "5472d158c63683f39e1f2fedf3ba00196367185cd69cbc5b4a6c36a69d678211",
+        "servedSha256": "5472d158c63683f39e1f2fedf3ba00196367185cd69cbc5b4a6c36a69d678211",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/theatre/equipment-2-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "7090d71861b02e98187daca3351dc47e5349ce5f7eb2a496690a3dda51ab3bd3",
+        "servedSha256": "7090d71861b02e98187daca3351dc47e5349ce5f7eb2a496690a3dda51ab3bd3",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/theatre/equipment-3-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "5ebb4d9e6bd7ec0fc310a9e231759e521d5dcedcf5d87b697583f1afad2a3444",
+        "servedSha256": "5ebb4d9e6bd7ec0fc310a9e231759e521d5dcedcf5d87b697583f1afad2a3444",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/theatre/equipment-4-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "daff95753cd7f0d8f9320e845fdc371c06e56a116290bbbfacc529557e808688",
+        "servedSha256": "daff95753cd7f0d8f9320e845fdc371c06e56a116290bbbfacc529557e808688",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/theatre/equipment-5-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "8d8680e88cfb5f179250afd65793aa4332637d22170455dfb572543a95c6bafa",
+        "servedSha256": "8d8680e88cfb5f179250afd65793aa4332637d22170455dfb572543a95c6bafa",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/theatre/equipment-6-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "3614c4e8c54a94150913f035f49f3ed3c78adc74caa3aa664c82f454b3fe159d",
+        "servedSha256": "3614c4e8c54a94150913f035f49f3ed3c78adc74caa3aa664c82f454b3fe159d",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/viscera/equipment-1-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "6ec5efb6fb962050cbb7dfd1c253bb76a98dd9352f9f43200b42d4e75f966d2a",
+        "servedSha256": "6ec5efb6fb962050cbb7dfd1c253bb76a98dd9352f9f43200b42d4e75f966d2a",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/viscera/equipment-2-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "52635ab0280fe58733513d07d20f1141236717666f5ccfc4972df782131199e6",
+        "servedSha256": "52635ab0280fe58733513d07d20f1141236717666f5ccfc4972df782131199e6",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/viscera/equipment-3-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "ad67a1dcaf14f3106cd59ac5c86eec90e7773ba7b260d1729b48de64b388dd79",
+        "servedSha256": "ad67a1dcaf14f3106cd59ac5c86eec90e7773ba7b260d1729b48de64b388dd79",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/viscera/equipment-4-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "ee7465d75277f0a8ed02defd7fd92e53b3d717cbf2f7a599ca71a701948dd386",
+        "servedSha256": "ee7465d75277f0a8ed02defd7fd92e53b3d717cbf2f7a599ca71a701948dd386",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/viscera/equipment-5-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "bd894ca3ed9233210d3310eaa30fe10b5bc69c0e7e0daab08ce6251c27956375",
+        "servedSha256": "bd894ca3ed9233210d3310eaa30fe10b5bc69c0e7e0daab08ce6251c27956375",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/viscera/equipment-6-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "b155887f9a1cf1288b7570b46632e8a514431cfbac4d92540c21f674c5ce7d34",
+        "servedSha256": "b155887f9a1cf1288b7570b46632e8a514431cfbac4d92540c21f674c5ce7d34",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/sky/equipment-1-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "9daa8a2b02e20922cf5c1b7986536d53931acd313161c3ceda884fd3ffe71a2b",
+        "servedSha256": "9daa8a2b02e20922cf5c1b7986536d53931acd313161c3ceda884fd3ffe71a2b",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/sky/equipment-2-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "42b9a01bed13c093fad1aa8b302d6c01b4341bc2c9a89475bcf688d357869673",
+        "servedSha256": "42b9a01bed13c093fad1aa8b302d6c01b4341bc2c9a89475bcf688d357869673",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/sky/equipment-3-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "ae258b2ba988e5ecb83ef2c35664422833f1fd659359004e9342dfa76d9843c9",
+        "servedSha256": "ae258b2ba988e5ecb83ef2c35664422833f1fd659359004e9342dfa76d9843c9",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/sky/equipment-4-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "176944181b33fbe7be9018a4b35c714293fe721d0fb0489cd84744763be4152b",
+        "servedSha256": "176944181b33fbe7be9018a4b35c714293fe721d0fb0489cd84744763be4152b",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/sky/equipment-5-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "e39bc60dd97961f2e74c40a6d2ceb09f23166a1059fe57effaa89c42e2c9181c",
+        "servedSha256": "e39bc60dd97961f2e74c40a6d2ceb09f23166a1059fe57effaa89c42e2c9181c",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "assets/ui/legion-regions-v1/sky/equipment-6-v1.webp",
+        "status": 200,
+        "expectedReleasedSha256": "b7c43a118c0102f0b18cf91a3fc19426efc554500cbef3a989f04e862d268ea8",
+        "servedSha256": "b7c43a118c0102f0b18cf91a3fc19426efc554500cbef3a989f04e862d268ea8",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "index.html",
+        "status": 200,
+        "expectedReleasedSha256": "1377acc8ceb18dc775f4e8ae911f98f5a15c5ec017ddbb8413e6f5e19bd78041",
+        "servedSha256": "1377acc8ceb18dc775f4e8ae911f98f5a15c5ec017ddbb8413e6f5e19bd78041",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "js/app.js",
+        "status": 200,
+        "expectedReleasedSha256": "b33ae729e39db3bbcadbca9e1c89ec91df66354786045c2e90be556325613f89",
+        "servedSha256": "b33ae729e39db3bbcadbca9e1c89ec91df66354786045c2e90be556325613f89",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "js/legion-hunt-entry-v1.mjs",
+        "status": 200,
+        "expectedReleasedSha256": "b9a7b3a759b6567509cea68f52572466130d018484624c6adffd8de875bacfdc",
+        "servedSha256": "b9a7b3a759b6567509cea68f52572466130d018484624c6adffd8de875bacfdc",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": true
+      },
+      {
+        "file": "css/legion-hunt-entry-v2.css",
+        "status": 200,
+        "expectedReleasedSha256": "5c5c9072163076e7a0bcf4c9c57e982e031ff9c7f2923a27d5589032a68c7478",
+        "servedSha256": "5c5c9072163076e7a0bcf4c9c57e982e031ff9c7f2923a27d5589032a68c7478",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": true
+      },
+      {
+        "file": "admin/legion-regions-admin-v1.mjs",
+        "status": 200,
+        "expectedReleasedSha256": "b0fbcce25eac6110541e9e15ea6ffbe48fe2c5dbc691555b1f6ac7499847c4f7",
+        "servedSha256": "b0fbcce25eac6110541e9e15ea6ffbe48fe2c5dbc691555b1f6ac7499847c4f7",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": true
+      },
+      {
+        "file": "shared/legion-regions-v1.mjs",
+        "status": 200,
+        "expectedReleasedSha256": "11610634bfbebf1ea2d9ab28732f1814831580fc80fa044a7428ce35426040e6",
+        "servedSha256": "11610634bfbebf1ea2d9ab28732f1814831580fc80fa044a7428ce35426040e6",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": true
+      },
+      {
+        "file": "equipment-polish/app.mjs",
+        "status": 200,
+        "expectedReleasedSha256": "77bc27acfcfd61d8efdb3a22f57e8699158f0f4a589a258a6a43c7b77eeb6147",
+        "servedSha256": "77bc27acfcfd61d8efdb3a22f57e8699158f0f4a589a258a6a43c7b77eeb6147",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": true
+      },
+      {
+        "file": "js/equipment-polish-request-v1.mjs",
+        "status": 200,
+        "expectedReleasedSha256": "d9250b10e2b8a4e58d5196268af5aceaa7fae4b513dcbd06444f708000f4be80",
+        "servedSha256": "d9250b10e2b8a4e58d5196268af5aceaa7fae4b513dcbd06444f708000f4be80",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": true
+      },
+      {
+        "file": "pve/legion-hunt/index.html",
+        "status": 200,
+        "expectedReleasedSha256": "d3a7f410bc5ef466e184ac2c79091fd6bd34dfe5f91a232baa493e14a513fd11",
+        "servedSha256": "d3a7f410bc5ef466e184ac2c79091fd6bd34dfe5f91a232baa493e14a513fd11",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": false
+      },
+      {
+        "file": "preview/sustained-hunt-v2/battle.bundle.js",
+        "status": 200,
+        "expectedReleasedSha256": "2ce431a20879e0a2c2bfa6ebf474ca4d851424242e4a376e13caa8653c4aee01",
+        "servedSha256": "2ce431a20879e0a2c2bfa6ebf474ca4d851424242e4a376e13caa8653c4aee01",
+        "exactMatch": true,
+        "ownSourceMatches": true,
+        "lineEndingDifference": true
+      }
+    ]
+  },
+  "livePolicy": {
+    "verifiedAt": "2026-10-08T11:59:50.860Z",
+    "mode": "TEST",
+    "testUserCount": 0,
+    "regions": [
+      {
+        "id": "coast",
+        "availableToOwnerTest": true,
+        "regularPlayerEntry": "LOCKED"
+      },
+      {
+        "id": "desert",
+        "availableToOwnerTest": true,
+        "regularPlayerEntry": "LOCKED"
+      },
+      {
+        "id": "theatre",
+        "availableToOwnerTest": true,
+        "regularPlayerEntry": "LOCKED"
+      },
+      {
+        "id": "viscera",
+        "availableToOwnerTest": true,
+        "regularPlayerEntry": "LOCKED"
+      },
+      {
+        "id": "sky",
+        "availableToOwnerTest": true,
+        "regularPlayerEntry": "LOCKED"
+      }
+    ],
+    "legacyIslandMode": "ON",
+    "equipment": {
+      "records": 30,
+      "active": 0,
+      "public": 0,
+      "supplyEnabled": 0,
+      "ownedInstances": 0
+    },
+    "polish": {
+      "executionMode": "OFF",
+      "publicVisible": false
+    },
+    "testRewards": "NO_ACCOUNT_GRANT"
+  },
+  "preparation": {
+    "operationKey": "ops:legion-regions-prepare:20261008:v1",
+    "appliedAt": "2026-10-08T11:10:46.399Z",
+    "created": 30,
+    "grants": 0
+  },
+  "userNotice": "docs/legion-regions-user-notice-20261008.txt",
+  "noticePublished": false,
+  "nextActivation": "Wait for explicit user instruction after OWNER testing; do not auto-enable."
+}
