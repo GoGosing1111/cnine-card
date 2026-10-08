@@ -152,7 +152,9 @@ test('CMS는 BATTLE_SUIT 부위·세부 종류와 PVE 전용 전투력을 분리
   assert.match(index, /js\/app\.js\?v=[0-9][A-Za-z0-9-]+/);
   assert.match(escort, /sectorSummary,battleV2,monster,characterBonus:equipment,objective:/);
   assert.match(app, /const loadout=await apiRequest\('character\/loadout',\{\}, \{ttl:5000,timeoutMs:8000\}\)/);
-  assert.match(app, /data:\{current,participant:me,characterBonus,user:loadUser\(\)\}/);
+  assert.match(app, /openWorldRaidV3\(\{modal,view:live,data:\{\.\.\.data,characterBonus,user:loadUser\(\)\}/);
+  const nativeRaid = await readFile(new URL('../js/world-raid-v3-live.mjs', import.meta.url), 'utf8');
+  assert.match(nativeRaid, /api\.raidPayload\(\{data,participant:data\.me,current:data\.current\}\)/);
   assert.match(app, /pvpState\.characterBonus=bonuses;raidState\.characterBonus=bonuses/);
   assert.match(api, /battleEngine:pveBattleEngineState\(settings,user,characterBonus\)/);
   assert.match(api, /battleSuitLiveOverride/);
