@@ -1,0 +1,21 @@
+{
+  "operation": "ops:chicken-event-prepare:20261008:v1",
+  "preparedAt": "2026-10-08T01:17:24.307Z",
+  "restaurant": "철구네 치킨",
+  "settings": {
+    "visible": false,
+    "enabled": false,
+    "startsAt": null,
+    "endsAt": null,
+    "rewards": []
+  },
+  "ticket": "PINGDU_BAEMIN_TICKET",
+  "ticketCost": 1,
+  "ticketsGranted": 0,
+  "stockLimitsChanged": false,
+  "auditId": "42746",
+  "dryRun": false,
+  "verifiedAt": "2026-10-08T01:17:25.263Z",
+  "axeEnabled": false,
+  "axeVisible": false
+}

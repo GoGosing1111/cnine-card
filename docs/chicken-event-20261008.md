@@ -33,3 +33,12 @@
 - 실제 이벤트: `/events/chicken/`; 소모/지급 없는 연출 검수: `/preview/chicken-event-v1/`.
 - ImageGen 내장 도구로 PNG 3개를 생성하고 원본 바이트·투명도를 보존했다. 최종 경로는 `assets/ui/events/chicken-v1/fried.png`, `yangnyeom.png`, `delivery.png`이며 프롬프트·규격·SHA-256은 같은 폴더 `generation-20261008.json`에 있다.
 - 티켓은 프로젝트 네이티브 SVG이며 기존 용병 원화와 승인 프레임은 수정하지 않았다.
+
+## 운영 반영 완료 — 2026-10-08 10:19 KST
+
+- 코드 커밋 `e6ec5b4af6439affb840bd3e1d747f9f111c9d09`를 origin/main에 반영했다. 지정 scoped 배포의 **25개 검사**와 Worker 구문·출시/캐시·Hyperdrive 보호 검사가 통과했다.
+- Pages 배포: [5dc72ed1](https://5dc72ed1.cnine-card.pages.dev). API Worker `fc82f5a3-70e0-4935-8834-8601211a4ef5`, clan-draft Worker `697b8c07-9dc4-406b-8599-56a8962f8acf`.
+- 10:17 KST에 전용 영수증 테이블·배민권 카탈로그·빈 OFF 설정을 준비했다. 일회 영수증 `ops:chicken-event-prepare:20261008:v1`, 감사 로그 `42746`. 미리 실행한 dry run은 롤백했고 적용 후 재실행에서 같은 영수증을 확인했다. 기간·보상·확률·리미티드 한도는 설정하지 않았으며 배민권 지급과 주문은 0건이다.
+- 운영 기본 주소에서 메인·서비스 워커·CMS·연출·CSS·메뉴·PNG 3종·티켓까지 10개 파일의 SHA-256이 일치했다. health·검수/이벤트 페이지는 200이며, 도끼와 치킨 feature 모두 공개 false다.
+- 운영 DB를 실제 이벤트 조회 코드로 읽어 빈 OFF 설정, 비용 1개, 보상 카탈로그 121종(리미티드 8종 포함), HIDDEN 상태를 확인했다. 운영 계정의 주문이나 보상 지급은 실행하지 않았다.
+- 증거: `chicken-event-prepare-20261008.json`, `chicken-event-production-20261008.json`. 완료 기록은 문서만 변경하므로 별도 게임 검사나 재배포를 반복하지 않는다.

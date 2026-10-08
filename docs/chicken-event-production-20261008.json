@@ -1,0 +1,108 @@
+{
+  "base": "https://cnine-card.pages.dev",
+  "deployedCommit": "e6ec5b4af6439affb840bd3e1d747f9f111c9d09",
+  "deployment": "https://5dc72ed1.cnine-card.pages.dev",
+  "checkedAt": "2026-10-08T01:18:55.199Z",
+  "files": [
+    {
+      "path": "index.html",
+      "sha256": "6ec03081a17a401adf30b7e61411d34a8c9867e7f5e19d753e193a1e13333fd3",
+      "status": 200
+    },
+    {
+      "path": "service-worker.js",
+      "sha256": "968b2a743f80f6e0421e8b4f69677964b93f05109789fdf1345b5d6e05c39d9a",
+      "status": 200
+    },
+    {
+      "path": "admin/chicken-event-v1.js",
+      "sha256": "6fd8276155178259f157e18f91db10952fe0b076286d1200a7d592fd1989c656",
+      "status": 200
+    },
+    {
+      "path": "js/chicken-event-v1.js",
+      "sha256": "6a49c2388cb71ae493bd2b631d1898abfd3e66b97d296cf1cee20b6067ed9191",
+      "status": 200
+    },
+    {
+      "path": "css/chicken-event-v1.css",
+      "sha256": "f5b818382355182fb8752f5a4316cd26e447e0319b24cb10ff9152b1b2d1d0ff",
+      "status": 200
+    },
+    {
+      "path": "js/adventure-lobby-v2107.js",
+      "sha256": "6945de66f5f19e705a086beb35c6a2887f3b86ad70afd67598467550eb6e2bb7",
+      "status": 200
+    },
+    {
+      "path": "assets/ui/events/chicken-v1/fried.png",
+      "sha256": "d313a2f5b01a5868cd90e84514b546e612497b89b51cef385eb22e31f0bc6973",
+      "status": 200
+    },
+    {
+      "path": "assets/ui/events/chicken-v1/yangnyeom.png",
+      "sha256": "1409828cb64997b56c79b822eb897614e82d62f79751bacb540251923ffdba47",
+      "status": 200
+    },
+    {
+      "path": "assets/ui/events/chicken-v1/delivery.png",
+      "sha256": "7479288aa51605597a1be24eb8181d97521c05cd39563a6ca184d50b633bf5a5",
+      "status": 200
+    },
+    {
+      "path": "assets/ui/events/chicken-v1/ticket.svg",
+      "sha256": "e53b4d6598920efcbddbbda25a71abe1c0ee812fa0d69c31737fd1dd7034cd0d",
+      "status": 200
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/api/health",
+      "status": 200
+    },
+    {
+      "path": "/api/events/chicken/feature",
+      "status": 200,
+      "body": {
+        "visible": false,
+        "name": "철구네 치킨",
+        "phase": "HIDDEN",
+        "startsAt": null,
+        "endsAt": null
+      }
+    },
+    {
+      "path": "/api/events/golden-axe/feature",
+      "status": 200,
+      "body": {
+        "visible": false,
+        "name": "핑두의 금도끼 은도끼",
+        "phase": "HIDDEN",
+        "startsAt": "2026-10-01T18:34:48.232Z",
+        "endsAt": "2026-10-08T18:34:48.232Z"
+      }
+    },
+    {
+      "path": "/preview/chicken-event-v1/",
+      "status": 200
+    },
+    {
+      "path": "/events/chicken/",
+      "status": 200
+    }
+  ],
+  "db": {
+    "settings": {
+      "visible": false,
+      "enabled": false,
+      "startsAt": null,
+      "endsAt": null,
+      "rewards": []
+    },
+    "options": 121,
+    "limitedOptions": 8,
+    "ticketCost": 1,
+    "phase": "HIDDEN",
+    "orders": 0
+  }
+}
