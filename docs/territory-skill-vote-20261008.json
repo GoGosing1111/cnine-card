@@ -1,7 +1,7 @@
 {
   "date": "2026-10-08",
   "authorization": "25명 도달시 자동발동",
-  "status": "VALIDATED_PENDING_DEPLOY",
+  "status": "DEPLOYED",
   "scope": "Current clan territory war (warfare_version=4), all 12 tactical skills; no map redesign deployment",
   "policy": {
     "requiredVotes": 25,
@@ -80,5 +80,41 @@
     "checks": [
       "check:worker"
     ]
+  },
+  "productionVerification": {
+    "checkedAt": "2026-10-08T14:37:19.393Z",
+    "sourceCommit": "e781fc898b849ed86dcc6dac84254966b4372f27",
+    "deployment": "https://9ae3903f.cnine-card.pages.dev",
+    "apiWorkerVersion": "b795f447-505a-49d4-b41c-0b7a56d9c8dc",
+    "clanWorkerVersion": "71fcad18-bbd1-4dba-a370-dd70a4c13131",
+    "deployExitCode": 0,
+    "scopedTestsPassed": 60,
+    "files": [
+      {
+        "path": "index.html",
+        "status": 200,
+        "sha256": "db187108aa36358fd6aec70a511fa91b0818f3e93aeeee7d876720312f3e4f86",
+        "match": true
+      },
+      {
+        "path": "js/territory-war-v1811.js",
+        "status": 200,
+        "sha256": "a9a4b02ea115a672b62d43960234b4f8c213548620e279143eab1bbd782eebf0",
+        "match": true
+      },
+      {
+        "path": "js/territory-battlefield-v5.js",
+        "status": 200,
+        "sha256": "616d94c729e4a5405d2351ca8079be5de040e693f9a19f7c417346e60d62cb28",
+        "match": true
+      },
+      {
+        "path": "css/territory-war-v1824.css",
+        "status": 200,
+        "sha256": "4862bb6014ef22d883e2b5fc8a2b5832f7514a78913dc6ee6293c75c8d673915",
+        "match": true
+      }
+    ],
+    "unauthenticatedTerritoryStateStatus": 401
   }
 }
