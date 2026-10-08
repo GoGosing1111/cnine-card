@@ -1,0 +1,610 @@
+{
+  "status": "SENT_AND_VERIFIED",
+  "completedAtKst": "2026-10-08 17:50:54",
+  "operationCommit": "9c57b436a4554454eef7e57a5efd9d32f4b1d36e",
+  "sourceCount": 58,
+  "recipientCount": 58,
+  "messagesPerAccount": 2,
+  "totalMessages": 116,
+  "totalCoin": "58000000000000",
+  "totalStars": "580000000",
+  "identityNotes": [
+    "베배킹 → 베베킹(289), 기존 확정 지급 기록으로 식별",
+    "레기파 → 레가파(4408), 기존 확정 지급 기록으로 식별"
+  ],
+  "tests": {
+    "command": "node --test tests/mangsuni-rescue-20261008.test.mjs",
+    "passed": 6,
+    "failed": 0
+  },
+  "runtimeRedeployed": false,
+  "receipt": {
+    "operationKey": "ops:mangsuni-rescue:20261008:v1",
+    "status": "COMPLETED",
+    "title": "망순방 구조대 이벤트",
+    "body": "망순방 구조대 이벤트 보상입니다.\n코인 1조와 마스터의 별 1,000만 개를 보상별 메시지로 지급합니다.\n각 메시지의 보상 수령 버튼을 눌러주세요.",
+    "count": 58,
+    "recipientHash": "886ee9c46b9ad0f3cdcfa8e732c0885906e345f9be200648b4f132bcecca8532",
+    "recipients": [
+      {
+        "id": "19",
+        "nickname": "토닭토닭",
+        "inputNickname": "토닭토닭"
+      },
+      {
+        "id": "22",
+        "nickname": "커피먹는철구",
+        "inputNickname": "커피먹는철구"
+      },
+      {
+        "id": "25",
+        "nickname": "여우",
+        "inputNickname": "여우"
+      },
+      {
+        "id": "52",
+        "nickname": "폭군#",
+        "inputNickname": "폭군#"
+      },
+      {
+        "id": "62",
+        "nickname": "숭구릭",
+        "inputNickname": "숭구릭"
+      },
+      {
+        "id": "65",
+        "nickname": "음순이",
+        "inputNickname": "음순이"
+      },
+      {
+        "id": "71",
+        "nickname": "진땅콩_",
+        "inputNickname": "진땅콩_"
+      },
+      {
+        "id": "73",
+        "nickname": "란x2",
+        "inputNickname": "란x2"
+      },
+      {
+        "id": "88",
+        "nickname": "0수표",
+        "inputNickname": "0수표"
+      },
+      {
+        "id": "130",
+        "nickname": "족구선생",
+        "inputNickname": "족구선생"
+      },
+      {
+        "id": "164",
+        "nickname": "박사",
+        "inputNickname": "박사"
+      },
+      {
+        "id": "183",
+        "nickname": "남수댕",
+        "inputNickname": "남수댕"
+      },
+      {
+        "id": "218",
+        "nickname": "현하루",
+        "inputNickname": "현하루"
+      },
+      {
+        "id": "277",
+        "nickname": "스갤가축",
+        "inputNickname": "스갤가축"
+      },
+      {
+        "id": "289",
+        "nickname": "베베킹",
+        "inputNickname": "베배킹"
+      },
+      {
+        "id": "290",
+        "nickname": "Mild7",
+        "inputNickname": "Mild7"
+      },
+      {
+        "id": "295",
+        "nickname": "모래",
+        "inputNickname": "모래"
+      },
+      {
+        "id": "303",
+        "nickname": "[C9]족쪽이",
+        "inputNickname": "[C9]족쪽이"
+      },
+      {
+        "id": "360",
+        "nickname": "라피e",
+        "inputNickname": "라피e"
+      },
+      {
+        "id": "850",
+        "nickname": "뽑기고수71",
+        "inputNickname": "뽑기고수71"
+      },
+      {
+        "id": "1195",
+        "nickname": "씨나인택갓",
+        "inputNickname": "씨나인택갓"
+      },
+      {
+        "id": "1255",
+        "nickname": "전게씹선미아웃",
+        "inputNickname": "전게씹선미아웃"
+      },
+      {
+        "id": "1301",
+        "nickname": "팩트만쓴다15",
+        "inputNickname": "팩트만쓴다15"
+      },
+      {
+        "id": "1768",
+        "nickname": "핫시",
+        "inputNickname": "핫시"
+      },
+      {
+        "id": "2505",
+        "nickname": "모아가려아가",
+        "inputNickname": "모아가려아가"
+      },
+      {
+        "id": "3011",
+        "nickname": "오일바른가지",
+        "inputNickname": "오일바른가지"
+      },
+      {
+        "id": "3867",
+        "nickname": "레드클라우드",
+        "inputNickname": "레드클라우드"
+      },
+      {
+        "id": "3884",
+        "nickname": "zkzk9999",
+        "inputNickname": "zkzk9999"
+      },
+      {
+        "id": "3892",
+        "nickname": "슈파두파",
+        "inputNickname": "슈파두파"
+      },
+      {
+        "id": "3974",
+        "nickname": "우회하세요",
+        "inputNickname": "우회하세요"
+      },
+      {
+        "id": "4084",
+        "nickname": "게임닉네임",
+        "inputNickname": "게임닉네임"
+      },
+      {
+        "id": "4111",
+        "nickname": "족게이다",
+        "inputNickname": "족게이다"
+      },
+      {
+        "id": "4294",
+        "nickname": "디임",
+        "inputNickname": "디임"
+      },
+      {
+        "id": "4391",
+        "nickname": "더듬이구",
+        "inputNickname": "더듬이구"
+      },
+      {
+        "id": "4408",
+        "nickname": "레가파",
+        "inputNickname": "레기파"
+      },
+      {
+        "id": "4504",
+        "nickname": "깜찍소녀",
+        "inputNickname": "깜찍소녀"
+      },
+      {
+        "id": "4540",
+        "nickname": "지아영",
+        "inputNickname": "지아영"
+      },
+      {
+        "id": "4572",
+        "nickname": "응맨",
+        "inputNickname": "응맨"
+      },
+      {
+        "id": "4582",
+        "nickname": "족단",
+        "inputNickname": "족단"
+      },
+      {
+        "id": "4597",
+        "nickname": "찬호",
+        "inputNickname": "찬호"
+      },
+      {
+        "id": "4598",
+        "nickname": "암살자..",
+        "inputNickname": "암살자.."
+      },
+      {
+        "id": "4609",
+        "nickname": "오랜만에",
+        "inputNickname": "오랜만에"
+      },
+      {
+        "id": "4615",
+        "nickname": "랭비!",
+        "inputNickname": "랭비!"
+      },
+      {
+        "id": "4627",
+        "nickname": "학벌",
+        "inputNickname": "학벌"
+      },
+      {
+        "id": "4628",
+        "nickname": "망순이ෆ",
+        "inputNickname": "망순이ෆ"
+      },
+      {
+        "id": "4651",
+        "nickname": "세라네꼬라지",
+        "inputNickname": "세라네꼬라지"
+      },
+      {
+        "id": "4668",
+        "nickname": "화성가뿌자",
+        "inputNickname": "화성가뿌자"
+      },
+      {
+        "id": "4705",
+        "nickname": "˚쟁이。",
+        "inputNickname": "˚쟁이。"
+      },
+      {
+        "id": "4754",
+        "nickname": "조은",
+        "inputNickname": "조은"
+      },
+      {
+        "id": "4757",
+        "nickname": "음주플레이어",
+        "inputNickname": "음주플레이어"
+      },
+      {
+        "id": "4772",
+        "nickname": "펜타",
+        "inputNickname": "펜타"
+      },
+      {
+        "id": "4774",
+        "nickname": "딤럼프",
+        "inputNickname": "딤럼프"
+      },
+      {
+        "id": "4836",
+        "nickname": "딤키우기",
+        "inputNickname": "딤키우기"
+      },
+      {
+        "id": "4908",
+        "nickname": "굳건창수",
+        "inputNickname": "굳건창수"
+      },
+      {
+        "id": "4933",
+        "nickname": "심심이",
+        "inputNickname": "심심이"
+      },
+      {
+        "id": "4965",
+        "nickname": "쁴로리",
+        "inputNickname": "쁴로리"
+      },
+      {
+        "id": "4981",
+        "nickname": "간장왕대게찜",
+        "inputNickname": "간장왕대게찜"
+      },
+      {
+        "id": "5010",
+        "nickname": "으악",
+        "inputNickname": "으악"
+      }
+    ],
+    "gifts": [
+      {
+        "campaignKey": "mangsuni-rescue-coin-20261008-v1",
+        "rewardType": "COIN",
+        "rewardAmount": 1000000000000,
+        "messageType": "COIN_REWARD",
+        "totalAmount": "58000000000000"
+      },
+      {
+        "campaignKey": "mangsuni-rescue-star-20261008-v1",
+        "rewardType": "MASTER_STAR",
+        "rewardAmount": 10000000,
+        "messageType": "ITEM_REWARD",
+        "totalAmount": "580000000"
+      }
+    ],
+    "messageIds": [
+      "199111",
+      "199112",
+      "199113",
+      "199114",
+      "199115",
+      "199116",
+      "199117",
+      "199118",
+      "199119",
+      "199120",
+      "199121",
+      "199122",
+      "199123",
+      "199124",
+      "199125",
+      "199126",
+      "199127",
+      "199128",
+      "199129",
+      "199130",
+      "199131",
+      "199132",
+      "199133",
+      "199134",
+      "199135",
+      "199136",
+      "199137",
+      "199138",
+      "199139",
+      "199140",
+      "199141",
+      "199142",
+      "199143",
+      "199144",
+      "199145",
+      "199146",
+      "199147",
+      "199148",
+      "199149",
+      "199150",
+      "199151",
+      "199152",
+      "199153",
+      "199154",
+      "199155",
+      "199156",
+      "199157",
+      "199158",
+      "199159",
+      "199160",
+      "199161",
+      "199162",
+      "199163",
+      "199164",
+      "199165",
+      "199166",
+      "199167",
+      "199168",
+      "199169",
+      "199170",
+      "199171",
+      "199172",
+      "199173",
+      "199174",
+      "199175",
+      "199176",
+      "199177",
+      "199178",
+      "199179",
+      "199180",
+      "199181",
+      "199182",
+      "199183",
+      "199184",
+      "199185",
+      "199186",
+      "199187",
+      "199188",
+      "199189",
+      "199190",
+      "199191",
+      "199192",
+      "199193",
+      "199194",
+      "199195",
+      "199196",
+      "199197",
+      "199198",
+      "199199",
+      "199200",
+      "199201",
+      "199202",
+      "199203",
+      "199204",
+      "199205",
+      "199206",
+      "199207",
+      "199208",
+      "199209",
+      "199210",
+      "199211",
+      "199212",
+      "199213",
+      "199214",
+      "199215",
+      "199216",
+      "199217",
+      "199218",
+      "199219",
+      "199220",
+      "199221",
+      "199222",
+      "199223",
+      "199224",
+      "199225",
+      "199226"
+    ],
+    "rewardIds": [
+      "195186",
+      "195187",
+      "195188",
+      "195189",
+      "195190",
+      "195191",
+      "195192",
+      "195193",
+      "195194",
+      "195195",
+      "195196",
+      "195197",
+      "195198",
+      "195199",
+      "195200",
+      "195201",
+      "195202",
+      "195203",
+      "195204",
+      "195205",
+      "195206",
+      "195207",
+      "195208",
+      "195209",
+      "195210",
+      "195211",
+      "195212",
+      "195213",
+      "195214",
+      "195215",
+      "195216",
+      "195217",
+      "195218",
+      "195219",
+      "195220",
+      "195221",
+      "195222",
+      "195223",
+      "195224",
+      "195225",
+      "195226",
+      "195227",
+      "195228",
+      "195229",
+      "195230",
+      "195231",
+      "195232",
+      "195233",
+      "195234",
+      "195235",
+      "195236",
+      "195237",
+      "195238",
+      "195239",
+      "195240",
+      "195241",
+      "195242",
+      "195243",
+      "195244",
+      "195245",
+      "195246",
+      "195247",
+      "195248",
+      "195249",
+      "195250",
+      "195251",
+      "195252",
+      "195253",
+      "195254",
+      "195255",
+      "195256",
+      "195257",
+      "195258",
+      "195259",
+      "195260",
+      "195261",
+      "195262",
+      "195263",
+      "195264",
+      "195265",
+      "195266",
+      "195267",
+      "195268",
+      "195269",
+      "195270",
+      "195271",
+      "195272",
+      "195273",
+      "195274",
+      "195275",
+      "195276",
+      "195277",
+      "195278",
+      "195279",
+      "195280",
+      "195281",
+      "195282",
+      "195283",
+      "195284",
+      "195285",
+      "195286",
+      "195287",
+      "195288",
+      "195289",
+      "195290",
+      "195291",
+      "195292",
+      "195293",
+      "195294",
+      "195295",
+      "195296",
+      "195297",
+      "195298",
+      "195299",
+      "195300",
+      "195301"
+    ],
+    "delivery": "MESSAGE",
+    "noImmediateWalletCredit": true,
+    "actor": "SYSTEM_OPS",
+    "authorization": "사용자 지정 58명에게 1조 코인 + 1000만 마별을 메시지로 지급 · 망순방 구조대 이벤트",
+    "completedAt": "2026-10-08T08:50:54.779Z",
+    "auditId": "42778"
+  },
+  "verification": {
+    "recipients": 58,
+    "messages": 116,
+    "rewards": 116,
+    "missing": 0,
+    "duplicates": 0,
+    "campaigns": [
+      {
+        "campaignKey": "mangsuni-rescue-coin-20261008-v1",
+        "rewardType": "COIN",
+        "recipients": 58,
+        "rewardAmount": "1000000000000",
+        "totalAmount": "58000000000000",
+        "claimed": 0,
+        "duplicates": 0
+      },
+      {
+        "campaignKey": "mangsuni-rescue-star-20261008-v1",
+        "rewardType": "MASTER_STAR",
+        "recipients": 58,
+        "rewardAmount": "10000000",
+        "totalAmount": "580000000",
+        "claimed": 0,
+        "duplicates": 0
+      }
+    ]
+  },
+  "dryRun": false,
+  "replayed": false,
+  "replayVerified": true,
+  "checkedAt": "2026-10-08T08:50:56.019Z"
+}
