@@ -1,0 +1,209 @@
+[
+  {
+    "width": 1440,
+    "mode": "PVE",
+    "settlement": "WIN",
+    "observation": {
+      "states": [
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "IDLE"
+      ],
+      "heals": [
+        {
+          "id": "CN-346F8DB0DEB84D41",
+          "before": 96.24848339726134,
+          "after": 100
+        },
+        {
+          "id": "CN-BA6BDEC789144D00",
+          "before": 96.26911553219846,
+          "after": 100
+        },
+        {
+          "id": "CN-47AD4B47B6A7452C",
+          "before": 97.14884674742605,
+          "after": 100
+        }
+      ],
+      "popup": true,
+      "diagnostics": {
+        "last": {
+          "code": "ICON-DIIM",
+          "role": "ASSASSIN",
+          "eventType": "ICON_SKILL",
+          "serverRows": 1,
+          "appliedRows": 1,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY"
+        },
+        "muzzle": null,
+        "metrics": {
+          "skills": 7,
+          "basics": 31,
+          "serverRows": 42,
+          "appliedRows": 42,
+          "roles": [
+            "ASSASSIN",
+            "SUPPORT"
+          ]
+        }
+      },
+      "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3"
+    },
+    "errors": []
+  },
+  {
+    "width": 390,
+    "mode": "PVE",
+    "settlement": "WIN",
+    "observation": {
+      "states": [
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "ATTACK",
+        "IDLE",
+        "IDLE"
+      ],
+      "heals": [
+        {
+          "id": "CN-346F8DB0DEB84D41",
+          "before": 96.24848339726134,
+          "after": 100
+        },
+        {
+          "id": "CN-BA6BDEC789144D00",
+          "before": 96.26911553219846,
+          "after": 100
+        },
+        {
+          "id": "CN-47AD4B47B6A7452C",
+          "before": 97.14884674742605,
+          "after": 100
+        }
+      ],
+      "popup": true,
+      "diagnostics": {
+        "last": {
+          "code": "ICON-DIIM",
+          "role": "ASSASSIN",
+          "eventType": "ICON_SKILL",
+          "serverRows": 1,
+          "appliedRows": 1,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY"
+        },
+        "muzzle": null,
+        "metrics": {
+          "skills": 7,
+          "basics": 31,
+          "serverRows": 42,
+          "appliedRows": 42,
+          "roles": [
+            "ASSASSIN",
+            "SUPPORT"
+          ]
+        }
+      },
+      "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3"
+    },
+    "errors": []
+  },
+  {
+    "width": 390,
+    "mode": "PVP",
+    "complete": true,
+    "diagnostic": {
+      "last": {
+        "code": "ICON-DIIM",
+        "role": "ASSASSIN",
+        "eventType": "ICON_SKILL",
+        "serverRows": 1,
+        "appliedRows": 1,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY"
+      },
+      "muzzle": null,
+      "metrics": {
+        "skills": 1,
+        "basics": 5,
+        "serverRows": 7,
+        "appliedRows": 7,
+        "roles": [
+          "ASSASSIN"
+        ]
+      }
+    },
+    "errors": []
+  }
+]

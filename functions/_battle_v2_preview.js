@@ -470,6 +470,11 @@ const BATTLE_SUIT_APOCALYPSE_GATE_EXPONENT = 3;
 const APOCALYPSE_FLOOR_GAIN = 1.7;
 const APOCALYPSE_FLOOR_SCALE_MIN = 0.4;
 const APOCALYPSE_FLOOR_SCALE_MAX = 6;
+// The legacy gauge advanced at least .001 per card. Faster/ICON queues now
+// drain exact ready times: counting their actions alone accelerated the boss
+// while the battle suit kept its independent clock. Preserve the old minimum
+// interval for forced turns, without slowing cards or changing natural turns.
+const APOCALYPSE_FORCED_ACTION_MIN_STEP = .001;
 const APOCALYPSE_MAGIC_CAP_HITS = 1;
 // 2026-09-11: 성배 운영 강탈률 60% → 15%와 함께 기존 아포 상한도 1/4로 낮춘다.
 // 비율만 바꾸면 보스의 큰 보호막에서는 계속 기존 상한에 걸려 하향이 적용되지 않는다.
@@ -479,6 +484,7 @@ const APOCALYPSE_SUIT_PIERCE_REFERENCE_RATIO = 0.15;
 const APOCALYPSE_SUIT_PIERCE_MAX_RATIO_SCALE = 2;
 const APOCALYPSE_SUIT_PIERCE_DECK_GATE_EXPONENT = 2;
 export const APOCALYPSE_RULES = Object.freeze({
+  forcedActionMinStep: APOCALYPSE_FORCED_ACTION_MIN_STEP,
   floorGain: APOCALYPSE_FLOOR_GAIN,
   magicCapHits: APOCALYPSE_MAGIC_CAP_HITS,
   shieldSiphonCapMultiplier: APOCALYPSE_SHIELD_SIPHON_CAP_MULTIPLIER,
@@ -775,6 +781,9 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const mercenaryActionAvailable=actor=>!actor.isMercenary||mercenaryActionsBySide[actor.side]<maxActions*2;
   // V1813: 몬스터 강제 행동까지 남은 플레이어 행동 수를 센다.
   let playerStreak = 0;
+  const apocalypseForcedInterval = !cooperative&&!escortObjective&&b.some(c=>c.isApocalypse)
+    ? Math.max(0,Number(forcedMonsterEvery)||0)*APOCALYPSE_FORCED_ACTION_MIN_STEP : 0;
+  let lastApocalypseMonsterTurnAt = 0;
   // Only an explicitly accelerated monster earns a distributed action budget.
   // Seven completed card actions used to buy one boss turn; Akaza earns five
   // evenly spaced turns instead, without waiting for a whole five-hit burst.
@@ -1386,7 +1395,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
           const due = accelerated.find(card => (monsterActionCredit.get(card.id) || 0) >= Math.max(1, forcedMonsterEvery - 1));
           if (due) { actor = due; actor.gauge = 100; }
           else for (const card of accelerated) monsterActionCredit.set(card.id, (monsterActionCredit.get(card.id) || 0) + card.actionFrequency);
-        } else if (++playerStreak >= forcedMonsterEvery) {
+        } else if (++playerStreak >= forcedMonsterEvery && clock-lastApocalypseMonsterTurnAt+1e-9>=apocalypseForcedInterval) {
           const waiting = alive(b).filter(card => card.isMonster);
           if (waiting.length) {
             actor = waiting.sort((x, y) => y.gauge - x.gauge || x.slot - y.slot)[0];
@@ -1396,6 +1405,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       }
     }
     if (actor.isMonster) {
+      if(actor.isApocalypse&&!repeatedMonsterAction)lastApocalypseMonsterTurnAt=clock;
       playerStreak = 0;
       if (actor.actionFrequency > 1) monsterActionCredit.set(actor.id, Math.max(0, (monsterActionCredit.get(actor.id) || 0) - Math.max(1, forcedMonsterEvery - 1)));
       if (!repeatedMonsterAction) {

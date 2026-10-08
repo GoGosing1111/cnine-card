@@ -14,7 +14,9 @@ test('approved two bosses start with exactly six independently identified minion
  assert.equal(createPvpBattleV2({attackerCards:party(100000),defenderCards:party(100000)}).teams.B.cards.length,5);
 });
 test('server sim owns three casts, all seven enemy deaths are required, no reward multiplied by minion count',()=>{
- const b=createPveBattleV2({cards:party(10000000),monster:monster(75),bossUltimatePercent:95,seed:83});
+ // Give the boss time to complete its own three actions. A vastly stronger
+ // fast deck may now kill it before those casts instead of feeding free turns.
+ const b=createPveBattleV2({cards:party(2000000),monster:monster(75),bossUltimatePercent:95,seed:83});
  const skills=b.result.timeline.filter(e=>e.type==='APOCALYPSE_SKILL');assert.deepEqual(skills.map(e=>e.kind),['seal','curse','ultimate']);
  assert.equal(new Set(skills.map(e=>e.skillCode)).size,3);
  assert(b.result.timeline.some(e=>e.type==='TURN'&&e.actorId?.includes('ESCORT:')));
