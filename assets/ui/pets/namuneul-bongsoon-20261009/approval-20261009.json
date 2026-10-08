@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "status": "SOURCE_ART_AND_LIVE_CONNECTION_APPROVED",
+  "approvalDate": "2026-10-09",
+  "timezone": "Asia/Seoul",
+  "userApproval": "펫 리소스 승인하고 라이브 연결해 나무늘봉순",
+  "approvedAsset": {
+    "code": "PET-NAMUNEUL-BONGSOON",
+    "name": "나무늘봉순",
+    "animal": "나무늘보",
+    "path": "assets/ui/pets/namuneul-bongsoon-20261009/pet-namuneul-bongsoon-sloth-sd-approved.png",
+    "sha256": "c7638ec033002657ee4e0278174f99f819d0018345936710d2aaad46161781e2"
+  },
+  "integrity": {
+    "width": 1254,
+    "height": 1254,
+    "format": "PNG",
+    "mode": "RGBA",
+    "postProcessing": "none; byte-identical copy of approved generated SD image",
+    "regenerationAllowedWithoutNewUserDirection": false
+  },
+  "generationRecord": "assets/ui/pets/namuneul-bongsoon-20261009/generation.json",
+  "connection": {
+    "catalog": "shared/pet-art-catalog-v1.mjs",
+    "sourceArt": "assets/ui/pets/namuneul-bongsoon-20261009/pet-namuneul-bongsoon-sloth-sd-approved.png",
+    "battleSprite": "assets/ui/pets/namuneul-bongsoon-20261009/pet-namuneul-bongsoon-sloth-sd-approved.png",
+    "modes": [
+      "PVE",
+      "PVP"
+    ],
+    "target": "ALL_ALLIES",
+    "buff": {
+      "type": "ATTACK_PERCENT",
+      "percent": 10,
+      "source": "existing CMS new-pet default"
+    },
+    "liveEnabled": true,
+    "ownershipRequired": true,
+    "openingPoolWeights": "unchanged; no automatic pool enrollment",
+    "autoGrant": false
+  },
+  "preservation": {
+    "existingPenguinBongsoon": "PET-BONGSOON remains separate and unchanged",
+    "rejectedPhotographicVersion": "not used"
+  }
+}
+
