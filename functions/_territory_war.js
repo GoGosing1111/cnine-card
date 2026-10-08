@@ -670,7 +670,7 @@ async function singleFormationSnapshot(env,deps,user,deck,battle){
   const synergyPromise=typeof deps.evaluateDeckSynergiesBatch==='function'?deps.evaluateDeckSynergiesBatch(env,[{user,deckIds:ids}],'PVP').then(rows=>rows[0]):typeof deps.evaluateDeckSynergies==='function'?deps.evaluateDeckSynergies(env,user,ids,'PVP',{forceOwnerTest:String(user?.role||'').toUpperCase()==='OWNER'}):Promise.resolve({totals:{attackPercent:0}});
   const magicPromise=typeof deps.magicBattleLoadouts==='function'?deps.magicBattleLoadouts(env,[user],'PVP').then(rows=>rows[0]):typeof deps.magicBattleLoadout==='function'?deps.magicBattleLoadout(env,user,'PVP'):Promise.resolve({enabled:false,cards:[]});
   const [loadoutBonus,uniqueStates,synergy,magicLoadout]=await Promise.all([typeof deps.userEquipmentBonuses==='function'?deps.userEquipmentBonuses(env,user.id):Promise.resolve({pvp:0}),uniquePromise,synergyPromise,magicPromise]);
-  return buildFormationSnapshot({cards,uniqueState:uniqueStates[0],synergy,loadoutBonus:{...loadoutBonus,pet:await loadPetBattleSnapshot(env,user,'PVP'),mercenary:await releasedMercenarySnapshot(env,user)},magicLoadout});
+  return buildFormationSnapshot({cards,uniqueState:uniqueStates[0],synergy,loadoutBonus:{...loadoutBonus,pet:await loadPetBattleSnapshot(env,user,'PVP'),mercenary:await releasedMercenarySnapshot(env,user,'PVP')},magicLoadout});
 }
 async function formationDecks(env,deps,users,battle){
   const byKey=new Map();if(!users.length)return new Map();
@@ -693,7 +693,7 @@ async function refreshFormationSnapshots(env,deps,roundId,users,battle){
       const deck=await deps.pvpDeckSnapshotByIds(env,user.id,snapshotIds(row.deck_snapshot));
       row.deck_snapshot=deck.length===5?JSON.stringify(deck.map(card=>String(card.id))):'[]';
     }
-    row.loadout_bonus_json=JSON.stringify({...equipment,pet:await loadPetBattleSnapshot(env,user,'PVP'),mercenary:await releasedMercenarySnapshot(env,user),clanRosterHydrated:true});
+    row.loadout_bonus_json=JSON.stringify({...equipment,pet:await loadPetBattleSnapshot(env,user,'PVP'),mercenary:await releasedMercenarySnapshot(env,user,'PVP'),clanRosterHydrated:true});
   }));
   if(pending.length)await batchChunks(env,pending.map(row=>env.DB.prepare('UPDATE territory_war_v3_users SET deck_snapshot=? WHERE round_id=? AND user_id=?').bind(row.deck_snapshot,roundId,row.user_id)));
   const deckMap=await formationDecks(env,deps,users,battle),entries=users.map(row=>({user:{id:Number(row.user_id),nickname:String(row.nickname||''),role:String(row.role||'USER')},cards:deckMap.get(Number(row.user_id))||[]}));

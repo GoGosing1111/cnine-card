@@ -315,7 +315,7 @@ export async function handleEscortOperation({path,request,env,deps}){
     if(weekly.startedCount>=cfg.weeklyRunLimit)return json({error:`이번 주 출전 가능 횟수 ${cfg.weeklyRunLimit}회를 모두 사용했습니다.`},409);
     if(weekly.rewardCount>=cfg.weeklyRewardLimit)return json({error:`이번 주 보상 횟수 ${cfg.weeklyRewardLimit}회를 모두 달성했습니다.`},409);
     const deck=rankCards(await pveDeckSnapshot(env,user.id),await accountRankBenefits(env,user.id,'ESCORT'));if(deck.length!==5)return json({error:'PVE 출전 덱 5장을 먼저 저장하세요.'},400);
-    const runId=crypto.randomUUID(),state={phase:'READY',pet:await loadPetBattleSnapshot(env,user,'PVE'),mercenary:await releasedMercenarySnapshot(env,user),mercenaryHpPercent:100,cardHp:Object.fromEntries(deck.map(card=>[String(card.id),100])),pendingTactic:null,choices:[],history:[]};
+    const runId=crypto.randomUUID(),state={phase:'READY',pet:await loadPetBattleSnapshot(env,user,'PVE'),mercenary:await releasedMercenarySnapshot(env,user,'PVE'),mercenaryHpPercent:100,cardHp:Object.fromEntries(deck.map(card=>[String(card.id),100])),pendingTactic:null,choices:[],history:[]};
     await env.DB.batch([
       env.DB.prepare(`INSERT INTO ${RUN_TABLE}(run_id,user_id,week_key,status,sector_index,vehicle_hp,vehicle_max_hp,deck_snapshot,state_json) VALUES(?,? ,?,'ACTIVE',0,?,?,?,?)`).bind(runId,user.id,key,cfg.vehicleMaxHp,cfg.vehicleMaxHp,JSON.stringify(deck),JSON.stringify(state)),
       env.DB.prepare(`INSERT INTO ${WEEKLY_TABLE}(user_id,week_key,started_count,updated_at) VALUES(?,?,1,CURRENT_TIMESTAMP) ON CONFLICT(user_id,week_key) DO UPDATE SET started_count=${WEEKLY_TABLE}.started_count+1,updated_at=CURRENT_TIMESTAMP`).bind(user.id,key)

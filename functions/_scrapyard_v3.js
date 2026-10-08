@@ -74,7 +74,7 @@ export async function loadScrapyardV3Snapshot(env, user, deps, mode = 'PVE') {
   const ultimateSource = ultimate?.matchedCards?.[0];
   const ultimateDamage = ultimateSource ? Math.max(0, Math.floor(Number(ultimateSource.power || 0) * Number(ultimate.rule?.coefficientPercent || 0) / 100)) : 0;
   if (!Number.isSafeInteger(ultimateDamage)) fail('SCRAPYARD_V3_DECK', '궁극기 전투력을 확인할 수 없습니다.');
-  const mercenary=deps.loadMercenaryBattleSnapshot?await deps.loadMercenaryBattleSnapshot(env,user):null;
+  const mercenary=deps.loadMercenaryBattleSnapshot?await deps.loadMercenaryBattleSnapshot(env,user,'PVE'):null;
   const pet=Object.hasOwn(deck,'pet')?deck.pet:env.DB?await (deps.loadPetBattleSnapshot||loadPetBattleSnapshot)(env,user,'PVE'):null;
   const snapshot = {pet,schemaVersion:1, userId:user.id, accountNickname:String(user.nickname || ''), cards:rankCards(cards,env.DB?await accountRankBenefits(env,user.id,mode==='PVE'?'SCRAPYARD':mode):{attackBp:0,hpBp:0}),...(mercenary?{mercenary}:{}),
     cardSupportBonus, battleSuit, characterBonus:equipment, magicCards:magic?.cards || [], ultimateDamage,

@@ -1,0 +1,79 @@
+{
+  "checks": [
+    "desktop: independent selection, one-copy reuse, clear isolation, reload, cross-mode receipt recovery, mode-specific deck power and link, no overflow",
+    "mobile: independent selection, one-copy reuse, clear isolation, reload, cross-mode receipt recovery, mode-specific deck power and link, no overflow"
+  ],
+  "writes": [
+    {
+      "mode": "PVE",
+      "code": "V-001",
+      "revision": 0
+    },
+    {
+      "mode": "PVP",
+      "code": "V-996",
+      "revision": 0
+    },
+    {
+      "mode": "PVP",
+      "code": "V-001",
+      "revision": 1
+    },
+    {
+      "mode": "PVE",
+      "code": null,
+      "revision": 1
+    },
+    {
+      "mode": "PVE",
+      "code": "V-002",
+      "revision": 2
+    },
+    {
+      "mode": "PVP",
+      "code": "V-996",
+      "revision": 2
+    },
+    {
+      "mode": "PVP",
+      "code": "V-996",
+      "revision": 2
+    },
+    {
+      "mode": "PVE",
+      "code": "V-001",
+      "revision": 0
+    },
+    {
+      "mode": "PVP",
+      "code": "V-996",
+      "revision": 0
+    },
+    {
+      "mode": "PVP",
+      "code": "V-001",
+      "revision": 1
+    },
+    {
+      "mode": "PVE",
+      "code": null,
+      "revision": 1
+    },
+    {
+      "mode": "PVE",
+      "code": "V-002",
+      "revision": 2
+    },
+    {
+      "mode": "PVP",
+      "code": "V-996",
+      "revision": 2
+    },
+    {
+      "mode": "PVP",
+      "code": "V-996",
+      "revision": 2
+    }
+  ],
+  "errors": []
+}

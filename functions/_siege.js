@@ -1612,7 +1612,7 @@ export async function handleSiege({ path, request, env, deps }) {
         pveEquipmentRuntime: characterBonus.pveEquipmentRuntime,
         pet:await loadPetBattleSnapshot(env,user,'PVE'),
         cards: engineDeck,
-        mercenary: await releasedMercenarySnapshot(env,user),
+        mercenary: await releasedMercenarySnapshot(env,user,'PVE'),
         characterBonus: siegePveBonus,
         monster,
         seed,

@@ -1080,14 +1080,14 @@ function pvpScoreAdjustment(base,isWin,myCard,opponentCard,settings){const cfg=s
 function pvpSeasonScoreAdjustment(isWin,myScore,opponentScore){return rankedScoreAdjustment(isWin,myScore,opponentScore)}
 function pvpTierIndex(score,tiers=[]){const resolved=resolveTier(Number(score||0),tiers);return Math.max(0,(tiers||[]).findIndex(tier=>tier.id===resolved.id))}
 async function pvpFormationPower(env,userId,battle,{defense=false}={}){
-  const [deck,bonus,mercenary]=await Promise.all([pvpDeckSnapshot(env,userId,defense),userEquipmentBonuses(env,userId),releasedMercenarySnapshot(env,{id:userId})]);
+  const [deck,bonus,mercenary]=await Promise.all([pvpDeckSnapshot(env,userId,defense),userEquipmentBonuses(env,userId),releasedMercenarySnapshot(env,{id:userId},'PVP')]);
   if(deck.length!==5)return {power:0,deckReady:false};
   return {power:Math.max(1,deck.reduce((sum,card)=>sum+cardBattlePower(card,Number(card.breakthrough_level||0),battle),0)+Number(bonus.pvp||0)+mercenarySnapshotPower(mercenary)),deckReady:true};
 }
 async function pvpDefenseFormationPowers(env,userIds,battle){
   const ids=[...new Set((userIds||[]).map(Number).filter(Boolean))];if(!ids.length)return new Map();const marks=ids.map(()=>'?').join(',');
   const [mercenaries,forgeBonuses,cardRows,equipmentRows,garageRows,titleRows]=await Promise.all([
-    releasedMercenarySnapshots(env,ids),FORGE_RUNTIME_RELEASE_ENABLED?forgeEquipmentBonuses(env,ids):Promise.resolve(new Map()),
+    releasedMercenarySnapshots(env,ids,'PVP'),FORGE_RUNTIME_RELEASE_ENABLED?forgeEquipmentBonuses(env,ids):Promise.resolve(new Map()),
     // Keep the five JSON deck ids as the outer loop. The previous implicit JOIN
     // order scanned every owned card (and, in practice, the effective card view)
     // for every candidate, producing tens of millions of reads per matchmaking
@@ -1465,7 +1465,7 @@ async function raidDeckPower(env,userId,cardIds,mode='RAID'){
   const battleCards=unique?.cards?.length?unique.cards:cards;
   const basePower=Number(unique.power||cards.reduce((n,c)=>n+Number(c.power||0),0));
   const cardPower=Math.max(0,Math.floor(basePower*(1+Number(synergy.totals.attackPercent||0)/100+Number(synergy.totals.bossDamagePercent||0)/100)));
-  const mercenary=await releasedMercenarySnapshot(env,deckUser),mercenaryPower=mercenarySnapshotPower(mercenary),power=cardPower+Number(characterBonus.pve||0)+mercenaryPower;
+  const mercenary=await releasedMercenarySnapshot(env,deckUser,'PVE'),mercenaryPower=mercenarySnapshotPower(mercenary),power=cardPower+Number(characterBonus.pve||0)+mercenaryPower;
   return {ids,power,basePower,cardPower,characterBonus,synergy,unique,pet:await loadPetBattleSnapshot(env,deckUser,'PVE'),cards:battleCards,battleSettings:battleCfg,...(mercenary?{mercenary,mercenaryPower}:{})};
 }
 
@@ -1736,7 +1736,7 @@ async function resolveAutoBattle(env,user,settings,monster,cards,ids,uniqueBattl
     const seed=parseInt(drawIntegrityHash(`${user.id}:${monster.id}:${requestId}`),16)>>>0;
     const engineCards=cards.map(card=>{const uniqueCard=uniqueCardsById.get(String(card.id));return {...card,id:String(card.id),power:Math.max(1,Math.floor(Number(card.power||0)*synergyMultiplier)),uniqueAbility:uniqueCard?.uniqueAbility||null,uniqueAdvancement:uniqueCard?.uniqueAdvancement||null, iconRole:uniqueCard?.iconRole||null}});
     const battleSuit=battleSuitDamage>0&&characterBonus.equippedBattleSuit?{...characterBonus.equippedBattleSuit,pvePower:battleSuitDamage,weapon:characterBonus.equippedWeapon||null,accountNickname:user.nickname}:null;
-    battleV2=createPveBattleV2({pveEquipmentRuntime:characterBonus.pveEquipmentRuntime,pet:await loadPetBattleSnapshot(env,user,'PVE'),mercenary:await releasedMercenarySnapshot(env,user),cards:rankCards(engineCards,await accountRankBenefits(env,user.id,difficulty.isApocalypse?'APOCALYPSE':'HUNT')),magicCards:magicLoadout.cards||[],characterBonus:nonBattleSuitSupport,battleSuit,monster:difficulty.engineMonster,seed,ultimateDamage,bossUltimatePercent:bossShouldCast?bossPveDamagePercent:0,bossUltimateCapPercent:difficulty.bossUltimateCapPercent,singleHealerBonus:engineState.singleHealerBonus});
+    battleV2=createPveBattleV2({pveEquipmentRuntime:characterBonus.pveEquipmentRuntime,pet:await loadPetBattleSnapshot(env,user,'PVE'),mercenary:await releasedMercenarySnapshot(env,user,'PVE'),cards:rankCards(engineCards,await accountRankBenefits(env,user.id,difficulty.isApocalypse?'APOCALYPSE':'HUNT')),magicCards:magicLoadout.cards||[],characterBonus:nonBattleSuitSupport,battleSuit,monster:difficulty.engineMonster,seed,ultimateDamage,bossUltimatePercent:bossShouldCast?bossPveDamagePercent:0,bossUltimateCapPercent:difficulty.bossUltimateCapPercent,singleHealerBonus:engineState.singleHealerBonus});
     result=battleV2.result.winner==='A'?'WIN':'LOSE';
   }else result=Math.max(0,uniquePlayerPower+ultimateDamage-bossUltimatePenalty)>=monsterPower?'WIN':'LOSE';
   const damageBreakdown=battleV2?.result?.damageBreakdown||{cards:cardPower,support:nonBattleSuitSupport,battleSuit:battleSuitDamage,ultimate:ultimateDamage,total:uniquePlayerPower+ultimateDamage,authority:'SERVER_SWEEP_FALLBACK'};
@@ -6525,7 +6525,7 @@ async function handleRequest(context){
       // 어차피 이 시점에 필요한 다른 조회들과 독립적이므로 같은 Promise.all 에 합친다.
       // PIPE-0920: 뒤에서 순차로 기다리던 용병 스냅샷·계정 랭크 혜택(2번 호출되던 것)도 같은 묶음으로 미리 읽는다.
       const rankScope=difficulty.isApocalypse?'APOCALYPSE':'HUNT';
-      const [synergy,characterBonus,magicLoadout,pveMagicSettings,avatarEffect,mercenarySnapshot,rankBenefits]=await Promise.all([evaluateDeckSynergies(env,user,ids,'PVE',{forceOwnerTest:String(user.role||'').toUpperCase()==='OWNER'}),userEquipmentBonuses(env,user.id),magicBattleLoadout(env,user,'PVE'),magicSettings(env),equippedAvatarEffect(env,user.id),releasedMercenarySnapshot(env,user),accountRankBenefits(env,user.id,rankScope)]);
+      const [synergy,characterBonus,magicLoadout,pveMagicSettings,avatarEffect,mercenarySnapshot,rankBenefits]=await Promise.all([evaluateDeckSynergies(env,user,ids,'PVE',{forceOwnerTest:String(user.role||'').toUpperCase()==='OWNER'}),userEquipmentBonuses(env,user.id),magicBattleLoadout(env,user,'PVE'),magicSettings(env),equippedAvatarEffect(env,user.id),releasedMercenarySnapshot(env,user,'PVE'),accountRankBenefits(env,user.id,rankScope)]);
       engineState=pveBattleEngineState(settings,user,characterBonus);
       const synergyMultiplier=1+Number(synergy.totals.attackPercent||0)/100+(monster.is_boss?Number(synergy.totals.bossDamagePercent||0)/100:0),cardPower=Math.max(0,Math.floor(uniqueEffectivePower*synergyMultiplier)),playerPower=cardPower+Number(characterBonus.pve||0);
       const totalBattleDamage=playerPower+ultimateDamage,preliminaryResult=totalBattleDamage>=monsterPower?'WIN':'LOSE';
@@ -6908,7 +6908,7 @@ async function handleRequest(context){
         magicBattleLoadout(env,user,'PVP'),
         magicBattleLoadout(env,defUserRole,'PVP',{presetNo:1}),
         equippedAvatarEffect(env,user.id),
-        releasedMercenarySnapshot(env,user),releasedMercenarySnapshot(env,defUser),loadPetBattleSnapshot(env,user,'PVP'),loadPetBattleSnapshot(env,defUser,'PVP')
+        releasedMercenarySnapshot(env,user,'PVP'),releasedMercenarySnapshot(env,defUser,'PVP'),loadPetBattleSnapshot(env,user,'PVP'),loadPetBattleSnapshot(env,defUser,'PVP')
       ]);
       context.pvpTiming?.mark('loadouts');
       const [aUnique,dUnique]=uniqueStates;

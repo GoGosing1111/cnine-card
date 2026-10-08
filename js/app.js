@@ -5514,7 +5514,7 @@ function bindPvpDeckFilters(list,user=loadUser()){
 }
 function pvpDeckStats(cardIds,user=loadUser()){
   const ids=Array.isArray(cardIds)?cardIds:[],cardPower=ids.reduce((sum,id)=>{const card=cards.find(item=>String(item.id)===String(id));return sum+(card?battleCardPower(card,user,pvpState.battleConfig||battleState.config):0)},0),support=Number(pvpState.characterBonus?.pvp||0);
-  return {count:deckCardCount(ids),cardPower,totalPower:deckCardCount(ids)?cardPower+support+Number(globalThis.MercenaryDeckSlot?.power?.()||0):0};
+  return {count:deckCardCount(ids),cardPower,totalPower:deckCardCount(ids)?cardPower+support+Number(globalThis.MercenaryDeckSlot?.power?.('PVP')||0):0};
 }
 addEventListener('mercenary-deployment:changed',()=>{
   if(document.getElementById('battleDeck'))renderBattleBuilder();

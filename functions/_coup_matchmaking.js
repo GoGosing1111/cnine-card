@@ -27,7 +27,7 @@ async function candidateFormations(env, deps, rows, battle) {
     deps.cardUniqueDeckStates ? deps.cardUniqueDeckStates(env, entries, 'PVP') : entries.map(e => ({ power: e.cards.reduce((sum, c) => sum + c.power, 0) })),
     deps.evaluateDeckSynergiesBatch ? deps.evaluateDeckSynergiesBatch(env, entries, 'PVP') : Promise.all(entries.map(e => deps.evaluateDeckSynergies ? deps.evaluateDeckSynergies(env, e.user, e.deckIds, 'PVP', { forceOwnerTest: e.user.role === 'OWNER' }) : { totals: { attackPercent: 0 } })),
     deps.magicBattleLoadouts ? deps.magicBattleLoadouts(env, entries.map(e => e.user), 'PVP') : Promise.all(entries.map(e => deps.magicBattleLoadout ? deps.magicBattleLoadout(env, e.user, 'PVP') : { enabled: false, cards: [] })),
-    releasedMercenarySnapshots(env, entries.map(e => e.user.id)),
+    releasedMercenarySnapshots(env, entries.map(e => e.user.id), 'PVP'),
     Promise.all(entries.map(e => deps.userEquipmentBonuses ? deps.userEquipmentBonuses(env, e.user.id) : { pvp: 0 }))
   ]);
   return entries.map((e, i) => {

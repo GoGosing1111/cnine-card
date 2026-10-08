@@ -18,7 +18,8 @@ test('용병도감은 내 용병을 기본으로 표시하고 전체 도감을 �
 });
 
 test('선택 상세에서 기존 원자 편성 계약만 호출하고 유실 응답을 같은 요청으로 복구한다',()=>{
-  assert.match(client,/requestId:crypto\.randomUUID\(\),mercenaryCode,revision:account\.loadout\.revision/);
+  assert.match(client,/requestId:crypto\.randomUUID\(\),mercenaryCode,mode:loadoutMode,revision:activeLoadout\(\)\.revision/);
+  for(const mode of ['PVE','PVP'])assert.ok(html.includes(`data-loadout-mode="${mode}"`));
   assert.match(client,/localStorage\.setItem\(pendingKey\(\),JSON\.stringify\(pending\)\)/);
   assert.match(client,/api\(`mercenaries\/v3\/\$\{pending\.action\}`/);
   assert.match(client,/data-recover-loadout/);

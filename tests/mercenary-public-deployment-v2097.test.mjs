@@ -40,11 +40,11 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: ordi
  assert.equal((await call('mercenaries/v3/train',{requestId:crypto.randomUUID(),mercenaryCode:'V-002',revision:0,quantity:1})).status,423);
  assert.equal(await f.coin(),10000000);
 });
-test('deployment exposes 5+1 independently and both real deck builders provide the same owned slot',()=>{
+test('deployment exposes 5+1 independently and both real deck builders link to their own mode',()=>{
  assert.equal(V3_JOINT_RELEASE_ENABLED,false);assert.equal(v3JointReleaseState().publicContent.MERCENARY.enabled,true);
  const module=fs.readFileSync('js/mercenary-deck-slot.mjs','utf8'),draw=fs.readFileSync('admin/mercenary-draw-admin-v1.js','utf8');
  assert.match(module,/\['battleDeck','PVE'\]/);assert.match(module,/\['pvpDeckSlots','PVP'\]/);assert.match(module,/deck\.after\(host\)/);assert.match(module,/mercenaries\/v3\/state/);assert.match(draw,/data-hyper-opening/);
- assert.match(module,/href="\/mercenary-codex\/\?view=owned"/);
+ assert.match(module,/href="\/mercenary-codex\/\?view=owned&amp;mode=\$\{mode\}"/);
  assert.match(fs.readFileSync('index.html','utf8'),/mercenary-deck-slot\.mjs\?v=2133/);
 });
 test('displayed PVP power adds the separately deployed mercenary once without counting it as a card',()=>{

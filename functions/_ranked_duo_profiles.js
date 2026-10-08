@@ -1,3 +1,4 @@
+import {readMercenaryModes} from './_mercenary_loadout_modes.js';
 import {strongestDuoCards,validateDuoDeck,duoError,DUO_LIMITS} from '../shared/ranked-duo-v1.mjs';
 import {forgePower} from '../shared/equipment-forge-policy-v1.mjs';
 import {FORGE_RUNTIME_RELEASE_ENABLED} from '../shared/equipment-forge-release-v1.mjs';
@@ -28,14 +29,14 @@ async function rebuild(env,versions,config,deps,hash,now){
  const ids=versions.map(v=>Number(v.user_id)),m=marks(ids),p=(sql)=>env.DB.prepare(sql).bind(...ids).all();
  // Rebuild only changed accounts. All row reads use user-leading indexes;
  // the limit is a hard input budget, never silently truncated into a rating.
- const [owned,decks,gear,vehicles,titles,mercRows,battle,mercDocument,mercRuntime]=await Promise.all([
+ const [owned,decks,gear,vehicles,titles,mercRows,battle,mercDocument,mercRuntime,mercLoadouts]=await Promise.all([
   p(`SELECT uc.user_id,c.id,c.title,c.rarity,c.power_type,c.base_power,c.image_url AS image,c.focus_x,c.focus_y,mb.name,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id LEFT JOIN members mb ON mb.id=c.member_id WHERE uc.user_id IN (${m}) AND uc.quantity>0 LIMIT 65537`),
   p(`SELECT d.user_id,d.card_ids AS defense_ids,CASE WHEN COALESCE(a.preset_no,1)=1 THEN COALESCE(pr.card_ids,d.card_ids) ELSE pr.card_ids END AS attack_ids,COALESCE(a.preset_no,1) AS preset_no FROM pvp_decks d LEFT JOIN pvp_active_presets a ON a.user_id=d.user_id LEFT JOIN pvp_deck_presets pr ON pr.user_id=a.user_id AND pr.preset_no=a.preset_no WHERE d.user_id IN (${m})`),
   readDuoEquipment(env,ids),
   p(`SELECT v.user_id,g.id,g.pvp_power,l.garage_id AS equipped FROM user_garage_vehicles v JOIN character_garage_items g ON g.id=v.garage_id LEFT JOIN user_garage_loadout l ON l.user_id=v.user_id AND l.garage_id=v.garage_id WHERE v.user_id IN (${m}) AND g.is_active=1 LIMIT 65537`),
   p(`SELECT u.user_id,t.id,t.pve_power AS pvp_power,u.expires_at,l.title_id AS equipped FROM user_character_titles u JOIN character_titles t ON t.id=u.title_id LEFT JOIN user_title_loadout l ON l.user_id=u.user_id AND l.title_id=u.title_id WHERE u.user_id IN (${m}) AND t.is_active=1 AND (u.expires_at IS NULL OR u.expires_at>CURRENT_TIMESTAMP) LIMIT 65537`),
-  p(`SELECT c.user_id,c.mercenary_code,l.mercenary_code AS equipped FROM user_mercenary_cards_v1 c LEFT JOIN user_mercenary_loadout_v1 l ON l.user_id=c.user_id AND l.mercenary_code=c.mercenary_code WHERE c.user_id IN (${m}) AND c.total_copies>0 LIMIT 2001`),
-  deps.readBattleSettings(env),readMercenaryDocument(env),readMercenaryRuntime(env)
+  p(`SELECT c.user_id,c.mercenary_code FROM user_mercenary_cards_v1 c WHERE c.user_id IN (${m}) AND c.total_copies>0 LIMIT 2001`),
+  deps.readBattleSettings(env),readMercenaryDocument(env),readMercenaryRuntime(env),readMercenaryModes(env,ids)
  ]);
  for(const rows of [owned,gear,vehicles,titles])if(rows.results.length>65536)throw duoError('PROFILE_SIZE','전력 평가 자료가 처리 한도를 초과했습니다. 운영자에게 문의하세요.');
  if(mercRows.results.length>2000)throw duoError('PROFILE_SIZE','용병 평가 자료를 확인하세요.');
@@ -48,7 +49,7 @@ async function rebuild(env,versions,config,deps,hash,now){
   for(const item of byUser(gear,userId)){const power=FORGE_RUNTIME_RELEASE_ENABLED&&Number(item.level)>0?forgePower(Number(item.total_power),Number(item.level)).pvp:Number(item.pvp_power);slotBest.set(item.slot,Math.max(slotBest.get(item.slot)||0,power));equipment+=power*Number(item.equipped_count||0);}
   let potentialEquipment=[...slotBest.values()].reduce((s,n)=>s+n,0),expires=now+300000;
   for(const source of [vehicles,titles]){const list=byUser(source,userId);potentialEquipment+=Math.max(0,...list.map(r=>Number(r.pvp_power)));equipment+=list.filter(r=>r.equipped).reduce((s,r)=>s+Number(r.pvp_power),0);for(const r of list)if(r.expires_at)expires=Math.min(expires,Date.parse(String(r.expires_at).includes('T')?r.expires_at:r.expires_at.replace(' ','T')+'Z'));}
-  const mercs=byUser(mercRows,userId).map(r=>({...battleConfig(mercDocument.document,r.mercenary_code,1),combat:mercRuntime.combat,equipped:Boolean(r.equipped),cmsRevision:mercDocument.revision}));
+  const mercs=byUser(mercRows,userId).map(r=>({...battleConfig(mercDocument.document,r.mercenary_code,1),combat:mercRuntime.combat,equipped:mercLoadouts.get(userId).loadouts.PVP.mercenaryCode===r.mercenary_code,cmsRevision:mercDocument.revision}));
   const mercenary=mercs.find(m=>m.equipped)||null,mercenaryPower=best.length===5?Math.max(0,...mercs.map(m=>duoMercenaryRating(m,best,potentialEquipment,config.mercenaryWeights[m.code]??1))):0;
   const cardPower=best.reduce((s,c)=>s+c.power,0),power=Math.max(1,Math.round(100*(cardPower+potentialEquipment+mercenaryPower)/Math.max(1,baseline)));
   const valid=deck=>{try{validateDuoDeck(deck);return true;}catch{return false;}};
@@ -75,7 +76,7 @@ const validateAccounts=(versions,count,now)=>{
 };
 export async function loadDuoProfiles(env,userIds,config,deps,{now=Date.now(),wait=profileWait}={}){
  const ids=[...new Set(userIds.map(numeric))];if(!ids.length)return [];if(ids.length>DUO_LIMITS.refreshBatch||ids.some(id=>!Number.isSafeInteger(id)||id<=0))throw duoError('PROFILE_USERS','전력 평가 범위를 확인하세요.');
- const hash=await jointHash({weights:config.mercenaryWeights}),started=Date.now();
+ const hash=await jointHash({weights:config.mercenaryWeights,mercenaryLoadoutMode:'PVP-v1'}),started=Date.now();
  for(let attempt=0;attempt<=profileRetryDelays.length;attempt++){
   const at=now+Math.max(0,Date.now()-started),versions=await duoVersions(env,ids),profiles=new Map();
   validateAccounts(versions,ids.length,at);

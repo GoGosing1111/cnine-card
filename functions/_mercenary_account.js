@@ -1,3 +1,4 @@
+import {mercenaryMode,readMercenaryModes,mercenaryModeGuard,mercenaryModeStatements} from './_mercenary_loadout_modes.js';
 import {LIMITED_MERCENARIES} from '../shared/mercenary-limited-catalog-v1.mjs';
 import {limitedDeploymentSnapshot} from '../shared/mercenary-limited-deployment-v1.mjs';
 import {readJointReleaseComponent} from './_joint_release_document.js';
@@ -18,15 +19,18 @@ import {MERCENARY_DEPLOYMENT_RELEASE_ENABLED,mercenaryDeploymentState} from '../
 import {pickMercenaryDraw,mercenaryCardAcquisitionStatements} from './_mercenary_draw_accounting.js';
 import {prepareMercenarySsOnce,pickMercenarySsOnce,consumeMercenarySsOnce} from './_mercenary_ss_once.js';
 import {jointError} from './_joint_request.js';
-import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
+import {jointGuardEnd} from './_joint_atomic.js';
 import {ensureJointTransactionSchema,saveJointPolicyDraft,runJointOperation,readJointOperation,jointCoinDebit,jointInventoryChange} from './_joint_transactions.js';
 
 export const MERCENARY_RUNTIME_KEY='mercenary_runtime_policy_v1';
-export const releasedMercenarySnapshot=(env,user)=>V3_JOINT_RELEASE_ENABLED||MERCENARY_DEPLOYMENT_RELEASE_ENABLED?loadMercenaryBattleSnapshot(env,user):Promise.resolve(null);
-export async function releasedMercenarySnapshots(env,userIds){
+export const releasedMercenarySnapshot=(env,user,mode='PVE')=>V3_JOINT_RELEASE_ENABLED||MERCENARY_DEPLOYMENT_RELEASE_ENABLED?loadMercenaryBattleSnapshot(env,user,mode):Promise.resolve(null);
+export async function releasedMercenarySnapshots(env,userIds,mode='PVE'){
+  mode=mercenaryMode(mode);
   if((!V3_JOINT_RELEASE_ENABLED&&!MERCENARY_DEPLOYMENT_RELEASE_ENABLED)||!userIds.length)return new Map();
   const ids=[...new Set(userIds.map(Number))];if(ids.some(id=>!Number.isSafeInteger(id)||id<=0)||ids.length>200)throw jointError('MERCENARY_USERS','계정 범위를 확인하세요.');
-  const rows=(await env.DB.prepare(`SELECT l.user_id,l.mercenary_code,COALESCE(g.level,1) AS level FROM user_mercenary_loadout_v1 l JOIN user_mercenary_cards_v1 c ON c.user_id=l.user_id AND c.mercenary_code=l.mercenary_code LEFT JOIN user_mercenary_growth_v1 g ON g.user_id=l.user_id AND g.mercenary_code=l.mercenary_code WHERE l.user_id IN (${ids.map(()=>'?').join(',')}) AND l.mercenary_code IS NOT NULL`).bind(...ids).all()).results;
+  const loadouts=await readMercenaryModes(env,ids),selected=ids.map(id=>[id,loadouts.get(id).loadouts[mode].mercenaryCode]).filter(([,code])=>code);
+  if(!selected.length)return new Map();
+  const rows=(await env.DB.prepare(`WITH selected(user_id,mercenary_code) AS (VALUES ${selected.map(()=>'(CAST(? AS BIGINT),CAST(? AS TEXT))').join(',')}) SELECT s.user_id,s.mercenary_code,COALESCE(g.level,1) AS level FROM selected s JOIN user_mercenary_cards_v1 c ON c.user_id=s.user_id AND c.mercenary_code=s.mercenary_code LEFT JOIN user_mercenary_growth_v1 g ON g.user_id=s.user_id AND g.mercenary_code=s.mercenary_code`).bind(...selected.flat()).all()).results;
   if(!rows.length)return new Map();const [{document,revision},runtime]=await Promise.all([readMercenaryDocument(env),readMercenaryRuntime(env)]);
   return attachReleasedMercenaryLevels(env,new Map(rows.map(r=>[Number(r.user_id),{...battleConfig(document,r.mercenary_code,Number(r.level)),combat:runtime.combat,cmsRevision:revision,policyVersion:runtime.version}])));
 }
@@ -81,15 +85,16 @@ export function battleConfig(document,code,level){
   // Individual stat/growth drafts and old QA levels cannot override this launch contract.
   return {code,name:c.name,title:c.title,rank:c.rank,position:c.position,role:c.role,basicTarget:c.basicTarget,skillTarget:c.skillTarget,level:1,statMode:'RANK_FIXED',...ssRearPveSnapshot(c),skills,pendingSkillIds:assigned.filter(s=>!skillsReady([s])).map(s=>s?.id).filter(Boolean),basePower:mercenaryBasePower(c.rank),sourceArt:art.sourceArt,battleSprite:art.battleSprite,actorKind:'MERCENARY'};
 }
-export async function loadMercenaryBattleSnapshot(env,user){
-  const row=await env.DB.prepare('SELECT mercenary_code FROM user_mercenary_loadout_v1 WHERE user_id=?').bind(user.id).first();if(!row?.mercenary_code)return null;
+export async function loadMercenaryBattleSnapshot(env,user,mode='PVE'){
+  mode=mercenaryMode(mode);
+  const record=(await readMercenaryModes(env,[user.id])).get(Number(user.id)),row={mercenary_code:record.loadouts[mode].mercenaryCode};if(!row.mercenary_code)return null;
   await requireOwned(env,user,row.mercenary_code);const {document,revision}=await readMercenaryDocument(env),growth=await growthRow(env,user,row.mercenary_code);
   const runtime=await readMercenaryRuntime(env),snapshot={...battleConfig(document,row.mercenary_code,Number(growth.level)),combat:runtime.combat,cmsRevision:revision,policyVersion:runtime.version};return (await attachReleasedMercenaryLevels(env,new Map([[Number(user.id),snapshot]]))).get(Number(user.id));
 }
 export async function mercenaryAccountState(env,user){
   const leveling=await releasedMercenaryLevelSummary(env,user.id);
-  const [config,policy,owned,loadout,wallet]=await Promise.all([readMercenaryDocument(env),readMercenaryRuntime(env),env.DB.prepare('SELECT c.*,COALESCE(g.level,1) AS level,COALESCE(g.experience,0) AS experience,COALESCE(g.revision,0) AS growth_revision FROM user_mercenary_cards_v1 c LEFT JOIN user_mercenary_growth_v1 g ON g.user_id=c.user_id AND g.mercenary_code=c.mercenary_code WHERE c.user_id=? ORDER BY c.mercenary_code').bind(user.id).all(),env.DB.prepare('SELECT mercenary_code,revision FROM user_mercenary_loadout_v1 WHERE user_id=?').bind(user.id).first(),env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first()]);
-  return {accountId:Number(user.id),leveling:{enabled:leveling.enabled},deployment:mercenaryDeploymentState(),available:MERCENARY_DEPLOYMENT_RELEASE_ENABLED||policy.mode==='ON'||policy.mode==='TEST'&&user.role==='OWNER',coin:String(wallet.coin),policy,cmsRevision:config.revision,loadout:{mercenaryCode:loadout?.mercenary_code||null,revision:Number(loadout?.revision||0)},cards:owned.results.map(row=>{const limited=LIMITED_MERCENARIES.find(c=>c.code===row.mercenary_code);if(limited){const snapshot=limitedDeploymentSnapshot(limited.code);return {...limited,...snapshot,totalCopies:Number(row.total_copies),duplicates:Number(row.duplicate_count),level:1,experience:0,revision:Number(row.growth_revision),growth:null,maxLevel:1,skills:(snapshot?.skills||[]).map(skill=>({...config.document.skills.find(s=>s.mechanic===skill.mechanic),...skill,review:'REVIEWED'})),pendingSkillCount:0,canDeploy:Boolean(snapshot)};}const meta=config.document.mercenaries.find(c=>c.code===row.mercenary_code),art=MERCENARY_CMS_SEED.catalog.cards.find(c=>c.code===row.mercenary_code);return {code:row.mercenary_code,name:meta.name,rank:meta.rank,sourceArt:art.sourceArt,battleSprite:art.battleSprite,totalCopies:Number(row.total_copies),duplicates:Number(row.duplicate_count),level:1,experience:0,revision:Number(row.growth_revision),basePower:meta.rank?mercenaryBasePower(meta.rank):null,growth:config.document.settings.rankGrowth.find(r=>r.rank===meta.rank)||null,maxLevel:meta.growth.maxLevel,...(leveling.enabled?{level:1,experience:0,revision:0,...leveling.rows.find(r=>r.code===row.mercenary_code),maxLevel:20}:{}),skills:assignedSkills(config.document,row.mercenary_code).map(s=>ssRearPveSkillText(mercenaryMoonDrawSkillText(mercenaryGuardSkillText(rangedMercenarySkillText(s,{...meta,attackStyle:mercenaryAttackStyle(meta)}))),meta)),pendingSkillCount:assignedSkills(config.document,row.mercenary_code).filter(s=>!skillsReady([s])).length,canDeploy:Boolean(mercenaryBasePower(meta.rank))};})};
+  const [config,policy,owned,loadout,wallet]=await Promise.all([readMercenaryDocument(env),readMercenaryRuntime(env),env.DB.prepare('SELECT c.*,COALESCE(g.level,1) AS level,COALESCE(g.experience,0) AS experience,COALESCE(g.revision,0) AS growth_revision FROM user_mercenary_cards_v1 c LEFT JOIN user_mercenary_growth_v1 g ON g.user_id=c.user_id AND g.mercenary_code=c.mercenary_code WHERE c.user_id=? ORDER BY c.mercenary_code').bind(user.id).all(),readMercenaryModes(env,[user.id]).then(rows=>rows.get(Number(user.id))),env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first()]);
+  return {accountId:Number(user.id),leveling:{enabled:leveling.enabled},deployment:mercenaryDeploymentState(),available:MERCENARY_DEPLOYMENT_RELEASE_ENABLED||policy.mode==='ON'||policy.mode==='TEST'&&user.role==='OWNER',coin:String(wallet.coin),policy,cmsRevision:config.revision,loadout:loadout.loadouts.PVE,loadouts:loadout.loadouts,cards:owned.results.map(row=>{const limited=LIMITED_MERCENARIES.find(c=>c.code===row.mercenary_code);if(limited){const snapshot=limitedDeploymentSnapshot(limited.code);return {...limited,...snapshot,totalCopies:Number(row.total_copies),duplicates:Number(row.duplicate_count),level:1,experience:0,revision:Number(row.growth_revision),growth:null,maxLevel:1,skills:(snapshot?.skills||[]).map(skill=>({...config.document.skills.find(s=>s.mechanic===skill.mechanic),...skill,review:'REVIEWED'})),pendingSkillCount:0,canDeploy:Boolean(snapshot)};}const meta=config.document.mercenaries.find(c=>c.code===row.mercenary_code),art=MERCENARY_CMS_SEED.catalog.cards.find(c=>c.code===row.mercenary_code);return {code:row.mercenary_code,name:meta.name,rank:meta.rank,sourceArt:art.sourceArt,battleSprite:art.battleSprite,totalCopies:Number(row.total_copies),duplicates:Number(row.duplicate_count),level:1,experience:0,revision:Number(row.growth_revision),basePower:meta.rank?mercenaryBasePower(meta.rank):null,growth:config.document.settings.rankGrowth.find(r=>r.rank===meta.rank)||null,maxLevel:meta.growth.maxLevel,...(leveling.enabled?{level:1,experience:0,revision:0,...leveling.rows.find(r=>r.code===row.mercenary_code),maxLevel:20}:{}),skills:assignedSkills(config.document,row.mercenary_code).map(s=>ssRearPveSkillText(mercenaryMoonDrawSkillText(mercenaryGuardSkillText(rangedMercenarySkillText(s,{...meta,attackStyle:mercenaryAttackStyle(meta)}))),meta)),pendingSkillCount:assignedSkills(config.document,row.mercenary_code).filter(s=>!skillsReady([s])).length,canDeploy:Boolean(mercenaryBasePower(meta.rank))};})};
 }
 
 export async function openMercenaryCards(env,user,body,{randomInt,readOpeningPolicy=readMercenaryRuntime,openingGuards}={}){
@@ -127,15 +132,20 @@ export async function mercenaryOpeningReceipt(env,user,requestId,replayed=true){
 }
 
 export async function saveMercenaryLoadout(env,user,body){
-  const code=body.mercenaryCode===null?null:knownCode(body.mercenaryCode),revision=integer(body.revision,0,2147483646,'편성 버전');
-  const r=await runJointOperation(env,user,{requestId:body.requestId,kind:'MERCENARY_LOADOUT',input:{code,revision},prepare:async()=>{
+  const mode=mercenaryMode(body.mode),code=body.mercenaryCode===null?null:knownCode(body.mercenaryCode),revision=integer(body.revision,0,2147483646,'편성 버전');
+  const r=await runJointOperation(env,user,{requestId:body.requestId,kind:'MERCENARY_LOADOUT',input:body.mode===undefined?{code,revision}:{code,revision,mode},prepare:async()=>{
     allowDeployment(await readMercenaryRuntime(env),user);if(code){await requireOwned(env,user,code);const {document}=await readMercenaryDocument(env);battleConfig(document,code,Number((await growthRow(env,user,code)).level));}
-    return {code,revision};
-  },statements:async plan=>{allowDeployment(await readMercenaryRuntime(env),user);const current=await env.DB.prepare('SELECT revision FROM user_mercenary_loadout_v1 WHERE user_id=?').bind(user.id).first();if(Number(current?.revision||0)!==plan.revision)throw Object.assign(jointError('MERCENARY_LOADOUT_CONFLICT','편성이 변경됐습니다. 최신 상태에서 다시 선택하세요.',409),{terminal:true});const DB=env.DB,token=crypto.randomUUID(),p=(sql,...v)=>DB.prepare(sql).bind(...v);return [
-    jointGuard(DB,token,'COALESCE((SELECT revision FROM user_mercenary_loadout_v1 WHERE user_id=?),0)=?',[user.id,plan.revision]),
-    ...(plan.code?[p('UPDATE joint_atomic_guards_v1 SET verified=CASE WHEN EXISTS(SELECT 1 FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code=?) THEN 1 ELSE 0 END WHERE token=?',user.id,plan.code,token)]:[]),
-    p('INSERT INTO user_mercenary_loadout_v1(user_id,mercenary_code,revision,updated_at) VALUES(?,?,?,?) ON CONFLICT(user_id) DO UPDATE SET mercenary_code=excluded.mercenary_code,revision=excluded.revision,updated_at=excluded.updated_at',user.id,plan.code,plan.revision+1,new Date().toISOString()),jointGuardEnd(DB,token)];}});
-  return {requestId:r.requestId,replayed:r.replayed,mercenaryCode:r.plan.code,revision:r.plan.revision+1};
+    return {code,revision,mode};
+  },statements:async plan=>{
+    allowDeployment(await readMercenaryRuntime(env),user);
+    const mode=mercenaryMode(plan.mode),record=(await readMercenaryModes(env,[user.id])).get(Number(user.id));
+    if(record.loadouts[mode].revision!==plan.revision)throw Object.assign(jointError('MERCENARY_LOADOUT_CONFLICT','편성이 변경됐습니다. 최신 상태에서 다시 선택하세요.',409),{terminal:true});
+    const DB=env.DB,token=crypto.randomUUID(),p=(sql,...v)=>DB.prepare(sql).bind(...v);
+    return [mercenaryModeGuard(DB,token,user.id,record),
+      ...(plan.code?[p('UPDATE joint_atomic_guards_v1 SET verified=CASE WHEN EXISTS(SELECT 1 FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code=?) THEN 1 ELSE 0 END WHERE token=?',user.id,plan.code,token)]:[]),
+      ...mercenaryModeStatements(DB,user.id,record,mode,{mercenaryCode:plan.code,revision:plan.revision+1}),jointGuardEnd(DB,token)];
+  }});
+  return {requestId:r.requestId,replayed:r.replayed,mode:mercenaryMode(r.plan.mode),mercenaryCode:r.plan.code,revision:r.plan.revision+1};
 }
 
 export async function growMercenary(){

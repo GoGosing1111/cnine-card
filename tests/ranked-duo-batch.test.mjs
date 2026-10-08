@@ -5,6 +5,7 @@ import {duoFixture} from './helpers/ranked-duo-db.mjs';
 import {duoMagicLoadouts,magicBattleLoadout} from '../functions/_magic.js';
 import {loadUniqueAdvancementsForDecks} from '../functions/_unique_advancement.js';
 import {loadDuoProfiles} from '../functions/_ranked_duo_profiles.js';
+import {readMercenaryModes,mercenaryModeStatements} from '../functions/_mercenary_loadout_modes.js';
 import {duoStation,DUO_BOARDS,latticeStation} from '../preview/project-v-v3/source/battle/FormationLayout.mjs';
 import {forgePower} from '../shared/equipment-forge-policy-v1.mjs';
 import {pairDuoParticipants} from '../shared/ranked-duo-v1.mjs';
@@ -78,4 +79,23 @@ test('potential counts owned unequipped mercenary and best gear per slot; actual
 test('odd roster waits the latest applicant regardless of strength',()=>{
  const result=pairDuoParticipants([{userId:1,power:100,joinedAt:'2026-09-25T03:00Z'},{userId:2,power:50,joinedAt:'2026-09-25T01:00Z'},{userId:3,power:1,joinedAt:'2026-09-25T02:00Z'}]);
  assert.equal(result.waiting[0].userId,1);assert.deepEqual(result.teams[0].members.map(m=>m.userId),[2,3]);
+});
+
+for(const postgres of [false,true])test(`${postgres?'Postgres':'SQLite'} duo combat and cache follow PVP changes while PVE remains separate`,async t=>{
+ const f=await duoFixture(t,{postgres});
+ const schema='ALTER TABLE user_mercenary_loadout_v1 ADD COLUMN revision INTEGER DEFAULT 0; ALTER TABLE user_mercenary_loadout_v1 ADD COLUMN updated_at TEXT';
+ if(f.pg)await f.pg.exec(schema);else f.native.exec(schema);
+ await f.ready();
+ const document=JSON.parse((await f.p("SELECT payload_json FROM mercenary_cms_documents_v1 WHERE doc_key='config'").first()).payload_json);
+ for(const c of document.mercenaries)if(['V-001','V-002'].includes(c.code))c.rank='C';
+ await f.p("UPDATE mercenary_cms_documents_v1 SET payload_json=? WHERE doc_key='config'",JSON.stringify(document)).run();
+ for(const code of ['V-001','V-002'])await f.p('INSERT INTO user_mercenary_cards_v1 VALUES(2,?,1)',code).run();
+ await f.p('INSERT INTO user_mercenary_loadout_v1(user_id,mercenary_code) VALUES(2,?)','V-001').run();
+ const profile=async()=>(await loadDuoProfiles(f.env,[2],f.config,f.deps,{now:f.clock()}))[0];
+ const before=await profile();assert.equal(before.attack.mercenary.code,'V-001');
+ const save=async(mode,code,revision)=>{const record=(await readMercenaryModes(f.env,[2])).get(2);await f.DB.batch(mercenaryModeStatements(f.DB,2,record,mode,{mercenaryCode:code,revision}));};
+ await save('PVP','V-002',1);const pvp=await profile();assert.ok(pvp.sourceVersion>before.sourceVersion);assert.equal(pvp.attack.mercenary.code,'V-002');assert.equal(pvp.defense.mercenary.code,'V-002');
+ assert.equal((await readMercenaryModes(f.env,[2])).get(2).loadouts.PVE.mercenaryCode,'V-001');
+ await save('PVE',null,1);assert.equal((await profile()).attack.mercenary.code,'V-002');
+ await save('PVP',null,2);assert.equal((await profile()).defense.mercenary,null);
 });

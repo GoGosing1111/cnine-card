@@ -10,7 +10,9 @@ try{const saved=JSON.parse(localStorage.getItem(storageKey)||'[]');if(Array.isAr
 
 const current=()=>catalog?.cards.find(c=>c.code===selected);
 const ownedCard=code=>account?.cards?.find(c=>c.code===code)||null;
-const activeCode=()=>account?.loadout?.mercenaryCode||null;
+let loadoutMode=params.get('mode')==='PVP'?'PVP':'PVE';
+const activeLoadout=(mode=loadoutMode)=>account?.loadouts?.[mode]||account?.loadout||{mercenaryCode:null,revision:0};
+const activeCode=()=>activeLoadout().mercenaryCode||null;
 const positionLabel=c=>c.edition==='LIMITED'?'리미티드':c.artOnly?'신규 원화':POSITIONS[c.position];
 const pendingKey=()=>`cnine.mercenary.pending:${account?.accountId||''}`;
 const pendingLoadout=()=>{try{return account?.accountId?JSON.parse(localStorage.getItem(pendingKey())||'null'):null;}catch{return null;}};
@@ -18,7 +20,7 @@ const note=text=>{const el=$('toast');el.textContent=text;el.hidden=false;clearT
 
 function urlState(){
   const url=new URL(location.href);
-  for(const [key,value] of Object.entries({q:filters.q,position:filters.position,rank:filters.rank,sort:filters.sort==='code'?'':filters.sort,saved:filters.saved?'1':'',view:view==='owned'?'':view}))value?url.searchParams.set(key,value):url.searchParams.delete(key);
+  for(const [key,value] of Object.entries({q:filters.q,position:filters.position,rank:filters.rank,sort:filters.sort==='code'?'':filters.sort,saved:filters.saved?'1':'',view:view==='owned'?'':view,mode:loadoutMode}))value?url.searchParams.set(key,value):url.searchParams.delete(key);
   url.hash=selected||'';history.replaceState(null,'',url);
 }
 function controls(){
@@ -31,9 +33,10 @@ function renderAccountSummary(){
   const owned=account?.cards?.length||0,active=ownedCard(activeCode());
   $('ownedCount').textContent=account?String(owned):'—';$('totalCount').textContent=catalog?String(catalog.cards.length):'—';
   $('limitedCount').textContent=catalog?String(catalog.cards.filter(c=>c.edition==='LIMITED').length):'—';
-  $('loadoutName').textContent=account?(active?.name||activeCode()||'미편성'):'—';
+  $('loadoutName').textContent=account?`${loadoutMode} · ${active?.name||activeCode()||'미편성'}`:'—';
+  for(const button of document.querySelectorAll('[data-loadout-mode]')){const mode=button.dataset.loadoutMode,code=activeLoadout(mode).mercenaryCode;button.setAttribute('aria-pressed',String(mode===loadoutMode));button.disabled=loadoutBusy;$(`loadout${mode}`).textContent=account?(ownedCard(code)?.name||code||'미편성'):'확인 중';}
   $('accountStatusTitle').textContent=account?`내 용병 ${owned}명`:accountError?'내 용병 연결 필요':'내 용병 확인 중';
-  $('catalogStatus').textContent=account?(active?`${active.name} 편성 중 · 목록에서 바로 변경할 수 있습니다.`:'현재 용병 슬롯이 비어 있습니다. 보유 용병을 선택해 편성하세요.'):accountError||'보유 용병과 편성 정보를 불러오고 있습니다.';
+  $('catalogStatus').textContent=account?(active?`${loadoutMode} · ${active.name} 편성 중 · 목록에서 바로 변경할 수 있습니다.`:`${loadoutMode} 용병을 선택하세요. 같은 용병을 양쪽에 편성할 수 있습니다.`):accountError||'보유 용병과 편성 정보를 불러오고 있습니다.';
   for(const button of document.querySelectorAll('[data-view]'))button.setAttribute('aria-selected',String(button.dataset.view===view));
   $('rosterTitle').textContent=view==='limited'?'리미티드 컬렉션':view==='owned'?'내 용병 선택':'전체 용병 탐색';
   $('positions').hidden=view==='limited';
@@ -64,7 +67,7 @@ function deploymentHtml(c){
   const owned=ownedCard(c.code),active=activeCode()===c.code,pending=pendingLoadout(),blocked=loadoutBusy||!account?.available||Boolean(pending);
   if(!account)return `<section class="deployment-card unavailable"><div><span>내 용병</span><strong>계정 연결 필요</strong></div><p>${esc(accountError||'보유 용병 정보를 불러오지 못했습니다.')}</p><button type="button" data-retry-account>다시 불러오기</button></section>`;
   if(!owned)return `<section class="deployment-card unavailable"><div><span>보유 상태</span><strong>미보유</strong></div><p>전체 도감 정보는 확인할 수 있지만 편성은 보유 용병만 가능합니다.</p>${c.edition==='LIMITED'?'':'<a href="/?screen=buy&amp;pack=hyper">하이퍼팩 확인 ↗</a>'}</section>`;
-  return `<section class="deployment-card ${active?'active':''}"><div class="deployment-title"><span>내 용병</span><strong>${active?'현재 편성 중':'보유 용병'}</strong></div><dl><div><dt>레벨</dt><dd>Lv.${fmt(owned.level)}</dd></div><div><dt>보유</dt><dd>${fmt(Number(owned.duplicates||0)+1)}장</dd></div><div><dt>전투력</dt><dd>${fmt(owned.basePower)}</dd></div></dl><div class="deployment-actions"><button class="equip-button" type="button" data-equip="${c.code}" ${blocked||active||owned.canDeploy===false?'disabled':''}>${active?'편성 완료':owned.canDeploy===false?'현재 편성 불가':'이 용병 편성'}</button>${active?`<button class="unequip-button" type="button" data-unequip ${blocked?'disabled':''}>편성 해제</button>`:''}${pending?'<button class="recover-button" type="button" data-recover-loadout>처리 결과 확인</button>':''}</div><p>PVE·PVP 공통 용병 전용 슬롯 · 일반 카드 5장과 별도</p></section>`;
+  return `<section class="deployment-card ${active?'active':''}"><div class="deployment-title"><span>내 용병</span><strong>${loadoutMode} ${active?'편성 중':'편성'}</strong></div><dl><div><dt>레벨</dt><dd>Lv.${fmt(owned.level)}</dd></div><div><dt>보유</dt><dd>${fmt(Number(owned.duplicates||0)+1)}장</dd></div><div><dt>전투력</dt><dd>${fmt(owned.basePower)}</dd></div></dl><div class="deployment-actions"><button class="equip-button" type="button" data-equip="${c.code}" ${blocked||active||owned.canDeploy===false?'disabled':''}>${active?`${loadoutMode} 편성 완료`:owned.canDeploy===false?'현재 편성 불가':`${loadoutMode}에 편성`}</button>${active?`<button class="unequip-button" type="button" data-unequip ${blocked?'disabled':''}>${loadoutMode} 편성 해제</button>`:''}${pending?'<button class="recover-button" type="button" data-recover-loadout>처리 결과 확인</button>':''}</div><p>${loadoutMode} 용병 전용 슬롯 · 일반 카드 5장과 별도</p></section>`;
 }
 function renderSelection(){
   const c=current();if(!c){$('inspection').innerHTML=`<div class="empty-selection"><span>PROJECT V</span><h2>${view==='owned'?'보유 용병을 선택하세요.':'당신의 다음 전력을 확인하세요.'}</h2><p>${view==='owned'?'선택한 자리에서 바로 편성할 수 있습니다.':'용병을 선택하면 원화와 스킬을 볼 수 있습니다.'}</p></div>`;return;}
@@ -75,7 +78,7 @@ function renderSelection(){
   if(c.artOnly)$('inspection').querySelector('.combat-panel').innerHTML=`<div class="panel-heading"><h2>신규 원화 공개</h2><button type="button" class="favorite-button" data-favorite aria-pressed="${favorites.has(c.code)}" aria-label="${esc(c.name)} 즐겨찾기 ${favorites.has(c.code)?'해제':'추가'}">${favorites.has(c.code)?'★':'☆'}</button></div>${deploymentHtml(c)}<div class="power-summary"><span>용병 등급<small>원화 선공개</small></span><strong>${esc(c.rank)}</strong></div><dl class="role-ledger"><div><dt>이름</dt><dd>${esc(c.name)}</dd></div><div><dt>무기</dt><dd>${esc(c.weapon)}</dd></div></dl><div class="skill-empty"><b>출시 예정</b><p>원화를 먼저 만나보세요.<br>획득 방법과 전투 스킬은 추후 공개됩니다.</p></div>`;
   if(c.edition==='LIMITED'){
     $('inspection').classList.add('limited-inspection');
-    $('inspection').querySelector('.combat-panel').innerHTML=`<div class="panel-heading"><h2>리미티드 컬렉션</h2><button type="button" class="favorite-button" data-favorite aria-pressed="${favorites.has(c.code)}" aria-label="${esc(c.name)} 즐겨찾기">${favorites.has(c.code)?'★':'☆'}</button></div><div class="limited-edition-mark"><span>LIMITED EDITION</span><h3>${esc(c.name)}</h3>${c.title?`<p>${esc(c.title)}</p>`:""}</div>${deploymentHtml(c)}<dl class="limited-record"><div><dt>용병 등급</dt><dd>${esc(c.rank||'미정')}</dd></div><div><dt>공개 리소스</dt><dd>${c.battleSprite?'원화 · 전투 SD':'카드 원화'}</dd></div><div><dt>전투 편성</dt><dd>${c.deploymentEnabled?'보유 시 가능':'준비 중'}</dd></div></dl><div class="skill-empty"><b>${c.deploymentEnabled?'리미티드 전투 편성':'리미티드 선공개'}</b><p>${c.deploymentEnabled?'보유한 리미티드 용병을 PVE·PVP 공통 용병 슬롯에 편성할 수 있습니다.':'전투 편성을 준비 중입니다.'}<br>리미티드 용병팩 출시는 추후 안내됩니다.</p></div>`;
+    $('inspection').querySelector('.combat-panel').innerHTML=`<div class="panel-heading"><h2>리미티드 컬렉션</h2><button type="button" class="favorite-button" data-favorite aria-pressed="${favorites.has(c.code)}" aria-label="${esc(c.name)} 즐겨찾기">${favorites.has(c.code)?'★':'☆'}</button></div><div class="limited-edition-mark"><span>LIMITED EDITION</span><h3>${esc(c.name)}</h3>${c.title?`<p>${esc(c.title)}</p>`:""}</div>${deploymentHtml(c)}<dl class="limited-record"><div><dt>용병 등급</dt><dd>${esc(c.rank||'미정')}</dd></div><div><dt>공개 리소스</dt><dd>${c.battleSprite?'원화 · 전투 SD':'카드 원화'}</dd></div><div><dt>전투 편성</dt><dd>${c.deploymentEnabled?'보유 시 가능':'준비 중'}</dd></div></dl><div class="skill-empty"><b>${c.deploymentEnabled?'리미티드 전투 편성':'리미티드 선공개'}</b><p>${c.deploymentEnabled?'보유한 리미티드 용병을 PVE와 PVP에 각각 편성할 수 있습니다.':'전투 편성을 준비 중입니다.'}<br>리미티드 용병팩 출시는 추후 안내됩니다.</p></div>`;
   }else $('inspection').classList.remove('limited-inspection');
   renderMedia();
 }
@@ -86,6 +89,7 @@ function renderMedia(){const c=current();if(!c)return;const art=media==='art';
 }
 function choose(code,{scroll=false}={}){if(!catalog?.cards.some(c=>c.code===code))return;selected=code;media='art';urlState();renderList();renderSelection();if(scroll&&matchMedia('(max-width: 700px)').matches)$('inspection').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});}
 function setView(next,{scroll=false}={}){if(!['owned','all','limited'].includes(next))return;if(view===next){if(scroll)$('catalogControls').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});return;}view=next;if(next==='limited')filters.position='';controls();const rows=visibleCards();if(!rows.some(c=>c.code===selected))selected=next==='owned'?(activeCode()&&ownedCard(activeCode())?activeCode():rows[0]?.code||''):(rows[0]?.code||'');urlState();renderAccountSummary();renderList();renderSelection();if(scroll)$('catalogControls').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});}
+function setLoadoutMode(mode){if(loadoutBusy||!['PVE','PVP'].includes(mode))return;loadoutMode=mode;urlState();renderAccountSummary();renderList();renderSelection();}
 function updateFilters(){urlState();controls();renderList();}
 async function refresh({quiet=false}={}){
   if(loading||document.hidden&&quiet)return;loading=true;lastCheck=Date.now();$('refreshCatalog').disabled=true;
@@ -105,18 +109,19 @@ async function refresh({quiet=false}={}){
 async function runLoadout(mercenaryCode,{recover=false}={}){
   if(loadoutBusy||!account)return;
   let pending=pendingLoadout();
-  if(!pending&&!recover){pending={action:'loadout',body:{requestId:crypto.randomUUID(),mercenaryCode,revision:account.loadout.revision}};try{localStorage.setItem(pendingKey(),JSON.stringify(pending));}catch{note('편성 요청을 안전하게 저장하지 못했습니다. 브라우저 저장소를 확인하세요.');return;}}
+  if(!pending&&!recover){pending={action:'loadout',body:{requestId:crypto.randomUUID(),mercenaryCode,mode:loadoutMode,revision:activeLoadout().revision}};try{localStorage.setItem(pendingKey(),JSON.stringify(pending));}catch{note('편성 요청을 안전하게 저장하지 못했습니다. 브라우저 저장소를 확인하세요.');return;}}
   if(!pending){note('확인할 편성 요청이 없습니다.');return;}
-  loadoutBusy=true;renderSelection();
+  loadoutBusy=true;renderAccountSummary();renderSelection();
   try{
     const result=await api(`mercenaries/v3/${pending.action}`,{method:'POST',body:pending.body});
     try{localStorage.removeItem(pendingKey());localStorage.setItem('cnine.mercenary.loadout.changed',String(Date.now()));}catch{}
-    note(result.replayed?'저장된 편성 결과를 복구했습니다.':pending.body.mercenaryCode?'용병 편성을 저장했습니다.':'용병 편성을 해제했습니다.');await refresh();
+    note(`${pending.body.mode||'PVE'} · ${result.replayed?'저장된 편성 결과를 복구했습니다.':pending.body.mercenaryCode?'용병 편성을 저장했습니다.':'용병 편성을 해제했습니다.'}`);await refresh();
   }catch(error){note(error.message);if(error.status>=400&&error.status<500&&!['JOINT_REQUEST_CONFLICT','MERCENARY_CLOSED'].includes(error.code))try{localStorage.removeItem(pendingKey());}catch{}
   }finally{loadoutBusy=false;renderAccountSummary();renderList();renderSelection();}
 }
 
 document.addEventListener('click',event=>{const b=event.target.closest('button');if(!b)return;
+  if(b.dataset.loadoutMode){setLoadoutMode(b.dataset.loadoutMode);return;}
   if(b.dataset.view){setView(b.dataset.view);return;}
   if(b.hasAttribute('data-switch-all')){setView('all');return;}
   if(b.hasAttribute('data-retry-account')){void refresh();return;}
