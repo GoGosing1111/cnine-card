@@ -17,19 +17,20 @@ import {resolveMangisaVolley} from './_mercenary_mangisa.js';
 import {resolveRagnielJudgment} from './_mercenary_ragniel.js';
 import {VALTER_CODE,VALTER_COMBAT,isValter,valterActionCredit} from '../shared/mercenary-valter-v1.mjs';
 import {SS_LIMITED_COMBAT,SS_LIMITED_BALANCE_VERSION} from '../shared/mercenary-ss-limited-v1.mjs';
+import {ssRearPveInterval,ssRearPveHealing} from '../shared/mercenary-ss-rear-pve-v1.mjs';
 const living=x=>x?.alive!==false&&x?.hp>0&&!x?.untargetable&&!x?.isBattleSuit;
 const ordered=team=>team.filter(living).sort((a,b)=>a.slot-b.slot||String(a.id).localeCompare(String(b.id)));
 const front=team=>{const all=ordered(team),rows=all.filter(x=>x.row==='FRONT');return rows.length?rows:all.slice(0,1);};
 const weakest=team=>ordered(team).sort((a,b)=>a.hp/a.maxHp-b.hp/b.maxHp||a.slot-b.slot)[0];
 // Rank power is fixed while ordinary cards include unbounded equipment power.
 // The mercenary remains targetable, but its reserved action is additional:
-// released fighters act after each allied card action without replacing a card,
+// released fighters use their captured cadence without replacing a card,
 // advancing its gauge, or consuming the five-card battle's action budget.
 // Natural mercenary turns clear the debt; suit shots and enemy turns cannot.
 export function mercenaryTurnCadence(teams){
  if([...teams.A,...teams.B].some(actor=>actor.ownerId))return duoMercenaryTurnCadence(teams);
  const debt={A:0,B:0};
- const interval=side=>teams[side]?.some(a=>a.isMercenary&&a.statMode==='RANK_FIXED')?MERCENARY_COMBAT_LINK.regularActionsPerTurn:5;
+ const interval=side=>mercenaryActionInterval(teams[side]||[]);
  const credit=side=>Math.max(berkanActionCredit(teams[side]||[]),valterActionCredit(teams[side]||[]));
  const accrue=side=>debt[side]=Math.min(interval(side)+Math.ceil(credit(side))-1,debt[side]+credit(side));
  const regular=actor=>living(actor)&&!actor.isMonster&&!actor.isMercenary&&actor.actorKind!=='BATTLE_SUIT';
@@ -57,12 +58,16 @@ export function mercenaryTurnCadence(teams){
   }
  };
 }
+function mercenaryActionInterval(actors){
+ const actor=actors.find(a=>a.isMercenary&&a.statMode==='RANK_FIXED');
+ return actor?ssRearPveInterval(actor,MERCENARY_COMBAT_LINK.regularActionsPerTurn):5;
+}
 // A teammate's card action cannot grant both mercenaries an extra turn. Each
 // owner's five cards drive their own mercenary, including last-stand responses.
 function duoMercenaryTurnCadence(teams){
  const groups=['A','B'].flatMap(side=>[...new Set(teams[side].map(a=>a.ownerId))].map(ownerId=>({side,ownerId,actors:teams[side].filter(a=>a.ownerId===ownerId),debt:0})));
  const regular=a=>living(a)&&!a.isMercenary&&!a.isMonster&&!a.isBattleSuit;
- const interval=g=>g.actors.some(a=>a.isMercenary&&a.statMode==='RANK_FIXED')?MERCENARY_COMBAT_LINK.regularActionsPerTurn:5;
+ const interval=g=>mercenaryActionInterval(g.actors);
  const credit=g=>Math.max(berkanActionCredit(g.actors),valterActionCredit(g.actors));
  const accrue=g=>g.debt=Math.min(interval(g)+Math.ceil(credit(g))-1,g.debt+credit(g));
  const pending=(g,eligible)=>g.debt>=interval(g)?g.actors.find(a=>a.isMercenary&&living(a)&&eligible(a)):null;
@@ -246,10 +251,11 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
    case 'WHITE_OATH_GROUP_HEAL':{
     // A single cast owns one budget, including full-HP allies. Lost/overheal
     // shares are discarded, never copied or redistributed to another actor.
-    const budget=Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio),share=Math.floor(budget/p.targets.length);
+    const healingPolicy=ssRearPveHealing(a),budget=Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio*(healingPolicy?healingPolicy.nurseBudgetPercent/100:1)),share=Math.floor(budget/p.targets.length);
     const heals=ts.map(t=>{
      const reduction=Math.max(0,Math.min(100,Number(t.healingReductionPercent)||0));
-     const cappedShare=s.nurseHealing?.version===1?Math.min(share,Math.floor(t.maxHp*s.nurseHealing.maxTargetHpPercent/100)):share;
+     const capPercent=healingPolicy?Math.min(healingPolicy.nurseMaxTargetHpPercent,s.nurseHealing?.version===1?s.nurseHealing.maxTargetHpPercent:100):s.nurseHealing?.version===1?s.nurseHealing.maxTargetHpPercent:null;
+     const cappedShare=capPercent===null?share:Math.min(share,Math.floor(t.maxHp*capPercent/100));
      const requested=apocalypseHealing(t,Math.floor(cappedShare*(1-reduction/100))),converted=season2?.heal?.(t,requested),amount=converted??Math.max(0,Math.min(t.maxHp-t.hp,iconHealingAmount(t,requested)));
      if(converted==null)t.hp+=amount;a.healingDone+=amount;
      return {targetId:t.id,amount,targetHpAfter:t.hp,targetMaxHp:t.maxHp};

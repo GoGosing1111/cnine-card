@@ -1,0 +1,32 @@
+{
+  "verifiedAt": "2026-10-08T10:35:37.758Z",
+  "publicOrigin": "https://cnine-card.pages.dev",
+  "cmsRevision": 61,
+  "affected": 15,
+  "nurses": 4,
+  "unaffectedControls": 6,
+  "modules": [
+    {
+      "path": "shared/mercenary-ss-rear-pve-v1.mjs",
+      "sha256": "8171d028503ee3f1b437b728bc7565078f1c435604f65a666092b5d177efaea6"
+    },
+    {
+      "path": "mercenary-codex/app.mjs",
+      "sha256": "c4398308f82f361a5d5e5e128e0b527f3a73ab77587f5eca75f8ab7bbe85a3a0"
+    }
+  ],
+  "passed": true,
+  "commit": "7c3233060f5d424a6b68998c8e62747132b04713",
+  "pagesDeployment": "https://974a00ab.cnine-card.pages.dev",
+  "apiWorkerVersion": "5feab9ff-28fd-4a66-a78e-acd2aa1a8c9d",
+  "clanDraftWorkerVersion": "cc148a44-dd39-4e28-84d9-7f6a0c5b4b95",
+  "checks": {
+    "tests": 74,
+    "passed": 74,
+    "workerSyntax": true,
+    "productionRelease": true,
+    "hyperdriveCacheDisabled": true,
+    "desktopMobileUi": true
+  },
+  "scope": "SS nurse 4 + SS rear ranged 11; new PVE snapshots only"
+}

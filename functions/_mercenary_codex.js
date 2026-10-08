@@ -8,6 +8,7 @@ import {isRangedMercenarySkill,rangedMercenarySkillText,MERCENARY_RANGED_SUMMARY
 import {mercenaryGuardSkillText,MERCENARY_GUARD_BALANCE_VERSION} from '../shared/mercenary-guard-balance-v1.mjs';
 import {mercenaryMoonDrawSkillText,MERCENARY_MOON_DRAW_VERSION} from '../shared/mercenary-moon-draw-v1.mjs';
 import {LIMITED_MERCENARIES} from '../shared/mercenary-limited-catalog-v1.mjs';
+import {ssRearPveSkillText} from '../shared/mercenary-ss-rear-pve-v1.mjs';
 
 // Public, read-only projection. Never publish operator notes, audit records,
 // account ownership, acquisition drafts, or unassigned skill associations.
@@ -24,12 +25,12 @@ export function mercenaryCodexDocument(row){
       return {code:card.code,name:card.name,title:card.title,rank:card.rank,position:card.position,role:card.role,
         sourceArt:art.sourceArt,battleSprite:art.battleSprite,accent:art.accent,
         basePower:MERCENARY_POWER_STANDARD.basePowerByRank[card.rank]??null,
-        combatLinkDescription:mercenaryCombatLinkText(card.rank,card.position)+(upgraded?' '+MERCENARY_RANGED_SUMMARY:''),
+        combatLinkDescription:mercenaryCombatLinkText(card.rank,card.position,actor)+(upgraded?' '+MERCENARY_RANGED_SUMMARY:''),
         specialty:card.specialty,weakness:upgraded?'회피·피해 경감에 대응되며 자원 소모와 재사용 대기의 영향을 받습니다.':card.weakness,basicTarget:seed.catalog.targets[card.basicTarget].label,
         skills:document.assignments.find(a=>a.code===card.code).skillIds.map(id=>{
-          const s=mercenaryMoonDrawSkillText(mercenaryGuardSkillText(rangedMercenarySkillText(skills.get(id),actor))),ready=s.review==='REVIEWED'&&Object.values(s.balance).every(Number.isFinite);
+          const s=ssRearPveSkillText(mercenaryMoonDrawSkillText(mercenaryGuardSkillText(rangedMercenarySkillText(skills.get(id),actor))),actor),ready=s.review==='REVIEWED'&&Object.values(s.balance).every(Number.isFinite);
           return {id:s.id,name:s.name,role:seed.catalog.roles[s.role]?.label||s.role,target:seed.catalog.targets[s.target]?.label||s.target,
-            trigger:s.trigger,effect:s.effect,counterplay:s.counterplay,bossRule:s.bossRule,procRule:s.procRule,balance:{...s.balance},ready};
+            trigger:s.trigger,effect:s.effect,counterplay:s.counterplay,bossRule:s.bossRule,procRule:s.procRule,balance:{...s.balance},...(s.pveBalance?{pveBalance:{...s.pveBalance}}:{}),ready};
         })};
     }).concat(MERCENARY_ART_RELEASES.filter(art=>!document.mercenaries.some(c=>c.code===art.code)).map(art=>({...art,skills:[]})),LIMITED_MERCENARIES)};
 }

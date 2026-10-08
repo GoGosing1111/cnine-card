@@ -4,6 +4,7 @@ import {readMercenaryDocument} from './_mercenary_account.js';
 import {MERCENARY_CMS_SEED} from './_mercenary_cms_seed.js';
 import {mercenaryCardChances} from '../shared/mercenary-draw-policy-v1.mjs';
 import {mercenaryRandomInt,mercenaryCardAcquisitionStatements} from './_mercenary_draw_accounting.js';
+import {prepareChickenLimitedOnce,consumeChickenLimitedOnce} from './_chicken_limited_once.js';
 
 const TABLE='chicken_event_receipts_v1';
 export const CHICKEN_SCHEMA=[
@@ -84,10 +85,14 @@ export async function orderChicken(env,userId,body,{randomInt=mercenaryRandomInt
   const cfg=await config(q,true),[clock]=await q('SELECT clock_timestamp() AS now');
   if(chickenPhase(cfg.settings,new Date(clock.now).getTime())!=='OPEN')fail('EVENT_CLOSED','지금은 주문 시간이 아닙니다. 배민권은 소모되지 않았습니다.');
   if(cfg.revision!==body.revision)fail('SETTINGS_CHANGED','보상 설정이 변경됐습니다. 새로 확인한 뒤 주문하세요.');
-  const rewards=resolve(cfg.settings,await catalog(q,true));
+  const options=await catalog(q,true),rewards=resolve(cfg.settings,options);
   if(rewards.some(r=>r.chancePpm>0&&!r.available))fail('REWARD_UNAVAILABLE','사은품을 준비하고 있습니다. 배민권은 소모되지 않았습니다.');
   if(await balance(q,id)<1)fail('TICKET_REQUIRED','핑두의 배민권 1개가 필요합니다.');
-  const picked=pickChickenReward(cfg.settings,randomInt(1000000)),reward={...rewards.find(r=>r.kind===picked.kind&&r.code===picked.code)};
+  const once=await prepareChickenLimitedOnce(q,id);
+  const guaranteed=once?options.find(r=>r.kind==='LIMITED'&&r.code===once.state.mercenaryCode&&r.rank==='SSS'):null;
+  if(once&&!guaranteed?.available)fail('REWARD_UNAVAILABLE','확정 사은품을 준비하고 있습니다. 배민권과 확정 기회는 소모되지 않았습니다.');
+  const picked=once?{...guaranteed,quantity:1}:pickChickenReward(cfg.settings,randomInt(1000000));
+  const reward={...(once?picked:rewards.find(r=>r.kind===picked.kind&&r.code===picked.code))};
   delete reward.chancePpm;delete reward.available;delete reward.remaining;
   const acquisitionId='chicken:'+requestId,now=new Date().toISOString();
   if(reward.kind==='LIMITED'){
@@ -108,7 +113,8 @@ export async function orderChicken(env,userId,body,{randomInt=mercenaryRandomInt
   }else await inventory(q,id,reward.code,reward.quantity,requestId);
   const tickets=await inventory(q,id,CHICKEN_TICKET,-1,requestId),[endClock]=await q('SELECT clock_timestamp() AS now');
   if(chickenPhase(cfg.settings,new Date(endClock.now).getTime())!=='OPEN')fail('EVENT_CLOSED','주문 중 이벤트가 종료됐습니다. 배민권은 소모되지 않았습니다.');
-  const result={ok:true,status:'COMPLETED',requestId,userId:id,choice:body.choice,kind:reward.kind,reward,ticketCost:1,tickets,completedAt:now,replayed:false};
+  const result={ok:true,status:'COMPLETED',requestId,userId:id,choice:body.choice,kind:reward.kind,reward,ticketCost:1,tickets,completedAt:now,replayed:false,...(once?{grantKind:'ONE_TIME_SSS_LIMITED_GUARANTEE'}:{})};
+  await consumeChickenLimitedOnce(q,once,result);
   one(await q(`INSERT INTO ${TABLE}(request_id,user_id,choice,result_json) VALUES($1,$2,$3,$4) RETURNING request_id`,[requestId,id,body.choice,JSON.stringify(result)]),'주문 영수증을 저장하지 못했습니다.');
   return result;
  });
