@@ -2,10 +2,20 @@ import {Assets,Texture,Rectangle,Container,Sprite} from 'pixi.js';
 import {gsap} from 'gsap';
 import {BattleEngine as ScrapyardEngine} from '../../scrapyard-v3-v1/source/ScrapyardBattleEngine.js';
 import {BattleCharacter,TEAM} from '../../project-v-v3/source/battle/BattleCharacter.js';
+import {BattleAnimation} from '../../project-v-v3/source/battle/BattleAnimation.js';
 import {sampleSequence} from '../../project-v-mercenary-system-v1/source/MercenarySpriteSequence.js';
 import {CAPACITY,crowdPosition} from '../hunt-rules.mjs';
 import {GroundDrops} from './GroundDrops.js';
 import {playHuntTimeline} from './HuntTimedPlayback.js';
+// Regional monster art stays upright through attacks, hits and defeat. Keep
+// the shared movement, impact and fade timing while removing its tilt tracks.
+class UprightMonsterAnimation extends BattleAnimation{
+  setState(state){
+    super.setState(state);
+    gsap.killTweensOf(this.character.view,'rotation');
+    this.character.view.rotation=0;
+  }
+}
 export class BattleEngine extends ScrapyardEngine{
   constructor(...args){super(...args);this.combatClockRate=this.previewSpeed=this.paceScale=1;this.continuousAreaPlayback=true;this.parallelEncounterTransitions=true;}
   waitForAccountBattleUnitDamageQueueDrain(timeoutMs=2500){
@@ -70,8 +80,9 @@ export class BattleEngine extends ScrapyardEngine{
     const result=await super.applyBattlePayload(payload);this.layoutCharacterGrid();return result;
   }
   bindMonster(row){
-    const a=super.bindMonster(row);a.huntElite=!!row.elite;a.useFullBodySprite(a.texture,row.battleHeight||(row.boss?395:245));
+    const a=super.bindMonster(row);a.animationAdapter.kill();a.huntElite=!!row.elite;a.useFullBodySprite(a.texture,row.battleHeight||(row.boss?395:245));
     a.fullBodySprite.scale.x=(this.huntRegionBackground?1:-1)*Math.abs(a.fullBodySprite.scale.x);a.captureNeutralAvatarPose();
+    a.setAnimationAdapter(this.huntRegionBackground?(a.huntUprightAnimation??=new UprightMonsterAnimation(a)):a.animationController);
     a.nameLabel.visible=!!(row.boss||row.elite);a.namePlate.visible=!!(row.boss||row.elite);a.hud.y=row.boss?-415:-270;
     return a;
   }

@@ -1,0 +1,65 @@
+{
+  "date": "2026-10-09",
+  "scope": "Regional legion monster rotation only",
+  "before": {
+    "liveMaxRadians": 0.761622,
+    "poseMaxRadians": 1.130973
+  },
+  "after": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "region": "coast",
+      "live": {
+        "maxAngle": 0,
+        "states": [
+          "IDLE",
+          "HIT",
+          "DEAD"
+        ],
+        "kills": 12
+      },
+      "monsterCount": 20,
+      "poseMaxRadians": 0,
+      "hitMovementRetained": true,
+      "deathFadeRetained": true,
+      "legacyRotationRadians": -0.261747,
+      "errors": [],
+      "failures": [],
+      "overflow": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "region": "desert",
+      "live": {
+        "maxAngle": 0,
+        "states": [
+          "IDLE",
+          "HIT",
+          "DEAD"
+        ],
+        "kills": 12
+      },
+      "monsterCount": 20,
+      "poseMaxRadians": 0,
+      "hitMovementRetained": true,
+      "deathFadeRetained": true,
+      "legacyRotationRadians": -0.261747,
+      "errors": [],
+      "failures": [],
+      "overflow": {
+        "width": 390,
+        "scroll": 390
+      }
+    }
+  ],
+  "evidenceDirectory": "C:/Users/User/.codex/tmp/legion-upright-20261009/"
+}
