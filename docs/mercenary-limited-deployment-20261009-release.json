@@ -1,7 +1,7 @@
 {
   "date": "2026-10-09",
   "timezone": "Asia/Seoul",
-  "status": "VALIDATED_PENDING_DEPLOY",
+  "status": "DEPLOYED_VERIFIED",
   "scope": "SCOPED",
   "baseCommit": "e781fc898b849ed86dcc6dac84254966b4372f27",
   "baseDeployment": "9ae3903f-e04f-4639-bd39-d245a59116bd",
@@ -55,8 +55,171 @@
     "deploymentChecks": [
       "tests/pve-battlefield-entry-v2117.test.mjs",
       "check:worker"
+    ],
+    "liveLoader": {
+      "passed": 9,
+      "failed": 0
+    },
+    "workerSyntax": "PASSED",
+    "productionGuard": "PASSED",
+    "production": {
+      "verifiedAt": "2026-10-08T15:55:43.086Z",
+      "base": "https://cnine-card.pages.dev",
+      "sourceCommit": "d6a39c69cf81b6e4ac722451c7f393be96402b35",
+      "status": "VERIFIED",
+      "limited": [
+        {
+          "code": "V-996",
+          "name": "발테르",
+          "rank": "SSS",
+          "deploymentEnabled": true,
+          "battleSprite": "assets/ui/project-v/mercenaries/limited-20261002/valter-approved-sd.png"
+        },
+        {
+          "code": "V-990",
+          "name": "나무늘봉순",
+          "rank": "SS",
+          "deploymentEnabled": true,
+          "battleSprite": "assets/ui/project-v/mercenaries/limited-battle-20261004/bongsoon-sd.png"
+        },
+        {
+          "code": "V-991",
+          "name": "조은",
+          "rank": "SS",
+          "deploymentEnabled": true,
+          "battleSprite": "assets/ui/project-v/mercenaries/limited-battle-20261004/joeun-sd.png"
+        },
+        {
+          "code": "V-992",
+          "name": "이네스",
+          "rank": "SS",
+          "deploymentEnabled": true,
+          "battleSprite": "assets/ui/project-v/mercenaries/limited-battle-20261004/ines-sd.png"
+        },
+        {
+          "code": "V-993",
+          "name": "오리꿍",
+          "rank": "SS",
+          "deploymentEnabled": true,
+          "battleSprite": "assets/ui/project-v/mercenaries/limited-battle-20261004/orikkung-sd.png"
+        },
+        {
+          "code": "V-994",
+          "name": "디임",
+          "rank": "SS",
+          "deploymentEnabled": true,
+          "battleSprite": "assets/ui/project-v/mercenaries/limited-battle-20261004/diim-sd.png"
+        },
+        {
+          "code": "V-997",
+          "name": "아윤",
+          "rank": "SS",
+          "deploymentEnabled": true,
+          "battleSprite": "assets/ui/project-v/mercenaries/limited-duo-20261008/ayoon-idle.png"
+        },
+        {
+          "code": "V-998",
+          "name": "하이희야",
+          "rank": "SS",
+          "deploymentEnabled": true,
+          "battleSprite": "assets/ui/project-v/mercenaries/limited-duo-20261008/heeya-idle.png"
+        }
+      ],
+      "requests": [
+        {
+          "path": "api/mercenary-codex",
+          "status": 200,
+          "sha256": "7229873723d80ef149c1cf02ad42ab712f4af69573f31f5c3b05ab42e1226db8",
+          "bytes": 114789,
+          "cacheControl": "no-store"
+        },
+        {
+          "path": "shared/mercenary-limited-deployment-v1.mjs",
+          "status": 200,
+          "sha256": "c4d47634fab221187f62124894f13e71d183f4a14c36ff78f501aec12af7d075",
+          "bytes": 1328,
+          "cacheControl": "public, max-age=0, must-revalidate"
+        },
+        {
+          "path": "assets/ui/project-v/mercenaries/limited-duo-20261008/heeya-idle.png",
+          "status": 200,
+          "sha256": "32b746f5da7ff1cba86da1b5656d6ee0ac5f7b9ed40d9e316ceaf4973089d0a4",
+          "bytes": 134314,
+          "cacheControl": "public, max-age=86400, stale-while-revalidate=604800"
+        },
+        {
+          "path": "assets/ui/project-v/mercenaries/limited-duo-20261008/ayoon-idle.png",
+          "status": 200,
+          "sha256": "338b6af63797197a92d9389bbacbb18f5b814ca32446f593f465431a32bee643",
+          "bytes": 115489,
+          "cacheControl": "public, max-age=86400, stale-while-revalidate=604800"
+        },
+        {
+          "path": "js/battle-v3-live.js",
+          "status": 200,
+          "sha256": "d0f360c99a924f054cf8204b943290a4e79e43f90f096bb7ef4403451e341713",
+          "bytes": 77175,
+          "cacheControl": "public, max-age=0, must-revalidate"
+        },
+        {
+          "path": "js/app.js",
+          "status": 200,
+          "sha256": "f6a739d439041e1f19693ba1789ea7c602183f52d2ee4d4adf0c3157236154d3",
+          "bytes": 736595,
+          "cacheControl": "public, max-age=0, must-revalidate"
+        },
+        {
+          "path": "mercenary-codex/app.mjs",
+          "status": 200,
+          "sha256": "379bb3adda4db5082fb607f9b6107d72cff760d79419a478e4af9a48adf5f37b",
+          "bytes": 24278,
+          "cacheControl": "no-cache, must-revalidate, max-age=0"
+        },
+        {
+          "path": "preview/mercenary-limited-ayoon-heeya-v3-20261008/assets/runtime/ayoon-motion.png",
+          "status": 200,
+          "sha256": "2cfd1de16ff00e86e4d21220db737e961fbd82adc551ca506087e2c9e6f31c51",
+          "bytes": 1359135,
+          "cacheControl": "public, max-age=0, must-revalidate"
+        },
+        {
+          "path": "preview/mercenary-limited-ayoon-heeya-v3-20261008/assets/runtime/heeya-motion.png",
+          "status": 200,
+          "sha256": "68583d4fa20d656b5b4f1fc495b6741538bdfc0636ac5111848c8051872bea54",
+          "bytes": 1674599,
+          "cacheControl": "public, max-age=0, must-revalidate"
+        },
+        {
+          "path": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+          "status": 200,
+          "sha256": "4171232c414c2f156db948862e66c140408916b805d5d10d8d997b04adc6127c",
+          "bytes": 1752836,
+          "cacheControl": "public, max-age=0, must-revalidate"
+        },
+        {
+          "path": "index.html",
+          "status": 200,
+          "sha256": "0ecbcb407a6f6d4c92c348bf837b900fbacaaae0bbaca7259ca4b6a7bcd4ac7b",
+          "bytes": 21678,
+          "cacheControl": "no-cache, must-revalidate, max-age=0"
+        }
+      ]
+    },
+    "notes": [
+      "Pre-deploy release guard caught index script query order before any rollout; corrected v tag order and rechecked adjacent loader only.",
+      "First alias static read saw a transient old wrapper immediately after deployment; next read verified all 11 requests including exact current bytes.",
+      "Prior account/codex regressions were not repeated during deployment; approved combat balance values were unchanged."
     ]
   },
   "knownVisualLimitation": "Preserved Ayoon scythe shaft occlusion in certain authored poses; user instructed uploading existing resources. No weapon reconstruction or false visual approval.",
-  "cache": "Main app and V3 runtime/version, native loader and codex module query updated; public codex no-store."
+  "cache": "Main app and V3 runtime/version, native loader and codex module query updated; public codex no-store.",
+  "sourceCommit": "d6a39c69cf81b6e4ac722451c7f393be96402b35",
+  "release": {
+    "pagesDeployment": "6143872f-6bee-4360-b5a0-bd9624084e42",
+    "pagesUrl": "https://6143872f.cnine-card.pages.dev",
+    "apiRuntimeVersion": "6e66254f-6b20-4b4c-a8be-37037ebb06e3",
+    "clanWorkerVersion": "2c5e4602-94c6-403e-9b31-295ed22ea923",
+    "hyperdriveQueryCache": "DISABLED",
+    "command": "npm run deploy:production -- --scoped"
+  }
 }
