@@ -97,8 +97,8 @@ test('actual PVE renderer hides the entry until the server mode check and main/C
   const context={window:{},battleState:{},battleView(){},renderBattleBuilder(){},switchPveMode(){},renderPveMonsterBrowser:null,renderBattleSnapshot:null,summaryBar:()=>''};
   vm.createContext(context);vm.runInContext(source,context);
   for(const role of ['OWNER','USER','ADMIN',undefined])assert.match(context.battleView({role}),/data-legion-hunt-entry hidden/);
-  assert.match(fs.readFileSync('index.html','utf8'),/legion-hunt-entry-v1.mjs\?v=20261003-recovery/);
-  assert.match(fs.readFileSync('admin/index.html','utf8'),/legion-hunt-admin-v1.mjs\?v=20261003-recovery/);
+  assert.match(fs.readFileSync('index.html','utf8'),/legion-hunt-entry-v1.mjs\?v=20261008-regions/);
+  assert.match(fs.readFileSync('admin/index.html','utf8'),/legion-hunt-admin-v1.mjs\?v=20261008-regions/);
   assert.match(fs.readFileSync('functions/api/[[path]].js','utf8'),/await handleLegionHunt/);
 });
 test('OWNER client serializes reveal/pickup/finish and retries account lock contention with the same body',async()=>{
