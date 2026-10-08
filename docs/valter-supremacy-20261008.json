@@ -14,10 +14,22 @@
     "additionalActionsPerOwnerCardAction": 1.5,
     "basicDamageCapScale": 2,
     "incomingDamageReductionPercent": 75,
-    "mercenaryCounterImmunity": ["약화", "방어력 감소", "독", "가시 반동", "균열 표식", "행동 제압", "근접 패링"],
+    "mercenaryCounterImmunity": [
+      "약화",
+      "방어력 감소",
+      "독",
+      "가시 반동",
+      "균열 표식",
+      "행동 제압",
+      "근접 패링"
+    ],
     "berkanCounter": {
       "sourceCode": "V-055",
-      "attacks": ["기본 사격", "MS-055 동시 저격", "MS-056 PVE 화살비"],
+      "attacks": [
+        "기본 사격",
+        "MS-055 동시 저격",
+        "MS-056 PVE 화살비"
+      ],
       "hpDamage": 0,
       "shieldDamage": 0,
       "authority": "SERVER_CANONICAL_DAMAGE_AFTER_HIT_CAPS_AND_FLOORS",
@@ -34,12 +46,33 @@
     "rosterSource": "tests/fixtures/mercenary-valter-roster-20261008.json",
     "cmsRevision": 61,
     "opponents": 55,
-    "powers": [10000, 20000000, 2000000000],
-    "decks": ["balanced", "attack", "defense", "speed"],
-    "sides": ["A", "B"],
-    "seeds": [7919, 65537],
-    "pvpDuels": {"games": 2640, "valterWins": 2640},
-    "pvpTeams": {"games": 2640, "valterWins": 2640},
+    "powers": [
+      10000,
+      20000000,
+      2000000000
+    ],
+    "decks": [
+      "balanced",
+      "attack",
+      "defense",
+      "speed"
+    ],
+    "sides": [
+      "A",
+      "B"
+    ],
+    "seeds": [
+      7919,
+      65537
+    ],
+    "pvpDuels": {
+      "games": 2640,
+      "valterWins": 2640
+    },
+    "pvpTeams": {
+      "games": 2640,
+      "valterWins": 2640
+    },
     "pve": "세 전투력 구간에서 동일 보스 처치에 필요한 일반 행동 수가 55종 모두보다 적거나 동일함",
     "damagePaths": "방벽 유무 각각에서 베르칸 기본 사격·동시 저격·화살비의 실제 서버 영수증 0 피해 확인",
     "duo": "소유자별 추가 행동·능력치 분리와 베르칸 피해 무효 확인",
@@ -65,12 +98,13 @@
       "tests/mercenary-combat-v3.test.mjs",
       "tests/mercenary-berkan-tempo-20260927.test.mjs",
       "tests/berkan-pvp-damage-20260930.test.mjs",
+      "tests/berkan-pvp-reform-20260930.test.mjs",
       "tests/mercenary-berkan-area-20260930.test.mjs",
       "tests/ranked-duo-battle.test.mjs",
       "tests/mercenary-limited-catalog-20261002.test.mjs",
       "tests/pve-battlefield-entry-v2117.test.mjs"
     ],
-    "remainingRegressionFiles": ["tests/berkan-pvp-reform-20260930.test.mjs"],
+    "remainingRegressionFiles": [],
     "historicalFailures": {
       "file": "tests/mercenary-berkan-twin-starfall-20260927.test.mjs",
       "baselineCommit": "e6ec5b4af6439affb840bd3e1d747f9f111c9d09",
@@ -81,7 +115,43 @@
       ],
       "resolution": "기존 실패는 수정하지 않고 최신 2026-09-30 PVP 조정 및 화살비 회귀검사로 대체. 이미 통과한 관련 검사 8개 파일은 문서 기록 커밋 뒤 반복하지 않음."
     },
-    "checks": ["check:worker", "verify-production-release", "Hyperdrive cache disabled"],
-    "status": "PREPARED"
+    "checks": [
+      "check:worker",
+      "verify-production-release",
+      "Hyperdrive cache disabled"
+    ],
+    "status": "DEPLOYED_WITH_EXISTING_RELEASE_LOCKS",
+    "commit": "4c2161f4bed6358c0ad1220355388e2becb2900b",
+    "url": "https://85bbc725.cnine-card.pages.dev",
+    "apiRuntimeVersion": "7539c0a9-c9eb-45e3-8eee-acde9f108a0d",
+    "clanDraftVersion": "5fd8f758-d070-47cd-9099-dccd26587e66",
+    "currentRegressionTestsPassed": 65,
+    "verification": {
+      "checkedAt": "2026-10-08T01:51:24.702Z",
+      "base": "https://cnine-card.pages.dev",
+      "files": [
+        {
+          "path": "shared/mercenary-valter-v1.mjs",
+          "status": 200,
+          "sha256": "2fc64af7def6ff7076fa5a1a1a117451c7c18c71ebefdeab3aef7f2b23c42cd2"
+        },
+        {
+          "path": "shared/mercenary-combat-link-v2103.mjs",
+          "status": 200,
+          "sha256": "fbdbe2c4796f019f61b3b521833fb162ead57375d32f8b747422caf2852fb247"
+        }
+      ],
+      "healthStatus": 200,
+      "codexStatus": 200,
+      "valter": {
+        "code": "V-996",
+        "rank": "SSS",
+        "acquisitionEnabled": false,
+        "deploymentEnabled": false,
+        "artOnly": true,
+        "sourceArtSha256": "8B94E60670355AF87D13802FD68AD4DE22F8E7F23C65028CC97DD1D1F78BE838",
+        "battleSpriteSha256": "D2CAB7DDE716CF9A0554AF44A03A448A7BCCD9E402928D87620C72C73879A6CC"
+      }
+    }
   }
 }
