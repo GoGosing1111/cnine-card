@@ -10,11 +10,11 @@ import {mercenaryAcquisitionEnabled,assertMercenaryAcquisitionEnabled} from '../
 import {mercenaryCardAcquisitionStatements} from '../functions/_mercenary_draw_accounting.js';
 import {validateCatalog,filterCatalog} from '../mercenary-codex/model.mjs';
 const digest=b=>createHash('sha256').update(b).digest('hex').toUpperCase();
-test('read-only codex includes all eight limited cards with confirmed ranks and original artwork',()=>{
+test('read-only codex includes all nine limited cards with confirmed ranks and original artwork',()=>{
  const catalog=validateCatalog(mercenaryCodexDocument({payload_json:JSON.stringify(seed.document),revision:1,updated_at:'2026-10-02'}));
- assert.equal(catalog.cards.filter(c=>c.edition==='LIMITED').length,8);assert.equal(new Set(catalog.cards.map(c=>c.code)).size,catalog.cards.length);
+ assert.equal(catalog.cards.filter(c=>c.edition==='LIMITED').length,9);assert.equal(new Set(catalog.cards.map(c=>c.code)).size,catalog.cards.length);
  assert.equal(cards.find(c=>c.name==='나무늘봉순').rank,'SS');assert.equal(cards.find(c=>c.name==='조은').rank,'SS');
- assert.deepEqual(cards.filter(c=>c.rank==='SSS').map(c=>c.name),['발테르']);
+ assert.deepEqual(cards.filter(c=>c.rank==='SSS').map(c=>c.name),['발테르','헬리오스']);
  assert.deepEqual(cards.filter(c=>c.rank==='SS').map(c=>c.name),['나무늘봉순','조은','이네스','오리꿍','디임','아윤','하이희야']);
  const ayoon=cards.find(c=>c.code==='V-997');assert.ok(ayoon.battleSprite);assert.equal(ayoon.resourceStatus,'V3_MOTION_SKILL_READY');assert.equal(ayoon.sourceArtSha256,'21623C96DFF0FAF9054FF04B4B925D28582E9716A6C40C5B1851E0954E287A39');assert.equal(filterCatalog(cards,{q:'아윤',rank:'SS'},new Set())[0],ayoon);
  const heeya=cards.find(c=>c.code==='V-998');assert.equal(heeya.name,'하이희야');assert.ok(heeya.battleSprite);assert.equal(heeya.resourceStatus,'V3_MOTION_SKILL_READY');assert.equal(heeya.sourceArtSha256,'7FE9B78CCA3243078BB47A4E9F358017F7C633B39E2D888BDEA76B8F7984D20D');assert.equal(filterCatalog(cards,{q:'하이희야',rank:'SS'},new Set())[0],heeya);

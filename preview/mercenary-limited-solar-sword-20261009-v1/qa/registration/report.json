@@ -1,0 +1,68 @@
+[
+  {
+    "name": "desktop",
+    "viewport": {
+      "width": 1440,
+      "height": 1050
+    },
+    "errors": [],
+    "failures": [],
+    "overflow": {
+      "width": 1440,
+      "scroll": 1440
+    },
+    "images": [
+      {
+        "src": "/assets/ui/project-v/mercenaries/approved-20261009/solar-sword-sss-limited-source-art.png",
+        "width": 1024,
+        "height": 1536
+      },
+      {
+        "src": "/assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+        "width": 1024,
+        "height": 1536
+      }
+    ],
+    "checks": {
+      "sssLimitedTwo": true,
+      "allLimitedNine": true,
+      "nameAndDeferredTitle": true,
+      "artAndSdDecoded": true,
+      "sdZoom": true,
+      "noDeploymentAction": true
+    }
+  },
+  {
+    "name": "mobile",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "errors": [],
+    "failures": [],
+    "overflow": {
+      "width": 390,
+      "scroll": 390
+    },
+    "images": [
+      {
+        "src": "/assets/ui/project-v/mercenaries/approved-20261009/solar-sword-sss-limited-source-art.png",
+        "width": 1024,
+        "height": 1536
+      },
+      {
+        "src": "/assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+        "width": 1024,
+        "height": 1536
+      }
+    ],
+    "checks": {
+      "sssLimitedTwo": true,
+      "allLimitedNine": true,
+      "nameAndDeferredTitle": true,
+      "artAndSdDecoded": true,
+      "sdZoom": true,
+      "noDeploymentAction": true
+    }
+  }
+]

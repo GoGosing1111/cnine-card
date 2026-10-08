@@ -7,7 +7,7 @@ export function asset(path){if(typeof path!=='string'||!/^assets\/ui\/project-v\
 export const thumb=code=>`/assets/ui/project-v/mercenaries/codex-v1/${code.toLowerCase()}-art-320.webp`;
 export function validateCatalog(data){
   if(data?.version!=='mercenary-codex-2098'||!Number.isSafeInteger(data.revision)||!Array.isArray(data.cards)||!data.cards.length||new Set(data.cards.map(c=>c.code)).size!==data.cards.length)throw Error('용병 정보 형식을 확인하세요.');
-  for(const c of data.cards){if(!/^V-\d{3}$/.test(c.code)||!c.name||(c.code===CRYVERN_CODE?c.title!=='':!c.title)||(!POSITIONS[c.position]&&!(c.artOnly===true&&c.position===null))||!data.roles?.[c.role]||(c.rank!==null&&!RANKS.includes(c.rank))||!Array.isArray(c.skills))throw Error('용병 설정을 확인하세요.');asset(c.sourceArt);if(c.battleSprite)asset(c.battleSprite);
+  for(const c of data.cards){const titleDeferred=c.edition==='LIMITED'&&c.titleStatus==='DEFERRED_BY_USER';if(!/^V-\d{3}$/.test(c.code)||!c.name||((c.code===CRYVERN_CODE||titleDeferred)?c.title!=='':!c.title)||(!POSITIONS[c.position]&&!(c.artOnly===true&&c.position===null))||!data.roles?.[c.role]||(c.rank!==null&&!RANKS.includes(c.rank))||!Array.isArray(c.skills))throw Error('용병 설정을 확인하세요.');asset(c.sourceArt);if(c.battleSprite)asset(c.battleSprite);
     if(c.edition==='LIMITED'){
       if(c.artOnly!==true||c.basePower!==null||c.skills.length||c.releaseStatus!=='LIMITED_PREVIEW'||c.acquisitionEnabled!==false||typeof c.deploymentEnabled!=='boolean')throw Error('리미티드 획득 정보는 조회만 가능합니다.');
       asset(c.frame);if(!c.artWindow||['left','top','width','height'].some(k=>!Number.isFinite(c.artWindow[k])||c.artWindow[k]<0||c.artWindow[k]>100))throw Error('리미티드 프레임 배치를 확인하세요.');

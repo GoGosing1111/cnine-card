@@ -1,6 +1,6 @@
-# SSS 리미티드 태양검 전투 리소스 · 무기 보정 V2
+# SSS 리미티드 헬리오스 전투 리소스 · 무기 보정 V2
 
-2026-10-09. 사용자 첨부 원화와 **SSS LIMITED 등급은 확정**. 이름 ‘태양검 군주’는 가칭이다. 동작·이펙트·무기 보정은 사용자 시각 검수 대기이며 CMS, 획득, 편성, 전투 수치 및 운영 활성화는 연결하지 않았다.
+2026-10-09. 사용자 첨부 원화와 **SSS LIMITED 등급은 확정**. 사용자 후속 지시로 이름은 **헬리오스(V-999)**로 확정하고 칭호는 비워둔다. 도감에는 승인 원화와 제작된 SD를 공개한다. 동작·이펙트·무기 보정은 사용자 시각 검수 대기이며 획득, 편성, 전투 수치 및 운영 전투 활성화는 연결하지 않았다.
 
 ## 현재 결과
 
@@ -48,7 +48,7 @@ V2는 승인 원화의 보이는 무기 **83,468개 픽셀을 원본 RGBA 그대
 | 08 공용 V3 재생 | [SolarFX.js](source/SolarFX.js), [preview.js](source/preview.js), [build-report](build-report.json). 기존 BattleEngine/지원 액터/카메라/효과 레이어를 사용. Pixi와 GSAP 각 한 벌, V3에 등록한 GSAP 타임라인 하나가 전체 시계를 소유. |
 | 09 실제 전장·제어 | PC 1440×1050, 모바일 390×844. 전체 1배속 영상과 0.5배속 FX OFF 영상. 0.25/0.5/1/2배속, 일시정지·탐색·취소 확인. 가로 넘침 0, 요청 누락 0. 해제 직후 WebGL 해제 이벤트의 중복 취소 오류를 고쳤으며 PC/모바일 해당 경로 재검사 통과. |
 | 10 증빙 보존 | 원본·프롬프트·반려 자료·무기·몸/FX 소스·프레임·아틀라스·스크립트·명세·QA·영상 모두 이 경로와 승인 원화 경로에 보존. [video-report](qa/video/video-report.json)는 실제 WebM 디코딩 프레임 시각/해시를 기록한다. |
-| 11 사용자 시각 승인 | **대기.** 원화·등급 확정과 광원에 대한 긍정 피드백을 동작/무기 최종 승인으로 확대하지 않는다. 보정 V2 비교본과 실제 재생을 제시한다. 운영 활성화 보류. |
+| 11 사용자 시각 승인 | **대기.** 원화·등급·이름·도감 공개 확정과 광원에 대한 긍정 피드백을 동작/무기 최종 승인으로 확대하지 않는다. 보정 V2 비교본과 실제 재생을 제시한다. 운영 활성화 보류. |
 
 ## 관련 검수 결과
 
@@ -73,4 +73,4 @@ node preview/mercenary-limited-solar-sword-20261009-v1/serve.mjs
 
 별도 터미널에서 `qa-browser.mjs`, `record-review.mjs`, `qa-video.mjs`, 필요 시 `qa/cleanup-check.mjs`를 실행한다. 현재 주소는 http://127.0.0.1:8914/preview/mercenary-limited-solar-sword-20261009-v1/ 이다. 브라우저 검수 스크립트는 설치된 Codex Playwright와 Chrome을 사용한다.
 
-원화 승인 경로: `assets/ui/project-v/mercenaries/approved-20261009/solar-sword-sss-limited-source-art.png`. 프리뷰 원격 보존은 `[CF-Pages-Skip]` 커밋으로 수행하며 운영 배포·기능 ON은 하지 않는다.
+원화 승인 경로: `assets/ui/project-v/mercenaries/approved-20261009/solar-sword-sss-limited-source-art.png`. 후속 지시에 따라 헬리오스 이름·SSS 리미티드 등급·승인 원화·준비된 SD를 운영 도감에 공개한다. 전투 리소스 시각 승인과 획득·편성·전투 활성화는 별도이며 잠금을 유지한다. 등록·배포 기록은 `docs/helios-sss-limited-registration-20261009.md`를 따른다.

@@ -206,6 +206,31 @@
       "frame": "../mercenary-limited-frame-slim-v3-20261001/assets/mercenary-limited-frame-slim-v3-glow.png",
       "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
       "frameStatus": "USER_APPROVED_ALL_LIMITED"
+    },
+    {
+      "name": "헬리오스",
+      "title": "",
+      "titleStatus": "DEFERRED_BY_USER",
+      "concept": "SSS 리미티드 · 태양검",
+      "approval": "../mercenary-limited-solar-sword-20261009-v1/approval-20261009.json",
+      "status": "APPROVED_SOURCE_ART",
+      "rank": "SSS",
+      "rankStatus": "CONFIRMED_BY_USER",
+      "rankConfirmed": true,
+      "edition": "LIMITED",
+      "editionConfirmed": true,
+      "sourceArt": "../../assets/ui/project-v/mercenaries/approved-20261009/solar-sword-sss-limited-source-art.png",
+      "source": {
+        "path": "../../assets/ui/project-v/mercenaries/approved-20261009/solar-sword-sss-limited-source-art.png",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 3170760,
+        "sha256": "BE6BF7819C24C53A7CDB0C2C86D85802AFA1E39FDF62D8F4306B8013CCE62492"
+      },
+      "approvedScope": "Original illustration, Helios name, SSS LIMITED rank and public codex registration. Title deferred. Combat resources remain visual-review candidates.",
+      "frame": "../../assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+      "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+      "frameStatus": "USER_APPROVED_ALL_LIMITED"
     }
   ],
   "frame": {

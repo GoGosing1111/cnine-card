@@ -6,7 +6,6 @@
   "approval": "approval-20261009.json",
   "grade": "SSS",
   "edition": "LIMITED",
-  "workingTitle": "태양검 군주",
   "runtimeEnabled": false,
   "weapon": {
     "version": "FULL_SWORD_V2_ORIGINAL_CONTOUR_CORRECTION",
@@ -5807,5 +5806,9 @@
     "weaponSources": 1,
     "visibleWeaponRedraws": 0,
     "hiddenGripCompletionPixels": 840
-  }
+  },
+  "name": "헬리오스",
+  "title": "",
+  "titleStatus": "DEFERRED_BY_USER",
+  "code": "V-999"
 }

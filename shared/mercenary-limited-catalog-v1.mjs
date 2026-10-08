@@ -34,6 +34,40 @@ export const LIMITED_MERCENARIES=Object.freeze([
     "battleVisualManifest": "assets/ui/project-v/mercenaries/limited-battle-20261004/manifest.json"
   },
   {
+    "code": "V-999",
+    "name": "헬리오스",
+    "title": "",
+    "titleStatus": "DEFERRED_BY_USER",
+    "rank": "SSS",
+    "rankStatus": "CONFIRMED_BY_USER",
+    "edition": "LIMITED",
+    "role": "LIMITED",
+    "position": null,
+    "artOnly": true,
+    "releaseStatus": "LIMITED_PREVIEW",
+    "sourceArt": "assets/ui/project-v/mercenaries/approved-20261009/solar-sword-sss-limited-source-art.png",
+    "sourceArtSha256": "BE6BF7819C24C53A7CDB0C2C86D85802AFA1E39FDF62D8F4306B8013CCE62492",
+    "battleSprite": "assets/ui/project-v/mercenaries/limited-20261009/helios-sd.png",
+    "battleSpriteSha256": "6F80501F8D37753E9CBF624554381399287FBF6BCADD94EAD964AD15E271EB8A",
+    "accent": "#e6c98d",
+    "basePower": null,
+    "skills": [],
+    "acquisitionEnabled": false,
+    "deploymentEnabled": false,
+    "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+    "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+    "artWindow": {
+      "left": 5.957,
+      "top": 5.794,
+      "width": 88.086,
+      "height": 88.086
+    },
+    "resourceStatus": "ART_APPROVED_SD_READY_VISUAL_REVIEW_PENDING",
+    "artApproval": "USER_APPROVED_20261009",
+    "visualApproval": "USER_REVIEW_PENDING",
+    "approvalRecord": "preview/mercenary-limited-solar-sword-20261009-v1/approval-20261009.json"
+  },
+  {
     "code": "V-990",
     "name": "나무늘봉순",
     "title": "설원의 저격수 · 허스키",
@@ -222,7 +256,7 @@ export const LIMITED_MERCENARIES=Object.freeze([
     },
     "resourceStatus": "V3_MOTION_SKILL_READY",
     "artApproval": "USER_APPROVED_20261004",
-    "approvalRecord": "preview/mercenary-ayoon-scythe-20261004-v1/approval-20261004.json",
+    "approvalRecord": "preview/mercenary-ayoon-scythe-20261004-v1/approval-20261004.json",
     "battleSpriteSha256": "338B6AF63797197A92D9389BBACBB18F5B814CA32446F593F465431A32BEE643"
   },
   {
@@ -254,7 +288,7 @@ export const LIMITED_MERCENARIES=Object.freeze([
     },
     "resourceStatus": "V3_MOTION_SKILL_READY",
     "artApproval": "USER_APPROVED_20261004",
-    "approvalRecord": "preview/mercenary-heeya-maid-arsenal-v1/approval-20261004.json",
+    "approvalRecord": "preview/mercenary-heeya-maid-arsenal-v1/approval-20261004.json",
     "battleSpriteSha256": "32B746F5DA7FF1CBA86DA1B5656D6EE0AC5F7B9ED40D9E316CEAF4973089D0A4"
   }
 ].map(card=>Object.freeze(card)));

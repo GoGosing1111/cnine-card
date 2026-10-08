@@ -18,7 +18,7 @@ import {buildMercenaryFighter} from '../functions/_mercenary_combat.js';
 import fixture from './fixtures/mercenary-valter-roster-20261008.json' with {type:'json'};
 import {tierCards} from './helpers/mercenary-operating-roster-v2144.mjs';
 
-const codes=LIMITED_MERCENARIES.map(c=>c.code),rid=()=>crypto.randomUUID();
+const codes=LIMITED_MERCENARIES.filter(c=>limitedDeploymentSnapshot(c.code)).map(c=>c.code),rid=()=>crypto.randomUUID();
 async function own(f,code){await f.p('INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,first_obtained_at,last_obtained_at) VALUES(7,?,1,0,?,?)',code,'2026-10-09','2026-10-09').run();}
 for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: all eight limited cards require ownership, persist, replay, replace and unequip`,async t=>{
  const f=await mercenaryFixture(t,{postgres}),user={...f.user,role:'USER'};
@@ -38,7 +38,8 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: all 
  }
  const state=await mercenaryAccountState(f.env,user);assert.equal(state.available,true);assert.equal(state.cards.length,8);assert.ok(state.cards.every(c=>c.canDeploy&&c.deploymentEnabled&&c.basePower>0));
  const publicCatalog=validateCatalog(mercenaryCodexDocument({payload_json:JSON.stringify(f.document),revision:1}));
- assert.ok(publicCatalog.cards.filter(c=>c.edition==='LIMITED').every(c=>c.deploymentEnabled&&c.acquisitionEnabled===false));
+ assert.ok(publicCatalog.cards.filter(c=>codes.includes(c.code)).every(c=>c.deploymentEnabled&&c.acquisitionEnabled===false));
+ assert.equal(publicCatalog.cards.find(c=>c.code==='V-999').deploymentEnabled,false);
  await assert.rejects(saveMercenaryLoadout(f.env,user,{requestId:rid(),mercenaryCode:null,revision:0}),{code:'MERCENARY_LOADOUT_CONFLICT'});
  f.fail('INSERT INTO user_mercenary_loadout_v1');const retry={requestId:rid(),mercenaryCode:null,revision};
  await assert.rejects(saveMercenaryLoadout(f.env,user,retry));f.fail('');

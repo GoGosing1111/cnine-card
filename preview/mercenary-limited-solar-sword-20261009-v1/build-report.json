@@ -4,7 +4,7 @@
   "gsapCopies": 1,
   "pixiVersion": "8.20.0",
   "gsapVersion": "3.13.0",
-  "bundleSha256": "f381430dbf4dca929e9d8974399ce8ce1edef102dd1ae0d675e1b80358224c82",
+  "bundleSha256": "4287dda7c152f74620aa7ea62b4a1169a56a3e97257dd3b5b2e92945a4318cc8",
   "sharedRuntime": [
     "preview/project-v-v3/source/battle/ApocalypseLegionFX.js",
     "preview/project-v-v3/source/battle/ApocalypseLegionPlayback.js",
@@ -60,6 +60,7 @@
     "preview/project-v-v3/source/battle/CooperativeArkePlayback.js",
     "preview/project-v-v3/source/battle/CooperativeEncounter.js",
     "preview/project-v-v3/source/battle/IconRolePlayback.js",
+    "preview/project-v-v3/source/battle/PetSupportLayout.mjs",
     "preview/project-v-v3/source/battle/PetSupportPlayback.js",
     "preview/project-v-v3/source/battle/BattleEngine.js",
     "preview/project-v-v3/source/battle/EffectScene.js"

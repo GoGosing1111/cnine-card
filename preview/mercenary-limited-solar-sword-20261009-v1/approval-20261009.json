@@ -6,8 +6,7 @@
   "grade": "SSS",
   "edition": "LIMITED",
   "gradeStatus": "USER_CONFIRMED",
-  "workingTitle": "태양검 군주",
-  "nameStatus": "WORKING_TITLE_ONLY",
+  "nameStatus": "CONFIRMED_BY_USER",
   "sourceArt": "/assets/ui/project-v/mercenaries/approved-20261009/solar-sword-sss-limited-source-art.png",
   "sha256": "BE6BF7819C24C53A7CDB0C2C86D85802AFA1E39FDF62D8F4306B8013CCE62492",
   "inputFile": "codex-clipboard-6ad37a08-834f-43a5-b082-79736040f4fc.png",
@@ -19,5 +18,16 @@
   "acquisitionEnabled": false,
   "formationEnabled": false,
   "balanceConfigured": false,
-  "scope": ["source illustration approval", "SSS limited grade confirmation", "battle character, motions and separate solar effects production"]
+  "scope": [
+    "source illustration approval",
+    "SSS limited grade confirmation",
+    "battle character, motions and separate solar effects production"
+  ],
+  "previousWorkingTitle": "태양검 군주",
+  "name": "헬리오스",
+  "title": "",
+  "titleStatus": "DEFERRED_BY_USER",
+  "code": "V-999",
+  "codexRegistration": "USER_AUTHORIZED_20261009",
+  "nameAndRegistrationInstruction": "칭호는 나중에, 헬리오스로 하고 SSS리미티드에 올려"
 }
