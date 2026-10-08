@@ -18,4 +18,10 @@
 - 직전 운영 기준: `2e258f428edb7cab05f3a0efebf34678130e349f`, Pages `aea6e48b-6cbc-4316-848a-f9fe4d4e62e6`.
 - 사유: 리미티드 도감 1종 등록, 빈 칭호 표시, 미출시 계정 조회 처리 및 정적 자산 연결 변경이다. 인증·DB 구조·거래·의존성·전투 계산 변경이 없어 `npm run deploy:production -- --scoped`를 적용한다.
 
-배포 결과는 완료 후 아래에 기록한다.
+## 운영 반영 결과
+
+2026-10-09 04:27 KST, 공식 scoped 배포 완료(종료 코드 0). 배포 커밋은 `ae278a5a7b27899041e2aa74de433590dc45f861`, Pages는 `https://96c77f53.cnine-card.pages.dev`다. 선택 회귀 5/5, Worker 문법·컴파일, 출시 보호·Hyperdrive 캐시 검사 통과.
+
+운영 `https://cnine-card.pages.dev/api/mercenary-codex`에서 V-999 이름 헬리오스, 빈 칭호, SSS LIMITED, 리미티드 총 9종, 획득/편성 잠금을 확인했다. 도감 HTML의 새 캐시 태그 및 원화·SD HTTP 200과 원본 해시 일치를 확인했다. 전체 검수는 반복하지 않았다. 자세한 결과는 `helios-sss-limited-registration-20261009-release.json`에 보존한다.
+
+검수 결과만 기록한 후속 문서 커밋은 운영 재배포 대상이 아니다.

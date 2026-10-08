@@ -1,0 +1,46 @@
+{
+  "verifiedAt": "2026-10-08T19:27:42.292Z",
+  "sourceCommit": "ae278a5a7b27899041e2aa74de433590dc45f861",
+  "productionUrl": "https://cnine-card.pages.dev/mercenary-codex/?view=limited&rank=SSS#V-999",
+  "pagesUrl": "https://96c77f53.cnine-card.pages.dev",
+  "catalog": {
+    "code": "V-999",
+    "name": "헬리오스",
+    "title": "",
+    "rank": "SSS",
+    "edition": "LIMITED",
+    "limitedCount": 9,
+    "deploymentEnabled": false,
+    "acquisitionEnabled": false
+  },
+  "cacheMarker": true,
+  "assets": [
+    {
+      "asset": "sourceArt",
+      "path": "assets/ui/project-v/mercenaries/approved-20261009/solar-sword-sss-limited-source-art.png",
+      "bytes": 3170760,
+      "sha256": "BE6BF7819C24C53A7CDB0C2C86D85802AFA1E39FDF62D8F4306B8013CCE62492",
+      "status": 200
+    },
+    {
+      "asset": "battleSprite",
+      "path": "assets/ui/project-v/mercenaries/limited-20261009/helios-sd.png",
+      "bytes": 170634,
+      "sha256": "6F80501F8D37753E9CBF624554381399287FBF6BCADD94EAD964AD15E271EB8A",
+      "status": 200
+    }
+  ],
+  "deploymentCommand": "npm run deploy:production -- --scoped",
+  "deploymentExitCode": 0,
+  "previousProductionCommit": "2e258f428edb7cab05f3a0efebf34678130e349f",
+  "regressions": {
+    "file": "tests/helios-sss-limited-registration-20261009.test.mjs",
+    "passed": 5,
+    "failed": 0
+  },
+  "workerCheck": "PASS",
+  "productionReleaseCheck": "PASS",
+  "hyperdriveCacheCheck": "PASS",
+  "apiRuntimeVersion": "99395047-4488-423e-b5d0-78f3ab2fea0a",
+  "clanDraftVersion": "36d15055-08a1-4ffe-8d08-9c674800ba46"
+}
