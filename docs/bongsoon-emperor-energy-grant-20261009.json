@@ -1,0 +1,43 @@
+{
+  "request": "나무늘봉순 계정에 엠퍼러 에너지 20개 지급해",
+  "status": "COMPLETED",
+  "operationKey": "ops:bongsoon-emperor-energy:20261009:20:v1",
+  "user": {
+    "id": 5426,
+    "nickname": "나무늘봉순"
+  },
+  "allocations": [
+    {
+      "code": "EMPEROR_ENERGY",
+      "name": "엠퍼러 에너지",
+      "amount": 20,
+      "before": {
+        "quantity": "17",
+        "unseenQuantity": "0"
+      },
+      "after": {
+        "quantity": "37",
+        "unseenQuantity": "20"
+      },
+      "logId": "78628469"
+    }
+  ],
+  "completedAt": "2026-10-08T20:53:48.524Z",
+  "auditId": "43049",
+  "currentInventoryAtVerification": [
+    {
+      "item_code": "EMPEROR_ENERGY",
+      "quantity": "37",
+      "unseen_quantity": "20"
+    }
+  ],
+  "verifiedAt": "2026-10-08T20:53:53.234Z",
+  "validation": {
+    "productionDryRunRollbackVerified": true,
+    "postCommitReadVerified": true,
+    "grantLogCount": 1,
+    "transaction": "account and inventory row locks; atomic quantity increment, inventory log, admin audit and unique receipt"
+  },
+  "gameRuntimeChanged": false,
+  "deploymentRequired": false
+}
