@@ -740,13 +740,15 @@
     const allies = (Array.isArray(participant.cards) ? participant.cards : []).slice(0, 5).map(normalizeTowerCard);
     const bossId = String(current.bossId || current.id || 'WORLD');
     const boss = {
-      id: bossId,
-      monsterId: bossId,
-      cardId: `MONSTER:RAID:${bossId}`,
+      id: `WORLD_RAID:${bossId}:BOSS`,
+      monsterId: `WORLD_RAID:${bossId}:BOSS`,
+      cardId: `MONSTER:RAID:${bossId}:BOSS`,
       name: current.bossName || 'WORLD RAID BOSS',
       title: current.bossName || 'WORLD RAID BOSS',
       image: current.bossImage || '',
       image_url: current.bossImage || '',
+      battleSprite: current.bossBattleSprite || '',
+      ...(current.bossBattleSprite ? {projectVMonsterArt:{scope:'BATTLE_ENGINE_ONLY',kind:'MONSTER_SD',primaryUrl:current.bossBattleSprite,pngFallbackUrl:current.bossBattleSprite,name:current.bossName,isBoss:true,approved:true}} : {}),
       grade: 'BOSS',
       isBoss: true,
       mode: 'RAID',
@@ -779,9 +781,11 @@
         });
       }
     });
-    timeline.push({ type: 'RESULT', winner: 'A', actions: timeline.length, label: '개인 전투 완료' });
     return {
       ...data,
+      // This is a contribution presentation while the shared raid is still running.
+      // Only raid/status may announce the party outcome.
+      result: 'PENDING',
       mode: 'RAID',
       battlefieldMode: 'RAID',
       monster: boss,
@@ -789,7 +793,7 @@
       playUltimateCinematics: true,
       battleV2: {
         teams: { A: { cards: allies }, B: { cards: [boss] } },
-        result: { timeline, winner: 'A', actions: timeline.length }
+        result: { timeline, winner: null, actions: timeline.length }
       }
     };
   }

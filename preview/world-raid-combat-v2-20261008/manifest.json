@@ -1,0 +1,58 @@
+{
+  "date": "2026-10-08",
+  "scope": "World raid only; existing V3 battlefield and EffectLayer",
+  "visualStatus": "User requested live V3 integration; final captures supplied for review. No new character art or atlas generated.",
+  "pixi": "8.20.0",
+  "gsap": "3.13.0",
+  "implementation": [
+    "js/world-raid-v3-live.mjs",
+    "js/world-raid-skill-fx-v2.src.js",
+    "css/world-raid-v3-live.css"
+  ],
+  "renderer": "Existing ProjectVPixiBattle Application; one canvas; original formation/art adapter/card dock",
+  "clock": "One GSAP timeline owns all 12 atlas frames, impact callback, travel, particles and damage labels per cast; seconds at fixed 1x. Close, route, background and server end cancel. Resume resynchronizes and skips historical casts.",
+  "collisionFrame": 7,
+  "authoritative": "Only new cumulative server deltas animate; per-card shares are presentation. No client result/reward calculation.",
+  "audio": "Existing V3 recorded impact event via engine.audio.scheduleImpact; existing ON/OFF preference and engine stopAll. No new audio asset.",
+  "assets": [
+    {
+      "id": "nagato",
+      "frames": 12,
+      "impactSeconds": 0.96,
+      "durationSeconds": 1.89,
+      "files": {
+        "assets/ui/project-v/fx/weekly-raid-v1/nagato-impact-atlas-v1.json": "55a7806f56e5f279507534fa8d43380db79d70d68905ca191d889b743e2ff867",
+        "assets/ui/project-v/fx/weekly-raid-v1/nagato-impact-sheet-v1.webp": "e61131a369efcbbece362688999ed5d27d7d07145e366b2dbb8db4a332ed9745"
+      }
+    },
+    {
+      "id": "yoriichi",
+      "frames": 12,
+      "impactSeconds": 0.62,
+      "durationSeconds": 1.48,
+      "files": {
+        "assets/ui/project-v/fx/weekly-raid-v1/yoriichi-impact-atlas-v1.json": "7bc42d12e5fab3de958e10c8d69495a0a7c6a37a6593a628c8beb655dc25fc1c",
+        "assets/ui/project-v/fx/weekly-raid-v1/yoriichi-impact-sheet-v1.webp": "f2d64d62f9c3699b75e3e0124568d9c55e6ef9bff8b0fdd61730e6f0ea6b87fa"
+      }
+    },
+    {
+      "id": "ichigo",
+      "frames": 12,
+      "impactSeconds": 0.72,
+      "durationSeconds": 1.7,
+      "files": {
+        "assets/ui/project-v/fx/weekly-raid-v1/ichigo-impact-atlas-v1.json": "185513485e960aca4897ecf413e77260e620f007ccb277db9f84e5e28694ffd8",
+        "assets/ui/project-v/fx/weekly-raid-v1/ichigo-impact-sheet-v1.webp": "43e7283cbb6e8bdff93476a42adf45022dc094b50cb182ff6b3bcff4c7483583"
+      }
+    }
+  ],
+  "screens": {
+    "v3-desktop-party.png": "2872ecb3a1d523dac847853cd1489c2f8204bec7de56e7712586a1776d384616",
+    "v3-mobile-battle.png": "58ae01810aab69c7cf385aad809666dd9011add81fbcee8751a35e113b6d4307",
+    "v3-mobile-party.png": "9d2b7d661e01f7c86da47f11137943535f9edb2bdd27e7fac1fb6736a10a46a8",
+    "v3-mobile-skill.png": "fe7d866f3f9a7d77fc19a6ca822fff89806f4bdccad7fe561a1d841ddc726891",
+    "v3-skill-ichigo.png": "11b45468b291b379e0a48150c82b60aac44bf379deceebef0ac140061b67b486",
+    "v3-skill-nagato.png": "c9e5c3e8722d22e217e4c2d4b9c402a6471e111839a956eba82d2091a705346a",
+    "v3-skill-yoriichi.png": "1df285346f6b89ac804eb10c27fee0af183740a5d2e36c9c6e133edfdc7a7657"
+  }
+}

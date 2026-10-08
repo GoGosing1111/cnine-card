@@ -1,0 +1,103 @@
+{
+  "fixture": "Actual main application and native V3 engine; synthetic 20-person party; no live account writes",
+  "checks": [
+    "Native V3 auto entry, approved boss sprite, original card dock, keyed 20-person party and expanded deck/filter survive polls",
+    {
+      "boss": "NAGATO",
+      "metrics": {
+        "casts": 1,
+        "castKey": "99100:1",
+        "frames": 8,
+        "collisionFrame": 7,
+        "kind": "gravity",
+        "impactAt": 0.96,
+        "duration": 1.89,
+        "native": true,
+        "target": {
+          "x": 380,
+          "y": 235.8
+        },
+        "origin": {
+          "x": 1010,
+          "y": 286
+        },
+        "layer": "EffectLayer"
+      },
+      "duplicateCastSuppressed": true,
+      "nativeEffectsAfter": 0,
+      "serverHpMatched": true
+    },
+    {
+      "boss": "YORIICHI",
+      "metrics": {
+        "casts": 2,
+        "castKey": "99101:1",
+        "frames": 8,
+        "collisionFrame": 7,
+        "kind": "sun",
+        "impactAt": 0.6200000000000001,
+        "duration": 1.4800000000000002,
+        "native": true,
+        "target": {
+          "x": 380,
+          "y": 235.8
+        },
+        "origin": {
+          "x": 1010,
+          "y": 286
+        },
+        "layer": "EffectLayer"
+      },
+      "duplicateCastSuppressed": true,
+      "nativeEffectsAfter": 0,
+      "serverHpMatched": true
+    },
+    {
+      "boss": "ICHIGO",
+      "metrics": {
+        "casts": 3,
+        "castKey": "99102:1",
+        "frames": 8,
+        "collisionFrame": 7,
+        "kind": "crescent",
+        "impactAt": 0.72,
+        "duration": 1.7,
+        "native": true,
+        "target": {
+          "x": 380,
+          "y": 235.8
+        },
+        "origin": {
+          "x": 1010,
+          "y": 286
+        },
+        "layer": "EffectLayer"
+      },
+      "duplicateCastSuppressed": true,
+      "nativeEffectsAfter": 0,
+      "serverHpMatched": true
+    },
+    "Server-confirmed end → native notice → status result → one local claim; native resources release on close",
+    "390px native V3, readable battlefield + original dock, party drawer/decks, impact, close during FX, reduced motion and navigation cleanup",
+    {
+      "check": "Background/resume skips historical casts, restores authoritative HP; navigation closes native canvas",
+      "casts": 0,
+      "lastCast": 1,
+      "hp": 90.956504615949,
+      "expected": 90.956504615949,
+      "busy": false
+    }
+  ],
+  "screens": [
+    "v3-desktop-party.png",
+    "v3-skill-nagato.png",
+    "v3-skill-yoriichi.png",
+    "v3-skill-ichigo.png",
+    "v3-mobile-battle.png",
+    "v3-mobile-party.png",
+    "v3-mobile-skill.png"
+  ],
+  "errors": [],
+  "passed": true,
+  "desktopHudRecaptured": true
+}
