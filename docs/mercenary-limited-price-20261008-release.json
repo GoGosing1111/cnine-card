@@ -1,0 +1,36 @@
+{
+  "checkedAt": "2026-10-08T12:46:13.280Z",
+  "sourceCommit": "00b9959942bf02863318ae1b7e1b8f56173f2bc5",
+  "origin": "https://cnine-card.pages.dev",
+  "deployment": "https://e878c369.cnine-card.pages.dev",
+  "command": "npm run deploy:production -- --scoped",
+  "exitCode": 0,
+  "apiWorkerVersion": "40db64ba-2559-4255-82bd-f99fe6ccb694",
+  "clanWorkerVersion": "e11da3cf-991e-4902-a1b2-c25ed30c6ce3",
+  "files": [
+    {
+      "file": "index.html",
+      "sha256": "4b49cbc3b5a0de1cdb9439dd8d5b891bd0492bbc1abc55613b8a976d018fe467",
+      "match": true
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "302dce551c738ccf62a07b56570ada8755545ecbc31970f97961df2f724aeb61",
+      "match": true
+    },
+    {
+      "file": "js/mercenary-limited-pack-live.mjs",
+      "sha256": "b506a55abbbaf06d48a29638061ce86ee98ea3c31ad31c5c1dca383fa55aa8bc",
+      "match": true
+    }
+  ],
+  "prices": {
+    "single": 1000000000,
+    "ten": 10000000000
+  },
+  "dailyLimit": 3000,
+  "userOpeningEnabled": false,
+  "regressionTestsPassed": 11,
+  "desktopMobileReviewed": true,
+  "logSha256": "7075d79ae95beef00f7e2442637be597d4849d4aea019b785ad9c6fd05dd75b5"
+}
