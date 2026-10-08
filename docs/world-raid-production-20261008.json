@@ -1,0 +1,146 @@
+{
+  "verifiedAt": "2026-10-08T12:02:08.627Z",
+  "productionOrigin": "https://cnine-card.pages.dev",
+  "pagesDeployment": "https://07043f1a.cnine-card.pages.dev",
+  "releaseCommit": "4c1d46d6b454697d8b98b562388085798c4f5c12",
+  "previousProductionCommit": "7c3233060f5d424a6b68998c8e62747132b04713",
+  "apiRuntimeVersion": "e3052c19-4723-4c6c-9aa4-faf50d4bb2c8",
+  "clanWorkerVersion": "bee28f27-3395-469f-b440-f30375305735",
+  "deploymentExitCode": 0,
+  "fullGate": {
+    "passed": true,
+    "logs": [
+      {
+        "file": "world-raid-production-deploy-20261008.log",
+        "sha256": "ae8db2eec046e7a7c163fcb3df3a2f7de553c390f24eb690226ba6911db5cf86",
+        "reusedCompletedStages": 0
+      },
+      {
+        "file": "world-raid-production-resume1-20261008.log",
+        "sha256": "ab82f3416d939f463bb45aad6101076dd2104286c4a3805d408b1be4e7af076f",
+        "reusedCompletedStages": 35
+      },
+      {
+        "file": "world-raid-production-resume2-20261008.log",
+        "sha256": "4708a4d5ee3fc360d1cfee174a325b62ec3d88d4afdbed46a9eb1563235f0533",
+        "reusedCompletedStages": 47
+      },
+      {
+        "file": "world-raid-production-resume3-20261008.log",
+        "sha256": "feed94023af650d9709e0f8e228ac11060cdb11551bdada46657b9342c3d9145",
+        "reusedCompletedStages": 51
+      },
+      {
+        "file": "world-raid-production-resume4-20261008.log",
+        "sha256": "1629ba881fed8edd4aa6aed31186e6ee94c3dbffc12dea10f37f15b4373de55b",
+        "reusedCompletedStages": 53
+      },
+      {
+        "file": "world-raid-production-resume5-20261008.log",
+        "sha256": "f91f23b57177f3f7759b33ddc137ff6f4cfd21566170fc3fffbe9f6fd0d897e6",
+        "reusedCompletedStages": 70
+      }
+    ],
+    "cpuAffinity": "3 logical processors for memory-safe test concurrency; same commands and all remaining checks"
+  },
+  "apiUnauthenticatedStatus": 401,
+  "files": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "1377acc8ceb18dc775f4e8ae911f98f5a15c5ec017ddbb8413e6f5e19bd78041",
+      "bytes": 21812
+    },
+    {
+      "path": "js/app.js",
+      "status": 200,
+      "sha256": "b33ae729e39db3bbcadbca9e1c89ec91df66354786045c2e90be556325613f89",
+      "bytes": 742364
+    },
+    {
+      "path": "js/battle-v3-live.js",
+      "status": 200,
+      "sha256": "c6e5310ba5166ea76cb111aa382d18741c7747a12e81e437e058ba2e55059535",
+      "bytes": 78472
+    },
+    {
+      "path": "js/world-raid-v3-live.mjs",
+      "status": 200,
+      "sha256": "c5718516aa15364928ba8b30ffcf22276808fc05c7acc3591368eeeae1d25692",
+      "bytes": 13762
+    },
+    {
+      "path": "js/world-raid-skill-fx-v2.bundle.js",
+      "status": 200,
+      "sha256": "63544f1a70d9cebd31a0876252ba132a747f4f364f44a18fa029eb94c77ebc24",
+      "bytes": 5685
+    },
+    {
+      "path": "css/world-raid-v3-live.css",
+      "status": 200,
+      "sha256": "083a848482e930b93bedca3393f71a3424d1b66d784ffd7607a346aad4ed5eb8",
+      "bytes": 10182
+    },
+    {
+      "path": "js/world-raid-combat-v2.mjs",
+      "status": 200,
+      "sha256": "fa710f7929f4a22da73a3082da31d86c5b8485dbe64c1a48a939f79d7633ac41",
+      "bytes": 19146
+    },
+    {
+      "path": "shared/world-raid-view-v2.mjs",
+      "status": 200,
+      "sha256": "0699f5570d9a2b634331772fb2d6a805cc6b1f3ce2180da5e4761ed40cf29553",
+      "bytes": 5070
+    }
+  ],
+  "database": {
+    "operationKey": "ops:world-raid-renewal:20261008:v1",
+    "adminLogId": "42846",
+    "existingRoomsPreserved": {
+      "count": "5031",
+      "digest": "55cb63f1e20e0364cf278c9122311410"
+    },
+    "commonPolicyUnchanged": true,
+    "bosses": [
+      {
+        "name": "나가토",
+        "max_hp": "1600000000"
+      },
+      {
+        "name": "요리이치",
+        "max_hp": "1750000000"
+      },
+      {
+        "name": "이치고",
+        "max_hp": "1900000000"
+      }
+    ],
+    "tuning": {
+      "NAGATO": {
+        "attack": 5600000,
+        "interval": 25000,
+        "minionHp": [
+          112000000,
+          128000000
+        ]
+      },
+      "YORIICHI": {
+        "attack": 5600000,
+        "interval": 25000,
+        "minionHp": [
+          122500000,
+          140000000
+        ]
+      },
+      "ICHIGO": {
+        "attack": 4800000,
+        "interval": 25000,
+        "minionHp": [
+          133000000,
+          152000000
+        ]
+      }
+    }
+  }
+}

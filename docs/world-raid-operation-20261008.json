@@ -1,0 +1,41 @@
+{
+  "operationKey": "ops:world-raid-renewal:20261008:v1",
+  "status": "COMPLETED",
+  "committed": true,
+  "completedAt": "2026-10-08T12:01:01.471Z",
+  "releaseCommit": "4c1d46d6b454697d8b98b562388085798c4f5c12",
+  "authorization": "월드레이드 UI·스킬 이펙트 개선·난이도 증가",
+  "baselineSha256": "fd59d535096c3b072a22d7d41069db2e38300beac04b21f4ac6009f9e5e1587f",
+  "measurementSha256": "62b37b2de58547f909192968ff70a66077d069f604a6c6fc88090858365dfa03",
+  "weeklyRevision": "ef9f681f-6c1b-42f4-a9ec-7a59154fe7b7",
+  "bosses": [
+    {
+      "id": "4",
+      "name": "나가토",
+      "max_hp": "1600000000",
+      "defense_rate": 22,
+      "is_active": "1"
+    },
+    {
+      "id": "6",
+      "name": "요리이치",
+      "max_hp": "1750000000",
+      "defense_rate": 23,
+      "is_active": "1"
+    },
+    {
+      "id": "8",
+      "name": "이치고",
+      "max_hp": "1900000000",
+      "defense_rate": 24,
+      "is_active": "1"
+    }
+  ],
+  "existingRoomsUnchanged": {
+    "count": "5031",
+    "digest": "55cb63f1e20e0364cf278c9122311410"
+  },
+  "rewardsAndEntryPolicyUnchanged": true,
+  "adminLogId": "42846",
+  "replayed": false
+}
