@@ -1,0 +1,86 @@
+{
+  "status": "VERIFIED",
+  "verifiedAt": "2026-10-08T10:00:27.235Z",
+  "sourceCommit": "8fc61d2ecd58fd349aa09efbac9714cc318d0646",
+  "ticketGrant": {
+    "status": "VERIFIED",
+    "operationKey": "ops:verified-lich-tickets-five:20261008:v1",
+    "delivery": "DIRECT",
+    "recipientCount": 541,
+    "roles": {
+      "OWNER": 2,
+      "USER": 537,
+      "ADMIN": 2
+    },
+    "itemCode": "LICH_KING_ENTRY_TICKET",
+    "itemName": "리치왕 정벌 입장권",
+    "amountEach": 5,
+    "totalItems": 2705,
+    "inventoryLogs": 541,
+    "duplicates": 0,
+    "auditId": "42812",
+    "completedAt": "2026-10-08T10:00:06.717Z",
+    "recipientHash": "d53fea2ac1765c58e99f0abd67fbaf802e7b11bf3a3b4cdb29069b2cf64f8827",
+    "excludedInactive": [
+      {
+        "status": "BANNED",
+        "count": 1
+      }
+    ]
+  },
+  "weeklyReset": {
+    "status": "VERIFIED",
+    "operationKey": "ops:core-lich-weekly-reset:20261008:v1",
+    "weekKey": "2026-10-05",
+    "totalAccounts": 3745,
+    "core": {
+      "affectedUsers": 115,
+      "markedReceipts": 304,
+      "resetCounters": 115,
+      "usedAfter": 0,
+      "remainingAfter": 3,
+      "pigCoinWeeklyQuotaReset": true
+    },
+    "lich": {
+      "affectedUsers": 104,
+      "resetCounters": 104,
+      "usedAfter": 0,
+      "remainingAfter": 3,
+      "invalidatedActivePlans": 0
+    },
+    "weeklyRewardLimit": 3,
+    "adminLogId": "42813",
+    "resetAt": "2026-10-08T10:00:09.598Z"
+  },
+  "currentQuotas": {
+    "week": {
+      "weekKey": "2026-10-05",
+      "startsAt": "2026-10-04T15:00:00.000Z",
+      "resetsAt": "2026-10-11T15:00:00.000Z"
+    },
+    "core": {
+      "affectedUsers": 0,
+      "completedReceipts": 304,
+      "unresetReceipts": 0,
+      "positiveCounters": 0,
+      "counterTotal": 0
+    },
+    "lich": {
+      "counters": 104,
+      "positiveCounters": 0,
+      "counterTotal": 0,
+      "legacyPaidClears": 0
+    }
+  },
+  "replay": {
+    "ticketGrant": true,
+    "weeklyReset": true,
+    "additionalGrant": false,
+    "additionalReset": false
+  },
+  "tests": {
+    "passed": 8,
+    "failed": 0
+  },
+  "runtimeDeploymentRequired": false
+}
