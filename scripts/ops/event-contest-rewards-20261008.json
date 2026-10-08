@@ -1,0 +1,1571 @@
+{
+  "operationKey": "ops:event-contest-rewards:20261008:v1",
+  "authorization": {
+    "request": "1등 공단: 마별 3000만 + 베르칸. 공동 2등 진짜디임, 커피먹은봉순: 각 마별 2000만 + 크라이베른. 미미미눙: 마별 1000만 + 엠퍼러 에너지 10개. 참가상: 마별 300만 + 엠퍼러 에너지 5개. 지급.",
+    "rankCorrection": "3등 장려상으로",
+    "participationPolicy": "수상자도 포함, 모두 계정당 1회 지급",
+    "secondPlaceAccountMapping": "커피먹은봉순 → 명단의 커피먹는철구, 인증 닉네임 커피먹는봉순, 계정 22",
+    "normalization": "란X2 → 란x2. 철구 그림 괄호 표시는 작품 설명으로 처리."
+  },
+  "groups": {
+    "cooking": [
+      "란X2",
+      "폭군#",
+      "공단",
+      "싸이타마",
+      "[C9]족쪽이",
+      "학벌",
+      "찡찡ෆ",
+      "건빵3개",
+      "오랜만에",
+      "[C9]가시",
+      "커피먹는철구",
+      "ε연두з",
+      "레드클라우드",
+      "조은",
+      "비니",
+      "센텀신사",
+      "혜정"
+    ],
+    "art": [
+      "씨나인택갓",
+      "레드클라우드",
+      "박사",
+      "족단",
+      "레가파",
+      "애장이",
+      "으악",
+      "제롬",
+      "모래",
+      "구와함",
+      "대저동토마토",
+      "족알못",
+      "세라네꼬라지",
+      "ShowMaker",
+      "zkzk9999",
+      "진짜디임",
+      "강구열",
+      "0수표",
+      "싸이타마",
+      "응맨",
+      "˚쟁이。",
+      "폭군#",
+      "하이희야",
+      "공단",
+      "의지",
+      "펜타",
+      "불법사행산업신고센터",
+      "[C9]가시",
+      "토닭토닭",
+      "미미미눙",
+      "우회하세요",
+      "오승환이다.",
+      "더듬이구",
+      "쁴로리",
+      "음주플레이어",
+      "오리꿍",
+      "커피먹는철구",
+      "그냥지은닉",
+      "비쥬얼깡패",
+      "라페스타다",
+      "박세라-ㅂ-"
+    ],
+    "fashion": [
+      "나무늘봉순"
+    ]
+  },
+  "recipients": [
+    {
+      "participant": "ε연두з",
+      "userId": "3",
+      "gameNickname": "ε연두з",
+      "verifiedNickname": "ε연두з",
+      "categories": [
+        "cooking"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "싸이타마",
+      "userId": "5",
+      "gameNickname": "싸이타마",
+      "verifiedNickname": "타마",
+      "categories": [
+        "cooking",
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "불법사행산업신고센터",
+      "userId": "13",
+      "gameNickname": "불법사행산업신고센터",
+      "verifiedNickname": "불법사행산업신고센터",
+      "categories": [
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "오승환이다.",
+      "userId": "16",
+      "gameNickname": "오승환이다",
+      "verifiedNickname": "오승환이다.",
+      "categories": [
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "토닭토닭",
+      "userId": "19",
+      "gameNickname": "토닭토닭",
+      "verifiedNickname": "토닭토닭",
+      "categories": [
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "커피먹는철구",
+      "userId": "22",
+      "gameNickname": "커피먹는철구",
+      "verifiedNickname": "커피먹는봉순",
+      "categories": [
+        "cooking",
+        "art"
+      ],
+      "award": {
+        "tier": "SECOND",
+        "label": "2등",
+        "stars": 20000000,
+        "energy": 0,
+        "mercenary": {
+          "code": "V-049",
+          "name": "크라이베른",
+          "quantity": 1
+        }
+      },
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 23000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": {
+        "code": "V-049",
+        "name": "크라이베른",
+        "quantity": 1
+      }
+    },
+    {
+      "participant": "하이희야",
+      "userId": "23",
+      "gameNickname": "하이희야",
+      "verifiedNickname": "하이희야",
+      "categories": [
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "박세라-ㅂ-",
+      "userId": "45",
+      "gameNickname": "박세라-ㅂ-",
+      "verifiedNickname": "박세라-ㅁ-",
+      "categories": [
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "폭군#",
+      "userId": "52",
+      "gameNickname": "폭군#",
+      "verifiedNickname": "폭군",
+      "categories": [
+        "cooking",
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "란X2",
+      "userId": "73",
+      "gameNickname": "란x2",
+      "verifiedNickname": "란x2",
+      "categories": [
+        "cooking"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "미미미눙",
+      "userId": "75",
+      "gameNickname": "미미미눙",
+      "verifiedNickname": "미미미눙",
+      "categories": [
+        "art"
+      ],
+      "award": {
+        "tier": "ENCOURAGEMENT",
+        "label": "장려상",
+        "stars": 10000000,
+        "energy": 10
+      },
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 13000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 15
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "비쥬얼깡패",
+      "userId": "81",
+      "gameNickname": "비쥬얼깡패",
+      "verifiedNickname": "비쥬얼깡패",
+      "categories": [
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "애장이",
+      "userId": "83",
+      "gameNickname": "애장이",
+      "verifiedNickname": "애장",
+      "categories": [
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "0수표",
+      "userId": "88",
+      "gameNickname": "0수표",
+      "verifiedNickname": "0수표",
+      "categories": [
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "박사",
+      "userId": "164",
+      "gameNickname": "박사",
+      "verifiedNickname": "박사",
+      "categories": [
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "족알못",
+      "userId": "220",
+      "gameNickname": "족알못",
+      "verifiedNickname": "족알못",
+      "categories": [
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "ShowMaker",
+      "userId": "233",
+      "gameNickname": "ShowMaker",
+      "verifiedNickname": "ShowMaker",
+      "categories": [
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "모래",
+      "userId": "295",
+      "gameNickname": "모래",
+      "verifiedNickname": "모래",
+      "categories": [
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "[C9]족쪽이",
+      "userId": "303",
+      "gameNickname": "[C9]족쪽이",
+      "verifiedNickname": "[C9]핑쪽이",
+      "categories": [
+        "cooking"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "대저동토마토",
+      "userId": "521",
+      "gameNickname": "대저동토마토",
+      "verifiedNickname": "대저동토마토",
+      "categories": [
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "라페스타다",
+      "userId": "750",
+      "gameNickname": "라페스타다",
+      "verifiedNickname": "라페스타다",
+      "categories": [
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "센텀신사",
+      "userId": "792",
+      "gameNickname": "센텀신사",
+      "verifiedNickname": "센텀신사",
+      "categories": [
+        "cooking"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "씨나인택갓",
+      "userId": "1195",
+      "gameNickname": "씨나인택갓",
+      "verifiedNickname": "씨나인택갓",
+      "categories": [
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "구와함",
+      "userId": "2333",
+      "gameNickname": "구와함",
+      "verifiedNickname": "구와함",
+      "categories": [
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "그냥지은닉",
+      "userId": "2734",
+      "gameNickname": "그냥지은닉",
+      "verifiedNickname": "그냥지은닉",
+      "categories": [
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "레드클라우드",
+      "userId": "3867",
+      "gameNickname": "레드클라우드",
+      "verifiedNickname": "레드클라우드",
+      "categories": [
+        "cooking",
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "zkzk9999",
+      "userId": "3884",
+      "gameNickname": "zkzk9999",
+      "verifiedNickname": "zkzk9999",
+      "categories": [
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "우회하세요",
+      "userId": "3974",
+      "gameNickname": "우회하세요",
+      "verifiedNickname": "우회하세요",
+      "categories": [
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "건빵3개",
+      "userId": "4371",
+      "gameNickname": "건빵3개",
+      "verifiedNickname": "건빵3개",
+      "categories": [
+        "cooking"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "더듬이구",
+      "userId": "4391",
+      "gameNickname": "더듬이구",
+      "verifiedNickname": "더듬이구",
+      "categories": [
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "레가파",
+      "userId": "4408",
+      "gameNickname": "레가파",
+      "verifiedNickname": "레가파",
+      "categories": [
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "찡찡ෆ",
+      "userId": "4562",
+      "gameNickname": "찡찡ෆ",
+      "verifiedNickname": "찡찡ෆ",
+      "categories": [
+        "cooking"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "혜정",
+      "userId": "4570",
+      "gameNickname": "혜정",
+      "verifiedNickname": "혜정",
+      "categories": [
+        "cooking"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "응맨",
+      "userId": "4572",
+      "gameNickname": "응맨",
+      "verifiedNickname": "응맨",
+      "categories": [
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "족단",
+      "userId": "4582",
+      "gameNickname": "족단",
+      "verifiedNickname": "족단",
+      "categories": [
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "비니",
+      "userId": "4595",
+      "gameNickname": "비니",
+      "verifiedNickname": "비니",
+      "categories": [
+        "cooking"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "오랜만에",
+      "userId": "4609",
+      "gameNickname": "오랜만에",
+      "verifiedNickname": "오랜만에",
+      "categories": [
+        "cooking"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "공단",
+      "userId": "4614",
+      "gameNickname": "공단",
+      "verifiedNickname": "공단",
+      "categories": [
+        "cooking",
+        "art"
+      ],
+      "award": {
+        "tier": "FIRST",
+        "label": "1등",
+        "stars": 30000000,
+        "energy": 0,
+        "mercenary": {
+          "code": "V-055",
+          "name": "베르칸",
+          "quantity": 1
+        }
+      },
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 33000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": {
+        "code": "V-055",
+        "name": "베르칸",
+        "quantity": 1
+      }
+    },
+    {
+      "participant": "제롬",
+      "userId": "4625",
+      "gameNickname": "제롬",
+      "verifiedNickname": "제롬",
+      "categories": [
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "학벌",
+      "userId": "4627",
+      "gameNickname": "학벌",
+      "verifiedNickname": "학벌",
+      "categories": [
+        "cooking"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "의지",
+      "userId": "4641",
+      "gameNickname": "의지",
+      "verifiedNickname": "의지",
+      "categories": [
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "세라네꼬라지",
+      "userId": "4651",
+      "gameNickname": "세라네꼬라지",
+      "verifiedNickname": "세라네꼬라지",
+      "categories": [
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "˚쟁이。",
+      "userId": "4705",
+      "gameNickname": "˚쟁이。",
+      "verifiedNickname": "˚쟁이。",
+      "categories": [
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "강구열",
+      "userId": "4718",
+      "gameNickname": "강구열",
+      "verifiedNickname": "강구열",
+      "categories": [
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "조은",
+      "userId": "4754",
+      "gameNickname": "조은",
+      "verifiedNickname": "조은",
+      "categories": [
+        "cooking"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "음주플레이어",
+      "userId": "4757",
+      "gameNickname": "음주플레이어",
+      "verifiedNickname": "음주플레이어",
+      "categories": [
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "펜타",
+      "userId": "4772",
+      "gameNickname": "펜타",
+      "verifiedNickname": "펜타",
+      "categories": [
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "진짜디임",
+      "userId": "4773",
+      "gameNickname": "진짜디임",
+      "verifiedNickname": "진짜디임",
+      "categories": [
+        "art"
+      ],
+      "award": {
+        "tier": "SECOND",
+        "label": "2등",
+        "stars": 20000000,
+        "energy": 0,
+        "mercenary": {
+          "code": "V-049",
+          "name": "크라이베른",
+          "quantity": 1
+        }
+      },
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 23000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": {
+        "code": "V-049",
+        "name": "크라이베른",
+        "quantity": 1
+      }
+    },
+    {
+      "participant": "[C9]가시",
+      "userId": "4866",
+      "gameNickname": "[C9]가시",
+      "verifiedNickname": "[C9]가시",
+      "categories": [
+        "cooking",
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "오리꿍",
+      "userId": "4913",
+      "gameNickname": "오리꿍",
+      "verifiedNickname": "오리꿍",
+      "categories": [
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "쁴로리",
+      "userId": "4965",
+      "gameNickname": "쁴로리",
+      "verifiedNickname": "쁴로리",
+      "categories": [
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "으악",
+      "userId": "5010",
+      "gameNickname": "으악",
+      "verifiedNickname": "으악",
+      "categories": [
+        "art"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    },
+    {
+      "participant": "나무늘봉순",
+      "userId": "5426",
+      "gameNickname": "나무늘봉순",
+      "verifiedNickname": "나무늘봉순",
+      "categories": [
+        "fashion"
+      ],
+      "award": null,
+      "participation": {
+        "stars": 3000000,
+        "energy": 5
+      },
+      "inventory": [
+        {
+          "code": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 3000000
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 5
+        }
+      ],
+      "mercenary": null
+    }
+  ],
+  "totals": {
+    "participantEntries": 59,
+    "recipients": 53,
+    "winners": 4,
+    "masterStars": 239000000,
+    "emperorEnergy": 275,
+    "mercenaries": 3
+  }
+}

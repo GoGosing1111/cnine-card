@@ -1,0 +1,1044 @@
+{
+  "title": "요리·그림·패션 이벤트 수상 및 참가 보상 지급",
+  "operationKey": "ops:event-contest-rewards:20261008:v1",
+  "status": "COMPLETED",
+  "completedAt": "2026-10-08T01:14:43.335Z",
+  "completedAtKst": "2026-10-08 10:14:43 KST",
+  "delivery": "DIRECT",
+  "authorization": {
+    "request": "1등 공단: 마별 3000만 + 베르칸. 공동 2등 진짜디임, 커피먹은봉순: 각 마별 2000만 + 크라이베른. 미미미눙: 마별 1000만 + 엠퍼러 에너지 10개. 참가상: 마별 300만 + 엠퍼러 에너지 5개. 지급.",
+    "rankCorrection": "3등 장려상으로",
+    "participationPolicy": "수상자도 포함, 모두 계정당 1회 지급",
+    "secondPlaceAccountMapping": "커피먹은봉순 → 명단의 커피먹는철구, 인증 닉네임 커피먹는봉순, 계정 22",
+    "normalization": "란X2 → 란x2. 철구 그림 괄호 표시는 작품 설명으로 처리."
+  },
+  "totals": {
+    "participantEntries": 59,
+    "recipients": 53,
+    "winners": 4,
+    "masterStars": 239000000,
+    "emperorEnergy": 275,
+    "mercenaries": 3
+  },
+  "planHash": "81faa511a291580d24a6140c4e0ad26e291e4d5a0ae798d9afb626f0c5de14f7",
+  "operationScript": "scripts/ops/event-contest-rewards-20261008.mjs",
+  "plan": "scripts/ops/event-contest-rewards-20261008.json",
+  "receiptLocation": {
+    "table": "app_meta",
+    "key": "ops:event-contest-rewards:20261008:v1"
+  },
+  "validation": {
+    "dryRun": {
+      "operationKey": "ops:event-contest-rewards:20261008:v1",
+      "planHash": "81faa511a291580d24a6140c4e0ad26e291e4d5a0ae798d9afb626f0c5de14f7",
+      "status": "DRY_RUN_ROLLED_BACK",
+      "completedAt": "2026-10-08T01:14:16.901Z",
+      "replayed": false,
+      "recipients": 53,
+      "inventoryLogs": 106,
+      "mercenaryAcquisitions": 3,
+      "adminLogs": 53,
+      "masterStars": 239000000,
+      "emperorEnergy": 275,
+      "missing": 0,
+      "duplicateRecipients": 0,
+      "mismatchedPlanBlocked": true,
+      "partialFailureRolledBack": true,
+      "replayVerified": true,
+      "holdingsRestored": true
+    },
+    "postCommit": {
+      "operationKey": "ops:event-contest-rewards:20261008:v1",
+      "planHash": "81faa511a291580d24a6140c4e0ad26e291e4d5a0ae798d9afb626f0c5de14f7",
+      "status": "COMPLETED",
+      "completedAt": "2026-10-08T01:14:43.335Z",
+      "replayed": true,
+      "recipients": 53,
+      "inventoryLogs": 106,
+      "mercenaryAcquisitions": 3,
+      "adminLogs": 53,
+      "masterStars": 239000000,
+      "emperorEnergy": 275,
+      "missing": 0,
+      "duplicateRecipients": 0
+    },
+    "scope": "일회성 운영 데이터 지급. 구문·거래 원자성·재시도·반영 검증만 수행. 게임 실행 코드 변경 및 사이트 재배포 없음."
+  },
+  "grants": [
+    {
+      "participant": "ε연두з",
+      "userId": "3",
+      "gameNickname": "ε연두з",
+      "verifiedNickname": "ε연두з",
+      "categories": [
+        "cooking"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839910",
+        "77839911"
+      ],
+      "adminLogId": "42692"
+    },
+    {
+      "participant": "싸이타마",
+      "userId": "5",
+      "gameNickname": "싸이타마",
+      "verifiedNickname": "타마",
+      "categories": [
+        "cooking",
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839912",
+        "77839913"
+      ],
+      "adminLogId": "42693"
+    },
+    {
+      "participant": "불법사행산업신고센터",
+      "userId": "13",
+      "gameNickname": "불법사행산업신고센터",
+      "verifiedNickname": "불법사행산업신고센터",
+      "categories": [
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839914",
+        "77839915"
+      ],
+      "adminLogId": "42694"
+    },
+    {
+      "participant": "오승환이다.",
+      "userId": "16",
+      "gameNickname": "오승환이다",
+      "verifiedNickname": "오승환이다.",
+      "categories": [
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839916",
+        "77839917"
+      ],
+      "adminLogId": "42695"
+    },
+    {
+      "participant": "토닭토닭",
+      "userId": "19",
+      "gameNickname": "토닭토닭",
+      "verifiedNickname": "토닭토닭",
+      "categories": [
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839918",
+        "77839919"
+      ],
+      "adminLogId": "42696"
+    },
+    {
+      "participant": "커피먹는철구",
+      "userId": "22",
+      "gameNickname": "커피먹는철구",
+      "verifiedNickname": "커피먹는봉순",
+      "categories": [
+        "cooking",
+        "art"
+      ],
+      "award": "2등",
+      "masterStars": 23000000,
+      "emperorEnergy": 5,
+      "mercenary": {
+        "code": "V-049",
+        "name": "크라이베른",
+        "quantity": 1,
+        "acquisitionId": "ops:event-contest-rewards:20261008:v1:22:V-049"
+      },
+      "inventoryLogIds": [
+        "77839920",
+        "77839921"
+      ],
+      "adminLogId": "42697"
+    },
+    {
+      "participant": "하이희야",
+      "userId": "23",
+      "gameNickname": "하이희야",
+      "verifiedNickname": "하이희야",
+      "categories": [
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839922",
+        "77839923"
+      ],
+      "adminLogId": "42698"
+    },
+    {
+      "participant": "박세라-ㅂ-",
+      "userId": "45",
+      "gameNickname": "박세라-ㅂ-",
+      "verifiedNickname": "박세라-ㅁ-",
+      "categories": [
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839924",
+        "77839925"
+      ],
+      "adminLogId": "42699"
+    },
+    {
+      "participant": "폭군#",
+      "userId": "52",
+      "gameNickname": "폭군#",
+      "verifiedNickname": "폭군",
+      "categories": [
+        "cooking",
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839926",
+        "77839927"
+      ],
+      "adminLogId": "42700"
+    },
+    {
+      "participant": "란X2",
+      "userId": "73",
+      "gameNickname": "란x2",
+      "verifiedNickname": "란x2",
+      "categories": [
+        "cooking"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839928",
+        "77839929"
+      ],
+      "adminLogId": "42701"
+    },
+    {
+      "participant": "미미미눙",
+      "userId": "75",
+      "gameNickname": "미미미눙",
+      "verifiedNickname": "미미미눙",
+      "categories": [
+        "art"
+      ],
+      "award": "장려상",
+      "masterStars": 13000000,
+      "emperorEnergy": 15,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839930",
+        "77839931"
+      ],
+      "adminLogId": "42702"
+    },
+    {
+      "participant": "비쥬얼깡패",
+      "userId": "81",
+      "gameNickname": "비쥬얼깡패",
+      "verifiedNickname": "비쥬얼깡패",
+      "categories": [
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839932",
+        "77839933"
+      ],
+      "adminLogId": "42703"
+    },
+    {
+      "participant": "애장이",
+      "userId": "83",
+      "gameNickname": "애장이",
+      "verifiedNickname": "애장",
+      "categories": [
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839934",
+        "77839935"
+      ],
+      "adminLogId": "42704"
+    },
+    {
+      "participant": "0수표",
+      "userId": "88",
+      "gameNickname": "0수표",
+      "verifiedNickname": "0수표",
+      "categories": [
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839936",
+        "77839937"
+      ],
+      "adminLogId": "42705"
+    },
+    {
+      "participant": "박사",
+      "userId": "164",
+      "gameNickname": "박사",
+      "verifiedNickname": "박사",
+      "categories": [
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839938",
+        "77839939"
+      ],
+      "adminLogId": "42706"
+    },
+    {
+      "participant": "족알못",
+      "userId": "220",
+      "gameNickname": "족알못",
+      "verifiedNickname": "족알못",
+      "categories": [
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839940",
+        "77839941"
+      ],
+      "adminLogId": "42707"
+    },
+    {
+      "participant": "ShowMaker",
+      "userId": "233",
+      "gameNickname": "ShowMaker",
+      "verifiedNickname": "ShowMaker",
+      "categories": [
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839942",
+        "77839943"
+      ],
+      "adminLogId": "42708"
+    },
+    {
+      "participant": "모래",
+      "userId": "295",
+      "gameNickname": "모래",
+      "verifiedNickname": "모래",
+      "categories": [
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839944",
+        "77839945"
+      ],
+      "adminLogId": "42709"
+    },
+    {
+      "participant": "[C9]족쪽이",
+      "userId": "303",
+      "gameNickname": "[C9]족쪽이",
+      "verifiedNickname": "[C9]핑쪽이",
+      "categories": [
+        "cooking"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839946",
+        "77839947"
+      ],
+      "adminLogId": "42710"
+    },
+    {
+      "participant": "대저동토마토",
+      "userId": "521",
+      "gameNickname": "대저동토마토",
+      "verifiedNickname": "대저동토마토",
+      "categories": [
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839948",
+        "77839949"
+      ],
+      "adminLogId": "42711"
+    },
+    {
+      "participant": "라페스타다",
+      "userId": "750",
+      "gameNickname": "라페스타다",
+      "verifiedNickname": "라페스타다",
+      "categories": [
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839950",
+        "77839951"
+      ],
+      "adminLogId": "42712"
+    },
+    {
+      "participant": "센텀신사",
+      "userId": "792",
+      "gameNickname": "센텀신사",
+      "verifiedNickname": "센텀신사",
+      "categories": [
+        "cooking"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839952",
+        "77839953"
+      ],
+      "adminLogId": "42713"
+    },
+    {
+      "participant": "씨나인택갓",
+      "userId": "1195",
+      "gameNickname": "씨나인택갓",
+      "verifiedNickname": "씨나인택갓",
+      "categories": [
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839954",
+        "77839955"
+      ],
+      "adminLogId": "42714"
+    },
+    {
+      "participant": "구와함",
+      "userId": "2333",
+      "gameNickname": "구와함",
+      "verifiedNickname": "구와함",
+      "categories": [
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839956",
+        "77839957"
+      ],
+      "adminLogId": "42715"
+    },
+    {
+      "participant": "그냥지은닉",
+      "userId": "2734",
+      "gameNickname": "그냥지은닉",
+      "verifiedNickname": "그냥지은닉",
+      "categories": [
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839958",
+        "77839959"
+      ],
+      "adminLogId": "42716"
+    },
+    {
+      "participant": "레드클라우드",
+      "userId": "3867",
+      "gameNickname": "레드클라우드",
+      "verifiedNickname": "레드클라우드",
+      "categories": [
+        "cooking",
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839960",
+        "77839961"
+      ],
+      "adminLogId": "42717"
+    },
+    {
+      "participant": "zkzk9999",
+      "userId": "3884",
+      "gameNickname": "zkzk9999",
+      "verifiedNickname": "zkzk9999",
+      "categories": [
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839962",
+        "77839963"
+      ],
+      "adminLogId": "42718"
+    },
+    {
+      "participant": "우회하세요",
+      "userId": "3974",
+      "gameNickname": "우회하세요",
+      "verifiedNickname": "우회하세요",
+      "categories": [
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839964",
+        "77839965"
+      ],
+      "adminLogId": "42719"
+    },
+    {
+      "participant": "건빵3개",
+      "userId": "4371",
+      "gameNickname": "건빵3개",
+      "verifiedNickname": "건빵3개",
+      "categories": [
+        "cooking"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839966",
+        "77839967"
+      ],
+      "adminLogId": "42720"
+    },
+    {
+      "participant": "더듬이구",
+      "userId": "4391",
+      "gameNickname": "더듬이구",
+      "verifiedNickname": "더듬이구",
+      "categories": [
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839968",
+        "77839969"
+      ],
+      "adminLogId": "42721"
+    },
+    {
+      "participant": "레가파",
+      "userId": "4408",
+      "gameNickname": "레가파",
+      "verifiedNickname": "레가파",
+      "categories": [
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839970",
+        "77839971"
+      ],
+      "adminLogId": "42722"
+    },
+    {
+      "participant": "찡찡ෆ",
+      "userId": "4562",
+      "gameNickname": "찡찡ෆ",
+      "verifiedNickname": "찡찡ෆ",
+      "categories": [
+        "cooking"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839972",
+        "77839973"
+      ],
+      "adminLogId": "42723"
+    },
+    {
+      "participant": "혜정",
+      "userId": "4570",
+      "gameNickname": "혜정",
+      "verifiedNickname": "혜정",
+      "categories": [
+        "cooking"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839974",
+        "77839975"
+      ],
+      "adminLogId": "42724"
+    },
+    {
+      "participant": "응맨",
+      "userId": "4572",
+      "gameNickname": "응맨",
+      "verifiedNickname": "응맨",
+      "categories": [
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839976",
+        "77839977"
+      ],
+      "adminLogId": "42725"
+    },
+    {
+      "participant": "족단",
+      "userId": "4582",
+      "gameNickname": "족단",
+      "verifiedNickname": "족단",
+      "categories": [
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839978",
+        "77839979"
+      ],
+      "adminLogId": "42726"
+    },
+    {
+      "participant": "비니",
+      "userId": "4595",
+      "gameNickname": "비니",
+      "verifiedNickname": "비니",
+      "categories": [
+        "cooking"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839980",
+        "77839981"
+      ],
+      "adminLogId": "42727"
+    },
+    {
+      "participant": "오랜만에",
+      "userId": "4609",
+      "gameNickname": "오랜만에",
+      "verifiedNickname": "오랜만에",
+      "categories": [
+        "cooking"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839982",
+        "77839983"
+      ],
+      "adminLogId": "42728"
+    },
+    {
+      "participant": "공단",
+      "userId": "4614",
+      "gameNickname": "공단",
+      "verifiedNickname": "공단",
+      "categories": [
+        "cooking",
+        "art"
+      ],
+      "award": "1등",
+      "masterStars": 33000000,
+      "emperorEnergy": 5,
+      "mercenary": {
+        "code": "V-055",
+        "name": "베르칸",
+        "quantity": 1,
+        "acquisitionId": "ops:event-contest-rewards:20261008:v1:4614:V-055"
+      },
+      "inventoryLogIds": [
+        "77839984",
+        "77839985"
+      ],
+      "adminLogId": "42729"
+    },
+    {
+      "participant": "제롬",
+      "userId": "4625",
+      "gameNickname": "제롬",
+      "verifiedNickname": "제롬",
+      "categories": [
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839986",
+        "77839987"
+      ],
+      "adminLogId": "42730"
+    },
+    {
+      "participant": "학벌",
+      "userId": "4627",
+      "gameNickname": "학벌",
+      "verifiedNickname": "학벌",
+      "categories": [
+        "cooking"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839988",
+        "77839989"
+      ],
+      "adminLogId": "42731"
+    },
+    {
+      "participant": "의지",
+      "userId": "4641",
+      "gameNickname": "의지",
+      "verifiedNickname": "의지",
+      "categories": [
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839990",
+        "77839991"
+      ],
+      "adminLogId": "42732"
+    },
+    {
+      "participant": "세라네꼬라지",
+      "userId": "4651",
+      "gameNickname": "세라네꼬라지",
+      "verifiedNickname": "세라네꼬라지",
+      "categories": [
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839992",
+        "77839993"
+      ],
+      "adminLogId": "42733"
+    },
+    {
+      "participant": "˚쟁이。",
+      "userId": "4705",
+      "gameNickname": "˚쟁이。",
+      "verifiedNickname": "˚쟁이。",
+      "categories": [
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839994",
+        "77839995"
+      ],
+      "adminLogId": "42734"
+    },
+    {
+      "participant": "강구열",
+      "userId": "4718",
+      "gameNickname": "강구열",
+      "verifiedNickname": "강구열",
+      "categories": [
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839996",
+        "77839997"
+      ],
+      "adminLogId": "42735"
+    },
+    {
+      "participant": "조은",
+      "userId": "4754",
+      "gameNickname": "조은",
+      "verifiedNickname": "조은",
+      "categories": [
+        "cooking"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77839998",
+        "77839999"
+      ],
+      "adminLogId": "42736"
+    },
+    {
+      "participant": "음주플레이어",
+      "userId": "4757",
+      "gameNickname": "음주플레이어",
+      "verifiedNickname": "음주플레이어",
+      "categories": [
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77840000",
+        "77840001"
+      ],
+      "adminLogId": "42737"
+    },
+    {
+      "participant": "펜타",
+      "userId": "4772",
+      "gameNickname": "펜타",
+      "verifiedNickname": "펜타",
+      "categories": [
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77840002",
+        "77840003"
+      ],
+      "adminLogId": "42738"
+    },
+    {
+      "participant": "진짜디임",
+      "userId": "4773",
+      "gameNickname": "진짜디임",
+      "verifiedNickname": "진짜디임",
+      "categories": [
+        "art"
+      ],
+      "award": "2등",
+      "masterStars": 23000000,
+      "emperorEnergy": 5,
+      "mercenary": {
+        "code": "V-049",
+        "name": "크라이베른",
+        "quantity": 1,
+        "acquisitionId": "ops:event-contest-rewards:20261008:v1:4773:V-049"
+      },
+      "inventoryLogIds": [
+        "77840004",
+        "77840005"
+      ],
+      "adminLogId": "42739"
+    },
+    {
+      "participant": "[C9]가시",
+      "userId": "4866",
+      "gameNickname": "[C9]가시",
+      "verifiedNickname": "[C9]가시",
+      "categories": [
+        "cooking",
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77840006",
+        "77840007"
+      ],
+      "adminLogId": "42740"
+    },
+    {
+      "participant": "오리꿍",
+      "userId": "4913",
+      "gameNickname": "오리꿍",
+      "verifiedNickname": "오리꿍",
+      "categories": [
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77840008",
+        "77840009"
+      ],
+      "adminLogId": "42741"
+    },
+    {
+      "participant": "쁴로리",
+      "userId": "4965",
+      "gameNickname": "쁴로리",
+      "verifiedNickname": "쁴로리",
+      "categories": [
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77840010",
+        "77840011"
+      ],
+      "adminLogId": "42742"
+    },
+    {
+      "participant": "으악",
+      "userId": "5010",
+      "gameNickname": "으악",
+      "verifiedNickname": "으악",
+      "categories": [
+        "art"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77840012",
+        "77840013"
+      ],
+      "adminLogId": "42743"
+    },
+    {
+      "participant": "나무늘봉순",
+      "userId": "5426",
+      "gameNickname": "나무늘봉순",
+      "verifiedNickname": "나무늘봉순",
+      "categories": [
+        "fashion"
+      ],
+      "award": "참가상",
+      "masterStars": 3000000,
+      "emperorEnergy": 5,
+      "mercenary": null,
+      "inventoryLogIds": [
+        "77840014",
+        "77840015"
+      ],
+      "adminLogId": "42744"
+    }
+  ]
+}
