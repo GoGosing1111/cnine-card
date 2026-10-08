@@ -6,7 +6,7 @@ import {NURSE_CODES,NURSE_MECHANIC} from './mercenary-nurse-healers-v1.mjs';
 // battle from before this adjustment; replay must retain its original cadence.
 // Keep version 1 immutable for rooms opened before the tier-order follow-up.
 export const SS_REAR_PVE_POLICY_V1=Object.freeze({version:1,regularActionsPerTurn:2,nurseBudgetPercent:75,nurseMaxTargetHpPercent:10});
-export const SS_REAR_PVE_POLICY=Object.freeze({version:2,regularActionsPerTurn:2,nurseBudgetPercent:75,nurseMaxTargetHpPercent:1});
+export const SS_REAR_PVE_POLICY=Object.freeze({version:2,regularActionsPerTurn:2,enemyBasicPriority:true,nurseBudgetPercent:75,nurseMaxTargetHpPercent:1});
 const policies=Object.freeze({1:SS_REAR_PVE_POLICY_V1,2:SS_REAR_PVE_POLICY});
 export function isSsRearPveMercenary(actor){
  return actor?.rank==='SS'&&!Object.hasOwn(SS_LIMITED_COMBAT,actor.code)&&
@@ -18,6 +18,10 @@ export function ssRearPveSnapshot(actor){
 }
 export function ssRearPveInterval(actor,fallback=1){
  return ssRearPvePolicy(actor)?.regularActionsPerTurn??fallback;
+}
+export function ssRearPvePriorityTargets(attacker,targets){
+ if(!attacker?.isMonster||attacker.battleMode==='PVP')return [];
+ return targets.filter(actor=>actor.isMercenary&&actor.alive!==false&&actor.hp>0&&ssRearPvePolicy(actor)?.enemyBasicPriority===true);
 }
 function ssRearPvePolicy(actor){
  const version=actor?.pveRearCadence?.version;

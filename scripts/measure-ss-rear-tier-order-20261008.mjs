@@ -28,6 +28,22 @@ export function pairedComparisons(rows){
  }
  return output;
 }
+export function rangedComparisons(rows){
+ const output={};
+ for(const lower of rows.filter(r=>r.group==='SS_RANGED')){
+  const mode=output[lower.mode]||={pairs:0,lowerOnly:0,higherOnly:0,byMercenary:{}};
+  const individual=mode.byMercenary[lower.code]||={pairs:0,lowerOnly:0,higherOnly:0,byOpponent:{}};
+  for(const sss of rows.filter(r=>r.group==='SSS'&&['mode','scenario','equipment','formation','suit'].every(k=>r[k]===lower[k]))){
+   const opponent=individual.byOpponent[sss.code]||={pairs:0,lowerOnly:0,higherOnly:0};
+   for(let i=0;i<lower.total;i++)for(const group of [mode,individual,opponent]){
+    group.pairs++;
+    if(lower.winsBySeed[i]&&!sss.winsBySeed[i])group.lowerOnly++;
+    if(!lower.winsBySeed[i]&&sss.winsBySeed[i])group.higherOnly++;
+   }
+  }
+ }
+ return output;
+}
 export async function measure({count=8,start=2001,modes=['LEGION'],formations=['HP2','HP0'],suits=[0],selectedCodes=codes,phase='before',onProgress=()=>{}}={}){
  const rows=[],selected=scenarios.filter(s=>modes.includes(s.mode));
  for(const scenario of selected)for(const equipment of scenario.equipment)for(const formation of formations)for(const suit of suits)for(const code of selectedCodes){
@@ -51,9 +67,10 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){
  if(fs.existsSync(cache)){const saved=JSON.parse(fs.readFileSync(cache));assert.equal(saved.signature,signature,'baseline inputs changed');before=saved.report;}
  else {before=await measure({...options,phase:'before',onProgress:p=>console.log(JSON.stringify(p))});fs.writeFileSync(cache,JSON.stringify({signature,report:before}));}
  const after=await measure({...options,phase:'after',onProgress:p=>console.log(JSON.stringify(p))});
- for(let i=0;i<before.rows.length;i++)if(before.rows[i].code!=='V-051')assert.deepEqual(after.rows[i],before.rows[i],'ranged and SSS control '+before.rows[i].code);
+ for(let i=0;i<before.rows.length;i++)if(before.rows[i].group==='SSS')assert.deepEqual(after.rows[i],before.rows[i],'SSS control '+before.rows[i].code);
  const report={measuredAt:new Date().toISOString(),signature,options,policy:SS_REAR_PVE_POLICY,before,after,total:before.total+after.total,
-  paired:{before:pairedComparisons(before.rows),after:pairedComparisons(after.rows)}};
+  paired:{before:pairedComparisons(before.rows),after:pairedComparisons(after.rows)},
+  rangedPairs:{before:rangedComparisons(before.rows),after:rangedComparisons(after.rows)}};
  fs.writeFileSync(out,JSON.stringify(report,null,2)+'\n');
  console.log(JSON.stringify({total:report.total,policy:report.policy,before:before.summary,after:after.summary},null,2));
 }

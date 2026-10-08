@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {SS_REAR_PVE_POLICY,SS_REAR_PVE_POLICY_V1,isSsRearPveMercenary,ssRearPveSnapshot,ssRearPveInterval,ssRearPveHealing} from '../shared/mercenary-ss-rear-pve-v1.mjs';
+import {SS_REAR_PVE_POLICY,SS_REAR_PVE_POLICY_V1,isSsRearPveMercenary,ssRearPveSnapshot,ssRearPveInterval,ssRearPveHealing,ssRearPvePriorityTargets} from '../shared/mercenary-ss-rear-pve-v1.mjs';
 import {SS_LIMITED_COMBAT} from '../shared/mercenary-ss-limited-v1.mjs';
 import {battleConfig} from '../functions/_mercenary_account.js';
 import {mercenaryCodexDocument} from '../functions/_mercenary_codex.js';
@@ -37,20 +37,18 @@ test('new account snapshots capture all four nurses and eleven rear ranged fight
  assert.equal(isSsRearPveMercenary({...targets[0],position:'FRONT'}),false);
 });
 
-test('PVE reserves one action per two allied cards; PVP and legacy snapshots keep one per card',()=>{
- for(const mode of ['PVE','PVP'])for(const legacy of [false,true]){
-  const m=actor('V-004',mode),a=card(),enemy=card('B');if(legacy)delete m.pveRearCadence;
+test('all fifteen SS rear fighters reserve every second PVE card; PVP and legacy retain their cadence',()=>{
+ for(const code of targets.map(m=>m.code))for(const mode of ['PVE','PVP'])for(const version of [0,1,2]){
+  const m=actor(code,mode),a=card(),enemy=card('B');if(!version)delete m.pveRearCadence;else m.pveRearCadence.version=version;
   const runtime=mercenaryTurnCadence({A:[a,m],B:[enemy]});
   for(let i=0;i<3;i++){runtime.acted(enemy);runtime.acted({...a,isBattleSuit:true,actorKind:'BATTLE_SUIT'});runtime.acted({...a,isMonster:true});}
   assert.equal(runtime.pending(),null);
-  runtime.acted(a);
-  const slow=mode==='PVE'&&!legacy;
-  assert.equal(runtime.pending(),slow?null:m);
-  if(slow){runtime.acted(a);assert.equal(runtime.pending(),m);}
+  const interval=mode==='PVE'&&version?2:1;
+  for(let i=1;i<=interval;i++){runtime.acted(a);assert.equal(runtime.pending(),i===interval?m:null,code+'/'+mode+'/'+version+'/'+i);}
   assert.equal(runtime.pending(()=>false),null,'sealed/ineligible actors cannot consume a reservation');
   runtime.acted(m);assert.equal(runtime.pending(),null,'natural or reserved actions clear debt');
   runtime.acted(a);runtime.acted(m);runtime.acted(a);
-  assert.equal(runtime.pending(),slow?null:m,'natural turns cannot preserve old debt');
+  assert.equal(runtime.pending(),interval>1?null:m,'natural turns cannot preserve old debt');
   m.hp=0;m.alive=false;assert.equal(runtime.pending(),null);
  }
 });
@@ -142,20 +140,41 @@ test('saved snapshots, SS front and SSS do not opt into the new PVE policy',()=>
  }
 });
 
-test('all eleven SS ranged fighters keep identical PVE timelines between policy versions 1 and 2',()=>{
+test('all fifteen SS rear fighters are targeted first by real PVE enemies; targeting returns to cards after death',()=>{
  const selected=[scenarios.find(s=>s.mode==='APOCALYPSE'),scenarios.find(s=>s.mode==='TOWER'&&s.id==='70'),scenarios.find(s=>s.mode==='LEGION'&&s.id==='inferno')];
- for(const m of targets.filter(m=>m.role!=='SUPPORT'))for(const scenario of selected){
-  const current=snapshot({code:m.code,equipment:6000000,suit:12500000,adjusted:true}),prior=structuredClone(current);
-  prior.mercenary.pveRearCadence={...SS_REAR_PVE_POLICY_V1};
-  assert.deepEqual(clean(runBattle(scenario,current,7919)),clean(runBattle(scenario,prior,7919)),scenario.mode+'/'+m.code);
+ let retargeted=false;
+ for(const m of targets){
+  for(const scenario of selected){
+   const current=snapshot({code:m.code,equipment:scenario.equipment[0],adjusted:true}),after=runBattle(scenario,current,7919),id='A:MERCENARY:'+m.code;
+   let alive=true,hits=0;
+   for(const event of after.timeline){
+    if(event.type==='KO'&&event.targetId===id)alive=false;
+    if(event.type!=='TURN'||!event.actorId?.startsWith('B:'))continue;
+    if(alive){assert.equal(event.targetId,id,scenario.mode+'/'+m.code);hits++;}
+    else {assert.notEqual(event.targetId,id);retargeted=true;}
+   }
+   assert.ok(hits>0,scenario.mode+'/'+m.code+' must be attacked before its front cards');
+  }
  }
+ assert.ok(retargeted,'dead mercenaries must not leave an empty target pool');
+});
+
+test('priority ignores dead units, older snapshots, other ranks, limited fighters and PVP',()=>{
+ const monster={isMonster:true},nurse=actor(),ranged=actor('V-004'),old=actor('V-004'),dead={...ranged,hp:0,alive:false};
+ old.pveRearCadence={...SS_REAR_PVE_POLICY_V1};
+ const ordinary=card(),sss=actor('V-055'),front=actor('V-048'),pvp=actor('V-004','PVP');
+ assert.deepEqual(ssRearPvePriorityTargets(monster,[ordinary,sss,front,old,dead,pvp,nurse,ranged]),[nurse,ranged]);
+ assert.deepEqual(ssRearPvePriorityTargets({...monster,battleMode:'PVP'},[nurse,ranged]),[]);
+ assert.deepEqual(ssRearPvePriorityTargets(ordinary,[nurse,ranged]),[]);
+ delete old.pveRearCadence;assert.deepEqual(ssRearPvePriorityTargets(monster,[old]),[]);
+ for(const [code,profile]of Object.entries(SS_LIMITED_COMBAT))assert.deepEqual(ssRearPvePriorityTargets(monster,[{...ranged,code,...profile}]),[]);
 });
 
 test('public codex describes actual PVE cadence and healing without changing displayed rank or the base CMS values',()=>{
  const raw=structuredClone(seed.document);
  for(const m of fixture.roster){const row=raw.mercenaries.find(c=>c.code===m.code);Object.assign(row,{rank:m.rank,position:m.position,role:m.role});}
  const codex=mercenaryCodexDocument({payload_json:JSON.stringify(raw),revision:61});
- for(const m of targets){const row=codex.cards.find(c=>c.code===m.code);assert.equal(row.rank,'SS');assert.match(row.combatLinkDescription,/PVE에서는 아군 카드 2회, PVP에서는 1회/);}
+ for(const m of targets){const row=codex.cards.find(c=>c.code===m.code);assert.equal(row.rank,'SS');assert.match(row.combatLinkDescription,/PVE에서는 아군 카드 2회, PVP에서는 1회/);assert.match(row.combatLinkDescription,/적의 기본 공격 우선 대상/);}
  const nurse=codex.cards.find(c=>c.code==='V-051').skills[0];
  assert.match(nurse.effect,/PVE.*120%.*1%.*PVP.*160%.*15%/);assert.equal(nurse.balance.damageRatio,1.6);
  assert.equal(nurse.pveBalance.damageRatio,1.2);assert.doesNotMatch(nurse.bossRule,/동일한 총 회복/);

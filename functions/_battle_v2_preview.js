@@ -11,6 +11,7 @@ import {COMPANION_PREPARATION_REVIEW} from '../shared/companion-loadout-v2.mjs';
 import {applyPetOpeningBuff,preparedMercenaryCadence} from '../shared/companion-opening-v1.mjs';
 import {createMagicSeason2Runtime} from './_magic_season2.js';
 import {applyMercenaryCombatLink,mercenaryEffectiveAttack,mercenaryDamageCapHp} from '../shared/mercenary-combat-link-v2103.mjs';
+import {ssRearPvePriorityTargets} from '../shared/mercenary-ss-rear-pve-v1.mjs';
 import {validateDuoDeck} from '../shared/ranked-duo-v1.mjs';
 import {sustainedEncounterPlan} from './_sustained_encounter.js';
 import {castLegionRegionAction,legionIncomingMultiplier} from './_legion_region_combat.js';
@@ -1500,7 +1501,8 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     // Once no healer remains, normal formation targeting resumes. PVE is unchanged.
     const healerTargets = actor.type === 'SPEED' && actor.battleMode === 'PVP'
       ? targetableAlive(enemyTeam).filter(card => card.type === 'HP') : [];
-    const pool = healerTargets.length ? healerTargets : targetPool(enemyTeam);
+    const rearMercenaryTargets=ssRearPvePriorityTargets(actor,targetableAlive(enemyTeam));
+    const pool = rearMercenaryTargets.length ? rearMercenaryTargets : healerTargets.length ? healerTargets : targetPool(enemyTeam);
     if (!pool.length) break;
     const tauntGuard=actor.isMonster?pool.find(card=>card.type==='DEFENSE'&&random()<0.70):null;
     const target = tauntGuard||iconRuntime?.selectTarget(actor,pool)||lowestRatioTarget(pool, random);
