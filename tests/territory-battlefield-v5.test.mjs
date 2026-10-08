@@ -1,3 +1,4 @@
+import {voteSchema,seedTerritorySkillVotes} from './helpers/territory-skill-vote-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {DatabaseSync} from 'node:sqlite';
@@ -10,7 +11,7 @@ import {ensureBattlefieldSchema,battlefieldPolicy,freezeBattlefieldPolicy,initia
 import {BATTLEFIELD_DEFAULTS as C,normalizeBattlefieldConfig,supplyWindow,battlefieldIronWallMultiplier,battlefieldSiegeMultiplier} from '../shared/territory-battlefield-v5.mjs';
 const NOW=Date.now(),iso=n=>new Date(n).toISOString();
 const cfg={...T.DEFAULTS,mode:'ON',individualBattleWinCoin:5000000,energyMax:15,energyMinutes:2,minDamage:100,maxDamage:100,damageVariancePercent:0,battlefield:C};
-const schema=`
+const schema=voteSchema+`
 CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT DEFAULT CURRENT_TIMESTAMP);
 CREATE TABLE users(id INTEGER PRIMARY KEY,nickname TEXT,role TEXT DEFAULT 'USER',coin INTEGER DEFAULT 0);
 CREATE TABLE user_cards(user_id INTEGER,card_id TEXT,quantity INTEGER,PRIMARY KEY(user_id,card_id));
@@ -61,7 +62,7 @@ async function fixture(t,postgres){
     await DB.batch([...battlefieldAttackGuards(env,{round:r,front:f,requestId,context,now}),...battlefieldContributionStatements(env,{round:r,front:f,mine:m,requestId,context,won,now}),...extra,...battlefieldAttackCleanup(env,requestId,context)]);
     return {requestId,context};
   }
-  const skill=async(operation,side='A',now=NOW+1000,requestId='BF_SKILL:'+String(++seq).padStart(8,'0'))=>applyBattlefieldSkill(env,{round:await round(),front:await front(),mine:await mine(side),operation,requestId,now});
+  const skill=async(operation,side='A',now=NOW+1000,requestId='BF_SKILL:'+String(++seq).padStart(8,'0'))=>applyBattlefieldSkill(env,{voteKey:await seedTerritorySkillVotes({p},operation,side),round:await round(),front:await front(),mine:await mine(side),operation,requestId,now});
   return {env,p,round,front,row,mine,contribute,skill};
 }
 test('CMS config is bounded, partial edits preserve fields, and train windows are server timed',()=>{
@@ -145,8 +146,8 @@ for(const postgres of [false,true]){
  test(dialect+': command effects, cooldown and receipts are atomic; noncommanders/stale front cannot spend charge',async t=>{
   const f=await fixture(t,postgres);await f.p("UPDATE territory_battlefield_fronts SET relay_owner='A',charge_a=100 WHERE front_id=1").run();
   const original=await f.front();await f.p('UPDATE territory_war_v3_fronts SET version=version+1 WHERE id=1').run();
-  await assert.rejects(applyBattlefieldSkill(f.env,{round:await f.round(),front:original,mine:await f.mine(),operation:'SIEGE_CANNON',requestId:'STALE:CANNON',now:NOW}));assert.equal((await f.row()).charge_a,100);
-  await assert.rejects(applyBattlefieldSkill(f.env,{round:await f.round(),front:await f.front(),mine:await f.mine('A',3),operation:'SIEGE_CANNON',requestId:'NONCOMMANDER:CANNON',now:NOW}));assert.equal((await f.row()).charge_a,100);
+  await assert.rejects(applyBattlefieldSkill(f.env,{voteKey:await seedTerritorySkillVotes(f,'SIEGE_CANNON'),round:await f.round(),front:original,mine:await f.mine(),operation:'SIEGE_CANNON',requestId:'STALE:CANNON',now:NOW}));assert.equal((await f.row()).charge_a,100);
+  await assert.rejects(applyBattlefieldSkill(f.env,{voteKey:await seedTerritorySkillVotes(f,'SIEGE_CANNON'),round:await f.round(),front:await f.front(),mine:await f.mine('A',3),operation:'SIEGE_CANNON',requestId:'NONCOMMANDER:CANNON',now:NOW}));assert.equal((await f.row()).charge_a,100);
   const fired=await f.skill('SIEGE_CANNON','A',NOW,'CANNON:001');assert.equal((await f.row()).charge_a,0);assert.equal(fired.readyAt,iso(NOW+45*60000));assert.equal((await territorySkillReceipt(f.env,1,'CANNON:001','SIEGE_CANNON')).operation,'SIEGE_CANNON');
   await f.p('UPDATE territory_battlefield_fronts SET charge_a=100,cannon_a_due_ms=0 WHERE front_id=1').run();await assert.rejects(f.skill('SIEGE_CANNON','A',NOW+1000));assert.equal((await f.row()).charge_a,100);
   await f.skill('WALL_BREAKER','A',NOW+1000);assert.equal((await f.row()).breach_a_until_ms,NOW+181000);

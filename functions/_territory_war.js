@@ -1,3 +1,4 @@
+import {TERRITORY_SKILL_REQUIRED_VOTES,parseTerritorySkillVoteKey,territoryVoteCountSql,territoryVoteActivationId,territoryVoteActivation,recordTerritorySkillVote} from './_territory_skill_votes.js';
 import {loadPetBattleSnapshot} from './_pet_account.js';
 import {territoryPigCoinStatements,territoryPigCoinPreview} from './_pig_coin_content_rewards.js';
 import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
@@ -1033,6 +1034,7 @@ async function lifecycle(env,cfg,{forceClanRoster=false}={}){
   if(round.status==='PREPARING'&&sqlMs(round.starts_at)<=Date.now())round=await activateRound(env,round);
   if(round.status==='ACTIVE'&&round.current_front_id){
     let front=await activeFront(env,round);
+    if(await settlePendingTerritoryVotes(env,round,cfg)){round=await roundById(env,round.id);front=await activeFront(env,round)}
     if(await settleBattlefieldCannon(env,{round,front})){round=await roundById(env,round.id);front=await activeFront(env,round);publicStateSharedCache=null;realtimePulseCache=null}
     const needsAdvance=front&&(front.status==='RESOLVED'||Number(front.a_hp)<=0||Number(front.b_hp)<=0||(front.last_defense_side&&sqlMs(front.last_defense_deadline)<=Date.now()));
     if(needsAdvance){
@@ -1117,36 +1119,83 @@ async function activateOperation(env,round,mine,operation,cfg){
   await addNotice(env,round.id,'TACTICAL_OPERATION',side,`${definition.name} 발동`,`${configuredTeamLabel(cfg,side)}이 전술 작전 ‘${definition.name}’을 개시했습니다.`,payload);
   publicStateSharedCache=null;counterSharedCache=null;
 }
+async function activateVotedTerritorySkill(env,voteKey,cfg){
+  const poll=parseTerritorySkillVoteKey(voteKey);if(!poll||String(cfg.mode).toUpperCase()==='OFF')return null;
+  const committed=await territoryVoteActivation(env,voteKey);if(committed)return committed;
+  for(let attempt=0;attempt<3;attempt++){
+    const round=await roundById(env,poll.roundId);
+    if(!round||round.status!=='ACTIVE'||Number(round.current_front_id)!==poll.frontId||sqlMs(round.ends_at)<=Date.now()||truceState(round).active)return null;
+    const [front,cooldown,count]=await Promise.all([activeFront(env,round),env.DB.prepare('SELECT ready_at_ms FROM territory_war_skill_cooldowns WHERE round_id=? AND side=? AND operation=?').bind(round.id,poll.side,poll.operation).first(),env.DB.prepare(territoryVoteCountSql).bind(round.id,poll.side,voteKey).first()]);
+    if(Number(cooldown?.ready_at_ms||0)!==poll.readyAt||poll.readyAt>Date.now()||Number(Object.values(count||{})[0]||0)<TERRITORY_SKILL_REQUIRED_VOTES)return territoryVoteActivation(env,voteKey);
+    if(!front||front.status!=='ACTIVE')return null;
+    // Keep commander-based damage. Before anyone has fought, the same ranking
+    // selects the first active participant; voters never supply power or side.
+    const mine=await env.DB.prepare(`SELECT w.* FROM territory_war_v3_users w WHERE w.round_id=? AND w.side=? AND w.status='ACTIVE'
+      ORDER BY CASE WHEN w.user_id=(SELECT o.user_id FROM territory_war_v3_commander_overrides o WHERE o.round_id=w.round_id AND o.side=w.side) THEN 0 ELSE 1 END,
+      (w.damage+w.front_finishes*10000+w.defense_wins*2500+w.counter_contribution*25) DESC,w.attacks DESC,w.user_id LIMIT 1`).bind(round.id,poll.side).first();
+    if(!mine)return null;
+    const operation=poll.operation,requestId=territoryVoteActivationId(voteKey);
+    try{
+      const result=OPERATIONS[operation]?await applyTerritorySkill(env,{round,front,mine,operation,cfg,requestId,voteKey,damageFor,definition:territorySkillCatalog(OPERATIONS,cfg)[operation]}):await applyBattlefieldSkill(env,{round,front,mine,operation,requestId,voteKey});
+      publicStateSharedCache=null;counterSharedCache=null;realtimePulseCache=null;return result;
+    }catch(error){
+      const receipt=await territoryVoteActivation(env,voteKey);if(receipt)return receipt;
+      if(/중계탑 확보|복구할 아군|전력 충전|사용할 수 없는/.test(String(error.message)))return null;
+      if(attempt===2)console.warn('territory vote activation deferred',String(error.message));
+    }
+  }
+  return null;
+}
+async function settlePendingTerritoryVotes(env,round,cfg){
+  if(!isClanWarfare(round)||round.status!=='ACTIVE'||truceState(round).active||sqlMs(round.ends_at)<=Date.now())return false;
+  const pending=(await env.DB.prepare(`SELECT v.operation,COUNT(*) votes FROM territory_war_v3_operation_votes v
+    JOIN territory_war_v3_users w ON w.round_id=v.round_id AND w.user_id=v.user_id AND w.side=v.side AND w.status='ACTIVE'
+    WHERE v.round_id=? AND v.operation LIKE ? GROUP BY v.operation HAVING COUNT(*)>=?`).bind(round.id,`V25:${round.id}:${round.current_front_id}:%`,TERRITORY_SKILL_REQUIRED_VOTES).all()).results||[];
+  let changed=false;
+  for(const vote of pending)if(await activateVotedTerritorySkill(env,vote.operation,cfg))changed=true;
+  return changed;
+}
+async function submitTerritoryVote(env,deps,user,cfg,body,round,oldReceipt=null){
+  const operation=String(body.operation||'').toUpperCase();
+  if(!validRequestId(body.requestId))return deps.json({error:'투표 요청번호가 올바르지 않습니다. 새로고침 후 다시 시도하세요.'},400);
+  try{
+    let vote=oldReceipt;
+    if(!vote){
+      const mine=await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).first();
+      if(!mine?.side||mine.status!=='ACTIVE')return deps.json({error:'활성 영토전 참가자만 스킬에 투표할 수 있습니다.'},403);
+      const front=await activeFront(env,round);if(!front||front.status!=='ACTIVE')return deps.json({error:'전투 가능한 전선이 없습니다.'},409);
+      const policy=await battlefieldPolicy(env,round);
+      if(!OPERATIONS[operation]&&!(policy?.enabled&&battlefieldSkillCatalog(policy)[operation]))return deps.json({error:'이번 회차에서 사용할 수 없는 스킬입니다.'},400);
+      if(truceState(round).active)return deps.json({error:'임시 휴전 중에는 투표할 수 없습니다.'},409);
+      vote=await recordTerritorySkillVote(env,{round,front,mine,operation,voteKey:body.voteKey,requestId:body.requestId});
+    }
+    const activation=await activateVotedTerritorySkill(env,vote.voteKey,cfg);
+    const count=await env.DB.prepare(territoryVoteCountSql).bind(vote.roundId,vote.side,vote.voteKey).first();
+    const result={...vote,activated:Boolean(activation),votes:activation?TERRITORY_SKILL_REQUIRED_VOTES:Number(Object.values(count||{})[0]||0),...(activation?{activation}:{})};
+    return deps.json({ok:true,activated:result.activated,result,state:await publicState(env,user.id)});
+  }catch(error){
+    // An ambiguous response never creates another vote. Its receipt is retried
+    // using the same request id, and the normal lifecycle resumes 25-vote polls.
+    const receipt=await territorySkillReceipt(env,user.id,body.requestId,operation);
+    if(receipt?.voted&&!oldReceipt)return submitTerritoryVote(env,deps,user,cfg,body,round,receipt);
+    return deps.json({error:'전황 또는 투표가 변경되었습니다. 새로고침 후 다시 투표해 주세요.',retryable:true},409);
+  }
+}
 async function activateCommanderOperation(env,deps,user,cfg,body){
   const operation=String(body.operation||'').toUpperCase();
-  if(validRequestId(body.requestId)){const receipt=await territorySkillReceipt(env,user.id,body.requestId,operation);if(receipt)return deps.json({ok:true,result:receipt,state:await publicState(env,user.id)})}
+  const receipt=validRequestId(body.requestId)?await territorySkillReceipt(env,user.id,body.requestId,operation):null;
+  if(receipt){if(receipt.voted)return submitTerritoryVote(env,deps,user,cfg,body,null,receipt);return deps.json({ok:true,result:receipt,state:await publicState(env,user.id)})}
   if(String(cfg.mode||'OFF').toUpperCase()==='OFF')return deps.json({error:'영토전 운영이 중지되었습니다.'},409);
-  if(!OPERATIONS[operation]&&!battlefieldSkillCatalog()[operation])return deps.json({error:'선택할 수 없는 전술 작전입니다.'},400);const round=await lifecycle(env,cfg);if(!round||round.status!=='ACTIVE')return deps.json({error:'현재 진행 중인 영토전이 없습니다.'},409);const mine=await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).first();if(!mine?.side||mine.status!=='ACTIVE')return deps.json({error:'활성 영토전 참가자만 전술 명령을 사용할 수 있습니다.'},403);const commanders=await commandersForRound(env,round.id);if(Number(commanders?.[mine.side]?.user_id||0)!==Number(user.id))return deps.json({error:'현재 지정된 진영 지휘관만 전술 작전을 발동할 수 있습니다.'},403);
-  const lock=await acquireLock(env,`counter_command_${round.id}_${mine.side}`,30000);if(!lock.ok)return deps.json({error:'지휘관 전술 명령을 처리 중입니다.'},409);try{const freshRound=await roundById(env,round.id),freshMine=await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).first();if(!freshRound||freshRound.status!=='ACTIVE'||!freshMine?.side||freshMine.status!=='ACTIVE')return deps.json({error:'전술 작전을 발동할 수 있는 전선 상태가 아닙니다.'},409);const freshCommanders=await commandersForRound(env,round.id);if(Number(freshCommanders?.[freshMine.side]?.user_id||0)!==Number(user.id))return deps.json({error:'지휘권이 변경되었습니다. 전황을 새로고침해 주세요.'},409);if(isClanWarfare(freshRound)){
-      if(!validRequestId(body.requestId))return deps.json({error:'스킬 요청번호가 올바르지 않습니다. 새로고침 후 다시 시도하세요.'},400);
-      if(truceState(freshRound).active)return deps.json({error:'임시 휴전 중에는 스킬을 사용할 수 없습니다.'},409);
-      const front=await activeFront(env,freshRound);if(!front||front.status!=='ACTIVE')return deps.json({error:'전투 가능한 전선이 없습니다.'},409);
-      const cooldown=await env.DB.prepare('SELECT ready_at_ms FROM territory_war_skill_cooldowns WHERE round_id=? AND side=? AND operation=?').bind(round.id,freshMine.side,operation).first();
-      if(Number(cooldown?.ready_at_ms||0)>Date.now())return deps.json({error:'이 스킬은 45분 재사용 대기 중입니다.',readyAt:iso(Number(cooldown.ready_at_ms))},409);
-      try{
-        let result,candidateRound=freshRound,candidateFront=front;
-        for(let attempt=0;attempt<3;attempt++){
-          try{result=OPERATIONS[operation]?await applyTerritorySkill(env,{round:candidateRound,front:candidateFront,mine:freshMine,operation,cfg,requestId:body.requestId,damageFor,definition:territorySkillCatalog(OPERATIONS,cfg)[operation]}):await applyBattlefieldSkill(env,{round:candidateRound,front:candidateFront,mine:freshMine,operation,requestId:body.requestId});break}
-          catch(error){
-            const receipt=await territorySkillReceipt(env,user.id,body.requestId,operation);if(receipt){result=receipt;break}
-            if(attempt===2)throw error;
-            candidateRound=await roundById(env,round.id);candidateFront=await activeFront(env,candidateRound);
-            if(candidateRound?.status!=='ACTIVE'||candidateFront?.status!=='ACTIVE'||truceState(candidateRound).active)throw error;
-          }
-        }
-        publicStateSharedCache=null;counterSharedCache=null;realtimePulseCache=null;
-        return deps.json({ok:true,activated:true,result,state:await publicState(env,user.id)});
-      }catch(error){
-        const receipt=await territorySkillReceipt(env,user.id,body.requestId,operation);if(receipt)return deps.json({ok:true,result:receipt,state:await publicState(env,user.id)});
-        console.error('territory skill transaction',String(error?.message||error));
-        return deps.json({error:'전황이 변경되어 스킬을 적용하지 않았습니다. 같은 스킬을 눌러 다시 확인하세요.',retryable:true},409);
-      }
-    }
+  if(!OPERATIONS[operation]&&!battlefieldSkillCatalog()[operation])return deps.json({error:'선택할 수 없는 전술 작전입니다.'},400);
+  const round=await lifecycle(env,cfg);if(!round||round.status!=='ACTIVE')return deps.json({error:'현재 진행 중인 영토전이 없습니다.'},409);
+  if(isClanWarfare(round))return submitTerritoryVote(env,deps,user,cfg,body,round);
+  const mine=await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).first();
+  if(!mine?.side||mine.status!=='ACTIVE')return deps.json({error:'활성 영토전 참가자만 전술 명령을 사용할 수 있습니다.'},403);
+  const commanders=await commandersForRound(env,round.id);if(Number(commanders?.[mine.side]?.user_id||0)!==Number(user.id))return deps.json({error:'현재 지정된 진영 지휘관만 전술 작전을 발동할 수 있습니다.'},403);
+  const lock=await acquireLock(env,`counter_command_${round.id}_${mine.side}`,30000);if(!lock.ok)return deps.json({error:'지휘관 전술 명령을 처리 중입니다.'},409);
+  try{const freshRound=await roundById(env,round.id),freshMine=await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).first();
+    if(!freshRound||freshRound.status!=='ACTIVE'||!freshMine?.side||freshMine.status!=='ACTIVE')return deps.json({error:'전술 작전을 발동할 수 있는 전선 상태가 아닙니다.'},409);
+    const freshCommanders=await commandersForRound(env,round.id);if(Number(freshCommanders?.[freshMine.side]?.user_id||0)!==Number(user.id))return deps.json({error:'지휘권이 변경되었습니다. 전황을 새로고침해 주세요.'},409);
     if(!OPERATIONS[operation])return deps.json({error:'이번 회차에는 전장 시설 스킬이 활성화되지 않았습니다.'},409);
     const max=Number(cfg.counterGaugeMax||1000),gauge=Number(freshRound[sideField(freshMine.side,'counter_gauge')]||0);if(gauge<max)return deps.json({error:'작전 게이지가 아직 가득 차지 않았습니다.'},409);const used=await env.DB.prepare('SELECT 1 FROM territory_war_v3_operation_uses WHERE round_id=? AND side=? AND operation=?').bind(round.id,freshMine.side,operation).first();if(used)return deps.json({error:'이번 영토전에서 이미 발동한 작전입니다.'},409);await activateOperation(env,freshRound,freshMine,operation,cfg);return deps.json({ok:true,activated:true,commandedBy:user.id,state:await publicState(env,user.id)})}finally{await releaseLock(env,lock)}
 }
@@ -1589,4 +1638,4 @@ export {balancedSideAssignments,buildFormationSnapshot,grantLatestWinnerMasterSt
 // Coup shares the live territory combat engine and formation rules.
 export { simulateTerritoryBattle as simulateTerritoryDuel, singleFormationSnapshot as territoryFormationSnapshot, buildFormationSnapshot as territoryFormationFromParts, pickPowerMatchedOpponent as territoryMatchedOpponent, damageFor as territorySiegeDamage };
 
-export const __territoryClanTest={balancedSideAssignments,cleanSettings,rechargeEnergy,handleAttack,createFront,formRound,lifecycle,settleRound,activateCommanderOperation,counterState,DEFAULTS,OPERATIONS,NODES};
+export const __territoryClanTest={balancedSideAssignments,cleanSettings,rechargeEnergy,handleAttack,createFront,formRound,lifecycle,settleRound,activateCommanderOperation,activateVotedTerritorySkill,settlePendingTerritoryVotes,submitTerritoryVote,counterState,DEFAULTS,OPERATIONS,NODES};

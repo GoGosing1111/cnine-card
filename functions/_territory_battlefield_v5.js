@@ -1,4 +1,5 @@
 import {readRuntimeData,cacheRuntimeData,invalidateRuntimeData} from './_runtime_data_cache.js';
+import {TERRITORY_SKILL_REQUIRED_VOTES,territoryVoteActivationGuard,territoryVoteCleanup} from './_territory_skill_votes.js';
 import {TERRITORY_SKILL_COOLDOWN_MS,isClanWarfare} from './_territory_clan_warfare.js';
 import {BATTLEFIELD_VERSION,normalizeBattlefieldConfig,battlefieldObjectives,battlefieldSkillCatalog,supplyWindow} from '../shared/territory-battlefield-v5.mjs';
 
@@ -117,7 +118,7 @@ export async function battlefieldState(env,{round,front,mine,now=Date.now()}){
   return{version:BATTLEFIELD_VERSION,frontId:Number(front.id),config,relay:{meter:Number(data.relay_meter),owner:data.relay_owner||'',goal:config.relayCapturePoints},A:team('A'),B:team('B'),supply:{...window,active:round.status==='ACTIVE'&&window.active&&!train?.winner_side,winner:train?.winner_side||'',aPoints:Number(train?.a_points||0),bPoints:Number(train?.b_points||0),goal:config.supplyGoal},supplyClaim:claim?{frontId:Number(claim.front_id),cycle:Number(claim.cycle),energy:config.supplyEnergy}:null,mine:{battles:Number(contribution?.battles||0),points:Number(contribution?.points||0),charge:Number(contribution?.charge||0)},events:(events.results||[]).map(event=>({...event,payload:json(event.payload_json),created_at_ms:Number(event.created_at_ms)}))};
 }
 
-export async function applyBattlefieldSkill(env,{round,front,mine,operation,requestId,now=Date.now()}){
+export async function applyBattlefieldSkill(env,{round,front,mine,operation,requestId,voteKey,now=Date.now()}){
   const config=await battlefieldPolicy(env,round),definition=config?.enabled?battlefieldSkillCatalog(config)[operation]:null;
   if(!definition||!['A','B'].includes(mine?.side))fail('이번 회차에서 사용할 수 없는 전장 스킬입니다.');
   const data=await env.DB.prepare('SELECT * FROM territory_battlefield_fronts WHERE front_id=?').bind(front.id).first();if(!data)fail('전장 시설을 준비 중입니다.');
@@ -131,17 +132,20 @@ export async function applyBattlefieldSkill(env,{round,front,mine,operation,requ
   if(operation==='EMP_PULSE'&&data.relay_owner!==side)fail('중계탑 확보 진영만 EMP 파동을 사용할 수 있습니다.');
   if(operation==='ENGINEER'&&Number(data['emp_'+own+'_until_ms'])<=now)fail('현재 복구할 아군 시설이 없습니다.');
   if(operation==='SIEGE_CANNON'&&(Number(data['charge_'+own])<config.chargeMax||Number(data['emp_'+own+'_until_ms'])>now||Number(data['cannon_'+own+'_due_ms'])>0))fail('전력 충전과 시설 상태를 확인해 주세요.');
-  const result={operation,roundId:Number(round.id),frontId:Number(front.id),requestId,damage:0,endsAt:new Date(endsAt).toISOString(),readyAt:new Date(now+TERRITORY_SKILL_COOLDOWN_MS).toISOString(),...(operation==='SIEGE_CANNON'?{dueAt:endsAt,chargeSpent:config.chargeMax}:{}),summary:definition.summary};
-  const roundSql="UPDATE territory_war_v3_rounds SET skill_action_token=?,version=version+1 WHERE id=? AND status='ACTIVE' AND current_front_id=? AND COALESCE(skill_action_token,'')=? AND datetime(ends_at)>datetime(?) AND (truce_ends_at IS NULL OR datetime(truce_ends_at)<=datetime(?)) AND NOT EXISTS(SELECT 1 FROM territory_war_skill_cooldowns WHERE round_id=? AND side=? AND operation=? AND ready_at_ms>?) AND COALESCE((SELECT o.user_id FROM territory_war_v3_commander_overrides o JOIN territory_war_v3_users w ON w.round_id=o.round_id AND w.user_id=o.user_id AND w.side=o.side AND w.status='ACTIVE' WHERE o.round_id=? AND o.side=?),(SELECT w.user_id FROM territory_war_v3_users w WHERE w.round_id=? AND w.side=? AND w.status='ACTIVE' AND (w.attacks>0 OR w.defense_wins>0) ORDER BY (w.damage+w.front_finishes*10000+w.defense_wins*2500+w.counter_contribution*25) DESC,w.attacks DESC,w.user_id LIMIT 1))=?";
+  const voteGuard=territoryVoteActivationGuard(env,{round,front,mine,operation,voteKey,requestId});
+  const result={activated:true,voteKey,requiredVotes:TERRITORY_SKILL_REQUIRED_VOTES,operation,roundId:Number(round.id),frontId:Number(front.id),requestId,damage:0,endsAt:new Date(endsAt).toISOString(),readyAt:new Date(now+TERRITORY_SKILL_COOLDOWN_MS).toISOString(),...(operation==='SIEGE_CANNON'?{dueAt:endsAt,chargeSpent:config.chargeMax}:{}),summary:definition.summary};
+  const roundSql="UPDATE territory_war_v3_rounds SET skill_action_token=?,version=version+1 WHERE id=? AND status='ACTIVE' AND current_front_id=? AND COALESCE(skill_action_token,'')=? AND datetime(ends_at)>datetime(?) AND (truce_ends_at IS NULL OR datetime(truce_ends_at)<=datetime(?)) AND NOT EXISTS(SELECT 1 FROM territory_war_skill_cooldowns WHERE round_id=? AND side=? AND operation=? AND ready_at_ms>?) AND COALESCE((SELECT o.user_id FROM territory_war_v3_commander_overrides o JOIN territory_war_v3_users w ON w.round_id=o.round_id AND w.user_id=o.user_id AND w.side=o.side AND w.status='ACTIVE' WHERE o.round_id=? AND o.side=?),(SELECT w.user_id FROM territory_war_v3_users w WHERE w.round_id=? AND w.side=? AND w.status='ACTIVE' ORDER BY (w.damage+w.front_finishes*10000+w.defense_wins*2500+w.counter_contribution*25) DESC,w.attacks DESC,w.user_id LIMIT 1))=?";
   await env.DB.batch([
     env.DB.prepare(roundSql).bind(requestId,round.id,front.id,round.skill_action_token||'',new Date(now).toISOString(),new Date(now).toISOString(),round.id,side,operation,now,round.id,side,round.id,side,mine.user_id),
     env.DB.prepare("UPDATE territory_war_v3_fronts SET skill_action_token=?,version=version+1 WHERE id=? AND version=? AND status='ACTIVE' AND a_hp>0 AND b_hp>0").bind(requestId,front.id,front.version),
     env.DB.prepare('UPDATE territory_battlefield_fronts SET '+change+',action_token=?,version=version+1 WHERE front_id=? AND version=?'+condition).bind(...values,requestId,front.id,data.version,...extra),
     env.DB.prepare('INSERT INTO territory_war_mutation_guards(token,ok) SELECT ?,CASE WHEN EXISTS(SELECT 1 FROM territory_war_v3_rounds r JOIN territory_war_v3_fronts f ON f.id=r.current_front_id JOIN territory_battlefield_fronts b ON b.front_id=f.id WHERE r.id=? AND r.skill_action_token=? AND f.skill_action_token=? AND b.action_token=?) THEN 1 ELSE 0 END').bind(requestId,round.id,requestId,requestId,requestId),
+    voteGuard,
     env.DB.prepare('INSERT INTO territory_war_skill_receipts(request_id,round_id,user_id,side,operation,result_json,used_at_ms) VALUES(?,?,?,?,?,?,?)').bind(requestId,round.id,mine.user_id,side,operation,JSON.stringify(result),now),
     env.DB.prepare('INSERT INTO territory_war_skill_cooldowns(round_id,side,operation,ready_at_ms) VALUES(?,?,?,?) ON CONFLICT(round_id,side,operation) DO UPDATE SET ready_at_ms=excluded.ready_at_ms').bind(round.id,side,operation,now+TERRITORY_SKILL_COOLDOWN_MS),
     env.DB.prepare('INSERT INTO territory_battlefield_events(id,round_id,front_id,side,type,payload_json,created_at_ms) VALUES(?,?,?,?,?,?,?)').bind(requestId,round.id,front.id,side,operation,JSON.stringify(result),now),
     env.DB.prepare("INSERT INTO territory_war_v3_notices(round_id,type,side,title,message,payload_json) VALUES(?,'BATTLEFIELD_SKILL',?,?,?,?)").bind(round.id,side,definition.name+' 발동',definition.name+' · '+definition.summary,JSON.stringify({...result,image:definition.asset})),
+    ...territoryVoteCleanup(env,{round,mine,voteKey,requestId}),
     env.DB.prepare('DELETE FROM territory_war_mutation_guards WHERE token=?').bind(requestId)
   ]);
   invalidateRuntimeData(env,'territory:skill-cooldowns:'+round.id);return result;

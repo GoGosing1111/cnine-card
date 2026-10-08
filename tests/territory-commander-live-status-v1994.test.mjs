@@ -4,7 +4,7 @@ import {readFile} from 'node:fs/promises';
 
 const read=path=>readFile(new URL(`../${path}`,import.meta.url),'utf8');
 
-test('영토전 전술 작전은 투표 없이 현재 진영 지휘관이 직접 발동한다',async()=>{
+test('현재 영토전은 두 API 모두 25명 자동 발동 투표로 연결하며 구회차 지휘권은 보존한다',async()=>{
   const [server,client,legacy]=await Promise.all([
     read('functions/_territory_war.js'),
     read('js/territory-war-v1811.js'),
@@ -14,11 +14,13 @@ test('영토전 전술 작전은 투표 없이 현재 진영 지휘관이 직접
   assert.match(server,/현재 지정된 진영 지휘관만 전술 작전을 발동할 수 있습니다/);
   assert.match(server,/counter_command_\$\{round\.id\}_\$\{mine\.side\}/);
   assert.match(server,/path==='territory-war\/activate-operation'\|\|path==='territory-war\/vote-operation'/);
-  assert.doesNotMatch(server,/function operationRequiredVotes|async function voteOperation/);
+  assert.match(server,/if\(isClanWarfare\(round\)\)return submitTerritoryVote/);
+  assert.match(server,/settlePendingTerritoryVotes\(env,round,cfg\)/);
   assert.match(client,/territory-war\/activate-operation/);
-  assert.match(client,/지휘관 전술 명령/);
-  assert.match(client,/지휘관 전용/);
-  assert.doesNotMatch(client,/작전 투표|voteOperation|requiredVotes|myVote|team\.votes/);
+  assert.match(client,/territory-war\/vote-operation/);
+  assert.match(client,/명 도달 시 자동 발동/);
+  assert.match(client,/canVote/);
+  assert.match(client,/skill\.voted/);
   assert.match(legacy,/territory-war\/activate-operation/);
   assert.doesNotMatch(legacy,/작전 투표|voteOperation|requiredVotes|myVote|team\.votes/);
 });

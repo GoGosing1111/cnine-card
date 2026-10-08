@@ -1,3 +1,4 @@
+import {voteSchema,seedTerritorySkillVotes} from './helpers/territory-skill-vote-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {DatabaseSync} from 'node:sqlite';
@@ -10,7 +11,7 @@ import {__territoryClanTest,territorySiegeDamage} from '../functions/_territory_
 const NOW=Date.parse('2026-09-24T10:00:00Z');
 const cfg={energyMax:15,regroupEnergy:3,operationDurationMinutes:10,damageScale:10,minDamage:100,maxDamage:5000,damageVariancePercent:0,infiltrationHpPercent:12,carpetBombingHpPercent:10,airDefenseInterceptPercent:75,ironWallHealPercent:20,counterBatterySuppressionPercent:70};
 const operations=Object.fromEntries(['ASSAULT','INFILTRATION','CARPET_BOMBING','SPG_BARRAGE','IRON_WALL','AIR_DEFENSE','COUNTER_BATTERY','REGROUP'].map(key=>[key,{name:key,category:'OFFENSE',summary:key,asset:'a.webp'}]));
-const schema=`
+const schema=voteSchema+`
 CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT);
 CREATE TABLE territory_war_v3_rounds(id INTEGER PRIMARY KEY,status TEXT,formed_at TEXT,recruitment_ends_at TEXT,version INTEGER DEFAULT 1,current_front_id INTEGER,ends_at TEXT,truce_ends_at TEXT,a_operation TEXT,b_operation TEXT,a_operation_ends_at TEXT,b_operation_ends_at TEXT,a_total_damage INTEGER DEFAULT 0,b_total_damage INTEGER DEFAULT 0,updated_at TEXT);
 CREATE TABLE territory_war_v3_users(round_id INTEGER,user_id INTEGER,side TEXT,status TEXT,deck_snapshot TEXT DEFAULT '[]',deck_power INTEGER DEFAULT 0,formation_power INTEGER DEFAULT 0,loadout_bonus_json TEXT,formation_breakdown_json TEXT,energy INTEGER DEFAULT 0,last_recharged_at TEXT,attacks INTEGER DEFAULT 0,damage INTEGER DEFAULT 0,front_finishes INTEGER DEFAULT 0,defense_wins INTEGER DEFAULT 0,counter_contribution INTEGER DEFAULT 0,PRIMARY KEY(round_id,user_id));
@@ -50,7 +51,7 @@ async function battle(f){
   const mine=await f.p("SELECT * FROM territory_war_v3_users WHERE side='A' ORDER BY user_id LIMIT 1").first();
   await f.p("INSERT INTO territory_war_v3_commander_overrides VALUES(1,'A',?)",mine.user_id).run();
   await f.p("INSERT INTO territory_war_v3_fronts(id,round_id,status,a_hp,b_hp,a_max_hp,b_max_hp) VALUES(1,1,'ACTIVE',500000,500000,1000000,1000000)").run();
-  return {mine,args:async(op='INFILTRATION',requestId='SKILL:request:0001',now=NOW)=>({round:await f.round(),front:await f.p('SELECT * FROM territory_war_v3_fronts WHERE id=1').first(),mine,operation:op,cfg,requestId,damageFor:territorySiegeDamage,definition:operations[op],now})};
+  return {mine,args:async(op='INFILTRATION',requestId='SKILL:request:0001',now=NOW)=>({voteKey:await seedTerritorySkillVotes(f,op,mine.side),round:await f.round(),front:await f.p('SELECT * FROM territory_war_v3_fronts WHERE id=1').first(),mine,operation:op,cfg,requestId,damageFor:territorySiegeDamage,definition:operations[op],now})};
 }
 
 test('eight clans are shuffled once into exactly four per side',()=>{

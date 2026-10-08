@@ -1,0 +1,84 @@
+{
+  "date": "2026-10-08",
+  "authorization": "25명 도달시 자동발동",
+  "status": "VALIDATED_PENDING_DEPLOY",
+  "scope": "Current clan territory war (warfare_version=4), all 12 tactical skills; no map redesign deployment",
+  "policy": {
+    "requiredVotes": 25,
+    "activation": "AUTOMATIC",
+    "voters": "ACTIVE participants on the same side",
+    "oneCurrentChoicePerParticipant": true,
+    "switchMovesVote": true,
+    "pollScope": [
+      "round",
+      "front",
+      "side",
+      "skill",
+      "cooldown generation"
+    ],
+    "skillCooldownMinutes": 45,
+    "damageBasis": "Current commander snapshot, or highest-ranked active participant before commander election",
+    "existingDamageAndFacilityConditionsPreserved": true,
+    "lastHpFloor": 1
+  },
+  "integrity": [
+    "24 distinct voters cannot activate",
+    "25th ordinary participant triggers automatically",
+    "duplicate and replayed votes do not increase headcount",
+    "round lock serializes vote switching and automatic casts",
+    "count, cooldown, front, commander and effect guards are checked in the effect transaction",
+    "damage, facility power, cooldown, activation receipt and vote consumption commit together",
+    "failed casts retain votes and resume automatically in the normal territory lifecycle",
+    "old frontend activation endpoint also requires votes for current rounds"
+  ],
+  "schemaMigration": false,
+  "databaseTablesReused": [
+    "territory_war_v3_operation_votes",
+    "territory_war_skill_receipts",
+    "territory_war_skill_cooldowns",
+    "territory_war_mutation_guards"
+  ],
+  "validation": {
+    "serverRegressions": 50,
+    "voteRegressions": 10,
+    "dialects": [
+      "SQLite",
+      "PostgreSQL (PGlite)"
+    ],
+    "browser": [
+      {
+        "width": 1440,
+        "ordinaryParticipantCanVote": true,
+        "thresholdDisplay": true,
+        "automaticResponse": true,
+        "duplicateButtonDisabled": true,
+        "overflow": false,
+        "errors": []
+      },
+      {
+        "width": 390,
+        "ordinaryParticipantCanVote": true,
+        "thresholdDisplay": true,
+        "automaticResponse": true,
+        "duplicateButtonDisabled": true,
+        "overflow": false,
+        "errors": []
+      }
+    ]
+  },
+  "release": {
+    "command": "npm run deploy:production -- --scoped",
+    "lastDeployedSource": "00b9959942bf02863318ae1b7e1b8f56173f2bc5",
+    "lastDeployment": "https://e878c369.cnine-card.pages.dev",
+    "reason": "Local territory tactical voting change using existing transaction tables; verify voting, skill effects and UI, without changing common authentication, DB infrastructure, dependencies or unrelated content.",
+    "tests": [
+      "tests/territory-skill-votes-20261008.test.mjs",
+      "tests/territory-clan-warfare-20260923.test.mjs",
+      "tests/territory-battlefield-v5.test.mjs",
+      "tests/territory-commander-live-status-v1994.test.mjs"
+    ],
+    "checks": [
+      "check:worker"
+    ]
+  }
+}

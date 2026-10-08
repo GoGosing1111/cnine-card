@@ -1,5 +1,6 @@
 import {readRuntimeData,cacheRuntimeData,invalidateRuntimeData} from './_runtime_data_cache.js';
 import {CLAN_RANKED_TEAMS_SQL} from './_clan_ranking.js';
+import {TERRITORY_SKILL_REQUIRED_VOTES,territorySkillVoteKey,territoryVoteRows,territoryVoteActivationGuard,territoryVoteCleanup} from './_territory_skill_votes.js';
 
 const SCHEMA='territory_clan_warfare_20260923_v1';
 export const TERRITORY_SKILL_COOLDOWN_MS=45*60*1000;
@@ -204,9 +205,10 @@ export async function territorySkillState(env,round,operations,mineSide,commande
   const key=`territory:skill-cooldowns:${round.id}`;
   let cooldowns=readRuntimeData(env,key);
   if(!cooldowns)cooldowns=cacheRuntimeData(env,key,rows(await env.DB.prepare('SELECT side,operation,ready_at_ms FROM territory_war_skill_cooldowns WHERE round_id=?').bind(round.id).all()),5000);
-  const team=side=>{const skills=Object.fromEntries(Object.keys(operations).map(code=>{const readyAt=Number(cooldowns.find(r=>r.side===side&&r.operation===code)?.ready_at_ms||0);return [code,{ready:readyAt<=now,readyAt:readyAt?new Date(readyAt).toISOString():null}]}));return {side,skills,ready:Object.values(skills).some(s=>s.ready),readyCount:Object.values(skills).filter(s=>s.ready).length,usedOperations:[],allUsed:false}};
+  const [votes,member]=await Promise.all([territoryVoteRows(env,round.id),env.DB.prepare('SELECT w.status,v.operation FROM territory_war_v3_users w LEFT JOIN territory_war_v3_operation_votes v ON v.round_id=w.round_id AND v.user_id=w.user_id WHERE w.round_id=? AND w.user_id=? AND w.side=?').bind(round.id,Number(userId||0),mineSide).first()]);
+  const team=side=>{const skills=Object.fromEntries(Object.keys(operations).map(code=>{const readyAt=Number(cooldowns.find(r=>r.side===side&&r.operation===code)?.ready_at_ms||0),voteKey=territorySkillVoteKey(round.id,round.current_front_id,side,code,readyAt);return [code,{ready:readyAt<=now,readyAt:readyAt?new Date(readyAt).toISOString():null,voteKey,votes:Number(votes.find(v=>v.side===side&&v.operation===voteKey)?.votes||0),voted:member?.status==='ACTIVE'&&member.operation===voteKey}]}));return {side,skills,ready:Object.values(skills).some(s=>s.ready),readyCount:Object.values(skills).filter(s=>s.ready).length,usedOperations:[],allUsed:false}};
   const isCommander=Boolean(mineSide&&Number(commanders?.[mineSide]?.user_id||0)===Number(userId));
-  return {model:'SKILL_COOLDOWN',cooldownMinutes:45,A:team('A'),B:team('B'),operations,mineSide,isCommander,canActivate:isCommander&&round.status==='ACTIVE'&&!(ms(round.truce_ends_at)>now),commanderUserId:Number(commanders?.[mineSide]?.user_id||0)};
+  return {model:'SKILL_COOLDOWN',requiredVotes:TERRITORY_SKILL_REQUIRED_VOTES,automatic:true,cooldownMinutes:45,A:team('A'),B:team('B'),operations,mineSide,isCommander,canActivate:false,canVote:member?.status==='ACTIVE'&&round.status==='ACTIVE'&&ms(round.ends_at)>now&&!(ms(round.truce_ends_at)>now),commanderUserId:Number(commanders?.[mineSide]?.user_id||0)};
 }
 
 export async function territorySkillReceipt(env,userId,requestId,operation){
@@ -234,9 +236,11 @@ export function territorySkillEffect({round,front,mine,operation,cfg,requestId,d
   return {operation,damage,heal,intercepted,baseDamage:base,endsAt:new Date(now+Number(cfg.operationDurationMinutes||10)*60000).toISOString(),readyAt:new Date(now+TERRITORY_SKILL_COOLDOWN_MS).toISOString(),requestId,roundId:Number(round.id),frontId:Number(front.id)};
 }
 
-export async function applyTerritorySkill(env,{round,front,mine,operation,cfg,requestId,damageFor,definition,now=Date.now()}){
+export async function applyTerritorySkill(env,{round,front,mine,operation,cfg,requestId,damageFor,definition,voteKey,now=Date.now()}){
   if(!isClanWarfare(round)||!['A','B'].includes(mine.side)||!definition)fail('스킬을 발동할 수 없는 회차입니다.');
   const side=mine.side,own=side.toLowerCase(),enemy=side==='A'?'b':'a',result=territorySkillEffect({round,front,mine,operation,cfg,requestId,damageFor,now});
+  Object.assign(result,{activated:true,voteKey,requiredVotes:TERRITORY_SKILL_REQUIRED_VOTES});
+  const voteGuard=territoryVoteActivationGuard(env,{round,front,mine,operation,voteKey,requestId});
   const payload={...result,category:definition.category,summary:definition.summary,image:definition.asset};
   // Lock round then front, matching personal attacks. The skill token protects
   // opposing effect changes between the round and front reads; unrelated attack
@@ -247,14 +251,15 @@ export async function applyTerritorySkill(env,{round,front,mine,operation,cfg,re
       AND datetime(ends_at)>datetime(?) AND (truce_ends_at IS NULL OR datetime(truce_ends_at)<=datetime(?))
       AND NOT EXISTS(SELECT 1 FROM territory_war_skill_cooldowns WHERE round_id=? AND side=? AND operation=? AND ready_at_ms>?)
       AND COALESCE((SELECT o.user_id FROM territory_war_v3_commander_overrides o JOIN territory_war_v3_users w ON w.round_id=o.round_id AND w.user_id=o.user_id AND w.side=o.side AND w.status='ACTIVE' WHERE o.round_id=? AND o.side=?),
-        (SELECT w.user_id FROM territory_war_v3_users w WHERE w.round_id=? AND w.side=? AND w.status='ACTIVE' AND (w.attacks>0 OR w.defense_wins>0) ORDER BY (w.damage+w.front_finishes*10000+w.defense_wins*2500+w.counter_contribution*25) DESC,w.attacks DESC,w.user_id LIMIT 1))=?`).bind(requestId,round.id,front.id,round.skill_action_token||'',new Date(now).toISOString(),new Date(now).toISOString(),round.id,side,operation,now,round.id,side,round.id,side,mine.user_id),
+        (SELECT w.user_id FROM territory_war_v3_users w WHERE w.round_id=? AND w.side=? AND w.status='ACTIVE' ORDER BY (w.damage+w.front_finishes*10000+w.defense_wins*2500+w.counter_contribution*25) DESC,w.attacks DESC,w.user_id LIMIT 1))=?`).bind(requestId,round.id,front.id,round.skill_action_token||'',new Date(now).toISOString(),new Date(now).toISOString(),round.id,side,operation,now,round.id,side,round.id,side,mine.user_id),
+    voteGuard,
     env.DB.prepare('INSERT INTO territory_war_mutation_guards(token,ok) SELECT ?,CASE WHEN EXISTS(SELECT 1 FROM territory_war_v3_rounds r JOIN territory_war_v3_fronts f ON f.id=r.current_front_id WHERE r.id=? AND r.skill_action_token=? AND f.skill_action_token=?) THEN 1 ELSE 0 END').bind(requestId,round.id,requestId,requestId),
     env.DB.prepare('INSERT INTO territory_war_skill_receipts(request_id,round_id,user_id,side,operation,result_json,used_at_ms) VALUES(?,?,?,?,?,?,?)').bind(requestId,round.id,mine.user_id,side,operation,JSON.stringify(result),now),
     env.DB.prepare('INSERT INTO territory_war_skill_cooldowns(round_id,side,operation,ready_at_ms) VALUES(?,?,?,?) ON CONFLICT(round_id,side,operation) DO UPDATE SET ready_at_ms=excluded.ready_at_ms').bind(round.id,side,operation,now+TERRITORY_SKILL_COOLDOWN_MS),
     env.DB.prepare(`UPDATE territory_war_v3_fronts SET ${enemy}_hp=${enemy}_hp-?,${own}_hp=${own}_hp+?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=?`).bind(result.damage,result.heal,front.id),
     env.DB.prepare(`UPDATE territory_war_v3_rounds SET ${own}_operation=?,${own}_operation_ends_at=?,${own}_total_damage=${own}_total_damage+?,updated_at=CURRENT_TIMESTAMP WHERE id=?`).bind(operation,result.endsAt,result.damage,round.id)];
   if(operation==='REGROUP')s.push(env.DB.prepare('UPDATE territory_war_v3_users SET energy=MIN(?,energy+?),last_recharged_at=CURRENT_TIMESTAMP WHERE round_id=? AND side=?').bind(Number(cfg.energyMax||10),Number(cfg.regroupEnergy||3),round.id,side));
-  s.push(env.DB.prepare("INSERT INTO territory_war_v3_notices(round_id,type,side,title,message,payload_json) VALUES(?,'TACTICAL_OPERATION',?,?,?,?)").bind(round.id,side,`${definition.name} 발동`,`${definition.name} · 직접 피해 ${result.damage}`,JSON.stringify(payload)),env.DB.prepare('DELETE FROM territory_war_mutation_guards WHERE token=?').bind(requestId));
+  s.push(...territoryVoteCleanup(env,{round,mine,voteKey,requestId}),env.DB.prepare("INSERT INTO territory_war_v3_notices(round_id,type,side,title,message,payload_json) VALUES(?,'TACTICAL_OPERATION',?,?,?,?)").bind(round.id,side,`${definition.name} 발동`,`${TERRITORY_SKILL_REQUIRED_VOTES}명 투표 달성 · ${definition.name} · 직접 피해 ${result.damage}`,JSON.stringify(payload)),env.DB.prepare('DELETE FROM territory_war_mutation_guards WHERE token=?').bind(requestId));
   const [frontLock,roundLock,...writes]=s;
   await env.DB.batch([roundLock,frontLock,...writes]);
   invalidateRuntimeData(env,`territory:skill-cooldowns:${round.id}`);
