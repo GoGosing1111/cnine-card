@@ -1,0 +1,66 @@
+{
+  "date": "2026-10-09",
+  "timezone": "Asia/Seoul",
+  "userRequest": "펫 리소스 승인하고 라이브 연결해 나무늘봉순",
+  "pet": {
+    "code": "PET-NAMUNEUL-BONGSOON",
+    "name": "나무늘봉순",
+    "sourceArt": "assets/ui/pets/namuneul-bongsoon-20261009/pet-namuneul-bongsoon-sloth-sd-approved.png",
+    "battleSprite": "assets/ui/pets/namuneul-bongsoon-20261009/pet-namuneul-bongsoon-sloth-sd-approved.png",
+    "sha256": "c7638ec033002657ee4e0278174f99f819d0018345936710d2aaad46161781e2",
+    "buff": {
+      "type": "ATTACK_PERCENT",
+      "percent": 10
+    },
+    "modes": [
+      "PVE",
+      "PVP"
+    ],
+    "liveReady": true
+  },
+  "release": {
+    "id": "8c1b4998-107f-4512-a4ea-ff60c819dc14",
+    "url": "https://8c1b4998.cnine-card.pages.dev",
+    "canonicalUrl": "https://cnine-card.pages.dev",
+    "commit": "9cae9ed0cf8474fd6ce3d360381b45bfa585dc88",
+    "base": "5bbfe4673298cb3ce98cc4aaea3b6063baecb6f6",
+    "status": "success",
+    "command": "npm run deploy:production -- --scoped",
+    "apiRuntimeVersion": "46854bf6-796e-47cb-b037-ae52a3e3455b",
+    "clanDraftVersion": "08301892-d37a-4dc8-ab8d-2bce3a61308a"
+  },
+  "validation": {
+    "passed": 16,
+    "failed": 0,
+    "tests": [
+      "tests/pet-equipment-20261002.test.mjs",
+      "tests/pet-live-magnet-20261006.test.mjs"
+    ],
+    "assetHttpStatus": 200,
+    "approvedAssetHashMatches": true,
+    "catalogHttpStatus": 200,
+    "ui": [
+      "desktop codex 1440x1000",
+      "mobile codex 390x844, equip/unequip, no horizontal overflow",
+      "main-index V3 desktop PVE support beside suit",
+      "main-index V3 mobile PVP both side supports"
+    ],
+    "battleArtFallbacks": 0,
+    "unownedEquipStatus": 403,
+    "ownedEquipStatus": 200
+  },
+  "cms": {
+    "revision": 7,
+    "registeredWithArt": 8,
+    "preservedExistingRows": 8,
+    "rowsAfter": 9,
+    "saveReloadAndExportVerified": true,
+    "existingPetValuesUnchanged": true,
+    "autoGrant": false,
+    "openingPoolWeightsChanged": false,
+    "potentialSettingsChanged": false
+  },
+  "evidenceDirectory": "C:/Users/User/.codex/tmp/pet-namuneul-bongsoon-20261009/",
+  "proof": "C:/Users/User/.codex/tmp/pet-namuneul-bongsoon-20261009/cms-live.png"
+}
+
