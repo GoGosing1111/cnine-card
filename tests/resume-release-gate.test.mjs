@@ -59,6 +59,15 @@ test('multiple immutable continuation logs keep contiguous passes and reject a c
   assert.throws(()=>fullGateResumePlan({...f,env:{...f.env,RELEASE_GATE_RESUME_CONTINUATIONS:JSON.stringify(Array(17).fill(chain[0]))}}),/At most sixteen/);
 });
 
+test('a continuation validates successful earlier reruns before its contiguous failed-stage suffix',()=>{
+ const f=fixture({changed:['tests/c.test.mjs']}),candidate='c'.repeat(40);
+ const log=`[FULL RELEASE RESUME] Reuse 0 completed stages from ${base}; execute every remaining stage and production guard.\n> test:a\nℹ fail 0\n> test:b\nℹ fail 0\n> test:c\nℹ fail 1\n`;
+ const setup=text=>({...f,read:()=>text,env:{...f.env,RELEASE_GATE_RESUME_CONTINUATION_LOG:'rerun.log',RELEASE_GATE_RESUME_CONTINUATION_BASE:candidate,RELEASE_GATE_RESUME_CONTINUATION_SHA256:createHash('sha256').update(text).digest('hex')}});
+ const plan=fullGateResumePlan(setup(log));assert.equal(plan.reused,2);assert.deepEqual(plan.commands.slice(1),['npm run test:c','node scripts/verify-production-release.mjs']);
+ assert.throws(()=>fullGateResumePlan(setup(log.replace('> test:a\nℹ fail 0','> test:a\nℹ fail 1'))),/guard tests failed/);
+ for(const bad of [log.replace('Reuse 0','Reuse 1'),log.replace('> test:a','> test:c'),log.replace('> test:a','> test:a\nℹ fail 0\n> test:a')])assert.throws(()=>fullGateResumePlan(setup(bad)),/without gaps/);
+});
+
 test('a completed gate blocked only by concurrent main advancement retains all tests and reruns the production guard',()=>{
   const f=fixture({changed:['docs/operations.json']});
   const log=`> release:gate\n> ${f.scripts['release:gate']}\n> test:a\nℹ fail 0\n> test:b\nℹ fail 0\n> test:c\nℹ fail 0\n[PRODUCTION RELEASE BLOCKED] deploy source differs from origin/main: HEAD=${base} origin/main=${head}\n`;
