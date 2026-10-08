@@ -20,3 +20,9 @@ PVE 사냥·폐기장·탑·군단·호위·공성은 PVE 선택, 일반 PVP·�
 ## 배포 범위
 
 직전 운영 배포는 Cloudflare에서 확인한 `0d55ea94449bdbbbe1938a8c27202e0ac39de372`, Pages `ab92a6bf-dcf3-4c61-a19c-325ea5922256`이다. 용병 편성 한 기능과 명시한 호출 경로에 한정되고 DB 스키마·공통 인증·거래 기반·의존성 변경이 없어 `npm run deploy:production -- --scoped`를 사용한다. 원본 작업 디렉터리의 다른 변경은 별도 작업 트리로 분리했다.
+
+## 운영 반영 결과
+
+2026-10-09 05:20 KST, 커밋 `b1e2ea42bf3ad03d3ce5938985155ce2e094533a`를 공식 scoped 명령으로 배포 완료했다. 회귀 27/27, Worker 문법 및 실제 번들 컴파일, 출시 보호·Hyperdrive 캐시 검사 통과. Pages는 `https://19669f91.cnine-card.pages.dev`, API runtime 버전은 `3b6a7434-5d9a-4a5c-b4e8-0cba7a8f6c1c`, clan-draft 버전은 `901f1731-7fa9-49cb-ae1a-09cd9238c94a`다.
+
+운영 `/api/pve/v3/feature`에서 `PVE_PVP_SEPARATE`, 모드 2종과 `allowSameMercenary: true`를 확인했다. 운영 도감 HTML의 두 모드 버튼·새 캐시 태그, 클라이언트의 모드별 저장, 덱 모듈의 모드별 읽기 반영을 확인했다. 상세 결과는 `mercenary-loadout-modes-20261009-release.json`에 기록한다. 검수 결과만 추가하는 후속 문서 커밋은 운영 재배포하지 않는다.

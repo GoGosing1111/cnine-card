@@ -1,0 +1,43 @@
+{
+  "verifiedAt": "2026-10-08T20:20:17.333Z",
+  "sourceCommit": "b1e2ea42bf3ad03d3ce5938985155ce2e094533a",
+  "productionUrl": "https://cnine-card.pages.dev/mercenary-codex/?view=owned&mode=PVP",
+  "deployment": {
+    "enabled": true,
+    "version": "20261009-mercenary-loadout-modes",
+    "cardSlots": 5,
+    "mercenarySlots": 1,
+    "scope": "PVE_PVP_SEPARATE",
+    "modes": [
+      "PVE",
+      "PVP"
+    ],
+    "allowSameMercenary": true,
+    "url": "/mercenary-codex/?view=owned",
+    "upgradeEnabled": false
+  },
+  "checks": [
+    "live API exposes separate PVE/PVP modes and same-mercenary reuse",
+    "live codex has both mode controls and fresh cache markers",
+    "live client saves its selected mode and revision",
+    "live deck module reads its own mode"
+  ],
+  "regressions": {
+    "passed": 27,
+    "failed": 0
+  },
+  "browser": {
+    "viewports": [
+      "1440x1000",
+      "390x844"
+    ],
+    "errors": 0,
+    "evidence": "preview/mercenary-loadout-modes-20261009"
+  },
+  "deploymentCommand": "npm run deploy:production -- --scoped",
+  "deploymentExitCode": 0,
+  "pagesUrl": "https://19669f91.cnine-card.pages.dev",
+  "apiRuntimeVersion": "3b6a7434-5d9a-4a5c-b4e8-0cba7a8f6c1c",
+  "clanDraftVersion": "901f1731-7fa9-49cb-ae1a-09cd9238c94a",
+  "previousProductionCommit": "0d55ea94449bdbbbe1938a8c27202e0ac39de372"
+}
