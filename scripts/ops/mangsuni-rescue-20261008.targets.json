@@ -1,0 +1,427 @@
+{
+  "authorization": "사용자 지정 58명에게 1조 코인 + 1000만 마별을 메시지로 지급 · 망순방 구조대 이벤트",
+  "eventTitle": "망순방 구조대 이벤트",
+  "sourceNames": [
+    "모래",
+    "박사",
+    "음순이",
+    "팩트만쓴다15",
+    "뽑기고수71",
+    "모아가려아가",
+    "커피먹는철구",
+    "암살자..",
+    "게임닉네임",
+    "숭구릭",
+    "음주플레이어",
+    "세라네꼬라지",
+    "깜찍소녀",
+    "토닭토닭",
+    "학벌",
+    "[C9]족쪽이",
+    "응맨",
+    "화성가뿌자",
+    "오일바른가지",
+    "펜타",
+    "스갤가축",
+    "더듬이구",
+    "zkzk9999",
+    "베배킹",
+    "지아영",
+    "라피e",
+    "족게이다",
+    "딤럼프",
+    "디임",
+    "레기파",
+    "굳건창수",
+    "란x2",
+    "씨나인택갓",
+    "심심이",
+    "핫시",
+    "랭비!",
+    "0수표",
+    "남수댕",
+    "전게씹선미아웃",
+    "오랜만에",
+    "딤키우기",
+    "쁴로리",
+    "망순이ෆ",
+    "조은",
+    "족구선생",
+    "우회하세요",
+    "족단",
+    "Mild7",
+    "레드클라우드",
+    "현하루",
+    "진땅콩_",
+    "슈파두파",
+    "찬호",
+    "여우",
+    "폭군#",
+    "으악",
+    "˚쟁이。",
+    "간장왕대게찜"
+  ],
+  "sourceCount": 58,
+  "recipientHash": "886ee9c46b9ad0f3cdcfa8e732c0885906e345f9be200648b4f132bcecca8532",
+  "coinPerUser": "1000000000000",
+  "starsPerUser": "10000000",
+  "targets": [
+    {
+      "id": "295",
+      "nickname": "모래",
+      "inputNickname": "모래",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "164",
+      "nickname": "박사",
+      "inputNickname": "박사",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "65",
+      "nickname": "음순이",
+      "inputNickname": "음순이",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "1301",
+      "nickname": "팩트만쓴다15",
+      "inputNickname": "팩트만쓴다15",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "850",
+      "nickname": "뽑기고수71",
+      "inputNickname": "뽑기고수71",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "2505",
+      "nickname": "모아가려아가",
+      "inputNickname": "모아가려아가",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "22",
+      "nickname": "커피먹는철구",
+      "inputNickname": "커피먹는철구",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "4598",
+      "nickname": "암살자..",
+      "inputNickname": "암살자..",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "4084",
+      "nickname": "게임닉네임",
+      "inputNickname": "게임닉네임",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "62",
+      "nickname": "숭구릭",
+      "inputNickname": "숭구릭",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "4757",
+      "nickname": "음주플레이어",
+      "inputNickname": "음주플레이어",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "4651",
+      "nickname": "세라네꼬라지",
+      "inputNickname": "세라네꼬라지",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "4504",
+      "nickname": "깜찍소녀",
+      "inputNickname": "깜찍소녀",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "19",
+      "nickname": "토닭토닭",
+      "inputNickname": "토닭토닭",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "4627",
+      "nickname": "학벌",
+      "inputNickname": "학벌",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "303",
+      "nickname": "[C9]족쪽이",
+      "inputNickname": "[C9]족쪽이",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "4572",
+      "nickname": "응맨",
+      "inputNickname": "응맨",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "4668",
+      "nickname": "화성가뿌자",
+      "inputNickname": "화성가뿌자",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "3011",
+      "nickname": "오일바른가지",
+      "inputNickname": "오일바른가지",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "4772",
+      "nickname": "펜타",
+      "inputNickname": "펜타",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "277",
+      "nickname": "스갤가축",
+      "inputNickname": "스갤가축",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "4391",
+      "nickname": "더듬이구",
+      "inputNickname": "더듬이구",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "3884",
+      "nickname": "zkzk9999",
+      "inputNickname": "zkzk9999",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "289",
+      "nickname": "베베킹",
+      "inputNickname": "베배킹",
+      "matchType": "HISTORICALLY_VERIFIED_ALIAS",
+      "identityEvidence": [
+        "scripts/ops/diim-recruitment-gift-20261001.targets.json",
+        "scripts/ops/ayoon-recruitment-gift-20261003.targets.json",
+        "scripts/ops/pingdu-thanks-ppanghun-20261002.targets.json"
+      ]
+    },
+    {
+      "id": "4540",
+      "nickname": "지아영",
+      "inputNickname": "지아영",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "360",
+      "nickname": "라피e",
+      "inputNickname": "라피e",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "4111",
+      "nickname": "족게이다",
+      "inputNickname": "족게이다",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "4774",
+      "nickname": "딤럼프",
+      "inputNickname": "딤럼프",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "4294",
+      "nickname": "디임",
+      "inputNickname": "디임",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "4408",
+      "nickname": "레가파",
+      "inputNickname": "레기파",
+      "matchType": "HISTORICALLY_VERIFIED_ALIAS",
+      "identityEvidence": [
+        "scripts/ops/orikkung-gift-20261007.targets.json",
+        "scripts/ops/bongsoon-recruitment-gift-20261002.targets.json"
+      ]
+    },
+    {
+      "id": "4908",
+      "nickname": "굳건창수",
+      "inputNickname": "굳건창수",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "73",
+      "nickname": "란x2",
+      "inputNickname": "란x2",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "1195",
+      "nickname": "씨나인택갓",
+      "inputNickname": "씨나인택갓",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "4933",
+      "nickname": "심심이",
+      "inputNickname": "심심이",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "1768",
+      "nickname": "핫시",
+      "inputNickname": "핫시",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "4615",
+      "nickname": "랭비!",
+      "inputNickname": "랭비!",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "88",
+      "nickname": "0수표",
+      "inputNickname": "0수표",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "183",
+      "nickname": "남수댕",
+      "inputNickname": "남수댕",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "1255",
+      "nickname": "전게씹선미아웃",
+      "inputNickname": "전게씹선미아웃",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "4609",
+      "nickname": "오랜만에",
+      "inputNickname": "오랜만에",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "4836",
+      "nickname": "딤키우기",
+      "inputNickname": "딤키우기",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "4965",
+      "nickname": "쁴로리",
+      "inputNickname": "쁴로리",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "4628",
+      "nickname": "망순이ෆ",
+      "inputNickname": "망순이ෆ",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "4754",
+      "nickname": "조은",
+      "inputNickname": "조은",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "130",
+      "nickname": "족구선생",
+      "inputNickname": "족구선생",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "3974",
+      "nickname": "우회하세요",
+      "inputNickname": "우회하세요",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "4582",
+      "nickname": "족단",
+      "inputNickname": "족단",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "290",
+      "nickname": "Mild7",
+      "inputNickname": "Mild7",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "3867",
+      "nickname": "레드클라우드",
+      "inputNickname": "레드클라우드",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "218",
+      "nickname": "현하루",
+      "inputNickname": "현하루",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "71",
+      "nickname": "진땅콩_",
+      "inputNickname": "진땅콩_",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "3892",
+      "nickname": "슈파두파",
+      "inputNickname": "슈파두파",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "4597",
+      "nickname": "찬호",
+      "inputNickname": "찬호",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "25",
+      "nickname": "여우",
+      "inputNickname": "여우",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "52",
+      "nickname": "폭군#",
+      "inputNickname": "폭군#",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "5010",
+      "nickname": "으악",
+      "inputNickname": "으악",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "4705",
+      "nickname": "˚쟁이。",
+      "inputNickname": "˚쟁이。",
+      "matchType": "EXACT"
+    },
+    {
+      "id": "4981",
+      "nickname": "간장왕대게찜",
+      "inputNickname": "간장왕대게찜",
+      "matchType": "EXACT"
+    }
+  ]
+}
