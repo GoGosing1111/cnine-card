@@ -3,8 +3,10 @@ import {gsap} from 'gsap';
 import {LIMITED_VISUALS,limitedVisual,limitedBattleArt,limitedEmission} from '../../../../shared/mercenary-limited-visuals-v1.mjs';
 import {KnightFX,loadKnightAssets} from '../../../mercenary-crimson-silver-knight-battle-v1/source/KnightFX.js';
 import {makePlan as valterPlan,OVERHEAD} from '../../../mercenary-crimson-silver-knight-battle-v1/skill.mjs';
+import {VALTER_CODE,VALTER_AREA_EVENT} from '../../../../shared/mercenary-valter-v1.mjs';
 
 const clamp=(n,a=0,b=1)=>Math.max(a,Math.min(b,n));
+export const VALTER_ATTACK_PLAYBACK_RATE=2.5;
 const frames=(texture,rows)=>rows.map(f=>new Texture({source:texture.source,frame:new Rectangle(f.rect.x,f.rect.y,f.rect.width,f.rect.height)}));
 let valterManifestPromise;
 const valterManifest=()=>valterManifestPromise||=fetch(LIMITED_VISUALS.reference.manifest).then(r=>{if(!r.ok)throw Error('VALTER_APPROVED_MANIFEST');return r.json();}).catch(e=>{valterManifestPromise=null;throw e;});
@@ -85,7 +87,7 @@ function renderImages(s,t,target){
  if(t>=1.68&&t<2.65)place(s,2,8+Math.min(3,Math.floor((t-1.68)/.97*4)),hit,p.height*(s.spec.type==='cannon'?.84:.65));
  s.emission=p;s.effectTime=t;
 }
-async function playback(engine,actor,targets,{basic=false,apply}){
+async function playback(engine,actor,targets,{basic=false,area=false,apply}){
  const epoch=engine.mercenaryEpoch,playbackEpoch=engine.playbackEpoch;
  const valid=()=>!engine.mercenaryDisposed&&epoch===engine.mercenaryEpoch&&playbackEpoch===engine.playbackEpoch&&engine.visible&&!actor.root.destroyed&&targets.every(t=>!t.root.destroyed);
  if(!valid()||!targets.length)return false;
@@ -93,18 +95,20 @@ async function playback(engine,actor,targets,{basic=false,apply}){
  engine.settlePendingTails?.([actor,...targets]);stopAmbient(s);s.stopped=false;s.busy=true;actor.animationController.kill();
  let duration=3.6,contact=1.68;
  if(s.knight){
-  const k=s.knight;k.targets=targets;k.targetDefaults=targets.map(a=>({viewX:a.view.x,tint:a.fullBodySprite.tint}));k.plan={...valterPlan({mode:basic?'attack':'skill'}),damageAuthority:'SERVER_ONLY'};
+  const k=s.knight;k.targets=targets;k.targetDefaults=targets.map(a=>({viewX:a.view.x,tint:a.fullBodySprite.tint}));k.plan={...valterPlan({mode:basic?'attack':area?'ultimate':'skill'}),damageAuthority:'SERVER_ONLY'};
   k.captureFormation();duration=k.plan.duration;contact=OVERHEAD.contact;
  }
- const clock={time:0};let applied=false;
+ // Compress the approved attack/skill clock, contact and release together.
+ // The global playback speed still applies; idle aura and server turns do not change.
+ const rate=s.knight?VALTER_ATTACK_PLAYBACK_RATE:1,clock={time:0};let applied=false;
  const result=await engine.timeline(t=>{
-  t.to(clock,{time:duration,duration,ease:'none',onUpdate(){if(!valid()||s.destroyed)return;rear(s,clock.time);if(s.knight)s.knight.render(clock.time);else renderImages(s,clock.time,targets[0]);}});
-  t.call(()=>{if(valid()&&!applied){applied=true;apply();}},[],contact);
+  t.to(clock,{time:duration,duration:duration/rate,ease:'none',onUpdate(){if(!valid()||s.destroyed)return;rear(s,clock.time);if(s.knight)s.knight.render(clock.time);else renderImages(s,clock.time,targets[0]);}});
+  t.call(()=>{if(valid()&&!applied){applied=true;apply();}},[],contact/rate);
  },()=>{
   if(s.destroyed)return;s.busy=false;s.sprites.forEach(a=>a.visible=false);
   if(s.knight)s.knight.cancel();if(valid()&&!s.stopped)startAmbient(s);
- },null,{releaseAt:contact+.12,owners:[actor,...targets]});
- engine.lastMercenaryPlayback={code:actor.cardId,eventType:basic?'ATTACK':'MERCENARY_HIT',visualVersion:LIMITED_VISUALS.version,clockOwner:'V3_REGISTERED_GSAP',authoritative:true,damageApplications:applied?targets.length:0};
+ },null,{releaseAt:(contact+.12)/rate,owners:[actor,...targets]});
+ engine.lastMercenaryPlayback={code:actor.cardId,eventType:basic?'ATTACK':area?VALTER_AREA_EVENT:'MERCENARY_HIT',visualVersion:LIMITED_VISUALS.version,clockOwner:'V3_REGISTERED_GSAP',authoritative:true,damageApplications:applied?targets.length:0,playbackRate:rate,contactSeconds:contact/rate,durationSeconds:duration/rate};
  return result&&valid();
 }
 export function playLimitedBasic(engine,{attacker:actor,target,damage=0,targetHp=null,targetShield=null,onImpact=()=>{}}={}){
@@ -116,6 +120,19 @@ export function playLimitedBasic(engine,{attacker:actor,target,damage=0,targetHp
  }});
 }
 export function playLimitedSkill(engine,event){
+ if(event.type===VALTER_AREA_EVENT){
+  const actor=engine.combatantById(event.actorId);if(actor?.cardId!==VALTER_CODE||event.battleMode!=='PVE')return true;
+  const rows=[...new Map((event.hits||[]).map(hit=>[hit.targetId,hit])).values()].map(hit=>({hit,target:engine.combatantById(hit.targetId)})).filter(r=>r.target&&!r.target.root.destroyed);
+  if(!rows.length)return true;
+  return playback(engine,actor,rows.map(r=>r.target),{area:true,apply(){
+   for(const {hit,target} of rows){
+    if(Number.isFinite(hit.targetHpAfter))engine.syncTargetHp(target,engine.eventHpPercent(target,hit.targetHpAfter,hit.targetMaxHp));
+    if(Number.isFinite(hit.targetShieldAfter))engine.syncTargetShield(target,hit.targetShieldAfter,hit.targetMaxShield);
+    if(hit.dodge)engine.queueBanner('빗나감',actor.accent,target.name);
+    else engine.showAccountBattleUnitDamage(target,{damage:(hit.damage||0)+(hit.absorbed||0),compactArea:rows.length>1});
+   }
+  }});
+ }
  const actor=engine.combatantById(event.actorId),target=engine.combatantById(event.targetId);if(!actor||!target)return true;
  const sync=()=>{if(Number.isFinite(event.targetHpAfter))engine.syncTargetHp(target,engine.eventHpPercent(target,event.targetHpAfter));if(Number.isFinite(event.targetShieldAfter))engine.syncTargetShield(target,event.targetShieldAfter,event.targetMaxShield);};
  if(event.dodge){sync();engine.queueBanner('빗나감',actor.accent,target.name);return true;}

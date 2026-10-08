@@ -1446,19 +1446,25 @@ export class BaseBattleEngine{
     }
   }
 
-  showAccountBattleUnitDamage(victim,{damage=0,critical=false,playbackRate=1}={}){
+  showAccountBattleUnitDamage(victim,{damage=0,critical=false,playbackRate=1,compactArea=false}={}){
     const amount=Math.max(0,Number(damage)||0);
     if(!victim?.root||!amount)return false;
     const damageLabel=this.pools.damage.acquire();
     const victimView=victim.root;
     configureDamageText(damageLabel,{kind:SKILL_EFFECT_KIND.ATTACK,damage:amount,critical:Boolean(critical),healing:0,hitCount:1,compact:this.mobile});
-    damageLabel.position.set(victimView.x,victimView.y-330);
+    // Valter's simultaneous PVE hits must fit each enemy's silhouette instead
+    // of stacking full-size support labels across all twelve enemy slots.
+    if(compactArea)damageLabel.roleTag.text='';
+    const point=compactArea?this.uiLayer.toLocal(victimView.toGlobal({x:0,y:-victim.fullBodyHeight*.88})):{x:victimView.x,y:victimView.y-330};
+    const scale=compactArea?Math.min(.52,Math.max(64,victim.fullBodyHeight*Math.abs(victimView.scale.y)*.85)/Math.max(1,damageLabel.getLocalBounds().width)):1.05;
+    const y=compactArea?Math.max(90,point.y):point.y;
+    damageLabel.position.set(point.x,y);
     damageLabel.visible=true;
     this.uiLayer.addChild(damageLabel);
     void this.timeline(timeline=>{
-      timeline.fromTo(damageLabel,{alpha:0,y:victimView.y-320},{alpha:1,y:victimView.y-366,duration:.16,ease:'back.out(2.2)'},0);
-      timeline.fromTo(damageLabel.scale,{x:.5,y:.5},{x:1.05,y:1.05,duration:.18,ease:'back.out(2.2)'},0);
-      timeline.to(damageLabel,{alpha:0,y:victimView.y-402,duration:.24,ease:'power2.in'},.24);
+      timeline.fromTo(damageLabel,{alpha:0,y:y+10},{alpha:1,y:y-(compactArea?12:36),duration:.16,ease:'back.out(2.2)'},0);
+      timeline.fromTo(damageLabel.scale,{x:scale*.5/1.05,y:scale*.5/1.05},{x:scale,y:scale,duration:.18,ease:'back.out(2.2)'},0);
+      timeline.to(damageLabel,{alpha:0,y:y-(compactArea?28:72),duration:.24,ease:'power2.in'},.24);
     },()=>this.pools.damage.release(damageLabel),Math.max(.5,Number(playbackRate)||1)*PLAYBACK_SPEED);
     return true;
   }

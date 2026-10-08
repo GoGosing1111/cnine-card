@@ -1,6 +1,6 @@
 import {LIMITED_MERCENARIES} from './mercenary-limited-catalog-v1.mjs';
 import {SS_LIMITED_COMBAT,SS_LIMITED_BALANCE_VERSION} from './mercenary-ss-limited-v1.mjs';
-import {VALTER_CODE,VALTER_COMBAT} from './mercenary-valter-v1.mjs';
+import {VALTER_CODE,VALTER_COMBAT,VALTER_AREA_SKILL} from './mercenary-valter-v1.mjs';
 
 // User release: 2026-10-09. Ownership is still checked by the account service.
 // Artwork provenance, acquisition and pack release remain separate contracts.
@@ -14,7 +14,7 @@ export function limitedDeploymentSnapshot(code){
   basePower:valter?VALTER_COMBAT.basePower:profile.basePower,
   position:valter?'FRONT':profile.position,role:valter?'VANGUARD':profile.role,
   attackStyle:valter?'MELEE':profile.attackStyle,
-  skills:profile?[structuredClone(profile.skill)]:[],pendingSkillIds:[],
+  skills:[structuredClone(profile?profile.skill:VALTER_AREA_SKILL)],pendingSkillIds:[],
   ...(valter?{valterPolicyVersion:VALTER_COMBAT.version}:{ssLimitedPolicyVersion:SS_LIMITED_BALANCE_VERSION}),
   deploymentEnabled:true,deploymentVersion:LIMITED_DEPLOYMENT_VERSION};
 }

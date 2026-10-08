@@ -143,6 +143,7 @@
     "preview/project-v-v3/source/battle/RagnielCombatPlayback.js",
     "shared/mercenary-limited-visual-catalog-v1.mjs",
     "shared/mercenary-limited-visuals-v1.mjs",
+    "shared/mercenary-valter-v1.mjs",
     "preview/mercenary-crimson-silver-knight-battle-v1/motion-counts-v10.mjs",
     "preview/mercenary-crimson-silver-knight-battle-v1/skill.mjs",
     "preview/mercenary-crimson-silver-knight-battle-v1/source/CueAudio.js",
@@ -161,5 +162,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 1754186
+  "outputBytes": 1755768
 }

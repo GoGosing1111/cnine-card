@@ -1,0 +1,1034 @@
+{
+  "source": "canonical production V3/PVE bundles; actual twelve-target server PVE event",
+  "checks": [
+    {
+      "label": "desktop",
+      "mode": "basic",
+      "contact": {
+        "time": 0.695,
+        "duration": 1.62,
+        "scale": 1,
+        "hpCalls": [
+          {
+            "id": "CN-02D9DC1E8A8A4209",
+            "input": 77,
+            "hp": 77
+          }
+        ],
+        "damageCalls": [
+          {
+            "id": "CN-02D9DC1E8A8A4209",
+            "damage": 23
+          }
+        ],
+        "fx": {
+          "ready": true,
+          "motionOnly": false,
+          "mode": "attack",
+          "time": 0,
+          "playing": false,
+          "speed": 1,
+          "playbackRate": 1.2,
+          "pose": {
+            "key": "twohandStrike",
+            "frame": 1
+          },
+          "cancelled": false,
+          "travel": 1,
+          "activeFrames": [
+            {
+              "key": "charge",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 1325.0738107055968,
+                "y": 240
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.7421875
+              }
+            },
+            {
+              "key": "slash",
+              "index": 9,
+              "next": 10,
+              "anchor": {
+                "x": 1430,
+                "y": 203.33985605365334
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.5
+              }
+            }
+          ],
+          "visibleSprites": 34,
+          "ownedTimelines": 0,
+          "registeredTimelines": 0,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "weaponRigid": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "motionFrames": 64,
+          "effectFrames": 96,
+          "damageAuthority": "SERVER_ONLY",
+          "actorFoot": {
+            "x": 1325.0738107055968,
+            "y": 240
+          },
+          "targetFoot": {
+            "x": 1430,
+            "y": 240
+          },
+          "aura": {
+            "enabled": true,
+            "textureMatchesPose": true,
+            "silhouetteCopies": 18,
+            "filterCount": 6,
+            "independentClock": false
+          },
+          "audio": {
+            "enabled": false,
+            "scheduled": [],
+            "error": null
+          },
+          "effectLayers": 1
+        }
+      },
+      "spec": {
+        "rate": null,
+        "releaseAt": 0.7417777777777778
+      },
+      "after": {
+        "last": {
+          "code": "V-996",
+          "eventType": "ATTACK",
+          "visualVersion": "20261004-approved",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 1,
+          "playbackRate": 2.5,
+          "contactSeconds": 0.6937777777777778,
+          "durationSeconds": 1.6199999999999999
+        },
+        "ambient": true,
+        "atStation": true,
+        "damageCalls": 1
+      }
+    },
+    {
+      "label": "desktop",
+      "mode": "area",
+      "contact": {
+        "time": 0.696,
+        "duration": 2.22,
+        "scale": 1,
+        "hpCalls": [
+          {
+            "id": "B:0:ENCOUNTER:INITIAL",
+            "input": 8.000927643784788,
+            "hp": 8.000927643784788
+          },
+          {
+            "id": "B:1:ENCOUNTER:INITIAL",
+            "input": 53.99962356484096,
+            "hp": 53.99962356484096
+          },
+          {
+            "id": "B:2:ENCOUNTER:INITIAL",
+            "input": 53.99946516493369,
+            "hp": 53.99946516493369
+          },
+          {
+            "id": "B:3:ENCOUNTER:INITIAL",
+            "input": 53.99981962481962,
+            "hp": 53.99981962481962
+          },
+          {
+            "id": "B:4:ENCOUNTER:INITIAL",
+            "input": 53.99940968122786,
+            "hp": 53.99940968122786
+          },
+          {
+            "id": "B:5:ENCOUNTER:INITIAL",
+            "input": 54.00027056277056,
+            "hp": 54.00027056277056
+          },
+          {
+            "id": "B:6:ENCOUNTER:INITIAL",
+            "input": 54.0004831501389,
+            "hp": 54.0004831501389
+          },
+          {
+            "id": "B:7:ENCOUNTER:INITIAL",
+            "input": 54.000463821892396,
+            "hp": 54.000463821892396
+          },
+          {
+            "id": "B:8:ENCOUNTER:INITIAL",
+            "input": 53.99962356484096,
+            "hp": 53.99962356484096
+          },
+          {
+            "id": "B:9:ENCOUNTER:INITIAL",
+            "input": 53.99946516493369,
+            "hp": 53.99946516493369
+          },
+          {
+            "id": "B:10:ENCOUNTER:INITIAL",
+            "input": 53.99981962481962,
+            "hp": 53.99981962481962
+          },
+          {
+            "id": "B:11:ENCOUNTER:INITIAL",
+            "input": 53.99940968122786,
+            "hp": 53.99940968122786
+          }
+        ],
+        "damageCalls": [
+          {
+            "id": "B:0:ENCOUNTER:INITIAL",
+            "damage": 35703,
+            "compactArea": true
+          },
+          {
+            "id": "B:1:ENCOUNTER:INITIAL",
+            "damage": 39104,
+            "compactArea": true
+          },
+          {
+            "id": "B:2:ENCOUNTER:INITIAL",
+            "damage": 29243,
+            "compactArea": true
+          },
+          {
+            "id": "B:3:ENCOUNTER:INITIAL",
+            "damage": 30603,
+            "compactArea": true
+          },
+          {
+            "id": "B:4:ENCOUNTER:INITIAL",
+            "damage": 37404,
+            "compactArea": true
+          },
+          {
+            "id": "B:5:ENCOUNTER:INITIAL",
+            "damage": 34003,
+            "compactArea": true
+          },
+          {
+            "id": "B:6:ENCOUNTER:INITIAL",
+            "damage": 38083,
+            "compactArea": true
+          },
+          {
+            "id": "B:7:ENCOUNTER:INITIAL",
+            "damage": 35703,
+            "compactArea": true
+          },
+          {
+            "id": "B:8:ENCOUNTER:INITIAL",
+            "damage": 39104,
+            "compactArea": true
+          },
+          {
+            "id": "B:9:ENCOUNTER:INITIAL",
+            "damage": 29243,
+            "compactArea": true
+          },
+          {
+            "id": "B:10:ENCOUNTER:INITIAL",
+            "damage": 30603,
+            "compactArea": true
+          },
+          {
+            "id": "B:11:ENCOUNTER:INITIAL",
+            "damage": 37404,
+            "compactArea": true
+          }
+        ],
+        "fx": {
+          "ready": true,
+          "motionOnly": false,
+          "mode": "ultimate",
+          "time": 0,
+          "playing": false,
+          "speed": 1,
+          "playbackRate": 1.2,
+          "pose": {
+            "key": "twohandStrike",
+            "frame": 1
+          },
+          "cancelled": false,
+          "travel": 1,
+          "activeFrames": [
+            {
+              "key": "charge",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 760.0738107055969,
+                "y": 250
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.7421875
+              }
+            },
+            {
+              "key": "slash",
+              "index": 9,
+              "next": 10,
+              "anchor": {
+                "x": 865,
+                "y": 213.33985605365328
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.5
+              }
+            },
+            {
+              "key": "execution",
+              "index": 9,
+              "next": 10,
+              "anchor": {
+                "x": 865,
+                "y": 250
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.6328125
+              }
+            },
+            {
+              "key": "ultimate",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 865,
+                "y": 250
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.640625
+              }
+            },
+            {
+              "key": "ultimate",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 1063,
+                "y": 250
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.640625
+              }
+            },
+            {
+              "key": "ultimate",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 1260.9999999999998,
+                "y": 250
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.640625
+              }
+            },
+            {
+              "key": "ultimate",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 900.64,
+                "y": 378
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.640625
+              }
+            },
+            {
+              "key": "ultimate",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 1098.6399999999999,
+                "y": 378
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.640625
+              }
+            },
+            {
+              "key": "ultimate",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 1296.64,
+                "y": 378
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.640625
+              }
+            },
+            {
+              "key": "ultimate",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 865,
+                "y": 505.99999999999994
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.640625
+              }
+            },
+            {
+              "key": "ultimate",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 1063,
+                "y": 505.99999999999994
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.640625
+              }
+            },
+            {
+              "key": "ultimate",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 1260.9999999999998,
+                "y": 505.99999999999994
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.640625
+              }
+            },
+            {
+              "key": "ultimate",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 900.64,
+                "y": 634
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.640625
+              }
+            },
+            {
+              "key": "ultimate",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 1098.6399999999999,
+                "y": 634
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.640625
+              }
+            },
+            {
+              "key": "ultimate",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 1296.64,
+                "y": 634
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.640625
+              }
+            }
+          ],
+          "visibleSprites": 66,
+          "ownedTimelines": 0,
+          "registeredTimelines": 0,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "weaponRigid": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "motionFrames": 64,
+          "effectFrames": 96,
+          "damageAuthority": "SERVER_ONLY",
+          "actorFoot": {
+            "x": 760.0738107055969,
+            "y": 250
+          },
+          "targetFoot": {
+            "x": 865,
+            "y": 250
+          },
+          "aura": {
+            "enabled": true,
+            "textureMatchesPose": true,
+            "silhouetteCopies": 18,
+            "filterCount": 6,
+            "independentClock": false
+          },
+          "audio": {
+            "enabled": false,
+            "scheduled": [],
+            "error": null
+          },
+          "effectLayers": 1
+        }
+      },
+      "spec": {
+        "rate": null,
+        "releaseAt": 0.7417777777777778
+      },
+      "after": {
+        "last": {
+          "code": "V-996",
+          "eventType": "MERCENARY_VALTER_AREA",
+          "visualVersion": "20261004-approved",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 12,
+          "playbackRate": 2.5,
+          "contactSeconds": 0.6937777777777778,
+          "durationSeconds": 2.2199999999999998
+        },
+        "ambient": true,
+        "atStation": true,
+        "damageCalls": 12
+      }
+    },
+    {
+      "label": "mobile",
+      "mode": "basic",
+      "contact": {
+        "time": 0.694,
+        "duration": 1.62,
+        "scale": 1,
+        "hpCalls": [
+          {
+            "id": "CN-02D9DC1E8A8A4209",
+            "input": 77,
+            "hp": 77
+          }
+        ],
+        "damageCalls": [
+          {
+            "id": "CN-02D9DC1E8A8A4209",
+            "damage": 23
+          }
+        ],
+        "fx": {
+          "ready": true,
+          "motionOnly": false,
+          "mode": "attack",
+          "time": 0,
+          "playing": false,
+          "speed": 1,
+          "playbackRate": 1.2,
+          "pose": {
+            "key": "twohandStrike",
+            "frame": 1
+          },
+          "cancelled": false,
+          "travel": 1,
+          "activeFrames": [
+            {
+              "key": "charge",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 871.0057899828497,
+                "y": 434.5901639344262
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.7421875
+              }
+            },
+            {
+              "key": "slash",
+              "index": 9,
+              "next": 10,
+              "anchor": {
+                "x": 1007.4098360655738,
+                "y": 386.9319768041755
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.5
+              }
+            }
+          ],
+          "visibleSprites": 34,
+          "ownedTimelines": 0,
+          "registeredTimelines": 0,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "weaponRigid": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "motionFrames": 64,
+          "effectFrames": 96,
+          "damageAuthority": "SERVER_ONLY",
+          "actorFoot": {
+            "x": 871.0057899828497,
+            "y": 434.5901639344262
+          },
+          "targetFoot": {
+            "x": 1007.4098360655738,
+            "y": 434.5901639344262
+          },
+          "aura": {
+            "enabled": true,
+            "textureMatchesPose": true,
+            "silhouetteCopies": 18,
+            "filterCount": 6,
+            "independentClock": false
+          },
+          "audio": {
+            "enabled": false,
+            "scheduled": [],
+            "error": null
+          },
+          "effectLayers": 1
+        }
+      },
+      "spec": {
+        "rate": null,
+        "releaseAt": 0.7417777777777778
+      },
+      "after": {
+        "last": {
+          "code": "V-996",
+          "eventType": "ATTACK",
+          "visualVersion": "20261004-approved",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 1,
+          "playbackRate": 2.5,
+          "contactSeconds": 0.6937777777777778,
+          "durationSeconds": 1.6199999999999999
+        },
+        "ambient": true,
+        "atStation": true,
+        "damageCalls": 1
+      }
+    },
+    {
+      "label": "mobile",
+      "mode": "area",
+      "contact": {
+        "time": 0.694,
+        "duration": 2.22,
+        "scale": 1,
+        "hpCalls": [
+          {
+            "id": "B:0:ENCOUNTER:INITIAL",
+            "input": 8.000927643784788,
+            "hp": 8.000927643784788
+          },
+          {
+            "id": "B:1:ENCOUNTER:INITIAL",
+            "input": 53.99962356484096,
+            "hp": 53.99962356484096
+          },
+          {
+            "id": "B:2:ENCOUNTER:INITIAL",
+            "input": 53.99946516493369,
+            "hp": 53.99946516493369
+          },
+          {
+            "id": "B:3:ENCOUNTER:INITIAL",
+            "input": 53.99981962481962,
+            "hp": 53.99981962481962
+          },
+          {
+            "id": "B:4:ENCOUNTER:INITIAL",
+            "input": 53.99940968122786,
+            "hp": 53.99940968122786
+          },
+          {
+            "id": "B:5:ENCOUNTER:INITIAL",
+            "input": 54.00027056277056,
+            "hp": 54.00027056277056
+          },
+          {
+            "id": "B:6:ENCOUNTER:INITIAL",
+            "input": 54.0004831501389,
+            "hp": 54.0004831501389
+          },
+          {
+            "id": "B:7:ENCOUNTER:INITIAL",
+            "input": 54.000463821892396,
+            "hp": 54.000463821892396
+          },
+          {
+            "id": "B:8:ENCOUNTER:INITIAL",
+            "input": 53.99962356484096,
+            "hp": 53.99962356484096
+          },
+          {
+            "id": "B:9:ENCOUNTER:INITIAL",
+            "input": 53.99946516493369,
+            "hp": 53.99946516493369
+          },
+          {
+            "id": "B:10:ENCOUNTER:INITIAL",
+            "input": 53.99981962481962,
+            "hp": 53.99981962481962
+          },
+          {
+            "id": "B:11:ENCOUNTER:INITIAL",
+            "input": 53.99940968122786,
+            "hp": 53.99940968122786
+          }
+        ],
+        "damageCalls": [
+          {
+            "id": "B:0:ENCOUNTER:INITIAL",
+            "damage": 35703,
+            "compactArea": true
+          },
+          {
+            "id": "B:1:ENCOUNTER:INITIAL",
+            "damage": 39104,
+            "compactArea": true
+          },
+          {
+            "id": "B:2:ENCOUNTER:INITIAL",
+            "damage": 29243,
+            "compactArea": true
+          },
+          {
+            "id": "B:3:ENCOUNTER:INITIAL",
+            "damage": 30603,
+            "compactArea": true
+          },
+          {
+            "id": "B:4:ENCOUNTER:INITIAL",
+            "damage": 37404,
+            "compactArea": true
+          },
+          {
+            "id": "B:5:ENCOUNTER:INITIAL",
+            "damage": 34003,
+            "compactArea": true
+          },
+          {
+            "id": "B:6:ENCOUNTER:INITIAL",
+            "damage": 38083,
+            "compactArea": true
+          },
+          {
+            "id": "B:7:ENCOUNTER:INITIAL",
+            "damage": 35703,
+            "compactArea": true
+          },
+          {
+            "id": "B:8:ENCOUNTER:INITIAL",
+            "damage": 39104,
+            "compactArea": true
+          },
+          {
+            "id": "B:9:ENCOUNTER:INITIAL",
+            "damage": 29243,
+            "compactArea": true
+          },
+          {
+            "id": "B:10:ENCOUNTER:INITIAL",
+            "damage": 30603,
+            "compactArea": true
+          },
+          {
+            "id": "B:11:ENCOUNTER:INITIAL",
+            "damage": 37404,
+            "compactArea": true
+          }
+        ],
+        "fx": {
+          "ready": true,
+          "motionOnly": false,
+          "mode": "ultimate",
+          "time": 0,
+          "playing": false,
+          "speed": 1,
+          "playbackRate": 1.2,
+          "pose": {
+            "key": "twohandStrike",
+            "frame": 1
+          },
+          "cancelled": false,
+          "travel": 1,
+          "activeFrames": [
+            {
+              "key": "charge",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 489.0057899828496,
+                "y": 605.5737704918033
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.7421875
+              }
+            },
+            {
+              "key": "slash",
+              "index": 9,
+              "next": 10,
+              "anchor": {
+                "x": 625.4098360655737,
+                "y": 557.9155833615525
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.5
+              }
+            },
+            {
+              "key": "execution",
+              "index": 9,
+              "next": 10,
+              "anchor": {
+                "x": 625.4098360655737,
+                "y": 605.5737704918033
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.6328125
+              }
+            },
+            {
+              "key": "ultimate",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 625.4098360655737,
+                "y": 605.5737704918033
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.640625
+              }
+            },
+            {
+              "key": "ultimate",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 767.4098360655738,
+                "y": 605.5737704918033
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.640625
+              }
+            },
+            {
+              "key": "ultimate",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 909.4098360655738,
+                "y": 605.5737704918033
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.640625
+              }
+            },
+            {
+              "key": "ultimate",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 650.9698360655738,
+                "y": 819.5737704918033
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.640625
+              }
+            },
+            {
+              "key": "ultimate",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 792.9698360655738,
+                "y": 819.5737704918033
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.640625
+              }
+            },
+            {
+              "key": "ultimate",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 934.9698360655738,
+                "y": 819.5737704918033
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.640625
+              }
+            },
+            {
+              "key": "ultimate",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 625.4098360655737,
+                "y": 1033.5737704918033
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.640625
+              }
+            },
+            {
+              "key": "ultimate",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 767.4098360655738,
+                "y": 1033.5737704918033
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.640625
+              }
+            },
+            {
+              "key": "ultimate",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 909.4098360655738,
+                "y": 1033.5737704918033
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.640625
+              }
+            },
+            {
+              "key": "ultimate",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 650.9698360655738,
+                "y": 1247.5737704918033
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.640625
+              }
+            },
+            {
+              "key": "ultimate",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 792.9698360655738,
+                "y": 1247.5737704918033
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.640625
+              }
+            },
+            {
+              "key": "ultimate",
+              "index": 10,
+              "next": 11,
+              "anchor": {
+                "x": 934.9698360655738,
+                "y": 1247.5737704918033
+              },
+              "sourceAnchor": {
+                "x": 0.5,
+                "y": 0.640625
+              }
+            }
+          ],
+          "visibleSprites": 66,
+          "ownedTimelines": 0,
+          "registeredTimelines": 0,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "weaponHash": "A31B35AAD0800C06516BC7EF1BE9F0243ACCA5782D8C70F53C4041A8304661E7",
+          "weaponRigid": true,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "motionFrames": 64,
+          "effectFrames": 96,
+          "damageAuthority": "SERVER_ONLY",
+          "actorFoot": {
+            "x": 489.0057899828496,
+            "y": 605.5737704918033
+          },
+          "targetFoot": {
+            "x": 625.4098360655737,
+            "y": 605.5737704918033
+          },
+          "aura": {
+            "enabled": true,
+            "textureMatchesPose": true,
+            "silhouetteCopies": 18,
+            "filterCount": 6,
+            "independentClock": false
+          },
+          "audio": {
+            "enabled": false,
+            "scheduled": [],
+            "error": null
+          },
+          "effectLayers": 1
+        }
+      },
+      "spec": {
+        "rate": null,
+        "releaseAt": 0.7417777777777778
+      },
+      "after": {
+        "last": {
+          "code": "V-996",
+          "eventType": "MERCENARY_VALTER_AREA",
+          "visualVersion": "20261004-approved",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 12,
+          "playbackRate": 2.5,
+          "contactSeconds": 0.6937777777777778,
+          "durationSeconds": 2.2199999999999998
+        },
+        "ambient": true,
+        "atStation": true,
+        "damageCalls": 12
+      }
+    }
+  ],
+  "errors": []
+}

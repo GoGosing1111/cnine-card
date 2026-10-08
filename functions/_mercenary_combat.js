@@ -15,7 +15,8 @@ import {isMercenaryGuardSkill,MERCENARY_GUARD_BASIC_SCALE,mercenaryWardPercent} 
 import {isMercenaryMoonDrawSkill} from '../shared/mercenary-moon-draw-v1.mjs';
 import {resolveMangisaVolley} from './_mercenary_mangisa.js';
 import {resolveRagnielJudgment} from './_mercenary_ragniel.js';
-import {VALTER_CODE,VALTER_COMBAT,isValter,valterActionCredit} from '../shared/mercenary-valter-v1.mjs';
+import {VALTER_CODE,VALTER_COMBAT,VALTER_AREA_SKILL,VALTER_AREA_MECHANIC,isValter,valterActionCredit} from '../shared/mercenary-valter-v1.mjs';
+import {resolveValterArea} from './_mercenary_valter.js';
 import {SS_LIMITED_COMBAT,SS_LIMITED_BALANCE_VERSION} from '../shared/mercenary-ss-limited-v1.mjs';
 import {ssRearPveInterval,ssRearPveHealing} from '../shared/mercenary-ss-rear-pve-v1.mjs';
 const living=x=>x?.alive!==false&&x?.hp>0&&!x?.untargetable&&!x?.isBattleSuit;
@@ -113,7 +114,7 @@ export function buildMercenaryFighter(snapshot,side,mode,buildCardFighter){
  // Limited account/release gates remain outside this canonical fighter builder.
  // A trusted prepared Valter snapshot always uses the same server-owned policy.
  const valter=snapshot.code===VALTER_CODE;
- if(valter)snapshot={...snapshot,rank:'SSS',statMode:'RANK_FIXED',position:'FRONT',role:'VANGUARD',attackStyle:'MELEE',counterImmune:true,controlImmune:true,poisonImmune:true,valterPolicyVersion:VALTER_COMBAT.version};
+ if(valter)snapshot={...snapshot,rank:'SSS',statMode:'RANK_FIXED',position:'FRONT',role:'VANGUARD',attackStyle:'MELEE',skills:mode==='PVE'?[structuredClone(VALTER_AREA_SKILL)]:[],counterImmune:true,controlImmune:true,poisonImmune:true,valterPolicyVersion:VALTER_COMBAT.version};
  const limited=Object.hasOwn(SS_LIMITED_COMBAT,snapshot.code)?SS_LIMITED_COMBAT[snapshot.code]:null;
  if(limited)snapshot={...snapshot,rank:'SS',statMode:'RANK_FIXED',position:limited.position,role:limited.role,attackStyle:limited.attackStyle,skills:[structuredClone(limited.skill)],ssLimitedPolicyVersion:SS_LIMITED_BALANCE_VERSION};
  if(snapshot.statMode==='RANK_FIXED'){
@@ -147,6 +148,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
  const friendly=a=>ordered(teams[a.side]),enemies=a=>ordered(teams[a.side==='A'?'B':'A']);
  const send=(a,s,phase,t,data={})=>emit(`MERCENARY_${phase}`,{actorId:a.id,actorKind:'MERCENARY',skillId:s.id,skillName:s.name,mechanic:s.mechanic,skillPhaseIndex:['DOT','RIPOSTE'].includes(phase)?1:state(a).pending?.step||0,targetId:t?.id,...data,label:s.name});
  function targets(a,s){const en=enemies(a),fr=front(en),friends=friendly(a);
+  if(s.mechanic===VALTER_AREA_MECHANIC)return isValter(a)&&a.battleMode==='PVE'?en:[];
   if(isBerkanAreaSkill(s))return a.battleMode==='PVE'?en:[];
   if(s.mechanic===BERKAN_MECHANIC)return [...en].sort((a,b)=>Number(b.row==='BACK')-Number(a.row==='BACK')||(b.openingAttack??b.attack)-(a.openingAttack??a.attack)||a.slot-b.slot||String(a.id).localeCompare(String(b.id))).slice(0,2);
   if(s.mechanic==='PLATINUM_SANCTUARY'||s.mechanic==='CRYSTAL_CROWN')return fr.slice(0,2);
@@ -248,6 +250,9 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
   if(!ts.length){cancel(a,'TARGET_LOST');return;}
   const once=(fn)=>{for(const t of ts)fn(t);finish(a,s);};
   switch(s.mechanic){
+   case VALTER_AREA_MECHANIC:{
+    resolveValterArea({actor:a,skill:s,targets:ts,hit,damage:(t,n)=>damage(t,n,{actor:a,direct:true}),knockout,emit,damageScale:offensiveSkillScale(a,s)});
+    finish(a,s);break;}
    case 'WHITE_OATH_GROUP_HEAL':{
     // A single cast owns one budget, including full-HP allies. Lost/overheal
     // shares are discarded, never copied or redistributed to another actor.
