@@ -80,7 +80,7 @@
   const MENU_GROUPS = Object.freeze({
     inventory: Object.freeze({ title: '인벤토리', routes: Object.freeze(['inventory']) }),
     store: Object.freeze({ title: '카드·상점', routes: Object.freeze(['buy', 'lootShop']) }),
-    collection: Object.freeze({ title: '도감·강화', routes: Object.freeze(['dex', 'mercenaryDex', 'upgrade', 'evolution', 'iconfusion', 'magic']) }),
+    collection: Object.freeze({ title: '카드·용병·펫', routes: Object.freeze(['dex', 'mercenaryDex', 'petDex', 'upgrade', 'evolution', 'iconfusion', 'magic']) }),
     pve: Object.freeze({ title: '모험 · PVE', routes: Object.freeze(['battle', 'deck', 'hunt', 'legion', 'raid', 'escort', 'siege', 'seal', 'tower', 'scrapyard', 'masterStarMine']) }),
     pvp: Object.freeze({ title: '대전 · PVP', routes: Object.freeze(['pvp', 'duo', 'rank', 'clanWar', 'clanFaction', 'clan', 'territory']) }),
     equipment: Object.freeze({ title: '장비·칭호·차고', routes: Object.freeze(['character', 'avatar']) }),
@@ -100,6 +100,7 @@
     lootShop: Object.freeze({ title: '고급 전리품 상점', group: 'store', icon: 'gift' }),
     dex: Object.freeze({ title: '도감', group: 'collection', icon: 'book', home: Object.freeze({ title: '도감·강화', meta: '카드 수집 · 상세 · 진화' }) }),
     mercenaryDex: Object.freeze({ title: '용병도감', group: 'collection', icon: 'cards' }),
+    petDex: Object.freeze({ title: '펫 도감', group: 'collection', icon: 'book' }),
     upgrade: Object.freeze({ title: '일괄 강화', group: 'collection', icon: 'upgrade' }),
     evolution: Object.freeze({ title: '카드 진화', group: 'collection', icon: 'cards' }),
     iconfusion: Object.freeze({ title: '아이콘 합성', group: 'collection', icon: 'cards' }),
@@ -608,6 +609,7 @@
   }
 
   function navigate(route) {
+    if(route==='petDex'){global.location.assign('/pet-codex/');return Promise.resolve({ok:true,externalPage:true});}
     if(route==='masterStarMine'){global.location.assign('/master-star-mine/');return Promise.resolve({ok:true,externalPage:true});}
     if(route==='chicken')return refreshChicken(true).then(()=>{if(!chickenVisible)throw new Error('현재 공개된 이벤트가 아닙니다.');global.location.assign('/events/chicken/');return {ok:true,externalPage:true}});
     if(route==='goldenAxe')return refreshGoldenAxe(true).then(()=>{if(!goldenAxeVisible)throw new Error('현재 공개된 이벤트가 아닙니다.');global.location.assign('/events/golden-axe/');return {ok:true,externalPage:true}});

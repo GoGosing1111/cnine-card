@@ -1,0 +1,173 @@
+{
+  "verifiedAt": "2026-10-08T18:10:10.845Z",
+  "sourceCommit": "2e258f428edb7cab05f3a0efebf34678130e349f",
+  "base": "https://cnine-card.pages.dev",
+  "status": "VERIFIED",
+  "requests": [
+    {
+      "path": "pet-codex/app.mjs",
+      "status": 200,
+      "sha256": "0e49312f4de34b78fd9a6bb233bc56e30cd1e4fb8a281913008fc872efc3f436",
+      "bytes": 640,
+      "cacheControl": "no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "path": "admin/pet-grants-admin-v1.css",
+      "status": 200,
+      "sha256": "6e73503a2ccec6d0c537b24934dc9c2e05027e383a52542a6d38bea081c2f9a1",
+      "bytes": 4823,
+      "cacheControl": "no-store, no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "path": "pet-codex/style.css",
+      "status": 200,
+      "sha256": "4dc980a3a14cc673738d7e68b14bc66ec0cf7d5d3c8657353862eebaaa18f2e5",
+      "bytes": 2141,
+      "cacheControl": "no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "path": "js/soopketmon-v21-exact-shell-adapter.js",
+      "status": 200,
+      "sha256": "21b960cbe7d5ec696992a65ba1839d651754f9ec2face25b6fe61c7af735f94a",
+      "bytes": 56017,
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "path": "admin/pet-grants-admin-v1.mjs",
+      "status": 200,
+      "sha256": "1cd94e1118021bd22eda8b7b7ffbe4d15c7d673718140e6d67f0ce7fff707e32",
+      "bytes": 8905,
+      "cacheControl": "no-store, no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "path": "js/pet-equipment-window-v1.mjs",
+      "status": 200,
+      "sha256": "4213739ae2a3f135eb9eccda66f1fca0dcef9890778296e501a1e56f7ddabcf2",
+      "bytes": 22184,
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "path": "js/battle-v3-live.js",
+      "status": 200,
+      "sha256": "7b9d6e68a209e42be28e2484e9262f65c8fa68f2ad2495c7dd9f6b33d929c97b",
+      "bytes": 77222,
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "path": "js/adventure-lobby-v2107.js",
+      "status": 200,
+      "sha256": "1dd4a63f9768b0cdd0126e6d75ef558fc27e321c6f30425ca7ae09fea188fe65",
+      "bytes": 89995,
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "path": "pet-codex/index.html",
+      "status": 200,
+      "sha256": "a797e0e570f0d7bc15042eaa8cc7745dcce68ea53e4f0bd9225ff26a1337e2d7",
+      "bytes": 842,
+      "cacheControl": "no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "1ff1d5061e5015f8ea4052dca28ff18d47e3d4c36760dd62aa2b65a2a4128644",
+      "bytes": 21757,
+      "cacheControl": "no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "path": "js/app.js",
+      "status": 200,
+      "sha256": "956b6159876ab7fb3e070b650c4f218d07b00bd49ed3a49b3f303f151a5402f3",
+      "bytes": 736692,
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "path": "admin/index.html",
+      "status": 200,
+      "sha256": "77c7d5796713ad44713918d7b19cfe16f8c6739fa306ef244e8d5550162b6784",
+      "bytes": 86141,
+      "cacheControl": "no-store, no-cache, must-revalidate, max-age=0, no-store, no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "path": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "status": 200,
+      "sha256": "48bee5006b9568aecd0c5c79cc348f02706f595f00708ab38f8034f1fe270d06",
+      "bytes": 1755261,
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "path": "pet-codex/",
+      "status": 200,
+      "sha256": "a797e0e570f0d7bc15042eaa8cc7745dcce68ea53e4f0bd9225ff26a1337e2d7",
+      "bytes": 842,
+      "cacheControl": "no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "path": "api/pets/v1/codex",
+      "status": 401,
+      "sha256": "0a3753764ac9f6345e804fa2dbff350cfcdc926115c9fc97d438565a5cc00acc",
+      "bytes": 70,
+      "cacheControl": "private, no-store"
+    },
+    {
+      "path": "api/admin/pets/grants",
+      "status": 401,
+      "sha256": "e39368197e4988a9242ac4c791c3aa79a2b641be66fb1f3cc54342bf01a1ae84",
+      "bytes": 51,
+      "cacheControl": "no-store"
+    }
+  ],
+  "routes": [
+    {
+      "path": "pet-codex/",
+      "status": 200
+    },
+    {
+      "path": "api/pets/v1/codex",
+      "status": 401
+    },
+    {
+      "path": "api/admin/pets/grants",
+      "status": 401
+    }
+  ],
+  "matchedFiles": 13,
+  "liveAccountMutations": 0,
+  "deployment": {
+    "pages": "aea6e48b-6cbc-4316-848a-f9fe4d4e62e6",
+    "url": "https://aea6e48b.cnine-card.pages.dev",
+    "apiRuntime": "f526dd24-bef3-48c6-a615-483c93f7f330",
+    "clanDraft": "a2476a85-e2dc-49ae-9ccd-1faebba93551",
+    "base": "551f428a056d0b712c3f3b269b865658ab8e3157",
+    "command": "npm run deploy:production -- --scoped"
+  },
+  "verification": {
+    "codexAndAtomicGrants": 15,
+    "existingEquipmentAndOpeningBuff": 2,
+    "mainLoader": 9,
+    "worker": "PASS",
+    "releaseFlags": "PASS",
+    "hyperdrive": "PASS",
+    "publicAndCmsUi": [
+      "1440x1050",
+      "390x844"
+    ],
+    "nativeBattle": [
+      "desktop PVE",
+      "desktop PVP",
+      "mobile PVE",
+      "mobile PVP"
+    ],
+    "browserErrors": 0
+  },
+  "policy": {
+    "grantRole": "OWNER",
+    "recipientMatch": "exact nickname or user ID",
+    "grantQuantity": "1..9999",
+    "petOpeningOdds": "UNCHANGED",
+    "petBuffs": "UNCHANGED",
+    "potentialAndLoadout": "UNCHANGED",
+    "approvedArt": "UNCHANGED",
+    "liveAccountGrants": 0
+  }
+}

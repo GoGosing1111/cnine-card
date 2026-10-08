@@ -1,0 +1,47 @@
+{
+  "request": "핑크빛유두 잠재력 20개 지급해봐",
+  "status": "COMPLETED",
+  "operationKey": "ops:pink-pet-potential-potion:20261009:20:v1",
+  "user": {
+    "id": 1,
+    "nickname": "핑크빛유두"
+  },
+  "allocations": [
+    {
+      "code": "PET_POTENTIAL_POTION",
+      "name": "잠재력 물약",
+      "amount": 20,
+      "before": {
+        "quantity": "0",
+        "unseenQuantity": "0"
+      },
+      "after": {
+        "quantity": "20",
+        "unseenQuantity": "20"
+      },
+      "logId": "78415563"
+    }
+  ],
+  "completedAt": "2026-10-08T18:22:25.560Z",
+  "auditId": "42984",
+  "verification": {
+    "verified": true,
+    "grantLogs": 1,
+    "inventory": [
+      {
+        "item_code": "PET_POTENTIAL_POTION",
+        "quantity": "20",
+        "unseen_quantity": "20"
+      }
+    ],
+    "verifiedAt": "2026-10-08T18:22:30.637Z"
+  },
+  "validation": {
+    "dryRunRollbackVerified": true,
+    "postCommitReadVerified": true,
+    "accountMutationLock": true,
+    "atomicInventoryLogAuditReceipt": true
+  },
+  "gameRuntimeChanged": false,
+  "deploymentRequired": false
+}
