@@ -1,0 +1,147 @@
+{
+  "verifiedAt": "2026-10-08T16:29:27.969Z",
+  "sourceCommit": "551f428a056d0b712c3f3b269b865658ab8e3157",
+  "base": "https://cnine-card.pages.dev",
+  "status": "VERIFIED",
+  "requests": [
+    {
+      "path": "js/battle-v3-live.js",
+      "status": 200,
+      "sha256": "0c71eb241d0b7b5b8d8a57b91dd0ebbb1e3dccca824372cb7df40dd0aaa59270",
+      "bytes": 77196,
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "path": "js/app.js",
+      "status": 200,
+      "sha256": "5fd6cf49131cbecf53c26a74e91663632fd502d9e46d381b9129be87c0a6ca3b",
+      "bytes": 736628,
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "path": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "status": 200,
+      "sha256": "6199bba90b19006a7bd211c0c1bd826a98452c08a30b2629ce2939e36835a423",
+      "bytes": 1754418,
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "712c6809c77a788d92fabcf8bd78ab451c0c8eff8f62e067adaa958f0372d99e",
+      "bytes": 21692,
+      "cacheControl": "no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "path": "pve-v3/battle-loader.mjs",
+      "status": 200,
+      "sha256": "2f9bff0ca45feb3da80dae73fe231043e39d7105dcb50ca5cb9df3f69e03b5aa",
+      "bytes": 1252,
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "path": "shared/mercenary-valter-v1.mjs",
+      "status": 200,
+      "sha256": "3d3d921b2a90ead3fe49a20247f9084cd6d095ab2df7a4349d5c407be4f34134",
+      "bytes": 1745,
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "path": "shared/mercenary-limited-deployment-v1.mjs",
+      "status": 200,
+      "sha256": "e918786acc23b4a97dc760ed374f87040bed96e4b252001e2b7cbb2667ff795e",
+      "bytes": 1361,
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "path": "preview/sustained-hunt-v2/battle.bundle.js",
+      "status": 200,
+      "sha256": "0711018f741c5786fe048e3a4f98891835e0b2b3b9b3215364a28c3eadadf667",
+      "bytes": 1771198,
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "path": "pve-v3/battle.bundle.js",
+      "status": 200,
+      "sha256": "7581174db58ca0f8c38fce19bae8720c6f90a1d468f7beb8c147c760797052d1",
+      "bytes": 1754393,
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "path": "api/mercenary-codex",
+      "status": 200,
+      "sha256": "7229873723d80ef149c1cf02ad42ab712f4af69573f31f5c3b05ab42e1226db8",
+      "bytes": 114789,
+      "cacheControl": "no-store"
+    }
+  ],
+  "limited": [
+    {
+      "code": "V-996",
+      "deploymentEnabled": true,
+      "acquisitionEnabled": false
+    },
+    {
+      "code": "V-990",
+      "deploymentEnabled": true,
+      "acquisitionEnabled": false
+    },
+    {
+      "code": "V-991",
+      "deploymentEnabled": true,
+      "acquisitionEnabled": false
+    },
+    {
+      "code": "V-992",
+      "deploymentEnabled": true,
+      "acquisitionEnabled": false
+    },
+    {
+      "code": "V-993",
+      "deploymentEnabled": true,
+      "acquisitionEnabled": false
+    },
+    {
+      "code": "V-994",
+      "deploymentEnabled": true,
+      "acquisitionEnabled": false
+    },
+    {
+      "code": "V-997",
+      "deploymentEnabled": true,
+      "acquisitionEnabled": false
+    },
+    {
+      "code": "V-998",
+      "deploymentEnabled": true,
+      "acquisitionEnabled": false
+    }
+  ],
+  "deployment": {
+    "pages": "5186b53c-8b51-4658-a321-6e5e1cc91f12",
+    "url": "https://5186b53c.cnine-card.pages.dev",
+    "apiRuntime": "f9f26373-663b-4312-926a-e3b9c7cf0219",
+    "clanDraft": "66266509-aca1-4fc9-af6b-a9ded09cb8a4",
+    "command": "npm run deploy:production -- --scoped",
+    "base": "d6a39c69cf81b6e4ac722451c7f393be96402b35"
+  },
+  "verification": {
+    "areaServer": 5,
+    "existingValterRelevant": 4,
+    "nativeBrowser": 4,
+    "scopedMotionAndLoader": 13,
+    "worker": "PASS",
+    "releaseFlags": "PASS",
+    "hyperdrive": "PASS"
+  },
+  "policy": {
+    "pveArea": "MS-996",
+    "ratio": 5.6,
+    "cost": 35,
+    "cooldown": 5,
+    "playbackRate": 2.5,
+    "pvpPerformance": "UNCHANGED",
+    "approvedAssets": "UNCHANGED",
+    "existingReceipts": "UNCHANGED"
+  }
+}

@@ -29,4 +29,12 @@
 - 변경은 발테르 PVE 광역 연결과 해당 전투 표시·속도에 한정한다. 인증/DB/경제/공통 서버 구조 변경은 없다.
 - 실제 직전 운영: Pages `6143872f-6bee-4360-b5a0-bd9624084e42`, 소스 `d6a39c69cf81b6e4ac722451c7f393be96402b35`. 2026-10-09 배포 목록에서 확인했다.
 - 관련 서버/시각 검수는 위 결과를 재사용한다. 공식 scoped 배포에서 메인/번들 연결 `tests/pve-battlefield-entry-v2117.test.mjs` 및 최종 렌더러 모션 회귀, `check:worker`를 실행한다. 전체 게이트와 무관한 콘텐츠 검사는 반복하지 않는다.
-- 배포 명령은 `npm run deploy:production -- --scoped`다. 실제 배포 식별자와 짧은 운영 확인 결과는 완료 후 이 문서에 추가한다.
+- `npm run deploy:production -- --scoped` 성공. 공식 배포의 모션/메인 로더 13개 및 Worker 검사·캐시/출시 조건·Hyperdrive 확인이 통과했다.
+
+## 운영 반영 완료
+
+- 운영 소스: `551f428a056d0b712c3f3b269b865658ab8e3157`.
+- Pages: `5186b53c-8b51-4658-a321-6e5e1cc91f12` / `https://5186b53c.cnine-card.pages.dev`.
+- API Worker: `f9f26373-663b-4312-926a-e3b9c7cf0219`, clan-draft Worker: `66266509-aca1-4fc9-af6b-a9ded09cb8a4`.
+- **2026-10-09 01:29:27 KST** 운영 별칭 `https://cnine-card.pages.dev`에서 메인·래퍼·로더·서버 공유 정책·정규 V3/군단토벌/PVE 번들 9개가 배포 소스 SHA-256과 일치했다. 공개 도감 API의 리미티드 8종 편성 ON/획득 OFF도 유지됐다.
+- 상세 확인은 `docs/valter-pve-motion-20261009-release.json`에 보존했다. 이 완료 기록은 문서만 커밋·원격 반영하며 재배포하지 않는다.
