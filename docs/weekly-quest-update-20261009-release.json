@@ -1,0 +1,50 @@
+{
+  "verifiedAt": "2026-10-08T21:15:33.268Z",
+  "sourceCommit": "5bbfe4673298cb3ce98cc4aaea3b6063baecb6f6",
+  "productionUrl": "https://cnine-card.pages.dev",
+  "changes": {
+    "weeklyDkPostTarget": 300,
+    "weeklyCoinDisplay": [
+      "100억",
+      "1.2조"
+    ],
+    "dailyPostTarget": 15
+  },
+  "productionFiles": [
+    {
+      "file": "index.html",
+      "sha256": "5cb291a484e0e5ef7029e6bcb292b44c231a871c68449074c7f395437dbd93fa",
+      "status": 200
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "6b48f67c6b8f61b31de949ebe7d199f2d71225f85b5af102210e05b2f4be5df0",
+      "status": 200
+    },
+    {
+      "file": "js/quest-hub-live.mjs",
+      "sha256": "8b8b905e61df8e2a4c04732848df71bee354fa4ea4593d9355cde1fa4664e169",
+      "status": 200
+    }
+  ],
+  "regressions": {
+    "passed": 15,
+    "failed": 0
+  },
+  "browser": {
+    "checks": 65,
+    "viewports": [
+      "1440x1000",
+      "390x844"
+    ],
+    "errors": 0,
+    "evidence": "preview/weekly-quest-update-20261009"
+  },
+  "deploymentCommand": "npm run deploy:production -- --scoped",
+  "previousProductionCommit": "b1e2ea42bf3ad03d3ce5938985155ce2e094533a",
+  "deploymentExitCode": 0,
+  "pagesUrl": "https://fa98efa9.cnine-card.pages.dev",
+  "apiRuntimeVersion": "4a5d0391-c2d5-4715-a100-0bc75e6d8aab",
+  "clanDraftVersion": "7407f37a-562e-4beb-9b24-2ddca31b965d",
+  "liveRewardClaims": 0
+}

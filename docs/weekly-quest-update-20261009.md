@@ -13,3 +13,9 @@
 - 배포 선택 검사: `tests/quest-hub-20260924.test.mjs`. 200·299개 거부 / 300개 성공 / 완료 영수증 재시도, 기존 메시지 지급 원자성·롤백·중복 방지 포함. 배포 과정에서 한 번 실행한다.
 - 명령: `npm run deploy:production -- --scoped`. `SCOPED_DEPLOY_TESTS=["tests/quest-hub-20260924.test.mjs"]`, `SCOPED_DEPLOY_CHECKS=[]`; 서버 모듈 변경으로 `check:worker`가 자동 추가된다.
 - 퀘스트 import·앱 캐시 표기는 `20261009-weekly`로 갱신했다. 운영 결과는 `weekly-quest-update-20261009-release.json`에 기록한다.
+
+## 운영 완료
+
+- 코드 커밋 `5bbfe4673298cb3ce98cc4aaea3b6063baecb6f6`. 관련 서버 검사 15개, Worker 문법 검사, 출시 플래그·캐시·Hyperdrive 검사 모두 통과 후 지정 명령으로 1회 배포했다.
+- Pages `https://fa98efa9.cnine-card.pages.dev`, API runtime `4a5d0391-c2d5-4715-a100-0bc75e6d8aab`, clan-draft `7407f37a-562e-4beb-9b24-2ddca31b965d`.
+- 운영 별칭 전파 후 `index.html`, `js/app.js`, 실제 import URL의 퀘스트 모듈이 출시 소스와 동일한 SHA-256임을 확인했다. 실제 계정으로 보상 수령을 실행하지 않았다.
