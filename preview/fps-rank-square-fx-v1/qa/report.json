@@ -1,0 +1,111 @@
+{
+  "status": "ANIMATED_VISUAL_PREVIEW",
+  "sourceSha256": "0a8acfb26f3ea2c9865133952ff73d451087185c73a88670fa78fa87eafe7b15",
+  "sourcePreserved": true,
+  "loopSeconds": 6,
+  "frames": 100,
+  "probe": {
+    "rankNames": [
+      "대령",
+      "준장",
+      "소장",
+      "중장",
+      "대장",
+      "원수"
+    ],
+    "energy": [
+      66591,
+      143837,
+      186249,
+      412709,
+      791118,
+      1434531
+    ],
+    "seamlessLoop": true,
+    "loopPixelChanges": 0,
+    "maxLoopChannelDelta": 0,
+    "changesOutsideRankTiles": 0
+  },
+  "mobile": {
+    "width": 390,
+    "scrollWidth": 390,
+    "icons": [
+      {
+        "w": 172,
+        "h": 172
+      },
+      {
+        "w": 172,
+        "h": 172
+      },
+      {
+        "w": 172,
+        "h": 172
+      },
+      {
+        "w": 172,
+        "h": 172
+      },
+      {
+        "w": 172,
+        "h": 172
+      },
+      {
+        "w": 172,
+        "h": 172
+      }
+    ]
+  },
+  "errors": [],
+  "gif": {
+    "file": "rank-effects-six.gif",
+    "width": 1020,
+    "height": 690,
+    "frames": 100,
+    "bytes": 5680066
+  },
+  "icons": [
+    {
+      "file": "colonel-loop.webp",
+      "width": 256,
+      "height": 256,
+      "frames": 100,
+      "bytes": 505350
+    },
+    {
+      "file": "brigadier-loop.webp",
+      "width": 256,
+      "height": 256,
+      "frames": 100,
+      "bytes": 604760
+    },
+    {
+      "file": "major-general-loop.webp",
+      "width": 256,
+      "height": 256,
+      "frames": 100,
+      "bytes": 644040
+    },
+    {
+      "file": "lieutenant-general-loop.webp",
+      "width": 256,
+      "height": 256,
+      "frames": 100,
+      "bytes": 994858
+    },
+    {
+      "file": "general-loop.webp",
+      "width": 256,
+      "height": 256,
+      "frames": 100,
+      "bytes": 1353244
+    },
+    {
+      "file": "marshal-loop.webp",
+      "width": 256,
+      "height": 256,
+      "frames": 100,
+      "bytes": 1851320
+    }
+  ]
+}
