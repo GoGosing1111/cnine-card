@@ -1,0 +1,888 @@
+[
+  {
+    "name": "pc",
+    "code": "V-997",
+    "mode": "basic",
+    "contact": {
+      "x": 1220,
+      "y": 543.0774018396605
+    },
+    "time": 0.65,
+    "playing": false,
+    "speed": 1,
+    "pose": 2,
+    "visibleEffects": 2,
+    "registeredTimelines": 1,
+    "clockOwner": "V3_REGISTERED_GSAP",
+    "damageAuthority": "SERVER_ONLY",
+    "foot": {
+      "x": 1131.7019854488567,
+      "y": 592.0000000000001
+    },
+    "station": {
+      "x": 380,
+      "y": 240
+    },
+    "bodyHeight": 312.3894230769231,
+    "weaponScale": 0.20747767857142857
+  },
+  {
+    "name": "pc",
+    "code": "V-997",
+    "mode": "basic",
+    "controls": {
+      "pauseFixed": true,
+      "doubleDelta": 0.33199999999999996,
+      "effectsHidden": true,
+      "end": {
+        "code": "V-997",
+        "mode": "basic",
+        "time": 0,
+        "playing": false,
+        "speed": 2,
+        "pose": 0,
+        "visibleEffects": 0,
+        "registeredTimelines": 0,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY",
+        "foot": {
+          "x": 380,
+          "y": 240
+        },
+        "station": {
+          "x": 380,
+          "y": 240
+        },
+        "contact": {
+          "x": 426.73982407016064,
+          "y": 94.93084583685544
+        },
+        "bodyHeight": 312.3894230769231,
+        "weaponScale": 0.20747767857142857
+      }
+    }
+  },
+  {
+    "name": "pc",
+    "code": "V-997",
+    "mode": "skill",
+    "contact": {
+      "x": 1220,
+      "y": 543.0774018396605
+    },
+    "time": 0.84,
+    "playing": false,
+    "speed": 1,
+    "pose": 2,
+    "visibleEffects": 2,
+    "registeredTimelines": 1,
+    "clockOwner": "V3_REGISTERED_GSAP",
+    "damageAuthority": "SERVER_ONLY",
+    "foot": {
+      "x": 1131.7019854488567,
+      "y": 592.0000000000001
+    },
+    "station": {
+      "x": 380,
+      "y": 240
+    },
+    "bodyHeight": 312.3894230769231,
+    "weaponScale": 0.20747767857142857
+  },
+  {
+    "name": "pc",
+    "code": "V-997",
+    "mode": "skill",
+    "contact": {
+      "x": 1220.0000000000002,
+      "y": 547.7414418434121
+    },
+    "time": 1.55,
+    "playing": false,
+    "speed": 1,
+    "pose": 4,
+    "visibleEffects": 2,
+    "registeredTimelines": 1,
+    "clockOwner": "V3_REGISTERED_GSAP",
+    "damageAuthority": "SERVER_ONLY",
+    "foot": {
+      "x": 1186.936556471532,
+      "y": 592.0000000000001
+    },
+    "station": {
+      "x": 380,
+      "y": 240
+    },
+    "bodyHeight": 312.3894230769231,
+    "weaponScale": 0.20747767857142857
+  },
+  {
+    "name": "pc",
+    "code": "V-997",
+    "mode": "skill",
+    "contact": {
+      "x": 1219.9999999999998,
+      "y": 530.5651760893599
+    },
+    "time": 2.35,
+    "playing": false,
+    "speed": 1,
+    "pose": 6,
+    "visibleEffects": 2,
+    "registeredTimelines": 1,
+    "clockOwner": "V3_REGISTERED_GSAP",
+    "damageAuthority": "SERVER_ONLY",
+    "foot": {
+      "x": 1151.4918680999647,
+      "y": 592.0000000000001
+    },
+    "station": {
+      "x": 380,
+      "y": 240
+    },
+    "bodyHeight": 312.3894230769231,
+    "weaponScale": 0.20747767857142857
+  },
+  {
+    "name": "pc",
+    "code": "V-997",
+    "mode": "skill",
+    "controls": {
+      "pauseFixed": true,
+      "doubleDelta": 0.32399999999999995,
+      "effectsHidden": true,
+      "end": {
+        "code": "V-997",
+        "mode": "skill",
+        "time": 0,
+        "playing": false,
+        "speed": 2,
+        "pose": 0,
+        "visibleEffects": 0,
+        "registeredTimelines": 0,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY",
+        "foot": {
+          "x": 380,
+          "y": 240
+        },
+        "station": {
+          "x": 380,
+          "y": 240
+        },
+        "contact": {
+          "x": 426.73982407016064,
+          "y": 94.93084583685544
+        },
+        "bodyHeight": 312.3894230769231,
+        "weaponScale": 0.20747767857142857
+      }
+    }
+  },
+  {
+    "name": "pc",
+    "code": "V-998",
+    "mode": "basic",
+    "contact": null,
+    "time": 0.58,
+    "playing": false,
+    "speed": 1,
+    "pose": 2,
+    "visibleEffects": 1,
+    "registeredTimelines": 1,
+    "clockOwner": "V3_REGISTERED_GSAP",
+    "damageAuthority": "SERVER_ONLY",
+    "foot": {
+      "x": 1220,
+      "y": 240
+    },
+    "station": {
+      "x": 1220,
+      "y": 240
+    },
+    "bodyHeight": 312.3894230769231,
+    "weaponScale": 0.22254136029411767
+  },
+  {
+    "name": "pc",
+    "code": "V-998",
+    "mode": "basic",
+    "controls": {
+      "pauseFixed": true,
+      "doubleDelta": 0.32399999999999995,
+      "effectsHidden": true,
+      "end": {
+        "code": "V-998",
+        "mode": "basic",
+        "time": 0,
+        "playing": false,
+        "speed": 2,
+        "pose": 0,
+        "visibleEffects": 0,
+        "registeredTimelines": 0,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY",
+        "foot": {
+          "x": 1220,
+          "y": 240
+        },
+        "station": {
+          "x": 1220,
+          "y": 240
+        },
+        "contact": null,
+        "bodyHeight": 312.3894230769231,
+        "weaponScale": 0.22254136029411767
+      }
+    }
+  },
+  {
+    "name": "pc",
+    "code": "V-998",
+    "mode": "skill",
+    "contact": null,
+    "time": 0.65,
+    "playing": false,
+    "speed": 1,
+    "pose": 5,
+    "visibleEffects": 3,
+    "registeredTimelines": 1,
+    "clockOwner": "V3_REGISTERED_GSAP",
+    "damageAuthority": "SERVER_ONLY",
+    "foot": {
+      "x": 1220,
+      "y": 240
+    },
+    "station": {
+      "x": 1220,
+      "y": 240
+    },
+    "bodyHeight": 312.3894230769231,
+    "weaponScale": 0.22254136029411764
+  },
+  {
+    "name": "pc",
+    "code": "V-998",
+    "mode": "skill",
+    "contact": null,
+    "time": 0.83,
+    "playing": false,
+    "speed": 1,
+    "pose": 6,
+    "visibleEffects": 4,
+    "registeredTimelines": 1,
+    "clockOwner": "V3_REGISTERED_GSAP",
+    "damageAuthority": "SERVER_ONLY",
+    "foot": {
+      "x": 1220,
+      "y": 240
+    },
+    "station": {
+      "x": 1220,
+      "y": 240
+    },
+    "bodyHeight": 312.3894230769231,
+    "weaponScale": 0.22254136029411764
+  },
+  {
+    "name": "pc",
+    "code": "V-998",
+    "mode": "skill",
+    "contact": null,
+    "time": 1.01,
+    "playing": false,
+    "speed": 1,
+    "pose": 5,
+    "visibleEffects": 5,
+    "registeredTimelines": 1,
+    "clockOwner": "V3_REGISTERED_GSAP",
+    "damageAuthority": "SERVER_ONLY",
+    "foot": {
+      "x": 1220,
+      "y": 240
+    },
+    "station": {
+      "x": 1220,
+      "y": 240
+    },
+    "bodyHeight": 312.3894230769231,
+    "weaponScale": 0.22254136029411764
+  },
+  {
+    "name": "pc",
+    "code": "V-998",
+    "mode": "skill",
+    "contact": null,
+    "time": 1.19,
+    "playing": false,
+    "speed": 1,
+    "pose": 6,
+    "visibleEffects": 5,
+    "registeredTimelines": 1,
+    "clockOwner": "V3_REGISTERED_GSAP",
+    "damageAuthority": "SERVER_ONLY",
+    "foot": {
+      "x": 1220,
+      "y": 240
+    },
+    "station": {
+      "x": 1220,
+      "y": 240
+    },
+    "bodyHeight": 312.3894230769231,
+    "weaponScale": 0.22254136029411764
+  },
+  {
+    "name": "pc",
+    "code": "V-998",
+    "mode": "skill",
+    "contact": null,
+    "time": 1.45,
+    "playing": false,
+    "speed": 1,
+    "pose": 5,
+    "visibleEffects": 5,
+    "registeredTimelines": 1,
+    "clockOwner": "V3_REGISTERED_GSAP",
+    "damageAuthority": "SERVER_ONLY",
+    "foot": {
+      "x": 1220,
+      "y": 240
+    },
+    "station": {
+      "x": 1220,
+      "y": 240
+    },
+    "bodyHeight": 312.3894230769231,
+    "weaponScale": 0.22254136029411764
+  },
+  {
+    "name": "pc",
+    "code": "V-998",
+    "mode": "skill",
+    "contact": null,
+    "time": 1.73,
+    "playing": false,
+    "speed": 1,
+    "pose": 6,
+    "visibleEffects": 2,
+    "registeredTimelines": 1,
+    "clockOwner": "V3_REGISTERED_GSAP",
+    "damageAuthority": "SERVER_ONLY",
+    "foot": {
+      "x": 1220,
+      "y": 240
+    },
+    "station": {
+      "x": 1220,
+      "y": 240
+    },
+    "bodyHeight": 312.3894230769231,
+    "weaponScale": 0.22254136029411764
+  },
+  {
+    "name": "pc",
+    "code": "V-998",
+    "mode": "skill",
+    "contact": null,
+    "time": 2.2,
+    "playing": false,
+    "speed": 1,
+    "pose": 7,
+    "visibleEffects": 2,
+    "registeredTimelines": 1,
+    "clockOwner": "V3_REGISTERED_GSAP",
+    "damageAuthority": "SERVER_ONLY",
+    "foot": {
+      "x": 1220,
+      "y": 240
+    },
+    "station": {
+      "x": 1220,
+      "y": 240
+    },
+    "bodyHeight": 312.3894230769231,
+    "weaponScale": 0.22254136029411764
+  },
+  {
+    "name": "pc",
+    "code": "V-998",
+    "mode": "skill",
+    "controls": {
+      "pauseFixed": true,
+      "doubleDelta": 0.31599999999999995,
+      "effectsHidden": true,
+      "end": {
+        "code": "V-998",
+        "mode": "skill",
+        "time": 0,
+        "playing": false,
+        "speed": 2,
+        "pose": 0,
+        "visibleEffects": 0,
+        "registeredTimelines": 0,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY",
+        "foot": {
+          "x": 1220,
+          "y": 240
+        },
+        "station": {
+          "x": 1220,
+          "y": 240
+        },
+        "contact": null,
+        "bodyHeight": 312.3894230769231,
+        "weaponScale": 0.22254136029411767
+      }
+    }
+  },
+  {
+    "name": "pc",
+    "errors": [],
+    "overflow": false
+  },
+  {
+    "name": "mobile",
+    "code": "V-997",
+    "mode": "basic",
+    "contact": {
+      "x": 1007.4098360655738,
+      "y": 1270.9907863259848
+    },
+    "time": 0.65,
+    "playing": false,
+    "speed": 1,
+    "pose": 2,
+    "visibleEffects": 2,
+    "registeredTimelines": 1,
+    "clockOwner": "V3_REGISTERED_GSAP",
+    "damageAuthority": "SERVER_ONLY",
+    "foot": {
+      "x": 892.6224171490875,
+      "y": 1334.5901639344263
+    },
+    "station": {
+      "x": 359.40983606557376,
+      "y": 434.5901639344262
+    },
+    "bodyHeight": 312.3894230769231,
+    "weaponScale": 0.20747767857142857
+  },
+  {
+    "name": "mobile",
+    "code": "V-997",
+    "mode": "basic",
+    "controls": {
+      "pauseFixed": true,
+      "doubleDelta": 0.32599999999999996,
+      "effectsHidden": true,
+      "end": {
+        "code": "V-997",
+        "mode": "basic",
+        "time": 0,
+        "playing": false,
+        "speed": 2,
+        "pose": 0,
+        "visibleEffects": 0,
+        "registeredTimelines": 0,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY",
+        "foot": {
+          "x": 359.40983606557376,
+          "y": 434.5901639344262
+        },
+        "station": {
+          "x": 359.40983606557376,
+          "y": 434.5901639344262
+        },
+        "contact": {
+          "x": 420.17160735678254,
+          "y": 246.00026352233826
+        },
+        "bodyHeight": 312.3894230769231,
+        "weaponScale": 0.20747767857142857
+      }
+    }
+  },
+  {
+    "name": "mobile",
+    "code": "V-997",
+    "mode": "skill",
+    "contact": {
+      "x": 1007.4098360655738,
+      "y": 1270.9907863259848
+    },
+    "time": 0.84,
+    "playing": false,
+    "speed": 1,
+    "pose": 2,
+    "visibleEffects": 2,
+    "registeredTimelines": 1,
+    "clockOwner": "V3_REGISTERED_GSAP",
+    "damageAuthority": "SERVER_ONLY",
+    "foot": {
+      "x": 892.6224171490875,
+      "y": 1334.5901639344263
+    },
+    "station": {
+      "x": 359.40983606557376,
+      "y": 434.5901639344262
+    },
+    "bodyHeight": 312.3894230769231,
+    "weaponScale": 0.20747767857142857
+  },
+  {
+    "name": "mobile",
+    "code": "V-997",
+    "mode": "skill",
+    "contact": {
+      "x": 1007.4098360655738,
+      "y": 1277.0540383308619
+    },
+    "time": 1.55,
+    "playing": false,
+    "speed": 1,
+    "pose": 4,
+    "visibleEffects": 2,
+    "registeredTimelines": 1,
+    "clockOwner": "V3_REGISTERED_GSAP",
+    "damageAuthority": "SERVER_ONLY",
+    "foot": {
+      "x": 964.427359478565,
+      "y": 1334.5901639344263
+    },
+    "station": {
+      "x": 359.40983606557376,
+      "y": 434.5901639344262
+    },
+    "bodyHeight": 312.3894230769231,
+    "weaponScale": 0.20747767857142857
+  },
+  {
+    "name": "mobile",
+    "code": "V-997",
+    "mode": "skill",
+    "contact": {
+      "x": 1007.4098360655736,
+      "y": 1254.724892850594
+    },
+    "time": 2.35,
+    "playing": false,
+    "speed": 1,
+    "pose": 6,
+    "visibleEffects": 2,
+    "registeredTimelines": 1,
+    "clockOwner": "V3_REGISTERED_GSAP",
+    "damageAuthority": "SERVER_ONLY",
+    "foot": {
+      "x": 918.349264595528,
+      "y": 1334.5901639344263
+    },
+    "station": {
+      "x": 359.40983606557376,
+      "y": 434.5901639344262
+    },
+    "bodyHeight": 312.3894230769231,
+    "weaponScale": 0.20747767857142857
+  },
+  {
+    "name": "mobile",
+    "code": "V-997",
+    "mode": "skill",
+    "controls": {
+      "pauseFixed": true,
+      "doubleDelta": 0.31599999999999995,
+      "effectsHidden": true,
+      "end": {
+        "code": "V-997",
+        "mode": "skill",
+        "time": 0,
+        "playing": false,
+        "speed": 2,
+        "pose": 0,
+        "visibleEffects": 0,
+        "registeredTimelines": 0,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY",
+        "foot": {
+          "x": 359.40983606557376,
+          "y": 434.5901639344262
+        },
+        "station": {
+          "x": 359.40983606557376,
+          "y": 434.5901639344262
+        },
+        "contact": {
+          "x": 420.17160735678254,
+          "y": 246.00026352233826
+        },
+        "bodyHeight": 312.3894230769231,
+        "weaponScale": 0.20747767857142857
+      }
+    }
+  },
+  {
+    "name": "mobile",
+    "code": "V-998",
+    "mode": "basic",
+    "contact": null,
+    "time": 0.58,
+    "playing": false,
+    "speed": 1,
+    "pose": 2,
+    "visibleEffects": 1,
+    "registeredTimelines": 1,
+    "clockOwner": "V3_REGISTERED_GSAP",
+    "damageAuthority": "SERVER_ONLY",
+    "foot": {
+      "x": 791.4098360655738,
+      "y": 434.5901639344262
+    },
+    "station": {
+      "x": 791.4098360655738,
+      "y": 434.5901639344262
+    },
+    "bodyHeight": 312.3894230769231,
+    "weaponScale": 0.22254136029411767
+  },
+  {
+    "name": "mobile",
+    "code": "V-998",
+    "mode": "basic",
+    "controls": {
+      "pauseFixed": true,
+      "doubleDelta": 0.32599999999999996,
+      "effectsHidden": true,
+      "end": {
+        "code": "V-998",
+        "mode": "basic",
+        "time": 0,
+        "playing": false,
+        "speed": 2,
+        "pose": 0,
+        "visibleEffects": 0,
+        "registeredTimelines": 0,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY",
+        "foot": {
+          "x": 791.4098360655738,
+          "y": 434.5901639344262
+        },
+        "station": {
+          "x": 791.4098360655738,
+          "y": 434.5901639344262
+        },
+        "contact": null,
+        "bodyHeight": 312.3894230769231,
+        "weaponScale": 0.22254136029411767
+      }
+    }
+  },
+  {
+    "name": "mobile",
+    "code": "V-998",
+    "mode": "skill",
+    "contact": null,
+    "time": 0.65,
+    "playing": false,
+    "speed": 1,
+    "pose": 5,
+    "visibleEffects": 3,
+    "registeredTimelines": 1,
+    "clockOwner": "V3_REGISTERED_GSAP",
+    "damageAuthority": "SERVER_ONLY",
+    "foot": {
+      "x": 791.4098360655738,
+      "y": 434.5901639344262
+    },
+    "station": {
+      "x": 791.4098360655738,
+      "y": 434.5901639344262
+    },
+    "bodyHeight": 312.3894230769231,
+    "weaponScale": 0.22254136029411764
+  },
+  {
+    "name": "mobile",
+    "code": "V-998",
+    "mode": "skill",
+    "contact": null,
+    "time": 0.83,
+    "playing": false,
+    "speed": 1,
+    "pose": 6,
+    "visibleEffects": 4,
+    "registeredTimelines": 1,
+    "clockOwner": "V3_REGISTERED_GSAP",
+    "damageAuthority": "SERVER_ONLY",
+    "foot": {
+      "x": 791.4098360655738,
+      "y": 434.5901639344262
+    },
+    "station": {
+      "x": 791.4098360655738,
+      "y": 434.5901639344262
+    },
+    "bodyHeight": 312.3894230769231,
+    "weaponScale": 0.22254136029411764
+  },
+  {
+    "name": "mobile",
+    "code": "V-998",
+    "mode": "skill",
+    "contact": null,
+    "time": 1.01,
+    "playing": false,
+    "speed": 1,
+    "pose": 5,
+    "visibleEffects": 5,
+    "registeredTimelines": 1,
+    "clockOwner": "V3_REGISTERED_GSAP",
+    "damageAuthority": "SERVER_ONLY",
+    "foot": {
+      "x": 791.4098360655738,
+      "y": 434.5901639344262
+    },
+    "station": {
+      "x": 791.4098360655738,
+      "y": 434.5901639344262
+    },
+    "bodyHeight": 312.3894230769231,
+    "weaponScale": 0.22254136029411764
+  },
+  {
+    "name": "mobile",
+    "code": "V-998",
+    "mode": "skill",
+    "contact": null,
+    "time": 1.19,
+    "playing": false,
+    "speed": 1,
+    "pose": 6,
+    "visibleEffects": 5,
+    "registeredTimelines": 1,
+    "clockOwner": "V3_REGISTERED_GSAP",
+    "damageAuthority": "SERVER_ONLY",
+    "foot": {
+      "x": 791.4098360655738,
+      "y": 434.5901639344262
+    },
+    "station": {
+      "x": 791.4098360655738,
+      "y": 434.5901639344262
+    },
+    "bodyHeight": 312.3894230769231,
+    "weaponScale": 0.22254136029411764
+  },
+  {
+    "name": "mobile",
+    "code": "V-998",
+    "mode": "skill",
+    "contact": null,
+    "time": 1.45,
+    "playing": false,
+    "speed": 1,
+    "pose": 5,
+    "visibleEffects": 5,
+    "registeredTimelines": 1,
+    "clockOwner": "V3_REGISTERED_GSAP",
+    "damageAuthority": "SERVER_ONLY",
+    "foot": {
+      "x": 791.4098360655738,
+      "y": 434.5901639344262
+    },
+    "station": {
+      "x": 791.4098360655738,
+      "y": 434.5901639344262
+    },
+    "bodyHeight": 312.3894230769231,
+    "weaponScale": 0.22254136029411764
+  },
+  {
+    "name": "mobile",
+    "code": "V-998",
+    "mode": "skill",
+    "contact": null,
+    "time": 1.73,
+    "playing": false,
+    "speed": 1,
+    "pose": 6,
+    "visibleEffects": 2,
+    "registeredTimelines": 1,
+    "clockOwner": "V3_REGISTERED_GSAP",
+    "damageAuthority": "SERVER_ONLY",
+    "foot": {
+      "x": 791.4098360655738,
+      "y": 434.5901639344262
+    },
+    "station": {
+      "x": 791.4098360655738,
+      "y": 434.5901639344262
+    },
+    "bodyHeight": 312.3894230769231,
+    "weaponScale": 0.22254136029411764
+  },
+  {
+    "name": "mobile",
+    "code": "V-998",
+    "mode": "skill",
+    "contact": null,
+    "time": 2.2,
+    "playing": false,
+    "speed": 1,
+    "pose": 7,
+    "visibleEffects": 2,
+    "registeredTimelines": 1,
+    "clockOwner": "V3_REGISTERED_GSAP",
+    "damageAuthority": "SERVER_ONLY",
+    "foot": {
+      "x": 791.4098360655738,
+      "y": 434.5901639344262
+    },
+    "station": {
+      "x": 791.4098360655738,
+      "y": 434.5901639344262
+    },
+    "bodyHeight": 312.3894230769231,
+    "weaponScale": 0.22254136029411764
+  },
+  {
+    "name": "mobile",
+    "code": "V-998",
+    "mode": "skill",
+    "controls": {
+      "pauseFixed": true,
+      "doubleDelta": 0.32399999999999995,
+      "effectsHidden": true,
+      "end": {
+        "code": "V-998",
+        "mode": "skill",
+        "time": 0,
+        "playing": false,
+        "speed": 2,
+        "pose": 0,
+        "visibleEffects": 0,
+        "registeredTimelines": 0,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY",
+        "foot": {
+          "x": 791.4098360655738,
+          "y": 434.5901639344262
+        },
+        "station": {
+          "x": 791.4098360655738,
+          "y": 434.5901639344262
+        },
+        "contact": null,
+        "bodyHeight": 312.3894230769231,
+        "weaponScale": 0.22254136029411767
+      }
+    }
+  },
+  {
+    "name": "mobile",
+    "errors": [],
+    "overflow": false
+  }
+]

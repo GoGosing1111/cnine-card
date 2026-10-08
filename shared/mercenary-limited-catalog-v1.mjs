@@ -206,7 +206,7 @@ export const LIMITED_MERCENARIES=Object.freeze([
     "releaseStatus": "LIMITED_PREVIEW",
     "sourceArt": "assets/ui/project-v/mercenaries/limited-20261004/v-997-ayoon-source-art-approved.png",
     "sourceArtSha256": "21623C96DFF0FAF9054FF04B4B925D28582E9716A6C40C5B1851E0954E287A39",
-    "battleSprite": null,
+    "battleSprite": "assets/ui/project-v/mercenaries/limited-duo-20261008/ayoon-idle.png",
     "accent": "#e6c98d",
     "basePower": null,
     "skills": [],
@@ -220,9 +220,10 @@ export const LIMITED_MERCENARIES=Object.freeze([
       "width": 88.086,
       "height": 88.086
     },
-    "resourceStatus": "ART_READY_SD_PENDING",
+    "resourceStatus": "V3_MOTION_SKILL_READY",
     "artApproval": "USER_APPROVED_20261004",
-    "approvalRecord": "preview/mercenary-ayoon-scythe-20261004-v1/approval-20261004.json"
+    "approvalRecord": "preview/mercenary-ayoon-scythe-20261004-v1/approval-20261004.json",
+    "battleSpriteSha256": "338B6AF63797197A92D9389BBACBB18F5B814CA32446F593F465431A32BEE643"
   },
   {
     "code": "V-998",
@@ -237,7 +238,7 @@ export const LIMITED_MERCENARIES=Object.freeze([
     "releaseStatus": "LIMITED_PREVIEW",
     "sourceArt": "assets/ui/project-v/mercenaries/limited-20261004/v-998-hi-heeya-source-art-approved.png",
     "sourceArtSha256": "7FE9B78CCA3243078BB47A4E9F358017F7C633B39E2D888BDEA76B8F7984D20D",
-    "battleSprite": null,
+    "battleSprite": "assets/ui/project-v/mercenaries/limited-duo-20261008/heeya-idle.png",
     "accent": "#e6c98d",
     "basePower": null,
     "skills": [],
@@ -251,9 +252,10 @@ export const LIMITED_MERCENARIES=Object.freeze([
       "width": 88.086,
       "height": 88.086
     },
-    "resourceStatus": "ART_READY_SD_PENDING",
+    "resourceStatus": "V3_MOTION_SKILL_READY",
     "artApproval": "USER_APPROVED_20261004",
-    "approvalRecord": "preview/mercenary-heeya-maid-arsenal-v1/approval-20261004.json"
+    "approvalRecord": "preview/mercenary-heeya-maid-arsenal-v1/approval-20261004.json",
+    "battleSpriteSha256": "32B746F5DA7FF1CBA86DA1B5656D6EE0AC5F7B9ED40D9E316CEAF4973089D0A4"
   }
 ].map(card=>Object.freeze(card)));
 export const isLimitedMercenary=code=>LIMITED_MERCENARIES.some(card=>card.code===code);

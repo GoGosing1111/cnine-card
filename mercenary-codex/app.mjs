@@ -1,6 +1,6 @@
 import {jointAccountRequest as api} from '/js/joint-account-transport.mjs';
 import {withMercenaryDeadline} from '/shared/mercenary-loading-v1.mjs?v=20260925';
-import {FRAME,POSITIONS,escapeHtml as esc,asset,thumb,validateCatalog,filterCatalog} from './model.mjs?v=20261002-canonical2';
+import {FRAME,POSITIONS,escapeHtml as esc,asset,thumb,validateCatalog,filterCatalog} from './model.mjs?v=20261009-deployment';
 
 const $=id=>document.getElementById(id),fmt=n=>Number(n||0).toLocaleString('ko-KR'),storageKey='cnine.mercenaryCodex.public.v1';
 const params=new URL(location.href).searchParams;
@@ -37,7 +37,7 @@ function renderAccountSummary(){
   for(const button of document.querySelectorAll('[data-view]'))button.setAttribute('aria-selected',String(button.dataset.view===view));
   $('rosterTitle').textContent=view==='limited'?'리미티드 컬렉션':view==='owned'?'내 용병 선택':'전체 용병 탐색';
   $('positions').hidden=view==='limited';
-  $('catalogFootTitle').textContent=view==='limited'?'리미티드 선공개 · 획득 및 편성 불가':view==='owned'?'보유 용병을 선택해 바로 편성하세요.':'전체 원화·등급·스킬을 살펴보세요.';
+  $('catalogFootTitle').textContent=view==='limited'?'보유한 리미티드 용병을 선택해 편성하세요.':view==='owned'?'보유 용병을 선택해 바로 편성하세요.':'전체 원화·등급·스킬을 살펴보세요.';
 }
 function visibleCards(){
   if(!catalog)return [];
@@ -60,10 +60,10 @@ function skillHtml(s,index){const balance=s.balance,ratio=Number.isFinite(balanc
   return `<article class="skill-entry"><header><span class="skill-number">${String(index+1).padStart(2,'0')}</span><div><small>${s.id} · ${esc(s.target)}</small><h3>${esc(s.name)}</h3></div><span class="skill-state ${s.ready?'':'pending'}">${s.ready?'사용 가능':'설정 대기'}</span></header><p class="skill-effect">${esc(s.effect)}</p><dl class="skill-stats"><div><dt>효과 배율</dt><dd>${Number.isFinite(pveRatio)?'<small>PVE</small> '+fmt(pveRatio*100)+'<small>%</small><br><small>PVP</small> '+fmt(ratio*100)+'<small>%</small>':ratio===undefined?'미설정':ratio===0?'지원 효과':`${fmt(ratio*100)}<small>%</small>`}</dd></div><div><dt>재사용</dt><dd>${Number.isFinite(balance.cooldownTurns)?`${fmt(balance.cooldownTurns)}<small>턴</small>`:'미설정'}</dd></div><div><dt>에너지</dt><dd>${Number.isFinite(balance.cost)?fmt(balance.cost):'미설정'}</dd></div></dl><details><summary>발동 조건 · 대응 방법 <span>+</span></summary><dl class="skill-rules">${[['발동',s.trigger],['대응',s.counterplay],['보스',s.bossRule],['추가 발동',s.procRule]].map(([label,value])=>`<div><dt>${label}</dt><dd>${esc(value)}</dd></div>`).join('')}</dl></details></article>`;
 }
 function deploymentHtml(c){
-  if(c.edition==='LIMITED')return '<section class="deployment-card unavailable limited-lock"><div><span>리미티드 선공개</span><strong>획득 · 편성 불가</strong></div><p>현재 원화와 준비된 리소스만 공개합니다. 획득 일정은 추후 안내됩니다.</p></section>';
+  if(c.edition==='LIMITED'&&!c.deploymentEnabled)return '<section class="deployment-card unavailable limited-lock"><div><span>리미티드 선공개</span><strong>획득 · 편성 불가</strong></div><p>현재 원화와 준비된 리소스만 공개합니다. 획득 일정은 추후 안내됩니다.</p></section>';
   const owned=ownedCard(c.code),active=activeCode()===c.code,pending=pendingLoadout(),blocked=loadoutBusy||!account?.available||Boolean(pending);
   if(!account)return `<section class="deployment-card unavailable"><div><span>내 용병</span><strong>계정 연결 필요</strong></div><p>${esc(accountError||'보유 용병 정보를 불러오지 못했습니다.')}</p><button type="button" data-retry-account>다시 불러오기</button></section>`;
-  if(!owned)return `<section class="deployment-card unavailable"><div><span>보유 상태</span><strong>미보유</strong></div><p>전체 도감 정보는 확인할 수 있지만 편성은 보유 용병만 가능합니다.</p><a href="/?screen=buy&amp;pack=hyper">하이퍼팩 확인 ↗</a></section>`;
+  if(!owned)return `<section class="deployment-card unavailable"><div><span>보유 상태</span><strong>미보유</strong></div><p>전체 도감 정보는 확인할 수 있지만 편성은 보유 용병만 가능합니다.</p>${c.edition==='LIMITED'?'':'<a href="/?screen=buy&amp;pack=hyper">하이퍼팩 확인 ↗</a>'}</section>`;
   return `<section class="deployment-card ${active?'active':''}"><div class="deployment-title"><span>내 용병</span><strong>${active?'현재 편성 중':'보유 용병'}</strong></div><dl><div><dt>레벨</dt><dd>Lv.${fmt(owned.level)}</dd></div><div><dt>보유</dt><dd>${fmt(Number(owned.duplicates||0)+1)}장</dd></div><div><dt>전투력</dt><dd>${fmt(owned.basePower)}</dd></div></dl><div class="deployment-actions"><button class="equip-button" type="button" data-equip="${c.code}" ${blocked||active||owned.canDeploy===false?'disabled':''}>${active?'편성 완료':owned.canDeploy===false?'현재 편성 불가':'이 용병 편성'}</button>${active?`<button class="unequip-button" type="button" data-unequip ${blocked?'disabled':''}>편성 해제</button>`:''}${pending?'<button class="recover-button" type="button" data-recover-loadout>처리 결과 확인</button>':''}</div><p>PVE·PVP 공통 용병 전용 슬롯 · 일반 카드 5장과 별도</p></section>`;
 }
 function renderSelection(){
@@ -75,7 +75,7 @@ function renderSelection(){
   if(c.artOnly)$('inspection').querySelector('.combat-panel').innerHTML=`<div class="panel-heading"><h2>신규 원화 공개</h2><button type="button" class="favorite-button" data-favorite aria-pressed="${favorites.has(c.code)}" aria-label="${esc(c.name)} 즐겨찾기 ${favorites.has(c.code)?'해제':'추가'}">${favorites.has(c.code)?'★':'☆'}</button></div>${deploymentHtml(c)}<div class="power-summary"><span>용병 등급<small>원화 선공개</small></span><strong>${esc(c.rank)}</strong></div><dl class="role-ledger"><div><dt>이름</dt><dd>${esc(c.name)}</dd></div><div><dt>무기</dt><dd>${esc(c.weapon)}</dd></div></dl><div class="skill-empty"><b>출시 예정</b><p>원화를 먼저 만나보세요.<br>획득 방법과 전투 스킬은 추후 공개됩니다.</p></div>`;
   if(c.edition==='LIMITED'){
     $('inspection').classList.add('limited-inspection');
-    $('inspection').querySelector('.combat-panel').innerHTML=`<div class="panel-heading"><h2>리미티드 컬렉션</h2><button type="button" class="favorite-button" data-favorite aria-pressed="${favorites.has(c.code)}" aria-label="${esc(c.name)} 즐겨찾기">${favorites.has(c.code)?'★':'☆'}</button></div><div class="limited-edition-mark"><span>LIMITED EDITION</span><h3>${esc(c.name)}</h3><p>${esc(c.title)}</p></div>${deploymentHtml(c)}<dl class="limited-record"><div><dt>용병 등급</dt><dd>${esc(c.rank||'미정')}</dd></div><div><dt>공개 리소스</dt><dd>${c.battleSprite?'원화 · 전투 SD':'카드 원화'}</dd></div><div><dt>획득 상태</dt><dd>잠금</dd></div></dl><div class="skill-empty"><b>리미티드 선공개</b><p>카드와 리소스를 먼저 만나보세요.<br>팩 개봉·합성·보상으로 획득할 수 없으며 전투 편성도 잠겨 있습니다.</p></div>`;
+    $('inspection').querySelector('.combat-panel').innerHTML=`<div class="panel-heading"><h2>리미티드 컬렉션</h2><button type="button" class="favorite-button" data-favorite aria-pressed="${favorites.has(c.code)}" aria-label="${esc(c.name)} 즐겨찾기">${favorites.has(c.code)?'★':'☆'}</button></div><div class="limited-edition-mark"><span>LIMITED EDITION</span><h3>${esc(c.name)}</h3><p>${esc(c.title)}</p></div>${deploymentHtml(c)}<dl class="limited-record"><div><dt>용병 등급</dt><dd>${esc(c.rank||'미정')}</dd></div><div><dt>공개 리소스</dt><dd>${c.battleSprite?'원화 · 전투 SD':'카드 원화'}</dd></div><div><dt>전투 편성</dt><dd>${c.deploymentEnabled?'보유 시 가능':'준비 중'}</dd></div></dl><div class="skill-empty"><b>${c.deploymentEnabled?'리미티드 전투 편성':'리미티드 선공개'}</b><p>${c.deploymentEnabled?'보유한 리미티드 용병을 PVE·PVP 공통 용병 슬롯에 편성할 수 있습니다.':'전투 편성을 준비 중입니다.'}<br>리미티드 용병팩 출시는 추후 안내됩니다.</p></div>`;
   }else $('inspection').classList.remove('limited-inspection');
   renderMedia();
 }

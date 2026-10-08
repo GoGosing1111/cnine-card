@@ -1,0 +1,30 @@
+[
+  {
+    "name": "pc",
+    "code": "V-997",
+    "skillShown": true,
+    "canEquip": true,
+    "overflow": false
+  },
+  {
+    "name": "pc",
+    "code": "V-998",
+    "skillShown": true,
+    "canEquip": true,
+    "overflow": false
+  },
+  {
+    "name": "mobile",
+    "code": "V-997",
+    "skillShown": true,
+    "canEquip": true,
+    "overflow": false
+  },
+  {
+    "name": "mobile",
+    "code": "V-998",
+    "skillShown": true,
+    "canEquip": true,
+    "overflow": false
+  }
+]

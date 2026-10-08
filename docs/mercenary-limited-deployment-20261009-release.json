@@ -1,0 +1,62 @@
+{
+  "date": "2026-10-09",
+  "timezone": "Asia/Seoul",
+  "status": "VALIDATED_PENDING_DEPLOY",
+  "scope": "SCOPED",
+  "baseCommit": "e781fc898b849ed86dcc6dac84254966b4372f27",
+  "baseDeployment": "9ae3903f-e04f-4639-bd39-d245a59116bd",
+  "request": [
+    "리미티드 용병 편성 가능게해라",
+    "SD다 제작해놨는데 올려"
+  ],
+  "codes": [
+    "V-990",
+    "V-991",
+    "V-992",
+    "V-993",
+    "V-994",
+    "V-996",
+    "V-997",
+    "V-998"
+  ],
+  "resourceSourceCommit": "eec0cfb862c59fef96d73d9527fa3791898f5867",
+  "preserved": [
+    "Valter supremacy and Berkan immunity",
+    "SS limited approved ordinary SSS combat tier",
+    "original source art and frames",
+    "limited pack OFF and acquisition pools, price, rates, daily 3000 cap"
+  ],
+  "accountMutations": "None in production; synthetic local account only",
+  "validation": {
+    "serverCodex": {
+      "passed": 28,
+      "failed": 0,
+      "tests": [
+        "tests/mercenary-limited-deployment-20261009.test.mjs",
+        "tests/mercenary-account-v3.test.mjs",
+        "tests/mercenary-limited-catalog-20261002.test.mjs",
+        "tests/mercenary-codex-owned-roster-v2133.test.mjs"
+      ]
+    },
+    "browser": {
+      "passed": 14,
+      "viewports": [
+        {
+          "width": 1440,
+          "height": 1000
+        },
+        {
+          "width": 390,
+          "height": 844
+        }
+      ],
+      "evidence": "preview/mercenary-limited-deployment-20261009/review.json"
+    },
+    "deploymentChecks": [
+      "tests/pve-battlefield-entry-v2117.test.mjs",
+      "check:worker"
+    ]
+  },
+  "knownVisualLimitation": "Preserved Ayoon scythe shaft occlusion in certain authored poses; user instructed uploading existing resources. No weapon reconstruction or false visual approval.",
+  "cache": "Main app and V3 runtime/version, native loader and codex module query updated; public codex no-store."
+}

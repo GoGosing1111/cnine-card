@@ -1,0 +1,21 @@
+{
+  "checks": [
+    "desktop: all eight equip, persistence and unequip",
+    "desktop: V-997 basic native V3 render and cleanup",
+    "desktop: V-997 skill native V3 render and cleanup",
+    "desktop: V-998 basic native V3 render and cleanup",
+    "desktop: V-998 skill native V3 render and cleanup",
+    "desktop: V-997 server hit displayed exactly once at contact",
+    "desktop: V-998 server hit displayed exactly once at contact",
+    "mobile: all eight equip, persistence and unequip",
+    "mobile: V-997 basic native V3 render and cleanup",
+    "mobile: V-997 skill native V3 render and cleanup",
+    "mobile: V-998 basic native V3 render and cleanup",
+    "mobile: V-998 skill native V3 render and cleanup",
+    "mobile: V-997 server hit displayed exactly once at contact",
+    "mobile: V-998 server hit displayed exactly once at contact"
+  ],
+  "writes": 18,
+  "errors": [],
+  "source": "real account loadout functions with synthetic SQLite user; native V3 renderer"
+}

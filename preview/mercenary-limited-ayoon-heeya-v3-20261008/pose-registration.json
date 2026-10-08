@@ -1,0 +1,320 @@
+{
+  "cell": 640,
+  "foot": [
+    320,
+    537.5
+  ],
+  "bodyScale": 0.40625,
+  "ayoon": {
+    "sourceBodyHeight": 1400,
+    "referenceHeight": 715,
+    "sheets": [
+      {
+        "id": "basic",
+        "referenceHeight": 715,
+        "poses": [
+          {
+            "feet": [
+              278,
+              752
+            ],
+            "anchor": [
+              208,
+              139
+            ],
+            "angle": 0
+          },
+          {
+            "feet": [
+              799,
+              753
+            ],
+            "anchor": [
+              739,
+              64
+            ],
+            "angle": -25
+          },
+          {
+            "feet": [
+              333,
+              1493
+            ],
+            "anchor": [
+              492,
+              1117
+            ],
+            "angle": 42
+          },
+          {
+            "feet": [
+              845,
+              1492
+            ],
+            "anchor": [
+              807,
+              955
+            ],
+            "angle": 0
+          }
+        ]
+      },
+      {
+        "id": "skill",
+        "referenceHeight": 715,
+        "poses": [
+          {
+            "feet": [
+              316,
+              757
+            ],
+            "anchor": [
+              217,
+              411
+            ],
+            "angle": 40
+          },
+          {
+            "feet": [
+              807,
+              783
+            ],
+            "anchor": [
+              715,
+              40
+            ],
+            "angle": 0
+          },
+          {
+            "feet": [
+              296,
+              1492
+            ],
+            "anchor": [
+              510,
+              940
+            ],
+            "angle": 80
+          },
+          {
+            "feet": [
+              782,
+              1480
+            ],
+            "anchor": [
+              806,
+              1181
+            ],
+            "angle": 50
+          }
+        ]
+      },
+      {
+        "id": "move",
+        "referenceHeight": 773,
+        "poses": [
+          {
+            "feet": [
+              245,
+              691
+            ],
+            "anchor": [
+              477,
+              178
+            ],
+            "angle": 5
+          },
+          {
+            "feet": [
+              902,
+              701
+            ],
+            "anchor": [
+              813,
+              287
+            ],
+            "angle": 0
+          },
+          {
+            "feet": [
+              304,
+              1487
+            ],
+            "anchor": [
+              178,
+              815
+            ],
+            "angle": 0
+          },
+          {
+            "feet": [
+              855,
+              1496
+            ],
+            "anchor": [
+              862,
+              952
+            ],
+            "angle": 12
+          }
+        ]
+      }
+    ]
+  },
+  "heeya": {
+    "sourceBodyHeight": 1360,
+    "referenceHeight": 745,
+    "sheets": [
+      {
+        "id": "basic",
+        "referenceHeight": 745,
+        "poses": [
+          {
+            "feet": [
+              346,
+              757
+            ],
+            "anchor": [
+              316,
+              209
+            ],
+            "angle": 0
+          },
+          {
+            "feet": [
+              754,
+              744
+            ],
+            "anchor": [
+              797,
+              227
+            ],
+            "angle": 4
+          },
+          {
+            "feet": [
+              226,
+              1488
+            ],
+            "anchor": [
+              262,
+              996
+            ],
+            "angle": -7
+          },
+          {
+            "feet": [
+              841,
+              1510
+            ],
+            "anchor": [
+              802,
+              965
+            ],
+            "angle": 0
+          }
+        ]
+      },
+      {
+        "id": "skill",
+        "referenceHeight": 734,
+        "poses": [
+          {
+            "feet": [
+              354,
+              749
+            ],
+            "anchor": [
+              326,
+              211
+            ],
+            "angle": 0
+          },
+          {
+            "feet": [
+              867,
+              753
+            ],
+            "anchor": [
+              824,
+              222
+            ],
+            "angle": -5
+          },
+          {
+            "feet": [
+              348,
+              1512
+            ],
+            "anchor": [
+              291,
+              968
+            ],
+            "angle": 4
+          },
+          {
+            "feet": [
+              870,
+              1511
+            ],
+            "anchor": [
+              797,
+              970
+            ],
+            "angle": -9
+          }
+        ]
+      },
+      {
+        "id": "move",
+        "referenceHeight": 741,
+        "poses": [
+          {
+            "feet": [
+              349,
+              756
+            ],
+            "anchor": [
+              327,
+              210
+            ],
+            "angle": 1
+          },
+          {
+            "feet": [
+              839,
+              755
+            ],
+            "anchor": [
+              803,
+              212
+            ],
+            "angle": -1
+          },
+          {
+            "feet": [
+              349,
+              1491
+            ],
+            "anchor": [
+              292,
+              982
+            ],
+            "angle": -9
+          },
+          {
+            "feet": [
+              800,
+              1497
+            ],
+            "anchor": [
+              838,
+              1008
+            ],
+            "angle": 4
+          }
+        ]
+      }
+    ]
+  }
+}

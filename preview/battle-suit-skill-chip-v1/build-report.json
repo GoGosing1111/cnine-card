@@ -87,6 +87,10 @@
     "preview/project-v-v3/source/battle/FormationLayout.mjs",
     "preview/project-v-v3/source/battle/ViewportLayout.mjs",
     "preview/project-v-v3/source/battle/OccupiedGridLayout.js",
+    "shared/mercenary-limited-duo-20261008.mjs",
+    "shared/mercenary-limited-duo-assets-20261008.mjs",
+    "preview/mercenary-limited-ayoon-heeya-v3-20261008/skill.mjs",
+    "preview/project-v-v3/source/battle/LimitedDuoCombatPlayback.js",
     "assets/ui/project-v/mercenaries/mercenary-attachment-points-v1.json",
     "preview/project-v-mercenary-system-v1/source/MercenaryAttachmentPoints.js",
     "shared/mercenary-sniper-orikkung-v1.mjs",
@@ -157,5 +161,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 1722191
+  "outputBytes": 1754186
 }

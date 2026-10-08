@@ -1,3 +1,5 @@
+import {limitedDuo} from '../../../../shared/mercenary-limited-duo-20261008.mjs';
+import {limitedDuoBattleArt,playLimitedDuoBasic,playLimitedDuoSkill} from './LimitedDuoCombatPlayback.js';
 import {preloadSniperOrikkung,playSniperOrikkungSkill,playSniperOrikkungBasic} from './SniperOrikkungCombatPlayback.js';
 import {playNurseHeal} from './NurseHealCombatPlayback.js';
 import {BERKAN_CODE,BERKAN_SKILL_ID,BERKAN_AREA_SKILL_ID} from '../../../../shared/mercenary-berkan-v1.mjs';
@@ -28,6 +30,7 @@ export const withMercenaryBattle=Base=>class extends Base{
  cancelTimelines(){this.mercenaryAudio?.stop();cancelCryvernPlayback(this);cancelBerkanPlayback(this);cancelLimitedPlayback(this);super.cancelTimelines();}
  syncTargetShield(target,value,maxValue=null){const before=target?.shield,result=super.syncTargetShield(target,value,maxValue);showCryvernShieldImpact(this,target,before,target?.shield);return result;}
  normalAttack(index,options){
+  if(options?.attacker?.isMercenary&&limitedDuo(options.attacker.cardId))return playLimitedDuoBasic(this,options);
   if(options?.attacker?.isMercenary&&limitedVisual(options.attacker.cardId))return playLimitedBasic(this,options);
   if(options?.attacker?.isMercenary&&options.attacker.cardId===BERKAN_CODE)return playBerkanBasic(this,options);
   if(options?.attacker?.isMercenary&&options.attacker.cardId==='V-050')return playSniperOrikkungBasic(this,options);
@@ -52,7 +55,7 @@ export const withMercenaryBattle=Base=>class extends Base{
   if(entries.some(({card})=>card.cardId==='V-046'||card.code==='V-046'||card.skills?.some(s=>s.mechanic==='PLATINUM_SANCTUARY')))await preloadRagniel();
   if(epoch!==this.mercenaryEpoch||this.mercenaryDisposed)return false;
   const roster=await (rosterPromise||=json('/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?nurseHealers=20260927&berkan=20260927')),adapter=createMercenaryBattleArtAdapter(roster);
-  for(const {side,card}of entries){const art=limitedBattleArt(card.code||card.cardId)||adapter.resolveForConsumer('BATTLE_FIELD',card.code||card.cardId);if(!art)throw Error('MERCENARY_SD_NOT_READY');
+  for(const {side,card}of entries){const art=limitedDuoBattleArt(card.code||card.cardId)||limitedBattleArt(card.code||card.cardId)||adapter.resolveForConsumer('BATTLE_FIELD',card.code||card.cardId);if(!art)throw Error('MERCENARY_SD_NOT_READY');
    const [sd,original]=await Promise.all([Assets.load(art.spriteUrl),Assets.load('/'+art.sourceArt.replace(/^\//,'')),MERCENARY_ROLE_ATTACKS[card.role]?preloadMercenaryRole(card.role):null]);
    if(epoch!==this.mercenaryEpoch||this.mercenaryDisposed)return false;
    const a=new BattleCharacter({id:card.id,name:card.name||card.title,team:side==='A'?TEAM.ALLY:TEAM.ENEMY,fullBodyTexture:sd,texture:original,cutInTexture:original,fullBodyHeight:art.fullBodyHeight??(card.cardId==='V-048'?300:['V-046',CRYVERN_CODE].includes(card.cardId)?380:card.cardId==='V-047'?320:260),x:0,y:0,scale:.5,hp:card.hp/card.maxHp*100});
@@ -76,6 +79,10 @@ export const withMercenaryBattle=Base=>class extends Base{
  }
  async playMercenaryEvent(event){
   const limitedActor=this.combatantById(event.actorId);
+  if(limitedDuo(limitedActor?.cardId)){
+   if(event.type==='MERCENARY_WINDUP')return true;
+   if(event.type==='MERCENARY_HIT')return playLimitedDuoSkill(this,event);
+  }
   if(limitedVisual(limitedActor?.cardId)){
    if(event.type==='MERCENARY_WINDUP')return true;
    if(event.type==='MERCENARY_HIT')return playLimitedSkill(this,event);

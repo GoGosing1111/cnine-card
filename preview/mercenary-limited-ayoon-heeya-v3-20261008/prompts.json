@@ -1,0 +1,20 @@
+{
+  "version": "20261008",
+  "tool": "image_gen.imagegen",
+  "characters": {
+    "ayoon": {
+      "source": "assets/ui/project-v/mercenaries/limited-20261004/v-997-ayoon-source-art-approved.png",
+      "batches": [
+        {
+          "id": "body-basic",
+          "prompt": "Production game sprite sheet on TRANSPARENT background, exactly 2 columns by 2 rows, 4 full-body figures, equal cell sizes with wide empty margins. No text, labels, borders or ground shadows. High-end polished 2D semireal fantasy game painting matching the reference. Preserve exactly this adult woman's face identity, natural long black flowing hair, clothing colors/materials, long adult leg proportions and normal small head; NEVER chibi or doll proportions. All 4 poses face screen-right in consistent three-quarter side camera, same anatomy scale, fully visible hair, coat and boots, no perspective foreshortening. Body-and-hands only: do NOT draw the scythe, blade, long pole or any magic/aura/effects; she holds only a tiny neutral 8cm black grip in her right fist so our immutable approved weapon can be composited later. Keep hands legible and coordinated. Preserve white pink-graphic T-shirt, black pleated miniskirt, black thigh-high stockings, long iridescent black coat with pink lining, black buckled boots. Hair continuous natural fine strands, not layered plastic strips. The reference image is the immutable identity/clothing/weapon design source; we need new actual body animation poses, NOT four copies with transforms. Reading left to right top to bottom: (1) upright combat idle, feet comfortably apart, right hand holding tiny grip at shoulder height, left hand relaxed before torso; (2) windup for diagonal downward scythe cut, right elbow and fist raised above shoulder, torso twisting back, knees slightly bent; (3) strong downward cut follow-through, torso rotates forward, right fist down near front waist, left hand steadying near right wrist, long legs in firm grounded lunge; (4) recovery rising from lunge, right fist at chest height, coat settling, both feet grounded. Four distinct convincing key poses."
+        }
+      ]
+    },
+    "heeya": {
+      "source": "assets/ui/project-v/mercenaries/limited-20261004/v-998-hi-heeya-source-art-approved.png",
+      "batches": []
+    }
+  },
+  "effects": []
+}
