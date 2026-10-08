@@ -41,3 +41,10 @@
 - 증거: `preview/mythic-emperor-successor-v1/qa/`의 PC·모바일 스크린샷과 `report.json`.
 - 출시 기준 커밋부터 기존 main까지는 SS 리미티드 배포 기록 문서만 추가돼 있다. 본 작업의 정적 프리뷰·원본·보관함·문서 외 런타임 변경은 없다.
 - 명령: `ASSET_DEPLOY_BASE=1d48141288aca466591f520ff864ccb48ecf71e4 npm run deploy:production -- --assets-only` (PowerShell에서는 환경변수로 설정).
+
+## 운영 정적 프리뷰 반영
+
+- 배포 커밋 `c3f6d87b23aea1b4e487e1bd00855b4e86e19878`, Pages `465baf29-07f8-4341-a88d-99c7cf9d02bf`.
+- [새 4종](https://cnine-card.pages.dev/preview/mythic-emperor-successor-v1/) · [기존 시안 보관함](https://cnine-card.pages.dev/preview/mythic-emperor-successor-v1/archive.html).
+- 배포 후 새 PNG 4장 모두 HTTP 200 및 로컬 원본 SHA-256 일치, 새 갤러리와 보관함 HTML 200을 확인했다. 상세 영수증은 `docs/mythic-equipment-release-20261008.json`이다.
+- 이 후속 기록은 문서만 커밋·원격 반영하며 운영 재배포와 게임 검사 반복은 하지 않는다.

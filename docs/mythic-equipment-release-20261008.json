@@ -1,0 +1,47 @@
+{
+  "date": "2026-10-08",
+  "commit": "c3f6d87b23aea1b4e487e1bd00855b4e86e19878",
+  "deploymentId": "465baf29-07f8-4341-a88d-99c7cf9d02bf",
+  "deploymentUrl": "https://465baf29.cnine-card.pages.dev",
+  "publicPreview": "https://cnine-card.pages.dev/preview/mythic-emperor-successor-v1/",
+  "publicArchive": "https://cnine-card.pages.dev/preview/mythic-emperor-successor-v1/archive.html",
+  "mode": "assets-only",
+  "base": "1d48141288aca466591f520ff864ccb48ecf71e4",
+  "checks": [
+    {
+      "path": "assets/mythic-armor-fantasy-v5.png",
+      "status": 200,
+      "sha256": "860e8d703192a183147d45af0646160e92b74f0dfc8e7f3a34cbacbba36a71e8",
+      "originalMatch": true
+    },
+    {
+      "path": "assets/mythic-pants-fantasy-v5.png",
+      "status": 200,
+      "sha256": "bf98837de93edcb538ba87467a0e345e79c01a36952e2a1717510c9d83234205",
+      "originalMatch": true
+    },
+    {
+      "path": "assets/mythic-boots-fantasy-v5.png",
+      "status": 200,
+      "sha256": "522ff3648b7bca37fcb44347c09892455e6b1914736e783ec98865daeb7811eb",
+      "originalMatch": true
+    },
+    {
+      "path": "assets/mythic-dual-disk-fantasy-v5.png",
+      "status": 200,
+      "sha256": "b8637a8ff3b999f576e9d8b77f1a944e8a25c40ceee6b9fac3e55a3d618b8c4d",
+      "originalMatch": true
+    },
+    {
+      "path": "index.html",
+      "status": 200
+    },
+    {
+      "path": "archive.html",
+      "status": 200
+    }
+  ],
+  "runtimeEnabled": false,
+  "cmsRegistered": false,
+  "sourceOriginalsPreserved": 14
+}
