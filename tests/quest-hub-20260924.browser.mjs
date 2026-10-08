@@ -20,7 +20,7 @@ const user={id:4242,serverUserId:4242,nickname:'퀘스트 검수',role:'USER',co
 function status(){return {period:questPeriod(Date.parse('2026-09-24T03:00:00Z')),verified:true,excluded:false,daily:{id:'DAILY_POST',title:'PLAY DK 게시글 작성',target:15,unit:'개',count:9,rewardType:'COIN',rewardAmount:10000000000,rewardLabel:'코인',enabled:true,blocked:false,claimed:false,description:'하루에 글 15개를 작성하고 일일 보상을 받으세요. 매일 00:00 KST에 초기화됩니다.'},weekly:WEEKLY_QUESTS.map(q=>({...q,enabled:false,rewardAmount:0,rewardType:'COIN',count:q.id==='CORE_RAID'?2:q.id==='CLAN'?1:0,available:q.id!=='POST',claimed:false,blocked:false,days:[]}))}}
 try{
  for(const viewport of [{width:1440,height:1000},{width:390,height:844}]){
-  const page=await browser.newPage({viewport,deviceScaleFactor:1,serviceWorkers:'block'}),data=status(),writes=[];let failCheck=false;
+  const page=await browser.newPage({viewport,deviceScaleFactor:1,serviceWorkers:'block'}),data=status(),writes=[];let failCheck=false,weeklyPostCount=314;
   page.on('pageerror',error=>errors.push(error.stack));
   await page.addInitScript(user=>{localStorage.setItem('cnine_card_user_v10',JSON.stringify(user));localStorage.setItem('cnine_card_api_token','quest-local-qa');},user);
   await page.route('**/api/**',async r=>{
@@ -28,7 +28,7 @@ try{
    if(key==='quests/status')return r.fulfill({json:data});
    if(key==='playdk-daily-quest/check'){if(failCheck)return r.fulfill({status:502,json:{error:'DK 집계를 확인하지 못했습니다. 다시 확인해 주세요.'}});data.daily.count=15;data.daily.checkedAt=new Date().toISOString();return r.fulfill({json:{ok:true}})}
    if(key==='playdk-daily-quest/claim'){data.daily.claimed=true;return r.fulfill({json:{ok:true,rewardCoin:10000000000,user:{...user,coin:11234567890}}})}
-   if(key==='quests/weekly/check'){Object.assign(data.weekly[0],{count:214,checkedAt:new Date().toISOString(),available:true,days:data.period.days.map(date=>({date,count:date===data.period.today?64:50}))});return r.fulfill({json:{ok:true}})}
+   if(key==='quests/weekly/check'){Object.assign(data.weekly[0],{count:weeklyPostCount,checkedAt:new Date().toISOString(),available:true,days:data.period.days.map(date=>({date,count:date===data.period.today?weeklyPostCount-50*(data.period.days.length-1):50}))});return r.fulfill({json:{ok:true}})}
    if(key==='quests/weekly/claim'){const body=r.request().postDataJSON();data.weekly.find(q=>q.id===body.questId).claimed=true;return r.fulfill({json:{ok:true,messageId:99,delivery:'MESSAGE'}})}
    const fixture={'service/status':{maintenance:{active:false}},'me/summary':{user,prison:{incarcerated:false}},me:{user},cards:{cards:[]},packs:{packs:[]},messages:{messages:[],unread:0},'chief/status':{chief:{active:true,ordinal:3,nickname:'오늘의 족장',remainingMs:86400000,viewerAvatar:{name:'검수',lobbyImage:'/assets/ui/avatars-v1/lobby-v1/avatar-f01-azure-frost-strategist-lobby-v1-640.webp'}}},'shell/summary':{inventory:{},messages:{unread:0},avatarFeature:{visible:true},alchemyFeature:{visible:false}},'live-operations':{serverNow:new Date().toISOString(),items:[]},'burning-event/status':{enabled:false},'magic/status':{visible:true,enabled:true,cards:[],loadouts:[]},'pvp/config':{settings:{enabled:true}},'streamer-profiles':{enabled:false,profiles:[]}};
    if(key==='chief/status')fixture[key].chief.active=false;
@@ -52,12 +52,24 @@ try{
   await page.locator('[data-qh-tab=weekly]').click();check(await page.locator('.qh-mission').count()===4,size+' four separate weekly objectives');
   check((await page.locator('.qh-period').innerText()).includes('2026.09.21 — 2026.09.27'),size+' Monday-Sunday dates');
   check(await page.locator('.qh-claim').isDisabled(),size+' default reward OFF blocks claim');
-  await page.locator('.qh-refresh').click();await page.waitForFunction(()=>document.querySelector('.qh-progress-number strong').textContent==='214');
+  await page.locator('.qh-refresh').click();await page.waitForFunction(()=>document.querySelector('.qh-progress-number strong').textContent==='314');
   check(await page.locator('.qh-claim').isDisabled(),size+' completed target still respects OFF');
+  weeklyPostCount=299;Object.assign(data.weekly[0],{enabled:true,rewardAmount:10000000000,rewardLabel:'코인'});
+  await page.locator('.qh-refresh').click();await page.waitForFunction(()=>document.querySelector('.qh-progress-number strong').textContent==='299');
+  check((await page.locator('.qh-progress-number').innerText())==='299\n/ 300개',size+' weekly DK target is 300');
+  check(await page.locator('.qh-claim').isDisabled(),size+' 299 posts cannot claim');
+  check((await page.locator('.qh-reward strong').innerText())==='100억 코인',size+' weekly coins use Korean compact units');
+  check((await page.locator('.qh-reward strong').getAttribute('title'))==='10,000,000,000 코인',size+' exact reward stays available in tooltip');
   await page.locator('.qh-heading').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,'weekly-'+size+'.png'),fullPage:true});
   await page.locator('.qh-actions').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,'weekly-detail-'+size+'.png')});
   check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),size+' no horizontal overflow');
   check(await page.locator('.qh-actions button').evaluateAll(els=>els.every(el=>el.getBoundingClientRect().height>=44)),size+' touch targets remain accessible');
+  weeklyPostCount=300;data.weekly[0].rewardAmount=1200000000000;
+  await page.locator('.qh-refresh').click();await page.waitForFunction(()=>!document.querySelector('.qh-claim').disabled);
+  check((await page.locator('.qh-reward strong').innerText())==='1.2조 코인',size+' trillion coin reward is compact');
+  Object.assign(data.weekly[0],{rewardType:'MASTER_STAR',rewardAmount:12345,rewardLabel:'마스터의 별'});
+  await page.locator('.qh-refresh').click();await page.waitForFunction(()=>document.querySelector('.qh-reward strong').textContent.includes('마스터의 별'));
+  check((await page.locator('.qh-reward strong').innerText())==='12,345 마스터의 별',size+' item quantities remain exact');
   Object.assign(data.weekly[2],{enabled:true,rewardAmount:100000000000,rewardLabel:'코인',count:1});
   await page.locator('[data-qh-select=TERRITORY]').click();await page.locator('.qh-refresh').click();await page.waitForFunction(()=>!document.querySelector('.qh-claim').disabled);
   await page.locator('.qh-claim').click();await page.waitForFunction(()=>document.querySelector('.qh-claim').textContent==='수령 완료');

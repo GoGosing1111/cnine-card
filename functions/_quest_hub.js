@@ -3,7 +3,7 @@ import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
 export const QUEST_SETTINGS_KEY='quest_weekly_settings_v20260924';
 const SCHEMA='quest_hub_foundation_20260924_v1';
 export const WEEKLY_QUESTS=Object.freeze([
- {id:'POST',title:'PLAY DK 게시글 작성',target:200,unit:'개',description:'월요일부터 일요일까지 작성한 게시글을 합산합니다.'},
+ {id:'POST',title:'PLAY DK 게시글 작성',target:300,unit:'개',description:'월요일부터 일요일까지 작성한 게시글을 합산합니다.'},
  {id:'CORE_RAID',title:'붕괴코어 레이드 참여',target:3,unit:'회',description:'실제 공략 전투를 완료한 레이드 방을 1회씩 집계합니다. 같은 방의 추가 공략은 중복 계산하지 않습니다.'},
  {id:'TERRITORY',title:'영토전 참여',target:1,unit:'회',description:'직접 진행하여 완료한 영토전 공격을 집계합니다. 자동 편성과 방어는 제외됩니다.'},
  {id:'CLAN',title:'클랜전 참여',target:2,unit:'회',description:'직접 진행하여 완료한 클랜전 전투를 집계합니다. 승패와 관계없이 인정하며 방어는 제외됩니다.'}

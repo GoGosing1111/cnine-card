@@ -50,7 +50,7 @@ async function fixture({denyLegacyIndexes=false}={}){
 test('status preserves daily reward and counts actual completed attacker participation, not defense/abandon/repeated rooms',async()=>{
  const f=await fixture();try{
   const status=await questHubStatus(f.env,f.user,f.deps);assert.equal(status.daily.target,15);assert.equal(status.daily.rewardAmount,10000000000);
-  assert.deepEqual(status.weekly.map(q=>[q.id,q.target,q.count]),[['POST',200,0],['CORE_RAID',3,3],['TERRITORY',1,1],['CLAN',2,2]]);
+  assert.deepEqual(status.weekly.map(q=>[q.id,q.target,q.count]),[['POST',300,0],['CORE_RAID',3,3],['TERRITORY',1,1],['CLAN',2,2]]);
   assert.ok(status.weekly.every(q=>!q.enabled));assert.equal(status.weekly[0].available,false);
   await assert.rejects(()=>claimWeeklyQuest(f.env,f.user,'TERRITORY',f.deps),/보상 설정/);
   assert.equal((await f.pg.query('SELECT * FROM user_messages')).rows.length,0);
@@ -91,6 +91,23 @@ test('weekly DK check queries elapsed KST dates, uses total count rather than tr
   await assert.rejects(()=>checkWeeklyPosts(f.env,f.user,broken,{force:true}));assert.deepEqual((await f.pg.query('SELECT * FROM quest_weekly_posts_v1')).rows,old);
   const changed={...f.deps,playdkClient:()=>({getDailyPostCount:async args=>({userUuid:'wrong',questDate:args.questDate,timezone:'Asia/Seoul',boardSlugs:['skm'],count:999})})};
   await assert.rejects(()=>checkWeeklyPosts(f.env,f.user,changed,{force:true}),/일치하지/);assert.deepEqual((await f.pg.query('SELECT * FROM quest_weekly_posts_v1')).rows,old);
+ }finally{await f.pg.close()}
+});
+test('weekly DK claim requires 300 posts and preserves the completed receipt on retry',async()=>{
+ const f=await fixture();try{
+  await f.enable('POST',10000000000);let postCount=200;
+  const deps={...f.deps,playdkClient:()=>({getDailyPostCount:async args=>({userUuid:args.userUuid,questDate:args.questDate,timezone:'Asia/Seoul',boardSlugs:args.boardSlugs,count:args.questDate===f.period.weekKey?postCount:0})})};
+  for(const count of [200,299]){
+   postCount=count;await assert.rejects(()=>claimWeeklyQuest(f.env,f.user,'POST',deps),/목표를 달성하지/);
+   assert.equal((await f.pg.query('SELECT * FROM user_messages')).rows.length,0);
+   assert.equal((await f.pg.query('SELECT * FROM quest_weekly_claims_v1')).rows.length,0);
+  }
+  postCount=300;const first=await claimWeeklyQuest(f.env,f.user,'POST',deps);
+  assert.equal(first.ok,true);assert.equal((await questHubStatus(f.env,f.user,deps)).weekly[0].claimed,true);
+  const messages=(await f.pg.query('SELECT * FROM user_messages')).rows;assert.equal(messages.length,1);assert.match(messages[0].body,/300개 달성/);
+  assert.equal(Number((await f.pg.query('SELECT * FROM user_message_rewards')).rows[0].reward_amount),10000000000);
+  postCount=0;const again=await claimWeeklyQuest(f.env,f.user,'POST',deps);assert.equal(again.replayed,true);assert.equal(again.messageId,first.messageId);
+  assert.equal((await f.pg.query('SELECT * FROM user_messages')).rows.length,1);
  }finally{await f.pg.close()}
 });
 test('identity changes invalidate saved weekly post totals',async()=>{
