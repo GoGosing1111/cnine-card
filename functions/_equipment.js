@@ -13,6 +13,7 @@ import {OVERLORD_ITEM,OVERLORD_UPGRADE_KEY,ensureOverlordEquipment} from './_bat
 import {ensureZBodySwordAppearance,Z_SWORD_APPEARANCE_KEY} from './_battle_suit_z_sword.js';
 import {FORGE_RUNTIME_RELEASE_ENABLED} from '../shared/equipment-forge-release-v1.mjs';
 import {forgeEquipmentBonus} from './_equipment_forge_transactions.js';
+import {equipmentGrowthRuntime,attachPolishInventory} from './_equipment_growth.js';
 import {ensureRuntimeFoundation} from './_runtime_foundation.js';
 import {equipmentPreviewRows,equipmentQuantities,equipmentEnhancementRows} from './_equipment_inventory.js';
 import {equipmentCountsReady,EQUIPMENT_COUNTS_TABLE} from './_equipment_counts_v1.js';
@@ -666,12 +667,12 @@ export async function userEquipmentBonuses(env,userId,{skillChips}={}){
     LEFT JOIN equipped_weapon ON 1=1
     LEFT JOIN garage ON 1=1
     LEFT JOIN equipped_title ON 1=1`).bind(userId,userId,userId,userId,userId).first();
-  const forge=FORGE_RUNTIME_RELEASE_ENABLED?await forgeEquipmentBonus(env,userId):{pve:0,pvp:0};
+  const [forge,pveEquipmentRuntime]=await Promise.all([FORGE_RUNTIME_RELEASE_ENABLED?forgeEquipmentBonus(env,userId):{pve:0,pvp:0},equipmentGrowthRuntime(env,userId)]);
   const equipmentPve=Number(row?.equipment_pve||0)+forge.pve,equipmentPvp=Number(row?.equipment_pvp||0)+forge.pvp,battleSuitPve=Number(row?.battle_suit_pve||0),garagePve=Number(row?.garage_pve||0),garagePvp=Number(row?.garage_pvp||0),titlePve=Number(row?.title_pve||0),titlePvp=titlePve;
   const titleConfig=parseJson(row?.title_unlock_config_json,{});
   const equippedBattleSuit=publicEquippedItem(row,'battle_suit',{pveOnly:true}),equippedWeapon=publicEquippedItem(row,'weapon');
   if(equippedBattleSuit&&battleSuitPve>0){const chips=skillChips?await skillChips:null;equippedBattleSuit.skillChips=chips?(chips.battleEnabled?chips.loadout.filter(Boolean):[]):await equippedSkillChipCodes(env,userId);}
-  return {equipmentPve,equipmentPvp,battleSuitPve,battleSuitPvp:0,garagePve,garagePvp,titlePve,titlePvp,pve:equipmentPve+battleSuitPve+garagePve+titlePve,pvp:equipmentPvp+garagePvp+titlePvp,battleSuit:equippedBattleSuit,equippedBattleSuit,equippedWeapon,title:row?.title_id?{id:Number(row.title_id),name:row.title_name,pvePower:titlePve,pvpPower:titlePvp,allBattlePower:titlePve,stylePreset:normalizeTitleStylePreset(row.title_style_preset),fontPreset:normalizeTitleFontPreset(titleConfig.fontPreset)}:null,garage:row?.garage_id?{id:Number(row.garage_id),name:row.garage_name,rarity:normalizeGarageRarity(row.garage_rarity),image:row.garage_image||'',pvePower:garagePve,pvpPower:garagePvp}:null};
+  return {equipmentPve,equipmentPvp,battleSuitPve,battleSuitPvp:0,garagePve,garagePvp,titlePve,titlePvp,pveEquipmentRuntime,pve:equipmentPve+battleSuitPve+garagePve+titlePve,pvp:equipmentPvp+garagePvp+titlePvp,battleSuit:equippedBattleSuit,equippedBattleSuit,equippedWeapon,title:row?.title_id?{id:Number(row.title_id),name:row.title_name,pvePower:titlePve,pvpPower:titlePvp,allBattlePower:titlePve,stylePreset:normalizeTitleStylePreset(row.title_style_preset),fontPreset:normalizeTitleFontPreset(titleConfig.fontPreset)}:null,garage:row?.garage_id?{id:Number(row.garage_id),name:row.garage_name,rarity:normalizeGarageRarity(row.garage_rarity),image:row.garage_image||'',pvePower:garagePve,pvpPower:garagePvp}:null};
 }
 
 function weightedPick(rows){const total=rows.reduce((sum,row)=>sum+Math.max(0,Number(row.weight||0)),0);if(total<=0)return null;let roll=Math.random()*total;for(const row of rows){roll-=Math.max(0,Number(row.weight||0));if(roll<0)return row}return rows[rows.length-1]||null}
@@ -754,9 +755,9 @@ async function characterPayload(env,userId,{admin=false,syncTitles=false,role='U
   ]);
   const loadout=Object.fromEntries(loadoutRows.results.map(row=>[row.slot,Number(row.instance_id)])),equippedTitleId=Number(titleLoadout?.title_id||0),equippedVehicleId=Number(garageLoadout?.garage_id||0);
   const expanded=await equipmentEnhancementRows(env,userId,instances.results,{admin});
-  const equipmentStacks=expanded.map(row=>({instanceId:Number(row.instance_id),quantity:row.quantityFixed?Number(row.quantity):deferQuantities?null:Math.max(1,Number(row.quantity||1)),
+  const equipmentStacks=await attachPolishInventory(env,userId,expanded.map(row=>({instanceId:Number(row.instance_id),quantity:row.quantityFixed?Number(row.quantity):deferQuantities?null:Math.max(1,Number(row.quantity||1)),
     ...(row.quantityFixed?{quantityFixed:true}:{}),...(row.quantityOffset?{quantityOffset:row.quantityOffset}:{}),...(row.enhancement?{enhancement:row.enhancement}:{}),
-    item:publicItem(row),sourceType:row.source_type,sourceId:row.source_id,acquiredAt:row.acquired_at,equipped:loadout[row.slot]===Number(row.instance_id)}));
+    item:publicItem(row),sourceType:row.source_type,sourceId:row.source_id,acquiredAt:row.acquired_at,equipped:loadout[row.slot]===Number(row.instance_id)})));
   const equipmentTotalQuantity=deferQuantities?null:equipmentStacks.reduce((sum,row)=>sum+row.quantity,0);
   return {slots:EQUIPMENT_SLOTS.map(slot=>({id:slot,label:EQUIPMENT_SLOT_LABELS[slot]})),instances:equipmentStacks,equipmentTypeCount:new Set(equipmentStacks.map(row=>row.item.id)).size,equipmentTotalQuantity,...(deferQuantities?{equipmentQuantitiesPending:true}:{}),loadout,equippedBattleSuitInstanceId:bonuses.equippedBattleSuit?.instanceId||null,equippedBattleSuit:bonuses.equippedBattleSuit,equippedWeaponInstanceId:bonuses.equippedWeapon?.instanceId||null,equippedWeapon:bonuses.equippedWeapon,titles:titleRows.results.map(row=>publicTitle(row,Boolean(row.owned),equippedTitleId===Number(row.id))),equippedTitleId:equippedTitleId||null,vehicles:garageRows.results.map(row=>publicGarageItem(row,Boolean(row.owned),equippedVehicleId===Number(row.id))),equippedVehicleId:equippedVehicleId||null,bonuses,avatarFeature,equippedAvatar,skillChips};
 }

@@ -7,7 +7,7 @@ import {LEGION_HUNT_REVIEW_FIXTURE} from '../../shared/legion-hunt-review-fixtur
 import {buildPreviewDeck,BATTLE_SUIT} from '../../preview/idle-v3-v1/source/idle-model.mjs';
 import {MERCENARY_CMS_SEED} from '../../functions/_mercenary_cms_seed.js';
 import {SNIPER_ORIKKUNG_BALANCE} from '../../shared/mercenary-sniper-orikkung-v1.mjs';
-export async function legionFixture({postgres=false,withMercenary=false}={}){
+export async function legionFixture({postgres=false,withMercenary=false,regions=false}={}){
   let sql,pg,DB,failure='',queries=[],lostReply=false;
   if(postgres){
     pg=new PGlite();await pg.exec("CREATE FUNCTION sqlite_now() RETURNS text LANGUAGE SQL STABLE AS $$SELECT to_char(timezone('UTC',CURRENT_TIMESTAMP),'YYYY-MM-DD HH24:MI:SS')$$;");
@@ -20,7 +20,7 @@ export async function legionFixture({postgres=false,withMercenary=false}={}){
     CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT);
     CREATE TABLE admin_logs(admin_id INTEGER,action_type TEXT,target_type TEXT,target_id TEXT,before_data TEXT,after_data TEXT);
     CREATE TABLE inventory_items(code TEXT PRIMARY KEY,name TEXT,rarity TEXT,image_url TEXT,is_active INTEGER);
-    CREATE TABLE character_equipment_items(id INTEGER PRIMARY KEY,name TEXT,rarity TEXT,image_url TEXT,is_active INTEGER,is_public INTEGER);
+    CREATE TABLE character_equipment_items(id INTEGER PRIMARY KEY,name TEXT,rarity TEXT,image_url TEXT,is_active INTEGER,is_public INTEGER,code TEXT);
     CREATE TABLE character_garage_items(id INTEGER PRIMARY KEY,name TEXT,rarity TEXT,image_url TEXT,is_active INTEGER,is_public INTEGER);
     CREATE TABLE members(id INTEGER PRIMARY KEY,is_active INTEGER,name TEXT);
     CREATE TABLE cards_effective_v1210(id TEXT PRIMARY KEY,title TEXT,rarity TEXT,image_url TEXT,member_id INTEGER,is_active INTEGER,card_status TEXT);
@@ -33,7 +33,7 @@ export async function legionFixture({postgres=false,withMercenary=false}={}){
     CREATE TABLE joint_atomic_guards_v1(token TEXT PRIMARY KEY,verified INTEGER NOT NULL CHECK(verified=1));
     INSERT INTO users(id,nickname) VALUES(1,'계정 편성 검수'),(2,'테스트 참여자');
     INSERT INTO inventory_items VALUES('VEHICLE_PART_FRAME','강화 차체 프레임','EPIC','assets/ui/scrapyard/vehicle-part-frame-v1667.svg',1),('VEHICLE_PART_ENGINE','고출력 엔진','LEGENDARY','assets/ui/scrapyard/vehicle-part-engine-v1667.svg',1),('OFF_ITEM','비활성 아이템','EPIC','assets/off.png',0);
-    INSERT INTO character_equipment_items VALUES(1,'검수 장비','MYTHIC','assets/ui/scrapyard/vehicle-part-frame-v1667.svg',1,1);
+    INSERT INTO character_equipment_items(id,name,rarity,image_url,is_active,is_public) VALUES(1,'검수 장비','MYTHIC','assets/ui/scrapyard/vehicle-part-frame-v1667.svg',1,1);
     INSERT INTO character_garage_items VALUES(1,'검수 이동수단','MYTHIC','assets/ui/scrapyard/vehicle-part-engine-v1667.svg',1,1);
     INSERT INTO members VALUES(1,1,'검수 멤버');
     INSERT INTO cards_effective_v1210 VALUES('CN-TEST','검수 카드','FUR','assets/ui/scrapyard/vehicle-part-frame-v1667.svg',1,1,'PUBLIC');

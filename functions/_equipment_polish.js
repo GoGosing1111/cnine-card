@@ -2,6 +2,8 @@ import {POLISH_KEY,POLISH_ITEM_CODE,POLISH_EXECUTION_READY,POLISH_ART,polishDefa
 import {readJointBody,jointError} from './_joint_request.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {readForgePreparationInventory} from './_equipment_forge_preparation.js';
+import {attachPolishInventory} from './_equipment_growth.js';
+import {polishQuote,executePolish,polishReceipt} from './_equipment_polish_transactions.js';
 
 const catalogStatement=(db,m,update=false)=>db.prepare(`INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES(?,?,'EQUIPMENT POLISH',?,'MATERIAL','SPECIAL',?,14,?) ON CONFLICT(code) ${update?'DO UPDATE SET name=excluded.name,description=excluded.description,is_active=excluded.is_active,updated_at=CURRENT_TIMESTAMP':'DO NOTHING'}`).bind(POLISH_ITEM_CODE,m.name,m.description,(POLISH_ART+'polishing-stone-v1.png').slice(1),Number(m.active));
 export async function readPolishSettings(env){
@@ -15,11 +17,11 @@ export async function ensurePolishCatalog(env){
   if(current.invalid)throw jointError('POLISH_CORRUPT','연마 설정을 복구한 뒤 다시 확인하세요.',409);
   await env.DB.batch([catalogStatement(env.DB,current.settings.material),env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING').bind(POLISH_KEY,JSON.stringify(current.settings))]);
 }
-const release=settings=>({publicVisible:settings.publicVisible,executionMode:'OFF',canPolish:false,executionReady:POLISH_EXECUTION_READY,notice:settings.notice});
+const release=settings=>({publicVisible:settings.publicVisible,executionMode:settings.executionMode,canPolish:POLISH_EXECUTION_READY&&settings.publicVisible&&settings.executionMode==='ON',executionReady:POLISH_EXECUTION_READY,notice:settings.notice});
 async function adminState(env){
   const current=await readPolishSettings(env);
   const material=await env.DB.prepare('SELECT code,name,description,image_url,is_active FROM inventory_items WHERE code=?').bind(POLISH_ITEM_CODE).first();
-  return {settings:current.settings,invalid:!!current.invalid,material,executionReady:POLISH_EXECUTION_READY,saveScope:'POLICY_AND_MATERIAL',pending:['운영 수치 최종 확정','연마 차감·인스턴스 성장·전투 적용 출시 검수']};
+  return {settings:current.settings,invalid:!!current.invalid,material,executionReady:POLISH_EXECUTION_READY,saveScope:'POLICY_AND_MATERIAL',pending:current.settings.executionMode==='ON'?[]:['운영 수치 확인 후 실행 ON']};
 }
 export async function savePolishSettings(env,admin,body){
   const before=await readPolishSettings(env),next=validatePolishSettings(body.settings);
@@ -57,14 +59,21 @@ export async function handleEquipmentPolish({path,request,env,deps}){
       throw jointError('POLISH_METHOD','지원하지 않는 요청입니다.',405);
     }
     const current=await readPolishSettings(env),settings=current.settings;
+    if(action==='receipt'&&request.method==='GET'){const receipt=await polishReceipt(env,user,new URL(request.url).searchParams.get('requestId'));return json({receipt});}
     if(current.invalid||(!settings.publicVisible&&user.role!=='OWNER'))throw jointError('POLISH_NOT_PUBLIC','장비 연마를 준비하고 있습니다.',403);
-    if(['quote','execute','receipt'].includes(action))throw jointError('POLISH_OFF','실제 연마는 OFF 상태입니다. 장비와 재화는 소모되지 않습니다.',423);
+    if(['quote','execute'].includes(action)&&request.method==='POST'){
+      if(settings.executionMode!=='ON')throw jointError('POLISH_OFF','장비 연마가 현재 닫혀 있습니다.',423);
+      const body=await readJointBody(request,{fields:action==='quote'?['instanceId','revision']:['instanceId','revision','requestId','expectedAttempts'],maxBytes:3000});
+      if(action==='execute')return json(await executePolish(env,user,current,body));
+      const {raw,...quote}=await polishQuote(env,user,current,body);return json(quote);
+    }
     if(action==='state'&&request.method==='GET'){
       const url=new URL(request.url);let inventory;
-      try{inventory=await readForgePreparationInventory(env.DB,user.id,{beforeId:url.searchParams.get('beforeId'),group:url.searchParams.get('group')||'all',limit:40,includeEnhancement:true});}catch(error){throw jointError('POLISH_INPUT',error.message);}
+      try{inventory=await readForgePreparationInventory(env.DB,user.id,{focusId:url.searchParams.get('instanceId'),beforeId:url.searchParams.get('beforeId'),group:url.searchParams.get('group')||'all',limit:40,includeEnhancement:true});}catch(error){throw jointError('POLISH_INPUT',error.message);}
       const [wallet,balances]=await Promise.all([env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first(),env.DB.prepare('SELECT item_code,quantity FROM cnine_user_inventory WHERE user_id=? AND item_code IN (?,?)').bind(user.id,POLISH_ITEM_CODE,'MASTER_STAR').all()]);
       const amounts=Object.fromEntries((balances.results||[]).map(r=>[r.item_code,String(r.quantity)]));
-      return json({...inventory,...release(settings),ownerReview:user.role==='OWNER',settings,items:inventory.items.map(i=>({...i,polishEligible:settings.slots.includes(i.slot)})),wallet:{coins:String(wallet?.coin??0),masterStars:amounts.MASTER_STAR||'0',stones:amounts[POLISH_ITEM_CODE]||'0'}});
+      const items=await attachPolishInventory(env,user.id,inventory.items);
+      return json({...inventory,...release(settings),userId:user.id,ownerReview:user.role==='OWNER',settings,items:items.map(i=>({...i,polishEligible:settings.slots.includes(i.slot)})),wallet:{coins:String(wallet?.coin??0),masterStars:amounts.MASTER_STAR||'0',stones:amounts[POLISH_ITEM_CODE]||'0'}});
     }
     if(action==='preview'&&request.method==='POST'){
       if(user.role!=='OWNER')throw jointError('POLISH_PERMISSION','OWNER만 연출을 검수할 수 있습니다.',403);

@@ -1,0 +1,19 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {PGlite} from '@electric-sql/pglite';
+import {prepareLegionRegions} from '../scripts/ops/legion-regions-prepare-20261008.mjs';
+test('catalog preparation is atomic, inactive, excluded from supply and preserves later CMS edits',async t=>{
+  const db=new PGlite();t.after(()=>db.close());
+  await db.exec(`CREATE TABLE users(id INTEGER,role TEXT,status TEXT);INSERT INTO users VALUES(1,'OWNER','ACTIVE');
+    CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TIMESTAMPTZ);
+    CREATE TABLE character_equipment_items(id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,code TEXT UNIQUE,name TEXT,slot TEXT,subtype TEXT,rarity TEXT,image_url TEXT,description TEXT,total_power BIGINT,pve_power BIGINT,pvp_power BIGINT,is_active INTEGER,is_public INTEGER,sort_order INTEGER,supply_enabled INTEGER,supply_weight INTEGER);
+    CREATE TABLE admin_logs(admin_id INTEGER,action_type TEXT,target_type TEXT,target_id TEXT,before_data TEXT,after_data TEXT);`);
+  const client={query:(s,v=[])=>s.includes('current_database()')?{rows:[{db:'cnine',recovery:false}]}:db.query(s,v)};
+  const dry=await prepareLegionRegions(client);assert.equal(dry.created.length,30);assert.equal((await db.query('SELECT * FROM character_equipment_items')).rows.length,0);
+  const live=await prepareLegionRegions(client,{apply:true});assert.equal(live.mode,'TEST');assert.equal(live.grants,0);assert.equal(live.created.length,30);
+  assert.ok(live.equipment.every(i=>!i.is_active&&!i.is_public&&!i.supply_enabled&&!i.supply_weight));
+  const unique=live.equipment.find(i=>i.code==='HUNT_COAST_UNIQUE');assert.equal(Number(unique.pve_power),130500);
+  await db.query("UPDATE character_equipment_items SET total_power=123456 WHERE code='HUNT_COAST_UNIQUE'");
+  const again=await prepareLegionRegions(client,{apply:true});assert.equal(again.created.length,0);assert.equal(again.policyCreated,false);assert.equal(Number(again.equipment.find(i=>i.code==='HUNT_COAST_UNIQUE').total_power),123456);
+  assert.equal((await db.query('SELECT * FROM admin_logs')).rows.length,1);
+});

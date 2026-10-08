@@ -9,6 +9,7 @@ import {mercenaryRandomInt} from './_mercenary_draw_accounting.js';
 import {readForgePreparationInventory} from './_equipment_forge_preparation.js';
 import {assertForgeMaterials} from './_equipment_forge_cms.js';
 import {forgeResourceShortage} from '../shared/equipment-forge-resources-v1.mjs';
+import {restoredPolishStatements} from './_equipment_growth.js';
 export const FORGE_TRANSACTION_SCHEMA=[
  `CREATE TABLE IF NOT EXISTS equipment_forge_states_v1(instance_id BIGINT PRIMARY KEY,user_id BIGINT NOT NULL,level INTEGER NOT NULL CHECK(level BETWEEN 0 AND 10),revision INTEGER NOT NULL)`,
  `CREATE TABLE IF NOT EXISTS equipment_forge_quotes_v1(quote_id TEXT PRIMARY KEY,user_id BIGINT NOT NULL,input_hash TEXT NOT NULL,kind TEXT NOT NULL,plan_json TEXT NOT NULL,expires_at TEXT NOT NULL,consumed_by TEXT)`,
@@ -111,6 +112,7 @@ export async function executeForge(env,user,body,kind,{randomInt=mercenaryRandom
        p("INSERT INTO equipment_forge_states_v1(instance_id,user_id,level,revision) SELECT id,user_id,?,1 FROM user_equipment_instances WHERE request_id=? AND user_id=? AND source_type='FORGE_RESTORE' AND source_id=?",plan.nextLevel,requestId,user.id,plan.recordId),
        p("UPDATE equipment_forge_destroyed_v1 SET restored_instance_id=(SELECT CAST(id AS TEXT) FROM user_equipment_instances WHERE request_id=? AND user_id=? AND source_type='FORGE_RESTORE' AND source_id=?),restore_request_id=? WHERE record_id=? AND user_id=? AND restored_instance_id IS NULL",requestId,user.id,plan.recordId,requestId,plan.recordId,user.id));
      list.push(p('UPDATE joint_atomic_guards_v1 SET verified=CASE WHEN EXISTS(SELECT 1 FROM equipment_forge_destroyed_v1 WHERE record_id=? AND user_id=? AND restore_request_id=? AND restored_instance_id IS NOT NULL) THEN 1 ELSE 0 END WHERE token=?',plan.recordId,user.id,requestId,token));
+     list.push(...await restoredPolishStatements(DB,user.id,plan.recordId));
    }
    list.push(p('UPDATE equipment_forge_quotes_v1 SET consumed_by=? WHERE quote_id=? AND user_id=? AND consumed_by IS NULL',requestId,quoteId,user.id),jointGuardEnd(DB,token));return list;
  }});return forgeReceipt(env,user,requestId,kind,r.replayed);

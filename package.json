@@ -102,7 +102,7 @@
     "test:golden-axe": "node --test tests/golden-axe-v1.test.mjs tests/golden-axe-coupon-v1.test.mjs tests/golden-axe-reopen-20261002.test.mjs tests/golden-axe-mercenary-rates-20261002.test.mjs",
     "test:chuseok": "node --test tests/chuseok-v1.test.mjs tests/chuseok-coupon-v1.test.mjs tests/chuseok-retirement-v1.test.mjs",
     "test:daily-quest": "node --test tests/daily-quest-100eok-20260919.test.mjs tests/playdk-daily-quest-admin-access-v1909.test.mjs tests/quest-hub-20260924.test.mjs",
-    "test:legion-hunt": "node --test tests/sustained-hunt-v2.test.mjs tests/legion-hunt-owner-cms-20260926.test.mjs tests/legion-hunt-entry-account-20260926.test.mjs tests/legion-hunt-z-body-playback-20260926.test.mjs tests/legion-hunt-duration-entries-20260926.test.mjs tests/legion-hunt-modes-rewards-20260928.test.mjs tests/legion-hunt-interruption-recovery-20261003.test.mjs",
+    "test:legion-hunt": "node --test tests/sustained-hunt-v2.test.mjs tests/legion-hunt-owner-cms-20260926.test.mjs tests/legion-hunt-entry-account-20260926.test.mjs tests/legion-hunt-z-body-playback-20260926.test.mjs tests/legion-hunt-duration-entries-20260926.test.mjs tests/legion-hunt-modes-rewards-20260928.test.mjs tests/legion-hunt-interruption-recovery-20261003.test.mjs && npm run test:legion-regions",
     "test:icon-cms": "node --test tests/icon-fur15-superiority-v1.test.mjs tests/icon-roles-v1.test.mjs tests/icon-cms-v1.test.mjs tests/icon-grade-preparation-v1.test.mjs preview/icon-battle-assets-v1/qa.test.mjs tests/icon-preview-pages-url.test.mjs",
     "test:cooperative": "node --test tests/cooperative-battleground.test.mjs tests/cooperative-arke.test.mjs tests/cooperative-websocket.test.mjs tests/cooperative-room-list.test.mjs tests/cooperative-turn-fairness-20261004.test.mjs",
     "simulate:cooperative": "node scripts/simulate-cooperative-battleground.mjs --write",
@@ -110,7 +110,8 @@
     "test:premium-cube-retirement": "node --test --test-concurrency=2 tests/premium-cube-retirement-20261003.test.mjs tests/pve-sweep-v1989.test.mjs tests/inventory-ui-v2125.test.mjs tests/inventory-high-grade-reroll-route-v1921.test.mjs tests/raid-mystic-clear-bonus-v2067.test.mjs tests/raid-weekly-cms-v2141.test.mjs tests/seal-reward-coin-cap-v2069.test.mjs tests/coupon-reward-cap-v1997.test.mjs tests/alchemy-system-v1973.test.mjs tests/territory-100-attack-inventory-reward-v1916.mjs tests/draw-territory-perf-20260919.test.mjs",
     "test:limited-pack": "node --test tests/mercenary-limited-pack-20261006.test.mjs tests/mercenary-limited-catalog-20261002.test.mjs",
     "test:pve-reform": "node --test tests/pve-reform-20261008.test.mjs tests/pve-reform-ops-20261008.test.mjs",
-    "test:suit-core-box": "node --test tests/suit-core-box-v1.test.mjs tests/suit-core-box-v1.browser.test.mjs tests/suit-core-box-ops-20261008.test.mjs"
+    "test:suit-core-box": "node --test tests/suit-core-box-v1.test.mjs tests/suit-core-box-v1.browser.test.mjs tests/suit-core-box-ops-20261008.test.mjs",
+    "test:legion-regions": "node --test tests/legion-regions-combat-20261008.test.mjs tests/legion-regions-rewards-20261008.test.mjs tests/equipment-polish-execution-20261008.test.mjs tests/equipment-polish-cms-20261005.test.mjs tests/legion-regions-catalog-20261008.test.mjs"
   },
   "dependencies": {
     "pg": "^8.16.3"

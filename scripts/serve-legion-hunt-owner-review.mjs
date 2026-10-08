@@ -4,7 +4,15 @@ import path from 'node:path';
 import vm from 'node:vm';
 import {legionFixture} from '../tests/helpers/legion-hunt-fixture.mjs';
 import {handleLegionHunt} from '../functions/_legion_hunt.js';
-const root=fs.realpathSync(process.cwd()),port=Number(process.env.LEGION_REVIEW_PORT||8959),fixture=await legionFixture({withMercenary:true});
+import {seedRegionalCatalog} from '../tests/helpers/legion-regions-fixture.mjs';
+import {legionBalanceSnapshot,profiles} from './measure-legion-regions-20261008.mjs';
+const root=fs.realpathSync(process.cwd()),port=Number(process.env.LEGION_REVIEW_PORT||8959),fixture=await legionFixture({withMercenary:true,regions:true});
+await seedRegionalCatalog(fixture);
+if(process.env.LEGION_REVIEW_REGIONS==='1'){
+  const snapshot=legionBalanceSnapshot(profiles.at(-1)),deck=fixture.getDeck();
+  deck.cards=snapshot.cards;deck.ids=snapshot.cards.map(c=>c.id);deck.characterBonus={...deck.characterBonus,...snapshot.characterBonus};
+  fixture.setDeck(deck);fixture.setMercenary(snapshot.mercenary);
+}
 // Explicit local QA loadout; never injected by the production handler.
 if(process.env.LEGION_REVIEW_Z_BODY==='1'){
   const deck=fixture.getDeck();Object.assign(deck.characterBonus,{battleSuitPve:3000000,pve:4117360});
@@ -45,7 +53,7 @@ const server=http.createServer(async(req,res)=>{
     }
     if(!['GET','HEAD'].includes(req.method))return send(res,'Method not allowed',405);
     const relative=decodeURIComponent(url.pathname).replace(/^\/+/,''),parts=relative.split(/[\\/]/);
-    if(!['pve','preview','assets','css','js','admin'].includes(parts[0])||parts.some(s=>s==='..'||s.startsWith('.')))return send(res,'Not found',404);
+    if(!['pve','preview','assets','css','js','admin','shared'].includes(parts[0])||parts.some(s=>s==='..'||s.startsWith('.')))return send(res,'Not found',404);
     let file=path.resolve(root,relative);if(fs.existsSync(file)&&fs.statSync(file).isDirectory())file=path.join(file,'index.html');
     if(!fs.existsSync(file)||!fs.realpathSync(file).startsWith(root+path.sep)||!mime[path.extname(file)])return send(res,'Not found',404);
     if(process.env.LEGION_REVIEW_DIAGNOSTICS==='1'&&relative==='pve/legion-hunt/'){

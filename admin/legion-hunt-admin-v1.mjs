@@ -1,9 +1,10 @@
 import {jointAdminRequest as api} from '../js/joint-account-transport.mjs';
+import {mountLegionRegionsCms} from './legion-regions-admin-v1.mjs';
 const esc=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 const names={normal:'보통',hard:'어려움',nightmare:'악몽',inferno:'지옥'},types={INVENTORY_ITEM:'아이템',CARD:'카드',EQUIPMENT:'장비',VEHICLE:'이동수단'};
 export async function mountLegionHuntCms(root){
   let policy,catalog=[],busy=false,testUsers=new Map(),searchResults=[];
-  root.innerHTML='<p class="legion-cms-status" role="status"></p><form></form>';
+  root.innerHTML='<p class="legion-cms-status" role="status"></p><form></form><section class="legion-regions-cms"></section>';
   const status=root.querySelector('[role=status]'),form=root.querySelector('form');
   const number=(name,label,value,min,max,step=1)=>`<label>${label}<input type="number" name="${name}" aria-label="${label}" value="${value}" min="${min}" max="${max}" step="${step}" required></label>`;
   function collect(){
@@ -81,6 +82,7 @@ export async function mountLegionHuntCms(root){
     catch(e){status.textContent=e.message;}finally{disable(false);}
   });
   await load();
+  await mountLegionRegionsCms(root.querySelector('.legion-regions-cms'));
 }
 function install(){
   const nav=document.getElementById('nav'),cms=document.getElementById('cms'),role=document.getElementById('roleBadge');if(!nav||!cms||!role)return;

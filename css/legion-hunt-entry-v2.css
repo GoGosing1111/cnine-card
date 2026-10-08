@@ -30,3 +30,26 @@ html:has(.legion-hunt-portal[open]){overflow:hidden}
 @media(prefers-reduced-motion:reduce){.legion-hunt-portal *{transition:none!important}}
 
 [data-legion-hunt-entry][hidden]{display:none!important}
+
+/* Regional expedition map and its actual six-item drop collection. */
+.has-regions .legion-lobby-layout{grid-template-areas:'regions regions' 'hero choices' 'route choices' 'squad choices' 'loot loot';grid-template-rows:auto minmax(340px,1fr) 76px auto auto;row-gap:0}
+.legion-regions{grid-area:regions;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px;margin-bottom:24px}
+.legion-regions button{position:relative;isolation:isolate;overflow:hidden;min-height:106px;padding:15px 12px;display:flex;flex-direction:column;justify-content:end;gap:7px;text-align:left;border:1px solid #32415a;border-radius:5px;background:linear-gradient(0deg,#0b1429 2%,#0b1429aa 75%),var(--region-art,none) center/cover}
+.legion-regions button:before{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,#0b1429,#0b142948);transition:background .2s}
+.legion-regions button[aria-pressed=true]{border-color:var(--region-accent,#c8ff6b);box-shadow:inset 0 -3px var(--region-accent,#c8ff6b)}
+.legion-regions button[aria-pressed=true] strong{color:var(--region-accent,#c8ff6b)}
+.legion-regions small{font-size:8px;letter-spacing:1.5px;color:#a5b8d0}.legion-regions strong{font-size:13px;line-height:1.5;word-break:keep-all}.legion-regions span{font-size:9px;color:#a5b8d0}
+.has-regions .legion-intro h1{font-size:clamp(30px,3vw,49px);max-width:650px;word-break:keep-all}
+.legion-region-loot{grid-area:loot;margin-top:30px;padding:25px;border:1px solid #35435a;border-radius:6px;background:linear-gradient(115deg,#162038,#0d1423)}
+.legion-pve-tag{font-size:10px;color:#b8c69f;border:1px solid #54683d;padding:6px 9px;border-radius:3px}
+.legion-region-counter{font-size:12px;line-height:1.7;color:#b6c5dc;margin-bottom:17px!important}
+.legion-loot-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+.legion-loot-grid figure{border:1px solid #35435b;background:radial-gradient(ellipse at 50% 20%,#2b3853,#0e1728 75%);border-radius:5px;overflow:hidden}
+.legion-loot-grid figure.unique{border-color:#a58b54;background:radial-gradient(ellipse at 50% 20%,#51432d,#161925 75%)}
+.legion-loot-grid img{width:100%;height:132px;padding:13px;object-fit:contain;filter:drop-shadow(0 6px 7px #0007)}
+.legion-loot-grid figcaption{display:grid;gap:7px;padding:12px;border-top:1px solid #344259;min-height:89px}.legion-loot-grid small{font-size:9px;color:#b8a1ed}.legion-loot-grid .unique small{color:#f3cf85}.legion-loot-grid strong{font-size:12px;line-height:1.5;word-break:keep-all}.legion-loot-grid span{font-size:10px;line-height:1.6;color:#9eafc9}
+.legion-set-effects{display:grid;gap:8px;margin:20px 0 15px;font-size:12px;line-height:1.8;color:#b3c3dc}.legion-set-effects b{display:inline-block;min-width:52px;color:#d3f5ab}
+.legion-stone-guide{padding-top:15px;border-top:1px solid #344259;font-size:12px;line-height:1.9;color:#b4c6df}.legion-stone-guide b{color:#d9edfa}.legion-stone-guide small{font-size:10px;color:#8da3c2}
+.legion-threat-bars i:nth-child(5){height:21px}.legion-difficulties button[data-hunt-difficulty=calamity]{--threat:#eb657e}
+@media(max-width:1100px){.legion-regions{grid-template-columns:repeat(3,minmax(0,1fr))}.legion-regions button{min-height:93px}.legion-loot-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:760px){.has-regions .legion-lobby-layout{grid-template-areas:'regions' 'hero' 'route' 'choices' 'loot' 'squad';grid-template-rows:auto}.legion-regions{gap:7px;margin-bottom:16px}.legion-regions button{padding:12px 9px;min-height:92px}.legion-regions strong{font-size:11px}.legion-regions span{font-size:8px}.legion-regions small{font-size:7px}.has-regions .legion-intro{min-height:285px}.has-regions .legion-intro h1{font-size:32px}.has-regions .legion-intro-copy{max-width:66%}.legion-region-loot{margin-top:18px;padding:18px 13px}.legion-loot-grid{gap:7px}.legion-loot-grid img{height:104px;padding:8px}.legion-loot-grid figcaption{padding:9px;min-height:106px}.legion-loot-grid strong{font-size:10px}.legion-loot-grid small,.legion-loot-grid span{font-size:8px}.legion-set-effects,.legion-stone-guide{font-size:10px}.legion-region-loot .legion-section-heading h2{font-size:16px}.legion-region-counter{font-size:10px}.legion-pve-tag{font-size:8px;white-space:nowrap;padding:5px}.legion-difficulties button:last-child:nth-child(odd){grid-column:1/-1}}

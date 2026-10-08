@@ -40,7 +40,7 @@ export class BattleEngine extends ScrapyardEngine{
     return result;
   }
   ensureEnemyCapacity(count){return super.ensureEnemyCapacity(Math.max(CAPACITY,count));}
-  battlefieldAsset(){return '/preview/sustained-hunt-v2/assets/backgrounds/overgrown-forge-field-v2.png';}
+  battlefieldAsset(){return this.huntRegionBackground||'/preview/sustained-hunt-v2/assets/backgrounds/overgrown-forge-field-v2.png';}
   station(kind,index=0,team='ALLY'){
     if(kind==='cards'&&team==='ENEMY'){
       const p=crowdPosition(index),compact=Boolean(this.viewportFit)||this.mobile;
@@ -55,10 +55,11 @@ export class BattleEngine extends ScrapyardEngine{
     const scale=this.viewportFit?.57:this.mobile?.52:.49;
     for(const [i,a] of enemies.entries()){
       const p=this.station('cards',i,'ENEMY');a.setFormation(p.x,p.y,scale);a.designScale=scale;a.perspectiveResolver=()=>scale;a.root.depthSortY=p.y;
-      a.nameLabel.visible=!!a.isBoss;a.namePlate.visible=!!a.isBoss;a.hud.y=a.isBoss?-415:-270;a.hud.scale.set(.82);a.formationHudY=a.hud.y;
+      a.nameLabel.visible=!!(a.isBoss||a.huntElite);a.namePlate.visible=!!(a.isBoss||a.huntElite);a.hud.y=a.isBoss?-415:-270;a.hud.scale.set(.82);a.formationHudY=a.hud.y;
     }
   }
   async applyBattlePayload(payload){
+    this.huntRegionBackground=/^\/assets\/ui\/legion-regions-v1\/(coast|desert|theatre|viscera|sky)\/background-v1\.webp$/.test(payload.battlefieldBackground||'')?payload.battlefieldBackground:null;
     this.huntPlaybackPlan=payload.huntPlayback||null;
     while(this.enemies.length<CAPACITY){
       const a=new BattleCharacter({id:'HUNT_SLOT_'+this.enemies.length,name:'몬스터',team:TEAM.ENEMY,texture:Texture.EMPTY,fullBodyTexture:Texture.EMPTY,fullBodyHeight:245,scale:.4,accent:0xe9aa65});
@@ -69,9 +70,9 @@ export class BattleEngine extends ScrapyardEngine{
     const result=await super.applyBattlePayload(payload);this.layoutCharacterGrid();return result;
   }
   bindMonster(row){
-    const a=super.bindMonster(row);a.useFullBodySprite(a.texture,row.battleHeight||(row.boss?395:245));
-    a.fullBodySprite.scale.x=-Math.abs(a.fullBodySprite.scale.x);a.captureNeutralAvatarPose();
-    a.nameLabel.visible=!!row.boss;a.namePlate.visible=!!row.boss;a.hud.y=row.boss?-415:-270;
+    const a=super.bindMonster(row);a.huntElite=!!row.elite;a.useFullBodySprite(a.texture,row.battleHeight||(row.boss?395:245));
+    a.fullBodySprite.scale.x=(this.huntRegionBackground?1:-1)*Math.abs(a.fullBodySprite.scale.x);a.captureNeutralAvatarPose();
+    a.nameLabel.visible=!!(row.boss||row.elite);a.namePlate.visible=!!(row.boss||row.elite);a.hud.y=row.boss?-415:-270;
     return a;
   }
   async arrival(actors){
@@ -116,8 +117,8 @@ export class BattleEngine extends ScrapyardEngine{
   reconcileHuntState(final,bossId){
     this.cancelTimelines();
     if(bossId){
-      for(const actor of this.enemies)this.retiredIds.add(actor.id);
-      this.bindMonster(this.instances.get(bossId));
+      for(const actor of this.enemies){this.retiredIds.add(actor.id);actor.battleActive=false;actor.root.visible=false;}
+      for(const row of final.B||[])if(row.hp>0&&this.instances.has(row.id))this.bindMonster(this.instances.get(row.id));
     }
     this.syncFinalState(final);
     if(bossId)this.queueBanner(this.instances.get(bossId).name,0xffc477,'최종 수호자 출현');

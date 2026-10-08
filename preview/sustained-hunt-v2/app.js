@@ -5,7 +5,7 @@
   const ownerTransport=ownerMode?import('/js/joint-account-transport.mjs'):null;
   let ownerRequests=Promise.resolve();
   let engine,renderer,session,csrf,payload,policies=[],epoch=0,playing=false,paused=false,ending=false,finishing=false,ack=0,kills=0,bosses=0,renderedAt=0,picked=0;
-  let reveals=Promise.resolve(),pendingReveals=[],finishTimer=null,clockTimer=null,toastTimer=null,starting=false,liveDifficulty='normal',entryReceived=false,failed=false,entries=null;
+  let reveals=Promise.resolve(),pendingReveals=[],finishTimer=null,clockTimer=null,toastTimer=null,starting=false,liveDifficulty='normal',liveRegion=null,entryReceived=false,failed=false,entries=null;
   const areaCasts=new Set();
   const notifyParent=(type,extra={})=>{if(liveMode&&window.parent!==window)window.parent.postMessage({type,...extra},location.origin);};
   const message=t=>{$('hunt-message').textContent=t;};
@@ -57,6 +57,7 @@
       if(token!==epoch)return;
       const seqs=pendingReveals.splice(0,24),r=await request('reveal',{id,seqs});
       if(token!==epoch||!playing||finishing)return;
+      if(r.inventory)inventory(r.inventory);
       const automatic=new Map((r.autoClaims||[]).map(receipt=>[receipt.dropId,{...receipt,inventory:r.inventory,picked:r.picked,pendingRewards:r.pendingRewards===true}]));
       await Promise.all((r.drops||[]).filter(Boolean).map(drop=>engine.groundDrops.add(drop,r.serverNow,automatic.get(drop.id))));
       if(r.drops?.some(Boolean))message(automatic.size?'자석 펫이 드랍 아이템을 흡수했습니다. 종료 시 획득 보상을 정산합니다.':'아이템 드랍 · 필드의 빛나는 아이템을 직접 클릭하세요.');
@@ -90,19 +91,21 @@
     $('hunt-kills').textContent=$('hunt-bosses').textContent=$('hunt-picked').textContent='0';$('hunt-boss-hud').hidden=true;
     $('hunt-time').textContent='15:00';if($('hunt-time-label'))$('hunt-time-label').textContent='남은 전투 시간';if($('hunt-progress-fill'))$('hunt-progress-fill').style.width='0%';
     $('hunt-stage').textContent='15분 연속 토벌';$('hunt-objective').textContent='계속 밀려오는 군단을 처치하세요';inventory();updatePolicy();message('원정대와 몬스터를 배치하고 있습니다.');
-    const data=reuse&&oldSession&&oldPayload?{id:oldSession,payload:oldPayload,entries}:await request('start',{difficulty:liveMode?liveDifficulty:$('hunt-difficulty').value,...(ownerMode?{version:4}:{party:$('hunt-party').value})});
+    const data=reuse&&oldSession&&oldPayload?{id:oldSession,payload:oldPayload,entries}:await request('start',{difficulty:liveMode?liveDifficulty:$('hunt-difficulty').value,...(ownerMode?{version:5,...(liveRegion?{regionId:liveRegion}:{})}:{party:$('hunt-party').value})});
     if(token!==epoch){void request('cancel',{id:data.id});return;}
     session=data.id;payload=data.payload;entries=data.entries||null;notifyParent('legion-hunt-session',{id:session});window.cnineCardCatalog=()=>payload.cards;
     if($('hunt-difficulty-label'))$('hunt-difficulty-label').textContent=payload.huntPolicy.name;
+    if($('hunt-region-label'))$('hunt-region-label').textContent=payload.regionName||'잊혀진 섬';
+    document.title=payload.title||'군단토벌';
     if($('hunt-suit-skill')){$('hunt-suit-skill').hidden=!payload.battleV2.teams.A.supports.some(s=>s.cardId==='BATTLE_SUIT:BATTLE_SUIT_Z_BODY');$('hunt-suit-skill').textContent='Z-BODY · 뇌검 집행 대기';}
     const playerName=payload.accountNickname||'원정대';
-    const modal=$('hunt-modal'),prepared=ProjectVBattleV3Live.prepareLoading({modal,mode:'HUNT',playerName,opponentName:'몬스터 군단',autoText:'잊혀진 섬에 진입하고 있습니다.'});
+    const modal=$('hunt-modal'),prepared=ProjectVBattleV3Live.prepareLoading({modal,mode:'HUNT',playerName,opponentName:'몬스터 군단',autoText:(payload.regionName||'잊혀진 섬')+'에 진입하고 있습니다.'});
     prepared.stage.querySelector('.battle-v3-canvas-host').style.backgroundImage='none';
     renderer=await ProjectVBattleV3Live.createRenderer({...prepared,modal,data:payload,mode:'HUNT',playerName,playUltimateCinematics:false,continuousPlayback:true});
     if(token!==epoch)return;
     document.removeEventListener('visibilitychange',engine.onVisibility);
     engine.previewSpeed=1;engine.paceScale=1;
-    prepared.stage.querySelector('.battle-v3-header strong').textContent='잊혀진 섬 · '+payload.huntPolicy.name;
+    prepared.stage.querySelector('.battle-v3-header strong').textContent=(payload.regionName||'잊혀진 섬')+' · '+payload.huntPolicy.name;
     prepared.stage.querySelector('#battlePhase').textContent='군단 토벌 → 최종 보스 · 총 15분';
     await api.restoreDeployedFormation();
     engine.attachGroundDrops({
@@ -127,10 +130,11 @@
   function onEvent(event,{caughtUp=false}={}){
     ack=event.seq;renderedAt=Math.min(payload.huntPolicy.limitMs,Math.max(renderedAt,event.combatAtMs||0));
     updateClock();
-    if(event.finalBoss){$('hunt-stage').textContent='최종 보스';$('hunt-objective').textContent='태고의 수호자를 처치하세요';$('hunt-threat').textContent='보스 제한 시간 '+Math.round(payload.huntPolicy.bossLimitMs/1000)+'초';}
+    if(event.finalBoss){$('hunt-stage').textContent='최종 보스';$('hunt-objective').textContent=(event.name||'최종 보스')+' 처치';$('hunt-threat').textContent='보스 제한 시간 '+Math.round(payload.huntPolicy.bossLimitMs/1000)+'초';}
+    if(event.type==='LEGION_PATTERN'&&!caughtUp){$('hunt-objective').textContent=event.label||'보스 패턴 전개';toast(event.label||'보스 패턴 전개');}
     if(event.huntKill){
       $('hunt-kills').textContent=++kills;if(event.boss)$('hunt-bosses').textContent=++bosses;
-      if(ownerMode&&!payload.huntPolicy.items?.some(item=>item.enabled!==false&&item.weight>0)){bossHud();return;}
+      if(ownerMode&&!payload.regionId&&!payload.huntPolicy.items?.some(item=>item.enabled!==false&&item.weight>0)){bossHud();return;}
       queueDropReveal(event.seq);
     }
     if(event.type==='ENEMY_SPAWN'&&event.boss)toast(event.name+' 출현');
@@ -169,7 +173,7 @@
     try{
       await reveals;const receipt=await request('finish',{id:session,seq:ack});playing=false;ending=false;entries=receipt.entries||entries;
       if(receipt.liveRewards)notifyParent('legion-hunt-rewards-changed');
-      const labels={CLEAR:['사냥 클리어','제한 시간 안에 태고의 수호자를 처치했습니다.'],DEFEAT:['원정 실패','전력이 부족해 끝까지 돌파하지 못했습니다.'],TIME_LIMIT:['시간 초과','총 15분이 종료되어 토벌을 마쳤습니다.'],RETREAT:['원정 철수','사냥을 중단했습니다. 획득한 전리품을 집계합니다.']};
+      const labels={CLEAR:['사냥 클리어','제한 시간 안에 최종 보스를 처치했습니다.'],DEFEAT:['원정 실패','전력이 부족해 끝까지 돌파하지 못했습니다.'],TIME_LIMIT:['시간 초과','총 15분이 종료되어 토벌을 마쳤습니다.'],RETREAT:['원정 철수','사냥을 중단했습니다. 획득한 전리품을 집계합니다.']};
       const [title,reason]=labels[receipt.reason];$('result-title').textContent=title;$('result-reason').textContent=reason;$('result-eyebrow').textContent=payload.huntPolicy.name+' · 원정 결과';
       const note=$('hunt-result').querySelector('.review-note');if(note)note.textContent=receipt.liveRewards?'종료가 확정되어 획득한 전리품을 계정에 지급했습니다.':'TEST · 검수용 획득 기록입니다. 계정에는 보상이 지급되지 않습니다.';
       $('result-kills').textContent=receipt.kills+'마리 · 보스 '+receipt.bosses+' / 1';
@@ -195,8 +199,10 @@
     $('hunt-result').addEventListener('cancel',event=>{event.preventDefault();void again(false);});
     window.addEventListener('message',event=>{
       if(entryReceived||event.origin!==location.origin||event.source!==window.parent||event.data?.type!=='legion-hunt-enter')return;
-      if(!['normal','hard','nightmare','inferno'].includes(event.data.difficulty))return;
-      entryReceived=true;liveDifficulty=event.data.difficulty;void enterBattle();
+      if(!['normal','hard','nightmare','inferno','calamity'].includes(event.data.difficulty))return;
+      if(event.data.regionId&&!['coast','desert','theatre','viscera','sky'].includes(event.data.regionId))return;
+      if(event.data.difficulty==='calamity'&&!event.data.regionId)return;
+      entryReceived=true;liveDifficulty=event.data.difficulty;liveRegion=event.data.regionId||null;void enterBattle();
     });
     message('저장된 편성으로 전장을 준비합니다.');notifyParent('legion-hunt-ready');return;
   }

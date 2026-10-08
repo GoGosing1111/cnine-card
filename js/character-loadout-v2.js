@@ -191,7 +191,7 @@
         <span class="clv2-item-grade">${RARITY_LABELS[normalizeRarity(item.rarity)]}</span>
         <div class="clv2-item-art clv2-inventory-art" ${glowAttribute(row)}>${art(item)}${glowArt(row)}<span data-equipment-quantity="${item.id}" data-equipment-instance="${row.instanceId}" class="clv2-item-quantity" aria-label="${quantityKnown ? `보유 수량 ${formatNumber(quantity)}개` : '보유 수량 확인 중'}">${quantityKnown ? `×${formatNumber(quantity)}` : '…'}</span></div>
         <span class="clv2-equipped-mark">${icon('check')} 장착</span>
-        <span class="clv2-item-copy"><strong>${escapeHtml(equipmentName(row))}</strong><small>${SLOT_LABELS[item.slot] || item.slot || ''} · ${isBattleSuit ? 'PVE 전용' : 'PVE'} +${formatNumber(item.pvePower)}</small>${Number(row.enhancement?.level)>0?`<small>개별 장비 · #${escapeHtml(row.instanceId)}</small>`:''}</span>
+        <span class="clv2-item-copy"><strong>${escapeHtml(equipmentName(row))}</strong><small>${SLOT_LABELS[item.slot] || item.slot || ''} · ${isBattleSuit ? 'PVE 전용' : 'PVE'} +${formatNumber(item.pvePower)}</small>${Number(row.enhancement?.level)>0||row.polish?.attempts?`<small>개별 장비 · #${escapeHtml(row.instanceId)}</small>`:''}${row.polish?.attempts?`<small class="clv2-growth">연마 ${row.polish.attempts}회 · ${escapeHtml(row.polishSummary)}</small>`:''}${row.regionEquipment?`<small class="clv2-growth">${escapeHtml(row.regionEquipment.description)}</small>${row.regionEquipment.kind==='SET'?`<small>2세트 · ${escapeHtml(row.regionEquipment.two)}<br>4세트 · ${escapeHtml(row.regionEquipment.four)}</small>`:''}`:''}</span>
       </button>`;
     }
 
@@ -210,6 +210,7 @@
           <div><dt>칭호 보너스</dt><dd>+${formatNumber(bonuses.titlePve)}</dd></div>
           <div><dt>이동수단</dt><dd>+${formatNumber(bonuses.garagePve)}</dd></div>
         </dl>
+        ${bonuses.pveEquipmentRuntime?.summary?`<div class="clv2-active-growth"><b>PVE 장비 효과</b><p>${escapeHtml(bonuses.pveEquipmentRuntime.summary)}</p><small>${escapeHtml((bonuses.pveEquipmentRuntime.sets||[]).map(s=>s.name+' '+s.count+'부위').join(' · '))}</small></div>`:''}
         <div class="clv2-profile-foot"><i></i><span>LIVE LOADOUT</span><b>${SLOT_ORDER.filter((slot) => equippedInstance(slot)).length} / ${SLOT_ORDER.length}</b></div>
       </aside>`;
     }

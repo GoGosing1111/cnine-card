@@ -13,6 +13,8 @@ import {createMagicSeason2Runtime} from './_magic_season2.js';
 import {applyMercenaryCombatLink,mercenaryEffectiveAttack,mercenaryDamageCapHp} from '../shared/mercenary-combat-link-v2103.mjs';
 import {validateDuoDeck} from '../shared/ranked-duo-v1.mjs';
 import {sustainedEncounterPlan} from './_sustained_encounter.js';
+import {castLegionRegionAction,legionIncomingMultiplier} from './_legion_region_combat.js';
+import {applyPveEquipmentGrowth,equipmentHitMultiplier,equipmentAfterBasic} from '../shared/equipment-combat-growth-v1.mjs';
 import {cooperativeEffects,applyCooperativeEffect} from './_cooperative_effects.js';
 import {cooperativeCombatGroupMs} from '../shared/cooperative-combat-clock-v3.mjs';
 import {PVP_SPEED_REFORM,PVP_GUARD_SHIELD_CURVE,isPvpSpeedCard,speedComboPlan,speedComboSnapshots} from '../shared/pvp-speed-reform-v1.mjs';
@@ -506,13 +508,13 @@ function hitResult(actor, target, random, multiplier = 1, counter = false, optio
     : 0.02;
   if (!counter && random() < dodgeChance && !options.s2CannotDodge) return { dodge: true, damage: 0, critical: false, penetration: 0 };
 
-  const criticalChance = clamp(0.10 + (actor.type === 'ATTACK' ? 0.06 : 0) + (actor.type === 'SPEED' && !actor.speedUniqueSuppressed ? 0.03 : 0) + Math.max(0, Number(actorAdvancement.criticalChancePoints || 0)) / 100, 0.10, 0.35);
+  const criticalChance = clamp(0.10 + (actor.type === 'ATTACK' ? 0.06 : 0) + (actor.type === 'SPEED' && !actor.speedUniqueSuppressed ? 0.03 : 0) + Math.max(0, Number(actorAdvancement.criticalChancePoints || 0)) / 100 + (actor.equipmentEffects?.criticalChancePoints||0)/100, 0.10, actor.equipmentEffects?.criticalChancePoints?0.50:0.35);
   const critical = random() < criticalChance;
   const pveAttack = actor.type === 'ATTACK' && actor.battleMode === 'PVE';
   const basePenetration = actor.type === 'ATTACK'
     ? (pveAttack && target.isBoss ? 0.40 : pveAttack && target.isMonster ? 0.28 : (random() < 0.35 ? S1.attackPenetrationPvp : 0.15))
     : 0.03;
-  const penetration = clamp(basePenetration + Math.max(0, Number(actorAdvancement.penetrationPoints || 0)) / 100, 0, 0.80);
+  const penetration = clamp(basePenetration + Math.max(0, Number(actorAdvancement.penetrationPoints || 0)) / 100 + (actor.equipmentEffects?.penetrationPoints||0)/100, 0, 0.80);
   const effectiveDefense = Math.max(0, target.defense * (1 - penetration) * (1 - (options.s2DefenseIgnore||0)) * (1 - (options.s2DefenseReduction||0)));
   // V1936: 분모 상수 600 은 전투력 스케일에 안 맞아 1만 이상은 전원 65% 상한이었다.
   //   = 방어 스탯도 관통 수치도 실제로는 아무 일을 안 했다. 공격자 공격력 비례로 되살린다.
@@ -533,7 +535,7 @@ function hitResult(actor, target, random, multiplier = 1, counter = false, optio
   // Ordinary PVP speed cards replace the old +50%/+15% multiplier with the
   // guaranteed combo. Do not multiply both bonuses. PVE/counters are unchanged.
   const pvpSpeedDamage = actor.type === 'SPEED' && actor.battleMode === 'PVP' && !counter ? (isPvpSpeedCard(actor)?1:(target.type === 'HP' ? 1.50 : 1.15)) : 1;
-  const raw = mercenaryEffectiveAttack(actor) * 1.72 * Number(multiplier || 1) * variance * execute * pvpOpeningPressure * pvpShieldBreaker * (critical ? 1.50 : 1) * advancementDamage * pvpSpeedDamage;
+  const raw = mercenaryEffectiveAttack(actor) * 1.72 * Number(multiplier || 1) * variance * execute * pvpOpeningPressure * pvpShieldBreaker * (critical ? 1.50+(actor.equipmentEffects?.criticalDamagePoints||0)/100 : 1) * advancementDamage * pvpSpeedDamage * equipmentHitMultiplier(actor,target,critical);
   // V1936: 상한 0.46 은 공격력 11만 이상에서 걸려 딜 성장을 통째로 흡수했다. PVP 만 0.60 으로 완화.
   const baseCapPct = counter ? 0.24 : (usePvpDamageModel ? S1.damageCapPercent : 0.46);
   const capPct = clamp(baseCapPct + (!counter ? Math.max(0, Number(actorAdvancement.damageCapPoints || 0)) / 100 : 0), baseCapPct, 0.90);
@@ -547,7 +549,7 @@ function hitResult(actor, target, random, multiplier = 1, counter = false, optio
   //        호송은 차량 피해가 별도 공식이라 전투가 짧아지면 난이도가 흔들린다.
   // V1975: 아포칼립스 몬스터는 덱 전투력 비례로 하한이 늘고 준다(위 APOCALYPSE_FLOOR_* 참고).
   const floorScale = target.isApocalypse && options.apocalypseFloorScale > 0 ? options.apocalypseFloorScale : 1;
-  const minDamage = !counter && !isBattleSuitSupport(actor) && target.isMonster && !target.statCapsUnlocked && options.minDamagePercent > 0
+  const minDamage = !counter && !isBattleSuitSupport(actor) && target.isMonster && !target.legionRegion && !target.statCapsUnlocked && options.minDamagePercent > 0
     ? target.maxHp * options.minDamagePercent * floorScale
     : 0;
   const floored=Math.max(capped,minDamage);
@@ -557,6 +559,7 @@ function hitResult(actor, target, random, multiplier = 1, counter = false, optio
 }
 
 function applyCanonicalDamage(target, incoming, options = {}) {
+  incoming*=legionIncomingMultiplier(target)*(1-(target.equipmentEffects?.damageReductionPercent||0)/100);
   // V1936: 속도형은 방벽을 벗기는 역할. 실드가 남아 있을 때만 추가로 들어간다.
   if (options.shieldBonus > 0 && target.shield > 0) {
     incoming = incoming + Math.min(target.shield, incoming * options.shieldBonus);
@@ -732,7 +735,7 @@ function resolveKnockout(target, timeline, clock, onBeforeKnockout = null) {
 export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, suddenDeathAfter = 0, forcedMonsterEvery = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, bossUltimateCapPercent = 100, healerPenalty = false, singleHealerBonus = {}, escortObjective = null, reinforcements = [], encounterCapacity = 5, maxCombatDurationMs = 0, sustainedEncounter = null, cooperative = null, pets = null, petMode = 'PVE', [Z_BODY_AREA_REVIEW]: zAreaReview = false, [X_BODY_AREA_REVIEW]: xAreaReview = false, [MAGIC_SEASON2_REVIEW]: season2Review = false, [COMPANION_PREPARATION_REVIEW]: companionReview = null } = {}) {
   let mercenaryRuntime=null,season2Runtime=null,iconRuntime=null;
   const rawDamage=(target,incoming,options)=>{const result=applyCanonicalDamage(target,incoming,options);mercenaryRuntime?.onDamage(target,result);iconRuntime?.onDamage(target,result);season2Runtime?.afterDamage(target,result,options);return result;};
-  const applyDamage=(target,incoming,options={})=>{const n=iconRuntime?iconRuntime.beforeDamage(target,incoming,options):incoming;let value=season2Runtime?season2Runtime.beforeDamage(target,n,options):n;if(Number.isFinite(options.iconDamageCap))value=Math.min(value,Math.max(0,options.iconDamageCap));return rawDamage(target,value,season2Runtime?{...options,beforeHpDamage:(t,n)=>season2Runtime.beforeHpDamage(t,n,options)}:options);};
+  const applyDamage=(target,incoming,options={})=>{if(target.legionRegion==='coast'&&target.isBoss)target.legionVulnerability=b.some(c=>c.legionBossSupport&&c.hp>0&&c.alive)?.72:1.1;const n=iconRuntime?iconRuntime.beforeDamage(target,incoming,options):incoming;let value=season2Runtime?season2Runtime.beforeDamage(target,n,options):n;if(Number.isFinite(options.iconDamageCap))value=Math.min(value,Math.max(0,options.iconDamageCap));return rawDamage(target,value,season2Runtime?{...options,beforeHpDamage:(t,n)=>season2Runtime.beforeHpDamage(t,n,options)}:options);};
   const cardRandom = seededRandom(seed);
   const mercenaryRandom = {A:seededRandom((Number(seed)^0x4d455243)>>>0),B:seededRandom((Number(seed)^0x534c4f54)>>>0)};
   let actionRandom = cardRandom;
@@ -1253,6 +1256,12 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     support.id,
     Math.max(.0002,Number(support.independentOpeningDelay||support.independentFireInterval*.35||.0005))
   ]));
+  // Regional hunts retain the canonical card gauge, but a dead/slow deck must
+  // not compress hundreds of independent shots into one animation interval.
+  // A real-time schedule preserves weapon/SX cadence ratios without changing
+  // existing PVE/PVP replays. Missed shots are never banked during an empty wave.
+  const regionSupportInterval=actor=>750*Math.max(.0002,Number(actor.independentFireInterval||.0018))/.0018;
+  const regionSupportNextMs=new Map(independentSupports.map(actor=>[actor.id,regionSupportInterval(actor)*.35]));
   let sustainedBossCheckpoint=null;
   const advanceSustained=()=>{
     const from=timeline.length;combatMs=sustained.nextAt;
@@ -1339,16 +1348,19 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     const nextCardAt=reservedMercenary?clock:gaugeReadyAt;
     const eligibleSupports=independentSupports
       .filter(support=>support.alive&&support.hp>0&&targetableAlive(support.side==='A'?b:a).length)
-      .sort((left,right)=>(independentNextFireAt.get(left.id)??Infinity)-(independentNextFireAt.get(right.id)??Infinity)||left.slot-right.slot);
+      .sort((left,right)=>sustainedEncounter?.regionId?(regionSupportNextMs.get(left.id)??Infinity)-(regionSupportNextMs.get(right.id)??Infinity)||left.slot-right.slot:(independentNextFireAt.get(left.id)??Infinity)-(independentNextFireAt.get(right.id)??Infinity)||left.slot-right.slot);
     const independentActor=eligibleSupports[0]||null;
     const independentReadyAt=independentActor?(independentNextFireAt.get(independentActor.id)??Infinity):Infinity;
-    const independentAction=Boolean(independentActor&&independentReadyAt<=nextCardAt);
-    const nextActionAt=independentAction?Math.max(clock,independentReadyAt):nextCardAt;
+    let independentAction=Boolean(independentActor&&(sustainedEncounter?.regionId?(regionSupportNextMs.get(independentActor.id)??Infinity)<=nextCombatMs:independentReadyAt<=nextCardAt));
+    let nextActionAt=independentAction?(sustainedEncounter?.regionId?clock:Math.max(clock,independentReadyAt)):nextCardAt;
     if (durationLimit && nextActionAt > durationLimit) { durationStopped = true; break; }
     let nextStepMs=nextCombatMs;
     if(combatClockEnabled&&independentAction){
       const fraction=clamp((nextActionAt-lastCardGaugeClock)/Math.max(.000001,gaugeReadyAt-lastCardGaugeClock),0,1);
       nextStepMs=Math.max(combatMs,lastCardCombatMs+(nextCombatMs-lastCardCombatMs)*fraction);
+      if(sustainedEncounter?.regionId){
+        nextStepMs=Math.max(combatMs,regionSupportNextMs.get(independentActor.id)||0);
+      }
     }
     if (maxCombatDurationMs && Math.min(nextStepMs, nextChipMs()) > maxCombatDurationMs) {
       combatMs = maxCombatDurationMs; nextCombatMs = maxCombatDurationMs; durationStopped = true; break;
@@ -1374,6 +1386,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     if(!actor)continue;
     if(independentAction){
       independentNextFireAt.set(actor.id,clock+Math.max(.0002,Number(actor.independentFireInterval||.0018)));
+      if(sustainedEncounter?.regionId)regionSupportNextMs.set(actor.id,combatMs+regionSupportInterval(actor));
     }
     let repeatedMonsterAction = false;
     if (!independentAction && repeatMonsterActions > 0) {
@@ -1480,6 +1493,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     }
 
     const enemyTeam = actor.side === 'A' ? b : a;
+    if(castLegionRegionAction(actor,actor.side==='A'?a:b,enemyTeam,{damage:applyDamage,knockout:t=>settleKnockout(t,timeline,clock+.00001,reviveFromMagic),emit:(type,data)=>emitTimeline(timeline,clock,type,data)}))continue;
     if(castApocalypseAction(actor,enemyTeam,{damage:applyDamage,damageCombined:season2Runtime?(target,normal,pierce)=>applyDamage(target,normal+pierce,{actor,direct:true,shieldPierce:normal+pierce>0?pierce/(normal+pierce):0}):null,knockout:t=>settleKnockout(t,timeline,clock+.00001,reviveFromMagic),emit:(type,data)=>emitTimeline(timeline,clock,type,data)}))continue;
     if(!independentAction&&mercenaryRuntime?.beforeAction(actor,{healingAllowed:!suddenDeath}))continue;
     // V2063: PVP speed assassins bypass formation to hunt living HP-unique cards.
@@ -1591,6 +1605,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       targetGaugeAfter: target.gauge
     });
 
+    equipmentAfterBasic(actor,target,damageState.hpDamage+damageState.absorbed,{damage:applyDamage,knockout:t=>settleKnockout(t,timeline,clock+.00001,reviveFromMagic),emit:(type,data)=>emitTimeline(timeline,clock,type,data)});
     if(!independentAction&&!actor.isMercenary&&!actor.isMonster)season2Runtime?.afterAttack(actor,target,damageState);
     if(!independentAction)iconRuntime?.afterBasic(actor,target,true);
     if(!independentAction)mercenaryRuntime?.afterBasic(actor,target,true,{additional:repeatedMonsterAction});
@@ -1943,20 +1958,21 @@ function preparePveEncounter(encounter) {
   return {initial, pending:fighters.slice(initialCount), maxActions, maxDuration, forcedMonsterEvery};
 }
 
-export function buildPvePlayerTeam({cards=[],characterBonus=0,battleSuit=null,mercenary=null}={}) {
+export function buildPvePlayerTeam({cards=[],characterBonus=0,battleSuit=null,mercenary=null,pveEquipmentRuntime=null}={}) {
   const withBonus = distributePveEquipment(applyTypeStacking(cards), Math.max(0, Number(characterBonus || 0)));
   const teamA = withBonus.map((card, index) => buildFighter(card, index, 'A', card.uniqueAbility || null, 'PVE'));
   const battleSuitFighter = battleSuit ? buildBattleSuitFighter(battleSuit, teamA.length) : null;
   if(mercenary&&(cards.length!==5||new Set(cards.map(c=>String(c.id))).size!==5))throw Error('INVALID_MERCENARY_PARTY');
   const mercenaryFighter=buildMercenaryFighter(mercenary,'A','PVE',buildFighter);
   const simulationTeamA = [...teamA,...(battleSuitFighter?[battleSuitFighter]:[]),...(mercenaryFighter?[mercenaryFighter]:[])];
+  applyPveEquipmentGrowth(simulationTeamA,pveEquipmentRuntime);
   return {teamA,battleSuitFighter,mercenaryFighter,simulationTeamA};
 }
 
-export function createPveBattleV2({ cards = [], magicCards = [], characterBonus = 0, battleSuit = null, mercenary = null, pet = null, monster = {}, seed = 1, ultimateDamage = 0, bossUltimatePercent = 0, bossUltimateCapPercent = 100, singleHealerBonus = {}, escortObjective = null, encounter = null, [Z_BODY_AREA_REVIEW]: zAreaReview = false, [X_BODY_AREA_REVIEW]: xAreaReview = false, [MAGIC_SEASON2_REVIEW]: season2Review = false } = {}) {
+export function createPveBattleV2({ cards = [], magicCards = [], characterBonus = 0, battleSuit = null, mercenary = null, pet = null, pveEquipmentRuntime = null, monster = {}, seed = 1, ultimateDamage = 0, bossUltimatePercent = 0, bossUltimateCapPercent = 100, singleHealerBonus = {}, escortObjective = null, encounter = null, [Z_BODY_AREA_REVIEW]: zAreaReview = false, [X_BODY_AREA_REVIEW]: xAreaReview = false, [MAGIC_SEASON2_REVIEW]: season2Review = false } = {}) {
   const encounterPlan = encounter === null ? null : preparePveEncounter(encounter);
   if (encounterPlan && (cards.length !== 5 || new Set(cards.map(card => String(card.id))).size !== 5 || escortObjective)) throw new Error('INVALID_PVE_ENCOUNTER_PARTY');
-  const {teamA,battleSuitFighter,mercenaryFighter,simulationTeamA}=buildPvePlayerTeam({cards,characterBonus,battleSuit,mercenary});
+  const {teamA,battleSuitFighter,mercenaryFighter,simulationTeamA}=buildPvePlayerTeam({cards,characterBonus,battleSuit,mercenary,pveEquipmentRuntime});
   const legion=encounterPlan?null:buildApocalypseLegion(monster,buildMonsterFighter);
   const teamB = encounterPlan ? encounterPlan.initial : legion || [buildMonsterFighter(monster)];
   const forcedMonsterEvery = encounterPlan ? encounterPlan.forcedMonsterEvery : escortObjective ? 4 : (teamB[0]?.forcedActionEvery > 0 ? teamB[0].forcedActionEvery : (teamB[0]?.isBoss ? 8 : 12));

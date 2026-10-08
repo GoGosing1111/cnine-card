@@ -1609,6 +1609,7 @@ export async function handleSiege({ path, request, env, deps }) {
         formation: "DEFENSE",
       },
       battleV2 = createPveBattleV2({
+        pveEquipmentRuntime: characterBonus.pveEquipmentRuntime,
         pet:await loadPetBattleSnapshot(env,user,'PVE'),
         cards: engineDeck,
         mercenary: await releasedMercenarySnapshot(env,user),

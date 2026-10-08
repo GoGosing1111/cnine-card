@@ -9,12 +9,14 @@ const schema=[
   'CREATE TABLE users(id INTEGER PRIMARY KEY,nickname TEXT,role TEXT,coin INTEGER)',
   'CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT)',
   'CREATE TABLE inventory_items(code TEXT PRIMARY KEY,name TEXT,subtitle TEXT,description TEXT,category TEXT,rarity TEXT,image_url TEXT,sort_order INTEGER,is_active INTEGER,updated_at TEXT)',
-  'CREATE TABLE cnine_user_inventory(user_id INTEGER,item_code TEXT,quantity INTEGER,PRIMARY KEY(user_id,item_code))',
+  'CREATE TABLE cnine_user_inventory(user_id INTEGER,item_code TEXT,quantity INTEGER,unseen_quantity INTEGER DEFAULT 0,updated_at TEXT,PRIMARY KEY(user_id,item_code))',
+  'CREATE TABLE inventory_logs(user_id INTEGER,item_code TEXT,change_amount INTEGER,balance_after INTEGER,reason TEXT,reference_type TEXT,reference_id TEXT)',
   'CREATE TABLE admin_logs(id INTEGER PRIMARY KEY AUTOINCREMENT,admin_id INTEGER,action_type TEXT,target_type TEXT,target_id TEXT,before_data TEXT,after_data TEXT)',
   'CREATE TABLE character_equipment_items(id INTEGER PRIMARY KEY,code TEXT,name TEXT,slot TEXT,subtype TEXT,rarity TEXT,image_url TEXT,total_power INTEGER,pve_power INTEGER,pvp_power INTEGER,is_active INTEGER,is_public INTEGER)',
-  'CREATE TABLE user_equipment_instances(id INTEGER PRIMARY KEY,user_id INTEGER,equipment_id INTEGER,acquired_at TEXT)',
+  'CREATE TABLE user_equipment_instances(id INTEGER PRIMARY KEY,user_id INTEGER,equipment_id INTEGER,acquired_at TEXT,source_type TEXT,source_id TEXT)',
   'CREATE TABLE user_equipment_loadout(user_id INTEGER,slot TEXT,instance_id INTEGER)',
   'CREATE TABLE equipment_forge_states_v1(instance_id INTEGER PRIMARY KEY,user_id INTEGER,level INTEGER,revision INTEGER)',
+  'CREATE TABLE equipment_forge_destroyed_v1(record_id TEXT,user_id INTEGER,original_instance_id TEXT,restored_instance_id TEXT)',
   ...JOINT_ATOMIC_SCHEMA
 ];
 export async function polishFixture(t,{postgres=false}={}){
@@ -38,9 +40,9 @@ export async function polishFixture(t,{postgres=false}={}){
   const close=()=>pg?pg.close():sqlite.close();t?.after(close);
   const p=(sql,...v)=>DB.prepare(sql).bind(...v),env={DB};
   for(const [id,role] of [[7,'OWNER'],[8,'USER'],[9,'ADMIN']])await p('INSERT INTO users VALUES(?,?,?,?)',id,'격리 검수 계정',role,1000000).run();
-  await p("INSERT INTO cnine_user_inventory VALUES(7,'MASTER_STAR',1500),(7,'EQUIPMENT_POLISH_STONE',20)").run();
+  await p("INSERT INTO cnine_user_inventory(user_id,item_code,quantity) VALUES(7,'MASTER_STAR',1500),(7,'EQUIPMENT_POLISH_STONE',20)").run();
   await p("INSERT INTO character_equipment_items VALUES(1,'QA_WEAPON','아발론 검수 무기','WEAPON','RIFLE','SS','/assets/ui/project-v/account-battle-suits/weapons/avalon-m4a1-v1.png',20000,20000,20000,1,1)").run();
-  await p("INSERT INTO user_equipment_instances VALUES(71,7,1,'2026-10-05'),(72,7,1,'2026-10-05'),(81,8,1,'2026-10-05')").run();
+  await p("INSERT INTO user_equipment_instances(id,user_id,equipment_id,acquired_at) VALUES(71,7,1,'2026-10-05'),(72,7,1,'2026-10-05'),(81,8,1,'2026-10-05')").run();
   await p("INSERT INTO user_equipment_loadout VALUES(7,'WEAPON',71)").run();
   await p('INSERT INTO equipment_forge_states_v1 VALUES(71,7,3,2)').run();
   const authenticate=async r=>{

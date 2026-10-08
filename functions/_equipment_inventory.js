@@ -2,19 +2,24 @@ import {equipmentCountsReady,EQUIPMENT_COUNTS_TABLE} from './_equipment_counts_v
 import {FORGE_RUNTIME_RELEASE_ENABLED} from '../shared/equipment-forge-release-v1.mjs';
 import {EQUIPMENT_POWER_STANDARD} from '../shared/equipment-mercenary-power-v1.mjs';
 import {forgePower} from '../shared/equipment-forge-policy-v1.mjs';
+import {polishUserPrefix} from './_equipment_growth.js';
 
 // Only unenhanced duplicates may stack. Every enhanced copy is an individual
 // row with its REAL owned instance ID, even when two copies have the same level.
 // Merely opening the inventory must never change a player's loadout.
 export async function equipmentEnhancementRows(env,userId,rows,{admin=false}={}){
   if(!FORGE_RUNTIME_RELEASE_ENABLED||!rows.length)return rows;
-  const enhanced=(await env.DB.prepare(`WITH growth AS MATERIALIZED (
+  const prefix=polishUserPrefix(userId);
+  const enhanced=(await env.DB.prepare(`WITH polished AS MATERIALIZED (
+      SELECT CAST(SUBSTR(key,?) AS BIGINT) AS instance_id FROM app_meta WHERE key>=? AND key<?
+    ), growth AS MATERIALIZED (
       SELECT instance_id,level FROM equipment_forge_states_v1 WHERE user_id=? AND level>0
+      UNION ALL SELECT p.instance_id,0 AS level FROM polished p WHERE NOT EXISTS(SELECT 1 FROM equipment_forge_states_v1 s WHERE s.instance_id=p.instance_id AND s.user_id=? AND s.level>0)
     ) SELECT x.id AS instance_id,s.level AS enhancement_level,1 AS quantity,x.source_type,x.source_id,x.acquired_at,i.*
       FROM growth s JOIN user_equipment_instances x ON x.id=s.instance_id AND x.user_id=?
       JOIN character_equipment_items i ON i.id=x.equipment_id
       WHERE i.slot IN (${EQUIPMENT_POWER_STANDARD.supportedSlots.map(()=>'?').join(',')}) ${admin?'':'AND i.is_active=1 AND i.is_public=1'}
-      ORDER BY x.id DESC`).bind(userId,userId,...EQUIPMENT_POWER_STANDARD.supportedSlots).all()).results;
+      ORDER BY x.id DESC`).bind(prefix.length+1,prefix,prefix+'~',userId,userId,userId,...EQUIPMENT_POWER_STANDARD.supportedSlots).all()).results;
   if(!enhanced.length)return rows;
   const counts=new Map();for(const row of enhanced)counts.set(Number(row.id),(counts.get(Number(row.id))||0)+Number(row.quantity));
   const ids=[...counts.keys()];
@@ -24,6 +29,7 @@ export async function equipmentEnhancementRows(env,userId,rows,{admin=false}={})
     FROM character_equipment_items i JOIN user_equipment_instances x ON x.id=(
       SELECT b.id FROM user_equipment_instances b WHERE b.user_id=? AND b.equipment_id=i.id
         AND NOT EXISTS(SELECT 1 FROM equipment_forge_states_v1 s WHERE s.instance_id=b.id AND s.user_id=b.user_id AND s.level>0)
+        AND NOT EXISTS(SELECT 1 FROM app_meta p WHERE p.key=('equipment_polish_instance_v1:' || CAST(b.user_id AS TEXT) || ':' || CAST(b.id AS TEXT)))
       ORDER BY b.user_id DESC,b.equipment_id DESC,b.id DESC LIMIT 1
     ) WHERE i.id IN (${ids.map(()=>'?').join(',')})`).bind(userId,...ids).all()).results;
   const baseById=new Map(base.map(row=>[Number(row.equipment_id),row]));
