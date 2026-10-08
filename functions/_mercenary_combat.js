@@ -15,6 +15,7 @@ import {isMercenaryGuardSkill,MERCENARY_GUARD_BASIC_SCALE,mercenaryWardPercent} 
 import {isMercenaryMoonDrawSkill} from '../shared/mercenary-moon-draw-v1.mjs';
 import {resolveMangisaVolley} from './_mercenary_mangisa.js';
 import {resolveRagnielJudgment} from './_mercenary_ragniel.js';
+import {VALTER_CODE,VALTER_COMBAT,isValter,valterActionCredit} from '../shared/mercenary-valter-v1.mjs';
 const living=x=>x?.alive!==false&&x?.hp>0&&!x?.untargetable&&!x?.isBattleSuit;
 const ordered=team=>team.filter(living).sort((a,b)=>a.slot-b.slot||String(a.id).localeCompare(String(b.id)));
 const front=team=>{const all=ordered(team),rows=all.filter(x=>x.row==='FRONT');return rows.length?rows:all.slice(0,1);};
@@ -28,7 +29,7 @@ export function mercenaryTurnCadence(teams){
  if([...teams.A,...teams.B].some(actor=>actor.ownerId))return duoMercenaryTurnCadence(teams);
  const debt={A:0,B:0};
  const interval=side=>teams[side]?.some(a=>a.isMercenary&&a.statMode==='RANK_FIXED')?MERCENARY_COMBAT_LINK.regularActionsPerTurn:5;
- const credit=side=>berkanActionCredit(teams[side]||[]);
+ const credit=side=>Math.max(berkanActionCredit(teams[side]||[]),valterActionCredit(teams[side]||[]));
  const accrue=side=>debt[side]=Math.min(interval(side)+Math.ceil(credit(side))-1,debt[side]+credit(side));
  const regular=actor=>living(actor)&&!actor.isMonster&&!actor.isMercenary&&actor.actorKind!=='BATTLE_SUIT';
  return {
@@ -40,8 +41,8 @@ export function mercenaryTurnCadence(teams){
    return teams[actor.side]?.find(a=>a.isMercenary&&living(a))||actor;
   },
   acted(actor){
-   // Berkan retains fractional progress: four ordinary actions fund five
-   // mercenary actions. Mercenary/suit actions never create new credit.
+   // Fractional progress funds five Berkan turns per four card actions or
+   // three Valter turns per two. Mercenary/suit actions create no new credit.
    if(actor.isMercenary)debt[actor.side]=credit(actor.side)>1?Math.max(0,debt[actor.side]-interval(actor.side)):0;
    else if(regular(actor)){
     accrue(actor.side);
@@ -61,7 +62,7 @@ function duoMercenaryTurnCadence(teams){
  const groups=['A','B'].flatMap(side=>[...new Set(teams[side].map(a=>a.ownerId))].map(ownerId=>({side,ownerId,actors:teams[side].filter(a=>a.ownerId===ownerId),debt:0})));
  const regular=a=>living(a)&&!a.isMercenary&&!a.isMonster&&!a.isBattleSuit;
  const interval=g=>g.actors.some(a=>a.isMercenary&&a.statMode==='RANK_FIXED')?MERCENARY_COMBAT_LINK.regularActionsPerTurn:5;
- const credit=g=>berkanActionCredit(g.actors);
+ const credit=g=>Math.max(berkanActionCredit(g.actors),valterActionCredit(g.actors));
  const accrue=g=>g.debt=Math.min(interval(g)+Math.ceil(credit(g))-1,g.debt+credit(g));
  const pending=(g,eligible)=>g.debt>=interval(g)?g.actors.find(a=>a.isMercenary&&living(a)&&eligible(a)):null;
  return {
@@ -103,11 +104,15 @@ const MERCENARY_SUPPORT_MECHANICS=new Set(['INTERCEPT_ONE_HIT','FRONT_STAND_FAST
 export const isMercenarySupportSkill=skill=>MERCENARY_SUPPORT_MECHANICS.has(skill?.mechanic);
 export function buildMercenaryFighter(snapshot,side,mode,buildCardFighter){
  if(!snapshot)return null;
+ // Limited account/release gates remain outside this canonical fighter builder.
+ // A trusted prepared Valter snapshot always uses the same server-owned policy.
+ const valter=snapshot.code===VALTER_CODE;
+ if(valter)snapshot={...snapshot,rank:'SSS',statMode:'RANK_FIXED',position:'FRONT',role:'VANGUARD',attackStyle:'MELEE',counterImmune:true,controlImmune:true,poisonImmune:true,valterPolicyVersion:VALTER_COMBAT.version};
  if(snapshot.statMode==='RANK_FIXED'){
-  const power=MERCENARY_POWER_STANDARD.basePowerByRank[snapshot.rank];
+  const power=valter?VALTER_COMBAT.basePower:MERCENARY_POWER_STANDARD.basePowerByRank[snapshot.rank];
   if(!power||typeof buildCardFighter!=='function')throw Error('INVALID_MERCENARY_RANK_POWER');
   const base=buildCardFighter({id:snapshot.code,power,type:'NONE'},5,side,null,mode);
-  snapshot={...snapshot,basePower:power,level:1,stats:{hp:base.maxHp,attack:base.attack,defense:base.defense,speed:Math.round(base.speed*(snapshot.code===BERKAN_CODE?BERKAN_TEMPO.speedScale:1))}};
+  snapshot={...snapshot,basePower:power,level:1,stats:{hp:base.maxHp,attack:base.attack,defense:base.defense,speed:Math.round(base.speed*(valter?VALTER_COMBAT.speedScale:snapshot.code===BERKAN_CODE?BERKAN_TEMPO.speedScale:1))}};
  }
  if(!/^V-\d{3}$/.test(snapshot.code)||!['A','B'].includes(side)||Object.values(snapshot.stats||{}).length!==4||Object.values(snapshot.stats).some(n=>!Number.isSafeInteger(n)||n<=0))throw Error('INVALID_MERCENARY_SNAPSHOT');
  for(const s of snapshot.skills||[]){const b=s.balance;if(!b||!Number.isFinite(b.damageRatio)||b.damageRatio<0||b.damageRatio>10000||!Number.isSafeInteger(Math.floor(snapshot.stats.attack*b.damageRatio))||!Number.isInteger(b.cost)||b.cost<0||!Number.isInteger(b.cooldownTurns)||b.cooldownTurns<0)throw Error('INVALID_MERCENARY_SKILL_BALANCE');}
@@ -218,7 +223,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
    if(mechanic==='FINISHER_WITH_RELOAD')scale=1+c.finisherBonusPercent/100;
    // 순차 사격은 한 행동에 한 발이라 발마다 상한 1개, 동시 사격은 한 행동 예산을 발끼리 나눈다.
    const h=strike(a,s,t,scale,'HIT',{followup:index>0,castShare:sequential?1:scale/totalScale,capShare:sequential?1/count:scale/totalScale,capCount:sequential?count:1});
-   if(h.hit&&living(t)&&mechanic==='PLATINUM_FOCUS_LOCK'&&!(p.weakened?.has(t.id))){(p.weakened||=new Set()).add(t.id);table(debuffs,t).veil={percent:c.veilPercent};send(a,s,'DEBUFF',t,{effect:'OFFENSIVE_SKILL_ONLY'});}
+   if(h.hit&&living(t)&&!isValter(t)&&mechanic==='PLATINUM_FOCUS_LOCK'&&!(p.weakened?.has(t.id))){(p.weakened||=new Set()).add(t.id);table(debuffs,t).veil={percent:c.veilPercent};send(a,s,'DEBUFF',t,{effect:'OFFENSIVE_SKILL_ONLY'});}
   }
   if(sequential&&end<count&&enemies(a).length){p.step=end;p.due=a.actions+1;return;}
   finish(a,s);
@@ -273,11 +278,11 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
     finish(a,s);break;}
    // Authored barrage tracers share one canonical hit, never one damage roll per visual shot.
    case 'LAVENDER_RICOCHET':case 'TIDAL_BARRAGE':once(t=>strike(a,s,t));break;
-   case 'DUEL_OATH':once(t=>{if(strike(a,s,t).hit&&living(t)){table(debuffs,t).oath={actorId:a.id,percent:c.parryPercent,expires:t.actions+c.statusTurns};send(a,s,'DEBUFF',t,{effect:'DUEL_OATH'});}});break;
+   case 'DUEL_OATH':once(t=>{if(strike(a,s,t).hit&&living(t)&&!isValter(t)){table(debuffs,t).oath={actorId:a.id,percent:c.parryPercent,expires:t.actions+c.statusTurns};send(a,s,'DEBUFF',t,{effect:'DUEL_OATH'});}});break;
    case 'OBSERVED_SHIELD_BREAK':once(t=>{const h=strike(a,s,t);if(h.hit&&living(t)&&t.shield>0){const budget=Math.min(t.shield,Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio*c.armorReductionPercent/100)),result=damage(t,budget,{actor:a});a.damageDealt+=result.absorbed;send(a,s,'DEBUFF',t,{effect:'SHIELD_ONLY_BREAK',amount:result.absorbed,targetShieldAfter:t.shield});}});break;
    case 'WOUNDED_MOON_DRAW':once(t=>strike(a,s,t,1+(1-t.hp/t.maxHp)*c.finisherBonusPercent/100));break;
    case 'FRONT_STAND_FAST':once(t=>{table(buffs,t).standfast={actor:a,skill:s,percent:mercenaryWardPercent(c.interceptPercent),budget:Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio/p.targets.length),expires:a.actions+c.statusTurns};send(a,s,'BUFF',t,{effect:'FRONT_STAND_FAST'});});break;
-   case 'THORN_RECOIL_SEAL':once(t=>{const h=strike(a,s,t,1-c.poisonPercent/100,'HIT',{capShare:1-c.poisonPercent/100});if(h.hit&&living(t)){table(debuffs,t).thorn={actor:a,skill:s,damage:Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio*c.poisonPercent/100),expires:t.actions+c.statusTurns};send(a,s,'DEBUFF',t,{effect:'THORN_RECOIL_SEAL'});}});break;
+   case 'THORN_RECOIL_SEAL':once(t=>{const h=strike(a,s,t,1-c.poisonPercent/100,'HIT',{capShare:1-c.poisonPercent/100});if(h.hit&&living(t)&&!isValter(t)){table(debuffs,t).thorn={actor:a,skill:s,damage:Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio*c.poisonPercent/100),expires:t.actions+c.statusTurns};send(a,s,'DEBUFF',t,{effect:'THORN_RECOIL_SEAL'});}});break;
    case 'ABYSS_SHIELD_ECHO':{
     const t=ts[0];if(!p.step){const h=strike(a,s,t,.5);if(!h.hit||!living(t)){finish(a,s);break;}p.absorbed=Math.min(h.absorbed||0,Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio*c.focusBonusPercent/100));p.step=1;p.due=a.actions+1;}
     else{const base=mercenaryEffectiveAttack(a)*s.balance.damageRatio;strike(a,s,t,.5+(base>0?p.absorbed/base:0),'HIT',{followup:true});finish(a,s);}break;}
@@ -287,7 +292,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
     p.step=index+1;p.targets=[next.id];p.due=a.actions+1;send(a,s,'WINDUP',next,{targetIds:[next.id],continuation:true});break;}
    case 'PLATINUM_FOCUS_LOCK':{
     const t=ts[0],index=p.step||0,h=strike(a,s,t,1/3,'HIT',{followup:index>0});p.allHit=(p.allHit!==false)&&h.hit;
-    if(!living(t)||index>=2){if(living(t)&&p.allHit){table(debuffs,t).veil={percent:c.veilPercent};send(a,s,'DEBUFF',t,{effect:'OFFENSIVE_SKILL_ONLY'});}finish(a,s);}else{p.step=index+1;p.due=a.actions+1;}break;}
+    if(!living(t)||index>=2){if(living(t)&&p.allHit&&!isValter(t)){table(debuffs,t).veil={percent:c.veilPercent};send(a,s,'DEBUFF',t,{effect:'OFFENSIVE_SKILL_ONLY'});}finish(a,s);}else{p.step=index+1;p.due=a.actions+1;}break;}
    case 'DISTRIBUTED_CORAL_VOLLEY':{
     const index=p.step||0,t=all().find(t=>t.id===p.targets[index]);if(living(t))strike(a,s,t,1/p.targets.length,'HIT',{followup:index>0});
     if(index+1>=p.targets.length)finish(a,s);else{p.step=index+1;p.due=a.actions+1;}break;}
@@ -295,11 +300,11 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
    case 'MELEE_PARRY_RIPOSTE':once(t=>{b.parry={skill:s,percent:c.parryPercent,expires:a.actions+c.statusTurns};send(a,s,'BUFF',t,{effect:'MELEE_PARRY_RIPOSTE'});});break;
    case 'NEXT_BASIC_ORDER':once(t=>{table(buffs,t).order={percent:c.orderPercent,source:a.id};send(a,s,'BUFF',t,{effect:'NEXT_BASIC_ORDER'});});break;
    case 'FRONT_SHARED_BARRIER':once(t=>{const buff=table(buffs,t),old=buff.mercBarrier||0,budget=Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio/p.targets.length),remaining=Math.min(old,t.shield);t.shield=Math.max(0,t.shield-remaining)+budget;t.maxShield=Math.max(t.maxShield,t.shield);buff.mercBarrier=budget;send(a,s,'BUFF',t,{effect:'SHIELD',amount:budget,targetShieldAfter:t.shield});});break;
-   case 'FRONT_OFFENSE_VEIL':once(t=>{table(debuffs,t).veil={percent:c.veilPercent};send(a,s,'DEBUFF',t,{effect:'OFFENSIVE_SKILL_ONLY'});});break;
+   case 'FRONT_OFFENSE_VEIL':once(t=>{if(isValter(t))return;table(debuffs,t).veil={percent:c.veilPercent};send(a,s,'DEBUFF',t,{effect:'OFFENSIVE_SKILL_ONLY'});});break;
    case 'CLEANSE_THEN_MEND':
     if(!p.step){const removed=cleanse(ts[0],true);send(a,s,'CLEANSE',ts[0],{removed});p.step=1;p.due=a.actions+1;break;}
     once(t=>{const requested=Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio*(1-Math.min(100,Number(t.healingReductionPercent||0))/100)),converted=season2?.heal?.(t,apocalypseHealing(t,requested)),amount=converted??apocalypseHealing(t,Math.min(t.maxHp-t.hp,iconHealingAmount(t,requested)));if(converted==null)t.hp+=amount;a.healingDone+=amount;send(a,s,'HEAL',t,{amount,targetHpAfter:t.hp,targetMaxHp:t.maxHp});});break;
-   case 'BREAK_ARMOR_WINDOW':once(t=>{const hadShield=t.shield>0;strike(a,s,t);if(hadShield&&living(t)){const d=table(debuffs,t),original=d.armor?.original??t.defense;d.armor={original,expires:t.actions+c.statusTurns};t.defense=original*(1-c.armorReductionPercent/100);send(a,s,'DEBUFF',t,{effect:'ARMOR_WINDOW',defenseAfter:t.defense});}});break;
+   case 'BREAK_ARMOR_WINDOW':once(t=>{const hadShield=t.shield>0;strike(a,s,t);if(hadShield&&living(t)&&!isValter(t)){const d=table(debuffs,t),original=d.armor?.original??t.defense;d.armor={original,expires:t.actions+c.statusTurns};t.defense=original*(1-c.armorReductionPercent/100);send(a,s,'DEBUFF',t,{effect:'ARMOR_WINDOW',defenseAfter:t.defense});}});break;
    case 'ADVANCE_SUPPRESSION':once(t=>{strike(a,s,t,1/p.targets.length);if(living(t)&&!t.controlImmune&&!t.isBoss&&t.row==='FRONT'&&t.attackStyle==='MELEE'){t.gauge=Math.max(0,t.gauge-c.suppressGauge);send(a,s,'DEBUFF',t,{effect:'APPROACH_DELAY',targetGaugeAfter:t.gauge});}});break;
    case 'EMERALD_ANTIMATERIEL':case 'LOCKED_THREAT_SHOT':once(t=>strike(a,s,t));break;
    case 'UNDISTURBED_FIRST_SHOT':once(t=>{const focused=state(a).hits===p.hits;send(a,s,'FOCUS',t,{focused});strike(a,s,t,focused?1+c.focusBonusPercent/100:1);});break;
@@ -308,12 +313,12 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
    // v2119: 제압이 기본 공격 한 번만 약화하고 끝나 제어형의 값어치가 거의 없었다.
    // 표식이 찼으면 지속 시간 동안 그 적의 기본 공격을 계속 약화하고,
    // 아직 안 찼으면 이번 사격으로 표식을 하나 쌓아 다음 시전이 헛돌지 않게 한다.
-   case 'REPEAT_OFFENDER_RESTRAINT':once(t=>{const d=table(debuffs,t),marked=d.offender?.[a.id]||0,h=strike(a,s,t);if(!h.hit||!living(t))return;
+   case 'REPEAT_OFFENDER_RESTRAINT':once(t=>{const d=table(debuffs,t),marked=d.offender?.[a.id]||0,h=strike(a,s,t);if(!h.hit||!living(t)||isValter(t))return;
     if(marked>=c.restraintHits){d.restraint={percent:c.restraintPercent,expires:t.actions+c.statusTurns};if(d.offender)delete d.offender[a.id];send(a,s,'DEBUFF',t,{effect:'BASIC_WEAKENED'});}
     else{(d.offender||={})[a.id]=marked+1;send(a,s,'DEBUFF',t,{effect:'OFFENDER_MARK'});}});break;
    case 'INFILTRATE_DELAYED_VENOM':once(t=>{const h=strike(a,s,t,1-c.poisonPercent/100,'HIT',{capShare:1-c.poisonPercent/100});if(h.hit&&living(t)&&!t.poisonImmune){table(debuffs,t).poison={actor:a,skill:s,damage:Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio*c.poisonPercent/100),due:t.actions+1};send(a,s,'DEBUFF',t,{effect:'POISON'});}});break;
    case 'RIFT_MARK_DETONATION':
-    if(!p.step){for(const t of ts){const h=strike(a,s,t,.5/p.targets.length,'HIT',{capShare:.5});if(h.hit&&living(t))table(debuffs,t).rift={actorId:a.id};}p.step=1;p.due=a.actions+1;}
+    if(!p.step){for(const t of ts){const h=strike(a,s,t,.5/p.targets.length,'HIT',{capShare:.5});if(h.hit&&living(t)&&!isValter(t))table(debuffs,t).rift={actorId:a.id};}p.step=1;p.due=a.actions+1;}
     else{const share=.5/p.targets.length,used=new Set(),ours=x=>table(debuffs,x).rift?.actorId===a.id;
      // v2119: 표식을 정화당한 대상의 몫은 그대로 사라진다(정화는 유효한 대응이다).
      // 표식을 단 채 먼저 쓰러진 대상의 몫만 남은 전열 적에게 옮겨 터뜨린다.
@@ -358,7 +363,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
    }return false;
   },
   basicMultiplier(a){const b=table(buffs,a),d=table(debuffs,a);let factor=state(a).guardBasicAction===a.actions?MERCENARY_GUARD_BASIC_SCALE:1;if(b.order){factor*=1+b.order.percent/100;delete b.order;}if(d.restraint){if(a.actions<d.restraint.expires)factor*=1-d.restraint.percent/100;else delete d.restraint;}return factor*tierScale(a);},
-  basicDamageCapScale(a){return tierScale(a)*mercenaryPvpTierOffense(a);},
+  basicDamageCapScale(a){return tierScale(a)*mercenaryPvpTierOffense(a)*(isValter(a)?VALTER_COMBAT.basicCapScale:1);},
   beforeBasicDamage(a,t,amount){const buff=table(buffs,t),d=table(debuffs,a);
    const basicScale=berkanPvpBasicDamageScale(a)*cryvernPvpBasicDamageScale(a);if(basicScale!==1)amount=Math.floor(amount*basicScale);
    if(d.oath){const oath=d.oath;delete d.oath;if(oath.actorId===t.id&&a.actions<oath.expires)amount=Math.floor(amount*(1-oath.percent/100));}
@@ -369,7 +374,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
    return amount;
   },
   onDamage(t,result){if(result.hpDamage+result.absorbed>0)state(t).hits++;const b=table(buffs,t);if(b.mercBarrier)b.mercBarrier=Math.max(0,b.mercBarrier-result.absorbed);},
-  afterBasic(a,t,hit,{additional=false}={}){if(hit&&!additional){if(a.isMercenary&&state(a).guardBasicAction!==a.actions)state(a).energy=Math.min(a.combat.energyMax,state(a).energy+a.combat.energyPerBasic);const d=table(debuffs,a);d.offender||={};for(const enemy of enemies(a).filter(e=>e.isMercenary&&e.skills?.some(s=>s.mechanic==='REPEAT_OFFENDER_RESTRAINT')))d.offender[enemy.id]=Math.min(10,(d.offender[enemy.id]||0)+1);}
+  afterBasic(a,t,hit,{additional=false}={}){if(hit&&!additional){if(a.isMercenary&&state(a).guardBasicAction!==a.actions)state(a).energy=Math.min(a.combat.energyMax,state(a).energy+a.combat.energyPerBasic);if(!isValter(a)){const d=table(debuffs,a);d.offender||={};for(const enemy of enemies(a).filter(e=>e.isMercenary&&e.skills?.some(s=>s.mechanic==='REPEAT_OFFENDER_RESTRAINT')))d.offender[enemy.id]=Math.min(10,(d.offender[enemy.id]||0)+1);}}
    if(hit&&!additional){const d=table(debuffs,a),thorn=d.thorn;if(thorn){delete d.thorn;if(living(thorn.actor)&&living(a)&&a.actions<thorn.expires)effect(thorn.actor,thorn.skill,a,thorn.damage,'DOT');}}
    const r=state(t).riposte;delete state(t).riposte;if(r&&living(t)&&living(r.target))strike(t,r.skill,r.target,1,'RIPOSTE',{followup:true});
   },cleanse,cancel,state,buffs,debuffs,

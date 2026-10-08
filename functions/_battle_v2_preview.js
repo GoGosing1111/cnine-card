@@ -19,6 +19,7 @@ import {PVP_SPEED_REFORM,PVP_GUARD_SHIELD_CURVE,isPvpSpeedCard,speedComboPlan,sp
 import {validatedIconSnapshot,iconDefinition,iconHealingAmount} from '../shared/icon-roles-v1.mjs';
 import {createIconCombatRuntime} from './_icon_combat.js';
 import {ICON_SUPREMACY,iconStatFloor} from '../shared/icon-supremacy-v1.mjs';
+import {valterIncomingDamage} from '../shared/mercenary-valter-v1.mjs';
 
 // =====================================================================
 // V1936: 계열 개편 (S1)
@@ -554,6 +555,7 @@ function applyCanonicalDamage(target, incoming, options = {}) {
   if (options.shieldBonus > 0 && target.shield > 0) {
     incoming = incoming + Math.min(target.shield, incoming * options.shieldBonus);
   }
+  incoming = valterIncomingDamage(target,incoming,options.actor);
   let remaining = Math.max(0, Number(incoming || 0));
   const shieldBefore = target.shield;
   const bypass=Math.floor(remaining*clamp(Number(options.shieldPierce||0),0,1));

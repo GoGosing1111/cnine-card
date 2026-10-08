@@ -1,0 +1,1350 @@
+{
+  "capturedAt": "2026-10-08T01:40:52.032Z",
+  "cmsRevision": 61,
+  "scope": "READ_ONLY_PRODUCTION_CMS_NO_ACCOUNTS",
+  "combat": {
+    "energyMax": 100,
+    "energyPerBasic": 10,
+    "windupTurns": 1,
+    "statusTurns": 2,
+    "armorReductionPercent": 20,
+    "interceptPercent": 40,
+    "parryPercent": 40,
+    "orderPercent": 15,
+    "veilPercent": 25,
+    "finisherHpPercent": 30,
+    "finisherBonusPercent": 50,
+    "focusBonusPercent": 40,
+    "poisonPercent": 40,
+    "restraintHits": 2,
+    "restraintPercent": 25,
+    "suppressGauge": 20,
+    "reloadGauge": 20,
+    "powerGrowthPercentPerLevel": 0
+  },
+  "roster": [
+    {
+      "code": "V-001",
+      "name": "아우렌",
+      "title": "성검의 계승자",
+      "rank": "S",
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [
+        {
+          "id": "MS-001",
+          "name": "성검의 맹세",
+          "mechanic": "DUEL_OATH",
+          "balance": {
+            "damageRatio": 2.2,
+            "cooldownTurns": 4,
+            "cost": 20
+          }
+        }
+      ],
+      "pendingSkillIds": [],
+      "basePower": 70000,
+      "sourceArt": "assets/ui/project-v/mercenaries/holy-knight-greatsword-v2-collectible.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v001-auren-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-002",
+      "name": "리시아",
+      "title": "에메랄드 레이븐",
+      "rank": "A",
+      "position": "MIDDLE",
+      "role": "MARKSMAN",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [],
+      "pendingSkillIds": [],
+      "basePower": 40000,
+      "sourceArt": "assets/ui/project-v/mercenaries/female-mercenary-m4-v4-knight-style.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v002-licia-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-003",
+      "name": "솔바인",
+      "title": "황금 방벽",
+      "rank": "S",
+      "position": "FRONT",
+      "role": "GUARDIAN",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "ALLY_LOW_HP",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [
+        {
+          "id": "MS-003",
+          "name": "황금 구명선",
+          "mechanic": "INTERCEPT_ONE_HIT",
+          "balance": {
+            "damageRatio": 0,
+            "cooldownTurns": 3,
+            "cost": 15
+          }
+        }
+      ],
+      "pendingSkillIds": [],
+      "basePower": 70000,
+      "sourceArt": "assets/ui/project-v/mercenaries/golden-sword-shield-knight-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v003-solvain-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-004",
+      "name": "베스페라",
+      "title": "루비 디렉터",
+      "rank": "SS",
+      "position": "REAR",
+      "role": "SNIPER",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "BACK_THREAT",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [
+        {
+          "id": "MS-004",
+          "name": "루비 최후통첩",
+          "mechanic": "LOCKED_THREAT_SHOT",
+          "balance": {
+            "damageRatio": 3.8,
+            "cooldownTurns": 3,
+            "cost": 20
+          }
+        }
+      ],
+      "pendingSkillIds": [],
+      "basePower": 120000,
+      "sourceArt": "assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v004-vespera-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-005",
+      "name": "청아",
+      "title": "청룡의 계약자",
+      "rank": "S",
+      "position": "MIDDLE",
+      "role": "MARKSMAN",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [
+        {
+          "id": "MS-005",
+          "name": "탄착 교정",
+          "mechanic": "SAME_TARGET_CALIBRATION",
+          "balance": {
+            "damageRatio": 4.2,
+            "cooldownTurns": 5,
+            "cost": 25
+          }
+        }
+      ],
+      "pendingSkillIds": [],
+      "basePower": 70000,
+      "sourceArt": "assets/ui/project-v/mercenaries/azure-dragon-ak-mercenary-v3.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v005-cheonga-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-006",
+      "name": "카르시아",
+      "title": "흑월의 집행자",
+      "rank": "A",
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [],
+      "pendingSkillIds": [],
+      "basePower": 40000,
+      "sourceArt": "assets/ui/project-v/mercenaries/black-eclipse-greatsword-mercenary-v2.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v006-carsia-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-007",
+      "name": "서윤",
+      "title": "야간 해결사",
+      "rank": "A",
+      "position": "MIDDLE",
+      "role": "ASSASSIN",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "LOW_HP_ENEMY",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [],
+      "pendingSkillIds": [],
+      "basePower": 40000,
+      "sourceArt": "assets/ui/project-v/mercenaries/modern-office-pistol-mercenary-v2.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v007-seoyoon-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-008",
+      "name": "아스텔",
+      "title": "홍성의 관측자",
+      "rank": "S",
+      "position": "REAR",
+      "role": "SNIPER",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [
+        {
+          "id": "MS-008",
+          "name": "홍성 파쇄탄",
+          "mechanic": "OBSERVED_SHIELD_BREAK",
+          "balance": {
+            "damageRatio": 2.8,
+            "cooldownTurns": 4,
+            "cost": 25
+          }
+        }
+      ],
+      "pendingSkillIds": [],
+      "basePower": 70000,
+      "sourceArt": "assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v008-astel-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-009",
+      "name": "련화",
+      "title": "적주의 무희",
+      "rank": "SS",
+      "position": "MIDDLE",
+      "role": "MARKSMAN",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "LOW_HP_ENEMY",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [
+        {
+          "id": "MS-009",
+          "name": "적주 윤무",
+          "mechanic": "DANCING_TARGET_VOLLEY",
+          "balance": {
+            "damageRatio": 4.5,
+            "cooldownTurns": 5,
+            "cost": 30
+          }
+        }
+      ],
+      "pendingSkillIds": [],
+      "basePower": 120000,
+      "sourceArt": "assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v2.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v009-ryeonhwa-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-010",
+      "name": "월령",
+      "title": "적월의 집행자",
+      "rank": "SS",
+      "position": "FRONT",
+      "role": "ASSASSIN",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "LOW_HP_ENEMY",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [
+        {
+          "id": "MS-010",
+          "name": "적월 낙형",
+          "mechanic": "WOUNDED_MOON_DRAW",
+          "balance": {
+            "damageRatio": 2.8,
+            "cooldownTurns": 4,
+            "cost": 25
+          }
+        }
+      ],
+      "pendingSkillIds": [],
+      "basePower": 120000,
+      "sourceArt": "assets/ui/project-v/mercenaries/moonlit-crimson-sword-mercenary-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v010-wolryeong-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-011",
+      "name": "아르카엘",
+      "title": "백철의 선봉장",
+      "rank": "S",
+      "position": "FRONT",
+      "role": "GUARDIAN",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "ALLY_FRONT",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [
+        {
+          "id": "MS-011",
+          "name": "백철 불퇴진",
+          "mechanic": "FRONT_STAND_FAST",
+          "balance": {
+            "damageRatio": 3,
+            "cooldownTurns": 4,
+            "cost": 25
+          }
+        }
+      ],
+      "pendingSkillIds": [],
+      "basePower": 70000,
+      "sourceArt": "assets/ui/project-v/mercenaries/ivory-aegis-vanguard-mercenary-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v011-arkael-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-012",
+      "name": "세리온",
+      "title": "서광의 집행관",
+      "rank": "B",
+      "position": "FRONT",
+      "role": "CONTROLLER",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [],
+      "pendingSkillIds": [],
+      "basePower": 20000,
+      "sourceArt": "assets/ui/project-v/mercenaries/dawn-spear-marshal-mercenary-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v012-serion-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-013",
+      "name": "라비에나",
+      "title": "자천의 지휘관",
+      "rank": "B",
+      "position": "MIDDLE",
+      "role": "SUPPORT",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "ALLY_TEAM",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [],
+      "pendingSkillIds": [],
+      "basePower": 20000,
+      "sourceArt": "assets/ui/project-v/mercenaries/short-bob-k2-amethyst-officer-mercenary-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-014",
+      "name": "엘리시아",
+      "title": "폭풍익의 장교",
+      "rank": "A",
+      "position": "MIDDLE",
+      "role": "MARKSMAN",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [],
+      "pendingSkillIds": [],
+      "basePower": 40000,
+      "sourceArt": "assets/ui/project-v/mercenaries/tempest-wing-k2-officer-mercenary-source-art-v2.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v014-elysia-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-015",
+      "name": "녹시아",
+      "title": "장미흔의 야행자",
+      "rank": "A",
+      "position": "FRONT",
+      "role": "ASSASSIN",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "BACK_THREAT",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [],
+      "pendingSkillIds": [],
+      "basePower": 40000,
+      "sourceArt": "assets/ui/project-v/mercenaries/female-assassin-urban-nightblade-mercenary-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v015-noxia-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-016",
+      "name": "솔레아",
+      "title": "일식의 마도관",
+      "rank": "A",
+      "position": "REAR",
+      "role": "CONTROLLER",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_GROUP",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [],
+      "pendingSkillIds": [],
+      "basePower": 40000,
+      "sourceArt": "assets/ui/project-v/mercenaries/female-mage-eclipse-arcanist-mercenary-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v016-solea-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-017",
+      "name": "마레나",
+      "title": "해벽의 검투사",
+      "rank": "C",
+      "position": "FRONT",
+      "role": "GUARDIAN",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "ALLY_LOW_HP",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [],
+      "pendingSkillIds": [],
+      "basePower": 10000,
+      "sourceArt": "assets/ui/project-v/mercenaries/female-swordshield-tide-bastion-mercenary-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v017-marena-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-018",
+      "name": "미레시아",
+      "title": "거울결정의 현자",
+      "rank": "C",
+      "position": "REAR",
+      "role": "SUPPORT",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "ALLY_LOW_HP",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [],
+      "pendingSkillIds": [],
+      "basePower": 10000,
+      "sourceArt": "assets/ui/project-v/mercenaries/female-staff-mage-mirror-salt-magister-mercenary-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v018-miresia-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-019",
+      "name": "아우렐리온",
+      "title": "천벌의 대천사",
+      "rank": "A",
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [],
+      "pendingSkillIds": [],
+      "basePower": 40000,
+      "sourceArt": "assets/ui/project-v/mercenaries/male-spear-archangel-high-seraph-mercenary-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v019-aurelion-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-020",
+      "name": "사요",
+      "title": "설영의 발도귀",
+      "rank": "C",
+      "position": "FRONT",
+      "role": "ASSASSIN",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "BACK_THREAT",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [],
+      "pendingSkillIds": [],
+      "basePower": 10000,
+      "sourceArt": "assets/ui/project-v/mercenaries/female-katana-winter-iaijutsu-mercenary-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v020-sayo-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-021",
+      "name": "오메가-X",
+      "title": "종언의 성좌기사",
+      "rank": "SSS",
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_GROUP",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [
+        {
+          "id": "MS-021",
+          "name": "종언의 사건지평선",
+          "mechanic": "RIFT_MARK_DETONATION",
+          "balance": {
+            "damageRatio": 5.6,
+            "cooldownTurns": 5,
+            "cost": 35
+          }
+        }
+      ],
+      "pendingSkillIds": [],
+      "basePower": 180000,
+      "sourceArt": "assets/ui/project-v/mercenaries/mercenary-v021-omega-x-source-art-v1.jpg",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v021-omega-x-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-022",
+      "name": "엘로디",
+      "title": "청록 정원의 계약자",
+      "rank": "S",
+      "position": "REAR",
+      "role": "MARKSMAN",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [
+        {
+          "id": "MS-022",
+          "name": "청록 관통화",
+          "mechanic": "THORN_RECOIL_SEAL",
+          "balance": {
+            "damageRatio": 3.2,
+            "cooldownTurns": 4,
+            "cost": 25
+          }
+        }
+      ],
+      "pendingSkillIds": [],
+      "basePower": 70000,
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v022-crossbow-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v022-elodie-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-023",
+      "name": "이안",
+      "title": "청야의 세이버",
+      "rank": "C",
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [],
+      "pendingSkillIds": [],
+      "basePower": 10000,
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v023-saber-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v023-ian-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-024",
+      "name": "벨루아",
+      "title": "흑진주의 특무관",
+      "rank": "B",
+      "position": "MIDDLE",
+      "role": "MARKSMAN",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [],
+      "pendingSkillIds": [],
+      "basePower": 20000,
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v024-nocturne-sks-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v024-velua-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-025",
+      "name": "에이라",
+      "title": "설원의 감시자",
+      "rank": "C",
+      "position": "REAR",
+      "role": "SNIPER",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "BACK_THREAT",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [],
+      "pendingSkillIds": [],
+      "basePower": 10000,
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v025-snowwatch-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v025-eira-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-026",
+      "name": "루카스",
+      "title": "비공정의 유격수",
+      "rank": "C",
+      "position": "MIDDLE",
+      "role": "MARKSMAN",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "LOW_HP_ENEMY",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [],
+      "pendingSkillIds": [],
+      "basePower": 10000,
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v026-skycourier-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v026-lucas-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-027",
+      "name": "케일",
+      "title": "항만의 수호포화",
+      "rank": "A",
+      "position": "MIDDLE",
+      "role": "CONTROLLER",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_GROUP",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [],
+      "pendingSkillIds": [],
+      "basePower": 40000,
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v027-harbor-gunner-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v027-kael-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-028",
+      "name": "연휘",
+      "title": "연꽃의 수호자",
+      "rank": "C",
+      "position": "FRONT",
+      "role": "SUPPORT",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "ALLY_FRONT",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [],
+      "pendingSkillIds": [],
+      "basePower": 10000,
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v028-lotuswarden-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v028-yeonhwi-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-029",
+      "name": "레오나",
+      "title": "성광의 방패",
+      "rank": "B",
+      "position": "FRONT",
+      "role": "GUARDIAN",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "ALLY_FRONT",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [],
+      "pendingSkillIds": [],
+      "basePower": 20000,
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v029-dawnguard-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v029-leona-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-030",
+      "name": "홍련",
+      "title": "석류빛 검무",
+      "rank": "C",
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_GROUP",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [],
+      "pendingSkillIds": [],
+      "basePower": 10000,
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v030-pomegranate-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v030-hongryeon-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-031",
+      "name": "루시안",
+      "title": "월백의 기사",
+      "rank": "C",
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [],
+      "pendingSkillIds": [],
+      "basePower": 10000,
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v031-moonknight-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v031-lucian-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-032",
+      "name": "셀레네",
+      "title": "월정석의 결투가",
+      "rank": "C",
+      "position": "MIDDLE",
+      "role": "ASSASSIN",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "LOW_HP_ENEMY",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [],
+      "pendingSkillIds": [],
+      "basePower": 10000,
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v032-moonstone-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v032-selene-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-033",
+      "name": "로젤",
+      "title": "블랙로즈 잠입가",
+      "rank": "C",
+      "position": "MIDDLE",
+      "role": "MARKSMAN",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [],
+      "pendingSkillIds": [],
+      "basePower": 10000,
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v033-blackrose-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v033-roselle-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-034",
+      "name": "세이지",
+      "title": "청록 정원의 사수",
+      "rank": "A",
+      "position": "MIDDLE",
+      "role": "MARKSMAN",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [],
+      "pendingSkillIds": [],
+      "basePower": 40000,
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v034-verdant-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v034-sage-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-035",
+      "name": "세라",
+      "title": "태양석의 돌파대",
+      "rank": "C",
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_GROUP",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [],
+      "pendingSkillIds": [],
+      "basePower": 10000,
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v035-sunforge-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v035-sera-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-036",
+      "name": "네레이아",
+      "title": "심해성좌의 저격수",
+      "rank": "SS",
+      "position": "REAR",
+      "role": "SNIPER",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "BACK_THREAT",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [
+        {
+          "id": "MS-032",
+          "name": "마지막 약실",
+          "mechanic": "FINISHER_WITH_RELOAD",
+          "balance": {
+            "damageRatio": 2.8,
+            "cooldownTurns": 4,
+            "cost": 25
+          }
+        },
+        {
+          "id": "MS-036",
+          "name": "심해성좌 추적탄",
+          "mechanic": "ABYSS_SHIELD_ECHO",
+          "balance": {
+            "damageRatio": 3.6,
+            "cooldownTurns": 5,
+            "cost": 30
+          }
+        }
+      ],
+      "pendingSkillIds": [],
+      "basePower": 120000,
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v036-astraltide-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v036-nereia-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-037",
+      "name": "아델린",
+      "title": "백금 성역의 포수",
+      "rank": "SS",
+      "position": "MIDDLE",
+      "role": "CONTROLLER",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [
+        {
+          "id": "MS-037",
+          "name": "백금 봉쇄령",
+          "mechanic": "PLATINUM_FOCUS_LOCK",
+          "balance": {
+            "damageRatio": 3.8,
+            "cooldownTurns": 5,
+            "cost": 30
+          }
+        }
+      ],
+      "pendingSkillIds": [],
+      "basePower": 120000,
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v037-seraph-gunner-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v037-adeline-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-038",
+      "name": "세실리아",
+      "title": "청람의 집행관",
+      "rank": "B",
+      "position": "FRONT",
+      "role": "CONTROLLER",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [],
+      "pendingSkillIds": [],
+      "basePower": 20000,
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v038-office-gauntlet-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v038-cecilia-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-039",
+      "name": "로제타",
+      "title": "흑장미의 추격자",
+      "rank": "C",
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [],
+      "pendingSkillIds": [],
+      "basePower": 10000,
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v039-garter-chainsword-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v039-rosetta-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-040",
+      "name": "마리엘",
+      "title": "산호빛 해풍의 궁수",
+      "rank": "SS",
+      "position": "REAR",
+      "role": "MARKSMAN",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "LOW_HP_ENEMY",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [
+        {
+          "id": "MS-040",
+          "name": "산호풍 삼중시",
+          "mechanic": "DISTRIBUTED_CORAL_VOLLEY",
+          "balance": {
+            "damageRatio": 4.2,
+            "cooldownTurns": 5,
+            "cost": 25
+          }
+        }
+      ],
+      "pendingSkillIds": [],
+      "basePower": 120000,
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v040-bikini-bow-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v040-mariel-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-041",
+      "name": "레니아",
+      "title": "호박빛 철로의 방랑자",
+      "rank": "A",
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_GROUP",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [],
+      "pendingSkillIds": [],
+      "basePower": 40000,
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v041-hotpants-greatsword-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v041-renia-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-042",
+      "name": "경찰 조은",
+      "title": "하늘빛 제복의 경찰",
+      "rank": "SS",
+      "position": "MIDDLE",
+      "role": "CONTROLLER",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [
+        {
+          "id": "MS-042",
+          "name": "현행범 체포",
+          "mechanic": "REPEAT_OFFENDER_RESTRAINT",
+          "balance": {
+            "damageRatio": 2.4,
+            "cooldownTurns": 3,
+            "cost": 20
+          }
+        }
+      ],
+      "pendingSkillIds": [],
+      "basePower": 120000,
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v042-police-joeun-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v042-police-joeun-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-043",
+      "name": "동탄 디임",
+      "title": "은빛 거리의 사수",
+      "rank": "SS",
+      "position": "MIDDLE",
+      "role": "MARKSMAN",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [
+        {
+          "id": "MS-043",
+          "name": "퇴근길 앙코르",
+          "mechanic": "TWO_BEAT_FOLLOWUP",
+          "balance": {
+            "damageRatio": 3.6,
+            "cooldownTurns": 4,
+            "cost": 25
+          }
+        }
+      ],
+      "pendingSkillIds": [],
+      "basePower": 120000,
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v043-dongtan-diim-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v043-dongtan-diim-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-044",
+      "name": "하이희야",
+      "title": "백색의 기관총 사수",
+      "rank": "SS",
+      "position": "MIDDLE",
+      "role": "MARKSMAN",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [
+        {
+          "id": "MS-044",
+          "name": "해일 탄막",
+          "mechanic": "TIDAL_BARRAGE",
+          "balance": {
+            "damageRatio": 4.2,
+            "cooldownTurns": 5,
+            "cost": 25
+          }
+        }
+      ],
+      "pendingSkillIds": [],
+      "basePower": 120000,
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260915/mercenary-v044-hi-heeya-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v044-hi-heeya-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-045",
+      "name": "망이사",
+      "title": "금란의 사수",
+      "rank": "SS",
+      "position": "MIDDLE",
+      "role": "MARKSMAN",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [
+        {
+          "id": "MS-045",
+          "name": "금란 연사",
+          "mechanic": "GOLDEN_ORCHID_VOLLEY",
+          "balance": {
+            "damageRatio": 4,
+            "cooldownTurns": 5,
+            "cost": 25
+          }
+        }
+      ],
+      "pendingSkillIds": [],
+      "basePower": 120000,
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260919/mercenary-v045-mangisa-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v045-mangisa-sd-v2.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-046",
+      "name": "라그니엘",
+      "title": "종말의 대천사",
+      "rank": "SSS",
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_GROUP",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [
+        {
+          "id": "MS-046",
+          "name": "종언의 백금성역",
+          "mechanic": "PLATINUM_SANCTUARY",
+          "balance": {
+            "damageRatio": 5.6,
+            "cooldownTurns": 5,
+            "cost": 35
+          }
+        }
+      ],
+      "pendingSkillIds": [],
+      "basePower": 180000,
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260919/mercenary-v046-ragniel-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v046-ragniel-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-047",
+      "name": "비키니 조은",
+      "title": "라벤더의 사수",
+      "rank": "SS",
+      "position": "MIDDLE",
+      "role": "MARKSMAN",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [
+        {
+          "id": "MS-047",
+          "name": "라벤더 리코셰",
+          "mechanic": "LAVENDER_RICOCHET",
+          "balance": {
+            "damageRatio": 4.2,
+            "cooldownTurns": 5,
+            "cost": 25
+          }
+        }
+      ],
+      "pendingSkillIds": [],
+      "basePower": 120000,
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260921/mercenary-v047-bikini-joeun-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v047-bikini-joeun-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-048",
+      "name": "흑월",
+      "title": "고요를 가르는 검",
+      "rank": "SS",
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [
+        {
+          "id": "MS-048",
+          "name": "흑월 삼연참",
+          "mechanic": "BLACK_MOON_TRIPLE_SEVER",
+          "balance": {
+            "damageRatio": 4.2,
+            "cooldownTurns": 5,
+            "cost": 25
+          }
+        }
+      ],
+      "pendingSkillIds": [],
+      "basePower": 120000,
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260922/mercenary-v048-heukwol-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v048-heukwol-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-049",
+      "name": "크라이베른",
+      "title": "",
+      "rank": "SSS",
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_GROUP",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [
+        {
+          "id": "MS-049",
+          "name": "극빙 왕관",
+          "mechanic": "CRYSTAL_CROWN",
+          "balance": {
+            "damageRatio": 5.88,
+            "cooldownTurns": 5,
+            "cost": 35
+          }
+        }
+      ],
+      "pendingSkillIds": [],
+      "basePower": 180000,
+      "sourceArt": "assets/ui/project-v/mercenaries/cryvern-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v049-cryvern-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-050",
+      "name": "저격 오리꿍",
+      "title": "후열의 명사수",
+      "rank": "SS",
+      "position": "REAR",
+      "role": "SNIPER",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "BACK_THREAT",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [
+        {
+          "id": "MS-050",
+          "name": "에메랄드 대물저격",
+          "mechanic": "EMERALD_ANTIMATERIEL",
+          "balance": {
+            "damageRatio": 7.2,
+            "cooldownTurns": 2,
+            "cost": 25
+          }
+        }
+      ],
+      "pendingSkillIds": [],
+      "basePower": 120000,
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260926/mercenary-v050-sniper-orikkung-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v050-sniper-orikkung-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-051",
+      "name": "디임간호사",
+      "title": "백의의 치유사",
+      "rank": "SS",
+      "position": "REAR",
+      "role": "SUPPORT",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "ALLY_TEAM",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [
+        {
+          "id": "MS-051",
+          "name": "백의의 맹세",
+          "mechanic": "WHITE_OATH_GROUP_HEAL",
+          "balance": {
+            "damageRatio": 1.6,
+            "cooldownTurns": 6,
+            "cost": 25
+          },
+          "nurseHealing": {
+            "version": 1,
+            "maxTargetHpPercent": 15
+          }
+        }
+      ],
+      "pendingSkillIds": [],
+      "basePower": 120000,
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260927/diim-nurse-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/nurse-healers-v1/diim-nurse-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-052",
+      "name": "희야 간호사",
+      "title": "백의의 치유사",
+      "rank": "SS",
+      "position": "REAR",
+      "role": "SUPPORT",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "ALLY_TEAM",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [
+        {
+          "id": "MS-051",
+          "name": "백의의 맹세",
+          "mechanic": "WHITE_OATH_GROUP_HEAL",
+          "balance": {
+            "damageRatio": 1.6,
+            "cooldownTurns": 6,
+            "cost": 25
+          },
+          "nurseHealing": {
+            "version": 1,
+            "maxTargetHpPercent": 15
+          }
+        }
+      ],
+      "pendingSkillIds": [],
+      "basePower": 120000,
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260927/heeya-nurse-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/nurse-healers-v1/heeya-nurse-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-053",
+      "name": "조은 간호사",
+      "title": "백의의 치유사",
+      "rank": "SS",
+      "position": "REAR",
+      "role": "SUPPORT",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "ALLY_TEAM",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [
+        {
+          "id": "MS-051",
+          "name": "백의의 맹세",
+          "mechanic": "WHITE_OATH_GROUP_HEAL",
+          "balance": {
+            "damageRatio": 1.6,
+            "cooldownTurns": 6,
+            "cost": 25
+          },
+          "nurseHealing": {
+            "version": 1,
+            "maxTargetHpPercent": 15
+          }
+        }
+      ],
+      "pendingSkillIds": [],
+      "basePower": 120000,
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260927/joeun-nurse-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/nurse-healers-v1/joeun-nurse-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-054",
+      "name": "봉순 간호사",
+      "title": "백의의 치유사",
+      "rank": "SS",
+      "position": "REAR",
+      "role": "SUPPORT",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "ALLY_TEAM",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [
+        {
+          "id": "MS-051",
+          "name": "백의의 맹세",
+          "mechanic": "WHITE_OATH_GROUP_HEAL",
+          "balance": {
+            "damageRatio": 1.6,
+            "cooldownTurns": 6,
+            "cost": 25
+          },
+          "nurseHealing": {
+            "version": 1,
+            "maxTargetHpPercent": 15
+          }
+        }
+      ],
+      "pendingSkillIds": [],
+      "basePower": 120000,
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260927/bongsun-nurse-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/nurse-healers-v1/bongsun-nurse-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-055",
+      "name": "베르칸",
+      "title": "흑금의 궁수",
+      "rank": "SSS",
+      "position": "REAR",
+      "role": "SNIPER",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "BACK_THREAT",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [
+        {
+          "id": "MS-055",
+          "name": "흑금 낙성",
+          "mechanic": "GILDED_STARFALL",
+          "balance": {
+            "damageRatio": 5.6,
+            "cooldownTurns": 5,
+            "cost": 35
+          }
+        },
+        {
+          "id": "MS-056",
+          "name": "흑금 천우",
+          "mechanic": "GILDED_ARROW_RAIN",
+          "balance": {
+            "damageRatio": 5.6,
+            "cooldownTurns": 5,
+            "cost": 35
+          }
+        }
+      ],
+      "pendingSkillIds": [],
+      "basePower": 180000,
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260927/berkan-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/berkan-sss-v1/berkan-sd-v1.png",
+      "actorKind": "MERCENARY"
+    }
+  ]
+}

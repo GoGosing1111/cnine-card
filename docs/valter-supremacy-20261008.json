@@ -1,0 +1,66 @@
+{
+  "date": "2026-10-08",
+  "request": "발테르는 모든 용병보다 강하며 불리한 상성이 없어야 한다. 베르칸 원거리 공격 피해를 받지 않는 별도 카운터를 지정한다.",
+  "code": "V-996",
+  "policy": "shared/mercenary-valter-v1.mjs",
+  "comparisonScope": "동일 아군 덱과 성장 조건, 현재 운영 용병 55종",
+  "preparedPerformance": {
+    "basePower": 1080000,
+    "position": "FRONT",
+    "linkedAttackPercentOfAlliedCardAverage": 1760,
+    "linkedHpPercentOfAlliedCardAverage": 1120,
+    "linkedShieldPercentOfAlliedCardAverage": 600,
+    "frontShieldBonusPercent": 60,
+    "additionalActionsPerOwnerCardAction": 1.5,
+    "basicDamageCapScale": 2,
+    "incomingDamageReductionPercent": 75,
+    "mercenaryCounterImmunity": ["약화", "방어력 감소", "독", "가시 반동", "균열 표식", "행동 제압", "근접 패링"],
+    "berkanCounter": {
+      "sourceCode": "V-055",
+      "attacks": ["기본 사격", "MS-055 동시 저격", "MS-056 PVE 화살비"],
+      "hpDamage": 0,
+      "shieldDamage": 0,
+      "authority": "SERVER_CANONICAL_DAMAGE_AFTER_HIT_CAPS_AND_FLOORS",
+      "scope": "발테르 본인만 적용, 일반 카드와 다른 용병은 기존 판정 유지"
+    }
+  },
+  "release": {
+    "acquisitionEnabled": false,
+    "deploymentEnabled": false,
+    "battleActivation": "LOCKED_PENDING_SEPARATE_RELEASE",
+    "artAndMotion": "UNCHANGED"
+  },
+  "validation": {
+    "rosterSource": "tests/fixtures/mercenary-valter-roster-20261008.json",
+    "cmsRevision": 61,
+    "opponents": 55,
+    "powers": [10000, 20000000, 2000000000],
+    "decks": ["balanced", "attack", "defense", "speed"],
+    "sides": ["A", "B"],
+    "seeds": [7919, 65537],
+    "pvpDuels": {"games": 2640, "valterWins": 2640},
+    "pvpTeams": {"games": 2640, "valterWins": 2640},
+    "pve": "세 전투력 구간에서 동일 보스 처치에 필요한 일반 행동 수가 55종 모두보다 적거나 동일함",
+    "damagePaths": "방벽 유무 각각에서 베르칸 기본 사격·동시 저격·화살비의 실제 서버 영수증 0 피해 확인",
+    "duo": "소유자별 추가 행동·능력치 분리와 베르칸 피해 무효 확인",
+    "limits": "운영 CMS 61과 명시한 덱·전투력·난수 표본의 검증 결과이며 서로 다른 장비·성장의 모든 팀 승리를 보장하는 판정은 아님"
+  },
+  "deployment": {
+    "mode": "SCOPED",
+    "previousProductionCommit": "e6ec5b4af6439affb840bd3e1d747f9f111c9d09",
+    "reason": "발테르 단일 코드의 전용 성능과 베르칸 카운터를 추가하는 국소 전투 변경. 공통 인증·DB·거래·보상·인프라·출시 플래그 변경 없음.",
+    "regressionTests": [
+      "tests/mercenary-valter-supremacy-20261008.test.mjs",
+      "tests/mercenary-combat-v3.test.mjs",
+      "tests/mercenary-berkan-tempo-20260927.test.mjs",
+      "tests/berkan-pvp-damage-20260930.test.mjs",
+      "tests/mercenary-berkan-twin-starfall-20260927.test.mjs",
+      "tests/mercenary-berkan-area-20260930.test.mjs",
+      "tests/ranked-duo-battle.test.mjs",
+      "tests/mercenary-limited-catalog-20261002.test.mjs",
+      "tests/pve-battlefield-entry-v2117.test.mjs"
+    ],
+    "checks": ["check:worker", "verify-production-release", "Hyperdrive cache disabled"],
+    "status": "PREPARED"
+  }
+}

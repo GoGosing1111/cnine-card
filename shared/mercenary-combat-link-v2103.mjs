@@ -1,5 +1,7 @@
 import {applyMercenaryLevelStats} from './mercenary-level-v1.mjs';
-// Rank base power stays fixed. Combat linkage is an explicit additional
+import {isValter,VALTER_COMBAT} from './mercenary-valter-v1.mjs';
+// Ordinary rank base power stays fixed; Valter has a dedicated limited policy.
+// Combat linkage is an explicit additional
 // ability, frozen from this side's five ordinary fighters at battle start.
 export const MERCENARY_COMBAT_LINK=Object.freeze({
  version:2144,regularActionsPerTurn:1,
@@ -47,7 +49,7 @@ export function applyMercenaryCombatLink(teams,{regularCardsPerOwner=5}={}){
   const averageAttack=cards.reduce((sum,c)=>sum+c.attack,0)/cards.length,averageHp=cards.reduce((sum,c)=>sum+c.maxHp,0)/cards.length;
   if(!Number.isFinite(averageAttack)||!Number.isFinite(averageHp)||averageAttack<=0||averageHp<=0)continue;
   for(const m of team.filter(c=>c.isMercenary&&c.statMode==='RANK_FIXED')){
-   const rule=MERCENARY_COMBAT_LINK.ranks[m.rank];if(!rule||m.alive===false||m.hp<=0||m.mercenaryLink?.version===MERCENARY_COMBAT_LINK.version)continue;
+   const rule=isValter(m)?VALTER_COMBAT.link:MERCENARY_COMBAT_LINK.ranks[m.rank];if(!rule||m.alive===false||m.hp<=0||m.mercenaryLink?.version===MERCENARY_COMBAT_LINK.version)continue;
    const healthRatio=Math.max(0,Math.min(1,m.hp/m.maxHp)),tierGuard=mercenaryPvpTierGuard(m,teams),tierOffense=1+(tierGuard-1)/MERCENARY_COMBAT_LINK.pvpTierGuardPerStep;
    const attackFloor=Math.round(averageAttack*rule.attackPercent/100*tierOffense);
    const hpFloor=Math.round(averageHp*rule.hpPercent/100*tierGuard);
