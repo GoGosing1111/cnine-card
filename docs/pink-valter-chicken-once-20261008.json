@@ -1,0 +1,69 @@
+{
+  "deployment": {
+    "commit": "05de0142adb4cdde6641d017181f5155637c4388",
+    "pagesId": "58a9b19b-5873-4a25-89ec-c525bda03cb2",
+    "apiWorkerVersion": "da5a91cb-8485-4f7c-99f3-12a61fda2b8d",
+    "mode": "scoped",
+    "testsPassed": 16,
+    "workerCheck": "PASS",
+    "publicFeaturePhase": "PAUSED"
+  },
+  "verifiedAt": "2026-10-08T09:32:36.702Z",
+  "status": "VERIFIED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:pink-valter-chicken-once:20261008:v1",
+    "releaseCommit": "05de0142adb4cdde6641d017181f5155637c4388",
+    "completedAt": "2026-10-08T09:32:30.815Z",
+    "grant": {
+      "userId": 1,
+      "nickname": "핑크빛유두",
+      "code": "V-996",
+      "name": "발테르",
+      "rank": "SSS",
+      "edition": "LIMITED",
+      "quantity": 1,
+      "serial": 1,
+      "copiesBefore": 0,
+      "copiesAfter": 1
+    },
+    "guarantee": {
+      "userId": 81,
+      "nickname": "비쥬얼깡패",
+      "code": "V-996",
+      "rank": "SSS",
+      "quantity": 1,
+      "status": "ARMED",
+      "nextValidParticipation": true,
+      "subsequent": "NORMAL_PROBABILITY",
+      "key": "chicken_limited_once_v1:81"
+    },
+    "settingsPreserved": true,
+    "balancesPreserved": true,
+    "loadoutPreserved": true,
+    "stockLimit": 7,
+    "adminLogIds": [
+      "42807",
+      "42808"
+    ]
+  },
+  "ownerCopies": 1,
+  "guaranteeStatus": "ARMED",
+  "guaranteeRemaining": 1,
+  "stock": {
+    "code": "V-996",
+    "stock_limit": "7",
+    "issued": "1",
+    "revision": "1",
+    "last_token": "ops:pink-valter-chicken-once:20261008:v1"
+  },
+  "event": {
+    "revision": "d909f599-77f4-4822-a4f1-442806eea892",
+    "enabled": false,
+    "visible": true,
+    "startsAt": "2026-10-08T13:00:00.000Z",
+    "endsAt": "2026-10-13T14:00:00.000Z",
+    "settingsSha256": "f315b438e40c4c75b7fc70782f7a10dfc9bc843342c1aed67b6a55765bd8fc9d"
+  },
+  "replayVerified": true
+}
