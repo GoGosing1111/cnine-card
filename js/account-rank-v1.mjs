@@ -1,7 +1,7 @@
-import {RANKS,rankForLevel,percent} from '../shared/account-ranks-v1.mjs';
+import {RANKS,rankForLevel,percent} from '../shared/account-ranks-v1.mjs?v=20261008';
 import {jointAccountRequest as request} from './joint-account-transport.mjs';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const art=(r,size=96)=>`/assets/ui/account-ranks-v1/${r.code.toLowerCase()}-${size}.webp`;
+const art=(r,size=96)=>`/assets/ui/account-ranks-v2/${r.code.toLowerCase()}-${size}${(r.index??RANKS.find(x=>x.code===r.code)?.index)>=15&&matchMedia('(prefers-reduced-motion: reduce)').matches?'-still':''}.webp`;
 const fallbackBridge={loadUser:()=>{try{return JSON.parse(localStorage.getItem('cnine_card_user_v10')||'null');}catch{return null;}},saveUser:user=>{localStorage.setItem('cnine_card_user_v10',JSON.stringify(user));dispatchEvent(new Event('cnine:player-updated'));}};
 const bridge=()=>window.AccountRankBridge||fallbackBridge;
 if(![...document.querySelectorAll('link[rel=stylesheet]')].some(l=>l.href.includes('/css/account-rank-v1.css'))){const link=document.createElement('link');link.rel='stylesheet';link.href='/css/account-rank-v1.css?v=2123';document.head.append(link);}
@@ -48,7 +48,7 @@ function mount(){
 }
 function detail(){
   const r=selected||rankForLevel(current()?.level||1),own=current(),isMine=r.code===own?.code;
-  return `<div class="ar-stage" data-tone="${r.tone}"><span class="ar-stage-label">${esc(r.group)} 계급장</span><img src="${art(r,384)}" alt="${esc(r.name)} 계급장" width="280" height="280"><div class="ar-stage-title"><span>${isMine?'현재 계급':r.min>(own?.level||1)?'미달성 계급':'달성 계급'}</span><h3>${esc(r.name)}</h3><b>Lv.${r.min}${r.max!==r.min?`–${r.max}`:''}</b></div></div><section class="ar-effects"><h3>계급 혜택</h3><dl><div><dt>개인 전투 공격력</dt><dd>+${percent(r.attackBp)}</dd></div><div><dt>개인 전투 최대 HP</dt><dd>+${percent(r.hpBp)}</dd></div><div><dt>개인 PVE 기본 코인</dt><dd>+${percent(r.coinBp)}</dd></div><div><dt>PVE 편성 보관함</dt><dd>${r.presetSlots}칸</dd></div></dl><p>공격력·HP: 토벌·아포칼립스·호송·폐차장·카우방<br>코인: 위 콘텐츠와 차원의 균열<br>PVP·클랜전·영토전·공동 레이드·봉인전·공성·탑에는 전투 버프가 적용되지 않습니다.</p><small>표시된 수치는 해당 계급의 최종 혜택입니다.</small></section>`;
+  return `<div class="ar-stage" data-tone="${r.tone}"><span class="ar-stage-label">${esc(r.group)} 계급장</span><img src="${art(r,384)}" alt="${esc(r.name)} 계급장" width="280" height="280"><div class="ar-stage-title"><span>${isMine?'현재 계급':r.min>(own?.level||1)?'미달성 계급':'달성 계급'}</span><h3>${esc(r.name)}</h3><b>Lv.${r.min}${r.max!==r.min?`–${r.max}`:''}</b></div></div><section class="ar-effects"><h3>계급 혜택</h3><dl><div><dt>개인 전투 공격력</dt><dd>+${percent(r.attackBp)}</dd></div><div><dt>개인 전투 최대 HP</dt><dd>+${percent(r.hpBp)}</dd></div><div><dt>개인 PVE 기본 코인</dt><dd>+${percent(r.coinBp)}</dd></div><div><dt>개인 PVE 아이템 드랍률</dt><dd>+${percent(r.dropBp)}</dd></div></dl><p>상사부터 공격력 +10%·HP +15% 유지<br>소령부터 코인 +5%, 계급마다 +0.25%p<br>준장부터 드랍 증가율 +1%, 계급마다 +1%p</p><p>공격력·HP: 토벌·아포칼립스·호송·폐차장·카우방<br>코인: 위 콘텐츠와 차원의 균열<br>드랍: 개인 PVE의 확률형 아이템·재료 보상. 기본 확률에 대한 상대 증가이며, 확정 보상·포탈 발견·뽑기·제작에는 적용되지 않습니다.<br>PVP·클랜전·영토전·공동 레이드·봉인전·공성·탑에는 적용되지 않습니다.</p><small>표시된 수치는 해당 계급의 최종 혜택입니다. 레벨이 오를수록 다음 레벨에 필요한 경험치가 증가합니다.</small></section>`;
 }
 function presetMarkup(){
   const slots=current()?.presetSlots||1;

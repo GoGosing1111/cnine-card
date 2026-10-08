@@ -200,7 +200,7 @@ export async function rollBlackMiracleDrop(env, { userId, source, referenceId })
   const settings = await blackMiracleSettings(env); const type = String(source || '').toUpperCase(); const rule = settings.sources[type]; const ref = String(referenceId || '').slice(0, 160); if (!rule?.enabled || !ref) return null;
   const prior = await env.DB.prepare(`SELECT status,quantity FROM black_miracle_pack_drop_receipts WHERE user_id=? AND source_type=? AND reference_id=?`).bind(userId, type, ref).first();
   if (prior && prior.status !== 'PENDING') return prior.status === 'GRANTED' ? { itemCode: ITEM_CODE, name: settings.name, image: settings.image, quantity: Number(prior.quantity), reused: true } : null;
-  const dropRate = await resolveAvatarDropRate(env, userId, rule.rate);
+  const dropRate = await resolveAvatarDropRate(env, userId, rule.rate,type);
   const won = Math.random() * 100 < dropRate.total; const quantity = won ? rule.quantity : 0;
   const results = await env.DB.batch([
     env.DB.prepare(`INSERT OR IGNORE INTO black_miracle_pack_drop_receipts(user_id,source_type,reference_id,status,quantity) VALUES(?,?,?,'PENDING',?)`).bind(userId, type, ref, quantity),

@@ -691,7 +691,7 @@ export async function grantEquipmentDrop(env,{userId,sourceType,sourceId='*',req
     const balance=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(userId,SUPPLY_BOX_CODE).first();
     return {kind:'SUPPLY_BOX',itemCode:SUPPLY_BOX_CODE,name:'장비 보급상자',image:SUPPLY_BOX_IMAGE,quantity:cleanInt(prior.quantity??1,1,100),balance:Number(balance?.quantity||0),sourceType:type,sourceId:key,reused:true};
   }
-  const dropRate=await resolveAvatarDropRate(env,userId,source.rate);
+  const dropRate=await resolveAvatarDropRate(env,userId,source.rate,type);
   if(deterministicUnit(rollKey)*100>=dropRate.total)return null;
   await env.DB.batch([
     env.DB.prepare("INSERT OR IGNORE INTO equipment_supply_drop_grants(user_id,source_type,reference_id,status,quantity) VALUES(?,?,?,'PENDING',?)").bind(userId,type,rid,configuredQuantity),

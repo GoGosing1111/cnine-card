@@ -142,12 +142,25 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
     }
   }
   const tooling=new Set(['scripts/deploy-production.mjs','scripts/resume-release-gate.mjs','tests/resume-release-gate.test.mjs']);
+  // Reconcile authoring files with an already deployed lobby bundle. The live
+  // runtime must remain byte-identical and its unchanged builder must recheck
+  // the complete generated output before any remaining release work proceeds.
+  const lobbySources=new Set(['ui/adventure-lobby/icons.js','preview/lobby-clarity-v1/app.js']);
+  const lobbySourceRepair=changed.some(path=>lobbySources.has(path));
+  if(lobbySourceRepair){
+    const bundle='js/adventure-lobby-v2107.js',normalize=value=>value.replace(/\r\n/g,'\n').trim();
+    if(normalize(git('show',`${base}:${bundle}`))!==normalize(read(bundle)))throw Error('Lobby runtime changed: run a fresh full gate.');
+    const stage=names.findIndex(name=>scripts[name]?.startsWith('node scripts/build-adventure-lobby-v2107.mjs --check && '));
+    if(stage<0)throw Error('Lobby source repair requires the complete source integrity gate.');
+    if(stage<failedIndex)rerun.add(stage);
+  }
   for(const path of changed){
     if(path==='AGENTS.md'||path.startsWith('docs/')||path==='preview/project-v-mercenary-system-v1/README.md'||tooling.has(path))continue;
     if(bgmAdditions.has(path))continue;
     if(qaReceipts.includes(path))continue;
     if(operations.includes(path))continue;
     if(browserProof.has(path))continue;
+    if(lobbySourceRepair&&lobbySources.has(path))continue;
     // Legacy gate entry points also use .mjs without the .test suffix. Require
     // direct membership in a gate command below; shared helpers remain excluded.
     if(!/^tests\/[^/]+\.mjs$/.test(path))throw Error(`Runtime/shared helper changed (${path}): run a fresh full gate.`);

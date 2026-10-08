@@ -19,7 +19,7 @@ export async function planApocalypseRewards(env,{user,requestId,monster,reward,w
   const [supply,black,rerollRow]=await Promise.all([supplyBoxSettings(env),blackMiracleSettings(env),p(env,"SELECT value FROM app_meta WHERE key='high_grade_reroll_settings_v1'").first()]);
   const source=supply.sources.PVE;
   if(supply.enabled&&source?.enabled&&source.rate>0){
-    const rate=(await resolveAvatarDropRate(env,user.id,source.rate)).total;
+    const rate=(await resolveAvatarDropRate(env,user.id,source.rate,'APOCALYPSE')).total;
     if(unit(`SUPPLY_DROP:${user.id}:PVE:${monster.id}:${requestId}`)*100<rate){
       const quantity=Math.max(1,clamp(source.quantity??1,100));
       plan.items.push({code:'EQUIPMENT_SUPPLY_BOX',quantity});
@@ -27,14 +27,14 @@ export async function planApocalypseRewards(env,{user,requestId,monster,reward,w
     }
   }
   const blackRule=black.sources.PVE;
-  if(blackRule?.enabled&&Math.random()*100<(await resolveAvatarDropRate(env,user.id,blackRule.rate)).total){
+  if(blackRule?.enabled&&Math.random()*100<(await resolveAvatarDropRate(env,user.id,blackRule.rate,'APOCALYPSE')).total){
     plan.items.push({code:'BLACK_MIRACLE_PACK',quantity:blackRule.quantity});
     plan.blackMiracleReward={itemCode:'BLACK_MIRACLE_PACK',name:black.name,image:black.image,quantity:blackRule.quantity};
   }
   const rerollRate=Math.max(0,Math.min(100,Number(parse(rerollRow?.value).dropRates?.PVE||0)));
-  if(rerollRate>0&&Math.random()*100<(await resolveAvatarDropRate(env,user.id,rerollRate)).total)plan.items.push({code:'HIGH_GRADE_REROLL_TICKET',quantity:1});
+  if(rerollRate>0&&Math.random()*100<(await resolveAvatarDropRate(env,user.id,rerollRate,'APOCALYPSE')).total)plan.items.push({code:'HIGH_GRADE_REROLL_TICKET',quantity:1});
   if(pveMagic.enabled===true&&Number(pveMagic.amount)>0){
-    const chance=(await resolveAvatarDropRate(env,user.id,pveMagic.chance)).total,roll=Math.random()*100;
+    const chance=(await resolveAvatarDropRate(env,user.id,pveMagic.chance,'APOCALYPSE')).total,roll=Math.random()*100;
     plan.magic={chance,roll,amount:roll<chance?clamp(pveMagic.amount,100000000):0,dailyLimit:clamp(pveMagic.dailyLimit,100000000)};
   }
   const dropInput={userId:user.id,requestId:`UNIFIED:${requestId}`,sourceId:String(monster.id),triggerType:'WIN',context:{boss:Boolean(monster.is_boss),difficulty:'APOCALYPSE'},role:user.role};

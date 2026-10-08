@@ -1,0 +1,345 @@
+{
+  "version": "20261008",
+  "sourceSha256": "0a8acfb26f3ea2c9865133952ff73d451087185c73a88670fa78fa87eafe7b15",
+  "ranks": 21,
+  "animatedFrom": "COLONEL",
+  "loopSeconds": 6,
+  "files": [
+    {
+      "code": "TRAINEE",
+      "file": "trainee-96.webp",
+      "size": 96,
+      "animated": false,
+      "frames": 1,
+      "bytes": 14610
+    },
+    {
+      "code": "TRAINEE",
+      "file": "trainee-384.webp",
+      "size": 384,
+      "animated": false,
+      "frames": 1,
+      "bytes": 152036
+    },
+    {
+      "code": "PRIVATE",
+      "file": "private-96.webp",
+      "size": 96,
+      "animated": false,
+      "frames": 1,
+      "bytes": 14098
+    },
+    {
+      "code": "PRIVATE",
+      "file": "private-384.webp",
+      "size": 384,
+      "animated": false,
+      "frames": 1,
+      "bytes": 142834
+    },
+    {
+      "code": "PRIVATE_FIRST",
+      "file": "private_first-96.webp",
+      "size": 96,
+      "animated": false,
+      "frames": 1,
+      "bytes": 14324
+    },
+    {
+      "code": "PRIVATE_FIRST",
+      "file": "private_first-384.webp",
+      "size": 384,
+      "animated": false,
+      "frames": 1,
+      "bytes": 139344
+    },
+    {
+      "code": "CORPORAL",
+      "file": "corporal-96.webp",
+      "size": 96,
+      "animated": false,
+      "frames": 1,
+      "bytes": 14514
+    },
+    {
+      "code": "CORPORAL",
+      "file": "corporal-384.webp",
+      "size": 384,
+      "animated": false,
+      "frames": 1,
+      "bytes": 137344
+    },
+    {
+      "code": "SERGEANT",
+      "file": "sergeant-96.webp",
+      "size": 96,
+      "animated": false,
+      "frames": 1,
+      "bytes": 14652
+    },
+    {
+      "code": "SERGEANT",
+      "file": "sergeant-384.webp",
+      "size": 384,
+      "animated": false,
+      "frames": 1,
+      "bytes": 135734
+    },
+    {
+      "code": "STAFF_SERGEANT",
+      "file": "staff_sergeant-96.webp",
+      "size": 96,
+      "animated": false,
+      "frames": 1,
+      "bytes": 15894
+    },
+    {
+      "code": "STAFF_SERGEANT",
+      "file": "staff_sergeant-384.webp",
+      "size": 384,
+      "animated": false,
+      "frames": 1,
+      "bytes": 153504
+    },
+    {
+      "code": "SERGEANT_FIRST",
+      "file": "sergeant_first-96.webp",
+      "size": 96,
+      "animated": false,
+      "frames": 1,
+      "bytes": 16782
+    },
+    {
+      "code": "SERGEANT_FIRST",
+      "file": "sergeant_first-384.webp",
+      "size": 384,
+      "animated": false,
+      "frames": 1,
+      "bytes": 159840
+    },
+    {
+      "code": "MASTER_SERGEANT",
+      "file": "master_sergeant-96.webp",
+      "size": 96,
+      "animated": false,
+      "frames": 1,
+      "bytes": 17386
+    },
+    {
+      "code": "MASTER_SERGEANT",
+      "file": "master_sergeant-384.webp",
+      "size": 384,
+      "animated": false,
+      "frames": 1,
+      "bytes": 165190
+    },
+    {
+      "code": "SERGEANT_MAJOR",
+      "file": "sergeant_major-96.webp",
+      "size": 96,
+      "animated": false,
+      "frames": 1,
+      "bytes": 17238
+    },
+    {
+      "code": "SERGEANT_MAJOR",
+      "file": "sergeant_major-384.webp",
+      "size": 384,
+      "animated": false,
+      "frames": 1,
+      "bytes": 167110
+    },
+    {
+      "code": "WARRANT",
+      "file": "warrant-96.webp",
+      "size": 96,
+      "animated": false,
+      "frames": 1,
+      "bytes": 16624
+    },
+    {
+      "code": "WARRANT",
+      "file": "warrant-384.webp",
+      "size": 384,
+      "animated": false,
+      "frames": 1,
+      "bytes": 165464
+    },
+    {
+      "code": "SECOND_LIEUTENANT",
+      "file": "second_lieutenant-96.webp",
+      "size": 96,
+      "animated": false,
+      "frames": 1,
+      "bytes": 15342
+    },
+    {
+      "code": "SECOND_LIEUTENANT",
+      "file": "second_lieutenant-384.webp",
+      "size": 384,
+      "animated": false,
+      "frames": 1,
+      "bytes": 153864
+    },
+    {
+      "code": "FIRST_LIEUTENANT",
+      "file": "first_lieutenant-96.webp",
+      "size": 96,
+      "animated": false,
+      "frames": 1,
+      "bytes": 15918
+    },
+    {
+      "code": "FIRST_LIEUTENANT",
+      "file": "first_lieutenant-384.webp",
+      "size": 384,
+      "animated": false,
+      "frames": 1,
+      "bytes": 156888
+    },
+    {
+      "code": "CAPTAIN",
+      "file": "captain-96.webp",
+      "size": 96,
+      "animated": false,
+      "frames": 1,
+      "bytes": 16316
+    },
+    {
+      "code": "CAPTAIN",
+      "file": "captain-384.webp",
+      "size": 384,
+      "animated": false,
+      "frames": 1,
+      "bytes": 158574
+    },
+    {
+      "code": "MAJOR",
+      "file": "major-96.webp",
+      "size": 96,
+      "animated": false,
+      "frames": 1,
+      "bytes": 16242
+    },
+    {
+      "code": "MAJOR",
+      "file": "major-384.webp",
+      "size": 384,
+      "animated": false,
+      "frames": 1,
+      "bytes": 155380
+    },
+    {
+      "code": "LIEUTENANT_COLONEL",
+      "file": "lieutenant_colonel-96.webp",
+      "size": 96,
+      "animated": false,
+      "frames": 1,
+      "bytes": 16670
+    },
+    {
+      "code": "LIEUTENANT_COLONEL",
+      "file": "lieutenant_colonel-384.webp",
+      "size": 384,
+      "animated": false,
+      "frames": 1,
+      "bytes": 156328
+    },
+    {
+      "code": "COLONEL",
+      "file": "colonel-96.webp",
+      "size": 96,
+      "animated": true,
+      "frames": 100,
+      "bytes": 182632
+    },
+    {
+      "code": "COLONEL",
+      "file": "colonel-384.webp",
+      "size": 384,
+      "animated": true,
+      "frames": 100,
+      "bytes": 702696
+    },
+    {
+      "code": "BRIGADIER",
+      "file": "brigadier-96.webp",
+      "size": 96,
+      "animated": true,
+      "frames": 100,
+      "bytes": 209670
+    },
+    {
+      "code": "BRIGADIER",
+      "file": "brigadier-384.webp",
+      "size": 384,
+      "animated": true,
+      "frames": 100,
+      "bytes": 855286
+    },
+    {
+      "code": "MAJOR_GENERAL",
+      "file": "major_general-96.webp",
+      "size": 96,
+      "animated": true,
+      "frames": 100,
+      "bytes": 228472
+    },
+    {
+      "code": "MAJOR_GENERAL",
+      "file": "major_general-384.webp",
+      "size": 384,
+      "animated": true,
+      "frames": 100,
+      "bytes": 908914
+    },
+    {
+      "code": "LIEUTENANT_GENERAL",
+      "file": "lieutenant_general-96.webp",
+      "size": 96,
+      "animated": true,
+      "frames": 100,
+      "bytes": 293230
+    },
+    {
+      "code": "LIEUTENANT_GENERAL",
+      "file": "lieutenant_general-384.webp",
+      "size": 384,
+      "animated": true,
+      "frames": 100,
+      "bytes": 1376046
+    },
+    {
+      "code": "GENERAL",
+      "file": "general-96.webp",
+      "size": 96,
+      "animated": true,
+      "frames": 100,
+      "bytes": 378966
+    },
+    {
+      "code": "GENERAL",
+      "file": "general-384.webp",
+      "size": 384,
+      "animated": true,
+      "frames": 100,
+      "bytes": 1915246
+    },
+    {
+      "code": "MARSHAL",
+      "file": "marshal-96.webp",
+      "size": 96,
+      "animated": true,
+      "frames": 100,
+      "bytes": 445480
+    },
+    {
+      "code": "MARSHAL",
+      "file": "marshal-384.webp",
+      "size": 384,
+      "animated": true,
+      "frames": 100,
+      "bytes": 2532576
+    }
+  ]
+}

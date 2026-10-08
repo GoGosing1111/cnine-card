@@ -1,6 +1,8 @@
 import { MIRACLE_BURNING_META_KEY,MIRACLE_BURNING_DROP_PERCENT,applyMiracleDropChance } from './_miracle_burning.js';
 import { burningEventIsLive } from './_burning_event_access.js';
+import { readAccountRank } from './_account_rank.js';
 const DROP_SCOPE = Symbol('avatarDropRequestScope');
+const RANK_DROP_SOURCES=new Set(['PVE','PVE_AUTO','PVE_NIGHTMARE','PVE_NIGHTMARE_AUTO','PVE_APOCALYPSE','HUNT','APOCALYPSE','SCRAPYARD','COW_ROOM','ESCORT','RIFT']);
 
 function chanceValue(value) {
   const number = Number(value);
@@ -16,7 +18,7 @@ export function applyAvatarDropRate(chance, increasePercent = 0) {
 // Each API request owns its promises. Sweeps and parallel reward paths share
 // one lookup without keeping ownership, expiry or operator changes globally.
 export function withAvatarDropScope(env) {
-  return { ...env, [DROP_SCOPE]: { settings: null, miracle: null, users: new Map() } };
+  return { ...env, [DROP_SCOPE]: { settings: null, miracle: null, users: new Map(), ranks:new Map() } };
 }
 
 async function readDropSettings(env, scope) {
@@ -59,12 +61,22 @@ export async function avatarDropIncreasePercent(env, userId) {
   return scope.users.get(uid);
 }
 
-export async function resolveAvatarDropRate(env, userId, chance) {
+export async function rankDropIncreasePercent(env,userId,source){
+  if(!RANK_DROP_SOURCES.has(String(source||'').toUpperCase()))return 0;
+  const uid=Number(userId);if(!Number.isSafeInteger(uid)||uid<=0)return 0;
+  const read=async()=>Number((await readAccountRank(env,uid)).dropBp||0)/100;
+  const scope=env[DROP_SCOPE];if(!scope)return read();
+  if(!scope.ranks.has(uid))scope.ranks.set(uid,read());
+  return scope.ranks.get(uid);
+}
+
+export async function resolveAvatarDropRate(env, userId, chance,rankSource) {
   const base = chanceValue(chance);
   if (base === 0 || base === 100) return applyAvatarDropRate(base);
   const scoped=env[DROP_SCOPE]?env:withAvatarDropScope(env);
-  const [avatarPercent,miraclePercent]=await Promise.all([avatarDropIncreasePercent(scoped,userId),miracleDropIncreasePercent(scoped)]);
-  const result=applyAvatarDropRate(base,avatarPercent);
+  const [avatarPercent,miraclePercent,rankPercent]=await Promise.all([avatarDropIncreasePercent(scoped,userId),miracleDropIncreasePercent(scoped),rankDropIncreasePercent(scoped,userId,rankSource)]);
+  let result=applyAvatarDropRate(base,avatarPercent);
+  if(rankPercent)result={...result,rankPercent,total:applyAvatarDropRate(result.total,rankPercent).total};
   return miraclePercent ? {...result,miraclePercent,total:applyMiracleDropChance(result.total,miraclePercent)} : result;
 }
 
