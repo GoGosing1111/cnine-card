@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-08",
+  "scope": "static-preview-only",
+  "checks": [
+    {
+      "viewport": "desktop",
+      "current": 4,
+      "archive": 10,
+      "overflow": false,
+      "enlargeClose": true,
+      "keyboardEscape": true,
+      "download": true
+    },
+    {
+      "viewport": "mobile",
+      "current": 4,
+      "archive": 10,
+      "overflow": false,
+      "enlargeClose": true,
+      "keyboardEscape": true,
+      "download": true
+    }
+  ],
+  "scriptErrors": [],
+  "failedAssets": [],
+  "screenshots": [
+    "desktop.png",
+    "mobile.png",
+    "desktop-detail.png",
+    "mobile-detail.png"
+  ]
+}

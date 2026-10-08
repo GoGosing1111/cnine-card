@@ -1,0 +1,23 @@
+{
+  "status": "ARCHIVED_FOR_FUTURE_USE",
+  "requestedAt": "2026-10-08",
+  "userDirection": "엠퍼러보다 상위 등급인 SF 신화 장비. 갑옷, 바지, 신발, 듀얼디스크 4종. 사각형 테두리를 장식한 프레임 필수.",
+  "rejected": {
+    "path": "assets/rejected/armor-v1-too-plain.png",
+    "reason": "평범한 SF 장비처럼 보여 엠퍼러 상위 등급의 위상이 부족했고 장식 프레임이 없었음."
+  },
+  "design": {
+    "style": "고대 초문명 기술 / SF 신화",
+    "materials": [
+      "플래티넘 세라믹",
+      "흑색 티타늄",
+      "고광택 샴페인 골드 구조선"
+    ],
+    "energy": "백청색 플라즈마·중첩 코어·정밀 부유 장갑",
+    "frame": "네 변을 잇는 사각 금속 프레임·장식 모서리·발광 레일·상단 문장·작은 하단 결합부",
+    "runtimeEnabled": false,
+    "cmsRegistered": false
+  },
+  "reference": "https://www.halowaypoint.com/news/forerunner-operation-launch",
+  "currentDesign": "../mythic-emperor-successor-v1/"
+}

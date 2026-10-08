@@ -1,0 +1,42 @@
+@font-face{font-family:MythicPreview;src:url('/assets/fonts/lich-raid/NotoSansKR-lich-v1.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{color-scheme:dark;--paper:#f0eee3;--muted:#abae9d;--line:#bca36a33;--accent:#d8bd80}
+*{box-sizing:border-box}
+body{margin:0;background:#101d19;color:var(--paper);font-family:MythicPreview,'Malgun Gothic',sans-serif;background-image:radial-gradient(ellipse at 74% 0,#27634c44,transparent 60%)}
+main{max-width:1720px;margin:auto;padding:0 58px 50px}
+button,a{-webkit-tap-highlight-color:transparent}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:5px}
+.page-header,dialog header{height:90px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);font-size:12px}
+.home{font-weight:800}.home span{margin-left:14px;color:var(--accent)}
+.status{color:var(--muted);font-size:11px;letter-spacing:.1em}
+.intro{position:relative;padding:47px 0 0}
+.eyebrow{color:var(--accent);font-size:10px;letter-spacing:.2em;margin:0 0 20px}
+h1{margin:0;font-size:clamp(34px,4.2vw,61px);line-height:1.18;letter-spacing:-.055em;font-weight:800}h1 span{color:#d9c28d}
+.lead{position:absolute;right:0;top:107px;color:#b4bda9;font-size:14px;line-height:1.9}
+.toolbar{display:flex;align-items:center;justify-content:space-between;gap:15px;margin:32px 0 28px;border-bottom:1px solid var(--line);padding-bottom:19px;font-size:12px;color:var(--muted)}
+.toolbar small{font-size:9px;margin-left:14px;letter-spacing:.12em;color:#889b86}
+.pill,#close{border:1px solid #b6a27266;border-radius:3px;background:#26372a;color:var(--paper);padding:9px 14px;font-size:11px}
+.gallery{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px}
+.item-head{display:flex;align-items:center;justify-content:space-between;font-size:9px;letter-spacing:.08em;color:var(--muted);padding-bottom:16px}.mythic{color:var(--accent);font-size:8px}
+.art{position:relative;display:block;width:100%;aspect-ratio:1;border:0;border-radius:2px;background:#081813;padding:0;overflow:hidden}
+.art img{display:block;width:100%;height:100%;object-fit:contain}
+.art:hover{box-shadow:0 0 0 1px #cdb87e88,0 10px 40px #0005}
+.expand{position:absolute;z-index:2;bottom:10px;right:12px;padding:1px 5px;color:#fff3d6;background:#112415bd;font-size:16px}
+.item-copy{padding:18px 0 22px;border-bottom:1px solid var(--line)}
+.item-copy h2{font-size:22px;letter-spacing:-.04em;margin:0 0 8px}
+.item-copy p{font-size:11px;color:var(--muted);margin:0 0 19px}
+.item-copy a{font-size:10px;color:var(--accent)}
+footer{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-top:39px;color:var(--muted);font-size:10px;line-height:1.8}
+footer nav{display:flex;gap:25px}footer a{white-space:nowrap}
+.archive-intro{padding-bottom:25px}.archive-group{margin-top:38px}
+.group-title{display:flex;justify-content:space-between;align-items:center;gap:16px;border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:22px}
+.group-title h2{font-size:19px;margin:0;letter-spacing:-.03em}.group-title span{font-size:9px;color:var(--muted);letter-spacing:.12em}
+dialog{width:min(850px,94vw);max-height:94dvh;padding:20px;border:1px solid #a5926977;border-radius:6px;background:#1b2b20;color:var(--paper);overflow:auto}
+dialog::backdrop{background:#080e0bdd;backdrop-filter:blur(6px)}
+dialog header{height:50px}dialog h2{font-size:18px;margin:0}
+.detail-art{height:min(70dvh,740px);background:radial-gradient(ellipse,#314a39,transparent 70%)}
+.detail-art img{height:100%;width:100%;object-fit:contain}
+#original{display:block;text-align:center;font-size:12px;color:var(--accent);padding-top:10px}
+@media(max-width:1050px){main{padding:0 30px 40px}.gallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:30px}.lead{top:90px;font-size:12px}}
+@media(max-width:620px){main{padding:0 18px 28px}.page-header{height:68px}.status{font-size:9px;letter-spacing:0}.intro{padding-top:32px}.eyebrow{font-size:8px;letter-spacing:.1em}.lead{position:static;font-size:12px;margin:22px 0}.toolbar{margin:25px 0 22px;align-items:center}.toolbar>span{font-size:10px;line-height:1.8}.toolbar small{display:block;margin-left:0;font-size:8px}.pill{padding:9px;font-size:10px;white-space:nowrap}.gallery{gap:22px 14px}.item-head{font-size:7px;letter-spacing:0;gap:5px;min-height:30px;align-items:flex-start}.mythic{font-size:6px}.item-copy h2{font-size:18px}.item-copy p{font-size:9px;line-height:1.7;min-height:30px}.item-copy a{font-size:9px}.item-copy{padding-top:13px}footer{align-items:flex-start;flex-direction:column;margin-top:27px}footer nav{gap:20px}.expand{bottom:6px;right:7px;font-size:12px}.group-title{align-items:flex-start;flex-direction:column;gap:8px}.group-title h2{font-size:18px}.archive-intro{padding-bottom:0}.archive-group{margin-top:25px}dialog{padding:12px}.detail-art{height:65dvh}dialog h2{font-size:14px}}

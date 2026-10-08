@@ -1,0 +1,74 @@
+{
+  "tool": "image_gen.imagegen",
+  "mode": "built-in",
+  "date": "2026-10-08",
+  "status": "VISUAL_REVIEW_PENDING",
+  "latestDirection": "엠퍼러 상위 장비 리소스 제작 다시, 화려하게 판타지느낌으로 하던가 현대 제복을 만들던가 해라.",
+  "selectedDirection": "화려한 판타지 황제 장비",
+  "color": "references/user-color-20261008.png",
+  "items": [
+    {
+      "key": "armor",
+      "intent": "generate-with-references",
+      "references": [
+        {
+          "path": "../../assets/items/emperor-suit-v1.png",
+          "role": "기존 하위 엠퍼러의 품질·위상 기준; 원형 복제 금지"
+        },
+        {
+          "path": "references/user-color-20261008.png",
+          "role": "사용자 지정 청록·에메랄드 광원 팔레트"
+        }
+      ],
+      "prompt": "Use case: stylized-concept.\nCreate one exquisitely ornate HIGH FANTASY mythic ARMOR inventory illustration, square canvas. This is the prestigious successor ABOVE the Emperor armor in reference image 1. The user now explicitly wants an extravagant fantasy design. Completely reinvent the armor rather than recoloring the reference.\nINPUT ROLES: image 1 = existing lower-tier Emperor armor, use only as a baseline of finish, clarity and grandeur to SURPASS. Do not copy its breastplate, sun reactor or crown shoulders. Image 2 = the user's color/light swatch, deep teal with radiant emerald-turquoise green flashes. Preserve this luminous jewel color rather than the red of image 1.\n\nSUBJECT: one empty divine imperial cuirass with both pauldrons, raised collar and fitted waist. No body, head, helmet, arms or legs. Three-quarter front product view. Proud broad silhouette, strong sculptural chest, graceful tapered lower armor.\nNEW DESIGN: a breathtaking celestial sovereign's regalia. Massive fan-shaped pauldrons formed from three interlocking sculpted platinum-gold wing plates per side; each plate has intricate curling chased gold relief, an emerald inlay and a clean pointed edge. Architectural openwork shoulder crests instead of simple spikes. High scalloped ivory-gold collar with dark emerald velvet lining. The breastplate is luminous polished platinum enamel with deeply carved gold arabesques arranged around a huge elongated pear-cut emerald suspended within a sculptural gold radiating reliquary. The gem emits emerald-white fire and a few delicate arcs of magical light. Curving gold ribs sweep downward into overlapping engraved waist plates; rich dark teal velvet visible only in narrow layered recesses. Two short emerald satin shoulder drapes add regal richness without hiding armor. Jewelry-grade gold detail and substantial silver-gold armor volumes, elaborate beauty at every scale. A fine luminous arcane aureole behind the collar makes its ascended tier unmistakable. This should look like a god-emperor's legendary treasure, gloriously ornate and expensive, substantially grander than reference 1.\n\nFRAME: an elaborate SQUARE treasure frame on all four edges. Thick dimensional champagne-gold and platinum molding, intricately carved acanthus scrollwork, four grand emerald-set corner ornaments, small sovereign crown ornament centered at top and a sculpted small jeweled clasp at bottom. Clean square outer silhouette, every corner entirely inside canvas with tiny outer margin. Frame must be visibly decorated like an actual luxury frame, not plain border lines. No blank nameplate. Leave breathing space between armor and inner edge.\n\nPALETTE AND LIGHT: bright platinum, warm royal gold, deep teal-green shadow and rich emerald-turquoise gems with white-green highlights, matching image 2. Saturated elegant color, no blue/red gems, no yellow-lime. Dark emerald celestial mist behind it, magical sparks and soft luminous rays. Armor remains brilliant and readable, never a dark flat lump.\nFINISH: masterful high-end 2D fantasy game item painting, crisp silhouettes, precise ornamental details, jewel refraction and polished gold reflections, dramatic richly lit high rarity loot icon. Lavish sculptural fantasy, not machinery.\nCONSTRAINTS: single full armor, one square frame, entire item visible, no collage, no text, no letters, no logo, no watermark. No mechanical panels, no reactors, no circuit boards, no screws, no floating rectangular plates, no science-fiction robot parts. Do not merely paint the Emperor green; the silhouette, ornament system and centerpiece must be new."
+    },
+    {
+      "key": "pants",
+      "name": "바지",
+      "prompt": "Use case: precise-object-edit. Create a matching equipment icon in the SAME high fantasy mythic set as input image 1. Input image 1 is the source of the square ornate frame, all material finishes, palette and elaborate decorative language; input image 2 is the user's emerald-teal light reference. Keep the ENTIRE FOUR-SIDED SQUARE FRAME from image 1 visually IDENTICAL: same decorated gold/platinum rails, same emerald corners, upper crest and bottom jeweled clasp, same dimensions and placements. Keep the dark teal magical background and brilliant platinum, rich gold and emerald-turquoise jewel palette. Replace ONLY the central armor with the requested matching item. No armor torso should remain. Newly design the replacement object in this same extravagant celestial emperor style, hand-chased gold curling arabesques, overlapping ivory-platinum enamel armor, sculpted wing ornaments, faceted transparent emeralds, dark teal silk accents and white-green magical highlights. The prestigious tier is ABOVE Emperor. Strong whole-object silhouette and usable clear game inventory icon; entire equipment fits inside frame with visible breathing gap. Single square image, polished high-end 2D fantasy item art. No mechanical parts, no reactors, no circuitry, no sci-fi technology, no printed writing, no labels, no logo, no watermark. Keep green closer to deep luminous emerald-turquoise than lime.\nREPLACEMENT SUBJECT: ONE COMPLETE PAIR OF REGAL ARMORED TROUSERS. Joined ornate waistband, hips, two naturally long legs ending in OPEN ANKLE CUFFS. No boots or feet, no torso or wearer. Slightly elevated front three-quarter view, two legs separated enough to see both silhouettes. High sculpted gold waistband with a horizontal faceted emerald clasp. Layered ivory-platinum cuisses decorated with raised gold vines; wing-swept outer hip plates, elaborate kneecaps inset with teardrop emeralds and ankle rings. Dark emerald tailored silk fills the inner legs and flexible joints; two short gold-embroidered dark teal hip panels echo the shoulder fabric of input 1 without hiding the legs. Jewelry-like sculpted filigree, meaningful large armor plates and dazzling gems, equally lavish as the armor reference. Entire waist-to-ankle pair centered large, no floating disconnected second garment.",
+      "intent": "edit-center-item-preserve-frame",
+      "references": [
+        {
+          "path": "assets/mythic-armor-fantasy-v5.png",
+          "role": "V5 공통 프레임·재질·색상"
+        },
+        {
+          "path": "references/user-color-20261008.png",
+          "role": "사용자 지정 광원 색상"
+        }
+      ]
+    },
+    {
+      "key": "boots",
+      "name": "신발",
+      "prompt": "Use case: precise-object-edit. Create a matching equipment icon in the SAME high fantasy mythic set as input image 1. Input image 1 is the source of the square ornate frame, all material finishes, palette and elaborate decorative language; input image 2 is the user's emerald-teal light reference. Keep the ENTIRE FOUR-SIDED SQUARE FRAME from image 1 visually IDENTICAL: same decorated gold/platinum rails, same emerald corners, upper crest and bottom jeweled clasp, same dimensions and placements. Keep the dark teal magical background and brilliant platinum, rich gold and emerald-turquoise jewel palette. Replace ONLY the central armor with the requested matching item. No armor torso should remain. Newly design the replacement object in this same extravagant celestial emperor style, hand-chased gold curling arabesques, overlapping ivory-platinum enamel armor, sculpted wing ornaments, faceted transparent emeralds, dark teal silk accents and white-green magical highlights. The prestigious tier is ABOVE Emperor. Strong whole-object silhouette and usable clear game inventory icon; entire equipment fits inside frame with visible breathing gap. Single square image, polished high-end 2D fantasy item art. No mechanical parts, no reactors, no circuitry, no sci-fi technology, no printed writing, no labels, no logo, no watermark. Keep green closer to deep luminous emerald-turquoise than lime.\nREPLACEMENT SUBJECT: EXACTLY TWO MATCHING EMPTY ORNATE ARMORED BOOTS, left and right, knee-high, presented side by side at an elegant three-quarter angle. Both entire boots and both toe tips visible; empty dark teal lined openings at top, no legs or wearer. Sculpted platinum shin guards with tall teardrop emerald centerpieces set in sunburst gold mounts, scrolling gold relief, layered arched gold-and-ivory foot armor, elegantly pointed but practical armored toes, substantial dark soles. Wing-shaped gold ankle ornaments and small green faceted stones. Distinct usable boot construction, same luxurious divine sovereign craft as input 1. Not two identical copied images; complementary left and right perspective, one slightly forward. No trousers, no torso.",
+      "intent": "edit-center-item-preserve-frame",
+      "references": [
+        {
+          "path": "assets/mythic-armor-fantasy-v5.png",
+          "role": "V5 공통 프레임·재질·색상"
+        },
+        {
+          "path": "references/user-color-20261008.png",
+          "role": "사용자 지정 광원 색상"
+        }
+      ]
+    },
+    {
+      "key": "dual-disk",
+      "name": "듀얼디스크",
+      "prompt": "Use case: precise-object-edit. Create a matching equipment icon in the SAME high fantasy mythic set as input image 1. Input image 1 is the source of the square ornate frame, all material finishes, palette and elaborate decorative language; input image 2 is the user's emerald-teal light reference. Keep the ENTIRE FOUR-SIDED SQUARE FRAME from image 1 visually IDENTICAL: same decorated gold/platinum rails, same emerald corners, upper crest and bottom jeweled clasp, same dimensions and placements. Keep the dark teal magical background and brilliant platinum, rich gold and emerald-turquoise jewel palette. Replace ONLY the central armor with the requested matching item. No armor torso should remain. Newly design the replacement object in this same extravagant celestial emperor style, hand-chased gold curling arabesques, overlapping ivory-platinum enamel armor, sculpted wing ornaments, faceted transparent emeralds, dark teal silk accents and white-green magical highlights. The prestigious tier is ABOVE Emperor. Strong whole-object silhouette and usable clear game inventory icon; entire equipment fits inside frame with visible breathing gap. Single square image, polished high-end 2D fantasy item art. No mechanical parts, no reactors, no circuitry, no sci-fi technology, no printed writing, no labels, no logo, no watermark. Keep green closer to deep luminous emerald-turquoise than lime.\nREPLACEMENT SUBJECT: ONE FANTASY DUAL-DISK FOREARM ARTIFACT, an ornate wearable empty forearm gauntlet/bracer bearing EXACTLY TWO GRAND CIRCULAR JEWELED DISKS along its outer length. The artifact runs diagonally from lower left to upper right to show depth. Open richly lined oval arm cuff at lower left; long tapered layered gold-and-ivory bracer body with gold leaf arabesques and jeweled lattice on top. Two separate circular ornate disk faces clearly visible, each formed from sculptural platinum and gold radiating petal rims, an emerald faceted central stone and an emerald-white arcane ring. The disks are a substantial connected pair on the same forearm mount, not detached floating shields. Small gold wing flanges flank each disk, carefully restrained so the two disk shapes remain legible. Luxury magical reliquary craftsmanship, no electronics, no clockwork, no mechanical reactor. No person, no hand or fingers, no extra third disk, no weapons or armor torso.",
+      "intent": "edit-center-item-preserve-frame",
+      "references": [
+        {
+          "path": "assets/mythic-armor-fantasy-v5.png",
+          "role": "V5 공통 프레임·재질·색상"
+        },
+        {
+          "path": "references/user-color-20261008.png",
+          "role": "사용자 지정 광원 색상"
+        }
+      ]
+    }
+  ]
+}
