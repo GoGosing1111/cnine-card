@@ -1,0 +1,129 @@
+{
+  "recordedAt": "2026-10-08T12:03:35.090Z",
+  "status": "DEPLOYED_VERIFIED",
+  "releaseCommit": "3cffbaed5ce289ece36e32e488f8fbe14c434ec1",
+  "baseProductionCommit": "4c1d46d6b454697d8b98b562388085798c4f5c12",
+  "baseProductionPages": "https://07043f1a.cnine-card.pages.dev",
+  "deploymentUrl": "https://dc4d6521.cnine-card.pages.dev",
+  "apiRuntimeVersion": "ee6d63d4-e8cd-4bf3-aff9-c03c1b8f0b68",
+  "clanDraftVersion": "97534247-ffc4-467d-9bc1-8120d1415dd2",
+  "deploymentCommand": "npm run deploy:production -- --scoped",
+  "reason": "SS 후열 15종의 몬스터 기본 공격 우선 피격과 간호사 회복 상한 1%를 적용하는 국소 전투 정책 수정. 선행 통합 배포를 보존하며 공통 인증·DB·의존성은 변경하지 않음.",
+  "checks": {
+    "serverRegressions": {
+      "files": [
+        "tests/mercenary-ss-rear-pve-20261008.test.mjs",
+        "tests/mercenary-nurse-heal-nerf-20261005.test.mjs"
+      ],
+      "passed": 15,
+      "failed": 0,
+      "reused": true,
+      "verifiedCommit": "7f8551e2",
+      "runtimeAndTestFilesUnchangedAtDeployment": true
+    },
+    "shippedBattlefieldEntry": {
+      "file": "tests/pve-battlefield-entry-v2117.test.mjs",
+      "passed": 9,
+      "failed": 0
+    },
+    "workerCheck": "PASS",
+    "productionReleaseFlagsAndCache": "PASS",
+    "hyperdriveQueryCacheDisabled": "PASS",
+    "apiRuntimePreparation": "PASS",
+    "desktopAndMobileCodex": [
+      {
+        "code": "V-004",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "overflow": false,
+        "textVisible": true
+      },
+      {
+        "code": "V-051",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "overflow": false,
+        "textVisible": true
+      },
+      {
+        "code": "V-004",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "overflow": false,
+        "textVisible": true
+      },
+      {
+        "code": "V-051",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "overflow": false,
+        "textVisible": true
+      }
+    ]
+  },
+  "balanceComparison": {
+    "file": "docs/ss-rear-priority-balance-20261008.json",
+    "totalBattles": 9216,
+    "beforeBattles": 4608,
+    "afterBattles": 4608,
+    "independentSeedIndexes": [
+      5001,
+      5002,
+      5003,
+      5004
+    ],
+    "pairedSsClearSssFail": {
+      "before": 270,
+      "after": 0
+    },
+    "ssRangedClearPercent": {
+      "APOCALYPSE": 46.4,
+      "LEGION": 57.95,
+      "TOWER": 74.62
+    },
+    "sssResultsUnchanged": true,
+    "limitation": "통제 시뮬레이션의 선택 조건에 한정. 실유저 승률이나 모든 편성의 역전 제거를 보장하지 않으며 SS 클리어를 금지하지 않음. 비교 쌍은 같은 전투를 SSS 4종과 대조하므로 독립 전투 수가 아님."
+  },
+  "publicVerification": {
+    "verifiedAt": "2026-10-08T12:02:36.191Z",
+    "publicOrigin": "https://cnine-card.pages.dev",
+    "cmsRevision": 61,
+    "affected": 15,
+    "nurses": 4,
+    "unaffectedControls": 6,
+    "policyVersion": 2,
+    "enemyBasicPriority": true,
+    "nursePveTargetCap": 1,
+    "modules": [
+      {
+        "path": "shared/mercenary-ss-rear-pve-v1.mjs",
+        "sha256": "2983594cb819c93200a4f462995d7882b003b834a27e85aa6b7a91adb88c8607"
+      },
+      {
+        "path": "mercenary-codex/app.mjs",
+        "sha256": "c4398308f82f361a5d5e5e128e0b527f3a73ab77587f5eca75f8ab7bbe85a3a0"
+      }
+    ],
+    "passed": true
+  },
+  "scope": {
+    "affectedSsRanged": 11,
+    "affectedSsNurses": 4,
+    "enemyBasicPriority": true,
+    "nurseTargetMaxHpPercent": 1,
+    "regularActionsPerMercenaryAction": 2,
+    "appliesToNewPveSnapshots": true,
+    "oldSnapshotsPreserved": true,
+    "pvpUnchanged": true,
+    "sssAndSsLimitedUnchanged": true,
+    "bossSpecialPatternsUnchanged": true
+  }
+}
