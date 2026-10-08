@@ -1,0 +1,14 @@
+{
+  "checkedAt": "2026-10-08T08:58:14.652Z",
+  "commit": "a4ed4f97223ce4848d8656293318a94aca41fe4e",
+  "deploymentId": "c8d0e80f-54e8-4e4b-94ed-8dde80377ace",
+  "url": "https://c8d0e80f.cnine-card.pages.dev",
+  "workerVersion": "7c979e33-e45a-422e-ab01-7c3e31070ab3",
+  "workerHasRecordCodec": true,
+  "workerContentSha256": "f770bd81f8545551180918ee516cc9ebe320af6cfc6db08e1c441709a3228275",
+  "healthStatus": 200,
+  "anonymousCowStatus": 401,
+  "readOnlyReceiptsVerified": 3,
+  "compressedReceiptsObserved": 0,
+  "pending": []
+}
