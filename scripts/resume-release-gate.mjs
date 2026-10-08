@@ -56,9 +56,14 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
     if(JSON.stringify(JSON.parse(git('show',`${candidate}:package.json`)).scripts)!==JSON.stringify(scripts))throw Error('Continuation gate commands changed: run a fresh full gate.');
     const start=seen.length-1,originalLast=logText.lastIndexOf(`> ${seen.at(-1)}`),continued=stageNames(continuation);
     if(!/^ℹ fail [1-9]/m.test(logText.slice(originalLast))||/^ℹ fail [1-9]/m.test(logText.slice(0,originalLast)))throw Error('Continuation requires the original failed final stage.');
-    const marker=`[FULL RELEASE RESUME] Reuse ${start} completed stages from ${base}; execute every remaining stage and production guard.`;
-    if(!continuation.includes(marker)||!continued.length||continued.some((name,i)=>name!==names[start+i]))throw Error('Continuation must start at the original failed stage without gaps.');
-    const continuationStart=continuation.indexOf(`> ${continued[0]}`);
+    // A repair may rerun earlier affected stages before reaching the failed
+    // stage. Keep the immutable log, validate those reruns and join only the
+    // contiguous continuation after them into the original gate history.
+    const resumeAt=continued.indexOf(names[start]),rechecked=continued.slice(0,resumeAt);
+    const earlier=rechecked.map(name=>names.indexOf(name));
+    const marker=`[FULL RELEASE RESUME] Reuse ${start-rechecked.length} completed stages from ${base}; execute every remaining stage and production guard.`;
+    if(resumeAt<0||!continuation.includes(marker)||earlier.some((index,i)=>index<0||index>=start||(i>0&&index<=earlier[i-1]))||continued.slice(resumeAt).some((name,i)=>name!==names[start+i]))throw Error('Continuation must start at the original failed stage without gaps.');
+    const continuationStart=continuation.indexOf(`> ${continued[resumeAt]}\n`)>=0?continuation.indexOf(`> ${continued[resumeAt]}\n`):continuation.indexOf(`> ${continued[resumeAt]}\r\n`);
     if(/^ℹ fail [1-9]/m.test(continuation.slice(0,continuationStart)))throw Error('Continuation guard tests failed.');
     changesAfterLastRun=new Set(git('diff','--name-only',candidate,'HEAD').split('\n').filter(Boolean));
     const repairTools=new Set(['scripts/deploy-production.mjs','scripts/resume-release-gate.mjs','tests/resume-release-gate.test.mjs']);
@@ -164,7 +169,7 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
     }
     const stage=names.findIndex(name=>scripts[name]?.startsWith('node scripts/build-adventure-lobby-v2107.mjs --check && '));
     if(stage<0)throw Error('Lobby source repair requires the complete source integrity gate.');
-    if(stage<failedIndex)rerun.add(stage);
+    if(stage<failedIndex&&(!changesAfterLastRun||[...lobbySources,bundle].some(path=>changesAfterLastRun.has(path))))rerun.add(stage);
   }
   for(const path of changed){
     if(path==='AGENTS.md'||path.startsWith('docs/')||path==='preview/project-v-mercenary-system-v1/README.md'||tooling.has(path))continue;
