@@ -1,5 +1,5 @@
 {
-  "status": "PREPARED",
+  "status": "DEPLOYED_AND_PRODUCTION_VERIFIED",
   "scope": "APOCALYPSE_FORCED_MONSTER_ACTION_TIMING",
   "previousProductionCommit": "a4ed4f97223ce4848d8656293318a94aca41fe4e",
   "baselineEngineCommit": "5d688704",
@@ -10,13 +10,12 @@
     "tests/icon-apocalypse-actions-20261006.test.mjs",
     "tests/icon-action-cadence-20261006.test.mjs",
     "tests/apocalypse-legion-v2127.test.mjs",
-    "tests/pve-apocalypse-battle-suit-gate-v1990.test.mjs"
-  ],
-  "completedRegressionCount": 28,
-  "remainingRegressionFiles": [
+    "tests/pve-apocalypse-battle-suit-gate-v1990.test.mjs",
     "tests/apocalypse-grade-report-20261008.test.mjs",
     "tests/pve-battlefield-entry-v2117.test.mjs"
   ],
+  "completedRegressionCount": 39,
+  "remainingRegressionFiles": [],
   "browser": {
     "report": "preview/apocalypse-grade-balance-20261008/browser-report.json",
     "desktopMobilePveEntryPlaybackSettlement": "PASSED",
@@ -26,6 +25,36 @@
   "deployment": {
     "command": "npm run deploy:production -- --scoped",
     "reason": "아카드에서 빠른 아이콘 편성 시 보스 강제 행동이 과도하게 빨라지는 국소 예약 오류 수정. PVP/일반 PVE/기존 용병 정책은 동일. 관련 회귀 28개와 PC/모바일 재생 완료. 저장 보고서 및 실제 번들/메인 로더 연결, Worker/출시/캐시/Hyperdrive 보호만 남음.",
-    "liveVerification": null
+    "liveVerification": {
+      "checkedAt": "2026-10-08T09:07:13.851Z",
+      "base": "https://cnine-card.pages.dev",
+      "endpoints": [
+        {
+          "path": "/api/health",
+          "status": 200
+        },
+        {
+          "path": "/api/icons/roles",
+          "status": 200
+        },
+        {
+          "path": "/api/mercenary-codex",
+          "status": 200
+        },
+        {
+          "path": "/docs/apocalypse-grade-balance-report-20261008.json",
+          "status": 200
+        }
+      ],
+      "reportSha256": "4772f677d8bc28b796f3c066c2589a6ef2b17b4faf4615c57d8cf24baf554482",
+      "engineSha256": "8c60ecad1f441ff82a58f47842aa806602439b6a3f6c8af851d10a2d306d209c",
+      "iconRoleRevision": 2,
+      "mercenaryCmsRevision": 61,
+      "limitedLocksPreserved": true
+    },
+    "commit": "d72d12a5eea513df9d3726e991e2d5f62d0517fa",
+    "url": "https://831f2c06.cnine-card.pages.dev",
+    "apiRuntimeVersion": "8527ff15-9587-49fc-8acb-50096888e827",
+    "clanDraftVersion": "ab0d5c68-aa87-41f1-a23c-f33a2d9cf446"
   }
 }
