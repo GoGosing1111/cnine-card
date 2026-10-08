@@ -2,7 +2,7 @@
   "tool": "image_gen.imagegen",
   "mode": "built-in",
   "date": "2026-10-08",
-  "status": "VISUAL_REVIEW_PENDING",
+  "status": "VISUAL_APPROVED",
   "latestDirection": "엠퍼러 상위 장비 리소스 제작 다시, 화려하게 판타지느낌으로 하던가 현대 제복을 만들던가 해라.",
   "selectedDirection": "화려한 판타지 황제 장비",
   "color": "references/user-color-20261008.png",
@@ -70,5 +70,6 @@
         }
       ]
     }
-  ]
+  ],
+  "approval": "approval-20261008.json"
 }

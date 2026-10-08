@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "status": "VISUAL_APPROVED",
+  "approvedOn": "2026-10-08",
+  "approvedBy": "user",
+  "instruction": "채택",
+  "approvedPreview": "https://cnine-card.pages.dev/preview/mythic-emperor-successor-v1/",
+  "version": 5,
+  "sourceCommit": "c3f6d87b23aea1b4e487e1bd00855b4e86e19878",
+  "scope": [
+    "갑옷 원본 전체",
+    "바지 원본 전체",
+    "신발 좌우 한 쌍 원본 전체",
+    "듀얼디스크 원본 전체",
+    "4종에 포함된 공통 사각 프레임",
+    "형태·재질·청록빛 팔레트·배경·장식"
+  ],
+  "items": [
+    {
+      "key": "armor",
+      "path": "assets/mythic-armor-fantasy-v5.png",
+      "width": 1254,
+      "height": 1254,
+      "format": "png",
+      "bytes": 3278612,
+      "sha256": "860e8d703192a183147d45af0646160e92b74f0dfc8e7f3a34cbacbba36a71e8",
+      "sourceOriginal": "exec-9f0d4491-ceef-428e-a3e0-3874082d3268.png",
+      "originalBytesPreserved": true,
+      "status": "VISUAL_APPROVED",
+      "immutable": true
+    },
+    {
+      "key": "pants",
+      "path": "assets/mythic-pants-fantasy-v5.png",
+      "width": 1254,
+      "height": 1254,
+      "format": "png",
+      "bytes": 2824701,
+      "sha256": "bf98837de93edcb538ba87467a0e345e79c01a36952e2a1717510c9d83234205",
+      "sourceOriginal": "exec-ce0530d1-2b54-467a-8e47-bdc25e3e7e57.png",
+      "originalBytesPreserved": true,
+      "status": "VISUAL_APPROVED",
+      "immutable": true
+    },
+    {
+      "key": "boots",
+      "path": "assets/mythic-boots-fantasy-v5.png",
+      "width": 1254,
+      "height": 1254,
+      "format": "png",
+      "bytes": 2893974,
+      "sha256": "522ff3648b7bca37fcb44347c09892455e6b1914736e783ec98865daeb7811eb",
+      "sourceOriginal": "exec-61451456-1ef7-4595-8580-6bdbe264500a.png",
+      "originalBytesPreserved": true,
+      "status": "VISUAL_APPROVED",
+      "immutable": true
+    },
+    {
+      "key": "dual-disk",
+      "path": "assets/mythic-dual-disk-fantasy-v5.png",
+      "width": 1254,
+      "height": 1254,
+      "format": "png",
+      "bytes": 2923204,
+      "sha256": "b8637a8ff3b999f576e9d8b77f1a944e8a25c40ceee6b9fac3e55a3d618b8c4d",
+      "sourceOriginal": "exec-6a7f3744-3b20-4fa6-a311-b347295b6636.png",
+      "originalBytesPreserved": true,
+      "status": "VISUAL_APPROVED",
+      "immutable": true
+    }
+  ],
+  "frame": {
+    "status": "VISUAL_APPROVED",
+    "representation": "embedded-in-approved-pngs",
+    "separateAsset": null,
+    "description": "4종 PNG에 포함된 금세공·백금·청록 보석 사각 프레임을 그대로 고정"
+  },
+  "preservation": {
+    "originalBytesLocked": true,
+    "regenerate": false,
+    "recompress": false,
+    "overwrite": false,
+    "archivePreviousDesigns": true,
+    "archivedImages": 10,
+    "archivePage": "archive.html"
+  },
+  "pending": {
+    "officialSetName": null,
+    "stats": null,
+    "craftingRecipe": null,
+    "cmsRegistration": false,
+    "runtimeActivation": false,
+    "rewardPoolInclusion": false
+  },
+  "recordOnly": true
+}
