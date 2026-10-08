@@ -1,0 +1,67 @@
+{
+  "checkedAt": "2026-10-08T12:36:45.178Z",
+  "sourceCommit": "7ec8b734c84ab93a9f0991f25f960efa131c691b",
+  "origin": "https://cnine-card.pages.dev",
+  "deployment": "https://c4eaaf69.cnine-card.pages.dev",
+  "apiWorkerVersion": "a5cb21f7-766d-4292-84a5-f4ad0326abff",
+  "files": [
+    {
+      "file": "index.html",
+      "sha256": "b02bff647d35e4fbca230d469230f5df73ccb82e205fd9c8b3ec2ab1833f6a4f",
+      "match": true
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "48a36b56f3a99113edf625b7fec70afb62e2a87c1e9f72daffa54b5d8de0a305",
+      "match": true
+    },
+    {
+      "file": "js/mercenary-limited-pack-live.mjs",
+      "sha256": "beb2024e412958056459b07627b3ff578d757a4f2bdddc096879616b751357ff",
+      "match": true
+    },
+    {
+      "file": "shared/mercenary-limited-session-v1.mjs",
+      "sha256": "4d6db50927a03e0ab8ec7948aea86e36cc4a9fd4a62da77dafbbdb12f70bb53a",
+      "match": true
+    },
+    {
+      "file": "shared/mercenary-limited-daily-v1.mjs",
+      "sha256": "58cc1660ad923c8cf3c4bf3dd99c281603c8b2f9276b1a3b880cd5e50427df13",
+      "match": true
+    },
+    {
+      "file": "css/mercenary-limited-pack-v1.css",
+      "sha256": "d2d80590b664e81d21035224b166b297d9e9e4f938915f5479522f31e5536590",
+      "match": true
+    }
+  ],
+  "publicConfig": {
+    "status": 200,
+    "daily": {
+      "day": "2026-10-08",
+      "timeZone": "Asia/Seoul",
+      "limit": 3000,
+      "used": null,
+      "remaining": null,
+      "resetsAt": "2026-10-08T15:00:00.000Z"
+    },
+    "prices": {
+      "single": 1000000000,
+      "ten": 10000000000
+    },
+    "mode": "OFF",
+    "releaseEnabled": false,
+    "userOpeningEnabled": false
+  },
+  "testCounts": {
+    "daily": 9,
+    "existing": 11,
+    "browserViewports": 2
+  },
+  "deploymentLogSha256": "9ce73d2818a99a0ca42eb089af270ccb604f3dac06e3697ba39e46ea6d32837f",
+  "actualPlayerMutation": false,
+  "clanWorkerVersion": "8ce2a279-257e-47ee-8f24-4145de42e93d",
+  "command": "npm run deploy:production -- --scoped",
+  "deploymentExitCode": 0
+}
