@@ -2,7 +2,9 @@ import {RANKS,rankForLevel} from '../shared/account-ranks-v1.mjs';
 
 // Server-only. Never return the curve, payout rules or receipt ledger to clients.
 const PAYOUT = Object.freeze({HUNT:8,APOCALYPSE:24,RAID:20,ESCORT:30,SIEGE:120,SEAL:160,TOWER:10,SCRAPYARD:20,COW_ROOM:30,RIFT:30});
-export const MAX_RANK_TICKS=139440*600;
+export const LEGACY_MAX_RANK_TICKS=139440*600;
+export const RANK_XP_MULTIPLIER=8;
+export const MAX_RANK_TICKS=LEGACY_MAX_RANK_TICKS*RANK_XP_MULTIPLIER;
 const PROGRESS='account_rank_progress_v1',LEDGER='account_rank_receipts_v1';
 export const ACCOUNT_RANK_SCHEMA=[
   `CREATE TABLE IF NOT EXISTS ${PROGRESS}(user_id INTEGER PRIMARY KEY,total_ticks INTEGER NOT NULL DEFAULT 0 CHECK(total_ticks>=0 AND total_ticks<=${MAX_RANK_TICKS}),updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
@@ -24,17 +26,17 @@ export async function ensureAccountRank(env){
   return env[READY];
 }
 export function levelFromTicks(value){
-  const xp=Math.max(0,Math.min(MAX_RANK_TICKS,Math.floor(Number(value)||0)))/600;
+  const xp=Math.max(0,Math.min(MAX_RANK_TICKS,Math.floor(Number(value)||0)))/(600*RANK_XP_MULTIPLIER);
   // XP(L) = 2*(L-1)^2 + 62*(L-1).
   return Math.min(250,1+Math.floor((-62+Math.sqrt(3844+8*xp))/4));
 }
 export function publicAccountRank(ticks=0){
   const total=Math.max(0,Math.min(MAX_RANK_TICKS,Math.floor(Number(ticks)||0))),level=levelFromTicks(total),r=rankForLevel(level),n=level-1;
-  const currentTicks=total-(2*n*n+62*n)*600,requiredTicks=(4*n+64)*600,maxed=level===250;
+  const currentTicks=total-(2*n*n+62*n)*600*RANK_XP_MULTIPLIER,requiredTicks=(4*n+64)*600*RANK_XP_MULTIPLIER,maxed=level===250;
   // Only this level's progress is public; payout rules and the full curve stay server-side.
   const progress={current:maxed?0:Math.floor(currentTicks/600*1000)/1000,required:maxed?0:requiredTicks/600,percent:maxed?100:Math.floor(currentTicks/requiredTicks*10000)/100,maxed};
-  return {level,code:r.code,name:r.name,icon:`/assets/ui/account-ranks-v1/${r.code.toLowerCase()}-96.webp`,group:r.group,tone:r.tone,
-    attackBp:r.attackBp,hpBp:r.hpBp,coinBp:r.coinBp,presetSlots:r.presetSlots,maxLevel:250,progress};
+  return {level,code:r.code,name:r.name,icon:`/assets/ui/account-ranks-v2/${r.code.toLowerCase()}-96.webp`,group:r.group,tone:r.tone,
+    attackBp:r.attackBp,hpBp:r.hpBp,coinBp:r.coinBp,dropBp:r.dropBp,presetSlots:r.presetSlots,maxLevel:250,progress};
 }
 export async function readAccountRank(env,userId){
   await ensureAccountRank(env);
@@ -57,9 +59,9 @@ export async function accountRankAward(env,userId,source,eventId,{quantity=1,tic
 }
 const PERSONAL=new Set(['HUNT','APOCALYPSE','SCRAPYARD','COW_ROOM','ESCORT','IDLE','RIFT']);
 export async function accountRankBenefits(env,userId,scope){
-  if(!PERSONAL.has(scope))return {attackBp:0,hpBp:0,coinBp:0};
+  if(!PERSONAL.has(scope))return {attackBp:0,hpBp:0,coinBp:0,dropBp:0};
   const r=await readAccountRank(env,userId);
-  return {attackBp:r.attackBp,hpBp:r.hpBp,coinBp:r.coinBp};
+  return {attackBp:r.attackBp,hpBp:r.hpBp,coinBp:r.coinBp,dropBp:r.dropBp};
 }
 export function rankCoin(base,benefits){return Math.max(0,Math.floor(Number(base||0)*(10000+Number(benefits?.coinBp||0))/10000));}
 // Only trusted server snapshots call this; raw browser deck data never reaches it.

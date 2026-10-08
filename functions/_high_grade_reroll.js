@@ -26,7 +26,7 @@ export async function ensureHighGradeRerollFoundation(env){
 }
 export async function grantHighGradeRerollDrop(env,{userId,content,referenceId}){
   const code=String(content||'').toUpperCase(),ref=String(referenceId||'').trim().slice(0,160);if(!userId||!DROP_CONTENTS.includes(code)||!ref)return null;await ensureHighGradeRerollFoundation(env);const cfg=await settings(env),rate=Math.max(0,Math.min(100,Number(cfg.dropRates?.[code]||0)));if(rate<=0)return null;
-  const effectiveRate=(await resolveAvatarDropRate(env,userId,rate)).total;
+  const effectiveRate=(await resolveAvatarDropRate(env,userId,rate,code)).total;
   const won=Math.random()*100<effectiveRate?1:0,inserted=await env.DB.prepare('INSERT OR IGNORE INTO high_grade_reroll_drop_receipts(user_id,content_code,reference_id,won) VALUES(?,?,?,?)').bind(userId,code,ref,won).run();if(!inserted.meta.changes)return null;if(!won)return {won:false,content:code,rate:effectiveRate,baseRate:rate};
   await env.DB.batch([env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) VALUES(?,?,1,1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=quantity+1,unseen_quantity=unseen_quantity+1,updated_at=CURRENT_TIMESTAMP`).bind(userId,TICKET_CODE),env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,?,1,quantity,'CONTENT_DROP',?,? FROM cnine_user_inventory WHERE user_id=? AND item_code=?").bind(userId,TICKET_CODE,code,ref,userId,TICKET_CODE)]);return {won:true,content:code,rate:effectiveRate,baseRate:rate,itemCode:TICKET_CODE,quantity:1};
 }

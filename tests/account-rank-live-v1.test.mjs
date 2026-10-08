@@ -18,7 +18,7 @@ test('growth documents and settlement code are private; rank art remains public'
 
 test('all 250 levels have one rank; boundaries, max and defaults are exact',()=>{
   for(let l=1;l<=250;l++){
-    const n=l-1,ticks=(2*n*n+62*n)*600;
+    const n=l-1,ticks=(2*n*n+62*n)*600*8;
     assert.equal(levelFromTicks(ticks),l);
     if(l>1)assert.equal(levelFromTicks(ticks-1),l-1);
     assert.equal(RANKS.filter(r=>r.min<=l&&r.max>=l).length,1);
@@ -30,12 +30,12 @@ test('all 250 levels have one rank; boundaries, max and defaults are exact',()=>
 });
 
 test('public EXP progress resets at level-up, preserves fractions and ends at MAX',()=>{
-  assert.deepEqual(publicAccountRank().progress,{current:0,required:64,percent:0,maxed:false});
-  assert.deepEqual(publicAccountRank(8*600).progress,{current:8,required:64,percent:12.5,maxed:false});
-  assert.deepEqual(publicAccountRank(64*600).progress,{current:0,required:68,percent:0,maxed:false});
+  assert.deepEqual(publicAccountRank().progress,{current:0,required:512,percent:0,maxed:false});
+  assert.deepEqual(publicAccountRank(8*600).progress,{current:8,required:512,percent:1.56,maxed:false});
+  assert.deepEqual(publicAccountRank(512*600).progress,{current:0,required:544,percent:0,maxed:false});
   assert.equal(publicAccountRank(301).progress.current,0.501);
   for(let l=1;l<250;l++){
-    const n=l-1,start=(2*n*n+62*n)*600,end=start+(4*n+64)*600;
+    const n=l-1,start=(2*n*n+62*n)*600*8,end=start+(4*n+64)*600*8;
     assert.equal(publicAccountRank(start).progress.percent,0);
     assert.ok(publicAccountRank(end-1).progress.percent<100);
     assert.equal(publicAccountRank(end).level,l+1);
@@ -74,8 +74,8 @@ for(const postgres of [false,true]){
     await f.p('UPDATE account_rank_progress_v1 SET total_ticks=? WHERE user_id=7',MAX_RANK_TICKS-1).run();
     await f.env.DB.batch(await accountRankAward(f.env,7,'SEAL','max'));
     assert.equal((await readAccountRank(f.env,7)).level,250);
-    for(const scope of ['PVP','RAID','SEAL','SIEGE','TOWER','CLAN','TERRITORY','unknown'])assert.deepEqual(await accountRankBenefits(f.env,7,scope),{attackBp:0,hpBp:0,coinBp:0});
-    assert.equal(rankCoin(10000,await accountRankBenefits(f.env,7,'HUNT')),10500);
+    for(const scope of ['PVP','RAID','SEAL','SIEGE','TOWER','CLAN','TERRITORY','unknown'])assert.deepEqual(await accountRankBenefits(f.env,7,scope),{attackBp:0,hpBp:0,coinBp:0,dropBp:0});
+    assert.equal(rankCoin(10000,await accountRankBenefits(f.env,7,'HUNT')),10675);
     assert.equal((await readAccountRank(f.env,8)).level,1,'another account is isolated');
     await assert.rejects(()=>accountRankAward(f.env,7,'PVP','bad'));
   });
@@ -83,7 +83,7 @@ for(const postgres of [false,true]){
     const f=await jointFixture(t,{postgres}),before=await f.coin();
     await settleRankedHunt(f.env,7,'HUNT','hunt-one',100,'QA');
     await settleRankedHunt(f.env,7,'HUNT','hunt-one',100,'QA');
-    assert.deepEqual((await readAccountRank(f.env,7)).progress,{current:8,required:64,percent:12.5,maxed:false});
+    assert.deepEqual((await readAccountRank(f.env,7)).progress,{current:8,required:512,percent:1.56,maxed:false});
     assert.equal(await f.coin(),before+100);
     f.fail('INSERT INTO coin_logs');await assert.rejects(()=>settleRankedHunt(f.env,7,'HUNT','hunt-fail',100,'QA'));f.fail('');
     assert.equal(await f.coin(),before+100);
