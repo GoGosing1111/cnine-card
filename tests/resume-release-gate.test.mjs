@@ -25,6 +25,16 @@ test('full gate resumes a proven prefix and retains failed, remaining and final 
   assert.match(plan.commands[0],/resume-release-gate\.test\.mjs/);
 });
 
+test('lobby authoring repair retains passes only with unchanged live output and a full build check',()=>{
+  const f=fixture({changed:['ui/adventure-lobby/icons.js','preview/lobby-clarity-v1/app.js']});
+  f.scripts['test:b']='node scripts/build-adventure-lobby-v2107.mjs --check && node --test tests/b.test.mjs';
+  const bundle='js/adventure-lobby-v2107.js',git=(...args)=>args[0]==='show'&&args[1]===`${base}:${bundle}`?'live runtime':f.git(...args);
+  const plan=fullGateResumePlan({...f,git,read:()=> 'live runtime'});assert.equal(plan.reused,1);assert.ok(plan.commands.includes('npm run test:b'));
+  assert.throws(()=>fullGateResumePlan({...f,git,read:()=> 'changed runtime'}),/Lobby runtime changed/);
+  f.scripts['test:b']='node --test tests/b.test.mjs';
+  assert.throws(()=>fullGateResumePlan({...f,git,read:()=> 'live runtime'}),/complete source integrity gate/);
+});
+
 test('multiple immutable continuation logs keep contiguous passes and reject a changed log or gap',()=>{
   const f=fixture({changed:['tests/c.test.mjs']}),candidate='c'.repeat(40),next='d'.repeat(40);
   const logs={one:`[FULL RELEASE RESUME] Reuse 1 completed stages from ${base}; execute every remaining stage and production guard.\n> test:b\nℹ fail 0\n> test:c\nℹ fail 1\n`,two:`[FULL RELEASE RESUME] Reuse 2 completed stages from ${base}; execute every remaining stage and production guard.\n> test:c\nℹ fail 1\n`};
