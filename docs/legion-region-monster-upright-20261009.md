@@ -20,4 +20,8 @@
 
 직전 운영 커밋 `ae278a5a7b27899041e2aa74de433590dc45f861`, Pages `96c77f53-2eee-407b-b1aa-6219787f8fde`를 확인했다. 지역 몬스터 표시의 국소 수정으로 `npm run deploy:production -- --scoped`를 사용한다. 공통 인증·DB·트랜잭션·의존성 변경은 없다.
 
-운영 반영 결과는 완료 후 기록한다.
+## 운영 반영 완료
+
+공식 scoped 배포가 종료 코드 0으로 완료됐다. 배포 소스 `0d55ea94449bdbbbe1938a8c27202e0ac39de372`, Pages `https://ab92a6bf.cnine-card.pages.dev`. 선택 회귀 10/10, Worker 컴파일·출시 보호·Hyperdrive 캐시 검사 통과.
+
+운영 도메인의 군단토벌 전투 HTML과 새 전투 번들이 HTTP 200이고 로컬 배포 후보의 SHA-256과 일치함을 확인했다. HTML의 `20261009-upright-monsters` 캐시 키도 반영됐다. 이 후속 기록은 문서만 커밋하며 재배포하지 않는다.

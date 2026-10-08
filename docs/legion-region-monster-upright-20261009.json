@@ -61,5 +61,32 @@
       }
     }
   ],
-  "evidenceDirectory": "C:/Users/User/.codex/tmp/legion-upright-20261009/"
+  "evidenceDirectory": "C:/Users/User/.codex/tmp/legion-upright-20261009/",
+  "release": {
+    "verifiedAt": "2026-10-08T20:00:46.373Z",
+    "sourceCommit": "0d55ea94449bdbbbe1938a8c27202e0ac39de372",
+    "pagesUrl": "https://ab92a6bf.cnine-card.pages.dev",
+    "productionUrl": "https://cnine-card.pages.dev",
+    "command": "npm run deploy:production -- --scoped",
+    "exitCode": 0,
+    "tests": {
+      "passed": 10,
+      "failed": 0,
+      "file": "tests/legion-hunt-entry-account-20260926.test.mjs"
+    },
+    "files": [
+      {
+        "file": "pve/legion-hunt/index.html",
+        "status": 200,
+        "sha256": "c75a3e6d7248ce3ac10ff6127ea425486f606519fac0833a4ce67d7d3faf7989",
+        "bytes": 5232
+      },
+      {
+        "file": "preview/sustained-hunt-v2/battle.bundle.js",
+        "status": 200,
+        "sha256": "353a7938310d888819530585ad9e885a1adbf3718d746c3145d56cf7dd0b7c6b",
+        "bytes": 1772303
+      }
+    ]
+  }
 }
