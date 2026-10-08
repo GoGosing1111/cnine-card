@@ -85,7 +85,7 @@
     pvp: Object.freeze({ title: '대전 · PVP', routes: Object.freeze(['pvp', 'duo', 'rank', 'clanWar', 'clanFaction', 'clan', 'territory']) }),
     equipment: Object.freeze({ title: '장비·칭호·차고', routes: Object.freeze(['character', 'avatar']) }),
     crafting: Object.freeze({ title: '제작소', routes: Object.freeze(['vehicle', 'fusion', 'alchemy']) }),
-    rewards: Object.freeze({ title: '보상', routes: Object.freeze(['attendance', 'dailyquest', 'messages', 'mineral', 'goldenAxe']) }),
+    rewards: Object.freeze({ title: '보상', routes: Object.freeze(['attendance', 'dailyquest', 'messages', 'mineral', 'chicken', 'goldenAxe']) }),
     market: Object.freeze({ title: '승부·경매', routes: Object.freeze(['prediction', 'auction']) }),
     administration: Object.freeze({ title: '행정부', routes: Object.freeze(['coup', 'soopketland', 'prison', 'prisoncamp']) })
   });
@@ -136,6 +136,7 @@
     dailyquest: Object.freeze({ title: '일일·주간 퀘스트', group: 'rewards', icon: 'gift' }),
     messages: Object.freeze({ title: '메시지함', group: 'rewards', icon: 'mail' }),
     mineral: Object.freeze({ title: '교환소', group: 'rewards', icon: 'inventory' }),
+    chicken: Object.freeze({ title: '철구네 치킨', group: 'rewards', icon: 'gift' }),
     goldenAxe: Object.freeze({ title: '핑두의 금도끼 은도끼', group: 'rewards', icon: 'gift' }),
     prediction: Object.freeze({ title: '승부예측', group: 'market', icon: 'auction', home: Object.freeze({ title: '승부·경매', meta: '승부예측 · 경매장' }) }),
     auction: Object.freeze({ title: '경매장', group: 'market', icon: 'auction' }),
@@ -531,6 +532,22 @@
     return document.getElementById('modal');
   }
 
+  let chickenVisible=false,chickenCheckedAt=0,chickenPromise=null;
+  function refreshChicken(force=false){
+    if(chickenPromise)return chickenPromise;
+    if(!force&&Date.now()-chickenCheckedAt<15000)return Promise.resolve(false);
+    chickenCheckedAt=Date.now();
+    chickenPromise=(async()=>{
+      const before=chickenVisible;
+      try{
+        const token=global.localStorage?.getItem('cnine_card_api_token')||global.sessionStorage?.getItem('cnine_card_api_token')||'';
+        const response=await global.fetch('/api/events/chicken/feature',{cache:'no-store',headers:token?{authorization:'Bearer '+token}:{},signal:AbortSignal.timeout(8000)});
+        if(!response.ok)throw new Error('chicken feature unavailable');
+        const data=await response.json();chickenVisible=data.visible===true;
+      }catch{chickenVisible=false}
+      return before!==chickenVisible;
+    })().finally(()=>{chickenPromise=null});return chickenPromise;
+  }
   let goldenAxeVisible=false,goldenAxeCheckedAt=0,goldenAxePromise=null;
   function refreshGoldenAxe(force=false){
     if(goldenAxePromise)return goldenAxePromise;
@@ -544,7 +561,7 @@
         if(!response.ok)throw new Error('goldenAxe feature unavailable');
         const data=await response.json();goldenAxeVisible=data.visible===true;
       }catch{goldenAxeVisible=false}
-      return before!==goldenAxeVisible;
+      const chickenChanged=await refreshChicken(force);return before!==goldenAxeVisible||chickenChanged;
     })().finally(()=>{goldenAxePromise=null});return goldenAxePromise;
   }
 
@@ -554,6 +571,7 @@
   }
 
   function routeButton(route) {
+    if(route==='chicken'&&!chickenVisible)return '';
     if(route==='goldenAxe'&&!goldenAxeVisible)return '';
     if(['clan','clanWar','clanFaction'].includes(route)&&!clanFeatureVisible())return '';
     if(route==='avatar'&&global.avatarFeatureVisible?.()!==true)return '';
@@ -591,6 +609,7 @@
 
   function navigate(route) {
     if(route==='masterStarMine'){global.location.assign('/master-star-mine/');return Promise.resolve({ok:true,externalPage:true});}
+    if(route==='chicken')return refreshChicken(true).then(()=>{if(!chickenVisible)throw new Error('현재 공개된 이벤트가 아닙니다.');global.location.assign('/events/chicken/');return {ok:true,externalPage:true}});
     if(route==='goldenAxe')return refreshGoldenAxe(true).then(()=>{if(!goldenAxeVisible)throw new Error('현재 공개된 이벤트가 아닙니다.');global.location.assign('/events/golden-axe/');return {ok:true,externalPage:true}});
     if (route === 'home') {
       homeRouteGuard = true;

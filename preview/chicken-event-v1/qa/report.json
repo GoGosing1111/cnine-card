@@ -1,0 +1,13 @@
+{
+  "desktop": "FRIED → delivery → gift → SSS result → done",
+  "mobile": "YANGNYEOM → reduced-motion gift → SS result → Escape",
+  "receiptRecovery": {
+    "posts": 1,
+    "tickets": 9,
+    "grants": 1
+  },
+  "cms": "SSS 99.9999% + SS 0.0001% saved in isolated PostgreSQL; OFF preserved; mobile overflow checked",
+  "assetFailures": [],
+  "checkedAt": "2026-10-08T01:13:26.088Z",
+  "environment": "isolated local PostgreSQL fixture; no production account or grant"
+}

@@ -1,0 +1,30 @@
+{
+  "name": "철구네 치킨 이벤트 리소스",
+  "createdAt": "2026-10-08",
+  "mode": "built-in image_gen",
+  "transparentBackground": true,
+  "format": "PNG",
+  "width": 1254,
+  "height": 1254,
+  "postProcessing": "None; original output bytes copied into the project.",
+  "assets": [
+    {
+      "key": "fried",
+      "prompt": "Use case: product-mockup. Asset type: transparent cutout for a premium Korean game chicken-choice event. Single delicious freshly fried Korean chicken meal piled in a wide low open kraft-paper delivery tray. Three-quarter overhead angle, entire tray and silhouette visible, crisp golden fried pieces with fine craggy breading, small white radish side cup tucked into tray corner. Warm appetizing studio light, polished painted game illustration with realistic food texture. No hands, no people, no logos, no letters, no text, no watermark. Centered full object with generous transparent margins. High-end appetizing food art rather than emoji or flat vector. Square image.",
+      "path": "assets/ui/events/chicken-v1/fried.png",
+      "sha256": "d313a2f5b01a5868cd90e84514b546e612497b89b51cef385eb22e31f0bc6973"
+    },
+    {
+      "key": "yangnyeom",
+      "prompt": "Use case: product-mockup. Asset type: transparent cutout for a premium Korean game chicken-choice event. Single delicious Korean yangnyeom chicken meal piled in a wide low open kraft-paper delivery tray. Three-quarter overhead angle, entire tray and silhouette visible, fried chicken coated in glossy deep red-orange sweet spicy sauce, tiny sesame seeds sparingly sprinkled, small white radish side cup tucked into tray corner. Warm appetizing studio light, polished painted game illustration with realistic food texture. No hands, no people, no logos, no letters, no text, no watermark. Centered full object with generous transparent margins. High-end appetizing food art rather than emoji or flat vector. Square image.",
+      "path": "assets/ui/events/chicken-v1/yangnyeom.png",
+      "sha256": "1409828cb64997b56c79b822eb897614e82d62f79751bacb540251923ffdba47"
+    },
+    {
+      "key": "delivery",
+      "prompt": "Use case: product-mockup. Asset type: transparent cutout for a premium Korean game chicken delivery and surprise gift reveal. A beautiful closed cream kraft-paper chicken delivery box with a hinged rectangular lid and simple deep teal paper seal across the lid, warm golden rim lighting. A smaller mysterious premium teal gift parcel with elegant cream ribbon peeks from behind the chicken box at right, subtly illuminated seam suggesting a special surprise. Low three-quarter front angle, entire object visible with generous transparent margin, soft coherent cast shadow, inviting warm food delivery mood. Polished 2D game illustration with believable paperboard material. No food visible, no brand logos, no text, no letters, no hands, no people, no watermark. Transparent background. Square image.",
+      "path": "assets/ui/events/chicken-v1/delivery.png",
+      "sha256": "7479288aa51605597a1be24eb8181d97521c05cd39563a6ca184d50b633bf5a5"
+    }
+  ]
+}

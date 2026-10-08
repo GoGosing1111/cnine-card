@@ -1,0 +1,31 @@
+{
+  "dry": {
+    "operation": "ops:golden-axe-close:20261008:v1",
+    "closedAt": "2026-10-08T00:53:22.118Z",
+    "enabled": false,
+    "visible": false,
+    "disabledCoupons": 0,
+    "inventoryPreserved": true,
+    "prizeRedemptionPreserved": true,
+    "authorization": "도끼이벤트 종료하고 새 이벤트 연출,랜덤보상 만들자",
+    "replacement": "철구네 치킨",
+    "newEventEnabled": false,
+    "auditId": "42628",
+    "dryRun": true
+  },
+  "applied": {
+    "operation": "ops:golden-axe-close:20261008:v1",
+    "closedAt": "2026-10-08T00:53:23.233Z",
+    "enabled": false,
+    "visible": false,
+    "disabledCoupons": 0,
+    "inventoryPreserved": true,
+    "prizeRedemptionPreserved": true,
+    "authorization": "도끼이벤트 종료하고 새 이벤트 연출,랜덤보상 만들자",
+    "replacement": "철구네 치킨",
+    "newEventEnabled": false,
+    "auditId": "42629",
+    "dryRun": false
+  },
+  "replayVerified": true
+}
