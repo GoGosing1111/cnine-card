@@ -49,12 +49,13 @@
       if(!rankButton){
         rankButton=document.createElement('button');rankButton.id='account-rank-button';rankButton.type='button';rankButton.title='계급과 혜택';
         rankButton.className='account-rank-button';
-        rankButton.addEventListener('click',async()=>{if(!global.AccountRank)await import('/js/account-rank-v1.mjs?v=2122&benefits=20260925');global.AccountRank.open();});
+        rankButton.addEventListener('click',async()=>{if(!global.AccountRank)await import('/js/account-rank-v1.mjs?v=2122&benefits=20261008');global.AccountRank.open();});
         const shortcut=root.getElementById('account-shortcut'),group=document.createElement('div');group.className='profile-summary account-identity';shortcut.className='account-name-shortcut';shortcut.before(group);group.append(shortcut,rankButton);
       }
       const accountRank=user.accountRank;
       if(accountRank){
-        const rankArt=document.createElement('img');rankArt.src='/assets/ui/account-ranks-v1/'+String(accountRank.code).toLowerCase().replace(/[^a-z_]/g,'')+'-96.webp';rankArt.width=48;rankArt.height=48;rankArt.alt=accountRank.name+' 계급장';
+        const still=Number(accountRank.level)>=200&&global.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const rankArt=document.createElement('img');rankArt.src='/assets/ui/account-ranks-v2/'+String(accountRank.code).toLowerCase().replace(/[^a-z_]/g,'')+'-96'+(still?'-still':'')+'.webp';rankArt.width=48;rankArt.height=48;rankArt.alt=accountRank.name+' 계급장';
         const rankLabel=document.createElement('span');rankLabel.className='account-rank-label';const rankLevel=document.createElement('span'),rankName=document.createElement('span');rankLevel.className='account-rank-level';rankName.className='account-rank-name';rankLevel.textContent='Lv.'+Number(accountRank.level);rankName.textContent=accountRank.name;rankLabel.append(rankLevel,rankName);
         const progress=accountRank.progress,xp=document.createElement('span');xp.className='account-rank-xp';
         const caption=document.createElement('span'),track=document.createElement('span'),fill=document.createElement('span');caption.className='account-rank-xp-caption';track.className='account-rank-xp-track';fill.className='account-rank-xp-fill';

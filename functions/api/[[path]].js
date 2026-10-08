@@ -1743,7 +1743,7 @@ async function resolveAutoBattle(env,user,settings,monster,cards,ids,uniqueBattl
   // 수동 PVE와 같은 방식으로 서로 독립적인 지급을 한 파동에서 처리한다. 소탕 회차마다
   // 코인→카드→장비를 직렬 대기하면 행동력 30회 기준 응답이 과도하게 길어진다.
   const dropRequestId=requestId||`${Date.now()}-${monster.id}`,pveMagic=options.pveMagic||{};
-  const cardRate=(await resolveAvatarDropRate(env,user.id,result==='WIN'&&settings.cardDrop?.enabled!==false?settings.cardDrop?.defaultRate??0:0)).total;
+  const cardRate=(await resolveAvatarDropRate(env,user.id,result==='WIN'&&settings.cardDrop?.enabled!==false?settings.cardDrop?.defaultRate??0:0,'PVE')).total;
   const cardDropHit=cardRate>0&&Math.random()*100<cardRate;
   const [,cardReward,equipmentReward,blackMiracleReward,magicReward]=await Promise.all([
     result==='WIN'?settleRankedHunt(env,user.id,difficulty.isApocalypse?'APOCALYPSE':'HUNT',dropRequestId,reward,`PVE 소탕 승리 보상: ${monster.name}`):Promise.resolve(null),
@@ -6571,7 +6571,7 @@ async function handleRequest(context){
       // 다른 지급이 끝난 뒤 마지막에 단독으로 돌린다. 그래야 그쪽 로그의 balance_after 가 정확하다.
       const rewardSource=payload.autoBattle===true?'PVE_AUTO':'PVE';
       const pveMagic=pveMagicSettings.acquisition?.pve||{};
-      const cardDropRate=(await resolveAvatarDropRate(env,user.id,result==='WIN'&&settings.cardDrop?.enabled!==false?settings.cardDrop?.defaultRate??0:0)).total;
+      const cardDropRate=(await resolveAvatarDropRate(env,user.id,result==='WIN'&&settings.cardDrop?.enabled!==false?settings.cardDrop?.defaultRate??0:0,rankScope)).total;
       const cardDropHit=cardDropRate>0&&Math.random()*100<cardDropRate;
       if(deferred&&!battleV2)return json({error:'아포칼립스 전투 화면을 새로 불러오세요.',code:'APOCALYPSE_V3_REQUIRED'},409);
       const pendingCard=deferred&&cardDropHit?await pickBattleCard(env,settings):null;

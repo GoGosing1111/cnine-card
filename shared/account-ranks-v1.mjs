@@ -28,13 +28,16 @@ artwork.SERGEANT_MAJOR='sergeant-major-v2.png';
 export const RANKS=Object.freeze(rows.map(([code,name,min,max,group,insignia,tone],index)=>Object.freeze({
   code,name,min,max,group,insignia,tone,index,art:artwork[code]||null,
   // Total rank effect, never summed across earlier ranks. PVE-only total bonuses.
-  attackBp:index*50,hpBp:index*75,coinBp:index*25,presetSlots:1+Math.floor(index/5)
+  attackBp:index>=7?1000:index*50,hpBp:index>=7?1500:index*75,
+  coinBp:index>=13?500+(index-13)*25:0,
+  dropBp:index>=16?(index-15)*100:0,
+  presetSlots:index>=7?5:1+Math.floor(index/5)
 })));
 export function normalizeLevel(value){const n=Number(value);return Number.isFinite(n)?Math.max(1,Math.min(250,Math.floor(n))):1;}
 export function rankForLevel(value){const level=normalizeLevel(value);return RANKS.find(r=>level>=r.min&&level<=r.max);}
 export function rankEffects(value,context){
   // Explicit allow-list: unknown, PvP, clan, territory and scored PvE get nothing.
   const r=rankForLevel(value),allowed=context==='PERSONAL_PVE_UNRANKED';
-  return {attackBp:allowed?r.attackBp:0,hpBp:allowed?r.hpBp:0,coinBp:allowed?r.coinBp:0};
+  return {attackBp:allowed?r.attackBp:0,hpBp:allowed?r.hpBp:0,coinBp:allowed?r.coinBp:0,dropBp:allowed?r.dropBp:0};
 }
 export const percent=bp=>`${Number((bp/100).toFixed(2))}%`;

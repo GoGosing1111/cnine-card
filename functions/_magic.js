@@ -529,7 +529,7 @@ export async function resolveMagicCrystalReward(env,{userId,source,referenceId,e
     if(Number.isFinite(age)&&age<45000)return {pending:true,source,amount:0,awarded:false};
     await env.DB.prepare("UPDATE magic_crystal_reward_receipts SET status='RETRYABLE',error_message='STALE_PENDING',updated_at=CURRENT_TIMESTAMP WHERE receipt_id=? AND status='PENDING'").bind(receiptId).run();
   }
-  const configuredChance=enabled&&configuredAmount>0?(await resolveAvatarDropRate(env,userId,baseChance)).total:baseChance;
+  const configuredChance=enabled&&configuredAmount>0?(await resolveAvatarDropRate(env,userId,baseChance,source)).total:baseChance;
   let reserved={meta:{changes:0}};
   if(existing)reserved=await env.DB.prepare("UPDATE magic_crystal_reward_receipts SET status='PENDING',configured_chance=?,configured_amount=?,response_json=NULL,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE receipt_id=? AND status IN ('RETRYABLE','FAILED')").bind(configuredChance,configuredAmount,receiptId).run();
   if(!Number(reserved?.meta?.changes||0))reserved=await env.DB.prepare("INSERT OR IGNORE INTO magic_crystal_reward_receipts(receipt_id,user_id,source,reference_id,status,configured_chance,configured_amount) VALUES(?,?,?,?,'PENDING',?,?)").bind(receiptId,userId,source,referenceId,configuredChance,configuredAmount).run();
