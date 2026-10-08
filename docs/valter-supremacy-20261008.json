@@ -54,12 +54,33 @@
       "tests/mercenary-combat-v3.test.mjs",
       "tests/mercenary-berkan-tempo-20260927.test.mjs",
       "tests/berkan-pvp-damage-20260930.test.mjs",
-      "tests/mercenary-berkan-twin-starfall-20260927.test.mjs",
+      "tests/berkan-pvp-reform-20260930.test.mjs",
       "tests/mercenary-berkan-area-20260930.test.mjs",
       "tests/ranked-duo-battle.test.mjs",
       "tests/mercenary-limited-catalog-20261002.test.mjs",
       "tests/pve-battlefield-entry-v2117.test.mjs"
     ],
+    "completedRegressionFiles": [
+      "tests/mercenary-valter-supremacy-20261008.test.mjs",
+      "tests/mercenary-combat-v3.test.mjs",
+      "tests/mercenary-berkan-tempo-20260927.test.mjs",
+      "tests/berkan-pvp-damage-20260930.test.mjs",
+      "tests/mercenary-berkan-area-20260930.test.mjs",
+      "tests/ranked-duo-battle.test.mjs",
+      "tests/mercenary-limited-catalog-20261002.test.mjs",
+      "tests/pve-battlefield-entry-v2117.test.mjs"
+    ],
+    "remainingRegressionFiles": ["tests/berkan-pvp-reform-20260930.test.mjs"],
+    "historicalFailures": {
+      "file": "tests/mercenary-berkan-twin-starfall-20260927.test.mjs",
+      "baselineCommit": "e6ec5b4af6439affb840bd3e1d747f9f111c9d09",
+      "reproducedOnBaseline": true,
+      "failures": [
+        "차례 2에서 스킬이 없을 것으로 기대하지만 현재 PVE 화살비가 시전됨: true !== false",
+        "옛 베르칸 승률 기대치 54~72%가 이후 조정과 불일치: baseline과 이번 변경 모두 1024판 중 535승, 52.24609375%"
+      ],
+      "resolution": "기존 실패는 수정하지 않고 최신 2026-09-30 PVP 조정 및 화살비 회귀검사로 대체. 이미 통과한 관련 검사 8개 파일은 문서 기록 커밋 뒤 반복하지 않음."
+    },
     "checks": ["check:worker", "verify-production-release", "Hyperdrive cache disabled"],
     "status": "PREPARED"
   }
