@@ -5,6 +5,7 @@ import {LIMITED_DAILY_CAP} from '../shared/mercenary-limited-daily-v1.mjs';
 import {formatDrawPercent} from '../shared/mercenary-draw-policy-v1.mjs';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=n=>n===null||n===undefined?'설정 전':BigInt(n).toLocaleString('ko-KR');
+const fmtPrice=n=>n===null||n===undefined?'설정 전':BigInt(n).toLocaleString('ko-KR',{notation:'compact',maximumFractionDigits:20});
 let active=null;const scripts=new Map();
 function stylesheet(){
  if(document.querySelector('[data-limited-pack-style]'))return;
@@ -57,13 +58,13 @@ export async function mountLimitedPack({api,accountId,getAccountId,storage,previ
   $('[data-lp-close]').setAttribute('aria-label',busy?'다음 개봉을 중지하고 닫기':'계약실 닫기');
  };
  const quote=()=>{
-  try{const plan=limitedAutoPlan(config.packSettings,Number($('[data-lp-total]').value),Number($('[data-lp-batch]').value),config.daily);$('[data-lp-quote]').textContent='총 '+plan.total+'회 · '+fmt(plan.cost)+' 코인';}
+  try{const plan=limitedAutoPlan(config.packSettings,Number($('[data-lp-total]').value),Number($('[data-lp-batch]').value),config.daily);$('[data-lp-quote]').textContent='총 '+plan.total+'회 · '+fmtPrice(plan.cost)+' 코인';}
   catch(e){$('[data-lp-quote]').textContent=e.code==='MERCENARY_LIMITED_DAILY_LIMIT'?'오늘 남은 '+fmt(config.daily.remaining)+'개 이내로 입력하세요.':'1~1,000회 · 가격 설정 후 이용 가능';}
   sync();
  };
  const renderConfig=()=>{
   if(!config)return;
-  $('[data-lp-price-one]').textContent=fmt(config.packSettings.prices.single);$('[data-lp-price-ten]').textContent=fmt(config.packSettings.prices.ten);
+  $('[data-lp-price-one]').textContent=fmtPrice(config.packSettings.prices.single);$('[data-lp-price-ten]').textContent=fmtPrice(config.packSettings.prices.ten);
   $('[data-lp-access]').textContent=preview?'연출 검수 모드':config.userOpeningEnabled?'계약 개봉 가능':'출시 준비 중 · 개봉 OFF';
   $('[data-lp-daily]').textContent=Number.isSafeInteger(config.daily?.remaining)?fmt(config.daily.remaining)+' / '+fmt(config.daily.limit)+'개':'로그인 후 확인';
   clearTimeout(dailyTimer);
@@ -122,7 +123,7 @@ export async function mountLimitedPack({api,accountId,getAccountId,storage,previ
   try{
    const plan=limitedAutoPlan(config.packSettings,totalCount,batchCount,config.daily);
    confirmation={total:totalCount,batch:batchCount,config:structuredClone(config)};mode=automatic?'auto':'manual';
-   $('[data-lp-confirm-text]').textContent=(preview?'검수용 개봉입니다. 실제 차감·지급은 없습니다. ':'')+(automatic?'자동 ':'')+totalCount+'회 · '+fmt(plan.cost)+' 코인'+(automatic?'\n카드 공개 연출 후 자동으로 다음 계약을 진행합니다.':'');
+   $('[data-lp-confirm-text]').textContent=(preview?'검수용 개봉입니다. 실제 차감·지급은 없습니다. ':'')+(automatic?'자동 ':'')+totalCount+'회 · '+fmtPrice(plan.cost)+' 코인'+(automatic?'\n카드 공개 연출 후 자동으로 다음 계약을 진행합니다.':'');
    $('[data-lp-confirm]').hidden=false;$('[data-lp-confirm-start]').focus();
   }catch(e){say(e.message);}
  }

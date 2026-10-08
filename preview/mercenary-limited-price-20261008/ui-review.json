@@ -1,0 +1,10 @@
+{
+  "checkedAt": "2026-10-08T12:42:50.295Z",
+  "passed": true,
+  "checks": [
+    "desktop: shop 10억/100억, contract 10억/100억, auto total 1조, confirmations, numeric daily counts, no overflow or purchase",
+    "mobile: shop 10억/100억, contract 10억/100억, auto total 1조, confirmations, numeric daily counts, no overflow or purchase"
+  ],
+  "errors": [],
+  "fixture": "Synthetic account and prices; actual shop/contract components and renderer; no player purchase"
+}

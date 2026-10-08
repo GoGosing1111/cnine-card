@@ -24,7 +24,7 @@ await page.evaluate(async()=>{
 });
 await page.waitForSelector('[data-lp-canvas][data-state=ready]');await page.locator('[data-lp-buy="1"]').click();
 await page.evaluate(()=>{priceQA.state.packRevision=5;priceQA.state.packSettings.prices.single=1000000000;document.querySelector('[data-lp-refresh]').click();});
-await page.waitForFunction(()=>document.querySelector('[data-lp-price-one]').textContent==='1,000,000,000');
+await page.waitForFunction(()=>document.querySelector('[data-lp-price-one]').textContent==='10억');
 await page.locator('[data-lp-confirm-start]').click();await page.waitForFunction(()=>priceQA.records.length===1);
 assert.equal(await page.evaluate(()=>priceQA.records[0].expectedRevision),0);checks.push('a delayed price refresh cannot replace the price revision the user confirmed');await page.locator('[data-lp-close]').click();
 await page.evaluate(async()=>{
