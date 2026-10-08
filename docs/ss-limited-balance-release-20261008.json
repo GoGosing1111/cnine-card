@@ -1,0 +1,64 @@
+{
+  "date": "2026-10-08",
+  "request": "SS리미티드 밸런스는 SSS 등급하고 맞춰서 승률 보고해 동급이거나 아주 미세하게 아래로",
+  "policy": "shared/mercenary-ss-limited-v1.mjs",
+  "report": "docs/ss-limited-balance-report-20261008.json",
+  "scope": {
+    "limitedCodes": ["V-990", "V-991", "V-992", "V-993", "V-994", "V-997", "V-998"],
+    "collectionAndGrowthRank": "SS",
+    "effectiveCombatTier": "SSS",
+    "referenceCodes": ["V-021", "V-046", "V-049", "V-055"],
+    "valter": "EXCLUDED_FROM_PARITY_TARGET_AND_REMAINS_STRONGEST",
+    "targetAggregateWinRate": [0.48, 0.50],
+    "individualMatchups": "상성별 승률은 다르며 4종 전체 종합 승률을 기준으로 조정함"
+  },
+  "implementation": {
+    "stats": "SSS 기본 전투력 180000 및 연계 수치에 용병별 계수를 적용",
+    "gradeCorrection": "정확한 SS 리미티드 7개 코드만 전투 등급 SSS로 처리. 일반 SS의 등급 보정과 원거리 제한은 유지",
+    "skills": "승인된 5종 효과 콘셉트에 기존 서버 메커니즘을 연결한 준비 스킬. 아윤·하이희야는 밸런스용 준비 명칭과 메커니즘이며 시각 제작/승인을 뜻하지 않음",
+    "skillBudget": {"damageRatio": 5.6, "cooldownTurns": 5, "cost": 35},
+    "damageAuthority": "EXISTING_CANONICAL_SERVER_ENGINE",
+    "winnerOverride": false,
+    "valterImmunityCopied": false
+  },
+  "validation": {
+    "cmsRevision": 61,
+    "sourceVerified": "공개 운영 도감에서 SSS 4종 및 스킬 수치가 보존된 CMS 61 스냅샷과 일치함을 확인",
+    "regularFormations": 12,
+    "equippedFormations": 23,
+    "formationWeight": "EQUAL",
+    "level": 1,
+    "mirrored": ["cards", "equipment", "advancement", "magic", "growth", "both sides"],
+    "gamesPerLimited": 35840,
+    "finalGames": 250880,
+    "finalWins": 122306,
+    "additionalInesValidationGames": 35840,
+    "inesCorrection": "첫 독립 검증 51.08% 이후 해당 용병만 조정하고 미사용 난수로 재검증 48.74%. 다른 6종의 통과 결과는 재사용",
+    "ssLimitedRegression": "8 tests passed, including exact replay of held-out formations",
+    "valter": "7종 × 3전투력 × 4덱 × 양진영 × 2난수 = 336판 모두 발테르 승리",
+    "reportMeaning": "출시 전 서버 전투 시뮬레이션이며 실제 유저 운영 승률이 아님"
+  },
+  "releaseLocks": {
+    "acquisitionEnabled": false,
+    "deploymentEnabled": false,
+    "growthReleaseEnabled": false,
+    "publicCatalogStatsAndSkills": "UNCHANGED_LOCKED_ART_CATALOG",
+    "approvedArtSdFrameEffects": "UNCHANGED",
+    "ayoonAndHeeyaSd": "NOT_YET_PRODUCED"
+  },
+  "deployment": {
+    "mode": "SCOPED",
+    "previousProductionCommit": "4c2161f4bed6358c0ad1220355388e2becb2900b",
+    "reason": "SS 리미티드 7개 코드의 준비 전투 성능과 등급 비교 조건만 추가. 일반 용병·발테르·출시 플래그·공통 인증·DB·거래·보상 변경 없음. 신규 밸런스와 보고서 재현 8개 검사는 통과했으므로 남은 기존 기능 회귀만 수행.",
+    "completedRegressionFiles": ["tests/mercenary-ss-limited-balance-20261008.test.mjs"],
+    "remainingRegressionFiles": [
+      "tests/mercenary-valter-supremacy-20261008.test.mjs",
+      "tests/mercenary-tier-balance-v2144.test.mjs",
+      "tests/mercenary-ranged-balance.test.mjs",
+      "tests/mercenary-limited-catalog-20261002.test.mjs",
+      "tests/pve-battlefield-entry-v2117.test.mjs"
+    ],
+    "checks": ["check:worker", "verify-production-release", "Hyperdrive cache disabled"],
+    "status": "PREPARED"
+  }
+}

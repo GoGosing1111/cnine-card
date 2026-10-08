@@ -1,6 +1,7 @@
 import {applyMercenaryLevelStats} from './mercenary-level-v1.mjs';
 import {isValter,VALTER_COMBAT} from './mercenary-valter-v1.mjs';
-// Ordinary rank base power stays fixed; Valter has a dedicated limited policy.
+import {mercenaryCombatRank,ssLimitedProfile} from './mercenary-ss-limited-v1.mjs';
+// Ordinary rank base power stays fixed; limited fighters have explicit policies.
 // Combat linkage is an explicit additional
 // ability, frozen from this side's five ordinary fighters at battle start.
 export const MERCENARY_COMBAT_LINK=Object.freeze({
@@ -26,12 +27,12 @@ export function mercenaryCombatLinkText(rank,position){
 // Frozen at entry, only between released upper ranks. Never rewrites a winner,
 // scales ordinary cards, changes base power, or grants extra actor actions.
 export function mercenaryPvpTierGuard(actor,teams){
- const ranks=['S','SS','SSS'],rank=ranks.indexOf(actor.rank);
+ const ranks=['S','SS','SSS'],rank=ranks.indexOf(mercenaryCombatRank(actor));
  if(actor.battleMode!=='PVP'||!actor.isMercenary||actor.statMode!=='RANK_FIXED'||rank<0)return 1;
- const opponents=teams.flat().filter(other=>other.side!==actor.side&&other.isMercenary&&other.statMode==='RANK_FIXED'&&other.battleMode==='PVP'&&other.alive!==false&&other.hp>0&&ranks.includes(other.rank));
+ const opponents=teams.flat().filter(other=>other.side!==actor.side&&other.isMercenary&&other.statMode==='RANK_FIXED'&&other.battleMode==='PVP'&&other.alive!==false&&other.hp>0&&ranks.includes(mercenaryCombatRank(other)));
  if(opponents.length!==1&&!actor.ownerId)return 1;
  if(!opponents.length)return 1;
- const gap=Math.max(0,rank-Math.max(...opponents.map(other=>ranks.indexOf(other.rank))));
+ const gap=Math.max(0,rank-Math.max(...opponents.map(other=>ranks.indexOf(mercenaryCombatRank(other)))));
  return 1+gap*MERCENARY_COMBAT_LINK.pvpTierGuardPerStep;
 }
 
@@ -49,11 +50,11 @@ export function applyMercenaryCombatLink(teams,{regularCardsPerOwner=5}={}){
   const averageAttack=cards.reduce((sum,c)=>sum+c.attack,0)/cards.length,averageHp=cards.reduce((sum,c)=>sum+c.maxHp,0)/cards.length;
   if(!Number.isFinite(averageAttack)||!Number.isFinite(averageHp)||averageAttack<=0||averageHp<=0)continue;
   for(const m of team.filter(c=>c.isMercenary&&c.statMode==='RANK_FIXED')){
-   const rule=isValter(m)?VALTER_COMBAT.link:MERCENARY_COMBAT_LINK.ranks[m.rank];if(!rule||m.alive===false||m.hp<=0||m.mercenaryLink?.version===MERCENARY_COMBAT_LINK.version)continue;
+   const rule=isValter(m)?VALTER_COMBAT.link:ssLimitedProfile(m)?.link||MERCENARY_COMBAT_LINK.ranks[m.rank];if(!rule||m.alive===false||m.hp<=0||m.mercenaryLink?.version===MERCENARY_COMBAT_LINK.version)continue;
    const healthRatio=Math.max(0,Math.min(1,m.hp/m.maxHp)),tierGuard=mercenaryPvpTierGuard(m,teams),tierOffense=1+(tierGuard-1)/MERCENARY_COMBAT_LINK.pvpTierGuardPerStep;
    const attackFloor=Math.round(averageAttack*rule.attackPercent/100*tierOffense);
    const hpFloor=Math.round(averageHp*rule.hpPercent/100*tierGuard);
-   const frontBonus=m.battleMode==='PVP'?(MERCENARY_COMBAT_LINK.pvpFrontRowShieldBonusByRank[m.rank]??MERCENARY_COMBAT_LINK.frontRowShieldBonusPercent):MERCENARY_COMBAT_LINK.frontRowShieldBonusPercent;
+   const frontBonus=m.battleMode==='PVP'?(MERCENARY_COMBAT_LINK.pvpFrontRowShieldBonusByRank[mercenaryCombatRank(m)]??MERCENARY_COMBAT_LINK.frontRowShieldBonusPercent):MERCENARY_COMBAT_LINK.frontRowShieldBonusPercent;
    const shieldPercent=rule.shieldPercent+(m.position==='FRONT'?frontBonus:0);
    const openingShield=Math.round(averageHp*shieldPercent/100*healthRatio*tierGuard);
    if(!Number.isSafeInteger(attackFloor)||!Number.isSafeInteger(hpFloor)||!Number.isSafeInteger(openingShield))throw Error('INVALID_MERCENARY_COMBAT_LINK');

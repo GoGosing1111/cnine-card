@@ -16,6 +16,7 @@ import {isMercenaryMoonDrawSkill} from '../shared/mercenary-moon-draw-v1.mjs';
 import {resolveMangisaVolley} from './_mercenary_mangisa.js';
 import {resolveRagnielJudgment} from './_mercenary_ragniel.js';
 import {VALTER_CODE,VALTER_COMBAT,isValter,valterActionCredit} from '../shared/mercenary-valter-v1.mjs';
+import {SS_LIMITED_COMBAT,SS_LIMITED_BALANCE_VERSION} from '../shared/mercenary-ss-limited-v1.mjs';
 const living=x=>x?.alive!==false&&x?.hp>0&&!x?.untargetable&&!x?.isBattleSuit;
 const ordered=team=>team.filter(living).sort((a,b)=>a.slot-b.slot||String(a.id).localeCompare(String(b.id)));
 const front=team=>{const all=ordered(team),rows=all.filter(x=>x.row==='FRONT');return rows.length?rows:all.slice(0,1);};
@@ -108,11 +109,14 @@ export function buildMercenaryFighter(snapshot,side,mode,buildCardFighter){
  // A trusted prepared Valter snapshot always uses the same server-owned policy.
  const valter=snapshot.code===VALTER_CODE;
  if(valter)snapshot={...snapshot,rank:'SSS',statMode:'RANK_FIXED',position:'FRONT',role:'VANGUARD',attackStyle:'MELEE',counterImmune:true,controlImmune:true,poisonImmune:true,valterPolicyVersion:VALTER_COMBAT.version};
+ const limited=Object.hasOwn(SS_LIMITED_COMBAT,snapshot.code)?SS_LIMITED_COMBAT[snapshot.code]:null;
+ if(limited)snapshot={...snapshot,rank:'SS',statMode:'RANK_FIXED',position:limited.position,role:limited.role,attackStyle:limited.attackStyle,skills:[structuredClone(limited.skill)],ssLimitedPolicyVersion:SS_LIMITED_BALANCE_VERSION};
  if(snapshot.statMode==='RANK_FIXED'){
-  const power=valter?VALTER_COMBAT.basePower:MERCENARY_POWER_STANDARD.basePowerByRank[snapshot.rank];
+  const power=valter?VALTER_COMBAT.basePower:limited?limited.basePower:MERCENARY_POWER_STANDARD.basePowerByRank[snapshot.rank];
   if(!power||typeof buildCardFighter!=='function')throw Error('INVALID_MERCENARY_RANK_POWER');
   const base=buildCardFighter({id:snapshot.code,power,type:'NONE'},5,side,null,mode);
   snapshot={...snapshot,basePower:power,level:1,stats:{hp:base.maxHp,attack:base.attack,defense:base.defense,speed:Math.round(base.speed*(valter?VALTER_COMBAT.speedScale:snapshot.code===BERKAN_CODE?BERKAN_TEMPO.speedScale:1))}};
+  if(limited)for(const key of ['hp','attack','defense'])snapshot.stats[key]=Math.max(1,Math.round(snapshot.stats[key]*limited.scale));
  }
  if(!/^V-\d{3}$/.test(snapshot.code)||!['A','B'].includes(side)||Object.values(snapshot.stats||{}).length!==4||Object.values(snapshot.stats).some(n=>!Number.isSafeInteger(n)||n<=0))throw Error('INVALID_MERCENARY_SNAPSHOT');
  for(const s of snapshot.skills||[]){const b=s.balance;if(!b||!Number.isFinite(b.damageRatio)||b.damageRatio<0||b.damageRatio>10000||!Number.isSafeInteger(Math.floor(snapshot.stats.attack*b.damageRatio))||!Number.isInteger(b.cost)||b.cost<0||!Number.isInteger(b.cooldownTurns)||b.cooldownTurns<0)throw Error('INVALID_MERCENARY_SKILL_BALANCE');}

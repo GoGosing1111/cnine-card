@@ -1,5 +1,6 @@
 // Correct only sniper preparation and skills that spend multiple actor turns firing.
 // Weapon labels alone never grant a blanket attack or speed multiplier.
+import {mercenaryCombatRank} from './mercenary-ss-limited-v1.mjs';
 export const MERCENARY_RANGED_BALANCE_VERSION='20260918-cheonga-upper-s-v3';
 // PVP-only skill budgets. Each factor also scales the per-impact damage cap.
 // Cheonga has a separate opening-lineup tier rule for basic attacks and MS-005.
@@ -19,11 +20,11 @@ export function cheongaHigherTierPvpScale(actor,opponents=[]){
 }
 export function rangedMercenaryPvpScale(actor,skill,higherTierScale=1){
  if(actor?.battleMode==='PVP'&&isCheongaActor(actor)&&isCheongaCalibration(skill))return higherTierScale<1?MERCENARY_CHEONGA_HIGHER_TIER_SKILL_SCALE:MERCENARY_CHEONGA_PVP_SCALE;
- return actor?.battleMode==='PVP'&&actor.rank==='SS'&&isRangedMercenarySkill(actor,skill)?MERCENARY_SS_RANGED_PVP_SCALE[skill.mechanic]??1:1;
+ return actor?.battleMode==='PVP'&&mercenaryCombatRank(actor)==='SS'&&isRangedMercenarySkill(actor,skill)?MERCENARY_SS_RANGED_PVP_SCALE[skill.mechanic]??1:1;
 }
 export function rangedMercenaryPvpRule(skill,actor){
  if(isCheongaCalibration(skill)&&(!actor||isCheongaActor(actor)))return `S등급 청아의 탄착 교정은 PVP에서 각 탄의 피해량과 피해 상한에 ${Math.round(MERCENARY_CHEONGA_PVP_SCALE*100)}%를 적용합니다. 전투 시작 시 상대 편성에 생존한 SS·SSS 용병이 있으면, 전투 종료까지 최종 적용은 기본 공격 ${Math.round(MERCENARY_CHEONGA_HIGHER_TIER_SCALE*100)}%, 탄착 교정 ${Math.round(MERCENARY_CHEONGA_HIGHER_TIER_SKILL_SCALE*100)}%입니다. 각 계수는 피해량과 피해 상한에 한 번만 적용합니다. PVE·비용·재사용 대기는 유지합니다.`;
- return (!actor||actor.rank==='SS')&&MERCENARY_SS_RANGED_PVP_SCALE[skill?.mechanic]<1?`SS등급의 해당 원거리 스킬은 PVP에서 피해량과 피해 상한에 ${Math.round(MERCENARY_SS_RANGED_PVP_SCALE[skill.mechanic]*100)}%를 적용합니다. 기본 공격·PVE·비용·재사용 대기는 유지합니다.`:'';
+ return (!actor||mercenaryCombatRank(actor)==='SS')&&MERCENARY_SS_RANGED_PVP_SCALE[skill?.mechanic]<1?`SS등급의 해당 원거리 스킬은 PVP에서 피해량과 피해 상한에 ${Math.round(MERCENARY_SS_RANGED_PVP_SCALE[skill.mechanic]*100)}%를 적용합니다. 기본 공격·PVE·비용·재사용 대기는 유지합니다.`:'';
 }
 const SNIPER=new Set(['EMERALD_ANTIMATERIEL','LOCKED_THREAT_SHOT','OBSERVED_SHIELD_BREAK','ABYSS_SHIELD_ECHO','FINISHER_WITH_RELOAD']);
 const SEQUENTIAL=new Set(['SAME_TARGET_CALIBRATION','DANCING_TARGET_VOLLEY','PLATINUM_FOCUS_LOCK','DISTRIBUTED_CORAL_VOLLEY','TWO_BEAT_FOLLOWUP']);
