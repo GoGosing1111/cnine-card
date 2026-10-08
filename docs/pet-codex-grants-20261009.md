@@ -26,3 +26,12 @@ CMS에는 독립 **펫 지급** 메뉴를 추가했다. OWNER가 등록된 펫�
 - 운영 배포: `npm run deploy:production -- --scoped`.
 - 위에서 통과한 관련 검사를 중복 실행하지 않고, 배포 과정에서 아직 실행하지 않은 `tests/pve-battlefield-entry-v2117.test.mjs`와 `check:worker`, 공식 출시 플래그·캐시·깨끗한 커밋·Hyperdrive 검증을 수행한다.
 - 배포 완료 후 변경 자산 해시·도감 공개 경로·미인증 API 차단 결과는 `docs/pet-codex-grants-20261009-release.json`에 기록한다.
+
+## 운영 반영 완료
+
+- 코드 커밋: `2e258f428edb7cab05f3a0efebf34678130e349f`.
+- Pages: `aea6e48b-6cbc-4316-848a-f9fe4d4e62e6` / https://aea6e48b.cnine-card.pages.dev
+- API Runtime: `f526dd24-bef3-48c6-a615-483c93f7f330`.
+- Clan Draft: `a2476a85-e2dc-49ae-9ccd-1faebba93551`.
+- 2026-10-09 03:10 KST 운영 확인: 변경 자산 13개가 커밋의 SHA-256과 일치하고 `/pet-codex/`가 200 응답했다. 미인증 도감·지급 API는 운영 공통 인증에서 401로 차단된다. 로그인한 비OWNER의 지급 거부는 격리된 서버 검사에서 403으로 확인했다.
+- 공식 scoped 배포의 실제 로더 회귀 9개·Worker 검사·출시 플래그·캐시·Hyperdrive 조건이 모두 통과했다. 실제 운영 계정에는 펫을 지급하지 않았다.
