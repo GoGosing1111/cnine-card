@@ -1,0 +1,43 @@
+{
+  "request": "동방무기 설계도 하나 더 지급해 (직전 요청의 나무늘봉순 계정)",
+  "status": "COMPLETED",
+  "operationKey": "ops:bongsoon-eastern-blueprint:20261009:extra-one:v1",
+  "user": {
+    "id": 5426,
+    "nickname": "나무늘봉순"
+  },
+  "allocations": [
+    {
+      "code": "EASTERN_ARMS_WEAPON_BLUEPRINT",
+      "name": "동방무기상 무기설계도",
+      "amount": 1,
+      "before": {
+        "quantity": "0",
+        "unseenQuantity": "0"
+      },
+      "after": {
+        "quantity": "1",
+        "unseenQuantity": "1"
+      },
+      "logId": "78634751"
+    }
+  ],
+  "completedAt": "2026-10-08T20:57:25.631Z",
+  "auditId": "43051",
+  "currentInventoryAtVerification": [
+    {
+      "item_code": "EASTERN_ARMS_WEAPON_BLUEPRINT",
+      "quantity": "1",
+      "unseen_quantity": "1"
+    }
+  ],
+  "verifiedAt": "2026-10-08T20:57:30.684Z",
+  "validation": {
+    "productionDryRunRollbackVerified": true,
+    "postCommitReadVerified": true,
+    "grantLogCount": 1,
+    "transaction": "account and inventory row locks; atomic quantity increment, inventory log, admin audit and unique receipt"
+  },
+  "gameRuntimeChanged": false,
+  "deploymentRequired": false
+}
