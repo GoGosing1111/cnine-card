@@ -26,7 +26,10 @@ test('legacy balance preserved; each boss accepts zero, fractional values, and b
 });
 
 test('saved tuning reaches battle snapshot, public description and authoritative damage, independently of legacy opening damage',()=>{
- const cards=['HP','DEFENSE','DEFENSE','ATTACK','SPEED'].map((power_type,i)=>({id:'C'+i,power:10000000,power_type,rarity:'FUR'}));
+ // The approved minimum boss-action interval lets a 50M deck win before any
+ // signature action. Use a 10M deck so both bosses reach action 3 and this
+ // test still compares the server's configured ultimate damage, zero and OFF.
+ const cards=['HP','DEFENSE','DEFENSE','ATTACK','SPEED'].map((power_type,i)=>({id:'C'+i,power:2000000,power_type,rarity:'FUR'}));
  for(const id of [75,76]){
   const before=runtime(settings(undefined,id),id),after=runtime(settings({attackPercent:25,shieldPiercePercent:0},id),id);
   assert.match(after.apocalypseSkill.skills[2].description,/25%/);
