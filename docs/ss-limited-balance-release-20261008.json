@@ -4,19 +4,39 @@
   "policy": "shared/mercenary-ss-limited-v1.mjs",
   "report": "docs/ss-limited-balance-report-20261008.json",
   "scope": {
-    "limitedCodes": ["V-990", "V-991", "V-992", "V-993", "V-994", "V-997", "V-998"],
+    "limitedCodes": [
+      "V-990",
+      "V-991",
+      "V-992",
+      "V-993",
+      "V-994",
+      "V-997",
+      "V-998"
+    ],
     "collectionAndGrowthRank": "SS",
     "effectiveCombatTier": "SSS",
-    "referenceCodes": ["V-021", "V-046", "V-049", "V-055"],
+    "referenceCodes": [
+      "V-021",
+      "V-046",
+      "V-049",
+      "V-055"
+    ],
     "valter": "EXCLUDED_FROM_PARITY_TARGET_AND_REMAINS_STRONGEST",
-    "targetAggregateWinRate": [0.48, 0.50],
+    "targetAggregateWinRate": [
+      0.48,
+      0.5
+    ],
     "individualMatchups": "상성별 승률은 다르며 4종 전체 종합 승률을 기준으로 조정함"
   },
   "implementation": {
     "stats": "SSS 기본 전투력 180000 및 연계 수치에 용병별 계수를 적용",
     "gradeCorrection": "정확한 SS 리미티드 7개 코드만 전투 등급 SSS로 처리. 일반 SS의 등급 보정과 원거리 제한은 유지",
     "skills": "승인된 5종 효과 콘셉트에 기존 서버 메커니즘을 연결한 준비 스킬. 아윤·하이희야는 밸런스용 준비 명칭과 메커니즘이며 시각 제작/승인을 뜻하지 않음",
-    "skillBudget": {"damageRatio": 5.6, "cooldownTurns": 5, "cost": 35},
+    "skillBudget": {
+      "damageRatio": 5.6,
+      "cooldownTurns": 5,
+      "cost": 35
+    },
     "damageAuthority": "EXISTING_CANONICAL_SERVER_ENGINE",
     "winnerOverride": false,
     "valterImmunityCopied": false
@@ -28,7 +48,14 @@
     "equippedFormations": 23,
     "formationWeight": "EQUAL",
     "level": 1,
-    "mirrored": ["cards", "equipment", "advancement", "magic", "growth", "both sides"],
+    "mirrored": [
+      "cards",
+      "equipment",
+      "advancement",
+      "magic",
+      "growth",
+      "both sides"
+    ],
     "gamesPerLimited": 35840,
     "finalGames": 250880,
     "finalWins": 122306,
@@ -50,15 +77,106 @@
     "mode": "SCOPED",
     "previousProductionCommit": "4c2161f4bed6358c0ad1220355388e2becb2900b",
     "reason": "SS 리미티드 7개 코드의 준비 전투 성능과 등급 비교 조건만 추가. 일반 용병·발테르·출시 플래그·공통 인증·DB·거래·보상 변경 없음. 신규 밸런스와 보고서 재현 8개 검사는 통과했으므로 남은 기존 기능 회귀만 수행.",
-    "completedRegressionFiles": ["tests/mercenary-ss-limited-balance-20261008.test.mjs"],
-    "remainingRegressionFiles": [
+    "completedRegressionFiles": [
+      "tests/mercenary-ss-limited-balance-20261008.test.mjs",
       "tests/mercenary-valter-supremacy-20261008.test.mjs",
       "tests/mercenary-tier-balance-v2144.test.mjs",
       "tests/mercenary-ranged-balance.test.mjs",
       "tests/mercenary-limited-catalog-20261002.test.mjs",
       "tests/pve-battlefield-entry-v2117.test.mjs"
     ],
-    "checks": ["check:worker", "verify-production-release", "Hyperdrive cache disabled"],
-    "status": "PREPARED"
+    "remainingRegressionFiles": [],
+    "checks": [
+      "check:worker",
+      "verify-production-release",
+      "Hyperdrive cache disabled"
+    ],
+    "status": "DEPLOYED_WITH_RELEASE_LOCKS",
+    "commit": "1d48141288aca466591f520ff864ccb48ecf71e4",
+    "url": "https://cc245115.cnine-card.pages.dev",
+    "apiRuntimeVersion": "01b82f5f-dd8c-4d1c-a53c-79fe0eaec05c",
+    "clanDraftVersion": "782bf175-848d-487b-835b-23d1fc2c0d03",
+    "verification": {
+      "checkedAt": "2026-10-08T03:46:23.782Z",
+      "base": "https://cnine-card.pages.dev",
+      "files": [
+        {
+          "path": "shared/mercenary-ss-limited-v1.mjs",
+          "status": 200,
+          "sha256": "e7bca8ebd4e0e61b12e421b1a2e59f021b2a5d5080cc9fa03424fcaa682f55e6"
+        },
+        {
+          "path": "shared/mercenary-combat-link-v2103.mjs",
+          "status": 200,
+          "sha256": "cc012a1a43af02dbacad9a3be7922808cf71f84b1027bb29cb81d8c204b0d857"
+        },
+        {
+          "path": "shared/mercenary-ranged-balance-v1.mjs",
+          "status": 200,
+          "sha256": "8be816b6f5a723b2c52d5aaf0d190c47f202528961cf3bb93a2c739ebf2c89dd"
+        }
+      ],
+      "healthStatus": 200,
+      "codexStatus": 200,
+      "cmsRevision": 61,
+      "limited": [
+        {
+          "code": "V-996",
+          "rank": "SSS",
+          "acquisitionEnabled": false,
+          "deploymentEnabled": false,
+          "hasSd": true
+        },
+        {
+          "code": "V-990",
+          "rank": "SS",
+          "acquisitionEnabled": false,
+          "deploymentEnabled": false,
+          "hasSd": true
+        },
+        {
+          "code": "V-991",
+          "rank": "SS",
+          "acquisitionEnabled": false,
+          "deploymentEnabled": false,
+          "hasSd": true
+        },
+        {
+          "code": "V-992",
+          "rank": "SS",
+          "acquisitionEnabled": false,
+          "deploymentEnabled": false,
+          "hasSd": true
+        },
+        {
+          "code": "V-993",
+          "rank": "SS",
+          "acquisitionEnabled": false,
+          "deploymentEnabled": false,
+          "hasSd": true
+        },
+        {
+          "code": "V-994",
+          "rank": "SS",
+          "acquisitionEnabled": false,
+          "deploymentEnabled": false,
+          "hasSd": true
+        },
+        {
+          "code": "V-997",
+          "rank": "SS",
+          "acquisitionEnabled": false,
+          "deploymentEnabled": false,
+          "hasSd": false
+        },
+        {
+          "code": "V-998",
+          "rank": "SS",
+          "acquisitionEnabled": false,
+          "deploymentEnabled": false,
+          "hasSd": false
+        }
+      ]
+    }
   }
 }
