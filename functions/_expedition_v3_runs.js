@@ -6,6 +6,7 @@ import {COW_REFORM_TIERS,cowTiersForPolicy} from '../shared/pve-reform-20261008.
 import {readExpeditionPolicy,validateExpeditionPolicy} from './_expedition_v3_settings.js';
 import {planUnifiedDropRoll,prepareUnifiedDropGrant} from './_drop_pool.js';
 import {jointError} from './_joint_request.js';
+import {encodeExpeditionRecord as encode,decodeExpeditionRecord as parse} from './_expedition_v3_record.js';
 import {COW_PORTAL_SCHEMA,COW_PORTAL_TABLE,cowPortalStatus,requireCowPortal} from './_cow_room_portal.js';
 const RUN='expedition_v3_runs_v1',DAY='expedition_v3_daily_v1',PROGRESS='expedition_v3_progress_v1',LEASE=120000;
 const p=(env,sql,...v)=>env.DB.prepare(sql).bind(...v);
@@ -15,8 +16,6 @@ const key=(user,content,requestId)=>{
   if(requestId!==undefined&&(typeof requestId!=='string'||!/^[A-Za-z0-9_:-]{1,105}$/.test(requestId)))throw jointError('PVE_V3_REQUEST','요청 번호를 확인하세요.');
   return Number(user.id);
 };
-const encode=value=>{const raw=JSON.stringify(value);if(new TextEncoder().encode(raw).length>750000)throw jointError('PVE_V3_PAYLOAD','전투 기록이 너무 큽니다.');return raw;};
-const parse=raw=>JSON.parse(String(raw));
 const dayKey=at=>new Date(at+9*3600000).toISOString().slice(0,10);
 const pending=row=>({ok:true,status:'RUNNING',requestId:row.request_id,difficulty:row.selection,retryAfterMs:1500,resultPending:true});
 const owns=`EXISTS(SELECT 1 FROM ${RUN} WHERE user_id=? AND content=? AND request_id=? AND state='PREPARED' AND lease_token=?)`;
@@ -42,9 +41,9 @@ export async function expeditionV3Status(env,user,content,deps={}){
     budget:{day,attempts,remaining:Math.max(0,policy.dailyRuns-attempts),coin,coinRemaining:Math.max(0,policy.dailyCoinCap-coin)},
     portals,difficulties:cowTiersForPolicy(policy).map(tier=>({...tier,clearCoin:policy.clearCoin[tier.rewardIndex]}))};
 }
-export async function expeditionV3Result(env,user,content,rid){const row=await get(env,key(user,content,rid),content,rid);return row?.state==='COMPLETED'?{...parse(row.response_json),replayed:true}:row?pending(row):{ok:true,status:'NOT_FOUND'};}
+export async function expeditionV3Result(env,user,content,rid){const row=await get(env,key(user,content,rid),content,rid);return row?.state==='COMPLETED'?{...await parse(row.response_json),replayed:true}:row?pending(row):{ok:true,status:'NOT_FOUND'};}
 async function settle(env,user,row,token,deps){
-  const uid=Number(user.id),content=row.content,rid=row.request_id,saved=parse(row.checkpoint_json),now=(deps.now||Date.now)();
+  const uid=Number(user.id),content=row.content,rid=row.request_id,saved=await parse(row.checkpoint_json),now=(deps.now||Date.now)();
   if(saved.userId!==uid||saved.content!==content||saved.requestId!==rid||saved.selection!==row.selection)throw jointError('PVE_V3_RECORD','전투 기록의 소유자를 확인할 수 없습니다.',409);
   const grants=await prepareUnifiedDropGrant(env,saved.plan,{writePoolLedger:false});
   const response={...saved.battle,ok:true,status:'COMPLETED',requestId:rid,difficulty:{id:saved.selection,name:saved.name},success:saved.success,
@@ -56,7 +55,7 @@ async function settle(env,user,row,token,deps){
     ...(saved.success?await accountRankAward(env,uid,'COW_ROOM',rid):[]),
     p(env,`UPDATE ${RUN} SET integrity=CASE WHEN ${proof} THEN 1 ELSE NULL END WHERE user_id=? AND content=? AND request_id=? AND lease_token=?`,...grants.proofs.flatMap(q=>q.values),uid,content,rid,token),
     ...(saved.success?[p(env,`INSERT INTO ${PROGRESS}(user_id,content,best_cleared) VALUES(?,?,?) ON CONFLICT(user_id,content) DO UPDATE SET best_cleared=1`,uid,content,1)]:[]),
-    p(env,`UPDATE ${RUN} SET state='COMPLETED',response_json=?,lease_token=NULL,lease_until=0,last_error=NULL WHERE user_id=? AND content=? AND request_id=? AND lease_token=?`,encode(response),uid,content,rid,token)
+    p(env,`UPDATE ${RUN} SET state='COMPLETED',response_json=?,lease_token=NULL,lease_until=0,last_error=NULL WHERE user_id=? AND content=? AND request_id=? AND lease_token=?`,await encode(response),uid,content,rid,token)
   ]);
   return response;
 }
@@ -65,7 +64,7 @@ export async function runExpeditionV3(env,user,content,body,deps={}){
   if(!COW_REFORM_TIERS.some(tier=>tier.id===selection))throw jointError('PVE_V3_SELECTION','원정 구간을 확인하세요.');
   let row=await get(env,uid,content,rid);
   if(row&&row.selection!==selection)throw jointError('PVE_V3_REQUEST_CONFLICT','같은 요청 번호의 구간이 다릅니다.',409);
-  if(row?.state==='COMPLETED')return {...parse(row.response_json),replayed:true};
+  if(row?.state==='COMPLETED')return {...await parse(row.response_json),replayed:true};
   const unfinished=await active(env,uid);
   if(unfinished&&(unfinished.request_id!==rid||unfinished.content!==content))throw jointError('PVE_V3_RUNNING','진행 중인 원정을 먼저 복구하세요.',409);
   const at=(deps.now||Date.now)(),token=crypto.randomUUID();
@@ -92,7 +91,7 @@ export async function runExpeditionV3(env,user,content,body,deps={}){
       budget:{...state.budget,attempts:state.budget.attempts+1,remaining:state.budget.remaining-1,coin:state.budget.coin+coin,coinRemaining:state.budget.coinRemaining-coin}};
     const args=[uid,content,rid,token],day=state.budget.day,dayCoin=state.budget.coin;
     const statements=[
-      p(env,`INSERT INTO ${RUN}(user_id,content,request_id,selection,checkpoint_json,lease_token,lease_until) SELECT ?,?,?,?,?,?,? WHERE EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=?) AND COALESCE((SELECT attempts FROM ${DAY} WHERE user_id=? AND content=? AND day_key=?),0)=?`,uid,content,rid,selection,encode(saved),token,at+LEASE,uid,policy.entryCoin,uid,content,day,state.budget.attempts),
+      p(env,`INSERT INTO ${RUN}(user_id,content,request_id,selection,checkpoint_json,lease_token,lease_until) SELECT ?,?,?,?,?,?,? WHERE EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=?) AND COALESCE((SELECT attempts FROM ${DAY} WHERE user_id=? AND content=? AND day_key=?),0)=?`,uid,content,rid,selection,await encode(saved),token,at+LEASE,uid,policy.entryCoin,uid,content,day,state.budget.attempts),
       p(env,`UPDATE ${COW_PORTAL_TABLE} SET state='CONSUMED',consumed_request_id=?,consumed_at=? WHERE id=? AND user_id=? AND state='OPEN' AND ${owns}`,rid,new Date(at).toISOString(),portal.id,uid,...args),
       p(env,`INSERT INTO ${RUN}(user_id,content,request_id,selection,checkpoint_json,integrity) SELECT ?,?,?,'','',NULL WHERE NOT EXISTS(SELECT 1 FROM ${COW_PORTAL_TABLE} WHERE id=? AND user_id=? AND state='CONSUMED' AND consumed_request_id=?)`,uid,content,rid,portal.id,uid,rid),
       p(env,`UPDATE users SET coin=coin-? WHERE id=? AND coin>=? AND ${owns}`,policy.entryCoin,uid,policy.entryCoin,...args),
@@ -103,10 +102,10 @@ export async function runExpeditionV3(env,user,content,body,deps={}){
     if(env.DB.dialect==='postgres')statements.unshift(p(env,'SELECT id FROM users WHERE id=? FOR UPDATE',uid));
     try{await env.DB.batch(statements);}catch(error){row=await get(env,uid,content,rid);if(!row)throw jointError('PVE_V3_ENTRY_CONFLICT','잔액 또는 원정 상태가 바뀌었습니다. 다시 확인하세요.',409);}
     row=await get(env,uid,content,rid);
-    if(row.lease_token!==token)return row.state==='COMPLETED'?{...parse(row.response_json),replayed:true}:pending(row);
+    if(row.lease_token!==token)return row.state==='COMPLETED'?{...await parse(row.response_json),replayed:true}:pending(row);
   }
   try{return await settle(env,user,row,token,deps);}catch(error){
-    const done=await get(env,uid,content,rid);if(done?.state==='COMPLETED')return {...parse(done.response_json),replayed:true};
+    const done=await get(env,uid,content,rid);if(done?.state==='COMPLETED')return {...await parse(done.response_json),replayed:true};
     await p(env,`UPDATE ${RUN} SET lease_token=NULL,lease_until=0,last_error=? WHERE user_id=? AND content=? AND request_id=? AND lease_token=? AND state='PREPARED'`,String(error.code||error.message).slice(0,180),uid,content,rid,token).run();
     throw jointError('PVE_V3_RESULT_PENDING','보상 정산을 다시 확인 중입니다. 같은 원정을 복구하세요.',503);
   }
