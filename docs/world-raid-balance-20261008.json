@@ -1,0 +1,411 @@
+{
+  "capturedAt": "2026-10-08T09:55:18.935Z",
+  "seed": 871943,
+  "players": 167,
+  "historicalParties": 317,
+  "totalSimulations": 25914,
+  "method": "Canonical world raid server model; equal sampled powers and variance buckets before/after; 1000 held-out groups for each of 5/10/15/20 players. Simulated, not observed live win rates.",
+  "hashes": {
+    "functions/_raid_overhaul.js": "8a95aab92a6cac1d7ed3b4b8e96b8e8fffdf2e7d0ea37353a1aee41791af803b",
+    "tests/fixtures/world-raid-balance-20261008.json": "6f48d0cb9e4bbd19a77222eee92963d23d3aa7efb8efddcda86bb6dffbe682c3",
+    "shared/world-raid-balance-20261008.mjs": "aa96ac2c66c2eec3fd0152fa97971d77c6e912b93825b2f8d9289ee755b32e6e"
+  },
+  "bosses": [
+    {
+      "code": "NAGATO",
+      "name": "나가토",
+      "before": {
+        "settings": {
+          "hp": 700000000,
+          "attack": 3500000,
+          "interval": 30000,
+          "minions": [
+            49000000,
+            56000000
+          ]
+        },
+        "groups": {
+          "5": {
+            "trials": 1000,
+            "clears": 970,
+            "clearPercent": 97,
+            "medianClearSeconds": 259,
+            "meanSurvivors": 4.36
+          },
+          "10": {
+            "trials": 1000,
+            "clears": 1000,
+            "clearPercent": 100,
+            "medianClearSeconds": 130,
+            "meanSurvivors": 9.78
+          },
+          "15": {
+            "trials": 1000,
+            "clears": 1000,
+            "clearPercent": 100,
+            "medianClearSeconds": 86,
+            "meanSurvivors": 14.84
+          },
+          "20": {
+            "trials": 1000,
+            "clears": 1000,
+            "clearPercent": 100,
+            "medianClearSeconds": 65,
+            "meanSurvivors": 19.9
+          }
+        },
+        "historical": {
+          "trials": 317,
+          "clears": 309,
+          "clearPercent": 97.48,
+          "medianClearSeconds": 66,
+          "meanSurvivors": 17.92
+        },
+        "strongestSolo": {
+          "cleared": true,
+          "seconds": 580,
+          "bossHpPercent": 0,
+          "survived": 1,
+          "firstDefeat": null,
+          "ultimateCasts": 6
+        },
+        "strongestDuo": {
+          "cleared": true,
+          "seconds": 295,
+          "bossHpPercent": 0,
+          "survived": 2,
+          "firstDefeat": null,
+          "ultimateCasts": 3
+        }
+      },
+      "after": {
+        "settings": {
+          "hp": 1600000000,
+          "attack": 5600000,
+          "interval": 25000,
+          "minions": [
+            112000000,
+            128000000
+          ]
+        },
+        "groups": {
+          "5": {
+            "trials": 1000,
+            "clears": 38,
+            "clearPercent": 3.8,
+            "medianClearSeconds": 485,
+            "meanSurvivors": 1.95
+          },
+          "10": {
+            "trials": 1000,
+            "clears": 562,
+            "clearPercent": 56.2,
+            "medianClearSeconds": 310,
+            "meanSurvivors": 3.56
+          },
+          "15": {
+            "trials": 1000,
+            "clears": 975,
+            "clearPercent": 97.5,
+            "medianClearSeconds": 204,
+            "meanSurvivors": 9.3
+          },
+          "20": {
+            "trials": 1000,
+            "clears": 999,
+            "clearPercent": 99.9,
+            "medianClearSeconds": 148,
+            "meanSurvivors": 16.9
+          }
+        },
+        "historical": {
+          "trials": 317,
+          "clears": 212,
+          "clearPercent": 66.88,
+          "medianClearSeconds": 140,
+          "meanSurvivors": 17.08
+        },
+        "strongestSolo": {
+          "cleared": false,
+          "seconds": 825,
+          "bossHpPercent": 63.61,
+          "survived": 0,
+          "firstDefeat": 825,
+          "ultimateCasts": 11
+        },
+        "strongestDuo": {
+          "cleared": false,
+          "seconds": 675,
+          "bossHpPercent": 4.94,
+          "survived": 0,
+          "firstDefeat": 625,
+          "ultimateCasts": 9
+        }
+      }
+    },
+    {
+      "code": "YORIICHI",
+      "name": "요리이치",
+      "before": {
+        "settings": {
+          "hp": 750000000,
+          "attack": 3500000,
+          "interval": 30000,
+          "minions": [
+            52500000,
+            60000000
+          ]
+        },
+        "groups": {
+          "5": {
+            "trials": 1000,
+            "clears": 949,
+            "clearPercent": 94.9,
+            "medianClearSeconds": 281,
+            "meanSurvivors": 4.24
+          },
+          "10": {
+            "trials": 1000,
+            "clears": 1000,
+            "clearPercent": 100,
+            "medianClearSeconds": 141,
+            "meanSurvivors": 9.76
+          },
+          "15": {
+            "trials": 1000,
+            "clears": 1000,
+            "clearPercent": 100,
+            "medianClearSeconds": 90,
+            "meanSurvivors": 14.8
+          },
+          "20": {
+            "trials": 1000,
+            "clears": 1000,
+            "clearPercent": 100,
+            "medianClearSeconds": 70,
+            "meanSurvivors": 19.9
+          }
+        },
+        "historical": {
+          "trials": 317,
+          "clears": 309,
+          "clearPercent": 97.48,
+          "medianClearSeconds": 72,
+          "meanSurvivors": 17.53
+        },
+        "strongestSolo": {
+          "cleared": true,
+          "seconds": 630,
+          "bossHpPercent": 0,
+          "survived": 1,
+          "firstDefeat": null,
+          "ultimateCasts": 6
+        },
+        "strongestDuo": {
+          "cleared": true,
+          "seconds": 320,
+          "bossHpPercent": 0,
+          "survived": 2,
+          "firstDefeat": null,
+          "ultimateCasts": 3
+        }
+      },
+      "after": {
+        "settings": {
+          "hp": 1750000000,
+          "attack": 5600000,
+          "interval": 25000,
+          "minions": [
+            122500000,
+            140000000
+          ]
+        },
+        "groups": {
+          "5": {
+            "trials": 1000,
+            "clears": 22,
+            "clearPercent": 2.2,
+            "medianClearSeconds": 532,
+            "meanSurvivors": 1.59
+          },
+          "10": {
+            "trials": 1000,
+            "clears": 442,
+            "clearPercent": 44.2,
+            "medianClearSeconds": 337,
+            "meanSurvivors": 3.11
+          },
+          "15": {
+            "trials": 1000,
+            "clears": 934,
+            "clearPercent": 93.4,
+            "medianClearSeconds": 223,
+            "meanSurvivors": 8.1
+          },
+          "20": {
+            "trials": 1000,
+            "clears": 999,
+            "clearPercent": 99.9,
+            "medianClearSeconds": 166,
+            "meanSurvivors": 15.19
+          }
+        },
+        "historical": {
+          "trials": 317,
+          "clears": 209,
+          "clearPercent": 65.93,
+          "medianClearSeconds": 155,
+          "meanSurvivors": 16.18
+        },
+        "strongestSolo": {
+          "cleared": false,
+          "seconds": 825,
+          "bossHpPercent": 70,
+          "survived": 0,
+          "firstDefeat": 825,
+          "ultimateCasts": 11
+        },
+        "strongestDuo": {
+          "cleared": false,
+          "seconds": 700,
+          "bossHpPercent": 13.73,
+          "survived": 0,
+          "firstDefeat": 650,
+          "ultimateCasts": 9
+        }
+      }
+    },
+    {
+      "code": "ICHIGO",
+      "name": "이치고",
+      "before": {
+        "settings": {
+          "hp": 800000000,
+          "attack": 3000000,
+          "interval": 30000,
+          "minions": [
+            56000000,
+            64000000
+          ]
+        },
+        "groups": {
+          "5": {
+            "trials": 1000,
+            "clears": 961,
+            "clearPercent": 96.1,
+            "medianClearSeconds": 304,
+            "meanSurvivors": 4.36
+          },
+          "10": {
+            "trials": 1000,
+            "clears": 1000,
+            "clearPercent": 100,
+            "medianClearSeconds": 153,
+            "meanSurvivors": 9.74
+          },
+          "15": {
+            "trials": 1000,
+            "clears": 1000,
+            "clearPercent": 100,
+            "medianClearSeconds": 101,
+            "meanSurvivors": 14.76
+          },
+          "20": {
+            "trials": 1000,
+            "clears": 1000,
+            "clearPercent": 100,
+            "medianClearSeconds": 76,
+            "meanSurvivors": 19.89
+          }
+        },
+        "historical": {
+          "trials": 317,
+          "clears": 309,
+          "clearPercent": 97.48,
+          "medianClearSeconds": 78,
+          "meanSurvivors": 17.72
+        },
+        "strongestSolo": {
+          "cleared": true,
+          "seconds": 681,
+          "bossHpPercent": 0,
+          "survived": 1,
+          "firstDefeat": null,
+          "ultimateCasts": 7
+        },
+        "strongestDuo": {
+          "cleared": true,
+          "seconds": 346,
+          "bossHpPercent": 0,
+          "survived": 2,
+          "firstDefeat": null,
+          "ultimateCasts": 3
+        }
+      },
+      "after": {
+        "settings": {
+          "hp": 1900000000,
+          "attack": 4800000,
+          "interval": 25000,
+          "minions": [
+            133000000,
+            152000000
+          ]
+        },
+        "groups": {
+          "5": {
+            "trials": 1000,
+            "clears": 34,
+            "clearPercent": 3.4,
+            "medianClearSeconds": 592,
+            "meanSurvivors": 1.76
+          },
+          "10": {
+            "trials": 1000,
+            "clears": 500,
+            "clearPercent": 50,
+            "medianClearSeconds": 369,
+            "meanSurvivors": 3.48
+          },
+          "15": {
+            "trials": 1000,
+            "clears": 967,
+            "clearPercent": 96.7,
+            "medianClearSeconds": 247,
+            "meanSurvivors": 8.59
+          },
+          "20": {
+            "trials": 1000,
+            "clears": 999,
+            "clearPercent": 99.9,
+            "medianClearSeconds": 182,
+            "meanSurvivors": 16.32
+          }
+        },
+        "historical": {
+          "trials": 317,
+          "clears": 211,
+          "clearPercent": 66.56,
+          "medianClearSeconds": 171,
+          "meanSurvivors": 16.62
+        },
+        "strongestSolo": {
+          "cleared": false,
+          "seconds": 975,
+          "bossHpPercent": 69.08,
+          "survived": 0,
+          "firstDefeat": 975,
+          "ultimateCasts": 13
+        },
+        "strongestDuo": {
+          "cleared": false,
+          "seconds": 825,
+          "bossHpPercent": 5.75,
+          "survived": 0,
+          "firstDefeat": 750,
+          "ultimateCasts": 11
+        }
+      }
+    }
+  ]
+}

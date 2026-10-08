@@ -1,0 +1,36 @@
+{
+  "capturedAt": "2026-10-08T09:55:18.935Z",
+  "meta": [
+    {
+      "key": "raid_settings_v1",
+      "value": "{\"enabled\":true,\"ownerOnlyTest\":false,\"userOpenEnabled\":true,\"title\":\"월드 레이드\",\"maxParticipants\":20,\"minParticipants\":1,\"lobbySeconds\":180,\"battleSeconds\":1000,\"dailyEntries\":6,\"autoStartOnFull\":true,\"showNicknames\":true,\"showRepresentativeCard\":true,\"showDamageLog\":true,\"showPersonalDamage\":true,\"showLiveRanking\":true,\"rankingSize\":15,\"attackIntervalMs\":800,\"damageMultiplier\":1,\"criticalEnabled\":true,\"criticalChance\":10,\"criticalMultiplier\":2,\"participationCoin\":500,\"clearCoin\":100000000,\"rewardShards\":500,\"deckHpMultiplier\":12,\"bossAttackPower\":110000,\"bossAttackIntervalMs\":2000,\"bossAttackVariance\":24,\"enrageEnabled\":true,\"enrageHpPercent\":30,\"enrageMultiplier\":2,\"showBattleStage\":true,\"showParticipantHp\":true,\"scheduleMode\":\"SCHEDULED\",\"openDays\":[1,2,3,4,5,6,0],\"openTime\":\"12:00\",\"closeTime\":\"14:00\",\"entryCloseMinutes\":3,\"showOpenCountdown\":true,\"ownerScheduleBypass\":true,\"timeSlots\":[{\"id\":\"A\",\"label\":\"1부\",\"enabled\":true,\"openTime\":\"12:00\",\"closeTime\":\"14:00\",\"entriesPerSlot\":3,\"bossId\":0},{\"id\":\"B\",\"label\":\"2부\",\"enabled\":true,\"openTime\":\"20:30\",\"closeTime\":\"22:00\",\"entriesPerSlot\":3,\"bossId\":0}],\"phase2Enabled\":true,\"phase2StartHpPercent\":70,\"phase2EndHpPercent\":30,\"phase2ShieldPercent\":50,\"phase2BreakDamageMultiplier\":2,\"phase3EnrageEnabled\":true,\"phase3EnrageMultiplier\":2,\"rewards\":{\"participation\":[{\"type\":\"COIN\",\"amount\":500}],\"clear\":[{\"type\":\"COIN\",\"amount\":100000000},{\"type\":\"CARD_SHARD\",\"amount\":500},{\"type\":\"EQUIPMENT_SUPPLY_BOX\",\"amount\":100},{\"type\":\"MAGIC_CARD_PACK\",\"amount\":3},{\"type\":\"MASTER_STAR\",\"amount\":10}],\"damageMilestones\":[{\"damage\":100000,\"rewards\":[{\"type\":\"COIN\",\"amount\":5000}]},{\"damage\":500000,\"rewards\":[{\"type\":\"COIN\",\"amount\":10000}]},{\"damage\":1000000,\"rewards\":[{\"type\":\"COIN\",\"amount\":20000}]}],\"rankRewards\":[{\"from\":1,\"to\":1,\"rewards\":[{\"type\":\"COIN\",\"amount\":15000},{\"type\":\"EQUIPMENT_SUPPLY_BOX\",\"amount\":10}]},{\"from\":2,\"to\":3,\"rewards\":[{\"type\":\"COIN\",\"amount\":10000},{\"type\":\"EQUIPMENT_SUPPLY_BOX\",\"amount\":5}]},{\"from\":4,\"to\":10,\"rewards\":[{\"type\":\"COIN\",\"amount\":5000},{\"type\":\"EQUIPMENT_SUPPLY_BOX\",\"amount\":3}]}],\"rareDrops\":[{\"type\":\"EQUIPMENT_SUPPLY_BOX\",\"amount\":300,\"chance\":100},{\"type\":\"MASTER_STAR\",\"amount\":300,\"chance\":25}]}}"
+    },
+    {
+      "key": "raid_weekly_boss_settings_v2141",
+      "value": "{\"revision\":\"a8a93fcd-80d7-44d8-a3d2-78210ca2a168\",\"rotation\":[\"NAGATO\",\"NAGATO\",\"YORIICHI\",\"ICHIGO\",\"NAGATO\",\"YORIICHI\",\"ICHIGO\"],\"bosses\":{\"NAGATO\":{\"powerRating\":4000000,\"bossAttackPower\":3500000,\"bossAttackIntervalMs\":30000,\"minionGuardRatio\":0.65,\"ultimate\":{\"everyAttacks\":3,\"multiplier\":1.95},\"minions\":[{\"maxHp\":49000000,\"spawnAtHpPct\":1},{\"maxHp\":56000000,\"spawnAtHpPct\":0.55}],\"rewards\":{\"participation\":[{\"type\":\"COIN\",\"amount\":3000000}],\"clear\":[{\"type\":\"COIN\",\"amount\":9000000000},{\"type\":\"CARD_SHARD\",\"amount\":80},{\"type\":\"CORE_RAID_ENTRY_TICKET\",\"amount\":1}],\"damageMilestones\":[{\"damage\":5000000,\"rewards\":[{\"type\":\"MAGIC_CARD_PACK\",\"amount\":1}]},{\"damage\":15000000,\"rewards\":[{\"type\":\"MAGIC_CARD_PACK\",\"amount\":1}]},{\"damage\":30000000,\"rewards\":[{\"type\":\"CORE_RAID_ENTRY_TICKET\",\"amount\":1}]}],\"rankRewards\":[{\"from\":1,\"to\":1,\"rewards\":[{\"type\":\"MAGIC_CARD_PACK\",\"amount\":2}]},{\"from\":2,\"to\":3,\"rewards\":[{\"type\":\"MAGIC_CARD_PACK\",\"amount\":1}]},{\"from\":4,\"to\":10,\"rewards\":[{\"type\":\"MAGIC_CARD_PACK\",\"amount\":1}]}],\"rareDrops\":[{\"type\":\"CORE_RAID_ENTRY_TICKET\",\"amount\":1,\"chance\":8}],\"minionClear\":[{\"type\":\"COIN\",\"amount\":2640000},{\"type\":\"MAGIC_CARD_PACK\",\"amount\":1}]}},\"YORIICHI\":{\"powerRating\":4000000,\"bossAttackPower\":3500000,\"bossAttackIntervalMs\":30000,\"minionGuardRatio\":0.65,\"ultimate\":{\"everyAttacks\":3,\"multiplier\":1.95},\"minions\":[{\"maxHp\":52500000,\"spawnAtHpPct\":1},{\"maxHp\":60000000,\"spawnAtHpPct\":0.55}],\"rewards\":{\"participation\":[{\"type\":\"COIN\",\"amount\":3400000}],\"clear\":[{\"type\":\"COIN\",\"amount\":9000000000},{\"type\":\"CARD_SHARD\",\"amount\":80},{\"type\":\"CORE_RAID_ENTRY_TICKET\",\"amount\":1}],\"damageMilestones\":[{\"damage\":5000000,\"rewards\":[{\"type\":\"MAGIC_CARD_PACK\",\"amount\":1}]},{\"damage\":15000000,\"rewards\":[{\"type\":\"MASTER_STAR\",\"amount\":1}]},{\"damage\":30000000,\"rewards\":[{\"type\":\"CORE_RAID_ENTRY_TICKET\",\"amount\":1}]}],\"rankRewards\":[{\"from\":1,\"to\":1,\"rewards\":[{\"type\":\"MASTER_STAR\",\"amount\":2}]},{\"from\":2,\"to\":3,\"rewards\":[{\"type\":\"MASTER_STAR\",\"amount\":1}]},{\"from\":4,\"to\":10,\"rewards\":[{\"type\":\"MAGIC_CARD_PACK\",\"amount\":1}]}],\"rareDrops\":[{\"type\":\"MAGIC_CARD_PACK\",\"amount\":1,\"chance\":4},{\"type\":\"CORE_RAID_ENTRY_TICKET\",\"amount\":1,\"chance\":8}],\"minionClear\":[{\"type\":\"COIN\",\"amount\":2880000},{\"type\":\"MASTER_STAR\",\"amount\":1}]}},\"ICHIGO\":{\"powerRating\":4000000,\"bossAttackPower\":3000000,\"bossAttackIntervalMs\":30000,\"minionGuardRatio\":0.65,\"ultimate\":{\"everyAttacks\":3,\"multiplier\":1.95},\"minions\":[{\"maxHp\":56000000,\"spawnAtHpPct\":1},{\"maxHp\":64000000,\"spawnAtHpPct\":0.55}],\"rewards\":{\"participation\":[{\"type\":\"COIN\",\"amount\":3800000}],\"clear\":[{\"type\":\"COIN\",\"amount\":9000000000},{\"type\":\"CARD_SHARD\",\"amount\":80},{\"type\":\"CORE_RAID_ENTRY_TICKET\",\"amount\":2}],\"damageMilestones\":[{\"damage\":5000000,\"rewards\":[{\"type\":\"MAGIC_CARD_PACK\",\"amount\":1}]},{\"damage\":15000000,\"rewards\":[]},{\"damage\":30000000,\"rewards\":[{\"type\":\"CORE_RAID_ENTRY_TICKET\",\"amount\":1}]}],\"rankRewards\":[{\"from\":1,\"to\":1,\"rewards\":[]},{\"from\":2,\"to\":3,\"rewards\":[]},{\"from\":4,\"to\":10,\"rewards\":[{\"type\":\"MAGIC_CARD_PACK\",\"amount\":1}]}],\"rareDrops\":[{\"type\":\"MAGIC_CARD_PACK\",\"amount\":1,\"chance\":4},{\"type\":\"CORE_RAID_ENTRY_TICKET\",\"amount\":1,\"chance\":8}],\"minionClear\":[{\"type\":\"COIN\",\"amount\":3120000}]}}}}"
+    }
+  ],
+  "bosses": [
+    {
+      "id": "4",
+      "name": "나가토",
+      "max_hp": "700000000",
+      "defense_rate": 22,
+      "is_active": "1"
+    },
+    {
+      "id": "6",
+      "name": "요리이치",
+      "max_hp": "750000000",
+      "defense_rate": 23,
+      "is_active": "1"
+    },
+    {
+      "id": "8",
+      "name": "이치고",
+      "max_hp": "800000000",
+      "defense_rate": 24,
+      "is_active": "1"
+    }
+  ]
+}

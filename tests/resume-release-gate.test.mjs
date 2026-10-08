@@ -25,12 +25,25 @@ test('full gate resumes a proven prefix and retains failed, remaining and final 
   assert.match(plan.commands[0],/resume-release-gate\.test\.mjs/);
 });
 
+test('isolated lobby menu/icon rebuild must exactly replace source blocks and rerun source integrity',()=>{
+ const bundle='js/adventure-lobby-v2107.js',icons='ui/adventure-lobby/icons.js',app='preview/lobby-clarity-v1/app.js';
+ const f=fixture({changed:[bundle,icons,app]});
+ f.scripts['test:a']='node scripts/build-adventure-lobby-v2107.mjs --check && node --test tests/a.test.mjs';
+ const oldFiles={[bundle]:'template\noldIcons\noldMenu\ncomponent',[icons]:'oldIcons',[app]:'oldMenu'};
+ const newFiles={[bundle]:'template\nnewIcons\nnewMenu\ncomponent',[icons]:'newIcons',[app]:'newMenu'};
+ const git=f.git;f.git=(...a)=>a[0]==='show'&&a[1].startsWith(base+':')&&oldFiles[a[1].slice(41)]!==undefined?oldFiles[a[1].slice(41)]:git(...a);
+ f.read=p=>newFiles[p]||'';
+ const plan=fullGateResumePlan(f);assert.equal(plan.reused,0);assert.equal(plan.commands[1],'npm run test:a');
+ assert.throws(()=>fullGateResumePlan({...f,read:p=>p===bundle?newFiles[p]+'\nchangedComponent':f.read(p)}),/outside menu/);
+ assert.throws(()=>fullGateResumePlan({...f,git:(...a)=>a[0]==='show'&&a[1]===base+':'+icons?'missing block':f.git(...a)}),/source block/);
+});
+
 test('lobby authoring repair retains passes only with unchanged live output and a full build check',()=>{
   const f=fixture({changed:['ui/adventure-lobby/icons.js','preview/lobby-clarity-v1/app.js']});
   f.scripts['test:b']='node scripts/build-adventure-lobby-v2107.mjs --check && node --test tests/b.test.mjs';
   const bundle='js/adventure-lobby-v2107.js',git=(...args)=>args[0]==='show'&&args[1]===`${base}:${bundle}`?'live runtime':f.git(...args);
   const plan=fullGateResumePlan({...f,git,read:()=> 'live runtime'});assert.equal(plan.reused,1);assert.ok(plan.commands.includes('npm run test:b'));
-  assert.throws(()=>fullGateResumePlan({...f,git,read:()=> 'changed runtime'}),/Lobby runtime changed/);
+  assert.throws(()=>fullGateResumePlan({...f,git,read:()=> 'changed runtime'}),/Lobby (runtime changed|source block cannot be verified)/);
   f.scripts['test:b']='node --test tests/b.test.mjs';
   assert.throws(()=>fullGateResumePlan({...f,git,read:()=> 'live runtime'}),/complete source integrity gate/);
 });
@@ -44,6 +57,15 @@ test('multiple immutable continuation logs keep contiguous passes and reject a c
   assert.throws(()=>fullGateResumePlan({...f,read:path=>(logs[path]||'')+'changed'}),/log hash/);
   assert.throws(()=>fullGateResumePlan({...f,env:{...f.env,RELEASE_GATE_RESUME_CONTINUATIONS:JSON.stringify([chain[1]])}}),/without gaps/);
   assert.throws(()=>fullGateResumePlan({...f,env:{...f.env,RELEASE_GATE_RESUME_CONTINUATIONS:JSON.stringify(Array(17).fill(chain[0]))}}),/At most sixteen/);
+});
+
+test('a continuation validates successful earlier reruns before its contiguous failed-stage suffix',()=>{
+ const f=fixture({changed:['tests/c.test.mjs']}),candidate='c'.repeat(40);
+ const log=`[FULL RELEASE RESUME] Reuse 0 completed stages from ${base}; execute every remaining stage and production guard.\n> test:a\nℹ fail 0\n> test:b\nℹ fail 0\n> test:c\nℹ fail 1\n`;
+ const setup=text=>({...f,read:()=>text,env:{...f.env,RELEASE_GATE_RESUME_CONTINUATION_LOG:'rerun.log',RELEASE_GATE_RESUME_CONTINUATION_BASE:candidate,RELEASE_GATE_RESUME_CONTINUATION_SHA256:createHash('sha256').update(text).digest('hex')}});
+ const plan=fullGateResumePlan(setup(log));assert.equal(plan.reused,2);assert.deepEqual(plan.commands.slice(1),['npm run test:c','node scripts/verify-production-release.mjs']);
+ assert.throws(()=>fullGateResumePlan(setup(log.replace('> test:a\nℹ fail 0','> test:a\nℹ fail 1'))),/guard tests failed/);
+ for(const bad of [log.replace('Reuse 0','Reuse 1'),log.replace('> test:a','> test:c'),log.replace('> test:a','> test:a\nℹ fail 0\n> test:a')])assert.throws(()=>fullGateResumePlan(setup(bad)),/without gaps/);
 });
 
 test('a completed gate blocked only by concurrent main advancement retains all tests and reruns the production guard',()=>{

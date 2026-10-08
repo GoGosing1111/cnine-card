@@ -1003,6 +1003,7 @@ const FEATURE_RESOURCE_MANIFEST={
     scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/ranked-challenger-fx-v2032.bundle.js?v=20260928-window-idle'],
     ready:()=>Boolean(window.RankedChallengerFX)
   },
+  worldRaidV3:{styles:['css/world-raid-v3-live.css?v=20261008-v3'],scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2140-animated-sprite','js/world-raid-skill-fx-v2.bundle.js?v=20261008-v3'],ready:()=>Boolean(window.WorldRaidNativeFxV2)},
   weeklyRaidFx:{
     scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2140-animated-sprite','js/raid-weekly-boss-fx-v1.bundle.js?v=2140'],
     ready:()=>Boolean(window.WeeklyRaidUltimateFxV1?.play)
@@ -1018,7 +1019,7 @@ const FEATURE_RESOURCE_MANIFEST={
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
       'preview/project-v-v3/project-v-firearm-qc-audio.js?v=8-gilded-dragon-battle-suit',
       'preview/project-v-v3/project-v-pixi-battle.bundle.js?limitedVisuals=20261004-approved&coop=20261005-coop-readable-v4-backdrop&territory=20261003-v5&lichFx=20261001&speedReform=20260930&v=106-combat-flow&joint=2090&mercenary=2100&projectiles=2106&coup=2115&pveEntry=2119&heeya=2118&suits=2124&flow=2126&zSword=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&policeRestraint=20260923&octaseeker=20260928-opening10&resultIdle=20260928-corpse&cryvern=20260924&duo=20260925&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&xBody=20260928-skill-order&overlord=20261005-motion-v4&sx=20261007-2x-v1&sxCamera=20261008-v3&backgroundRecovery=20261006&apocalypseFocus=20261006&iconActions=20261006&icon=20260930&petLive=20261006-v1&iconCadence=20261006-v1&damageFont=20261007-russo-v1',
-      'js/battle-v3-live.js?limitedVisuals=20261004-approved&territoryFx=20261003-v1&coop=20261005-coop-readable-v4-backdrop&territory=20261003-v5&lichFx=20261001&speedReform=20260930&v=3.36.0-combat-flow&furHigh=2114-frames20261002&battleRuntime=2124&heeya=2118&entry=2121&suits=2124&flow=2126&zSword=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&policeRestraint=20260923&octaseeker=20260928-opening10&resultIdle=20260928-corpse&cryvern=20261004-clean-aura&duo=20260925&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&xBody=20260928-skill-order&overlord=20261005-motion-v4&sx=20261007-2x-v1&sxCamera=20261008-v3&backgroundRecovery=20261006&apocalypseFocus=20261006&iconActions=20261006&icon=20260930&suggestions=20261005&apocalypseCompletion=20261005-settlement3&petLive=20261006-v1&iconCadence=20261006-v1&damageFont=20261007-russo-v1'
+      'js/battle-v3-live.js?worldRaid=20261008-v2&limitedVisuals=20261004-approved&territoryFx=20261003-v1&coop=20261005-coop-readable-v4-backdrop&territory=20261003-v5&lichFx=20261001&speedReform=20260930&v=3.36.0-combat-flow&furHigh=2114-frames20261002&battleRuntime=2124&heeya=2118&entry=2121&suits=2124&flow=2126&zSword=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&policeRestraint=20260923&octaseeker=20260928-opening10&resultIdle=20260928-corpse&cryvern=20261004-clean-aura&duo=20260925&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&xBody=20260928-skill-order&overlord=20261005-motion-v4&sx=20261007-2x-v1&sxCamera=20261008-v3&backgroundRecovery=20261006&apocalypseFocus=20261006&iconActions=20261006&icon=20260930&suggestions=20261005&apocalypseCompletion=20261005-settlement3&petLive=20261006-v1&iconCadence=20261006-v1&damageFont=20261007-russo-v1'
     ],
     initialize:()=>window.ProjectVBattleV3Live?.ensureRuntime?.(),
     // A cached wrapper and engine can agree with each other while both are old.
@@ -2887,6 +2888,7 @@ function stopRaidTimer(){if(raidState.timer){clearTimeout(raidState.timer);raidS
 function stopRaidResultAdvanceTimer(){if(raidState.resultAdvanceTimer){clearTimeout(raidState.resultAdvanceTimer);raidState.resultAdvanceTimer=null}}
 function stopRaidClaimRetryTimer(){if(raidState.claimRetryTimer){clearTimeout(raidState.claimRetryTimer);raidState.claimRetryTimer=null}}
 function invalidateRaidUiState({clearSelection=false,stopClaimRetry=false}={}){
+  globalThis.WorldRaidCombatV2?.dispose?.();
   raidState.loadSeq++;
   raidState.uiEpoch++;
   raidState.claimToken++;
@@ -2969,30 +2971,28 @@ async function raidCharacterBonusForV3(){
 }
 async function startRaidV3Battle(){
   const data=raidState.data,current=data?.current,me=data?.me;if(raidState.v3InFlight||!current||String(current.status)!=='BATTLE'||!me)return;
-  const button=document.getElementById('raidV3Start'),attemptId=++raidState.v3Attempt;raidState.v3InFlight=true;if(button){button.disabled=true;button.textContent='V3 전장 연결 중…'}
+  const button=document.getElementById('raidV3Start'),attemptId=++raidState.v3Attempt;raidState.v3InFlight=true;if(button){button.disabled=true;button.textContent='전장 연결 중…'}
   const modal=document.getElementById('modal');
   try{
     const renderer=await raidV3Deadline((async()=>{
       await ensureFeatureResources('battleV2');
       const characterBonus=await raidCharacterBonusForV3();
       if(attemptId!==raidState.v3Attempt)throw new Error('V3 레이드 연결이 취소되었습니다.');
-      const live=window.ProjectVBattleV3Live?.prepareLoading?.({modal,mode:'RAID',playerName:me.nickname||loadUser()?.nickname||'RAID MEMBER',opponentName:current.bossName||'RAID BOSS',autoText:'내 출전 덱만 독립 재생하며 파티 피해량은 서버에서 합산합니다.'});
-      if(!live||typeof window.playRaidBattleV3Live!=='function')throw new Error('V3 레이드 렌더러를 불러오지 못했습니다.');
-      const activeRenderer=await window.playRaidBattleV3Live({...live,modal,data:{current,participant:me,characterBonus,user:loadUser()},current,participant:me});
-      if(attemptId!==raidState.v3Attempt){try{activeRenderer?.destroy?.()}catch(_){}throw new Error('V3 레이드 연결이 취소되었습니다.')}
+      const live=window.ProjectVBattleV3Live?.prepareLoading?.({modal,mode:'RAID',playerName:me.nickname||loadUser()?.nickname||'RAID MEMBER',opponentName:current.bossName||'RAID BOSS',autoText:'공대 전투에 합류합니다. 보스와 파티 전황을 연결하고 있습니다.'});
+      if(!live)throw new Error('V3 레이드 렌더러를 불러오지 못했습니다.');
+      const {openWorldRaidV3}=await import('./world-raid-v3-live.mjs?v=20261008-v3');
+      const activeRenderer=await openWorldRaidV3({modal,view:live,data:{...data,characterBonus,user:loadUser()},getData:()=>raidState.data,isActive:()=>attemptId===raidState.v3Attempt&&raidState.v3InFlight,onClose:()=>{raidState.v3InFlight=false;if(button?.isConnected){button.disabled=false;button.textContent='V3 전투화면 열기'}void loadRaidView();}});
+      if(attemptId!==raidState.v3Attempt){activeRenderer?.destroy?.();throw new Error('V3 레이드 연결이 취소되었습니다.');}
       return activeRenderer;
     })());
-    renderer.showResult();
-    const message=modal.querySelector('#battleMessage');
-    if(message){message.innerHTML=`<strong>개인 전투 완료</strong><span>내 전투는 다른 참가자와 독립 실행됩니다. 파티 보스 HP·순위·최종 보상만 서버 결과로 동기화됩니다.</span><button type="button" class="btn raid-v3-return" id="raidV3Return">레이드 현황으로 돌아가기</button>`;message.classList.add('is-visible')}
-    const close=()=>{try{modal.__battleV2Renderer?.destroy?.()}catch(_){}modal.__battleV2Renderer=null;modal.onclick=null;modal.className='modal';modal.innerHTML='';raidState.v3InFlight=false;void loadRaidView()};
-    modal.querySelector('#raidV3Return')?.addEventListener('click',event=>{event.stopPropagation();close()});
+    modal.__battleV2Renderer=renderer;
   }catch(error){
     if(attemptId===raidState.v3Attempt)raidState.v3Attempt+=1;
     try{await window.ProjectVBattleV3Live?.hardReset?.()}catch(_){}
     renderRaidV3Recovery(modal,current,me,error,button);
   }
 }
+
 function handleRaidV3StartClick(event){
   const button=event?.target?.closest?.('#raidV3Start');
   if(!button||!button.isConnected||button.disabled||button.getAttribute('aria-disabled')==='true')return;
@@ -3038,6 +3038,7 @@ async function loadRaidView(){
   }finally{if(raidState.statusController===controller)raidState.statusController=null;}
 }
 function patchRaidLiveView(d){
+  if(globalThis.WorldRaidCombatV2?.active)return globalThis.WorldRaidCombatV2.patch(d);
   const c=d?.current,box=document.getElementById('pveRaidView'),stage=box?.querySelector('.raid-battle-stage.is-battle');
   const participantOrder=(Array.isArray(d?.participants)?d.participants:[]).map(x=>Number(x.userId||0)).join(',');
   if(!stage||String(c?.status||'').toUpperCase()!=='BATTLE'||Number(raidState.renderedInstanceId)!==Number(c?.id||0)||raidState.renderedParticipantOrder!==participantOrder)return false;
@@ -3093,6 +3094,7 @@ function replayRaidUltimate(c,host){
 }
 function renderRaidView(d){
   const box=document.getElementById('pveRaidView');if(!box)return;
+  if(d?.current?.status!=='BATTLE')globalThis.WorldRaidCombatV2?.dispose?.();
   const c=d.current,s=d.settings||{},schedule=d.schedule||{isOpen:true,canEnter:true},weeklyStrip=raidWeeklyBossStrip(d);
   raidState.renderedInstanceId=Number(c?.id||0);raidState.renderedParticipantOrder=(Array.isArray(d?.participants)?d.participants:[]).map(x=>Number(x.userId||0)).join(',');raidState.livePatchCount=0;
   if(!c&&(d.rooms||[]).length){
@@ -3109,6 +3111,7 @@ function renderRaidView(d){
     return;
   }
   const joined=Boolean(d.me),remain=Math.max(0,Date.parse(c.startsAt)-Date.now()),sec=Math.ceil(remain/1000),hpPct=Math.max(0,Math.min(100,Number(c.currentHp)/Math.max(1,Number(c.maxHp))*100));
+  if(c.status==='BATTLE'&&globalThis.WorldRaidCombatV2?.render?.(d))return;
   const participants=d.participants||[],me=d.me||participants.find(x=>Number(x.userId)===Number(loadUser()?.serverUserId));
   const battle=c.status==='BATTLE',ended=c.status==='ENDED';
   const resultText=c.result==='CLEAR'?'RAID CLEAR':c.result==='FAILED'?'RAID FAILED':'TIME OUT';
@@ -3118,7 +3121,7 @@ function renderRaidView(d){
     return;
   }
   if(c.status==='LOBBY'){
-    box.innerHTML=`${weeklyStrip}<section class="raid-lobby-screen raid-v3-lobby"><div class="raid-lobby-boss">${c.bossBattleSprite||c.bossImage?`<img src="${escapeHtml(c.bossBattleSprite||c.bossImage)}" alt="">`:'<div class="raid-boss-placeholder">👹</div>'}<div><p class="eyebrow">V3 ASYNC RAID LOBBY</p><h2>${escapeHtml(c.bossName)}</h2><p class="raid-boss-subtitle">${escapeHtml(c.bossTitle||'요일 레이드 보스')} · 전투력 ${Number(c.powerRating||0).toLocaleString()}</p><div class="raid-lobby-countdown"><span>전투 시작까지</span><b>${String(Math.floor(Math.max(0,sec)/60)).padStart(2,'0')}:${String(Math.max(0,sec)%60).padStart(2,'0')}</b></div><p>${c.participantCount} / ${s.maxParticipants} 참가 · 최소 ${s.minParticipants}명</p></div></div><div class="raid-lobby-progress"><i style="width:${Math.min(100,c.participantCount/Math.max(1,s.maxParticipants)*100)}%"></i></div><button class="btn raid-lobby-join" id="raidJoin" ${joined||!schedule.canEnter?'disabled':''}>${joined?'참가 완료':!schedule.canEnter?'입장 마감':'레이드 신청'}</button><div class="raid-lobby-deck">${(me?.cards||[]).slice(0,5).map(card=>`<img src="${card.image}" title="${escapeHtml(card.title)}">`).join('')||'<span>신청하면 저장된 PvE 덱 5장이 표시됩니다.</span>'}</div><div class="raid-v3-roster-head"><div><small>LIVE PARTY ROSTER</small><b>참가자 및 출전 덱</b></div><span>개인 전투 비동기 · 파티 결과 서버 동기화</span></div><div class="raid-lobby-members">${participants.map(x=>`<article><div>${(x.cards||[]).slice(0,5).map(card=>`<img src="${card.image}" alt="${escapeHtml(card.title||'출전 카드')}">`).join('')}</div><b>${publicTitleBadgeHtml(x.title)}${playerIdentityHtml(x.nickname,x.userId||x.user_id)}</b><span>전투력 ${Number(x.totalPower).toLocaleString()}</span></article>`).join('')||'<p>첫 참가자를 기다리는 중...</p>'}</div></section>`;
+    box.innerHTML=`${weeklyStrip}<section class="raid-lobby-screen raid-v3-lobby"><div class="raid-lobby-boss">${c.bossBattleSprite||c.bossImage?`<img src="${escapeHtml(c.bossBattleSprite||c.bossImage)}" alt="">`:'<div class="raid-boss-placeholder">👹</div>'}<div><p class="eyebrow">WORLD RAID · READY</p><h2>${escapeHtml(c.bossName)}</h2><p class="raid-boss-subtitle">${escapeHtml(c.bossTitle||'요일 레이드 보스')} · 전투력 ${Number(c.powerRating||0).toLocaleString()}</p><div class="raid-lobby-countdown"><span>전투 시작까지</span><b>${String(Math.floor(Math.max(0,sec)/60)).padStart(2,'0')}:${String(Math.max(0,sec)%60).padStart(2,'0')}</b></div><p>${c.participantCount} / ${s.maxParticipants} 참가 · 최소 ${s.minParticipants}명</p></div></div><div class="raid-lobby-progress"><i style="width:${Math.min(100,c.participantCount/Math.max(1,s.maxParticipants)*100)}%"></i></div><button class="btn raid-lobby-join" id="raidJoin" ${joined||!schedule.canEnter?'disabled':''}>${joined?'참가 완료':!schedule.canEnter?'입장 마감':'레이드 신청'}</button><div class="raid-lobby-deck">${(me?.cards||[]).slice(0,5).map(card=>`<img src="${card.image}" title="${escapeHtml(card.title)}">`).join('')||'<span>신청하면 저장된 PvE 덱 5장이 표시됩니다.</span>'}</div><div class="raid-v3-roster-head"><div><small>LIVE PARTY ROSTER</small><b>참가자 및 출전 덱</b></div><span>함께 공략할 파티원과 출전 덱을 확인하세요.</span></div><div class="raid-lobby-members">${participants.map(x=>`<article><div>${(x.cards||[]).slice(0,5).map(card=>`<img src="${card.image}" alt="${escapeHtml(card.title||'출전 카드')}">`).join('')}</div><b>${publicTitleBadgeHtml(x.title)}${playerIdentityHtml(x.nickname,x.userId||x.user_id)}</b><span>전투력 ${Number(x.totalPower).toLocaleString()}</span></article>`).join('')||'<p>첫 참가자를 기다리는 중...</p>'}</div></section>`;
     const screen=box.querySelector('.raid-lobby-screen');screen?.insertAdjacentHTML('afterbegin',`<div class="raid-lobby-actions"><button type="button" class="btn ghost" id="raidLobbyRefresh">↻ 새로고침</button>${joined?'<button type="button" class="btn danger" id="raidLeave">레이드 퇴장</button>':''}</div>`);const refresh=document.getElementById('raidLobbyRefresh');if(refresh)refresh.onclick=()=>loadRaidView();const leave=document.getElementById('raidLeave');if(leave)leave.onclick=leaveRaid;
     if(!joined&&raidState.selectedRoomId){screen?.insertAdjacentHTML('afterbegin','<button type="button" class="btn ghost" id="raidRoomBack">← 방 목록</button>');const back=document.getElementById('raidRoomBack');if(back)back.onclick=()=>{raidState.selectedRoomId=0;loadRaidView()};}
     const join=document.getElementById('raidJoin');if(join&&!join.disabled)join.onclick=joinRaid;return;
