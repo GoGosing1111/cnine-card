@@ -1,0 +1,223 @@
+{
+  "schemaVersion": 1,
+  "status": "COMPLETED",
+  "checkedAt": "2026-10-08T12:02:42.304Z",
+  "sourceCommit": "4c1d46d6b454697d8b98b562388085798c4f5c12",
+  "production": {
+    "origin": "https://cnine-card.pages.dev",
+    "deploymentId": "07043f1a-a22c-4f79-8ca5-14120060c453",
+    "deploymentUrl": "https://07043f1a.cnine-card.pages.dev",
+    "environment": "Production",
+    "branch": "main",
+    "apiWorkerVersion": "e3052c19-4723-4c6c-9aa4-faf50d4bb2c8",
+    "clanWorkerVersion": "bee28f27-3395-469f-b440-f30375305735"
+  },
+  "validation": {
+    "scope": "Full release gate for DB cap migration and multiple reward paths; designated production deployment of the integrated candidate containing the rank reform.",
+    "fullReleaseGatePassed": true,
+    "productionReleaseGuardPassed": true,
+    "hyperdriveQueryCacheDisabled": true,
+    "logs": [
+      {
+        "file": "C:/Users/User/.codex/worktrees/valter-supremacy/world-raid-production-deploy-20261008.log",
+        "bytes": 223238,
+        "sha256": "ae8db2eec046e7a7c163fcb3df3a2f7de553c390f24eb690226ba6911db5cf86"
+      },
+      {
+        "file": "C:/Users/User/.codex/worktrees/valter-supremacy/world-raid-production-resume1-20261008.log",
+        "bytes": 102064,
+        "sha256": "ab82f3416d939f463bb45aad6101076dd2104286c4a3805d408b1be4e7af076f"
+      },
+      {
+        "file": "C:/Users/User/.codex/worktrees/valter-supremacy/world-raid-production-resume2-20261008.log",
+        "bytes": 52636,
+        "sha256": "4708a4d5ee3fc360d1cfee174a325b62ec3d88d4afdbed46a9eb1563235f0533"
+      },
+      {
+        "file": "C:/Users/User/.codex/worktrees/valter-supremacy/world-raid-production-resume3-20261008.log",
+        "bytes": 45438,
+        "sha256": "feed94023af650d9709e0f8e228ac11060cdb11551bdada46657b9342c3d9145"
+      },
+      {
+        "file": "C:/Users/User/.codex/worktrees/valter-supremacy/world-raid-production-resume4-20261008.log",
+        "bytes": 118159,
+        "sha256": "1629ba881fed8edd4aa6aed31186e6ee94c3dbffc12dea10f37f15b4373de55b"
+      },
+      {
+        "file": "C:/Users/User/.codex/worktrees/valter-supremacy/world-raid-production-resume5-20261008.log",
+        "bytes": 17136,
+        "sha256": "f91f23b57177f3f7759b33ddc137ff6f4cfd21566170fc3fffbe9f6fd0d897e6"
+      }
+    ],
+    "localUi": {
+      "environment": "Actual index/lobby UI in muted Chrome with local API responses and external requests blocked; this is not authenticated live-account UI testing.",
+      "checks": [
+        {
+          "width": 1440,
+          "height": 1000,
+          "reducedMotion": false,
+          "rankCount": 21,
+          "benefitsVisible": true,
+          "noOverflow": true,
+          "noWrites": true
+        },
+        {
+          "width": 390,
+          "height": 844,
+          "reducedMotion": false,
+          "rankCount": 21,
+          "benefitsVisible": true,
+          "noOverflow": true,
+          "noWrites": true
+        },
+        {
+          "width": 390,
+          "height": 844,
+          "reducedMotion": true,
+          "rankCount": 21,
+          "benefitsVisible": true,
+          "noOverflow": true,
+          "noWrites": true
+        }
+      ],
+      "errors": []
+    },
+    "productionPublic": {
+      "checkedAt": "2026-10-08T12:00:56.241Z",
+      "origin": "https://cnine-card.pages.dev",
+      "files": [
+        {
+          "file": "shared/account-ranks-v1.mjs",
+          "bytes": 2793,
+          "sha256": "99761c1ac07cf8f6cbfcad30cfc509930d257ba331b6dc371c8a45b7b7833881",
+          "status": 200
+        },
+        {
+          "file": "js/account-rank-v1.mjs",
+          "bytes": 12079,
+          "sha256": "59242e8ac91e84c10e8def71da00bdc4ec2909c4a034f299cb09fd9f5b3cfe96",
+          "status": 200
+        },
+        {
+          "file": "js/adventure-lobby-v2107.js",
+          "bytes": 89957,
+          "sha256": "13ae947937099a915f5b54cdcd241b9837c5bbe3db8121ad0b9781588265530c",
+          "status": 200
+        },
+        {
+          "file": "assets/ui/account-ranks-v2/master_sergeant-96.webp",
+          "bytes": 17386,
+          "sha256": "2e67baf9f1983cb20750cbf798ae995c6227689a95cf5fc22af1c059fedbde42",
+          "status": 200
+        },
+        {
+          "file": "assets/ui/account-ranks-v2/colonel-96.webp",
+          "bytes": 182632,
+          "sha256": "63af8bff7a66049bedcba837cd09e5d4a6f496a37f4214b45cb25d889b122014",
+          "status": 200
+        },
+        {
+          "file": "assets/ui/account-ranks-v2/marshal-384.webp",
+          "bytes": 2532576,
+          "sha256": "e0e2eae2e07049668e7c2f25609d51fff022209f01b5215b1dbeb20886672755",
+          "status": 200
+        },
+        {
+          "file": "assets/ui/account-ranks-v2/marshal-384-still.webp",
+          "bytes": 172380,
+          "sha256": "8218f86561ad60c11c2df653e7eeeaaf552c9351bbfe3fbc8ce4a5d08e78ebf0",
+          "status": 200
+        }
+      ],
+      "indexCacheUpdated": true,
+      "accountRankUnauthenticatedStatus": 401,
+      "privateGrowthDocumentStatus": 404
+    }
+  },
+  "migration": {
+    "status": "COMPLETED",
+    "operationKey": "ops:account-rank-reform:20261008:cap-v1",
+    "previousCap": 83664000,
+    "newCap": 669312000,
+    "before": {
+      "accounts": 405,
+      "ticks_sum": "13446196817",
+      "max_ticks": "83664000",
+      "legacy_marshals": 104,
+      "fingerprint": "42fe17020172f4160e3b32e6cfc2a3dc"
+    },
+    "after": {
+      "accounts": 405,
+      "ticks_sum": "13446196817",
+      "max_ticks": "83664000",
+      "legacy_marshals": 104,
+      "fingerprint": "42fe17020172f4160e3b32e6cfc2a3dc"
+    },
+    "experiencePreserved": true,
+    "extraHistoryRebuilt": false,
+    "completedAt": "2026-10-08T11:07:36.516Z"
+  },
+  "notice": {
+    "operationKey": "ops:account-rank-reform:20261008:notice-v1",
+    "status": "COMPLETED",
+    "campaign": "account-rank-reform-20261008",
+    "title": "[업데이트] 계급 성장 확장 및 상위 계급 혜택 안내",
+    "bodySha256": "325535a9836be4b9918a0f3eb577e36a83cc1d56777076fe2ab12f06f6ca3d8d",
+    "recipients": 3705,
+    "recipientSha256": "d8dedb1d7191fd1115bd92acda01fba1425e0648348c988c4e7691aa06992ac2",
+    "rewardMessages": 0,
+    "completedAt": "2026-10-08T12:01:33.436Z",
+    "verifiedMessageCount": 3705,
+    "source": "shared/account-rank-reform-notice-20261008.mjs",
+    "readableCopy": "docs/account-rank-reform-notice-20261008.txt"
+  },
+  "postReleaseRead": {
+    "checkedAt": "2026-10-08T12:02:42.304Z",
+    "constraints": [
+      {
+        "conname": "account_rank_progress_v1_total_ticks_check",
+        "definition": "CHECK (((total_ticks >= 0) AND (total_ticks <= 669312000)))"
+      }
+    ],
+    "progress": {
+      "accounts": 406,
+      "ticks_sum": "13460760017",
+      "max_ticks": "83952000",
+      "legacy_marshals": 91,
+      "fingerprint": "f600eb8adcd776d640e0c3a743ba7719"
+    },
+    "legacyMarshalMapping": {
+      "level": 80,
+      "code": "MASTER_SERGEANT",
+      "name": "상사",
+      "icon": "/assets/ui/account-ranks-v2/master_sergeant-96.webp",
+      "group": "부사관",
+      "tone": "teal",
+      "attackBp": 1000,
+      "hpBp": 1500,
+      "coinBp": 0,
+      "dropBp": 0,
+      "presetSlots": 5,
+      "maxLevel": 250,
+      "progress": {
+        "current": 400,
+        "required": 3040,
+        "percent": 13.15,
+        "maxed": false
+      }
+    },
+    "newRankDistribution": {
+      "중사": 34,
+      "하사": 23,
+      "이병": 38,
+      "일병": 18,
+      "훈련병": 156,
+      "병장": 20,
+      "상병": 12,
+      "상사": 105
+    },
+    "xpAboveLegacyCapObserved": true,
+    "interpretation": "Migration preservation is verified by the atomic before/after fingerprint. The later snapshot includes normal live gameplay."
+  },
+  "completionRecord": "Documentation only; commit and push without repeating game tests or production deployment."
+}
