@@ -18,3 +18,11 @@
 - 무관한 도감 shell을 수정하거나 통과한 29개·새 서버 5개·PC/모바일 검수를 반복하지 않는다. 남은 변경 테스트 `tests/mercenary-limited-deployment-20261009.test.mjs`로 팩 출시 플래그와 기존 편성/전투 정책 보존을 확인하고, 자동 Worker 문법 검사 및 공식 `npm run deploy:production -- --scoped`를 진행한다. 출시/캐시/Hyperdrive·깨끗한 커밋·origin/main 조건을 유지한다.
 - 메인 팩 로더·계약실·공유 정책·CMS 모듈/스타일의 캐시를 `20261010-on`으로 갱신했다. 운영 이미지 SHA-256과 공개 config를 배포 후 확인한다.
 - 운영 ON은 배포 후 기존 `saveLimitedPack` 경로에 사전 준비한 전체 설정을 그대로 보내 mode만 ON으로 바꾼다. 요청 ID `ops_limited_pack_on_20261010_v1`과 기존 CMS 영수증으로 재실행을 보호하며 실제 운영 구매는 실행하지 않는다.
+
+## 운영 반영 완료
+
+- 2026-10-10 02:21 KST, 소스 `be72e469eb448be1731d6ec75f12037bee73cc98`를 공식 scoped 명령으로 배포했다. 남은 관련 회귀 4개와 Worker 문법 검사, 출시/캐시/Hyperdrive 검사가 통과했고 배포 종료 코드는 0이다.
+- Pages: `https://24fe10e0.cnine-card.pages.dev`. API runtime: `b99c69cb-eda5-47b9-89a9-5689c5768bcd`. Clan draft: `a86695dc-6221-40f6-a3de-57b3f9e32737`.
+- 실제 운영 팩은 **ON**, `releaseEnabled=true`, `userOpeningEnabled=true`, 준비 상태 정상·차단 사유 없음이다. 기존 CMS 저장 경로로 적용했으며 policy/pack revision은 5→6, 감사 로그는 `43447`이다. 동일 요청 재실행은 저장 영수증을 반환하고 revision과 감사 로그를 추가하지 않았다.
+- 운영 공개 API와 별도 읽기 전용 DB 조회에서 mode 이외의 정규화 설정·가격·확률·발행 한도 보존을 확인했다. 확인 시점 발테르 한도 8장·발행 2장·잔여 6장, 헬리오스 가중치 0·한도 미정을 유지한다. 실제 운영 구매는 0회다.
+- 메인/CMS 로더·모듈·스타일·공유 정책·헬리오스 이미지·manifest 총 10개 운영 파일이 HTTP 200이고 배포 소스 SHA-256과 일치한다. 텍스트만 CRLF를 LF로 정규화했고 이미지는 원시 바이트로 비교했다. `docs/qa/mercenary-limited-launch-20261010/production-report.json`에 결과를 보존한다.

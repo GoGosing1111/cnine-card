@@ -1,0 +1,176 @@
+{
+  "verifiedAt": "2026-10-09T17:21:54.493Z",
+  "sourceCommit": "be72e469eb448be1731d6ec75f12037bee73cc98",
+  "productionUrl": "https://cnine-card.pages.dev",
+  "productionFiles": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "cfd7c6de4e18c753d5c1dfe2483ff402d4119e64c09a9e53421ef7fc11c23466",
+      "normalization": "CRLF to LF",
+      "cacheControl": "no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "sha256": "0f690537c3bca45b76da3ee48a0e8f880fae5c54fcd8cda00188b457ef69415c",
+      "normalization": "CRLF to LF",
+      "cacheControl": "no-store, no-cache, must-revalidate, max-age=0, no-store, no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "file": "admin/mercenary-admin-v1.js",
+      "status": 200,
+      "sha256": "52485f5fad79411e61f54d5f7633d054c6c3dd0de4370788389bb42ec2e3a8ec",
+      "normalization": "CRLF to LF",
+      "cacheControl": "no-store, no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "file": "admin/mercenary-limited-admin-v1.js",
+      "status": 200,
+      "sha256": "b53c3f79c2f779fb6ab4bda797f07294acd004887c15d87171696933bb867f5b",
+      "normalization": "CRLF to LF",
+      "cacheControl": "no-store, no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "file": "admin/mercenary-limited-admin-v1.css",
+      "status": 200,
+      "sha256": "facdff116d001b17c3af16ae7c8652c16c5f37916cfd5f9d946c54600ee9c272",
+      "normalization": "CRLF to LF",
+      "cacheControl": "no-store, no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "598c6620b93807ec044f517cbf504f55c30379ea7012e09d8a55b1bcb6bfa82e",
+      "normalization": "CRLF to LF",
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "file": "js/mercenary-limited-pack-live.mjs",
+      "status": 200,
+      "sha256": "b8c3df3a9ca379e5b506c038244384fbe8bc48267996f9b3d760ec9c0ecf38f9",
+      "normalization": "CRLF to LF",
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "file": "shared/mercenary-limited-pack-v1.mjs",
+      "status": 200,
+      "sha256": "efbe785271dca72d3425e9b938c8d9ad6a44f6b7f08073fdc009d6335951c803",
+      "normalization": "CRLF to LF",
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "file": "assets/ui/packs/limited-v1/v-999-640.webp",
+      "status": 200,
+      "sha256": "cc1904fa4c82873bac3117b483a45a872f6a4fc7cb39a10c58e3649ce7fa5900",
+      "normalization": "none",
+      "cacheControl": "public, max-age=86400, stale-while-revalidate=604800"
+    },
+    {
+      "file": "assets/ui/packs/limited-v1/manifest.json",
+      "status": 200,
+      "sha256": "5df09aef51854b44021587d4c414da284cdff24ae6e902f1b031187e07b2c79d",
+      "normalization": "CRLF to LF",
+      "cacheControl": "public, max-age=86400, stale-while-revalidate=604800"
+    }
+  ],
+  "config": {
+    "status": 200,
+    "releaseEnabled": true,
+    "userOpeningEnabled": true,
+    "mode": "ON",
+    "readiness": {
+      "ready": true,
+      "blockers": [],
+      "totalPpm": 1000000
+    },
+    "revision": 6,
+    "packRevision": 6,
+    "prices": {
+      "single": 1000000000,
+      "ten": 10000000000
+    },
+    "rankRatesPpm": {
+      "SS": 50,
+      "SSS": 5
+    },
+    "stock": [
+      {
+        "code": "V-996",
+        "limit": 8,
+        "issued": 2,
+        "remaining": 6
+      },
+      {
+        "code": "V-999",
+        "limit": null,
+        "issued": 0,
+        "remaining": null
+      },
+      {
+        "code": "V-990",
+        "limit": 7,
+        "issued": 0,
+        "remaining": 7
+      },
+      {
+        "code": "V-991",
+        "limit": 7,
+        "issued": 0,
+        "remaining": 7
+      },
+      {
+        "code": "V-992",
+        "limit": 7,
+        "issued": 0,
+        "remaining": 7
+      },
+      {
+        "code": "V-993",
+        "limit": 7,
+        "issued": 0,
+        "remaining": 7
+      },
+      {
+        "code": "V-994",
+        "limit": 7,
+        "issued": 0,
+        "remaining": 7
+      },
+      {
+        "code": "V-997",
+        "limit": 7,
+        "issued": 0,
+        "remaining": 7
+      },
+      {
+        "code": "V-998",
+        "limit": 7,
+        "issued": 0,
+        "remaining": 7
+      }
+    ]
+  },
+  "operation": {
+    "requestId": "ops_limited_pack_on_20261010_v1",
+    "adminLogId": "43447",
+    "replayVerified": true,
+    "preservedNormalizedSettingsExceptMode": true,
+    "realPurchasesExecuted": 0
+  },
+  "tests": {
+    "newServerPassed": 5,
+    "firstScopedPassed": 29,
+    "remainingScopedPassed": 4,
+    "unrelatedPreexistingFailure": "Public codex shell city-cache query mismatch; files unchanged since prior production, documented in mercenary-limited-launch-20261010.md",
+    "browserReport": "docs/qa/mercenary-limited-launch-20261010/browser-report.json"
+  },
+  "deployment": {
+    "command": "npm run deploy:production -- --scoped",
+    "exitCode": 0,
+    "previousProductionCommit": "c98bc113e056aafd0b181849916585c5cc35bab8",
+    "pagesUrl": "https://24fe10e0.cnine-card.pages.dev",
+    "apiRuntimeVersion": "b99c69cb-eda5-47b9-89a9-5689c5768bcd",
+    "clanDraftVersion": "a86695dc-6221-40f6-a3de-57b3f9e32737"
+  }
+}
