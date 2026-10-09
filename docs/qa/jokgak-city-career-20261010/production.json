@@ -1,0 +1,327 @@
+{
+  "at": "2026-10-09T16:34:24.572Z",
+  "origin": "https://cnine-card.pages.dev",
+  "version": "20261010-city4",
+  "checks": [
+    {
+      "file": "js/jokgak-city-v1.js",
+      "status": 200,
+      "sha256": "cffdba1b61316daf039f9dd007fd80bbd398d47d3e230b8513607750335f3a99"
+    },
+    {
+      "file": "css/jokgak-city-v1.css",
+      "status": 200,
+      "sha256": "16c02070e634369d28ddd6e42a7f2d1dae5e4a6444e48f0ea1b28edd18919553"
+    },
+    {
+      "file": "css/jokgak-city-career-v1.css",
+      "status": 200,
+      "sha256": "0a659208dd4adab2a3ccbfb2a9529a370df3c6f791a9ea6fcc0fd187f1618aa6"
+    },
+    {
+      "file": "js/jokgak-city-career-ui-v1.mjs",
+      "status": 200,
+      "sha256": "4da241236e15632904ccc06e4d1ef327d49166cd1b3fcf6a40a8658030d53499"
+    },
+    {
+      "file": "shared/jokgak-city-career-v1.mjs",
+      "status": 200,
+      "sha256": "39de9e1bac61bf8008947d90b9f282a36153a52051eccd93e07f3d3d9524bbb0"
+    },
+    {
+      "file": "shared/jokgak-city-settings-v1.mjs",
+      "status": 200,
+      "sha256": "c0f5b046f25a3aec7ec436aa2a2143634ba3000faab28901abb41578d98b175f"
+    },
+    {
+      "file": "admin/jokgak-city-admin-v1.mjs",
+      "status": 200,
+      "sha256": "e6d6fb166eef2de68ee98a3b70502fb1ef36a89411fdb1a0f20826e865d4740a"
+    },
+    {
+      "endpoint": "status?location=MARKET",
+      "status": 401
+    },
+    {
+      "endpoint": "organization",
+      "status": 401
+    }
+  ],
+  "mainLoader": true,
+  "authenticatedGameplay": "verified with isolated real-handler browser fixtures; production remains OFF",
+  "commit": "5059c8bef9c21b33a57af912c3cd6278cf5d21ec",
+  "pages": "https://300a0611.cnine-card.pages.dev",
+  "apiVersion": "edac4227-cfa2-4804-9f63-1c8089b619c7",
+  "clanVersion": "fe5d6c3f-e238-4c7b-8b2a-4024979ca884",
+  "tests": {
+    "serverPassed": 121,
+    "serverFailed": 0,
+    "browserChecks": 14,
+    "browserErrors": 0
+  },
+  "applied": {
+    "operation": "ops:jokgak-city-career:20261010:v1",
+    "at": "2026-10-09T16:34:12.584Z",
+    "mode": "OFF",
+    "revision": 13,
+    "career": {
+      "enabled": true,
+      "startedAt": 1791563652584,
+      "resetCash": 10000,
+      "rates": [
+        {
+          "code": "CITIZEN",
+          "cash": 2000
+        },
+        {
+          "code": "BEGGAR",
+          "cash": 1000
+        },
+        {
+          "code": "POLICE",
+          "cash": 3000
+        },
+        {
+          "code": "NURSE",
+          "cash": 2500
+        },
+        {
+          "code": "DOCTOR",
+          "cash": 4000
+        },
+        {
+          "code": "GANG",
+          "cash": 2500
+        },
+        {
+          "code": "VANDAL",
+          "cash": 1500
+        }
+      ],
+      "jobsEnabled": true,
+      "jobs": [
+        {
+          "code": "SORT",
+          "enabled": true,
+          "cash": 500,
+          "durationMs": 300000,
+          "cooldownMs": 60000
+        },
+        {
+          "code": "DELIVERY",
+          "enabled": true,
+          "cash": 500,
+          "durationMs": 300000,
+          "cooldownMs": 60000
+        },
+        {
+          "code": "RETAIL",
+          "enabled": true,
+          "cash": 600,
+          "durationMs": 300000,
+          "cooldownMs": 60000
+        },
+        {
+          "code": "RECYCLE",
+          "enabled": true,
+          "cash": 400,
+          "durationMs": 300000,
+          "cooldownMs": 60000
+        },
+        {
+          "code": "PATROL",
+          "enabled": true,
+          "cash": 900,
+          "durationMs": 300000,
+          "cooldownMs": 60000
+        },
+        {
+          "code": "WARD",
+          "enabled": true,
+          "cash": 750,
+          "durationMs": 300000,
+          "cooldownMs": 60000
+        },
+        {
+          "code": "CLINIC",
+          "enabled": true,
+          "cash": 1200,
+          "durationMs": 300000,
+          "cooldownMs": 60000
+        },
+        {
+          "code": "DOCK_WORK",
+          "enabled": true,
+          "cash": 750,
+          "durationMs": 300000,
+          "cooldownMs": 60000
+        },
+        {
+          "code": "ALLEY_WORK",
+          "enabled": true,
+          "cash": 450,
+          "durationMs": 300000,
+          "cooldownMs": 60000
+        }
+      ],
+      "police": {
+        "workMerit": 1,
+        "arrestMerit": 2,
+        "ranks": [
+          {
+            "code": "OFFICER",
+            "merit": 0
+          },
+          {
+            "code": "CORPORAL",
+            "merit": 3
+          },
+          {
+            "code": "SERGEANT",
+            "merit": 8
+          },
+          {
+            "code": "LIEUTENANT",
+            "merit": 15
+          }
+        ]
+      }
+    },
+    "accountAssetsChanged": false,
+    "otherSettingsPreserved": true,
+    "dryRun": false
+  },
+  "confirmedPolicy": {
+    "at": "2026-10-09T16:34:26.402Z",
+    "mode": "OFF",
+    "revision": 13,
+    "career": {
+      "enabled": true,
+      "startedAt": 1791563652584,
+      "resetCash": 10000,
+      "rates": [
+        {
+          "code": "CITIZEN",
+          "cash": 2000
+        },
+        {
+          "code": "BEGGAR",
+          "cash": 1000
+        },
+        {
+          "code": "POLICE",
+          "cash": 3000
+        },
+        {
+          "code": "NURSE",
+          "cash": 2500
+        },
+        {
+          "code": "DOCTOR",
+          "cash": 4000
+        },
+        {
+          "code": "GANG",
+          "cash": 2500
+        },
+        {
+          "code": "VANDAL",
+          "cash": 1500
+        }
+      ],
+      "jobsEnabled": true,
+      "jobs": [
+        {
+          "code": "SORT",
+          "enabled": true,
+          "cash": 500,
+          "durationMs": 300000,
+          "cooldownMs": 60000
+        },
+        {
+          "code": "DELIVERY",
+          "enabled": true,
+          "cash": 500,
+          "durationMs": 300000,
+          "cooldownMs": 60000
+        },
+        {
+          "code": "RETAIL",
+          "enabled": true,
+          "cash": 600,
+          "durationMs": 300000,
+          "cooldownMs": 60000
+        },
+        {
+          "code": "RECYCLE",
+          "enabled": true,
+          "cash": 400,
+          "durationMs": 300000,
+          "cooldownMs": 60000
+        },
+        {
+          "code": "PATROL",
+          "enabled": true,
+          "cash": 900,
+          "durationMs": 300000,
+          "cooldownMs": 60000
+        },
+        {
+          "code": "WARD",
+          "enabled": true,
+          "cash": 750,
+          "durationMs": 300000,
+          "cooldownMs": 60000
+        },
+        {
+          "code": "CLINIC",
+          "enabled": true,
+          "cash": 1200,
+          "durationMs": 300000,
+          "cooldownMs": 60000
+        },
+        {
+          "code": "DOCK_WORK",
+          "enabled": true,
+          "cash": 750,
+          "durationMs": 300000,
+          "cooldownMs": 60000
+        },
+        {
+          "code": "ALLEY_WORK",
+          "enabled": true,
+          "cash": 450,
+          "durationMs": 300000,
+          "cooldownMs": 60000
+        }
+      ],
+      "police": {
+        "workMerit": 1,
+        "arrestMerit": 2,
+        "ranks": [
+          {
+            "code": "OFFICER",
+            "merit": 0
+          },
+          {
+            "code": "CORPORAL",
+            "merit": 3
+          },
+          {
+            "code": "SERGEANT",
+            "merit": 8
+          },
+          {
+            "code": "LIEUTENANT",
+            "merit": 15
+          }
+        ]
+      }
+    },
+    "rules": {
+      "moveCooldownMs": 60000,
+      "targetProtectionMs": 30000,
+      "rejoinCooldownMs": 600000
+    }
+  }
+}
