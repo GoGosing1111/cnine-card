@@ -69,4 +69,3 @@ try{
  fs.writeFileSync(path.join(out,'browser-report.json'),JSON.stringify({source:'canonical server battle + shipped V3 bundle and live wrapper',reports},null,2)+'\n');
  console.log(JSON.stringify({status:'PASS',viewports:2,battles:4,out}));
 }finally{await browser.close();await new Promise(resolve=>server.close(resolve));}
-
