@@ -1,0 +1,54 @@
+{
+  "status": "DEPLOYED_AND_VERIFIED",
+  "verifiedAt": "2026-10-09T14:00:53.862Z",
+  "mode": "SCOPED",
+  "previousProductionCommit": "1c5b6c63d0f446804f6b9752ff31222cfa210477",
+  "implementationCommit": "060a10ee8b9c5696662f41b1dee434323ab5ecbb",
+  "deploymentCommit": "9d6dffd36cedc57ddf17c8f654687f779b71f31b",
+  "pagesUrl": "https://213781d5.cnine-card.pages.dev",
+  "apiRuntimeVersion": "edf188bb-a060-47f0-9c2d-8a6eeae46335",
+  "clanDraftVersion": "4b38d6e9-9eed-4ce4-a268-23359dde1b47",
+  "policyVersion": 2,
+  "scope": {
+    "limitedCodes": ["V-990", "V-991", "V-992", "V-993", "V-994", "V-997", "V-998"],
+    "ordinarySssReferenceCodes": ["V-021", "V-046", "V-049", "V-055"],
+    "sssLimitedExcluded": ["V-996", "V-999"],
+    "tempo": {"speedScale": 1.0625, "actionCredit": 1.0625},
+    "rank": "SS",
+    "combatTier": "SSS",
+    "acquisitionChanged": false,
+    "approvedAssetsChanged": false,
+    "rewardsOrInventoryChanged": false
+  },
+  "validation": {
+    "finalPvpSimulations": 125440,
+    "winRateRange": [0.484765625, 0.4978794642857143],
+    "pveSmokeSimulations": 2112,
+    "unitRegressionTestsPassed": 58,
+    "files": [
+      "tests/mercenary-ss-limited-tempo-20261009.test.mjs",
+      "tests/mercenary-berkan-tempo-20260927.test.mjs",
+      "tests/mercenary-turn-cadence-v2099.test.mjs",
+      "tests/mercenary-ss-limited-balance-20261008.test.mjs",
+      "tests/mercenary-limited-deployment-20261009.test.mjs",
+      "tests/pve-battlefield-entry-v2117.test.mjs",
+      "tests/mercenary-ss-rear-pve-20261008.test.mjs",
+      "tests/mercenary-codex-public-v2061.test.mjs"
+    ],
+    "browser": "PC and mobile codex; canonical PVE/PVP server events through shipped V3 bundle; one HP application per impact",
+    "productionFilesVerified": 3,
+    "productionBackendPolicyDescriptionsVerified": 7,
+    "productionCombatPolicyMatchesFixture": true,
+    "healthStatus": 200,
+    "workerSyntax": "PASS",
+    "releaseCacheChecks": "PASS",
+    "hyperdriveQueryCache": "DISABLED"
+  },
+  "deploymentAttempts": {
+    "preflightOnly": "Previous codex cache expectation updated; deployment had not begun",
+    "successfulUploads": 1,
+    "retryScope": "Only affected codex regression file and mandatory deployment checks"
+  },
+  "reportMeaning": "Controlled canonical server simulation; not actual live-player win rates or equal individual matchups",
+  "productionVerification": "production-verification.json"
+}
