@@ -130,6 +130,7 @@ function database(){
   const db=new DatabaseSync(':memory:');
   db.exec([...MERCENARY_RUNTIME_SCHEMA,...MERCENARY_ACCOUNTING_SCHEMA].join(';'));
   db.exec(`CREATE TABLE cards_effective_v1210(id TEXT PRIMARY KEY,title TEXT,rarity TEXT,power_type TEXT,base_power INTEGER,image_url TEXT,focus_x INTEGER,focus_y INTEGER,member_id INTEGER);
+    CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT);
     CREATE TABLE user_cards(user_id INTEGER,card_id TEXT,quantity INTEGER,breakthrough_level INTEGER);
     CREATE TABLE members(id INTEGER PRIMARY KEY,name TEXT);
     CREATE TABLE pvp_decks(user_id INTEGER PRIMARY KEY,card_ids TEXT);
