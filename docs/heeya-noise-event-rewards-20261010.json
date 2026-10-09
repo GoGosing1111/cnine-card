@@ -1,0 +1,806 @@
+{
+  "title": "희야 소음단 이벤트 지급",
+  "operationKey": "ops:heeya-noise-event:20261010:v1",
+  "status": "COMPLETED",
+  "delivery": "DIRECT",
+  "authorization": "사용자 지정 40명에게 인당 5천억 코인, 마별 500만 개, 엠퍼러 에너지 5개씩 지급. 희야 소음단 이벤트 지급.",
+  "completedAt": "2026-10-09T18:28:16.329Z",
+  "completedAtKst": "2026-10-10 03:28:16 KST",
+  "sourceCommit": "ac713432",
+  "planHash": "32c1ffe01d922732f82bcc20460b2d6827411034598df68beb0adfc11d01a87c",
+  "coinPerUser": "500000000000",
+  "itemsPerUser": [
+    {
+      "code": "MASTER_STAR",
+      "name": "마스터의 별",
+      "amount": "5000000"
+    },
+    {
+      "code": "EMPEROR_ENERGY",
+      "name": "엠퍼러 에너지",
+      "amount": "5"
+    }
+  ],
+  "totals": {
+    "recipients": 40,
+    "coin": "20000000000000",
+    "MASTER_STAR": "200000000",
+    "EMPEROR_ENERGY": "200"
+  },
+  "auditId": "43461",
+  "operationScript": "scripts/ops/heeya-noise-event-20261010.mjs",
+  "receiptLocation": {
+    "table": "app_meta",
+    "key": "ops:heeya-noise-event:20261010:v1"
+  },
+  "validation": {
+    "dryRun": {
+      "operationKey": "ops:heeya-noise-event:20261010:v1",
+      "planHash": "32c1ffe01d922732f82bcc20460b2d6827411034598df68beb0adfc11d01a87c",
+      "status": "DRY_RUN_ROLLED_BACK",
+      "completedAt": "2026-10-09T18:27:18.174Z",
+      "replayed": false,
+      "recipients": 40,
+      "coinLogs": 40,
+      "inventoryLogs": 80,
+      "adminLogs": 1,
+      "missing": 0,
+      "duplicates": 0,
+      "totals": {
+        "recipients": 40,
+        "coin": "20000000000000",
+        "MASTER_STAR": "200000000",
+        "EMPEROR_ENERGY": "200"
+      },
+      "auditId": "43460",
+      "partialFailureRolledBack": true,
+      "replayVerified": true,
+      "balancesRestored": true,
+      "logsRolledBack": true
+    },
+    "postCommit": {
+      "operationKey": "ops:heeya-noise-event:20261010:v1",
+      "planHash": "32c1ffe01d922732f82bcc20460b2d6827411034598df68beb0adfc11d01a87c",
+      "status": "VERIFIED",
+      "completedAt": "2026-10-09T18:28:16.329Z",
+      "replayed": false,
+      "recipients": 40,
+      "coinLogs": 40,
+      "inventoryLogs": 80,
+      "adminLogs": 1,
+      "missing": 0,
+      "duplicates": 0,
+      "totals": {
+        "recipients": 40,
+        "coin": "20000000000000",
+        "MASTER_STAR": "200000000",
+        "EMPEROR_ENERGY": "200"
+      },
+      "auditId": "43461"
+    },
+    "locking": "40 existing USER_LOCK Durable Object leases plus database fallback leases, account/inventory row locks and operation advisory lock",
+    "scope": "One-time direct data grant only. Exact active identities, partial failure rollback, replay prevention, exact increments, ledgers, audit, durable receipt and independent post-commit verification. No game runtime change or site redeployment."
+  },
+  "recipients": [
+    {
+      "userId": "5147",
+      "nickname": "T-Money™",
+      "coin": "500000000000",
+      "coinLogId": "87388324",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856164"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856205"
+        }
+      ]
+    },
+    {
+      "userId": "5010",
+      "nickname": "으악",
+      "coin": "500000000000",
+      "coinLogId": "87388323",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856163"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856204"
+        }
+      ]
+    },
+    {
+      "userId": "4978",
+      "nickname": "하이다미♡",
+      "coin": "500000000000",
+      "coinLogId": "87388321",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856161"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856202"
+        }
+      ]
+    },
+    {
+      "userId": "4988",
+      "nickname": "눈탱이당함",
+      "coin": "500000000000",
+      "coinLogId": "87388322",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856162"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856203"
+        }
+      ]
+    },
+    {
+      "userId": "4628",
+      "nickname": "망순이ෆ",
+      "coin": "500000000000",
+      "coinLogId": "87388315",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856155"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856196"
+        }
+      ]
+    },
+    {
+      "userId": "4408",
+      "nickname": "레가파",
+      "coin": "500000000000",
+      "coinLogId": "87388309",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856149"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856190"
+        }
+      ]
+    },
+    {
+      "userId": "4965",
+      "nickname": "쁴로리",
+      "coin": "500000000000",
+      "coinLogId": "87388320",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856160"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856201"
+        }
+      ]
+    },
+    {
+      "userId": "4627",
+      "nickname": "학벌",
+      "coin": "500000000000",
+      "coinLogId": "87388314",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856154"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856195"
+        }
+      ]
+    },
+    {
+      "userId": "4572",
+      "nickname": "응맨",
+      "coin": "500000000000",
+      "coinLogId": "87388312",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856152"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856193"
+        }
+      ]
+    },
+    {
+      "userId": "1421",
+      "nickname": "다시생각",
+      "coin": "500000000000",
+      "coinLogId": "87388300",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856140"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856181"
+        }
+      ]
+    },
+    {
+      "userId": "1255",
+      "nickname": "전게씹선미아웃",
+      "coin": "500000000000",
+      "coinLogId": "87388299",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856139"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856180"
+        }
+      ]
+    },
+    {
+      "userId": "3011",
+      "nickname": "오일바른가지",
+      "coin": "500000000000",
+      "coinLogId": "87388303",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856143"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856184"
+        }
+      ]
+    },
+    {
+      "userId": "2420",
+      "nickname": "블랙캐슬",
+      "coin": "500000000000",
+      "coinLogId": "87388302",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856142"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856183"
+        }
+      ]
+    },
+    {
+      "userId": "156",
+      "nickname": "좌지구녕",
+      "coin": "500000000000",
+      "coinLogId": "87388291",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856131"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856172"
+        }
+      ]
+    },
+    {
+      "userId": "4501",
+      "nickname": "장씨아저씨",
+      "coin": "500000000000",
+      "coinLogId": "87388310",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856150"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856191"
+        }
+      ]
+    },
+    {
+      "userId": "4111",
+      "nickname": "족게이다",
+      "coin": "500000000000",
+      "coinLogId": "87388307",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856147"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856188"
+        }
+      ]
+    },
+    {
+      "userId": "1768",
+      "nickname": "핫시",
+      "coin": "500000000000",
+      "coinLogId": "87388301",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856141"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856182"
+        }
+      ]
+    },
+    {
+      "userId": "162",
+      "nickname": "차단하다",
+      "coin": "500000000000",
+      "coinLogId": "87388292",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856132"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856173"
+        }
+      ]
+    },
+    {
+      "userId": "303",
+      "nickname": "[C9]족쪽이",
+      "coin": "500000000000",
+      "coinLogId": "87388296",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856136"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856177"
+        }
+      ]
+    },
+    {
+      "userId": "62",
+      "nickname": "숭구릭",
+      "coin": "500000000000",
+      "coinLogId": "87388288",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856128"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856169"
+        }
+      ]
+    },
+    {
+      "userId": "81",
+      "nickname": "비쥬얼깡패",
+      "coin": "500000000000",
+      "coinLogId": "87388290",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856130"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856171"
+        }
+      ]
+    },
+    {
+      "userId": "750",
+      "nickname": "라페스타다",
+      "coin": "500000000000",
+      "coinLogId": "87388297",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856137"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856178"
+        }
+      ]
+    },
+    {
+      "userId": "45",
+      "nickname": "박세라-ㅂ-",
+      "coin": "500000000000",
+      "coinLogId": "87388286",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856126"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856167"
+        }
+      ]
+    },
+    {
+      "userId": "233",
+      "nickname": "ShowMaker",
+      "coin": "500000000000",
+      "coinLogId": "87388294",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856134"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856175"
+        }
+      ]
+    },
+    {
+      "userId": "4651",
+      "nickname": "세라네꼬라지",
+      "coin": "500000000000",
+      "coinLogId": "87388316",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856156"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856197"
+        }
+      ]
+    },
+    {
+      "userId": "73",
+      "nickname": "란x2",
+      "coin": "500000000000",
+      "coinLogId": "87388289",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856129"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856170"
+        }
+      ]
+    },
+    {
+      "userId": "22",
+      "nickname": "커피먹는철구",
+      "coin": "500000000000",
+      "coinLogId": "87388285",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856125"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856166"
+        }
+      ]
+    },
+    {
+      "userId": "277",
+      "nickname": "스갤가축",
+      "coin": "500000000000",
+      "coinLogId": "87388295",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856135"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856176"
+        }
+      ]
+    },
+    {
+      "userId": "4570",
+      "nickname": "혜정",
+      "coin": "500000000000",
+      "coinLogId": "87388311",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856151"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856192"
+        }
+      ]
+    },
+    {
+      "userId": "4836",
+      "nickname": "딤키우기",
+      "coin": "500000000000",
+      "coinLogId": "87388318",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856158"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856199"
+        }
+      ]
+    },
+    {
+      "userId": "4391",
+      "nickname": "더듬이구",
+      "coin": "500000000000",
+      "coinLogId": "87388308",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856148"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856189"
+        }
+      ]
+    },
+    {
+      "userId": "4582",
+      "nickname": "족단",
+      "coin": "500000000000",
+      "coinLogId": "87388313",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856153"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856194"
+        }
+      ]
+    },
+    {
+      "userId": "4908",
+      "nickname": "굳건창수",
+      "coin": "500000000000",
+      "coinLogId": "87388319",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856159"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856200"
+        }
+      ]
+    },
+    {
+      "userId": "3974",
+      "nickname": "우회하세요",
+      "coin": "500000000000",
+      "coinLogId": "87388306",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856146"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856187"
+        }
+      ]
+    },
+    {
+      "userId": "52",
+      "nickname": "폭군#",
+      "coin": "500000000000",
+      "coinLogId": "87388287",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856127"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856168"
+        }
+      ]
+    },
+    {
+      "userId": "1195",
+      "nickname": "씨나인택갓",
+      "coin": "500000000000",
+      "coinLogId": "87388298",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856138"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856179"
+        }
+      ]
+    },
+    {
+      "userId": "3884",
+      "nickname": "zkzk9999",
+      "coin": "500000000000",
+      "coinLogId": "87388305",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856145"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856186"
+        }
+      ]
+    },
+    {
+      "userId": "164",
+      "nickname": "박사",
+      "coin": "500000000000",
+      "coinLogId": "87388293",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856133"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856174"
+        }
+      ]
+    },
+    {
+      "userId": "3867",
+      "nickname": "레드클라우드",
+      "coin": "500000000000",
+      "coinLogId": "87388304",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856144"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856185"
+        }
+      ]
+    },
+    {
+      "userId": "4824",
+      "nickname": "헬로희야",
+      "coin": "500000000000",
+      "coinLogId": "87388317",
+      "items": [
+        {
+          "code": "MASTER_STAR",
+          "amount": "5000000",
+          "logId": "79856157"
+        },
+        {
+          "code": "EMPEROR_ENERGY",
+          "amount": "5",
+          "logId": "79856198"
+        }
+      ]
+    }
+  ]
+}
