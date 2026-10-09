@@ -84,7 +84,7 @@ test('preview menu inserts the codex next to dex without mutating the real navig
   const original = context.SoopketmonV21NavigationContract;
   const before = JSON.stringify(original);
   const entries = collectionEntries(original);
-  assert.deepEqual(entries.map(item => item.id), ['dex', 'mercenaryDex', 'upgrade', 'evolution', 'iconfusion', 'magic']);
+  assert.deepEqual(entries.map(item => item.id), ['dex', 'mercenaryDex', 'petDex', 'upgrade', 'evolution', 'iconfusion', 'magic']);
   assert.equal(entries[1], ENTRY);
   assert.equal(entries[1].previewOnly, true);
   assert.equal(JSON.stringify(original), before);

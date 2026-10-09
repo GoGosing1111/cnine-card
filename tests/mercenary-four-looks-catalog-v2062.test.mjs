@@ -69,7 +69,12 @@ test('outfit and weapon concepts remain searchable after the four SDs are connec
 test('catalog release uses current CMS data and preserves all 55 separate art and SD resources', () => {
   assert.equal(ROSTER_URL.searchParams.get('v'), '20260911-omega-ranks');
   const html = read('mercenary-codex/index.html').toString();
-  assert.match(html, /mercenary-codex\/app\.mjs\?balance=20261008-ss-rear&amp;limited=20261004-approved&amp;v=2133/);
+  const codexSource=html.match(/src="([^"\n]*mercenary-codex\/app\.mjs\?[^"\n]+)"/)?.[1];
+  assert.ok(codexSource,'current codex client must be versioned');
+  const codexCache=new URL(codexSource.replaceAll('&amp;','&'),'https://test.invalid').searchParams;
+  assert.equal(codexCache.get('balance'),'20261008-ss-rear');
+  assert.ok(codexCache.getAll('limited').includes('20261004-approved'));
+  assert.equal(codexCache.get('v'),'2133');
   const published = mercenaryCodexDocument({payload_json:JSON.stringify(MERCENARY_CMS_SEED.document),revision:1}).cards;
   assert.equal(published.filter(card=>!card.artOnly).length,55);
   assert.equal(published.filter(card=>!card.artOnly && card.sourceArt && card.battleSprite && card.sourceArt!==card.battleSprite).length,55);
