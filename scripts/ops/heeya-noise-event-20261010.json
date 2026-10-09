@@ -1,0 +1,187 @@
+{
+  "operationKey": "ops:heeya-noise-event:20261010:v1",
+  "title": "희야 소음단 이벤트 지급",
+  "authorization": "사용자 지정 40명에게 인당 5천억 코인, 마별 500만 개, 엠퍼러 에너지 5개씩 지급. 희야 소음단 이벤트 지급.",
+  "delivery": "DIRECT",
+  "coinPerUser": "500000000000",
+  "items": [
+    {
+      "code": "MASTER_STAR",
+      "name": "마스터의 별",
+      "amount": "5000000"
+    },
+    {
+      "code": "EMPEROR_ENERGY",
+      "name": "엠퍼러 에너지",
+      "amount": "5"
+    }
+  ],
+  "totals": {
+    "recipients": 40,
+    "coin": "20000000000000",
+    "MASTER_STAR": "200000000",
+    "EMPEROR_ENERGY": "200"
+  },
+  "recipients": [
+    {
+      "userId": "5147",
+      "nickname": "T-Money™"
+    },
+    {
+      "userId": "5010",
+      "nickname": "으악"
+    },
+    {
+      "userId": "4978",
+      "nickname": "하이다미♡"
+    },
+    {
+      "userId": "4988",
+      "nickname": "눈탱이당함"
+    },
+    {
+      "userId": "4628",
+      "nickname": "망순이ෆ"
+    },
+    {
+      "userId": "4408",
+      "nickname": "레가파"
+    },
+    {
+      "userId": "4965",
+      "nickname": "쁴로리"
+    },
+    {
+      "userId": "4627",
+      "nickname": "학벌"
+    },
+    {
+      "userId": "4572",
+      "nickname": "응맨"
+    },
+    {
+      "userId": "1421",
+      "nickname": "다시생각"
+    },
+    {
+      "userId": "1255",
+      "nickname": "전게씹선미아웃"
+    },
+    {
+      "userId": "3011",
+      "nickname": "오일바른가지"
+    },
+    {
+      "userId": "2420",
+      "nickname": "블랙캐슬"
+    },
+    {
+      "userId": "156",
+      "nickname": "좌지구녕"
+    },
+    {
+      "userId": "4501",
+      "nickname": "장씨아저씨"
+    },
+    {
+      "userId": "4111",
+      "nickname": "족게이다"
+    },
+    {
+      "userId": "1768",
+      "nickname": "핫시"
+    },
+    {
+      "userId": "162",
+      "nickname": "차단하다"
+    },
+    {
+      "userId": "303",
+      "nickname": "[C9]족쪽이"
+    },
+    {
+      "userId": "62",
+      "nickname": "숭구릭"
+    },
+    {
+      "userId": "81",
+      "nickname": "비쥬얼깡패"
+    },
+    {
+      "userId": "750",
+      "nickname": "라페스타다"
+    },
+    {
+      "userId": "45",
+      "nickname": "박세라-ㅂ-"
+    },
+    {
+      "userId": "233",
+      "nickname": "ShowMaker"
+    },
+    {
+      "userId": "4651",
+      "nickname": "세라네꼬라지"
+    },
+    {
+      "userId": "73",
+      "nickname": "란x2"
+    },
+    {
+      "userId": "22",
+      "nickname": "커피먹는철구"
+    },
+    {
+      "userId": "277",
+      "nickname": "스갤가축"
+    },
+    {
+      "userId": "4570",
+      "nickname": "혜정"
+    },
+    {
+      "userId": "4836",
+      "nickname": "딤키우기"
+    },
+    {
+      "userId": "4391",
+      "nickname": "더듬이구"
+    },
+    {
+      "userId": "4582",
+      "nickname": "족단"
+    },
+    {
+      "userId": "4908",
+      "nickname": "굳건창수"
+    },
+    {
+      "userId": "3974",
+      "nickname": "우회하세요"
+    },
+    {
+      "userId": "52",
+      "nickname": "폭군#"
+    },
+    {
+      "userId": "1195",
+      "nickname": "씨나인택갓"
+    },
+    {
+      "userId": "3884",
+      "nickname": "zkzk9999"
+    },
+    {
+      "userId": "164",
+      "nickname": "박사"
+    },
+    {
+      "userId": "3867",
+      "nickname": "레드클라우드"
+    },
+    {
+      "userId": "4824",
+      "nickname": "헬로희야"
+    }
+  ]
+}
