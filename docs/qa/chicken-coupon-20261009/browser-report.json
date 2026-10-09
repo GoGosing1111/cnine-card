@@ -1,0 +1,34 @@
+{
+  "status": "PASSED",
+  "scope": "Actual CMS markup, styles, primary and bulk coupon controllers with isolated API responses",
+  "reports": [
+    {
+      "label": "desktop",
+      "width": 1440,
+      "height": 1000,
+      "issued": {
+        "code": "BAEMIN-UI-QA",
+        "rewardType": "PINGDU_BAEMIN_TICKET",
+        "rewardAmount": 3,
+        "maxUses": 10
+      },
+      "chickenSettingsShortcut": true,
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "label": "mobile",
+      "width": 390,
+      "height": 844,
+      "issued": {
+        "code": "BAEMIN-UI-QA",
+        "rewardType": "PINGDU_BAEMIN_TICKET",
+        "rewardAmount": 3,
+        "maxUses": 10
+      },
+      "chickenSettingsShortcut": true,
+      "overflow": false,
+      "errors": []
+    }
+  ]
+}
