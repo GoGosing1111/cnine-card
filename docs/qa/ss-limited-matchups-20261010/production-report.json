@@ -1,0 +1,101 @@
+{
+  "verifiedAt": "2026-10-09T18:08:00.053Z",
+  "sourceCommit": "ab4c3193a3ac560040421daf0b7190d985a6c122",
+  "base": "https://cnine-card.pages.dev",
+  "productionFiles": [
+    {
+      "file": "shared/mercenary-ss-limited-v1.mjs",
+      "status": 200,
+      "sha256": "153acf021b77844c12779f1846e743dd901fcbd7771219469486a8d77b8e6545",
+      "normalization": "CRLF to LF"
+    },
+    {
+      "file": "shared/mercenary-combat-link-v2103.mjs",
+      "status": 200,
+      "sha256": "326561ea7d468c4c992c014efec28b16be96709e7c39aa696cbc32d1783982db",
+      "normalization": "CRLF to LF"
+    }
+  ],
+  "codex": {
+    "status": 200,
+    "revision": 61,
+    "ssLimitedBalanceVersion": 3,
+    "cacheControl": "no-store",
+    "limited": [
+      {
+        "code": "V-990",
+        "name": "나무늘봉순",
+        "rank": "SS",
+        "descriptionUpdated": true
+      },
+      {
+        "code": "V-991",
+        "name": "조은",
+        "rank": "SS",
+        "descriptionUpdated": true
+      },
+      {
+        "code": "V-992",
+        "name": "이네스",
+        "rank": "SS",
+        "descriptionUpdated": true
+      },
+      {
+        "code": "V-993",
+        "name": "오리꿍",
+        "rank": "SS",
+        "descriptionUpdated": true
+      },
+      {
+        "code": "V-994",
+        "name": "디임",
+        "rank": "SS",
+        "descriptionUpdated": true
+      },
+      {
+        "code": "V-997",
+        "name": "아윤",
+        "rank": "SS",
+        "descriptionUpdated": true
+      },
+      {
+        "code": "V-998",
+        "name": "하이희야",
+        "rank": "SS",
+        "descriptionUpdated": true
+      }
+    ]
+  },
+  "config": {
+    "mode": "ON",
+    "userOpeningEnabled": true,
+    "prices": {
+      "single": 1000000000,
+      "ten": 10000000000
+    },
+    "revision": 6,
+    "packRevision": 6,
+    "valter": {
+      "code": "V-996",
+      "limit": 8,
+      "issued": 2,
+      "remaining": 6
+    }
+  },
+  "checks": {
+    "scopedRegressionsPassed": 27,
+    "newMatchupRegressionsPassed": 4,
+    "canonicalBattles": 250880,
+    "matchupsWithinTarget": 28,
+    "browserReport": "docs/qa/ss-limited-matchups-20261010/browser-report.json"
+  },
+  "deployment": {
+    "command": "npm run deploy:production -- --scoped",
+    "exitCode": 0,
+    "pagesUrl": "https://d6580232.cnine-card.pages.dev",
+    "apiRuntimeVersion": "de073932-b88a-4d2d-a583-54feef74f86c",
+    "clanDraftVersion": "6d962dfd-fa04-49fb-8afc-faf956c2569e"
+  },
+  "realPurchasesExecuted": 0,
+  "realPlayerBattlesExecuted": 0
+}
