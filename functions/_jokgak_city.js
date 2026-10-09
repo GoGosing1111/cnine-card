@@ -38,26 +38,29 @@ async function publicPlayer(env,row,now,policy,weights){
 }
 // Persist automatic hospital arrival/respawn with the same player revision as
 // combat. No scheduler, client timer, role rollover or reload can reroll it.
-async function syncCityPlayer(env,user,policy,weights,now){
+async function syncCityPlayer(env,user,policy,weights,now,policyRaw){
   for(let attempt=0;attempt<3;attempt++){
     const row=await player(env,user.id),state=await publicPlayer(env,row,now,policy,weights);if(!row)return null;
     const life=lifeStates.get(state),storedDeath=row.life_raw?parse(row.life_raw).death:null;
-    if(row.life_raw!=null&&state.location===row.location&&!(storedDeath&&!storedDeath.resolved&&life.death?.resolved))return state;
+    const cashMissing=['TEST','ON'].includes(policy.mode)&&!parse(row.life_raw).wallets?.[policy.mode];
+    if(row.life_raw!=null&&!cashMissing&&state.location===row.location&&!(storedDeath&&!storedDeath.resolved&&life.death?.resolved))return state;
     const id='city-auto:'+crypto.randomUUID();
-    try{await env.DB.batch([...claim(env,row,state,id,cityShift(now).id,now),...cityLifeClaim(env,row,life,id)]);state.revision++;return state;}
+    const guards=[];if(env.DB.dialect==='postgres')guards.push(p(env,'SELECT key FROM app_meta WHERE key=? FOR SHARE',CITY_SETTINGS_KEY));
+    guards.push(cityGuard(env,id+':policy',policyRaw===null?'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)':'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',policyRaw===null?[CITY_SETTINGS_KEY]:[CITY_SETTINGS_KEY,policyRaw]),cityGuardEnd(env,id+':policy'));
+    try{await env.DB.batch([...guards,...claim(env,row,state,id,cityShift(now).id,now),...cityLifeClaim(env,row,life,id)]);state.revision++;return state;}
     catch(error){if(!/guard|constraint|duplicate|unique/i.test(error.message))throw error;}
   }
   fail('CONFLICT','도시 상태가 변경되었습니다. 다시 확인하세요.');
 }
 export async function cityStatus(env,user,location='HOME',after=0,now=Date.now()){
-  const {policy}=await readCitySettings(env);requireCityAccess(policy,user);
+  const {policy,raw:policyRaw}=await readCitySettings(env);requireCityAccess(policy,user);
   if(!cityPlace(location))fail('PLACE','장소를 확인하세요.',400);
   const weights=await cityRoleWeights(env,cityShift(now).id,policy);
   const testerFilter=policy.mode==='TEST'?` AND (u.role='OWNER'${policy.testUserIds.length?` OR c.user_id IN (${policy.testUserIds.map(()=>'?').join(',')})`:''})`:'';
-  const mine=await syncCityPlayer(env,user,policy,weights,now);
+  const mine=await syncCityPlayer(env,user,policy,weights,now,policyRaw);
   const roster=await p(env,`SELECT c.*,u.nickname,life.value AS life_raw FROM jokgak_city_players_v1 c JOIN users u ON u.id=c.user_id ${lifeJoin} WHERE c.active=1 AND c.location=? AND c.user_id>? AND ${activeUserSql}${testerFilter} ORDER BY c.user_id LIMIT 11`,location,after,...(policy.mode==='TEST'?policy.testUserIds:[])).all();
   const rows=roster.results||[];
-  const people=(await Promise.all(rows.slice(0,10).map(row=>publicPlayer(env,row,now,policy,weights)))).filter(row=>row.location===location).map(({bag,...row})=>row);
+  const people=(await Promise.all(rows.slice(0,10).map(row=>publicPlayer(env,row,now,policy,weights)))).filter(row=>row.location===location).map(({bag,cash,cashMode,cashUnit,...row})=>row);
   return {ok:true,serverNow:now,shift:cityShift(now),...cityPublicPolicy(policy),places:CITY_PLACES,mine,location,people,nextCursor:rows.length>10?Number(rows[9].user_id):null};
 }
 async function receipt(env,user,requestId,fingerprint=null,includeTarget=false){
@@ -157,9 +160,11 @@ export async function cityAction(env,deps,user,action,body){
   if(isFight&&me.health<=0)markCityDeath(me,myLife,target,committedAt,mine.location);
   if(isFight&&target.health<=0)markCityDeath(target,targetLife,me,committedAt,mine.location);
   myLife.at=committedAt;applyCityLifeView(me,myLife,policy);if(targetLife){targetLife.at=committedAt;applyCityLifeView(target,targetLife,policy);}
-  const reward=await prepareCityReward(env,{user,policy,role:roleCode,event:cityRewardEvent(action,simulation?.battleV2?.result?.winner,targetId===Number(user.id)),targetId,requestId:body.requestId,now:committedAt});
+  const reward=await prepareCityReward(env,{user,policy,role:roleCode,event:cityRewardEvent(action,simulation?.battleV2?.result?.winner,targetId===Number(user.id)),targetId,requestId:body.requestId,now:committedAt,life:myLife});
+  applyCityLifeView(me,myLife,policy);
   if(cityShift(clock()).id!==epoch)fail('SHIFT','역할이 교대되었습니다. 현황을 다시 확인하세요.');
-  const result={ok:true,requestId:body.requestId,action,epoch,mode:policy.mode,policyRevision:policy.revision,createdAt:committedAt,location:mine?.location||me.location,mine:me,target:targetId?target:null,inspection,...simulation,reward:reward.result,service:service?.result||null,
+  const {cash:targetCash,cashMode:targetCashMode,cashUnit:targetCashUnit,bag:targetBag,...visibleTarget}=target||{};
+  const result={ok:true,requestId:body.requestId,action,epoch,mode:policy.mode,policyRevision:policy.revision,createdAt:committedAt,location:mine?.location||me.location,mine:me,target:targetId?visibleTarget:null,inspection,...simulation,reward:reward.result,service:service?.result||null,
     effects:{damageToMine:Math.max(0,(healthBefore??me.health)-me.health),damageToTarget:Math.max(0,(targetHealthBefore??0)-(target?.health??0)),healed:action==='heal'?target.health-targetHealthBefore:0,jailMs:action==='arrest'&&simulation?.battleV2?.result?.winner==='A'?role.arrestMs:0}};
   if(simulation)result.result=simulation.battleV2.result.winner==='A'?'WIN':simulation.battleV2.result.winner==='B'?'LOSE':'DRAW';
   const policyGuard=body.requestId+':policy',statements=[];
@@ -190,8 +195,8 @@ export async function handleJokgakCity({path,request,env,deps}){
     const part=path.slice('jokgak-city/'.length),url=new URL(request.url);
     if(request.method==='GET'&&part==='notifications'){
       const rows=(await p(env,'SELECT id,summary_json FROM jokgak_city_notifications_v1 WHERE user_id=? AND read_at=0 ORDER BY created_at,id LIMIT 10',user.id).all()).results||[];
-      const now=(deps.now||Date.now)(),{policy}=await readCitySettings(env),allowed=cityCanAccess(policy,user);
-      const mine=allowed?await syncCityPlayer(env,user,policy,await cityRoleWeights(env,cityShift(now).id,policy),now):null;
+      const now=(deps.now||Date.now)(),{policy,raw:policyRaw}=await readCitySettings(env),allowed=cityCanAccess(policy,user);
+      const mine=allowed?await syncCityPlayer(env,user,policy,await cityRoleWeights(env,cityShift(now).id,policy),now,policyRaw):null;
       return json({ok:true,active:!!mine?.active,mine:mine?{userId:mine.userId,active:mine.active,health:mine.health,location:mine.location,deadUntil:mine.deadUntil,death:mine.death,hospitalRequired:mine.hospitalRequired,wellness:mine.wellness}:null,items:rows.map(row=>({id:row.id,...parse(row.summary_json)})),serverNow:now});
     }
     if(request.method==='GET'&&part==='result'){

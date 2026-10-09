@@ -45,21 +45,21 @@ for(const pg of [false,true]){
     await f.action(1,'leave');f.advance(3600000);await f.action(1,'join');me=(await status(f,1)).mine;assert.equal(me.hunger,80);assert.equal(me.wellness,90);
     await life(f,1,{hunger:0,wellness:30,at:f.now});f.advance(600000);me=(await status(f,1)).mine;assert.equal(me.hospitalRequired,true);assert.equal(me.location,'HOSPITAL');
     assert.equal((await f.p('SELECT location FROM jokgak_city_players_v1 WHERE user_id=1').first()).location,'HOSPITAL');await assert.rejects(f.action(1,'move',{location:'RESTAURANT'}),/병원/);
-    const before=await coins(f),treated=await f.action(1,'treat');assert.equal(treated.mine.hospitalRequired,false);assert.equal(treated.mine.wellness,100);assert.equal(await coins(f),before-2000);
+    const before=await coins(f),treated=await f.action(1,'treat');assert.equal(treated.mine.hospitalRequired,false);assert.equal(treated.mine.wellness,100);assert.equal(await coins(f),before);assert.equal(treated.mine.cash,8000);
     f.advance(5000);assert.equal((await f.action(1,'move',{location:'RESTAURANT'})).mine.location,'RESTAURANT');
   });
-  test(db+': restaurant restores needs once, enforces place/full checks and includes coin charge in receipt',async t=>{
+  test(db+': restaurant restores needs once, enforces place/full checks and includes cash charge in receipt',async t=>{
     const f=await cityFixture(t,pg);await f.join(1);await life(f,1,{hunger:10,wellness:70});await assert.rejects(f.action(1,'eat'),/식당/);
     await f.action(1,'move',{location:'RESTAURANT'});const body={requestId:crypto.randomUUID(),epoch:cityShift(f.now).id},result=await cityAction(f.env,f.deps,f.users.get(1),'eat',body);
-    assert.equal(result.mine.hunger,70);assert.equal(result.mine.wellness,80);assert.equal(result.service.paid,true);assert.equal(await coins(f),122456);
-    assert.equal((await cityAction(f.env,f.deps,f.users.get(1),'eat',body)).replayed,true);assert.equal(await coins(f),122456);f.advance(5000);await life(f,1,{hunger:100,wellness:100});await assert.rejects(f.action(1,'eat'),/가득/);assert.equal(await coins(f),122456);
+    assert.equal(result.mine.hunger,70);assert.equal(result.mine.wellness,80);assert.equal(result.service.paid,true);assert.equal(await coins(f),123456);assert.equal((await status(f,1)).mine.cash,9000);
+    assert.equal((await cityAction(f.env,f.deps,f.users.get(1),'eat',body)).replayed,true);assert.equal(await coins(f),123456);assert.equal((await status(f,1)).mine.cash,9000);f.advance(5000);await life(f,1,{hunger:100,wellness:100});await assert.rejects(f.action(1,'eat'),/가득/);assert.equal(await coins(f),123456);assert.equal((await status(f,1)).mine.cash,9000);
   });
   test(db+': purchases and carried use are atomic, bounded and retry-safe including lost commits',async t=>{
     const f=await cityFixture(t,pg);await f.join(1,'SHOP');await life(f,1,{hunger:20});
     const body={requestId:crypto.randomUUID(),epoch:cityShift(f.now).id,product:'LUNCHBOX'};
     f.fail('INSERT INTO jokgak_city_actions_v1');await assert.rejects(cityAction(f.env,f.deps,f.users.get(1),'buy',body),/INJECTED/);assert.equal(await coins(f),123456);assert.deepEqual((await status(f,1)).mine.bag,{});
-    f.fail('');f.lost();const bought=await cityAction(f.env,f.deps,f.users.get(1),'buy',body);assert.equal(bought.replayed,true);assert.equal(bought.mine.bag.LUNCHBOX,1);assert.equal(await coins(f),121956);
-    f.advance(5000);await f.action(1,'move',{location:'HOME'});const used=await f.action(1,'use',{product:'LUNCHBOX'});assert.equal(used.mine.hunger,55);assert.equal(used.mine.bag.LUNCHBOX,0);f.advance(5000);await assert.rejects(f.action(1,'use',{product:'LUNCHBOX'}),/소지품/);assert.equal(await coins(f),121956);
+    f.fail('');f.lost();const bought=await cityAction(f.env,f.deps,f.users.get(1),'buy',body);assert.equal(bought.replayed,true);assert.equal(bought.mine.bag.LUNCHBOX,1);assert.equal(await coins(f),123456);assert.equal((await status(f,1)).mine.cash,8500);
+    f.advance(5000);await f.action(1,'move',{location:'HOME'});const used=await f.action(1,'use',{product:'LUNCHBOX'});assert.equal(used.mine.hunger,55);assert.equal(used.mine.bag.LUNCHBOX,0);f.advance(5000);await assert.rejects(f.action(1,'use',{product:'LUNCHBOX'}),/소지품/);assert.equal(await coins(f),123456);assert.equal((await status(f,1)).mine.cash,8500);
     await life(f,1,{bags:{TEST:{},ON:{LUNCHBOX:99}}});await f.action(1,'move',{location:'SHOP'});await assert.rejects(f.action(1,'buy',{product:'LUNCHBOX'}),/99/);
   });
   test(db+': TEST services never touch real currency and cannot transfer test inventory to ON',async t=>{
@@ -70,8 +70,8 @@ for(const pg of [false,true]){
   });
   test(db+': balance races, policy races and failed death notifications roll back complete actions',async t=>{
     const f=await cityFixture(t,pg);await f.join(1,'SHOP');const batch=f.env.DB.batch.bind(f.env.DB);let raced=false;
-    f.env.DB.batch=async statements=>{if(!raced){raced=true;await f.p('UPDATE users SET coin=0 WHERE id=1').run();}return batch(statements);};
-    await assert.rejects(f.action(1,'buy',{product:'FIRST_AID'}),/전황/);assert.equal(await coins(f),0);assert.deepEqual((await status(f,1)).mine.bag,{});f.env.DB.batch=batch;
+    f.env.DB.batch=async statements=>{if(!raced){raced=true;const cashLife=await life(f,1);cashLife.wallets.ON.balance=0;await life(f,1,cashLife);}return batch(statements);};
+    await assert.rejects(f.action(1,'buy',{product:'FIRST_AID'}),/전황/);assert.equal((await status(f,1)).mine.cash,0);assert.equal(await coins(f),123456);assert.deepEqual((await status(f,1)).mine.bag,{});f.env.DB.batch=batch;
     await f.p("UPDATE jokgak_city_players_v1 SET location='MARKET' WHERE user_id=1").run();await f.join(2);await f.p('UPDATE jokgak_city_players_v1 SET health=10 WHERE user_id=2').run();f.fail('INSERT INTO jokgak_city_notifications_v1');
     await assert.rejects(f.action(1,'attack',{targetId:2}),/INJECTED/);f.fail('');assert.equal((await status(f,2)).mine.deadUntil,0);assert.equal((await f.p('SELECT health FROM jokgak_city_players_v1 WHERE user_id=2').first()).health,10);
   });

@@ -1,4 +1,5 @@
 // City-only survival state. Combat HP and everyday health are separate meters.
+import {ensureCityCash,CITY_CASH_MAX} from './jokgak-city-cash-v1.mjs';
 export const CITY_DEATH_MS=180000;
 export const CITY_SUPPLIES=[
   {code:'LUNCHBOX',name:'휴대 도시락',icon:'meal',description:'이동 중 허기를 달래는 따뜻한 도시락'},
@@ -29,7 +30,7 @@ export function validateCityLifePolicy(value){
   return structuredClone(value);
 }
 export const cityLifeKey=id=>'jokgak_city_life_v1:'+id;
-export const newCityLife=now=>({version:1,at:now,hunger:100,wellness:100,death:null,bags:{TEST:{},ON:{}}});
+export const newCityLife=now=>({version:1,at:now,hunger:100,wellness:100,death:null,bags:{TEST:{},ON:{}},wallets:{TEST:null,ON:null}});
 export function readCityLife(raw,now){
   if(raw==null)return newCityLife(now);
   try{
@@ -37,6 +38,9 @@ export function readCityLife(raw,now){
     if(life.version!==1||!Number.isSafeInteger(life.at)||!['hunger','wellness'].every(k=>Number.isFinite(life[k])&&life[k]>=0&&life[k]<=100)||!life.bags?.TEST||!life.bags?.ON)throw Error();
     for(const mode of ['TEST','ON'])for(const [code,n] of Object.entries(life.bags[mode]))if(!CITY_SUPPLIES.some(s=>s.code===code)||!integer(n,0,99))throw Error();
     if(life.death&&(!Number.isSafeInteger(life.death.until)||!Number.isSafeInteger(life.death.at)||typeof life.death.killerName!=='string'))throw Error();
+    life.wallets??={TEST:null,ON:null};
+    if(typeof life.wallets!=='object'||Array.isArray(life.wallets)||Object.keys(life.wallets).some(k=>!['TEST','ON'].includes(k)))throw Error();
+    for(const mode of ['TEST','ON']){const wallet=life.wallets[mode];if(wallet!=null&&(!wallet||typeof wallet!=='object'||Array.isArray(wallet)||!integer(wallet.balance,0,CITY_CASH_MAX)||!integer(wallet.initialCash,0,1000000000)||!Number.isSafeInteger(wallet.openedAt)))throw Error();}
     return life;
   }catch{throw Object.assign(Error('도시 생활 상태를 확인하지 못했습니다. 다시 시도해 주세요.'),{status:503,code:'CITY_LIFE_RETRY'});}
 }
@@ -67,6 +71,7 @@ export function applyCityLifeView(state,life,policy){
   state.death=life.death?{...life.death}:null;state.deadUntil=life.death&&!life.death.resolved?life.death.until:0;
   state.hospitalRequired=!state.deadUntil&&life.wellness<=policy.life.hospitalThreshold;
   state.bag={...(life.bags[policy.mode]||{})};
+  const wallet=ensureCityCash(life,policy);state.cash=wallet?.balance??0;state.cashMode=policy.mode;state.cashUnit='원';
   return state;
 }
 export function markCityDeath(state,life,killer,now,location){

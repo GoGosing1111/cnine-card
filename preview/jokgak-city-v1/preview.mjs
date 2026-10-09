@@ -1,4 +1,5 @@
 import {CITY_ROLES,CITY_PLACES,CITY_RULES,cityShift} from '/shared/jokgak-city-v1.mjs';
+import {changeCityCash} from '/shared/jokgak-city-cash-v1.mjs';
 import {defaultCitySettings} from '/shared/jokgak-city-settings-v1.mjs';
 import {newCityLife,projectCityLife,applyCityLifeView,markCityDeath} from '/shared/jokgak-city-life-v1.mjs';
 const policy=defaultCitySettings(),life=newCityLife(Date.now());life.hunger=35;life.wellness=65;
@@ -23,9 +24,10 @@ window.CityPreview={
     if(['eat','treat','buy','use'].includes(action)){
       const item=action==='eat'?policy.life.meal:action==='treat'?policy.life.treatment:policy.life.supplies.find(x=>x.code===body.product),bag=life.bags.TEST;
       if(!item)throw Object.assign(Error('상품을 확인하세요.'),{status:400});
+      const cash=changeCityCash(life,policy,-(action==='use'?0:item.price));
       if(action==='buy')bag[body.product]=Math.min(99,(bag[body.product]||0)+1);
       else{if(action==='use'){if(!bag[body.product])throw Object.assign(Error('소지품이 없습니다.'),{status:409});bag[body.product]--;}life.hunger=Math.min(100,life.hunger+(item.hunger||0));life.wellness=Math.min(100,life.wellness+(item.wellness||0));me.health=Math.min(100,me.health+(item.health||0));}
-      me.nextActionAt=Date.now()+5000;applyCityLifeView(me,life,policy);result.service={name:action==='eat'?'식사':action==='treat'?'진료':action==='buy'?'구매':'소지품 사용',test:true,paid:false,price:item.price,health:me.health,hunger:me.hunger,wellness:me.wellness};
+      me.nextActionAt=Date.now()+5000;applyCityLifeView(me,life,policy);result.service={name:action==='eat'?'식사':action==='treat'?'진료':action==='buy'?'구매':'소지품 사용',test:true,paid:false,price:action==='use'?0:item.price,currency:'CITY_CASH',cash,health:me.health,hunger:me.hunger,wellness:me.wellness};
     }
     if(action==='heal'){target.health=Math.min(100,target.health+(me.role==='DOCTOR'?50:25));me.nextActionAt=Date.now()+30000;}
     if(action==='inspect'){result.inspection={nickname:target.nickname,role:target.role,wanted:target.wanted,cardPower:2850000,cards:[{rarity:'SSS',name:'시연 카드 1',title:'전열'},{rarity:'SS',name:'시연 카드 2',title:'전열'},{rarity:'SS',name:'시연 카드 3',title:'중열'},{rarity:'SS',name:'시연 카드 4',title:'후열'},{rarity:'SS',name:'시연 카드 5',title:'후열'}]};me.nextActionAt=Date.now()+10000;}

@@ -1,0 +1,17 @@
+{
+  "checks": [
+    "1440: TEST and seven role weights fit screen",
+    "1440: tester, police, medical, gang and mixed rewards save together",
+    "1440: role/reward values survive reload",
+    "1440: concurrent CMS edit rejects stale save",
+    "1440: city uses custom role settings and TEST cash is credited while game coin and items stay unchanged",
+    "1440: non-tester sees TEST restriction instead of residents",
+    "390: TEST and seven role weights fit screen",
+    "390: tester, police, medical, gang and mixed rewards save together",
+    "390: role/reward values survive reload",
+    "390: concurrent CMS edit rejects stale save",
+    "390: city uses custom role settings and TEST cash is credited while game coin and items stay unchanged",
+    "390: non-tester sees TEST restriction instead of residents"
+  ],
+  "errors": []
+}

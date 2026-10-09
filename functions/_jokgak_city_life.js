@@ -1,5 +1,6 @@
 import {cityLifeKey,CITY_SUPPLIES,applyCityLifeView} from '../shared/jokgak-city-life-v1.mjs';
 import {cityGuard,cityGuardEnd} from './_jokgak_city_rewards.js';
+import {changeCityCash} from '../shared/jokgak-city-cash-v1.mjs';
 const p=(env,sql,...v)=>env.DB.prepare(sql).bind(...v);
 const fail=(message,code='CITY_SERVICE')=>{throw Object.assign(Error(message),{status:409,code});};
 export function cityLifeClaim(env,row,life,requestId){
@@ -32,14 +33,7 @@ export async function prepareCityService(env,{user,action,product,me,life,policy
     life.hunger=Math.min(100,life.hunger+(effect.hunger||0));life.wellness=Math.min(100,life.wellness+(effect.wellness||0));me.health=Math.min(me.maxHealth,me.health+(effect.health||0));
     if(action==='use')bag[product]--;else price=effect.price;
   }
-  const paid=policy.mode==='ON'&&price>0;
-  if(paid){
-    const coin=Number((await p(env,'SELECT coin FROM users WHERE id=?',user.id).first())?.coin||0);
-    if(coin<price)fail('코인이 부족합니다.','CITY_COIN');
-    if(env.DB.dialect==='postgres')statements.push(p(env,'SELECT id FROM users WHERE id=? FOR UPDATE',user.id));
-    const tag=requestId+':cost';
-    statements.push(cityGuard(env,tag,'EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=?)',[user.id,price]),cityGuardEnd(env,tag),p(env,'UPDATE users SET coin=coin-? WHERE id=?',price,user.id),p(env,'INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?',-price,'JOKGAK_CITY_SERVICE:'+requestId+':'+action,user.id));
-  }
+  const cash=changeCityCash(life,policy,-price),paid=policy.mode==='ON'&&price>0;
   me.nextActionAt=now+cfg.serviceCooldownMs;applyCityLifeView(me,life,policy);
-  return {statements,result:{action,product:product||null,name,price,paid,test:policy.mode==='TEST',bag:me.bag,hunger:me.hunger,wellness:me.wellness,health:me.health}};
+  return {statements,result:{action,product:product||null,name,price,paid,test:policy.mode==='TEST',currency:'CITY_CASH',cash,bag:me.bag,hunger:me.hunger,wellness:me.wellness,health:me.health}};
 }
