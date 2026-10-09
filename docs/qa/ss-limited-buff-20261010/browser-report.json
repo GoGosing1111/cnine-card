@@ -1,0 +1,149 @@
+{
+  "source": "canonical server battle + shipped V3 bundle and live wrapper",
+  "reports": [
+    {
+      "label": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "codex": "PASS",
+      "battles": [
+        {
+          "mode": "PVE",
+          "code": "V-990",
+          "mounted": {
+            "speed": 9500,
+            "policyVersion": 4,
+            "sequence": 12
+          },
+          "playback": {
+            "damageCalls": 1,
+            "hpCalls": [
+              {
+                "id": "B:0:MONSTER:1",
+                "input": 89.44,
+                "hp": 89.44
+              }
+            ],
+            "expectedHp": 1239638400,
+            "expectedHpPercent": 89.44,
+            "last": {
+              "code": "V-990",
+              "eventType": "MERCENARY_HIT",
+              "visualVersion": "20261004-approved",
+              "clockOwner": "V3_REGISTERED_GSAP",
+              "authoritative": true,
+              "damageApplications": 1,
+              "playbackRate": 1,
+              "contactSeconds": 1.68,
+              "durationSeconds": 3.6
+            }
+          }
+        },
+        {
+          "mode": "PVP",
+          "code": "V-997",
+          "mounted": {
+            "speed": 9500,
+            "policyVersion": 4,
+            "sequence": 27
+          },
+          "playback": {
+            "damageCalls": 1,
+            "hpCalls": [
+              {
+                "id": "B:3:CN-23EB4B19986D4818",
+                "input": 0,
+                "hp": 0
+              }
+            ],
+            "expectedHp": 0,
+            "expectedHpPercent": 0,
+            "last": {
+              "code": "V-997",
+              "version": "20261009-limited-duo-deployment-v1",
+              "eventType": "MERCENARY_HIT",
+              "impacts": 3,
+              "clockOwner": "V3_REGISTERED_GSAP",
+              "authoritative": true
+            }
+          }
+        }
+      ],
+      "errors": []
+    },
+    {
+      "label": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "codex": "PASS",
+      "battles": [
+        {
+          "mode": "PVE",
+          "code": "V-990",
+          "mounted": {
+            "speed": 9500,
+            "policyVersion": 4,
+            "sequence": 12
+          },
+          "playback": {
+            "damageCalls": 1,
+            "hpCalls": [
+              {
+                "id": "B:0:MONSTER:1",
+                "input": 89.44,
+                "hp": 89.44
+              }
+            ],
+            "expectedHp": 1239638400,
+            "expectedHpPercent": 89.44,
+            "last": {
+              "code": "V-990",
+              "eventType": "MERCENARY_HIT",
+              "visualVersion": "20261004-approved",
+              "clockOwner": "V3_REGISTERED_GSAP",
+              "authoritative": true,
+              "damageApplications": 1,
+              "playbackRate": 1,
+              "contactSeconds": 1.68,
+              "durationSeconds": 3.6
+            }
+          }
+        },
+        {
+          "mode": "PVP",
+          "code": "V-997",
+          "mounted": {
+            "speed": 9500,
+            "policyVersion": 4,
+            "sequence": 27
+          },
+          "playback": {
+            "damageCalls": 1,
+            "hpCalls": [
+              {
+                "id": "B:3:CN-23EB4B19986D4818",
+                "input": 0,
+                "hp": 0
+              }
+            ],
+            "expectedHp": 0,
+            "expectedHpPercent": 0,
+            "last": {
+              "code": "V-997",
+              "version": "20261009-limited-duo-deployment-v1",
+              "eventType": "MERCENARY_HIT",
+              "impacts": 3,
+              "clockOwner": "V3_REGISTERED_GSAP",
+              "authoritative": true
+            }
+          }
+        }
+      ],
+      "errors": []
+    }
+  ]
+}

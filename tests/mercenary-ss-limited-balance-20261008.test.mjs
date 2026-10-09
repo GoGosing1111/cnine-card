@@ -57,9 +57,9 @@ test('prepared skills use actual server events, one resource charge, and bounded
  for(const code of codes)for(const mode of ['PVP','PVE']){
   const a=fighter(ssLimitedSnapshot(code),'A',mode),b={...buildFighter({id:'target',power:1e9},0,'B',null,mode),hp:1e10,maxHp:1e10},events=[];
   const runtime=mercenaryCombat({teams:{A:[a],B:[b]},hit:()=>({damage:100,dodge:false}),damage:(t,n)=>{t.hp-=n;return {hpDamage:n,absorbed:0};},knockout(){},emit:(type,data)=>events.push({type,...data}),clock:()=>0});
-  a.actions=1;runtime.beforeAction(a);assert.equal(runtime.state(a).energy,65);assert.equal(runtime.state(a).cooldown.get(a.skills[0].id),6);
-  for(let action=2;action<=3;action++){a.actions=action;runtime.beforeAction(a);}
-  assert.equal(runtime.state(a).energy,65);assert.equal(events.filter(e=>e.type==='MERCENARY_WINDUP'&&!e.continuation).length,1);
+  a.actions=1;runtime.beforeAction(a);assert.equal(runtime.state(a).energy,80);assert.equal(runtime.state(a).cooldown.get(a.skills[0].id),3);
+  a.actions=2;runtime.beforeAction(a);
+  assert.equal(runtime.state(a).energy,90);assert.equal(events.filter(e=>e.type==='MERCENARY_WINDUP'&&!e.continuation).length,1);
   assert.ok(events.some(e=>e.type==='MERCENARY_HIT'&&e.damage>0));assert.ok(b.hp>0);
  }
  for(const code of codes){const battle=createPveBattleV2({cards:tierCards(2e7),mercenary:ssLimitedSnapshot(code),monster:{id:1,battle_power:6e8},seed:7919});
@@ -83,24 +83,24 @@ test('Valter retains supremacy over all seven SS limited fighters on either side
 });
 
 test('the independent full report meets the requested tier band and retains matchup/sides/formation denominators',()=>{
- const report=JSON.parse(fs.readFileSync(new URL('../docs/ss-limited-matchups-report-20261010.json',import.meta.url),'utf8'));
+ const report=JSON.parse(fs.readFileSync(new URL('../docs/ss-limited-buff-report-20261010.json',import.meta.url),'utf8'));
  assert.equal(report.profileFingerprint,createHash('sha256').update(JSON.stringify(SS_LIMITED_COMBAT)).digest('hex'));
  assert.equal(report.policyFingerprint,matchupPolicyFingerprint());
- assert.equal(report.cmsRevision,61);assert.equal(report.count,128);assert.equal(report.formationCount,35);assert.equal(report.total,250880);
+ assert.equal(report.cmsRevision,61);assert.equal(report.count,64);assert.equal(report.formationCount,35);assert.equal(report.total,125440);
  assert.deepEqual(report.rows.map(r=>r.code),codes);assert.deepEqual(report.excludes,['V-996','V-999']);
  for(const row of report.rows){
-  assert.equal(row.total,35840);assert.equal(row.winRate,row.wins/row.total);assert.equal(row.wins+row.losses+row.draws,row.total);
-  assert.equal(row.validationSeedStart,report.seedStarts[row.code]);assert.ok(row.validationSeedStart>=310001,'independent from calibration seeds');
+  assert.equal(row.total,17920);assert.equal(row.winRate,row.wins/row.total);assert.equal(row.wins+row.losses+row.draws,row.total);
+  assert.equal(row.validationSeedStart,report.seedStarts[row.code]);assert.ok(row.validationSeedStart>=470001,'independent from calibration seeds');
   assert.ok(row.winRate>=SS_LIMITED_TARGET.minWinRate&&row.winRate<=SS_LIMITED_TARGET.maxWinRate,`${row.name}: ${row.winRate}`);
   assert.equal(row.opponents.length,4);assert.equal(row.formations.length,140);assert.equal(row.opponents.reduce((n,r)=>n+r.wins,0),row.wins);
-  for(const opponent of row.opponents){const band=SS_LIMITED_TARGET.matchups[opponent.code];assert.equal(opponent.total,8960);assert.equal(opponent.winRate,opponent.wins/opponent.total);assert.ok(opponent.winRate>=band.min&&opponent.winRate<=band.max,`${row.name} vs ${opponent.name}: ${opponent.winRate}`);}
+  for(const opponent of row.opponents){const band=SS_LIMITED_TARGET.matchups[opponent.code];assert.equal(opponent.total,4480);assert.equal(opponent.winRate,opponent.wins/opponent.total);assert.ok(opponent.winRate>=band.min&&opponent.winRate<=band.max,`${row.name} vs ${opponent.name}: ${opponent.winRate}`);}
   assert.equal(row.sides.A.total,row.sides.B.total);assert.equal(row.sides.A.wins+row.sides.B.wins,row.wins);
   assert.equal(row.groups.BASIC.total+row.groups.EQUIPPED.total,row.total);
  }
 });
 
 test('a small canonical replay reproduces saved holdout formation results exactly',()=>{
- const saved=JSON.parse(fs.readFileSync(new URL('../docs/ss-limited-matchups-report-20261010.json',import.meta.url),'utf8'));
+ const saved=JSON.parse(fs.readFileSync(new URL('../docs/ss-limited-buff-report-20261010.json',import.meta.url),'utf8'));
  const ids=[ssLimitedFormations[0].id,ssLimitedFormations.at(-1).id];
  const replay=measureSSLimitedMatchups({count:saved.count,start:saved.start,seedStarts:saved.seedStarts,codes:['V-990','V-992','V-997'],formationIds:ids});
  for(const row of replay.rows)for(const f of row.formations){const original=saved.rows.find(r=>r.code===row.code).formations.find(r=>r.opponent===f.opponent&&r.formation===f.formation);assert.deepEqual(f,original);}

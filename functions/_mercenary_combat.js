@@ -17,7 +17,7 @@ import {resolveMangisaVolley} from './_mercenary_mangisa.js';
 import {resolveRagnielJudgment} from './_mercenary_ragniel.js';
 import {VALTER_CODE,VALTER_COMBAT,VALTER_AREA_SKILL,VALTER_AREA_MECHANIC,isValter,valterActionCredit} from '../shared/mercenary-valter-v1.mjs';
 import {resolveValterArea} from './_mercenary_valter.js';
-import {SS_LIMITED_COMBAT,SS_LIMITED_BALANCE_VERSION,SS_LIMITED_TEMPO,ssLimitedActionCredit} from '../shared/mercenary-ss-limited-v1.mjs';
+import {SS_LIMITED_COMBAT,SS_LIMITED_BALANCE_VERSION,SS_LIMITED_TEMPO,ssLimitedActionCredit,ssLimitedProfile} from '../shared/mercenary-ss-limited-v1.mjs';
 import {ssRearPveInterval,ssRearPveHealing} from '../shared/mercenary-ss-rear-pve-v1.mjs';
 const living=x=>x?.alive!==false&&x?.hp>0&&!x?.untargetable&&!x?.isBattleSuit;
 const ordered=team=>team.filter(living).sort((a,b)=>a.slot-b.slot||String(a.id).localeCompare(String(b.id)));
@@ -45,7 +45,7 @@ export function mercenaryTurnCadence(teams){
   },
   acted(actor){
    // Fractional progress funds five Berkan turns per four card actions or
-   // three Valter turns per two, or seventeen SS limited turns per sixteen.
+   // three Valter turns per two, or two SS limited turns per card action.
    // Mercenary/suit actions create no new credit.
    if(actor.isMercenary)debt[actor.side]=credit(actor.side)>1?Math.max(0,debt[actor.side]-interval(actor.side)):0;
    else if(regular(actor)){
@@ -104,7 +104,7 @@ export const MERCENARY_SKILL_CAP_SCALE=Object.freeze({
 export function mercenarySkillCapActions(actor,skill,ranged,sequentialCount){
  const actions=ranged?Math.max(1,sequentialCount||1):(MERCENARY_SKILL_RESOLVE_ACTIONS[skill?.mechanic]??1);
  const scale=skill?.id===BERKAN_SKILL_ID?berkanStarfallCapScale(actor):skill?.id===CRYVERN_SKILL_ID?cryvernCrownCapScale(actor):(MERCENARY_SKILL_CAP_SCALE[skill?.id]??1);
- return actions*scale*mercenaryPvpTierOffense(actor);
+ return actions*scale*mercenaryPvpTierOffense(actor)*(actor?.battleMode==='PVP'?(ssLimitedProfile(actor)?.pvpSkillCapScale??1):1);
 }
 // 피해가 없는 보조 스킬은 행동을 잡아먹지 않는다. 용병이 스킬을 쓰느라 공격을 거르면
 // 그 행동이 통째로 손해가 되어, 스킬을 쓸수록 약해지는 역전이 생긴다.
@@ -361,6 +361,10 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
    if(b.parry&&a.actions>=b.parry.expires)delete b.parry;
    if(!a.isMercenary)return false;
    if(!living(a))return true;
+   const limited=ssLimitedProfile(a);
+   if(limited&&a.statMode==='RANK_FIXED'&&Number.isSafeInteger(a.actions)&&a.actions>0&&st.lastEnergyAction!==a.actions){
+    st.lastEnergyAction=a.actions;st.energy=Math.min(a.combat.energyMax,st.energy+limited.actionEnergy);
+   }
    if(season2?.skillBlocked(a)){if(st.pending)cancel(a,'MAGIC_S2_COMMAND_SEVERANCE');return false;}
    if(apocalypseSealed(a)){if(st.pending)cancel(a,'APOCALYPSE_SEALED');return false;}
    if(a.stunned||a.silenced){if(st.pending)cancel(a,'CONTROLLED');return Boolean(a.stunned);}

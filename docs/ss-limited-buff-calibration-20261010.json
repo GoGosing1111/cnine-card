@@ -1,0 +1,729 @@
+{
+  "scope": "CALIBRATION_ONLY_NOT_HOLDOUT",
+  "core": {
+    "speedScale": 2,
+    "actionCredit": 2,
+    "statScaleFromV3": 1.25,
+    "cost": 20,
+    "cooldown": 2,
+    "actionEnergy": 10,
+    "pvpSkillCapScale": 1.5
+  },
+  "rows": [
+    {
+      "code": "V-990",
+      "count": 32,
+      "start": 440001,
+      "scales": {
+        "V-021": 3,
+        "V-046": 3,
+        "V-049": 0.1588,
+        "V-055": 0.1009
+      },
+      "calibration": [
+        {
+          "opponent": "V-049",
+          "target": 0.78,
+          "chosen": {
+            "factor": 0.1588,
+            "winRate": 0.7875,
+            "wins": 1764,
+            "total": 2240
+          },
+          "trials": [
+            {
+              "factor": 0.76,
+              "winRate": 0.9450892857142857,
+              "wins": 2117,
+              "total": 2240
+            },
+            {
+              "factor": 0.39,
+              "winRate": 0.8772321428571429,
+              "wins": 1965,
+              "total": 2240
+            },
+            {
+              "factor": 0.205,
+              "winRate": 0.8098214285714286,
+              "wins": 1814,
+              "total": 2240
+            },
+            {
+              "factor": 0.1125,
+              "winRate": 0.7540178571428572,
+              "wins": 1689,
+              "total": 2240
+            },
+            {
+              "factor": 0.1588,
+              "winRate": 0.7875,
+              "wins": 1764,
+              "total": 2240
+            }
+          ]
+        },
+        {
+          "opponent": "V-055",
+          "target": 0.78,
+          "chosen": {
+            "factor": 0.1009,
+            "winRate": 0.7776785714285714,
+            "wins": 1742,
+            "total": 2240
+          },
+          "trials": [
+            {
+              "factor": 0.76,
+              "winRate": 0.9915178571428571,
+              "wins": 2221,
+              "total": 2240
+            },
+            {
+              "factor": 0.39,
+              "winRate": 0.9602678571428571,
+              "wins": 2151,
+              "total": 2240
+            },
+            {
+              "factor": 0.205,
+              "winRate": 0.9214285714285714,
+              "wins": 2064,
+              "total": 2240
+            },
+            {
+              "factor": 0.1125,
+              "winRate": 0.7910714285714285,
+              "wins": 1772,
+              "total": 2240
+            },
+            {
+              "factor": 0.0663,
+              "winRate": 0.7651785714285714,
+              "wins": 1714,
+              "total": 2240
+            },
+            {
+              "factor": 0.0894,
+              "winRate": 0.7723214285714286,
+              "wins": 1730,
+              "total": 2240
+            },
+            {
+              "factor": 0.1009,
+              "winRate": 0.7776785714285714,
+              "wins": 1742,
+              "total": 2240
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "V-991",
+      "count": 32,
+      "start": 440001,
+      "scales": {
+        "V-021": 3,
+        "V-046": 3,
+        "V-049": 0.124,
+        "V-055": 0.3958
+      },
+      "calibration": [
+        {
+          "opponent": "V-049",
+          "target": 0.78,
+          "chosen": {
+            "factor": 0.124,
+            "winRate": 0.7834821428571429,
+            "wins": 1755,
+            "total": 2240
+          },
+          "trials": [
+            {
+              "factor": 0.76,
+              "winRate": 0.9772321428571429,
+              "wins": 2189,
+              "total": 2240
+            },
+            {
+              "factor": 0.39,
+              "winRate": 0.9392857142857143,
+              "wins": 2104,
+              "total": 2240
+            },
+            {
+              "factor": 0.205,
+              "winRate": 0.8571428571428571,
+              "wins": 1920,
+              "total": 2240
+            },
+            {
+              "factor": 0.1125,
+              "winRate": 0.7723214285714286,
+              "wins": 1730,
+              "total": 2240
+            },
+            {
+              "factor": 0.1588,
+              "winRate": 0.815625,
+              "wins": 1827,
+              "total": 2240
+            },
+            {
+              "factor": 0.1356,
+              "winRate": 0.796875,
+              "wins": 1785,
+              "total": 2240
+            },
+            {
+              "factor": 0.124,
+              "winRate": 0.7834821428571429,
+              "wins": 1755,
+              "total": 2240
+            }
+          ]
+        },
+        {
+          "opponent": "V-055",
+          "target": 0.78,
+          "chosen": {
+            "factor": 0.3958,
+            "winRate": 0.7758928571428572,
+            "wins": 1738,
+            "total": 2240
+          },
+          "trials": [
+            {
+              "factor": 0.76,
+              "winRate": 0.9482142857142857,
+              "wins": 2124,
+              "total": 2240
+            },
+            {
+              "factor": 0.39,
+              "winRate": 0.7660714285714286,
+              "wins": 1716,
+              "total": 2240
+            },
+            {
+              "factor": 0.575,
+              "winRate": 0.8946428571428572,
+              "wins": 2004,
+              "total": 2240
+            },
+            {
+              "factor": 0.4825,
+              "winRate": 0.8401785714285714,
+              "wins": 1882,
+              "total": 2240
+            },
+            {
+              "factor": 0.4363,
+              "winRate": 0.8129464285714286,
+              "wins": 1821,
+              "total": 2240
+            },
+            {
+              "factor": 0.4132,
+              "winRate": 0.7933035714285714,
+              "wins": 1777,
+              "total": 2240
+            },
+            {
+              "factor": 0.4016,
+              "winRate": 0.7879464285714286,
+              "wins": 1765,
+              "total": 2240
+            },
+            {
+              "factor": 0.3958,
+              "winRate": 0.7758928571428572,
+              "wins": 1738,
+              "total": 2240
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "V-992",
+      "count": 32,
+      "start": 440001,
+      "scales": {
+        "V-021": 3,
+        "V-046": 3,
+        "V-049": 0.1588,
+        "V-055": 0.5518
+      },
+      "calibration": [
+        {
+          "opponent": "V-049",
+          "target": 0.78,
+          "chosen": {
+            "factor": 0.1588,
+            "winRate": 0.7776785714285714,
+            "wins": 1742,
+            "total": 2240
+          },
+          "trials": [
+            {
+              "factor": 0.76,
+              "winRate": 0.9959821428571428,
+              "wins": 2231,
+              "total": 2240
+            },
+            {
+              "factor": 0.39,
+              "winRate": 0.9459821428571429,
+              "wins": 2119,
+              "total": 2240
+            },
+            {
+              "factor": 0.205,
+              "winRate": 0.8116071428571429,
+              "wins": 1818,
+              "total": 2240
+            },
+            {
+              "factor": 0.1125,
+              "winRate": 0.7669642857142858,
+              "wins": 1718,
+              "total": 2240
+            },
+            {
+              "factor": 0.1588,
+              "winRate": 0.7776785714285714,
+              "wins": 1742,
+              "total": 2240
+            }
+          ]
+        },
+        {
+          "opponent": "V-055",
+          "target": 0.78,
+          "chosen": {
+            "factor": 0.5518,
+            "winRate": 0.7741071428571429,
+            "wins": 1734,
+            "total": 2240
+          },
+          "trials": [
+            {
+              "factor": 0.76,
+              "winRate": 0.8839285714285714,
+              "wins": 1980,
+              "total": 2240
+            },
+            {
+              "factor": 0.39,
+              "winRate": 0.5919642857142857,
+              "wins": 1326,
+              "total": 2240
+            },
+            {
+              "factor": 0.575,
+              "winRate": 0.8004464285714286,
+              "wins": 1793,
+              "total": 2240
+            },
+            {
+              "factor": 0.4825,
+              "winRate": 0.7334821428571429,
+              "wins": 1643,
+              "total": 2240
+            },
+            {
+              "factor": 0.5287,
+              "winRate": 0.7629464285714286,
+              "wins": 1709,
+              "total": 2240
+            },
+            {
+              "factor": 0.5518,
+              "winRate": 0.7741071428571429,
+              "wins": 1734,
+              "total": 2240
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "V-993",
+      "count": 32,
+      "start": 440001,
+      "scales": {
+        "V-021": 3,
+        "V-046": 3,
+        "V-049": 0.205,
+        "V-055": 0.205
+      },
+      "calibration": [
+        {
+          "opponent": "V-049",
+          "target": 0.78,
+          "chosen": {
+            "factor": 0.205,
+            "winRate": 0.7790178571428571,
+            "wins": 1745,
+            "total": 2240
+          },
+          "trials": [
+            {
+              "factor": 0.76,
+              "winRate": 0.9433035714285715,
+              "wins": 2113,
+              "total": 2240
+            },
+            {
+              "factor": 0.39,
+              "winRate": 0.8995535714285714,
+              "wins": 2015,
+              "total": 2240
+            },
+            {
+              "factor": 0.205,
+              "winRate": 0.7790178571428571,
+              "wins": 1745,
+              "total": 2240
+            }
+          ]
+        },
+        {
+          "opponent": "V-055",
+          "target": 0.78,
+          "chosen": {
+            "factor": 0.205,
+            "winRate": 0.7790178571428571,
+            "wins": 1745,
+            "total": 2240
+          },
+          "trials": [
+            {
+              "factor": 0.76,
+              "winRate": 0.9732142857142857,
+              "wins": 2180,
+              "total": 2240
+            },
+            {
+              "factor": 0.39,
+              "winRate": 0.8834821428571429,
+              "wins": 1979,
+              "total": 2240
+            },
+            {
+              "factor": 0.205,
+              "winRate": 0.7790178571428571,
+              "wins": 1745,
+              "total": 2240
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "V-994",
+      "count": 32,
+      "start": 440001,
+      "scales": {
+        "V-021": 3,
+        "V-046": 3,
+        "V-049": 0.1356,
+        "V-055": 0.3958
+      },
+      "calibration": [
+        {
+          "opponent": "V-049",
+          "target": 0.78,
+          "chosen": {
+            "factor": 0.1356,
+            "winRate": 0.78125,
+            "wins": 1750,
+            "total": 2240
+          },
+          "trials": [
+            {
+              "factor": 0.76,
+              "winRate": 0.9772321428571429,
+              "wins": 2189,
+              "total": 2240
+            },
+            {
+              "factor": 0.39,
+              "winRate": 0.9258928571428572,
+              "wins": 2074,
+              "total": 2240
+            },
+            {
+              "factor": 0.205,
+              "winRate": 0.8459821428571429,
+              "wins": 1895,
+              "total": 2240
+            },
+            {
+              "factor": 0.1125,
+              "winRate": 0.7647321428571429,
+              "wins": 1713,
+              "total": 2240
+            },
+            {
+              "factor": 0.1588,
+              "winRate": 0.8017857142857143,
+              "wins": 1796,
+              "total": 2240
+            },
+            {
+              "factor": 0.1356,
+              "winRate": 0.78125,
+              "wins": 1750,
+              "total": 2240
+            }
+          ]
+        },
+        {
+          "opponent": "V-055",
+          "target": 0.78,
+          "chosen": {
+            "factor": 0.3958,
+            "winRate": 0.7758928571428572,
+            "wins": 1738,
+            "total": 2240
+          },
+          "trials": [
+            {
+              "factor": 0.76,
+              "winRate": 0.9482142857142857,
+              "wins": 2124,
+              "total": 2240
+            },
+            {
+              "factor": 0.39,
+              "winRate": 0.7660714285714286,
+              "wins": 1716,
+              "total": 2240
+            },
+            {
+              "factor": 0.575,
+              "winRate": 0.8946428571428572,
+              "wins": 2004,
+              "total": 2240
+            },
+            {
+              "factor": 0.4825,
+              "winRate": 0.8401785714285714,
+              "wins": 1882,
+              "total": 2240
+            },
+            {
+              "factor": 0.4363,
+              "winRate": 0.8129464285714286,
+              "wins": 1821,
+              "total": 2240
+            },
+            {
+              "factor": 0.4132,
+              "winRate": 0.7933035714285714,
+              "wins": 1777,
+              "total": 2240
+            },
+            {
+              "factor": 0.4016,
+              "winRate": 0.7879464285714286,
+              "wins": 1765,
+              "total": 2240
+            },
+            {
+              "factor": 0.3958,
+              "winRate": 0.7758928571428572,
+              "wins": 1738,
+              "total": 2240
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "V-997",
+      "count": 32,
+      "start": 440001,
+      "scales": {
+        "V-021": 3,
+        "V-046": 3,
+        "V-049": 0.2975,
+        "V-055": 0.3438
+      },
+      "calibration": [
+        {
+          "opponent": "V-049",
+          "target": 0.78,
+          "chosen": {
+            "factor": 0.2975,
+            "winRate": 0.7808035714285714,
+            "wins": 1749,
+            "total": 2240
+          },
+          "trials": [
+            {
+              "factor": 0.76,
+              "winRate": 0.9723214285714286,
+              "wins": 2178,
+              "total": 2240
+            },
+            {
+              "factor": 0.39,
+              "winRate": 0.8446428571428571,
+              "wins": 1892,
+              "total": 2240
+            },
+            {
+              "factor": 0.205,
+              "winRate": 0.7080357142857143,
+              "wins": 1586,
+              "total": 2240
+            },
+            {
+              "factor": 0.2975,
+              "winRate": 0.7808035714285714,
+              "wins": 1749,
+              "total": 2240
+            }
+          ]
+        },
+        {
+          "opponent": "V-055",
+          "target": 0.78,
+          "chosen": {
+            "factor": 0.3438,
+            "winRate": 0.7767857142857143,
+            "wins": 1740,
+            "total": 2240
+          },
+          "trials": [
+            {
+              "factor": 0.76,
+              "winRate": 0.9089285714285714,
+              "wins": 2036,
+              "total": 2240
+            },
+            {
+              "factor": 0.39,
+              "winRate": 0.7879464285714286,
+              "wins": 1765,
+              "total": 2240
+            },
+            {
+              "factor": 0.205,
+              "winRate": 0.7098214285714286,
+              "wins": 1590,
+              "total": 2240
+            },
+            {
+              "factor": 0.2975,
+              "winRate": 0.7517857142857143,
+              "wins": 1684,
+              "total": 2240
+            },
+            {
+              "factor": 0.3438,
+              "winRate": 0.7767857142857143,
+              "wins": 1740,
+              "total": 2240
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "V-998",
+      "count": 32,
+      "start": 440001,
+      "scales": {
+        "V-021": 3,
+        "V-046": 3,
+        "V-049": 0.1356,
+        "V-055": 0.205
+      },
+      "calibration": [
+        {
+          "opponent": "V-049",
+          "target": 0.78,
+          "chosen": {
+            "factor": 0.1356,
+            "winRate": 0.7745535714285714,
+            "wins": 1735,
+            "total": 2240
+          },
+          "trials": [
+            {
+              "factor": 0.76,
+              "winRate": 0.9816964285714286,
+              "wins": 2199,
+              "total": 2240
+            },
+            {
+              "factor": 0.39,
+              "winRate": 0.9473214285714285,
+              "wins": 2122,
+              "total": 2240
+            },
+            {
+              "factor": 0.205,
+              "winRate": 0.8433035714285714,
+              "wins": 1889,
+              "total": 2240
+            },
+            {
+              "factor": 0.1125,
+              "winRate": 0.7665178571428571,
+              "wins": 1717,
+              "total": 2240
+            },
+            {
+              "factor": 0.1588,
+              "winRate": 0.7977678571428571,
+              "wins": 1787,
+              "total": 2240
+            },
+            {
+              "factor": 0.1356,
+              "winRate": 0.7745535714285714,
+              "wins": 1735,
+              "total": 2240
+            }
+          ]
+        },
+        {
+          "opponent": "V-055",
+          "target": 0.78,
+          "chosen": {
+            "factor": 0.205,
+            "winRate": 0.775,
+            "wins": 1736,
+            "total": 2240
+          },
+          "trials": [
+            {
+              "factor": 0.76,
+              "winRate": 0.9540178571428571,
+              "wins": 2137,
+              "total": 2240
+            },
+            {
+              "factor": 0.39,
+              "winRate": 0.8026785714285715,
+              "wins": 1798,
+              "total": 2240
+            },
+            {
+              "factor": 0.205,
+              "winRate": 0.775,
+              "wins": 1736,
+              "total": 2240
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

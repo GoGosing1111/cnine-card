@@ -13,16 +13,18 @@ const codes=Object.keys(SS_LIMITED_COMBAT),fighter=(code,side='A',mode='PVP')=>b
 const card=(side='A',ownerId)=>({id:side+':card:'+ownerId,side,ownerId,alive:true,hp:100});
 function drain(c){const ids=[];let actor;while((actor=c.pending())){assert.ok(ids.length<4,'no recursive extra actions');ids.push(actor.id);c.acted(actor);}return ids;}
 
-test('all seven use the mean ordinary SSS natural speed and reserved action cadence in PVE and PVP',()=>{
+test('all seven receive two reserved actions and doubled natural speed in PVE and PVP',()=>{
  for(const mode of ['PVE','PVP']){
   const reference=sssReferences.map(s=>measureMercenaryTempo(s,mode)),mean=reference.reduce((n,r)=>n+r.reservedActions,0)/reference.length;
   assert.equal(mean,68);
   for(const code of codes){
    const actor=fighter(code,'A',mode),base=buildFighter({id:code,power:180000,type:'NONE'},5,'A',null,mode),measured=measureMercenaryTempo(ssLimitedSnapshot(code),mode);
    assert.equal(actor.speed,Math.round(base.speed*SS_LIMITED_TEMPO.speedScale));assert.equal(actor.stats.speed,actor.speed);assert.equal(actor.rank,'SS');
-   assert.equal(measured.reservedActions,mean);assert.deepEqual(measured.counts,Array.from({length:64},(_,i)=>i%16===15?2:1));
-   assert.equal(measured.energyMax,100);assert.equal(measured.energyPerBasic,10);assert.equal(measured.skills[0].cost,35);assert.equal(measured.skills[0].cooldownTurns,5);
-   assert.ok(measured.casts.every((c,i)=>c.energyAfter>=0&&(!i||c.action-measured.casts[i-1].action>=5)));
+   assert.equal(measured.reservedActions,128);assert.deepEqual(measured.counts,Array(64).fill(2));
+   assert.equal(measured.energyMax,100);assert.equal(measured.energyPerBasic,10);assert.equal(measured.skills[0].cost,20);assert.equal(measured.skills[0].cooldownTurns,2);
+   const cycle=code==='V-993'?3:2;
+   assert.deepEqual(measured.casts.map(c=>c.action),Array.from({length:Math.ceil(64/cycle)},(_,i)=>1+i*cycle),'a full 64-action fight never waits for energy');
+   assert.ok(measured.casts.every(c=>c.energyAfter>=0));
   }
  }
  for(const code of [...SS_LIMITED_TARGET.excludes,'V-004','constructor','__proto__'])assert.equal(ssLimitedActionCredit([{code,rank:'SS',edition:'LIMITED',statMode:'RANK_FIXED',isMercenary:true,hp:1}]),1);
@@ -36,7 +38,7 @@ test('both sides accrue only allied card actions, with no ghost turns or suit/mo
    for(const extra of [{isBattleSuit:true,actorKind:'BATTLE_SUIT'},{isMonster:true},{hp:0}])c.acted({...ally,...extra});
    c.acted(enemy);assert.deepEqual(drain(c),[]);c.acted(ally);count+=drain(c).length;
   }
-  assert.equal(count,17);assert.equal(c.pending(),null);
+  assert.equal(count,32);assert.equal(c.pending(),null);
   actor.hp=0;actor.alive=false;for(let i=0;i<16;i++)c.acted(ally);assert.equal(c.pending(),null);
  }
 });
@@ -44,19 +46,20 @@ test('both sides accrue only allied card actions, with no ghost turns or suit/mo
 test('duo credit remains owner-local and last-stand PVP responses preserve the same cadence',()=>{
  const a=card('A',1),b=card('A',2),enemy=card('B',3),m={...fighter('V-990'),ownerId:1},n={...fighter('V-998'),ownerId:2};
  const c=mercenaryTurnCadence({A:[a,b,m,n],B:[enemy]});
- for(const [ally,merc]of [[a,m],[b,n]]){let count=0;for(let i=0;i<16;i++){c.acted(ally);const actions=drain(c);assert.ok(actions.every(id=>id===merc.id));count+=actions.length;}assert.equal(count,17);}
- a.hp=0;a.alive=false;let count=0;for(let i=0;i<16;i++){c.acted(enemy);const actions=drain(c);assert.ok(actions.every(id=>id===m.id));count+=actions.length;}assert.equal(count,17);
+ for(const [ally,merc]of [[a,m],[b,n]]){let count=0;for(let i=0;i<16;i++){c.acted(ally);const actions=drain(c);assert.ok(actions.every(id=>id===merc.id));count+=actions.length;}assert.equal(count,32);}
+ a.hp=0;a.alive=false;let count=0;for(let i=0;i<16;i++){c.acted(enemy);const actions=drain(c);assert.ok(actions.every(id=>id===m.id));count+=actions.length;}assert.equal(count,32);
 });
 
 test('additional visual impacts cannot recover energy or repeat a paid cast',()=>{
  for(const code of codes){
   const actor=fighter(code),target={...buildFighter({id:'target',power:1e9},0,'B',null,'PVP'),hp:1e12,maxHp:1e12},events=[];
   const r=mercenaryCombat({teams:{A:[actor],B:[target]},hit:()=>({damage:1,dodge:false}),damage:(t,n)=>{t.hp-=n;return {hpDamage:n,absorbed:0};},knockout(){},clock:()=>0,emit:(type,data)=>events.push({type,...data})});
-  actor.actions=1;r.beforeAction(actor);assert.equal(r.state(actor).energy,65);
-  for(let i=0;i<10;i++)r.afterBasic(actor,target,true,{additional:true});assert.equal(r.state(actor).energy,65);
-  for(let action=2;action<6;action++){actor.actions=action;if(!r.beforeAction(actor))r.afterBasic(actor,target,true);}
+  actor.actions=1;r.beforeAction(actor);assert.equal(r.state(actor).energy,80);
+  for(let i=0;i<10;i++)r.afterBasic(actor,target,true,{additional:true});assert.equal(r.state(actor).energy,80);
+  actor.actions=2;r.beforeAction(actor);assert.equal(r.state(actor).energy,90);
+  r.beforeAction(actor);assert.equal(r.state(actor).energy,90,'revisiting the same action cannot regenerate twice');
   assert.equal(events.filter(e=>e.type==='MERCENARY_WINDUP'&&!e.continuation).length,1);
-  assert.equal(r.state(actor).cooldown.get(actor.skills[0].id),6);
+  assert.equal(r.state(actor).cooldown.get(actor.skills[0].id),3);
  }
 });
 
@@ -74,6 +77,6 @@ test('canonical PVE, PVP and duo publish adjusted speed without changing regular
 
 test('codex explains the SS limited tier and action policy without applying it to SSS limited',()=>{
  const data=mercenaryCodexDocument({payload_json:JSON.stringify(MERCENARY_CMS_SEED.document),revision:61});
- for(const code of codes){const c=data.cards.find(c=>c.code===code);assert.match(c.combatLinkDescription,/일반 SSS/);assert.match(c.combatLinkDescription,/16회.*17회/);assert.equal(c.rank,'SS');assert.equal(c.acquisitionEnabled,false);}
+ for(const code of codes){const c=data.cards.find(c=>c.code===code);assert.match(c.combatLinkDescription,/일반 SSS/);assert.match(c.combatLinkDescription,/1회 행동당.*2회/);assert.match(c.combatLinkDescription,/에너지 10.*비용은 20.*자기 2행동/);assert.equal(c.rank,'SS');assert.equal(c.acquisitionEnabled,false);}
  for(const code of SS_LIMITED_TARGET.excludes)assert.equal(data.cards.find(c=>c.code===code).combatLinkDescription,undefined);
 });
