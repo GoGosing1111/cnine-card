@@ -78,7 +78,9 @@ test('HUD rereads updated balances after rewards/spending without changing store
 test('header script and injected icon stylesheet are cache-busted together', () => {
   const version = loadHud(null).version;
   assert.equal(version, '2108-shared-navigation');
-  assert.ok(read('index.html').includes(`js/soopketmon-v21-exact-shell-adapter.js?v=${version}`));
+  const src=read('index.html').match(/src="([^"\n]*soopketmon-v21-exact-shell-adapter\.js\?[^"\n]+)"/)?.[1];
+  assert.ok(src,'shared shell must retain its cache version');
+  assert.equal(new URL(src.replaceAll('&amp;','&'),'https://test.invalid/').searchParams.get('v'),version);
   assert.ok(shell.includes('link.href = `${cssHref(filename)}?v=${VERSION}`;'));
   const css = read('css/soopketmon-v21-exact-base.css');
   assert.match(css, /\.resource-chip\.master-star i\s*\{[^}]*color:#fff1ae/);

@@ -111,9 +111,10 @@ test('codex keeps public catalog browsing while account writes are limited to th
 test('public page and live entry use synchronized cache tags and revalidation headers', () => {
   assert.match(index, /js\/app\.js\?v=[0-9][A-Za-z0-9-]+/);
   assert.match(sw, /soop-card-shell-v[0-9][A-Za-z0-9-]+/);
-  assert.match(index, /exact-shell-adapter\.js\?v=2108-shared-navigation/);
-  assert.match(index, /runtime-router\.js\?v=2083-clan-prison-camp/);
-  assert.match(index, /command-icons\.js\?v=1\.5\.0-mercenary-codex/);
+  for(const [file,version] of [['soopketmon-v21-exact-shell-adapter.js','2108-shared-navigation'],['soopketmon-v21-runtime-router.js','2083-clan-prison-camp'],['soopketmon-v21-command-icons.js','1.5.0-mercenary-codex']]){
+    const src=[...index.matchAll(/src="([^"\n]+)"/g)].map(m=>m[1]).find(src=>src.includes('/'+file+'?'));
+    assert.ok(src,file);assert.equal(new URL(src.replaceAll('&amp;','&'),'https://test.invalid/').searchParams.get('v'),version);
+  }
   assert.match(html, /mercenary-codex\/app\.mjs\?balance=20261008-ss-rear&amp;limited=20261004-approved&amp;v=2133/);
   assert.match(html, /mercenary-codex\/style\.css\?v=2133/);
   assert.match(read('mercenary-codex/style.css'), /search-field input\{height:44px/);
