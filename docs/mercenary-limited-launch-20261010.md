@@ -14,6 +14,7 @@
 - 새 서버 검사 `tests/mercenary-limited-launch-20261010.test.mjs` 5개 통과: CMS OFF→ON→OFF와 실제 개봉/확정 영수증, 불완전 ON 저장 거부, SS/SSS 한도 0·최대 가중치 제외, 헬리오스 승인 원본/파생 자산 검증.
 - 실제 CMS/계약실 모듈과 실제 팩 API를 격리 PostgreSQL fixture에 연결해 PC 1440×1000 / 모바일 390×844 검수. 현재 상태와 선택 구분, ON/OFF 저장, 헬리오스 CMS/명부 이미지 디코딩, 개봉/확정 결과, OFF 후 차단, 가로 넘침 없음, JS 오류/실패 요청 0. `docs/qa/mercenary-limited-launch-20261010/`에 캡처와 JSON을 보존한다.
 - 실제 직전 운영: `c98bc113e056aafd0b181849916585c5cc35bab8`, Pages `d2c521fa-e5f5-424e-81a1-f500d4a40368`. 이후 Valter 한도 운영 도구/문서 커밋은 이미 관련 검수·DB 적용을 마친 이력이다.
-- 공식 `npm run deploy:production -- --scoped`에서 기존 팩/혼합 풀/일일 제한/헬리오스 등록 회귀와 자동 Worker 문법 검사를 한 번 실행한다. 이미 통과한 새 5개와 UI 검사는 반복하지 않는다. 출시/캐시/Hyperdrive·깨끗한 커밋·origin/main 조건을 유지한다.
+- 첫 공식 scoped 배포의 기존 팩/혼합 풀/일일 제한/헬리오스 등록 회귀는 30개 중 29개가 통과했다. `helios-sss-limited-registration-20261009.test.mjs`의 공개 도감 shell 전체 문자열 비교 1개는 기존 HTML의 `jokgakCity=20261010-city4` 캐시 주소가 builder에 반영되지 않아 실패했다. 해당 HTML과 builder는 직전 운영 커밋 이후 변경되지 않았으며 이번 팩 기능과 무관하다. 업로드 전 검사 단계에서 중단됐다.
+- 무관한 도감 shell을 수정하거나 통과한 29개·새 서버 5개·PC/모바일 검수를 반복하지 않는다. 남은 변경 테스트 `tests/mercenary-limited-deployment-20261009.test.mjs`로 팩 출시 플래그와 기존 편성/전투 정책 보존을 확인하고, 자동 Worker 문법 검사 및 공식 `npm run deploy:production -- --scoped`를 진행한다. 출시/캐시/Hyperdrive·깨끗한 커밋·origin/main 조건을 유지한다.
 - 메인 팩 로더·계약실·공유 정책·CMS 모듈/스타일의 캐시를 `20261010-on`으로 갱신했다. 운영 이미지 SHA-256과 공개 config를 배포 후 확인한다.
 - 운영 ON은 배포 후 기존 `saveLimitedPack` 경로에 사전 준비한 전체 설정을 그대로 보내 mode만 ON으로 바꾼다. 요청 ID `ops_limited_pack_on_20261010_v1`과 기존 CMS 영수증으로 재실행을 보호하며 실제 운영 구매는 실행하지 않는다.
