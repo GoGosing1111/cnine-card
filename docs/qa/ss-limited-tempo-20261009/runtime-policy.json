@@ -1,0 +1,25 @@
+{
+  "checkedAt": "2026-10-09T13:57:24.815Z",
+  "scope": "READ_ONLY_COMBAT_POLICY",
+  "matchesFixture": true,
+  "combat": {
+    "energyMax": 100,
+    "energyPerBasic": 10,
+    "windupTurns": 1,
+    "statusTurns": 2,
+    "armorReductionPercent": 20,
+    "interceptPercent": 40,
+    "parryPercent": 40,
+    "orderPercent": 15,
+    "veilPercent": 25,
+    "finisherHpPercent": 30,
+    "finisherBonusPercent": 50,
+    "focusBonusPercent": 40,
+    "poisonPercent": 40,
+    "restraintHits": 2,
+    "restraintPercent": 25,
+    "suppressGauge": 20,
+    "reloadGauge": 20,
+    "powerGrowthPercentPerLevel": 0
+  }
+}

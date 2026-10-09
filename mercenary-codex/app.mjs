@@ -79,6 +79,7 @@ function renderSelection(){
   if(c.edition==='LIMITED'){
     $('inspection').classList.add('limited-inspection');
     $('inspection').querySelector('.combat-panel').innerHTML=`<div class="panel-heading"><h2>리미티드 컬렉션</h2><button type="button" class="favorite-button" data-favorite aria-pressed="${favorites.has(c.code)}" aria-label="${esc(c.name)} 즐겨찾기">${favorites.has(c.code)?'★':'☆'}</button></div><div class="limited-edition-mark"><span>LIMITED EDITION</span><h3>${esc(c.name)}</h3>${c.title?`<p>${esc(c.title)}</p>`:""}</div>${deploymentHtml(c)}<dl class="limited-record"><div><dt>용병 등급</dt><dd>${esc(c.rank||'미정')}</dd></div><div><dt>공개 리소스</dt><dd>${c.battleSprite?'원화 · 전투 SD':'카드 원화'}</dd></div><div><dt>전투 편성</dt><dd>${c.deploymentEnabled?'보유 시 가능':'준비 중'}</dd></div></dl><div class="skill-empty"><b>${c.deploymentEnabled?'리미티드 전투 편성':'리미티드 선공개'}</b><p>${c.deploymentEnabled?'보유한 리미티드 용병을 PVE와 PVP에 각각 편성할 수 있습니다.':'전투 편성을 준비 중입니다.'}<br>리미티드 용병팩 출시는 추후 안내됩니다.</p></div>`;
+    if(c.combatLinkDescription)$('inspection').querySelector('.combat-panel').insertAdjacentHTML('beforeend',`<p class="balance-note limited-combat-note"><b>전투 성능 · 행동 주기</b><br>${esc(c.combatLinkDescription)}</p>`);
   }else $('inspection').classList.remove('limited-inspection');
   renderMedia();
 }

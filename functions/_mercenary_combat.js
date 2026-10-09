@@ -17,7 +17,7 @@ import {resolveMangisaVolley} from './_mercenary_mangisa.js';
 import {resolveRagnielJudgment} from './_mercenary_ragniel.js';
 import {VALTER_CODE,VALTER_COMBAT,VALTER_AREA_SKILL,VALTER_AREA_MECHANIC,isValter,valterActionCredit} from '../shared/mercenary-valter-v1.mjs';
 import {resolveValterArea} from './_mercenary_valter.js';
-import {SS_LIMITED_COMBAT,SS_LIMITED_BALANCE_VERSION} from '../shared/mercenary-ss-limited-v1.mjs';
+import {SS_LIMITED_COMBAT,SS_LIMITED_BALANCE_VERSION,SS_LIMITED_TEMPO,ssLimitedActionCredit} from '../shared/mercenary-ss-limited-v1.mjs';
 import {ssRearPveInterval,ssRearPveHealing} from '../shared/mercenary-ss-rear-pve-v1.mjs';
 const living=x=>x?.alive!==false&&x?.hp>0&&!x?.untargetable&&!x?.isBattleSuit;
 const ordered=team=>team.filter(living).sort((a,b)=>a.slot-b.slot||String(a.id).localeCompare(String(b.id)));
@@ -32,7 +32,7 @@ export function mercenaryTurnCadence(teams){
  if([...teams.A,...teams.B].some(actor=>actor.ownerId))return duoMercenaryTurnCadence(teams);
  const debt={A:0,B:0};
  const interval=side=>mercenaryActionInterval(teams[side]||[]);
- const credit=side=>Math.max(berkanActionCredit(teams[side]||[]),valterActionCredit(teams[side]||[]));
+ const credit=side=>Math.max(berkanActionCredit(teams[side]||[]),valterActionCredit(teams[side]||[]),ssLimitedActionCredit(teams[side]||[]));
  const accrue=side=>debt[side]=Math.min(interval(side)+Math.ceil(credit(side))-1,debt[side]+credit(side));
  const regular=actor=>living(actor)&&!actor.isMonster&&!actor.isMercenary&&actor.actorKind!=='BATTLE_SUIT';
  return {
@@ -45,7 +45,8 @@ export function mercenaryTurnCadence(teams){
   },
   acted(actor){
    // Fractional progress funds five Berkan turns per four card actions or
-   // three Valter turns per two. Mercenary/suit actions create no new credit.
+   // three Valter turns per two, or seventeen SS limited turns per sixteen.
+   // Mercenary/suit actions create no new credit.
    if(actor.isMercenary)debt[actor.side]=credit(actor.side)>1?Math.max(0,debt[actor.side]-interval(actor.side)):0;
    else if(regular(actor)){
     accrue(actor.side);
@@ -69,7 +70,7 @@ function duoMercenaryTurnCadence(teams){
  const groups=['A','B'].flatMap(side=>[...new Set(teams[side].map(a=>a.ownerId))].map(ownerId=>({side,ownerId,actors:teams[side].filter(a=>a.ownerId===ownerId),debt:0})));
  const regular=a=>living(a)&&!a.isMercenary&&!a.isMonster&&!a.isBattleSuit;
  const interval=g=>mercenaryActionInterval(g.actors);
- const credit=g=>Math.max(berkanActionCredit(g.actors),valterActionCredit(g.actors));
+ const credit=g=>Math.max(berkanActionCredit(g.actors),valterActionCredit(g.actors),ssLimitedActionCredit(g.actors));
  const accrue=g=>g.debt=Math.min(interval(g)+Math.ceil(credit(g))-1,g.debt+credit(g));
  const pending=(g,eligible)=>g.debt>=interval(g)?g.actors.find(a=>a.isMercenary&&living(a)&&eligible(a)):null;
  return {
@@ -121,7 +122,7 @@ export function buildMercenaryFighter(snapshot,side,mode,buildCardFighter){
   const power=valter?VALTER_COMBAT.basePower:limited?limited.basePower:MERCENARY_POWER_STANDARD.basePowerByRank[snapshot.rank];
   if(!power||typeof buildCardFighter!=='function')throw Error('INVALID_MERCENARY_RANK_POWER');
   const base=buildCardFighter({id:snapshot.code,power,type:'NONE'},5,side,null,mode);
-  snapshot={...snapshot,basePower:power,level:1,stats:{hp:base.maxHp,attack:base.attack,defense:base.defense,speed:Math.round(base.speed*(valter?VALTER_COMBAT.speedScale:snapshot.code===BERKAN_CODE?BERKAN_TEMPO.speedScale:1))}};
+  snapshot={...snapshot,basePower:power,level:1,stats:{hp:base.maxHp,attack:base.attack,defense:base.defense,speed:Math.round(base.speed*(valter?VALTER_COMBAT.speedScale:snapshot.code===BERKAN_CODE?BERKAN_TEMPO.speedScale:limited?SS_LIMITED_TEMPO.speedScale:1))}};
   if(limited)for(const key of ['hp','attack','defense'])snapshot.stats[key]=Math.max(1,Math.round(snapshot.stats[key]*limited.scale));
  }
  if(!/^V-\d{3}$/.test(snapshot.code)||!['A','B'].includes(side)||Object.values(snapshot.stats||{}).length!==4||Object.values(snapshot.stats).some(n=>!Number.isSafeInteger(n)||n<=0))throw Error('INVALID_MERCENARY_SNAPSHOT');
