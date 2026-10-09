@@ -1,0 +1,93 @@
+{
+  "status": "VERIFIED_PRODUCTION",
+  "site": "https://cnine-card.pages.dev",
+  "verifiedAt": "2026-10-09T21:03:18.125Z",
+  "healthStatus": 200,
+  "targets": [
+    {
+      "code": "V-005",
+      "name": "청아",
+      "rank": "S",
+      "pveActionsPerExtraTurn": 2,
+      "monsterBasicPriority": true
+    },
+    {
+      "code": "V-008",
+      "name": "아스텔",
+      "rank": "S",
+      "pveActionsPerExtraTurn": 2,
+      "monsterBasicPriority": true
+    },
+    {
+      "code": "V-022",
+      "name": "엘로디",
+      "rank": "S",
+      "pveActionsPerExtraTurn": 2,
+      "monsterBasicPriority": true
+    }
+  ],
+  "controls": [
+    {
+      "code": "V-001",
+      "name": "아우렌",
+      "rank": "S",
+      "monsterBasicPriority": false
+    },
+    {
+      "code": "V-004",
+      "name": "베스페라",
+      "rank": "SS",
+      "monsterBasicPriority": true
+    },
+    {
+      "code": "V-049",
+      "name": "크라이베른",
+      "rank": "SSS",
+      "monsterBasicPriority": false
+    },
+    {
+      "code": "V-991",
+      "name": "조은",
+      "rank": "SS",
+      "monsterBasicPriority": false
+    }
+  ],
+  "assets": [
+    {
+      "path": "shared/mercenary-ss-rear-pve-v1.mjs",
+      "sha256": "7e42aa7eec42313f0a2307562f1c6673159742bb9e9dd28a41e9aad1b15ab283",
+      "status": 200
+    },
+    {
+      "path": "shared/mercenary-combat-link-v2103.mjs",
+      "sha256": "45717b2a15edefc360c299b9293796abff6a6a25014b35d58b86cff25c07297a",
+      "status": 200
+    }
+  ],
+  "accountMutations": false,
+  "releaseCommit": "cfeceb1738704fd19b14961600777ca579ce0b20",
+  "previousProductionCommit": "eedf981dc4522bbe2d32d5b62d5c2a4348f788bb",
+  "previousProductionDeployment": "https://eabdda69.cnine-card.pages.dev",
+  "deployment": "https://479307cd.cnine-card.pages.dev",
+  "apiRuntimeVersion": "45fae586-9dc3-4456-af6a-f687fec1fda8",
+  "clanDraftVersion": "1bc17db8-049b-4412-b41d-65ac0fa3fb68",
+  "command": "npm run deploy:production -- --scoped",
+  "scopedReason": "S 후열 아스텔·청아·엘로디 PVE 우선 피격 및 2회 행동 누락 수정. 동일 실행 코드의 관련 회귀 21개와 PC·모바일 결과를 재사용하고 실제 번들 연결·Worker 컴파일을 추가 확인.",
+  "regression": {
+    "reusedPassed": 21,
+    "reusedTests": [
+      "tests/mercenary-s-rear-pve-20261010.test.mjs",
+      "tests/mercenary-ss-rear-pve-20261008.test.mjs",
+      "tests/mercenary-nurse-heal-nerf-20261005.test.mjs"
+    ],
+    "deployPassed": 9,
+    "deployTests": [
+      "tests/pve-battlefield-entry-v2117.test.mjs"
+    ],
+    "failed": 0,
+    "workerSyntax": "PASS"
+  },
+  "browserReport": "docs/qa/s-rear-pve-20261010/browser-report.json",
+  "productionReleaseGuard": "PASS",
+  "hyperdriveQueryCache": "DISABLED_VERIFIED"
+}
