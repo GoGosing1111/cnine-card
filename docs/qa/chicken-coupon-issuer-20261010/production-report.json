@@ -1,0 +1,54 @@
+{
+  "verifiedAt": "2026-10-09T16:37:04.188Z",
+  "sourceCommit": "c98bc113e056aafd0b181849916585c5cc35bab8",
+  "productionUrl": "https://cnine-card.pages.dev/admin/",
+  "productionFiles": [
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "sha256": "3ff429852bbb8613150d5ce451f582942cbb7ec88d94f52e3d54e7added0c603"
+    },
+    {
+      "file": "admin/admin-v1276.js",
+      "status": 200,
+      "sha256": "213519569cc5509dd0e8e438d5040b61cb740da6a08a5d21502449d56a3659e6"
+    },
+    {
+      "file": "admin/chicken-event-v1.js",
+      "status": 200,
+      "sha256": "1c047b8c13b0cf1880cb47c4ae07b552c8fd093448ffc7d119d4c1c1c9a17dcd"
+    }
+  ],
+  "chickenFeature": {
+    "status": 200,
+    "visible": true,
+    "name": "철구네 치킨",
+    "phase": "OPEN",
+    "startsAt": "2026-10-08T13:00:00.000Z",
+    "endsAt": "2026-10-13T14:00:00.000Z"
+  },
+  "serverTests": {
+    "baemin": 10,
+    "existingCouponRegressions": 13,
+    "failed": 0
+  },
+  "browser": {
+    "viewports": [
+      "1440x1000",
+      "390x844"
+    ],
+    "blockedIdentitiesPerViewport": 3,
+    "errors": 0,
+    "report": "docs/qa/chicken-coupon-issuer-20261010/browser-report.json"
+  },
+  "deploymentCommand": "npm run deploy:production -- --scoped",
+  "previousProductionCommit": "5059c8bef9c21b33a57af912c3cd6278cf5d21ec",
+  "deploymentExitCode": 0,
+  "pagesUrl": "https://d2c521fa.cnine-card.pages.dev",
+  "apiRuntimeVersion": "c2b5bbfb-adb5-413a-bdc3-b4c8de3ca4e3",
+  "clanDraftVersion": "521f8080-0cec-462d-afaf-2be9385d81cc",
+  "liveCouponsIssued": 0,
+  "liveCouponRedemptions": 0,
+  "liveAuthenticatedIssuerTest": false,
+  "issuerAuthorizationVerifiedInIsolatedServerRoutes": true
+}

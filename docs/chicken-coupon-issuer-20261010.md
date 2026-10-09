@@ -15,3 +15,11 @@
 - 배포 시 공유 쿠폰 회귀 `tests/coupon-reward-cap-v1997.test.mjs`, `tests/miracle-cube-coupon-20261004.test.mjs`와 자동 Worker 컴파일을 한 번 실행한다. 이미 통과한 배민권 검사는 반복하지 않는다.
 - 명령은 `npm run deploy:production -- --scoped`. `SCOPED_DEPLOY_TESTS`에 위 두 파일, `SCOPED_DEPLOY_CHECKS=[]`를 지정하고 깨끗한 범위 커밋·origin/main·출시/캐시/Hyperdrive 검사를 유지한다.
 - CMS 캐시는 `chickenCoupon=20261010-issuer`, 치킨 설정 JS는 `20261010-issuer`로 갱신한다. 운영에서는 정적 파일과 API 응답만 확인하고 시험 쿠폰 발급·등록 수령을 실행하지 않는다.
+
+## 운영 반영 완료
+
+- 배포 코드 `c98bc113e056aafd0b181849916585c5cc35bab8`, 공식 scoped 명령 1회 성공. 배민권 10개·공유 쿠폰 13개 회귀와 Worker 문법·출시/캐시/Hyperdrive 검사 통과.
+- Pages `https://d2c521fa.cnine-card.pages.dev`, API runtime `c2b5bbfb-adb5-413a-bdc3-b4c8de3ca4e3`, clan-draft `521f8080-0cec-462d-afaf-2be9385d81cc`.
+- 운영 기본 주소의 CMS HTML·쿠폰 컨트롤러·치킨 설정 JS가 배포 소스와 같은 SHA-256임을 확인했다. 치킨 feature API도 200이며 기존 OPEN 상태와 기간을 읽기만 했다.
+- 실제 발급자 세션의 운영 발급은 실행하지 않았다. 계정 허용/차단은 실제 서버 라우트를 사용한 격리 검사로 확인했고, 운영 시험 발급/수령은 각각 0건이다.
+- 증거: `docs/qa/chicken-coupon-issuer-20261010/production-report.json`. 이후 변경은 이 운영 기록뿐이므로 재배포하지 않는다.
