@@ -5,7 +5,7 @@
   const route=document.currentScript?.dataset.route;
   if(!route)return;
   function start(){
-    if(!window.JokgakCity&&!document.querySelector('script[data-city-alerts]')){const alerts=document.createElement('script');alerts.src='/js/jokgak-city-v1.js?v=20261009-city3';alerts.dataset.cityAlerts='';document.head.append(alerts);}
+    if(!window.JokgakCity&&!document.querySelector('script[data-city-alerts]')){const alerts=document.createElement('script');alerts.src='/js/jokgak-city-v1.js?v=20261010-city4';alerts.dataset.cityAlerts='';document.head.append(alerts);}
     if(!global.SoopAdventureLobby||document.querySelector('soop-adventure-lobby'))return;
     const visibility={avatar:false,alchemy:false,goldenAxe:false,chicken:false};
     const getUser=()=>{try{return JSON.parse(localStorage.getItem('cnine_card_user_v10')||'{}')||{};}catch{return {};}};

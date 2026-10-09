@@ -1,3 +1,4 @@
+import {cityCareerPolicy} from './_jokgak_city_career.js';
 import {CITY_SETTINGS_KEY,defaultCitySettings,validateCitySettings,cityCanAccess,cityRoleDescription} from '../shared/jokgak-city-settings-v1.mjs';
 import {CITY_ROLES,cityShift} from '../shared/jokgak-city-v1.mjs';
 import {EQUIPMENT_FORGE_RELEASE_PROTECTION_CODE} from '../shared/equipment-forge-release-v1.mjs';
@@ -23,7 +24,7 @@ export async function cityRoleWeights(env,epoch,policy){
   if(!Array.isArray(weights)||weights.length!==7||weights.some((r,i)=>r.code!==CITY_ROLES[i].code||!Number.isSafeInteger(r.weight)||r.weight<0)||!weights.some(r=>r.weight>0))fail('역할 교대 정보를 확인하지 못했습니다.',503,'CITY_ROLE_WEIGHTS');
   return weights;
 }
-export const cityPublicPolicy=policy=>({mode:policy.mode,revision:policy.revision,liveRewards:policy.mode==='ON'&&policy.rewards.enabled,rewardRules:{...policy.rewards},rules:{...policy.rules},life:policy.life,cash:policy.cash,arsenal:policy.arsenal,facilities:policy.facilities,roles:CITY_ROLES.map(role=>({...role,...policy.roles.find(r=>r.code===role.code),detail:cityRoleDescription(policy.roles.find(r=>r.code===role.code))}))});
+export const cityPublicPolicy=policy=>({mode:policy.mode,revision:policy.revision,liveRewards:policy.mode==='ON'&&policy.rewards.enabled,rewardRules:{...policy.rewards},rules:{...policy.rules},life:policy.life,cash:policy.cash,arsenal:policy.arsenal,facilities:policy.facilities,career:policy.career,roles:CITY_ROLES.map(role=>({...role,...policy.roles.find(r=>r.code===role.code),detail:cityRoleDescription(policy.roles.find(r=>r.code===role.code))}))});
 export async function cityRewardCatalog(env){
   const rows=(await p(env,'SELECT code,name,rarity,image_url FROM inventory_items WHERE is_active=1 AND code<>? ORDER BY name,code LIMIT 1001',EQUIPMENT_FORGE_RELEASE_PROTECTION_CODE).all()).results||[];
   if(rows.length>1000)fail('보상 아이템 목록의 조회 범위를 확인해 주세요.',503,'CITY_CATALOG_LIMIT');
@@ -48,6 +49,8 @@ export async function saveCitySettings(env,user,value,now=Date.now()){
   if(next.roles.some(r=>r.rewards.some(row=>row.items.some(item=>!codes.has(item.code)))))fail('현재 지급 가능한 보상 아이템을 선택하세요.');
   if((await cityTestUsers(env,next.testUserIds)).length!==next.testUserIds.length)fail('활성 계정을 검색하여 테스트 참여자를 지정하세요.');
   await cityRoleWeights(env,cityShift(now).id,before.policy);
+  await cityCareerPolicy(env,before.policy,now);
+  next.career.startedAt=before.policy.career.startedAt||(next.career.enabled?now:0);
   const saved={...next,revision:next.revision+1,enabled:next.mode==='ON',updatedBy:Number(user.id),updatedAt:new Date(now).toISOString(),writeToken:crypto.randomUUID()};
   const raw=JSON.stringify(saved),key=CITY_SETTINGS_KEY;
   const write=before.raw===null?p(env,'INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING',key,raw):p(env,'UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?',raw,key,before.raw);

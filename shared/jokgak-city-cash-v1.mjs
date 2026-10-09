@@ -11,8 +11,8 @@ export function ensureCityCash(life,policy,now=life.at){
   if(!['TEST','ON'].includes(policy.mode))return null;
   life.wallets??={TEST:null,ON:null};
   const mode=policy.mode;
-  // Initial cash is credited once per mode. Settings edits, death, re-entry and
-  // six-hour shifts never refill a previously opened wallet.
+  // Opening a wallet is once per mode. The career projector separately resets
+  // the current mode's assets at a six-hour boundary when that policy is on.
   if(!life.wallets[mode])life.wallets[mode]={balance:(policy.cash||defaultCityCashPolicy()).startingCash,initialCash:(policy.cash||defaultCityCashPolicy()).startingCash,openedAt:now};
   return life.wallets[mode];
 }

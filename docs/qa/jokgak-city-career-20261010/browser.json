@@ -1,0 +1,20 @@
+{
+  "checks": [
+    "1440: compact HUD, map and roster are visible with no horizontal overflow",
+    "1440: profile popup retains HP150, hunger, health and weapon detail; Escape closes",
+    "1440: popup market purchase, inventory equip and cash update",
+    "1440: employment, timed patrol and one 900-won salary claim",
+    "1440: police directory and protection rules show in dedicated popups",
+    "1440: hourly police income is credited without a claim button",
+    "1440: CMS saves wages, shift cash, jobs and rank policy while preserving mode",
+    "390: compact HUD, map and roster are visible with no horizontal overflow",
+    "390: profile popup retains HP150, hunger, health and weapon detail; Escape closes",
+    "390: popup market purchase, inventory equip and cash update",
+    "390: employment, timed patrol and one 900-won salary claim",
+    "390: police directory and protection rules show in dedicated popups",
+    "390: hourly police income is credited without a claim button",
+    "390: CMS saves wages, shift cash, jobs and rank policy while preserving mode"
+  ],
+  "errors": [],
+  "accounts": "isolated fixtures"
+}
