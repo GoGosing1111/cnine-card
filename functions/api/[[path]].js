@@ -54,6 +54,7 @@ import {handlePetCompanionCms} from '../_pet_companion_cms.js';
 import {handlePetEquipment} from '../_pet_equipment.js';
 import {handlePetGrants} from '../_pet_grants.js';
 import {loadPetBattleSnapshot} from '../_pet_account.js';
+import {handleJokgakCity} from '../_jokgak_city.js';
 import {handlePetPotential,ensurePetPotentialItem} from '../_pet_potential.js';
 import {handlePetOpening,ensurePetOpeningItems,openPetSeal} from '../_pet_opening.js';
 import {handleIconFusion} from '../_icon_fusion.js';
@@ -5066,6 +5067,7 @@ async function handleRequest(context){
       // 그대로인 것처럼 보인다. 운영 스키마는 배포 게이트와 health 초기화에서 보장하며
       // 이 경로들은 각 라우트의 소형 foundation/검증만 사용한다.
       ||path.startsWith('battle/')
+      ||path.startsWith('jokgak-city/')
       ||path.startsWith('pvp/')
       ||path.startsWith('territory-war/')
       ||path==='draw/status'
@@ -5124,6 +5126,7 @@ async function handleRequest(context){
     const scrapyardResponse=await handleScrapyard({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog,raidDeckPower,resolveUnifiedDrops,resolveUniqueBattleRuntime,uniqueBattleResponsePayload}});if(scrapyardResponse)return scrapyardResponse;
     const auctionResponse=await handleAuction({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog}});if(auctionResponse)return auctionResponse;
     const duoResponse=await handleRankedDuo({path,request,env,deps:{authenticate,readBody,json,readBattleSettings,cardBattlePower,battleEngineState,cardUniqueDeckStates,evaluateDeckSynergiesBatch,duoMagicLoadouts}});if(duoResponse)return duoResponse;
+    const cityResponse=await handleJokgakCity({path,request,env,deps:{authenticate,json,pvpDeckSnapshot,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,magicBattleLoadout,withUserMutationLock:withJointUserMutationLock}});if(cityResponse)return cityResponse;
     const coupResponse=await handleCoup({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,evaluateDeckSynergiesBatch,magicBattleLoadout,magicBattleLoadouts}});if(coupResponse)return coupResponse;
     const territoryWarResponse=await handleTerritoryWar({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,evaluateDeckSynergiesBatch,magicBattleLoadout,magicBattleLoadouts}});if(territoryWarResponse)return territoryWarResponse;
     const clanResponse=await handleClan({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,magicBattleLoadout}});if(clanResponse)return clanResponse;

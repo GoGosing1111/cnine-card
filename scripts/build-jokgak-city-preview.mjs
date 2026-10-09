@@ -1,0 +1,15 @@
+import fs from 'node:fs';
+import {createPvpBattleV2} from '../functions/_battle_v2_preview.js';
+import {operatingMercenaries} from '../tests/helpers/mercenary-operating-roster-v2144.mjs';
+const source=fs.readFileSync('js/app.js','utf8');
+const block=source.slice(source.indexOf('  battleV2:{'),source.indexOf('\n};',source.indexOf('  battleV2:{')));
+const styles=JSON.parse('['+block.match(/styles:\[([^\]]+)\]/)[1].replaceAll("'",'"')+']');
+const scripts=JSON.parse('['+block.match(/scripts:\[([\s\S]+?)\]/)[1].trim().replaceAll("'",'"')+']');
+const prefix=s=>s.startsWith('/')?s:'/'+s;
+fs.writeFileSync('preview/jokgak-city-v1/battle-loader.js',`// Generated from the current live battle manifest. Preview only.\nconst css=${JSON.stringify(styles.map(prefix))},scripts=${JSON.stringify(scripts.map(prefix))};\nlet task;window.ensureFeatureResources=()=>task||=(async()=>{await Promise.all(['/css/style.css','/css/card.css',...css].map(href=>new Promise((resolve,reject)=>{const l=document.createElement('link');l.rel='stylesheet';l.href=href;l.onload=resolve;l.onerror=reject;document.head.append(l);})));for(const src of scripts)await new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=src;s.onload=resolve;s.onerror=reject;document.head.append(s);});await window.ProjectVBattleV3Live.ensureRuntime();})();\n`);
+const roster=JSON.parse(fs.readFileSync('assets/ui/project-v/characters/zenith/manifest-v1.json','utf8')).characters;
+const cards=roster.filter(c=>c.qa?.visualApproval).slice(0,5).map((c,i)=>({id:c.cardId,cardId:c.cardId,name:c.member,title:c.title,rarity:'ZENITH',grade:'ZENITH',image:c.sourceArt,sourceArt:c.sourceArt,battleSprite:c.battleSprite,power:1800000,power_type:['ATTACK','DEFENSE','SPEED','HP','ATTACK'][i]}));
+const a=operatingMercenaries.find(m=>m.code==='V-004')||operatingMercenaries[0],b=operatingMercenaries.find(m=>m.code==='V-055')||operatingMercenaries.at(-1);
+const battleV2=createPvpBattleV2({attackerCards:cards,defenderCards:cards,attackerMercenary:a,defenderMercenary:b,seed:20261009});
+fs.writeFileSync('preview/jokgak-city-v1/battle-fixture.json',JSON.stringify({preview:true,battleV2,attackerCards:cards,defenderCards:cards,attackerPower:battleV2.teams.A.summary.power,defenderPower:battleV2.teams.B.summary.power,battleEngine:{active:true},mode:'PVP',sceneAssetKey:'JOKGAK_CITY'}));
+console.log('Jokgak City isolated V3 preview prepared');

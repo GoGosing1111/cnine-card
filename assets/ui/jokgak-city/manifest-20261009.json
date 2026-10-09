@@ -1,0 +1,43 @@
+{
+  "content": "족각도시",
+  "createdAt": "2026-10-09",
+  "generator": "OpenAI image_gen",
+  "approval": "New content implementation; separate user visual approval has not been recorded.",
+  "sourcePreservation": "Generated PNG originals are preserved byte-for-byte. WebP files are runtime derivatives at the same resolution.",
+  "artDirection": {
+    "map": "Grounded modern Korean coastal metropolis at blue hour, overhead district map. Eight distinct places: police station, hospital, department store, post office, market, housing, dock warehouses and back alley. Navy wet streets with restrained champagne, cyan and lime light. No UI, lettering or logos; building footprints are interactive in HTML/SVG.",
+    "battle": "Wide Korean city intersection at night, wet navy asphalt, police station left and glass department store right, market in the distance. Clear central roadway for existing V3 combat characters. No UI, logos or characters."
+  },
+  "assets": [
+    {
+      "name": "city-map-night-v1",
+      "width": 1536,
+      "height": 1024,
+      "source": {
+        "path": "assets/ui/jokgak-city/city-map-night-v1.png",
+        "bytes": 3669695,
+        "sha256": "c5148e3f9d5cafef0d1a82c32af204bc796208b16246ca739093a6df5abd84ae"
+      },
+      "runtime": {
+        "path": "assets/ui/jokgak-city/city-map-night-v1.webp",
+        "bytes": 682296,
+        "sha256": "612cd36e3ca485be47916fba68d4a902e74ffc8c3f10875afd08e14c2424558b"
+      }
+    },
+    {
+      "name": "city-street-battle-v1",
+      "width": 1536,
+      "height": 1024,
+      "source": {
+        "path": "assets/ui/jokgak-city/city-street-battle-v1.png",
+        "bytes": 3232233,
+        "sha256": "19e952f6acb40df374b8ce3b49409312d928b4684db1e187f73083ba65554073"
+      },
+      "runtime": {
+        "path": "assets/ui/jokgak-city/city-street-battle-v1.webp",
+        "bytes": 575784,
+        "sha256": "0b5e67d36276b1324876a4d54edbc9559244e1ec4f5553b7edec07e74f50b72f"
+      }
+    }
+  ]
+}
