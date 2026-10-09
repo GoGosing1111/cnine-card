@@ -4,7 +4,7 @@
 // Z-BODY dash V2: approved 245 ms contact, 640 ms motion and authored wake/cut FX.
 // Inventory UI v2125: shared navy panels and compact item selection.
 // S-BODY / Z-BODY resources v2124; battle scripts keep network-first refresh.
-const SHELL_CACHE='soop-card-shell-v20261008-chicken-event';
+const SHELL_CACHE='soop-card-shell-v20261010-pwa-icon';
 const CONTENT_CACHE='soop-card-content-v3-media-integrity';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';
@@ -24,8 +24,12 @@ const SHELL_CORE=[
   OFFLINE_URL,
   APP_SHELL_URL,
   '/manifest.webmanifest',
-  '/assets/ui/pwa-icon.svg',
-  '/assets/ui/pwa-icon-maskable.svg'
+  '/assets/ui/pwa/soop-20261010/icon-192.png',
+  '/assets/ui/pwa/soop-20261010/icon-512.png',
+  '/assets/ui/pwa/soop-20261010/maskable-512.png',
+  '/assets/ui/pwa/soop-20261010/apple-touch-icon-180.png',
+  '/assets/ui/pwa/soop-20261010/favicon-32.png',
+  '/assets/ui/pwa/soop-20261010/favicon-48.png'
 ];
 const CONTENT_CACHE_LIMIT=320;
 let contentWritesUntilTrim=24;

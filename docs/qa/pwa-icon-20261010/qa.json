@@ -1,0 +1,60 @@
+{
+  "screens": [
+    {
+      "name": "desktop",
+      "viewport": {
+        "width": 1200,
+        "height": 860
+      },
+      "images": 8,
+      "manifestErrors": [],
+      "overflow": false
+    },
+    {
+      "name": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "images": 8,
+      "manifestErrors": [],
+      "overflow": false
+    }
+  ],
+  "manifest": [
+    {
+      "src": "/assets/ui/pwa/soop-20261010/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/ui/pwa/soop-20261010/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/ui/pwa/soop-20261010/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "cache": {
+    "cacheNames": [
+      "soop-card-content-v3-media-integrity",
+      "soop-card-shell-v20261010-pwa-icon"
+    ],
+    "iconSha256": "df8f8562d4e4806ff90297fddc7d573ac3fefd782632bb0a2388980c99b55f04",
+    "iconEntries": [
+      "/assets/ui/pwa/soop-20261010/icon-192.png",
+      "/assets/ui/pwa/soop-20261010/icon-512.png",
+      "/assets/ui/pwa/soop-20261010/maskable-512.png",
+      "/assets/ui/pwa/soop-20261010/apple-touch-icon-180.png",
+      "/assets/ui/pwa/soop-20261010/favicon-32.png",
+      "/assets/ui/pwa/soop-20261010/favicon-48.png"
+    ],
+    "contentPreserved": true
+  }
+}

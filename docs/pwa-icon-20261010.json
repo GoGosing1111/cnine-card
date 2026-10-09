@@ -1,0 +1,91 @@
+{
+  "sourceFilename": "codex-clipboard-845bc944-cdba-45aa-8b75-f47186647d8c.png",
+  "sourceSha256": "df8f8562d4e4806ff90297fddc7d573ac3fefd782632bb0a2388980c99b55f04",
+  "originalPreservedExactly": true,
+  "request": "첨부 이미지로 숲켓몬 PWA 아이콘 변경",
+  "assets": [
+    {
+      "path": "assets/ui/pwa/soop-20261010/apple-touch-icon-180.png",
+      "width": 180,
+      "height": 180,
+      "sha256": "72a7af468234cbc5efa81279fa709c6bfd2dbe2ba6fc1693d2f68620d96e8648",
+      "bytes": 81108
+    },
+    {
+      "path": "assets/ui/pwa/soop-20261010/favicon-32.png",
+      "width": 32,
+      "height": 32,
+      "sha256": "e73d3badfb5e24dd02c3eccce8d326fce74728b416ca106f0c136ccd86511588",
+      "bytes": 3144
+    },
+    {
+      "path": "assets/ui/pwa/soop-20261010/favicon-48.png",
+      "width": 48,
+      "height": 48,
+      "sha256": "2b3b6fb0c837163fa408086f3001da60c2a6aabc280c3e5f4030c450b2f757dd",
+      "bytes": 6775
+    },
+    {
+      "path": "assets/ui/pwa/soop-20261010/icon-192.png",
+      "width": 192,
+      "height": 192,
+      "sha256": "1268198f1f5d1a66bc0eb5aacf76febd6313ca1ea0ce5ed2053f1ecb0bb6fc79",
+      "bytes": 91730
+    },
+    {
+      "path": "assets/ui/pwa/soop-20261010/icon-512.png",
+      "width": 512,
+      "height": 512,
+      "sha256": "df8f8562d4e4806ff90297fddc7d573ac3fefd782632bb0a2388980c99b55f04",
+      "bytes": 506057
+    },
+    {
+      "path": "assets/ui/pwa/soop-20261010/maskable-512.png",
+      "width": 512,
+      "height": 512,
+      "sha256": "b2cde089471d4aaa1666dbf6182e65e50971f264b46a5092325fa54eaca18d20",
+      "bytes": 261556
+    }
+  ],
+  "releaseTag": "20261010-pwa-icon",
+  "manifestIdentityPreserved": [
+    "id",
+    "start_url",
+    "scope",
+    "name",
+    "short_name",
+    "manifest URL"
+  ],
+  "maskable": {
+    "canvas": 512,
+    "artwork": 312,
+    "padding": 100,
+    "background": "#020817",
+    "preserved": "원본 얼굴·SOOP 글자·금색 프레임, 비율 유지"
+  },
+  "scopedRelease": {
+    "base": "e1e32d1432353006ad07a686a7d66a3e6a045df9",
+    "reason": "PWA 아이콘 이미지와 설치/파비콘 연결, 셸 캐시 키만 변경. 기존 PWA 생명주기 회귀 및 실제 아이콘 표시 검증.",
+    "tests": [
+      "tests/pwa-runtime-lifecycle-20260928.test.mjs"
+    ]
+  },
+  "validation": {
+    "report": "docs/qa/pwa-icon-20261010/qa.json",
+    "desktop": "docs/qa/pwa-icon-20261010/desktop.png",
+    "mobile": "docs/qa/pwa-icon-20261010/mobile.png",
+    "visualReview": "PASS",
+    "manifestParse": "PASS",
+    "original512ByteEquality": "PASS",
+    "serviceWorkerUpgrade": "PASS",
+    "retainedContentCache": "PASS",
+    "browserPreviewOnly": true
+  },
+  "platformNotes": {
+    "existingInstallations": "설치된 앱의 아이콘 갱신은 플랫폼 정책을 따른다. 옛 아이콘이 유지되면 재설치가 필요할 수 있다.",
+    "sources": [
+      "https://web.dev/articles/manifest-updates",
+      "https://web.dev/articles/maskable-icon"
+    ]
+  }
+}
