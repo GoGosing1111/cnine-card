@@ -70,7 +70,7 @@ test('Diim art approval stays unranked and the CMS codex publishes separate appr
   const codexSource=html.match(/src="([^"\n]*mercenary-codex\/app\.mjs\?[^"\n]+)"/)?.[1];
   assert.ok(codexSource,'current codex client must be versioned');
   const codexCache=new URL(codexSource.replaceAll('&amp;','&'),'https://test.invalid').searchParams;
-  assert.equal(codexCache.get('balance'),'20261008-ss-rear');
+  assert.equal(codexCache.get('balance'),'20261009-ss-limited-tempo');
   assert.ok(codexCache.getAll('limited').includes('20261004-approved'));
   assert.equal(codexCache.get('v'),'2133');
   assert.match(html,/로비로 돌아가기/);
