@@ -82,6 +82,6 @@ test('live routing, preview isolation, notifications, city backdrop and PVP depe
   assert.match(read('functions/api/[[path]].js'),/handleJokgakCity\(\{path,request,env/);assert.match(read('js/adventure-navigation-standalone.js'),/jokgak-city-v1.js/);
   const client=read('js/jokgak-city-v1.js');assert.match(client,/aria-modal','false/);assert.match(client,/window.CityPreview/);assert.match(client,/playPvpBattleV2Live/);assert.match(client,/document.hidden/);
   assert.match(read('preview/project-v-v3/source/battle/BattleEngine.js'),/jokgakCityBattlefield&&mode==='PVP'/);
-  const combat=read('functions/_jokgak_city_battle.js');for(const token of ['pvpDeckSnapshot(env,defender.id,true)','releasedMercenarySnapshot','loadPetBattleSnapshot','magicBattleLoadout','cardUniqueDeckStates','evaluateDeckSynergies','userEquipmentBonuses','createPvpBattleV2'])assert.ok(combat.includes(token),token);
+  const combat=read('functions/_jokgak_city_battle.js');for(const token of ['pvpDeckSnapshot(env,defender.id,true)','releasedMercenarySnapshot','cardUniqueDeckStates','createCityBattle','CITY_WEAPON_NORMALIZED'])assert.ok(combat.includes(token),token);
   assert.equal(CITY_ROLES.length,7);assert.equal(CITY_RULES.pageSize,10);
 });

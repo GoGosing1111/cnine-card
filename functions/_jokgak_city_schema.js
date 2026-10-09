@@ -3,7 +3,7 @@ const KEY='safe_runtime_jokgak_city_v1';
 export function citySchema(pg=false){
   const n=pg?'BIGINT':'INTEGER';
   return [
-    `CREATE TABLE IF NOT EXISTS jokgak_city_players_v1(user_id ${n} PRIMARY KEY,active INTEGER NOT NULL DEFAULT 1,epoch ${n} NOT NULL,location TEXT NOT NULL DEFAULT 'HOME',health INTEGER NOT NULL DEFAULT 100 CHECK(health BETWEEN 0 AND 100),health_at ${n} NOT NULL,wanted INTEGER NOT NULL DEFAULT 0 CHECK(wanted BETWEEN 0 AND 5),jailed_until ${n} NOT NULL DEFAULT 0,next_action_at ${n} NOT NULL DEFAULT 0,next_move_at ${n} NOT NULL DEFAULT 0,protected_until ${n} NOT NULL DEFAULT 0,revision INTEGER NOT NULL DEFAULT 0,last_token TEXT,updated_at ${n} NOT NULL)`,
+    `CREATE TABLE IF NOT EXISTS jokgak_city_players_v1(user_id ${n} PRIMARY KEY,active INTEGER NOT NULL DEFAULT 1,epoch ${n} NOT NULL,location TEXT NOT NULL DEFAULT 'HOME',health INTEGER NOT NULL DEFAULT 100 CHECK(health BETWEEN 0 AND 1000),health_at ${n} NOT NULL,wanted INTEGER NOT NULL DEFAULT 0 CHECK(wanted BETWEEN 0 AND 5),jailed_until ${n} NOT NULL DEFAULT 0,next_action_at ${n} NOT NULL DEFAULT 0,next_move_at ${n} NOT NULL DEFAULT 0,protected_until ${n} NOT NULL DEFAULT 0,revision INTEGER NOT NULL DEFAULT 0,last_token TEXT,updated_at ${n} NOT NULL)`,
     'CREATE INDEX IF NOT EXISTS idx_jokgak_city_location ON jokgak_city_players_v1(location,active,user_id)',
     `CREATE TABLE IF NOT EXISTS jokgak_city_actions_v1(request_id TEXT PRIMARY KEY,user_id ${n} NOT NULL,target_id ${n},action TEXT NOT NULL,fingerprint TEXT NOT NULL,result_json TEXT NOT NULL,created_at ${n} NOT NULL)`,
     'CREATE INDEX IF NOT EXISTS idx_jokgak_city_actions_user ON jokgak_city_actions_v1(user_id,created_at DESC)',

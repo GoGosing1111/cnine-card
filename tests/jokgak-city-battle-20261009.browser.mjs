@@ -12,7 +12,8 @@ try{
     const page=await browser.newPage({viewport});page.on('pageerror',error=>errors.push(error.message));
     await page.addInitScript(()=>{localStorage.setItem('cnine_battle_sound','OFF');});
     await page.route('**/api/**',route=>route.fulfill({json:{enabled:false,visible:false,items:[],cards:[]}}));
-    await page.goto(origin+'/preview/jokgak-city-v1/',{waitUntil:'networkidle'});await page.locator('.jc-person').first().click();
+    await page.goto(origin+'/preview/jokgak-city-v1/',{waitUntil:'networkidle'});
+    await page.locator('.jc-armory [data-city-product="PIPE"]').click();await page.locator('[data-city-confirm]').click();await page.locator('.jc-mini-weapons [data-city-product="PIPE"]').click();await page.locator('.jc-city-loadout').filter({hasText:'200,000'}).waitFor();await page.locator('.jc-person').first().click();
     await page.locator('[data-city-action="attack"]').click();
     await page.waitForFunction(()=>window.ProjectVPixiBattle?.diagnostics?.().mounted===true,{},{timeout:45000});
     await page.waitForFunction(()=>document.querySelector('.battle-v3-live-shell.is-v3-ready'),{},{timeout:45000});
@@ -21,7 +22,7 @@ try{
     assert.ok(JSON.stringify(diag).includes('city-street-battle-v1.webp'),'rendered city backdrop');checks.push(viewport.width+' current V3 city battlefield mounted');
     await page.evaluate(()=>window.JokgakCity.showNotice({id:'combat-notice',action:'attack',actorName:'알림 검수',location:'MARKET',health:55,winner:'A',jailedUntil:0}));
     await page.locator('.jc-dispatch').waitFor();assert.ok(await page.locator('.battle-v3-live-shell').count());await page.locator('[data-notice-dismiss]').click();checks.push(viewport.width+' popup does not replace active battle');
-    await page.locator('.jc-battle-result').waitFor({timeout:120000});assert.match(await page.locator('.jc-battle-result .jc-theft').textContent(),/상대 현금 강탈/);assert.match(await page.locator('.jc-battle-result .jc-theft').textContent(),/\+1,000/);await page.screenshot({path:path.join(out,viewport.width+'-battle-result.png'),animations:'disabled'});await page.locator('.jc-battle-result button').click();await page.locator('.jc-person').first().waitFor();assert.equal(await page.locator('.battle-v3-modal').count(),0);await page.locator('[data-city-cash]').filter({hasText:'11,000원'}).waitFor();assert.equal(await page.locator('[data-city-cash]').textContent(),'11,000원');checks.push(viewport.width+' result and return completed');
+    await page.locator('.jc-battle-result').waitFor({timeout:120000});assert.match(await page.locator('.jc-battle-result .jc-theft').textContent(),/상대 현금 강탈/);assert.match(await page.locator('.jc-battle-result .jc-theft').textContent(),/\+1,000/);await page.screenshot({path:path.join(out,viewport.width+'-battle-result.png'),animations:'disabled'});await page.locator('.jc-battle-result button').click();await page.locator('.jc-person').first().waitFor();assert.equal(await page.locator('.battle-v3-modal').count(),0);await page.locator('[data-city-cash]').filter({hasText:'9,000원'}).waitFor();assert.equal(await page.locator('[data-city-cash]').textContent(),'9,000원');checks.push(viewport.width+' normalized weapon battle, result and return completed');
     await page.close();
   }
   assert.deepEqual(errors,[]);fs.writeFileSync(path.join(out,'combat-report.json'),JSON.stringify({checks,errors},null,2));console.log(JSON.stringify({checks,errors,out}));

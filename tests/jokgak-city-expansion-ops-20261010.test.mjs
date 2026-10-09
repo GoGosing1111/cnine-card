@@ -1,0 +1,26 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {PGlite} from '@electric-sql/pglite';
+import {citySchema} from '../functions/_jokgak_city_schema.js';
+import {defaultCitySettings} from '../shared/jokgak-city-settings-v1.mjs';
+import {newCityLife} from '../shared/jokgak-city-life-v1.mjs';
+import {cityShift} from '../shared/jokgak-city-v1.mjs';
+import {migrateCityHealth,applyCityExpansion,CITY_EXPANSION_OPERATION} from '../scripts/ops/jokgak-city-expansion-20261010.mjs';
+test('city migration and approved policy are atomic/replayable, preserve operator TEST and wallets, and do not revive dead police',async t=>{
+ const sql=new PGlite();t.after(()=>sql.close());await sql.exec("CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TIMESTAMP);CREATE TABLE users(id BIGINT PRIMARY KEY,role TEXT,status TEXT);CREATE TABLE admin_logs(admin_id BIGINT,action_type TEXT,target_type TEXT,target_id TEXT,before_data TEXT,after_data TEXT);"+citySchema(true).join(';').replace('health BETWEEN 0 AND 1000','health BETWEEN 0 AND 100'));
+ const now=Date.parse('2026-10-10T01:10:00Z'),epoch=cityShift(now).id,p=defaultCitySettings();p.mode='TEST';p.revision=9;p.roles.forEach(r=>{r.weight=r.code==='POLICE'?1:0;r.maxHealth=100;});p.life.meal.price=1234;p.rules.rejoinCooldownMs=600000;delete p.arsenal;delete p.facilities;
+ const life=newCityLife(now);life.wallets={TEST:{balance:5432,initialCash:10000,openedAt:1},ON:{balance:321,initialCash:10000,openedAt:1}};
+ for(const [key,value] of [['jokgak_city_settings_v1',JSON.stringify(p)],['jokgak_city_role_seed_v1','isolated-ops'],['jokgak_city_life_v1:1',JSON.stringify(life)],['jokgak_city_life_v1:2',JSON.stringify({...life,death:{until:now+180000,resolved:false}})]])await sql.query('INSERT INTO app_meta(key,value) VALUES($1,$2)',[key,value]);
+ await sql.exec("INSERT INTO users VALUES(1,'OWNER','ACTIVE')");for(const [id,health,e] of [[1,35,epoch],[2,0,epoch],[3,100,epoch-1]])await sql.query("INSERT INTO jokgak_city_players_v1(user_id,epoch,location,health,health_at,updated_at) VALUES($1,$2,'MARKET',$3,$4,$4)",[id,e,health,now]);
+ let fail=false;const client={query:(text,values)=>{if(fail&&text.startsWith('INSERT INTO admin_logs')&&values[1]==='JOKGAK_CITY_EXPANSION')throw Error('INJECTED_FAILURE');return text==='SELECT current_database() db,pg_is_in_recovery() recovery'?{rows:[{db:'cnine',recovery:false}]}:text.startsWith('SELECT pg_advisory_xact_lock')?{rows:[]}:sql.query(text,values);}};
+ await assert.rejects(applyCityExpansion(client,{now}),/migration/);
+ assert.equal((await migrateCityHealth(client,{now})).dryRun,true);await assert.rejects(sql.exec('UPDATE jokgak_city_players_v1 SET health=150 WHERE user_id=1'),/check/);
+ assert.equal((await migrateCityHealth(client,{apply:true,now})).changed,true);assert.equal((await migrateCityHealth(client,{apply:true,now})).replayed,true);
+ for(const n of [-1,1001])await assert.rejects(sql.exec('UPDATE jokgak_city_players_v1 SET health='+n+' WHERE user_id=1'),/check/);
+ const get=async k=>JSON.parse((await sql.query('SELECT value FROM app_meta WHERE key=$1',[k])).rows[0].value),hp=async()=> (await sql.query('SELECT health FROM jokgak_city_players_v1 ORDER BY user_id')).rows.map(r=>r.health);
+ const dry=await applyCityExpansion(client,{now});assert.equal(dry.policeHealthAdjusted,1);assert.deepEqual(await hp(),[35,0,100]);assert.deepEqual(await get('jokgak_city_settings_v1'),p);
+ fail=true;await assert.rejects(applyCityExpansion(client,{apply:true,now}),/INJECTED/);fail=false;assert.deepEqual(await hp(),[35,0,100]);assert.deepEqual(await get('jokgak_city_settings_v1'),p);
+ const result=await applyCityExpansion(client,{apply:true,now});assert.equal(result.mode,'TEST');assert.deepEqual(await hp(),[85,0,100]);assert.deepEqual(await get('jokgak_city_life_v1:1'),life);
+ const next=await get('jokgak_city_settings_v1');assert.equal(next.revision,10);assert.equal(next.life.meal.price,1234);assert.deepEqual(next.rules,p.rules);assert.deepEqual(next.rewards,p.rewards);assert.deepEqual(next.arsenal.weapons.map(w=>w.price),[2000,8000,20000]);assert.equal(next.facilities.motel.stayMs,900000);assert.equal(next.roles.find(r=>r.code==='POLICE').maxHealth,150);
+ assert.equal((await applyCityExpansion(client,{apply:true,now:now+1000})).replayed,true);assert.deepEqual(await hp(),[85,0,100]);assert.equal((await sql.query('SELECT COUNT(*) n FROM admin_logs')).rows[0].n,2);assert.ok(await get(CITY_EXPANSION_OPERATION+':backup'));
+});

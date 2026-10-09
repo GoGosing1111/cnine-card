@@ -113,8 +113,8 @@ for(const postgres of [false,true]){
 }
 test('OWNER city CMS and current client settings/rewards are wired into shipped pages',()=>{
   const read=path=>fs.readFileSync(new URL('../'+path,import.meta.url),'utf8');
-  assert.match(read('admin/index.html'),/jokgak-city-admin-v1.mjs\?v=20261009-roles2/);
+  assert.match(read('admin/index.html'),/jokgak-city-admin-v1.mjs\?v=20261009-city3/);
   assert.match(read('functions/_jokgak_city.js'),/handleCityCms\(/);
   assert.match(read('js/jokgak-city-v1.js'),/state\?\.mode==='TEST'/);assert.match(read('js/jokgak-city-v1.js'),/rewardHtml\(data.reward\)/);
-  for(const path of ['index.html','pve/legion-hunt/index.html','pve-v3/index.html','raid/lich-king/index.html'])assert.match(read(path),/jokgak-city-v1.js\?v=20261009-roles2/);
+  for(const path of ['index.html','pve/legion-hunt/index.html','pve-v3/index.html','raid/lich-king/index.html'])assert.match(read(path),/jokgak-city-v1.js\?v=20261009-city3/);
 });

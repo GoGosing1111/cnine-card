@@ -1,6 +1,7 @@
 import {CITY_ROLES,CITY_PLACES,CITY_RULES} from './jokgak-city-v1.mjs';
 import {defaultCityLifePolicy,validateCityLifePolicy} from './jokgak-city-life-v1.mjs';
 import {defaultCityCashPolicy,validateCityCashPolicy} from './jokgak-city-cash-v1.mjs';
+import {defaultCityArsenal,defaultCityFacilities,validateCityExpansion} from './jokgak-city-expansion-v1.mjs';
 
 export const CITY_SETTINGS_KEY='jokgak_city_settings_v1';
 export const CITY_MODES=['OFF','TEST','ON'];
@@ -8,8 +9,8 @@ export const CITY_REWARD_EVENTS={ATTACK_WIN:'공격 승리',ATTACK_LOSE:'공격 
 export const roleRewardEvents=code=>['ATTACK_WIN','ATTACK_LOSE','ATTACK_DRAW',...(code==='POLICE'?['ARREST_WIN','INSPECT']:[]),...(['NURSE','DOCTOR'].includes(code)?['HEAL_OTHER']:[])];
 export function defaultCitySettings(){
   return {revision:0,mode:'TEST',testUserIds:[],rules:{moveCooldownMs:CITY_RULES.moveCooldownMs,targetProtectionMs:CITY_RULES.targetProtectionMs,rejoinCooldownMs:CITY_RULES.rejoinCooldownMs},
-    rewards:{enabled:false,dailyLimit:20,sameTargetCooldownMs:3600000},life:defaultCityLifePolicy(),cash:defaultCityCashPolicy(),
-    roles:CITY_ROLES.map(({code})=>({code,weight:1,startLocation:'HOME',attackEnabled:true,maxHealth:100,regenPerMinute:5,defeatDamage:25,attackCooldownMs:15000,wantedPerAttack:1,
+    rewards:{enabled:false,dailyLimit:20,sameTargetCooldownMs:3600000},life:defaultCityLifePolicy(),cash:defaultCityCashPolicy(),arsenal:defaultCityArsenal(),facilities:defaultCityFacilities(),
+    roles:CITY_ROLES.map(({code})=>({code,weight:1,startLocation:'HOME',attackEnabled:true,maxHealth:code==='POLICE'?150:100,regenPerMinute:5,defeatDamage:25,attackCooldownMs:15000,wantedPerAttack:1,
       ...(code==='POLICE'?{inspectEnabled:true,inspectCooldownMs:10000,arrestEnabled:true,arrestMinWanted:1,arrestMs:60000}:{}),
       ...(code==='BEGGAR'?{begEnabled:true,begCooldownMs:60000,begDurationMs:30000,begCash:100}:{}),
       ...(code==='GANG'?{killTheftBonusPercent:10,killTheftMaxCash:4000}:{}),
@@ -26,7 +27,8 @@ const object=(v,keys)=>v&&typeof v==='object'&&!Array.isArray(v)&&Object.keys(v)
 const number=(v,min,max)=>Number.isSafeInteger(v)&&v>=min&&v<=max;
 const fail=message=>{throw Object.assign(Error(message),{code:'CITY_POLICY',status:400});};
 export function validateCitySettings(value){
-  if(!object(value,['revision','mode','testUserIds','rules','rewards','roles','life','cash','enabled','updatedAt','updatedBy'])||!number(value.revision,0,1e9)||!CITY_MODES.includes(value.mode))fail('운영 모드와 설정 버전을 확인하세요.');
+  if(!object(value,['revision','mode','testUserIds','rules','rewards','roles','life','cash','arsenal','facilities','enabled','updatedAt','updatedBy'])||!number(value.revision,0,1e9)||!CITY_MODES.includes(value.mode))fail('운영 모드와 설정 버전을 확인하세요.');
+  const expansion=validateCityExpansion(value.arsenal,value.facilities);
   const life=validateCityLifePolicy(value.life??defaultCityLifePolicy());
   const cash=validateCityCashPolicy(value.cash);
   if(!Array.isArray(value.testUserIds)||value.testUserIds.length>100||new Set(value.testUserIds).size!==value.testUserIds.length||value.testUserIds.some(id=>!number(id,1,Number.MAX_SAFE_INTEGER)))fail('테스트 참여자는 중복 없이 최대 100명까지 지정하세요.');
@@ -41,7 +43,7 @@ export function validateCitySettings(value){
     if(!base||seen.has(r.code)||!object(r,Object.keys(base)))fail('역할 코드와 해당 역할의 설정 항목을 확인하세요.');
     r={...(r.code==='BEGGAR'?{begEnabled:base.begEnabled,begCooldownMs:base.begCooldownMs,begDurationMs:base.begDurationMs,begCash:base.begCash}:{}),...(r.code==='GANG'?{killTheftBonusPercent:base.killTheftBonusPercent,killTheftMaxCash:base.killTheftMaxCash}:{}),...r};
     seen.add(r.code);
-    if(!number(r.weight,0,10000)||!CITY_PLACES.some(p=>p.id===r.startLocation)||typeof r.attackEnabled!=='boolean'||!number(r.maxHealth,10,100)||!number(r.regenPerMinute,0,100)||!number(r.defeatDamage,1,100)||!number(r.attackCooldownMs,1000,3600000)||!number(r.wantedPerAttack,0,5))fail('역할의 배정 비중·시작 장소·체력·회복·피해·공격 대기·수배 값을 확인하세요.');
+    if(!number(r.weight,0,10000)||!CITY_PLACES.some(p=>p.id===r.startLocation)||typeof r.attackEnabled!=='boolean'||!number(r.maxHealth,10,1000)||!number(r.regenPerMinute,0,100)||!number(r.defeatDamage,1,100)||!number(r.attackCooldownMs,1000,3600000)||!number(r.wantedPerAttack,0,5))fail('역할의 배정 비중·시작 장소·체력·회복·피해·공격 대기·수배 값을 확인하세요.');
     if(r.code==='POLICE'&&(typeof r.inspectEnabled!=='boolean'||typeof r.arrestEnabled!=='boolean'||!number(r.inspectCooldownMs,1000,3600000)||!number(r.arrestMinWanted,1,5)||!number(r.arrestMs,1000,3600000)))fail('경찰의 검문·체포 사용, 대기시간, 최소 수배와 구금 시간을 확인하세요.');
     if(['NURSE','DOCTOR'].includes(r.code)&&(!number(r.healAmount,0,100)||!number(r.healCooldownMs,1000,3600000)||typeof r.selfHeal!=='boolean'))fail('의료진의 회복량·치료 대기·자기 치료 설정을 확인하세요.');
     if(r.code==='BEGGAR'&&(typeof r.begEnabled!=='boolean'||!number(r.begCooldownMs,10000,3600000)||!number(r.begDurationMs,10000,120000)||r.begDurationMs>r.begCooldownMs||!number(r.begCash,1,100000)))fail('구걸 사용, 대기 10~3600초, 표시 10~120초(대기 이하), 동냥 1~10만 원을 확인하세요.');
@@ -55,5 +57,5 @@ export function validateCitySettings(value){
     const normalized=structuredClone(r);normalized.rewards=normalized.rewards.map(row=>({...row,cash:row.cash??0}));return normalized;
   });
   if(!roles.some(r=>r.weight>0))fail('최소 한 역할의 배정 비중은 0보다 커야 합니다.');
-  return {revision:value.revision,mode:value.mode,testUserIds:[...value.testUserIds].sort((a,b)=>a-b),rules:{...rules},rewards:{...reward},life,cash,roles:CITY_ROLES.map(r=>roles.find(x=>x.code===r.code))};
+  return {revision:value.revision,mode:value.mode,testUserIds:[...value.testUserIds].sort((a,b)=>a-b),rules:{...rules},rewards:{...reward},life,cash,...expansion,roles:CITY_ROLES.map(r=>roles.find(x=>x.code===r.code))};
 }

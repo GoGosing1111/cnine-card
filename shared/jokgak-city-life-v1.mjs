@@ -1,5 +1,6 @@
 // City-only survival state. Combat HP and everyday health are separate meters.
 import {ensureCityCash,CITY_CASH_MAX} from './jokgak-city-cash-v1.mjs';
+import {validateCityFacilitiesState,projectCityFacilities,applyCityExpansionView,defaultCityFacilities} from './jokgak-city-expansion-v1.mjs';
 export const CITY_DEATH_MS=180000;
 export const CITY_SUPPLIES=[
   {code:'LUNCHBOX',name:'휴대 도시락',icon:'meal',description:'이동 중 허기를 달래는 따뜻한 도시락'},
@@ -35,6 +36,7 @@ export function readCityLife(raw,now){
   if(raw==null)return newCityLife(now);
   try{
     const life=JSON.parse(raw);
+    validateCityFacilitiesState(life);
     if(life.version!==1||!Number.isSafeInteger(life.at)||!['hunger','wellness'].every(k=>Number.isFinite(life[k])&&life[k]>=0&&life[k]<=100)||!life.bags?.TEST||!life.bags?.ON)throw Error();
     for(const mode of ['TEST','ON'])for(const [code,n] of Object.entries(life.bags[mode]))if(!CITY_SUPPLIES.some(s=>s.code===code)||!integer(n,0,99))throw Error();
     if(life.death&&(!Number.isSafeInteger(life.death.until)||!Number.isSafeInteger(life.death.at)||typeof life.death.killerName!=='string'))throw Error();
@@ -54,6 +56,7 @@ export function projectCityLife(state,life,now,policy){
       state.health=state.maxHealth;state.nextActionAt=Math.min(state.nextActionAt,death.until);state.nextMoveAt=0;
       state.protectedUntil=Math.max(state.protectedUntil,death.until+policy.rules.targetProtectionMs);
       life.wellness=100;life.hunger=Math.max(30,life.hunger);life.at=death.until;death.resolved=true;
+      life.hospital={enteredAt:death.until,leaveAt:death.until+(policy.facilities||defaultCityFacilities()).hospital.maxStayMs,autoReturnAfter:0};
     }
   }
   const dead=!!death&&!death.resolved;
@@ -64,20 +67,24 @@ export function projectCityLife(state,life,now,policy){
     life.wellness=Math.max(0,life.wellness-hours*cfg.wellnessPerHour-starvingHours*cfg.starvingWellnessPerHour);
   }
   life.at=now;
-  if(state.active&&!dead&&life.wellness<=cfg.hospitalThreshold){state.location='HOSPITAL';state.jailedUntil=0;}
+  projectCityFacilities(state,life,now,policy);
+  if(state.active&&!dead&&life.wellness<=cfg.hospitalThreshold&&!(life.motel?.until>now)&&!(life.hospital?.autoReturnAfter>now)){state.location='HOSPITAL';state.jailedUntil=0;}
+  projectCityFacilities(state,life,now,policy);
   return applyCityLifeView(state,life,policy);
 }
 export function applyCityLifeView(state,life,policy){
   state.hunger=Math.ceil(life.hunger);state.wellness=Math.ceil(life.wellness);
   state.death=life.death?{...life.death}:null;state.deadUntil=life.death&&!life.death.resolved?life.death.until:0;
-  state.hospitalRequired=!state.deadUntil&&life.wellness<=policy.life.hospitalThreshold;
+  state.hospitalRequired=!state.deadUntil&&state.location==='HOSPITAL'&&life.wellness<=policy.life.hospitalThreshold;
   state.bag={...(life.bags[policy.mode]||{})};
   const wallet=ensureCityCash(life,policy);state.cash=wallet?.balance??0;state.cashMode=policy.mode;state.cashUnit='원';
   state.begging=state.active&&state.role==='BEGGAR'&&!state.deadUntil&&!state.hospitalRequired&&life.begging?.endsAt>life.at&&life.begging.location===state.location&&life.begging.mode===policy.mode?{...life.begging}:null;
-  return state;
+  return applyCityExpansionView(state,life,policy);
 }
 export function markCityDeath(state,life,killer,now,location){
   life.death={at:now,until:now+CITY_DEATH_MS,killerId:killer.userId,killerName:killer.nickname,location,resolved:false};life.at=now;
+  if(life.motel)life.motel.until=0;
+  life.hospital={enteredAt:0,leaveAt:0,autoReturnAfter:0};
   state.health=0;state.location='HOSPITAL';state.jailedUntil=0;state.wanted=0;state.protectedUntil=0;
   state.nextActionAt=Math.max(state.nextActionAt,life.death.until);state.nextMoveAt=0;
 }

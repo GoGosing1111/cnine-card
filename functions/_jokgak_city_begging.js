@@ -16,7 +16,7 @@ export function beggingNotifications(env,{user,me,requestId,begging,policy,now})
     requestId,requestId,now,JSON.stringify(summary),me.location,user.id,now,...accessIds(policy));
 }
 export async function cityBeggingOffers(env,user,mine,now,policy){
-  if(!mine?.active||mine.deadUntil>now||mine.jailedUntil>now||mine.hospitalRequired||!cityRolePolicy(policy,'BEGGAR').begEnabled)return [];
+  if(!mine?.active||mine.restUntil>now||mine.deadUntil>now||mine.jailedUntil>now||mine.hospitalRequired||!cityRolePolicy(policy,'BEGGAR').begEnabled)return [];
   const rows=(await p(env,`SELECT n.id,n.summary_json,life.value AS life_raw FROM jokgak_city_notifications_v1 n
     JOIN jokgak_city_actions_v1 a ON a.request_id=n.request_id JOIN jokgak_city_players_v1 c ON c.user_id=a.user_id JOIN users u ON u.id=c.user_id
     LEFT JOIN app_meta life ON life.key='jokgak_city_life_v1:'||CAST(c.user_id AS TEXT)

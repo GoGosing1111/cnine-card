@@ -1,0 +1,21 @@
+{
+  "checks": [
+    "1440: police HP150, 11 places, 2000-won purchase and explicit equip update whole-team power",
+    "1440: inventory switches one equipped weapon and blocks unaffordable rifle",
+    "1440: motel admission shows private room, 15-minute countdown and checkout",
+    "1440: expired rest moves home and retains one-hour reuse cooldown",
+    "1440: hospital has five-minute countdown and automatic exit",
+    "1440: doctors may remain and the page has no horizontal overflow",
+    "1440: CMS weapon prices and facilities save while preserving ON",
+    "390: police HP150, 11 places, 2000-won purchase and explicit equip update whole-team power",
+    "390: inventory switches one equipped weapon and blocks unaffordable rifle",
+    "390: motel admission shows private room, 15-minute countdown and checkout",
+    "390: expired rest moves home and retains one-hour reuse cooldown",
+    "390: hospital has five-minute countdown and automatic exit",
+    "390: doctors may remain and the page has no horizontal overflow",
+    "390: CMS weapon prices and facilities save while preserving ON"
+  ],
+  "errors": [],
+  "accounts": "isolated fixtures",
+  "battle": "separate real V3 playback test"
+}
