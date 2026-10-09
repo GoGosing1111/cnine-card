@@ -9,7 +9,7 @@ const fmtPrice=n=>n===null||n===undefined?'설정 전':BigInt(n).toLocaleString(
 let active=null;const scripts=new Map();
 function stylesheet(){
  if(document.querySelector('[data-limited-pack-style]'))return;
- const el=document.createElement('link');el.rel='stylesheet';el.href='/css/mercenary-limited-pack-v1.css?v=20261008-daily';el.dataset.limitedPackStyle='';document.head.append(el);
+ const el=document.createElement('link');el.rel='stylesheet';el.href='/css/mercenary-limited-pack-v1.css?v=20261010-grid';el.dataset.limitedPackStyle='';document.head.append(el);
 }
 function script(url,ready){
  if(ready())return Promise.resolve();if(scripts.has(url))return scripts.get(url);
@@ -31,18 +31,18 @@ export async function mountLimitedPack({api,accountId,getAccountId,storage,previ
  stylesheet();const previous=document.activeElement,dialog=document.createElement('dialog');active=dialog;
  dialog.className='lp-dialog';dialog.setAttribute('aria-labelledby','lp-title');
  dialog.innerHTML='<header class="lp-header"><div><span class="lp-sigil" aria-hidden="true">✦</span><div><small>SOOPKETMON / LIMITED EDITION</small><h1 id="lp-title">리미티드 계약실</h1></div></div><div><span class="lp-tag">'+(preview?'연출 검수 · 실제 지급 없음':'리미티드만 서버 한정')+'</span><button data-lp-close aria-label="계약실 닫기">×</button></div></header>'+
- '<div class="lp-body"><section class="lp-theatre"><div class="lp-stage-heading"><span>THE SEALED CONTRACT</span><b data-lp-counter>LIMITED COLLECTION</b></div><div class="lp-canvas" data-lp-canvas></div><div class="lp-stage-foot"><span class="lp-live-dot"></span><p data-lp-status role="status" aria-live="polite">계약실을 준비하고 있습니다.</p><button data-lp-stop-stage hidden>중지</button><button data-lp-skip hidden>연출 건너뛰기</button></div></section>'+
+ '<div class="lp-body"><section class="lp-theatre"><div class="lp-stage-heading"><span>THE SEALED CONTRACT</span><b data-lp-counter>LIMITED COLLECTION</b></div><div class="lp-canvas" data-lp-canvas></div><section class="lp-batch-results" data-lp-results aria-label="10회 개봉 결과" hidden><div class="lp-result-grid" data-lp-result-grid></div></section><div class="lp-stage-foot"><span class="lp-live-dot"></span><p data-lp-status role="status" aria-live="polite">계약실을 준비하고 있습니다.</p><button data-lp-stop-stage hidden>중지</button><button data-lp-skip hidden>연출 건너뛰기</button></div></section>'+
  '<aside class="lp-controls"><span class="lp-eyebrow">A CONTRACT BEYOND RARITY</span><h2>리미티드<br>용병팩</h2><p class="lp-intro">일반 용병 C~SSS와의 계약.<br>극히 희귀한 확률로 SS·SSS 리미티드가 등장합니다.</p><div class="lp-availability" data-lp-access>개봉 상태 확인 중</div>'+
  '<div class="lp-prices"><div><small>1회 개봉</small><b data-lp-price-one>—</b><span>코인</span></div><div><small>10회 개봉</small><b data-lp-price-ten>—</b><span>코인</span></div></div>'+
  '<div class="lp-daily" aria-live="polite"><div><span>오늘 개봉 가능</span><b data-lp-daily>확인 중</b></div><small>계정당 1일 '+fmt(LIMITED_DAILY_CAP)+'개 · 한국 시간 00:00 초기화</small></div>'+
  '<div class="lp-buy"><button data-lp-buy="1" class="lp-primary" disabled>1회 개봉</button><button data-lp-buy="10" class="lp-primary" disabled>10회 개봉</button></div>'+
- '<section class="lp-auto"><div><h3>자동 계약</h3><span>HALF SKIP</span></div><p>봉인 해제부터 카드 공개까지.<br>매 결과를 확인하며 자동으로 이어집니다.</p><div class="lp-auto-fields"><label>총 개봉 횟수<input data-lp-total type="number" min="1" max="1000" step="1" value="10" inputmode="numeric"></label><label>한 번에<select data-lp-batch><option value="1">1회씩</option><option value="10" selected>10회씩</option></select></label></div><p class="lp-quote" data-lp-quote>최대 1,000회 · 언제든 중지 가능</p><button data-lp-auto disabled>자동 진행 설정</button><button data-lp-stop class="lp-stop" hidden>이 개봉 후 중지</button></section>'+
+ '<section class="lp-auto"><div><h3>자동 계약</h3><span>QUICK REVEAL</span></div><p>10회 결과는 이미지로 한 번에 공개됩니다.<br>결과 확인 후 다음 계약으로 이어집니다.</p><div class="lp-auto-fields"><label>총 개봉 횟수<input data-lp-total type="number" min="1" max="1000" step="1" value="10" inputmode="numeric"></label><label>한 번에<select data-lp-batch><option value="1">1회씩</option><option value="10" selected>10회씩</option></select></label></div><p class="lp-quote" data-lp-quote>최대 1,000회 · 언제든 중지 가능</p><button data-lp-auto disabled>자동 진행 설정</button><button data-lp-stop class="lp-stop" hidden>이 개봉 후 중지</button></section>'+
  '<button data-lp-recover class="lp-recover">이전 결과 확인</button><p class="lp-fine">가격 변경·수량 소진·통신 오류 시 중지됩니다. 창을 닫아도 확정된 결과는 보존됩니다.</p></aside></div>'+
  '<section class="lp-collection"><div><h3>한정 계약 명부</h3><span>용병별 발행 한도 / 잔여 수량</span><button data-lp-refresh>새로고침 ↻</button></div><div class="lp-roster" data-lp-roster></div></section>'+
  '<details class="lp-details"><summary>획득 확률과 최근 결과</summary><div data-lp-odds></div><ol data-lp-history></ol></details>'+
  '<div class="lp-confirm" data-lp-confirm hidden><div role="group" aria-labelledby="lp-confirm-title"><span class="lp-eyebrow">CONFIRM CONTRACT</span><h2 id="lp-confirm-title">계약을 시작할까요?</h2><p data-lp-confirm-text></p><div><button data-lp-cancel>취소</button><button class="lp-primary" data-lp-confirm-start>개봉 시작</button></div></div></div>';
  document.body.append(dialog);dialog.showModal();
- let disposed=false,fx=null,config=null,session=null,confirmation=null,ready=false,total=0,revealed=0,mode='manual',lastReceipt=null,busy=false,dailyTimer=null;
+ let disposed=false,fx=null,config=null,session=null,confirmation=null,ready=false,total=0,revealed=0,mode='manual',lastReceipt=null,busy=false,dailyTimer=null,batchTimer=null,resumeBatch=null;
  const $=s=>dialog.querySelector(s),say=text=>{$('[data-lp-status]').textContent=text;};
  const history=[];
  const dailyRemaining=()=>Number.isSafeInteger(config?.daily?.remaining)&&Date.parse(config.daily.resetsAt)>Date.now()?config.daily.remaining:Infinity;
@@ -83,11 +83,28 @@ export async function mountLimitedPack({api,accountId,getAccountId,storage,previ
  async function present(receipt){
   if(disposed)return false;lastReceipt=receipt;
   const results=limitedReceiptResults(receipt).map(r=>preview?{...r,preview:true,granted:false}:r);
+  const batch=results.length===10;
+  $('[data-lp-canvas]').hidden=batch;$('[data-lp-results]').hidden=!batch;
+  if(batch){
+   fx.app?.stop();
+   $('[data-lp-result-grid]').innerHTML=results.map((r,index)=>{
+    const card=r.kind==='MERCENARY',name=card?r.name:{MASTER_STAR:'마스터의 별',MYSTIC_ENERGY:'미스틱 에너지',MISS:'꽝'}[r.kind];
+    const art=card?r.artUrl:r.kind==='MASTER_STAR'?'/assets/ui/icon-fusion-20261004/master-star.webp':r.kind==='MYSTIC_ENERGY'?'/assets/items/starlight-armor-core-v1749.png':'/'+LIMITED_PACK.image;
+    const detail=card?(r.limited?'No. '+String(r.serial).padStart(6,'0'):'일반 용병'):r.kind==='MISS'?'획득 없음':fmt(r.quantity)+'개';
+    return '<article class="lp-result-card'+(r.limited?' is-limited':'')+(card?'':' is-reward')+'" data-kind="'+esc(r.kind)+'" title="'+esc(name+' · '+detail)+'"><div class="lp-result-art"><img src="'+esc(art)+'" alt="'+esc(name)+'" decoding="async"><span class="lp-result-number">'+String(index+1).padStart(2,'0')+'</span>'+(card?'<b class="lp-result-rank">'+esc(r.rank)+'</b>':'')+'</div><div class="lp-result-caption"><b>'+esc(name)+'</b><small>'+esc(detail)+'</small></div></article>';
+   }).join('');
+   revealed+=results.length;$('[data-lp-counter]').textContent='RESULT '+revealed+(total?' / '+total:'');
+   say('10회 결과를 모두 공개했습니다.');dialog.scrollTo({top:0,behavior:'instant'});sync();
+   if(mode==='auto'&&!session.stopped)await new Promise(resolve=>{resumeBatch=resolve;batchTimer=setTimeout(finishBatchPause,1500);});
+   return !disposed&&!document.hidden;
+  }
+  fx.app?.start();
   fx.fastReveal=mode==='auto';
-  // One renderer is reused for every receipt. No text-only automatic result path.
+  // Single draws retain their reveal; ten draws display the entire confirmed receipt above.
   await fx.play(results);if(disposed)return false;
   return !document.hidden;
  }
+ function finishBatchPause(){clearTimeout(batchTimer);batchTimer=null;const resolve=resumeBatch;resumeBatch=null;resolve?.();}
  const state=event=>{
   if(disposed)return;
   if(event.state==='requesting')say('계약을 확인하고 있습니다. '+(event.completed+1)+'–'+(event.completed+event.count)+' / '+total+'회');
@@ -128,11 +145,11 @@ export async function mountLimitedPack({api,accountId,getAccountId,storage,previ
   }catch(e){say(e.message);}
  }
  function close(){
-  if(disposed)return;disposed=true;clearTimeout(dailyTimer);session.stop();fx?.destroy();document.removeEventListener('visibilitychange',visibility);
+  if(disposed)return;disposed=true;clearTimeout(dailyTimer);session.stop();finishBatchPause();fx?.destroy();document.removeEventListener('visibilitychange',visibility);
   dialog.close();dialog.remove();if(active===dialog)active=null;previous?.focus();
  }
  function visibility(){
-  if(document.hidden){session.stop();if(fx?.running&&!fx.paused)fx.pause();fx?.app?.stop();}
+  if(document.hidden){session.stop();finishBatchPause();if(fx?.running&&!fx.paused)fx.pause();fx?.app?.stop();}
   else if(!disposed){if(fx?.running&&fx.paused)fx.pause();if(fx?.running)fx.app?.start();if(!busy&&Date.parse(config?.daily?.resetsAt)<=Date.now())void loadStockOnly();}
  }
  $('[data-lp-close]').onclick=close;
@@ -145,7 +162,7 @@ export async function mountLimitedPack({api,accountId,getAccountId,storage,previ
   if(!confirmation||busy)return;const {config:confirmedConfig,...plan}=confirmation;confirmation=null;$('[data-lp-confirm]').hidden=true;
   dialog.scrollTo({top:0,behavior:'instant'});total=plan.total;revealed=0;void run(()=>session.start(confirmedConfig,plan));
  };
- $('[data-lp-stop-stage]').onclick=$('[data-lp-stop]').onclick=()=>{session.stop();sync();};
+ $('[data-lp-stop-stage]').onclick=$('[data-lp-stop]').onclick=()=>{session.stop();finishBatchPause();sync();};
  $('[data-lp-skip]').onclick=()=>{session.stop();fx?.skip();};
  $('[data-lp-recover]').onclick=()=>{dialog.scrollTo({top:0,behavior:'instant'});mode='manual';revealed=0;total=0;void run(()=>session.recover());};
  $('[data-lp-refresh]').onclick=()=>{if(!busy)void load();};

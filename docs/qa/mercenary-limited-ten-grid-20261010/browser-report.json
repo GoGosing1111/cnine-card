@@ -1,0 +1,38 @@
+{
+  "status": "PASSED",
+  "scope": "Actual live UI and opening session with isolated receipt fixtures; no production purchases",
+  "reports": [
+    {
+      "label": "desktop",
+      "width": 1440,
+      "height": 1000,
+      "tenPicturesTogether": true,
+      "allTenInViewport": true,
+      "allImagesDecoded": true,
+      "noSequentialTenReveal": true,
+      "recoveryWithoutRepurchase": true,
+      "automaticTenBatches": true,
+      "stopBeforeNextBatch": true,
+      "mixedRewards": true,
+      "singleRevealPreserved": true,
+      "errors": [],
+      "failed": []
+    },
+    {
+      "label": "mobile",
+      "width": 390,
+      "height": 844,
+      "tenPicturesTogether": true,
+      "allTenInViewport": true,
+      "allImagesDecoded": true,
+      "noSequentialTenReveal": true,
+      "recoveryWithoutRepurchase": true,
+      "automaticTenBatches": true,
+      "stopBeforeNextBatch": true,
+      "mixedRewards": true,
+      "singleRevealPreserved": true,
+      "errors": [],
+      "failed": []
+    }
+  ]
+}
