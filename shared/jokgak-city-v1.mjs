@@ -27,14 +27,15 @@ export function cityShift(now=Date.now()) {
   const id=Math.floor((now+KST_MS)/CITY_SHIFT_MS), startsAt=id*CITY_SHIFT_MS-KST_MS;
   return {id,startsAt,endsAt:startsAt+CITY_SHIFT_MS};
 }
-export function cityHealth(row,now=Date.now()) {
-  if(!row)return 100;
-  if(Number(row.epoch)!==cityShift(now).id)return 100;
-  return Math.min(100,Math.max(0,Number(row.health)||0)+Math.floor(Math.max(0,now-Number(row.health_at))/60000)*CITY_RULES.regenPerMinute);
+export function cityHealth(row,now=Date.now(),rules=CITY_RULES) {
+  const max=rules.maxHealth??100;
+  if(!row)return max;
+  if(Number(row.epoch)!==cityShift(now).id)return max;
+  return Math.min(max,Math.max(0,Number(row.health)||0)+Math.floor(Math.max(0,now-Number(row.health_at))/60000)*rules.regenPerMinute);
 }
-export function cityState(row,role,now=Date.now()) {
+export function cityState(row,role,now=Date.now(),rules=CITY_RULES) {
   if(!row)return null;
   const current=Number(row.epoch)===cityShift(now).id;
-  return {userId:Number(row.user_id),nickname:row.nickname||'',active:Number(row.active)===1,role,location:row.location,health:cityHealth(row,now),wanted:current?Number(row.wanted):0,
+  return {userId:Number(row.user_id),nickname:row.nickname||'',active:Number(row.active)===1,role,location:row.location,health:cityHealth(row,now,rules),maxHealth:rules.maxHealth??100,wanted:current?Number(row.wanted):0,
     jailedUntil:current?Number(row.jailed_until):0,nextActionAt:Number(row.next_action_at),nextMoveAt:Number(row.next_move_at),protectedUntil:current?Number(row.protected_until):0,revision:Number(row.revision)};
 }

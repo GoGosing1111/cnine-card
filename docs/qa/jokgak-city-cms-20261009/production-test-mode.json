@@ -1,0 +1,10 @@
+{
+  "operation": "ops:jokgak-city-test:20261009:v1",
+  "at": "2026-10-09T10:14:56.204Z",
+  "mode": "TEST",
+  "legacyEnabled": false,
+  "testUserCount": 0,
+  "revision": 1,
+  "accountBalancesChanged": false,
+  "dryRun": false
+}
