@@ -1,0 +1,81 @@
+{
+  "verifiedAt": "2026-10-09T19:04:27.633Z",
+  "sourceCommit": "e1e32d1432353006ad07a686a7d66a3e6a045df9",
+  "base": "https://cnine-card.pages.dev",
+  "productionFiles": [
+    {
+      "file": "shared/mercenary-ss-limited-v1.mjs",
+      "status": 200,
+      "sha256": "003d4aaa59e69c2e4b15fbcd441643bf2caccf79e15b00b0d2ddca40e2c3f075",
+      "normalization": "CRLF to LF"
+    }
+  ],
+  "codex": {
+    "status": 200,
+    "revision": 61,
+    "ssLimitedBalanceVersion": 4,
+    "cacheControl": "no-store",
+    "limited": [
+      {
+        "code": "V-990",
+        "name": "나무늘봉순",
+        "rank": "SS",
+        "descriptionUpdated": true
+      },
+      {
+        "code": "V-991",
+        "name": "조은",
+        "rank": "SS",
+        "descriptionUpdated": true
+      },
+      {
+        "code": "V-992",
+        "name": "이네스",
+        "rank": "SS",
+        "descriptionUpdated": true
+      },
+      {
+        "code": "V-993",
+        "name": "오리꿍",
+        "rank": "SS",
+        "descriptionUpdated": true
+      },
+      {
+        "code": "V-994",
+        "name": "디임",
+        "rank": "SS",
+        "descriptionUpdated": true
+      },
+      {
+        "code": "V-997",
+        "name": "아윤",
+        "rank": "SS",
+        "descriptionUpdated": true
+      },
+      {
+        "code": "V-998",
+        "name": "하이희야",
+        "rank": "SS",
+        "descriptionUpdated": true
+      }
+    ]
+  },
+  "checks": {
+    "scopedRegressionsPassed": 25,
+    "tempoAndBuffRegressionsPassed": 10,
+    "canonicalBattles": 125440,
+    "omegaRagnielWins": 62720,
+    "omegaRagnielBattles": 62720,
+    "matchupsWithinTarget": 28,
+    "browserReport": "docs/qa/ss-limited-buff-20261010/browser-report.json"
+  },
+  "deployment": {
+    "command": "npm run deploy:production -- --scoped",
+    "exitCode": 0,
+    "pagesUrl": "https://667261a7.cnine-card.pages.dev",
+    "apiRuntimeVersion": "5b3c24ea-4670-47c6-a9fc-302ba7f7d0ba",
+    "clanDraftVersion": "4a4095f2-2125-422b-bffa-ff33383fc489"
+  },
+  "realPurchasesExecuted": 0,
+  "realPlayerBattlesExecuted": 0
+}

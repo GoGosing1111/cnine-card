@@ -59,3 +59,10 @@
 직전 실제 운영 소스 `ab4c3193a3ac560040421daf0b7190d985a6c122` 기준. 변경 실행 파일은 SS 정책과 공통 전투의 SS 전용 에너지/상한 분기뿐이며 인증·DB·거래 구조 변경이 없다. `npm run deploy:production -- --scoped`를 사용한다. 배포 시 balance 8개·matchups 4개·limited-deployment 4개·실제 번들/메인 로더 9개와 Worker 컴파일을 선택한다. 이미 통과한 tempo 6개·buff 4개 및 PC/모바일 검사는 중복하지 않는다.
 
 등급·성장 잠금, 일반 SS/SSS·SSS 리미티드 정책, 승인 원화·SD, 소유/편성/획득, 리미티드팩 확률·가격·한도·ON 상태와 이벤트 지급 기록은 유지한다. 실제 유저 전투·지급·구매를 검사 목적으로 실행하지 않았다.
+
+## 운영 반영 완료
+
+- 실행 변경 `915fceb7`, 배포 후보 `e1e32d1432353006ad07a686a7d66a3e6a045df9`를 `origin/main`에 반영하고 공식 scoped 배포를 완료했다. 선택 회귀 25개·Worker 검사·기존 출시/캐시/Hyperdrive 검사 모두 통과했다. 앞서 통과한 행동력/발동 조건 10개 및 PC·모바일 검사는 반복하지 않았다.
+- Pages `https://667261a7.cnine-card.pages.dev`, API runtime `5b3c24ea-4670-47c6-a9fc-302ba7f7d0ba`, clan draft `4a4095f2-2125-422b-bffa-ff33383fc489`.
+- **2026-10-10 04:04 KST**, 실제 운영 주소 `https://cnine-card.pages.dev`의 SS 정책 파일 SHA-256 일치, 도감 API 정책 버전 4·7종 새 행동/에너지/쿨다운 설명·`no-store`를 확인했다. SSS 리미티드에 해당 설명이 붙지 않는 것도 확인했다.
+- 상세 영수증은 `docs/qa/ss-limited-buff-20261010/production-report.json`. 이 운영 확인 기록의 후속 커밋은 문서만 변경하므로 재배포하지 않는다.
