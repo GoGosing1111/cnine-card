@@ -1,0 +1,28 @@
+{
+  "source": "418ae808d05f1905581fb523cf4b19c8b2226484",
+  "pages": "https://85139390.cnine-card.pages.dev",
+  "apiRuntime": "00e54e31-59dc-4fa3-99f8-099087fa7945",
+  "clanDraft": "6221956d-a3bc-4e54-a8c1-9a6f653c6e4c",
+  "checkedAt": "2026-10-09T11:43:09.207Z",
+  "base": "8d05790677ff391a7ad059b8903cefc8c44c932c",
+  "command": "npm run deploy:production -- --scoped",
+  "serverChecks": {
+    "cashBeforeRelease": 9,
+    "cityRegressionDuringRelease": 49,
+    "passed": 58,
+    "failed": 0
+  },
+  "browserChecks": {
+    "lifeCash": 14,
+    "cmsCash": 12,
+    "exceptions": 0
+  },
+  "productionMode": "TEST",
+  "productionStartingCash": 10000,
+  "rewardEnabled": false,
+  "realAccountActions": 0,
+  "log": {
+    "path": "C:/Users/User/.codex/tmp/jokgak-city-cash-20261009/production-scoped.log",
+    "sha256": "8e3626c1e1c5c4c0511974b17428d6c3692dd42fe9f40e410fc5c4c9ba9e31fe"
+  }
+}

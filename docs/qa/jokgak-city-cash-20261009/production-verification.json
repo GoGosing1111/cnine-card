@@ -1,0 +1,153 @@
+{
+  "checkedAt": "2026-10-09T11:43:09.207Z",
+  "source": "418ae808d05f1905581fb523cf4b19c8b2226484",
+  "origin": "https://cnine-card.pages.dev",
+  "productionPolicy": {
+    "mode": "TEST",
+    "revision": 1,
+    "testUserCount": 0,
+    "rewardsEnabled": false,
+    "configuredRewardRows": 0,
+    "roleCount": 7,
+    "legacyEnabled": false,
+    "life": {
+      "hungerPerHour": 12,
+      "wellnessPerHour": 6,
+      "starvingWellnessPerHour": 24,
+      "hospitalThreshold": 25,
+      "serviceCooldownMs": 5000,
+      "meal": {
+        "enabled": true,
+        "price": 1000,
+        "hunger": 60,
+        "wellness": 10
+      },
+      "treatment": {
+        "enabled": true,
+        "price": 2000,
+        "health": 100,
+        "wellness": 100
+      },
+      "supplies": [
+        {
+          "code": "LUNCHBOX",
+          "enabled": true,
+          "price": 1500,
+          "hunger": 35,
+          "wellness": 0,
+          "health": 0
+        },
+        {
+          "code": "VITAMIN",
+          "enabled": true,
+          "price": 1500,
+          "hunger": 0,
+          "wellness": 25,
+          "health": 0
+        },
+        {
+          "code": "FIRST_AID",
+          "enabled": true,
+          "price": 2000,
+          "hunger": 0,
+          "wellness": 0,
+          "health": 40
+        }
+      ]
+    },
+    "cash": {
+      "startingCash": 10000
+    }
+  },
+  "assets": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "d298db45912b2fea8c6a23108705309b36bb593c8433b2cb39ddf09dafbb6609"
+    },
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "sha256": "73e664f7720b2791661da375448e5d0a29ca8cfbf4d09db558d294e1d577564c"
+    },
+    {
+      "file": "admin/jokgak-city-admin-v1.mjs",
+      "status": 200,
+      "sha256": "27a47224d78c397cb6a1779f1a4f840da9a25a46ac7ac218ecf5fd0c59f65686"
+    },
+    {
+      "file": "admin/jokgak-city-admin-v1.css",
+      "status": 200,
+      "sha256": "541132df455cea78d69832c4925bffdfe0199db15be33d13deee7833a7011faa"
+    },
+    {
+      "file": "shared/jokgak-city-settings-v1.mjs",
+      "status": 200,
+      "sha256": "ee92dff58ddc6bf242c64735c34819bb570466617c3f511f41f08f0766096a7e"
+    },
+    {
+      "file": "shared/jokgak-city-v1.mjs",
+      "status": 200,
+      "sha256": "a3d320c3cf7a8924b2c555402c9d54a6bfbdcedff2c9b3b039069cb4c3e027af"
+    },
+    {
+      "file": "js/jokgak-city-v1.js",
+      "status": 200,
+      "sha256": "847fefb9fdf84dc77bb8de8e05637a40f1ecd94a52bf28f2ab47e128e054b434"
+    },
+    {
+      "file": "js/adventure-navigation-standalone.js",
+      "status": 200,
+      "sha256": "f77b544bd4e0404493b8c48dcd83f2a0abbf3896017cc9281fac3486425be5ad"
+    },
+    {
+      "file": "js/jokgak-city-life-ui-v1.mjs",
+      "status": 200,
+      "sha256": "9163ac9a41260e66a8004238286dd2960622ab46c20050ff0a83eda82d8f7442"
+    },
+    {
+      "file": "shared/jokgak-city-life-v1.mjs",
+      "status": 200,
+      "sha256": "718640e420fb9419175b8eef8fa9ab3c0e300b368f1fb290450759e5b19329de"
+    },
+    {
+      "file": "shared/jokgak-city-cash-v1.mjs",
+      "status": 200,
+      "sha256": "4c46fbf0d17d963ad2782bcd09a2784677fa5806e979c2523c545d28fb0757ef"
+    },
+    {
+      "file": "css/jokgak-city-v1.css",
+      "status": 200,
+      "sha256": "9dc2bfecd794b31961368976a5aae8001b9ba42a1b0e2d074c34be365edf723d"
+    },
+    {
+      "file": "preview/jokgak-city-v1/index.html",
+      "status": 200,
+      "sha256": "95e8d8c396345ecf29d58c1b8efe6babf1f2c26d3964af5a57716d76143619ba"
+    },
+    {
+      "file": "preview/jokgak-city-v1/preview.mjs",
+      "status": 200,
+      "sha256": "750670e23f1ad0e29eea6b540544ebbfc0484ffaf2430087c96c113384287ab9"
+    }
+  ],
+  "routes": [
+    {
+      "route": "jokgak-city/status",
+      "unauthenticatedStatus": 401
+    },
+    {
+      "route": "admin/jokgak-city",
+      "unauthenticatedStatus": 401
+    }
+  ],
+  "publicPreview": {
+    "places": 10,
+    "startingCash": 10000,
+    "mealPrice": 1000,
+    "cashAfterMeal": 9000,
+    "errors": []
+  },
+  "realAccountActions": 0,
+  "accountBalancesChanged": false
+}
