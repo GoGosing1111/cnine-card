@@ -1,0 +1,88 @@
+{
+  "source": "4b6fffe22692d8854be2ef279488a2a5505cf35a",
+  "previousProductionSource": "572b2a9e63b46a583a37ea888ca9b9bed825ff85",
+  "command": "npm run deploy:production",
+  "releaseScope": "full",
+  "exitCode": 0,
+  "completedStagesReusedInFinalRun": 71,
+  "logs": [
+    {
+      "log": "C:/Users/User/.codex/tmp/jokgak-city-20261009/production-full-gate.log",
+      "source": "2a88e254f1fd3a3689cd263c6005b2b0c3836b02",
+      "sha256": "27f15d322adeba7d75632c87eaeae7bc51bedfa52c273ec7cb391b9d3e228905",
+      "exitCode": 1
+    },
+    {
+      "log": "C:/Users/User/.codex/tmp/jokgak-city-20261009/production-resume-2.log",
+      "source": "c8ec5c2d1658ff1ae8791dcbf29675c1a310984c",
+      "sha256": "ecab9d284e3e6feaa1be8098e3af139505e7adb295e51a0184387bdce77b91aa",
+      "exitCode": 1
+    },
+    {
+      "log": "C:/Users/User/.codex/tmp/jokgak-city-20261009/production-resume-3.log",
+      "source": "bc528b613e13a8694cf889a7c88bcfb351ebf685",
+      "sha256": "99210ba33b665e5714b1ea04343ae97c1f7588554a43e61a249e8663580de25a",
+      "exitCode": 1
+    },
+    {
+      "log": "C:/Users/User/.codex/tmp/jokgak-city-20261009/production-resume-4.log",
+      "source": "251e2d9b0efbb81b2ef00b189069dbab204496d7",
+      "sha256": "b2e0ee23c067c4de72df0caca531ecc39b1db274ceb4a2a2fadcbf84ec5b1ed8",
+      "exitCode": 1
+    },
+    {
+      "log": "C:/Users/User/.codex/tmp/jokgak-city-20261009/production-resume-5.log",
+      "source": "22b0e62394b29850e0c8e2645d1036b326bfb1eb",
+      "sha256": "901947f5bddc8c0a8bc4a44d830332d38f4b110e112748be2dc91d52177a1021",
+      "exitCode": 1
+    },
+    {
+      "log": "C:/Users/User/.codex/tmp/jokgak-city-20261009/production-resume-6.log",
+      "source": "d961c10b96d6b8ab35fa8da3affc2fb7ba7b871e",
+      "sha256": "21c9aad8f6168c5da285b3d0df9a8b4a198ed3732207a93091da680093c62c2b",
+      "exitCode": 1
+    },
+    {
+      "log": "C:/Users/User/.codex/tmp/jokgak-city-20261009/production-resume-7.log",
+      "source": "3af9a35ed4f616b3480b0980e669edb0ec808fa9",
+      "sha256": "df012ad9f96026e5ecf8f2b4dab3d3a3b8ec4d7ced1cf5eb9fbd44eeb3b4c7e0",
+      "exitCode": 1
+    },
+    {
+      "log": "C:/Users/User/.codex/tmp/jokgak-city-20261009/production-resume-8.log",
+      "source": "fd4ac6fc6ae4086f8b9d645acfcc7879a35c9317",
+      "sha256": "fc86cd08760686ad4ecd1541db7848665e3e36833be6569c4a7bfb34c6d4b65a",
+      "exitCode": 1
+    },
+    {
+      "log": "C:/Users/User/.codex/tmp/jokgak-city-20261009/production-resume-9.log",
+      "source": "333b75de7cb99cde8edde2ec82d4d702ee277d36",
+      "sha256": "a836305b48e315c5b076f9b8a83a3fe973f2a0d359c031106c4e3b1323248e76",
+      "exitCode": 1
+    },
+    {
+      "log": "C:/Users/User/.codex/tmp/jokgak-city-20261009/production-resume-10.log",
+      "source": "7ffc81d36888c6f465a36b9a4f4249aa8206b215",
+      "sha256": "2c1242284180dc5fed9f5f69cd122e5c5f2b59daf41906773acc87c3e81f1144",
+      "exitCode": 1
+    },
+    {
+      "log": "C:/Users/User/.codex/tmp/jokgak-city-20261009/production-resume-11.log",
+      "source": "4b6fffe22692d8854be2ef279488a2a5505cf35a",
+      "sha256": "4a0846f94fc79a57c2caac0beb398dd02c941db3a2861fecb838641cbb92eeb6",
+      "exitCode": 0
+    }
+  ],
+  "pagesUrl": "https://392448ff.cnine-card.pages.dev",
+  "productionUrl": "https://cnine-card.pages.dev/?screen=jokgakCity",
+  "apiRuntimeVersion": "d154aad2-7854-4988-a50e-225de14ff482",
+  "clanDraftVersion": "96ad76f4-61dc-41cb-928c-14e14d903ae0",
+  "productionGuardsPassed": true,
+  "hyperdriveCacheDisabled": true,
+  "cityServerChecksPassed": 14,
+  "cityUiChecksPassed": 22,
+  "cityBattleChecksPassed": 6,
+  "cityIntegratedRouteChecksPassed": 5,
+  "productionVerifiedAt": "2026-10-09T10:10:48.659Z",
+  "realPlayerAttacks": 0
+}

@@ -1,0 +1,58 @@
+{
+  "checkedAt": "2026-10-09T10:10:48.659Z",
+  "source": "4b6fffe22692d8854be2ef279488a2a5505cf35a",
+  "origin": "https://cnine-card.pages.dev",
+  "assets": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "bytes": 22025,
+      "sha256": "89c7a721e1e8f3a48b517c36686ae69d9e10a2debdd5b26c7f9027f38c6deaca"
+    },
+    {
+      "file": "js/jokgak-city-v1.js",
+      "status": 200,
+      "bytes": 27401,
+      "sha256": "00c484d7ae1cfe8354e8de3a8f6c612827cf68f4dc6f843b1067c612928b64a6"
+    },
+    {
+      "file": "css/jokgak-city-v1.css",
+      "status": 200,
+      "bytes": 21039,
+      "sha256": "596c3c6c889007acd5489a37837949fb1264cf22d9faa1d52eea912fff479bf1"
+    },
+    {
+      "file": "shared/jokgak-city-v1.mjs",
+      "status": 200,
+      "bytes": 4603,
+      "sha256": "cf5df0f0ff18ea6226680c8be50cce007de1c9ea8ebd81b38c91332bf916bf5f"
+    },
+    {
+      "file": "assets/ui/jokgak-city/city-map-night-v1.webp",
+      "status": 200,
+      "bytes": 682296,
+      "sha256": "612cd36e3ca485be47916fba68d4a902e74ffc8c3f10875afd08e14c2424558b"
+    },
+    {
+      "file": "assets/ui/jokgak-city/city-street-battle-v1.webp",
+      "status": 200,
+      "bytes": 575784,
+      "sha256": "0b5e67d36276b1324876a4d54edbc9559244e1ec4f5553b7edec07e74f50b72f"
+    },
+    {
+      "file": "preview/jokgak-city-v1/index.html",
+      "status": 200,
+      "bytes": 2101,
+      "sha256": "b0593305fbae27956a54c6dd7f276995a76d4028f9006d6ffeb36aa1e7701b24"
+    }
+  ],
+  "unauthenticatedCityStatus": 401,
+  "preview": {
+    "placeCount": 8,
+    "residents": 10,
+    "placeSelection": true,
+    "isolatedDemoLabel": true,
+    "errors": []
+  },
+  "realPlayerAttacks": 0
+}

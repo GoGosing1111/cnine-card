@@ -1,0 +1,24 @@
+{
+  "checks": [
+    "live route mounts actual handler, with no demo provider",
+    "live attack commits one receipt and returns from V3 replay",
+    "real target notification is delivered while another content is displayed",
+    "defender can read outcome without forced navigation",
+    "leaving during an attack response keeps the saved receipt without reopening the city"
+  ],
+  "errors": [],
+  "requests": [
+    "jokgak-city/status",
+    "jokgak-city/notifications",
+    "jokgak-city/attack",
+    "jokgak-city/notifications",
+    "jokgak-city/notifications",
+    "jokgak-city/notifications",
+    "jokgak-city/status",
+    "jokgak-city/notifications",
+    "jokgak-city/ack",
+    "jokgak-city/ack",
+    "jokgak-city/status",
+    "jokgak-city/attack"
+  ]
+}

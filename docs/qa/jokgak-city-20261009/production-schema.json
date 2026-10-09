@@ -1,0 +1,14 @@
+{
+  "checkedAt": "2026-10-09T09:40:03.055Z",
+  "operation": "additive city schema initialization",
+  "before": [],
+  "after": [
+    "jokgak_city_actions_v1",
+    "jokgak_city_guards_v1",
+    "jokgak_city_notifications_v1",
+    "jokgak_city_players_v1"
+  ],
+  "playerRowsCreated": 0,
+  "actionsCreated": 0,
+  "accountBalancesChanged": false
+}
