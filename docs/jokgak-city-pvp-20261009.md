@@ -116,4 +116,6 @@ TEST와 ON의 횟수 기록은 분리되며 TEST 영수증은 ON 이후 재시�
 - 화면 검수에서 설정한 간호사 체력 80·치료 35, 테스트 코인 50 등의 값은 격리 DB 예시다. 운영 기본값/실계정 보상을 변경한 기록이 아니다.
 - 근거: `docs/qa/jokgak-city-cms-20261009/`. 원본 로그는 `C:/Users/User/.codex/tmp/jokgak-city-cms-20261009/`에 보존한다.
 - 기존 족각도시 설정과 그 행동의 보상 연결에 한정된 변경이다. 인증·공통 거래 기반·스키마·엔진·의존성은 유지하므로 관련 city 회귀와 Worker 확인을 선정해 `npm run deploy:production -- --scoped`로 배포한다. 직전 실제 배포는 `4b6fffe22692d8854be2ef279488a2a5505cf35a` / Pages `392448ff`다. 병행 반영된 펫 봉인구 지급 운영 도구/문서 `466e51b1`은 그대로 통합하고 재실행하지 않았다.
-- 최종 소스와 배포·운영 TEST 확인 기록은 배포 완료 후 아래에 추가한다.
+- 공식 scoped 배포 종료 0, 관련 서버 32개/Worker/출시 보호/Hyperdrive 확인 통과. 배포 소스 `e6e6a2d4e3cfbb922e205ab73df7435feb1d5d7d`, Pages <https://a10a3686.cnine-card.pages.dev>, API runtime `addcafcf-9ad1-476b-92dc-747a739f5527`, clan-draft `b4c06155-e012-4828-89bb-c79d6c718db5`.
+- 19:45 KST 운영 확인: TEST, 참여자 0명, 7역할, 보상 OFF·설정 수량 0. 변경 파일 8개 SHA-256 일치, 미인증 city/CMS API 모두 401, 공개 시연 지도·치료 조작 예외 0건. 운영 계정 공격·아이템/코인 지급은 수행하지 않았다.
+- 완료 기록은 `docs/qa/jokgak-city-cms-20261009/release-evidence.json` 및 `production-verification.json`이다. 완료 문서 커밋은 게임 변경이 없으므로 운영 재배포하지 않는다.

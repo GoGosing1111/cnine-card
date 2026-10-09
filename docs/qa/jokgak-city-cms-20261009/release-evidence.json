@@ -1,0 +1,26 @@
+{
+  "source": "e6e6a2d4e3cfbb922e205ab73df7435feb1d5d7d",
+  "previousProductionSource": "4b6fffe22692d8854be2ef279488a2a5505cf35a",
+  "command": "npm run deploy:production -- --scoped",
+  "exitCode": 0,
+  "checks": [
+    "tests/jokgak-city-20261009.test.mjs",
+    "tests/jokgak-city-cms-20261009.test.mjs",
+    "check:worker",
+    "production release guard",
+    "Hyperdrive cache guard"
+  ],
+  "serverTestsPassed": 32,
+  "cmsBrowserChecksPassed": 12,
+  "cityUiChecksPassed": 22,
+  "pagesUrl": "https://a10a3686.cnine-card.pages.dev",
+  "apiRuntimeVersion": "addcafcf-9ad1-476b-92dc-747a739f5527",
+  "clanDraftVersion": "b4c06155-e012-4828-89bb-c79d6c718db5",
+  "log": "C:/Users/User/.codex/tmp/jokgak-city-cms-20261009/production-scoped.log",
+  "logSha256": "935ddf2f719b3fdd398a0c963b7118af0efa5ef74e60d419a9ba48c8d9c860bd",
+  "verifiedAt": "2026-10-09T10:45:42.821Z",
+  "mode": "TEST",
+  "testUserCount": 0,
+  "rewardsEnabled": false,
+  "realAccountActions": 0
+}

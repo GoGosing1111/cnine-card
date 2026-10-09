@@ -1,0 +1,73 @@
+{
+  "checkedAt": "2026-10-09T10:45:42.821Z",
+  "source": "e6e6a2d4e3cfbb922e205ab73df7435feb1d5d7d",
+  "origin": "https://cnine-card.pages.dev",
+  "productionPolicy": {
+    "mode": "TEST",
+    "revision": 1,
+    "testUserCount": 0,
+    "rewardsEnabled": false,
+    "configuredRewardRows": 0,
+    "roleCount": 7,
+    "legacyEnabled": false
+  },
+  "assets": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "1866b2f84be9b955dcafc2c55d6fac5fcd36cd5daf7ab4d609643078e38dd6e3"
+    },
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "sha256": "f2495a1bec91d7d270fbbcf286ee2c1ba771abd3bbc22347e8075c143dec3033"
+    },
+    {
+      "file": "admin/jokgak-city-admin-v1.mjs",
+      "status": 200,
+      "sha256": "579a912d0b8470b4eb2f0b967f74fc4fa183db2711ead1624e94c16a0b3cb2ad"
+    },
+    {
+      "file": "admin/jokgak-city-admin-v1.css",
+      "status": 200,
+      "sha256": "f2277347b6fef167df83a2612c2c96585e1a69f12281ace4fb5a6214e8c77619"
+    },
+    {
+      "file": "shared/jokgak-city-settings-v1.mjs",
+      "status": 200,
+      "sha256": "394192d8315d8b64c627078393086d2fcbb8eefd7eb2799a5ede3d390bf3f5e9"
+    },
+    {
+      "file": "shared/jokgak-city-v1.mjs",
+      "status": 200,
+      "sha256": "7e7adc75d854e3a6f94f5071b1b0794c373a826277cf6937b5bd3dc8a6708b9f"
+    },
+    {
+      "file": "js/jokgak-city-v1.js",
+      "status": 200,
+      "sha256": "e566d2d709db64a2baea43bdff59836dee30518677817a7c824ef88b78c0b875"
+    },
+    {
+      "file": "js/adventure-navigation-standalone.js",
+      "status": 200,
+      "sha256": "18383565ea1f6f4ff2bbe0b278a11d475c99971430970afbb3eadb5f8e21ecab"
+    }
+  ],
+  "routes": [
+    {
+      "route": "jokgak-city/status",
+      "unauthenticatedStatus": 401
+    },
+    {
+      "route": "admin/jokgak-city",
+      "unauthenticatedStatus": 401
+    }
+  ],
+  "publicPreview": {
+    "places": 8,
+    "medicalAction": true,
+    "errors": []
+  },
+  "realAccountActions": 0,
+  "accountBalancesChanged": false
+}
