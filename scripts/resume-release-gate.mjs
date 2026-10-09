@@ -17,7 +17,7 @@ const limitedPackBrowser='tests/mercenary-limited-shop-20261006.browser.mjs';
 function mainCacheQueryOrderOnly(before,after){
   const normalize=text=>{
     let count=0;
-    const source=text.replace(/\r\n/g,'\n').replace(/(\bsrc=")(js\/app\.js\?[^"\s]+)(")/g,(_,start,src,end)=>{
+    const source=text.replace(/\r\n/g,'\n').trim().replace(/(\bsrc=")(js\/app\.js\?[^"\s]+)(")/g,(_,start,src,end)=>{
       count++;const url=new URL(src.replaceAll('&amp;','&'),'https://cache.invalid/');url.searchParams.sort();
       return start+url.pathname+url.search+end;
     });

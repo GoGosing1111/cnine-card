@@ -30,6 +30,7 @@ test('only an equivalent main asset query permutation retains backend passes and
   const git=f.git;f.git=(...a)=>a[0]==='show'&&a[1]===base+':index.html'?before:git(...a);
   f.read=p=>p==='index.html'?after:'';
   assert.equal(fullGateResumePlan(f).reused,1);
+  assert.equal(fullGateResumePlan({...f,read:p=>p==='index.html'?after+'\r\n':''}).reused,1);
   assert.equal(fullGateResumePlan({...f,read:p=>p==='tests/a.test.mjs'?"read('index.html')":f.read(p)}).reused,0);
   for(const invalid of [after.replace('city=1','city=2'),after.replace('app.js','other.js'),after+'<script>run()</script>',after.replace('city=1','city=1&amp;extra=1')]){
     assert.throws(()=>fullGateResumePlan({...f,read:p=>p==='index.html'?invalid:''}),/fresh full gate/);
