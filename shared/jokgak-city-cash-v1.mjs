@@ -1,8 +1,11 @@
 export const CITY_CASH_MAX=1000000000000;
-export const defaultCityCashPolicy=()=>({startingCash:10000});
+export const defaultCityCashPolicy=()=>({startingCash:10000,theft:{enabled:true,percent:10,maxCash:2000}});
 export function validateCityCashPolicy(value=defaultCityCashPolicy()){
-  if(!value||typeof value!=='object'||Array.isArray(value)||Object.keys(value).some(k=>k!=='startingCash')||!Number.isSafeInteger(value.startingCash)||value.startingCash<0||value.startingCash>1000000000)throw Object.assign(Error('도시 시작 현금은 0~10억 원으로 설정하세요.'),{status:400,code:'CITY_CASH_POLICY'});
-  return {...value};
+  const fail=message=>{throw Object.assign(Error(message),{status:400,code:'CITY_CASH_POLICY'});};
+  if(!value||typeof value!=='object'||Array.isArray(value)||Object.keys(value).some(k=>!['startingCash','theft'].includes(k))||!Number.isSafeInteger(value.startingCash)||value.startingCash<0||value.startingCash>1000000000)fail('도시 시작 현금은 0~10억 원으로 설정하세요.');
+  const theft=value.theft===undefined?defaultCityCashPolicy().theft:value.theft;
+  if(!theft||typeof theft!=='object'||Array.isArray(theft)||Object.keys(theft).some(k=>!['enabled','percent','maxCash'].includes(k))||typeof theft.enabled!=='boolean'||!Number.isSafeInteger(theft.percent)||theft.percent<0||theft.percent>100||!Number.isSafeInteger(theft.maxCash)||theft.maxCash<0||theft.maxCash>1000000000)fail('PVP 현금 강탈 사용 여부, 비율(0~100%), 1회 한도(0~10억 원)를 확인하세요.');
+  return {startingCash:value.startingCash,theft:{...theft}};
 }
 export function ensureCityCash(life,policy,now=life.at){
   if(!['TEST','ON'].includes(policy.mode))return null;
@@ -21,4 +24,20 @@ export function changeCityCash(life,policy,delta){
   if(!Number.isSafeInteger(next)||next>CITY_CASH_MAX)throw Object.assign(Error('도시 현금 보유 한도를 초과합니다.'),{status:409,code:'CITY_CASH_LIMIT'});
   wallet.balance=next;
   return {currency:'CITY_CASH',unit:'원',mode:policy.mode,before:balance,change:delta,after:next};
+}
+
+// Call before activity rewards. Both wallets are persisted by the combat's
+// existing player/life CAS transaction and its single idempotent receipt.
+export function transferCityCash(actorLife,targetLife,policy,winner,actorId,targetId){
+  const rule=policy.cash?.theft||defaultCityCashPolicy().theft;
+  const receipt={currency:'CITY_CASH',unit:'원',mode:policy.mode,percent:rule.percent,maxCash:rule.maxCash,amount:0,actorChange:0,winnerId:null,loserId:null};
+  if(!rule.enabled)return {...receipt,status:'DISABLED'};
+  if(winner==='DRAW')return {...receipt,status:'DRAW'};
+  if(!['A','B'].includes(winner)||actorId===targetId)throw Error('CITY_CASH_BATTLE');
+  const actorWins=winner==='A',winning=actorWins?actorLife:targetLife,losing=actorWins?targetLife:actorLife;
+  // Validate both balances before touching either one.
+  const won=changeCityCash(winning,policy,0),lost=changeCityCash(losing,policy,0);
+  const amount=Math.min(Math.floor(lost.before*rule.percent/100),rule.maxCash,CITY_CASH_MAX-won.before);
+  if(amount){changeCityCash(losing,policy,-amount);changeCityCash(winning,policy,amount);}
+  return {...receipt,status:amount?'TRANSFERRED':!lost.before?'NO_CASH':won.before===CITY_CASH_MAX?'WALLET_LIMIT':'ZERO',amount,actorChange:actorWins?amount:-amount,winnerId:actorWins?actorId:targetId,loserId:actorWins?targetId:actorId};
 }

@@ -8,6 +8,7 @@ import {readCitySettings,cityRoleWeights,cityPublicPolicy,handleCityCms,requireC
 import {prepareCityReward,cityRewardEvent,cityGuard,cityGuardEnd} from './_jokgak_city_rewards.js';
 import {readCityLife,projectCityLife,applyCityLifeView,markCityDeath} from '../shared/jokgak-city-life-v1.mjs';
 import {cityLifeClaim,prepareCityService} from './_jokgak_city_life.js';
+import {transferCityCash} from '../shared/jokgak-city-cash-v1.mjs';
 
 const p=(env,sql,...v)=>env.DB.prepare(sql).bind(...v);
 const parse=(value,fallback={})=>{try{return JSON.parse(value)??fallback;}catch{return fallback;}};
@@ -72,7 +73,15 @@ async function receipt(env,user,requestId,fingerprint=null,includeTarget=false){
   const row=await p(env,'SELECT * FROM jokgak_city_actions_v1 WHERE request_id=?',requestId).first();if(!row)return null;
   if(Number(row.user_id)!==Number(user.id)&&!(includeTarget&&Number(row.target_id)===Number(user.id)))fail('RECEIPT','이 기록에 접근할 수 없습니다.',403);
   if(fingerprint&&row.fingerprint!==fingerprint)fail('REQUEST_REUSED','같은 요청 번호에 다른 행동을 보낼 수 없습니다.');
-  return {...parse(row.result_json),replayed:true};
+  const result={...parse(row.result_json),replayed:true};
+  if(Number(row.user_id)!==Number(user.id)){
+    const {cash,cashMode,cashUnit,bag,...visibleMine}=result.mine||{};
+    result.mine=visibleMine;
+    // A defender may inspect the fight, but not the attacker's private wallet
+    // balance embedded in activity/service reward receipts.
+    result.reward=null;result.service=null;
+  }
+  return result;
 }
 function claim(env,row,next,requestId,epoch,now){
   const tag=requestId+':'+row.user_id;
@@ -164,12 +173,13 @@ export async function cityAction(env,deps,user,action,body){
   if(isFight){me.protectedUntil+=elapsed;target.protectedUntil+=elapsed;if(action==='arrest'&&simulation.battleV2.result.winner==='A')target.jailedUntil+=elapsed;}
   if(isFight&&me.health<=0)markCityDeath(me,myLife,target,committedAt,mine.location);
   if(isFight&&target.health<=0)markCityDeath(target,targetLife,me,committedAt,mine.location);
+  const theft=isFight?transferCityCash(myLife,targetLife,policy,simulation.battleV2.result.winner,Number(user.id),targetId):null;
   myLife.at=committedAt;applyCityLifeView(me,myLife,policy);if(targetLife){targetLife.at=committedAt;applyCityLifeView(target,targetLife,policy);}
   const reward=await prepareCityReward(env,{user,policy,role:roleCode,event:cityRewardEvent(action,simulation?.battleV2?.result?.winner,targetId===Number(user.id)),targetId,requestId:body.requestId,now:committedAt,life:myLife});
   applyCityLifeView(me,myLife,policy);
   if(cityShift(clock()).id!==epoch)fail('SHIFT','역할이 교대되었습니다. 현황을 다시 확인하세요.');
   const {cash:targetCash,cashMode:targetCashMode,cashUnit:targetCashUnit,bag:targetBag,...visibleTarget}=target||{};
-  const result={ok:true,requestId:body.requestId,action,epoch,mode:policy.mode,policyRevision:policy.revision,createdAt:committedAt,location:mine?.location||me.location,mine:me,target:targetId?visibleTarget:null,inspection,...simulation,reward:reward.result,service:service?.result||null,
+  const result={ok:true,requestId:body.requestId,action,epoch,mode:policy.mode,policyRevision:policy.revision,createdAt:committedAt,location:mine?.location||me.location,mine:me,target:targetId?visibleTarget:null,inspection,...simulation,reward:reward.result,theft,service:service?.result||null,
     effects:{damageToMine:Math.max(0,(healthBefore??me.health)-me.health),damageToTarget:Math.max(0,(targetHealthBefore??0)-(target?.health??0)),healed:action==='heal'?target.health-targetHealthBefore:0,jailMs:action==='arrest'&&simulation?.battleV2?.result?.winner==='A'?role.arrestMs:0}};
   if(simulation)result.result=simulation.battleV2.result.winner==='A'?'WIN':simulation.battleV2.result.winner==='B'?'LOSE':'DRAW';
   const policyGuard=body.requestId+':policy',statements=[];
@@ -185,7 +195,7 @@ export async function cityAction(env,deps,user,action,body){
   }
   statements.push(...(service?.statements||[]),...reward.statements,p(env,'INSERT INTO jokgak_city_actions_v1(request_id,user_id,target_id,action,fingerprint,result_json,created_at) VALUES(?,?,?,?,?,?,?)',body.requestId,user.id,targetId||null,action,fingerprint,JSON.stringify(result),committedAt));
   if(targetId&&targetId!==Number(user.id)){
-    const summary={requestId:body.requestId,action,actorId:Number(user.id),actorName:user.nickname,location:mine.location,winner:simulation?.battleV2?.result?.winner||null,health:target.health,maxHealth:target.maxHealth,jailedUntil:target.jailedUntil,jailMs:result.effects.jailMs,death:target.death,deadUntil:target.deadUntil,mode:policy.mode,createdAt:committedAt};
+    const summary={requestId:body.requestId,action,actorId:Number(user.id),actorName:user.nickname,location:mine.location,winner:simulation?.battleV2?.result?.winner||null,theft,health:target.health,maxHealth:target.maxHealth,jailedUntil:target.jailedUntil,jailMs:result.effects.jailMs,death:target.death,deadUntil:target.deadUntil,mode:policy.mode,createdAt:committedAt};
     statements.push(p(env,'INSERT INTO jokgak_city_notifications_v1(id,user_id,request_id,created_at,summary_json) VALUES(?,?,?,?,?)',body.requestId+':notice',targetId,body.requestId,committedAt,JSON.stringify(summary)));
   }
   try{await env.DB.batch(statements);}catch(error){const saved=await receipt(env,user,body.requestId,fingerprint);if(saved)return saved;if(/guard|constraint|duplicate|unique/i.test(error.message))fail('CONFLICT','전황이 바뀌었습니다. 최신 위치와 상태를 확인하세요.');throw error;}

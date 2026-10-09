@@ -15,7 +15,8 @@ const life=async(f,id=1)=>JSON.parse((await f.p('SELECT value FROM app_meta WHER
 const writeLife=(f,value,id=1)=>f.p('UPDATE app_meta SET value=? WHERE key=?',JSON.stringify(value),cityLifeKey(id)).run();
 const reset=f=>f.p('UPDATE jokgak_city_players_v1 SET next_action_at=0,protected_until=0,health=100').run();
 async function rewardPolicy(f,{mode='ON',cash=500,coin=0}={}){
-  const p=await policy(f);p.mode=mode;p.testUserIds=[1,2,3];p.rewards={enabled:true,dailyLimit:2,sameTargetCooldownMs:60000};
+  const p=await policy(f);p.cash.theft.enabled=false; // Isolate minted role rewards; transfers are covered in the theft suite.
+  p.mode=mode;p.testUserIds=[1,2,3];p.rewards={enabled:true,dailyLimit:2,sameTargetCooldownMs:60000};
   const role=await assignedCityRole(f.env,1,cityShift(f.now).id),row=p.roles.find(r=>r.code===role).rewards.find(r=>r.event==='ATTACK_WIN');
   Object.assign(row,{cash,coin,items:coin?[{code:'CITY_TEST_ITEM',quantity:2}]:[]});await save(f,p);
 }

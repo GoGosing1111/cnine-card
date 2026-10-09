@@ -1,0 +1,18 @@
+{
+  "checkedAt": "2026-10-09T13:38:09.269Z",
+  "mode": "TEST",
+  "revision": 3,
+  "testUserCount": 0,
+  "rewardsEnabled": false,
+  "cash": {
+    "startingCash": 10000,
+    "theft": {
+      "enabled": true,
+      "percent": 10,
+      "maxCash": 2000
+    }
+  },
+  "storedPolicySha256": "b48ff6dba91788b927f15de87b554da6c79ddccb7a6b0d6c76dd14a1b36bcf73",
+  "settingsWrites": 0,
+  "realAccountActions": 0
+}

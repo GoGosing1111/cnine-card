@@ -1,0 +1,23 @@
+{
+  "checks": [
+    "1440: top profile shows job, location, wanted, cash, HP, fullness, wellness and condition",
+    "1440: meal costs 1,000 city cash and restores hunger",
+    "1440: TEST purchase costs cash, carried use is free and game coin stays unchanged",
+    "1440: attack popup and record show exact 750 won theft loss",
+    "1440: killer, hospital and server countdown survive reload",
+    "1440: death countdown remains in other content without modal blocking",
+    "1440: hospital respawn preserves city cash after reload",
+    "1440: treatment costs 2,000 city cash and releases hospital restriction",
+    "1440: CMS life and shop settings persist and fit screen",
+    "390: top profile shows job, location, wanted, cash, HP, fullness, wellness and condition",
+    "390: meal costs 1,000 city cash and restores hunger",
+    "390: TEST purchase costs cash, carried use is free and game coin stays unchanged",
+    "390: attack popup and record show exact 750 won theft loss",
+    "390: killer, hospital and server countdown survive reload",
+    "390: death countdown remains in other content without modal blocking",
+    "390: hospital respawn preserves city cash after reload",
+    "390: treatment costs 2,000 city cash and releases hospital restriction",
+    "390: CMS life and shop settings persist and fit screen"
+  ],
+  "errors": []
+}

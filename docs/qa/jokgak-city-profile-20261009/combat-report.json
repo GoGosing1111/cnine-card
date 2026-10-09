@@ -1,0 +1,11 @@
+{
+  "checks": [
+    "1440 current V3 city battlefield mounted",
+    "1440 popup does not replace active battle",
+    "1440 result and return completed",
+    "390 current V3 city battlefield mounted",
+    "390 popup does not replace active battle",
+    "390 result and return completed"
+  ],
+  "errors": []
+}
