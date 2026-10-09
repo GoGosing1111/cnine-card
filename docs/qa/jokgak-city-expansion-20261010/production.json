@@ -1,0 +1,187 @@
+{
+  "source": "902f297e96007278999dd824b0df59d23cfa9b24",
+  "pages": "https://29f92827.cnine-card.pages.dev",
+  "apiVersion": "d970b894-7c44-406e-aae1-6f2662a2829f",
+  "clanVersion": "f51adc8e-6cc1-4e30-ae01-d951f5157c8f",
+  "deployExitCode": 0,
+  "gate": {
+    "full": true,
+    "resumedCompletedStages": 35,
+    "cityTests": 105,
+    "cityFailures": 0,
+    "logs": [
+      {
+        "name": "deploy.log",
+        "sha256": "3c0bb947832bd9a9965bef8587956e087b5c962b660cd7d9e433158bc26b3022"
+      },
+      {
+        "name": "deploy-resume.log",
+        "sha256": "89443e3ebe8311fec267f7290457f9a80e132e26c8747555bcf2ed799a20cd06"
+      }
+    ]
+  },
+  "schema": {
+    "operation": "ops:jokgak-city-expansion:20261010:health-v1",
+    "at": "2026-10-09T15:16:01.930Z",
+    "maxStoredHealth": 1000,
+    "changed": true,
+    "accountCashChanged": false,
+    "dryRun": false
+  },
+  "policy": {
+    "operation": "ops:jokgak-city-expansion:20261010:policy-v1",
+    "at": "2026-10-09T15:32:39.135Z",
+    "mode": "OFF",
+    "revision": 10,
+    "weaponPrices": [
+      {
+        "code": "PIPE",
+        "price": 2000,
+        "power": 200000
+      },
+      {
+        "code": "PISTOL",
+        "price": 8000,
+        "power": 300000
+      },
+      {
+        "code": "RIFLE",
+        "price": 20000,
+        "power": 450000
+      }
+    ],
+    "basePower": 100000,
+    "facilities": {
+      "motel": {
+        "enabled": true,
+        "stayMs": 900000,
+        "cooldownMs": 3600000
+      },
+      "hospital": {
+        "maxStayMs": 300000
+      }
+    },
+    "policeMaxHealth": 150,
+    "policeHealthAdjusted": 0,
+    "accountCashChanged": false,
+    "otherSettingsPreserved": true,
+    "dryRun": false
+  },
+  "readback": {
+    "at": "2026-10-09T15:32:44.284Z",
+    "mode": "OFF",
+    "revision": 10,
+    "policeMaxHealth": 150,
+    "rules": {
+      "moveCooldownMs": 60000,
+      "targetProtectionMs": 30000,
+      "rejoinCooldownMs": 600000
+    },
+    "arsenal": {
+      "basePower": 100000,
+      "weapons": [
+        {
+          "code": "PIPE",
+          "enabled": true,
+          "price": 2000,
+          "power": 200000
+        },
+        {
+          "code": "PISTOL",
+          "enabled": true,
+          "price": 8000,
+          "power": 300000
+        },
+        {
+          "code": "RIFLE",
+          "enabled": true,
+          "price": 20000,
+          "power": 450000
+        }
+      ]
+    },
+    "facilities": {
+      "motel": {
+        "enabled": true,
+        "stayMs": 900000,
+        "cooldownMs": 3600000
+      },
+      "hospital": {
+        "maxStayMs": 300000
+      }
+    },
+    "rewardsEnabled": false,
+    "cash": {
+      "startingCash": 10000,
+      "theft": {
+        "enabled": true,
+        "percent": 10,
+        "maxCash": 2000
+      }
+    },
+    "constraint": "CHECK (((health >= 0) AND (health <= 1000)))"
+  },
+  "verification": {
+    "at": "2026-10-09T15:32:41.573Z",
+    "files": [
+      {
+        "file": "js/jokgak-city-v1.js",
+        "status": 200,
+        "match": true,
+        "cache": "public, max-age=0, must-revalidate"
+      },
+      {
+        "file": "js/jokgak-city-expansion-ui-v1.mjs",
+        "status": 200,
+        "match": true,
+        "cache": "public, max-age=0, must-revalidate"
+      },
+      {
+        "file": "css/jokgak-city-expansion-v1.css",
+        "status": 200,
+        "match": true,
+        "cache": "public, max-age=0, must-revalidate"
+      },
+      {
+        "file": "shared/jokgak-city-expansion-v1.mjs",
+        "status": 200,
+        "match": true,
+        "cache": "public, max-age=0, must-revalidate"
+      },
+      {
+        "file": "shared/jokgak-city-life-v1.mjs",
+        "status": 200,
+        "match": true,
+        "cache": "public, max-age=0, must-revalidate"
+      },
+      {
+        "file": "shared/jokgak-city-settings-v1.mjs",
+        "status": 200,
+        "match": true,
+        "cache": "public, max-age=0, must-revalidate"
+      },
+      {
+        "file": "admin/jokgak-city-admin-v1.mjs",
+        "status": 200,
+        "match": true,
+        "cache": "no-store, no-cache, must-revalidate, max-age=0"
+      }
+    ],
+    "loaderCurrent": true,
+    "unauthenticatedStatus": 401,
+    "runtime": "regional-v1"
+  },
+  "preview": {
+    "at": "2026-10-09T15:32:45.224Z",
+    "origin": "https://cnine-card.pages.dev",
+    "scenario": "public isolated sample preview; all /api requests intercepted",
+    "checks": [
+      "11 places: 11",
+      "pipe purchase: 8000 won",
+      "equipped city power: 200000",
+      "private motel admission and countdown",
+      "no browser exception"
+    ],
+    "errors": []
+  }
+}
