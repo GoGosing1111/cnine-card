@@ -1,8 +1,8 @@
 import {jointAccountRequest} from './joint-account-transport.mjs?v=20260924-response';
-import {LIMITED_PACK,LIMITED_NORMAL_RANKS,limitedReceiptResults} from '../shared/mercenary-limited-pack-v1.mjs?v=20261010-on';
+import {LIMITED_PACK,LIMITED_NORMAL_RANKS,limitedReceiptResults} from '../shared/mercenary-limited-pack-v1.mjs?v=20261010-precision';
 import {LimitedOpeningSession,limitedAutoPlan} from '../shared/mercenary-limited-session-v1.mjs?v=20261008-daily';
 import {LIMITED_DAILY_CAP} from '../shared/mercenary-limited-daily-v1.mjs';
-import {formatDrawPercent} from '../shared/mercenary-draw-policy-v1.mjs';
+import {formatLimitedPercent} from '../shared/mercenary-limited-rates-v1.mjs?v=20261010-precision';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=n=>n===null||n===undefined?'설정 전':BigInt(n).toLocaleString('ko-KR');
 const fmtPrice=n=>n===null||n===undefined?'설정 전':BigInt(n).toLocaleString('ko-KR',{notation:'compact',maximumFractionDigits:20});
@@ -74,7 +74,7 @@ export async function mountLimitedPack({api,accountId,getAccountId,storage,previ
    const s=config.stock.find(r=>r.code===c.code),weight=config.policy.cardWeights[c.code];
    return '<article><div class="lp-portrait"><img src="/assets/ui/packs/limited-v1/'+c.code.toLowerCase()+'-640.webp" alt="" loading="lazy"><span>'+esc(c.rank)+'</span></div><b>'+esc(c.name)+'</b><small>'+(s.limit===0?'한도 0장 · 제외':weight===0?'추첨 제외':s.limit===null?'수량 설정 전':fmt(s.remaining)+' / '+fmt(s.limit))+'</small></article>';
   }).join('');
-  const formatRates=rows=>rows.map(([name,rate])=>esc(name)+' '+(rate==null?'미정':formatDrawPercent(rate)+'%')).join(' · ');
+  const formatRates=rows=>rows.map(([name,rate])=>esc(name)+' '+(rate==null?'미정':formatLimitedPercent(rate)+'%')).join(' · ');
   const normalRates=LIMITED_NORMAL_RANKS.map(rank=>[rank+' 일반 용병',config.packSettings.normalRankRatesPpm[rank]]),limitedRates=['SS','SSS'].map(rank=>[rank+' 리미티드',config.policy.rankRatesPpm[rank]]),extras=config.packSettings.extraRewards.map(r=>[{MASTER_STAR:'마스터의 별',MYSTIC_ENERGY:'미스틱 에너지',NONE:'꽝'}[r.id]+(r.quantity?' '+fmt(r.quantity)+'개':''),r.chancePpm]);
   $('[data-lp-odds]').innerHTML='<p><b>일반 용병</b><br>'+formatRates(normalRates)+'</p><p><b>리미티드 별도 확률</b><br>'+formatRates(limitedRates)+'</p><p>'+formatRates(extras)+'</p><p>각 확률은 개봉 1회 기준입니다. 일반 용병은 발행 한도 없이 같은 등급의 획득 대상에서 가중치로 추첨합니다. 리미티드만 발행 한도가 적용되며, 한 등급의 리미티드가 모두 소진되면 개봉을 중지합니다. 10회는 전부 확정된 경우에만 결제합니다.</p><p>일반 용병: '+(config.normalCards||[]).map(c=>esc(c.rank+' '+c.name)+' 가중치 '+c.weight).join(' · ')+'</p><p>리미티드: '+config.cards.map(c=>esc(c.name)+' 가중치 '+config.policy.cardWeights[c.code]).join(' · ')+'</p>';
   quote();sync();

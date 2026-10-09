@@ -67,7 +67,7 @@ test('material rewards aggregate, zero-weight and sold-out members never enter t
  const f=await limitedFixture(t);f.policy.rankRatesPpm={SS:1,SSS:0};f.packSettings.extraRewards=[{id:'MASTER_STAR',chancePpm:999999,quantity:13},{id:'MYSTIC_ENERGY',chancePpm:0,quantity:1},{id:'NONE',chancePpm:0,quantity:0}];await f.configure();
  const s=createLimitedPackService({releaseEnabled:true,randomInt:max=>max-1}),r=await s.open(f.env,f.user,body(10));assert.equal(r.draws.length,10);
  assert.equal((await f.p("SELECT quantity FROM cnine_user_inventory WHERE item_code='MASTER_STAR'").first()).quantity,130);assert.equal((await f.p('SELECT COUNT(*) AS n FROM inventory_logs').first()).n,1);
- const state=await readLimitedPackState(f.env,{releaseEnabled:true});state.policy.rankRatesPpm={SS:1000000,SSS:0};state.policy.cardWeights['V-991']=1;state.stock.find(s=>s.code==='V-990').issued=100;
+ const state=await readLimitedPackState(f.env,{releaseEnabled:true});state.policy.rankRatesPpm={SS:1000000,SSS:0};state.packSettings.extraRewards.forEach(r=>r.chancePpm=0);state.policy.cardWeights['V-991']=1;state.stock.find(s=>s.code==='V-990').issued=100;
  assert.equal(pickLimitedBatch(state,1,()=>0)[0].mercenaryCode,'V-991');
 });
 const memory=()=>{const m=new Map();return {getItem:k=>m.get(k)??null,setItem:(k,v)=>m.set(k,v),removeItem:k=>m.delete(k)};};

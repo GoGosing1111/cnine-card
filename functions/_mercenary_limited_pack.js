@@ -9,6 +9,7 @@ import {readMercenaryDocument} from './_mercenary_account.js';
 import {MERCENARY_CMS_SEED} from './_mercenary_cms_seed.js';
 import {validateMercenaryCardRules} from '../shared/mercenary-draw-policy-v1.mjs';
 import {LIMITED_DAILY_CAP,limitedDailyStatus,limitedDailyLimitError} from '../shared/mercenary-limited-daily-v1.mjs';
+import {limitedRateUnits,LIMITED_RATE_SCALE,LIMITED_RATE_TOTAL} from '../shared/mercenary-limited-rates-v1.mjs';
 
 export const LIMITED_PACK_SCHEMA=[
  "CREATE TABLE IF NOT EXISTS mercenary_limited_stock_v1(code TEXT PRIMARY KEY,stock_limit BIGINT,issued BIGINT NOT NULL DEFAULT 0 CHECK(issued>=0),revision BIGINT NOT NULL DEFAULT 0,last_token TEXT,CHECK((stock_limit IS NULL AND issued=0) OR (stock_limit>=issued AND stock_limit<=1000000)))",
@@ -94,12 +95,25 @@ export async function saveLimitedPack(env,actor,body){
  return {...publicState(await readLimitedPackState(env)),replayed:false};
 }
 function sample(random,max){const n=random(max);if(!Number.isSafeInteger(n)||n<0||n>=max)throw Error('Invalid random sample');return n;}
-export function pickLimitedBatch(state,count,random=mercenaryRandomInt){
+export function limitedPackRandomInt(max,fill=bytes=>crypto.getRandomValues(bytes)){
+ if(!Number.isSafeInteger(max)||max<1||max>LIMITED_RATE_TOTAL)throw Error('Invalid limited random bound');
+ if(max<=0xffffffff)return mercenaryRandomInt(max);
+ // Uniform 40-bit sample, with rejection before modulo. All operations remain
+ // exact integers below 2^53; Math.random and rounded floating odds are unused.
+ const bytes=new Uint32Array(2),range=2**40,limit=Math.floor(range/max)*max;let n;
+ do{fill(bytes);n=(bytes[0]&255)*0x100000000+bytes[1];}while(n>=limit);
+ return n%max;
+}
+export function pickLimitedBatch(state,count,random=limitedPackRandomInt){
  const {packSettings:settings,policy}=state,used=Object.fromEntries(state.stock.map(r=>[r.code,r.issued]));
  const outcomes=[...['SS','SSS'].map(rank=>({id:'LIMITED_'+rank,rank,limited:true,chancePpm:policy.rankRatesPpm[rank]})),...LIMITED_NORMAL_RANKS.map(rank=>({id:'CARD_'+rank,rank,limited:false,chancePpm:settings.normalRankRatesPpm[rank]})),...settings.extraRewards];
+ const units=outcomes.map(r=>limitedRateUnits(r.chancePpm));
+ if(units.some(n=>n===null)||units.reduce((sum,n)=>sum+n,0)!==LIMITED_RATE_TOTAL)throw jointError('MERCENARY_LIMITED_CONFIG','개봉 확률 설정을 확인하세요.',409);
+ // Keep the original million-ticket intervals for existing whole-ppm policies.
+ const step=units.every(n=>n%LIMITED_RATE_SCALE===0)?LIMITED_RATE_SCALE:1;
  const draws=[];
  for(let i=0;i<count;i++){
-  let n=sample(random,1000000);const outcome=outcomes.find(r=>{n-=r.chancePpm;return n<0;});
+  let n=sample(random,LIMITED_RATE_TOTAL/step);const outcome=outcomes.find((r,index)=>{n-=units[index]/step;return n<0;});
   if(!outcome)throw jointError('MERCENARY_LIMITED_CONFIG','개봉 확률 설정을 확인하세요.',409);
   if(!outcome.rank){draws.push({outcomeId:outcome.id,quantity:outcome.quantity});continue;}
   if(!outcome.limited){
@@ -117,7 +131,7 @@ export function pickLimitedBatch(state,count,random=mercenaryRandomInt){
  return draws;
 }
 // Private factory dependency is for isolated tests; HTTP never accepts a release override.
-export function createLimitedPackService({releaseEnabled=LIMITED_PACK_RELEASE_ENABLED,randomInt=mercenaryRandomInt,now=()=>Date.now()}={}){
+export function createLimitedPackService({releaseEnabled=LIMITED_PACK_RELEASE_ENABLED,randomInt=limitedPackRandomInt,now=()=>Date.now()}={}){
  async function open(env,user,raw){
   if(!releaseEnabled)throw jointError('MERCENARY_LIMITED_DISABLED','리미티드 용병팩은 출시 준비 중입니다. 코인은 차감되지 않았습니다.',423);
   const body=validateLimitedOpeningBody(raw),{requestId,count,expectedRevision,expectedPolicyRevision}=body;

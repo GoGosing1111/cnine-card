@@ -18,7 +18,7 @@ test('legacy drafts preserve limited economics, add unset ordinary odds without 
  assert.ok(Object.values(state.packSettings.normalRankRatesPpm).every(n=>n===null));assert.equal(state.userOpeningEnabled,false);assert.equal(state.readiness.ready,false);
  assert.deepEqual(await f.p('SELECT value FROM app_meta WHERE key=?',LIMITED_PACK_KEY).first(),before);
  assert.deepEqual(readLimitedPack(draft).normalRankRatesPpm,{C:null,B:null,A:null,S:null,SS:null,SSS:null});
- for(const value of [-1,1.5,1000001,NaN]){const next=limitedPackDraft();next.normalRankRatesPpm.SS=value;assert.throws(()=>validateLimitedPack(next));}
+ for(const value of [-1,1.00001,1000001,NaN]){const next=limitedPackDraft();next.normalRankRatesPpm.SS=value;assert.throws(()=>validateLimitedPack(next));}
  assert.equal(parseDrawPercent('0.0001'),1);assert.equal(parseDrawPercent('0.001'),10);
 });
 

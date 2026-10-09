@@ -2,6 +2,7 @@ import {LIMITED_MERCENARIES,isLimitedMercenary} from './mercenary-limited-catalo
 import {readLimitedPolicy} from './mercenary-limited-policy-v1.mjs';
 import {MERCENARY_RANKS} from './mercenary-ranks-v1.mjs';
 import {mercenaryGradePools,mercenaryCardChances} from './mercenary-draw-policy-v1.mjs';
+import {isLimitedRate,limitedRateUnits,LIMITED_RATE_SCALE,LIMITED_RATE_TOTAL} from './mercenary-limited-rates-v1.mjs';
 export const LIMITED_NORMAL_RANKS=MERCENARY_RANKS;
 // User approved pack release on 2026-10-10. CMS OFF remains authoritative.
 export const LIMITED_PACK_RELEASE_ENABLED=true;
@@ -31,12 +32,12 @@ export function validateLimitedPack(raw,{releaseEnabled=LIMITED_PACK_RELEASE_ENA
  !['OFF','ON'].includes(raw.mode))throw Error('리미티드팩 운영 상태는 ON 또는 OFF로 설정하세요.');
  if(!releaseEnabled&&raw.mode!=='OFF')throw Error('리미티드팩은 출시 준비 중입니다. 개봉 OFF로 저장하세요.');
  if(!exact(raw.prices,['single','ten'])||Object.values(raw.prices).some(n=>n!==null&&(!Number.isSafeInteger(n)||n<1||n>100000000000000)))throw Error('가격은 미정 또는 1~100조 코인 정수로 입력하세요.');
- if(!exact(raw.normalRankRatesPpm,MERCENARY_RANKS)||Object.values(raw.normalRankRatesPpm).some(n=>n!==null&&(!Number.isSafeInteger(n)||n<0||n>1000000)))throw Error('일반 용병 C·B·A·S·SS·SSS 확률은 미정 또는 0~100%로 입력하세요.');
+ if(!exact(raw.normalRankRatesPpm,MERCENARY_RANKS)||Object.values(raw.normalRankRatesPpm).some(n=>n!==null&&!isLimitedRate(n)))throw Error('일반 용병 C·B·A·S·SS·SSS 확률은 0.00000001% 단위, 미정 또는 0~100%로 입력하세요.');
  if(!exact(raw.stockLimits,codes)||Object.values(raw.stockLimits).some(n=>n!==null&&(!Number.isSafeInteger(n)||n<0||n>1000000)))throw Error('용병별 발행 한도는 미정 또는 0~1,000,000장으로 입력하세요.');
  if(!Array.isArray(raw.extraRewards)||raw.extraRewards.length!==3)throw Error('마스터의 별·미스틱 에너지·꽝을 각각 설정하세요.');
  for(const meta of LIMITED_EXTRA_REWARDS){
   const rows=raw.extraRewards.filter(r=>r?.id===meta.id),r=rows[0];
-  if(rows.length!==1||!exact(r,['id','chancePpm','quantity'])||r.chancePpm!==null&&(!Number.isSafeInteger(r.chancePpm)||r.chancePpm<0||r.chancePpm>1000000)||
+  if(rows.length!==1||!exact(r,['id','chancePpm','quantity'])||r.chancePpm!==null&&!isLimitedRate(r.chancePpm)||
   (meta.id==='NONE'?r.quantity!==0:r.quantity!==null&&(!Number.isSafeInteger(r.quantity)||r.quantity<1||r.quantity>1000000000)))throw Error('추가 보상의 확률과 수량을 확인하세요.');
  }
  return structuredClone(raw);
@@ -54,8 +55,9 @@ export function limitedNormalCards(mercenaries,catalog,rules){
 }
 export function limitedPackReadiness(settings,policy,stock=[],normalCards=[]){
  const blockers=[],rates=[...Object.values(settings.normalRankRatesPpm),...Object.values(policy.rankRatesPpm),...settings.extraRewards.map(r=>r.chancePpm)];
+ const totalUnits=rates.every(n=>n===null||isLimitedRate(n))?rates.reduce((sum,n)=>sum+(n===null?0:limitedRateUnits(n)),0):NaN;
  if(Object.values(settings.prices).some(n=>n===null))blockers.push('1회·10회 가격을 설정하세요.');
- if(rates.some(n=>n===null)||rates.reduce((a,n)=>a+(n??0),0)!==1000000)blockers.push('일반 용병 6등급·SS 리미티드·SSS 리미티드·재료·꽝 확률의 합계를 100%로 설정하세요.');
+ if(rates.some(n=>n===null)||totalUnits!==LIMITED_RATE_TOTAL)blockers.push('일반 용병 6등급·SS 리미티드·SSS 리미티드·재료·꽝 확률의 합계를 100%로 설정하세요.');
  for(const rank of MERCENARY_RANKS)if(settings.normalRankRatesPpm[rank]>0&&!normalCards.some(c=>c.rank===rank&&c.weight>0))blockers.push(rank+' 일반 용병의 획득 대상을 확인하세요.');
  for(const r of settings.extraRewards)if(r.chancePpm>0&&r.id!=='NONE'&&r.quantity===null)blockers.push('재료 보상 수량을 설정하세요.');
  const counts=new Map(stock.map(r=>[r.code,Number(r.issued||0)])),pools={};
@@ -68,7 +70,7 @@ export function limitedPackReadiness(settings,policy,stock=[],normalCards=[]){
   }
  }
  if(!(policy.rankRatesPpm.SS>0||policy.rankRatesPpm.SSS>0))blockers.push('리미티드 획득 확률을 설정하세요.');
- return {ready:!blockers.length,blockers,pools,totalPpm:rates.reduce((a,n)=>a+(n??0),0)};
+ return {ready:!blockers.length,blockers,pools,totalPpm:totalUnits/LIMITED_RATE_SCALE};
 }
 export function limitedPackPrice(settings,count){
  if(![1,10].includes(count))throw Object.assign(Error('1회 또는 10회 개봉을 선택하세요.'),{code:'MERCENARY_LIMITED_COUNT',status:400});

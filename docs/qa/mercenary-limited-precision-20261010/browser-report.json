@@ -1,0 +1,28 @@
+{
+  "status": "PASSED",
+  "scope": "Real CMS/public controllers and actual pack API with isolated PostgreSQL fixture; no production settings changed or purchases",
+  "reports": [
+    {
+      "label": "desktop",
+      "width": 1440,
+      "height": 1000,
+      "minStep": "0.00000001%",
+      "cmsSavedAndReloaded": true,
+      "publicOddsMatchStoredValues": true,
+      "manualAndTenButtonsEnabled": true,
+      "errors": [],
+      "failed": []
+    },
+    {
+      "label": "mobile",
+      "width": 390,
+      "height": 844,
+      "minStep": "0.00000001%",
+      "cmsSavedAndReloaded": true,
+      "publicOddsMatchStoredValues": true,
+      "manualAndTenButtonsEnabled": true,
+      "errors": [],
+      "failed": []
+    }
+  ]
+}
