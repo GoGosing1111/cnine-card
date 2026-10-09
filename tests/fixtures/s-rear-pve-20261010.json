@@ -1,0 +1,238 @@
+{
+  "capturedAt": "2026-10-09T20:52:11.983Z",
+  "cmsRevision": 61,
+  "source": "READ_ONLY_PRODUCTION_CMS",
+  "reportedCode": "V-008",
+  "targets": [
+    {
+      "code": "V-005",
+      "name": "청아",
+      "title": "청룡의 계약자",
+      "rank": "S",
+      "position": "MIDDLE",
+      "role": "MARKSMAN",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [
+        {
+          "id": "MS-005",
+          "name": "탄착 교정",
+          "role": "MARKSMAN",
+          "target": "FRONT_ENEMY",
+          "mechanic": "SAME_TARGET_CALIBRATION",
+          "trigger": "같은 표적에 연속으로 명중해야 교정이 쌓인다.",
+          "effect": "세 번의 점사를 한 표적에 유지하면 마지막 탄이 교정 보너스를 얻는다. 표적 변경·빗나감은 교정을 초기화한다.",
+          "counterplay": "도발·회피·표적 교체로 연속 명중을 끊는다. 교정을 다른 적에게 넘길 수 없다.",
+          "bossRule": "같은 단일 보스에는 유지하기 쉽지만 보호막·회피를 무시하지 않는다.",
+          "procRule": "추가 타격·반격·지휘 보너스는 스킬 발동 자원이 되지 않는다. 재귀 발동과 처치 초기화는 금지한다.",
+          "balance": {
+            "damageRatio": 4.2,
+            "cooldownTurns": 5,
+            "cost": 25
+          },
+          "review": "REVIEWED",
+          "notes": ""
+        }
+      ],
+      "pendingSkillIds": [],
+      "basePower": 70000,
+      "sourceArt": "assets/ui/project-v/mercenaries/azure-dragon-ak-mercenary-v3.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v005-cheonga-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-008",
+      "name": "아스텔",
+      "title": "홍성의 관측자",
+      "rank": "S",
+      "position": "REAR",
+      "role": "SNIPER",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [
+        {
+          "id": "MS-008",
+          "name": "홍성 파쇄탄",
+          "role": "SNIPER",
+          "target": "FRONT_ENEMY",
+          "mechanic": "OBSERVED_SHIELD_BREAK",
+          "trigger": "적 전열의 현재 보호막을 관측하고 한 발을 준비한다.",
+          "effect": "명중한 탄환은 기본 피해 뒤 남은 보호막에만 추가 파쇄 예산을 사용한다. 보호막에 쓰지 못한 파쇄량은 HP 피해로 넘어가지 않는다.",
+          "counterplay": "조준을 끊거나 회피한다. 보호막이 없으면 추가 파쇄 이득도 없다. 방어력 무시나 영구 약화는 없다.",
+          "bossRule": "보스 보호막도 정해진 파쇄 예산까지만 소모한다. 기믹 보호막·무적·고정 HP는 우회하지 않는다.",
+          "procRule": "추가 타격·반격·지휘 보너스는 스킬 발동 자원이 되지 않는다. 재귀 발동과 처치 초기화는 금지한다.",
+          "balance": {
+            "damageRatio": 2.8,
+            "cooldownTurns": 4,
+            "cost": 25
+          },
+          "review": "REVIEWED",
+          "notes": ""
+        }
+      ],
+      "pendingSkillIds": [],
+      "basePower": 70000,
+      "sourceArt": "assets/ui/project-v/mercenaries/crimson-constellation-rifle-mercenary-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v008-astel-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-022",
+      "name": "엘로디",
+      "title": "청록 정원의 계약자",
+      "rank": "S",
+      "position": "REAR",
+      "role": "MARKSMAN",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [
+        {
+          "id": "MS-022",
+          "name": "청록 관통화",
+          "role": "MARKSMAN",
+          "target": "FRONT_ENEMY",
+          "mechanic": "THORN_RECOIL_SEAL",
+          "trigger": "적 전열 한 명에게 석궁의 청록 봉인시를 발사한다.",
+          "effect": "명중 시 피해 예산의 일부를 가시 봉인으로 남긴다. 표적이 다음 기본 공격을 명중시키면 봉인이 한 번 터진다. 봉인 피해는 시전자 공격력 기준이며 적의 공격 피해를 반사하지 않는다.",
+          "counterplay": "봉인을 정화하거나 기본 공격 대신 지원 기술로 기다린다. 시전자 소멸·기간 종료·봉인 소모 후에는 추가 발동하지 않는다.",
+          "bossRule": "보스의 일반 기본 공격 명중에만 반응한다. 기믹·고정 피해·추가타·반격은 봉인을 터뜨리지 않는다.",
+          "procRule": "추가 타격·반격·지휘 보너스는 스킬 발동 자원이 되지 않는다. 재귀 발동과 처치 초기화는 금지한다.",
+          "balance": {
+            "damageRatio": 3.2,
+            "cooldownTurns": 4,
+            "cost": 25
+          },
+          "review": "REVIEWED",
+          "notes": ""
+        }
+      ],
+      "pendingSkillIds": [],
+      "basePower": 70000,
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260907/mercenary-v022-crossbow-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v022-elodie-sd-v1.png",
+      "actorKind": "MERCENARY"
+    }
+  ],
+  "controls": [
+    {
+      "code": "V-001",
+      "name": "아우렌",
+      "title": "성검의 계승자",
+      "rank": "S",
+      "position": "FRONT",
+      "role": "VANGUARD",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_ENEMY",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [
+        {
+          "id": "MS-001",
+          "name": "성검의 맹세",
+          "role": "VANGUARD",
+          "target": "FRONT_ENEMY",
+          "mechanic": "DUEL_OATH",
+          "trigger": "적 전열 한 명을 지정해 성검으로 결투를 선언한다.",
+          "effect": "단일 검격이 명중하면 상대의 다음 기본 공격이 시전자에게 향할 때만 피해를 줄인다. 다른 아군을 공격하면 결투 방호 없이 맹세가 소모된다.",
+          "counterplay": "검격을 회피하거나 맹세를 정화한다. 다른 아군을 노리면 결투 방호를 피할 수 있다. 효과는 한 번이며 중첩하지 않는다.",
+          "bossRule": "보스의 기본 공격에만 반응한다. 광역·고정 피해·기믹·추가타는 결투 방호 대상이 아니다.",
+          "procRule": "추가 타격·반격·지휘 보너스는 스킬 발동 자원이 되지 않는다. 재귀 발동과 처치 초기화는 금지한다.",
+          "balance": {
+            "damageRatio": 2.2,
+            "cooldownTurns": 4,
+            "cost": 20
+          },
+          "review": "REVIEWED",
+          "notes": ""
+        }
+      ],
+      "pendingSkillIds": [],
+      "basePower": 70000,
+      "sourceArt": "assets/ui/project-v/mercenaries/holy-knight-greatsword-v2-collectible.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v001-auren-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-003",
+      "name": "솔바인",
+      "title": "황금 방벽",
+      "rank": "S",
+      "position": "FRONT",
+      "role": "GUARDIAN",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "ALLY_LOW_HP",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [
+        {
+          "id": "MS-003",
+          "name": "황금 구명선",
+          "role": "GUARDIAN",
+          "target": "ALLY_LOW_HP",
+          "mechanic": "INTERCEPT_ONE_HIT",
+          "trigger": "HP 비율이 가장 낮은 아군에게 단일 직접 공격이 예고되면 호위한다.",
+          "effect": "첫 타격의 피해 일부를 시전자가 대신 받는다. 피해 총량은 늘지 않으며 한 번 막으면 연결이 끊어진다.",
+          "counterplay": "광역·지속 피해는 가로채지 못한다. 호위자를 먼저 제압하거나 연타로 보호 횟수를 소모한다.",
+          "bossRule": "보스의 일반 단일 공격만 허용한다. 광역 기믹·즉사·고정 피해는 이전하지 않는다.",
+          "procRule": "추가 타격·반격·지휘 보너스는 스킬 발동 자원이 되지 않는다. 재귀 발동과 처치 초기화는 금지한다.",
+          "balance": {
+            "damageRatio": 0,
+            "cooldownTurns": 3,
+            "cost": 15
+          },
+          "review": "REVIEWED",
+          "notes": ""
+        }
+      ],
+      "pendingSkillIds": [],
+      "basePower": 70000,
+      "sourceArt": "assets/ui/project-v/mercenaries/golden-sword-shield-knight-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v003-solvain-sd-v1.png",
+      "actorKind": "MERCENARY"
+    },
+    {
+      "code": "V-011",
+      "name": "아르카엘",
+      "title": "백철의 선봉장",
+      "rank": "S",
+      "position": "FRONT",
+      "role": "GUARDIAN",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "ALLY_FRONT",
+      "level": 1,
+      "statMode": "RANK_FIXED",
+      "skills": [
+        {
+          "id": "MS-011",
+          "name": "백철 불퇴진",
+          "role": "GUARDIAN",
+          "target": "ALLY_FRONT",
+          "mechanic": "FRONT_STAND_FAST",
+          "trigger": "생존 아군 전열에 방호 자세를 전달한다. 전열이 없으면 가장 위급한 아군 한 명을 보호한다.",
+          "effect": "전체 방호 예산을 지정한 아군 수로 나눈다. 각 아군의 다음 기본 직접 피격 한 번을 정해진 비율과 개별 예산 중 작은 값만큼 줄인다. HP·보호막을 추가하지 않는다.",
+          "counterplay": "효과를 해제하거나 작은 기본 공격으로 소모시킨다. 스킬·지속 피해·후열 우회에는 이 방호가 적용되지 않는다.",
+          "bossRule": "일반 기본 공격만 방호한다. 광역 기믹·고정 피해·즉사에는 적용하지 않으며 남은 예산을 다른 아군에게 넘기지 않는다.",
+          "procRule": "추가 타격·반격·지휘 보너스는 스킬 발동 자원이 되지 않는다. 재귀 발동과 처치 초기화는 금지한다.",
+          "balance": {
+            "damageRatio": 3,
+            "cooldownTurns": 4,
+            "cost": 25
+          },
+          "review": "REVIEWED",
+          "notes": ""
+        }
+      ],
+      "pendingSkillIds": [],
+      "basePower": 70000,
+      "sourceArt": "assets/ui/project-v/mercenaries/ivory-aegis-vanguard-mercenary-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v011-arkael-sd-v1.png",
+      "actorKind": "MERCENARY"
+    }
+  ]
+}

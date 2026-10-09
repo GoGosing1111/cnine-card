@@ -7,14 +7,25 @@ import {NURSE_CODES,NURSE_MECHANIC} from './mercenary-nurse-healers-v1.mjs';
 // Keep version 1 immutable for rooms opened before the tier-order follow-up.
 export const SS_REAR_PVE_POLICY_V1=Object.freeze({version:1,regularActionsPerTurn:2,nurseBudgetPercent:75,nurseMaxTargetHpPercent:10});
 export const SS_REAR_PVE_POLICY=Object.freeze({version:2,regularActionsPerTurn:2,enemyBasicPriority:true,nurseBudgetPercent:75,nurseMaxTargetHpPercent:1});
-const policies=Object.freeze({1:SS_REAR_PVE_POLICY_V1,2:SS_REAR_PVE_POLICY});
+// Version 3 opts newly captured ordinary S rear ranged fighters into the same
+// exposure/cadence rule. Existing SS versions and unmarked S replays stay intact.
+export const S_REAR_PVE_POLICY=Object.freeze({version:3,regularActionsPerTurn:2,enemyBasicPriority:true});
+const policies=Object.freeze({1:SS_REAR_PVE_POLICY_V1,2:SS_REAR_PVE_POLICY,3:S_REAR_PVE_POLICY});
 export function isSsRearPveMercenary(actor){
  return actor?.rank==='SS'&&!Object.hasOwn(SS_LIMITED_COMBAT,actor.code)&&
   ['REAR','BACK','MIDDLE'].includes(actor.position)&&
   (NURSE_CODES.includes(actor.code)||mercenaryAttackStyle(actor)==='RANGED');
 }
+export function isSRearPveMercenary(actor){
+ return actor?.rank==='S'&&actor.edition!=='LIMITED'&&!Object.hasOwn(SS_LIMITED_COMBAT,actor.code)&&
+  ['REAR','BACK','MIDDLE'].includes(actor.position)&&mercenaryAttackStyle(actor)==='RANGED';
+}
+export function rearPveCurrentPolicy(actor){
+ return isSsRearPveMercenary(actor)?SS_REAR_PVE_POLICY:isSRearPveMercenary(actor)?S_REAR_PVE_POLICY:null;
+}
 export function ssRearPveSnapshot(actor){
- return isSsRearPveMercenary(actor)?{pveRearCadence:{...SS_REAR_PVE_POLICY}}:{};
+ const policy=rearPveCurrentPolicy(actor);
+ return policy?{pveRearCadence:{...policy}}:{};
 }
 export function ssRearPveInterval(actor,fallback=1){
  return ssRearPvePolicy(actor)?.regularActionsPerTurn??fallback;
@@ -25,7 +36,8 @@ export function ssRearPvePriorityTargets(attacker,targets){
 }
 function ssRearPvePolicy(actor){
  const version=actor?.pveRearCadence?.version;
- return actor?.battleMode==='PVE'&&actor.statMode==='RANK_FIXED'&&isSsRearPveMercenary(actor)?
+ const eligible=version===3?isSRearPveMercenary(actor):isSsRearPveMercenary(actor);
+ return actor?.battleMode==='PVE'&&actor.statMode==='RANK_FIXED'&&eligible?
   Number.isInteger(version)&&Object.hasOwn(policies,version)?policies[version]:null:null;
 }
 export function ssRearPveHealing(actor){

@@ -1,0 +1,91 @@
+{
+  "source": "canonical server battles + shipped V3 bundle/live wrapper",
+  "reports": [
+    {
+      "label": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "codex": "PASS",
+      "overflow": false,
+      "battles": [
+        {
+          "mode": "PVE",
+          "targetId": "A:MERCENARY:V-008",
+          "actorId": "B:0:MONSTER:75",
+          "expectedHpPercent": 40.05436582849518,
+          "hpCalls": [
+            {
+              "id": "A:MERCENARY:V-008",
+              "input": 40.05436582849518,
+              "hp": 40.05436582849518
+            }
+          ]
+        },
+        {
+          "mode": "PVP",
+          "targetId": "B:0:CN-02D9DC1E8A8A4209",
+          "actorId": "A:MERCENARY:V-008",
+          "expectedHpPercent": 93.35043403377347,
+          "hpCalls": [
+            {
+              "id": "B:0:CN-02D9DC1E8A8A4209",
+              "input": 93.35043403377347,
+              "hp": 93.35043403377347
+            },
+            {
+              "id": "B:0:CN-02D9DC1E8A8A4209",
+              "input": 93.35043403377347,
+              "hp": 93.35043403377347
+            }
+          ]
+        }
+      ],
+      "errors": []
+    },
+    {
+      "label": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "codex": "PASS",
+      "overflow": false,
+      "battles": [
+        {
+          "mode": "PVE",
+          "targetId": "A:MERCENARY:V-008",
+          "actorId": "B:0:MONSTER:75",
+          "expectedHpPercent": 40.05436582849518,
+          "hpCalls": [
+            {
+              "id": "A:MERCENARY:V-008",
+              "input": 40.05436582849518,
+              "hp": 40.05436582849518
+            }
+          ]
+        },
+        {
+          "mode": "PVP",
+          "targetId": "B:0:CN-02D9DC1E8A8A4209",
+          "actorId": "A:MERCENARY:V-008",
+          "expectedHpPercent": 93.35043403377347,
+          "hpCalls": [
+            {
+              "id": "B:0:CN-02D9DC1E8A8A4209",
+              "input": 93.35043403377347,
+              "hp": 93.35043403377347
+            },
+            {
+              "id": "B:0:CN-02D9DC1E8A8A4209",
+              "input": 93.35043403377347,
+              "hp": 93.35043403377347
+            }
+          ]
+        }
+      ],
+      "errors": []
+    }
+  ]
+}
