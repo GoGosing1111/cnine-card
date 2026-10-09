@@ -1,0 +1,60 @@
+{
+  "checkedAt": "2026-10-09T13:43:04.146Z",
+  "policy": {
+    "mode": "TEST",
+    "revision": 3,
+    "testUserCount": 0,
+    "rewardsEnabled": false,
+    "cash": {
+      "startingCash": 10000,
+      "theft": {
+        "enabled": true,
+        "percent": 10,
+        "maxCash": 2000
+      }
+    },
+    "storedPolicyUnchanged": true
+  },
+  "assets": [
+    {
+      "path": "index.html",
+      "sha256": "b0357b8176d560e81c1611af599c75763ab12ecdd11afdde020e7214676ce306"
+    },
+    {
+      "path": "js/jokgak-city-v1.js",
+      "sha256": "901760b38805ce63f596b70b02c203c0486b431edb7fa6e7a26bc1402b558583"
+    },
+    {
+      "path": "js/jokgak-city-life-ui-v1.mjs",
+      "sha256": "c30e39b94c53d6fff95370b72e9041fe5783a582ff7fb83e928368e3c002e9c3"
+    },
+    {
+      "path": "css/jokgak-city-v1.css",
+      "sha256": "173088a797419024a480adeff59824db0bea7dcc4064bf73c9172a058f745874"
+    },
+    {
+      "path": "shared/jokgak-city-cash-v1.mjs",
+      "sha256": "9030916096cceb81a7b593232eb005bfaaa0cdb1032d5e00c62deef40bf134b9"
+    },
+    {
+      "path": "admin/jokgak-city-admin-v1.mjs",
+      "sha256": "e03526f89f984f062c29b951022783ad6220fd71838de6179cdadcb61d39c45d"
+    },
+    {
+      "path": "preview/jokgak-city-v1/preview.mjs",
+      "sha256": "da12e36dd34fd7bacbda2503f5e6fb9ea21369ec49fe3ddc69f36f3beb0cdc91"
+    }
+  ],
+  "unauthenticatedCityStatus": 401,
+  "runtime": "regional-v1",
+  "isolatedPreview": {
+    "profile": true,
+    "meters": 3,
+    "job": "경찰",
+    "cash": 10000,
+    "theftRule": "10% / max 2000 won",
+    "errors": []
+  },
+  "settingsWrites": 0,
+  "realAccountActions": 0
+}

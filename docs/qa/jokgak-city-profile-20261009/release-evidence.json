@@ -1,0 +1,33 @@
+{
+  "sourceCommit": "1c5b6c63d0f446804f6b9752ff31222cfa210477",
+  "previousDeployedCommit": "5f245497a24b3eb0422848770a071e0ab7e85244",
+  "command": "npm run deploy:production -- --scoped",
+  "exitCode": 0,
+  "pages": "https://2b67d93f.cnine-card.pages.dev",
+  "apiRuntimeVersion": "a92f8e13-a558-4d32-b97a-8dce3b065eb9",
+  "clanDraftVersion": "b23dc8e5-ce5b-4e30-85a0-a3f87151bc01",
+  "checks": {
+    "theftServer": 13,
+    "existingCityServer": 59,
+    "profileLifeCmsBrowser": 18,
+    "v3BattleBrowser": 6,
+    "browserErrors": 0,
+    "workerCompile": true,
+    "functionsBuild": true,
+    "releaseProtection": true,
+    "hyperdriveQueryCacheDisabled": true
+  },
+  "production": {
+    "mode": "TEST",
+    "revision": 3,
+    "testUsers": 0,
+    "roleRewardsEnabled": false,
+    "theft": {
+      "enabled": true,
+      "percent": 10,
+      "maxCash": 2000
+    },
+    "storedPolicyUnchanged": true,
+    "realAccountActions": 0
+  }
+}
