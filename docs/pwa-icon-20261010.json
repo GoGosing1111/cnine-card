@@ -87,5 +87,14 @@
       "https://web.dev/articles/manifest-updates",
       "https://web.dev/articles/maskable-icon"
     ]
+  },
+  "production": {
+    "status": "DEPLOYED_AND_VERIFIED",
+    "commit": "eedf981dc4522bbe2d32d5b62d5c2a4348f788bb",
+    "deployment": "https://eabdda69.cnine-card.pages.dev",
+    "verifiedAt": "2026-10-09T19:13:18.322Z",
+    "verifiedAtKst": "2026-10-10 04:13:18 KST",
+    "report": "docs/qa/pwa-icon-20261010/production.json",
+    "scopedRegressionsPassed": 6
   }
 }

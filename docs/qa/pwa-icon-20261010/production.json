@@ -1,0 +1,58 @@
+{
+  "status": "VERIFIED_PRODUCTION",
+  "site": "https://cnine-card.pages.dev",
+  "verifiedAt": "2026-10-09T19:13:18.322Z",
+  "manifestIdentityPreserved": true,
+  "original512ByteEquality": true,
+  "assets": [
+    {
+      "path": "assets/ui/pwa/soop-20261010/apple-touch-icon-180.png",
+      "sha256": "72a7af468234cbc5efa81279fa709c6bfd2dbe2ba6fc1693d2f68620d96e8648",
+      "status": 200,
+      "contentType": "image/png"
+    },
+    {
+      "path": "assets/ui/pwa/soop-20261010/favicon-32.png",
+      "sha256": "e73d3badfb5e24dd02c3eccce8d326fce74728b416ca106f0c136ccd86511588",
+      "status": 200,
+      "contentType": "image/png"
+    },
+    {
+      "path": "assets/ui/pwa/soop-20261010/favicon-48.png",
+      "sha256": "2b3b6fb0c837163fa408086f3001da60c2a6aabc280c3e5f4030c450b2f757dd",
+      "status": 200,
+      "contentType": "image/png"
+    },
+    {
+      "path": "assets/ui/pwa/soop-20261010/icon-192.png",
+      "sha256": "1268198f1f5d1a66bc0eb5aacf76febd6313ca1ea0ce5ed2053f1ecb0bb6fc79",
+      "status": 200,
+      "contentType": "image/png"
+    },
+    {
+      "path": "assets/ui/pwa/soop-20261010/icon-512.png",
+      "sha256": "df8f8562d4e4806ff90297fddc7d573ac3fefd782632bb0a2388980c99b55f04",
+      "status": 200,
+      "contentType": "image/png"
+    },
+    {
+      "path": "assets/ui/pwa/soop-20261010/maskable-512.png",
+      "sha256": "b2cde089471d4aaa1666dbf6182e65e50971f264b46a5092325fa54eaca18d20",
+      "status": 200,
+      "contentType": "image/png"
+    }
+  ],
+  "headerLinks": true,
+  "shellCache": "soop-card-shell-v20261010-pwa-icon",
+  "releaseCommit": "eedf981dc4522bbe2d32d5b62d5c2a4348f788bb",
+  "deployment": "https://eabdda69.cnine-card.pages.dev",
+  "apiRuntimeVersion": "931c7401-35a0-4500-8224-d07340044c63",
+  "clanDraftVersion": "1584d766-6fe4-4d66-9433-c27a1f90e924",
+  "scopedRegression": {
+    "passed": 6,
+    "failed": 0,
+    "test": "tests/pwa-runtime-lifecycle-20260928.test.mjs"
+  },
+  "productionReleaseGuard": "PASS",
+  "hyperdriveQueryCache": "DISABLED_VERIFIED"
+}
