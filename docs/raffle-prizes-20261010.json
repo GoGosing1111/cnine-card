@@ -1,0 +1,303 @@
+{
+  "title": "추첨 사은품",
+  "operationKey": "ops:raffle-prizes:20261010:94tickets:v1",
+  "status": "COMPLETED",
+  "completedAt": "2026-10-09T16:44:30.495Z",
+  "completedAtKst": "2026-10-10 01:44:30 KST",
+  "database": "cnine",
+  "branch": "production",
+  "delivery": "DIRECT",
+  "authorization": "지급해 저대로",
+  "totals": {
+    "recipients": 12,
+    "mercenaryCards": 7,
+    "equipment": 5,
+    "prizes": {
+      "SSS 베르칸": 3,
+      "SSS 크라이베른": 4,
+      "S-BODY": 5
+    }
+  },
+  "planHash": "dfe990c28c65663bb7ec0f3656fe6756b704af27cd977905fa9f58ade643c211",
+  "operationScript": "scripts/ops/raffle-prizes-20261010.mjs",
+  "plan": "scripts/ops/raffle-prizes-20261010.json",
+  "receiptLocation": {
+    "table": "app_meta",
+    "key": "ops:raffle-prizes:20261010:94tickets:v1"
+  },
+  "validation": {
+    "dryRun": {
+      "operationKey": "ops:raffle-prizes:20261010:94tickets:v1",
+      "planHash": "dfe990c28c65663bb7ec0f3656fe6756b704af27cd977905fa9f58ade643c211",
+      "status": "DRY_RUN_ROLLED_BACK",
+      "completedAt": "2026-10-09T16:44:09.021Z",
+      "replayed": false,
+      "recipients": 12,
+      "mercenaryAcquisitions": 7,
+      "equipmentInstances": 5,
+      "adminLogs": 12,
+      "missing": 0,
+      "duplicateRecipients": 0,
+      "partialFailureRolledBack": true,
+      "replayVerified": true,
+      "balancesRestored": true,
+      "logsRolledBack": true
+    },
+    "postCommit": {
+      "operationKey": "ops:raffle-prizes:20261010:94tickets:v1",
+      "planHash": "dfe990c28c65663bb7ec0f3656fe6756b704af27cd977905fa9f58ade643c211",
+      "status": "COMPLETED",
+      "completedAt": "2026-10-09T16:44:30.495Z",
+      "replayed": true,
+      "recipients": 12,
+      "mercenaryAcquisitions": 7,
+      "equipmentInstances": 5,
+      "adminLogs": 12,
+      "missing": 0,
+      "duplicateRecipients": 0
+    },
+    "scope": "일회성 운영 데이터 지급. 당첨 계정·상품·거래 원자성·재시도·수량 증분·획득 및 관리자 로그·커밋 후 영수증 확인. 게임 실행 코드 변경 및 사이트 재배포 없음."
+  },
+  "grants": [
+    {
+      "order": 1,
+      "participant": "혜루",
+      "userId": "148",
+      "gameNickname": "혜루",
+      "prize": "SSS 베르칸",
+      "winningTicket": 81,
+      "reward": {
+        "kind": "MERCENARY",
+        "code": "V-055",
+        "name": "베르칸",
+        "rank": "SSS",
+        "quantity": 1
+      },
+      "grantId": "ops:raffle-prizes:20261010:94tickets:v1:148:V-055",
+      "instanceId": null,
+      "quantityBefore": 0,
+      "quantityAfter": 1,
+      "adminLogId": "43432"
+    },
+    {
+      "order": 2,
+      "participant": "레드클라우드",
+      "userId": "3867",
+      "gameNickname": "레드클라우드",
+      "prize": "SSS 베르칸",
+      "winningTicket": 68,
+      "reward": {
+        "kind": "MERCENARY",
+        "code": "V-055",
+        "name": "베르칸",
+        "rank": "SSS",
+        "quantity": 1
+      },
+      "grantId": "ops:raffle-prizes:20261010:94tickets:v1:3867:V-055",
+      "instanceId": null,
+      "quantityBefore": 0,
+      "quantityAfter": 1,
+      "adminLogId": "43433"
+    },
+    {
+      "order": 3,
+      "participant": "쁴로리",
+      "userId": "4965",
+      "gameNickname": "쁴로리",
+      "prize": "SSS 베르칸",
+      "winningTicket": 11,
+      "reward": {
+        "kind": "MERCENARY",
+        "code": "V-055",
+        "name": "베르칸",
+        "rank": "SSS",
+        "quantity": 1
+      },
+      "grantId": "ops:raffle-prizes:20261010:94tickets:v1:4965:V-055",
+      "instanceId": null,
+      "quantityBefore": 0,
+      "quantityAfter": 1,
+      "adminLogId": "43434"
+    },
+    {
+      "order": 4,
+      "participant": "족구조아",
+      "userId": "525",
+      "gameNickname": "족구조아",
+      "prize": "SSS 크라이베른",
+      "winningTicket": 75,
+      "reward": {
+        "kind": "MERCENARY",
+        "code": "V-049",
+        "name": "크라이베른",
+        "rank": "SSS",
+        "quantity": 1
+      },
+      "grantId": "ops:raffle-prizes:20261010:94tickets:v1:525:V-049",
+      "instanceId": null,
+      "quantityBefore": 0,
+      "quantityAfter": 1,
+      "adminLogId": "43435"
+    },
+    {
+      "order": 5,
+      "participant": "으악",
+      "userId": "5010",
+      "gameNickname": "으악",
+      "prize": "SSS 크라이베른",
+      "winningTicket": 3,
+      "reward": {
+        "kind": "MERCENARY",
+        "code": "V-049",
+        "name": "크라이베른",
+        "rank": "SSS",
+        "quantity": 1
+      },
+      "grantId": "ops:raffle-prizes:20261010:94tickets:v1:5010:V-049",
+      "instanceId": null,
+      "quantityBefore": 1,
+      "quantityAfter": 2,
+      "adminLogId": "43436"
+    },
+    {
+      "order": 6,
+      "participant": "zkzk9999",
+      "userId": "3884",
+      "gameNickname": "zkzk9999",
+      "prize": "SSS 크라이베른",
+      "winningTicket": 64,
+      "reward": {
+        "kind": "MERCENARY",
+        "code": "V-049",
+        "name": "크라이베른",
+        "rank": "SSS",
+        "quantity": 1
+      },
+      "grantId": "ops:raffle-prizes:20261010:94tickets:v1:3884:V-049",
+      "instanceId": null,
+      "quantityBefore": 0,
+      "quantityAfter": 1,
+      "adminLogId": "43437"
+    },
+    {
+      "order": 7,
+      "participant": "족단",
+      "userId": "4582",
+      "gameNickname": "족단",
+      "prize": "SSS 크라이베른",
+      "winningTicket": 55,
+      "reward": {
+        "kind": "MERCENARY",
+        "code": "V-049",
+        "name": "크라이베른",
+        "rank": "SSS",
+        "quantity": 1
+      },
+      "grantId": "ops:raffle-prizes:20261010:94tickets:v1:4582:V-049",
+      "instanceId": null,
+      "quantityBefore": 0,
+      "quantityAfter": 1,
+      "adminLogId": "43438"
+    },
+    {
+      "order": 8,
+      "participant": "다시생각",
+      "userId": "1421",
+      "gameNickname": "다시생각",
+      "prize": "S바디",
+      "winningTicket": 16,
+      "reward": {
+        "kind": "EQUIPMENT",
+        "id": "47",
+        "code": "BATTLE_SUIT_S_BODY",
+        "name": "S-BODY",
+        "quantity": 1
+      },
+      "grantId": "ops:raffle-prizes:20261010:94tickets:v1:1421:BATTLE_SUIT_S_BODY",
+      "instanceId": "2240446237",
+      "quantityBefore": 0,
+      "quantityAfter": 1,
+      "adminLogId": "43439"
+    },
+    {
+      "order": 9,
+      "participant": "핫시",
+      "userId": "1768",
+      "gameNickname": "핫시",
+      "prize": "S바디",
+      "winningTicket": 28,
+      "reward": {
+        "kind": "EQUIPMENT",
+        "id": "47",
+        "code": "BATTLE_SUIT_S_BODY",
+        "name": "S-BODY",
+        "quantity": 1
+      },
+      "grantId": "ops:raffle-prizes:20261010:94tickets:v1:1768:BATTLE_SUIT_S_BODY",
+      "instanceId": "2240446238",
+      "quantityBefore": 0,
+      "quantityAfter": 1,
+      "adminLogId": "43440"
+    },
+    {
+      "order": 10,
+      "participant": "라페스타다",
+      "userId": "750",
+      "gameNickname": "라페스타다",
+      "prize": "S바디",
+      "winningTicket": 35,
+      "reward": {
+        "kind": "EQUIPMENT",
+        "id": "47",
+        "code": "BATTLE_SUIT_S_BODY",
+        "name": "S-BODY",
+        "quantity": 1
+      },
+      "grantId": "ops:raffle-prizes:20261010:94tickets:v1:750:BATTLE_SUIT_S_BODY",
+      "instanceId": "2240446239",
+      "quantityBefore": 0,
+      "quantityAfter": 1,
+      "adminLogId": "43441"
+    },
+    {
+      "order": 11,
+      "participant": "헬로희야",
+      "userId": "4824",
+      "gameNickname": "헬로희야",
+      "prize": "S바디",
+      "winningTicket": 69,
+      "reward": {
+        "kind": "EQUIPMENT",
+        "id": "47",
+        "code": "BATTLE_SUIT_S_BODY",
+        "name": "S-BODY",
+        "quantity": 1
+      },
+      "grantId": "ops:raffle-prizes:20261010:94tickets:v1:4824:BATTLE_SUIT_S_BODY",
+      "instanceId": "2240446240",
+      "quantityBefore": 0,
+      "quantityAfter": 1,
+      "adminLogId": "43442"
+    },
+    {
+      "order": 12,
+      "participant": "박사",
+      "userId": "164",
+      "gameNickname": "박사",
+      "prize": "S바디",
+      "winningTicket": 67,
+      "reward": {
+        "kind": "EQUIPMENT",
+        "id": "47",
+        "code": "BATTLE_SUIT_S_BODY",
+        "name": "S-BODY",
+        "quantity": 1
+      },
+      "grantId": "ops:raffle-prizes:20261010:94tickets:v1:164:BATTLE_SUIT_S_BODY",
+      "instanceId": "2240446241",
+      "quantityBefore": 0,
+      "quantityAfter": 1,
+      "adminLogId": "43443"
+    }
+  ]
+}

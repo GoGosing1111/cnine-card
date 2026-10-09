@@ -1,0 +1,784 @@
+{
+  "operationKey": "ops:raffle-prizes:20261010:94tickets:v1",
+  "title": "추첨 사은품",
+  "authorization": "지급해 저대로",
+  "delivery": "DIRECT",
+  "totals": {
+    "recipients": 12,
+    "mercenaryCards": 7,
+    "equipment": 5,
+    "prizes": {
+      "SSS 베르칸": 3,
+      "SSS 크라이베른": 4,
+      "S-BODY": 5
+    }
+  },
+  "draw": {
+    "method": "System.Security.Cryptography.RandomNumberGenerator.GetInt32; uniform selection from remaining tickets; all tickets of each winner removed",
+    "initialParticipants": 65,
+    "initialTickets": 94,
+    "results": [
+      {
+        "order": 1,
+        "prize": "SSS 베르칸",
+        "name": "혜루",
+        "winningTicket": 81,
+        "originalTickets": 1,
+        "eligibleTicketsBeforeDraw": 94
+      },
+      {
+        "order": 2,
+        "prize": "SSS 베르칸",
+        "name": "레드클라우드",
+        "winningTicket": 68,
+        "originalTickets": 1,
+        "eligibleTicketsBeforeDraw": 93
+      },
+      {
+        "order": 3,
+        "prize": "SSS 베르칸",
+        "name": "쁴로리",
+        "winningTicket": 11,
+        "originalTickets": 2,
+        "eligibleTicketsBeforeDraw": 92
+      },
+      {
+        "order": 4,
+        "prize": "SSS 크라이베른",
+        "name": "족구조아",
+        "winningTicket": 75,
+        "originalTickets": 1,
+        "eligibleTicketsBeforeDraw": 90
+      },
+      {
+        "order": 5,
+        "prize": "SSS 크라이베른",
+        "name": "으악",
+        "winningTicket": 3,
+        "originalTickets": 2,
+        "eligibleTicketsBeforeDraw": 89
+      },
+      {
+        "order": 6,
+        "prize": "SSS 크라이베른",
+        "name": "zkzk9999",
+        "winningTicket": 64,
+        "originalTickets": 2,
+        "eligibleTicketsBeforeDraw": 87
+      },
+      {
+        "order": 7,
+        "prize": "SSS 크라이베른",
+        "name": "족단",
+        "winningTicket": 55,
+        "originalTickets": 2,
+        "eligibleTicketsBeforeDraw": 85
+      },
+      {
+        "order": 8,
+        "prize": "S바디",
+        "name": "다시생각",
+        "winningTicket": 16,
+        "originalTickets": 2,
+        "eligibleTicketsBeforeDraw": 83
+      },
+      {
+        "order": 9,
+        "prize": "S바디",
+        "name": "핫시",
+        "winningTicket": 28,
+        "originalTickets": 2,
+        "eligibleTicketsBeforeDraw": 81
+      },
+      {
+        "order": 10,
+        "prize": "S바디",
+        "name": "라페스타다",
+        "winningTicket": 35,
+        "originalTickets": 2,
+        "eligibleTicketsBeforeDraw": 79
+      },
+      {
+        "order": 11,
+        "prize": "S바디",
+        "name": "헬로희야",
+        "winningTicket": 69,
+        "originalTickets": 1,
+        "eligibleTicketsBeforeDraw": 77
+      },
+      {
+        "order": 12,
+        "prize": "S바디",
+        "name": "박사",
+        "winningTicket": 67,
+        "originalTickets": 2,
+        "eligibleTicketsBeforeDraw": 76
+      }
+    ],
+    "uniqueWinners": 12,
+    "remainingTickets": 74
+  },
+  "ticketAllocation": [
+    {
+      "name": "T-Money™",
+      "tickets": [
+        1
+      ]
+    },
+    {
+      "name": "으악",
+      "tickets": [
+        2,
+        3
+      ]
+    },
+    {
+      "name": "하이다미♡",
+      "tickets": [
+        4
+      ]
+    },
+    {
+      "name": "눈탱이당함",
+      "tickets": [
+        5
+      ]
+    },
+    {
+      "name": "망순이ෆ",
+      "tickets": [
+        6,
+        7
+      ]
+    },
+    {
+      "name": "레가파",
+      "tickets": [
+        8,
+        9
+      ]
+    },
+    {
+      "name": "쁴로리",
+      "tickets": [
+        10,
+        11
+      ]
+    },
+    {
+      "name": "학벌",
+      "tickets": [
+        12,
+        13
+      ]
+    },
+    {
+      "name": "응맨",
+      "tickets": [
+        14,
+        15
+      ]
+    },
+    {
+      "name": "다시생각",
+      "tickets": [
+        16,
+        17
+      ]
+    },
+    {
+      "name": "전게씹선미아웃",
+      "tickets": [
+        18,
+        19
+      ]
+    },
+    {
+      "name": "오일바른가지",
+      "tickets": [
+        20
+      ]
+    },
+    {
+      "name": "블랙캐슬",
+      "tickets": [
+        21
+      ]
+    },
+    {
+      "name": "좌지구녕",
+      "tickets": [
+        22,
+        23
+      ]
+    },
+    {
+      "name": "장씨아저씨",
+      "tickets": [
+        24
+      ]
+    },
+    {
+      "name": "족게이다",
+      "tickets": [
+        25,
+        26
+      ]
+    },
+    {
+      "name": "핫시",
+      "tickets": [
+        27,
+        28
+      ]
+    },
+    {
+      "name": "차단하다",
+      "tickets": [
+        29
+      ]
+    },
+    {
+      "name": "[C9]족쪽이",
+      "tickets": [
+        30,
+        31
+      ]
+    },
+    {
+      "name": "숭구릭",
+      "tickets": [
+        32,
+        33
+      ]
+    },
+    {
+      "name": "비쥬얼깡패",
+      "tickets": [
+        34
+      ]
+    },
+    {
+      "name": "라페스타다",
+      "tickets": [
+        35,
+        36
+      ]
+    },
+    {
+      "name": "박세라-ㅂ-",
+      "tickets": [
+        37,
+        38
+      ]
+    },
+    {
+      "name": "ShowMaker",
+      "tickets": [
+        39,
+        40
+      ]
+    },
+    {
+      "name": "세라네꼬라지",
+      "tickets": [
+        41,
+        42
+      ]
+    },
+    {
+      "name": "란x2",
+      "tickets": [
+        43,
+        44
+      ]
+    },
+    {
+      "name": "커피먹는철구",
+      "tickets": [
+        45,
+        46
+      ]
+    },
+    {
+      "name": "스갤가축",
+      "tickets": [
+        47,
+        48
+      ]
+    },
+    {
+      "name": "혜정",
+      "tickets": [
+        49
+      ]
+    },
+    {
+      "name": "딤키우기",
+      "tickets": [
+        50,
+        51
+      ]
+    },
+    {
+      "name": "더듬이구",
+      "tickets": [
+        52,
+        53
+      ]
+    },
+    {
+      "name": "족단",
+      "tickets": [
+        54,
+        55
+      ]
+    },
+    {
+      "name": "굳건창수",
+      "tickets": [
+        56,
+        57
+      ]
+    },
+    {
+      "name": "우회하세요",
+      "tickets": [
+        58,
+        59
+      ]
+    },
+    {
+      "name": "폭군#",
+      "tickets": [
+        60,
+        61
+      ]
+    },
+    {
+      "name": "씨나인택갓",
+      "tickets": [
+        62,
+        63
+      ]
+    },
+    {
+      "name": "zkzk9999",
+      "tickets": [
+        64,
+        65
+      ]
+    },
+    {
+      "name": "박사",
+      "tickets": [
+        66,
+        67
+      ]
+    },
+    {
+      "name": "레드클라우드",
+      "tickets": [
+        68
+      ]
+    },
+    {
+      "name": "헬로희야",
+      "tickets": [
+        69
+      ]
+    },
+    {
+      "name": "의지",
+      "tickets": [
+        70
+      ]
+    },
+    {
+      "name": "모래",
+      "tickets": [
+        71
+      ]
+    },
+    {
+      "name": "화성가뿌자",
+      "tickets": [
+        72
+      ]
+    },
+    {
+      "name": "음주",
+      "tickets": [
+        73
+      ]
+    },
+    {
+      "name": "슈라",
+      "tickets": [
+        74
+      ]
+    },
+    {
+      "name": "족구조아",
+      "tickets": [
+        75
+      ]
+    },
+    {
+      "name": "펜타",
+      "tickets": [
+        76
+      ]
+    },
+    {
+      "name": "현하루",
+      "tickets": [
+        77
+      ]
+    },
+    {
+      "name": "Mild7",
+      "tickets": [
+        78
+      ]
+    },
+    {
+      "name": "설윤이",
+      "tickets": [
+        79
+      ]
+    },
+    {
+      "name": "라피e",
+      "tickets": [
+        80
+      ]
+    },
+    {
+      "name": "혜루",
+      "tickets": [
+        81
+      ]
+    },
+    {
+      "name": "암살자..",
+      "tickets": [
+        82
+      ]
+    },
+    {
+      "name": "˚쟁이。",
+      "tickets": [
+        83
+      ]
+    },
+    {
+      "name": "페이트런",
+      "tickets": [
+        84
+      ]
+    },
+    {
+      "name": "대지",
+      "tickets": [
+        85
+      ]
+    },
+    {
+      "name": "찬호",
+      "tickets": [
+        86
+      ]
+    },
+    {
+      "name": "랄네미탱탱",
+      "tickets": [
+        87
+      ]
+    },
+    {
+      "name": "시소둥이",
+      "tickets": [
+        88
+      ]
+    },
+    {
+      "name": "제롬",
+      "tickets": [
+        89
+      ]
+    },
+    {
+      "name": "불법사행산업신고센터",
+      "tickets": [
+        90
+      ]
+    },
+    {
+      "name": "0수표",
+      "tickets": [
+        91
+      ]
+    },
+    {
+      "name": "음주플레이어",
+      "tickets": [
+        92
+      ]
+    },
+    {
+      "name": "랭비!",
+      "tickets": [
+        93
+      ]
+    },
+    {
+      "name": "남수댕",
+      "tickets": [
+        94
+      ]
+    }
+  ],
+  "recipients": [
+    {
+      "order": 1,
+      "participant": "혜루",
+      "userId": "148",
+      "gameNickname": "혜루",
+      "provider": "PLAYDK",
+      "providerName": "혜루",
+      "providerUserId": "bc55305b",
+      "matchBasis": "VERIFIED_PLAYDK_NICKNAME",
+      "prize": "SSS 베르칸",
+      "winningTicket": 81,
+      "originalTickets": 1,
+      "reward": {
+        "kind": "MERCENARY",
+        "code": "V-055",
+        "name": "베르칸",
+        "rank": "SSS",
+        "quantity": 1
+      }
+    },
+    {
+      "order": 2,
+      "participant": "레드클라우드",
+      "userId": "3867",
+      "gameNickname": "레드클라우드",
+      "provider": "PLAYDK",
+      "providerName": "레드클라우드",
+      "providerUserId": "6fc616f7",
+      "matchBasis": "VERIFIED_PLAYDK_NICKNAME",
+      "prize": "SSS 베르칸",
+      "winningTicket": 68,
+      "originalTickets": 1,
+      "reward": {
+        "kind": "MERCENARY",
+        "code": "V-055",
+        "name": "베르칸",
+        "rank": "SSS",
+        "quantity": 1
+      }
+    },
+    {
+      "order": 3,
+      "participant": "쁴로리",
+      "userId": "4965",
+      "gameNickname": "쁴로리",
+      "provider": "PLAYDK",
+      "providerName": "쁴로리",
+      "providerUserId": "f3aa85e5",
+      "matchBasis": "VERIFIED_PLAYDK_NICKNAME",
+      "prize": "SSS 베르칸",
+      "winningTicket": 11,
+      "originalTickets": 2,
+      "reward": {
+        "kind": "MERCENARY",
+        "code": "V-055",
+        "name": "베르칸",
+        "rank": "SSS",
+        "quantity": 1
+      }
+    },
+    {
+      "order": 4,
+      "participant": "족구조아",
+      "userId": "525",
+      "gameNickname": "족구조아",
+      "provider": "PLAYDK",
+      "providerName": "족구조아",
+      "providerUserId": "cba2b411",
+      "matchBasis": "VERIFIED_PLAYDK_NICKNAME",
+      "prize": "SSS 크라이베른",
+      "winningTicket": 75,
+      "originalTickets": 1,
+      "reward": {
+        "kind": "MERCENARY",
+        "code": "V-049",
+        "name": "크라이베른",
+        "rank": "SSS",
+        "quantity": 1
+      }
+    },
+    {
+      "order": 5,
+      "participant": "으악",
+      "userId": "5010",
+      "gameNickname": "으악",
+      "provider": "PLAYDK",
+      "providerName": "으악",
+      "providerUserId": "4421c392",
+      "matchBasis": "VERIFIED_PLAYDK_NICKNAME",
+      "prize": "SSS 크라이베른",
+      "winningTicket": 3,
+      "originalTickets": 2,
+      "reward": {
+        "kind": "MERCENARY",
+        "code": "V-049",
+        "name": "크라이베른",
+        "rank": "SSS",
+        "quantity": 1
+      }
+    },
+    {
+      "order": 6,
+      "participant": "zkzk9999",
+      "userId": "3884",
+      "gameNickname": "zkzk9999",
+      "provider": "PLAYDK",
+      "providerName": "zkzk9999",
+      "providerUserId": "2113359e",
+      "matchBasis": "VERIFIED_PLAYDK_NICKNAME",
+      "prize": "SSS 크라이베른",
+      "winningTicket": 64,
+      "originalTickets": 2,
+      "reward": {
+        "kind": "MERCENARY",
+        "code": "V-049",
+        "name": "크라이베른",
+        "rank": "SSS",
+        "quantity": 1
+      }
+    },
+    {
+      "order": 7,
+      "participant": "족단",
+      "userId": "4582",
+      "gameNickname": "족단",
+      "provider": "PLAYDK",
+      "providerName": "족단",
+      "providerUserId": "22c31ef9",
+      "matchBasis": "VERIFIED_PLAYDK_NICKNAME",
+      "prize": "SSS 크라이베른",
+      "winningTicket": 55,
+      "originalTickets": 2,
+      "reward": {
+        "kind": "MERCENARY",
+        "code": "V-049",
+        "name": "크라이베른",
+        "rank": "SSS",
+        "quantity": 1
+      }
+    },
+    {
+      "order": 8,
+      "participant": "다시생각",
+      "userId": "1421",
+      "gameNickname": "다시생각",
+      "provider": "PLAYDK",
+      "providerName": "다시생각",
+      "providerUserId": "6f84c07a",
+      "matchBasis": "VERIFIED_PLAYDK_NICKNAME",
+      "prize": "S바디",
+      "winningTicket": 16,
+      "originalTickets": 2,
+      "reward": {
+        "kind": "EQUIPMENT",
+        "id": "47",
+        "code": "BATTLE_SUIT_S_BODY",
+        "name": "S-BODY",
+        "quantity": 1
+      }
+    },
+    {
+      "order": 9,
+      "participant": "핫시",
+      "userId": "1768",
+      "gameNickname": "핫시",
+      "provider": "PLAYDK",
+      "providerName": "핫시",
+      "providerUserId": "8dd27727",
+      "matchBasis": "VERIFIED_PLAYDK_NICKNAME",
+      "prize": "S바디",
+      "winningTicket": 28,
+      "originalTickets": 2,
+      "reward": {
+        "kind": "EQUIPMENT",
+        "id": "47",
+        "code": "BATTLE_SUIT_S_BODY",
+        "name": "S-BODY",
+        "quantity": 1
+      }
+    },
+    {
+      "order": 10,
+      "participant": "라페스타다",
+      "userId": "750",
+      "gameNickname": "라페스타다",
+      "provider": "PLAYDK",
+      "providerName": "라페스타다",
+      "providerUserId": "7045ba47",
+      "matchBasis": "VERIFIED_PLAYDK_NICKNAME",
+      "prize": "S바디",
+      "winningTicket": 35,
+      "originalTickets": 2,
+      "reward": {
+        "kind": "EQUIPMENT",
+        "id": "47",
+        "code": "BATTLE_SUIT_S_BODY",
+        "name": "S-BODY",
+        "quantity": 1
+      }
+    },
+    {
+      "order": 11,
+      "participant": "헬로희야",
+      "userId": "4824",
+      "gameNickname": "헬로희야",
+      "provider": "PLAYDK",
+      "providerName": "하이희야♡",
+      "providerUserId": "2aaa58b6",
+      "matchBasis": "EXACT_GAME_NICKNAME_WITH_PLAYDK_VERIFICATION",
+      "prize": "S바디",
+      "winningTicket": 69,
+      "originalTickets": 1,
+      "reward": {
+        "kind": "EQUIPMENT",
+        "id": "47",
+        "code": "BATTLE_SUIT_S_BODY",
+        "name": "S-BODY",
+        "quantity": 1
+      }
+    },
+    {
+      "order": 12,
+      "participant": "박사",
+      "userId": "164",
+      "gameNickname": "박사",
+      "provider": "PLAYDK",
+      "providerName": "박사",
+      "providerUserId": "00a28fb2",
+      "matchBasis": "VERIFIED_PLAYDK_NICKNAME",
+      "prize": "S바디",
+      "winningTicket": 67,
+      "originalTickets": 2,
+      "reward": {
+        "kind": "EQUIPMENT",
+        "id": "47",
+        "code": "BATTLE_SUIT_S_BODY",
+        "name": "S-BODY",
+        "quantity": 1
+      }
+    }
+  ]
+}
