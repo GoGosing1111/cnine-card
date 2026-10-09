@@ -5,12 +5,12 @@ import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
 import {chickenDraft} from '../shared/chicken-event-v1.mjs';
 const require=createRequire(import.meta.url),{chromium}=require('C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
-const root=path.resolve(import.meta.dirname,'..'),out=path.join(root,'docs/qa/chicken-coupon-20261009');fs.mkdirSync(out,{recursive:true});
+const root=path.resolve(import.meta.dirname,'..'),out=path.resolve(process.env.CHICKEN_COUPON_QA_OUT||path.join(root,'docs/qa/chicken-coupon-20261009'));fs.mkdirSync(out,{recursive:true});
 // Use the real CMS markup/styles and both coupon controllers. Unrelated feature
 // controllers are omitted from this isolated, authenticated UI fixture.
 const html=fs.readFileSync(path.join(root,'admin/index.html'),'utf8').replace(/<script\b[^>]*>[\s\S]*?<\/script>/g,tag=>/src="(?:admin-v1276|admin-v1062-coupon-bulk-delete|chicken-event-v1)\.js/.test(tag)?tag:'');
 const types={'.html':'text/html','.js':'text/javascript','.mjs':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.webp':'image/webp','.jpg':'image/jpeg','.svg':'image/svg+xml','.woff2':'font/woff2'};
-let identity={role:'OWNER',nickname:'핑크빛유두'},issued=[],requests=[];
+let identity={id:1,role:'OWNER',nickname:'핑크빛유두'},issued=[],requests=[];
 const fixtureCoupon={id:1,code:'BAEMIN-UI-QA',reward_type:'PINGDU_BAEMIN_TICKET',reward_amount:3,reward_coin:0,max_uses:10,used_count:0,is_active:1};
 const server=http.createServer(async(req,res)=>{
  const url=new URL(req.url,'http://localhost');
@@ -32,7 +32,7 @@ await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));const base='htt
 const browser=await chromium.launch({channel:'chrome',headless:true,args:['--mute-audio']}),reports=[];
 try{
  for(const [label,width,height] of [['desktop',1440,1000],['mobile',390,844]]){
-  identity={role:'OWNER',nickname:'핑크빛유두'};issued=[];requests=[];
+  identity={id:1,role:'OWNER',nickname:'핑크빛유두'};issued=[];requests=[];
   const context=await browser.newContext({viewport:{width,height},serviceWorkers:'block',isMobile:width<700,hasTouch:width<700});
   await context.addInitScript(()=>{localStorage.setItem('cnine_admin_token','isolated-coupon-qa');localStorage.setItem('cnine_battle_sound','OFF');localStorage.setItem('soop-lobby-bgm-muted-v1','1')});
   await context.route('**/*',r=>new URL(r.request().url()).origin===base?r.continue():r.abort());
@@ -55,8 +55,19 @@ try{
   assert(alerts.some(s=>s.includes('핑두의 배민권 3개')));assert.match(await page.locator('#coupons').innerText(),/핑두의 배민권/);
   await page.locator('#nav [data-view="coupons"]').click();await page.waitForFunction(()=>!!document.querySelector('[data-coupon-toggle]'));
   assert.match(await page.locator('#coupons').innerText(),/핑두의 배민권/);await page.locator('#coupons').screenshot({path:path.join(out,label+'-issued.png')});
+  const blockedIssuers=[];
+  for(const other of [{id:99,role:'OWNER',nickname:'다른 관리자'},{id:99,role:'OWNER',nickname:'핑크빛유두'},{id:1,role:'ADMIN',nickname:'핑크빛유두'}]){
+   identity=other;await page.reload();await page.locator('#cms').waitFor({state:'visible'});
+   await page.locator('#nav [data-view="settings"]').click();await page.locator('#chickenEventAdmin [data-coupon]').waitFor({state:'hidden'});
+   await page.locator('#nav [data-view="coupons"]').click();assert.equal(await page.locator('#couponRewardType option[value="PINGDU_BAEMIN_TICKET"]').count(),0);
+   assert.equal(await page.locator('#couponRewardType option[value="COIN"]').count(),1);
+   if(!blockedIssuers.length)await page.locator('.couponForm').screenshot({path:path.join(out,label+'-restricted.png')});
+   await page.evaluate(()=>{const select=document.getElementById('couponRewardType');select.add(new Option('위조한 발급 선택','PINGDU_BAEMIN_TICKET'));select.value='PINGDU_BAEMIN_TICKET';});
+   await page.locator('#couponCode').fill('FORGED-BAEMIN-QA');await page.locator('#createPermanentCouponBtn').click();
+   assert.equal(requests.length,1);assert.match(alerts.at(-1),/핑크빛유두 계정만 발급/);blockedIssuers.push({...other,hiddenOption:true,hiddenShortcut:true,forgedSubmitBlocked:true});
+  }
   const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1);assert.equal(overflow,false);assert.deepEqual(errors,[]);
-  reports.push({label,width,height,issued:requests[0],chickenSettingsShortcut:true,overflow,errors});await context.close();
+  reports.push({label,width,height,issued:requests[0],chickenSettingsShortcut:true,blockedIssuers,overflow,errors});await context.close();
  }
  fs.writeFileSync(path.join(out,'browser-report.json'),JSON.stringify({status:'PASSED',scope:'Actual CMS markup, styles, primary and bulk coupon controllers with isolated API responses',reports},null,2)+'\n');console.log(JSON.stringify({status:'PASSED',reports,out},null,2));
 }finally{await browser.close();await new Promise(resolve=>server.close(resolve))}

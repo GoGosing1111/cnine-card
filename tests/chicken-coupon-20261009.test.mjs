@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {PGlite} from '@electric-sql/pglite';
 import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
-import {redeemChickenTicketCoupon,CHICKEN_COUPON_MAX} from '../functions/_chicken_coupon.js';
+import {redeemChickenTicketCoupon,CHICKEN_COUPON_MAX,canIssueChickenTicketCoupon,CHICKEN_COUPON_OPERATOR_ID} from '../functions/_chicken_coupon.js';
 import {CHICKEN_TICKET,CHICKEN_KEY,chickenDraft} from '../shared/chicken-event-v1.mjs';
 
 const read=file=>readFileSync(new URL('../'+file,import.meta.url),'utf8');
@@ -12,10 +12,10 @@ const specs=server.slice(server.indexOf('const VERIFIED_MESSAGE_REWARD_TYPES='),
 const {couponRewardSpec,verifiedMessageRewardSpec}=Function(specs+';return {couponRewardSpec,verifiedMessageRewardSpec}')();
 const AsyncFunction=Object.getPrototypeOf(async function(){}).constructor;
 const createSource=server.slice(server.indexOf("    if(path==='admin/coupon-create-permanent-v3')"),server.indexOf("    if(path==='admin/users/card-grant')"));
-const createRoute=new AsyncFunction('path','request','env','requirePermission','readBody','releaseDeletedCouponCode','json',specs+createSource);
+const createRoute=new AsyncFunction('path','request','env','requirePermission','readBody','releaseDeletedCouponCode','json','canIssueChickenTicketCoupon','writeAdminLog',specs+createSource);
 const redeemSource=server.slice(server.indexOf("    if(path==='coupon/redeem'"),server.indexOf("    if(path==='admin/daily-quests')"));
 const redeemRoute=new AsyncFunction('path','request','env','authenticate','readBody','redeemLandCoupon','profile','isRandomDrawExcluded','json','redeemChickenTicketCoupon',redeemSource);
-const json=(value,status=200)=>Response.json(value,{status}),owner={id:99,role:'OWNER',nickname:'관리자'};
+const json=(value,status=200)=>Response.json(value,{status}),owner={id:CHICKEN_COUPON_OPERATOR_ID,role:'OWNER',nickname:'핑크빛유두'};
 const paths=['admin/coupon-create-permanent-v3','admin/coupons','admin/coupons-v2'];
 
 async function fixture(){
@@ -41,11 +41,12 @@ async function fixture(){
  }};
  const env={DB:new __postgresCompatTest.PostgresD1Database(client)};
  const rows=async(sql,values=[])=>(await pg.query(sql,values)).rows,row=async(sql,values=[])=>(await rows(sql,values))[0];
- const request=body=>new Request('https://qa.test/api/coupon',{method:'POST',body:JSON.stringify(body)});
+ const request=(body,method='POST')=>new Request('https://qa.test/api/coupon',{method,body:JSON.stringify(body)});
  const profile=async(_env,u)=>({id:Number(u.id),coin:Number(u.coin)});
- const create=(body={},path=paths[0],admin=owner)=>createRoute(path,request({code:'BAEMIN-QA',rewardType:CHICKEN_TICKET,rewardAmount:3,maxUses:10,...body}),env,async()=>admin,r=>r.json(),async()=>{},json);
+ const create=(body={},path=paths[0],admin=owner)=>createRoute(path,request({code:'BAEMIN-QA',rewardType:CHICKEN_TICKET,rewardAmount:3,maxUses:10,...body}),env,async()=>admin,r=>r.json(),async()=>{},json,canIssueChickenTicketCoupon);
+ const update=(body,path=paths[1],admin=owner)=>createRoute(path,request(body,'PATCH'),env,async()=>admin,r=>r.json(),async()=>{},json,canIssueChickenTicketCoupon,async(_env,user,action,type,id,before,after)=>pg.query('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES($1,$2,$3,$4,$5,$6)',[user.id,action,type,String(id),JSON.stringify(before),JSON.stringify(after)]));
  const redeem=({userId=1,key='BAEMIN_QA_REQUEST_1',code='BAEMIN-QA',extra={}}={})=>redeemRoute('coupon/redeem',request({code,operationKey:key,...extra}),env,async()=>userId?{id:userId}:null,r=>r.json(),async()=>null,profile,()=>false,json,redeemChickenTicketCoupon);
- return {pg,env,rows,row,queries,settings,create,redeem,setFault:v=>{fault=v},setZero:v=>{zero=v},close:()=>pg.close()};
+ return {pg,env,rows,row,queries,settings,create,update,redeem,setFault:v=>{fault=v},setZero:v=>{zero=v},close:()=>pg.close()};
 }
 async function noRedemption(f){
  for(const table of ['coupon_redemptions','inventory_logs','cnine_user_inventory'])assert.equal(Number((await f.row('SELECT COUNT(*) n FROM '+table)).n),0,table);
@@ -59,21 +60,58 @@ test('Baemin coupon metadata is wired to CMS and remains separate from message r
  assert.equal(verifiedMessageRewardSpec(CHICKEN_TICKET),null);assert.equal(couponRewardSpec('COIN').max,10000000000);
  const meta=Function(cms.slice(cms.indexOf('const COUPON_REWARD_META='),cms.indexOf('function syncCouponRewardForm'))+';return COUPON_REWARD_META')();
  assert.equal(meta[CHICKEN_TICKET].max,spec.max);assert.equal(meta[CHICKEN_TICKET].label,spec.label);
- assert.match(read('admin/index.html'),/<option value="PINGDU_BAEMIN_TICKET">핑두의 배민권/);
+ assert.doesNotMatch(read('admin/index.html'),/<option value="PINGDU_BAEMIN_TICKET">/);
+ assert.match(cms,/function syncChickenTicketCouponAccess/);
  assert.match(read('admin/chicken-event-v1.js'),/select.value='PINGDU_BAEMIN_TICKET'/);
  assert.match(read('admin/admin-v1062-coupon-bulk-delete.js'),/PINGDU_BAEMIN_TICKET:'핑두의 배민권'/);
 });
 
-test('all issue routes create coupons with existing issue permissions and preserve event settings',async(t)=>{
+test('all issue routes create coupons only for the verified issuer and preserve event settings',async(t)=>{
  const f=await fixture();t.after(f.close);
  for(const [i,path] of paths.entries()){
   assert.equal((await f.create({},path,null)).status,403);
-  const response=await f.create({code:'BAEMIN-QA-'+i},path,i===1?{id:99,role:'ADMIN'}:owner);assert.equal(response.status,201);
+  const response=await f.create({code:'BAEMIN-QA-'+i},path,owner);assert.equal(response.status,201);
   const {coupon}=await response.json();assert.equal(coupon.reward_type,CHICKEN_TICKET);assert.equal(Number(coupon.reward_amount),3);assert.equal(Number(coupon.reward_coin),0);assert.equal(coupon.ends_at,null);
   assert.equal((await f.create({code:'BAEMIN-QA-'+i},path)).status,409);
   for(const body of [{code:'SLD-BAEMIN'},{code:'!!'},{rewardAmount:0},{rewardAmount:1.5},{rewardAmount:100001},{maxUses:0},{maxUses:1000001}])assert.equal((await f.create(body,path)).status,400);
  }
  assert.equal((await f.rows('SELECT * FROM coupons')).length,3);assert.equal((await f.rows('SELECT * FROM admin_logs')).length,3);await noRedemption(f);
+});
+
+test('issuer identity is account-bound; other OWNER/ADMIN and forged body identity fail before any DB access',async(t)=>{
+ const f=await fixture();t.after(f.close);
+ const blocked=[null,{id:99,role:'OWNER',nickname:'핑크빛유두'},{id:99,role:'OWNER',nickname:'다른 관리자'},{id:99,role:'ADMIN',nickname:'핑크빛유두'},{id:1,role:'ADMIN',nickname:'핑크빛유두'},{id:1,role:'USER',nickname:'핑크빛유두'},{role:'OWNER',nickname:'핑크빛유두'}];
+ for(const admin of blocked){
+  assert.equal(canIssueChickenTicketCoupon(admin),false);
+  for(const path of paths){const before=f.queries.length,response=await f.create({rewardType:' pingdu_baemin_ticket ',id:1,userId:1,nickname:'핑크빛유두',role:'OWNER',createdBy:1},path,admin);assert.equal(response.status,403);assert.equal(f.queries.length,before);if(admin)assert.equal((await response.json()).code,'CHICKEN_COUPON_OPERATOR_ONLY');}
+ }
+ assert.equal(canIssueChickenTicketCoupon({...owner,id:'1',nickname:'계정 이름 변경'}),true,'renaming the same account does not grant another account access');
+ assert.equal((await f.rows('SELECT * FROM coupons')).length,0);assert.equal((await f.rows('SELECT * FROM admin_logs')).length,0);
+ for(const [i,path]of paths.entries())assert.equal((await f.create({code:'ORDINARY-COIN-'+i,rewardType:'COIN',rewardAmount:10},path,{id:99,role:'ADMIN',nickname:'다른 관리자'})).status,201,'other coupon types keep existing permissions');
+});
+
+test('existing ticket coupons cannot bypass the issuer gate through reactivation or use-limit changes',async(t)=>{
+ const f=await fixture();t.after(f.close);await f.create();await f.pg.exec('UPDATE coupons SET is_active=0');
+ const before=await f.rows('SELECT * FROM coupons'),logs=await f.rows('SELECT * FROM admin_logs');
+ for(const path of paths.slice(1))for(const admin of [{id:99,role:'OWNER',nickname:'핑크빛유두'},{id:99,role:'ADMIN'},{id:1,role:'ADMIN'}])for(const change of [{isActive:true},{isActive:false,maxUses:1000000}]){
+  const start=f.queries.length,response=await f.update({id:1,...change,rewardType:'COIN'},path,admin);
+  assert.equal(response.status,403);assert.equal((await response.json()).code,'CHICKEN_COUPON_OPERATOR_ONLY');
+  assert(!f.queries.slice(start).some(sql=>/^(INSERT|UPDATE|DELETE)/i.test(sql)));
+ }
+ assert.deepEqual(await f.rows('SELECT * FROM coupons'),before);assert.deepEqual(await f.rows('SELECT * FROM admin_logs'),logs);
+ for(const path of paths.slice(1))assert.equal((await f.update({id:1,isActive:true,maxUses:20},path)).status,200);
+ const ticket=await f.row('SELECT * FROM coupons WHERE id=1');assert.equal(Number(ticket.is_active),1);assert.equal(Number(ticket.max_uses),20);
+ await f.create({code:'COIN-UPDATE-QA',rewardType:'COIN',rewardAmount:10});
+ assert.equal((await f.update({id:2,isActive:false,maxUses:15},paths[1],{id:99,role:'ADMIN'})).status,200);
+ await noRedemption(f);
+});
+
+test('CMS account predicate matches the server policy',()=>{
+ const source=cms.slice(cms.indexOf('function canIssueChickenTicketCouponInCms'),cms.indexOf('function syncChickenTicketCouponAccess'));
+ const client=Function('state','globalThis',source+';return canIssueChickenTicketCouponInCms()');
+ for(const id of [1,'1',99,undefined])for(const role of ['OWNER','ADMIN','USER',undefined]){
+  const user={id,role,nickname:'핑크빛유두'};assert.equal(client({admin:user},{__SOOP_CMS_IDENTITY__:{role}}),canIssueChickenTicketCoupon(user));
+ }
 });
 
 test('missing or disabled event ticket blocks issuance without recreating catalogs or settings',async(t)=>{

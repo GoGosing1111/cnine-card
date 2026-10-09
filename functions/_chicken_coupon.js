@@ -2,6 +2,10 @@ import {CHICKEN_TICKET} from '../shared/chicken-event-v1.mjs';
 const label='핑두의 배민권';
 
 export const CHICKEN_COUPON_MAX=100000;
+// Verified production account: 핑크빛유두 (2026-10-10). A renamed or
+// duplicate nickname must not transfer this account-specific issue permission.
+export const CHICKEN_COUPON_OPERATOR_ID=1;
+export const canIssueChickenTicketCoupon=user=>Number(user?.id)===CHICKEN_COUPON_OPERATOR_ID&&String(user?.role||'').trim().toUpperCase()==='OWNER';
 class ChickenCouponError extends Error{
  constructor(message,status=409){super(message);this.status=status}
 }
