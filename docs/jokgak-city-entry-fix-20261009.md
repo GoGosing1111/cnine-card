@@ -23,3 +23,11 @@
 - 실제 브라우저 + workerd 경로 5항목 통과: 저장된 입장 요청의 “요청 확인”, 영수증 1개, 대기 요청 해제, 시작 현금 1회, 새로고침 후 입장 상태 유지. 브라우저 예외 0.
 - 프론트 UI/가격/보상/전투 엔진 변경이 없어 전체 생활·경제·다른 콘텐츠 검사를 반복하지 않는다. 이미 통과한 workerd/브라우저 검사와 별도로 배포 시 기존 도시 핵심 회귀 14개 및 Worker 컴파일만 실행한다.
 - 직전 실제 운영 소스는 `418ae808d05f1905581fb523cf4b19c8b2226484`. `npm run deploy:production -- --scoped`와 기존 출시 보호·Hyperdrive 검사를 사용한다. TEST 상태와 변경된 Worker 반영을 짧게 확인한다.
+
+
+## 운영 반영 확인 · 2026-10-09 22:21 KST
+
+- 배포 소스 `5f245497a24b3eb0422848770a071e0ab7e85244`, Pages `https://560e5f36.cnine-card.pages.dev`, API runtime `0fb85fad-aee5-4c3c-aa59-ea4f36325d96`, clan-draft `dd18919d-185d-4cf6-826e-11e5744ba35f`.
+- 공식 scoped 배포 종료 0. 도시 핵심 14개 및 Worker/Functions 컴파일·출시 보호·Hyperdrive 확인 통과. 먼저 통과한 실제 workerd 입장 검사 1개/브라우저 복구 5항목은 반복하지 않았다.
+- 운영 재조회 TEST(r3), 지정 참여자 0, 보상 OFF 유지. 미인증 API 401 및 regional-v1 응답 확인. 실계정 입장·지급은 수행하지 않았다.
+- 검수 근거는 `docs/qa/jokgak-city-entry-20261009/`에 보존한다. 후속 완료 문서만 커밋·원격 반영하고 운영 재배포하지 않는다.

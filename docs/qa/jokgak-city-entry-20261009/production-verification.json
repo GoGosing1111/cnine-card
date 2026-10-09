@@ -1,0 +1,12 @@
+{
+  "checkedAt": "2026-10-09T13:21:07.191Z",
+  "policy": {
+    "mode": "TEST",
+    "revision": 3,
+    "testUserCount": 0,
+    "rewardsEnabled": false
+  },
+  "unauthenticatedCityStatus": 401,
+  "runtime": "regional-v1",
+  "realAccountActions": 0
+}

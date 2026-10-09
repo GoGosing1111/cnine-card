@@ -1,0 +1,18 @@
+{
+  "source": "5f245497a24b3eb0422848770a071e0ab7e85244",
+  "base": "418ae808d05f1905581fb523cf4b19c8b2226484",
+  "command": "npm run deploy:production -- --scoped",
+  "exitCode": 0,
+  "pages": "https://560e5f36.cnine-card.pages.dev",
+  "apiRuntime": "0fb85fad-aee5-4c3c-aa59-ea4f36325d96",
+  "clanDraft": "dd18919d-185d-4cf6-826e-11e5744ba35f",
+  "checkedAt": "2026-10-09T13:21:07.191Z",
+  "checks": {
+    "workerdEntry": 1,
+    "cityCore": 14,
+    "browserPendingRecovery": 5,
+    "browserExceptions": 0
+  },
+  "productionMode": "TEST",
+  "logSha256": "73f904e202baf4bc155b250fbb9c6f8999219167efe8be7724207c5c895d41a9"
+}
