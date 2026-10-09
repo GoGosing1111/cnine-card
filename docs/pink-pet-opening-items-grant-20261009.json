@@ -1,0 +1,66 @@
+{
+  "request": "핑크빛유두 계정에 펫 봉인구 100개와 펫 정수 1000개 지급",
+  "status": "COMPLETED",
+  "operationKey": "ops:pink-pet-opening-items:20261009:100-1000:v1",
+  "user": {
+    "id": 1,
+    "nickname": "핑크빛유두"
+  },
+  "allocations": [
+    {
+      "code": "PET_SEAL_ORB",
+      "name": "펫 봉인구",
+      "amount": 100,
+      "before": {
+        "quantity": "0",
+        "unseenQuantity": "0"
+      },
+      "after": {
+        "quantity": "100",
+        "unseenQuantity": "100"
+      },
+      "logId": "79410860"
+    },
+    {
+      "code": "PET_ESSENCE",
+      "name": "펫 정수",
+      "amount": 1000,
+      "before": {
+        "quantity": "0",
+        "unseenQuantity": "0"
+      },
+      "after": {
+        "quantity": "1000",
+        "unseenQuantity": "1000"
+      },
+      "logId": "79410864"
+    }
+  ],
+  "completedAt": "2026-10-09T07:59:49.027Z",
+  "auditId": "43263",
+  "verification": {
+    "verified": true,
+    "grantLogs": 2,
+    "inventory": [
+      {
+        "item_code": "PET_ESSENCE",
+        "quantity": "1000",
+        "unseen_quantity": "1000"
+      },
+      {
+        "item_code": "PET_SEAL_ORB",
+        "quantity": "100",
+        "unseen_quantity": "100"
+      }
+    ],
+    "verifiedAt": "2026-10-09T08:00:21.917Z"
+  },
+  "validation": {
+    "dryRunRollbackVerified": true,
+    "postCommitReadVerified": true,
+    "accountMutationLock": true,
+    "atomicInventoryLogAuditReceipt": true
+  },
+  "gameRuntimeChanged": false,
+  "deploymentRequired": false
+}
