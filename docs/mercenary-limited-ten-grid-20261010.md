@@ -11,3 +11,9 @@
 - 작은 결과 UI 수정이므로 전체 검사는 하지 않는다. 실제 UI와 개봉 세션을 격리 영수증 fixture에 연결한 `tests/mercenary-limited-ten-grid-20261010.browser.mjs`가 PC 1440×1000 / 모바일 390×844에서 통과했다. 10개 이미지 모두 한 화면에 표시·디코딩, 순차 10회 연출 미사용, 재구매 없는 결과 복구, 자동 묶음/중지, 재료·꽝, 1회 연출 복귀, JS/HTTP 오류 0을 확인했다. 실제 운영 구매는 0회다.
 - `docs/qa/mercenary-limited-ten-grid-20261010/`의 PC·모바일 캡처를 직접 확인했다.
 - 직전 운영 소스 `be72e469eb448be1731d6ec75f12037bee73cc98`, Pages `24fe10e0`. 공식 scoped 배포에서 직접 관련된 `tests/mercenary-limited-pack-20261006.test.mjs`의 개봉 영수증·재시도·자동 세션/중지·로더 회귀를 실행한다. 통과한 브라우저 검수는 반복하지 않는다.
+
+## 운영 반영
+
+- 소스 `817f664d51a02a52428ecddf1b3fe0079b0ef57b`를 공식 scoped 명령으로 배포했다. 관련 회귀 11개와 출시/캐시/Hyperdrive 검사 통과, 배포 종료 코드 0.
+- Pages https://761e56b8.cnine-card.pages.dev · API runtime `55f3140c-e32a-462b-86fc-ee94a2b0bb00` · clan draft `508ec76a-f7a4-4c65-a740-bd9fc99245f7`.
+- 운영의 메인 HTML·로더·결과 모듈·CSS 4개가 HTTP 200이고 배포 소스와 일치한다. 공개 API에서 리미티드팩 ON·개봉 가능과 기존 1회 10억/10회 100억 설정을 확인했다. 실제 운영 구매는 0회다.

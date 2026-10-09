@@ -1,0 +1,50 @@
+{
+  "verifiedAt": "2026-10-09T17:32:13.309Z",
+  "sourceCommit": "817f664d51a02a52428ecddf1b3fe0079b0ef57b",
+  "productionFiles": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "2e1ca898192ee460236ad8e4873deb2afadf9a583fc63fdfe5c8f4d1b73fd80b",
+      "normalization": "CRLF to LF"
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "d3377f113f2e9ca4a11cb3e4c4da3d8b4a37c38c100b7189708ced7972c1e1c3",
+      "normalization": "CRLF to LF"
+    },
+    {
+      "file": "js/mercenary-limited-pack-live.mjs",
+      "status": 200,
+      "sha256": "4dd0b86af2b785bfec9977791f0afbdbc8f3cece340856e329d3d9a6d8cb8b45",
+      "normalization": "CRLF to LF"
+    },
+    {
+      "file": "css/mercenary-limited-pack-v1.css",
+      "status": 200,
+      "sha256": "7bab826a1b769e1702d3d8b8ebf52f798dc8a70acf5b1461e2d4ed624f62877d",
+      "normalization": "CRLF to LF"
+    }
+  ],
+  "config": {
+    "mode": "ON",
+    "userOpeningEnabled": true,
+    "prices": {
+      "single": 1000000000,
+      "ten": 10000000000
+    },
+    "revision": 6,
+    "packRevision": 6
+  },
+  "deployment": {
+    "command": "npm run deploy:production -- --scoped",
+    "exitCode": 0,
+    "pagesUrl": "https://761e56b8.cnine-card.pages.dev",
+    "apiRuntimeVersion": "55f3140c-e32a-462b-86fc-ee94a2b0bb00",
+    "clanDraftVersion": "508ec76a-f7a4-4c65-a740-bd9fc99245f7"
+  },
+  "relatedRegressionsPassed": 11,
+  "browserReport": "docs/qa/mercenary-limited-ten-grid-20261010/browser-report.json",
+  "realPurchasesExecuted": 0
+}
