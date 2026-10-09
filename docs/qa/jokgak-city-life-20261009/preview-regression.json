@@ -1,0 +1,27 @@
+{
+  "checks": [
+    "1440 all 10 places",
+    "1440 exactly 10 residents",
+    "1440 no page overflow",
+    "1440 inspection reveals five cards",
+    "1440 nurse heal +25",
+    "1440 changing place clears target",
+    "1440 move updates current building",
+    "1440 notification non-modal",
+    "1440 notification opens saved outcome",
+    "1440 bounded next page",
+    "1440 all roles documented",
+    "390 all 10 places",
+    "390 exactly 10 residents",
+    "390 no page overflow",
+    "390 inspection reveals five cards",
+    "390 nurse heal +25",
+    "390 changing place clears target",
+    "390 move updates current building",
+    "390 notification non-modal",
+    "390 notification opens saved outcome",
+    "390 bounded next page",
+    "390 all roles documented"
+  ],
+  "errors": []
+}

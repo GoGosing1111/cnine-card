@@ -6,3 +6,4 @@
 /* The shared CMS sidebar has a desktop 100vh rule. Keep the city controls
    reachable under the horizontal mobile menu without affecting other panels. */
 @media(max-width:800px){body.auth-active:has(#view-jokgak-city:not([hidden])) .layout>aside{height:auto;min-height:0;max-height:74px;position:sticky;top:0;z-index:5;padding:8px 12px;overflow:hidden;display:block}body.auth-active:has(#view-jokgak-city:not([hidden])) .layout>aside #nav{display:flex;gap:5px;overflow-x:auto;margin:0;max-width:100%;padding:0}body.auth-active:has(#view-jokgak-city:not([hidden])) .layout>aside #nav button{flex:none;white-space:nowrap;min-height:44px}body.auth-active:has(#view-jokgak-city:not([hidden])) .layout>aside>.logo,body.auth-active:has(#view-jokgak-city:not([hidden])) .layout>aside>.sideFoot{display:none}}
+@media(max-width:700px){.city-cms-tabs{flex-wrap:wrap}.city-cms-tabs button{flex:1 1 40%}}

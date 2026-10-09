@@ -32,7 +32,7 @@ try{
       await page.goto(origin+'/admin/#jokgak-city',{waitUntil:'domcontentloaded'});
       await page.evaluate(()=>{document.body.classList.remove('auth-guest');document.body.classList.add('auth-active');document.getElementById('cms').hidden=false;document.getElementById('roleBadge').textContent='OWNER';});
       await page.locator('.city-cms-mode').filter({hasText:'TEST'}).waitFor();
-      assert.equal(await page.locator('.city-cms-tabs button').count(),3);assert.equal(await page.locator('.city-cms-distribution input').count(),7);
+      assert.equal(await page.locator('.city-cms-tabs button').count(),4);assert.equal(await page.locator('.city-cms-distribution input').count(),7);
       assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));await page.screenshot({path:path.join(out,`${width}-cms-operation.png`),fullPage:true});checks.push(`${width}: TEST and seven role weights fit screen`);
       await page.locator('[data-user-query]').fill('2');await page.locator('[data-user-search]').click();await page.locator('[data-user-add="2"]').click();
       await page.locator('[data-tab="roles"]').click();await page.locator('[data-role="POLICE"]').click();

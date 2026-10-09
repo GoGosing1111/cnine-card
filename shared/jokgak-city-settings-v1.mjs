@@ -1,4 +1,5 @@
 import {CITY_ROLES,CITY_PLACES,CITY_RULES} from './jokgak-city-v1.mjs';
+import {defaultCityLifePolicy,validateCityLifePolicy} from './jokgak-city-life-v1.mjs';
 
 export const CITY_SETTINGS_KEY='jokgak_city_settings_v1';
 export const CITY_MODES=['OFF','TEST','ON'];
@@ -6,7 +7,7 @@ export const CITY_REWARD_EVENTS={ATTACK_WIN:'공격 승리',ATTACK_LOSE:'공격 
 export const roleRewardEvents=code=>['ATTACK_WIN','ATTACK_LOSE','ATTACK_DRAW',...(code==='POLICE'?['ARREST_WIN','INSPECT']:[]),...(['NURSE','DOCTOR'].includes(code)?['HEAL_OTHER']:[])];
 export function defaultCitySettings(){
   return {revision:0,mode:'TEST',testUserIds:[],rules:{moveCooldownMs:CITY_RULES.moveCooldownMs,targetProtectionMs:CITY_RULES.targetProtectionMs,rejoinCooldownMs:CITY_RULES.rejoinCooldownMs},
-    rewards:{enabled:false,dailyLimit:20,sameTargetCooldownMs:3600000},
+    rewards:{enabled:false,dailyLimit:20,sameTargetCooldownMs:3600000},life:defaultCityLifePolicy(),
     roles:CITY_ROLES.map(({code})=>({code,weight:1,startLocation:'HOME',attackEnabled:true,maxHealth:100,regenPerMinute:5,defeatDamage:25,attackCooldownMs:15000,wantedPerAttack:1,
       ...(code==='POLICE'?{inspectEnabled:true,inspectCooldownMs:10000,arrestEnabled:true,arrestMinWanted:1,arrestMs:60000}:{}),
       ...(['NURSE','DOCTOR'].includes(code)?{healAmount:code==='DOCTOR'?50:25,healCooldownMs:30000,selfHeal:true}:{}),
@@ -22,7 +23,8 @@ const object=(v,keys)=>v&&typeof v==='object'&&!Array.isArray(v)&&Object.keys(v)
 const number=(v,min,max)=>Number.isSafeInteger(v)&&v>=min&&v<=max;
 const fail=message=>{throw Object.assign(Error(message),{code:'CITY_POLICY',status:400});};
 export function validateCitySettings(value){
-  if(!object(value,['revision','mode','testUserIds','rules','rewards','roles','enabled','updatedAt','updatedBy'])||!number(value.revision,0,1e9)||!CITY_MODES.includes(value.mode))fail('운영 모드와 설정 버전을 확인하세요.');
+  if(!object(value,['revision','mode','testUserIds','rules','rewards','roles','life','enabled','updatedAt','updatedBy'])||!number(value.revision,0,1e9)||!CITY_MODES.includes(value.mode))fail('운영 모드와 설정 버전을 확인하세요.');
+  const life=validateCityLifePolicy(value.life??defaultCityLifePolicy());
   if(!Array.isArray(value.testUserIds)||value.testUserIds.length>100||new Set(value.testUserIds).size!==value.testUserIds.length||value.testUserIds.some(id=>!number(id,1,Number.MAX_SAFE_INTEGER)))fail('테스트 참여자는 중복 없이 최대 100명까지 지정하세요.');
   const rules=value.rules;
   if(!object(rules,['moveCooldownMs','targetProtectionMs','rejoinCooldownMs'])||!number(rules.moveCooldownMs,1000,60000)||!number(rules.targetProtectionMs,1000,3600000)||!number(rules.rejoinCooldownMs,0,3600000))fail('이동 1~60초, 교전 보호 1~3600초, 재입장 0~3600초를 확인하세요.');
@@ -46,5 +48,5 @@ export function validateCitySettings(value){
     return structuredClone(r);
   });
   if(!roles.some(r=>r.weight>0))fail('최소 한 역할의 배정 비중은 0보다 커야 합니다.');
-  return {revision:value.revision,mode:value.mode,testUserIds:[...value.testUserIds].sort((a,b)=>a-b),rules:{...rules},rewards:{...reward},roles:CITY_ROLES.map(r=>roles.find(x=>x.code===r.code))};
+  return {revision:value.revision,mode:value.mode,testUserIds:[...value.testUserIds].sort((a,b)=>a-b),rules:{...rules},rewards:{...reward},life,roles:CITY_ROLES.map(r=>roles.find(x=>x.code===r.code))};
 }

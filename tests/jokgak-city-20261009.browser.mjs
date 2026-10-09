@@ -14,7 +14,7 @@ try{
     await page.addInitScript(()=>{localStorage.setItem('cnine_battle_sound','OFF');});
     await page.route('**/api/**',route=>route.fulfill({json:{enabled:false,visible:false,items:[],cards:[]}}));
     await page.goto(origin+'/preview/jokgak-city-v1/',{waitUntil:'networkidle'});await page.locator('.jc-person').first().waitFor();await page.evaluate(()=>document.fonts.ready);
-    check(await page.locator('.jc-pin').count()===8,viewport.width+' all 8 places');
+    check(await page.locator('.jc-pin').count()===10,viewport.width+' all 10 places');
     check(await page.locator('.jc-person').count()===10,viewport.width+' exactly 10 residents');
     check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),viewport.width+' no page overflow');
     await page.locator('.jc-person').first().click();await page.screenshot({path:path.join(out,viewport.width+'-city.png'),fullPage:true});

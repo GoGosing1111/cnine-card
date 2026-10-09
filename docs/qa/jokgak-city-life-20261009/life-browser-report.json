@@ -1,0 +1,19 @@
+{
+  "checks": [
+    "1440: 10 places and restaurant meal restores hunger",
+    "1440: TEST purchase, portable use and no real coin deduction",
+    "1440: killer, hospital and server countdown survive reload",
+    "1440: death countdown remains in other content without modal blocking",
+    "1440: automatic hospital respawn at three minutes",
+    "1440: poor health forces hospital and treatment releases travel restriction",
+    "1440: CMS life and shop settings persist and fit screen",
+    "390: 10 places and restaurant meal restores hunger",
+    "390: TEST purchase, portable use and no real coin deduction",
+    "390: killer, hospital and server countdown survive reload",
+    "390: death countdown remains in other content without modal blocking",
+    "390: automatic hospital respawn at three minutes",
+    "390: poor health forces hospital and treatment releases travel restriction",
+    "390: CMS life and shop settings persist and fit screen"
+  ],
+  "errors": []
+}

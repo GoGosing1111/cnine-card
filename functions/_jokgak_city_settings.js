@@ -23,7 +23,7 @@ export async function cityRoleWeights(env,epoch,policy){
   if(!Array.isArray(weights)||weights.length!==7||weights.some((r,i)=>r.code!==CITY_ROLES[i].code||!Number.isSafeInteger(r.weight)||r.weight<0)||!weights.some(r=>r.weight>0))fail('역할 교대 정보를 확인하지 못했습니다.',503,'CITY_ROLE_WEIGHTS');
   return weights;
 }
-export const cityPublicPolicy=policy=>({mode:policy.mode,revision:policy.revision,liveRewards:policy.mode==='ON'&&policy.rewards.enabled,rewardRules:{...policy.rewards},rules:{...policy.rules},roles:CITY_ROLES.map(role=>({...role,...policy.roles.find(r=>r.code===role.code),detail:cityRoleDescription(policy.roles.find(r=>r.code===role.code))}))});
+export const cityPublicPolicy=policy=>({mode:policy.mode,revision:policy.revision,liveRewards:policy.mode==='ON'&&policy.rewards.enabled,rewardRules:{...policy.rewards},rules:{...policy.rules},life:policy.life,roles:CITY_ROLES.map(role=>({...role,...policy.roles.find(r=>r.code===role.code),detail:cityRoleDescription(policy.roles.find(r=>r.code===role.code))}))});
 export async function cityRewardCatalog(env){
   const rows=(await p(env,'SELECT code,name,rarity,image_url FROM inventory_items WHERE is_active=1 AND code<>? ORDER BY name,code LIMIT 1001',EQUIPMENT_FORGE_RELEASE_PROTECTION_CODE).all()).results||[];
   if(rows.length>1000)fail('보상 아이템 목록의 조회 범위를 확인해 주세요.',503,'CITY_CATALOG_LIMIT');

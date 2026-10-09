@@ -24,7 +24,8 @@ export async function cityFixture(t,postgres=false){
   }
   t.after(()=>sql.close());const env={DB},p=(s,...v)=>DB.prepare(s).bind(...v);await ensureCitySchema(env);
   await p("INSERT INTO app_meta(key,value) VALUES('jokgak_city_role_seed_v1','isolated-test-only-seed')").run();
-  await p("INSERT INTO app_meta(key,value) VALUES('jokgak_city_settings_v1',?)",JSON.stringify({...defaultCitySettings(),mode:'ON'})).run();
+  const policy=defaultCitySettings();Object.assign(policy.life,{hungerPerHour:0,wellnessPerHour:0,starvingWellnessPerHour:0});
+  await p("INSERT INTO app_meta(key,value) VALUES('jokgak_city_settings_v1',?)",JSON.stringify({...policy,mode:'ON'})).run();
   await p("INSERT INTO inventory_items VALUES('CITY_TEST_ITEM','도시 검수 재료','NORMAL','assets/test.png',1),('OFF_ITEM','비활성','NORMAL','assets/test.png',0)").run();
   let now=Date.parse('2026-10-09T01:10:00Z');const users=new Map();
   for(let id=1;id<=80;id++){const user={id,nickname:id===20?'<img src=x onerror=alert(1)>':'참가자 '+id,role:'USER'};await p('INSERT INTO users(id,nickname) VALUES(?,?)',id,user.nickname).run();users.set(id,user);}
