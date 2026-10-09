@@ -1,0 +1,16 @@
+{
+  "runtime": "workerd",
+  "compatibilityDate": "2026-07-01",
+  "before": {
+    "name": "DataCloneError",
+    "message": "Could not serialize object of type \"CryptoKey\". This type does not support serialization."
+  },
+  "after": {
+    "entry": 200,
+    "duplicateEntryReceiptCount": 1,
+    "startingCash": 10000,
+    "nonTesterStatus": 403,
+    "serverRuntimeTests": 1,
+    "browserChecks": 5
+  }
+}

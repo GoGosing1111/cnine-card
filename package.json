@@ -112,7 +112,7 @@
     "test:pve-reform": "node --test tests/pve-reform-20261008.test.mjs tests/pve-reform-ops-20261008.test.mjs",
     "test:suit-core-box": "node --test tests/suit-core-box-v1.test.mjs tests/suit-core-box-v1.browser.test.mjs tests/suit-core-box-ops-20261008.test.mjs",
     "test:legion-regions": "node --test tests/legion-regions-combat-20261008.test.mjs tests/legion-regions-rewards-20261008.test.mjs tests/equipment-polish-execution-20261008.test.mjs tests/equipment-polish-cms-20261005.test.mjs tests/legion-regions-catalog-20261008.test.mjs",
-    "test:jokgak-city": "node --test tests/jokgak-city-20261009.test.mjs tests/jokgak-city-cms-20261009.test.mjs tests/jokgak-city-life-20261009.test.mjs tests/jokgak-city-cash-20261009.test.mjs"
+    "test:jokgak-city": "node --test tests/jokgak-city-20261009.test.mjs tests/jokgak-city-cms-20261009.test.mjs tests/jokgak-city-life-20261009.test.mjs tests/jokgak-city-cash-20261009.test.mjs tests/jokgak-city-worker-entry-20261009.test.mjs"
   },
   "dependencies": {
     "pg": "^8.16.3"

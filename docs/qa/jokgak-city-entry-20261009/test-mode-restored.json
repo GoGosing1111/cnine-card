@@ -1,0 +1,9 @@
+{
+  "operation": "ops:jokgak-city-test-restore:20261009:v1",
+  "at": "2026-10-09T13:11:18.570Z",
+  "beforeMode": "ON",
+  "mode": "TEST",
+  "revision": 3,
+  "testUserCount": 0,
+  "accountBalancesChanged": false
+}

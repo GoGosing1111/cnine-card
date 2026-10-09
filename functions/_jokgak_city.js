@@ -18,10 +18,15 @@ const lifeJoin=" LEFT JOIN app_meta life ON life.key='jokgak_city_life_v1:'||CAS
 const player=(env,id)=>p(env,`SELECT c.*,u.nickname,u.role AS account_role,life.value AS life_raw FROM jokgak_city_players_v1 c JOIN users u ON u.id=c.user_id ${lifeJoin} WHERE c.user_id=? AND ${activeUserSql}`,id).first();
 const lifeStates=new WeakMap();
 async function roleKey(env){
-  const cache=readRuntimeData(env,'city_role_key');if(cache)return cache;
-  const key='jokgak_city_role_seed_v1';let value=(await p(env,'SELECT value FROM app_meta WHERE key=?',key).first())?.value;
-  if(!value){await p(env,'INSERT INTO app_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO NOTHING',key,crypto.randomUUID()+crypto.randomUUID()).run();value=(await p(env,'SELECT value FROM app_meta WHERE key=?',key).first()).value;}
-  const imported=await crypto.subtle.importKey('raw',new TextEncoder().encode(value),{name:'HMAC',hash:'SHA-256'},false,['sign']);cacheRuntimeData(env,'city_role_key',imported,1800000);return imported;
+  const key='jokgak_city_role_seed_v1';let value=readRuntimeData(env,'city_role_seed');
+  if(!value){
+    value=(await p(env,'SELECT value FROM app_meta WHERE key=?',key).first())?.value;
+    if(!value){await p(env,'INSERT INTO app_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO NOTHING',key,crypto.randomUUID()+crypto.randomUUID()).run();value=(await p(env,'SELECT value FROM app_meta WHERE key=?',key).first()).value;}
+    // Workers cannot structuredClone CryptoKey. Cache only the stable seed;
+    // importing it locally preserves the same role for the current shift.
+    cacheRuntimeData(env,'city_role_seed',value,1800000);
+  }
+  return crypto.subtle.importKey('raw',new TextEncoder().encode(value),{name:'HMAC',hash:'SHA-256'},false,['sign']);
 }
 export async function assignedCityRole(env,userId,epoch,weights=null){
   weights||=await cityRoleWeights(env,epoch,(await readCitySettings(env)).policy);
@@ -217,6 +222,6 @@ export async function handleJokgakCity({path,request,env,deps}){
     return json(await deps.withUserMutationLock(env,user.id,path,()=>cityAction(env,deps,user,part,body)));
   }catch(error){
     if(error.status)return json({error:error.message,code:error.code||'CITY_REQUEST'},error.status);
-    console.error('CITY_REQUEST_FAILED',{code:error.code||'UNKNOWN'});return json({error:'처리 상태를 확인하지 못했습니다. 같은 요청으로 다시 확인하세요.',code:'CITY_RETRY',retryable:true},503);
+    console.error('CITY_REQUEST_FAILED',{code:error.code||'UNKNOWN',name:error.name||'Error'});return json({error:'처리 상태를 확인하지 못했습니다. 같은 요청으로 다시 확인하세요.',code:'CITY_RETRY',retryable:true},503);
   }
 }

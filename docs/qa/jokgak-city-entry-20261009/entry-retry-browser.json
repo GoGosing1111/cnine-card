@@ -1,0 +1,11 @@
+{
+  "runtime": "workerd",
+  "checks": [
+    "saved pending join retries successfully",
+    "one entry receipt",
+    "pending request cleared",
+    "cash initialized once",
+    "reload stays in city without error dialog"
+  ],
+  "errors": []
+}
