@@ -1,0 +1,4939 @@
+{
+  "request": "2차인증 전체유저 펫 봉인구 10개씩 지급해",
+  "sourceCommit": "3baa3526ab085ce3a698cf7b4926b3d959731eb6",
+  "status": "COMPLETED",
+  "operationKey": "ops:verified-pet-seals-ten:20261009:v1",
+  "actor": "SYSTEM_OPS",
+  "delivery": "DIRECT",
+  "authorization": "2차인증 전체유저 펫 봉인구 10개씩 지급",
+  "eligibility": "All ACTIVE secondary-verified accounts, all roles and verification providers",
+  "recipientCount": 542,
+  "recipientHash": "485c1a5d315ca09104754d88647987496cf877b022462bef5c41bc07ad4ffda4",
+  "roles": {
+    "OWNER": 2,
+    "USER": 538,
+    "ADMIN": 2
+  },
+  "itemCode": "PET_SEAL_ORB",
+  "itemName": "펫 봉인구",
+  "amountEach": 10,
+  "totalItems": 5420,
+  "recipients": [
+    {
+      "userId": "2",
+      "role": "OWNER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549669"
+    },
+    {
+      "userId": "3",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549670"
+    },
+    {
+      "userId": "5",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549671"
+    },
+    {
+      "userId": "6",
+      "role": "OWNER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549672"
+    },
+    {
+      "userId": "7",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549673"
+    },
+    {
+      "userId": "8",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549674"
+    },
+    {
+      "userId": "9",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549675"
+    },
+    {
+      "userId": "10",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549676"
+    },
+    {
+      "userId": "13",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549677"
+    },
+    {
+      "userId": "16",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549678"
+    },
+    {
+      "userId": "19",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549679"
+    },
+    {
+      "userId": "22",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549680"
+    },
+    {
+      "userId": "23",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549681"
+    },
+    {
+      "userId": "24",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549682"
+    },
+    {
+      "userId": "25",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549683"
+    },
+    {
+      "userId": "26",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549684"
+    },
+    {
+      "userId": "29",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549685"
+    },
+    {
+      "userId": "32",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549686"
+    },
+    {
+      "userId": "34",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549687"
+    },
+    {
+      "userId": "35",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549688"
+    },
+    {
+      "userId": "38",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549689"
+    },
+    {
+      "userId": "39",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549690"
+    },
+    {
+      "userId": "43",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549691"
+    },
+    {
+      "userId": "45",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549692"
+    },
+    {
+      "userId": "52",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549693"
+    },
+    {
+      "userId": "53",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549694"
+    },
+    {
+      "userId": "55",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549695"
+    },
+    {
+      "userId": "62",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549696"
+    },
+    {
+      "userId": "65",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549697"
+    },
+    {
+      "userId": "67",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549698"
+    },
+    {
+      "userId": "71",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549699"
+    },
+    {
+      "userId": "72",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549700"
+    },
+    {
+      "userId": "73",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549701"
+    },
+    {
+      "userId": "74",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549702"
+    },
+    {
+      "userId": "75",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549703"
+    },
+    {
+      "userId": "76",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549704"
+    },
+    {
+      "userId": "77",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549705"
+    },
+    {
+      "userId": "81",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549706"
+    },
+    {
+      "userId": "83",
+      "role": "ADMIN",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549707"
+    },
+    {
+      "userId": "84",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549708"
+    },
+    {
+      "userId": "85",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549709"
+    },
+    {
+      "userId": "87",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549710"
+    },
+    {
+      "userId": "88",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549711"
+    },
+    {
+      "userId": "91",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549712"
+    },
+    {
+      "userId": "92",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549713"
+    },
+    {
+      "userId": "98",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549714"
+    },
+    {
+      "userId": "99",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549715"
+    },
+    {
+      "userId": "108",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549716"
+    },
+    {
+      "userId": "115",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549717"
+    },
+    {
+      "userId": "118",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549718"
+    },
+    {
+      "userId": "120",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549719"
+    },
+    {
+      "userId": "130",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549720"
+    },
+    {
+      "userId": "132",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549721"
+    },
+    {
+      "userId": "140",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549722"
+    },
+    {
+      "userId": "143",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549723"
+    },
+    {
+      "userId": "145",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549724"
+    },
+    {
+      "userId": "148",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549725"
+    },
+    {
+      "userId": "156",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549726"
+    },
+    {
+      "userId": "162",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549727"
+    },
+    {
+      "userId": "164",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549728"
+    },
+    {
+      "userId": "174",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549729"
+    },
+    {
+      "userId": "176",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549730"
+    },
+    {
+      "userId": "180",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549731"
+    },
+    {
+      "userId": "183",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549732"
+    },
+    {
+      "userId": "185",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549733"
+    },
+    {
+      "userId": "187",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549734"
+    },
+    {
+      "userId": "190",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549735"
+    },
+    {
+      "userId": "193",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549736"
+    },
+    {
+      "userId": "197",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549737"
+    },
+    {
+      "userId": "201",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549738"
+    },
+    {
+      "userId": "202",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549739"
+    },
+    {
+      "userId": "214",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549740"
+    },
+    {
+      "userId": "216",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549741"
+    },
+    {
+      "userId": "218",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549742"
+    },
+    {
+      "userId": "220",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549743"
+    },
+    {
+      "userId": "226",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549744"
+    },
+    {
+      "userId": "233",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549745"
+    },
+    {
+      "userId": "236",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549746"
+    },
+    {
+      "userId": "242",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549747"
+    },
+    {
+      "userId": "243",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549748"
+    },
+    {
+      "userId": "249",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549749"
+    },
+    {
+      "userId": "261",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549750"
+    },
+    {
+      "userId": "266",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549751"
+    },
+    {
+      "userId": "274",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549752"
+    },
+    {
+      "userId": "277",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549753"
+    },
+    {
+      "userId": "289",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549754"
+    },
+    {
+      "userId": "290",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549755"
+    },
+    {
+      "userId": "295",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549756"
+    },
+    {
+      "userId": "297",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549757"
+    },
+    {
+      "userId": "300",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549758"
+    },
+    {
+      "userId": "303",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549759"
+    },
+    {
+      "userId": "312",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549760"
+    },
+    {
+      "userId": "313",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549761"
+    },
+    {
+      "userId": "315",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549762"
+    },
+    {
+      "userId": "316",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549763"
+    },
+    {
+      "userId": "326",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549764"
+    },
+    {
+      "userId": "335",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549765"
+    },
+    {
+      "userId": "352",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549766"
+    },
+    {
+      "userId": "359",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549767"
+    },
+    {
+      "userId": "360",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549768"
+    },
+    {
+      "userId": "364",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549769"
+    },
+    {
+      "userId": "425",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549770"
+    },
+    {
+      "userId": "426",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549771"
+    },
+    {
+      "userId": "431",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549772"
+    },
+    {
+      "userId": "437",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549773"
+    },
+    {
+      "userId": "450",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549774"
+    },
+    {
+      "userId": "490",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549775"
+    },
+    {
+      "userId": "493",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549776"
+    },
+    {
+      "userId": "518",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549777"
+    },
+    {
+      "userId": "521",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549778"
+    },
+    {
+      "userId": "525",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549779"
+    },
+    {
+      "userId": "567",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549780"
+    },
+    {
+      "userId": "619",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549781"
+    },
+    {
+      "userId": "631",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549782"
+    },
+    {
+      "userId": "660",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549783"
+    },
+    {
+      "userId": "681",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549784"
+    },
+    {
+      "userId": "685",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549785"
+    },
+    {
+      "userId": "689",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549786"
+    },
+    {
+      "userId": "750",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549787"
+    },
+    {
+      "userId": "787",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549788"
+    },
+    {
+      "userId": "792",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549789"
+    },
+    {
+      "userId": "850",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549790"
+    },
+    {
+      "userId": "886",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549791"
+    },
+    {
+      "userId": "969",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549792"
+    },
+    {
+      "userId": "991",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549793"
+    },
+    {
+      "userId": "1067",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549794"
+    },
+    {
+      "userId": "1068",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549795"
+    },
+    {
+      "userId": "1195",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549796"
+    },
+    {
+      "userId": "1212",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549797"
+    },
+    {
+      "userId": "1249",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549798"
+    },
+    {
+      "userId": "1255",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549799"
+    },
+    {
+      "userId": "1263",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549800"
+    },
+    {
+      "userId": "1301",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549801"
+    },
+    {
+      "userId": "1357",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549802"
+    },
+    {
+      "userId": "1421",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549803"
+    },
+    {
+      "userId": "1545",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549804"
+    },
+    {
+      "userId": "1578",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549805"
+    },
+    {
+      "userId": "1768",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549806"
+    },
+    {
+      "userId": "1835",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549807"
+    },
+    {
+      "userId": "1843",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549808"
+    },
+    {
+      "userId": "1845",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549809"
+    },
+    {
+      "userId": "1944",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549810"
+    },
+    {
+      "userId": "2246",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549811"
+    },
+    {
+      "userId": "2282",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549812"
+    },
+    {
+      "userId": "2300",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549813"
+    },
+    {
+      "userId": "2333",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549814"
+    },
+    {
+      "userId": "2420",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549815"
+    },
+    {
+      "userId": "2429",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549816"
+    },
+    {
+      "userId": "2503",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549817"
+    },
+    {
+      "userId": "2505",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549818"
+    },
+    {
+      "userId": "2545",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549819"
+    },
+    {
+      "userId": "2563",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549820"
+    },
+    {
+      "userId": "2729",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549821"
+    },
+    {
+      "userId": "2734",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549822"
+    },
+    {
+      "userId": "2780",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549823"
+    },
+    {
+      "userId": "3004",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549824"
+    },
+    {
+      "userId": "3009",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549825"
+    },
+    {
+      "userId": "3011",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549826"
+    },
+    {
+      "userId": "3158",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549827"
+    },
+    {
+      "userId": "3480",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549828"
+    },
+    {
+      "userId": "3646",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549829"
+    },
+    {
+      "userId": "3674",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549830"
+    },
+    {
+      "userId": "3710",
+      "role": "ADMIN",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549831"
+    },
+    {
+      "userId": "3736",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549832"
+    },
+    {
+      "userId": "3739",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549833"
+    },
+    {
+      "userId": "3828",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549834"
+    },
+    {
+      "userId": "3865",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549835"
+    },
+    {
+      "userId": "3867",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549836"
+    },
+    {
+      "userId": "3873",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549837"
+    },
+    {
+      "userId": "3877",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549838"
+    },
+    {
+      "userId": "3881",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549839"
+    },
+    {
+      "userId": "3884",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549840"
+    },
+    {
+      "userId": "3892",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549841"
+    },
+    {
+      "userId": "3903",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549842"
+    },
+    {
+      "userId": "3974",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549843"
+    },
+    {
+      "userId": "4010",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549844"
+    },
+    {
+      "userId": "4084",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549845"
+    },
+    {
+      "userId": "4086",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549846"
+    },
+    {
+      "userId": "4111",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549847"
+    },
+    {
+      "userId": "4112",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549848"
+    },
+    {
+      "userId": "4116",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549849"
+    },
+    {
+      "userId": "4161",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549850"
+    },
+    {
+      "userId": "4166",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549851"
+    },
+    {
+      "userId": "4199",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549852"
+    },
+    {
+      "userId": "4209",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549853"
+    },
+    {
+      "userId": "4212",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549854"
+    },
+    {
+      "userId": "4222",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549855"
+    },
+    {
+      "userId": "4235",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549856"
+    },
+    {
+      "userId": "4247",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549857"
+    },
+    {
+      "userId": "4265",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549858"
+    },
+    {
+      "userId": "4337",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549859"
+    },
+    {
+      "userId": "4340",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549860"
+    },
+    {
+      "userId": "4371",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549861"
+    },
+    {
+      "userId": "4387",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549862"
+    },
+    {
+      "userId": "4389",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549863"
+    },
+    {
+      "userId": "4391",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549864"
+    },
+    {
+      "userId": "4400",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549865"
+    },
+    {
+      "userId": "4401",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549866"
+    },
+    {
+      "userId": "4408",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549867"
+    },
+    {
+      "userId": "4410",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549868"
+    },
+    {
+      "userId": "4415",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549869"
+    },
+    {
+      "userId": "4441",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549870"
+    },
+    {
+      "userId": "4479",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549871"
+    },
+    {
+      "userId": "4501",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549872"
+    },
+    {
+      "userId": "4504",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549873"
+    },
+    {
+      "userId": "4512",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549874"
+    },
+    {
+      "userId": "4540",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549875"
+    },
+    {
+      "userId": "4552",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549876"
+    },
+    {
+      "userId": "4562",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549877"
+    },
+    {
+      "userId": "4564",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549878"
+    },
+    {
+      "userId": "4565",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549879"
+    },
+    {
+      "userId": "4566",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549880"
+    },
+    {
+      "userId": "4567",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549881"
+    },
+    {
+      "userId": "4569",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549882"
+    },
+    {
+      "userId": "4570",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549883"
+    },
+    {
+      "userId": "4571",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549884"
+    },
+    {
+      "userId": "4572",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549885"
+    },
+    {
+      "userId": "4573",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549886"
+    },
+    {
+      "userId": "4574",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549887"
+    },
+    {
+      "userId": "4575",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549888"
+    },
+    {
+      "userId": "4576",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549889"
+    },
+    {
+      "userId": "4580",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549890"
+    },
+    {
+      "userId": "4581",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549891"
+    },
+    {
+      "userId": "4582",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549892"
+    },
+    {
+      "userId": "4583",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549893"
+    },
+    {
+      "userId": "4587",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549894"
+    },
+    {
+      "userId": "4588",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549895"
+    },
+    {
+      "userId": "4589",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549896"
+    },
+    {
+      "userId": "4590",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549897"
+    },
+    {
+      "userId": "4593",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549898"
+    },
+    {
+      "userId": "4595",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549899"
+    },
+    {
+      "userId": "4596",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549900"
+    },
+    {
+      "userId": "4597",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549901"
+    },
+    {
+      "userId": "4598",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549902"
+    },
+    {
+      "userId": "4600",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549903"
+    },
+    {
+      "userId": "4601",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549904"
+    },
+    {
+      "userId": "4602",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549905"
+    },
+    {
+      "userId": "4603",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549906"
+    },
+    {
+      "userId": "4605",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549907"
+    },
+    {
+      "userId": "4607",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549908"
+    },
+    {
+      "userId": "4608",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549909"
+    },
+    {
+      "userId": "4609",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549910"
+    },
+    {
+      "userId": "4610",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549911"
+    },
+    {
+      "userId": "4612",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549912"
+    },
+    {
+      "userId": "4613",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549913"
+    },
+    {
+      "userId": "4614",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549914"
+    },
+    {
+      "userId": "4615",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549915"
+    },
+    {
+      "userId": "4616",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549916"
+    },
+    {
+      "userId": "4619",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549917"
+    },
+    {
+      "userId": "4620",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549918"
+    },
+    {
+      "userId": "4621",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549919"
+    },
+    {
+      "userId": "4622",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549920"
+    },
+    {
+      "userId": "4624",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549921"
+    },
+    {
+      "userId": "4625",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549922"
+    },
+    {
+      "userId": "4626",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549923"
+    },
+    {
+      "userId": "4627",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549924"
+    },
+    {
+      "userId": "4628",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549925"
+    },
+    {
+      "userId": "4629",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549926"
+    },
+    {
+      "userId": "4630",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549927"
+    },
+    {
+      "userId": "4631",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549928"
+    },
+    {
+      "userId": "4632",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549929"
+    },
+    {
+      "userId": "4637",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549930"
+    },
+    {
+      "userId": "4639",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549931"
+    },
+    {
+      "userId": "4640",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549932"
+    },
+    {
+      "userId": "4641",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549933"
+    },
+    {
+      "userId": "4643",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549934"
+    },
+    {
+      "userId": "4644",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549935"
+    },
+    {
+      "userId": "4646",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549936"
+    },
+    {
+      "userId": "4647",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549937"
+    },
+    {
+      "userId": "4648",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549938"
+    },
+    {
+      "userId": "4650",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549939"
+    },
+    {
+      "userId": "4651",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549940"
+    },
+    {
+      "userId": "4652",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549941"
+    },
+    {
+      "userId": "4653",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549942"
+    },
+    {
+      "userId": "4654",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549943"
+    },
+    {
+      "userId": "4655",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549944"
+    },
+    {
+      "userId": "4656",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549945"
+    },
+    {
+      "userId": "4657",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549946"
+    },
+    {
+      "userId": "4658",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549947"
+    },
+    {
+      "userId": "4660",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549948"
+    },
+    {
+      "userId": "4662",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549949"
+    },
+    {
+      "userId": "4663",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549950"
+    },
+    {
+      "userId": "4665",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549951"
+    },
+    {
+      "userId": "4666",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549952"
+    },
+    {
+      "userId": "4668",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549953"
+    },
+    {
+      "userId": "4670",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549954"
+    },
+    {
+      "userId": "4672",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549955"
+    },
+    {
+      "userId": "4675",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549956"
+    },
+    {
+      "userId": "4676",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549957"
+    },
+    {
+      "userId": "4679",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549958"
+    },
+    {
+      "userId": "4680",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549959"
+    },
+    {
+      "userId": "4681",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549960"
+    },
+    {
+      "userId": "4682",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549961"
+    },
+    {
+      "userId": "4685",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549962"
+    },
+    {
+      "userId": "4686",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549963"
+    },
+    {
+      "userId": "4687",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549964"
+    },
+    {
+      "userId": "4691",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549965"
+    },
+    {
+      "userId": "4692",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549966"
+    },
+    {
+      "userId": "4693",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549967"
+    },
+    {
+      "userId": "4695",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549968"
+    },
+    {
+      "userId": "4698",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549969"
+    },
+    {
+      "userId": "4699",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549970"
+    },
+    {
+      "userId": "4705",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549971"
+    },
+    {
+      "userId": "4706",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549972"
+    },
+    {
+      "userId": "4707",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549973"
+    },
+    {
+      "userId": "4708",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549974"
+    },
+    {
+      "userId": "4709",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549975"
+    },
+    {
+      "userId": "4712",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549976"
+    },
+    {
+      "userId": "4713",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549977"
+    },
+    {
+      "userId": "4717",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549978"
+    },
+    {
+      "userId": "4718",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549979"
+    },
+    {
+      "userId": "4720",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549980"
+    },
+    {
+      "userId": "4724",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549981"
+    },
+    {
+      "userId": "4726",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549982"
+    },
+    {
+      "userId": "4727",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549983"
+    },
+    {
+      "userId": "4728",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549984"
+    },
+    {
+      "userId": "4730",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549985"
+    },
+    {
+      "userId": "4731",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549986"
+    },
+    {
+      "userId": "4733",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549987"
+    },
+    {
+      "userId": "4740",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549988"
+    },
+    {
+      "userId": "4742",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549989"
+    },
+    {
+      "userId": "4743",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549990"
+    },
+    {
+      "userId": "4745",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549991"
+    },
+    {
+      "userId": "4747",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549992"
+    },
+    {
+      "userId": "4749",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549993"
+    },
+    {
+      "userId": "4750",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549994"
+    },
+    {
+      "userId": "4753",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549995"
+    },
+    {
+      "userId": "4754",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549996"
+    },
+    {
+      "userId": "4757",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549997"
+    },
+    {
+      "userId": "4758",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549998"
+    },
+    {
+      "userId": "4760",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79549999"
+    },
+    {
+      "userId": "4764",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550000"
+    },
+    {
+      "userId": "4768",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550001"
+    },
+    {
+      "userId": "4769",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550002"
+    },
+    {
+      "userId": "4770",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550003"
+    },
+    {
+      "userId": "4772",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550004"
+    },
+    {
+      "userId": "4773",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550005"
+    },
+    {
+      "userId": "4774",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550006"
+    },
+    {
+      "userId": "4780",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550007"
+    },
+    {
+      "userId": "4801",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550008"
+    },
+    {
+      "userId": "4808",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550009"
+    },
+    {
+      "userId": "4813",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550010"
+    },
+    {
+      "userId": "4814",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550011"
+    },
+    {
+      "userId": "4817",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550012"
+    },
+    {
+      "userId": "4820",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550013"
+    },
+    {
+      "userId": "4821",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550014"
+    },
+    {
+      "userId": "4822",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550015"
+    },
+    {
+      "userId": "4823",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550016"
+    },
+    {
+      "userId": "4824",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550017"
+    },
+    {
+      "userId": "4827",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550018"
+    },
+    {
+      "userId": "4828",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550019"
+    },
+    {
+      "userId": "4836",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550020"
+    },
+    {
+      "userId": "4837",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550021"
+    },
+    {
+      "userId": "4838",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550022"
+    },
+    {
+      "userId": "4840",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550023"
+    },
+    {
+      "userId": "4841",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550024"
+    },
+    {
+      "userId": "4842",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550025"
+    },
+    {
+      "userId": "4850",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550026"
+    },
+    {
+      "userId": "4866",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550027"
+    },
+    {
+      "userId": "4870",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550028"
+    },
+    {
+      "userId": "4871",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550029"
+    },
+    {
+      "userId": "4872",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550030"
+    },
+    {
+      "userId": "4876",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550031"
+    },
+    {
+      "userId": "4877",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550032"
+    },
+    {
+      "userId": "4880",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550033"
+    },
+    {
+      "userId": "4881",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550034"
+    },
+    {
+      "userId": "4890",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550035"
+    },
+    {
+      "userId": "4891",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550036"
+    },
+    {
+      "userId": "4894",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550037"
+    },
+    {
+      "userId": "4896",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550038"
+    },
+    {
+      "userId": "4899",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550039"
+    },
+    {
+      "userId": "4900",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550040"
+    },
+    {
+      "userId": "4902",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550041"
+    },
+    {
+      "userId": "4903",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550042"
+    },
+    {
+      "userId": "4904",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550043"
+    },
+    {
+      "userId": "4906",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550044"
+    },
+    {
+      "userId": "4907",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550045"
+    },
+    {
+      "userId": "4908",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550046"
+    },
+    {
+      "userId": "4909",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550047"
+    },
+    {
+      "userId": "4910",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550048"
+    },
+    {
+      "userId": "4912",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550049"
+    },
+    {
+      "userId": "4913",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550050"
+    },
+    {
+      "userId": "4915",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550051"
+    },
+    {
+      "userId": "4917",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550052"
+    },
+    {
+      "userId": "4919",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550053"
+    },
+    {
+      "userId": "4921",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550054"
+    },
+    {
+      "userId": "4923",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550055"
+    },
+    {
+      "userId": "4933",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550056"
+    },
+    {
+      "userId": "4934",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550057"
+    },
+    {
+      "userId": "4936",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550058"
+    },
+    {
+      "userId": "4949",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550059"
+    },
+    {
+      "userId": "4953",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550060"
+    },
+    {
+      "userId": "4954",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550061"
+    },
+    {
+      "userId": "4958",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550062"
+    },
+    {
+      "userId": "4965",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550063"
+    },
+    {
+      "userId": "4968",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550064"
+    },
+    {
+      "userId": "4969",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550065"
+    },
+    {
+      "userId": "4972",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550066"
+    },
+    {
+      "userId": "4977",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550067"
+    },
+    {
+      "userId": "4978",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550068"
+    },
+    {
+      "userId": "4980",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550069"
+    },
+    {
+      "userId": "4981",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550070"
+    },
+    {
+      "userId": "4984",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550071"
+    },
+    {
+      "userId": "4985",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550072"
+    },
+    {
+      "userId": "4988",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550073"
+    },
+    {
+      "userId": "4994",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550074"
+    },
+    {
+      "userId": "4995",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550075"
+    },
+    {
+      "userId": "4996",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550076"
+    },
+    {
+      "userId": "4998",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550077"
+    },
+    {
+      "userId": "5001",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550078"
+    },
+    {
+      "userId": "5002",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550079"
+    },
+    {
+      "userId": "5003",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550080"
+    },
+    {
+      "userId": "5004",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550081"
+    },
+    {
+      "userId": "5005",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550082"
+    },
+    {
+      "userId": "5006",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550083"
+    },
+    {
+      "userId": "5008",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550084"
+    },
+    {
+      "userId": "5010",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550085"
+    },
+    {
+      "userId": "5011",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550086"
+    },
+    {
+      "userId": "5015",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550087"
+    },
+    {
+      "userId": "5017",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550088"
+    },
+    {
+      "userId": "5024",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550089"
+    },
+    {
+      "userId": "5030",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550090"
+    },
+    {
+      "userId": "5036",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550091"
+    },
+    {
+      "userId": "5039",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550092"
+    },
+    {
+      "userId": "5040",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550093"
+    },
+    {
+      "userId": "5043",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550094"
+    },
+    {
+      "userId": "5049",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550095"
+    },
+    {
+      "userId": "5058",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550096"
+    },
+    {
+      "userId": "5059",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550097"
+    },
+    {
+      "userId": "5063",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550098"
+    },
+    {
+      "userId": "5066",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550099"
+    },
+    {
+      "userId": "5078",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550100"
+    },
+    {
+      "userId": "5083",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550101"
+    },
+    {
+      "userId": "5084",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550102"
+    },
+    {
+      "userId": "5090",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550103"
+    },
+    {
+      "userId": "5092",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550104"
+    },
+    {
+      "userId": "5095",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550105"
+    },
+    {
+      "userId": "5097",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550106"
+    },
+    {
+      "userId": "5118",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550107"
+    },
+    {
+      "userId": "5126",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550108"
+    },
+    {
+      "userId": "5127",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550109"
+    },
+    {
+      "userId": "5128",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550110"
+    },
+    {
+      "userId": "5130",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550111"
+    },
+    {
+      "userId": "5133",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550112"
+    },
+    {
+      "userId": "5136",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550113"
+    },
+    {
+      "userId": "5147",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550114"
+    },
+    {
+      "userId": "5148",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550115"
+    },
+    {
+      "userId": "5152",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550116"
+    },
+    {
+      "userId": "5209",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550117"
+    },
+    {
+      "userId": "5217",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550118"
+    },
+    {
+      "userId": "5222",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550119"
+    },
+    {
+      "userId": "5232",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550120"
+    },
+    {
+      "userId": "5238",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550121"
+    },
+    {
+      "userId": "5314",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550122"
+    },
+    {
+      "userId": "5322",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550123"
+    },
+    {
+      "userId": "5359",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550124"
+    },
+    {
+      "userId": "5365",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550125"
+    },
+    {
+      "userId": "5380",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550126"
+    },
+    {
+      "userId": "5393",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550127"
+    },
+    {
+      "userId": "5396",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550128"
+    },
+    {
+      "userId": "5399",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550129"
+    },
+    {
+      "userId": "5404",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550130"
+    },
+    {
+      "userId": "5407",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550131"
+    },
+    {
+      "userId": "5409",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550132"
+    },
+    {
+      "userId": "5421",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550133"
+    },
+    {
+      "userId": "5425",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550134"
+    },
+    {
+      "userId": "5426",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550135"
+    },
+    {
+      "userId": "5427",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550136"
+    },
+    {
+      "userId": "5429",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550137"
+    },
+    {
+      "userId": "5436",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550138"
+    },
+    {
+      "userId": "5440",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550139"
+    },
+    {
+      "userId": "5447",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550140"
+    },
+    {
+      "userId": "5452",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550141"
+    },
+    {
+      "userId": "5453",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550142"
+    },
+    {
+      "userId": "5457",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550143"
+    },
+    {
+      "userId": "5460",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550144"
+    },
+    {
+      "userId": "5468",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550145"
+    },
+    {
+      "userId": "5477",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550146"
+    },
+    {
+      "userId": "5502",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550147"
+    },
+    {
+      "userId": "5504",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550148"
+    },
+    {
+      "userId": "5505",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550149"
+    },
+    {
+      "userId": "5514",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550150"
+    },
+    {
+      "userId": "5517",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550151"
+    },
+    {
+      "userId": "5519",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550152"
+    },
+    {
+      "userId": "5521",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550153"
+    },
+    {
+      "userId": "5529",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550154"
+    },
+    {
+      "userId": "5536",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550155"
+    },
+    {
+      "userId": "5540",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550156"
+    },
+    {
+      "userId": "5545",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550157"
+    },
+    {
+      "userId": "5553",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550158"
+    },
+    {
+      "userId": "5555",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550159"
+    },
+    {
+      "userId": "5562",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550160"
+    },
+    {
+      "userId": "5566",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550161"
+    },
+    {
+      "userId": "5572",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550162"
+    },
+    {
+      "userId": "5575",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550163"
+    },
+    {
+      "userId": "5588",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550164"
+    },
+    {
+      "userId": "5598",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550165"
+    },
+    {
+      "userId": "5602",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550166"
+    },
+    {
+      "userId": "5606",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550167"
+    },
+    {
+      "userId": "5614",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550168"
+    },
+    {
+      "userId": "5616",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550169"
+    },
+    {
+      "userId": "5621",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550170"
+    },
+    {
+      "userId": "5624",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550171"
+    },
+    {
+      "userId": "5632",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550172"
+    },
+    {
+      "userId": "5641",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550173"
+    },
+    {
+      "userId": "5649",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550174"
+    },
+    {
+      "userId": "5650",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550175"
+    },
+    {
+      "userId": "5658",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550176"
+    },
+    {
+      "userId": "5665",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550177"
+    },
+    {
+      "userId": "5669",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550178"
+    },
+    {
+      "userId": "5670",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550179"
+    },
+    {
+      "userId": "5679",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550180"
+    },
+    {
+      "userId": "5681",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550181"
+    },
+    {
+      "userId": "5685",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550182"
+    },
+    {
+      "userId": "5690",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550183"
+    },
+    {
+      "userId": "5696",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550184"
+    },
+    {
+      "userId": "5707",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550185"
+    },
+    {
+      "userId": "5711",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550186"
+    },
+    {
+      "userId": "5714",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550187"
+    },
+    {
+      "userId": "5729",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550188"
+    },
+    {
+      "userId": "5741",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550189"
+    },
+    {
+      "userId": "5745",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550190"
+    },
+    {
+      "userId": "5751",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550191"
+    },
+    {
+      "userId": "5752",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550192"
+    },
+    {
+      "userId": "5764",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550193"
+    },
+    {
+      "userId": "5766",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550194"
+    },
+    {
+      "userId": "5771",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550195"
+    },
+    {
+      "userId": "5773",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550196"
+    },
+    {
+      "userId": "5778",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550197"
+    },
+    {
+      "userId": "5786",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550198"
+    },
+    {
+      "userId": "5797",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550199"
+    },
+    {
+      "userId": "5805",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550200"
+    },
+    {
+      "userId": "5811",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550201"
+    },
+    {
+      "userId": "5823",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550202"
+    },
+    {
+      "userId": "5828",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550203"
+    },
+    {
+      "userId": "5834",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550204"
+    },
+    {
+      "userId": "5836",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550205"
+    },
+    {
+      "userId": "5840",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550206"
+    },
+    {
+      "userId": "5841",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550207"
+    },
+    {
+      "userId": "5842",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550208"
+    },
+    {
+      "userId": "5861",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550209"
+    },
+    {
+      "userId": "5862",
+      "role": "USER",
+      "quantityBefore": "0",
+      "quantityAfter": "10",
+      "unseenBefore": "0",
+      "unseenAfter": "10",
+      "logId": "79550210"
+    }
+  ],
+  "completedAt": "2026-10-09T10:28:08.876Z",
+  "auditId": "43307",
+  "excludedInactive": [
+    {
+      "status": "BANNED",
+      "count": 1
+    }
+  ],
+  "verification": {
+    "status": "VERIFIED",
+    "operationKey": "ops:verified-pet-seals-ten:20261009:v1",
+    "delivery": "DIRECT",
+    "recipientCount": 542,
+    "roles": {
+      "OWNER": 2,
+      "USER": 538,
+      "ADMIN": 2
+    },
+    "itemCode": "PET_SEAL_ORB",
+    "itemName": "펫 봉인구",
+    "amountEach": 10,
+    "totalItems": 5420,
+    "inventoryLogs": 542,
+    "duplicates": 0,
+    "auditId": "43307",
+    "completedAt": "2026-10-09T10:28:08.876Z"
+  },
+  "verifiedAt": "2026-10-09T10:28:25.070Z",
+  "validation": {
+    "relatedTestsPassed": 4,
+    "dryRunRollbackVerified": true,
+    "postCommitReadVerified": true,
+    "replayVerified": true,
+    "extraGrantOnReplay": false,
+    "grantScriptSha256": "89f4d512f01c33f4b6ae327d3494ba3fc28169a2ea45eb2b464af4164d5497aa"
+  },
+  "gameRuntimeChanged": false,
+  "deploymentRequired": false
+}
