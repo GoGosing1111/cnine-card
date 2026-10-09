@@ -7,11 +7,10 @@ import {LimitedOpeningSession,limitedAutoPlan} from '../shared/mercenary-limited
 const body=(count=1)=>({requestId:crypto.randomUUID(),count,expectedRevision:1,expectedPolicyRevision:1});
 const service=()=>createLimitedPackService({releaseEnabled:true,randomInt:()=>0});
 test('draft keeps actual opening OFF, unset economics and bounded exact input',async()=>{
- assert.equal(LIMITED_PACK_RELEASE_ENABLED,false);const draft=limitedPackDraft();assert.deepEqual(draft.prices,{single:null,ten:null});assert.equal(limitedPackReadiness(draft,limitedPolicyDraft()).ready,false);
- assert.throws(()=>validateLimitedPack({...draft,mode:'ON'}));for(const n of [-1,1.1,Number.MAX_SAFE_INTEGER]){const d=structuredClone(draft);d.stockLimits['V-990']=n;assert.throws(()=>validateLimitedPack(d));}
+ assert.equal(LIMITED_PACK_RELEASE_ENABLED,true);const draft=limitedPackDraft();assert.equal(draft.mode,'OFF');assert.deepEqual(draft.prices,{single:null,ten:null});assert.equal(limitedPackReadiness(draft,limitedPolicyDraft()).ready,false);
+ assert.throws(()=>validateLimitedPack({...draft,mode:'ON'},{releaseEnabled:false}));for(const n of [-1,1.1,Number.MAX_SAFE_INTEGER]){const d=structuredClone(draft);d.stockLimits['V-990']=n;assert.throws(()=>validateLimitedPack(d));}
  for(const role of ['USER','OWNER']){
-  const response=await handleLimitedPack({path:LIMITED_PACK.openPath,request:new Request('https://qa.test/api/'+LIMITED_PACK.openPath,{method:'POST'}),env:{DB:{prepare(){throw Error('must not touch DB');}}},deps:{authenticate:async()=>({id:1,role}),json:(body,status)=>({body,status})}});
-  assert.equal(response.status,423);
+  await assert.rejects(createLimitedPackService({releaseEnabled:false}).open({DB:{prepare(){throw Error('must not touch DB');}}},{id:1,role},body()),error=>error.status===423);
  }
  assert.throws(()=>limitedAutoPlan({prices:{single:100,ten:900}},1001,10));assert.deepEqual(limitedAutoPlan({prices:{single:100,ten:900}},23,10),{total:23,batch:10,tens:2,ones:3,cost:'2100'});
 });

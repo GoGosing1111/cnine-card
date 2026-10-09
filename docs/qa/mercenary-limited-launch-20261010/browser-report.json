@@ -1,0 +1,34 @@
+{
+  "status": "PASSED",
+  "scope": "Real CMS/public controllers and actual pack API with isolated PostgreSQL fixture; no production purchases",
+  "reports": [
+    {
+      "label": "desktop",
+      "width": 1440,
+      "height": 1000,
+      "cmsOnOffSaved": true,
+      "savedAndPendingModesDistinct": true,
+      "heliosCmsDecoded": true,
+      "heliosPublicDecoded": true,
+      "zeroLimitExcludedLabel": true,
+      "isolatedOpenAndReceipt": true,
+      "offBlocksOpening": true,
+      "errors": [],
+      "failed": []
+    },
+    {
+      "label": "mobile",
+      "width": 390,
+      "height": 844,
+      "cmsOnOffSaved": true,
+      "savedAndPendingModesDistinct": true,
+      "heliosCmsDecoded": true,
+      "heliosPublicDecoded": true,
+      "zeroLimitExcludedLabel": true,
+      "isolatedOpenAndReceipt": true,
+      "offBlocksOpening": true,
+      "errors": [],
+      "failed": []
+    }
+  ]
+}

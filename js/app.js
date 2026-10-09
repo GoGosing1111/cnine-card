@@ -1668,7 +1668,7 @@ function limitedMercenaryPackHero(pack) {
 document.addEventListener('click',event=>{
  const button=event.target.closest?.('[data-limited-pack-enter]');if(!button||button.disabled)return;
  button.disabled=true;
- import('/js/mercenary-limited-pack-live.mjs?v=20261008-price').then(module=>module.openLimitedPack()).catch(error=>alert(error.message)).finally(()=>{button.disabled=false;});
+ import('/js/mercenary-limited-pack-live.mjs?v=20261010-on').then(module=>module.openLimitedPack()).catch(error=>alert(error.message)).finally(()=>{button.disabled=false;});
 });
 function standardPackHero(pack) {
   if (pack.id === 'mercenary-limited') return limitedMercenaryPackHero(pack);

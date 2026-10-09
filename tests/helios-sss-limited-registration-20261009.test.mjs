@@ -45,7 +45,7 @@ test('existing saved rates and stock limits survive the ninth entry without enab
  const pack=limitedPackDraft();delete pack.stockLimits['V-999'];pack.stockLimits['V-996']=50;pack.prices={single:100000,ten:1000000};
  const oldPack=structuredClone(pack),nextPack=readLimitedPack(pack);
  assert.deepEqual(pack,oldPack);assert.deepEqual(nextPack,{...oldPack,stockLimits:{...oldPack.stockLimits,'V-999':null}});
- assert.equal(LIMITED_PACK_RELEASE_ENABLED,false);assert.equal(nextPack.mode,'OFF');
+ assert.equal(LIMITED_PACK_RELEASE_ENABLED,true);assert.equal(nextPack.mode,'OFF');
 });
 
 test('catalog-only ownership remains readable and cannot be equipped while released cards remain available',async t=>{

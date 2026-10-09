@@ -64,7 +64,7 @@ test('released snapshots retain the approved limited combat policies in PVE and 
    assert.equal(pvp.teams[side].mercenaries[0].cardId,code);assert.ok(pvp.result.timeline.some(e=>e.actorId?.includes(code)));
   }
  }
- assert.equal(limitedDeploymentSnapshot('toString'),null);assert.equal(LIMITED_PACK_RELEASE_ENABLED,false);
+ assert.equal(limitedDeploymentSnapshot('toString'),null);assert.equal(LIMITED_PACK_RELEASE_ENABLED,true);
  for(const code of codes)assert.equal(mercenaryAcquisitionEnabled(code,{cardWeights:{[code]:1}}),false);
 });
 

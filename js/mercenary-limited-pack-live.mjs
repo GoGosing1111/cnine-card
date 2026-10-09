@@ -1,5 +1,5 @@
 import {jointAccountRequest} from './joint-account-transport.mjs?v=20260924-response';
-import {LIMITED_PACK,LIMITED_NORMAL_RANKS,limitedReceiptResults} from '../shared/mercenary-limited-pack-v1.mjs?v=20261006-mixed';
+import {LIMITED_PACK,LIMITED_NORMAL_RANKS,limitedReceiptResults} from '../shared/mercenary-limited-pack-v1.mjs?v=20261010-on';
 import {LimitedOpeningSession,limitedAutoPlan} from '../shared/mercenary-limited-session-v1.mjs?v=20261008-daily';
 import {LIMITED_DAILY_CAP} from '../shared/mercenary-limited-daily-v1.mjs';
 import {formatDrawPercent} from '../shared/mercenary-draw-policy-v1.mjs';
@@ -65,14 +65,14 @@ export async function mountLimitedPack({api,accountId,getAccountId,storage,previ
  const renderConfig=()=>{
   if(!config)return;
   $('[data-lp-price-one]').textContent=fmtPrice(config.packSettings.prices.single);$('[data-lp-price-ten]').textContent=fmtPrice(config.packSettings.prices.ten);
-  $('[data-lp-access]').textContent=preview?'연출 검수 모드':config.userOpeningEnabled?'계약 개봉 가능':'출시 준비 중 · 개봉 OFF';
+  $('[data-lp-access]').textContent=preview?'연출 검수 모드':config.userOpeningEnabled?'계약 개봉 가능':!config.releaseEnabled?'출시 준비 중 · 개봉 OFF':config.packSettings.mode==='OFF'?'운영 중지 · 개봉 OFF':'개봉 조건 확인 중';
   $('[data-lp-daily]').textContent=Number.isSafeInteger(config.daily?.remaining)?fmt(config.daily.remaining)+' / '+fmt(config.daily.limit)+'개':'로그인 후 확인';
   clearTimeout(dailyTimer);
   const resetIn=Date.parse(config.daily?.resetsAt)-Date.now();
   if(resetIn>0)dailyTimer=setTimeout(()=>{if(!disposed&&!busy)void loadStockOnly();},Math.min(resetIn+100,86400100));
   $('[data-lp-roster]').innerHTML=config.cards.map(c=>{
    const s=config.stock.find(r=>r.code===c.code),weight=config.policy.cardWeights[c.code];
-   return '<article><div class="lp-portrait"><img src="/assets/ui/packs/limited-v1/'+c.code.toLowerCase()+'-640.webp" alt="" loading="lazy"><span>'+esc(c.rank)+'</span></div><b>'+esc(c.name)+'</b><small>'+(weight===0?'추첨 제외':s.limit===null?'수량 설정 전':fmt(s.remaining)+' / '+fmt(s.limit))+'</small></article>';
+   return '<article><div class="lp-portrait"><img src="/assets/ui/packs/limited-v1/'+c.code.toLowerCase()+'-640.webp" alt="" loading="lazy"><span>'+esc(c.rank)+'</span></div><b>'+esc(c.name)+'</b><small>'+(s.limit===0?'한도 0장 · 제외':weight===0?'추첨 제외':s.limit===null?'수량 설정 전':fmt(s.remaining)+' / '+fmt(s.limit))+'</small></article>';
   }).join('');
   const formatRates=rows=>rows.map(([name,rate])=>esc(name)+' '+(rate==null?'미정':formatDrawPercent(rate)+'%')).join(' · ');
   const normalRates=LIMITED_NORMAL_RANKS.map(rank=>[rank+' 일반 용병',config.packSettings.normalRankRatesPpm[rank]]),limitedRates=['SS','SSS'].map(rank=>[rank+' 리미티드',config.policy.rankRatesPpm[rank]]),extras=config.packSettings.extraRewards.map(r=>[{MASTER_STAR:'마스터의 별',MYSTIC_ENERGY:'미스틱 에너지',NONE:'꽝'}[r.id]+(r.quantity?' '+fmt(r.quantity)+'개':''),r.chancePpm]);

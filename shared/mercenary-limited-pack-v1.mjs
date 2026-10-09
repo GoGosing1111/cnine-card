@@ -3,8 +3,8 @@ import {readLimitedPolicy} from './mercenary-limited-policy-v1.mjs';
 import {MERCENARY_RANKS} from './mercenary-ranks-v1.mjs';
 import {mercenaryGradePools,mercenaryCardChances} from './mercenary-draw-policy-v1.mjs';
 export const LIMITED_NORMAL_RANKS=MERCENARY_RANKS;
-// Preparation only. CMS values never bypass this explicit release gate.
-export const LIMITED_PACK_RELEASE_ENABLED=false;
+// User approved pack release on 2026-10-10. CMS OFF remains authoritative.
+export const LIMITED_PACK_RELEASE_ENABLED=true;
 export const LIMITED_PACK_KEY='mercenary_limited_pack_v1';
 export const LIMITED_PACK_KIND='MERCENARY_LIMITED_OPEN';
 export const LIMITED_PACK=Object.freeze({
@@ -28,7 +28,8 @@ export function limitedPackDraft(){
 }
 export function validateLimitedPack(raw,{releaseEnabled=LIMITED_PACK_RELEASE_ENABLED}={}){
  if(!exact(raw,['format','mode','prices','normalRankRatesPpm','stockLimits','extraRewards'])||raw.format!=='MERCENARY_LIMITED_PACK_V1'||
- !['OFF','ON'].includes(raw.mode)||(!releaseEnabled&&raw.mode!=='OFF'))throw Error('리미티드팩은 출시 준비 중입니다. 개봉 OFF로 저장하세요.');
+ !['OFF','ON'].includes(raw.mode))throw Error('리미티드팩 운영 상태는 ON 또는 OFF로 설정하세요.');
+ if(!releaseEnabled&&raw.mode!=='OFF')throw Error('리미티드팩은 출시 준비 중입니다. 개봉 OFF로 저장하세요.');
  if(!exact(raw.prices,['single','ten'])||Object.values(raw.prices).some(n=>n!==null&&(!Number.isSafeInteger(n)||n<1||n>100000000000000)))throw Error('가격은 미정 또는 1~100조 코인 정수로 입력하세요.');
  if(!exact(raw.normalRankRatesPpm,MERCENARY_RANKS)||Object.values(raw.normalRankRatesPpm).some(n=>n!==null&&(!Number.isSafeInteger(n)||n<0||n>1000000)))throw Error('일반 용병 C·B·A·S·SS·SSS 확률은 미정 또는 0~100%로 입력하세요.');
  if(!exact(raw.stockLimits,codes)||Object.values(raw.stockLimits).some(n=>n!==null&&(!Number.isSafeInteger(n)||n<0||n>1000000)))throw Error('용병별 발행 한도는 미정 또는 0~1,000,000장으로 입력하세요.');
@@ -59,7 +60,7 @@ export function limitedPackReadiness(settings,policy,stock=[],normalCards=[]){
  for(const r of settings.extraRewards)if(r.chancePpm>0&&r.id!=='NONE'&&r.quantity===null)blockers.push('재료 보상 수량을 설정하세요.');
  const counts=new Map(stock.map(r=>[r.code,Number(r.issued||0)])),pools={};
  for(const rank of ['SS','SSS']){
-  pools[rank]=LIMITED_MERCENARIES.filter(c=>c.rank===rank&&policy.cardWeights[c.code]>0&&Number.isSafeInteger(settings.stockLimits[c.code])&&settings.stockLimits[c.code]>(counts.get(c.code)||0));
+  pools[rank]=LIMITED_MERCENARIES.filter(c=>c.rank===rank&&policy.cardWeights[c.code]>0&&Number.isSafeInteger(settings.stockLimits[c.code])&&settings.stockLimits[c.code]>0&&settings.stockLimits[c.code]>(counts.get(c.code)||0));
   const selected=LIMITED_MERCENARIES.filter(c=>c.rank===rank&&policy.cardWeights[c.code]>0);
   if(policy.rankRatesPpm[rank]>0){
    if(selected.some(c=>settings.stockLimits[c.code]===null))blockers.push(rank+' 용병 발행 한도를 설정하세요.');

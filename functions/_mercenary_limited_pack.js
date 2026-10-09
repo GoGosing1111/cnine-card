@@ -65,6 +65,7 @@ export async function saveLimitedPack(env,actor,body){
  const before=await readLimitedPackState(env);
  if(before.revision!==body.expectedRevision||before.packRevision!==body.expectedPackRevision)throw jointError('MERCENARY_LIMITED_CONFLICT','다른 창에서 설정을 변경했습니다. 새로 불러오세요.',409);
  for(const stock of before.stock)if(stock.issued>0&&(settings.stockLimits[stock.code]===null||settings.stockLimits[stock.code]<stock.issued))throw jointError('MERCENARY_LIMITED_STOCK_LIMIT','발행 한도를 이미 지급된 수량보다 낮출 수 없습니다.',409);
+ if(settings.mode==='ON'){const ready=limitedPackReadiness(settings,policy,before.stock,before.normalCards);if(!ready.ready)throw jointError('MERCENARY_LIMITED_NOT_READY',ready.blockers.join(' '),409);}
  const now=new Date().toISOString(),nextPolicy={revision:before.revision+1,policy,updatedAt:now,updatedBy:Number(actor.id),lastRequestId:body.requestId};
  const nextPack={revision:before.packRevision+1,settings,updatedAt:now,updatedBy:Number(actor.id),lastRequestId:body.requestId};
  const DB=env.DB,p=(sql,...v)=>DB.prepare(sql).bind(...v),token=crypto.randomUUID();
@@ -107,7 +108,7 @@ export function pickLimitedBatch(state,count,random=mercenaryRandomInt){
    let ticket=sample(random,pool.reduce((sum,c)=>sum+c.weight,0));const card=pool.find(c=>{ticket-=c.weight;return ticket<0;});
    draws.push({outcomeId:outcome.id,mercenaryCode:card.code,name:card.name,rank:card.rank,edition:'STANDARD',quantity:1,sourceArt:card.sourceArt});continue;
   }
-  const pool=LIMITED_MERCENARIES.filter(c=>c.rank===outcome.rank&&policy.cardWeights[c.code]>0&&Number.isSafeInteger(settings.stockLimits[c.code])&&settings.stockLimits[c.code]>(used[c.code]||0));
+  const pool=LIMITED_MERCENARIES.filter(c=>c.rank===outcome.rank&&policy.cardWeights[c.code]>0&&Number.isSafeInteger(settings.stockLimits[c.code])&&settings.stockLimits[c.code]>0&&settings.stockLimits[c.code]>(used[c.code]||0));
   if(!pool.length)throw terminal('MERCENARY_LIMITED_SOLD_OUT','선택한 횟수에 필요한 리미티드 잔여 수량이 없습니다. 코인은 차감되지 않았습니다.');
   let ticket=sample(random,pool.reduce((sum,c)=>sum+policy.cardWeights[c.code],0));
   const card=pool.find(c=>{ticket-=policy.cardWeights[c.code];return ticket<0;});used[card.code]=(used[card.code]||0)+1;
