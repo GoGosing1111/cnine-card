@@ -1,0 +1,90 @@
+{
+  "status": "VERIFIED_PRODUCTION",
+  "verifiedAt": "2026-10-09T21:10:18.661Z",
+  "site": "https://cnine-card.pages.dev",
+  "releaseCommit": "a430795df702f65b0a83b116aae1e01c5813b872",
+  "previousProductionCommit": "cfeceb1738704fd19b14961600777ca579ce0b20",
+  "deployment": "https://67b85f4b.cnine-card.pages.dev",
+  "apiRuntimeVersion": "cbba96b4-4a2b-499f-9e11-96ba01b4901e",
+  "clanDraftVersion": "93977acc-56dd-4af6-b4fd-d9dad663444b",
+  "command": "npm run deploy:production -- --scoped",
+  "config": {
+    "status": 200,
+    "revision": 6,
+    "packRevision": 6,
+    "mode": "ON",
+    "beforeCheckedAt": "2026-10-09T21:02:40.415Z",
+    "beforeSha256": "0aa0cacb1fa66be7cf0aeb76fc3bd9c3f5ed5b7ec7409e00acee41d2583fb0a5",
+    "afterSha256": "0aa0cacb1fa66be7cf0aeb76fc3bd9c3f5ed5b7ec7409e00acee41d2583fb0a5",
+    "unchanged": true,
+    "limitedPublicRates": {
+      "SS": {
+        "ppm": 50,
+        "display": "0.005%"
+      },
+      "SSS": {
+        "ppm": 5,
+        "display": "0.0005%"
+      }
+    }
+  },
+  "minimumPercent": "0.00000001%",
+  "publicRatesUseActualSavedValues": true,
+  "accountOrSettingsMutations": false,
+  "regression": {
+    "precisionPassed": 5,
+    "deployPassed": 21,
+    "failed": 0,
+    "workerSyntax": "PASS",
+    "browser": "PASS desktop 1440x1000 and mobile 390x844"
+  },
+  "productionReleaseGuard": "PASS",
+  "hyperdriveQueryCache": "DISABLED_VERIFIED",
+  "assets": [
+    {
+      "path": "shared/mercenary-limited-rates-v1.mjs",
+      "status": 200,
+      "sha256": "1fc5a802c77bfa894a42170f202f130bf1d59bd10a07ee8df17b3b2b7a9340ee"
+    },
+    {
+      "path": "shared/mercenary-limited-policy-v1.mjs",
+      "status": 200,
+      "sha256": "d0ed8086023727ba586e11d2dc9071afad738469f1d7156e3bb72561d2ab9a74"
+    },
+    {
+      "path": "shared/mercenary-limited-pack-v1.mjs",
+      "status": 200,
+      "sha256": "a005b411979ceb4a4982d6611c71efc37e88ccd1a5fb0473ad56a124107943b5"
+    },
+    {
+      "path": "admin/mercenary-limited-admin-v1.js",
+      "status": 200,
+      "sha256": "e415479a1e7e74934f526a284da13a1e9b0d502e77e3cf40441b8f242071088c"
+    },
+    {
+      "path": "admin/mercenary-admin-v1.js",
+      "status": 200,
+      "sha256": "5e6f0a45eb8be5c55adc394b3e415b4687d2e51bc65e1fd4195e92529a69ddd6"
+    },
+    {
+      "path": "admin/index.html",
+      "status": 200,
+      "sha256": "8a3a2e19398b21161bff428922afc60de05b9ed80cde3a4046c73a4eb1c63567"
+    },
+    {
+      "path": "js/mercenary-limited-pack-live.mjs",
+      "status": 200,
+      "sha256": "4850d4294c82dc553f45e835d795cfc381774895a9a62327d0077f1368d6d4a5"
+    },
+    {
+      "path": "js/app.js",
+      "status": 200,
+      "sha256": "36e6ea0c40729224612bc9817a50afd0f67716c8b923b1545a1e3bc18e8b88d2"
+    },
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "69afbd13b56f09060a55724375668e1b6e371fb81d48d916f5e8a6b2e2ef4728"
+    }
+  ]
+}
