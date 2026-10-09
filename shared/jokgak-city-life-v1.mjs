@@ -7,7 +7,7 @@ export const CITY_SUPPLIES=[
   {code:'FIRST_AID',name:'응급 처치 키트',icon:'medical',description:'도시 전투 체력을 회복하는 일회용 구급품'}
 ];
 export function defaultCityLifePolicy(){return {
-  hungerPerHour:12,wellnessPerHour:6,starvingWellnessPerHour:24,hospitalThreshold:25,
+  hungerPerHour:50,wellnessPerHour:6,starvingWellnessPerHour:24,hospitalThreshold:25,
   serviceCooldownMs:5000,
   meal:{enabled:true,price:1000,hunger:60,wellness:10},
   treatment:{enabled:true,price:2000,health:100,wellness:100},
@@ -38,6 +38,7 @@ export function readCityLife(raw,now){
     if(life.version!==1||!Number.isSafeInteger(life.at)||!['hunger','wellness'].every(k=>Number.isFinite(life[k])&&life[k]>=0&&life[k]<=100)||!life.bags?.TEST||!life.bags?.ON)throw Error();
     for(const mode of ['TEST','ON'])for(const [code,n] of Object.entries(life.bags[mode]))if(!CITY_SUPPLIES.some(s=>s.code===code)||!integer(n,0,99))throw Error();
     if(life.death&&(!Number.isSafeInteger(life.death.until)||!Number.isSafeInteger(life.death.at)||typeof life.death.killerName!=='string'))throw Error();
+    if(life.begging&&(!['beg','alms'].includes(life.begging.kind)||typeof life.begging.requestId!=='string'||!integer(life.begging.cash,1,100000)||!Number.isSafeInteger(life.begging.endsAt)||!Number.isSafeInteger(life.begging.epoch)||!['TEST','ON'].includes(life.begging.mode)))throw Error();
     life.wallets??={TEST:null,ON:null};
     if(typeof life.wallets!=='object'||Array.isArray(life.wallets)||Object.keys(life.wallets).some(k=>!['TEST','ON'].includes(k)))throw Error();
     for(const mode of ['TEST','ON']){const wallet=life.wallets[mode];if(wallet!=null&&(!wallet||typeof wallet!=='object'||Array.isArray(wallet)||!integer(wallet.balance,0,CITY_CASH_MAX)||!integer(wallet.initialCash,0,1000000000)||!Number.isSafeInteger(wallet.openedAt)))throw Error();}
@@ -72,6 +73,7 @@ export function applyCityLifeView(state,life,policy){
   state.hospitalRequired=!state.deadUntil&&life.wellness<=policy.life.hospitalThreshold;
   state.bag={...(life.bags[policy.mode]||{})};
   const wallet=ensureCityCash(life,policy);state.cash=wallet?.balance??0;state.cashMode=policy.mode;state.cashUnit='원';
+  state.begging=state.active&&state.role==='BEGGAR'&&!state.deadUntil&&!state.hospitalRequired&&life.begging?.endsAt>life.at&&life.begging.location===state.location&&life.begging.mode===policy.mode?{...life.begging}:null;
   return state;
 }
 export function markCityDeath(state,life,killer,now,location){

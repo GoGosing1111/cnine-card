@@ -11,6 +11,8 @@ export function defaultCitySettings(){
     rewards:{enabled:false,dailyLimit:20,sameTargetCooldownMs:3600000},life:defaultCityLifePolicy(),cash:defaultCityCashPolicy(),
     roles:CITY_ROLES.map(({code})=>({code,weight:1,startLocation:'HOME',attackEnabled:true,maxHealth:100,regenPerMinute:5,defeatDamage:25,attackCooldownMs:15000,wantedPerAttack:1,
       ...(code==='POLICE'?{inspectEnabled:true,inspectCooldownMs:10000,arrestEnabled:true,arrestMinWanted:1,arrestMs:60000}:{}),
+      ...(code==='BEGGAR'?{begEnabled:true,begCooldownMs:60000,begDurationMs:30000,begCash:100}:{}),
+      ...(code==='GANG'?{killTheftBonusPercent:10,killTheftMaxCash:4000}:{}),
       ...(['NURSE','DOCTOR'].includes(code)?{healAmount:code==='DOCTOR'?50:25,healCooldownMs:30000,selfHeal:true}:{}),
       rewards:roleRewardEvents(code).map(event=>({event,cash:0,coin:0,items:[]}))}))};
 }
@@ -18,7 +20,7 @@ export const cityCanAccess=(policy,user)=>!!user&&(policy.mode==='ON'||policy.mo
 export const cityRolePolicy=(policy,code)=>policy.roles.find(role=>role.code===code);
 export function cityRoleDescription(r){
   const common=`최대 체력 ${r.maxHealth} · 분당 회복 ${r.regenPerMinute} · ${r.attackEnabled?`승리 피해 ${r.defeatDamage} / 공격 대기 ${r.attackCooldownMs/1000}초`:'공격 사용 안 함'}`;
-  return common+(r.code==='POLICE'?` · 검문 ${r.inspectEnabled?'사용':'OFF'} · 체포 ${r.arrestEnabled?`수배 ${r.arrestMinWanted} 이상 / ${r.arrestMs/1000}초 구금`:'OFF'}`:['NURSE','DOCTOR'].includes(r.code)?` · 치료 ${r.healAmount} / ${r.healCooldownMs/1000}초`:'');
+  return common+(r.code==='POLICE'?` · 검문 ${r.inspectEnabled?'사용':'OFF'} · 체포 ${r.arrestEnabled?`수배 ${r.arrestMinWanted} 이상 / ${r.arrestMs/1000}초 구금`:'OFF'}`:['NURSE','DOCTOR'].includes(r.code)?` · 치료 ${r.healAmount} / ${r.healCooldownMs/1000}초`:r.code==='BEGGAR'?` · 구걸·동냥 ${r.begEnabled?r.begCash+'원 / 대기 '+r.begCooldownMs/1000+'초':'OFF'}`:r.code==='GANG'?` · 처치 시 강탈 +${r.killTheftBonusPercent}%p / 최대 ${r.killTheftMaxCash.toLocaleString('ko-KR')}원`:'');
 }
 const object=(v,keys)=>v&&typeof v==='object'&&!Array.isArray(v)&&Object.keys(v).every(key=>keys.includes(key));
 const number=(v,min,max)=>Number.isSafeInteger(v)&&v>=min&&v<=max;
@@ -37,10 +39,13 @@ export function validateCitySettings(value){
   const roles=value.roles.map(r=>{
     const base=defaults.roles.find(row=>row.code===r?.code);
     if(!base||seen.has(r.code)||!object(r,Object.keys(base)))fail('역할 코드와 해당 역할의 설정 항목을 확인하세요.');
+    r={...(r.code==='BEGGAR'?{begEnabled:base.begEnabled,begCooldownMs:base.begCooldownMs,begDurationMs:base.begDurationMs,begCash:base.begCash}:{}),...(r.code==='GANG'?{killTheftBonusPercent:base.killTheftBonusPercent,killTheftMaxCash:base.killTheftMaxCash}:{}),...r};
     seen.add(r.code);
     if(!number(r.weight,0,10000)||!CITY_PLACES.some(p=>p.id===r.startLocation)||typeof r.attackEnabled!=='boolean'||!number(r.maxHealth,10,100)||!number(r.regenPerMinute,0,100)||!number(r.defeatDamage,1,100)||!number(r.attackCooldownMs,1000,3600000)||!number(r.wantedPerAttack,0,5))fail('역할의 배정 비중·시작 장소·체력·회복·피해·공격 대기·수배 값을 확인하세요.');
     if(r.code==='POLICE'&&(typeof r.inspectEnabled!=='boolean'||typeof r.arrestEnabled!=='boolean'||!number(r.inspectCooldownMs,1000,3600000)||!number(r.arrestMinWanted,1,5)||!number(r.arrestMs,1000,3600000)))fail('경찰의 검문·체포 사용, 대기시간, 최소 수배와 구금 시간을 확인하세요.');
     if(['NURSE','DOCTOR'].includes(r.code)&&(!number(r.healAmount,0,100)||!number(r.healCooldownMs,1000,3600000)||typeof r.selfHeal!=='boolean'))fail('의료진의 회복량·치료 대기·자기 치료 설정을 확인하세요.');
+    if(r.code==='BEGGAR'&&(typeof r.begEnabled!=='boolean'||!number(r.begCooldownMs,10000,3600000)||!number(r.begDurationMs,10000,120000)||r.begDurationMs>r.begCooldownMs||!number(r.begCash,1,100000)))fail('구걸 사용, 대기 10~3600초, 표시 10~120초(대기 이하), 동냥 1~10만 원을 확인하세요.');
+    if(r.code==='GANG'&&(!number(r.killTheftBonusPercent,0,100)||!number(r.killTheftMaxCash,0,1000000000)))fail('갱단 처치 추가 강탈 비율(0~100%p)과 한도(0~10억 원)를 확인하세요.');
     const events=roleRewardEvents(r.code);
     if(!Array.isArray(r.rewards)||r.rewards.length!==events.length||new Set(r.rewards.map(x=>x.event)).size!==events.length)fail('역할별 보상 조건을 빠짐없이 지정하세요.');
     for(const row of r.rewards){

@@ -21,7 +21,19 @@ export function cityTheftHtml(theft,defending=false){
   if(!theft||theft.status==='DISABLED')return '';
   const delta=defending?-theft.actorChange:theft.actorChange;
   const reasons={DRAW:'무승부 · 현금 이동 없음',NO_CASH:'패자의 소지 현금 없음',WALLET_LIMIT:'승자의 현금 보유 한도 도달',ZERO:'강탈할 현금이 1원 미만이거나 한도 0원'};
-  return `<div class="jc-theft ${delta<0?'is-loss':''}" role="status"><span>${theft.mode==='TEST'?'TEST · ':''}${delta>0?'상대 현금 강탈':delta<0?'상대에게 현금 강탈당함':'현금 정산'}</span><strong>${delta>0?'+':delta<0?'−':''}${number(theft.amount)}<small>원</small></strong><p>${theft.amount?`패자 소지 현금의 ${theft.percent}% · 1회 최대 ${number(theft.maxCash)}원`:reasons[theft.status]||'현금 이동 없음'}</p></div>`;
+  return `<div class="jc-theft ${delta<0?'is-loss':''}" role="status"><span>${theft.mode==='TEST'?'TEST · ':''}${delta>0?'상대 현금 강탈':delta<0?'상대에게 현금 강탈당함':'현금 정산'}</span><strong>${delta>0?'+':delta<0?'−':''}${number(theft.amount)}<small>원</small></strong><p>${theft.killBonusPercent?'갱단 처치 보너스 · ':''}${theft.amount?`패자 소지 현금의 ${theft.percent}% · 1회 최대 ${number(theft.maxCash)}원`:reasons[theft.status]||'현금 이동 없음'}</p></div>`;
+}
+export function cityRoleSkill(state,now,busy,icon,role){
+  const m=state?.mine;if(!m?.active)return '';
+  if(m.role==='GANG')return `<section class="jc-role-skill jc-gang-skill"><span>${icon('swords')}</span><div><small>갱단 · 처치 특성</small><b>상대를 쓰러뜨리면 더 크게 챙깁니다</b><p>처치 시 소지 현금 ${Math.min(100,(state.cash?.theft?.percent||0)+role.killTheftBonusPercent)}% 강탈 · 최대 ${number(Math.max(state.cash?.theft?.maxCash||0,role.killTheftMaxCash))}원${state.cash?.theft?.enabled?'':' · 현재 강탈 OFF'}</p></div></section>`;
+  if(m.role!=='BEGGAR')return '';
+  const locked=busy||!role.begEnabled||m.nextActionAt>now||m.deadUntil>now||m.jailedUntil>now||m.hospitalRequired;
+  return `<section class="jc-role-skill"><span>${icon('bag')}</span><div><small>거지 전용 스킬</small><b>구걸 · 동냥</b><p>${m.begging?.endsAt>now?'이곳 사람들에게 도움을 요청하고 있습니다.':`같은 장소 사람들에게 ${number(role.begCash)}원을 부탁합니다. · 대기 ${role.begCooldownMs/1000}초`}</p></div><div class="jc-beg-actions"><button data-city-action="beg" ${locked?'disabled':''}>구걸하기</button><button data-city-action="alms" ${locked?'disabled':''}>동냥하기</button></div></section>`;
+}
+export function cityBeggingOffers(state,now,busy,icon){
+  const m=state?.mine;if(!m?.active||m.deadUntil>now||m.jailedUntil>now||m.hospitalRequired)return '';
+  const offers=(state.beggingOffers||[]).filter(o=>o.endsAt>now&&o.location===m.location);
+  return offers.map(o=>`<article class="jc-beg-toast" data-beg-offer="${esc(o.requestId)}" data-beg-until="${o.endsAt}" aria-label="${esc(o.actorName)}의 동냥"><header><span>${icon('bag')}${o.action==='beg'?'구걸':'동냥'} 중</span><small data-beg-clock>${Math.max(0,Math.ceil((o.endsAt-now)/1000))}초</small></header><p><b>${esc(o.actorName)}</b> 님이 ${o.action==='beg'?'구걸':'동냥'} 중이에요.</p><small>${number(o.cash)}원만 도와줄까?${o.mode==='TEST'?' · 테스트 현금':''}</small><footer><button data-city-donate="${esc(o.requestId)}" ${busy||m.nextActionAt>now||m.cash<o.cash?'disabled':''}>${m.cash<o.cash?'현금 부족':`준다 · ${number(o.cash)}원`}</button><button data-city-decline="${esc(o.id)}" ${busy?'disabled':''}>말까</button></footer></article>`).join('');
 }
 export function cityDeathScreen(mine,now){
   if(!(mine?.deadUntil>now))return '';

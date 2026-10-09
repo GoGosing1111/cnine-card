@@ -1,0 +1,22 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {PGlite} from '@electric-sql/pglite';
+import {citySchema} from '../functions/_jokgak_city_schema.js';
+import {defaultCitySettings} from '../shared/jokgak-city-settings-v1.mjs';
+import {newCityLife} from '../shared/jokgak-city-life-v1.mjs';
+import {cityShift} from '../shared/jokgak-city-v1.mjs';
+import {applyCityRoleUpdate,CITY_ROLES_OPERATION} from '../scripts/ops/jokgak-city-roles-20261009.mjs';
+test('approved ON settings apply once, settle old hunger before speeding up, cap existing protection and preserve both wallets',async t=>{
+ const sql=new PGlite();t.after(()=>sql.close());await sql.exec("CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TIMESTAMP);CREATE TABLE users(id BIGINT PRIMARY KEY,role TEXT,status TEXT);CREATE TABLE admin_logs(admin_id BIGINT,action_type TEXT,target_type TEXT,target_id TEXT,before_data TEXT,after_data TEXT);"+citySchema(true).join(';'));
+ const now=Date.parse('2026-10-09T13:50:00Z'),policy=defaultCitySettings();policy.mode='ON';policy.revision=4;policy.life.hungerPerHour=12;policy.life.meal.price=1234;policy.rules={moveCooldownMs:60000,targetProtectionMs:300000,rejoinCooldownMs:600000};
+ const life=newCityLife(now-3600000);life.wallets={TEST:{balance:99,initialCash:10000,openedAt:1},ON:{balance:8777,initialCash:10000,openedAt:1}};
+ for(const [key,value] of [['jokgak_city_settings_v1',JSON.stringify(policy)],['jokgak_city_role_seed_v1','isolated-ops'],['jokgak_city_life_v1:1',JSON.stringify(life)]])await sql.query('INSERT INTO app_meta(key,value) VALUES($1,$2)',[key,value]);
+ await sql.exec("INSERT INTO users VALUES(1,'OWNER','ACTIVE')");await sql.query("INSERT INTO jokgak_city_players_v1(user_id,epoch,location,health,health_at,protected_until,updated_at) VALUES(1,$1,'MARKET',100,$2,$3,$2)",[cityShift(now).id,now-3600000,now+300000]);
+ const client={query:(text,values)=>text==='SELECT current_database() db,pg_is_in_recovery() recovery'?{rows:[{db:'cnine',recovery:false}]}:text.startsWith('SELECT pg_advisory_xact_lock')?{rows:[]}:sql.query(text,values)};
+ const dry=await applyCityRoleUpdate(client,{now});assert.equal(dry.dryRun,true);assert.equal(dry.settledLifeRows,1);assert.equal((await sql.query('SELECT value FROM app_meta WHERE key=$1',['jokgak_city_life_v1:1'])).rows[0].value,JSON.stringify(life));
+ const result=await applyCityRoleUpdate(client,{apply:true,now});assert.equal(result.mode,'ON');assert.equal(result.shortenedProtections,1);
+ const saved=JSON.parse((await sql.query('SELECT value FROM app_meta WHERE key=$1',['jokgak_city_life_v1:1'])).rows[0].value);assert.equal(saved.hunger,88);assert.deepEqual(saved.wallets,life.wallets);assert.equal(saved.at,now);
+ const changed=JSON.parse((await sql.query('SELECT value FROM app_meta WHERE key=$1',['jokgak_city_settings_v1'])).rows[0].value);assert.equal(changed.life.hungerPerHour,50);assert.equal(changed.rules.targetProtectionMs,30000);assert.equal(changed.life.meal.price,1234);assert.equal(changed.rules.moveCooldownMs,60000);assert.equal(changed.rules.rejoinCooldownMs,600000);
+ assert.equal(Number((await sql.query('SELECT protected_until FROM jokgak_city_players_v1 WHERE user_id=1')).rows[0].protected_until),now+30000);
+ assert.equal((await applyCityRoleUpdate(client,{apply:true,now:now+1000})).replayed,true);assert.equal((await sql.query('SELECT COUNT(*) n FROM admin_logs')).rows[0].n,1);assert.ok((await sql.query('SELECT value FROM app_meta WHERE key=$1',[CITY_ROLES_OPERATION+':backup'])).rows[0]);
+});

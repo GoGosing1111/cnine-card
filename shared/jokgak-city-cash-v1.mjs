@@ -28,9 +28,11 @@ export function changeCityCash(life,policy,delta){
 
 // Call before activity rewards. Both wallets are persisted by the combat's
 // existing player/life CAS transaction and its single idempotent receipt.
-export function transferCityCash(actorLife,targetLife,policy,winner,actorId,targetId){
-  const rule=policy.cash?.theft||defaultCityCashPolicy().theft;
-  const receipt={currency:'CITY_CASH',unit:'원',mode:policy.mode,percent:rule.percent,maxCash:rule.maxCash,amount:0,actorChange:0,winnerId:null,loserId:null};
+export function transferCityCash(actorLife,targetLife,policy,winner,actorId,targetId,killRole=null){
+  const base=policy.cash?.theft||defaultCityCashPolicy().theft;
+  const bonus=killRole?.code==='GANG'?(killRole.killTheftBonusPercent??10):0;
+  const rule={...base,percent:Math.min(100,base.percent+bonus),maxCash:bonus?Math.max(base.maxCash,killRole.killTheftMaxCash??4000):base.maxCash};
+  const receipt={currency:'CITY_CASH',unit:'원',mode:policy.mode,percent:rule.percent,maxCash:rule.maxCash,killBonusPercent:bonus,amount:0,actorChange:0,winnerId:null,loserId:null};
   if(!rule.enabled)return {...receipt,status:'DISABLED'};
   if(winner==='DRAW')return {...receipt,status:'DRAW'};
   if(!['A','B'].includes(winner)||actorId===targetId)throw Error('CITY_CASH_BATTLE');

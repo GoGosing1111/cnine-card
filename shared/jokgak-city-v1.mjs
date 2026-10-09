@@ -1,14 +1,14 @@
 export const CITY_VERSION = '20261009-v1';
 export const CITY_SHIFT_MS = 6 * 60 * 60 * 1000;
 const KST_MS = 9 * 60 * 60 * 1000;
-export const CITY_RULES = Object.freeze({ maxHealth:100, defeatDamage:25, regenPerMinute:5, attackCooldownMs:15000, moveCooldownMs:3000, healCooldownMs:30000, inspectCooldownMs:10000, arrestMs:60000, targetProtectionMs:20000, rejoinCooldownMs:60000, pageSize:10 });
+export const CITY_RULES = Object.freeze({ maxHealth:100, defeatDamage:25, regenPerMinute:5, attackCooldownMs:15000, moveCooldownMs:3000, healCooldownMs:30000, inspectCooldownMs:10000, arrestMs:60000, targetProtectionMs:30000, rejoinCooldownMs:60000, pageSize:10 });
 export const CITY_ROLES = Object.freeze([
   {code:'CITIZEN',name:'시민',color:'#c8ff6b',icon:'person',detail:'도시를 자유롭게 이동하며 현재 PVP 편성으로 교전합니다.'},
-  {code:'BEGGAR',name:'거지',color:'#cdbfa3',icon:'bag',detail:'골목과 시장을 누비는 도시의 생존자. 이동과 교전에 참여합니다.'},
+  {code:'BEGGAR',name:'거지',color:'#cdbfa3',icon:'bag',detail:'구걸·동냥으로 같은 장소 사람들에게 현금 100원을 부탁합니다.'},
   {code:'POLICE',name:'경찰',color:'#83beff',icon:'shield',detail:'검문으로 상대 편성을 확인하고 수배자를 제압해 60초간 구금합니다.'},
   {code:'NURSE',name:'간호사',color:'#ffa8c1',icon:'cross',detail:'같은 장소의 체류자 체력 25 회복 · 재사용 30초.'},
   {code:'DOCTOR',name:'의사',color:'#7ce6d0',icon:'medical',detail:'같은 장소의 체류자 체력 50 회복 · 재사용 30초.'},
-  {code:'GANG',name:'갱단',color:'#c2a0ff',icon:'swords',detail:'도시의 세력 다툼에 뛰어듭니다. 선제공격 시 수배가 누적됩니다.'},
+  {code:'GANG',name:'갱단',color:'#c2a0ff',icon:'swords',detail:'상대 처치 시 소지 현금 20% 강탈 · 최대 4,000원.'},
   {code:'VANDAL',name:'반달',color:'#ffb282',icon:'bolt',detail:'거리의 교전에 참여합니다. 수배 상태에서는 경찰의 체포 대상입니다.'}
 ]);
 export const CITY_PLACES = Object.freeze([

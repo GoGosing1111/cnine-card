@@ -1,0 +1,13 @@
+{
+  "checks": [
+    "1440: OFF is exclusive, survives tab changes, saves exactly and reloads",
+    "1440: TEST is exclusive, survives tab changes, saves exactly and reloads",
+    "1440: ON is exclusive, survives tab changes, saves exactly and reloads",
+    "1440: unsaved TEST selection leaves the persisted ON policy unchanged",
+    "390: OFF is exclusive, survives tab changes, saves exactly and reloads",
+    "390: TEST is exclusive, survives tab changes, saves exactly and reloads",
+    "390: ON is exclusive, survives tab changes, saves exactly and reloads",
+    "390: unsaved TEST selection leaves the persisted ON policy unchanged"
+  ],
+  "errors": []
+}

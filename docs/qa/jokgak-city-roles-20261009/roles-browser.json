@@ -1,0 +1,22 @@
+{
+  "checks": [
+    "1440: beggar has both skills and a shared cooldown",
+    "1440: small donation prompt stays inside the bottom-right map corner",
+    "1440: Give moves 100 won, updates profile and removes the request",
+    "1440: decline closes the request without spending",
+    "1440: server deadline removes expired prompts",
+    "1440: losing attacker sees 25 HP loss, remaining 75 and an updated profile",
+    "1440: gang profile shows kill-only 20% / 4,000 won",
+    "1440: CMS beggar and gang settings load and save",
+    "390: beggar has both skills and a shared cooldown",
+    "390: small donation prompt stays inside the bottom-right map corner",
+    "390: Give moves 100 won, updates profile and removes the request",
+    "390: decline closes the request without spending",
+    "390: server deadline removes expired prompts",
+    "390: losing attacker sees 25 HP loss, remaining 75 and an updated profile",
+    "390: gang profile shows kill-only 20% / 4,000 won",
+    "390: CMS beggar and gang settings load and save"
+  ],
+  "errors": [],
+  "battlePlayback": "stubbed; actual city action handler and wallets"
+}
