@@ -1,0 +1,50 @@
+{
+  "source": "8d05790677ff391a7ad059b8903cefc8c44c932c",
+  "implementationCommit": "cb41b153",
+  "pages": "https://906fc7d3.cnine-card.pages.dev",
+  "apiRuntime": "4ebabb59-b0d3-46b2-8211-ab5f12251390",
+  "clanDraft": "063bcc5b-fba8-4046-a184-7dab225d1326",
+  "checkedAt": "2026-10-09T11:20:50.358Z",
+  "command": "npm run deploy:production -- --scoped",
+  "base": "e6e6a2d4e3cfbb922e205ab73df7435feb1d5d7d",
+  "serverTests": {
+    "initial": {
+      "total": 49,
+      "passed": 49
+    },
+    "releaseFirst": {
+      "total": 49,
+      "passed": 48,
+      "failed": 1,
+      "reason": "Static wiring test still expected cms1 after life1 cache refresh; no functional failures"
+    },
+    "releaseFinal": {
+      "file": "tests/jokgak-city-cms-20261009.test.mjs",
+      "total": 18,
+      "passed": 18,
+      "failed": 0,
+      "unchangedPassingSuitesNotRepeated": [
+        "tests/jokgak-city-20261009.test.mjs",
+        "tests/jokgak-city-life-20261009.test.mjs"
+      ]
+    }
+  },
+  "browser": {
+    "life": 14,
+    "cms": 12,
+    "preview": 22,
+    "exceptions": 0
+  },
+  "productionMode": "TEST",
+  "realAccountActions": 0,
+  "logs": [
+    {
+      "file": "production-scoped.log",
+      "sha256": "d9668a1a22daa6af135095369fb04a2804db62b5d9f5ef26eac8cb59280cd8df"
+    },
+    {
+      "file": "production-scoped-final.log",
+      "sha256": "7f9e5d743f2924c2676a4b6af01a748f9ccd9368d7bb099ba69f44015f3cbcf5"
+    }
+  ]
+}

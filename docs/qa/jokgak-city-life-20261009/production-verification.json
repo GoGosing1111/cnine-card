@@ -1,0 +1,144 @@
+{
+  "checkedAt": "2026-10-09T11:20:50.358Z",
+  "source": "8d05790677ff391a7ad059b8903cefc8c44c932c",
+  "origin": "https://cnine-card.pages.dev",
+  "productionPolicy": {
+    "mode": "TEST",
+    "revision": 1,
+    "testUserCount": 0,
+    "rewardsEnabled": false,
+    "configuredRewardRows": 0,
+    "roleCount": 7,
+    "legacyEnabled": false,
+    "life": {
+      "hungerPerHour": 12,
+      "wellnessPerHour": 6,
+      "starvingWellnessPerHour": 24,
+      "hospitalThreshold": 25,
+      "serviceCooldownMs": 5000,
+      "meal": {
+        "enabled": true,
+        "price": 1000,
+        "hunger": 60,
+        "wellness": 10
+      },
+      "treatment": {
+        "enabled": true,
+        "price": 2000,
+        "health": 100,
+        "wellness": 100
+      },
+      "supplies": [
+        {
+          "code": "LUNCHBOX",
+          "enabled": true,
+          "price": 1500,
+          "hunger": 35,
+          "wellness": 0,
+          "health": 0
+        },
+        {
+          "code": "VITAMIN",
+          "enabled": true,
+          "price": 1500,
+          "hunger": 0,
+          "wellness": 25,
+          "health": 0
+        },
+        {
+          "code": "FIRST_AID",
+          "enabled": true,
+          "price": 2000,
+          "hunger": 0,
+          "wellness": 0,
+          "health": 40
+        }
+      ]
+    }
+  },
+  "assets": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "088b2a9e5d78a6c40bd57de57dc812cd55ab8eff5aecfa11ed9575500e35a3f6"
+    },
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "sha256": "018304b018d96833c45494306895785482b0bece99ab3b96d5883907f25aea3a"
+    },
+    {
+      "file": "admin/jokgak-city-admin-v1.mjs",
+      "status": 200,
+      "sha256": "575640497dcfa4b993003883fdc6845c3366f463449f2cce6812984afe2191dc"
+    },
+    {
+      "file": "admin/jokgak-city-admin-v1.css",
+      "status": 200,
+      "sha256": "541132df455cea78d69832c4925bffdfe0199db15be33d13deee7833a7011faa"
+    },
+    {
+      "file": "shared/jokgak-city-settings-v1.mjs",
+      "status": 200,
+      "sha256": "d02b8a66e8f5f0470328b36d46af6e09f0d33d7e7d6655be8eb2a5f9effeb2e9"
+    },
+    {
+      "file": "shared/jokgak-city-v1.mjs",
+      "status": 200,
+      "sha256": "a3d320c3cf7a8924b2c555402c9d54a6bfbdcedff2c9b3b039069cb4c3e027af"
+    },
+    {
+      "file": "js/jokgak-city-v1.js",
+      "status": 200,
+      "sha256": "eed296d2788e04bf28dbbc0ce1c6ba6fad818581a2991f749980d000572f186b"
+    },
+    {
+      "file": "js/adventure-navigation-standalone.js",
+      "status": 200,
+      "sha256": "84d50eb55e9d64b1d34194d71470ba22275cab10984fcc1233167511a2d38c91"
+    },
+    {
+      "file": "js/jokgak-city-life-ui-v1.mjs",
+      "status": 200,
+      "sha256": "6220e30b92b4fa4a099b4c2d4306c03fd742da6d308de98c13fca2ab0d9e8200"
+    },
+    {
+      "file": "shared/jokgak-city-life-v1.mjs",
+      "status": 200,
+      "sha256": "0d33232516207a6ecee48237ebe7dee9f895f84b8d0d85827bde8a8786ce5cc2"
+    },
+    {
+      "file": "css/jokgak-city-v1.css",
+      "status": 200,
+      "sha256": "492f37f3d1e78f55e1736365d329a353a34c7193274ff383cc9b32c7e751608e"
+    },
+    {
+      "file": "preview/jokgak-city-v1/index.html",
+      "status": 200,
+      "sha256": "10cfdd45e8465dceddd6e5685657113e9a9e4f8e9e38172c019fea0601bbc0e9"
+    },
+    {
+      "file": "preview/jokgak-city-v1/preview.mjs",
+      "status": 200,
+      "sha256": "57a8f28d3702ee024c4520b9759cd46b9fb9856e828645b434ed5fddf95bc2f3"
+    }
+  ],
+  "routes": [
+    {
+      "route": "jokgak-city/status",
+      "unauthenticatedStatus": 401
+    },
+    {
+      "route": "admin/jokgak-city",
+      "unauthenticatedStatus": 401
+    }
+  ],
+  "publicPreview": {
+    "places": 10,
+    "medicalAction": true,
+    "deathScreen": true,
+    "errors": []
+  },
+  "realAccountActions": 0,
+  "accountBalancesChanged": false
+}
