@@ -1,0 +1,87 @@
+{
+  "operationKey": "ops:hope-pubg-chicken:verified-coin:20261010:v1",
+  "title": "희망조 배그 치킨 미션 기념",
+  "authorization": "2차인증 전체유저 1조코인 지급 희망조 배그 치킨 미션 기념",
+  "delivery": "DIRECT",
+  "coinPerRecipient": "1000000000000",
+  "recipientCount": 546,
+  "totalCoin": "546000000000000",
+  "recipientHash": "abab4fe30b9c9e692e379b122873e3622fe0102499921d62027769140762d813",
+  "eligibility": "ACTIVE accounts in user_second_verifications; all verified USER, ADMIN and OWNER accounts",
+  "roleCounts": {
+    "OWNER": 2,
+    "USER": 542,
+    "ADMIN": 2
+  },
+  "providerCounts": {
+    "PLAYDK": 545,
+    "WAGO": 1
+  },
+  "excludedBanned": 1,
+  "inspectedAt": "2026-10-09T20:26:56.051Z",
+  "status": "COMPLETED",
+  "planHash": "5fea0529cc4b22a50e98a56bc0a9050dc0213dec830dcdda4872a796c66e62c3",
+  "completedAt": "2026-10-09T20:28:24.505Z",
+  "completedAtKst": "2026-10-10 05:28:24 KST",
+  "adminLogId": "43480",
+  "operationScript": "scripts/ops/hope-pubg-chicken-coin-20261010.mjs",
+  "scriptSha256": "3b76c2e364f014d92ec331e72054c4fabed3ee59bbb1f8008a56e11e90f8bb41",
+  "receiptLocation": {
+    "table": "app_meta",
+    "key": "ops:hope-pubg-chicken:verified-coin:20261010:v1"
+  },
+  "validation": {
+    "dryRun": {
+      "operationKey": "ops:hope-pubg-chicken:verified-coin:20261010:v1",
+      "planHash": "5fea0529cc4b22a50e98a56bc0a9050dc0213dec830dcdda4872a796c66e62c3",
+      "status": "DRY_RUN_ROLLED_BACK",
+      "completedAt": "2026-10-09T20:28:13.771Z",
+      "replayed": false,
+      "adminLogId": "43479",
+      "recipients": 546,
+      "coinLogs": 546,
+      "adminLogs": 1,
+      "missing": 0,
+      "duplicates": 0,
+      "totalCoin": "546000000000000",
+      "partialFailureRolledBack": true,
+      "replayVerified": true,
+      "replayPerformedNoWrites": true,
+      "balancesRestored": true,
+      "logsRolledBack": true,
+      "elapsedMs": 6992
+    },
+    "applied": {
+      "operationKey": "ops:hope-pubg-chicken:verified-coin:20261010:v1",
+      "planHash": "5fea0529cc4b22a50e98a56bc0a9050dc0213dec830dcdda4872a796c66e62c3",
+      "status": "COMPLETED",
+      "completedAt": "2026-10-09T20:28:24.505Z",
+      "replayed": false,
+      "adminLogId": "43480",
+      "recipients": 546,
+      "coinLogs": 546,
+      "adminLogs": 1,
+      "missing": 0,
+      "duplicates": 0,
+      "totalCoin": "546000000000000",
+      "elapsedMs": 4766
+    },
+    "postCommit": {
+      "operationKey": "ops:hope-pubg-chicken:verified-coin:20261010:v1",
+      "planHash": "5fea0529cc4b22a50e98a56bc0a9050dc0213dec830dcdda4872a796c66e62c3",
+      "status": "COMPLETED",
+      "completedAt": "2026-10-09T20:28:24.505Z",
+      "replayed": true,
+      "adminLogId": "43480",
+      "recipients": 546,
+      "coinLogs": 546,
+      "adminLogs": 1,
+      "missing": 0,
+      "duplicates": 0,
+      "totalCoin": "546000000000000",
+      "elapsedMs": 3823
+    },
+    "scope": "일회성 운영 코인 지급. 인증된 정상 계정 전원, 정확한 코인 증분, 실패 전체 롤백, 재실행 중복 방지 및 별도 읽기 전용 연결의 확정 원장 검증. 게임 런타임 변경이나 재배포 없음."
+  },
+  "privacy": "개인별 닉네임·외부 인증 식별자·잔액·원장 목록은 Git에 기록하지 않으며 운영 완료 영수증과 로컬 증빙에 보존한다."
+}
