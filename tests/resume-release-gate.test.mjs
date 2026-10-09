@@ -25,6 +25,17 @@ test('full gate resumes a proven prefix and retains failed, remaining and final 
   assert.match(plan.commands[0],/resume-release-gate\.test\.mjs/);
 });
 
+test('only an equivalent main asset query permutation retains backend passes and rechecks HTML contracts',()=>{
+  const f=fixture({changed:['index.html']}),before='<script src="js/app.js?city=1&amp;v=20261009"></script>',after='<script src="js/app.js?v=20261009&amp;city=1"></script>';
+  const git=f.git;f.git=(...a)=>a[0]==='show'&&a[1]===base+':index.html'?before:git(...a);
+  f.read=p=>p==='index.html'?after:'';
+  assert.equal(fullGateResumePlan(f).reused,1);
+  assert.equal(fullGateResumePlan({...f,read:p=>p==='tests/a.test.mjs'?"read('index.html')":f.read(p)}).reused,0);
+  for(const invalid of [after.replace('city=1','city=2'),after.replace('app.js','other.js'),after+'<script>run()</script>',after.replace('city=1','city=1&amp;extra=1')]){
+    assert.throws(()=>fullGateResumePlan({...f,read:p=>p==='index.html'?invalid:''}),/fresh full gate/);
+  }
+});
+
 test('isolated lobby menu/icon rebuild must exactly replace source blocks and rerun source integrity',()=>{
  const bundle='js/adventure-lobby-v2107.js',icons='ui/adventure-lobby/icons.js',app='preview/lobby-clarity-v1/app.js';
  const f=fixture({changed:[bundle,icons,app]});

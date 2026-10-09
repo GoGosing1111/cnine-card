@@ -14,6 +14,18 @@ const offlineSkillPreview=new Set([
 ]);
 const limitedPackView='js/mercenary-limited-pack-live.mjs';
 const limitedPackBrowser='tests/mercenary-limited-shop-20261006.browser.mjs';
+function mainCacheQueryOrderOnly(before,after){
+  const normalize=text=>{
+    let count=0;
+    const source=text.replace(/\r\n/g,'\n').replace(/(\bsrc=")(js\/app\.js\?[^"\s]+)(")/g,(_,start,src,end)=>{
+      count++;const url=new URL(src.replaceAll('&amp;','&'),'https://cache.invalid/');url.searchParams.sort();
+      return start+url.pathname+url.search+end;
+    });
+    return {source,count};
+  };
+  const a=normalize(before),b=normalize(after);
+  return a.count===1&&b.count===1&&a.source===b.source;
+}
 export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileSync(path,'utf8'),readBytes=path=>readFileSync(path)}){
   const base=env.RELEASE_GATE_RESUME_BASE;
   if(!/^[a-f0-9]{40}$/.test(base||''))throw Error('Resume requires the original candidate SHA.');
@@ -28,6 +40,9 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
   const commands=gate.split(' && '),names=commands.map(command=>command.match(/^npm run ([\w:-]+)$/)?.[1]);
   if(commands.at(-1)!=='node scripts/verify-production-release.mjs'||names.slice(0,-1).some(name=>!name))throw Error('Unsupported full gate structure.');
   const changed=git('diff','--name-only',base,'HEAD').split('\n').filter(Boolean),bgmAdditions=new Set();
+  // A static asset URL with exactly the same parameters can be reordered to
+  // preserve existing cache-tag contracts without invalidating backend tests.
+  const cacheOrderOnly=changed.includes('index.html')&&mainCacheQueryOrderOnly(git('show',`${base}:index.html`),read('index.html'));
   // A concurrent, additive audio upload cannot change game execution. Keep its
   // exact source bytes and paired, unreferenced receipt bound to their hash.
   for(const path of changed.filter(path=>/^assets\/bgm\/[a-z0-9-]+\.mp3$/.test(path))){
@@ -85,6 +100,12 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
     &&String(env.RELEASE_GATE_RESUME_REASON||'').trim().length>=20;
   if(/^ℹ fail [1-9]/m.test(prefix)||(!failed&&!interrupted&&!sourceGuardBlocked))throw Error('Resume requires a failed or explicitly interrupted final stage, or the exact completed source-identity guard.');
   const rerun=new Set(),operationTests=new Set();
+  if(cacheOrderOnly&&(!changesAfterLastRun||changesAfterLastRun.has('index.html'))){
+    for(let i=0;i<failedIndex;i++){
+      const inputs=scripts[names[i]].split(/\s+/).filter(p=>/^(?:tests|preview)\/.*\.(?:mjs|js)$/.test(p));
+      if(inputs.some(input=>read(input).includes('index.html')))rerun.add(i);
+    }
+  }
   // Another task may append its deployment receipt while this gate is running.
   // Treat only unreferenced JSON QA receipts as documentation; runtime manifests,
   // executable preview files and referenced configuration still require a new gate.
@@ -172,6 +193,7 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
     if(stage<failedIndex&&(!changesAfterLastRun||[...lobbySources,bundle].some(path=>changesAfterLastRun.has(path))))rerun.add(stage);
   }
   for(const path of changed){
+    if(path==='index.html'&&cacheOrderOnly)continue;
     if(path==='AGENTS.md'||path.startsWith('docs/')||path==='preview/project-v-mercenary-system-v1/README.md'||tooling.has(path))continue;
     if(bgmAdditions.has(path))continue;
     if(qaReceipts.includes(path))continue;
