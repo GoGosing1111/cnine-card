@@ -146,7 +146,7 @@ test('preview bundle includes the latest canonical engine and playback, with no 
 
 test('pausing longer than the bullet-drain timeout resumes safely, but an active stall still fails',async()=>{
   const source=fs.readFileSync('preview/sustained-hunt-v2/source/HuntBattleEngine.js','utf8').replace(/^import .*;$/gm,'').replace('export class BattleEngine','class BattleEngine');
-  let clock=0;const callbacks=[],context={ScrapyardEngine:class{},performance:{now:()=>clock},setTimeout:fn=>callbacks.push(fn)};
+  let clock=0;const callbacks=[],context={ScrapyardEngine:class{},BattleAnimation:class{},performance:{now:()=>clock},setTimeout:fn=>callbacks.push(fn)};
   vm.runInNewContext(source+'\nthis.HuntEngine=BattleEngine;',context);
   const engine=Object.create(context.HuntEngine.prototype);
   const run={active:true};Object.assign(engine,{playbackEpoch:1,accountBattleUnitFireRun:run,accountBattleUnitDamageQueue:[{}],huntPaused:true});

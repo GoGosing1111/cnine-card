@@ -116,7 +116,7 @@ test('every difficulty includes its boss within 15 minutes; strong accounts cann
 
 test('final-boss despawn drains old hits and retires the exact generation without a knockout',async()=>{
   const source=fs.readFileSync('preview/sustained-hunt-v2/source/HuntBattleEngine.js','utf8').replace(/^import .*;$/gm,'').replace('export class BattleEngine','class BattleEngine');
-  const Engine=vm.runInNewContext(source+';BattleEngine',{ScrapyardEngine:class{}}),engine=new Engine(),actor={id:'B:4:ENCOUNTER:OLD',root:{visible:true},setHp(value){this.hp=value;}};
+  const Engine=vm.runInNewContext(source+';BattleEngine',{ScrapyardEngine:class{},BattleAnimation:class{}}),engine=new Engine(),actor={id:'B:4:ENCOUNTER:OLD',root:{visible:true},setHp(value){this.hp=value;}};
   let drains=0,settled=0;
   Object.assign(engine,{playbackEpoch:1,visible:true,skillChipPlayback:{clock:{time:900}},retiredIds:new Set(),drainGeneration:async()=>{drains++;},combatantById:id=>id===actor.id?actor:null,settlePendingTails:()=>settled++});
   assert.equal(await engine.playEvents([{type:'ENEMY_DESPAWN',combatAtMs:900000,targetId:actor.id}],{timedInternal:true}),true);
@@ -130,7 +130,7 @@ test('hunt keeps animations and the combat clock at 1x even after delayed event 
   class Parent {
     async playEvents(events,options){forwarded.push({events,options,speed:this.previewSpeed,pace:this.paceScale,clock:this.combatClockRate});return true;}
   }
-  const Engine=vm.runInNewContext(source+';BattleEngine',{ScrapyardEngine:Parent}),engine=new Engine();
+  const Engine=vm.runInNewContext(source+';BattleEngine',{ScrapyardEngine:Parent,BattleAnimation:class{}}),engine=new Engine();
   assert.equal(engine.previewSpeed,1);assert.equal(engine.paceScale,1);assert.equal(engine.combatClockRate,1);
   for(const time of [0,60,899]){
     engine.skillChipPlayback={clock:{time}};
