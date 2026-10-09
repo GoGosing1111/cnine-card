@@ -1,0 +1,16 @@
+{
+  "operation": "ops:jokgak-city-roles:20261009:v1",
+  "at": "2026-10-09T14:22:50.018Z",
+  "mode": "ON",
+  "revision": 8,
+  "hungerPerHour": 50,
+  "targetProtectionMs": 30000,
+  "begCash": 100,
+  "gangKillBonusPercent": 10,
+  "gangKillMaxCash": 4000,
+  "settledLifeRows": 81,
+  "shortenedProtections": 36,
+  "accountCashChanged": false,
+  "otherSettingsPreserved": true,
+  "dryRun": false
+}

@@ -1,0 +1,107 @@
+{
+  "at": "2026-10-09T14:23:37.137Z",
+  "base": "https://cnine-card.pages.dev",
+  "commit": "402a6aad188c57ab5ea10b9170322e95c71481ea",
+  "files": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "b949ac930d3baeaa2015fd74c7a16e19af61ff412a2046506ddedbe2c2f6e137"
+    },
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "sha256": "ca1c86852b8663c7d9e6985248ede22b49972c6264e3048c89892053481570ee"
+    },
+    {
+      "file": "admin/jokgak-city-admin-v1.mjs",
+      "status": 200,
+      "sha256": "f41280742711f24629850b70ec2032a2fa70c94b4b227032f93faebb27446b37"
+    },
+    {
+      "file": "js/jokgak-city-v1.js",
+      "status": 200,
+      "sha256": "a569d42b223299eff8ac27baa8fcfbf27f6c1a8eceaaa1edc0c22d8393f15926"
+    },
+    {
+      "file": "js/jokgak-city-life-ui-v1.mjs",
+      "status": 200,
+      "sha256": "a13a67c80c95d2078e32dbaee0138403f4c38b2a3e4baba6a7163383477ea2bc"
+    },
+    {
+      "file": "css/jokgak-city-v1.css",
+      "status": 200,
+      "sha256": "51c628844e84470649557c102b6f345c277eb7f6a33150a07e77190f7cbcdbcc"
+    },
+    {
+      "file": "shared/jokgak-city-settings-v1.mjs",
+      "status": 200,
+      "sha256": "201bf006c8bce5a35a9a8601b9062ebe6f3f8f18552413a7c351aa419e2cb35a"
+    },
+    {
+      "file": "shared/jokgak-city-life-v1.mjs",
+      "status": 200,
+      "sha256": "7ff3dc67b81516d3ff40baf5900bd90d835416ed579ef05858a6da8639601f2e"
+    },
+    {
+      "file": "shared/jokgak-city-cash-v1.mjs",
+      "status": 200,
+      "sha256": "a2f4f3662311d16fa1e5f5a5e55cbe4046ea0db204477e4659d3720868cb9c25"
+    },
+    {
+      "file": "preview/jokgak-city-v1/preview.mjs",
+      "status": 200,
+      "sha256": "9c5ddb02c20061e1386c8d9c861080e9030b516fa881dd7516478b8ebd11a812"
+    }
+  ],
+  "errors": [],
+  "policy": {
+    "mode": "ON",
+    "revision": 8,
+    "rules": {
+      "moveCooldownMs": 60000,
+      "targetProtectionMs": 30000,
+      "rejoinCooldownMs": 600000
+    },
+    "hungerPerHour": 50,
+    "cash": {
+      "startingCash": 10000,
+      "theft": {
+        "enabled": true,
+        "percent": 10,
+        "maxCash": 2000
+      }
+    },
+    "roleRewardsEnabled": false,
+    "beggar": {
+      "enabled": true,
+      "cash": 100,
+      "cooldownMs": 60000,
+      "durationMs": 30000
+    },
+    "gang": {
+      "killBonusPercent": 10,
+      "killMaxCash": 4000
+    }
+  },
+  "operation": {
+    "operation": "ops:jokgak-city-roles:20261009:v1",
+    "at": "2026-10-09T14:22:50.018Z",
+    "mode": "ON",
+    "revision": 8,
+    "hungerPerHour": 50,
+    "targetProtectionMs": 30000,
+    "begCash": 100,
+    "gangKillBonusPercent": 10,
+    "gangKillMaxCash": 4000,
+    "settledLifeRows": 81,
+    "shortenedProtections": 36,
+    "accountCashChanged": false,
+    "otherSettingsPreserved": true
+  },
+  "api": {
+    "unauthStatus": 401,
+    "runtime": "regional-v1"
+  },
+  "preview": "isolated public preview: map prompt, 100 won transfer, profile update"
+}
