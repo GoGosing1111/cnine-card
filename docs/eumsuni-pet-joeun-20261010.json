@@ -1,0 +1,43 @@
+{
+  "status": "VERIFIED",
+  "receipt": {
+    "ok": true,
+    "requestId": "ops_eumsuni_pet_joeun_20261010_v1",
+    "adminId": 1,
+    "target": {
+      "id": 65,
+      "nickname": "음순이"
+    },
+    "pet": {
+      "code": "PET-JOEUN",
+      "name": "조은",
+      "sourceArt": "assets/ui/pets/gugugaga/pet-joeun-gugugaga-nametag-v2.png"
+    },
+    "quantity": 1,
+    "reason": "사용자 요청: 음순이 계정에 조은 펫 1마리 지급",
+    "before": 0,
+    "after": 1,
+    "collectionRevision": 3,
+    "grantedAt": "2026-10-09T21:27:12.074Z",
+    "replayed": false
+  },
+  "adminLogId": "43489",
+  "currentQuantity": 1,
+  "auditCount": 1,
+  "verifiedAt": "2026-10-09T21:27:28.348Z",
+  "authorization": "음순이 계정에 펫 조은 지급해",
+  "sourceCommit": "c15acac781a42df49ed378528be5d353a13f17f9",
+  "grantFunction": "functions/_pet_grants.js:grantPet",
+  "checks": {
+    "exactAccountAndPetConfirmed": true,
+    "liveUserLock": true,
+    "fallbackDatabaseLease": true,
+    "atomicGrantLogAndReceipt": true,
+    "dryRunStateRestored": true,
+    "replayVerified": true,
+    "otherStatePreserved": true,
+    "independentReadback": true
+  },
+  "runtimeCodeChanged": false,
+  "siteRedeployed": false
+}
