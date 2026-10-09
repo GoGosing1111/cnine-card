@@ -17,3 +17,10 @@
 - 새 배민권 서버 검사는 위에서 완료했으므로 배포에서 반복하지 않는다. 기존 공유 발급 경로 영향은 `tests/coupon-reward-cap-v1997.test.mjs`, `tests/miracle-cube-coupon-20261004.test.mjs`를 배포 시 한 번 검사한다.
 - 명령 `npm run deploy:production -- --scoped`, 위 두 파일을 `SCOPED_DEPLOY_TESTS`로 지정하고 `SCOPED_DEPLOY_CHECKS=[]`. Worker 문법·깨끗한 커밋·출시·캐시·Hyperdrive 보호 검사를 유지한다.
 - CMS HTML/스크립트의 쿠폰 표시는 `chickenCoupon=20261009`, 치킨 설정 JS/CSS는 `20261009-coupon`으로 갱신했다. 실제 운영 쿠폰을 시험 발행·수령하지 않는다.
+
+## 운영 완료
+
+- 코드 `572b2a9e63b46a583a37ea888ca9b9bed825ff85`. 배민권 검사 7개와 공유 쿠폰 회귀 13개, Worker 문법·출시·캐시·Hyperdrive 검사 통과.
+- 지정 scoped 명령으로 1회 배포: Pages `https://ec94fcfa.cnine-card.pages.dev`, API runtime `dc9b7497-0938-4fcd-9a1a-45ed1a13cd95`, clan-draft `1a6e9f4b-ff9b-45ff-a0b4-dda9fd3b23a6`.
+- 운영 기본 주소의 CMS HTML·쿠폰 스크립트 2개·치킨 설정 JS/CSS가 출시 소스와 동일한 SHA-256임을 확인했다. 치킨 feature 조회도 200이며 저장된 기간·PAUSED 상태를 읽기만 했다.
+- 증거: `docs/qa/chicken-coupon-20261009/production-report.json`. 운영 쿠폰 시험 발급 0건·등록 수령 0건.

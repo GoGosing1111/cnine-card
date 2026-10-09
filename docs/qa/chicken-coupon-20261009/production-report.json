@@ -1,0 +1,60 @@
+{
+  "verifiedAt": "2026-10-09T09:19:47.679Z",
+  "sourceCommit": "572b2a9e63b46a583a37ea888ca9b9bed825ff85",
+  "productionUrl": "https://cnine-card.pages.dev/admin/",
+  "productionFiles": [
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "sha256": "7f33c68009e3fafa888478a978a1d9dfb55281a0f3847bbb9650d6e2ebeeb80a"
+    },
+    {
+      "file": "admin/admin-v1276.js",
+      "status": 200,
+      "sha256": "d29c2a8bb8cb2725aa7f06f615dc3a805f441ef69751cb57296185eacd5b9363"
+    },
+    {
+      "file": "admin/admin-v1062-coupon-bulk-delete.js",
+      "status": 200,
+      "sha256": "88b98414b60e8045b6c71a9d7a6e8f3cf36e260ad5638dcdc02d2fc4124c55f3"
+    },
+    {
+      "file": "admin/chicken-event-v1.js",
+      "status": 200,
+      "sha256": "a34fd67a4a918764aadd206da214bd724a1fc2fc69bfe554ff981638ab64d1ee"
+    },
+    {
+      "file": "admin/chicken-event-v1.css",
+      "status": 200,
+      "sha256": "836362028597a25a06181c5ce7dd0232dc7348b14806d78299e0818522185c0c"
+    }
+  ],
+  "chickenFeature": {
+    "visible": true,
+    "name": "철구네 치킨",
+    "phase": "PAUSED",
+    "startsAt": "2026-10-08T13:00:00.000Z",
+    "endsAt": "2026-10-13T14:00:00.000Z"
+  },
+  "serverTests": {
+    "baemin": 7,
+    "existingCouponRegressions": 13,
+    "failed": 0
+  },
+  "browser": {
+    "viewports": [
+      "1440x1000",
+      "390x844"
+    ],
+    "errors": 0,
+    "report": "docs/qa/chicken-coupon-20261009/browser-report.json"
+  },
+  "deploymentCommand": "npm run deploy:production -- --scoped",
+  "previousProductionCommit": "9cae9ed0cf8474fd6ce3d360381b45bfa585dc88",
+  "liveCouponsIssued": 0,
+  "liveCouponRedemptions": 0,
+  "deploymentExitCode": 0,
+  "pagesUrl": "https://ec94fcfa.cnine-card.pages.dev",
+  "apiRuntimeVersion": "dc9b7497-0938-4fcd-9a1a-45ed1a13cd95",
+  "clanDraftVersion": "1a6e9f4b-ff9b-45ff-a0b4-dda9fd3b23a6"
+}
