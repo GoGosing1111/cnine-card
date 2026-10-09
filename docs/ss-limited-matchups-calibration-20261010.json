@@ -1,0 +1,1402 @@
+{
+  "scope": "CALIBRATION_ONLY_NOT_FINAL_VALIDATION",
+  "seedStrategy": "SHA256_PER_OPPONENT_FORMATION_SIDE_INDEX",
+  "count": 48,
+  "start": 240001,
+  "firstSharedSeedPass": {
+    "status": "FAILED_TARGETS",
+    "reason": "Legacy helper reused seed streams across formations; independent strata adopted before fresh calibration and holdout",
+    "rows": [
+      {
+        "code": "V-990",
+        "opponents": [
+          {
+            "code": "V-021",
+            "winRate": 0.5977678571428572,
+            "withinTarget": true
+          },
+          {
+            "code": "V-046",
+            "winRate": 0.6059151785714286,
+            "withinTarget": false
+          },
+          {
+            "code": "V-049",
+            "winRate": 0.5613839285714286,
+            "withinTarget": false
+          },
+          {
+            "code": "V-055",
+            "winRate": 0.4993303571428571,
+            "withinTarget": false
+          }
+        ]
+      },
+      {
+        "code": "V-991",
+        "opponents": [
+          {
+            "code": "V-021",
+            "winRate": 0.5953125,
+            "withinTarget": true
+          },
+          {
+            "code": "V-046",
+            "winRate": 0.5922991071428572,
+            "withinTarget": true
+          },
+          {
+            "code": "V-049",
+            "winRate": 0.5614955357142857,
+            "withinTarget": false
+          },
+          {
+            "code": "V-055",
+            "winRate": 0.5001116071428572,
+            "withinTarget": true
+          }
+        ]
+      },
+      {
+        "code": "V-994",
+        "opponents": [
+          {
+            "code": "V-021",
+            "winRate": 0.5953125,
+            "withinTarget": true
+          },
+          {
+            "code": "V-046",
+            "winRate": 0.5922991071428572,
+            "withinTarget": true
+          },
+          {
+            "code": "V-049",
+            "winRate": 0.5614955357142857,
+            "withinTarget": false
+          },
+          {
+            "code": "V-055",
+            "winRate": 0.5001116071428572,
+            "withinTarget": true
+          }
+        ]
+      },
+      {
+        "code": "V-992",
+        "opponents": [
+          {
+            "code": "V-021",
+            "winRate": 0.6113839285714285,
+            "withinTarget": false
+          },
+          {
+            "code": "V-046",
+            "winRate": 0.5878348214285715,
+            "withinTarget": true
+          },
+          {
+            "code": "V-049",
+            "winRate": 0.5671875,
+            "withinTarget": false
+          },
+          {
+            "code": "V-055",
+            "winRate": 0.5116071428571428,
+            "withinTarget": true
+          }
+        ]
+      },
+      {
+        "code": "V-993",
+        "opponents": [
+          {
+            "code": "V-021",
+            "winRate": 0.5657366071428571,
+            "withinTarget": true
+          },
+          {
+            "code": "V-046",
+            "winRate": 0.5890625,
+            "withinTarget": true
+          },
+          {
+            "code": "V-049",
+            "winRate": 0.5481026785714286,
+            "withinTarget": true
+          },
+          {
+            "code": "V-055",
+            "winRate": 0.49720982142857145,
+            "withinTarget": false
+          }
+        ]
+      },
+      {
+        "code": "V-997",
+        "opponents": [
+          {
+            "code": "V-021",
+            "winRate": 0.5727678571428572,
+            "withinTarget": true
+          },
+          {
+            "code": "V-046",
+            "winRate": 0.5790178571428571,
+            "withinTarget": true
+          },
+          {
+            "code": "V-049",
+            "winRate": 0.5345982142857143,
+            "withinTarget": true
+          },
+          {
+            "code": "V-055",
+            "winRate": 0.4924107142857143,
+            "withinTarget": false
+          }
+        ]
+      },
+      {
+        "code": "V-998",
+        "opponents": [
+          {
+            "code": "V-021",
+            "winRate": 0.596875,
+            "withinTarget": true
+          },
+          {
+            "code": "V-046",
+            "winRate": 0.5830357142857143,
+            "withinTarget": true
+          },
+          {
+            "code": "V-049",
+            "winRate": 0.5465401785714286,
+            "withinTarget": true
+          },
+          {
+            "code": "V-055",
+            "winRate": 0.5106026785714286,
+            "withinTarget": true
+          }
+        ]
+      }
+    ]
+  },
+  "rows": [
+    {
+      "code": "V-990",
+      "count": 48,
+      "start": 240001,
+      "scales": {
+        "V-021": 0.9342,
+        "V-046": 1.1734,
+        "V-049": 1.273,
+        "V-055": 0.8851
+      },
+      "calibration": [
+        {
+          "opponent": "V-021",
+          "name": "오메가-X",
+          "target": 0.575,
+          "chosen": {
+            "factor": 0.9342,
+            "winRate": 0.5723214285714285,
+            "wins": 1923,
+            "total": 3360,
+            "elapsedMs": 3896
+          },
+          "trials": [
+            {
+              "factor": 0.952,
+              "winRate": 0.587202380952381,
+              "wins": 1973,
+              "total": 3360,
+              "elapsedMs": 5393
+            },
+            {
+              "factor": 0.8806,
+              "winRate": 0.5157738095238096,
+              "wins": 1733,
+              "total": 3360,
+              "elapsedMs": 5163
+            },
+            {
+              "factor": 0.9163,
+              "winRate": 0.5502976190476191,
+              "wins": 1849,
+              "total": 3360,
+              "elapsedMs": 4168
+            },
+            {
+              "factor": 0.9342,
+              "winRate": 0.5723214285714285,
+              "wins": 1923,
+              "total": 3360,
+              "elapsedMs": 3896
+            }
+          ]
+        },
+        {
+          "opponent": "V-046",
+          "name": "라그니엘",
+          "target": 0.575,
+          "chosen": {
+            "factor": 1.1734,
+            "winRate": 0.575,
+            "wins": 1932,
+            "total": 3360,
+            "elapsedMs": 3739
+          },
+          "trials": [
+            {
+              "factor": 1.1958,
+              "winRate": 0.5919642857142857,
+              "wins": 1989,
+              "total": 3360,
+              "elapsedMs": 3835
+            },
+            {
+              "factor": 1.1061,
+              "winRate": 0.524702380952381,
+              "wins": 1763,
+              "total": 3360,
+              "elapsedMs": 3628
+            },
+            {
+              "factor": 1.151,
+              "winRate": 0.5568452380952381,
+              "wins": 1871,
+              "total": 3360,
+              "elapsedMs": 3670
+            },
+            {
+              "factor": 1.1734,
+              "winRate": 0.575,
+              "wins": 1932,
+              "total": 3360,
+              "elapsedMs": 3739
+            }
+          ]
+        },
+        {
+          "opponent": "V-049",
+          "name": "크라이베른",
+          "target": 0.525,
+          "chosen": {
+            "factor": 1.273,
+            "winRate": 0.5273809523809524,
+            "wins": 1772,
+            "total": 3360,
+            "elapsedMs": 3532
+          },
+          "trials": [
+            {
+              "factor": 1.3226,
+              "winRate": 0.5577380952380953,
+              "wins": 1874,
+              "total": 3360,
+              "elapsedMs": 3721
+            },
+            {
+              "factor": 1.2234,
+              "winRate": 0.49375,
+              "wins": 1659,
+              "total": 3360,
+              "elapsedMs": 3672
+            },
+            {
+              "factor": 1.273,
+              "winRate": 0.5273809523809524,
+              "wins": 1772,
+              "total": 3360,
+              "elapsedMs": 3532
+            }
+          ]
+        },
+        {
+          "opponent": "V-055",
+          "name": "베르칸",
+          "target": 0.525,
+          "chosen": {
+            "factor": 0.8851,
+            "winRate": 0.5255952380952381,
+            "wins": 1766,
+            "total": 3360,
+            "elapsedMs": 3870
+          },
+          "trials": [
+            {
+              "factor": 0.8454,
+              "winRate": 0.4994047619047619,
+              "wins": 1678,
+              "total": 3360,
+              "elapsedMs": 3619
+            },
+            {
+              "factor": 0.9088,
+              "winRate": 0.5392857142857143,
+              "wins": 1812,
+              "total": 3360,
+              "elapsedMs": 3760
+            },
+            {
+              "factor": 0.8771,
+              "winRate": 0.5217261904761905,
+              "wins": 1753,
+              "total": 3360,
+              "elapsedMs": 3980
+            },
+            {
+              "factor": 0.893,
+              "winRate": 0.5306547619047619,
+              "wins": 1783,
+              "total": 3360,
+              "elapsedMs": 3781
+            },
+            {
+              "factor": 0.8851,
+              "winRate": 0.5255952380952381,
+              "wins": 1766,
+              "total": 3360,
+              "elapsedMs": 3870
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "V-991",
+      "count": 48,
+      "start": 240001,
+      "scales": {
+        "V-021": 0.8118,
+        "V-046": 1.0389,
+        "V-049": 1.1525,
+        "V-055": 1.836
+      },
+      "calibration": [
+        {
+          "opponent": "V-021",
+          "name": "오메가-X",
+          "target": 0.575,
+          "chosen": {
+            "factor": 0.8118,
+            "winRate": 0.5744047619047619,
+            "wins": 1930,
+            "total": 3360,
+            "elapsedMs": 3480
+          },
+          "trials": [
+            {
+              "factor": 0.8352,
+              "winRate": 0.5919642857142857,
+              "wins": 1989,
+              "total": 3360,
+              "elapsedMs": 5032
+            },
+            {
+              "factor": 0.7726,
+              "winRate": 0.5360119047619047,
+              "wins": 1801,
+              "total": 3360,
+              "elapsedMs": 4923
+            },
+            {
+              "factor": 0.8039,
+              "winRate": 0.5678571428571428,
+              "wins": 1908,
+              "total": 3360,
+              "elapsedMs": 4190
+            },
+            {
+              "factor": 0.8196,
+              "winRate": 0.5803571428571429,
+              "wins": 1950,
+              "total": 3360,
+              "elapsedMs": 3624
+            },
+            {
+              "factor": 0.8118,
+              "winRate": 0.5744047619047619,
+              "wins": 1930,
+              "total": 3360,
+              "elapsedMs": 3480
+            }
+          ]
+        },
+        {
+          "opponent": "V-046",
+          "name": "라그니엘",
+          "target": 0.575,
+          "chosen": {
+            "factor": 1.0389,
+            "winRate": 0.5735119047619047,
+            "wins": 1927,
+            "total": 3360,
+            "elapsedMs": 3523
+          },
+          "trials": [
+            {
+              "factor": 1.0587,
+              "winRate": 0.5854166666666667,
+              "wins": 1967,
+              "total": 3360,
+              "elapsedMs": 3614
+            },
+            {
+              "factor": 0.9793,
+              "winRate": 0.5282738095238095,
+              "wins": 1775,
+              "total": 3360,
+              "elapsedMs": 3487
+            },
+            {
+              "factor": 1.019,
+              "winRate": 0.5589285714285714,
+              "wins": 1878,
+              "total": 3360,
+              "elapsedMs": 3434
+            },
+            {
+              "factor": 1.0389,
+              "winRate": 0.5735119047619047,
+              "wins": 1927,
+              "total": 3360,
+              "elapsedMs": 3523
+            }
+          ]
+        },
+        {
+          "opponent": "V-049",
+          "name": "크라이베른",
+          "target": 0.525,
+          "chosen": {
+            "factor": 1.1525,
+            "winRate": 0.5276785714285714,
+            "wins": 1773,
+            "total": 3360,
+            "elapsedMs": 3712
+          },
+          "trials": [
+            {
+              "factor": 1.2212,
+              "winRate": 0.5672619047619047,
+              "wins": 1906,
+              "total": 3360,
+              "elapsedMs": 3527
+            },
+            {
+              "factor": 1.1296,
+              "winRate": 0.5122023809523809,
+              "wins": 1721,
+              "total": 3360,
+              "elapsedMs": 3357
+            },
+            {
+              "factor": 1.1754,
+              "winRate": 0.5395833333333333,
+              "wins": 1813,
+              "total": 3360,
+              "elapsedMs": 3518
+            },
+            {
+              "factor": 1.1525,
+              "winRate": 0.5276785714285714,
+              "wins": 1773,
+              "total": 3360,
+              "elapsedMs": 3712
+            }
+          ]
+        },
+        {
+          "opponent": "V-055",
+          "name": "베르칸",
+          "target": 0.525,
+          "chosen": {
+            "factor": 1.836,
+            "winRate": 0.5226190476190476,
+            "wins": 1756,
+            "total": 3360,
+            "elapsedMs": 3928
+          },
+          "trials": [
+            {
+              "factor": 1.7696,
+              "winRate": 0.5098214285714285,
+              "wins": 1713,
+              "total": 3360,
+              "elapsedMs": 4325
+            },
+            {
+              "factor": 1.9023,
+              "winRate": 0.53125,
+              "wins": 1785,
+              "total": 3360,
+              "elapsedMs": 4135
+            },
+            {
+              "factor": 1.836,
+              "winRate": 0.5226190476190476,
+              "wins": 1756,
+              "total": 3360,
+              "elapsedMs": 3928
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "V-992",
+      "count": 48,
+      "start": 240001,
+      "scales": {
+        "V-021": 0.8772,
+        "V-046": 1.0536,
+        "V-049": 1.1559,
+        "V-055": 1.2146
+      },
+      "calibration": [
+        {
+          "opponent": "V-021",
+          "name": "오메가-X",
+          "target": 0.575,
+          "chosen": {
+            "factor": 0.8772,
+            "winRate": 0.5773809523809523,
+            "wins": 1940,
+            "total": 3360,
+            "elapsedMs": 4027
+          },
+          "trials": [
+            {
+              "factor": 0.9114,
+              "winRate": 0.6113095238095239,
+              "wins": 2054,
+              "total": 3360,
+              "elapsedMs": 5184
+            },
+            {
+              "factor": 0.843,
+              "winRate": 0.5383928571428571,
+              "wins": 1809,
+              "total": 3360,
+              "elapsedMs": 5139
+            },
+            {
+              "factor": 0.8772,
+              "winRate": 0.5773809523809523,
+              "wins": 1940,
+              "total": 3360,
+              "elapsedMs": 4027
+            }
+          ]
+        },
+        {
+          "opponent": "V-046",
+          "name": "라그니엘",
+          "target": 0.575,
+          "chosen": {
+            "factor": 1.0536,
+            "winRate": 0.5738095238095238,
+            "wins": 1928,
+            "total": 3360,
+            "elapsedMs": 3755
+          },
+          "trials": [
+            {
+              "factor": 1.0536,
+              "winRate": 0.5738095238095238,
+              "wins": 1928,
+              "total": 3360,
+              "elapsedMs": 3755
+            }
+          ]
+        },
+        {
+          "opponent": "V-049",
+          "name": "크라이베른",
+          "target": 0.525,
+          "chosen": {
+            "factor": 1.1559,
+            "winRate": 0.5244047619047619,
+            "wins": 1762,
+            "total": 3360,
+            "elapsedMs": 3380
+          },
+          "trials": [
+            {
+              "factor": 1.2009,
+              "winRate": 0.5636904761904762,
+              "wins": 1894,
+              "total": 3360,
+              "elapsedMs": 3642
+            },
+            {
+              "factor": 1.1108,
+              "winRate": 0.4845238095238095,
+              "wins": 1628,
+              "total": 3360,
+              "elapsedMs": 3409
+            },
+            {
+              "factor": 1.1559,
+              "winRate": 0.5244047619047619,
+              "wins": 1762,
+              "total": 3360,
+              "elapsedMs": 3380
+            }
+          ]
+        },
+        {
+          "opponent": "V-055",
+          "name": "베르칸",
+          "target": 0.525,
+          "chosen": {
+            "factor": 1.2146,
+            "winRate": 0.5273809523809524,
+            "wins": 1772,
+            "total": 3360,
+            "elapsedMs": 3528
+          },
+          "trials": [
+            {
+              "factor": 1.1602,
+              "winRate": 0.5011904761904762,
+              "wins": 1684,
+              "total": 3360,
+              "elapsedMs": 3675
+            },
+            {
+              "factor": 1.2472,
+              "winRate": 0.5425595238095238,
+              "wins": 1823,
+              "total": 3360,
+              "elapsedMs": 3516
+            },
+            {
+              "factor": 1.2037,
+              "winRate": 0.5214285714285715,
+              "wins": 1752,
+              "total": 3360,
+              "elapsedMs": 3573
+            },
+            {
+              "factor": 1.2255,
+              "winRate": 0.5336309523809524,
+              "wins": 1793,
+              "total": 3360,
+              "elapsedMs": 3391
+            },
+            {
+              "factor": 1.2146,
+              "winRate": 0.5273809523809524,
+              "wins": 1772,
+              "total": 3360,
+              "elapsedMs": 3528
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "V-993",
+      "count": 48,
+      "start": 240001,
+      "scales": {
+        "V-021": 0.8935,
+        "V-046": 1.1096,
+        "V-049": 1.3122,
+        "V-055": 1.3236
+      },
+      "calibration": [
+        {
+          "opponent": "V-021",
+          "name": "오메가-X",
+          "target": 0.575,
+          "chosen": {
+            "factor": 0.8935,
+            "winRate": 0.5741071428571428,
+            "wins": 1929,
+            "total": 3360,
+            "elapsedMs": 3983
+          },
+          "trials": [
+            {
+              "factor": 0.881,
+              "winRate": 0.5613095238095238,
+              "wins": 1886,
+              "total": 3360,
+              "elapsedMs": 4772
+            },
+            {
+              "factor": 0.9471,
+              "winRate": 0.6279761904761905,
+              "wins": 2110,
+              "total": 3360,
+              "elapsedMs": 4324
+            },
+            {
+              "factor": 0.9141,
+              "winRate": 0.5961309523809524,
+              "wins": 2003,
+              "total": 3360,
+              "elapsedMs": 3882
+            },
+            {
+              "factor": 0.8976,
+              "winRate": 0.5782738095238096,
+              "wins": 1943,
+              "total": 3360,
+              "elapsedMs": 3762
+            },
+            {
+              "factor": 0.8893,
+              "winRate": 0.5693452380952381,
+              "wins": 1913,
+              "total": 3360,
+              "elapsedMs": 4154
+            },
+            {
+              "factor": 0.8935,
+              "winRate": 0.5741071428571428,
+              "wins": 1929,
+              "total": 3360,
+              "elapsedMs": 3983
+            }
+          ]
+        },
+        {
+          "opponent": "V-046",
+          "name": "라그니엘",
+          "target": 0.575,
+          "chosen": {
+            "factor": 1.1096,
+            "winRate": 0.5773809523809523,
+            "wins": 1940,
+            "total": 3360,
+            "elapsedMs": 3643
+          },
+          "trials": [
+            {
+              "factor": 1.1044,
+              "winRate": 0.5714285714285714,
+              "wins": 1920,
+              "total": 3360,
+              "elapsedMs": 3951
+            },
+            {
+              "factor": 1.1872,
+              "winRate": 0.6276785714285714,
+              "wins": 2109,
+              "total": 3360,
+              "elapsedMs": 4038
+            },
+            {
+              "factor": 1.1458,
+              "winRate": 0.5961309523809524,
+              "wins": 2003,
+              "total": 3360,
+              "elapsedMs": 3894
+            },
+            {
+              "factor": 1.1251,
+              "winRate": 0.5851190476190476,
+              "wins": 1966,
+              "total": 3360,
+              "elapsedMs": 3618
+            },
+            {
+              "factor": 1.1147,
+              "winRate": 0.5800595238095239,
+              "wins": 1949,
+              "total": 3360,
+              "elapsedMs": 3700
+            },
+            {
+              "factor": 1.1096,
+              "winRate": 0.5773809523809523,
+              "wins": 1940,
+              "total": 3360,
+              "elapsedMs": 3643
+            }
+          ]
+        },
+        {
+          "opponent": "V-049",
+          "name": "크라이베른",
+          "target": 0.525,
+          "chosen": {
+            "factor": 1.3122,
+            "winRate": 0.5238095238095238,
+            "wins": 1760,
+            "total": 3360,
+            "elapsedMs": 2574
+          },
+          "trials": [
+            {
+              "factor": 1.3633,
+              "winRate": 0.5431547619047619,
+              "wins": 1825,
+              "total": 3360,
+              "elapsedMs": 3786
+            },
+            {
+              "factor": 1.2611,
+              "winRate": 0.5023809523809524,
+              "wins": 1688,
+              "total": 3360,
+              "elapsedMs": 3060
+            },
+            {
+              "factor": 1.3122,
+              "winRate": 0.5238095238095238,
+              "wins": 1760,
+              "total": 3360,
+              "elapsedMs": 2574
+            }
+          ]
+        },
+        {
+          "opponent": "V-055",
+          "name": "베르칸",
+          "target": 0.525,
+          "chosen": {
+            "factor": 1.3236,
+            "winRate": 0.5261904761904762,
+            "wins": 1768,
+            "total": 3360,
+            "elapsedMs": 3019
+          },
+          "trials": [
+            {
+              "factor": 1.2313,
+              "winRate": 0.5038690476190476,
+              "wins": 1693,
+              "total": 3360,
+              "elapsedMs": 2824
+            },
+            {
+              "factor": 1.3236,
+              "winRate": 0.5261904761904762,
+              "wins": 1768,
+              "total": 3360,
+              "elapsedMs": 3019
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "V-994",
+      "count": 48,
+      "start": 240001,
+      "scales": {
+        "V-021": 0.8118,
+        "V-046": 1.0389,
+        "V-049": 1.1525,
+        "V-055": 1.836
+      },
+      "calibration": [
+        {
+          "opponent": "V-021",
+          "name": "오메가-X",
+          "target": 0.575,
+          "chosen": {
+            "factor": 0.8118,
+            "winRate": 0.5744047619047619,
+            "wins": 1930,
+            "total": 3360,
+            "elapsedMs": 3480
+          },
+          "trials": [
+            {
+              "factor": 0.8352,
+              "winRate": 0.5919642857142857,
+              "wins": 1989,
+              "total": 3360,
+              "elapsedMs": 5032
+            },
+            {
+              "factor": 0.7726,
+              "winRate": 0.5360119047619047,
+              "wins": 1801,
+              "total": 3360,
+              "elapsedMs": 4923
+            },
+            {
+              "factor": 0.8039,
+              "winRate": 0.5678571428571428,
+              "wins": 1908,
+              "total": 3360,
+              "elapsedMs": 4190
+            },
+            {
+              "factor": 0.8196,
+              "winRate": 0.5803571428571429,
+              "wins": 1950,
+              "total": 3360,
+              "elapsedMs": 3624
+            },
+            {
+              "factor": 0.8118,
+              "winRate": 0.5744047619047619,
+              "wins": 1930,
+              "total": 3360,
+              "elapsedMs": 3480
+            }
+          ]
+        },
+        {
+          "opponent": "V-046",
+          "name": "라그니엘",
+          "target": 0.575,
+          "chosen": {
+            "factor": 1.0389,
+            "winRate": 0.5735119047619047,
+            "wins": 1927,
+            "total": 3360,
+            "elapsedMs": 3523
+          },
+          "trials": [
+            {
+              "factor": 1.0587,
+              "winRate": 0.5854166666666667,
+              "wins": 1967,
+              "total": 3360,
+              "elapsedMs": 3614
+            },
+            {
+              "factor": 0.9793,
+              "winRate": 0.5282738095238095,
+              "wins": 1775,
+              "total": 3360,
+              "elapsedMs": 3487
+            },
+            {
+              "factor": 1.019,
+              "winRate": 0.5589285714285714,
+              "wins": 1878,
+              "total": 3360,
+              "elapsedMs": 3434
+            },
+            {
+              "factor": 1.0389,
+              "winRate": 0.5735119047619047,
+              "wins": 1927,
+              "total": 3360,
+              "elapsedMs": 3523
+            }
+          ]
+        },
+        {
+          "opponent": "V-049",
+          "name": "크라이베른",
+          "target": 0.525,
+          "chosen": {
+            "factor": 1.1525,
+            "winRate": 0.5276785714285714,
+            "wins": 1773,
+            "total": 3360,
+            "elapsedMs": 3712
+          },
+          "trials": [
+            {
+              "factor": 1.2212,
+              "winRate": 0.5672619047619047,
+              "wins": 1906,
+              "total": 3360,
+              "elapsedMs": 3527
+            },
+            {
+              "factor": 1.1296,
+              "winRate": 0.5122023809523809,
+              "wins": 1721,
+              "total": 3360,
+              "elapsedMs": 3357
+            },
+            {
+              "factor": 1.1754,
+              "winRate": 0.5395833333333333,
+              "wins": 1813,
+              "total": 3360,
+              "elapsedMs": 3518
+            },
+            {
+              "factor": 1.1525,
+              "winRate": 0.5276785714285714,
+              "wins": 1773,
+              "total": 3360,
+              "elapsedMs": 3712
+            }
+          ]
+        },
+        {
+          "opponent": "V-055",
+          "name": "베르칸",
+          "target": 0.525,
+          "chosen": {
+            "factor": 1.836,
+            "winRate": 0.5226190476190476,
+            "wins": 1756,
+            "total": 3360,
+            "elapsedMs": 3928
+          },
+          "trials": [
+            {
+              "factor": 1.7696,
+              "winRate": 0.5098214285714285,
+              "wins": 1713,
+              "total": 3360,
+              "elapsedMs": 4325
+            },
+            {
+              "factor": 1.9023,
+              "winRate": 0.53125,
+              "wins": 1785,
+              "total": 3360,
+              "elapsedMs": 4135
+            },
+            {
+              "factor": 1.836,
+              "winRate": 0.5226190476190476,
+              "wins": 1756,
+              "total": 3360,
+              "elapsedMs": 3928
+            }
+          ]
+        }
+      ],
+      "sharedCandidateFrom": "V-991",
+      "reason": "V-991/V-994 have matching canonical combat outputs; verify both independently in the full holdout"
+    },
+    {
+      "code": "V-997",
+      "count": 48,
+      "start": 240001,
+      "scales": {
+        "V-021": 0.8352,
+        "V-046": 1.0488,
+        "V-049": 1.0787,
+        "V-055": 2.5235
+      },
+      "calibration": [
+        {
+          "opponent": "V-021",
+          "name": "오메가-X",
+          "target": 0.575,
+          "chosen": {
+            "factor": 0.8352,
+            "winRate": 0.5770833333333333,
+            "wins": 1939,
+            "total": 3360,
+            "elapsedMs": 4605
+          },
+          "trials": [
+            {
+              "factor": 0.8352,
+              "winRate": 0.5770833333333333,
+              "wins": 1939,
+              "total": 3360,
+              "elapsedMs": 4605
+            }
+          ]
+        },
+        {
+          "opponent": "V-046",
+          "name": "라그니엘",
+          "target": 0.575,
+          "chosen": {
+            "factor": 1.0488,
+            "winRate": 0.5776785714285714,
+            "wins": 1941,
+            "total": 3360,
+            "elapsedMs": 3619
+          },
+          "trials": [
+            {
+              "factor": 1.0688,
+              "winRate": 0.5913690476190476,
+              "wins": 1987,
+              "total": 3360,
+              "elapsedMs": 4028
+            },
+            {
+              "factor": 0.9886,
+              "winRate": 0.5348214285714286,
+              "wins": 1797,
+              "total": 3360,
+              "elapsedMs": 3602
+            },
+            {
+              "factor": 1.0287,
+              "winRate": 0.5616071428571429,
+              "wins": 1887,
+              "total": 3360,
+              "elapsedMs": 3696
+            },
+            {
+              "factor": 1.0488,
+              "winRate": 0.5776785714285714,
+              "wins": 1941,
+              "total": 3360,
+              "elapsedMs": 3619
+            }
+          ]
+        },
+        {
+          "opponent": "V-049",
+          "name": "크라이베른",
+          "target": 0.525,
+          "chosen": {
+            "factor": 1.0787,
+            "winRate": 0.5270833333333333,
+            "wins": 1771,
+            "total": 3360,
+            "elapsedMs": 3602
+          },
+          "trials": [
+            {
+              "factor": 1.0993,
+              "winRate": 0.5407738095238095,
+              "wins": 1817,
+              "total": 3360,
+              "elapsedMs": 3632
+            },
+            {
+              "factor": 1.0169,
+              "winRate": 0.49047619047619045,
+              "wins": 1648,
+              "total": 3360,
+              "elapsedMs": 3703
+            },
+            {
+              "factor": 1.0581,
+              "winRate": 0.5148809523809523,
+              "wins": 1730,
+              "total": 3360,
+              "elapsedMs": 3436
+            },
+            {
+              "factor": 1.0787,
+              "winRate": 0.5270833333333333,
+              "wins": 1771,
+              "total": 3360,
+              "elapsedMs": 3602
+            }
+          ]
+        },
+        {
+          "opponent": "V-055",
+          "name": "베르칸",
+          "target": 0.525,
+          "chosen": {
+            "factor": 2.5235,
+            "winRate": 0.5238095238095238,
+            "wins": 1760,
+            "total": 3360,
+            "elapsedMs": 3922
+          },
+          "trials": [
+            {
+              "factor": 2.2875,
+              "winRate": 0.4773809523809524,
+              "wins": 1604,
+              "total": 3360,
+              "elapsedMs": 4216
+            },
+            {
+              "factor": 2.4591,
+              "winRate": 0.5104166666666666,
+              "wins": 1715,
+              "total": 3360,
+              "elapsedMs": 3936
+            },
+            {
+              "factor": 2.5449,
+              "winRate": 0.5285714285714286,
+              "wins": 1776,
+              "total": 3360,
+              "elapsedMs": 4132
+            },
+            {
+              "factor": 2.502,
+              "winRate": 0.5193452380952381,
+              "wins": 1745,
+              "total": 3360,
+              "elapsedMs": 3979
+            },
+            {
+              "factor": 2.5235,
+              "winRate": 0.5238095238095238,
+              "wins": 1760,
+              "total": 3360,
+              "elapsedMs": 3922
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "V-998",
+      "count": 48,
+      "start": 240001,
+      "scales": {
+        "V-021": 0.8396,
+        "V-046": 1.0536,
+        "V-049": 1.1833,
+        "V-055": 2.0231
+      },
+      "calibration": [
+        {
+          "opponent": "V-021",
+          "name": "오메가-X",
+          "target": 0.575,
+          "chosen": {
+            "factor": 0.8396,
+            "winRate": 0.575595238095238,
+            "wins": 1934,
+            "total": 3360,
+            "elapsedMs": 4126
+          },
+          "trials": [
+            {
+              "factor": 0.8556,
+              "winRate": 0.5883928571428572,
+              "wins": 1977,
+              "total": 3360,
+              "elapsedMs": 4405
+            },
+            {
+              "factor": 0.7914,
+              "winRate": 0.5300595238095238,
+              "wins": 1781,
+              "total": 3360,
+              "elapsedMs": 4736
+            },
+            {
+              "factor": 0.8235,
+              "winRate": 0.5589285714285714,
+              "wins": 1878,
+              "total": 3360,
+              "elapsedMs": 3862
+            },
+            {
+              "factor": 0.8396,
+              "winRate": 0.575595238095238,
+              "wins": 1934,
+              "total": 3360,
+              "elapsedMs": 4126
+            }
+          ]
+        },
+        {
+          "opponent": "V-046",
+          "name": "라그니엘",
+          "target": 0.575,
+          "chosen": {
+            "factor": 1.0536,
+            "winRate": 0.5744047619047619,
+            "wins": 1930,
+            "total": 3360,
+            "elapsedMs": 3918
+          },
+          "trials": [
+            {
+              "factor": 1.0536,
+              "winRate": 0.5744047619047619,
+              "wins": 1930,
+              "total": 3360,
+              "elapsedMs": 3918
+            }
+          ]
+        },
+        {
+          "opponent": "V-049",
+          "name": "크라이베른",
+          "target": 0.525,
+          "chosen": {
+            "factor": 1.1833,
+            "winRate": 0.5261904761904762,
+            "wins": 1768,
+            "total": 3360,
+            "elapsedMs": 3675
+          },
+          "trials": [
+            {
+              "factor": 1.2415,
+              "winRate": 0.5589285714285714,
+              "wins": 1878,
+              "total": 3360,
+              "elapsedMs": 3830
+            },
+            {
+              "factor": 1.1484,
+              "winRate": 0.5,
+              "wins": 1680,
+              "total": 3360,
+              "elapsedMs": 3394
+            },
+            {
+              "factor": 1.195,
+              "winRate": 0.5333333333333333,
+              "wins": 1792,
+              "total": 3360,
+              "elapsedMs": 3673
+            },
+            {
+              "factor": 1.1717,
+              "winRate": 0.5169642857142858,
+              "wins": 1737,
+              "total": 3360,
+              "elapsedMs": 3857
+            },
+            {
+              "factor": 1.1833,
+              "winRate": 0.5261904761904762,
+              "wins": 1768,
+              "total": 3360,
+              "elapsedMs": 3675
+            }
+          ]
+        },
+        {
+          "opponent": "V-055",
+          "name": "베르칸",
+          "target": 0.525,
+          "chosen": {
+            "factor": 2.0231,
+            "winRate": 0.5279761904761905,
+            "wins": 1774,
+            "total": 3360,
+            "elapsedMs": 3920
+          },
+          "trials": [
+            {
+              "factor": 1.95,
+              "winRate": 0.5208333333333334,
+              "wins": 1750,
+              "total": 3360,
+              "elapsedMs": 4292
+            },
+            {
+              "factor": 2.0963,
+              "winRate": 0.5369047619047619,
+              "wins": 1804,
+              "total": 3360,
+              "elapsedMs": 3793
+            },
+            {
+              "factor": 2.0231,
+              "winRate": 0.5279761904761905,
+              "wins": 1774,
+              "total": 3360,
+              "elapsedMs": 3920
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

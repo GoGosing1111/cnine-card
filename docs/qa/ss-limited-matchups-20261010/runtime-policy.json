@@ -1,0 +1,48 @@
+{
+  "checkedAt": "2026-10-09T17:42:40.553Z",
+  "scope": "READ_ONLY_PRODUCTION_POLICY_NO_ACCOUNTS",
+  "cmsRevision": 61,
+  "matchesReferenceCombatAndSkills": true,
+  "combat": {
+    "energyMax": 100,
+    "energyPerBasic": 10,
+    "windupTurns": 1,
+    "statusTurns": 2,
+    "armorReductionPercent": 20,
+    "interceptPercent": 40,
+    "parryPercent": 40,
+    "orderPercent": 15,
+    "veilPercent": 25,
+    "finisherHpPercent": 30,
+    "finisherBonusPercent": 50,
+    "focusBonusPercent": 40,
+    "poisonPercent": 40,
+    "restraintHits": 2,
+    "restraintPercent": 25,
+    "suppressGauge": 20,
+    "reloadGauge": 20,
+    "powerGrowthPercentPerLevel": 0
+  },
+  "references": [
+    {
+      "code": "V-021",
+      "name": "오메가-X",
+      "rank": "SSS"
+    },
+    {
+      "code": "V-046",
+      "name": "라그니엘",
+      "rank": "SSS"
+    },
+    {
+      "code": "V-049",
+      "name": "크라이베른",
+      "rank": "SSS"
+    },
+    {
+      "code": "V-055",
+      "name": "베르칸",
+      "rank": "SSS"
+    }
+  ]
+}

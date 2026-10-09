@@ -20,7 +20,7 @@ function result(row){
  const rate=row.wins/row.total,z=1.96,n=row.total,center=(rate+z*z/(2*n))/(1+z*z/n),margin=z*Math.sqrt(rate*(1-rate)/n+z*z/(4*n*n))/(1+z*z/n);
  return {...row,losses:row.total-row.wins-row.draws,winRate:rate,wilson95:[center-margin,center+margin]};
 }
-export function measureSSLimitedBalance({count=128,start=70001,seedStarts={},codes=Object.keys(SS_LIMITED_COMBAT),formationIds=null,onProgress=()=>{}}={}){
+export function measureSSLimitedBalance({count=128,start=70001,seedStarts={},codes=Object.keys(SS_LIMITED_COMBAT),formationIds=null,seedForCase=null,onProgress=()=>{}}={}){
  if(!Number.isSafeInteger(count)||count<1||!Number.isSafeInteger(start)||start<1||(start+count)*7919>0xffffffff)throw Error('Invalid seed range');
  const formations=ssLimitedFormations.filter(f=>!formationIds||formationIds.includes(f.id)),rows=[];
  if(!formations.length||codes.some(code=>!SS_LIMITED_COMBAT[code]))throw Error('Invalid balance scope');
@@ -31,7 +31,7 @@ export function measureSSLimitedBalance({count=128,start=70001,seedStarts={},cod
    for(const formation of formations){const row=tally();
     for(const side of ['A','B'])for(let i=firstSeed;i<firstSeed+count;i++){
      const winner=createPvpBattleV2({attackerCards:formation.cards,defenderCards:formation.cards,attackerMagicCards:formation.magic,defenderMagicCards:formation.magic,
-      attackerMercenary:side==='A'?limited:opponent,defenderMercenary:side==='B'?limited:opponent,seed:i*7919}).result.winner;
+      attackerMercenary:side==='A'?limited:opponent,defenderMercenary:side==='B'?limited:opponent,seed:seedForCase?seedForCase({opponent:opponent.code,formation:formation.id,side,index:i}):i*7919}).result.winner;
      for(const target of [all,total,row,sides[side],groups[formation.group]])score(target,winner,side);
     }
     formationRows.push({opponent:opponent.code,formation:formation.id,group:formation.group,...result(row)});

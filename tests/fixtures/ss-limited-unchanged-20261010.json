@@ -1,0 +1,177 @@
+{
+  "sourceCommit": "572e51c4c0a78cf87c7233033cb5b3a3653cc50d",
+  "excludedMetadata": [
+    "ssLimitedPolicyVersion",
+    "ssLimitedMatchupScale"
+  ],
+  "cases": [
+    {
+      "mode": "PVE",
+      "code": "V-990",
+      "seed": 7919,
+      "resultSha256": "b2a200d4658f5f691f4de05d13ef3d4a450bc67c506858e32b0afe08594faeff"
+    },
+    {
+      "mode": "PVE",
+      "code": "V-990",
+      "seed": 65537,
+      "resultSha256": "52e76238c3f10e82510136ad292202dcfabca48bce5f4e0e574d83928dae0516"
+    },
+    {
+      "mode": "PVE",
+      "code": "V-991",
+      "seed": 7919,
+      "resultSha256": "8d94f3607a8a9105dacbfb82d619b44ca7b223ab061b3f93b1233531262ae5b8"
+    },
+    {
+      "mode": "PVE",
+      "code": "V-991",
+      "seed": 65537,
+      "resultSha256": "34e1f06ce6c07f3f8d2e67c82b48a1d545ab9b698d1e497a27ea18cb61e53a4d"
+    },
+    {
+      "mode": "PVE",
+      "code": "V-992",
+      "seed": 7919,
+      "resultSha256": "b7c676743d0d55a1f8fd7768528659cfdc9e295cafb8f48130437245a525e516"
+    },
+    {
+      "mode": "PVE",
+      "code": "V-992",
+      "seed": 65537,
+      "resultSha256": "e68494dc8bdc04b2a62ebe3b986df60218433760a5ea8ee724bb3090defa6516"
+    },
+    {
+      "mode": "PVE",
+      "code": "V-993",
+      "seed": 7919,
+      "resultSha256": "66c458646713103b65281df566d79dcd4008c4bdfdfc7ba5d5b0092da50a9c63"
+    },
+    {
+      "mode": "PVE",
+      "code": "V-993",
+      "seed": 65537,
+      "resultSha256": "4aa904a2a723c3a26bfe89d730ffd4a5bf160956b97b9a4c8a7e8c4317eb9e90"
+    },
+    {
+      "mode": "PVE",
+      "code": "V-994",
+      "seed": 7919,
+      "resultSha256": "a08d388d76c82802141c19440ea3b594e8596eadb13378d4f7fe45fa7d8ecccb"
+    },
+    {
+      "mode": "PVE",
+      "code": "V-994",
+      "seed": 65537,
+      "resultSha256": "56f2b98a1a0a7bc3ff39981d3f9efa65ed2223b9d6d10eb6c0f46b120d4135e2"
+    },
+    {
+      "mode": "PVE",
+      "code": "V-997",
+      "seed": 7919,
+      "resultSha256": "83be138c7289b357eac027da3797c26c76ead078bc5dc19b207c1ad75bc547d5"
+    },
+    {
+      "mode": "PVE",
+      "code": "V-997",
+      "seed": 65537,
+      "resultSha256": "4dea9026fce1325b57a09ef336dce4dbd6f9ce02e06a13faf8d727a87e4cd945"
+    },
+    {
+      "mode": "PVE",
+      "code": "V-998",
+      "seed": 7919,
+      "resultSha256": "4cdb13083be94d3dfd528ba19419a42ccbd959158b22131244d4c5a60109afb9"
+    },
+    {
+      "mode": "PVE",
+      "code": "V-998",
+      "seed": 65537,
+      "resultSha256": "43817254a5e7f12f0bbd184eb88548ac2331b64cac5f18c89571e9640248535b"
+    },
+    {
+      "mode": "PVP",
+      "attacker": "V-021",
+      "defender": "V-046",
+      "seed": 7919,
+      "resultSha256": "bc772e5ff22d551b9a411e2be61de342b77e0aa625c0de20cdfeade3756fe269"
+    },
+    {
+      "mode": "PVP",
+      "attacker": "V-021",
+      "defender": "V-049",
+      "seed": 7919,
+      "resultSha256": "9ea8eb5c7952fa84f0a1ea417ed7a140b210d724433f65e25d40e7ab3e528c1d"
+    },
+    {
+      "mode": "PVP",
+      "attacker": "V-021",
+      "defender": "V-055",
+      "seed": 7919,
+      "resultSha256": "6551a4621f52a727943d1cfb36167ec9a165f9db5d358902557d4af865b96ae8"
+    },
+    {
+      "mode": "PVP",
+      "attacker": "V-046",
+      "defender": "V-021",
+      "seed": 7919,
+      "resultSha256": "2df809dc8fba6b112c04c68db52d8ca009056821e4eeee67c35f4c9f7620d473"
+    },
+    {
+      "mode": "PVP",
+      "attacker": "V-046",
+      "defender": "V-049",
+      "seed": 7919,
+      "resultSha256": "b9a200d0b3fd8be7441bda5982328e87c3d17a4ab153c59b5d257ff16e9427e3"
+    },
+    {
+      "mode": "PVP",
+      "attacker": "V-046",
+      "defender": "V-055",
+      "seed": 7919,
+      "resultSha256": "930796d78efe01cebb7455ef0a1f0f4f5d6a90ea7c0eedbd95fe6d983a6f3016"
+    },
+    {
+      "mode": "PVP",
+      "attacker": "V-049",
+      "defender": "V-021",
+      "seed": 7919,
+      "resultSha256": "561051ad3a886dce29f55ba660008844ed6c7c24bdc7915290cc19854b9a008e"
+    },
+    {
+      "mode": "PVP",
+      "attacker": "V-049",
+      "defender": "V-046",
+      "seed": 7919,
+      "resultSha256": "8fa8139c75a874e848bc1f21a6741a3741f8b6cf1e2cc270473f50607956870c"
+    },
+    {
+      "mode": "PVP",
+      "attacker": "V-049",
+      "defender": "V-055",
+      "seed": 7919,
+      "resultSha256": "adcfbfeba5569d69ebcb296edad3f1b719a96eba719e532148b4949e37edacaf"
+    },
+    {
+      "mode": "PVP",
+      "attacker": "V-055",
+      "defender": "V-021",
+      "seed": 7919,
+      "resultSha256": "fe43394181993e953b278f0f089997b0b60718dc9083e1aba9ed2537d9cd2176"
+    },
+    {
+      "mode": "PVP",
+      "attacker": "V-055",
+      "defender": "V-046",
+      "seed": 7919,
+      "resultSha256": "776c8bc27792d9c165e186a7b712550e4b85cbff2682dbfcebcca1ef3eb252cb"
+    },
+    {
+      "mode": "PVP",
+      "attacker": "V-055",
+      "defender": "V-049",
+      "seed": 7919,
+      "resultSha256": "1ac3b4477dd69b703ba4f371a073cc67b09502e03bfc19d1c7ead459a5cf0842"
+    }
+  ]
+}

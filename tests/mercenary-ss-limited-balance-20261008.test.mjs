@@ -12,7 +12,7 @@ import {buildMercenaryFighter,mercenaryCombat} from '../functions/_mercenary_com
 import {buildFighter,createPvpBattleV2,createPveBattleV2,createDuoBattleV2} from '../functions/_battle_v2_preview.js';
 import {ssLimitedSnapshot,sssReferences,ssLimitedFormations,measureSSLimitedBalance} from '../scripts/measure-ss-limited-balance-20261008.mjs';
 import {tierCards,tierDecks} from './helpers/mercenary-operating-roster-v2144.mjs';
-import {policyFingerprint} from '../scripts/measure-ss-limited-tempo-20261009.mjs';
+import {matchupPolicyFingerprint,measureSSLimitedMatchups} from '../scripts/measure-ss-limited-matchups-20261010.mjs';
 
 const codes=Object.keys(SS_LIMITED_COMBAT);
 const fighter=(snapshot,side='A',mode='PVP')=>buildMercenaryFighter(snapshot,side,mode,buildFighter);
@@ -83,24 +83,25 @@ test('Valter retains supremacy over all seven SS limited fighters on either side
 });
 
 test('the independent full report meets the requested tier band and retains matchup/sides/formation denominators',()=>{
- const report=JSON.parse(fs.readFileSync(new URL('../docs/ss-limited-tempo-report-20261009.json',import.meta.url),'utf8'));
+ const report=JSON.parse(fs.readFileSync(new URL('../docs/ss-limited-matchups-report-20261010.json',import.meta.url),'utf8'));
  assert.equal(report.profileFingerprint,createHash('sha256').update(JSON.stringify(SS_LIMITED_COMBAT)).digest('hex'));
- assert.equal(report.policyFingerprint,policyFingerprint());
- assert.equal(report.cmsRevision,61);assert.equal(report.start,130001);assert.equal(report.count,64);assert.equal(report.formationCount,35);assert.equal(report.total,125440);
+ assert.equal(report.policyFingerprint,matchupPolicyFingerprint());
+ assert.equal(report.cmsRevision,61);assert.equal(report.count,128);assert.equal(report.formationCount,35);assert.equal(report.total,250880);
  assert.deepEqual(report.rows.map(r=>r.code),codes);assert.deepEqual(report.excludes,['V-996','V-999']);
  for(const row of report.rows){
-  assert.equal(row.total,17920);assert.equal(row.winRate,row.wins/row.total);assert.equal(row.wins+row.losses+row.draws,row.total);
-  assert.equal(row.validationSeedStart,report.seedStarts[row.code]);assert.equal(row.validationSeedStart,({'V-991':150001,'V-994':150001,'V-993':160001,'V-998':160001})[row.code]??130001);
+  assert.equal(row.total,35840);assert.equal(row.winRate,row.wins/row.total);assert.equal(row.wins+row.losses+row.draws,row.total);
+  assert.equal(row.validationSeedStart,report.seedStarts[row.code]);assert.ok(row.validationSeedStart>=310001,'independent from calibration seeds');
   assert.ok(row.winRate>=SS_LIMITED_TARGET.minWinRate&&row.winRate<=SS_LIMITED_TARGET.maxWinRate,`${row.name}: ${row.winRate}`);
   assert.equal(row.opponents.length,4);assert.equal(row.formations.length,140);assert.equal(row.opponents.reduce((n,r)=>n+r.wins,0),row.wins);
+  for(const opponent of row.opponents){const band=SS_LIMITED_TARGET.matchups[opponent.code];assert.equal(opponent.total,8960);assert.equal(opponent.winRate,opponent.wins/opponent.total);assert.ok(opponent.winRate>=band.min&&opponent.winRate<=band.max,`${row.name} vs ${opponent.name}: ${opponent.winRate}`);}
   assert.equal(row.sides.A.total,row.sides.B.total);assert.equal(row.sides.A.wins+row.sides.B.wins,row.wins);
   assert.equal(row.groups.BASIC.total+row.groups.EQUIPPED.total,row.total);
  }
 });
 
 test('a small canonical replay reproduces saved holdout formation results exactly',()=>{
- const saved=JSON.parse(fs.readFileSync(new URL('../docs/ss-limited-tempo-report-20261009.json',import.meta.url),'utf8'));
+ const saved=JSON.parse(fs.readFileSync(new URL('../docs/ss-limited-matchups-report-20261010.json',import.meta.url),'utf8'));
  const ids=[ssLimitedFormations[0].id,ssLimitedFormations.at(-1).id];
- const replay=measureSSLimitedBalance({count:saved.count,start:saved.start,seedStarts:saved.seedStarts,codes:['V-990','V-992','V-997'],formationIds:ids});
+ const replay=measureSSLimitedMatchups({count:saved.count,start:saved.start,seedStarts:saved.seedStarts,codes:['V-990','V-992','V-997'],formationIds:ids});
  for(const row of replay.rows)for(const f of row.formations){const original=saved.rows.find(r=>r.code===row.code).formations.find(r=>r.opponent===f.opponent&&r.formation===f.formation);assert.deepEqual(f,original);}
 });

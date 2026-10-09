@@ -10,14 +10,14 @@ import {mercenaryMoonDrawSkillText,MERCENARY_MOON_DRAW_VERSION} from '../shared/
 import {LIMITED_MERCENARIES} from '../shared/mercenary-limited-catalog-v1.mjs';
 import {limitedDeploymentSnapshot,LIMITED_DEPLOYMENT_VERSION} from '../shared/mercenary-limited-deployment-v1.mjs';
 import {ssRearPveSkillText} from '../shared/mercenary-ss-rear-pve-v1.mjs';
-import {ssLimitedCombatDescription} from '../shared/mercenary-ss-limited-v1.mjs';
+import {ssLimitedCombatDescription,SS_LIMITED_BALANCE_VERSION} from '../shared/mercenary-ss-limited-v1.mjs';
 
 // Public, read-only projection. Never publish operator notes, audit records,
 // account ownership, acquisition drafts, or unassigned skill associations.
 export function mercenaryCodexDocument(row){
   const document=expandMercenarySkillCatalog(JSON.parse(row.payload_json),seed.document,seed.catalog);
   const skills=new Map(document.skills.map(skill=>[skill.id,skill]));
-  return {version:'mercenary-codex-2098',revision:Number(row.revision),updatedAt:row.updated_at,artReleaseVersion:MERCENARY_ART_RELEASE_VERSION,rangedBalanceVersion:MERCENARY_RANGED_BALANCE_VERSION,guardBalanceVersion:MERCENARY_GUARD_BALANCE_VERSION,moonDrawVersion:MERCENARY_MOON_DRAW_VERSION,
+  return {version:'mercenary-codex-2098',revision:Number(row.revision),updatedAt:row.updated_at,artReleaseVersion:MERCENARY_ART_RELEASE_VERSION,rangedBalanceVersion:MERCENARY_RANGED_BALANCE_VERSION,guardBalanceVersion:MERCENARY_GUARD_BALANCE_VERSION,moonDrawVersion:MERCENARY_MOON_DRAW_VERSION,ssLimitedBalanceVersion:SS_LIMITED_BALANCE_VERSION,
     formation:{regularCardSlots:5,mercenarySlots:1,maxDeployedUnits:6},
     combatLink:MERCENARY_COMBAT_LINK,
     ranks:seed.catalog.ranks,positions:seed.catalog.positions,roles:{...Object.fromEntries(Object.entries(seed.catalog.roles).map(([key,value])=>[key,{label:value.label}])),LIMITED:{label:'리미티드'}},
