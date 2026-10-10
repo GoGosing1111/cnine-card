@@ -1,0 +1,82 @@
+{
+  "date": "2026-10-11",
+  "source": "3bc3582251f444fdc8071a5b221b83fbc3068d46",
+  "previousRuntimeSource": "5d931e3ee970be7e5ea298598f446751d6aa2fc5",
+  "pages": "https://a3e24e8e.cnine-card.pages.dev",
+  "apiRuntimeVersion": "a38b4c0f-eff7-414d-8604-bee0affa2c1b",
+  "clanWorkerVersion": "53651cc3-d149-4d49-8847-92a32902d6ee",
+  "cache": "20261011-guard1",
+  "scopedTests": [
+    "tests/supporter-screen-guard-20261011.test.mjs"
+  ],
+  "testsPassed": 3,
+  "browser": {
+    "cases": [
+      "Open public dialog blocks copy/cut/context menu/drag/selection; tiled viewer/time watermark painted.",
+      "Browser-delivered print/save/screenshot shortcuts conceal immediately; normal keyboard controls are not intercepted.",
+      "Browser blur/visibility events cover the screen and require Continue after returning (event injection in headless Chrome).",
+      "Calendar selection and actual local daily claim still work; one grant and guard preserved after render.",
+      "Server info/support screens protected; pet selection intact; print media removes protected content.",
+      "Covered state survives page refresh/replacement without duplicate shields.",
+      "Closing removes global restrictions; ordinary menu copy and shortcuts remain available.",
+      "Mobile watermark, long-press menu block, scrolled-screen shield, resume/reopen and support layout pass without horizontal overflow."
+    ],
+    "screenshots": [
+      "C:\\Users\\User\\.codex\\tmp\\supporter-season-pass-20261010\\guard-desktop-pass.png",
+      "C:\\Users\\User\\.codex\\tmp\\supporter-season-pass-20261010\\guard-desktop-covered.png",
+      "C:\\Users\\User\\.codex\\tmp\\supporter-season-pass-20261010\\guard-desktop-support.png",
+      "C:\\Users\\User\\.codex\\tmp\\supporter-season-pass-20261010\\guard-print.png",
+      "C:\\Users\\User\\.codex\\tmp\\supporter-season-pass-20261010\\guard-mobile-pass.png",
+      "C:\\Users\\User\\.codex\\tmp\\supporter-season-pass-20261010\\guard-mobile-calendar.png",
+      "C:\\Users\\User\\.codex\\tmp\\supporter-season-pass-20261010\\guard-mobile-covered.png",
+      "C:\\Users\\User\\.codex\\tmp\\supporter-season-pass-20261010\\guard-mobile-support.png"
+    ],
+    "ok": true,
+    "scope": "Local browser only; no claim of OS screenshot or recording prevention."
+  },
+  "production": {
+    "verifiedAt": "2026-10-10T15:22:28.661Z",
+    "source": "3bc3582251f444fdc8071a5b221b83fbc3068d46",
+    "files": [
+      {
+        "file": "index.html",
+        "status": 200,
+        "bytes": 22493,
+        "sha256": "e803235d2ff05f2e6fc515b810b5e6fd9152074c5ac964ccfaea88d03bcec29f"
+      },
+      {
+        "file": "service-worker.js",
+        "status": 200,
+        "bytes": 9435,
+        "sha256": "dfae849887ede403ec0f6e5ad4fbd15a668a6b512ae4b728c800599df6903984"
+      },
+      {
+        "file": "js/adventure-lobby-v2107.js",
+        "status": 200,
+        "bytes": 91373,
+        "sha256": "3fca7c182b62debe2afe8614181a1e1af4b40119ea01e899f20b42ed85838f77"
+      },
+      {
+        "file": "js/server-support-v1.mjs",
+        "status": 200,
+        "bytes": 16142,
+        "sha256": "dea0e4c556802cc38f6b05e8e1d85430241cbeb6665fdfd1be98fc920f593d1e"
+      },
+      {
+        "file": "js/supporter-screen-guard-v1.mjs",
+        "status": 200,
+        "bytes": 4556,
+        "sha256": "fc448f55933032281f402764c04626b1394bf7d11636df217b831deeefc211d6"
+      },
+      {
+        "file": "css/server-support-v1.css",
+        "status": 200,
+        "bytes": 25683,
+        "sha256": "7b1ac6b5a0791fe697f7135c98c0d06c691d9fc82127ad4ef66df33669811433"
+      }
+    ],
+    "serviceStatus": 200,
+    "productionGrantsMade": false,
+    "settingsChanged": false
+  }
+}

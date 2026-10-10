@@ -16,3 +16,5 @@ Chrome 실제 공용 번들/메뉴/후원 API + 로컬 SQLite 계정으로 데�
 증빙은 `C:/Users/User/.codex/tmp/supporter-season-pass-20261010/qa-guard.mjs`, `guard-report.json`, 같은 폴더 `guard-desktop-*.png`, `guard-mobile-*.png`, `guard-print.png`다. 새 모듈 문법 및 공용 로비 원본/번들 일치 검사도 통과했다.
 
 국소 클라이언트 UI 변경으로 `npm run deploy:production -- --scoped`를 사용한다. 직전 운영 소스는 `5d931e3ee970be7e5ea298598f446751d6aa2fc5`(Pages `9755bee8`)다. 관련 `tests/supporter-screen-guard-20261011.test.mjs` 3건을 지정 배포에서 한 번 실행하며 변경되지 않은 서버 거래·공통 인증·전체 게임 검사를 반복하지 않는다. 캐시는 `20261011-guard1`이며 새 보호 모듈도 계정 스크립트의 network-first 목록에 포함한다.
+
+운영 반영 완료: 관련 단축키 회귀 3건과 지정 배포 검사를 통과한 소스 `3bc3582251f444fdc8071a5b221b83fbc3068d46`를 배포했다. Pages `a3e24e8e`, API runtime `a38b4c0f-eff7-414d-8604-bee0affa2c1b`다. 운영 메인·서비스워커·공용 로비·후원/보호 모듈·스타일 6개의 HTTP 200과 SHA-256 일치 및 서비스 상태 200을 확인했다. [운영 검증 기록](supporter-screen-guard-20261011.json). 운영 지급·설정 변경은 없으며 이 후속 문서 기록은 재배포하지 않는다.
