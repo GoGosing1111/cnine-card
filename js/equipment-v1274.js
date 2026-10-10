@@ -7,7 +7,7 @@
   const subtypeLabels={MODERN_SWORD:'현대식 칼',AXE:'도끼',PISTOL:'권총',RIFLE:'라이플',TOP:'상의',BOTTOM:'하의',SHOES:'신발',DUAL_DISK:'듀얼디스크'};
   const rarityLabels={NORMAL:'일반',MAGIC:'고급',RARE:'희귀',EPIC:'영웅',LEGENDARY:'전설',MYTHIC:'신화'};
   const garageFilters=['ALL','MYTHIC','LEGENDARY','EPIC','RARE','MAGIC','NORMAL'];
-  const titleStyleLabels={DEFAULT:'기본',FOREST:'숲',FLAME:'화염',FROST:'서리',STORM:'폭풍',SHADOW:'그림자',GOLD:'황금',RAINBOW:'무지개',VOID:'심연',CRIMSON:'진홍',CHALLENGER:'챌린저 · 스카이블루',COMPLETIONIST:'폐인 · 자수정',TROPHY_HUNTER:'우승청부사 · 금빛',GAMBLING_KING:'도박왕 · 에메랄드',ASURA_BALBALTA:'아수라발발타 · 화투',SUPPORTER_VIP:'서포터 · VIP',BLUE_BEAST:'푸른 맹수 · 사파이어',BUS_DRIVER:'버스기사 · 행정부 정직원'};
+  const titleStyleLabels={DEFAULT:'기본',FOREST:'숲',FLAME:'화염',FROST:'서리',STORM:'폭풍',SHADOW:'그림자',GOLD:'황금',RAINBOW:'무지개',VOID:'심연',CRIMSON:'진홍',CHALLENGER:'챌린저 · 스카이블루',COMPLETIONIST:'폐인 · 자수정',TROPHY_HUNTER:'우승청부사 · 금빛',GAMBLING_KING:'도박왕 · 에메랄드',ASURA_BALBALTA:'아수라발발타 · 화투',SUPPORTER_VIP:'서포터 · VIP',BLUE_BEAST:'푸른 맹수 · 사파이어',BUS_DRIVER:'버스기사 · 행정부 정직원',SECRET_POLICE:'비밀경찰 · 흑은 문장'};
   const titleFontPresets=new Set(['DEFAULT','SERIF','DISPLAY','ARCADE','ROUNDED','SCIFI','BRUSH','HANDWRITING','MONO','CLASSIC']);
   const unlockLabels={MANUAL:'운영 지급',COLLECTION_COUNT:'도감',GRADE_COUNT:'등급 도감',MEMBER_COMPLETE:'멤버 도감',CARD_SET:'카드 세트',CONTENT_CLEAR:'콘텐츠',COLLECTION_MASTERY:'카드 100% · 대상 차량 90% (신규 4종 제외)',TROPHY_KINDS:'트로피 4종',PREDICTION_HITS:'승부예측 적중',CHALLENGER_TOTAL:'챌린저 누적 달성'};
   const esc=v=>typeof escapeHtml==='function'?escapeHtml(String(v??'')):String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));

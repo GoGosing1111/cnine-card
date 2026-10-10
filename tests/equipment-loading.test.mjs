@@ -115,12 +115,13 @@ test('achievement title switching applies only the equipped power to PVE and PVP
   data.titles=[
     {id:1,name:'폐인',unlockType:'COLLECTION_MASTERY',pvePower:50000,owned:true},
     {id:2,name:'우승청부사',unlockType:'TROPHY_KINDS',pvePower:75000,owned:true},
-    {id:3,name:'도박왕',unlockType:'PREDICTION_HITS',pvePower:60000,owned:true}
+    {id:3,name:'도박왕',unlockType:'PREDICTION_HITS',pvePower:75000,owned:true},
+    {id:4,code:'SECRET_POLICE',name:'비밀경찰',stylePreset:'SECRET_POLICE',unlockType:'MANUAL',pvePower:75000,owned:true}
   ];
   const m=mount(async path=>path==='character/loadout'?data:{ok:true});
   await tick();m.click({tab:'title'});
   assert.match(m.root.innerHTML,/50,000/);assert.match(m.root.innerHTML,/75,000/);
-  for(const [id,power] of [[1,50000],[2,75000],[3,60000]]){
+  for(const [id,power] of [[1,50000],[2,75000],[3,75000],[4,75000]]){
     m.click({titleEquip:String(id)});await tick();
     const state=m.controller.getState();
     assert.equal(state.equippedTitleId,id);

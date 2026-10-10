@@ -14,7 +14,7 @@
   const RARITY_ORDER = ['MYTHIC', 'LEGENDARY', 'EPIC', 'RARE', 'MAGIC', 'NORMAL'];
   const RARITY_LABELS = { NORMAL: '일반', MAGIC: '고급', RARE: '희귀', EPIC: '영웅', LEGENDARY: '전설', MYTHIC: '신화' };
   const TAB_LABELS = { equipment: '장비', title: '칭호', garage: '이동수단', skillChips: '스킬칩' };
-  const TITLE_STYLE_LABELS = { DEFAULT: '기본', FOREST: '숲', FLAME: '화염', FROST: '서리', STORM: '폭풍', SHADOW: '그림자', GOLD: '황금', RAINBOW: '무지개', VOID: '심연', CRIMSON: '진홍', CHALLENGER: '챌린저', COMPLETIONIST: '도감의 정점', TROPHY_HUNTER: '승리의 증명', GAMBLING_KING: '천 번의 적중', ASURA_BALBALTA: '만 번의 적중', SUPPORTER_VIP: '운영에 도움을 주신', BLUE_BEAST: '챌린저 누적 10회 달성', BUS_DRIVER: '행정부 정직원' };
+  const TITLE_STYLE_LABELS = { DEFAULT: '기본', FOREST: '숲', FLAME: '화염', FROST: '서리', STORM: '폭풍', SHADOW: '그림자', GOLD: '황금', RAINBOW: '무지개', VOID: '심연', CRIMSON: '진홍', CHALLENGER: '챌린저', COMPLETIONIST: '도감의 정점', TROPHY_HUNTER: '승리의 증명', GAMBLING_KING: '천 번의 적중', ASURA_BALBALTA: '만 번의 적중', SUPPORTER_VIP: '운영에 도움을 주신', BLUE_BEAST: '챌린저 누적 10회 달성', BUS_DRIVER: '행정부 정직원', SECRET_POLICE: '핑두의 비밀경찰' };
   const UNLOCK_LABELS = { MANUAL: '운영 지급', COLLECTION_COUNT: '도감 달성', GRADE_COUNT: '등급 도감', MEMBER_COMPLETE: '멤버 도감', CARD_SET: '카드 세트', CONTENT_CLEAR: '콘텐츠 클리어', COLLECTION_MASTERY: '카드 도감 100% · 대상 차량 90% 이상 (신규 4종 제외)', TROPHY_KINDS: '서로 다른 트로피 4종', PREDICTION_HITS: '승부예측 누적 적중 1,000회', CHALLENGER_TOTAL: '챌린저 누적 10회 달성' };
 
   const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[char]));
@@ -254,7 +254,7 @@
 
     function titleBadge(row) {
       const style = String(row?.stylePreset || 'DEFAULT').toLowerCase().replace(/[^a-z0-9_-]/g, '');
-      const appearance = ['completionist','trophy_hunter','gambling_king','asura_balbalta','challenger','supporter_vip','blue_beast','bus_driver'].includes(style) ? 'public-title-badge title-style-' + style : titleStyleClass(row?.stylePreset);
+      const appearance = ['completionist','trophy_hunter','gambling_king','asura_balbalta','challenger','supporter_vip','blue_beast','bus_driver','secret_police'].includes(style) ? 'public-title-badge title-style-' + style : titleStyleClass(row?.stylePreset);
       return '<span class="' + appearance + ' ' + titleFontClass(row?.fontPreset) + '">[' + escapeHtml(row?.badgeText || row?.name || '칭호 없음') + ']</span>';
     }
 
