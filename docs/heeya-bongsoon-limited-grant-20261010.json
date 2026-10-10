@@ -1,0 +1,131 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:heeya-bongsoon-ss-limited:20261010:v1",
+  "authorization": "하이희야♡ ss 리미티드 하이희야 지급\n나무늘봉순 ss리미티드 나무늘봉순 지급",
+  "planHash": "16f61e5107395a7ef4ed65857fcf55353339ff48c7e7f34f14d4a3d5c79bf05d",
+  "completedAt": "2026-10-10T03:16:31.181Z",
+  "completedAtKst": "2026-10-10 12:16:31 KST",
+  "delivery": "DIRECT",
+  "permanent": true,
+  "totalQuantity": 2,
+  "targets": [
+    {
+      "userId": "4977",
+      "nickname": "하이희야♡",
+      "code": "V-998",
+      "name": "하이희야",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "quantity": 1,
+      "serial": 5,
+      "copiesBefore": 0,
+      "copiesAfter": 1,
+      "duplicatesAfter": 0,
+      "stock": {
+        "limit": 10,
+        "issuedBefore": 4,
+        "issuedAfter": 5,
+        "remainingAfter": 5
+      },
+      "acquisitionId": "ops:heeya-bongsoon-ss-limited:20261010:v1:V-998",
+      "adminLogId": "43572"
+    },
+    {
+      "userId": "5426",
+      "nickname": "나무늘봉순",
+      "code": "V-990",
+      "name": "나무늘봉순",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "quantity": 1,
+      "serial": 6,
+      "copiesBefore": 0,
+      "copiesAfter": 1,
+      "duplicatesAfter": 0,
+      "stock": {
+        "limit": 10,
+        "issuedBefore": 5,
+        "issuedAfter": 6,
+        "remainingAfter": 4
+      },
+      "acquisitionId": "ops:heeya-bongsoon-ss-limited:20261010:v1:V-990",
+      "adminLogId": "43573"
+    }
+  ],
+  "operationScript": "scripts/ops/heeya-bongsoon-limited-grant-20261010.mjs",
+  "scriptSha256": "06bf80140bc436c79aadbfd653bc0fbc68e1aa171837a6c914d60751eec06a19",
+  "receiptLocation": {
+    "table": "app_meta",
+    "key": "ops:heeya-bongsoon-ss-limited:20261010:v1"
+  },
+  "preserved": {
+    "balances": true,
+    "settings": true,
+    "stockLimits": true,
+    "loadouts": true,
+    "growth": true,
+    "otherMercenaries": true
+  },
+  "validation": {
+    "dryRun": {
+      "status": "DRY_RUN_ROLLED_BACK",
+      "bothGrantsRolledBackOnFailure": true,
+      "replayVerified": true,
+      "replayPerformedNoWrites": true,
+      "stockAndHoldingsRestored": true,
+      "logsRolledBack": true
+    },
+    "postCommit": {
+      "operationKey": "ops:heeya-bongsoon-ss-limited:20261010:v1",
+      "planHash": "16f61e5107395a7ef4ed65857fcf55353339ff48c7e7f34f14d4a3d5c79bf05d",
+      "status": "COMPLETED",
+      "targets": [
+        {
+          "userId": "4977",
+          "nickname": "하이희야♡",
+          "code": "V-998",
+          "name": "하이희야",
+          "rank": "SS",
+          "edition": "LIMITED",
+          "quantity": 1,
+          "serial": 5,
+          "copiesBefore": 0,
+          "copiesAfter": 1,
+          "currentCopies": 1,
+          "adminLogId": "43572"
+        },
+        {
+          "userId": "5426",
+          "nickname": "나무늘봉순",
+          "code": "V-990",
+          "name": "나무늘봉순",
+          "rank": "SS",
+          "edition": "LIMITED",
+          "quantity": 1,
+          "serial": 6,
+          "copiesBefore": 0,
+          "copiesAfter": 1,
+          "currentCopies": 1,
+          "adminLogId": "43573"
+        }
+      ],
+      "acquisitionRecords": 2,
+      "issueRecords": 2,
+      "adminRecords": 2,
+      "missing": 0,
+      "duplicateOperationGrants": 0,
+      "completedAt": "2026-10-10T03:16:31.181Z",
+      "replayed": true,
+      "preserved": {
+        "balances": true,
+        "settings": true,
+        "stockLimits": true,
+        "loadouts": true,
+        "growth": true,
+        "otherMercenaries": true
+      }
+    },
+    "scope": "정확한 두 계정·SS 리미티드 2종에 영구 1장씩 직접 지급. 사용자·설정·한정 재고 잠금과 단일 거래, 실패 시 전체 롤백·재시도 무변경·독립 읽기 전용 사후 확인. 게임 런타임 변경 및 재배포 없음."
+  },
+  "notificationSent": false
+}
