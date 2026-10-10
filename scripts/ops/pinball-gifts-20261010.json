@@ -1,0 +1,1086 @@
+{
+  "operationKey": "ops:three-room-pinball-gifts:20261010:v1",
+  "title": "희야·봉순·조은방 핀볼 사은품",
+  "authorization": "사용자 제공 희야방/봉순방/조은방 핀볼 명단의 사은품 수량에 따라, 1개당 1조 코인 + 엠퍼러 에너지 10개 + 마별 1000만개 지급; 사용자 후속: 천재 제외 진행",
+  "delivery": "DIRECT",
+  "unitCoin": "1000000000000",
+  "items": [
+    {
+      "code": "MASTER_STAR",
+      "name": "마스터의 별",
+      "amountPerGift": "10000000"
+    },
+    {
+      "code": "EMPEROR_ENERGY",
+      "name": "엠퍼러 에너지",
+      "amountPerGift": "10"
+    }
+  ],
+  "totals": {
+    "recipients": 65,
+    "giftQuantity": 154,
+    "coin": "154000000000000",
+    "MASTER_STAR": "1540000000",
+    "EMPEROR_ENERGY": "1540"
+  },
+  "excluded": [
+    {
+      "inputNickname": "천재b",
+      "giftQuantity": 1,
+      "reason": "사용자 명시 제외"
+    }
+  ],
+  "sourceRows": [
+    {
+      "nickname": "으악",
+      "heeya": 3,
+      "bongsoon": 3,
+      "joeun": 3,
+      "totalPinball": 9,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "세라네꼬라지",
+      "heeya": 3,
+      "bongsoon": 3,
+      "joeun": 3,
+      "totalPinball": 9,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "망순이ෆ",
+      "heeya": 3,
+      "bongsoon": 3,
+      "joeun": 3,
+      "totalPinball": 9,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "현하루",
+      "heeya": 3,
+      "bongsoon": 3,
+      "joeun": 3,
+      "totalPinball": 9,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "[C9]족쪽이",
+      "heeya": 3,
+      "bongsoon": 3,
+      "joeun": 3,
+      "totalPinball": 9,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "전게씹선미아웃",
+      "heeya": 3,
+      "bongsoon": 3,
+      "joeun": 3,
+      "totalPinball": 9,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "쁴로리",
+      "heeya": 3,
+      "bongsoon": 3,
+      "joeun": 3,
+      "totalPinball": 9,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "족단",
+      "heeya": 3,
+      "bongsoon": 3,
+      "joeun": 3,
+      "totalPinball": 9,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "0수표",
+      "heeya": 3,
+      "bongsoon": 3,
+      "joeun": 3,
+      "totalPinball": 9,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "더듬이구",
+      "heeya": 3,
+      "bongsoon": 3,
+      "joeun": 3,
+      "totalPinball": 9,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "학벌",
+      "heeya": 3,
+      "bongsoon": 3,
+      "joeun": 3,
+      "totalPinball": 9,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "Mild7",
+      "heeya": 3,
+      "bongsoon": 2,
+      "joeun": 1,
+      "totalPinball": 6,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "암살자..",
+      "heeya": 2,
+      "bongsoon": 2,
+      "joeun": 2,
+      "totalPinball": 6,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "음순이",
+      "heeya": 1,
+      "bongsoon": 2,
+      "joeun": 1,
+      "totalPinball": 4,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "박세라-ㅂ-",
+      "heeya": 2,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 4,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "음주",
+      "heeya": 0,
+      "bongsoon": 3,
+      "joeun": 1,
+      "totalPinball": 4,
+      "giftQuantity": 2,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "심심이",
+      "heeya": 0,
+      "bongsoon": 3,
+      "joeun": 1,
+      "totalPinball": 4,
+      "giftQuantity": 2,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "도댕",
+      "heeya": 2,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 4,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "#크레파스",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "#유나랜드",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "타몽",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "나무늘봉순",
+      "heeya": 0,
+      "bongsoon": 3,
+      "joeun": 0,
+      "totalPinball": 3,
+      "giftQuantity": 1,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "진짜디임",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "딤럼프",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "찡찡ෆ",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "핫시",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "차단하다",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "다시생각",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "의지",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "팩트만쓴다15",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "찬호",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "모래",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "란x2",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "커피먹는철구",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "비_니",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "지아영",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "씨나인택갓",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "베베킹",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "나도한번",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "여우",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "시소둥이",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "혜정",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "비니",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "응맨",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "giftQuantity": 3,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "건빵3개",
+      "heeya": 1,
+      "bongsoon": 0,
+      "joeun": 1,
+      "totalPinball": 2,
+      "giftQuantity": 2,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "경화수월팬",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 0,
+      "totalPinball": 2,
+      "giftQuantity": 2,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "대지",
+      "heeya": 0,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 2,
+      "giftQuantity": 2,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "나무",
+      "heeya": 0,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 2,
+      "giftQuantity": 2,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "게임닉네임",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 0,
+      "totalPinball": 2,
+      "giftQuantity": 2,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "[C9]가시",
+      "heeya": 0,
+      "bongsoon": 1,
+      "joeun": 0,
+      "totalPinball": 1,
+      "giftQuantity": 1,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "공단",
+      "heeya": 0,
+      "bongsoon": 1,
+      "joeun": 0,
+      "totalPinball": 1,
+      "giftQuantity": 1,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "ShowMaker",
+      "heeya": 0,
+      "bongsoon": 1,
+      "joeun": 0,
+      "totalPinball": 1,
+      "giftQuantity": 1,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "펜타",
+      "heeya": 0,
+      "bongsoon": 1,
+      "joeun": 0,
+      "totalPinball": 1,
+      "giftQuantity": 1,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "헬로희야",
+      "heeya": 0,
+      "bongsoon": 1,
+      "joeun": 0,
+      "totalPinball": 1,
+      "giftQuantity": 1,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "대저동토마토",
+      "heeya": 0,
+      "bongsoon": 1,
+      "joeun": 0,
+      "totalPinball": 1,
+      "giftQuantity": 1,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "설윤이",
+      "heeya": 0,
+      "bongsoon": 1,
+      "joeun": 0,
+      "totalPinball": 1,
+      "giftQuantity": 1,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "ε연두з",
+      "heeya": 1,
+      "bongsoon": 0,
+      "joeun": 0,
+      "totalPinball": 1,
+      "giftQuantity": 1,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "박사",
+      "heeya": 1,
+      "bongsoon": 0,
+      "joeun": 0,
+      "totalPinball": 1,
+      "giftQuantity": 1,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "하이희야",
+      "heeya": 1,
+      "bongsoon": 0,
+      "joeun": 0,
+      "totalPinball": 1,
+      "giftQuantity": 1,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "오일바른가지",
+      "heeya": 1,
+      "bongsoon": 0,
+      "joeun": 0,
+      "totalPinball": 1,
+      "giftQuantity": 1,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "레드클라우드",
+      "heeya": 0,
+      "bongsoon": 0,
+      "joeun": 1,
+      "totalPinball": 1,
+      "giftQuantity": 1,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "강구열",
+      "heeya": 0,
+      "bongsoon": 0,
+      "joeun": 1,
+      "totalPinball": 1,
+      "giftQuantity": 1,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "리이렐",
+      "heeya": 0,
+      "bongsoon": 0,
+      "joeun": 1,
+      "totalPinball": 1,
+      "giftQuantity": 1,
+      "unconfirmed": false
+    },
+    {
+      "nickname": "[늘]꼰머냥",
+      "heeya": 0,
+      "bongsoon": 1,
+      "joeun": 0,
+      "totalPinball": 1,
+      "giftQuantity": 1,
+      "unconfirmed": true
+    },
+    {
+      "nickname": "norwaysoop",
+      "heeya": 0,
+      "bongsoon": 1,
+      "joeun": 0,
+      "totalPinball": 1,
+      "giftQuantity": 1,
+      "unconfirmed": true
+    },
+    {
+      "nickname": "천재b",
+      "heeya": 0,
+      "bongsoon": 0,
+      "joeun": 1,
+      "totalPinball": 1,
+      "giftQuantity": 1,
+      "unconfirmed": true
+    }
+  ],
+  "recipients": [
+    {
+      "userId": "5010",
+      "nickname": "으악",
+      "inputNickname": "으악",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "4651",
+      "nickname": "세라네꼬라지",
+      "inputNickname": "세라네꼬라지",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "4628",
+      "nickname": "망순이ෆ",
+      "inputNickname": "망순이ෆ",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "218",
+      "nickname": "현하루",
+      "inputNickname": "현하루",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "303",
+      "nickname": "[C9]족쪽이",
+      "inputNickname": "[C9]족쪽이",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "1255",
+      "nickname": "전게씹선미아웃",
+      "inputNickname": "전게씹선미아웃",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "4965",
+      "nickname": "쁴로리",
+      "inputNickname": "쁴로리",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "4582",
+      "nickname": "족단",
+      "inputNickname": "족단",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "88",
+      "nickname": "0수표",
+      "inputNickname": "0수표",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "4391",
+      "nickname": "더듬이구",
+      "inputNickname": "더듬이구",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "4627",
+      "nickname": "학벌",
+      "inputNickname": "학벌",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "290",
+      "nickname": "Mild7",
+      "inputNickname": "Mild7",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "4598",
+      "nickname": "암살자..",
+      "inputNickname": "암살자..",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "65",
+      "nickname": "음순이",
+      "inputNickname": "음순이",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "45",
+      "nickname": "박세라-ㅂ-",
+      "inputNickname": "박세라-ㅂ-",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "4817",
+      "nickname": "음주",
+      "inputNickname": "음주",
+      "giftQuantity": 2,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "4933",
+      "nickname": "심심이",
+      "inputNickname": "심심이",
+      "giftQuantity": 2,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "4235",
+      "nickname": "도댕",
+      "inputNickname": "도댕",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "4222",
+      "nickname": "#크레파스",
+      "inputNickname": "#크레파스",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "4209",
+      "nickname": "#유나랜드",
+      "inputNickname": "#유나랜드",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "5148",
+      "nickname": "타몽",
+      "inputNickname": "타몽",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "5426",
+      "nickname": "나무늘봉순",
+      "inputNickname": "나무늘봉순",
+      "giftQuantity": 1,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "4773",
+      "nickname": "진짜디임",
+      "inputNickname": "진짜디임",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "4774",
+      "nickname": "딤럼프",
+      "inputNickname": "딤럼프",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "4562",
+      "nickname": "찡찡ෆ",
+      "inputNickname": "찡찡ෆ",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "1768",
+      "nickname": "핫시",
+      "inputNickname": "핫시",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "162",
+      "nickname": "차단하다",
+      "inputNickname": "차단하다",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "1421",
+      "nickname": "다시생각",
+      "inputNickname": "다시생각",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "4641",
+      "nickname": "의지",
+      "inputNickname": "의지",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "1301",
+      "nickname": "팩트만쓴다15",
+      "inputNickname": "팩트만쓴다15",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "4597",
+      "nickname": "찬호",
+      "inputNickname": "찬호",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "295",
+      "nickname": "모래",
+      "inputNickname": "모래",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "73",
+      "nickname": "란x2",
+      "inputNickname": "란x2",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "22",
+      "nickname": "커피먹는철구",
+      "inputNickname": "커피먹는철구",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "5504",
+      "nickname": "비_니",
+      "inputNickname": "비_니",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "4540",
+      "nickname": "지아영",
+      "inputNickname": "지아영",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "1195",
+      "nickname": "씨나인택갓",
+      "inputNickname": "씨나인택갓",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "289",
+      "nickname": "베베킹",
+      "inputNickname": "베베킹",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "4581",
+      "nickname": "나도한번",
+      "inputNickname": "나도한번",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "25",
+      "nickname": "여우",
+      "inputNickname": "여우",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "4693",
+      "nickname": "시소둥이",
+      "inputNickname": "시소둥이",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "4570",
+      "nickname": "혜정",
+      "inputNickname": "혜정",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "4595",
+      "nickname": "비니",
+      "inputNickname": "비니",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "4572",
+      "nickname": "응맨",
+      "inputNickname": "응맨",
+      "giftQuantity": 3,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "4371",
+      "nickname": "건빵3개",
+      "inputNickname": "건빵3개",
+      "giftQuantity": 2,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "490",
+      "nickname": "경화수월팬",
+      "inputNickname": "경화수월팬",
+      "giftQuantity": 2,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "4479",
+      "nickname": "대지",
+      "inputNickname": "대지",
+      "giftQuantity": 2,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "5008",
+      "nickname": "나무",
+      "inputNickname": "나무",
+      "giftQuantity": 2,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "4084",
+      "nickname": "게임닉네임",
+      "inputNickname": "게임닉네임",
+      "giftQuantity": 2,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "4866",
+      "nickname": "[C9]가시",
+      "inputNickname": "[C9]가시",
+      "giftQuantity": 1,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "4614",
+      "nickname": "공단",
+      "inputNickname": "공단",
+      "giftQuantity": 1,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "233",
+      "nickname": "ShowMaker",
+      "inputNickname": "ShowMaker",
+      "giftQuantity": 1,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "4772",
+      "nickname": "펜타",
+      "inputNickname": "펜타",
+      "giftQuantity": 1,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "4824",
+      "nickname": "헬로희야",
+      "inputNickname": "헬로희야",
+      "giftQuantity": 1,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "521",
+      "nickname": "대저동토마토",
+      "inputNickname": "대저동토마토",
+      "giftQuantity": 1,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "87",
+      "nickname": "설윤이",
+      "inputNickname": "설윤이",
+      "giftQuantity": 1,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "3",
+      "nickname": "ε연두з",
+      "inputNickname": "ε연두з",
+      "giftQuantity": 1,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "164",
+      "nickname": "박사",
+      "inputNickname": "박사",
+      "giftQuantity": 1,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "23",
+      "nickname": "하이희야",
+      "inputNickname": "하이희야",
+      "giftQuantity": 1,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "3011",
+      "nickname": "오일바른가지",
+      "inputNickname": "오일바른가지",
+      "giftQuantity": 1,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "3867",
+      "nickname": "레드클라우드",
+      "inputNickname": "레드클라우드",
+      "giftQuantity": 1,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "4718",
+      "nickname": "강구열",
+      "inputNickname": "강구열",
+      "giftQuantity": 1,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "4621",
+      "nickname": "리이렐",
+      "inputNickname": "리이렐",
+      "giftQuantity": 1,
+      "identityEvidence": "운영 닉네임 정확 일치"
+    },
+    {
+      "userId": "5429",
+      "nickname": "꼰머냥",
+      "inputNickname": "[늘]꼰머냥",
+      "giftQuantity": 1,
+      "identityEvidence": "꼰머냥 / 5429 매핑 확인 질문에 사용자 후속: 천재 제외 진행"
+    },
+    {
+      "userId": "4629",
+      "nickname": "Veil",
+      "inputNickname": "norwaysoop",
+      "giftQuantity": 1,
+      "identityEvidence": "2026-09-27 운영 지급 영수증: norwaysoop → Veil / 4629"
+    }
+  ]
+}
