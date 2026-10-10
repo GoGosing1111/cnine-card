@@ -87,7 +87,7 @@ export async function handleServerSupport({path,request,env,deps}){
           env.DB.prepare("SELECT u.id,u.nickname,m.value FROM app_meta m JOIN users u ON m.key='server_support_v1:'||u.id WHERE m.key LIKE 'server_support_v1:%' ORDER BY m.updated_at DESC LIMIT 200").all(),
           env.DB.prepare("SELECT after_data FROM admin_logs WHERE action_type IN ('SERVER_SUPPORT_GRANT','SERVER_SUPPORT_REVOKE') ORDER BY id DESC LIMIT 30").all()
         ]);
-        return reply({adminId:Number(user.id),plan:SUPPORT_PLAN,notice:SUPPORT_NOTICE,pageAccess:'PINGDU_ONLY',serverNow:now,subscribers:rows.results.map(r=>({target:targetOf(r),subscription:supportBenefits(JSON.parse(r.value),now)})),history:logs.results.map(r=>JSON.parse(r.after_data))});
+        return reply({adminId:Number(user.id),plan:SUPPORT_PLAN,notice:SUPPORT_NOTICE,pageAccess:'VERIFIED_3_DAYS',serverNow:now,subscribers:rows.results.map(r=>({target:targetOf(r),subscription:supportBenefits(JSON.parse(r.value),now)})),history:logs.results.map(r=>JSON.parse(r.after_data))});
       }
       if(path==='admin/server-support/preview'&&request.method==='POST'){
         const body=await readJointBody(request,{fields:['recipientType','recipient']});
@@ -104,9 +104,8 @@ export async function handleServerSupport({path,request,env,deps}){
         return reply(await deps.withUserMutationLock(env,body.userId,path,()=>changeSupport(env,user,body,(deps.now||Date.now)())));
       }
     }else{
-      // The first release is visible only to the verified operator account.
-      // Keep the age + verification gate when public access is opened later.
-      const visible=canManageSupport(user)&&supportAccountEligible(await account(env,user.id),now);
+      // Only CMS management is operator-only; eligible players can use their own page.
+      const visible=supportAccountEligible(await account(env,user.id),now);
       if(path==='server-support/status'&&request.method==='GET')return reply({visible});
       if(!visible)return reply({error:'페이지를 찾을 수 없습니다.'},404);
       if(path==='server-support/info'&&request.method==='GET')return reply(await supporterPage(env,user,now));

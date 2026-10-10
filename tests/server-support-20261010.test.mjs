@@ -22,9 +22,11 @@ for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+': 후�
   const sub=async id=>(await readSupportRecord(f.env,id)).state;
   const body=(action='GRANT',userId=1,expectedRevision=0)=>({action,userId,expectedRevision,note:'로컬 검수 후원 확인',requestId:crypto.randomUUID()});
   const post=b=>f.call('admin/server-support',{body:b});
-  await t.test('페이지·CMS는 ID 1 OWNER만, 미인증·3일 미만·게스트는 비공개',async()=>{
-    assert.equal((await f.call('server-support/status')).body.visible,true);
-    for(const user of [2,3,4,5,6]){assert.equal((await f.call('server-support/status',{user})).body.visible,false);assert.equal((await f.call('server-support/info',{user})).status,404);assert.equal((await f.call('admin/server-support',{user})).status,403);}
+  await t.test('가입 3일·인증 완료 유저는 페이지 공개, CMS만 ID 1 OWNER 전용',async()=>{
+    for(const user of [1,2,3]){assert.equal((await f.call('server-support/status',{user})).body.visible,true);assert.equal((await f.call('server-support/info',{user})).status,200);}
+    for(const user of [4,5,6]){assert.equal((await f.call('server-support/status',{user})).body.visible,false);assert.equal((await f.call('server-support/info',{user})).status,404);}
+    for(const user of [2,3,4,5,6]){assert.equal((await f.call('admin/server-support',{user})).status,403);assert.equal((await f.call('admin/server-support',{user,body:body()})).status,403);}
+    assert.equal((await f.call('admin/server-support')).body.pageAccess,'VERIFIED_3_DAYS');
     assert.equal((await f.call('server-support/status',{user:0})).status,401);
     await f.run('DELETE FROM user_second_verifications WHERE user_id=1');assert.equal((await f.call('server-support/status')).body.visible,false);
     await f.run('INSERT INTO user_second_verifications VALUES(1,?)','2026-01-02 00:00:00');
@@ -54,13 +56,17 @@ for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+': 후�
     assert.equal((await loadPetBattleSnapshot(f.env,{id:1},'PVE')).magnet,false);
     assert.deepEqual(JSON.parse((await f.one('SELECT value FROM app_meta WHERE key=?','pet_potentials_v1:1')).value),permanent);
     assert.equal((await f.call('server-support/pet',{body:{petCode:f.pets[2].code,expectedRevision:4,requestId:crypto.randomUUID()}})).status,403);
-    assert.equal((await f.call('server-support/pet',{user:2,body:{petCode:f.pets[0].code,expectedRevision:0,requestId:crypto.randomUUID()}})).status,404);
+    assert.equal((await f.call('server-support/pet',{user:2,body:{petCode:f.pets[0].code,expectedRevision:0,requestId:crypto.randomUUID()}})).status,403);
   });
   await t.test('감사 저장 실패는 기간·영수증 전체 롤백, 같은 요청 재시도로 한 번만 적용',async()=>{
     const before=await sub(2),grant=body('GRANT',2);f.fail('INSERT INTO admin_logs');assert.equal((await post(grant)).status,503);f.fail('');assert.deepEqual(await sub(2),before);
     assert.equal(await f.one('SELECT value FROM app_meta WHERE key=?','server_support_receipt_v1:'+grant.requestId),null);
     assert.equal((await post(grant)).status,200);assert.equal((await post(grant)).body.replayed,true);
     const a=body('GRANT',2,1),b=body('GRANT',2,1);assert.equal((await post(a)).status,200);assert.equal((await post(b)).status,409);
+    const ownerBefore=await sub(1),selection={petCode:f.pets[0].code,expectedRevision:2,requestId:crypto.randomUUID()};
+    const selected=await f.call('server-support/pet',{user:2,body:selection});assert.equal(selected.status,200,JSON.stringify(selected.body));assert.equal(selected.body.target.id,2);
+    assert.equal((await f.call('server-support/pet',{user:2,body:selection})).body.replayed,true);assert.equal((await sub(2)).magnetPetCode,f.pets[0].code);assert.deepEqual(await sub(1),ownerBefore);
+    assert.equal((await f.call('server-support/pet',{user:2,body:{...selection,userId:1}})).status,400);
     assert.equal(Number((await f.one('SELECT COUNT(*) n FROM joint_atomic_guards_v1')).n),0);
   });
   await t.test('중지·정확한 만료 시 혜택 종료, 기존 영구 자석 보존, 재가입은 현재부터 30일',async()=>{
