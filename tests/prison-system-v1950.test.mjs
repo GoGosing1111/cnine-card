@@ -73,7 +73,7 @@ test('감옥 공개 채팅은 인증·길이·속도 제한과 역할 표식을 
 });
 
 test('영치금 석방은 OWNER 설정·원자 납부·모금 완료 석방을 고정한다',()=>{
-  assert.equal(PRISON_RELEASE_PRICE_MAX,1_000_000_000_000);
+  assert.equal(PRISON_RELEASE_PRICE_MAX,5_000_000_000_000);
   assert.deepEqual(prisonReleaseProgress(25,100),{collectedCoin:25,releasePrice:100,remainingCoin:75,progressPercent:25,funded:false});
   assert.equal(prisonReleaseProgress(100,100).funded,true);
   assert.match(communityServer,/const CASE_TABLE='prison_release_cases_v2031'/);

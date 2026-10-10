@@ -5,7 +5,7 @@ const HIT_COOLDOWN_TABLE='prison_hit_cooldowns_v2031';
 const HIT_EVENT_TABLE='prison_hit_events_v2031';
 
 export const PRISON_HIT_COOLDOWN_SECONDS=60;
-export const PRISON_RELEASE_PRICE_MAX=1_000_000_000_000;
+export const PRISON_RELEASE_PRICE_MAX=5_000_000_000_000;
 
 let foundationPromise=null;
 
@@ -156,7 +156,7 @@ async function setReleasePrice(env,user,body,deps){
   if(String(user?.role||'').trim().toUpperCase()!=='OWNER')throw Object.assign(new Error('석방금은 OWNER만 설정할 수 있습니다.'),{status:403});
   const inmateUserId=integer(body.inmateUserId),releasePrice=integer(body.releasePrice);
   if(!Number.isSafeInteger(inmateUserId)||inmateUserId<1)throw Object.assign(new Error('수감자를 다시 선택해 주세요.'),{status:400});
-  if(!Number.isSafeInteger(releasePrice)||releasePrice<0||releasePrice>PRISON_RELEASE_PRICE_MAX)throw Object.assign(new Error(`석방금은 0~${PRISON_RELEASE_PRICE_MAX.toLocaleString()}코인 사이의 정수로 설정하세요.`),{status:400});
+  if(!Number.isSafeInteger(releasePrice)||releasePrice<0||releasePrice>PRISON_RELEASE_PRICE_MAX)throw Object.assign(new Error('석방금은 0~5조 코인 사이의 정수로 설정하세요.'),{status:400});
   const releaseCase=await activeCase(env,inmateUserId);if(!releaseCase)throw Object.assign(new Error('현재 수감 중인 계정을 찾을 수 없습니다.'),{status:404});
   const updated=await env.DB.prepare(`UPDATE ${CASE_TABLE} SET release_price=?,configured_by=?,configured_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP
     WHERE inmate_user_id=? AND case_id=? AND status='ACTIVE'`).bind(releasePrice,user.id,inmateUserId,releaseCase.case_id).run();
@@ -169,6 +169,7 @@ async function setReleasePrice(env,user,body,deps){
 async function contributeReleaseFund(env,user,body,deps){
   const inmateUserId=integer(body.inmateUserId),amount=integer(body.amount),requestId=validRequestId(body.requestId||'');
   if(!Number.isSafeInteger(inmateUserId)||inmateUserId<1)throw Object.assign(new Error('수감자를 다시 선택해 주세요.'),{status:400});
+  if(Number(user.id)===inmateUserId)throw Object.assign(new Error('본인의 영치금은 직접 납부할 수 없습니다.'),{status:403});
   if(!Number.isSafeInteger(amount)||amount<1)throw Object.assign(new Error('영치금은 1코인 이상의 정수로 입력하세요.'),{status:400});
   if(!requestId)throw Object.assign(new Error('영치금 요청 번호가 올바르지 않습니다.'),{status:400});
   const prior=await env.DB.prepare(`SELECT * FROM ${CONTRIBUTION_TABLE} WHERE request_id=?`).bind(requestId).first();

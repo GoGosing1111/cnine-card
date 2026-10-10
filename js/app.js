@@ -475,6 +475,7 @@ function escapeHtml(value = '') { return String(value).replaceAll('&','&amp;').r
 
 // ===== V1950 / V2031 행정부 감옥 =====
 const PRISON_DEFAULT_HIT_COOLDOWN_SECONDS=60;
+const PRISON_MAX_RELEASE_PRICE=5_000_000_000_000;
 const prisonUiState={incarcerated:false,reason:'',jailedAt:null,jailedUntil:null,jailedByNickname:null,remainingSeconds:0,inmates:[],messages:[],recentHits:[],recentContributions:[],prisonCommunity:{hitCooldownSeconds:PRISON_DEFAULT_HIT_COOLDOWN_SECONDS,donationsRefundable:false},access:{canSetReleasePrice:false},viewer:null,selectedInmateId:0,loaded:false,serverOffsetMs:0};
 let prisonPollTimer=null,prisonCountdownTimer=null,prisonHitResetTimer=null,prisonRoomBusy=false,prisonChatBusy=false,prisonCommunityBusy=false;
 function prisonTimestampMs(value){if(!value)return 0;const raw=String(value),normalized=raw.includes('T')?raw:raw.replace(' ','T')+'Z',parsed=Date.parse(normalized);return Number.isFinite(parsed)?parsed:0}
@@ -512,7 +513,15 @@ function prisonDurationLabel(seconds=prisonRemainingSeconds()){
   return `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
 }
 function prisonTimeLabel(value){const ms=prisonTimestampMs(value);if(!ms)return '-';return new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(ms))}
-function prisonCoin(value){return Math.max(0,Number(value)||0).toLocaleString('ko-KR')}
+function prisonCoin(value){
+  const amount=Math.max(0,Math.floor(Number(value)||0));
+  for(const [unit,label] of [[1e12,'조'],[1e8,'억'],[1e4,'만']])if(amount>=unit)return `${(Math.floor(amount/(unit/100))/100).toLocaleString('ko-KR',{maximumFractionDigits:2})}${label}`;
+  return amount.toLocaleString('ko-KR');
+}
+function isOwnPrisonFund(inmate=selectedPrisonInmate()){
+  const viewer=prisonUiState.viewer||loadUser()||{};
+  return Number(viewer.id||viewer.serverUserId||loadUser()?.serverUserId||0)===Number(inmate?.userId||0);
+}
 function selectedPrisonInmate(){return prisonUiState.inmates.find(inmate=>Number(inmate.userId)===Number(prisonUiState.selectedInmateId))||prisonUiState.inmates[0]||null}
 function prisonSceneInmate(user){
   const selected=selectedPrisonInmate();if(selected)return selected;
@@ -533,13 +542,13 @@ function prisonCommunityPanelHtml(){
   const inmate=selectedPrisonInmate(),viewer=prisonUiState.viewer||loadUser()||{},canSet=prisonUiState.access?.canSetReleasePrice===true;
   if(!inmate)return `<section class="prison-community" id="prisonCommunityPanel"><div class="prison-community-empty"><small>RELEASE FUND</small><b>모금 대기 중</b><span>수감자가 들어오면 영치금 모금이 열립니다.</span></div></section>`;
   const price=Math.max(0,Number(inmate.releasePrice||0)),collected=Math.max(0,Number(inmate.collectedCoin||0)),remaining=Math.max(0,Number(inmate.remainingCoin||0)),progress=Math.max(0,Math.min(100,Number(inmate.progressPercent||0)));
-  const viewerCoin=Math.max(0,Number(viewer.coin||0));
+  const viewerCoin=Math.max(0,Number(viewer.coin||0)),self=isOwnPrisonFund(inmate);
   const latestContribution=prisonUiState.recentContributions.find(row=>Number(row.inmateUserId)===Number(inmate.userId));
   return `<section class="prison-community" id="prisonCommunityPanel">
     <header><div><small>RELEASE FUND</small><h2>${escapeHtml(inmate.nickname||'수감자')} 영치금</h2></div><span>${price?`${progress.toFixed(progress%1?2:0)}%`:'설정 대기'}</span></header>
-    <div class="prison-release-progress ${price?'is-open':'is-waiting'}"><div><span>모금액 <b>${prisonCoin(collected)}</b></span><span>석방금 <b>${price?prisonCoin(price):'OWNER 설정 대기'}</b></span></div><i><em style="width:${progress}%"></em></i><p>${price?`남은 금액 ${prisonCoin(remaining)}코인 · ${Number(inmate.contributionCount||0).toLocaleString()}회 참여`:'석방금이 설정되면 누구나 코인을 보탤 수 있습니다.'}</p></div>
-    ${price?`<div class="prison-fund-form"><label><span>영치금 납부</span><input id="prisonFundAmount" type="number" min="1" max="${remaining}" step="1" inputmode="numeric" placeholder="보유 ${prisonCoin(viewerCoin)}"></label><div class="prison-fund-presets"><button type="button" data-prison-fund-preset="10000">1만</button><button type="button" data-prison-fund-preset="1000000">100만</button><button type="button" data-prison-fund-preset="MAX">가능 전액</button></div><button type="button" class="prison-fund-submit" data-prison-fund ${remaining<1||viewerCoin<1||prisonCommunityBusy?'disabled':''}>모금 참여</button><small>납부 즉시 차감되며 반환되지 않습니다.</small></div>`:''}
-    ${canSet?`<div class="prison-owner-price"><label><span>OWNER 석방금 설정</span><input id="prisonReleasePriceInput" type="number" min="0" max="1000000000000" step="1" inputmode="numeric" value="${price}" aria-label="석방금"></label><button type="button" data-prison-price ${prisonCommunityBusy?'disabled':''}>${price?'변경':'설정'}</button><small>0코인은 모금 비활성화입니다.</small></div>`:''}
+    <div class="prison-release-progress ${price?'is-open':'is-waiting'}"><div><span>모금액 <b title="${collected.toLocaleString('ko-KR')}코인">${prisonCoin(collected)}</b></span><span>석방금 <b title="${price.toLocaleString('ko-KR')}코인">${price?prisonCoin(price):'OWNER 설정 대기'}</b></span></div><i><em style="width:${progress}%"></em></i><p>${price?`남은 금액 <span title="${remaining.toLocaleString('ko-KR')}코인">${prisonCoin(remaining)}코인</span> · ${Number(inmate.contributionCount||0).toLocaleString()}회 참여`:'석방금이 설정되면 다른 유저가 코인을 보탤 수 있습니다.'}</p></div>
+    ${self?'<p class="prison-latest-fund">본인의 영치금은 직접 납부할 수 없습니다.<br>다른 유저의 모금 참여로 석방될 수 있습니다.</p>':price?`<div class="prison-fund-form"><label><span>영치금 납부</span><input id="prisonFundAmount" type="number" min="1" max="${remaining}" step="1" inputmode="numeric" placeholder="보유 ${prisonCoin(viewerCoin)}"></label><div class="prison-fund-presets"><button type="button" data-prison-fund-preset="10000">1만</button><button type="button" data-prison-fund-preset="1000000">100만</button><button type="button" data-prison-fund-preset="MAX">가능 전액</button></div><button type="button" class="prison-fund-submit" data-prison-fund ${remaining<1||viewerCoin<1||prisonCommunityBusy?'disabled':''}>모금 참여</button><small>납부 즉시 차감되며 반환되지 않습니다.</small></div>`:''}
+    ${canSet?`<div class="prison-owner-price"><label><span>OWNER 석방금 설정</span><input id="prisonReleasePriceInput" type="number" min="0" max="${PRISON_MAX_RELEASE_PRICE}" step="1" inputmode="numeric" value="${price}" aria-label="석방금"></label><button type="button" data-prison-price ${prisonCommunityBusy?'disabled':''}>${price?'변경':'설정'}</button><small>최대 5조 코인 · 0코인은 모금 비활성화입니다.</small></div>`:''}
     ${latestContribution?`<p class="prison-latest-fund"><b>${escapeHtml(latestContribution.contributorNickname)}</b>님이 ${prisonCoin(latestContribution.amount)}코인을 보탰습니다.</p>`:''}
   </section>`;
 }
@@ -601,12 +610,13 @@ function playPrisonHitEffect(inmateUserId){
 }
 async function setPrisonReleasePrice(){
   if(prisonCommunityBusy)return;const inmate=selectedPrisonInmate(),input=document.getElementById('prisonReleasePriceInput'),releasePrice=Number(input?.value);
-  if(!inmate)return alert('수감자를 다시 선택해 주세요.');if(!Number.isSafeInteger(releasePrice)||releasePrice<0||releasePrice>1_000_000_000_000)return alert('석방금은 0~1조 코인 사이의 정수로 입력하세요.');
+  if(!inmate)return alert('수감자를 다시 선택해 주세요.');if(!Number.isSafeInteger(releasePrice)||releasePrice<0||releasePrice>PRISON_MAX_RELEASE_PRICE)return alert('석방금은 0~5조 코인 사이의 정수로 입력하세요.');
   if(!confirm(`${inmate.nickname}의 석방금을 ${releasePrice?`${prisonCoin(releasePrice)}코인`:'모금 비활성화'}으로 설정할까요?`))return;
   prisonCommunityBusy=true;syncPrisonDom();try{const data=await apiRequest('prison/release-price',{method:'POST',body:JSON.stringify({inmateUserId:Number(inmate.userId),releasePrice})});applyPrisonStatus(data.state?.prison||{},data.state||{});if(data.released)alert('설정 금액이 기존 모금액 이하라 즉시 석방되었습니다.');syncPrisonDom()}catch(error){alert(error.message||'석방금 설정에 실패했습니다.')}finally{prisonCommunityBusy=false;syncPrisonDom()}
 }
 async function contributePrisonFund(){
   if(prisonCommunityBusy)return;const inmate=selectedPrisonInmate(),input=document.getElementById('prisonFundAmount'),amount=Number(input?.value);
+  if(inmate&&isOwnPrisonFund(inmate))return alert('본인의 영치금은 직접 납부할 수 없습니다.');
   if(!inmate)return alert('수감자를 다시 선택해 주세요.');if(!Number.isSafeInteger(amount)||amount<1)return alert('납부할 코인을 정수로 입력하세요.');if(amount>Number(inmate.remainingCoin||0))return alert(`남은 석방금은 ${prisonCoin(inmate.remainingCoin)}코인입니다.`);
   if(!confirm(`${inmate.nickname} 석방 모금에 ${prisonCoin(amount)}코인을 납부할까요?\n납부한 코인은 반환되지 않습니다.`))return;
   const wasLocked=isPrisonLocked();prisonCommunityBusy=true;syncPrisonDom();try{const data=await apiRequest('prison/fund',{method:'POST',body:JSON.stringify({inmateUserId:Number(inmate.userId),amount,requestId:prisonRequestId('PRISON_FUND')})});if(data.user){const local=loadUser();if(local)saveUser(mergeApiUserSummary(data.user,local))}applyPrisonStatus(data.state?.prison||{},data.state||{});if(data.released)alert(`${inmate.nickname}의 영치금 모금이 완료되어 석방되었습니다.`);if(wasLocked&&!isPrisonLocked()){stopPrisonWatch();renderShell('buy');return}syncPrisonDom()}catch(error){alert(error.message||'영치금 납부에 실패했습니다.')}finally{prisonCommunityBusy=false;if(document.getElementById('prisonView'))syncPrisonDom()}
