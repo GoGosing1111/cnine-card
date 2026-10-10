@@ -11,7 +11,7 @@ fs.mkdirSync(out,{recursive:true});
 const mime={'.html':'text/html','.js':'text/javascript','.mjs':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.svg':'image/svg+xml','.webp':'image/webp','.woff2':'font/woff2'};
 const server=http.createServer((req,res)=>{
   if(req.url==='/admin-chief-fixture'){
-    res.writeHead(200,{'content-type':'text/html'});res.end('<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="/admin/chief-admin-v1.css"><style>body{background:#0d151e;color:white;font:14px sans-serif;margin:30px}.view[hidden]{display:none}</style><nav id="nav"></nav><h1 id="pageTitle"></h1><main></main><script src="/admin/chief-admin-v1.js"></script>');return;
+    res.writeHead(200,{'content-type':'text/html'});res.end('<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="/admin/chief-admin-v1.css"><style>body{background:#0d151e;color:white;font:14px sans-serif;margin:30px}.view[hidden]{display:none}nav{position:fixed;width:190px}main,h1{margin-left:220px}</style><nav id="nav"></nav><h1 id="pageTitle"></h1><main></main><script src="/admin/chief-admin-v1.js"></script>');return;
   }
   const requested=decodeURIComponent(new URL(req.url,'http://localhost').pathname),file=path.resolve(root,'.'+(requested==='/'?'/index.html':requested));
   if(!file.startsWith(root)){res.writeHead(403);res.end();return}
@@ -67,7 +67,7 @@ try{
     await page.close();
   }
   if(!process.env.CHIEF_EXTENSION_QA_WIDTH){
-    const page=await browser.newPage({viewport:{width:1440,height:1000}});let extension=null,posted=null;
+    const page=await browser.newPage({viewport:{width:1024,height:900}});let extension=null,posted=null;
     const chief={active:true,status:'ACTIVE',userId:4773,appointmentId:'diim-10th',nickname:'진짜디임',ordinal:10,endsAt:notice.previousEndsAt,remainingMs:86400000,usage:{}};
     await page.route('**/api/**',async route=>{
       if(route.request().method()==='POST'){posted=route.request().postDataJSON();extension={...notice,announcedAt:new Date().toISOString()};chief.endsAt=notice.endsAt;await route.fulfill({json:{ok:true,receipt:extension}})}
@@ -79,6 +79,7 @@ try{
     await page.locator('#chiefExtendDiimBtn').click();await page.getByText('특별 담화 공개 · 임기 7일 연장 완료').waitFor();
     check(posted.appointmentId==='diim-10th'&&posted.endsAt===notice.previousEndsAt,'CMS submits the existing appointment and original end');
     check(await page.locator('#chiefExtendDiimBtn').count()===0,'CMS replaces the apply button with the completed receipt');
+    check(await page.locator('.chief-admin-current>div').evaluate(el=>el.clientWidth>350),'CMS receipt remains readable at a 1024px viewport with sidebar');
     await page.screenshot({path:path.join(out,'cms-completed.png')});await page.close();
   }
   check(errors.length===0,'no application JavaScript errors: '+errors.join(' | '));
