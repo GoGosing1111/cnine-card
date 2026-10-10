@@ -1,7 +1,7 @@
 (function(){
   'use strict';
   if(window.JokgakCity)return;
-  const VERSION='20261010-city4',ART='/assets/ui/jokgak-city/',PREVIEW=location.pathname.startsWith('/preview/jokgak-city-v1/');
+  const VERSION='20261011-items1',ART='/assets/ui/jokgak-city/',PREVIEW=location.pathname.startsWith('/preview/jokgak-city-v1/');
   const config=Promise.all([import('/shared/jokgak-city-v1.mjs?v='+VERSION),import('/shared/jokgak-city-settings-v1.mjs?v='+VERSION),import('/js/jokgak-city-life-ui-v1.mjs?v='+VERSION),import('/js/jokgak-city-expansion-ui-v1.mjs?v='+VERSION),import('/js/jokgak-city-career-ui-v1.mjs?v='+VERSION)]).then(([city,settings,life,expansion,career])=>({...city,...settings,...life,...expansion,...career}));
   const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const paths={bed:'M2 4v18m20-11v11M2 17h20M5 11h5V7H5Zm7 0h10v6H2',cash:'M2 5h20v14H2ZM8 12a4 4 0 1 0 8 0 4 4 0 0 0-8 0ZM5 9v6m14-6v6',meal:'M3 2v6m3-6v6m3-6v6M3 6h6v4H3Zm3 4v12M18 2v20m0-20c-5 2-5 9 0 9',bottle:'M9 2h6v5l3 4v11H6V11l3-4ZM9 2v5h6M6 14h12',shield:'M12 2 21 6v6c0 5-9 10-9 10S3 17 3 12V6ZM8 11l3 3 5-6',cross:'M9 3h6v6h6v6h-6v6H9v-6H3V9h6Z',medical:'M9 3h6v6h6v6h-6v6H9v-6H3V9h6ZM5 3v2M19 19v2',person:'M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM4 22v-3a8 8 0 0 1 16 0v3',bag:'M8 3h8l-2 4 6 7v6H4v-6l6-7ZM9 7h6M10 14h4',swords:'m4 2 8 8-3 3-7-7Zm16 0-8 8 3 3 7-7ZM5 11l-4 4m8 2-4 5m14-11 4 4m-8 2 4 5',bolt:'m13 2-9 12h7l-1 8 10-13h-7Z',store:'M3 9h18v12H3ZM2 9l3-6h14l3 6M8 21v-7h8v7M8 3 6 9m10-6 2 6',mail:'M2 5h20v15H2Zm0 0 10 8L22 5',market:'M3 10v11h18V10M2 10l3-7h14l3 7ZM8 3v7m8-7v7M8 21v-6h8v6',home:'m2 11 10-9 10 9M5 9v13h14V9M9 22v-8h6v8',warehouse:'M2 8 12 2l10 6v14H2ZM6 22V11h12v11M6 15h12M6 19h12',arrow:'M3 12h18m-7-7 7 7-7 7',target:'M12 3v4m0 10v4M3 12h4m10 0h4M18 12a6 6 0 1 1-12 0 6 6 0 0 1 12 0Z',clock:'M12 6v6l4 3M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z',close:'m5 5 14 14M19 5 5 19',refresh:'M3 10a9 9 0 1 1 2 9M3 3v7h7',map:'m2 5 6-3 8 3 6-3v17l-6 3-8-3-6 3ZM8 2v17m8-14v17'};
@@ -142,7 +142,7 @@
     if(!retry&&['buy','eat','treat','buyWeapon'].includes(kind)){
       const cfg=state.life||C.defaultCitySettings().life,p=kind==='buyWeapon'?state.arsenal.weapons.find(w=>w.code===product):kind==='buy'?cfg.supplies.find(x=>x.code===product):kind==='eat'?cfg.meal:cfg.treatment;
       if(!p)return;const title=kind==='buyWeapon'?'시장 무기 구매':kind==='buy'?'소지품 구매':kind==='eat'?'식당에서 식사':'병원 진료';
-      const d=showDialog(title,`<p>${state.mode==='TEST'?`TEST · 테스트 현금 ${money(p.price)}원으로 결제합니다.`:`이용 시 <b>${money(p.price)}원</b>이 차감됩니다.`}</p>`,'<button data-city-dialog-close>취소</button><button class="jc-primary" data-city-confirm>이용하기</button>');
+      const d=showDialog(title,`<div class="jc jc-item-receipt">${C.cityItemArt(kind==='eat'?'SET_MEAL':kind==='treat'?'TREATMENT':product,true)}<div><p>${state.mode==='TEST'?`TEST · 테스트 현금 ${money(p.price)}원으로 결제합니다.`:`이용 시 <b>${money(p.price)}원</b>이 차감됩니다.`}</p></div></div>`,'<button data-city-dialog-close>취소</button><button class="jc-primary" data-city-confirm>이용하기</button>');
       d.querySelector('[data-city-confirm]').onclick=()=>{closeDialog();void submit(kind,body);};return;
     }
     await submit(kind,body);
@@ -160,7 +160,7 @@
       else if(result.donation){successText=`${result.donation.recipientName} 님에게 ${money(result.donation.amount)}원을 건넸습니다.`;}
       else if(result.expansion){const e=result.expansion;successText=e.kind==='buyWeapon'?`${e.name} 구매 완료 · 미니 인벤토리에서 장착하세요.`:e.kind==='equipWeapon'?`${e.name} 장착 · 도시 전투력 ${money(result.mine.cityPower)}`:e.kind==='unequipWeapon'?'무기 장착을 해제했습니다.':e.kind==='rest'?'개인 객실에 입실했습니다. 휴식 중에는 공격받지 않습니다.':'퇴실했습니다. 집으로 이동합니다.';if(['rest','checkout'].includes(kind)){selected=result.mine.location;cursor=0;pages=[0];}}
       else if(['beg','alms'].includes(kind)){successText='이곳 사람들에게 도움을 요청했습니다. 동냥 알림은 지도 오른쪽 아래에 표시됩니다.';}
-      else if(result.service){const s=result.service;showDialog(s.name+' 완료',`<p>${kind==='buy'?'도시 소지품에 1개 보관했습니다.':`포만감 ${s.hunger} · 건강 ${s.wellness} · 체력 ${s.health}`}</p><p>${s.test?'테스트 ':''}현금 ${money(s.price)}원 사용 · 잔액 <b>${money(s.cash?.after)}원</b></p>`);}
+      else if(result.service){const s=result.service;showDialog(s.name+' 완료',`<div class="jc jc-item-receipt">${C.cityItemArt(kind==='eat'?'SET_MEAL':kind==='treat'?'TREATMENT':body.product,true)}<div><p>${kind==='buy'?'도시 소지품에 1개 보관했습니다.':`포만감 ${s.hunger} · 건강 ${s.wellness} · 체력 ${s.health}`}</p><p>${s.test?'테스트 ':''}현금 ${money(s.price)}원 사용 · 잔액 <b>${money(s.cash?.after)}원</b></p></div></div>`);}
       else if(result.inspection){const i=result.inspection;showDialog('검문 결과',`<h3>${esc(i.nickname)} · ${role(i.role).name}</h3><p>수배 ${i.wanted} · 도시 전투력 ${money(i.cardPower)} · ${esc(i.weaponName||"맨손")}</p><ul class="jc-inspection">${i.cards.map(c=>`<li><b>${esc(c.rarity)}</b><span>${esc(c.name)} ${esc(c.title)}</span></li>`).join('')}</ul>${rewardHtml(result.reward)}`);}
       else if(kind==='heal'&&['PAID','TEST_PREVIEW'].includes(result.reward?.status)){showDialog('치료 완료',`<p>도시 체력 ${result.effects?.healed||0} 회복</p>${rewardHtml(result.reward)}`);}
       else if(kind==='join'||kind==='move'){selected=result.mine.location;cursor=0;pages=[0];}

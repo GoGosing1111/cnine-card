@@ -1,5 +1,6 @@
 @import url("./jokgak-city-career-v1.css?v=20261010-city4");
 @import url("./jokgak-city-expansion-v1.css?v=20261010-city4");
+@import url("./jokgak-city-items-v1.css?v=20261011-items1");
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap');
 .jc,.jc-dialog,.jc-dispatch,.jc-battle-result{--bg:#080c17;--panel:#111828;--line:#28324a;--text:#f3f5ff;--muted:#8b97b0;--lime:#c8ff6b;font-family:'Noto Sans KR',sans-serif;color:var(--text);font-synthesis:none;box-sizing:border-box;color-scheme:dark}
 .jc *,.jc-dialog *,.jc-dispatch *,.jc-battle-result *{box-sizing:border-box}

@@ -1,0 +1,83 @@
+/* Authored transparent object art: midnight displays, amber food, cool medical steel. */
+.jc .jc-item-art{--item-glow:#bdcce119;position:relative;isolation:isolate;display:grid;place-items:center;flex:none;min-width:0;overflow:hidden;background:radial-gradient(ellipse at 50% 66%,var(--item-glow),transparent 70%);border-radius:6px}
+.jc .jc-item-art--food,.jc .jc-item-art--tonic{--item-glow:#e0ae4530}
+.jc .jc-item-art--medical{--item-glow:#70c9c027}
+.jc .jc-item-art--olive{--item-glow:#accc7630}
+.jc .jc-item-art:after{content:"";position:absolute;bottom:7%;left:18%;right:18%;height:1px;background:linear-gradient(90deg,transparent,#adbbcf35,transparent);z-index:-1}
+.jc .jc-item-art img{position:absolute;inset:0;display:block;width:100%;height:100%;max-width:100%;min-width:0;min-height:0;padding:inherit;object-fit:contain;filter:drop-shadow(0 10px 10px #0005)}
+.jc .jc-services,.jc .jc-armory{padding:22px;border:1px solid #354454;border-radius:7px;background:linear-gradient(145deg,#172231,#0e1724)}
+.jc .jc-services>header,.jc .jc-armory>header{margin:0 0 20px}
+.jc .jc-services h3,.jc .jc-armory h3{font-size:21px;letter-spacing:-.6px;margin:5px 0}
+.jc .jc-service-list,.jc .jc-armory>div{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0}
+.jc .jc-services .jc-service,.jc .jc-armory .jc-weapon{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto 1fr auto;gap:0;align-items:stretch;padding:0;border:1px solid #394b5c;border-radius:6px;overflow:hidden;background:linear-gradient(150deg,#20304166,#111b29 70%)}
+.jc .jc-services .jc-service>.jc-item-art,.jc .jc-armory .jc-weapon>.jc-item-art{width:100%;height:180px;margin:0;padding:13px 11px 4px;border-radius:0;background-color:#080f1970;border-bottom:1px solid #314154}
+.jc .jc-service-copy,.jc .jc-weapon-copy{min-width:0;padding:17px 14px 15px}
+.jc .jc-services .jc-service b,.jc .jc-armory .jc-weapon b{display:block;font-size:15px;line-height:1.5;letter-spacing:-.5px;margin:0 0 8px}
+.jc .jc-services .jc-service p,.jc .jc-armory .jc-weapon p{font-size:11px;color:#a7b8ca;line-height:1.8;margin:0 0 12px;word-break:keep-all;overflow-wrap:anywhere}
+.jc .jc-services .jc-service strong{color:#c2deb3;font-size:11px;font-weight:500;line-height:1.8}
+.jc .jc-services .jc-service small{margin-top:12px;color:#f1d7a9;font-size:17px;font-weight:700;line-height:1.4;letter-spacing:-.4px}
+.jc .jc-service-price em{display:block;font-style:normal;font-size:10px;font-weight:400;color:#a9b5c7;letter-spacing:0;margin-top:4px}
+.jc .jc-services .jc-service>button,.jc .jc-armory .jc-weapon>button{grid-column:1/-1;grid-row:auto;justify-self:stretch;min-height:43px;margin:0 12px 12px;border-radius:4px;font-size:12px;font-weight:800}
+.jc .jc-services.is-single .jc-service-list{grid-template-columns:minmax(0,1fr)}
+.jc .jc-services.is-single .jc-service{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);grid-template-rows:1fr auto;align-items:center;padding:15px}
+.jc .jc-services.is-single .jc-service>.jc-item-art{grid-row:1/3;height:255px;border:0;background-color:transparent;padding:0}
+.jc .jc-services.is-single .jc-service>button{grid-column:2;margin:0 14px 10px}
+.jc .jc-services.is-single .jc-service b{font-size:20px}
+.jc .jc-services.is-single .jc-service p{font-size:12px}
+.jc .jc-services.is-single .jc-service small{font-size:24px}
+.jc .jc-service-foot{margin:18px 0 0;font-size:10px!important;line-height:1.8}
+.jc .jc-armory .jc-weapon.is-equipped{border-color:#a6cb70;box-shadow:inset 0 2px #c8ff6b}
+.jc .jc-armory .jc-weapon small{font:500 10px 'Barlow Condensed',sans-serif;letter-spacing:1.3px;margin:0 0 7px;color:#a7b998}
+.jc .jc-armory .jc-weapon b em{display:block;font-size:10px;line-height:1.4;margin:5px 0 0}
+.jc .jc-armory .jc-weapon p strong{display:block;font:600 24px 'Barlow Condensed',sans-serif;letter-spacing:.2px}
+.jc .jc-armory .jc-weapon-copy>span{display:block;margin-top:12px;font-size:17px;font-weight:700;color:#f1d7a9}
+.jc .jc-armory .jc-weapon-copy>span em{display:block;margin-top:4px;color:#a7b8ca;font-size:10px;font-weight:400;font-style:normal}
+.jc .jc-mini-weapons article{padding:9px 10px 12px;border-radius:5px}
+.jc .jc-mini-weapons article>.jc-item-art{width:100%;height:140px;padding:10px}
+.jc .jc-mini-weapons article>b{font-size:14px;margin-top:5px}
+.jc .jc-mini-weapons article>small{font-size:10px;margin:5px 0 13px}
+.jc .jc-mini-weapons article>em{z-index:1;padding:2px 5px;background:#101827d9;border-radius:2px}
+.jc .jc-bag article{display:grid;grid-template-columns:88px minmax(0,1fr) auto;gap:14px;padding:12px 0 0;margin-top:12px}
+.jc .jc-bag article>.jc-item-art{width:88px;height:88px;border:1px solid #364657;background-color:#0a1421}
+.jc .jc-bag article b{font-size:13px;line-height:1.6}
+.jc .jc-bag article small{font-size:10px;line-height:1.8}
+.jc .jc-bag article button{min-height:40px}
+.jc .jc-city-loadout>.jc-item-art{width:100px;height:100px;padding:3px}
+.jc .jc-city-loadout>div{min-width:0}
+.jc.jc-item-receipt{display:grid;grid-template-columns:120px minmax(0,1fr);gap:20px;align-items:center;margin:0;padding:0;background:transparent}
+.jc-item-receipt>.jc-item-art{width:120px;height:120px}
+.jc-item-receipt p{margin:8px 0}
+@media(max-width:800px){
+ .jc .jc-services,.jc .jc-armory{padding:16px 12px}
+ .jc .jc-services h3,.jc .jc-armory h3{font-size:19px}
+ .jc .jc-service-list,.jc .jc-armory>div{grid-template-columns:minmax(0,1fr);gap:13px}
+ .jc .jc-services .jc-service,.jc .jc-armory .jc-weapon{grid-template-columns:110px minmax(0,1fr);grid-template-rows:1fr auto;align-items:center}
+ .jc .jc-services .jc-service>.jc-item-art,.jc .jc-armory .jc-weapon>.jc-item-art{width:110px;height:145px;align-self:stretch;margin:auto 0;padding:9px 3px;border:0;background-color:transparent}
+ .jc .jc-service-copy,.jc .jc-weapon-copy{padding:17px 10px 13px}
+ .jc .jc-services .jc-service b,.jc .jc-armory .jc-weapon b{font-size:14px}
+ .jc .jc-services .jc-service p{font-size:10px;margin-bottom:8px}
+ .jc .jc-services .jc-service small{font-size:18px;margin-top:9px}
+ .jc .jc-services .jc-service>button,.jc .jc-armory .jc-weapon>button{min-height:44px;margin:0 10px 10px}
+ .jc .jc-services.is-single .jc-service{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto auto;padding:8px}
+ .jc .jc-services.is-single .jc-service>.jc-item-art{grid-row:auto;width:100%;height:230px;margin:0;padding:5px 8px}
+ .jc .jc-services.is-single .jc-service-copy{padding:8px 13px 18px}
+ .jc .jc-services.is-single .jc-service>button{grid-column:1;margin:0 10px 10px}
+ .jc .jc-mini-weapons{grid-template-columns:minmax(0,1fr)}
+ .jc .jc-mini-weapons article{display:grid;grid-template-columns:110px minmax(0,1fr);grid-template-rows:auto auto auto;column-gap:12px;padding:15px 12px}
+ .jc .jc-mini-weapons article>.jc-item-art{grid-row:1/4;width:110px;height:125px;padding:5px}
+ .jc .jc-mini-weapons article>b{margin-top:12px}
+ .jc .jc-mini-weapons article>small{margin:3px 0 10px}
+ .jc .jc-mini-weapons article>button{grid-column:2;min-height:42px}
+ .jc .jc-bag{padding:15px 12px}
+ .jc .jc-bag article{grid-template-columns:70px minmax(0,1fr) 51px;gap:8px}
+ .jc .jc-bag article>.jc-item-art{width:70px;height:78px}
+ .jc .jc-bag article b{font-size:12px}
+ .jc .jc-bag article button{padding:8px 6px;min-height:42px}
+ .jc .jc-city-loadout{gap:12px;padding:14px}
+ .jc .jc-city-loadout>.jc-item-art{width:88px;height:88px}
+ .jc .jc-city-loadout>div{flex:1;min-width:130px}
+ .jc .jc-city-loadout>strong{width:100%;font-size:32px}
+ .jc .jc-city-loadout>strong small{display:inline-block;margin-left:8px}
+ .jc.jc-item-receipt{grid-template-columns:82px minmax(0,1fr);gap:13px}
+ .jc-item-receipt>.jc-item-art{width:82px;height:100px}
+}

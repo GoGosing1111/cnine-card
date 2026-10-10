@@ -1,0 +1,267 @@
+{
+  "version": 1,
+  "date": "2026-10-11",
+  "tool": "built-in image_gen.imagegen",
+  "style": "Modern Korean night city; semi-realistic isolated objects; warm amber key/cool cyan rim; true alpha",
+  "coverage": "All 3 city supplies, 3 city weapons, restaurant set meal and hospital recovery treatment",
+  "assets": [
+    {
+      "id": "lunchbox",
+      "code": "LUNCHBOX",
+      "name": "휴대 도시락",
+      "category": "food",
+      "generatedSource": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-91eae6c8-b5fa-4876-84b4-fe6fc1ff88be.png",
+      "source": "assets/ui/jokgak-city/items-v1/lunchbox-source.png",
+      "image": "assets/ui/jokgak-city/items-v1/lunchbox-768.webp",
+      "thumbnail": "assets/ui/jokgak-city/items-v1/lunchbox-256.webp",
+      "prompt": "Create one premium game inventory object illustration for a modern Korean urban survival RPG called Jokgak City. Asset: a portable Korean lunchbox, distinct from a plated restaurant meal. A single open sturdy dark graphite rectangular bento tray, its compartments holding glossy white rice with a few black sesame seeds, appetizing caramelized sliced bulgogi, one folded golden omelet, and a modest portion of vivid kimchi and green vegetables. The open lid is tucked behind at a slight angle, integrated into one compact readable silhouette. Three-quarter elevated view, centered square composition, entire object visible with about 10% transparent padding. Beautiful restrained semi-realistic digital game illustration, highly considered appetizing food textures, crisp clean silhouette, brushed metal clasp, subtle warm amber key light from upper left and cool cyan rim from upper right, suitable against a deep midnight navy UI. A real usable urban item, luxurious art direction and fine craft, no cute cartoon, no fantasy gems, no floating particles. Strong readable forms at 100px, detailed enough at 300px. Output a 1024 by 1024 transparent PNG cutout with genuine alpha, subtle small contact shadow only; no floor, background, text, labels, lettering, logo, frame, UI, watermark, people, hands, extra utensils or disconnected duplicate objects.",
+      "sourceMetadata": {
+        "width": 1254,
+        "height": 1254,
+        "channels": 4,
+        "hasAlpha": true
+      },
+      "files": {
+        "source": {
+          "sha256": "9ceca5795ee98512ba3eea7b6fd82eb651f8251ed302ca33a1e9ac73f9909093",
+          "bytes": 2112676
+        },
+        "image": {
+          "sha256": "9c113c6f8016ad1c2979babc5795637a771173690a45ae80d170259b6c4b9872",
+          "bytes": 183712
+        },
+        "thumbnail": {
+          "sha256": "13d2ba402d961adcdb421304bec9c413d7b95c8eb315f55057e43704e6547e3e",
+          "bytes": 28714
+        }
+      }
+    },
+    {
+      "id": "vitamin",
+      "code": "VITAMIN",
+      "name": "비타민 드링크",
+      "category": "tonic",
+      "generatedSource": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-ae7fb69f-f0c2-42be-a5c7-fc2466c8bfd6.png",
+      "source": "assets/ui/jokgak-city/items-v1/vitamin-source.png",
+      "image": "assets/ui/jokgak-city/items-v1/vitamin-768.webp",
+      "thumbnail": "assets/ui/jokgak-city/items-v1/vitamin-256.webp",
+      "prompt": "One compact premium vitamin drink: a single upright amber glass tonic bottle with a sealed brushed-gold screw cap, rich golden liquid with subtle translucency, a clean off-white paper label with one simple orange citrus-circle pictogram and a small teal geometric accent, absolutely no letters or numbers. One slim orange slice rests against the base as an ingredient cue, belonging to the same compact item composition. Bottle has natural believable proportions, visible glass thickness and fine restrained condensation. Bold recognizable bottle shape, not a potion. Premium modern Korean urban survival RPG inventory art, restrained semi-realistic digital illustration with carefully rendered real materials, warm amber key light upper left and subtle cool cyan rim upper right, readable crisp silhouette on a deep midnight navy interface. Three-quarter elevated view, centered square composition, entire object visible with 10% transparent padding. Strong forms at 100px, beautiful details at 300px. Genuine transparent PNG alpha background, no floor or backdrop, only a compact soft contact shadow. No text, lettering, logo, watermark, border, frame, UI, fantasy gems, cute cartoon, people or hands. Match a sophisticated night-city game, not a generic stock icon.",
+      "sourceMetadata": {
+        "width": 1254,
+        "height": 1254,
+        "channels": 4,
+        "hasAlpha": true
+      },
+      "files": {
+        "source": {
+          "sha256": "2ab8ebeadb7ccea7a863eb6793a744c7292d26bbac3ef1af7a2a0e6347612a36",
+          "bytes": 1107157
+        },
+        "image": {
+          "sha256": "053fd82fadba844d137d2ff4b14b96c37c40ee120101a322c9b745c745bdc5f9",
+          "bytes": 106778
+        },
+        "thumbnail": {
+          "sha256": "89aad93fa3b4c5ff2dbc1fbd410878f5848e482c619614124bf3cb87b1bb0b80",
+          "bytes": 15618
+        }
+      }
+    },
+    {
+      "id": "first-aid",
+      "code": "FIRST_AID",
+      "name": "응급 처치 키트",
+      "category": "medical",
+      "generatedSource": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-7553aa15-8a2a-45a5-b866-602364b17029.png",
+      "source": "assets/ui/jokgak-city/items-v1/first-aid-source.png",
+      "image": "assets/ui/jokgak-city/items-v1/first-aid-768.webp",
+      "thumbnail": "assets/ui/jokgak-city/items-v1/first-aid-256.webp",
+      "prompt": "One open portable first aid kit for city combat injuries: a sturdy dark teal rounded rectangular zippered medical case, brushed cream interior with neatly secured gauze roll, folded sterile bandage and two sealed dressing packets. Lid tilts behind the open case, carrying one small simple pale cream medical plus symbol as a pictogram, not lettering. Subtle amber zipper and realistic woven fabric, controlled clean highlights, clearly portable everyday medical equipment. All contents sit inside the case, no scattered props. Distinct readable soft bag silhouette, no syringes, no blood. Premium modern Korean urban survival RPG inventory art, restrained semi-realistic digital illustration with carefully rendered real materials, warm amber key light upper left and subtle cool cyan rim upper right, readable crisp silhouette on a deep midnight navy interface. Three-quarter elevated view, centered square composition, entire object visible with 10% transparent padding. Strong forms at 100px, beautiful details at 300px. Genuine transparent PNG alpha background, no floor or backdrop, only a compact soft contact shadow. No text, lettering, logo, watermark, border, frame, UI, fantasy gems, cute cartoon, people or hands. Match a sophisticated night-city game, not a generic stock icon.",
+      "sourceMetadata": {
+        "width": 1254,
+        "height": 1254,
+        "channels": 4,
+        "hasAlpha": true
+      },
+      "files": {
+        "source": {
+          "sha256": "79b70fedbcc9c3b5be57caff547b12be8db11bf2bbbb4bdda56a23041c9b07ad",
+          "bytes": 2532130
+        },
+        "image": {
+          "sha256": "47bb12db1e1900f8a07b69c2c742092cefcb4679f487869553a2bda177e9ae78",
+          "bytes": 188810
+        },
+        "thumbnail": {
+          "sha256": "a34653f7a58fdb97d68485fa73905e6681c121202ea861f611c384f9b958c185",
+          "bytes": 24030
+        }
+      }
+    },
+    {
+      "id": "set-meal",
+      "code": "SET_MEAL",
+      "name": "든든한 정식",
+      "category": "food",
+      "generatedSource": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-6c010083-e1dd-48da-81df-74a11bc1bbbf.png",
+      "source": "assets/ui/jokgak-city/items-v1/set-meal-source.png",
+      "image": "assets/ui/jokgak-city/items-v1/set-meal-768.webp",
+      "thumbnail": "assets/ui/jokgak-city/items-v1/set-meal-256.webp",
+      "prompt": "One appetizing Korean diner set meal on a compact dark wood serving tray. A white glazed ceramic bowl of steaming short-grain rice, a shallow ceramic plate of succulent grilled bulgogi with green scallions, a small bowl of warm soybean soup, and two tiny side dishes of kimchi and seasoned greens arranged tidily as one coherent meal. A pair of straight stainless chopsticks and spoon rests parallel along the tray edge. Beautiful food gloss and natural grains, delicately warm steam, realistic ceramic and wood materials. This is a freshly served generous restaurant meal, clearly different from a compartment lunchbox; objects fully contained on one tray, no additional scenery. Premium modern Korean urban survival RPG inventory art, restrained semi-realistic digital illustration with carefully rendered real materials, warm amber key light upper left and subtle cool cyan rim upper right, readable crisp silhouette on a deep midnight navy interface. Three-quarter elevated view, centered square composition, entire object visible with 10% transparent padding. Strong forms at 100px, beautiful details at 300px. Genuine transparent PNG alpha background, no floor or backdrop, only a compact soft contact shadow. No text, lettering, logo, watermark, border, frame, UI, fantasy gems, cute cartoon, people or hands. Match a sophisticated night-city game, not a generic stock icon.",
+      "sourceMetadata": {
+        "width": 1254,
+        "height": 1254,
+        "channels": 4,
+        "hasAlpha": true
+      },
+      "files": {
+        "source": {
+          "sha256": "710125039bffd741f6f40c221f964d7e263a193033cc1c3cc874e0cc10741691",
+          "bytes": 1908391
+        },
+        "image": {
+          "sha256": "dd40627aa41602295209b693fc6c62200ba31a027a933bb1f57cc64f9db30e6d",
+          "bytes": 182096
+        },
+        "thumbnail": {
+          "sha256": "5c210b25bd755b0d1e68bf1a4d7e5d3971eb035b5ba513e6e4fbd748a189124b",
+          "bytes": 26660
+        }
+      }
+    },
+    {
+      "id": "treatment",
+      "code": "TREATMENT",
+      "name": "회복 진료",
+      "category": "medical",
+      "generatedSource": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-fe034885-4a73-4e22-b5b2-dc4ea7a29503.png",
+      "source": "assets/ui/jokgak-city/items-v1/treatment-source.png",
+      "image": "assets/ui/jokgak-city/items-v1/treatment-768.webp",
+      "thumbnail": "assets/ui/jokgak-city/items-v1/treatment-256.webp",
+      "prompt": "Create one premium modern Korean night-city survival RPG service illustration for hospital recovery treatment. A carefully arranged compact stainless medical kidney tray holding a neatly folded ivory medical towel, one dark teal stethoscope with the metal chest piece prominently resting in the foreground, and a small clean electronic thermometer beside it. A single opaque ivory antiseptic bottle with teal cap stands at the back of the tray, plain unbranded surface with only a tiny geometric stripe, absolutely no lettering. Elegant immediately readable clinical treatment still life; this is a hospital care service, clearly distinct from a portable first aid bag. No syringes, needles, pills, blood, patient or hands. Whole cohesive arrangement fully visible in one centered square composition, elevated three-quarter view, 10% padding. Restrained semi-realistic premium digital game object illustration, precise polished steel, soft towel weave, clean ivory and muted teal palette, warm amber key light upper left and cool cyan rim upper right, strong silhouette at 100px and fine beautiful details at 300px. Genuine transparent PNG cutout with alpha, very compact soft contact shadow only, no floor or room backdrop, no text, labels, digits, brand, logo, watermark, UI, frame, cartoon or magical particles.",
+      "sourceMetadata": {
+        "width": 1254,
+        "height": 1254,
+        "channels": 4,
+        "hasAlpha": true
+      },
+      "files": {
+        "source": {
+          "sha256": "b681cc3e51519377393bb711e04a23d344ef442d08c340a4a6bb212d250b6ac1",
+          "bytes": 1828070
+        },
+        "image": {
+          "sha256": "db1ff1bdb4ca70d530a08482a337c4c1e61a1848630a5fd6b7b104f2e8dcf576",
+          "bytes": 138872
+        },
+        "thumbnail": {
+          "sha256": "ea59c705ded84adc66362797b0f628eae81078fe4cfd56c8023b154a0f9cb249",
+          "bytes": 23362
+        }
+      }
+    },
+    {
+      "id": "pipe",
+      "code": "PIPE",
+      "name": "쇠파이프",
+      "category": "weapon",
+      "generatedSource": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-f6ed65e1-3bba-441e-95d8-b97b429cd845.png",
+      "source": "assets/ui/jokgak-city/items-v1/pipe-source.png",
+      "image": "assets/ui/jokgak-city/items-v1/pipe-768.webp",
+      "thumbnail": "assets/ui/jokgak-city/items-v1/pipe-256.webp",
+      "prompt": "Create one premium modern Korean night-city survival RPG inventory object: a single straight hollow steel pipe used as basic street equipment. Brushed gunmetal steel tube of consistent diameter along its full length, mostly straight clean silhouette with a few believable handling scratches and minor dull oxidation, one open circular end clearly visible, short dark charcoal tape grip wrapped around the lower third. NO elbow joint, NO bends, NO spikes, NO blood. Entire pipe lies diagonally from lower left to upper right with modest foreshortening, occupies about 82% of the square diagonal, fully visible, mechanically straight as ONE rigid object; close visual inspection of both parallel outer edges should show no warping. Restrained semi-realistic digital game illustration, carefully rendered metal and tape, warm amber key light upper left plus subtle cool cyan rim upper right, readable against midnight navy UI. Transparent PNG cutout with genuine alpha, only very subtle compact soft shadow. No floor, scenery, hands, people, detached props, text, branding, lettering, logo, watermark, frame, UI, cute cartoon or fantasy gems. Strong silhouette at 100px, polished detail at 300px.",
+      "sourceMetadata": {
+        "width": 1254,
+        "height": 1254,
+        "channels": 4,
+        "hasAlpha": true
+      },
+      "files": {
+        "source": {
+          "sha256": "84bfd5c28d985b2e06d3eea4f8d76fcb33e1df38b486d71c9905aaaff7fe6bed",
+          "bytes": 688530
+        },
+        "image": {
+          "sha256": "1e19ea8f736f49bc40583b75d6d3e0aaaf4d55a0efccdfea06e9a2d1fe6ab338",
+          "bytes": 56592
+        },
+        "thumbnail": {
+          "sha256": "e88074834eb7b67dfbe40bb76588a8af91e27acf42f9b460fc9f14dd85acb475",
+          "bytes": 9482
+        }
+      }
+    },
+    {
+      "id": "pistol",
+      "code": "PISTOL",
+      "name": "권총",
+      "category": "weapon",
+      "generatedSource": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-e4eef5af-1a41-4bb2-94c8-927af1f57b91.png",
+      "source": "assets/ui/jokgak-city/items-v1/pistol-source.png",
+      "image": "assets/ui/jokgak-city/items-v1/pistol-768.webp",
+      "thumbnail": "assets/ui/jokgak-city/items-v1/pistol-256.webp",
+      "prompt": "Create one premium modern Korean night-city survival RPG inventory illustration of a single compact semi-automatic handgun, unbranded. Whole firearm fully visible, elegant three-quarter side view pointing to the upper right at a gentle diagonal. Graphite blued steel slide and barrel, realistic dark textured polymer grip, simple straight slide with precisely aligned sights, mechanically plausible trigger guard and grip. One coherent rigid object: slide, receiver and bore axis stay perfectly straight and aligned, no curved barrel, melted geometry, extra triggers, duplicate barrels or decorative spikes. Clean professional equipment with subtle believable wear, NOT instructions or a technical diagram. No bullets, cartridges, detached magazine or other objects. Semi-realistic polished digital game object art, restrained fine material rendering with warm amber key light upper left and cool cyan rim upper right, readable clean silhouette against midnight navy UI. Centered square composition, 10% transparent padding on all sides, genuine transparent PNG alpha, soft small contact shadow only, no floor or scenery. No hands, people, text, branding, serial lettering, logo, watermark, UI, frame, cute cartoon or fantasy gems. Legible at 100px, beautiful at 300px.",
+      "sourceMetadata": {
+        "width": 1254,
+        "height": 1254,
+        "channels": 4,
+        "hasAlpha": true
+      },
+      "files": {
+        "source": {
+          "sha256": "91093bf00c9f9698c4d3a50a8385194f17d3cfbc0067171d808230207095a4f5",
+          "bytes": 1318830
+        },
+        "image": {
+          "sha256": "117b2f6f62a66dba482a373071912e8d4769715934b178e733bfa0cbe33a3f50",
+          "bytes": 103422
+        },
+        "thumbnail": {
+          "sha256": "90052af53aef7e973a3486a83d896845bf10bb7ece79e99940fbc23967d7da96",
+          "bytes": 16442
+        }
+      }
+    },
+    {
+      "id": "rifle",
+      "code": "RIFLE",
+      "name": "소총",
+      "category": "weapon",
+      "generatedSource": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-0b545d14-2b37-49a5-bafa-6e6fb9d85395.png",
+      "source": "assets/ui/jokgak-city/items-v1/rifle-source.png",
+      "image": "assets/ui/jokgak-city/items-v1/rifle-768.webp",
+      "thumbnail": "assets/ui/jokgak-city/items-v1/rifle-256.webp",
+      "prompt": "Create one premium modern Korean night-city survival RPG inventory illustration: a single unbranded modern carbine rifle. Graphite black receiver, clean dark olive fore-end and adjustable stock, short simple magazine seated in the rifle and one small low-profile optic. Complete rifle fully visible from buttstock at lower left to muzzle at upper right, dominant straight clean diagonal silhouette with side view and very mild perspective. ONE physically rigid assembly: the receiver top rail, straight handguard upper line, barrel centerline, optic rail and muzzle remain precisely aligned and parallel in consistent perspective; barrel must not droop, curve or kink at the handguard. Mechanically coherent ordinary carbine, restrained detail, NO exaggerated attachments, NO duplicate barrels, NO curved magazine weirdness. No rounds, ammunition, detached accessories, people or hands. Polished semi-realistic digital game object illustration, realistic dark matte metal, subtle steel highlights, warm amber key light upper left and cool cyan rim upper right for excellent visibility on midnight navy UI. Fits a high-quality urban RPG item collection. Centered square composition, 8% transparent padding, entire rifle including stock and muzzle inside canvas. Genuine transparent PNG alpha background, no floor, no scenery, no text, labels, serials, branding, logo, watermark, frame, UI, cute cartoon or fantasy ornament. Clear at 100px and beautifully detailed at 300px. Image is an object illustration, not a technical diagram.",
+      "sourceMetadata": {
+        "width": 1254,
+        "height": 1254,
+        "channels": 4,
+        "hasAlpha": true
+      },
+      "files": {
+        "source": {
+          "sha256": "8f310127663afaa85883e178a9cda92185f0e64575d97bc91172e482fe5def0d",
+          "bytes": 738430
+        },
+        "image": {
+          "sha256": "9537eab896b5cd855b9b2c9f2256ceace2de0905f3ae6a48aa1d2e2676162a6a",
+          "bytes": 68148
+        },
+        "thumbnail": {
+          "sha256": "423e024b78f739e984bc1e71f4436d04a29f220974c1515aa97102b184516bd8",
+          "bytes": 13416
+        }
+      }
+    }
+  ],
+  "delivery": {
+    "format": "WebP",
+    "sizes": [
+      256,
+      768
+    ],
+    "quality": 92,
+    "alphaQuality": 100,
+    "sourcePolicy": "Generated PNGs copied byte-for-byte; no art edits, crops or background replacement."
+  }
+}

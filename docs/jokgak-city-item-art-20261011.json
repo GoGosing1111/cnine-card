@@ -1,0 +1,187 @@
+{
+  "checks": [
+    "1440: market art decoded, legible, no horizontal overflow",
+    "1440: weapons art decoded, legible, no horizontal overflow",
+    "1440: equipped art decoded, legible, no horizontal overflow",
+    "1440: shop art decoded, legible, no horizontal overflow",
+    "1440: supplies art decoded, legible, no horizontal overflow",
+    "1440: restaurant art decoded, legible, no horizontal overflow",
+    "1440: hospital art decoded, legible, no horizontal overflow",
+    "1440: all 3 weapons purchased, rifle equipped; all 3 supplies purchased/used; meal/treatment applied; city cash 42,000 and main coins unchanged",
+    "390: market art decoded, legible, no horizontal overflow",
+    "390: weapons art decoded, legible, no horizontal overflow",
+    "390: equipped art decoded, legible, no horizontal overflow",
+    "390: shop art decoded, legible, no horizontal overflow",
+    "390: supplies art decoded, legible, no horizontal overflow",
+    "390: restaurant art decoded, legible, no horizontal overflow",
+    "390: hospital art decoded, legible, no horizontal overflow",
+    "390: all 3 weapons purchased, rifle equipped; all 3 supplies purchased/used; meal/treatment applied; city cash 42,000 and main coins unchanged"
+  ],
+  "errors": [],
+  "assets": [
+    "/assets/ui/jokgak-city/items-v1/pipe-768.webp",
+    "/assets/ui/jokgak-city/items-v1/pistol-768.webp",
+    "/assets/ui/jokgak-city/items-v1/rifle-768.webp",
+    "/assets/ui/jokgak-city/items-v1/lunchbox-768.webp",
+    "/assets/ui/jokgak-city/items-v1/vitamin-768.webp",
+    "/assets/ui/jokgak-city/items-v1/first-aid-768.webp",
+    "/assets/ui/jokgak-city/items-v1/pipe-256.webp",
+    "/assets/ui/jokgak-city/items-v1/pistol-256.webp",
+    "/assets/ui/jokgak-city/items-v1/rifle-256.webp",
+    "/assets/ui/jokgak-city/items-v1/set-meal-768.webp",
+    "/assets/ui/jokgak-city/items-v1/treatment-768.webp"
+  ],
+  "requests": [
+    {
+      "width": 1440,
+      "path": "/api/jokgak-city/buyWeapon",
+      "status": 200
+    },
+    {
+      "width": 1440,
+      "path": "/api/jokgak-city/buyWeapon",
+      "status": 200
+    },
+    {
+      "width": 1440,
+      "path": "/api/jokgak-city/buyWeapon",
+      "status": 200
+    },
+    {
+      "width": 1440,
+      "path": "/api/jokgak-city/equipWeapon",
+      "status": 200
+    },
+    {
+      "width": 1440,
+      "path": "/api/jokgak-city/move",
+      "status": 200
+    },
+    {
+      "width": 1440,
+      "path": "/api/jokgak-city/buy",
+      "status": 200
+    },
+    {
+      "width": 1440,
+      "path": "/api/jokgak-city/buy",
+      "status": 200
+    },
+    {
+      "width": 1440,
+      "path": "/api/jokgak-city/buy",
+      "status": 200
+    },
+    {
+      "width": 1440,
+      "path": "/api/jokgak-city/use",
+      "status": 200
+    },
+    {
+      "width": 1440,
+      "path": "/api/jokgak-city/use",
+      "status": 200
+    },
+    {
+      "width": 1440,
+      "path": "/api/jokgak-city/use",
+      "status": 200
+    },
+    {
+      "width": 1440,
+      "path": "/api/jokgak-city/move",
+      "status": 200
+    },
+    {
+      "width": 1440,
+      "path": "/api/jokgak-city/eat",
+      "status": 200
+    },
+    {
+      "width": 1440,
+      "path": "/api/jokgak-city/move",
+      "status": 200
+    },
+    {
+      "width": 1440,
+      "path": "/api/jokgak-city/treat",
+      "status": 200
+    },
+    {
+      "width": 390,
+      "path": "/api/jokgak-city/buyWeapon",
+      "status": 200
+    },
+    {
+      "width": 390,
+      "path": "/api/jokgak-city/buyWeapon",
+      "status": 200
+    },
+    {
+      "width": 390,
+      "path": "/api/jokgak-city/buyWeapon",
+      "status": 200
+    },
+    {
+      "width": 390,
+      "path": "/api/jokgak-city/equipWeapon",
+      "status": 200
+    },
+    {
+      "width": 390,
+      "path": "/api/jokgak-city/move",
+      "status": 200
+    },
+    {
+      "width": 390,
+      "path": "/api/jokgak-city/buy",
+      "status": 200
+    },
+    {
+      "width": 390,
+      "path": "/api/jokgak-city/buy",
+      "status": 200
+    },
+    {
+      "width": 390,
+      "path": "/api/jokgak-city/buy",
+      "status": 200
+    },
+    {
+      "width": 390,
+      "path": "/api/jokgak-city/use",
+      "status": 200
+    },
+    {
+      "width": 390,
+      "path": "/api/jokgak-city/use",
+      "status": 200
+    },
+    {
+      "width": 390,
+      "path": "/api/jokgak-city/use",
+      "status": 200
+    },
+    {
+      "width": 390,
+      "path": "/api/jokgak-city/move",
+      "status": 200
+    },
+    {
+      "width": 390,
+      "path": "/api/jokgak-city/eat",
+      "status": 200
+    },
+    {
+      "width": 390,
+      "path": "/api/jokgak-city/move",
+      "status": 200
+    },
+    {
+      "width": 390,
+      "path": "/api/jokgak-city/treat",
+      "status": 200
+    }
+  ],
+  "accounts": "Isolated in-memory fixtures; no live account mutations"
+}

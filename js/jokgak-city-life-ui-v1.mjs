@@ -1,4 +1,6 @@
 import {CITY_SUPPLIES,defaultCityLifePolicy} from '../shared/jokgak-city-life-v1.mjs';
+import {cityItemArt} from './jokgak-city-item-art-v1.mjs?v=20261011-items1';
+export {cityItemArt};
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const number=n=>Number(n||0).toLocaleString('ko-KR');
 export const deathClock=ms=>{const s=Math.max(0,Math.ceil(ms/1000));return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;};
@@ -53,10 +55,17 @@ export function cityServices(state,selected,now,busy,icon){
   const locked=busy||!here||m.deadUntil>now||m.jailedUntil>now||m.nextActionAt>now;
   const test=state?.mode==='TEST',title=selected==='SHOP'?'도시 보급 상점':selected==='RESTAURANT'?'오늘의 따뜻한 한 끼':'병원 진료 접수';
   const rows=selected==='SHOP'?cfg.supplies.map(p=>({...p,...CITY_SUPPLIES.find(s=>s.code===p.code),action:'buy'})):[{...(selected==='RESTAURANT'?cfg.meal:cfg.treatment),code:'',name:selected==='RESTAURANT'?'든든한 정식':'회복 진료',icon:selected==='RESTAURANT'?'meal':'cross',description:selected==='RESTAURANT'?'지친 하루를 채우는 따뜻한 식사':'도시 체력과 생활 건강을 함께 회복',action:selected==='RESTAURANT'?'eat':'treat'}];
-  return `<section class="jc-services" aria-label="${title}"><header><span>${selected==='SHOP'?'SUPPLIES':selected==='RESTAURANT'?'NIGHT DINER':'MEDICAL CENTER'}</span><h3>${title}</h3></header>${rows.map(p=>`<article class="jc-service"><span class="jc-service-icon">${icon(p.icon)}</span><div><b>${p.name}</b><p>${p.description}</p><strong>${gains(p)}</strong><small>${number(p.price)}원${test?' · 테스트 현금':''}</small></div><button data-city-action="${p.action}" ${p.code?`data-city-product="${p.code}"`:''} ${locked||!p.enabled||here&&m.cash<p.price?'disabled':''}>${!p.enabled?'이용 중지':!here?'이동 후 이용':m.cash<p.price?'현금 부족':p.action==='buy'?'구매':p.action==='eat'?'식사':'진료'}</button></article>`).join('')}<p class="jc-service-foot">${test?'TEST 현금·소지품은 정식 운영으로 이전되지 않습니다.':'병원·식당·상점은 도시 현금으로 결제합니다.'}</p></section>`;
+  return `<section class="jc-services${selected==='SHOP'?'':' is-single'}" aria-label="${title}">
+    <header><span>${selected==='SHOP'?'SUPPLIES':selected==='RESTAURANT'?'NIGHT DINER':'MEDICAL CENTER'}</span><h3>${title}</h3></header>
+    <div class="jc-service-list">${rows.map(p=>`<article class="jc-service">
+      ${cityItemArt(p.code||(p.action==='eat'?'SET_MEAL':'TREATMENT'))}
+      <div class="jc-service-copy"><b>${p.name}</b><p>${p.description}</p><strong>${gains(p)}</strong><small class="jc-service-price">${number(p.price)}원${test?'<em>테스트 현금</em>':''}</small></div>
+      <button data-city-action="${p.action}" ${p.code?`data-city-product="${p.code}"`:''} ${locked||!p.enabled||here&&m.cash<p.price?'disabled':''}>${!p.enabled?'이용 중지':!here?'이동 후 이용':m.cash<p.price?'현금 부족':p.action==='buy'?'구매':p.action==='eat'?'식사':'진료'}</button>
+    </article>`).join('')}</div>
+    <p class="jc-service-foot">${test?'TEST 현금·소지품은 정식 운영으로 이전되지 않습니다.':'병원·식당·상점은 도시 현금으로 결제합니다.'}</p></section>`;
 }
 export function cityBag(state,now,busy,icon){
   const m=state?.mine;if(!m?.active)return '';
   const cfg=state.life||defaultCityLifePolicy(),owned=CITY_SUPPLIES.filter(p=>(m.bag?.[p.code]||0)>0);
-  return `<section class="jc-bag"><header><h3>${icon('bag')}도시 소지품</h3><button data-city-place="SHOP">상점 찾기 ↗</button></header>${owned.length?`<div>${owned.map(p=>{const config=cfg.supplies.find(x=>x.code===p.code);return `<article>${icon(p.icon)}<span><b>${p.name} <em>×${m.bag[p.code]}</em></b><small>${gains(config)}</small></span><button data-city-action="use" data-city-product="${p.code}" ${busy||m.deadUntil>now||m.jailedUntil>now||m.nextActionAt>now||!config.enabled?'disabled':''}>사용</button></article>`;}).join('')}</div>`:'<p>상점에서 도시락·비타민·구급품을 구매해 휴대하세요.</p>'}</section>`;
+  return `<section class="jc-bag"><header><h3>${icon('bag')}도시 소지품</h3><button data-city-place="SHOP">상점 찾기 ↗</button></header>${owned.length?`<div>${owned.map(p=>{const config=cfg.supplies.find(x=>x.code===p.code);return `<article>${cityItemArt(p.code,true)}<span><b>${p.name} <em>×${m.bag[p.code]}</em></b><small>${gains(config)}</small></span><button data-city-action="use" data-city-product="${p.code}" ${busy||m.deadUntil>now||m.jailedUntil>now||m.nextActionAt>now||!config.enabled?'disabled':''}>사용</button></article>`;}).join('')}</div>`:'<p>상점에서 도시락·비타민·구급품을 구매해 휴대하세요.</p>'}</section>`;
 }
