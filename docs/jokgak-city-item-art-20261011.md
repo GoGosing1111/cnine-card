@@ -47,4 +47,3 @@ PC는 3열 진열, 모바일은 그림과 정보를 나란히 배치하고 결�
 - 회귀 파일: `tests/jokgak-city-item-art-20261011.test.mjs`.
 - 도시 로더: `20261011-items1`. 셸 캐시: `soop-card-shell-v20261011-city-items1`.
 - 배포 결과와 운영 파일 대조는 완료 후 확인 기록에 추가한다.
-

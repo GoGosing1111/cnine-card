@@ -77,4 +77,3 @@ test('production and preview entries load the item stylesheet and the refreshed 
  for(const file of ['index.html','preview/jokgak-city-v1/index.html'])assert.match(read(file).toString(),/jokgak-city-v1\.js\?v=20261011-items1/);
  assert.match(read('service-worker.js').toString(),/soop-card-shell-v20261011-city-items1/);
 });
-

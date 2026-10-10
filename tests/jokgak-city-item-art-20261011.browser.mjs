@@ -121,4 +121,3 @@ try{
  fs.writeFileSync(path.join(out,'browser.json'),JSON.stringify({checks,errors,assets:[...assets],requests,accounts:'Isolated in-memory fixtures; no live account mutations'},null,2));
  console.log(JSON.stringify({out,checks:checks.length,errors,assets:assets.size}));
 }finally{await browser.close();await new Promise(resolve=>server.close(resolve));}
-
