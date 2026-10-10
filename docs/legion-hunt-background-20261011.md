@@ -15,3 +15,5 @@
 - PC 1440×1000, 모바일 390×844의 실제 운영 iframe·등록 SD·실제 서버 핸들러/격리 DB에서 확인했다. 가시성 전환은 주입하고 JavaScript 동결은 Chrome Page.setWebLifecycleState로 실행했다. 백그라운드 진행, 동결 후 복귀, 수동 일시정지, BFCache 복귀, 결과 조기 노출 방지, 1개 캔버스 유지, JS 오류 0건을 확인했다. 캡처와 원시 진단은 `C:/Users/User/Downloads/upload/cnine-card/tmp/legion-background-20261011/`에 보존한다.
 - 실제 `index.html` → 모험 → 군단토벌 → 전투 iframe 경로에서도 현재 번들, 12슬롯 편성, 서버 타임라인, 백그라운드 복귀를 별도로 확인했다. JS 오류 0건이며 `main-loader-verification.json`에 보존한다.
 - 군단토벌 클라이언트에 한정한 수정이다. 공용 전투·서버/DB·의존성은 변경하지 않고 군단토벌 번들만 빌드했다. 실제 직전 운영 소스는 `8b6a20cec9d2295dbd9f6f3df7f258362fc2b814`(Pages `e868eabd`)다. 캐시 `20261011-hunt-background1`; `npm run deploy:production -- --scoped`로 관련 검사와 출시/캐시/Hyperdrive 보호를 유지한다.
+
+운영 반영 완료: 관련 검사 30건을 통과한 소스 `e69658867fa8e30960956dcaf986bd1699d55ac7`를 Pages `e8815bb7`에 배포했다. 운영 메인·서비스워커·군단 입장 모듈·전투 HTML·앱·번들 6개 HTTP 200 및 SHA-256 일치, 서비스 상태 200, 미로그인 군단 API 401을 확인했다. API runtime `dc2e423f-94ef-4122-aff9-2958c0cc3668`, clan worker `ad15694b-765e-4c22-bb08-1bf409f89abc`. 운영 계정 입장/재화 변경은 실행하지 않았다. [검증 기록](legion-hunt-background-20261011.json). 이 문서 기록은 재배포하지 않는다.

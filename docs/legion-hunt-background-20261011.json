@@ -1,0 +1,52 @@
+{
+  "verifiedAt": "2026-10-10T17:20:20.732Z",
+  "source": "e69658867fa8e30960956dcaf986bd1699d55ac7",
+  "url": "https://cnine-card.pages.dev",
+  "files": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "9aafcae0a29eff29399fddfc84a1536657aa2b957f0d7bc78a3779ec9ed8acf3",
+      "matches": true
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "6c4c58760936bcbff614971d3f3c681f9fb279d5f9d1c7bc6e1a58d41fa418b7",
+      "matches": true
+    },
+    {
+      "file": "js/legion-hunt-entry-v1.mjs",
+      "status": 200,
+      "sha256": "1812e2f95077bdae23e4b158fbfe7bb6563169bfe4d41621f8afc579e8678942",
+      "matches": true
+    },
+    {
+      "file": "pve/legion-hunt/index.html",
+      "status": 200,
+      "sha256": "10e5e1f233e4e1c213197ac0b29384e9bfdb2fa87a5e270144b1617cc94b54a4",
+      "matches": true
+    },
+    {
+      "file": "preview/sustained-hunt-v2/app.js",
+      "status": 200,
+      "sha256": "b7f945a5012d2e14ca48a81d7f76cdd6072a58306257ea78be3a464e0468a744",
+      "matches": true
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "status": 200,
+      "sha256": "ee14358b1ab523044f68f9c5e0a19a18a2f15b66d44ead0e2475aaa711a806a6",
+      "matches": true
+    }
+  ],
+  "productionAccountMutations": false,
+  "serviceStatus": 200,
+  "unauthenticatedHuntStatus": 401,
+  "pages": "https://e8815bb7.cnine-card.pages.dev",
+  "workerVersions": [
+    "dc2e423f-94ef-4122-aff9-2958c0cc3668",
+    "ad15694b-765e-4c22-bb08-1bf409f89abc"
+  ],
+  "scopedTestsPassed": 30
+}
