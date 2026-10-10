@@ -114,7 +114,54 @@
     "reason": "Player-card latency fix with a verified one-time Lich achievement baseline and bounded card loading. No common DB/auth/schema changes."
   },
   "deployment": {
-    "status": "pending",
-    "command": "npm run deploy:production -- --scoped"
+    "status": "completed",
+    "exitCode": 0,
+    "command": "npm run deploy:production -- --scoped",
+    "sourceCommit": "6223402134c8e312e2df12585626a5e47c8c9dde",
+    "pages": "https://e3089cea.cnine-card.pages.dev",
+    "apiRuntimeVersion": "1e2bb079-7e64-4c6d-9119-df6026bb2576",
+    "clanDraftVersion": "09d6de03-454d-430c-b28d-c36b8bb3a8c1"
+  },
+  "finalRegression": {
+    "passed": 33,
+    "failed": 0,
+    "workerCheck": true,
+    "releaseCheck": true,
+    "hyperdriveCacheCheck": true
+  },
+  "production": {
+    "verifiedAt": "2026-10-10T21:15:15.496Z",
+    "sourceCommit": "6223402134c8e312e2df12585626a5e47c8c9dde",
+    "checks": [
+      {
+        "file": "index.html",
+        "status": 200,
+        "expected": "9d6f1567e3bd1d17301fa04c67f47a5ba2a8aa911bc4ba06d61ad4ee33dd59e4",
+        "actual": "9d6f1567e3bd1d17301fa04c67f47a5ba2a8aa911bc4ba06d61ad4ee33dd59e4",
+        "match": true
+      },
+      {
+        "file": "service-worker.js",
+        "status": 200,
+        "expected": "4b544aa8581520909d0108471bcb5f265c5e5d0b2ae20118b5e045607884683a",
+        "actual": "4b544aa8581520909d0108471bcb5f265c5e5d0b2ae20118b5e045607884683a",
+        "match": true
+      },
+      {
+        "file": "js/player-card-v2052.js",
+        "status": 200,
+        "expected": "cbe30a8fd5d3bc7c7adbffa2a6f0c174ebd2dd5b639f8028966f3c8399a8ffd0",
+        "actual": "cbe30a8fd5d3bc7c7adbffa2a6f0c174ebd2dd5b639f8028966f3c8399a8ffd0",
+        "match": true
+      },
+      {
+        "file": "preview/player-calling-card-v2052/index.html",
+        "status": 200,
+        "expected": "05c69b202a038a8b3a4da913828f3c9e0fa6dc9fe5523c0156dffb23a99788af",
+        "actual": "05c69b202a038a8b3a4da913828f3c9e0fa6dc9fe5523c0156dffb23a99788af",
+        "match": true
+      }
+    ],
+    "unauthenticatedStatus": 401
   }
 }

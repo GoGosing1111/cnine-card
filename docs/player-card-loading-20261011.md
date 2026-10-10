@@ -18,3 +18,7 @@
 - PC 1440px·모바일 390px에서 운영 DB 핸들러의 실제 공개 명함 응답으로 표시, 다음 페이지, 지연 안내, 요청 취소, 다시 확인, 닫기를 검수했다. 브라우저 4개 시나리오 통과, 오류 0건. 제한시간은 브라우저에서 150ms로 가속했으며 정확한 제한시간과 늦은 응답 처리는 단위 fixture로 검증한다.
 - 최종 scoped 배포 검사는 `tests/player-card-v2052.test.mjs`, `tests/trophy-milestones-20261011.test.mjs`, `check:worker`다. 직전 운영 코드 `7840f3518e099d78414946fe2eee022a4b6bfe93` 기준으로 공통 인증·DB 기반·스키마 변경은 없다. 실제 배포·확인 결과는 동명 JSON에 기록한다.
 - 측정과 화면 증거는 `C:/Users/User/Downloads/upload/cnine-card/tmp/trophy-milestones-20261011/`에 보존한다. 실제 계정의 공개 명함 응답은 이 로컬 검수 폴더에만 남기고 저장소에는 개인별 응답을 커밋하지 않는다.
+
+## 최종 반영
+
+명함·트로피 관련 최종 회귀 **33개 통과**, 사전 이관 검사 **5개 통과**, PC·모바일 브라우저 **4개 시나리오 통과**다. Worker 컴파일·출시·캐시·Hyperdrive 검사 후 `6223402134c8e312e2df12585626a5e47c8c9dde`를 배포했다. Pages `https://e3089cea.cnine-card.pages.dev`, API Runtime `1e2bb079-7e64-4c6d-9119-df6026bb2576`, 스케줄러 `09d6de03-454d-430c-b28d-c36b8bb3a8c1`. 운영 원본의 변경된 화면 파일 4개 SHA-256 일치와 비로그인 명함 401을 확인했다. 검수 기록만 추가하는 후속 커밋은 재배포하지 않는다.
