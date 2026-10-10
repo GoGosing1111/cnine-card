@@ -28,10 +28,15 @@ for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+': 후�
     for(const user of [2,3,4,5,6]){assert.equal((await f.call('admin/server-support',{user})).status,403);assert.equal((await f.call('admin/server-support',{user,body:body()})).status,403);}
     assert.equal((await f.call('admin/server-support')).body.pageAccess,'VERIFIED_3_DAYS');
     assert.equal((await f.call('server-support/status',{user:0})).status,401);
-    await f.run('DELETE FROM user_second_verifications WHERE user_id=1');assert.equal((await f.call('server-support/status')).body.visible,false);
+    await f.run('DELETE FROM user_second_verifications WHERE user_id=1');assert.equal((await f.call('server-support/status')).body.visible,true);
+    assert.equal((await f.call('server-support/info')).body.previewOnly,true);
+    assert.equal((await post(body('GRANT',1))).status,403);
+    await f.run("UPDATE users SET role='USER' WHERE id=1");assert.equal((await f.call('server-support/status')).body.visible,false);
+    await f.run("UPDATE users SET role='OWNER',status='SUSPENDED' WHERE id=1");assert.equal((await f.call('server-support/status')).body.visible,false);
+    await f.run("UPDATE users SET status='ACTIVE' WHERE id=1");
     await f.run('INSERT INTO user_second_verifications VALUES(1,?)','2026-01-02 00:00:00');
     const original=(await f.one('SELECT created_at FROM users WHERE id=1')).created_at;
-    await f.run('UPDATE users SET created_at=? WHERE id=1',new Date(f.clock.now-3*86400000+1).toISOString());assert.equal((await f.call('server-support/info')).status,404);
+    await f.run('UPDATE users SET created_at=? WHERE id=1',new Date(f.clock.now-3*86400000+1).toISOString());assert.equal((await f.call('server-support/info')).body.previewOnly,true);
     await f.run('UPDATE users SET created_at=? WHERE id=1',original);
     const r=await f.call('server-support/info');assert.match(r.headers.get('cache-control'),/no-store/);assert.equal(r.body.plan.priceWon,29800);assert.match(r.body.notice,/서버 운영비.*개발/);
     for(const userId of [4,5,6])assert.equal((await post(body('GRANT',userId))).status,403);
@@ -49,6 +54,10 @@ for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+': 후�
   await t.test('펫 1마리 자유 변경은 기간을 늘리거나 영구 잠재력을 변경하지 않는다',async()=>{
     const permanent={revision:1,pets:{[f.pets[1].code]:{potential:'MAGNET',attempts:7}}};await f.run('INSERT INTO app_meta(key,value) VALUES(?,?)','pet_potentials_v1:1',JSON.stringify(permanent));
     const end=(await sub(1)).endsAt,petBody={petCode:f.pets[0].code,expectedRevision:2,requestId:crypto.randomUUID()};
+    await f.run('DELETE FROM user_second_verifications WHERE user_id=1');
+    assert.equal((await f.call('server-support/pet',{body:petBody})).body.code,'SUPPORT_ELIGIBILITY');
+    assert.equal((await sub(1)).revision,2);
+    await f.run('INSERT INTO user_second_verifications VALUES(1,?)','2026-01-02 00:00:00');
     const first=await f.call('server-support/pet',{body:petBody});assert.equal(first.status,200,JSON.stringify(first.body));assert.equal(first.body.subscription.magnetPetCode,f.pets[0].code);
     assert.equal((await f.call('server-support/pet',{body:petBody})).body.replayed,true);
     assert.equal((await loadPetBattleSnapshot(f.env,{id:1},'PVE')).magnet,true);

@@ -104,12 +104,14 @@ export async function handleServerSupport({path,request,env,deps}){
         return reply(await deps.withUserMutationLock(env,body.userId,path,()=>changeSupport(env,user,body,(deps.now||Date.now)())));
       }
     }else{
-      // Only CMS management is operator-only; eligible players can use their own page.
-      const visible=supportAccountEligible(await account(env,user.id),now);
+      // The existing CMS operator can preview the page without changing verification.
+      const row=await account(env,user.id),eligible=supportAccountEligible(row,now);
+      const previewOnly=!eligible&&row?.status==='ACTIVE'&&canManageSupport(user),visible=eligible||previewOnly;
       if(path==='server-support/status'&&request.method==='GET')return reply({visible});
       if(!visible)return reply({error:'페이지를 찾을 수 없습니다.'},404);
-      if(path==='server-support/info'&&request.method==='GET')return reply(await supporterPage(env,user,now));
+      if(path==='server-support/info'&&request.method==='GET')return reply({...await supporterPage(env,user,now),previewOnly});
       if(path==='server-support/pet'&&request.method==='POST'){
+        if(!eligible)fail('ELIGIBILITY','후원 혜택 이용은 가입 3일 경과와 2차 인증 완료가 필요합니다.',403);
         const body=await readJointBody(request,{fields:['petCode','expectedRevision','requestId']});
         return reply(await deps.withUserMutationLock(env,user.id,path,()=>selectSupportPet(env,user,body,(deps.now||Date.now)())));
       }
