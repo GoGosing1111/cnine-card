@@ -1,0 +1,374 @@
+{
+  "status": "PRODUCTION_VERIFIED",
+  "date": "2026-10-10",
+  "request": "제우스 철구 ICON 추가 · 사진 그대로 사용 및 화질 개선 · SD/스킬 연결 · 일반 ICON 제작 획득 불가",
+  "source": "1e35b3e65ae659172f5ba44414655392381a7e42",
+  "previousDeployedSource": "7ca8cb536ea7ef63fc1b716f4bb799649e53f17d",
+  "deployment": {
+    "command": "npm run deploy:production -- --scoped",
+    "pagesUrl": "https://72611894.cnine-card.pages.dev",
+    "apiRuntimeVersion": "e9a0e4bd-19ee-4853-9cf5-7697fd41b8a0",
+    "clanWorkerVersion": "73ceae23-386e-4338-9e14-56cf48878123",
+    "hyperdriveQueryCacheDisabled": true,
+    "log": "/C:/Users/User/Downloads/upload/cnine-card/tmp/zeus-cheolgu-20261010/deploy.log"
+  },
+  "validation": {
+    "targetedBeforeDeployPassed": 22,
+    "adjacentReleaseTestsPassed": 56,
+    "totalPassed": 78,
+    "failed": 0,
+    "workerCompiled": true,
+    "viewports": [
+      1440,
+      390
+    ],
+    "browserErrors": 0,
+    "originalAndEnhancedSeparate": true,
+    "fullMainLoaderAndPvePvp": true,
+    "profileDecodedBothWidths": true,
+    "ordinaryFusionExcluded": true,
+    "browser": [
+      {
+        "width": 1440,
+        "mode": "PVP",
+        "actualMainLoader": true,
+        "cmsSaveReload": true,
+        "ordinaryFusionExcluded": true,
+        "originalAndSdSeparate": true,
+        "diagnostics": {
+          "last": {
+            "code": "ICON-OH-JOEUN",
+            "role": "SUPPORT",
+            "eventType": "ICON_SKILL",
+            "serverRows": 1,
+            "appliedRows": 1,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "damageAuthority": "SERVER_ONLY"
+          },
+          "muzzle": {
+            "cardId": "CN-1C000002",
+            "origin": {
+              "x": 641.5219819486557,
+              "y": 182.43601575741076
+            },
+            "direction": {
+              "x": 0.9783985777438873,
+              "y": 0.20672741247531354
+            },
+            "team": "ALLY"
+          },
+          "metrics": {
+            "skills": 6,
+            "basics": 17,
+            "serverRows": 27,
+            "appliedRows": 27,
+            "roles": [
+              "SUPPORT",
+              "DEFENSE",
+              "CURSE",
+              "MAGIC"
+            ]
+          }
+        },
+        "loaded": [
+          {
+            "url": "http://127.0.0.1:8977/assets/cards/ICON/zeus-cheolgu-enhanced-v1-20261010.png",
+            "status": 200
+          },
+          {
+            "url": "http://127.0.0.1:8977/preview/icon-battle-assets-v1/assets/sd/zeus-cheolgu-sd-v1-20261010.webp",
+            "status": 200
+          },
+          {
+            "url": "http://127.0.0.1:8977/assets/cards/ICON/zeus-cheolgu-enhanced-v1-20261010.png",
+            "status": 200
+          },
+          {
+            "url": "http://127.0.0.1:8977/preview/icon-battle-assets-v1/assets/sd/zeus-cheolgu-sd-v1-20261010.webp",
+            "status": 200
+          },
+          {
+            "url": "http://127.0.0.1:8977/assets/cards/ICON/zeus-cheolgu-enhanced-v1-20261010.png",
+            "status": 200
+          },
+          {
+            "url": "http://127.0.0.1:8977/assets/cards/ICON/zeus-cheolgu-enhanced-v1-20261010.png",
+            "status": 200
+          },
+          {
+            "url": "http://127.0.0.1:8977/assets/cards/ICON/zeus-cheolgu-enhanced-v1-20261010.png",
+            "status": 200
+          },
+          {
+            "url": "http://127.0.0.1:8977/preview/icon-battle-assets-v1/assets/sd/zeus-cheolgu-sd-v1-20261010.webp?v=F4EF134CC74096DD",
+            "status": 200
+          },
+          {
+            "url": "http://127.0.0.1:8977/preview/icon-battle-assets-v1/assets/fx/zeus-cheolgu-skill/atlas-v1.webp",
+            "status": 200
+          },
+          {
+            "url": "http://127.0.0.1:8977/preview/icon-battle-assets-v1/assets/fx/zeus-cheolgu-hit/atlas-v1.webp",
+            "status": 200
+          }
+        ],
+        "errors": []
+      },
+      {
+        "width": 390,
+        "mode": "PVE",
+        "actualMainLoader": true,
+        "cmsSaveReload": true,
+        "ordinaryFusionExcluded": true,
+        "originalAndSdSeparate": true,
+        "diagnostics": {
+          "last": {
+            "code": "ICON-DIIM",
+            "role": "ASSASSIN",
+            "eventType": "ICON_SKILL",
+            "serverRows": 2,
+            "appliedRows": 2,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "damageAuthority": "SERVER_ONLY"
+          },
+          "muzzle": {
+            "cardId": "CN-1C000002",
+            "origin": {
+              "x": 209.3909047646601,
+              "y": 1011.8249408919396
+            },
+            "direction": {
+              "x": 0.9817184234349441,
+              "y": 0.1903390056935466
+            },
+            "team": "ALLY"
+          },
+          "metrics": {
+            "skills": 11,
+            "basics": 31,
+            "serverRows": 49,
+            "appliedRows": 49,
+            "roles": [
+              "ASSASSIN",
+              "ATTACK",
+              "MAGIC",
+              "SUPPORT"
+            ]
+          }
+        },
+        "loaded": [
+          {
+            "url": "http://127.0.0.1:8977/preview/icon-battle-assets-v1/assets/sd/zeus-cheolgu-sd-v1-20261010.webp",
+            "status": 200
+          },
+          {
+            "url": "http://127.0.0.1:8977/assets/cards/ICON/zeus-cheolgu-enhanced-v1-20261010.png",
+            "status": 200
+          },
+          {
+            "url": "http://127.0.0.1:8977/assets/cards/ICON/zeus-cheolgu-enhanced-v1-20261010.png",
+            "status": 200
+          },
+          {
+            "url": "http://127.0.0.1:8977/preview/icon-battle-assets-v1/assets/sd/zeus-cheolgu-sd-v1-20261010.webp",
+            "status": 200
+          },
+          {
+            "url": "http://127.0.0.1:8977/assets/cards/ICON/zeus-cheolgu-enhanced-v1-20261010.png",
+            "status": 200
+          },
+          {
+            "url": "http://127.0.0.1:8977/preview/icon-battle-assets-v1/assets/sd/zeus-cheolgu-sd-v1-20261010.webp?v=F4EF134CC74096DD",
+            "status": 200
+          },
+          {
+            "url": "http://127.0.0.1:8977/assets/cards/ICON/zeus-cheolgu-enhanced-v1-20261010.png",
+            "status": 200
+          },
+          {
+            "url": "http://127.0.0.1:8977/preview/icon-battle-assets-v1/assets/fx/zeus-cheolgu-skill/atlas-v1.webp",
+            "status": 200
+          },
+          {
+            "url": "http://127.0.0.1:8977/preview/icon-battle-assets-v1/assets/fx/zeus-cheolgu-hit/atlas-v1.webp",
+            "status": 200
+          }
+        ],
+        "errors": []
+      }
+    ]
+  },
+  "operations": {
+    "dryRun": {
+      "operation": "release_icon_zeus_cheolgu_20261010_v1",
+      "cardId": "CN-1C000008",
+      "code": "ICON-ZEUS-CHEOLGU",
+      "name": "제우스 철구",
+      "registeredAt": "2026-10-10T14:08:00.369Z",
+      "sourceArt": "assets/cards/ICON/zeus-cheolgu-enhanced-v1-20261010.png",
+      "sourceSha256": "8070274F2248B508BD97019A80D9DB31F03563C7AA6A8E1A7B65CEAD62E73C43",
+      "memberId": 30,
+      "basePower": 180000,
+      "fusionEligible": false,
+      "drawWeight": 0,
+      "ownershipWrites": 0,
+      "currencyWrites": 0,
+      "previousCardsPreserved": true,
+      "settingsPreserved": true,
+      "auditId": "44000",
+      "replayed": false,
+      "dryRun": true
+    },
+    "registration": {
+      "operation": "release_icon_zeus_cheolgu_20261010_v1",
+      "cardId": "CN-1C000008",
+      "code": "ICON-ZEUS-CHEOLGU",
+      "name": "제우스 철구",
+      "registeredAt": "2026-10-10T14:17:45.986Z",
+      "sourceArt": "assets/cards/ICON/zeus-cheolgu-enhanced-v1-20261010.png",
+      "sourceSha256": "8070274F2248B508BD97019A80D9DB31F03563C7AA6A8E1A7B65CEAD62E73C43",
+      "memberId": 30,
+      "basePower": 180000,
+      "fusionEligible": false,
+      "drawWeight": 0,
+      "ownershipWrites": 0,
+      "currencyWrites": 0,
+      "previousCardsPreserved": true,
+      "settingsPreserved": true,
+      "auditId": "44021",
+      "replayed": false,
+      "dryRun": false
+    },
+    "replay": {
+      "operation": "release_icon_zeus_cheolgu_20261010_v1",
+      "cardId": "CN-1C000008",
+      "code": "ICON-ZEUS-CHEOLGU",
+      "name": "제우스 철구",
+      "registeredAt": "2026-10-10T14:17:45.986Z",
+      "sourceArt": "assets/cards/ICON/zeus-cheolgu-enhanced-v1-20261010.png",
+      "sourceSha256": "8070274F2248B508BD97019A80D9DB31F03563C7AA6A8E1A7B65CEAD62E73C43",
+      "memberId": 30,
+      "basePower": 180000,
+      "fusionEligible": false,
+      "drawWeight": 0,
+      "ownershipWrites": 0,
+      "currencyWrites": 0,
+      "previousCardsPreserved": true,
+      "settingsPreserved": true,
+      "auditId": "44021",
+      "replayed": true,
+      "dryRun": true
+    },
+    "verification": {
+      "card": {
+        "id": "CN-1C000008",
+        "member_id": "30",
+        "title": "제우스 철구",
+        "rarity": "FUR",
+        "rarity_override": "ICON",
+        "image_url": "assets/cards/ICON/zeus-cheolgu-enhanced-v1-20261010.png",
+        "focus_x": "50",
+        "focus_y": "50",
+        "is_active": "1",
+        "draw_weight": 0,
+        "card_status": "PUBLIC",
+        "base_power": "180000",
+        "reroll_material_enabled": "0",
+        "reroll_result_enabled": "0"
+      },
+      "receipt": {
+        "operation": "release_icon_zeus_cheolgu_20261010_v1",
+        "cardId": "CN-1C000008",
+        "code": "ICON-ZEUS-CHEOLGU",
+        "name": "제우스 철구",
+        "registeredAt": "2026-10-10T14:17:45.986Z",
+        "sourceArt": "assets/cards/ICON/zeus-cheolgu-enhanced-v1-20261010.png",
+        "sourceSha256": "8070274F2248B508BD97019A80D9DB31F03563C7AA6A8E1A7B65CEAD62E73C43",
+        "memberId": 30,
+        "basePower": 180000,
+        "fusionEligible": false,
+        "drawWeight": 0,
+        "ownershipWrites": 0,
+        "currencyWrites": 0,
+        "previousCardsPreserved": true,
+        "settingsPreserved": true,
+        "auditId": "44021"
+      }
+    }
+  },
+  "production": {
+    "assets": {
+      "checkedAt": "2026-10-10T14:17:23.688Z",
+      "origin": "https://cnine-card.pages.dev",
+      "files": [
+        {
+          "path": "assets/cards/ICON/zeus-cheolgu-enhanced-v1-20261010.png",
+          "status": 200,
+          "bytes": 2347988,
+          "sha256": "8070274F2248B508BD97019A80D9DB31F03563C7AA6A8E1A7B65CEAD62E73C43"
+        },
+        {
+          "path": "preview/icon-battle-assets-v1/assets/sd/zeus-cheolgu-sd-v1-20261010.webp",
+          "status": 200,
+          "bytes": 206836,
+          "sha256": "F4EF134CC74096DD0B32F9BD6A8CF7449B163F24A2BC3E92C7CC47A67DC5F731"
+        },
+        {
+          "path": "preview/icon-battle-assets-v1/assets/fx/zeus-cheolgu-hit/atlas-v1.webp",
+          "status": 200,
+          "bytes": 897626,
+          "sha256": "2831BA868F79233DFEFA7EB0C0BCDCD40534D410B3BE8B16052F39C84EE14E8D"
+        },
+        {
+          "path": "preview/icon-battle-assets-v1/assets/fx/zeus-cheolgu-skill/atlas-v1.webp",
+          "status": 200,
+          "bytes": 1066748,
+          "sha256": "682E3DB1DF2779446CD09E3ED598F9B7F5752D638898B9C4F069C9B973932FC7"
+        }
+      ],
+      "engineManifest": {
+        "cardId": "CN-1C000008",
+        "title": "제우스 철구",
+        "member": "제우스 철구",
+        "sourceArt": "assets/cards/ICON/zeus-cheolgu-enhanced-v1-20261010.png",
+        "battleSprite": "preview/icon-battle-assets-v1/assets/sd/zeus-cheolgu-sd-v1-20261010.webp",
+        "sha256": "F4EF134CC74096DD0B32F9BD6A8CF7449B163F24A2BC3E92C7CC47A67DC5F731",
+        "footAnchor": {
+          "x": 0.47607421875,
+          "y": 0.915283203125
+        }
+      },
+      "roleRevision": 2,
+      "roleCount": 8,
+      "legacyRoleValuesPreserved": true
+    },
+    "catalog": {
+      "checkedAt": "2026-10-10T14:17:54.825Z",
+      "origin": "https://cnine-card.pages.dev",
+      "card": {
+        "id": "CN-1C000008",
+        "title": "제우스 철구",
+        "name": "철구",
+        "grade": "ICON",
+        "image": "assets/cards/ICON/zeus-cheolgu-enhanced-v1-20261010.png",
+        "focusX": 50,
+        "focusY": 50,
+        "limitedTotal": null,
+        "issuedCount": 0,
+        "retirementStatus": "PUBLIC",
+        "powerType": null,
+        "basePower": 180000,
+        "acquisitionFxConfigured": 0,
+        "acquisitionFxEnabled": 0,
+        "acquisitionMediaUrl": "",
+        "acquisitionAudioUrl": "",
+        "acquisitionSkipAllowed": 1,
+        "acquisitionDurationMs": 8000,
+        "uniqueAbility": null
+      }
+    }
+  },
+  "promptRecord": "preview/icon-battle-assets-v1/generation-zeus-cheolgu-20261010.json",
+  "generationTool": "BUILT_IN_IMAGEGEN",
+  "noAccountGrants": true
+}

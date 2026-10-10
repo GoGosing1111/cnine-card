@@ -21,3 +21,7 @@
 - 검수 원본은 배포 폴더 밖 `C:/Users/User/Downloads/upload/cnine-card/tmp/zeus-cheolgu-20261010/`에 보관한다.
 
 국소적인 카드 추가로 분류한다. 공통 인증·DB 기반·의존성·새 마이그레이션은 바뀌지 않는다. `npm run deploy:production -- --scoped`에서 인접 ICON CMS·역할·합성 회귀, 실제 엔진/메인 로더 연결 검사와 Worker 컴파일을 실행한다. 이미 통과한 제우스·자산 검사와 전체 게임 검사를 반복하지 않는다. 직전 확인된 운영 기준은 `7ca8cb536ea7ef63fc1b716f4bb799649e53f17d`(Pages `ffd0b6cb`)다. 운영 결과는 후속 JSON에 기록한다.
+
+운영 반영 완료: 관련 검사 총 78건 통과 후 소스 1e35b3e65ae659172f5ba44414655392381a7e42를 scoped 배포했다. Pages 72611894, API runtime e9a0e4bd-19ee-4853-9cf5-7697fd41b8a0다. 운영 원화·SD·두 효과 아틀라스의 HTTP 200 및 해시 일치, 역할 8종과 기존 revision 2 수치 보존을 확인했다.
+
+2026-10-10 23:17:45 KST에 등록 영수증 release_icon_zeus_cheolgu_20261010_v1, 감사 기록 44021로 해당 카드 한 종을 등록했다. 별도 DB 연결과 공개 /api/cards에서 ICON·기본 전투력 180,000·새 원화·발급 0장을 확인했다. 같은 영수증 재시도는 추가 등록 없이 반환했고 설정·기존 카드·계정 재화 및 보유 수량은 변경하지 않았다. [운영 검증 기록](icon-zeus-cheolgu-20261010.json). 후속 기록은 문서 전용이며 재배포하지 않는다.
