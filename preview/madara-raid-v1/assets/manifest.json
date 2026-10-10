@@ -1,0 +1,80 @@
+{
+  "version": 1,
+  "release": {
+    "mode": "OFF",
+    "runtimeEnabled": false,
+    "rewardLocked": true,
+    "scope": "LOCAL_REVIEW_ONLY",
+    "rulesVersion": 1
+  },
+  "artApproval": "PENDING_USER_VISUAL_REVIEW",
+  "generationTool": "image_gen.imagegen (built-in)",
+  "prompts": "../art-prompts.json",
+  "assets": [
+    {
+      "file": "madara-source-reference.png",
+      "kind": "USER_REFERENCE",
+      "bytes": 2299288,
+      "width": 1170,
+      "height": 2080,
+      "hasAlpha": false,
+      "alphaRange": null,
+      "sha256": "56961c972f4f229d5cb09267f469c2c6822ec41a8411fa0197c15db07a12a163",
+      "originalPreserved": true
+    },
+    {
+      "file": "madara-concept-poster-v1.png",
+      "kind": "CONCEPT_POSTER_HISTORY",
+      "bytes": 3322859,
+      "width": 941,
+      "height": 1672,
+      "hasAlpha": false,
+      "alphaRange": null,
+      "sha256": "4c74abf052a7fd5bb13565b4b0ee161a3c55aa4dbbff7a4f0d2ec3b004fffae1",
+      "originalPreserved": true
+    },
+    {
+      "file": "madara-battle-v1.png",
+      "kind": "STATIC_BOSS_REVIEW",
+      "bytes": 1870026,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": true,
+      "alphaRange": [
+        0,
+        254
+      ],
+      "sha256": "87f7ccac07af8c7e48fa4a99e80623ed4dc57015939a6fdb85d71e8e96b2af82",
+      "originalPreserved": true
+    },
+    {
+      "file": "azure-spirit-v1.png",
+      "kind": "STATIC_FINAL_FORM_REVIEW",
+      "bytes": 2296438,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": true,
+      "alphaRange": [
+        0,
+        254
+      ],
+      "sha256": "070d808d8a10820c3ab7eab90281e50d01ad8a407f631f0dfa882d331a0c679c",
+      "originalPreserved": true
+    },
+    {
+      "file": "battlefield-v1.png",
+      "kind": "STAGING_ENVIRONMENT_REVIEW",
+      "bytes": 2425620,
+      "width": 1672,
+      "height": 941,
+      "hasAlpha": false,
+      "alphaRange": null,
+      "sha256": "dbdbef6b1b87b5d2a072c6269c036e5f90777770744acf4d1fb34d0dd04be0ea",
+      "originalPreserved": true
+    }
+  ],
+  "motionAtlases": [],
+  "effectAtlases": [],
+  "newAudio": [],
+  "note": "Static source poses and staging environment only. Character motion, per-skill continuous frames and licensed sound are not complete."
+}

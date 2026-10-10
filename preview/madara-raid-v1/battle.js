@@ -1,0 +1,44 @@
+/* Uses the installed live V3 runtime. No copied renderer, formations or dock. */
+(()=>{
+  let engine=null,renderer=null,epoch=0,queue=Promise.resolve(),pending=0,snapshot=null,synced='',bossId='',visible=new Set();
+  async function preload(){
+    await window.ProjectVBattleV3Live.ensureRuntime({effects:true});
+    await Promise.all(['madara-battle-v1.png','azure-spirit-v1.png'].map(file=>window.ProjectVPixiBattle.fxRuntime.Assets.load('/preview/madara-raid-v1/assets/'+file)));
+  }
+  async function mount(payload){
+    teardown();const version=epoch;await preload();if(version!==epoch)return;
+    const modal=document.getElementById('battleMount'),api=window.ProjectVPixiBattle;
+    bossId=payload.battleV2.teams.B.cards[0].id;
+    visible=new Set([...payload.battleV2.teams.A.cards,...payload.battleV2.teams.A.mercenaries,...payload.battleV2.teams.A.supports,...payload.battleV2.teams.B.cards].map(f=>f.id));
+    const original=api.mountForBattle,reset=api.resetSession;
+    api.mountForBattle=async(data,host)=>{engine=await original(data,host);return engine;};
+    api.resetSession=async(data,host)=>{engine=await reset(data,host);return engine;};
+    try{
+      const prepared=window.ProjectVBattleV3Live.prepareLoading({modal,mode:'RAID',playerName:payload.accountNickname,opponentName:'마다라',autoText:'마다라 전장 준비 중'});
+      const candidate=await window.ProjectVBattleV3Live.createRenderer({...prepared,modal,data:payload,mode:'RAID',playUltimateCinematics:false});
+      if(version!==epoch){candidate.destroy();return;}renderer=candidate;
+      modal.querySelector('.battle-v3-header strong').textContent='마다라 레이드';
+      modal.querySelector('.battle-v3-header small').textContent='공대의 판단이 전장을 바꾼다';
+      await engine.deployCards({instant:true,force:true});
+    }finally{api.mountForBattle=original;api.resetSession=reset;}
+  }
+  function sync(){
+    if(!engine||!snapshot)return;const key=JSON.stringify([snapshot.bossHp,snapshot.fighters]);if(key===synced)return;
+    engine.syncFinalState({A:snapshot.fighters.filter(f=>!f.isMercenary),mercenaries:{A:snapshot.fighters.filter(f=>f.isMercenary),B:[]},B:[{id:bossId,hp:snapshot.bossHp,maxHp:snapshot.bossMaxHp}]});
+    engine.updateStatus(`${snapshot.phaseName} · ${snapshot.step==='DAMAGE'?'공격 기회':'협동 기믹'}`);synced=key;
+  }
+  function restore(state){epoch++;engine?.cancelTimelines();pending=0;queue=Promise.resolve();snapshot=state;synced='';sync();}
+  function update(state){
+    snapshot=state;if(!engine)return;
+    if(state.events.some(e=>['MADARA_PHASE','MADARA_RESULT'].includes(e.type))||pending>18){restore(state);return;}
+    const events=state.events.filter(e=>!e.type.startsWith('MADARA_')&&e.type!=='RESULT'&&(!e.actorId||visible.has(e.actorId)))
+      .map(e=>({...e,...(e.hits?{hits:e.hits.filter(h=>visible.has(h.targetId))}:{})}));
+    if(!events.length){if(!pending)sync();return;}
+    const version=epoch;pending+=events.length;
+    queue=queue.then(async()=>{for(const e of events){if(version!==epoch||!engine)return;try{await engine.playEvents([e]);}finally{if(version===epoch)pending=Math.max(0,pending-1);}}if(version===epoch)sync();})
+      .catch(error=>{console.warn('[Madara preview playback]',error);if(version===epoch){pending=0;sync();}});
+  }
+  function teardown(){epoch++;engine?.cancelTimelines();renderer?.destroy();renderer=null;engine=null;queue=Promise.resolve();pending=0;snapshot=null;synced='';}
+  window.MadaraBattle={preload,mount,update,restore,teardown,diagnostics:()=>({ready:Boolean(engine),pending,canvasCount:document.querySelectorAll('canvas').length,engine:engine?.diagnostics()})};
+  window.addEventListener('pagehide',teardown,{once:true});
+})();

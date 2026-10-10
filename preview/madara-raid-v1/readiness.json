@@ -1,0 +1,74 @@
+{
+  "version": 1,
+  "name": "마다라 레이드",
+  "state": "LOCAL_PLAYABLE_PREPARATION",
+  "release": {
+    "mode": "OFF",
+    "runtimeEnabled": false,
+    "rewardLocked": true,
+    "scope": "LOCAL_REVIEW_ONLY",
+    "rulesVersion": 1
+  },
+  "liveRoutesConnected": false,
+  "liveMenuConnected": false,
+  "operatingDatabaseConnected": false,
+  "productionPolicy": {
+    "bossCombatPower": null,
+    "entryPolicy": null,
+    "rewards": null,
+    "weeklyLimit": null,
+    "launchDate": null
+  },
+  "reviewOnly": {
+    "bossCombatPower": 440000,
+    "enrageSeconds": 360,
+    "minPlayers": 3,
+    "maxPlayers": 6,
+    "plans": [
+      {
+        "kind": "ILLUSION",
+        "name": "환술 판별",
+        "floor": 0.78,
+        "duration": 35000
+      },
+      {
+        "kind": "CLONES",
+        "name": "분신 대응",
+        "floor": 0.55,
+        "duration": 40000
+      },
+      {
+        "kind": "FIRE",
+        "name": "화둔 결계",
+        "floor": 0.32,
+        "duration": 30000
+      },
+      {
+        "kind": "METEOR",
+        "name": "운석 저지",
+        "floor": 0.1,
+        "duration": 35000
+      },
+      {
+        "kind": "FINAL",
+        "name": "완전체 강림",
+        "floor": 0,
+        "duration": 55000
+      }
+    ]
+  },
+  "renderer": {
+    "entry": "ProjectVBattleV3Live.ensureRuntime",
+    "extraPixiApplications": 0,
+    "formation": "SHARED_V3",
+    "cardDock": "SHARED_V3"
+  },
+  "remaining": [
+    "정지 자산 사용자 시각 검수",
+    "연속 보스 모션·4대 기믹 개별 효과·최종전 연출 및 사운드",
+    "실계정 편성·운영 공대 저장소·동시성·세션 및 이탈 정책 연결",
+    "입장·보상·보스 전투력·난이도 확정",
+    "실제 3~6인 공대의 네트워크 지연·난이도 검수",
+    "별도 출시 승인 후에만 운영 연결 및 배포"
+  ]
+}

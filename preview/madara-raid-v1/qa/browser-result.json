@@ -1,0 +1,72 @@
+{
+  "scope": "LOCAL_REVIEW_ONLY",
+  "muted": true,
+  "productionTouched": false,
+  "passed": true,
+  "viewportDesktop": [
+    1440,
+    1050
+  ],
+  "viewportMobile": [
+    390,
+    844
+  ],
+  "dimensions": {
+    "width": 390,
+    "scroll": 390,
+    "canvas": 1,
+    "buttons": [
+      {
+        "width": 77.25,
+        "height": 58
+      },
+      {
+        "width": 77.25,
+        "height": 58
+      },
+      {
+        "width": 77.25,
+        "height": 58
+      },
+      {
+        "width": 77.25,
+        "height": 58
+      },
+      {
+        "width": 77.25,
+        "height": 58
+      },
+      {
+        "width": 77.25,
+        "height": 58
+      },
+      {
+        "width": 77.25,
+        "height": 58
+      },
+      {
+        "width": 77.25,
+        "height": 58
+      }
+    ]
+  },
+  "errors": [],
+  "failed": [],
+  "completedTasks": 18,
+  "screens": [
+    "desktop-staging.png",
+    "desktop-illusion.png",
+    "desktop-fire.png",
+    "desktop-final.png",
+    "mobile-staging.png",
+    "mobile-final.png",
+    "mobile-controls.png",
+    "mobile-guide.png",
+    "desktop-clear.png"
+  ],
+  "notes": [
+    "Server clock is controlled by this local test; no measured live clear rate.",
+    "Local HTTP solver uses role-visible hints; it never reads authority answers.",
+    "Character and spirit are static review poses; authored motion/effect atlases remain pending."
+  ]
+}
