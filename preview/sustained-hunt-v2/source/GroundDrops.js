@@ -11,8 +11,8 @@ export class GroundDrops{
   async add(drop,serverNow,automaticReceipt=null){
     if(drop?.state==='CLAIMED'&&automaticReceipt?.automatic)return this.absorb(drop,automaticReceipt);
     if(!drop||this.rows.has(drop.id))return;
-    const rev=this.revision,receivedAt=performance.now(),texture=await Assets.load(drop.item.image);if(rev!==this.revision)return;
-    const remaining=Math.max(0,drop.expiresAt-serverNow-(performance.now()-receivedAt));
+    const rev=this.revision,receivedAt=Date.now(),texture=await Assets.load(drop.item.image);if(rev!==this.revision)return;
+    const remaining=Math.max(0,drop.expiresAt-serverNow-(Date.now()-receivedAt));
     if(!remaining){this.onExpired?.(drop);return;}
     const rarity=drop.item.tier||drop.item.rarity;
     const root=new Container({label:'HUNT_GROUND_DROP_'+drop.id}),color=rarity==='epic'?0xd4a1ff:rarity==='rare'?0x69dcff:0xd5ff87;
@@ -23,7 +23,7 @@ export class GroundDrops{
     button.setAttribute('aria-label',drop.item.name+' '+drop.item.quantity+'개 획득');button.innerHTML='<span class="drop-countdown"></span><span class="drop-quantity"></span><span class="drop-label"></span>';
     const quantity=button.querySelector('.drop-quantity');quantity.textContent='×'+drop.item.quantity;quantity.hidden=!(drop.item.quantity>1);
     button.querySelector('.drop-label').textContent=drop.item.name;this.host.append(button);
-    const row={drop,root,icon,halo,iconScale:scale,button,deadline:performance.now()+remaining,pending:false,expired:false};
+    const row={drop,root,icon,halo,iconScale:scale,button,deadline:Date.now()+remaining,pending:false,expired:false};
     this.rows.set(drop.id,row);
     button.onclick=async event=>{
       if(!event.isTrusted||row.pending||row.expired||this.engine.huntPaused)return;
@@ -42,6 +42,7 @@ export class GroundDrops{
   }
   async absorb(drop,receipt){
     if(this.absorbed.has(drop.id))return;this.absorbed.add(drop.id);
+    if(this.engine.huntBackground){this.onPicked?.(receipt);return;}
     const revision=this.revision;let texture;
     try{texture=await Assets.load(drop.item.image);}catch{if(revision===this.revision)this.onPicked?.(receipt);return;}
     if(revision!==this.revision)return;
@@ -65,8 +66,13 @@ export class GroundDrops{
     const minY=Math.min(...points.map(a=>a.baseY)),maxY=Math.max(...points.map(a=>a.baseY));
     return {x:Math.max(ox+55,minX-40),y:Math.max(oy+100,minY-35),width:Math.max(600,maxX-minX+80),height:Math.max(330,maxY-minY+80)};
   }
+  expire(){
+    const now=Date.now();
+    for(const [id,r] of this.rows)if(r.deadline<=now&&!r.pending){this.remove(id);this.onExpired?.(r.drop);}
+  }
   render(){
-    const e=this.engine;if(!e.app?.canvas)return;const box=e.app.canvas.getBoundingClientRect(),field=this.field(),time=performance.now();
+    this.expire();
+    const e=this.engine;if(e.huntBackground||!e.app?.canvas)return;const box=e.app.canvas.getBoundingClientRect(),field=this.field(),time=Date.now();
     for(const [id,r] of this.rows){
       const left=r.deadline-time;
       if(left<=0&&!r.pending){this.remove(id);this.onExpired?.(r.drop);continue;}
@@ -87,6 +93,6 @@ export class GroundDrops{
   }
   remove(id){const r=this.rows.get(id);if(!r)return;r.expired=true;r.tween?.kill();r.button.remove();r.root.destroy({children:true});this.rows.delete(id);}
   clear(){this.revision++;this.absorbed.clear();for(const id of [...this.rows.keys()])this.remove(id);}
-  diagnostics(){return {active:this.rows.size,items:[...this.rows.values()].map(r=>({id:r.drop.id,position:r.drop.position,expiresInMs:Math.max(0,r.deadline-performance.now()),pending:r.pending}))};}
+  diagnostics(){return {active:this.rows.size,items:[...this.rows.values()].map(r=>({id:r.drop.id,position:r.drop.position,expiresInMs:Math.max(0,r.deadline-Date.now()),pending:r.pending}))};}
   destroy(){this.clear();this.engine.app?.ticker?.remove(this.tick);this.host.remove();}
 }

@@ -17,13 +17,13 @@ function harness(payload){
     syncFinalState(final){this.cancelTimelines();states.push(structuredClone(final));}
     playEvents(events){calls.push(...events);return new Promise(resolve=>releases.push(resolve));}
   }
-  const Engine=vm.runInNewContext(source+';BattleEngine',{ScrapyardEngine:Parent,playHuntTimeline});
+  const Engine=vm.runInNewContext(source+';BattleEngine',{ScrapyardEngine:Parent,playHuntTimeline,BattleAnimation:class{}});
   const engine=new Engine();let clears=0;
   Object.assign(engine,{visible:true,playbackEpoch:1,audio:{enabled:()=>false},app:{ticker:{add(){},remove(){}}},
     huntPlaybackPlan:payload.huntPlayback,instances:new Map(payload.continuousEncounter.instances.map(row=>[row.id,row])),
-    enemies:payload.continuousEncounter.initialIds.map(id=>({id})),seenKnockouts:new Set(),retiredIds:new Set(),defeatedCount:0,
+    enemies:payload.continuousEncounter.initialIds.map(id=>({id,root:{visible:true}})),seenKnockouts:new Set(),retiredIds:new Set(),defeatedCount:0,
     groundDrops:{clear(){clears++;}},combatantById:()=>null,
-    bindMonster(row){this.enemies[row.slot]={id:row.id};},queueBanner:name=>banners.push(name),
+    bindMonster(row){this.enemies[row.slot]={id:row.id,root:{visible:true}};},queueBanner:name=>banners.push(name),
     startAccountBattleUnitSustainedFire(){this.firing=true;}});
   const options={sequential:true,isPaused:()=>!!engine.huntPaused,afterEvent:event=>notified.push(event)};
   return {engine,calls,notified,states,banners,get clears(){return clears;},

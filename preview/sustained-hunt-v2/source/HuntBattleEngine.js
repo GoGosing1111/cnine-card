@@ -18,6 +18,34 @@ class UprightMonsterAnimation extends BattleAnimation{
 }
 export class BattleEngine extends ScrapyardEngine{
   constructor(...args){super(...args);this.combatClockRate=this.previewSpeed=this.paceScale=1;this.continuousAreaPlayback=true;this.parallelEncounterTransitions=true;}
+  async setVisible(next){
+    if(!next||!this.huntPlaybackPlan)return super.setVisible(next);
+    this.requestedVisible=true;
+    if(!this.mounted)await this.mount();
+    // The hunt remains logically active when the browser hides its canvas.
+    // Explicit close still uses the shared cancellation/recovery lifecycle.
+    this.visible=true;this.setHuntBackground(document.hidden);
+    if(!this.huntBackground)return super.setVisible(true);
+  }
+  setHuntBackground(hidden){
+    hidden=!!hidden;
+    if(hidden===!!this.huntBackground){this.huntRun?.wake?.();return;}
+    this.huntBackground=hidden;
+    if(hidden){
+      if(this.huntRun&&!this.huntRun.cancelled)this.huntRun.background?.();
+      else this.cancelTimelines(); // Release a pending cosmetic arrival too.
+      this.huntVisualClock={wasPaused:gsap.globalTimeline.paused()};
+      gsap.globalTimeline.pause();this.app?.stop();this.audio?.stopAll?.();
+    }else{
+      this.releaseHuntVisualClock();this.huntRun?.wake?.();
+      if(this.visible)this.app?.start();
+      this.groundDrops?.render();
+    }
+  }
+  releaseHuntVisualClock(){
+    if(!this.huntVisualClock)return;
+    gsap.globalTimeline.paused(this.huntVisualClock.wasPaused);this.huntVisualClock=null;
+  }
   waitForAccountBattleUnitDamageQueueDrain(timeoutMs=2500){
     const run=this.accountBattleUnitFireRun,epoch=this.playbackEpoch;
     if(!run?.active)return Promise.resolve(true);
@@ -100,7 +128,10 @@ export class BattleEngine extends ScrapyardEngine{
       }
     }},0),()=>{for(const r of rows){r.root.destroy({children:true});if(epoch===this.playbackEpoch&&r.a.id===r.id&&r.a.hp>0)r.a.root.alpha=1;}},this.previewSpeed||1,{releaseAt:.48});
   }
-  initialArrival(){return this.arrival(this.enemies.filter(a=>a.battleActive));}
+  initialArrival(){
+    if(this.huntBackground){for(const actor of this.enemies)if(actor.battleActive)actor.root.alpha=1;return Promise.resolve(true);}
+    return this.arrival(this.enemies.filter(a=>a.battleActive));
+  }
   async spawnMonster(event){
     const epoch=this.playbackEpoch;await this.drainGeneration();
     if(epoch!==this.playbackEpoch||!this.visible)return false;
@@ -134,7 +165,19 @@ export class BattleEngine extends ScrapyardEngine{
     this.syncFinalState(final);
     if(bossId)this.queueBanner(this.instances.get(bossId).name,0xffc477,'최종 수호자 출현');
   }
+  reconcileHuntBackground(final){
+    this.cancelTimelines();
+    const ids=new Set((final.B||[]).map(row=>row.id));
+    for(const actor of this.enemies)if(!ids.has(actor.id)){
+      this.retiredIds.add(actor.id);actor.battleActive=false;actor.root.visible=false;
+    }
+    for(const row of final.B||[]){
+      if(this.instances.has(row.id)&&this.enemies[this.instances.get(row.id).slot]?.id!==row.id)this.bindMonster(this.instances.get(row.id));
+    }
+    this.syncFinalState(final);
+  }
   setHuntPaused(paused){
+    this.huntRun?.pause?.(paused);
     this.huntPaused=!!paused;this.accountBattleUnitIsPaused=()=>this.huntPaused;
     for(const e of this.simpleTimelines||[])e.instance.paused(this.huntPaused);
     for(const e of this.skillTimeline?.active||[])e.timeline.paused(this.huntPaused);
@@ -145,10 +188,10 @@ export class BattleEngine extends ScrapyardEngine{
   }
   attachGroundDrops(options){this.groundDrops?.destroy();this.groundDrops=new GroundDrops(this,options);return this.groundDrops;}
   cancelTimelines(){
-    if(this.huntRun&&!this.huntRun.transitioning)this.huntRun.cancelled=true;
+    if(this.huntRun&&!this.huntRun.transitioning){this.huntRun.cancelled=true;this.huntRun.wake?.();}
     super.cancelTimelines();if(!this.huntRun?.transitioning)this.groundDrops?.clear();
     for(const resolve of this.huntResumeWaiters||[])resolve(false);this.huntResumeWaiters?.clear();
   }
-  diagnostics(){return {...super.diagnostics(),hunt:{capacity:CAPACITY,alive:this.enemies.filter(a=>this.isAlive(a)).length,run:this.huntRun,drops:this.groundDrops?.diagnostics()}};}
-  destroy(){this.groundDrops?.destroy();this.groundDrops=null;super.destroy();this.spawnFrames?.forEach(f=>f.destroy(false));this.spawnFrames=null;}
+  diagnostics(){return {...super.diagnostics(),hunt:{capacity:CAPACITY,background:!!this.huntBackground,alive:this.enemies.filter(a=>this.isAlive(a)).length,run:this.huntRun,drops:this.groundDrops?.diagnostics()}};}
+  destroy(){this.releaseHuntVisualClock();this.groundDrops?.destroy();this.groundDrops=null;super.destroy();this.spawnFrames?.forEach(f=>f.destroy(false));this.spawnFrames=null;}
 }

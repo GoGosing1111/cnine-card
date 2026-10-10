@@ -104,6 +104,7 @@
     renderer=await ProjectVBattleV3Live.createRenderer({...prepared,modal,data:payload,mode:'HUNT',playerName,playUltimateCinematics:false,continuousPlayback:true});
     if(token!==epoch)return;
     document.removeEventListener('visibilitychange',engine.onVisibility);
+    engine.setHuntBackground(document.hidden);
     engine.previewSpeed=1;engine.paceScale=1;
     prepared.stage.querySelector('.battle-v3-header strong').textContent=(payload.regionName||'잊혀진 섬')+' · '+payload.huntPolicy.name;
     prepared.stage.querySelector('#battlePhase').textContent='군단 토벌 → 최종 보스 · 총 15분';
@@ -117,7 +118,7 @@
     $('hunt-time').textContent=time(payload.huntPolicy.limitMs);$('hunt-threat').textContent=payload.huntPolicy.name+' · '+time(payload.huntPolicy.huntDurationMs)+'에 최종 보스 출현';message(payload.pet?.magnet?'자석 펫 장착 · 드랍 아이템을 자동 흡수합니다.':'아이템은 필드에서 직접 클릭해야 획득합니다.');buttons();
   }
   function updateClock(){
-    const at=Math.max(renderedAt,(engine?.skillChipPlayback?.clock.time||0)*1000);
+    const at=Math.max(renderedAt,engine?.huntRun?.timeMs||0,(engine?.skillChipPlayback?.clock.time||0)*1000);
     $('hunt-time').textContent=remainingTime(payload.huntPolicy.limitMs-at);
     if($('hunt-time-label'))$('hunt-time-label').textContent='남은 전투 시간';
     if($('hunt-progress-fill'))$('hunt-progress-fill').style.width=Math.min(100,at/payload.huntPolicy.limitMs*100)+'%';
@@ -137,7 +138,7 @@
       if(ownerMode&&!payload.regionId&&!payload.huntPolicy.items?.some(item=>item.enabled!==false&&item.weight>0)){bossHud();return;}
       queueDropReveal(event.seq);
     }
-    if(event.type==='ENEMY_SPAWN'&&event.boss)toast(event.name+' 출현');
+    if(!caughtUp&&event.type==='ENEMY_SPAWN'&&event.boss)toast(event.name+' 출현');
     if(!caughtUp&&event.type==='SKILL_CHIP_CAST'&&event.chipCode==='BATTLE_SUIT_Z_THUNDER_JUDGMENT')toast('Z-BODY · 뇌검 집행 / 적 전체');
     if(event.type==='SKILL_CHIP_HIT'&&event.chipCode==='BATTLE_SUIT_Z_THUNDER_JUDGMENT'&&!areaCasts.has(event.castId)){
       areaCasts.add(event.castId);if($('hunt-suit-skill'))$('hunt-suit-skill').textContent='Z-BODY · 뇌검 집행 '+areaCasts.size+'회';
@@ -149,22 +150,23 @@
     try{
       const begun=await request('begin',{id:session});entries=begun.entries||entries;starting=false;playing=true;buttons();message(payload.pet?.magnet?'전투 중 · 자석 펫이 드랍 아이템을 자동으로 흡수합니다.':'전투 중 · 드랍 아이템을 놓치지 마세요.');
       await engine.initialArrival();if(token!==epoch||!playing)return;
-      engine.startAccountBattleUnitSustainedFire();
+      if(!engine.huntBackground)engine.startAccountBattleUnitSustainedFire();
       clockTimer=setInterval(updateClock,250);
-      await engine.playEvents(payload.battleV2.result.timeline,{sequential:true,afterEvent:onEvent,isPaused:()=>paused});
+      const completed=await engine.playEvents(payload.battleV2.result.timeline,{sequential:true,afterEvent:onEvent,isPaused:()=>paused});
       if(token!==epoch||!playing||finishing)return;
+      if(!completed)throw Error('전투 재생이 중단됐습니다. 같은 원정을 다시 불러와 주세요.');
       engine.stopAccountBattleUnitSustainedFire();
       updateClock();
       if(engine.huntRun?.deadlineReached){await finish();return;}
       clearInterval(clockTimer);ending=true;await reveals;buttons();
       message('전투가 끝났습니다. 남은 드랍을 클릭하세요. 사라지면 자동 정산합니다.');
-      finishTimer=setInterval(()=>{if(!engine.groundDrops.rows.size){clearInterval(finishTimer);finishTimer=null;void finish();}},200);
+      finishTimer=setInterval(()=>{engine.groundDrops.expire();if(!engine.groundDrops.rows.size){clearInterval(finishTimer);finishTimer=null;void finish();}},200);
     }catch(e){if(token===epoch)playbackFailed(e);}
   }
   function pause(){
     if(!playing||ending)return;paused=!paused;engine.setHuntPaused(paused);buttons();
     message(paused?'전투 일시정지 · 드랍 소멸 시간은 계속 흐릅니다.':'사냥을 이어갑니다.');
-    interruption(paused?'pause':null,'화면을 벗어나거나 일시정지를 누르면 전투가 멈춥니다. 계속 사냥을 눌러 재개하세요. 드랍 소멸 시간은 계속 흐릅니다.');
+    interruption(paused?'pause':null,'일시정지 중입니다. 계속 사냥을 누르면 화면을 내려놓아도 사냥이 이어집니다. 드랍 소멸 시간은 계속 흐릅니다.');
   }
   async function finish(){
     if(!playing||finishing)return;finishing=true;buttons();clearInterval(finishTimer);clearInterval(clockTimer);finishTimer=null;
@@ -190,8 +192,15 @@
   $('hunt-start').onclick=()=>void(liveMode?enterBattle(true):start());$('hunt-pause').onclick=pause;$('hunt-stop').onclick=()=>void finish();
   if(!liveMode)$('hunt-difficulty').onchange=$('hunt-party').onchange=()=>void prepare().catch(e=>message(errorText(e)));
   $('hunt-again').onclick=()=>void again(true);$('hunt-review').onclick=()=>void again(false);
-  document.addEventListener('visibilitychange',()=>{if(document.hidden&&playing&&!paused&&!ending)pause();});
-  window.addEventListener('pagehide',()=>{++epoch;clearInterval(finishTimer);clearInterval(clockTimer);clearTimeout(toastTimer);engine?.setHuntPaused(false);api.destroy();});
+  const background=hidden=>{engine?.setHuntBackground(hidden);if(payload&&engine){updateClock();bossHud();}};
+  document.addEventListener('visibilitychange',()=>background(document.hidden));
+  document.addEventListener('freeze',()=>background(true));
+  document.addEventListener('resume',()=>background(document.hidden));
+  window.addEventListener('pageshow',()=>background(document.hidden));
+  window.addEventListener('pagehide',event=>{
+    if(event.persisted){background(true);return;}
+    ++epoch;clearInterval(finishTimer);clearInterval(clockTimer);clearTimeout(toastTimer);engine?.setHuntPaused(false);api.destroy();
+  });
   window.HuntPreviewV2={diagnostics:()=>({playing,paused,ending,ack,kills,bosses,picked,renderedAt,session,canvasCount:document.querySelectorAll('canvas').length,engine:engine?.diagnostics()})};
   if(liveMode){
     $('hunt-return').onclick=()=>notifyParent('legion-hunt-return');
