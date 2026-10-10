@@ -108,5 +108,63 @@
     "productionMessagesSent": false,
     "settingsChanged": false,
     "defaultApplicationEnabled": false
+  },
+  "nicknameNoticeRelease": {
+    "source": "37130629de9244d87289a4bd8976730d24975496",
+    "previousRuntimeSource": "d3a6921a2c89ed52695e0d3fe8d53cb76d059e93",
+    "pages": "https://602296ad.cnine-card.pages.dev",
+    "apiRuntimeVersion": "059ced3c-a526-4f36-b01c-66fc03ecf030",
+    "clanWorkerVersion": "8b0ded34-7f3b-46b5-9e60-ab5d9077c8aa",
+    "cache": "20261011-apply2",
+    "notice": "반드시 게임 닉네임으로 입금해 주세요.",
+    "scopedTestsPassed": 10,
+    "browser": {
+      "cases": [
+        "desktop: popup bold notice and actual personal message body verified, no overflow.",
+        "mobile: popup bold notice and actual personal message body verified, no overflow."
+      ],
+      "screenshots": [
+        "C:\\Users\\User\\.codex\\tmp\\supporter-season-pass-20261010\\nickname-desktop-popup.png",
+        "C:\\Users\\User\\.codex\\tmp\\supporter-season-pass-20261010\\nickname-desktop-message.png",
+        "C:\\Users\\User\\.codex\\tmp\\supporter-season-pass-20261010\\nickname-mobile-popup.png",
+        "C:\\Users\\User\\.codex\\tmp\\supporter-season-pass-20261010\\nickname-mobile-message.png"
+      ],
+      "ok": true,
+      "productionMessagesSent": false
+    },
+    "production": {
+      "source": "37130629de9244d87289a4bd8976730d24975496",
+      "verifiedAt": "2026-10-10T15:54:37.165Z",
+      "files": [
+        {
+          "file": "index.html",
+          "status": 200,
+          "sha256": "3ebf14d5ccb2bb54bbbe06a2cac300d4a5d4b3c8a925bbd65bae16a7fb55834d"
+        },
+        {
+          "file": "service-worker.js",
+          "status": 200,
+          "sha256": "f8653933e53269057d790fd3537438e51beee402973790caacf95291cf22531b"
+        },
+        {
+          "file": "js/adventure-lobby-v2107.js",
+          "status": 200,
+          "sha256": "0cdfca2e4771373ebda76da6cad785bfe27e37334484120899c33610ce81afcb"
+        },
+        {
+          "file": "js/server-support-v1.mjs",
+          "status": 200,
+          "sha256": "40c71e8dc148cb2d303310161d828a7dabd7ffa6427ef52864af32ada6c6d38c"
+        },
+        {
+          "file": "js/supporter-application-v1.mjs",
+          "status": 200,
+          "sha256": "9dd6cbe3be639f25292dc6fc861bc15f6f0f6f0cbc5a43714992089671bd0738"
+        }
+      ],
+      "serviceStatus": 200,
+      "settingsChanged": false,
+      "productionMessagesSent": false
+    }
   }
 }
