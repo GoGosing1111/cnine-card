@@ -1,5 +1,6 @@
 import {SUPPORT_PLAN,SUPPORT_NOTICE,SUPPORT_DURATION_MS,canManageSupport,supportAccountEligible,supportBenefits} from '../shared/server-support-v1.mjs';
 import {readSupportRecord} from './_supporter_benefits.js';
+import {readSeasonPass,handleSeasonPass} from './_supporter_season_pass.js';
 import {readPetCollection,readPetPotentials} from './_pet_account.js';
 import {readPetCms} from './_pet_companion_cms.js';
 import {PET_CMS_KEY} from '../shared/pet-cms-v1.mjs';
@@ -70,7 +71,8 @@ export async function selectSupportPet(env,user,body,now=Date.now()){
 }
 async function supporterPage(env,user,now){
   const [record,owned,potentials,cms]=await Promise.all([readSupportRecord(env,user.id),readPetCollection(env,user.id),readPetPotentials(env,user.id),readPetCms(env)]);
-  return {plan:SUPPORT_PLAN,notice:SUPPORT_NOTICE,serverNow:now,subscription:supportBenefits(record.state,now),pets:cms.state.document.pets.filter(p=>owned.state.pets[p.code]>0).map(p=>({code:p.code,name:p.name,sourceArt:p.sourceArt,permanentMagnet:potentials.state.pets[p.code]?.potential==='MAGNET'}))};
+  const subscription=supportBenefits(record.state,now),seasonPass=await readSeasonPass(env,user.id,subscription,now);
+  return {plan:SUPPORT_PLAN,notice:SUPPORT_NOTICE,serverNow:now,subscription,seasonPass,pets:cms.state.document.pets.filter(p=>owned.state.pets[p.code]>0).map(p=>({code:p.code,name:p.name,sourceArt:p.sourceArt,permanentMagnet:potentials.state.pets[p.code]?.potential==='MAGNET'}))};
 }
 export async function handleServerSupport({path,request,env,deps}){
   const admin=path.startsWith('admin/server-support');
@@ -82,6 +84,7 @@ export async function handleServerSupport({path,request,env,deps}){
     const now=(deps.now||Date.now)();
     if(admin){
       if(!canManageSupport(user))return reply({error:'후원 관리는 핑크빛유두 전용입니다.'},403);
+      if(path==='admin/server-support/pass')return reply(await handleSeasonPass({path,request,env,user,deps,now}));
       if(path==='admin/server-support'&&request.method==='GET'){
         const [rows,logs]=await Promise.all([
           env.DB.prepare("SELECT u.id,u.nickname,m.value FROM app_meta m JOIN users u ON m.key='server_support_v1:'||u.id WHERE m.key LIKE 'server_support_v1:%' ORDER BY m.updated_at DESC LIMIT 200").all(),
@@ -109,6 +112,7 @@ export async function handleServerSupport({path,request,env,deps}){
       const previewOnly=!eligible&&row?.status==='ACTIVE'&&canManageSupport(user),visible=eligible||previewOnly;
       if(path==='server-support/status'&&request.method==='GET')return reply({visible});
       if(!visible)return reply({error:'페이지를 찾을 수 없습니다.'},404);
+      if(path==='server-support/pass/claim')return reply(await handleSeasonPass({path,request,env,user,deps,now,eligible}));
       if(path==='server-support/info'&&request.method==='GET')return reply({...await supporterPage(env,user,now),previewOnly});
       if(path==='server-support/pet'&&request.method==='POST'){
         if(!eligible)fail('ELIGIBILITY','후원 혜택 이용은 가입 3일 경과와 2차 인증 완료가 필요합니다.',403);

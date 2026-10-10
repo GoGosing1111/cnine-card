@@ -1,0 +1,45 @@
+{
+  "status": "READY_FOR_SCOPED_DEPLOY",
+  "date": "2026-10-10",
+  "request": "후원자 30일 시즌패스, 적용일부터 당일 보상만 수령, 날짜별 다양한 아이템·수량 CMS, 예쁘고 화려한 달력",
+  "previousDeployment": {
+    "source": "08a2c0d625f1979f0e5210726f81a3102ab454d5",
+    "pagesUrl": "https://c7e5ecc7.cnine-card.pages.dev",
+    "apiRuntimeVersion": "62103312-13a7-4207-bfb8-2fcfc62c4123"
+  },
+  "policy": {
+    "days": 30,
+    "startsFrom": "supporter activation KST date",
+    "claim": "current KST day only",
+    "missedRewardsCarryOver": false,
+    "rewardsPerDay": 12,
+    "cms": "account ID 1 and OWNER",
+    "initialEnabled": false,
+    "initialRewards": "empty: configure all 30 days in CMS before enabling",
+    "productionRewardsConfigured": false,
+    "productionGrantsMade": false,
+    "existingReleaseRestrictionsPreserved": true
+  },
+  "validation": {
+    "preDeploymentTests": ["tests/supporter-season-pass-20261010.test.mjs"],
+    "preDeploymentPassed": 15,
+    "preDeploymentFailed": 0,
+    "engines": ["SQLite", "PostgreSQL via PGlite and production SQL adapter"],
+    "browserReport": "C:/Users/User/.codex/tmp/supporter-season-pass-20261010/report.json",
+    "viewports": [1440, 390],
+    "realLobbyAndCMS": true,
+    "realAPIWithMemoryDB": true,
+    "responseLossRecoveryWithoutDoubleGrant": true,
+    "midnightRefresh": true,
+    "overflow": false,
+    "brokenImages": 0,
+    "pageErrors": 0,
+    "lobbyBuildIntegrity": true
+  },
+  "release": {
+    "command": "npm run deploy:production -- --scoped",
+    "tests": ["tests/server-support-20261010.test.mjs"],
+    "checks": ["check:worker"],
+    "reason": "후원 기능 범위의 시즌패스 UI·보상 설정·지급 경로 추가. 기존 인증·사용자 잠금·DB batch·통합 보상 지급 기반을 재사용하며 마이그레이션·공통 기반·의존성 변경 없음. 신규 거래 15건과 실제 PC·모바일 검수를 완료했으므로 배포에서는 인접 후원 회귀와 Worker 컴파일만 실행한다. 최신 승부예측 운영 배포를 포함한 main으로 통합했다."
+  }
+}

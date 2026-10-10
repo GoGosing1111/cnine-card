@@ -35,5 +35,5 @@ export async function supportFixture({postgres=false}={}){
     const response=await handle(new Request('https://support.test/api/'+path,{method,headers:{authorization:'Bearer qa-'+user,origin,'content-type':'application/json'},...(body?{body:JSON.stringify(body)}:{})}));
     return {status:response.status,body:await response.json(),headers:response.headers};
   }
-  return {env,DB,deps,clock,pets,run,one,all,call,handle,queries,fail:v=>failAt=v,close:()=>pg?pg.close():sql.close()};
+  return {env,DB,deps,clock,pets,run,one,all,call,handle,queries,exec:source=>pg?pg.exec(source):sql.exec(source),fail:v=>failAt=v,close:()=>pg?pg.close():sql.close()};
 }
