@@ -77,6 +77,7 @@
     try {
       const data = await api('admin/chief');
       const chief = data.chief || {};
+      const extension = data.extension;
       const users = data.users || [];
       root.innerHTML = `
         <div class="chief-admin-layout">
@@ -91,6 +92,7 @@
                 <span>오늘 족장 하이퍼 ${chief.usage.hyperToday||0}/1</span>
                 <span>탑 초기화 ${chief.usage.towerResetCount||0}/2</span>
               </div>` : ''}
+              ${extension ? `<div class="chief-admin-extension"><b>특별 담화 공개 · 임기 7일 연장 완료</b><p>기존 ${new Date(extension.previousEndsAt).toLocaleString('ko-KR',{timeZone:'Asia/Seoul'})}<br>연장 ${new Date(extension.endsAt).toLocaleString('ko-KR',{timeZone:'Asia/Seoul'})} (KST)</p><small>접속 계정마다 1회 안내 · 중복 연장 차단</small></div>` : chief.active && Number(chief.userId)===4773 && data.canExtend ? `<div class="chief-admin-extension"><b>진짜디임 정권 연장 특별 담화</b><p>현재 임기 종료일에 7일을 더하고, 접속 유저에게 전용 일러스트 팝업을 1회 공개합니다.</p><p>연장 후: ${new Date(Date.parse(chief.endsAt)+7*86400000).toLocaleString('ko-KR',{timeZone:'Asia/Seoul'})} (KST)</p><button type="button" id="chiefExtendDiimBtn">임기 7일 연장 · 특별 담화 공개</button><small>현재 대수·임명 기록·권한 사용 횟수 유지</small></div>` : ''}
             </div>
           </div>
           <div class="chief-admin-appoint">
@@ -115,6 +117,7 @@
       bindUserSearch(users,chief);
       $('#chiefAppointBtn').onclick = () => appoint(users);
       $('#chiefOrdinalOnlyBtn').onclick = () => updateCurrentOrdinal(chief);
+      if($('#chiefExtendDiimBtn'))$('#chiefExtendDiimBtn').onclick=()=>extendDiim(chief);
     } catch (error) {
       root.innerHTML = `<div class="inlineNotice error">${esc(error.message)}</div>`;
     }
@@ -141,6 +144,17 @@
     if(!confirm(`${chief.nickname} 님의 현재 임기와 권한 사용량은 유지하고 공식 대수만 제${ordinal}대로 수정할까요?`))return;
     const button=$('#chiefOrdinalOnlyBtn');button.disabled=true;
     try{await api('admin/chief',{method:'PATCH',body:JSON.stringify({ordinal})});alert(`현재 임기의 공식 대수를 제${ordinal}대로 수정했습니다.`);await load()}catch(error){alert(error.message);button.disabled=false}
+  }
+
+  async function extendDiim(chief) {
+    const until=new Date(Date.parse(chief.endsAt)+7*86400000).toLocaleString('ko-KR',{timeZone:'Asia/Seoul'});
+    if(!confirm(`진짜디임 장군의 기존 임기를 정확히 7일 연장합니다.\n연장 종료: ${until} (KST)\n접속 유저에게 독재정권 연장 특별 담화를 1회 공개합니다.\n현재 대수와 권한 사용 횟수는 유지됩니다. 실행할까요?`))return;
+    const button=$('#chiefExtendDiimBtn');button.disabled=true;
+    try{
+      const result=await api('admin/chief/extend-diim',{method:'POST',body:JSON.stringify({appointmentId:chief.appointmentId,endsAt:chief.endsAt})});
+      alert(`임기 7일 연장${result.replayed?' 내역을 확인했습니다.':'과 특별 담화 공개가 완료되었습니다.'}\n종료: ${new Date(result.receipt.endsAt).toLocaleString('ko-KR',{timeZone:'Asia/Seoul'})} (KST)`);
+      await load();
+    }catch(error){alert(error.message);button.disabled=false}
   }
 
   async function appoint(users) {

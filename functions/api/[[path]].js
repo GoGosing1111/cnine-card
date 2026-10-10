@@ -4990,7 +4990,7 @@ async function handleRequest(context){
     // 무인증 공개 카탈로그는 그대로 유지하되, 로그인 세션이 확인되면 모든 하위 라우터보다 먼저 중단한다.
     const prisonExempt=path.startsWith('admin/')||path.startsWith('setup/')||path==='health'||path==='service/status'
       ||path==='auth/login'||path==='auth/register'||path==='auth/logout'||path==='me/summary'
-      ||path==='coup/status'||path==='coup/vote'||path==='coup/attack-result'||path==='user/runtime-command'||path==='prison/status'||path==='prison/chat'||path==='prison/release-price'||path==='prison/fund'||path==='prison/hit';
+      ||path==='chief/extension-notice'||path==='coup/status'||path==='coup/vote'||path==='coup/attack-result'||path==='user/runtime-command'||path==='prison/status'||path==='prison/chat'||path==='prison/release-price'||path==='prison/fund'||path==='prison/hit';
     if(!prisonExempt){
       const current=await authenticate(request,env);
       if(current){

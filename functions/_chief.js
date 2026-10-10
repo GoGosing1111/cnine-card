@@ -2,6 +2,7 @@ import { ensureCoupSchema, chiefDuty, chiefAuthorityGuard } from './_coup_schema
 import { ensureAvatarFoundation } from './_avatar.js';
 import { chiefReignStyle } from '../shared/chief-presentation-v1.mjs';
 import { handleChiefPrison } from './_chief_prison.js';
+import { chiefExtensionReceipt, extendDiimTerm, chiefExtensionNotice, claimChiefExtensionNotice } from './_chief_extension.js';
 
 const CHIEF_META_KEY='chief_appointment_v1';
 const DISCOUNT_REMOVAL_MARKER='safe_runtime_upgrade_v1657_chief_discount_removed';
@@ -96,6 +97,19 @@ export async function handleChief({path,request,env,deps}){
   if(!path.startsWith('chief/')&&!path.startsWith('admin/chief'))return null;
   const {authenticate,readBody,json,requirePermission,writeAdminLog,activateBurningEvent}=deps;await ensure(env);
   const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+  if(path==='chief/extension-notice'){
+    try{
+      if(request.method==='GET')return json(await chiefExtensionNotice(env,user.id));
+      if(request.method==='POST')return json(await claimChiefExtensionNotice(env,user.id,await readBody(request)));
+    }catch(error){return json({error:error.status?error.message:'공지를 확인하지 못했습니다. 잠시 후 다시 시도하세요.'},error.status||503)}
+    return json({error:'지원하지 않는 공지 요청입니다.'},405);
+  }
+  if(path==='admin/chief/extend-diim'){
+    const admin=await requirePermission(request,env,'SETTINGS');
+    if(admin?.role!=='OWNER')return json({error:'OWNER 권한이 필요합니다.'},403);
+    if(request.method!=='POST')return json({error:'지원하지 않는 연장 요청입니다.'},405);
+    try{return json(await extendDiimTerm(env,admin,await readBody(request)))}catch(error){return json({error:error.message},error.status||409)}
+  }
   if(path==='chief/prison'||path.startsWith('chief/prison/'))return handleChiefPrison({path,request,env,user,appointment:await appointment(env,user.id),deps});
   if(path==='chief/status'&&request.method==='GET'){const a=await appointment(env,user.id);return json({chief:publicState(a,await usage(env,a),user.id),serverNow:new Date().toISOString()})}
   if(path==='chief/activate'&&request.method==='POST'){
@@ -111,7 +125,7 @@ export async function handleChief({path,request,env,deps}){
       const users=query
         ?(await env.DB.prepare("SELECT id,nickname,COALESCE(role,'USER') role FROM users WHERE status='ACTIVE' AND COALESCE(role,'USER') IN ('USER','OWNER') AND (nickname LIKE ? ESCAPE '\\' COLLATE NOCASE OR CAST(id AS TEXT)=? OR COALESCE(role,'USER')=?) ORDER BY CASE WHEN nickname=? THEN 0 WHEN CAST(id AS TEXT)=? THEN 0 WHEN COALESCE(role,'USER')='OWNER' THEN 1 ELSE 2 END,nickname,id LIMIT 50").bind(`%${query.replace(/([%_\\])/g,'\\$1')}%`,query,query.toUpperCase(),query,query).all()).results||[]
         :(await env.DB.prepare("SELECT id,nickname,COALESCE(role,'USER') role FROM users WHERE status='ACTIVE' AND COALESCE(role,'USER') IN ('USER','OWNER') ORDER BY CASE WHEN COALESCE(role,'USER')='OWNER' THEN 0 ELSE 1 END,id DESC LIMIT 100").all()).results||[];
-      return json({chief:publicState(a,await usage(env,a),null),users,query});
+      return json({chief:publicState(a,await usage(env,a),null),users,query,extension:await chiefExtensionReceipt(env),canExtend:admin.role==='OWNER'});
     }
     if(request.method==='PATCH'){
       const body=await readBody(request),ordinal=chiefOrdinal(body.ordinal);if(!ordinal)return json({error:'족장 대수는 1~9999 범위의 정수로 직접 입력해야 합니다.'},400);

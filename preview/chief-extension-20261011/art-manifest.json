@@ -1,0 +1,20 @@
+{
+  "tool": "built-in image_gen",
+  "date": "2026-10-11",
+  "original": "C:/Users/User/.codex/generated_images/01a1257a-c08f-7460-8c6a-2ff81f6c9949/exec-bcb2c415-3702-4160-89d2-0ab3299de77b.png",
+  "asset": "assets/ui/chief/diim-regime-extension-20261011.png",
+  "delivery": "assets/ui/chief/diim-regime-extension-20261011.webp",
+  "sourceSha256": "69659f83e063228985777ac504252afab8df1bfee6730e6752fe54dd6ad5232e",
+  "references": [
+    {
+      "path": "preview/avatar-hanwha-diim-v1/assets/diim-lobby-source-art-v3.png",
+      "role": "Approved Diim facial identity"
+    },
+    {
+      "path": "assets/ui/chief/general-command-v1.png",
+      "role": "Military setting, materials and palette only; not face"
+    }
+  ],
+  "prompt": "Use case: illustration-story. Create one premium original illustration for a Korean fantasy game announcement: General Diim declares a seven-day extension of her authoritarian reign because the kingdom is in turmoil. Fictional in-game political satire. Portrait 2:3, 1024 x 1536. Reference image 1 is the approved Diim character: preserve her unmistakable facial identity, eye shape and spacing, nose, lips, jaw and natural dark brown long hair. Do not copy the waving pose, sports outfit, orange phoenix or background. Reference image 2 is ONLY the approved military atmosphere, costume material and dark crimson/black mood; do NOT borrow its woman's face. Depict beautiful adult Diim in a severe fitted black officer uniform, restrained antique-gold epaulettes, crimson piping, peaked cap with original four-point diamond insignia, black gloves and a long structured coat. New composition: waist-up three-quarter frontal command portrait at an austere dark stone broadcast lectern, one gloved hand rests naturally on an open proclamation scroll with NO legible writing, other relaxed on lectern. Calm imperious, firm expression, chin slightly raised, directly addressing citizens. Face large and readable near upper third with soft cool light; natural adult anatomy, correct hands. Background: towering crimson banners bearing simple fictional diamond emblems, shadowy fortress command hall, distant cold searchlight beams and drifting atmospheric dust, deep cinematic depth. Fine painted fabric, polished leather, controlled metal highlights, bold readable silhouette, dramatic crimson rim light. High-end hand-painted 2D semi-real fantasy game splash art, not photo, not 3D. Preserve natural flowing continuous hair with fine strands, no plate-like layered hair or repeated stepped strands. Spacious top and sides for responsive crop, no cut off cap or face. The main subject occupies central portrait, art remains readable when shown in a narrow panel. No real-world political symbols, no Nazi/SS symbols or salute, no real nation flags, no weapons, no additional foreground figures. Absolutely no lettering, title, numbers, logos, watermark, UI, card frame or border baked in. Polished dramatic announcement artwork.",
+  "review": "Face and natural hair preserve Diim's approved identity; adult general in black uniform, fictional crimson banners, natural gloved hands, readable face. No lettering or real political insignia. Source assets unmodified."
+}
