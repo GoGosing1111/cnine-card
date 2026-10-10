@@ -53,9 +53,77 @@
     "reason": "City client notifications only: production serverUserId polling, modal visibility, explicit acknowledgment and lifecycle. No server, economy or settings change."
   },
   "regression": {
-    "status": "pending official scoped deployment"
+    "status": "passed",
+    "command": "npm run deploy:production -- --scoped",
+    "passed": 10,
+    "failed": 0
   },
   "production": {
-    "status": "pending"
+    "verifiedAt": "2026-10-10T19:15:19.021Z",
+    "origin": "https://cnine-card.pages.dev",
+    "sourceCommit": "635d2f3a20c6b3619ccd4a4defbdc93ab68848e2",
+    "checks": [
+      {
+        "file": "js/jokgak-city-v1.js",
+        "status": 200,
+        "contentType": "application/javascript",
+        "expected": "9bd434d6110cab7aae86c374980bc4219d527abbeae4fd86d39496996b9c267e",
+        "actual": "9bd434d6110cab7aae86c374980bc4219d527abbeae4fd86d39496996b9c267e",
+        "match": true
+      },
+      {
+        "file": "js/jokgak-city-notice-layer-v1.mjs",
+        "status": 200,
+        "contentType": "application/javascript",
+        "expected": "47d2cc7da18f76fee323d46e27a03f0e53c19e2b8f411dc65dd41ff469179b7b",
+        "actual": "47d2cc7da18f76fee323d46e27a03f0e53c19e2b8f411dc65dd41ff469179b7b",
+        "match": true
+      },
+      {
+        "file": "css/jokgak-city-v1.css",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "expected": "5c23fa8332d18ceebfe7d9d54313b6ab1020410a35c8a674746365c2ea0b62fe",
+        "actual": "5c23fa8332d18ceebfe7d9d54313b6ab1020410a35c8a674746365c2ea0b62fe",
+        "match": true
+      },
+      {
+        "file": "index.html",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "expected": "5bca2cc61eecccc7b2c25e0f68ac6021c58173bdeec74e3b6650f0574f7184e9",
+        "actual": "5bca2cc61eecccc7b2c25e0f68ac6021c58173bdeec74e3b6650f0574f7184e9",
+        "match": true
+      },
+      {
+        "file": "service-worker.js",
+        "status": 200,
+        "contentType": "application/javascript",
+        "expected": "cd6df8643fdd7267dd6d5a9a8d7064aef038b6d7501d4145053428a96d59a4be",
+        "actual": "cd6df8643fdd7267dd6d5a9a8d7064aef038b6d7501d4145053428a96d59a4be",
+        "match": true
+      },
+      {
+        "file": "preview/jokgak-city-v1/index.html",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "expected": "86b23bae8bfed206656ab709ab24f8fea89c5b6c93bed757c2ea7113b507e838",
+        "actual": "86b23bae8bfed206656ab709ab24f8fea89c5b6c93bed757c2ea7113b507e838",
+        "match": true
+      }
+    ],
+    "api": {
+      "path": "/api/jokgak-city/notifications",
+      "status": 401
+    }
+  },
+  "deployment": {
+    "exitCode": 0,
+    "pages": "https://3326d078.cnine-card.pages.dev",
+    "apiRuntimeVersion": "423607fc-8653-48bc-8e4f-1f4eaf6e9abf",
+    "clanDraftVersion": "d0ca8134-4d8a-4e4c-9d4b-c50de2f65e90",
+    "command": "npm run deploy:production -- --scoped",
+    "runtimeFilesMatched": 6,
+    "liveAccountMutations": false
   }
 }

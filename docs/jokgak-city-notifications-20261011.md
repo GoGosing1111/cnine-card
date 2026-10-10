@@ -31,3 +31,10 @@
 - 클라이언트 알림에 제한된 작은 수정으로 `npm run deploy:production -- --scoped`를 사용한다.
 - 선택 검사: `tests/jokgak-city-notifications-20261011.test.mjs`, `tests/jokgak-city-item-art-20261011.test.mjs`. 추가 npm 검사 없음. 전체 게임 검사를 반복하지 않는다.
 - 엔트리 `20261011-notice1`, 앱/서비스워커 캐시 `20261011-city-notices1`로 함께 갱신한다. 배포 결과와 변경 파일 해시 일치는 아래 및 JSON에 후속 기록한다.
+
+## 운영 반영 완료
+
+- 소스 `635d2f3a20c6b3619ccd4a4defbdc93ab68848e2`, 공식 scoped 배포 종료 코드 0. 선택 회귀 **10개 통과 / 실패 0**, 출시·캐시·Hyperdrive 검사 통과.
+- Pages: `https://3326d078.cnine-card.pages.dev`. API runtime: `423607fc-8653-48bc-8e4f-1f4eaf6e9abf`, clan draft: `d0ca8134-4d8a-4e4c-9d4b-c50de2f65e90`.
+- 운영 기본 도메인에서 알림 JS·레이어 모듈·CSS·메인/시연 엔트리·서비스워커 **6개 파일 모두 HTTP 200 및 SHA-256 일치**. 비로그인 알림 API는 401로 인증 유지.
+- 이 완료 기록은 문서 전용 후속 커밋이며 실행 코드 재검사·재배포 대상이 아니다.
