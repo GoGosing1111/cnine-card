@@ -1,5 +1,5 @@
 {
-  "status": "READY_FOR_SCOPED_RELEASE",
+  "status": "LIVE_VERIFIED",
   "request": "리치왕 주간보상 7번으로 늘려",
   "date": "2026-10-10",
   "previousDeployment": {
@@ -23,7 +23,10 @@
   },
   "browser": {
     "report": "C:/Users/User/AppData/Local/Temp/lich-weekly-ui-dGa2I5/report.json",
-    "viewports": [1440, 390],
+    "viewports": [
+      1440,
+      390
+    ],
     "cmsSaveReload": true,
     "inlineQuota": true,
     "clearRewardAndLimitDialogs": true,
@@ -36,10 +39,82 @@
     "tests/lich-weekly-rewards-20261004.test.mjs",
     "tests/core-lich-weekly-reset-20261008.test.mjs"
   ],
-  "preDeploymentResult": {"passed": 14, "failed": 0},
+  "preDeploymentResult": {
+    "passed": 14,
+    "failed": 0
+  },
   "scopedTests": [
     "tests/lich-raid-inline-entry-20260929.test.mjs"
   ],
-  "checks": ["check:worker"],
-  "testReason": "The 14 reward/reset regressions and PC/mobile browser checks already passed. The scoped deploy runs only the remaining Lich entry/cache regression and Worker check; it does not repeat passed checks."
+  "checks": [
+    "check:worker"
+  ],
+  "testReason": "The 14 reward/reset regressions and PC/mobile browser checks already passed. The scoped deploy runs only the remaining Lich entry/cache regression and Worker check; it does not repeat passed checks.",
+  "deployment": {
+    "source": "f7db905f293bd969b18711c91ccf297d7214009d",
+    "pagesId": "0335e2bf-af26-44e4-b8a5-73a4650618da",
+    "pagesUrl": "https://0335e2bf.cnine-card.pages.dev",
+    "apiRuntimeVersion": "3a0194ef-6b53-4d44-8a50-63b98d40aa89",
+    "clanWorkerVersion": "f9b9f2a9-0906-4abe-9a50-42eefd4e81e8",
+    "method": "npm run deploy:production -- --scoped",
+    "log": "C:/Users/User/AppData/Local/Temp/lich-weekly-seven-20261010-deploy.log"
+  },
+  "validation": {
+    "testsPassed": 18,
+    "testsFailed": 0,
+    "workerCompile": true,
+    "releaseGuard": true,
+    "hyperdriveCacheDisabled": true,
+    "browserViewports": [
+      1440,
+      390
+    ]
+  },
+  "production": {
+    "verifiedAt": "2026-10-10T11:22:15.380Z",
+    "files": [
+      {
+        "file": "index.html",
+        "status": 200,
+        "sha256": "d004dde1f30c1199a63ed70e51a25469a6c7da9f5d3d16b2a6afa6c26385f99a"
+      },
+      {
+        "file": "admin/index.html",
+        "status": 200,
+        "sha256": "6a42b5cb66f9fd8067f0566288de2a00ed038cfe6c30384df46f8897ecfe7441"
+      },
+      {
+        "file": "service-worker.js",
+        "status": 200,
+        "sha256": "1ef7c78d72579311257399aa99027212dc5bfe14b9f9b9fc70bcb8696cd852eb"
+      },
+      {
+        "file": "raid/lich-king/index.html",
+        "status": 200,
+        "sha256": "f6e30c7bad50131447ad7ff6c377d4c724286f04073a766242518a67077bc433"
+      },
+      {
+        "file": "raid/lich-king/live.mjs",
+        "status": 200,
+        "sha256": "c5ad1b1facf74b9f38d46d33138e64c582135163a817d66c5ebf60b75d5d61a9"
+      },
+      {
+        "file": "raid/lich-king/inline.mjs",
+        "status": 200,
+        "sha256": "805ecbfdea4ba531830948dccf62f0983a0700b08fb7b64eb52a0b6ed0224106"
+      },
+      {
+        "file": "js/lich-king-raid-entry-v1.js",
+        "status": 200,
+        "sha256": "2b6c09fe17c17e8cc5ab9b003119fc10bfa6c3b6737aa8a46f8284792fcb5f53"
+      },
+      {
+        "file": "admin/lich-king-raid-admin-v1.mjs",
+        "status": 200,
+        "sha256": "3d2b1b1d2250a2c375fb5cee5df31206e402c8374925a6b5fcf177934fd1f03c"
+      }
+    ],
+    "serviceStatus": 200,
+    "unauthenticatedFeatureStatus": 401
+  }
 }
