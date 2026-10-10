@@ -13,7 +13,7 @@
     "ui": "수정 후 1440×1000 PC 및 390×1000 모바일에서 500억 추가→지원금 합계 50,005,000,000코인; 새로고침 유지, 1조 추가 후 유저 자동 갱신으로 1,050,005,000,000코인 확인. 배팅 풀 35,000,000코인·지원금 선택지 실제 배팅 5,000,000코인 유지. 가로 넘침·브라우저 오류 없음.",
     "evidence": "C:/Users/User/Downloads/upload/cnine-card/tmp/prediction-subsidy-fix-20261011/ui-verification.json",
     "test": "tests/prediction-subsidy-option-20261011.test.mjs",
-    "testExecution": "공식 scoped 배포 게이트에서 실행"
+    "testExecution": "공식 scoped 배포 게이트에서 2/2 통과. 기존 PostgreSQL 호환 어댑터로 저장·요청 재시도·양쪽 표시·정산 확인."
   },
   "release": {
     "mode": "scoped",
@@ -23,7 +23,88 @@
       "tests/prediction-subsidy-option-20261011.test.mjs"
     ],
     "checks": [],
-    "command": "npm run deploy:production -- --scoped"
+    "command": "npm run deploy:production -- --scoped",
+    "deployedCommit": "5d931e3ee970be7e5ea298598f446751d6aa2fc5",
+    "deploymentUrl": "https://9755bee8.cnine-card.pages.dev",
+    "apiRuntimeVersion": "2095edc5-9c54-4e0a-9e10-376a2e6a8fda",
+    "clanWorkerVersion": "e046b478-fb12-4d97-a5b1-deb74b756207"
   },
-  "productionMoneyChanged": false
+  "productionMoneyChanged": false,
+  "production": {
+    "verifiedAt": "2026-10-10T15:14:37.805Z",
+    "source": "5d931e3ee970be7e5ea298598f446751d6aa2fc5",
+    "url": "https://cnine-card.pages.dev",
+    "files": [
+      {
+        "file": "admin/index.html",
+        "status": 200,
+        "sha256": "392991eb00f599c4a838eb4f803612b3118dcbfb6fd798a3a89dfa612b37fe7c"
+      },
+      {
+        "file": "admin/coin-prediction-admin-v1.js",
+        "status": 200,
+        "sha256": "e29c9f5adf2c0de44a49135b29d0dc8ede05e59b26e737e5dad11f95aeae6d72"
+      },
+      {
+        "file": "admin/coin-prediction-admin-v1.css",
+        "status": 200,
+        "sha256": "f22b91c0a5ae3267173b05bd51f492d8339edc63b8e82df7577d1e9d264e4df9"
+      },
+      {
+        "file": "js/coin-prediction-model-v2033.js",
+        "status": 200,
+        "sha256": "b0faf619d87c0a29627cd0b44b8bf7bd249e9e1d65125181f8c5cbf8574b5600"
+      },
+      {
+        "file": "js/coin-prediction-v2033.js",
+        "status": 200,
+        "sha256": "0f97a750d4a584250f471899bfeef4faf05af6d98aceaa450b67dfd20e8bb176"
+      },
+      {
+        "file": "css/coin-prediction-v2033.css",
+        "status": 200,
+        "sha256": "84fdbc9eeeba6f983b7772c7c42499e1d4ead3469a1dcdf33c4d6ab5259d6d2d"
+      },
+      {
+        "file": "js/app.js",
+        "status": 200,
+        "sha256": "6bfeed00fcb42953c52b8b05239815df9cc38d0e177f587ceb46da5089e89fba"
+      },
+      {
+        "file": "index.html",
+        "status": 200,
+        "sha256": "34870e4f5ae90582ba7b3c55ea33b02a1cb824dd0c8a2bb02f95fac9848f889a"
+      },
+      {
+        "file": "service-worker.js",
+        "status": 200,
+        "sha256": "fccf085819c2c84c432361a911cf212d407e7067753bdee447e607de0eb6523e"
+      }
+    ],
+    "productionWrites": false,
+    "serviceStatus": 200,
+    "existingSubsidies": [
+      {
+        "eventId": "2964",
+        "title": "리그1 :: [H] 릴 vs 르아브르(+1.5)",
+        "status": "OPEN",
+        "isSupport": true,
+        "participation": 50000000000,
+        "cms": 1000,
+        "treasury": 0,
+        "total": 50000001000
+      },
+      {
+        "eventId": "3029",
+        "title": "숲캣몬 클랜전 ::[H] T1 VS DC(+205.5) 10/11 21::00",
+        "status": "OPEN",
+        "isSupport": true,
+        "participation": 0,
+        "cms": 50000000000,
+        "treasury": 0,
+        "total": 50000000000
+      }
+    ],
+    "propagation": "배포 직후 운영 별칭에서 이전 파일이 한 차례 확인됐고 전파 후 재조회에서 변경 파일 9개 모두 일치. 재배포 없음."
+  }
 }
