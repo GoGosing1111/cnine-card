@@ -11,6 +11,7 @@ import {forwardApiRuntimeRequest} from '../_api_runtime_transport.js';
 import {rankedDuoLiveOperation} from '../_ranked_duo_live_operation.js';
 import {handleQuestHub} from '../_quest_hub.js';
 import {handleServerSupport} from '../_server_support.js';
+import {liveSupportMessageSql,supportMessageCutoff,presentSupportMessage,deleteExpiredSupportMessages} from '../_supporter_message_expiry.js';
 import {handleRankedDuo} from '../_ranked_duo.js';
 import {reconcileDuoSeason,readDuoHonors} from '../_ranked_duo_seasons.js';
 import {duoMagicLoadouts} from '../_magic.js';
@@ -5012,7 +5013,7 @@ async function handleRequest(context){
         breakthroughs:Object.fromEntries(owned.results.map(row=>[String(row.card_id),Number(row.breakthrough_level||0)]))
       },serverNow:new Date().toISOString()});
     }
-    const supportResponse=await handleServerSupport({path,request,env,deps:{authenticate,requirePermission,json,withUserMutationLock:withJointUserMutationLock}});if(supportResponse)return supportResponse;
+    const supportResponse=await handleServerSupport({path,request,env,deps:{authenticate,requirePermission,json,withUserMutationLock:withJointUserMutationLock,ensureMessages:ensureVerifiedRewardMessageV1276}});if(supportResponse)return supportResponse;
     const questHubResponse=await handleQuestHub({path,request,env,deps:{authenticate,requirePermission,readBody,json,dailySettings:playdkDailyQuestSettings,playdkClient:playdkIdentityClient,excluded:dailyQuestAdminExcluded,ensureDaily:async env=>{await ensureWagoDailyPostProgressTable(env);await ensureSecondVerificationFoundation(env)},ensureMessages:ensureVerifiedRewardMessageV1276}});if(questHubResponse)return questHubResponse;
     const playerCardResponse=await handlePlayerCard({path,request,env,deps:{authenticate,json,pvpSettings,resolvePvpTier,pvpSeasonKey,readAccountRank,readDuoHonors}});if(playerCardResponse)return playerCardResponse;
     const streamerResponse=await handleStreamerLounge({path,request,env,deps:{json,requirePermission,writeAdminLog}});if(streamerResponse)return streamerResponse;
@@ -5032,7 +5033,7 @@ async function handleRequest(context){
       await ensureD1HotpathIndexes(env);
       const [inventory,messages,avatarFeature,alchemyFeature]=await Promise.all([
         env.DB.prepare(`SELECT COALESCE(SUM(CASE WHEN ui.quantity>0 THEN ui.quantity ELSE 0 END),0) AS totalQuantity,COALESCE(SUM(CASE WHEN ui.quantity>0 THEN 1 ELSE 0 END),0) AS ownedTypes,COALESCE(SUM(CASE WHEN ui.unseen_quantity>0 THEN ui.unseen_quantity ELSE 0 END),0) AS unseenTotal FROM cnine_user_inventory ui JOIN inventory_items i ON i.code=ui.item_code WHERE ui.user_id=? AND i.is_active=1 AND ((i.category<>'REROLL' AND i.code NOT IN ('GUARANTEED_LIMITED_PACK','GUARANTEED_MA_PACK')) OR ui.quantity>0)`).bind(user.id).first(),
-        env.DB.prepare('SELECT COUNT(*) AS unread FROM user_messages WHERE user_id=? AND hidden_at IS NULL AND is_read=0').bind(user.id).first(),
+        env.DB.prepare(`SELECT COUNT(*) AS unread FROM user_messages WHERE user_id=? AND hidden_at IS NULL AND is_read=0 AND ${liveSupportMessageSql()}`).bind(user.id,supportMessageCutoff()).first(),
         avatarFeatureAccess(env,user),
         alchemyFeatureAccess(env,user)
       ]);
@@ -5145,7 +5146,7 @@ async function handleRequest(context){
             SELECT id,command_type,payload_json,created_at,expires_at,acknowledged_at FROM user_runtime_commands
             WHERE user_id=? AND expires_at>datetime('now') ORDER BY id DESC LIMIT 1
           ) latest WHERE acknowledged_at IS NULL`).bind(user.id),
-          env.DB.prepare('SELECT COUNT(*) AS unread FROM user_messages WHERE user_id=? AND hidden_at IS NULL AND is_read=0').bind(user.id)
+          env.DB.prepare(`SELECT COUNT(*) AS unread FROM user_messages WHERE user_id=? AND hidden_at IS NULL AND is_read=0 AND ${liveSupportMessageSql()}`).bind(user.id,supportMessageCutoff())
         ]);
         const row=commandResult?.results?.[0]||null,unreadMessages=Number(messageResult?.results?.[0]?.unread||0);
         // V1802/V1940: FUR/ZENITH/SUPERSTAR 고급 강화 운영 여부를 여기에 함께 실어 보낸다.
@@ -7164,10 +7165,11 @@ async function handleRequest(context){
     if(path==='messages'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       await ensureMessageRewardClaimV1222(env);
+      await deleteExpiredSupportMessages(env,Date.now(),user.id);
       if(request.method==='GET'){
         const rows=await env.DB.prepare(`SELECT m.id,m.title,m.body,m.message_type,m.coupon_code,m.is_read,m.created_at,m.read_at,r.reward_type,r.reward_amount,r.claimed_at,0 AS needs_recovery
           FROM user_messages m LEFT JOIN user_message_rewards r ON r.message_id=m.id AND r.user_id=m.user_id
-          WHERE m.user_id=? AND m.hidden_at IS NULL ORDER BY m.id DESC LIMIT 100`).bind(user.id).all();
+          WHERE m.user_id=? AND m.hidden_at IS NULL AND ${liveSupportMessageSql('m.')} ORDER BY m.id DESC LIMIT 100`).bind(user.id,supportMessageCutoff()).all();
         let recoveryRows=[];
         try{
           const recovery=await env.DB.prepare(`SELECT m.id,m.title,m.body,m.message_type,m.coupon_code,1 AS is_read,m.created_at,m.read_at,r.reward_type,r.reward_amount,r.claimed_at,1 AS needs_recovery
@@ -7183,8 +7185,8 @@ async function handleRequest(context){
             ORDER BY m.id DESC LIMIT 5`).bind(user.id).all();
           recoveryRows=recovery.results||[];
         }catch{}
-        const messages=[...recoveryRows,...(rows.results||[])].map(presentMessageReward);
-        return json({messages,unread:messages.filter(x=>!x.is_read).length,recoveryCount:recoveryRows.length});
+        const serverNow=Date.now(),messages=[...recoveryRows,...(rows.results||[])].map(presentMessageReward).map(presentSupportMessage).filter(m=>!m.expiresAt||m.expiresAt>serverNow);
+        return json({messages,unread:messages.filter(x=>!x.is_read).length,recoveryCount:recoveryRows.length,serverNow},200,{'Cache-Control':'private, no-store','Vary':'Authorization'});
       }
       if(request.method==='PATCH'){
         const body=await readBody(request),id=Number(body.id);if(!id)return json({error:'메시지 정보가 올바르지 않습니다.'},400);

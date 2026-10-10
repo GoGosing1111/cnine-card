@@ -3942,7 +3942,7 @@ const API_CACHE_TTL={
   'cards':5000,'packs':5000,'pvp/config':1500,
   'battle/config':1500,'magic/status':1500,'inventory':1500,
   'equipment/supply-box/config?fresh=1':1500,'vehicle-draw/config':1500,
-  'messages':1500,'wago-verification/status':1500,'secondary-verification/status':1500,
+  'messages':0,'wago-verification/status':1500,'secondary-verification/status':1500,
   'pvp/opponents':1500,'pvp/history':1500,'pvp/ranking':1500,
   'live-operations':15000
 };
@@ -4472,17 +4472,26 @@ async function claimAllMessageRewards(messages,button){
   const status=[`보상 ${claimedCount.toLocaleString()}건을 일괄 수령했습니다.`,rewardSummary,alreadyCount?`이미 처리된 보상 ${alreadyCount.toLocaleString()}건은 중복 지급하지 않았습니다.`:'',failures.length?`일부 지급 결과는 재확인이 필요합니다. 메시지함을 새로 확인합니다. 중복 지급되지 않으니 남은 보상은 다시 수령하세요.\n${failures[0]}`:''].filter(Boolean).join('\n\n');
   alert(status);renderShell('messages');
 }
+let supportMessageExpiryView=null,supportMessageLoadEpoch=0;
 async function loadMessages(){
   const box=document.getElementById('messageList');if(!box)return;
   try{
-    const d=await apiRequest('messages');
+    const turn=++supportMessageLoadEpoch;
+    const started=Date.now(),d=await apiRequest('messages',{}, {ttl:0});
+    const {mountSupportMessageExpiry}=await import('/js/supporter-message-expiry-v1.mjs?v=20261011-apply1');
+    const elapsed=Date.now()-started,serverNow=Number(d.serverNow)||Date.now();
+    if(turn!==supportMessageLoadEpoch||!box.isConnected)return;
+    d.messages=d.messages.filter(m=>!m.expiresAt||m.expiresAt>serverNow+elapsed);
+    d.unread=d.messages.filter(m=>!m.is_read).length;
     updateMessageNewBadges(d.unread||0);
     const claimable=claimableMessageRewards(d.messages),claimAllButton=document.getElementById('claimAllMessages');
     if(claimAllButton){claimAllButton.disabled=!claimable.length;claimAllButton.textContent=claimable.length?`보상 일괄 수령 · ${claimable.length.toLocaleString()}건`:'수령할 보상 없음';claimAllButton.onclick=()=>claimAllMessageRewards(claimable,claimAllButton)}
+    supportMessageExpiryView?.dispose();supportMessageExpiryView=null;
     box.innerHTML=d.messages.length?d.messages.map(m=>{
       const rewardType=String(m.reward_type||'').trim().toUpperCase(),rewardMeta=messageRewardMeta(m),messageReward=Boolean(rewardMeta)&&Number(m.reward_amount)>0;
-      return `<article class="user-message ${m.is_read?'read':'unread'} ${m.needs_recovery?'reward-recovery':''}" data-id="${m.id}">${m.needs_recovery?'<span class="message-recovery-label">지급 누락 감지</span>':`<button type="button" class="message-delete" data-hide-message="${m.id}" aria-label="메시지 삭제">삭제</button>`}<div><span>${messageReward?'보상 메시지':escapeHtml(m.message_type)}</span><h3>${escapeHtml(m.title)}</h3><p>${escapeHtml(m.body)}</p>${messageReward?`<div class="message-reward"><strong>${escapeHtml(rewardMeta.icon)} ${Number(m.reward_amount).toLocaleString()} ${escapeHtml(rewardMeta.label)}</strong><button type="button" data-claim-message="${m.id}" ${m.claimed_at&&!m.needs_recovery?'disabled':''}>${m.needs_recovery?'지급 재확인':(m.claimed_at?'수령 완료':'보상 받기')}</button></div>`:''}${m.coupon_code?`<div class="message-coupon"><code>${escapeHtml(m.coupon_code)}</code><button type="button" ${m.message_type==='SOOPKETLAND_COUPON'?'data-copy-event-coupon':'data-use-coupon'}="${escapeHtml(m.coupon_code)}">${m.message_type==='SOOPKETLAND_COUPON'?'코드 복사':'쿠폰 사용'}</button></div>`:''}<small>${escapeHtml(String(m.created_at||'').replace('T',' ').slice(0,16))}</small></div></article>`;
+      return `<article class="user-message ${m.is_read?'read':'unread'} ${m.needs_recovery?'reward-recovery':''}" data-id="${m.id}" ${m.expiresAt?`data-support-message-expires="${Number(m.expiresAt)}"`:""}>${m.needs_recovery?'<span class="message-recovery-label">지급 누락 감지</span>':`<button type="button" class="message-delete" data-hide-message="${m.id}" aria-label="메시지 삭제">삭제</button>`}<div><span>${messageReward?'보상 메시지':m.message_type==='SUPPORT_BANK_ACCOUNT'?'후원 신청 · 계좌 안내':escapeHtml(m.message_type)}</span><h3>${escapeHtml(m.title)}</h3><p>${escapeHtml(m.body)}</p>${m.expiresAt?'<small data-support-message-countdown role="timer"></small><br>':''}${messageReward?`<div class="message-reward"><strong>${escapeHtml(rewardMeta.icon)} ${Number(m.reward_amount).toLocaleString()} ${escapeHtml(rewardMeta.label)}</strong><button type="button" data-claim-message="${m.id}" ${m.claimed_at&&!m.needs_recovery?'disabled':''}>${m.needs_recovery?'지급 재확인':(m.claimed_at?'수령 완료':'보상 받기')}</button></div>`:''}${m.coupon_code?`<div class="message-coupon"><code>${escapeHtml(m.coupon_code)}</code><button type="button" ${m.message_type==='SOOPKETLAND_COUPON'?'data-copy-event-coupon':'data-use-coupon'}="${escapeHtml(m.coupon_code)}">${m.message_type==='SOOPKETLAND_COUPON'?'코드 복사':'쿠폰 사용'}</button></div>`:''}<small>${escapeHtml(String(m.created_at||'').replace('T',' ').slice(0,16))}</small></div></article>`;
     }).join(''):'<div class="empty-recent">도착한 메시지가 없습니다.</div>';
+    supportMessageExpiryView=mountSupportMessageExpiry(box,{serverNow,requestElapsed:elapsed,onRemove:unread=>{clearApiCache('messages');clearApiCache('shell/summary');updateMessageNewBadges(messageUnreadCount-unread);}});
     box.querySelectorAll('[data-copy-event-coupon]').forEach(b=>b.onclick=async e=>{e.stopPropagation();try{await navigator.clipboard.writeText(b.dataset.copyEventCoupon);b.textContent='복사 완료'}catch{prompt('방송 공유용 쿠폰 코드를 복사하세요.',b.dataset.copyEventCoupon)}});
     box.querySelectorAll('.user-message').forEach(x=>x.onclick=async()=>{if(!x.classList.contains('unread'))return;await apiRequest('messages',{method:'PATCH',body:JSON.stringify({id:Number(x.dataset.id)})});x.classList.remove('unread');x.classList.add('read');clearApiCache('shell/summary');updateMessageNewBadges(messageUnreadCount-1)});
     box.querySelectorAll('[data-claim-message]').forEach(b=>b.onclick=async e=>{

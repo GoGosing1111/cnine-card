@@ -1,26 +1,34 @@
 import {createPostgresD1Compat} from '../../../functions/_postgres_d1_compat.js';
 import {reconcileClanDraft} from '../../../functions/_clan.js';
 import {reconcileFactionSessions} from '../../../functions/_clan_faction_sessions.js';
+import {reconcileSupportMessages} from '../../../functions/_supporter_message_expiry.js';
 
 const CHECK_INTERVAL_MS=60000;
 
 // One DB visit per alarm. The connection is closed before the object sleeps.
-export async function runDraftSchedule(env,{openDatabase=createPostgresD1Compat,now=Date.now,reconcile=reconcileClanDraft,reconcileSessions=reconcileFactionSessions}={}){
+export async function runDraftSchedule(env,{openDatabase=createPostgresD1Compat,now=Date.now,reconcile=reconcileClanDraft,reconcileSessions=reconcileFactionSessions,reconcileMessages=reconcileSupportMessages}={}){
   let connection;
   try{
     connection=await openDatabase(env.HYPERDRIVE?.connectionString);
-    const result=await reconcile({...env,DB:connection.db});
+    const dbEnv={...env,DB:connection.db};
+    // Expiry runs without players opening their inbox. Its next deadline can
+    // wake the existing alarm earlier without moving any clan deadline.
+    const [draft,messages]=await Promise.allSettled([reconcile(dbEnv),reconcileMessages(dbEnv,now())]);
+    if(draft.status==='rejected')throw draft.reason;
+    const result={...draft.value,nextSupportMessageExpiryAt:messages.status==='fulfilled'?messages.value:null};
     // Disabled release policy returns without a DB read or write. Enabled sessions
     // close and enqueue rewards even when no player has the game open.
     await reconcileSessions({...env,DB:connection.db},{now});
+    if(messages.status==='rejected')throw messages.reason;
     await connection.db.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('clan_draft_scheduler_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify({version:'20260928-champions-followup',source:'DURABLE_ALARM',checkedAt:new Date(now()).toISOString(),...result})).run();
     return result;
   }finally{await connection?.close()}
 }
 
 export function nextAlarmAt(result,now){
-  const deadline=Date.parse(result?.nextCheckAt||'');
-  if(!Number.isFinite(deadline))return now+CHECK_INTERVAL_MS;
+  const deadlines=[result?.nextCheckAt,result?.nextSupportMessageExpiryAt].map(v=>Date.parse(v||'')).filter(Number.isFinite);
+  if(!deadlines.length)return now+CHECK_INTERVAL_MS;
+  const deadline=Math.min(...deadlines);
   return Math.min(now+CHECK_INTERVAL_MS,deadline>now?deadline:now+5000);
 }
 

@@ -4,7 +4,7 @@
 // Z-BODY dash V2: approved 245 ms contact, 640 ms motion and authored wake/cut FX.
 // Inventory UI v2125: shared navy panels and compact item selection.
 // S-BODY / Z-BODY resources v2124; battle scripts keep network-first refresh.
-const SHELL_CACHE='soop-card-shell-v20261011-guard1';
+const SHELL_CACHE='soop-card-shell-v20261011-apply1';
 const CONTENT_CACHE='soop-card-content-v3-media-integrity';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';
@@ -23,6 +23,8 @@ FRESH_ACCOUNT_SCRIPTS.add('/js/workshop-recipes-v1.js');
 FRESH_ACCOUNT_SCRIPTS.add('/js/pingdu-thanks-gift-v1.js');
 FRESH_ACCOUNT_SCRIPTS.add('/js/lobby-bgm-v1803.js');
 FRESH_ACCOUNT_SCRIPTS.add('/js/supporter-screen-guard-v1.mjs');
+FRESH_ACCOUNT_SCRIPTS.add('/js/supporter-application-v1.mjs');
+FRESH_ACCOUNT_SCRIPTS.add('/js/supporter-message-expiry-v1.mjs');
 const SHELL_CORE=[
   OFFLINE_URL,
   APP_SHELL_URL,

@@ -257,7 +257,7 @@ test('background scheduler awaits sessions and closes the connection even after 
  for(const shouldFail of [false,true]){
   const events=[],db={prepare:()=>({bind:()=>({run:async()=>events.push('status')})})};
   const run=()=>runDraftSchedule({},{openDatabase:async()=>({db,close:async()=>events.push('close')}),
-   reconcile:async()=>{events.push('draft');return {phase:'ACTIVE'}},
+   reconcile:async()=>{events.push('draft');return {phase:'ACTIVE'}},reconcileMessages:async()=>null,
    reconcileSessions:async env=>{assert.equal(env.DB,db);await Promise.resolve();events.push('session');if(shouldFail)throw Error('settlement offline')},now:()=>beginning});
   if(shouldFail){await assert.rejects(run(),/settlement offline/);assert.deepEqual(events,['draft','session','close'])}
   else{await run();assert.deepEqual(events,['draft','session','status','close'])}
