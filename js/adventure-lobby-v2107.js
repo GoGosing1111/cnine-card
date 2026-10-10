@@ -68,6 +68,7 @@ window.__ADVENTURE_LOBBY_TEMPLATE__="<style>:host{color-scheme:dark;--bg:#080c17
   function categoryOf(id,group){if(id==='inventory')return 'inventory';if(group==='administration')return 'administration';if(id==='clan')return 'social';if(group==='pve'||group==='pvp')return group;if(['store','market'].includes(group)||id==='mineral')return 'shop';if(group==='rewards')return 'rewards';if(group==='equipment'||group==='crafting'||id==='equipmentForge')return 'equipment';return 'cards';}
   const entries=contract?contract.menuGroupOrder.flatMap(group=>contract.groups[group].routes.map(id=>({id,title:contract.routes[id].title,category:categoryOf(id,group),description:descriptions[id]||contract.routes[id].title}))):[];
   for(const item of [{id:'equipmentForge',title:'장비 강화',category:'equipment'}])entries.push({...item,description:descriptions[item.id]});
+  entries.push({id:'seasonPass',title:'시즌패스',category:'rewards',description:'후원 적용일부터 30일 · 당일 보상 수령'});
   const byId=new Map(entries.map(e=>[e.id,e]));
   const hrefs={chicken:'/events/chicken/',masterStarMine:'/master-star-mine/',lootShop:'/loot-shop/',mercenaryDex:'/mercenary-codex/',petDex:'/pet-codex/',equipmentForge:'/equipment-forge/'};
   const keywords={masterStarMine:'마별 채굴 전동드릴 태양광드릴 황금드릴 방치 광산',lootShop:'피그 코인 고급 전리품 확정 상점',attendance:'출석 출첵 출석체크',inventory:'인벤 가방 아이템 사용 개봉',buy:'뽑기 하이퍼팩 구매',dex:'보유카드 내카드 도감',mercenaryDex:'내용병 용병 선택 편성 지휘소',petDex:'펫 동료 도감 수집 보유 장착 시작 버프 봉순 조은 희야 디임 구수댕 시바 고양이',deck:'팀 파티 덱 편성 저장',equipmentForge:'무기 방어구 강화 복구 보호권',messages:'우편 선물 소식',dailyquest:'일퀘 주간퀘스트 주퀘 임무 미션',vehicle:'자동차 이동수단 제작',character:'착용 무기 방어구 장착'};
@@ -78,7 +79,7 @@ window.__ADVENTURE_LOBBY_TEMPLATE__="<style>:host{color-scheme:dark;--bg:#080c17
   const normalize=value=>value.normalize('NFKC').toLowerCase().replace(/\s+/g,'');
   function renderDirectory(){
     const tokens=query.trim().split(/\s+/).filter(Boolean).map(normalize);
-    const available=entries.filter(e=>options.isRouteVisible?.(e.id)!==false);
+    const available=entries.filter(e=>e.id==='seasonPass'?options.isSeasonPassVisible?.()===true:options.isRouteVisible?.(e.id)!==false);
     const shown=available.filter(e=>(category==='all'||category===e.category)&&tokens.every(t=>normalize([e.title,e.description,e.id,keywords[e.id]||''].join(' ')).includes(t)));
     const selected=categories[category]||{title:'전체 메뉴',icon:'search'};
     $('directory-title').textContent=selected.title;
@@ -94,14 +95,14 @@ window.__ADVENTURE_LOBBY_TEMPLATE__="<style>:host{color-scheme:dark;--bg:#080c17
     $('empty-search').hidden=shown.length>0;
     const resultKey=category+':'+shown.map(e=>e.id).join('|');
     if(resultKey!==lastResults||!$('menu-results').childElementCount){
-      const row=e=>`<button class="menu-result" data-route="${esc(e.id)}" data-menu-category="${e.category}"><span class="menu-route-icon" data-icon="${esc(e.id)}"></span><span><b>${esc(e.title)}</b><small>${esc(e.description)}</small></span><i aria-hidden="true">↗</i></button>`;
+      const row=e=>`<button class="menu-result" data-route="${esc(e.id)}" data-menu-category="${e.category}">${e.id==='seasonPass'?'<span class="menu-route-icon"><img src="/assets/ui/season-pass-v1/supporter-crest.webp" width="38" height="38" alt=""></span>':`<span class="menu-route-icon" data-icon="${esc(e.id)}"></span>`}<span><b>${esc(e.title)}</b><small>${esc(e.description)}</small></span><i aria-hidden="true">↗</i></button>`;
       $('menu-results').innerHTML=category==='all'?Object.entries(categories).map(([key,group])=>{const items=shown.filter(e=>e.category===key);return items.length?`<h3 class="category-divider"><button class="category-jump" data-category="${key}">${group.title}<span>분류 보기 →</span></button></h3>`+items.map(row).join(''):'';}).join(''):shown.map(row).join('');
       paintIcons($('menu-results'));lastResults=resultKey;
     }
     if(!contract){$('result-count').textContent='메뉴 정보를 불러오지 못했습니다. 새로고침해 주세요.';}
   }
   function selectCategory(value){if(value!=='all'&&!categories[value])return;if(!$('menu-dialog').open)fromAll=value==='all';category=value;query='';$('menu-search').value='';renderDirectory();highlight(value);$('menu-dialog').scrollTop=0;openMenu();}
-  function openDestination(id,opener){const item=byId.get(id);if(!item)return;if(options.navigate){if($('menu-dialog').open)$('menu-dialog').close();if($('guide-dialog').open)$('guide-dialog').close();void Promise.resolve().then(()=>options.navigate(id,hrefs[id])).catch(error=>{$('lobby-message').textContent=error.message||'화면을 열지 못했습니다. 다시 시도해 주세요.';$('lobby-message').hidden=false;jumpTo($('lobby-message'));});return;}destinationOpener=opener;$('destination-title').textContent=item.title;$('destination-description').textContent=item.description;$('destination-tip').textContent=tips[id]||'처음부터 모든 콘텐츠를 이용할 필요는 없어요. 필요한 순간에 이 메뉴를 찾아오세요.';$('destination-location').textContent=`로비 → ${categories[item.category].title} → ${item.title}`;$('destination-link').href=hrefs[id]||'/?screen='+encodeURIComponent(id);$('destination-dialog').showModal();}
+  function openDestination(id,opener){const item=byId.get(id);if(!item)return;if(id==='seasonPass'){if(options.isSeasonPassVisible?.()===true)void options.openSeasonPass?.(opener);return;}if(options.navigate){if($('menu-dialog').open)$('menu-dialog').close();if($('guide-dialog').open)$('guide-dialog').close();void Promise.resolve().then(()=>options.navigate(id,hrefs[id])).catch(error=>{$('lobby-message').textContent=error.message||'화면을 열지 못했습니다. 다시 시도해 주세요.';$('lobby-message').hidden=false;jumpTo($('lobby-message'));});return;}destinationOpener=opener;$('destination-title').textContent=item.title;$('destination-description').textContent=item.description;$('destination-tip').textContent=tips[id]||'처음부터 모든 콘텐츠를 이용할 필요는 없어요. 필요한 순간에 이 메뉴를 찾아오세요.';$('destination-location').textContent=`로비 → ${categories[item.category].title} → ${item.title}`;$('destination-link').href=hrefs[id]||'/?screen='+encodeURIComponent(id);$('destination-dialog').showModal();}
   function closeDestination(){$('destination-dialog').close();destinationOpener?.focus({preventScroll:true});}
   listen(document,'click',event=>{
     const b=event.target.closest('button,a.brand');if(!b)return;
@@ -153,16 +154,19 @@ window.__ADVENTURE_LOBBY_TEMPLATE__="<style>:host{color-scheme:dark;--bg:#080c17
   class AdventureLobby extends HTMLElement{
     constructor(){super();this.attachShadow({mode:'open'});this.shadowRoot.innerHTML=template;this.model={};}
     connectedCallback(){
+      this.seasonPassVisible=false;
       const root=this.shadowRoot,scroller=root.querySelector('.lobby-body');this.lifecycle=new AbortController();
       const settings=this.navigationOptions||{},getUser=settings.getUser||(()=>global.loadUser?.()||{}),user=getUser();
       this.controls=global.SoopLobbyInteractions.mount(root,{scroller,accountId:user.serverUserId||user.id||'player',
         isRouteVisible:id=>id==='equipmentForge'||global.SoopketmonV21ExactShell?.isRouteVisible(id)!==false,
         navigate:async(id,href)=>{if(href){location.assign(href);return;}return global.SoopketmonV21ExactShell.navigate(id);},
-        openChief:()=>global.SoopketmonV21ExactShell.openChief(),openAccount:()=>global.showAccountPanel?.(),...settings
+        openChief:()=>global.SoopketmonV21ExactShell.openChief(),openAccount:()=>global.showAccountPanel?.(),...settings,
+        isSeasonPassVisible:()=>this.seasonPassVisible===true,
+        openSeasonPass:opener=>this.supportNavigation?.openSeasonPass(opener)
       });
       const supportSignal=this.lifecycle.signal;
-      void import('/js/server-support-v1.mjs?v=20261010-pass-art1').then(({mountServerSupportNavigation})=>{
-        if(!supportSignal.aborted)this.supportNavigation=mountServerSupportNavigation({root,getUser,signal:supportSignal});
+      void import('/js/server-support-v1.mjs?v=20261011-pass-menu1').then(({mountServerSupportNavigation})=>{
+        if(!supportSignal.aborted)this.supportNavigation=mountServerSupportNavigation({root,getUser,signal:supportSignal,onSeasonPassVisibilityChange:visible=>{this.seasonPassVisible=visible;this.controls?.refreshMenus();}});
       }).catch(()=>{});
       const listen=(target,event,handler)=>target.addEventListener(event,handler,{signal:this.lifecycle.signal});
       listen(global,'cnine:player-updated',()=>this.update({user:getUser()}));

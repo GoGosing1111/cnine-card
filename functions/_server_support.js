@@ -110,10 +110,10 @@ export async function handleServerSupport({path,request,env,deps}){
       // The existing CMS operator can preview the page without changing verification.
       const row=await account(env,user.id),eligible=supportAccountEligible(row,now);
       const previewOnly=!eligible&&row?.status==='ACTIVE'&&canManageSupport(user),visible=eligible||previewOnly;
-      if(path==='server-support/status'&&request.method==='GET')return reply({visible});
+      if(path==='server-support/status'&&request.method==='GET')return reply({visible,seasonPassVisible:eligible});
       if(!visible)return reply({error:'페이지를 찾을 수 없습니다.'},404);
       if(path==='server-support/pass/claim')return reply(await handleSeasonPass({path,request,env,user,deps,now,eligible}));
-      if(path==='server-support/info'&&request.method==='GET')return reply({...await supporterPage(env,user,now),previewOnly});
+      if(path==='server-support/info'&&request.method==='GET')return reply({...await supporterPage(env,user,now),previewOnly,seasonPassVisible:eligible});
       if(path==='server-support/pet'&&request.method==='POST'){
         if(!eligible)fail('ELIGIBILITY','후원 혜택 이용은 가입 3일 경과와 2차 인증 완료가 필요합니다.',403);
         const body=await readJointBody(request,{fields:['petCode','expectedRevision','requestId']});

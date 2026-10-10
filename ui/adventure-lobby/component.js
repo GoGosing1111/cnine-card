@@ -10,16 +10,19 @@
   class AdventureLobby extends HTMLElement{
     constructor(){super();this.attachShadow({mode:'open'});this.shadowRoot.innerHTML=template;this.model={};}
     connectedCallback(){
+      this.seasonPassVisible=false;
       const root=this.shadowRoot,scroller=root.querySelector('.lobby-body');this.lifecycle=new AbortController();
       const settings=this.navigationOptions||{},getUser=settings.getUser||(()=>global.loadUser?.()||{}),user=getUser();
       this.controls=global.SoopLobbyInteractions.mount(root,{scroller,accountId:user.serverUserId||user.id||'player',
         isRouteVisible:id=>id==='equipmentForge'||global.SoopketmonV21ExactShell?.isRouteVisible(id)!==false,
         navigate:async(id,href)=>{if(href){location.assign(href);return;}return global.SoopketmonV21ExactShell.navigate(id);},
-        openChief:()=>global.SoopketmonV21ExactShell.openChief(),openAccount:()=>global.showAccountPanel?.(),...settings
+        openChief:()=>global.SoopketmonV21ExactShell.openChief(),openAccount:()=>global.showAccountPanel?.(),...settings,
+        isSeasonPassVisible:()=>this.seasonPassVisible===true,
+        openSeasonPass:opener=>this.supportNavigation?.openSeasonPass(opener)
       });
       const supportSignal=this.lifecycle.signal;
-      void import('/js/server-support-v1.mjs?v=20261010-pass-art1').then(({mountServerSupportNavigation})=>{
-        if(!supportSignal.aborted)this.supportNavigation=mountServerSupportNavigation({root,getUser,signal:supportSignal});
+      void import('/js/server-support-v1.mjs?v=20261011-pass-menu1').then(({mountServerSupportNavigation})=>{
+        if(!supportSignal.aborted)this.supportNavigation=mountServerSupportNavigation({root,getUser,signal:supportSignal,onSeasonPassVisibilityChange:visible=>{this.seasonPassVisible=visible;this.controls?.refreshMenus();}});
       }).catch(()=>{});
       const listen=(target,event,handler)=>target.addEventListener(event,handler,{signal:this.lifecycle.signal});
       listen(global,'cnine:player-updated',()=>this.update({user:getUser()}));
