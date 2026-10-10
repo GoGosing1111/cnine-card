@@ -1,0 +1,1209 @@
+{
+  "status": "DRAW_COMPLETED",
+  "drawId": "b9a346a4-2e42-4fdc-9b86-976451f16145",
+  "completedAt": "2026-10-10T18:26:08.597Z",
+  "completedAtKst": "2026-10-11 03:26:08 KST",
+  "inputSha256": "1625ded3ff1bdd400231aa69c84d94fe5683d204e32232d4d13230b638c8efa7",
+  "authorization": "추첨 시작해",
+  "method": "사용자 선택 2번: 핀볼 수에 비례해 중복 없이 당첨자 12명 선정 후 상품 별도 무작위 배정",
+  "randomSource": "node:crypto.randomInt (cryptographically secure, unbiased integer sampling)",
+  "selection": "Uniform selection among remaining numbered tickets; remove all tickets of each selected person",
+  "assignment": "Independent Fisher-Yates shuffle of 12 unique prize slots after all winners are selected",
+  "participants": 66,
+  "initialTickets": 236,
+  "unconfirmedIncluded": [
+    "[늘]꼰머냥",
+    "천재b"
+  ],
+  "ticketAllocation": [
+    {
+      "nickname": "으악",
+      "heeya": 3,
+      "bongsoon": 3,
+      "joeun": 3,
+      "totalPinball": 9,
+      "unconfirmed": false,
+      "tickets": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "nickname": "세라네꼬라지",
+      "heeya": 3,
+      "bongsoon": 3,
+      "joeun": 3,
+      "totalPinball": 9,
+      "unconfirmed": false,
+      "tickets": [
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ]
+    },
+    {
+      "nickname": "망순이ෆ",
+      "heeya": 3,
+      "bongsoon": 3,
+      "joeun": 3,
+      "totalPinball": 9,
+      "unconfirmed": false,
+      "tickets": [
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27
+      ]
+    },
+    {
+      "nickname": "현하루",
+      "heeya": 3,
+      "bongsoon": 3,
+      "joeun": 3,
+      "totalPinball": 9,
+      "unconfirmed": false,
+      "tickets": [
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36
+      ]
+    },
+    {
+      "nickname": "[C9]족쪽이",
+      "heeya": 3,
+      "bongsoon": 3,
+      "joeun": 3,
+      "totalPinball": 9,
+      "unconfirmed": false,
+      "tickets": [
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45
+      ]
+    },
+    {
+      "nickname": "전게씹선미아웃",
+      "heeya": 3,
+      "bongsoon": 3,
+      "joeun": 3,
+      "totalPinball": 9,
+      "unconfirmed": false,
+      "tickets": [
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54
+      ]
+    },
+    {
+      "nickname": "쁴로리",
+      "heeya": 3,
+      "bongsoon": 3,
+      "joeun": 3,
+      "totalPinball": 9,
+      "unconfirmed": false,
+      "tickets": [
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63
+      ]
+    },
+    {
+      "nickname": "족단",
+      "heeya": 3,
+      "bongsoon": 3,
+      "joeun": 3,
+      "totalPinball": 9,
+      "unconfirmed": false,
+      "tickets": [
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72
+      ]
+    },
+    {
+      "nickname": "0수표",
+      "heeya": 3,
+      "bongsoon": 3,
+      "joeun": 3,
+      "totalPinball": 9,
+      "unconfirmed": false,
+      "tickets": [
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81
+      ]
+    },
+    {
+      "nickname": "더듬이구",
+      "heeya": 3,
+      "bongsoon": 3,
+      "joeun": 3,
+      "totalPinball": 9,
+      "unconfirmed": false,
+      "tickets": [
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90
+      ]
+    },
+    {
+      "nickname": "학벌",
+      "heeya": 3,
+      "bongsoon": 3,
+      "joeun": 3,
+      "totalPinball": 9,
+      "unconfirmed": false,
+      "tickets": [
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99
+      ]
+    },
+    {
+      "nickname": "Mild7",
+      "heeya": 3,
+      "bongsoon": 2,
+      "joeun": 1,
+      "totalPinball": 6,
+      "unconfirmed": false,
+      "tickets": [
+        100,
+        101,
+        102,
+        103,
+        104,
+        105
+      ]
+    },
+    {
+      "nickname": "암살자..",
+      "heeya": 2,
+      "bongsoon": 2,
+      "joeun": 2,
+      "totalPinball": 6,
+      "unconfirmed": false,
+      "tickets": [
+        106,
+        107,
+        108,
+        109,
+        110,
+        111
+      ]
+    },
+    {
+      "nickname": "음순이",
+      "heeya": 1,
+      "bongsoon": 2,
+      "joeun": 1,
+      "totalPinball": 4,
+      "unconfirmed": false,
+      "tickets": [
+        112,
+        113,
+        114,
+        115
+      ]
+    },
+    {
+      "nickname": "박세라-ㅂ-",
+      "heeya": 2,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 4,
+      "unconfirmed": false,
+      "tickets": [
+        116,
+        117,
+        118,
+        119
+      ]
+    },
+    {
+      "nickname": "음주",
+      "heeya": 0,
+      "bongsoon": 3,
+      "joeun": 1,
+      "totalPinball": 4,
+      "unconfirmed": false,
+      "tickets": [
+        120,
+        121,
+        122,
+        123
+      ]
+    },
+    {
+      "nickname": "심심이",
+      "heeya": 0,
+      "bongsoon": 3,
+      "joeun": 1,
+      "totalPinball": 4,
+      "unconfirmed": false,
+      "tickets": [
+        124,
+        125,
+        126,
+        127
+      ]
+    },
+    {
+      "nickname": "도댕",
+      "heeya": 2,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 4,
+      "unconfirmed": false,
+      "tickets": [
+        128,
+        129,
+        130,
+        131
+      ]
+    },
+    {
+      "nickname": "#크레파스",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "unconfirmed": false,
+      "tickets": [
+        132,
+        133,
+        134
+      ]
+    },
+    {
+      "nickname": "#유나랜드",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "unconfirmed": false,
+      "tickets": [
+        135,
+        136,
+        137
+      ]
+    },
+    {
+      "nickname": "타몽",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "unconfirmed": false,
+      "tickets": [
+        138,
+        139,
+        140
+      ]
+    },
+    {
+      "nickname": "나무늘봉순",
+      "heeya": 0,
+      "bongsoon": 3,
+      "joeun": 0,
+      "totalPinball": 3,
+      "unconfirmed": false,
+      "tickets": [
+        141,
+        142,
+        143
+      ]
+    },
+    {
+      "nickname": "진짜디임",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "unconfirmed": false,
+      "tickets": [
+        144,
+        145,
+        146
+      ]
+    },
+    {
+      "nickname": "딤럼프",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "unconfirmed": false,
+      "tickets": [
+        147,
+        148,
+        149
+      ]
+    },
+    {
+      "nickname": "찡찡ෆ",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "unconfirmed": false,
+      "tickets": [
+        150,
+        151,
+        152
+      ]
+    },
+    {
+      "nickname": "핫시",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "unconfirmed": false,
+      "tickets": [
+        153,
+        154,
+        155
+      ]
+    },
+    {
+      "nickname": "차단하다",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "unconfirmed": false,
+      "tickets": [
+        156,
+        157,
+        158
+      ]
+    },
+    {
+      "nickname": "다시생각",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "unconfirmed": false,
+      "tickets": [
+        159,
+        160,
+        161
+      ]
+    },
+    {
+      "nickname": "의지",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "unconfirmed": false,
+      "tickets": [
+        162,
+        163,
+        164
+      ]
+    },
+    {
+      "nickname": "팩트만쓴다15",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "unconfirmed": false,
+      "tickets": [
+        165,
+        166,
+        167
+      ]
+    },
+    {
+      "nickname": "찬호",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "unconfirmed": false,
+      "tickets": [
+        168,
+        169,
+        170
+      ]
+    },
+    {
+      "nickname": "모래",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "unconfirmed": false,
+      "tickets": [
+        171,
+        172,
+        173
+      ]
+    },
+    {
+      "nickname": "란x2",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "unconfirmed": false,
+      "tickets": [
+        174,
+        175,
+        176
+      ]
+    },
+    {
+      "nickname": "커피먹는철구",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "unconfirmed": false,
+      "tickets": [
+        177,
+        178,
+        179
+      ]
+    },
+    {
+      "nickname": "비_니",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "unconfirmed": false,
+      "tickets": [
+        180,
+        181,
+        182
+      ]
+    },
+    {
+      "nickname": "지아영",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "unconfirmed": false,
+      "tickets": [
+        183,
+        184,
+        185
+      ]
+    },
+    {
+      "nickname": "씨나인택갓",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "unconfirmed": false,
+      "tickets": [
+        186,
+        187,
+        188
+      ]
+    },
+    {
+      "nickname": "베베킹",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "unconfirmed": false,
+      "tickets": [
+        189,
+        190,
+        191
+      ]
+    },
+    {
+      "nickname": "나도한번",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "unconfirmed": false,
+      "tickets": [
+        192,
+        193,
+        194
+      ]
+    },
+    {
+      "nickname": "여우",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "unconfirmed": false,
+      "tickets": [
+        195,
+        196,
+        197
+      ]
+    },
+    {
+      "nickname": "시소둥이",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "unconfirmed": false,
+      "tickets": [
+        198,
+        199,
+        200
+      ]
+    },
+    {
+      "nickname": "혜정",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "unconfirmed": false,
+      "tickets": [
+        201,
+        202,
+        203
+      ]
+    },
+    {
+      "nickname": "비니",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "unconfirmed": false,
+      "tickets": [
+        204,
+        205,
+        206
+      ]
+    },
+    {
+      "nickname": "응맨",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 3,
+      "unconfirmed": false,
+      "tickets": [
+        207,
+        208,
+        209
+      ]
+    },
+    {
+      "nickname": "건빵3개",
+      "heeya": 1,
+      "bongsoon": 0,
+      "joeun": 1,
+      "totalPinball": 2,
+      "unconfirmed": false,
+      "tickets": [
+        210,
+        211
+      ]
+    },
+    {
+      "nickname": "경화수월팬",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 0,
+      "totalPinball": 2,
+      "unconfirmed": false,
+      "tickets": [
+        212,
+        213
+      ]
+    },
+    {
+      "nickname": "대지",
+      "heeya": 0,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 2,
+      "unconfirmed": false,
+      "tickets": [
+        214,
+        215
+      ]
+    },
+    {
+      "nickname": "나무",
+      "heeya": 0,
+      "bongsoon": 1,
+      "joeun": 1,
+      "totalPinball": 2,
+      "unconfirmed": false,
+      "tickets": [
+        216,
+        217
+      ]
+    },
+    {
+      "nickname": "게임닉네임",
+      "heeya": 1,
+      "bongsoon": 1,
+      "joeun": 0,
+      "totalPinball": 2,
+      "unconfirmed": false,
+      "tickets": [
+        218,
+        219
+      ]
+    },
+    {
+      "nickname": "[C9]가시",
+      "heeya": 0,
+      "bongsoon": 1,
+      "joeun": 0,
+      "totalPinball": 1,
+      "unconfirmed": false,
+      "tickets": [
+        220
+      ]
+    },
+    {
+      "nickname": "공단",
+      "heeya": 0,
+      "bongsoon": 1,
+      "joeun": 0,
+      "totalPinball": 1,
+      "unconfirmed": false,
+      "tickets": [
+        221
+      ]
+    },
+    {
+      "nickname": "ShowMaker",
+      "heeya": 0,
+      "bongsoon": 1,
+      "joeun": 0,
+      "totalPinball": 1,
+      "unconfirmed": false,
+      "tickets": [
+        222
+      ]
+    },
+    {
+      "nickname": "펜타",
+      "heeya": 0,
+      "bongsoon": 1,
+      "joeun": 0,
+      "totalPinball": 1,
+      "unconfirmed": false,
+      "tickets": [
+        223
+      ]
+    },
+    {
+      "nickname": "헬로희야",
+      "heeya": 0,
+      "bongsoon": 1,
+      "joeun": 0,
+      "totalPinball": 1,
+      "unconfirmed": false,
+      "tickets": [
+        224
+      ]
+    },
+    {
+      "nickname": "대저동토마토",
+      "heeya": 0,
+      "bongsoon": 1,
+      "joeun": 0,
+      "totalPinball": 1,
+      "unconfirmed": false,
+      "tickets": [
+        225
+      ]
+    },
+    {
+      "nickname": "설윤이",
+      "heeya": 0,
+      "bongsoon": 1,
+      "joeun": 0,
+      "totalPinball": 1,
+      "unconfirmed": false,
+      "tickets": [
+        226
+      ]
+    },
+    {
+      "nickname": "ε연두з",
+      "heeya": 1,
+      "bongsoon": 0,
+      "joeun": 0,
+      "totalPinball": 1,
+      "unconfirmed": false,
+      "tickets": [
+        227
+      ]
+    },
+    {
+      "nickname": "박사",
+      "heeya": 1,
+      "bongsoon": 0,
+      "joeun": 0,
+      "totalPinball": 1,
+      "unconfirmed": false,
+      "tickets": [
+        228
+      ]
+    },
+    {
+      "nickname": "하이희야",
+      "heeya": 1,
+      "bongsoon": 0,
+      "joeun": 0,
+      "totalPinball": 1,
+      "unconfirmed": false,
+      "tickets": [
+        229
+      ]
+    },
+    {
+      "nickname": "오일바른가지",
+      "heeya": 1,
+      "bongsoon": 0,
+      "joeun": 0,
+      "totalPinball": 1,
+      "unconfirmed": false,
+      "tickets": [
+        230
+      ]
+    },
+    {
+      "nickname": "레드클라우드",
+      "heeya": 0,
+      "bongsoon": 0,
+      "joeun": 1,
+      "totalPinball": 1,
+      "unconfirmed": false,
+      "tickets": [
+        231
+      ]
+    },
+    {
+      "nickname": "강구열",
+      "heeya": 0,
+      "bongsoon": 0,
+      "joeun": 1,
+      "totalPinball": 1,
+      "unconfirmed": false,
+      "tickets": [
+        232
+      ]
+    },
+    {
+      "nickname": "리이렐",
+      "heeya": 0,
+      "bongsoon": 0,
+      "joeun": 1,
+      "totalPinball": 1,
+      "unconfirmed": false,
+      "tickets": [
+        233
+      ]
+    },
+    {
+      "nickname": "Veil",
+      "heeya": 0,
+      "bongsoon": 1,
+      "joeun": 0,
+      "totalPinball": 1,
+      "unconfirmed": false,
+      "tickets": [
+        234
+      ]
+    },
+    {
+      "nickname": "[늘]꼰머냥",
+      "heeya": 0,
+      "bongsoon": 1,
+      "joeun": 0,
+      "totalPinball": 1,
+      "unconfirmed": true,
+      "tickets": [
+        235
+      ]
+    },
+    {
+      "nickname": "천재b",
+      "heeya": 0,
+      "bongsoon": 0,
+      "joeun": 1,
+      "totalPinball": 1,
+      "unconfirmed": true,
+      "tickets": [
+        236
+      ]
+    }
+  ],
+  "selected": [
+    {
+      "order": 1,
+      "nickname": "하이희야",
+      "originalTickets": 1,
+      "unconfirmed": false,
+      "eligibleTicketsBeforeDraw": 236,
+      "randomIndex": 228,
+      "winningTicket": 229
+    },
+    {
+      "order": 2,
+      "nickname": "비_니",
+      "originalTickets": 3,
+      "unconfirmed": false,
+      "eligibleTicketsBeforeDraw": 235,
+      "randomIndex": 179,
+      "winningTicket": 180
+    },
+    {
+      "order": 3,
+      "nickname": "응맨",
+      "originalTickets": 3,
+      "unconfirmed": false,
+      "eligibleTicketsBeforeDraw": 232,
+      "randomIndex": 204,
+      "winningTicket": 208
+    },
+    {
+      "order": 4,
+      "nickname": "쁴로리",
+      "originalTickets": 9,
+      "unconfirmed": false,
+      "eligibleTicketsBeforeDraw": 229,
+      "randomIndex": 55,
+      "winningTicket": 56
+    },
+    {
+      "order": 5,
+      "nickname": "족단",
+      "originalTickets": 9,
+      "unconfirmed": false,
+      "eligibleTicketsBeforeDraw": 220,
+      "randomIndex": 61,
+      "winningTicket": 71
+    },
+    {
+      "order": 6,
+      "nickname": "현하루",
+      "originalTickets": 9,
+      "unconfirmed": false,
+      "eligibleTicketsBeforeDraw": 211,
+      "randomIndex": 27,
+      "winningTicket": 28
+    },
+    {
+      "order": 7,
+      "nickname": "강구열",
+      "originalTickets": 1,
+      "unconfirmed": false,
+      "eligibleTicketsBeforeDraw": 202,
+      "randomIndex": 197,
+      "winningTicket": 232
+    },
+    {
+      "order": 8,
+      "nickname": "ShowMaker",
+      "originalTickets": 1,
+      "unconfirmed": false,
+      "eligibleTicketsBeforeDraw": 201,
+      "randomIndex": 188,
+      "winningTicket": 222
+    },
+    {
+      "order": 9,
+      "nickname": "암살자..",
+      "originalTickets": 6,
+      "unconfirmed": false,
+      "eligibleTicketsBeforeDraw": 200,
+      "randomIndex": 81,
+      "winningTicket": 109
+    },
+    {
+      "order": 10,
+      "nickname": "천재b",
+      "originalTickets": 1,
+      "unconfirmed": true,
+      "eligibleTicketsBeforeDraw": 194,
+      "randomIndex": 193,
+      "winningTicket": 236
+    },
+    {
+      "order": 11,
+      "nickname": "나도한번",
+      "originalTickets": 3,
+      "unconfirmed": false,
+      "eligibleTicketsBeforeDraw": 193,
+      "randomIndex": 155,
+      "winningTicket": 192
+    },
+    {
+      "order": 12,
+      "nickname": "시소둥이",
+      "originalTickets": 3,
+      "unconfirmed": false,
+      "eligibleTicketsBeforeDraw": 190,
+      "randomIndex": 158,
+      "winningTicket": 198
+    }
+  ],
+  "prizeShuffle": [
+    {
+      "i": 11,
+      "j": 5
+    },
+    {
+      "i": 10,
+      "j": 7
+    },
+    {
+      "i": 9,
+      "j": 5
+    },
+    {
+      "i": 8,
+      "j": 7
+    },
+    {
+      "i": 7,
+      "j": 2
+    },
+    {
+      "i": 6,
+      "j": 6
+    },
+    {
+      "i": 5,
+      "j": 4
+    },
+    {
+      "i": 4,
+      "j": 1
+    },
+    {
+      "i": 3,
+      "j": 0
+    },
+    {
+      "i": 2,
+      "j": 1
+    },
+    {
+      "i": 1,
+      "j": 1
+    }
+  ],
+  "assignments": [
+    {
+      "order": 1,
+      "nickname": "하이희야",
+      "originalTickets": 1,
+      "unconfirmed": false,
+      "eligibleTicketsBeforeDraw": 236,
+      "randomIndex": 228,
+      "winningTicket": 229,
+      "slotId": "2:3",
+      "prize": "SS 리미티드 용병"
+    },
+    {
+      "order": 2,
+      "nickname": "비_니",
+      "originalTickets": 3,
+      "unconfirmed": false,
+      "eligibleTicketsBeforeDraw": 235,
+      "randomIndex": 179,
+      "winningTicket": 180,
+      "slotId": "3:3",
+      "prize": "S바디"
+    },
+    {
+      "order": 3,
+      "nickname": "응맨",
+      "originalTickets": 3,
+      "unconfirmed": false,
+      "eligibleTicketsBeforeDraw": 232,
+      "randomIndex": 204,
+      "winningTicket": 208,
+      "slotId": "4:1",
+      "prize": "SSS 베르칸"
+    },
+    {
+      "order": 4,
+      "nickname": "쁴로리",
+      "originalTickets": 9,
+      "unconfirmed": false,
+      "eligibleTicketsBeforeDraw": 229,
+      "randomIndex": 55,
+      "winningTicket": 56,
+      "slotId": "1:1",
+      "prize": "SSS 발테르"
+    },
+    {
+      "order": 5,
+      "nickname": "족단",
+      "originalTickets": 9,
+      "unconfirmed": false,
+      "eligibleTicketsBeforeDraw": 220,
+      "randomIndex": 61,
+      "winningTicket": 71,
+      "slotId": "2:1",
+      "prize": "SS 리미티드 용병"
+    },
+    {
+      "order": 6,
+      "nickname": "현하루",
+      "originalTickets": 9,
+      "unconfirmed": false,
+      "eligibleTicketsBeforeDraw": 211,
+      "randomIndex": 27,
+      "winningTicket": 28,
+      "slotId": "2:4",
+      "prize": "SS 리미티드 용병"
+    },
+    {
+      "order": 7,
+      "nickname": "강구열",
+      "originalTickets": 1,
+      "unconfirmed": false,
+      "eligibleTicketsBeforeDraw": 202,
+      "randomIndex": 197,
+      "winningTicket": 232,
+      "slotId": "3:1",
+      "prize": "S바디"
+    },
+    {
+      "order": 8,
+      "nickname": "ShowMaker",
+      "originalTickets": 1,
+      "unconfirmed": false,
+      "eligibleTicketsBeforeDraw": 201,
+      "randomIndex": 188,
+      "winningTicket": 222,
+      "slotId": "2:2",
+      "prize": "SS 리미티드 용병"
+    },
+    {
+      "order": 9,
+      "nickname": "암살자..",
+      "originalTickets": 6,
+      "unconfirmed": false,
+      "eligibleTicketsBeforeDraw": 200,
+      "randomIndex": 81,
+      "winningTicket": 109,
+      "slotId": "4:2",
+      "prize": "SSS 베르칸"
+    },
+    {
+      "order": 10,
+      "nickname": "천재b",
+      "originalTickets": 1,
+      "unconfirmed": true,
+      "eligibleTicketsBeforeDraw": 194,
+      "randomIndex": 193,
+      "winningTicket": 236,
+      "slotId": "4:3",
+      "prize": "SSS 베르칸"
+    },
+    {
+      "order": 11,
+      "nickname": "나도한번",
+      "originalTickets": 3,
+      "unconfirmed": false,
+      "eligibleTicketsBeforeDraw": 193,
+      "randomIndex": 155,
+      "winningTicket": 192,
+      "slotId": "3:2",
+      "prize": "S바디"
+    },
+    {
+      "order": 12,
+      "nickname": "시소둥이",
+      "originalTickets": 3,
+      "unconfirmed": false,
+      "eligibleTicketsBeforeDraw": 190,
+      "randomIndex": 158,
+      "winningTicket": 198,
+      "slotId": "2:5",
+      "prize": "SS 리미티드 용병"
+    }
+  ],
+  "remainingTickets": 187,
+  "deliveryStatus": "NOT_GRANTED",
+  "ssLimitedSpecificMercenaries": "NOT_SELECTED"
+}

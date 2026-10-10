@@ -1,0 +1,514 @@
+{
+  "campaignStatus": "PARTIALLY_DELIVERED_SS_SELECTION_PENDING",
+  "completedKst": "2026-10-11 03:40:20 KST",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:pinball-raffle-prizes:20261011:47ef0274:v1",
+    "planHash": "1129e47816efaf1c0864a9fc46b14827fab9d333a4a4e024c753bc62ba95fd06",
+    "plan": {
+      "operationKey": "ops:pinball-raffle-prizes:20261011:47ef0274:v1",
+      "authorization": "SS리미티드는 선택해야하니까 기다리고 나머지 지급해",
+      "redrawAuthorization": "베르칸1명 재추첨",
+      "delivery": "DIRECT",
+      "permanent": true,
+      "drawId": "47ef0274-53f0-4444-93b8-572e7fac765e",
+      "drawHash": "1ad8243aa505f9ca99d441410fd6ee21a9b72285379048e6882b2773302871c4",
+      "recipients": [
+        {
+          "slotId": "3:3",
+          "nickname": "비_니",
+          "userId": "5504",
+          "prize": "S바디",
+          "reward": {
+            "kind": "EQUIPMENT",
+            "code": "BATTLE_SUIT_S_BODY",
+            "id": "47",
+            "name": "S-BODY",
+            "quantity": 1
+          }
+        },
+        {
+          "slotId": "4:1",
+          "nickname": "응맨",
+          "userId": "4572",
+          "prize": "SSS 베르칸",
+          "reward": {
+            "kind": "MERCENARY",
+            "code": "V-055",
+            "name": "베르칸",
+            "rank": "SSS",
+            "edition": "STANDARD",
+            "quantity": 1
+          }
+        },
+        {
+          "slotId": "1:1",
+          "nickname": "쁴로리",
+          "userId": "4965",
+          "prize": "SSS 발테르",
+          "reward": {
+            "kind": "MERCENARY",
+            "code": "V-996",
+            "name": "발테르",
+            "rank": "SSS",
+            "edition": "LIMITED",
+            "stockLimit": 8,
+            "quantity": 1
+          }
+        },
+        {
+          "slotId": "3:1",
+          "nickname": "전게씹선미아웃",
+          "userId": "1255",
+          "prize": "S바디",
+          "reward": {
+            "kind": "EQUIPMENT",
+            "code": "BATTLE_SUIT_S_BODY",
+            "id": "47",
+            "name": "S-BODY",
+            "quantity": 1
+          }
+        },
+        {
+          "slotId": "4:2",
+          "nickname": "암살자..",
+          "userId": "4598",
+          "prize": "SSS 베르칸",
+          "reward": {
+            "kind": "MERCENARY",
+            "code": "V-055",
+            "name": "베르칸",
+            "rank": "SSS",
+            "edition": "STANDARD",
+            "quantity": 1
+          }
+        },
+        {
+          "slotId": "4:3",
+          "nickname": "란x2",
+          "userId": "73",
+          "prize": "SSS 베르칸",
+          "reward": {
+            "kind": "MERCENARY",
+            "code": "V-055",
+            "name": "베르칸",
+            "rank": "SSS",
+            "edition": "STANDARD",
+            "quantity": 1
+          }
+        },
+        {
+          "slotId": "3:2",
+          "nickname": "나도한번",
+          "userId": "4581",
+          "prize": "S바디",
+          "reward": {
+            "kind": "EQUIPMENT",
+            "code": "BATTLE_SUIT_S_BODY",
+            "id": "47",
+            "name": "S-BODY",
+            "quantity": 1
+          }
+        }
+      ],
+      "held": [
+        {
+          "nickname": "딤럼프",
+          "originalTickets": 3,
+          "unconfirmed": false,
+          "slotId": "2:3",
+          "prize": "SS 리미티드 용병",
+          "status": "AWAITING_SELECTION"
+        },
+        {
+          "nickname": "족단",
+          "originalTickets": 9,
+          "unconfirmed": false,
+          "slotId": "2:1",
+          "prize": "SS 리미티드 용병",
+          "status": "AWAITING_SELECTION"
+        },
+        {
+          "nickname": "현하루",
+          "originalTickets": 9,
+          "unconfirmed": false,
+          "slotId": "2:4",
+          "prize": "SS 리미티드 용병",
+          "status": "AWAITING_SELECTION"
+        },
+        {
+          "nickname": "ShowMaker",
+          "originalTickets": 1,
+          "unconfirmed": false,
+          "slotId": "2:2",
+          "prize": "SS 리미티드 용병",
+          "status": "AWAITING_SELECTION"
+        },
+        {
+          "nickname": "시소둥이",
+          "originalTickets": 3,
+          "unconfirmed": false,
+          "slotId": "2:5",
+          "prize": "SS 리미티드 용병",
+          "status": "AWAITING_SELECTION"
+        }
+      ],
+      "excluded": [
+        "하이희야",
+        "강구열",
+        "천재b"
+      ],
+      "settingsHash": "3e4a530298e51a190204de5d8585747378a58b88e69e4ec8d66af671f5ee115f",
+      "catalogSourceHash": "a261f2ec009e4123c6e8a757d9f60867d7c7b71a9b759ead1a9c2bab888fc101"
+    },
+    "actor": "CODEX_OPERATIONS",
+    "adminId": "1",
+    "completedAt": "2026-10-10T18:40:20.005Z",
+    "grants": [
+      {
+        "slotId": "3:3",
+        "nickname": "비_니",
+        "userId": "5504",
+        "prize": "S바디",
+        "reward": {
+          "kind": "EQUIPMENT",
+          "code": "BATTLE_SUIT_S_BODY",
+          "id": "47",
+          "name": "S-BODY",
+          "quantity": 1
+        },
+        "grantId": "ops:pinball-raffle-prizes:20261011:47ef0274:v1:3:3",
+        "instanceId": "2264804222",
+        "quantityBefore": 0,
+        "quantityAfter": 1,
+        "adminLogId": "44307"
+      },
+      {
+        "slotId": "4:1",
+        "nickname": "응맨",
+        "userId": "4572",
+        "prize": "SSS 베르칸",
+        "reward": {
+          "kind": "MERCENARY",
+          "code": "V-055",
+          "name": "베르칸",
+          "rank": "SSS",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        "grantId": "ops:pinball-raffle-prizes:20261011:47ef0274:v1:4:1",
+        "quantityBefore": 0,
+        "quantityAfter": 1,
+        "adminLogId": "44308"
+      },
+      {
+        "slotId": "1:1",
+        "nickname": "쁴로리",
+        "userId": "4965",
+        "prize": "SSS 발테르",
+        "reward": {
+          "kind": "MERCENARY",
+          "code": "V-996",
+          "name": "발테르",
+          "rank": "SSS",
+          "edition": "LIMITED",
+          "stockLimit": 8,
+          "quantity": 1
+        },
+        "grantId": "ops:pinball-raffle-prizes:20261011:47ef0274:v1:1:1",
+        "quantityBefore": 0,
+        "quantityAfter": 1,
+        "serial": 3,
+        "stockBefore": {
+          "code": "V-996",
+          "stock_limit": "8",
+          "issued": "2",
+          "revision": "9",
+          "last_token": "chicken:64d16198-78e0-471c-863e-28b04d9da749"
+        },
+        "adminLogId": "44309"
+      },
+      {
+        "slotId": "3:1",
+        "nickname": "전게씹선미아웃",
+        "userId": "1255",
+        "prize": "S바디",
+        "reward": {
+          "kind": "EQUIPMENT",
+          "code": "BATTLE_SUIT_S_BODY",
+          "id": "47",
+          "name": "S-BODY",
+          "quantity": 1
+        },
+        "grantId": "ops:pinball-raffle-prizes:20261011:47ef0274:v1:3:1",
+        "instanceId": "2264805223",
+        "quantityBefore": 0,
+        "quantityAfter": 1,
+        "adminLogId": "44310"
+      },
+      {
+        "slotId": "4:2",
+        "nickname": "암살자..",
+        "userId": "4598",
+        "prize": "SSS 베르칸",
+        "reward": {
+          "kind": "MERCENARY",
+          "code": "V-055",
+          "name": "베르칸",
+          "rank": "SSS",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        "grantId": "ops:pinball-raffle-prizes:20261011:47ef0274:v1:4:2",
+        "quantityBefore": 0,
+        "quantityAfter": 1,
+        "adminLogId": "44311"
+      },
+      {
+        "slotId": "4:3",
+        "nickname": "란x2",
+        "userId": "73",
+        "prize": "SSS 베르칸",
+        "reward": {
+          "kind": "MERCENARY",
+          "code": "V-055",
+          "name": "베르칸",
+          "rank": "SSS",
+          "edition": "STANDARD",
+          "quantity": 1
+        },
+        "grantId": "ops:pinball-raffle-prizes:20261011:47ef0274:v1:4:3",
+        "quantityBefore": 0,
+        "quantityAfter": 1,
+        "adminLogId": "44312"
+      },
+      {
+        "slotId": "3:2",
+        "nickname": "나도한번",
+        "userId": "4581",
+        "prize": "S바디",
+        "reward": {
+          "kind": "EQUIPMENT",
+          "code": "BATTLE_SUIT_S_BODY",
+          "id": "47",
+          "name": "S-BODY",
+          "quantity": 1
+        },
+        "grantId": "ops:pinball-raffle-prizes:20261011:47ef0274:v1:3:2",
+        "instanceId": "2264806223",
+        "quantityBefore": 0,
+        "quantityAfter": 1,
+        "adminLogId": "44313"
+      }
+    ],
+    "preserved": {
+      "balances": true,
+      "settings": true,
+      "stockLimits": true,
+      "loadouts": true,
+      "growth": true,
+      "otherMercenaries": true,
+      "existingEquipment": true,
+      "ssLimitedPrizesHeld": true
+    }
+  },
+  "validation": {
+    "dryRun": {
+      "operationKey": "ops:pinball-raffle-prizes:20261011:47ef0274:v1",
+      "planHash": "1129e47816efaf1c0864a9fc46b14827fab9d333a4a4e024c753bc62ba95fd06",
+      "scriptHash": "b84381d4c25b43bc24ad6620293ee6d806393961e555f1627add978ea9262037",
+      "status": "DRY_RUN_ROLLED_BACK",
+      "recipients": 7,
+      "mercenaryAcquisitions": 4,
+      "equipmentInstances": 3,
+      "limitedIssues": 1,
+      "adminLogs": 7,
+      "missing": 0,
+      "duplicateOperationGrants": 0,
+      "targets": [
+        {
+          "nickname": "비_니",
+          "userId": "5504",
+          "prize": "S바디",
+          "quantity": 1,
+          "instanceId": "2264783722",
+          "adminLogId": "44300"
+        },
+        {
+          "nickname": "응맨",
+          "userId": "4572",
+          "prize": "SSS 베르칸",
+          "quantity": 1,
+          "adminLogId": "44301"
+        },
+        {
+          "nickname": "쁴로리",
+          "userId": "4965",
+          "prize": "SSS 발테르",
+          "quantity": 1,
+          "serial": 3,
+          "adminLogId": "44302"
+        },
+        {
+          "nickname": "전게씹선미아웃",
+          "userId": "1255",
+          "prize": "S바디",
+          "quantity": 1,
+          "instanceId": "2264784723",
+          "adminLogId": "44303"
+        },
+        {
+          "nickname": "암살자..",
+          "userId": "4598",
+          "prize": "SSS 베르칸",
+          "quantity": 1,
+          "adminLogId": "44304"
+        },
+        {
+          "nickname": "란x2",
+          "userId": "73",
+          "prize": "SSS 베르칸",
+          "quantity": 1,
+          "adminLogId": "44305"
+        },
+        {
+          "nickname": "나도한번",
+          "userId": "4581",
+          "prize": "S바디",
+          "quantity": 1,
+          "instanceId": "2264785724",
+          "adminLogId": "44306"
+        }
+      ],
+      "completedAt": "2026-10-10T18:40:02.033Z",
+      "replayed": false,
+      "held": [
+        "딤럼프",
+        "족단",
+        "현하루",
+        "ShowMaker",
+        "시소둥이"
+      ],
+      "preserved": {
+        "balances": true,
+        "settings": true,
+        "stockLimits": true,
+        "loadouts": true,
+        "growth": true,
+        "otherMercenaries": true,
+        "existingEquipment": true,
+        "ssLimitedPrizesHeld": true
+      },
+      "allGrantsRolledBackOnFailure": true,
+      "replayVerified": true,
+      "replayPerformedNoWrites": true,
+      "stockAndInventoryRestored": true,
+      "logsRolledBack": true
+    },
+    "postCommit": {
+      "operationKey": "ops:pinball-raffle-prizes:20261011:47ef0274:v1",
+      "planHash": "1129e47816efaf1c0864a9fc46b14827fab9d333a4a4e024c753bc62ba95fd06",
+      "scriptHash": "b84381d4c25b43bc24ad6620293ee6d806393961e555f1627add978ea9262037",
+      "status": "COMPLETED",
+      "recipients": 7,
+      "mercenaryAcquisitions": 4,
+      "equipmentInstances": 3,
+      "limitedIssues": 1,
+      "adminLogs": 7,
+      "missing": 0,
+      "duplicateOperationGrants": 0,
+      "targets": [
+        {
+          "nickname": "비_니",
+          "userId": "5504",
+          "prize": "S바디",
+          "quantity": 1,
+          "instanceId": "2264804222",
+          "adminLogId": "44307"
+        },
+        {
+          "nickname": "응맨",
+          "userId": "4572",
+          "prize": "SSS 베르칸",
+          "quantity": 1,
+          "adminLogId": "44308"
+        },
+        {
+          "nickname": "쁴로리",
+          "userId": "4965",
+          "prize": "SSS 발테르",
+          "quantity": 1,
+          "serial": 3,
+          "adminLogId": "44309"
+        },
+        {
+          "nickname": "전게씹선미아웃",
+          "userId": "1255",
+          "prize": "S바디",
+          "quantity": 1,
+          "instanceId": "2264805223",
+          "adminLogId": "44310"
+        },
+        {
+          "nickname": "암살자..",
+          "userId": "4598",
+          "prize": "SSS 베르칸",
+          "quantity": 1,
+          "adminLogId": "44311"
+        },
+        {
+          "nickname": "란x2",
+          "userId": "73",
+          "prize": "SSS 베르칸",
+          "quantity": 1,
+          "adminLogId": "44312"
+        },
+        {
+          "nickname": "나도한번",
+          "userId": "4581",
+          "prize": "S바디",
+          "quantity": 1,
+          "instanceId": "2264806223",
+          "adminLogId": "44313"
+        }
+      ],
+      "completedAt": "2026-10-10T18:40:20.005Z",
+      "replayed": true,
+      "held": [
+        "딤럼프",
+        "족단",
+        "현하루",
+        "ShowMaker",
+        "시소둥이"
+      ],
+      "preserved": {
+        "balances": true,
+        "settings": true,
+        "stockLimits": true,
+        "loadouts": true,
+        "growth": true,
+        "otherMercenaries": true,
+        "existingEquipment": true,
+        "ssLimitedPrizesHeld": true
+      }
+    }
+  },
+  "drawArtifacts": [
+    {
+      "file": "docs/pinball-raffle-input-20261011.json",
+      "sha256": "1625ded3ff1bdd400231aa69c84d94fe5683d204e32232d4d13230b638c8efa7"
+    },
+    {
+      "file": "docs/pinball-raffle-original-20261011.json",
+      "sha256": "088a9f7edc680f010fa41e34e6c165280d25797e038603cfdb5f368c0d432f08"
+    },
+    {
+      "file": "docs/pinball-raffle-redraw-20261011.json",
+      "sha256": "6f77913c6cf7c3c1d3c1d4cc32e59df6a313a554348270c4d17c0f2df30c016e"
+    },
+    {
+      "file": "docs/pinball-raffle-berkan-redraw-20261011.json",
+      "sha256": "1ad8243aa505f9ca99d441410fd6ee21a9b72285379048e6882b2773302871c4"
+    }
+  ]
+}
