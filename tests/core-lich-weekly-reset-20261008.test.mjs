@@ -37,17 +37,18 @@ async function seedCore(h){
  await h.q('INSERT INTO app_meta(key,value) VALUES($1,$2)',[prefix+4,JSON.stringify({count:2,roomId:'other',token:'old'})]);
  await h.q('INSERT INTO app_meta(key,value) VALUES($1,$2)',['raid_lich_weekly_v1:2026-09-28:1',JSON.stringify({count:3})]);
 }
-test('all accounts regain both quotas; historical payouts survive, old rooms never repay, new Lich clears cap at three',async t=>{
+test('all accounts regain both quotas; historical payouts survive, old rooms never repay, new Lich clears cap at seven',async t=>{
  t.mock.method(Date,'now',()=>at);const h=await fixture(t);await seedCore(h);let old;
  for(let i=0;i<3;i++){old=await readyLichClear(h);assert.equal((await h.call('action',{body:old.body})).body.state.clearReward.granted,true);}
  const before=await snapshot(h),result=await resetRaidWeeklyRewards(h.client,{commit:true,at});assert.equal(result.totalAccounts,8);assert.equal(result.core.affectedUsers,2);assert.equal(result.lich.affectedUsers,4);
- for(const uid of [1,2,3,4,8]){assert.equal((await coreRaidWeeklyReward(h.env,uid,at)).used,0);assert.equal((await lichWeeklyReward(h.env,uid,at)).remaining,3);}
+ for(const uid of [1,2,3,4,8]){assert.equal((await coreRaidWeeklyReward(h.env,uid,at)).used,0);assert.equal((await lichWeeklyReward(h.env,uid,at)).remaining,7);}
  const after=await snapshot(h);for(const table of ['users','cnine_user_inventory','inventory_logs','coin_logs','raid_lich_rooms_v1'])assert.deepEqual(after[table],before[table]);
  for(const key of ['raid_lich_weekly_v1:2026-09-28:1','raid_core_protocol_settings_v2024','raid_core_choice_rewards_v1','raid_lich_settings_v1','loot_shop_policy_v1'])assert.deepEqual(after.app_meta.find(r=>r.key===key),before.app_meta.find(r=>r.key===key));
  assert.equal((await h.q("SELECT reward_count FROM raid_core_weekly_rewards_v2112 WHERE week_key='2026-09-28'"))[0].reward_count,3);
  await h.call('action',{body:old.body});assert.equal((await lichWeeklyReward(h.env,1,at)).used,0);assert.deepEqual(await h.q('SELECT * FROM coin_logs ORDER BY 1,2'),before.coin_logs);
- for(let i=0;i<4;i++){const next=await readyLichClear(h);const clear=await h.call('action',{body:next.body});assert.equal(clear.body.state.clearReward.status,i<3?'GRANTED':'WEEKLY_LIMIT');}
- assert.equal((await resetRaidWeeklyRewards(h.client,{commit:true,at})).replayed,true);assert.equal((await lichWeeklyReward(h.env,1,at)).used,3);assert.equal((await verifyRaidWeeklyReset(h.client)).status,'VERIFIED');
+ await h.run("UPDATE cnine_user_inventory SET quantity=8 WHERE user_id=1 AND item_code='LICH_KING_ENTRY_TICKET'");
+ for(let i=0;i<8;i++){const next=await readyLichClear(h);const clear=await h.call('action',{body:next.body});assert.equal(clear.body.state.clearReward.status,i<7?'GRANTED':'WEEKLY_LIMIT');}
+ assert.equal((await resetRaidWeeklyRewards(h.client,{commit:true,at})).replayed,true);assert.equal((await lichWeeklyReward(h.env,1,at)).used,7);assert.equal((await verifyRaidWeeklyReset(h.client)).status,'VERIFIED');
 });
 test('dry run and late write failures roll both resets back; active stale plans are invalidated without changing the battle',async t=>{
  t.mock.method(Date,'now',()=>at);const h=await fixture(t);await seedCore(h);const active=await readyLichClear(h),before=await snapshot(h);

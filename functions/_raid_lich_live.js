@@ -27,8 +27,10 @@ export function validateLichSettings(raw){
   const petEssenceReward=raw.petEssenceReward??5,petEssenceEnabled=raw.petEssenceEnabled??true;
   if(!integer(petEssenceReward,1,1000000)||typeof petEssenceEnabled!=='boolean')fail('SETTINGS','펫 정수 지급 수량(1~1,000,000)과 지급 상태를 확인하세요.',400);
   const masterStarReward=raw.masterStarReward??0,coinReward=raw.coinReward??0;
-  if(!integer(masterStarReward,0,100000000)||!integer(coinReward,0,1000000000000)||(raw.weeklyRewardLimit!==undefined&&raw.weeklyRewardLimit!==LICH_WEEKLY_REWARD_LIMIT))
-    fail('SETTINGS','마별(0~1억)·코인(0~1조)은 정수로 입력하세요. 주간 보상 한도는 3회 고정입니다.',400);
+  // Stored settings and already-open CMS tabs may still carry the previous cap.
+  // Accept that legacy value, but always apply the current fixed server limit.
+  if(!integer(masterStarReward,0,100000000)||!integer(coinReward,0,1000000000000)||(raw.weeklyRewardLimit!==undefined&&![3,LICH_WEEKLY_REWARD_LIMIT].includes(raw.weeklyRewardLimit)))
+    fail('SETTINGS','마별(0~1억)·코인(0~1조)은 정수로 입력하세요. 주간 보상 한도는 '+LICH_WEEKLY_REWARD_LIMIT+'회 고정입니다.',400);
   return {revision:raw.revision,mode:raw.mode,testUserIds:[...raw.testUserIds].sort((a,b)=>a-b),bossCombatPower:raw.bossCombatPower,lobbyMinutes:raw.lobbyMinutes,rewardLocked:true,petEssenceReward,petEssenceEnabled,masterStarReward,coinReward,weeklyRewardLimit:LICH_WEEKLY_REWARD_LIMIT};
 }
 export async function ensureLichLive(env){

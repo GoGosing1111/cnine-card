@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION = '20261004-seal-batch';
+  const VERSION = '20261010-weekly-seven';
   let checkedAt = 0, visible = false, featureRequest = null, controller = null, revision = 0;
   const host = () => document.getElementById('pveLichRaidView');
   async function refresh() {

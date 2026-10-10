@@ -2,7 +2,7 @@ import {pigCoinRewardWeek} from '../shared/loot-shop-policy-v1.mjs';
 import {PET_ESSENCE} from '../shared/pet-opening-v1.mjs';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 
-export const LICH_WEEKLY_REWARD_LIMIT=3;
+export const LICH_WEEKLY_REWARD_LIMIT=7;
 export const lichRewardWeek=pigCoinRewardWeek;
 const counterKey=(userId,week)=>'raid_lich_weekly_v1:'+week.weekKey+':'+Number(userId);
 const quota=(week,used)=>({...week,limit:LICH_WEEKLY_REWARD_LIMIT,used,remaining:Math.max(0,LICH_WEEKLY_REWARD_LIMIT-used)});

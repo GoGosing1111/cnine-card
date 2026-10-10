@@ -1,0 +1,45 @@
+{
+  "status": "READY_FOR_SCOPED_RELEASE",
+  "request": "리치왕 주간보상 7번으로 늘려",
+  "date": "2026-10-10",
+  "previousDeployment": {
+    "source": "bd8aedb2d254dbae10391b5c94dddc67f66b6578",
+    "pagesId": "8e5b8c2e-2b3e-4e0b-99ed-b79f41278c7a"
+  },
+  "scope": "Lich King fixed weekly reward limit, legacy CMS compatibility and corresponding UI text/cache tags. Existing schema and atomic settlement reused.",
+  "policy": {
+    "previousWeeklyLimit": 3,
+    "weeklyLimit": 7,
+    "reset": "Monday 00:00 Asia/Seoul",
+    "existingPaidClearsCount": true,
+    "remainingForThreePaidClears": 4,
+    "resetCounters": false,
+    "changeRewardAmounts": false,
+    "changeReleaseMode": false,
+    "coreRaidLimitChanged": false,
+    "participationAfterLimit": true,
+    "legacyStoredAndSubmittedLimit": 3,
+    "normalizedServerLimit": 7
+  },
+  "browser": {
+    "report": "C:/Users/User/AppData/Local/Temp/lich-weekly-ui-dGa2I5/report.json",
+    "viewports": [1440, 390],
+    "cmsSaveReload": true,
+    "inlineQuota": true,
+    "clearRewardAndLimitDialogs": true,
+    "overflow": false,
+    "pageErrors": 0,
+    "muted": true
+  },
+  "deploymentCommand": "npm run deploy:production -- --scoped",
+  "preDeploymentTests": [
+    "tests/lich-weekly-rewards-20261004.test.mjs",
+    "tests/core-lich-weekly-reset-20261008.test.mjs"
+  ],
+  "preDeploymentResult": {"passed": 14, "failed": 0},
+  "scopedTests": [
+    "tests/lich-raid-inline-entry-20260929.test.mjs"
+  ],
+  "checks": ["check:worker"],
+  "testReason": "The 14 reward/reset regressions and PC/mobile browser checks already passed. The scoped deploy runs only the remaining Lich entry/cache regression and Worker check; it does not repeat passed checks."
+}

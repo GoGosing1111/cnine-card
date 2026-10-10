@@ -1,6 +1,6 @@
-import { mountLichRaid } from './live.mjs?v=20261004-seal-batch';
+import { mountLichRaid } from './live.mjs?v=20261010-weekly-seven';
 
-const VERSION = '20261004-seal-batch';
+const VERSION = '20261010-weekly-seven';
 let styles, battle;
 function loadAsset(tag, url) {
   return new Promise((resolve, reject) => {

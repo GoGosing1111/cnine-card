@@ -44,7 +44,7 @@ const browser=await chromium.launch({channel:'chrome',headless:true,args:['--mut
 try{
   for(const [width,height]of [[1440,1000],[390,844]]){
     h=await lichLiveFixture();await h.configure({mode:'ON'});
-    await h.run('INSERT INTO app_meta(key,value) VALUES(?,?)','raid_lich_weekly_v1:'+lichRewardWeek().weekKey+':1',JSON.stringify({count:2}));
+    await h.run('INSERT INTO app_meta(key,value) VALUES(?,?)','raid_lich_weekly_v1:'+lichRewardWeek().weekKey+':1',JSON.stringify({count:6}));
     const context=await browser.newContext({viewport:{width,height},isMobile:width<700,hasTouch:width<700,serviceWorkers:'block'});
     await context.addInitScript(u=>{
       localStorage.setItem('cnine_card_user_v10',JSON.stringify(u));localStorage.setItem('cnine_card_api_token','local-qa-1');localStorage.setItem('cnine_admin_token','local-qa-1');
@@ -53,6 +53,7 @@ try{
     await context.route('**/*',route=>new URL(route.request().url()).origin===origin?route.continue():route.abort());
     const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.accept());
     await page.goto(origin+'/__cms');await page.locator('[name="coinReward"]').waitFor();
+    assert.match(await page.locator('.lich-cms-policy').innerText(),/주간 7회 고정/);
     assert.equal(await page.locator('[name="coinReward"]').inputValue(),'0');
     await page.locator('[name="coinReward"]').fill('1000000000');await page.locator('[name="masterStarReward"]').fill('1000');
     await page.locator('#lichRaidAdmin button[type="submit"]').click();await page.locator('[data-status]').filter({hasText:'저장 완료'}).waitFor();
@@ -63,7 +64,7 @@ try{
     await page.screenshot({path:path.join(out,'cms-'+width+'.png'),fullPage:true});
     await page.goto(origin+'/');await page.waitForFunction(()=>typeof renderShell==='function');await page.evaluate(()=>renderShell('battle'));
     await page.locator('[data-pve-mode="raid"]').click();await page.locator('#lichRaidTab').waitFor({state:'visible'});await page.locator('#lichRaidTab').click();
-    await page.locator('#lich-weeklyReward').filter({hasText:'남은 1 / 3회'}).waitFor();
+    await page.locator('#lich-weeklyReward').filter({hasText:'남은 1 / 7회'}).waitFor();
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
     await page.locator('#lich-weeklyReward').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,'lobby-'+width+'.png'),fullPage:true});
     const clear=await readyLichClear(h);assert.equal((await h.call('action',{body:clear.body})).status,200);
@@ -71,11 +72,11 @@ try{
     await page.goto(origin+'/raid/lich-king/');await page.locator('#resultDialog').waitFor({state:'visible'});
     const paid=await page.locator('#resultReason').innerText();assert.match(paid,/마별 1,000개/);assert.match(paid,/코인 1,000,000,000/);assert.match(paid,/남은 보상 0회/);
     await page.screenshot({path:path.join(out,'clear-'+width+'.png'),fullPage:true});
-    await page.locator('#retryButton').click();await page.locator('#weeklyReward').filter({hasText:'남은 0 / 3회'}).waitFor();
+    await page.locator('#retryButton').click();await page.locator('#weeklyReward').filter({hasText:'남은 0 / 7회'}).waitFor();
     assert.equal(await page.locator('#createButton').isDisabled(),false);
-    const fourth=await readyLichClear(h);assert.equal((await h.call('action',{body:fourth.body})).status,200);
-    await page.evaluate(id=>sessionStorage.setItem('lichLiveRoom',id),fourth.roomId);await page.reload();await page.locator('#resultDialog').waitFor({state:'visible'});
-    assert.match(await page.locator('#resultReason').innerText(),/3회를 모두 수령하여 추가 보상은 지급되지 않습니다/);
+    const eighth=await readyLichClear(h);assert.equal((await h.call('action',{body:eighth.body})).status,200);
+    await page.evaluate(id=>sessionStorage.setItem('lichLiveRoom',id),eighth.roomId);await page.reload();await page.locator('#resultDialog').waitFor({state:'visible'});
+    assert.match(await page.locator('#resultReason').innerText(),/7회를 모두 수령하여 추가 보상은 지급되지 않습니다/);
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
     await page.screenshot({path:path.join(out,'limit-'+width+'.png'),fullPage:true});
     assert.deepEqual(errors,[]);reports.push({width,cmsSaveReload:true,inlineQuota:true,clearRewards:true,limitMessage:true,overflow:false,pageErrors:errors});
