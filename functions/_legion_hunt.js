@@ -7,17 +7,20 @@ import {DAILY_ENTRIES} from '../preview/sustained-hunt-v2/hunt-rules.mjs';
 import {readMiracleDropPercent,applyMiracleDropChance} from './_miracle_burning.js';
 import {readRegionPolicy,saveRegionPolicy,regionAccess,regionBootstrap,regionRewardCatalog} from './_legion_regions.js';
 import {regionalDifficulty,regionById} from '../shared/legion-regions-v1.mjs';
+import {readSupportBenefits} from './_supporter_benefits.js';
+import {SUPPORT_PLAN} from '../shared/server-support-v1.mjs';
 const TTL=30*60*1000;
 const ACTIONS={start:['difficulty','version','regionId'],begin:['id'],reveal:['id','seq','seqs'],claim:['id','dropId','token','x','y'],finish:['id','seq'],cancel:['id'],recover:[]};
-export function legionHuntEntries(run,at,user){
+export function legionHuntEntries(run,at,user,support=null){
   const day=new Date(at+9*3600000).toISOString().slice(0,10);
   const used=run?.daily?.day===day?Number(run.daily.used):0;
-  if(!Number.isInteger(used)||used<0||used>DAILY_ENTRIES)throw jointError('HUNT_ENTRIES_UNAVAILABLE','입장 기록을 확인할 수 없습니다.',503);
+  if(!Number.isInteger(used)||used<0||used>DAILY_ENTRIES+SUPPORT_PLAN.extraLegionEntries)throw jointError('HUNT_ENTRIES_UNAVAILABLE','입장 기록을 확인할 수 없습니다.',503);
   const unlimited=user?.role==='OWNER';
-  return {day,used,unlimited,limit:unlimited?null:DAILY_ENTRIES,remaining:unlimited?null:DAILY_ENTRIES-used,resetsAt:Date.parse(day+'T00:00:00+09:00')+86400000};
+  const bonus=support?.active&&support.startsAt<=at&&support.endsAt>at?SUPPORT_PLAN.extraLegionEntries:0,limit=DAILY_ENTRIES+bonus;
+  return {day,used,unlimited,limit:unlimited?null:limit,remaining:unlimited?null:Math.max(0,limit-used),...(bonus?{supporterBonus:bonus}:{}),resetsAt:Date.parse(day+'T00:00:00+09:00')+86400000};
 }
 function requireEntry(entries){
-  if(!entries.unlimited&&entries.remaining<=0)throw jointError('HUNT_DAILY_LIMIT','오늘 입장 2회를 모두 사용했습니다. 한국시간 자정에 초기화됩니다.',409);
+  if(!entries.unlimited&&entries.remaining<=0)throw jointError('HUNT_DAILY_LIMIT',`오늘 입장 ${entries.limit}회를 모두 사용했습니다. 한국시간 자정에 초기화됩니다.`,409);
 }
 function requireAccess(policy,user){
   const access=legionHuntAccess(policy);
@@ -109,11 +112,11 @@ export async function handleLegionHunt({path,request,env,deps}){
     }
     if(action==='bootstrap'&&request.method==='GET'){
       const {policy}=await readLegionHuntPolicy(env),access=requireAccess(policy,user);
-      const saved=await loadRun(env,key);
+      const [saved,support]=await Promise.all([loadRun(env,key),readSupportBenefits(env,user.id,now())]);
       let loadout=null,loadoutError=null;
       try{loadout=await accountSnapshot(env,user,deps);}catch(error){if(error.code!=='HUNT_DECK')throw error;loadoutError=error.message;}
       const regional=await readRegionPolicy(env);
-      return json({ok:true,access,difficulties:DIFFICULTIES,regionExpansion:regionBootstrap(regional.policy,user,regionAccess(regional.policy,user)?await regionRewardCatalog(env):[]),entries:legionHuntEntries(saved.run,now(),user),loadout,loadoutError,revision:policy.revision,activeItems:policy.items.filter(i=>i.enabled&&i.weight>0).length});
+      return json({ok:true,access,difficulties:DIFFICULTIES,regionExpansion:regionBootstrap(regional.policy,user,regionAccess(regional.policy,user)?await regionRewardCatalog(env):[]),entries:legionHuntEntries(saved.run,now(),user,support),loadout,loadoutError,revision:policy.revision,activeItems:policy.items.filter(i=>i.enabled&&i.weight>0).length});
     }
     if(!Object.hasOwn(ACTIONS,action))return json({error:'군단토벌 경로를 확인하세요.'},404);
     if(request.method!=='POST')return json({error:'지원하지 않는 요청입니다.'},405);
@@ -127,7 +130,8 @@ export async function handleLegionHunt({path,request,env,deps}){
       if(action==='recover'||action==='start'){
         const recovered=await recoverRun(env,user,{key,before,policyRaw,access,at:now()});before=recovered.saved;recovery=recovered.recovery;
       }
-      const entries=legionHuntEntries(before.run,now(),user);
+      const support=['start','begin','recover','cancel','finish'].includes(action)?await readSupportBenefits(env,user.id,now()):null;
+      const entries=legionHuntEntries(before.run,now(),user,support);
       if(action==='recover')return {ok:true,recovery,entries};
       if(action==='start'){
         requireEntry(entries);
@@ -148,7 +152,7 @@ export async function handleLegionHunt({path,request,env,deps}){
       if(!before.run||before.run.state?.id!==body.id)throw jointError('HUNT_SESSION_EXPIRED','원정이 만료됐습니다. 입장 화면에서 복구 후 다시 출전하세요.',409);
       if(action==='cancel'){
         const recovered=await recoverRun(env,user,{key,before,policyRaw,access,at:now()});
-        return {cancelled:!recovered.saved.run.state.receipt,recovery:recovered.recovery,entries:legionHuntEntries(recovered.saved.run,now(),user)};
+        return {cancelled:!recovered.saved.run.state.receipt,recovery:recovered.recovery,entries:legionHuntEntries(recovered.saved.run,now(),user,support)};
       }
       if(before.run.state.receipt){
         if(action==='finish')return before.run.rewardTiming==='FINISH'&&before.run.rewardStatus!=='SETTLED'?(await settleRun(env,user,{key,before,policyRaw,access})).result:before.run.state.receipt;
@@ -163,7 +167,7 @@ export async function handleLegionHunt({path,request,env,deps}){
           if(!entries.unlimited)daily={day:entries.day,used:entries.used+1};
           before.run.entry={day:entries.day,charged:!entries.unlimited,status:'RESERVED'};
         }
-        result={...session.begin(),entries:legionHuntEntries({daily},now(),user)};
+        result={...session.begin(),entries:legionHuntEntries({daily},now(),user,support)};
       }
       if(action==='reveal'){
         if(body.seqs!==undefined&&body.seq!==undefined)throw jointError('HUNT_DROP_BATCH','드랍 확인 요청을 다시 확인하세요.');

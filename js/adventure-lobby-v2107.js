@@ -160,6 +160,10 @@ window.__ADVENTURE_LOBBY_TEMPLATE__="<style>:host{color-scheme:dark;--bg:#080c17
         navigate:async(id,href)=>{if(href){location.assign(href);return;}return global.SoopketmonV21ExactShell.navigate(id);},
         openChief:()=>global.SoopketmonV21ExactShell.openChief(),openAccount:()=>global.showAccountPanel?.(),...settings
       });
+      const supportSignal=this.lifecycle.signal;
+      void import('/js/server-support-v1.mjs?v=20261010').then(({mountServerSupportNavigation})=>{
+        if(!supportSignal.aborted)this.supportNavigation=mountServerSupportNavigation({root,getUser,signal:supportSignal});
+      }).catch(()=>{});
       const listen=(target,event,handler)=>target.addEventListener(event,handler,{signal:this.lifecycle.signal});
       listen(global,'cnine:player-updated',()=>this.update({user:getUser()}));
       listen(global,'storage',()=>this.update({user:getUser()}));

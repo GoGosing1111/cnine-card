@@ -10,6 +10,7 @@ import {createRequestSettingsCache} from '../_request_settings_cache.js';
 import {forwardApiRuntimeRequest} from '../_api_runtime_transport.js';
 import {rankedDuoLiveOperation} from '../_ranked_duo_live_operation.js';
 import {handleQuestHub} from '../_quest_hub.js';
+import {handleServerSupport} from '../_server_support.js';
 import {handleRankedDuo} from '../_ranked_duo.js';
 import {reconcileDuoSeason,readDuoHonors} from '../_ranked_duo_seasons.js';
 import {duoMagicLoadouts} from '../_magic.js';
@@ -5011,6 +5012,7 @@ async function handleRequest(context){
         breakthroughs:Object.fromEntries(owned.results.map(row=>[String(row.card_id),Number(row.breakthrough_level||0)]))
       },serverNow:new Date().toISOString()});
     }
+    const supportResponse=await handleServerSupport({path,request,env,deps:{authenticate,requirePermission,json,withUserMutationLock:withJointUserMutationLock}});if(supportResponse)return supportResponse;
     const questHubResponse=await handleQuestHub({path,request,env,deps:{authenticate,requirePermission,readBody,json,dailySettings:playdkDailyQuestSettings,playdkClient:playdkIdentityClient,excluded:dailyQuestAdminExcluded,ensureDaily:async env=>{await ensureWagoDailyPostProgressTable(env);await ensureSecondVerificationFoundation(env)},ensureMessages:ensureVerifiedRewardMessageV1276}});if(questHubResponse)return questHubResponse;
     const playerCardResponse=await handlePlayerCard({path,request,env,deps:{authenticate,json,pvpSettings,resolvePvpTier,pvpSeasonKey,readAccountRank,readDuoHonors}});if(playerCardResponse)return playerCardResponse;
     const streamerResponse=await handleStreamerLounge({path,request,env,deps:{json,requirePermission,writeAdminLog}});if(streamerResponse)return streamerResponse;

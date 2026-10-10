@@ -3,6 +3,7 @@ import {PET_ART_CATALOG} from '../shared/pet-art-catalog-v1.mjs';
 import {validatePetDefinition,petReadiness} from '../shared/pet-cms-v1.mjs';
 import {petCollectionKey,petLoadoutKey,petPotentialKey,PET_MAGNET} from '../shared/pet-potential-v1.mjs';
 import {readPetCms} from './_pet_companion_cms.js';
+import {readSupportBenefits} from './_supporter_benefits.js';
 
 export async function readPetRecord(env,key,fallback){
   const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(key).first();
@@ -35,8 +36,9 @@ export async function loadPetBattleSnapshot(env,user,mode='PVE'){
   if(!COMPANION_RELEASE.pets)return null;
   const userId=Number(user?.id??user);if(!Number.isSafeInteger(userId)||userId<1)return null;
   const loadout=await readPetLoadout(env,userId);if(!loadout.state.petCode)return null;
-  const [collection,potentials,cms]=await Promise.all([readPetCollection(env,userId),readPetPotentials(env,userId),readPetCms(env)]);
+  const [collection,potentials,cms,support]=await Promise.all([readPetCollection(env,userId),readPetPotentials(env,userId),readPetCms(env),readSupportBenefits(env,userId)]);
   if(!(collection.state.pets[loadout.state.petCode]>0))return null;
   const definition=livePetDefinition(cms.state.document.pets.find(p=>p.code===loadout.state.petCode),mode);if(!definition)return null;
-  return {definition,magnet:potentials.state.pets[definition.code]?.potential===PET_MAGNET,cmsRevision:cms.state.revision,loadoutRevision:loadout.state.revision,ownerId:userId};
+  const permanentMagnet=potentials.state.pets[definition.code]?.potential===PET_MAGNET;
+  return {definition,magnet:permanentMagnet||support.active&&support.magnetPetCode===definition.code,cmsRevision:cms.state.revision,loadoutRevision:loadout.state.revision,ownerId:userId};
 }
