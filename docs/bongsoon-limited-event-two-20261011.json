@@ -1,0 +1,84 @@
+{
+  "status": "VERIFIED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:bongsoon-limited-event-two:20261011:v1",
+    "code": "V-990",
+    "addedCapacity": 2,
+    "completedAt": "2026-10-10T20:50:08.170Z",
+    "grants": [
+      {
+        "userId": 218,
+        "nickname": "현하루",
+        "code": "V-990",
+        "name": "나무늘봉순",
+        "rank": "SS",
+        "edition": "LIMITED",
+        "quantity": 1,
+        "acquisitionId": "ops:bongsoon-limited-event-two:20261011:v1:218",
+        "serial": 7,
+        "copiesBefore": 0,
+        "copiesAfter": 1
+      },
+      {
+        "userId": 4582,
+        "nickname": "족단",
+        "code": "V-990",
+        "name": "나무늘봉순",
+        "rank": "SS",
+        "edition": "LIMITED",
+        "quantity": 1,
+        "acquisitionId": "ops:bongsoon-limited-event-two:20261011:v1:4582",
+        "serial": 8,
+        "copiesBefore": 0,
+        "copiesAfter": 1
+      }
+    ],
+    "before": {
+      "limit": 10,
+      "issued": 6,
+      "remaining": 4,
+      "packRevision": 8,
+      "stockRevision": 12
+    },
+    "after": {
+      "limit": 12,
+      "issued": 8,
+      "remaining": 4,
+      "packRevision": 9,
+      "stockRevision": 13
+    },
+    "packMode": "ON",
+    "authorization": "현하루·족단 SS 리미티드 나무늘봉순 각 1장 지급, 이벤트 지급분만큼 한정수량 추가",
+    "balancesPreserved": true,
+    "inventoryPreserved": true,
+    "loadoutAndGrowthPreserved": true,
+    "otherSettingsPreserved": true,
+    "adminLogIds": [
+      "44365",
+      "44366",
+      "44367"
+    ]
+  },
+  "current": {
+    "limit": 12,
+    "issued": 8,
+    "remaining": 4,
+    "packRevision": 9,
+    "stockRevision": 13
+  },
+  "holdings": [
+    {
+      "userId": 218,
+      "copies": 1,
+      "duplicates": 0
+    },
+    {
+      "userId": 4582,
+      "copies": 1,
+      "duplicates": 0
+    }
+  ],
+  "packMode": "ON",
+  "independentVerifiedAt": "2026-10-10T20:50:19.550Z"
+}
