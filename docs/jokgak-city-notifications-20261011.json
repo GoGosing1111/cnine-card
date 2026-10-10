@@ -1,0 +1,61 @@
+{
+  "date": "2026-10-11",
+  "previousDeployedCommit": "fe5838381c3d062326c4b94281123d645a07f7ed",
+  "reproduction": {
+    "productionLocalAccount": {
+      "serverUserId": 4
+    },
+    "before": {
+      "notificationPolls": 0,
+      "popupCount": 0
+    },
+    "modalWithLegacyIdFixture": {
+      "buttonInFront": false,
+      "hitTag": "DIALOG",
+      "readBeforeDismiss": true
+    }
+  },
+  "browser": {
+    "passed": 14,
+    "checks": [
+      "1440: production serverUserId-only login polls and shows clickable alert over inventory; remains unread",
+      "1440: alert follows a newly opened/closed modal without stealing input focus or stopping the running timer",
+      "1440: other content stays usable; two real attacks queue in order and acknowledge only on dismiss/record",
+      "1440: reload restores an unacknowledged attack instead of silently losing it",
+      "1440: response arriving in background stays unread and appears on foreground return",
+      "1440: browsers without Popover API show an interactive alert inside the open dialog",
+      "1440: logout removes the old account alert without acknowledging it",
+      "390: production serverUserId-only login polls and shows clickable alert over inventory; remains unread",
+      "390: alert follows a newly opened/closed modal without stealing input focus or stopping the running timer",
+      "390: other content stays usable; two real attacks queue in order and acknowledge only on dismiss/record",
+      "390: reload restores an unacknowledged attack instead of silently losing it",
+      "390: response arriving in background stays unread and appears on foreground return",
+      "390: browsers without Popover API show an interactive alert inside the open dialog",
+      "390: logout removes the old account alert without acknowledging it"
+    ],
+    "errors": [],
+    "requestCount": 34,
+    "allRequestsSucceeded": true,
+    "accountModel": "Real local serverUserId shape; actual city handler and isolated SQLite; background visibility transition simulated; other-content timer fixture",
+    "screenshots": [
+      "C:/Users/User/Downloads/upload/cnine-card/tmp/jokgak-city-notices-20261011/1440-inventory-alert.png",
+      "C:/Users/User/Downloads/upload/cnine-card/tmp/jokgak-city-notices-20261011/390-inventory-alert.png",
+      "C:/Users/User/Downloads/upload/cnine-card/tmp/jokgak-city-notices-20261011/1440-other-content-alert.png",
+      "C:/Users/User/Downloads/upload/cnine-card/tmp/jokgak-city-notices-20261011/390-other-content-alert.png"
+    ]
+  },
+  "scope": {
+    "tests": [
+      "tests/jokgak-city-notifications-20261011.test.mjs",
+      "tests/jokgak-city-item-art-20261011.test.mjs"
+    ],
+    "checks": [],
+    "reason": "City client notifications only: production serverUserId polling, modal visibility, explicit acknowledgment and lifecycle. No server, economy or settings change."
+  },
+  "regression": {
+    "status": "pending official scoped deployment"
+  },
+  "production": {
+    "status": "pending"
+  }
+}

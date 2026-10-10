@@ -71,9 +71,10 @@ test('item art preserves configured prices, effects, action identities and unava
 
 test('production and preview entries load the item stylesheet and the refreshed city modules',()=>{
  const city=read('js/jokgak-city-v1.js').toString(),css=read('css/jokgak-city-v1.css').toString();
- assert.match(city,/VERSION='20261011-items1'/);
+ const version=city.match(/VERSION='([^']+)'/)?.[1];assert.ok(version);
  assert.match(city,/jokgak-city-life-ui-v1\.mjs\?v=/);assert.match(city,/jokgak-city-expansion-ui-v1\.mjs\?v=/);
  assert.match(css,/jokgak-city-items-v1\.css\?v=20261011-items1/);
- for(const file of ['index.html','preview/jokgak-city-v1/index.html'])assert.match(read(file).toString(),/jokgak-city-v1\.js\?v=20261011-items1/);
- assert.match(read('service-worker.js').toString(),/soop-card-shell-v20261011-city-items1/);
+ for(const file of ['index.html','preview/jokgak-city-v1/index.html'])assert.ok(read(file).toString().includes('jokgak-city-v1.js?v='+version));
+ const shell=read('service-worker.js').toString().match(/soop-card-shell-v([^'"\s]+)/)?.[1];assert.ok(shell);
+ assert.ok(read('index.html').toString().includes('js/app.js?v='+shell));
 });
