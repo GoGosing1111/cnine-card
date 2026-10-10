@@ -119,6 +119,10 @@
 .cp3-option.is-selected .cp3-share>i{background:#3c69de}
 .cp3-option.is-winner .cp3-share>i{background:#4b9a70}
 .cp3-option-meta{grid-column:1/-1;display:flex;justify-content:space-between;gap:5px;color:#5b6d86;font-size:11px;margin-top:-5px}
+.cp3-option-funding{grid-column:1/-1;display:grid;gap:5px;padding-top:10px;border-top:1px solid #d9e2ec;color:#5b6d86;font-size:11px;line-height:1.6}
+.cp3-option-funding>span{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.cp3-option-funding b{color:#305186;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.cp3-option-funding>small{font-size:10px;color:#718096}
 .cp3-market-note{color:#6c7a8d;font-size:11px;line-height:1.7;margin:13px 0 19px!important;word-break:keep-all}
 .cp3-ledger{border:1px solid #dfe5ee;border-radius:8px;background:#fff}
 .cp3-ledger>summary{padding:13px 12px;display:flex;justify-content:space-between;gap:6px;cursor:pointer;font-size:11px;font-weight:700;list-style:none;color:#4b5c73}

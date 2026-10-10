@@ -12,6 +12,16 @@
   const category = code => categories.find(item => item.code === code) || categories.find(item => item.code === 'OTHER');
   const amount = value => Math.max(0, Number(value) || 0);
 
+  // Display the same event subsidy on the existing '지원금' option without
+  // treating it as a bet, changing participation shares, or adding it twice.
+  function optionFunding(event, option) {
+    const isSupport = String(option?.label || '').trim() === '지원금';
+    const participation = amount(option?.total_bet);
+    const cms = isSupport && event?.status !== 'VOID' ? amount(event?.cms_subsidy) : 0;
+    const treasury = isSupport && event?.status !== 'VOID' ? amount(event?.treasury_subsidy) : 0;
+    return { isSupport, participation, cms, treasury, total: participation + cms + treasury };
+  }
+
   // Display-only: mirrors settle()'s two Math.floor operations, including subsidy.
   // Never submit this estimate as a payout or replace the authoritative settlement.
   function estimate(event, optionId, added = 0) {
@@ -43,5 +53,5 @@
     return { ...estimate(event, mine.option_id), final: false, refunded: false, won: false };
   }
 
-  window.CoinPredictionModel = Object.freeze({ categories, category, estimate, outcome });
+  window.CoinPredictionModel = Object.freeze({ categories, category, estimate, outcome, optionFunding });
 })();

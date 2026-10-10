@@ -992,8 +992,8 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>typeof window.auctionHouseView==='function'&&typeof window.bindAuctionHouseView==='function'
   },
   prediction:{
-    styles:['css/coin-prediction-v2033.css?v=20261001-prediction-50b'],
-    scripts:['js/coin-prediction-model-v2033.js?v=20261010-cms-subsidy','js/coin-prediction-v2033.js?v=20261010-cms-subsidy'],
+    styles:['css/coin-prediction-v2033.css?v=20261011-subsidy-option'],
+    scripts:['js/coin-prediction-model-v2033.js?v=20261011-subsidy-option','js/coin-prediction-v2033.js?v=20261011-subsidy-option'],
     ready:()=>typeof window.coinPredictionView==='function'&&typeof window.bindCoinPredictionView==='function'
   },
   soopketland:{
