@@ -1,3 +1,4 @@
+@import url("./player-card-milestones-20261011.css?v=20261011-trophies1");
 .player-card-name{display:inline-flex;align-items:baseline;gap:7px;max-width:100%;padding:2px 0;border:0;background:none;color:inherit;font:inherit;font-weight:inherit;line-height:inherit;text-align:inherit;cursor:pointer;vertical-align:baseline;text-decoration-line:underline;text-decoration-color:#94bccc55;text-underline-offset:4px;text-decoration-thickness:1px}
 .player-card-name:hover{color:#c6efff;text-decoration-color:currentColor}.player-card-name:focus-visible{outline:2px solid #a5deef;outline-offset:4px;border-radius:2px}.player-card-name small{font-size:10px;color:#99b5c4;white-space:nowrap}
 /* Nicknames are inline links, not the surrounding panel's 44px action buttons. */

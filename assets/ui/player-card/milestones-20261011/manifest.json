@@ -1,0 +1,60 @@
+{
+  "generator": "Built-in image_gen",
+  "createdAt": "2026-10-11",
+  "prompts": [
+    {
+      "key": "city-outlaw",
+      "prompt": "Use case: stylized-concept. Asset type: premium collectible achievement trophy for a Korean fantasy RPG player-card trophy cabinet. Create one stunning standalone trophy named conceptually 'City Outlaw', celebrating becoming the richest person in the city 25 times. No visible words or numbers. Subject: a powerful sculpted dark gunmetal clenched fist rising through an angular miniature city skyline, wearing a sharp polished antique-gold crown; restrained broken silver chain encircles the base, a few gold cash-like ingots integrated into the plinth. A monumental, dangerous, victorious urban kingpin aesthetic, no human character. High-end semi-realistic painted game item rendering, convincing gold, dark steel and polished obsidian materials. Compact sculptural silhouette, clear at small thumbnail size, finer engravings confined to the base. Low black obsidian octagonal trophy pedestal with a small blank gold plaque, matching luxurious existing collectible trophies. Three-quarter frontal view, entire trophy centered, 8 percent transparent safe margin, square at least 1024 by 1024. Warm gold key light and subtle cool teal rim. Background genuinely transparent with alpha. No flat scenery, floor, extra floating objects, UI, card border, text, numbers, logo, watermark. The trophy sculpture itself fills most of the image, not excessive glow."
+    },
+    {
+      "key": "frostmourne",
+      "prompt": "Use case: stylized-concept. Asset type: premium collectible weapon trophy for a Korean fantasy RPG player-card trophy cabinet. Create a single Frostmourne (the Lich King's sword, 서리한) trophy for 1000 successful Lich King clears. The whole sword is the trophy: long heavy straight silver-gray runeblade with an icy blue engraved central channel, jagged serrated angular blade edges, iconic horned skull crossguard with cold blue eyes, black wrapped grip and pointed skull pommel. Blade points down and its very tip is planted in a compact crystalline ice crown on a low black obsidian and silver octagonal trophy pedestal. An elegant deadly monumental relic, no character or hands. High-end semi-realistic painted game item, detailed cold metal and translucent fractured ice, frosty cyan glow contained near the blade. Long blade, grip and pommel form ONE perfectly straight rigid axis; no bent sword, no disconnected hilt, preserve believable proportions. Entire sword including pommel and pedestal visible, frontal three-quarter product composition centered, 8 percent transparent margins, at least 1024 by 1024 square. Clear memorable silhouette in a small trophy slot, premium finish to match an ornate fantasy trophy collection. Blank small silver plaque on pedestal, no readable words, numbers or lettering; blade fantasy rune ornament may be abstract symbols only. Truly transparent background with alpha, no scenery, character, floor, fake checkerboard, card frame, UI, logo, watermark or unrelated props."
+    }
+  ],
+  "assets": [
+    {
+      "key": "city-outlaw",
+      "source": "C:/Users/User/.codex/generated_images/01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd/exec-858c48fe-23f3-4723-a1af-c863800753b4.png",
+      "files": [
+        {
+          "path": "assets/ui/player-card/milestones-20261011/city-outlaw-v1.png",
+          "bytes": 1726991,
+          "sha256": "de28f8dd74276f8bde41cc85b37c1b2e50b868c87037de8490e5d790db3366f5",
+          "width": 1254,
+          "height": 1254,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/player-card/milestones-20261011/city-outlaw-v1.webp",
+          "bytes": 84620,
+          "sha256": "02751e65245d2ec7bd4ee06aa426c4b9755dbbc708d0f9851dbf207824b720c1",
+          "width": 512,
+          "height": 512,
+          "alpha": true
+        }
+      ]
+    },
+    {
+      "key": "frostmourne",
+      "source": "C:/Users/User/.codex/generated_images/01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd/exec-68e15993-354a-4332-a800-930e11263430.png",
+      "files": [
+        {
+          "path": "assets/ui/player-card/milestones-20261011/frostmourne-v1.png",
+          "bytes": 753799,
+          "sha256": "92940075accfd7a35bd24df49f6b535cc60e1f0da470ca2fe4c1c291d805c8f9",
+          "width": 1254,
+          "height": 1254,
+          "alpha": true
+        },
+        {
+          "path": "assets/ui/player-card/milestones-20261011/frostmourne-v1.webp",
+          "bytes": 46854,
+          "sha256": "677b9d2cc09d5fd3da8b99aff471545c3bd1654a2fe6cb75e9f2bbc27dd077df",
+          "width": 512,
+          "height": 512,
+          "alpha": true
+        }
+      ]
+    }
+  ]
+}

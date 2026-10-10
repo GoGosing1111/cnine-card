@@ -21,6 +21,7 @@ export async function lichLiveFixture({postgres=false}={}){
     pg=new PGlite();await pg.exec("CREATE FUNCTION sqlite_now() RETURNS TEXT LANGUAGE SQL STABLE AS $$ SELECT to_char(timezone('UTC',CURRENT_TIMESTAMP),'YYYY-MM-DD HH24:MI:SS') $$;");
     const compat=readFileSync(new URL('../../scripts/postgres-runtime-compat.sql',import.meta.url),'utf8');
     await pg.exec(compat.match(/CREATE OR REPLACE FUNCTION sqlite_json_extract[\s\S]*?\$\$;/)[0]);
+    await pg.exec(compat.match(/CREATE OR REPLACE FUNCTION sqlite_json_each[\s\S]*?\$\$;/)[0]);
     await pg.exec(schema.map(q=>q.replaceAll('INTEGER','BIGINT').replaceAll('CURRENT_TIMESTAMP','sqlite_now()')).join(';'));
     DB=new __postgresCompatTest.PostgresD1Database({async query(input){queries++;const text=typeof input==='string'?input:input.text;if(failAt&&text.includes(failAt))throw Error('INJECTED_FAILURE');const result=await pg.query(text,typeof input==='string'?[]:input.values||[]);return {...result,rowCount:result.affectedRows??result.rows.length};}});
   }else{

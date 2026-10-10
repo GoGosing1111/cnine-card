@@ -1,6 +1,7 @@
 import {pigCoinRewardWeek} from '../shared/loot-shop-policy-v1.mjs';
 import {PET_ESSENCE} from '../shared/pet-opening-v1.mjs';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
+import {prepareLichClearMilestone} from './_milestone_trophies.js';
 
 export const LICH_WEEKLY_REWARD_LIMIT=7;
 export const lichRewardWeek=pigCoinRewardWeek;
@@ -38,6 +39,7 @@ export function lichClearRewardFor(room,userId){
 }
 export async function prepareLichClearRewards(env,row,room){
   const plan={statements:[],counters:[]};
+  await prepareLichClearMilestone(env,row,room,plan);
   if(row.status!=='ACTIVE'||room.status!=='CLEAR'||room.clearRewardSettlement||room.petEssenceSettlement)return plan;
   // In-flight rooms retain the reward amounts snapshotted by the previous build.
   const policy=room.clearRewardPolicy||{enabled:room.petEssencePolicy?.enabled===true,

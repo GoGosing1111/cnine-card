@@ -1,0 +1,84 @@
+{
+  "date": "2026-10-11",
+  "previousDeployedCommit": "9ab651c34d8c0851351886202cfc0699b8623ce4",
+  "policy": {
+    "pageSize": 4,
+    "totalTrophies": 8,
+    "city": {
+      "name": "도시의 무법자",
+      "code": "CITY_TOP_25",
+      "goal": 25,
+      "basis": "KST 00/06/12/18 shift-ending cash, including legitimate automatic income, all ON participants even if offline/left",
+      "ties": "joint first place",
+      "historical": "starts with the current shift at feature initialization; no deleted-history reconstruction",
+      "ephemeralLogs": "continue deleting previous shifts"
+    },
+    "lich": {
+      "name": "서리한",
+      "code": "LICH_KING_CLEAR_1000",
+      "goal": 1000,
+      "basis": "official ON successful clears, members present at settlement, independent of weekly payout limit",
+      "legacy": "verified completed-room participant snapshots",
+      "excluded": [
+        "TEST",
+        "FAILED",
+        "CANCELED"
+      ]
+    },
+    "permanent": "one trophy each; lifetime progress and first acquired date survive retries and later clears"
+  },
+  "assets": {
+    "manifest": "assets/ui/player-card/milestones-20261011/manifest.json",
+    "generator": "built-in image_gen",
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "runtimeSize": [
+      512,
+      512
+    ]
+  },
+  "browser": {
+    "checks": [
+      "1440: four trophies per page; both new illustrations, progress, acquired date and correct detail; no horizontal clipping",
+      "1440: keyboard previous navigation, disabled end buttons and season tab preserve valid page/selection state",
+      "1440: locked achievements show real zero progress; close, account change and reopen reset to the first page",
+      "390: four trophies per page; both new illustrations, progress, acquired date and correct detail; no horizontal clipping",
+      "390: keyboard previous navigation, disabled end buttons and season tab preserve valid page/selection state",
+      "390: locked achievements show real zero progress; close, account change and reopen reset to the first page",
+      "340: four trophies per page; both new illustrations, progress, acquired date and correct detail; no horizontal clipping",
+      "340: keyboard previous navigation, disabled end buttons and season tab preserve valid page/selection state",
+      "340: locked achievements show real zero progress; close, account change and reopen reset to the first page"
+    ],
+    "errors": [],
+    "responses": [],
+    "environment": "Chrome at 1440, 390 and 340 pixels; real player-card UI with isolated preview profiles",
+    "passed": 9,
+    "visualReview": true,
+    "evidenceDirectory": "C:/Users/User/Downloads/upload/cnine-card/tmp/trophy-milestones-20261011"
+  },
+  "initialFocusedRegressions": {
+    "passed": 27,
+    "failed": 0,
+    "note": "Before additional epoch race guards/tests. Final code validated by the scoped production command."
+  },
+  "scope": {
+    "reason": "Trophy-local lifetime counters in existing guarded transactions, city closure and card pagination. No common DB/auth infrastructure, schema or dependency changes.",
+    "tests": [
+      "tests/trophy-milestones-20261011.test.mjs",
+      "tests/player-card-v2052.test.mjs",
+      "tests/jokgak-city-20261009.test.mjs",
+      "tests/jokgak-city-career-20261010.test.mjs",
+      "tests/jokgak-city-comms-20261011.test.mjs",
+      "tests/lich-weekly-rewards-20261004.test.mjs"
+    ],
+    "checks": [
+      "check:worker"
+    ]
+  },
+  "deployment": {
+    "status": "pending",
+    "command": "npm run deploy:production -- --scoped"
+  }
+}

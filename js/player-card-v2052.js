@@ -35,11 +35,18 @@
       <span class="pc-trophy-stage">${art ? `<img src="${esc(art)}" alt="" width="512" height="512" decoding="async">` : ''}<span class="pc-plinth"></span></span>
       <span class="pc-trophy-copy">${champions ? '<span class="pc-champions-kicker">CHAMPIONS LEAGUE</span>' : ''}
         <span class="pc-trophy-name">${esc(t.code === 'PREDICTION_STAKE_300T' ? '300조 감사패' : t.name)}</span>
-        <span class="pc-trophy-subtitle">${t.code === 'PREDICTION_STAKE_300T' ? '누적 베팅액 300조 달성' : t.code === 'DUO_CHALLENGER' ? '듀오 시즌 최종 상위 10팀' : champions ? '최종 우승 클랜의 영예' : t.code === 'CLAN_CHAMPION' ? '클랜 시즌 우승' : t.code === 'CHALLENGER_STREAK_3' ? '3시즌 연속 챌린저' : '랭크 시즌 1위'}</span>
+        <span class="pc-trophy-subtitle">${t.subtitle ? esc(t.subtitle) : t.code === 'PREDICTION_STAKE_300T' ? '누적 베팅액 300조 달성' : t.code === 'DUO_CHALLENGER' ? '듀오 시즌 최종 상위 10팀' : champions ? '최종 우승 클랜의 영예' : t.code === 'CLAN_CHAMPION' ? '클랜 시즌 우승' : t.code === 'CHALLENGER_STREAK_3' ? '3시즌 연속 챌린저' : '랭크 시즌 1위'}</span>
         <span class="pc-trophy-status">${t.owned ? champions ? `<b>${num(t.count)}</b>회 우승` : `획득${t.count > 1 ? ' ×' + num(t.count) : ''}` : '미획득'}</span>
+        ${milestone(t) ? `<span class="pc-milestone-progress">누적 <b>${num(t.progress)}</b> / ${num(t.goal)}회</span>` : ''}
         ${champions ? `<span class="pc-champions-date">${t.owned ? date(t.acquiredAt) + ' 달성' : '챔피언스리그 우승 시 획득'}</span>` : ''}
       </span><span class="pc-trophy-arrow" aria-hidden="true">↗</span>
     </button>`;
+  }
+  const milestone=t=>['CITY_TOP_25','LICH_KING_CLEAR_1000'].includes(t.code);
+  const defaultDetail='<span class="pc-detail-icon" aria-hidden="true">✦</span><p><b>기록으로 증명하는 명예</b><span>트로피를 선택하면 획득 조건과 달성 기록을 확인할 수 있습니다.</span></p>';
+  function shelves(rows){
+    const pages=[];for(let i=0;i<rows.length;i+=4)pages.push(rows.slice(i,i+4));
+    return `${pages.length>1?`<nav class="pc-shelf-nav" aria-label="트로피 진열장 페이지"><span>COLLECTION <b data-pc-shelf-count aria-live="polite">1 / ${pages.length}</b></span><div><button type="button" data-pc-page="prev" disabled aria-label="이전 트로피 페이지">← 이전</button><button type="button" data-pc-page="next" aria-label="다음 트로피 페이지">다음 →</button></div></nav>`:''}<div class="pc-shelves">${pages.map((page,i)=>`<div class="pc-shelf-page" data-pc-shelf="${i}" ${i?'hidden':''}><div class="pc-trophies${page.some(({t})=>t.code==='CLAN_CHAMPIONS_TROPHY')?' pc-has-champions':' pc-shelf-grid'}">${page.map(({t,i})=>trophyHtml(t,i)).join('')}</div></div>`).join('')}</div>`;
   }
   function render(profile, { demo = false } = {}) {
     const p = profile.player, r = profile.ranked, trophies = profile.trophies || [], avatar = asset(p.avatar?.image, true);
@@ -63,7 +70,7 @@
           <section class="pc-current" aria-label="현재 랭크 시즌"><div class="pc-rank-art">${tierHtml(r)}</div><div class="pc-current-text"><span class="pc-kicker">${esc(r.season || '현재 시즌')} · 현재 티어</span><h3>${esc(r.tier?.name || (r.state === 'SETTLING' ? '시즌 정산 중' : '미배치'))}</h3><p>${r.rank ? `<b>전체 ${num(r.rank)}위</b><span>${num(r.score)}점</span>` : '공식 순위가 확정되면 표시됩니다.'}</p></div><div class="pc-season-record"><b>${num(r.wins)}<small>승</small> <span>/</span> ${num(r.losses)}<small>패</small></b><small>현재 시즌 전적</small></div></section>
           <dl class="pc-statline"><div><dt>역대 최고 순위</dt><dd>${r.bestRank ? num(r.bestRank) + '<small>위</small>' : '—'}</dd></div><div><dt>최장 연속 챌린저</dt><dd>${num(r.longestStreak)}<small>시즌</small></dd></div><div><dt>보유 트로피</dt><dd>${owned}<small>/ ${trophies.length}</small></dd></div></dl>
           <div class="pc-tabs" role="tablist" aria-label="명함 기록"><button id="pc-honors-tab" type="button" role="tab" aria-selected="true" aria-controls="pc-honors-panel" data-pc-tab="honors">트로피 진열장 <span>${owned}</span></button><button id="pc-history-tab" type="button" role="tab" tabindex="-1" aria-selected="false" aria-controls="pc-history-panel" data-pc-tab="history">시즌 기록</button></div>
-          <section id="pc-honors-panel" role="tabpanel" aria-labelledby="pc-honors-tab"><div class="pc-trophies${trophies.some(t => t.code === 'CLAN_CHAMPIONS_TROPHY') ? ' pc-has-champions' : ''}">${displayTrophies.map(({ t, i }) => trophyHtml(t, i)).join('')}</div><div class="pc-trophy-detail" id="pc-trophy-detail" aria-live="polite"><span class="pc-detail-icon" aria-hidden="true">✦</span><p><b>기록으로 증명하는 명예</b><span>트로피를 선택하면 획득 조건과 달성 기록을 확인할 수 있습니다.</span></p></div></section>
+          <section id="pc-honors-panel" role="tabpanel" aria-labelledby="pc-honors-tab">${shelves(displayTrophies)}<div class="pc-trophy-detail" id="pc-trophy-detail" aria-live="polite">${defaultDetail}</div></section>
           <section id="pc-history-panel" role="tabpanel" aria-labelledby="pc-history-tab" hidden><div class="pc-history-scroll"><h4>랭크전 최종 정산</h4>${r.history?.length ? `<ol class="pc-history-list">${r.history.map(h => `<li><span><b>${esc(h.season)}</b><small>${date(h.settledAt)} 정산</small></span><span class="${h.tierId === 'challenger' ? 'pc-blue' : ''}">${esc(h.tier)}</span><strong>${num(h.rank)}<small>위</small></strong></li>`).join('')}</ol>` : '<p class="pc-empty">완료된 랭크 시즌 기록이 없습니다.</p>'}<h4>클랜 시즌 우승</h4>${profile.clanHistory?.length ? `<ol class="pc-history-list">${profile.clanHistory.map(h => `<li><span><b>${esc(h.clan)}</b><small>${date(h.settledAt)} 정산</small></span><span>시즌 ${num(h.season)}</span><strong class="pc-gold">우승</strong></li>`).join('')}</ol>` : '<p class="pc-empty">공식 클랜 시즌 우승 기록이 없습니다.</p>'}<p class="pc-history-note">각 최근 ${num(profile.historyLimit || 12)}개 기록 · 트로피와 최고 기록은 전체 완료 시즌 기준입니다.</p></div></section>
           <footer class="pc-bottom"><span><i aria-hidden="true"></i> 공식 정산 기록 기준</span><span>트로피 효과 · 추후 공개</span></footer>
         </div>
@@ -71,7 +78,7 @@
     </article>`;
   }
   function detail(t) {
-    return `<span class="pc-detail-icon" aria-hidden="true">${t.owned ? '✦' : '○'}</span><p><b>${esc(t.name)} <small>${t.owned ? date(t.acquiredAt) + ' 달성' : '미획득'}</small></b><span>${esc(t.rule)}</span><span class="pc-effect-note">${t.code === 'CHALLENGER_STREAK_3' ? `현재 ${num(t.progress)}시즌 연속 · 미참가 시즌은 연속 기록이 끊깁니다.<br>` : ''}효과 추후 공개 · 현재 능력치에 영향 없음</span></p>`;
+    return `<span class="pc-detail-icon" aria-hidden="true">${t.owned ? '✦' : '○'}</span><p><b>${esc(t.name)} <small>${t.owned ? date(t.acquiredAt) + ' 달성' : '미획득'}</small></b><span>${esc(t.rule)}</span>${milestone(t)?`<span class="pc-detail-progress">누적 ${num(t.progress)} / ${num(t.goal)}회${t.owned?' · 달성 완료':''}</span>`:''}<span class="pc-effect-note">${t.code === 'CHALLENGER_STREAK_3' ? `현재 ${num(t.progress)}시즌 연속 · 미참가 시즌은 연속 기록이 끊깁니다.<br>` : ''}효과 추후 공개 · 현재 능력치에 영향 없음</span></p>`;
   }
 
   let modal = null, serial = 0, controller = null, fx = null, returnFocus = null, scrollOverflow = '', lastTarget = null, current = null, active = false;
@@ -91,6 +98,15 @@
     modal.addEventListener('click', e => {
       if (e.target === modal || e.target.closest('[data-pc-close]')) { close(); return; }
       if (e.target.closest('[data-pc-retry]')) { open(lastTarget); return; }
+      const pageButton=e.target.closest('[data-pc-page]');
+      if(pageButton){
+        const pages=[...modal.querySelectorAll('[data-pc-shelf]')],at=pages.findIndex(p=>!p.hidden),next=Math.max(0,Math.min(pages.length-1,at+(pageButton.dataset.pcPage==='next'?1:-1)));
+        pages.forEach((p,i)=>p.hidden=i!==next);
+        modal.querySelector('[data-pc-shelf-count]').textContent=(next+1)+' / '+pages.length;
+        modal.querySelector('[data-pc-page=prev]').disabled=next===0;modal.querySelector('[data-pc-page=next]').disabled=next===pages.length-1;
+        modal.querySelectorAll('[data-pc-trophy]').forEach(t=>t.setAttribute('aria-pressed','false'));modal.querySelector('#pc-trophy-detail').innerHTML=defaultDetail;
+        return;
+      }
       const tab = e.target.closest('[data-pc-tab]');
       if (tab) {
         const key = tab.dataset.pcTab;

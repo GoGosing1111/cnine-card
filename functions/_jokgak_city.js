@@ -1,10 +1,11 @@
+import {assignedCityRole} from './_jokgak_city_roles.js';
+export {assignedCityRole};
 import {cityCareerPolicy} from './_jokgak_city_career.js';
 import {projectCityCareer,cityWorkAction,cancelCityWork} from '../shared/jokgak-city-career-v1.mjs';
 import {CITY_PLACES,cityShift,cityState,cityPlace} from '../shared/jokgak-city-v1.mjs';
 import {ensureCitySchema} from './_jokgak_city_schema.js';
 import {readJointBody} from './_joint_request.js';
 import {prepareCityBattle} from './_jokgak_city_battle.js';
-import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
 import {CITY_SETTINGS_KEY,cityCanAccess,cityRolePolicy} from '../shared/jokgak-city-settings-v1.mjs';
 import {readCitySettings,cityRoleWeights,cityPublicPolicy,handleCityCms,requireCityAccess} from './_jokgak_city_settings.js';
 import {prepareCityReward,cityRewardEvent,cityGuard,cityGuardEnd} from './_jokgak_city_rewards.js';
@@ -16,6 +17,7 @@ import {cityExpansionAction} from './_jokgak_city_expansion.js';
 import {projectCityFacilities} from '../shared/jokgak-city-expansion-v1.mjs';
 import {cityBroadcastText,cityCommsAction} from '../shared/jokgak-city-comms-v1.mjs';
 import {settleCityRound} from './_jokgak_city_round.js';
+import {cityRoundWriteGuards} from './_jokgak_city_top.js';
 import {cityNoticePreferences,saveCityNoticePreferences,cityNoticeCount,skipCityNotices,cityActivityLog,cityBroadcasts} from './_jokgak_city_comms.js';
 
 const p=(env,sql,...v)=>env.DB.prepare(sql).bind(...v);
@@ -26,24 +28,6 @@ const activeUserSql="u.status='ACTIVE' AND (u.banned_until IS NULL OR u.banned_u
 const lifeJoin=" LEFT JOIN app_meta life ON life.key='jokgak_city_life_v1:'||CAST(c.user_id AS TEXT) ";
 const player=(env,id)=>p(env,`SELECT c.*,u.nickname,u.role AS account_role,life.value AS life_raw FROM jokgak_city_players_v1 c JOIN users u ON u.id=c.user_id ${lifeJoin} WHERE c.user_id=? AND ${activeUserSql}`,id).first();
 const lifeStates=new WeakMap();
-async function roleKey(env){
-  const key='jokgak_city_role_seed_v1';let value=readRuntimeData(env,'city_role_seed');
-  if(!value){
-    value=(await p(env,'SELECT value FROM app_meta WHERE key=?',key).first())?.value;
-    if(!value){await p(env,'INSERT INTO app_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO NOTHING',key,crypto.randomUUID()+crypto.randomUUID()).run();value=(await p(env,'SELECT value FROM app_meta WHERE key=?',key).first()).value;}
-    // Workers cannot structuredClone CryptoKey. Cache only the stable seed;
-    // importing it locally preserves the same role for the current shift.
-    cacheRuntimeData(env,'city_role_seed',value,1800000);
-  }
-  return crypto.subtle.importKey('raw',new TextEncoder().encode(value),{name:'HMAC',hash:'SHA-256'},false,['sign']);
-}
-export async function assignedCityRole(env,userId,epoch,weights=null){
-  weights||=await cityRoleWeights(env,epoch,(await readCitySettings(env)).policy);
-  const hash=await crypto.subtle.sign('HMAC',await roleKey(env),new TextEncoder().encode(`${epoch}:${userId}`));
-  let point=new DataView(hash).getUint32(0)%weights.reduce((sum,r)=>sum+r.weight,0);
-  for(const row of weights){point-=row.weight;if(point<0)return row.code;}
-  throw Error('CITY_ROLE_WEIGHTS');
-}
 async function publicPlayer(env,row,now,policy,weights){
   if(!row)return null;
   const role=await assignedCityRole(env,Number(row.user_id),cityShift(now).id,weights);
@@ -60,7 +44,7 @@ async function syncCityPlayer(env,user,policy,weights,now,policyRaw){
     const before=parse(row.life_raw),facilityChanged=['armory','hospital','motel','careers','megaphones'].some(k=>JSON.stringify(before[k])!==JSON.stringify(life[k]));
     if(Number(row.epoch)===cityShift(now).id&&Number(row.active)===Number(state.active)&&row.life_raw!=null&&!cashMissing&&!facilityChanged&&state.location===row.location&&!(storedDeath&&!storedDeath.resolved&&life.death?.resolved))return state;
     const id='city-auto:'+crypto.randomUUID();
-    const guards=[];if(env.DB.dialect==='postgres')guards.push(p(env,'SELECT key FROM app_meta WHERE key=? FOR SHARE',CITY_SETTINGS_KEY));
+    const guards=cityRoundWriteGuards(env,cityShift(now).id,id);if(env.DB.dialect==='postgres')guards.push(p(env,'SELECT key FROM app_meta WHERE key=? FOR SHARE',CITY_SETTINGS_KEY));
     guards.push(cityGuard(env,id+':policy',policyRaw===null?'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)':'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',policyRaw===null?[CITY_SETTINGS_KEY]:[CITY_SETTINGS_KEY,policyRaw]),cityGuardEnd(env,id+':policy'));
     try{await env.DB.batch([...guards,...claim(env,row,state,id,cityShift(now).id,now),...cityLifeClaim(env,row,life,id)]);state.revision++;return state;}
     catch(error){if(!/guard|constraint|duplicate|unique/i.test(error.message))throw error;}
@@ -236,7 +220,7 @@ export async function cityAction(env,deps,user,action,body){
   const result={ok:true,requestId:body.requestId,action,epoch,mode:policy.mode,policyRevision:policy.revision,createdAt:committedAt,location:mine?.location||me.location,mine:me,target:targetId?visibleTarget:null,inspection,...simulation,reward:reward.result,theft,donation:donation?.result||null,service:service?.result||null,
     expansion,work,comms,effects:{damageToMine:Math.max(0,(healthBefore??me.health)-me.health),damageToTarget:Math.max(0,(targetHealthBefore??0)-(target?.health??0)),healed:action==='heal'?target.health-targetHealthBefore:0,jailMs:action==='arrest'&&simulation?.battleV2?.result?.winner==='A'?role.arrestMs:0}};
   if(simulation)result.result=simulation.battleV2.result.winner==='A'?'WIN':simulation.battleV2.result.winner==='B'?'LOSE':'DRAW';
-  const policyGuard=body.requestId+':policy',statements=[];
+  const policyGuard=body.requestId+':policy',statements=cityRoundWriteGuards(env,epoch,body.requestId);
   if(env.DB.dialect==='postgres')statements.push(p(env,'SELECT key FROM app_meta WHERE key=? FOR SHARE',CITY_SETTINGS_KEY));
   statements.push(cityGuard(env,policyGuard,policyRaw===null?'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)':'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',policyRaw===null?[CITY_SETTINGS_KEY]:[CITY_SETTINGS_KEY,policyRaw]),cityGuardEnd(env,policyGuard));
   if(!raw){
