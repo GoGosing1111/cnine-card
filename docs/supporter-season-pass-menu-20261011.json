@@ -1,0 +1,78 @@
+{
+  "date": "2026-10-11",
+  "source": "eac3d88d601be170f8d65a17539fe8f6b086a1dc",
+  "previousRuntimeSource": "1e35b3e65ae659172f5ba44414655392381a7e42",
+  "pages": "https://7262cc90.cnine-card.pages.dev",
+  "apiRuntimeVersion": "95ae8adb-cb72-453e-a861-77e19ed88697",
+  "clanWorkerVersion": "89f602d3-e235-4942-80b1-d15af8748945",
+  "cache": "20261011-pass-menu1",
+  "scopedTests": [
+    "tests/supporter-season-pass-menu-20261011.test.mjs"
+  ],
+  "testsPassed": 2,
+  "workerCompilationPassed": true,
+  "browser": {
+    "cases": [
+      "Desktop sidebar Rewards, search/count, calendar and keyboard focus; All contains one Rewards entry.",
+      "User 4: young / unverified / suspended hidden from Rewards, All and search.",
+      "User 5: young / unverified / suspended hidden from Rewards, All and search.",
+      "User 6: young / unverified / suspended hidden from Rewards, All and search.",
+      "Unverified ID 1 OWNER keeps server support preview; no season-pass link in preview or menu.",
+      "Standalone navigation, stale visible entry recheck and same-account verification refresh.",
+      "Late eligible response discarded after account switch.",
+      "Mobile All → Rewards → season pass: 30-day calendar opens without overflow."
+    ],
+    "screenshots": [
+      "C:\\Users\\User\\.codex\\tmp\\supporter-season-pass-20261010\\menu-desktop-rewards.png",
+      "C:\\Users\\User\\.codex\\tmp\\supporter-season-pass-20261010\\menu-mobile-rewards.png",
+      "C:\\Users\\User\\.codex\\tmp\\supporter-season-pass-20261010\\menu-mobile-calendar.png",
+      "C:\\Users\\User\\.codex\\tmp\\supporter-season-pass-20261010\\menu-mobile-ineligible.png"
+    ],
+    "ok": true
+  },
+  "production": {
+    "verifiedAt": "2026-10-10T15:09:11.512Z",
+    "source": "eac3d88d601be170f8d65a17539fe8f6b086a1dc",
+    "files": [
+      {
+        "file": "index.html",
+        "status": 200,
+        "bytes": 22501,
+        "sha256": "4c8f554e2a5c93da678f4ebe71d1e2f017f96bf48f293e51238e0ccd6726ccc4"
+      },
+      {
+        "file": "service-worker.js",
+        "status": 200,
+        "bytes": 9374,
+        "sha256": "0d535e590bbb8fcb67043154dbce5a5076c75d5e31b2b44faf538c18803eadcc"
+      },
+      {
+        "file": "js/adventure-lobby-v2107.js",
+        "status": 200,
+        "bytes": 91126,
+        "sha256": "a3c23a473566fe0c54a9213c31c822b8d97c4c215ab81801fc3e6dc5205f8724"
+      },
+      {
+        "file": "js/server-support-v1.mjs",
+        "status": 200,
+        "bytes": 15849,
+        "sha256": "07c0f16fedcca849b07bf11d8c4831b6ae0ceecadc7df9a27df479da5db50850"
+      }
+    ],
+    "api": [
+      {
+        "route": "service/status",
+        "status": 200
+      },
+      {
+        "route": "server-support/status",
+        "status": 401
+      },
+      {
+        "route": "server-support/info",
+        "status": 401
+      }
+    ],
+    "productionGrantsMade": false
+  }
+}

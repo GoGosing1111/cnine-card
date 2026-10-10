@@ -13,3 +13,15 @@
 증빙: `C:/Users/User/.codex/tmp/supporter-season-pass-20261010/qa-menu.mjs`, `menu-report.json`, `menu-desktop-rewards.png`, `menu-mobile-rewards.png`, `menu-mobile-calendar.png`, `menu-mobile-ineligible.png`. 생성 번들과 소스 일치 검사도 통과했다.
 
 국소 메뉴·표시 조건 수정으로 scoped 배포한다. 공통 인증/세션이나 DB 기반 변경이 아니다. 직전 운영 기준 `1e35b3e65ae659172f5ba44414655392381a7e42`(Pages `72611894`) 위에서 `tests/supporter-season-pass-menu-20261011.test.mjs`의 SQLite·PostgreSQL 경계/접근 검사와 Worker 컴파일을 지정 배포 명령에서 한 번 실행한다. 거래 구현과 무관한 전체 검사는 반복하지 않는다. 운영 결과는 후속 JSON에 기록한다.
+
+운영 반영 완료: 관련 검사 2건과 Worker 컴파일을 통과하고 소스 `eac3d88d601be170f8d65a17539fe8f6b086a1dc`를 scoped 배포했다. Pages `7262cc90`, API runtime `95ae8adb-cb72-453e-a861-77e19ed88697`다. 운영 메인·서비스워커·로비 번들·후원 모듈 4개가 로컬 배포본과 SHA-256 일치하며 서비스 상태 200, 미로그인 후원 status/info 401을 확인했다. [운영 검증 기록](supporter-season-pass-menu-20261011.json). 후속 기록은 문서 전용이며 재배포하지 않는다.
+
+## 시즌패스·후원 화면 캡처 차단 검토
+
+사용자 후속 “시즌패스랑 후원관련 캡처 막을수있나도 검토해봐라”에 따라 현재 `manifest.webmanifest`의 standalone PWA와 웹 모듈 구조를 확인했다. 검토 요청으로 캡처 방해 코드나 워터마크를 운영 화면에 추가하지 않았다.
+
+- 현재 웹/PWA 구조에서는 운영체제의 화면 캡처·외부 녹화까지 일괄 차단하거나 모든 캡처를 확실히 감지할 수 없다. W3C의 [PWA 캡처 방지 제안 논의](https://github.com/w3c/manifest/issues/1154)는 구현된 manifest 속성이 아니며, 모든 브라우저에서의 보장 문제를 지적한다.
+- [`Permissions-Policy: display-capture`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Permissions-Policy/display-capture)는 해당 문서가 `getDisplayMedia()`를 호출할 권한을 제어한다. 화면 자체가 다른 프로그램에 캡처되지 않게 보호하는 설정으로 사용할 수 없다.
+- [`visibilitychange`](https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API)는 탭/창의 표시 상태 이벤트다. 다른 탭으로 전환할 때 화면을 가릴 수 있지만 일반 스크린샷·OBS 감지로 간주해서는 안 된다. 우클릭·복사·PrintScreen 키 차단도 운영체제 전체 캡처 방지 보장이 아니다.
+- 웹에서 현실적인 보조책은 시즌패스/후원 영역에 계정 식별 코드·시각 워터마크를 표시해 무단 공유를 억제하는 것이다. 개발자 도구 제거·잘라내기로 우회할 수 있어 완전 차단이나 확정 증거가 아니다. 기존 서버 접근 제한은 허가되지 않은 계정의 조회를 막는 별도 보호다.
+- Android 전용 앱을 별도로 운영하면 [`FLAG_SECURE`](https://developer.android.com/security/fraud-prevention/activities)로 해당 화면의 OS 캡처·일부 화면 공유를 제한할 수 있다. 현재 웹 코드에 넣는 CSS/JavaScript 옵션은 아니며, 외부 카메라 촬영까지 막는 수단도 아니다.
