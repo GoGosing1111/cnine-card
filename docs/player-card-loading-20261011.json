@@ -1,0 +1,120 @@
+{
+  "date": "2026-10-11",
+  "request": "명함 로딩이 되게 느려 개선",
+  "cause": "Legacy Lich trophy projection repeatedly parsed 128895827 bytes of completed-room JSON for each profile",
+  "before": {
+    "rooms": [
+      {
+        "status": "CANCELLED",
+        "n": 34,
+        "bytes": 2304661
+      },
+      {
+        "status": "FAILED",
+        "n": 311,
+        "bytes": 101665199
+      },
+      {
+        "status": "CLEAR",
+        "n": 293,
+        "bytes": 128895827
+      }
+    ],
+    "legacy": {
+      "count": 9,
+      "first_at": null,
+      "elapsedMs": 9036
+    }
+  },
+  "baselineDryRun": {
+    "receipt": {
+      "dryRun": true,
+      "replayed": false,
+      "version": 1,
+      "completedAt": "2026-10-10T21:10:02.691Z",
+      "rooms": 284,
+      "accounts": 146,
+      "inserted": 146,
+      "preserved": 0
+    },
+    "elapsedMs": 2780,
+    "verifiedAt": "2026-10-10T21:10:03.059Z"
+  },
+  "baseline": {
+    "receipt": {
+      "dryRun": false,
+      "replayed": false,
+      "version": 1,
+      "completedAt": "2026-10-10T21:10:16.585Z",
+      "rooms": 284,
+      "accounts": 146,
+      "inserted": 146,
+      "preserved": 0
+    },
+    "elapsedMs": 2626,
+    "verifiedAt": "2026-10-10T21:10:16.957Z",
+    "reads": [
+      {
+        "kind": "historic-participant",
+        "count": 9,
+        "elapsedMs": 76
+      },
+      {
+        "kind": "no-clears",
+        "count": 0,
+        "elapsedMs": 147
+      }
+    ]
+  },
+  "after": {
+    "verifiedAt": "2026-10-10T21:11:29.901Z",
+    "method": "Actual player-card handler with production read-only DB; auth adapter and already-initialized account-rank schema substituted; excludes HTTP/auth/connection time",
+    "results": [
+      {
+        "status": 200,
+        "elapsedMs": 1623,
+        "queries": 19,
+        "raidReplaysRead": false,
+        "trophies": 8
+      },
+      {
+        "status": 200,
+        "elapsedMs": 1622,
+        "queries": 19,
+        "raidReplaysRead": false,
+        "trophies": 8
+      }
+    ]
+  },
+  "browser": {
+    "checks": [
+      "1440: production DB profile renders all eight real trophy states and the second page",
+      "1440: hanging transport leaves loading state, aborts and retries successfully; close remains available",
+      "390: production DB profile renders all eight real trophy states and the second page",
+      "390: hanging transport leaves loading state, aborts and retries successfully; close remains available"
+    ],
+    "errors": [],
+    "timeout": "12-second deadline accelerated to 150ms in browser QA; exact deadline covered by unit fixture",
+    "profileSource": "Read-only production DB handler response; no authenticated game action"
+  },
+  "opsRegressions": {
+    "passed": 5,
+    "failed": 0,
+    "command": "node --test tests/player-card-loading-20261011.test.mjs"
+  },
+  "scope": {
+    "base": "7840f3518e099d78414946fe2eee022a4b6bfe93",
+    "tests": [
+      "tests/player-card-v2052.test.mjs",
+      "tests/trophy-milestones-20261011.test.mjs"
+    ],
+    "checks": [
+      "check:worker"
+    ],
+    "reason": "Player-card latency fix with a verified one-time Lich achievement baseline and bounded card loading. No common DB/auth/schema changes."
+  },
+  "deployment": {
+    "status": "pending",
+    "command": "npm run deploy:production -- --scoped"
+  }
+}

@@ -270,13 +270,13 @@ test('all trophy assets are real transparent production assets with preserved hi
   }
 });
 
-function uiFixture() {
+function uiFixture(timers = {setTimeout,clearTimeout}) {
   const events = {}, pending = [], focus = { isConnected: true, calls: 0, focus() { this.calls++; } };
   const closeButton = { focus() {} }, host = { isConnected: true }, card = {};
   const modal = { open: false, innerHTML: '', setAttribute() {}, addEventListener(name, fn) { events[name] = fn; }, showModal() { this.open = true; }, close() { this.open = false; }, querySelector(sel) { return sel === '.pc-fx' ? host : sel === '.pc-card' ? card : closeButton; } };
   const document = { activeElement: focus, body: { style: { overflow: 'auto' }, appendChild() {} }, createElement() { return modal; }, addEventListener() {} };
   const window = { document, location: { origin: 'https://game.test' }, apiRequest(path, options) { return new Promise((resolve, reject) => pending.push({ path, options, resolve, reject })); } };
-  vm.runInNewContext(read('js/player-card-v2052.js'), { window, URL, Intl, AbortController });
+  vm.runInNewContext(read('js/player-card-v2052.js'), { window, URL, Intl, AbortController, ...timers });
   const profile = name => ({ player: { nickname: name }, ranked: { history: [] }, trophies: [], frame: { level: 0 } });
   return { window, modal, document, events, pending, focus, profile, ui: window.PlayerCallingCard };
 }
@@ -302,6 +302,14 @@ test('WebGL startup failure does not hide the card and a late renderer is destro
 test('request error has retry and close controls, not an infinite loader', async () => {
   const f=uiFixture(),p=f.ui.open({userId:2}); f.pending[0].reject(Error('연결 실패')); await p;
   assert.match(f.modal.innerHTML,/data-pc-retry/); assert.match(f.modal.innerHTML,/data-pc-close/); assert.match(f.modal.innerHTML,/연결 실패/); f.ui.close();
+});
+
+test('a request stuck in the read queue has a total deadline, retry and stale-response protection',async()=>{
+ let deadline;const f=uiFixture({setTimeout:fn=>{deadline=fn;return 1;},clearTimeout(){}});
+ const first=f.ui.open({userId:2});deadline();await first;
+ assert.equal(f.pending[0].options.signal.aborted,true);assert.match(f.modal.innerHTML,/연결이 지연/);assert.match(f.modal.innerHTML,/data-pc-retry/);
+ const retry=f.ui.open({userId:2});f.pending[1].resolve(f.profile('빠른 명함'));await retry;
+ f.pending[0].resolve(f.profile('지연된 명함'));await new Promise(r=>setImmediate(r));assert.match(f.modal.innerHTML,/빠른 명함/);assert.doesNotMatch(f.modal.innerHTML,/지연된 명함/);f.ui.close();
 });
 
 test('empty trophy shelves keep border FX without creating an empty GSAP tween', async () => {

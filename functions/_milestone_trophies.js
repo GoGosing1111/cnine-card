@@ -1,5 +1,6 @@
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 export const CITY_TOP_GOAL=25,LICH_CLEAR_GOAL=1000;
+export const LICH_LEGACY_BASELINE_KEY='trophy_lich_legacy_baseline_v1';
 export const cityTopKey=id=>'trophy_city_top_v1:'+Number(id);
 export const lichClearKey=id=>'trophy_lich_clear_v1:'+Number(id);
 export function milestoneValue(raw,goal){
@@ -25,6 +26,10 @@ export const LICH_CLEAR_HONORS_SQL=`WITH clears AS (
  OR EXISTS(SELECT 1 FROM json_each(COALESCE(json_extract(r.state_json,'$.members'),'[]')) m WHERE CAST(json_extract(m.value,'$.id') AS TEXT)=?)))
  SELECT COUNT(*) count,MIN(CASE WHEN ordinal=${LICH_CLEAR_GOAL} THEN finished_at END) first_at FROM clears`;
 async function legacyLichValue(env,id){
+  // The one-time baseline includes every verifiable historic participant.
+  // Thereafter an absent account row means zero, without parsing raid replays.
+  const baseline=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(LICH_LEGACY_BASELINE_KEY).first();
+  if(baseline)return {count:0,acquiredAt:null};
   const initialized=await env.DB.prepare("SELECT value FROM app_meta WHERE key='raid_lich_settings_v1'").first();
   if(!initialized)return {count:0,acquiredAt:null};
   const value=await env.DB.prepare(LICH_CLEAR_HONORS_SQL).bind('$.'+Number(id),String(id),String(id)).first();

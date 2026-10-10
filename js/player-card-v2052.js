@@ -130,6 +130,28 @@
   function statusHtml(message, failed) {
     return `<section class="pc-status"><span class="pc-kicker">SOOPKETMON / PLAYER CARD</span><button type="button" class="pc-close" data-pc-close aria-label="명함 닫기">×</button><h2>${failed ? '기록을 불러오지 못했습니다' : '명함을 불러오는 중'}</h2><p role="status">${esc(message)}</p>${failed ? '<button type="button" class="pc-retry" data-pc-retry>다시 확인</button>' : ''}</section>`;
   }
+  function requestProfile(target, requestController) {
+    // Bound the whole request, including the shared read queue and body read.
+    // The transport timeout only starts after a queue slot becomes available.
+    return new Promise((resolve, reject) => {
+      let settled = false, timer;
+      const signal = requestController.signal;
+      const finish = (callback, value) => {
+        if (settled) return;
+        settled = true; clearTimeout(timer); signal.removeEventListener('abort', aborted); callback(value);
+      };
+      const aborted = () => finish(reject, new Error('명함 조회가 취소되었습니다.'));
+      signal.addEventListener('abort', aborted, { once: true });
+      timer = setTimeout(() => {
+        finish(reject, new Error('명함 연결이 지연되고 있습니다. 다시 확인을 눌러 주세요.'));
+        requestController.abort();
+      }, 12000);
+      try {
+        Promise.resolve(global.apiRequest(`player-card?${target.userId ? 'userId=' + encodeURIComponent(target.userId) : 'nickname=' + encodeURIComponent(target.nickname || '')}`, { signal }, { timeoutMs: 12000, replaceInflight: true, ttl: 0 }))
+          .then(value => finish(resolve, value), error => finish(reject, error));
+      } catch (error) { finish(reject, error); }
+    });
+  }
   async function open(target = {}) {
     ensureModal(); lastTarget = target;
     if (!modal.open) { returnFocus = doc.activeElement; scrollOverflow = doc.body.style.overflow; doc.body.style.overflow = 'hidden'; active = true; modal.showModal(); }
@@ -137,7 +159,7 @@
     modal.innerHTML = statusHtml('현재 티어와 공식 시즌 기록을 확인하고 있습니다.', false); modal.querySelector('[data-pc-close]').focus();
     try {
       // Fixtures are injected only by the independent preview, never through a production URL switch.
-      const data = target.previewData || await global.apiRequest(`player-card?${target.userId ? 'userId=' + encodeURIComponent(target.userId) : 'nickname=' + encodeURIComponent(target.nickname || '')}`, { signal: controller.signal }, { timeoutMs: 12000, replaceInflight: true, ttl: 0 });
+      const data = target.previewData || await requestProfile(target, controller);
       if (run !== serial || !modal.open) return;
       current = data; modal.innerHTML = render(data, { demo: Boolean(target.previewData) }); modal.querySelector('[data-pc-close]').focus();
       const host = modal.querySelector('.pc-fx');
