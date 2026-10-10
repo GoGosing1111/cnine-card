@@ -32,8 +32,8 @@
     "previousProductionCommit": "f7db905f293bd969b18711c91ccf297d7214009d",
     "previousProductionUrl": "https://0335e2bf.cnine-card.pages.dev",
     "sourceBaseCommit": "37596693ec151f6e619b0b1171236c362251c796",
-    "reason": "승부예측 기능 안에서 기존 인증 결과·경기 잠금·원자적 배치를 재사용하는 국소 기능 추가. 공통 인증·DB 기반·의존성·마이그레이션 변경 없음. 관련 거래와 인접 회귀 및 PC·모바일 검수를 완료했으므로 배포 시 Worker 검사만 실행해 중복 검사하지 않음.",
-    "tests": [],
+    "reason": "승부예측 기능 안에서 기존 인증 결과·경기 잠금·원자적 배치를 재사용하는 국소 기능 추가. 공통 인증·DB 기반·의존성·마이그레이션 변경 없음. 관련 거래와 인접 회귀 및 PC·모바일 검수 완료. 배포 도구의 회귀 테스트 필수 조건에 따라 새 지원금 테스트 한 파일과 Worker 검사만 선택하며 인접 20건은 반복하지 않음.",
+    "tests": ["tests/prediction-cms-subsidy-20261010.test.mjs"],
     "checks": ["check:worker"],
     "command": "npm run deploy:production -- --scoped"
   }
