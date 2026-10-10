@@ -11,9 +11,9 @@ export async function backfillSupporterPet(env,admin,userId,now=Date.now()){
   const DB=env.DB,key=backfillKey(userId),p=(sql,...args)=>DB.prepare(sql).bind(...args);
   const prior=async()=>{const row=await p('SELECT value FROM app_meta WHERE key=?',key).first();return row?JSON.parse(row.value):null;};
   const saved=await prior();if(saved)return {...saved,replayed:true};
-  const [support,target]=await Promise.all([readSupportRecord(env,userId),p('SELECT id,nickname FROM users WHERE id=?',userId).first()]);
-  if(!target)throw Error('Supporter account not found');
-  target.id=Number(target.id);
+  const [support,row]=await Promise.all([readSupportRecord(env,userId),p('SELECT id,nickname FROM users WHERE id=?',userId).first()]);
+  if(!row)throw Error('Supporter account not found');
+  const target={id:Number(row.id),nickname:row.nickname};
   if(!supportBenefits(support.state,now).active)return {ok:true,status:'INACTIVE',target,quantity:0};
   const reward=await prepareSupporterPetReward(env,{admin,target,requestId:'supporter_shiba_backfill_20261011_'+userId,now});
   if(!reward.result.quantity)return {ok:true,status:'ALREADY_OWNED',target,quantity:0};

@@ -50,7 +50,7 @@ for(const postgres of [false,true]){
 
  test(label+': 영수증 실패는 후원 기간·펫·감사 전체 롤백, 재시도는 한 번만 지급',async t=>{
   const f=await supportFixture({postgres});t.after(()=>f.close());await save(f,supportKey(2),emptySupport());const before=await collection(f),sub=await subscription(f),grant=body();
-  f.fail('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)');
+  f.fail('INSERT INTO app_meta(key,value,updated_at)');
   assert.equal((await f.call('admin/server-support',{body:grant})).status,503);f.fail('');
   assert.deepEqual(await collection(f),before);assert.deepEqual(await subscription(f),sub);assert.equal((await logs(f)).length,0);
   assert.equal(await f.one('SELECT value FROM app_meta WHERE key=?','server_support_receipt_v1:'+grant.requestId),null);
@@ -93,7 +93,7 @@ for(const postgres of [false,true]){
 
  test(label+': 소급 영수증 실패·후원 동시 중지는 펫 지급도 롤백한다',async t=>{
   const f=await supportFixture({postgres});t.after(()=>f.close());await support(f,2);const before=await collection(f),sub=await subscription(f);
-  f.fail('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)');
+  f.fail('INSERT INTO app_meta(key,value,updated_at)');
   await assert.rejects(()=>backfillSupporterPet(f.env,admin,2,f.clock.now));f.fail('');
   assert.deepEqual(await collection(f),before);assert.deepEqual(await subscription(f),sub);assert.equal((await logs(f)).length,0);
   assert.equal(await f.one('SELECT value FROM app_meta WHERE key=?',backfillKey(2)),null);
