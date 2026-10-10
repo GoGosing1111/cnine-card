@@ -294,5 +294,50 @@ export const ICON_CMS_CATALOG=[
         "contactAt": 0.4373333333333333
       }
     ]
+  },
+  {
+    "code": "ICON-ZEUS-CHEOLGU",
+    "name": "제우스 철구",
+    "sourceArt": "assets/cards/ICON/zeus-cheolgu-enhanced-v1-20261010.png",
+    "sourceSha256": "8070274F2248B508BD97019A80D9DB31F03563C7AA6A8E1A7B65CEAD62E73C43",
+    "sourceWidth": 1254,
+    "sourceHeight": 1254,
+    "focusX": 50,
+    "focusY": 50,
+    "originalArt": "assets/cards/ICON/zeus-cheolgu-original-20261010.png",
+    "originalSha256": "22A608B6EF0AAFD06958F4859C24CF9F5EEAA82FB8EAC8D5479CADC45217FE6E",
+    "fusionEligible": false,
+    "acquisitionText": "일반 ICON 제작 획득 불가",
+    "status": "USER_REQUESTED_PHOTO_ENHANCEMENT_20261010",
+    "portraitApproval": {
+      "date": "2026-10-10",
+      "scope": "SOURCE_PHOTO_WITH_REQUESTED_QUALITY_ENHANCEMENT",
+      "userRequest": "첨부 사진을 그대로 사용 · 해상도나 화질좀 살려봐"
+    },
+    "sourceGrade": "ICON",
+    "releaseEnabled": false,
+    "id": "zeus-cheolgu",
+    "weapon": "황금 번개 지팡이",
+    "accent": "#f7d077",
+    "battleSprite": "preview/icon-battle-assets-v1/assets/sd/zeus-cheolgu-sd-v1-20261010.webp",
+    "visualApproval": "CREATED_FOR_USER_REQUEST_20261010",
+    "effects": [
+      {
+        "id": "zeus-cheolgu-hit",
+        "name": "제우스 철구 · 뇌격",
+        "kind": "HIT",
+        "frameCount": 16,
+        "duration": 0.68,
+        "contactAt": 0.18133333333333335
+      },
+      {
+        "id": "zeus-cheolgu-skill",
+        "name": "제우스 철구 · 올림포스의 심판",
+        "kind": "SKILL",
+        "frameCount": 16,
+        "duration": 1.4,
+        "contactAt": 0.3733333333333333
+      }
+    ]
   }
 ];

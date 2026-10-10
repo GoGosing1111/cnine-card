@@ -1,6 +1,6 @@
 import {iconRoleDescription,loadIconRoleView} from './icon-role-view-v1.mjs';
 import {iconDefinition} from '../shared/icon-roles-v1.mjs';
-import {ICON_FUSION_POLICY as POLICY,ICON_LIVE_CARDS,formatIconAmount} from '../shared/icon-fusion-policy-v1.mjs';
+import {ICON_FUSION_POLICY as POLICY,ICON_LIVE_CARDS,ICON_FUSION_CARDS,formatIconAmount} from '../shared/icon-fusion-policy-v1.mjs';
 
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const arrow='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg>';
@@ -8,7 +8,7 @@ const state={root:null,data:null,target:ICON_LIVE_CARDS[0].code,superstarId:'',f
 const storageKey=account=>`cnine:icon-fusion:v1:${account}`;
 function persist(account,value){localStorage.setItem(storageKey(account),JSON.stringify(value));if(account===state.account)state.recovery=value;}
 function forget(){localStorage.removeItem(storageKey(state.account));state.recovery=null;}
-const catalog=()=>state.data?.catalog?.length?state.data.catalog:ICON_LIVE_CARDS;
+const catalog=()=>(state.data?.catalog?.length?state.data.catalog:ICON_FUSION_CARDS).filter(card=>ICON_FUSION_CARDS.some(c=>c.code===card.code));
 const target=()=>catalog().find(c=>c.code===state.target)||catalog()[0];
 const materials=grade=>(state.data?.materials||[]).filter(c=>c.grade===grade);
 const selected=grade=>materials(grade).find(c=>c.id===state[grade==='SUPERSTAR'?'superstarId':'furId']);

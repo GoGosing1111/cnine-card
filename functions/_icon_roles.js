@@ -6,7 +6,7 @@ export async function readIconRoleState(env){
  if(!row)return {raw:null,state:{revision:1,document:defaultIconRoles(),audit:[],updatedAt:null,updatedBy:null}};
  const state=JSON.parse(row.value);
  if(!Number.isSafeInteger(state.revision)||state.revision<1||!Array.isArray(state.audit)||state.audit.length>50)throw Error('INVALID_ICON_ROLE_RECORD');
- state.document=validateIconRoles(state.document);return {raw:row.value,state};
+ state.document=validateIconRoles(state.document,{allowLegacy:true});return {raw:row.value,state};
 }
 export async function iconRoleDeckSettings(env,entries){
  return entries.some(e=>(e.cards||[]).some(c=>iconDefinition(c)&&String(c.rarity??c.grade??'').toUpperCase()==='ICON'))?(await readIconRoleState(env)).state:null;

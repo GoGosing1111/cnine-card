@@ -12,6 +12,8 @@ export const ICON_FUSION_POLICY = Object.freeze({
 export const ICON_LIVE_CARDS = Object.freeze(ICON_CARD_ROSTER.map((card,index)=>Object.freeze({
   ...card,cardId:`CN-1C00000${index+1}`,grade:'ICON',basePower:180000,releaseEnabled:true
 })));
+// Card registration and ordinary ICON fusion are separate acquisition policies.
+export const ICON_FUSION_CARDS = Object.freeze(ICON_LIVE_CARDS.filter(card=>card.fusionEligible!==false));
 export const ICON_FUSION_SETTINGS_KEY='icon_fusion_settings_v1';
 export const ICON_FUSION_DEFAULT_SETTINGS=Object.freeze({revision:1,enabled:false,successVideoUrl:'',successVideoDurationMs:12000});
 export function validateIconVideoUrl(value){

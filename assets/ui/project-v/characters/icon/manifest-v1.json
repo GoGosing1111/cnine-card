@@ -87,6 +87,18 @@
         "x": 0.58575,
         "y": 0.906875
       }
+    },
+    {
+      "cardId": "CN-1C000008",
+      "title": "제우스 철구",
+      "member": "제우스 철구",
+      "sourceArt": "assets/cards/ICON/zeus-cheolgu-enhanced-v1-20261010.png",
+      "battleSprite": "preview/icon-battle-assets-v1/assets/sd/zeus-cheolgu-sd-v1-20261010.webp",
+      "sha256": "F4EF134CC74096DD0B32F9BD6A8CF7449B163F24A2BC3E92C7CC47A67DC5F731",
+      "footAnchor": {
+        "x": 0.47607421875,
+        "y": 0.915283203125
+      }
     }
   ]
 }

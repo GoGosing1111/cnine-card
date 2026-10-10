@@ -20,7 +20,8 @@ export const ICON_ROLE_VISUALS=Object.freeze({
  'CN-1C000004':{id:'oh-joeun',skillDuration:1.48,hitDuration:.72},
  'CN-1C000005':{id:'orikkung',skillDuration:1.60,hitDuration:.72},
  'CN-1C000006':{id:'kangguyeol',skillDuration:1.52,hitDuration:.64},
- 'CN-1C000007':{id:'ayoon',skillDuration:1.64,hitDuration:.70}
+ 'CN-1C000007':{id:'ayoon',skillDuration:1.64,hitDuration:.70},
+ 'CN-1C000008':{id:'zeus-cheolgu',skillDuration:1.40,hitDuration:.68}
 });
 export function iconTexturePoint(actor,layer,point){
  const sprite=actor.fullBodySprite;if(!sprite?.texture||sprite.destroyed)return null;

@@ -14,4 +14,4 @@ const manifest={format:'PROJECT_V_TIER_BATTLE_SPRITE_MANIFEST_V1',scope:'BATTLE_
 const result=await build({absWorkingDir:root,entryPoints:['js/icon-fusion-v1.mjs'],outfile:'js/icon-fusion-v1.bundle.js',bundle:true,minify:true,format:'iife',target:'es2022',write:false});
 const files=[['js/icon-fusion-v1.bundle.js',result.outputFiles[0].text],['assets/ui/project-v/characters/icon/manifest-v1.json',JSON.stringify(manifest,null,2)+'\n']];
 for(const [relative,content] of files){const file=path.join(root,relative);if(check){if(fs.readFileSync(file,'utf8')!==content)throw Error('Outdated '+relative);}else{fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,content);}}
-console.log(`ICON bundle and 7 SD mappings ${check?'verified':'built'}`);
+console.log(`ICON bundle and ${ICON_LIVE_CARDS.length} SD mappings ${check?'verified':'built'}`);

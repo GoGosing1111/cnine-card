@@ -1,4 +1,4 @@
-import {ICON_FUSION_RELEASE_ENABLED,ICON_FUSION_POLICY as POLICY,ICON_LIVE_CARDS,ICON_FUSION_SETTINGS_KEY,ICON_FUSION_DEFAULT_SETTINGS,validateIconVideoUrl,formatIconAmount} from '../shared/icon-fusion-policy-v1.mjs';
+import {ICON_FUSION_RELEASE_ENABLED,ICON_FUSION_POLICY as POLICY,ICON_FUSION_CARDS,ICON_FUSION_SETTINGS_KEY,ICON_FUSION_DEFAULT_SETTINGS,validateIconVideoUrl,formatIconAmount} from '../shared/icon-fusion-policy-v1.mjs';
 import {runJointOperation,readJointOperation,jointCoinDebit,jointInventoryChange} from './_joint_transactions.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {readJointBody,jointError,jointResponseError} from './_joint_request.js';
@@ -22,8 +22,8 @@ function parseSettings(row){
   return {...value,policy:POLICY,successVideoUrl:validateIconVideoUrl(value.successVideoUrl)};
 }
 async function registeredCards(DB){
-  const rows=(await DB.prepare(`SELECT c.id FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.id IN (${ICON_LIVE_CARDS.map(()=>'?').join(',')}) AND c.rarity='ICON' AND c.base_power=180000 AND c.is_active=1 AND m.is_active=1 AND c.card_status='PUBLIC'`).bind(...ICON_LIVE_CARDS.map(c=>c.cardId)).all()).results||[];
-  const ids=new Set(rows.map(r=>String(r.id)));return ICON_LIVE_CARDS.filter(c=>ids.has(c.cardId));
+  const rows=(await DB.prepare(`SELECT c.id FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.id IN (${ICON_FUSION_CARDS.map(()=>'?').join(',')}) AND c.rarity='ICON' AND c.base_power=180000 AND c.is_active=1 AND m.is_active=1 AND c.card_status='PUBLIC'`).bind(...ICON_FUSION_CARDS.map(c=>c.cardId)).all()).results||[];
+  const ids=new Set(rows.map(r=>String(r.id)));return ICON_FUSION_CARDS.filter(c=>ids.has(c.cardId));
 }
 async function resources(DB,userId){const rows=await DB.batch([DB.prepare('SELECT coin FROM users WHERE id=?').bind(userId),DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(userId)]);return {coin:String(rows[0].results[0]?.coin??0),masterStars:Number(rows[1].results[0]?.quantity||0)};}
 export async function iconFusionOverview(env,user){
@@ -32,11 +32,11 @@ export async function iconFusionOverview(env,user){
     readIconFusionSettings(env),registeredCards(DB),
     DB.prepare(sourceSelect+" AND c.rarity IN ('SUPERSTAR','FUR') AND uc.breakthrough_level=13 ORDER BY c.rarity,c.id LIMIT 240").bind(user.id).all(),
     readDecks(DB,user.id),resources(DB,user.id),
-    DB.prepare(`SELECT card_id,quantity FROM user_cards WHERE user_id=? AND card_id IN (${ICON_LIVE_CARDS.map(()=>'?').join(',')})`).bind(user.id,...ICON_LIVE_CARDS.map(c=>c.cardId)).all(),
+    DB.prepare(`SELECT card_id,quantity FROM user_cards WHERE user_id=? AND card_id IN (${ICON_FUSION_CARDS.map(()=>'?').join(',')})`).bind(user.id,...ICON_FUSION_CARDS.map(c=>c.cardId)).all(),
     DB.prepare("SELECT request_id FROM joint_operations_v1 WHERE user_id=? AND kind=? AND status='PENDING' ORDER BY created_at DESC LIMIT 1").bind(user.id,KIND).first()
   ]);
   const used=deckIds(decks),counts=new Map((icons.results||[]).map(c=>[String(c.card_id),Number(c.quantity)]));
-  return {policy:POLICY,settings,enabled:ICON_FUSION_RELEASE_ENABLED&&settings.enabled&&catalog.length===7,
+  return {policy:POLICY,settings,enabled:ICON_FUSION_RELEASE_ENABLED&&settings.enabled&&catalog.length===ICON_FUSION_CARDS.length,
     catalog:catalog.map(c=>({...c,quantity:counts.get(c.cardId)||0})),resources:wallet,
     materials:(owned.results||[]).map(row=>({...plainCard(row),eligible:!used.has(String(row.id)),blockedReason:used.has(String(row.id))?'전투 덱 또는 저장 덱에서 먼저 해제해 주세요.':''})),
     pendingRequestId:pending?.request_id||null};
@@ -44,7 +44,7 @@ export async function iconFusionOverview(env,user){
 function inputFor(body){
   const {superstarId,furId,targetCode,policyVersion}=body;
   if(policyVersion!==POLICY.version)throw fail('POLICY','합성 조건이 변경되었습니다. 화면을 다시 불러오세요.');
-  if(![superstarId,furId].every(id=>typeof id==='string'&&/^[A-Za-z0-9_-]{1,100}$/.test(id))||superstarId===furId||!ICON_LIVE_CARDS.some(c=>c.code===targetCode))throw fail('INPUT','SUPERSTAR +13, FUR +13과 결과 아이콘을 선택해 주세요.',400);
+  if(![superstarId,furId].every(id=>typeof id==='string'&&/^[A-Za-z0-9_-]{1,100}$/.test(id))||superstarId===furId||!ICON_FUSION_CARDS.some(c=>c.code===targetCode))throw fail('INPUT','SUPERSTAR +13, FUR +13과 제작 가능한 아이콘을 선택해 주세요.',400);
   return {superstarId,furId,targetCode,policyVersion};
 }
 function completed(operation){
@@ -61,7 +61,7 @@ export async function runIconFusion(env,user,body,{randomInt=mercenaryRandomInt}
   const operation=await runJointOperation(env,user,{requestId,kind:KIND,input,
     prepare:async()=>{
       const [settings,catalog,sources,decks,wallet,pending]=await Promise.all([readIconFusionSettings(env),registeredCards(DB),p(sourceSelect+' AND uc.card_id IN (?,?)',user.id,input.superstarId,input.furId).all(),readDecks(DB,user.id),resources(DB,user.id),p("SELECT request_id FROM joint_operations_v1 WHERE user_id=? AND kind=? AND status='PENDING' LIMIT 1",user.id,KIND).first()]);
-      if(!ICON_FUSION_RELEASE_ENABLED||!settings.enabled||catalog.length!==7)throw fail('CLOSED','현재 아이콘 합성을 이용할 수 없습니다.');
+      if(!ICON_FUSION_RELEASE_ENABLED||!settings.enabled||catalog.length!==ICON_FUSION_CARDS.length)throw fail('CLOSED','현재 아이콘 합성을 이용할 수 없습니다.');
       if(pending)throw fail('PENDING','이전 합성 결과를 먼저 확인해 주세요.');
       const target=catalog.find(c=>c.code===input.targetCode),used=deckIds(decks);
       const materials=[['SUPERSTAR',input.superstarId],['FUR',input.furId]].map(([grade,id])=>{
@@ -76,6 +76,7 @@ export async function runIconFusion(env,user,body,{randomInt=mercenaryRandomInt}
       return {version:1,input,policy:{...POLICY},materials,target,targetQuantityBefore:Number(targetOwned?.quantity||0),targetRowExists:Boolean(targetOwned),success:roll<POLICY.successChancePpm,roll,successVideo:{url:settings.successVideoUrl,durationMs:settings.successVideoDurationMs},createdAt:new Date().toISOString()};
     },
     statements:async plan=>{
+      if(!ICON_FUSION_CARDS.some(c=>c.code===input.targetCode&&c.cardId===plan.target?.cardId))throw fail('INPUT','일반 ICON 제작 대상이 아닙니다.',400);
       // OFF also blocks payment for a previously prepared, unpaid request.
       const settingsRow=await p('SELECT value FROM app_meta WHERE key=?',ICON_FUSION_SETTINGS_KEY).first();
       if(!ICON_FUSION_RELEASE_ENABLED||!parseSettings(settingsRow).enabled)throw fail('CLOSED','현재 아이콘 합성은 잠겨 있습니다. 최종 검토 후 오픈합니다.');

@@ -31,7 +31,11 @@ export const ICON_ROLES=freeze([
   fields:[...common(2,4),field('guardThresholdPercent','보호 발동 아군 체력',10,70,50),field('guardSharePercent','대신 받는 피해',5,45,25),field('guardBudgetPercent','전투당 보호 총량',10,180,100,'시전자 최대 HP %'),field('shieldPercent','수호 방벽',5,40,20,'시전자 최대 HP %'),field('storedDamagePercent','축적 피해 환산',0,80,40),field('storedCapPercent','축적 반격 추가 피해 상한',10,120,60,'시전자 공격력 %'),field('durationActions','방벽 지속',1,5,3,'본인 행동',true)]},
  {code:'ICON-AYOON',cardId:'CN-1C000007',name:'아윤',role:'ASSAULT',label:'돌격',archetype:'백야 선봉장',color:'#a5deed',glyph:'charge',attackStyle:'MELEE',
   passive:'선봉 돌파',skill:'백야 진격',passiveText:'첫 진격 때 일시 보호막을 얻어 교전의 선두를 엽니다.',skillText:'전방 적을 강하게 공격하며 방벽을 추가로 파괴하고 행동 게이지를 지연시킵니다. 보스에게는 지연 대신 받는 피해 증가를 적용합니다.',
-  fields:[...common(1,4).map(f=>f.key==='damagePercent'?{...f,value:140}:f),field('shieldPercent','첫 진격 보호막',5,30,18,'시전자 최대 HP %'),field('shieldBreakPercent','방벽 추가 피해',0,100,65),field('gaugeDelay','적 행동 게이지 감소',0,25,12,'게이지'),field('bossVulnerabilityPercent','보스가 받는 피해 증가',0,15,8),field('durationActions','진격 효과 지속',1,4,2,'대상 행동',true)]}
+  fields:[...common(1,4).map(f=>f.key==='damagePercent'?{...f,value:140}:f),field('shieldPercent','첫 진격 보호막',5,30,18,'시전자 최대 HP %'),field('shieldBreakPercent','방벽 추가 피해',0,100,65),field('gaugeDelay','적 행동 게이지 감소',0,25,12,'게이지'),field('bossVulnerabilityPercent','보스가 받는 피해 증가',0,15,8),field('durationActions','진격 효과 지속',1,4,2,'대상 행동',true)]},
+ {code:'ICON-ZEUS-CHEOLGU',cardId:'CN-1C000008',name:'제우스 철구',role:'MAGIC',label:'마법',archetype:'올림포스의 뇌신',color:'#f7d077',glyph:'lightning',attackStyle:'RANGED',
+  acquisitionText:'일반 ICON 제작 획득 불가',
+  passive:'뇌신의 권능',skill:'올림포스의 심판',passiveText:'번개의 힘을 모은 뒤 다음 본인 행동에 뇌격을 방출합니다. 집중 중 봉인되면 충전이 해제됩니다.',skillText:'최대 세 적에게 황금 번개를 내려 방어 일부를 무시합니다. 적이 적으면 남은 번개가 집중되며, 대상별 피해 상한을 적용합니다.',
+  fields:[...common(2,4),field('maxTargets','뇌격 최대 대상',1,5,3,'명',true),field('focusPercent','빈 대상당 번개 집중',0,40,20),field('penetrationPercent','뇌격 방어 무시',0,45,25)]}
 ]);
 export function iconDefinition(card){
  const id=typeof card==='string'?card:String(card?.cardId??card?.id??card?.card_id??'');
@@ -44,9 +48,10 @@ export function validateIconRoleTuning(def,value){
  if(!keys(value,def.fields.map(f=>f.key).join(',')))throw Error('역할 설정 항목을 확인해 주세요.');
  return Object.fromEntries(def.fields.map(f=>{const n=value[f.key];if(typeof n!=='number'||!Number.isFinite(n)||n<f.min||n>f.max||f.integer&&!Number.isInteger(n))throw Error(`${def.name} · ${f.label}: ${f.min}~${f.max}${f.unit}`);return [f.key,n];}));
 }
-export function validateIconRoles(raw){
- if(!keys(raw,'version,enabled,scopes,cards')||raw.version!==1||typeof raw.enabled!=='boolean'||!keys(raw.scopes,'pve,pvp,captain')||Object.values(raw.scopes).some(v=>typeof v!=='boolean')||!Array.isArray(raw.cards)||raw.cards.length!==7)throw Error('ICON 역할 설정 형식을 확인해 주세요.');
- return {version:1,enabled:raw.enabled,scopes:{...raw.scopes},cards:ICON_ROLES.map(d=>{const matches=raw.cards.filter(c=>c?.code===d.code),c=matches[0];if(matches.length!==1||!keys(c,'code,enabled,tuning')||typeof c.enabled!=='boolean')throw Error('등록된 ICON 7종이 중복 없이 필요합니다.');return {code:c.code,enabled:c.enabled,tuning:validateIconRoleTuning(d,c.tuning)};})};
+export function validateIconRoles(raw,{allowLegacy=false}={}){
+ if(allowLegacy&&Array.isArray(raw?.cards)&&raw.cards.length===7&&!raw.cards.some(c=>c?.code==='ICON-ZEUS-CHEOLGU'))return validateIconRoles({...raw,cards:[...raw.cards,defaultIconRoles().cards.find(c=>c.code==='ICON-ZEUS-CHEOLGU')]});
+ if(!keys(raw,'version,enabled,scopes,cards')||raw.version!==1||typeof raw.enabled!=='boolean'||!keys(raw.scopes,'pve,pvp,captain')||Object.values(raw.scopes).some(v=>typeof v!=='boolean')||!Array.isArray(raw.cards)||raw.cards.length!==ICON_ROLES.length)throw Error('ICON 역할 설정 형식을 확인해 주세요.');
+ return {version:1,enabled:raw.enabled,scopes:{...raw.scopes},cards:ICON_ROLES.map(d=>{const matches=raw.cards.filter(c=>c?.code===d.code),c=matches[0];if(matches.length!==1||!keys(c,'code,enabled,tuning')||typeof c.enabled!=='boolean')throw Error(`등록된 ICON ${ICON_ROLES.length}종이 중복 없이 필요합니다.`);return {code:c.code,enabled:c.enabled,tuning:validateIconRoleTuning(d,c.tuning)};})};
 }
 export function iconRoleSnapshot(card,document=defaultIconRoles(),scope='PVE',revision=1){
  const def=iconDefinition(card),row=def&&document.cards.find(c=>c.code===def.code),grade=String(card?.grade??card?.rarity??'').toUpperCase();

@@ -106,9 +106,9 @@ test('card renderer places the name outside the frame and uses member source art
 });
 
 test('all seven user-supplied ICON photographs are preserved exactly and stay preview-only',async()=>{
-  assert.deepEqual(ICON_CARD_ROSTER.map(card=>card.name),['디임','하이희야','나무늘봉순','오조은','오리꿍','강구열','아윤']);
-  assert.equal(new Set(ICON_CARD_ROSTER.map(card=>card.code)).size,7);
-  assert.equal(new Set(ICON_CARD_ROSTER.map(card=>card.sourceArt)).size,7);
+  assert.deepEqual(ICON_CARD_ROSTER.map(card=>card.name),['디임','하이희야','나무늘봉순','오조은','오리꿍','강구열','아윤','제우스 철구']);
+  assert.equal(new Set(ICON_CARD_ROSTER.map(card=>card.code)).size,8);
+  assert.equal(new Set(ICON_CARD_ROSTER.map(card=>card.sourceArt)).size,8);
   for(const card of ICON_CARD_ROSTER){
     const data=readFileSync(new URL('../'+card.sourceArt,import.meta.url));
     assert.equal(createHash('sha256').update(data).digest('hex').toUpperCase(),card.sourceSha256);

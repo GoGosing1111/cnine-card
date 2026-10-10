@@ -16,7 +16,7 @@ test('OWNER guard rejects unauthorized, unsupported and public routes before any
 });
 test('registration is idempotent; steady read costs one indexed query and successful save costs two',async()=>{
   const f=await iconCmsFixture();try{
-    const initial=await f.call();assert.equal(initial.status,200);assert.equal(initial.body.catalog.length,7);assert.equal(initial.body.revision,1);assert.equal(f.count(),3);
+    const initial=await f.call();assert.equal(initial.status,200);assert.equal(initial.body.catalog.length,8);assert.equal(initial.body.revision,1);assert.equal(f.count(),3);
     const before=f.count(),start=performance.now();for(let i=0;i<20;i++)assert.equal((await f.call()).status,200);
     assert.equal(f.count()-before,20);console.log('ICON CMS fixture: 20 indexed GETs in '+(performance.now()-start).toFixed(1)+'ms (local PostgreSQL, excludes production auth/network)');
     const doc=initial.body.document;doc.cards[4].notes='꽃잎 충돌 검수';doc.cards[4].draft.effects[0].value=12.5;
@@ -66,12 +66,12 @@ test('malformed stored ON state fails closed rather than becoming a live policy'
 });
 test('seven original portraits and SDs stay separate; every character has a distinct hit and skill',async()=>{
   const manifest=JSON.parse(await read('preview/icon-battle-assets-v1/manifest.json'));
-  assert.equal(ICON_CMS_CATALOG.length,7);assert.equal(new Set(ICON_CMS_CATALOG.flatMap(c=>c.effects.map(e=>e.id))).size,14);
+  assert.equal(ICON_CMS_CATALOG.length,8);assert.equal(new Set(ICON_CMS_CATALOG.flatMap(c=>c.effects.map(e=>e.id))).size,16);
   for(const card of ICON_CMS_CATALOG){assert.notEqual(card.sourceArt,card.battleSprite);await fs.access(new URL('../'+card.battleSprite,import.meta.url));assert.equal(card.effects.length,2);for(const effect of card.effects){assert.equal(effect.frameCount,16);assert.ok(manifest.effects.find(e=>e.id===effect.id));}}
 });
 test('effect draft CMS remains OWNER-only and separate from the approved live fusion release',async()=>{
   const api=await read('functions/api/[[path]].js'),admin=await read('admin/index.html'),ui=await read('admin/icon-admin-v1.mjs');
-  assert.match(api,/handleIconCms\(\{path,request,env,deps:\{requirePermission,json\}\}\)/);assert.match(admin,/icon-admin-v1.mjs\?v=20261004-rpg-v1/);
+  assert.match(api,/handleIconCms\(\{path,request,env,deps:\{requirePermission,json\}\}\)/);assert.match(admin,/icon-admin-v1.mjs\?v=20261010-zeus/);
   for(const path of ['index.html','js/app.js','functions/_magic.js','service-worker.js','js/battle-v3-live.js'])assert.doesNotMatch(await read(path),/icon-cms|icon-admin|icon-card-roster|icon-battle-assets/);
   assert.match(ui,/role.textContent.trim\(\)!=='OWNER'/);assert.doesNotMatch(ui,/setInterval|Promise.all/);
   assert.match(ui,/pending=\{requestId:crypto.randomUUID/);assert.match(ui,/body:JSON.stringify\(pending\)/);assert.match(ui,/closePlayback/);

@@ -22,13 +22,13 @@ const visibleRgbaHash=bytes=>{
 // exhaust the assertion diff formatter without identifying the actual issue.
 sharp.cache(false);
 test('all seven approved photographs remain separate from SD and playable release stays locked',async()=>{
-  assert.equal(manifest.characters.length,7);assert.equal(manifest.releaseEnabled,false);assert.equal(manifest.acquisitionEnabled,false);assert.equal(manifest.damageCalculation,false);
+  assert.equal(manifest.characters.length,8);assert.equal(manifest.releaseEnabled,false);assert.equal(manifest.acquisitionEnabled,false);assert.equal(manifest.damageCalculation,false);
   for(const c of manifest.characters){
     const card=ICON_CARD_ROSTER.find(row=>row.code===c.code);
     const joeun=c.code==='ICON-OH-JOEUN';
-    assert.equal(card.portraitApproval.scope,joeun?'SOURCE_ILLUSTRATION_AND_BATTLE_SD':'SOURCE_PHOTO_ONLY');assert.equal(c.sourceArt,card.sourceArt);assert.equal(c.sourceArtSha256,card.sourceSha256);
+    assert.equal(card.portraitApproval.scope,joeun?'SOURCE_ILLUSTRATION_AND_BATTLE_SD':c.code==='ICON-ZEUS-CHEOLGU'?'SOURCE_PHOTO_WITH_REQUESTED_QUALITY_ENHANCEMENT':'SOURCE_PHOTO_ONLY');assert.equal(c.sourceArt,card.sourceArt);assert.equal(c.sourceArtSha256,card.sourceSha256);
     assert.equal(hash(await read('../../'+card.sourceArt)),card.sourceSha256);
-    assert.notEqual(c.runtime,c.sourceArt);assert.equal(c.visualApproval,joeun?'USER_APPROVED_20261006':'USER_REVIEW_PENDING');assert.equal(c.releaseEnabled,false);
+    assert.notEqual(c.runtime,c.sourceArt);assert.equal(c.visualApproval,joeun?'USER_APPROVED_20261006':c.code==='ICON-ZEUS-CHEOLGU'?'CREATED_FOR_USER_REQUEST_20261010':'USER_REVIEW_PENDING');assert.equal(c.releaseEnabled,false);
     assert.equal(hash(await read(c.source)),c.sourceSha256);assert.equal(hash(await read(c.runtime)),c.runtimeSha256);
     const meta=await sharp(await read(c.runtime)).metadata();assert.deepEqual([meta.width,meta.height,meta.hasAlpha],[768,768,true]);
     assert.ok(c.runtimeAlpha.transparentFraction>.2);assert.equal(c.runtimeAlpha.edgeMax,0);
@@ -36,13 +36,13 @@ test('all seven approved photographs remain separate from SD and playable releas
   }
 });
 test('7 hits + 7 skills + 4 unique concepts have independent generated sources, not recolors',()=>{
-  assert.equal(manifest.effects.length,18);assert.equal(manifest.frameCount,288);
-  for(const kind of ['HIT','SKILL','UNIQUE'])assert.equal(manifest.effects.filter(e=>e.kind===kind).length,kind==='UNIQUE'?4:7);
-  assert.equal(new Set(manifest.effects.map(e=>e.sourceSha256)).size,18);
+  assert.equal(manifest.effects.length,20);assert.equal(manifest.frameCount,320);
+  for(const kind of ['HIT','SKILL','UNIQUE'])assert.equal(manifest.effects.filter(e=>e.kind===kind).length,kind==='UNIQUE'?4:8);
+  assert.equal(new Set(manifest.effects.map(e=>e.sourceSha256)).size,20);
   for(const character of manifest.characters){assert.ok(manifest.effects.find(e=>e.id===character.hitEffect));assert.ok(manifest.effects.find(e=>e.id===character.skillEffect))}
 });
 for(const e of manifest.effects)test(`${e.id}: 16 unique hash-bound frames, real alpha, lossless atlas`,async()=>{
-  assert.equal(e.frameCount,16);assert.equal(e.visualApproval,'USER_REVIEW_PENDING');assert.equal(e.releaseEnabled,false);
+  assert.equal(e.frameCount,16);assert.equal(e.visualApproval,e.id.startsWith('zeus-cheolgu-')?'CREATED_FOR_USER_REQUEST_20261010':'USER_REVIEW_PENDING');assert.equal(e.releaseEnabled,false);
   const source=await read(e.source),atlas=await read(e.runtime);assert.equal(hash(source),e.sourceSha256);assert.equal(hash(atlas),e.runtimeSha256);
   const meta=await sharp(atlas).metadata();assert.deepEqual([meta.width,meta.height,meta.hasAlpha],[1536,1536,true]);
   assert.ok(e.sourceAlpha.transparentFraction>.1);assert.equal(new Set(e.frames.map(f=>f.rawSha256)).size,16);

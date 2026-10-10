@@ -9,10 +9,15 @@ const keys=(value,expected)=>plain(value)&&Object.keys(value).sort().join(',')==
 export function emptyIconCmsDocument(){
   return {version:1,...ICON_CMS_LOCKS,cards:ICON_CARD_ROSTER.map(c=>({code:c.code,notes:'',draft:emptyIconDraft()}))};
 }
-export function validateIconCmsDocument(raw){
+export function validateIconCmsDocument(raw,{allowLegacy=false}={}){
   if(!keys(raw,'version,visibility,publicCodexEnabled,battleEnabled,acquisitionEnabled,evolutionEnabled,evolutionStatus,cards')||raw.version!==1)throw Error('아이콘 CMS 문서 형식을 확인해 주세요.');
   for(const [key,value] of Object.entries(ICON_CMS_LOCKS))if(raw[key]!==value)throw Error('아이콘은 CMS에만 등록하며 도감·전투·획득·진화는 잠금 상태입니다.');
-  if(!Array.isArray(raw.cards)||raw.cards.length!==ICON_CARD_ROSTER.length)throw Error('등록된 아이콘 7종을 모두 포함해야 합니다.');
+  // Read the exact previous seven-card document without resetting its notes,
+  // tuning or revision. Explicit saves must still include the complete roster.
+  if(allowLegacy&&Array.isArray(raw.cards)&&raw.cards.length===7&&!raw.cards.some(c=>c?.code==='ICON-ZEUS-CHEOLGU')){
+    return validateIconCmsDocument({...raw,cards:[...raw.cards,{code:'ICON-ZEUS-CHEOLGU',notes:'',draft:emptyIconDraft()}]});
+  }
+  if(!Array.isArray(raw.cards)||raw.cards.length!==ICON_CARD_ROSTER.length)throw Error(`등록된 아이콘 ${ICON_CARD_ROSTER.length}종을 모두 포함해야 합니다.`);
   const cards=ICON_CARD_ROSTER.map(({code})=>{
     const matches=raw.cards.filter(c=>c?.code===code),row=matches[0];
     if(matches.length!==1||!keys(row,'code,notes,draft'))throw Error('등록되지 않거나 중복된 아이콘입니다.');

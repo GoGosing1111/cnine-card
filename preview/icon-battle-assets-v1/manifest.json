@@ -443,6 +443,68 @@
       "hitEffect": "ayoon-hit",
       "skillEffect": "ayoon-skill",
       "releaseEnabled": false
+    },
+    {
+      "id": "zeus-cheolgu",
+      "name": "제우스 철구",
+      "source": "assets/source/zeus-cheolgu-sd-v1-20261010.png",
+      "sourceSha256": "B2D1DAA469170C025763B69D20173DF8E7CC4D9360CDCA1B9DEAB8A85D6351D0",
+      "sourceSize": [
+        1024,
+        1536
+      ],
+      "sourceAlpha": {
+        "edgeMax": 11,
+        "nonempty": 632522,
+        "partial": 632522,
+        "alphaTotal": 135793701,
+        "transparentFraction": 0.5978533426920574,
+        "bounds": [
+          158,
+          4,
+          839,
+          1514
+        ]
+      },
+      "generation": "BUILT_IN_IMAGEGEN",
+      "visualApproval": "CREATED_FOR_USER_REQUEST_20261010",
+      "code": "ICON-ZEUS-CHEOLGU",
+      "sourceArt": "assets/cards/ICON/zeus-cheolgu-enhanced-v1-20261010.png",
+      "sourceArtSha256": "8070274F2248B508BD97019A80D9DB31F03563C7AA6A8E1A7B65CEAD62E73C43",
+      "portraitApproval": {
+        "date": "2026-10-10",
+        "scope": "SOURCE_PHOTO_WITH_REQUESTED_QUALITY_ENHANCEMENT",
+        "userRequest": "첨부 사진을 그대로 사용 · 해상도나 화질좀 살려봐"
+      },
+      "weapon": "황금 번개 지팡이",
+      "accent": "#f7d077",
+      "runtime": "assets/sd/zeus-cheolgu-sd-v1-20261010.webp",
+      "runtimeSha256": "F4EF134CC74096DD0B32F9BD6A8CF7449B163F24A2BC3E92C7CC47A67DC5F731",
+      "runtimeBytes": 206836,
+      "size": [
+        768,
+        768
+      ],
+      "footAnchor": {
+        "x": 0.47607421875,
+        "y": 0.915283203125
+      },
+      "runtimeAlpha": {
+        "edgeMax": 0,
+        "nonempty": 119853,
+        "partial": 118111,
+        "alphaTotal": 25996158,
+        "transparentFraction": 0.7967987060546875,
+        "bounds": [
+          229,
+          50,
+          527,
+          711
+        ]
+      },
+      "hitEffect": "zeus-cheolgu-hit",
+      "skillEffect": "zeus-cheolgu-skill",
+      "releaseEnabled": false
     }
   ],
   "effects": [
@@ -7789,9 +7851,825 @@
         }
       ],
       "releaseEnabled": false
+    },
+    {
+      "id": "zeus-cheolgu-hit",
+      "name": "제우스 철구 · 뇌격",
+      "source": "assets/source/zeus-cheolgu-hit-sequence-v1-20261010.png",
+      "sourceSha256": "789A14C23DFF82D0A5A36D9F0D6893471436C388149DAD67DB274FE9C3D4D451",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "sourceAlpha": {
+        "edgeMax": 1,
+        "nonempty": 664016,
+        "partial": 664016,
+        "alphaTotal": 27264186,
+        "transparentFraction": 0.5777365699299721,
+        "bounds": [
+          30,
+          36,
+          1238,
+          1168
+        ]
+      },
+      "generation": "BUILT_IN_IMAGEGEN",
+      "visualApproval": "CREATED_FOR_USER_REQUEST_20261010",
+      "kind": "HIT",
+      "runtime": "assets/fx/zeus-cheolgu-hit/atlas-v1.webp",
+      "runtimeSha256": "2831BA868F79233DFEFA7EB0C0BCDCD40534D410B3BE8B16052F39C84EE14E8D",
+      "runtimeBytes": 897626,
+      "columns": 4,
+      "rows": 4,
+      "cellSize": 384,
+      "frameCount": 16,
+      "duration": 0.68,
+      "collisionFrame": 4,
+      "contactAt": 0.18133333333333335,
+      "boundaryAlphaLimit": 12,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/fx/zeus-cheolgu-hit/frames/00.webp",
+          "sha256": "C3CD8A4B8CE1602D9510A9D2F63628FB8958138B06CA9353DE72928226C4C0BE",
+          "rawSha256": "8043E97BC553524FB8010A3AEF00C67333369A94BB46588484F5A459781F2982",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 314,
+            "height": 314
+          },
+          "edgeMax": 1,
+          "nonempty": 22961,
+          "partial": 22961,
+          "alphaTotal": 322228,
+          "transparentFraction": 0.767120369994726,
+          "bounds": [
+            116,
+            136,
+            216,
+            255
+          ]
+        },
+        {
+          "index": 1,
+          "file": "assets/fx/zeus-cheolgu-hit/frames/01.webp",
+          "sha256": "D35258F702D140BAACFC65853D91F2E6F4CE4FD0849C58312811C3D822A938EB",
+          "rawSha256": "5BCF05E8BDFB88E04E8571244FA489CB7C0B6F5F6028186E7CF89647795D9BA0",
+          "sourceRect": {
+            "left": 314,
+            "top": 0,
+            "width": 313,
+            "height": 314
+          },
+          "edgeMax": 1,
+          "nonempty": 27928,
+          "partial": 27928,
+          "alphaTotal": 478558,
+          "transparentFraction": 0.7158380985327935,
+          "bounds": [
+            112,
+            123,
+            215,
+            266
+          ]
+        },
+        {
+          "index": 2,
+          "file": "assets/fx/zeus-cheolgu-hit/frames/02.webp",
+          "sha256": "9CD27D68EE80965CA83F12FC776BCF28B902D393A15F5D223EC3584F644478F2",
+          "rawSha256": "0FBC36749B4C68A7C87552CB6D9681541F1CFDA1797B5E7193580BED853FCF3F",
+          "sourceRect": {
+            "left": 627,
+            "top": 0,
+            "width": 314,
+            "height": 314
+          },
+          "edgeMax": 1,
+          "nonempty": 33047,
+          "partial": 33047,
+          "alphaTotal": 895720,
+          "transparentFraction": 0.6648241307963811,
+          "bounds": [
+            78,
+            110,
+            225,
+            261
+          ]
+        },
+        {
+          "index": 3,
+          "file": "assets/fx/zeus-cheolgu-hit/frames/03.webp",
+          "sha256": "55FBF9FB18FB9BB41F8EF5E26971457A5D2CFAAABB667D70EBD661A712CA2F3F",
+          "rawSha256": "201E8B2EB0828D3696DFDD6930E2523F3EF6C14F11F6CA92CA0F370E5B62C5CF",
+          "sourceRect": {
+            "left": 941,
+            "top": 0,
+            "width": 313,
+            "height": 314
+          },
+          "edgeMax": 1,
+          "nonempty": 30340,
+          "partial": 30340,
+          "alphaTotal": 2061173,
+          "transparentFraction": 0.6912964734132394,
+          "bounds": [
+            86,
+            36,
+            220,
+            290
+          ]
+        },
+        {
+          "index": 4,
+          "file": "assets/fx/zeus-cheolgu-hit/frames/04.webp",
+          "sha256": "2E8BB1BA0A2E0095D3DDE6C98E5B12D33395E82270ED61BAD22144A57C148B53",
+          "rawSha256": "FF9CE8C93BE2CEC7CBD5066169BE92D5E753095A6D5FB2E1718F046F69792C75",
+          "sourceRect": {
+            "left": 0,
+            "top": 314,
+            "width": 314,
+            "height": 313
+          },
+          "edgeMax": 1,
+          "nonempty": 47497,
+          "partial": 47497,
+          "alphaTotal": 3108486,
+          "transparentFraction": 0.5167273763252681,
+          "bounds": [
+            52,
+            15,
+            279,
+            285
+          ]
+        },
+        {
+          "index": 5,
+          "file": "assets/fx/zeus-cheolgu-hit/frames/05.webp",
+          "sha256": "C1AF0911E9EE4D784D144CDAF4FAB3DDB830A079E7B077D31BCE9074B0787403",
+          "rawSha256": "5EFF08D1AB1CEE30250D5E063FD5994F29BE15637E6DB392F1C8E68C7010E85F",
+          "sourceRect": {
+            "left": 314,
+            "top": 314,
+            "width": 313,
+            "height": 313
+          },
+          "edgeMax": 1,
+          "nonempty": 53438,
+          "partial": 53438,
+          "alphaTotal": 3865471,
+          "transparentFraction": 0.45454174279619064,
+          "bounds": [
+            59,
+            37,
+            264,
+            280
+          ]
+        },
+        {
+          "index": 6,
+          "file": "assets/fx/zeus-cheolgu-hit/frames/06.webp",
+          "sha256": "BC5CE638A3CDEB9947D26CB754177AED3B8C4A62EBFE4FA2EA0E73A3744451FB",
+          "rawSha256": "7D69556081F53609CE98F4DEB315C906F1AD284A44C41AF8AB14E8CD2E37B8E6",
+          "sourceRect": {
+            "left": 627,
+            "top": 314,
+            "width": 314,
+            "height": 313
+          },
+          "edgeMax": 1,
+          "nonempty": 62992,
+          "partial": 62992,
+          "alphaTotal": 4632655,
+          "transparentFraction": 0.35906880201868097,
+          "bounds": [
+            16,
+            40,
+            279,
+            292
+          ]
+        },
+        {
+          "index": 7,
+          "file": "assets/fx/zeus-cheolgu-hit/frames/07.webp",
+          "sha256": "DF78CB5F5501588A0C5847631BBD966DD79D6E93DD22B301364CA0F3B3E285AB",
+          "rawSha256": "2DD14FA43F87BCC526630F42ADA26A343493A0B79072D79B3F3C62C4E4CAF8BF",
+          "sourceRect": {
+            "left": 941,
+            "top": 314,
+            "width": 313,
+            "height": 313
+          },
+          "edgeMax": 2,
+          "nonempty": 57429,
+          "partial": 57429,
+          "alphaTotal": 3985491,
+          "transparentFraction": 0.4138043666874215,
+          "bounds": [
+            22,
+            74,
+            297,
+            305
+          ]
+        },
+        {
+          "index": 8,
+          "file": "assets/fx/zeus-cheolgu-hit/frames/08.webp",
+          "sha256": "E248A93EDEFBB5E35BC8B8D2D7E3F0994855CC2F03B6DBBA1FE71FB60EEC5FE4",
+          "rawSha256": "DE04B823AF848AA59E3BA21F28687C977EF1AB77412D00BA6978DC8E15290763",
+          "sourceRect": {
+            "left": 0,
+            "top": 627,
+            "width": 314,
+            "height": 314
+          },
+          "edgeMax": 1,
+          "nonempty": 58620,
+          "partial": 58620,
+          "alphaTotal": 2929914,
+          "transparentFraction": 0.4054525538561402,
+          "bounds": [
+            30,
+            71,
+            297,
+            293
+          ]
+        },
+        {
+          "index": 9,
+          "file": "assets/fx/zeus-cheolgu-hit/frames/09.webp",
+          "sha256": "0B4FCC8149B29EA76687D33234C75CAE4A0C6678BBAE359F24D19CB871ED2129",
+          "rawSha256": "CE2B2AD8158BDC126A667B2728DA2CB3B70B25B7443F4240B203D2B6C840085D",
+          "sourceRect": {
+            "left": 314,
+            "top": 627,
+            "width": 313,
+            "height": 314
+          },
+          "edgeMax": 1,
+          "nonempty": 61638,
+          "partial": 61638,
+          "alphaTotal": 2190364,
+          "transparentFraction": 0.37284548543985674,
+          "bounds": [
+            31,
+            95,
+            294,
+            273
+          ]
+        },
+        {
+          "index": 10,
+          "file": "assets/fx/zeus-cheolgu-hit/frames/10.webp",
+          "sha256": "006DA251C0687F78CFA8AE8538F18A06A3AB7D2CD5AE2CBCBBA1C2C3B67E7DF0",
+          "rawSha256": "6BA0252CE88D67EDB115E14ABA848B72F170B6752306E6BC564CC8F6CDDD56DD",
+          "sourceRect": {
+            "left": 627,
+            "top": 627,
+            "width": 314,
+            "height": 314
+          },
+          "edgeMax": 1,
+          "nonempty": 54456,
+          "partial": 54456,
+          "alphaTotal": 1424959,
+          "transparentFraction": 0.44768550448294053,
+          "bounds": [
+            33,
+            75,
+            295,
+            294
+          ]
+        },
+        {
+          "index": 11,
+          "file": "assets/fx/zeus-cheolgu-hit/frames/11.webp",
+          "sha256": "A58C96D4E28BDC36DCBDE2F883F36958EF756C3601F8FF790CF40B9FCAD9A354",
+          "rawSha256": "E6CAF9D31CFD0E1CF1D0440F8C27BE96D293A3534DFE4128396AA7C5A204A549",
+          "sourceRect": {
+            "left": 941,
+            "top": 627,
+            "width": 313,
+            "height": 314
+          },
+          "edgeMax": 1,
+          "nonempty": 42045,
+          "partial": 42045,
+          "alphaTotal": 684981,
+          "transparentFraction": 0.5722004029222034,
+          "bounds": [
+            53,
+            106,
+            267,
+            258
+          ]
+        },
+        {
+          "index": 12,
+          "file": "assets/fx/zeus-cheolgu-hit/frames/12.webp",
+          "sha256": "73EACC2C907ECB848F3F4E7AEF5F5DD14A7CBF223D95B04A871D6324C9ACE836",
+          "rawSha256": "A82DBD6D03C5428C8D0346B4075CE3C3F264069441A02F687F5020FEBF03BEF9",
+          "sourceRect": {
+            "left": 0,
+            "top": 941,
+            "width": 314,
+            "height": 313
+          },
+          "edgeMax": 1,
+          "nonempty": 38929,
+          "partial": 38929,
+          "alphaTotal": 391418,
+          "transparentFraction": 0.6039050894365194,
+          "bounds": [
+            61,
+            103,
+            238,
+            227
+          ]
+        },
+        {
+          "index": 13,
+          "file": "assets/fx/zeus-cheolgu-hit/frames/13.webp",
+          "sha256": "E81BB19B85B5FA56735CF8894E3847C8854ABB5912CE22ABBEC941E6387BE480",
+          "rawSha256": "7107F6AC84C8DE50C494D7B90665F762AB5A6CB561C73CBAA2CDDB2C2C3D924B",
+          "sourceRect": {
+            "left": 314,
+            "top": 941,
+            "width": 313,
+            "height": 313
+          },
+          "edgeMax": 1,
+          "nonempty": 34652,
+          "partial": 34652,
+          "alphaTotal": 184514,
+          "transparentFraction": 0.6462962773938694,
+          "bounds": [
+            100,
+            96,
+            213,
+            222
+          ]
+        },
+        {
+          "index": 14,
+          "file": "assets/fx/zeus-cheolgu-hit/frames/14.webp",
+          "sha256": "5F41BE99E8D305297D21A18FF75713A88B66A8F6FF5847221797241DA39FBA59",
+          "rawSha256": "6AEB0BC7A367A0D89AFDBE17A00F2ED80A70FD889DB979B44689108B3EB54A1F",
+          "sourceRect": {
+            "left": 627,
+            "top": 941,
+            "width": 314,
+            "height": 313
+          },
+          "edgeMax": 1,
+          "nonempty": 23067,
+          "partial": 23067,
+          "alphaTotal": 81992,
+          "transparentFraction": 0.765297816487251,
+          "bounds": [
+            107,
+            137,
+            195,
+            221
+          ]
+        },
+        {
+          "index": 15,
+          "file": "assets/fx/zeus-cheolgu-hit/frames/15.webp",
+          "sha256": "0E61481FDBC350C7189F029E1A4F8977CBD401B0135F2A032BF700B7E628C5A1",
+          "rawSha256": "D9C9E57E40825C634BED929E4599BCEA3680EE3823FE27671C03BF4B9239FC74",
+          "sourceRect": {
+            "left": 941,
+            "top": 941,
+            "width": 313,
+            "height": 313
+          },
+          "edgeMax": 1,
+          "nonempty": 14977,
+          "partial": 14977,
+          "alphaTotal": 26262,
+          "transparentFraction": 0.8471251110045014,
+          "bounds": [
+            118,
+            151,
+            181,
+            220
+          ]
+        }
+      ],
+      "releaseEnabled": false
+    },
+    {
+      "id": "zeus-cheolgu-skill",
+      "name": "제우스 철구 · 올림포스의 심판",
+      "source": "assets/source/zeus-cheolgu-skill-sequence-v2-20261010.png",
+      "sourceSha256": "A14F7D662ED1CF7C96D56A714DE12A600DBEA556F9E239875099FC6D5EE07027",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "sourceAlpha": {
+        "edgeMax": 1,
+        "nonempty": 805888,
+        "partial": 805888,
+        "alphaTotal": 60347817,
+        "transparentFraction": 0.4875168201786182,
+        "bounds": [
+          55,
+          64,
+          1202,
+          1186
+        ]
+      },
+      "generation": "BUILT_IN_IMAGEGEN",
+      "visualApproval": "CREATED_FOR_USER_REQUEST_20261010",
+      "kind": "SKILL",
+      "runtime": "assets/fx/zeus-cheolgu-skill/atlas-v1.webp",
+      "runtimeSha256": "682E3DB1DF2779446CD09E3ED598F9B7F5752D638898B9C4F069C9B973932FC7",
+      "runtimeBytes": 1066748,
+      "columns": 4,
+      "rows": 4,
+      "cellSize": 384,
+      "frameCount": 16,
+      "duration": 1.4,
+      "collisionFrame": 4,
+      "contactAt": 0.3733333333333333,
+      "boundaryAlphaLimit": 12,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/fx/zeus-cheolgu-skill/frames/00.webp",
+          "sha256": "2E7E6973FC857525FE6DB1C9C570517B63D5315221E0CB3ACF82B023CE103F03",
+          "rawSha256": "8EA3BC23A63D43476CA6ED5D73C4FB9823FCA178A33BA72B3D100ADAE156D691",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 314,
+            "height": 314
+          },
+          "edgeMax": 1,
+          "nonempty": 38804,
+          "partial": 38804,
+          "alphaTotal": 2397522,
+          "transparentFraction": 0.6064343381070225,
+          "bounds": [
+            97,
+            99,
+            236,
+            259
+          ]
+        },
+        {
+          "index": 1,
+          "file": "assets/fx/zeus-cheolgu-skill/frames/01.webp",
+          "sha256": "42BA5DB842DFCAE76ECEAF61FA6B1519B83F7C869397A76C24C305AE671FAAA4",
+          "rawSha256": "5ED9E29BCD2C46A76206FF1E0C580C0D3ADAD08D2BF62AA85FE65C06E9A7F8A4",
+          "sourceRect": {
+            "left": 314,
+            "top": 0,
+            "width": 313,
+            "height": 314
+          },
+          "edgeMax": 2,
+          "nonempty": 44383,
+          "partial": 44383,
+          "alphaTotal": 3223979,
+          "transparentFraction": 0.5484117132333489,
+          "bounds": [
+            88,
+            89,
+            241,
+            263
+          ]
+        },
+        {
+          "index": 2,
+          "file": "assets/fx/zeus-cheolgu-skill/frames/02.webp",
+          "sha256": "FB886946349FBB1F23496160F2F0CFF82852879A6E140FE4EBDDE7937804421B",
+          "rawSha256": "5541D9F66B3E66FF6AC232DF58AF041E0ED5E29053BED15F383B5F802E141F88",
+          "sourceRect": {
+            "left": 627,
+            "top": 0,
+            "width": 314,
+            "height": 314
+          },
+          "edgeMax": 1,
+          "nonempty": 44336,
+          "partial": 44336,
+          "alphaTotal": 3330477,
+          "transparentFraction": 0.5503265852570084,
+          "bounds": [
+            82,
+            76,
+            232,
+            270
+          ]
+        },
+        {
+          "index": 3,
+          "file": "assets/fx/zeus-cheolgu-skill/frames/03.webp",
+          "sha256": "DEB6ED6AC8A083EA69B85286AF2BD37613CEBDEDFE90A1C7BE73ECECAF9F62A6",
+          "rawSha256": "4DA3F9BAA569EB26C40D0A7B563B9CAAFA4CE6C95578DBCADAD1E87CE2152BCD",
+          "sourceRect": {
+            "left": 941,
+            "top": 0,
+            "width": 313,
+            "height": 314
+          },
+          "edgeMax": 1,
+          "nonempty": 41254,
+          "partial": 41254,
+          "alphaTotal": 3457129,
+          "transparentFraction": 0.5802486721881932,
+          "bounds": [
+            87,
+            64,
+            231,
+            275
+          ]
+        },
+        {
+          "index": 4,
+          "file": "assets/fx/zeus-cheolgu-skill/frames/04.webp",
+          "sha256": "3F9C5BE233129E848B6FA1BA13C3BCB05E1DF8161DD1FAA14CCBF7DE1F518335",
+          "rawSha256": "EE062B787DD1F9269393D6E92F1B23863D3B1F347C78CF3FF24C3C1F0465BB29",
+          "sourceRect": {
+            "left": 0,
+            "top": 314,
+            "width": 314,
+            "height": 313
+          },
+          "edgeMax": 1,
+          "nonempty": 57754,
+          "partial": 57754,
+          "alphaTotal": 6250073,
+          "transparentFraction": 0.41236442074845847,
+          "bounds": [
+            63,
+            59,
+            268,
+            289
+          ]
+        },
+        {
+          "index": 5,
+          "file": "assets/fx/zeus-cheolgu-skill/frames/05.webp",
+          "sha256": "698796F019694C83874343EE658B0DF21D745BC33435B0E26D0658F56AA9157D",
+          "rawSha256": "8BB4202A77ADF201111E6D12C4C3CFA6A2C09C032E665BA2B8CAA14333505A40",
+          "sourceRect": {
+            "left": 314,
+            "top": 314,
+            "width": 313,
+            "height": 313
+          },
+          "edgeMax": 2,
+          "nonempty": 66118,
+          "partial": 66118,
+          "alphaTotal": 6755015,
+          "transparentFraction": 0.3251130459635191,
+          "bounds": [
+            52,
+            48,
+            265,
+            285
+          ]
+        },
+        {
+          "index": 6,
+          "file": "assets/fx/zeus-cheolgu-skill/frames/06.webp",
+          "sha256": "77624B839F3BDE95421B0E2575EB43B81475A24224060E8211FDE1915B017F10",
+          "rawSha256": "4E2A43E4589FA1A5A9351A74DFA07DBF990BCB2DD5C3AC76720A7B3F958C0FE6",
+          "sourceRect": {
+            "left": 627,
+            "top": 314,
+            "width": 314,
+            "height": 313
+          },
+          "edgeMax": 1,
+          "nonempty": 65051,
+          "partial": 65051,
+          "alphaTotal": 6829730,
+          "transparentFraction": 0.3381188823996256,
+          "bounds": [
+            50,
+            48,
+            265,
+            286
+          ]
+        },
+        {
+          "index": 7,
+          "file": "assets/fx/zeus-cheolgu-skill/frames/07.webp",
+          "sha256": "C0CB13031AC142BFF5CD3C07557DE3C1424D6D6E491133A498DDE10AC5825975",
+          "rawSha256": "872AE227E437E2DB4FC76A610B7E2A7D101B837367C56BA3517BAB1096CFE71F",
+          "sourceRect": {
+            "left": 941,
+            "top": 314,
+            "width": 313,
+            "height": 313
+          },
+          "edgeMax": 1,
+          "nonempty": 62761,
+          "partial": 62761,
+          "alphaTotal": 6124529,
+          "transparentFraction": 0.35937898723065465,
+          "bounds": [
+            51,
+            54,
+            261,
+            284
+          ]
+        },
+        {
+          "index": 8,
+          "file": "assets/fx/zeus-cheolgu-skill/frames/08.webp",
+          "sha256": "008491BB236DAAD4CB99E307B1D39278CFCEE79C07CC8A23B26DDF3397046F93",
+          "rawSha256": "DDC0FA688197904C5281144E4D14E303B1CE50F565C9B7283534BCE91288ED0B",
+          "sourceRect": {
+            "left": 0,
+            "top": 627,
+            "width": 314,
+            "height": 314
+          },
+          "edgeMax": 2,
+          "nonempty": 58820,
+          "partial": 58820,
+          "alphaTotal": 6175401,
+          "transparentFraction": 0.4034240739989452,
+          "bounds": [
+            55,
+            60,
+            268,
+            289
+          ]
+        },
+        {
+          "index": 9,
+          "file": "assets/fx/zeus-cheolgu-skill/frames/09.webp",
+          "sha256": "395D546EC2A0187AB000FC37EDFA6BBC6453471D7B88A78143B90AEDB679B9FE",
+          "rawSha256": "A6BE4A1FEF6C88E17BE729FA1F15B84576055DBC826683B04B4CA765401FADFA",
+          "sourceRect": {
+            "left": 314,
+            "top": 627,
+            "width": 313,
+            "height": 314
+          },
+          "edgeMax": 2,
+          "nonempty": 66907,
+          "partial": 66907,
+          "alphaTotal": 5374927,
+          "transparentFraction": 0.3192344478134348,
+          "bounds": [
+            57,
+            60,
+            264,
+            286
+          ]
+        },
+        {
+          "index": 10,
+          "file": "assets/fx/zeus-cheolgu-skill/frames/10.webp",
+          "sha256": "15C938BCA05C1EE8DAFB31A4A3286042AD8A3C2E72B5EDC8CF1309C76DA77AA6",
+          "rawSha256": "BE5ED0B1F0D6035DA3F3F6955800D4B059FDE23EA7E6BB48F72573FC85438A73",
+          "sourceRect": {
+            "left": 627,
+            "top": 627,
+            "width": 314,
+            "height": 314
+          },
+          "edgeMax": 2,
+          "nonempty": 61774,
+          "partial": 61774,
+          "alphaTotal": 4077786,
+          "transparentFraction": 0.37346342650817477,
+          "bounds": [
+            66,
+            67,
+            261,
+            284
+          ]
+        },
+        {
+          "index": 11,
+          "file": "assets/fx/zeus-cheolgu-skill/frames/11.webp",
+          "sha256": "152530AA0D02ED33FEB6A6C8DB61055E8561CFBC203533B87E1C7BBC96E3BC3D",
+          "rawSha256": "631ED9554F53CE7A2B5891452F569F07BDBD97E1AB085C7D35D69538C24AE759",
+          "sourceRect": {
+            "left": 941,
+            "top": 627,
+            "width": 313,
+            "height": 314
+          },
+          "edgeMax": 2,
+          "nonempty": 55312,
+          "partial": 55312,
+          "alphaTotal": 3304604,
+          "transparentFraction": 0.43721128996153924,
+          "bounds": [
+            68,
+            80,
+            248,
+            277
+          ]
+        },
+        {
+          "index": 12,
+          "file": "assets/fx/zeus-cheolgu-skill/frames/12.webp",
+          "sha256": "B7F32485A906876F9AA5E23148F2469553B718B28CF3AF621750CBCB10311257",
+          "rawSha256": "57116E933E1BCE8D990E69566CCB76CF42F645DAC8A6FDA44EAA3DE2F1E02F6F",
+          "sourceRect": {
+            "left": 0,
+            "top": 941,
+            "width": 314,
+            "height": 313
+          },
+          "edgeMax": 1,
+          "nonempty": 34460,
+          "partial": 34460,
+          "alphaTotal": 1307416,
+          "transparentFraction": 0.6493762845688935,
+          "bounds": [
+            85,
+            69,
+            243,
+            245
+          ]
+        },
+        {
+          "index": 13,
+          "file": "assets/fx/zeus-cheolgu-skill/frames/13.webp",
+          "sha256": "CDB2FD268D2D036B73AF35538A49206705CB18A2343F7E822F608DE405681895",
+          "rawSha256": "7B2B13DFE999D62B19AF3BFB06D96481BA138E25434B1E1FE485877A6AFC67BC",
+          "sourceRect": {
+            "left": 314,
+            "top": 941,
+            "width": 313,
+            "height": 313
+          },
+          "edgeMax": 1,
+          "nonempty": 46068,
+          "partial": 46068,
+          "alphaTotal": 900159,
+          "transparentFraction": 0.529769621002562,
+          "bounds": [
+            85,
+            89,
+            235,
+            245
+          ]
+        },
+        {
+          "index": 14,
+          "file": "assets/fx/zeus-cheolgu-skill/frames/14.webp",
+          "sha256": "38AF8525AE54C6380D9E295CE69433101CCF4189F8E4736AB05ADF9787CCDC4F",
+          "rawSha256": "74E8539AFBE39B0F299624906E164E6A5771B516520A67DC4554BFE602B52523",
+          "sourceRect": {
+            "left": 627,
+            "top": 941,
+            "width": 314,
+            "height": 313
+          },
+          "edgeMax": 1,
+          "nonempty": 36994,
+          "partial": 36994,
+          "alphaTotal": 658152,
+          "transparentFraction": 0.6235933334689974,
+          "bounds": [
+            101,
+            86,
+            226,
+            229
+          ]
+        },
+        {
+          "index": 15,
+          "file": "assets/fx/zeus-cheolgu-skill/frames/15.webp",
+          "sha256": "8D0522EEE9C0C9C2F340B545894B777272D5CB34F840F7343764BB967FACBED9",
+          "rawSha256": "2BFC3CCCAB6F9F4ED244C1D04F4D6C6B926F98AC1F4F10B183607ADBF9E328C8",
+          "sourceRect": {
+            "left": 941,
+            "top": 941,
+            "width": 313,
+            "height": 313
+          },
+          "edgeMax": 1,
+          "nonempty": 25092,
+          "partial": 25092,
+          "alphaTotal": 180918,
+          "transparentFraction": 0.7438781655421614,
+          "bounds": [
+            111,
+            98,
+            219,
+            209
+          ]
+        }
+      ],
+      "releaseEnabled": false
     }
   ],
-  "frameCount": 288,
+  "frameCount": 320,
   "renderer": {
     "pixi": "8.20.0",
     "gsap": "3.13.0",

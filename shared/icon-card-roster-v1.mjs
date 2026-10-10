@@ -24,7 +24,12 @@ export const ICON_CARD_ROSTER=Object.freeze([
   {code:'ICON-AYOON',name:'아윤',sourceArt:'assets/cards/ICON/ayoon-source-v1.png',
     sourceSha256:'E98F29F7E04FCE948D5C27CD46CDFD5F5B6A704045EAD46B129087CB97A557AB',sourceWidth:1072,sourceHeight:1430,focusX:50,focusY:50,
     status:'USER_REGISTERED_PORTRAIT_20260927',
-    portraitApproval:{date:'2026-09-27',scope:'SOURCE_PHOTO_ONLY',userRequest:'아윤 아이콘'}}
+    portraitApproval:{date:'2026-09-27',scope:'SOURCE_PHOTO_ONLY',userRequest:'아윤 아이콘'}},
+  {code:'ICON-ZEUS-CHEOLGU',name:'제우스 철구',sourceArt:'assets/cards/ICON/zeus-cheolgu-enhanced-v1-20261010.png',
+    sourceSha256:'8070274F2248B508BD97019A80D9DB31F03563C7AA6A8E1A7B65CEAD62E73C43',sourceWidth:1254,sourceHeight:1254,focusX:50,focusY:50,
+    originalArt:'assets/cards/ICON/zeus-cheolgu-original-20261010.png',originalSha256:'22A608B6EF0AAFD06958F4859C24CF9F5EEAA82FB8EAC8D5479CADC45217FE6E',
+    fusionEligible:false,acquisitionText:'일반 ICON 제작 획득 불가',status:'USER_REQUESTED_PHOTO_ENHANCEMENT_20261010',
+    portraitApproval:{date:'2026-10-10',scope:'SOURCE_PHOTO_WITH_REQUESTED_QUALITY_ENHANCEMENT',userRequest:'첨부 사진을 그대로 사용 · 해상도나 화질좀 살려봐'}}
 ].map(card=>Object.freeze({...card,sourceGrade:'ICON',status:card.status||'USER_APPROVED_PORTRAIT_20260922',
   portraitApproval:Object.freeze(card.portraitApproval||{date:'2026-09-22',scope:'SOURCE_PHOTO_ONLY',userRequest:'사진 4종 승인'}),
   releaseEnabled:false})));

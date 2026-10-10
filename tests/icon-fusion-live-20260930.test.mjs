@@ -6,10 +6,10 @@ import {createPveBattleV2,createPvpBattleV2} from '../functions/_battle_v2_previ
 import {iconLiveCardHtml} from '../js/icon-fusion-v1.mjs';
 import {iconFusionFixture} from './helpers/icon-fusion-db.mjs';
 import {runIconFusion,iconFusionReceipt,iconFusionOverview,handleIconFusion} from '../functions/_icon_fusion.js';
-import {ICON_FUSION_POLICY as POLICY,ICON_LIVE_CARDS,formatIconAmount,validateIconVideoUrl} from '../shared/icon-fusion-policy-v1.mjs';
+import {ICON_FUSION_POLICY as POLICY,ICON_LIVE_CARDS,ICON_FUSION_CARDS,formatIconAmount,validateIconVideoUrl} from '../shared/icon-fusion-policy-v1.mjs';
 
 test('approved recipe, exact Korean units and same-site video paths',()=>{
- assert.equal(POLICY.coinCost,500000000000);assert.equal(POLICY.masterStarCost,5000000);assert.equal(POLICY.successRate,10);assert.equal(POLICY.pityAttempts,0);assert.equal(ICON_LIVE_CARDS.length,7);
+ assert.equal(POLICY.coinCost,500000000000);assert.equal(POLICY.masterStarCost,5000000);assert.equal(POLICY.successRate,10);assert.equal(POLICY.pityAttempts,0);assert.equal(ICON_FUSION_CARDS.length,7);assert.equal(ICON_LIVE_CARDS.length,8);
  for(const [n,s] of [[5000000,'500만'],[100000000000,'1천억'],[500000000000,'5천억'],[89000000000000,'89조'],[0,'0'],[100010000,'1억 1만']])assert.equal(formatIconAmount(n),s);
  for(const path of ['https://evil.test/a.mp4','//evil/a.mp4','assets/../secret.mp4','assets/a.svg','assets/a.mp4?x=1'])assert.throws(()=>validateIconVideoUrl(path));
  assert.equal(validateIconVideoUrl('assets/videos/icon.mp4'),'/assets/videos/icon.mp4');

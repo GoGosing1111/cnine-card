@@ -13,7 +13,7 @@ function decode(row){
   const stored=JSON.parse(row.value);
   if(!Number.isSafeInteger(stored.revision)||stored.revision<1||!Array.isArray(stored.audit)||stored.audit.length>50)throw Error('Invalid ICON CMS record');
   // Revalidate stored locks too. Corrupt/old ON flags never become an enable switch.
-  stored.document=validateIconCmsDocument(stored.document);
+  stored.document=validateIconCmsDocument(stored.document,{allowLegacy:true});
   return {raw:row.value,state:stored};
 }
 async function read(env,admin){

@@ -23,7 +23,7 @@ function harness(role,options={}){
 }
 
 test('seven fixed identities replace stat drafts; fusion cost and closed state are untouched',()=>{
- assert.equal(new Set(ICON_ROLES.map(d=>d.role)).size,7);assert.equal(validateIconRoles(defaultIconRoles()).cards.length,7);
+ assert.equal(new Set(ICON_ROLES.map(d=>d.role)).size,7);assert.equal(validateIconRoles(defaultIconRoles()).cards.length,8);
  assert.equal(ICON_FUSION_POLICY.coinCost,500000000000);assert.equal(ICON_FUSION_DEFAULT_SETTINGS.enabled,false);
  const base=normal('A'),a=card('ASSASSIN');assert.equal(a.maxHp,base.maxHp);assert.equal(a.type,'NONE');assert.equal(a.uniqueAbility,null);
  const forged=buildFighter({id:'evil',grade:'FUR',power:180000,iconRole:a.iconRole},0,'A');assert.equal(forged.iconRole,undefined);

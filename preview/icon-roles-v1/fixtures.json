@@ -99,6 +99,20 @@
       "file": "icon-ayoon-pvp.json",
       "actions": 31,
       "casts": 1
+    },
+    {
+      "code": "ICON-ZEUS-CHEOLGU",
+      "mode": "PVE",
+      "file": "icon-zeus-cheolgu-pve.json",
+      "actions": 50,
+      "casts": 2
+    },
+    {
+      "code": "ICON-ZEUS-CHEOLGU",
+      "mode": "PVP",
+      "file": "icon-zeus-cheolgu-pvp.json",
+      "actions": 26,
+      "casts": 1
     }
   ]
 }
