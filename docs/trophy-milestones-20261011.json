@@ -78,7 +78,116 @@
     ]
   },
   "deployment": {
-    "status": "pending",
-    "command": "npm run deploy:production -- --scoped"
+    "status": "completed",
+    "exitCode": 0,
+    "sourceCommit": "7840f3518e099d78414946fe2eee022a4b6bfe93",
+    "pages": "https://eda1ff67.cnine-card.pages.dev",
+    "apiRuntimeVersion": "bfe51389-77b9-4654-aecc-3b346e617380",
+    "clanDraftVersion": "8d977bfb-3902-41ac-82c8-936db42f2e68",
+    "command": "npm run deploy:production -- --scoped",
+    "cron": "* * * * *",
+    "liveAccountQaMutations": false
+  },
+  "regression": {
+    "status": "passed",
+    "command": "npm run deploy:production -- --scoped",
+    "passed": 81,
+    "failed": 0,
+    "workerCheck": true,
+    "releaseAndHyperdriveChecks": true
+  },
+  "production": {
+    "verifiedAt": "2026-10-10T21:01:59.068Z",
+    "origin": "https://cnine-card.pages.dev",
+    "sourceCommit": "7840f3518e099d78414946fe2eee022a4b6bfe93",
+    "checks": [
+      {
+        "file": "index.html",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "expected": "b1549defbde6915822f66f65266681524b3a6bbc998ec0eed6a91929523d507a",
+        "actual": "b1549defbde6915822f66f65266681524b3a6bbc998ec0eed6a91929523d507a",
+        "match": true
+      },
+      {
+        "file": "service-worker.js",
+        "status": 200,
+        "contentType": "application/javascript",
+        "expected": "805dff0f35cc0ffcf585745d2f7cbe655356e4b7c66f0f4d5422e2d752665838",
+        "actual": "805dff0f35cc0ffcf585745d2f7cbe655356e4b7c66f0f4d5422e2d752665838",
+        "match": true
+      },
+      {
+        "file": "js/player-card-v2052.js",
+        "status": 200,
+        "contentType": "application/javascript",
+        "expected": "01165dc30d9b99592d9b5a0e9d17d9e93c24507121ae7be7f7ad9a30c8173341",
+        "actual": "01165dc30d9b99592d9b5a0e9d17d9e93c24507121ae7be7f7ad9a30c8173341",
+        "match": true
+      },
+      {
+        "file": "js/player-card-model-v2052.js",
+        "status": 200,
+        "contentType": "application/javascript",
+        "expected": "1fe769acdb1d55b9023f54013c92c9fcaa2b7977db3280af75497f615d6486d2",
+        "actual": "1fe769acdb1d55b9023f54013c92c9fcaa2b7977db3280af75497f615d6486d2",
+        "match": true
+      },
+      {
+        "file": "css/player-card-v2052.css",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "expected": "4cd4e82316042822f28edb5d242f5ecab3cda9ec6852faab48cc75af88567fc9",
+        "actual": "4cd4e82316042822f28edb5d242f5ecab3cda9ec6852faab48cc75af88567fc9",
+        "match": true
+      },
+      {
+        "file": "css/player-card-milestones-20261011.css",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "expected": "1382a4a1ca3ea75201cb4f47ab8f7f53dd1a87de945dc48afa941f9762d4dfa3",
+        "actual": "1382a4a1ca3ea75201cb4f47ab8f7f53dd1a87de945dc48afa941f9762d4dfa3",
+        "match": true
+      },
+      {
+        "file": "assets/ui/player-card/milestones-20261011/city-outlaw-v1.webp",
+        "status": 200,
+        "contentType": "image/webp",
+        "expected": "02751e65245d2ec7bd4ee06aa426c4b9755dbbc708d0f9851dbf207824b720c1",
+        "actual": "02751e65245d2ec7bd4ee06aa426c4b9755dbbc708d0f9851dbf207824b720c1",
+        "match": true
+      },
+      {
+        "file": "assets/ui/player-card/milestones-20261011/frostmourne-v1.webp",
+        "status": 200,
+        "contentType": "image/webp",
+        "expected": "677b9d2cc09d5fd3da8b99aff471545c3bd1654a2fe6cb75e9f2bbc27dd077df",
+        "actual": "677b9d2cc09d5fd3da8b99aff471545c3bd1654a2fe6cb75e9f2bbc27dd077df",
+        "match": true
+      },
+      {
+        "file": "preview/player-calling-card-v2052/index.html",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "expected": "f25eb16635d0702625e20a444472d57cd930d47e6c6ed721f18e66780455a2d2",
+        "actual": "f25eb16635d0702625e20a444472d57cd930d47e6c6ed721f18e66780455a2d2",
+        "match": true
+      },
+      {
+        "file": "preview/player-calling-card-v2052/preview.js",
+        "status": 200,
+        "contentType": "application/javascript",
+        "expected": "e414f61b3e045bf0b3a5e8a49e1d3d5cd30e3deb7cedb53fe44024cf153fe969",
+        "actual": "e414f61b3e045bf0b3a5e8a49e1d3d5cd30e3deb7cedb53fe44024cf153fe969",
+        "match": true
+      }
+    ],
+    "unauthenticatedPlayerCardStatus": 401
+  },
+  "liveBrowser": {
+    "passed": true,
+    "checked": "production preview: next page, new trophy images and Frostmourne detail",
+    "errors": [],
+    "realUserDataMutated": false
   }
 }
