@@ -24,10 +24,10 @@
     const optionPool = amount(option.total_bet) + extra;
     const totalStake = stake + extra;
     const fee = Number(event.fee_percent || 10);
-    const support = amount(event.treasury_subsidy);
+    const support = amount(event.treasury_subsidy) + amount(event.cms_subsidy);
     const distributable = Math.floor(pool * (100 - fee) / 100) + support;
     const odds = optionPool > 0 ? distributable / optionPool : null;
-    const payout = optionPool > 0 && totalStake > 0 ? Math.floor(distributable * totalStake / optionPool) : null;
+    const payout = optionPool > 0 && totalStake > 0 ? Number(BigInt(distributable) * BigInt(totalStake) / BigInt(optionPool)) : null;
     return { odds, payout, profit: payout === null ? null : payout - totalStake, stake: totalStake, extra, pool, optionPool, support, fee };
   }
 

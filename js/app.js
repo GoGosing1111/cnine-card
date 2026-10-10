@@ -993,7 +993,7 @@ const FEATURE_RESOURCE_MANIFEST={
   },
   prediction:{
     styles:['css/coin-prediction-v2033.css?v=20261001-prediction-50b'],
-    scripts:['js/coin-prediction-model-v2033.js?v=2033-matchday-star','js/coin-prediction-v2033.js?v=20261001-prediction-50b'],
+    scripts:['js/coin-prediction-model-v2033.js?v=20261010-cms-subsidy','js/coin-prediction-v2033.js?v=20261010-cms-subsidy'],
     ready:()=>typeof window.coinPredictionView==='function'&&typeof window.bindCoinPredictionView==='function'
   },
   soopketland:{

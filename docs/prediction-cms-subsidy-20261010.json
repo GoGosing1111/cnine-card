@@ -1,0 +1,40 @@
+{
+  "date": "2026-10-10",
+  "request": "ADMIN부터 승부예측에 지원금을 CMS에서 바로 넣도록 추가. 제한 5조.",
+  "scope": "CMS 코인 승부예측 경기별 지원금 입력, 해당 API와 예상 배당·정산 반영",
+  "policy": {
+    "roles": ["ADMIN", "OWNER"],
+    "limitPerEvent": 5000000000000,
+    "limitIncludesLegacyTreasurySubsidy": true,
+    "eligible": "OPEN 또는 CLOSED 중 정산·환불이 시작되지 않은 경기",
+    "reasonRequired": true,
+    "source": "CMS 직접 지원금. 운영자 지갑·행정부 금고 차감 없음.",
+    "distribution": "참여 코인 수수료 10% 차감 후 CMS·기존 지원금 합산. 적중 비율은 정수 나눗셈으로 계산.",
+    "void": "참여 원금 환불. CMS 지원금은 배당에서 제외하며 금고에 환입하지 않음. 지급 감사 기록 유지."
+  },
+  "integrity": [
+    "기존 경기 잠금으로 참여·정산·지원금 변경 직렬화",
+    "서버에서 역할·계정 상태·경기 상태·부분 정산 여부·남은 합계 한도 재확인",
+    "지원금 누계·감사 로그·요청 영수증을 기존 원자적 배치로 함께 저장",
+    "동일 요청 재전송 및 커밋 응답 손실 시 영수증으로 중복 지급 방지",
+    "확인되지 않은 CMS 요청은 계정별 브라우저 저장소에 보존해 같은 요청으로 조회"
+  ],
+  "validation": {
+    "transaction": "node --test tests/prediction-cms-subsidy-20261010.test.mjs: 14/14 통과 (SQLite 6개, PGlite 및 운영 PostgreSQL SQL 어댑터 6개, 상위 테스트 2개)",
+    "adjacent": "node --test tests/coin-prediction-matchday-v2033.test.mjs tests/administration-treasury-v2030.test.mjs: 20/20 통과",
+    "ui": "실제 CMS·유저 모듈과 격리 메모리 API로 1440×1000 PC, 390×844 모바일 검수. 100억 추가, 조 단위 소수 입력, 최대 금액 추가 후 합계 5조 및 입력 차단, 유저 배당 반영, 가로 넘침 없음.",
+    "productionGrant": false,
+    "screenshots": "C:/Users/User/Downloads/upload/cnine-card/tmp/prediction-cms-subsidy-20261010/",
+    "cache": "CMS CSS/JS·공용 배당 모델·유저 모듈 쿼리와 메인 로더·PWA 셸 버전 갱신"
+  },
+  "release": {
+    "mode": "scoped",
+    "previousProductionCommit": "f7db905f293bd969b18711c91ccf297d7214009d",
+    "previousProductionUrl": "https://0335e2bf.cnine-card.pages.dev",
+    "sourceBaseCommit": "37596693ec151f6e619b0b1171236c362251c796",
+    "reason": "승부예측 기능 안에서 기존 인증 결과·경기 잠금·원자적 배치를 재사용하는 국소 기능 추가. 공통 인증·DB 기반·의존성·마이그레이션 변경 없음. 관련 거래와 인접 회귀 및 PC·모바일 검수를 완료했으므로 배포 시 Worker 검사만 실행해 중복 검사하지 않음.",
+    "tests": [],
+    "checks": ["check:worker"],
+    "command": "npm run deploy:production -- --scoped"
+  }
+}
