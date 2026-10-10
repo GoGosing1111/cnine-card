@@ -1,0 +1,112 @@
+{
+  "date": "2026-10-11",
+  "source": "d3a6921a2c89ed52695e0d3fe8d53cb76d059e93",
+  "previousRuntimeSource": "3bc3582251f444fdc8071a5b221b83fbc3068d46",
+  "pages": "https://3b37b500.cnine-card.pages.dev",
+  "apiRuntimeVersion": "4e3f0459-068a-4033-89c3-d7c502898a9f",
+  "clanWorkerVersion": "b1d2f1c2-22a4-4551-aff3-74e1c3dc1214",
+  "cache": "20261011-apply1",
+  "applicationDefault": "OFF",
+  "scopedTests": [
+    "tests/supporter-application-20261011.test.mjs"
+  ],
+  "scopedTestsPassed": 10,
+  "relatedSchedulerChecksPassed": 4,
+  "browser": {
+    "cases": [
+      "CMS default OFF hides the public button. Real owner CMS switch enables both UI and API.",
+      "Application paints guidance, immediately sends one personal message, preserves popup capture guard, opens the live inbox, and removes content at five minutes.",
+      "Lost response retries the same request without a second issue; fourth daily issue is rejected.",
+      "Mobile layout has no overflow; CMS OFF blocks a stale open client and hides the button after refresh."
+    ],
+    "screenshots": [
+      "C:\\Users\\User\\.codex\\tmp\\supporter-season-pass-20261010\\application-desktop-off.png",
+      "C:\\Users\\User\\.codex\\tmp\\supporter-season-pass-20261010\\application-cms-off.png",
+      "C:\\Users\\User\\.codex\\tmp\\supporter-season-pass-20261010\\application-desktop-button.png",
+      "C:\\Users\\User\\.codex\\tmp\\supporter-season-pass-20261010\\application-desktop-popup.png",
+      "C:\\Users\\User\\.codex\\tmp\\supporter-season-pass-20261010\\application-desktop-message.png",
+      "C:\\Users\\User\\.codex\\tmp\\supporter-season-pass-20261010\\application-mobile-button.png",
+      "C:\\Users\\User\\.codex\\tmp\\supporter-season-pass-20261010\\application-mobile-popup.png",
+      "C:\\Users\\User\\.codex\\tmp\\supporter-season-pass-20261010\\application-mobile-off.png"
+    ],
+    "ok": true,
+    "posts": 7
+  },
+  "production": {
+    "verifiedAt": "2026-10-10T15:49:05.771Z",
+    "source": "d3a6921a2c89ed52695e0d3fe8d53cb76d059e93",
+    "files": [
+      {
+        "file": "index.html",
+        "status": 200,
+        "bytes": 22493,
+        "sha256": "0bdeca14385db7b7b16ae3a97147289556ca03a5dceece03663019997d443850"
+      },
+      {
+        "file": "service-worker.js",
+        "status": 200,
+        "bytes": 9564,
+        "sha256": "5fe4ab78ae0ff991370005b40a70531ed6bf8d1c5b1c5d3d56013a67007a5939"
+      },
+      {
+        "file": "js/app.js",
+        "status": 200,
+        "bytes": 744852,
+        "sha256": "c8dd3a21c64772ba3d1bb4c34a08e6eacf91f8deda5789641ade602c6c64b2dc"
+      },
+      {
+        "file": "js/adventure-lobby-v2107.js",
+        "status": 200,
+        "bytes": 91241,
+        "sha256": "31dcf0b2546dacd5c51c206930580ae245962db0cc65b908a3722e0512a0796b"
+      },
+      {
+        "file": "js/server-support-v1.mjs",
+        "status": 200,
+        "bytes": 17361,
+        "sha256": "7d0817f4c90d3293bc78056c16d13861325e94ab2a09db4de2aee8a423952895"
+      },
+      {
+        "file": "js/supporter-application-v1.mjs",
+        "status": 200,
+        "bytes": 5542,
+        "sha256": "d360af575520e525c8ac2568524780ddbece9dcb9d8c21f145bf908d46d41b21"
+      },
+      {
+        "file": "js/supporter-message-expiry-v1.mjs",
+        "status": 200,
+        "bytes": 1746,
+        "sha256": "6b003a222fd8b4054b7e540a13ba2e3ffa4e6c6ea662c046185d501f22a5322f"
+      },
+      {
+        "file": "css/server-support-v1.css",
+        "status": 200,
+        "bytes": 29085,
+        "sha256": "bbb5b9077c73a0fed05e576ee06b1802bed0423812c12b71503b9f6161fb7425"
+      },
+      {
+        "file": "admin/index.html",
+        "status": 200,
+        "bytes": 86808,
+        "sha256": "2539a0d55ebc7c55d316804ebef7a5573993c7d376185d98972eafaab7b49c68"
+      },
+      {
+        "file": "admin/server-support-admin-v1.mjs",
+        "status": 200,
+        "bytes": 10863,
+        "sha256": "e247d3d5f9e9988dd7a658062c8deb9276d002d4f46b6cebd72ff962a70b7d78"
+      },
+      {
+        "file": "admin/supporter-application-admin-v1.mjs",
+        "status": 200,
+        "bytes": 2969,
+        "sha256": "59f53d0fc0b55d19b693e07811b41ef13adf45a7aecbe5b5161747e7a25e7c53"
+      }
+    ],
+    "serviceStatus": 200,
+    "unauthenticatedApplyStatus": 401,
+    "productionMessagesSent": false,
+    "settingsChanged": false,
+    "defaultApplicationEnabled": false
+  }
+}

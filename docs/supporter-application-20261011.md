@@ -29,3 +29,10 @@
 - 직전 운영 소스: `3bc3582251f444fdc8071a5b221b83fbc3068d46` / `https://a3e24e8e.cnine-card.pages.dev`.
 - 단일 신청 기능과 관련 편지함·예약 작업의 국소 연결이므로 scoped 배포한다. 선택 검사는 `tests/supporter-application-20261011.test.mjs`이며 Worker 컴파일·출시 플래그·캐시·Hyperdrive 검사를 유지한다. 기존 알람 관련 선행 검사는 동일 코드에 반복하지 않는다.
 - 캐시 버전 `20261011-apply1`. 운영 반영 결과는 같은 이름의 JSON에 기록한다.
+
+## 운영 반영 결과
+
+- 소스 `d3a6921a2c89ed52695e0d3fe8d53cb76d059e93`, Pages `https://3b37b500.cnine-card.pages.dev`에 scoped 배포 완료.
+- 선택 검사 10개, Worker 문법/실제 번들 컴파일, 출시 플래그·캐시·Hyperdrive 검사를 통과했다.
+- 변경한 클라이언트/CMS 파일 11개의 운영 HTTP 200 및 SHA-256 일치, 서비스 상태 200, 미인증 신청 API 401을 확인했다. 기본 신청 설정은 OFF이며 운영에서 설정 ON이나 실계정 메시지 발급을 실행하지 않았다.
+- 후속 기록만 커밋하며 동일 런타임을 재배포하지 않는다.
