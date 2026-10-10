@@ -1,5 +1,5 @@
 {
-  "status": "ARTWORK_READY_FOR_SCOPED_DEPLOY",
+  "status": "LIVE_VERIFIED",
   "date": "2026-10-10",
   "request": "후원자 30일 시즌패스, 적용일부터 당일 보상만 수령, 날짜별 다양한 아이템·수량 CMS, 예쁘고 화려한 달력",
   "previousDeployment": {
@@ -42,7 +42,9 @@
     "overflow": false,
     "brokenImages": 0,
     "pageErrors": 0,
-    "lobbyBuildIntegrity": true
+    "lobbyBuildIntegrity": true,
+    "totalTestsPassed": 35,
+    "totalTestsFailed": 0
   },
   "release": {
     "command": "npm run deploy:production -- --scoped",
@@ -69,5 +71,96 @@
     "alphaPreserved": true,
     "deliveryBytes": 698686,
     "browserVerified": true
+  },
+  "deployment": {
+    "source": "7ca8cb536ea7ef63fc1b716f4bb799649e53f17d",
+    "pagesUrl": "https://ffd0b6cb.cnine-card.pages.dev",
+    "apiRuntimeVersion": "2d57cefe-25b2-49a7-a43d-a7404c03da39",
+    "clanWorkerVersion": "c0319acc-d314-493e-b59f-f9060f9035f1",
+    "command": "npm run deploy:production -- --scoped",
+    "log": "C:/Users/User/.codex/tmp/supporter-season-pass-20261010/deploy-art.log",
+    "hyperdriveCacheDisabled": true
+  },
+  "production": {
+    "verifiedAt": "2026-10-10T14:00:04.739Z",
+    "source": "7ca8cb536ea7ef63fc1b716f4bb799649e53f17d",
+    "files": [
+      {
+        "file": "index.html",
+        "status": 200,
+        "bytes": 22509,
+        "sha256": "39236b864a4742ac64d9601df9eb68c43e7e2f772870e35d18217e0c87168535"
+      },
+      {
+        "file": "admin/index.html",
+        "status": 200,
+        "bytes": 86797,
+        "sha256": "3337891212179180ceb915ec6eb150de71fd0171d279211832d792a09690ded6"
+      },
+      {
+        "file": "service-worker.js",
+        "status": 200,
+        "bytes": 9373,
+        "sha256": "ba0ee1c1d05c38680288231096024b2dcabda102ae8f579b03f5441279342ca6"
+      },
+      {
+        "file": "js/adventure-lobby-v2107.js",
+        "status": 200,
+        "bytes": 90381,
+        "sha256": "0ce77681214f57e76d94f380cacdffde9f9eeafa169c6c8922ebcc1585622769"
+      },
+      {
+        "file": "js/server-support-v1.mjs",
+        "status": 200,
+        "bytes": 15754,
+        "sha256": "b95bc9f53dc0ee4af3cd5a748f70ad8e4cec6667d37fd2e47f1c1fbc249b845e"
+      },
+      {
+        "file": "js/supporter-season-pass-v1.mjs",
+        "status": 200,
+        "bytes": 9340,
+        "sha256": "ffd09b963d72b904df27dabf4e5c5fe3a6b21bb3aa4fddc03a1ced4c6028dfdf"
+      },
+      {
+        "file": "admin/supporter-season-pass-admin-v1.mjs",
+        "status": 200,
+        "bytes": 11532,
+        "sha256": "e98c1674b81b8ea120651f7b5ddcefd3a6da579e782928555f6723dd7fefaf18"
+      },
+      {
+        "file": "css/supporter-season-pass-v1.css",
+        "status": 200,
+        "bytes": 23985,
+        "sha256": "89ecfae5bcf1e78cb9649bebe9735fc5b0fab88d21f5958a1bbb743c0e6709c6"
+      },
+      {
+        "file": "assets/ui/season-pass-v1/sanctum-hero.webp",
+        "status": 200,
+        "bytes": 438036,
+        "sha256": "cd9af036fbdf78ff4fc72f84b44f487b61b09d2051a6ffb5c66a65f30160ecd8"
+      },
+      {
+        "file": "assets/ui/season-pass-v1/reward-chest.webp",
+        "status": 200,
+        "bytes": 162064,
+        "sha256": "c5fd92858058976fbe2cd831abf14fe4f01e9dc96b12658f9a73c370b86bf968"
+      },
+      {
+        "file": "assets/ui/season-pass-v1/supporter-crest.webp",
+        "status": 200,
+        "bytes": 53436,
+        "sha256": "0a384900c12d8f1e727a9b06059b4d9147fc4fa90781a51cb5bb64b757a7e3ab"
+      },
+      {
+        "file": "assets/ui/season-pass-v1/reward-frame.webp",
+        "status": 200,
+        "bytes": 45150,
+        "sha256": "f3129da4720203d537140e6e7156d783c5e90440f8eaaa9c8a6ba4d8f674f4b5"
+      }
+    ],
+    "serviceStatus": 200,
+    "unauthenticatedInfo": 401,
+    "unauthenticatedCMS": 401,
+    "productionGrantsMade": false
   }
 }
