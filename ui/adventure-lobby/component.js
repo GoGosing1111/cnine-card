@@ -18,7 +18,7 @@
         openChief:()=>global.SoopketmonV21ExactShell.openChief(),openAccount:()=>global.showAccountPanel?.(),...settings
       });
       const supportSignal=this.lifecycle.signal;
-      void import('/js/server-support-v1.mjs?v=20261010-owner-preview').then(({mountServerSupportNavigation})=>{
+      void import('/js/server-support-v1.mjs?v=20261010-design').then(({mountServerSupportNavigation})=>{
         if(!supportSignal.aborted)this.supportNavigation=mountServerSupportNavigation({root,getUser,signal:supportSignal});
       }).catch(()=>{});
       const listen=(target,event,handler)=>target.addEventListener(event,handler,{signal:this.lifecycle.signal});
