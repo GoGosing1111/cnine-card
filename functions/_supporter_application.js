@@ -66,7 +66,7 @@ export async function issueSupportApplication(env,user,body,now=Date.now()){
     const record=await ledger(env,id,now);
     if(record.used>=LIMIT)fail('LIMIT','오늘 계좌 안내를 3회 모두 발급했습니다. 한국시간 자정 이후 다시 신청해 주세요.',429);
     const saved={requestId:body.requestId,issuedAt:now,expiresAt:now+SUPPORT_BANK_MESSAGE_TTL},next=JSON.stringify({used:record.used+1,lastRequestId:body.requestId});
-    const message=`서버 운영 후원 계좌 안내\n\n신한은행 110-290-621512\n예금주: 전병은\n30일 후원: ${SUPPORT_PLAN.priceWon.toLocaleString('ko-KR')}원\n\n이 메시지는 발급 시점부터 5분 뒤 자동 삭제됩니다. 계좌 안내는 하루 3회까지 발급할 수 있습니다.\n운영자의 후원 확인 후 30일 혜택이 적용됩니다.`;
+    const message=`서버 운영 후원 계좌 안내\n\n신한은행 110-290-621512\n예금주: 전병은\n30일 후원: ${SUPPORT_PLAN.priceWon.toLocaleString('ko-KR')}원\n\n반드시 게임 닉네임으로 입금해 주세요.\n\n이 메시지는 발급 시점부터 5분 뒤 자동 삭제됩니다. 계좌 안내는 하루 3회까지 발급할 수 있습니다.\n운영자의 후원 확인 후 30일 혜택이 적용됩니다.`;
     const DB=env.DB,token=crypto.randomUUID(),tokens=['d','r','a','w','m','c'].map(s=>token+s),p=(sql,...args)=>DB.prepare(sql).bind(...args);
     try{
       await DB.batch([

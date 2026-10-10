@@ -1,4 +1,4 @@
-import {openSupportApplication} from './supporter-application-v1.mjs?v=20261011-apply1';
+import {openSupportApplication} from './supporter-application-v1.mjs?v=20261011-apply2';
 import {jointAccountRequest} from './joint-account-transport.mjs';
 import {mountSeasonPass} from './supporter-season-pass-v1.mjs?v=20261010-pass-art1';
 import {mountSupportScreenGuard} from './supporter-screen-guard-v1.mjs?v=20261011-guard1';
