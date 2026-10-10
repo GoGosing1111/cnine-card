@@ -1,5 +1,6 @@
 import {SUPPORT_PLAN,SUPPORT_NOTICE,SUPPORT_DURATION_MS,canManageSupport,supportAccountEligible,supportBenefits} from '../shared/server-support-v1.mjs';
 import {readSupportRecord} from './_supporter_benefits.js';
+import {prepareSupporterPetReward} from './_supporter_pet_reward.js';
 import {readSeasonPass,handleSeasonPass} from './_supporter_season_pass.js';
 import {readSupportApplication,issueSupportApplication,readSupportApplicationConfig,saveSupportApplicationConfig} from './_supporter_application.js';
 import {readPetCollection,readPetPotentials} from './_pet_account.js';
@@ -17,15 +18,17 @@ async function priorReceipt(env,key,payload){
   const saved=JSON.parse(row.value);if(saved.payload!==payload)fail('REQUEST_CONFLICT','같은 요청 번호에 다른 내용이 포함되었습니다.',409);
   return {...saved.result,replayed:true};
 }
-async function commit(env,{record,next,key,payload,result,admin,guard=[]}){
+async function commit(env,{record,next,key,payload,result,admin,guard=[],reward=null}){
   const DB=env.DB,token=crypto.randomUUID(),raw=JSON.stringify(next),p=(sql,...args)=>DB.prepare(sql).bind(...args);
   await ensureJointAtomicSchema(env);
   try{await DB.batch([
+    ...(reward&&DB.dialect==='postgres'?[p('SELECT id FROM users WHERE id=? FOR UPDATE',result.target.id)]:[]),
     jointGuard(DB,token,record.raw===null?'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)':'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',record.raw===null?[record.key]:[record.key,record.raw]),
     jointGuard(DB,token+'r','NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)',[key]),
     ...guard.map((g,i)=>jointGuard(DB,token+'g'+i,g[0],g[1])),
     record.raw===null?p('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING',record.key,raw):p('UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?',raw,record.key,record.raw),
     jointGuard(DB,token+'w','EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[record.key,raw]),
+    ...(reward?.statements||[]),
     ...(admin?[p('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)',admin.id,'SERVER_SUPPORT_'+result.action,'USER',String(result.target.id),record.raw,JSON.stringify(result))]:[]),
     p('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)',key,JSON.stringify({payload,result})),
     ...[token,token+'r',token+'w',...guard.map((_,i)=>token+'g'+i)].map(t=>jointGuardEnd(DB,t))
@@ -54,8 +57,10 @@ export async function changeSupport(env,admin,body,now=Date.now()){
   const next={...record.state,revision:record.state.revision+1,...(grant?{startsAt:active?record.state.startsAt:now,endsAt:Math.max(active?record.state.endsAt:0,now)+SUPPORT_DURATION_MS,revokedAt:null,magnetPetCode:active?record.state.magnetPetCode:null}:{revokedAt:now})};
   if(!Number.isSafeInteger(next.revision)||!Number.isSafeInteger(next.endsAt))fail('LIMIT','이용 기간 한도를 초과했습니다.',409);
   const target=targetOf(row),result={ok:true,requestId:body.requestId,action:body.action,target,amountWon:grant?SUPPORT_PLAN.priceWon:0,note:body.note.trim(),processedAt:now,subscription:supportBenefits(next,now),replayed:false};
+  const reward=grant?await prepareSupporterPetReward(env,{admin,target,requestId:'supporter_pet_'+body.requestId,now}):null;
+  if(reward)result.petReward=reward.result;
   const guard=grant?[['EXISTS(SELECT 1 FROM users u JOIN user_second_verifications s ON s.user_id=u.id WHERE u.id=? AND u.status=? AND u.created_at=? AND s.verified_at=?)',[target.id,'ACTIVE',row.created_at,row.verified_at]]]:[];
-  return commit(env,{record,next,key,payload,result,admin,guard});
+  return commit(env,{record,next,key,payload,result,admin,guard,reward});
 }
 export async function selectSupportPet(env,user,body,now=Date.now()){
   mutationBody(body);if(typeof body.petCode!=='string'||!/^PET-[A-Z0-9-]{1,28}$/.test(body.petCode))fail('PET','보유한 펫을 선택하세요.');

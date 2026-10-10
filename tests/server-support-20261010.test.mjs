@@ -49,7 +49,7 @@ for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+': 후�
     assert.equal((await post({...grant,note:'다른 내역'})).status,409);
     assert.equal((await post({...body('GRANT',1,1),priceWon:1})).status,400);
     const ends=(await sub(1)).endsAt;f.clock.now+=60000;assert.equal((await post(body('GRANT',1,1))).body.subscription.endsAt,ends+SUPPORT_DURATION_MS);
-    assert.equal(Number((await f.one('SELECT COUNT(*) n FROM admin_logs')).n),2);assert.equal(Number((await f.one('SELECT coin FROM users WHERE id=1')).coin),1234);
+    assert.equal(Number((await f.one("SELECT COUNT(*) n FROM admin_logs WHERE action_type='SERVER_SUPPORT_GRANT'")).n),2);assert.equal(Number((await f.one('SELECT coin FROM users WHERE id=1')).coin),1234);
   });
   await t.test('펫 1마리 자유 변경은 기간을 늘리거나 영구 잠재력을 변경하지 않는다',async()=>{
     const permanent={revision:1,pets:{[f.pets[1].code]:{potential:'MAGNET',attempts:7}}};await f.run('INSERT INTO app_meta(key,value) VALUES(?,?)','pet_potentials_v1:1',JSON.stringify(permanent));

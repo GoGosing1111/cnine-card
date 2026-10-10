@@ -22,7 +22,7 @@ export async function supportFixture({postgres=false}={}){
   for(const [id,nickname,role,status,created] of [[1,'핑크빛유두','OWNER','ACTIVE','2026-01-01 00:00:00'],[2,'후원 검수 계정','USER','ACTIVE','2026-01-01 00:00:00'],[3,'다른 운영자','OWNER','ACTIVE','2026-01-01 00:00:00'],[4,'가입 3일 미만','USER','ACTIVE',new Date(clock.now-3*86400000+1).toISOString()],[5,'미인증 계정','USER','ACTIVE','2026-01-01 00:00:00'],[6,'정지 계정','USER','SUSPENDED','2026-01-01 00:00:00']]){
     await run('INSERT INTO users(id,nickname,role,status,created_at) VALUES(?,?,?,?,?)',id,nickname,role,status,created);if(id!==5)await run('INSERT INTO user_second_verifications VALUES(?,?)',id,'2026-01-02 00:00:00');
   }
-  const pets=PET_ART_CATALOG.slice(0,3).map(p=>({code:p.code,name:p.name,sourceArt:p.sourceArt,battleSprite:p.sourceArt,enabled:true,modes:['PVE','PVP'],target:'ALL_ALLIES',buffs:[{type:'ATTACK_PERCENT',percent:5}],notes:''}));
+  const pets=PET_ART_CATALOG.filter((p,i)=>i<3||p.code==='PET-HEADSET-SHIBA').map(p=>({code:p.code,name:p.name,sourceArt:p.sourceArt,battleSprite:p.sourceArt,enabled:true,modes:['PVE','PVP'],target:'ALL_ALLIES',buffs:[{type:'ATTACK_PERCENT',percent:5}],notes:''}));
   await run('INSERT INTO app_meta(key,value) VALUES(?,?)',PET_CMS_KEY,JSON.stringify({revision:1,document:{...emptyPetCmsDocument(),pets},audit:[]}));
   for(const id of [1,2]){
     await run('INSERT INTO app_meta(key,value) VALUES(?,?)','pet_collection_v1:'+id,JSON.stringify({revision:1,pets:{[pets[0].code]:1,[pets[1].code]:1}}));
