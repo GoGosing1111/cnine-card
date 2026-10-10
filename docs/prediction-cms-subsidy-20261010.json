@@ -35,6 +35,11 @@
     "reason": "승부예측 기능 안에서 기존 인증 결과·경기 잠금·원자적 배치를 재사용하는 국소 기능 추가. 공통 인증·DB 기반·의존성·마이그레이션 변경 없음. 관련 거래와 인접 회귀 및 PC·모바일 검수 완료. 배포 도구의 회귀 테스트 필수 조건에 따라 새 지원금 테스트 한 파일과 Worker 검사만 선택하며 인접 20건은 반복하지 않음.",
     "tests": ["tests/prediction-cms-subsidy-20261010.test.mjs"],
     "checks": ["check:worker"],
-    "command": "npm run deploy:production -- --scoped"
+    "command": "npm run deploy:production -- --scoped",
+    "deployedCommit": "08a2c0d625f1979f0e5210726f81a3102ab454d5",
+    "deploymentUrl": "https://c7e5ecc7.cnine-card.pages.dev",
+    "apiRuntimeVersion": "62103312-13a7-4207-bfb8-2fcfc62c4123",
+    "productionVerification": "운영 도메인에서 변경 화면 파일 8개 해시 일치, service/status 200, 비로그인 지원금 API 401. 운영 지원금 지급 없음.",
+    "evidence": "C:/Users/User/Downloads/upload/cnine-card/tmp/prediction-cms-subsidy-20261010/production-verification.json"
   }
 }
