@@ -1,0 +1,41 @@
+{
+  "date": "2026-10-11",
+  "eventId": "diim-term-extension-20261011",
+  "runtimeSource": "200624c4ba63bc0dba16b248b5de65f914748cd1",
+  "finalSource": "8b6a20cec9d2295dbd9f6f3df7f258362fc2b814",
+  "pages": "https://e868eabd.cnine-card.pages.dev",
+  "apiRuntimeVersion": "e964d66c-137d-4a7c-afef-18471d8e6410",
+  "clanWorkerVersion": "ca4c3873-6142-4722-b7ed-e6b32b9576b6",
+  "cache": "20261011-diim1",
+  "productionOperation": {
+    "method": "Logged-in OWNER CMS, chief management, dedicated extension button",
+    "observedResult": "특별 담화 공개 · 임기 7일 연장 완료",
+    "userId": 4773,
+    "nickname": "진짜디임",
+    "ordinal": 10,
+    "previousEndsAtObservedKst": "2026-10-13 00:09:51",
+    "endsAtObservedKst": "2026-10-20 00:09:51",
+    "addedDays": 7,
+    "usageBeforeAndAfter": {"burningToday":0,"hyperToday":0,"towerResetCount":0},
+    "playerLobbyObserved": "제10대 장군 진짜디임 · 8일 22시간 남음",
+    "executedAgainDuringCmsLayoutRelease": false
+  },
+  "validation": {
+    "serverRegressionsPassed": 7,
+    "playerBrowserChecksPassed": 23,
+    "finalMobileChecksPassed": 8,
+    "finalCmsChecksPassed": 5,
+    "workerCompiled": true,
+    "releaseAndHyperdriveChecksPassed": true,
+    "unauthenticatedNoticeStatus": 401,
+    "initialProductionFilesHashMatched": 7,
+    "finalCmsFilesHashMatched": 2,
+    "proofDirectory": "C:/Users/User/.codex/tmp/chief-extension-20261011"
+  },
+  "art": {
+    "tool": "built-in image_gen",
+    "source": "assets/ui/chief/diim-regime-extension-20261011.png",
+    "delivery": "assets/ui/chief/diim-regime-extension-20261011.webp",
+    "manifest": "preview/chief-extension-20261011/art-manifest.json"
+  }
+}
