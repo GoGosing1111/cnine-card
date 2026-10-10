@@ -1,0 +1,427 @@
+{
+  "date": "2026-10-11",
+  "request": "시즌패스 활성화시 헤드셋 시바견 지급하게하고 이미 후원자 기능 활성화 된사람들중에서도 헤드셋 시바견 없으면 다 지급해",
+  "sourceCommit": "fade2d5d8327472f90dcb4cb5fa52bbdfb65e333",
+  "previousDeployedCommit": "89114e97846fefa866cc17044468f8ebb02b0c26",
+  "policy": {
+    "petCode": "PET-HEADSET-SHIBA",
+    "quantityIfMissing": 1,
+    "alreadyOwnedAdditionalQuantity": 0,
+    "permanentOwnership": true,
+    "activationPath": "admin/server-support GRANT",
+    "atomicEntitlementPetAuditReceipt": true
+  },
+  "initial": {
+    "active": 43,
+    "missing": 40,
+    "alreadyOwned": 3
+  },
+  "backfill": {
+    "status": "VERIFIED",
+    "verifiedAt": "2026-10-10T21:30:25.272Z",
+    "active": 43,
+    "granted": 40,
+    "totalPets": 40,
+    "remainingMissing": 0,
+    "liveUserLock": true,
+    "databaseLease": true,
+    "replayVerified": true,
+    "otherStatePreserved": true,
+    "grants": [
+      {
+        "id": 22,
+        "nickname": "커피먹는철구",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44393",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:22",
+        "grantedAt": "2026-10-10T21:26:51.382Z"
+      },
+      {
+        "id": 45,
+        "nickname": "박세라-ㅂ-",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44394",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:45",
+        "grantedAt": "2026-10-10T21:26:54.588Z"
+      },
+      {
+        "id": 65,
+        "nickname": "음순이",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44395",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:65",
+        "grantedAt": "2026-10-10T21:26:57.800Z"
+      },
+      {
+        "id": 71,
+        "nickname": "진땅콩_",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44396",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:71",
+        "grantedAt": "2026-10-10T21:27:00.870Z"
+      },
+      {
+        "id": 88,
+        "nickname": "0수표",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44397",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:88",
+        "grantedAt": "2026-10-10T21:27:03.965Z"
+      },
+      {
+        "id": 130,
+        "nickname": "족구선생",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44398",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:130",
+        "grantedAt": "2026-10-10T21:27:07.068Z"
+      },
+      {
+        "id": 162,
+        "nickname": "차단하다",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44399",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:162",
+        "grantedAt": "2026-10-10T21:27:10.331Z"
+      },
+      {
+        "id": 218,
+        "nickname": "현하루",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44400",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:218",
+        "grantedAt": "2026-10-10T21:27:13.495Z"
+      },
+      {
+        "id": 277,
+        "nickname": "스갤가축",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44401",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:277",
+        "grantedAt": "2026-10-10T21:27:17.298Z"
+      },
+      {
+        "id": 290,
+        "nickname": "Mild7",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44402",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:290",
+        "grantedAt": "2026-10-10T21:27:20.310Z"
+      },
+      {
+        "id": 303,
+        "nickname": "[C9]족쪽이",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44403",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:303",
+        "grantedAt": "2026-10-10T21:28:36.306Z"
+      },
+      {
+        "id": 360,
+        "nickname": "라피e",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44404",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:360",
+        "grantedAt": "2026-10-10T21:28:39.675Z"
+      },
+      {
+        "id": 750,
+        "nickname": "라페스타다",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44405",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:750",
+        "grantedAt": "2026-10-10T21:28:42.893Z"
+      },
+      {
+        "id": 1301,
+        "nickname": "팩트만쓴다15",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44406",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:1301",
+        "grantedAt": "2026-10-10T21:28:45.764Z"
+      },
+      {
+        "id": 1768,
+        "nickname": "핫시",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44407",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:1768",
+        "grantedAt": "2026-10-10T21:28:48.579Z"
+      },
+      {
+        "id": 2333,
+        "nickname": "구와함",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44408",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:2333",
+        "grantedAt": "2026-10-10T21:28:51.767Z"
+      },
+      {
+        "id": 3867,
+        "nickname": "레드클라우드",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44409",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:3867",
+        "grantedAt": "2026-10-10T21:28:54.676Z"
+      },
+      {
+        "id": 3974,
+        "nickname": "우회하세요",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44410",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:3974",
+        "grantedAt": "2026-10-10T21:28:57.943Z"
+      },
+      {
+        "id": 4084,
+        "nickname": "게임닉네임",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44411",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:4084",
+        "grantedAt": "2026-10-10T21:29:00.865Z"
+      },
+      {
+        "id": 4235,
+        "nickname": "도댕",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44412",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:4235",
+        "grantedAt": "2026-10-10T21:29:03.753Z"
+      },
+      {
+        "id": 4562,
+        "nickname": "찡찡ෆ",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44413",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:4562",
+        "grantedAt": "2026-10-10T21:29:06.703Z"
+      },
+      {
+        "id": 4572,
+        "nickname": "응맨",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44414",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:4572",
+        "grantedAt": "2026-10-10T21:29:10.423Z"
+      },
+      {
+        "id": 4582,
+        "nickname": "족단",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44415",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:4582",
+        "grantedAt": "2026-10-10T21:29:13.361Z"
+      },
+      {
+        "id": 4595,
+        "nickname": "비니",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44416",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:4595",
+        "grantedAt": "2026-10-10T21:29:16.263Z"
+      },
+      {
+        "id": 4597,
+        "nickname": "찬호",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44417",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:4597",
+        "grantedAt": "2026-10-10T21:29:19.157Z"
+      },
+      {
+        "id": 4610,
+        "nickname": "고라니ㅇ",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44418",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:4610",
+        "grantedAt": "2026-10-10T21:29:22.483Z"
+      },
+      {
+        "id": 4614,
+        "nickname": "공단",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44419",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:4614",
+        "grantedAt": "2026-10-10T21:29:25.393Z"
+      },
+      {
+        "id": 4625,
+        "nickname": "제롬",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44420",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:4625",
+        "grantedAt": "2026-10-10T21:29:28.614Z"
+      },
+      {
+        "id": 4627,
+        "nickname": "학벌",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44421",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:4627",
+        "grantedAt": "2026-10-10T21:29:31.525Z"
+      },
+      {
+        "id": 4628,
+        "nickname": "망순이ෆ",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44422",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:4628",
+        "grantedAt": "2026-10-10T21:29:34.438Z"
+      },
+      {
+        "id": 4693,
+        "nickname": "시소둥이",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44423",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:4693",
+        "grantedAt": "2026-10-10T21:29:37.333Z"
+      },
+      {
+        "id": 4705,
+        "nickname": "˚쟁이。",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44424",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:4705",
+        "grantedAt": "2026-10-10T21:29:41.144Z"
+      },
+      {
+        "id": 4773,
+        "nickname": "진짜디임",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44425",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:4773",
+        "grantedAt": "2026-10-10T21:29:44.022Z"
+      },
+      {
+        "id": 4817,
+        "nickname": "음주",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44426",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:4817",
+        "grantedAt": "2026-10-10T21:29:46.859Z"
+      },
+      {
+        "id": 4866,
+        "nickname": "[C9]가시",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44427",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:4866",
+        "grantedAt": "2026-10-10T21:29:49.703Z"
+      },
+      {
+        "id": 4908,
+        "nickname": "굳건창수",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44428",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:4908",
+        "grantedAt": "2026-10-10T21:29:52.777Z"
+      },
+      {
+        "id": 4913,
+        "nickname": "오리꿍",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44429",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:4913",
+        "grantedAt": "2026-10-10T21:29:55.992Z"
+      },
+      {
+        "id": 4977,
+        "nickname": "하이희야♡",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44430",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:4977",
+        "grantedAt": "2026-10-10T21:29:59.235Z"
+      },
+      {
+        "id": 5393,
+        "nickname": "주성",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44431",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:5393",
+        "grantedAt": "2026-10-10T21:30:02.343Z"
+      },
+      {
+        "id": 5426,
+        "nickname": "나무늘봉순",
+        "quantity": 1,
+        "currentQuantity": 1,
+        "adminLogId": "44432",
+        "receiptKey": "supporter_pet_backfill_v1:20261011:5426",
+        "grantedAt": "2026-10-10T21:30:05.111Z"
+      }
+    ]
+  },
+  "validation": {
+    "supportAndSeasonPassRegressionPassed": 32,
+    "activationAndBackfillRegressionPassed": 14,
+    "databases": [
+      "SQLite",
+      "PostgreSQL"
+    ],
+    "workerCompilation": "passed",
+    "releaseCacheFlagsHyperdrive": "passed",
+    "live": {
+      "verifiedAt": "2026-10-10T21:27:14.824Z",
+      "checks": [
+        {
+          "path": "/api/server-support/info",
+          "status": 401
+        },
+        {
+          "path": "/api/admin/server-support",
+          "status": 401
+        },
+        {
+          "path": "/assets/ui/pets/gamer-duo-20261006-v1/pet-headset-shiba-v1.png",
+          "status": 200,
+          "sha256": "98810de99b1d2c9d33d96937555442f870d050abd130375f76645acd06572445"
+        }
+      ]
+    }
+  },
+  "deployment": {
+    "command": "npm run deploy:production -- --scoped",
+    "pages": "https://c28e0ba8.cnine-card.pages.dev",
+    "apiVersion": "efb1b273-c0d9-4481-aa20-af38c30d70b2",
+    "clanVersion": "6f702ab5-c9c4-42f5-bc0e-c6483e4bd191"
+  }
+}
