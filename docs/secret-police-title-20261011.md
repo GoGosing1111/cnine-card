@@ -15,3 +15,9 @@
 - 프리뷰: `preview/secret-police-title-20261011/`. 시각 검수: `tests/secret-police-title-20261011.browser.mjs`. 증거: `C:/Users/User/.codex/tmp/secret-police-title-20261011/qa/`.
 - 직전 운영 Pages `e3089cea-baf3-47ab-920c-9a07a18adef8`, 소스 `6223402134c8e312e2df12585626a5e47c8c9dde`를 CLI에서 확인했다. 기존 칭호 한 종의 카탈로그·스타일 추가이며 스키마·인증·공통 거래 구조 변경은 없다.
 - 지정 명령 `npm run deploy:production -- --scoped`로 배포한다. 신규 등록 회귀 6개는 변경 완료 후 이미 통과했으므로, 배포 단계는 수정한 `tests/equipment-loading.test.mjs`의 칭호 교체·보너스 경로와 `check:worker`, 기존 출시 플래그·캐시·Hyperdrive 검사를 실행한다. 무관한 전체 게임 검사는 반복하지 않는다.
+
+## 운영 반영 결과
+
+- 실행 커밋 `89114e97`, Pages https://e172050a.cnine-card.pages.dev, API `120d4819-5f75-4f6b-96e2-6f0445792ba6`, clan-draft `00f7b3e0-a8b5-44bc-ae6d-46fec51fcbc2`. 지정 scoped 배포가 완료됐다.
+- 2026-10-10T21:20:41.114Z 운영 재조회: `SECRET_POLICE` / 비밀경찰 / MANUAL / 활성·공개 / **75,000**. 도박왕의 현재 저장값과 일치하고 전용 marker도 완료됐다. 확인 시 칭호 보유 계정 0개이며 이번 작업은 자동 지급을 수행하지 않았다.
+- 실제 원격 문장·CSS·장비창·CMS·메인 로더·HTML·서비스워커 7개가 HTTP 200, 로컬 SHA-256과 일치했다. 미인증 장비창 API는 401을 유지한다. 상세 운영 조회와 PC·모바일 검수는 같은 이름 JSON에 보존한다.
