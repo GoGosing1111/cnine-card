@@ -17,9 +17,9 @@ function harness(initialUser={serverUserId:42,nickname:'실제 로그인 형태'
  const emit=map=>(type,event={})=>{for(const fn of map.get(type)||[])fn(event);};
  const document={hidden:false,getElementById:id=>id==='jokgakStyle'?{sheet:{}}:null,addEventListener:listen(documentEvents),createElement(){
   const buttons=new Map();
-  return {dataset:{},setAttribute(){},remove(){notices.delete(this);},querySelector(selector){if(!buttons.has(selector))buttons.set(selector,{});return buttons.get(selector);}};
+  return {dataset:{},setAttribute(){},insertAdjacentHTML(){},remove(){notices.delete(this);},querySelector(selector){if(!buttons.has(selector))buttons.set(selector,{});return buttons.get(selector);}};
  }};
- const config={cityPlace:()=>({name:'시장'}),cityTheftHtml:()=>'',mountCityNoticeLayer:node=>{notices.add(node);return ()=>notices.delete(node);}};
+ const config={cityPlace:()=>({name:'시장'}),cityTheftHtml:()=>'',deathClock:()=>'03:00',mountCityNoticeLayer:node=>{notices.add(node);return ()=>notices.delete(node);}};
  const sandbox={document,location:{pathname:'/'},navigator:{locks:{request:async(_name,_options,fn)=>fn({})}},localStorage:storage,sessionStorage:storage,loadUser:()=>account,
   AbortSignal,__cityImport:async()=>config,addEventListener:listen(windowEvents),
   setTimeout:(fn,ms)=>{timers.set(++serial,{fn,ms});return serial;},clearTimeout:id=>timers.delete(id),setInterval:()=>++serial,clearInterval(){},
@@ -74,4 +74,10 @@ test('failed explicit ACK is retried from the seen list without redisplaying the
  const h=harness();let fail=true;h.handle(async r=>{if(r.body){if(fail){fail=false;throw Error('network');}return {};}return result([item('retry')]);});
  await h.tick();await h.notice.querySelector('[data-notice-dismiss]').onclick();assert.equal(h.notices.size,0);
  await h.tick();assert.equal(h.acks.length,2);assert.deepEqual(h.acks[1].body,{ids:['retry']});assert.equal(h.notices.size,0);
+});
+
+test('hide preference suppresses attack and death popups without acknowledging, and disabling it restores the pending alert',async()=>{
+ const h=harness(),now=Date.now(),reply={...result([item('hidden')]),mine:{active:true,deadUntil:now+180000,death:{killerName:'공격자'}},noticePreferences:{hidePopups:true}};
+ h.handle(async()=>reply);await h.tick();assert.equal(h.notices.size,0);assert.equal(h.acks.length,0);
+ reply.noticePreferences.hidePopups=false;h.wake();await h.tick();assert.equal(h.notices.size,2);assert.equal([...h.notices].some(n=>n.dataset.cityNoticeId==='hidden'),true);
 });

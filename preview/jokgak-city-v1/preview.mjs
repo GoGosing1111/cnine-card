@@ -3,6 +3,7 @@ import {changeCityCash,transferCityCash} from '/shared/jokgak-city-cash-v1.mjs';
 import {defaultCitySettings} from '/shared/jokgak-city-settings-v1.mjs';
 import {newCityLife,projectCityLife,applyCityLifeView,markCityDeath} from '/shared/jokgak-city-life-v1.mjs';
 import {cityArmory,projectCityFacilities} from '/shared/jokgak-city-expansion-v1.mjs';
+import {cityCommsAction} from '/shared/jokgak-city-comms-v1.mjs';
 const policy=defaultCitySettings(),life=newCityLife(Date.now());life.hunger=35;life.wellness=65;
 const names=['밤의산책자','네온러너','거리의의사','빨간우체통','달빛상인','항구의그림자','초록신호','블루사이렌','새벽배송','마지막택시','도시의별','유리정원'];
 const me={userId:900001,nickname:'도시 탐험가',active:true,role:'POLICE',location:'MARKET',health:150,maxHealth:150,wanted:0,jailedUntil:0,nextActionAt:0,nextMoveAt:0,protectedUntil:0,revision:0};
@@ -10,17 +11,25 @@ const residents=CITY_PLACES.flatMap((place,placeIndex)=>names.map((nickname,i)=>
 window.loadUser=()=>({id:me.userId,nickname:me.nickname});
 const receipts=new Map(),residentLife=new Map(residents.map(p=>[p.userId,newCityLife(Date.now())])),offers=new Map();
 const rolePolicy=code=>policy.roles.find(r=>r.code===code);
+let previewShift=cityShift(),noticePreferences={hidePopups:false},broadcasts=[];
 window.CityPreview={
   async request(path,body){
     await new Promise(resolve=>setTimeout(resolve,100));
     const url=new URL(path,'http://preview/'),action=url.pathname.slice(1);
+    if(previewShift.id!==cityShift().id){previewShift=cityShift();me.active=false;residents.forEach(p=>p.active=false);receipts.clear();offers.clear();broadcasts=[];}
     projectCityLife(me,life,Date.now(),policy);
-    if(action==='status'){const location=url.searchParams.get('location')||'MARKET',after=Number(url.searchParams.get('after')||0);const people=[...residents,...(me.active?[me]:[])].filter(p=>p.location===location&&p.userId>after).sort((a,b)=>a.userId-b.userId);return structuredClone({ok:true,serverNow:Date.now(),shift:cityShift(),mode:'TEST',cash:policy.cash,life:policy.life,arsenal:policy.arsenal,facilities:policy.facilities,rules:policy.rules,roles:policy.roles,places:CITY_PLACES,mine:me,location,people:people.slice(0,10),beggingOffers:me.active&&!me.deadUntil&&!me.hospitalRequired?[...offers.values()].filter(x=>x.location===me.location&&x.endsAt>Date.now()):[],nextCursor:people.length>10?people[9].userId:null});}
+    if(action==='notice-settings'){noticePreferences={hidePopups:body.hidePopups===true};return {ok:true,noticePreferences};}
+    if(action==='ack-all')return {ok:true};
+    if(action==='log')return {ok:true,shift:previewShift,items:[...receipts.values()].reverse().map(r=>({id:'sent:'+r.requestId,createdAt:r.createdAt,direction:'sent',action:r.action,comms:r.comms,actorName:me.nickname,targetName:r.target?.nickname,health:r.mine?.health})).slice(0,20),next:null,serverNow:Date.now()};
+    if(action==='status'){const location=url.searchParams.get('location')||'MARKET',after=Number(url.searchParams.get('after')||0);const people=[...residents,...(me.active?[me]:[])].filter(p=>p.active&&p.location===location&&p.userId>after).sort((a,b)=>a.userId-b.userId);return structuredClone({ok:true,serverNow:Date.now(),shift:cityShift(),mode:'TEST',cash:policy.cash,life:policy.life,arsenal:policy.arsenal,facilities:policy.facilities,rules:policy.rules,roles:policy.roles,places:CITY_PLACES,mine:me,location,noticePreferences,unreadCount:0,broadcasts:broadcasts.filter(b=>b.createdAt>Date.now()-120000),people:people.slice(0,10),beggingOffers:me.active&&!me.deadUntil&&!me.hospitalRequired?[...offers.values()].filter(x=>x.location===me.location&&x.endsAt>Date.now()):[],nextCursor:people.length>10?people[9].userId:null});}
     if(action==='ack'){for(const id of body.ids||[])offers.delete(id);return {ok:true};}
     if(action==='result'){if(receipts.has(url.searchParams.get('requestId')))return receipts.get(url.searchParams.get('requestId'));throw Object.assign(Error('아직 기록이 없습니다.'),{status:404});}
     if(receipts.has(body?.requestId))return receipts.get(body.requestId);
+    if(body?.epoch!==previewShift.id)throw Object.assign(Error('교대가 끝났습니다. 다시 입장하세요.'),{status:409});
+    if(!me.active&&action!=='join')throw Object.assign(Error('먼저 도시에 입장하세요.'),{status:409});
     if(me.deadUntil>Date.now()&&action!=='leave')throw Object.assign(Error('3분 사망 대기 후 병원에서 부활합니다.'),{status:409});
-    const target=[me,...residents].find(p=>p.userId===body?.targetId);const result={ok:true,action,location:me.location,requestId:body?.requestId};
+    const target=[me,...residents].find(p=>p.userId===body?.targetId);const result={ok:true,action,location:me.location,requestId:body?.requestId,epoch:previewShift.id,createdAt:Date.now()};
+    if(['buyMegaphone','broadcast'].includes(action)){result.comms=cityCommsAction({action,message:body.message,me,life,policy,now:Date.now()});if(action==='broadcast')broadcasts.push({id:body.requestId,...result.comms});}
     if(action==='join'){me.active=true;me.location='HOME';}
     if(action==='leave')me.active=false;
     if(action==='move'){me.location=body.location;offers.clear();}
@@ -71,7 +80,7 @@ const options=CITY_ROLES.map(r=>`<option value="${r.code}" ${r.code===me.role?'s
 document.getElementById('previewRole').innerHTML=options;
 document.getElementById('previewRole').onchange=async event=>{me.role=event.target.value;me.maxHealth=rolePolicy(me.role).maxHealth;me.health=me.maxHealth;me.nextActionAt=0;me.jailedUntil=0;life.begging=null;await window.JokgakCity.bind();};
 document.getElementById('previewAlms').onclick=async()=>{const beg=residents.find(p=>p.location===me.location&&p.role==='BEGGAR'),requestId=crypto.randomUUID();offers.clear();if(beg)offers.set(requestId,{id:requestId,requestId,action:'alms',actorId:beg.userId,actorName:beg.nickname,location:me.location,mode:'TEST',cash:100,createdAt:Date.now(),endsAt:Date.now()+30000});await window.JokgakCity.bind();document.querySelector('.jc-map-stage').scrollIntoView({block:'center'});};
-document.getElementById('previewNotice').onclick=()=>window.JokgakCity.showNotice({id:'preview-notice',requestId:'preview-request',action:'attack',actorId:101,actorName:'밤의산책자',location:me.location,winner:'A',theft:{status:'TRANSFERRED',mode:'TEST',amount:1000,actorChange:1000,percent:10,maxCash:2000},health:55,jailedUntil:0});
+document.getElementById('previewNotice').onclick=()=>window.JokgakCity.showNotice({id:'preview-notice',requestId:'preview-request',action:'attack',actorId:101,actorName:'밤의산책자',location:me.location,winner:'A',theft:{status:'TRANSFERRED',mode:'TEST',amount:1000,actorChange:1000,percent:10,maxCash:2000},health:55,jailedUntil:0,expiresAt:cityShift().endsAt,createdAt:Date.now()});
 document.getElementById('previewDeath').onclick=async()=>{markCityDeath(me,life,{userId:101,nickname:'밤의산책자'},Date.now(),me.location);applyCityLifeView(me,life,policy);await window.JokgakCity.bind();document.getElementById('previewCity').scrollIntoView({block:'start'});};
 document.getElementById('previewCity').innerHTML=window.JokgakCity.view();await window.JokgakCity.bind();
 // The same V3 asset manifest as the live game, generated for this isolated page.

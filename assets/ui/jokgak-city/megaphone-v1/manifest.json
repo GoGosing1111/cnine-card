@@ -1,0 +1,28 @@
+{
+  "generator": "Built-in image_gen",
+  "prompt": "Use case: stylized-concept. Asset type: polished Korean modern-city RPG inventory item, single transparent-background object. Primary request: one premium portable handheld megaphone, ivory enamel bell with warm orange rim, dark charcoal pistol grip, small dark shoulder strap folded neatly against its body, subtle teal details. Style: detailed high-end semi-realistic painted game item with physically convincing plastic, brushed metal and rubber, crisp readable silhouette, matching an urban night survival RPG item set. Three-quarter view showing the broad horn opening and whole handle. Centered square composition with 10 percent safe transparent margins; entire object visible. Gentle warm light upper left, cool teal rim right. No human, hand, extra objects, scene, floor, text, numbers, logo, watermark or card border. Truly transparent alpha background with no fake checkerboard. At least 1024 square.",
+  "generatedSource": "C:/Users/User/.codex/generated_images/01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd/exec-ae80b401-ecc7-4d15-85b0-085b0cd8e592.png",
+  "files": {
+    "megaphone-256.webp": {
+      "bytes": 20636,
+      "sha256": "5debd0ccc97945075a74750951286c0dc1690bcf194a4fbafd226c740a6a3422",
+      "width": 256,
+      "height": 256,
+      "alpha": true
+    },
+    "megaphone-768.webp": {
+      "bytes": 110182,
+      "sha256": "ea46378433697d4492401b8b3c30e36b95cd6b18bd6adb9ea9055430cd720f54",
+      "width": 768,
+      "height": 768,
+      "alpha": true
+    },
+    "megaphone-source.png": {
+      "bytes": 1456183,
+      "sha256": "622026f9bf6a27e9c0eced75c89372b909cad959955b13e3a9e82cb7a1513b1b",
+      "width": 1254,
+      "height": 1254,
+      "alpha": true
+    }
+  }
+}

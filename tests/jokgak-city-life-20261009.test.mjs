@@ -24,11 +24,11 @@ for(const pg of [false,true]){
     const result=await f.action(1,'attack',{targetId:2}),deadline=f.now+180000;
     assert.equal(result.target.deadUntil,deadline);assert.equal(result.target.health,0);assert.equal(result.target.location,'HOSPITAL');assert.equal(result.target.death.killerName,'참가자 1');
     const notification=JSON.parse((await f.p('SELECT summary_json FROM jokgak_city_notifications_v1 WHERE user_id=2').first()).summary_json);assert.equal(notification.deadUntil,deadline);
-    f.advance(70000);assert.equal((await status(f,2)).mine.health,0);await assert.rejects(f.action(2,'move',{location:'HOME'}),/사망/);await f.action(2,'leave');await assert.rejects(f.action(2,'join'),/사망/);
+    f.advance(70000);assert.equal((await status(f,2)).mine.health,0);assert.equal((await status(f,2)).mine.active,false);await assert.rejects(f.action(2,'move',{location:'HOME'}),/입장/);await assert.rejects(f.action(2,'leave'),/체류 중이 아닙니다/);await assert.rejects(f.action(2,'join'),/사망/);
     f.advance(109999);assert.equal((await status(f,2)).mine.deadUntil,deadline);f.advance(1);const revived=(await status(f,2)).mine;
     assert.equal(revived.deadUntil,0);assert.equal(revived.health,revived.maxHealth);assert.equal(revived.wellness,100);assert.equal(revived.location,'HOSPITAL');assert.equal(revived.death.killerId,1);
     assert.equal((await f.action(2,'join')).mine.location,'HOSPITAL');
-    const replay=await cityAction(f.env,f.deps,f.users.get(1),'attack',{requestId:result.requestId,epoch:result.epoch,targetId:2});assert.equal(replay.replayed,true);assert.equal(replay.target.deadUntil,deadline);
+    await assert.rejects(cityAction(f.env,f.deps,f.users.get(1),'attack',{requestId:result.requestId,epoch:result.epoch,targetId:2}),/교대/);
   });
   test(db+': attacker death uses defending killer; medical actions cannot revive early; fatal arrest goes to hospital',async t=>{
     const f=await cityFixture(t,pg),nurse=f.roles.NURSE,police=f.roles.POLICE;

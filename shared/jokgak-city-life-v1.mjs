@@ -2,6 +2,7 @@
 import {ensureCityCash,CITY_CASH_MAX} from './jokgak-city-cash-v1.mjs';
 import {validateCityFacilitiesState,projectCityFacilities,applyCityExpansionView,defaultCityFacilities} from './jokgak-city-expansion-v1.mjs';
 import {validateCityCareerState,projectCityCareer,applyCityCareerView} from './jokgak-city-career-v1.mjs';
+import {validateCityCommsState,cityMegaphones} from './jokgak-city-comms-v1.mjs';
 export const CITY_DEATH_MS=180000;
 export const CITY_SUPPLIES=[
   {code:'LUNCHBOX',name:'휴대 도시락',icon:'meal',description:'이동 중 허기를 달래는 따뜻한 도시락'},
@@ -39,6 +40,7 @@ export function readCityLife(raw,now){
     const life=JSON.parse(raw);
     validateCityFacilitiesState(life);
     validateCityCareerState(life);
+    validateCityCommsState(life);
     if(life.version!==1||!Number.isSafeInteger(life.at)||!['hunger','wellness'].every(k=>Number.isFinite(life[k])&&life[k]>=0&&life[k]<=100)||!life.bags?.TEST||!life.bags?.ON)throw Error();
     for(const mode of ['TEST','ON'])for(const [code,n] of Object.entries(life.bags[mode]))if(!CITY_SUPPLIES.some(s=>s.code===code)||!integer(n,0,99))throw Error();
     if(life.death&&(!Number.isSafeInteger(life.death.until)||!Number.isSafeInteger(life.death.at)||typeof life.death.killerName!=='string'))throw Error();
@@ -50,6 +52,7 @@ export function readCityLife(raw,now){
   }catch{throw Object.assign(Error('도시 생활 상태를 확인하지 못했습니다. 다시 시도해 주세요.'),{status:503,code:'CITY_LIFE_RETRY'});}
 }
 export function projectCityLife(state,life,now,policy){
+  if(state.rotationExpired){if(life.motel)life.motel.until=0;life.begging=null;}
   const cfg=policy.life,death=life.death;
   if(death&&!death.resolved){
     state.location='HOSPITAL';state.jailedUntil=0;state.wanted=0;
@@ -80,6 +83,7 @@ export function applyCityLifeView(state,life,policy){
   state.death=life.death?{...life.death}:null;state.deadUntil=life.death&&!life.death.resolved?life.death.until:0;
   state.hospitalRequired=!state.deadUntil&&state.location==='HOSPITAL'&&life.wellness<=policy.life.hospitalThreshold;
   state.bag={...(life.bags[policy.mode]||{})};
+  const megaphones=cityMegaphones(life,policy.mode,life.at);state.megaphoneCount=megaphones.count;state.megaphoneNextAt=megaphones.nextAt;
   const wallet=ensureCityCash(life,policy);state.cash=wallet?.balance??0;state.cashMode=policy.mode;state.cashUnit='원';
   state.begging=state.active&&state.role==='BEGGAR'&&!state.deadUntil&&!state.hospitalRequired&&life.begging?.endsAt>life.at&&life.begging.location===state.location&&life.begging.mode===policy.mode?{...life.begging}:null;
   return applyCityCareerView(applyCityExpansionView(state,life,policy),life,policy);

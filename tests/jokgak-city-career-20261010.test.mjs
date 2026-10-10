@@ -55,7 +55,7 @@ for(const pg of [false,true]){const prefix=pg?'Postgres':'SQLite';
  test(prefix+': salary/reset and purchases share CAS rollback; a lost salary commit never double credits',async t=>{
   const f=await cityFixture(t,pg),id=f.roles.CITIZEN;await enable(f);await f.join(id);f.advance(hour);f.fail('INSERT INTO jokgak_city_actions_v1');await assert.rejects(f.action(id,'buyWeapon',{product:'PIPE'}),/INJECTED/);f.fail('');assert.equal((await life(f,id)).wallets.ON.balance,10000);
   f.lost();await assert.rejects(status(f,id),/LOST_COMMIT/);assert.equal((await status(f,id)).mine.cash,12000);const bought=await f.action(id,'buyWeapon',{product:'PIPE'});assert.equal(bought.mine.cash,10000);
-  f.setTime(cityShift(f.now).endsAt);f.fail('INSERT INTO jokgak_city_actions_v1');await assert.rejects(f.action(id,'buyWeapon',{product:'PISTOL'}),/INJECTED/);f.fail('');assert.deepEqual((await life(f,id)).armory.ON.owned,['PIPE']);assert.equal((await f.action(id,'buyWeapon',{product:'PISTOL'})).mine.cash,2000);assert.deepEqual((await life(f,id)).armory.ON.owned,['PISTOL']);
+  f.setTime(cityShift(f.now).endsAt);await assert.rejects(f.action(id,'buyWeapon',{product:'PISTOL'}),/입장/);await f.action(id,'join');await f.p('UPDATE jokgak_city_players_v1 SET location=? WHERE user_id=?','MARKET',id).run();f.fail('INSERT INTO jokgak_city_actions_v1');await assert.rejects(f.action(id,'buyWeapon',{product:'PISTOL'}),/INJECTED/);f.fail('');assert.deepEqual((await life(f,id)).armory.ON.owned,[]);assert.equal((await f.action(id,'buyWeapon',{product:'PISTOL'})).mine.cash,2000);assert.deepEqual((await life(f,id)).armory.ON.owned,['PISTOL']);
  });
 }
 test('a stale in-flight fight cannot overwrite the reset after a parallel shift sync',async t=>{

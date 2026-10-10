@@ -1,0 +1,86 @@
+{
+  "date": "2026-10-11",
+  "previousDeployedCommit": "635d2f3a20c6b3619ccd4a4defbdc93ab68848e2",
+  "requests": [
+    "Skip all incoming city popups",
+    "Persist per-account popup hide preference",
+    "Provide separate current-shift activity log",
+    "Exit every user at KST 00/06/12/18 and require explicit rejoin",
+    "Market megaphone costs 500 city cash and broadcasts on the map",
+    "Expired city popups disappear; delete prior-shift city DB records"
+  ],
+  "policy": {
+    "megaphonePrice": 500,
+    "currency": "city cash",
+    "consumptionPerBroadcast": 1,
+    "retention": "current 6-hour city shift only",
+    "physicalCleanup": "API boundary and existing minute cron; no separate financial audit deletion",
+    "manualReentry": true,
+    "modeUnchanged": true
+  },
+  "browser": {
+    "passed": 14,
+    "checks": [
+      "1440: hide preference saves for production-shaped account and survives reload without dismissing records",
+      "1440: separate activity log retains skipped alerts; skip-all acknowledges all 13 rather than only the first page",
+      "1440: unchecking restores popups and the popup itself offers a working skip-all button",
+      "1440: real market UI displays custom megaphone art and purchases one for exactly 500 city cash",
+      "1440: sending consumes one item and both sender/other account see escaped sender/message in the map broadcast animation",
+      "1440: rotation removes visible popup and broadcast, exits every account and deletes prior city history",
+      "1440: fresh round requires an explicit join; the other account stays out and no old stock or popup returns",
+      "390: hide preference saves for production-shaped account and survives reload without dismissing records",
+      "390: separate activity log retains skipped alerts; skip-all acknowledges all 13 rather than only the first page",
+      "390: unchecking restores popups and the popup itself offers a working skip-all button",
+      "390: real market UI displays custom megaphone art and purchases one for exactly 500 city cash",
+      "390: sending consumes one item and both sender/other account see escaped sender/message in the map broadcast animation",
+      "390: rotation removes visible popup and broadcast, exits every account and deletes prior city history",
+      "390: fresh round requires an explicit join; the other account stays out and no old stock or popup returns"
+    ],
+    "errors": [],
+    "requestCount": 55,
+    "allRequestsSucceeded": true,
+    "environment": "Chrome desktop/mobile viewports, real city handler and isolated SQLite; real local serverUserId shape; server and client clocks advanced to shift boundary",
+    "evidenceDirectory": "C:/Users/User/Downloads/upload/cnine-card/tmp/jokgak-city-comms-20261011"
+  },
+  "preview": {
+    "passed": 2,
+    "checks": [
+      "1440: public preview purchase confirmation image fits; purchase, map broadcast and activity log work",
+      "390: public preview purchase confirmation image fits; purchase, map broadcast and activity log work"
+    ],
+    "errors": []
+  },
+  "existingCityRegressions": {
+    "files": [
+      "tests/jokgak-city-20261009.test.mjs",
+      "tests/jokgak-city-career-20261010.test.mjs",
+      "tests/jokgak-city-life-20261009.test.mjs"
+    ],
+    "total": 46,
+    "initialPassed": 44,
+    "expectationsUpdatedAndTargetedRetestPassed": 2,
+    "remainingFailures": 0
+  },
+  "scope": {
+    "tests": [
+      "tests/jokgak-city-comms-20261011.test.mjs",
+      "tests/jokgak-city-notifications-20261011.test.mjs",
+      "tests/jokgak-city-item-art-20261011.test.mjs"
+    ],
+    "checks": [
+      "check:worker"
+    ],
+    "reason": "City-local notification preferences, current-round history retention, all-user rotation exit and transactional 500-won megaphones. Existing schema and transaction/auth infrastructure unchanged."
+  },
+  "assets": {
+    "manifest": "assets/ui/jokgak-city/megaphone-v1/manifest.json",
+    "generator": "Built-in image_gen"
+  },
+  "regression": {
+    "status": "pending official scoped deployment checks"
+  },
+  "deployment": {
+    "status": "pending",
+    "liveAccountQaMutations": false
+  }
+}

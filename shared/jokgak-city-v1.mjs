@@ -16,7 +16,7 @@ export const CITY_PLACES = Object.freeze([
   {id:'HOSPITAL',name:'병원',district:'공공 지구',icon:'cross',x:50,y:19,shape:'42,5 58,5 60,26 43,27',labelX:50,labelY:27,detail:'3분 사망 대기가 끝나면 이곳에서 부활합니다. 진료로 도시 체력과 건강을 회복하세요.'},
   {id:'DEPARTMENT',name:'백화점',district:'상업 지구',icon:'store',x:79,y:20,shape:'68,8 87,8 91,24 86,29 69,28',labelX:79,labelY:29,detail:'환하게 빛나는 유리 아트리움. 상업 지구의 만남과 교전 장소.'},
   {id:'POST',name:'우체국',district:'공공 지구',icon:'mail',x:17,y:44,shape:'4,33 25,34 28,50 26,57 4,55',labelX:17,labelY:55,detail:'배송 차량이 모이는 물류 거점. 이곳에 체류 중인 인원을 확인하세요.'},
-  {id:'MARKET',name:'시장',district:'상업 지구',icon:'market',x:47,y:46,shape:'38,34 50,33 55,47 54,54 42,56 37,46',labelX:48,labelY:55,detail:'도시 현금으로 무기를 구매하는 거리의 무기상. 구매 후 인벤토리에서 장착하세요.'},
+  {id:'MARKET',name:'시장',district:'상업 지구',icon:'market',x:47,y:46,shape:'38,34 50,33 55,47 54,54 42,56 37,46',labelX:48,labelY:55,detail:'도시 현금으로 무기와 확성기를 구매합니다. 무기는 인벤토리에서 장착하고 확성기는 지도 방송에 사용하세요.'},
   {id:'HOME',name:'집',district:'주거 지구',icon:'home',x:77,y:44,shape:'68,33 88,32 88,48 85,56 69,55',labelX:78,labelY:55,detail:'도시 생활이 시작되는 주거 지구. 체류 중에는 이곳에서도 교전할 수 있습니다.'},
   {id:'DOCK',name:'항구 창고',district:'항만 지구',icon:'warehouse',x:24,y:74,shape:'9,61 34,63 38,85 26,90 8,84',labelX:24,labelY:84,detail:'컨테이너와 오래된 창고 사이로 이어지는 항만 구역.'},
   {id:'ALLEY',name:'뒷골목',district:'유흥 지구',icon:'bolt',x:47,y:75,shape:'40,60 54,59 55,86 40,88',labelX:47,labelY:84,detail:'네온이 비추는 좁은 거리. 교전 이후 수배와 체력을 확인하세요.'},
@@ -39,6 +39,6 @@ export function cityHealth(row,now=Date.now(),rules=CITY_RULES) {
 export function cityState(row,role,now=Date.now(),rules=CITY_RULES) {
   if(!row)return null;
   const current=Number(row.epoch)===cityShift(now).id;
-  return {userId:Number(row.user_id),nickname:row.nickname||'',active:Number(row.active)===1,role,location:row.location,health:cityHealth(row,now,rules),maxHealth:rules.maxHealth??100,wanted:current?Number(row.wanted):0,
-    jailedUntil:current?Number(row.jailed_until):0,nextActionAt:Number(row.next_action_at),nextMoveAt:Number(row.next_move_at),protectedUntil:current?Number(row.protected_until):0,revision:Number(row.revision)};
+  return {userId:Number(row.user_id),nickname:row.nickname||'',active:current&&Number(row.active)===1,rotationExpired:!current,role,location:row.location,health:cityHealth(row,now,rules),maxHealth:rules.maxHealth??100,wanted:current?Number(row.wanted):0,
+    jailedUntil:current?Number(row.jailed_until):0,nextActionAt:current?Number(row.next_action_at):0,nextMoveAt:current?Number(row.next_move_at):0,protectedUntil:current?Number(row.protected_until):0,revision:Number(row.revision)};
 }

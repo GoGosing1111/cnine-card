@@ -21,15 +21,16 @@ for(const pg of [false,true]){
     await f.p('UPDATE jokgak_city_players_v1 SET wanted=3,health=50 WHERE user_id=1').run();
     await f.action(1,'leave');await assert.rejects(f.action(1,'join'),/60초/);f.advance(60000);await f.action(1,'join');state=await cityStatus(f.env,f.users.get(1),'HOME',0,f.now);assert.equal(state.mine.role,original);assert.equal(state.mine.wanted,3);assert.equal(state.mine.health,55);
   });
-  test(prefix+': attack, health and target notification commit once; receipt is owner-bound and survives a shift',async t=>{
+  test(prefix+': attack and notification commit once; current-shift receipts are owner-bound and expire on rotation',async t=>{
     const f=await cityFixture(t,pg);await f.join(1);await f.join(2);
     const requestId=crypto.randomUUID(),body={requestId,epoch:cityShift(f.now).id,targetId:2};const first=await cityAction(f.env,f.deps,f.users.get(1),'attack',body);
     assert.equal(first.target.health,75);assert.equal(first.mine.wanted,1);assert.equal(first.result,'WIN');
     assert.equal((await cityAction(f.env,f.deps,f.users.get(1),'attack',body)).replayed,true);
-    f.advance(21600000);assert.equal((await cityAction(f.env,f.deps,f.users.get(1),'attack',body)).replayed,true);
     assert.equal((await f.p('SELECT COUNT(*) n FROM jokgak_city_notifications_v1').first()).n,1);
     await assert.rejects(cityAction(f.env,f.deps,f.users.get(3),'attack',body),/접근/);
     await assert.rejects(cityAction(f.env,f.deps,f.users.get(1),'heal',body),/다른 행동/);
+    f.advance(21600000);await assert.rejects(cityAction(f.env,f.deps,f.users.get(1),'attack',body),/교대/);
+    assert.equal((await f.p('SELECT COUNT(*) n FROM jokgak_city_notifications_v1').first()).n,0);
     assert.equal((await f.p('SELECT coin FROM users WHERE id=1').first()).coin,123456);
   });
   test(prefix+': role checks, medical caps, self-heal, police inspection and arrest are server-authoritative',async t=>{
@@ -54,7 +55,7 @@ for(const pg of [false,true]){
     assert.equal((await f.p('SELECT COUNT(*) n FROM jokgak_city_notifications_v1').first()).n,0);
     await f.p("UPDATE jokgak_city_players_v1 SET location='MARKET' WHERE user_id=2").run();
     f.deps.prepareCityBattle=async()=>{f.advance(21600000);return simulate();};await assert.rejects(f.action(1,'attack',{targetId:2}),/교대/);
-    f.deps.prepareCityBattle=simulate;await f.action(1,'attack',{targetId:2});await assert.rejects(f.action(3,'attack',{targetId:2}),/보호/);
+    f.deps.prepareCityBattle=simulate;for(const id of [1,2,3])await f.join(id);await f.action(1,'attack',{targetId:2});await assert.rejects(f.action(3,'attack',{targetId:2}),/보호/);
   });
   test(prefix+': failed notification rolls back health and receipts; lost commit response recovers exact receipt',async t=>{
     const f=await cityFixture(t,pg);await f.join(1);await f.join(2);
