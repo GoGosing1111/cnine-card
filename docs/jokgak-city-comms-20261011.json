@@ -77,10 +77,144 @@
     "generator": "Built-in image_gen"
   },
   "regression": {
-    "status": "pending official scoped deployment checks"
+    "status": "passed",
+    "command": "npm run deploy:production -- --scoped",
+    "passed": 21,
+    "failed": 0,
+    "workerCheck": true,
+    "releaseAndHyperdriveChecks": true
   },
   "deployment": {
-    "status": "pending",
+    "status": "completed",
+    "exitCode": 0,
+    "pages": "https://c0e60720.cnine-card.pages.dev",
+    "apiRuntimeVersion": "ac3ed0bd-6e4e-4946-a923-d13f8ebf7a43",
+    "clanDraftVersion": "33888c33-4c7a-4a3b-9e10-344eae84e98d",
+    "command": "npm run deploy:production -- --scoped",
+    "runtimeFilesMatched": 13,
+    "cron": "* * * * *",
+    "liveAccountQaMutations": false
+  },
+  "production": {
+    "verifiedAt": "2026-10-10T20:07:10.750Z",
+    "origin": "https://cnine-card.pages.dev",
+    "sourceCommit": "9ab651c34d8c0851351886202cfc0699b8623ce4",
+    "checks": [
+      {
+        "file": "js/jokgak-city-v1.js",
+        "status": 200,
+        "contentType": "application/javascript",
+        "expected": "aa334351c793d1ee737c7f3d0451a97c84a47a6859c671018000e8f8595ea2fd",
+        "actual": "aa334351c793d1ee737c7f3d0451a97c84a47a6859c671018000e8f8595ea2fd",
+        "match": true
+      },
+      {
+        "file": "js/jokgak-city-comms-ui-v1.mjs",
+        "status": 200,
+        "contentType": "application/javascript",
+        "expected": "46c67556254eb43c3cd3ae7d1410c41a29274cf3bb8772b38102b6cc3f06f955",
+        "actual": "46c67556254eb43c3cd3ae7d1410c41a29274cf3bb8772b38102b6cc3f06f955",
+        "match": true
+      },
+      {
+        "file": "css/jokgak-city-v1.css",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "expected": "006b4be5eb0d58cd28cae360a454b9f02df81f917c7f4a05d48d1a54e9e3bc21",
+        "actual": "006b4be5eb0d58cd28cae360a454b9f02df81f917c7f4a05d48d1a54e9e3bc21",
+        "match": true
+      },
+      {
+        "file": "css/jokgak-city-comms-v1.css",
+        "status": 200,
+        "contentType": "text/css; charset=utf-8",
+        "expected": "d34669c3a12f9d22e41101927599707850987f32218f089f7b91bdd799257a55",
+        "actual": "d34669c3a12f9d22e41101927599707850987f32218f089f7b91bdd799257a55",
+        "match": true
+      },
+      {
+        "file": "shared/jokgak-city-v1.mjs",
+        "status": 200,
+        "contentType": "application/javascript",
+        "expected": "d418da42de7ff756ca686e260995ef8e269f5a8646a2c9e9eae71aec67071e81",
+        "actual": "d418da42de7ff756ca686e260995ef8e269f5a8646a2c9e9eae71aec67071e81",
+        "match": true
+      },
+      {
+        "file": "shared/jokgak-city-life-v1.mjs",
+        "status": 200,
+        "contentType": "application/javascript",
+        "expected": "c1202d815072c226391922225877710ec912b54fb6ef09cb00bbe67988a83f34",
+        "actual": "c1202d815072c226391922225877710ec912b54fb6ef09cb00bbe67988a83f34",
+        "match": true
+      },
+      {
+        "file": "shared/jokgak-city-comms-v1.mjs",
+        "status": 200,
+        "contentType": "application/javascript",
+        "expected": "056bce04beae9b74c3c7ebd28d722560a64a45796462b763cbe7635339c13b2a",
+        "actual": "056bce04beae9b74c3c7ebd28d722560a64a45796462b763cbe7635339c13b2a",
+        "match": true
+      },
+      {
+        "file": "assets/ui/jokgak-city/megaphone-v1/megaphone-256.webp",
+        "status": 200,
+        "contentType": "image/webp",
+        "expected": "5debd0ccc97945075a74750951286c0dc1690bcf194a4fbafd226c740a6a3422",
+        "actual": "5debd0ccc97945075a74750951286c0dc1690bcf194a4fbafd226c740a6a3422",
+        "match": true
+      },
+      {
+        "file": "assets/ui/jokgak-city/megaphone-v1/megaphone-768.webp",
+        "status": 200,
+        "contentType": "image/webp",
+        "expected": "ea46378433697d4492401b8b3c30e36b95cd6b18bd6adb9ea9055430cd720f54",
+        "actual": "ea46378433697d4492401b8b3c30e36b95cd6b18bd6adb9ea9055430cd720f54",
+        "match": true
+      },
+      {
+        "file": "index.html",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "expected": "be3c58c665c086ecd6baba87aef846ca934e66b77e1352b8c45a759ff1cedff7",
+        "actual": "be3c58c665c086ecd6baba87aef846ca934e66b77e1352b8c45a759ff1cedff7",
+        "match": true
+      },
+      {
+        "file": "service-worker.js",
+        "status": 200,
+        "contentType": "application/javascript",
+        "expected": "8e36782e951893581494918f3bbd0ac6e05f3ad5327695d3bdf77a78f1c13342",
+        "actual": "8e36782e951893581494918f3bbd0ac6e05f3ad5327695d3bdf77a78f1c13342",
+        "match": true
+      },
+      {
+        "file": "preview/jokgak-city-v1/index.html",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "expected": "875c0b2ef909d1296c86b871d3962c7d55bf47670e72fe64fa5f4185b6d21697",
+        "actual": "875c0b2ef909d1296c86b871d3962c7d55bf47670e72fe64fa5f4185b6d21697",
+        "match": true
+      },
+      {
+        "file": "preview/jokgak-city-v1/preview.mjs",
+        "status": 200,
+        "contentType": "application/javascript",
+        "expected": "87ff2fe903934b4d850cde2120e0dd83e6b75325c4ca8c5402e0e330f32e3d93",
+        "actual": "87ff2fe903934b4d850cde2120e0dd83e6b75325c4ca8c5402e0e330f32e3d93",
+        "match": true
+      }
+    ],
+    "api": [
+      {
+        "path": "/api/jokgak-city/notifications",
+        "status": 401
+      },
+      {
+        "path": "/api/jokgak-city/log",
+        "status": 401
+      }
+    ],
     "liveAccountQaMutations": false
   }
 }

@@ -31,3 +31,9 @@
 - 브라우저 증거: `C:/Users/User/Downloads/upload/cnine-card/tmp/jokgak-city-comms-20261011/`. `browser.json`, `preview-smoke.json`과 폭별 스크린샷을 보존한다.
 
 배포 명령은 `npm run deploy:production -- --scoped`. 선택 검사는 신규 통신, 기존 알림, 아이템 자산 회귀 및 `check:worker`다. 최종 검사 수와 운영 파일 확인·배포 버전은 같은 이름 JSON에 기록한다.
+
+## 운영 반영 확인
+
+운영 소스 `9ab651c34d8c0851351886202cfc0699b8623ce4`를 공식 scoped 명령으로 배포했다. 관련 검사 **21개 전부 통과**, Worker·출시·Hyperdrive 검사 통과. Pages `https://c0e60720.cnine-card.pages.dev`, API Runtime `ac3ed0bd-6e4e-4946-a923-d13f8ebf7a43`, 교대 정리를 포함한 매분 스케줄러 `33888c33-4c7a-4a3b-9e10-344eae84e98d`다.
+
+운영 대표 주소에서 변경된 로더·모듈·CSS·이미지·프리뷰 등 **13개 파일 해시 일치**를 확인했다. 비로그인 알림/로그 API는 각각 401이다. 실계정 구매·방송을 테스트하지 않았으며 운영 DB 잔여 행을 별도로 조회했다고 주장하지 않는다. 교대 삭제/재입장은 격리 SQLite/Postgres 및 실제 핸들러 브라우저 검사로 확인했다. 배포 후 변경은 이 검증 기록뿐이므로 재배포하지 않는다.
