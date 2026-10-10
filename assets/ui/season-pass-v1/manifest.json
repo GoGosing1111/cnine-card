@@ -1,0 +1,65 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "request": "제대로 그림 생성해서 꾸밀곳 꾸며라 대충 CSS로 만들지말고",
+  "assets": [
+    {
+      "key": "sanctum",
+      "transparent": false,
+      "prompt": "Use case: stylized-concept. Asset type: finished original raster environment illustration for the hero of a Korean fantasy game's premium 30-day supporter season pass. Create a magnificent moonlit forest treasure sanctuary, a visual centerpiece worthy of a premium fantasy game event. Ancient living tree trunks curve into graceful cathedral arches around a luminous circular celestial astrolabe; refined champagne-gold architectural inlays, emerald and sapphire crystal accents, softly illuminated flowers and drifting golden fireflies, layered mist, a distant moon and beautiful depth. Painterly high-end 2D game illustration, carefully designed forms and luxurious materials, vivid yet sophisticated lighting, exquisite composition, impressive rich detail. Ultrawide landscape approximately 3:1, 3072 by 1024 if possible. The scene's strongest architectural focal point and beautiful glowing circular arch lie in the RIGHT half; leave the LEFT 40 percent darker and quieter with subtle atmospheric forest for a readable HTML title. Keep meaningful illustration throughout the banner, no large blank void. Existing interface palette is deep midnight navy, champagne gold, emerald, with bright warm highlights; match this. No people, no text, no letters, no numbers, no logos, no interface widgets, no watermark, no flat vector graphics, no fake screenshot. Opaque finished illustration.",
+      "source": "assets/ui/season-pass-v1/sanctum-hero-source.png",
+      "delivery": "assets/ui/season-pass-v1/sanctum-hero.webp",
+      "sha256": "d8c222ca28c1c4a3af02776d6f5fe8aede770f639ede1a28890852d28e618ef0",
+      "originalSize": [
+        2172,
+        724
+      ],
+      "hasAlpha": false,
+      "deliveryBytes": 438036
+    },
+    {
+      "key": "chest",
+      "transparent": true,
+      "prompt": "Use case: stylized-concept. Asset type: premium reward chest illustration cutout for a Korean fantasy game season pass, genuine transparent background. A single magnificent enchanted treasure coffer in a three-quarter front view, entire object visible, lid opened part way releasing warm golden light. Sculpted champagne-gold leaf filigree and polished midnight-blue enamel, a central faceted emerald clasp, a subtle winged laurel motif; precious gold coins and luminous star-shaped crystal treasures visible inside. Refined luxurious craftsmanship and coherent elegant shape, strong readable silhouette, rich hand-painted 2D game splash-art materials and exquisite lighting, beautiful warm highlights and cool navy shadows. The chest is the only subject, fills roughly 80 percent of the square canvas, leave clear margin all around. A few small golden light motes close to the chest, restrained bloom. Isolate with actual alpha transparency; no opaque background, no checkerboard pattern, no floor, no ground plane, no landscape, no text, numbers, labels, logo, watermark, characters or UI. Approximately 1024x1024, crisp fine details, not a vector icon, not cheap toy plastic.",
+      "source": "assets/ui/season-pass-v1/reward-chest-source.png",
+      "delivery": "assets/ui/season-pass-v1/reward-chest.webp",
+      "sha256": "adbe8a0a3888fc6a7399a5da85025d46b62663e0e0bfa18ac7ccf1ef65afe8e1",
+      "originalSize": [
+        1254,
+        1254
+      ],
+      "hasAlpha": true,
+      "deliveryBytes": 162064
+    },
+    {
+      "key": "crest",
+      "transparent": true,
+      "prompt": "Use case: stylized-concept. Asset type: ornate premium season-pass crest cutout for a Korean fantasy game's navy-and-gold UI. One beautifully painted symmetric gold-and-emerald heraldic emblem: sculptural branching laurel leaves rise around a luminous faceted emerald star held in a graceful small crown, subtle midnight-blue enamel panels and tiny diamond accents, layered metal relief, rich warm golden highlights, coherent luxurious craftsmanship, immediately readable silhouette at 120 pixels. High-end 2D game reward badge illustration, polished materials and restrained luminous aura, not flat vector. Frontal centered composition, square canvas 1024x1024, all tips fully visible with margin. Genuine transparent alpha background. No words, no letters, no numbers, no logo, no watermark, no rectangular backing plate, no shield filling the whole center, no scenery, no checkered background, no white matte. Emblem only, richly detailed but elegant.",
+      "source": "assets/ui/season-pass-v1/supporter-crest-source.png",
+      "delivery": "assets/ui/season-pass-v1/supporter-crest.webp",
+      "sha256": "fa0d263bc6d60826d49101523ba8c0f62a7752d1e49943df8a565155b4cef786",
+      "originalSize": [
+        1254,
+        1254
+      ],
+      "hasAlpha": true,
+      "deliveryBytes": 53436
+    },
+    {
+      "key": "frame",
+      "transparent": true,
+      "prompt": "Use case: stylized-concept. Asset type: one illustrated portrait reward-card frame with a fully transparent center and transparent exterior, for a premium fantasy game's 30-day calendar. Ratio 2:3 portrait, approximately 1024x1536. Exquisite hand-painted 2D game UI frame: slim sculpted champagne-gold borders over midnight-blue enamel, restrained interwoven leaf motifs at the four corners, a tiny emerald star ornament at the very top center, delicate gold flourishes and subtle warm polished highlights. It must look like a crafted collectible fantasy reward frame, not a simple vector rectangle. Keep left and right rails slender, each no more than 5 percent of width; top and bottom rims no more than 5 percent of height; at least 80 percent of image area is clear fully transparent interior to display live reward art and labels. The center is entirely transparent, not a blue fill, no smoke, no lines or decorations crossing the interior. Small corner extensions allowed, but entire frame must fit inside canvas with 3 percent transparent outer margin. No nameplate, no text, numbers, logo, watermark, item, character, background or checkerboard. Real alpha transparency.",
+      "source": "assets/ui/season-pass-v1/reward-frame-source.png",
+      "delivery": "assets/ui/season-pass-v1/reward-frame.webp",
+      "sha256": "a700d7dcbdc624e3daf3ddb28f7cbd6052d27340a5848d23f5031eec0235eb35",
+      "originalSize": [
+        1024,
+        1536
+      ],
+      "hasAlpha": true,
+      "deliveryBytes": 45150
+    }
+  ],
+  "createdAt": "2026-10-10T13:53:53.014Z",
+  "originalsPreserved": true,
+  "processing": "Copy original PNG unchanged; resize and encode WebP for web delivery, preserving alpha. No painted content altered."
+}

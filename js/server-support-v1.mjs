@@ -1,5 +1,5 @@
 import {jointAccountRequest} from './joint-account-transport.mjs';
-import {mountSeasonPass} from './supporter-season-pass-v1.mjs?v=20261010-pass1';
+import {mountSeasonPass} from './supporter-season-pass-v1.mjs?v=20261010-pass-art1';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const date=v=>v?new Date(v).toLocaleString('ko-KR',{timeZone:'Asia/Seoul',year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'}):'—';
 const petImage=value=>{try{const u=new URL('/'+String(value||'').replace(/^\//,''),location.origin);return /^\/(assets|preview)\//.test(u.pathname)?u.href:'';}catch{return '';}};
@@ -17,8 +17,8 @@ const crest=`<svg class="ss-crest" viewBox="0 0 160 180" fill="none" aria-hidden
 
 export function mountServerSupportNavigation({root,getUser,signal,request=jointAccountRequest}){
   const menu=root.getElementById('menu-dialog');if(!menu)return {dispose(){}};
-  const doc=menu.ownerDocument,link=doc.createElement('link');link.rel='stylesheet';link.href='/css/server-support-v1.css?v=20261010-pass1';root.append(link);
-  const passStyle=doc.createElement('link');passStyle.rel='stylesheet';passStyle.href='/css/supporter-season-pass-v1.css?v=20261010-pass1';root.append(passStyle);
+  const doc=menu.ownerDocument,link=doc.createElement('link');link.rel='stylesheet';link.href='/css/server-support-v1.css?v=20261010-pass-art1';root.append(link);
+  const passStyle=doc.createElement('link');passStyle.rel='stylesheet';passStyle.href='/css/supporter-season-pass-v1.css?v=20261010-pass-art1';root.append(passStyle);
   let passView=null;
   const footer=doc.createElement('div');footer.className='ss-menu-footer';footer.hidden=true;menu.append(footer);
   let generation=0,menuKey='',dialog=null,data=null,busy=false,pending=null,page='info',opener=null,disposed=false,serverOffset=0;
@@ -45,7 +45,7 @@ export function mountServerSupportNavigation({root,getUser,signal,request=jointA
       ${pending&&!active&&!data.previewOnly?'<button type="button" class="ss-primary" data-ss-retry>이전 변경 결과 확인</button>':''}<p class="ss-status" role="status" aria-live="polite"></p><footer class="ss-thanks">${icon('leaf')}<span>숲켓몬과 함께해 주셔서 감사합니다.</span></footer>`}</div>`;
     dialog.scrollTop=scrollTop;
     if(page==='pass')passView=mountSeasonPass(dialog.querySelector('[data-season-pass]'),{data:data.seasonPass,userId:Number(getUser()?.serverUserId||getUser()?.id),previewOnly:data.previewOnly,request,signal,onRefresh:info=>{data=info;}});
-    else{const button=doc.createElement('button');button.type='button';button.className='sp-entry';button.dataset.ssSeasonPass='';button.innerHTML='<span>✦</span><span><small>후원자를 위한 매일의 선물</small><b>30일 시즌패스</b></span><strong>보상 달력 보기 →</strong>';dialog.querySelector(page==='info'?'.ss-info-note':'.ss-benefits')?.before(button);}
+    else{const button=doc.createElement('button');button.type='button';button.className='sp-entry';button.dataset.ssSeasonPass='';button.innerHTML='<img class="sp-entry-crest" src="/assets/ui/season-pass-v1/supporter-crest.webp" alt=""><span><small>후원자를 위한 매일의 선물</small><b>30일 시즌패스</b></span><strong>보상 달력 보기 →</strong>';dialog.querySelector(page==='info'?'.ss-info-note':'.ss-benefits')?.before(button);}
     if(focusPet)Array.from(dialog.querySelectorAll('[data-ss-pet]')).find(button=>button.dataset.ssPet===focusPet&&!button.disabled)?.focus({preventScroll:true});
   }
   const status=text=>{const el=dialog?.querySelector('.ss-status');if(el)el.textContent=text;};
@@ -74,7 +74,7 @@ export function mountServerSupportNavigation({root,getUser,signal,request=jointA
     if(!menu.open||menu.dataset.menuCategory!=='all')return;
     try{const result=await request('server-support/status',{signal,timeoutMs:8000});if(disposed||turn!==generation||who!==identity()||!result.visible)return;
       const button=doc.createElement('button');button.type='button';button.setAttribute('aria-label','서버 안내');button.innerHTML=`${icon('leaf')}<span>서버 안내</span>${icon('arrow')}`;button.className='ss-menu-link';button.onclick=()=>{opener=button;void loadPage();};
-      const passButton=doc.createElement('button');passButton.type='button';passButton.dataset.ssMenuPass='';passButton.setAttribute('aria-label','시즌패스');passButton.className='ss-menu-link sp-menu-link';passButton.innerHTML=`<span aria-hidden="true">✦</span><span>시즌패스</span>${icon('arrow')}`;passButton.onclick=()=>{opener=passButton;void loadPage('pass');};footer.append(passButton,button);footer.hidden=false;
+      const passButton=doc.createElement('button');passButton.type='button';passButton.dataset.ssMenuPass='';passButton.setAttribute('aria-label','시즌패스');passButton.className='ss-menu-link sp-menu-link';passButton.innerHTML=`<img class="sp-menu-crest" src="/assets/ui/season-pass-v1/supporter-crest.webp" alt=""><span>시즌패스</span>${icon('arrow')}`;passButton.onclick=()=>{opener=passButton;void loadPage('pass');};footer.append(passButton,button);footer.hidden=false;
     }catch{}
   }
   const observer=new MutationObserver(()=>void sync());observer.observe(menu,{attributes:true,attributeFilter:['open','data-menu-category']});
