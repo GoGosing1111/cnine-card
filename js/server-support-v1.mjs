@@ -1,5 +1,6 @@
 import {jointAccountRequest} from './joint-account-transport.mjs';
 import {mountSeasonPass} from './supporter-season-pass-v1.mjs?v=20261010-pass-art1';
+import {mountSupportScreenGuard} from './supporter-screen-guard-v1.mjs?v=20261011-guard1';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const date=v=>v?new Date(v).toLocaleString('ko-KR',{timeZone:'Asia/Seoul',year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'}):'—';
 const petImage=value=>{try{const u=new URL('/'+String(value||'').replace(/^\//,''),location.origin);return /^\/(assets|preview)\//.test(u.pathname)?u.href:'';}catch{return '';}};
@@ -17,16 +18,16 @@ const crest=`<svg class="ss-crest" viewBox="0 0 160 180" fill="none" aria-hidden
 
 export function mountServerSupportNavigation({root,getUser,signal,request=jointAccountRequest,onSeasonPassVisibilityChange=()=>{}}){
   const menu=root.getElementById('menu-dialog');if(!menu)return {dispose(){}};
-  const doc=menu.ownerDocument,link=doc.createElement('link');link.rel='stylesheet';link.href='/css/server-support-v1.css?v=20261010-pass-art1';root.append(link);
+  const doc=menu.ownerDocument,link=doc.createElement('link');link.rel='stylesheet';link.href='/css/server-support-v1.css?v=20261011-guard1';root.append(link);
   const passStyle=doc.createElement('link');passStyle.rel='stylesheet';passStyle.href='/css/supporter-season-pass-v1.css?v=20261010-pass-art1';root.append(passStyle);
-  let passView=null,passVisible=false;
+  let passView=null,passVisible=false,screenGuard=null;
   const setPassVisible=value=>{const visible=value===true;if(visible!==passVisible){passVisible=visible;onSeasonPassVisibilityChange(visible);}};
   const footer=doc.createElement('div');footer.className='ss-menu-footer';footer.hidden=true;menu.append(footer);
   let generation=0,menuKey='',dialog=null,data=null,busy=false,pending=null,page='info',opener=null,disposed=false,serverOffset=0;
   const identity=()=>{let token='';try{token=localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';}catch{}return String(getUser()?.serverUserId||getUser()?.id||'')+':'+token;};
   let currentIdentity=identity();
   const clearEntry=()=>{footer.replaceChildren();footer.hidden=true;setPassVisible(false);};
-  const close=()=>{passView?.dispose();passView=null;dialog?.close();dialog?.remove();dialog=null;data=null;opener?.isConnected&&opener.focus({preventScroll:true});};
+  const close=()=>{screenGuard?.dispose();screenGuard=null;passView?.dispose();passView=null;dialog?.close();dialog?.remove();dialog=null;data=null;opener?.isConnected&&opener.focus({preventScroll:true});};
   const key=()=>`cnine_support_pet_pending_v1:${Number(getUser()?.serverUserId||getUser()?.id||0)}`;
   function render(){
     if(!dialog||!data)return;
@@ -48,17 +49,19 @@ export function mountServerSupportNavigation({root,getUser,signal,request=jointA
     if(page==='pass')passView=mountSeasonPass(dialog.querySelector('[data-season-pass]'),{data:data.seasonPass,userId:Number(getUser()?.serverUserId||getUser()?.id),previewOnly:data.previewOnly,request,signal,onRefresh:info=>{data=info;}});
     else if(data.seasonPassVisible===true){const button=doc.createElement('button');button.type='button';button.className='sp-entry';button.dataset.ssSeasonPass='';button.innerHTML='<img class="sp-entry-crest" src="/assets/ui/season-pass-v1/supporter-crest.webp" alt=""><span><small>후원자를 위한 매일의 선물</small><b>30일 시즌패스</b></span><strong>보상 달력 보기 →</strong>';dialog.querySelector(page==='info'?'.ss-info-note':'.ss-benefits')?.before(button);}
     if(focusPet)Array.from(dialog.querySelectorAll('[data-ss-pet]')).find(button=>button.dataset.ssPet===focusPet&&!button.disabled)?.focus({preventScroll:true});
+    screenGuard?.refresh();
   }
   const status=text=>{const el=dialog?.querySelector('.ss-status');if(el)el.textContent=text;};
   async function loadPage(nextPage='info'){
     if(busy||disposed)return;const who=identity(),turn=generation;busy=true;
     try{const value=await request('server-support/info',{signal,timeoutMs:8000});if(disposed||turn!==generation||who!==identity())return;if(nextPage==='pass'&&value.seasonPassVisible!==true){clearEntry();close();return;}data=value;serverOffset=value.serverNow-Date.now();page=nextPage;
       if(!dialog){dialog=doc.createElement('dialog');dialog.className='ss-dialog';dialog.setAttribute('aria-label','서버 운영 안내');root.append(dialog);
+        screenGuard=mountSupportScreenGuard(dialog,{getUser,now:()=>Date.now()+serverOffset});
         dialog.addEventListener('cancel',e=>{e.preventDefault();close();});
         dialog.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.hasAttribute('data-ss-close'))close();else if(b.hasAttribute('data-ss-support'))void loadPage('support');else if(b.hasAttribute('data-ss-season-pass'))void loadPage('pass');else if(b.hasAttribute('data-ss-back')){page='info';render();dialog.scrollTop=0;}else if(b.dataset.ssPet)void selectPet(b.dataset.ssPet);else if(b.hasAttribute('data-ss-retry'))void selectPet();});
       }
       try{pending=JSON.parse(localStorage.getItem(key())||'null');}catch{pending=null;}
-      busy=false;render();if(!dialog.open)dialog.showModal();
+      busy=false;render();if(!dialog.open)dialog.showModal();screenGuard.refresh();
     }catch(error){if(who!==identity()||disposed)return;if([401,403,404].includes(error.status)){clearEntry();close();}else{status(error.message);if(!dialog){footer.textContent='서버 안내를 불러오지 못했습니다. 메뉴를 다시 열어 주세요.';}}}finally{busy=false;}
   }
   async function selectPet(petCode){

@@ -21,7 +21,7 @@
         openSeasonPass:opener=>this.supportNavigation?.openSeasonPass(opener)
       });
       const supportSignal=this.lifecycle.signal;
-      void import('/js/server-support-v1.mjs?v=20261011-pass-menu1').then(({mountServerSupportNavigation})=>{
+      void import('/js/server-support-v1.mjs?v=20261011-guard1').then(({mountServerSupportNavigation})=>{
         if(!supportSignal.aborted)this.supportNavigation=mountServerSupportNavigation({root,getUser,signal:supportSignal,onSeasonPassVisibilityChange:visible=>{this.seasonPassVisible=visible;this.controls?.refreshMenus();}});
       }).catch(()=>{});
       const listen=(target,event,handler)=>target.addEventListener(event,handler,{signal:this.lifecycle.signal});

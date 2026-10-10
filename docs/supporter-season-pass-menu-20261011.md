@@ -20,6 +20,8 @@
 
 사용자 후속 “시즌패스랑 후원관련 캡처 막을수있나도 검토해봐라”에 따라 현재 `manifest.webmanifest`의 standalone PWA와 웹 모듈 구조를 확인했다. 검토 요청으로 캡처 방해 코드나 워터마크를 운영 화면에 추가하지 않았다.
 
+이후 사용자 “일단 가능한 선에서만 막아 우회는 어쩔수없고”로 범위 내 구현을 지시했다. 실제 적용·검수·배포 기록은 [시즌패스·후원 화면 캡처 억제](supporter-screen-guard-20261011.md)를 따른다.
+
 - 현재 웹/PWA 구조에서는 운영체제의 화면 캡처·외부 녹화까지 일괄 차단하거나 모든 캡처를 확실히 감지할 수 없다. W3C의 [PWA 캡처 방지 제안 논의](https://github.com/w3c/manifest/issues/1154)는 구현된 manifest 속성이 아니며, 모든 브라우저에서의 보장 문제를 지적한다.
 - [`Permissions-Policy: display-capture`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Permissions-Policy/display-capture)는 해당 문서가 `getDisplayMedia()`를 호출할 권한을 제어한다. 화면 자체가 다른 프로그램에 캡처되지 않게 보호하는 설정으로 사용할 수 없다.
 - [`visibilitychange`](https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API)는 탭/창의 표시 상태 이벤트다. 다른 탭으로 전환할 때 화면을 가릴 수 있지만 일반 스크린샷·OBS 감지로 간주해서는 안 된다. 우클릭·복사·PrintScreen 키 차단도 운영체제 전체 캡처 방지 보장이 아니다.
