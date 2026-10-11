@@ -3,6 +3,8 @@ import {EQUIPMENT_POWER_STANDARD} from '../shared/equipment-mercenary-power-v1.m
 import {EQUIPMENT_FORGE_RELEASE_ENABLED} from '../shared/equipment-forge-release-v1.mjs';
 import {readReleasedForgePolicy} from './_equipment_forge_release.js';
 import {assertForgeMaterials} from './_equipment_forge_cms.js';
+import {FORGE_MAX_LEVEL} from '../shared/equipment-forge-advanced-v1.mjs';
+import {readForgeAdvancedPolicy} from './_equipment_forge_advanced.js';
 
 export const FORGE_SETTINGS_KEY='equipment_forge_public_settings_v1';
 export const FORGE_EXECUTION_IMPLEMENTED=EQUIPMENT_FORGE_RELEASE_ENABLED;
@@ -22,7 +24,7 @@ function publicState(settings){
     canEnhance:false,canRestore:false,status:settings.publicVisible?'OPENING_SOON':'UNAVAILABLE',notice:settings.notice,
     supportedSlots:['WEAPON','TOP','BOTTOM','SHOES','ACCESSORY'],
     rules:{minimumSuccessPercent:10,outcomes:['success','maintain','destroy'],protectionAcquisition:'GAMEPLAY_ONLY',protectionRarity:'EXTREMELY_RARE',boxAcquisition:false},
-    policy:{rates:null,costs:null,maxLevel:EQUIPMENT_POWER_STANDARD.maxLevel,powerScaling:EQUIPMENT_POWER_STANDARD,restoration:null}};
+    policy:{rates:null,costs:null,maxLevel:FORGE_MAX_LEVEL,powerScaling:EQUIPMENT_POWER_STANDARD,restoration:null}};
 }
 export async function saveForgeSettings(env,admin,body){
   if(!body||Object.keys(body).sort().join(',')!=='expectedRevision,settings'||!Number.isSafeInteger(body.expectedRevision)||body.expectedRevision<0||body.expectedRevision>1000000000)return {error:'설정 버전을 확인하세요.',status:400};
@@ -51,9 +53,9 @@ export async function readForgePublicStatus(env){
   const {settings}=await readForgeSettings(env),state=publicState(settings);
   if(!FORGE_EXECUTION_IMPLEMENTED||!settings.publicVisible||settings.executionMode!=='ON')return state;
   try{
-    const policy=await readReleasedForgePolicy(env);
+    const policy=await readReleasedForgePolicy(env),advanced=await readForgeAdvancedPolicy(env.DB);
     return {...state,status:'ON',canEnhance:true,canRestore:policy.restoration.enabled,
-      policy:{...state.policy,steps:policy.steps,protection:policy.protection,restoration:policy.restoration}};
+      policy:{...state.policy,steps:[...policy.steps,...advanced.steps],advanced,protection:policy.protection,restoration:policy.restoration}};
   }catch(error){
     if(!['FORGE_RELEASE_PENDING','FORGE_RELEASE_DOCUMENT','FORGE_POLICY'].includes(error.code))throw error;
     return {...state,executionMode:'OFF',status:'UNAVAILABLE',code:error.code};

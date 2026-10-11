@@ -2,6 +2,7 @@ import {readMercenaryModes} from './_mercenary_loadout_modes.js';
 import {mercenaryEquipmentRuntimes} from './_mercenary_equipment.js';
 import {strongestDuoCards,validateDuoDeck,duoError,DUO_LIMITS} from '../shared/ranked-duo-v1.mjs';
 import {forgePower} from '../shared/equipment-forge-policy-v1.mjs';
+import {readForgeAdvancedPolicy} from './_equipment_forge_advanced.js';
 import {FORGE_RUNTIME_RELEASE_ENABLED} from '../shared/equipment-forge-release-v1.mjs';
 import {readMercenaryDocument,readMercenaryRuntime,battleConfig,mercenarySnapshotPower} from './_mercenary_account.js';
 import {buildFighter,distributeEquipment} from './_battle_v2_preview.js';
@@ -26,7 +27,7 @@ export function duoMercenaryRating(snapshot,cards,equipment,weight=1){
  return Math.round(mercenarySnapshotPower(snapshot)*Math.max(1,ratio)*(1+Math.min(2,skillBudget)*.1)*weight);
 }
 
-async function rebuild(env,versions,config,deps,hash,now){
+async function rebuild(env,versions,config,deps,hash,now,advanced){
  const ids=versions.map(v=>Number(v.user_id)),m=marks(ids),p=(sql)=>env.DB.prepare(sql).bind(...ids).all();
  // Rebuild only changed accounts. All row reads use user-leading indexes;
  // the limit is a hard input budget, never silently truncated into a rating.
@@ -47,7 +48,7 @@ async function rebuild(env,versions,config,deps,hash,now){
   const userId=Number(version.user_id),user={id:userId,role:version.role,nickname:version.nickname},cards=byUser(owned,userId).map(c=>({...c,id:String(c.id),power:deps.cardBattlePower(c,Number(c.breakthrough_level||0),battle)})),cardMap=new Map(cards.map(c=>[c.id,c])),best=strongestDuoCards(cards);
   const saved=decks.results.find(d=>Number(d.user_id)===userId),select=raw=>{const value=parsed(raw);return Array.isArray(value)?value.map(id=>cardMap.get(String(id))).filter(Boolean):[];};
   const attack=select(saved?.attack_ids),defense=select(saved?.defense_ids),slotBest=new Map();let equipment=0;
-  for(const item of byUser(gear,userId)){const power=FORGE_RUNTIME_RELEASE_ENABLED&&Number(item.level)>0?forgePower(Number(item.total_power),Number(item.level)).pvp:Number(item.pvp_power);slotBest.set(item.slot,Math.max(slotBest.get(item.slot)||0,power));equipment+=power*Number(item.equipped_count||0);}
+  for(const item of byUser(gear,userId)){const power=FORGE_RUNTIME_RELEASE_ENABLED&&Number(item.level)>0?forgePower(Number(item.total_power),Number(item.level),advanced).pvp:Number(item.pvp_power);slotBest.set(item.slot,Math.max(slotBest.get(item.slot)||0,power));equipment+=power*Number(item.equipped_count||0);}
   let potentialEquipment=[...slotBest.values()].reduce((s,n)=>s+n,0),expires=now+300000;
   for(const source of [vehicles,titles]){const list=byUser(source,userId);potentialEquipment+=Math.max(0,...list.map(r=>Number(r.pvp_power)));equipment+=list.filter(r=>r.equipped).reduce((s,r)=>s+Number(r.pvp_power),0);for(const r of list)if(r.expires_at)expires=Math.min(expires,Date.parse(String(r.expires_at).includes('T')?r.expires_at:r.expires_at.replace(' ','T')+'Z'));}
   const mercs=byUser(mercRows,userId).map(r=>({...battleConfig(mercDocument.document,r.mercenary_code,1),...(mercGear.get(userId)?.items.length?{equipment:mercGear.get(userId)}:{}),combat:mercRuntime.combat,equipped:mercLoadouts.get(userId).loadouts.PVP.mercenaryCode===r.mercenary_code,cmsRevision:mercDocument.revision}));
@@ -77,7 +78,8 @@ const validateAccounts=(versions,count,now)=>{
 };
 export async function loadDuoProfiles(env,userIds,config,deps,{now=Date.now(),wait=profileWait}={}){
  const ids=[...new Set(userIds.map(numeric))];if(!ids.length)return [];if(ids.length>DUO_LIMITS.refreshBatch||ids.some(id=>!Number.isSafeInteger(id)||id<=0))throw duoError('PROFILE_USERS','전력 평가 범위를 확인하세요.');
- const hash=await jointHash({weights:config.mercenaryWeights,mercenaryLoadoutMode:'PVP-v1',mercenaryEquipment:'20261011'}),started=Date.now();
+ const advanced=await readForgeAdvancedPolicy(env.DB);
+ const hash=await jointHash({weights:config.mercenaryWeights,mercenaryLoadoutMode:'PVP-v1',mercenaryEquipment:'20261011',advancedForgeRevision:advanced.revision}),started=Date.now();
  for(let attempt=0;attempt<=profileRetryDelays.length;attempt++){
   const at=now+Math.max(0,Date.now()-started),versions=await duoVersions(env,ids),profiles=new Map();
   validateAccounts(versions,ids.length,at);
@@ -97,7 +99,7 @@ export async function loadDuoProfiles(env,userIds,config,deps,{now=Date.now(),wa
      // Build only the still-missing accounts we own, never abandon a partial claim.
      const fresh=await duoVersions(env,owned);validateAccounts(fresh,owned.length,at);
      const needed=collect(fresh);
-     if(needed.length)for(const profile of await rebuild(env,needed,config,deps,hash,at))profiles.set(profile.userId,profile);
+     if(needed.length)for(const profile of await rebuild(env,needed,config,deps,hash,at,advanced))profiles.set(profile.userId,profile);
     }
    }catch(error){if(error.code!=='DUO_PROFILE_CHANGED')throw error;profiles.clear();}
    finally{await env.DB.prepare(`DELETE FROM ranked_duo_profile_leases_v1 WHERE token=? AND user_id IN (${marks(miss)})`).bind(token,...missingIds).run();}

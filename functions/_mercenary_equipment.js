@@ -1,6 +1,7 @@
 import {MERCENARY_EQUIPMENT_SLOTS as SLOTS,MERCENARY_EQUIPMENT_CODES as CODES,MERCENARY_EQUIPMENT_SQL_CODES as SQL_CODES,mercenaryEquipmentImage} from '../shared/mercenary-equipment-v1.mjs';
 import {regionalEquipment,REGION_EQUIPMENT,LEGION_REGIONS} from '../shared/legion-regions-v1.mjs';
 import {forgePower} from '../shared/equipment-forge-policy-v1.mjs';
+import {readForgeAdvancedForLevels} from './_equipment_forge_advanced.js';
 import {FORGE_RUNTIME_RELEASE_ENABLED} from '../shared/equipment-forge-release-v1.mjs';
 import {equipmentGrowthFromRows,decodePolishState} from './_equipment_growth.js';
 import {equipmentEnhancementRows} from './_equipment_inventory.js';
@@ -30,9 +31,9 @@ export async function readMercenaryEquipmentRecords(env,userIds){
   const saved=new Map(rows.map(row=>[row.key,row.value]));
   return new Map(ids.map(id=>[id,Object.fromEntries(['PVE','PVP'].map(mode=>{const key=mercenaryEquipmentKey(id,mode),raw=saved.get(key)??null;return [mode,{key,raw,...decode(raw)}];}))]));
 }
-function gearItem(row,userId){
+function gearItem(row,userId,advanced=null){
   const gear=regionalEquipment(row.code),level=Number(row.enhancement?.level??row.level??0);
-  const power=row.enhancement?{total:Number(row.total_power),pve:Number(row.pve_power),pvp:Number(row.pvp_power)}:level&&FORGE_RUNTIME_RELEASE_ENABLED?forgePower(Number(row.total_power),level):{total:Number(row.total_power),pve:Number(row.pve_power),pvp:Number(row.pvp_power)};
+  const power=row.enhancement?{total:Number(row.total_power),pve:Number(row.pve_power),pvp:Number(row.pvp_power)}:level&&FORGE_RUNTIME_RELEASE_ENABLED?forgePower(Number(row.total_power),level,advanced):{total:Number(row.total_power),pve:Number(row.pve_power),pvp:Number(row.pvp_power)};
   return {instanceId:String(row.instance_id??row.id),equipmentId:Number(row.equipment_id),code:row.code,name:row.name,slot:row.slot,rarity:row.rarity,image:mercenaryEquipmentImage(row.code),regionId:gear.regionId,setId:gear.setId,kind:gear.kind,level,totalPower:power.total,pvePower:power.pve,pvpPower:power.pvp,polish:decodePolishState(row.value,row.instance_id??row.id,userId)};
 }
 export async function mercenaryEquipmentRuntimes(env,userIds,mode='PVE',{records}={}){
@@ -45,8 +46,9 @@ export async function mercenaryEquipmentRuntimes(env,userIds,mode='PVE',{records
     LEFT JOIN equipment_forge_states_v1 s ON s.instance_id=x.id AND s.user_id=x.user_id
     LEFT JOIN app_meta p ON p.key=('equipment_polish_instance_v1:' || CAST(x.user_id AS TEXT) || ':' || CAST(x.id AS TEXT))
     WHERE i.code IN (${SQL_CODES})`).bind(...selected.flat()).all()).results:[];
+  const advanced=await readForgeAdvancedForLevels(env.DB,rows);
   return new Map([...records].map(([id,modes])=>{
-    const owned=rows.filter(row=>Number(row.user_id)===id),items=owned.map(row=>gearItem(row,id));
+    const owned=rows.filter(row=>Number(row.user_id)===id),items=owned.map(row=>gearItem(row,id,advanced));
     const growth=equipmentGrowthFromRows(owned.map(row=>({...row,id:row.instance_id})),id);
     return [id,{schemaVersion:1,mode,revision:modes[mode].revision,power:items.reduce((sum,item)=>sum+item[mode==='PVE'?'pvePower':'pvpPower'],0),items,
       effects:mode==='PVE'?growth.effects:{},sets:growth.sets,uniques:growth.uniques,summary:mode==='PVE'?growth.summary:[],effectsMode:'PVE'}];

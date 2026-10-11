@@ -1,6 +1,6 @@
 import {ForgeFX} from '/preview/equipment-forge-v1/source/fx.mjs';
-import {forgePower} from '/shared/equipment-forge-policy-v1.mjs';
-import {forgeQuoteShortages} from '/shared/equipment-forge-resources-v1.mjs?v=20260924-shortage';
+import {forgePower} from '/shared/equipment-forge-policy-v1.mjs?v=20261012-scrolls';
+import {forgeQuoteShortages} from '/shared/equipment-forge-resources-v1.mjs?v=20261012-scrolls';
 import {createForgeTransport,createForgeQuoteQueue,readForgePending,terminalForgeErrors} from './requests.mjs?v=20260923-recovery';
 const $=id=>document.getElementById(id),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const slots={WEAPON:'무기',TOP:'상의',BOTTOM:'하의',SHOES:'신발',ACCESSORY:'장신구'};
@@ -23,6 +23,7 @@ class EquipmentPresentation extends ForgeFX{
   }}
 }
 const api=(path,signal,body,options={})=>request(path,{signal:signal||lifetime.signal,body,token:activeToken,...options});
+const scrollCost=document.createElement('div');scrollCost.className='forge-scroll-cost';scrollCost.hidden=true;document.querySelector('.material-list').after(scrollCost);
 const connection=document.createElement('section');connection.className='forge-connection';connection.id='forge-connection';connection.hidden=true;connection.setAttribute('role','status');
 connection.innerHTML='<p></p><button type="button" class="text-button" id="forge-retry">다시 시도</button>';document.querySelector('.control-panel').prepend(connection);
 function connectionNotice(text='',retry=null,label='다시 시도'){
@@ -58,7 +59,7 @@ function renderList(){
   $('inventory-more').hidden=!cursor||mode==='restore';$('inventory-more').disabled=loading||executing||recovering;
   list.innerHTML=visibleItems().map(item=>{
     const equipped=mode==='enhance'&&item.equipped===true;
-    const power=item.enhancement?.power?.total??(mode==='restore'?forgePower(item.basePower.total,item.level).total:item.basePower?.total);
+    const power=item.enhancement?.power?.total??(mode==='restore'?forgePower(item.basePower.total,item.level,data?.policy?.advanced).total:item.basePower?.total);
     return `<button class="equipment-row" data-id="${esc(item.selectionId)}" data-grade="${esc(item.grade)}" data-equipped="${equipped}" aria-pressed="${item.selectionId===selected}" aria-label="${esc(item.name)}, ${slots[item.slot]}, 전투력 ${number(power)}, ${mode==='restore'?recordLabel(item):equipped?'장착 중':'보유 장비'}, #${esc(item.instanceId)}" ${executing||recovering?'disabled':''}><span class="equipment-thumb"><img src="${esc(imageUrl(item.image))}" alt="" loading="lazy">${equipped?'<span class="equipment-equipped-badge"><svg aria-hidden="true"><use href="#i-shield"/></svg>장착 중</span>':''}</span><span class="equipment-copy"><small>${esc(item.grade)} · ${slots[item.slot]}</small><b>${esc(item.name)}</b><em>전투력 ${number(power)}</em><em>${mode==='restore'?recordLabel(item):equipped?'장착 중':'보유 장비'} · #${esc(item.instanceId)}</em></span><span class="equipment-level">${item.enhancement?`+${item.enhancement.level}`:mode==='restore'?`+${item.level}`:'—'}</span></button>`;
   }).join('')||`<div class="empty-inventory">${loading?'장비를 불러오는 중…':!activeToken?'로그인하면 보유한 무기와 방어구를 확인할 수 있습니다.':data?.publicVisible===false?'강화 센터를 준비하고 있습니다.':mode==='restore'?'복구할 파괴 기록이 없습니다.':'이 종류의 보유 장비가 없습니다.'}${!activeToken?'<a class="public-login" href="/">게임 로그인 ↗</a>':''}</div>`;
   list.querySelectorAll('img').forEach(img=>img.onerror=()=>{img.hidden=true;});
@@ -70,7 +71,7 @@ async function select(id){
   $('stage-empty').hidden=!!item;$('weapon-fallback').hidden=true;
   if(!item){$('stage-item-sub').dataset.equipped='false';$('stage-item-name').textContent=mode==='restore'?'파괴 기록 보관소':'장비를 선택하세요';$('stage-item-sub').textContent='무기 · 상의 · 하의 · 신발 · 장신구';$('stage-grade').textContent='EQUIPMENT ARCHIVE';$('power-before').textContent='—';$('stage-code').textContent='EQUIPMENT ARCHIVE';$('stage-rule').textContent='무기 · 방어구 · 장신구';if(fx?.weapon){fx.loadGeneration++;fx.weapon.visible=false;fx.texture=null;}return;}
   $('stage-item-sub').dataset.equipped=String(mode==='enhance'&&item.equipped===true);$('stage-item-name').textContent=item.name;$('stage-grade').textContent=item.grade+' EQUIPMENT';$('stage-item-sub').textContent=slots[item.slot]+(mode==='restore'?' · '+recordLabel(item):item.equipped===true?' · 장착 중':' · 보유 장비');$('stage-code').textContent='EQUIPMENT / #'+item.instanceId;
-  const currentPower=item.enhancement?.power||(mode==='restore'?forgePower(item.basePower.total,item.level):item.basePower);$('power-before').textContent=number(Math.max(0,Math.trunc(currentPower.total)));$('stage-rule').textContent=`PVE ${number(currentPower.pve)} · PVP ${number(currentPower.pvp)}`;$('stage-level').textContent=item.enhancement?`+${item.enhancement.level}`:mode==='restore'?`${item.destructionSource==='WORKSHOP_EQUIPMENT_CRAFT'?'소모':'파괴'} 당시 +${item.level}`:'강화 대기';
+  const currentPower=item.enhancement?.power||(mode==='restore'?forgePower(item.basePower.total,item.level,data?.policy?.advanced):item.basePower);$('power-before').textContent=number(Math.max(0,Math.trunc(currentPower.total)));$('stage-rule').textContent=`PVE ${number(currentPower.pve)} · PVP ${number(currentPower.pvp)}`;$('stage-level').textContent=item.enhancement?`+${item.enhancement.level}`:mode==='restore'?`${item.destructionSource==='WORKSHOP_EQUIPMENT_CRAFT'?'소모':'파괴'} 당시 +${item.level}`:'강화 대기';
   const image=imageUrl(item.image);$('weapon-fallback').src=image;$('weapon-fallback').classList.toggle('is-armor',item.slot!=='WEAPON');
   if(fx){try{await fx.setItem({...item,image});if(stamp!==generation||selected!==id)return;fx.weapon.visible=true;$('weapon-fallback').hidden=true;return;}catch{}}
   if(stamp===generation&&selected===id)$('weapon-fallback').hidden=!image;
@@ -104,6 +105,7 @@ document.querySelectorAll('[data-mode]').forEach(b=>{b.onclick=()=>void switchMo
 $('inventory-more').onclick=()=>void load(true);$('archive-button').onclick=()=>void switchMode('restore');
 $('rules-button').onclick=()=>$('rules-dialog').showModal();document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>$('rules-dialog').close());
 async function updateQuote(){
+ scrollCost.hidden=true;
  const stamp=++quoteGeneration;quote=null;for(const id of ['enhance-button','restore-button'])$(id).disabled=true;
  const pending=safePending();if(pending){$('protection-toggle').disabled=true;if(!pending.invalid)pendingNotice();pendingButtons(pending);return;}
  if(mode==='enhance'){
@@ -123,17 +125,18 @@ async function updateQuote(){
  const key=JSON.stringify([activeToken,body.kind,item.selectionId,item.enhancement?.revision,data.policy?.revision,body.useProtection]);
  connectionNotice('확률과 비용을 확인하고 있습니다.');
  try{const q=await quoteQueue.select(key,body,{token:activeToken,signal:lifetime.signal,onRetry:()=>{if(stamp===quoteGeneration)connectionNotice('연결을 다시 확인 중입니다. 재료는 소모되지 않았습니다.');}});if(!q||stamp!==quoteGeneration||activeToken!==token())return;quote=q;quoteRetry=null;connectionNotice();
-  if(mode==='enhance'){$('success-rate').textContent=`${q.cost.successPpm/10000}%`;$('rate-level').textContent=`+${q.item.level} → +${q.item.level+1}`;$('power-after').textContent=number(forgePower(q.item.basePower.total,q.item.level+1).total);
+  if(mode==='enhance'){$('success-rate').textContent=`${q.cost.successPpm/10000}%`;$('rate-level').textContent=`+${q.item.level} → +${q.item.level+1}`;$('power-after').textContent=number((q.powerAfter||forgePower(q.item.basePower.total,q.item.level+1,data?.policy?.advanced)).total);
    const success=q.cost.successPpm/10000,maintain=(q.cost.successPpm+q.cost.maintainPpm)/10000;document.querySelector('.probability-bar').style.background=`linear-gradient(to right,#cbff66 0 ${success}%,#8499b4 ${success}% ${maintain}%,#fc7382 ${maintain}% 100%)`;
    for(const [key,label]of[['success','successPpm'],['maintain','maintainPpm'],['destroy','destroyPpm']])document.querySelector(`.rate-legend .${key} b`).textContent=`${q.cost[label]/10000}%`;
    document.querySelector('.material-heading span').textContent=`마스터의 별 보유 ${number(data.wallet.masterStars)}개`;document.querySelector('.success-label p').textContent='현재 장비 단계의 확정된 견적입니다.';document.querySelector('.material-list').textContent=`${coin(q.cost.coinCost)} 코인${q.cost.itemCode?` · ${q.cost.itemCode==='MASTER_STAR'?'마스터의 별':q.cost.itemName||q.cost.itemCode} ${number(q.cost.itemQuantity)}개`:''}`;
    document.querySelector('.consumption-note').textContent=q.protectedAttempt?`+${q.item.level+1} 도전 · 보호권 ${q.cost.protectionQuantity}장 필요 · ${q.protection.consume==='ON_DESTROY'?'파괴 결과일 때만 소모':'강화 시도 시 소모'}`:'보호권 미사용';
    document.querySelector('.risk-note p').textContent=q.protectedAttempt?'파괴 결과가 나오면 보호권으로 장비를 보존합니다.':'파괴 시 장착이 해제되며 장비는 파괴 기록에 보관됩니다.';
   }else{document.querySelector('.restore-coupon').hidden=!q.cost.itemCode;const couponImage=document.querySelector('.restore-coupon img'),source=q.cost.itemImage?imageUrl(q.cost.itemImage):'';couponImage.hidden=!source;if(source)couponImage.src=source;document.querySelector('.restore-coupon b').textContent=q.cost.itemName||'복구 재료';document.querySelector('.restore-coupon div span').textContent=`${q.cost.itemQuantity||0}개 사용`;document.querySelector('.restore-snapshot').textContent=`${q.item.name} · +${q.cost.levelMode==='PREVIOUS'?q.item.level:0} 복구`;document.querySelector('.restore-policy').textContent=`${coin(q.cost.coinCost)} 코인${q.cost.itemCode?` · ${q.cost.itemCode==='MASTER_STAR'?'마스터의 별':q.cost.itemName||q.cost.itemCode} ${q.cost.itemQuantity}개`:''} · ${q.cost.expiresHours?`${q.cost.expiresHours}시간 이내`:'기간 제한 없음'}`;}
+  if(q.cost.scroll){const s=q.cost.scroll;scrollCost.hidden=false;scrollCost.innerHTML='<img src="'+esc(imageUrl(s.image))+'" alt=""><div><b>'+esc(s.name)+' '+number(s.quantity)+'장</b><small>보유 '+number(data.wallet.scrolls?.[s.code]??0)+'장</small><em>성공·유지·파괴 모두 시도 시 소모</em></div>';}
   const shortages=forgeQuoteShortages(q,data.wallet);
   if(shortages.length)connectionNotice(shortages.join('\n'),()=>void load(),'보유 수량 새로고침');
   button.querySelector('span').textContent=shortages.length?'재료 수량 확인 필요':mode==='enhance'?`+${q.item.level+1} 강화 시도`:'선택 장비 복구';button.disabled=executing||shortages.length>0;
- }catch(e){if(stamp===quoteGeneration&&e.name!=='AbortError'){quoteRetry=()=>void updateQuote();button.querySelector('span').textContent='견적 다시 확인';button.disabled=false;connectionNotice(e.message,quoteRetry,'견적 다시 확인');toast(e.message);}}
+ }catch(e){if(stamp===quoteGeneration&&e.name!=='AbortError'){const locked=['FORGE_ADVANCED_PENDING','FORGE_MAX_LEVEL'].includes(e.code);quoteRetry=locked?null:()=>void updateQuote();button.querySelector('span').textContent=locked?(e.code==='FORGE_MAX_LEVEL'?'최대 강화 달성':'강화 준비 중'):'견적 다시 확인';button.disabled=locked;connectionNotice(e.message,quoteRetry,'견적 다시 확인');toast(e.message);}}
 }
 async function showReceipt(receipt,{animate=true}={}){
  const renderer=fx,stamp=++fxGeneration;

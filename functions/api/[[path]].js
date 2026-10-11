@@ -72,6 +72,7 @@ import {handleEquipmentForgePublic} from '../_equipment_forge_public.js';
 import {handleEquipmentPolish} from '../_equipment_polish.js';
 import {ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM} from '../_forge_protection_catalog.js';
 import {ensureForgeRepairCatalog,FORGE_REPAIR_ITEM} from '../_forge_repair_catalog.js';
+import {ensureForgeScrollCatalog} from '../_forge_scroll_catalog.js';
 import { handleAvatar,avatarFeatureAccess,equippedAvatarEffect,applyAvatarCoinGain,applyAvatarRaidEntryBonus,ensureAvatarFoundation } from '../_avatar.js';
 import { handleVehicleDraw,ensureVehicleDrawFoundation } from '../_vehicle_draw.js';
 import { handlePrimeDraw } from '../_prime_draw.js';
@@ -5265,6 +5266,7 @@ async function handleRequest(context){
       await ensurePingduThanksGiftCatalog(env);
       await ensureForgeProtectionCatalog(env);
       await ensureForgeRepairCatalog(env);
+      await ensureForgeScrollCatalog(env);
       await ensureSkillChipFoundation(env);
       await ensureBattleSuitCoreCatalog(env);
       await ensureUniqueAdvancementPassCatalog(env);

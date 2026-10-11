@@ -1,4 +1,5 @@
 import {EQUIPMENT_POWER_STANDARD as power} from './equipment-mercenary-power-v1.mjs';
+import {FORGE_MAX_LEVEL} from './equipment-forge-advanced-v1.mjs';
 export const FORGE_RUNTIME_KEY='equipment_forge_runtime_policy_v1';
 export const FORGE_ENHANCEMENT_MATERIAL='MASTER_STAR';
 const DOUBLE_STAR_EQUIPMENT_CODES=new Set(['EMPEROR_TOP','EMPEROR_BOTTOM','EMPEROR_SHOES','EMPEROR_DUAL_DISK','EQ_1788486929132','EQ_1788486888336']);
@@ -25,7 +26,9 @@ export function validateForgePolicy(raw){
  if(r.enabled&&(restoration.coinCost===null||restoration.expiresHours===null||r.levelMode==='UNSET'))fail('복구 비용·기한·반환 단계를 모두 설정하세요.');
  return {revision:int(raw.revision??0,0,2147483646,'수정 버전'),version:raw.version,mode:raw.mode,approved:false,quoteSeconds:int(raw.quoteSeconds,15,900,'견적 유효 시간'),steps,protection,restoration};
 }
-export function forgePower(baseTotal,level){
- if(!Number.isSafeInteger(baseTotal)||baseTotal<0||!Number.isInteger(level)||level<0||level>10)throw Error('INVALID_FORGE_POWER');
- const total=Math.floor(baseTotal*(100+power.bonusPercentByLevel[level])/100),pve=Math.floor(total*power.pvePercent/100);return {total,pve,pvp:total-pve};
+export function forgePower(baseTotal,level,advanced=null){
+ if(!Number.isSafeInteger(baseTotal)||baseTotal<0||!Number.isInteger(level)||level<0||level>FORGE_MAX_LEVEL)throw Error('INVALID_FORGE_POWER');
+ const bonus=level<=10?power.bonusPercentByLevel[level]:advanced?.steps?.find(row=>row.level===level-1)?.powerBonusPercent;
+ if(!Number.isSafeInteger(bonus)||bonus<0)throw Object.assign(Error('고급 강화 전투력 설정이 필요합니다.'),{code:'FORGE_ADVANCED_POWER',status:409});
+ const total=Math.floor(baseTotal*(100+bonus)/100),pve=Math.floor(total*power.pvePercent/100);return {total,pve,pvp:total-pve};
 }

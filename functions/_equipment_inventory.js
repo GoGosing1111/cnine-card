@@ -2,6 +2,7 @@ import {equipmentCountsReady,EQUIPMENT_COUNTS_TABLE} from './_equipment_counts_v
 import {FORGE_RUNTIME_RELEASE_ENABLED} from '../shared/equipment-forge-release-v1.mjs';
 import {EQUIPMENT_POWER_STANDARD} from '../shared/equipment-mercenary-power-v1.mjs';
 import {forgePower} from '../shared/equipment-forge-policy-v1.mjs';
+import {readForgeAdvancedForLevels} from './_equipment_forge_advanced.js';
 import {polishUserPrefix} from './_equipment_growth.js';
 
 // Only unenhanced duplicates may stack. Every enhanced copy is an individual
@@ -22,6 +23,7 @@ export async function equipmentEnhancementRows(env,userId,rows,{admin=false,allo
       ${allowedCodes?`AND i.code IN (${allowedCodes.map(()=>'?').join(',')})`:''}
       ORDER BY x.id DESC`).bind(prefix.length+1,prefix,prefix+'~',userId,userId,userId,...EQUIPMENT_POWER_STANDARD.supportedSlots,...(allowedCodes||[])).all()).results;
   if(!enhanced.length)return rows;
+  const advanced=await readForgeAdvancedForLevels(env.DB,enhanced,'enhancement_level');
   const counts=new Map();for(const row of enhanced)counts.set(Number(row.id),(counts.get(Number(row.id))||0)+Number(row.quantity));
   const ids=[...counts.keys()];
   // Only affected catalog types need a new level-zero representative. The
@@ -46,7 +48,7 @@ export async function equipmentEnhancementRows(env,userId,rows,{admin=false,allo
       acquired_at:representative.acquired_at,quantity:row.quantity==null?null:Math.max(0,Number(row.quantity)-offset),quantityOffset:offset,enhancement:{level:0}});
   }
   for(const row of enhanced){
-    const power=forgePower(Number(row.total_power),Number(row.enhancement_level));
+    const power=forgePower(Number(row.total_power),Number(row.enhancement_level),advanced);
     output.push({...row,total_power:power.total,pve_power:power.pve,pvp_power:power.pvp,
       quantity:Number(row.quantity),quantityFixed:true,enhancement:{level:Number(row.enhancement_level)}});
   }

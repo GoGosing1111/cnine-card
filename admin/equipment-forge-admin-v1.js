@@ -1,7 +1,8 @@
 import {jointAdminRequest as api} from '../js/joint-account-transport.mjs';
 import {mountForgePolicyEditor} from './equipment-forge-policy-editor-v1.mjs?v=20260922-ready';
+import {mountForgeAdvancedEditor} from './equipment-forge-advanced-editor-v1.mjs?v=20261012-scrolls';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let panel, navButton, publicHost, policyHost, editor, data, busy=false, dirty=false, notice='', generation=0;
+let panel, navButton, publicHost, policyHost, advancedHost, editor, advancedEditor, data, busy=false, dirty=false, notice='', generation=0;
 function powerTable(){
   const p=data?.powerStandard;if(!p)return '';
   return `<section class="forge-power-standard"><h3>확정 전투력 · 최대 +${p.maxLevel}</h3><p>무기·방어구·장신구의 원래 전투력 기준입니다. 전투력 규칙은 임의 변경하지 않습니다.</p><table><thead><tr><th scope="col">단계</th><th scope="col">누적 증가 · 최종 배율</th><th scope="col">단계 상승분</th></tr></thead><tbody>${p.bonusPercentByLevel.map((bonus,level)=>`<tr ${level>=9?'class="forge-power-highlight"':''}><th scope="row">+${level}</th><td>+${bonus}% · ${((100+bonus)/100).toFixed(2)}배</td><td>${level?'+'+(bonus-p.bonusPercentByLevel[level-1])+'%':'—'}</td></tr>`).join('')}</tbody></table><p>PVE 90% · PVP 10%. 배틀슈트는 별도 전력으로 유지합니다.</p></section>`;
@@ -25,11 +26,11 @@ function start(){
   navButton=document.createElement('button');navButton.type='button';navButton.dataset.view='equipment-forge';navButton.textContent='장비 강화';navButton.hidden=true;nav.insertBefore(navButton,nav.querySelector('[data-view="settings"]'));
   panel=document.createElement('section');panel.id='view-equipment-forge';panel.className='view';panel.hidden=true;
   panel.innerHTML='<div class="forge-cms"><header><div><small>UPGRADE LAB / POLICY CONTROL</small><h2>장비 강화 운영 설정</h2><p>강화 재료와 확률부터 보호권·파괴 복구까지, 한곳에서 관리합니다.</p></div><a href="/equipment-forge/" target="_blank" rel="noopener">유저 화면 ↗</a></header><div data-forge-policy></div><div data-forge-public></div></div>';
-  main.append(panel);policyHost=panel.querySelector('[data-forge-policy]');publicHost=panel.querySelector('[data-forge-public]');let opened=false;
-  const show=()=>{if(navButton.hidden)return;document.querySelectorAll('.view').forEach(view=>view.hidden=view!==panel);document.querySelectorAll('#nav [data-view]').forEach(button=>button.classList.toggle('active',button===navButton));document.getElementById('pageTitle').textContent='장비 강화';history.replaceState(null,'','#equipment-forge');if(!editor)editor=mountForgePolicyEditor(policyHost);if(!data)void loadPublic();};
+  main.append(panel);policyHost=panel.querySelector('[data-forge-policy]');publicHost=panel.querySelector('[data-forge-public]');advancedHost=document.createElement('div');policyHost.before(advancedHost);let opened=false;
+  const show=()=>{if(navButton.hidden)return;document.querySelectorAll('.view').forEach(view=>view.hidden=view!==panel);document.querySelectorAll('#nav [data-view]').forEach(button=>button.classList.toggle('active',button===navButton));document.getElementById('pageTitle').textContent='장비 강화';history.replaceState(null,'','#equipment-forge');if(!editor)editor=mountForgePolicyEditor(policyHost);if(!advancedEditor)advancedEditor=mountForgeAdvancedEditor(advancedHost);if(!data)void loadPublic();};
   navButton.addEventListener('click',event=>{event.stopImmediatePropagation();show();},true);
-  const access=()=>{navButton.hidden=role.textContent.trim()!=='OWNER';if(navButton.hidden){generation++;panel.hidden=true;editor?.destroy();editor=null;data=null;dirty=false;opened=false;publicHost.replaceChildren();}else if(location.hash==='#equipment-forge'&&!opened){opened=true;show();}};
+  const access=()=>{navButton.hidden=role.textContent.trim()!=='OWNER';if(navButton.hidden){generation++;panel.hidden=true;editor?.destroy();editor=null;advancedEditor?.destroy();advancedEditor=null;data=null;dirty=false;opened=false;publicHost.replaceChildren();}else if(location.hash==='#equipment-forge'&&!opened){opened=true;show();}};
   new MutationObserver(access).observe(role,{childList:true,subtree:true,characterData:true});access();
-  window.addEventListener('beforeunload',event=>{if(dirty||editor?.dirty){event.preventDefault();event.returnValue='';}});
+  window.addEventListener('beforeunload',event=>{if(dirty||editor?.dirty||advancedEditor?.dirty){event.preventDefault();event.returnValue='';}});
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();

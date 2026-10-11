@@ -14,6 +14,7 @@ const FRESH_ACCOUNT_SCRIPTS=new Set(['/js/character-loadout-v2.js','/js/characte
 FRESH_ACCOUNT_SCRIPTS.add('/js/server-support-v1.mjs');
 FRESH_ACCOUNT_SCRIPTS.add('/js/mercenary-deck-slot.mjs');
 FRESH_ACCOUNT_SCRIPTS.add('/mercenary-codex/equipment/app.mjs');
+for(const path of ['/equipment-forge/app.mjs','/shared/equipment-forge-policy-v1.mjs','/shared/equipment-forge-resources-v1.mjs','/shared/equipment-forge-advanced-v1.mjs','/admin/equipment-forge-admin-v1.js','/admin/equipment-forge-advanced-editor-v1.mjs'])FRESH_ACCOUNT_SCRIPTS.add(path);
 FRESH_ACCOUNT_SCRIPTS.add('/js/supporter-season-pass-v1.mjs');
 FRESH_ACCOUNT_SCRIPTS.add('/js/clan-faction-sessions-v1.mjs');
 FRESH_ACCOUNT_SCRIPTS.add('/js/clan-war-reform-v1.mjs');

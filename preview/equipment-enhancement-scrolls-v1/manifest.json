@@ -1,0 +1,66 @@
+{
+  "createdAt": "2026-10-11T15:03:49.348Z",
+  "tool": "image_gen.imagegen",
+  "mode": "built-in",
+  "purpose": "장비 +10→+11부터 +15까지의 강화 재료",
+  "items": [
+    {
+      "type": "weapon",
+      "name": "무기 강화주문서",
+      "original": "exec-7b917485-4126-43b7-b331-0e5feea5aa72.png",
+      "status": "GENERATED_FOR_REQUESTED_IMPLEMENTATION",
+      "files": [
+        {
+          "path": "assets/items/weapon-enhancement-scroll-v1.png",
+          "width": 1254,
+          "height": 1254,
+          "hasAlpha": true,
+          "bytes": 1611434,
+          "sha256": "23411651eba2deed56ffd0156f9661f9bcd7cb6588d54f179a376da50cb1acb2",
+          "transparentPixels": 842610,
+          "edgeVisible": 0
+        },
+        {
+          "path": "assets/items/weapon-enhancement-scroll-v1.webp",
+          "width": 512,
+          "height": 512,
+          "hasAlpha": true,
+          "bytes": 68772,
+          "sha256": "b508f2d24fb67a0f391a4743ff6ac0f94f17a5ec798b4a4131ed0fd3c77d0f1c",
+          "transparentPixels": 140459,
+          "edgeVisible": 0
+        }
+      ]
+    },
+    {
+      "type": "armor",
+      "name": "방어구 강화주문서",
+      "original": "exec-06b5f3a7-545b-4156-8011-79bacd9ff1ab.png",
+      "status": "GENERATED_FOR_REQUESTED_IMPLEMENTATION",
+      "files": [
+        {
+          "path": "assets/items/armor-enhancement-scroll-v1.png",
+          "width": 1254,
+          "height": 1254,
+          "hasAlpha": true,
+          "bytes": 1898811,
+          "sha256": "affd3624c4f4b09b2663fcbb739f4950058223744dde473c99fd37c932e1a0b0",
+          "transparentPixels": 729642,
+          "edgeVisible": 0
+        },
+        {
+          "path": "assets/items/armor-enhancement-scroll-v1.webp",
+          "width": 512,
+          "height": 512,
+          "hasAlpha": true,
+          "bytes": 74870,
+          "sha256": "a7f19de23db42a9777632577080deaf439b37386a1338603a632cc57ce865398",
+          "transparentPixels": 121270,
+          "edgeVisible": 0
+        }
+      ]
+    }
+  ],
+  "prompts": "prompts.json",
+  "originalBytesPreserved": true
+}

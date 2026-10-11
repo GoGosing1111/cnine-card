@@ -1,9 +1,10 @@
 import {FORGE_REPAIR_ITEM,ensureForgeRepairCatalog} from './_forge_repair_catalog.js';
 import {FORGE_PROTECTION_ITEM,ensureForgeProtectionCatalog} from './_forge_protection_catalog.js';
+import {FORGE_SCROLL_ITEMS,ensureForgeScrollCatalog} from './_forge_scroll_catalog.js';
 import {runJointOperation,jointInventoryChange} from './_joint_transactions.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 
-const items=new Map([FORGE_REPAIR_ITEM,FORGE_PROTECTION_ITEM].map(item=>[item.code,item]));
+const items=new Map([FORGE_REPAIR_ITEM,FORGE_PROTECTION_ITEM,...FORGE_SCROLL_ITEMS].map(item=>[item.code,item]));
 export const isForgeTicketGrant=code=>items.has(code);
 const fail=(message,status=400)=>{throw Object.assign(new Error(message),{status});};
 
@@ -14,7 +15,7 @@ export async function grantForgeTickets(env,admin,{userId,itemCode,amount,reason
  if(!item||!Number.isSafeInteger(userId)||userId<1||!Number.isSafeInteger(amount)||amount<1||amount>9999)
   fail('지급할 계정·아이템과 수량(1~9,999장)을 확인하세요.');
  const memo=String(reason||'').trim().slice(0,100)||`관리자 ${item.name} 지급`;
- await (itemCode===FORGE_REPAIR_ITEM.code?ensureForgeRepairCatalog(env):ensureForgeProtectionCatalog(env));
+ await (itemCode===FORGE_REPAIR_ITEM.code?ensureForgeRepairCatalog(env):itemCode===FORGE_PROTECTION_ITEM.code?ensureForgeProtectionCatalog(env):ensureForgeScrollCatalog(env));
  const DB=env.DB,p=(sql,...values)=>DB.prepare(sql).bind(...values);
  const result=await runJointOperation(env,{id:userId},{requestId,kind:'ADMIN_FORGE_TICKET_GRANT',
   input:{adminId:admin.id,itemCode,amount,reason:memo},

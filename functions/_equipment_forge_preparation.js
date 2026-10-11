@@ -1,7 +1,8 @@
-import {EQUIPMENT_POWER_STANDARD} from '../shared/equipment-mercenary-power-v1.mjs';
 import {forgePower} from '../shared/equipment-forge-policy-v1.mjs';
 import {isMercenaryEquipment} from '../shared/mercenary-equipment-v1.mjs';
 import {readMercenaryEquipmentRecords} from './_mercenary_equipment.js';
+import {readForgeAdvancedPolicy} from './_equipment_forge_advanced.js';
+import {forgePowerBonuses} from '../shared/equipment-forge-advanced-v1.mjs';
 
 async function equipmentWearers(db,userId,items){
   if(!items.some(item=>isMercenaryEquipment(item.code)))return items;
@@ -21,13 +22,13 @@ function positiveId(value) {
   return text;
 }
 
-const currentPowerSql = `CAST(i.total_power AS BIGINT)*(CASE s.level ${EQUIPMENT_POWER_STANDARD.bonusPercentByLevel.map((bonus,level)=>`WHEN ${level} THEN ${100+bonus}`).join(' ')} ELSE 100 END)/100`;
-
-export async function readForgePreparationInventory(db, authenticatedUserId, { beforeId = null, focusId = null, limit = 40, group = 'all', includeEnhancement = false } = {}) {
+export async function readForgePreparationInventory(db, authenticatedUserId, { beforeId = null, focusId = null, limit = 40, group = 'all', includeEnhancement = false, advancedPolicy } = {}) {
   const userId = positiveId(authenticatedUserId), cursor = beforeId == null ? null : positiveId(beforeId);
   if (!Number.isSafeInteger(limit) || limit < 1 || limit > 100) throw new Error('장비는 페이지당 1~100개까지 조회합니다.');
   const groups={all:['WEAPON','TOP','BOTTOM','SHOES','ACCESSORY'],weapon:['WEAPON'],armor:['TOP','BOTTOM','SHOES'],accessory:['ACCESSORY']};
   if(!Object.hasOwn(groups,group))throw new Error('장비 종류를 확인하세요.');
+  if(includeEnhancement&&advancedPolicy===undefined)advancedPolicy=await readForgeAdvancedPolicy(db);
+  const currentPowerSql=`CAST(i.total_power AS BIGINT)*(CASE s.level ${forgePowerBonuses(advancedPolicy).map((bonus,level)=>bonus===null?'':`WHEN ${level} THEN ${100+bonus}`).join(' ')} ELSE 100 END)/100`;
   const slots=groups[group],empty={accountId:userId,mode:'PREPARATION_READ_ONLY',canEnhance:false,items:[],nextCursor:null};
   if(focusId){
     const row=await db.prepare(`SELECT x.id AS instance_id,x.equipment_id,x.acquired_at,i.*,COALESCE(s.level,0) AS level,COALESCE(s.revision,0) AS revision,
@@ -35,7 +36,7 @@ export async function readForgePreparationInventory(db, authenticatedUserId, { b
       FROM user_equipment_instances x JOIN character_equipment_items i ON i.id=x.equipment_id
       LEFT JOIN equipment_forge_states_v1 s ON s.instance_id=x.id AND s.user_id=x.user_id
       WHERE x.id=? AND x.user_id=? AND i.is_active=1 AND i.is_public=1 AND i.slot IN (${slots.map(()=>'?').join(',')})`).bind(positiveId(focusId),userId,...slots).first();
-    return {...empty,items:await equipmentWearers(db,userId,row?[preparationItem(row,includeEnhancement)]:[])};
+    return {...empty,items:await equipmentWearers(db,userId,row?[preparationItem(row,includeEnhancement,advancedPolicy)]:[])};
   }
   let cursorPower=null;
   if (cursor) {
@@ -44,7 +45,7 @@ export async function readForgePreparationInventory(db, authenticatedUserId, { b
       ${includeEnhancement?'LEFT JOIN equipment_forge_states_v1 s ON s.instance_id=x.id AND s.user_id=x.user_id':''}
       WHERE x.id=? AND x.user_id=?`).bind(cursor,userId).first();
     if(!row)return empty;
-    cursorPower=Number(row.level)>0?forgePower(Number(row.total_power),Number(row.level)).total:Number(row.total_power);
+    cursorPower=Number(row.level)>0?forgePower(Number(row.total_power),Number(row.level),advancedPolicy).total:Number(row.total_power);
   }
   // Bound production reads: one page per catalog type via (user_id,equipment_id,id),
   // plus the small enhanced set. Never sort millions of owned copies or scan the
@@ -82,16 +83,16 @@ export async function readForgePreparationInventory(db, authenticatedUserId, { b
     ...(includeEnhancement?[userId,...(cursor?[cursorPower,cursor]:[])]:[]),limit+1];
   const result = await db.prepare(sql).bind(...values).all();
   const rows = result.results || [];
-  const items = await equipmentWearers(db,userId,rows.slice(0, limit).map(row => preparationItem(row,includeEnhancement)));
+  const items = await equipmentWearers(db,userId,rows.slice(0, limit).map(row => preparationItem(row,includeEnhancement,advancedPolicy)));
   return { accountId: userId, mode: 'PREPARATION_READ_ONLY', canEnhance: false, items,
     nextCursor: rows.length > limit ? items.at(-1).instanceId : null };
 }
-function preparationItem(row,includeEnhancement){return ({
+function preparationItem(row,includeEnhancement,advancedPolicy){return ({
     instanceId: positiveId(row.instance_id), equipmentId: positiveId(row.equipment_id),
     name: String(row.name), code: String(row.code), slot: String(row.slot), subtype: String(row.subtype),
     grade: String(row.rarity), image: String(row.image_url), acquiredAt: row.acquired_at,
     equipped: Number(row.equipped) === 1,
     basePower: { total: Number(row.total_power), pve: Number(row.pve_power), pvp: Number(row.pvp_power) },
-    enhancement: includeEnhancement?{level:Number(row.level),revision:Number(row.revision),power:forgePower(Number(row.total_power),Number(row.level))}:null,
+    enhancement: includeEnhancement?{level:Number(row.level),revision:Number(row.revision),power:forgePower(Number(row.total_power),Number(row.level),advancedPolicy)}:null,
   });
 }
