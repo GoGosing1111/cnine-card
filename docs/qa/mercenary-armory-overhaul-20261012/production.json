@@ -1,0 +1,30 @@
+{
+  "checkedAt": "2026-10-11T19:52:23.311Z",
+  "sourceCommit": "179705631953f65d5923b4c81f2564313c6aee82",
+  "files": [
+    {
+      "file": "mercenary-codex/equipment/index.html",
+      "status": 200,
+      "bytes": 9014,
+      "sha256": "cc9596494c5fb37461b160c81ab7abf40c87e4eb922d24578cc7d1c0322ae24d",
+      "expectedSha256": "cc9596494c5fb37461b160c81ab7abf40c87e4eb922d24578cc7d1c0322ae24d",
+      "matches": true
+    },
+    {
+      "file": "mercenary-codex/equipment/app.mjs",
+      "status": 200,
+      "bytes": 19965,
+      "sha256": "d96fcf2996edd312a5de97e1ac025810d9a898ae92e20c453fa52c87e7d274fc",
+      "expectedSha256": "d96fcf2996edd312a5de97e1ac025810d9a898ae92e20c453fa52c87e7d274fc",
+      "matches": true
+    },
+    {
+      "file": "mercenary-codex/equipment/style.css",
+      "status": 200,
+      "bytes": 41325,
+      "sha256": "a605fafbc6fb2f09cf7293c8e12746812461802944b36cde62ce91d4a21ecc57",
+      "expectedSha256": "a605fafbc6fb2f09cf7293c8e12746812461802944b36cde62ce91d4a21ecc57",
+      "matches": true
+    }
+  ]
+}
