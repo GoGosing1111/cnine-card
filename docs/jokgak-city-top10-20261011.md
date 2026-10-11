@@ -23,7 +23,7 @@
 
 `tests/jokgak-city-top10-20261011.test.mjs`: SQLite/PostgreSQL의 조기/다음 회차 지급 차단, 공동 10위, 퇴장·TEST·정지 제외, 자동 수입, 늦은 참여·잔액 변경, 보상/감사/기록 삭제 실패 전체 롤백, 응답 유실·오래된 계획 재시도 및 실제 PostgreSQL 메시지 수령 함수의 5천억 코인 1회 지급을 검증한다.
 
-직접 연결된 기존 회차 정산은 `tests/trophy-milestones-20261011.test.mjs`로 확인한다. UI·공통 인증·DB 스키마·의존성을 변경하지 않았으므로 전체 게임 검사를 수행하지 않는다. 실제 직전 운영 배포는 Pages `936e7277-af01-47c7-9eed-5412638574ec`, 코드 `811256c84a6df94cb4e32242f4f88de20a3d9d47`다. 해당 두 파일의 최종 관련 회귀 24개가 모두 통과했다. 배포 과정에서는 같은 검사를 반복하지 않고 실제 Worker 진입·번들 검사 `tests/jokgak-city-worker-entry-20261009.test.mjs`와 `check:worker`, 기존 출시·캐시·Hyperdrive 검사를 포함한 `npm run deploy:production -- --scoped`를 사용한다.
+직접 연결된 기존 회차 정산은 `tests/trophy-milestones-20261011.test.mjs`로 확인한다. UI·공통 인증·DB 스키마·의존성을 변경하지 않았으므로 전체 게임 검사를 수행하지 않는다. 작업 시작 시 운영 코드는 `811256c84a6df94cb4e32242f4f88de20a3d9d47`였다. 다른 작업의 배포가 완료되기를 기다린 뒤, 실제 최종 직전 운영 배포를 Pages `69b5dadd-36d6-46c6-b748-958306ab47f6`, 코드 `995c2d77c5710b69a07c8d7b7665a180011fa72a`로 확인하고 그 위에 이번 변경만 반영한다. 해당 두 파일의 최종 관련 회귀 24개가 모두 통과했다. 배포 과정에서는 같은 검사를 반복하지 않고 실제 Worker 진입·번들 검사 `tests/jokgak-city-worker-entry-20261009.test.mjs`와 `check:worker`, 기존 출시·캐시·Hyperdrive 검사를 포함한 `npm run deploy:production -- --scoped`를 사용한다.
 
 마다라 레이드의 로컬 준비 커밋은 별도 작업 트리에 보존하며 이번 운영 반영에 포함하지 않는다. 최종 배포·예약 확인은 동명 JSON에 기록한다. 개인별 최종 현금·ID는 운영 완료 영수증에만 보존한다.
 

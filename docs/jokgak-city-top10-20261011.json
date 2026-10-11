@@ -29,9 +29,14 @@
     "stalePlanAndReplay": true
   },
   "deployment": {
-    "status": "WAITING_FOR_PRIOR_PRODUCTION_RELEASE",
-    "lastObservedCode": "811256c84a6df94cb4e32242f4f88de20a3d9d47",
-    "aheadRelease": "eb8b34680bc187e8ecfe8d660ea790b4f04267d8"
+    "status": "READY",
+    "base": "995c2d77c5710b69a07c8d7b7665a180011fa72a",
+    "basePages": "69b5dadd-36d6-46c6-b748-958306ab47f6",
+    "checks": [
+      "tests/jokgak-city-worker-entry-20261009.test.mjs",
+      "check:worker"
+    ],
+    "priorTestsReused": 24
   },
   "verificationAutomation": {
     "id": "top10",
