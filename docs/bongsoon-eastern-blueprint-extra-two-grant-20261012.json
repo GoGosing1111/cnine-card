@@ -1,0 +1,65 @@
+{
+  "request": "나무늘봉순 계정에 동방설계도 2개 지급",
+  "completedAtKst": "2026-10-12 08:07:12 KST",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:bongsoon-eastern-blueprint:20261012:extra-two:v1",
+    "user": {
+      "id": 5426,
+      "nickname": "나무늘봉순"
+    },
+    "allocations": [
+      {
+        "code": "EASTERN_ARMS_WEAPON_BLUEPRINT",
+        "name": "동방무기상 무기설계도",
+        "amount": 2,
+        "before": {
+          "quantity": "0",
+          "unseenQuantity": "0"
+        },
+        "after": {
+          "quantity": "2",
+          "unseenQuantity": "2"
+        },
+        "logId": "82435290"
+      }
+    ],
+    "completedAt": "2026-10-11T23:07:12.289Z",
+    "auditId": "44971"
+  },
+  "verification": {
+    "verified": true,
+    "grantLogs": 1,
+    "inventory": [
+      {
+        "item_code": "EASTERN_ARMS_WEAPON_BLUEPRINT",
+        "quantity": "2",
+        "unseen_quantity": "2"
+      }
+    ],
+    "verifiedAt": "2026-10-11T23:07:14.810Z"
+  },
+  "inventoryLogs": [
+    {
+      "id": "82435290",
+      "user_id": "5426",
+      "item_code": "EASTERN_ARMS_WEAPON_BLUEPRINT",
+      "change_amount": "2",
+      "balance_after": "2",
+      "reference_type": "SYSTEM_GRANT"
+    }
+  ],
+  "checks": {
+    "uniqueActiveAccount": true,
+    "activeExactItem": true,
+    "dryRunRolledBack": true,
+    "idempotentReplay": true,
+    "grantLedgerAndAdminAuditVerified": true
+  },
+  "execution": {
+    "accountLock": "USER_LOCK user:5426",
+    "atomicTransaction": true,
+    "temporaryHelperStopped": true,
+    "gameRuntimeDeployRequired": false
+  }
+}
