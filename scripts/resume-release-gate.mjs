@@ -58,7 +58,28 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
     if(runtime.some(file=>{const source=read(file);return source.includes(receipt)||source.includes(receipt.split('/').at(-1));}))throw Error('BGM receipt is runtime configuration: run a fresh full gate.');
     bgmAdditions.add(path);bgmAdditions.add(receipt);
   }
-  const stageNames=text=>[...text.matchAll(/^> ((?:test|check):[\w:-]+)\r?$/gm)].map(match=>match[1]);
+  // An npm gate stage may invoke another registered test script. Keep those
+  // headers inside their parent stage so a failure reruns the entire parent.
+  // Only the exact nested commands in the unchanged package scripts qualify.
+  const nestedStages=(name,ancestors=[])=>{
+    if(ancestors.includes(name))throw Error('Cyclic nested gate command.');
+    return String(scripts[name]||'').split(' && ').flatMap(command=>{
+      const child=command.match(/^npm run ((?:test|check):[\w:-]+)$/)?.[1];
+      if(!child)return [];
+      if(!scripts[child])throw Error('Unknown nested gate command.');
+      return [child,...nestedStages(child,[...ancestors,name])];
+    });
+  };
+  const stageNames=text=>{
+    const stages=[];let pending=[];
+    for(const match of text.matchAll(/^> ((?:test|check):[\w:-]+)\r?$/gm)){
+      const name=match[1];
+      if(pending.length){if(name!==pending.shift())throw Error('Missing or unexpected nested gate stage.');}
+      else{stages.push(name);pending=nestedStages(name);}
+    }
+    if(pending.length&&text.includes('[PRODUCTION RELEASE'))throw Error('Completed gate is missing nested stages.');
+    return stages;
+  };
   let seen=stageNames(logText),changesAfterLastRun=null;
   if(!seen.length||seen.some((name,i)=>name!==names[i]))throw Error('Log is not a contiguous gate prefix.');
   // A resumed run can expose a later stale test. Keep both original logs intact,

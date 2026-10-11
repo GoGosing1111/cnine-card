@@ -257,3 +257,21 @@ test('offline skill preview proof binds source and bundle and reruns contracts t
     assert.throws(()=>fullGateResumePlan(withProof({...proof,sources:[...proof.sources,{file:runtime,sha256:hash}]})),/Only isolated/);
   }
 });
+
+
+test('registered nested npm tests belong to their parent and cannot be omitted from a completed gate',()=>{
+  const f=fixture({changed:['scripts/resume-release-gate.mjs']});
+  f.scripts['test:c']='node --test tests/c.test.mjs && npm run test:nested';
+  f.scripts['test:nested']='node --test tests/nested.test.mjs';
+  const prefix=`> release:gate\n> ${f.scripts['release:gate']}\n> test:a\nℹ fail 0\n> test:b\nℹ fail 0\n> test:c\nℹ fail 0\n`;
+  const guard=`[PRODUCTION RELEASE BLOCKED] deploy source differs from origin/main: HEAD=${base} origin/main=${head}\n`;
+  const setup=logText=>({...f,logText,env:{...f.env,RELEASE_GATE_RESUME_SHA256:createHash('sha256').update(logText).digest('hex')}});
+  const complete=fullGateResumePlan(setup(prefix+'> test:nested\nℹ fail 0\n'+guard));
+  assert.equal(complete.reused,3);assert.deepEqual(complete.commands.slice(1),['node scripts/verify-production-release.mjs']);
+  const failed=fullGateResumePlan(setup(prefix+'> test:nested\nℹ fail 1\n'));assert.equal(failed.reused,2);assert.equal(failed.commands[1],'npm run test:c');
+  assert.throws(()=>fullGateResumePlan(setup(prefix+guard)),/missing nested/);
+  assert.throws(()=>fullGateResumePlan(setup(prefix+'> test:unknown\nℹ fail 0\n'+guard)),/unexpected nested/);
+  const stopped=setup(prefix);stopped.env.RELEASE_GATE_RESUME_INTERRUPTED='1';stopped.env.RELEASE_GATE_RESUME_REASON='Parent interrupted before invoking its required nested test';
+  // A parent summary is not sufficient evidence that the nested command ran.
+  assert.throws(()=>fullGateResumePlan(stopped),/Resume requires/);
+});
