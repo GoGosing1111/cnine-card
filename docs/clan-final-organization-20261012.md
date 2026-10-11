@@ -29,4 +29,10 @@
 
 - 배포 게이트의 관련 회귀 99개와 Worker 컴파일을 통과했다. 이후 캐시 버전 일치 검사에서 앱과 Service Worker 태그 불일치를 발견해 셸 캐시 태그만 `20261012-organization`으로 맞췄다. 실행 기능은 그대로이므로 통과한 99개 결과를 재사용하고, 재개 게이트는 화면 진입 계약과 Worker 컴파일·기존 출시/캐시 검사로 한정한다.
 
-운영 반영 결과는 검증 후 아래에 추가한다.
+## 운영 반영 결과
+
+- 배포 소스 `033618b4849bd7706e274327ad43c081254e1ccd`, Pages `https://0525d2c7.cnine-card.pages.dev`. API Runtime `ecf6bd55-fcfc-46a4-a9a0-022e866321de`, Clan Draft Worker `571f8d4e-0e64-4338-ad5b-65565dea19c4`. 지정 scoped 명령 종료 코드 0, 출시·캐시·Hyperdrive 검사 통과.
+- 운영 일정은 2026-10-12 04:22:08 KST에 등록했다. 작업 키 `ops:clan-final-organization:season6:20261012:v1`, 감사 로그 `44893`. 새 READ ONLY 연결로 일정·종료 계획·준비 상태를 검증했으며 명단 50명과 기존 전적·보상 정책은 보존했다.
+- 04:22:26 KST의 실제 Durable Alarm이 신규 버전 `20261012-clan-retirement`, `CHAMPIONS`, 시즌 6, 다음 경계 `2026-10-12T12:00:00.000Z`를 기록했다. 현재 클랜은 대회 진행을 위해 ON이며, 결승과 정산 완료 후 자동 OFF된다. 이후 실행될 종료 자체를 완료됐다고 기록하지 않는다.
+- 운영 HTML·JS·CSS·설정·문양·도시·구상도 10개 파일은 HTTP 200 및 로컬 SHA-256 일치를 확인했다. 공개 준비 화면 모바일 390px에서 15개 문양·선택 확대/닫기·가입 비활성·가로 넘침 없음·스크립트 오류 없음을 확인했다.
+- 공개 주소: [조직 개편 준비](https://0525d2c7.cnine-card.pages.dev/preview/organization-renewal-20261012-v1/). 예약 영수증과 서버 확인 결과는 `docs/qa/clan-final-organization-20261012/production.json`에 보존한다.

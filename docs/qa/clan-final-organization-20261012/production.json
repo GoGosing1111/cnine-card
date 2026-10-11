@@ -1,0 +1,130 @@
+{
+  "sourceCommit": "033618b4849bd7706e274327ad43c081254e1ccd",
+  "deployment": {
+    "url": "https://0525d2c7.cnine-card.pages.dev",
+    "apiRuntimeVersion": "ecf6bd55-fcfc-46a4-a9a0-022e866321de",
+    "clanDraftVersion": "571f8d4e-0e64-4338-ad5b-65565dea19c4",
+    "command": "npm run deploy:production -- --scoped",
+    "exitCode": 0
+  },
+  "tests": {
+    "relevantRegressions": 99,
+    "relevantPassed": 99,
+    "navigationContract": "PASS",
+    "workerCompile": "PASS",
+    "productionRelease": "PASS",
+    "hyperdriveCache": "disabled",
+    "cacheVersion": "20261012-organization",
+    "note": "99 passed results reused after shell cache tag correction; unchanged execution code."
+  },
+  "operation": {
+    "status": "COMPLETED",
+    "operationKey": "ops:clan-final-organization:season6:20261012:v1",
+    "seasonId": 6,
+    "seasonNo": 3,
+    "semifinalWarId": 318,
+    "semifinalStartsAt": "2026-10-12T12:00:00Z",
+    "semifinalEndsAt": "2026-10-12T14:00:00Z",
+    "finalStartsAt": "2026-10-12T14:00:00Z",
+    "finalEndsAt": "2026-10-12T16:00:00Z",
+    "warDurationMinutes": 120,
+    "plan": {
+      "version": 1,
+      "enabled": true,
+      "seasonId": 6,
+      "transition": "FRESH_ORGANIZATIONS_PREPARATION"
+    },
+    "registrationOpen": false,
+    "memberCount": 50,
+    "completedAt": "2026-10-11T19:22:08.014Z",
+    "adminLogId": "44893",
+    "dryRun": false,
+    "replayed": false
+  },
+  "independentReadVerification": {
+    "checkedAt": "2026-10-11T19:22:31.67Z",
+    "verified": true,
+    "operationKey": "ops:clan-final-organization:season6:20261012:v1",
+    "heartbeat": {
+      "version": "20261012-clan-retirement",
+      "source": "DURABLE_ALARM",
+      "checkedAt": "2026-10-11T19:22:26.092Z",
+      "phase": "CHAMPIONS",
+      "seasonId": 6,
+      "nextCheckAt": "2026-10-12T12:00:00Z",
+      "nextSupportMessageExpiryAt": null
+    },
+    "schedule": {
+      "semi": "2026-10-12T12:00:00Z",
+      "final": "2026-10-12T14:00:00Z",
+      "end": "2026-10-12T16:00:00Z"
+    },
+    "sourceSeasonId": "6"
+  },
+  "productionSmoke": {
+    "checkedAt": "2026-10-11T19:21:56.079Z",
+    "origin": "https://0525d2c7.cnine-card.pages.dev",
+    "files": [
+      {
+        "path": "index.html",
+        "status": 200,
+        "sha256": "75c7737da2a7311959d5e8b93764ea55ed8bdeac9a7064c8255d03aa7367e2c8"
+      },
+      {
+        "path": "service-worker.js",
+        "status": 200,
+        "sha256": "825d16ef01c69dcebe891bab2e16b0a1c571b40a9ab6b3793460b9c0f2554e57"
+      },
+      {
+        "path": "js/clan-v1.js",
+        "status": 200,
+        "sha256": "c0e232d11ee8412c64911b663044a3588919051208d999ba1416fe7734780d6a"
+      },
+      {
+        "path": "js/organization-preparation-v1.js",
+        "status": 200,
+        "sha256": "212e09aa3a07e406205d7aeef59492e929e4eb8f8b8941758146bed5d4a5422d"
+      },
+      {
+        "path": "css/organization-preparation-v1.css",
+        "status": 200,
+        "sha256": "769a1c35ba6238a30ab08649f71f87d21bb3e0679916b1fe73456b720491a341"
+      },
+      {
+        "path": "shared/organization-preparation-v1.mjs",
+        "status": 200,
+        "sha256": "a549e6eac141fdf00ad6d738367bda912780e1227c6bc743863b1696c38880a3"
+      },
+      {
+        "path": "preview/organization-renewal-20261012-v1/index.html",
+        "status": 200,
+        "sha256": "825c9c387c314fb29b4572e9f3a245cf906487f23e26670e7d58edaba9803854"
+      },
+      {
+        "path": "assets/ui/organization/city-night-v1.webp",
+        "status": 200,
+        "sha256": "306f402fd68fa13bfc795cb45d5ae814a5932b70728a54c3c6488edbde80a80b"
+      },
+      {
+        "path": "assets/ui/organization/emblem-concepts-20261012.png",
+        "status": 200,
+        "sha256": "322036e48e664ca54e87b60bdf2cfdabcd6788cbc4b89da7d69074dfd6f0c6ff"
+      },
+      {
+        "path": "assets/ui/organization/renewal-plan-20261012.png",
+        "status": 200,
+        "sha256": "827a40e168dc5fe9dda7b84fd69587b4dfcaf9c3313b7ac3e6d5e2e8cf9a74ac"
+      }
+    ],
+    "ui": {
+      "width": 390,
+      "overflow": false,
+      "organizations": 15,
+      "registrationDisabled": true,
+      "selected": "야차파",
+      "images": true,
+      "date": "FINAL CHAPTER마지막 챔피언스리그결승·우승 보상 정산 후 클랜 운영 종료01 · 2·3위전10월 12일 21:0002 · 결승10월 12일 23:0003 · 종료 예정10월 13일 01:00대진 확인 ↗한국 시간 기준 · 진행 중인 전투와 정산 상황에 따라 종료 시각이 달라질 수 있습니다.",
+      "errors": []
+    }
+  }
+}
