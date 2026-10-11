@@ -1,0 +1,54 @@
+{
+  "verifiedAt": "2026-10-11T18:57:37.695Z",
+  "origin": "https://cnine-card.pages.dev",
+  "commit": "000580fb1f9f5001798970fcb45d36f59d4b75cd",
+  "deployment": {
+    "Id": "468ead4b-95ae-49b4-8fd7-ed463cf02cf8",
+    "Environment": "Production",
+    "Branch": "main",
+    "Source": "000580f",
+    "Deployment": "https://468ead4b.cnine-card.pages.dev",
+    "Status": "20 seconds ago",
+    "Build": "https://dash.cloudflare.com/1e7c59450a8b6e34a9d87f92ca02aeaa/pages/view/cnine-card/468ead4b-95ae-49b4-8fd7-ed463cf02cf8"
+  },
+  "checks": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "8a1245863fe6c870805cad2a4e9688e406b6ba7f07901d5c2727168a16c168a8",
+      "bytes": 23131
+    },
+    {
+      "file": "js/jokgak-city-v1.js",
+      "status": 200,
+      "sha256": "d8469180b11143f0d94e47e1470f199943f32baa983f8be971d400916de3ffab",
+      "bytes": 62913
+    },
+    {
+      "file": "js/jokgak-city-career-ui-v1.mjs",
+      "status": 200,
+      "sha256": "bb883d631e1f90a3e40a176181141bf6bb5cf0572cb7fc808eac418e78f37ad9",
+      "bytes": 9942
+    },
+    {
+      "file": "css/jokgak-city-v1.css",
+      "status": 200,
+      "sha256": "7f6644ce0090dcd890e084354981b4127cce63fec9b65d8248c4e3ea6b2f28c4",
+      "bytes": 38553
+    },
+    {
+      "file": "css/jokgak-city-career-v1.css",
+      "status": 200,
+      "sha256": "e94949de49ce743abae17b3306e7d5e8a6561e39b034e7c1672f6cda7bd3c42b",
+      "bytes": 11548
+    },
+    {
+      "file": "js/adventure-navigation-standalone.js",
+      "status": 200,
+      "sha256": "3ad2b02f672d0b741a5ff32d74e301bfdd7955184a052b55c782904cb52f18bb",
+      "bytes": 2448
+    }
+  ],
+  "cityActionsExecuted": 0,
+  "settingsWrites": 0
+}

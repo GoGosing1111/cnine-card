@@ -14,3 +14,11 @@ Chrome 1440×1000 / 390×844에서 실제 도시 API 처리기를 연결한 격�
 화면 증거는 `docs/qa/jokgak-city-work-cooldown-20261012/`에 보존한다. 국소 UI 변경이므로 별도 새 테스트를 늘리지 않고 기존 직업/일거리 회귀와 연결된 UI/캐시 검사만 선택한다. 현상수배 UI 연결 검사 1개는 이미 통과했다. 서버 파일은 변경하지 않았다.
 
 직전 운영 배포는 Cloudflare 조회 기준 `305633af-0041-4a25-9c91-5f6d03982b2c`, 소스 `1849423e91047a48d6f14326c13fb4072fa6cbc2`다. `npm run deploy:production -- --scoped`에서 기존 `jokgak-city-jobs-20261011.test.mjs`, `jokgak-city-exploration-art-20261012.test.mjs`와 출시·캐시·Hyperdrive 보호를 확인한다. 게임 전체 검사는 실행하지 않는다.
+
+## 운영 반영 완료
+
+- **2026-10-12 03:57 KST** 확인. 실행 커밋 `000580fb1f9f5001798970fcb45d36f59d4b75cd`, Pages `468ead4b-95ae-49b4-8fd7-ed463cf02cf8`.
+- 선택 회귀 7개와 앞서 실행한 UI 연결 1개, 합계 **8개 통과**. PC/모바일에서 카운트다운·재개방·만료 후 새 근무를 확인했고 출시·캐시·Hyperdrive 검사도 통과했다.
+- 운영 화면·진입 스크립트·직업 모듈·스타일 6개 HTTP 200 및 SHA-256 일치. `docs/qa/jokgak-city-work-cooldown-20261012/production.json`에 기록했다. 운영 계정으로 근무를 실행하거나 CMS 설정을 변경하지 않았다.
+- 지정 배포 명령의 API runtime 버전 `a2b3e6ea-2ded-4fdc-a0fa-ee4b756f50df`, 스케줄러 버전 `8f7b8f12-6488-471d-86c4-509014cece6e`. 서버 소스는 동일하며 웹 UI만 바뀌었다.
+- 기록만 추가하는 후속 커밋은 재배포하지 않는다.
