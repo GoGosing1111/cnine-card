@@ -34,3 +34,11 @@
 `npm run deploy:production -- --scoped`로 기존 `tests/legion-hunt-background-20261011.test.mjs`와 `tests/jokgak-city-notifications-20261011.test.mjs`를 실행해 백그라운드 전투·정산과 전역 도시 알림의 인접 경로를 검사한다. 이미 통과한 새 HUD 회귀·PC/모바일 측정을 반복하지 않는다. 출시 플래그·캐시·Hyperdrive 검사는 지정 명령을 따른다. 운영 반영 결과는 아래에 기록한다.
 
 첫 게이트에서 군단토벌 기존 회귀 5개는 모두 통과했다. 도시 알림 테스트는 7개 중 4개가 실패했으며, 직전 운영 소스 `033618b4`를 같은 테스트에 주입해 동일한 4개 실패를 재현했다. 기존 테스트 mock에는 현재 알림이 사용하는 `cityBountyReceipt`가 없다. 이번 변경의 알림 로직 회귀로 분류하지 않고 무관한 테스트를 수정하지 않는다. 이미 통과한 군단토벌 5개와 브라우저 결과는 재사용하고, 재개 게이트는 `tests/recent-content-performance-20261012.test.mjs` 3개와 지정 출시·캐시·Hyperdrive 검사로 제한한다. 첫 시도는 검사 단계에서 종료되어 배포되지 않았다.
+
+## 운영 반영 완료
+
+- 2026-10-12 04:25 KST 확인. 실행 변경 커밋 `8b692e90`, 배포 소스 `725f7bbed99fbaefb32f84b2cbc974831f196a31`.
+- Pages `087eaf3b-5f47-48bc-9682-b7740b16b1c3`. 관련 HUD·연결 3개와 기존 백그라운드 전투 5개 통과, PC·모바일 검수 완료. 지정 출시·캐시·Hyperdrive 검사 통과.
+- 운영 진입 화면, 도시 스크립트·DOM 패치 모듈·스타일, 군단토벌 진입 화면·HUD, 독립 내비게이션 8개 모두 HTTP 200 및 배포 소스와 내용 일치. `docs/qa/recent-content-performance-20261012/production.json`에 보존한다.
+- API runtime `006a167f-69a9-4fe5-9540-6d18acb4af81`, 스케줄러 `ce4d5c8f-9792-4520-89bb-ad3900e95a9c`. 서버 실행 코드는 직전 배포와 같으며 운영 계정 행동·설정 변경은 0회다.
+- 기존에 켜 둔 화면은 새로고침 뒤 적용된다. 결과 기록만 추가하는 후속 커밋은 재배포하지 않는다.

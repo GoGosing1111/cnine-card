@@ -1,0 +1,56 @@
+{
+  "verifiedAt": "2026-10-11T19:25:40.489Z",
+  "commit": "725f7bbed99fbaefb32f84b2cbc974831f196a31",
+  "checks": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "ae973d3eae725b696c51242b662a572e37102c8083876e4a4be94e05672e7143",
+      "normalizedMatch": true
+    },
+    {
+      "file": "js/jokgak-city-v1.js",
+      "status": 200,
+      "sha256": "fe00cf839e203ab1708101f1f7c061dac7b307cf66a4cc0cbb1cacc4fb578efd",
+      "normalizedMatch": true
+    },
+    {
+      "file": "js/jokgak-city-render-v1.mjs",
+      "status": 200,
+      "sha256": "9f71af40f88145971060116517d2463eafaed6e5ca7a21625b3b44fe72843991",
+      "normalizedMatch": true
+    },
+    {
+      "file": "css/jokgak-city-v1.css",
+      "status": 200,
+      "sha256": "8178ae731a81efde2850c86a56d7f210ff213beeabf8422ed4a479ffe71e2ae8",
+      "normalizedMatch": true
+    },
+    {
+      "file": "css/jokgak-city-conflict-v1.css",
+      "status": 200,
+      "sha256": "f01be6d54968032131a3780786f302141393c8c70fbb431e898f34b2c991ab77",
+      "normalizedMatch": true
+    },
+    {
+      "file": "pve/legion-hunt/index.html",
+      "status": 200,
+      "sha256": "b52413114146839c0850e06517d085fc5821c405d9d05e04d9e8b28c45c956d9",
+      "normalizedMatch": true
+    },
+    {
+      "file": "preview/sustained-hunt-v2/app.js",
+      "status": 200,
+      "sha256": "708e4521bf2b0c6e468338fa8cca1b7d8c982f14054426ed9cdda4a557c8d000",
+      "normalizedMatch": true
+    },
+    {
+      "file": "js/adventure-navigation-standalone.js",
+      "status": 200,
+      "sha256": "ffc03d664bbaf555c10d947d4866398c9ccb24e31f2435a3248fbd6263512cd8",
+      "normalizedMatch": true
+    }
+  ],
+  "productionAccountActions": 0,
+  "settingsWrites": 0
+}
