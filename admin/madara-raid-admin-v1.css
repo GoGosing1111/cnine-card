@@ -1,0 +1,5 @@
+/* Keep the existing CMS navigation reachable without covering raid controls on phones. */
+@media(max-width:800px){
+  body:has(#view-raid:not([hidden]) #madaraRaidAdmin)>.layout>aside{position:relative;height:auto;max-height:144px;overflow-y:auto}
+}
+#madaraRaidAdmin input[type=checkbox]{width:20px;height:20px;align-self:flex-start;accent-color:#9bd4f9}

@@ -156,9 +156,11 @@ test('shared healing and revive spend once; a rejected burst leaves its personal
   assert.throws(()=>act(room,'p0',{action:'BURST',token:room.challenge.id}),{code:'SHARE_COMPLETE'});
   assert.equal(room.bursts.p0,charges);assert.equal(room.challenge.lastStrike.p0,last);
 });
-test('live release remains hard OFF and no existing production entry point imports the preparation',async()=>{
+test('local review remains reward-locked while the authorized live entry uses its separate account adapter',async()=>{
   assert.equal(MADARA_RELEASE.runtimeEnabled,false);assert.equal(MADARA_RELEASE.rewardLocked,true);
-  for(const file of ['index.html','js/app.js','functions/api/[[path]].js','wrangler.toml','service-worker.js'])assert.doesNotMatch(await readFile(new URL('../'+file,import.meta.url),'utf8'),/madara/i,file);
+  assert.match(await readFile(new URL('../functions/api/[[path]].js',import.meta.url),'utf8'),/handleMadaraRaid/);
+  assert.match(await readFile(new URL('../index.html',import.meta.url),'utf8'),/madara-raid-entry-v1.js/);
+  for(const file of ['functions/_raid_madara.js','functions/_raid_madara_decisions.js'])assert.doesNotMatch(await readFile(new URL('../'+file,import.meta.url),'utf8'),/env\.DB|inventory_logs/);
 });
 test('local HTTP denies foreign origins, host rebinding, unauthenticated state and filesystem escape; live APIs do not exist',async t=>{
   let now=1000;const server=createMadaraPreviewServer({clock:()=>now});await new Promise(r=>server.listen(0,'127.0.0.1',r));t.after(()=>new Promise(r=>server.close(r)));

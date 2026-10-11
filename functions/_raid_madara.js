@@ -1,4 +1,4 @@
-// Preparation only: no live route, database, inventory or reward writer imports.
+// Pure encounter authority shared by the local review and persistent live adapter.
 import {buildPvePlayerTeam, buildMonsterFighter, simulateBattleV2Preview} from './_battle_v2_preview.js';
 import {initializeDecisions,renewDecision,decide,decisionView,nextDecisionTime} from './_raid_madara_decisions.js';
 
@@ -61,10 +61,10 @@ function actingMember(room,requesterId,actorId) {
   if(actorId&&actorId!==requesterId&&!(room.mode==='COMMAND'&&requesterId===room.hostId))fail('NOT_OWNER','다른 참가자의 입력을 대신할 수 없습니다.',403);
   const actor=member(room,actorId||requesterId);if(!actor)fail('NOT_MEMBER','조작할 참가자를 확인하세요.',403);return actor;
 }
-export function createMadaraRoom({id,hostId,monster,now=0,seed=1,mode='PARTY'}={}) {
+export function createMadaraRoom({id,hostId,monster,now=0,seed=1,mode='PARTY',settings={}}={}) {
   if(!id||!hostId||!['PARTY','COMMAND'].includes(mode)||!Number.isFinite(now)||!monster||!(Number(monster.battle_power)>0))fail('INVALID_ROOM','공대 설정을 확인하세요.',400);
   const boss={...buildMonsterFighter(monster),image:monster.image,battleSprite:monster.battleSprite};
-  return {id,hostId,mode,rulesVersion:2,status:'LOBBY',createdAt:now,clock:now,rng:seed>>>0,seed:seed>>>0,
+  return {id,hostId,mode,settings:copy(settings),rulesVersion:2,status:'LOBBY',createdAt:now,clock:now,rng:seed>>>0,seed:seed>>>0,
     members:[],banned:[],loadouts:{},fighters:[],boss,monster:copy(monster),phase:0,step:'LOBBY',challenge:null,
     startedAt:null,endsAt:null,finishedAt:null,revision:0,eventSeq:0,events:[],receipts:{},
     resources:{heal:4,revive:1},souls:0,strain:0,statistics:{damage:0,mistakes:0,tasks:0,decisions:{WARDEN:0,ASSAULT:0,RESCUE:0}},failure:null};
@@ -96,7 +96,7 @@ export function readyMadaraMember(room,requesterId,ready=true) {
 export function leaveMadaraRoom(room,requesterId,now=room.clock) {
   tickMadaraRoom(room,now);const actor=actingMember(room,requesterId);
   actor.left=true;
-  if(room.status==='ACTIVE')finish(room,'FAILED','MEMBER_LEFT',`${actor.name} 퇴장 · 이번 로컬 공대 검수를 종료했습니다.`);
+  if(room.status==='ACTIVE')finish(room,'FAILED','MEMBER_LEFT',`${actor.name} 퇴장 · 공대 작전이 종료되었습니다.`);
   if(room.status==='LOBBY'){
     room.members=room.members.filter(m=>m.id!==actor.id);delete room.loadouts[actor.id];room.fighters=room.fighters.filter(f=>f.ownerId!==actor.id);
     if(room.hostId===actor.id)room.hostId=room.members[0]?.id||null;
@@ -116,7 +116,7 @@ export function startMadaraRoom(room,requesterId,now=room.clock) {
   if(room.status!=='LOBBY')fail('ROOM_STARTED','이미 출정한 공대입니다.');
   if(room.members.length<3||Object.keys(MADARA_ROLES).some(role=>!byRole(room,role).length))fail('ROLES_REQUIRED','3~6명과 봉인대·정벌대·구출대가 각각 필요합니다.');
   if(room.members.some(m=>!m.ready))fail('NOT_READY','전원이 준비를 완료해야 합니다.');
-  room.clock=Math.max(room.clock,now);room.startedAt=room.clock;room.endsAt=room.clock+360000;
+  room.clock=Math.max(room.clock,now);room.startedAt=room.clock;room.endsAt=room.clock+(room.settings?.enrageSeconds||360)*1000;
   room.status='ACTIVE';room.initialMembers=room.members.map(m=>m.id);room.bursts=Object.fromEntries(room.initialMembers.map(id=>[id,2]));
   openPhase(room,0);
 }
@@ -137,7 +137,7 @@ function meteorTasks(room) {
 }
 function openPhase(room,index) {
   const plan=MADARA_PLANS[index];room.phase=index;room.step='MECHANIC';
-  room.challenge={id:`${room.id}:${index}`,kind:plan.kind,startedAt:room.clock,deadline:room.clock+plan.duration,tasks:[],signals:{},orders:{},bindings:{},damageBy:{},lastStrike:{}};
+  room.challenge={id:`${room.id}:${index}`,kind:plan.kind,startedAt:room.clock,deadline:room.clock+Math.round(plan.duration*(room.settings?.mechanicTimePercent||100)/100),tasks:[],signals:{},orders:{},bindings:{},damageBy:{},lastStrike:{}};
   const q=room.challenge;
   if(plan.kind==='ILLUSION'||plan.kind==='FINAL')illusionTasks(room);
   if(plan.kind==='CLONES'){
@@ -218,7 +218,7 @@ export function tickMadaraRoom(room,now) {
   for(let guard=0;room.status==='ACTIVE'&&guard<100;guard++){
     const at=schedule(room);if(at>now)break;room.clock=at;
     const q=room.challenge;
-    if(at>=room.endsAt){finish(room,'FAILED','ENRAGE','360초 경과 · 마다라가 전장을 붕괴시켰습니다.');break;}
+    if(at>=room.endsAt){finish(room,'FAILED','ENRAGE',`${room.settings?.enrageSeconds||360}초 경과 · 마다라가 전장을 붕괴시켰습니다.`);break;}
     if(room.step==='TRANSITION'){openPhase(room,room.phase+1);continue;}
     for(const t of q.tasks){
       if(room.status!=='ACTIVE')break;

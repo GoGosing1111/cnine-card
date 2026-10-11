@@ -773,7 +773,8 @@
   async function activate(tab = 'world') {
     activationRevision++;
     const previousTab = activeTab;
-    activeTab = tab === 'lich' && globalThis.LichKingRaidEntry?.isVisible() ? 'lich' :
+    activeTab = tab === 'madara' && globalThis.MadaraRaidEntry?.isVisible() ? 'madara' :
+      tab === 'lich' && globalThis.LichKingRaidEntry?.isVisible() ? 'lich' :
       tab === 'core' && feature?.visible === true ? 'core' : 'world';
     sessionStorage.setItem(TAB_KEY, activeTab);
     const legacy = document.getElementById('pveRaidView');
@@ -785,6 +786,7 @@
     });
     if (legacy) legacy.hidden = activeTab !== 'world';
     if (core) core.hidden = activeTab !== 'core';
+    if (activeTab !== 'madara') globalThis.MadaraRaidEntry?.deactivate();
     if (activeTab !== 'lich') globalThis.LichKingRaidEntry?.deactivate();
     stopPoll();
     if (activeTab === 'world') {
@@ -792,6 +794,7 @@
       return;
     }
     bridge()?.stopLegacyRaid?.();
+    if (activeTab === 'madara') { await globalThis.MadaraRaidEntry.open(); return; }
     if (activeTab === 'lich') {
       await globalThis.LichKingRaidEntry.open();
       return;
@@ -815,7 +818,7 @@
     if (!wire()) return false;
     const revision = activationRevision;
     try {
-      await Promise.all([loadFeature(), globalThis.LichKingRaidEntry?.refresh()]);
+      await Promise.all([loadFeature(), globalThis.LichKingRaidEntry?.refresh(), globalThis.MadaraRaidEntry?.refresh()]);
     } catch (error) {
       console.warn('[CORE RAID] feature gate unavailable', error);
       feature = { visible: false, accessible: false };
