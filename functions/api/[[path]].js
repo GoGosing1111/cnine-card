@@ -4642,6 +4642,10 @@ async function clearPrisonChatIfEmpty(env){
     SELECT 1 FROM user_prison_status WHERE active=1 AND jailed_until>CURRENT_TIMESTAMP
   )`).run();
 }
+function prisonPublicTitle(titleMap,userId){
+  const title=titleMap[String(userId)];
+  return title?.code==='SECRET_POLICE'?title:null;
+}
 async function prisonRoomState(env,user){
   const prison=await prisonStatusForUser(env,user.id);
   const [inmateRows,messageRows]=await env.DB.batch([
@@ -4655,13 +4659,18 @@ async function prisonRoomState(env,user){
   const inmates=(inmateRows?.results||[]).map(row=>({...row,userId:Number(row.userId)}));
   let messages=(messageRows?.results||[]).map(row=>({...row,id:Number(row.id),userId:Number(row.userId),senderWasIncarcerated:Number(row.senderWasIncarcerated)===1}));
   if(!inmates.length&&messages.length){await clearPrisonChatIfEmpty(env);messages=[]}
-  const community=await prisonCommunityRoomState(env,user,inmates);
+  const [community,titleMap]=await Promise.all([
+    prisonCommunityRoomState(env,user,inmates),
+    publicEquippedTitleMap(env,[user.id,...inmates.map(row=>row.userId),...messages.map(row=>row.userId)])
+  ]);
   const hunger=await prisonHungerRoomState(env,user,community.inmates,prison);
   return {
     prison,
     ...community,
     ...hunger,
-    messages,
+    viewer:{...community.viewer,title:prisonPublicTitle(titleMap,user.id)},
+    inmates:hunger.inmates.map(row=>({...row,title:prisonPublicTitle(titleMap,row.userId)})),
+    messages:messages.map(row=>({...row,title:prisonPublicTitle(titleMap,row.userId)})),
     chatEnabled:inmates.length>0,
     serverNow:new Date().toISOString()
   };
@@ -4961,6 +4970,7 @@ async function handleRequest(context){
           WHERE user_id=? AND created_at>datetime('now','-2 seconds')`).bind(user.id).first();
         if(Number(recent?.count||0)>0)return json({error:'채팅은 2초에 한 번 보낼 수 있습니다.',code:'PRISON_CHAT_RATE_LIMIT'},429);
         const prison=await prisonStatusForUser(env,user.id);
+        const titleMap=await publicEquippedTitleMap(env,[user.id]);
         const inserted=await env.DB.prepare(`INSERT INTO prison_chat_messages(user_id,body,sender_was_incarcerated)
           SELECT ?,?,? WHERE EXISTS(SELECT 1 FROM user_prison_status WHERE active=1 AND jailed_until>CURRENT_TIMESTAMP)`)
           .bind(user.id,body,prison.incarcerated?1:0).run();
@@ -4971,7 +4981,7 @@ async function handleRequest(context){
           q.sender_was_incarcerated AS senderWasIncarcerated,q.created_at AS createdAt
           FROM prison_chat_messages q JOIN users u ON u.id=q.user_id WHERE q.id=?`)
           .bind(messageId).first();
-        return json({ok:true,message:{...message,id:Number(message?.id||0),userId:Number(message?.userId||0),senderWasIncarcerated:Number(message?.senderWasIncarcerated)===1}},201);
+        return json({ok:true,message:{...message,id:Number(message?.id||0),userId:Number(message?.userId||0),senderWasIncarcerated:Number(message?.senderWasIncarcerated)===1,title:prisonPublicTitle(titleMap,user.id)}},201);
       }
       return json({error:'지원하지 않는 요청입니다.'},405);
     }

@@ -523,19 +523,20 @@ function isOwnPrisonFund(inmate=selectedPrisonInmate()){
   return Number(viewer.id||viewer.serverUserId||loadUser()?.serverUserId||0)===Number(inmate?.userId||0);
 }
 function selectedPrisonInmate(){return prisonUiState.inmates.find(inmate=>Number(inmate.userId)===Number(prisonUiState.selectedInmateId))||prisonUiState.inmates[0]||null}
+function prisonTitleBadgeHtml(person){return person?.title?.code==='SECRET_POLICE'?publicTitleBadgeHtml(person.title):''}
 function prisonSceneInmate(user){
   const selected=selectedPrisonInmate();if(selected)return selected;
-  if(isPrisonLocked())return {id:Number(user?.serverUserId||user?.id||0),nickname:String(user?.nickname||'수감자'),reason:prisonUiState.reason,jailedUntil:prisonUiState.jailedUntil};
+  if(isPrisonLocked())return {id:Number(user?.serverUserId||user?.id||0),nickname:String(user?.nickname||'수감자'),reason:prisonUiState.reason,jailedUntil:prisonUiState.jailedUntil,title:prisonUiState.viewer?.title||null};
   return null;
 }
 function prisonInmateRows(){
   if(!prisonUiState.inmates.length)return '<li class="prison-empty"><b>현재 수감자 없음</b><span>행정부 감방이 비어 있습니다.</span></li>';
-  return prisonUiState.inmates.map(inmate=>`<li class="${Number(inmate.userId)===Number(prisonUiState.selectedInmateId)?'is-selected':''}"><button type="button" data-prison-inmate="${Number(inmate.userId||0)}"><span class="prison-inmate-index">#${String(Number(inmate.userId||0)).padStart(4,'0')}</span><span class="prison-inmate-copy"><b>${escapeHtml(inmate.nickname||'수감자')}</b><small>${escapeHtml(inmate.reason||'운영 정책 위반')}</small></span><time>${escapeHtml(prisonTimeLabel(inmate.jailedUntil))} 석방</time></button></li>`).join('');
+  return prisonUiState.inmates.map(inmate=>`<li class="${Number(inmate.userId)===Number(prisonUiState.selectedInmateId)?'is-selected':''}"><button type="button" data-prison-inmate="${Number(inmate.userId||0)}"><span class="prison-inmate-index">#${String(Number(inmate.userId||0)).padStart(4,'0')}</span><span class="prison-inmate-copy"><b>${escapeHtml(inmate.nickname||'수감자')}</b>${prisonTitleBadgeHtml(inmate)}<small>${escapeHtml(inmate.reason||'운영 정책 위반')}</small></span><time>${escapeHtml(prisonTimeLabel(inmate.jailedUntil))} 석방</time></button></li>`).join('');
 }
 function prisonChatRows(){
   const myId=Number(loadUser()?.serverUserId||0);
   if(!prisonUiState.messages.length)return prisonChatEnabled()?'<div class="prison-chat-empty"><b>아직 채팅이 없습니다.</b><span>수감자와 방문객 모두 대화할 수 있습니다.</span></div>':'<div class="prison-chat-empty"><b>채팅 대기 중</b><span>수감자가 있을 때만 채팅이 열립니다.</span></div>';
-  return prisonUiState.messages.map(message=>`<article class="prison-chat-message ${Number(message.userId)===myId?'is-mine':''}"><header><b>${escapeHtml(message.nickname||'알 수 없음')}</b><em class="${message.senderWasIncarcerated?'is-inmate':'is-visitor'}">${message.senderWasIncarcerated?'수감자':'방문객'}</em><time>${escapeHtml(prisonTimeLabel(message.createdAt))}</time></header><p>${escapeHtml(message.body||'')}</p></article>`).join('');
+  return prisonUiState.messages.map(message=>`<article class="prison-chat-message ${Number(message.userId)===myId?'is-mine':''}"><header><b>${escapeHtml(message.nickname||'알 수 없음')}</b>${prisonTitleBadgeHtml(message)}<em class="${message.senderWasIncarcerated?'is-inmate':'is-visitor'}">${message.senderWasIncarcerated?'수감자':'방문객'}</em><time>${escapeHtml(prisonTimeLabel(message.createdAt))}</time></header><p>${escapeHtml(message.body||'')}</p></article>`).join('');
 }
 function prisonBarsMarkup(){return `<div class="prison-bars" aria-hidden="true">${Array.from({length:11},()=>'<i></i>').join('')}<span></span><span></span></div>`}
 function prisonCommunityPanelHtml(){
@@ -563,12 +564,12 @@ function prisonView(user,locked=isPrisonLocked()){
   const scene=prisonSceneInmate(user),sceneName=scene?.nickname||'빈 감방',sceneUntil=scene?.jailedUntil||null,chatEnabled=prisonChatEnabled();
   return `<section class="prison-v1 prison-command-v2 prison-layout-v3 ${locked?'is-locked':'is-visitor'}" id="prisonView" aria-label="행정부 감옥">
     <div class="prison-atmosphere" aria-hidden="true"></div>
-    <header class="prison-command-head"><div class="prison-authority"><img src="assets/ui/chief/general-insignia-v1.svg" alt=""><div><small>DETENTION COMMAND / 출입 통제</small><h1>행정부 감옥</h1><p>${locked?'철문이 닫혔습니다. 형기와 다음 식사 시간을 확인하세요.':'수감 현황 확인 · 사식 전달 · 공개 면회 통신'}</p></div></div><div class="prison-head-actions">${locked?'':`<button type="button" id="prisonExitBtn">← 로비로 돌아가기</button>`}<button type="button" id="prisonLogoutBtn" class="ghost">로그아웃</button></div></header>
+    <header class="prison-command-head"><div class="prison-authority"><img src="assets/ui/chief/general-insignia-v1.svg" alt=""><div><small>DETENTION COMMAND / 출입 통제</small><h1>행정부 감옥</h1><p>${locked?'철문이 닫혔습니다. 형기와 다음 식사 시간을 확인하세요.':'수감 현황 확인 · 사식 전달 · 공개 면회 통신'}</p></div></div><div class="prison-head-actions"><span class="prison-title-slot" id="prisonViewerTitle" aria-label="내 장착 칭호">${prisonTitleBadgeHtml(prisonUiState.viewer)}</span>${locked?'':`<button type="button" id="prisonExitBtn">← 로비로 돌아가기</button>`}<button type="button" id="prisonLogoutBtn" class="ghost">로그아웃</button></div></header>
     <div class="prison-layout">
       <section class="prison-chat"><header><div><small>PUBLIC CELL CHAT</small><h2>감옥 공개 채팅</h2></div><span>수감자·방문객 공용</span></header><div class="prison-chat-log" id="prisonChatLog" aria-live="polite">${prisonChatRows()}</div><form id="prisonChatForm"><input id="prisonChatInput" maxlength="200" autocomplete="off" placeholder="${chatEnabled?'메시지를 입력하세요 (최대 200자)':'수감자가 있을 때만 채팅할 수 있습니다.'}" ${chatEnabled?'':'disabled'}><button type="submit" ${chatEnabled?'':'disabled'}>전송</button></form></section>
       <div class="prison-cell-column"><section class="prison-cell-stage" aria-label="무장 경비가 지키는 감옥">
         <div class="prison-watch-status"><i></i> 무장 경비 배치 <span>외부 출입 통제</span></div>
-        <div class="prison-nameplate"><small>${scene?'INMATE ACCOUNT':'CELL STATUS'}</small><strong id="prisonSceneName">${escapeHtml(sceneName)}</strong><span id="prisonSceneUntil">${sceneUntil?`${escapeHtml(prisonTimeLabel(sceneUntil))} 석방`:'현재 수감자 없음'}</span></div>
+        <div class="prison-nameplate"><small>${scene?'INMATE ACCOUNT':'CELL STATUS'}</small><strong id="prisonSceneName">${escapeHtml(sceneName)}</strong><span class="prison-title-slot" id="prisonSceneTitle">${prisonTitleBadgeHtml(scene)}</span><span id="prisonSceneUntil">${sceneUntil?`${escapeHtml(prisonTimeLabel(sceneUntil))} 석방`:'현재 수감자 없음'}</span></div>
         <img class="prison-character prison-character-realistic" id="prisonCharacter" src="assets/ui/prison/prisoner-guarded-hall-20261006.png" alt="쇠사슬 수갑을 찬 수감자" ${scene?'':'hidden'}>
         <div class="prison-impact-flash" id="prisonImpactFlash" aria-hidden="true"></div>
         <div class="prison-sentence ${locked?'':'visitor'}">
@@ -590,6 +591,7 @@ function syncPrisonDom({forceChatBottom=false}={}){
   const user=loadUser(),scene=prisonSceneInmate(user),locked=isPrisonLocked();
   const sceneName=document.getElementById('prisonSceneName'),sceneUntil=document.getElementById('prisonSceneUntil'),character=document.getElementById('prisonCharacter');
   if(sceneName)sceneName.textContent=scene?.nickname||'빈 감방';
+  const sceneTitle=document.getElementById('prisonSceneTitle'),viewerTitle=document.getElementById('prisonViewerTitle');if(sceneTitle)sceneTitle.innerHTML=prisonTitleBadgeHtml(scene);if(viewerTitle)viewerTitle.innerHTML=prisonTitleBadgeHtml(prisonUiState.viewer);
   const sceneLabel=document.querySelector('.prison-nameplate>small');if(sceneLabel)sceneLabel.textContent=scene?'INMATE ACCOUNT':'CELL STATUS';
   if(sceneUntil)sceneUntil.textContent=scene?.jailedUntil?`${prisonTimeLabel(scene.jailedUntil)} 석방`:'현재 수감자 없음';
   if(character)character.hidden=!scene;

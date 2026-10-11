@@ -1,0 +1,9 @@
+{
+  "checks": [
+    "1440: current title on viewer, inmate and chat; PP emblem; no false title; selection and POST update; removal after refresh; no overflow",
+    "390: current title on viewer, inmate and chat; PP emblem; no false title; selection and POST update; removal after refresh; no overflow"
+  ],
+  "errors": [],
+  "sound": "OFF",
+  "accounts": "isolated fixtures"
+}

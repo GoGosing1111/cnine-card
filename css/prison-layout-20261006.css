@@ -1,4 +1,12 @@
 /* Chat is visible at entry; selected-inmate actions stay together. */
+.prison-command-v2 .prison-title-slot:empty{display:none}
+.prison-command-v2 .prison-title-slot{display:inline-flex;align-items:center;max-width:100%}
+.prison-command-v2 .public-title-badge.title-code-secret_police{font-size:10px;line-height:1.6;flex:none;max-width:100%;box-sizing:border-box;white-space:nowrap;vertical-align:middle}
+.prison-command-v2 .prison-chat-message header{flex-wrap:wrap}
+.prison-command-v2 .prison-chat-message header>b{overflow-wrap:anywhere;min-width:0}
+.prison-command-v2 .prison-inmate-copy>.public-title-badge{justify-self:start;margin:3px 0}
+.prison-command-v2 .prison-nameplate .prison-title-slot{margin:5px 0}
+.prison-command-v2 .prison-head-actions{flex-wrap:wrap}
 .prison-command-v2.prison-layout-v3{--prison-scene-height:clamp(470px,calc(100dvh - 300px),610px)}
 .prison-command-v2.prison-layout-v3 .prison-layout{
   grid-template-columns:minmax(0,1.75fr) minmax(330px,1fr);
