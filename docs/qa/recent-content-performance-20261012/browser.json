@@ -1,0 +1,26 @@
+{
+  "checks": [
+    "1440: stable map/resident DOM, focus, place and target selection, checked preferences, keyed row update/removal",
+    "1440: hidden status polls and DOM writes stop; return refreshes; late hidden response is deferred",
+    "390: stable map/resident DOM, focus, place and target selection, checked preferences, keyed row update/removal",
+    "390: hidden status polls and DOM writes stop; return refreshes; late hidden response is deferred"
+  ],
+  "samples": [
+    {
+      "name": "previous_border_effect",
+      "durationMs": 5000,
+      "taskMs": 1511.3799999999999,
+      "paints": 3596,
+      "paintMs": 586.855
+    },
+    {
+      "name": "optimized_city",
+      "durationMs": 5000,
+      "taskMs": 21.5240000000001,
+      "paints": 17,
+      "paintMs": 4.593
+    }
+  ],
+  "errors": [],
+  "scope": "isolated city preview, injected page visibility; no production accounts or API writes"
+}

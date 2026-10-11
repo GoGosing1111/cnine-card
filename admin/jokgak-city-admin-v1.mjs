@@ -5,8 +5,8 @@ import {validateCitySettings,CITY_REWARD_EVENTS,cityRoleDescription} from '../sh
 import {CITY_SUPPLIES} from '../shared/jokgak-city-life-v1.mjs';
 import {CITY_WEAPONS} from '../shared/jokgak-city-expansion-v1.mjs';
 import {CITY_ROUND_REWARD_MAX_COIN} from '../shared/jokgak-city-round-rewards-v1.mjs';
-import {cityConflictSettings} from './jokgak-city-conflict-admin-v1.mjs?v=20261012-work-cooldown1';
-import {cityExplorationSettings} from './jokgak-city-exploration-admin-v1.mjs?v=20261012-work-cooldown1';
+import {cityConflictSettings} from './jokgak-city-conflict-admin-v1.mjs?v=20261012-background-perf1';
+import {cityExplorationSettings} from './jokgak-city-exploration-admin-v1.mjs?v=20261012-background-perf1';
 
 const esc=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 const modes=[['OFF','운영 중지','모든 신규 행동 차단'],['TEST','테스트 운영','OWNER·지정 참여자 / 테스트 현금 사용'],['ON','정식 운영','전체 공개 / 보상 설정 적용']];

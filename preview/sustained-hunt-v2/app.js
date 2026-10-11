@@ -7,6 +7,13 @@
   let engine,renderer,session,csrf,payload,policies=[],epoch=0,playing=false,paused=false,ending=false,finishing=false,ack=0,kills=0,bosses=0,renderedAt=0,picked=0;
   let reveals=Promise.resolve(),pendingReveals=[],finishTimer=null,clockTimer=null,toastTimer=null,starting=false,liveDifficulty='normal',liveRegion=null,entryReceived=false,failed=false,entries=null;
   const areaCasts=new Set();
+  let backgrounded=document.hidden;
+  const hudHidden=()=>backgrounded||document.hidden||engine?.huntBackground;
+  function stopClock(){clearInterval(clockTimer);clockTimer=null;}
+  function syncClock(){
+    stopClock();
+    if(playing&&!paused&&!ending&&!finishing&&!hudHidden())clockTimer=setInterval(updateClock,250);
+  }
   const notifyParent=(type,extra={})=>{if(liveMode&&window.parent!==window)window.parent.postMessage({type,...extra},location.origin);};
   const message=t=>{$('hunt-message').textContent=t;};
   const interruption=(kind,detail='')=>{
@@ -104,7 +111,7 @@
     renderer=await ProjectVBattleV3Live.createRenderer({...prepared,modal,data:payload,mode:'HUNT',playerName,playUltimateCinematics:false,continuousPlayback:true});
     if(token!==epoch)return;
     document.removeEventListener('visibilitychange',engine.onVisibility);
-    engine.setHuntBackground(document.hidden);
+    engine.setHuntBackground(backgrounded||document.hidden);
     engine.previewSpeed=1;engine.paceScale=1;
     prepared.stage.querySelector('.battle-v3-header strong').textContent=(payload.regionName||'잊혀진 섬')+' · '+payload.huntPolicy.name;
     prepared.stage.querySelector('#battlePhase').textContent='군단 토벌 → 최종 보스 · 총 15분';
@@ -118,12 +125,15 @@
     $('hunt-time').textContent=time(payload.huntPolicy.limitMs);$('hunt-threat').textContent=payload.huntPolicy.name+' · '+time(payload.huntPolicy.huntDurationMs)+'에 최종 보스 출현';message(payload.pet?.magnet?'자석 펫 장착 · 드랍 아이템을 자동 흡수합니다.':'아이템은 필드에서 직접 클릭해야 획득합니다.');buttons();
   }
   function updateClock(){
+    if(hudHidden()||!payload)return;
     const at=Math.max(renderedAt,engine?.huntRun?.timeMs||0,(engine?.skillChipPlayback?.clock.time||0)*1000);
-    $('hunt-time').textContent=remainingTime(payload.huntPolicy.limitMs-at);
-    if($('hunt-time-label'))$('hunt-time-label').textContent='남은 전투 시간';
+    const remaining=remainingTime(payload.huntPolicy.limitMs-at);
+    if($('hunt-time').textContent!==remaining)$('hunt-time').textContent=remaining;
+    if($('hunt-time-label')&&$('hunt-time-label').textContent!=='남은 전투 시간')$('hunt-time-label').textContent='남은 전투 시간';
     if($('hunt-progress-fill'))$('hunt-progress-fill').style.width=Math.min(100,at/payload.huntPolicy.limitMs*100)+'%';
   }
   function bossHud(){
+    if(hudHidden())return;
     const a=engine.enemies.filter(a=>engine.isAlive(a)&&a.isBoss).at(-1);
     $('hunt-boss-hud').hidden=!a;if(!a)return;
     $('boss-name').textContent=a.name;$('boss-percent').textContent=Math.max(0,Math.ceil(a.hp))+'%';$('boss-fill').style.width=Math.max(0,a.hp)+'%';
@@ -151,7 +161,7 @@
       const begun=await request('begin',{id:session});entries=begun.entries||entries;starting=false;playing=true;buttons();message(payload.pet?.magnet?'전투 중 · 자석 펫이 드랍 아이템을 자동으로 흡수합니다.':'전투 중 · 드랍 아이템을 놓치지 마세요.');
       await engine.initialArrival();if(token!==epoch||!playing)return;
       if(!engine.huntBackground)engine.startAccountBattleUnitSustainedFire();
-      clockTimer=setInterval(updateClock,250);
+      syncClock();
       const completed=await engine.playEvents(payload.battleV2.result.timeline,{sequential:true,afterEvent:onEvent,isPaused:()=>paused});
       if(token!==epoch||!playing||finishing)return;
       if(!completed)throw Error('전투 재생이 중단됐습니다. 같은 원정을 다시 불러와 주세요.');
@@ -164,7 +174,7 @@
     }catch(e){if(token===epoch)playbackFailed(e);}
   }
   function pause(){
-    if(!playing||ending)return;paused=!paused;engine.setHuntPaused(paused);buttons();
+    if(!playing||ending)return;paused=!paused;engine.setHuntPaused(paused);syncClock();updateClock();buttons();
     message(paused?'전투 일시정지 · 드랍 소멸 시간은 계속 흐릅니다.':'사냥을 이어갑니다.');
     interruption(paused?'pause':null,'일시정지 중입니다. 계속 사냥을 누르면 화면을 내려놓아도 사냥이 이어집니다. 드랍 소멸 시간은 계속 흐릅니다.');
   }
@@ -192,7 +202,7 @@
   $('hunt-start').onclick=()=>void(liveMode?enterBattle(true):start());$('hunt-pause').onclick=pause;$('hunt-stop').onclick=()=>void finish();
   if(!liveMode)$('hunt-difficulty').onchange=$('hunt-party').onchange=()=>void prepare().catch(e=>message(errorText(e)));
   $('hunt-again').onclick=()=>void again(true);$('hunt-review').onclick=()=>void again(false);
-  const background=hidden=>{engine?.setHuntBackground(hidden);if(payload&&engine){updateClock();bossHud();}};
+  const background=hidden=>{backgrounded=hidden;engine?.setHuntBackground(hidden);syncClock();if(payload&&engine){updateClock();bossHud();}};
   document.addEventListener('visibilitychange',()=>background(document.hidden));
   document.addEventListener('freeze',()=>background(true));
   document.addEventListener('resume',()=>background(document.hidden));

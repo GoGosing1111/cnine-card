@@ -2,7 +2,7 @@ import {CITY_FOUND_WEAPONS,CITY_ARMORS,CITY_SEARCH_AREAS,defaultCityExploration,
 import {CITY_WEAPONS} from '../shared/jokgak-city-expansion-v1.mjs';
 import {cityPlace} from '../shared/jokgak-city-v1.mjs';
 import {cityItemArt} from './jokgak-city-item-art-v1.mjs?v=20261011-items1';
-import {cityExplorationArt} from './jokgak-city-gear-art-v1.mjs?v=20261012-work-cooldown1';
+import {cityExplorationArt} from './jokgak-city-gear-art-v1.mjs?v=20261012-background-perf1';
 const money=n=>Number(n||0).toLocaleString('ko-KR');
 const metas=[...CITY_WEAPONS,...CITY_FOUND_WEAPONS,...CITY_ARMORS];
 const tierNames=['','일반','고급','희귀','최상급'];

@@ -41,7 +41,7 @@ try{
    assert.equal(await page.locator('.jc-riot-pin-tag').count(),2);assert.equal(await page.locator('.jc-riot-zones polygon').count(),2);
    assert.deepEqual(await page.locator('.jc-wanted-copy>strong').allTextContents(),['10,000원','5,000원','3,000원']);
    assert.equal(await page.locator('.jc-riot-zones').evaluate(n=>Math.round(n.getBoundingClientRect().width)),await page.locator('.jc-map').evaluate(n=>Math.round(n.getBoundingClientRect().width)));
-   assert.equal(await page.locator('.jc-riot-zones polygon').first().evaluate(n=>getComputedStyle(n).animationName),width===390?'none':'jc-riot-border');
+   assert.equal(await page.locator('.jc-riot-zones polygon').first().evaluate(n=>getComputedStyle(n).animationName),'none');
    await page.locator('.jc-wanted-notice').waitFor();await shot('map-issued','.jc-map-panel');checks.push(width+': two actual fight hot spots, three wanted amounts, SVG fills map and motion preference respected');
    await f.action(2,'buyMegaphone');await f.action(2,'broadcast',{message:'항구와 시장에 교전이 집중되고 있습니다. 수배 게시판에서 현상금과 현재 위치를 확인해 주세요. '.repeat(2).slice(0,100)});await refresh();await page.locator('.jc-airwave').waitFor();
    const stacked=await page.evaluate(()=>{const a=document.querySelector('.jc-airwave').getBoundingClientRect(),b=document.querySelector('.jc-conflict-ticker').getBoundingClientRect();return a.bottom<=b.top;});assert.ok(stacked);await shot('stacked-notices','.jc-map-stage');checks.push(width+': maximum-length megaphone and bounty banner stack without overlapping');

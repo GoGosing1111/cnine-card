@@ -1,7 +1,7 @@
 (function(){
   'use strict';
   if(window.JokgakCity)return;
-  const VERSION='20261012-work-cooldown1',ART='/assets/ui/jokgak-city/',PREVIEW=location.pathname.startsWith('/preview/jokgak-city-v1/');
+  const VERSION='20261012-background-perf1',ART='/assets/ui/jokgak-city/',PREVIEW=location.pathname.startsWith('/preview/jokgak-city-v1/');
   const config=Promise.all([import('/shared/jokgak-city-v1.mjs?v='+VERSION),import('/shared/jokgak-city-settings-v1.mjs?v='+VERSION),import('/js/jokgak-city-life-ui-v1.mjs?v='+VERSION),import('/js/jokgak-city-expansion-ui-v1.mjs?v='+VERSION),import('/js/jokgak-city-career-ui-v1.mjs?v='+VERSION),import('/js/jokgak-city-notice-layer-v1.mjs?v='+VERSION),import('/js/jokgak-city-comms-ui-v1.mjs?v='+VERSION),import('/js/jokgak-city-exploration-ui-v1.mjs?v='+VERSION),import('/js/jokgak-city-conflict-ui-v1.mjs?v='+VERSION)]).then(([city,settings,life,expansion,career,notices,comms,exploration,conflict])=>({...city,...settings,...life,...expansion,...career,...notices,...comms,...exploration,...conflict}));
   const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const paths={bed:'M2 4v18m20-11v11M2 17h20M5 11h5V7H5Zm7 0h10v6H2',cash:'M2 5h20v14H2ZM8 12a4 4 0 1 0 8 0 4 4 0 0 0-8 0ZM5 9v6m14-6v6',meal:'M3 2v6m3-6v6m3-6v6M3 6h6v4H3Zm3 4v12M18 2v20m0-20c-5 2-5 9 0 9',bottle:'M9 2h6v5l3 4v11H6V11l3-4ZM9 2v5h6M6 14h12',shield:'M12 2 21 6v6c0 5-9 10-9 10S3 17 3 12V6ZM8 11l3 3 5-6',cross:'M9 3h6v6h6v6h-6v6H9v-6H3V9h6Z',medical:'M9 3h6v6h6v6h-6v6H9v-6H3V9h6ZM5 3v2M19 19v2',person:'M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM4 22v-3a8 8 0 0 1 16 0v3',bag:'M8 3h8l-2 4 6 7v6H4v-6l6-7ZM9 7h6M10 14h4',swords:'m4 2 8 8-3 3-7-7Zm16 0-8 8 3 3 7-7ZM5 11l-4 4m8 2-4 5m14-11 4 4m-8 2 4 5',bolt:'m13 2-9 12h7l-1 8 10-13h-7Z',store:'M3 9h18v12H3ZM2 9l3-6h14l3 6M8 21v-7h8v7M8 3 6 9m10-6 2 6',mail:'M2 5h20v15H2Zm0 0 10 8L22 5',market:'M3 10v11h18V10M2 10l3-7h14l3 7ZM8 3v7m8-7v7M8 21v-6h8v6',home:'m2 11 10-9 10 9M5 9v13h14V9M9 22v-8h6v8',warehouse:'M2 8 12 2l10 6v14H2ZM6 22V11h12v11M6 15h12M6 19h12',arrow:'M3 12h18m-7-7 7 7-7 7',target:'M12 3v4m0 10v4M3 12h4m10 0h4M18 12a6 6 0 1 1-12 0 6 6 0 0 1 12 0Z',clock:'M12 6v6l4 3M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z',close:'m5 5 14 14M19 5 5 19',refresh:'M3 10a9 9 0 1 1 2 9M3 3v7h7',map:'m2 5 6-3 8 3 6-3v17l-6 3-8-3-6 3ZM8 2v17m8-14v17'};
@@ -17,6 +17,9 @@
   }
   function css(){const current=document.getElementById('jokgakStyle');if(current?.sheet)return Promise.resolve();const link=current||document.createElement('link');const ready=new Promise(resolve=>{link.addEventListener('load',resolve,{once:true});link.addEventListener('error',resolve,{once:true});});if(!current){link.id='jokgakStyle';link.rel='stylesheet';link.href='/css/jokgak-city-v1.css?v='+VERSION;document.head.append(link);}return ready;}
   const stylesReady=css();
+  const rendererReady=import('/js/jokgak-city-render-v1.mjs?v='+VERSION);
+  let patchView,viewHidden=document.hidden;
+  const cityHidden=()=>viewHidden||document.hidden;
   let C,root,state=null,selected='MARKET',selectedUser=null,cursor=0,pages=[0],busy=false,poll,clock,offset=0,seq=0,zoom=1,dialog=null,battleModal=null,lifecycle=null,fetchingKey=null,desk=null,deskTab='profile',organization=null,orgBusy=false;
   const pendingKey=()=>`jokgak:pending:${user()?.serverUserId||user()?.id||'preview'}`;
   let activity=null,logBusy=false,logSeq=0,prefSaving=false,broadcastDraft='',broadcastQueue=[],broadcastCurrent=null,broadcastEpoch=null,broadcastSeen=new Set();
@@ -30,11 +33,11 @@
   function hp(value,max=100){return `<span class="jc-hp"><i style="width:${Math.max(0,Math.min(100,Number(value)/max*100))}%"></i></span>`;}
   function targetDisabled(target){const m=state?.mine;if(!m?.active)return '입장 후 가능';if(m.restUntil>time()||target.restUntil>time())return '모텔 휴식 중';if(m.deadUntil>time())return '사망 대기';if(target.deadUntil>time())return '상대 사망 대기';if(m.hospitalRequired)return '병원 진료 필요';if(target.hospitalRequired)return '상대 진료 중';if(m.location!==selected)return '이동 후 가능';if(m.jailedUntil>time())return '구금 중';if(target.jailedUntil>time())return '상대 구금 중';if(m.nextActionAt>time())return '행동 대기';return '';}
   function render(){
-    if(!root?.isConnected||!C)return;
+    if(!root?.isConnected||!C||cityHidden())return;
     const scroll=root.querySelector('.jc-map-scroll'),listScroll=root.querySelector('.jc-people')?.scrollTop||0,mapScroll={left:scroll?.scrollLeft||0,top:scroll?.scrollTop||0};
     const mine=state?.mine,r=role(mine?.role),area=place(selected),people=state?.people||[],chosen=people.find(p=>p.userId===selectedUser);
     const active=mine?.active,here=active&&mine.location===selected;
-    root.innerHTML=`<header class="jc-heading"><div class="jc-title"><span class="jc-index">PVP <i>07</i></span><div><p>도시의 판도가 바뀌는 시간</p><h1>족각도시<span>JOKGAK CITY</span></h1></div></div><div class="jc-shift">${icon('clock')}<div><small>다음 역할 교대 <span>KST</span></small><b data-city-shift>--:--:--</b></div><em>00 · 06 · 12 · 18시</em></div><button class="jc-icon-btn" data-city-rules aria-label="도시 규칙 보기">?</button></header>
+    const markup=`<header class="jc-heading"><div class="jc-title"><span class="jc-index">PVP <i>07</i></span><div><p>도시의 판도가 바뀌는 시간</p><h1>족각도시<span>JOKGAK CITY</span></h1></div></div><div class="jc-shift">${icon('clock')}<div><small>다음 역할 교대 <span>KST</span></small><b data-city-shift>${state?clockText(state.shift.endsAt-time()):'--:--:--'}</b></div><em>00 · 06 · 12 · 18시</em></div><button class="jc-icon-btn" data-city-rules aria-label="도시 규칙 보기">?</button></header>
       ${state?.mode==='TEST'?'<div class="jc-preview jc-test-mode"><b>TEST 운영</b> · 지정 참여자 검수 중 · 현금·소지품은 테스트용으로만 사용됩니다.</div>':''}${PREVIEW?'<div class="jc-preview">조작 시연 · 표시된 인원은 예시이며 실제 계정에 반영되지 않습니다.</div>':''}
       <div class="jc-status"><span class="jc-online"><i></i>${active?'도시 체류 중':'도시 입장 대기'}</span><span>${active?`${esc(mine.nickname)} <b>· ${esc(place(mine.location)?.name)}</b>`:'입장하면 다른 콘텐츠를 이용하는 동안에도 교전 대상이 됩니다.'}</span><div><button data-city-refresh>${icon('refresh')}새로고침</button><button data-city-rules>진행 방법</button>${active?'<button data-city-action="leave">도시 퇴장</button>':''}</div></div>
       ${C.cityDashboard(state,time(),icon,busy)}${C.cityCommsToolbar(state,prefSaving)}
@@ -51,6 +54,7 @@
       <div class="jc-pagination"><button data-city-page="prev" ${pages.length<2?'disabled':''}>← 이전</button><span>${pages.length} 페이지</span><button data-city-page="next" ${!state?.nextCursor?'disabled':''}>다음 →</button></div>
       <section class="jc-target">${chosen?targetPanel(chosen):'<small>교전 대상</small><h3>체류자를 선택하세요.</h3><p>현재 장소의 상대에게 공격하거나<br>역할에 맞는 행동을 할 수 있습니다.</p>'}</section></aside></div>
       <div data-city-message class="jc-message" role="status" hidden></div><footer class="jc-footnote"><span>공통 5인 전투 · 도시 무기 + 방어구 + 직급 혜택</span><button data-city-deck>편성 확인 ↗</button><button data-city-pending ${storage.get(pendingKey())?'':'hidden'}>처리 중인 요청 확인</button></footer>`;
+    patchView(root,markup);
     const map=root.querySelector('.jc-map-scroll');if(map){map.scrollLeft=mapScroll.left;map.scrollTop=mapScroll.top;}const list=root.querySelector('.jc-people');if(list)list.scrollTop=listScroll;
     updateGlobalDeath(state?.mine,time());drawDesk();tick();
   }
@@ -60,6 +64,7 @@
   }
   function tick(){
     if(!root?.isConnected){stop();return;}
+    if(cityHidden())return;
     tickBroadcast();tickBounties();
     if(state?.shift.endsAt<=time()&&!state.rotationClosed){state.rotationClosed=true;if(state.mine)state.mine.active=false;state.people=[];state.conflicts=null;activity={items:[],next:null};broadcastQueue=[];broadcastCurrent=null;bountyQueue=[];bountyCurrent=null;clearNotice();clearDeathPanel();root.querySelector('.jc-map-broadcast')?.replaceChildren();closeDesk();closeDialog();render();return;}
     const shift=root.querySelector('[data-city-shift]');if(shift&&state)shift.textContent=clockText(state.shift.endsAt-time());
@@ -79,12 +84,12 @@
     if(state&&!busy&&state.mine?.nextActionAt&&state.mine.nextActionAt<=time()&&!fetchingKey){state.mine.nextActionAt=0;render();}
   }
   async function refresh(){
-    clearTimeout(poll);if(!root?.isConnected||busy)return;
+    clearTimeout(poll);if(!root?.isConnected||busy||cityHidden())return;
     const key=selected+':'+cursor;if(fetchingKey===key)return;fetchingKey=key;
     const requestSeq=++seq;
-    try{const value=await api(`status?location=${selected}&after=${cursor}`);if(requestSeq!==seq||!root?.isConnected)return;const arrival=value.mine?.location==='HOSPITAL'&&(value.mine.hospitalRequired&&!state?.mine?.hospitalRequired||value.mine.deadUntil&&!state?.mine?.deadUntil||state?.mine?.deadUntil&&!value.mine?.deadUntil);const relocated=state?.mine?.active&&value.mine?.active&&selected===state.mine.location&&value.mine.location!==state.mine.location;state=value;offset=value.serverNow-Date.now();syncNoticeContext(value);void showHospitalTransfer(value);queueBroadcasts(value.broadcasts,value.shift.id);queueBounties(value.conflicts);if((arrival||relocated)&&selected!==value.mine.location){selected=value.mine.location;selectedUser=null;cursor=0;pages=[0];fetchingKey=null;return void refresh();}if(!value.people.some(p=>p.userId===selectedUser))selectedUser=null;render();}
-    catch(error){if(requestSeq===seq){if(!state||[401,403].includes(error.status)){closeDesk();state=null;root.innerHTML=`<div class="jc-load-error"><h1>족각도시</h1><p>${esc(error.message)}</p><button data-city-refresh>다시 확인</button></div>`;}else message(error.message,true);}}
-    finally{if(requestSeq===seq){fetchingKey=null;if(root?.isConnected)poll=setTimeout(refresh,document.hidden?30000:10000);}}
+    try{const value=await api(`status?location=${selected}&after=${cursor}`);if(requestSeq!==seq||!root?.isConnected||cityHidden())return;const arrival=value.mine?.location==='HOSPITAL'&&(value.mine.hospitalRequired&&!state?.mine?.hospitalRequired||value.mine.deadUntil&&!state?.mine?.deadUntil||state?.mine?.deadUntil&&!value.mine?.deadUntil);const relocated=state?.mine?.active&&value.mine?.active&&selected===state.mine.location&&value.mine.location!==state.mine.location;state=value;offset=value.serverNow-Date.now();syncNoticeContext(value);void showHospitalTransfer(value);queueBroadcasts(value.broadcasts,value.shift.id);queueBounties(value.conflicts);if((arrival||relocated)&&selected!==value.mine.location){selected=value.mine.location;selectedUser=null;cursor=0;pages=[0];fetchingKey=null;return void refresh();}if(!value.people.some(p=>p.userId===selectedUser))selectedUser=null;render();}
+    catch(error){if(requestSeq===seq&&!cityHidden()){if(!state||[401,403].includes(error.status)){closeDesk();state=null;root.innerHTML=`<div class="jc-load-error"><h1>족각도시</h1><p>${esc(error.message)}</p><button data-city-refresh>다시 확인</button></div>`;}else message(error.message,true);}}
+    finally{if(requestSeq===seq){fetchingKey=null;if(root?.isConnected&&!cityHidden())poll=setTimeout(refresh,10000);}}
   }
   const deskTabs=[['profile','내 프로필'],['inventory','인벤토리'],['career','직업·일거리'],['police','경찰 조직'],['protection','교전 보호'],['services','장소 이용'],['logs','활동 로그'],['broadcast','확성기 방송']];
   function closeDesk(){if(desk){desk.close();desk.remove();desk=null;}}
@@ -96,7 +101,7 @@
     if(tab==='logs')void loadActivity();
   }
   function drawDesk(){
-    if(!desk||!C)return;
+    if(!desk||!C||cityHidden())return;
     const body=desk.querySelector('.jc-desk-content'),scroll=body.scrollTop,focus=document.activeElement;
     const messageFocus=focus?.hasAttribute?.('data-city-broadcast-text')?[focus.selectionStart,focus.selectionEnd]:null;
     const focusKey=focus&&body.contains(focus)?{action:focus.dataset.cityAction,product:focus.dataset.cityProduct,place:focus.dataset.cityPlace}:null;
@@ -139,7 +144,7 @@
     broadcastQueue=broadcastQueue.slice(-12);tickBroadcast();
   }
   function tickBroadcast(){
-    if(!C||!root?.isConnected)return;
+    if(!C||!root?.isConnected||cityHidden())return;
     const now=time();if(broadcastCurrent&&now-broadcastCurrent.shownAt>=C.CITY_MEGAPHONE.displayMs)broadcastCurrent=null;
     if(!broadcastCurrent&&broadcastQueue.length)broadcastCurrent={...broadcastQueue.shift(),shownAt:now};
     const host=root.querySelector('.jc-map-broadcast');if(host&&(host.firstElementChild?.dataset.broadcastId||'')!==(broadcastCurrent?.id||''))host.innerHTML=C.cityBroadcastMarkup(broadcastCurrent,now);
@@ -155,7 +160,7 @@
     bountyQueue=bountyQueue.slice(-12);bountySeen=new Set([...bountySeen].slice(-100));storage.set(key,{context,ids:[...bountySeen]});tickBounties();
   }
   function tickBounties(){
-    if(!C||!root?.isConnected||busy||battleModal||dialog?.open||desk)return;
+    if(!C||!root?.isConnected||cityHidden()||busy||battleModal||dialog?.open||desk)return;
     const now=time();if(noticeHidden||state?.shift?.endsAt<=now){bountyQueue=[];bountyCurrent=null;}
     if(bountyCurrent&&now-bountyCurrent.shownAt>=C.CITY_BOUNTY_NOTICE_MS)bountyCurrent=null;
     if(!bountyCurrent&&bountyQueue.length)bountyCurrent={...bountyQueue.shift(),shownAt:now};
@@ -260,9 +265,19 @@
   }
   function stop(){bountyQueue=[];bountyCurrent=null;bountyContext='';bountySeen.clear();closeDesk();closeDialog();organization=null;activity=null;logSeq++;logBusy=false;broadcastQueue=[];broadcastCurrent=null;broadcastSeen.clear();seq++;fetchingKey=null;lifecycle?.abort();lifecycle=null;clearTimeout(poll);clearInterval(clock);poll=clock=null;root=null;if(battleModal){battleModal.cityFinish?.();battleModal.__battleV2Renderer?.destroy?.();battleModal.remove();battleModal=null;}}
   async function bind(){
-    stop();root=document.getElementById('jokgakCity');if(!root)return;const mounted=root;[C]=await Promise.all([config,stylesReady]);if(root!==mounted)return;state=null;selected='MARKET';cursor=0;pages=[0];selectedUser=null;busy=false;lifecycle=new AbortController();
+    stop();root=document.getElementById('jokgakCity');if(!root)return;const mounted=root;const modules=await Promise.all([config,rendererReady,stylesReady]);if(root!==mounted)return;C=modules[0];patchView=modules[1].patchCityView;state=null;selected='MARKET';cursor=0;pages=[0];selectedUser=null;busy=false;viewHidden=document.hidden;lifecycle=new AbortController();
     root.addEventListener('click',cityClick,{signal:lifecycle.signal});
-    render();clock=setInterval(tick,1000);await refresh();
+    document.addEventListener('visibilitychange',()=>cityVisibility(document.hidden),{signal:lifecycle.signal});
+    document.addEventListener('freeze',()=>cityVisibility(true),{signal:lifecycle.signal});
+    document.addEventListener('resume',()=>cityVisibility(document.hidden),{signal:lifecycle.signal});
+    window.addEventListener('pagehide',()=>cityVisibility(true),{signal:lifecycle.signal});
+    window.addEventListener('pageshow',()=>cityVisibility(document.hidden),{signal:lifecycle.signal});
+    render();if(!cityHidden())clock=setInterval(tick,1000);await refresh();
+  }
+  function cityVisibility(hidden){
+    viewHidden=hidden;clearTimeout(poll);clearInterval(clock);poll=clock=null;
+    if(cityHidden()||!root?.isConnected)return;
+    clock=setInterval(tick,1000);tick();void refresh();
   }
   function cityClick(e){
       const gear=e.target.closest('[data-city-gear]');if(gear){const content=C.cityGearDetail(state,gear.dataset.cityGear);if(content)showDialog('장비 정보',content);return;}
