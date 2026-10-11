@@ -1,0 +1,96 @@
+{
+  "createdDate": "2026-10-12",
+  "generator": "Built-in image_gen.imagegen",
+  "status": "concept-review",
+  "prompts": "generation.json",
+  "preview": "index.html",
+  "assets": [
+    {
+      "id": "white-spirit",
+      "label": "흰 정령",
+      "file": "assets/pet-white-spirit-v1.png",
+      "width": 1254,
+      "height": 1254,
+      "format": "png",
+      "channels": 4,
+      "hasAlpha": true,
+      "bytes": 835314,
+      "sha256": "888eb0f9fe355fdbdf662af592254315d1a853cd014ddddc2550cb71bdcc723e",
+      "alpha": {
+        "clear": 1097403,
+        "partial": 475058,
+        "opaque": 55,
+        "visibleBoundsAboveAlpha8": {
+          "left": 302,
+          "top": 115,
+          "right": 966,
+          "bottom": 1134
+        },
+        "faintEdgePixelCount": 77,
+        "maxEdgeAlpha": 1
+      },
+      "originalUnmodified": true,
+      "status": "concept-review",
+      "userApproved": false,
+      "liveRegistered": false
+    },
+    {
+      "id": "bulldog",
+      "label": "금방울 불독",
+      "file": "assets/pet-bell-bulldog-v1.png",
+      "width": 1254,
+      "height": 1254,
+      "format": "png",
+      "channels": 4,
+      "hasAlpha": true,
+      "bytes": 1290538,
+      "sha256": "70f637d222ed371dbeae6310f00c4db8765213cdbcb47115f743467e83b419f1",
+      "alpha": {
+        "clear": 867522,
+        "partial": 704468,
+        "opaque": 526,
+        "visibleBoundsAboveAlpha8": {
+          "left": 134,
+          "top": 108,
+          "right": 1191,
+          "bottom": 1174
+        },
+        "faintEdgePixelCount": 19,
+        "maxEdgeAlpha": 1
+      },
+      "originalUnmodified": true,
+      "status": "concept-review",
+      "userApproved": false,
+      "liveRegistered": false
+    },
+    {
+      "id": "crimson-demon",
+      "label": "붉은 날개 마신",
+      "file": "assets/pet-crimson-wing-demon-v1.png",
+      "width": 1254,
+      "height": 1254,
+      "format": "png",
+      "channels": 4,
+      "hasAlpha": true,
+      "bytes": 1270373,
+      "sha256": "6fd7dafa0989c012b382d1580ec2fc1178637d86450b5fa4cac57a4a56071a3d",
+      "alpha": {
+        "clear": 1025661,
+        "partial": 546182,
+        "opaque": 673,
+        "visibleBoundsAboveAlpha8": {
+          "left": 235,
+          "top": 9,
+          "right": 1104,
+          "bottom": 1238
+        },
+        "faintEdgePixelCount": 85,
+        "maxEdgeAlpha": 1
+      },
+      "originalUnmodified": true,
+      "status": "concept-review",
+      "userApproved": false,
+      "liveRegistered": false
+    }
+  ]
+}
