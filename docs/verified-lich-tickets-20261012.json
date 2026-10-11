@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "request": "2차인증 유저 리치왕 공대 생성권 10개지급, 버스기사 칭호 착용 유저는 30개지급",
+  "operationKey": "ops:verified-lich-tickets-10-bus30:20261012:v1",
+  "delivery": "DIRECT_INVENTORY",
+  "interpretation": "Among ACTIVE secondary-verified users, valid currently equipped RAID_BUS_DRIVER receives 30 total; others receive 10. Ownership alone is insufficient. This is a one-time grant.",
+  "completedAt": "2026-10-11T21:32:04.565Z",
+  "completedAtKst": "2026-10-12 06:32:04 KST",
+  "eligibilityAsOf": "2026-10-11T21:32:02.805Z",
+  "result": {
+    "status": "VERIFIED",
+    "operationKey": "ops:verified-lich-tickets-10-bus30:20261012:v1",
+    "delivery": "DIRECT",
+    "recipientHash": "9ffca36e235a5d25eb5821e2b16304bcf4ac7e089061328f77fad66e1b64314d",
+    "recipientCount": 559,
+    "baseRecipients": 554,
+    "busDriverRecipients": 5,
+    "totalItems": 5690,
+    "roles": {
+      "OWNER": 2,
+      "USER": 555,
+      "ADMIN": 2
+    },
+    "itemCode": "LICH_KING_ENTRY_TICKET",
+    "itemName": "리치왕 정벌 입장권",
+    "baseAmount": 10,
+    "busDriverAmount": 30,
+    "inventoryLogs": 559,
+    "missing": 0,
+    "duplicates": 0,
+    "auditId": "44935",
+    "completedAt": "2026-10-11T21:32:04.565Z"
+  },
+  "busDriverUserIds": [
+    "23",
+    "45",
+    "65",
+    "303",
+    "1195"
+  ],
+  "excludedInactive": [
+    {
+      "status": "BANNED",
+      "count": 1
+    }
+  ],
+  "script": {
+    "file": "scripts/ops/verified-lich-tickets-20261012.mjs",
+    "sha256": "74667705faac2bc4af53749ea9042bf269b73301ca585de287dc976bd3ad31ae"
+  },
+  "validation": {
+    "tests": {
+      "file": "tests/verified-lich-tickets-20261012.test.mjs",
+      "passed": 5,
+      "failed": 0
+    },
+    "productionDryRunRolledBack": true,
+    "freshConnectionReceiptAndLedgersVerified": true,
+    "ledgerIndex": "idx_inventory_logs_premium_feed",
+    "firstAttempt": "Read-only orphan-ledger lookup timed out before any inventory credit; transaction rolled back and receipt remained absent. Query narrowed to the existing item/reason/reference_type index prefix before successful retry.",
+    "atomicity": "Inventory increments, unseen quantities, per-user ledgers, audit and receipt committed together; replay reads the existing immutable receipt.",
+    "unchanged": [
+      "coins and other currencies",
+      "other inventory items",
+      "title ownership and equipped title",
+      "verification records",
+      "messages",
+      "game settings"
+    ]
+  },
+  "release": "Operational script/tests/evidence only. Commit and push; no game deployment required."
+}
