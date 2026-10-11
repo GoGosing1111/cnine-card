@@ -19,4 +19,4 @@
 - 칭호 한 종의 카탈로그·전용 스타일 추가이므로 지정 경량 배포를 사용한다. 최종 배포 게이트에서 `tests/administration-title-20261012.test.mjs`, `tests/equipment-loading.test.mjs`, `check:worker`와 기존 출시·캐시·Hyperdrive 검사를 실행한다. 무관한 전체 게임 검사는 실행하지 않는다.
 - 배포 직전 운영 Pages는 `96174080-64a3-4619-b866-2c279458a504`, 소스 `f1a67cf0`이며 CLI에서 확인했다. 지정 명령은 `npm run deploy:production -- --scoped`다.
 
-운영 반영 결과는 배포 후 이 문서와 `production.json`에 기록한다.
+첫 운영 반영은 `6f452a3b` / Pages `5e4c9b7a`다. 등록·장착 회귀 15개와 지정 게이트가 통과했으며 운영 DB에서 `ADMINISTRATION` 한 건, 설명·0 보너스·수동 지급·금속 문장 연결을 확인했다. 이후 CMS 전용 미리보기의 고정 96px 칸이 칭호 글자를 줄이는 것을 발견해 이 칭호에 한해 콘텐츠 폭으로 조정했다. 이 CSS 후속은 PC·모바일 브라우저 회귀 `tests/administration-title-20261012.browser.mjs`만 실행하며 이미 통과한 서버 검사를 반복하지 않는다. 최종 운영 결과는 `production.json`에 기록한다.

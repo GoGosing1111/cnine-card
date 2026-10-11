@@ -38,6 +38,7 @@ try{
   await page.goto(base+'/preview/administration-title-20261012/?locked=1',{waitUntil:'networkidle'});assert.equal(await page.locator('[data-title-equip]').count(),0);assert.equal(await page.locator('.clv2-title-card.is-title-administration>small').innerText(),t.description);await page.screenshot({path:out+'/'+name+'-locked.png',fullPage:true});
   await page.goto(base+'/title-cms-qa',{waitUntil:'networkidle'});await page.locator('[data-eq-tab="titles"]').click();await page.locator('[data-eq-title-edit="1"]').click();
   assert.equal(await page.locator('#eqTitlePower').inputValue(),'0');assert.equal(await page.locator('#eqTitleUnlock').inputValue(),'MANUAL');assert.equal(await page.locator('#eqTitleStylePreset').inputValue(),'ADMINISTRATION');assert.equal(await page.locator('#eqTitleDescription').inputValue(),t.description);
+  assert.equal(await page.locator('#eqTitlePreview .title-preview-badge>span').evaluate(el=>el.scrollWidth<=el.clientWidth+1),true,'CMS preview must display the complete title name');
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);await page.screenshot({path:out+'/'+name+'-cms.png',fullPage:true});
   assert.deepEqual(errors,[]);results.push({viewport:name,power,switchAndUnequip:true,unownedEquipHidden:true,cmsPower:0,cmsManual:true,images,overflow:false,errors});await context.close();
  }

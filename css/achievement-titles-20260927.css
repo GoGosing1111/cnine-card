@@ -208,6 +208,8 @@
   content:""!important;position:absolute;right:.32em;top:28%;bottom:28%;width:2px;
   background:linear-gradient(#dce9f8,#6d87a1);pointer-events:none;
 }
+/* The CMS's 96px generic thumbnail column clips the complete metal badge. */
+.title-form-preview-card:has(>.title-style-administration) { grid-template-columns:max-content minmax(0,1fr); }
 .clv2-title-showcase.is-title-administration {
   border-color:#798b9f;
   background:linear-gradient(130deg,#758ba518,transparent 42%),
@@ -234,6 +236,7 @@
 .clv2-title-card.is-locked.is-title-administration .clv2-title-emblem { opacity:.7;filter:grayscale(.4); }
 .clv2-title-card.is-title-administration button:disabled { color:#a9bdd0;opacity:.8; }
 @media(max-width:640px) {
+  .title-form-preview-card:has(>.title-style-administration) { grid-template-columns:1fr; }
   .clv2-title-showcase.is-title-administration .clv2-title-sigil.has-emblem { width:220px;max-width:100%; }
   .clv2-title-showcase.is-title-administration>span { max-width:100%;text-wrap:balance; }
 }
