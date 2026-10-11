@@ -1,0 +1,113 @@
+{
+  "verifiedAt": "2026-10-11T09:52:05.962Z",
+  "deployedCommit": "995c2d77c5710b69a07c8d7b7665a180011fa72a",
+  "gameplayCommit": "eb8b34680bc187e8ecfe8d660ea790b4f04267d8",
+  "productionUrl": "https://cnine-card.pages.dev",
+  "deploymentUrl": "https://69b5dadd.cnine-card.pages.dev",
+  "apiRuntimeVersion": "00458311-92be-408a-9526-1ccf78f0a34f",
+  "clanDraftVersion": "29e9cdc0-4bb9-4075-9e86-0e517193a1ea",
+  "release": {
+    "command": "npm run deploy:production",
+    "gate": "73 full gate stages passed; original log reused after non-runtime commits with validated resume",
+    "territoryTests": 108,
+    "releaseRepairTests": 33,
+    "originalGateLogSha256": "30b094f252be712e95258fd0917548d00c40e8c74d39e9219f0755ec42c252e5",
+    "deployLogSha256": "f3e19af11d432da8155628304ac62c263466b1be880f754c28b5db1512639345",
+    "hyperdriveQueryCacheDisabled": true
+  },
+  "assets": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "matched": true,
+      "sha256": "6a2c2b515d7d9e38cd0f296460c7cc85b8f5e1a272b0e7a900992a396b8555e6"
+    },
+    {
+      "path": "service-worker.js",
+      "status": 200,
+      "matched": true,
+      "sha256": "e7b456d27f7ed63471c400e002dc9da1a1aefcc1b82fd4d2a693de544922130b"
+    },
+    {
+      "path": "js/territory-network-v6.js",
+      "status": 200,
+      "matched": true,
+      "sha256": "c446ac78611a6cf5791e2a6e3a042a8ae08a28415a60ff0a559f09f47e60e384"
+    },
+    {
+      "path": "css/territory-network-v6.css",
+      "status": 200,
+      "matched": true,
+      "sha256": "b137e8756f1af04fc8f1944de57c10fc5b2176211e5a89fe7742c8b6be2ef023"
+    },
+    {
+      "path": "js/territory-war-v1811.js",
+      "status": 200,
+      "matched": true,
+      "sha256": "333ca4717a17c4d0ea23eeeb61a5e27ce8620127a8aaa968b37e5a4578dbdf32"
+    },
+    {
+      "path": "js/territory-battlefield-v5.js",
+      "status": 200,
+      "matched": true,
+      "sha256": "47783dbf9bd5af514e5edc5680ab5266bab5acb4d8ee6a3cfc261820171de81a"
+    },
+    {
+      "path": "admin/territory-war-admin-v1362.js",
+      "status": 200,
+      "matched": true,
+      "sha256": "b5847d1fa0f892ced19607277ac125cb5ababc7b82ff5d38beeb601600d560e0"
+    },
+    {
+      "path": "admin/index.html",
+      "status": 200,
+      "matched": true,
+      "sha256": "529f8e24649ad02d35fd538d2001295efc862e58c9d330942e824ba69814fe87"
+    }
+  ],
+  "routes": [
+    {
+      "path": "/api/service/status",
+      "status": 200
+    },
+    {
+      "path": "/api/territory-war/state?nodeIndex=2",
+      "status": 401
+    }
+  ],
+  "database": {
+    "mode": "OFF",
+    "round": {
+      "id": "69",
+      "status": "DISABLED",
+      "warfare_version": 4,
+      "starts_at": null,
+      "settled_at": null
+    },
+    "participants": [
+      {
+        "status": "WAITING",
+        "count": 146
+      }
+    ],
+    "network": {
+      "rounds": 0,
+      "nodes": 0
+    },
+    "marker": "1",
+    "permissions": [
+      {
+        "tablename": "territory_network_nodes",
+        "tableowner": "neondb_owner",
+        "runtime_dml": true
+      },
+      {
+        "tablename": "territory_network_rounds",
+        "tableowner": "neondb_owner",
+        "runtime_dml": true
+      }
+    ],
+    "readOnly": true
+  },
+  "passed": true
+}
