@@ -1,0 +1,45 @@
+{
+  "verifiedAt": "2026-10-11T12:59:55.624Z",
+  "productionOrigin": "https://cnine-card.pages.dev",
+  "pagesDeployment": "https://da86bcf5.cnine-card.pages.dev",
+  "releaseCommit": "ca710974042c383451a75bbc277a98526697024f",
+  "previousProductionCommit": "b45914c19a5e3d8b4e71fd8c7be669b2a06bbfaf",
+  "deploymentCommand": "npm run deploy:production -- --scoped",
+  "deploymentExitCode": 0,
+  "releaseTag": "20261011-raid-reward-state",
+  "apiRuntimeVersion": "6eaf0e3d-d24b-4f33-a643-86bedeafdb46",
+  "clanWorkerVersion": "a23d7533-0120-4041-ac2b-6ea01d14bfc7",
+  "focusedTests": {
+    "passed": 14,
+    "failed": 0
+  },
+  "browser": {
+    "viewports": [
+      "1440x1000",
+      "390x844"
+    ],
+    "errors": 0,
+    "report": "browser-report.json"
+  },
+  "productionFiles": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "3e845facc80b592cb85c3f15758a1d7b7a87329180a610f56099405d376bd7f0"
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "7c1e5a80106cad687a64182aec73c403ea72a3bdbdb5b6ac0d2d61c6f665f6fa"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "702c6f2b882d45ce5a745f3f9dfe89a5d90e25b1c9ecfbda7af92fe99879421d"
+    }
+  ],
+  "liveAccountWrites": 0,
+  "liveRewardsClaimed": 0,
+  "liveAccountBrowserVerification": false,
+  "note": "Production database read found reward_claimed=0 and READY reward records. Matching stale local marker reproduced in isolated main application; no direct access to the reporting device storage."
+}
