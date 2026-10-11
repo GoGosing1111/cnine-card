@@ -4,7 +4,7 @@
   "gsapCopies": 1,
   "pixiVersion": "8.20.0",
   "gsapVersion": "3.13.0",
-  "bundleSha256": "4287dda7c152f74620aa7ea62b4a1169a56a3e97257dd3b5b2e92945a4318cc8",
+  "bundleSha256": "6533b849f981e290aef37126d0f66accfb0a75557e4de49b8da881343e254190",
   "sharedRuntime": [
     "preview/project-v-v3/source/battle/ApocalypseLegionFX.js",
     "preview/project-v-v3/source/battle/ApocalypseLegionPlayback.js",

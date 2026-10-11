@@ -1,6 +1,7 @@
 import {Assets,Container,Sprite,Texture,Rectangle,Graphics} from 'pixi.js';
 import {gsap} from 'gsap';
 import {MODES,sample,clamp,smooth,mix,STRIKE,bladeContact,areaHits} from '../motion.mjs';
+import {heliosMotionRate} from '../../../shared/mercenary-helios-v1.mjs';
 const ROOT='/preview/mercenary-limited-solar-sword-20261009-v1/',HEIGHT=333.70859375;
 export async function loadSolarAssets(m){
  const out={motion:{},effects:{},blade:await Assets.load(ROOT+m.weapon.url)};
@@ -29,14 +30,15 @@ export class SolarFX{
   if(this.safeFrame.bottom<=this.safeFrame.top+100)throw Error('Preview camera has no usable field');
  }
  get time(){return this.clock.time;}
+ get playbackRate(){return this.speed*heliosMotionRate(this.mode);}
  get playing(){return Boolean(this.timeline&&!this.timeline.paused()&&this.time<MODES[this.mode].duration);}
  removeTimeline(){if(this.registration)this.engine.simpleTimelines.delete(this.registration);this.timeline?.kill();this.timeline=null;this.registration=null;}
- makeTimeline(){this.removeTimeline();this.timeline=gsap.timeline({paused:true,onUpdate:()=>this.render(this.time),onComplete:()=>{this.engine.simpleTimelines.delete(this.registration);this.render(MODES[this.mode].duration);this.onComplete?.();}}).to(this.clock,{time:MODES[this.mode].duration,duration:MODES[this.mode].duration,ease:'none'}).timeScale(this.speed);this.registration={instance:this.timeline,settle:()=>this.cancel()};}
+ makeTimeline(){this.removeTimeline();this.timeline=gsap.timeline({paused:true,onUpdate:()=>this.render(this.time),onComplete:()=>{this.engine.simpleTimelines.delete(this.registration);this.render(MODES[this.mode].duration);this.onComplete?.();}}).to(this.clock,{time:MODES[this.mode].duration,duration:MODES[this.mode].duration,ease:'none'}).timeScale(this.playbackRate);this.registration={instance:this.timeline,settle:()=>this.cancel()};}
  play(){if(this.disposed)return;this.cancelled=false;if(!this.timeline)this.makeTimeline();if(this.time>=MODES[this.mode].duration)this.seek(0);this.unit.stopIdle();this.engine.simpleTimelines.add(this.registration);this.timeline.play();this.onUpdate(this);}
  pause(){this.timeline?.pause();this.onUpdate(this);}
  seek(t){if(this.disposed)return;this.cancelled=false;if(!this.timeline)this.makeTimeline();t=Math.max(0,Math.min(MODES[this.mode].duration,t));this.timeline.pause().time(t,true);this.clock.time=t;this.render(t);}
  setMode(mode){if(!MODES[mode])return;this.cancel();this.mode=mode;this.clock.time=0;this.cancelled=false;this.makeTimeline();this.render(0);}
- setSpeed(v){this.speed=Math.max(.25,Math.min(2,Number(v)||1));this.timeline?.timeScale(this.speed);}
+ setSpeed(v){this.speed=Math.max(.25,Math.min(2,Number(v)||1));this.timeline?.timeScale(this.playbackRate);this.onUpdate(this);}
  setEffects(v){this.effectsEnabled=v;this.render(this.time);}
  pose(p){return this.manifest.motion[p.bank].frames[p.index];}
  targetPoint(target,ratio=0){return this.unit.root.parent.toLocal(target.root.toGlobal({x:0,y:-(target.fullBodyHeight||300)*ratio}));}
@@ -136,6 +138,6 @@ export class SolarFX{
   this.onUpdate(this);
  }
  cancel(){if(this.disposed)return;this.removeTimeline();this.cancelled=true;this.clock.time=0;this.render(0);this.engine.camera.reset(true);this.restoreBackdrop();this.targets.forEach(t=>t.view.position.set(0,0));}
- diagnostics(){return{ready:!this.disposed,mode:this.mode,time:this.time,playing:this.playing,speed:this.speed,phase:this.state?.phase,pose:this.state?.pose,contactCount:this.state?.contactCount,bladeContact:this.collision,groundError:this.groundError,targets:this.targetContacts,targetCount:this.targets.length,visibleEffects:this.pool.filter(s=>s.visible).length,visibleWeapons:this.swords.filter(s=>s.visible).length,visibleGhosts:this.ghosts.filter(s=>s.visible).length,registeredTimelines:this.registration&&this.engine.simpleTimelines.has(this.registration)?1:0,giantTip:this.giantTip,giantSwordBounds:this.swords[6].visible?this.swords[6].getBounds():null,swordBounds:this.swords.filter(s=>s.visible&&s.alpha>.15).map(s=>s.getBounds()),swordContacts:this.swordContacts,safeFrame:this.safeFrame,bodyUniformScale:this.unit.bodySprite.scale.x===this.unit.bodySprite.scale.y,clock:'V3_REGISTERED_GSAP',liveEnabled:false,...this.manifest.summary};}
+ diagnostics(){return{ready:!this.disposed,mode:this.mode,time:this.time,playing:this.playing,speed:this.speed,playbackRate:this.playbackRate,durationSeconds:MODES[this.mode].duration/this.playbackRate,contactSeconds:MODES[this.mode].contacts.map(t=>t/this.playbackRate),phase:this.state?.phase,pose:this.state?.pose,contactCount:this.state?.contactCount,bladeContact:this.collision,groundError:this.groundError,targets:this.targetContacts,targetCount:this.targets.length,visibleEffects:this.pool.filter(s=>s.visible).length,visibleWeapons:this.swords.filter(s=>s.visible).length,visibleGhosts:this.ghosts.filter(s=>s.visible).length,registeredTimelines:this.registration&&this.engine.simpleTimelines.has(this.registration)?1:0,giantTip:this.giantTip,giantSwordBounds:this.swords[6].visible?this.swords[6].getBounds():null,swordBounds:this.swords.filter(s=>s.visible&&s.alpha>.15).map(s=>s.getBounds()),swordContacts:this.swordContacts,safeFrame:this.safeFrame,bodyUniformScale:this.unit.bodySprite.scale.x===this.unit.bodySprite.scale.y,clock:'V3_REGISTERED_GSAP',liveEnabled:false,...this.manifest.summary};}
  destroy(){if(this.disposed)return;this.cancel();this.disposed=true;this.swords[6].mask=null;this.front.destroy({children:true});this.back.destroy({children:true});this.restoreBackdrop();for(const frames of [...Object.values(this.assets.motion),...Object.values(this.assets.effects)])for(const t of frames)t.destroy(false);}
 }

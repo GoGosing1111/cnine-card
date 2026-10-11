@@ -3,7 +3,7 @@ import {loadSolarAssets,SolarFX} from './SolarFX.js';
 import {MODES} from '../motion.mjs';
 const ROOT='/preview/mercenary-limited-solar-sword-20261009-v1/',doc=parent.document,$=id=>doc.getElementById(id);let fx,engine,playlist=false;
 function update(f){
- $('play').textContent=f.playing?'일시정지':'재생';$('phase').textContent=f.state.phase;$('time').textContent=f.time.toFixed(2)+' / '+MODES[f.mode].duration.toFixed(2)+'초';$('seek').max=MODES[f.mode].duration;$('seek').value=f.time;
+ $('play').textContent=f.playing?'일시정지':'재생';$('phase').textContent=f.state.phase;$('time').textContent=(f.time/f.playbackRate).toFixed(2)+' / '+(MODES[f.mode].duration/f.playbackRate).toFixed(2)+'초';$('seek').max=MODES[f.mode].duration;$('seek').value=f.time;
  $('health').textContent=JSON.stringify(f.diagnostics(),null,2);for(const b of doc.querySelectorAll('[data-mode]'))b.setAttribute('aria-pressed',String(b.dataset.mode===f.mode));
 }
 async function boot(){

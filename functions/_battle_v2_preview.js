@@ -23,6 +23,7 @@ import {validatedIconSnapshot,iconDefinition,iconHealingAmount} from '../shared/
 import {createIconCombatRuntime} from './_icon_combat.js';
 import {ICON_SUPREMACY,iconStatFloor} from '../shared/icon-supremacy-v1.mjs';
 import {valterIncomingDamage,valterActionCredit} from '../shared/mercenary-valter-v1.mjs';
+import {heliosIncomingDamage,heliosActionCredit} from '../shared/mercenary-helios-v1.mjs';
 
 // =====================================================================
 // V1936: 계열 개편 (S1)
@@ -566,6 +567,7 @@ function applyCanonicalDamage(target, incoming, options = {}) {
     incoming = incoming + Math.min(target.shield, incoming * options.shieldBonus);
   }
   incoming = valterIncomingDamage(target,incoming,options.actor);
+  incoming = heliosIncomingDamage(target,incoming,options.actor);
   let remaining = Math.max(0, Number(incoming || 0));
   const shieldBefore = target.shield;
   const bypass=Math.floor(remaining*clamp(Number(options.shieldPierce||0),0,1));
@@ -782,9 +784,9 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   let actionCount = 0;
   let mercenaryActionCount = 0;
   const mercenaryActionsBySide={A:0,B:0};
-  // Valter's three reserved turns must not exhaust the old two-turn safety
+  // Valter/Helios reserved turns must not exhaust the old two-turn safety
   // budget before the regular-card clock ends. Other teams retain their cap.
-  const mercenaryActionLimits=Object.fromEntries([['A',a],['B',b]].map(([side,team])=>[side,maxActions*Math.max(2,Math.ceil(valterActionCredit(team)))]));
+  const mercenaryActionLimits=Object.fromEntries([['A',a],['B',b]].map(([side,team])=>[side,maxActions*Math.max(2,Math.ceil(valterActionCredit(team)),Math.ceil(heliosActionCredit(team)))]));
   const mercenaryActionAvailable=actor=>!actor.isMercenary||mercenaryActionsBySide[actor.side]<mercenaryActionLimits[actor.side];
   // V1813: 몬스터 강제 행동까지 남은 플레이어 행동 수를 센다.
   let playerStreak = 0;

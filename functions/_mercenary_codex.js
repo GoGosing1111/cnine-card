@@ -11,6 +11,7 @@ import {LIMITED_MERCENARIES} from '../shared/mercenary-limited-catalog-v1.mjs';
 import {limitedDeploymentSnapshot,LIMITED_DEPLOYMENT_VERSION} from '../shared/mercenary-limited-deployment-v1.mjs';
 import {ssRearPveSkillText} from '../shared/mercenary-ss-rear-pve-v1.mjs';
 import {ssLimitedCombatDescription,SS_LIMITED_BALANCE_VERSION} from '../shared/mercenary-ss-limited-v1.mjs';
+import {HELIOS_CODE,HELIOS_COMBAT_DESCRIPTION} from '../shared/mercenary-helios-v1.mjs';
 
 // Public, read-only projection. Never publish operator notes, audit records,
 // account ownership, acquisition drafts, or unassigned skill associations.
@@ -34,7 +35,7 @@ export function mercenaryCodexDocument(row){
           return {id:s.id,name:s.name,role:seed.catalog.roles[s.role]?.label||s.role,target:seed.catalog.targets[s.target]?.label||s.target,
             trigger:s.trigger,effect:s.effect,counterplay:s.counterplay,bossRule:s.bossRule,procRule:s.procRule,balance:{...s.balance},...(s.pveBalance?{pveBalance:{...s.pveBalance}}:{}),ready};
         })};
-    }).concat(MERCENARY_ART_RELEASES.filter(art=>!document.mercenaries.some(c=>c.code===art.code)).map(art=>({...art,skills:[]})),LIMITED_MERCENARIES.map(art=>({...art,deploymentEnabled:Boolean(limitedDeploymentSnapshot(art.code)),deploymentVersion:LIMITED_DEPLOYMENT_VERSION,...(ssLimitedCombatDescription(art.code)?{combatLinkDescription:ssLimitedCombatDescription(art.code)}:{})})))};
+    }).concat(MERCENARY_ART_RELEASES.filter(art=>!document.mercenaries.some(c=>c.code===art.code)).map(art=>({...art,skills:[]})),LIMITED_MERCENARIES.map(art=>({...art,deploymentEnabled:Boolean(limitedDeploymentSnapshot(art.code)),deploymentVersion:LIMITED_DEPLOYMENT_VERSION,...(art.code===HELIOS_CODE?{combatLinkDescription:HELIOS_COMBAT_DESCRIPTION}:ssLimitedCombatDescription(art.code)?{combatLinkDescription:ssLimitedCombatDescription(art.code)}:{})})))};
 }
 
 export async function handleMercenaryCodex({path,request,env,deps}){

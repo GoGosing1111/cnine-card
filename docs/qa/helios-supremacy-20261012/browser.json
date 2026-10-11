@@ -1,0 +1,167 @@
+{
+  "source": "prepared SolarFX bundle and public codex projection, acquisition and deployment remain locked",
+  "reports": [
+    {
+      "name": "desktop",
+      "motion": {
+        "rows": [
+          {
+            "mode": "dash",
+            "rate": 2.6,
+            "elapsedSeconds": 0.7430999999996275,
+            "durationSeconds": 0.7307692307692307,
+            "contactSeconds": [],
+            "contacts": 0,
+            "registeredTimelines": 0,
+            "updates": 107,
+            "done": true
+          },
+          {
+            "mode": "attack",
+            "rate": 2.6,
+            "elapsedSeconds": 0.6670999999996274,
+            "durationSeconds": 0.6538461538461539,
+            "contactSeconds": [
+              0.1846153846153846
+            ],
+            "contacts": 1,
+            "registeredTimelines": 0,
+            "updates": 147,
+            "done": true
+          },
+          {
+            "mode": "skill",
+            "rate": 2.6,
+            "elapsedSeconds": 1.667699999999255,
+            "durationSeconds": 1.6538461538461537,
+            "contactSeconds": [
+              0.4615384615384615,
+              0.5346153846153846,
+              0.6076923076923078,
+              0.6807692307692308,
+              0.7538461538461538,
+              0.8269230769230769,
+              1.023076923076923
+            ],
+            "contacts": 7,
+            "registeredTimelines": 0,
+            "updates": 337,
+            "done": true
+          },
+          {
+            "mode": "ultimate",
+            "rate": 2.6,
+            "elapsedSeconds": 2.2434000000003724,
+            "durationSeconds": 2.230769230769231,
+            "contactSeconds": [
+              0.9538461538461538
+            ],
+            "contacts": 1,
+            "registeredTimelines": 0,
+            "updates": 492,
+            "done": true
+          }
+        ],
+        "auraRate": 1,
+        "doubleRate": 5.2,
+        "basicContact": true,
+        "areaTargets": 5,
+        "bodyUniformScale": true,
+        "overflow": false
+      },
+      "cleanup": {
+        "timelineRemoved": true,
+        "disposed": true,
+        "frontDestroyed": true,
+        "backDestroyed": true
+      },
+      "catalog": {
+        "text": "전투 성능 · 행동 주기확정 성능 · 기본 전투력 1,123,200. 발테르와 같은 공격 연계·피해 경감·개인 면역을 사용하며, 자연 행동 속도 약 4%, 추가 행동·체력·전용 방벽은 4% 높습니다. 아군 일반 카드 25회 행동당 추가 78회 행동합니다. PVE 천양붕락은 적 전체에 총 560% 피해를 나눠 적용합니다(에너지 35 · 재사용 5행동). 공격·이동·스킬 모션은 원본 대비 2.6배속입니다. 획득·편성 및 전투 연출 최종 공개는 준비 중입니다.",
+        "lock": "리미티드 선공개획득 · 편성 불가현재 원화와 준비된 리소스만 공개합니다. 획득 일정은 추후 안내됩니다.",
+        "overflow": false
+      },
+      "errors": []
+    },
+    {
+      "name": "mobile",
+      "motion": {
+        "rows": [
+          {
+            "mode": "dash",
+            "rate": 2.6,
+            "elapsedSeconds": 0.7397999999988825,
+            "durationSeconds": 0.7307692307692307,
+            "contactSeconds": [],
+            "contacts": 0,
+            "registeredTimelines": 0,
+            "updates": 145,
+            "done": true
+          },
+          {
+            "mode": "attack",
+            "rate": 2.6,
+            "elapsedSeconds": 0.6716999999992549,
+            "durationSeconds": 0.6538461538461539,
+            "contactSeconds": [
+              0.1846153846153846
+            ],
+            "contacts": 1,
+            "registeredTimelines": 0,
+            "updates": 154,
+            "done": true
+          },
+          {
+            "mode": "skill",
+            "rate": 2.6,
+            "elapsedSeconds": 1.664800000000745,
+            "durationSeconds": 1.6538461538461537,
+            "contactSeconds": [
+              0.4615384615384615,
+              0.5346153846153846,
+              0.6076923076923078,
+              0.6807692307692308,
+              0.7538461538461538,
+              0.8269230769230769,
+              1.023076923076923
+            ],
+            "contacts": 7,
+            "registeredTimelines": 0,
+            "updates": 399,
+            "done": true
+          },
+          {
+            "mode": "ultimate",
+            "rate": 2.6,
+            "elapsedSeconds": 2.249800000000745,
+            "durationSeconds": 2.230769230769231,
+            "contactSeconds": [
+              0.9538461538461538
+            ],
+            "contacts": 1,
+            "registeredTimelines": 0,
+            "updates": 496,
+            "done": true
+          }
+        ],
+        "auraRate": 1,
+        "doubleRate": 5.2,
+        "basicContact": true,
+        "areaTargets": 5,
+        "bodyUniformScale": true,
+        "overflow": false
+      },
+      "cleanup": {
+        "timelineRemoved": true,
+        "disposed": true,
+        "frontDestroyed": true,
+        "backDestroyed": true
+      },
+      "catalog": {
+        "text": "전투 성능 · 행동 주기확정 성능 · 기본 전투력 1,123,200. 발테르와 같은 공격 연계·피해 경감·개인 면역을 사용하며, 자연 행동 속도 약 4%, 추가 행동·체력·전용 방벽은 4% 높습니다. 아군 일반 카드 25회 행동당 추가 78회 행동합니다. PVE 천양붕락은 적 전체에 총 560% 피해를 나눠 적용합니다(에너지 35 · 재사용 5행동). 공격·이동·스킬 모션은 원본 대비 2.6배속입니다. 획득·편성 및 전투 연출 최종 공개는 준비 중입니다.",
+        "lock": "리미티드 선공개획득 · 편성 불가현재 원화와 준비된 리소스만 공개합니다. 획득 일정은 추후 안내됩니다.",
+        "overflow": false
+      },
+      "errors": []
+    }
+  ]
+}
