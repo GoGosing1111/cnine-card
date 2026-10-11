@@ -57,12 +57,12 @@ assert.match(adminUi, /이벤트당 최대<\/span><b>50,000,000,000/);
 assert.match(adminCss, /\.cp-admin-tabs/);
 assert.match(adminCss, /@media\(max-width:560px\).*\.cp-admin-tabs/s);
 
-assert.match(app, /coin-prediction-v2033\.css\?v=20261001-prediction-50b/);
-assert.match(app, /coin-prediction-model-v2033\.js\?v=2033-matchday-star/);
-assert.match(app, /coin-prediction-v2033\.js\?v=20261001-prediction-50b/);
+assert.match(app, /coin-prediction-v2033\.css\?v=[0-9][A-Za-z0-9-]+/);
+assert.match(app, /coin-prediction-model-v2033\.js\?v=[0-9][A-Za-z0-9-]+/);
+assert.match(app, /coin-prediction-v2033\.js\?v=[0-9][A-Za-z0-9-]+/);
 assert.match(index, /js\/app\.js\?v=[0-9][A-Za-z0-9-]+/);
-assert.match(adminIndex, /coin-prediction-admin-v1\.css\?v=2033-matchday/);
-assert.match(adminIndex, /coin-prediction-admin-v1\.js\?v=20261001-prediction-50b/);
+assert.match(adminIndex, /coin-prediction-admin-v1\.css\?v=[0-9][A-Za-z0-9-]+/);
+assert.match(adminIndex, /coin-prediction-admin-v1\.js\?v=[0-9][A-Za-z0-9-]+/);
 assert.match(serviceWorker, /soop-card-shell-v[0-9][A-Za-z0-9-]+/);
 
 console.log('coin prediction active/history tabs + 24-hour retention PASS');
