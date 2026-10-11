@@ -21,9 +21,9 @@ test('Helios appears under SSS LIMITED with an explicitly deferred empty title',
  assert.equal(card.name,'헬리오스');assert.equal(card.rank,'SSS');assert.equal(card.edition,'LIMITED');
  assert.equal(card.title,'');assert.equal(card.titleStatus,'DEFERRED_BY_USER');
  assert.equal(limited.length,9);assert.deepEqual(filterCatalog(limited,{rank:'SSS'},new Set()).map(c=>c.name),['발테르','헬리오스']);
- assert.equal(card.deploymentEnabled,false);assert.equal(card.acquisitionEnabled,false);assert.equal(card.basePower,null);assert.deepEqual(card.skills,[]);
- assert.equal(limitedDeploymentSnapshot(card.code),null);assert.equal(mercenaryAcquisitionEnabled(card.code),false);
- assert.equal(catalog.cards.filter(c=>c.edition==='LIMITED'&&c.deploymentEnabled).length,8);
+ assert.equal(card.deploymentEnabled,true);assert.equal(card.acquisitionEnabled,false);assert.equal(card.basePower,null);assert.deepEqual(card.skills,[]);
+ assert.equal(limitedDeploymentSnapshot(card.code).basePower,1123200);assert.equal(mercenaryAcquisitionEnabled(card.code),false);
+ assert.equal(catalog.cards.filter(c=>c.edition==='LIMITED'&&c.deploymentEnabled).length,9);
  const missing=structuredClone(catalog);delete missing.cards.find(c=>c.code==='V-999').titleStatus;assert.throws(()=>validateCatalog(missing));
  const normal=structuredClone(catalog);normal.cards.find(c=>c.edition!=='LIMITED'&&c.title).title='';assert.throws(()=>validateCatalog(normal));
 });
@@ -48,13 +48,13 @@ test('existing saved rates and stock limits survive the ninth entry without enab
  assert.equal(LIMITED_PACK_RELEASE_ENABLED,true);assert.equal(nextPack.mode,'OFF');
 });
 
-test('catalog-only ownership remains readable and cannot be equipped while released cards remain available',async t=>{
+test('owned Helios can be equipped after the October 12 explicit formation release',async t=>{
  const f=await mercenaryFixture(t,{postgres:true});
  for(const code of ['V-999','V-996'])await f.p('INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,first_obtained_at,last_obtained_at) VALUES(7,?,1,0,?,?)',code,'2026-10-09','2026-10-09').run();
  const account=await mercenaryAccountState(f.env,f.user),card=account.cards.find(c=>c.code==='V-999');
- assert.equal(card.name,'헬리오스');assert.equal(card.canDeploy,false);assert.equal(card.deploymentEnabled,false);assert.equal(card.basePower,null);assert.deepEqual(card.skills,[]);
+ assert.equal(card.name,'헬리오스');assert.equal(card.canDeploy,true);assert.equal(card.deploymentEnabled,true);assert.equal(card.basePower,1123200);assert.equal(card.skills[0].mechanic,'SOLAR_COLLAPSE');
  assert.equal(account.cards.find(c=>c.code==='V-996').canDeploy,true);
- await assert.rejects(saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mercenaryCode:'V-999',revision:0}),{code:'MERCENARY_CODE'});
+ assert.equal((await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mercenaryCode:'V-999',revision:0})).mercenaryCode,'V-999');
 });
 
 test('public shell rebuild preserves limited navigation, styling, growth link and Helios cache version',()=>{

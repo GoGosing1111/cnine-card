@@ -120,5 +120,5 @@ test('real server payloads publish Helios actions and PVE skill without changing
   assert.equal(battle.teams.A.mercenaries[0].heliosPolicyVersion,1);
   assert.equal(battle.result.timeline.some(e=>e.type===HELIOS_AREA_EVENT),mode==='PVE');
  }
- assert.equal(limitedDeploymentSnapshot('V-999'),null);assert.equal(heliosPreparedSnapshot().deploymentEnabled,false);
+ assert.equal(limitedDeploymentSnapshot('V-999').deploymentEnabled,true);assert.equal(heliosPreparedSnapshot().deploymentEnabled,false);
 });

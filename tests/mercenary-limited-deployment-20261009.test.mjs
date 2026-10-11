@@ -7,6 +7,8 @@ import {LIMITED_MERCENARIES} from '../shared/mercenary-limited-catalog-v1.mjs';
 import {limitedDeploymentSnapshot} from '../shared/mercenary-limited-deployment-v1.mjs';
 import {SS_LIMITED_COMBAT} from '../shared/mercenary-ss-limited-v1.mjs';
 import {VALTER_COMBAT} from '../shared/mercenary-valter-v1.mjs';
+import {HELIOS_COMBAT} from '../shared/mercenary-helios-v1.mjs';
+import {heliosPreparedSnapshot} from '../shared/mercenary-helios-preparation-v1.mjs';
 import {LIMITED_DUO_ASSETS} from '../shared/mercenary-limited-duo-assets-20261008.mjs';
 import {mercenaryAccountState,saveMercenaryLoadout,loadMercenaryBattleSnapshot,releasedMercenarySnapshots,mercenarySnapshotPower,MERCENARY_RUNTIME_KEY} from '../functions/_mercenary_account.js';
 import {mercenaryCodexDocument} from '../functions/_mercenary_codex.js';
@@ -20,7 +22,7 @@ import {tierCards} from './helpers/mercenary-operating-roster-v2144.mjs';
 
 const codes=LIMITED_MERCENARIES.filter(c=>limitedDeploymentSnapshot(c.code)).map(c=>c.code),rid=()=>crypto.randomUUID();
 async function own(f,code){await f.p('INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,first_obtained_at,last_obtained_at) VALUES(7,?,1,0,?,?)',code,'2026-10-09','2026-10-09').run();}
-for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: all eight limited cards require ownership, persist, replay, replace and unequip`,async t=>{
+for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: all nine limited cards require ownership, persist, replay, replace and unequip`,async t=>{
  const f=await mercenaryFixture(t,{postgres}),user={...f.user,role:'USER'};
  await f.setting(MERCENARY_RUNTIME_KEY,{...f.policy,mode:'OFF',combat:fixture.combat});
  await assert.rejects(saveMercenaryLoadout(f.env,user,{requestId:rid(),mercenaryCode:'V-990',revision:0}),{code:'MERCENARY_NOT_OWNED'});
@@ -32,14 +34,14 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: all 
   assert.equal((await saveMercenaryLoadout(f.env,user,body)).replayed,true);
   const single=await loadMercenaryBattleSnapshot(f.env,user),batch=await releasedMercenarySnapshots(f.env,[7,8]);
   assert.deepEqual(batch.get(7),single);assert.equal(batch.has(8),false);assert.equal(single.code,code);
-  assert.ok(single.battleSprite);assert.equal(single.basePower,code==='V-996'?VALTER_COMBAT.basePower:SS_LIMITED_COMBAT[code].basePower);
+  assert.ok(single.battleSprite);assert.equal(single.basePower,code==='V-999'?HELIOS_COMBAT.basePower:code==='V-996'?VALTER_COMBAT.basePower:SS_LIMITED_COMBAT[code].basePower);
   assert.equal(mercenarySnapshotPower({...single,basePower:1,rank:'C'}),single.basePower);
   await assert.rejects(saveMercenaryLoadout(f.env,{...user,id:8},{requestId:rid(),mercenaryCode:code,revision:0}),{code:'MERCENARY_NOT_OWNED'});
  }
- const state=await mercenaryAccountState(f.env,user);assert.equal(state.available,true);assert.equal(state.cards.length,8);assert.ok(state.cards.every(c=>c.canDeploy&&c.deploymentEnabled&&c.basePower>0));
+ const state=await mercenaryAccountState(f.env,user);assert.equal(state.available,true);assert.equal(state.cards.length,9);assert.ok(state.cards.every(c=>c.canDeploy&&c.deploymentEnabled&&c.basePower>0));
  const publicCatalog=validateCatalog(mercenaryCodexDocument({payload_json:JSON.stringify(f.document),revision:1}));
  assert.ok(publicCatalog.cards.filter(c=>codes.includes(c.code)).every(c=>c.deploymentEnabled&&c.acquisitionEnabled===false));
- assert.equal(publicCatalog.cards.find(c=>c.code==='V-999').deploymentEnabled,false);
+ assert.equal(publicCatalog.cards.find(c=>c.code==='V-999').deploymentEnabled,true);
  await assert.rejects(saveMercenaryLoadout(f.env,user,{requestId:rid(),mercenaryCode:null,revision:0}),{code:'MERCENARY_LOADOUT_CONFLICT'});
  f.fail('INSERT INTO user_mercenary_loadout_v1');const retry={requestId:rid(),mercenaryCode:null,revision};
  await assert.rejects(saveMercenaryLoadout(f.env,user,retry));f.fail('');
@@ -51,7 +53,7 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: all 
 test('released snapshots retain the approved limited combat policies in PVE and PVP',()=>{
  for(const code of codes){
   const snapshot={...limitedDeploymentSnapshot(code),combat:fixture.combat};
-  const old={...LIMITED_MERCENARIES.find(c=>c.code===code),statMode:'RANK_FIXED',level:1,combat:fixture.combat};
+  const old={...(code==='V-999'?heliosPreparedSnapshot():LIMITED_MERCENARIES.find(c=>c.code===code)),statMode:'RANK_FIXED',level:1,combat:fixture.combat};
   for(const mode of ['PVE','PVP']){
    const current=buildMercenaryFighter(snapshot,'A',mode,buildFighter),reference=buildMercenaryFighter(old,'A',mode,buildFighter);
    for(const key of ['attack','defense','speed','maxHp','rank','role','attackStyle'])assert.equal(current[key],reference[key],code+' '+mode+' '+key);

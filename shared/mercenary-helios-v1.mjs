@@ -1,7 +1,7 @@
 import {BERKAN_CODE} from './mercenary-berkan-v1.mjs';
 
-// 2026-10-12: performance approval only. Acquisition, formation and visual
-// release still go through their existing gates; a prepared fighter is not a grant.
+// 2026-10-12: approved performance, followed by explicit formation release.
+// Ownership and pack economy remain separate from this combat policy.
 export const HELIOS_CODE='V-999';
 export const HELIOS_AREA_EVENT='MERCENARY_HELIOS_AREA';
 export const HELIOS_AREA_MECHANIC='SOLAR_COLLAPSE';
@@ -29,4 +29,4 @@ export function heliosIncomingDamage(target,incoming,source){
  return Math.floor(Math.max(0,Number(incoming)||0)*HELIOS_COMBAT.damageTakenScale);
 }
 export const heliosMotionRate=mode=>mode==='aura'?1:HELIOS_COMBAT.motionPlaybackRate;
-export const HELIOS_COMBAT_DESCRIPTION='확정 성능 · 기본 전투력 1,123,200. 발테르와 같은 공격 연계·피해 경감·개인 면역을 사용하며, 자연 행동 속도 약 4%, 추가 행동·체력·전용 방벽은 4% 높습니다. 아군 일반 카드 25회 행동당 추가 78회 행동합니다. PVE 천양붕락은 적 전체에 총 560% 피해를 나눠 적용합니다(에너지 35 · 재사용 5행동). 공격·이동·스킬 모션은 원본 대비 2.6배속입니다. 획득·편성 및 전투 연출 최종 공개는 준비 중입니다.';
+export const HELIOS_COMBAT_DESCRIPTION='기본 전투력 1,123,200. 발테르와 같은 공격 연계·피해 경감·개인 면역을 사용하며, 자연 행동 속도 약 4%, 추가 행동·체력·전용 방벽은 4% 높습니다. 아군 일반 카드 25회 행동당 추가 78회 행동합니다. PVE 천양붕락은 적 전체에 총 560% 피해를 나눠 적용합니다(에너지 35 · 재사용 5행동). 공격·스킬 모션은 원본 대비 2.6배속입니다. 보유한 헬리오스를 PVE·PVP에 각각 편성할 수 있습니다.';

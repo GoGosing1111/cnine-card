@@ -1,0 +1,1032 @@
+{
+  "source": "canonical production V3/PVE bundles; actual twelve-target server PVE event",
+  "checks": [
+    {
+      "label": "desktop",
+      "mode": "basic",
+      "contact": {
+        "time": 0.186,
+        "duration": 0.6538462,
+        "scale": 1,
+        "hpCalls": [
+          {
+            "id": "CN-02D9DC1E8A8A4209",
+            "input": 77,
+            "hp": 77
+          }
+        ],
+        "damageCalls": [
+          {
+            "id": "CN-02D9DC1E8A8A4209",
+            "damage": 23
+          }
+        ],
+        "fx": {
+          "ready": true,
+          "mode": "attack",
+          "time": 0.4836,
+          "playing": false,
+          "speed": 1,
+          "playbackRate": 2.6,
+          "durationSeconds": 0.6538461538461539,
+          "contactSeconds": [
+            0.1846153846153846
+          ],
+          "phase": "대각선 베기",
+          "pose": {
+            "at": 0.455,
+            "bank": "cut",
+            "index": 2,
+            "facing": 1
+          },
+          "contactCount": 1,
+          "bladeContact": {
+            "u": 0.598754006896558,
+            "distance": 13.062077842550574,
+            "intersects": true
+          },
+          "groundError": 0,
+          "targets": [
+            {
+              "index": 0,
+              "at": 0.48,
+              "hit": true,
+              "visible": true
+            }
+          ],
+          "targetCount": 1,
+          "visibleEffects": 8,
+          "visibleWeapons": 0,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "giantTip": null,
+          "giantSwordBounds": null,
+          "swordBounds": [],
+          "swordContacts": [],
+          "safeFrame": null,
+          "bodyUniformScale": true,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "bodyFrames": 37,
+          "activeBodyFrames": 25,
+          "effectFrames": 144,
+          "activeEffectFrames": 120,
+          "weaponSources": 1,
+          "visibleWeaponRedraws": 0,
+          "hiddenGripCompletionPixels": 840
+        }
+      },
+      "spec": {
+        "rate": null,
+        "releaseAt": 0.23076923076923075
+      },
+      "after": {
+        "last": {
+          "code": "V-999",
+          "eventType": "ATTACK",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 1,
+          "playbackRate": 2.6,
+          "contactSeconds": 0.1846153846153846,
+          "durationSeconds": 0.6538461538461539
+        },
+        "busy": false,
+        "visibleEffects": 0,
+        "atStation": true,
+        "damageCalls": 1
+      }
+    },
+    {
+      "label": "desktop",
+      "mode": "enemy",
+      "contact": {
+        "time": 0.187,
+        "duration": 0.6538462,
+        "scale": 1,
+        "hpCalls": [
+          {
+            "id": "CN-02D9DC1E8A8A4209",
+            "input": 77,
+            "hp": 77
+          }
+        ],
+        "damageCalls": [
+          {
+            "id": "CN-02D9DC1E8A8A4209",
+            "damage": 23
+          }
+        ],
+        "fx": {
+          "ready": true,
+          "mode": "attack",
+          "time": 0.4862,
+          "playing": false,
+          "speed": 1,
+          "playbackRate": 2.6,
+          "durationSeconds": 0.6538461538461539,
+          "contactSeconds": [
+            0.1846153846153846
+          ],
+          "phase": "대각선 베기",
+          "pose": {
+            "at": 0.455,
+            "bank": "cut",
+            "index": 2,
+            "facing": 1
+          },
+          "contactCount": 1,
+          "bladeContact": {
+            "u": 0.5987540068965584,
+            "distance": 13.06207784255058,
+            "intersects": true
+          },
+          "groundError": 0,
+          "targets": [
+            {
+              "index": 0,
+              "at": 0.48,
+              "hit": true,
+              "visible": true
+            }
+          ],
+          "targetCount": 1,
+          "visibleEffects": 8,
+          "visibleWeapons": 0,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "giantTip": null,
+          "giantSwordBounds": null,
+          "swordBounds": [],
+          "swordContacts": [],
+          "safeFrame": null,
+          "bodyUniformScale": true,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "bodyFrames": 37,
+          "activeBodyFrames": 25,
+          "effectFrames": 144,
+          "activeEffectFrames": 120,
+          "weaponSources": 1,
+          "visibleWeaponRedraws": 0,
+          "hiddenGripCompletionPixels": 840
+        }
+      },
+      "spec": {
+        "rate": null,
+        "releaseAt": 0.23076923076923075
+      },
+      "after": {
+        "last": {
+          "code": "V-999",
+          "eventType": "ATTACK",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 1,
+          "playbackRate": 2.6,
+          "contactSeconds": 0.1846153846153846,
+          "durationSeconds": 0.6538461538461539
+        },
+        "busy": false,
+        "visibleEffects": 0,
+        "atStation": true,
+        "damageCalls": 1
+      }
+    },
+    {
+      "label": "desktop",
+      "mode": "area",
+      "contact": {
+        "time": 0.955,
+        "duration": 2.2307692,
+        "scale": 1,
+        "hpCalls": [
+          {
+            "id": "B:0:ENCOUNTER:INITIAL",
+            "input": 8.000927643784788,
+            "hp": 8.000927643784788
+          },
+          {
+            "id": "B:1:ENCOUNTER:INITIAL",
+            "input": 53.99962356484096,
+            "hp": 53.99962356484096
+          },
+          {
+            "id": "B:2:ENCOUNTER:INITIAL",
+            "input": 53.99946516493369,
+            "hp": 53.99946516493369
+          },
+          {
+            "id": "B:3:ENCOUNTER:INITIAL",
+            "input": 53.99981962481962,
+            "hp": 53.99981962481962
+          },
+          {
+            "id": "B:4:ENCOUNTER:INITIAL",
+            "input": 53.99940968122786,
+            "hp": 53.99940968122786
+          },
+          {
+            "id": "B:5:ENCOUNTER:INITIAL",
+            "input": 54.00027056277056,
+            "hp": 54.00027056277056
+          },
+          {
+            "id": "B:6:ENCOUNTER:INITIAL",
+            "input": 54.0004831501389,
+            "hp": 54.0004831501389
+          },
+          {
+            "id": "B:7:ENCOUNTER:INITIAL",
+            "input": 54.000463821892396,
+            "hp": 54.000463821892396
+          },
+          {
+            "id": "B:8:ENCOUNTER:INITIAL",
+            "input": 53.99962356484096,
+            "hp": 53.99962356484096
+          },
+          {
+            "id": "B:9:ENCOUNTER:INITIAL",
+            "input": 53.99946516493369,
+            "hp": 53.99946516493369
+          },
+          {
+            "id": "B:10:ENCOUNTER:INITIAL",
+            "input": 53.99981962481962,
+            "hp": 53.99981962481962
+          },
+          {
+            "id": "B:11:ENCOUNTER:INITIAL",
+            "input": 53.99940968122786,
+            "hp": 53.99940968122786
+          }
+        ],
+        "damageCalls": [
+          {
+            "id": "B:0:ENCOUNTER:INITIAL",
+            "damage": 35703,
+            "compactArea": true
+          },
+          {
+            "id": "B:1:ENCOUNTER:INITIAL",
+            "damage": 39104,
+            "compactArea": true
+          },
+          {
+            "id": "B:2:ENCOUNTER:INITIAL",
+            "damage": 29243,
+            "compactArea": true
+          },
+          {
+            "id": "B:3:ENCOUNTER:INITIAL",
+            "damage": 30603,
+            "compactArea": true
+          },
+          {
+            "id": "B:4:ENCOUNTER:INITIAL",
+            "damage": 37404,
+            "compactArea": true
+          },
+          {
+            "id": "B:5:ENCOUNTER:INITIAL",
+            "damage": 34003,
+            "compactArea": true
+          },
+          {
+            "id": "B:6:ENCOUNTER:INITIAL",
+            "damage": 38083,
+            "compactArea": true
+          },
+          {
+            "id": "B:7:ENCOUNTER:INITIAL",
+            "damage": 35703,
+            "compactArea": true
+          },
+          {
+            "id": "B:8:ENCOUNTER:INITIAL",
+            "damage": 39104,
+            "compactArea": true
+          },
+          {
+            "id": "B:9:ENCOUNTER:INITIAL",
+            "damage": 29243,
+            "compactArea": true
+          },
+          {
+            "id": "B:10:ENCOUNTER:INITIAL",
+            "damage": 30603,
+            "compactArea": true
+          },
+          {
+            "id": "B:11:ENCOUNTER:INITIAL",
+            "damage": 37404,
+            "compactArea": true
+          }
+        ],
+        "fx": {
+          "ready": true,
+          "mode": "ultimate",
+          "time": 2.483,
+          "playing": false,
+          "speed": 1,
+          "playbackRate": 2.6,
+          "durationSeconds": 2.230769230769231,
+          "contactSeconds": [
+            0.9538461538461538
+          ],
+          "phase": "지면 강타 · 진형 파열",
+          "pose": {
+            "at": 2.15,
+            "bank": "ultimate",
+            "index": 4,
+            "facing": 1
+          },
+          "contactCount": 1,
+          "bladeContact": {
+            "u": 0.13625260165284922,
+            "distance": 272.3656225300736,
+            "intersects": false
+          },
+          "groundError": 0,
+          "targets": [
+            {
+              "index": 0,
+              "at": 2.795,
+              "hit": false,
+              "visible": true
+            },
+            {
+              "index": 1,
+              "at": 2.715886169143587,
+              "hit": false,
+              "visible": true
+            },
+            {
+              "index": 2,
+              "at": 2.7734436650792893,
+              "hit": false,
+              "visible": true
+            },
+            {
+              "index": 3,
+              "at": 2.691504757728613,
+              "hit": false,
+              "visible": true
+            },
+            {
+              "index": 4,
+              "at": 2.5836735351820925,
+              "hit": false,
+              "visible": true
+            },
+            {
+              "index": 5,
+              "at": 2.7217868503585763,
+              "hit": false,
+              "visible": true
+            },
+            {
+              "index": 6,
+              "at": 2.7217868503585767,
+              "hit": false,
+              "visible": true
+            },
+            {
+              "index": 7,
+              "at": 2.5836735351820925,
+              "hit": false,
+              "visible": true
+            },
+            {
+              "index": 8,
+              "at": 2.6915047577286124,
+              "hit": false,
+              "visible": true
+            },
+            {
+              "index": 9,
+              "at": 2.7734436650792897,
+              "hit": false,
+              "visible": true
+            },
+            {
+              "index": 10,
+              "at": 2.715886169143587,
+              "hit": false,
+              "visible": true
+            },
+            {
+              "index": 11,
+              "at": 2.795,
+              "hit": false,
+              "visible": true
+            }
+          ],
+          "targetCount": 12,
+          "visibleEffects": 12,
+          "visibleWeapons": 1,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "giantTip": {
+            "tip": {
+              "x": 1080.8200000000002,
+              "y": 454.4955769230769
+            },
+            "ground": {
+              "x": 1080.8200000000002,
+              "y": 442
+            },
+            "buried": true,
+            "rigid": true
+          },
+          "giantSwordBounds": {
+            "minX": 701.3095440623638,
+            "minY": -140.40976954331626,
+            "maxX": 1230.5784687850387,
+            "maxY": 389.71463414634144,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "swordBounds": [
+            {
+              "minX": 701.3095440623638,
+              "minY": -140.40976954331626,
+              "maxX": 1230.5784687850387,
+              "maxY": 389.71463414634144,
+              "matrix": {
+                "array": null,
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 0,
+                "ty": 0
+              }
+            }
+          ],
+          "swordContacts": [],
+          "safeFrame": null,
+          "bodyUniformScale": true,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "bodyFrames": 37,
+          "activeBodyFrames": 25,
+          "effectFrames": 144,
+          "activeEffectFrames": 120,
+          "weaponSources": 1,
+          "visibleWeaponRedraws": 0,
+          "hiddenGripCompletionPixels": 840
+        }
+      },
+      "spec": {
+        "rate": null,
+        "releaseAt": 1
+      },
+      "after": {
+        "last": {
+          "code": "V-999",
+          "eventType": "MERCENARY_HELIOS_AREA",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 12,
+          "playbackRate": 2.6,
+          "contactSeconds": 0.9538461538461538,
+          "durationSeconds": 2.230769230769231
+        },
+        "busy": false,
+        "visibleEffects": 0,
+        "atStation": true,
+        "damageCalls": 12
+      }
+    },
+    {
+      "label": "mobile",
+      "mode": "basic",
+      "contact": {
+        "time": 0.188,
+        "duration": 0.6538462,
+        "scale": 1,
+        "hpCalls": [
+          {
+            "id": "CN-02D9DC1E8A8A4209",
+            "input": 77,
+            "hp": 77
+          }
+        ],
+        "damageCalls": [
+          {
+            "id": "CN-02D9DC1E8A8A4209",
+            "damage": 23
+          }
+        ],
+        "fx": {
+          "ready": true,
+          "mode": "attack",
+          "time": 0.4888,
+          "playing": false,
+          "speed": 1,
+          "playbackRate": 2.6,
+          "durationSeconds": 0.6538461538461539,
+          "contactSeconds": [
+            0.1846153846153846
+          ],
+          "phase": "대각선 베기",
+          "pose": {
+            "at": 0.455,
+            "bank": "cut",
+            "index": 2,
+            "facing": 1
+          },
+          "contactCount": 1,
+          "bladeContact": {
+            "u": 0.5987540068965586,
+            "distance": 16.98070119531567,
+            "intersects": true
+          },
+          "groundError": 0,
+          "targets": [
+            {
+              "index": 0,
+              "at": 0.48,
+              "hit": true,
+              "visible": true
+            }
+          ],
+          "targetCount": 1,
+          "visibleEffects": 8,
+          "visibleWeapons": 0,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "giantTip": null,
+          "giantSwordBounds": null,
+          "swordBounds": [],
+          "swordContacts": [],
+          "safeFrame": null,
+          "bodyUniformScale": true,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "bodyFrames": 37,
+          "activeBodyFrames": 25,
+          "effectFrames": 144,
+          "activeEffectFrames": 120,
+          "weaponSources": 1,
+          "visibleWeaponRedraws": 0,
+          "hiddenGripCompletionPixels": 840
+        }
+      },
+      "spec": {
+        "rate": null,
+        "releaseAt": 0.23076923076923075
+      },
+      "after": {
+        "last": {
+          "code": "V-999",
+          "eventType": "ATTACK",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 1,
+          "playbackRate": 2.6,
+          "contactSeconds": 0.1846153846153846,
+          "durationSeconds": 0.6538461538461539
+        },
+        "busy": false,
+        "visibleEffects": 0,
+        "atStation": true,
+        "damageCalls": 1
+      }
+    },
+    {
+      "label": "mobile",
+      "mode": "enemy",
+      "contact": {
+        "time": 0.185,
+        "duration": 0.6538462,
+        "scale": 1,
+        "hpCalls": [
+          {
+            "id": "CN-02D9DC1E8A8A4209",
+            "input": 77,
+            "hp": 77
+          }
+        ],
+        "damageCalls": [
+          {
+            "id": "CN-02D9DC1E8A8A4209",
+            "damage": 23
+          }
+        ],
+        "fx": {
+          "ready": true,
+          "mode": "attack",
+          "time": 0.481,
+          "playing": false,
+          "speed": 1,
+          "playbackRate": 2.6,
+          "durationSeconds": 0.6538461538461539,
+          "contactSeconds": [
+            0.1846153846153846
+          ],
+          "phase": "대각선 베기",
+          "pose": {
+            "at": 0.455,
+            "bank": "cut",
+            "index": 2,
+            "facing": 1
+          },
+          "contactCount": 1,
+          "bladeContact": {
+            "u": 0.5987540068965584,
+            "distance": 16.98070119531568,
+            "intersects": true
+          },
+          "groundError": 0,
+          "targets": [
+            {
+              "index": 0,
+              "at": 0.48,
+              "hit": true,
+              "visible": true
+            }
+          ],
+          "targetCount": 1,
+          "visibleEffects": 8,
+          "visibleWeapons": 0,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "giantTip": null,
+          "giantSwordBounds": null,
+          "swordBounds": [],
+          "swordContacts": [],
+          "safeFrame": null,
+          "bodyUniformScale": true,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "bodyFrames": 37,
+          "activeBodyFrames": 25,
+          "effectFrames": 144,
+          "activeEffectFrames": 120,
+          "weaponSources": 1,
+          "visibleWeaponRedraws": 0,
+          "hiddenGripCompletionPixels": 840
+        }
+      },
+      "spec": {
+        "rate": null,
+        "releaseAt": 0.23076923076923075
+      },
+      "after": {
+        "last": {
+          "code": "V-999",
+          "eventType": "ATTACK",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 1,
+          "playbackRate": 2.6,
+          "contactSeconds": 0.1846153846153846,
+          "durationSeconds": 0.6538461538461539
+        },
+        "busy": false,
+        "visibleEffects": 0,
+        "atStation": true,
+        "damageCalls": 1
+      }
+    },
+    {
+      "label": "mobile",
+      "mode": "area",
+      "contact": {
+        "time": 0.957,
+        "duration": 2.2307692,
+        "scale": 1,
+        "hpCalls": [
+          {
+            "id": "B:0:ENCOUNTER:INITIAL",
+            "input": 8.000927643784788,
+            "hp": 8.000927643784788
+          },
+          {
+            "id": "B:1:ENCOUNTER:INITIAL",
+            "input": 53.99962356484096,
+            "hp": 53.99962356484096
+          },
+          {
+            "id": "B:2:ENCOUNTER:INITIAL",
+            "input": 53.99946516493369,
+            "hp": 53.99946516493369
+          },
+          {
+            "id": "B:3:ENCOUNTER:INITIAL",
+            "input": 53.99981962481962,
+            "hp": 53.99981962481962
+          },
+          {
+            "id": "B:4:ENCOUNTER:INITIAL",
+            "input": 53.99940968122786,
+            "hp": 53.99940968122786
+          },
+          {
+            "id": "B:5:ENCOUNTER:INITIAL",
+            "input": 54.00027056277056,
+            "hp": 54.00027056277056
+          },
+          {
+            "id": "B:6:ENCOUNTER:INITIAL",
+            "input": 54.0004831501389,
+            "hp": 54.0004831501389
+          },
+          {
+            "id": "B:7:ENCOUNTER:INITIAL",
+            "input": 54.000463821892396,
+            "hp": 54.000463821892396
+          },
+          {
+            "id": "B:8:ENCOUNTER:INITIAL",
+            "input": 53.99962356484096,
+            "hp": 53.99962356484096
+          },
+          {
+            "id": "B:9:ENCOUNTER:INITIAL",
+            "input": 53.99946516493369,
+            "hp": 53.99946516493369
+          },
+          {
+            "id": "B:10:ENCOUNTER:INITIAL",
+            "input": 53.99981962481962,
+            "hp": 53.99981962481962
+          },
+          {
+            "id": "B:11:ENCOUNTER:INITIAL",
+            "input": 53.99940968122786,
+            "hp": 53.99940968122786
+          }
+        ],
+        "damageCalls": [
+          {
+            "id": "B:0:ENCOUNTER:INITIAL",
+            "damage": 35703,
+            "compactArea": true
+          },
+          {
+            "id": "B:1:ENCOUNTER:INITIAL",
+            "damage": 39104,
+            "compactArea": true
+          },
+          {
+            "id": "B:2:ENCOUNTER:INITIAL",
+            "damage": 29243,
+            "compactArea": true
+          },
+          {
+            "id": "B:3:ENCOUNTER:INITIAL",
+            "damage": 30603,
+            "compactArea": true
+          },
+          {
+            "id": "B:4:ENCOUNTER:INITIAL",
+            "damage": 37404,
+            "compactArea": true
+          },
+          {
+            "id": "B:5:ENCOUNTER:INITIAL",
+            "damage": 34003,
+            "compactArea": true
+          },
+          {
+            "id": "B:6:ENCOUNTER:INITIAL",
+            "damage": 38083,
+            "compactArea": true
+          },
+          {
+            "id": "B:7:ENCOUNTER:INITIAL",
+            "damage": 35703,
+            "compactArea": true
+          },
+          {
+            "id": "B:8:ENCOUNTER:INITIAL",
+            "damage": 39104,
+            "compactArea": true
+          },
+          {
+            "id": "B:9:ENCOUNTER:INITIAL",
+            "damage": 29243,
+            "compactArea": true
+          },
+          {
+            "id": "B:10:ENCOUNTER:INITIAL",
+            "damage": 30603,
+            "compactArea": true
+          },
+          {
+            "id": "B:11:ENCOUNTER:INITIAL",
+            "damage": 37404,
+            "compactArea": true
+          }
+        ],
+        "fx": {
+          "ready": true,
+          "mode": "ultimate",
+          "time": 2.4882,
+          "playing": false,
+          "speed": 1,
+          "playbackRate": 2.6,
+          "durationSeconds": 2.230769230769231,
+          "contactSeconds": [
+            0.9538461538461538
+          ],
+          "phase": "지면 강타 · 진형 파열",
+          "pose": {
+            "at": 2.15,
+            "bank": "ultimate",
+            "index": 4,
+            "facing": 1
+          },
+          "contactCount": 1,
+          "bladeContact": {
+            "u": 0,
+            "distance": 407.5112139286883,
+            "intersects": false
+          },
+          "groundError": 0,
+          "targets": [
+            {
+              "index": 0,
+              "at": 2.795,
+              "hit": false,
+              "visible": true
+            },
+            {
+              "index": 1,
+              "at": 2.7733753217047177,
+              "hit": false,
+              "visible": true
+            },
+            {
+              "index": 2,
+              "at": 2.7885838892690837,
+              "hit": false,
+              "visible": true
+            },
+            {
+              "index": 3,
+              "at": 2.639815499071445,
+              "hit": false,
+              "visible": true
+            },
+            {
+              "index": 4,
+              "at": 2.6015365310540703,
+              "hit": false,
+              "visible": true
+            },
+            {
+              "index": 5,
+              "at": 2.653314006307589,
+              "hit": false,
+              "visible": true
+            },
+            {
+              "index": 6,
+              "at": 2.653314006307589,
+              "hit": false,
+              "visible": true
+            },
+            {
+              "index": 7,
+              "at": 2.6015365310540703,
+              "hit": false,
+              "visible": true
+            },
+            {
+              "index": 8,
+              "at": 2.6398154990714455,
+              "hit": false,
+              "visible": true
+            },
+            {
+              "index": 9,
+              "at": 2.7885838892690837,
+              "hit": false,
+              "visible": true
+            },
+            {
+              "index": 10,
+              "at": 2.7733753217047177,
+              "hit": false,
+              "visible": true
+            },
+            {
+              "index": 11,
+              "at": 2.795,
+              "hit": false,
+              "visible": true
+            }
+          ],
+          "targetCount": 12,
+          "visibleEffects": 12,
+          "visibleWeapons": 1,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "giantTip": {
+            "tip": {
+              "x": 780.1898360655737,
+              "y": 942.8180204918032
+            },
+            "ground": {
+              "x": 780.1898360655737,
+              "y": 926.5737704918032
+            },
+            "buried": true,
+            "rigid": true
+          },
+          "giantSwordBounds": {
+            "minX": 131.34194678192137,
+            "minY": 49.12258741106734,
+            "maxX": 395.79746467816125,
+            "maxY": 314.0055555555554,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "swordBounds": [
+            {
+              "minX": 131.34194678192137,
+              "minY": 49.12258741106734,
+              "maxX": 395.79746467816125,
+              "maxY": 314.0055555555554,
+              "matrix": {
+                "array": null,
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 0,
+                "ty": 0
+              }
+            }
+          ],
+          "swordContacts": [],
+          "safeFrame": null,
+          "bodyUniformScale": true,
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "bodyFrames": 37,
+          "activeBodyFrames": 25,
+          "effectFrames": 144,
+          "activeEffectFrames": 120,
+          "weaponSources": 1,
+          "visibleWeaponRedraws": 0,
+          "hiddenGripCompletionPixels": 840
+        }
+      },
+      "spec": {
+        "rate": null,
+        "releaseAt": 1
+      },
+      "after": {
+        "last": {
+          "code": "V-999",
+          "eventType": "MERCENARY_HELIOS_AREA",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 12,
+          "playbackRate": 2.6,
+          "contactSeconds": 0.9538461538461538,
+          "durationSeconds": 2.230769230769231
+        },
+        "busy": false,
+        "visibleEffects": 0,
+        "atStation": true,
+        "damageCalls": 12
+      }
+    },
+    {
+      "label": "desktop",
+      "mode": "loadout",
+      "pve": true,
+      "pvp": true,
+      "persisted": true
+    },
+    {
+      "label": "mobile",
+      "mode": "loadout",
+      "pve": true,
+      "pvp": true,
+      "persisted": true
+    }
+  ],
+  "errors": []
+}

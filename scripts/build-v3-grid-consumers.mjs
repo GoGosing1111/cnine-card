@@ -51,6 +51,7 @@ await import('./build-sustained-hunt-v2.mjs');
 const huntBundle = 'preview/sustained-hunt-v2/battle.bundle.js';
 outputs.push({file: huntBundle, sha256: hash(await readFile(huntBundle, 'utf8')), commonGrid: true});
 const sources = [{file:'preview/project-v-v3/source/battle/SkillEffectFX.js',sha256:hash(await readFile('preview/project-v-v3/source/battle/SkillEffectFX.js','utf8'))}];
+for(const file of ['preview/project-v-v3/source/battle/HeliosCombatPlayback.js','shared/mercenary-helios-v1.mjs','preview/mercenary-limited-solar-sword-20261009-v1/source/SolarFX.js','preview/mercenary-limited-solar-sword-20261009-v1/motion.mjs'])sources.push({file,sha256:hash(await readFile(file,'utf8'))});
 sources.push({file:'preview/project-v-v3/source/battle/SXSuitCamera.js',sha256:hash(await readFile('preview/project-v-v3/source/battle/SXSuitCamera.js','utf8'))});
 for(const file of ['preview/project-v-v3/source/battle/BerkanCombatPlayback.js','preview/mercenary-berkan-sss-v1/source/BerkanFX.js','preview/mercenary-berkan-sss-v1/skill.mjs','shared/mercenary-berkan-v1.mjs','preview/mercenary-berkan-area-v1/source/BerkanAreaFX.js','preview/mercenary-berkan-area-v1/skill.mjs'])sources.push({file,sha256:hash(await readFile(file,'utf8'))});
 for(const file of ['preview/project-v-v3/source/battle/CryvernCombatPlayback.js','preview/mercenary-ice-crystal-dual-sword-v1/source/IceDualSwordFX.js','preview/mercenary-ice-crystal-dual-sword-v1/skill.mjs','shared/mercenary-cryvern-v1.mjs'])sources.push({file,sha256:hash(await readFile(file,'utf8'))});
