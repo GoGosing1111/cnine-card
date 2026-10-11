@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SS 리미티드 · 할로윈 컬렉션</title>
+<style>
+@font-face{font-family:ReviewKR;src:url('../../assets/fonts/lich-raid/NotoSansKR-lich-v1.woff2') format('woff2');font-display:swap}
+:root{color-scheme:dark;--ink:#f3e9dc;--muted:#b1a8ac;--gold:#e5bb80;--line:#433841}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);background:#100e15;font-family:ReviewKR,'Malgun Gothic',sans-serif;background-image:radial-gradient(ellipse at 10% 0,#49293660,transparent 55%),radial-gradient(ellipse at 92% 20%,#31474c45,transparent 50%)}button,a{font:inherit}button,a[href]{touch-action:manipulation}button{cursor:pointer}button:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:4px}a{color:#e4cbae;text-underline-offset:4px}
+header,main{max-width:1560px;margin:auto;padding:0 28px}header{padding-top:34px;padding-bottom:23px}.eyebrow{color:var(--gold);font-size:11px;letter-spacing:.22em;margin:0 0 9px}h1{font-size:clamp(25px,3vw,38px);font-weight:700;letter-spacing:-.055em;margin:0}.intro{font-size:13px;color:var(--muted);margin:10px 0 21px;line-height:1.8}.controls{display:flex;justify-content:space-between;gap:18px;align-items:center;flex-wrap:wrap}.view-modes{display:flex;gap:5px;padding:4px;background:#1d1823;border:1px solid var(--line);border-radius:10px}.view-modes button{border:0;background:none;color:#c5b9c3;padding:11px 16px;border-radius:6px;font-size:13px;min-height:44px}.view-modes button[aria-pressed=true]{color:#251b17;background:#e2c39d}.control-links{display:flex;gap:20px;font-size:12px}.control-links a{padding:10px 0}main{padding-bottom:40px}
+.gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}.entry{min-width:0;border:1px solid var(--line);border-radius:12px;background:#1b1720cc;overflow:hidden;box-shadow:0 18px 42px #0004}.caption{padding:16px 18px 14px;display:flex;justify-content:space-between;gap:9px;align-items:center}.caption h2{font-size:20px;letter-spacing:-.04em;margin:0}.caption p{font-size:11px;color:var(--muted);margin:5px 0 0;line-height:1.65}.status{font-size:10px;white-space:nowrap;letter-spacing:.02em;padding:6px 8px;border:1px solid #597363;border-radius:5px;color:#b7d8c4;background:#23382b66}.status.pending{border-color:#806540;background:#49372550;color:#edc890}.painting{display:block;position:relative;isolation:isolate;aspect-ratio:2/3;width:100%;margin:0 auto;background:#100f15;overflow:hidden;border:0;padding:0;text-decoration:none;color:inherit}.painting:has(img){cursor:zoom-in}.art-window{position:absolute;inset:0}.art{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:contain}.frame{display:none;position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.empty{display:grid;place-content:center;position:absolute;inset:0;text-align:center;padding:20px;line-height:1.8;background:radial-gradient(ellipse,#302430 0,#14121b 70%)}.empty strong{font-size:19px;color:#ddc8aa}.empty span{font-size:12px;color:#a99aa7;margin-top:7px}.foot{padding:12px 16px 15px;display:flex;gap:16px;align-items:center;justify-content:space-between;font-size:11px;line-height:1.6}.foot a{min-height:32px;display:flex;align-items:center}.foot span{color:var(--muted)}body[data-mode=frame] .art-window{left:5.95703125%;top:5.79427083%;width:88.0859375%;height:88.0859375%;border-radius:3%;overflow:hidden}body[data-mode=frame] .frame{display:block}body[data-mode=small] .painting{width:160px}body[data-mode=small] .entry{padding-bottom:4px}body[data-mode=small] .gallery{grid-template-columns:repeat(3,minmax(0,1fr))}.note{font-size:11px;color:#b1a1af;line-height:1.8;margin:24px 0 0}.error{padding:22px;border:1px solid #b76a5c;border-radius:8px;line-height:1.8}.error a{display:inline-block;margin-top:8px}
+dialog{border:1px solid #756151;background:#16131c;color:var(--ink);border-radius:12px;padding:15px;max-width:95vw;max-height:95vh}dialog::backdrop{background:#080610ed;backdrop-filter:blur(7px)}dialog header{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:0 0 12px}dialog h2{font-size:17px;margin:0}dialog button{min-width:44px;min-height:44px;border:1px solid #736555;border-radius:6px;background:#28222d;color:var(--ink)}dialog .painting,body[data-mode=small] dialog .painting{width:min(84vw,50vh)}
+@media(max-width:1000px){.gallery{grid-template-columns:repeat(2,minmax(0,1fr))}body[data-mode=small] .gallery{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:600px){header,main{padding-left:16px;padding-right:16px}header{padding-top:26px}.gallery{grid-template-columns:1fr;gap:18px}.controls{gap:8px}.view-modes{width:100%}.view-modes button{flex:1;padding:10px 7px;font-size:12px}.control-links{gap:17px}.caption h2{font-size:21px}.caption p{font-size:12px}.foot{font-size:12px}.status{font-size:11px}body[data-mode=small] .gallery{grid-template-columns:1fr}body[data-mode=small] .painting{width:160px}}
+@media(prefers-reduced-motion:no-preference){button,a{transition:background-color .15s,border-color .15s}}
+</style>
+</head>
+<body data-mode="art">
+<header>
+  <p class="eyebrow">SS LIMITED / HALLOWEEN COLLECTION</p>
+  <h1>할로윈 컬렉션</h1>
+  <p class="intro" id="summary">원화와 승인 상태를 불러오고 있습니다.</p>
+  <div class="controls">
+    <nav class="view-modes" aria-label="원화 보기 방식">
+      <button type="button" data-mode="art" aria-pressed="true">원화</button>
+      <button type="button" data-mode="frame" aria-pressed="false">V3 프레임</button>
+      <button type="button" data-mode="small" aria-pressed="false">160px</button>
+      <button type="button" data-mode="reference" aria-pressed="false">기존 원화</button>
+    </nav>
+    <div class="control-links"><a href="approval-20261011.json" target="_blank" rel="noopener">승인 기록 ↗</a><a href="manifest.json" target="_blank" rel="noopener">파일 목록 ↗</a></div>
+  </div>
+</header>
+<main>
+  <div class="gallery" id="gallery" aria-live="polite"></div>
+  <p class="note">그림을 누르면 확대합니다. 기존 승인 원화는 얼굴·체형·작화 비교용입니다. 조은·디임의 이전 시안은 현재 원화로 표시하지 않습니다.</p>
+</main>
+<dialog id="lightbox"><header><h2 id="lightbox-title"></h2><button type="button" id="close" aria-label="확대 닫기">✕</button></header><div id="lightbox-art"></div></dialog>
+<script id="gallery-data" type="application/json">{"frame":{"path":"../../assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png"},"characters":[{"code":"V-990","name":"나무늘봉순","concept":"할로윈 뱀파이어 제복 · 소총","status":"APPROVED_SOURCE_ART","sourceArt":"assets/bongsoon-halloween-source-art-v1.png","sourceArtVersion":1,"referenceArt":"../../assets/ui/project-v/mercenaries/limited-20261002/v-990-source-art-approved-20261002.png"},{"code":"V-991","name":"조은","concept":"할로윈 고딕 오피스룩 · 기관총","status":"USER_REVIEW_PENDING","sourceArt":"assets/joeun-halloween-new-pose-v3.png","sourceArtVersion":3,"referenceArt":"../../assets/ui/project-v/mercenaries/limited-20261002/v-991-source-art.png"},{"code":"V-998","name":"하이희야","concept":"할로윈 마녀 메이드복 · 빗자루","status":"APPROVED_SOURCE_ART","sourceArt":"assets/hi-heeya-halloween-source-art-v1.png","sourceArtVersion":1,"referenceArt":"../../assets/ui/project-v/mercenaries/limited-20261004/v-998-hi-heeya-source-art-approved.png"},{"code":"V-993","name":"오리꿍","concept":"할로윈 호박 마법사 · 마법서와 지팡이","status":"APPROVED_SOURCE_ART","sourceArt":"assets/orikkung-halloween-source-art-v1.png","sourceArtVersion":1,"referenceArt":"../../assets/ui/project-v/mercenaries/limited-20261002/v-993-source-art.png"},{"code":"V-994","name":"디임","concept":"할로윈 성기사 제복 · 검과 방패","status":"USER_REVIEW_PENDING","sourceArt":"assets/diim-halloween-new-pose-v3.png","sourceArtVersion":3,"referenceArt":"../../assets/ui/project-v/mercenaries/limited-20261002/v-994-source-art.png"},{"code":"V-997","name":"아윤","concept":"할로윈 고딕 치어리더복 · 표창","status":"APPROVED_SOURCE_ART","sourceArt":"assets/ayoon-halloween-source-art-v1.png","sourceArtVersion":1,"referenceArt":"../../assets/ui/project-v/mercenaries/limited-20261004/v-997-ayoon-source-art-approved.png"}]}</script>
+<script type="module">
+const gallery = document.querySelector('#gallery');
+const dialog = document.querySelector('#lightbox');
+let manifest;
+const element = (tag, className, text) => {const node = document.createElement(tag);if(className)node.className=className;if(text!==undefined)node.textContent=text;return node};
+const link = (text, href) => {const node=element('a',null,text);node.href=href;node.target='_blank';node.rel='noopener';return node};
+function makePainting(character) {
+  const reference = document.body.dataset.mode === 'reference';
+  const artPath = reference ? character.referenceArt : character.sourceArt;
+  const painting = element(artPath ? 'button' : 'div','painting');
+  if (!artPath) {const empty=element('div','empty');empty.append(element('strong',null,'새 포즈 준비 중'),element('span',null,'새 원화가 연결되면 이곳에 표시됩니다.'));painting.append(empty);return painting;}
+  painting.type='button';painting.setAttribute('aria-label',`${character.name} ${reference?'기존 승인':'할로윈'} 원화 확대`);
+  const window=element('div','art-window'),art=element('img','art');art.src=artPath;art.alt=`${character.name} · ${reference?'기존 승인 원화':character.concept}`;art.loading='lazy';art.decoding='async';window.append(art);painting.append(window);
+  const frame=element('img','frame');frame.src=manifest.frame.path;frame.alt='';frame.loading='lazy';painting.append(frame);
+  painting.addEventListener('click',()=>{document.querySelector('#lightbox-title').textContent=`${character.name} · ${reference?'기존 승인 원화':character.concept}`;const zoom=painting.cloneNode(true);zoom.removeAttribute('type');zoom.removeAttribute('aria-label');zoom.querySelector('.art').loading='eager';document.querySelector('#lightbox-art').replaceChildren(zoom);dialog.showModal()});
+  return painting;
+}
+function render() {
+  gallery.replaceChildren();
+  for(const character of manifest.characters) {
+    const entry=element('article','entry'),caption=element('div','caption'),title=element('div');
+    title.append(element('h2',null,character.name),element('p',null,character.concept));
+    const approved=character.status==='APPROVED_SOURCE_ART';
+    caption.append(title,element('span',`status${approved?'':' pending'}`,approved?'원화 승인':character.sourceArt?'새 포즈 검수':'새 포즈 준비'));
+    const foot=element('div','foot');
+    foot.append(character.sourceArt?link(`원본 PNG · V${character.sourceArtVersion??3} ↗`,character.sourceArt):element('span',null,'조은·디임 이전 시안 제외'),link('얼굴·체형 참고 ↗',character.referenceArt));
+    entry.append(caption,makePainting(character),foot);gallery.append(entry);
+  }
+}
+for(const button of document.querySelectorAll('.view-modes button'))button.addEventListener('click',()=>{document.body.dataset.mode=button.dataset.mode;for(const other of document.querySelectorAll('.view-modes button'))other.setAttribute('aria-pressed',String(other===button));if(manifest)render()});
+document.querySelector('#close').addEventListener('click',()=>dialog.close());
+dialog.addEventListener('click',event=>{if(event.target===dialog){const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close()}});
+try {
+  if(location.protocol==='file:') manifest=JSON.parse(document.querySelector('#gallery-data').textContent);
+  else {const response=await fetch('./manifest.json',{cache:'no-store'});if(!response.ok)throw new Error(`HTTP ${response.status}`);manifest=await response.json();}
+  const approved=manifest.characters.filter(c=>c.status==='APPROVED_SOURCE_ART').length;
+  const pending=manifest.characters.length-approved;
+  document.querySelector('#summary').textContent=`${approved}종 원화 승인 · ${pending}종 새 포즈${manifest.characters.some(c=>c.status!=='APPROVED_SOURCE_ART'&&c.sourceArt)?' 검수':' 제작'} · 얼굴·체형·작화를 비교할 수 있습니다.`;
+  render();
+} catch(error) {
+  document.querySelector('#summary').textContent='원화 목록을 불러오지 못했습니다.';
+  const message=element('div','error','manifest.json을 읽을 수 없습니다. 프로젝트 로컬 미리보기 서버에서 이 페이지를 열어 주세요.');message.append(document.createElement('br'),link('파일 목록 보기 ↗','manifest.json'));gallery.append(message);console.error(error);
+}
+</script>
+</body>
+</html>

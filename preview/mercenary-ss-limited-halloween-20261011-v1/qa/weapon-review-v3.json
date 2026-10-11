@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-11",
+  "method": "Original full image viewed alongside browser-only pixel-scale weapon screenshots; no original image processing",
+  "reviewer": "Codex visual inspection",
+  "userApproval": "PENDING",
+  "characters": [
+    {
+      "code": "V-991",
+      "sourceArt": "assets/joeun-halloween-new-pose-v3.png",
+      "weaponEvidence": "qa/joeun-v3-weapon-css-inspection.png",
+      "findings": [
+        "A new standing shoulder-fire pose replaces the earlier low diagonal carry.",
+        "Stock, receiver, handguard, exposed barrel and muzzle form one consistent near-horizontal rigid assembly; no visible bend at the support hand or barrel junction.",
+        "Upper rail and sight remain aligned with the firearm; the weapon is fully visible through the muzzle.",
+        "The firing hand closes around the pistol grip with index at the trigger; the support hand wraps the lower handguard; buttstock meets the shoulder region."
+      ],
+      "visualWeaponAssessment": "No visible bend or disconnected grip found in the reviewed V3 image. Final artistic approval remains with the user."
+    },
+    {
+      "code": "V-994",
+      "sourceArt": "assets/diim-halloween-new-pose-v3.png",
+      "weaponEvidence": "qa/diim-v3-weapon-css-inspection.png",
+      "findings": [
+        "The sword is now held upright beside the body, replacing the earlier downward diagonal pose.",
+        "Pommel, grip, center of guard and long blade share a continuous near-vertical axis with no visible hilt-to-blade kink.",
+        "The blade edges remain straight through the taper to the tip; decorative bat guard is distinct from the blade geometry.",
+        "A closed gloved hand wraps the grip directly beneath the guard; fingers and wrist connect to the sword hand."
+      ],
+      "visualWeaponAssessment": "No visible bend or open/disconnected sword grip found in the reviewed V3 image. Final artistic approval remains with the user."
+    }
+  ]
+}

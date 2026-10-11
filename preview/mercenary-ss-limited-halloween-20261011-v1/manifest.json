@@ -1,0 +1,258 @@
+{
+  "version": 1,
+  "date": "2026-10-11",
+  "title": "SS 리미티드 · 할로윈 컬렉션",
+  "scope": "Source illustration review only; no runtime, catalog, skill, acquisition or SD changes",
+  "runtimeEnabled": false,
+  "approvalRecord": "approval-20261011.json",
+  "frame": {
+    "path": "../../assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+    "sha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA",
+    "artInset": {
+      "leftPercent": 5.95703125,
+      "topPercent": 5.79427083,
+      "widthPercent": 88.0859375,
+      "heightPercent": 88.0859375
+    }
+  },
+  "characters": [
+    {
+      "code": "V-990",
+      "name": "나무늘봉순",
+      "slug": "bongsoon",
+      "rank": "SS",
+      "limited": true,
+      "concept": "할로윈 뱀파이어 제복 · 소총",
+      "status": "APPROVED_SOURCE_ART",
+      "sourceArt": "assets/bongsoon-halloween-source-art-v1.png",
+      "sourceArtVersion": 1,
+      "sourceArtSha256": "1A42AE8E93BEE0BE9ECABE0693CE2178BB9EE55FA7BB52460631E9CA25BC9314",
+      "referenceArt": "../../assets/ui/project-v/mercenaries/limited-20261002/v-990-source-art-approved-20261002.png",
+      "history": [],
+      "preserved": [
+        {
+          "version": 1,
+          "path": "assets/bongsoon-halloween-source-art-v1.png",
+          "originalGeneratedPath": "C:/Users/User/.codex/generated_images/01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd/exec-99847ed7-5bbd-406e-80a1-56515c319ba2.png",
+          "format": "PNG",
+          "width": 1024,
+          "height": 1536,
+          "mode": "RGB",
+          "bitDepth": 8,
+          "bytes": 2811804,
+          "sha256": "1A42AE8E93BEE0BE9ECABE0693CE2178BB9EE55FA7BB52460631E9CA25BC9314",
+          "copyMethod": "byte-identical fs.copyFile",
+          "status": "APPROVED_SOURCE_ART"
+        }
+      ]
+    },
+    {
+      "code": "V-991",
+      "name": "조은",
+      "slug": "joeun",
+      "rank": "SS",
+      "limited": true,
+      "concept": "할로윈 고딕 오피스룩 · 기관총",
+      "status": "USER_REVIEW_PENDING",
+      "sourceArt": "assets/joeun-halloween-new-pose-v3.png",
+      "sourceArtVersion": 3,
+      "sourceArtSha256": "F5EB574037602252CE32C6F266300A0F31BA9A9589484644FB047FC22090AD24",
+      "referenceArt": "../../assets/ui/project-v/mercenaries/limited-20261002/v-991-source-art.png",
+      "history": [
+        {
+          "version": 1,
+          "path": "history/joeun-halloween-source-art-v1.png",
+          "originalGeneratedPath": "C:/Users/User/.codex/generated_images/01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd/exec-dd4342a8-3bf8-4b37-b4c1-4d8d807c3a65.png",
+          "format": "PNG",
+          "width": 1024,
+          "height": 1536,
+          "mode": "RGB",
+          "bitDepth": 8,
+          "bytes": 2553126,
+          "sha256": "CCFBF2305F1A8660D1FD69575AAF5ABEB1B91E3231761A53CDD6445A790FAD7D",
+          "copyMethod": "byte-identical fs.copyFile",
+          "status": "REJECTED_SUPERSEDED_NEW_POSE_REQUESTED"
+        },
+        {
+          "version": 2,
+          "path": "history/joeun-halloween-source-art-v2.png",
+          "originalGeneratedPath": "C:/Users/User/.codex/generated_images/01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd/exec-f90c4b2b-5bd3-4728-9e17-ad3ac7efb59d.png",
+          "format": "PNG",
+          "width": 1024,
+          "height": 1536,
+          "mode": "RGB",
+          "bitDepth": 8,
+          "bytes": 2420065,
+          "sha256": "ACEAF2381BAC1FE0D76E53C112D8D70969EAC28DB0F3641ECDE96E6DE04AC15F",
+          "copyMethod": "byte-identical fs.copyFile",
+          "status": "REJECTED_SUPERSEDED_NEW_POSE_REQUESTED"
+        }
+      ],
+      "preserved": [
+        {
+          "version": 3,
+          "path": "assets/joeun-halloween-new-pose-v3.png",
+          "originalGeneratedPath": "C:/Users/User/.codex/generated_images/01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd/exec-18468c7f-7244-4a37-b6cf-4a58e8d4a05e.png",
+          "width": 1024,
+          "height": 1536,
+          "format": "PNG",
+          "mode": "RGB",
+          "bitDepth": 8,
+          "bytes": 2664748,
+          "sha256": "F5EB574037602252CE32C6F266300A0F31BA9A9589484644FB047FC22090AD24",
+          "status": "USER_REVIEW_PENDING",
+          "copyMethod": "byte-identical fs.copyFile"
+        }
+      ]
+    },
+    {
+      "code": "V-998",
+      "name": "하이희야",
+      "slug": "hi-heeya",
+      "rank": "SS",
+      "limited": true,
+      "concept": "할로윈 마녀 메이드복 · 빗자루",
+      "status": "APPROVED_SOURCE_ART",
+      "sourceArt": "assets/hi-heeya-halloween-source-art-v1.png",
+      "sourceArtVersion": 1,
+      "sourceArtSha256": "B81C5724A221292DE409C9704A670331BB5F440B773E1AA78D8FFD9BC3645A32",
+      "referenceArt": "../../assets/ui/project-v/mercenaries/limited-20261004/v-998-hi-heeya-source-art-approved.png",
+      "history": [],
+      "preserved": [
+        {
+          "version": 1,
+          "path": "assets/hi-heeya-halloween-source-art-v1.png",
+          "originalGeneratedPath": "C:/Users/User/.codex/generated_images/01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd/exec-e514ec58-4afc-4d90-b6ae-5f0c3fa13476.png",
+          "format": "PNG",
+          "width": 1024,
+          "height": 1536,
+          "mode": "RGB",
+          "bitDepth": 8,
+          "bytes": 2812433,
+          "sha256": "B81C5724A221292DE409C9704A670331BB5F440B773E1AA78D8FFD9BC3645A32",
+          "copyMethod": "byte-identical fs.copyFile",
+          "status": "APPROVED_SOURCE_ART"
+        }
+      ]
+    },
+    {
+      "code": "V-993",
+      "name": "오리꿍",
+      "slug": "orikkung",
+      "rank": "SS",
+      "limited": true,
+      "concept": "할로윈 호박 마법사 · 마법서와 지팡이",
+      "status": "APPROVED_SOURCE_ART",
+      "sourceArt": "assets/orikkung-halloween-source-art-v1.png",
+      "sourceArtVersion": 1,
+      "sourceArtSha256": "9BDE220B71B146EB1878381664924B4A1668EFA7D211EF32E059C28A97AD10E9",
+      "referenceArt": "../../assets/ui/project-v/mercenaries/limited-20261002/v-993-source-art.png",
+      "history": [],
+      "preserved": [
+        {
+          "version": 1,
+          "path": "assets/orikkung-halloween-source-art-v1.png",
+          "originalGeneratedPath": "C:/Users/User/.codex/generated_images/01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd/exec-3e244745-0dfd-47d6-ba07-c1eb3f0b5587.png",
+          "format": "PNG",
+          "width": 1024,
+          "height": 1536,
+          "mode": "RGB",
+          "bitDepth": 8,
+          "bytes": 2758104,
+          "sha256": "9BDE220B71B146EB1878381664924B4A1668EFA7D211EF32E059C28A97AD10E9",
+          "copyMethod": "byte-identical fs.copyFile",
+          "status": "APPROVED_SOURCE_ART"
+        }
+      ]
+    },
+    {
+      "code": "V-994",
+      "name": "디임",
+      "slug": "diim",
+      "rank": "SS",
+      "limited": true,
+      "concept": "할로윈 성기사 제복 · 검과 방패",
+      "status": "USER_REVIEW_PENDING",
+      "sourceArt": "assets/diim-halloween-new-pose-v3.png",
+      "sourceArtVersion": 3,
+      "sourceArtSha256": "9FEAD0C350CC3B923E4FB2DB0EEF3ED04925E6D3CD73B6E1FD82AB86D6898EB0",
+      "referenceArt": "../../assets/ui/project-v/mercenaries/limited-20261002/v-994-source-art.png",
+      "history": [
+        {
+          "version": 1,
+          "path": "history/diim-halloween-source-art-v1.png",
+          "originalGeneratedPath": "C:/Users/User/.codex/generated_images/01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd/exec-a0c2c033-54b5-4916-bb90-de6962fc0112.png",
+          "format": "PNG",
+          "width": 1024,
+          "height": 1536,
+          "mode": "RGB",
+          "bitDepth": 8,
+          "bytes": 3044028,
+          "sha256": "67846A2A382099BCF9F393355E685AB4FC9842F9B75D0046AEE85F25AD89D415",
+          "copyMethod": "byte-identical fs.copyFile",
+          "status": "REJECTED_SUPERSEDED_NEW_POSE_REQUESTED"
+        },
+        {
+          "version": 2,
+          "path": "history/diim-halloween-source-art-v2.png",
+          "originalGeneratedPath": "C:/Users/User/.codex/generated_images/01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd/exec-92456744-5d3a-4bb8-9f9f-e2005d6dc15e.png",
+          "format": "PNG",
+          "width": 1024,
+          "height": 1536,
+          "mode": "RGB",
+          "bitDepth": 8,
+          "bytes": 2904443,
+          "sha256": "DD11BC38C7FD2E2E4C1A33179A8D912D6ECCD98011D97AB854B0C27244BF2D2E",
+          "copyMethod": "byte-identical fs.copyFile",
+          "status": "REJECTED_SUPERSEDED_NEW_POSE_REQUESTED"
+        }
+      ],
+      "preserved": [
+        {
+          "version": 3,
+          "path": "assets/diim-halloween-new-pose-v3.png",
+          "originalGeneratedPath": "C:/Users/User/.codex/generated_images/01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd/exec-bd4e30b6-64a3-4b5e-8968-f534c3884268.png",
+          "width": 1024,
+          "height": 1536,
+          "format": "PNG",
+          "mode": "RGB",
+          "bitDepth": 8,
+          "bytes": 3013137,
+          "sha256": "9FEAD0C350CC3B923E4FB2DB0EEF3ED04925E6D3CD73B6E1FD82AB86D6898EB0",
+          "status": "USER_REVIEW_PENDING",
+          "copyMethod": "byte-identical fs.copyFile"
+        }
+      ]
+    },
+    {
+      "code": "V-997",
+      "name": "아윤",
+      "slug": "ayoon",
+      "rank": "SS",
+      "limited": true,
+      "concept": "할로윈 고딕 치어리더복 · 표창",
+      "status": "APPROVED_SOURCE_ART",
+      "sourceArt": "assets/ayoon-halloween-source-art-v1.png",
+      "sourceArtVersion": 1,
+      "sourceArtSha256": "7DB1879718978A547D058376F318A4F2B4EE241067981523D8327DAC6F149A2D",
+      "referenceArt": "../../assets/ui/project-v/mercenaries/limited-20261004/v-997-ayoon-source-art-approved.png",
+      "history": [],
+      "preserved": [
+        {
+          "version": 1,
+          "path": "assets/ayoon-halloween-source-art-v1.png",
+          "originalGeneratedPath": "C:/Users/User/.codex/generated_images/01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd/exec-56a2d052-f7a6-46a8-afb8-937f29e3d7ce.png",
+          "format": "PNG",
+          "width": 1024,
+          "height": 1536,
+          "mode": "RGB",
+          "bitDepth": 8,
+          "bytes": 2621596,
+          "sha256": "7DB1879718978A547D058376F318A4F2B4EE241067981523D8327DAC6F149A2D",
+          "copyMethod": "byte-identical fs.copyFile",
+          "status": "APPROVED_SOURCE_ART"
+        }
+      ]
+    }
+  ]
+}
