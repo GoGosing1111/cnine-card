@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-10-12",
+  "label": "백금 대검 기사 · 서 있는 대기 자세 시안",
+  "status": "VISUAL_REVIEW_PENDING",
+  "scope": "Single full-body standing-pose resource candidate requested by the user; no animation sequence or runtime registration.",
+  "generation": {
+    "mode": "built-in image_gen",
+    "intent": "generate",
+    "useCase": "stylized-concept",
+    "transparentBackground": true,
+    "prompt": "prompts/standing-v1.txt",
+    "inputs": [
+      {
+        "path": "assets/source/user-reference.png",
+        "role": "character-design reference",
+        "sha256": "5e005753e8746bb901df808af28886ac67815245b54ebafca02739546d6e6838"
+      }
+    ]
+  },
+  "asset": {
+    "path": "assets/ivory-knight-standing-v1.png",
+    "width": 1131,
+    "height": 1391,
+    "format": "PNG",
+    "channels": 4,
+    "bytes": 2210503,
+    "sha256": "429c837471f896b2745efd5a574b249f970f27c6e7ee2f7d0eb05a877774590f",
+    "alphaBoundsOver8": {
+      "x": 9,
+      "y": 13,
+      "width": 1115,
+      "height": 1363
+    },
+    "postProcessing": "none; generated output copied byte-for-byte"
+  },
+  "visualReview": {
+    "checked": [
+      "Closed ivory horned helmet, antique-gold plate, pale hair, dark/ivory cloth and ornate greatsword match the design reference.",
+      "Adult body proportions retained; knee, lower leg and armored boots fully visible.",
+      "Pommel, grip, guard and blade form a straight continuous sword axis.",
+      "Hand grips the handle; both arms and boots are complete.",
+      "Character silhouette and sword tip do not touch canvas edges.",
+      "Background alpha ranges from 0 to 255; no UI, carousel controls, text or scenic backdrop."
+    ],
+    "userApproval": "pending"
+  },
+  "runtimeEnabled": false,
+  "animation": {
+    "frameCount": 1,
+    "type": "static-standing-pose",
+    "sequence": false
+  },
+  "economicOrCatalogChanges": false
+}
