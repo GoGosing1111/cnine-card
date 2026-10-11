@@ -14,7 +14,7 @@ test('현재 영토전은 두 API 모두 25명 자동 발동 투표로 연결하
   assert.match(server,/현재 지정된 진영 지휘관만 전술 작전을 발동할 수 있습니다/);
   assert.match(server,/counter_command_\$\{round\.id\}_\$\{mine\.side\}/);
   assert.match(server,/path==='territory-war\/activate-operation'\|\|path==='territory-war\/vote-operation'/);
-  assert.match(server,/if\(isClanWarfare\(round\)\)return submitTerritoryVote/);
+  assert.match(server,/if\(hasTerritorySkills\(round\)\)return submitTerritoryVote/);
   assert.match(server,/settlePendingTerritoryVotes\(env,round,cfg\)/);
   assert.match(client,/territory-war\/activate-operation/);
   assert.match(client,/territory-war\/vote-operation/);

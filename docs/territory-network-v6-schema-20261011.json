@@ -1,0 +1,26 @@
+{
+  "schema": "territory_network_v6_20261011",
+  "appliedAt": "2026-10-11T09:28:59.969Z",
+  "mode": "OFF",
+  "roundBefore": {
+    "id": "69",
+    "status": "DISABLED",
+    "warfare_version": 4,
+    "starts_at": null,
+    "settled_at": null,
+    "participants": 146
+  },
+  "permissions": [
+    {
+      "tablename": "territory_network_nodes",
+      "tableowner": "neondb_owner",
+      "runtime_dml": true
+    },
+    {
+      "tablename": "territory_network_rounds",
+      "tableowner": "neondb_owner",
+      "runtime_dml": true
+    }
+  ],
+  "gameplayRowsModified": 0
+}

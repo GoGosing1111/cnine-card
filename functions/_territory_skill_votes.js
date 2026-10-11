@@ -1,3 +1,5 @@
+import {networkActionGuards,networkActionCleanup} from './_territory_network_v6.js';
+import {isNetworkWar,hasTerritorySkills} from '../shared/territory-network-v6.mjs';
 // Existing vote rows hold one current choice per participant. Poll identities
 // include the front and cooldown generation so old votes cannot fire again.
 export const TERRITORY_SKILL_REQUIRED_VOTES=25;
@@ -42,20 +44,22 @@ export async function recordTerritorySkillVote(env,{round,front,mine,operation,v
   }
   const token=requestId+':vote',result={voted:true,activated:false,operation,voteKey,requestId,roundId:Number(round.id),frontId:Number(front.id),side:mine.side,requiredVotes:TERRITORY_SKILL_REQUIRED_VOTES};
   await env.DB.batch([
+    ...networkActionGuards(env,{round,front,mine,requestId}),
     // All vote changes and skill activations lock the round first. The count
     // and consumption below therefore cannot race a vote switch or another cast.
     env.DB.prepare('UPDATE territory_war_v3_rounds SET version=version WHERE id=?').bind(round.id),
     env.DB.prepare(`INSERT INTO territory_war_mutation_guards(token,ok) SELECT ?,CASE WHEN EXISTS(
-      SELECT 1 FROM territory_war_v3_rounds r JOIN territory_war_v3_fronts f ON f.id=r.current_front_id
+      SELECT 1 FROM territory_war_v3_rounds r JOIN territory_war_v3_fronts f ON f.round_id=r.id AND (r.warfare_version=6 OR f.id=r.current_front_id)
       JOIN territory_war_v3_users w ON w.round_id=r.id AND w.user_id=? AND w.side=? AND w.status='ACTIVE'
-      WHERE r.id=? AND r.warfare_version=4 AND r.status='ACTIVE' AND f.id=? AND f.status='ACTIVE' AND f.a_hp>0 AND f.b_hp>0
+      WHERE r.id=? AND r.warfare_version IN (4,6) AND r.status='ACTIVE' AND f.id=? AND f.status='ACTIVE' AND f.a_hp>0 AND f.b_hp>0
       AND datetime(r.ends_at)>datetime(?) AND (r.truce_ends_at IS NULL OR datetime(r.truce_ends_at)<=datetime(?))
       AND COALESCE((SELECT ready_at_ms FROM territory_war_skill_cooldowns WHERE round_id=r.id AND side=? AND operation=?),0)=?
       AND ?<=?) THEN 1 ELSE 0 END`).bind(token,mine.user_id,mine.side,round.id,front.id,new Date(now).toISOString(),new Date(now).toISOString(),mine.side,operation,poll.readyAt,poll.readyAt,now),
     env.DB.prepare(`INSERT INTO territory_war_v3_operation_votes(round_id,user_id,side,operation) VALUES(?,?,?,?)
       ON CONFLICT(round_id,user_id) DO UPDATE SET side=excluded.side,operation=excluded.operation,updated_at=CURRENT_TIMESTAMP`).bind(round.id,mine.user_id,mine.side,voteKey),
     env.DB.prepare('INSERT INTO territory_war_skill_receipts(request_id,round_id,user_id,side,operation,result_json,used_at_ms) VALUES(?,?,?,?,?,?,?)').bind(requestId,round.id,mine.user_id,mine.side,operation,JSON.stringify(result),now),
-    env.DB.prepare('DELETE FROM territory_war_mutation_guards WHERE token=?').bind(token)
+    env.DB.prepare('DELETE FROM territory_war_mutation_guards WHERE token=?').bind(token),
+    ...networkActionCleanup(env,round,requestId)
   ]);
   return result;
 }

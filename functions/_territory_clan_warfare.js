@@ -1,3 +1,5 @@
+import {networkActionGuards,networkActionCleanup} from './_territory_network_v6.js';
+import {isNetworkWar,hasTerritorySkills} from '../shared/territory-network-v6.mjs';
 import {readRuntimeData,cacheRuntimeData,invalidateRuntimeData} from './_runtime_data_cache.js';
 import {CLAN_RANKED_TEAMS_SQL} from './_clan_ranking.js';
 import {TERRITORY_SKILL_REQUIRED_VOTES,territorySkillVoteKey,territoryVoteRows,territoryVoteActivationGuard,territoryVoteCleanup} from './_territory_skill_votes.js';
@@ -237,7 +239,7 @@ export function territorySkillEffect({round,front,mine,operation,cfg,requestId,d
 }
 
 export async function applyTerritorySkill(env,{round,front,mine,operation,cfg,requestId,damageFor,definition,voteKey,now=Date.now()}){
-  if(!isClanWarfare(round)||!['A','B'].includes(mine.side)||!definition)fail('스킬을 발동할 수 없는 회차입니다.');
+  if(!hasTerritorySkills(round)||!['A','B'].includes(mine.side)||!definition)fail('스킬을 발동할 수 없는 회차입니다.');
   const side=mine.side,own=side.toLowerCase(),enemy=side==='A'?'b':'a',result=territorySkillEffect({round,front,mine,operation,cfg,requestId,damageFor,now});
   Object.assign(result,{activated:true,voteKey,requiredVotes:TERRITORY_SKILL_REQUIRED_VOTES});
   const voteGuard=territoryVoteActivationGuard(env,{round,front,mine,operation,voteKey,requestId});
@@ -247,13 +249,13 @@ export async function applyTerritorySkill(env,{round,front,mine,operation,cfg,re
   // contribution updates need not invalidate a skill.
   // The CHECK guard rolls the entire batch back on a changed battlefield.
   const s=[env.DB.prepare("UPDATE territory_war_v3_fronts SET skill_action_token=? WHERE id=? AND version=? AND status='ACTIVE' AND a_hp>0 AND b_hp>0").bind(requestId,front.id,front.version),
-    env.DB.prepare(`UPDATE territory_war_v3_rounds SET skill_action_token=?,version=version+1 WHERE id=? AND status='ACTIVE' AND current_front_id=? AND COALESCE(skill_action_token,'')=?
+    env.DB.prepare(`UPDATE territory_war_v3_rounds SET skill_action_token=?,version=version+1 WHERE id=? AND status='ACTIVE' AND (warfare_version=6 OR current_front_id=?) AND COALESCE(skill_action_token,'')=?
       AND datetime(ends_at)>datetime(?) AND (truce_ends_at IS NULL OR datetime(truce_ends_at)<=datetime(?))
       AND NOT EXISTS(SELECT 1 FROM territory_war_skill_cooldowns WHERE round_id=? AND side=? AND operation=? AND ready_at_ms>?)
       AND COALESCE((SELECT o.user_id FROM territory_war_v3_commander_overrides o JOIN territory_war_v3_users w ON w.round_id=o.round_id AND w.user_id=o.user_id AND w.side=o.side AND w.status='ACTIVE' WHERE o.round_id=? AND o.side=?),
         (SELECT w.user_id FROM territory_war_v3_users w WHERE w.round_id=? AND w.side=? AND w.status='ACTIVE' ORDER BY (w.damage+w.front_finishes*10000+w.defense_wins*2500+w.counter_contribution*25) DESC,w.attacks DESC,w.user_id LIMIT 1))=?`).bind(requestId,round.id,front.id,round.skill_action_token||'',new Date(now).toISOString(),new Date(now).toISOString(),round.id,side,operation,now,round.id,side,round.id,side,mine.user_id),
     voteGuard,
-    env.DB.prepare('INSERT INTO territory_war_mutation_guards(token,ok) SELECT ?,CASE WHEN EXISTS(SELECT 1 FROM territory_war_v3_rounds r JOIN territory_war_v3_fronts f ON f.id=r.current_front_id WHERE r.id=? AND r.skill_action_token=? AND f.skill_action_token=?) THEN 1 ELSE 0 END').bind(requestId,round.id,requestId,requestId),
+    env.DB.prepare('INSERT INTO territory_war_mutation_guards(token,ok) SELECT ?,CASE WHEN EXISTS(SELECT 1 FROM territory_war_v3_rounds r JOIN territory_war_v3_fronts f ON f.round_id=r.id AND (r.warfare_version=6 OR f.id=r.current_front_id) WHERE r.id=? AND r.skill_action_token=? AND f.skill_action_token=?) THEN 1 ELSE 0 END').bind(requestId,round.id,requestId,requestId),
     env.DB.prepare('INSERT INTO territory_war_skill_receipts(request_id,round_id,user_id,side,operation,result_json,used_at_ms) VALUES(?,?,?,?,?,?,?)').bind(requestId,round.id,mine.user_id,side,operation,JSON.stringify(result),now),
     env.DB.prepare('INSERT INTO territory_war_skill_cooldowns(round_id,side,operation,ready_at_ms) VALUES(?,?,?,?) ON CONFLICT(round_id,side,operation) DO UPDATE SET ready_at_ms=excluded.ready_at_ms').bind(round.id,side,operation,now+TERRITORY_SKILL_COOLDOWN_MS),
     env.DB.prepare(`UPDATE territory_war_v3_fronts SET ${enemy}_hp=${enemy}_hp-?,${own}_hp=${own}_hp+?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=?`).bind(result.damage,result.heal,front.id),
@@ -261,7 +263,7 @@ export async function applyTerritorySkill(env,{round,front,mine,operation,cfg,re
   if(operation==='REGROUP')s.push(env.DB.prepare('UPDATE territory_war_v3_users SET energy=MIN(?,energy+?),last_recharged_at=CURRENT_TIMESTAMP WHERE round_id=? AND side=?').bind(Number(cfg.energyMax||10),Number(cfg.regroupEnergy||3),round.id,side));
   s.push(...territoryVoteCleanup(env,{round,mine,voteKey,requestId}),env.DB.prepare("INSERT INTO territory_war_v3_notices(round_id,type,side,title,message,payload_json) VALUES(?,'TACTICAL_OPERATION',?,?,?,?)").bind(round.id,side,`${definition.name} 발동`,`${TERRITORY_SKILL_REQUIRED_VOTES}명 투표 달성 · ${definition.name} · 직접 피해 ${result.damage}`,JSON.stringify(payload)),env.DB.prepare('DELETE FROM territory_war_mutation_guards WHERE token=?').bind(requestId));
   const [frontLock,roundLock,...writes]=s;
-  await env.DB.batch([roundLock,frontLock,...writes]);
+  await env.DB.batch([...networkActionGuards(env,{round,front,mine,requestId}),roundLock,frontLock,...writes,...networkActionCleanup(env,round,requestId)]);
   invalidateRuntimeData(env,`territory:skill-cooldowns:${round.id}`);
   return result;
 }
