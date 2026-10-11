@@ -1,0 +1,41 @@
+{
+  "date": "2026-10-12",
+  "titleCode": "ADMINISTRATION",
+  "revision": "command-v2",
+  "source": {
+    "path": "assets/ui/titles/administration-command-source-v2.png",
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": true,
+    "sha256": "471708abededa5255f05fd2d6e08e40c8f093a090d110ce2c85e7805d5dc0ed9"
+  },
+  "outputs": [
+    {
+      "path": "assets/ui/titles/administration-command-v2.webp",
+      "width": 512,
+      "height": 512,
+      "hasAlpha": true,
+      "bytes": 48898,
+      "sha256": "dc619e11224ad26d854bfb181a710b576467c261ace897d92db4757c5b435997"
+    },
+    {
+      "path": "assets/ui/titles/administration-command-badge-v2.webp",
+      "width": 96,
+      "height": 96,
+      "hasAlpha": true,
+      "bytes": 5198,
+      "sha256": "91f2eb324cca3895840c99842f62c7b9d3ac0d3b7e54be801b02b3661251d0f1"
+    }
+  ],
+  "prompt": "assets/ui/titles/administration-command-prompt-v2.json",
+  "method": "Built-in image_gen; source preserved byte-for-byte. Runtime resize/encoding only.",
+  "design": "Modern supreme headquarters: gunmetal shield, platinum command star, four rank stars, three rigid silver chevrons and angular side armor. No plants, leaves, laurels, books, feathers or fantasy nature ornament.",
+  "text": "Korean name and exact description rendered by the application in bold sans-serif.",
+  "animation": "None; static metal highlights avoid repeated badge animation.",
+  "supersedes": {
+    "revision": "nature-v1",
+    "status": "Rejected by user before registration or deployment",
+    "sourceSha256": "99e1021df3f38300f8ff8b6b8dab0badd724d3597041446bdd295937d98f3a98",
+    "archive": "C:/Users/User/.codex/tmp/administration-title-20261012/rejected-nature-v1"
+  }
+}
