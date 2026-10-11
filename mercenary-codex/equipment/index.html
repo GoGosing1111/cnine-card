@@ -1,52 +1,48 @@
 <!doctype html>
 <html lang="ko">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#141816"><meta name="color-scheme" content="dark">
-<title>용병 무장고 · 숲켓몬</title><link rel="icon" href="/assets/ui/pwa-icon.svg"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&amp;family=Noto+Sans+KR:wght@400;500;600;700;800&amp;family=Noto+Serif+KR:wght@600;700;800&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="./style.css?v=20261012-armory3">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#10141b"><meta name="color-scheme" content="dark">
+<title>용병 장비 · 숲켓몬</title><link rel="icon" href="/assets/ui/pwa-icon.svg"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&amp;family=Noto+Sans+KR:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="./style.css?v=20261012-armory4">
 </head>
 <body>
-<svg class="icon-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
-<symbol id="i-back" viewBox="0 0 24 24"><path d="m10 5-7 7 7 7M3 12h18"/></symbol><symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6"/></symbol>
-<symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7M5 9v12h14V9M9 21v-7h6v7"/></symbol><symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 4v6h-6M4 20v-6h6M5 8a8 8 0 0 1 13-2l2 4M4 14l2 4a8 8 0 0 0 13-2"/></symbol>
-<symbol id="i-crest" viewBox="0 0 48 48"><path d="m24 3 17 7v14c0 9-11 17-17 21C18 41 7 33 7 24V10ZM15 13l9 22 9-22M17 23h14M24 3v5M3 18h4m34 0h4"/></symbol>
-<symbol id="i-pve" viewBox="0 0 24 24"><path d="m12 2 9 5v7l-9 8-9-8V7ZM12 6v12M8 10l4-4 4 4M8 14h8"/></symbol><symbol id="i-pvp" viewBox="0 0 24 24"><path d="M3 3h5l12 12-5 5L3 8ZM21 3h-5l-5 5M3 21l5-5M16 8l5-5M3 15l6 6m6-18 6 6M13 17l7 4 1-1-4-7"/></symbol>
-<symbol id="i-box" viewBox="0 0 24 24"><path d="m3 7 9-4 9 4v13H3ZM3 7l9 4 9-4M12 11v9M3 14h18M10 13v3h4v-3"/></symbol><symbol id="i-search" viewBox="0 0 24 24"><circle cx="10" cy="10" r="6.5"/><path d="m15 15 6 6"/></symbol>
-<symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol><symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 2 3 7 7 3-7 3-3 7-3-7-7-3 7-3ZM20 2v4m-2-2h4"/></symbol>
-<symbol id="i-forge" viewBox="0 0 24 24"><path d="m12 3 5 5-4 4-5-5ZM12 10l-9 9 2 2 9-9M13 16h9l-4 4h-8M11 20v2h8"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5L20 6"/></symbol>
-</defs></svg>
-<a class="skip" href="#arsenal">장비 목록으로 이동</a>
-<header class="topbar"><div class="topbar-inner">
-  <button id="goBack" class="nav-back" type="button"><svg><use href="#i-back"/></svg><span>뒤로가기</span></button>
-  <a href="/?screen=home" class="brand" aria-label="숲켓몬 로비"><svg><use href="#i-crest"/></svg><span>SOOPKETMON<small>용병 무장고</small></span></a>
-  <a class="lobby-link" href="/?screen=home"><svg><use href="#i-home"/></svg><span>로비로 돌아가기</span></a>
-</div></header>
-<main class="armory-shell">
-  <div class="page-heading"><div><p class="eyebrow">THE LEGION ARMORY <span>—</span> EQUIPMENT</p><h1>전장을 바꾸는 <em>무장.</em></h1><p class="heading-description">나의 용병에게, 가장 어울리는 다섯 가지.</p></div><div class="heading-seal" aria-hidden="true"><svg><use href="#i-crest"/></svg><span>THE LEGION<br>ARMORY</span></div></div>
-  <section class="command-bar" aria-label="장비 구성 모드"><div class="mode-switch" role="group" aria-label="PVE·PVP 전환">
-    <button data-mode="PVE" aria-pressed="true"><svg><use href="#i-pve"/></svg><span><b>PVE</b><small>모험 · 군단토벌</small></span><i class="mode-selected" aria-hidden="true"></i></button>
-    <button data-mode="PVP" aria-pressed="false"><svg><use href="#i-pvp"/></svg><span><b>PVP</b><small>대전 · 결투</small></span><i class="mode-selected" aria-hidden="true"></i></button>
-  </div><div class="command-note"><span class="save-light" aria-hidden="true"></span><p>모드별로 따로 저장<br><strong>같은 장비도 양쪽에 장착 가능</strong></p></div><a class="inventory-jump" href="#arsenal"><svg><use href="#i-box"/></svg><span>보관함</span><span aria-hidden="true">↓</span></a><button id="refresh" class="icon-button" type="button" aria-label="장비 새로고침" title="장비 새로고침"><svg><use href="#i-refresh"/></svg></button></section>
-  <p id="status" class="status-line" role="status" aria-live="polite">장비 구성을 불러오고 있습니다.</p>
-  <div class="armory-workspace">
-    <section class="loadout-panel" aria-labelledby="loadoutTitle">
-      <header class="loadout-heading"><div><span class="section-index">01 / LOADOUT</span><h2 id="loadoutTitle">PVE 무장</h2></div><div class="loadout-count"><span>장착된 장비</span><b id="equippedCount">00 <small>/ 05</small></b></div></header>
-      <div id="stage" class="stage"><div class="stage-halo" aria-hidden="true"></div><div class="stage-lines" aria-hidden="true"></div><div id="operator" class="operator"><div class="operator-empty"><svg><use href="#i-crest"/></svg></div></div><div id="slots" class="slots"></div><div class="operator-caption"><span id="operatorRank">MERCENARY</span><strong id="operatorName">편성 확인 중</strong><a id="changeMercenary" href="/mercenary-codex/?view=owned&amp;mode=PVE">용병 변경<svg><use href="#i-arrow"/></svg></a></div></div>
-      <div class="power-strip"><div class="power-symbol" aria-hidden="true"><svg><use href="#i-pvp"/></svg></div><div class="power-value"><span>장비 전투력</span><strong id="gearPower">+ 0</strong></div><span class="power-mode" id="powerMode">PVE</span></div><p id="powerHint" class="power-hint">현재 모드에 편성된 용병에게 적용됩니다.</p>
-      <section class="set-effects"><div class="subheading"><h3><svg><use href="#i-spark"/></svg>세트 &amp; 고유 효과</h3><span>PVE 전용</span></div><div id="effects"><p class="effect-empty">장착한 장비의 효과를 확인하고 있습니다.</p></div></section>
-      <a class="workshop-link" href="/equipment-forge/"><span class="workshop-icon"><svg><use href="#i-forge"/></svg></span><span><b>더 강한 무장을 준비하세요</b><small>장비 강화소로 이동</small></span><svg><use href="#i-arrow"/></svg></a>
-    </section>
-    <section id="arsenal" class="arsenal-panel" aria-labelledby="arsenalTitle" tabindex="-1">
-      <header class="arsenal-heading"><div><span class="section-index">02 / COLLECTION</span><h2 id="arsenalTitle">전리품 보관함</h2></div><span class="collection-total"><svg><use href="#i-box"/></svg><b id="ownedTotal">—</b><small>보유</small></span></header>
-      <div class="view-toggle" role="group" aria-label="보유 장비·도감"><button data-view="owned" aria-pressed="true"><svg><use href="#i-box"/></svg>내 장비<span id="ownedTabCount">0</span></button><button data-view="catalog" aria-pressed="false"><svg><use href="#i-spark"/></svg>장비 도감<span id="catalogTabCount">0</span></button></div>
-      <div class="collection-controls"><div id="regions" class="region-tabs" role="group" aria-label="획득 지역"></div><div id="slotFilters" class="slot-filters" role="group" aria-label="장비 부위"></div><div class="inventory-toolbar"><label class="search-field"><svg><use href="#i-search"/></svg><input id="itemSearch" type="search" placeholder="장비 이름 검색" aria-label="장비 이름 검색" autocomplete="off"></label><label class="sort-field"><span class="sr-only">장비 정렬</span><select id="itemSort"><option value="default">기본순</option><option value="power">전투력순</option><option value="level">강화순</option></select><span aria-hidden="true">⌄</span></label></div></div>
-      <div class="inventory-summary"><span id="collectionHint">장비를 선택해 자세히 확인하세요.</span><b id="itemCount" aria-live="polite">불러오는 중</b></div>
-      <div id="inventory" class="inventory" aria-busy="true"><div class="inventory-loading"><svg><use href="#i-crest"/></svg><b>무장고를 열고 있습니다</b><p>잠시만 기다려 주세요.</p><div class="loading-track"></div></div></div>
-      <div class="inventory-foot"><svg><use href="#i-check"/></svg><p>장착 즉시 저장됩니다.<span>강화·연마 상태도 그대로 유지됩니다.</span></p></div>
-    </section>
-  </div>
-  <footer class="page-footer"><span>SOOPKETMON <i>✦</i> THE LEGION ARMORY</span><a href="/?screen=home">로비로 돌아가기<svg><use href="#i-arrow"/></svg></a></footer>
+<a class="skip-link" href="#inventory">보유 장비로 이동</a>
+<header class="game-header">
+  <button id="goBack" class="back-control" aria-label="뒤로가기" title="뒤로가기"><span data-icon="back"></span></button>
+  <a class="soopketmon-brand" href="/?screen=home" aria-label="숲켓몬 로비"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8V3h5m8 0h5v5M3 16v5h5m8 0h5v-5M8 6v12l8-6Z"/></svg><span>숲켓몬<small>SOOPKETMON</small></span></a>
+  <div class="page-location"><span>용병</span><i>/</i><h1>장비</h1></div>
+  <a class="codex-link" href="/mercenary-codex/?view=owned"><span data-icon="people"></span>내 용병</a>
+  <a class="lobby-link cut-button" href="/?screen=home"><span data-icon="home"></span><b>로비로 돌아가기</b><span data-icon="arrow"></span></a>
+</header>
+<main class="equipment-room" id="equipmentRoom">
+  <section class="character-bay" aria-labelledby="loadoutTitle">
+    <div class="bay-toolbar"><div class="mode-selector" role="group" aria-label="전장별 장비 구성"><button data-mode="PVE" aria-pressed="true"><span data-icon="pve"></span><b>PVE</b><small>모험 · 토벌</small></button><button data-mode="PVP" aria-pressed="false"><span data-icon="pvp"></span><b>PVP</b><small>대전 · 결투</small></button></div><button id="refresh" class="round-control" aria-label="새로고침" title="새로고침"><span data-icon="refresh"></span></button></div>
+    <div class="bay-label"><div><p class="overline">MERCENARY EQUIPMENT</p><h2 id="loadoutTitle">PVE 무장</h2></div><span id="equippedCount">0 / 5 장착</span></div>
+    <div class="portrait-chamber" id="stage">
+      <div class="chamber-grid" aria-hidden="true"></div><div class="character-orbit" aria-hidden="true"></div>
+      <div id="operator" class="operator"></div>
+      <div id="slots" class="equipment-slots" role="group" aria-label="장착 부위 선택"></div>
+      <div class="character-identity"><span id="operatorRank">MERCENARY</span><strong id="operatorName">편성 확인 중</strong><a id="changeMercenary" class="change-mercenary" href="/mercenary-codex/?view=owned&amp;mode=PVE"><span data-icon="swap"></span>용병 변경</a></div>
+      <p class="slot-guidance" id="slotGuidance"><span data-icon="pointer"></span>장비를 바꿀 부위를 선택하세요.</p>
+    </div>
+    <div class="bay-summary"><div class="total-power"><span><i data-icon="pvp"></i><b id="powerMode">PVE</b> 장비 전투력</span><strong id="gearPower">+ 0</strong></div><details class="effects-disclosure" id="effectsDisclosure"><summary><span data-icon="spark"></span>세트 효과<span data-icon="chevron"></span></summary><div class="effects-popover"><div class="effects-title"><b>세트 · 고유 · 연마</b><small>PVE 전용</small></div><div id="effects"></div></div></details></div>
+    <div class="bay-bottom"><p id="powerHint">장비는 모드별로 따로 저장됩니다.</p><a class="forge-link" href="/equipment-forge/"><span data-icon="forge"></span>강화소<span data-icon="arrow"></span></a></div>
+    <button class="mobile-inventory-link" id="openInventory"><span data-icon="box"></span>장비 보관함 열기<span data-icon="down"></span></button>
+  </section>
+  <section class="storage-bay" id="arsenal" aria-labelledby="arsenalTitle" tabindex="-1">
+    <header class="storage-header"><h2 id="arsenalTitle">장비 보관함</h2><div class="storage-tabs" role="group" aria-label="보유 장비 또는 도감"><button data-view="owned" aria-pressed="true">보유 <b id="ownedCount">0</b></button><button data-view="catalog" aria-pressed="false">도감 <b id="catalogCount">0</b></button></div><button id="toggleSearch" class="tool-control" aria-label="장비 이름 검색 열기" aria-expanded="false" title="이름 검색"><span data-icon="search"></span></button></header>
+    <div class="search-drawer" id="searchDrawer" hidden><label><span data-icon="search"></span><input id="itemSearch" type="search" autocomplete="off" placeholder="찾는 장비의 이름" aria-label="장비 이름 검색"></label><button id="closeSearch" class="tool-control" aria-label="검색 닫고 초기화"><span data-icon="close"></span></button></div>
+    <div class="storage-tools"><details class="tool-menu" id="regionMenu"><summary><span data-icon="compass"></span><b id="regionLabel">모든 지역</b><span data-icon="chevron"></span></summary><div class="region-options" id="regions"></div></details><details class="tool-menu sort-menu" id="sortMenu"><summary><span data-icon="sort"></span><b id="sortLabel">기본순</b><span data-icon="chevron"></span></summary><div class="sort-options"><button data-sort="default" aria-pressed="true">기본순</button><button data-sort="power" aria-pressed="false">전투력 높은 순</button><button data-sort="level" aria-pressed="false">강화 높은 순</button></div></details><div class="density-toggle" role="group" aria-label="목록 표시 방식"><button data-layout="grid" aria-pressed="true" aria-label="격자로 보기" title="격자로 보기"><span data-icon="grid"></span></button><button data-layout="list" aria-pressed="false" aria-label="목록으로 보기" title="목록으로 보기"><span data-icon="list"></span></button></div></div>
+    <div class="slot-context"><div id="activeFilter"><span data-icon="grid"></span><b>모든 부위</b></div><button id="clearFilters" hidden>전체 보기<span data-icon="close"></span></button><span id="itemCount" role="status">확인 중</span></div>
+    <div class="inventory-scroll" id="inventoryScroll"><div id="inventory" class="inventory-grid" aria-busy="true" tabindex="-1"><div class="loading-state"><span data-icon="box"></span><b>장비를 불러오는 중</b><div class="loading-line"></div></div></div></div>
+    <div id="inspectionDock" class="inspection-dock" hidden><section id="inspection" class="inspection" aria-labelledby="itemTitle" hidden></section></div>
+    <div id="inventoryGuide" class="inventory-guide"><span data-icon="pointer"></span><p>장비를 선택하면 이곳에서 비교하고 교체할 수 있습니다.</p><kbd>Enter</kbd></div>
+  </section>
 </main>
-<dialog id="itemDialog" aria-labelledby="itemTitle"><div class="dialog-topline"><span>ARMORY / EQUIPMENT DETAIL</span><button id="closeItem" class="icon-button" aria-label="장비 상세 닫기"><svg><use href="#i-close"/></svg></button></div><div id="itemDetail"></div><div class="dialog-bottom"><div id="itemActions" class="item-actions"></div><p id="actionStatus" role="status" aria-live="polite"></p></div></dialog>
-<noscript>용병 장비를 확인하려면 JavaScript를 켜 주세요. <a href="/?screen=home">로비로 돌아가기</a></noscript><script type="module" src="./app.mjs?v=20261012-armory3"></script>
-</body></html>
+<div class="connection-bar"><span id="connectionIndicator"></span><p id="status" role="status" aria-live="polite">장비 구성을 확인하고 있습니다.</p><span>PVE / PVP 개별 저장</span></div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<dialog id="itemDialog" class="equipment-sheet" aria-label="선택한 장비 비교"></dialog>
+<noscript>장비를 확인하려면 JavaScript를 켜 주세요. <a href="/?screen=home">숲켓몬 로비로 돌아가기</a></noscript>
+<script type="module" src="./app.mjs?v=20261012-armory4"></script>
+</body>
+</html>

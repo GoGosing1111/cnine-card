@@ -1,181 +1,215 @@
 import {jointAccountRequest as request} from '../../js/joint-account-transport.mjs';
 import {equipmentEffectText} from '../../shared/equipment-growth-text-v1.mjs';
 import {POLISH_OPTIONS} from '../../shared/equipment-polish-v1.mjs';
+import {labels,icon,esc,fmt,image,itemKey} from './ui.mjs?v=20261012-armory4';
 
-const $=selector=>document.querySelector(selector);
-const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const labels={WEAPON:'무기',TOP:'상의',BOTTOM:'하의',SHOES:'신발',ACCESSORY:'장신구'};
-const slotPaths={WEAPON:'<path d="m16 3 5 0 0 5-11 11-5-5ZM4 12l8 8M3 21l5-5M14 10l4-4"/>',TOP:'<path d="m8 3-5 3 2 6 3-1v10h8V11l3 1 2-6-5-3M8 3c0 5 8 5 8 0M8 16h8"/>',BOTTOM:'<path d="M6 3h12l2 18h-6l-2-11-2 11H4ZM6 6h12M12 6v4"/>',SHOES:'<path d="M5 3h9v10l6 3v5H3v-7l2-3ZM4 17h5m5-4-4 2M3 18h17"/>',ACCESSORY:'<path d="m12 2 8 7-8 13L4 9ZM4 9h16M8 6l4 3 4-3M12 9v13"/>'};
-const slotIcon=slot=>`<svg viewBox="0 0 24 24" aria-hidden="true">${slotPaths[slot]||'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>'}</svg>`;
-const icon=name=>`<svg aria-hidden="true"><use href="#i-${name}"/></svg>`;
-const fmt=value=>new Intl.NumberFormat('ko-KR').format(Number(value)||0);
-const image=value=>'/'+String(value||'').replace(/^\/+/, '');
+const $=selector=>document.querySelector(selector),mobile=matchMedia('(max-width:800px)');
 let mode=new URL(location.href).searchParams.get('mode')==='PVP'?'PVP':'PVE';
-let state=null,account=null,view='owned',region='',filter='',query='',sort='default',selected=null,busy=false,flight=null,pending=null,returnFocus=null;
+let state=null,account=null,view='owned',slot='',region='',query='',sort='default',layout='grid',selected=null,busy=false,flight=null,pending=null,feedback='',drag=null,suppressClick=false,toastTimer=null;
 const loadout=()=>state?.loadouts[mode];
-const equipped=item=>Boolean(item?.instanceId&&loadout()?.items.some(row=>row.instanceId===item.instanceId));
+const worn=item=>Boolean(item?.instanceId&&loadout()?.items.some(row=>row.instanceId===item.instanceId));
+const meta=item=>state?.catalog.find(row=>row.code===item.code)||item;
 const regionMeta=id=>state?.regions.find(row=>row.id===id);
-const definition=item=>state?.catalog.find(row=>row.code===item.code)||item;
-const powerOf=(item,forMode=mode)=>forMode==='PVE'?(item.pvePower??Math.floor(definition(item).totalPower*.9)):(item.pvpPower??definition(item).totalPower-Math.floor(definition(item).totalPower*.9));
-function status(text,error=false){$('#status').textContent=text;$('#status').classList.toggle('error',error);}
+const power=(item,forMode=mode)=>!item?0:forMode==='PVE'?(item.pvePower??Math.floor(meta(item).totalPower*.9)):(item.pvpPower??meta(item).totalPower-Math.floor(meta(item).totalPower*.9));
+function status(text,error=false){$('#status').textContent=text;$('#status').classList.toggle('error',error);$('#connectionIndicator').style.background=error?'#e6a38e':'#abcaa0';}
+function toast(message,error=false){clearTimeout(toastTimer);$('#toast').innerHTML=icon(error?'close':'check')+`<span>${esc(message)}</span>`;$('#toast').hidden=false;$('#toast').classList.toggle('error',error);toastTimer=setTimeout(()=>{$('#toast').hidden=true;},5000);}
+function paintIcons(root=document){root.querySelectorAll('[data-icon]').forEach(node=>node.innerHTML=icon(node.dataset.icon));}
 function render(){
   document.body.dataset.mode=mode;
-  document.querySelectorAll('[data-mode]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.mode===mode)));
-  document.querySelectorAll('[data-view]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.view===view)));
-  $('#loadoutTitle').textContent=mode+' 무장';
-  $('#powerMode').textContent=mode;
+  for(const b of document.querySelectorAll('[data-mode]'))b.setAttribute('aria-pressed',String(b.dataset.mode===mode));
+  for(const b of document.querySelectorAll('[data-view]'))b.setAttribute('aria-pressed',String(b.dataset.view===view));
+  $('#loadoutTitle').textContent=mode+' 무장';$('#powerMode').textContent=mode;
   $('#changeMercenary').href='/mercenary-codex/?view=owned&mode='+mode;
   if(!state)return;
   const gear=loadout(),code=account?.loadouts?.[mode]?.mercenaryCode,mercenary=account?.cards?.find(card=>card.code===code);
-  $('#operator').innerHTML=mercenary?`<img src="${esc(image(mercenary.sourceArt))}" alt="${esc(mercenary.name)} 원화">`:`<div class="operator-empty">${icon('crest')}</div>`;
-  $('#operatorName').textContent=mercenary?.name||'용병을 편성하세요';
-  $('#operatorRank').textContent=mercenary?mercenary.rank+' / MERCENARY':'NO MERCENARY';
-  $('#equippedCount').innerHTML=String(gear.items.length).padStart(2,'0')+' <small>/ 05</small>';
-  $('#gearPower').textContent='+ '+fmt(gear.power);
-  $('#powerHint').textContent=mercenary?`${mercenary.name}에게 적용 · 용병을 바꿔도 장비는 유지됩니다.`:'장비는 미리 저장할 수 있습니다. 용병 편성 후 적용됩니다.';
-  $('#slots').innerHTML=state.slots.map((slot,index)=>{
-    const item=gear.items.find(row=>row.slot===slot);
-    return `<button class="gear-slot ${item?'is-filled':''}" data-slot="${slot}" style="--accent:${esc(regionMeta(item?.regionId)?.accent||'#dfc38b')}" aria-label="${labels[slot]}: ${esc(item?.name||'비어 있음 · 장비 선택')}"><span class="slot-order" aria-hidden="true">0${index+1}</span>${item?`<img src="${esc(item.image)}" alt="">${item.level?`<span class="enhance">+${item.level}</span>`:''}`:`<span class="empty-symbol">${slotIcon(slot)}</span><span class="slot-plus" aria-hidden="true">+</span>`}<span class="slot-label">${labels[slot]}</span></button>`;
-  }).join('');
-  renderEffects(gear);
-  $('#ownedTotal').textContent=fmt(state.items.length);
-  $('#ownedTabCount').textContent=state.items.length;
-  $('#catalogTabCount').textContent=state.catalog.length;
-  $('#regions').innerHTML=[{id:'',name:'전체',accent:'#dfc38b'},...state.regions.map(row=>({...row,name:({coast:'해안',desert:'사막',theatre:'대극장',viscera:'거수',sky:'천공'})[row.id]||row.name}))].map(row=>{
-    const count=(view==='owned'?state.items:state.catalog).filter(item=>!row.id||item.regionId===row.id).length;
-    return `<button data-region="${esc(row.id)}" style="--accent:${esc(row.accent)}" aria-pressed="${row.id===region}">${row.id?'<i class="region-dot" aria-hidden="true"></i>':''}${esc(row.name)}<small>${count}</small></button>`;
-  }).join('');
-  const regionTabs=$('#regions'),activeRegion=regionTabs.querySelector('[aria-pressed="true"]');
-  if(!region)regionTabs.scrollLeft=0;
-  else if(activeRegion){
-    const outer=regionTabs.getBoundingClientRect(),inner=activeRegion.getBoundingClientRect();
-    if(inner.left<outer.left)regionTabs.scrollLeft+=inner.left-outer.left;
-    else if(inner.right>outer.right)regionTabs.scrollLeft+=inner.right-outer.right;
+  if($('#operator').dataset.code!==(code||'')){
+    $('#operator').innerHTML=mercenary?`<img src="${esc(image(mercenary.sourceArt))}" alt="${esc(mercenary.name)} 원화">`:icon('people');
+    $('#operator').dataset.code=code||'';
   }
-  $('#slotFilters').innerHTML=Object.entries({'':'전체',...labels}).map(([slot,name])=>`<button data-filter-slot="${slot}" aria-pressed="${filter===slot}">${slotIcon(slot)}<span>${name}</span></button>`).join('');
-  renderInventory();
-  if(selected&&$('#itemDialog').open){
-    selected=(selected.instanceId?state.items.find(item=>item.instanceId===selected.instanceId):state.catalog.find(item=>item.code===selected.code))||null;
-    if(selected)renderDetail();else $('#itemDialog').close();
-  }
+  $('#operator').classList.toggle('no-mercenary',!mercenary);
+  $('#operatorName').textContent=mercenary?.name||'용병을 편성하세요';$('#operatorRank').textContent=mercenary?mercenary.rank+' / MERCENARY':'NO MERCENARY';
+  $('#equippedCount').textContent=gear.items.length+' / 5 장착';$('#gearPower').textContent='+ '+fmt(gear.power);
+  $('#powerHint').textContent=mercenary?`${mercenary.name}에게 적용 · 용병을 바꿔도 장비는 유지됩니다.`:'용병을 편성하면 저장한 장비가 적용됩니다.';
+  $('#slots').innerHTML=state.slots.map(part=>{
+    const item=gear.items.find(row=>row.slot===part);
+    return `<button class="equip-slot" data-slot="${part}" aria-pressed="${slot===part}" aria-label="${labels[part]} 장비 선택: ${esc(item?.name||'빈 슬롯')}"><span class="slot-face">${item?`<img src="${esc(item.image)}" alt="">${item.level?`<i>+${item.level}</i>`:''}`:icon(part)}</span><span class="slot-name">${labels[part]}</span></button>`;
+  }).join('');
+  $('#slotGuidance').innerHTML=icon('pointer')+(slot?`${labels[slot]}에 장착할 장비를 선택하세요.`:'장비를 바꿀 부위를 선택하세요.');
+  renderEffects();renderTools();renderInventory();renderInspection();
 }
-function renderEffects(gear){
-  if(mode==='PVP'){
-    $('#effects').innerHTML='<p class="effect-empty">PVP 장비 전투력으로 용병이 강해집니다.<br>세트·고유·연마 효과는 PVE에서 발동합니다.</p>';return;
-  }
-  const sets=state.regions.map(source=>({source,count:gear.items.filter(item=>definition(item).kind==='SET'&&item.regionId===source.id).length})).filter(row=>row.count);
-  const uniques=gear.items.filter(item=>definition(item).kind==='UNIQUE');
-  const rows=sets.map(({source,count})=>`<div class="set-row"><div class="set-row-head"><b>${esc(source.setName)}</b><span>${count} / 5</span><div class="set-meter" aria-hidden="true">${Array.from({length:5},(_,i)=>`<i class="${i<count?'on':''}"></i>`).join('')}</div></div>${[2,4].map(step=>`<p class="set-step ${count>=step?'active':''}"><b>${step}세트 ${count>=step?'ON':'OFF'}</b><span>${esc(equipmentEffectText(step===2?source.two:source.four))}</span></p>`).join('')}</div>`).join('');
-  const uniqueRows=uniques.map(item=>`<div class="unique-effect">${icon('spark')}<p><b>${esc(item.name)}</b>${esc(definition(item).description)}</p></div>`).join('');
-  const polished=gear.items.some(item=>item.polish?.values?.some(value=>value>0));
-  $('#effects').innerHTML=rows+uniqueRows+(polished?`<div class="unique-effect">${icon('forge')}<p><b>연마 포함 최종 효과</b>${esc(gear.summary)}</p></div>`:'')||'<p class="effect-empty">같은 세트의 장비 2개·4개를 모아 보세요.<br>고유 장비는 하나만 장착해도 효과가 발동합니다.</p>';
+function renderEffects(){
+  const gear=loadout();
+  if(mode==='PVP'){$('#effects').innerHTML='<p class="effect-note">PVP에서는 장비 전투력이 적용됩니다.<br>세트·고유·연마 효과는 PVE에서 발동합니다.</p>';return;}
+  const groups=state.regions.map(r=>({r,count:gear.items.filter(i=>i.regionId===r.id&&meta(i).kind==='SET').length})).filter(row=>row.count);
+  const unique=gear.items.filter(i=>meta(i).kind==='UNIQUE');
+  $('#effects').innerHTML=groups.map(({r,count})=>`<div class="effect-row"><b>${esc(r.setName)} · ${count}/5</b><div class="set-pips" aria-hidden="true">${Array.from({length:5},(_,i)=>`<i class="${i<count?'on':''}"></i>`).join('')}</div>${[2,4].map(n=>`<p class="effect-step ${count>=n?'active':''}"><b>${n}세트 ${count>=n?'ON':'OFF'}</b><span>${esc(equipmentEffectText(n===2?r.two:r.four))}</span></p>`).join('')}</div>`).join('')+unique.map(i=>`<p class="effect-row"><b>${esc(i.name)}</b>${esc(meta(i).description)}</p>`).join('')+(gear.items.some(i=>i.polish?.values?.some(v=>v>0))?`<p class="effect-row"><b>연마 포함 최종 효과</b>${esc(gear.summary)}</p>`:'')||'<p class="effect-note">같은 세트의 장비 2개·4개를 모으면 효과가 활성화됩니다. 고유 장비는 하나만 장착해도 효과가 발동합니다.</p>';
+}
+function renderTools(){
+  if(!state)return;
+  $('#ownedCount').textContent=state.items.length;$('#catalogCount').textContent=state.catalog.length;
+  $('#regionLabel').textContent=regionMeta(region)?.name||'모든 지역';
+  $('#regions').innerHTML=[{id:'',name:'모든 지역'},...state.regions].map(r=>`<button data-region="${esc(r.id)}" aria-pressed="${r.id===region}" ${r.id?`style="--region-image:url('/assets/ui/legion-regions-v1/${esc(r.id)}/background-v1.webp')"`:''}><b>${esc(r.name)}</b><small>${(view==='owned'?state.items:state.catalog).filter(i=>!r.id||i.regionId===r.id).length}</small></button>`).join('');
+  $('#sortLabel').textContent=({default:'기본순',power:'전투력순',level:'강화순'})[sort];
+  for(const b of document.querySelectorAll('[data-sort]'))b.setAttribute('aria-pressed',String(b.dataset.sort===sort));
+  for(const b of document.querySelectorAll('[data-layout]'))b.setAttribute('aria-pressed',String(b.dataset.layout===layout));
+  $('#activeFilter').innerHTML=icon(slot||'grid')+`<b>${slot?labels[slot]+' 선택 중':'모든 부위'}</b>`;
+  $('#clearFilters').hidden=!slot&&!region&&!query;
+  $('#goBack').setAttribute('aria-label',selected?'장비 선택 닫기':slot?'전체 장비로 돌아가기':'뒤로가기');
+}
+function itemsForView(){
+  const order=new Map(state.catalog.map((i,n)=>[i.code,n]));
+  return (view==='owned'?state.items:state.catalog).filter(i=>(!slot||i.slot===slot)&&(!region||i.regionId===region)&&(!query||i.name.toLocaleLowerCase('ko-KR').includes(query.toLocaleLowerCase('ko-KR')))).sort((a,b)=>(sort==='power'?power(b)-power(a):sort==='level'?(b.level||0)-(a.level||0):0)||(order.get(a.code)??999)-(order.get(b.code)??999)||(b.level||0)-(a.level||0));
 }
 function renderInventory(){
   if(!state)return;
-  const order=new Map(state.catalog.map((item,index)=>[item.code,index]));
-  const items=(view==='owned'?state.items:state.catalog).filter(item=>(!region||item.regionId===region)&&(!filter||item.slot===filter)&&(!query||item.name.toLocaleLowerCase('ko-KR').includes(query.toLocaleLowerCase('ko-KR')))).sort((a,b)=>{
-    const priority=sort==='power'?powerOf(b)-powerOf(a):sort==='level'?(b.level||0)-(a.level||0):0;
-    return priority||(order.get(a.code)??999)-(order.get(b.code)??999)||(b.level||0)-(a.level||0);
-  });
-  $('#itemCount').textContent=items.length+(view==='owned'?'개 장비':'종 장비');
-  $('#collectionHint').textContent=view==='owned'?'선택한 장비를 바로 비교하고 장착하세요.':'군단토벌에서 만날 수 있는 장비입니다.';
-  $('#inventory').setAttribute('aria-busy','false');
-  $('#inventory').innerHTML=items.length?items.map(item=>{
-    const meta=definition(item),owned=state.items.some(row=>row.code===item.code),worn=equipped(item);
-    return `<button class="loot-card ${worn?'equipped':''} ${meta.kind==='UNIQUE'?'unique':''}" data-item="${esc(item.instanceId||item.code)}" style="--accent:${esc(regionMeta(item.regionId)?.accent||'#dfc38b')}"><span class="badge">${icon(worn?'check':meta.kind==='UNIQUE'?'spark':'crest')}${worn?'장착 중':meta.kind==='UNIQUE'?'고유 장비':'세트 장비'}</span>${item.level?`<span class="enhance">+${item.level}</span>`:''}<div class="item-art"><img class="item-visual" src="${esc(item.image)}" alt="" loading="lazy"></div><strong>${esc(item.name)}</strong><small>${labels[item.slot]} · ${view==='owned'?'보유':meta.available===false?'준비 중':owned?'보유':'미보유'}</small><div class="item-power"><span>${mode}</span>+${fmt(powerOf(item))}${icon('arrow')}</div></button>`;
-  }).join(''):emptyInventory();
+  const items=itemsForView();$('#itemCount').textContent=items.length+(view==='owned'?'개 장비':'종 장비');
+  $('#inventory').setAttribute('aria-busy','false');$('#inventory').classList.toggle('list',layout==='list');
+  $('#inventory').innerHTML=items.length?items.map(item=>`<button class="gear-option" data-item="${esc(itemKey(item))}" draggable="false" aria-pressed="${selected&&itemKey(selected)===itemKey(item)?'true':'false'}" aria-label="${esc(item.name)}${item.level?' +'+item.level:''} ${mode} ${fmt(power(item))}${worn(item)?' 장착 중':''}" style="--item-accent:${esc(regionMeta(item.regionId)?.accent||'#ceaf77')}"><span class="gear-tile"><img src="${esc(item.image)}" alt="" loading="lazy">${worn(item)?`<span class="equipped-mark">${icon('check')}장착</span>`:''}${item.level?`<span class="enhance">+${item.level}</span>`:''}${meta(item).kind==='UNIQUE'?'<span class="unique-mark">UNIQUE</span>':''}</span><strong class="gear-name">${esc(item.name)}</strong><span class="gear-sub"><small>${labels[item.slot]}</small><strong>+${fmt(power(item))}</strong></span></button>`).join(''):emptyState();
 }
-function emptyInventory(){
-  const filtered=Boolean(region||filter||query);
-  const previews=!filtered&&view==='owned'?state.catalog.filter(item=>item.kind==='UNIQUE').slice(0,3):[];
-  const showcase=previews.length?`<div class="empty-showcase" aria-label="장비 도감 미리보기 · 보유 장비 아님">${previews.map(item=>`<button data-preview-item="${esc(item.code)}" aria-label="${esc(item.name)} 도감 미리보기" style="--accent:${esc(regionMeta(item.regionId)?.accent||'#dfc38b')}"><img src="${esc(item.image)}" alt=""><span>${esc(item.name)}</span><small>도감 미리보기</small></button>`).join('')}</div>`:`<div class="empty-emblem">${icon(filtered?'search':'box')}</div>`;
-  return `<div class="inventory-empty">${showcase}<span class="empty-kicker">${filtered?'FIND YOUR EQUIPMENT':'BEGIN YOUR COLLECTION'}</span><b>${filtered?'조건에 맞는 장비가 없습니다':view==='owned'?'당신의 첫 전리품을 기다립니다':'새로운 장비를 준비하고 있습니다'}</b><p>${filtered?'다른 지역·부위 또는 이름으로 찾아보세요.':view==='owned'?'군단토벌에서 얻은 무기와 방어구로<br>용병의 새로운 가능성을 열어 보세요.':'장비가 공개되면 이곳에서<br>능력치와 효과를 확인할 수 있습니다.'}</p>${filtered?`<button data-clear-filters>검색·필터 초기화${icon('refresh')}</button>`:view==='owned'&&state.catalog.length?`<button data-open-catalog>장비 도감 둘러보기${icon('arrow')}</button>`:''}<div class="empty-slots" aria-hidden="true">${Object.keys(labels).map(slotIcon).join('')}</div></div>`;
+function emptyState(){
+  const filtered=Boolean(slot||region||query),hasAny=view==='owned'?state.items.length>0:state.catalog.length>0;
+  return `<div class="empty-state"><div class="empty-art" aria-hidden="true">${icon('WEAPON')}${icon(slot||'TOP')}${icon('ACCESSORY')}</div><h3>${view==='owned'&&!hasAny?'보유한 '+(slot?labels[slot]:'장비')+'가 없습니다':'조건에 맞는 장비가 없습니다'}</h3><p>${view==='owned'&&!hasAny?'군단토벌에서 획득한 용병 전용 장비를<br>이곳에서 선택하고 장착할 수 있습니다.':'지역·부위·검색어를 바꾸어 다른 장비를 찾아보세요.'}</p>${view==='owned'?`<button data-open-catalog>${slot?labels[slot]+' 도감 보기':'장비 도감 살펴보기'}${icon('arrow')}</button>`:''}${filtered?`<button class="${view==='owned'?'secondary-empty':''}" data-reset-filters>모든 장비 보기${icon('refresh')}</button>`:''}</div>`;
 }
-function renderDetail(){
-  if(!selected)return;
-  const item=selected,meta=definition(item),source=regionMeta(item.regionId),pve=powerOf(item,'PVE'),pvp=powerOf(item,'PVP');
-  const polish=item.polish?.values?.map((value,i)=>value?POLISH_OPTIONS[i].name+' +'+value+POLISH_OPTIONS[i].unit:'').filter(Boolean).join(' · ');
-  const current=loadout()?.items.find(row=>row.slot===item.slot),difference=powerOf(item)-(current?powerOf(current):0);
-  const comparison=item.instanceId?`<div class="comparison"><span>${equipped(item)?'현재 장착 중':current?'현재 '+labels[item.slot]+' 대비':'빈 '+labels[item.slot]+' 슬롯 대비'} · ${mode}</span><b class="${difference>0?'positive':difference<0?'negative':''}">${difference>0?'↑ +':difference<0?'↓ −':''}${fmt(Math.abs(difference))}</b></div>`:`<p class="catalog-note">${meta.available===false?'아직 획득할 수 없는 준비 중인 장비입니다.':'도감에는 기본 전투력이 표시됩니다. 장비 획득 후 ‘내 장비’에서 장착할 수 있습니다.'}</p>`;
-  $('#itemDetail').innerHTML=`<div class="detail-layout"><div class="detail-art-wrap" style="--accent:${esc(source?.accent||'#dfc38b')}"><img class="detail-art" src="${esc(item.image)}" alt="${esc(item.name)}"><span class="detail-art-label">${meta.kind==='UNIQUE'?'UNIQUE EQUIPMENT':'LEGION EQUIPMENT'}</span></div><div class="detail-info"><div class="detail-tag">${icon(meta.kind==='UNIQUE'?'spark':'crest')}${meta.kind==='UNIQUE'?'고유 장비':'세트 장비'} · ${labels[item.slot]}<span>${item.instanceId?'보유 장비':'도감'}</span></div><h2 id="itemTitle">${esc(item.name)}${item.level?` <small>+${item.level}</small>`:''}</h2><p class="detail-desc">${esc(source?.name)}<br>${esc(meta.description)}</p><div class="detail-powers"><div data-active="${mode==='PVE'}"><span>PVE POWER</span><strong>+${fmt(pve)}</strong></div><div data-active="${mode==='PVP'}"><span>PVP POWER</span><strong>+${fmt(pvp)}</strong></div></div>${comparison}<div class="detail-effects"><h3>${meta.kind==='SET'?esc(source?.setName)+' 세트 효과':'고유 효과'}</h3>${meta.kind==='SET'?[2,4].map(step=>`<div class="detail-effect-row"><b>${step}세트</b><span>${esc(equipmentEffectText(step===2?source?.two:source?.four))}</span></div>`).join(''):`<p>${esc(meta.description)}</p>`}${polish?`<div class="detail-effect-row"><b>연마 ${item.polish.attempts}회</b><span>${esc(polish)}</span></div>`:''}<small>세트·고유·연마 효과는 PVE에서 발동합니다.</small></div></div></div>`;
-  $('#itemActions').innerHTML=item.instanceId?`<button data-save="${equipped(item)?'remove':'equip'}" ${busy?'disabled':''}>${icon(equipped(item)?'close':'check')}${busy?'저장 중…':equipped(item)?mode+' 장착 해제':mode+'에 장착하기'}</button><button data-close class="secondary" ${busy?'disabled':''}>닫기</button>`:`<button data-close class="secondary catalog-close">${view==='catalog'?'도감':'보관함'}으로 돌아가기</button>`;
+function renderInspection(){
+  const panel=$('#inspection'),dock=$('#inspectionDock'),sheet=$('#itemDialog');
+  dock.hidden=!selected||mobile.matches;$('#inventoryGuide').hidden=Boolean(selected);
+  if(!selected){panel.hidden=true;if(sheet.open)sheet.close();return;}
+  const item=selected,def=meta(item),source=regionMeta(item.regionId),current=loadout()?.items.find(i=>i.slot===item.slot),owned=state.items.find(i=>i.code===item.code),expanded=panel.querySelector('.inspect-effects')?.open||false;
+  const polish=item.polish?.values?.map((v,i)=>v?POLISH_OPTIONS[i].name+' +'+v+POLISH_OPTIONS[i].unit:'').filter(Boolean).join(' · ');
+  panel.innerHTML=`<div class="inspect-header"><img class="inspect-art" src="${esc(item.image)}" alt="${esc(item.name)}"><div><p class="inspect-kicker">${def.kind==='UNIQUE'?'고유 장비':'세트 장비'}<span>· ${labels[item.slot]}</span></p><h3 id="itemTitle">${esc(item.name)}${item.level?` <small>+${item.level}</small>`:''}</h3><p class="inspect-source">${esc(source?.name)}${item.instanceId?' · 보유':' · 도감'}</p></div><button class="inspect-close" data-close-selection aria-label="장비 선택 닫기">${icon('close')}</button></div><div class="compare-caption"><span>현재 ${labels[item.slot]}</span><strong>${esc(current?.name||'장착한 장비 없음')}${current?.level?' +'+current.level:''}</strong></div><div class="compare-table" aria-label="장착 전후 전투력 비교"><span>전장</span><span>현재 장비</span><span>${item.instanceId?'선택한 장비':'도감 기본 수치'}</span><span>차이</span>${['PVE','PVP'].map(m=>{const diff=power(item,m)-power(current,m);return `<b class="${mode===m?'active':''}">${m}</b><strong>${fmt(power(current,m))}</strong><strong class="new-power">${fmt(power(item,m))}</strong><strong class="${diff>0?'positive':diff<0?'negative':''}">${diff>0?'+':diff<0?'−':''}${fmt(Math.abs(diff))}</strong>`;}).join('')}</div>${!item.instanceId?'<p class="inspect-note">도감은 강화 전 기본 수치입니다. 실제 보유 장비를 선택해야 장착할 수 있습니다.</p>':''}<details class="inspect-effects" ${expanded?'open':''}><summary>세트·고유·연마 효과 확인${icon('chevron')}</summary><div class="inspect-effect-body">${def.kind==='SET'?[2,4].map(n=>`<p><b>${n}세트</b>${esc(equipmentEffectText(n===2?source?.two:source?.four))}</p>`).join(''):`<p><b>고유 효과</b>${esc(def.description)}</p>`}${polish?`<p><b>연마 ${item.polish.attempts}회</b>${esc(polish)}</p>`:''}<small>세트·고유·연마 효과는 PVE에서 발동합니다.</small></div></details><div class="inspect-actions">${item.instanceId?`<button class="equip-action" data-save="${worn(item)?'remove':'equip'}" ${busy?'disabled':''}>${icon(worn(item)?'close':'check')}${busy?'저장 중…':worn(item)?mode+' 장착 해제':current?mode+' 장비 교체':mode+'에 장착'}</button>`:owned?`<button class="owned-action" data-select-owned="${esc(owned.instanceId)}">보유 장비 선택${icon('arrow')}</button>`:`<span class="unowned-state">${def.available===false?'준비 중인 장비':'아직 보유하지 않은 장비'}</span>`}<button class="cancel-action" data-close-selection>목록으로</button><p class="action-feedback" role="status" aria-live="polite">${esc(feedback)}</p></div>`;
+  panel.hidden=false;
+  if(mobile.matches){if(panel.parentNode!==sheet)sheet.append(panel);if(!sheet.open)sheet.showModal();}
+  else{if(sheet.open)sheet.close();if(panel.parentNode!==dock)dock.append(panel);}
 }
-function openItem(item,trigger){selected=item;returnFocus=trigger?.dataset.slot?`[data-slot="${trigger.dataset.slot}"]`:trigger?.dataset.previewItem?`[data-preview-item="${CSS.escape(trigger.dataset.previewItem)}"]`:`[data-item="${CSS.escape(item.instanceId||item.code)}"]`;$('#actionStatus').textContent='';renderDetail();$('#itemDialog').showModal();$('#itemDialog').scrollTop=0;}
+function closeSelection({focus=true}={}){
+  const key=selected?itemKey(selected):null;selected=null;feedback='';
+  renderInspection();if(state){renderInventory();renderTools();}
+  if(focus&&key)$(`[data-item="${CSS.escape(key)}"]`)?.focus({preventScroll:true});
+}
+function choose(item){
+  if(busy){toast('장비를 저장하고 있습니다. 잠시만 기다려 주세요.');return;}
+  selected=item;feedback='';renderInventory();renderInspection();renderTools();
+  if(!mobile.matches)$(`[data-item="${CSS.escape(itemKey(item))}"]`)?.focus({preventScroll:true});
+}
+function showInventory(){
+  if(mobile.matches)$('#arsenal').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth',block:'start'});
+  $('#arsenal').focus({preventScroll:true});
+}
+function selectSlot(part){
+  if(busy)return;
+  slot=part;view='owned';region='';query='';$('#itemSearch').value='';selected=loadout()?.items.find(i=>i.slot===part)||null;feedback='';
+  render();showInventory();
+}
+function resetFilters(){slot='';region='';query='';$('#itemSearch').value='';closeSelection({focus:false});render();}
 async function refresh({quiet=false}={}){
-  if(flight)return flight;
-  if(!quiet)status('장비 구성을 확인하고 있습니다.');
-  $('#refresh').disabled=true;
+  if(flight)return flight;if(!quiet)status('장비 구성을 확인하고 있습니다.');$('#refresh').disabled=true;
   flight=Promise.all([request('mercenaries/v3/equipment'),request('mercenaries/v3/state')]).then(([gear,mercenary])=>{
-    state=gear;account=mercenary;render();status('PVE·PVP 장비는 각각 저장됩니다.');
+    state=gear;account=mercenary;
+    if(selected)selected=selected.instanceId?state.items.find(i=>i.instanceId===selected.instanceId)||null:state.catalog.find(i=>i.code===selected.code)||null;
+    render();status('장착 시 바로 저장 · 같은 장비를 PVE와 PVP에 각각 사용할 수 있습니다.');
   }).catch(error=>{
-    status(error.status===401?'로그인 후 용병 장비를 확인할 수 있습니다.':error.message,true);
-    if(!state){
-      $('#inventory').setAttribute('aria-busy','false');$('#itemCount').textContent='확인 필요';$('#operatorName').textContent='편성 확인 대기';
-      $('#inventory').innerHTML=`<div class="inventory-empty"><div class="empty-emblem">${icon('box')}</div><b>${error.status===401?'로그인이 필요합니다':'무장고를 열지 못했습니다'}</b><p>${error.status===401?'상단의 로비로 돌아가기에서 로그인해 주세요.':'연결 상태를 확인하고 다시 시도해 주세요.'}</p><button data-retry>다시 불러오기${icon('refresh')}</button></div>`;
-    }
+    status(error.status===401?'로비에서 로그인하면 장비를 확인할 수 있습니다.':error.message,true);
+    if(!state){$('#inventory').setAttribute('aria-busy','false');$('#operatorName').textContent='편성 확인 대기';$('#itemCount').textContent='확인 필요';$('#inventory').innerHTML=`<div class="empty-state"><div class="empty-art">${icon('search')}${icon('box')}${icon('refresh')}</div><h3>${error.status===401?'로그인이 필요합니다':'장비를 불러오지 못했습니다'}</h3><p>${error.status===401?'상단의 숲켓몬 로고나 로비 버튼으로 돌아가 로그인해 주세요.':'연결을 확인하고 다시 시도해 주세요.'}</p><button data-retry>다시 불러오기${icon('refresh')}</button></div>`;}
     throw error;
-  }).finally(()=>{flight=null;$('#refresh').disabled=false;});
-  return flight;
+  }).finally(()=>{flight=null;$('#refresh').disabled=false;});return flight;
 }
 async function save(action){
   if(busy||!selected?.instanceId)return;
   const target=selected,instanceId=action==='remove'?null:target.instanceId;
-  // Retain the receipt ID across ambiguous failures so retries cannot repeat a mutation.
-  if(!pending||pending.mode!==mode||pending.slot!==target.slot||pending.instanceId!==instanceId)pending={requestId:crypto.randomUUID(),mode,slot:target.slot,instanceId,revision:loadout().revision};
-  busy=true;renderDetail();$('#actionStatus').textContent='장비 구성을 저장하고 있습니다.';
+  busy=true;feedback='장비 구성을 저장하고 있습니다.';renderInspection();
   try{
+    if(flight)await flight;
+    // Ambiguous retries retain their receipt. Mode, ownership, and revision remain server-authoritative.
+    if(!pending||pending.mode!==mode||pending.slot!==target.slot||pending.instanceId!==instanceId)pending={requestId:crypto.randomUUID(),mode,slot:target.slot,instanceId,revision:loadout().revision};
     await request('mercenaries/v3/equipment',{method:'POST',body:pending});pending=null;
     try{localStorage.setItem('cnine.mercenary.loadout.changed',String(Date.now()));}catch{}
-    await refresh({quiet:true});$('#actionStatus').textContent=instanceId?`${mode} 장착 완료. 용병을 바꿔도 이 구성이 유지됩니다.`:`${mode} 장착을 해제했습니다.`;
+    await refresh({quiet:true});feedback=instanceId?`${mode} 장착 완료 · 용병을 바꿔도 장비는 유지됩니다.`:`${mode} 장착을 해제했습니다.`;toast(instanceId?`${target.name} · ${mode} 장착 완료`:`${target.name} 장착 해제`);
   }catch(error){
     if(error.status&&error.status<500){pending=null;await refresh({quiet:true}).catch(()=>{});}
-    $('#actionStatus').textContent=error.message;
-  }finally{busy=false;renderDetail();}
+    feedback=error.message;toast(error.message,true);
+  }finally{busy=false;renderInspection();}
 }
-function resetFilters(){region='';filter='';query='';$('#itemSearch').value='';}
-function showArsenal(){
-  $('#arsenal').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});
-  $('#arsenal').focus({preventScroll:true});
+function setSearch(open){
+  $('#searchDrawer').hidden=!open;$('#toggleSearch').setAttribute('aria-expanded',String(open));
+  if(open)$('#itemSearch').focus();else{query='';$('#itemSearch').value='';renderInventory();if(state)renderTools();$('#toggleSearch').focus();}
 }
 document.addEventListener('click',event=>{
-  const target=event.target.closest('button');if(!target)return;
-  if(target.dataset.mode){
-    if(busy)return;mode=target.dataset.mode;selected=null;
-    const url=new URL(location.href);url.searchParams.set('mode',mode);history.replaceState(null,'',url);render();
-  }
-  if(target.dataset.view){view=target.dataset.view;resetFilters();render();}
-  if(target.hasAttribute('data-region')){region=target.dataset.region;render();}
-  if(target.hasAttribute('data-filter-slot')){filter=target.dataset.filterSlot;render();}
-  if(target.hasAttribute('data-open-catalog')){view='catalog';resetFilters();render();}
-  if(target.hasAttribute('data-clear-filters')){resetFilters();render();}
-  if(target.hasAttribute('data-retry'))void refresh().catch(()=>{});
-  if(target.dataset.previewItem){const item=state?.catalog.find(row=>row.code===target.dataset.previewItem);if(item)openItem(item,target);}
-  if(target.dataset.item){const item=(view==='owned'?state?.items:state?.catalog)?.find(row=>(row.instanceId||row.code)===target.dataset.item);if(item)openItem(item,target);}
-  if(target.dataset.slot){
-    const item=loadout()?.items.find(row=>row.slot===target.dataset.slot);
-    if(item)openItem(item,target);
-    else{resetFilters();filter=target.dataset.slot;view='owned';render();showArsenal();}
-  }
+  const target=event.target.closest('button');
+  for(const menu of document.querySelectorAll('.tool-menu[open],.effects-disclosure[open]'))if(!menu.contains(event.target))menu.open=false;
+  if(!target)return;
+  if(target.dataset.mode){if(busy)return;mode=target.dataset.mode;closeSelection({focus:false});const url=new URL(location.href);url.searchParams.set('mode',mode);history.replaceState(null,'',url);$('#effectsDisclosure').open=false;render();}
+  if(target.dataset.view){if(busy)return;view=target.dataset.view;closeSelection({focus:false});render();}
+  if(target.dataset.slot)selectSlot(target.dataset.slot);
+  if(target.hasAttribute('data-region')){region=target.dataset.region;$('#regionMenu').open=false;closeSelection({focus:false});render();}
+  if(target.dataset.sort){sort=target.dataset.sort;$('#sortMenu').open=false;renderTools();renderInventory();}
+  if(target.dataset.layout){layout=target.dataset.layout;renderTools();renderInventory();}
+  if(target.dataset.item){const item=(view==='owned'?state?.items:state?.catalog)?.find(i=>itemKey(i)===target.dataset.item);if(item)choose(item);}
+  if(target.dataset.selectOwned){const item=state.items.find(i=>i.instanceId===target.dataset.selectOwned);if(item){view='owned';choose(item);render();}}
+  if(target.hasAttribute('data-open-catalog')){view='catalog';query='';$('#itemSearch').value='';closeSelection({focus:false});render();}
+  if(target.hasAttribute('data-reset-filters')||target.id==='clearFilters')resetFilters();
+  if(target.hasAttribute('data-close-selection'))closeSelection();
+  if(target.hasAttribute('data-retry')||target.id==='refresh')void refresh().catch(()=>{});
   if(target.dataset.save)void save(target.dataset.save);
-  if(target.hasAttribute('data-close')||target.id==='closeItem')$('#itemDialog').close();
+  if(target.id==='openInventory')showInventory();
+  if(target.id==='toggleSearch')setSearch($('#searchDrawer').hidden);
+  if(target.id==='closeSearch')setSearch(false);
 });
-$('#itemSearch').addEventListener('input',event=>{query=event.target.value.trim();renderInventory();});
-$('#itemSort').addEventListener('change',event=>{sort=event.target.value;renderInventory();});
-$('#refresh').addEventListener('click',()=>void refresh().catch(()=>{}));
-for(const link of document.querySelectorAll('a[href="#arsenal"]'))link.addEventListener('click',event=>{event.preventDefault();showArsenal();});
+$('#itemSearch').addEventListener('input',event=>{query=event.target.value.trim();renderInventory();if(state)renderTools();});
+$('#itemSearch').addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();setSearch(false);}});
 $('#goBack').addEventListener('click',()=>{
-  if($('#itemDialog').open){$('#itemDialog').close();return;}
-  // A direct/PWA launch may have unrelated browser history. Only return to a known game page.
-  let canReturn=false;
-  try{const previous=new URL(document.referrer);canReturn=previous.origin===location.origin&&previous.pathname!==location.pathname&&history.length>1;}catch{}
+  if(selected){closeSelection();return;}if(slot||region||query){resetFilters();return;}
+  let canReturn=false;try{const previous=new URL(document.referrer);canReturn=previous.origin===location.origin&&previous.pathname!==location.pathname&&history.length>1;}catch{}
   if(canReturn)history.back();else location.assign('/?screen=home');
 });
-$('#itemDialog').addEventListener('close',()=>{if(returnFocus)$(returnFocus)?.focus({preventScroll:true});});
-$('#itemDialog').addEventListener('click',event=>{
-  if(event.target!==$('#itemDialog'))return;
-  const rect=event.target.getBoundingClientRect();
-  if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)event.target.close();
+$('#itemDialog').addEventListener('close',()=>{if(mobile.matches&&selected)closeSelection();});
+$('#itemDialog').addEventListener('click',event=>{if(event.target!==$('#itemDialog'))return;const rect=event.target.getBoundingClientRect();if(event.clientY<rect.top||event.clientX<rect.left||event.clientX>rect.right)closeSelection();});
+mobile.addEventListener('change',()=>renderInspection());
+document.addEventListener('keydown',event=>{
+  if(event.key==='Escape'&&selected&&!$('#itemDialog').open){closeSelection();return;}
+  const card=event.target.closest('.gear-option');if(!card)return;
+  const cards=[...document.querySelectorAll('.gear-option')],index=cards.indexOf(card),columns=layout==='list'?1:getComputedStyle($('#inventory')).gridTemplateColumns.split(' ').length;
+  const next=({ArrowRight:index+1,ArrowLeft:index-1,ArrowDown:index+columns,ArrowUp:index-columns,Home:0,End:cards.length-1})[event.key];
+  if(next!==undefined){event.preventDefault();cards[Math.max(0,Math.min(cards.length-1,next))]?.focus();}
 });
+// Pointer dragging keeps the equipment preview under our control. Dropping never saves a loadout.
+$('#inventory').addEventListener('dragstart',event=>event.preventDefault());
+$('#inventory').addEventListener('pointerdown',event=>{
+  const target=event.target.closest('[data-item]');
+  if(!target||view!=='owned'||busy||mobile.matches||event.button!==0)return;
+  const item=state.items.find(i=>i.instanceId===target.dataset.item);if(!item)return;
+  drag={item,target,pointerId:event.pointerId,x:event.clientX,y:event.clientY,ghost:null};
+});
+document.addEventListener('pointermove',event=>{
+  if(!drag||event.pointerId!==drag.pointerId)return;
+  if(!drag.ghost&&Math.hypot(event.clientX-drag.x,event.clientY-drag.y)<8)return;
+  if(!drag.ghost){
+    drag.target.setPointerCapture(event.pointerId);
+    drag.ghost=document.createElement('div');drag.ghost.className='drag-preview';drag.ghost.setAttribute('aria-hidden','true');
+    drag.ghost.innerHTML=`<img src="${esc(drag.item.image)}" alt=""><span>${esc(drag.item.name)}</span>`;
+    document.body.append(drag.ghost);document.body.classList.add('dragging-equipment');
+  }
+  event.preventDefault();drag.ghost.style.left=event.clientX+'px';drag.ghost.style.top=event.clientY+'px';
+  const target=document.elementFromPoint(event.clientX,event.clientY)?.closest('[data-slot]');
+  document.querySelectorAll('[data-slot]').forEach(el=>el.classList.toggle('drop-target',el===target&&el.dataset.slot===drag.item.slot));
+});
+function finishDrag(event,cancelled=false){
+  if(!drag||event.pointerId!==drag.pointerId)return;
+  const {item,target,pointerId,ghost}=drag;drag=null;
+  if(target.hasPointerCapture(pointerId))target.releasePointerCapture(pointerId);
+  ghost?.remove();document.body.classList.remove('dragging-equipment');
+  document.querySelectorAll('.drop-target').forEach(el=>el.classList.remove('drop-target'));
+  if(!ghost)return;
+  suppressClick=true;setTimeout(()=>{suppressClick=false;},0);
+  if(cancelled)return;
+  const destination=document.elementFromPoint(event.clientX,event.clientY)?.closest('[data-slot]');
+  if(!destination)return;
+  if(item.slot!==destination.dataset.slot){toast(labels[destination.dataset.slot]+' 슬롯에는 같은 부위의 장비를 놓아 주세요.',true);return;}
+  slot=item.slot;view='owned';region='';query='';$('#itemSearch').value='';choose(item);render();toast('장착할 후보로 선택했습니다. 비교 후 장착 버튼을 눌러 주세요.');
+}
+document.addEventListener('pointerup',event=>finishDrag(event));
+document.addEventListener('pointercancel',event=>finishDrag(event,true));
+document.addEventListener('click',event=>{if(suppressClick){event.preventDefault();event.stopImmediatePropagation();suppressClick=false;}},true);
+$('.skip-link').addEventListener('click',event=>{event.preventDefault();showInventory();$('#inventory').focus({preventScroll:true});});
 addEventListener('focus',()=>{if(!busy)void refresh({quiet:true}).catch(()=>{});});
 addEventListener('storage',event=>{if(event.key==='cnine.mercenary.loadout.changed'&&!busy)void refresh({quiet:true}).catch(()=>{});});
-render();void refresh().catch(()=>{});
+paintIcons();render();void refresh().catch(()=>{});
