@@ -1,0 +1,146 @@
+{
+  "operationKey": "ops:pink-equipped-plus10:20261011:v1",
+  "status": "VERIFIED",
+  "user": {
+    "id": 1,
+    "nickname": "핑크빛유두"
+  },
+  "actor": "SYSTEM_OPS",
+  "completedAt": "2026-10-11T09:43:41.807Z",
+  "changed": 5,
+  "equipment": [
+    {
+      "slot": "WEAPON",
+      "instanceId": "2153543557",
+      "equipmentId": "55",
+      "code": "EASTERN_WEAPON_DRAFT_03",
+      "name": "M14-EBR-東方軍火商(동방무기상)",
+      "levelBefore": 0,
+      "levelAfter": 10,
+      "revisionBefore": 0,
+      "revisionAfter": 1,
+      "powerBefore": {
+        "total": 350000,
+        "pve": 315000,
+        "pvp": 35000
+      },
+      "powerAfter": {
+        "total": 770000,
+        "pve": 693000,
+        "pvp": 77000
+      }
+    },
+    {
+      "slot": "TOP",
+      "instanceId": "78256698",
+      "equipmentId": "43",
+      "code": "EMPEROR_TOP",
+      "name": "엠퍼러 슈트",
+      "levelBefore": 5,
+      "levelAfter": 10,
+      "revisionBefore": 11,
+      "revisionAfter": 12,
+      "powerBefore": {
+        "total": 130000,
+        "pve": 117000,
+        "pvp": 13000
+      },
+      "powerAfter": {
+        "total": 220000,
+        "pve": 198000,
+        "pvp": 22000
+      }
+    },
+    {
+      "slot": "BOTTOM",
+      "instanceId": "78256688",
+      "equipmentId": "44",
+      "code": "EMPEROR_BOTTOM",
+      "name": "엠퍼러 레깅스",
+      "levelBefore": 0,
+      "levelAfter": 10,
+      "revisionBefore": 0,
+      "revisionAfter": 1,
+      "powerBefore": {
+        "total": 100000,
+        "pve": 90000,
+        "pvp": 10000
+      },
+      "powerAfter": {
+        "total": 220000,
+        "pve": 198000,
+        "pvp": 22000
+      }
+    },
+    {
+      "slot": "SHOES",
+      "instanceId": "78256694",
+      "equipmentId": "45",
+      "code": "EMPEROR_SHOES",
+      "name": "엠퍼러 슈즈",
+      "levelBefore": 1,
+      "levelAfter": 10,
+      "revisionBefore": 1,
+      "revisionAfter": 2,
+      "powerBefore": {
+        "total": 106000,
+        "pve": 95400,
+        "pvp": 10600
+      },
+      "powerAfter": {
+        "total": 220000,
+        "pve": 198000,
+        "pvp": 22000
+      }
+    },
+    {
+      "slot": "ACCESSORY",
+      "instanceId": "78256685",
+      "equipmentId": "46",
+      "code": "EMPEROR_DUAL_DISK",
+      "name": "엠퍼러 듀얼디스크",
+      "levelBefore": 0,
+      "levelAfter": 10,
+      "revisionBefore": 0,
+      "revisionAfter": 1,
+      "powerBefore": {
+        "total": 100000,
+        "pve": 90000,
+        "pvp": 10000
+      },
+      "powerAfter": {
+        "total": 220000,
+        "pve": 198000,
+        "pvp": 22000
+      }
+    }
+  ],
+  "excluded": [
+    {
+      "slot": "BATTLE_SUIT",
+      "instanceId": "2139240489",
+      "name": "SX슈트",
+      "reason": "BATTLE_SUIT is not an enhancement-supported slot"
+    }
+  ],
+  "balancesPreserved": true,
+  "instancesAndLoadoutPreserved": true,
+  "polishPreserved": true,
+  "grants": 0,
+  "adminLogId": "44590",
+  "verifiedAt": "2026-10-11T09:43:52.458Z",
+  "validation": {
+    "syntaxPassed": true,
+    "transactionDryRunRollback": true,
+    "replayReturnedExistingReceipt": true,
+    "replayAdminLogId": "44590",
+    "separateConnectionVerification": true
+  },
+  "evidence": {
+    "before.json": "dc43f86e1b2ecbe310d750c15ad2c2d50db31ec957ce896bdffaf636eb98d86c",
+    "dry.json": "bf96a729579556758608980a3e3d2b9e7fa93d98179ead559ac2f49abc5bb3e0",
+    "apply.json": "d5a4c29b8103778b1c7fb44eff99adeaa98865dc3a47e0730ba7daf5c2350b8c",
+    "verify.json": "facb08723704364ba5ec398aab67f9cdc45948f69cb09676c4df18e7b49d7a7f",
+    "replay.json": "b5ddb2d5f59d80604584e68e703046b8a519240dbc3fdfd20fc77da0611d2f74"
+  }
+}
