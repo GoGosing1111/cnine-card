@@ -1,6 +1,6 @@
 {
   "operationKey": "ops:jokgak-city-top10:20261011-18:v1",
-  "status": "SCHEDULED_DEPLOYMENT_PENDING",
+  "status": "SCHEDULED_READY",
   "round": {
     "epoch": 82951,
     "startKst": "2026-10-11 18:00:00",
@@ -26,22 +26,54 @@
     "durationMs": 21303,
     "actual500BCoinClaim": true,
     "fullRollback": true,
-    "stalePlanAndReplay": true
+    "stalePlanAndReplay": true,
+    "totalPassed": 25
   },
   "deployment": {
-    "status": "READY",
+    "status": "COMPLETED",
     "base": "995c2d77c5710b69a07c8d7b7665a180011fa72a",
     "basePages": "69b5dadd-36d6-46c6-b748-958306ab47f6",
     "checks": [
       "tests/jokgak-city-worker-entry-20261009.test.mjs",
       "check:worker"
     ],
-    "priorTestsReused": 24
+    "priorTestsReused": 24,
+    "sourceCommit": "9a2b4bc8fbd0a1013bb418fa70412ab41647e0eb",
+    "pages": "https://b6a3d9d9.cnine-card.pages.dev",
+    "apiRuntimeVersion": "a8cbd809-0b13-485c-9d3f-33a389cd7ee5",
+    "schedulerVersion": "560347d5-291b-475a-a1bf-def842a7e962",
+    "schedulerEveryMinute": true,
+    "workerIntegrationPassed": 1,
+    "compilationPassed": true,
+    "releaseChecksPassed": true,
+    "hyperdriveCacheDisabled": true
   },
   "verificationAutomation": {
     "id": "top10",
     "atKst": "2026-10-12 00:03:00",
     "oneTime": true
   },
-  "scope": "One-time Jokgak city reward only. No Madara deployment, user UI change, schema migration or CMS policy change."
+  "scope": "One-time Jokgak city reward only. No Madara deployment, user UI change, schema migration or CMS policy change.",
+  "finalVerification": {
+    "at": "2026-10-11T09:54:18.241Z",
+    "event": {
+      "status": "SCHEDULED",
+      "dueAt": "2026-10-11T15:00:00.000Z",
+      "tiePolicy": "INCLUDE_CUTOFF_TIES",
+      "messages": 0
+    },
+    "city": {
+      "mode": "ON",
+      "revision": 22,
+      "cursor": 82951
+    },
+    "audit": [
+      {
+        "action_type": "JOKGAK_CITY_TOP10_SCHEDULE",
+        "count": 1
+      }
+    ],
+    "healthStatus": 200,
+    "unauthenticatedCityStatus": 401
+  }
 }
