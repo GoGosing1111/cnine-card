@@ -1,0 +1,138 @@
+{
+  "at": "2026-10-11T16:10:31.608Z",
+  "results": [
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "sha256": "6c983f16837b0a7ffe09bf344f00b950939f7d5951699af5334ab5474c4df921",
+      "cacheControl": "no-store, no-cache, must-revalidate, max-age=0, no-store, no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "file": "admin/jokgak-city-admin-v1.mjs",
+      "status": 200,
+      "sha256": "6d0e8455a8e2b19ce89ada1184bc181e438e768245c541306c2a1dd85f6c0b7b",
+      "cacheControl": "no-store, no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "file": "admin/jokgak-city-admin-v1.css",
+      "status": 200,
+      "sha256": "631d9d37ffcf8c3ccccafee1dab4ed457c4212e7fc8ed9b98fd0f9b0e945e35b",
+      "cacheControl": "no-store, no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "file": "shared/jokgak-city-settings-v1.mjs",
+      "status": 200,
+      "sha256": "4ce39de7954e67da5d651116c73ad3989147e951cff4aab53de6d08e98a30d91",
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "file": "shared/jokgak-city-round-rewards-v1.mjs",
+      "status": 200,
+      "sha256": "c24fbe108fdad77f1c4fb7a6748b60465e4d3b1abd45a44a18d5365d1f3fa468",
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "path": "/api/admin/jokgak-city",
+      "unauthenticatedStatus": 401
+    }
+  ],
+  "policy": {
+    "before": {
+      "at": "2026-10-11T16:06:43.710Z",
+      "mode": "ON",
+      "revision": 25,
+      "rawHash": "43de0d9dd0f1ab768856dd3a6498348a51e2a528a7bc0bf7008bc40f102cf30a",
+      "roundRewardsStored": false,
+      "roundRewards": {
+        "participation": {
+          "enabled": false,
+          "minAttacks": 0,
+          "coin": 0,
+          "items": []
+        },
+        "top5": {
+          "enabled": false,
+          "ranks": [
+            {
+              "rank": 1,
+              "coin": 0,
+              "items": []
+            },
+            {
+              "rank": 2,
+              "coin": 0,
+              "items": []
+            },
+            {
+              "rank": 3,
+              "coin": 0,
+              "items": []
+            },
+            {
+              "rank": 4,
+              "coin": 0,
+              "items": []
+            },
+            {
+              "rank": 5,
+              "coin": 0,
+              "items": []
+            }
+          ]
+        }
+      },
+      "counts": {
+        "receipts": "0"
+      }
+    },
+    "after": {
+      "at": "2026-10-11T16:10:29.310Z",
+      "mode": "ON",
+      "revision": 25,
+      "rawHash": "43de0d9dd0f1ab768856dd3a6498348a51e2a528a7bc0bf7008bc40f102cf30a",
+      "roundRewardsStored": false,
+      "roundRewards": {
+        "participation": {
+          "enabled": false,
+          "minAttacks": 0,
+          "coin": 0,
+          "items": []
+        },
+        "top5": {
+          "enabled": false,
+          "ranks": [
+            {
+              "rank": 1,
+              "coin": 0,
+              "items": []
+            },
+            {
+              "rank": 2,
+              "coin": 0,
+              "items": []
+            },
+            {
+              "rank": 3,
+              "coin": 0,
+              "items": []
+            },
+            {
+              "rank": 4,
+              "coin": 0,
+              "items": []
+            },
+            {
+              "rank": 5,
+              "coin": 0,
+              "items": []
+            }
+          ]
+        }
+      },
+      "counts": {
+        "receipts": "0"
+      }
+    },
+    "unchanged": true
+  }
+}
