@@ -6885,12 +6885,12 @@ async function handleRequest(context){
       let rankedTicket;try{rankedTicket=await claimRankedMatchTicket(env,user.id,body.matchToken,settings)}catch(error){return json({error:error.message||'랭크전 매칭 확인에 실패했습니다.'},Number(error.status||500))}const defenderId=Number(rankedTicket.defender_id);if(!defenderId||defenderId===user.id)return json({error:'자동 배정된 상대가 올바르지 않습니다.'},400);
       const rejectRankedMatch=async(payload,status)=>{await env.DB.prepare('DELETE FROM pvp_ranked_match_tickets_v1671 WHERE token=? AND attacker_id=? AND used_at IS NULL').bind(rankedTicket.token,user.id).run();return json(payload,status);};
       context.pvpTiming?.mark('ticket');
-      const [recent,attacker,defUser]=await Promise.all([
-        env.DB.prepare('SELECT defender_id FROM pvp_match_history WHERE attacker_id=? ORDER BY id DESC LIMIT 2').bind(user.id).all(),
+      // Matchmaking already prefers another opponent and permits a repeat only
+      // when no other candidate fits its bounded search. Honor that server ticket.
+      const [attacker,defUser]=await Promise.all([
         ensurePvpProfile(env,user,settings),
         env.DB.prepare("SELECT * FROM users WHERE id=? AND status='ACTIVE' AND (banned_until IS NULL OR banned_until<=datetime('now'))").bind(defenderId).first()
       ]);
-      if(recent.results.length===2&&Number(recent.results[0].defender_id)===defenderId&&Number(recent.results[1].defender_id)===defenderId)return rejectRankedMatch({error:'같은 상대와는 연속 3회 이상 대전할 수 없습니다. 다른 상대와 1회 대전한 뒤 다시 도전하세요.',code:'PVP_REPEAT_OPPONENT_LIMIT'},409);
       if(!defUser)return rejectRankedMatch({error:'상대를 찾을 수 없습니다.'},404);const defender=await ensurePvpProfile(env,defUser,settings);
       if(Number(attacker.season_score)!==Number(rankedTicket.attacker_score)||Number(defender.season_score)!==Number(rankedTicket.defender_score))return rejectRankedMatch({error:'매칭 후 시즌 점수가 변경되었습니다. 현재 점수 기준으로 다시 매칭해주세요.',code:'PVP_MATCH_SCORE_CHANGED'},409);
       context.pvpTiming?.mark('profiles');
