@@ -5,19 +5,19 @@
 | 이름 | 콘셉트 | 현재 선택 | 승인 |
 | --- | --- | --- | --- |
 | 나무늘봉순 | 뱀파이어 제복 · 소총 | V1 | 사용자 승인 |
-| 조은 | 고딕 오피스룩 · 기관총 | V3 새 포즈 | 사용자 검수 대기 |
+| 조은 | 고딕 오피스룩 · 기관총 | V3 새 포즈 | 사용자 승인 |
 | 하이희야 | 마녀 메이드복 · 빗자루 | V1 | 사용자 승인 |
 | 오리꿍 | 호박 마법사 · 마법서와 지팡이 | V1 | 사용자 승인 |
-| 디임 | 성기사 제복 · 검과 방패 | V3 새 포즈 | 사용자 검수 대기 |
+| 디임 | 성기사 제복 · 검과 방패 | V3 새 포즈 | 사용자 승인 |
 | 아윤 | 고딕 치어리더복 · 표창 | V1 | 사용자 승인 |
 
-조은과 디임은 최초 무기 축과 V2 보정 후 포즈가 받아들여지지 않아, 사용자 지시대로 파지부터 새로 설계했다. 조은 V3는 개머리판을 어깨에 대고 양손으로 받치는 수평 기관총 자세다. 디임 V3는 손잡이를 주먹으로 쥐고 검을 수직으로 세운 자세다. 총몸·총열·총구와 검 손잡이·가드·검신의 전체 연결 축을 각각 확인한다. 두 V3를 사용자 승인본으로 기록하지 않는다.
+조은과 디임은 최초 무기 축과 V2 보정 후 포즈가 받아들여지지 않아, 사용자 지시대로 파지부터 새로 설계했다. 조은 V3는 개머리판을 어깨에 대고 양손으로 받치는 수평 기관총 자세다. 디임 V3는 손잡이를 주먹으로 쥐고 검을 수직으로 세운 자세다. 총몸·총열·총구와 검 손잡이·가드·검신의 전체 연결 축을 각각 확대 확인했다. 후속 사용자 `승인`으로 두 V3를 최종 승인본으로 고정하고 원본 SHA-256을 보존한다. 기존 승인 4종 V1과 합쳐 총 6종의 원화 승인이 완료됐다.
 
-모든 생성은 내장 `image_gen`을 사용했다. 결과 PNG는 생성 원본을 바이트 그대로 복사해 보존하며 승인 4종을 재생성·재압축하지 않는다. 기존 운영 원화와 카탈로그, SD·스킬·전투·획득 설정은 이 작업의 변경 대상이 아니다.
+모든 생성은 내장 `image_gen`을 사용했다. 결과 PNG는 생성 원본을 바이트 그대로 복사해 보존하며 승인 6종을 재생성·재압축하지 않는다. 기존 운영 원화와 카탈로그, SD·스킬·전투·획득 설정은 이 작업의 변경 대상이 아니다.
 
 - 검수 갤러리: [index.html](../preview/mercenary-ss-limited-halloween-20261011-v1/index.html)
 - 파일 경로·버전·해시·상태: [manifest.json](../preview/mercenary-ss-limited-halloween-20261011-v1/manifest.json)
-- 승인 4종 단일 기록: [approval-20261011.json](../preview/mercenary-ss-limited-halloween-20261011-v1/approval-20261011.json)
+- 승인 6종 단일 기록: [approval-20261011.json](../preview/mercenary-ss-limited-halloween-20261011-v1/approval-20261011.json)
 - 최초 6종 프롬프트: [prompts.json](../preview/mercenary-ss-limited-halloween-20261011-v1/prompts.json)
 - 무기 국소 보정 V2 이력: [weapon-correction-prompts-v2.json](../preview/mercenary-ss-limited-halloween-20261011-v1/weapon-correction-prompts-v2.json)
 - 새 포즈 V3 프롬프트: [prompt-v3.json](../preview/mercenary-ss-limited-halloween-20261011-v1/prompt-v3.json)

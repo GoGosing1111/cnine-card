@@ -1,8 +1,8 @@
 {
-  "version": 1,
+  "version": 2,
   "date": "2026-10-11",
   "title": "SS 리미티드 · 할로윈 컬렉션",
-  "scope": "Source illustration review only; no runtime, catalog, skill, acquisition or SD changes",
+  "scope": "Six approved Halloween source illustrations; runtime, catalog, skill, acquisition and SD integration remain separate",
   "runtimeEnabled": false,
   "approvalRecord": "approval-20261011.json",
   "frame": {
@@ -53,7 +53,7 @@
       "rank": "SS",
       "limited": true,
       "concept": "할로윈 고딕 오피스룩 · 기관총",
-      "status": "USER_REVIEW_PENDING",
+      "status": "APPROVED_SOURCE_ART",
       "sourceArt": "assets/joeun-halloween-new-pose-v3.png",
       "sourceArtVersion": 3,
       "sourceArtSha256": "F5EB574037602252CE32C6F266300A0F31BA9A9589484644FB047FC22090AD24",
@@ -100,7 +100,7 @@
           "bitDepth": 8,
           "bytes": 2664748,
           "sha256": "F5EB574037602252CE32C6F266300A0F31BA9A9589484644FB047FC22090AD24",
-          "status": "USER_REVIEW_PENDING",
+          "status": "APPROVED_SOURCE_ART",
           "copyMethod": "byte-identical fs.copyFile"
         }
       ]
@@ -172,7 +172,7 @@
       "rank": "SS",
       "limited": true,
       "concept": "할로윈 성기사 제복 · 검과 방패",
-      "status": "USER_REVIEW_PENDING",
+      "status": "APPROVED_SOURCE_ART",
       "sourceArt": "assets/diim-halloween-new-pose-v3.png",
       "sourceArtVersion": 3,
       "sourceArtSha256": "9FEAD0C350CC3B923E4FB2DB0EEF3ED04925E6D3CD73B6E1FD82AB86D6898EB0",
@@ -219,7 +219,7 @@
           "bitDepth": 8,
           "bytes": 3013137,
           "sha256": "9FEAD0C350CC3B923E4FB2DB0EEF3ED04925E6D3CD73B6E1FD82AB86D6898EB0",
-          "status": "USER_REVIEW_PENDING",
+          "status": "APPROVED_SOURCE_ART",
           "copyMethod": "byte-identical fs.copyFile"
         }
       ]

@@ -1,7 +1,7 @@
 {
-  "version": 1,
+  "version": 2,
   "date": "2026-10-11",
-  "userInstruction": "조은,디임 제외 나머지 승인 조은디임 포즈 새로 만들것 총 제대로 들고있게하고 칼도 잡는 포즈 바꾸고 일직선 유지",
+  "userInstruction": "승인",
   "scope": "Halloween source illustrations only",
   "approved": [
     {
@@ -67,14 +67,46 @@
       "sha256": "7DB1879718978A547D058376F318A4F2B4EE241067981523D8327DAC6F149A2D",
       "copyMethod": "byte-identical fs.copyFile",
       "status": "APPROVED_SOURCE_ART"
+    },
+    {
+      "code": "V-991",
+      "name": "조은",
+      "version": 3,
+      "path": "assets/joeun-halloween-new-pose-v3.png",
+      "originalGeneratedPath": "C:/Users/User/.codex/generated_images/01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd/exec-18468c7f-7244-4a37-b6cf-4a58e8d4a05e.png",
+      "width": 1024,
+      "height": 1536,
+      "format": "PNG",
+      "mode": "RGB",
+      "bitDepth": 8,
+      "bytes": 2664748,
+      "sha256": "F5EB574037602252CE32C6F266300A0F31BA9A9589484644FB047FC22090AD24",
+      "status": "APPROVED_SOURCE_ART",
+      "copyMethod": "byte-identical fs.copyFile"
+    },
+    {
+      "code": "V-994",
+      "name": "디임",
+      "version": 3,
+      "path": "assets/diim-halloween-new-pose-v3.png",
+      "originalGeneratedPath": "C:/Users/User/.codex/generated_images/01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd/exec-bd4e30b6-64a3-4b5e-8968-f534c3884268.png",
+      "width": 1024,
+      "height": 1536,
+      "format": "PNG",
+      "mode": "RGB",
+      "bitDepth": 8,
+      "bytes": 3013137,
+      "sha256": "9FEAD0C350CC3B923E4FB2DB0EEF3ED04925E6D3CD73B6E1FD82AB86D6898EB0",
+      "status": "APPROVED_SOURCE_ART",
+      "copyMethod": "byte-identical fs.copyFile"
     }
   ],
   "excluded": [
     {
       "code": "V-991",
       "name": "조은",
-      "status": "NEW_POSE_V3_PENDING",
-      "reason": "사용자 지시: 새 포즈, 올바른 파지, 총/칼 일직선 유지. V1과 무기 보정 V2는 승인 아님.",
+      "status": "REJECTED_SUPERSEDED",
+      "reason": "V1과 무기 보정 V2는 반려 이력으로 보존한다. 새 포즈 V3는 후속 사용자 승인으로 approved 목록에 고정됐다.",
       "history": [
         {
           "version": 1,
@@ -104,13 +136,17 @@
           "copyMethod": "byte-identical fs.copyFile",
           "status": "REJECTED_SUPERSEDED_NEW_POSE_REQUESTED"
         }
+      ],
+      "versions": [
+        1,
+        2
       ]
     },
     {
       "code": "V-994",
       "name": "디임",
-      "status": "NEW_POSE_V3_PENDING",
-      "reason": "사용자 지시: 새 포즈, 올바른 파지, 총/칼 일직선 유지. V1과 무기 보정 V2는 승인 아님.",
+      "status": "REJECTED_SUPERSEDED",
+      "reason": "V1과 무기 보정 V2는 반려 이력으로 보존한다. 새 포즈 V3는 후속 사용자 승인으로 approved 목록에 고정됐다.",
       "history": [
         {
           "version": 1,
@@ -140,15 +176,32 @@
           "copyMethod": "byte-identical fs.copyFile",
           "status": "REJECTED_SUPERSEDED_NEW_POSE_REQUESTED"
         }
+      ],
+      "versions": [
+        1,
+        2
       ]
     }
   ],
-  "preservation": "All eight generated originals were copied byte for byte. No resampling, image editing, recompression or replacement of approved existing character art.",
+  "preservation": "All ten generated originals are preserved byte for byte: six approved selections and four rejected historical versions. No resampling, image editing, recompression or replacement of existing runtime character art.",
   "notApprovedByThisRecord": [
-    "Joeun and Diim V1/V2/V3",
+    "Joeun and Diim V1/V2",
     "new SD",
     "skills",
     "runtime catalog replacement",
     "acquisition or combat activation"
-  ]
+  ],
+  "instructionHistory": [
+    {
+      "date": "2026-10-11",
+      "userInstruction": "조은,디임 제외 나머지 승인 조은디임 포즈 새로 만들것 총 제대로 들고있게하고 칼도 잡는 포즈 바꾸고 일직선 유지",
+      "approvedCodes": [
+        "V-990",
+        "V-998",
+        "V-993",
+        "V-997"
+      ]
+    }
+  ],
+  "approvalContext": "Approval of Joeun and Diim new-pose V3 completes all six Halloween source illustrations."
 }
