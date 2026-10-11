@@ -1,0 +1,165 @@
+{
+  "checkedAt": "2026-10-11T15:45:38.557Z",
+  "sourceCommit": "b9a242fe5e7147e5efb88688e87c8293469764a3",
+  "implementationCommit": "a3f74576909bb5f74925f6bb254bd29a666c359b",
+  "deployment": {
+    "id": "798b7769-7174-44d9-9c92-e63bd44d0777",
+    "environment": "Production",
+    "url": "https://798b7769.cnine-card.pages.dev",
+    "runtimeWorkerVersion": "1bcfcfec-0334-4051-b69e-42a6f37501ae",
+    "clanWorkerVersion": "74862e04-8e52-4ad6-b8bb-d81bd384f8f2"
+  },
+  "verification": {
+    "fullReleaseGate": "PASSED",
+    "productionGuard": "PASSED",
+    "hyperdriveQueryCache": "DISABLED",
+    "browserViewports": [
+      1440,
+      390
+    ],
+    "reusedCompletedGateStages": 37,
+    "failedStageRerun": "test:equipment-forge-public",
+    "testHarnessRepairs": [
+      "inventory route dependency injection for ensureForgeScrollCatalog",
+      "DOM fixture support for Element.after"
+    ],
+    "logs": [
+      {
+        "file": "production-full.log",
+        "sha256": "a892fa8d0ffd40a0d037d009bc2166667eacc98c27c5d1a0133800cc4d5359b9"
+      },
+      {
+        "file": "production-resume-1.log",
+        "sha256": "837eb03705b1883b6e2cd02a8b401e807164a89b6664223b30c253c3dac84030"
+      }
+    ]
+  },
+  "database": {
+    "capMigration": {
+      "operation": "ops:equipment-forge-cap:20261012:v1",
+      "at": "2026-10-11T15:28:36.574Z",
+      "changed": true,
+      "before": {
+        "conname": "equipment_forge_states_v1_level_check",
+        "definition": "CHECK (((level >= 0) AND (level <= 10)))"
+      },
+      "after": {
+        "maxStoredLevel": 15
+      },
+      "balancesChanged": false,
+      "advancedStepsActivated": false,
+      "dryRun": false
+    },
+    "catalog": {
+      "operation": "ops:equipment-forge-scrolls:20261012:v1",
+      "at": "2026-10-11T15:45:32.452Z",
+      "registered": 0,
+      "before": [
+        {
+          "code": "WEAPON_ENHANCEMENT_SCROLL",
+          "name": "무기 강화주문서",
+          "image_url": "assets/items/weapon-enhancement-scroll-v1.webp",
+          "is_active": "1"
+        },
+        {
+          "code": "ARMOR_ENHANCEMENT_SCROLL",
+          "name": "방어구 강화주문서",
+          "image_url": "assets/items/armor-enhancement-scroll-v1.webp",
+          "is_active": "1"
+        }
+      ],
+      "after": [
+        {
+          "code": "ARMOR_ENHANCEMENT_SCROLL",
+          "name": "방어구 강화주문서",
+          "image_url": "assets/items/armor-enhancement-scroll-v1.webp",
+          "is_active": "1"
+        },
+        {
+          "code": "WEAPON_ENHANCEMENT_SCROLL",
+          "name": "무기 강화주문서",
+          "image_url": "assets/items/weapon-enhancement-scroll-v1.webp",
+          "is_active": "1"
+        }
+      ],
+      "balancesChanged": false,
+      "advancedStepsActivated": false,
+      "dryRun": false
+    },
+    "levelConstraint": [
+      {
+        "conname": "equipment_forge_states_v1_level_check",
+        "definition": "CHECK (((level >= 0) AND (level <= 15)))"
+      }
+    ],
+    "legacyPolicyHashesUnchanged": true,
+    "legacyPolicyHashes": {
+      "equipment_forge_public_settings_v1": "b96bc7a2f30cf3603e32524005909227af115f911bc7d1f897c7a1e4ee5fc2b5",
+      "equipment_forge_release_20260922_v1": "8c778bf2702dd9ad85ec775b31520ed2fd1c6207121401aa327e039b87406f66",
+      "equipment_forge_runtime_policy_v1": "d39343d5a3d595c5daf5a095b40c2a3576e8662687063d52b73f1ff80f18cad6"
+    },
+    "advancedPolicyStored": false,
+    "newFieldsNull": 40,
+    "readyAdvancedSteps": 0,
+    "ownedAdvancedEquipmentCount": 0,
+    "legacyExecutionMode": "ON"
+  },
+  "web": {
+    "checkedAt": "2026-10-11T15:45:15.195Z",
+    "assetsAndSources": [
+      {
+        "path": "assets/items/weapon-enhancement-scroll-v1.png",
+        "status": 200,
+        "sha256": "23411651eba2deed56ffd0156f9661f9bcd7cb6588d54f179a376da50cb1acb2"
+      },
+      {
+        "path": "assets/items/weapon-enhancement-scroll-v1.webp",
+        "status": 200,
+        "sha256": "b508f2d24fb67a0f391a4743ff6ac0f94f17a5ec798b4a4131ed0fd3c77d0f1c"
+      },
+      {
+        "path": "assets/items/armor-enhancement-scroll-v1.png",
+        "status": 200,
+        "sha256": "affd3624c4f4b09b2663fcbb739f4950058223744dde473c99fd37c932e1a0b0"
+      },
+      {
+        "path": "assets/items/armor-enhancement-scroll-v1.webp",
+        "status": 200,
+        "sha256": "a7f19de23db42a9777632577080deaf439b37386a1338603a632cc57ce865398"
+      },
+      {
+        "path": "admin/equipment-forge-advanced-editor-v1.mjs",
+        "status": 200,
+        "sourceMatches": true
+      },
+      {
+        "path": "admin/equipment-forge-advanced-v1.css",
+        "status": 200,
+        "sourceMatches": true
+      },
+      {
+        "path": "equipment-forge/app.mjs",
+        "status": 200,
+        "sourceMatches": true
+      },
+      {
+        "path": "shared/equipment-forge-advanced-v1.mjs",
+        "status": 200,
+        "sourceMatches": true
+      },
+      {
+        "path": "preview/equipment-enhancement-scrolls-v1/index.html",
+        "status": 200,
+        "sourceMatches": true
+      }
+    ],
+    "publicStatus": {
+      "maxLevel": 15,
+      "legacyExecution": "ON",
+      "advancedRevision": 0,
+      "advancedStepsLocked": 5,
+      "allNewNumbersNull": true
+    },
+    "anonymousCmsStatus": 401
+  }
+}
