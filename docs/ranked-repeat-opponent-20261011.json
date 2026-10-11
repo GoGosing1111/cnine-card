@@ -1,0 +1,36 @@
+{
+  "status": "DEPLOYED_VERIFIED",
+  "checkedAt": "2026-10-11T12:10:46.821Z",
+  "sourceCommit": "b97632a6ead2a01d0b99662f62c8723366f5c988",
+  "previousLiveCommit": "1a0ca4f720573787e95e9e3597dee41fd30b8772",
+  "deploymentCommand": "npm run deploy:production -- --scoped",
+  "pages": {
+    "id": "822c27ba-a58f-42e6-b9d9-1d9fe806f6e3",
+    "url": "https://822c27ba.cnine-card.pages.dev"
+  },
+  "apiRuntimeVersion": "45227ffc-6f54-42ea-95de-18228a9cefe6",
+  "schedulerVersion": "18849187-3df4-482a-8d9b-d4869d6deb23",
+  "regressions": {
+    "beforeFix": "Third consecutive match with a valid server ticket reproduced PVP_REPEAT_OPPONENT_LIMIT / HTTP 409.",
+    "passed": 30,
+    "files": [
+      "tests/ranked-matchmaking-20261007.test.mjs",
+      "tests/ranked-fight-performance-20260929.test.mjs",
+      "tests/ranked-reform-20261002.test.mjs",
+      "tests/ranked-ticket-boundary-20261011.test.mjs"
+    ],
+    "workerSyntax": "PASS",
+    "productionReleaseGate": "PASS",
+    "hyperdriveQueryCache": "DISABLED"
+  },
+  "productionVerification": {
+    "deployedSourceMatches": true,
+    "runtimeMatchmakingPresent": true,
+    "runtimeServerTicketValidationPresent": true,
+    "obsoleteRepeatRejectionAbsent": true,
+    "serviceStatus": 200,
+    "unauthenticatedFight": 401,
+    "livePlayerBattleExecuted": false
+  },
+  "scope": "Honor existing bounded-matchmaking fallback at fight entry; keep alternative priority, ticket validation, score/deck checks and atomic settlement. No UI, combat calculation, CMS values or schema changes."
+}
