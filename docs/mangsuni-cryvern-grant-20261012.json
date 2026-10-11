@@ -1,0 +1,63 @@
+{
+  "status": "COMPLETED",
+  "authorization": "망순이 계정에 SSS크라이베른 지급",
+  "confirmedTarget": "망순이ෆ (ID 4628, 기존 라그니엘 지급 계정)",
+  "operationKey": "ops:mangsuni-cryvern:20261012:v1",
+  "operationScript": "scripts/ops/mangsuni-cryvern-grant-20261012.mjs",
+  "operationScriptSha256": "8aaf758f56ea74d9fa02bd719e7a8e5ed9d8551bd37cfe1b467b0f1778ea6326",
+  "lookup": {
+    "userId": 4628,
+    "nickname": "망순이ෆ",
+    "accountStatus": "ACTIVE",
+    "cmsRevision": 61,
+    "liveCardWeight": 20,
+    "beforeCopies": 0
+  },
+  "validation": {
+    "syntax": "PASS",
+    "dryRun": "DRY_RUN_ROLLED_BACK",
+    "partialFailureRolledBack": true,
+    "replayVerified": true,
+    "rollbackVerified": true,
+    "balances": true,
+    "loadouts": true,
+    "growth": true,
+    "otherMercenaries": true
+  },
+  "execution": {
+    "userLock": "user:4628",
+    "atomicWrites": [
+      "holdings",
+      "acquisition",
+      "adminAudit",
+      "completionReceipt"
+    ],
+    "siteDeployment": "NOT_REQUIRED_OPS_ONLY",
+    "notificationSent": false,
+    "temporaryHelperStopped": true,
+    "temporaryAuthKey": "IN_MEMORY_DISCARDED"
+  },
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:mangsuni-cryvern:20261012:v1:4628:V-049",
+    "actor": "SYSTEM_OPS",
+    "userId": 4628,
+    "nickname": "망순이ෆ",
+    "mercenaryCode": "V-049",
+    "mercenaryName": "크라이베른",
+    "rank": "SSS",
+    "quantity": 1,
+    "permanent": true,
+    "expiresAt": null,
+    "beforeCopies": 0,
+    "totalCopies": 1,
+    "duplicates": 0,
+    "completedAt": "2026-10-11T21:01:11.079Z",
+    "adminLogId": "44921"
+  },
+  "verification": {
+    "currentCopies": 1,
+    "missing": 0,
+    "duplicateOperationGrants": 0
+  }
+}
