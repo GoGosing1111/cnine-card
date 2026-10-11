@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "created_date": "2026-10-12",
+  "asset_type": "mercenary_source_art",
+  "description": "황금 용 아우라를 두른 동양 검사 — 사용자 디자인 참조 기반 SSS 리미티드 원화",
+  "name": null,
+  "rank": "SSS",
+  "edition": "LIMITED",
+  "rank_source": "EXPLICIT_USER_REQUEST",
+  "status": "USER_REVIEW_PENDING",
+  "current_version": 2,
+  "current_source_art": "assets/golden-dragon-swordsman-sss-limited-source-art-v2-natural-hair.png",
+  "source_reference": {
+    "path": "references/user-golden-dragon-swordsman-20261012.png",
+    "sha256": "C8B05D32FF78657615BBC65E79516B6397FBE19C6E28110113892012B9FD6438",
+    "preservation": "Byte-for-byte copy of user attachment; never overwritten."
+  },
+  "style_references": [
+    {
+      "path": "assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+      "role": "Primary painting style only",
+      "sha256": "629564D768A4BCEFCD0BE746E744DA49A64F1CF2BE7D048E7485FC6CB14FF874"
+    },
+    {
+      "path": "preview/mercenary-vespera-beauty-v1/assets/male-beauty-v1.png",
+      "role": "Male facial rendering style only, not identity",
+      "sha256": "386B9FEE2788695CE113991A4FF301708C30C35E201817C14EAAFE15D4324FFB"
+    }
+  ],
+  "versions": [
+    {
+      "version": 1,
+      "path": "assets/golden-dragon-swordsman-sss-limited-source-art-v1.png",
+      "sha256": "82A020B1D995405553383572F24C6CA466025BCFED646834D38C08342A304068",
+      "width": 1024,
+      "height": 1536,
+      "color": "RGB",
+      "bytes": 2852495,
+      "prompt": "prompt.json",
+      "status": "PRESERVED_BEFORE_HAIR_CORRECTION"
+    },
+    {
+      "version": 2,
+      "path": "assets/golden-dragon-swordsman-sss-limited-source-art-v2-natural-hair.png",
+      "sha256": "263725DD2B2B568CF5091B864BEA537161F6D7A4D3123DB0E9A2A0D040CFF21B",
+      "width": 1024,
+      "height": 1536,
+      "color": "RGB",
+      "bytes": 2701737,
+      "prompt": "prompt-v2-hair.json",
+      "status": "USER_REVIEW_PENDING",
+      "change": "후속 사용자 '머릿결좀'에 따라 띠·철사처럼 갈라진 긴 머리카락을 부드러운 연속 모발 흐름과 자연스러운 볼륨으로 수정."
+    }
+  ],
+  "generation": {
+    "mode": "built-in image_gen",
+    "postprocessing": "No crop, resize, recompression or pixel editing; generated PNGs copied unchanged."
+  },
+  "visual_review": {
+    "image_inspected": true,
+    "observations": [
+      "Reference-derived standing composition, open-palm pose, diagonal straight sword, asymmetrical ivory/black robe and gold armor retained.",
+      "Golden wingless Eastern dragon head, scaled coils, horns, whiskers and luminous front/back aura loops remain clearly visible.",
+      "V2 replaces separated sharp hair strips with a more connected flowing dark hair mass and finer subdued strands.",
+      "Face, costume, sword, dragon and aura composition visually compared after hair edit; design retained, not claimed pixel-identical.",
+      "Native exact 2:3 1024x1536 RGB PNG verified; no text, rank letters, watermark or card frame embedded."
+    ],
+    "user_final_approval": false,
+    "thumbnail_and_frame_review": "Not performed; this deliverable is an unframed illustration draft, not an approved card."
+  },
+  "scope": {
+    "source_art_only": true,
+    "battle_sprite": "NOT_REQUESTED",
+    "roster_connected": false,
+    "live_connected": false,
+    "skills_assigned": false,
+    "production_deployment": false
+  },
+  "note": "기존 승인 원화·앵커·프레임·게임 코드 수정 없음. 현재 요청은 원화 시안 및 머릿결 보정이며 최종 시각 승인이나 운영 연결로 확대하지 않음."
+}
