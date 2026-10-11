@@ -36,3 +36,16 @@
 직전 운영 소스는 배포 목록으로 확인한 `9d61df33bba4b5b037b1b538885c514d05adf33c`, Pages `6537a7e9`다.
 공식 scoped 배포에서 공통 번들/로더, 발테르 인접 경로와 Worker 컴파일만 추가 검사한다.
 위의 서버·브라우저 검수는 동일 빌드에서 반복하지 않는다. 운영 반영 결과는 아래에 추가한다.
+
+## 운영 반영 완료
+
+- 소스 `ad1b389572dad36480887533703e4506a6e19113`을 origin/main에 반영하고 공식 scoped 배포 완료.
+  공통 번들/로더·발테르 인접 검사 27건, Worker 문법·컴파일, 출시·캐시·Hyperdrive 검사 통과.
+- Pages `https://2617f2a9.cnine-card.pages.dev`, API Worker `d754f706-701c-48d1-94cd-6260c989d99a`,
+  scheduler `655ae5c2-9eea-4325-b91d-80fcbe4113cc`.
+- **2026-10-12 05:41 KST** 운영 별칭의 변경 파일 6개가 HTTP 200 및 로컬 바이트 해시와 일치했다.
+  실제 공개 API에서 헬리오스 `deploymentEnabled=true`와 신규 배포 버전을 확인했다.
+- 운영 DB 읽기 전용 거래에서 배포된 계정 조회 함수를 실행하여 음순이(ID 65)의 보유 1장·일련번호 1,
+  `canDeploy=true`, 전투력 1,123,200과 천양붕락 스킬을 확인했다. 현재 PVE/PVP 선택은 변경하지 않았다.
+- 상세 운영 근거: [production.json](qa/helios-deployment-20261012/production.json).
+  이 완료 기록은 문서 전용 후속 커밋으로 원격 반영하며 게임을 재배포하지 않는다.

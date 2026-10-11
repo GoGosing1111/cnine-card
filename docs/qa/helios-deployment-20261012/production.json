@@ -1,0 +1,74 @@
+{
+  "checkedAt": "2026-10-11T20:41:25.769Z",
+  "source": "ad1b389572dad36480887533703e4506a6e19113",
+  "deployment": "https://2617f2a9.cnine-card.pages.dev",
+  "workerVersions": [
+    "d754f706-701c-48d1-94cd-6260c989d99a",
+    "655ae5c2-9eea-4325-b91d-80fcbe4113cc"
+  ],
+  "files": [
+    {
+      "file": "shared/mercenary-limited-deployment-v1.mjs",
+      "status": 200,
+      "sha256": "3ffebbb7ffbd552d1753593a93791918d97a920816dc878bac6aeb3ea0fb817b",
+      "matches": true
+    },
+    {
+      "file": "shared/mercenary-helios-v1.mjs",
+      "status": 200,
+      "sha256": "8182dcec4b2281a17e67e1cf597087a1ececdf3913f27c849bd40455eba905db",
+      "matches": true
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "0cb24e603f83d6070c8dc8ce325d37986419b6790ebad31acf154a305df19f2d",
+      "matches": true
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "status": 200,
+      "sha256": "c584390cecb86e2a950c7d6b2bf745856fa1a553568e0106c95e1ac8ee9eb1d6",
+      "matches": true
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "status": 200,
+      "sha256": "20616cc91c7acb7dfa91f0eb1a4cd6b609fc113383adaeeda1fec1f81d0a664f",
+      "matches": true
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "status": 200,
+      "sha256": "385d3c5002845f4a0ac62b87cbf86b6e41d7d149cc1feec098c558910713c9f6",
+      "matches": true
+    }
+  ],
+  "publicHelios": {
+    "code": "V-999",
+    "deploymentEnabled": true,
+    "deploymentVersion": "20261012-helios-deployment-v1"
+  },
+  "account": {
+    "id": 65,
+    "nickname": "음순이",
+    "totalCopies": 1,
+    "canDeploy": true,
+    "basePower": 1123200,
+    "skill": "천양붕락",
+    "serials": [
+      1
+    ],
+    "loadouts": {
+      "PVE": {
+        "mercenaryCode": "V-055",
+        "revision": 26
+      },
+      "PVP": {
+        "mercenaryCode": "V-055",
+        "revision": 28
+      }
+    },
+    "verification": "Production read-only DB through the deployed account-state source; no loadout writes"
+  }
+}
