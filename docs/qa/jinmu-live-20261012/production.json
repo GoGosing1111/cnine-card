@@ -1,0 +1,177 @@
+{
+  "checkedAt": "2026-10-11T21:36:20.962Z",
+  "source": "cc3fa74da1610904440828f2096a64dfe5d0c735",
+  "deployment": "https://07941352.cnine-card.pages.dev",
+  "workerVersions": [
+    "a11a6137-9a4a-45fd-9487-11ef3582243d",
+    "c2f0705c-d849-4948-8c8b-8692fda53881"
+  ],
+  "files": [
+    {
+      "file": "shared/mercenary-jinmu-v1.mjs",
+      "status": 200,
+      "sha256": "7902b6fda8187ef6fb05e71c8471c215030bb85cd364dbf24e8bf96d66123544",
+      "matches": true
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "status": 200,
+      "sha256": "3126f14593d1118862104e7bbfa1a986392c742d2682d22fe15b4c51b26033d1",
+      "matches": true
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "status": 200,
+      "sha256": "c2fde7fe057140e2636cd05540090fca45177fa56d8dbf60dddcbbe1d8e5dbc3",
+      "matches": true
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "status": 200,
+      "sha256": "6fecae2ed7d4a0caed8017a6c0d3caaae0df7e9ecf632d15e741616bd864929d",
+      "matches": true
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "status": 200,
+      "sha256": "e6677cb8b12f22f3a856743240d8561348163152dbf5daf03784134081f1b6b1",
+      "matches": true
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/jinmu-20261012/source-art.png",
+      "status": 200,
+      "sha256": "263725dd2b2b568cf5091b864bea537161f6d7a4d3123db0e9a2a0d040cff21b",
+      "matches": true
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/jinmu-20261012/idle.png",
+      "status": 200,
+      "sha256": "690f2ca540df6f210fbe619316ab3e30f3361a247e3df6216da1fed8cfa168a2",
+      "matches": true
+    }
+  ],
+  "atlases": [
+    {
+      "file": "assets/atlases/idle.png",
+      "status": 200
+    },
+    {
+      "file": "assets/atlases/dash.png",
+      "status": 200
+    },
+    {
+      "file": "assets/atlases/slash.png",
+      "status": 200
+    },
+    {
+      "file": "assets/atlases/cast.png",
+      "status": 200
+    },
+    {
+      "file": "assets/atlases/ultimate.png",
+      "status": 200
+    },
+    {
+      "file": "assets/atlases/hit.png",
+      "status": 200
+    },
+    {
+      "file": "assets/atlases/defeat.png",
+      "status": 200
+    },
+    {
+      "file": "assets/atlases/aura.png",
+      "status": 200
+    },
+    {
+      "file": "assets/atlases/dashfx.png",
+      "status": 200
+    },
+    {
+      "file": "assets/atlases/blade.png",
+      "status": 200
+    },
+    {
+      "file": "assets/atlases/dragon.png",
+      "status": 200
+    },
+    {
+      "file": "assets/atlases/charge.png",
+      "status": 200
+    },
+    {
+      "file": "assets/atlases/eruption.png",
+      "status": 200
+    },
+    {
+      "file": "assets/atlases/impact.png",
+      "status": 200
+    }
+  ],
+  "publicLimitedCount": 9,
+  "publicAcquisition": false,
+  "grant": {
+    "dryRun": false,
+    "replayed": false,
+    "status": "VERIFIED",
+    "owner": {
+      "id": "1",
+      "nickname": "핑크빛유두",
+      "role": "OWNER",
+      "status": "ACTIVE"
+    },
+    "holders": [
+      {
+        "user_id": "1",
+        "mercenary_code": "V-989",
+        "total_copies": 1,
+        "duplicate_count": 0
+      }
+    ],
+    "limitedDigest": "bdefe441e2ac7b90f4b4d4b042513545d2f774e66c23c97778150815119d8cc3",
+    "limitedKinds": 9,
+    "limitedIssued": 50,
+    "jinmuStock": [],
+    "jinmuIssues": [],
+    "receipt": {
+      "status": "COMPLETED",
+      "operationKey": "ops:jinmu-owner-grant:20261012:v1",
+      "target": {
+        "id": 1,
+        "nickname": "핑크빛유두",
+        "code": "V-989",
+        "quantity": 1
+      },
+      "completedAt": "2026-10-11T21:36:17.810Z",
+      "countedInLimited": false,
+      "limitedDigestBefore": "bdefe441e2ac7b90f4b4d4b042513545d2f774e66c23c97778150815119d8cc3",
+      "limitedDigestAfter": "bdefe441e2ac7b90f4b4d4b042513545d2f774e66c23c97778150815119d8cc3",
+      "limitedKinds": 9,
+      "limitedIssued": 50,
+      "automaticLoadout": false,
+      "adminLogId": "44937"
+    }
+  },
+  "account": {
+    "id": 1,
+    "nickname": "핑크빛유두",
+    "code": "V-989",
+    "name": "천룡검황 진무",
+    "totalCopies": 1,
+    "canDeploy": true,
+    "basePower": 1347840,
+    "skill": "천룡강림",
+    "excludedFromLimitedCount": true,
+    "loadouts": {
+      "PVE": {
+        "mercenaryCode": "V-996",
+        "revision": 9
+      },
+      "PVP": {
+        "mercenaryCode": "V-996",
+        "revision": 9
+      }
+    },
+    "automaticLoadout": false
+  }
+}
