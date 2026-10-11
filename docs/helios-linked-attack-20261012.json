@@ -1,0 +1,523 @@
+{
+  "version": 1,
+  "dateKst": "2026-10-12",
+  "request": "발테르 비교·여우 계정 감사 후: 살짝 높게해봐",
+  "scope": "Helios V-999 card-derived linked attack +4%; no other balance, economy, account, art or outcome changes",
+  "reason": "V1 shared Valter’s 1760% linked attack floor, eliminating native attack advantage on strong decks.",
+  "policyBefore": {
+    "version": 1,
+    "basePower": 1123200,
+    "speedReferencePower": 1080000,
+    "speedScale": 3.12,
+    "actionCredit": 3.12,
+    "motionPlaybackRate": 2.6,
+    "link": {
+      "attackPercent": 1760,
+      "shieldPercent": 626.4,
+      "hpPercent": 1164.8
+    },
+    "basicCapScale": 2,
+    "damageTakenScale": 0.25,
+    "hardCounter": "V-055"
+  },
+  "policyAfter": {
+    "version": 2,
+    "basePower": 1123200,
+    "speedReferencePower": 1080000,
+    "speedScale": 3.12,
+    "actionCredit": 3.12,
+    "motionPlaybackRate": 2.6,
+    "link": {
+      "attackPercent": 1830.4,
+      "shieldPercent": 626.4,
+      "hpPercent": 1164.8
+    },
+    "basicCapScale": 2,
+    "damageTakenScale": 0.25,
+    "hardCounter": "V-055"
+  },
+  "semantics": {
+    "attackPercentBefore": 1760,
+    "attackPercentAfter": 1830.4,
+    "increasePercent": 4,
+    "equipment": "Existing additive equipment remains additive; total attack advantage may be smaller with powerful gear.",
+    "resolvedBattles": "Historical receipts remain unchanged; the new policy applies when a new battle is constructed.",
+    "damage": "No forced outcomes. Defense, dodge, criticals, damage caps and encounter length still affect results."
+  },
+  "comparison": {
+    "method": "Same 4 deck compositions, 3 powers, 64 seeds on each side, current released snapshots, read-only CMS combat policy revision 61; no equipment, growth, pets or magic.",
+    "seeds": {
+      "start": 730001,
+      "countPerSide": 64,
+      "multiplier": 7919
+    },
+    "before": {
+      "wins": 945,
+      "losses": 591,
+      "total": 1536,
+      "percent": 61.5234375,
+      "byPower": [
+        {
+          "power": 100000,
+          "wins": 409,
+          "total": 512,
+          "percent": 79.8828125
+        },
+        {
+          "power": 20000000,
+          "wins": 267,
+          "total": 512,
+          "percent": 52.1484375
+        },
+        {
+          "power": 1000000000,
+          "wins": 269,
+          "total": 512,
+          "percent": 52.5390625
+        }
+      ]
+    },
+    "after": {
+      "wins": 1025,
+      "losses": 511,
+      "total": 1536,
+      "percent": 66.73177083333334,
+      "byPower": [
+        {
+          "power": 100000,
+          "wins": 461,
+          "total": 512,
+          "percent": 90.0390625
+        },
+        {
+          "power": 20000000,
+          "wins": 282,
+          "total": 512,
+          "percent": 55.078125
+        },
+        {
+          "power": 1000000000,
+          "wins": 282,
+          "total": 512,
+          "percent": 55.078125
+        }
+      ]
+    },
+    "rows": [
+      {
+        "power": 100000,
+        "deck": "balanced",
+        "wins": 113,
+        "losses": 15,
+        "draws": 0,
+        "total": 128,
+        "bySide": {
+          "A": {
+            "wins": 55,
+            "total": 64
+          },
+          "B": {
+            "wins": 58,
+            "total": 64
+          }
+        },
+        "winRate": 0.8828125
+      },
+      {
+        "power": 100000,
+        "deck": "attack",
+        "wins": 118,
+        "losses": 10,
+        "draws": 0,
+        "total": 128,
+        "bySide": {
+          "A": {
+            "wins": 59,
+            "total": 64
+          },
+          "B": {
+            "wins": 59,
+            "total": 64
+          }
+        },
+        "winRate": 0.921875
+      },
+      {
+        "power": 100000,
+        "deck": "defense",
+        "wins": 113,
+        "losses": 15,
+        "draws": 0,
+        "total": 128,
+        "bySide": {
+          "A": {
+            "wins": 57,
+            "total": 64
+          },
+          "B": {
+            "wins": 56,
+            "total": 64
+          }
+        },
+        "winRate": 0.8828125
+      },
+      {
+        "power": 100000,
+        "deck": "speed",
+        "wins": 117,
+        "losses": 11,
+        "draws": 0,
+        "total": 128,
+        "bySide": {
+          "A": {
+            "wins": 58,
+            "total": 64
+          },
+          "B": {
+            "wins": 59,
+            "total": 64
+          }
+        },
+        "winRate": 0.9140625
+      },
+      {
+        "power": 20000000,
+        "deck": "balanced",
+        "wins": 71,
+        "losses": 57,
+        "draws": 0,
+        "total": 128,
+        "bySide": {
+          "A": {
+            "wins": 35,
+            "total": 64
+          },
+          "B": {
+            "wins": 36,
+            "total": 64
+          }
+        },
+        "winRate": 0.5546875
+      },
+      {
+        "power": 20000000,
+        "deck": "attack",
+        "wins": 73,
+        "losses": 55,
+        "draws": 0,
+        "total": 128,
+        "bySide": {
+          "A": {
+            "wins": 37,
+            "total": 64
+          },
+          "B": {
+            "wins": 36,
+            "total": 64
+          }
+        },
+        "winRate": 0.5703125
+      },
+      {
+        "power": 20000000,
+        "deck": "defense",
+        "wins": 74,
+        "losses": 54,
+        "draws": 0,
+        "total": 128,
+        "bySide": {
+          "A": {
+            "wins": 40,
+            "total": 64
+          },
+          "B": {
+            "wins": 34,
+            "total": 64
+          }
+        },
+        "winRate": 0.578125
+      },
+      {
+        "power": 20000000,
+        "deck": "speed",
+        "wins": 64,
+        "losses": 64,
+        "draws": 0,
+        "total": 128,
+        "bySide": {
+          "A": {
+            "wins": 32,
+            "total": 64
+          },
+          "B": {
+            "wins": 32,
+            "total": 64
+          }
+        },
+        "winRate": 0.5
+      },
+      {
+        "power": 1000000000,
+        "deck": "balanced",
+        "wins": 71,
+        "losses": 57,
+        "draws": 0,
+        "total": 128,
+        "bySide": {
+          "A": {
+            "wins": 35,
+            "total": 64
+          },
+          "B": {
+            "wins": 36,
+            "total": 64
+          }
+        },
+        "winRate": 0.5546875
+      },
+      {
+        "power": 1000000000,
+        "deck": "attack",
+        "wins": 73,
+        "losses": 55,
+        "draws": 0,
+        "total": 128,
+        "bySide": {
+          "A": {
+            "wins": 37,
+            "total": 64
+          },
+          "B": {
+            "wins": 36,
+            "total": 64
+          }
+        },
+        "winRate": 0.5703125
+      },
+      {
+        "power": 1000000000,
+        "deck": "defense",
+        "wins": 74,
+        "losses": 54,
+        "draws": 0,
+        "total": 128,
+        "bySide": {
+          "A": {
+            "wins": 40,
+            "total": 64
+          },
+          "B": {
+            "wins": 34,
+            "total": 64
+          }
+        },
+        "winRate": 0.578125
+      },
+      {
+        "power": 1000000000,
+        "deck": "speed",
+        "wins": 64,
+        "losses": 64,
+        "draws": 0,
+        "total": 128,
+        "bySide": {
+          "A": {
+            "wins": 32,
+            "total": 64
+          },
+          "B": {
+            "wins": 32,
+            "total": 64
+          }
+        },
+        "winRate": 0.5
+      }
+    ],
+    "pve": [
+      {
+        "deck": "balanced",
+        "helios": {
+          "wins": 24,
+          "damage": 390317217729,
+          "actions": 1047,
+          "total": 24
+        },
+        "valter": {
+          "wins": 24,
+          "damage": 388381358222,
+          "actions": 1050,
+          "total": 24
+        }
+      },
+      {
+        "deck": "attack",
+        "helios": {
+          "wins": 24,
+          "damage": 391450133841,
+          "actions": 1034,
+          "total": 24
+        },
+        "valter": {
+          "wins": 24,
+          "damage": 388789491962,
+          "actions": 1042,
+          "total": 24
+        }
+      },
+      {
+        "deck": "defense",
+        "helios": {
+          "wins": 24,
+          "damage": 386908552147,
+          "actions": 1097,
+          "total": 24
+        },
+        "valter": {
+          "wins": 24,
+          "damage": 383681935970,
+          "actions": 1097,
+          "total": 24
+        }
+      },
+      {
+        "deck": "speed",
+        "helios": {
+          "wins": 24,
+          "damage": 388477248574,
+          "actions": 1075,
+          "total": 24
+        },
+        "valter": {
+          "wins": 24,
+          "damage": 386171248062,
+          "actions": 1076,
+          "total": 24
+        }
+      }
+    ],
+    "representativeStats": [
+      {
+        "mode": "PVP",
+        "gear": 0,
+        "deckPower": 20000000,
+        "helios": {
+          "power": 1123200,
+          "nativeAttack": 330221,
+          "effectiveAttack": 106474368,
+          "hp": 245912576,
+          "defense": 171850,
+          "speed": 87828,
+          "shield": 144912768,
+          "link": {
+            "version": 2144,
+            "attackFloor": 106474368,
+            "hpFloor": 245912576,
+            "openingShield": 144912768,
+            "tierGuard": 1,
+            "tierOffense": 1
+          }
+        },
+        "valter": {
+          "power": 1080000,
+          "nativeAttack": 317520,
+          "effectiveAttack": 102379200,
+          "hp": 236454400,
+          "defense": 165240,
+          "speed": 84450,
+          "shield": 139339200,
+          "link": {
+            "version": 2144,
+            "attackFloor": 102379200,
+            "hpFloor": 236454400,
+            "openingShield": 139339200,
+            "tierGuard": 1,
+            "tierOffense": 1
+          }
+        },
+        "percent": {
+          "power": 4,
+          "nativeAttack": 4.000063,
+          "effectiveAttack": 4,
+          "hp": 4,
+          "defense": 4.000242,
+          "speed": 4,
+          "shield": 4
+        }
+      },
+      {
+        "mode": "PVE",
+        "gear": 0,
+        "deckPower": 20000000,
+        "helios": {
+          "power": 1123200,
+          "nativeAttack": 330221,
+          "effectiveAttack": 106474368,
+          "hp": 221321318,
+          "defense": 171850,
+          "speed": 87828,
+          "shield": 130421491,
+          "link": {
+            "version": 2144,
+            "attackFloor": 106474368,
+            "hpFloor": 221321318,
+            "openingShield": 130421491,
+            "tierGuard": 1,
+            "tierOffense": 1
+          }
+        },
+        "valter": {
+          "power": 1080000,
+          "nativeAttack": 317520,
+          "effectiveAttack": 102379200,
+          "hp": 212808960,
+          "defense": 165240,
+          "speed": 84450,
+          "shield": 125405280,
+          "link": {
+            "version": 2144,
+            "attackFloor": 102379200,
+            "hpFloor": 212808960,
+            "openingShield": 125405280,
+            "tierGuard": 1,
+            "tierOffense": 1
+          }
+        },
+        "percent": {
+          "power": 4,
+          "nativeAttack": 4.000063,
+          "effectiveAttack": 4,
+          "hp": 4,
+          "defense": 4.000242,
+          "speed": 4,
+          "shield": 4
+        }
+      }
+    ]
+  },
+  "validation": {
+    "bundleHashRows": 110,
+    "compiledBattleConsumers": 10,
+    "scopedTests": [
+      "tests/helios-supremacy-20261012.test.mjs",
+      "tests/valter-tempo-20261011.test.mjs",
+      "tests/helios-deployment-20261012.test.mjs",
+      "tests/pve-battlefield-entry-v2117.test.mjs"
+    ],
+    "scopedChecks": [
+      "check:worker"
+    ],
+    "status": "SIMULATION_AND_BUNDLE_BUILD_PASSED; RELEASE_TESTS_PENDING"
+  },
+  "release": {
+    "base": {
+      "checkedAt": "2026-10-11T21:12:56.123Z",
+      "stage": "before",
+      "deploymentId": "70bac573-6453-4159-8eed-c563c02957cd",
+      "url": "https://70bac573.cnine-card.pages.dev",
+      "source": "48efdcb5d43b02e67bd4074b568d12064d10f82c"
+    },
+    "mode": "SCOPED",
+    "reason": "Only the existing V-999 attack-link coefficient, policy description and policy version change. Bundles and cache tags rebuilt to deliver the same canonical policy; no schema/auth/economy infrastructure changes.",
+    "status": "PENDING"
+  }
+}

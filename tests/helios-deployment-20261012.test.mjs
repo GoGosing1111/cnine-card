@@ -29,5 +29,5 @@ test('production renderer and main loader include authoritative Helios playback 
  for(const file of ['preview/project-v-v3/project-v-pixi-battle.bundle.js','preview/sustained-hunt-v2/battle.bundle.js','pve-v3/battle.bundle.js']){
   const bundle=fs.readFileSync(file,'utf8');assert(bundle.includes('MERCENARY_HELIOS_AREA'),file);assert(bundle.includes('HELIOS_MOTION_ASSETS'),file);
  }
- for(const file of ['index.html','js/app.js','js/battle-v3-live.js','preview/project-v-v3/source/project-v-pixi-battle.src.js'])assert(fs.readFileSync(file,'utf8').includes('20261012-helios-deploy-v1'),file);
+ for(const file of ['index.html','js/app.js','js/battle-v3-live.js','preview/project-v-v3/source/project-v-pixi-battle.src.js'])assert(fs.readFileSync(file,'utf8').includes('20261012-helios-deploy-v2'),file);
 });

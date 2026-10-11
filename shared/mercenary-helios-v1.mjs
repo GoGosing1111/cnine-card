@@ -10,10 +10,10 @@ export const HELIOS_AREA_SKILL=Object.freeze({
  balance:Object.freeze({damageRatio:5.6,cooldownTurns:5,cost:35})
 });
 export const HELIOS_COMBAT=Object.freeze({
- version:1,basePower:1123200,speedReferencePower:1080000,speedScale:3.12,actionCredit:3.12,motionPlaybackRate:2.6,
- // Output advantage comes from +4% actions. Do not multiply the linked attack
- // floor by another 4%. HP and the complete front-row shield each gain 4%.
- link:Object.freeze({attackPercent:1760,shieldPercent:626.4,hpPercent:1164.8}),
+ version:2,basePower:1123200,speedReferencePower:1080000,speedScale:3.12,actionCredit:3.12,motionPlaybackRate:2.6,
+ // 2026-10-12 follow-up: also retain a small attack advantage on strong decks.
+ // Only the card-derived attack floor gains 4%; existing cadence and gear stay unchanged.
+ link:Object.freeze({attackPercent:1830.4,shieldPercent:626.4,hpPercent:1164.8}),
  basicCapScale:2,damageTakenScale:.25,hardCounter:BERKAN_CODE
 });
 export const isHelios=actor=>actor?.isMercenary===true&&(actor.code||actor.cardId)===HELIOS_CODE;
@@ -29,4 +29,4 @@ export function heliosIncomingDamage(target,incoming,source){
  return Math.floor(Math.max(0,Number(incoming)||0)*HELIOS_COMBAT.damageTakenScale);
 }
 export const heliosMotionRate=mode=>mode==='aura'?1:HELIOS_COMBAT.motionPlaybackRate;
-export const HELIOS_COMBAT_DESCRIPTION='기본 전투력 1,123,200. 발테르와 같은 공격 연계·피해 경감·개인 면역을 사용하며, 자연 행동 속도 약 4%, 추가 행동·체력·전용 방벽은 4% 높습니다. 아군 일반 카드 25회 행동당 추가 78회 행동합니다. PVE 천양붕락은 적 전체에 총 560% 피해를 나눠 적용합니다(에너지 35 · 재사용 5행동). 공격·스킬 모션은 원본 대비 2.6배속입니다. 보유한 헬리오스를 PVE·PVP에 각각 편성할 수 있습니다.';
+export const HELIOS_COMBAT_DESCRIPTION='기본 전투력 1,123,200. 아군 일반 카드 평균 공격력의 1,830.4%를 최소 공격력으로 사용하며, 발테르보다 공격 연계 배율이 4% 높습니다. 피해 경감·개인 면역은 발테르와 같고, 자연 행동 속도 약 4%, 추가 행동·연계 체력·전용 방벽은 4% 높습니다. 아군 일반 카드 25회 행동당 추가 78회 행동합니다. PVE 천양붕락은 적 전체에 총 560% 피해를 나눠 적용합니다(에너지 35 · 재사용 5행동). 공격·스킬 모션은 원본 대비 2.6배속입니다. 보유한 헬리오스를 PVE·PVP에 각각 편성할 수 있습니다.';
