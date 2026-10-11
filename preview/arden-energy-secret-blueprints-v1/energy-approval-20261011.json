@@ -1,0 +1,27 @@
+{
+  "status": "VISUAL_APPROVED",
+  "approvedOn": "2026-10-11",
+  "instruction": "아르덴 에너지는 승인이고 나머지는 동방무기 상위버전 설계도로 사용할거야",
+  "scope": "아르덴 에너지 원본 전체",
+  "sourceOriginal": "exec-1775380f-838d-45b3-aa7d-737c812e020b.png",
+  "path": "assets/items/arden-energy-v1.png",
+  "sha256": "406e959495ada5973f751ab73b2117cb829984799dbaf595df69beec30608af4",
+  "immutable": true,
+  "preservation": {
+    "regenerate": false,
+    "recompressOriginal": false,
+    "overwrite": false
+  },
+  "runtimeExport": {
+    "path": "assets/items/arden-energy-v1.webp",
+    "method": "Sharp proportional resize to 512px, WebP quality 92 alphaQuality 100"
+  },
+  "blueprints": {
+    "status": "USER_REVIEW_PENDING",
+    "use": "동방무기 상위 버전용 비밀무기 설계도 1·2·3장",
+    "distinctChapters": true
+  },
+  "catalogRegistered": false,
+  "recipesAdded": false,
+  "rewardPoolsModified": false
+}

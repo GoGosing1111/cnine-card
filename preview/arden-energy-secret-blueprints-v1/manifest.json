@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-11",
+  "title": "아르덴 에너지 및 동방무기 상위 비밀무기 설계도",
+  "tool": {
+    "name": "image_gen.imagegen",
+    "mode": "built-in"
+  },
+  "userRequest": "아르덴 에너지 리소스 / 비밀무기 설계도 1장·2장·3장 리소스",
+  "userClarification": "아르덴 에너지는 승인이고 나머지는 동방무기 상위버전 설계도로 사용할거야",
+  "distinctBlueprintChapters": true,
+  "quantityVariants": false,
+  "items": [
+    {
+      "key": "arden-energy",
+      "name": "아르덴 에너지",
+      "stem": "arden-energy-v1",
+      "source": {
+        "path": "assets/items/arden-energy-v1.png",
+        "generatedOriginal": "exec-1775380f-838d-45b3-aa7d-737c812e020b.png",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 1107563,
+        "sha256": "406e959495ada5973f751ab73b2117cb829984799dbaf595df69beec30608af4",
+        "originalBytesPreserved": true
+      },
+      "status": "VISUAL_APPROVED",
+      "purpose": "아르덴 장비 계열 제작 재료",
+      "runtime": {
+        "path": "assets/items/arden-energy-v1.webp",
+        "width": 512,
+        "height": 512,
+        "bytes": 59048,
+        "sha256": "8d75f48ab37e8f785e1293a00cb1c6d4d4aad818795f43f27ee7f21fe05a4ded",
+        "transparent": true
+      }
+    },
+    {
+      "key": "secret-weapon-blueprint-chapter-1",
+      "name": "비밀무기 설계도 1장",
+      "stem": "secret-weapon-blueprint-chapter-1-v1",
+      "source": {
+        "path": "assets/items/secret-weapon-blueprint-chapter-1-v1.png",
+        "generatedOriginal": "exec-8db5fc1a-d0ba-4286-b799-38f34f9494b2.png",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 1335402,
+        "sha256": "52131905ee5ab3305a9773ea4983730249851ac3b1b46cc47d32e0d5bdc17b5b",
+        "originalBytesPreserved": true
+      },
+      "status": "USER_REVIEW_PENDING",
+      "purpose": "동방무기 상위 버전용 · 금룡 총기 외형 도안",
+      "chapter": 1,
+      "runtime": {
+        "path": "assets/items/secret-weapon-blueprint-chapter-1-v1.webp",
+        "width": 512,
+        "height": 512,
+        "bytes": 52062,
+        "sha256": "3c10e26bd2383954bf1a302bb0cd34e20401adb3559c640d54c9e73e876dddbf",
+        "transparent": true
+      }
+    },
+    {
+      "key": "secret-weapon-blueprint-chapter-2",
+      "name": "비밀무기 설계도 2장",
+      "stem": "secret-weapon-blueprint-chapter-2-v1",
+      "source": {
+        "path": "assets/items/secret-weapon-blueprint-chapter-2-v1.png",
+        "generatedOriginal": "exec-4892745f-881d-404f-96b0-0da975b0cc9d.png",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 1469660,
+        "sha256": "955299ac1b773a09871f8164e74b1461dc5f5a868e3b19287c40bcd9f27f5315",
+        "originalBytesPreserved": true
+      },
+      "status": "USER_REVIEW_PENDING",
+      "purpose": "동방무기 상위 버전용 · 쌍룡 동력 문양",
+      "chapter": 2,
+      "runtime": {
+        "path": "assets/items/secret-weapon-blueprint-chapter-2-v1.webp",
+        "width": 512,
+        "height": 512,
+        "bytes": 62460,
+        "sha256": "0198d6936d6c5f8c276ce668e91f3c2697c65f05b97d77a44568f4549ef28831",
+        "transparent": true
+      }
+    },
+    {
+      "key": "secret-weapon-blueprint-chapter-3",
+      "name": "비밀무기 설계도 3장",
+      "stem": "secret-weapon-blueprint-chapter-3-v1",
+      "source": {
+        "path": "assets/items/secret-weapon-blueprint-chapter-3-v1.png",
+        "generatedOriginal": "exec-c2ebe450-f853-4997-a1f9-9c79bfdd6d95.png",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 1587815,
+        "sha256": "ee1d59537cbde02f46dee5e2839e32ce4de32bfc6c26ffc6c745ede23fe6a86d",
+        "originalBytesPreserved": true
+      },
+      "status": "USER_REVIEW_PENDING",
+      "purpose": "동방무기 상위 버전용 · 금룡 최종 봉인",
+      "chapter": 3,
+      "runtime": {
+        "path": "assets/items/secret-weapon-blueprint-chapter-3-v1.webp",
+        "width": 512,
+        "height": 512,
+        "bytes": 64498,
+        "sha256": "5d808365ecfa0b3140bc51344bcb83267f70c7dea9ce5baa774125c1f7befcb5",
+        "transparent": true
+      }
+    }
+  ],
+  "prompts": "prompts.json",
+  "framingCorrection": "padding-prompts.json",
+  "approval": "energy-approval-20261011.json",
+  "runtimeExport": {
+    "tool": "Sharp",
+    "method": "proportional 512px WebP",
+    "quality": 92,
+    "alphaQuality": 100,
+    "effort": 6
+  },
+  "catalogRegistered": false,
+  "recipesAdded": false,
+  "rewardPoolsModified": false,
+  "technicalQA": "qa/report.json",
+  "visualQA": {
+    "energyApproved": true,
+    "blueprintsApproved": false,
+    "weaponAxis": "Chapter I has a continuous straight rear-body-to-muzzle silhouette",
+    "documentNumbers": [
+      "I",
+      "II",
+      "III"
+    ]
+  }
+}

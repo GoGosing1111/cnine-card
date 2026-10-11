@@ -1,0 +1,18 @@
+{
+  "reason": "Ensure all corner fittings have transparent padding and are not clipped",
+  "prompt": "Use case: precise-object-edit.\nEdit this exact single transparent fantasy blueprint icon ONLY to fix framing and edge padding. The gold lower-left corner and other side fittings are too close to the canvas edges.\nMake the WHOLE document and all its fittings uniformly 20% smaller, center it on the SAME SQUARE transparent canvas, and complete any tiny clipped outer corner tip. There must be at least 10% of the canvas width of CLEAR FULLY TRANSPARENT margin on BOTH left and right sides and at least 8% at top and bottom. The entire object should fit comfortably within the middle 80% of the square.\nPreserve every existing design decision: identical midnight-navy vellum, gold/platinum corner fittings, red accent jewels, printed central gold illustration, ink arcs, curled ivory paper corners, and especially the EXACT existing Roman numeral on its bottom plaque. Do NOT substitute a different page or symbol; do NOT change its numeral. Keep the artwork's aspect ratio, shape, color and material. Do not straighten the paper, do not change camera angle, and do not stretch any part.\nThis is a simple uniform scale-and-reframe correction, no redesign. No new decoration or labels, no extra paper, no outer card border, no cropping. Keep genuinely transparent background and clean alpha; no opaque backdrop, checkerboard, shadow or colored halo. Deliver one finished square transparent PNG.",
+  "inputs": [
+    {
+      "chapter": 1,
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-fe035b13-fa87-419c-9a71-d94ea4914af6.png"
+    },
+    {
+      "chapter": 2,
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-c4b8b24b-c306-4542-86e2-08a91ceb4280.png"
+    },
+    {
+      "chapter": 3,
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-72adbcf7-d736-460c-a42b-5de98c757582.png"
+    }
+  ]
+}

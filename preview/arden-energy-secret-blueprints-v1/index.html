@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0d1618"><title>아르덴 에너지 · 비밀무기 설계도</title>
+<style>
+:root{color-scheme:dark;--bg:#0d1618;--ink:#f3f0e8;--muted:#a6b5b2;--gold:#dbbd7d;--line:#35413d}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 10% 0,#19352e,transparent 48%),var(--bg);color:var(--ink);font-family:"Malgun Gothic","Apple SD Gothic Neo",sans-serif}
+main{max-width:1420px;margin:auto;padding:42px 40px 64px}a{color:var(--gold);text-decoration:none}a:hover{text-decoration:underline}button{font:inherit;cursor:pointer}
+.top{display:flex;justify-content:space-between;align-items:center;padding-bottom:24px;border-bottom:1px solid var(--line);gap:20px}.brand{font-weight:700;letter-spacing:.08em}.controls{display:flex;gap:6px;flex-wrap:wrap}.controls button{border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:6px;padding:8px 12px;font-size:12px}.controls button[aria-pressed="true"]{color:var(--ink);border-color:var(--gold)}
+.eyebrow{font-size:11px;color:var(--gold);letter-spacing:.22em;font-weight:700;margin:0 0 14px}.energy{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:48px;padding:40px 0 44px;border-bottom:1px solid var(--line)}h1{font-size:clamp(32px,4vw,56px);letter-spacing:-.055em;line-height:1.2;margin:10px 0 20px}.lead{color:var(--muted);line-height:1.9;font-size:15px;margin:0 0 22px}.status{display:inline-flex;border:1px solid #619a86;border-radius:99px;padding:5px 10px;color:#ade2c7;font-size:11px;margin-bottom:8px}.status.review{border-color:#807047;color:#e2ce9b}
+.mat{background:#101c1e;border:1px solid #253b39;border-radius:12px;display:flex;align-items:center;justify-content:center;overflow:hidden}.light .mat{background:#eeeae1;border-color:#ded4c1}.art{width:100%;padding:18px;background:transparent;border:0;color:inherit;display:flex;align-items:center;justify-content:center}.energy .art{height:380px}.art img{display:block;object-fit:contain;width:100%;height:100%;max-width:100%;transition:transform .18s}.art:hover img{transform:scale(1.025)}.art:focus-visible{outline:2px solid var(--gold);outline-offset:-3px}.links{display:flex;gap:20px;font-size:13px;align-items:center}.sizes{display:flex;gap:16px;align-items:end;margin-top:18px}.size{display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--muted);font-size:11px}.size img{object-fit:contain;display:block}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin:42px 0 24px}.section-head h2{font-size:29px;letter-spacing:-.045em;margin:0}.section-head .eyebrow{margin-bottom:10px}.section-head p.note{font-size:13px;color:var(--muted);margin:0;line-height:1.7}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}.card .art{height:285px;padding:12px}.card-top{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--gold);margin-bottom:10px;letter-spacing:.08em}.card h3{font-size:20px;letter-spacing:-.03em;margin:19px 0 7px}.card .desc{color:var(--muted);font-size:13px;line-height:1.7;margin:0 0 16px}
+footer{margin-top:44px;border-top:1px solid var(--line);padding-top:22px;display:flex;justify-content:space-between;color:var(--muted);font-size:12px;gap:18px;flex-wrap:wrap}
+dialog{background:#101a1d;border:1px solid #6d6d53;border-radius:12px;color:var(--ink);padding:20px;width:min(900px,94vw);max-height:94dvh}dialog::backdrop{background:#000b;backdrop-filter:blur(8px)}dialog header{display:flex;justify-content:space-between;gap:15px;align-items:center;margin-bottom:14px}dialog h2{font-size:18px;margin:0}dialog button{background:#223531;border:1px solid #50695c;color:var(--ink);padding:8px 13px;border-radius:5px}dialog img{display:block;max-width:100%;width:auto;height:auto;max-height:72dvh;margin:auto;object-fit:contain}dialog .mat{border:0}dialog .links{margin-top:16px}
+@media(max-width:950px){main{padding:28px 24px 45px}.energy{gap:24px}.energy .art{height:330px}.grid{gap:16px}.card .art{height:230px}.card h3{font-size:17px}.section-head{align-items:start;flex-direction:column;gap:12px}}
+@media(max-width:640px){main{padding:20px 18px 36px}.top{align-items:start;flex-direction:column;gap:16px}.energy{grid-template-columns:1fr;gap:24px;padding:28px 0}.energy .art{height:310px}.energy-copy{padding:0 3px}.grid{grid-template-columns:1fr;gap:34px}.card .art{height:300px}.section-head{margin-top:32px}.section-head h2{font-size:27px}h1{font-size:36px}.sizes{justify-content:center}.energy .sizes{justify-content:flex-start}.card h3{font-size:21px}.lead{font-size:14px}}
+@media(prefers-reduced-motion:reduce){.art img{transition:none}}
+</style>
+</head>
+<body>
+<main>
+<header class="top"><a class="brand" href="/">SOOPKETMON · 제작실</a><div class="controls" aria-label="이미지 배경"><button type="button" data-bg="dark" aria-pressed="true">어두운 배경</button><button type="button" data-bg="light" aria-pressed="false">밝은 배경</button></div></header>
+<section class="energy">
+<div class="mat"><button class="art" data-item="0" aria-label="아르덴 에너지 확대"><img src="../../assets/items/arden-energy-v1.webp" alt="백금과 금세공에 감싸인 청록색 아르덴 에너지 결정"></button></div>
+<div class="energy-copy"><p class="eyebrow">ARDEN / CRAFTING MATERIAL</p><span class="status">에너지 원본 승인</span><h1>아르덴 에너지</h1><p class="lead">선명한 청록 결정에 응축된 빛.<br>백금과 금세공으로 완성한 아르덴의 제작 재료.</p><div class="links"><a href="../../assets/items/arden-energy-v1.png" download>PNG 원본 ↓</a><a href="../../assets/items/arden-energy-v1.webp" download>512px WebP ↓</a></div><div class="sizes"><div class="size"><div class="mat"><img src="../../assets/items/arden-energy-v1.webp" width="64" height="64" alt="64픽셀 아르덴 에너지"></div><span>64 px</span></div><div class="size"><div class="mat"><img src="../../assets/items/arden-energy-v1.webp" width="128" height="128" alt="128픽셀 아르덴 에너지"></div><span>128 px</span></div></div></div>
+</section>
+<div class="section-head"><div><p class="eyebrow">EASTERN ARMS / SECRET WEAPON</p><h2>비밀무기 설계도</h2></div><p class="note">동방무기 상위 버전용 · 서로 다른 세 장의 도면<br>외형 도안 / 동력 문양 / 최종 봉인</p></div>
+<section class="grid" id="blueprints" aria-label="비밀무기 설계도 1장 2장 3장"></section>
+<footer><span>설계도 3종 디자인 검수안 · 이미지를 누르면 확대됩니다.</span><div class="links"><a href="prompts.json">제작 프롬프트 ↗</a><a href="manifest.json">리소스 기록 ↗</a></div></footer>
+</main>
+<dialog id="detail" aria-labelledby="detail-title"><header><h2 id="detail-title"></h2><button type="button" id="close">닫기 ×</button></header><div class="mat"><img id="detail-image" alt=""></div><div class="links"><a id="detail-original" target="_blank" rel="noopener">PNG 원본 열기 ↗</a></div></dialog>
+<script>
+const names=['아르덴 에너지','비밀무기 설계도 1장','비밀무기 설계도 2장','비밀무기 설계도 3장'];
+const stems=['arden-energy-v1','secret-weapon-blueprint-chapter-1-v1','secret-weapon-blueprint-chapter-2-v1','secret-weapon-blueprint-chapter-3-v1'];
+const romans=['I','II','III'],notes=['금룡을 품은 상위 무기의 외형 도안','쌍룡과 여의주의 동력 문양','상위 무기에 새기는 최종 봉인 문양'];
+const path=(i,ext)=>'../../assets/items/'+stems[i]+'.'+ext;
+document.getElementById('blueprints').innerHTML=[1,2,3].map(i=>'<article class="card"><div class="card-top"><span>CHAPTER '+romans[i-1]+'</span><span>DESIGN REVIEW</span></div><div class="mat"><button class="art" data-item="'+i+'" aria-label="'+names[i]+' 확대"><img src="'+path(i,'webp')+'" alt="'+names[i]+'"></button></div><h3>'+names[i]+'</h3><p class="desc">'+notes[i-1]+'</p><div class="links"><a href="'+path(i,'png')+'" download>PNG 원본 ↓</a><a href="'+path(i,'webp')+'" download>512px WebP ↓</a></div><div class="sizes"><div class="size"><div class="mat"><img src="'+path(i,'webp')+'" width="64" height="64" alt="64픽셀 '+names[i]+'"></div><span>64 px</span></div><div class="size"><div class="mat"><img src="'+path(i,'webp')+'" width="128" height="128" alt="128픽셀 '+names[i]+'"></div><span>128 px</span></div></div></article>').join('');
+const dialog=document.getElementById('detail');
+document.querySelectorAll('[data-item]').forEach(button=>button.addEventListener('click',()=>{const i=Number(button.dataset.item);document.getElementById('detail-title').textContent=names[i];const img=document.getElementById('detail-image');img.src=path(i,'png');img.alt=names[i];document.getElementById('detail-original').href=path(i,'png');dialog.showModal();}));
+document.getElementById('close').addEventListener('click',()=>dialog.close());
+document.querySelectorAll('[data-bg]').forEach(button=>button.addEventListener('click',()=>{document.body.classList.toggle('light',button.dataset.bg==='light');document.querySelectorAll('[data-bg]').forEach(other=>other.setAttribute('aria-pressed',String(other===button)));}));
+</script>
+</body></html>
