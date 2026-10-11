@@ -2,7 +2,7 @@
 (()=>{
  const locked=new URLSearchParams(location.search).get('locked')==='1';
  const titles=[
-  {id:1,code:'ADMINISTRATION',name:'행정부',badgeText:'행정부',description:'숲켓몬을 위해 헌신하는 행정부 직원',image:'/assets/ui/titles/administration-command-v2.webp',stylePreset:'ADMINISTRATION',fontPreset:'DEFAULT',unlockType:'MANUAL',unlockConfig:{fontPreset:'DEFAULT'},pvePower:0,owned:!locked,equipped:!locked},
+  {id:1,code:'ADMINISTRATION',name:'행정부',badgeText:'행정부',description:'숲켓몬을 위해 헌신하는 행정부 직원',image:'/assets/ui/titles/administration-command-v2.webp',stylePreset:'ADMINISTRATION',fontPreset:'DEFAULT',unlockType:'MANUAL',unlockConfig:{fontPreset:'DEFAULT'},pvePower:100000,owned:!locked,equipped:!locked},
   {id:2,code:'GAMBLING_KING',name:'도박왕',badgeText:'도박왕',description:'승부예측 누적 적중 1,000회를 달성한 승부사.',image:'/assets/ui/titles/gambling-king-v1.webp',stylePreset:'GAMBLING_KING',unlockType:'PREDICTION_HITS',unlockConfig:{count:1000},pvePower:75000,owned:!locked,equipped:false}
  ];
  const data={slots:[],instances:[],loadout:{},titles,vehicles:[],equippedTitleId:locked?null:1,bonuses:{}};

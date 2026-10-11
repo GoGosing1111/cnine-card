@@ -1,0 +1,194 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:administration-staff:20261012:v1",
+  "titleId": 1094337,
+  "titleCode": "ADMINISTRATION",
+  "power": 100000,
+  "pvePower": 100000,
+  "pvpPower": 100000,
+  "targets": [
+    {
+      "id": 1,
+      "nickname": "핑크빛유두",
+      "role": "OWNER",
+      "granted": true,
+      "alreadyOwned": false
+    },
+    {
+      "id": 2,
+      "nickname": "Inception",
+      "role": "OWNER",
+      "granted": true,
+      "alreadyOwned": false
+    },
+    {
+      "id": 6,
+      "nickname": "남수단",
+      "role": "OWNER",
+      "granted": true,
+      "alreadyOwned": false
+    },
+    {
+      "id": 83,
+      "nickname": "애장이",
+      "role": "ADMIN",
+      "granted": true,
+      "alreadyOwned": false
+    },
+    {
+      "id": 3710,
+      "nickname": "꼭지위생크림",
+      "role": "ADMIN",
+      "granted": true,
+      "alreadyOwned": false
+    },
+    {
+      "id": 5663,
+      "nickname": "비숑",
+      "role": "OWNER",
+      "granted": true,
+      "alreadyOwned": false
+    },
+    {
+      "id": 5849,
+      "nickname": "족다니",
+      "role": "ADMIN",
+      "granted": true,
+      "alreadyOwned": false
+    }
+  ],
+  "granted": 7,
+  "alreadyOwned": 0,
+  "adminLogIds": [
+    "44922",
+    "44923",
+    "44924",
+    "44925",
+    "44926",
+    "44927",
+    "44928",
+    "44929"
+  ],
+  "autoEquipped": false,
+  "completedAt": "2026-10-11T21:14:53.010Z",
+  "replayed": false,
+  "verifiedAt": "2026-10-11T21:14:57.817Z",
+  "title": {
+    "id": "1094337",
+    "code": "ADMINISTRATION",
+    "name": "행정부",
+    "pve_power": "100000",
+    "unlock_type": "MANUAL",
+    "is_active": "1",
+    "is_public": "1"
+  },
+  "ownership": [
+    {
+      "id": "1",
+      "nickname": "핑크빛유두",
+      "role": "OWNER",
+      "source_type": "ADMIN",
+      "source_id": "1",
+      "expires_at": null
+    },
+    {
+      "id": "2",
+      "nickname": "Inception",
+      "role": "OWNER",
+      "source_type": "ADMIN",
+      "source_id": "1",
+      "expires_at": null
+    },
+    {
+      "id": "6",
+      "nickname": "남수단",
+      "role": "OWNER",
+      "source_type": "ADMIN",
+      "source_id": "1",
+      "expires_at": null
+    },
+    {
+      "id": "83",
+      "nickname": "애장이",
+      "role": "ADMIN",
+      "source_type": "ADMIN",
+      "source_id": "1",
+      "expires_at": null
+    },
+    {
+      "id": "3710",
+      "nickname": "꼭지위생크림",
+      "role": "ADMIN",
+      "source_type": "ADMIN",
+      "source_id": "1",
+      "expires_at": null
+    },
+    {
+      "id": "5663",
+      "nickname": "비숑",
+      "role": "OWNER",
+      "source_type": "ADMIN",
+      "source_id": "1",
+      "expires_at": null
+    },
+    {
+      "id": "5849",
+      "nickname": "족다니",
+      "role": "ADMIN",
+      "source_type": "ADMIN",
+      "source_id": "1",
+      "expires_at": null
+    }
+  ],
+  "audit": [
+    {
+      "id": "44922",
+      "action_type": "TITLE_POWER_UPDATE",
+      "target_type": "TITLE",
+      "target_id": "1094337"
+    },
+    {
+      "id": "44923",
+      "action_type": "TITLE_GRANT",
+      "target_type": "USER",
+      "target_id": "1"
+    },
+    {
+      "id": "44924",
+      "action_type": "TITLE_GRANT",
+      "target_type": "USER",
+      "target_id": "2"
+    },
+    {
+      "id": "44925",
+      "action_type": "TITLE_GRANT",
+      "target_type": "USER",
+      "target_id": "6"
+    },
+    {
+      "id": "44926",
+      "action_type": "TITLE_GRANT",
+      "target_type": "USER",
+      "target_id": "83"
+    },
+    {
+      "id": "44927",
+      "action_type": "TITLE_GRANT",
+      "target_type": "USER",
+      "target_id": "3710"
+    },
+    {
+      "id": "44928",
+      "action_type": "TITLE_GRANT",
+      "target_type": "USER",
+      "target_id": "5663"
+    },
+    {
+      "id": "44929",
+      "action_type": "TITLE_GRANT",
+      "target_type": "USER",
+      "target_id": "5849"
+    }
+  ],
+  "loadoutsUnchanged": true
+}

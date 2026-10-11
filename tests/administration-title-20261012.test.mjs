@@ -41,13 +41,13 @@ async function fixture(t,postgres){
 }
 for(const postgres of [false,true]){
  const label=postgres?'PostgreSQL':'SQLite';
- test(`${label}: manual zero-power title registration is atomic, retry-safe and preserves CMS edits`,async t=>{
+ test(`${label}: manual 100000-power title registration is atomic, retry-safe and preserves CMS edits`,async t=>{
   const f=await fixture(t,postgres);f.fail(sql=>sql.startsWith('INSERT INTO app_meta'));
   await assert.rejects(()=>ensureAdministrationTitle(f.env),/INJECTED_FAILURE/);
   assert.equal(Number((await f.p('SELECT COUNT(*) n FROM character_titles').first()).n),0);
   f.fail(()=>false);await ensureAdministrationTitle(f.env);await ensureAdministrationTitle(f.env);
   const row=await f.p('SELECT * FROM character_titles').first();
-  assert.deepEqual([row.code,row.name,row.unlock_type,row.style_preset,Number(row.pve_power),Number(row.is_active),Number(row.is_public)],['ADMINISTRATION','행정부','MANUAL','ADMINISTRATION',0,1,1]);
+  assert.deepEqual([row.code,row.name,row.unlock_type,row.style_preset,Number(row.pve_power),Number(row.is_active),Number(row.is_public)],['ADMINISTRATION','행정부','MANUAL','ADMINISTRATION',100000,1,1]);
   assert.equal(row.description,'숲켓몬을 위해 헌신하는 행정부 직원');
   assert.equal(Number((await f.p('SELECT COUNT(*) n FROM user_character_titles').first()).n),0);
   await f.p('UPDATE character_titles SET pve_power=300,is_public=0').run();await ensureAdministrationTitle(f.env);

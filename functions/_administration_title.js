@@ -2,11 +2,11 @@ export const ADMINISTRATION_TITLE_KEY='administration_title_20261012_v1';
 export const ADMINISTRATION_TITLE=Object.freeze({
  code:'ADMINISTRATION',name:'행정부',description:'숲켓몬을 위해 헌신하는 행정부 직원',
  image:'/assets/ui/titles/administration-command-v2.webp',style:'ADMINISTRATION',type:'MANUAL',
- config:{fontPreset:'DEFAULT'},power:0,order:909
+ config:{fontPreset:'DEFAULT'},power:100000,order:909
 });
 
-// Honour only; recipients and any later power are managed through the existing
-// OWNER CMS. Register the catalogue and marker together, preserving later edits.
+// The requested bonus applies to both combat modes through the title system.
+// Register once, preserving later OWNER CMS edits and manual ownership.
 export async function ensureAdministrationTitle(env){
  if((await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(ADMINISTRATION_TITLE_KEY).first())?.value==='1')return;
  const t=ADMINISTRATION_TITLE;
