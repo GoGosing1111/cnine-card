@@ -1,3 +1,4 @@
+import {readStoredCityCareer} from '../shared/jokgak-city-career-v1.mjs';
 import {cityCareerPolicy} from './_jokgak_city_career.js';
 import {CITY_SETTINGS_KEY,defaultCitySettings,validateCitySettings,cityCanAccess,cityRoleDescription} from '../shared/jokgak-city-settings-v1.mjs';
 import {CITY_ROLES,cityShift} from '../shared/jokgak-city-v1.mjs';
@@ -12,7 +13,7 @@ export async function readCitySettings(env){
     const defaults=defaultCitySettings(),stored=raw===null?{}:JSON.parse(raw);
     if(!stored||typeof stored!=='object'||Array.isArray(stored))throw Error('Invalid policy');
     const {writeToken,...publicStored}=stored;
-    const policy=validateCitySettings({...defaults,...publicStored,mode:stored.mode??(stored.enabled===false?'OFF':'TEST'),rules:{...defaults.rules,...stored.rules},rewards:{...defaults.rewards,...stored.rewards}});
+    const policy=validateCitySettings({...defaults,...publicStored,career:readStoredCityCareer(stored.career??defaults.career),mode:stored.mode??(stored.enabled===false?'OFF':'TEST'),rules:{...defaults.rules,...stored.rules},rewards:{...defaults.rewards,...stored.rewards}});
     return {raw,policy};
   }catch{fail('족각도시 설정을 읽을 수 없습니다. 관리자에게 문의하세요.',503,'CITY_POLICY_UNAVAILABLE');}
 }

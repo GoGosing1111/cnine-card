@@ -3,18 +3,34 @@ import {CITY_CASH_MAX,ensureCityCash,changeCityCash} from './jokgak-city-cash-v1
 import {cityArmory} from './jokgak-city-expansion-v1.mjs';
 export const CITY_HOUR=3600000;
 export const CITY_JOBS=Object.freeze([
- {code:'SORT',name:'우편물 분류',role:null,location:'POST',kind:'알바',cash:500},
- {code:'DELIVERY',name:'시장 물품 배달',role:null,location:'MARKET',kind:'알바',cash:500},
- {code:'RETAIL',name:'매장 근무',role:'CITIZEN',location:'DEPARTMENT',kind:'정규 근무',cash:600},
- {code:'RECYCLE',name:'재활용품 수거',role:'BEGGAR',location:'ALLEY',kind:'정규 근무',cash:400},
- {code:'PATROL',name:'관할 구역 순찰',role:'POLICE',location:'POLICE',kind:'정규 근무',cash:900},
- {code:'WARD',name:'병동 지원',role:'NURSE',location:'HOSPITAL',kind:'정규 근무',cash:750},
- {code:'CLINIC',name:'외래 진료',role:'DOCTOR',location:'HOSPITAL',kind:'정규 근무',cash:1200},
- {code:'DOCK_WORK',name:'항만 물류 관리',role:'GANG',location:'DOCK',kind:'정규 근무',cash:750},
- {code:'ALLEY_WORK',name:'거리 정비',role:'VANDAL',location:'ALLEY',kind:'정규 근무',cash:450}
+ {code:'SORT',name:'우편물 분류',role:null,location:'POST',kind:'알바',cash:2000},
+ {code:'DELIVERY',name:'시장 물품 배달',role:null,location:'MARKET',kind:'알바',cash:2200},
+ {code:'RETAIL',name:'매장 근무',role:'CITIZEN',location:'DEPARTMENT',kind:'정규 근무',cash:2400},
+ {code:'RECYCLE',name:'재활용품 수거',role:'BEGGAR',location:'ALLEY',kind:'정규 근무',cash:2200},
+ {code:'PATROL',name:'관할 구역 순찰',role:'POLICE',location:'POLICE',kind:'정규 근무',cash:3000},
+ {code:'WARD',name:'병동 지원',role:'NURSE',location:'HOSPITAL',kind:'정규 근무',cash:2800},
+ {code:'CLINIC',name:'외래 진료',role:'DOCTOR',location:'HOSPITAL',kind:'정규 근무',cash:4000},
+ {code:'DOCK_WORK',name:'항만 물류 관리',role:'GANG',location:'DOCK',kind:'정규 근무',cash:3000},
+ {code:'ALLEY_WORK',name:'거리 정비',role:'VANDAL',location:'ALLEY',kind:'정규 근무',cash:2400},
+ {code:'HOME_PACK',name:'재택 포장',role:null,location:'HOME',kind:'알바',cash:1000,durationMs:180000},
+ {code:'SHOP_STOCK',name:'상품 진열',role:null,location:'SHOP',kind:'알바',cash:1200,durationMs:180000},
+ {code:'KITCHEN',name:'주방 보조',role:null,location:'RESTAURANT',kind:'알바',cash:1600,durationMs:240000},
+ {code:'EVENT_GUIDE',name:'행사 안내',role:null,location:'DEPARTMENT',kind:'알바',cash:2600,durationMs:360000},
+ {code:'FLYER',name:'전단 배포',role:null,location:'ALLEY',kind:'알바',cash:1800,durationMs:240000},
+ {code:'DOCK_LOAD',name:'항구 상하차',role:null,location:'DOCK',kind:'알바',cash:3600,durationMs:480000}
 ]);
+const LEGACY_JOB_CODES=['SORT','DELIVERY','RETAIL','RECYCLE','PATROL','WARD','CLINIC','DOCK_WORK','ALLEY_WORK'];
+// Old settings and immutable shift snapshots retain their exact wages. New jobs
+// stay closed until an explicit CMS/operations update selects them for a shift.
+export function readStoredCityCareer(value=defaultCityCareer()){
+ const jobs=value?.jobs;
+ if(Array.isArray(jobs)&&jobs.length===LEGACY_JOB_CODES.length&&new Set(jobs.map(j=>j?.code)).size===jobs.length&&jobs.every(j=>LEGACY_JOB_CODES.includes(j?.code))){
+  value={...value,jobs:[...jobs,...defaultCityCareer().jobs.filter(j=>!LEGACY_JOB_CODES.includes(j.code)).map(j=>({...j,enabled:false}))]};
+ }
+ return validateCityCareer(value);
+}
 export const CITY_POLICE_RANKS=Object.freeze([{code:'OFFICER',name:'순경',merit:0},{code:'CORPORAL',name:'경장',merit:3},{code:'SERGEANT',name:'경사',merit:8},{code:'LIEUTENANT',name:'경위',merit:15}]);
-export function defaultCityCareer(){return {enabled:false,startedAt:0,resetCash:10000,rates:CITY_ROLES.map((r,i)=>({code:r.code,cash:[2000,1000,3000,2500,4000,2500,1500][i]})),jobsEnabled:true,jobs:CITY_JOBS.map(j=>({code:j.code,enabled:true,cash:j.cash,durationMs:300000,cooldownMs:60000})),police:{workMerit:1,arrestMerit:2,ranks:CITY_POLICE_RANKS.map(({code,merit})=>({code,merit}))}};}
+export function defaultCityCareer(){return {enabled:false,startedAt:0,resetCash:10000,rates:CITY_ROLES.map((r,i)=>({code:r.code,cash:[2000,1000,3000,2500,4000,2500,1500][i]})),jobsEnabled:true,jobs:CITY_JOBS.map(j=>({code:j.code,enabled:true,cash:j.cash,durationMs:j.durationMs??300000,cooldownMs:60000})),police:{workMerit:1,arrestMerit:2,ranks:CITY_POLICE_RANKS.map(({code,merit})=>({code,merit}))}};}
 const integer=(v,min,max)=>Number.isSafeInteger(v)&&v>=min&&v<=max;
 const shape=(v,keys)=>v&&typeof v==='object'&&!Array.isArray(v)&&Object.keys(v).every(k=>keys.includes(k));
 export function validateCityCareer(value=defaultCityCareer()){

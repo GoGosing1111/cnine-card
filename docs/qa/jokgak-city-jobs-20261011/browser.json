@@ -1,0 +1,13 @@
+{
+  "checks": [
+    "1440: eight common jobs, one role job, current location first, pay and durations readable without horizontal overflow",
+    "1440: home 3-minute job pays 1000 once; locate dock, move, complete 8-minute job and collect 3600",
+    "1440: CMS renders all 15 jobs and saves new-job pay without changing mode",
+    "390: eight common jobs, one role job, current location first, pay and durations readable without horizontal overflow",
+    "390: home 3-minute job pays 1000 once; locate dock, move, complete 8-minute job and collect 3600",
+    "390: CMS renders all 15 jobs and saves new-job pay without changing mode"
+  ],
+  "errors": [],
+  "accounts": "isolated fixtures",
+  "sound": "OFF"
+}

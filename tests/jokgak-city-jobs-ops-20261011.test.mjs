@@ -1,0 +1,20 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {PGlite} from '@electric-sql/pglite';
+import {defaultCitySettings} from '../shared/jokgak-city-settings-v1.mjs';
+import {cityShift} from '../shared/jokgak-city-v1.mjs';
+import {applyCityJobsExpansion,CITY_JOBS_OPERATION} from '../scripts/ops/jokgak-city-jobs-20261011.mjs';
+test('job expansion preserves OFF, custom prices, wages above the new minimum and disabled jobs; freezes shifts and rolls back atomically',async t=>{
+ const sql=new PGlite();t.after(()=>sql.close());await sql.exec("CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TIMESTAMP);CREATE TABLE users(id BIGINT,role TEXT,status TEXT);CREATE TABLE admin_logs(admin_id BIGINT,action_type TEXT,target_type TEXT,target_id TEXT,before_data TEXT,after_data TEXT);INSERT INTO users VALUES(1,'OWNER','ACTIVE');");
+ const p=defaultCitySettings();p.mode='OFF';p.revision=23;p.career.enabled=true;p.career.startedAt=123;p.career.jobs=p.career.jobs.slice(0,9).map(j=>({...j,cash:500}));p.career.jobs[0].cash=9000;p.career.jobs[1].enabled=false;p.career.jobs[1].durationMs=120000;p.career.jobs[1].cooldownMs=90000;p.career.rates[0].cash=2222;p.life.meal.price=1234;
+ const key='jokgak_city_settings_v1',now=Date.parse('2026-10-11T13:00:00Z'),snapshot='jokgak_city_career_policy_v1:ON:'+cityShift(now).id;
+ await sql.query('INSERT INTO app_meta(key,value) VALUES($1,$2),($3,$4),($5,$6)',[key,JSON.stringify(p),snapshot,JSON.stringify(p.career),'jokgak_city_life_v1:1','untouched wallet']);
+ let fail=false;const client={query:(text,values)=>{if(fail&&text.startsWith('INSERT INTO admin_logs'))throw Error('INJECTED');return text==='SELECT current_database() db,pg_is_in_recovery() recovery'?{rows:[{db:'cnine',recovery:false}]}:text.startsWith('SELECT pg_advisory_xact_lock')?{rows:[]}:sql.query(text,values);}};
+ const read=async(k=key)=>(await sql.query('SELECT value FROM app_meta WHERE key=$1',[k])).rows[0]?.value;
+ assert.equal((await applyCityJobsExpansion(client,{now})).dryRun,true);assert.equal(await read(),JSON.stringify(p));fail=true;await assert.rejects(applyCityJobsExpansion(client,{apply:true,now}),/INJECTED/);fail=false;
+ assert.equal(await read(),JSON.stringify(p));assert.equal(await read(CITY_JOBS_OPERATION),undefined);assert.equal(await read('jokgak_city_career_policy_v1:TEST:'+cityShift(now).id),undefined);
+ const r=await applyCityJobsExpansion(client,{apply:true,now});assert.equal(r.mode,'OFF');assert.equal(r.revision,24);assert.equal(r.effectiveAt,new Date(cityShift(now).endsAt).toISOString());assert.equal(r.jobs.length,15);
+ assert.equal(r.jobs[0].cash,9000);assert.deepEqual(r.jobs[1],{...p.career.jobs[1],cash:2200});assert.ok(r.jobs.slice(9).every(j=>j.enabled));
+ const next=JSON.parse(await read()),strip=policy=>{const copy=structuredClone(policy);for(const k of ['revision','updatedAt','updatedBy','writeToken'])delete copy[k];delete copy.career.jobs;return copy;};assert.deepEqual(strip(next),strip(p));
+ assert.equal(await read(snapshot),JSON.stringify(p.career));assert.equal(await read('jokgak_city_life_v1:1'),'untouched wallet');assert.equal((await applyCityJobsExpansion(client,{apply:true,now:now+1})).replayed,true);assert.equal((await sql.query('SELECT COUNT(*) n FROM admin_logs')).rows[0].n,1);
+});
