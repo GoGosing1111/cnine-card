@@ -5,6 +5,7 @@ import {cityShift} from './jokgak-city-v1.mjs';
 import {validateCityCareerState,projectCityCareer,applyCityCareerView} from './jokgak-city-career-v1.mjs';
 import {validateCityCommsState,cityMegaphones} from './jokgak-city-comms-v1.mjs';
 import {validateCityExplorationState,cityExplorationBag} from './jokgak-city-exploration-v1.mjs';
+import {validateCityConflictState,applyCityConflictView} from './jokgak-city-conflict-v1.mjs';
 export const CITY_DEATH_MS=180000;
 export const CITY_SUPPLIES=[
   {code:'LUNCHBOX',name:'휴대 도시락',icon:'meal',description:'이동 중 허기를 달래는 따뜻한 도시락'},
@@ -44,6 +45,7 @@ export function readCityLife(raw,now){
     validateCityCareerState(life);
     validateCityCommsState(life);
     validateCityExplorationState(life);
+    validateCityConflictState(life);
     if(life.version!==1||!Number.isSafeInteger(life.at)||!['hunger','wellness'].every(k=>Number.isFinite(life[k])&&life[k]>=0&&life[k]<=100)||!life.bags?.TEST||!life.bags?.ON)throw Error();
     for(const mode of ['TEST','ON'])for(const [code,n] of Object.entries(life.bags[mode]))if(!CITY_SUPPLIES.some(s=>s.code===code)||!integer(n,0,99))throw Error();
     if(life.death&&(!Number.isSafeInteger(life.death.until)||!Number.isSafeInteger(life.death.at)||typeof life.death.killerName!=='string'))throw Error();
@@ -94,7 +96,7 @@ export function applyCityLifeView(state,life,policy){
   const megaphones=cityMegaphones(life,policy.mode,life.at);state.megaphoneCount=megaphones.count;state.megaphoneNextAt=megaphones.nextAt;
   const wallet=ensureCityCash(life,policy);state.cash=wallet?.balance??0;state.cashMode=policy.mode;state.cashUnit='원';
   state.begging=state.active&&state.role==='BEGGAR'&&!state.deadUntil&&!state.hospitalRequired&&life.begging?.endsAt>life.at&&life.begging.location===state.location&&life.begging.mode===policy.mode?{...life.begging}:null;
-  return applyCityCareerView(applyCityExpansionView(state,life,policy),life,policy);
+  return applyCityConflictView(applyCityCareerView(applyCityExpansionView(state,life,policy),life,policy),life,policy);
 }
 export function markCityDeath(state,life,killer,now,location){
   life.death={at:now,until:now+CITY_DEATH_MS,killerId:killer.userId,killerName:killer.nickname,location,resolved:false};life.at=now;

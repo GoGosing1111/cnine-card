@@ -1,5 +1,6 @@
 import {cityShift} from '../shared/jokgak-city-v1.mjs';
 import {prepareCityTopSettlement,CITY_TOP_CURSOR} from './_jokgak_city_top.js';
+import {cityConflictCleanup} from './_jokgak_city_conflict.js';
 const KEY='jokgak_city_rotation_cleanup_v1';
 // Current-round receipts retain idempotency. Old requests carry their old epoch
 // and are rejected after expiry, so expired receipts need not accumulate.
@@ -15,6 +16,7 @@ export async function settleCityRound(env,now=Date.now(),{force=false}={}){
   p('UPDATE jokgak_city_players_v1 SET active=0,next_action_at=0,next_move_at=0,protected_until=0,revision=revision+1,last_token=?,updated_at=? WHERE active=1 AND epoch<?','city-rotation:'+shift.id,now,shift.id),
   p('DELETE FROM jokgak_city_notifications_v1 WHERE created_at<?',shift.startsAt),
   p('DELETE FROM jokgak_city_actions_v1 WHERE created_at<?',shift.startsAt),
+  ...cityConflictCleanup(env,shift.id),
   p('INSERT INTO app_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value WHERE CAST(app_meta.value AS BIGINT)<CAST(excluded.value AS BIGINT)',KEY,String(shift.id))
  ]);
  return {changed:true,shift,exited:Number(results[top.statements.length]?.meta?.changes||0),topAwards:top.awards};

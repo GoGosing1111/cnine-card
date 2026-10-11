@@ -26,7 +26,7 @@ export async function cityRoleWeights(env,epoch,policy){
   if(!Array.isArray(weights)||weights.length!==7||weights.some((r,i)=>r.code!==CITY_ROLES[i].code||!Number.isSafeInteger(r.weight)||r.weight<0)||!weights.some(r=>r.weight>0))fail('역할 교대 정보를 확인하지 못했습니다.',503,'CITY_ROLE_WEIGHTS');
   return weights;
 }
-export const cityPublicPolicy=policy=>({mode:policy.mode,revision:policy.revision,liveRewards:policy.mode==='ON'&&policy.rewards.enabled,rewardRules:{...policy.rewards},rules:{...policy.rules},life:policy.life,cash:policy.cash,arsenal:policy.arsenal,facilities:policy.facilities,exploration:policy.exploration,career:policy.career,roles:CITY_ROLES.map(role=>({...role,...policy.roles.find(r=>r.code===role.code),detail:cityRoleDescription(policy.roles.find(r=>r.code===role.code))}))});
+export const cityPublicPolicy=policy=>({mode:policy.mode,revision:policy.revision,liveRewards:policy.mode==='ON'&&policy.rewards.enabled,rewardRules:{...policy.rewards},rules:{...policy.rules},life:policy.life,cash:policy.cash,arsenal:policy.arsenal,facilities:policy.facilities,exploration:policy.exploration,conflict:policy.conflict,career:policy.career,roles:CITY_ROLES.map(role=>({...role,...policy.roles.find(r=>r.code===role.code),detail:cityRoleDescription(policy.roles.find(r=>r.code===role.code))}))});
 export async function cityRewardCatalog(env){
   const rows=(await p(env,'SELECT code,name,rarity,image_url FROM inventory_items WHERE is_active=1 AND code<>? ORDER BY name,code LIMIT 1001',EQUIPMENT_FORGE_RELEASE_PROTECTION_CODE).all()).results||[];
   if(rows.length>1000)fail('보상 아이템 목록의 조회 범위를 확인해 주세요.',503,'CITY_CATALOG_LIMIT');
@@ -47,7 +47,7 @@ export async function saveCitySettings(env,user,value,now=Date.now()){
   if(user?.role!=='OWNER')fail('족각도시 설정은 OWNER만 변경할 수 있습니다.',403,'CITY_PERMISSION');
   const before=await readCitySettings(env);
   if(value?.revision!==before.policy.revision)fail('다른 창에서 설정이 변경됐습니다. 다시 불러오세요.',409,'CITY_POLICY_CONFLICT');
-  const next=validateCitySettings({...value,exploration:value.exploration===undefined?before.policy.exploration:value.exploration,roundRewards:value.roundRewards===undefined?before.policy.roundRewards:value.roundRewards}),catalog=await cityRewardCatalog(env),codes=new Set(catalog.map(r=>r.code));
+  const next=validateCitySettings({...value,conflict:value.conflict===undefined?before.policy.conflict:value.conflict,exploration:value.exploration===undefined?before.policy.exploration:value.exploration,roundRewards:value.roundRewards===undefined?before.policy.roundRewards:value.roundRewards}),catalog=await cityRewardCatalog(env),codes=new Set(catalog.map(r=>r.code));
   if([...next.roles.flatMap(r=>r.rewards),next.roundRewards.participation,...next.roundRewards.top5.ranks].some(row=>row.items.some(item=>!codes.has(item.code))))fail('현재 지급 가능한 보상 아이템을 선택하세요.');
   if((await cityTestUsers(env,next.testUserIds)).length!==next.testUserIds.length)fail('활성 계정을 검색하여 테스트 참여자를 지정하세요.');
   await cityRoleWeights(env,cityShift(now).id,before.policy);

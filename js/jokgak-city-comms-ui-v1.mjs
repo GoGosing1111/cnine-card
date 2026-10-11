@@ -1,3 +1,4 @@
+import {cityBountyReceipt} from './jokgak-city-conflict-ui-v1.mjs?v=20261012-riot-bounty1';
 import {CITY_MEGAPHONE} from '../shared/jokgak-city-comms-v1.mjs';
 export {CITY_MEGAPHONE};
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -25,6 +26,6 @@ export function cityActivityPanel(log,busy=false){
  return header+`<ol class="jc-activity-list">${log.items.length?log.items.map(row=>{
   const incoming=row.direction==='received',title=actions[row.action]||'도시 행동',clock=new Date(row.createdAt).toLocaleTimeString('ko-KR',{timeZone:'Asia/Seoul',hour12:false}),who=incoming?row.actorName:row.targetName;
   const outcome=['attack','arrest'].includes(row.action)?row.winner==='DRAW'?'무승부':row.winner===(incoming?'B':'A')?'승리':'패배':'';
-  return `<li class="${incoming?'is-incoming':''}"><time>${clock}</time><div><header><small>${incoming?'받은 알림':'내 활동'}</small><b>${esc(title)} ${outcome}</b>${incoming&&!row.read?'<em>미확인</em>':''}</header>${who?`<p>${esc(who)}</p>`:''}${row.comms?.message?`<blockquote>${esc(row.comms.message)}</blockquote>`:''}${row.theft?.amount?`<p>현금 ${Number(row.theft.amount).toLocaleString('ko-KR')}원 이동</p>`:''}${row.comms?.price?`<p>${row.comms.price}원 · 확성기 1개 구매</p>`:''}${row.exploration?.kind==='explore'?'<p>'+esc(row.exploration.item?.name||'장비 발견 없음')+(row.exploration.outcome==='DUPLICATE'?' · 이미 보유':'')+'</p>':''}${row.health!=null?`<span>행동 후 체력 ${Number(row.health)}</span>`:''}</div></li>`;
+  return `<li class="${incoming?'is-incoming':''}"><time>${clock}</time><div><header><small>${incoming?'받은 알림':'내 활동'}</small><b>${esc(title)} ${outcome}</b>${incoming&&!row.read?'<em>미확인</em>':''}</header>${who?`<p>${esc(who)}</p>`:''}${row.comms?.message?`<blockquote>${esc(row.comms.message)}</blockquote>`:''}${row.theft?.amount?`<p>현금 ${Number(row.theft.amount).toLocaleString('ko-KR')}원 이동</p>`:''}${row.comms?.price?`<p>${row.comms.price}원 · 확성기 1개 구매</p>`:''}${row.exploration?.kind==='explore'?'<p>'+esc(row.exploration.item?.name||'장비 발견 없음')+(row.exploration.outcome==='DUPLICATE'?' · 이미 보유':'')+'</p>':''}${cityBountyReceipt(row.bounty)}${row.health!=null?`<span>행동 후 체력 ${Number(row.health)}</span>`:''}</div></li>`;
  }).join(''):'<li class="jc-log-empty">이번 교대의 활동 기록이 없습니다.</li>'}</ol>${log.next?`<button class="jc-log-more" data-city-log-more ${busy?'disabled':''}>${busy?'불러오는 중…':'이전 기록 더 보기'}</button>`:''}`;
 }

@@ -1,7 +1,7 @@
 import {CITY_FOUND_WEAPONS,CITY_ARMORS,CITY_SEARCH_AREAS} from '../shared/jokgak-city-exploration-v1.mjs';
 import {CITY_WEAPONS} from '../shared/jokgak-city-expansion-v1.mjs';
 import {cityPlace} from '../shared/jokgak-city-v1.mjs';
-import {cityExplorationArt} from '../js/jokgak-city-gear-art-v1.mjs?v=20261012-explore-art2';
+import {cityExplorationArt} from '../js/jokgak-city-gear-art-v1.mjs?v=20261012-riot-bounty1';
 export function cityExplorationSettings(policy,{field,check}){
  const cfg=policy.exploration,metas=[...CITY_WEAPONS,...CITY_FOUND_WEAPONS,...CITY_ARMORS];
  const gear=(key,title)=>`<section><h3>${title}</h3><div class="city-cms-gear-grid">${cfg[key].map((item,i)=>`<article><div class="city-cms-gear-art">${cityExplorationArt(item.code,true)}</div><small>${item.code}</small><h4>${metas.find(m=>m.code===item.code).name}</h4>${check('exploration.'+key+'.'+i+'.enabled','탐색·장착 사용',item.enabled)}${field('exploration.'+key+'.'+i+'.power',key==='armors'?'추가 도시 전투력':'장착 시 도시 전투력',item.power,1,100000000)}</article>`).join('')}</div></section>`;

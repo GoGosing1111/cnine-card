@@ -1,0 +1,20 @@
+{
+  "checks": [
+    "1440: two actual fight hot spots, three wanted amounts, SVG fills map and motion preference respected",
+    "1440: maximum-length megaphone and bounty banner stack without overlapping",
+    "1440: map/board navigation, selected wanted badge, actual kill API pays city cash and return shows public death banner",
+    "1440: reload does not repeat issued or completed announcements",
+    "1440: popup preference suppresses new death banner while public warrants and payment remain active",
+    "1440: fight heat expires without old permanent zone effects",
+    "1440: OWNER conflict tab saves thresholds and amounts without changing ON or existing issued amount",
+    "390: two actual fight hot spots, three wanted amounts, SVG fills map and motion preference respected",
+    "390: maximum-length megaphone and bounty banner stack without overlapping",
+    "390: map/board navigation, selected wanted badge, actual kill API pays city cash and return shows public death banner",
+    "390: reload does not repeat issued or completed announcements",
+    "390: popup preference suppresses new death banner while public warrants and payment remain active",
+    "390: fight heat expires without old permanent zone effects",
+    "390: OWNER conflict tab saves thresholds and amounts without changing ON or existing issued amount"
+  ],
+  "errors": [],
+  "accounts": "isolated fixtures only; actual city HTTP handlers and unchanged main UI; common battle renderer fast-forwarded"
+}

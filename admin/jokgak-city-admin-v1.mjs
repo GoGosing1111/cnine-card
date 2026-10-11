@@ -5,7 +5,8 @@ import {validateCitySettings,CITY_REWARD_EVENTS,cityRoleDescription} from '../sh
 import {CITY_SUPPLIES} from '../shared/jokgak-city-life-v1.mjs';
 import {CITY_WEAPONS} from '../shared/jokgak-city-expansion-v1.mjs';
 import {CITY_ROUND_REWARD_MAX_COIN} from '../shared/jokgak-city-round-rewards-v1.mjs';
-import {cityExplorationSettings} from './jokgak-city-exploration-admin-v1.mjs?v=20261012-explore-art2';
+import {cityConflictSettings} from './jokgak-city-conflict-admin-v1.mjs?v=20261012-riot-bounty1';
+import {cityExplorationSettings} from './jokgak-city-exploration-admin-v1.mjs?v=20261012-riot-bounty1';
 
 const esc=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 const modes=[['OFF','운영 중지','모든 신규 행동 차단'],['TEST','테스트 운영','OWNER·지정 참여자 / 테스트 현금 사용'],['ON','정식 운영','전체 공개 / 보상 설정 적용']];
@@ -69,7 +70,7 @@ export function mountCityCms(root){
   }
   function draw(){
     if(destroyed||!policy)return;
-    form.innerHTML=`<header class="city-cms-heading"><div><small>JOKGAK CITY / CONTROL ROOM</small><h2>족각도시</h2><p>운영 · 역할 · 보상 · 도시 생활</p></div><div><small>현재 저장</small><span class="city-cms-mode">${savedMode}</span><small>설정 r${policy.revision}</small><button type="button" data-reload>새로 불러오기</button></div></header><nav class="city-cms-tabs" aria-label="족각도시 설정 구분">${[['operation','운영·참여자'],['roles','역할 설정'],['rewards','행동별 보상'],['roundRewards','회차 보상'],['life','생활·상점'],['exploration','탐색·장비'],['expansion','무기·시설'],['career','직업·수입']].map(([id,name])=>`<button type="button" data-tab="${id}" aria-pressed="${id===tab}">${name}</button>`).join('')}</nav><div class="city-cms-content">${tab==='operation'?operation():tab==='roles'?roleSettings():tab==='life'?lifeSettings():tab==='expansion'?expansionSettings():tab==='exploration'?cityExplorationSettings(policy,{field,check}):tab==='career'?careerSettings():tab==='roundRewards'?roundRewardSettings():rewardSettings()}</div><footer class="city-cms-save"><div><b data-dirty>${dirty?'저장하지 않은 변경사항':'저장된 설정'}</b><small>배정·직업 경제·회차 보상은 다음 교대, 중지는 즉시 적용</small></div><button type="submit">설정 저장</button></footer>`;
+    form.innerHTML=`<header class="city-cms-heading"><div><small>JOKGAK CITY / CONTROL ROOM</small><h2>족각도시</h2><p>운영 · 역할 · 보상 · 도시 생활</p></div><div><small>현재 저장</small><span class="city-cms-mode">${savedMode}</span><small>설정 r${policy.revision}</small><button type="button" data-reload>새로 불러오기</button></div></header><nav class="city-cms-tabs" aria-label="족각도시 설정 구분">${[['operation','운영·참여자'],['roles','역할 설정'],['rewards','행동별 보상'],['roundRewards','회차 보상'],['life','생활·상점'],['exploration','탐색·장비'],['conflict','폭동·현상수배'],['expansion','무기·시설'],['career','직업·수입']].map(([id,name])=>`<button type="button" data-tab="${id}" aria-pressed="${id===tab}">${name}</button>`).join('')}</nav><div class="city-cms-content">${tab==='operation'?operation():tab==='roles'?roleSettings():tab==='life'?lifeSettings():tab==='expansion'?expansionSettings():tab==='exploration'?cityExplorationSettings(policy,{field,check}):tab==='conflict'?cityConflictSettings(policy,{field,check}):tab==='career'?careerSettings():tab==='roundRewards'?roundRewardSettings():rewardSettings()}</div><footer class="city-cms-save"><div><b data-dirty>${dirty?'저장하지 않은 변경사항':'저장된 설정'}</b><small>배정·직업 경제·회차 보상은 다음 교대, 중지는 즉시 적용</small></div><button type="submit">설정 저장</button></footer>`;
   }
   async function load(){
     if(busy)return;setBusy(true);notice('족각도시 운영 설정을 불러오고 있습니다.');

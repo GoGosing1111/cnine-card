@@ -22,6 +22,7 @@ import {settleCityRound} from './_jokgak_city_round.js';
 import {cityRoundWriteGuards} from './_jokgak_city_top.js';
 import {freezeCityRoundRewards} from './_jokgak_city_round_rewards.js';
 import {cityNoticePreferences,saveCityNoticePreferences,cityNoticeCount,skipCityNotices,cityActivityLog,cityBroadcasts} from './_jokgak_city_comms.js';
+import {prepareCityConflict,cityConflictWorld,invalidateCityRiots} from './_jokgak_city_conflict.js';
 
 const p=(env,sql,...v)=>env.DB.prepare(sql).bind(...v);
 const parse=(value,fallback={})=>{try{return JSON.parse(value)??fallback;}catch{return fallback;}};
@@ -44,7 +45,7 @@ async function syncCityPlayer(env,user,policy,weights,now,policyRaw){
     const row=await player(env,user.id),state=await publicPlayer(env,row,now,policy,weights);if(!row)return null;
     const life=lifeStates.get(state),storedDeath=row.life_raw?parse(row.life_raw).death:null;
     const cashMissing=['TEST','ON'].includes(policy.mode)&&!parse(row.life_raw).wallets?.[policy.mode];
-    const before=parse(row.life_raw),facilityChanged=['armory','exploration','hospital','motel','careers','megaphones'].some(k=>JSON.stringify(before[k])!==JSON.stringify(life[k]));
+    const before=parse(row.life_raw),facilityChanged=['armory','exploration','hospital','motel','careers','megaphones','conflict'].some(k=>JSON.stringify(before[k])!==JSON.stringify(life[k]));
     if(Number(row.epoch)===cityShift(now).id&&Number(row.active)===Number(state.active)&&row.life_raw!=null&&!cashMissing&&!facilityChanged&&state.location===row.location&&!(storedDeath&&!storedDeath.resolved&&life.death?.resolved))return state;
     const id='city-auto:'+crypto.randomUUID();
     const guards=cityRoundWriteGuards(env,cityShift(now).id,id);if(env.DB.dialect==='postgres')guards.push(p(env,'SELECT key FROM app_meta WHERE key=? FOR SHARE',CITY_SETTINGS_KEY));
@@ -87,8 +88,8 @@ export async function cityStatus(env,user,location='HOME',after=0,now=Date.now()
   const roster=await p(env,`SELECT c.*,u.nickname,life.value AS life_raw FROM jokgak_city_players_v1 c JOIN users u ON u.id=c.user_id ${lifeJoin} WHERE c.active=1 AND c.epoch=? AND c.location=? AND c.user_id>? AND ${activeUserSql}${testerFilter} ORDER BY c.user_id LIMIT 11`,cityShift(now).id,location,after,...(policy.mode==='TEST'?policy.testUserIds:[])).all();
   const rows=roster.results||[];
   const people=(await Promise.all(rows.slice(0,10).map(row=>publicPlayer(env,row,now,policy,weights)))).filter(row=>row.active&&row.location===location&&(!row.restUntil||row.userId===Number(user.id))).map(({bag,ownedWeapons,ownedArmors,exploreNextAt,hospitalTransfer,cash,cashMode,cashUnit,career,megaphoneCount,megaphoneNextAt,...row})=>row);
-  const [noticePreferences,unreadCount,broadcasts]=await Promise.all([cityNoticePreferences(env,user.id),cityNoticeCount(env,user.id,now),cityBroadcasts(env,policy.mode,now)]);
-  return {ok:true,serverNow:now,shift:cityShift(now),...cityPublicPolicy(policy),places:CITY_PLACES,mine,location,people,noticePreferences,unreadCount,broadcasts,beggingOffers:await cityBeggingOffers(env,user,mine,now,policy),nextCursor:rows.length>10?Number(rows[9].user_id):null};
+  const [noticePreferences,unreadCount,broadcasts,conflicts]=await Promise.all([cityNoticePreferences(env,user.id),cityNoticeCount(env,user.id,now),cityBroadcasts(env,policy.mode,now),cityConflictWorld(env,policy,now)]);
+  return {ok:true,serverNow:now,shift:cityShift(now),...cityPublicPolicy(policy),places:CITY_PLACES,mine,location,people,noticePreferences,unreadCount,broadcasts,conflicts,beggingOffers:await cityBeggingOffers(env,user,mine,now,policy),nextCursor:rows.length>10?Number(rows[9].user_id):null};
 }
 export async function cityOrganization(env,user,after=0,now=Date.now()){
   await settleCityRound(env,now);
@@ -241,6 +242,7 @@ export async function cityAction(env,deps,user,action,body){
   const winner=simulation?.battleV2?.result?.winner;
   const killerRole=winner==='A'&&target.health<=0?role:winner==='B'&&me.health<=0?cityRolePolicy(policy,target.role):null;
   const theft=isFight?transferCityCash(myLife,targetLife,policy,winner,Number(user.id),targetId,killerRole):null;
+  const conflict=prepareCityConflict(env,{action,winner,me,target,myLife,targetLife,policy,now:committedAt,requestId:body.requestId,location:mine?.location||me.location,roll:deps.cityBountyRandom});
   myLife.at=committedAt;projectCityFacilities(me,myLife,committedAt,policy);projectCityCareer(me,myLife,committedAt,policy);applyCityLifeView(me,myLife,policy);if(targetLife){targetLife.at=committedAt;applyCityLifeView(target,targetLife,policy);}
   const reward=await prepareCityReward(env,{user,policy,role:roleCode,event:cityRewardEvent(action,simulation?.battleV2?.result?.winner,targetId===Number(user.id)),targetId,requestId:body.requestId,now:committedAt,life:myLife});
   applyCityLifeView(me,myLife,policy);
@@ -248,7 +250,7 @@ export async function cityAction(env,deps,user,action,body){
   if(comms?.kind==='broadcast')comms.createdAt=committedAt;
   const {cash:targetCash,cashMode:targetCashMode,cashUnit:targetCashUnit,bag:targetBag,ownedWeapons:targetWeapons,ownedArmors:targetArmors,exploreNextAt:targetExplore,hospitalTransfer:targetTransfer,career:targetCareer,megaphoneCount:targetMegaphones,megaphoneNextAt:targetMegaphoneNext,...visibleTarget}=target||{};
   const result={ok:true,requestId:body.requestId,action,epoch,mode:policy.mode,policyRevision:policy.revision,createdAt:committedAt,location:mine?.location||me.location,mine:me,target:targetId?visibleTarget:null,inspection,...simulation,reward:reward.result,theft,donation:donation?.result||null,service:service?.result||null,
-    cityMode:policy.mode,expansion,exploration,work,comms,effects:{damageToMine:Math.max(0,(healthBefore??me.health)-me.health),damageToTarget:Math.max(0,(targetHealthBefore??0)-(target?.health??0)),healed:action==='heal'?target.health-targetHealthBefore:0,jailMs:action==='arrest'&&simulation?.battleV2?.result?.winner==='A'?role.arrestMs:0}};
+    cityMode:policy.mode,expansion,exploration,work,comms,bounty:conflict.result,effects:{damageToMine:Math.max(0,(healthBefore??me.health)-me.health),damageToTarget:Math.max(0,(targetHealthBefore??0)-(target?.health??0)),healed:action==='heal'?target.health-targetHealthBefore:0,jailMs:action==='arrest'&&simulation?.battleV2?.result?.winner==='A'?role.arrestMs:0}};
   if(simulation)result.result=simulation.battleV2.result.winner==='A'?'WIN':simulation.battleV2.result.winner==='B'?'LOSE':'DRAW';
   const policyGuard=body.requestId+':policy',statements=cityRoundWriteGuards(env,epoch,body.requestId);
   if(env.DB.dialect==='postgres')statements.push(p(env,'SELECT key FROM app_meta WHERE key=? FOR SHARE',CITY_SETTINGS_KEY));
@@ -261,13 +263,14 @@ export async function cityAction(env,deps,user,action,body){
     changes.sort((a,b)=>Number(a.raw.user_id)-Number(b.raw.user_id));
     for(const entry of changes)statements.push(...claim(env,entry.raw,entry.next,body.requestId,epoch,committedAt),...cityLifeClaim(env,entry.raw,Number(entry.raw.user_id)===Number(user.id)?myLife:targetLife,body.requestId));
   }
-  statements.push(...(donation?.statements||[]),...(service?.statements||[]),...reward.statements,p(env,'INSERT INTO jokgak_city_actions_v1(request_id,user_id,target_id,action,fingerprint,result_json,created_at) VALUES(?,?,?,?,?,?,?)',body.requestId,user.id,targetId||null,action,fingerprint,JSON.stringify(result),committedAt));
+  statements.push(...(donation?.statements||[]),...(service?.statements||[]),...reward.statements,...conflict.statements,p(env,'INSERT INTO jokgak_city_actions_v1(request_id,user_id,target_id,action,fingerprint,result_json,created_at) VALUES(?,?,?,?,?,?,?)',body.requestId,user.id,targetId||null,action,fingerprint,JSON.stringify(result),committedAt));
   if(isBeg)statements.push(beggingNotifications(env,{user,me,requestId:body.requestId,begging:myLife.begging,policy,now:committedAt}));
   if(targetId&&targetId!==Number(user.id)){
-    const summary={requestId:body.requestId,action,actorId:Number(user.id),actorName:user.nickname,location:mine.location,winner:simulation?.battleV2?.result?.winner||null,theft,donation:donation?.result||null,health:target.health,maxHealth:target.maxHealth,jailedUntil:target.jailedUntil,jailMs:result.effects.jailMs,death:target.death,deadUntil:target.deadUntil,mode:policy.mode,createdAt:committedAt};
+    const summary={requestId:body.requestId,action,actorId:Number(user.id),actorName:user.nickname,location:mine.location,winner:simulation?.battleV2?.result?.winner||null,theft,bounty:conflict.result,donation:donation?.result||null,health:target.health,maxHealth:target.maxHealth,jailedUntil:target.jailedUntil,jailMs:result.effects.jailMs,death:target.death,deadUntil:target.deadUntil,mode:policy.mode,createdAt:committedAt};
     statements.push(p(env,'INSERT INTO jokgak_city_notifications_v1(id,user_id,request_id,created_at,summary_json) VALUES(?,?,?,?,?)',body.requestId+':notice',targetId,body.requestId,committedAt,JSON.stringify(summary)));
   }
   try{await env.DB.batch(statements);}catch(error){const saved=await receipt(env,user,body.requestId,fingerprint);if(saved)return saved;if(/guard|constraint|duplicate|unique/i.test(error.message))fail('CONFLICT','전황이 바뀌었습니다. 최신 위치와 상태를 확인하세요.');throw error;}
+  if(isFight)invalidateCityRiots(env,policy,epoch);
   return result;
 }
 export async function handleJokgakCity({path,request,env,deps}){
