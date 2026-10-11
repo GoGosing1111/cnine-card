@@ -1,4 +1,5 @@
 import { ACHIEVEMENT_TITLES_KEY, ACHIEVEMENT_TITLE_POWER_KEY, ensureAchievementTitles, syncAchievementTitles } from './_achievement_titles.js';
+import {MERCENARY_EQUIPMENT_SQL_CODES,isMercenaryEquipment} from '../shared/mercenary-equipment-v1.mjs';
 import { PREDICTION_TITLE_KEY, ASURA_TITLE_KEY, ensurePredictionTitle, ensureAsuraTitle, syncPredictionHitTitle } from './_prediction_title.js';
 import { SUPPORTER_BLUE_BEAST_TITLES_KEY, ensureSupporterBlueBeastTitles, syncBlueBeastTitle } from './_supporter_blue_beast_titles.js';
 import { RAID_BUS_DRIVER_TITLE_KEY, ensureRaidBusDriverTitle } from './_raid_bus_driver_title.js';
@@ -629,7 +630,7 @@ export async function userEquipmentBonuses(env,userId,{skillChips}={}){
       FROM user_equipment_loadout l
       JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id
       JOIN character_equipment_items i ON i.id=x.equipment_id AND i.is_active=1
-      WHERE l.user_id=? AND i.slot<>'BATTLE_SUIT'
+      WHERE l.user_id=? AND i.slot<>'BATTLE_SUIT' AND i.code NOT IN (${MERCENARY_EQUIPMENT_SQL_CODES})
     ),battle_suit AS (
       SELECT x.id AS battle_suit_instance_id,i.id AS battle_suit_id,i.code AS battle_suit_code,i.name AS battle_suit_name,
         i.slot AS battle_suit_slot,i.subtype AS battle_suit_subtype,i.rarity AS battle_suit_rarity,i.image_url AS battle_suit_image,
@@ -645,7 +646,7 @@ export async function userEquipmentBonuses(env,userId,{skillChips}={}){
       FROM user_equipment_loadout l
       JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id
       JOIN character_equipment_items i ON i.id=x.equipment_id AND i.is_active=1
-      WHERE l.user_id=? AND l.slot='WEAPON' AND i.slot='WEAPON' LIMIT 1
+      WHERE l.user_id=? AND l.slot='WEAPON' AND i.slot='WEAPON' AND i.code NOT IN (${MERCENARY_EQUIPMENT_SQL_CODES}) LIMIT 1
     ),garage AS (
       SELECT COALESCE(g.pve_power,0) AS garage_pve,COALESCE(g.pvp_power,0) AS garage_pvp,g.id AS garage_id,g.name AS garage_name,g.rarity AS garage_rarity,g.image_url AS garage_image
       FROM user_garage_loadout l
@@ -756,7 +757,7 @@ async function characterPayload(env,userId,{admin=false,syncTitles=false,role='U
     skillChipsTask
   ]);
   const loadout=Object.fromEntries(loadoutRows.results.map(row=>[row.slot,Number(row.instance_id)])),equippedTitleId=Number(titleLoadout?.title_id||0),equippedVehicleId=Number(garageLoadout?.garage_id||0);
-  const expanded=await equipmentEnhancementRows(env,userId,instances.results,{admin});
+  const expanded=(await equipmentEnhancementRows(env,userId,instances.results,{admin})).filter(row=>!isMercenaryEquipment(row.code));
   const equipmentStacks=await attachPolishInventory(env,userId,expanded.map(row=>({instanceId:Number(row.instance_id),quantity:row.quantityFixed?Number(row.quantity):deferQuantities?null:Math.max(1,Number(row.quantity||1)),
     ...(row.quantityFixed?{quantityFixed:true}:{}),...(row.quantityOffset?{quantityOffset:row.quantityOffset}:{}),...(row.enhancement?{enhancement:row.enhancement}:{}),
     item:publicItem(row),sourceType:row.source_type,sourceId:row.source_id,acquiredAt:row.acquired_at,equipped:loadout[row.slot]===Number(row.instance_id)})));
@@ -815,8 +816,9 @@ export async function handleEquipment({path,request,env,deps}){
     const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
     const body=await readBody(request),instanceId=cleanEquipmentInstanceId(body?.instanceId);
     if(instanceId===null)return json({error:'올바른 장비 번호를 확인하세요.'},400);
-    const owned=await env.DB.prepare(`SELECT x.id,i.slot FROM user_equipment_instances x JOIN character_equipment_items i ON i.id=x.equipment_id WHERE x.id=? AND x.user_id=? AND i.is_active=1`).bind(instanceId,user.id).first();
+    const owned=await env.DB.prepare(`SELECT x.id,i.slot,i.code FROM user_equipment_instances x JOIN character_equipment_items i ON i.id=x.equipment_id WHERE x.id=? AND x.user_id=? AND i.is_active=1`).bind(instanceId,user.id).first();
     if(!owned)return json({error:'장착할 장비를 찾을 수 없습니다.'},404);
+    if(isMercenaryEquipment(owned.code))return json({code:'MERCENARY_EQUIPMENT_ONLY',error:'용병 장비창에서 PVE·PVP 장비를 장착하세요.'},409);
     await env.DB.prepare(`INSERT INTO user_equipment_loadout(user_id,slot,instance_id,updated_at) VALUES(?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id,slot) DO UPDATE SET instance_id=excluded.instance_id,updated_at=CURRENT_TIMESTAMP`).bind(user.id,owned.slot,instanceId).run();
     return json({ok:true,slot:owned.slot,instanceId,bonuses:await userEquipmentBonuses(env,user.id)});
   }

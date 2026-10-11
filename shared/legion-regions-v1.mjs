@@ -49,10 +49,10 @@ export const REGION_EQUIPMENT = Object.freeze(LEGION_REGIONS.flatMap(region=>[
   ...REGION_EQUIPMENT_SLOTS.map((slot,index)=>Object.freeze({
     code:`${region.setId}_${slot}`,regionId:region.id,setId:region.setId,kind:'SET',name:`${region.setName} ${slotNames[slot]}`,slot,
     rarity:'LEGENDARY',totalPower:[100000,70000,65000,50000,60000][index],
-    image:`${LEGION_REGION_ART}${region.id}/equipment-${index+1}-v1.webp`,description:`${region.name} 전용 장비 · ${region.setName} 2/4세트`,
+    image:`/assets/ui/mercenary-equipment/legion-20261011/${region.id}-${slot.toLowerCase()}.webp`,description:`${region.name} 용병 전용 장비 · ${region.setName} 2/4세트`,
   })),
   Object.freeze({code:`${region.setId}_UNIQUE`,regionId:region.id,setId:null,kind:'UNIQUE',name:region.unique.name,slot:region.unique.slot,rarity:'MYTHIC',
-    totalPower:region.unique.slot==='WEAPON'?145000:100000,image:`${LEGION_REGION_ART}${region.id}/equipment-6-v1.webp`,effect:region.unique.effect,description:region.unique.description})
+    totalPower:region.unique.slot==='WEAPON'?145000:100000,image:`/assets/ui/mercenary-equipment/legion-20261011/${region.id}-unique.webp`,effect:region.unique.effect,description:region.unique.description})
 ]));
 export const regionById=id=>LEGION_REGIONS.find(row=>row.id===id)||null;
 export const regionalDifficulty=id=>REGION_DIFFICULTIES.find(row=>row.id===id)||null;

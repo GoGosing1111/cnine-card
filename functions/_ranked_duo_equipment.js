@@ -1,9 +1,10 @@
 import {equipmentCountsReady} from './_equipment_counts_v1.js';
+import {MERCENARY_EQUIPMENT_SQL_CODES} from '../shared/mercenary-equipment-v1.mjs';
 
 // Duplicate instances never need to leave the database. The live ownership
 // summary covers unenhanced gear; only sparse forge/loadout rows need instances.
 export async function readDuoEquipment(env,ids){
- const marks=ids.map(()=>'?').join(','),slots="i.is_active=1 AND i.slot IN('WEAPON','TOP','BOTTOM','SHOES','ACCESSORY')";
+ const marks=ids.map(()=>'?').join(','),slots=`i.is_active=1 AND i.slot IN('WEAPON','TOP','BOTTOM','SHOES','ACCESSORY') AND i.code NOT IN (${MERCENARY_EQUIPMENT_SQL_CODES})`;
  if(await equipmentCountsReady(env))return env.DB.prepare(`WITH growth AS MATERIALIZED (
    SELECT user_id,instance_id,level FROM equipment_forge_states_v1 WHERE user_id IN (${marks}) AND level>0
   ), enhanced AS (

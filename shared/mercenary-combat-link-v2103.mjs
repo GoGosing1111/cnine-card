@@ -2,6 +2,7 @@ import {applyMercenaryLevelStats} from './mercenary-level-v1.mjs';
 import {isValter,VALTER_COMBAT} from './mercenary-valter-v1.mjs';
 import {mercenaryCombatRank,ssLimitedProfile,ssLimitedPvpLinkScale} from './mercenary-ss-limited-v1.mjs';
 import {rearPveCurrentPolicy} from './mercenary-ss-rear-pve-v1.mjs';
+import {mercenaryEquipmentPower} from './mercenary-equipment-v1.mjs';
 // Ordinary rank base power stays fixed; limited fighters have explicit policies.
 // Combat linkage is an explicit additional
 // ability, frozen from this side's five ordinary fighters at battle start.
@@ -56,13 +57,27 @@ export function applyMercenaryCombatLink(teams,{regularCardsPerOwner=5}={}){
    const rule=isValter(m)?VALTER_COMBAT.link:ssLimitedProfile(m)?.link||MERCENARY_COMBAT_LINK.ranks[m.rank];if(!rule||m.alive===false||m.hp<=0||m.mercenaryLink?.version===MERCENARY_COMBAT_LINK.version)continue;
    const healthRatio=Math.max(0,Math.min(1,m.hp/m.maxHp)),tierGuard=mercenaryPvpTierGuard(m,teams),tierOffense=1+(tierGuard-1)/MERCENARY_COMBAT_LINK.pvpTierGuardPerStep;
    const matchupScale=ssLimitedPvpLinkScale(m,teams);
-   const attackFloor=Math.round(averageAttack*rule.attackPercent/100*tierOffense*matchupScale);
-   const hpFloor=Math.round(averageHp*rule.hpPercent/100*tierGuard*matchupScale);
+   let attackFloor=Math.round(averageAttack*rule.attackPercent/100*tierOffense*matchupScale);
+   let hpFloor=Math.round(averageHp*rule.hpPercent/100*tierGuard*matchupScale);
+   const personalGear=mercenaryEquipmentPower(m,m.battleMode)>0&&m.equipmentStats?.version===1;
+   // Gear is additional to either the innate stats or the card-derived floor.
+   // Otherwise strong decks would silently erase equipment and polish gains.
+   if(personalGear){
+    const stats=m.equipmentStats,fx=m.battleMode==='PVE'?m.equipmentEffects||{}:{};
+    if(!Number.isSafeInteger(stats.attack)||stats.attack<0||!Number.isSafeInteger(stats.hp)||stats.hp<0)throw Error('INVALID_MERCENARY_EQUIPMENT_STATS');
+    attackFloor=Math.round((attackFloor+stats.attack)*(1+(fx.attackPercent||0)/100));
+    hpFloor=Math.round((hpFloor+stats.hp)*(1+(fx.hpPercent||0)/100));
+   }
    const frontBonus=m.battleMode==='PVP'?(MERCENARY_COMBAT_LINK.pvpFrontRowShieldBonusByRank[mercenaryCombatRank(m)]??MERCENARY_COMBAT_LINK.frontRowShieldBonusPercent):MERCENARY_COMBAT_LINK.frontRowShieldBonusPercent;
    const shieldPercent=rule.shieldPercent+(m.position==='FRONT'?frontBonus:0);
    const openingShield=Math.round(averageHp*shieldPercent/100*healthRatio*tierGuard*matchupScale);
    if(!Number.isSafeInteger(attackFloor)||!Number.isSafeInteger(hpFloor)||!Number.isSafeInteger(openingShield))throw Error('INVALID_MERCENARY_COMBAT_LINK');
+   const previousMaxHp=m.maxHp;
    m.maxHp=Math.max(m.maxHp,hpFloor);m.hp=Math.round(m.maxHp*healthRatio);
+   if(personalGear&&m.battleMode==='PVE'&&m.equipmentEffects?.shieldPercent){
+    const extra=Math.round(m.maxHp*m.equipmentEffects.shieldPercent/100)-Math.round(previousMaxHp*m.equipmentEffects.shieldPercent/100);
+    m.shield+=extra;m.maxShield+=extra;
+   }
    m.mercenaryLink={version:MERCENARY_COMBAT_LINK.version,attackFloor,hpFloor,openingShield,tierGuard,tierOffense,...(ssLimitedProfile(m)?{ssLimitedMatchupScale:matchupScale}:{})};
    m.shield+=openingShield;m.maxShield=Math.max(m.maxShield,m.shield);
   }

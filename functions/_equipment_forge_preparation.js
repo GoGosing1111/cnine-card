@@ -1,5 +1,17 @@
 import {EQUIPMENT_POWER_STANDARD} from '../shared/equipment-mercenary-power-v1.mjs';
 import {forgePower} from '../shared/equipment-forge-policy-v1.mjs';
+import {isMercenaryEquipment} from '../shared/mercenary-equipment-v1.mjs';
+import {readMercenaryEquipmentRecords} from './_mercenary_equipment.js';
+
+async function equipmentWearers(db,userId,items){
+  if(!items.some(item=>isMercenaryEquipment(item.code)))return items;
+  const record=(await readMercenaryEquipmentRecords({DB:db},[Number(userId)])).get(Number(userId));
+  return items.map(item=>{
+    if(!isMercenaryEquipment(item.code))return item;
+    const mercenaryModes=['PVE','PVP'].filter(mode=>record[mode].slots[item.slot]===item.instanceId);
+    return {...item,equipped:mercenaryModes.length>0,mercenaryModes};
+  });
+}
 
 // Authenticated inventory: callers pass the authenticated account, never a body-supplied ID.
 function positiveId(value) {
@@ -23,7 +35,7 @@ export async function readForgePreparationInventory(db, authenticatedUserId, { b
       FROM user_equipment_instances x JOIN character_equipment_items i ON i.id=x.equipment_id
       LEFT JOIN equipment_forge_states_v1 s ON s.instance_id=x.id AND s.user_id=x.user_id
       WHERE x.id=? AND x.user_id=? AND i.is_active=1 AND i.is_public=1 AND i.slot IN (${slots.map(()=>'?').join(',')})`).bind(positiveId(focusId),userId,...slots).first();
-    return {...empty,items:row?[preparationItem(row,includeEnhancement)]:[]};
+    return {...empty,items:await equipmentWearers(db,userId,row?[preparationItem(row,includeEnhancement)]:[])};
   }
   let cursorPower=null;
   if (cursor) {
@@ -70,7 +82,7 @@ export async function readForgePreparationInventory(db, authenticatedUserId, { b
     ...(includeEnhancement?[userId,...(cursor?[cursorPower,cursor]:[])]:[]),limit+1];
   const result = await db.prepare(sql).bind(...values).all();
   const rows = result.results || [];
-  const items = rows.slice(0, limit).map(row => preparationItem(row,includeEnhancement));
+  const items = await equipmentWearers(db,userId,rows.slice(0, limit).map(row => preparationItem(row,includeEnhancement)));
   return { accountId: userId, mode: 'PREPARATION_READ_ONLY', canEnhance: false, items,
     nextCursor: rows.length > limit ? items.at(-1).instanceId : null };
 }

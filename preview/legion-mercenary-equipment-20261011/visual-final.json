@@ -1,0 +1,33 @@
+{
+  "at": "2026-10-11T07:38:53.318Z",
+  "checks": [
+    {
+      "region": "coast",
+      "images": 6,
+      "allLoaded": true
+    },
+    {
+      "region": "desert",
+      "images": 6,
+      "allLoaded": true
+    },
+    {
+      "region": "theatre",
+      "images": 6,
+      "allLoaded": true
+    },
+    {
+      "region": "viscera",
+      "images": 6,
+      "allLoaded": true
+    },
+    {
+      "region": "sky",
+      "images": 6,
+      "allLoaded": true
+    }
+  ],
+  "images": 30,
+  "pageErrors": [],
+  "noHorizontalOverflow": true
+}

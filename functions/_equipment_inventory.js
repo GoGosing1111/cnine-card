@@ -7,7 +7,7 @@ import {polishUserPrefix} from './_equipment_growth.js';
 // Only unenhanced duplicates may stack. Every enhanced copy is an individual
 // row with its REAL owned instance ID, even when two copies have the same level.
 // Merely opening the inventory must never change a player's loadout.
-export async function equipmentEnhancementRows(env,userId,rows,{admin=false}={}){
+export async function equipmentEnhancementRows(env,userId,rows,{admin=false,allowedCodes=null}={}){
   if(!FORGE_RUNTIME_RELEASE_ENABLED||!rows.length)return rows;
   const prefix=polishUserPrefix(userId);
   const enhanced=(await env.DB.prepare(`WITH polished AS MATERIALIZED (
@@ -19,7 +19,8 @@ export async function equipmentEnhancementRows(env,userId,rows,{admin=false}={})
       FROM growth s JOIN user_equipment_instances x ON x.id=s.instance_id AND x.user_id=?
       JOIN character_equipment_items i ON i.id=x.equipment_id
       WHERE i.slot IN (${EQUIPMENT_POWER_STANDARD.supportedSlots.map(()=>'?').join(',')}) ${admin?'':'AND i.is_active=1 AND i.is_public=1'}
-      ORDER BY x.id DESC`).bind(prefix.length+1,prefix,prefix+'~',userId,userId,userId,...EQUIPMENT_POWER_STANDARD.supportedSlots).all()).results;
+      ${allowedCodes?`AND i.code IN (${allowedCodes.map(()=>'?').join(',')})`:''}
+      ORDER BY x.id DESC`).bind(prefix.length+1,prefix,prefix+'~',userId,userId,userId,...EQUIPMENT_POWER_STANDARD.supportedSlots,...(allowedCodes||[])).all()).results;
   if(!enhanced.length)return rows;
   const counts=new Map();for(const row of enhanced)counts.set(Number(row.id),(counts.get(Number(row.id))||0)+Number(row.quantity));
   const ids=[...counts.keys()];

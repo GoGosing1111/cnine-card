@@ -7,6 +7,8 @@ import {CRYVERN_SKILL_ID,CRYVERN_CAP_SCALE,cryvernPvpBasicDamageScale,cryvernCro
 import {resolveHeukwolCombo} from './_mercenary_heukwol.js';
 import {apocalypseSealed,apocalypseHealing,clearApocalypseStatus} from './_apocalypse_legion.js';
 import {validateMercenaryCombat} from '../shared/mercenary-combat-policy-v1.mjs';
+import {mercenaryEquipmentPower} from '../shared/mercenary-equipment-v1.mjs';
+import {applyPveEquipmentGrowth} from '../shared/equipment-combat-growth-v1.mjs';
 import {MERCENARY_POWER_STANDARD} from '../shared/equipment-mercenary-power-v1.mjs';
 import {MERCENARY_COMBAT_LINK,mercenaryEffectiveAttack,mercenaryPvpTierOffense} from '../shared/mercenary-combat-link-v2103.mjs';
 import {mercenaryAttackStyle} from '../shared/mercenary-attack-style-v1.mjs';
@@ -119,19 +121,26 @@ export function buildMercenaryFighter(snapshot,side,mode,buildCardFighter){
  const limited=Object.hasOwn(SS_LIMITED_COMBAT,snapshot.code)?SS_LIMITED_COMBAT[snapshot.code]:null;
  if(limited)snapshot={...snapshot,rank:'SS',statMode:'RANK_FIXED',position:limited.position,role:limited.role,attackStyle:limited.attackStyle,skills:[structuredClone(limited.skill)],ssLimitedPolicyVersion:SS_LIMITED_BALANCE_VERSION};
  if(snapshot.statMode==='RANK_FIXED'){
-  const power=valter?VALTER_COMBAT.basePower:limited?limited.basePower:MERCENARY_POWER_STANDARD.basePowerByRank[snapshot.rank];
+  const rankPower=valter?VALTER_COMBAT.basePower:limited?limited.basePower:MERCENARY_POWER_STANDARD.basePowerByRank[snapshot.rank];
+  const power=rankPower?rankPower+mercenaryEquipmentPower(snapshot,mode):0;
   if(!power||typeof buildCardFighter!=='function')throw Error('INVALID_MERCENARY_RANK_POWER');
   const base=buildCardFighter({id:snapshot.code,power,type:'NONE'},5,side,null,mode);
   snapshot={...snapshot,basePower:power,level:1,stats:{hp:base.maxHp,attack:base.attack,defense:base.defense,speed:Math.round(base.speed*(valter?VALTER_COMBAT.speedScale:snapshot.code===BERKAN_CODE?BERKAN_TEMPO.speedScale:limited?SS_LIMITED_TEMPO.speedScale:1))}};
   if(limited)for(const key of ['hp','attack','defense'])snapshot.stats[key]=Math.max(1,Math.round(snapshot.stats[key]*limited.scale));
+  if(mercenaryEquipmentPower(snapshot,mode)){
+   const unarmed=buildCardFighter({id:snapshot.code,power:rankPower,type:'NONE'},5,side,null,mode),scale=limited?.scale||1;
+   snapshot.equipmentStats={version:1,attack:Math.max(0,snapshot.stats.attack-Math.max(1,Math.round(unarmed.attack*scale))),hp:Math.max(0,snapshot.stats.hp-Math.max(1,Math.round(unarmed.maxHp*scale)))};
+  }
  }
  if(!/^V-\d{3}$/.test(snapshot.code)||!['A','B'].includes(side)||Object.values(snapshot.stats||{}).length!==4||Object.values(snapshot.stats).some(n=>!Number.isSafeInteger(n)||n<=0))throw Error('INVALID_MERCENARY_SNAPSHOT');
  for(const s of snapshot.skills||[]){const b=s.balance;if(!b||!Number.isFinite(b.damageRatio)||b.damageRatio<0||b.damageRatio>10000||!Number.isSafeInteger(Math.floor(snapshot.stats.attack*b.damageRatio))||!Number.isInteger(b.cost)||b.cost<0||!Number.isInteger(b.cooldownTurns)||b.cooldownTurns<0)throw Error('INVALID_MERCENARY_SKILL_BALANCE');}
  const config=validateMercenaryCombat(snapshot.combat),power=Math.round(snapshot.basePower*(1+config.powerGrowthPercentPerLevel*(snapshot.level-1)/100));
- return {...snapshot,id:`${side}:MERCENARY:${snapshot.code}`,cardId:snapshot.code,slot:5,side,battleMode:mode,row:snapshot.position==='FRONT'?'FRONT':'BACK',type:'MERCENARY',typeLabel:snapshot.role,actorKind:'MERCENARY',isMercenary:true,
+ const fighter={...snapshot,id:`${side}:MERCENARY:${snapshot.code}`,cardId:snapshot.code,slot:5,side,battleMode:mode,row:snapshot.position==='FRONT'?'FRONT':'BACK',type:'MERCENARY',typeLabel:snapshot.role,actorKind:'MERCENARY',isMercenary:true,
   image:snapshot.sourceArt,name:snapshot.name,title:snapshot.name,grade:snapshot.rank,power,basePower:snapshot.basePower,equipmentShare:0,combat:config,skills:structuredClone(snapshot.skills||[]),
   attackStyle:mercenaryAttackStyle(snapshot),
   maxHp:snapshot.stats.hp,hp:Math.round(snapshot.stats.hp*Math.max(0,Math.min(100,snapshot.startingHpPercent??100))/100),attack:snapshot.stats.attack,defense:snapshot.stats.defense,speed:snapshot.stats.speed,shield:0,maxShield:0,gauge:0,alive:(snapshot.startingHpPercent??100)>0,actions:0,damageDealt:0,healingDone:0,uniqueAbility:null};
+ if(snapshot.equipment?.schemaVersion===1&&snapshot.equipment.mode===mode&&mode==='PVE')applyPveEquipmentGrowth([fighter],snapshot.equipment);
+ return fighter;
 }
 // Uses the canonical battle's RNG, damage caps, knockout/revive handler and
 // event clock. Sniper and sequential ranged fixes have separate action costs.

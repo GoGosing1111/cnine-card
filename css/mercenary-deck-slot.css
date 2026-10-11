@@ -3,3 +3,5 @@
 .mercenary-slot-emblem{display:grid;place-items:center;color:#d6bd80;background:#0b171a;font-size:28px;font-family:Georgia,serif}
 .mercenary-deck-slot>div{flex:1;min-width:0}.mercenary-deck-slot small{display:block;color:#c9b681;font-size:11px;letter-spacing:.03em}.mercenary-deck-slot strong{display:block;margin:5px 0;font-size:17px;line-height:1.3}.mercenary-deck-slot p{margin:0;color:#aebdba;font-size:12px;line-height:1.5}.mercenary-deck-slot>a{flex-shrink:0;padding:10px 13px;border:1px solid #bca36c70;border-radius:5px;color:#f0d99f;text-decoration:none;font-size:13px;font-weight:700}.mercenary-deck-slot>a:hover{background:#d6bd801a}.mercenary-deck-slot>a:focus-visible{outline:2px solid #f1d18b;outline-offset:3px}
 @media(max-width:520px){.mercenary-deck-slot{gap:10px;padding:12px;flex-wrap:wrap}.mercenary-deck-slot>a{margin-left:58px}.mercenary-deck-slot>div{flex-basis:calc(100% - 58px)}.mercenary-deck-slot strong{font-size:16px}}
+.mercenary-deck-slot>.mercenary-gear-link{border-color:#80b7c166;color:#b9e3e9}
+@media(max-width:520px){.mercenary-deck-slot>.mercenary-gear-link{margin-left:0}}

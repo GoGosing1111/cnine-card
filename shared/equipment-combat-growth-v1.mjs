@@ -5,15 +5,21 @@ export function normalizedEquipmentEffects(raw={}){
 }
 export function applyPveEquipmentGrowth(fighters,runtime){
   if(!runtime?.effects||!Object.values(runtime.effects).some(Number))return fighters;
-  const effects=normalizedEquipmentEffects(runtime.effects);
   for(const fighter of fighters){
     if(fighter.isMonster||fighter.battleMode==='PVP')continue;
+    const old=fighter.equipmentEffects||{},combined={...runtime.effects};
+    for(const [key,value] of Object.entries(old))combined[key]=key==='echoEvery'||key==='uniqueEchoEvery'?Math.min(value||Infinity,combined[key]||Infinity):value+(Number(combined[key])||0);
+    for(const key of ['echoEvery','uniqueEchoEvery'])if(combined[key]===Infinity)combined[key]=0;
+    const effects=normalizedEquipmentEffects(combined);
+    // Personal mercenary gear and ordinary account polish can meet here.
+    // Recompute from the unmodified entry stats so caps apply to their sum.
+    const base=fighter.equipmentGrowthBase??={attack:fighter.attack,maxHp:fighter.maxHp,hp:fighter.hp,speed:fighter.speed,shield:fighter.shield,maxShield:fighter.maxShield};
     fighter.equipmentEffects={...effects};
-    fighter.attack=Math.round(fighter.attack*(1+effects.attackPercent/100));
+    fighter.attack=Math.round(base.attack*(1+effects.attackPercent/100));
     if(fighter.isBattleSuit)continue;
-    fighter.maxHp=Math.round(fighter.maxHp*(1+effects.hpPercent/100));fighter.hp=Math.round(fighter.hp*(1+effects.hpPercent/100));
-    fighter.speed*=1+effects.speedPercent/100;
-    const shield=Math.round(fighter.maxHp*effects.shieldPercent/100);fighter.shield+=shield;fighter.maxShield+=shield;
+    fighter.maxHp=Math.round(base.maxHp*(1+effects.hpPercent/100));fighter.hp=Math.round(base.hp*(1+effects.hpPercent/100));
+    fighter.speed=base.speed*(1+effects.speedPercent/100);
+    const shield=Math.round(fighter.maxHp*effects.shieldPercent/100);fighter.shield=base.shield+shield;fighter.maxShield=base.maxShield+shield;
   }
   return fighters;
 }

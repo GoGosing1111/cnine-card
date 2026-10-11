@@ -1,0 +1,217 @@
+{
+  "version": 1,
+  "assets": [
+    {
+      "id": "coast-weapon",
+      "prompt": "Use case: stylized-concept. Create ONE finished equipment inventory portrait for a high-end Korean fantasy RPG, legendary Black Sail Coast shipwreck king CUTLASS (WEAPON slot). A spectacular broad dark-steel cutlass with a deliberately smooth curved sword blade, gold sea-dragon basket guard, black pearl pommel, turquoise spectral tide trapped along the fuller, and restrained luminous sea spray arcs. This is an original coveted endgame weapon, not a real product. Hand-painted premium 2D semi-real fantasy loot art, strong beautiful silhouette, crisp metal and jewel material separation, intricate but readable engraving, controlled brilliant cyan rim light and aged gold highlights. Large object centered diagonally from lower left hilt to upper right blade, fits entirely within a square with 10% clear margin, object fills about 80%. Genuine transparent background, soft local magic glow only, no scenery, no floor, no character, no hands, no frame, no border, no text, no labels, no letters, no watermark. Do not make a flat emoji/vector icon or a cluttered pile of items.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-cbadbbc1-e82a-478f-a71b-52aa00c9bd78.png",
+      "generator": "built-in image_gen",
+      "transparentBackground": true
+    },
+    {
+      "id": "coast-top",
+      "prompt": "Use case: stylized-concept. ONE standalone premium Korean fantasy RPG loot item illustration. Hand-painted 2D semi-real fantasy art, spectacular but clean silhouette, intricate refined craftsmanship, brilliant controlled magic accents, crisp material separation, readable at inventory size. Black Sail Coast / Shipwreck King set: blackened naval steel, sea-dragon aged gold filigree, lustrous black pearls and radiant cyan spectral seawater. Completely isolated on TRUE TRANSPARENT background. Square composition, item entirely visible with 10% clear margins. No person, no mannequin, no hands, no scenery, no floor, no words, no letters, no frame, no border, no UI, no watermark. A single magnificent pirate admiral breastplate with articulated shoulder guards, armored high collar, black steel naval coat torso, golden sea dragon crest and a luminous tide-core at chest. Clearly an empty torso garment, no body. Elegant, imposing and powerful.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-3b596955-5838-4841-a5c2-9190de980167.png",
+      "generator": "built-in image_gen",
+      "transparentBackground": true
+    },
+    {
+      "id": "coast-bottom",
+      "prompt": "Use case: stylized-concept. ONE standalone premium Korean fantasy RPG loot item illustration. Hand-painted 2D semi-real fantasy art, spectacular but clean silhouette, intricate refined craftsmanship, brilliant controlled magic accents, crisp material separation, readable at inventory size. Black Sail Coast / Shipwreck King set: blackened naval steel, sea-dragon aged gold filigree, lustrous black pearls and radiant cyan spectral seawater. Completely isolated on TRUE TRANSPARENT background. Square composition, item entirely visible with 10% clear margins. No person, no mannequin, no hands, no scenery, no floor, no words, no letters, no frame, no border, no UI, no watermark. One pair of refined shipwreck king armored trousers and plated thigh greaves, navy velvet underlayer, dark naval steel plates with aged golden tide engravings and cyan glowing pearls at belt and knees. Waist to ankles only, no boots, no torso, no wearer. Joined coherent pair angled slightly three quarter.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-1036af6e-b28c-4723-892b-e083f15b637a.png",
+      "generator": "built-in image_gen",
+      "transparentBackground": true
+    },
+    {
+      "id": "coast-shoes",
+      "prompt": "Use case: stylized-concept. ONE standalone premium Korean fantasy RPG loot item illustration. Hand-painted 2D semi-real fantasy art, spectacular but clean silhouette, intricate refined craftsmanship, brilliant controlled magic accents, crisp material separation, readable at inventory size. Black Sail Coast / Shipwreck King set: blackened naval steel, sea-dragon aged gold filigree, lustrous black pearls and radiant cyan spectral seawater. Completely isolated on TRUE TRANSPARENT background. Square composition, item entirely visible with 10% clear margins. No person, no mannequin, no hands, no scenery, no floor, no words, no letters, no frame, no border, no UI, no watermark. One matched pair of magnificent pirate king tall armored boots, aged gold sea-dragon fins sweeping behind heels, black steel toe guards, dark blue leather and bright cyan spectral tides curling just around soles. Pair arranged in three quarter view, both whole visible.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-b5fc2389-52c2-4ee8-ab7f-b81358c90f5d.png",
+      "generator": "built-in image_gen",
+      "transparentBackground": true
+    },
+    {
+      "id": "coast-accessory",
+      "prompt": "Use case: stylized-concept. ONE standalone premium Korean fantasy RPG loot item illustration. Hand-painted 2D semi-real fantasy art, spectacular but clean silhouette, intricate refined craftsmanship, brilliant controlled magic accents, crisp material separation, readable at inventory size. Black Sail Coast / Shipwreck King set: blackened naval steel, sea-dragon aged gold filigree, lustrous black pearls and radiant cyan spectral seawater. Completely isolated on TRUE TRANSPARENT background. Square composition, item entirely visible with 10% clear margins. No person, no mannequin, no hands, no scenery, no floor, no words, no letters, no frame, no border, no UI, no watermark. A single legendary shipwreck king pendant, elaborate aged gold sea serpent coiled protectively around a large glossy black pearl suspended in a cyan spectral vortex; a short ornamental gold chain gracefully curves above. Extremely beautiful rare nautical talisman, large readable centerpiece.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-d389c576-a981-444e-98ae-be86f2909401.png",
+      "generator": "built-in image_gen",
+      "transparentBackground": true
+    },
+    {
+      "id": "coast-unique",
+      "prompt": "Use case: stylized-concept. ONE standalone premium Korean fantasy RPG loot item illustration. Hand-painted 2D semi-real fantasy art, spectacular but clean silhouette, intricate refined craftsmanship, brilliant controlled magic accents, crisp material separation, readable at inventory size. Black Sail Coast / Shipwreck King set: blackened naval steel, sea-dragon aged gold filigree, lustrous black pearls and radiant cyan spectral seawater. Completely isolated on TRUE TRANSPARENT background. Square composition, item entirely visible with 10% clear margins. No person, no mannequin, no hands, no scenery, no floor, no words, no letters, no frame, no border, no UI, no watermark. A single legendary BLACK TIDE HARPOON GUN, a long straight powerful fantasy shoulder firearm with black naval steel casing, a huge straight silver harpoon tip seated coaxially in its barrel, golden sea dragon structures flowing around the receiver, cyan pressure crystal chamber and black pearl optic. Entire gun from stock through receiver to barrel to muzzle follows ONE RIGID STRAIGHT AXIS, no bent barrel, no crooked receiver, scope parallel to barrel, no nonlinear twisting. Three-quarter side profile diagonal upward, whole gun visible. This is a coveted mythic fantasy weapon with refined connected ornamentation, not a pile of parts.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-23717e2e-ef35-4656-9953-93aa7fa24511.png",
+      "generator": "built-in image_gen",
+      "transparentBackground": true
+    },
+    {
+      "id": "desert-weapon",
+      "prompt": "Use case: stylized-concept. Create ONE exquisite legendary loot illustration for a premium Korean 2D fantasy RPG. Glass Desert / Glass Hunter set. Materials: translucent amber sun-glass, pristine pale gold, ivory ceramic, dark sand-colored leather, sharp warm solar highlights. Deliberate angular crystalline sun-ray motifs, regal and spectacular, hand-painted semi-real fantasy item art, detailed yet readable silhouette at small size. TRUE TRANSPARENT background. Square canvas with entire object within a clear 10% margin on every side, no cropping. No person, mannequin, hands, scenery, text, numbers, icon frame, UI or watermark. A magnificent crescent-edged hunter glaive made of golden sun-glass, ivory and gold grip, polished transparent amber cutting edge with internal solar fire. Diagonal composition. The weapon is a single coherent object, with strong flowing silhouette and elegant sun-disc guard.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-048e0132-d6ef-4b86-8ab6-a4d079991249.png",
+      "generator": "built-in image_gen",
+      "transparentBackground": true
+    },
+    {
+      "id": "desert-top",
+      "prompt": "Use case: stylized-concept. Create ONE exquisite legendary loot illustration for a premium Korean 2D fantasy RPG. Glass Desert / Glass Hunter set. Materials: translucent amber sun-glass, pristine pale gold, ivory ceramic, dark sand-colored leather, sharp warm solar highlights. Deliberate angular crystalline sun-ray motifs, regal and spectacular, hand-painted semi-real fantasy item art, detailed yet readable silhouette at small size. TRUE TRANSPARENT background. Square canvas with entire object within a clear 10% margin on every side, no cropping. No person, mannequin, hands, scenery, text, numbers, icon frame, UI or watermark. One empty ornate desert hunter breastplate with angular translucent amber shoulder armor, ivory ceramic torso, a glowing golden sun medallion inset into chest and refined sandy silk short cape. Majestic precious armor garment, three-quarter view. Torso only, no legs, no helmet.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-785d60b0-e49c-46e2-b64d-d3d06d2750d9.png",
+      "generator": "built-in image_gen",
+      "transparentBackground": true
+    },
+    {
+      "id": "desert-bottom",
+      "prompt": "Use case: stylized-concept. Create ONE exquisite legendary loot illustration for a premium Korean 2D fantasy RPG. Glass Desert / Glass Hunter set. Materials: translucent amber sun-glass, pristine pale gold, ivory ceramic, dark sand-colored leather, sharp warm solar highlights. Deliberate angular crystalline sun-ray motifs, regal and spectacular, hand-painted semi-real fantasy item art, detailed yet readable silhouette at small size. TRUE TRANSPARENT background. Square canvas with entire object within a clear 10% margin on every side, no cropping. No person, mannequin, hands, scenery, text, numbers, icon frame, UI or watermark. One complete pair of sand-hunter armored trousers, fitted cream textile and layered amber glass thigh and shin plates, engraved pale gold knee sun emblems, refined belt and one short sand-colored sash. Waist to ankles, empty garment, no boots or wearer.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-12aea957-25c7-4226-b062-7be52cde9515.png",
+      "generator": "built-in image_gen",
+      "transparentBackground": true
+    },
+    {
+      "id": "desert-shoes",
+      "prompt": "Use case: stylized-concept. Create ONE exquisite legendary loot illustration for a premium Korean 2D fantasy RPG. Glass Desert / Glass Hunter set. Materials: translucent amber sun-glass, pristine pale gold, ivory ceramic, dark sand-colored leather, sharp warm solar highlights. Deliberate angular crystalline sun-ray motifs, regal and spectacular, hand-painted semi-real fantasy item art, detailed yet readable silhouette at small size. TRUE TRANSPARENT background. Square canvas with entire object within a clear 10% margin on every side, no cropping. No person, mannequin, hands, scenery, text, numbers, icon frame, UI or watermark. One matched pair of luxurious glass desert armored boots, translucent honey-amber glass shin plates, ivory leather, sculpted gold sun-ray ankle guards, warm magic glow rising between facets. Three-quarter view, both boots completely visible.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-2290150d-0b7d-4d92-a050-d26fa5fd9e3e.png",
+      "generator": "built-in image_gen",
+      "transparentBackground": true
+    },
+    {
+      "id": "desert-accessory",
+      "prompt": "Use case: stylized-concept. Create ONE exquisite legendary loot illustration for a premium Korean 2D fantasy RPG. Glass Desert / Glass Hunter set. Materials: translucent amber sun-glass, pristine pale gold, ivory ceramic, dark sand-colored leather, sharp warm solar highlights. Deliberate angular crystalline sun-ray motifs, regal and spectacular, hand-painted semi-real fantasy item art, detailed yet readable silhouette at small size. TRUE TRANSPARENT background. Square canvas with entire object within a clear 10% margin on every side, no cropping. No person, mannequin, hands, scenery, text, numbers, icon frame, UI or watermark. A single spectacular astrolabe amulet: floating amber-glass sun core enclosed by three delicate nested gold orbital rings, tiny ivory solar wings and a short looped chain entirely inside the canvas. Valuable precision jewel with radiant warm sunlight, distinct circular silhouette.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-47f18e27-d2f0-42a4-a082-4d0167e4b8ad.png",
+      "generator": "built-in image_gen",
+      "transparentBackground": true
+    },
+    {
+      "id": "desert-unique",
+      "prompt": "Use case: stylized-concept. Create ONE exquisite legendary loot illustration for a premium Korean 2D fantasy RPG. Glass Desert / Glass Hunter set. Materials: translucent amber sun-glass, pristine pale gold, ivory ceramic, dark sand-colored leather, sharp warm solar highlights. Deliberate angular crystalline sun-ray motifs, regal and spectacular, hand-painted semi-real fantasy item art, detailed yet readable silhouette at small size. TRUE TRANSPARENT background. Square canvas with entire object within a clear 10% margin on every side, no cropping. No person, mannequin, hands, scenery, text, numbers, icon frame, UI or watermark. SUNPIERCER mythic weapon: an exceptionally elegant long golden spear with a straight shaft and huge elongated translucent amber crystal spearhead containing a miniature blazing sun; split pale gold arcs hug the crystal like a solar corona. Tiny sparks near tip, restrained magical aureole. Spear diagonal, full end-to-end shaft visible, balanced imposing design.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-874028b8-9e60-4c9b-9c8e-072cc95af71c.png",
+      "generator": "built-in image_gen",
+      "transparentBackground": true
+    },
+    {
+      "id": "theatre-weapon",
+      "prompt": "Use case: stylized-concept. Create ONE magnificent premium fantasy RPG equipment illustration, painted refined semi-real 2D game loot art. The Endless Theatre / Marionette set, a dark opulent enchanted opera aesthetic. Rich black and burgundy velvet, pale porcelain, rose-gold filigree, garnet rubies and bright magenta spectral thread magic. Beautiful controlled silhouettes, exquisite high quality materials and highlights, distinguish item clearly at small size. TRUE TRANSPARENT background; entire object within 10% empty margins on square canvas, never clipped. No person, hands, mannequin, face skin, background, text, labels, numbers, letters, frame or watermark. A single elegant deadly marionette RAP IER (rapier), slender perfectly straight dark steel blade traced with bright pink luminous thread, complex graceful rose-gold rose-vine basket hilt with an ivory porcelain comedy mask insignia and ruby pommel. Short burgundy tassel. Long diagonal fencing sword, aristocratic and magical.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-e47bf2bd-ca3a-4c7c-b9ca-89bfc90ba4c9.png",
+      "generator": "built-in image_gen",
+      "transparentBackground": true
+    },
+    {
+      "id": "theatre-top",
+      "prompt": "Use case: stylized-concept. Create ONE magnificent premium fantasy RPG equipment illustration, painted refined semi-real 2D game loot art. The Endless Theatre / Marionette set, a dark opulent enchanted opera aesthetic. Rich black and burgundy velvet, pale porcelain, rose-gold filigree, garnet rubies and bright magenta spectral thread magic. Beautiful controlled silhouettes, exquisite high quality materials and highlights, distinguish item clearly at small size. TRUE TRANSPARENT background; entire object within 10% empty margins on square canvas, never clipped. No person, hands, mannequin, face skin, background, text, labels, numbers, letters, frame or watermark. An empty grand opera duelist's armored tailcoat torso, black velvet and rich wine-red silk, ornate porcelain-white chest plate, asymmetric rose-gold shoulder flourish, ruby clasp and restrained luminous pink puppet threads between metal joints. Refined majestic costume, torso garment only, no legs or head.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-08347354-5ac7-4960-ac8d-47ec2de33ff4.png",
+      "generator": "built-in image_gen",
+      "transparentBackground": true
+    },
+    {
+      "id": "theatre-bottom",
+      "prompt": "Use case: stylized-concept. Create ONE magnificent premium fantasy RPG equipment illustration, painted refined semi-real 2D game loot art. The Endless Theatre / Marionette set, a dark opulent enchanted opera aesthetic. Rich black and burgundy velvet, pale porcelain, rose-gold filigree, garnet rubies and bright magenta spectral thread magic. Beautiful controlled silhouettes, exquisite high quality materials and highlights, distinguish item clearly at small size. TRUE TRANSPARENT background; entire object within 10% empty margins on square canvas, never clipped. No person, hands, mannequin, face skin, background, text, labels, numbers, letters, frame or watermark. One empty pair of aristocratic marionette duelist trousers, deep wine-red silk with black brocade, articulated white porcelain thigh and knee plates engraved with rose-gold scrollwork, ruby waist ornament and tiny glowing magenta strings at seams. Waist to ankle only, no feet or boots, three quarter view.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-5917b81e-91b5-4ffd-a398-e6454d96508f.png",
+      "generator": "built-in image_gen",
+      "transparentBackground": true
+    },
+    {
+      "id": "theatre-shoes",
+      "prompt": "Use case: stylized-concept. Create ONE magnificent premium fantasy RPG equipment illustration, painted refined semi-real 2D game loot art. The Endless Theatre / Marionette set, a dark opulent enchanted opera aesthetic. Rich black and burgundy velvet, pale porcelain, rose-gold filigree, garnet rubies and bright magenta spectral thread magic. Beautiful controlled silhouettes, exquisite high quality materials and highlights, distinguish item clearly at small size. TRUE TRANSPARENT background; entire object within 10% empty margins on square canvas, never clipped. No person, hands, mannequin, face skin, background, text, labels, numbers, letters, frame or watermark. One matched pair of ornate grand theatre boots, glossy black leather, porcelain-white shin armor edged in rose gold, sculpted ruby roses at ankles, burgundy lining and faint spirals of luminous pink thread around heels. Elegant dangerous aristocratic design, both whole boots visible.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-6d7cded4-b0b1-4b1a-8371-66952b04e466.png",
+      "generator": "built-in image_gen",
+      "transparentBackground": true
+    },
+    {
+      "id": "theatre-accessory",
+      "prompt": "Use case: stylized-concept. Create ONE magnificent premium fantasy RPG equipment illustration, painted refined semi-real 2D game loot art. The Endless Theatre / Marionette set, a dark opulent enchanted opera aesthetic. Rich black and burgundy velvet, pale porcelain, rose-gold filigree, garnet rubies and bright magenta spectral thread magic. Beautiful controlled silhouettes, exquisite high quality materials and highlights, distinguish item clearly at small size. TRUE TRANSPARENT background; entire object within 10% empty margins on square canvas, never clipped. No person, hands, mannequin, face skin, background, text, labels, numbers, letters, frame or watermark. A single marionette control talisman: exquisite rose-gold cruciform puppet controller with a ruby rose center, several gracefully looping luminous magenta threads connect to a small white porcelain heart suspended beneath, burgundy ribbon. Compact and beautiful jewel with one coherent readable silhouette, entire threads kept inside canvas.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-56523d36-9711-4d08-b19a-bf03b00bc305.png",
+      "generator": "built-in image_gen",
+      "transparentBackground": true
+    },
+    {
+      "id": "theatre-unique",
+      "prompt": "Use case: stylized-concept. Create ONE magnificent premium fantasy RPG equipment illustration, painted refined semi-real 2D game loot art. The Endless Theatre / Marionette set, a dark opulent enchanted opera aesthetic. Rich black and burgundy velvet, pale porcelain, rose-gold filigree, garnet rubies and bright magenta spectral thread magic. Beautiful controlled silhouettes, exquisite high quality materials and highlights, distinguish item clearly at small size. TRUE TRANSPARENT background; entire object within 10% empty margins on square canvas, never clipped. No person, hands, mannequin, face skin, background, text, labels, numbers, letters, frame or watermark. THE DIRECTOR'S MASK, a mythic grand opera full-face mask with NO person behind it. Porcelain white on one half, glossy obsidian on the other, elaborate asymmetric rose-gold crown filigree above, deep ruby tear stones, burgundy velvet ribbons and restrained pink magical wisps. Elegant sinister expression, large dramatic theatrical silhouette, strong valuable mythic aura.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-4fc5006e-da71-40c3-95a1-9396921fd371.png",
+      "generator": "built-in image_gen",
+      "transparentBackground": true
+    },
+    {
+      "id": "viscera-weapon",
+      "prompt": "Use case: stylized-concept. ONE beautiful high-end Korean fantasy RPG loot item, hand-painted 2D semi-real collectible equipment illustration. Within the Colossus / Predator set: glossy deep malachite green chitin, sleek obsidian shell, ivory horn edges, bioluminescent emerald veins and refined organic bronze inlays. Alien living armor elegantly sculpted with coherent overlapping exoskeleton plates; powerful and coveted, not disgusting. No blood, gore or exposed flesh. Strong readable silhouette, superb layered materials, magical green light restrained around contours. Square composition, entirely inside 10% empty margins. TRUE TRANSPARENT background. No person, mannequin, hands, scenery, text, numbers, frame, border or watermark. A single spectacular predatory battle axe, broad crescent mantis-like dark green chitin cutting head with razor ivory edge, a luminous emerald vital core cradled by bronze insect mandibles, sturdy obsidian grip with tasteful shell segmentation. Majestic coherent weapon angled diagonally, smooth continuous shape.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-93967634-7879-4bdf-a4d2-8decdb6eb8d6.png",
+      "generator": "built-in image_gen",
+      "transparentBackground": true,
+      "repairPrompt": "Edit this equipment illustration only to repair its crop and composition. Preserve exactly this green obsidian and ivory fantasy axe design, its colors, materials, shape and glow. Reconstruct any clipped tips of the axe at the top and far left, so the complete weapon is visible. Scale the entire weapon down uniformly to occupy no more than 80% of the square canvas width AND height, centered, with at least 10% truly transparent empty margins on all four sides. The top horn and far left cutting edge must not touch the border. No new objects, no text, no frame, no background. TRUE transparent background. Premium crisp 2D semi-real painted game art.",
+      "rejectedCropSourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-86fde6ee-33a9-4edc-a305-810abaa3d4ab.png"
+    },
+    {
+      "id": "viscera-top",
+      "prompt": "Use case: stylized-concept. ONE beautiful high-end Korean fantasy RPG loot item, hand-painted 2D semi-real collectible equipment illustration. Within the Colossus / Predator set: glossy deep malachite green chitin, sleek obsidian shell, ivory horn edges, bioluminescent emerald veins and refined organic bronze inlays. Alien living armor elegantly sculpted with coherent overlapping exoskeleton plates; powerful and coveted, not disgusting. No blood, gore or exposed flesh. Strong readable silhouette, superb layered materials, magical green light restrained around contours. Square composition, entirely inside 10% empty margins. TRUE TRANSPARENT background. No person, mannequin, hands, scenery, text, numbers, frame, border or watermark. A single empty living breastplate torso with two flowing armored shoulder pauldrons, layered malachite shell radiating from an emerald thorax core, bronze rib-shaped external reinforcements, ivory hooked collar tips. Elegant commanding armor shaped like a strong adult torso, no body inside.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-da692e71-19f8-44c8-b644-c795a1455cfe.png",
+      "generator": "built-in image_gen",
+      "transparentBackground": true
+    },
+    {
+      "id": "viscera-bottom",
+      "prompt": "Use case: stylized-concept. ONE beautiful high-end Korean fantasy RPG loot item, hand-painted 2D semi-real collectible equipment illustration. Within the Colossus / Predator set: glossy deep malachite green chitin, sleek obsidian shell, ivory horn edges, bioluminescent emerald veins and refined organic bronze inlays. Alien living armor elegantly sculpted with coherent overlapping exoskeleton plates; powerful and coveted, not disgusting. No blood, gore or exposed flesh. Strong readable silhouette, superb layered materials, magical green light restrained around contours. Square composition, entirely inside 10% empty margins. TRUE TRANSPARENT background. No person, mannequin, hands, scenery, text, numbers, frame, border or watermark. A matched connected pair of predator armored legwear, obsidian flexible underlayer, dark malachite exoskeleton thigh and shin plates, ivory knee horns and emerald luminous veins, sculpted bronze waist guard. Empty garment waist to ankles, no boots, balanced coherent pair.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-6b9634d0-873b-4949-8340-b81cb381ef19.png",
+      "generator": "built-in image_gen",
+      "transparentBackground": true
+    },
+    {
+      "id": "viscera-shoes",
+      "prompt": "Use case: stylized-concept. ONE beautiful high-end Korean fantasy RPG loot item, hand-painted 2D semi-real collectible equipment illustration. Within the Colossus / Predator set: glossy deep malachite green chitin, sleek obsidian shell, ivory horn edges, bioluminescent emerald veins and refined organic bronze inlays. Alien living armor elegantly sculpted with coherent overlapping exoskeleton plates; powerful and coveted, not disgusting. No blood, gore or exposed flesh. Strong readable silhouette, superb layered materials, magical green light restrained around contours. Square composition, entirely inside 10% empty margins. TRUE TRANSPARENT background. No person, mannequin, hands, scenery, text, numbers, frame, border or watermark. One matched pair of predatory chitin boots, dark emerald segmented shin armor, elegant ivory talon toe caps, obsidian leather joints, glowing emerald vein channels and subtle green mist curling around heels. Both entire boots visible in three-quarter view, powerful refined silhouette.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-ce90cf93-4c5b-44e9-87c4-d50b7b27bc3d.png",
+      "generator": "built-in image_gen",
+      "transparentBackground": true
+    },
+    {
+      "id": "viscera-accessory",
+      "prompt": "Use case: stylized-concept. ONE beautiful high-end Korean fantasy RPG loot item, hand-painted 2D semi-real collectible equipment illustration. Within the Colossus / Predator set: glossy deep malachite green chitin, sleek obsidian shell, ivory horn edges, bioluminescent emerald veins and refined organic bronze inlays. Alien living armor elegantly sculpted with coherent overlapping exoskeleton plates; powerful and coveted, not disgusting. No blood, gore or exposed flesh. Strong readable silhouette, superb layered materials, magical green light restrained around contours. Square composition, entirely inside 10% empty margins. TRUE TRANSPARENT background. No person, mannequin, hands, scenery, text, numbers, frame, border or watermark. A single coveted predator talisman: suspended polished emerald life-seed glowing within a sculptural crown of obsidian and green beetle shell, symmetrical ivory mandible ornaments and intricate bronze organic vine clasp, short curved necklace segment entirely within canvas. Beautiful luminous jewel, compact elegant shape.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-a0444446-8e43-4d5f-99b7-ccd936da4a0f.png",
+      "generator": "built-in image_gen",
+      "transparentBackground": true
+    },
+    {
+      "id": "viscera-unique",
+      "prompt": "Use case: stylized-concept. ONE beautiful high-end Korean fantasy RPG loot item, hand-painted 2D semi-real collectible equipment illustration. Within the Colossus / Predator set: glossy deep malachite green chitin, sleek obsidian shell, ivory horn edges, bioluminescent emerald veins and refined organic bronze inlays. Alien living armor elegantly sculpted with coherent overlapping exoskeleton plates; powerful and coveted, not disgusting. No blood, gore or exposed flesh. Strong readable silhouette, superb layered materials, magical green light restrained around contours. Square composition, entirely inside 10% empty margins. TRUE TRANSPARENT background. No person, mannequin, hands, scenery, text, numbers, frame, border or watermark. QUEEN CARAPACE mythic body armor: magnificent regal empty breastplate with a large radiant emerald heart chamber, polished black-green exoskeleton with opalescent beetle iridescence, sweeping ivory horn shoulder crown and bronze vein filigree, layered abdomen plates. Regal insect queen armor, no creature or humanoid inside, torso only. More majestic and complex than ordinary set breastplate, extraordinary coveted mythic artifact.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-4a64298c-125a-4681-9401-1cd262f9fbe1.png",
+      "generator": "built-in image_gen",
+      "transparentBackground": true
+    },
+    {
+      "id": "sky-weapon",
+      "prompt": "Use case: stylized-concept. Create ONE spectacular legendary equipment item for a premium Korean fantasy RPG, exquisite hand-painted semi-real 2D loot art. Inverted Archipelago / Sky Pursuer set. Mirror-polished platinum and ivory-white metal, slim pale gold trims, luminous cobalt and periwinkle star crystals, stylized swept feather shapes and restrained crackling blue-white lightning. Refined celestial craftsmanship, commanding silhouette, high contrast and brilliant controlled highlights, clean enough for inventory size. Entire object COMPLETELY inside square canvas with visible 10% clear margins on EVERY side; no cropping. TRUE TRANSPARENT background, no person, mannequin, hands, scenery, text, numbers, frame, border or watermark. A single magnificent sky hunter bow with paired platinum falcon-wing limbs, an electric blue crystal core built into central grip, delicate luminous blue energy bowstring, pale gold joints and three sleek blade-feathers per wing. Perfectly engineered coherent symmetrical fantasy bow, diagonally positioned, elegant dramatic silhouette.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-3c7089ec-5386-493d-8c46-5c0cbee5670d.png",
+      "generator": "built-in image_gen",
+      "transparentBackground": true
+    },
+    {
+      "id": "sky-top",
+      "prompt": "Use case: stylized-concept. Create ONE spectacular legendary equipment item for a premium Korean fantasy RPG, exquisite hand-painted semi-real 2D loot art. Inverted Archipelago / Sky Pursuer set. Mirror-polished platinum and ivory-white metal, slim pale gold trims, luminous cobalt and periwinkle star crystals, stylized swept feather shapes and restrained crackling blue-white lightning. Refined celestial craftsmanship, commanding silhouette, high contrast and brilliant controlled highlights, clean enough for inventory size. Entire object COMPLETELY inside square canvas with visible 10% clear margins on EVERY side; no cropping. TRUE TRANSPARENT background, no person, mannequin, hands, scenery, text, numbers, frame, border or watermark. A single empty celestial hunter breastplate torso, mirror-bright platinum plated armor with sleek swept feather shoulder guards, ivory underlayer, delicate gold filigree and a brilliant cobalt star core at chest. Small cape lining of midnight blue, refined prestigious armor, no legs or helmet.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-3c7d7dcd-f16e-4034-96a4-e4688b8de7b4.png",
+      "generator": "built-in image_gen",
+      "transparentBackground": true
+    },
+    {
+      "id": "sky-bottom",
+      "prompt": "Use case: stylized-concept. Create ONE spectacular legendary equipment item for a premium Korean fantasy RPG, exquisite hand-painted semi-real 2D loot art. Inverted Archipelago / Sky Pursuer set. Mirror-polished platinum and ivory-white metal, slim pale gold trims, luminous cobalt and periwinkle star crystals, stylized swept feather shapes and restrained crackling blue-white lightning. Refined celestial craftsmanship, commanding silhouette, high contrast and brilliant controlled highlights, clean enough for inventory size. Entire object COMPLETELY inside square canvas with visible 10% clear margins on EVERY side; no cropping. TRUE TRANSPARENT background, no person, mannequin, hands, scenery, text, numbers, frame, border or watermark. One complete connected pair of sky hunter armored trousers, midnight blue underlayer with silver-white feather-segment thigh and shin plates, fine gold seams, angular sapphire knee crystals, elegant celestial belt. Waist to ankles only, empty garment, no boots.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-f076e673-44c9-4867-bf47-471de47fe4aa.png",
+      "generator": "built-in image_gen",
+      "transparentBackground": true
+    },
+    {
+      "id": "sky-shoes",
+      "prompt": "Use case: stylized-concept. Create ONE spectacular legendary equipment item for a premium Korean fantasy RPG, exquisite hand-painted semi-real 2D loot art. Inverted Archipelago / Sky Pursuer set. Mirror-polished platinum and ivory-white metal, slim pale gold trims, luminous cobalt and periwinkle star crystals, stylized swept feather shapes and restrained crackling blue-white lightning. Refined celestial craftsmanship, commanding silhouette, high contrast and brilliant controlled highlights, clean enough for inventory size. Entire object COMPLETELY inside square canvas with visible 10% clear margins on EVERY side; no cropping. TRUE TRANSPARENT background, no person, mannequin, hands, scenery, text, numbers, frame, border or watermark. One matching pair of exquisite celestial armored boots with swept platinum feather wings at ankles, sapphire inlays, ivory shin plates edged pale gold, elegant blue-white electrical arcs just around heel. Powerful agile sky-hunter boots, both whole visible in three-quarter view.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-b269208a-0ec8-482e-8aba-c42302525aeb.png",
+      "generator": "built-in image_gen",
+      "transparentBackground": true
+    },
+    {
+      "id": "sky-accessory",
+      "prompt": "Use case: stylized-concept. Create ONE spectacular legendary equipment item for a premium Korean fantasy RPG, exquisite hand-painted semi-real 2D loot art. Inverted Archipelago / Sky Pursuer set. Mirror-polished platinum and ivory-white metal, slim pale gold trims, luminous cobalt and periwinkle star crystals, stylized swept feather shapes and restrained crackling blue-white lightning. Refined celestial craftsmanship, commanding silhouette, high contrast and brilliant controlled highlights, clean enough for inventory size. Entire object COMPLETELY inside square canvas with visible 10% clear margins on EVERY side; no cropping. TRUE TRANSPARENT background, no person, mannequin, hands, scenery, text, numbers, frame, border or watermark. A single celestial sky-pursuer brooch: three swept platinum falcon feathers curving around a deep cobalt star sapphire, slim gold constellation orbit and a short chain loop entirely inside canvas. Stunning compact silver-blue jewel with restrained electric radiance, coherent single pendant.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-587bb26d-fb99-4a88-8746-1ac2e649c7ac.png",
+      "generator": "built-in image_gen",
+      "transparentBackground": true
+    },
+    {
+      "id": "sky-unique",
+      "prompt": "Use case: stylized-concept. Create ONE spectacular legendary equipment item for a premium Korean fantasy RPG, exquisite hand-painted semi-real 2D loot art. Inverted Archipelago / Sky Pursuer set. Mirror-polished platinum and ivory-white metal, slim pale gold trims, luminous cobalt and periwinkle star crystals, stylized swept feather shapes and restrained crackling blue-white lightning. Refined celestial craftsmanship, commanding silhouette, high contrast and brilliant controlled highlights, clean enough for inventory size. Entire object COMPLETELY inside square canvas with visible 10% clear margins on EVERY side; no cropping. TRUE TRANSPARENT background, no person, mannequin, hands, scenery, text, numbers, frame, border or watermark. THUNDER FEATHER mythic accessory: one long iridescent platinum and sapphire-blue phoenix feather, a radiant lightning core along the central quill, delicate pale gold clasp at base, fine separated silver feather barbs with luminous cobalt tips, controlled blue-white lightning curling around the feather. Single majestic long feather diagonally across canvas, entire quill and every feather tip visible. Extremely coveted divine relic.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a11cc1-7cc4-7c03-bfb4-adcdd3f402dd\\exec-ff92b1c5-b6dd-4009-a339-927de6918806.png",
+      "generator": "built-in image_gen",
+      "transparentBackground": true
+    }
+  ]
+}

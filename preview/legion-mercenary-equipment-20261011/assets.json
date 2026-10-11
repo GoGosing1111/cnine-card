@@ -1,0 +1,276 @@
+{
+  "version": 1,
+  "generator": "built-in image_gen",
+  "assets": [
+    {
+      "id": "coast-weapon",
+      "source": "preview/legion-mercenary-equipment-20261011/sources/coast-weapon.png",
+      "target": "assets/ui/mercenary-equipment/legion-20261011/coast-weapon.webp",
+      "sourceSha256": "dd1f2766a66bae98f1bee71c4d4a7185ccb9dc4f19b5390cf920942b3a824372",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 73538
+    },
+    {
+      "id": "coast-top",
+      "source": "preview/legion-mercenary-equipment-20261011/sources/coast-top.png",
+      "target": "assets/ui/mercenary-equipment/legion-20261011/coast-top.webp",
+      "sourceSha256": "1116894296b47c882377bcb9111810fbce01e76ffb946ca45cc93f8f2dada75f",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 128082
+    },
+    {
+      "id": "coast-bottom",
+      "source": "preview/legion-mercenary-equipment-20261011/sources/coast-bottom.png",
+      "target": "assets/ui/mercenary-equipment/legion-20261011/coast-bottom.webp",
+      "sourceSha256": "817d2b4e7310f5b4b1dd230aaeb5859cacc620c7ad6441eb465e0a8c1f0e18bb",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 72412
+    },
+    {
+      "id": "coast-shoes",
+      "source": "preview/legion-mercenary-equipment-20261011/sources/coast-shoes.png",
+      "target": "assets/ui/mercenary-equipment/legion-20261011/coast-shoes.webp",
+      "sourceSha256": "1162b77b2573d8083bd3b82efb3634effd30b1cfa5d70a478938b735e66289b9",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 126184
+    },
+    {
+      "id": "coast-accessory",
+      "source": "preview/legion-mercenary-equipment-20261011/sources/coast-accessory.png",
+      "target": "assets/ui/mercenary-equipment/legion-20261011/coast-accessory.webp",
+      "sourceSha256": "70968e4a6a237a77c57e126c0fb54df88751760fd4879619079f102c7fd545aa",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 73740
+    },
+    {
+      "id": "coast-unique",
+      "source": "preview/legion-mercenary-equipment-20261011/sources/coast-unique.png",
+      "target": "assets/ui/mercenary-equipment/legion-20261011/coast-unique.webp",
+      "sourceSha256": "9a7165534361e632ec7fff484b2813052ee748256818d8a329a2e9467f808f2a",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 51386
+    },
+    {
+      "id": "desert-weapon",
+      "source": "preview/legion-mercenary-equipment-20261011/sources/desert-weapon.png",
+      "target": "assets/ui/mercenary-equipment/legion-20261011/desert-weapon.webp",
+      "sourceSha256": "d48efecb41a0f5b7a6f22d4333992000b869aa891e89999d215b49a06afc0a83",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 43122
+    },
+    {
+      "id": "desert-top",
+      "source": "preview/legion-mercenary-equipment-20261011/sources/desert-top.png",
+      "target": "assets/ui/mercenary-equipment/legion-20261011/desert-top.webp",
+      "sourceSha256": "c620be75dae545901693c5fc1b6ff627338d4c25369fb8b74ee6de346a71134f",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 97886
+    },
+    {
+      "id": "desert-bottom",
+      "source": "preview/legion-mercenary-equipment-20261011/sources/desert-bottom.png",
+      "target": "assets/ui/mercenary-equipment/legion-20261011/desert-bottom.webp",
+      "sourceSha256": "4719ff2b540a39debd776e941d566b76a87538da5142eeae4d2454a954b4ba05",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 60478
+    },
+    {
+      "id": "desert-shoes",
+      "source": "preview/legion-mercenary-equipment-20261011/sources/desert-shoes.png",
+      "target": "assets/ui/mercenary-equipment/legion-20261011/desert-shoes.webp",
+      "sourceSha256": "5482b319eb633b9758b1250570253b858b9c2f85502248572d7d71098ca857f8",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 81416
+    },
+    {
+      "id": "desert-accessory",
+      "source": "preview/legion-mercenary-equipment-20261011/sources/desert-accessory.png",
+      "target": "assets/ui/mercenary-equipment/legion-20261011/desert-accessory.webp",
+      "sourceSha256": "d3686e23e4b64b024f532211f279cf52f46d9919ef5b363f56777909726c95cf",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 93946
+    },
+    {
+      "id": "desert-unique",
+      "source": "preview/legion-mercenary-equipment-20261011/sources/desert-unique.png",
+      "target": "assets/ui/mercenary-equipment/legion-20261011/desert-unique.webp",
+      "sourceSha256": "418c450684ef99bd8dc88c38b74532750b737d723403700724ac0d725bf873a4",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 36908
+    },
+    {
+      "id": "theatre-weapon",
+      "source": "preview/legion-mercenary-equipment-20261011/sources/theatre-weapon.png",
+      "target": "assets/ui/mercenary-equipment/legion-20261011/theatre-weapon.webp",
+      "sourceSha256": "e9a6649dc0ac95c5d7ee2bd6841cb182eae6b00bba3b135bf2846ab1bab37bd1",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 43918
+    },
+    {
+      "id": "theatre-top",
+      "source": "preview/legion-mercenary-equipment-20261011/sources/theatre-top.png",
+      "target": "assets/ui/mercenary-equipment/legion-20261011/theatre-top.webp",
+      "sourceSha256": "4c7bcab056ac0b8892adfad4c5877233620ee3d1c66ea04c3174ca949f2aa32c",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 90278
+    },
+    {
+      "id": "theatre-bottom",
+      "source": "preview/legion-mercenary-equipment-20261011/sources/theatre-bottom.png",
+      "target": "assets/ui/mercenary-equipment/legion-20261011/theatre-bottom.webp",
+      "sourceSha256": "729736b17e46d1c813ffa83264bd0ab02b52520cc6a5fd9bf7f0876da93bfc6b",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 70712
+    },
+    {
+      "id": "theatre-shoes",
+      "source": "preview/legion-mercenary-equipment-20261011/sources/theatre-shoes.png",
+      "target": "assets/ui/mercenary-equipment/legion-20261011/theatre-shoes.webp",
+      "sourceSha256": "63362a81d75490a456dbe0f177293b27b5c8979e779d76074dcbd8460e3baba7",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 83732
+    },
+    {
+      "id": "theatre-accessory",
+      "source": "preview/legion-mercenary-equipment-20261011/sources/theatre-accessory.png",
+      "target": "assets/ui/mercenary-equipment/legion-20261011/theatre-accessory.webp",
+      "sourceSha256": "50b97ad134c866dc176a9fe338eb8c5c7720bf8bf73bfecec75ab279edbd8440",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 109976
+    },
+    {
+      "id": "theatre-unique",
+      "source": "preview/legion-mercenary-equipment-20261011/sources/theatre-unique.png",
+      "target": "assets/ui/mercenary-equipment/legion-20261011/theatre-unique.webp",
+      "sourceSha256": "e61c763561127c379337094e2a1f2a2e90651aaf0d6196966b32e77381ee3fc6",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 115608
+    },
+    {
+      "id": "viscera-weapon",
+      "source": "preview/legion-mercenary-equipment-20261011/sources/viscera-weapon.png",
+      "target": "assets/ui/mercenary-equipment/legion-20261011/viscera-weapon.webp",
+      "sourceSha256": "2ec3a22fc043749843e4e0eafcff4b59d33fcec3409b676bfc8ac63c8356c137",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 44438
+    },
+    {
+      "id": "viscera-top",
+      "source": "preview/legion-mercenary-equipment-20261011/sources/viscera-top.png",
+      "target": "assets/ui/mercenary-equipment/legion-20261011/viscera-top.webp",
+      "sourceSha256": "469f383e64af18fde6264c8a4c4df1019f73acfd49c0a79ee4fc70dacf34c7c5",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 89288
+    },
+    {
+      "id": "viscera-bottom",
+      "source": "preview/legion-mercenary-equipment-20261011/sources/viscera-bottom.png",
+      "target": "assets/ui/mercenary-equipment/legion-20261011/viscera-bottom.webp",
+      "sourceSha256": "b3a08f9f219569ca454b12b25cc95a875f14e329159b0f67d56510a38f30d172",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 60708
+    },
+    {
+      "id": "viscera-shoes",
+      "source": "preview/legion-mercenary-equipment-20261011/sources/viscera-shoes.png",
+      "target": "assets/ui/mercenary-equipment/legion-20261011/viscera-shoes.webp",
+      "sourceSha256": "a1db85f34c4cba9cdab60897f9b5fd1ce6afe8aa5e2748736194ebd1bb5f5c35",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 102886
+    },
+    {
+      "id": "viscera-accessory",
+      "source": "preview/legion-mercenary-equipment-20261011/sources/viscera-accessory.png",
+      "target": "assets/ui/mercenary-equipment/legion-20261011/viscera-accessory.webp",
+      "sourceSha256": "8cefb181999e5873a1e285fff835db84b585e0548a134c27e6d804f132ac3215",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 65652
+    },
+    {
+      "id": "viscera-unique",
+      "source": "preview/legion-mercenary-equipment-20261011/sources/viscera-unique.png",
+      "target": "assets/ui/mercenary-equipment/legion-20261011/viscera-unique.webp",
+      "sourceSha256": "4d63d133586e07d0d31cb1f27685ead79ecf676ee761089c62a329a686e9dde4",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 101266
+    },
+    {
+      "id": "sky-weapon",
+      "source": "preview/legion-mercenary-equipment-20261011/sources/sky-weapon.png",
+      "target": "assets/ui/mercenary-equipment/legion-20261011/sky-weapon.webp",
+      "sourceSha256": "605e144a0e69b2f103068ec03e21f685bff90c653dd9032179ac22718f49650c",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 60316
+    },
+    {
+      "id": "sky-top",
+      "source": "preview/legion-mercenary-equipment-20261011/sources/sky-top.png",
+      "target": "assets/ui/mercenary-equipment/legion-20261011/sky-top.webp",
+      "sourceSha256": "13324c48aa5318623bcf49feb540bc9b4ed33c69628af32a63fdfcc9c35ec2b7",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 103460
+    },
+    {
+      "id": "sky-bottom",
+      "source": "preview/legion-mercenary-equipment-20261011/sources/sky-bottom.png",
+      "target": "assets/ui/mercenary-equipment/legion-20261011/sky-bottom.webp",
+      "sourceSha256": "1fde9f3eb8345cee2cc504a5e41915efe251ad8edb171d04407947d0881bfb0c",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 74688
+    },
+    {
+      "id": "sky-shoes",
+      "source": "preview/legion-mercenary-equipment-20261011/sources/sky-shoes.png",
+      "target": "assets/ui/mercenary-equipment/legion-20261011/sky-shoes.webp",
+      "sourceSha256": "48c4d35a09c567a61b2311f6cec8eed884339d585be8cbabcdc50e477b08f646",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 97418
+    },
+    {
+      "id": "sky-accessory",
+      "source": "preview/legion-mercenary-equipment-20261011/sources/sky-accessory.png",
+      "target": "assets/ui/mercenary-equipment/legion-20261011/sky-accessory.webp",
+      "sourceSha256": "96b352bf97c91802050c6e6882569f012e17c404639af548b36c8c38e200aaad",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 72910
+    },
+    {
+      "id": "sky-unique",
+      "source": "preview/legion-mercenary-equipment-20261011/sources/sky-unique.png",
+      "target": "assets/ui/mercenary-equipment/legion-20261011/sky-unique.webp",
+      "sourceSha256": "9a0bb111fb783f931ac6e66c96408a6faadfd060b241219d90cb0fc602f0fcda",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 79906
+    }
+  ]
+}

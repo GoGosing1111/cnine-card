@@ -3,6 +3,7 @@ import {equipmentEffectText} from '../shared/equipment-growth-text-v1.mjs';
 import {normalizedEquipmentEffects} from '../shared/equipment-combat-growth-v1.mjs';
 import {POLISH_OPTIONS} from '../shared/equipment-polish-v1.mjs';
 import {jointError} from './_joint_request.js';
+import {MERCENARY_EQUIPMENT_SQL_CODES} from '../shared/mercenary-equipment-v1.mjs';
 export const polishUserPrefix=userId=>'equipment_polish_instance_v1:'+userId+':';
 export const polishStateKey=(id,userId)=>polishUserPrefix(userId)+id;
 export function decodePolishState(raw,instanceId,userId){
@@ -16,7 +17,10 @@ export async function equipmentGrowthRuntime(env,userId){
     JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id
     JOIN character_equipment_items i ON i.id=x.equipment_id AND i.is_active=1
     LEFT JOIN app_meta p ON p.key=('equipment_polish_instance_v1:' || CAST(x.user_id AS TEXT) || ':' || CAST(x.id AS TEXT))
-    WHERE l.user_id=? AND l.slot=i.slot AND i.slot<>'BATTLE_SUIT' ORDER BY i.slot LIMIT 5`).bind(userId).all();
+    WHERE l.user_id=? AND l.slot=i.slot AND i.slot<>'BATTLE_SUIT' AND i.code NOT IN (${MERCENARY_EQUIPMENT_SQL_CODES}) ORDER BY i.slot LIMIT 5`).bind(userId).all();
+  return equipmentGrowthFromRows(results,userId);
+}
+export function equipmentGrowthFromRows(results,userId){
   const runtime=regionEquipmentEffects(results.map(row=>row.code));
   const names=['attackPercent','criticalChancePoints','criticalDamagePoints','bossDamagePercent','penetrationPoints'];
   runtime.polished=[];
