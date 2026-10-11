@@ -20,3 +20,10 @@
 - 배포 직전 운영 Pages는 `96174080-64a3-4619-b866-2c279458a504`, 소스 `f1a67cf0`이며 CLI에서 확인했다. 지정 명령은 `npm run deploy:production -- --scoped`다.
 
 첫 운영 반영은 `6f452a3b` / Pages `5e4c9b7a`다. 등록·장착 회귀 15개와 지정 게이트가 통과했으며 운영 DB에서 `ADMINISTRATION` 한 건, 설명·0 보너스·수동 지급·금속 문장 연결을 확인했다. 이후 CMS 전용 미리보기의 고정 96px 칸이 칭호 글자를 줄이는 것을 발견해 이 칭호에 한해 콘텐츠 폭으로 조정했다. 이 CSS 후속은 PC·모바일 브라우저 회귀 `tests/administration-title-20261012.browser.mjs`만 실행하며 이미 통과한 서버 검사를 반복하지 않는다. 최종 운영 결과는 `production.json`에 기록한다.
+
+## 운영 최종 반영
+
+- 최종 운영 소스 `48efdcb5d43b02e67bd4074b568d12064d10f82c`, Pages https://70bac573.cnine-card.pages.dev, API `c3ab53f0-6bfc-4d53-b727-2f4d3e8616f7`, 스케줄러 `09e866a4-df34-4398-a412-65dcd313511a`.
+- 최초 카탈로그·장착 회귀 15개와 최종 PC·모바일 화면/조작 검사가 통과했다. CMS 배지의 전체 글자 표시도 검증했다. CSS 배포 첫 시도는 화면 검사를 통과한 뒤 동시 문서/운영 스크립트 커밋으로 origin/main이 앞서 중지됐고, 게임 실행 코드 변화 없이 fast-forward 후 지정 scoped 명령으로 완료했다.
+- 2026-10-11T21:04:48.856Z 운영 조회: `ADMINISTRATION` ID 1094337, 활성·공개, MANUAL, 전투력 0, 정확한 설명과 최종 금속 문장. 등록은 한 건이며 조회 시 보유 계정 0개다. 이번 작업은 계정에 지급하지 않았다.
+- 원격 런타임 문장·배지·CSS·렌더러·CMS·메인 로더·HTML·서비스워커 8개는 모두 HTTP 200과 로컬 SHA-256 일치. 미인증 장비창은 401을 유지했다. 자세한 결과는 `docs/qa/administration-title-20261012/production.json`에 보존한다.

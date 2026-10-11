@@ -1,0 +1,149 @@
+{
+  "request": {
+    "name": "행정부",
+    "description": "숲켓몬을 위해 헌신하는 행정부 직원",
+    "style": "Modern supreme headquarters; no nature or forest ornament"
+  },
+  "implementationCommit": "6f452a3bed8109b3f5f4deec4bb7559417d14368",
+  "layoutCommit": "d554d51d749c6c1d5c4495b92d7ead9dad925bcf",
+  "deployedSource": "48efdcb5d43b02e67bd4074b568d12064d10f82c",
+  "pages": "https://70bac573.cnine-card.pages.dev",
+  "apiVersion": "c3ab53f0-6bfc-4d53-b727-2f4d3e8616f7",
+  "schedulerVersion": "09e866a4-df34-4398-a412-65dcd313511a",
+  "tests": {
+    "serverAndLoadout": 15,
+    "browser": [
+      {
+        "viewport": "desktop",
+        "power": {
+          "pve": 0,
+          "pvp": 0
+        },
+        "switchAndUnequip": true,
+        "unownedEquipHidden": true,
+        "cmsPower": 0,
+        "cmsManual": true,
+        "images": [
+          {
+            "src": "/assets/ui/titles/administration-command-v2.webp",
+            "loaded": true,
+            "fit": "contain"
+          },
+          {
+            "src": "/assets/ui/titles/administration-command-v2.webp",
+            "loaded": true,
+            "fit": "contain"
+          },
+          {
+            "src": "/assets/ui/titles/gambling-king-v1.webp",
+            "loaded": true,
+            "fit": "contain"
+          }
+        ],
+        "overflow": false,
+        "errors": []
+      },
+      {
+        "viewport": "mobile",
+        "power": {
+          "pve": 0,
+          "pvp": 0
+        },
+        "switchAndUnequip": true,
+        "unownedEquipHidden": true,
+        "cmsPower": 0,
+        "cmsManual": true,
+        "images": [
+          {
+            "src": "/assets/ui/titles/administration-command-v2.webp",
+            "loaded": true,
+            "fit": "contain"
+          },
+          {
+            "src": "/assets/ui/titles/administration-command-v2.webp",
+            "loaded": true,
+            "fit": "contain"
+          },
+          {
+            "src": "/assets/ui/titles/gambling-king-v1.webp",
+            "loaded": true,
+            "fit": "contain"
+          }
+        ],
+        "overflow": false,
+        "errors": []
+      }
+    ],
+    "scopedDeployment": true
+  },
+  "live": {
+    "verifiedAt": "2026-10-11T21:04:48.856Z",
+    "title": {
+      "id": "1094337",
+      "code": "ADMINISTRATION",
+      "name": "행정부",
+      "description": "숲켓몬을 위해 헌신하는 행정부 직원",
+      "pve_power": "0",
+      "unlock_type": "MANUAL",
+      "unlock_config_json": "{\"fontPreset\":\"DEFAULT\"}",
+      "style_preset": "ADMINISTRATION",
+      "image_url": "/assets/ui/titles/administration-command-v2.webp",
+      "is_active": "1",
+      "is_public": "1"
+    },
+    "marker": "1",
+    "ownershipCountAtVerification": 0,
+    "automaticGrantsPerformed": false,
+    "unauthenticatedLoadoutStatus": 401,
+    "assets": [
+      {
+        "file": "assets/ui/titles/administration-command-v2.webp",
+        "status": 200,
+        "sha256": "dc619e11224ad26d854bfb181a710b576467c261ace897d92db4757c5b435997",
+        "match": true
+      },
+      {
+        "file": "assets/ui/titles/administration-command-badge-v2.webp",
+        "status": 200,
+        "sha256": "91f2eb324cca3895840c99842f62c7b9d3ac0d3b7e54be801b02b3661251d0f1",
+        "match": true
+      },
+      {
+        "file": "css/achievement-titles-20260927.css",
+        "status": 200,
+        "sha256": "dae61f61350a056877b99ecebadc951e1d04379c6c375e277aa5656c704c5d93",
+        "match": true
+      },
+      {
+        "file": "js/character-loadout-v2.js",
+        "status": 200,
+        "sha256": "f8d0ee73a5ce0bce8ec5e32fb9862cb965427d463070be0409088974bd1b7838",
+        "match": true
+      },
+      {
+        "file": "admin/equipment-admin-v1278.js",
+        "status": 200,
+        "sha256": "1ce86ead97ddd7a12b3eacf77a6bf47cdaa0d12d530e8624ef842350d767db73",
+        "match": true
+      },
+      {
+        "file": "js/app.js",
+        "status": 200,
+        "sha256": "a8ac5a6c7fb19a8068ee116a9e6167344776275104ba6d359845cb5fc62ce5b5",
+        "match": true
+      },
+      {
+        "file": "index.html",
+        "status": 200,
+        "sha256": "eb6b66867439926ab38c56b008b6b33f43f4cb8d3351aaaa9adaf38c5bc55a16",
+        "match": true
+      },
+      {
+        "file": "service-worker.js",
+        "status": 200,
+        "sha256": "caec7f7f78a8d4ff7c8987ed8eee8d62164a5a2b7389a2587d1b2e4d638b95d8",
+        "match": true
+      }
+    ]
+  }
+}
