@@ -1,0 +1,69 @@
+{
+  "authorization": "으악계정에 SSS발테르 1회 철구네치킨집으로 획득가능하게 설정해놔",
+  "operation": {
+    "status": "COMPLETED",
+    "operationKey": "ops:euak-valter-chicken-once:20261011:v1",
+    "target": {
+      "id": 5010,
+      "nickname": "으악"
+    },
+    "completedAt": "2026-10-11T12:22:11.304Z",
+    "guarantee": {
+      "key": "chicken_limited_once_v1:5010",
+      "code": "V-996",
+      "name": "발테르",
+      "rank": "SSS",
+      "edition": "LIMITED",
+      "quantity": 1,
+      "status": "ARMED",
+      "nextValidParticipation": true,
+      "subsequent": "NORMAL_PROBABILITY"
+    },
+    "eventPhase": "OPEN",
+    "ticketCost": 1,
+    "ticketsAtArm": 0,
+    "stock": {
+      "limit": 8,
+      "issued": 3,
+      "remaining": 5
+    },
+    "settingsPreserved": true,
+    "balancesAndInventoryPreserved": true,
+    "holdingsAndLoadoutPreserved": true,
+    "noOrderPlaced": true,
+    "noCardIssued": true,
+    "adminLogId": "44733"
+  },
+  "entitlement": {
+    "version": 1,
+    "status": "ARMED",
+    "userId": 5010,
+    "actorId": 1,
+    "operationId": "ops:euak-valter-chicken-once:20261011:v1",
+    "mercenaryCode": "V-996",
+    "rank": "SSS",
+    "quantity": 1,
+    "reason": "사용자 지정: 으악 계정 철구네치킨집 다음 정상 주문 1회 SSS 발테르 확정, 이후 일반 확률 적용",
+    "createdAt": "2026-10-11T12:22:11.304Z"
+  },
+  "verification": {
+    "verifiedAt": "2026-10-11T12:22:34.314Z",
+    "remaining": 1,
+    "currentStock": {
+      "code": "V-996",
+      "stock_limit": "8",
+      "issued": "3"
+    },
+    "liveState": {
+      "phase": "OPEN",
+      "tickets": 0,
+      "endsAt": "2026-10-13T14:00:00.000Z",
+      "serverNow": "2026-10-11T12:22:34.314Z"
+    },
+    "dryRunRollbackVerified": true,
+    "replayWasInert": true,
+    "focusedTestsPassed": 3
+  },
+  "runtimeChanged": false,
+  "redeployRequired": false
+}
