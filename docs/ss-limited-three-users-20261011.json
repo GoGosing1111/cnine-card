@@ -1,0 +1,170 @@
+{
+  "status": "VERIFIED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:ss-limited-three-users:20261011:v1",
+    "planHash": "f41a0cf9a632f22e9d85904fde5711d6f92cc2dbfc083ff001ff1f718458cf31",
+    "completedAt": "2026-10-11T07:11:23.964Z",
+    "grants": [
+      {
+        "userId": 4693,
+        "nickname": "시소둥이",
+        "code": "V-990",
+        "name": "나무늘봉순",
+        "rank": "SS",
+        "edition": "LIMITED",
+        "quantity": 1,
+        "acquisitionId": "ops:ss-limited-three-users:20261011:v1:4693",
+        "serial": 9,
+        "copiesBefore": 0,
+        "copiesAfter": 1
+      },
+      {
+        "userId": 4774,
+        "nickname": "딤럼프",
+        "code": "V-994",
+        "name": "디임",
+        "rank": "SS",
+        "edition": "LIMITED",
+        "quantity": 1,
+        "acquisitionId": "ops:ss-limited-three-users:20261011:v1:4774",
+        "serial": 6,
+        "copiesBefore": 0,
+        "copiesAfter": 1
+      },
+      {
+        "userId": 233,
+        "nickname": "ShowMaker",
+        "code": "V-990",
+        "name": "나무늘봉순",
+        "rank": "SS",
+        "edition": "LIMITED",
+        "quantity": 1,
+        "acquisitionId": "ops:ss-limited-three-users:20261011:v1:233",
+        "serial": 10,
+        "copiesBefore": 0,
+        "copiesAfter": 1
+      }
+    ],
+    "before": {
+      "V-990": {
+        "limit": 12,
+        "issued": 8,
+        "remaining": 4,
+        "stockRevision": 14
+      },
+      "V-994": {
+        "limit": 10,
+        "issued": 5,
+        "remaining": 5,
+        "stockRevision": 12
+      }
+    },
+    "after": {
+      "V-990": {
+        "limit": 14,
+        "issued": 10,
+        "remaining": 4,
+        "stockRevision": 15
+      },
+      "V-994": {
+        "limit": 11,
+        "issued": 6,
+        "remaining": 5,
+        "stockRevision": 13
+      }
+    },
+    "packRevisionBefore": 10,
+    "packRevisionAfter": 11,
+    "packMode": "ON",
+    "authorization": "시소둥이 > ss리미티드 봉순 / 딤럼프 > ss리미티드 디임 / showmaker > ss리미티드 봉순 지급하고 지급 갯수만큼 한정판 증가",
+    "balancesPreserved": true,
+    "inventoryPreserved": true,
+    "loadoutAndGrowthPreserved": true,
+    "otherSettingsPreserved": true,
+    "adminLogIds": [
+      "44557",
+      "44558",
+      "44559",
+      "44560",
+      "44561"
+    ]
+  },
+  "current": {
+    "V-990": {
+      "limit": 14,
+      "issued": 10,
+      "remaining": 4,
+      "stockRevision": 15
+    },
+    "V-994": {
+      "limit": 11,
+      "issued": 6,
+      "remaining": 5,
+      "stockRevision": 13
+    }
+  },
+  "holdings": [
+    {
+      "userId": 4693,
+      "nickname": "시소둥이",
+      "code": "V-990",
+      "copies": 1,
+      "duplicates": 0
+    },
+    {
+      "userId": 4774,
+      "nickname": "딤럼프",
+      "code": "V-994",
+      "copies": 1,
+      "duplicates": 0
+    },
+    {
+      "userId": 233,
+      "nickname": "ShowMaker",
+      "code": "V-990",
+      "copies": 1,
+      "duplicates": 0
+    }
+  ],
+  "packMode": "ON",
+  "independentVerifiedAt": "2026-10-11T07:11:51.233Z",
+  "correction": {
+    "originalRecipient": "북부대공",
+    "finalRecipient": "딤럼프",
+    "excludedRecipientUnchanged": true
+  },
+  "validation": {
+    "tests": "node --test tests/ss-limited-three-users-20261011.test.mjs",
+    "passed": 5,
+    "rollbackAtEachWrite": 18,
+    "liveDryRunRolledBack": true,
+    "replayAndLostCommitTested": true,
+    "liveUserLock": true,
+    "databaseFallbackLease": true,
+    "publicState": {
+      "status": 200,
+      "verifiedAt": "2026-10-11T07:11:47.323Z",
+      "stock": [
+        {
+          "code": "V-990",
+          "limit": 14,
+          "issued": 10,
+          "remaining": 4
+        },
+        {
+          "code": "V-994",
+          "limit": 11,
+          "issued": 6,
+          "remaining": 5
+        }
+      ],
+      "packRevision": 11,
+      "packMode": "ON"
+    }
+  },
+  "operationScript": "scripts/ops/ss-limited-three-users-20261011.mjs",
+  "scriptSha256": "7f47fbb4685988e33d0be7c4a9681f99f690cd4075a6c841f3929e84f69c5448",
+  "scope": "3개 계정 SS 리미티드 영구 직접 지급과 지급분만큼 총 발행 한도 증가. 실행 코드 변경 없이 단일 DB 거래 반영. 운영 사이트 재배포 없음.",
+  "notificationSent": false
+}
