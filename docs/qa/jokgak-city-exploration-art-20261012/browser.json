@@ -1,0 +1,16 @@
+{
+  "checks": [
+    "1440: generated region gear, configured power, keyboard detail and Escape",
+    "1440: actual search receipts and weapon/armor equipment actions remain connected",
+    "1440: duplicate and empty results display without replaying a request",
+    "1440: all 16 city gear assets load and inventory fits desktop/mobile",
+    "1440: CMS equipment art and save preserve actual settings",
+    "390: generated region gear, configured power, keyboard detail and Escape",
+    "390: actual search receipts and weapon/armor equipment actions remain connected",
+    "390: duplicate and empty results display without replaying a request",
+    "390: all 16 city gear assets load and inventory fits desktop/mobile",
+    "390: CMS equipment art and save preserve actual settings"
+  ],
+  "errors": [],
+  "accounts": "isolated fixtures only"
+}

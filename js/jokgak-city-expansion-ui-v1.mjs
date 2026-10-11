@@ -1,7 +1,7 @@
 import {CITY_WEAPONS,defaultCityArsenal,defaultCityFacilities} from '../shared/jokgak-city-expansion-v1.mjs';
 import {cityItemArt} from './jokgak-city-item-art-v1.mjs?v=20261011-items1';
 import {CITY_FOUND_WEAPONS,defaultCityExploration} from '../shared/jokgak-city-exploration-v1.mjs';
-import {cityGearArt} from './jokgak-city-exploration-ui-v1.mjs';
+import {cityGearArt,cityEquipmentCard,cityEquipmentSummary} from './jokgak-city-exploration-ui-v2.mjs?v=20261012-explore-art2';
 const money=n=>Number(n||0).toLocaleString('ko-KR');
 const clock=ms=>{const s=Math.ceil(Math.max(0,ms)/1000);return `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;};
 export function cityWeaponIcon(code){
@@ -21,7 +21,7 @@ export function cityWeapons(state,selected,now,busy){
 export function cityMiniInventory(state,now,busy){
  const m=state?.mine;if(!m?.active)return '';
  const owned=[...(state.arsenal||defaultCityArsenal()).weapons,...(state.exploration||defaultCityExploration()).weapons].filter(w=>m.ownedWeapons?.includes(w.code));
- return `<section class="jc-mini-inventory" aria-label="미니 인벤토리"><header><div><small>PERSONAL INVENTORY</small><h3>미니 인벤토리 <b>${owned.length} / 10</b></h3></div><button data-city-place="MARKET">무기 구매 ↗</button></header><div class="jc-mini-weapons">${owned.length?owned.map(w=>{const meta=[...CITY_WEAPONS,...CITY_FOUND_WEAPONS].find(x=>x.code===w.code),equipped=m.weapon?.code===w.code;return `<article class="${equipped?'is-equipped':''}">${cityItemArt(w.code,true)||cityGearArt(w.code,true)}<b>${meta.name}</b><small>${money(w.power)} POWER</small><em>${equipped?'장착 중':'보유 중'}</em><button data-city-action="${equipped?'unequipWeapon':'equipWeapon'}" ${equipped?'':`data-city-product="${w.code}"`} ${locked(m,now,busy)||!w.enabled?'disabled':''}>${equipped?'해제':'장착'}</button></article>`;}).join(''):'<p>아직 무기가 없습니다.<br>지역 탐색이나 시장 구매로 무기를 얻으세요.</p>'}</div></section>`;
+ return cityEquipmentSummary(state)+`<section class="jc-mini-inventory jc-kit-inventory" aria-label="미니 인벤토리"><header><div><small>WEAPON COLLECTION</small><h3>무기 <b>${owned.length} / 10</b></h3></div><button data-city-place="MARKET">무기 구매 ↗</button></header><div class="jc-mini-weapons">${owned.length?owned.map(w=>cityEquipmentCard(state,w,[...CITY_WEAPONS,...CITY_FOUND_WEAPONS].find(x=>x.code===w.code),locked(m,now,busy))).join(''):'<p>아직 무기가 없습니다.<br>지역 탐색이나 시장 구매로 무기를 얻으세요.</p>'}</div></section>`;
 }
 export function cityFacilities(state,selected,now,busy){
  const m=state?.mine;if(!m?.active)return '';

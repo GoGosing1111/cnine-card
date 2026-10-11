@@ -1,0 +1,108 @@
+/* Field notebook, equipment illustrations and the discovery display. */
+.jc [data-tier],.jc-loot-v2{--gear:#b9c6ce;--gear-rgb:185,198,206}
+.jc [data-tier="2"]{--gear:#85cdb5;--gear-rgb:133,205,181}
+.jc [data-tier="3"]{--gear:#95c9eb;--gear-rgb:149,201,235}
+.jc [data-tier="4"]{--gear:#e1c28b;--gear-rgb:225,194,139}
+.jc .jc-explore-v2{padding:0;margin:0 18px 22px;overflow:hidden;border:1px solid #52644f;border-radius:9px;background:#101c23;box-shadow:0 10px 26px #02071040}
+.jc .jc-search-scene{display:block;position:relative;isolation:isolate;overflow:hidden;padding:18px 17px 19px;border-bottom:1px solid #53624b;background:linear-gradient(100deg,#121d23ed,#243127da),url('/assets/ui/jokgak-city/city-map-night-v1.webp') var(--search-x) var(--search-y)/550% auto}
+.jc .jc-search-scene:after{content:"";position:absolute;inset:0;z-index:-1;opacity:.16;background:repeating-linear-gradient(0deg,transparent 0 23px,#b5c2a5 24px,transparent 25px),repeating-linear-gradient(90deg,transparent 0 23px,#b5c2a5 24px,transparent 25px);mask-image:linear-gradient(90deg,transparent,#000)}
+.jc .jc-search-kicker{display:flex;justify-content:space-between;align-items:center;gap:10px;font:500 10px 'Barlow Condensed',sans-serif;letter-spacing:2px;color:#bac9a2}
+.jc .jc-search-kicker b{font:500 10px 'Noto Sans KR',sans-serif;letter-spacing:0;border:1px solid #9eb77770;border-radius:3px;padding:4px 7px;color:#d9ecc0;background:#0f1b1980}
+.jc .jc-search-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:20px}
+.jc .jc-search-title small{font:500 11px 'Noto Sans KR',sans-serif;letter-spacing:1px;color:#b4c2ae}
+.jc .jc-search-title h3{font-size:23px;letter-spacing:-1px;font-weight:800;margin:5px 0 0;color:#f2f0e6;line-height:1.35}
+.jc .jc-search-scene p{margin:12px 0 0;font-size:11px;color:#bdc8c4;line-height:1.8;word-break:keep-all}
+.jc-search-reticle{display:block;position:relative;flex:none;width:50px;height:50px;border:1px solid #a6c08566;border-radius:50%;color:#bfd49c}
+.jc-search-reticle:before,.jc-search-reticle:after{content:"";position:absolute;top:50%;left:50%;background:currentColor;transform:translate(-50%,-50%);opacity:.6}
+.jc-search-reticle:before{width:64%;height:1px}.jc-search-reticle:after{height:64%;width:1px}
+.jc-search-reticle i:first-child{position:absolute;inset:8px;border:1px solid currentColor;border-radius:50%;opacity:.5}
+.jc-search-reticle i:nth-child(2){position:absolute;inset:-5px;border:1px dashed currentColor;border-radius:50%;opacity:.35}
+.jc-search-reticle i:last-child{position:absolute;inset:22px;background:currentColor;border-radius:50%}
+.jc .jc-search-content{padding:17px 12px 14px}
+.jc .jc-search-section-label{display:flex;align-items:center;justify-content:space-between;gap:6px;margin:0 3px 13px}
+.jc .jc-search-section-label b{font-size:12px;font-weight:600;color:#d4dddc}.jc .jc-search-section-label span{font-size:9px;color:#9eacb0}
+.jc .jc-explore-v2 .jc-explore-drops{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.jc .jc-explore-v2 button.jc-drop-card{position:relative;display:flex;flex-direction:column;align-items:center;min-width:0;padding:23px 4px 11px;gap:0;text-align:center;color:#e9edee;background:radial-gradient(ellipse at 50% 35%,rgba(var(--gear-rgb),.13),transparent 75%),#101820;border:1px solid #34454c;border-top:2px solid var(--gear);border-radius:4px;transition:background .2s,border-color .2s}
+.jc .jc-explore-v2 button.jc-drop-card:hover{border-color:var(--gear);background-color:#1a2830;transform:none}
+.jc .jc-explore-v2 .jc-drop-card:focus-visible,.jc .jc-kit-inspect:focus-visible{outline:2px solid #d9efaa;outline-offset:2px}
+.jc .jc-explore-v2 .jc-drop-card .jc-item-art{display:block;width:100%;height:auto;aspect-ratio:1;margin:0 0 5px;padding:0;background:transparent;overflow:visible}
+.jc .jc-explore-v2 .jc-drop-card .jc-item-art:after{display:none}
+.jc .jc-explore-v2 .jc-drop-card img{filter:drop-shadow(0 5px 5px #0008);transition:transform .25s}
+.jc .jc-explore-v2 .jc-drop-card:hover img{transform:translateY(-3px) scale(1.04)}
+.jc .jc-explore-v2 .jc-drop-card>.jc-drop-chance{position:absolute;top:6px;right:7px;font:600 12px 'Barlow Condensed',sans-serif;color:var(--gear);letter-spacing:.4px}
+.jc .jc-explore-v2 .jc-drop-chance small{font:9px 'Noto Sans KR',sans-serif;color:inherit;letter-spacing:0;margin-left:1px}
+.jc .jc-explore-v2 .jc-drop-card>.jc-drop-kind{font-size:8px;color:var(--gear);letter-spacing:.3px;line-height:1.5}
+.jc .jc-explore-v2 .jc-drop-card>b{font-size:11px;font-weight:700;color:#f3f1e9;letter-spacing:-.4px;line-height:1.45;min-height:31px;display:flex;align-items:center;justify-content:center;margin:4px 0;word-break:keep-all}
+.jc .jc-explore-v2 .jc-drop-card>strong{font:600 18px 'Barlow Condensed',sans-serif;color:#edf1e4;letter-spacing:.2px}
+.jc .jc-explore-v2 .jc-drop-card>.jc-drop-owned{font:9px 'Noto Sans KR',sans-serif;color:#abb9b4;margin-top:3px}
+.jc .jc-search-probability{display:flex;align-items:center;gap:13px;margin:15px 3px 16px}
+.jc .jc-search-probability>span{font-size:10px;color:#9eafb0;white-space:nowrap}.jc .jc-search-probability b{color:#cdd6d4;font-weight:500;margin-left:3px}
+.jc .jc-search-probability>i{flex:1;height:3px;background:#33434a;border-radius:2px;overflow:hidden}.jc .jc-search-probability em{display:block;height:100%;background:#a7bf81}
+.jc .jc-explore-v2 .jc-search-button{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;min-height:51px;border:1px solid #c3d99b;border-radius:4px;padding:10px 12px;background:linear-gradient(100deg,#cfdda8,#a2bd7a);color:#17240f;box-shadow:0 3px 8px #0003}
+.jc .jc-explore-v2 .jc-search-button:disabled{opacity:1;background:#1e2b31;color:#a6b3ad;border-color:#4b5b58;box-shadow:none}
+.jc .jc-explore-v2 .jc-search-button>.jc-search-reticle{width:22px;height:22px;color:#283c22;border-color:currentColor;font-size:0}
+.jc .jc-search-button .jc-search-reticle i{display:none}.jc .jc-search-button:disabled>.jc-search-reticle{color:#97a795}
+.jc .jc-explore-v2 .jc-search-button>b{font-size:12px;font-weight:800}.jc .jc-explore-v2 .jc-search-button>small{font-size:10px}
+.jc .jc-explore-v2 footer{display:flex;justify-content:space-between;gap:8px;margin:10px 1px 0;font-size:9px;color:#9baaaa;text-align:left;line-height:1.7}
+.jc .jc-search-unavailable{grid-column:1/-1;margin:0;padding:38px 12px;color:#a8b5b8;border:1px dashed #4a5b5f;text-align:center;font-size:12px;line-height:1.8}
+.jc .jc-explore-v2.is-scanning .jc-search-reticle{animation:jc-field-scan 1.4s linear infinite}
+@keyframes jc-field-scan{to{transform:rotate(360deg)}}
+
+.jc .jc-kit-summary{padding:20px 22px;border:1px solid #61704d;border-radius:6px;background:radial-gradient(ellipse at 85% 0,#96b46117,transparent 70%),#152027}
+.jc .jc-kit-summary header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.jc .jc-kit-summary header>div>small{font:500 10px 'Barlow Condensed',sans-serif;letter-spacing:2px;color:#bcc89e}.jc .jc-kit-summary h3{font-size:20px;margin:4px 0 0;letter-spacing:-.6px}
+.jc .jc-kit-summary header>strong{font:600 35px 'Barlow Condensed',sans-serif;color:#d7e9b5;text-align:right}.jc .jc-kit-summary header>strong small{display:block;font:10px 'Noto Sans KR',sans-serif;color:#abbc9e;margin-top:2px}
+.jc .jc-kit-summary>div{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:15px;padding-top:12px;border-top:1px solid #3f4c41}
+.jc .jc-kit-summary>div>div{display:flex;align-items:center;gap:12px;min-width:0}.jc .jc-kit-summary .jc-item-art,.jc .jc-kit-vacant{height:80px;width:80px;flex:none}
+.jc .jc-kit-vacant{display:grid;place-items:center;border:1px dashed #5b6c5a;color:#8b9c86;font-size:28px;border-radius:4px}
+.jc .jc-kit-summary>div small{display:block;color:#9faeab;font-size:10px;margin-bottom:5px}.jc .jc-kit-summary>div b{font-size:12px;word-break:keep-all;color:#e1e7e0}
+.jc .jc-kit-inventory{padding:20px 0 0;border:0;border-radius:0;border-top:1px solid #33464d;background:none;margin-top:23px}
+.jc .jc-kit-inventory header{margin-bottom:14px}.jc .jc-kit-inventory header>span{font-size:10px;color:#a9b8b7}.jc .jc-kit-inventory h3{font-size:18px;letter-spacing:-.5px}
+.jc .jc-kit-inventory header small{font:500 10px 'Barlow Condensed',sans-serif;letter-spacing:2px;color:#a8bbad}
+.jc .jc-kit-inventory .jc-gear-help{color:#a9b8be;font-size:11px;margin:0 0 13px}
+.jc .jc-kit-inventory .jc-mini-weapons{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.jc .jc-kit-inventory .jc-kit-card{display:flex;flex-direction:column;align-items:stretch;position:relative;padding:28px 11px 11px;background:radial-gradient(ellipse at 50% 35%,rgba(var(--gear-rgb),.10),transparent 68%),#101b26;border:1px solid #3d4d55;border-top:2px solid var(--gear);border-radius:5px;min-width:0;text-align:center}
+.jc .jc-kit-inventory .jc-kit-card.is-equipped{border-color:#c5da9c;box-shadow:inset 0 0 30px #bbd4810b;background-color:#1b2827}
+.jc .jc-kit-badge{position:absolute;top:8px;left:11px;color:var(--gear);font-size:9px;letter-spacing:.5px}.jc .is-equipped .jc-kit-badge{color:#d7eaa9}
+.jc .jc-kit-inventory .jc-kit-inspect{padding:0;border:0;background:transparent;display:block;width:100%;min-height:0;border-radius:2px}
+.jc .jc-kit-inventory .jc-kit-inspect:hover{transform:none;background:#ffffff04}.jc .jc-kit-inspect>.jc-item-art{height:auto;width:100%;aspect-ratio:1;overflow:visible;background:none}
+.jc .jc-kit-inventory .jc-kit-card>b{font-size:13px;line-height:1.5;margin:5px 0 8px;letter-spacing:-.5px;word-break:keep-all}
+.jc .jc-kit-inventory .jc-kit-card>small{font-size:9px;color:#a2b3bb;margin:0 0 13px}.jc .jc-kit-card>small strong{display:block;font:600 24px 'Barlow Condensed',sans-serif;color:#d7e1e1;letter-spacing:.3px;margin-top:4px}
+.jc .jc-kit-inventory .jc-kit-equip{font-size:11px;min-height:41px;padding:8px;grid-column:auto;width:100%;margin-top:auto;background:#263742;border-color:#485d66;color:#e4ebdf}
+.jc .jc-kit-inventory .is-equipped .jc-kit-equip{background:#344333;border-color:#657e50;color:#e3f0cf}
+
+.jc-dialog.jc-loot-dialog{width:min(540px,calc(100vw - 24px));border-color:#61705b;background:#101b25}
+.jc-loot-dialog .jc-dialog-body{padding:0;background:#101b25}.jc-loot-dialog>header{border-bottom-color:#35454a}.jc-loot-dialog>footer{background:#131f28;border-top-color:#3b4d49}
+.jc.jc-loot-v2{position:relative;isolation:isolate;overflow:hidden;text-align:center;padding:24px 24px 20px;background:radial-gradient(ellipse at 50% 35%,rgba(var(--gear-rgb),.15),transparent 60%),linear-gradient(150deg,#1b2c31,#0d1723)}
+.jc.jc-loot-v2[data-tier="2"]{--gear:#85cdb5;--gear-rgb:133,205,181}.jc.jc-loot-v2[data-tier="3"]{--gear:#95c9eb;--gear-rgb:149,201,235}.jc.jc-loot-v2[data-tier="4"]{--gear:#e1c28b;--gear-rgb:225,194,139}
+.jc.jc-loot-v2>.jc-loot-eyebrow{font:500 11px 'Barlow Condensed',sans-serif;letter-spacing:3px;color:var(--gear)}
+.jc.jc-loot-v2>small{display:block;font-size:11px;margin-top:7px;color:#afc0c4;letter-spacing:.3px}
+.jc.jc-loot-v2 .jc-loot-visual{height:260px;max-width:340px;position:relative;margin:6px auto;display:grid;place-items:center}
+.jc.jc-loot-v2 .jc-loot-visual>.jc-item-art{position:relative;width:100%;height:100%;z-index:1;background:none;overflow:visible}
+.jc.jc-loot-v2 .jc-loot-visual img{filter:drop-shadow(0 14px 18px #0008);animation:jc-gear-arrival .65s cubic-bezier(.15,.75,.3,1) both}
+.jc.jc-loot-v2 .jc-loot-visual .jc-item-art:after{display:none}
+.jc.jc-loot-v2 .jc-loot-orbit{position:absolute;inset:17px 46px;border:1px solid rgba(var(--gear-rgb),.13);border-radius:50%;transform:rotate(-20deg) scaleY(.8)}
+.jc.jc-loot-v2 .jc-loot-orbit:after{content:"";position:absolute;inset:-15px;border:1px dashed rgba(var(--gear-rgb),.12);border-radius:50%}
+.jc.jc-loot-v2 .jc-loot-tier{display:inline-block;border:1px solid rgba(var(--gear-rgb),.4);padding:4px 10px;color:var(--gear);font-size:10px;letter-spacing:1px;border-radius:2px}
+.jc.jc-loot-v2 h3{font-size:28px;line-height:1.4;letter-spacing:-1px;margin:12px 0 8px;color:#f3f0e9}
+.jc.jc-loot-v2>strong{display:block;font:600 39px 'Barlow Condensed',sans-serif;color:#e4ead8;letter-spacing:.5px;margin:8px 0 14px}
+.jc.jc-loot-v2>strong small{display:block;font:10px 'Noto Sans KR',sans-serif;color:#adbcad;margin-top:3px}
+.jc.jc-loot-v2 p{font-size:12px;line-height:1.9;color:#bbc7cb;margin:10px 0 14px;word-break:keep-all}.jc.jc-loot-v2 footer{font-size:10px;color:#9dadaf}
+.jc.jc-loot-v2[data-outcome="EMPTY"] .jc-search-reticle{width:100px;height:100px;opacity:.7}
+.jc.jc-loot-v2[data-outcome="EMPTY"] h3{font-size:23px}
+.jc .jc-gear-sources{display:grid;gap:7px;border-top:1px solid #40504e;border-bottom:1px solid #40504e;padding:13px;margin:0 0 16px;font-size:12px;color:#d1ded7}.jc .jc-gear-sources small{color:#97afa4;font-size:10px}
+@keyframes jc-gear-arrival{from{opacity:0;transform:translateY(14px) scale(.92)}to{opacity:1;transform:none}}
+@media(min-width:1200px){.jc .jc-workspace{grid-template-columns:minmax(0,1fr) 380px}.jc .jc-explore-v2 .jc-drop-card>b{font-size:12px}.jc .jc-explore-v2 .jc-drop-card>strong{font-size:21px}}
+@media(max-width:800px){
+ .jc .jc-kit-summary{padding:17px 14px}.jc .jc-kit-summary h3{font-size:18px}.jc .jc-kit-summary header>strong{font-size:31px}
+ .jc .jc-kit-summary>div{gap:10px}.jc .jc-kit-summary>div>div{flex-direction:column;align-items:flex-start;gap:6px}.jc .jc-kit-summary>div>div>.jc-item-art{width:100%;height:85px}.jc .jc-kit-summary>div>div>span:last-child{padding-left:5px}
+ .jc .jc-kit-inventory .jc-mini-weapons{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.jc .jc-kit-inventory .jc-kit-card{padding:27px 9px 9px}
+ .jc .jc-kit-inventory .jc-kit-card>b{font-size:12px}.jc .jc-kit-card>small strong{font-size:24px}.jc .jc-kit-inventory .jc-kit-equip{min-height:42px}
+}
+@media(max-width:600px){
+ .jc .jc-explore-v2{margin:0 12px 20px}.jc .jc-search-scene{padding:17px 15px}.jc .jc-search-title h3{font-size:22px}.jc .jc-search-content{padding:16px 10px 13px}
+ .jc .jc-explore-v2 .jc-drop-card>b{font-size:11px;min-height:32px}.jc .jc-explore-v2 .jc-drop-card>strong{font-size:18px}
+ .jc.jc-loot-v2{padding:22px 18px 20px}.jc.jc-loot-v2 .jc-loot-visual{height:220px;margin:5px auto}.jc.jc-loot-v2 h3{font-size:25px}.jc.jc-loot-v2>strong{font-size:35px}
+ .jc-dialog.jc-loot-dialog>footer button{min-height:43px;padding:10px 12px;font-size:12px}
+}
+@media(prefers-reduced-motion:reduce){.jc .jc-explore-v2.is-scanning .jc-search-reticle,.jc.jc-loot-v2 .jc-loot-visual img{animation:none}.jc .jc-explore-v2 .jc-drop-card img{transition:none}.jc .jc-explore-v2 .jc-drop-card:hover img{transform:none}}

@@ -1,0 +1,364 @@
+{
+  "date": "2026-10-12",
+  "tool": "built-in image_gen",
+  "generation": "assets/ui/jokgak-city/exploration-v2/generation.json",
+  "invariants": [
+    "one object per image",
+    "preserve generated alpha",
+    "straight firearm receiver/barrel/scope axes",
+    "no labels, frames or purple glow"
+  ],
+  "assets": [
+    {
+      "code": "CROWBAR",
+      "name": "쇠지렛대",
+      "source": "assets/ui/jokgak-city/exploration-v2/crowbar-source.png",
+      "image": "assets/ui/jokgak-city/exploration-v2/crowbar-768.webp",
+      "thumbnail": "assets/ui/jokgak-city/exploration-v2/crowbar-256.webp",
+      "files": {
+        "source": {
+          "bytes": 482334,
+          "sha256": "bc329837339884f5f4dea02a26b781a15bb45749e81f8d43dfe753f3ebd5a754",
+          "width": 1254,
+          "height": 1254
+        },
+        "image": {
+          "bytes": 38222,
+          "sha256": "64196df57ddd30cdbcd82292e17ee57bcf942a843e797680e4732cd237fd431c",
+          "width": 768,
+          "height": 768
+        },
+        "thumbnail": {
+          "bytes": 7580,
+          "sha256": "d2768ffd3a5ea4e6964116dd52708c743af55ca9dd9375bf7939571d9f872db8",
+          "width": 256,
+          "height": 256
+        }
+      }
+    },
+    {
+      "code": "BAT",
+      "name": "알루미늄 배트",
+      "source": "assets/ui/jokgak-city/exploration-v2/bat-source.png",
+      "image": "assets/ui/jokgak-city/exploration-v2/bat-768.webp",
+      "thumbnail": "assets/ui/jokgak-city/exploration-v2/bat-256.webp",
+      "files": {
+        "source": {
+          "bytes": 517010,
+          "sha256": "eab554fd86e5b4fc6ea01835703532612de66240892aebed0be40a52cb3279c8",
+          "width": 1254,
+          "height": 1254
+        },
+        "image": {
+          "bytes": 37046,
+          "sha256": "abbe9800e58f252156a0466e93f46bd0fd1853ef83bd5ab6fd6dc7b2025bc643",
+          "width": 768,
+          "height": 768
+        },
+        "thumbnail": {
+          "bytes": 7762,
+          "sha256": "c1bcff34cc189d04251191dae6dd7171571896c9b4e0838cd5d49f1f35904dde",
+          "width": 256,
+          "height": 256
+        }
+      }
+    },
+    {
+      "code": "KNIFE",
+      "name": "전술 단검",
+      "source": "assets/ui/jokgak-city/exploration-v2/knife-source.png",
+      "image": "assets/ui/jokgak-city/exploration-v2/knife-768.webp",
+      "thumbnail": "assets/ui/jokgak-city/exploration-v2/knife-256.webp",
+      "files": {
+        "source": {
+          "bytes": 778036,
+          "sha256": "999b75970c8b38bfa698f5a6218ae73d094a8f179228a31d75a93cc79550d69e",
+          "width": 1254,
+          "height": 1254
+        },
+        "image": {
+          "bytes": 49714,
+          "sha256": "30a407d9cb97cb8b20b42735c74f71801bb440bbaedfb1cda4193e535fa1be57",
+          "width": 768,
+          "height": 768
+        },
+        "thumbnail": {
+          "bytes": 8990,
+          "sha256": "e1f5049e07872164bde62ecbdb5a2ac606a31e7b96cb6b771cd965d03d6955c8",
+          "width": 256,
+          "height": 256
+        }
+      }
+    },
+    {
+      "code": "CROSSBOW",
+      "name": "사냥 석궁",
+      "source": "assets/ui/jokgak-city/exploration-v2/crossbow-source.png",
+      "image": "assets/ui/jokgak-city/exploration-v2/crossbow-768.webp",
+      "thumbnail": "assets/ui/jokgak-city/exploration-v2/crossbow-256.webp",
+      "files": {
+        "source": {
+          "bytes": 1061356,
+          "sha256": "a6d0f2f7f261976b22cb587e55f6b5f45557e7cdaa1385663bcdce3f6efe1459",
+          "width": 1254,
+          "height": 1254
+        },
+        "image": {
+          "bytes": 84030,
+          "sha256": "84a4b2c4d0777b00d98d11dae8cb09f173daea6674dad9088d59d649e96fb50e",
+          "width": 768,
+          "height": 768
+        },
+        "thumbnail": {
+          "bytes": 16470,
+          "sha256": "313381985010ee5e9b74e324c058f03485080f81204a6cdfa24e3ce61a6a70ae",
+          "width": 256,
+          "height": 256
+        }
+      }
+    },
+    {
+      "code": "SHOTGUN",
+      "name": "산탄총",
+      "source": "assets/ui/jokgak-city/exploration-v2/shotgun-source.png",
+      "image": "assets/ui/jokgak-city/exploration-v2/shotgun-768.webp",
+      "thumbnail": "assets/ui/jokgak-city/exploration-v2/shotgun-256.webp",
+      "files": {
+        "source": {
+          "bytes": 597956,
+          "sha256": "54b37204d4d48cdb3cc2b8fb8bb07fc58b0da0df94b3ca76ab1498e0d1aeafb8",
+          "width": 1254,
+          "height": 1254
+        },
+        "image": {
+          "bytes": 45920,
+          "sha256": "6316e716c52ccc4a47ceb56d456e4794f68a7771364c8c296e3629ec13712cb7",
+          "width": 768,
+          "height": 768
+        },
+        "thumbnail": {
+          "bytes": 8940,
+          "sha256": "f217cace603af3348a559dc8b343840061a2c212f961001958509f0228f611f1",
+          "width": 256,
+          "height": 256
+        }
+      }
+    },
+    {
+      "code": "SMG",
+      "name": "기관단총",
+      "source": "assets/ui/jokgak-city/exploration-v2/smg-source.png",
+      "image": "assets/ui/jokgak-city/exploration-v2/smg-768.webp",
+      "thumbnail": "assets/ui/jokgak-city/exploration-v2/smg-256.webp",
+      "files": {
+        "source": {
+          "bytes": 1040782,
+          "sha256": "07d359105c97010b1a059e743c9041f96762726b57ae89f8f0f04ca172ba5cdf",
+          "width": 1254,
+          "height": 1254
+        },
+        "image": {
+          "bytes": 71744,
+          "sha256": "0be883a7367b46417893fbab475d6b248f47b4c746d95e117c52362fa55e56c5",
+          "width": 768,
+          "height": 768
+        },
+        "thumbnail": {
+          "bytes": 14042,
+          "sha256": "d9f9400853141df8d35344c09c27051991e24c362652f60d0306782e0254650e",
+          "width": 256,
+          "height": 256
+        }
+      }
+    },
+    {
+      "code": "SNIPER",
+      "name": "정밀 저격총",
+      "source": "assets/ui/jokgak-city/exploration-v2/sniper-source.png",
+      "image": "assets/ui/jokgak-city/exploration-v2/sniper-768.webp",
+      "thumbnail": "assets/ui/jokgak-city/exploration-v2/sniper-256.webp",
+      "files": {
+        "source": {
+          "bytes": 654056,
+          "sha256": "6a37f971b15cb6efe4650987d294096121872ea738bd2ed2be550a65132b09b2",
+          "width": 1254,
+          "height": 1254
+        },
+        "image": {
+          "bytes": 47542,
+          "sha256": "3be5efcedb6e551361e3d8455f2022e6e40bff0d5dddd66916a907e6ad825001",
+          "width": 768,
+          "height": 768
+        },
+        "thumbnail": {
+          "bytes": 10548,
+          "sha256": "d4dda3e44543a739eec3183405a4faaf8eb45a7f0bff1ae15e5afed4a19e2a7e",
+          "width": 256,
+          "height": 256
+        }
+      }
+    },
+    {
+      "code": "JACKET",
+      "name": "가죽 재킷",
+      "source": "assets/ui/jokgak-city/exploration-v2/jacket-source.png",
+      "image": "assets/ui/jokgak-city/exploration-v2/jacket-768.webp",
+      "thumbnail": "assets/ui/jokgak-city/exploration-v2/jacket-256.webp",
+      "files": {
+        "source": {
+          "bytes": 2022862,
+          "sha256": "1ed5483e761a83137ca113cafe96bb79ca4eb25529f6c0d6b94179d030c497da",
+          "width": 1254,
+          "height": 1254
+        },
+        "image": {
+          "bytes": 132224,
+          "sha256": "ac8baae23f3a0c7cf100e6f6261eedcf593be9ab2acbb4043a413c44e0610423",
+          "width": 768,
+          "height": 768
+        },
+        "thumbnail": {
+          "bytes": 20670,
+          "sha256": "c2ca769d7e00b760de321620284b4e02b059b46bd70ae6f0a78ac587612a8d18",
+          "width": 256,
+          "height": 256
+        }
+      }
+    },
+    {
+      "code": "WORK_VEST",
+      "name": "작업 조끼",
+      "source": "assets/ui/jokgak-city/exploration-v2/work-vest-source.png",
+      "image": "assets/ui/jokgak-city/exploration-v2/work-vest-768.webp",
+      "thumbnail": "assets/ui/jokgak-city/exploration-v2/work-vest-256.webp",
+      "files": {
+        "source": {
+          "bytes": 2579661,
+          "sha256": "d785e7e5649fd841fece8956957b57238f6ba7af81ccfead529235aa67941cc8",
+          "width": 1254,
+          "height": 1254
+        },
+        "image": {
+          "bytes": 131680,
+          "sha256": "68995ef297dcebbb2798a25b77369e9e61bac4e0b8ecfed5e2c7527329cf80a8",
+          "width": 768,
+          "height": 768
+        },
+        "thumbnail": {
+          "bytes": 15678,
+          "sha256": "d1db89c402d6e397eb040bbf049ab3bc377b5891d10be64b3056123c8aebd385",
+          "width": 256,
+          "height": 256
+        }
+      }
+    },
+    {
+      "code": "PADDED",
+      "name": "보강 방호복",
+      "source": "assets/ui/jokgak-city/exploration-v2/padded-source.png",
+      "image": "assets/ui/jokgak-city/exploration-v2/padded-768.webp",
+      "thumbnail": "assets/ui/jokgak-city/exploration-v2/padded-256.webp",
+      "files": {
+        "source": {
+          "bytes": 2330243,
+          "sha256": "7aab15d9895065be6ebe706fc7c75e9870f939cefa28a75a30466fd327cc2639",
+          "width": 1254,
+          "height": 1254
+        },
+        "image": {
+          "bytes": 102814,
+          "sha256": "812909e5fd03d1086d79c7881c211aa6f3a557623424e6b22a90892d52aaf35f",
+          "width": 768,
+          "height": 768
+        },
+        "thumbnail": {
+          "bytes": 16538,
+          "sha256": "6984669be1105113c70e0f0fc147d7de63271a4b0d1122c44b0ef83fb2445edc",
+          "width": 256,
+          "height": 256
+        }
+      }
+    },
+    {
+      "code": "KEVLAR",
+      "name": "방탄 조끼",
+      "source": "assets/ui/jokgak-city/exploration-v2/kevlar-source.png",
+      "image": "assets/ui/jokgak-city/exploration-v2/kevlar-768.webp",
+      "thumbnail": "assets/ui/jokgak-city/exploration-v2/kevlar-256.webp",
+      "files": {
+        "source": {
+          "bytes": 2707046,
+          "sha256": "c26cb181569abc8096143955c35ceb21929de2e7972c074442783acfee6331e1",
+          "width": 1254,
+          "height": 1254
+        },
+        "image": {
+          "bytes": 145586,
+          "sha256": "d0d8d411a1c5be69ef0164be2bbb024d6efaface24b3592164ba2650105e33a5",
+          "width": 768,
+          "height": 768
+        },
+        "thumbnail": {
+          "bytes": 15850,
+          "sha256": "eb0205a51f82851edbc04a18cdcc248d0d148c42c753a3309f6b8c5675a52cf7",
+          "width": 256,
+          "height": 256
+        }
+      }
+    },
+    {
+      "code": "RIOT",
+      "name": "진압 방어구",
+      "source": "assets/ui/jokgak-city/exploration-v2/riot-source.png",
+      "image": "assets/ui/jokgak-city/exploration-v2/riot-768.webp",
+      "thumbnail": "assets/ui/jokgak-city/exploration-v2/riot-256.webp",
+      "files": {
+        "source": {
+          "bytes": 2147502,
+          "sha256": "c8a6ce02bf8a8e885f026efee632bff4b401f2c1ba7e64f701d184b54b091aca",
+          "width": 1254,
+          "height": 1254
+        },
+        "image": {
+          "bytes": 93014,
+          "sha256": "c70eb4edd414df77d8a40bfa0d41cae07eefaa9065f4c78963a6c6333736afd1",
+          "width": 768,
+          "height": 768
+        },
+        "thumbnail": {
+          "bytes": 16434,
+          "sha256": "50cb190ec4617089d514b3b33c5076c552b0f7f8d4b8ea515611680c4a7f4999",
+          "width": 256,
+          "height": 256
+        }
+      }
+    },
+    {
+      "code": "PLATE",
+      "name": "중장갑 플레이트",
+      "source": "assets/ui/jokgak-city/exploration-v2/plate-source.png",
+      "image": "assets/ui/jokgak-city/exploration-v2/plate-768.webp",
+      "thumbnail": "assets/ui/jokgak-city/exploration-v2/plate-256.webp",
+      "files": {
+        "source": {
+          "bytes": 2383903,
+          "sha256": "7a1d35f7f569a204871682a794e6266c2d8961d245c6e71ba7f217aabae70596",
+          "width": 1254,
+          "height": 1254
+        },
+        "image": {
+          "bytes": 125416,
+          "sha256": "91ed618911eb1d1106c78e04f701601c1f6f40c8b32bef9558d15b5d629b93f6",
+          "width": 768,
+          "height": 768
+        },
+        "thumbnail": {
+          "bytes": 16522,
+          "sha256": "e7c3117d66fa6c435691ab88bbc6fcd04a8d46f67b4cf45d602bbeecc47e5dd8",
+          "width": 256,
+          "height": 256
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "checks": [
+    "1440: generated region gear, configured power, keyboard detail and Escape",
+    "1440: final exploration, detail and discovery visual checks",
+    "390: generated region gear, configured power, keyboard detail and Escape",
+    "390: final exploration, detail and discovery visual checks"
+  ],
+  "errors": [],
+  "accounts": "isolated fixtures only"
+}
