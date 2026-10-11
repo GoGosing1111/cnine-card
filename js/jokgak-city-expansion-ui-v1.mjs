@@ -1,7 +1,7 @@
 import {CITY_WEAPONS,defaultCityArsenal,defaultCityFacilities} from '../shared/jokgak-city-expansion-v1.mjs';
 import {cityItemArt} from './jokgak-city-item-art-v1.mjs?v=20261011-items1';
 import {CITY_FOUND_WEAPONS,defaultCityExploration} from '../shared/jokgak-city-exploration-v1.mjs';
-import {cityGearArt,cityEquipmentCard,cityEquipmentSummary} from './jokgak-city-exploration-ui-v2.mjs?v=20261012-riot-bounty1';
+import {cityGearArt,cityEquipmentCard,cityEquipmentSummary} from './jokgak-city-exploration-ui-v2.mjs?v=20261012-work-cooldown1';
 const money=n=>Number(n||0).toLocaleString('ko-KR');
 const clock=ms=>{const s=Math.ceil(Math.max(0,ms)/1000);return `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;};
 export function cityWeaponIcon(code){

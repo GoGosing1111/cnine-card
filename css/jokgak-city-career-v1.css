@@ -5,3 +5,5 @@
 .jc .jc-desk-launchers button{white-space:nowrap}
 
 .jc-job-list article.is-here{border-color:#718454;background:linear-gradient(90deg,#34432955,transparent);padding-left:10px;padding-right:10px}.jc-job-list article.is-here>span{color:#d5ffab;border-color:#718454}
+.jc .jc-job-list .jc-work-cooldown:disabled{display:grid;justify-items:center;gap:4px;min-width:96px;opacity:1;color:#93a3b7;background:#182131;border-color:#334256;cursor:not-allowed}
+.jc .jc-work-cooldown>b{color:#d3dfbd;font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;line-height:1.4}

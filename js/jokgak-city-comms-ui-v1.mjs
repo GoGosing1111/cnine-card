@@ -1,4 +1,4 @@
-import {cityBountyReceipt} from './jokgak-city-conflict-ui-v1.mjs?v=20261012-riot-bounty1';
+import {cityBountyReceipt} from './jokgak-city-conflict-ui-v1.mjs?v=20261012-work-cooldown1';
 import {CITY_MEGAPHONE} from '../shared/jokgak-city-comms-v1.mjs';
 export {CITY_MEGAPHONE};
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

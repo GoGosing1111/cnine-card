@@ -1,0 +1,10 @@
+{
+  "checks": [
+    "1440: authoritative 65-second wait, 59/58-second ticking, shared job cooldown, reopen preserves countdown, desktop/mobile rows fit",
+    "1440: 1-second boundary automatically restores correct start/find-place buttons, actual new work succeeds and active-work lock remains",
+    "390: authoritative 65-second wait, 59/58-second ticking, shared job cooldown, reopen preserves countdown, desktop/mobile rows fit",
+    "390: 1-second boundary automatically restores correct start/find-place buttons, actual new work succeeds and active-work lock remains"
+  ],
+  "errors": [],
+  "accounts": "isolated fixtures; actual city HTTP handlers; no live actions"
+}
