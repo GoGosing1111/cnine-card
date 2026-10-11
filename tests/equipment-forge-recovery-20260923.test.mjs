@@ -86,7 +86,7 @@ async function appFixture(t,handle,{pending=null}={}){
   constructor(){this.dataset={};this.style={};this.hidden=false;this.disabled=false;this.checked=false;this.children=new Map();this.classList={toggle(){}};this.scrollTop=0;}
   querySelector(k){if(!this.children.has(k))this.children.set(k,new Element());return this.children.get(k);}
   querySelectorAll(){return [];}
-  setAttribute(k,v){this[k]=v;}addEventListener(){}prepend(){}append(){}contains(){return false;}
+  setAttribute(k,v){this[k]=v;}addEventListener(){}prepend(){}append(){}after(){}contains(){return false;}
  }
  const nodes=new Map(),get=k=>{if(!nodes.has(k))nodes.set(k,new Element());return nodes.get(k);};
  const values=new Map([['cnine_card_api_token','test-account-7']]);if(pending)values.set('cnine.forge.pending:7',JSON.stringify(pending));
