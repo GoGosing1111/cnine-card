@@ -1,6 +1,6 @@
 /* Uses the installed live V3 runtime. No copied renderer, formations or dock. */
 (()=>{
-  let engine=null,renderer=null,epoch=0,queue=Promise.resolve(),pending=0,snapshot=null,synced='',bossId='',visible=new Set(),scene=null,lastCue='',spirit=false;
+  let engine=null,renderer=null,epoch=0,queue=Promise.resolve(),pending=0,snapshot=null,synced='',bossId='',visible=new Set(),scene=null,lastCue='',spirit=false,telegraph=null;
   async function preload(){
     await window.ProjectVBattleV3Live.ensureRuntime({effects:true});
     await Promise.all(['madara-battle-v1.png','azure-spirit-v1.png'].map(file=>window.ProjectVPixiBattle.fxRuntime.Assets.load('/preview/madara-raid-v1/assets/'+file)));
@@ -22,6 +22,7 @@
       modal.querySelector('.battle-v3-header strong').textContent='마다라 레이드';
       modal.querySelector('.battle-v3-header small').textContent='공대의 판단이 전장을 바꾼다';
       await engine.deployCards({instant:true,force:true});
+      telegraph=window.MadaraPresentation.telegraph(engine);
     }finally{api.mountForBattle=original;api.resetSession=reset;}
   }
   function sync(){
@@ -50,7 +51,7 @@
     queue=queue.then(async()=>{if(cue&&version===epoch)await present(cue);for(const e of events){if(version!==epoch||!engine)return;try{await engine.playEvents([e]);}finally{if(version===epoch)pending=Math.max(0,pending-1);}}if(version===epoch)sync();})
       .catch(error=>{console.warn('[Madara preview playback]',error);if(version===epoch){pending=0;sync();}});
   }
-  function teardown(){epoch++;scene?.dispose();scene=null;engine?.cancelTimelines();renderer?.destroy();renderer=null;engine=null;queue=Promise.resolve();pending=0;snapshot=null;synced='';}
-  window.MadaraBattle={preload,mount,update,restore,teardown,showcase:(cue,options)=>present(cue,{review:true,...options}),control:(action,value)=>scene?.control(action,value),diagnostics:()=>({ready:Boolean(engine),pending,canvasCount:document.querySelectorAll('canvas').length,engine:engine?.diagnostics(),presentation:scene?.diagnostics(),art:window.MadaraPresentation.diagnostics(),madaraEffects:engine?.effectLayer.children.filter(c=>c.label==='MadaraAuthoredFX').length||0})};
+  function teardown(){epoch++;scene?.dispose();scene=null;telegraph?.dispose();telegraph=null;engine?.cancelTimelines();renderer?.destroy();renderer=null;engine=null;queue=Promise.resolve();pending=0;snapshot=null;synced='';}
+  window.MadaraBattle={preload,mount,update,restore,teardown,telegraph:(state,now)=>telegraph?.draw(state,now),showcase:(cue,options)=>present(cue,{review:true,...options}),control:(action,value)=>scene?.control(action,value),diagnostics:()=>({ready:Boolean(engine),pending,canvasCount:document.querySelectorAll('canvas').length,engine:engine?.diagnostics(),presentation:scene?.diagnostics(),art:window.MadaraPresentation.diagnostics(),telegraphLayers:engine?.effectLayer.children.filter(c=>c.label==='MadaraMechanicTelegraph').length||0,madaraEffects:engine?.effectLayer.children.filter(c=>c.label==='MadaraAuthoredFX').length||0})};
   window.addEventListener('pagehide',teardown,{once:true});
 })();

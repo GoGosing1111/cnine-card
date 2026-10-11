@@ -111,5 +111,57 @@
     }
     diagnostics(){return {cue:this.cue.key,time:this.clock.time,duration:this.duration,pose:this.poseIndex,frame:this.fxIndex,paused:this.timeline.paused(),effects:this.effects,contact:this.contact,actorActive:this.actor.battleActive!==false&&this.actor.root.visible,actorId:this.actor.id,bodyVisible:this.body.visible,originalVisible:this.original.visible,bodyBounds:this.body.getBounds().rectangle,fxVisible:this.fx.visible,disposed:this.disposed};}
   }
-  window.MadaraPresentation={preload,dialogue,create:(engine,cue,options)=>new Scene(engine,cue,options),diagnostics:()=>({loaded:Boolean(assets),bodyFrames:assets?.frames.cast.length||0,effectFrames:assets?Object.values(assets.frames).reduce((n,f)=>n+f.length,0)-4:0})};
+  class Telegraph{
+    constructor(engine){
+      this.engine=engine;this.key='';this.feedbackKey='';this.disposed=false;
+      const rt=window.ProjectVPixiBattle.fxRuntime;
+      this.layer=new rt.Container({label:'MadaraMechanicTelegraph'});this.layer.eventMode='none';engine.effectLayer.addChild(this.layer);
+      this.ring=new rt.Graphics();this.layer.addChild(this.ring);
+      this.impact=new rt.Sprite();this.impact.anchor.set(.5,.83);this.impact.visible=false;this.layer.addChild(this.impact);
+    }
+    draw(state,now){
+      if(this.disposed)return;
+      const task=state.tasks.filter(t=>!t.done).sort((a,b)=>a.decision.expiresAt-b.decision.expiresAt)[0];
+      const shown=state.status==='ACTIVE'&&state.step==='MECHANIC'&&Boolean(task);this.layer.visible=shown;
+      if(!shown){this.ring.clear();return;}
+      const d=task.decision,actor=this.engine.boss||this.engine.currentEnemyTarget;
+      const at=this.layer.toLocal(actor.root.toGlobal({x:0,y:0}));
+      const ready=now>=d.readyAt&&now<d.expiresAt&&now>=d.recoveryAt;
+      const key=[task.id,task.token,ready,Math.floor((d.expiresAt-now)/250),at.x,at.y].join(':');
+      if(key!==this.key){
+        this.key=key;this.ring.clear();
+        const radius=Math.min(110,Math.max(44,actor.fullBodyHeight*actor.root.scale.y*.37));
+        const color=ready?0xe2f7ff:0xe4b678;
+        this.ring.position.set(at.x,at.y+5);
+        // Dashed anticipation and solid response can be distinguished without colour.
+        if(ready)this.ring.ellipse(0,0,radius,radius*.31).stroke({color,width:3,alpha:.92});
+        else for(let i=0;i<12;i++){const a=i*Math.PI/6;this.ring.moveTo(Math.cos(a)*radius,Math.sin(a)*radius*.31).lineTo(Math.cos(a+.27)*radius,Math.sin(a+.27)*radius*.31).stroke({color,width:3,alpha:.8});}
+        this.ring.ellipse(0,0,radius+8,(radius+8)*.31).stroke({color,width:1,alpha:.5});
+        const percent=clamp((now-d.startedAt)/(d.expiresAt-d.startedAt),0,1);
+        this.ring.rect(-radius,-radius*.31-12,radius*2,4).fill({color:0x101827,alpha:.85});
+        this.ring.rect(-radius,-radius*.31-12,radius*2*(1-percent),4).fill({color,alpha:.95});
+      }
+      const feedback=state.tasks.filter(t=>t.feedback).sort((a,b)=>b.feedback.at-a.feedback.at)[0];
+      if(feedback&&feedback.feedback.at>now-1800){
+        const stamp=feedback.id+':'+feedback.feedback.version;
+        if(stamp!==this.feedbackKey){this.feedbackKey=stamp;this.playFeedback(state,feedback.feedback,at);}
+      }
+    }
+    playFeedback(state,feedback,point){
+      this.animation?.kill();this.registration?.settle(false);
+      const key=feedback.ok?({ILLUSION:'illusion',CLONES:'clones',FIRE:'fire',METEOR:'meteor',FINAL:'awakening'}[state.challenge.kind]):'illusion';
+      const clock={time:0};this.impact.position.set(point.x,point.y+6);this.impact.visible=true;
+      this.engine.timeline(t=>{
+        this.animation=t;this.registration=[...this.engine.simpleTimelines].find(e=>e.instance===t);
+        t.to(clock,{time:1,duration:.75,ease:'none',onUpdate:()=>{
+          if(this.disposed)return;
+          this.impact.texture=assets.frames[key][Math.min(11,4+Math.floor(clock.time*8))];
+          this.impact.scale.set(Math.min(210,this.engine.scene.width*.26)/this.impact.texture.width);
+          this.impact.alpha=(this.engine.reducedMotion?.25:.58)*(1-clock.time);
+        }},0);
+      },()=>{if(!this.disposed)this.impact.visible=false;},1);
+    }
+    dispose(){if(this.disposed)return;this.disposed=true;this.animation?.kill();this.registration?.settle(false);this.layer.destroy({children:true});}
+  }
+  window.MadaraPresentation={preload,dialogue,create:(engine,cue,options)=>new Scene(engine,cue,options),telegraph:engine=>new Telegraph(engine),diagnostics:()=>({loaded:Boolean(assets),bodyFrames:assets?.frames.cast.length||0,effectFrames:assets?Object.values(assets.frames).reduce((n,f)=>n+f.length,0)-4:0})};
 })();

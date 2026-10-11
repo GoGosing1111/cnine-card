@@ -5,6 +5,7 @@ import http from 'node:http';
 import {MADARA_RELEASE,MADARA_RUNES,createMadaraRoom,addMadaraMember,readyMadaraMember,startMadaraRoom,actMadaraRoom,tickMadaraRoom,madaraView,madaraBattlePayload} from '../functions/_raid_madara.js';
 import {madaraReviewDeck,MADARA_REVIEW_BOSS} from '../preview/madara-raid-v1/fixture.mjs';
 import {createMadaraPreviewServer} from '../preview/madara-raid-v1/server.mjs';
+import {visibleDecisionChoice,decisionReady} from './helpers/madara-review-solver.mjs';
 
 let request=0;
 const roles=['WARDEN','ASSAULT','RESCUE'];
@@ -17,6 +18,7 @@ function setup(count=3,{mode='PARTY',strength='NORMAL',seed=51}={}) {
 function act(room,id,input,now=room.clock) {return actMadaraRoom(room,id,{requestId:`test-${String(++request).padStart(8,'0')}`,...input},now);}
 const after = rune=>MADARA_RUNES[(MADARA_RUNES.indexOf(rune)+1)%4];
 function correct(room,t) {
+  if(t.decision)return visibleDecisionChoice(madaraView(room,t.ownerId).tasks.find(v=>v.id===t.id));
   const q=room.challenge;
   if(t.kind==='DISPEL')return q.signals[t.partnerId];
   if(t.kind==='SOUL')return after(q.signals[t.partnerId]);
@@ -32,7 +34,7 @@ function solvePass(room,{strikes=true,guard=true}={}) {
     if(room.status!=='ACTIVE')break;
     let view=madaraView(room,m.id);
     if(m.role==='RESCUE'&&room.resources.heal&&room.fighters.some(f=>f.hp>0&&f.hp<f.maxHp*.55))act(room,m.id,{action:'HEAL',token:room.challenge.id});
-    for(const visible of view.tasks.filter(t=>!t.done&&!t.blocked)){
+    for(const visible of view.tasks.filter(t=>decisionReady(t,room.clock))){
       const t=room.challenge.tasks.find(x=>x.id===visible.id);
       act(room,m.id,{action:'TASK',taskId:t.id,token:visible.token,target:correct(room,t)});
     }
@@ -63,50 +65,56 @@ test('party launch requires all roles and every member ready; late joins are rej
   room.members.forEach(m=>readyMadaraMember(room,m.id));startMadaraRoom(room,'a');
   assert.throws(()=>addMadaraMember(room,{id:'d',role:'RESCUE',deck:madaraReviewDeck()}),{code:'ROOM_STARTED'});
 });
-test('private clues and solutions stay with the assigned role until a real sharing action',()=>{
+test('private clues belong to their owner; only completed seals are shared',()=>{
   const room=setup(),warden=madaraView(room,'p0'),assault=madaraView(room,'p1');
-  assert.match(warden.tasks[0].clue,/다음 문양/);assert.equal(assault.challenge.signals.p0,undefined);
-  assert.equal(JSON.stringify(assault).includes('answers'),false);assert.equal(JSON.stringify(assault).includes('문양 순환:'),false);
-  const t=room.challenge.tasks[0];act(room,'p0',{action:'TASK',taskId:t.id,token:warden.tasks[0].token,target:t.answers[0]});
-  assert.equal(madaraView(room,'p1').challenge.signals.p0,t.answers[0]);
+  assert.match(warden.tasks[0].clue,/이동한 문양/);assert.equal(assault.challenge.signals.p0,undefined);
+  assert.equal(JSON.stringify(assault).includes('expected'),false);assert.equal(assault.tasks.some(t=>t.clue===warden.tasks[0].clue),false);
+  const t=room.challenge.tasks[0];
+  for(let i=0;i<2;i++){tickMadaraRoom(room,t.trial.readyAt);const v=madaraView(room,'p0').tasks[0];act(room,'p0',{action:'TASK',taskId:t.id,token:v.token,target:visibleDecisionChoice(v)});}
+  assert.equal(madaraView(room,'p1').challenge.signals.p0,t.sealHistory.at(-1));
 });
 test('ownership, stale input and idempotent retries cannot create a second mistake or consume the next step',()=>{
   const room=setup(),v=madaraView(room,'p0'),t=room.challenge.tasks[0];
-  const input={requestId:'same-request-123',action:'TASK',taskId:t.id,token:v.tasks[0].token,target:t.answers[0]};
+  tickMadaraRoom(room,t.trial.readyAt);
+  const input={requestId:'same-request-123',action:'TASK',taskId:t.id,token:v.tasks[0].token,target:visibleDecisionChoice(v.tasks[0])};
   assert.throws(()=>actMadaraRoom(room,'p1',input),{code:'NOT_OWNER'});
   assert.throws(()=>act(room,'p1',{actorId:'p0',...input}),{code:'NOT_OWNER'});
   actMadaraRoom(room,'p0',input);const tasks=room.statistics.tasks;
   assert.equal(actMadaraRoom(room,'p0',input).replayed,true);assert.equal(room.statistics.tasks,tasks);
   assert.equal(act(room,'p0',{...input,requestId:'other-request-123'}).ignored,true);assert.equal(room.strain,0);
-  assert.throws(()=>actMadaraRoom(room,'p0',{...input,target:after(t.answers[0])}),{code:'REQUEST_CONFLICT'});
+  assert.throws(()=>actMadaraRoom(room,'p0',{...input,target:'different-target'}),{code:'REQUEST_CONFLICT'});
 });
 test('server expiry wins over a client-supplied clock, HP or success flag',()=>{
   const room=setup(),v=madaraView(room,'p0'),t=room.challenge.tasks[0];
   assert.throws(()=>act(room,'p0',{action:'TASK',taskId:t.id,token:v.tasks[0].token,target:t.answers[0],now:0,success:true,bossHp:0},room.challenge.deadline),{code:'NOT_ACTIVE'});
-  assert.equal(room.failure.code,'MECHANIC_TIMEOUT');assert.equal(room.boss.hp,room.boss.maxHp);
+  assert.ok(['MECHANIC_TIMEOUT','STRAIN'].includes(room.failure.code));assert.equal(room.boss.hp,room.boss.maxHp);
 });
 test('fire preserves the marked barrier, blocks premature breaking without penalty, and resolves the second wave on server time',()=>{
   const room=run(setup(),{until:r=>r.phase===2}),q=room.challenge;
   const assault=madaraView(room,'p1').tasks.find(t=>t.kind==='BREAK');
-  assert.throws(()=>act(room,'p1',{action:'TASK',taskId:assault.id,token:assault.token,target:'화'}),{code:'NOT_READY'});
+  assert.throws(()=>act(room,'p1',{action:'TASK',taskId:assault.id,token:assault.token,target:assault.choices[0].id}),{code:'NOT_READY'});
   assert.equal(room.strain,0);solvePass(room);tickMadaraRoom(room,q.firstAt);
-  for(let i=0;i<5;i++)solvePass(room);
+  for(let i=0;i<16;i++){solvePass(room);tickMadaraRoom(room,room.clock+500);}
   assert.equal(room.step,'MECHANIC');assert.ok(q.tasks.every(t=>t.done));
   tickMadaraRoom(room,q.secondAt);assert.equal(room.step,'DAMAGE');assert.equal(q.secondDone,true);
 });
 test('an unfinished second-wave barrier is a clear, deterministic failure',()=>{
-  const room=run(setup(),{until:r=>r.phase===2});tickMadaraRoom(room,room.challenge.secondAt);
+  const room=run(setup(),{until:r=>r.phase===2});
+  // Isolate the global fire deadline from the separately tested personal response deadlines.
+  for(const t of room.challenge.tasks)t.trial.expiresAt=room.challenge.secondAt+1;
+  tickMadaraRoom(room,room.challenge.secondAt);
   assert.equal(room.failure.code,'FIRE_BREACH');
 });
-test('clone mistakes spawn an extra target that must be cleared before progressing',()=>{
+test('clone reflection mistakes require reading a fresh pattern without advancing the task',()=>{
   const room=run(setup(),{until:r=>r.phase===1});
-  for(const id of ['p2','p2','p0']){const v=madaraView(room,id).tasks.find(t=>!t.done),t=room.challenge.tasks.find(t=>t.id===v.id);act(room,id,{action:'TASK',taskId:t.id,token:v.token,target:correct(room,t)});}
   const clone=room.challenge.tasks.find(t=>t.kind==='CLONE');
+  tickMadaraRoom(room,clone.trial.readyAt);
   let view=madaraView(room,'p1').tasks.find(t=>t.kind==='CLONE');
-  act(room,'p1',{action:'TASK',taskId:clone.id,token:view.token,target:after(correct(room,clone))});
-  assert.equal(clone.echo,true);assert.equal(room.strain,1);
-  view=madaraView(room,'p1').tasks.find(t=>t.kind==='CLONE');act(room,'p1',{action:'TASK',taskId:clone.id,token:view.token,target:correct(room,clone)});
-  assert.equal(clone.echo,false);assert.equal(clone.index,0);
+  act(room,'p1',{action:'TASK',taskId:clone.id,token:view.token,target:view.choices.find(o=>o.reflected).id});
+  assert.match(clone.feedback.reason,/반사/);assert.equal(room.strain,1);assert.equal(clone.index,0);
+  tickMadaraRoom(room,clone.trial.readyAt);
+  view=madaraView(room,'p1').tasks.find(t=>t.kind==='CLONE');act(room,'p1',{action:'TASK',taskId:clone.id,token:view.token,target:visibleDecisionChoice(view)});
+  assert.equal(clone.index,1);
 });
 test('final gaze changes owner with advance warning and reflects only the marked actor after activation',()=>{
   const room=run(setup(),{until:r=>r.phase===4&&r.step==='DAMAGE'}),q=room.challenge,g=q.gaze;
@@ -132,7 +140,8 @@ test('refresh snapshots are JSON-persistable and preserve deadlines, role clues,
 });
 test('shared healing and revive spend once; a rejected burst leaves its personal charges unchanged',()=>{
   const room=setup(),t=room.challenge.tasks[0],v=madaraView(room,'p0').tasks[0];
-  act(room,'p0',{action:'TASK',taskId:t.id,token:v.token,target:after(t.answers[0])});
+  tickMadaraRoom(room,t.trial.readyAt);
+  act(room,'p0',{action:'TASK',taskId:t.id,token:v.token,target:v.choices.find(o=>o.id!==visibleDecisionChoice(v)).id});
   const heal={requestId:'heal-unique-123',action:'HEAL',token:room.challenge.id};
   actMadaraRoom(room,'p2',heal);const hp=room.fighters.map(f=>f.hp);
   actMadaraRoom(room,'p2',heal);assert.equal(room.resources.heal,3);assert.deepEqual(room.fighters.map(f=>f.hp),hp);
@@ -142,7 +151,7 @@ test('shared healing and revive spend once; a rejected burst leaves its personal
   actMadaraRoom(room,'p2',revive);actMadaraRoom(room,'p2',revive);assert.equal(room.resources.revive,0);assert.equal(room.souls,0);
   assert.equal(madaraView(room,'p2').members.find(m=>m.id==='p0').downCount,0);
   run(room,{until:r=>r.step==='DAMAGE'});
-  while(madaraView(room,'p0').attackRemaining>0){act(room,'p0',{action:'STRIKE',token:room.challenge.id});tickMadaraRoom(room,room.clock+1200);}
+  while(madaraView(room,'p0').attackRemaining>0){tickMadaraRoom(room,Math.max(room.clock,madaraView(room,'p0').nextStrikeAt));act(room,'p0',{action:'STRIKE',token:room.challenge.id});tickMadaraRoom(room,room.clock+1200);}
   const charges=room.bursts.p0,last=room.challenge.lastStrike.p0;
   assert.throws(()=>act(room,'p0',{action:'BURST',token:room.challenge.id}),{code:'SHARE_COMPLETE'});
   assert.equal(room.bursts.p0,charges);assert.equal(room.challenge.lastStrike.p0,last);

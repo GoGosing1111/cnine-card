@@ -1,13 +1,13 @@
 {
-  "version": 2,
+  "version": 3,
   "name": "마다라 레이드",
-  "state": "LOCAL_PARTY_AND_PRESENTATION_REVIEW",
+  "state": "LOCAL_ROLE_DECISION_REVIEW",
   "release": {
     "mode": "OFF",
     "runtimeEnabled": false,
     "rewardLocked": true,
     "scope": "LOCAL_REVIEW_ONLY",
-    "rulesVersion": 1
+    "rulesVersion": 2
   },
   "liveRoutesConnected": false,
   "liveMenuConnected": false,
@@ -41,7 +41,7 @@
         "kind": "FIRE",
         "name": "화둔 결계",
         "floor": 0.32,
-        "duration": 30000
+        "duration": 36000
       },
       {
         "kind": "METEOR",
@@ -69,6 +69,19 @@
       "refresh": true,
       "kick": "HOST_BEFORE_START_ONLY",
       "rejoinBan": "SAME_LOCAL_IDENTITY_SAME_ROOM"
+    },
+    "decisions": {
+      "version": 2,
+      "privateClues": true,
+      "manualProtection": true,
+      "telegraphSeconds": 2.2,
+      "timedResponseSeconds": 6.5,
+      "recoverySeconds": 1.5,
+      "threePlayerSuccessfulInputs": {
+        "WARDEN": 12,
+        "ASSAULT": 14,
+        "RESCUE": 12
+      }
     },
     "presentation": {
       "bodyFrames": 4,

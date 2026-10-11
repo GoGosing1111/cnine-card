@@ -5,7 +5,7 @@
     "runtimeEnabled": false,
     "rewardLocked": true,
     "scope": "LOCAL_REVIEW_ONLY",
-    "rulesVersion": 1
+    "rulesVersion": 2
   },
   "artApproval": "PENDING_USER_VISUAL_REVIEW",
   "generationTool": "image_gen.imagegen (built-in)",

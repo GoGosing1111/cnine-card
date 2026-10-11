@@ -59,16 +59,7 @@
   }
   function taskNode(task){
     if(nodes.has(task.id))return nodes.get(task.id);
-    const element=document.createElement('article');element.className='mr-task';element.dataset.taskId=task.id;
-    element.innerHTML='<h3><span></span><small></small></h3><p class="task-clue"></p><p class="task-status"></p><div class="mr-choice-row"></div>';
-    const row=element.querySelector('.mr-choice-row');if(task.kind==='PROTECT')row.classList.add('people');
-    for(const choice of task.choices){
-      const button=document.createElement('button');button.type='button';button.textContent=choice.label;button.dataset.target=choice.id;
-      button.addEventListener('pointerdown',()=>{const current=state?.tasks.find(t=>t.id===task.id);button.press=current?{action:'TASK',taskId:current.id,token:current.token,target:choice.id,actorId:state.me.id}:null;});
-      button.addEventListener('pointercancel',()=>button.press=null);
-      button.addEventListener('click',event=>{const current=state.tasks.find(t=>t.id===task.id),input=event.detail&&button.press?button.press:{action:'TASK',taskId:current.id,token:current.token,target:choice.id,actorId:state.me.id};button.press=null;sendAction(input);});
-      row.append(button);
-    }
+    const element=window.MadaraMechanics.mount(task,{getState:()=>state,send:sendAction});
     nodes.set(task.id,element);$('taskList').append(element);return element;
   }
   function render(){
@@ -93,19 +84,14 @@
     if($('actorSelect').dataset.options!==options){$('actorSelect').innerHTML=options;$('actorSelect').dataset.options=options;}$('actorSelect').value=state.me.id;
     const activeIds=new Set(state.tasks.map(t=>t.id));for(const [id,node]of nodes)if(!activeIds.has(id)){node.remove();nodes.delete(id);}
     for(const task of state.tasks){
-      const node=taskNode(task);node.classList.toggle('done',task.done);
-      node.querySelector('h3 span').textContent=task.label;node.querySelector('h3 small').textContent=task.done?'완료':`${task.index}/${task.total}`;
-      node.querySelector('.task-clue').textContent=task.clue;
-      node.querySelector('.task-status').textContent=task.done?'동료의 진행을 확인하세요.':task.echo?'증식한 분신부터 같은 문양으로 제거하세요.':task.blocked||(task.partnerName?`연결 담당: ${task.partnerName}`:'지금 수행할 수 있습니다.');
-      node.querySelector('.mr-choice-row').hidden=task.done;
-      for(const button of node.querySelectorAll('button'))button.classList.toggle('selected',task.selected.includes(button.dataset.target));
+      window.MadaraMechanics.update(taskNode(task),task);
     }
     const q=state.challenge,who=id=>state.members.find(m=>m.id===id)?.name||'동료',signals=[];
     for(const [id,r]of Object.entries(q.signals))signals.push(`${who(id)}의 진실: ${r}`);
     for(const [id,r]of Object.entries(q.orders))signals.push(`${who(id)}의 낙인: ${r.join(' → ')}`);
     for(const [id,r]of Object.entries(q.bindings))signals.push(`${who(id)}의 운석 봉인: ${r.join(' → ')}`);
     if(q.preserve)signals.push(`보존할 결계: ${q.preserve}`);
-    $('signalBoard').textContent=signals.join(' / ')||'동료가 공유한 문양이 이곳에 표시됩니다.';
+    $('signalBoard').textContent=signals.join(' / ')||'각자 다른 개인 단서입니다. 동료의 정답을 그대로 따라 누르지 마세요.';
     $('fireNotice').hidden=q.kind!=='FIRE'||state.step!=='MECHANIC';
     $('gazeBanner').hidden=!q.gaze||state.status!=='ACTIVE';
     if(q.gaze){$('gazeOwner').textContent=`거신의 시선 · ${q.gaze.ownerName}`;$('guardButton').hidden=q.gaze.ownerId!==state.me.id;$('guardButton').textContent=q.gaze.guarded?'결계 유지 중':'결계 유지';}
@@ -129,7 +115,9 @@
     $('phaseClock').textContent=active?remaining(q.deadline).toFixed(1)+'초':'종료';$('enrageClock').textContent=remaining(state.endsAt).toFixed(0)+'초';
     const unavailable=busy||mounting||!active||!connected;
     $('actorSelect').disabled=busy||mounting;
-    for(const task of state.tasks){const node=nodes.get(task.id);if(!node)continue;for(const button of node.querySelectorAll('button'))button.disabled=unavailable||Boolean(task.blocked)||task.done||task.selected.includes(button.dataset.target)||now>=q.deadline;}
+    for(const task of state.tasks){const node=nodes.get(task.id);if(node)window.MadaraMechanics.clock(node,task,now,unavailable,q.deadline);}
+    window.MadaraMechanics.summary(state,now);
+    window.MadaraBattle.telegraph?.(state,now);
     const gaze=q.gaze,marked=gaze?.ownerId===state.me.id&&now>=gaze.activeAt;
     if(gaze){$('gazeTime').textContent=now<gaze.activeAt?`반사까지 ${remaining(gaze.activeAt).toFixed(1)}초 · 대상자는 결계 유지`:`인계까지 ${remaining(gaze.endsAt).toFixed(1)}초 · 대상자는 공격 중단`;$('guardButton').disabled=unavailable||gaze.guarded;}
     const attackBlocked=unavailable||state.step!=='DAMAGE'||state.attackRemaining<=0||now<state.nextStrikeAt||marked||now>=q.deadline;
@@ -179,6 +167,7 @@
   $('readyButton').onclick=()=>lobbyAction('ready');$('startButton').onclick=()=>lobbyAction('start');
   $('copyCode').onclick=()=>navigator.clipboard.writeText(state.id).then(()=>toast('공대 코드를 복사했습니다.')).catch(()=>toast('공대 코드를 직접 복사하세요.'));
   $('jumpTasks').onclick=()=>document.querySelector('.mr-operations').scrollIntoView({block:'start'});
+  $('jumpSecondTask').onclick=()=>{const second=state?.tasks[1];if(second)nodes.get(second.id)?.scrollIntoView({block:'start'});};
   $('jumpBattle').onclick=()=>document.querySelector('.mr-battle-pane').scrollIntoView({block:'start'});
   $('actorSelect').onchange=async event=>{if(busy||mounting)return;busy=true;actor=event.target.value;try{await accept(await request('state',null,{payload:true}));}catch(error){toast(error.message);}finally{busy=false;updateClock();}};
   $('strikeButton').onclick=()=>sendAction({action:'STRIKE',token:state.challenge.id});$('burstButton').onclick=()=>sendAction({action:'BURST',token:state.challenge.id});

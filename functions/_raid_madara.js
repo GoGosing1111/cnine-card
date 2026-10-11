@@ -1,7 +1,8 @@
 // Preparation only: no live route, database, inventory or reward writer imports.
 import {buildPvePlayerTeam, buildMonsterFighter, simulateBattleV2Preview} from './_battle_v2_preview.js';
+import {initializeDecisions,renewDecision,decide,decisionView,nextDecisionTime} from './_raid_madara_decisions.js';
 
-export const MADARA_RELEASE = Object.freeze({mode:'OFF', runtimeEnabled:false, rewardLocked:true, scope:'LOCAL_REVIEW_ONLY', rulesVersion:1});
+export const MADARA_RELEASE = Object.freeze({mode:'OFF', runtimeEnabled:false, rewardLocked:true, scope:'LOCAL_REVIEW_ONLY', rulesVersion:2});
 export const MADARA_ROLES = Object.freeze({WARDEN:'봉인대', ASSAULT:'정벌대', RESCUE:'구출대'});
 export const MADARA_RUNES = Object.freeze(['화', '월', '뇌', '풍']);
 export const MADARA_LINES = Object.freeze({
@@ -20,7 +21,7 @@ export const MADARA_LINES = Object.freeze({
 export const MADARA_PLANS = Object.freeze([
   {kind:'ILLUSION', name:'환술 판별', floor:.78, duration:35000},
   {kind:'CLONES', name:'분신 대응', floor:.55, duration:40000},
-  {kind:'FIRE', name:'화둔 결계', floor:.32, duration:30000},
+  {kind:'FIRE', name:'화둔 결계', floor:.32, duration:36000},
   {kind:'METEOR', name:'운석 저지', floor:.10, duration:35000},
   {kind:'FINAL', name:'완전체 강림', floor:0, duration:55000}
 ]);
@@ -63,10 +64,10 @@ function actingMember(room,requesterId,actorId) {
 export function createMadaraRoom({id,hostId,monster,now=0,seed=1,mode='PARTY'}={}) {
   if(!id||!hostId||!['PARTY','COMMAND'].includes(mode)||!Number.isFinite(now)||!monster||!(Number(monster.battle_power)>0))fail('INVALID_ROOM','공대 설정을 확인하세요.',400);
   const boss={...buildMonsterFighter(monster),image:monster.image,battleSprite:monster.battleSprite};
-  return {id,hostId,mode,rulesVersion:1,status:'LOBBY',createdAt:now,clock:now,rng:seed>>>0,seed:seed>>>0,
+  return {id,hostId,mode,rulesVersion:2,status:'LOBBY',createdAt:now,clock:now,rng:seed>>>0,seed:seed>>>0,
     members:[],banned:[],loadouts:{},fighters:[],boss,monster:copy(monster),phase:0,step:'LOBBY',challenge:null,
     startedAt:null,endsAt:null,finishedAt:null,revision:0,eventSeq:0,events:[],receipts:{},
-    resources:{heal:4,revive:1},souls:0,strain:0,statistics:{damage:0,mistakes:0,tasks:0},failure:null};
+    resources:{heal:4,revive:1},souls:0,strain:0,statistics:{damage:0,mistakes:0,tasks:0,decisions:{WARDEN:0,ASSAULT:0,RESCUE:0}},failure:null};
 }
 export function addMadaraMember(room,{id,name,role,deck},now=room.clock) {
   if(room.banned?.includes(id))fail('KICKED','강퇴된 공대에는 다시 참가할 수 없습니다.',403);
@@ -146,7 +147,7 @@ function openPhase(room,index) {
     byRole(room,'ASSAULT').forEach((m,i)=>addTask(room,m,'CLONE',[],'공유된 낙인 순서대로 분신을 파괴하세요.',{partnerId:rescues[i%rescues.length].id}));
   }
   if(plan.kind==='FIRE'){
-    q.preserve=rune(room);q.firstAt=room.clock+8000;q.secondAt=room.clock+21000;q.firstDone=false;
+    q.preserve=rune(room);q.firstAt=room.clock+8000;q.secondAt=room.clock+26000;q.firstDone=false;
     byRole(room,'WARDEN').forEach(m=>addTask(room,m,'MARK',[q.preserve],`두 번 버티는 결계의 각인: ${q.preserve}. 동료들에게 보존할 결계를 표시하세요.`));
     byRole(room,'ASSAULT').forEach(m=>addTask(room,m,'BREAK',MADARA_RUNES.filter(r=>r!==q.preserve),'첫 화염을 흡수한 후 표시된 결계 하나를 남기고 나머지를 파쇄하세요.',{unordered:true}));
     byRole(room,'RESCUE').forEach(m=>addTask(room,m,'REINFORCE',[q.preserve],'불필요한 결계를 모두 파쇄하면 남은 결계를 보강하세요.'));
@@ -155,12 +156,14 @@ function openPhase(room,index) {
   if(plan.kind==='FINAL'){
     q.gazeIndex=0;q.gaze={ownerId:room.initialMembers[0],activeAt:room.clock+5000,endsAt:room.clock+11000,guarded:false,index:0};
   }
+  initializeDecisions(room);
   log(room,'MADARA_PHASE',plan.name,{phase:index+1,kind:plan.kind});
 }
 const allDone=(q,kind)=>q.tasks.filter(t=>t.kind===kind).every(t=>t.done);
 function taskBlocked(room,t) {
   const q=room.challenge;
   if(t.done)return '임무 완료';
+  if(t.decision)return room.clock<t.trial.recoveryAt?'실수 복구 · 새 단서를 확인하세요.':'';
   if(t.channelAt)return '동료 보호 중';
   if(t.kind==='DISPEL'&&!q.signals[t.partnerId])return '연결된 봉인대의 문양 공유 대기';
   if(t.kind==='SOUL'&&!allDone(q,'DISPEL'))return '모든 환영 파괴 대기';
@@ -183,11 +186,17 @@ function answerFor(room,t) {
 function taskToken(room,t) {return `${room.challenge.id}:${t.id}:${t.version}`;}
 function completeTask(room,t,actor) {
   t.done=true;t.version++;room.statistics.tasks++;
-  if(t.kind==='SIGNAL')room.challenge.signals[t.ownerId]=t.answers[0];
-  if(t.kind==='SCOUT')room.challenge.orders[t.ownerId]=[...t.answers];
-  if(t.kind==='BIND')room.challenge.bindings[t.ownerId]=[...t.answers];
+  if(t.kind==='SIGNAL')room.challenge.signals[t.ownerId]=t.sealHistory?.at(-1)||t.answers[0];
+  if(t.kind==='SCOUT')room.challenge.orders[t.ownerId]=[...(t.sealHistory||t.answers)];
+  if(t.kind==='BIND')room.challenge.bindings[t.ownerId]=[...(t.sealHistory||t.answers)];
   if(t.kind==='SOUL')room.souls++;
   log(room,'MADARA_TASK',`${actor.name} · ${TASK_LABELS[t.kind]} 완료`,{ownerId:actor.id,kind:t.kind});
+}
+function decisionFailure(room,t,actor,reason){
+  t.version++;
+  t.feedback={ok:false,reason,at:room.clock,version:t.version};
+  mistake(room,actor,'개인 기믹 판단 실패');
+  if(room.status==='ACTIVE')renewDecision(room,t,{recovery:true});
 }
 function maybeExpose(room) {
   const q=room.challenge;
@@ -199,7 +208,7 @@ function maybeExpose(room) {
 function schedule(room) {
   const q=room.challenge,values=[room.endsAt,q.deadline];
   if(room.step==='MECHANIC'&&q.kind==='FIRE'){if(!q.firstDone)values.push(q.firstAt);if(!q.secondDone)values.push(q.secondAt);}
-  for(const t of q.tasks)if(t.channelAt&&!t.done)values.push(t.channelAt);
+  for(const t of q.tasks){if(t.channelAt&&!t.done)values.push(t.channelAt);values.push(nextDecisionTime(t));}
   if(q.gaze&&room.step!=='TRANSITION')values.push(q.gaze.endsAt);
   return Math.min(...values.filter(v=>Number.isFinite(v)&&v>=room.clock));
 }
@@ -211,6 +220,11 @@ export function tickMadaraRoom(room,now) {
     const q=room.challenge;
     if(at>=room.endsAt){finish(room,'FAILED','ENRAGE','360초 경과 · 마다라가 전장을 붕괴시켰습니다.');break;}
     if(room.step==='TRANSITION'){openPhase(room,room.phase+1);continue;}
+    for(const t of q.tasks){
+      if(room.status!=='ACTIVE')break;
+      if(t.decision&&!t.done&&at>=t.trial.expiresAt)decisionFailure(room,t,member(room,t.ownerId),'대응 시간이 지났습니다. 새 표식과 우선순위를 확인하세요.');
+    }
+    if(room.status!=='ACTIVE')break;
     for(const t of q.tasks)if(t.channelAt&&!t.done&&at>=t.channelAt)completeTask(room,t,member(room,t.ownerId));
     if(q.kind==='FIRE'&&room.step==='MECHANIC'){
       if(!q.firstDone&&at>=q.firstAt){q.firstDone=true;log(room,'MADARA_FIRE','첫 번째 화염 · 보존할 결계 하나를 남기세요.',{wave:1});if(!allDone(q,'MARK'))wound(room,.22,'보존 표식 지연 · 첫 화염 직격');}
@@ -278,6 +292,20 @@ export function actMadaraRoom(room,requesterId,input={},now=room.clock) {
     else{
       if(room.step!=='MECHANIC')fail('NO_MECHANIC','현재 진행 중인 기믹이 아닙니다.');
       const blocked=taskBlocked(room,t);if(blocked)fail('NOT_READY',blocked);
+      if(t.decision){
+        const outcome=decide(room,t,input.target);
+        if(outcome.invalid)fail('INVALID_TARGET','현재 표시된 표적을 선택하세요.',400);
+        if(outcome.blocked)fail('NOT_READY',outcome.blocked);
+        if(outcome.expired)fail('STALE_INPUT','새로운 예고를 확인하세요.');
+        if(!outcome.ok)decisionFailure(room,t,actor,outcome.reason);
+        else{
+          t.version++;t.feedback={ok:true,reason:outcome.reason,at:room.clock,version:t.version};
+          room.statistics.decisions[actor.role]++;
+          log(room,'MADARA_DECISION',`${actor.name} · 개인 판단 ${t.index}/${t.rounds} 성공`,{ownerId:actor.id,kind:t.kind});
+          if(outcome.complete)completeTask(room,t,actor);else renewDecision(room,t);
+          maybeExpose(room);
+        }
+      }else{
       const choices=t.kind==='PROTECT'?room.members.map(m=>m.id):MADARA_RUNES;
       if(!choices.includes(input.target))fail('INVALID_TARGET','선택 문양을 확인하세요.',400);
       const answers=answerFor(room,t),expected=t.unordered?answers.filter(a=>!(t.selected||[]).includes(a)):answers[t.index];
@@ -288,6 +316,7 @@ export function actMadaraRoom(room,requesterId,input={},now=room.clock) {
       else if(t.kind==='PROTECT'){t.channelAt=room.clock+2000;log(room,'MADARA_TASK',`${actor.name} · 동료 보호 시작`);}
       else {t.index++;if(t.unordered)(t.selected||=[]).push(input.target);if(t.index>=answers.length)completeTask(room,t,actor);else log(room,'MADARA_TASK',`${actor.name} · ${TASK_LABELS[t.kind]} ${t.index}/${answers.length}`);}
       maybeExpose(room);
+      }
     }
   }else if(input.action==='STRIKE'||input.action==='BURST'){
     if(input.token!==q.id)result={ok:true,ignored:true,reason:'STALE_INPUT'};else strike(room,actor,input.action==='BURST');
@@ -314,7 +343,7 @@ export function actMadaraRoom(room,requesterId,input={},now=room.clock) {
 const TASK_LABELS={SIGNAL:'진실 문양 공유',DISPEL:'환영 파괴',SOUL:'잔류 환술 정화',SCOUT:'낙인 순서 공유',SUPPRESS:'분신 증식 봉인',CLONE:'분신 순차 격파',MARK:'보존 결계 표시',BREAK:'불필요한 결계 파쇄',REINFORCE:'남은 결계 보강',BIND:'운석 낙하 봉인',CORE:'운석 핵 파괴',PROTECT:'동료 보호'};
 export function madaraView(room,requesterId,{actorId,since=0}={}) {
   const actor=actingMember(room,requesterId,actorId),q=room.challenge;
-  const tasks=q?q.tasks.filter(t=>t.ownerId===actor.id).map(t=>({id:t.id,kind:t.kind,label:TASK_LABELS[t.kind],clue:t.clue,partnerName:member(room,t.partnerId)?.name||null,done:t.done,index:t.index,total:answerFor(room,t).length||1,token:taskToken(room,t),blocked:taskBlocked(room,t),channelAt:t.channelAt||null,echo:Boolean(t.echo),selected:t.selected||[],choices:t.kind==='PROTECT'?room.members.filter(m=>!m.left).map(m=>({id:m.id,label:m.name})):MADARA_RUNES.map(r=>({id:r,label:r}))})):[];
+  const tasks=q?q.tasks.filter(t=>t.ownerId===actor.id).map(t=>t.decision?{...decisionView(t),token:taskToken(room,t)}:({id:t.id,kind:t.kind,label:TASK_LABELS[t.kind],clue:t.clue,partnerName:member(room,t.partnerId)?.name||null,done:t.done,index:t.index,total:answerFor(room,t).length||1,token:taskToken(room,t),blocked:taskBlocked(room,t),channelAt:t.channelAt||null,echo:Boolean(t.echo),selected:t.selected||[],choices:t.kind==='PROTECT'?room.members.filter(m=>!m.left).map(m=>({id:m.id,label:m.name})):MADARA_RUNES.map(r=>({id:r,label:r}))})):[];
   const fighters=room.fighters.filter(f=>f.ownerId===actor.id).map(({id,title,hp,maxHp,isMercenary})=>({id,title,hp,maxHp,isMercenary}));
   const floor=Math.round(room.boss.maxHp*MADARA_PLANS[room.phase].floor);
   const chunk=Math.round(room.boss.maxHp*(room.phase?MADARA_PLANS[room.phase-1].floor:1))-floor;
@@ -323,7 +352,7 @@ export function madaraView(room,requesterId,{actorId,since=0}={}) {
   return copy({release:MADARA_RELEASE,id:room.id,hostId:room.hostId,presentation:room.presentation||null,mode:room.mode,status:room.status,revision:room.revision,serverNow:room.clock,endsAt:room.endsAt,startedAt:room.startedAt,finishedAt:room.finishedAt,
     phase:room.phase+1,phaseName:MADARA_PLANS[room.phase].name,step:room.step,bossHp:room.boss.hp,bossMaxHp:room.boss.maxHp,roundFloor:floor,
     me:{...actor,isHost:requesterId===room.hostId},members:room.members.map(m=>({...m,hp:room.fighters.filter(f=>f.ownerId===m.id).reduce((n,f)=>n+f.hp,0),maxHp:room.fighters.filter(f=>f.ownerId===m.id).reduce((n,f)=>n+f.maxHp,0),downCount:room.fighters.filter(f=>f.ownerId===m.id&&f.hp<=0).length,tasksDone:q?.tasks.filter(t=>t.ownerId===m.id&&t.done).length||0,tasksTotal:q?.tasks.filter(t=>t.ownerId===m.id).length||0})),
-    challenge:q?{id:q.id,kind:q.kind,deadline:q.deadline,startedAt:q.startedAt,signals:q.signals,orders:q.orders,bindings:q.bindings,firstAt:q.firstAt,secondAt:q.secondAt,firstDone:q.firstDone,secondDone:q.secondDone,preserve:allDone(q,'MARK')?q.tasks.find(t=>t.kind==='MARK')?.answers[0]:null,gaze:q.gaze?{...q.gaze,ownerName:member(room,q.gaze.ownerId)?.name}:null,damageBy:q.damageBy}:null,
+    challenge:q?{id:q.id,kind:q.kind,deadline:q.deadline,startedAt:q.startedAt,signals:q.signals,orders:q.orders,bindings:q.bindings,firstAt:q.firstAt,secondAt:q.secondAt,firstDone:q.firstDone,secondDone:q.secondDone,preserve:allDone(q,'MARK')?q.preserve:null,gaze:q.gaze?{...q.gaze,ownerName:member(room,q.gaze.ownerId)?.name}:null,damageBy:q.damageBy}:null,
     tasks,resources:room.resources,souls:room.souls,strain:room.strain,bursts:room.bursts?.[actor.id]??2,nextStrikeAt:(q?.lastStrike[actor.id]??-1200)+1200,attackShare:share,attackRemaining:Math.max(0,share-(q?.damageBy[actor.id]||0)),fighters,
     failure:room.failure,statistics:room.statistics,eventSeq:room.eventSeq,events:room.events.filter(e=>e.seq>since)});
 }

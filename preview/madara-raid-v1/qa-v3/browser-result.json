@@ -1,0 +1,85 @@
+{
+  "scope": "LOCAL_REVIEW_ONLY",
+  "muted": true,
+  "productionTouched": false,
+  "passed": true,
+  "viewportDesktop": [
+    1440,
+    1050
+  ],
+  "viewportMobile": [
+    390,
+    844
+  ],
+  "dimensions": {
+    "width": 390,
+    "scroll": 390,
+    "canvas": 1,
+    "buttons": [
+      {
+        "width": 78.25,
+        "height": 82
+      },
+      {
+        "width": 78.25,
+        "height": 82
+      },
+      {
+        "width": 78.25,
+        "height": 82
+      },
+      {
+        "width": 78.25,
+        "height": 82
+      },
+      {
+        "width": 78.25,
+        "height": 82
+      },
+      {
+        "width": 78.25,
+        "height": 82
+      },
+      {
+        "width": 78.25,
+        "height": 82
+      },
+      {
+        "width": 78.25,
+        "height": 82
+      }
+    ]
+  },
+  "errors": [],
+  "failed": [],
+  "completedTasks": 18,
+  "decisions": {
+    "WARDEN": 12,
+    "ASSAULT": 14,
+    "RESCUE": 12
+  },
+  "deliberateMistakes": 1,
+  "screens": [
+    "desktop-staging.png",
+    "desktop-illusion.png",
+    "desktop-assault.png",
+    "desktop-clone-priority.png",
+    "desktop-fire.png",
+    "desktop-rescue-triage.png",
+    "desktop-early-protection-feedback.png",
+    "mobile-protection-telegraph.png",
+    "mobile-protection-response.png",
+    "desktop-final.png",
+    "mobile-staging.png",
+    "mobile-final.png",
+    "mobile-controls.png",
+    "mobile-second-task.png",
+    "mobile-guide.png",
+    "desktop-clear.png"
+  ],
+  "notes": [
+    "Server clock is controlled by this local test; no measured live clear rate.",
+    "Local HTTP solver uses role-visible hints; it never reads authority answers.",
+    "Private decisions, real UI target selection, early protection failure, recovery, timed response and final overlap verified. Existing authored VFX and the server telegraph share the V3 renderer."
+  ]
+}
