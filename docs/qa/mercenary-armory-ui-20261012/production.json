@@ -1,0 +1,45 @@
+{
+  "checkedAt": "2026-10-11T19:28:08.375Z",
+  "files": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "bytes": 23324,
+      "sha256": "b019102ced0d90ef9ca9c6fef4ae0edbe1936228a133fc1a416081875d410335",
+      "expectedSha256": "b019102ced0d90ef9ca9c6fef4ae0edbe1936228a133fc1a416081875d410335",
+      "matches": true
+    },
+    {
+      "file": "js/adventure-lobby-v2107.js",
+      "status": 200,
+      "bytes": 92129,
+      "sha256": "ec2050eb575834ccffb791c354fdcbdd9f775ff4d9c90233e9d7901532f3f34c",
+      "expectedSha256": "ec2050eb575834ccffb791c354fdcbdd9f775ff4d9c90233e9d7901532f3f34c",
+      "matches": true
+    },
+    {
+      "file": "mercenary-codex/equipment/index.html",
+      "status": 200,
+      "bytes": 6185,
+      "sha256": "ae3fb581614574163ddde4de7c6f04a9a641b30b1d75f466ecd4804d8769dfc9",
+      "expectedSha256": "ae3fb581614574163ddde4de7c6f04a9a641b30b1d75f466ecd4804d8769dfc9",
+      "matches": true
+    },
+    {
+      "file": "mercenary-codex/equipment/app.mjs",
+      "status": 200,
+      "bytes": 14815,
+      "sha256": "9acaf2d035868f5d2bb753564356f0644fa874e9788ef0be374eb98249819119",
+      "expectedSha256": "9acaf2d035868f5d2bb753564356f0644fa874e9788ef0be374eb98249819119",
+      "matches": true
+    },
+    {
+      "file": "mercenary-codex/equipment/style.css",
+      "status": 200,
+      "bytes": 26444,
+      "sha256": "4f02954475effe8de08c514b2244619246fc758bea3f0d240596aca99063347c",
+      "expectedSha256": "4f02954475effe8de08c514b2244619246fc758bea3f0d240596aca99063347c",
+      "matches": true
+    }
+  ]
+}
