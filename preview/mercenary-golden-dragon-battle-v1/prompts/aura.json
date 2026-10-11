@@ -1,0 +1,12 @@
+{
+  "key": "aura",
+  "label": "황금 용기 · 순환 아우라",
+  "kind": "effect",
+  "columns": 4,
+  "rows": 3,
+  "frameCount": 12,
+  "reference": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-limited-golden-dragon-swordsman-20261012-v1/assets/golden-dragon-swordsman-sss-limited-source-art-v2-natural-hair.png",
+  "prompt": "Use case: stylized-concept. Asset: ONE high-end 2D RPG VFX animation sprite sheet on GENUINE TRANSPARENT RGBA, SSS Limited golden dragon swordsman effects. Use attached character art ONLY for the golden Eastern dragon design and black/ivory/antique-gold aesthetic. No human, no character, no costume, no sword object, no background, no landscape, no UI or text. Do not draw a checkerboard or black rectangle. Soft semi-transparent gold embers/glows must have genuine alpha.\nEXACT GRID: FOUR columns by THREE rows, TWELVE cells, chronological left-to-right top-to-bottom. Canvas 2048x1536 preferred, equal square cells. Each cell contains one complete separate animation frame in its own space with at least 8% transparent empty margin, no overlap across cells, no grid lines or labels. Fixed camera and fixed effect-origin center in every cell. The action evolves in shape, not simply an identical icon enlarged or rotated. Ornate refined filmic gold and molten ivory highlights, bronze-gold carved-scale detail, luminous filaments, dimensional smoke wisps, golden sparks, intentional value separation instead of blown-out white blobs. Match the reference's antlered wingless Eastern dragon with long whiskers, pointed cheek spines and distinctive snout when a dragon is present.\nANIMATION: TWELVE-FRAME SEAMLESS AMBIENT LOOP: A luminous gold open spiral of dragon-scale motes and silk-like energy threads surrounds an EMPTY central character-sized space. Oval ring roughly upright with a lower elliptical base. Continuous circulation from low-left up behind and around to upper-right then back down foreground. 1-3 threads gather and lift; 4-6 coil around upper arc with tiny scales catching light; 7-9 descend and unfurl into fine sparks; 10-12 connect back toward frame1. Different filament shapes and moving scale motes each frame. Delicate enough to see the character through center; no solid fiery donut, no dragon head in this ambient sheet.",
+  "toolMode": "built-in image_gen",
+  "transparent_background": true
+}

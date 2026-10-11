@@ -1,0 +1,2 @@
+# esbuild preserves whitespace inside Pixi's embedded shader strings.
+preview.bundle.js -whitespace

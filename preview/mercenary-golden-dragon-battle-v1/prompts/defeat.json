@@ -1,0 +1,12 @@
+{
+  "key": "defeat",
+  "label": "쓰러짐",
+  "kind": "motion",
+  "columns": 3,
+  "rows": 2,
+  "frameCount": 6,
+  "reference": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-golden-dragon-battle-v1/assets/sources/master.png",
+  "prompt": "Use case: stylized-concept. Make ONE production 2D RPG CHARACTER ANIMATION SPRITE SHEET, not a poster. Genuine transparent RGBA background throughout, including gutters. Use the attached master as the exact identity, body proportions, costume and sword model. SAME long black-haired adult male, ivory open robe and dark embroidered hems, dark armored sword arm with gold dragon shoulder, black/gold waist, flat black/gold boots, ornate dragon hilt with long thin perfectly STRAIGHT sword. Natural adult anatomy and small head, no chibi. Preserve soft organic hair, no plate/ribbon chunks. Every frame has the SAME head size, limb proportions, costume scale, sword length and lighting.\nEXACT GRID: 3 columns by 2 rows, SIX animation cells read left-to-right then top-to-bottom. Landscape 1536x1024, each cell 512x512. No visible grid, labels, numbers or outlines. A complete uncropped body, sword, hair and fabric fits entirely inside EACH cell with 7% transparent margins. Consistent orthographic three-quarter view facing SCREEN RIGHT, camera never pans or zooms. Standing foot line is 90% of each cell, hip x at 48%. Fixed character world scale across cells; knees may bend but never scale the drawing. No dragon or aura or background baked into body frames, these are separate VFX.\nEach of the six cells is a DISTINCT DRAWN sequential pose of the same continuous action, not a copy moved or rotated. Preserve solid physical sword rigidity, genuine hand-to-hilt contact, five correct fingers and logical joints. Long silk panels and hair follow body inertia with soft organic flow, do not cover face/hand/blade.\nANIMATION: Restrained dignified non-graphic defeat: 1 standing weakened; 2 one knee bends and sword lowers; 3 drops onto one knee sword touching ground for support; 4 free hand reaches toward ground, long hair falls naturally forward; 5 lower torso and settle to kneeling weakened pose; 6 hold stable one-knee collapse supported by sword. Final frame does NOT return to idle. No gore or new damage, entire body and sword visible.",
+  "toolMode": "built-in image_gen",
+  "transparent_background": true
+}

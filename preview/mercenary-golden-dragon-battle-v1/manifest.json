@@ -1,0 +1,2042 @@
+{
+  "version": 1,
+  "date": "2026-10-12",
+  "conceptId": "golden-dragon-swordsman",
+  "name": "황금 용 검사",
+  "nameStatus": "DESCRIPTIVE_PREVIEW_LABEL_ONLY",
+  "rank": "SSS",
+  "edition": "LIMITED",
+  "code": "V-993",
+  "codeStatus": "PREVIEW_LOCAL_ONLY",
+  "runtimeEnabled": false,
+  "status": "USER_REVIEW_PENDING",
+  "sourceArt": "preview/mercenary-limited-golden-dragon-swordsman-20261012-v1/assets/golden-dragon-swordsman-sss-limited-source-art-v2-natural-hair.png",
+  "sourceArtSha256": "263725DD2B2B568CF5091B864BEA537161F6D7A4D3123DB0E9A2A0D040CFF21B",
+  "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+  "motion": {
+    "idle": {
+      "atlas": "assets/atlases/idle.png",
+      "sha256": "79B7A49E5D8DA31021A83CA7D1107167A3B52893A9F6CC53B0546AA644659363",
+      "columns": 3,
+      "rows": 2,
+      "cellSize": 768,
+      "frameCount": 6,
+      "frames": [
+        {
+          "index": 0,
+          "sourceIndex": 0,
+          "file": "assets/frames/idle-00.png",
+          "sha256": "690F2CA540DF6F210FBE619316AB3E30F3361A247E3DF6216DA1FED8CFA168A2",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 496,
+          "sourceRect": {
+            "left": 72,
+            "top": 16,
+            "width": 401,
+            "height": 510
+          },
+          "sourceFoot": [
+            274,
+            518
+          ],
+          "componentId": 2
+        },
+        {
+          "index": 1,
+          "sourceIndex": 1,
+          "file": "assets/frames/idle-01.png",
+          "sha256": "458D608EDFFCF4B7CD1EA7E6AF689F349535F19A79E37F1ED9A7E0CA4E03D4B5",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 496,
+          "sourceRect": {
+            "left": 574,
+            "top": 16,
+            "width": 413,
+            "height": 510
+          },
+          "sourceFoot": [
+            785,
+            518
+          ],
+          "componentId": 3
+        },
+        {
+          "index": 2,
+          "sourceIndex": 2,
+          "file": "assets/frames/idle-02.png",
+          "sha256": "64671A19581AB7FAFFC6DBEC494A3DD29F38FBDDDCA9B9CEBF5D204DFDE493C7",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 499,
+          "sourceRect": {
+            "left": 1080,
+            "top": 13,
+            "width": 415,
+            "height": 513
+          },
+          "sourceFoot": [
+            1294,
+            518
+          ],
+          "componentId": 1
+        },
+        {
+          "index": 3,
+          "sourceIndex": 3,
+          "file": "assets/frames/idle-03.png",
+          "sha256": "A75670DDFA65C973CA8D7B8D54A67FD98E6499A0B63743FB2025652064FBCF94",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 496,
+          "sourceRect": {
+            "left": 59,
+            "top": 517,
+            "width": 427,
+            "height": 507
+          },
+          "sourceFoot": [
+            277,
+            1019
+          ],
+          "componentId": 74
+        },
+        {
+          "index": 4,
+          "sourceIndex": 4,
+          "file": "assets/frames/idle-04.png",
+          "sha256": "F53565CB393814C144182ECD9E59AB058BBC5C27C3783A6287962042A595BC4F",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 496,
+          "sourceRect": {
+            "left": 558,
+            "top": 518,
+            "width": 439,
+            "height": 506
+          },
+          "sourceFoot": [
+            790,
+            1019
+          ],
+          "componentId": 76
+        },
+        {
+          "index": 5,
+          "sourceIndex": 5,
+          "file": "assets/frames/idle-05.png",
+          "sha256": "5D221317C1212AD35183CAE624DF76117FF8B680E2B8194F3D5420E5C17ED4FA",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 496,
+          "sourceRect": {
+            "left": 1080,
+            "top": 517,
+            "width": 412,
+            "height": 507
+          },
+          "sourceFoot": [
+            1291,
+            1019
+          ],
+          "componentId": 75
+        }
+      ],
+      "source": {
+        "file": "assets/sources/idle.png",
+        "sha256": "2AC4CC507564F838A4F3BB1FB975E155E86DBA7D22685483550802FCA5BCADC1",
+        "hasNativeAlpha": true
+      },
+      "excludedSourceFrames": []
+    },
+    "dash": {
+      "atlas": "assets/atlases/dash.png",
+      "sha256": "069B507CBCE8733BF42EA3BA32505DB39662FCAA7829B4043ABAFDFB4322A988",
+      "columns": 3,
+      "rows": 2,
+      "cellSize": 768,
+      "frameCount": 5,
+      "frames": [
+        {
+          "index": 0,
+          "sourceIndex": 0,
+          "file": "assets/frames/dash-00.png",
+          "sha256": "57CDF36B6F232E15AB4C69DBD5B7D1EBC9A217F30A392CB07017BC7E3F21E742",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 446,
+          "sourceRect": {
+            "left": 1,
+            "top": 162,
+            "width": 514,
+            "height": 330
+          },
+          "sourceFoot": [
+            380,
+            484
+          ],
+          "componentId": 7
+        },
+        {
+          "index": 1,
+          "sourceIndex": 1,
+          "file": "assets/frames/dash-01.png",
+          "sha256": "76C13C12F39FC282E3DC077C3E0C0997356B2B0FCCD76F7C6DEE963E5464C693",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 446,
+          "sourceRect": {
+            "left": 481,
+            "top": 111,
+            "width": 507,
+            "height": 382
+          },
+          "sourceFoot": [
+            825,
+            485
+          ],
+          "componentId": 2
+        },
+        {
+          "index": 2,
+          "sourceIndex": 2,
+          "file": "assets/frames/dash-02.png",
+          "sha256": "AF85BC6B6B31A68609DCD21CBF0739554855E8016DA936E19A043BAAD35CC293",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 446,
+          "sourceRect": {
+            "left": 996,
+            "top": 97,
+            "width": 536,
+            "height": 371
+          },
+          "sourceFoot": [
+            1360,
+            460
+          ],
+          "componentId": 1
+        },
+        {
+          "index": 3,
+          "sourceIndex": 4,
+          "file": "assets/frames/dash-03.png",
+          "sha256": "E7988ACFA4C4536C4DD96021651E396345426F6658D0FE7DE7A5AF313B73AA28",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 446,
+          "sourceRect": {
+            "left": 533,
+            "top": 588,
+            "width": 522,
+            "height": 360
+          },
+          "sourceFoot": [
+            819,
+            940
+          ],
+          "componentId": 24
+        },
+        {
+          "index": 4,
+          "sourceIndex": 5,
+          "file": "assets/frames/dash-04.png",
+          "sha256": "16BB9258D1816206188A221A21B426C8F6013E23C7E9C3FF15B8F3F3D72FFC72",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 445,
+          "sourceRect": {
+            "left": 1052,
+            "top": 516,
+            "width": 459,
+            "height": 459
+          },
+          "sourceFoot": [
+            1290,
+            967
+          ],
+          "componentId": 22
+        }
+      ],
+      "source": {
+        "file": "assets/sources/dash.png",
+        "sha256": "4ABA34ACC443795AC8E456F6F3BD40EA67C18521AFC3AD947B6068EB6ABF2770",
+        "hasNativeAlpha": true
+      },
+      "excludedSourceFrames": [
+        3
+      ]
+    },
+    "slash": {
+      "atlas": "assets/atlases/slash.png",
+      "sha256": "49E6CCD76305AFDE2656D1766426962D6C886BB5B7A8D94335653CEB7AA96A83",
+      "columns": 3,
+      "rows": 2,
+      "cellSize": 768,
+      "frameCount": 6,
+      "frames": [
+        {
+          "index": 0,
+          "sourceIndex": 0,
+          "file": "assets/frames/slash-00.png",
+          "sha256": "4230647E928BBFDD30D9CC5366D0A634F27E5F988BEE25F92D2FCD2A94137012",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 395,
+          "sourceRect": {
+            "left": 51,
+            "top": 91,
+            "width": 400,
+            "height": 410
+          },
+          "sourceFoot": [
+            267,
+            493
+          ],
+          "componentId": 3
+        },
+        {
+          "index": 1,
+          "sourceIndex": 1,
+          "file": "assets/frames/slash-01.png",
+          "sha256": "1EABDE6A953FBE8F3604E3E5FC8D1C91BC6A062338C2EBD6EED963AF7628D094",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 400,
+          "sourceRect": {
+            "left": 554,
+            "top": 74,
+            "width": 418,
+            "height": 426
+          },
+          "sourceFoot": [
+            778,
+            492
+          ],
+          "componentId": 1
+        },
+        {
+          "index": 2,
+          "sourceIndex": 2,
+          "file": "assets/frames/slash-02.png",
+          "sha256": "140DF0295682E9CDD87B4FAF00072CA4E4236A474DC800A9520193DC7137C826",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 400,
+          "sourceRect": {
+            "left": 1017,
+            "top": 116,
+            "width": 510,
+            "height": 384
+          },
+          "sourceFoot": [
+            1280,
+            492
+          ],
+          "componentId": 4
+        },
+        {
+          "index": 3,
+          "sourceIndex": 3,
+          "file": "assets/frames/slash-03.png",
+          "sha256": "B7E0B90FC7CAD2B68EAAA5F024465D18508F085C55969E4DD04260AF92C596BE",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 395,
+          "sourceRect": {
+            "left": 41,
+            "top": 602,
+            "width": 554,
+            "height": 354
+          },
+          "sourceFoot": [
+            285,
+            948
+          ],
+          "componentId": 30
+        },
+        {
+          "index": 4,
+          "sourceIndex": 4,
+          "file": "assets/frames/slash-04.png",
+          "sha256": "100A5C3EDD53B2B98A77C6864C10DA2320A88302EBA6318ED5BA1D70EA96007F",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 395,
+          "sourceRect": {
+            "left": 592,
+            "top": 617,
+            "width": 438,
+            "height": 335
+          },
+          "sourceFoot": [
+            800,
+            944
+          ],
+          "componentId": 32
+        },
+        {
+          "index": 5,
+          "sourceIndex": 5,
+          "file": "assets/frames/slash-05.png",
+          "sha256": "49873D6799D8EDBC5DE824D81DB4502D95675307C3B046627CC70A6F1D5A9517",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 383,
+          "sourceRect": {
+            "left": 1067,
+            "top": 573,
+            "width": 353,
+            "height": 397
+          },
+          "sourceFoot": [
+            1273,
+            962
+          ],
+          "componentId": 29
+        }
+      ],
+      "source": {
+        "file": "assets/sources/slash.png",
+        "sha256": "4223D5380FA83F52B42A5DD44FCA1657A413D001C6647F20D7211FEC495BA53F",
+        "hasNativeAlpha": true
+      },
+      "excludedSourceFrames": []
+    },
+    "cast": {
+      "atlas": "assets/atlases/cast.png",
+      "sha256": "45DF2B0BED2AA32227C00AA1A0C3418CFFA9F5AE0F9A82CB9732AC8F4AFB91A3",
+      "columns": 3,
+      "rows": 2,
+      "cellSize": 768,
+      "frameCount": 6,
+      "frames": [
+        {
+          "index": 0,
+          "sourceIndex": 0,
+          "file": "assets/frames/cast-00.png",
+          "sha256": "EB04628293DB981C7BA8B80322F50CCE9AEF4DA8262C7DB195B9134D2E330BE9",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 502,
+          "sourceRect": {
+            "left": 36,
+            "top": 8,
+            "width": 438,
+            "height": 517
+          },
+          "sourceFoot": [
+            267,
+            517
+          ],
+          "componentId": 1
+        },
+        {
+          "index": 1,
+          "sourceIndex": 1,
+          "file": "assets/frames/cast-01.png",
+          "sha256": "FFAFECF69763F5363446D3E0DF3F4881377BBA54A8777D738B75442976469014",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 502,
+          "sourceRect": {
+            "left": 536,
+            "top": 8,
+            "width": 442,
+            "height": 517
+          },
+          "sourceFoot": [
+            770,
+            517
+          ],
+          "componentId": 2
+        },
+        {
+          "index": 2,
+          "sourceIndex": 2,
+          "file": "assets/frames/cast-02.png",
+          "sha256": "8BCF750F82EC0CE0DD23B1D128A5A0B0E53BC1A7F3777D09BD20FE03ADEE830A",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 498,
+          "sourceRect": {
+            "left": 1063,
+            "top": 8,
+            "width": 424,
+            "height": 512
+          },
+          "sourceFoot": [
+            1280,
+            512
+          ],
+          "componentId": 3
+        },
+        {
+          "index": 3,
+          "sourceIndex": 3,
+          "file": "assets/frames/cast-03.png",
+          "sha256": "666E6A3917979B37EA49AC36F5F99D7258242D4159EA6E02D6B6975C276D0D80",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 498,
+          "sourceRect": {
+            "left": 22,
+            "top": 521,
+            "width": 496,
+            "height": 498
+          },
+          "sourceFoot": [
+            305,
+            1011
+          ],
+          "componentId": 110
+        },
+        {
+          "index": 4,
+          "sourceIndex": 4,
+          "file": "assets/frames/cast-04.png",
+          "sha256": "1CF3ED516787E1C5B50627E3EF0E5D9EB7E05D8E55DDF1773CAE65EB56081702",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 490,
+          "sourceRect": {
+            "left": 551,
+            "top": 515,
+            "width": 446,
+            "height": 505
+          },
+          "sourceFoot": [
+            792,
+            1012
+          ],
+          "componentId": 108
+        },
+        {
+          "index": 5,
+          "sourceIndex": 5,
+          "file": "assets/frames/cast-05.png",
+          "sha256": "CAC38A47BF7478ADB4B7D4E9D24E3D3DA1CD808167D00D075A8E53EE49716A49",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 486,
+          "sourceRect": {
+            "left": 1053,
+            "top": 519,
+            "width": 423,
+            "height": 500
+          },
+          "sourceFoot": [
+            1272,
+            1011
+          ],
+          "componentId": 109
+        }
+      ],
+      "source": {
+        "file": "assets/sources/cast.png",
+        "sha256": "2E56A2F4873E8E8128BACAD20B3865E80AE651BF363DCFE7B2312EB619F0B0C7",
+        "hasNativeAlpha": true
+      },
+      "excludedSourceFrames": []
+    },
+    "ultimate": {
+      "atlas": "assets/atlases/ultimate.png",
+      "sha256": "C799CBA98CA52E616CFB21025EA44A443A52CEA9AECA1BAC1BE20F8925490CF9",
+      "columns": 3,
+      "rows": 2,
+      "cellSize": 768,
+      "frameCount": 6,
+      "frames": [
+        {
+          "index": 0,
+          "sourceIndex": 0,
+          "file": "assets/frames/ultimate-00.png",
+          "sha256": "3EBB608C647952278EC64399C56BCA4A55DABC2C16454E434FB413FB2590A39A",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 405,
+          "sourceRect": {
+            "left": 64,
+            "top": 132,
+            "width": 408,
+            "height": 419
+          },
+          "sourceFoot": [
+            270,
+            543
+          ],
+          "componentId": 3
+        },
+        {
+          "index": 1,
+          "sourceIndex": 1,
+          "file": "assets/frames/ultimate-01.png",
+          "sha256": "661D324D2BCEFC9EA0BD4771804795EA266F4658DCB489841D31BA2A395D45F5",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 390,
+          "sourceRect": {
+            "left": 570,
+            "top": 28,
+            "width": 377,
+            "height": 523
+          },
+          "sourceFoot": [
+            781,
+            543
+          ],
+          "componentId": 2
+        },
+        {
+          "index": 2,
+          "sourceIndex": 2,
+          "file": "assets/frames/ultimate-02.png",
+          "sha256": "9227623BBB6C54C5BE66AA5E13C28EF95C52BDE3C969F37E9073FB136D2AEB95",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 385,
+          "sourceRect": {
+            "left": 1078,
+            "top": 11,
+            "width": 387,
+            "height": 540
+          },
+          "sourceFoot": [
+            1292,
+            543
+          ],
+          "componentId": 1
+        },
+        {
+          "index": 3,
+          "sourceIndex": 3,
+          "file": "assets/frames/ultimate-03.png",
+          "sha256": "9CECDEC3EE128CF5CA51A37D1726D8919CAB9B8CA4BB55BE4401D77C41ABAF52",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 405,
+          "sourceRect": {
+            "left": 20,
+            "top": 606,
+            "width": 515,
+            "height": 391
+          },
+          "sourceFoot": [
+            270,
+            989
+          ],
+          "componentId": 50
+        },
+        {
+          "index": 4,
+          "sourceIndex": 4,
+          "file": "assets/frames/ultimate-04.png",
+          "sha256": "530253C5C0C44095B14EACE231205D19CA0F7E232240EDD9F0F10AA9841A9060",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 400,
+          "sourceRect": {
+            "left": 541,
+            "top": 673,
+            "width": 438,
+            "height": 313
+          },
+          "sourceFoot": [
+            815,
+            978
+          ],
+          "componentId": 62
+        },
+        {
+          "index": 5,
+          "sourceIndex": 5,
+          "file": "assets/frames/ultimate-05.png",
+          "sha256": "7F40FAA55711A6C32476446197F03B98A88CB4BCF315D951EE0B5ADCFB8DB3F4",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 406,
+          "sourceRect": {
+            "left": 1088,
+            "top": 584,
+            "width": 409,
+            "height": 420
+          },
+          "sourceFoot": [
+            1284,
+            996
+          ],
+          "componentId": 49
+        }
+      ],
+      "source": {
+        "file": "assets/sources/ultimate.png",
+        "sha256": "7FF32D14C7A02B587534A131FD0E16A0A63D3D16C142091453D7338CF6E6D6E6",
+        "hasNativeAlpha": true
+      },
+      "excludedSourceFrames": []
+    },
+    "hit": {
+      "atlas": "assets/atlases/hit.png",
+      "sha256": "44CBDF4FF5C7316718F2A5960360F3754E43A28AC80185FF29EBFB2F7AADC159",
+      "columns": 3,
+      "rows": 2,
+      "cellSize": 768,
+      "frameCount": 5,
+      "frames": [
+        {
+          "index": 0,
+          "sourceIndex": 0,
+          "file": "assets/frames/hit-00.png",
+          "sha256": "16EE8A7544C7159122C1B8BC2EF4689650E54FB8922E14F1473E86818DB31E1E",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 504,
+          "sourceRect": {
+            "left": 28,
+            "top": 3,
+            "width": 469,
+            "height": 519
+          },
+          "sourceFoot": [
+            263,
+            514
+          ],
+          "componentId": 1
+        },
+        {
+          "index": 1,
+          "sourceIndex": 1,
+          "file": "assets/frames/hit-01.png",
+          "sha256": "9DF5F3F407A37939480D5895C98E3BCDBAB5869F57D7921A6FF64A0D4B496CCA",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 500,
+          "sourceRect": {
+            "left": 532,
+            "top": 31,
+            "width": 472,
+            "height": 487
+          },
+          "sourceFoot": [
+            770,
+            510
+          ],
+          "componentId": 2
+        },
+        {
+          "index": 2,
+          "sourceIndex": 2,
+          "file": "assets/frames/hit-02.png",
+          "sha256": "9F1422C4E7A34A7043CB1215BBDC47CC936535CF65B3685F18C9ADC27898C80F",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 500,
+          "sourceRect": {
+            "left": 1010,
+            "top": 45,
+            "width": 512,
+            "height": 473
+          },
+          "sourceFoot": [
+            1270,
+            510
+          ],
+          "componentId": 4
+        },
+        {
+          "index": 3,
+          "sourceIndex": 3,
+          "file": "assets/frames/hit-03.png",
+          "sha256": "F01501ABA281C19982331E7CEADCCB72A88CC2A33958D1DB74CA9C1F32BD3C05",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 502,
+          "sourceRect": {
+            "left": 43,
+            "top": 521,
+            "width": 480,
+            "height": 498
+          },
+          "sourceFoot": [
+            291,
+            1011
+          ],
+          "componentId": 58
+        },
+        {
+          "index": 4,
+          "sourceIndex": 4,
+          "file": "assets/frames/hit-04.png",
+          "sha256": "13C70787472F01CD7B441C09289BBD42C8B3B9F8C719337261D245ECEF77E3D6",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 498,
+          "sourceRect": {
+            "left": 551,
+            "top": 512,
+            "width": 454,
+            "height": 512
+          },
+          "sourceFoot": [
+            785,
+            1017
+          ],
+          "componentId": 56
+        }
+      ],
+      "source": {
+        "file": "assets/sources/hit.png",
+        "sha256": "0218B6B09838DC92FAFB81088A5E19F47C93749FC365564A523706150885B25C",
+        "hasNativeAlpha": true
+      },
+      "excludedSourceFrames": [
+        5
+      ]
+    },
+    "defeat": {
+      "atlas": "assets/atlases/defeat.png",
+      "sha256": "DE5E323E9CA07C70858E5545B74FF6D7854ED0444989D1621410D16D4E984F56",
+      "columns": 3,
+      "rows": 2,
+      "cellSize": 768,
+      "frameCount": 6,
+      "frames": [
+        {
+          "index": 0,
+          "sourceIndex": 0,
+          "file": "assets/frames/defeat-00.png",
+          "sha256": "AFBEC988A9FF8D4709478B6B5A710FE221204386AA45CDD093CC4AD60908AC1B",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 501,
+          "sourceRect": {
+            "left": 54,
+            "top": 13,
+            "width": 393,
+            "height": 516
+          },
+          "sourceFoot": [
+            270,
+            521
+          ],
+          "componentId": 1
+        },
+        {
+          "index": 1,
+          "sourceIndex": 1,
+          "file": "assets/frames/defeat-01.png",
+          "sha256": "37DCE46B037718C7E6BDB33B6A59800FBE4B7BCE4316BA902D5E599112940F94",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 500,
+          "sourceRect": {
+            "left": 538,
+            "top": 50,
+            "width": 420,
+            "height": 479
+          },
+          "sourceFoot": [
+            779,
+            521
+          ],
+          "componentId": 3
+        },
+        {
+          "index": 2,
+          "sourceIndex": 2,
+          "file": "assets/frames/defeat-02.png",
+          "sha256": "A3CFA203CEC1DB2BF5273B171B55371EFBF184D1019B0DE6B2CA3677BCF05954",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 500,
+          "sourceRect": {
+            "left": 1002,
+            "top": 149,
+            "width": 534,
+            "height": 380
+          },
+          "sourceFoot": [
+            1300,
+            521
+          ],
+          "componentId": 25
+        },
+        {
+          "index": 3,
+          "sourceIndex": 3,
+          "file": "assets/frames/defeat-03.png",
+          "sha256": "BA32E917C73704AFFB1866DD8C8C22A4083AFF0FA9EB8D76D50DC859AFDD1A1C",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 500,
+          "sourceRect": {
+            "left": 0,
+            "top": 606,
+            "width": 512,
+            "height": 406
+          },
+          "sourceFoot": [
+            267,
+            1004
+          ],
+          "componentId": 64
+        },
+        {
+          "index": 4,
+          "sourceIndex": 4,
+          "file": "assets/frames/defeat-04.png",
+          "sha256": "661F331AB53A46A5ED085CA183082700773201E1544CEB1C3E9D08EE49D4C842",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 500,
+          "sourceRect": {
+            "left": 518,
+            "top": 609,
+            "width": 487,
+            "height": 403
+          },
+          "sourceFoot": [
+            790,
+            1004
+          ],
+          "componentId": 66
+        },
+        {
+          "index": 5,
+          "sourceIndex": 5,
+          "file": "assets/frames/defeat-05.png",
+          "sha256": "A2FF86007910D649CF6E03EAA2FAAD69830424F2A71421A6C7E7B47154AC45F3",
+          "footAnchor": {
+            "x": 0.5,
+            "y": 0.859375
+          },
+          "bodyPixels": 500,
+          "sourceRect": {
+            "left": 1016,
+            "top": 606,
+            "width": 520,
+            "height": 406
+          },
+          "sourceFoot": [
+            1300,
+            1004
+          ],
+          "componentId": 65
+        }
+      ],
+      "source": {
+        "file": "assets/sources/defeat.png",
+        "sha256": "327CC2C9DF4EEE96DA4735A0953156A6311020D8DAD9775A9ABC4A54430F6AD6",
+        "hasNativeAlpha": true
+      },
+      "excludedSourceFrames": []
+    }
+  },
+  "effects": {
+    "aura": {
+      "atlas": "assets/atlases/aura.png",
+      "sha256": "094A34F59A4C200D312671B14BCCAA7CBC9266ABFE72FA9B620314CF2DDD6A5A",
+      "cellSize": 512,
+      "columns": 4,
+      "rows": 3,
+      "frameCount": 12,
+      "visibleBounds": {
+        "left": 93,
+        "top": 84,
+        "right": 427,
+        "bottom": 435
+      },
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/aura-00.png",
+          "sha256": "25925759B7B84567816909FB6296AA03318F5CC3934DCB2080D47242293F31F0",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/aura-01.png",
+          "sha256": "E5A05A69ADF945E4396D4C6FFFA62727F23F2442135219733F73C3B2448B12C8",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/aura-02.png",
+          "sha256": "ECA8E0410F3ED17CFC848FF7D4197A58A02521BCE0D96FB68DB19D9B66C8F137",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/aura-03.png",
+          "sha256": "A58F8BE2D619487409168E955512D29C89D6536E1BF1FCC7C9EB570510CB2312",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/aura-04.png",
+          "sha256": "4F6A7BEF6C7BF982132A0BFDACEC5FE7CE9930A99DF7A10FF1BC07BA7CEA5526",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/aura-05.png",
+          "sha256": "313B09FF06EB727C3BFFBD0E285E7279A8C11FFA56EAA4858AF61773814A98B7",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/aura-06.png",
+          "sha256": "EB2A449E0DAD9FA03F94FAE8BDA4020DA3A0024AAE2E1B8BAF414B233009F51A",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/aura-07.png",
+          "sha256": "DF99E9273E95CA60AD5305A1227AAE4AF5B65E5BB3C3CEA94900E3156E64CD51",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/aura-08.png",
+          "sha256": "6275EA3BE2F7698FC64228CD197EDE875BDA40063C1C95BABC9D5E55BCCF6181",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/aura-09.png",
+          "sha256": "FAA993CA41319C8DE2E591BC275BC956BC0E5FDE99CC36E6FF43DD52C49334E5",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/aura-10.png",
+          "sha256": "8F69CCC2867FC9FDBD72F7FF304ED6E98C43C527D52955348D58EB6B176FAD28",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/aura-11.png",
+          "sha256": "9BC4BDBA056A021353CB08CEF466BABDE7B54B25B3EE5E1D5C5123DB39F79961",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        }
+      ],
+      "source": {
+        "file": "assets/sources/aura.png",
+        "sha256": "343C40053A032B88C3F7C331B0E8C73E8213F6B86028A914713AFCE19F106A8B",
+        "hasNativeAlpha": true
+      },
+      "sourceCell": {
+        "width": 362,
+        "height": 362
+      }
+    },
+    "dashfx": {
+      "atlas": "assets/atlases/dashfx.png",
+      "sha256": "6D89C682D6397EC58C10B336C1FD48FF07BC88AF6DCF6B01C9A55FCFC3A5F713",
+      "cellSize": 512,
+      "columns": 4,
+      "rows": 3,
+      "frameCount": 12,
+      "visibleBounds": {
+        "left": 14,
+        "top": 131,
+        "right": 491,
+        "bottom": 398
+      },
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/dashfx-00.png",
+          "sha256": "EB7E0892E46D39D47F89BA3E24EC405EA29176EBEAD4933E261F9ADDA2D7B727",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/dashfx-01.png",
+          "sha256": "90FFA492F8EBB479FC5525BC2C8AC5E7C868CBF3FF0A4E277DEBABF5ABC446E7",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/dashfx-02.png",
+          "sha256": "E8C3D0573D0895F411DE1671F876CA9C06D8D3D690D8C956675D94B54902FF93",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/dashfx-03.png",
+          "sha256": "474440C8A80D53CFD97D8A234F73941BAC23D41CC901E7564495346D4974FD36",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/dashfx-04.png",
+          "sha256": "BD5E83426AABD88627599C34CA4D247C64795262062D3D2E5785095CBDF74B4F",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/dashfx-05.png",
+          "sha256": "3ADC47718534E4775C92807E4B3779F4F05BB538F47A7A425CA93E6495700AB4",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/dashfx-06.png",
+          "sha256": "6E4D9019C80AAB51EAF6D337DB3ABA030E0BB28F69823BD57D09A24D4D76036E",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/dashfx-07.png",
+          "sha256": "9342C425F39F88862075150305BED52C3240920698D5D1A334F2C16ED5B7A9F4",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/dashfx-08.png",
+          "sha256": "E6E3D05AD0F7FAB4A39655CF1FE58ABA36BD7E66EDC2112460F6BF30F73C86B6",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/dashfx-09.png",
+          "sha256": "2656FB71EDF9D0FC2F454489873754840E7ED1D5F161CD1E287721355E379B65",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/dashfx-10.png",
+          "sha256": "FEB1FA7C7CFAA398F2888BBFFEC4FE371802347232183002834F69BAB914D99B",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/dashfx-11.png",
+          "sha256": "F1A4D54611D652147C616E78B29DEDF7290ED1249D55714BA3A6AD57D4F63DAF",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        }
+      ],
+      "source": {
+        "file": "assets/sources/dashfx.png",
+        "sha256": "F07CAD1A632D2E36DE9790266DC5995B23F3E4790F2AB11D5648370985EFF17A",
+        "hasNativeAlpha": true
+      },
+      "sourceCell": {
+        "width": 362,
+        "height": 362
+      }
+    },
+    "blade": {
+      "atlas": "assets/atlases/blade.png",
+      "sha256": "E69A96A70DAABBA00BFDEA43E66FCBF8A9D697AA89A390FC71C10BB04531A497",
+      "cellSize": 512,
+      "columns": 4,
+      "rows": 3,
+      "frameCount": 12,
+      "visibleBounds": {
+        "left": 75,
+        "top": 67,
+        "right": 439,
+        "bottom": 437
+      },
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/blade-00.png",
+          "sha256": "DDC90D58573F531F1B178CA3E8AF45F42BAA4A369215F9DC054919BC798885DD",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/blade-01.png",
+          "sha256": "6113622438F63E2B873D512FD41EBDA79BB87A82BF5BFE091847BC42EDA76E86",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/blade-02.png",
+          "sha256": "B78C995D0DA68EC66745B1318CA6ABB367376BC9B12B37475A4B71BDCC3C0F69",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/blade-03.png",
+          "sha256": "7B5F51A11491B66B7C3ED21134C6931771093092784349659465A5D09B451993",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/blade-04.png",
+          "sha256": "3D272CD86E525EAEADCACF895C0A35BCA337E9FB295EDA40CFA1507E6A939B0D",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/blade-05.png",
+          "sha256": "263C9275C6D06FCC3E319810C2F3B3CCF9B27B691C6DA39D32BFE65D9BB95875",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/blade-06.png",
+          "sha256": "67867E8174050AFFBDAE5656F5BE2DFC9E2F022EE44611F45102C2611566DDA0",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/blade-07.png",
+          "sha256": "05B6C4650DD89B727F87366B7C7F45C03C83996C58FAD4FA3DDAB6D03E87E9CC",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/blade-08.png",
+          "sha256": "BE8DE6CF7EB15527BCF835CE11F920D7DB86D0DB6DC468EB2656146E22138768",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/blade-09.png",
+          "sha256": "E701B987CD676BF1B772698DB5E896097EBC56DC2547609305CDD52DE554A0D3",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/blade-10.png",
+          "sha256": "C7C087E9E56A4A40FF894D98C707B4971751D08CB6A10A6C2375E85454C8720F",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/blade-11.png",
+          "sha256": "0E7EFFA767DE8ACA7139D601AD950B87725B9CCCD7466D5068554EB13E7A75DE",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        }
+      ],
+      "source": {
+        "file": "assets/sources/blade.png",
+        "sha256": "1C6C01DCE941CD7AD66C386E83496F185F8D0D6B31F9BF2AC5920054B85689D1",
+        "hasNativeAlpha": true
+      },
+      "sourceCell": {
+        "width": 362,
+        "height": 362
+      }
+    },
+    "dragon": {
+      "atlas": "assets/atlases/dragon.png",
+      "sha256": "7A065C30B56117341C0534F6580FBE1F5DEA0CA8F723A039E3A92EAAB3827F03",
+      "cellSize": 512,
+      "columns": 4,
+      "rows": 3,
+      "frameCount": 12,
+      "visibleBounds": {
+        "left": 60,
+        "top": 98,
+        "right": 439,
+        "bottom": 428
+      },
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/dragon-00.png",
+          "sha256": "80C8FB80E69DC7D3661B866871EFC29A6886B08DEF247C3AB9484B4DB04899D8",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/dragon-01.png",
+          "sha256": "F96CC197D41994829973BB30005CDE78B95AC4A139DDD6126DE54BE70F11358F",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/dragon-02.png",
+          "sha256": "B32105B1F60B8CFBFD5C3355AD84FE70F91926CB7BAF433CB88EA7DCA57A658E",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/dragon-03.png",
+          "sha256": "97025E4ABE87D26608B4F4F794AFC0D78779F14DD6EE456E838FA97B4ADF4D8A",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/dragon-04.png",
+          "sha256": "FB158ECEBFE5811D5FD1C01907D7F0BD4B585253E43954E545B2D8CCC39E0654",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/dragon-05.png",
+          "sha256": "222114D90CE03E903019D7B2A1AD4B643FAA9F210955CEEE4A12ED66275F1D0A",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/dragon-06.png",
+          "sha256": "CCDF9591301F5931D861F0A8D610E66FD0F5C4E669884F6A63452D6C0D561772",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/dragon-07.png",
+          "sha256": "7ECCEBF5001A4F73BA6A9FF536DA687F6423B8B565B0061D9ED9F9B1848946F2",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/dragon-08.png",
+          "sha256": "5F2C6C21F4FEBC23E571826A26FE97739B88A21D451489B9A57B4C22A5D6EEF1",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/dragon-09.png",
+          "sha256": "81B069F805260D043C0029B1E5E8793719C49A6F77AAF7E2D858B1608D2B8518",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/dragon-10.png",
+          "sha256": "B6B675FE371005882B624CBFFA97EB6A3C0B5D8CDA11F158DAFF7F852CDAF5F9",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/dragon-11.png",
+          "sha256": "4A666EA4CFB90878D88E8E23FFE153C9225D2CD04735D8B3E5DD41841C0F039B",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        }
+      ],
+      "source": {
+        "file": "assets/sources/dragon.png",
+        "sha256": "99FB3FFB837A9830A4B1C42183DB415E5F7E71524FA425C0970DD31609D739FD",
+        "hasNativeAlpha": true
+      },
+      "sourceCell": {
+        "width": 362,
+        "height": 362
+      }
+    },
+    "charge": {
+      "atlas": "assets/atlases/charge.png",
+      "sha256": "3CFB178FF91831372C5E7160BA983188BAAF4DBA6B1318B1B3238C345669D764",
+      "cellSize": 512,
+      "columns": 4,
+      "rows": 3,
+      "frameCount": 12,
+      "visibleBounds": {
+        "left": 78,
+        "top": 40,
+        "right": 430,
+        "bottom": 437
+      },
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/charge-00.png",
+          "sha256": "F73067E9341802212B7BE0A8237EF4F77CB0B9C571340E045897A89087972BD9",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7828125
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/charge-01.png",
+          "sha256": "D7D38BC6D711A863CAF3FC867D8AA7B09364157B500ED78F704B6AE9BE317161",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7828125
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/charge-02.png",
+          "sha256": "C1F0981B51BBAF54BE6AED38DB8D662B7041236754619ADEA51744A9D7464926",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7828125
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/charge-03.png",
+          "sha256": "71E8600AEF0604F084F51009566CB34B2DCD836521ED1B73F32D7CD6031D2032",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7828125
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/charge-04.png",
+          "sha256": "A1A2231A2985155287901E8C3438ADDCE2F6C05D3E3B181B7FE85CF31251D745",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7828125
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/charge-05.png",
+          "sha256": "A0B8F9777C3D4F3635B20DFB86FDD20FF1767C9C83BDC950D87EBA8035C3CAAE",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7828125
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/charge-06.png",
+          "sha256": "5F201C9B4E090F898A078CC25F714028551E6C23258D52070A88318C172E8EE2",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7828125
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/charge-07.png",
+          "sha256": "F509766C17ADA2405A6AEDB60364161D2BE2212D9241BDEB61CCD7B92FB390D3",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7828125
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/charge-08.png",
+          "sha256": "F949A49DA54249CC9ED6617D0220C1B5B9759365AB4A1F5A7EFB86FB91D479F4",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7828125
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/charge-09.png",
+          "sha256": "630559C71CC07E1B41901E144EBCC3ABBEF1551523F6F23FAA4E41F0F11989ED",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7828125
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/charge-10.png",
+          "sha256": "6014F2986150F9AB4F2C9AC4E3B3DD0C71A9839FBD282B46CF6F5933D9D1F557",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7828125
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/charge-11.png",
+          "sha256": "C40DE719F28363B03F319A75DC8D62AE46F4830D477D39036F2D235C0253E4D9",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7828125
+          }
+        }
+      ],
+      "source": {
+        "file": "assets/sources/charge.png",
+        "sha256": "A12A839A18A93D1B40F2EBF402B17EA83EBD285AEADFBCDD7ADD2732B32932E8",
+        "hasNativeAlpha": true
+      },
+      "sourceCell": {
+        "width": 362,
+        "height": 362
+      }
+    },
+    "eruption": {
+      "atlas": "assets/atlases/eruption.png",
+      "sha256": "2B6A8B7E66A44AC83A3CF90D50197D91E31E1B7FA562B86249AA3F548B24C532",
+      "cellSize": 512,
+      "columns": 4,
+      "rows": 3,
+      "frameCount": 12,
+      "visibleBounds": {
+        "left": 81,
+        "top": 75,
+        "right": 433,
+        "bottom": 436
+      },
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/eruption-00.png",
+          "sha256": "44F9D23C34D9F54C96A209D836C47B2D33E7BD207689E184565B8684A1242A67",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7828125
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/eruption-01.png",
+          "sha256": "193E2F7593CB3FD350C3C547E49CC5B2435951895538FC339A2D69238FF26DB6",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7828125
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/eruption-02.png",
+          "sha256": "664E526097245000410BC385E17172047C37AFD5CEDE60E5FD962DF24C05A5F3",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7828125
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/eruption-03.png",
+          "sha256": "BC658480DABDAA06FE16DFFB8C3C4DBB6B8CF323C187061985D0A0CEDEF9C1BD",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7828125
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/eruption-04.png",
+          "sha256": "1BAE7904869E87FFA4B22EB4AFE3C746B1C8EA1963C0AEEA72D6E7E2EC8AC244",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7828125
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/eruption-05.png",
+          "sha256": "BCC41D50E6F826E4A8EB7F724A4905DB95E0BE5273B663D68EAF612CF2F325C4",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7828125
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/eruption-06.png",
+          "sha256": "A949781ACA288483F2649941BDAF321B5A981099DC404A8AF46DE54ED168F517",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7828125
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/eruption-07.png",
+          "sha256": "A548C036ADD0CECF40E8FDF867F4139BCA20DA61AEAF49DAE25B0C265E40A22C",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7828125
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/eruption-08.png",
+          "sha256": "8AABCF789AFDB2B372B72D5C66DA1984266FA133F987F1B0D7EEBAF92F9EB5C6",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7828125
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/eruption-09.png",
+          "sha256": "425E168FAB4345EFCE08EBC4FD3155166B86C9E5359382011AD84D596668CB21",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7828125
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/eruption-10.png",
+          "sha256": "029EEFF4512392CB6C699C243D799DB6FE0367994FE8A04C148E49A7837A21D0",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7828125
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/eruption-11.png",
+          "sha256": "C3C571B70BA4D4E3466DDC690B2BF98DD361B6EE9983AB156A7F173CC7AD0A45",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7828125
+          }
+        }
+      ],
+      "source": {
+        "file": "assets/sources/eruption.png",
+        "sha256": "21268E50D032DA47033826DED4D96A543C8950B849CD756681936A0F4B12E413",
+        "hasNativeAlpha": true
+      },
+      "sourceCell": {
+        "width": 362,
+        "height": 362
+      }
+    },
+    "impact": {
+      "atlas": "assets/atlases/impact.png",
+      "sha256": "0FF145285DC34586EDE4750531BD727495FADEAD6521077E3F2A49A8BEC82343",
+      "cellSize": 512,
+      "columns": 4,
+      "rows": 3,
+      "frameCount": 12,
+      "visibleBounds": {
+        "left": 78,
+        "top": 84,
+        "right": 434,
+        "bottom": 426
+      },
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/impact-00.png",
+          "sha256": "8F7CCC980CD468EDF62BD992736B35FAC08F5698E9511D6DF8A86A53B643D759",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/impact-01.png",
+          "sha256": "3864AA8A2B70D0D3AFED049FAA7EA7BE0A9273D1BA69153DADB7FC607292F145",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/impact-02.png",
+          "sha256": "7C9B948BB9E699C467CFFA0A1B408F773B2E3180ED8B278E941B7625498C3367",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/impact-03.png",
+          "sha256": "44CD086632AFD55811239E5E6B7A1657E1BA99008FE468C3B13687EA62F01F36",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/impact-04.png",
+          "sha256": "F4C4DF1F60E288D92BB2E5AFCB6E18BB589723F92C5E59E5129F31B881FEEC56",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/impact-05.png",
+          "sha256": "E1CB7C188B123A520049B6B09699E2DBC7D8E0D38A18A940D4973EA450BCFD85",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/impact-06.png",
+          "sha256": "0B45545BC4A8E3E3D54698DF0EF2427E8B1D04D781C7FCE244BD1E2D0A07E19F",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/impact-07.png",
+          "sha256": "4BF4854950D28AD0F509EE0D26A2272C873D9126D55F5E5214BC880E71B05754",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/impact-08.png",
+          "sha256": "EC5088AEC009FE8F7B4B12C0EEE5AAAB9C04AE09306C6A7A7685D2C65A9821D3",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/impact-09.png",
+          "sha256": "92B9CBB446129B6C3CF35B5267376FE591FC0EA73BC2A17D5E0B1764DACCCD96",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/impact-10.png",
+          "sha256": "94A1383936FB89F46F03C7D96FA910B56AA76E2007080B69629394BD72787D0E",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/impact-11.png",
+          "sha256": "13AD4821896B49738D93539217928926A8213001D62BCE18637750773659FA7D",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        }
+      ],
+      "source": {
+        "file": "assets/sources/impact.png",
+        "sha256": "1A1C037BFB4336A2431FDF4B6A1E74CA42DDF0E22CEA99242A1DA505403C10D3",
+        "hasNativeAlpha": true
+      },
+      "sourceCell": {
+        "width": 362,
+        "height": 362
+      }
+    }
+  },
+  "displaySizing": {
+    "fullBodyHeight": 440,
+    "physicalBodyHeight": 285
+  },
+  "libraries": {
+    "pixi": "8.20.0",
+    "gsap": "3.13.0"
+  },
+  "damageAuthority": "NONE_VISUAL_PREVIEW",
+  "generatedFrameCount": 126,
+  "battleSprite": "preview/mercenary-golden-dragon-battle-v1/assets/frames/idle-00.png",
+  "battleSpriteSha256": "690F2CA540DF6F210FBE619316AB3E30F3361A247E3DF6216DA1FED8CFA168A2",
+  "battleSpriteFootAnchor": {
+    "x": 0.5,
+    "y": 0.859375
+  },
+  "battleSpriteInfo": {
+    "width": 768,
+    "height": 768,
+    "hasAlpha": true
+  },
+  "bodyPixels": 496,
+  "counts": {
+    "motion": 40,
+    "effects": 84
+  },
+  "exclusions": [
+    {
+      "motion": "dash",
+      "sourceIndex": 3,
+      "reason": "Sword tip touches original sheet left border; retained in source, excluded from playback."
+    },
+    {
+      "motion": "hit",
+      "sourceIndex": 5,
+      "reason": "Final boot touches original sheet bottom border; playback restores existing idle instead."
+    }
+  ],
+  "packaging": "Native-alpha artwork only. Complete connected figures separated by actual pixel components rather than rigid grid cuts; neighboring figure pixels excluded; whole figures translated to a common foot anchor. No artwork repainting, keying, warping or body-part deformation. Effect components assigned to their logical frame with transparent padding; neighboring components excluded without removing native glow. Visible alpha envelopes are recorded for viewport-safe effect placement. Frame-specific natural standing body scale recorded separately from crouch height.",
+  "sourceArtLocal": "references/golden-dragon-swordsman-source-art-v2.png",
+  "master": {
+    "file": "assets/sources/master.png",
+    "sha256": "362089E3D9EBC84270DE336FF09514EA5616448BBBE6C0E6CB263A4F9E54B314"
+  },
+  "toolMode": "built-in image_gen",
+  "activeFrameCount": 124,
+  "userCorrections": [
+    {
+      "request": "화면 뿌얘지는건 뭐야? 그건 빼",
+      "result": "Full-screen flash, haze and dim overlays removed; light stays local to the FX."
+    },
+    {
+      "request": "캐릭터 아우라 투명화 하지말고 진하게 화려하게 해",
+      "result": "Dragon and aura sprites use alpha=1, native RGBA edges, no translucent crossfading. Front/back layering keeps the character visible."
+    }
+  ],
+  "runtimeVisualPolicy": {
+    "fullScreenOverlay": false,
+    "auraOpacity": 1,
+    "auraCrossfade": false,
+    "localGlow": true,
+    "effectViewportMargin": 36
+  },
+  "technicalQa": {
+    "status": "PASS",
+    "unitTests": 3,
+    "browserChecks": 22,
+    "desktop": [
+      1440,
+      1080
+    ],
+    "mobile": [
+      390,
+      844
+    ],
+    "report": "qa/runtime-report.json",
+    "testedBundleSha256": "C2F345E74A573FAEFADCB6A148FCE9370DFA63F153AE6470DB89477E3B560E93",
+    "finalVisualApproval": false
+  },
+  "audio": {
+    "mode": "EXISTING_V3_AUDIO_REUSE",
+    "defaultEnabled": false,
+    "source": "/preview/project-v-v3-event-fx-v1/assets/audio/",
+    "files": [
+      "dodge-combat-v2.mp3",
+      "critical-combat-v4.mp3",
+      "ultimate-combat-v2.mp3"
+    ]
+  },
+  "preview": {
+    "entry": "index.html",
+    "port": 8876,
+    "recording": "qa/full-showcase.webp",
+    "recordingReport": "qa/recording-all.json"
+  }
+}

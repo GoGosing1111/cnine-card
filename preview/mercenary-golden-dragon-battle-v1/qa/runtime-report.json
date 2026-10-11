@@ -1,0 +1,247 @@
+{
+  "date": "2026-10-11T20:52:35.761Z",
+  "errors": [],
+  "checks": [
+    {
+      "viewport": 1440,
+      "mode": "aura",
+      "clips": 0,
+      "maxSprites": 20,
+      "scene": {
+        "width": 1600,
+        "height": 820
+      },
+      "regularAllies": 5,
+      "regularEnemies": 5,
+      "fullScreenOverlay": false
+    },
+    {
+      "viewport": 1440,
+      "mode": "dash",
+      "clips": 0,
+      "maxSprites": 25,
+      "scene": {
+        "width": 1600,
+        "height": 820
+      },
+      "regularAllies": 5,
+      "regularEnemies": 5,
+      "fullScreenOverlay": false
+    },
+    {
+      "viewport": 1440,
+      "mode": "attack",
+      "clips": 0,
+      "maxSprites": 36,
+      "scene": {
+        "width": 1600,
+        "height": 820
+      },
+      "regularAllies": 5,
+      "regularEnemies": 5,
+      "fullScreenOverlay": false
+    },
+    {
+      "viewport": 1440,
+      "mode": "skill",
+      "clips": 0,
+      "maxSprites": 64,
+      "scene": {
+        "width": 1600,
+        "height": 820
+      },
+      "regularAllies": 5,
+      "regularEnemies": 5,
+      "fullScreenOverlay": false
+    },
+    {
+      "viewport": 1440,
+      "mode": "ultimate",
+      "clips": 0,
+      "maxSprites": 100,
+      "scene": {
+        "width": 1600,
+        "height": 820
+      },
+      "regularAllies": 5,
+      "regularEnemies": 5,
+      "fullScreenOverlay": false
+    },
+    {
+      "viewport": 1440,
+      "mode": "hit",
+      "clips": 0,
+      "maxSprites": 20,
+      "scene": {
+        "width": 1600,
+        "height": 820
+      },
+      "regularAllies": 5,
+      "regularEnemies": 5,
+      "fullScreenOverlay": false
+    },
+    {
+      "viewport": 1440,
+      "mode": "defeat",
+      "clips": 0,
+      "maxSprites": 20,
+      "scene": {
+        "width": 1600,
+        "height": 820
+      },
+      "regularAllies": 5,
+      "regularEnemies": 5,
+      "fullScreenOverlay": false
+    },
+    {
+      "viewport": 390,
+      "mode": "aura",
+      "clips": 0,
+      "maxSprites": 20,
+      "scene": {
+        "width": 1091.1627906976744,
+        "height": 1790.9302325581393
+      },
+      "regularAllies": 5,
+      "regularEnemies": 5,
+      "fullScreenOverlay": false
+    },
+    {
+      "viewport": 390,
+      "mode": "dash",
+      "clips": 0,
+      "maxSprites": 25,
+      "scene": {
+        "width": 1091.1627906976744,
+        "height": 1790.9302325581393
+      },
+      "regularAllies": 5,
+      "regularEnemies": 5,
+      "fullScreenOverlay": false
+    },
+    {
+      "viewport": 390,
+      "mode": "attack",
+      "clips": 0,
+      "maxSprites": 36,
+      "scene": {
+        "width": 1091.1627906976744,
+        "height": 1790.9302325581393
+      },
+      "regularAllies": 5,
+      "regularEnemies": 5,
+      "fullScreenOverlay": false
+    },
+    {
+      "viewport": 390,
+      "mode": "skill",
+      "clips": 0,
+      "maxSprites": 64,
+      "scene": {
+        "width": 1091.1627906976744,
+        "height": 1790.9302325581393
+      },
+      "regularAllies": 5,
+      "regularEnemies": 5,
+      "fullScreenOverlay": false
+    },
+    {
+      "viewport": 390,
+      "mode": "ultimate",
+      "clips": 0,
+      "maxSprites": 100,
+      "scene": {
+        "width": 1091.1627906976744,
+        "height": 1790.9302325581393
+      },
+      "regularAllies": 5,
+      "regularEnemies": 5,
+      "fullScreenOverlay": false
+    },
+    {
+      "viewport": 390,
+      "mode": "hit",
+      "clips": 0,
+      "maxSprites": 20,
+      "scene": {
+        "width": 1091.1627906976744,
+        "height": 1790.9302325581393
+      },
+      "regularAllies": 5,
+      "regularEnemies": 5,
+      "fullScreenOverlay": false
+    },
+    {
+      "viewport": 390,
+      "mode": "defeat",
+      "clips": 0,
+      "maxSprites": 20,
+      "scene": {
+        "width": 1091.1627906976744,
+        "height": 1790.9302325581393
+      },
+      "regularAllies": 5,
+      "regularEnemies": 5,
+      "fullScreenOverlay": false
+    },
+    {
+      "pausedClock": "PASS"
+    },
+    {
+      "playbackRates": [
+        0.5,
+        2
+      ],
+      "result": "PASS"
+    },
+    {
+      "scenario": "interrupt",
+      "result": "PASS"
+    },
+    {
+      "scenario": "lost",
+      "result": "PASS"
+    },
+    {
+      "motionOnly": "PASS",
+      "reducedMotion": "PASS"
+    },
+    {
+      "audioSchedule": [
+        {
+          "key": "dash",
+          "contact": 1.2,
+          "sourceSync": 0.178,
+          "when": 0.798,
+          "offset": 0,
+          "speed": 1
+        },
+        {
+          "key": "ultimate",
+          "contact": 2.08,
+          "sourceSync": 0.333,
+          "when": 1.5230000000000001,
+          "offset": 0,
+          "speed": 1
+        },
+        {
+          "key": "slash",
+          "contact": 2.52,
+          "sourceSync": 0.25,
+          "when": 2.046,
+          "offset": 0,
+          "speed": 1
+        }
+      ],
+      "cancelledAudio": "PASS"
+    },
+    {
+      "fullShowcase": "PASS"
+    },
+    {
+      "replayCleanup": "PASS",
+      "dispose": "PASS"
+    }
+  ],
+  "status": "PASS"
+}

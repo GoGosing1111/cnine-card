@@ -1,0 +1,438 @@
+[
+  {
+    "health": "재생 준비 완료 · 동작 40 / 이펙트 84 프레임",
+    "ready": true
+  },
+  {
+    "ready": true,
+    "mode": "aura",
+    "time": 1.5,
+    "playing": false,
+    "speed": 1,
+    "pose": {
+      "key": "idle",
+      "frame": 0
+    },
+    "cancelled": false,
+    "visibleSprites": 19,
+    "activeFrames": [],
+    "registeredTimelines": 1,
+    "regularAllies": 5,
+    "regularEnemies": 5,
+    "mercenaryInRegularArray": false,
+    "effectLayers": 1,
+    "auraVisible": true,
+    "auraEnabled": true,
+    "motionOnly": false,
+    "reducedMotion": false,
+    "audio": {
+      "enabled": false,
+      "scheduled": [],
+      "error": null
+    },
+    "unit": 145.35000000000002,
+    "clockOwner": "V3_REGISTERED_GSAP",
+    "damageAuthority": "NONE_VISUAL_PREVIEW",
+    "counts": {
+      "motion": 40,
+      "effects": 84
+    },
+    "queue": {
+      "active": false,
+      "index": 0,
+      "completed": false
+    },
+    "scene": {
+      "width": 1600,
+      "height": 820
+    },
+    "actor": {
+      "baseX": 495,
+      "baseY": 250,
+      "scale": 0.51,
+      "bounds": {
+        "minX": 422.3356726986624,
+        "minY": 35.05864476789928,
+        "maxX": 561.7618882769473,
+        "maxY": 174.4848603461841,
+        "matrix": {
+          "array": null,
+          "a": 0.6195121951219512,
+          "b": 0,
+          "c": 0,
+          "d": 0.6195121951219512,
+          "tx": 185.390243902439,
+          "ty": 0
+        }
+      }
+    },
+    "target": {
+      "x": 1300,
+      "y": 575
+    }
+  },
+  {
+    "ready": true,
+    "mode": "attack",
+    "time": 0.79,
+    "playing": false,
+    "speed": 1,
+    "pose": {
+      "key": "slash",
+      "frame": 3
+    },
+    "cancelled": false,
+    "visibleSprites": 34,
+    "activeFrames": [
+      {
+        "key": "blade",
+        "frame": 4,
+        "alpha": 1,
+        "anchor": {
+          "x": 1282.558,
+          "y": 510.97759999999994
+        },
+        "size": 225.29250000000013
+      },
+      {
+        "key": "impact",
+        "frame": 4,
+        "alpha": 0.85,
+        "anchor": {
+          "x": 1300,
+          "y": 510.97759999999994
+        },
+        "size": 247.09500000000014
+      }
+    ],
+    "registeredTimelines": 1,
+    "regularAllies": 5,
+    "regularEnemies": 5,
+    "mercenaryInRegularArray": false,
+    "effectLayers": 1,
+    "auraVisible": true,
+    "auraEnabled": true,
+    "motionOnly": false,
+    "reducedMotion": false,
+    "audio": {
+      "enabled": false,
+      "scheduled": [],
+      "error": null
+    },
+    "unit": 145.35000000000008,
+    "clockOwner": "V3_REGISTERED_GSAP",
+    "damageAuthority": "NONE_VISUAL_PREVIEW",
+    "counts": {
+      "motion": 40,
+      "effects": 84
+    },
+    "queue": {
+      "active": false,
+      "index": 0,
+      "completed": false
+    },
+    "scene": {
+      "width": 1600,
+      "height": 820
+    },
+    "actor": {
+      "baseX": 495,
+      "baseY": 250,
+      "scale": 0.51,
+      "bounds": {
+        "minX": 839.1914180055572,
+        "minY": 205.76274158690953,
+        "maxX": 1014.2683874405681,
+        "maxY": 380.8397110219203,
+        "matrix": {
+          "array": null,
+          "a": 0.6195121951219512,
+          "b": 0,
+          "c": 0,
+          "d": 0.6195121951219512,
+          "tx": 185.390243902439,
+          "ty": 0
+        }
+      }
+    },
+    "target": {
+      "x": 1300,
+      "y": 575
+    }
+  },
+  {
+    "ready": true,
+    "mode": "skill",
+    "time": 1.5,
+    "playing": false,
+    "speed": 1,
+    "pose": {
+      "key": "cast",
+      "frame": 3
+    },
+    "cancelled": false,
+    "visibleSprites": 35,
+    "activeFrames": [
+      {
+        "key": "charge",
+        "frame": 10,
+        "alpha": 0.2656250000000004,
+        "anchor": {
+          "x": 494.99999999999994,
+          "y": 347.4665801104973
+        },
+        "size": 312.50250000000005
+      },
+      {
+        "key": "dragon",
+        "frame": 5,
+        "alpha": 1,
+        "anchor": {
+          "x": 1300,
+          "y": 510.97759999999994
+        },
+        "size": 297.96750000000003
+      },
+      {
+        "key": "impact",
+        "frame": 4,
+        "alpha": 0.8,
+        "anchor": {
+          "x": 1300,
+          "y": 506.17591999999996
+        },
+        "size": 181.68750000000003
+      }
+    ],
+    "registeredTimelines": 1,
+    "regularAllies": 5,
+    "regularEnemies": 5,
+    "mercenaryInRegularArray": false,
+    "effectLayers": 1,
+    "auraVisible": true,
+    "auraEnabled": true,
+    "motionOnly": false,
+    "reducedMotion": false,
+    "audio": {
+      "enabled": false,
+      "scheduled": [],
+      "error": null
+    },
+    "unit": 145.35000000000002,
+    "clockOwner": "V3_REGISTERED_GSAP",
+    "damageAuthority": "NONE_VISUAL_PREVIEW",
+    "counts": {
+      "motion": 40,
+      "effects": 84
+    },
+    "queue": {
+      "active": false,
+      "index": 0,
+      "completed": false
+    },
+    "scene": {
+      "width": 1600,
+      "height": 820
+    },
+    "actor": {
+      "baseX": 495,
+      "baseY": 250,
+      "scale": 0.51,
+      "bounds": {
+        "minX": 422.6156450191007,
+        "minY": 35.53984719365265,
+        "maxX": 561.4819159565089,
+        "maxY": 174.40611813106082,
+        "matrix": {
+          "array": null,
+          "a": 0.6195121951219512,
+          "b": 0,
+          "c": 0,
+          "d": 0.6195121951219512,
+          "tx": 185.390243902439,
+          "ty": 0
+        }
+      }
+    },
+    "target": {
+      "x": 1300,
+      "y": 575
+    }
+  },
+  {
+    "ready": true,
+    "mode": "ultimate",
+    "time": 2.08,
+    "playing": false,
+    "speed": 1,
+    "pose": {
+      "key": "ultimate",
+      "frame": 3
+    },
+    "cancelled": false,
+    "visibleSprites": 46,
+    "activeFrames": [
+      {
+        "key": "eruption",
+        "frame": 4,
+        "alpha": 1,
+        "anchor": {
+          "x": 1189,
+          "y": 575
+        },
+        "size": 515.9925000000001
+      },
+      {
+        "key": "impact",
+        "frame": 0,
+        "alpha": 0.09000000000000229,
+        "anchor": {
+          "x": 1300,
+          "y": 506.17591999999996
+        },
+        "size": 181.68750000000003
+      },
+      {
+        "key": "blade",
+        "frame": 4,
+        "alpha": 0.88,
+        "anchor": {
+          "x": 1282.558,
+          "y": 510.97759999999994
+        },
+        "size": 225.29250000000005
+      }
+    ],
+    "registeredTimelines": 1,
+    "regularAllies": 5,
+    "regularEnemies": 5,
+    "mercenaryInRegularArray": false,
+    "effectLayers": 1,
+    "auraVisible": true,
+    "auraEnabled": true,
+    "motionOnly": false,
+    "reducedMotion": false,
+    "audio": {
+      "enabled": false,
+      "scheduled": [],
+      "error": null
+    },
+    "unit": 145.35000000000002,
+    "clockOwner": "V3_REGISTERED_GSAP",
+    "damageAuthority": "NONE_VISUAL_PREVIEW",
+    "counts": {
+      "motion": 40,
+      "effects": 84
+    },
+    "queue": {
+      "active": false,
+      "index": 0,
+      "completed": false
+    },
+    "scene": {
+      "width": 1600,
+      "height": 820
+    },
+    "actor": {
+      "baseX": 495,
+      "baseY": 250,
+      "scale": 0.51,
+      "bounds": {
+        "minX": 406.6717398373983,
+        "minY": 8.136260162601616,
+        "maxX": 577.4258211382114,
+        "maxY": 178.89034146341464,
+        "matrix": {
+          "array": null,
+          "a": 0.6195121951219512,
+          "b": 0,
+          "c": 0,
+          "d": 0.6195121951219512,
+          "tx": 185.390243902439,
+          "ty": 0
+        }
+      }
+    },
+    "target": {
+      "x": 1300,
+      "y": 575
+    }
+  },
+  {
+    "mobile": {
+      "width": 390,
+      "scroll": 390,
+      "diagnostics": {
+        "ready": true,
+        "mode": "ultimate",
+        "time": 2.08,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "ultimate",
+          "frame": 3
+        },
+        "cancelled": false,
+        "visibleSprites": 46,
+        "activeFrames": [
+          {
+            "key": "eruption",
+            "frame": 4,
+            "alpha": 1,
+            "anchor": {
+              "x": 727.1797126590004,
+              "y": 993.8926235465115
+            },
+            "size": 670.79025
+          },
+          {
+            "key": "impact",
+            "frame": 0,
+            "alpha": 0.09000000000000229,
+            "anchor": {
+              "x": 910.5813953488372,
+              "y": 904.4213195465114
+            },
+            "size": 236.19375000000002
+          },
+          {
+            "key": "blade",
+            "frame": 4,
+            "alpha": 0.88,
+            "anchor": {
+              "x": 887.9067953488371,
+              "y": 910.6635035465114
+            },
+            "size": 292.88025000000005
+          }
+        ],
+        "registeredTimelines": 0,
+        "regularAllies": 5,
+        "regularEnemies": 5,
+        "mercenaryInRegularArray": false,
+        "effectLayers": 1,
+        "auraVisible": true,
+        "auraEnabled": true,
+        "motionOnly": false,
+        "reducedMotion": false,
+        "audio": {
+          "enabled": false,
+          "scheduled": [],
+          "error": null
+        },
+        "unit": 188.955,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "NONE_VISUAL_PREVIEW",
+        "counts": {
+          "motion": 40,
+          "effects": 84
+        },
+        "queue": {
+          "active": false,
+          "index": 0,
+          "completed": false
+        }
+      }
+    }
+  }
+]

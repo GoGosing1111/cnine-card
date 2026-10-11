@@ -1,0 +1,18 @@
+{
+  "output": "qa/full-showcase.webp",
+  "modes": [
+    "aura",
+    "dash",
+    "attack",
+    "skill",
+    "ultimate",
+    "hit",
+    "defeat"
+  ],
+  "fps": 15,
+  "frames": 324,
+  "width": 800,
+  "height": 387,
+  "source": "REAL_V3_BATTLE_CANVAS",
+  "errors": []
+}
