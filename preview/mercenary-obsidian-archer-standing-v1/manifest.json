@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-12",
+  "label": "흑금 메카 궁수 · V3 전신 대기 자세 V2",
+  "status": "VISUAL_REVIEW_PENDING",
+  "currentAsset": "assets/obsidian-archer-standing-v2.png",
+  "userDirection": {
+    "request": "디자인참고해서 활쓰는 V3리소스 하나 만들어본나",
+    "corrections": [
+      "얼굴과 몸통이 가로로 압축된 듯한 좁은 비율을 수정하고 첨부의 얼굴·상의 디자인을 더 충실하게 반영한다.",
+      "참고 이미지 자체가 메카 디자인이라는 사용자 정정을 우선한다. 메카성을 제거하는 판타지 기사 재해석은 사용자 의도가 아니다."
+    ]
+  },
+  "reference": {
+    "path": "assets/source/user-reference.png",
+    "sha256": "a74a1413750d4c2e4ed4fbf8d3017a3819ee4d0899c18cf8c88f76bd0de14a65",
+    "role": "primary mecha helmet, chest, materials and palette reference"
+  },
+  "generation": {
+    "mode": "built-in image_gen",
+    "transparentBackground": true,
+    "prompts": [
+      "prompts/standing-v1.txt",
+      "prompts/standing-v2-reference-correction.txt"
+    ],
+    "finalPrompt": "prompts/standing-v2-reference-correction.txt",
+    "finalInputs": [
+      "assets/source/user-reference.png",
+      "assets/source/archer-v1-rejected-narrow.png"
+    ],
+    "inputRoles": [
+      "design authority",
+      "rejected draft used only for standing archery composition"
+    ]
+  },
+  "history": [
+    {
+      "version": 1,
+      "path": "assets/source/archer-v1-rejected-narrow.png",
+      "sha256": "a630a0f567f95524538c273ac63147ab0c143d7d48ff265f417a3d2d87d2f20c",
+      "status": "REJECTED",
+      "reason": "Narrow elongated face/body and insufficient reference helmet/chest fidelity."
+    },
+    {
+      "version": 2,
+      "path": "assets/source/archer-v2-generated.png",
+      "sha256": "b8b78cd14812118b30941181aef636d516258d40d99dac02a95d480494b317fb",
+      "status": "VISUAL_REVIEW_PENDING",
+      "width": 1122,
+      "height": 1402
+    }
+  ],
+  "asset": {
+    "path": "assets/obsidian-archer-standing-v2.png",
+    "sha256": "9d804880c33b32ab5392301e68f88da73de657ead8af4f21c05cffcd877057ee",
+    "width": 1282,
+    "height": 1562,
+    "bytes": 2693835,
+    "format": "RGBA PNG",
+    "frameCount": 1,
+    "paddingPx": 80
+  },
+  "packing": {
+    "script": "pack-resource.mjs",
+    "report": "packing-report.json",
+    "operation": "80px transparent border; original interior RGBA pixels preserved exactly",
+    "redraw": false,
+    "nonuniformScaling": false
+  },
+  "visualReview": {
+    "checked": [
+      "Wider near-frontal face, shoulders and chest; mechanical armor retained.",
+      "Primary reference's black/gold layered armor, red central helmet gem, gold antenna-horns, red sensor eyes and pale plume reflected.",
+      "Full upright body with long articulated legs, readable knee/ankle connections and both boots.",
+      "One bow with connected limbs and string, one held arrow, hands connected to arms.",
+      "Transparency verified; 80px transparent border added without changing the generated interior pixels."
+    ],
+    "userApproval": "pending"
+  },
+  "runtimeEnabled": false,
+  "animationSequence": false,
+  "catalogOrEconomyChanges": false
+}

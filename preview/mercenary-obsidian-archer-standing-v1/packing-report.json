@@ -1,0 +1,21 @@
+{
+  "operation": "transparent canvas padding only",
+  "paddingPx": 80,
+  "pixelEquality": true,
+  "redraw": false,
+  "rescale": false,
+  "source": {
+    "path": "assets/source/archer-v2-generated.png",
+    "sha256": "b8b78cd14812118b30941181aef636d516258d40d99dac02a95d480494b317fb",
+    "width": 1122,
+    "height": 1402
+  },
+  "output": {
+    "path": "assets/obsidian-archer-standing-v2.png",
+    "sha256": "9d804880c33b32ab5392301e68f88da73de657ead8af4f21c05cffcd877057ee",
+    "width": 1282,
+    "height": 1562,
+    "bytes": 2693835,
+    "hasAlpha": true
+  }
+}

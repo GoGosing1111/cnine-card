@@ -1,0 +1,20 @@
+import sharp from 'sharp';
+import {readFile,writeFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import {fileURLToPath} from 'node:url';
+const root=new URL('./',import.meta.url);
+const source=new URL('assets/source/archer-v2-generated.png',root);
+const target=new URL('assets/obsidian-archer-standing-v2.png',root);
+const padding=80;
+const input=await readFile(source);
+const before=await sharp(input).ensureAlpha().raw().toBuffer({resolveWithObject:true});
+await sharp(input).extend({top:padding,bottom:padding,left:padding,right:padding,background:{r:0,g:0,b:0,alpha:0}}).png().toFile(fileURLToPath(target));
+const output=await readFile(target);
+const restored=await sharp(output).extract({left:padding,top:padding,width:before.info.width,height:before.info.height}).ensureAlpha().raw().toBuffer();
+if(!before.data.equals(restored))throw Error('Padding changed source pixels');
+const meta=await sharp(output).metadata();
+const sha=b=>createHash('sha256').update(b).digest('hex');
+const report={operation:'transparent canvas padding only',paddingPx:padding,pixelEquality:true,redraw:false,rescale:false,source:{path:'assets/source/archer-v2-generated.png',sha256:sha(input),width:before.info.width,height:before.info.height},output:{path:'assets/obsidian-archer-standing-v2.png',sha256:sha(output),width:meta.width,height:meta.height,bytes:output.length,hasAlpha:meta.hasAlpha}};
+await writeFile(new URL('packing-report.json',root),JSON.stringify(report,null,2)+'\n');
+console.log(JSON.stringify(report));
+
