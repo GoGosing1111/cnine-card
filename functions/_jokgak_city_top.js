@@ -6,6 +6,7 @@ import {cityCareerPolicy} from './_jokgak_city_career.js';
 import {assignedCityRole} from './_jokgak_city_roles.js';
 import {cityGuard,cityGuardEnd} from './_jokgak_city_rewards.js';
 import {cityTopKey,milestoneValue,CITY_TOP_GOAL} from './_milestone_trophies.js';
+import {prepareCityTop10Event} from './_jokgak_city_top10_event.js';
 export const CITY_TOP_CURSOR='jokgak_city_top_next_epoch_v1';
 const p=(env,sql,...v)=>env.DB.prepare(sql).bind(...v);
 // Share the epoch lock with settlement. A request that finished computing just
@@ -62,6 +63,7 @@ export async function prepareCityTopSettlement(env,shift){
    awards.push({userId:candidate.id,epoch,cash:max,count});
   }
  }
+ statements.push(...await prepareCityTop10Event(env,{from,to:shift.id,byEpoch}));
  statements.push(p(env,'UPDATE app_meta SET value=? WHERE key=? AND value=?',String(shift.id),CITY_TOP_CURSOR,token),cityGuardEnd(env,token));
  return {statements,awards,from};
 }
