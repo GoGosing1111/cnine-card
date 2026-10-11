@@ -1,0 +1,235 @@
+{
+  "verifiedAt": "2026-10-11T14:15:27.307Z",
+  "sourceCommit": "b1864e1a02348fd14202af1098046bef23cbf53a",
+  "origin": "https://cnine-card.pages.dev",
+  "assets": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "fa2fe4ace271ef98185f9714bad4a9e7a9c4da12e1d880cf24a16b8eecc86093"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "888530413a0ce6101bf4f80bd1b4a30a44ecf3334ce6ddc1ec11cdfc276d98bd"
+    },
+    {
+      "file": "js/jokgak-city-v1.js",
+      "status": 200,
+      "sha256": "abf45d0f29d2ebc16ceb81e1788ce2cbfa2daac94f974732114d657d6f45da2f"
+    },
+    {
+      "file": "js/jokgak-city-career-ui-v1.mjs",
+      "status": 200,
+      "sha256": "bb71bcf773a253248b17f2a94d74b0a3af5e0f68a62cd5a393a90458c2517f3c"
+    },
+    {
+      "file": "shared/jokgak-city-career-v1.mjs",
+      "status": 200,
+      "sha256": "44a87672ce35461eac0690bc2938b37ee70a3e6851b3e068639ac0b656e71fae"
+    },
+    {
+      "file": "css/jokgak-city-career-v1.css",
+      "status": 200,
+      "sha256": "8ca9bc7558ac9babeb33201741831a05d6973977e32d35c2c82c0e8626db0e73"
+    },
+    {
+      "file": "css/jokgak-city-v1.css",
+      "status": 200,
+      "sha256": "fe7b8cc8b1c094a1d58ca20b27f50b69427e7cd04441a5de5058bdb9abe34fcb"
+    }
+  ],
+  "operation": {
+    "operation": "ops:jokgak-city-jobs:20261011:v1",
+    "at": "2026-10-11T14:15:22.466Z",
+    "effectiveAt": "2026-10-11T15:00:00.000Z",
+    "mode": "OFF",
+    "revision": 24,
+    "beforeJobs": [
+      {
+        "code": "SORT",
+        "enabled": true,
+        "cash": 500,
+        "durationMs": 300000,
+        "cooldownMs": 60000
+      },
+      {
+        "code": "DELIVERY",
+        "enabled": true,
+        "cash": 500,
+        "durationMs": 300000,
+        "cooldownMs": 60000
+      },
+      {
+        "code": "RETAIL",
+        "enabled": true,
+        "cash": 600,
+        "durationMs": 300000,
+        "cooldownMs": 60000
+      },
+      {
+        "code": "RECYCLE",
+        "enabled": true,
+        "cash": 400,
+        "durationMs": 300000,
+        "cooldownMs": 60000
+      },
+      {
+        "code": "PATROL",
+        "enabled": true,
+        "cash": 900,
+        "durationMs": 300000,
+        "cooldownMs": 60000
+      },
+      {
+        "code": "WARD",
+        "enabled": true,
+        "cash": 750,
+        "durationMs": 300000,
+        "cooldownMs": 60000
+      },
+      {
+        "code": "CLINIC",
+        "enabled": true,
+        "cash": 1200,
+        "durationMs": 300000,
+        "cooldownMs": 60000
+      },
+      {
+        "code": "DOCK_WORK",
+        "enabled": true,
+        "cash": 750,
+        "durationMs": 300000,
+        "cooldownMs": 60000
+      },
+      {
+        "code": "ALLEY_WORK",
+        "enabled": true,
+        "cash": 450,
+        "durationMs": 300000,
+        "cooldownMs": 60000
+      }
+    ],
+    "jobs": [
+      {
+        "code": "SORT",
+        "enabled": true,
+        "cash": 2000,
+        "durationMs": 300000,
+        "cooldownMs": 60000
+      },
+      {
+        "code": "DELIVERY",
+        "enabled": true,
+        "cash": 2200,
+        "durationMs": 300000,
+        "cooldownMs": 60000
+      },
+      {
+        "code": "RETAIL",
+        "enabled": true,
+        "cash": 2400,
+        "durationMs": 300000,
+        "cooldownMs": 60000
+      },
+      {
+        "code": "RECYCLE",
+        "enabled": true,
+        "cash": 2200,
+        "durationMs": 300000,
+        "cooldownMs": 60000
+      },
+      {
+        "code": "PATROL",
+        "enabled": true,
+        "cash": 3000,
+        "durationMs": 300000,
+        "cooldownMs": 60000
+      },
+      {
+        "code": "WARD",
+        "enabled": true,
+        "cash": 2800,
+        "durationMs": 300000,
+        "cooldownMs": 60000
+      },
+      {
+        "code": "CLINIC",
+        "enabled": true,
+        "cash": 4000,
+        "durationMs": 300000,
+        "cooldownMs": 60000
+      },
+      {
+        "code": "DOCK_WORK",
+        "enabled": true,
+        "cash": 3000,
+        "durationMs": 300000,
+        "cooldownMs": 60000
+      },
+      {
+        "code": "ALLEY_WORK",
+        "enabled": true,
+        "cash": 2400,
+        "durationMs": 300000,
+        "cooldownMs": 60000
+      },
+      {
+        "code": "HOME_PACK",
+        "enabled": true,
+        "cash": 1000,
+        "durationMs": 180000,
+        "cooldownMs": 60000
+      },
+      {
+        "code": "SHOP_STOCK",
+        "enabled": true,
+        "cash": 1200,
+        "durationMs": 180000,
+        "cooldownMs": 60000
+      },
+      {
+        "code": "KITCHEN",
+        "enabled": true,
+        "cash": 1600,
+        "durationMs": 240000,
+        "cooldownMs": 60000
+      },
+      {
+        "code": "EVENT_GUIDE",
+        "enabled": true,
+        "cash": 2600,
+        "durationMs": 360000,
+        "cooldownMs": 60000
+      },
+      {
+        "code": "FLYER",
+        "enabled": true,
+        "cash": 1800,
+        "durationMs": 240000,
+        "cooldownMs": 60000
+      },
+      {
+        "code": "DOCK_LOAD",
+        "enabled": true,
+        "cash": 3600,
+        "durationMs": 480000,
+        "cooldownMs": 60000
+      }
+    ],
+    "accountAssetsChanged": false,
+    "otherSettingsPreserved": true,
+    "dryRun": false
+  },
+  "auditRows": 1,
+  "mode": "OFF",
+  "revision": 24,
+  "deployment": {
+    "pages": "https://29184409.cnine-card.pages.dev",
+    "apiRuntimeVersion": "e55497ed-42a4-4304-96c0-8b09bda3aecb",
+    "clanDraftVersion": "e2d90c25-1374-4f76-aafc-3342caae3d56",
+    "scoped": true,
+    "regressionsPassed": 19,
+    "browserChecksPassed": 6
+  }
+}
