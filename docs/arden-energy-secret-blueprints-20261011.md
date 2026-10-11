@@ -34,4 +34,6 @@
 
 배포 선정: **assets-only**. 확인한 직전 운영 Pages는 `29184409-4787-426a-9cc2-0e6c0e929e04`, 소스 `b1864e1a02348fd14202af1098046bef23cbf53a`다. 범위 커밋과 원격 반영 후 `ASSET_DEPLOY_BASE`를 이 값으로 지정하여 `npm run deploy:production -- --assets-only`를 사용한다. 깨끗한 후보·원격 일치·변경 파일 범위·운영 Hyperdrive 검사는 유지한다.
 
-최종 배포 영수증은 완료 후 이 문서와 같은 이름의 JSON에 기록한다.
+배포 완료: 소스 `d27aa4ec129d67dd3633dd0273c966af16e48950`, Pages `73fb6207-afad-41fb-befc-d30a6d39fe65`. `--assets-only` 범위 검사와 운영 Hyperdrive query cache OFF 확인 후 정상 배포했다.
+
+2026-10-11 23:34:35 KST 운영 확인: [검수 갤러리](https://cnine-card.pages.dev/preview/arden-energy-secret-blueprints-v1/) HTTP 200, 동방무기 용도·에너지 승인 문구 확인. 원본 PNG와 512px WebP 8개 모두 HTTP 200이고 SHA-256이 검수한 로컬 파일과 일치했다. [배포 영수증](arden-energy-secret-blueprints-20261011.json)에 파일별 결과를 보존한다. 이 배포 기록 추가는 문서 변경이므로 재배포하지 않는다.
