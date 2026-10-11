@@ -140,7 +140,11 @@ test('preview bundle includes the latest canonical engine and playback, with no 
   assert.equal(build.engineBase,'0d67ae862a1f9763605ad7323e889acf5d51ad41');assert.deepEqual(build.legacyHuntInputs,[]);
   assert.ok(build.commonInputs.some(f=>f.endsWith('/BattleEngine.js')));assert.ok(build.commonInputs.some(f=>f.endsWith('/BattleSuitSkillChipPlayback.js')));
   const source=fs.readFileSync('preview/sustained-hunt-v2/source/HuntBattleEngine.js','utf8');
-  assert.ok(!source.includes('gsap.globalTimeline'));assert.ok(source.includes('ensureEnemyCapacity'));
+  // Background mode freezes only the cosmetic clock and restores its prior state.
+  // The canonical hunt cadence must never be changed through global timeScale.
+  assert.doesNotMatch(source,/gsap\.globalTimeline\.timeScale\s*\(/);
+  assert.match(source,/gsap\.globalTimeline\.paused\(this\.huntVisualClock\.wasPaused\)/);
+  assert.ok(source.includes('ensureEnemyCapacity'));
   for(const f of [...MONSTERS,...BOSSES].map(r=>r.sprite))assert.ok(fs.existsSync('.'+f));
 });
 
