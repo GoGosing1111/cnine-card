@@ -9,6 +9,7 @@ import {MERCENARY_ACCOUNTING_SCHEMA} from '../functions/_mercenary_draw_accounti
 import {forgeEquipmentBonuses} from '../functions/_equipment_forge_transactions.js';
 import {V3_JOINT_RELEASE_ENABLED} from '../shared/v3-joint-release-v1.mjs';
 import {FORGE_RUNTIME_RELEASE_ENABLED} from '../shared/equipment-forge-release-v1.mjs';
+import {MERCENARY_EQUIPMENT_SQL_CODES} from '../shared/mercenary-equipment-v1.mjs';
 
 const read=file=>fs.readFileSync(new URL('../'+file,import.meta.url),'utf8');
 const api=read('functions/api/[[path]].js'),app=read('js/app.js'),pve=read('js/pve-command-v2-live.js');
@@ -26,7 +27,7 @@ function constantSource(source,name){
 }
 function server(overrides={}){
   const context=vm.createContext({
-    releasedMercenarySnapshots,mercenarySnapshotPower,forgeEquipmentBonuses,V3_JOINT_RELEASE_ENABLED,FORGE_RUNTIME_RELEASE_ENABLED,FUR_MAX_ENHANCEMENT,extendFurHighBreakthrough,
+    releasedMercenarySnapshots,mercenarySnapshotPower,forgeEquipmentBonuses,V3_JOINT_RELEASE_ENABLED,FORGE_RUNTIME_RELEASE_ENABLED,FUR_MAX_ENHANCEMENT,extendFurHighBreakthrough,MERCENARY_EQUIPMENT_SQL_CODES,
     normalizeBattleEngineSettings:x=>x||{},normalizeNightmareSettings:x=>x||{},normalizeApocalypseSettings:x=>x||{},normalizeUltimateRequiredGrade:x=>x,
     async pvpDeckCards(env,id){return JSON.parse(env.sqlite.prepare('SELECT card_ids FROM pvp_decks WHERE user_id=?').get(id)?.card_ids||'[]')},
     async pveDeckCards(env,id){return JSON.parse(env.sqlite.prepare('SELECT card_ids FROM pvp_decks WHERE user_id=?').get(id)?.card_ids||'[]')},...overrides

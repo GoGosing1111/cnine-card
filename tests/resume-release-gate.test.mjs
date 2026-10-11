@@ -165,6 +165,17 @@ test('explicit interruption resumes the entire incomplete stage while preserving
   const runtime=fixture({changed:['functions/live.js'],log});
   assert.throws(()=>fullGateResumePlan({...runtime,env:{...runtime.env,RELEASE_GATE_RESUME_INTERRUPTED:'1',RELEASE_GATE_RESUME_REASON:env.RELEASE_GATE_RESUME_REASON}}));
 });
+
+test('uncaught legacy assertion restarts its whole stage and remains verifiable in a continuation chain',()=>{
+ const original=fixture(),ending='AssertionError [ERR_ASSERTION]: stale fixture\n    at tests/b.test.mjs:1:1\nNode.js v24.18.0\n',log=original.logText.replace('ℹ fail 4\n',ending);
+ const f=fixture({log,changed:['tests/c.test.mjs']});assert.equal(fullGateResumePlan(f).reused,1);assert.equal(fullGateResumePlan(f).commands[1],'npm run test:b');
+ for(const invalid of [log.replace('Node.js v24.18.0',''),log+'ℹ fail 0\n',log.replace('AssertionError [ERR_ASSERTION]:','expected assertion:')])assert.throws(()=>fullGateResumePlan(fixture({log:invalid})));
+ assert.throws(()=>fullGateResumePlan(fixture({log,changed:['functions/live.js']})),/fresh full gate/);
+ const continued=`[FULL RELEASE RESUME] Reuse 1 completed stages from ${base}; execute every remaining stage and production guard.\n> test:b\nℹ fail 0\n> test:c\nℹ fail 1\n`;
+ f.env.RELEASE_GATE_RESUME_CONTINUATIONS=JSON.stringify([{log:'continued',base:'c'.repeat(40),sha256:createHash('sha256').update(continued).digest('hex')}]);f.read=()=>continued;
+ const plan=fullGateResumePlan(f);assert.equal(plan.reused,2);assert.equal(plan.commands[1],'npm run test:c');
+ assert.throws(()=>fullGateResumePlan({...f,read:()=>continued+'tampered'}),/hash mismatch/);
+});
 test('legacy .mjs test entries are reusable only when directly registered in the unchanged gate',()=>{
   const f=fixture({changed:['tests/b.mjs']});
   f.scripts['test:b']='node --test tests/b.mjs';

@@ -14,6 +14,10 @@ const offlineSkillPreview=new Set([
 ]);
 const limitedPackView='js/mercenary-limited-pack-live.mjs';
 const limitedPackBrowser='tests/mercenary-limited-shop-20261006.browser.mjs';
+// Legacy `node tests/*.mjs` assertions exit without a node:test summary.
+// Recognize only an uncaught assertion plus Node's terminal version footer;
+// its whole failed stage is rerun, with the same hash/source/continuity guards.
+const failedGateStage=text=>/^ℹ fail [1-9]/m.test(text)||(!/^ℹ fail \d+/m.test(text)&&/^AssertionError \[ERR_ASSERTION\]:/m.test(text)&&/^Node\.js v\d+(?:\.\d+)+\s*$/m.test(text));
 function mainCacheQueryOrderOnly(before,after){
   const normalize=text=>{
     let count=0;
@@ -70,7 +74,7 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
     git('merge-base','--is-ancestor',previousCandidate,candidate);previousCandidate=candidate;git('merge-base','--is-ancestor',candidate,'HEAD');
     if(JSON.stringify(JSON.parse(git('show',`${candidate}:package.json`)).scripts)!==JSON.stringify(scripts))throw Error('Continuation gate commands changed: run a fresh full gate.');
     const start=seen.length-1,originalLast=logText.lastIndexOf(`> ${seen.at(-1)}`),continued=stageNames(continuation);
-    if(!/^ℹ fail [1-9]/m.test(logText.slice(originalLast))||/^ℹ fail [1-9]/m.test(logText.slice(0,originalLast)))throw Error('Continuation requires the original failed final stage.');
+    if(!failedGateStage(logText.slice(originalLast))||/^ℹ fail [1-9]/m.test(logText.slice(0,originalLast)))throw Error('Continuation requires the original failed final stage.');
     // A repair may rerun earlier affected stages before reaching the failed
     // stage. Keep the immutable log, validate those reruns and join only the
     // contiguous continuation after them into the original gate history.
@@ -93,7 +97,7 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
     &&logText.includes(`[PRODUCTION RELEASE BLOCKED] deploy source differs from origin/main: HEAD=${base} origin/main=`)
     &&!/^ℹ fail [1-9]/m.test(logText);
   const failedIndex=sourceGuardBlocked?names.length-1:seen.length-1,last=logText.lastIndexOf(`> ${seen.at(-1)}`),prefix=logText.slice(0,last);
-  const tail=logText.slice(last),failed=/^ℹ fail [1-9]/m.test(tail);
+  const tail=logText.slice(last),failed=failedGateStage(tail);
   // An interrupted process has no final Node test summary. Always rerun that
   // whole stage; never treat individual passing test lines as stage completion.
   const interrupted=env.RELEASE_GATE_RESUME_INTERRUPTED==='1'&&!/^ℹ fail \d+/m.test(tail)
