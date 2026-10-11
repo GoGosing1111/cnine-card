@@ -35,16 +35,21 @@ export async function prepareCityTopSettlement(env,shift){
  // mode is recorded explicitly; older receipts carry it in reward.mode.
  const json=path=>env.DB.dialect==='postgres'?`(a.result_json::jsonb#>>'{${path.join(',')}}')`:`json_extract(a.result_json,'$.${path.join('.')}')`;
  const battleMode=json(['mode']),mode=`CASE WHEN ${battleMode}='PVP' THEN COALESCE(${json(['cityMode'])},${json(['reward','mode'])}) ELSE ${battleMode} END`;
+ // Read each receipt once for the whole closed interval. Correlated JSON scans
+ // per player multiplied across polling requests exhausted the production pool.
  const candidatesSql=`FROM jokgak_city_players_v1 c
+  JOIN (SELECT a.user_id,CAST((a.created_at+32400000)/${CITY_SHIFT_MS} AS BIGINT) AS epoch,
+    SUM(CASE WHEN a.action='attack' THEN 1 ELSE 0 END) AS attack_count
+   FROM jokgak_city_actions_v1 a WHERE a.created_at>=? AND a.created_at<? AND ${mode}='ON'
+   GROUP BY a.user_id,CAST((a.created_at+32400000)/${CITY_SHIFT_MS} AS BIGINT)) activity
+   ON activity.user_id=c.user_id AND activity.epoch=c.epoch
   JOIN users u ON u.id=c.user_id JOIN app_meta life ON life.key='jokgak_city_life_v1:'||CAST(c.user_id AS TEXT)
-  WHERE c.epoch>=? AND c.epoch<? AND u.status='ACTIVE' AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))
-  AND EXISTS(SELECT 1 FROM jokgak_city_actions_v1 a WHERE a.user_id=c.user_id AND ${mode}='ON'
-   AND a.created_at>=c.epoch*${CITY_SHIFT_MS}-32400000 AND a.created_at<(c.epoch+1)*${CITY_SHIFT_MS}-32400000)`;
- const attacksSql=`SELECT COUNT(*) FROM jokgak_city_actions_v1 a WHERE a.user_id=c.user_id AND a.action='attack' AND ${mode}='ON' AND a.created_at>=c.epoch*${CITY_SHIFT_MS}-32400000 AND a.created_at<(c.epoch+1)*${CITY_SHIFT_MS}-32400000`;
- const rows=(await p(env,`SELECT c.*,life.value AS life_raw,(${attacksSql}) AS attack_count ${candidatesSql} ORDER BY c.user_id`,from,shift.id).all()).results||[];
+  WHERE c.epoch>=? AND c.epoch<? AND u.status='ACTIVE' AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))`;
+ const candidateValues=[from*CITY_SHIFT_MS-32400000,shift.startsAt,from,shift.id];
+ const rows=(await p(env,`SELECT c.*,life.value AS life_raw,activity.attack_count ${candidatesSql} ORDER BY c.user_id`,...candidateValues).all()).results||[];
  // New entrants committed while this plan was being prepared require a fresh
  // snapshot too, even when none of the previously seen rows changed.
- statements.push(cityGuard(env,token+':participants',`(SELECT COUNT(*) ${candidatesSql})=?`,[from,shift.id,rows.length]),cityGuardEnd(env,token+':participants'));
+ statements.push(cityGuard(env,token+':participants',`(SELECT COUNT(*) ${candidatesSql})=?`,[...candidateValues,rows.length]),cityGuardEnd(env,token+':participants'));
  const {policy,raw:policyRaw}=await readCitySettings(env),byEpoch=new Map(),awards=[];
  if(env.DB.dialect==='postgres')statements.push(p(env,'SELECT key FROM app_meta WHERE key=? FOR SHARE',CITY_SETTINGS_KEY));
  statements.push(cityGuard(env,token+':policy',policyRaw===null?'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)':'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',policyRaw===null?[CITY_SETTINGS_KEY]:[CITY_SETTINGS_KEY,policyRaw]),cityGuardEnd(env,token+':policy'));
