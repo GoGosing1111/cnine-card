@@ -506,7 +506,10 @@
     "scopedChecks": [
       "check:worker"
     ],
-    "status": "SIMULATION_AND_BUNDLE_BUILD_PASSED; RELEASE_TESTS_PENDING"
+    "status": "PASSED",
+    "regressionTestsPassed": 26,
+    "workerSyntaxAndCompile": "PASSED",
+    "releaseFlagsCacheAndHyperdrive": "PASSED"
   },
   "release": {
     "base": {
@@ -518,6 +521,74 @@
     },
     "mode": "SCOPED",
     "reason": "Only the existing V-999 attack-link coefficient, policy description and policy version change. Bundles and cache tags rebuilt to deliver the same canonical policy; no schema/auth/economy infrastructure changes.",
-    "status": "PENDING"
+    "status": "DEPLOYED_AND_VERIFIED",
+    "production": {
+      "checkedAt": "2026-10-11T21:17:12.628Z",
+      "stage": "after",
+      "deploymentId": "bff2b834-49cf-4f8e-980d-3692fe7011ea",
+      "url": "https://bff2b834.cnine-card.pages.dev",
+      "source": "0eb78586855167935595d4ccc88cad28aa569e1b",
+      "workerSha256": "09a42b18b6d1470539500827de9aa83403a46d2ba5360bc8d070343fe892abc9",
+      "workerPolicy": {
+        "version": 2,
+        "basePower": 1123200,
+        "speedReferencePower": 1080000,
+        "attackPercent": 1830.4
+      },
+      "files": [
+        {
+          "file": "shared/mercenary-helios-v1.mjs",
+          "status": 200,
+          "sha256": "7e10e4e7182a2cee6986b0649f38888819cc2bdaaee209bd8c94f000dc4306ac",
+          "matches": true
+        },
+        {
+          "file": "index.html",
+          "status": 200,
+          "sha256": "a662d0adc6c738e2d0c1d77bb17d6bb7ab637ff3fc7ad22a771f23515ebdb061",
+          "matches": true
+        },
+        {
+          "file": "service-worker.js",
+          "status": 200,
+          "sha256": "d2d0e19b3e04ab1a0a1dd9dcb2aac374cca483e5699a39c4f4c64900a5f97fee",
+          "matches": true
+        },
+        {
+          "file": "js/app.js",
+          "status": 200,
+          "sha256": "b4145e6d04dd8eae95e168e6c22997afa9a9c9c1463b3255479f3678176da262",
+          "matches": true
+        },
+        {
+          "file": "js/battle-v3-live.js",
+          "status": 200,
+          "sha256": "e9ffc54051979680cf732cb32034e168fe9f3edeae9afdaeb6610d9c4bf0089e",
+          "matches": true
+        },
+        {
+          "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+          "status": 200,
+          "sha256": "48b69232df6207238541d1ef612b270d253ca673bcf0eb1efe6569055f170cec",
+          "matches": true
+        },
+        {
+          "file": "pve-v3/battle.bundle.js",
+          "status": 200,
+          "sha256": "8f08a0fc59fa3a495d80e035f8ecee344fa80fd68e525aee52a443aa16b8f7ff",
+          "matches": true
+        }
+      ],
+      "publicHelios": {
+        "status": 200,
+        "code": "V-999",
+        "deploymentEnabled": true,
+        "description": "기본 전투력 1,123,200. 아군 일반 카드 평균 공격력의 1,830.4%를 최소 공격력으로 사용하며, 발테르보다 공격 연계 배율이 4% 높습니다. 피해 경감·개인 면역은 발테르와 같고, 자연 행동 속도 약 4%, 추가 행동·연계 체력·전용 방벽은 4% 높습니다. 아군 일반 카드 25회 행동당 추가 78회 행동합니다. PVE 천양붕락은 적 전체에 총 560% 피해를 나눠 적용합니다(에너지 35 · 재사용 5행동). 공격·스킬 모션은 원본 대비 2.6배속입니다. 보유한 헬리오스를 PVE·PVP에 각각 편성할 수 있습니다."
+      },
+      "workerPolicyVerifiedAt": "2026-10-11T21:18:25.890Z",
+      "verificationNote": "Worker uses formatted source and 108e4 numeric notation; parsed scoped Helios policy rather than a whitespace-sensitive pattern. No further deployment needed."
+    },
+    "apiWorkerVersion": "a83afbf0-a0c4-44bc-a2a9-f5be8dbb7f56",
+    "schedulerVersion": "69bb5acf-8dce-418d-806a-96e72b21aefb"
   }
 }
