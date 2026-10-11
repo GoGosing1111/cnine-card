@@ -1,0 +1,585 @@
+{
+  "task": "군단토벌 장비 30종 원화 및 계정별 PVE/PVP 용병 장비",
+  "completedAt": "2026-10-11T08:22:46.121Z",
+  "sourceCommit": "811256c84a6df94cb4e32242f4f88de20a3d9d47",
+  "previousProductionRuntime": "fade2d5d8327472f90dcb4cb5fa52bbdfb65e333",
+  "deployment": {
+    "command": "npm run deploy:production",
+    "scope": "full",
+    "gatePassed": true,
+    "verifiedPrefixResume": true,
+    "prefixBase": "3786f00e3b4867b985a96d6bd17f0c8b9f16c9dd",
+    "logs": [
+      {
+        "file": "deploy-final2.log",
+        "sha256": "e6c6fe7d8706fdcc265950d6b7c06fc92c5f4acd1bb9baf228b911d1b7e5b967",
+        "bytes": 265603
+      },
+      {
+        "file": "deploy-final-resume.log",
+        "sha256": "4b13dbdf07c05f993ec144d8f06ca8345c08b6556f8bf7ead2f35f7d77441899",
+        "bytes": 109353
+      },
+      {
+        "file": "deploy-final-resume2.log",
+        "sha256": "3bff236a2d2885fc7e94c982e9725a36efadaa4e26d10dc5233167a9c1becc13",
+        "bytes": 65257
+      },
+      {
+        "file": "deploy-final-resume3.log",
+        "sha256": "6146a1fbd0338acff3b65b3572e4aaf39b0dc458cf1015050a37dae51e2f1075",
+        "bytes": 21531
+      },
+      {
+        "file": "deploy-final-resume4.log",
+        "sha256": "ac28ebc359a344a444be651aa42c32a517892c29d3d6a3394869eb59297aa8fe",
+        "bytes": 76916
+      },
+      {
+        "file": "deploy-final-resume5.log",
+        "sha256": "a6dea8ba7b2b64dbd12810383e0a5add4d143da7e0d2c36f777c97afcce54318",
+        "bytes": 17366
+      }
+    ],
+    "production": "https://cnine-card.pages.dev",
+    "pages": "https://936e7277.cnine-card.pages.dev",
+    "apiVersion": "5f394c91-88ca-4adc-b23c-0dd82096ca64",
+    "schedulerVersion": "a1749350-d986-48b8-9213-347d37991371",
+    "hyperdriveCacheDisabled": true
+  },
+  "behavior": {
+    "scope": "account",
+    "modes": [
+      "PVE",
+      "PVP"
+    ],
+    "slots": [
+      "WEAPON",
+      "TOP",
+      "BOTTOM",
+      "SHOES",
+      "ACCESSORY"
+    ],
+    "persistsAfterMercenaryChange": true,
+    "sameInstanceAcrossModes": true,
+    "effectsPveOnly": [
+      "set",
+      "unique",
+      "polish"
+    ],
+    "catalogItems": 30
+  },
+  "catalog": {
+    "operationKey": "ops:legion-mercenary-art:20261011:v1",
+    "appliedAt": "2026-10-11T08:21:24.773Z",
+    "updated": 30,
+    "grants": 0,
+    "changes": [
+      {
+        "code": "HUNT_COAST_ACCESSORY",
+        "beforeImage": "/assets/ui/legion-regions-v1/coast/equipment-5-v1.webp",
+        "image": "/assets/ui/mercenary-equipment/legion-20261011/coast-accessory.webp",
+        "beforeDescription": "검은 돛의 해안 전용 장비 · 난파왕 2/4세트 · 세트/고유 효과는 PVE 전용",
+        "description": "검은 돛의 해안 용병 전용 장비 · 난파왕 2/4세트 · 용병 PVE/PVP 장비 · 세트/고유/연마 효과 PVE 전용"
+      },
+      {
+        "code": "HUNT_COAST_BOTTOM",
+        "beforeImage": "/assets/ui/legion-regions-v1/coast/equipment-3-v1.webp",
+        "image": "/assets/ui/mercenary-equipment/legion-20261011/coast-bottom.webp",
+        "beforeDescription": "검은 돛의 해안 전용 장비 · 난파왕 2/4세트 · 세트/고유 효과는 PVE 전용",
+        "description": "검은 돛의 해안 용병 전용 장비 · 난파왕 2/4세트 · 용병 PVE/PVP 장비 · 세트/고유/연마 효과 PVE 전용"
+      },
+      {
+        "code": "HUNT_COAST_SHOES",
+        "beforeImage": "/assets/ui/legion-regions-v1/coast/equipment-4-v1.webp",
+        "image": "/assets/ui/mercenary-equipment/legion-20261011/coast-shoes.webp",
+        "beforeDescription": "검은 돛의 해안 전용 장비 · 난파왕 2/4세트 · 세트/고유 효과는 PVE 전용",
+        "description": "검은 돛의 해안 용병 전용 장비 · 난파왕 2/4세트 · 용병 PVE/PVP 장비 · 세트/고유/연마 효과 PVE 전용"
+      },
+      {
+        "code": "HUNT_COAST_TOP",
+        "beforeImage": "/assets/ui/legion-regions-v1/coast/equipment-2-v1.webp",
+        "image": "/assets/ui/mercenary-equipment/legion-20261011/coast-top.webp",
+        "beforeDescription": "검은 돛의 해안 전용 장비 · 난파왕 2/4세트 · 세트/고유 효과는 PVE 전용",
+        "description": "검은 돛의 해안 용병 전용 장비 · 난파왕 2/4세트 · 용병 PVE/PVP 장비 · 세트/고유/연마 효과 PVE 전용"
+      },
+      {
+        "code": "HUNT_COAST_UNIQUE",
+        "beforeImage": "/assets/ui/legion-regions-v1/coast/equipment-6-v1.webp",
+        "image": "/assets/ui/mercenary-equipment/legion-20261011/coast-unique.webp",
+        "beforeDescription": "보호막을 공격할 때 피해 증가 · 세트/고유 효과는 PVE 전용",
+        "description": "보호막을 공격할 때 피해 증가 · 용병 PVE/PVP 장비 · 세트/고유/연마 효과 PVE 전용"
+      },
+      {
+        "code": "HUNT_COAST_WEAPON",
+        "beforeImage": "/assets/ui/legion-regions-v1/coast/equipment-1-v1.webp",
+        "image": "/assets/ui/mercenary-equipment/legion-20261011/coast-weapon.webp",
+        "beforeDescription": "검은 돛의 해안 전용 장비 · 난파왕 2/4세트 · 세트/고유 효과는 PVE 전용",
+        "description": "검은 돛의 해안 용병 전용 장비 · 난파왕 2/4세트 · 용병 PVE/PVP 장비 · 세트/고유/연마 효과 PVE 전용"
+      },
+      {
+        "code": "HUNT_DESERT_ACCESSORY",
+        "beforeImage": "/assets/ui/legion-regions-v1/desert/equipment-5-v1.webp",
+        "image": "/assets/ui/mercenary-equipment/legion-20261011/desert-accessory.webp",
+        "beforeDescription": "유리 사막 전용 장비 · 유리 사냥꾼 2/4세트 · 세트/고유 효과는 PVE 전용",
+        "description": "유리 사막 용병 전용 장비 · 유리 사냥꾼 2/4세트 · 용병 PVE/PVP 장비 · 세트/고유/연마 효과 PVE 전용"
+      },
+      {
+        "code": "HUNT_DESERT_BOTTOM",
+        "beforeImage": "/assets/ui/legion-regions-v1/desert/equipment-3-v1.webp",
+        "image": "/assets/ui/mercenary-equipment/legion-20261011/desert-bottom.webp",
+        "beforeDescription": "유리 사막 전용 장비 · 유리 사냥꾼 2/4세트 · 세트/고유 효과는 PVE 전용",
+        "description": "유리 사막 용병 전용 장비 · 유리 사냥꾼 2/4세트 · 용병 PVE/PVP 장비 · 세트/고유/연마 효과 PVE 전용"
+      },
+      {
+        "code": "HUNT_DESERT_SHOES",
+        "beforeImage": "/assets/ui/legion-regions-v1/desert/equipment-4-v1.webp",
+        "image": "/assets/ui/mercenary-equipment/legion-20261011/desert-shoes.webp",
+        "beforeDescription": "유리 사막 전용 장비 · 유리 사냥꾼 2/4세트 · 세트/고유 효과는 PVE 전용",
+        "description": "유리 사막 용병 전용 장비 · 유리 사냥꾼 2/4세트 · 용병 PVE/PVP 장비 · 세트/고유/연마 효과 PVE 전용"
+      },
+      {
+        "code": "HUNT_DESERT_TOP",
+        "beforeImage": "/assets/ui/legion-regions-v1/desert/equipment-2-v1.webp",
+        "image": "/assets/ui/mercenary-equipment/legion-20261011/desert-top.webp",
+        "beforeDescription": "유리 사막 전용 장비 · 유리 사냥꾼 2/4세트 · 세트/고유 효과는 PVE 전용",
+        "description": "유리 사막 용병 전용 장비 · 유리 사냥꾼 2/4세트 · 용병 PVE/PVP 장비 · 세트/고유/연마 효과 PVE 전용"
+      },
+      {
+        "code": "HUNT_DESERT_UNIQUE",
+        "beforeImage": "/assets/ui/legion-regions-v1/desert/equipment-6-v1.webp",
+        "image": "/assets/ui/mercenary-equipment/legion-20261011/desert-unique.webp",
+        "beforeDescription": "보스에게 가하는 피해 증가 · 세트/고유 효과는 PVE 전용",
+        "description": "보스에게 가하는 피해 증가 · 용병 PVE/PVP 장비 · 세트/고유/연마 효과 PVE 전용"
+      },
+      {
+        "code": "HUNT_DESERT_WEAPON",
+        "beforeImage": "/assets/ui/legion-regions-v1/desert/equipment-1-v1.webp",
+        "image": "/assets/ui/mercenary-equipment/legion-20261011/desert-weapon.webp",
+        "beforeDescription": "유리 사막 전용 장비 · 유리 사냥꾼 2/4세트 · 세트/고유 효과는 PVE 전용",
+        "description": "유리 사막 용병 전용 장비 · 유리 사냥꾼 2/4세트 · 용병 PVE/PVP 장비 · 세트/고유/연마 효과 PVE 전용"
+      },
+      {
+        "code": "HUNT_SKY_ACCESSORY",
+        "beforeImage": "/assets/ui/legion-regions-v1/sky/equipment-5-v1.webp",
+        "image": "/assets/ui/mercenary-equipment/legion-20261011/sky-accessory.webp",
+        "beforeDescription": "역천 제도 전용 장비 · 천공 추격자 2/4세트 · 세트/고유 효과는 PVE 전용",
+        "description": "역천 제도 용병 전용 장비 · 천공 추격자 2/4세트 · 용병 PVE/PVP 장비 · 세트/고유/연마 효과 PVE 전용"
+      },
+      {
+        "code": "HUNT_SKY_BOTTOM",
+        "beforeImage": "/assets/ui/legion-regions-v1/sky/equipment-3-v1.webp",
+        "image": "/assets/ui/mercenary-equipment/legion-20261011/sky-bottom.webp",
+        "beforeDescription": "역천 제도 전용 장비 · 천공 추격자 2/4세트 · 세트/고유 효과는 PVE 전용",
+        "description": "역천 제도 용병 전용 장비 · 천공 추격자 2/4세트 · 용병 PVE/PVP 장비 · 세트/고유/연마 효과 PVE 전용"
+      },
+      {
+        "code": "HUNT_SKY_SHOES",
+        "beforeImage": "/assets/ui/legion-regions-v1/sky/equipment-4-v1.webp",
+        "image": "/assets/ui/mercenary-equipment/legion-20261011/sky-shoes.webp",
+        "beforeDescription": "역천 제도 전용 장비 · 천공 추격자 2/4세트 · 세트/고유 효과는 PVE 전용",
+        "description": "역천 제도 용병 전용 장비 · 천공 추격자 2/4세트 · 용병 PVE/PVP 장비 · 세트/고유/연마 효과 PVE 전용"
+      },
+      {
+        "code": "HUNT_SKY_TOP",
+        "beforeImage": "/assets/ui/legion-regions-v1/sky/equipment-2-v1.webp",
+        "image": "/assets/ui/mercenary-equipment/legion-20261011/sky-top.webp",
+        "beforeDescription": "역천 제도 전용 장비 · 천공 추격자 2/4세트 · 세트/고유 효과는 PVE 전용",
+        "description": "역천 제도 용병 전용 장비 · 천공 추격자 2/4세트 · 용병 PVE/PVP 장비 · 세트/고유/연마 효과 PVE 전용"
+      },
+      {
+        "code": "HUNT_SKY_UNIQUE",
+        "beforeImage": "/assets/ui/legion-regions-v1/sky/equipment-6-v1.webp",
+        "image": "/assets/ui/mercenary-equipment/legion-20261011/sky-unique.webp",
+        "beforeDescription": "치명타 기본공격에 추가 피해 · 세트/고유 효과는 PVE 전용",
+        "description": "치명타 기본공격에 추가 피해 · 용병 PVE/PVP 장비 · 세트/고유/연마 효과 PVE 전용"
+      },
+      {
+        "code": "HUNT_SKY_WEAPON",
+        "beforeImage": "/assets/ui/legion-regions-v1/sky/equipment-1-v1.webp",
+        "image": "/assets/ui/mercenary-equipment/legion-20261011/sky-weapon.webp",
+        "beforeDescription": "역천 제도 전용 장비 · 천공 추격자 2/4세트 · 세트/고유 효과는 PVE 전용",
+        "description": "역천 제도 용병 전용 장비 · 천공 추격자 2/4세트 · 용병 PVE/PVP 장비 · 세트/고유/연마 효과 PVE 전용"
+      },
+      {
+        "code": "HUNT_THEATRE_ACCESSORY",
+        "beforeImage": "/assets/ui/legion-regions-v1/theatre/equipment-5-v1.webp",
+        "image": "/assets/ui/mercenary-equipment/legion-20261011/theatre-accessory.webp",
+        "beforeDescription": "끝나지 않는 대극장 전용 장비 · 마리오네트 2/4세트 · 세트/고유 효과는 PVE 전용",
+        "description": "끝나지 않는 대극장 용병 전용 장비 · 마리오네트 2/4세트 · 용병 PVE/PVP 장비 · 세트/고유/연마 효과 PVE 전용"
+      },
+      {
+        "code": "HUNT_THEATRE_BOTTOM",
+        "beforeImage": "/assets/ui/legion-regions-v1/theatre/equipment-3-v1.webp",
+        "image": "/assets/ui/mercenary-equipment/legion-20261011/theatre-bottom.webp",
+        "beforeDescription": "끝나지 않는 대극장 전용 장비 · 마리오네트 2/4세트 · 세트/고유 효과는 PVE 전용",
+        "description": "끝나지 않는 대극장 용병 전용 장비 · 마리오네트 2/4세트 · 용병 PVE/PVP 장비 · 세트/고유/연마 효과 PVE 전용"
+      },
+      {
+        "code": "HUNT_THEATRE_SHOES",
+        "beforeImage": "/assets/ui/legion-regions-v1/theatre/equipment-4-v1.webp",
+        "image": "/assets/ui/mercenary-equipment/legion-20261011/theatre-shoes.webp",
+        "beforeDescription": "끝나지 않는 대극장 전용 장비 · 마리오네트 2/4세트 · 세트/고유 효과는 PVE 전용",
+        "description": "끝나지 않는 대극장 용병 전용 장비 · 마리오네트 2/4세트 · 용병 PVE/PVP 장비 · 세트/고유/연마 효과 PVE 전용"
+      },
+      {
+        "code": "HUNT_THEATRE_TOP",
+        "beforeImage": "/assets/ui/legion-regions-v1/theatre/equipment-2-v1.webp",
+        "image": "/assets/ui/mercenary-equipment/legion-20261011/theatre-top.webp",
+        "beforeDescription": "끝나지 않는 대극장 전용 장비 · 마리오네트 2/4세트 · 세트/고유 효과는 PVE 전용",
+        "description": "끝나지 않는 대극장 용병 전용 장비 · 마리오네트 2/4세트 · 용병 PVE/PVP 장비 · 세트/고유/연마 효과 PVE 전용"
+      },
+      {
+        "code": "HUNT_THEATRE_UNIQUE",
+        "beforeImage": "/assets/ui/legion-regions-v1/theatre/equipment-6-v1.webp",
+        "image": "/assets/ui/mercenary-equipment/legion-20261011/theatre-unique.webp",
+        "beforeDescription": "일정 횟수의 기본공격마다 추가 타격 · 세트/고유 효과는 PVE 전용",
+        "description": "일정 횟수의 기본공격마다 추가 타격 · 용병 PVE/PVP 장비 · 세트/고유/연마 효과 PVE 전용"
+      },
+      {
+        "code": "HUNT_THEATRE_WEAPON",
+        "beforeImage": "/assets/ui/legion-regions-v1/theatre/equipment-1-v1.webp",
+        "image": "/assets/ui/mercenary-equipment/legion-20261011/theatre-weapon.webp",
+        "beforeDescription": "끝나지 않는 대극장 전용 장비 · 마리오네트 2/4세트 · 세트/고유 효과는 PVE 전용",
+        "description": "끝나지 않는 대극장 용병 전용 장비 · 마리오네트 2/4세트 · 용병 PVE/PVP 장비 · 세트/고유/연마 효과 PVE 전용"
+      },
+      {
+        "code": "HUNT_VISCERA_ACCESSORY",
+        "beforeImage": "/assets/ui/legion-regions-v1/viscera/equipment-5-v1.webp",
+        "image": "/assets/ui/mercenary-equipment/legion-20261011/viscera-accessory.webp",
+        "beforeDescription": "거수의 뱃속 전용 장비 · 포식자 2/4세트 · 세트/고유 효과는 PVE 전용",
+        "description": "거수의 뱃속 용병 전용 장비 · 포식자 2/4세트 · 용병 PVE/PVP 장비 · 세트/고유/연마 효과 PVE 전용"
+      },
+      {
+        "code": "HUNT_VISCERA_BOTTOM",
+        "beforeImage": "/assets/ui/legion-regions-v1/viscera/equipment-3-v1.webp",
+        "image": "/assets/ui/mercenary-equipment/legion-20261011/viscera-bottom.webp",
+        "beforeDescription": "거수의 뱃속 전용 장비 · 포식자 2/4세트 · 세트/고유 효과는 PVE 전용",
+        "description": "거수의 뱃속 용병 전용 장비 · 포식자 2/4세트 · 용병 PVE/PVP 장비 · 세트/고유/연마 효과 PVE 전용"
+      },
+      {
+        "code": "HUNT_VISCERA_SHOES",
+        "beforeImage": "/assets/ui/legion-regions-v1/viscera/equipment-4-v1.webp",
+        "image": "/assets/ui/mercenary-equipment/legion-20261011/viscera-shoes.webp",
+        "beforeDescription": "거수의 뱃속 전용 장비 · 포식자 2/4세트 · 세트/고유 효과는 PVE 전용",
+        "description": "거수의 뱃속 용병 전용 장비 · 포식자 2/4세트 · 용병 PVE/PVP 장비 · 세트/고유/연마 효과 PVE 전용"
+      },
+      {
+        "code": "HUNT_VISCERA_TOP",
+        "beforeImage": "/assets/ui/legion-regions-v1/viscera/equipment-2-v1.webp",
+        "image": "/assets/ui/mercenary-equipment/legion-20261011/viscera-top.webp",
+        "beforeDescription": "거수의 뱃속 전용 장비 · 포식자 2/4세트 · 세트/고유 효과는 PVE 전용",
+        "description": "거수의 뱃속 용병 전용 장비 · 포식자 2/4세트 · 용병 PVE/PVP 장비 · 세트/고유/연마 효과 PVE 전용"
+      },
+      {
+        "code": "HUNT_VISCERA_UNIQUE",
+        "beforeImage": "/assets/ui/legion-regions-v1/viscera/equipment-6-v1.webp",
+        "image": "/assets/ui/mercenary-equipment/legion-20261011/viscera-unique.webp",
+        "beforeDescription": "기본공격 적중 시 제한된 체력 회복 · 세트/고유 효과는 PVE 전용",
+        "description": "기본공격 적중 시 제한된 체력 회복 · 용병 PVE/PVP 장비 · 세트/고유/연마 효과 PVE 전용"
+      },
+      {
+        "code": "HUNT_VISCERA_WEAPON",
+        "beforeImage": "/assets/ui/legion-regions-v1/viscera/equipment-1-v1.webp",
+        "image": "/assets/ui/mercenary-equipment/legion-20261011/viscera-weapon.webp",
+        "beforeDescription": "거수의 뱃속 전용 장비 · 포식자 2/4세트 · 세트/고유 효과는 PVE 전용",
+        "description": "거수의 뱃속 용병 전용 장비 · 포식자 2/4세트 · 용병 PVE/PVP 장비 · 세트/고유/연마 효과 PVE 전용"
+      }
+    ],
+    "verifiedAt": "2026-10-11T08:21:37.242Z",
+    "matched": 30,
+    "replay": {
+      "changed": 0,
+      "replayed": true
+    },
+    "invariantsUnchanged": [
+      "name",
+      "slot",
+      "total_power",
+      "pve_power",
+      "pvp_power",
+      "is_active",
+      "is_public",
+      "supply_enabled",
+      "supply_weight",
+      "region_policy",
+      "polish_policy",
+      "ownership"
+    ],
+    "active": 0,
+    "public": 0,
+    "supply": 0,
+    "owners": 0,
+    "regionMode": "TEST",
+    "testUserIds": [],
+    "polishMode": "OFF"
+  },
+  "liveVerification": {
+    "at": "2026-10-11T08:18:52.553Z",
+    "base": "https://cnine-card.pages.dev",
+    "files": [
+      {
+        "file": "mercenary-codex/equipment/index.html",
+        "status": 200,
+        "bytes": 4774,
+        "sha256": "2692fd562bab1691292ce452ecf13da89cf139ba571a0cf036ba1d3d61439605"
+      },
+      {
+        "file": "mercenary-codex/equipment/app.mjs",
+        "status": 200,
+        "bytes": 11009,
+        "sha256": "81d1669db2c8c25d4b5af2db764caa50d1df734ad85003288320ec0b87043308"
+      },
+      {
+        "file": "mercenary-codex/equipment/style.css",
+        "status": 200,
+        "bytes": 14927,
+        "sha256": "c22d5a349199885c14a70eb286c5049de23ca56638d2fd3d0c43f11dfb53d33d"
+      },
+      {
+        "file": "js/mercenary-deck-slot.mjs",
+        "status": 200,
+        "bytes": 3758,
+        "sha256": "859872260097e6dfab1b10e2fad0377bc82419107dcd276c7e0abfbd118f1f4f"
+      },
+      {
+        "file": "shared/mercenary-equipment-v1.mjs",
+        "status": 200,
+        "bytes": 916,
+        "sha256": "db81bc808b3816725876de1b37c2cd7c0ac130ce1d134512761ea2e4f370494d"
+      },
+      {
+        "file": "shared/legion-regions-v1.mjs",
+        "status": 200,
+        "bytes": 7513,
+        "sha256": "7bf750434e8defe7bfc1791f49728510a80650a9f8d85b2eb38b16bfc0344d86"
+      },
+      {
+        "file": "service-worker.js",
+        "status": 200,
+        "bytes": 9767,
+        "sha256": "ce7fd5313d92ad2e7443761fa231ce9065b9ff7a34e48d1158a5667ef620d70c"
+      },
+      {
+        "file": "assets/ui/mercenary-equipment/legion-20261011/coast-weapon.webp",
+        "status": 200,
+        "bytes": 73538,
+        "sha256": "abd366981dd5c11ba19ce17c782279c920345790ff427efd735f3b3e75430be5"
+      },
+      {
+        "file": "assets/ui/mercenary-equipment/legion-20261011/coast-top.webp",
+        "status": 200,
+        "bytes": 128082,
+        "sha256": "9eb1b3d22d0833238e14e0561a698b154fb0751a3f7006f97c92a774043235f1"
+      },
+      {
+        "file": "assets/ui/mercenary-equipment/legion-20261011/coast-bottom.webp",
+        "status": 200,
+        "bytes": 72412,
+        "sha256": "3c3b2c92458bcb3d3cc5961fd35789132af2548b677ab3c7a3556a206edee7f7"
+      },
+      {
+        "file": "assets/ui/mercenary-equipment/legion-20261011/coast-shoes.webp",
+        "status": 200,
+        "bytes": 126184,
+        "sha256": "def3feb4b965181d19097fae68530051318f440f2d0fda5eaf6f657f380e9214"
+      },
+      {
+        "file": "assets/ui/mercenary-equipment/legion-20261011/coast-accessory.webp",
+        "status": 200,
+        "bytes": 73740,
+        "sha256": "d22dba1c2e02b289a0835ea9d7879cf7c47368b54740a16d2f68cd6d02e5651a"
+      },
+      {
+        "file": "assets/ui/mercenary-equipment/legion-20261011/coast-unique.webp",
+        "status": 200,
+        "bytes": 51386,
+        "sha256": "af6829d5041ffa3afb6f904d9b48174d8c08d32a64961f9f8e568855ed69c7dc"
+      },
+      {
+        "file": "assets/ui/mercenary-equipment/legion-20261011/desert-weapon.webp",
+        "status": 200,
+        "bytes": 43122,
+        "sha256": "73b345b112a9c9a9a0424e27d16e3981154b0b1ff3c4db540efe6d5c4c04eaf5"
+      },
+      {
+        "file": "assets/ui/mercenary-equipment/legion-20261011/desert-top.webp",
+        "status": 200,
+        "bytes": 97886,
+        "sha256": "78bccb070c6ae11d539379ab7c180d00f7bf34240d89e1244fe175a2b652d48c"
+      },
+      {
+        "file": "assets/ui/mercenary-equipment/legion-20261011/desert-bottom.webp",
+        "status": 200,
+        "bytes": 60478,
+        "sha256": "745d820176ed0d2a64ccccd2aa4cbcc4a7ebf1a90dca2568a7263d507779bdd1"
+      },
+      {
+        "file": "assets/ui/mercenary-equipment/legion-20261011/desert-shoes.webp",
+        "status": 200,
+        "bytes": 81416,
+        "sha256": "ba9ee5d9dae7e705ea171715ddec66162751638bf8f1daf18b50e56be52a60c5"
+      },
+      {
+        "file": "assets/ui/mercenary-equipment/legion-20261011/desert-accessory.webp",
+        "status": 200,
+        "bytes": 93946,
+        "sha256": "a3376ba3b1354fc98648d181e932a5195d782e02b007e7dee2bb17daff74589f"
+      },
+      {
+        "file": "assets/ui/mercenary-equipment/legion-20261011/desert-unique.webp",
+        "status": 200,
+        "bytes": 36908,
+        "sha256": "7a58a3a71bf6c14b6ac68e35b393b33f80295757dbcd246239512fb6bde829e8"
+      },
+      {
+        "file": "assets/ui/mercenary-equipment/legion-20261011/theatre-weapon.webp",
+        "status": 200,
+        "bytes": 43918,
+        "sha256": "76423fe029d572881b7a5ed405c519ed51267005a07c8303070e9194e8351c1c"
+      },
+      {
+        "file": "assets/ui/mercenary-equipment/legion-20261011/theatre-top.webp",
+        "status": 200,
+        "bytes": 90278,
+        "sha256": "0a2f414a360e383c623d6123490097a88dc352657bd9516683b57b7c41dd0040"
+      },
+      {
+        "file": "assets/ui/mercenary-equipment/legion-20261011/theatre-bottom.webp",
+        "status": 200,
+        "bytes": 70712,
+        "sha256": "1e127ea73da8d6c508f0bfae7158a05ee43875d3a803a8ec4b693483e47306a7"
+      },
+      {
+        "file": "assets/ui/mercenary-equipment/legion-20261011/theatre-shoes.webp",
+        "status": 200,
+        "bytes": 83732,
+        "sha256": "411c06e17d5a1ef84777b6fb963cc05491b47d15d6585a47134d9353d4333777"
+      },
+      {
+        "file": "assets/ui/mercenary-equipment/legion-20261011/theatre-accessory.webp",
+        "status": 200,
+        "bytes": 109976,
+        "sha256": "c0c68ff4bede89672006c4c42414396b04ca4619c18b054be84447b22aa4c282"
+      },
+      {
+        "file": "assets/ui/mercenary-equipment/legion-20261011/theatre-unique.webp",
+        "status": 200,
+        "bytes": 115608,
+        "sha256": "c0e18269187caf6656aefb55a5ad97b800dc4976c8d5a5d416c7b07f87e077bf"
+      },
+      {
+        "file": "assets/ui/mercenary-equipment/legion-20261011/viscera-weapon.webp",
+        "status": 200,
+        "bytes": 44438,
+        "sha256": "c56365961026ef8a81904893a999aabe89a16d170646fc5a1fa20de36d4fb8de"
+      },
+      {
+        "file": "assets/ui/mercenary-equipment/legion-20261011/viscera-top.webp",
+        "status": 200,
+        "bytes": 89288,
+        "sha256": "3e188544c20cbb7eeb80c8b647937d4df06c0a049c8dd8f47c6e9790e050f4cc"
+      },
+      {
+        "file": "assets/ui/mercenary-equipment/legion-20261011/viscera-bottom.webp",
+        "status": 200,
+        "bytes": 60708,
+        "sha256": "ec724b6ffd854775dc73456e554f51ba94897f25fb7bd5797f93bb243b95bd18"
+      },
+      {
+        "file": "assets/ui/mercenary-equipment/legion-20261011/viscera-shoes.webp",
+        "status": 200,
+        "bytes": 102886,
+        "sha256": "bc2b7d19d0baea60d8560d63cbaf3c799403c8a66251b02a5a3f87d32ed55c9c"
+      },
+      {
+        "file": "assets/ui/mercenary-equipment/legion-20261011/viscera-accessory.webp",
+        "status": 200,
+        "bytes": 65652,
+        "sha256": "9316d4f77d7c3f8a73ecbdb0f9165a8a7cac29a67ee92ae79284f060d12729ad"
+      },
+      {
+        "file": "assets/ui/mercenary-equipment/legion-20261011/viscera-unique.webp",
+        "status": 200,
+        "bytes": 101266,
+        "sha256": "d5b7a7efc34915fb4ee845aba9b2da6e561377152e75bb0e3be046fe34dcdab5"
+      },
+      {
+        "file": "assets/ui/mercenary-equipment/legion-20261011/sky-weapon.webp",
+        "status": 200,
+        "bytes": 60316,
+        "sha256": "728eea87e82db229e99b9243eba58add3fcd459f9420319370076a0e1d29d460"
+      },
+      {
+        "file": "assets/ui/mercenary-equipment/legion-20261011/sky-top.webp",
+        "status": 200,
+        "bytes": 103460,
+        "sha256": "ff43c7448d7cc311e6f133562d38a329bbeece6e98f7424a9ade3d88398105f0"
+      },
+      {
+        "file": "assets/ui/mercenary-equipment/legion-20261011/sky-bottom.webp",
+        "status": 200,
+        "bytes": 74688,
+        "sha256": "1ef95660100f73fd1531a547b84e2405aae8f43e61d4cb58b74f615dd93e5bab"
+      },
+      {
+        "file": "assets/ui/mercenary-equipment/legion-20261011/sky-shoes.webp",
+        "status": 200,
+        "bytes": 97418,
+        "sha256": "2810d255174d9672814fb456d2592051126849b4a134f46e7e49e6365fa78f7b"
+      },
+      {
+        "file": "assets/ui/mercenary-equipment/legion-20261011/sky-accessory.webp",
+        "status": 200,
+        "bytes": 72910,
+        "sha256": "5269650e68368b90406e9943013647af80bcc28c4701c087cbccc925e857aada"
+      },
+      {
+        "file": "assets/ui/mercenary-equipment/legion-20261011/sky-unique.webp",
+        "status": 200,
+        "bytes": 79906,
+        "sha256": "7ffa122648fb8bad0bebc4d00083fb40eccd43d84eab10cc0a6af571337b61bd"
+      },
+      {
+        "file": "index.html",
+        "status": 200,
+        "bytes": 22779,
+        "sha256": "b7499ab7152247bebe74ecb9dfb2f77a827959879997e61c608d7b90e352a651"
+      },
+      {
+        "file": "css/mercenary-deck-slot.css",
+        "status": 200,
+        "bytes": 1545,
+        "sha256": "c65c5225313b883b91388216f0de17b779cecdd965a162159b218b12d461dbb8"
+      },
+      {
+        "file": "mercenary-codex/index.html",
+        "status": 200,
+        "bytes": 8570,
+        "sha256": "ce60b04342e4ccbc1231e8fee9439105ede6f11557c9c72c87258c754e4d8a30"
+      },
+      {
+        "file": "mercenary-codex/shell.mjs",
+        "status": 200,
+        "bytes": 8601,
+        "sha256": "6766b2324b4ca1a621882e5e4da97cbc217886a29bf469357fa31e3f2e30b455"
+      },
+      {
+        "file": "js/legion-hunt-entry-v1.mjs",
+        "status": 200,
+        "bytes": 19456,
+        "sha256": "acef43ed4a7133ccb9af326bc4bbfd4a678116adcb5483eac38fb79073178086"
+      }
+    ],
+    "unauthenticatedEquipment": 401
+  },
+  "visualEvidence": {
+    "gallery": "preview/legion-mercenary-equipment-20261011/all-thirty.png",
+    "desktop": "preview/legion-mercenary-equipment-20261011/desktop-final.png",
+    "mobile": "preview/legion-mercenary-equipment-20261011/mobile-final.png",
+    "mobileDetail": "preview/legion-mercenary-equipment-20261011/mobile-detail-final.png",
+    "browser": "preview/legion-mercenary-equipment-20261011/browser.json",
+    "visual": "preview/legion-mercenary-equipment-20261011/visual-final.json",
+    "manifest": "preview/legion-mercenary-equipment-20261011/assets.json"
+  }
+}
