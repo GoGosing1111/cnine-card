@@ -1,0 +1,106 @@
+{
+  "verifiedAt": "2026-10-11T12:16:25.016Z",
+  "deployedCommit": "b45914c19a5e3d8b4e71fd8c7be669b2a06bbfaf",
+  "previousProductionCommit": "b97632a6ead2a01d0b99662f62c8723366f5c988",
+  "deploymentUrl": "https://42e6ea17.cnine-card.pages.dev",
+  "productionUrl": "https://cnine-card.pages.dev",
+  "apiRuntimeVersion": "93d0cd17-2862-4809-a552-c693f614a8d1",
+  "schedulerVersion": "69dc305e-efe0-4e19-aca3-82b8b097cc04",
+  "release": {
+    "command": "npm run deploy:production -- --scoped",
+    "tests": 25,
+    "workerCheck": true,
+    "productionGuard": true,
+    "hyperdriveCacheDisabled": true,
+    "deployLogSha256": "139dda02ccd4272e66824278429571c508de042736abd778b72b7a5f295ac3a4"
+  },
+  "files": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "matched": true,
+      "sha256": "4da883ecfaed6e7436d6ed8a4df96d4da4aa8f5d356fa2fe3b2d603984c7345c"
+    },
+    {
+      "path": "service-worker.js",
+      "status": 200,
+      "matched": true,
+      "sha256": "9e61f10cd44cc3d25e1bbebb47c1ffecf5bcf264d238d20b831031fdd129c609"
+    },
+    {
+      "path": "js/territory-network-v6.js",
+      "status": 200,
+      "matched": true,
+      "sha256": "d8c67b701dabc14804cb10c00029fac7a31c2e0672320ac18b0d735939ca78cc"
+    },
+    {
+      "path": "js/territory-war-v1811.js",
+      "status": 200,
+      "matched": true,
+      "sha256": "8fb2fdb3309c6ce1f6c0173c5bafe06a7b62708792853b162f22637460dc6470"
+    },
+    {
+      "path": "css/territory-network-v6.css",
+      "status": 200,
+      "matched": true,
+      "sha256": "cf18dad470ec0881fd3ac354fcf43ca9ae793adec8c17acac9f2a03b199a653a"
+    },
+    {
+      "path": "assets/ui/territory-war/network-v2/three-fronts-map.webp",
+      "status": 200,
+      "matched": true,
+      "sha256": "5555398e87a8aefc983649b702c2b7677ac226b600130d92c1c39f5198205e78"
+    },
+    {
+      "path": "assets/ui/territory-war/network-v2/guardian-citadel.webp",
+      "status": 200,
+      "matched": true,
+      "sha256": "1caebdd0818a8916979363f72e1a6891a13f87f91463f6b4057fb4fd2053f696"
+    },
+    {
+      "path": "assets/ui/territory-war/network-v2/purifier-citadel.webp",
+      "status": 200,
+      "matched": true,
+      "sha256": "5ab89c5a9760eaf6ce9abfa491079454ba8e45bd74b34d528d5c61219f4a7ec6"
+    },
+    {
+      "path": "assets/ui/territory-war/network-v2/crossroads-sanctuary.webp",
+      "status": 200,
+      "matched": true,
+      "sha256": "d3cf54da272e5a25414588bebaa52bc4d58002916c8497749e489dd8aa14011c"
+    }
+  ],
+  "routes": [
+    {
+      "path": "/api/service/status",
+      "status": 200
+    },
+    {
+      "path": "/api/territory-war/state?nodeIndex=2",
+      "status": 401
+    }
+  ],
+  "database": {
+    "mode": "OFF",
+    "round": {
+      "id": "69",
+      "status": "DISABLED",
+      "warfare_version": 4
+    },
+    "roster": [
+      {
+        "status": "WAITING",
+        "count": 146
+      }
+    ],
+    "readOnly": true
+  },
+  "visualQA": {
+    "desktop": "1440x1000",
+    "mobile": "390x844",
+    "mockAccounts": true,
+    "browserErrors": 0,
+    "evidenceDirectory": "C:/Users/User/.codex/visualizations/2026/10/11/territory-map-art"
+  },
+  "passed": true
+}
