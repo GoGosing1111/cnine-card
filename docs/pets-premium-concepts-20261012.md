@@ -30,4 +30,8 @@
 
 ## 배포 기록
 
-배포 완료 후 미리보기·PNG·ZIP의 반영 결과를 기록한다.
+- 자산 커밋: `bef690d2928f2e918654eb1f71e2e1319bfafdb8`
+- 자산 전용 배포 완료: <https://a1f81f4f.cnine-card.pages.dev>
+- 미리보기: <https://a1f81f4f.cnine-card.pages.dev/preview/pets-premium-20261012-v1/>
+- 2026-10-12 01:54 KST, 새 미리보기·JSON 2개·PNG 6개·ZIP·기존 미리보기 HTML 등 총 11개 파일의 HTTP 200과 로컬 원본 해시 일치를 확인했다. Hyperdrive 캐시 OFF 확인도 통과했다.
+- 운영 확인 영수증은 `docs/qa/pets-premium-20261012-v1/production.json`에 보존한다. 이 배포 기록은 문서 범위로 커밋·원격 반영 후 종료하며 재배포하지 않는다.

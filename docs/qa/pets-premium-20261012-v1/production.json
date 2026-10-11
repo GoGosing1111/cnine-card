@@ -1,0 +1,85 @@
+{
+  "verifiedAt": "2026-10-11T16:54:00.772Z",
+  "deployment": "https://a1f81f4f.cnine-card.pages.dev/",
+  "preview": "https://a1f81f4f.cnine-card.pages.dev/preview/pets-premium-20261012-v1/",
+  "commit": "bef690d2928f2e918654eb1f71e2e1319bfafdb8",
+  "checks": [
+    {
+      "file": "preview/pets-premium-20261012-v1/index.html",
+      "status": 200,
+      "bytes": 9391,
+      "sha256": "334c0d4f6a5217e35d8703a8c87d926e54409b65a3e55783a819e63132791781",
+      "match": true
+    },
+    {
+      "file": "preview/pets-premium-20261012-v1/manifest.json",
+      "status": 200,
+      "bytes": 5277,
+      "sha256": "83438a2ad8d0f21a1736497beb82a3c14e723b4e53e7af2f68600fed044a3d1f",
+      "match": true
+    },
+    {
+      "file": "preview/pets-premium-20261012-v1/generation.json",
+      "status": 200,
+      "bytes": 22066,
+      "sha256": "b5459adf057fbdef2c56d9fd48ae9dbc9f8a9d85bc075ac6332b8670df2d5b82",
+      "match": true
+    },
+    {
+      "file": "preview/pets-premium-20261012-v1/pets-premium-six-v1.zip",
+      "status": 200,
+      "bytes": 8340984,
+      "sha256": "dc9981f5b5775417e8cb19bded982c1de171895ab13a2abb1e214adc0a736092",
+      "match": true
+    },
+    {
+      "file": "preview/pets-premium-20261012-v1/assets/pet-moon-fox-v1.png",
+      "status": 200,
+      "bytes": 1596446,
+      "sha256": "824485d758f320ca411234def77a7e3384e231b563e16d5878f6819d1e7cb481",
+      "match": true
+    },
+    {
+      "file": "preview/pets-premium-20261012-v1/assets/pet-frost-crown-wolf-v1.png",
+      "status": 200,
+      "bytes": 1630057,
+      "sha256": "13993cd58715dd68c624e1c8f280937995bda1c623d17b1a0f40747fb85057f7",
+      "match": true
+    },
+    {
+      "file": "preview/pets-premium-20261012-v1/assets/pet-gilded-spirit-dragon-v2.png",
+      "status": 200,
+      "bytes": 1314954,
+      "sha256": "4b8cbc3d7981b2fd0ee4ccd22a4031500182838799d5419942339ad149e1fb76",
+      "match": true
+    },
+    {
+      "file": "preview/pets-premium-20261012-v1/assets/pet-solar-phoenix-v1.png",
+      "status": 200,
+      "bytes": 1581398,
+      "sha256": "cf8ed295e76817e7aa5f402cd788e2747de332aaf0985295986c1d7bca7299ec",
+      "match": true
+    },
+    {
+      "file": "preview/pets-premium-20261012-v1/assets/pet-verdant-crown-stag-v1.png",
+      "status": 200,
+      "bytes": 972228,
+      "sha256": "e46649298c1fc8cdc841630f614c0555e8977a9b0faff357deba846083606d2e",
+      "match": true
+    },
+    {
+      "file": "preview/pets-premium-20261012-v1/assets/pet-astral-panther-v1.png",
+      "status": 200,
+      "bytes": 1482835,
+      "sha256": "0a3437d0163dfdb985e8622abeb7ac70651bbee906138e1e30b67daef99410f8",
+      "match": true
+    },
+    {
+      "file": "preview/pets-classic-rpg-20261012-v1/index.html",
+      "status": 200,
+      "bytes": 6242,
+      "sha256": "29ecc560d6d8f3eb6cf6460acfd7158c7614b57f95a7be7a939aa38e1c39382a",
+      "match": true
+    }
+  ]
+}
