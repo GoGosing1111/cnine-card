@@ -1,0 +1,64 @@
+{
+  "checkedAt": "2026-10-11T21:29:19.590Z",
+  "identity": {
+    "db": "cnine",
+    "role": "neondb_owner"
+  },
+  "result": {
+    "dryRun": true,
+    "replayed": false,
+    "status": "VERIFIED",
+    "owner": {
+      "id": "1",
+      "nickname": "핑크빛유두",
+      "role": "OWNER",
+      "status": "ACTIVE"
+    },
+    "holders": [
+      {
+        "user_id": "1",
+        "mercenary_code": "V-989",
+        "total_copies": 1,
+        "duplicate_count": 0
+      }
+    ],
+    "limitedDigest": "bdefe441e2ac7b90f4b4d4b042513545d2f774e66c23c97778150815119d8cc3",
+    "limitedKinds": 9,
+    "limitedIssued": 50,
+    "jinmuStock": [],
+    "jinmuIssues": [],
+    "receipt": {
+      "status": "COMPLETED",
+      "operationKey": "ops:jinmu-owner-grant:20261012:v1",
+      "target": {
+        "id": 1,
+        "nickname": "핑크빛유두",
+        "code": "V-989",
+        "quantity": 1
+      },
+      "completedAt": "2026-10-11T21:29:17.757Z",
+      "countedInLimited": false,
+      "limitedDigestBefore": "bdefe441e2ac7b90f4b4d4b042513545d2f774e66c23c97778150815119d8cc3",
+      "limitedDigestAfter": "bdefe441e2ac7b90f4b4d4b042513545d2f774e66c23c97778150815119d8cc3",
+      "limitedKinds": 9,
+      "limitedIssued": 50,
+      "automaticLoadout": false,
+      "adminLogId": "44931"
+    }
+  },
+  "rolledBack": {
+    "owner": {
+      "id": "1",
+      "nickname": "핑크빛유두",
+      "role": "OWNER",
+      "status": "ACTIVE"
+    },
+    "holders": [],
+    "limitedDigest": "bdefe441e2ac7b90f4b4d4b042513545d2f774e66c23c97778150815119d8cc3",
+    "limitedKinds": 9,
+    "limitedIssued": 50,
+    "jinmuStock": [],
+    "jinmuIssues": [],
+    "receipt": null
+  }
+}

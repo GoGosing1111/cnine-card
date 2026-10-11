@@ -12,6 +12,7 @@ import {mercenaryFixture} from './helpers/mercenary-db.mjs';
 import {mercenaryAccountState,saveMercenaryLoadout} from '../functions/_mercenary_account.js';
 import {mercenaryCodexDocument} from '../functions/_mercenary_codex.js';
 
+const lifecycleOnly=process.argv.includes('--lifecycle');
 const root=fileURLToPath(new URL('..',import.meta.url)),out=path.join(root,'docs/qa/jinmu-live-20261012');
 fs.mkdirSync(out,{recursive:true});
 const ids=['CN-02D9DC1E8A8A4209','CN-0505936A0CBB4E59','CN-25F931CE393D474E','CN-23EB4B19986D4818','CN-519C181C18DF4B8E'];
@@ -64,15 +65,15 @@ const server=http.createServer(async(req,res)=>{
 await new Promise(r=>server.listen(0,'127.0.0.1',r));
 const base='http://127.0.0.1:'+server.address().port,browser=await chromium.launch({channel:'chrome',headless:true,args:['--mute-audio','--enable-unsafe-swiftshader']}),checks=[],errors=[];
 try{
- for(const [label,viewport] of [['desktop',{width:1440,height:1000}],['mobile',{width:390,height:844}]])for(const mode of ['basic','enemy','area']){
-  const page=await browser.newPage({viewport,serviceWorkers:'block'});page.on('pageerror',e=>errors.push(label+' '+mode+': '+e.message));
+ for(const [label,viewport] of (lifecycleOnly?[['desktop',{width:1440,height:1000}]]:[['desktop',{width:1440,height:1000}],['mobile',{width:390,height:844}]]))for(const mode of (lifecycleOnly?['basic']:['basic','enemy','area'])){
+  const page=await browser.newPage({viewport,serviceWorkers:'block'});page.on('pageerror',e=>{errors.push(label+' '+mode+': '+e.message);if(errors.length===1)console.error('Browser:',e.stack);});
   await page.goto(base+'/qa.html?mode='+mode);await page.waitForFunction(()=>window.JinmuQA?.ready||window.qaError,null,{timeout:60000});
   assert.equal(await page.evaluate(()=>window.qaError),undefined);
   await page.evaluate(({contact})=>{
    const q=window.JinmuQA,e=q.engine,a=e.mercenaries.find(a=>a.cardId==='V-989');q.actor=a;q.damageCalls=[];q.hpCalls=[];
    const show=e.showAccountBattleUnitDamage.bind(e);e.showAccountBattleUnitDamage=(t,data)=>{q.damageCalls.push({id:t.id,...data});return show(t,data);};
    const sync=e.syncTargetHp.bind(e);e.syncTargetHp=(t,h)=>{const result=sync(t,h);q.hpCalls.push({id:t.id,input:h,hp:t.hp});return result;};
-   const timeline=e.timeline.bind(e);e.timeline=(build,cleanup,rate,options)=>timeline(tl=>{
+   const timeline=e.timeline.bind(e);q.nativeTimeline=timeline;e.timeline=(build,cleanup,rate,options)=>timeline(tl=>{
     if(!options?.owners?.includes(a))return build(tl);
     q.timeline=tl;q.spec={rate,releaseAt:options.releaseAt};
     const call=tl.call.bind(tl);tl.call=(fn,args,at)=>call(()=>{fn();if(Math.abs(at-contact)<.0001){q.contact={time:tl.time(),duration:tl.duration(),scale:tl.timeScale(),hpCalls:[...q.hpCalls],damageCalls:[...q.damageCalls],fx:e.jinmuStates.get(a).fx.diagnostics()};tl.pause();}},args,at);
@@ -93,9 +94,29 @@ try{
   await page.evaluate(()=>{window.JinmuQA.timeline.play();});await page.waitForFunction(()=>!window.JinmuQA.engine.jinmuStates.get(window.JinmuQA.actor).busy,null,{timeout:10000});
   const after=await page.evaluate(()=>{const q=window.JinmuQA,s=q.engine.jinmuStates.get(q.actor);return {last:q.engine.lastMercenaryPlayback,busy:s.busy,visibleEffects:s.fx.pool.filter(p=>p.visible).length,auraAlphas:[...s.fx.auraSprites,...s.fx.dragonSprites].map(p=>p.alpha),atStation:Math.abs(q.actor.root.x-q.actor.baseX)<1&&Math.abs(q.actor.root.y-q.actor.baseY)<1,damageCalls:q.damageCalls.length};});
   assert.equal(after.busy,false);assert(after.auraAlphas.every(a=>a===1));assert.equal(after.visibleEffects,0);assert.equal(after.atStation,true);assert.equal(after.damageCalls,contact.contact.damageCalls.length);assert.equal(after.last.playbackRate,2.6);
-  assert.equal(contact.contact.fx.auraVisible,true);assert.equal(contact.contact.fx.damageAuthority,'SERVER_ONLY');checks.push({label,mode,contact:contact.contact,spec:contact.spec,after});await page.close();
+  assert.equal(contact.contact.fx.auraVisible,true);assert.equal(contact.contact.fx.damageAuthority,'SERVER_ONLY');checks.push({label,mode,contact:contact.contact,spec:contact.spec,after});
+  if(lifecycleOnly){
+   console.log("lifecycle: variants");const variant=await page.evaluate(async()=>{const q=window.JinmuQA,e=q.engine,a=q.actor;e.timeline=q.nativeTimeline;
+    const modes=[];for(let i=0;i<2;i++){await Promise.race([e.normalAttack(0,{attacker:a,target:q.target,damage:2,targetHp:75-i}),new Promise((_,reject)=>setTimeout(()=>reject(Error('Variant stuck')),5000))]);e.settlePendingTails([a,q.target]);modes.push(e.lastMercenaryPlayback.mode);}
+    return {modes,damageCalls:q.damageCalls.length,alphas:e.jinmuStates.get(a).fx.auraSprites.map(s=>s.alpha)};
+   });assert.deepEqual(variant.modes,['attack','skill']);assert.equal(variant.damageCalls,3);assert(variant.alphas.every(a=>a===1));
+   for(const action of ['cancel','target-lost']){console.log('lifecycle: '+action);
+    await page.evaluate(()=>{const q=window.JinmuQA,e=q.engine,a=q.actor;q.pauseReady=false;q.damageBefore=q.damageCalls.length;
+     e.timeline=(build,cleanup,rate,options)=>q.nativeTimeline(tl=>{q.nextTimeline=tl;build(tl);tl.call(()=>{q.pauseReady=true;tl.pause();},[],.01);},cleanup,rate,options);
+     q.pending=e.normalAttack(0,{attacker:a,target:q.target,damage:999,targetHp:1});
+    });await page.waitForFunction(()=>window.JinmuQA.pauseReady);
+    const frozen=await page.evaluate(()=>window.JinmuQA.engine.jinmuStates.get(window.JinmuQA.actor).fx.time);await page.waitForTimeout(150);
+    assert.equal(await page.evaluate(()=>window.JinmuQA.engine.jinmuStates.get(window.JinmuQA.actor).fx.time),frozen);
+    const stopped=await page.evaluate(async action=>{const q=window.JinmuQA,e=q.engine;
+     if(action==='cancel')e.cancelTimelines();else{e.characters=e.characters.filter(a=>a!==q.target);e.enemies=e.enemies.filter(a=>a!==q.target);q.target.destroy();q.nextTimeline.play();}
+     await Promise.race([q.pending,new Promise((_,reject)=>setTimeout(()=>reject(Error("Pending action stuck: "+JSON.stringify({errors:q.error,paused:q.nextTimeline.paused(),time:q.nextTimeline.time(),visible:e.visible,stopped:e.jinmuStates.get(q.actor).stopped}))),5000))]);e.settlePendingTails([q.actor]);const s=e.jinmuStates.get(q.actor);return {damage:q.damageCalls.length-q.damageBefore,busy:s.busy,visible:s.fx.pool.filter(x=>x.visible).length,station:Math.abs(q.actor.root.x-q.actor.baseX)<1};
+    },action);assert.deepEqual(stopped,{damage:0,busy:false,visible:0,station:true});checks.push({label,mode:action,pauseClockFrozen:true,...stopped});
+   }
+   const disposed=await page.evaluate(()=>{const e=window.JinmuQA.engine;e.clearMercenaryActors();return {states:e.jinmuStates.size,fx:e.effectLayer.children.filter(c=>c.label==='GoldenDragonFX').length};});assert.deepEqual(disposed,{states:0,fx:0});checks.push({label,mode:'variant-and-dispose',variant,disposed});
+  }
+  await page.close();
  }
- for(const [label,viewport]of [['desktop',{width:1440,height:1000}],['mobile',{width:390,height:844}]]){
+ if(!lifecycleOnly)for(const [label,viewport]of [['desktop',{width:1440,height:1000}],['mobile',{width:390,height:844}]]){
   const page=await browser.newPage({viewport,serviceWorkers:'block'});page.on('pageerror',e=>errors.push(label+' codex: '+e.message));
   await page.addInitScript(()=>{localStorage.setItem('cnine_card_api_token','local-test');localStorage.setItem('cnine_card_user_v10',JSON.stringify({id:1,nickname:'핑크빛유두'}));});
   await page.goto(base+'/mercenary-codex/?view=owned#V-989');await page.locator('[data-code="V-989"]').click();
@@ -109,6 +130,6 @@ try{
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));assert.equal(await page.locator('#limitedCount').textContent(),'9');await page.screenshot({path:path.join(out,label+'-loadout.png'),fullPage:true});
   const state=await mercenaryAccountState(f.env,user);assert.equal(state.loadouts.PVE.mercenaryCode,'V-989');assert.equal(state.loadouts.PVP.mercenaryCode,'V-989');checks.push({label,mode:'loadout',pve:true,pvp:true,persisted:true});await page.close();
  }
- assert.deepEqual(errors,[]);fs.writeFileSync(path.join(out,'review.json'),JSON.stringify({source:'canonical production V3/PVE bundles; actual twelve-target server PVE event',checks,errors},null,2));
+ assert.deepEqual(errors,[]);fs.writeFileSync(path.join(out,lifecycleOnly?'lifecycle.json':'review.json'),JSON.stringify({source:'canonical production V3/PVE bundles; actual twelve-target server PVE event',checks,errors},null,2));
  console.log(JSON.stringify({passed:checks.length,errors,out}));
 }finally{await browser.close();await new Promise(r=>server.close(r));for(const cb of cleanup)await cb();}

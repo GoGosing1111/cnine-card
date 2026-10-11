@@ -1,0 +1,152 @@
+{
+  "source": "canonical production V3/PVE bundles; actual twelve-target server PVE event",
+  "checks": [
+    {
+      "label": "desktop",
+      "mode": "basic",
+      "contact": {
+        "time": 0.304,
+        "duration": 0.8653846,
+        "scale": 1,
+        "hpCalls": [
+          {
+            "id": "CN-02D9DC1E8A8A4209",
+            "input": 77,
+            "hp": 77
+          }
+        ],
+        "damageCalls": [
+          {
+            "id": "CN-02D9DC1E8A8A4209",
+            "damage": 23
+          }
+        ],
+        "fx": {
+          "ready": true,
+          "mode": "attack",
+          "time": 0.7904,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "key": "slash",
+            "frame": 3
+          },
+          "cancelled": false,
+          "visibleSprites": 36,
+          "activeFrames": [
+            {
+              "key": "blade",
+              "frame": 4,
+              "alpha": 1,
+              "anchor": {
+                "x": 1412.9,
+                "y": 188.00000000000003
+              },
+              "size": 220.875
+            },
+            {
+              "key": "impact",
+              "frame": 4,
+              "alpha": 0.85,
+              "anchor": {
+                "x": 1430,
+                "y": 188.00000000000003
+              },
+              "size": 242.25
+            }
+          ],
+          "registeredTimelines": 0,
+          "regularAllies": 5,
+          "regularEnemies": 5,
+          "mercenaryInRegularArray": false,
+          "effectLayers": 1,
+          "auraVisible": true,
+          "auraEnabled": true,
+          "motionOnly": false,
+          "reducedMotion": false,
+          "audio": {
+            "enabled": false,
+            "scheduled": [],
+            "error": null
+          },
+          "unit": 142.5,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "counts": {
+            "motion": 40,
+            "effects": 84
+          },
+          "auraAlphas": [
+            1,
+            1,
+            1
+          ]
+        }
+      },
+      "spec": {
+        "rate": null,
+        "releaseAt": 0.35
+      },
+      "after": {
+        "last": {
+          "code": "V-989",
+          "eventType": "ATTACK",
+          "mode": "attack",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 1,
+          "playbackRate": 2.6,
+          "contactSeconds": 0.3038461538461539,
+          "durationSeconds": 0.8653846153846153
+        },
+        "busy": false,
+        "visibleEffects": 0,
+        "auraAlphas": [
+          1,
+          1,
+          1
+        ],
+        "atStation": true,
+        "damageCalls": 1
+      }
+    },
+    {
+      "label": "desktop",
+      "mode": "cancel",
+      "pauseClockFrozen": true,
+      "damage": 0,
+      "busy": false,
+      "visible": 0,
+      "station": true
+    },
+    {
+      "label": "desktop",
+      "mode": "target-lost",
+      "pauseClockFrozen": true,
+      "damage": 0,
+      "busy": false,
+      "visible": 0,
+      "station": true
+    },
+    {
+      "label": "desktop",
+      "mode": "variant-and-dispose",
+      "variant": {
+        "modes": [
+          "attack",
+          "skill"
+        ],
+        "damageCalls": 3,
+        "alphas": [
+          1,
+          1
+        ]
+      },
+      "disposed": {
+        "states": 0,
+        "fx": 0
+      }
+    }
+  ],
+  "errors": []
+}

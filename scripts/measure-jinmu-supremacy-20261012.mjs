@@ -40,6 +40,6 @@ for(const snapshot of [h,{...limitedDeploymentSnapshot('V-999'),combat:fixture.c
  pve.push({code:snapshot.code,cases:rows});
 }
 const report={date:'2026-10-12',scope:'CANONICAL_SERVER_EQUAL_DECK_SIMULATION_NOT_LIVE_PLAYER_WIN_RATE',cmsRevision:fixture.cmsRevision,policy:JINMU_COMBAT,
- acquisitionChanged:false,formationChanged:false,visualApprovalChanged:false,opponents:roster.length,total:cases.reduce((n,r)=>n+r.total,0),rows:cases,pve,elapsedSeconds:(Date.now()-started)/1000};
+ publicAcquisitionChanged:false,exclusiveOwnerGrant:true,formationChanged:true,sourceArtPixelsChanged:false,opponents:roster.length,total:cases.reduce((n,r)=>n+r.total,0),rows:cases,pve,elapsedSeconds:(Date.now()-started)/1000};
 const out='docs/qa/jinmu-supremacy-20261012/comparison.json';fs.mkdirSync(path.dirname(out),{recursive:true});fs.writeFileSync(out,JSON.stringify(report,null,2)+'\n');
-console.log(JSON.stringify({out,total:report.total,seconds:report.elapsedSeconds,valter:cases.find(c=>c.code==='V-999'),belowHalf:cases.filter(c=>c.winRate<.5).map(c=>({code:c.code,rate:c.winRate}))}));
+console.log(JSON.stringify({out,total:report.total,seconds:report.elapsedSeconds,helios:cases.find(c=>c.code==='V-999'),belowHalf:cases.filter(c=>c.winRate<.5).map(c=>({code:c.code,rate:c.winRate}))}));

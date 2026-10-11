@@ -12,7 +12,7 @@
     "actionCredit": 3.12,
     "motionPlaybackRate": 2.6,
     "link": {
-      "attackPercent": 2112,
+      "attackPercent": 2196.48,
       "hpPercent": 1397.76,
       "shieldPercent": 763.68
     },
@@ -20,9 +20,7 @@
     "damageTakenScale": 0.25,
     "hardCounter": "V-055"
   },
-  "acquisitionChanged": false,
-  "formationChanged": false,
-  "visualApprovalChanged": false,
+  "formationChanged": true,
   "opponents": 64,
   "total": 6816,
   "rows": [
@@ -13470,11 +13468,11 @@
       "code": "V-999",
       "name": "헬리오스",
       "rank": "SSS",
-      "wins": 676,
-      "losses": 92,
+      "wins": 670,
+      "losses": 98,
       "draws": 0,
       "total": 768,
-      "winRate": 0.8802083333333334,
+      "winRate": 0.8723958333333334,
       "cases": [
         {
           "power": 100000,
@@ -13555,32 +13553,32 @@
         {
           "power": 20000000,
           "deck": "balanced",
-          "wins": 61,
-          "losses": 3,
+          "wins": 58,
+          "losses": 6,
           "draws": 0,
           "total": 64,
           "bySide": {
             "A": {
-              "wins": 32,
+              "wins": 30,
               "total": 32
             },
             "B": {
-              "wins": 29,
+              "wins": 28,
               "total": 32
             }
           },
-          "winRate": 0.953125
+          "winRate": 0.90625
         },
         {
           "power": 20000000,
           "deck": "attack",
-          "wins": 49,
-          "losses": 15,
+          "wins": 50,
+          "losses": 14,
           "draws": 0,
           "total": 64,
           "bySide": {
             "A": {
-              "wins": 26,
+              "wins": 27,
               "total": 32
             },
             "B": {
@@ -13588,7 +13586,7 @@
               "total": 32
             }
           },
-          "winRate": 0.765625
+          "winRate": 0.78125
         },
         {
           "power": 20000000,
@@ -13631,21 +13629,21 @@
         {
           "power": 1000000000,
           "deck": "balanced",
-          "wins": 61,
-          "losses": 3,
+          "wins": 58,
+          "losses": 6,
           "draws": 0,
           "total": 64,
           "bySide": {
             "A": {
-              "wins": 32,
+              "wins": 30,
               "total": 32
             },
             "B": {
-              "wins": 29,
+              "wins": 28,
               "total": 32
             }
           },
-          "winRate": 0.953125
+          "winRate": 0.90625
         },
         {
           "power": 1000000000,
@@ -13688,8 +13686,8 @@
         {
           "power": 1000000000,
           "deck": "speed",
-          "wins": 36,
-          "losses": 28,
+          "wins": 35,
+          "losses": 29,
           "draws": 0,
           "total": 64,
           "bySide": {
@@ -13698,11 +13696,11 @@
               "total": 32
             },
             "B": {
-              "wins": 15,
+              "wins": 14,
               "total": 32
             }
           },
-          "winRate": 0.5625
+          "winRate": 0.546875
         }
       ]
     },
@@ -15396,120 +15394,120 @@
           "monsterPower": 4000000000,
           "wins": 8,
           "total": 8,
-          "damage": 59969927122,
-          "actions": 286,
-          "averageDamage": 7496240890.25,
-          "averageActions": 35.75
+          "damage": 60286757817,
+          "actions": 285,
+          "averageDamage": 7535844727.125,
+          "averageActions": 35.625
         },
         {
           "deck": "balanced",
           "monsterPower": 8000000000,
           "wins": 8,
           "total": 8,
-          "damage": 113478708194,
-          "actions": 353,
-          "averageDamage": 14184838524.25,
-          "averageActions": 44.125
+          "damage": 113696973554,
+          "actions": 348,
+          "averageDamage": 14212121694.25,
+          "averageActions": 43.5
         },
         {
           "deck": "balanced",
           "monsterPower": 16000000000,
           "wins": 8,
           "total": 8,
-          "damage": 217623287622,
-          "actions": 400,
-          "averageDamage": 27202910952.75,
-          "averageActions": 50
-        },
-        {
-          "deck": "attack",
-          "monsterPower": 4000000000,
-          "wins": 8,
-          "total": 8,
-          "damage": 60437668715,
-          "actions": 284,
-          "averageDamage": 7554708589.375,
-          "averageActions": 35.5
-        },
-        {
-          "deck": "attack",
-          "monsterPower": 8000000000,
-          "wins": 8,
-          "total": 8,
-          "damage": 114000311936,
-          "actions": 349,
-          "averageDamage": 14250038992,
-          "averageActions": 43.625
-        },
-        {
-          "deck": "attack",
-          "monsterPower": 16000000000,
-          "wins": 8,
-          "total": 8,
-          "damage": 219127645284,
+          "damage": 218014091058,
           "actions": 397,
-          "averageDamage": 27390955660.5,
+          "averageDamage": 27251761382.25,
           "averageActions": 49.625
         },
         {
+          "deck": "attack",
+          "monsterPower": 4000000000,
+          "wins": 8,
+          "total": 8,
+          "damage": 60466560000,
+          "actions": 281,
+          "averageDamage": 7558320000,
+          "averageActions": 35.125
+        },
+        {
+          "deck": "attack",
+          "monsterPower": 8000000000,
+          "wins": 8,
+          "total": 8,
+          "damage": 114476166865,
+          "actions": 345,
+          "averageDamage": 14309520858.125,
+          "averageActions": 43.125
+        },
+        {
+          "deck": "attack",
+          "monsterPower": 16000000000,
+          "wins": 8,
+          "total": 8,
+          "damage": 219686146315,
+          "actions": 396,
+          "averageDamage": 27460768289.375,
+          "averageActions": 49.5
+        },
+        {
           "deck": "defense",
           "monsterPower": 4000000000,
           "wins": 8,
           "total": 8,
-          "damage": 59125398904,
-          "actions": 310,
-          "averageDamage": 7390674863,
-          "averageActions": 38.75
+          "damage": 59280342484,
+          "actions": 306,
+          "averageDamage": 7410042810.5,
+          "averageActions": 38.25
         },
         {
           "deck": "defense",
           "monsterPower": 8000000000,
           "wins": 8,
           "total": 8,
-          "damage": 111999778812,
-          "actions": 371,
-          "averageDamage": 13999972351.5,
-          "averageActions": 46.375
+          "damage": 112374023989,
+          "actions": 366,
+          "averageDamage": 14046752998.625,
+          "averageActions": 45.75
         },
         {
           "deck": "defense",
           "monsterPower": 16000000000,
           "wins": 8,
           "total": 8,
-          "damage": 217179263248,
-          "actions": 414,
-          "averageDamage": 27147407906,
-          "averageActions": 51.75
+          "damage": 217339089100,
+          "actions": 411,
+          "averageDamage": 27167386137.5,
+          "averageActions": 51.375
         },
         {
           "deck": "speed",
           "monsterPower": 4000000000,
           "wins": 8,
           "total": 8,
-          "damage": 59387762584,
-          "actions": 296,
-          "averageDamage": 7423470323,
-          "averageActions": 37
+          "damage": 59782997642,
+          "actions": 294,
+          "averageDamage": 7472874705.25,
+          "averageActions": 36.75
         },
         {
           "deck": "speed",
           "monsterPower": 8000000000,
           "wins": 8,
           "total": 8,
-          "damage": 112693102577,
-          "actions": 363,
-          "averageDamage": 14086637822.125,
-          "averageActions": 45.375
+          "damage": 113030911072,
+          "actions": 360,
+          "averageDamage": 14128863884,
+          "averageActions": 45
         },
         {
           "deck": "speed",
           "monsterPower": 16000000000,
           "wins": 8,
           "total": 8,
-          "damage": 217010223758,
-          "actions": 406,
-          "averageDamage": 27126277969.75,
-          "averageActions": 50.75
+          "damage": 217241610885,
+          "actions": 403,
+          "averageDamage": 27155201360.625,
+          "averageActions": 50.375
         }
       ]
     },
@@ -15521,19 +15519,19 @@
           "monsterPower": 4000000000,
           "wins": 8,
           "total": 8,
-          "damage": 59117823695,
-          "actions": 308,
-          "averageDamage": 7389727961.875,
-          "averageActions": 38.5
+          "damage": 59213404638,
+          "actions": 301,
+          "averageDamage": 7401675579.75,
+          "averageActions": 37.625
         },
         {
           "deck": "balanced",
           "monsterPower": 8000000000,
           "wins": 8,
           "total": 8,
-          "damage": 112231384198,
+          "damage": 112762852236,
           "actions": 365,
-          "averageDamage": 14028923024.75,
+          "averageDamage": 14095356529.5,
           "averageActions": 45.625
         },
         {
@@ -15541,90 +15539,90 @@
           "monsterPower": 16000000000,
           "wins": 8,
           "total": 8,
-          "damage": 216717932285,
-          "actions": 410,
-          "averageDamage": 27089741535.625,
-          "averageActions": 51.25
-        },
-        {
-          "deck": "attack",
-          "monsterPower": 4000000000,
-          "wins": 8,
-          "total": 8,
-          "damage": 59363919560,
-          "actions": 302,
-          "averageDamage": 7420489945,
-          "averageActions": 37.75
-        },
-        {
-          "deck": "attack",
-          "monsterPower": 8000000000,
-          "wins": 8,
-          "total": 8,
-          "damage": 112859206908,
-          "actions": 367,
-          "averageDamage": 14107400863.5,
-          "averageActions": 45.875
-        },
-        {
-          "deck": "attack",
-          "monsterPower": 16000000000,
-          "wins": 8,
-          "total": 8,
-          "damage": 217137087809,
+          "damage": 216882892777,
           "actions": 408,
-          "averageDamage": 27142135976.125,
+          "averageDamage": 27110361597.125,
           "averageActions": 51
         },
         {
+          "deck": "attack",
+          "monsterPower": 4000000000,
+          "wins": 8,
+          "total": 8,
+          "damage": 59664341621,
+          "actions": 297,
+          "averageDamage": 7458042702.625,
+          "averageActions": 37.125
+        },
+        {
+          "deck": "attack",
+          "monsterPower": 8000000000,
+          "wins": 8,
+          "total": 8,
+          "damage": 112986495465,
+          "actions": 363,
+          "averageDamage": 14123311933.125,
+          "averageActions": 45.375
+        },
+        {
+          "deck": "attack",
+          "monsterPower": 16000000000,
+          "wins": 8,
+          "total": 8,
+          "damage": 217508625002,
+          "actions": 405,
+          "averageDamage": 27188578125.25,
+          "averageActions": 50.625
+        },
+        {
           "deck": "defense",
           "monsterPower": 4000000000,
           "wins": 8,
           "total": 8,
-          "damage": 58091081912,
-          "actions": 328,
-          "averageDamage": 7261385239,
-          "averageActions": 41
+          "damage": 58139270607,
+          "actions": 324,
+          "averageDamage": 7267408825.875,
+          "averageActions": 40.5
         },
         {
           "deck": "defense",
           "monsterPower": 8000000000,
           "wins": 8,
           "total": 8,
-          "damage": 111103402263,
-          "actions": 383,
-          "averageDamage": 13887925282.875,
-          "averageActions": 47.875
+          "damage": 111324792759,
+          "actions": 379,
+          "averageDamage": 13915599094.875,
+          "averageActions": 47.375
         },
         {
           "deck": "defense",
           "monsterPower": 16000000000,
           "wins": 8,
           "total": 8,
-          "damage": 215735030917,
-          "actions": 420,
-          "averageDamage": 26966878864.625,
-          "averageActions": 52.5
+          "damage": 216259633144,
+          "actions": 419,
+          "averageDamage": 27032454143,
+          "averageActions": 52.375
         },
         {
           "deck": "speed",
           "monsterPower": 4000000000,
           "wins": 8,
           "total": 8,
-          "damage": 58298602151,
-          "actions": 319,
-          "averageDamage": 7287325268.875,
-          "averageActions": 39.875
+          "damage": 58723953117,
+          "actions": 314,
+          "averageDamage": 7340494139.625,
+          "averageActions": 39.25
         },
         {
           "deck": "speed",
           "monsterPower": 8000000000,
           "wins": 8,
           "total": 8,
-          "damage": 111474831312,
-          "actions": 375,
-          "averageDamage": 13934353914,
-          "averageActions": 46.875
+          "damage": 111686474341,
+          "actions": 371,
+          "averageDamage": 13960809292.625,
+          "averageActions": 46.375
         },
         {
           "deck": "speed",
@@ -15632,12 +15630,15 @@
           "wins": 8,
           "total": 8,
           "damage": 215846400000,
-          "actions": 416,
+          "actions": 415,
           "averageDamage": 26980800000,
-          "averageActions": 52
+          "averageActions": 51.875
         }
       ]
     }
   ],
-  "elapsedSeconds": 3.325
+  "elapsedSeconds": 4.49,
+  "publicAcquisitionChanged": false,
+  "exclusiveOwnerGrant": true,
+  "sourceArtPixelsChanged": false
 }
