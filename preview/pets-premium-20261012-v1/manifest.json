@@ -1,0 +1,190 @@
+{
+  "createdDate": "2026-10-12",
+  "generator": "Built-in image_gen.imagegen",
+  "status": "concept-review",
+  "prompts": "generation.json",
+  "preview": "index.html",
+  "download": "pets-premium-six-v1.zip",
+  "assets": [
+    {
+      "id": "moon-fox",
+      "label": "월령 여우",
+      "concept": "달빛 털결 · 세 갈래 꼬리 · 백금 장식",
+      "file": "assets/pet-moon-fox-v1.png",
+      "width": 1254,
+      "height": 1254,
+      "format": "png",
+      "hasAlpha": true,
+      "channels": 4,
+      "bytes": 1596446,
+      "sha256": "824485d758f320ca411234def77a7e3384e231b563e16d5878f6819d1e7cb481",
+      "alpha": {
+        "clear": 767176,
+        "partial": 805265,
+        "opaque": 75,
+        "visibleBoundsAboveAlpha8": {
+          "left": 98,
+          "top": 20,
+          "right": 1188,
+          "bottom": 1202
+        },
+        "maxEdgeAlpha": 1,
+        "visibleEdgePixels": 0
+      },
+      "originalUnmodified": true,
+      "status": "concept-review",
+      "userApproved": false,
+      "liveRegistered": false
+    },
+    {
+      "id": "frost-wolf",
+      "label": "빙관 늑대",
+      "concept": "빙정 갈기 · 은빛 모피 · 수호 늑대",
+      "file": "assets/pet-frost-crown-wolf-v1.png",
+      "width": 1254,
+      "height": 1254,
+      "format": "png",
+      "hasAlpha": true,
+      "channels": 4,
+      "bytes": 1630057,
+      "sha256": "13993cd58715dd68c624e1c8f280937995bda1c623d17b1a0f40747fb85057f7",
+      "alpha": {
+        "clear": 884040,
+        "partial": 688323,
+        "opaque": 153,
+        "visibleBoundsAboveAlpha8": {
+          "left": 62,
+          "top": 57,
+          "right": 1239,
+          "bottom": 1203
+        },
+        "maxEdgeAlpha": 1,
+        "visibleEdgePixels": 0
+      },
+      "originalUnmodified": true,
+      "status": "concept-review",
+      "userApproved": false,
+      "liveRegistered": false
+    },
+    {
+      "id": "gilded-dragon",
+      "label": "흑금 영룡",
+      "concept": "흑요 비늘 · 황금 갈기 · 부유형 영룡",
+      "file": "assets/pet-gilded-spirit-dragon-v2.png",
+      "width": 1254,
+      "height": 1254,
+      "format": "png",
+      "hasAlpha": true,
+      "channels": 4,
+      "bytes": 1314954,
+      "sha256": "4b8cbc3d7981b2fd0ee4ccd22a4031500182838799d5419942339ad149e1fb76",
+      "alpha": {
+        "clear": 1082334,
+        "partial": 489939,
+        "opaque": 243,
+        "visibleBoundsAboveAlpha8": {
+          "left": 208,
+          "top": 78,
+          "right": 1099,
+          "bottom": 1165
+        },
+        "maxEdgeAlpha": 1,
+        "visibleEdgePixels": 0
+      },
+      "originalUnmodified": true,
+      "status": "concept-review",
+      "userApproved": false,
+      "liveRegistered": false
+    },
+    {
+      "id": "solar-phoenix",
+      "label": "태양 봉황",
+      "concept": "홍금 깃털 · 태양빛 날개 · 긴 꼬리",
+      "file": "assets/pet-solar-phoenix-v1.png",
+      "width": 1254,
+      "height": 1254,
+      "format": "png",
+      "hasAlpha": true,
+      "channels": 4,
+      "bytes": 1581398,
+      "sha256": "cf8ed295e76817e7aa5f402cd788e2747de332aaf0985295986c1d7bca7299ec",
+      "alpha": {
+        "clear": 915931,
+        "partial": 656335,
+        "opaque": 250,
+        "visibleBoundsAboveAlpha8": {
+          "left": 54,
+          "top": 19,
+          "right": 1204,
+          "bottom": 1226
+        },
+        "maxEdgeAlpha": 1,
+        "visibleEdgePixels": 0
+      },
+      "originalUnmodified": true,
+      "status": "concept-review",
+      "userApproved": false,
+      "liveRegistered": false
+    },
+    {
+      "id": "verdant-stag",
+      "label": "비취 성록",
+      "concept": "비취 뿔 · 흰 사슴 · 숲의 수호수",
+      "file": "assets/pet-verdant-crown-stag-v1.png",
+      "width": 1254,
+      "height": 1254,
+      "format": "png",
+      "hasAlpha": true,
+      "channels": 4,
+      "bytes": 972228,
+      "sha256": "e46649298c1fc8cdc841630f614c0555e8977a9b0faff357deba846083606d2e",
+      "alpha": {
+        "clear": 1196772,
+        "partial": 375072,
+        "opaque": 672,
+        "visibleBoundsAboveAlpha8": {
+          "left": 216,
+          "top": 37,
+          "right": 1025,
+          "bottom": 1196
+        },
+        "maxEdgeAlpha": 0,
+        "visibleEdgePixels": 0
+      },
+      "originalUnmodified": true,
+      "status": "concept-review",
+      "userApproved": false,
+      "liveRegistered": false
+    },
+    {
+      "id": "astral-panther",
+      "label": "성운 마수",
+      "concept": "흑자색 털결 · 별빛 무늬 · 공허의 고양잇과",
+      "file": "assets/pet-astral-panther-v1.png",
+      "width": 1254,
+      "height": 1254,
+      "format": "png",
+      "hasAlpha": true,
+      "channels": 4,
+      "bytes": 1482835,
+      "sha256": "0a3437d0163dfdb985e8622abeb7ac70651bbee906138e1e30b67daef99410f8",
+      "alpha": {
+        "clear": 941156,
+        "partial": 630993,
+        "opaque": 367,
+        "visibleBoundsAboveAlpha8": {
+          "left": 92,
+          "top": 68,
+          "right": 1240,
+          "bottom": 1192
+        },
+        "maxEdgeAlpha": 1,
+        "visibleEdgePixels": 0
+      },
+      "originalUnmodified": true,
+      "status": "concept-review",
+      "userApproved": false,
+      "liveRegistered": false
+    }
+  ]
+}
