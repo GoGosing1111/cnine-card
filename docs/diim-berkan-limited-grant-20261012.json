@@ -1,0 +1,121 @@
+{
+  "status": "VERIFIED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:diim-berkan-limited:20261012:v1",
+    "planHash": "de5bae5cc3d0c8d0d71f55b490a735884e4de2e48abceaf53cba6acc2ab91dc3",
+    "plan": {
+      "operationKey": "ops:diim-berkan-limited:20261012:v1",
+      "target": {
+        "id": 4773,
+        "nickname": "진짜디임"
+      },
+      "cards": [
+        {
+          "code": "V-055",
+          "name": "베르칸",
+          "rank": "SSS",
+          "quantity": 1
+        },
+        {
+          "code": "V-994",
+          "name": "디임",
+          "rank": "SS",
+          "edition": "LIMITED",
+          "quantity": 1
+        }
+      ],
+      "addedCapacity": 1,
+      "expectedLimit": 11,
+      "authorization": "진짜디임 계정에 SSS베르칸하고 SS 리미티드 디임 발급하고 디임은 1장늘려",
+      "delivery": "DIRECT",
+      "permanent": true
+    },
+    "actor": "CODEX_OPERATIONS",
+    "completedAt": "2026-10-11T20:31:11.412Z",
+    "grants": [
+      {
+        "userId": 4773,
+        "nickname": "진짜디임",
+        "code": "V-055",
+        "name": "베르칸",
+        "rank": "SSS",
+        "quantity": 1,
+        "acquisitionId": "ops:diim-berkan-limited:20261012:v1:V-055",
+        "copiesBefore": 0,
+        "copiesAfter": 1
+      },
+      {
+        "userId": 4773,
+        "nickname": "진짜디임",
+        "code": "V-994",
+        "name": "디임",
+        "rank": "SS",
+        "edition": "LIMITED",
+        "quantity": 1,
+        "acquisitionId": "ops:diim-berkan-limited:20261012:v1:V-994",
+        "copiesBefore": 0,
+        "copiesAfter": 1,
+        "serial": 7
+      }
+    ],
+    "before": {
+      "limit": 11,
+      "issued": 6,
+      "remaining": 5
+    },
+    "after": {
+      "limit": 12,
+      "issued": 7,
+      "remaining": 5
+    },
+    "packMode": "ON",
+    "preserved": {
+      "balances": true,
+      "inventory": true,
+      "loadout": true,
+      "growth": true,
+      "otherCards": true,
+      "otherSettings": true
+    },
+    "adminLogIds": [
+      "44911",
+      "44912",
+      "44913"
+    ]
+  },
+  "current": {
+    "limit": 12,
+    "issued": 7,
+    "remaining": 5
+  },
+  "holdings": [
+    {
+      "code": "V-055",
+      "copies": 1
+    },
+    {
+      "code": "V-994",
+      "copies": 1
+    }
+  ],
+  "missing": 0,
+  "duplicateOperationGrants": 0,
+  "verifiedAt": "2026-10-11T20:31:35.178Z",
+  "validation": {
+    "focusedTests": 5,
+    "passed": 5,
+    "failureRollbackAtEveryWrite": true,
+    "idempotentReplay": true,
+    "lostCommitRecovery": true,
+    "productionDryRunRolledBack": true,
+    "freshConnectionReadOnlyVerification": true,
+    "sourceSha256": "62eeae6ceb1994d98382d9397a05380ef2004af304e86ad4d086a562cf20acca"
+  },
+  "delivery": "DIRECT_OWNERSHIP",
+  "release": {
+    "runtimeFilesChanged": false,
+    "deploymentRequired": false,
+    "reason": "Explicit one-time database operation; no game runtime or release flag changes."
+  }
+}
