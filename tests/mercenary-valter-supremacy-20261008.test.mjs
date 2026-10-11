@@ -74,12 +74,12 @@ test('all operating mercenary debuffs and melee parries leave Valter free to act
  }
 });
 
-test('Valter earns three turns per two owner card actions without affecting a duo teammate',()=>{
+test('Valter earns three turns per owner card action without affecting a duo teammate',()=>{
  const v={...fighter(valter()),ownerId:1},other={...fighter(berkan()),id:'A:other',ownerId:2};
  const a={ownerId:1,side:'A',hp:1,alive:true},b={ownerId:2,side:'A',hp:1,alive:true};
  const cadence=mercenaryTurnCadence({A:[a,b,v,other],B:[]});
- let turns=0;for(let i=0;i<2;i++){cadence.acted(a);while(cadence.pending()){assert.equal(cadence.pending(),v);cadence.acted(v);turns++;assert.ok(turns<=3);}}
- assert.equal(turns,3);assert.equal(cadence.pending(),null);cadence.acted(b);assert.equal(cadence.pending(),other);cadence.acted(other);assert.equal(cadence.pending(),null);
+ let turns=0;for(let i=0;i<2;i++){cadence.acted(a);while(cadence.pending()){assert.equal(cadence.pending(),v);cadence.acted(v);turns++;assert.ok(turns<=6);}}
+ assert.equal(turns,6);assert.equal(cadence.pending(),null);cadence.acted(b);assert.equal(cadence.pending(),other);cadence.acted(other);assert.equal(cadence.pending(),null);
 });
 
 test('Valter defeats all 55 operating mercenaries on both sides across four deck styles and three power scales',t=>{

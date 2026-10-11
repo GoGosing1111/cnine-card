@@ -47,7 +47,7 @@ export function mercenaryTurnCadence(teams){
   },
   acted(actor){
    // Fractional progress funds five Berkan turns per four card actions or
-   // three Valter turns per two, or two SS limited turns per card action.
+   // three Valter turns per card, or two SS limited turns per card action.
    // Mercenary/suit actions create no new credit.
    if(actor.isMercenary)debt[actor.side]=credit(actor.side)>1?Math.max(0,debt[actor.side]-interval(actor.side)):0;
    else if(regular(actor)){

@@ -1,0 +1,242 @@
+{
+  "source": "canonical server PVE/PVP battle + shipped V3 bundle and main live wrapper",
+  "reports": [
+    {
+      "label": "desktop",
+      "mode": "PVE",
+      "mounted": {
+        "speed": 84450,
+        "policyVersion": 2,
+        "events": [
+          {
+            "type": "MERCENARY_VALTER_AREA",
+            "seq": 12,
+            "actorId": "A:MERCENARY:V-996"
+          },
+          {
+            "type": "TURN",
+            "seq": 14,
+            "actorId": "A:MERCENARY:V-996"
+          },
+          {
+            "type": "TURN",
+            "seq": 15,
+            "actorId": "A:MERCENARY:V-996"
+          }
+        ]
+      },
+      "played": {
+        "calls": [
+          {
+            "id": "B:0:MONSTER:1",
+            "hp": 98.12546232395383,
+            "input": 98.12546232395383
+          },
+          {
+            "id": "B:0:MONSTER:1",
+            "hp": 96.52546232395383,
+            "input": 96.52546232395383
+          },
+          {
+            "id": "B:0:MONSTER:1",
+            "hp": 94.92546232395382,
+            "input": 94.92546232395382
+          }
+        ],
+        "busy": false,
+        "ambient": true,
+        "atStation": true,
+        "last": {
+          "code": "V-996",
+          "eventType": "ATTACK",
+          "visualVersion": "20261004-approved",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 1,
+          "playbackRate": 2.5,
+          "contactSeconds": 0.6937777777777778,
+          "durationSeconds": 1.6199999999999999
+        },
+        "overflow": false
+      }
+    },
+    {
+      "label": "desktop",
+      "mode": "PVP",
+      "mounted": {
+        "speed": 84450,
+        "policyVersion": 2,
+        "events": [
+          {
+            "type": "TURN",
+            "seq": 22,
+            "actorId": "A:MERCENARY:V-996"
+          },
+          {
+            "type": "TURN",
+            "seq": 24,
+            "actorId": "A:MERCENARY:V-996"
+          },
+          {
+            "type": "TURN",
+            "seq": 27,
+            "actorId": "A:MERCENARY:V-996"
+          }
+        ]
+      },
+      "played": {
+        "calls": [
+          {
+            "id": "B:0:CN-02D9DC1E8A8A4209",
+            "hp": 0,
+            "input": 0
+          },
+          {
+            "id": "B:1:CN-0505936A0CBB4E59",
+            "hp": 0,
+            "input": 0
+          },
+          {
+            "id": "B:2:CN-25F931CE393D474E",
+            "hp": 0,
+            "input": 0
+          }
+        ],
+        "busy": false,
+        "ambient": true,
+        "atStation": true,
+        "last": {
+          "code": "V-996",
+          "eventType": "ATTACK",
+          "visualVersion": "20261004-approved",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 1,
+          "playbackRate": 2.5,
+          "contactSeconds": 0.6937777777777778,
+          "durationSeconds": 1.6199999999999999
+        },
+        "overflow": false
+      }
+    },
+    {
+      "label": "mobile",
+      "mode": "PVE",
+      "mounted": {
+        "speed": 84450,
+        "policyVersion": 2,
+        "events": [
+          {
+            "type": "MERCENARY_VALTER_AREA",
+            "seq": 12,
+            "actorId": "A:MERCENARY:V-996"
+          },
+          {
+            "type": "TURN",
+            "seq": 14,
+            "actorId": "A:MERCENARY:V-996"
+          },
+          {
+            "type": "TURN",
+            "seq": 15,
+            "actorId": "A:MERCENARY:V-996"
+          }
+        ]
+      },
+      "played": {
+        "calls": [
+          {
+            "id": "B:0:MONSTER:1",
+            "hp": 98.12546232395383,
+            "input": 98.12546232395383
+          },
+          {
+            "id": "B:0:MONSTER:1",
+            "hp": 96.52546232395383,
+            "input": 96.52546232395383
+          },
+          {
+            "id": "B:0:MONSTER:1",
+            "hp": 94.92546232395382,
+            "input": 94.92546232395382
+          }
+        ],
+        "busy": false,
+        "ambient": true,
+        "atStation": true,
+        "last": {
+          "code": "V-996",
+          "eventType": "ATTACK",
+          "visualVersion": "20261004-approved",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 1,
+          "playbackRate": 2.5,
+          "contactSeconds": 0.6937777777777778,
+          "durationSeconds": 1.6199999999999999
+        },
+        "overflow": false
+      }
+    },
+    {
+      "label": "mobile",
+      "mode": "PVP",
+      "mounted": {
+        "speed": 84450,
+        "policyVersion": 2,
+        "events": [
+          {
+            "type": "TURN",
+            "seq": 22,
+            "actorId": "A:MERCENARY:V-996"
+          },
+          {
+            "type": "TURN",
+            "seq": 24,
+            "actorId": "A:MERCENARY:V-996"
+          },
+          {
+            "type": "TURN",
+            "seq": 27,
+            "actorId": "A:MERCENARY:V-996"
+          }
+        ]
+      },
+      "played": {
+        "calls": [
+          {
+            "id": "B:0:CN-02D9DC1E8A8A4209",
+            "hp": 0,
+            "input": 0
+          },
+          {
+            "id": "B:1:CN-0505936A0CBB4E59",
+            "hp": 0,
+            "input": 0
+          },
+          {
+            "id": "B:2:CN-25F931CE393D474E",
+            "hp": 0,
+            "input": 0
+          }
+        ],
+        "busy": false,
+        "ambient": true,
+        "atStation": true,
+        "last": {
+          "code": "V-996",
+          "eventType": "ATTACK",
+          "visualVersion": "20261004-approved",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 1,
+          "playbackRate": 2.5,
+          "contactSeconds": 0.6937777777777778,
+          "durationSeconds": 1.6199999999999999
+        },
+        "overflow": false
+      }
+    }
+  ],
+  "pageErrors": []
+}

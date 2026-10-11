@@ -22,7 +22,7 @@ import {PVP_SPEED_REFORM,PVP_GUARD_SHIELD_CURVE,isPvpSpeedCard,speedComboPlan,sp
 import {validatedIconSnapshot,iconDefinition,iconHealingAmount} from '../shared/icon-roles-v1.mjs';
 import {createIconCombatRuntime} from './_icon_combat.js';
 import {ICON_SUPREMACY,iconStatFloor} from '../shared/icon-supremacy-v1.mjs';
-import {valterIncomingDamage} from '../shared/mercenary-valter-v1.mjs';
+import {valterIncomingDamage,valterActionCredit} from '../shared/mercenary-valter-v1.mjs';
 
 // =====================================================================
 // V1936: 계열 개편 (S1)
@@ -782,7 +782,10 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   let actionCount = 0;
   let mercenaryActionCount = 0;
   const mercenaryActionsBySide={A:0,B:0};
-  const mercenaryActionAvailable=actor=>!actor.isMercenary||mercenaryActionsBySide[actor.side]<maxActions*2;
+  // Valter's three reserved turns must not exhaust the old two-turn safety
+  // budget before the regular-card clock ends. Other teams retain their cap.
+  const mercenaryActionLimits=Object.fromEntries([['A',a],['B',b]].map(([side,team])=>[side,maxActions*Math.max(2,Math.ceil(valterActionCredit(team)))]));
+  const mercenaryActionAvailable=actor=>!actor.isMercenary||mercenaryActionsBySide[actor.side]<mercenaryActionLimits[actor.side];
   // V1813: 몬스터 강제 행동까지 남은 플레이어 행동 수를 센다.
   let playerStreak = 0;
   const apocalypseForcedInterval = !cooperative&&!escortObjective&&b.some(c=>c.isApocalypse)

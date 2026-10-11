@@ -12,7 +12,7 @@ export const VALTER_AREA_SKILL=Object.freeze({
  balance:Object.freeze({damageRatio:5.6,cooldownTurns:5,cost:35})
 });
 export const VALTER_COMBAT=Object.freeze({
- version:1,basePower:1080000,speedScale:2,actionCredit:1.5,
+ version:2,basePower:1080000,speedScale:3,actionCredit:3,
  link:Object.freeze({attackPercent:1760,shieldPercent:600,hpPercent:1120}),
  basicCapScale:2,damageTakenScale:.25,
  hardCounter:BERKAN_CODE
