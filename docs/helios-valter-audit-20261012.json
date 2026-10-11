@@ -1,0 +1,1218 @@
+{
+  "checkedAt": "2026-10-11T21:04:58.751Z",
+  "scope": "READ_ONLY_PRODUCTION_AUDIT_AND_ISOLATED_CANONICAL_SIMULATION",
+  "runtimeChanged": false,
+  "accountChanged": false,
+  "source": "99dcb1ee",
+  "cmsRevision": 61,
+  "deployment": {
+    "checkedAt": "2026-10-11T21:00:35.553Z",
+    "deploymentId": "5e4c9b7a-1150-4890-bfe0-b7cb6c05b6a6",
+    "source": "6f452a3bed8109b3f5f4deec4bb7559417d14368",
+    "workerStatus": 200,
+    "workerSha256": "077030f3b10e61f862da1db9088864e8fc7f68ba5b599d86dec666c947dfd66d",
+    "checks": {
+      "heliosCode": true,
+      "heliosPower": true,
+      "heliosLink": true,
+      "heliosExtraActions": true,
+      "valterPower": true,
+      "heliosDamageFunction": true,
+      "heliosBuilder": true,
+      "heliosDeployed": true
+    },
+    "valterPowerLiteral": "108e4",
+    "valterPower": 1080000
+  },
+  "livePolicyAssets": [
+    {
+      "path": "shared/mercenary-helios-v1.mjs",
+      "status": 200,
+      "sha256": "2eeb08f1672e32f1263479aaf30e2742033c6a3c8e939391d40cf2673ddb9954",
+      "matchesLocal": true
+    },
+    {
+      "path": "shared/mercenary-valter-v1.mjs",
+      "status": 200,
+      "sha256": "53b88eb02580fe9e7d5d6609f330c713b1e3892f4fe8dfc1d6ac450f8135f3bc",
+      "matchesLocal": true
+    },
+    {
+      "path": "shared/mercenary-combat-link-v2103.mjs",
+      "status": 200,
+      "sha256": "e01dde22c109e4e226a1a50f4503aeba63c89c76c70905863afa4f216f1e880b",
+      "matchesLocal": true
+    },
+    {
+      "path": "shared/mercenary-limited-deployment-v1.mjs",
+      "status": 200,
+      "sha256": "f19adcf873ec7f29d82602c4f92ea72b39759e19045d2a03a098d085c53543fd",
+      "matchesLocal": true
+    }
+  ],
+  "nativeStats": [
+    {
+      "mode": "PVP",
+      "gear": 0,
+      "deckPower": 0,
+      "helios": {
+        "power": 1123200,
+        "nativeAttack": 330221,
+        "effectiveAttack": 330221,
+        "hp": 1168128,
+        "defense": 171850,
+        "speed": 87828,
+        "shield": 0
+      },
+      "valter": {
+        "power": 1080000,
+        "nativeAttack": 317520,
+        "effectiveAttack": 317520,
+        "hp": 1123200,
+        "defense": 165240,
+        "speed": 84450,
+        "shield": 0
+      },
+      "percent": {
+        "power": 4,
+        "nativeAttack": 4.000063,
+        "effectiveAttack": 4.000063,
+        "hp": 4,
+        "defense": 4.000242,
+        "speed": 4
+      }
+    },
+    {
+      "mode": "PVE",
+      "gear": 0,
+      "deckPower": 0,
+      "helios": {
+        "power": 1123200,
+        "nativeAttack": 330221,
+        "effectiveAttack": 330221,
+        "hp": 1051315,
+        "defense": 171850,
+        "speed": 87828,
+        "shield": 0
+      },
+      "valter": {
+        "power": 1080000,
+        "nativeAttack": 317520,
+        "effectiveAttack": 317520,
+        "hp": 1010880,
+        "defense": 165240,
+        "speed": 84450,
+        "shield": 0
+      },
+      "percent": {
+        "power": 4,
+        "nativeAttack": 4.000063,
+        "effectiveAttack": 4.000063,
+        "hp": 3.99998,
+        "defense": 4.000242,
+        "speed": 4
+      }
+    }
+  ],
+  "equalDeckLinkedStats": [
+    {
+      "mode": "PVP",
+      "gear": 0,
+      "deckPower": 20000000,
+      "helios": {
+        "power": 1123200,
+        "nativeAttack": 330221,
+        "effectiveAttack": 102379200,
+        "hp": 245912576,
+        "defense": 171850,
+        "speed": 87828,
+        "shield": 144912768,
+        "link": {
+          "version": 2144,
+          "attackFloor": 102379200,
+          "hpFloor": 245912576,
+          "openingShield": 144912768,
+          "tierGuard": 1,
+          "tierOffense": 1
+        }
+      },
+      "valter": {
+        "power": 1080000,
+        "nativeAttack": 317520,
+        "effectiveAttack": 102379200,
+        "hp": 236454400,
+        "defense": 165240,
+        "speed": 84450,
+        "shield": 139339200,
+        "link": {
+          "version": 2144,
+          "attackFloor": 102379200,
+          "hpFloor": 236454400,
+          "openingShield": 139339200,
+          "tierGuard": 1,
+          "tierOffense": 1
+        }
+      },
+      "percent": {
+        "power": 4,
+        "nativeAttack": 4.000063,
+        "effectiveAttack": 0,
+        "hp": 4,
+        "defense": 4.000242,
+        "speed": 4,
+        "shield": 4
+      }
+    },
+    {
+      "mode": "PVE",
+      "gear": 0,
+      "deckPower": 20000000,
+      "helios": {
+        "power": 1123200,
+        "nativeAttack": 330221,
+        "effectiveAttack": 102379200,
+        "hp": 221321318,
+        "defense": 171850,
+        "speed": 87828,
+        "shield": 130421491,
+        "link": {
+          "version": 2144,
+          "attackFloor": 102379200,
+          "hpFloor": 221321318,
+          "openingShield": 130421491,
+          "tierGuard": 1,
+          "tierOffense": 1
+        }
+      },
+      "valter": {
+        "power": 1080000,
+        "nativeAttack": 317520,
+        "effectiveAttack": 102379200,
+        "hp": 212808960,
+        "defense": 165240,
+        "speed": 84450,
+        "shield": 125405280,
+        "link": {
+          "version": 2144,
+          "attackFloor": 102379200,
+          "hpFloor": 212808960,
+          "openingShield": 125405280,
+          "tierGuard": 1,
+          "tierOffense": 1
+        }
+      },
+      "percent": {
+        "power": 4,
+        "nativeAttack": 4.000063,
+        "effectiveAttack": 0,
+        "hp": 4,
+        "defense": 4.000242,
+        "speed": 4,
+        "shield": 4
+      }
+    }
+  ],
+  "equipmentSensitivity": [
+    {
+      "syntheticEquipmentPower": 0,
+      "percent": {
+        "power": 4,
+        "nativeAttack": 4.000063,
+        "effectiveAttack": 0,
+        "hp": 4,
+        "defense": 4.000242,
+        "speed": 4,
+        "shield": 4
+      }
+    },
+    {
+      "syntheticEquipmentPower": 1000000,
+      "percent": {
+        "power": 2.076923,
+        "nativeAttack": 2.076956,
+        "effectiveAttack": 0,
+        "hp": 3.982484,
+        "defense": 2.077049,
+        "speed": 4,
+        "shield": 4
+      }
+    },
+    {
+      "syntheticEquipmentPower": 100000000,
+      "percent": {
+        "power": 0.042738,
+        "nativeAttack": 0.042739,
+        "effectiveAttack": 0,
+        "hp": 2.778104,
+        "defense": 0.042741,
+        "speed": 4,
+        "shield": 4
+      }
+    }
+  ],
+  "liveSample": {
+    "target": "여우",
+    "userId": 25,
+    "startKst": "2026-10-12 05:48:23",
+    "endKst": "2026-10-12 05:55:59",
+    "total": 15,
+    "wins": 10,
+    "losses": 5,
+    "opponents": {
+      "으악": {
+        "wins": 3,
+        "losses": 4,
+        "total": 7
+      },
+      "쁴로리": {
+        "wins": 2,
+        "losses": 1,
+        "total": 3
+      },
+      "비쥬얼깡패": {
+        "wins": 5,
+        "losses": 0,
+        "total": 5
+      }
+    },
+    "battles": [
+      {
+        "createdAtUtc": "2026-10-11 20:55:59",
+        "opponent": "으악",
+        "won": true,
+        "reason": "ELIMINATION",
+        "seed": 1966145446,
+        "helios": {
+          "code": "V-999",
+          "native": {
+            "hp": 1168128,
+            "attack": 330221,
+            "defense": 171850,
+            "speed": 87828
+          },
+          "maxHp": 6671709,
+          "maxShield": 3931543,
+          "openingAttack": 3652114,
+          "finalEffectiveAttack": 3381587,
+          "linkedAttackFloor": 3381587,
+          "defense": 171850,
+          "speed": 87828,
+          "petOpeningApplied": true
+        },
+        "valter": {
+          "code": "V-996",
+          "native": {
+            "hp": 1123200,
+            "attack": 317520,
+            "defense": 165240,
+            "speed": 84450
+          },
+          "maxHp": 6523626,
+          "maxShield": 3844280,
+          "openingAttack": 3438213,
+          "finalEffectiveAttack": 3438213,
+          "linkedAttackFloor": 3438213,
+          "defense": 165240,
+          "speed": 84450,
+          "petOpeningApplied": false
+        }
+      },
+      {
+        "createdAtUtc": "2026-10-11 20:55:09",
+        "opponent": "으악",
+        "won": false,
+        "reason": "ELIMINATION",
+        "seed": 2298949097,
+        "helios": {
+          "code": "V-999",
+          "native": {
+            "hp": 1168128,
+            "attack": 330221,
+            "defense": 171850,
+            "speed": 87828
+          },
+          "maxHp": 6671709,
+          "maxShield": 3931543,
+          "openingAttack": 3652114,
+          "finalEffectiveAttack": 3381587,
+          "linkedAttackFloor": 3381587,
+          "defense": 171850,
+          "speed": 87828,
+          "petOpeningApplied": true
+        },
+        "valter": {
+          "code": "V-996",
+          "native": {
+            "hp": 1123200,
+            "attack": 317520,
+            "defense": 165240,
+            "speed": 84450
+          },
+          "maxHp": 6523626,
+          "maxShield": 3844280,
+          "openingAttack": 3438213,
+          "finalEffectiveAttack": 3438213,
+          "linkedAttackFloor": 3438213,
+          "defense": 165240,
+          "speed": 84450,
+          "petOpeningApplied": false
+        }
+      },
+      {
+        "createdAtUtc": "2026-10-11 20:55:03",
+        "opponent": "쁴로리",
+        "won": true,
+        "reason": "ELIMINATION",
+        "seed": 666671333,
+        "helios": {
+          "code": "V-999",
+          "native": {
+            "hp": 1168128,
+            "attack": 330221,
+            "defense": 171850,
+            "speed": 87828
+          },
+          "maxHp": 6671709,
+          "maxShield": 3931543,
+          "openingAttack": 3652114,
+          "finalEffectiveAttack": 3381587,
+          "linkedAttackFloor": 3381587,
+          "defense": 171850,
+          "speed": 87828,
+          "petOpeningApplied": true
+        },
+        "valter": {
+          "code": "V-996",
+          "native": {
+            "hp": 1123200,
+            "attack": 317520,
+            "defense": 165240,
+            "speed": 84450
+          },
+          "maxHp": 6411391,
+          "maxShield": 3778141,
+          "openingAttack": 3576533,
+          "finalEffectiveAttack": 3311605,
+          "linkedAttackFloor": 3311605,
+          "defense": 165240,
+          "speed": 84450,
+          "petOpeningApplied": true
+        }
+      },
+      {
+        "createdAtUtc": "2026-10-11 20:52:17",
+        "opponent": "비쥬얼깡패",
+        "won": true,
+        "reason": "ELIMINATION",
+        "seed": 2781015264,
+        "helios": {
+          "code": "V-999",
+          "native": {
+            "hp": 1168128,
+            "attack": 330221,
+            "defense": 171850,
+            "speed": 87828
+          },
+          "maxHp": 6671709,
+          "maxShield": 3931543,
+          "openingAttack": 3652114,
+          "finalEffectiveAttack": 3381587,
+          "linkedAttackFloor": 3381587,
+          "defense": 171850,
+          "speed": 87828,
+          "petOpeningApplied": true
+        },
+        "valter": {
+          "code": "V-996",
+          "native": {
+            "hp": 1123200,
+            "attack": 317520,
+            "defense": 165240,
+            "speed": 84450
+          },
+          "maxHp": 5795355,
+          "maxShield": 3415120,
+          "openingAttack": 3302462,
+          "finalEffectiveAttack": 3057835,
+          "linkedAttackFloor": 3057835,
+          "defense": 165240,
+          "speed": 84450,
+          "petOpeningApplied": true
+        }
+      },
+      {
+        "createdAtUtc": "2026-10-11 20:50:01",
+        "opponent": "으악",
+        "won": false,
+        "reason": "ELIMINATION",
+        "seed": 3827934459,
+        "helios": {
+          "code": "V-999",
+          "native": {
+            "hp": 1168128,
+            "attack": 330221,
+            "defense": 171850,
+            "speed": 87828
+          },
+          "maxHp": 6671709,
+          "maxShield": 3931543,
+          "openingAttack": 3652114,
+          "finalEffectiveAttack": 3381587,
+          "linkedAttackFloor": 3381587,
+          "defense": 171850,
+          "speed": 87828,
+          "petOpeningApplied": true
+        },
+        "valter": {
+          "code": "V-996",
+          "native": {
+            "hp": 1123200,
+            "attack": 317520,
+            "defense": 165240,
+            "speed": 84450
+          },
+          "maxHp": 6523626,
+          "maxShield": 3844280,
+          "openingAttack": 3438213,
+          "finalEffectiveAttack": 3438213,
+          "linkedAttackFloor": 3438213,
+          "defense": 165240,
+          "speed": 84450,
+          "petOpeningApplied": false
+        }
+      },
+      {
+        "createdAtUtc": "2026-10-11 20:49:52",
+        "opponent": "비쥬얼깡패",
+        "won": true,
+        "reason": "ELIMINATION",
+        "seed": 3921011074,
+        "helios": {
+          "code": "V-999",
+          "native": {
+            "hp": 1168128,
+            "attack": 330221,
+            "defense": 171850,
+            "speed": 87828
+          },
+          "maxHp": 6671709,
+          "maxShield": 3931543,
+          "openingAttack": 3652114,
+          "finalEffectiveAttack": 3381587,
+          "linkedAttackFloor": 3381587,
+          "defense": 171850,
+          "speed": 87828,
+          "petOpeningApplied": true
+        },
+        "valter": {
+          "code": "V-996",
+          "native": {
+            "hp": 1123200,
+            "attack": 317520,
+            "defense": 165240,
+            "speed": 84450
+          },
+          "maxHp": 5795355,
+          "maxShield": 3415120,
+          "openingAttack": 3302462,
+          "finalEffectiveAttack": 3057835,
+          "linkedAttackFloor": 3057835,
+          "defense": 165240,
+          "speed": 84450,
+          "petOpeningApplied": true
+        }
+      },
+      {
+        "createdAtUtc": "2026-10-11 20:49:44",
+        "opponent": "으악",
+        "won": false,
+        "reason": "ELIMINATION",
+        "seed": 2838235980,
+        "helios": {
+          "code": "V-999",
+          "native": {
+            "hp": 1168128,
+            "attack": 330221,
+            "defense": 171850,
+            "speed": 87828
+          },
+          "maxHp": 6671709,
+          "maxShield": 3931543,
+          "openingAttack": 3652114,
+          "finalEffectiveAttack": 3381587,
+          "linkedAttackFloor": 3381587,
+          "defense": 171850,
+          "speed": 87828,
+          "petOpeningApplied": true
+        },
+        "valter": {
+          "code": "V-996",
+          "native": {
+            "hp": 1123200,
+            "attack": 317520,
+            "defense": 165240,
+            "speed": 84450
+          },
+          "maxHp": 6523626,
+          "maxShield": 3844280,
+          "openingAttack": 3670730,
+          "finalEffectiveAttack": 3670730,
+          "linkedAttackFloor": 3670730,
+          "defense": 165240,
+          "speed": 84450,
+          "petOpeningApplied": false
+        }
+      },
+      {
+        "createdAtUtc": "2026-10-11 20:49:37",
+        "opponent": "쁴로리",
+        "won": false,
+        "reason": "ELIMINATION",
+        "seed": 1139208387,
+        "helios": {
+          "code": "V-999",
+          "native": {
+            "hp": 1168128,
+            "attack": 330221,
+            "defense": 171850,
+            "speed": 87828
+          },
+          "maxHp": 6671709,
+          "maxShield": 3931543,
+          "openingAttack": 3652114,
+          "finalEffectiveAttack": 3381587,
+          "linkedAttackFloor": 3381587,
+          "defense": 171850,
+          "speed": 87828,
+          "petOpeningApplied": true
+        },
+        "valter": {
+          "code": "V-996",
+          "native": {
+            "hp": 1123200,
+            "attack": 317520,
+            "defense": 165240,
+            "speed": 84450
+          },
+          "maxHp": 6411391,
+          "maxShield": 3778141,
+          "openingAttack": 3797004,
+          "finalEffectiveAttack": 3515744,
+          "linkedAttackFloor": 3515744,
+          "defense": 165240,
+          "speed": 84450,
+          "petOpeningApplied": true
+        }
+      },
+      {
+        "createdAtUtc": "2026-10-11 20:49:29",
+        "opponent": "으악",
+        "won": true,
+        "reason": "ELIMINATION",
+        "seed": 1951953702,
+        "helios": {
+          "code": "V-999",
+          "native": {
+            "hp": 1168128,
+            "attack": 330221,
+            "defense": 171850,
+            "speed": 87828
+          },
+          "maxHp": 6671709,
+          "maxShield": 3931543,
+          "openingAttack": 3652114,
+          "finalEffectiveAttack": 3381587,
+          "linkedAttackFloor": 3381587,
+          "defense": 171850,
+          "speed": 87828,
+          "petOpeningApplied": true
+        },
+        "valter": {
+          "code": "V-996",
+          "native": {
+            "hp": 1123200,
+            "attack": 317520,
+            "defense": 165240,
+            "speed": 84450
+          },
+          "maxHp": 6523626,
+          "maxShield": 3844280,
+          "openingAttack": 3438213,
+          "finalEffectiveAttack": 3438213,
+          "linkedAttackFloor": 3438213,
+          "defense": 165240,
+          "speed": 84450,
+          "petOpeningApplied": false
+        }
+      },
+      {
+        "createdAtUtc": "2026-10-11 20:49:21",
+        "opponent": "으악",
+        "won": true,
+        "reason": "ELIMINATION",
+        "seed": 2626654729,
+        "helios": {
+          "code": "V-999",
+          "native": {
+            "hp": 1168128,
+            "attack": 330221,
+            "defense": 171850,
+            "speed": 87828
+          },
+          "maxHp": 6671709,
+          "maxShield": 3931543,
+          "openingAttack": 3652114,
+          "finalEffectiveAttack": 3381587,
+          "linkedAttackFloor": 3381587,
+          "defense": 171850,
+          "speed": 87828,
+          "petOpeningApplied": true
+        },
+        "valter": {
+          "code": "V-996",
+          "native": {
+            "hp": 1123200,
+            "attack": 317520,
+            "defense": 165240,
+            "speed": 84450
+          },
+          "maxHp": 6523626,
+          "maxShield": 3844280,
+          "openingAttack": 3670730,
+          "finalEffectiveAttack": 3670730,
+          "linkedAttackFloor": 3670730,
+          "defense": 165240,
+          "speed": 84450,
+          "petOpeningApplied": false
+        }
+      },
+      {
+        "createdAtUtc": "2026-10-11 20:49:15",
+        "opponent": "비쥬얼깡패",
+        "won": true,
+        "reason": "ELIMINATION",
+        "seed": 3544611986,
+        "helios": {
+          "code": "V-999",
+          "native": {
+            "hp": 1168128,
+            "attack": 330221,
+            "defense": 171850,
+            "speed": 87828
+          },
+          "maxHp": 6671709,
+          "maxShield": 3931543,
+          "openingAttack": 3652114,
+          "finalEffectiveAttack": 3381587,
+          "linkedAttackFloor": 3381587,
+          "defense": 171850,
+          "speed": 87828,
+          "petOpeningApplied": true
+        },
+        "valter": {
+          "code": "V-996",
+          "native": {
+            "hp": 1123200,
+            "attack": 317520,
+            "defense": 165240,
+            "speed": 84450
+          },
+          "maxHp": 5795355,
+          "maxShield": 3415120,
+          "openingAttack": 3302462,
+          "finalEffectiveAttack": 3057835,
+          "linkedAttackFloor": 3057835,
+          "defense": 165240,
+          "speed": 84450,
+          "petOpeningApplied": true
+        }
+      },
+      {
+        "createdAtUtc": "2026-10-11 20:49:09",
+        "opponent": "비쥬얼깡패",
+        "won": true,
+        "reason": "ELIMINATION",
+        "seed": 1723524628,
+        "helios": {
+          "code": "V-999",
+          "native": {
+            "hp": 1168128,
+            "attack": 330221,
+            "defense": 171850,
+            "speed": 87828
+          },
+          "maxHp": 6671709,
+          "maxShield": 3931543,
+          "openingAttack": 3652114,
+          "finalEffectiveAttack": 3381587,
+          "linkedAttackFloor": 3381587,
+          "defense": 171850,
+          "speed": 87828,
+          "petOpeningApplied": true
+        },
+        "valter": {
+          "code": "V-996",
+          "native": {
+            "hp": 1123200,
+            "attack": 317520,
+            "defense": 165240,
+            "speed": 84450
+          },
+          "maxHp": 5795355,
+          "maxShield": 3415120,
+          "openingAttack": 3302462,
+          "finalEffectiveAttack": 3057835,
+          "linkedAttackFloor": 3057835,
+          "defense": 165240,
+          "speed": 84450,
+          "petOpeningApplied": true
+        }
+      },
+      {
+        "createdAtUtc": "2026-10-11 20:49:01",
+        "opponent": "쁴로리",
+        "won": true,
+        "reason": "ELIMINATION",
+        "seed": 3915029186,
+        "helios": {
+          "code": "V-999",
+          "native": {
+            "hp": 1168128,
+            "attack": 330221,
+            "defense": 171850,
+            "speed": 87828
+          },
+          "maxHp": 6671709,
+          "maxShield": 3931543,
+          "openingAttack": 3652114,
+          "finalEffectiveAttack": 3381587,
+          "linkedAttackFloor": 3381587,
+          "defense": 171850,
+          "speed": 87828,
+          "petOpeningApplied": true
+        },
+        "valter": {
+          "code": "V-996",
+          "native": {
+            "hp": 1123200,
+            "attack": 317520,
+            "defense": 165240,
+            "speed": 84450
+          },
+          "maxHp": 6411391,
+          "maxShield": 3778141,
+          "openingAttack": 3797004,
+          "finalEffectiveAttack": 3515744,
+          "linkedAttackFloor": 3515744,
+          "defense": 165240,
+          "speed": 84450,
+          "petOpeningApplied": true
+        }
+      },
+      {
+        "createdAtUtc": "2026-10-11 20:48:53",
+        "opponent": "으악",
+        "won": false,
+        "reason": "ELIMINATION",
+        "seed": 658926550,
+        "helios": {
+          "code": "V-999",
+          "native": {
+            "hp": 1168128,
+            "attack": 330221,
+            "defense": 171850,
+            "speed": 87828
+          },
+          "maxHp": 6671709,
+          "maxShield": 3931543,
+          "openingAttack": 3652114,
+          "finalEffectiveAttack": 3381587,
+          "linkedAttackFloor": 3381587,
+          "defense": 171850,
+          "speed": 87828,
+          "petOpeningApplied": true
+        },
+        "valter": {
+          "code": "V-996",
+          "native": {
+            "hp": 1123200,
+            "attack": 317520,
+            "defense": 165240,
+            "speed": 84450
+          },
+          "maxHp": 6523626,
+          "maxShield": 3844280,
+          "openingAttack": 3670730,
+          "finalEffectiveAttack": 3670730,
+          "linkedAttackFloor": 3670730,
+          "defense": 165240,
+          "speed": 84450,
+          "petOpeningApplied": false
+        }
+      },
+      {
+        "createdAtUtc": "2026-10-11 20:48:23",
+        "opponent": "비쥬얼깡패",
+        "won": true,
+        "reason": "ELIMINATION",
+        "seed": 2462730627,
+        "helios": {
+          "code": "V-999",
+          "native": {
+            "hp": 1168128,
+            "attack": 330221,
+            "defense": 171850,
+            "speed": 87828
+          },
+          "maxHp": 6671709,
+          "maxShield": 3931543,
+          "openingAttack": 3652114,
+          "finalEffectiveAttack": 3381587,
+          "linkedAttackFloor": 3381587,
+          "defense": 171850,
+          "speed": 87828,
+          "petOpeningApplied": true
+        },
+        "valter": {
+          "code": "V-996",
+          "native": {
+            "hp": 1123200,
+            "attack": 317520,
+            "defense": 165240,
+            "speed": 84450
+          },
+          "maxHp": 5795355,
+          "maxShield": 3415120,
+          "openingAttack": 3302462,
+          "finalEffectiveAttack": 3057835,
+          "linkedAttackFloor": 3057835,
+          "defense": 165240,
+          "speed": 84450,
+          "petOpeningApplied": true
+        }
+      }
+    ]
+  },
+  "simulation": {
+    "wins": 945,
+    "losses": 591,
+    "draws": 0,
+    "total": 1536,
+    "winRate": 0.615234375,
+    "rows": [
+      {
+        "power": 100000,
+        "deck": "balanced",
+        "wins": 99,
+        "losses": 29,
+        "draws": 0,
+        "total": 128,
+        "bySide": {
+          "A": {
+            "wins": 49,
+            "total": 64
+          },
+          "B": {
+            "wins": 50,
+            "total": 64
+          }
+        },
+        "winRate": 0.7734375
+      },
+      {
+        "power": 100000,
+        "deck": "attack",
+        "wins": 103,
+        "losses": 25,
+        "draws": 0,
+        "total": 128,
+        "bySide": {
+          "A": {
+            "wins": 51,
+            "total": 64
+          },
+          "B": {
+            "wins": 52,
+            "total": 64
+          }
+        },
+        "winRate": 0.8046875
+      },
+      {
+        "power": 100000,
+        "deck": "defense",
+        "wins": 104,
+        "losses": 24,
+        "draws": 0,
+        "total": 128,
+        "bySide": {
+          "A": {
+            "wins": 51,
+            "total": 64
+          },
+          "B": {
+            "wins": 53,
+            "total": 64
+          }
+        },
+        "winRate": 0.8125
+      },
+      {
+        "power": 100000,
+        "deck": "speed",
+        "wins": 103,
+        "losses": 25,
+        "draws": 0,
+        "total": 128,
+        "bySide": {
+          "A": {
+            "wins": 49,
+            "total": 64
+          },
+          "B": {
+            "wins": 54,
+            "total": 64
+          }
+        },
+        "winRate": 0.8046875
+      },
+      {
+        "power": 20000000,
+        "deck": "balanced",
+        "wins": 67,
+        "losses": 61,
+        "draws": 0,
+        "total": 128,
+        "bySide": {
+          "A": {
+            "wins": 34,
+            "total": 64
+          },
+          "B": {
+            "wins": 33,
+            "total": 64
+          }
+        },
+        "winRate": 0.5234375
+      },
+      {
+        "power": 20000000,
+        "deck": "attack",
+        "wins": 68,
+        "losses": 60,
+        "draws": 0,
+        "total": 128,
+        "bySide": {
+          "A": {
+            "wins": 34,
+            "total": 64
+          },
+          "B": {
+            "wins": 34,
+            "total": 64
+          }
+        },
+        "winRate": 0.53125
+      },
+      {
+        "power": 20000000,
+        "deck": "defense",
+        "wins": 68,
+        "losses": 60,
+        "draws": 0,
+        "total": 128,
+        "bySide": {
+          "A": {
+            "wins": 37,
+            "total": 64
+          },
+          "B": {
+            "wins": 31,
+            "total": 64
+          }
+        },
+        "winRate": 0.53125
+      },
+      {
+        "power": 20000000,
+        "deck": "speed",
+        "wins": 64,
+        "losses": 64,
+        "draws": 0,
+        "total": 128,
+        "bySide": {
+          "A": {
+            "wins": 32,
+            "total": 64
+          },
+          "B": {
+            "wins": 32,
+            "total": 64
+          }
+        },
+        "winRate": 0.5
+      },
+      {
+        "power": 1000000000,
+        "deck": "balanced",
+        "wins": 69,
+        "losses": 59,
+        "draws": 0,
+        "total": 128,
+        "bySide": {
+          "A": {
+            "wins": 34,
+            "total": 64
+          },
+          "B": {
+            "wins": 35,
+            "total": 64
+          }
+        },
+        "winRate": 0.5390625
+      },
+      {
+        "power": 1000000000,
+        "deck": "attack",
+        "wins": 68,
+        "losses": 60,
+        "draws": 0,
+        "total": 128,
+        "bySide": {
+          "A": {
+            "wins": 34,
+            "total": 64
+          },
+          "B": {
+            "wins": 34,
+            "total": 64
+          }
+        },
+        "winRate": 0.53125
+      },
+      {
+        "power": 1000000000,
+        "deck": "defense",
+        "wins": 68,
+        "losses": 60,
+        "draws": 0,
+        "total": 128,
+        "bySide": {
+          "A": {
+            "wins": 37,
+            "total": 64
+          },
+          "B": {
+            "wins": 31,
+            "total": 64
+          }
+        },
+        "winRate": 0.53125
+      },
+      {
+        "power": 1000000000,
+        "deck": "speed",
+        "wins": 64,
+        "losses": 64,
+        "draws": 0,
+        "total": 128,
+        "bySide": {
+          "A": {
+            "wins": 32,
+            "total": 64
+          },
+          "B": {
+            "wins": 32,
+            "total": 64
+          }
+        },
+        "winRate": 0.5
+      }
+    ],
+    "seedPlan": {
+      "start": 730001,
+      "countPerSide": 64,
+      "multiplier": 7919
+    },
+    "settings": "Same ordinary deck, no mercenary equipment/growth/pets/magic; 4 deck types, 3 per-card powers, both sides, current released snapshots and live combat policy.",
+    "pve": [
+      {
+        "deck": "balanced",
+        "helios": {
+          "wins": 24,
+          "damage": 389411490320,
+          "actions": 1053,
+          "total": 24
+        },
+        "valter": {
+          "wins": 24,
+          "damage": 388381358222,
+          "actions": 1050,
+          "total": 24
+        }
+      },
+      {
+        "deck": "attack",
+        "helios": {
+          "wins": 24,
+          "damage": 390461181052,
+          "actions": 1047,
+          "total": 24
+        },
+        "valter": {
+          "wins": 24,
+          "damage": 388789491962,
+          "actions": 1042,
+          "total": 24
+        }
+      },
+      {
+        "deck": "defense",
+        "helios": {
+          "wins": 24,
+          "damage": 386181639878,
+          "actions": 1104,
+          "total": 24
+        },
+        "valter": {
+          "wins": 24,
+          "damage": 383681935970,
+          "actions": 1097,
+          "total": 24
+        }
+      },
+      {
+        "deck": "speed",
+        "helios": {
+          "wins": 24,
+          "damage": 387987897267,
+          "actions": 1083,
+          "total": 24
+        },
+        "valter": {
+          "wins": 24,
+          "damage": 386171248062,
+          "actions": 1076,
+          "total": 24
+        }
+      }
+    ]
+  },
+  "validation": {
+    "focusedTestsPassed": 14,
+    "files": [
+      "tests/helios-supremacy-20261012.test.mjs",
+      "tests/valter-tempo-20261011.test.mjs"
+    ],
+    "policyAndRuntimeAppliedToAll15RecordedHeliosBattles": true
+  },
+  "findings": [
+    "Native unarmed PVP HP/attack/defense/speed are approximately 4% above Valter, and the deployed API and actual combat records use those values.",
+    "For equal strong decks, the effective linked attack floor is identical (1760%). Linked HP, full opening shield, natural speed and fractional action credit favor Helios. The base attack difference does not produce 4% extra damage per hit once the shared attack floor dominates.",
+    "Actual account battles are not equal-deck comparisons: ordinary card types, ICON roles, ordering and pet buffs differ. Helios lost 5 of 15 observed battles against Valter users, including 4 of 7 against Euak.",
+    "Fresh controlled PVP: 945 wins / 1536 = 61.5234375%. By higher power groups: 267/512 and 269/512; per-deck groups ranged from 50% to 53.90625%. These are sampled simulations, not live population win rates.",
+    "PVP skills are basic-only for both. Both retain 75% personal mitigation, Berkan damage immunity and the same mercenary control/parry/poison protections. PVE skills share total 560% damage, energy 35 and cooldown 5 actions.",
+    "Equal additive mercenary equipment dilutes the relative advantage in native defense and linked HP; synthetic gear power 1000000 yields about 2.077% defense advantage, while natural speed and opening ward remain 4%. The inspected three live PVP snapshots had no mercenary equipment.",
+    "The audited records retain seed and final fighters, but not complete historical magic/pet input snapshots or attack timeline. Individual critical hits, dodges or last-hit causes cannot be proven from those records. No forced winner or live balance adjustment was made."
+  ]
+}
