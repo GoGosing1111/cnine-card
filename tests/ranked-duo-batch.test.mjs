@@ -9,6 +9,9 @@ import {readMercenaryModes,mercenaryModeStatements} from '../functions/_mercenar
 import {duoStation,DUO_BOARDS,latticeStation} from '../preview/project-v-v3/source/battle/FormationLayout.mjs';
 import {forgePower} from '../shared/equipment-forge-policy-v1.mjs';
 import {pairDuoParticipants} from '../shared/ranked-duo-v1.mjs';
+import {saveMercenaryEquipment} from '../functions/_mercenary_equipment.js';
+import {ensureJointTransactionSchema} from '../functions/_joint_transactions.js';
+import {REGION_EQUIPMENT} from '../shared/legion-regions-v1.mjs';
 
 for(const postgres of [false,true])test(`${postgres?'Postgres':'SQLite'} batched magic preserves ownership, enhancement and each preset in four queries`,async t=>{
  const f=await magicFixture(postgres);t.after(()=>f.close());
@@ -62,7 +65,7 @@ test('potential counts owned unequipped mercenary and best gear per slot; actual
  const doc=JSON.parse((await f.p("SELECT payload_json FROM mercenary_cms_documents_v1 WHERE doc_key='config'").first()).payload_json);doc.mercenaries.find(m=>m.code==='V-004').rank='SS';
  await f.p("UPDATE mercenary_cms_documents_v1 SET payload_json=? WHERE doc_key='config'",JSON.stringify(doc)).run();
  await f.p("INSERT INTO user_mercenary_cards_v1 VALUES(2,'V-004',1)").run();
- await f.p("INSERT INTO character_equipment_items VALUES(1,'WEAPON',100000,25000,1),(2,'WEAPON',200000,50000,1),(3,'BATTLE_SUIT',999999999,99999999,1)").run();
+ await f.p("INSERT INTO character_equipment_items(id,slot,total_power,pvp_power,is_active) VALUES(1,'WEAPON',100000,25000,1),(2,'WEAPON',200000,50000,1),(3,'BATTLE_SUIT',999999999,99999999,1)").run();
  await f.p('INSERT INTO user_equipment_instances VALUES(101,2,1),(102,2,2),(103,2,3)').run();
  await f.p("INSERT INTO user_equipment_loadout VALUES(2,'WEAPON',101),(2,'BATTLE_SUIT',103)").run();
  await f.p('INSERT INTO equipment_forge_states_v1 VALUES(101,2,1,1)').run();
@@ -98,4 +101,22 @@ for(const postgres of [false,true])test(`${postgres?'Postgres':'SQLite'} duo com
  assert.equal((await readMercenaryModes(f.env,[2])).get(2).loadouts.PVE.mercenaryCode,'V-001');
  await save('PVE',null,1);assert.equal((await profile()).attack.mercenary.code,'V-002');
  await save('PVP',null,2);assert.equal((await profile()).defense.mercenary,null);
+});
+
+for(const postgres of [false,true])test(`${postgres?'Postgres':'SQLite'} duo gear follows PVP saves and never enters ordinary equipment power`,async t=>{
+ const f=await duoFixture(t,{postgres});
+ const schema='ALTER TABLE user_mercenary_loadout_v1 ADD COLUMN revision INTEGER DEFAULT 0; ALTER TABLE user_mercenary_loadout_v1 ADD COLUMN updated_at TEXT';
+ if(f.pg)await f.pg.exec(schema);else f.native.exec(schema);
+ await ensureJointTransactionSchema(f.env);await f.ready();
+ const document=JSON.parse((await f.p("SELECT payload_json FROM mercenary_cms_documents_v1 WHERE doc_key='config'").first()).payload_json);document.mercenaries.find(c=>c.code==='V-001').rank='C';
+ await f.p("UPDATE mercenary_cms_documents_v1 SET payload_json=? WHERE doc_key='config'",JSON.stringify(document)).run();
+ await f.p("INSERT INTO user_mercenary_cards_v1 VALUES(2,'V-001',1)").run();await f.p("INSERT INTO user_mercenary_loadout_v1(user_id,mercenary_code) VALUES(2,'V-001')").run();
+ const item=REGION_EQUIPMENT[0];await f.p('INSERT INTO character_equipment_items(id,code,name,slot,total_power,pve_power,pvp_power,is_active) VALUES(1,?,?,?,?,?,?,1)',item.code,item.name,item.slot,item.totalPower,90000,10000).run();
+ await f.p('INSERT INTO user_equipment_instances VALUES(101,2,1)').run();await f.p("INSERT INTO user_equipment_loadout VALUES(2,'WEAPON',101)").run();
+ const profile=async()=>(await loadDuoProfiles(f.env,[2],f.config,f.deps,{now:f.clock()}))[0];
+ const save=async(mode,instanceId,revision)=>saveMercenaryEquipment(f.env,{id:2},{requestId:crypto.randomUUID(),mode,instanceId,slot:'WEAPON',revision});
+ await save('PVE','101',0);const first=await profile();assert.equal(first.attack.mercenary.equipment,undefined);assert.equal(first.attack.equipmentBonus,0);assert.equal(first.breakdown.equipmentPower,0);
+ await save('PVP','101',0);const equipped=await profile();assert.ok(equipped.sourceVersion>first.sourceVersion);assert.equal(equipped.attack.mercenary.equipment.power,10000);assert.equal(equipped.defense.mercenary.equipment.power,10000);assert.equal(equipped.attack.equipmentBonus,0);
+ await save('PVE',null,1);assert.equal((await profile()).attack.mercenary.equipment.power,10000);
+ await save('PVP',null,1);assert.equal((await profile()).attack.mercenary.equipment,undefined);
 });

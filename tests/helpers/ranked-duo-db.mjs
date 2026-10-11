@@ -19,7 +19,7 @@ const schema=[
  'CREATE TABLE pvp_deck_presets(user_id BIGINT,preset_no INTEGER,card_ids TEXT,PRIMARY KEY(user_id,preset_no))',
  'CREATE TABLE pvp_active_presets(user_id BIGINT PRIMARY KEY,preset_no INTEGER)',
  'CREATE TABLE pvp_magic_presets(user_id BIGINT,preset_no INTEGER,magic_card_ids TEXT,PRIMARY KEY(user_id,preset_no))',
- 'CREATE TABLE character_equipment_items(id BIGINT PRIMARY KEY,slot TEXT,total_power BIGINT,pvp_power BIGINT,is_active INTEGER)',
+ "CREATE TABLE character_equipment_items(id BIGINT PRIMARY KEY,slot TEXT,total_power BIGINT,pvp_power BIGINT,is_active INTEGER,code TEXT NOT NULL DEFAULT 'TEST_EQUIPMENT',name TEXT DEFAULT '검수 장비',rarity TEXT DEFAULT 'LEGENDARY',pve_power BIGINT DEFAULT 0,is_public INTEGER DEFAULT 1)",
  'CREATE TABLE user_equipment_instances(id BIGINT PRIMARY KEY,user_id BIGINT,equipment_id BIGINT)',
  'CREATE INDEX gear_owner ON user_equipment_instances(user_id)',
  'CREATE TABLE equipment_forge_states_v1(instance_id BIGINT PRIMARY KEY,user_id BIGINT,level INTEGER,revision INTEGER)',
