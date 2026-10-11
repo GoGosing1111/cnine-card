@@ -2917,14 +2917,18 @@ function raidClaimViewActive(context){
   if(String(runtimeCommandContext||'')!=='battle')return false;
   return Number(raidState.data?.current?.id||0)===Number(context.instanceId||0);
 }
-function raidClaimedKey(instanceId){return `cnine_raid_claimed_${String(instanceId||'')}`}
 function raidResultRevealedKey(instanceId){return `cnine_raid_result_revealed_${String(instanceId||'')}`}
-function markRaidClaimed(instanceId){if(!instanceId)return;try{localStorage.setItem(raidClaimedKey(instanceId),'1')}catch(_){}}
-function isRaidClaimedLocally(instanceId){if(!instanceId)return false;try{return localStorage.getItem(raidClaimedKey(instanceId))==='1'}catch(_){return false}}
+function isRaidRewardSettled(data,participant=data?.me){
+  const instanceId=Number(data?.current?.id||0);if(!instanceId)return false;
+  // Browser history is shared across logins and cannot override a server reward receipt.
+  return Number(participant?.rewardClaimed||0)===1
+    ||(Number(data?.claimableReward?.instanceId)===instanceId&&String(data.claimableReward.receiptStatus||'').toUpperCase()==='COMPLETED')
+    ||(Number(data?.lastRaid?.id)===instanceId&&data.lastRaid.rewardClaimed===true);
+}
 function markRaidResultRevealed(instanceId){const id=Number(instanceId||0);if(!id)return;raidState.resultRevealed.add(id);try{localStorage.setItem(raidResultRevealedKey(id),'1')}catch(_){}}
 function isRaidResultRevealed(instanceId){const id=Number(instanceId||0);if(!id)return false;if(raidState.resultRevealed.has(id))return true;try{if(localStorage.getItem(raidResultRevealedKey(id))==='1'){raidState.resultRevealed.add(id);return true}}catch(_){}return false}
 function clearRaidResultRevealed(instanceId){const id=Number(instanceId||0);if(!id)return;raidState.resultRevealed.delete(id);try{localStorage.removeItem(raidResultRevealedKey(id))}catch(_){}}
-async function revealRaidResult(instanceId){const id=Number(instanceId||raidState.data?.current?.id||0);if(!id||raidState.revealingResultId===id||isRaidClaimedLocally(id))return;raidState.revealingResultId=id;stopRaidResultAdvanceTimer();markRaidResultRevealed(id);try{if(raidState.data?.current&&Number(raidState.data.current.id)===id)renderRaidView(raidState.data);await loadRaidView()}finally{raidState.revealingResultId=0}}
+async function revealRaidResult(instanceId){const id=Number(instanceId||raidState.data?.current?.id||0);if(!id||Number(raidState.data?.current?.id)!==id||raidState.revealingResultId===id||isRaidRewardSettled(raidState.data))return;raidState.revealingResultId=id;stopRaidResultAdvanceTimer();markRaidResultRevealed(id);try{if(raidState.data?.current&&Number(raidState.data.current.id)===id)renderRaidView(raidState.data);await loadRaidView()}finally{raidState.revealingResultId=0}}
 function bindRaidResultContinue(button,instanceId){if(!button)return;const advance=event=>{event?.preventDefault?.();event?.stopPropagation?.();void revealRaidResult(instanceId)};button.addEventListener('click',advance,{once:true});button.addEventListener('pointerup',event=>{if(event.pointerType==='touch'||event.pointerType==='pen')advance(event)},{once:true});}
 
 function raidCombatCard(card,extra=''){
@@ -3035,7 +3039,7 @@ async function loadRaidView(){
   try{
     const params=new URLSearchParams();if(requestedRoomId)params.set('instanceId',String(requestedRoomId));
     const path=`raid/status${params.size?`?${params.toString()}`:''}`;
-    const d=await apiRequest(path,{signal:controller.signal},{ttl:0,replaceInflight:true});
+    const d=await apiRequest(path,{signal:controller.signal},{ttl:0,microcache:false,replaceInflight:true});
     if(controller.signal.aborted||requestSeq!==raidState.loadSeq||!box.isConnected||box.hidden||document.hidden)return;
     const currentId=Math.max(0,Number(d?.current?.id||0));
     if(currentId)raidState.selectedRoomId=currentId;
@@ -3137,8 +3141,8 @@ function renderRaidView(d){
     const join=document.getElementById('raidJoin');if(join&&!join.disabled)join.onclick=joinRaid;return;
   }
   if(ended){
-    const settlementCompleted=Boolean(Number(me?.rewardClaimed||0)===1||isRaidClaimedLocally(c.id)||String(d?.claimableReward?.receiptStatus||'').toUpperCase()==='COMPLETED'||(d?.lastRaid&&Number(d.lastRaid.id)===Number(c.id)&&d.lastRaid.rewardClaimed===true));
-    if(me&&settlementCompleted){box.innerHTML=`<section class="raid-empty raid-empty-polished"><p class="eyebrow">WORLD RAID</p><h2>${escapeHtml(s.title||'월드 레이드')}</h2><p>이미 보상 정산이 완료되었습니다.<br>현재 열린 레이드가 없습니다.</p></section>`;stopRaidTimer();stopRaidResultAdvanceTimer();return;}
+    const settlementCompleted=isRaidRewardSettled(d,me);
+    if(me&&settlementCompleted){box.innerHTML=`<section class="raid-empty raid-empty-polished"><p class="eyebrow">WORLD RAID</p><h2>${escapeHtml(s.title||'월드 레이드')}</h2><p>보상 수령이 완료되었습니다.<br>방 목록에서 다음 레이드를 확인하세요.</p><button type="button" class="btn" id="raidSettledRefresh">방 목록으로</button></section>`;const refresh=document.getElementById('raidSettledRefresh');if(refresh)refresh.onclick=()=>{raidState.selectedRoomId=0;return loadRaidView()};stopRaidTimer();stopRaidResultAdvanceTimer();return;}
     if(!isRaidResultRevealed(c.id)){const outcome=c.result==='CLEAR'?'clear':c.result==='FAILED'?'failed':'timeout',outcomeTitle=outcome==='clear'?'레이드 클리어':outcome==='failed'?'레이드 실패':'시간 초과',outcomeText=outcome==='clear'?'보스 처치에 성공했습니다.':outcome==='failed'?'참가 인원이 모두 전투 불능 상태가 되었습니다.':'제한 시간 안에 보스를 처치하지 못했습니다.',outcomeIcon=outcome==='clear'?'✓':outcome==='failed'?'✕':'⌛',instanceId=Number(c.id||0);box.innerHTML=`<section class="raid-outcome-screen ${outcome}"><div class="raid-outcome-backdrop"></div><div class="raid-outcome-mark">${outcomeIcon}</div><p class="eyebrow">WORLD RAID RESULT</p><span class="raid-outcome-label">${c.result==='CLEAR'?'RAID CLEAR':c.result==='FAILED'?'RAID FAILED':'TIME OUT'}</span><h1>${outcomeTitle}</h1><h2>${escapeHtml(c.bossName)}</h2><p>${outcomeText}</p><div class="raid-outcome-hp"><span>보스 최종 HP</span><b>${Number(c.currentHp||0).toLocaleString()} / ${Number(c.maxHp||0).toLocaleString()}</b></div><button type="button" class="btn raid-result-continue" id="raidResultContinue" data-instance-id="${instanceId}">결과 상세 확인</button><small>버튼을 누르거나 잠시 기다리면 결과 상세 화면으로 이동합니다.</small></section>`;const next=document.getElementById('raidResultContinue');bindRaidResultContinue(next,instanceId);stopRaidTimer();stopRaidResultAdvanceTimer();raidState.resultAdvanceTimer=setTimeout(()=>{void revealRaidResult(instanceId)},8000);return;}
     const rank=me?participants.findIndex(x=>Number(x.userId)===Number(me.userId))+1:0;
     const clear=c.result==='CLEAR';
@@ -3153,9 +3157,9 @@ function renderRaidView(d){
     // raid/claim can create the authoritative reward plan on demand. Keep the
     // button usable even when the status preview is delayed under D1 load.
     const rewardReady=Boolean(me&&reward&&reward.source==='SERVER_CONFIRMED');
-    const claimEnabled=Boolean(me&&!me.rewardClaimed);
-    box.innerHTML=`<section class="raid-result-screen ${clear?'clear':c.result==='FAILED'?'failed':'timeout'}"><div class="raid-result-glow"></div><p class="eyebrow">RAID RESULT DETAIL</p><span class="raid-result-state">${clear?'클리어 성공':c.result==='FAILED'?'레이드 실패':'시간 초과'}</span><h1>${resultText}</h1><h2>${escapeHtml(c.bossName)}</h2><div class="raid-result-stats"><div><span>MY DAMAGE</span><b>${Number(me?.shownDamage||0).toLocaleString()}</b></div><div><span>FINAL RANK</span><b>${rank?rank+'위':'-'}</b></div><div><span>SURVIVAL</span><b>${me?(me.isDefeated?'K.O':'생존'):'-'}</b></div></div>${me?`<div class="raid-reward-stage"><article><div class="raid-reward-icon">◇</div><span>코인</span><b>${rewardReady?'+'+rewardCoin.toLocaleString():'확인 중'}</b></article><article><div class="raid-reward-icon">✦</div><span>카드 조각</span><b>${rewardReady?'+'+rewardShards.toLocaleString():'확인 중'}</b></article><article class="magic"><div class="raid-reward-icon">✧</div><span>마법 결정</span><b>${rewardReady?'+'+rewardMagicCrystals.toLocaleString():'확인 중'}</b></article></div>${rewardReady?`<p class="raid-reward-breakdown">참가 ${participationCoin.toLocaleString()} 코인${clear?` + 클리어 ${clearCoin.toLocaleString()} 코인`:''} = 총 ${rewardCoin.toLocaleString()} 코인${rewardMagicCrystals>0?` · 마법 결정 참가 ${participationMagicCrystals.toLocaleString()}${rankMagicCrystals>0?` + ${rank||'-'}위 ${rankMagicCrystals.toLocaleString()}`:''}`:''}</p>`:''}<button class="btn raid-claim-btn" id="raidClaim" ${!rewardReady||me.rewardClaimed?'disabled':''}>${me.rewardClaimed?'보상 수령 완료':rewardReady?'보상 받기':'서버 보상 확인 중'}</button><p class="raid-result-note">${clear?'클리어 보상과 참가 보상이 함께 지급됩니다.':'클리어 보상은 지급되지 않으며 참가 보상만 지급됩니다.'}</p>`:'<p class="raid-result-note">레이드 참가 기록이 없습니다.</p>'}</section>`;
-    const claim=document.getElementById('raidClaim');if(claim){claim.disabled=!claimEnabled;claim.textContent=me?.rewardClaimed?'보상 수령 완료':'보상 받기';if(!claim.disabled)claim.onclick=claimRaidReward}stopRaidTimer();return;
+    const rewardClaimed=Number(me?.rewardClaimed||0)===1,claimEnabled=Boolean(me&&!rewardClaimed);
+    box.innerHTML=`<section class="raid-result-screen ${clear?'clear':c.result==='FAILED'?'failed':'timeout'}"><div class="raid-result-glow"></div><p class="eyebrow">RAID RESULT DETAIL</p><span class="raid-result-state">${clear?'클리어 성공':c.result==='FAILED'?'레이드 실패':'시간 초과'}</span><h1>${resultText}</h1><h2>${escapeHtml(c.bossName)}</h2><div class="raid-result-stats"><div><span>MY DAMAGE</span><b>${Number(me?.shownDamage||0).toLocaleString()}</b></div><div><span>FINAL RANK</span><b>${rank?rank+'위':'-'}</b></div><div><span>SURVIVAL</span><b>${me?(me.isDefeated?'K.O':'생존'):'-'}</b></div></div>${me?`<div class="raid-reward-stage"><article><div class="raid-reward-icon">◇</div><span>코인</span><b>${rewardReady?'+'+rewardCoin.toLocaleString():'확인 중'}</b></article><article><div class="raid-reward-icon">✦</div><span>카드 조각</span><b>${rewardReady?'+'+rewardShards.toLocaleString():'확인 중'}</b></article><article class="magic"><div class="raid-reward-icon">✧</div><span>마법 결정</span><b>${rewardReady?'+'+rewardMagicCrystals.toLocaleString():'확인 중'}</b></article></div>${rewardReady?`<p class="raid-reward-breakdown">참가 ${participationCoin.toLocaleString()} 코인${clear?` + 클리어 ${clearCoin.toLocaleString()} 코인`:''} = 총 ${rewardCoin.toLocaleString()} 코인${rewardMagicCrystals>0?` · 마법 결정 참가 ${participationMagicCrystals.toLocaleString()}${rankMagicCrystals>0?` + ${rank||'-'}위 ${rankMagicCrystals.toLocaleString()}`:''}`:''}</p>`:''}<button class="btn raid-claim-btn" id="raidClaim" ${!rewardReady||rewardClaimed?'disabled':''}>${rewardClaimed?'보상 수령 완료':rewardReady?'보상 받기':'서버 보상 확인 중'}</button><p class="raid-result-note">${clear?'클리어 보상과 참가 보상이 함께 지급됩니다.':'클리어 보상은 지급되지 않으며 참가 보상만 지급됩니다.'}</p>`:'<p class="raid-result-note">레이드 참가 기록이 없습니다.</p>'}</section>`;
+    const claim=document.getElementById('raidClaim');if(claim){claim.disabled=!claimEnabled;claim.textContent=rewardClaimed?'보상 수령 완료':'보상 받기';if(!claim.disabled)claim.onclick=claimRaidReward}stopRaidTimer();return;
   }
   const active=participants.filter(x=>!x.isDefeated),attacker=active.length?active[(Number(c.attackTicks||0)+Math.floor(Date.now()/Math.max(400,Number(s.attackIntervalMs||800))))%active.length]:null;
   const attackCard=attacker?.cards?.length?attacker.cards[(Number(c.attackTicks||0)+Math.floor(Date.now()/Math.max(400,Number(s.attackIntervalMs||800))))%attacker.cards.length]:null;
@@ -3190,7 +3194,6 @@ async function claimRaidReward(attempt=0,claimContext=null){
     const d=await apiRequest('raid/claim',{method:'POST',body:JSON.stringify({instanceId,expectedReward:shownReward?{instanceId,coin:Number(shownReward.coin||0),shards:Number(shownReward.shards||0),magicCrystals:Number(shownReward.magicCrystals||0)}:null})});
     if(d.equipmentReward&&window.showEquipmentDropReward){try{await window.showEquipmentDropReward(d.equipmentReward)}catch(equipmentFxError){console.warn('레이드 장비 획득 연출을 표시하지 못했습니다.',equipmentFxError)}}
     const claimedId=Number(d.instanceId||instanceId);
-    markRaidClaimed(claimedId);
     markRaidResultRevealed(claimedId);
     if(d.user)saveUser(apiUserToLocal(d.user));
     const stillActive=raidClaimViewActive(context);
@@ -3210,7 +3213,7 @@ async function claimRaidReward(attempt=0,claimContext=null){
   }catch(e){
     const active=raidClaimViewActive(context);
     if(e?.rewardClaimed){
-      markRaidClaimed(instanceId);markRaidResultRevealed(instanceId);
+      markRaidResultRevealed(instanceId);
       if(e.user)saveUser(apiUserToLocal(e.user));
       if(active){invalidateRaidUiState({clearSelection:true,stopClaimRetry:true});raidState.data={settings:raidState.data?.settings||{},schedule:raidState.data?.schedule||{},current:null,participants:[],me:null};const box=document.getElementById('pveRaidView');if(box&&!box.hidden)await loadRaidView();}
       return;

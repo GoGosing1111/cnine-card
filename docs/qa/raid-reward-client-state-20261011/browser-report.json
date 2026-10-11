@@ -1,0 +1,23 @@
+{
+  "scope": "Actual main application, loopback-only synthetic raid and claims",
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 1000,
+      "claimVisible": true,
+      "claimEnabledWithStaleLocalFlag": true,
+      "returnToRooms": true,
+      "claimInViewport": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "claimVisible": true,
+      "claimEnabledWithStaleLocalFlag": true,
+      "returnToRooms": true,
+      "claimInViewport": true
+    }
+  ],
+  "errors": [],
+  "passed": true
+}
