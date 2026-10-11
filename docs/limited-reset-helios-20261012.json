@@ -1,0 +1,794 @@
+{
+  "status": "VERIFIED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:limited-reset-helios:20261012:v1",
+    "planHash": "79665ad0475da380597ed008f34b0a206f69f9ddfe2a5cc12d80f071fbaef9ba",
+    "authorization": "12일 용병 리미티드팩 구매한도 리셋 / 헬리오스 음순이 계정에 지급",
+    "completedAt": "2026-10-11T20:23:47.754Z",
+    "reset": {
+      "day": "2026-10-12",
+      "limit": 3000,
+      "affectedUsers": 104,
+      "restoredPurchases": 165413,
+      "targets": [
+        {
+          "key": "mercenary_limited_daily_v1:3:2026-10-12",
+          "userId": 3,
+          "nickname": "ε연두з",
+          "usedBefore": 3000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:6:2026-10-12",
+          "userId": 6,
+          "nickname": "남수단",
+          "usedBefore": 350,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:7:2026-10-12",
+          "userId": 7,
+          "nickname": "에비런",
+          "usedBefore": 2010,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:22:2026-10-12",
+          "userId": 22,
+          "nickname": "커피먹는철구",
+          "usedBefore": 1370,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:23:2026-10-12",
+          "userId": 23,
+          "nickname": "하이희야",
+          "usedBefore": 1950,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:25:2026-10-12",
+          "userId": 25,
+          "nickname": "여우",
+          "usedBefore": 3000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:29:2026-10-12",
+          "userId": 29,
+          "nickname": "엑셀괴물",
+          "usedBefore": 1000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:32:2026-10-12",
+          "userId": 32,
+          "nickname": "쑤댕",
+          "usedBefore": 1062,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:45:2026-10-12",
+          "userId": 45,
+          "nickname": "박세라-ㅂ-",
+          "usedBefore": 3000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:52:2026-10-12",
+          "userId": 52,
+          "nickname": "폭군#",
+          "usedBefore": 660,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:62:2026-10-12",
+          "userId": 62,
+          "nickname": "숭구릭",
+          "usedBefore": 900,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:65:2026-10-12",
+          "userId": 65,
+          "nickname": "음순이",
+          "usedBefore": 2970,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:71:2026-10-12",
+          "userId": 71,
+          "nickname": "진땅콩_",
+          "usedBefore": 1010,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:73:2026-10-12",
+          "userId": 73,
+          "nickname": "란x2",
+          "usedBefore": 3000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:76:2026-10-12",
+          "userId": 76,
+          "nickname": "랄네미탱탱",
+          "usedBefore": 2860,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:83:2026-10-12",
+          "userId": 83,
+          "nickname": "애장이",
+          "usedBefore": 3000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:87:2026-10-12",
+          "userId": 87,
+          "nickname": "설윤이",
+          "usedBefore": 1630,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:88:2026-10-12",
+          "userId": 88,
+          "nickname": "0수표",
+          "usedBefore": 2600,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:91:2026-10-12",
+          "userId": 91,
+          "nickname": "정원이",
+          "usedBefore": 60,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:115:2026-10-12",
+          "userId": 115,
+          "nickname": "쁠리의무사시",
+          "usedBefore": 3000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:140:2026-10-12",
+          "userId": 140,
+          "nickname": "&7",
+          "usedBefore": 10,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:148:2026-10-12",
+          "userId": 148,
+          "nickname": "혜루",
+          "usedBefore": 1170,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:156:2026-10-12",
+          "userId": 156,
+          "nickname": "좌지구녕",
+          "usedBefore": 510,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:162:2026-10-12",
+          "userId": 162,
+          "nickname": "차단하다",
+          "usedBefore": 171,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:164:2026-10-12",
+          "userId": 164,
+          "nickname": "박사",
+          "usedBefore": 2000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:187:2026-10-12",
+          "userId": 187,
+          "nickname": "파르르구",
+          "usedBefore": 50,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:220:2026-10-12",
+          "userId": 220,
+          "nickname": "족알못",
+          "usedBefore": 3000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:277:2026-10-12",
+          "userId": 277,
+          "nickname": "스갤가축",
+          "usedBefore": 2960,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:289:2026-10-12",
+          "userId": 289,
+          "nickname": "베베킹",
+          "usedBefore": 1010,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:290:2026-10-12",
+          "userId": 290,
+          "nickname": "Mild7",
+          "usedBefore": 1370,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:297:2026-10-12",
+          "userId": 297,
+          "nickname": "점크루지",
+          "usedBefore": 1330,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:303:2026-10-12",
+          "userId": 303,
+          "nickname": "[C9]족쪽이",
+          "usedBefore": 3000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:360:2026-10-12",
+          "userId": 360,
+          "nickname": "라피e",
+          "usedBefore": 3000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:525:2026-10-12",
+          "userId": 525,
+          "nickname": "족구조아",
+          "usedBefore": 1300,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:660:2026-10-12",
+          "userId": 660,
+          "nickname": "Bazzi3",
+          "usedBefore": 1040,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:750:2026-10-12",
+          "userId": 750,
+          "nickname": "라페스타다",
+          "usedBefore": 1200,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:792:2026-10-12",
+          "userId": 792,
+          "nickname": "센텀신사",
+          "usedBefore": 1020,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:850:2026-10-12",
+          "userId": 850,
+          "nickname": "뽑기고수71",
+          "usedBefore": 1321,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:1195:2026-10-12",
+          "userId": 1195,
+          "nickname": "씨나인택갓",
+          "usedBefore": 3000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:1768:2026-10-12",
+          "userId": 1768,
+          "nickname": "핫시",
+          "usedBefore": 3000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:2246:2026-10-12",
+          "userId": 2246,
+          "nickname": "옹가망함1",
+          "usedBefore": 800,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:2333:2026-10-12",
+          "userId": 2333,
+          "nickname": "구와함",
+          "usedBefore": 2070,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:2420:2026-10-12",
+          "userId": 2420,
+          "nickname": "블랙캐슬",
+          "usedBefore": 100,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:2505:2026-10-12",
+          "userId": 2505,
+          "nickname": "모아가려아가",
+          "usedBefore": 3000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:2734:2026-10-12",
+          "userId": 2734,
+          "nickname": "그냥지은닉",
+          "usedBefore": 960,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:3011:2026-10-12",
+          "userId": 3011,
+          "nickname": "오일바른가지",
+          "usedBefore": 3000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:3867:2026-10-12",
+          "userId": 3867,
+          "nickname": "레드클라우드",
+          "usedBefore": 3000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:3974:2026-10-12",
+          "userId": 3974,
+          "nickname": "우회하세요",
+          "usedBefore": 2610,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4010:2026-10-12",
+          "userId": 4010,
+          "nickname": "슈라",
+          "usedBefore": 3000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4084:2026-10-12",
+          "userId": 4084,
+          "nickname": "게임닉네임",
+          "usedBefore": 1000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4199:2026-10-12",
+          "userId": 4199,
+          "nickname": "택신",
+          "usedBefore": 3000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4209:2026-10-12",
+          "userId": 4209,
+          "nickname": "#유나랜드",
+          "usedBefore": 3000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4222:2026-10-12",
+          "userId": 4222,
+          "nickname": "#크레파스",
+          "usedBefore": 150,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4235:2026-10-12",
+          "userId": 4235,
+          "nickname": "도댕",
+          "usedBefore": 3000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4371:2026-10-12",
+          "userId": 4371,
+          "nickname": "건빵3개",
+          "usedBefore": 500,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4391:2026-10-12",
+          "userId": 4391,
+          "nickname": "더듬이구",
+          "usedBefore": 1667,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4408:2026-10-12",
+          "userId": 4408,
+          "nickname": "레가파",
+          "usedBefore": 200,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4415:2026-10-12",
+          "userId": 4415,
+          "nickname": "Moo날두",
+          "usedBefore": 570,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4479:2026-10-12",
+          "userId": 4479,
+          "nickname": "대지",
+          "usedBefore": 2191,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4501:2026-10-12",
+          "userId": 4501,
+          "nickname": "장씨아저씨",
+          "usedBefore": 619,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4540:2026-10-12",
+          "userId": 4540,
+          "nickname": "지아영",
+          "usedBefore": 3000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4570:2026-10-12",
+          "userId": 4570,
+          "nickname": "혜정",
+          "usedBefore": 1950,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4572:2026-10-12",
+          "userId": 4572,
+          "nickname": "응맨",
+          "usedBefore": 900,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4580:2026-10-12",
+          "userId": 4580,
+          "nickname": "CHO22",
+          "usedBefore": 360,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4581:2026-10-12",
+          "userId": 4581,
+          "nickname": "나도한번",
+          "usedBefore": 3000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4595:2026-10-12",
+          "userId": 4595,
+          "nickname": "비니",
+          "usedBefore": 1500,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4597:2026-10-12",
+          "userId": 4597,
+          "nickname": "찬호",
+          "usedBefore": 2211,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4598:2026-10-12",
+          "userId": 4598,
+          "nickname": "암살자..",
+          "usedBefore": 1500,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4610:2026-10-12",
+          "userId": 4610,
+          "nickname": "고라니ㅇ",
+          "usedBefore": 1000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4615:2026-10-12",
+          "userId": 4615,
+          "nickname": "랭비!",
+          "usedBefore": 1000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4621:2026-10-12",
+          "userId": 4621,
+          "nickname": "리이렐",
+          "usedBefore": 1460,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4625:2026-10-12",
+          "userId": 4625,
+          "nickname": "제롬",
+          "usedBefore": 700,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4627:2026-10-12",
+          "userId": 4627,
+          "nickname": "학벌",
+          "usedBefore": 850,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4628:2026-10-12",
+          "userId": 4628,
+          "nickname": "망순이ෆ",
+          "usedBefore": 3000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4641:2026-10-12",
+          "userId": 4641,
+          "nickname": "의지",
+          "usedBefore": 3000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4651:2026-10-12",
+          "userId": 4651,
+          "nickname": "세라네꼬라지",
+          "usedBefore": 500,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4668:2026-10-12",
+          "userId": 4668,
+          "nickname": "화성가뿌자",
+          "usedBefore": 1200,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4717:2026-10-12",
+          "userId": 4717,
+          "nickname": "소다맛",
+          "usedBefore": 200,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4772:2026-10-12",
+          "userId": 4772,
+          "nickname": "펜타",
+          "usedBefore": 3000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4836:2026-10-12",
+          "userId": 4836,
+          "nickname": "딤키우기",
+          "usedBefore": 3000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4910:2026-10-12",
+          "userId": 4910,
+          "nickname": "스루형2↑",
+          "usedBefore": 300,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4913:2026-10-12",
+          "userId": 4913,
+          "nickname": "오리꿍",
+          "usedBefore": 3000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4933:2026-10-12",
+          "userId": 4933,
+          "nickname": "심심이",
+          "usedBefore": 1572,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4968:2026-10-12",
+          "userId": 4968,
+          "nickname": "우엉맛김밥♡",
+          "usedBefore": 500,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:4978:2026-10-12",
+          "userId": 4978,
+          "nickname": "하이다미♡",
+          "usedBefore": 700,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:5010:2026-10-12",
+          "userId": 5010,
+          "nickname": "으악",
+          "usedBefore": 50,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:5140:2026-10-12",
+          "userId": 5140,
+          "nickname": "공백",
+          "usedBefore": 3000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:5148:2026-10-12",
+          "userId": 5148,
+          "nickname": "타몽",
+          "usedBefore": 1000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:5393:2026-10-12",
+          "userId": 5393,
+          "nickname": "주성",
+          "usedBefore": 3000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:5426:2026-10-12",
+          "userId": 5426,
+          "nickname": "나무늘봉순",
+          "usedBefore": 230,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:5442:2026-10-12",
+          "userId": 5442,
+          "nickname": "CHE14",
+          "usedBefore": 150,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:5447:2026-10-12",
+          "userId": 5447,
+          "nickname": "빵각하",
+          "usedBefore": 130,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:5504:2026-10-12",
+          "userId": 5504,
+          "nickname": "비_니",
+          "usedBefore": 3000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:5529:2026-10-12",
+          "userId": 5529,
+          "nickname": "제우스",
+          "usedBefore": 3000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:5598:2026-10-12",
+          "userId": 5598,
+          "nickname": "여봉상",
+          "usedBefore": 200,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:5604:2026-10-12",
+          "userId": 5604,
+          "nickname": "나는민수2",
+          "usedBefore": 400,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:5655:2026-10-12",
+          "userId": 5655,
+          "nickname": "아구몬",
+          "usedBefore": 8,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:5663:2026-10-12",
+          "userId": 5663,
+          "nickname": "비숑",
+          "usedBefore": 3000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:5690:2026-10-12",
+          "userId": 5690,
+          "nickname": "하두링",
+          "usedBefore": 341,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:5696:2026-10-12",
+          "userId": 5696,
+          "nickname": "여행",
+          "usedBefore": 30,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:5908:2026-10-12",
+          "userId": 5908,
+          "nickname": "Supreme-",
+          "usedBefore": 300,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:5910:2026-10-12",
+          "userId": 5910,
+          "nickname": "조커",
+          "usedBefore": 440,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:5913:2026-10-12",
+          "userId": 5913,
+          "nickname": "검객",
+          "usedBefore": 3000,
+          "usedAfter": 0
+        },
+        {
+          "key": "mercenary_limited_daily_v1:5915:2026-10-12",
+          "userId": 5915,
+          "nickname": "Brilliant",
+          "usedBefore": 400,
+          "usedAfter": 0
+        }
+      ]
+    },
+    "grant": {
+      "userId": 65,
+      "nickname": "음순이",
+      "code": "V-999",
+      "name": "헬리오스",
+      "rank": "SSS",
+      "edition": "LIMITED",
+      "quantity": 1,
+      "acquisitionId": "ops:limited-reset-helios:20261012:v1:65",
+      "serial": 1,
+      "copiesBefore": 0,
+      "copiesAfter": 1
+    },
+    "stockBefore": {
+      "limit": 7,
+      "issued": 0,
+      "remaining": 7,
+      "revision": 4
+    },
+    "stockAfter": {
+      "limit": 7,
+      "issued": 1,
+      "remaining": 6,
+      "revision": 5
+    },
+    "settingsPreserved": true,
+    "balancesPreserved": true,
+    "inventoryLoadoutGrowthPreserved": true,
+    "auditIds": [
+      "44906",
+      "44907"
+    ]
+  },
+  "stock": {
+    "limit": 7,
+    "issued": 1,
+    "remaining": 6,
+    "revision": 5
+  },
+  "holding": {
+    "userId": 65,
+    "nickname": "음순이",
+    "code": "V-999",
+    "copies": 1,
+    "serial": 1
+  },
+  "currentDayUsed": 40,
+  "independentConnection": true,
+  "verifiedAt": "2026-10-11T20:23:56.395Z"
+}
