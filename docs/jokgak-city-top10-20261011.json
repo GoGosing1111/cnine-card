@@ -1,0 +1,42 @@
+{
+  "operationKey": "ops:jokgak-city-top10:20261011-18:v1",
+  "status": "SCHEDULED_DEPLOYMENT_PENDING",
+  "round": {
+    "epoch": 82951,
+    "startKst": "2026-10-11 18:00:00",
+    "endKst": "2026-10-12 00:00:00"
+  },
+  "coinPerRecipient": "500000000000",
+  "cutoffTiesIncluded": true,
+  "delivery": "MESSAGE",
+  "scheduledAt": "2026-10-11T09:44:22.939Z",
+  "earlyMessages": 0,
+  "policy": {
+    "mode": "ON",
+    "revision": 22,
+    "unchanged": true
+  },
+  "tests": {
+    "files": [
+      "tests/jokgak-city-top10-20261011.test.mjs",
+      "tests/trophy-milestones-20261011.test.mjs"
+    ],
+    "passed": 24,
+    "failed": 0,
+    "durationMs": 21303,
+    "actual500BCoinClaim": true,
+    "fullRollback": true,
+    "stalePlanAndReplay": true
+  },
+  "deployment": {
+    "status": "WAITING_FOR_PRIOR_PRODUCTION_RELEASE",
+    "lastObservedCode": "811256c84a6df94cb4e32242f4f88de20a3d9d47",
+    "aheadRelease": "eb8b34680bc187e8ecfe8d660ea790b4f04267d8"
+  },
+  "verificationAutomation": {
+    "id": "top10",
+    "atKst": "2026-10-12 00:03:00",
+    "oneTime": true
+  },
+  "scope": "One-time Jokgak city reward only. No Madara deployment, user UI change, schema migration or CMS policy change."
+}
