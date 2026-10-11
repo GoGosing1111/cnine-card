@@ -1,0 +1,101 @@
+{
+  "verifiedAt": "2026-10-11T21:20:51.706Z",
+  "source": "efbf94721d19b13e1d6877cf310897fbc8841e0b",
+  "title": {
+    "id": "1094337",
+    "code": "ADMINISTRATION",
+    "name": "행정부",
+    "pve_power": "100000",
+    "description": "숲켓몬을 위해 헌신하는 행정부 직원",
+    "unlock_type": "MANUAL"
+  },
+  "ownership": [
+    {
+      "id": "1",
+      "nickname": "핑크빛유두",
+      "role": "OWNER",
+      "expires_at": null
+    },
+    {
+      "id": "2",
+      "nickname": "Inception",
+      "role": "OWNER",
+      "expires_at": null
+    },
+    {
+      "id": "6",
+      "nickname": "남수단",
+      "role": "OWNER",
+      "expires_at": null
+    },
+    {
+      "id": "83",
+      "nickname": "애장이",
+      "role": "ADMIN",
+      "expires_at": null
+    },
+    {
+      "id": "3710",
+      "nickname": "꼭지위생크림",
+      "role": "ADMIN",
+      "expires_at": null
+    },
+    {
+      "id": "5663",
+      "nickname": "비숑",
+      "role": "OWNER",
+      "expires_at": null
+    },
+    {
+      "id": "5849",
+      "nickname": "족다니",
+      "role": "ADMIN",
+      "expires_at": null
+    }
+  ],
+  "receiptKey": "ops:administration-staff:20261012:v1",
+  "assets": [
+    {
+      "file": "css/achievement-titles-20260927.css",
+      "status": 200,
+      "sha256": "52e315411d0a76bc0ec2e8af7463eb6821ed6d8e9c2acc5ed8fcfd52be882546",
+      "match": true
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "3a2838c34f67ddfe3ba27fba723fbbe1988fe3f38c8ccc346d9d1f045d638341",
+      "match": true
+    },
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "dd254fcc865c7874fd432cfb8e2e913c33fe5528de5b05741304acedf381bb91",
+      "match": true
+    },
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "sha256": "815e8ef9be2ee9e1132b1c14d5a17353c78661fc18b857a3a9584ee81305d07b",
+      "match": true
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "e9f32d921fde0d247f25aade25220700a1a8e797f9f9770f69bec363363dd753",
+      "match": true
+    },
+    {
+      "file": "preview/administration-title-20261012/index.html",
+      "status": 200,
+      "sha256": "5403088786c77a2b6050df69563417e26feb4aa968a847c8322ef33c191017db",
+      "match": true
+    },
+    {
+      "file": "preview/administration-title-20261012/preview.js",
+      "status": 200,
+      "sha256": "c22daa5a4f367ea65fc864757a3430e01aef3f60b85bcc5382fdab2f8e6351c6",
+      "match": true
+    }
+  ]
+}
