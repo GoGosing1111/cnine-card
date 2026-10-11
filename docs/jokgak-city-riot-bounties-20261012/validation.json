@@ -1,0 +1,37 @@
+{
+  "releaseCommit": "1849423e91047a48d6f14326c13fb4072fa6cbc2",
+  "deployedBase": "7a8d620a7c2bbc27e7d4dec1192dd91a49c12919",
+  "regressions": {
+    "selected": 96,
+    "passed": 94,
+    "unrelatedStaleExpectations": 2,
+    "files": [
+      "tests/jokgak-city-conflict-20261012.test.mjs",
+      "tests/jokgak-city-cash-20261009.test.mjs",
+      "tests/jokgak-city-theft-20261009.test.mjs",
+      "tests/jokgak-city-round-rewards-20261012.test.mjs",
+      "tests/jokgak-city-comms-20261011.test.mjs",
+      "tests/jokgak-city-cms-20261009.test.mjs",
+      "tests/jokgak-city-exploration-20261012.test.mjs",
+      "tests/jokgak-city-exploration-art-20261012.test.mjs"
+    ],
+    "exception": {
+      "file": "tests/jokgak-city-theft-20261009.test.mjs",
+      "line": 64,
+      "databases": ["SQLite", "Postgres"],
+      "expectedLocation": "HOSPITAL",
+      "actualLocation": "DEPARTMENT",
+      "reason": "The existing test predates the approved automatic hospital exit on resurrection after three minutes. Its code and the hospital relocation logic are unchanged from task base 3a5947a0. Cash assertions preceding the stale location assertion passed."
+    }
+  },
+  "resumedRuntimeCheck": {
+    "file": "tests/jokgak-city-worker-entry-20261009.test.mjs",
+    "passed": 1,
+    "failed": 0
+  },
+  "browser": {"desktop": "1440x1000", "mobile": "390x844", "checks": 14, "pageErrors": 0, "evidence": "browser.json"},
+  "requiredChecks": ["check:worker", "verify-production-release", "Hyperdrive query cache disabled"],
+  "deploymentCommand": "npm run deploy:production -- --scoped",
+  "productionRuntime": "eef15762-127b-4a62-85e2-42a8aa107eb2",
+  "productionScheduler": "71782028-10f3-4a2d-a587-4ef833f4c580"
+}

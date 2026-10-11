@@ -1,0 +1,95 @@
+{
+  "verifiedAt": "2026-10-11T18:42:03.304Z",
+  "origin": "https://cnine-card.pages.dev",
+  "commit": "1849423e91047a48d6f14326c13fb4072fa6cbc2",
+  "deployment": {
+    "Id": "305633af-0041-4a25-9c91-5f6d03982b2c",
+    "Environment": "Production",
+    "Branch": "main",
+    "Source": "1849423",
+    "Deployment": "https://305633af.cnine-card.pages.dev",
+    "Status": "1 minute ago",
+    "Build": "https://dash.cloudflare.com/1e7c59450a8b6e34a9d87f92ca02aeaa/pages/view/cnine-card/305633af-0041-4a25-9c91-5f6d03982b2c"
+  },
+  "checks": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "def4e53090c641650cb709f080219a22b0c275457bf27bfbb26c8ed41a7fadb6",
+      "bytes": 23129
+    },
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "sha256": "22430837c01a76cdeb5ba631348779f10b37640ca123299597b5278913a4f19e",
+      "bytes": 87115
+    },
+    {
+      "file": "js/jokgak-city-v1.js",
+      "status": 200,
+      "sha256": "efd218c9b735a491d341b4f8f131fe20c3058021b49999e88345554bc1803ab7",
+      "bytes": 62616
+    },
+    {
+      "file": "js/jokgak-city-conflict-ui-v1.mjs",
+      "status": 200,
+      "sha256": "dd96ef88eeda867a26ddbf331bd81a32d2f5d353874a3589a38621de02da01dc",
+      "bytes": 5821
+    },
+    {
+      "file": "js/jokgak-city-comms-ui-v1.mjs",
+      "status": 200,
+      "sha256": "a3aa83f8723796d9ee2375f14426a835dfb61d97edc6ca88675a1db4d783c3d9",
+      "bytes": 6262
+    },
+    {
+      "file": "css/jokgak-city-v1.css",
+      "status": 200,
+      "sha256": "bc0e5323563f9175567848cccc9f5a6cbf8de9df8cc3b5f0ed9d1a2137bc8430",
+      "bytes": 38539
+    },
+    {
+      "file": "css/jokgak-city-conflict-v1.css",
+      "status": 200,
+      "sha256": "8be3d08bcb9d7badbbd933934796e931341ebb94d4c81831e2d26e6daacf8711",
+      "bytes": 10267
+    },
+    {
+      "file": "admin/jokgak-city-admin-v1.mjs",
+      "status": 200,
+      "sha256": "fe8cda66c24a4c0d1767fc6aeaf7d836187c5fc218f1ca4e941f0c7e82540d84",
+      "bytes": 31006
+    },
+    {
+      "file": "admin/jokgak-city-conflict-admin-v1.mjs",
+      "status": 200,
+      "sha256": "73747fde981d059e6ffe6617f0754d32b42ac130341a9373408f16b57c2ebd75",
+      "bytes": 2347
+    },
+    {
+      "file": "shared/jokgak-city-settings-v1.mjs",
+      "status": 200,
+      "sha256": "edbe5b97b4a541a0847c7734f249caf5c995b1df260bbf2e8aa963a582164474",
+      "bytes": 9112
+    },
+    {
+      "file": "shared/jokgak-city-conflict-v1.mjs",
+      "status": 200,
+      "sha256": "521b0820b829ca9f1a5d47a309f5cda1961f49e802cf8c981bea7fce962a4478",
+      "bytes": 3257
+    },
+    {
+      "file": "shared/jokgak-city-life-v1.mjs",
+      "status": 200,
+      "sha256": "d2e211d92a34c74b8222923a207b3a7274c3f51ea4102e34d6be63691ac38b42",
+      "bytes": 8717
+    }
+  ],
+  "api": {
+    "status": 401,
+    "contentType": "application/json;charset=UTF-8",
+    "error": "로그인이 필요합니다."
+  },
+  "cityActionsExecuted": 0,
+  "settingsWrites": 0
+}
