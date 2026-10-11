@@ -27,7 +27,7 @@ test('public disclosure defaults ON, approved power is available, execution OFF 
 test('approved power is identical in status and CMS while save preserves the execution lock',async()=>{
   const f=await fixture();try{
     const status=await f.call('status'),admin=await f.call('admin');
-    assert.equal(status.body.policy.maxLevel,10);assert.deepEqual(status.body.policy.powerScaling.bonusPercentByLevel,[0,6,12,18,24,30,36,42,48,80,120]);
+    assert.equal(status.body.policy.maxLevel,15);assert.deepEqual(status.body.policy.powerScaling.bonusPercentByLevel,[0,6,12,18,24,30,36,42,48,80,120]);
     assert.deepEqual(status.body.policy.powerScaling,admin.body.powerStandard);
     const saved=await f.call('admin',{method:'PATCH',body:settings()});assert.deepEqual(saved.body.powerStandard,admin.body.powerStandard);assert.equal(saved.body.executionReady,true);
     assert.equal((await f.call('enhance',{method:'POST'})).status,423);

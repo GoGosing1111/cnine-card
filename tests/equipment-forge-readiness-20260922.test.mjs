@@ -64,7 +64,7 @@ for(const postgres of [false,true]){const db=postgres?'PostgreSQL':'SQLite';
     assert.deepEqual(r.power,forgePower(10000,r.level));
    }
   }
-  await level(f,10);await assert.rejects(()=>quote(f),{code:'FORGE_MAX_LEVEL'});
+  await level(f,10);await assert.rejects(()=>quote(f),{code:'FORGE_ADVANCED_PENDING'});
  });
  test(`${db}: released 0% destruction at +1..+6 charges configured costs`,async t=>{
   const f=await fixture(t,postgres);
