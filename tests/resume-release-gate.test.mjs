@@ -89,6 +89,38 @@ test('a completed gate blocked only by concurrent main advancement retains all t
   for(const bad of [log.replace(`HEAD=${base}`,`HEAD=${head}`),log.replace('> test:c\n',''),log.replace('ℹ fail 0','ℹ fail 1'),log.replace('deploy source differs from origin/main','another guard failed')])assert.throws(()=>fullGateResumePlan(fixture({changed:['docs/operations.json'],log:bad})));
 });
 
+test('a completed continuation checks its actual candidate at the final source guard',()=>{
+  const f=fixture({changed:['docs/release.md']}),candidate='c'.repeat(40);
+  const log=`[FULL RELEASE RESUME] Reuse 1 completed stages from ${base}; execute every remaining stage and production guard.\n> test:b\nℹ fail 0\n> test:c\nℹ fail 0\n[PRODUCTION RELEASE BLOCKED] deploy source differs from origin/main: HEAD=${candidate} origin/main=${head}\n`;
+  const configure=text=>({...f,read:p=>p==='continuation'?text:'',env:{...f.env,RELEASE_GATE_RESUME_CONTINUATIONS:JSON.stringify([{log:'continuation',base:candidate,sha256:createHash('sha256').update(text).digest('hex')}])}});
+  const plan=fullGateResumePlan(configure(log));assert.equal(plan.reused,3);assert.deepEqual(plan.commands.slice(1),['node scripts/verify-production-release.mjs']);
+  assert.throws(()=>fullGateResumePlan(configure(log.replace(`HEAD=${candidate}`,`HEAD=${base}`))),/Resume requires/);
+});
+
+test('continued gate accepts an isolated raid correction only after successful current browser proof',()=>{
+  const file='raid/madara/runtime.mjs',runner='tests/madara-raid-live.browser.mjs',source='const view=true;',candidate='c'.repeat(40);
+  const f=fixture({changed:[file,runner]}),proof=JSON.stringify({command:'node '+runner,exitCode:0,sources:[file,runner].map(file=>({file,sha256:createHash('sha256').update(source).digest('hex')}))});
+  const log=`[FULL RELEASE RESUME] Reuse 1 completed stages from ${base}; execute every remaining stage and production guard.\n> test:b\nℹ fail 0\n> test:c\nℹ fail 0\n[PRODUCTION RELEASE BLOCKED] deploy source differs from origin/main: HEAD=${candidate} origin/main=${head}\n`;
+  f.env={...f.env,RELEASE_GATE_RESUME_UI_REPORT:'proof',RELEASE_GATE_RESUME_UI_SHA256:createHash('sha256').update(proof).digest('hex'),RELEASE_GATE_RESUME_CONTINUATIONS:JSON.stringify([{log:'continuation',base:candidate,sha256:createHash('sha256').update(log).digest('hex')}])};
+  f.read=p=>p==='proof'?proof:p==='continuation'?log:[file,runner].includes(p)?source:'';
+  assert.equal(fullGateResumePlan(f).reused,3);
+  assert.throws(()=>fullGateResumePlan({...f,read:p=>p===file?'changed':f.read(p)}),/source changed/);
+  assert.throws(()=>fullGateResumePlan({...f,env:{...f.env,RELEASE_GATE_RESUME_UI_REPORT:''}}),/Runtime changed after continuation/);
+  const git=f.git;assert.throws(()=>fullGateResumePlan({...f,git:(...a)=>a[0]==='diff'?[file,runner,'functions/live.js'].join('\n'):git(...a)}),/Runtime changed after continuation/);
+});
+
+test('concurrent authoring art must be new, hash-bound, image-only and unused by runtime',()=>{
+  const directory='assets/ui/packs/example-v1',manifest=directory+'/manifest.json',image=directory+'/pack.png',bytes=Buffer.from('art bytes');
+  const metadata={scope:{resourceOnly:true},files:[{path:image,bytes:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex')}]};
+  const f=fixture({changed:[manifest,image]}),git=f.git;f.git=(...a)=>a[0]==='ls-files'&&a[1]==='functions'?'js/game.js':git(...a);
+  f.read=p=>p===manifest?JSON.stringify(metadata):'';f.readBytes=()=>bytes;
+  assert.equal(fullGateResumePlan(f).reused,1);
+  assert.throws(()=>fullGateResumePlan({...f,readBytes:()=>Buffer.from('modified')}),/does not match image bytes/);
+  assert.throws(()=>fullGateResumePlan({...f,git:(...a)=>a.includes('--diff-filter=A')?manifest:f.git(...a)}),/new files only/);
+  assert.throws(()=>fullGateResumePlan({...f,read:p=>p==='js/game.js'?`fetch('${directory}/manifest.json')`:f.read(p)}),/referenced by runtime/);
+  for(const bad of ['../other.png','pack.mjs']){const altered={...metadata,files:[{...metadata.files[0],path:directory+'/'+bad}]};assert.throws(()=>fullGateResumePlan({...f,read:p=>p===manifest?JSON.stringify(altered):''}),/sibling images/);}
+});
+
 test('unreferenced operations tooling retains game results but runs its own tests; runtime references fail closed',()=>{
   const operation='scripts/ops/example-grant.mjs',target='tests/example-grant.test.mjs';
   const f=fixture({changed:[operation,'scripts/ops/example-grant-targets.json',target]});

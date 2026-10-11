@@ -43,7 +43,7 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
   if(!logText.replace(/\r\n/g,'\n').includes(`> release:gate\n> ${gate}\n`))throw Error('Log does not contain the full gate command.');
   const commands=gate.split(' && '),names=commands.map(command=>command.match(/^npm run ([\w:-]+)$/)?.[1]);
   if(commands.at(-1)!=='node scripts/verify-production-release.mjs'||names.slice(0,-1).some(name=>!name))throw Error('Unsupported full gate structure.');
-  const changed=git('diff','--name-only',base,'HEAD').split('\n').filter(Boolean),bgmAdditions=new Set();
+  const changed=git('diff','--name-only',base,'HEAD').split('\n').filter(Boolean),bgmAdditions=new Set(),artAdditions=new Set();
   // A static asset URL with exactly the same parameters can be reordered to
   // preserve existing cache-tag contracts without invalidating backend tests.
   const cacheOrderOnly=changed.includes('index.html')&&mainCacheQueryOrderOnly(git('show',`${base}:index.html`),read('index.html'));
@@ -57,6 +57,26 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
     const runtime=git('ls-files','functions','workers','shared','js','admin','scripts','index.html','service-worker.js').split('\n').filter(file=>/\.(?:[cm]?js|jsonc?|html)$/.test(file)&&file!=='scripts/resume-release-gate.mjs');
     if(runtime.some(file=>{const source=read(file);return source.includes(receipt)||source.includes(receipt.split('/').at(-1));}))throw Error('BGM receipt is runtime configuration: run a fresh full gate.');
     bgmAdditions.add(path);bgmAdditions.add(receipt);
+  }
+  // Concurrent authoring-only art is inert: require entirely new image files,
+  // a byte/hash-bound manifest, and no reference from any game/tool source.
+  for(const manifest of changed.filter(p=>/^assets\/ui\/[a-z0-9_/-]+\/manifest\.json$/.test(p))){
+    const directory=manifest.slice(0,-'/manifest.json'.length),metadata=JSON.parse(read(manifest));
+    if(metadata.scope?.resourceOnly!==true)continue;
+    const files=metadata.files,added=new Set(git('diff','--name-only','--diff-filter=A',base,'HEAD').split('\n'));
+    if(!Array.isArray(files)||!files.length||files.length>20)throw Error('Additive art requires a bounded image manifest.');
+    const expected=new Set([manifest]);
+    for(const row of files){
+      if(typeof row.path!=='string'||!row.path.startsWith(directory+'/')||!/^[-a-z0-9_]+\.(?:png|webp)$/.test(row.path.slice(directory.length+1))||expected.has(row.path))throw Error('Art receipt may contain only distinct sibling images.');
+      const bytes=readBytes(row.path);
+      if(row.bytes!==bytes.length||row.sha256!==createHash('sha256').update(bytes).digest('hex'))throw Error('Art receipt does not match image bytes.');
+      expected.add(row.path);
+    }
+    const actual=changed.filter(p=>p.startsWith(directory+'/'));
+    if(actual.length!==expected.size||[...expected].some(p=>!added.has(p)||!actual.includes(p)))throw Error('Authoring art reuse allows new files only.');
+    const sources=git('ls-files','functions','workers','shared','js','admin','scripts','raid','index.html','service-worker.js').split('\n').filter(p=>/\.(?:[cm]?js|jsonc?|html|css)$/.test(p));
+    if(sources.some(p=>read(p).includes(directory)))throw Error('Authoring art is referenced by runtime/tooling: run a fresh full gate.');
+    for(const p of expected)artAdditions.add(p);
   }
   // An npm gate stage may invoke another registered test script. Keep those
   // headers inside their parent stage so a failure reruns the entire parent.
@@ -107,7 +127,7 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
     if(/^ℹ fail [1-9]/m.test(continuation.slice(0,continuationStart)))throw Error('Continuation guard tests failed.');
     changesAfterLastRun=new Set(git('diff','--name-only',candidate,'HEAD').split('\n').filter(Boolean));
     const repairTools=new Set(['scripts/deploy-production.mjs','scripts/resume-release-gate.mjs','tests/resume-release-gate.test.mjs']);
-    for(const path of changesAfterLastRun)if(path!=='AGENTS.md'&&!path.startsWith('docs/')&&!/^tests\/[^/]+\.mjs$/.test(path)&&!repairTools.has(path)&&!bgmAdditions.has(path)&&!/^preview\/[a-zA-Z0-9_-]+\/qa\/production\.json$/.test(path))throw Error(`Runtime changed after continuation (${path}): run a fresh full gate.`);
+    for(const path of changesAfterLastRun)if(path!=='AGENTS.md'&&!path.startsWith('docs/')&&!/^tests\/[^/]+\.mjs$/.test(path)&&!repairTools.has(path)&&!bgmAdditions.has(path)&&!artAdditions.has(path)&&!(env.RELEASE_GATE_RESUME_UI_REPORT&&/^raid\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+\.(?:mjs|css)$/.test(path))&&!/^preview\/[a-zA-Z0-9_-]+\/qa\/production\.json$/.test(path))throw Error(`Runtime changed after continuation (${path}): run a fresh full gate.`);
     logText=logText.slice(0,originalLast)+continuation.slice(continuationStart);
     seen=stageNames(logText);
   }
@@ -115,7 +135,7 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
   // test passed. Reuse that complete gate only when its exact candidate reached
   // the final source-identity guard. All runtime/dependency checks below remain.
   const sourceGuardBlocked=seen.length===names.length-1
-    &&logText.includes(`[PRODUCTION RELEASE BLOCKED] deploy source differs from origin/main: HEAD=${base} origin/main=`)
+    &&logText.includes(`[PRODUCTION RELEASE BLOCKED] deploy source differs from origin/main: HEAD=${previousCandidate} origin/main=`)
     &&!/^ℹ fail [1-9]/m.test(logText);
   const failedIndex=sourceGuardBlocked?names.length-1:seen.length-1,last=logText.lastIndexOf(`> ${seen.at(-1)}`),prefix=logText.slice(0,last);
   const tail=logText.slice(last),failed=failedGateStage(tail);
@@ -221,6 +241,7 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
     if(path==='index.html'&&cacheOrderOnly)continue;
     if(path==='AGENTS.md'||path.startsWith('docs/')||path==='preview/project-v-mercenary-system-v1/README.md'||tooling.has(path))continue;
     if(bgmAdditions.has(path))continue;
+    if(artAdditions.has(path))continue;
     if(qaReceipts.includes(path))continue;
     if(operations.includes(path))continue;
     if(browserProof.has(path))continue;
