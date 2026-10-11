@@ -1,0 +1,30 @@
+{
+  "checkedAt": "2026-10-11T20:40:47.096Z",
+  "source": "3420d0613242740220b6c70632095772f7835b16",
+  "files": [
+    {
+      "file": "mercenary-codex/equipment/index.html",
+      "status": 200,
+      "sha256": "f48c51eb8427ba99fd35a0f1c0055ea207b740ef60a26cf52555e0f2d6d2e81e",
+      "matches": true
+    },
+    {
+      "file": "mercenary-codex/equipment/app.mjs",
+      "status": 200,
+      "sha256": "e79396f5b08d5eb1ec3d85db9788172dafd27788a827d1c576662a4b7d5ed341",
+      "matches": true
+    },
+    {
+      "file": "mercenary-codex/equipment/style.css",
+      "status": 200,
+      "sha256": "5af0d96a2b30a236dc00d4e54c3d3e4efabdbe55c03706e3e80c84574e628763",
+      "matches": true
+    },
+    {
+      "file": "mercenary-codex/equipment/ui.mjs",
+      "status": 200,
+      "sha256": "5545a4dd6b1d5877bd2e3d3508bf2cc24878398d35384c0d55d1fcf9a99cb5f2",
+      "matches": true
+    }
+  ]
+}
