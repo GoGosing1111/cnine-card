@@ -1,0 +1,66 @@
+{
+  "results": [
+    {
+      "viewport": "desktop",
+      "power": {
+        "pve": 100000,
+        "pvp": 100000
+      },
+      "trailingDecoration": false,
+      "switchAndUnequip": true,
+      "unownedEquipHidden": true,
+      "cmsPower": 100000,
+      "cmsManual": true,
+      "images": [
+        {
+          "src": "/assets/ui/titles/administration-command-v2.webp",
+          "loaded": true,
+          "fit": "contain"
+        },
+        {
+          "src": "/assets/ui/titles/administration-command-v2.webp",
+          "loaded": true,
+          "fit": "contain"
+        },
+        {
+          "src": "/assets/ui/titles/gambling-king-v1.webp",
+          "loaded": true,
+          "fit": "contain"
+        }
+      ],
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "viewport": "mobile",
+      "power": {
+        "pve": 100000,
+        "pvp": 100000
+      },
+      "trailingDecoration": false,
+      "switchAndUnequip": true,
+      "unownedEquipHidden": true,
+      "cmsPower": 100000,
+      "cmsManual": true,
+      "images": [
+        {
+          "src": "/assets/ui/titles/administration-command-v2.webp",
+          "loaded": true,
+          "fit": "contain"
+        },
+        {
+          "src": "/assets/ui/titles/administration-command-v2.webp",
+          "loaded": true,
+          "fit": "contain"
+        },
+        {
+          "src": "/assets/ui/titles/gambling-king-v1.webp",
+          "loaded": true,
+          "fit": "contain"
+        }
+      ],
+      "overflow": false,
+      "errors": []
+    }
+  ]
+}
