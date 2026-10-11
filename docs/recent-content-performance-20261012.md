@@ -32,3 +32,5 @@
 직전 운영 배포는 Cloudflare 조회 기준 `0525d2c7-9682-45c6-84f4-e1a2db7bd804`, 소스 `033618b4849bd7706e274327ad43c081254e1ccd`다. 도시 화면·스타일과 군단토벌 HUD의 국소 변경이며 공통 전투 엔진, DB, 인증, 의존성을 바꾸지 않았다.
 
 `npm run deploy:production -- --scoped`로 기존 `tests/legion-hunt-background-20261011.test.mjs`와 `tests/jokgak-city-notifications-20261011.test.mjs`를 실행해 백그라운드 전투·정산과 전역 도시 알림의 인접 경로를 검사한다. 이미 통과한 새 HUD 회귀·PC/모바일 측정을 반복하지 않는다. 출시 플래그·캐시·Hyperdrive 검사는 지정 명령을 따른다. 운영 반영 결과는 아래에 기록한다.
+
+첫 게이트에서 군단토벌 기존 회귀 5개는 모두 통과했다. 도시 알림 테스트는 7개 중 4개가 실패했으며, 직전 운영 소스 `033618b4`를 같은 테스트에 주입해 동일한 4개 실패를 재현했다. 기존 테스트 mock에는 현재 알림이 사용하는 `cityBountyReceipt`가 없다. 이번 변경의 알림 로직 회귀로 분류하지 않고 무관한 테스트를 수정하지 않는다. 이미 통과한 군단토벌 5개와 브라우저 결과는 재사용하고, 재개 게이트는 `tests/recent-content-performance-20261012.test.mjs` 3개와 지정 출시·캐시·Hyperdrive 검사로 제한한다. 첫 시도는 검사 단계에서 종료되어 배포되지 않았다.
