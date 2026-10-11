@@ -13,7 +13,7 @@ export const CITY_ROLES = Object.freeze([
 ]);
 export const CITY_PLACES = Object.freeze([
   {id:'POLICE',name:'경찰서',district:'공공 지구',icon:'shield',x:19,y:22,shape:'10,8 28,8 30,28 26,30 9,28',labelX:19,labelY:29,detail:'검문과 체포의 중심. 구금된 수배자가 이곳으로 이송됩니다.'},
-  {id:'HOSPITAL',name:'병원',district:'공공 지구',icon:'cross',x:50,y:19,shape:'42,5 58,5 60,26 43,27',labelX:50,labelY:27,detail:'3분 사망 대기가 끝나면 이곳에서 부활합니다. 진료로 도시 체력과 건강을 회복하세요.'},
+  {id:'HOSPITAL',name:'병원',district:'공공 지구',icon:'cross',x:50,y:19,shape:'42,5 58,5 60,26 43,27',labelX:50,labelY:27,detail:'진료로 체력과 건강을 회복하세요. 일반 이용자는 최대 3분 후 다른 지역으로 이동하며, 사망자는 3분 후 부활과 동시에 이동합니다. 의사·간호사는 상주합니다.'},
   {id:'DEPARTMENT',name:'백화점',district:'상업 지구',icon:'store',x:79,y:20,shape:'68,8 87,8 91,24 86,29 69,28',labelX:79,labelY:29,detail:'환하게 빛나는 유리 아트리움. 상업 지구의 만남과 교전 장소.'},
   {id:'POST',name:'우체국',district:'공공 지구',icon:'mail',x:17,y:44,shape:'4,33 25,34 28,50 26,57 4,55',labelX:17,labelY:55,detail:'배송 차량이 모이는 물류 거점. 이곳에 체류 중인 인원을 확인하세요.'},
   {id:'MARKET',name:'시장',district:'상업 지구',icon:'market',x:47,y:46,shape:'38,34 50,33 55,47 54,54 42,56 37,46',labelX:48,labelY:55,detail:'도시 현금으로 무기와 확성기를 구매합니다. 무기는 인벤토리에서 장착하고 확성기는 지도 방송에 사용하세요.'},

@@ -13,6 +13,8 @@ import {readCityLife,projectCityLife,applyCityLifeView,markCityDeath} from '../s
 import {cityLifeClaim,prepareCityService} from './_jokgak_city_life.js';
 import {transferCityCash} from '../shared/jokgak-city-cash-v1.mjs';
 import {beggingNotifications,cityBeggingOffers,prepareCityDonation} from './_jokgak_city_begging.js';
+import {cityExplorationAction} from './_jokgak_city_exploration.js';
+import {cityMedicalRole} from '../shared/jokgak-city-expansion-v1.mjs';
 import {cityExpansionAction} from './_jokgak_city_expansion.js';
 import {projectCityFacilities} from '../shared/jokgak-city-expansion-v1.mjs';
 import {cityBroadcastText,cityCommsAction} from '../shared/jokgak-city-comms-v1.mjs';
@@ -42,7 +44,7 @@ async function syncCityPlayer(env,user,policy,weights,now,policyRaw){
     const row=await player(env,user.id),state=await publicPlayer(env,row,now,policy,weights);if(!row)return null;
     const life=lifeStates.get(state),storedDeath=row.life_raw?parse(row.life_raw).death:null;
     const cashMissing=['TEST','ON'].includes(policy.mode)&&!parse(row.life_raw).wallets?.[policy.mode];
-    const before=parse(row.life_raw),facilityChanged=['armory','hospital','motel','careers','megaphones'].some(k=>JSON.stringify(before[k])!==JSON.stringify(life[k]));
+    const before=parse(row.life_raw),facilityChanged=['armory','exploration','hospital','motel','careers','megaphones'].some(k=>JSON.stringify(before[k])!==JSON.stringify(life[k]));
     if(Number(row.epoch)===cityShift(now).id&&Number(row.active)===Number(state.active)&&row.life_raw!=null&&!cashMissing&&!facilityChanged&&state.location===row.location&&!(storedDeath&&!storedDeath.resolved&&life.death?.resolved))return state;
     const id='city-auto:'+crypto.randomUUID();
     const guards=cityRoundWriteGuards(env,cityShift(now).id,id);if(env.DB.dialect==='postgres')guards.push(p(env,'SELECT key FROM app_meta WHERE key=? FOR SHARE',CITY_SETTINGS_KEY));
@@ -51,6 +53,28 @@ async function syncCityPlayer(env,user,policy,weights,now,policyRaw){
     catch(error){if(!/guard|constraint|duplicate|unique/i.test(error.message))throw error;}
   }
   fail('CONFLICT','도시 상태가 변경되었습니다. 다시 확인하세요.');
+}
+// The existing minute scheduler also persists exits for offline occupants.
+// Player/life CAS and round/policy guards are exactly the same as online sync.
+export async function dischargeCityHospital(env,{now=Date.now(),policy,policyRaw,weights}={}){
+  if(!policy){const saved=await readCitySettings(env);policyRaw=saved.raw;policy=await cityCareerPolicy(env,saved.policy,now);}
+  if(policy.mode==='OFF')return {moved:0};
+  weights??=await cityRoleWeights(env,cityShift(now).id,policy);
+  let after=0,moved=0;
+  for(;;){
+    const rows=(await p(env,`SELECT c.*,u.role AS account_role,life.value AS life_raw FROM jokgak_city_players_v1 c JOIN users u ON u.id=c.user_id ${lifeJoin} WHERE c.active=1 AND c.epoch=? AND c.location='HOSPITAL' AND c.user_id>? AND ${activeUserSql} ORDER BY c.user_id LIMIT 100`,cityShift(now).id,after).all()).results||[];
+    if(!rows.length)break;
+    for(const row of rows){
+      if(!cityCanAccess(policy,{id:Number(row.user_id),role:row.account_role}))continue;
+      if(cityMedicalRole(await assignedCityRole(env,Number(row.user_id),cityShift(now).id,weights)))continue;
+      const life=readCityLife(row.life_raw,now),due=life.death&&!life.death.resolved?life.death.until:life.hospital?.enteredAt?Math.min(life.hospital.leaveAt,life.hospital.enteredAt+policy.facilities.hospital.maxStayMs):0;
+      if(due>now)continue;
+      try{const state=await syncCityPlayer(env,{id:Number(row.user_id)},policy,weights,now,policyRaw);if(state?.active&&state.location!=='HOSPITAL')moved++;}
+      catch(error){if(error.code!=='CITY_CONFLICT')throw error;}
+    }
+    after=Number(rows.at(-1).user_id);if(rows.length<100)break;
+  }
+  return {moved};
 }
 export async function cityStatus(env,user,location='HOME',after=0,now=Date.now()){
   await settleCityRound(env,now);
@@ -62,7 +86,7 @@ export async function cityStatus(env,user,location='HOME',after=0,now=Date.now()
   const mine=await syncCityPlayer(env,user,policy,weights,now,policyRaw);
   const roster=await p(env,`SELECT c.*,u.nickname,life.value AS life_raw FROM jokgak_city_players_v1 c JOIN users u ON u.id=c.user_id ${lifeJoin} WHERE c.active=1 AND c.epoch=? AND c.location=? AND c.user_id>? AND ${activeUserSql}${testerFilter} ORDER BY c.user_id LIMIT 11`,cityShift(now).id,location,after,...(policy.mode==='TEST'?policy.testUserIds:[])).all();
   const rows=roster.results||[];
-  const people=(await Promise.all(rows.slice(0,10).map(row=>publicPlayer(env,row,now,policy,weights)))).filter(row=>row.active&&row.location===location&&(!row.restUntil||row.userId===Number(user.id))).map(({bag,ownedWeapons,cash,cashMode,cashUnit,career,megaphoneCount,megaphoneNextAt,...row})=>row);
+  const people=(await Promise.all(rows.slice(0,10).map(row=>publicPlayer(env,row,now,policy,weights)))).filter(row=>row.active&&row.location===location&&(!row.restUntil||row.userId===Number(user.id))).map(({bag,ownedWeapons,ownedArmors,exploreNextAt,hospitalTransfer,cash,cashMode,cashUnit,career,megaphoneCount,megaphoneNextAt,...row})=>row);
   const [noticePreferences,unreadCount,broadcasts]=await Promise.all([cityNoticePreferences(env,user.id),cityNoticeCount(env,user.id,now),cityBroadcasts(env,policy.mode,now)]);
   return {ok:true,serverNow:now,shift:cityShift(now),...cityPublicPolicy(policy),places:CITY_PLACES,mine,location,people,noticePreferences,unreadCount,broadcasts,beggingOffers:await cityBeggingOffers(env,user,mine,now,policy),nextCursor:rows.length>10?Number(rows[9].user_id):null};
 }
@@ -81,7 +105,7 @@ async function receipt(env,user,requestId,fingerprint=null,includeTarget=false){
   if(fingerprint&&row.fingerprint!==fingerprint)fail('REQUEST_REUSED','같은 요청 번호에 다른 행동을 보낼 수 없습니다.');
   const result={...parse(row.result_json),replayed:true};
   if(Number(row.user_id)!==Number(user.id)){
-    const {cash,cashMode,cashUnit,bag,ownedWeapons,career,megaphoneCount,megaphoneNextAt,...visibleMine}=result.mine||{};
+    const {cash,cashMode,cashUnit,bag,ownedWeapons,ownedArmors,exploreNextAt,hospitalTransfer,career,megaphoneCount,megaphoneNextAt,...visibleMine}=result.mine||{};
     result.mine=visibleMine;
     // A defender may inspect the fight, but not the attacker's private wallet
     // balance embedded in activity/service reward receipts.
@@ -97,14 +121,15 @@ function claim(env,row,next,requestId,epoch,now){
 function actionable(mine,now){if(!mine?.active)fail('JOIN','먼저 도시에 입장하세요.');if(mine.deadUntil>now)fail('DEAD','사망 후 3분이 지나면 병원에서 자동 부활합니다.');if(mine.jailedUntil>now)fail('JAILED','구금 시간이 끝나면 다시 행동할 수 있습니다.');}
 export async function cityAction(env,deps,user,action,body){
   const clock=deps.now||Date.now,now=clock(),epoch=cityShift(now).id;
-  if(!['join','leave','move','attack','arrest','heal','inspect','eat','treat','buy','use','beg','alms','donate','buyWeapon','equipWeapon','unequipWeapon','rest','checkout','employment','workStart','workFinish','workCancel','buyMegaphone','broadcast'].includes(action))fail('ACTION','지원하지 않는 행동입니다.',404);
+  if(!['join','leave','move','attack','arrest','heal','inspect','eat','treat','buy','use','beg','alms','donate','buyWeapon','equipWeapon','unequipWeapon','rest','checkout','employment','workStart','workFinish','workCancel','buyMegaphone','broadcast','explore','equipArmor','unequipArmor'].includes(action))fail('ACTION','지원하지 않는 행동입니다.',404);
   if(!tokenValid(body.requestId)||body.requestId.length>80||!Number.isSafeInteger(body.epoch))fail('REQUEST','요청 정보를 확인하세요.',400);
   const targetId=Number(body.targetId||0),location=body.location||'',product=body.product||'';
   if(targetId&&!Number.isSafeInteger(targetId)||targetId<0)fail('TARGET','대상을 확인하세요.',400);
   const needsTarget=['attack','arrest','heal','inspect','donate'].includes(action),isBeg=['beg','alms'].includes(action);
   if(action==='donate'?!tokenValid(body.offerId)||body.offerId.length>80:body.offerId!==undefined)fail('FIELDS','동냥 요청을 확인하세요.',400);
-  if(needsTarget&&(!targetId||typeof body.targetId!=='number')||!needsTarget&&body.targetId!==undefined||action!=='move'&&body.location!==undefined)fail('FIELDS','행동에 맞는 대상과 장소를 확인하세요.',400);
-  if(['buy','use','buyWeapon','equipWeapon','workStart'].includes(action)?typeof body.product!=='string'||!body.product:body.product!==undefined)fail('FIELDS','상품 정보를 확인하세요.',400);
+  if(needsTarget&&(!targetId||typeof body.targetId!=='number')||!needsTarget&&body.targetId!==undefined||!['move','explore'].includes(action)&&body.location!==undefined)fail('FIELDS','행동에 맞는 대상과 장소를 확인하세요.',400);
+  if(['buy','use','buyWeapon','equipWeapon','equipArmor','workStart'].includes(action)?typeof body.product!=='string'||!body.product:body.product!==undefined)fail('FIELDS','상품 정보를 확인하세요.',400);
+  if(action==='explore'&&!cityPlace(location))fail('PLACE','탐색 지역을 확인하세요.',400);
   if(action!=='broadcast'&&body.message!==undefined)fail('FIELDS','행동에 맞는 메시지를 확인하세요.',400);
   const message=action==='broadcast'?cityBroadcastText(body.message):null;
   await settleCityRound(env,now);
@@ -125,7 +150,7 @@ export async function cityAction(env,deps,user,action,body){
   if(targetRaw&&!cityCanAccess(policy,{id:targetId,role:targetRaw.account_role}))fail('TARGET_ACCESS','현재 운영 모드에 참여할 수 없는 상대입니다.',403);
   const roleCode=me?.role||await assignedCityRole(env,user.id,epoch,weights),role=cityRolePolicy(policy,roleCode),rules=policy.rules;
   const targetHealthBefore=target?.health,healthBefore=me?.health;
-  const isFight=action==='attack'||action==='arrest',isService=['eat','treat','buy','use'].includes(action),isExpansion=['buyWeapon','equipWeapon','unequipWeapon','rest','checkout'].includes(action);let simulation=null,inspection=null,service=null,donation=null,expansion=null,work=null;
+  const isFight=action==='attack'||action==='arrest',isService=['eat','treat','buy','use'].includes(action),isExpansion=['buyWeapon','equipWeapon','unequipWeapon','rest','checkout'].includes(action);let simulation=null,inspection=null,service=null,donation=null,expansion=null,work=null,exploration=null;
   const isWork=['employment','workStart','workFinish','workCancel'].includes(action);let comms=null;
   if(action==='join'){
     if(me?.active)fail('ALREADY_JOINED','이미 도시에 체류 중입니다.');
@@ -139,12 +164,14 @@ export async function cityAction(env,deps,user,action,body){
     if(myLife.motel?.until>now)myLife.motel={until:0,nextAt:now+policy.facilities.motel.cooldownMs};
   }else{
     actionable(me,now);
-    if(me.restUntil>now&&!['checkout','equipWeapon','unequipWeapon','use'].includes(action))fail('RESTING','개인 객실에서 쉬고 있습니다. 먼저 퇴실하세요.');
+    if(me.restUntil>now&&!['checkout','equipWeapon','unequipWeapon','equipArmor','unequipArmor','use'].includes(action))fail('RESTING','개인 객실에서 쉬고 있습니다. 먼저 퇴실하세요.');
     if(me.hospitalRequired&&!['treat','use'].includes(action))fail('HOSPITAL','건강이 위험해 병원으로 이송되었습니다. 진료로 건강을 회복하세요.');
     if(['buyMegaphone','broadcast'].includes(action)){
       comms=cityCommsAction({action,message,me,life:myLife,policy,now});
     }else if(isWork){
       work=cityWorkAction({action,code:product,state:me,life:myLife,policy,now,requestId:body.requestId});
+    }else if(['explore','equipArmor','unequipArmor'].includes(action)){
+      exploration=cityExplorationAction({action,product,location,me,life:myLife,policy,now});
     }else if(isExpansion){
       expansion=cityExpansionAction({action,product,me,life:myLife,policy,now});
     }else if(action==='move'){
@@ -206,6 +233,7 @@ export async function cityAction(env,deps,user,action,body){
   if(donation&&donation.endsAt<=committedAt)fail('BEGGING','동냥 시간이 끝났습니다.');
   if(isBeg)myLife.begging.endsAt+=elapsed;else myLife.begging=null;
   if(action==='move')me.nextMoveAt+=elapsed;
+  if(action==='explore'){myLife.exploration[policy.mode].nextAt+=elapsed;exploration.nextAt+=elapsed;}
   if(action==='rest'){myLife.motel.until+=elapsed;myLife.motel.nextAt+=elapsed;}
   if(isFight){target.protectedUntil+=elapsed;if(action==='arrest'&&simulation.battleV2.result.winner==='A')target.jailedUntil+=elapsed;}
   if(isFight&&me.health<=0)markCityDeath(me,myLife,target,committedAt,mine.location);
@@ -218,9 +246,9 @@ export async function cityAction(env,deps,user,action,body){
   applyCityLifeView(me,myLife,policy);
   if(cityShift(clock()).id!==epoch)fail('SHIFT','역할이 교대되었습니다. 현황을 다시 확인하세요.');
   if(comms?.kind==='broadcast')comms.createdAt=committedAt;
-  const {cash:targetCash,cashMode:targetCashMode,cashUnit:targetCashUnit,bag:targetBag,ownedWeapons:targetWeapons,career:targetCareer,megaphoneCount:targetMegaphones,megaphoneNextAt:targetMegaphoneNext,...visibleTarget}=target||{};
+  const {cash:targetCash,cashMode:targetCashMode,cashUnit:targetCashUnit,bag:targetBag,ownedWeapons:targetWeapons,ownedArmors:targetArmors,exploreNextAt:targetExplore,hospitalTransfer:targetTransfer,career:targetCareer,megaphoneCount:targetMegaphones,megaphoneNextAt:targetMegaphoneNext,...visibleTarget}=target||{};
   const result={ok:true,requestId:body.requestId,action,epoch,mode:policy.mode,policyRevision:policy.revision,createdAt:committedAt,location:mine?.location||me.location,mine:me,target:targetId?visibleTarget:null,inspection,...simulation,reward:reward.result,theft,donation:donation?.result||null,service:service?.result||null,
-    cityMode:policy.mode,expansion,work,comms,effects:{damageToMine:Math.max(0,(healthBefore??me.health)-me.health),damageToTarget:Math.max(0,(targetHealthBefore??0)-(target?.health??0)),healed:action==='heal'?target.health-targetHealthBefore:0,jailMs:action==='arrest'&&simulation?.battleV2?.result?.winner==='A'?role.arrestMs:0}};
+    cityMode:policy.mode,expansion,exploration,work,comms,effects:{damageToMine:Math.max(0,(healthBefore??me.health)-me.health),damageToTarget:Math.max(0,(targetHealthBefore??0)-(target?.health??0)),healed:action==='heal'?target.health-targetHealthBefore:0,jailMs:action==='arrest'&&simulation?.battleV2?.result?.winner==='A'?role.arrestMs:0}};
   if(simulation)result.result=simulation.battleV2.result.winner==='A'?'WIN':simulation.battleV2.result.winner==='B'?'LOSE':'DRAW';
   const policyGuard=body.requestId+':policy',statements=cityRoundWriteGuards(env,epoch,body.requestId);
   if(env.DB.dialect==='postgres')statements.push(p(env,'SELECT key FROM app_meta WHERE key=? FOR SHARE',CITY_SETTINGS_KEY));
@@ -254,7 +282,7 @@ export async function handleJokgakCity({path,request,env,deps}){
       const rows=(await p(env,"SELECT n.id,n.summary_json FROM jokgak_city_notifications_v1 n JOIN jokgak_city_actions_v1 a ON a.request_id=n.request_id WHERE n.user_id=? AND n.read_at=0 AND n.created_at>=? AND a.action NOT IN ('beg','alms') ORDER BY n.created_at,n.id LIMIT 10",user.id,cityShift(requestNow).startsAt).all()).results||[];
       const now=requestNow,{policy:storedPolicy,raw:policyRaw}=await readCitySettings(env),policy=await cityCareerPolicy(env,storedPolicy,now),allowed=cityCanAccess(policy,user);
       const mine=allowed?await syncCityPlayer(env,user,policy,await cityRoleWeights(env,cityShift(now).id,policy),now,policyRaw):null;
-      return json({ok:true,active:!!mine?.active,mine:mine?{userId:mine.userId,active:mine.active,health:mine.health,location:mine.location,deadUntil:mine.deadUntil,death:mine.death,hospitalRequired:mine.hospitalRequired,wellness:mine.wellness}:null,items:rows.map(row=>({id:row.id,...parse(row.summary_json),expiresAt:cityShift(now).endsAt})),shift:cityShift(now),noticePreferences:await cityNoticePreferences(env,user.id),unreadCount:await cityNoticeCount(env,user.id,now),serverNow:now});
+      return json({ok:true,active:!!mine?.active,mine:mine?{userId:mine.userId,active:mine.active,health:mine.health,location:mine.location,deadUntil:mine.deadUntil,death:mine.death,hospitalRequired:mine.hospitalRequired,wellness:mine.wellness,hospitalTransfer:mine.hospitalTransfer}:null,items:rows.map(row=>({id:row.id,...parse(row.summary_json),expiresAt:cityShift(now).endsAt})),shift:cityShift(now),noticePreferences:await cityNoticePreferences(env,user.id),unreadCount:await cityNoticeCount(env,user.id,now),serverNow:now});
     }
     if(request.method==='GET'&&part==='log')return json({ok:true,...await cityActivityLog(env,user.id,requestNow,Number(url.searchParams.get('before')||requestNow+1),url.searchParams.get('beforeId')||'~'),serverNow:requestNow});
     if(request.method==='POST'&&part==='notice-settings'){

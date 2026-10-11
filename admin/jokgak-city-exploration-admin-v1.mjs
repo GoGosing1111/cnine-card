@@ -1,0 +1,10 @@
+import {CITY_FOUND_WEAPONS,CITY_ARMORS,CITY_SEARCH_AREAS} from '../shared/jokgak-city-exploration-v1.mjs';
+import {CITY_WEAPONS} from '../shared/jokgak-city-expansion-v1.mjs';
+import {cityPlace} from '../shared/jokgak-city-v1.mjs';
+export function cityExplorationSettings(policy,{field,check}){
+ const cfg=policy.exploration,metas=[...CITY_WEAPONS,...CITY_FOUND_WEAPONS,...CITY_ARMORS];
+ const gear=(key,title)=>`<section><h3>${title}</h3><div class="city-cms-gear-grid">${cfg[key].map((item,i)=>`<article><small>${item.code}</small><h4>${metas.find(m=>m.code===item.code).name}</h4>${check('exploration.'+key+'.'+i+'.enabled','탐색·장착 사용',item.enabled)}${field('exploration.'+key+'.'+i+'.power',key==='armors'?'추가 도시 전투력':'장착 시 도시 전투력',item.power,1,100000000)}</article>`).join('')}</div></section>`;
+ return `<section class="city-cms-search-intro"><small>LOCAL EXPLORATION / CITY BALANCE</small><h3>도시에서 찾는 새로운 힘</h3><p>일반 카드 5장을 공통 전투 역할로 맞춥니다. 계정 성장·고유 능력·타입 조합·용병 스킬을 제외하고 도시 무기 + 방어구 + 경찰 직급 혜택으로 전투력을 정합니다.</p><div class="city-cms-grid">${check('exploration.enabled','지역 탐색 사용',cfg.enabled)}${field('exploration.cooldownMs','탐색 재사용 대기 (초)',cfg.cooldownMs,10000,3600000,1000)}</div><p>탐색은 무료 · 실제 현재 지역만 가능 · 근무/사망/구금/모텔 휴식 중 불가. 같은 요청은 다시 지급하지 않으며 중복 장비는 추가하지 않습니다. 무기·방어구와 탐색 대기는 매 회차 초기화됩니다. TEST와 ON 인벤토리는 분리됩니다.</p></section>
+ ${gear('weapons','탐색 전용 무기 · 7종')}${gear('armors','탐색 방어구 · 6종')}
+ <section><h3>지역별 발견 비중</h3><p>비중은 상대 확률입니다. 예: 발견 없음 30 + 장비 35·25·10이면 각각 30%·35%·25%·10%입니다. 사용 중지한 장비는 추첨에서 제외됩니다. 시장 무기 3종의 전투력·사용 여부는 ‘무기·시설’에서 설정합니다.</p><div class="city-cms-search-areas">${cfg.areas.map((a,i)=>`<article><header><div><small>${a.location}</small><h4>${cityPlace(a.location).name} · ${CITY_SEARCH_AREAS.find(m=>m.location===a.location).label}</h4></div>${check('exploration.areas.'+i+'.enabled','탐색 가능',a.enabled)}</header><div class="city-cms-grid">${field('exploration.areas.'+i+'.emptyWeight','발견 없음 비중',a.emptyWeight,0,10000)}${a.drops.map((d,j)=>field('exploration.areas.'+i+'.drops.'+j+'.weight',metas.find(m=>m.code===d.code).name+' 비중',d.weight,0,10000)).join('')}</div></article>`).join('')}</div></section>`;
+}

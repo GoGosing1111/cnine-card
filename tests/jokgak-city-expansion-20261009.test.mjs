@@ -49,16 +49,16 @@ for(const pg of [false,true]){
   f.advance(300000);assert.equal((await status(f,id,'MOTEL')).mine.restUntil,end);await f.action(id,'checkout');const cooldown=f.now+3600000;assert.equal((await status(f,id)).mine.motelNextAt,cooldown);await f.action(id,'leave');f.advance(60000);await f.action(id,'join');await f.action(id,'move',{location:'MOTEL'});await assert.rejects(f.action(id,'rest'),/재이용/);
   f.advance(cooldown-f.now);await f.action(id,'rest');f.advance(900000);const done=(await status(f,id,'MOTEL')).mine;assert.equal(done.restUntil,0);assert.equal(done.location,'HOME');assert.equal(done.motelNextAt,f.now+3600000);
  });
- test(label+': hospital discharges after five minutes without timer resets, while doctor and nurse may remain',async t=>{
+ test(label+': hospital discharges after three minutes without timer resets, while doctor and nurse may remain',async t=>{
   const f=await cityFixture(t,pg),id=f.roles.CITIZEN;for(const n of [id,f.roles.NURSE,f.roles.DOCTOR])await f.join(n,'HOSPITAL');
-  const start=(await status(f,id,'HOSPITAL')).mine.hospitalLeaveAt;assert.equal(start,f.now+300000);f.advance(120000);assert.equal((await status(f,id,'HOSPITAL')).mine.hospitalLeaveAt,start);
+  const start=(await status(f,id,'HOSPITAL')).mine.hospitalLeaveAt;assert.equal(start,f.now+180000);f.advance(120000);assert.equal((await status(f,id,'HOSPITAL')).mine.hospitalLeaveAt,start);
   const value=await life(f,id);value.wellness=20;await saveLife(f,id,value);f.advance(180000);const after=(await status(f,id,'HOSPITAL')).mine;assert.notEqual(after.location,'HOSPITAL');assert.notEqual(after.location,'MOTEL');assert.equal(after.hospitalRequired,false);assert.equal((await status(f,id)).mine.location,after.location);
   for(const n of [f.roles.NURSE,f.roles.DOCTOR]){const s=(await status(f,n,'HOSPITAL')).mine;assert.equal(s.location,'HOSPITAL');assert.equal(s.hospitalLeaveAt,0);assert.equal(s.hospitalStaff,true);}
  });
- test(label+': police HP 150 persists through combat and the three-minute death wait is outside the hospital five-minute stay',async t=>{
+ test(label+': police HP 150 persists through combat and the three-minute death wait ends with revival and immediate relocation',async t=>{
   const f=await cityFixture(t,pg),police=f.roles.POLICE,id=f.roles.CITIZEN;await f.join(police);await f.join(id);assert.equal((await status(f,police)).mine.health,150);f.deps.prepareCityBattle=async()=>({battleV2:{result:{winner:'B'}}});assert.equal((await f.action(police,'attack',{targetId:id})).mine.health,125);
-  await f.p('UPDATE jokgak_city_players_v1 SET health=10,protected_until=0,next_action_at=0 WHERE user_id=?',id).run();f.deps.prepareCityBattle=async()=>({battleV2:{result:{winner:'A'}}});f.advance(30000);const killed=await f.action(police,'attack',{targetId:id});assert.equal(killed.target.health,0);f.advance(180000);const revived=(await status(f,id,'HOSPITAL')).mine;assert.equal(revived.location,'HOSPITAL');assert.equal(revived.hospitalLeaveAt,f.now+300000);assert.equal(revived.health,100);
-  const stored=await life(f,id);stored.death.resolved=false;await saveLife(f,id,stored);f.advance(301000);assert.notEqual((await status(f,id,'HOSPITAL')).mine.location,'HOSPITAL','offline return cannot restart the five-minute admission');
+  await f.p('UPDATE jokgak_city_players_v1 SET health=10,protected_until=0,next_action_at=0 WHERE user_id=?',id).run();f.deps.prepareCityBattle=async()=>({battleV2:{result:{winner:'A'}}});f.advance(30000);const killed=await f.action(police,'attack',{targetId:id});assert.equal(killed.target.health,0);f.advance(180000);const revived=(await status(f,id,'HOSPITAL')).mine;assert.notEqual(revived.location,'HOSPITAL');assert.equal(revived.hospitalLeaveAt,0);assert.equal(revived.health,100);
+  const stored=await life(f,id);stored.death.resolved=false;await saveLife(f,id,stored);f.advance(301000);assert.notEqual((await status(f,id,'HOSPITAL')).mine.location,'HOSPITAL','offline return cannot restart the admission');
  });
 }
 const cards=power=>Array.from({length:5},(_,i)=>({id:String(i),name:'카드 '+i,power,type:['ATTACK','DEFENSE','SPEED','HP','NONE'][i],rarity:'SSS',breakthrough_level:99,equipmentShare:1e12,effectivePower:1e12,uniqueAdvancement:{modifiers:{maxHpPercent:9999}}}));
@@ -66,7 +66,7 @@ test('city team normalizes account cards and mercenary growth; the same weapon p
  const merc=ssLimitedSnapshot('V-990'),rich={...merc,level:100,mercenaryLevel:{version:1,level:100,breakthroughMask:0,bonuses:[]}},before=structuredClone(rich);
  assert.deepEqual(buildCityTeam(cards(1),merc,'A',200000),buildCityTeam(cards(1e12),rich,'A',200000));assert.deepEqual(rich,before);
  const battle=createCityBattle({attackerCards:cards(1),defenderCards:cards(1e12),attackerMercenary:merc,defenderMercenary:rich,attackerPower:200000,defenderPower:200000});
- assert.equal(battle.teams.A.summary.power,200000);assert.equal(battle.teams.B.summary.power,200000);assert.equal(battle.teams.A.summary.attack,battle.teams.B.summary.attack);assert.ok(!battle.teams.A.mercenaries[0].mercenaryLink);assert.equal(battle.rules.accountGrowthApplied,false);
+ assert.equal(battle.teams.A.summary.power,200000);assert.equal(battle.teams.B.summary.power,200000);assert.equal(battle.teams.A.summary.attack,battle.teams.B.summary.attack);assert.deepEqual(battle.teams.A.mercenaries,[]);assert.equal(battle.rules.accountGrowthApplied,false);
 });
 test('a weapon determines strength over raw account power in both attack and defense, without changing ordinary PVP',()=>{
  let armedWins=0;for(const side of ['A','B'])for(let seed=1;seed<=32;seed++){

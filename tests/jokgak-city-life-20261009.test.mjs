@@ -26,8 +26,8 @@ for(const pg of [false,true]){
     const notification=JSON.parse((await f.p('SELECT summary_json FROM jokgak_city_notifications_v1 WHERE user_id=2').first()).summary_json);assert.equal(notification.deadUntil,deadline);
     f.advance(70000);assert.equal((await status(f,2)).mine.health,0);assert.equal((await status(f,2)).mine.active,false);await assert.rejects(f.action(2,'move',{location:'HOME'}),/입장/);await assert.rejects(f.action(2,'leave'),/체류 중이 아닙니다/);await assert.rejects(f.action(2,'join'),/사망/);
     f.advance(109999);assert.equal((await status(f,2)).mine.deadUntil,deadline);f.advance(1);const revived=(await status(f,2)).mine;
-    assert.equal(revived.deadUntil,0);assert.equal(revived.health,revived.maxHealth);assert.equal(revived.wellness,100);assert.equal(revived.location,'HOSPITAL');assert.equal(revived.death.killerId,1);
-    assert.equal((await f.action(2,'join')).mine.location,'HOSPITAL');
+    assert.equal(revived.deadUntil,0);assert.equal(revived.health,revived.maxHealth);assert.equal(revived.wellness,100);assert.equal(revived.location==='HOSPITAL',['DOCTOR','NURSE'].includes(revived.role));assert.equal(revived.death.killerId,1);
+    assert.equal((await f.action(2,'join')).mine.location==='HOSPITAL',['DOCTOR','NURSE'].includes(revived.role));
     await assert.rejects(cityAction(f.env,f.deps,f.users.get(1),'attack',{requestId:result.requestId,epoch:result.epoch,targetId:2}),/교대/);
   });
   test(db+': attacker death uses defending killer; medical actions cannot revive early; fatal arrest goes to hospital',async t=>{
@@ -78,7 +78,7 @@ for(const pg of [false,true]){
   test(db+': notification polling returns death status and completes hospital respawn; forged survival inputs are rejected',async t=>{
     const f=await cityFixture(t,pg);await f.join(1);await f.join(2);await f.p('UPDATE jokgak_city_players_v1 SET health=10 WHERE user_id=2').run();await f.action(1,'attack',{targetId:2});
     let notifications=await (await request(f,2,'notifications')).json();assert.equal(notifications.mine.deadUntil,f.now+180000);assert.equal(notifications.mine.death.killerId,1);
-    f.advance(180000);notifications=await (await request(f,2,'notifications')).json();assert.equal(notifications.mine.deadUntil,0);assert.equal(notifications.mine.location,'HOSPITAL');assert.equal(notifications.mine.health,100);
+    f.advance(180000);notifications=await (await request(f,2,'notifications')).json();assert.equal(notifications.mine.deadUntil,0);assert.notEqual(notifications.mine.location,'HOSPITAL');assert.equal(notifications.mine.health,100);
     const forged={requestId:crypto.randomUUID(),epoch:cityShift(f.now).id,health:100};assert.equal((await request(f,2,'treat',forged)).status,400);
     assert.equal((await request(f,2,'use',{requestId:crypto.randomUUID(),epoch:cityShift(f.now).id,product:'INVENTED'})).status,409);
   });

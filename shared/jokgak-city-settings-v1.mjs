@@ -4,6 +4,7 @@ import {defaultCityCashPolicy,validateCityCashPolicy} from './jokgak-city-cash-v
 import {defaultCityArsenal,defaultCityFacilities,validateCityExpansion} from './jokgak-city-expansion-v1.mjs';
 import {defaultCityCareer,validateCityCareer} from './jokgak-city-career-v1.mjs';
 import {defaultCityRoundRewards,validateCityRoundRewards} from './jokgak-city-round-rewards-v1.mjs';
+import {defaultCityExploration,validateCityExploration} from './jokgak-city-exploration-v1.mjs';
 
 export const CITY_SETTINGS_KEY='jokgak_city_settings_v1';
 export const CITY_MODES=['OFF','TEST','ON'];
@@ -11,7 +12,7 @@ export const CITY_REWARD_EVENTS={ATTACK_WIN:'공격 승리',ATTACK_LOSE:'공격 
 export const roleRewardEvents=code=>['ATTACK_WIN','ATTACK_LOSE','ATTACK_DRAW',...(code==='POLICE'?['ARREST_WIN','INSPECT']:[]),...(['NURSE','DOCTOR'].includes(code)?['HEAL_OTHER']:[])];
 export function defaultCitySettings(){
   return {revision:0,mode:'TEST',testUserIds:[],rules:{moveCooldownMs:CITY_RULES.moveCooldownMs,targetProtectionMs:CITY_RULES.targetProtectionMs,rejoinCooldownMs:CITY_RULES.rejoinCooldownMs},
-    rewards:{enabled:false,dailyLimit:20,sameTargetCooldownMs:3600000},roundRewards:defaultCityRoundRewards(),life:defaultCityLifePolicy(),cash:defaultCityCashPolicy(),arsenal:defaultCityArsenal(),facilities:defaultCityFacilities(),career:defaultCityCareer(),
+    rewards:{enabled:false,dailyLimit:20,sameTargetCooldownMs:3600000},roundRewards:defaultCityRoundRewards(),exploration:defaultCityExploration(),life:defaultCityLifePolicy(),cash:defaultCityCashPolicy(),arsenal:defaultCityArsenal(),facilities:defaultCityFacilities(),career:defaultCityCareer(),
     roles:CITY_ROLES.map(({code})=>({code,weight:1,startLocation:'HOME',attackEnabled:true,maxHealth:code==='POLICE'?150:100,regenPerMinute:5,defeatDamage:25,attackCooldownMs:15000,wantedPerAttack:1,
       ...(code==='POLICE'?{inspectEnabled:true,inspectCooldownMs:10000,arrestEnabled:true,arrestMinWanted:1,arrestMs:60000}:{}),
       ...(code==='BEGGAR'?{begEnabled:true,begCooldownMs:60000,begDurationMs:30000,begCash:100}:{}),
@@ -29,10 +30,11 @@ const object=(v,keys)=>v&&typeof v==='object'&&!Array.isArray(v)&&Object.keys(v)
 const number=(v,min,max)=>Number.isSafeInteger(v)&&v>=min&&v<=max;
 const fail=message=>{throw Object.assign(Error(message),{code:'CITY_POLICY',status:400});};
 export function validateCitySettings(value){
-  if(!object(value,['revision','mode','testUserIds','rules','rewards','roundRewards','roles','life','cash','arsenal','facilities','career','enabled','updatedAt','updatedBy'])||!number(value.revision,0,1e9)||!CITY_MODES.includes(value.mode))fail('운영 모드와 설정 버전을 확인하세요.');
+  if(!object(value,['revision','mode','testUserIds','rules','rewards','roundRewards','roles','life','cash','arsenal','facilities','career','exploration','enabled','updatedAt','updatedBy'])||!number(value.revision,0,1e9)||!CITY_MODES.includes(value.mode))fail('운영 모드와 설정 버전을 확인하세요.');
   const roundRewards=validateCityRoundRewards(value.roundRewards);
   const career=validateCityCareer(value.career);
   const expansion=validateCityExpansion(value.arsenal,value.facilities);
+  const exploration=validateCityExploration(value.exploration);
   const life=validateCityLifePolicy(value.life??defaultCityLifePolicy());
   const cash=validateCityCashPolicy(value.cash);
   if(!Array.isArray(value.testUserIds)||value.testUserIds.length>100||new Set(value.testUserIds).size!==value.testUserIds.length||value.testUserIds.some(id=>!number(id,1,Number.MAX_SAFE_INTEGER)))fail('테스트 참여자는 중복 없이 최대 100명까지 지정하세요.');
@@ -61,5 +63,5 @@ export function validateCitySettings(value){
     const normalized=structuredClone(r);normalized.rewards=normalized.rewards.map(row=>({...row,cash:row.cash??0}));return normalized;
   });
   if(!roles.some(r=>r.weight>0))fail('최소 한 역할의 배정 비중은 0보다 커야 합니다.');
-  return {revision:value.revision,mode:value.mode,testUserIds:[...value.testUserIds].sort((a,b)=>a-b),rules:{...rules},rewards:{...reward},roundRewards,life,cash,...expansion,career,roles:CITY_ROLES.map(r=>roles.find(x=>x.code===r.code))};
+  return {revision:value.revision,mode:value.mode,testUserIds:[...value.testUserIds].sort((a,b)=>a-b),rules:{...rules},rewards:{...reward},roundRewards,life,cash,...expansion,exploration,career,roles:CITY_ROLES.map(r=>roles.find(x=>x.code===r.code))};
 }

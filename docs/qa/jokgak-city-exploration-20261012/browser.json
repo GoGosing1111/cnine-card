@@ -1,0 +1,12 @@
+{
+  "checks": [
+    "1440: current-location exploration, saved loot reveal, weapon and armor equip",
+    "1440: hospital relocation popup fits and is not repeated after dismissal/reload",
+    "1440: CMS exploration, area weights, gear power and police benefits save without changing mode",
+    "390: current-location exploration, saved loot reveal, weapon and armor equip",
+    "390: hospital relocation popup fits and is not repeated after dismissal/reload",
+    "390: CMS exploration, area weights, gear power and police benefits save without changing mode"
+  ],
+  "errors": [],
+  "accounts": "isolated fixtures only"
+}

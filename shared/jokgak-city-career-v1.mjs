@@ -22,7 +22,8 @@ export const CITY_JOBS=Object.freeze([
 const LEGACY_JOB_CODES=['SORT','DELIVERY','RETAIL','RECYCLE','PATROL','WARD','CLINIC','DOCK_WORK','ALLEY_WORK'];
 // Old settings and immutable shift snapshots retain their exact wages. New jobs
 // stay closed until an explicit CMS/operations update selects them for a shift.
-export function readStoredCityCareer(value=defaultCityCareer()){
+export function readStoredCityCareer(value=defaultCityCareer(),{legacyPromotion=false}={}){
+ if(legacyPromotion&&Array.isArray(value?.police?.ranks))value={...value,police:{...value.police,ranks:value.police.ranks.map(r=>({powerPercent:0,incomePercent:0,...r}))}};
  const jobs=value?.jobs;
  if(Array.isArray(jobs)&&jobs.length===LEGACY_JOB_CODES.length&&new Set(jobs.map(j=>j?.code)).size===jobs.length&&jobs.every(j=>LEGACY_JOB_CODES.includes(j?.code))){
   value={...value,jobs:[...jobs,...defaultCityCareer().jobs.filter(j=>!LEGACY_JOB_CODES.includes(j.code)).map(j=>({...j,enabled:false}))]};
@@ -30,7 +31,7 @@ export function readStoredCityCareer(value=defaultCityCareer()){
  return validateCityCareer(value);
 }
 export const CITY_POLICE_RANKS=Object.freeze([{code:'OFFICER',name:'순경',merit:0},{code:'CORPORAL',name:'경장',merit:3},{code:'SERGEANT',name:'경사',merit:8},{code:'LIEUTENANT',name:'경위',merit:15}]);
-export function defaultCityCareer(){return {enabled:false,startedAt:0,resetCash:10000,rates:CITY_ROLES.map((r,i)=>({code:r.code,cash:[2000,1000,3000,2500,4000,2500,1500][i]})),jobsEnabled:true,jobs:CITY_JOBS.map(j=>({code:j.code,enabled:true,cash:j.cash,durationMs:j.durationMs??300000,cooldownMs:60000})),police:{workMerit:1,arrestMerit:2,ranks:CITY_POLICE_RANKS.map(({code,merit})=>({code,merit}))}};}
+export function defaultCityCareer(){return {enabled:false,startedAt:0,resetCash:10000,rates:CITY_ROLES.map((r,i)=>({code:r.code,cash:[2000,1000,3000,2500,4000,2500,1500][i]})),jobsEnabled:true,jobs:CITY_JOBS.map(j=>({code:j.code,enabled:true,cash:j.cash,durationMs:j.durationMs??300000,cooldownMs:60000})),police:{workMerit:1,arrestMerit:2,ranks:CITY_POLICE_RANKS.map(({code,merit},i)=>({code,merit,powerPercent:i*5,incomePercent:i*10}))}};}
 const integer=(v,min,max)=>Number.isSafeInteger(v)&&v>=min&&v<=max;
 const shape=(v,keys)=>v&&typeof v==='object'&&!Array.isArray(v)&&Object.keys(v).every(k=>keys.includes(k));
 export function validateCityCareer(value=defaultCityCareer()){
@@ -41,8 +42,8 @@ export function validateCityCareer(value=defaultCityCareer()){
  if(!Array.isArray(value.jobs)||value.jobs.length!==CITY_JOBS.length||new Set(value.jobs.map(j=>j?.code)).size!==CITY_JOBS.length)fail();
  for(const j of value.jobs)if(!shape(j,['code','enabled','cash','durationMs','cooldownMs'])||!CITY_JOBS.some(x=>x.code===j.code)||typeof j.enabled!=='boolean'||!integer(j.cash,0,100000000)||!integer(j.durationMs,60000,3600000)||!integer(j.cooldownMs,0,3600000))fail();
  if(!shape(value.police,['workMerit','arrestMerit','ranks'])||!integer(value.police.workMerit,0,100)||!integer(value.police.arrestMerit,0,100)||!Array.isArray(value.police.ranks)||value.police.ranks.length!==4)fail();
- value.police.ranks.forEach((r,i)=>{if(!shape(r,['code','merit'])||r.code!==CITY_POLICE_RANKS[i].code||!integer(r.merit,0,100000)||i===0&&r.merit!==0||i>0&&r.merit<=value.police.ranks[i-1].merit)fail();});
- return structuredClone(value);
+ value.police.ranks.forEach((r,i)=>{if(!shape(r,['code','merit','powerPercent','incomePercent'])||r.powerPercent!==undefined&&!integer(r.powerPercent,0,50)||r.incomePercent!==undefined&&!integer(r.incomePercent,0,100)||r.code!==CITY_POLICE_RANKS[i].code||!integer(r.merit,0,100000)||i===0&&r.merit!==0||i>0&&r.merit<=value.police.ranks[i-1].merit)fail();});
+ const normalized=structuredClone(value);normalized.police.ranks=normalized.police.ranks.map((r,i)=>({powerPercent:i*5,incomePercent:i*10,...r}));return normalized;
 }
 export function validateCityCareerState(life){
  if(life.careers==null)return;
@@ -50,14 +51,14 @@ export function validateCityCareerState(life){
  for(const mode of ['TEST','ON']){
   const c=life.careers[mode];if(c==null)continue;
   if(!integer(c.epoch,0,Number.MAX_SAFE_INTEGER)||!integer(c.cursor,0,Number.MAX_SAFE_INTEGER)||!integer(c.merit,0,100000)||!integer(c.income,0,CITY_CASH_MAX)||!integer(c.jobIncome,0,CITY_CASH_MAX)||!integer(c.nextWorkAt,0,Number.MAX_SAFE_INTEGER)||typeof c.employed!=='boolean')throw Error('CITY_CAREER_STATE');
-  if(c.work&&(!CITY_JOBS.some(j=>j.code===c.work.code)||!integer(c.work.endsAt,0,Number.MAX_SAFE_INTEGER)||!integer(c.work.cash,0,100000000)||!integer(c.work.cooldownMs,0,3600000)||!integer(c.work.merit,0,100)))throw Error('CITY_WORK_STATE');
+  if(c.work&&(!CITY_JOBS.some(j=>j.code===c.work.code)||!integer(c.work.endsAt,0,Number.MAX_SAFE_INTEGER)||!integer(c.work.cash,0,200000000)||!integer(c.work.cooldownMs,0,3600000)||!integer(c.work.merit,0,100)))throw Error('CITY_WORK_STATE');
  }
 }
 const newCareer=(at)=>({epoch:cityShift(at).id,cursor:at,employed:false,work:null,merit:0,income:0,jobIncome:0,nextWorkAt:0,lastPay:null});
 export function cityPoliceRank(career,policy){
  const merit=career?.merit||0,ranks=policy.career?.police?.ranks||defaultCityCareer().police.ranks;
  const index=ranks.findLastIndex(r=>merit>=r.merit),rank=CITY_POLICE_RANKS[Math.max(0,index)];
- return {...rank,merit,next:index<3?{...CITY_POLICE_RANKS[index+1],merit:ranks[index+1].merit}:null};
+ return {...rank,powerPercent:ranks[Math.max(0,index)].powerPercent||0,incomePercent:ranks[Math.max(0,index)].incomePercent||0,merit,next:index<3?{...CITY_POLICE_RANKS[index+1],...ranks[index+1]}:null};
 }
 // A six-hour round is the maximum offline accounting window: everything from
 // older rounds is discarded before the current occupation's income accrues.
@@ -71,14 +72,20 @@ export function projectCityCareer(state,life,now,policy){
   c=life.careers[mode]=newCareer(shift.startsAt);c.resetAt=shift.startsAt;
   if(life.begging?.mode===mode)life.begging=null;
  }
- const hours=Math.max(0,Math.floor((now-c.cursor)/CITY_HOUR)),rate=cfg.rates.find(r=>r.code===state.role).cash;
+ const hours=Math.max(0,Math.floor((now-c.cursor)/CITY_HOUR)),rate=cityIncomeWithRank(cfg.rates.find(r=>r.code===state.role).cash,state.role,c,policy);
  if(hours){const amount=Math.min(hours*rate,CITY_CASH_MAX-wallet.balance);wallet.balance+=amount;c.income+=amount;c.cursor+=hours*CITY_HOUR;c.lastPay={at:c.cursor,amount,hours,role:state.role};}
  if(c.work&&(!state.active||state.location!==c.work.location||state.deadUntil>now||life.death&&!life.death.resolved||state.jailedUntil>now||c.work.role!==state.role))c.work=null;
 }
+export function cityIncomeWithRank(cash,role,career,policy){
+ const bonus=role==='POLICE'&&policy.career?.enabled&&career?cityPoliceRank(career,policy).incomePercent:0;
+ return Math.floor(cash*(100+bonus)/100);
+}
 export function applyCityCareerView(state,life,policy){
  const cfg=policy.career,c=life.careers?.[policy.mode];
- state.career=cfg?.enabled&&c?{...structuredClone(c),incomePerHour:cfg.rates.find(r=>r.code===state.role).cash,nextIncomeAt:c.cursor+CITY_HOUR,resetAt:cityShift(life.at).endsAt}:null;
+ state.career=cfg?.enabled&&c?{...structuredClone(c),incomePerHour:cityIncomeWithRank(cfg.rates.find(r=>r.code===state.role).cash,state.role,c,policy),nextIncomeAt:c.cursor+CITY_HOUR,resetAt:cityShift(life.at).endsAt}:null;
  state.policeRank=state.role==='POLICE'?cityPoliceRank(c,policy):null;
+ state.policePowerBonus=cfg?.enabled&&c&&state.policeRank?Math.floor((state.weapon?.power||0)+(state.armor?.power||0))*state.policeRank.powerPercent/100:0;
+ state.policePowerBonus=Math.floor(state.policePowerBonus);if(state.weapon)state.cityPower=state.weapon.power+(state.armor?.power||0)+state.policePowerBonus;
  return state;
 }
 const fail=message=>{throw Object.assign(Error(message),{status:409,code:'CITY_WORK'});};
@@ -99,7 +106,7 @@ export function cityWorkAction({action,code,state,life,policy,now,requestId}){
  if(c.work)fail('진행 중인 근무를 마치거나 취소하세요.');if(c.nextWorkAt>now)fail('다음 근무 대기시간이 남았습니다.');
  if(state.location!==meta.location)fail('해당 근무처로 이동한 뒤 시작하세요.');if(meta.role&&!c.employed)fail('먼저 이번 직업의 취직 등록을 완료하세요.');
  if(now+j.durationMs>=cityShift(now).endsAt)fail('역할 교대까지 근무를 마칠 시간이 부족합니다.');
- c.work={id:requestId,code,role:state.role,location:meta.location,endsAt:now+j.durationMs,cash:j.cash,cooldownMs:j.cooldownMs,merit:state.role==='POLICE'&&meta.role==='POLICE'?cfg.police.workMerit:0};
+ c.work={id:requestId,code,role:state.role,location:meta.location,endsAt:now+j.durationMs,cash:cityIncomeWithRank(j.cash,state.role,c,policy),cooldownMs:j.cooldownMs,merit:state.role==='POLICE'&&meta.role==='POLICE'?cfg.police.workMerit:0};
  return {kind:'workStart',...c.work};
 }
 export function cancelCityWork(life,mode){if(life.careers?.[mode])life.careers[mode].work=null;}

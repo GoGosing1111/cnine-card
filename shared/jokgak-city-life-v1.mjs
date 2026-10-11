@@ -1,8 +1,10 @@
 // City-only survival state. Combat HP and everyday health are separate meters.
 import {ensureCityCash,CITY_CASH_MAX} from './jokgak-city-cash-v1.mjs';
-import {validateCityFacilitiesState,projectCityFacilities,applyCityExpansionView,defaultCityFacilities} from './jokgak-city-expansion-v1.mjs';
+import {validateCityFacilitiesState,projectCityFacilities,applyCityExpansionView,cityMedicalRole,cityHospitalExit,CITY_HOSPITAL_MAX_STAY_MS} from './jokgak-city-expansion-v1.mjs';
+import {cityShift} from './jokgak-city-v1.mjs';
 import {validateCityCareerState,projectCityCareer,applyCityCareerView} from './jokgak-city-career-v1.mjs';
 import {validateCityCommsState,cityMegaphones} from './jokgak-city-comms-v1.mjs';
+import {validateCityExplorationState,cityExplorationBag} from './jokgak-city-exploration-v1.mjs';
 export const CITY_DEATH_MS=180000;
 export const CITY_SUPPLIES=[
   {code:'LUNCHBOX',name:'휴대 도시락',icon:'meal',description:'이동 중 허기를 달래는 따뜻한 도시락'},
@@ -41,6 +43,7 @@ export function readCityLife(raw,now){
     validateCityFacilitiesState(life);
     validateCityCareerState(life);
     validateCityCommsState(life);
+    validateCityExplorationState(life);
     if(life.version!==1||!Number.isSafeInteger(life.at)||!['hunger','wellness'].every(k=>Number.isFinite(life[k])&&life[k]>=0&&life[k]<=100)||!life.bags?.TEST||!life.bags?.ON)throw Error();
     for(const mode of ['TEST','ON'])for(const [code,n] of Object.entries(life.bags[mode]))if(!CITY_SUPPLIES.some(s=>s.code===code)||!integer(n,0,99))throw Error();
     if(life.death&&(!Number.isSafeInteger(life.death.until)||!Number.isSafeInteger(life.death.at)||typeof life.death.killerName!=='string'))throw Error();
@@ -61,7 +64,11 @@ export function projectCityLife(state,life,now,policy){
       state.health=state.maxHealth;state.nextActionAt=Math.min(state.nextActionAt,death.until);state.nextMoveAt=0;
       state.protectedUntil=Math.max(state.protectedUntil,death.until+policy.rules.targetProtectionMs);
       life.wellness=100;life.hunger=Math.max(30,life.hunger);life.at=death.until;death.resolved=true;
-      life.hospital={enteredAt:death.until,leaveAt:death.until+(policy.facilities||defaultCityFacilities()).hospital.maxStayMs,autoReturnAfter:0};
+      life.hospital={enteredAt:death.at,leaveAt:death.until,autoReturnAfter:0};
+      if(!cityMedicalRole(state.role)){
+        state.location=cityHospitalExit(state.userId,death.at);
+        life.hospital={enteredAt:0,leaveAt:0,autoReturnAfter:now+CITY_HOSPITAL_MAX_STAY_MS,transfer:{id:cityShift(now).id+':'+death.at,epoch:cityShift(now).id,at:death.until,from:'HOSPITAL',to:state.location}};
+      }
     }
   }
   const dead=!!death&&!death.resolved;
@@ -72,6 +79,7 @@ export function projectCityLife(state,life,now,policy){
     life.wellness=Math.max(0,life.wellness-hours*cfg.wellnessPerHour-starvingHours*cfg.starvingWellnessPerHour);
   }
   life.at=now;
+  cityExplorationBag(life,policy.mode,now);
   projectCityFacilities(state,life,now,policy);
   if(state.active&&!dead&&life.wellness<=cfg.hospitalThreshold&&!(life.motel?.until>now)&&!(life.hospital?.autoReturnAfter>now)){state.location='HOSPITAL';state.jailedUntil=0;}
   projectCityFacilities(state,life,now,policy);

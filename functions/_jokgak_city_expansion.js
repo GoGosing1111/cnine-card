@@ -1,5 +1,6 @@
 import {changeCityCash} from '../shared/jokgak-city-cash-v1.mjs';
 import {CITY_WEAPONS,cityArmory,defaultCityArsenal,defaultCityFacilities} from '../shared/jokgak-city-expansion-v1.mjs';
+import {CITY_FOUND_WEAPONS,defaultCityExploration} from '../shared/jokgak-city-exploration-v1.mjs';
 const fail=message=>{throw Object.assign(Error(message),{status:409,code:'CITY_EQUIPMENT'});};
 export function cityExpansionAction({action,product,me,life,policy,now}){
   const facilities=policy.facilities||defaultCityFacilities(),arsenal=policy.arsenal||defaultCityArsenal();
@@ -19,8 +20,9 @@ export function cityExpansionAction({action,product,me,life,policy,now}){
   if(me.nextActionAt>now)fail('다음 행동까지 잠시 기다려 주세요.');
   const bag=cityArmory(life,policy.mode);
   if(action==='unequipWeapon'){if(!bag.equipped)fail('장착한 무기가 없습니다.');bag.equipped=null;return {kind:action};}
-  const w=arsenal.weapons.find(w=>w.code===product),meta=CITY_WEAPONS.find(w=>w.code===product);if(!w||!w.enabled)fail('판매·사용 가능한 무기를 확인하세요.');
+  const w=[...arsenal.weapons,...(policy.exploration||defaultCityExploration()).weapons].find(w=>w.code===product),meta=[...CITY_WEAPONS,...CITY_FOUND_WEAPONS].find(w=>w.code===product);if(!w||!w.enabled)fail('판매·사용 가능한 무기를 확인하세요.');
   if(action==='buyWeapon'){
+    if(!CITY_WEAPONS.some(w=>w.code===product))fail('탐색으로 발견하는 전용 무기입니다.');
     if(me.location!=='MARKET')fail('시장에서 무기를 구매하세요.');
     if(bag.owned.includes(product))fail('이미 보유한 무기입니다.');
     const cash=changeCityCash(life,policy,-w.price);bag.owned.push(product);me.nextActionAt=now+policy.life.serviceCooldownMs;
