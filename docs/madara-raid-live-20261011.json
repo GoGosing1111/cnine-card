@@ -1,0 +1,185 @@
+{
+  "at": "2026-10-11T13:27:15.996Z",
+  "domains": [
+    "cnine-card.pages.dev"
+  ],
+  "deploymentId": "d10ac210-d0ed-4183-ad75-cb7def5395f6",
+  "source": "d1d7aa0a817ee8cf5d10d2ba457d69a70c4c75da",
+  "url": "https://d10ac210.cnine-card.pages.dev",
+  "assets": [
+    {
+      "path": "/",
+      "status": 200,
+      "sha256": "98f011e7009f1db0ffbdb7f12387614083e46143de66daabcfe9161681567ecd",
+      "matches": true
+    },
+    {
+      "path": "/admin/",
+      "status": 200,
+      "sha256": "68470f9cc45d610e9482794d558462ef2c3466a0151f6100ced0bd1c0926e3cf",
+      "matches": true
+    },
+    {
+      "path": "/js/madara-raid-entry-v1.js?v=20261011-live1",
+      "status": 200,
+      "sha256": "358240d44b812bdb4ae23337099fb9eb456317331f19b8dae02b66ffe0c58386",
+      "matches": true
+    },
+    {
+      "path": "/admin/madara-raid-admin-v1.mjs?v=20261011-live1",
+      "status": 200,
+      "sha256": "efbd4162fbe60e92b8669c625ec00f75b8b2533024119f915bafd8b2cc1cecab",
+      "matches": true
+    },
+    {
+      "path": "/raid/madara/runtime.mjs?v=20261011-live1",
+      "status": 200,
+      "sha256": "8b4a36e3821029166b802655cd58b56926bdd5334acdc269ccec040068c0e089",
+      "matches": true
+    },
+    {
+      "path": "/raid/madara/fragment.html?v=20261011-live1",
+      "status": 200,
+      "sha256": "d540aa095c312d9f072625572382636ab45aeb88e08f26049384cc064ad1f267",
+      "matches": true
+    },
+    {
+      "path": "/preview/madara-raid-v1/assets/presentation-manifest.json",
+      "status": 200,
+      "sha256": "144432d0b5116d1397abd8bd4b4a8f14d878b9aff384dae9160bc5bd7d512096",
+      "matches": true
+    }
+  ],
+  "worker": {
+    "madaraHandler": true,
+    "madaraSettings": true,
+    "madaraRooms": true,
+    "cityTop10": true
+  },
+  "api": [
+    {
+      "path": "/api/service/status",
+      "status": 200
+    },
+    {
+      "path": "/api/raid/madara/feature",
+      "status": 401
+    },
+    {
+      "path": "/api/admin/raid/madara/settings",
+      "status": 401
+    }
+  ],
+  "database": {
+    "at": "2026-10-11T13:27:18.189Z",
+    "command": "verify",
+    "initialized": false,
+    "settings": {
+      "revision": 0,
+      "mode": "TEST",
+      "testUserIds": [],
+      "bossCombatPower": 440000,
+      "lobbyMinutes": 15,
+      "enrageSeconds": 360,
+      "mechanicTimePercent": 100,
+      "entryTicketCost": 1,
+      "weeklyRewardLimit": 7,
+      "coinReward": 0,
+      "masterStarReward": 0,
+      "petEssenceReward": 0,
+      "testEntryFree": true,
+      "rewardsEnabled": false
+    },
+    "tables": [
+      {
+        "tablename": "raid_madara_active_v1"
+      },
+      {
+        "tablename": "raid_madara_receipts_v1"
+      },
+      {
+        "tablename": "raid_madara_rooms_v1"
+      }
+    ],
+    "ticket": [
+      {
+        "code": "MADARA_RAID_ENTRY_TICKET",
+        "name": "마다라 레이드 입장권",
+        "is_active": "1"
+      }
+    ],
+    "rooms": []
+  },
+  "browser": {
+    "command": "node tests/madara-raid-live-20261011.browser.mjs",
+    "exitCode": 0,
+    "sources": [
+      {
+        "file": "raid/madara/runtime.mjs",
+        "sha256": "8b4a36e3821029166b802655cd58b56926bdd5334acdc269ccec040068c0e089"
+      },
+      {
+        "file": "raid/madara/runtime-scope.mjs",
+        "sha256": "c0ce52c19bfdeb000980f3180ff61a6228744abd55f1a9c33b7425cb38430eaf"
+      },
+      {
+        "file": "tests/madara-raid-live-20261011.browser.mjs",
+        "sha256": "bfd9eda0531c24a8b92aa08746a2e1d87d7b6b2d343bcf60e82e0f9c49f8c523"
+      }
+    ],
+    "results": [
+      {
+        "width": 1440,
+        "errors": [],
+        "inline": true,
+        "recovery": true,
+        "kick": true,
+        "pollingStopped": true
+      },
+      {
+        "width": 390,
+        "errors": [],
+        "inline": true,
+        "recovery": true,
+        "kick": true,
+        "pollingStopped": true
+      },
+      {
+        "width": 1440,
+        "cms": true,
+        "modes": true,
+        "persistence": true,
+        "testerSearch": true,
+        "errors": []
+      },
+      {
+        "width": 390,
+        "cms": true,
+        "modes": true,
+        "persistence": true,
+        "testerSearch": true,
+        "errors": []
+      }
+    ]
+  },
+  "relatedServerTests": {
+    "pass": 39,
+    "fail": 0
+  },
+  "apiWorkerVersion": "38809fea-25f3-4cab-860f-f633e400d9ba",
+  "schedulerVersion": "c2d1f506-2c5e-4608-94b7-08121532d640",
+  "releaseLogs": [
+    {
+      "file": "C:/Users/User/Downloads/upload/cnine-card/tmp/madara-live-20261011/deploy-full.log",
+      "sha256": "ebf7e50ec2b71fe6cac683e1b5c6eee83fe982a5aebcbbbced3ee5139b072060"
+    },
+    {
+      "file": "C:/Users/User/Downloads/upload/cnine-card/tmp/madara-live-20261011/deploy-resume-1.log",
+      "sha256": "10321c33fc920476362dc9aeeb6bb9428cb0ec5404de1ca6e0fb8ebae8c06180"
+    },
+    {
+      "file": "C:/Users/User/Downloads/upload/cnine-card/tmp/madara-live-20261011/deploy-resume-final.log",
+      "sha256": "48fa40dbf2dfb36806b2137451c419a58c6855417080274731d77bfda3c7f6fd"
+    }
+  ]
+}
