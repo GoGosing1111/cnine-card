@@ -1,0 +1,98 @@
+{
+  "verifiedAt": "2026-10-11T17:03:24.982Z",
+  "commit": "9690d4e52fd4587ef0464c9783c2a47bd7acb478",
+  "deploymentId": "287f3865-9fb1-4edb-bd82-a94239c1257f",
+  "deployment": "https://287f3865.cnine-card.pages.dev",
+  "production": "https://cnine-card.pages.dev",
+  "checks": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "bytes": 23125,
+      "sha256": "a4443e29f88d0c6868c68fbdac42c39b3e8f278e97ba0429aa778ebbcdca557c",
+      "match": true
+    },
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "bytes": 87107,
+      "sha256": "5d18ff30b84164cc1a821e7159c621ef31520d5afe2925963bc48b914cec5a40",
+      "match": true
+    },
+    {
+      "file": "js/jokgak-city-v1.js",
+      "status": 200,
+      "bytes": 59740,
+      "sha256": "5ff47898c0d11640fe89c3084e57a5d78b2793d76e5a9c96a1181c45708084f2",
+      "match": true
+    },
+    {
+      "file": "js/jokgak-city-exploration-ui-v1.mjs",
+      "status": 200,
+      "bytes": 6882,
+      "sha256": "9771ce37a7db3fd33a5fa029df68fc12067ab91e6e9f0ec7dfae766d38d8d044",
+      "match": true
+    },
+    {
+      "file": "js/jokgak-city-notice-layer-v1.mjs",
+      "status": 200,
+      "bytes": 2747,
+      "sha256": "54e7ea079d0fd9502a0c5003fb96dea0d33a17b97c691f85859666536e9ffb3c",
+      "match": true
+    },
+    {
+      "file": "admin/jokgak-city-admin-v1.mjs",
+      "status": 200,
+      "bytes": 30788,
+      "sha256": "9000933b12e0998fc3d7e99d1634bc016526a3f0fb200ded56c0204eda1b9cec",
+      "match": true
+    },
+    {
+      "file": "admin/jokgak-city-exploration-admin-v1.mjs",
+      "status": 200,
+      "bytes": 2754,
+      "sha256": "a38abb3e34db90c0607ccaa123e6d7580c7611b1118d324a27d73b270b95015b",
+      "match": true
+    },
+    {
+      "file": "shared/jokgak-city-exploration-v1.mjs",
+      "status": 200,
+      "bytes": 6534,
+      "sha256": "13d9f58626396a5e9a57ab3fc2a8f163084507eec0958ccc326d6912dabfe817",
+      "match": true
+    },
+    {
+      "file": "shared/jokgak-city-career-v1.mjs",
+      "status": 200,
+      "bytes": 11609,
+      "sha256": "792715742ad33dafbf595e60958d0df5689cfe8b8e965882862c0ddba87cff5a",
+      "match": true
+    },
+    {
+      "file": "css/jokgak-city-v1.css",
+      "status": 200,
+      "bytes": 43080,
+      "sha256": "cb6f987f2b2df9e80a61ea202357debdb8a3285f4b986b01d3b088419105f1ee",
+      "match": true
+    },
+    {
+      "file": "css/jokgak-city-expansion-v1.css",
+      "status": 200,
+      "bytes": 6255,
+      "sha256": "1420d0a965784e3778c4761774ded5e37081b82083afb1d6c525a242e215c32c",
+      "match": true
+    },
+    {
+      "file": "css/jokgak-city-career-v1.css",
+      "status": 200,
+      "bytes": 11222,
+      "sha256": "70cb4d475e08022dfe1949af23825a0493fb94533e2a3d1026b54b70b7f0cbf6",
+      "match": true
+    }
+  ],
+  "api": {
+    "endpoint": "/api/jokgak-city/status",
+    "status": 401,
+    "contentType": "application/json;charset=UTF-8"
+  }
+}

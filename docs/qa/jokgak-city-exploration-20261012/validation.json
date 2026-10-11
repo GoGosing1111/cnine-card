@@ -1,0 +1,29 @@
+{
+  "runtimeCommit": "369f3d2eeb5fbce9b5e514bd2d593572cd230721",
+  "releaseCommit": "9690d4e52fd4587ef0464c9783c2a47bd7acb478",
+  "deploymentBase": "bef690d2928f2e918654eb1f71e2e1319bfafdb8",
+  "command": "npm run deploy:production -- --scoped",
+  "initialGate": {
+    "files": 12,
+    "tests": 144,
+    "pass": 142,
+    "fail": 2,
+    "failures": ["Obsolete expectation for account mercenary and unique skill dependencies in city combat", "Hard-coded previous city CMS cache version"]
+  },
+  "resumedGate": {
+    "files": ["tests/jokgak-city-20261009.test.mjs", "tests/jokgak-city-cms-20261009.test.mjs"],
+    "tests": 32,
+    "pass": 32,
+    "fail": 0,
+    "runtimeChangesSinceInitialGate": false,
+    "checks": ["check:worker", "verify-production-release", "production Hyperdrive cache disabled"]
+  },
+  "uniqueRegressionTestsPassing": 144,
+  "browser": {"desktopWidth": 1440, "mobileWidth": 390, "functionalAndBattleChecks": 7, "finalUiChecks": 6, "errors": []},
+  "deployment": {
+    "pages": "287f3865-9fb1-4edb-bd82-a94239c1257f",
+    "apiRuntime": "b2cf0a49-2871-4728-87ae-f37877a9f9b3",
+    "cityScheduler": "0e4e0c54-d050-4332-83cd-959fbef2891f",
+    "citySchedule": "* * * * *"
+  }
+}

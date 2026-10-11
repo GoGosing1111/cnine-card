@@ -1,0 +1,81 @@
+{
+  "at": "2026-10-11T17:04:12.329Z",
+  "mode": "ON",
+  "revision": 28,
+  "rawHash": "8aa1fa6be391bec21657e3dee3bb60562630abd33183a26ff30bb5a453eb14cd",
+  "storedHospitalMax": 300000,
+  "effectiveHospitalMax": 180000,
+  "exploration": {
+    "stored": false,
+    "enabled": true,
+    "cooldownMs": 60000,
+    "weapons": 10,
+    "armors": 6
+  },
+  "careerEnabled": true,
+  "currentRoundEndsAt": "2026-10-11T21:00:00.000Z",
+  "promotionNext": [
+    {
+      "powerPercent": 0,
+      "incomePercent": 0,
+      "code": "OFFICER",
+      "merit": 0
+    },
+    {
+      "powerPercent": 5,
+      "incomePercent": 10,
+      "code": "CORPORAL",
+      "merit": 3
+    },
+    {
+      "powerPercent": 10,
+      "incomePercent": 20,
+      "code": "SERGEANT",
+      "merit": 8
+    },
+    {
+      "powerPercent": 15,
+      "incomePercent": 30,
+      "code": "LIEUTENANT",
+      "merit": 15
+    }
+  ],
+  "promotionCurrent": [
+    {
+      "powerPercent": 0,
+      "incomePercent": 0,
+      "code": "OFFICER",
+      "merit": 0
+    },
+    {
+      "powerPercent": 0,
+      "incomePercent": 0,
+      "code": "CORPORAL",
+      "merit": 3
+    },
+    {
+      "powerPercent": 0,
+      "incomePercent": 0,
+      "code": "SERGEANT",
+      "merit": 8
+    },
+    {
+      "powerPercent": 0,
+      "incomePercent": 0,
+      "code": "LIEUTENANT",
+      "merit": 15
+    }
+  ],
+  "counts": {
+    "active": "65",
+    "hospital": "9"
+  },
+  "transfers": {
+    "count": "3"
+  },
+  "hospital": {
+    "medicalStaff": 9,
+    "ordinary": 0,
+    "ordinaryPastThreeMinutes": 0
+  }
+}
