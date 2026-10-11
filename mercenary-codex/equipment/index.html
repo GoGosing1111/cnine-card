@@ -1,20 +1,42 @@
 <!doctype html>
 <html lang="ko">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#080e15"><meta name="color-scheme" content="dark"><title>용병 무장고 · 숲켓몬</title><link rel="icon" href="/assets/ui/pwa-icon.svg"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&amp;family=Noto+Sans+KR:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="./style.css?v=20261011"></head>
-<body><a class="skip" href="#arsenal">장비 목록으로 이동</a><div class="armory-shell">
-<header class="topbar"><a href="/?screen=home" class="brand"><span aria-hidden="true">V</span><b>숲켓몬<small>MERCENARY DIVISION</small></b></a><nav aria-label="화면 이동"><a href="/mercenary-codex/?view=owned">용병도감 ↗</a><a href="/?screen=home">로비로 ↗</a></nav></header>
-<main><div class="page-heading"><div><p class="eyebrow">THE LEGION ARMORY <span>01 / EQUIPMENT</span></p><h1>용병 무장고<span>전장을 바꾸는 무장.</span></h1></div><p class="heading-note">용병을 바꿔도 무장은 그대로.<br>PVE와 PVP, 전장에 맞는 두 가지 구성.</p></div>
-<section class="mode-bar" aria-label="장비 구성 모드"><div role="group" aria-label="PVE·PVP 전환"><button type="button" data-mode="PVE" aria-pressed="true"><b>PVE</b><span>모험 · 토벌</span></button><button type="button" data-mode="PVP" aria-pressed="false"><b>PVP</b><span>대전 · 결투</span></button></div><p>같은 보유 장비를 양쪽 구성에 사용할 수 있습니다.</p><button id="refresh" class="refresh" type="button">새로고침 ↻</button></section>
-<p id="status" role="status" aria-live="polite">장비 구성을 불러오고 있습니다.</p>
-<div class="armory-workspace">
-<section class="loadout-panel" aria-labelledby="loadoutTitle"><header class="panel-heading"><div><p class="eyebrow">DEPLOYMENT LOADOUT</p><h2 id="loadoutTitle">PVE 무장</h2></div><span id="equippedCount" class="count">00 <small>/ 05</small></span></header>
-<div id="stage" class="stage"><div class="stage-orbit" aria-hidden="true"></div><div id="operator" class="operator"><span class="operator-empty">V</span></div><div id="slots" class="slots"></div><div class="operator-caption"><span id="operatorRank">MERCENARY</span><strong id="operatorName">편성 확인 중</strong><a id="changeMercenary" href="/mercenary-codex/?view=owned&amp;mode=PVE">용병 변경 ↗</a></div></div>
-<div class="power-strip"><div><span>용병 장비 전투력</span><strong id="gearPower">+ 0</strong></div><p id="powerHint">현재 모드에 편성된 용병에게 적용됩니다.</p></div>
-<div class="set-effects"><div class="subheading"><h3>활성 효과</h3><span>PVE 전용</span></div><div id="effects"><p class="muted">장비를 장착하면 세트 효과를 확인할 수 있습니다.</p></div></div>
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#101416"><meta name="color-scheme" content="dark">
+<title>용병 무장고 · 숲켓몬</title><link rel="icon" href="/assets/ui/pwa-icon.svg"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&amp;family=Noto+Sans+KR:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="./style.css?v=20261012-armory2">
+</head>
+<body>
+<a class="skip" href="#arsenal">장비 목록으로 이동</a>
+<header class="topbar"><div class="topbar-inner">
+  <button id="goBack" class="nav-back" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6M8 12h13"/></svg><span>뒤로가기</span></button>
+  <a href="/?screen=home" class="brand" aria-label="숲켓몬 로비"><span class="brand-mark" aria-hidden="true">V</span><span>숲켓몬<small>LEGION ARMORY</small></span></a>
+  <a class="lobby-link" href="/?screen=home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7M5 9v12h14V9M9 21v-7h6v7"/></svg>로비로</a>
+</div></header>
+<div class="armory-shell"><main>
+<div class="page-heading"><div><p class="eyebrow"><span class="heading-line"></span> THE LEGION ARMORY</p><h1>용병 무장고<span>전장을 위한, 다섯 개의 선택.</span></h1></div><div class="heading-note"><span>나의 용병 · 나의 무장</span><p>용병을 바꿔도 장비 구성은 그대로 유지됩니다.</p></div></div>
+<section class="mode-bar" aria-label="장비 구성 모드">
+  <div class="mode-switch" role="group" aria-label="PVE·PVP 전환"><button type="button" data-mode="PVE" aria-pressed="true"><span class="mode-index">01</span><b>PVE</b><span>모험 · 토벌</span></button><button type="button" data-mode="PVP" aria-pressed="false"><span class="mode-index">02</span><b>PVP</b><span>대전 · 결투</span></button></div>
+  <p>같은 장비를 두 전장에.<br><b>장착 구성은 모드별로 저장됩니다.</b></p>
+  <button id="refresh" class="refresh" type="button" aria-label="장비 새로고침"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5M6 7a7 7 0 0 1 12-1l2 3M4 15l2 3a7 7 0 0 0 12-1"/></svg><span>새로고침</span></button>
 </section>
-<section id="arsenal" class="arsenal-panel" aria-labelledby="arsenalTitle"><header class="panel-heading"><div><p class="eyebrow">COLLECTED FROM THE LEGION</p><h2 id="arsenalTitle">전리품 보관함</h2></div><div class="view-toggle" role="group" aria-label="보유 장비·도감"><button data-view="owned" aria-pressed="true">보유</button><button data-view="catalog" aria-pressed="false">도감</button></div></header>
-<div id="regions" class="region-tabs" role="group" aria-label="획득 지역"></div><div class="inventory-toolbar"><label>부위 <select id="slotFilter"><option value="">전체 장비</option><option value="WEAPON">무기</option><option value="TOP">상의</option><option value="BOTTOM">하의</option><option value="SHOES">신발</option><option value="ACCESSORY">장신구</option></select></label><span id="itemCount">0종</span></div>
-<div id="inventory" class="inventory" aria-busy="true"></div><p class="inventory-foot">군단토벌에서 획득하는 용병 전용 장비입니다.<br>강화·연마는 각 보유 장비에 유지됩니다.</p></section>
-</div><footer><span>SOOPKETMON / LEGION ARMORY</span><a href="/equipment-forge/">장비 강화 센터 ↗</a></footer></main></div>
+<div class="status-line"><p id="status" role="status" aria-live="polite">장비 구성을 불러오고 있습니다.</p><a class="inventory-jump" href="#arsenal">보관함 보기 ↓</a></div>
+<div class="armory-workspace">
+  <section class="loadout-panel" aria-labelledby="loadoutTitle">
+    <header class="panel-heading"><div><p class="eyebrow">YOUR LOADOUT</p><h2 id="loadoutTitle">PVE 무장</h2></div><div class="loadout-count"><span>장착 완료</span><b id="equippedCount" class="count">00 <small>/ 05</small></b></div></header>
+    <div id="stage" class="stage"><div class="stage-orbit" aria-hidden="true"></div><div class="stage-lines" aria-hidden="true"></div><span class="stage-caption" aria-hidden="true">MERCENARY DIVISION</span><div id="operator" class="operator"><span class="operator-empty">V</span></div><div id="slots" class="slots"></div><div class="operator-caption"><span id="operatorRank">MERCENARY</span><strong id="operatorName">편성 확인 중</strong><a id="changeMercenary" href="/mercenary-codex/?view=owned&amp;mode=PVE">용병 변경 <span aria-hidden="true">↗</span></a></div></div>
+    <div class="power-strip"><div><span>용병 장비 전투력</span><strong id="gearPower">+ 0</strong></div><p id="powerHint">현재 모드에 편성된 용병에게 적용됩니다.</p></div>
+    <div class="set-effects"><div class="subheading"><h3><span aria-hidden="true">✦</span> 활성 효과</h3><span>PVE 전용</span></div><div id="effects"><p class="muted">장착한 장비의 세트·고유 효과가 여기에 표시됩니다.</p></div></div>
+  </section>
+  <section id="arsenal" class="arsenal-panel" aria-labelledby="arsenalTitle" tabindex="-1">
+    <header class="panel-heading"><div><p class="eyebrow">COLLECTION</p><h2 id="arsenalTitle">전리품 보관함</h2></div><div class="view-toggle" role="group" aria-label="보유 장비·도감"><button data-view="owned" aria-pressed="true">보유</button><button data-view="catalog" aria-pressed="false">도감</button></div></header>
+    <div id="regions" class="region-tabs" role="group" aria-label="획득 지역"></div>
+    <div class="inventory-toolbar"><label>부위 <select id="slotFilter"><option value="">전체 장비</option><option value="WEAPON">무기</option><option value="TOP">상의</option><option value="BOTTOM">하의</option><option value="SHOES">신발</option><option value="ACCESSORY">장신구</option></select></label><span id="itemCount">불러오는 중</span></div>
+    <div id="inventory" class="inventory" aria-busy="true"><div class="inventory-loading"><span class="loading-emblem" aria-hidden="true">V</span><p>보유 장비를 확인하고 있습니다.</p></div></div>
+    <div class="inventory-foot"><span class="foot-symbol" aria-hidden="true">✧</span><p>군단토벌에서 만나는 용병 전용 장비.<br><b>강화·연마 상태는 각 장비에 유지됩니다.</b></p><a href="/equipment-forge/">장비 강화 <span aria-hidden="true">↗</span></a></div>
+  </section>
+</div>
+<footer><span>SOOPKETMON <i>/</i> THE LEGION ARMORY</span><a href="/mercenary-codex/?view=owned">내 용병 확인 ↗</a></footer>
+</main></div>
 <dialog id="itemDialog" aria-labelledby="itemTitle"><button id="closeItem" class="close" aria-label="장비 상세 닫기">×</button><div id="itemDetail"></div><div id="itemActions" class="item-actions"></div><p id="actionStatus" role="status" aria-live="polite"></p></dialog>
-<noscript>용병 장비를 확인하려면 JavaScript를 켜 주세요.</noscript><script type="module" src="./app.mjs?v=20261011"></script></body></html>
+<noscript>용병 장비를 확인하려면 JavaScript를 켜 주세요. <a href="/?screen=home">로비로 돌아가기</a></noscript><script type="module" src="./app.mjs?v=20261012-armory2"></script>
+</body></html>
