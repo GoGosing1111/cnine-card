@@ -9,6 +9,7 @@ import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
 import {claimPigCoinMessageReward} from '../functions/_pig_coin_message_reward.js';
 import {claimMessageRewardBatch} from '../functions/_message_reward_batch.js';
 import {LOOT_SHOP_SCHEMA} from '../functions/_loot_shop.js';
+import * as supportExpiry from '../js/supporter-message-expiry-v1.mjs';
 const read=p=>readFileSync(new URL('../'+p,import.meta.url),'utf8'),api=read('functions/api/[[path]].js'),app=read('js/app.js');
 const specs=api.slice(api.indexOf('const VERIFIED_MESSAGE_REWARD_TYPES='),api.indexOf('let verifiedRewardMessageV1276ReadyPromise='));
 const common=api.slice(api.indexOf('async function claimMessageRewardDirectV1222('),api.indexOf('async function canSafelyRecoverFailedMessageRewardV1222('));
@@ -101,14 +102,16 @@ test('server reward metadata keeps the real inbox claim controls visible without
  const raw={id:7,title:'점령 보상',body:'피그코인 지급',message_type:'ITEM_REWARD',reward_type:'PIG_COIN',reward_amount:50};
  const message=server.present(raw);assert.equal(message.reward_supported,true);assert.equal(message.reward_label,'피그코인');
  for(const invalid of [{reward_type:'UNKNOWN',reward_amount:50},{reward_type:'PIG_COIN',reward_amount:0},{reward_type:'PIG_COIN',reward_amount:1.5}])assert.equal(server.present(invalid).reward_supported,false);
- const box={innerHTML:'',querySelectorAll:()=>[]},all={};
- const context=vm.createContext({document:{getElementById:id=>id==='messageList'?box:all},apiRequest:async()=>({messages:[message],unread:1}),updateMessageNewBadges:()=>{},escapeHtml:s=>String(s??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')});
+ const box={innerHTML:'',isConnected:true,querySelectorAll:()=>[],querySelector:()=>null,ownerDocument:{defaultView:{performance,addEventListener(){}},addEventListener(){}}},all={};
+ const context=vm.createContext({supportExpiry,document:{getElementById:id=>id==='messageList'?box:all},apiRequest:async()=>({messages:[message],unread:1}),updateMessageNewBadges:()=>{},escapeHtml:s=>String(s??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')});
  const start=app.indexOf('const MESSAGE_REWARD_META='),end=app.indexOf('// V1799: 2차 인증',start);
- vm.runInContext(app.slice(start,end)+';delete MESSAGE_REWARD_META.PIG_COIN;this.load=loadMessages;this.queue=claimableMessageRewards;',context);
+ // VM resolves the browser module URL to the same real module imported above.
+ const source=app.slice(start,end).replace(/await import\('\/js\/supporter-message-expiry-v1\.mjs\?v=[^']+'\)/,'supportExpiry');
+ vm.runInContext(source+';delete MESSAGE_REWARD_META.PIG_COIN;this.load=loadMessages;this.queue=claimableMessageRewards;',context);
  await context.load();assert.equal(all.disabled,false);assert.match(box.innerHTML,/피그코인/);assert.match(box.innerHTML,/data-claim-message="7"[^>]*>보상 받기/);
  assert.equal(context.queue([{...message,claimed_at:'done'}]).length,0);
  assert.equal(context.queue([{...message,reward_supported:false}]).length,0);
  message.reward_label='<img src=x onerror=alert(1)>';message.reward_icon='<svg onload=alert(1)>';
  await context.load();assert.doesNotMatch(box.innerHTML,/<img|<svg/);assert.match(box.innerHTML,/&lt;img/);
- assert.match(api,/const messages=\[\.\.\.recoveryRows,\.\.\.\(rows\.results\|\|\[\]\)\]\.map\(presentMessageReward\)/);
+ assert.match(api,/messages=\[\.\.\.recoveryRows,\.\.\.\(rows\.results\|\|\[\]\)\]\.map\(presentMessageReward\)\.map\(presentSupportMessage\)/);
 });
