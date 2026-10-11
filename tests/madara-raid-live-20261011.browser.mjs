@@ -71,9 +71,19 @@ try{
   await page.locator('#madara-createButton').click();await page.locator('#madara-entryDialog[open]').waitFor();assert.match(await page.locator('#madara-entryDialog h2').innerText(),/차감 없이/);
   await page.locator('#madara-confirmEntry').click();await page.locator('#madara-assembly').waitFor({state:'visible'});const roomId=(await page.locator('#madara-roomCode').innerText()).trim();
   for(const [uid,role] of [[2,'ASSAULT'],[3,'RESCUE']])assert.equal((await lich.command('join',{roomId,role},uid)).status,200);
+  let kickedContext,kickedPage;
+  if(width===1440){
+    kickedContext=await browser.newContext({viewport:{width:1100,height:850},serviceWorkers:'block'});
+    await kickedContext.addInitScript(user=>{localStorage.setItem('cnine_card_user_v10',JSON.stringify({...user,id:3,serverUserId:3,role:'USER'}));localStorage.setItem('cnine_card_api_token','local-qa-3');localStorage.setItem('cnine_battle_sound','OFF');localStorage.setItem('soop-lobby-bgm-muted-v1','1');},user);
+    await kickedContext.route('**/*',route=>new URL(route.request().url()).origin===origin?route.continue():route.abort());
+    kickedPage=await kickedContext.newPage();kickedPage.on('pageerror',e=>errors.push(e.stack));
+    await kickedPage.goto(origin+'/');await kickedPage.waitForFunction(()=>typeof renderShell==='function');await kickedPage.evaluate(()=>renderShell('battle'));
+    await kickedPage.locator('[data-pve-mode="raid"]').click();await kickedPage.locator('#madaraRaidTab').click();await kickedPage.locator('#madara-assembly').waitFor({state:'visible'});
+  }
   await page.locator('#madara-refreshRooms').click();await page.waitForFunction(()=>document.querySelectorAll('#madara-lobbyMembers li').length===3);
   await page.locator('#madara-lobbyMembers [data-kick="3"]').click();await page.locator('#madara-confirmKick').click();await page.waitForFunction(()=>document.querySelectorAll('#madara-lobbyMembers li').length===2);
   assert.equal((await lich.command('join',{roomId,role:'RESCUE'},3)).status,403);assert.equal((await lich.command('join',{roomId,role:'RESCUE'},6)).status,200);
+  if(kickedPage){await kickedPage.locator('#madara-createButton').waitFor({state:'visible'});await kickedPage.screenshot({path:path.join(out,'kicked-participant.png')});await kickedContext.close();}
   for(const uid of [2,6])assert.equal((await lich.command('ready',{roomId,ready:true},uid)).status,200);
   await page.screenshot({path:path.join(out,`lobby-${width}.png`),fullPage:true});
   await page.locator('#madara-readyButton').click();await page.locator('#madara-startButton:not([disabled])').waitFor();await page.locator('#madara-startButton').click();

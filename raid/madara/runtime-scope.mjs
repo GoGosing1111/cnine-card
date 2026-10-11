@@ -40,7 +40,7 @@ export function createMadaraScope(root){
       if(route==='session')value.token='live-'+value.account.id;
       if(value.state?.status==='CANCELLED')value.state.status='FAILED';
       return Response.json(value);
-    }catch(error){if(error.status)return Response.json({error:error.message,code:error.code,retryable:error.retryable},{status:error.status});throw error;}
+    }catch(error){if(error.status){const code=error.code==='MADARA_KICKED'?'KICKED':error.code;return Response.json({error:error.message,code,retryable:error.retryable},{status:error.status});}throw error;}
     finally{controllers.delete(controller);}
   }
   return {window,document,fetch,setTimeout,clearTimeout,requestAnimationFrame,destroy(){stopped=true;for(const c of controllers)c.abort();for(const t of timers)nativeWindow.clearTimeout(t);for(const f of frames)nativeWindow.cancelAnimationFrame(f);for(const [target,type,fn,options]of events)target.removeEventListener(type,fn,options);globals.MadaraBattle?.teardown();root.querySelectorAll('dialog[open]').forEach(dialog=>dialog.close());}};
