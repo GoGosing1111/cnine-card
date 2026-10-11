@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "registrationOpen": false,
+  "assets": [
+    {
+      "source": "C:\\Users\\User\\AppData\\Local\\Temp\\codex-clipboard-a42476df-cec3-4aba-8c79-fe2ab570b830.png",
+      "file": "renewal-plan-20261012.png",
+      "sha256": "827a40e168dc5fe9dda7b84fd69587b4dfcaf9c3313b7ac3e6d5e2e8cf9a74ac",
+      "status": "USER_PROVIDED_CONCEPT",
+      "modified": false
+    },
+    {
+      "source": "C:\\Users\\User\\AppData\\Local\\Temp\\codex-clipboard-7323e56d-0a98-4412-af13-4af93958ae77.png",
+      "file": "emblem-concepts-20261012.png",
+      "sha256": "322036e48e664ca54e87b60bdf2cfdabcd6788cbc4b89da7d69074dfd6f0c6ff",
+      "status": "USER_PROVIDED_CONCEPT",
+      "modified": false
+    }
+  ]
+}

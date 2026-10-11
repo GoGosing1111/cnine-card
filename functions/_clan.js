@@ -1,3 +1,4 @@
+import {readClanRetirementPlan,clanRetirementPublicState,finishClanRetirement,handleClanRetirementRoute,saveLegacyClanSettings} from './_clan_retirement.js';
 import {loadPetBattleSnapshot} from './_pet_account.js';
 import {clanReformEnabled,ensureClanReform,refreshClanExecutives,clanExecutive} from './_clan_governance.js';
 import {clanReformState,handleClanReform} from './_clan_war_reform.js';
@@ -397,6 +398,8 @@ function clanLateRegistrationSchedule(season,nowMs=Date.now()){
 async function createSeason(env,settings=CLAN_ADMIN_SETTINGS_DEFAULTS){
   const current=await latestSeason(env);if(current)return current;
   const last=await env.DB.prepare('SELECT * FROM clan_seasons ORDER BY season_no DESC LIMIT 1').first();
+  const retirement=await readClanRetirementPlan(env);
+  if(retirement&&Number(last?.id)===retirement.seasonId)return last;
   const planned=await openClanChampionsFollowup(env,last,settings);if(planned)return planned;
   const now=Date.now(),seasonNo=Number(last?.season_no||0)+1;
   const registrationEnd=now+Number(settings.registrationDays||7)*86400000,draftEnd=registrationEnd+CLAN_DRAFT_DURATION_MINUTES*60000,seasonEnd=draftEnd+Number(settings.seasonDays||28)*86400000;
@@ -666,7 +669,7 @@ async function startScheduledRedraft(env,season,settings){
 }
 
 // Registration/draft plus explicitly armed post-championship season transitions.
-export async function reconcileClanDraft(env){
+export async function reconcileClanDraft(env,{retire=finishClanRetirement}={}){
   const ready=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(CLAN_FOUNDATION_VERSION).first();
   if(!ready)return{phase:'NOT_READY',nextCheckAt:null};
   const settings=await clanSettings(env);if(settings.mode!=='ON')return{phase:settings.mode,nextCheckAt:null};
@@ -674,7 +677,9 @@ export async function reconcileClanDraft(env){
   let followupCheckAt=null;
   if(!season)season=await env.DB.prepare('SELECT * FROM clan_seasons ORDER BY season_no DESC LIMIT 1').first();
   if(['CHAMPIONS','COMPLETE'].includes(season?.phase)){
-    const plan=await readClanChampionsFollowup(env,season.id);
+    const retirement=await readClanRetirementPlan(env);
+    const retiring=retirement?.seasonId===Number(season.id);
+    const plan=retiring?retirement:await readClanChampionsFollowup(env,season.id);
     if(plan){
       if(season.phase==='CHAMPIONS'){
         followupCheckAt=await clanChampionsFollowupCheckAt(env,season.id);
@@ -684,7 +689,13 @@ export async function reconcileClanDraft(env){
           followupCheckAt=season.phase==='CHAMPIONS'?await clanChampionsFollowupCheckAt(env,season.id):iso(Date.now()+5000);
         }
       }
-      if(season.phase==='COMPLETE')season=await openClanChampionsFollowup(env,season,settings,plan);
+      if(season.phase==='COMPLETE'){
+        if(retiring){
+          const retired=await retire(env,season,settings,plan);
+          return{phase:retired?'RETIRED':'RETIREMENT_SETTLEMENT',seasonId:Number(season.id),nextCheckAt:retired?null:iso(Date.now()+60000)};
+        }
+        season=await openClanChampionsFollowup(env,season,settings,plan);
+      }
     }else if(season.phase==='COMPLETE')season=null;
   }
   if(season?.phase==='REDRAFT_WAIT')season=await startScheduledRedraft(env,season,settings);
@@ -700,7 +711,11 @@ async function advanceLifecycle(env,season,settings=CLAN_ADMIN_SETTINGS_DEFAULTS
   if(fresh.phase==='ACTIVE')fresh=await reconcileWarWindows(env,fresh,settings);
   if(fresh.phase==='SETTLEMENT')fresh=await settleSeason(env,fresh,settings);
   if(fresh.phase==='CHAMPIONS'){await advanceChampions(env,fresh,settings);fresh=await env.DB.prepare('SELECT * FROM clan_seasons WHERE id=?').bind(fresh.id).first()}
-  if(fresh.phase==='COMPLETE')fresh=await openClanChampionsFollowup(env,fresh,settings)||fresh;
+  if(fresh.phase==='COMPLETE'){
+    const retirement=await readClanRetirementPlan(env);
+    if(retirement?.seasonId===Number(fresh.id))await finishClanRetirement(env,fresh,settings,retirement);
+    else fresh=await openClanChampionsFollowup(env,fresh,settings)||fresh;
+  }
   return fresh;
 }
 
@@ -1033,6 +1048,8 @@ export async function reconcileClanCampSeason(env){
 }
 
 export async function handleClan({path,request,env,deps}){
+  const retirementResponse=await handleClanRetirementRoute({path,request,env,deps});
+  if(retirementResponse)return retirementResponse;
   if(path==='admin/clan-war/member-assignment'){
     const user=await deps.authenticate(request,env);
     if(!user)return deps.json({error:'로그인이 필요합니다.'},401);
@@ -1064,7 +1081,7 @@ export async function handleClan({path,request,env,deps}){
       if(next.rewardsEnabled&&next.mode!=='ON')return deps.json({error:'경제 보상은 클랜 공개 모드가 ON일 때만 활성화할 수 있습니다.'},400);
       if(next.rewardsEnabled&&Number(next.winnerCoin)+Number(next.runnerUpCoin)+Number(next.participationCoin)+Number(next.participationShards)<=0)return deps.json({error:'경제 보상을 활성화하려면 지급 수량을 하나 이상 설정하세요.'},400);
       await prepareClanParticipationSettings(env,settings,next);
-      await env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(CLAN_ADMIN_SETTINGS_KEY,JSON.stringify(next)).run();
+      if(!await saveLegacyClanSettings(env,CLAN_ADMIN_SETTINGS_KEY,JSON.stringify(next)))return deps.json({error:'클랜 운영이 종료되어 설정을 변경할 수 없습니다.',code:'CLAN_RETIREMENT'},409);
       const saved=await clanSettings(env);if(JSON.stringify(saved)!==JSON.stringify(next))return deps.json({error:'클랜전 설정 저장 후 검증값이 일치하지 않습니다. 운영 로그를 확인해주세요.',code:'CLAN_SETTINGS_VERIFY_FAILED'},500);
       if(deps.writeAdminLog)await deps.writeAdminLog(env,user,'CLAN_WAR_SETTINGS_UPDATE','APP_META',CLAN_ADMIN_SETTINGS_KEY,settings,saved);
       return deps.json(await clanAdminState(env,saved));
@@ -1085,7 +1102,7 @@ export async function handleClan({path,request,env,deps}){
   }
   if(path==='admin/clan-war/reset-official-season-one'&&request.method==='POST')return resetOfficialSeasonOne(env,deps,user,settings,await deps.readBody(request));
   if(path==='clan/admin/mode'&&request.method==='POST'){
-    if(!owner)return deps.json({error:'OWNER 권한이 필요합니다.'},403);const body=await deps.readBody(request),mode=String(body.mode||'').toUpperCase();if(!['OFF','TEST','ON'].includes(mode))return deps.json({error:'클랜 공개 상태는 OFF, TEST, ON 중 하나여야 합니다.'},400);const next={...settings,mode,rewardsEnabled:mode==='ON'?settings.rewardsEnabled:false};await env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(CLAN_ADMIN_SETTINGS_KEY,JSON.stringify(next)).run();if(deps.writeAdminLog)await deps.writeAdminLog(env,user,'CLAN_WAR_MODE_UPDATE','APP_META',CLAN_ADMIN_SETTINGS_KEY,{mode:settings.mode,rewardsEnabled:settings.rewardsEnabled},{mode,rewardsEnabled:next.rewardsEnabled});return deps.json({ok:true,mode,rewardsEnabled:next.rewardsEnabled});
+    if(!owner)return deps.json({error:'OWNER 권한이 필요합니다.'},403);const body=await deps.readBody(request),mode=String(body.mode||'').toUpperCase();if(!['OFF','TEST','ON'].includes(mode))return deps.json({error:'클랜 공개 상태는 OFF, TEST, ON 중 하나여야 합니다.'},400);const next={...settings,mode,rewardsEnabled:mode==='ON'?settings.rewardsEnabled:false};if(!await saveLegacyClanSettings(env,CLAN_ADMIN_SETTINGS_KEY,JSON.stringify(next)))return deps.json({error:'클랜 운영이 종료되어 설정을 변경할 수 없습니다.',code:'CLAN_RETIREMENT'},409);if(deps.writeAdminLog)await deps.writeAdminLog(env,user,'CLAN_WAR_MODE_UPDATE','APP_META',CLAN_ADMIN_SETTINGS_KEY,{mode:settings.mode,rewardsEnabled:settings.rewardsEnabled},{mode,rewardsEnabled:next.rewardsEnabled});return deps.json({ok:true,mode,rewardsEnabled:next.rewardsEnabled});
   }
   if(settings.mode==='OFF'||(settings.mode==='TEST'&&!owner))return deps.json({error:'클랜 시스템은 OWNER 사전 테스트 중입니다.',code:'CLAN_TEST_ONLY',mode:settings.mode},404);
   const reformOn=await clanReformEnabled(env);
@@ -1129,7 +1146,7 @@ export async function handleClan({path,request,env,deps}){
   if(path==='clan/admin/test-settle'&&request.method==='POST'){
     if(!owner||settings.mode!=='TEST')return deps.json({error:'TEST 상태의 OWNER만 테스트 시즌을 정산할 수 있습니다.'},403);if(season.phase!=='ACTIVE'&&season.phase!=='SETTLEMENT')return deps.json({error:'진행 중인 테스트 클랜전만 정산할 수 있습니다.'},409);if(season.phase==='ACTIVE'){await env.DB.prepare("UPDATE clan_seasons SET phase='SETTLEMENT',updated_at=CURRENT_TIMESTAMP WHERE id=? AND phase='ACTIVE'").bind(season.id).run();season=await env.DB.prepare('SELECT * FROM clan_seasons WHERE id=?').bind(season.id).first()}season=await settleSeason(env,season,settings);return deps.json({ok:true,state:await overview(env,user,season,deps,settings)});
   }
-  if(path==='clan/overview'&&request.method==='GET')return deps.json({...await overview(env,user,season,deps,settings),mode:settings.mode});
+  if(path==='clan/overview'&&request.method==='GET')return deps.json({...await overview(env,user,season,deps,settings),mode:settings.mode,organizationPreparation:await clanRetirementPublicState(env)});
   if(path==='clan/register'&&request.method==='POST')return register(env,deps,user,season,await deps.readBody(request),settings);
   if(path==='clan/identity'&&request.method==='POST')return updateIdentity(env,deps,user,season,await deps.readBody(request),settings);
   if(path==='clan/draft/pick'&&request.method==='POST'){

@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "mode": "built-in image_gen",
+  "intent": "new environment for organization preparation UI",
+  "source": "C:/Users/User/.codex/generated_images/01a12af2-b927-7d03-b6c3-0317965b4477/exec-6327d59d-69ed-4771-a294-f7d205505343.png",
+  "file": "city-night-v1.png",
+  "prompt": "Use case: stylized-concept. Asset type: premium dark urban strategy RPG organization headquarters screen background, wide landscape 3:2. Create a highly polished cinematic elevated view of a fictional Korean riverside city at blue hour becoming night. A dense old residential neighborhood, warehouse alleys and an industrial dock in the foreground, a winding river and warm-lit bridge in the middle, luxurious modern residential towers and a glowing downtown skyline behind. Rich realistic game environment matte painting, restrained navy-black shadows, antique gold window lights and subtle wet road reflections, thin atmospheric mist, excellent architectural detail and spatial depth, mature organized faction rivalry atmosphere. The upper left quarter must be naturally dark with atmospheric sky and sparse silhouettes, suitable for crisp HTML Korean title text overlaid by the app. Strong recognizable city on the right and lower half, a beautifully composed large navigable world feel. No characters, no real logos, no text, no letters, no banners, no interface, no gold frame, no icons, no collage. This is one coherent beautiful game environment, not a poster. Use the dark city / gold-light art direction visible in the user's organization reform concept as inspiration without copying its existing text or layout.",
+  "sourceSha256": "25e19127f99ff162cce7b8f35e6562ca757c78e191f568b408add6c8e4294fd4",
+  "runtime": {
+    "file": "city-night-v1.webp",
+    "quality": 90,
+    "sha256": "306f402fd68fa13bfc795cb45d5ae814a5932b70728a54c3c6488edbde80a80b"
+  }
+}

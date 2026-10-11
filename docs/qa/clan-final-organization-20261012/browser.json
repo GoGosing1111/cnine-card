@@ -1,0 +1,26 @@
+[
+  {
+    "name": "desktop",
+    "width": 1440,
+    "height": 1000,
+    "overflow": false,
+    "names": 15,
+    "disabled": true,
+    "images": true,
+    "date": "FINAL CHAPTER마지막 챔피언스리그결승·우승 보상 정산 후 클랜 운영 종료01 · 2·3위전10월 12일 21:0002 · 결승10월 12일 23:0003 · 종료 예정10월 13일 01:00대진 확인 ↗한국 시간 기준 · 진행 중인 전투와 정산 상황에 따라 종료 시각이 달라질 수 있습니다.",
+    "errors": [],
+    "retiredArchiveNavigation": true
+  },
+  {
+    "name": "mobile",
+    "width": 390,
+    "height": 844,
+    "overflow": false,
+    "names": 15,
+    "disabled": true,
+    "images": true,
+    "date": "FINAL CHAPTER마지막 챔피언스리그결승·우승 보상 정산 후 클랜 운영 종료01 · 2·3위전10월 12일 21:0002 · 결승10월 12일 23:0003 · 종료 예정10월 13일 01:00대진 확인 ↗한국 시간 기준 · 진행 중인 전투와 정산 상황에 따라 종료 시각이 달라질 수 있습니다.",
+    "errors": [],
+    "retiredArchiveNavigation": true
+  }
+]

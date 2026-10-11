@@ -38,7 +38,7 @@ export async function handlePlayerCard({ path, request, env, deps, now = Date.no
       env.DB.prepare(`SELECT s.id,s.season_no,o.name,x.completed_at ${CLAN_HONORS} ORDER BY s.season_no DESC,s.id DESC LIMIT 12`).bind(id).all(),
       env.DB.prepare(`SELECT o.id,o.name,o.mark_key,m.member_role,s.season_no FROM clan_members m
         JOIN clan_seasons s ON s.id=m.season_id JOIN clan_organizations o ON o.id=m.clan_id
-        WHERE m.user_id=? AND s.id=(SELECT id FROM clan_seasons ORDER BY season_no DESC,id DESC LIMIT 1) AND o.is_active=1`).bind(id).first(),
+        WHERE m.user_id=? AND s.id=(SELECT id FROM clan_seasons ORDER BY season_no DESC,id DESC LIMIT 1) AND o.is_active=1 AND NOT EXISTS(SELECT 1 FROM app_meta WHERE key='clan_retirement_20261012_v1:completed')`).bind(id).first(),
       env.DB.prepare(`SELECT a.name,a.lobby_image FROM avatar_user_loadout_v1 l
         JOIN avatar_user_ownership_v1 o ON o.user_id=l.user_id AND o.avatar_code=l.avatar_code AND (o.expires_at IS NULL OR o.expires_at>CURRENT_TIMESTAMP)
         JOIN avatar_catalog_v1 a ON a.code=l.avatar_code AND a.is_active=1 AND a.is_public=1 WHERE l.user_id=?`).bind(id).first(),
