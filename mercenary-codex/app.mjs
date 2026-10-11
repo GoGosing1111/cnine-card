@@ -8,7 +8,9 @@ const filters={q:params.get('q')||'',position:params.get('position')||'',rank:pa
 let catalog,account=null,accountError='',selected=location.hash.slice(1),media='art',view=['all','limited'].includes(params.get('view'))?params.get('view'):'owned',favorites=new Set(),loading=false,loadoutBusy=false,lastCheck=0,toastTimer;
 try{const saved=JSON.parse(localStorage.getItem(storageKey)||'[]');if(Array.isArray(saved))favorites=new Set(saved);}catch{}
 
-const current=()=>catalog?.cards.find(c=>c.code===selected);
+const catalogCards=()=>[...(catalog?.cards||[]),...(account?.cards||[]).filter(c=>c.exclusiveGrant&&!catalog?.cards.some(a=>a.code===c.code))];
+const countedLimited=c=>c.edition==='LIMITED'&&!c.excludedFromLimitedCount;
+const current=()=>catalogCards().find(c=>c.code===selected);
 const ownedCard=code=>account?.cards?.find(c=>c.code===code)||null;
 let loadoutMode=params.get('mode')==='PVP'?'PVP':'PVE';
 const activeLoadout=(mode=loadoutMode)=>account?.loadouts?.[mode]||account?.loadout||{mercenaryCode:null,revision:0};
@@ -31,8 +33,8 @@ function controls(){
 function renderAccountSummary(){
   $('openLeveling').hidden=!account?.leveling?.enabled;
   const owned=account?.cards?.length||0,active=ownedCard(activeCode());
-  $('ownedCount').textContent=account?String(owned):'—';$('totalCount').textContent=catalog?String(catalog.cards.length):'—';
-  $('limitedCount').textContent=catalog?String(catalog.cards.filter(c=>c.edition==='LIMITED').length):'—';
+  $('ownedCount').textContent=account?String(owned):'—';$('totalCount').textContent=catalog?String(catalogCards().length):'—';
+  $('limitedCount').textContent=catalog?String(catalogCards().filter(countedLimited).length):'—';
   $('loadoutName').textContent=account?`${loadoutMode} · ${active?.name||activeCode()||'미편성'}`:'—';
   for(const button of document.querySelectorAll('[data-loadout-mode]')){const mode=button.dataset.loadoutMode,code=activeLoadout(mode).mercenaryCode;button.setAttribute('aria-pressed',String(mode===loadoutMode));button.disabled=loadoutBusy;$(`loadout${mode}`).textContent=account?(ownedCard(code)?.name||code||'미편성'):'확인 중';}
   $('accountStatusTitle').textContent=account?`내 용병 ${owned}명`:accountError?'내 용병 연결 필요':'내 용병 확인 중';
@@ -44,7 +46,7 @@ function renderAccountSummary(){
 }
 function visibleCards(){
   if(!catalog)return [];
-  const source=view==='owned'?catalog.cards.filter(c=>ownedCard(c.code)):view==='limited'?catalog.cards.filter(c=>c.edition==='LIMITED'):catalog.cards;
+  const source=view==='owned'?catalogCards().filter(c=>ownedCard(c.code)):view==='limited'?catalogCards().filter(countedLimited):catalogCards();
   return filterCatalog(source,filters,favorites);
 }
 function emptyListHtml(){
@@ -55,7 +57,7 @@ function emptyListHtml(){
 }
 function renderList(){
   if(!catalog)return;
-  const rows=visibleCards(),list=$('cardGrid'),denominator=view==='owned'?(account?.cards?.length||0):view==='limited'?catalog.cards.filter(c=>c.edition==='LIMITED').length:catalog.cards.length;
+  const rows=visibleCards(),list=$('cardGrid'),denominator=view==='owned'?(account?.cards?.length||0):view==='limited'?catalogCards().filter(countedLimited).length:catalogCards().length;
   list.setAttribute('aria-busy','false');$('resultCount').textContent=`${rows.length} / ${denominator}`;
   list.innerHTML=rows.length?rows.map(c=>{const owned=ownedCard(c.code),active=activeCode()===c.code;return `<li><button class="roster-row" type="button" data-code="${c.code}" aria-pressed="${c.code===selected}" aria-label="${esc(c.name)} ${esc(c.rank||'미정')} ${positionLabel(c)} 선택"><span class="row-portrait"><img src="${c.artOnly?asset(c.sourceArt):thumb(c.code)}" alt="" loading="lazy" width="48" height="72"></span><span class="row-identity"><small>${c.code} <i>${positionLabel(c)} · ${esc(catalog.roles[c.role].label)}</i></small><b>${esc(c.name)}</b>${c.title?`<em>${esc(c.title)}</em>`:""}${owned?`<span class="ownership-meta">Lv.${fmt(owned.level)} · 보유 ${fmt(Number(owned.duplicates||0)+1)}${active?' · 편성 중':''}</span>`:''}</span><span class="rank-chip" data-rank="${c.rank||''}">${c.rank||'—'}</span>${active?'<span class="row-active" aria-label="현재 편성">편성</span>':favorites.has(c.code)?'<span class="row-favorite" aria-label="즐겨찾기">★</span>':''}</button></li>`;}).join(''):emptyListHtml();
 }
@@ -78,7 +80,7 @@ function renderSelection(){
   if(c.artOnly)$('inspection').querySelector('.combat-panel').innerHTML=`<div class="panel-heading"><h2>신규 원화 공개</h2><button type="button" class="favorite-button" data-favorite aria-pressed="${favorites.has(c.code)}" aria-label="${esc(c.name)} 즐겨찾기 ${favorites.has(c.code)?'해제':'추가'}">${favorites.has(c.code)?'★':'☆'}</button></div>${deploymentHtml(c)}<div class="power-summary"><span>용병 등급<small>원화 선공개</small></span><strong>${esc(c.rank)}</strong></div><dl class="role-ledger"><div><dt>이름</dt><dd>${esc(c.name)}</dd></div><div><dt>무기</dt><dd>${esc(c.weapon)}</dd></div></dl><div class="skill-empty"><b>출시 예정</b><p>원화를 먼저 만나보세요.<br>획득 방법과 전투 스킬은 추후 공개됩니다.</p></div>`;
   if(c.edition==='LIMITED'){
     $('inspection').classList.add('limited-inspection');
-    $('inspection').querySelector('.combat-panel').innerHTML=`<div class="panel-heading"><h2>리미티드 컬렉션</h2><button type="button" class="favorite-button" data-favorite aria-pressed="${favorites.has(c.code)}" aria-label="${esc(c.name)} 즐겨찾기">${favorites.has(c.code)?'★':'☆'}</button></div><div class="limited-edition-mark"><span>LIMITED EDITION</span><h3>${esc(c.name)}</h3>${c.title?`<p>${esc(c.title)}</p>`:""}</div>${deploymentHtml(c)}<dl class="limited-record"><div><dt>용병 등급</dt><dd>${esc(c.rank||'미정')}</dd></div><div><dt>공개 리소스</dt><dd>${c.battleSprite?'원화 · 전투 SD':'카드 원화'}</dd></div><div><dt>전투 편성</dt><dd>${c.deploymentEnabled?'보유 시 가능':'준비 중'}</dd></div></dl><div class="skill-empty"><b>${c.deploymentEnabled?'리미티드 전투 편성':'리미티드 선공개'}</b><p>${c.deploymentEnabled?'보유한 리미티드 용병을 PVE와 PVP에 각각 편성할 수 있습니다.':'전투 편성을 준비 중입니다.'}<br>리미티드 용병팩 출시는 추후 안내됩니다.</p></div>`;
+    $('inspection').querySelector('.combat-panel').innerHTML=`<div class="panel-heading"><h2>리미티드 컬렉션</h2><button type="button" class="favorite-button" data-favorite aria-pressed="${favorites.has(c.code)}" aria-label="${esc(c.name)} 즐겨찾기">${favorites.has(c.code)?'★':'☆'}</button></div><div class="limited-edition-mark"><span>LIMITED EDITION</span><h3>${esc(c.name)}</h3>${c.title?`<p>${esc(c.title)}</p>`:""}</div>${deploymentHtml(c)}<dl class="limited-record"><div><dt>용병 등급</dt><dd>${esc(c.rank||'미정')}</dd></div><div><dt>공개 리소스</dt><dd>${c.battleSprite?'원화 · 전투 SD':'카드 원화'}</dd></div><div><dt>전투 편성</dt><dd>${c.deploymentEnabled?'보유 시 가능':'준비 중'}</dd></div></dl><div class="skill-empty"><b>${c.deploymentEnabled?'리미티드 전투 편성':'리미티드 선공개'}</b><p>${c.deploymentEnabled?'보유한 리미티드 용병을 PVE와 PVP에 각각 편성할 수 있습니다.':'전투 편성을 준비 중입니다.'}<br>${c.exclusiveGrant?'지정 계정 전용 지급 · 일반 획득 불가 · 리미티드 수량 제외':'리미티드 용병팩 출시는 추후 안내됩니다.'}</p></div>`;
     if(c.combatLinkDescription)$('inspection').querySelector('.combat-panel').insertAdjacentHTML('beforeend',`<p class="balance-note limited-combat-note"><b>전투 성능 · 행동 주기</b><br>${esc(c.combatLinkDescription)}</p>`);
   }else $('inspection').classList.remove('limited-inspection');
   renderMedia();
@@ -88,7 +90,7 @@ function renderMedia(){const c=current();if(!c)return;const art=media==='art';
   $('portraitDisplay').setAttribute('role','tabpanel');$('portraitDisplay').setAttribute('aria-labelledby',art?'artTab':'sdTab');
   document.querySelectorAll('[data-media]').forEach(b=>{b.setAttribute('aria-selected',String(b.dataset.media===media));b.tabIndex=b.dataset.media===media?0:-1;});
 }
-function choose(code,{scroll=false}={}){if(!catalog?.cards.some(c=>c.code===code))return;selected=code;media='art';urlState();renderList();renderSelection();if(scroll&&matchMedia('(max-width: 700px)').matches)$('inspection').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});}
+function choose(code,{scroll=false}={}){if(!catalogCards().some(c=>c.code===code))return;selected=code;media='art';urlState();renderList();renderSelection();if(scroll&&matchMedia('(max-width: 700px)').matches)$('inspection').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});}
 function setView(next,{scroll=false}={}){if(!['owned','all','limited'].includes(next))return;if(view===next){if(scroll)$('catalogControls').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});return;}view=next;if(next==='limited')filters.position='';controls();const rows=visibleCards();if(!rows.some(c=>c.code===selected))selected=next==='owned'?(activeCode()&&ownedCard(activeCode())?activeCode():rows[0]?.code||''):(rows[0]?.code||'');urlState();renderAccountSummary();renderList();renderSelection();if(scroll)$('catalogControls').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});}
 function setLoadoutMode(mode){if(loadoutBusy||!['PVE','PVP'].includes(mode))return;loadoutMode=mode;urlState();renderAccountSummary();renderList();renderSelection();}
 function updateFilters(){urlState();controls();renderList();}

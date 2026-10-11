@@ -2,17 +2,17 @@
   "version": 1,
   "date": "2026-10-12",
   "conceptId": "golden-dragon-swordsman",
-  "name": "황금 용 검사",
-  "nameStatus": "DESCRIPTIVE_PREVIEW_LABEL_ONLY",
+  "name": "천룡검황 진무",
+  "nameStatus": "USER_CONFIRMED",
   "rank": "SSS",
   "edition": "LIMITED",
-  "code": "V-993",
-  "codeStatus": "PREVIEW_LOCAL_ONLY",
-  "runtimeEnabled": false,
-  "status": "USER_REVIEW_PENDING",
+  "code": "V-989",
+  "codeStatus": "REGISTERED_EXCLUSIVE",
+  "runtimeEnabled": true,
+  "status": "USER_LIVE_CONNECTION_AUTHORIZED",
   "sourceArt": "preview/mercenary-limited-golden-dragon-swordsman-20261012-v1/assets/golden-dragon-swordsman-sss-limited-source-art-v2-natural-hair.png",
   "sourceArtSha256": "263725DD2B2B568CF5091B864BEA537161F6D7A4D3123DB0E9A2A0D040CFF21B",
-  "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+  "battleSpriteStatus": "LIVE_CONNECTED",
   "motion": {
     "idle": {
       "atlas": "assets/atlases/idle.png",
@@ -2038,5 +2038,20 @@
     "port": 8876,
     "recording": "qa/full-showcase.webp",
     "recordingReport": "qa/recording-all.json"
+  },
+  "liveRegistration": {
+    "date": "2026-10-12",
+    "code": "V-989",
+    "ownerUserId": 1,
+    "acquisitionEnabled": false,
+    "excludedFromLimitedCount": true,
+    "policy": "shared/mercenary-jinmu-v1.mjs",
+    "runtime": "preview/project-v-v3/source/battle/JinmuCombatPlayback.js",
+    "authorization": [
+      "천룡검황 진무로 하고 유저는 습득불가, 핑크빛유두만 지급해놔 리미티드 갯수에 반영하지말고",
+      "라이브연결",
+      "모든 용병중에 최상위,최고존엄,공격속도 동일",
+      "15%이상 쌔게 만들어"
+    ]
   }
 }

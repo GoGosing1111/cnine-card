@@ -20,5 +20,5 @@ test('124 active frames are native-alpha derivatives with distinct real frame pi
   assert.equal(new Set(spec.frames.map(f=>f.sha256)).size,spec.frameCount);total+=spec.frameCount;
   for(const f of spec.frames){const p=await fs.readFile(new URL(f.file,root));assert.equal(createHash('sha256').update(p).digest('hex').toUpperCase(),f.sha256);}
  }
- assert.equal(total,124);assert.equal(manifest.runtimeEnabled,false);assert.equal(manifest.sourceArtSha256,'263725DD2B2B568CF5091B864BEA537161F6D7A4D3123DB0E9A2A0D040CFF21B');assert.notEqual(manifest.battleSprite,manifest.sourceArt);
+ assert.equal(total,124);assert.equal(manifest.runtimeEnabled,true);assert.equal(manifest.sourceArtSha256,'263725DD2B2B568CF5091B864BEA537161F6D7A4D3123DB0E9A2A0D040CFF21B');assert.notEqual(manifest.battleSprite,manifest.sourceArt);
 });

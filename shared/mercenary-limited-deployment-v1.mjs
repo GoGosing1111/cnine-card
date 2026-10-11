@@ -3,10 +3,13 @@ import {SS_LIMITED_COMBAT,SS_LIMITED_BALANCE_VERSION} from './mercenary-ss-limit
 import {VALTER_CODE,VALTER_COMBAT,VALTER_AREA_SKILL} from './mercenary-valter-v1.mjs';
 import {HELIOS_CODE,HELIOS_COMBAT,HELIOS_AREA_SKILL} from './mercenary-helios-v1.mjs';
 
+import {JINMU_CODE,jinmuDeploymentSnapshot} from './mercenary-jinmu-v1.mjs';
+
 // User release: 2026-10-09. Ownership is still checked by the account service.
 // Artwork provenance, acquisition and pack release remain separate contracts.
 export const LIMITED_DEPLOYMENT_VERSION='20261012-helios-deployment-v1';
 export function limitedDeploymentSnapshot(code){
+ if(code===JINMU_CODE)return jinmuDeploymentSnapshot();
  const art=LIMITED_MERCENARIES.find(c=>c.code===code);if(!art)return null;
  const profile=SS_LIMITED_COMBAT[code],valter=code===VALTER_CODE,helios=code===HELIOS_CODE;
  if(!valter&&!helios&&!profile)return null;

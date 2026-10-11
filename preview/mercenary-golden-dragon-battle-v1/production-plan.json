@@ -3,7 +3,7 @@
   "name": null,
   "rank": "SSS",
   "edition": "LIMITED",
-  "status": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
+  "status": "USER_LIVE_CONNECTION_AUTHORIZED",
   "sourceArt": "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-limited-golden-dragon-swordsman-20261012-v1/assets/golden-dragon-swordsman-sss-limited-source-art-v2-natural-hair.png",
   "basis": "User requested battle derivatives of hair-refined V2",
   "native_generated_frames": 126,
@@ -37,5 +37,6 @@
       "request": "캐릭터 아우라 투명화 하지말고 진하게 화려하게 해",
       "result": "Dragon and aura sprites use alpha=1, native RGBA edges, no translucent crossfading. Front/back layering keeps the character visible."
     }
-  ]
+  ],
+  "livePolicy": "shared/mercenary-jinmu-v1.mjs"
 }

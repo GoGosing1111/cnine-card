@@ -1,3 +1,4 @@
+throw Error('Live Jinmu assets are frozen. Preserve approved pixels and manifest; use a new version for any future revision.');
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';

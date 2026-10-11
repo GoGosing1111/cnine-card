@@ -1,7 +1,7 @@
 // SS is the collection/growth rank. These seven limited fighters compete in
 // the ordinary SSS combat tier; release/acquisition flags remain separate.
 export const SS_LIMITED_BALANCE_VERSION=4;
-export const SS_LIMITED_TARGET=Object.freeze({minWinRate:.85,maxWinRate:.925,referenceTier:'SSS',excludes:Object.freeze(['V-996','V-999']),matchups:Object.freeze({
+export const SS_LIMITED_TARGET=Object.freeze({minWinRate:.85,maxWinRate:.925,referenceTier:'SSS',excludes:Object.freeze(['V-996','V-999','V-989']),matchups:Object.freeze({
  'V-021':Object.freeze({min:1,max:1}), 'V-046':Object.freeze({min:1,max:1}),
  'V-049':Object.freeze({min:.70,max:.85}), 'V-055':Object.freeze({min:.70,max:.85})
 })});

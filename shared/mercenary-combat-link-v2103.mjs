@@ -1,5 +1,6 @@
 import {applyMercenaryLevelStats} from './mercenary-level-v1.mjs';
 import {isValter,VALTER_COMBAT} from './mercenary-valter-v1.mjs';
+import {isJinmu,JINMU_COMBAT} from './mercenary-jinmu-v1.mjs';
 import {isHelios,HELIOS_COMBAT} from './mercenary-helios-v1.mjs';
 import {mercenaryCombatRank,ssLimitedProfile,ssLimitedPvpLinkScale} from './mercenary-ss-limited-v1.mjs';
 import {rearPveCurrentPolicy} from './mercenary-ss-rear-pve-v1.mjs';
@@ -55,7 +56,7 @@ export function applyMercenaryCombatLink(teams,{regularCardsPerOwner=5}={}){
   const averageAttack=cards.reduce((sum,c)=>sum+c.attack,0)/cards.length,averageHp=cards.reduce((sum,c)=>sum+c.maxHp,0)/cards.length;
   if(!Number.isFinite(averageAttack)||!Number.isFinite(averageHp)||averageAttack<=0||averageHp<=0)continue;
   for(const m of team.filter(c=>c.isMercenary&&c.statMode==='RANK_FIXED')){
-   const rule=isValter(m)?VALTER_COMBAT.link:isHelios(m)?HELIOS_COMBAT.link:ssLimitedProfile(m)?.link||MERCENARY_COMBAT_LINK.ranks[m.rank];if(!rule||m.alive===false||m.hp<=0||m.mercenaryLink?.version===MERCENARY_COMBAT_LINK.version)continue;
+   const rule=isValter(m)?VALTER_COMBAT.link:isHelios(m)?HELIOS_COMBAT.link:isJinmu(m)?JINMU_COMBAT.link:ssLimitedProfile(m)?.link||MERCENARY_COMBAT_LINK.ranks[m.rank];if(!rule||m.alive===false||m.hp<=0||m.mercenaryLink?.version===MERCENARY_COMBAT_LINK.version)continue;
    const healthRatio=Math.max(0,Math.min(1,m.hp/m.maxHp)),tierGuard=mercenaryPvpTierGuard(m,teams),tierOffense=1+(tierGuard-1)/MERCENARY_COMBAT_LINK.pvpTierGuardPerStep;
    const matchupScale=ssLimitedPvpLinkScale(m,teams);
    let attackFloor=Math.round(averageAttack*rule.attackPercent/100*tierOffense*matchupScale);
