@@ -1,0 +1,56 @@
+{
+  "version": 2,
+  "createdAt": "2026-10-11",
+  "generator": "Built-in image_gen",
+  "purpose": "Illustrated territory map, two faction citadels and neutral sanctuary",
+  "assets": [
+    {
+      "name": "three-fronts-map.webp",
+      "source": "C:/Users/User/.codex/generated_images/01a12068-4d0f-75a3-909e-95671007c1fd/exec-2c6f57a5-9abc-42df-b059-e219b1075c46.png",
+      "prompt": "Use case: stylized-concept. Asset type: production background artwork for a Korean fantasy strategy game's interactive territory-war map. Create a beautiful richly painted high-angle isometric battlefield landscape, wide 4:3 composition, approximately 2048x1536. A continuous miniature world with three readable east-west corridors: snow dusted slate mountains and a stone viaduct in the north, a broad ancient stone crossroads and worn cobbled road through the center, and emerald pine woodland with a winding turquoise river and stone crossing in the south. The western land is cool blue-green and silver, the eastern land charcoal with muted burgundy and warm amber embers, coherent subtle faction ambience, not a hard split. Two open plateaus at 8% and 92% horizontal position, halfway down the image, will receive fortress sprites in the UI, keep those areas uncluttered. Small open clearings at (28%,20%),(72%,20%),(28%,50%),(50%,50%),(72%,50%),(28%,80%),(72%,80%) will receive interactive nodes; do not draw icons there. Premium hand-painted high fantasy world-map illustration, elegant stylized realistic material, lush depth and atmospheric mist, controlled detail, cinematic moonlit teal / slate with warm accents. Clear readable terrain, medium-dark values, not almost black. Fill the canvas edge to edge, no horizon, no sky, no decorative border. Absolutely no text, no labels, no numbers, no logos, no UI, no route lines, no flags, no unit markers, no giant castles; the UI will provide those. Not a photoreal ruined modern city, not a monochrome image, not cartoon low-poly.",
+      "transparent": false,
+      "sha256": "5555398e87a8aefc983649b702c2b7677ac226b600130d92c1c39f5198205e78",
+      "sourceSha256": "5adc31a76ecc80d2a4f177b076e629aaacf17ef7783d8060db9c6f36dd6335b2",
+      "width": 1448,
+      "height": 1086,
+      "bytes": 665336,
+      "hasAlpha": false
+    },
+    {
+      "name": "guardian-citadel.webp",
+      "source": "C:/Users/User/.codex/generated_images/01a12068-4d0f-75a3-909e-95671007c1fd/exec-4c93aeaa-258d-4986-95d6-e766c42d21b2.png",
+      "prompt": "Use case: stylized-concept. Asset type: transparent game map stronghold sprite, also used as a faction identity illustration. Primary request: a beautiful compact silver-and-ivory GUARDIAN citadel, three elegant defensive towers around a single central keep, luminous cyan crystal spear on the main tower, deep teal roofs, small flowing royal blue banners, strong shield-and-wing architectural motif, cool silver stone with tasteful gold detailing. 3/4 isometric view from above, coherent miniature scale, premium hand-painted semi-real fantasy strategy game illustration, crisp readable silhouette and beautifully painted materials. Entire fortress and its small oval stone foundation fully visible, centered, occupies about 82 percent of a square canvas. Soft moonlight from upper left, small cyan windows, no giant particles. Truly transparent background with preserved alpha. No landscape, no scene rectangle, no ground plane beyond compact foundation, no UI, no frame, no letters, no words, no heraldic text, no watermark, no realistic war weapons, not childish, not low poly. Designed to remain immediately recognizable at 70 pixels wide.",
+      "transparent": true,
+      "sha256": "1caebdd0818a8916979363f72e1a6891a13f87f91463f6b4057fb4fd2053f696",
+      "sourceSha256": "c6f4f99f57a6172018b0552d0fcf88d61dd35c1d3008829282dcfcaa3aa001f5",
+      "width": 512,
+      "height": 512,
+      "bytes": 99820,
+      "hasAlpha": true
+    },
+    {
+      "name": "purifier-citadel.webp",
+      "source": "C:/Users/User/.codex/generated_images/01a12068-4d0f-75a3-909e-95671007c1fd/exec-516a6c97-8237-4001-8b21-8d1d90c07a7e.png",
+      "prompt": "Use case: stylized-concept. Asset type: transparent game map stronghold sprite, also used as a faction identity illustration. Primary request: a beautiful compact PURIFICATION citadel, a graceful central spired keep with two curved wing-like outer towers, warm rose-gold metal and dark garnet stone, crimson roofs, radiant rose-pink crystal flame on the central spire, small flowing burgundy banners, subtle phoenix-and-flame architectural motif. Three main towers, deliberate elegant strong silhouette, not an evil monster building. 3/4 isometric view from above, coherent miniature scale, premium hand-painted semi-real fantasy strategy game illustration, crisp readable silhouette and beautifully painted materials. Entire fortress and its small oval stone foundation fully visible, centered, occupies about 82 percent of a square canvas. Soft moonlight from upper left with warm ember windows, no giant particles. Truly transparent background with preserved alpha. No landscape, no scene rectangle, no ground plane beyond compact foundation, no UI, no frame, no letters, no words, no heraldic text, no watermark, no realistic war weapons, not childish, not low poly. Designed to remain immediately recognizable at 70 pixels wide, pairing with a silver/blue guardian castle.",
+      "transparent": true,
+      "sha256": "5ab89c5a9760eaf6ce9abfa491079454ba8e45bd74b34d528d5c61219f4a7ec6",
+      "sourceSha256": "aeabe3be6bd49dc1d3511bcfebdf3975657720cea5ef0bc5402ac2f55015915d",
+      "width": 512,
+      "height": 512,
+      "bytes": 93482,
+      "hasAlpha": true
+    },
+    {
+      "name": "crossroads-sanctuary.webp",
+      "source": "C:/Users/User/.codex/generated_images/01a12068-4d0f-75a3-909e-95671007c1fd/exec-0ac578d6-afe9-40e9-afa3-8a0318219269.png",
+      "prompt": "Use case: stylized-concept. Asset type: transparent neutral capture-point sprite for a premium hand-painted fantasy strategy game map. A compact ancient crossroads sanctuary on a low circular stone foundation, one elegant ivory stone obelisk with a soft luminous pale-gold crystal at its heart, three small broken stone pillars and a short entrance staircase, weathered cream stone, subtle gold trim, tiny moss and warm light. 3/4 isometric view from above, coherent miniature scale, beautifully painted material and dimensional shading, crisp readable silhouette, restrained realistic fantasy illustration matching an illustrated silver-blue castle and rose-gold castle. Entire structure and circular foundation fully visible with comfortable transparent margins, centered on a square canvas, about 78% coverage, small map node art to read at 70 pixels. Truly transparent background, no landscape beyond compact foundation, no scene rectangle, no text, no numbers, no border, no symbols resembling UI, no watermark. Not a flat vector icon, not low poly, no huge effects or floating shards.",
+      "transparent": true,
+      "sha256": "d3cf54da272e5a25414588bebaa52bc4d58002916c8497749e489dd8aa14011c",
+      "sourceSha256": "36b62955f71518c8d3eb598b0e3a0573419d5e5416ef8a7db8c64583e1e6621f",
+      "width": 512,
+      "height": 512,
+      "bytes": 66100,
+      "hasAlpha": true
+    }
+  ]
+}
