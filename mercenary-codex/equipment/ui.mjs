@@ -15,3 +15,18 @@ export const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<
 export const fmt=value=>new Intl.NumberFormat('ko-KR').format(Number(value)||0);
 export const image=value=>'/'+String(value||'').replace(/^\/+/, '');
 export const itemKey=item=>item.instanceId||item.code;
+
+// Engraved equipment emblems for empty sockets; separate from the small toolbar icons.
+export function slotEmblem(part){
+  const id='socket-'+part,steel=`url(#${id}-steel)`,gold=`url(#${id}-gold)`;
+  const shapes={
+    WEAPON:`<g transform="rotate(34 32 32)"><path d="M32 3 39 13 36 40H28L25 13Z" fill="${steel}"/><path d="M32 3V40H28L25 13Z" fill="#eff5f5" opacity=".32" stroke="none"/><path d="M32 10V34" stroke="#f1eee1"/><path d="m19 39 5-3 6 3h4l6-3 5 3-2 5-9-2h-4l-9 2Z" fill="${gold}" stroke="#c1aa78"/><path d="M29 43h6v12h-6Z" fill="#263240"/><path d="m29 46 6 2m-6 1 6 2" stroke="#9d9177"/><path d="m32 54 5 4-5 4-5-4Z" fill="${gold}" stroke="#c1aa78"/></g>`,
+    TOP:`<path d="m21 9 7 4h8l7-4 10 8 4 9-11 4-2 21-12 7-12-7-2-21-11-4 4-9Z" fill="${steel}"/><path d="m21 10-3 18-10-4 4-8Zm22 0 3 18 10-4-4-8Z" fill="${gold}" stroke="#ac9c7a"/><path d="m23 18 9 6 9-6 2 29-11 8-11-8Z" fill="${steel}"/><path d="M32 24v27m-9-21 9 5 9-5m-19 10 10 5 10-5" fill="none" stroke="#e7e9e3" opacity=".48"/><path d="m22 48 10 5 10-5v4l-10 6-10-6Z" fill="${gold}" stroke="#aa9874"/>`,
+    BOTTOM:`<path d="M18 9h28l2 11-5 35h-9l-2-25-2 25h-9l-5-35Z" fill="${steel}"/><path d="M18 9h28v8H18Z" fill="${gold}" stroke="#b3a180"/><path d="m32 10 4 3-4 3-4-3Z" fill="#293645"/><path d="m20 21 9 2-2 16-6-3Zm24 0-9 2 2 16 6-3Z" fill="#c5cbd0" opacity=".32"/><path d="m21 37 8 4-1 7-7-3Zm22 0-8 4 1 7 7-3Z" fill="${gold}" stroke="#9e947d"/><path d="m22 50 6 2m14-2-6 2" stroke="#e0e5e5"/>`,
+    SHOES:`<path d="M12 15h17l-2 24-8 12H6v-8l7-11Z" fill="#596a7b" stroke="#9daab7"/><path d="M24 7h21l-3 27 3 8 12 7v8H19V43l7-12Z" fill="${steel}"/><path d="M24 7h21v7H24Z" fill="${gold}" stroke="#ac9d7f"/><path d="m27 18 11 2-2 14-10 4Z" fill="#c5d0d8" opacity=".35"/><path d="m26 37 13-2 5 7-18 5Z" fill="${gold}" stroke="#b4a382"/><path d="M19 52h38v5H19Z" fill="#35424f" stroke="#96a4b2"/><path d="m45 44-2 7m-8-7-2 7" stroke="#ecede6" opacity=".5"/>`,
+    ACCESSORY:`<path d="M22 6C7 18 10 33 28 35m14-29c15 12 12 27-6 29" stroke="${gold}" stroke-width="2"/><path d="M22 11C12 21 16 30 28 31m14-20c10 10 6 19-6 20" stroke="#738392" opacity=".5"/><path d="m32 22 6 8-6 7-6-7Z" fill="${gold}" stroke="#bca77f"/><path d="m32 29 13 13-13 20-13-20Z" fill="${gold}" stroke="#baaa8a"/><path d="m32 34 8 9-8 13-8-13Z" fill="${steel}" stroke="#becdd9"/><path d="m32 34-3 9 3 13V34m-8 9h16" stroke="#e0eaf2" opacity=".58"/>`
+  };
+  return `<svg class="slot-emblem" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="${id}-steel" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e1e4df"/><stop offset=".35" stop-color="#a2b0bd"/><stop offset=".52" stop-color="#617489"/><stop offset=".78" stop-color="#b8c4cd"/><stop offset="1" stop-color="#52677c"/></linearGradient><linearGradient id="${id}-gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e2d3aa"/><stop offset=".48" stop-color="#b2a07a"/><stop offset="1" stop-color="#6e634e"/></linearGradient></defs><g stroke="#9daab6" stroke-width=".85" stroke-linejoin="round" fill="none">${shapes[part]||shapes.WEAPON}</g></svg>`;
+}
+
+export const socketTrim=()=>'<svg class="slot-trim" viewBox="0 0 100 116" preserveAspectRatio="none" aria-hidden="true"><path d="M7 24V14l7-7h12m48 0h12l7 7v10M7 92v10l7 7h12m48 0h12l7-7V92"/><path class="trim-dim" d="M32 7h10m16 0h10M32 109h36M7 32v9m86-9v9"/><path class="trim-jewel" d="m50 4 4 3-4 3-4-3Z"/></svg>';

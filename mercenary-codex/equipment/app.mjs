@@ -1,7 +1,7 @@
 import {jointAccountRequest as request} from '../../js/joint-account-transport.mjs';
 import {equipmentEffectText} from '../../shared/equipment-growth-text-v1.mjs';
 import {POLISH_OPTIONS} from '../../shared/equipment-polish-v1.mjs';
-import {labels,icon,esc,fmt,image,itemKey} from './ui.mjs?v=20261012-armory4';
+import {labels,icon,esc,fmt,image,itemKey,slotEmblem,socketTrim} from './ui.mjs?v=20261012-armory5';
 
 const $=selector=>document.querySelector(selector),mobile=matchMedia('(max-width:800px)');
 let mode=new URL(location.href).searchParams.get('mode')==='PVP'?'PVP':'PVE';
@@ -32,7 +32,7 @@ function render(){
   $('#powerHint').textContent=mercenary?`${mercenary.name}에게 적용 · 용병을 바꿔도 장비는 유지됩니다.`:'용병을 편성하면 저장한 장비가 적용됩니다.';
   $('#slots').innerHTML=state.slots.map(part=>{
     const item=gear.items.find(row=>row.slot===part);
-    return `<button class="equip-slot" data-slot="${part}" aria-pressed="${slot===part}" aria-label="${labels[part]} 장비 선택: ${esc(item?.name||'빈 슬롯')}"><span class="slot-face">${item?`<img src="${esc(item.image)}" alt="">${item.level?`<i>+${item.level}</i>`:''}`:icon(part)}</span><span class="slot-name">${labels[part]}</span></button>`;
+    return `<button class="equip-slot ${item?'is-equipped':'is-empty'}" data-slot="${part}" aria-pressed="${slot===part}" aria-label="${labels[part]} 장비 선택: ${esc(item?.name||'빈 슬롯')}"><span class="slot-face"><span class="slot-recess" aria-hidden="true"></span>${socketTrim()}<span class="slot-art">${item?`<img src="${esc(item.image)}" alt="">`:slotEmblem(part)}</span>${item?.level?`<i class="slot-level">+${item.level}</i>`:!item?'<span class="slot-add" aria-hidden="true">+</span>':''}<span class="slot-name">${labels[part]}</span></span><span class="slot-state" aria-hidden="true"><span>${item?'장착 중':'미장착'}</span><b>${slot===part?'선택 중':'장비 선택'}<i>›</i></b></span></button>`;
   }).join('');
   $('#slotGuidance').innerHTML=icon('pointer')+(slot?`${labels[slot]}에 장착할 장비를 선택하세요.`:'장비를 바꿀 부위를 선택하세요.');
   renderEffects();renderTools();renderInventory();renderInspection();
