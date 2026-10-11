@@ -1,0 +1,259 @@
+{
+  "passed": true,
+  "scope": "LOCAL_REVIEW_ONLY",
+  "productionTouched": false,
+  "muted": true,
+  "partyFlow": [
+    "entry confirmation",
+    "host-only debit",
+    "refresh balance",
+    "listing refresh",
+    "free join",
+    "host-only kick",
+    "rejoin block",
+    "free host migration"
+  ],
+  "motion": [
+    {
+      "key": "ILLUSION",
+      "cue": "ILLUSION",
+      "time": 1.75,
+      "duration": 3.6,
+      "pose": 3,
+      "frame": 5,
+      "paused": true,
+      "effects": true,
+      "contact": {
+        "emission": {
+          "x": 957.2749999999999,
+          "y": 307.70000000000005
+        },
+        "target": {
+          "x": 590,
+          "y": 353.6
+        },
+        "groundError": 0,
+        "weapon": "UNARMED",
+        "impactAt": 1.55,
+        "effectTop": 43.60000000000002
+      },
+      "actorActive": true,
+      "actorId": "B:0:MONSTER:MADARA_LOCAL_REVIEW",
+      "bodyVisible": true,
+      "originalVisible": false,
+      "bodyBounds": {
+        "type": "rectangle",
+        "x": 617.5791849626473,
+        "y": 114.90127635420055,
+        "width": 142.80356593662202,
+        "height": 142.80356593662196
+      },
+      "fxVisible": true,
+      "disposed": false
+    },
+    {
+      "key": "CLONES",
+      "cue": "CLONES",
+      "time": 1.75,
+      "duration": 3.6,
+      "pose": 3,
+      "frame": 5,
+      "paused": true,
+      "effects": true,
+      "contact": {
+        "emission": {
+          "x": 957.2749999999999,
+          "y": 307.70000000000005
+        },
+        "target": {
+          "x": 590,
+          "y": 353.6
+        },
+        "groundError": 0,
+        "weapon": "UNARMED",
+        "impactAt": 1.55,
+        "effectTop": 24
+      },
+      "actorActive": true,
+      "actorId": "B:0:MONSTER:MADARA_LOCAL_REVIEW",
+      "bodyVisible": true,
+      "originalVisible": false,
+      "bodyBounds": {
+        "type": "rectangle",
+        "x": 617.5791849626473,
+        "y": 114.90127635420055,
+        "width": 142.80356593662202,
+        "height": 142.80356593662196
+      },
+      "fxVisible": true,
+      "disposed": false
+    },
+    {
+      "key": "FIRE",
+      "cue": "FIRE",
+      "time": 1.75,
+      "duration": 3.6,
+      "pose": 3,
+      "frame": 5,
+      "paused": true,
+      "effects": true,
+      "contact": {
+        "emission": {
+          "x": 957.2749999999999,
+          "y": 307.70000000000005
+        },
+        "target": {
+          "x": 590,
+          "y": 353.6
+        },
+        "groundError": 0,
+        "weapon": "UNARMED",
+        "impactAt": 1.55,
+        "effectTop": 24
+      },
+      "actorActive": true,
+      "actorId": "B:0:MONSTER:MADARA_LOCAL_REVIEW",
+      "bodyVisible": true,
+      "originalVisible": false,
+      "bodyBounds": {
+        "type": "rectangle",
+        "x": 617.5791849626473,
+        "y": 114.90127635420055,
+        "width": 142.80356593662202,
+        "height": 142.80356593662196
+      },
+      "fxVisible": true,
+      "disposed": false
+    },
+    {
+      "key": "METEOR",
+      "cue": "METEOR",
+      "time": 1.75,
+      "duration": 3.6,
+      "pose": 3,
+      "frame": 5,
+      "paused": true,
+      "effects": true,
+      "contact": {
+        "emission": {
+          "x": 957.275,
+          "y": 307.7
+        },
+        "target": {
+          "x": 590,
+          "y": 353.6
+        },
+        "groundError": 0,
+        "weapon": "UNARMED",
+        "impactAt": 1.55,
+        "effectTop": 24
+      },
+      "actorActive": true,
+      "actorId": "B:0:MONSTER:MADARA_LOCAL_REVIEW",
+      "bodyVisible": true,
+      "originalVisible": false,
+      "bodyBounds": {
+        "type": "rectangle",
+        "x": 617.6947847309401,
+        "y": 114.85813072737125,
+        "width": 142.80356593662202,
+        "height": 142.80356593662196
+      },
+      "fxVisible": true,
+      "disposed": false
+    },
+    {
+      "key": "FINAL",
+      "cue": "FINAL",
+      "time": 1.75,
+      "duration": 3.6,
+      "pose": 3,
+      "frame": 5,
+      "paused": true,
+      "effects": true,
+      "contact": {
+        "emission": {
+          "x": 938.2424242424244,
+          "y": 268.6060606060607
+        },
+        "target": {
+          "x": 590,
+          "y": 353.6
+        },
+        "groundError": 0,
+        "weapon": "UNARMED",
+        "impactAt": 1.55,
+        "effectTop": 24
+      },
+      "actorActive": true,
+      "actorId": "B:0:MONSTER:MADARA_LOCAL_REVIEW",
+      "bodyVisible": false,
+      "originalVisible": true,
+      "bodyBounds": {
+        "type": "rectangle",
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "fxVisible": true,
+      "disposed": false
+    }
+  ],
+  "poses": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "dimensions": {
+    "width": 390,
+    "scroll": 390,
+    "buttons": [
+      {
+        "w": 108.65625,
+        "h": 52
+      },
+      {
+        "w": 108.671875,
+        "h": 52
+      },
+      {
+        "w": 108.671875,
+        "h": 52
+      },
+      {
+        "w": 166,
+        "h": 52
+      },
+      {
+        "w": 166,
+        "h": 52
+      },
+      {
+        "w": 87.375,
+        "h": 44
+      },
+      {
+        "w": 87.375,
+        "h": 44
+      }
+    ]
+  },
+  "errors": [],
+  "screens": [
+    "scene-illusion.png",
+    "scene-clones.png",
+    "scene-fire.png",
+    "scene-meteor.png",
+    "scene-final.png",
+    "body-without-effects.png",
+    "mobile-lobby.png",
+    "mobile-awakening.png",
+    "mobile-reduced-motion.png"
+  ],
+  "video": "madara-presentation-v2.webm",
+  "review": "Technical and visual inspection complete; user visual approval pending.",
+  "executionScope": "MOTION_ONLY_AFTER_FRAMING_FIX",
+  "partyFlowEvidence": "Full three-profile lobby run passed before presentation-only framing fix; entry/roster/kick screenshots retained."
+}

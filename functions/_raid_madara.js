@@ -4,6 +4,18 @@ import {buildPvePlayerTeam, buildMonsterFighter, simulateBattleV2Preview} from '
 export const MADARA_RELEASE = Object.freeze({mode:'OFF', runtimeEnabled:false, rewardLocked:true, scope:'LOCAL_REVIEW_ONLY', rulesVersion:1});
 export const MADARA_ROLES = Object.freeze({WARDEN:'봉인대', ASSAULT:'정벌대', RESCUE:'구출대'});
 export const MADARA_RUNES = Object.freeze(['화', '월', '뇌', '풍']);
+export const MADARA_LINES = Object.freeze({
+  ILLUSION:{title:'눈앞의 진실을 의심하라',line:'네 눈에 보이는 것이, 과연 진실일까?',effect:'illusion'},
+  CLONES:{title:'끝없이 갈라지는 그림자',line:'몇 명을 상대하는지조차 모르겠느냐.',effect:'clones'},
+  FIRE:{title:'화둔 · 타오르는 전장',line:'살아남을 곳은 단 하나. 찾아 보아라.',effect:'fire'},
+  METEOR:{title:'하늘이 무너진다',line:'이 절망을, 너희의 힘으로 막아 보아라.',effect:'meteor'},
+  FINAL:{title:'완전체 · 거신 강림',line:'이제 보여 주마. 진정한 힘이라는 것을.',effect:'awakening'},
+  EXPOSE:{title:'방벽 붕괴 · 전원 공격',line:'제법이군. 그 틈을 놓치지 마라.',effect:'expose'},
+  GAZE:{title:'거신의 시선',line:'다음은… 너다.',effect:'gaze'},
+  MISTAKE:{title:'환술의 역류',line:'판단이 흐려졌구나.',effect:'illusion'},
+  CLEAR:{title:'전설을 넘어서다',line:'너희의 이름은… 기억해 두마.',effect:'clear'},
+  FAILED:{title:'작전 실패',line:'그 정도의 각오로 나를 넘으려 했느냐.',effect:'failed'}
+});
 // These are review timings, not an approved live economy/difficulty policy.
 export const MADARA_PLANS = Object.freeze([
   {kind:'ILLUSION', name:'환술 판별', floor:.78, duration:35000},
@@ -22,6 +34,8 @@ function random(room) {let x=room.rng||1;x^=x<<13;x^=x>>>17;x^=x<<5;room.rng=x>>
 function rune(room) {return MADARA_RUNES[Math.floor(random(room)*4)];}
 function log(room,type,label,data={}) {
   const event={...data,seq:++room.eventSeq,at:room.clock,type,label};
+  const cue=type==='MADARA_PHASE'?data.kind:type==='MADARA_FIRE'?'FIRE':type==='MADARA_EXPOSE'?'EXPOSE':type==='MADARA_GAZE'?'GAZE':type==='MADARA_MISTAKE'?'MISTAKE':type==='MADARA_RESULT'?room.status:null;
+  if(MADARA_LINES[cue]){event.presentation={...MADARA_LINES[cue],key:cue,id:`${room.id}:${event.seq}`,at:room.clock};room.presentation=event.presentation;}
   room.events.push(event);if(room.events.length>320)room.events.shift();room.revision++;
   return event;
 }
@@ -50,13 +64,14 @@ export function createMadaraRoom({id,hostId,monster,now=0,seed=1,mode='PARTY'}={
   if(!id||!hostId||!['PARTY','COMMAND'].includes(mode)||!Number.isFinite(now)||!monster||!(Number(monster.battle_power)>0))fail('INVALID_ROOM','공대 설정을 확인하세요.',400);
   const boss={...buildMonsterFighter(monster),image:monster.image,battleSprite:monster.battleSprite};
   return {id,hostId,mode,rulesVersion:1,status:'LOBBY',createdAt:now,clock:now,rng:seed>>>0,seed:seed>>>0,
-    members:[],loadouts:{},fighters:[],boss,monster:copy(monster),phase:0,step:'LOBBY',challenge:null,
+    members:[],banned:[],loadouts:{},fighters:[],boss,monster:copy(monster),phase:0,step:'LOBBY',challenge:null,
     startedAt:null,endsAt:null,finishedAt:null,revision:0,eventSeq:0,events:[],receipts:{},
     resources:{heal:4,revive:1},souls:0,strain:0,statistics:{damage:0,mistakes:0,tasks:0},failure:null};
 }
 export function addMadaraMember(room,{id,name,role,deck},now=room.clock) {
+  if(room.banned?.includes(id))fail('KICKED','강퇴된 공대에는 다시 참가할 수 없습니다.',403);
   if(room.status!=='LOBBY')fail('ROOM_STARTED','출정한 공대에는 참가할 수 없습니다.');
-  if(!id||!MADARA_ROLES[role])fail('INVALID_ROLE','역할을 선택하세요.',400);
+  if(!id||typeof role!=='string'||!Object.hasOwn(MADARA_ROLES,role))fail('INVALID_ROLE','역할을 선택하세요.',400);
   if(member(room,id))return room;
   if(room.members.length>=6)fail('ROOM_FULL','최대 6명까지 참가할 수 있습니다.');
   if(deck?.cards?.length!==5||new Set(deck.cards.map(c=>String(c.id))).size!==5)fail('INVALID_DECK','서로 다른 일반 카드 5장이 필요합니다.',400);
@@ -86,6 +101,14 @@ export function leaveMadaraRoom(room,requesterId,now=room.clock) {
     if(room.hostId===actor.id)room.hostId=room.members[0]?.id||null;
   }
   room.revision++;
+}
+export function kickMadaraMember(room,requesterId,targetId,now=room.clock) {
+  if(requesterId!==room.hostId)fail('HOST_ONLY','공대장만 강퇴할 수 있습니다.',403);
+  if(room.status!=='LOBBY')fail('ROOM_STARTED','출정 후에는 강퇴할 수 없습니다.');
+  if(targetId===requesterId)fail('KICK_SELF','공대장 자신을 강퇴할 수 없습니다.');
+  const target=actingMember(room,targetId);
+  leaveMadaraRoom(room,targetId,now);(room.banned||=[]).push(targetId);
+  log(room,'MADARA_KICK',`${target.name} 강퇴`,{targetId});
 }
 export function startMadaraRoom(room,requesterId,now=room.clock) {
   if(requesterId!==room.hostId)fail('HOST_ONLY','공대장만 출정할 수 있습니다.',403);
@@ -297,7 +320,7 @@ export function madaraView(room,requesterId,{actorId,since=0}={}) {
   const chunk=Math.round(room.boss.maxHp*(room.phase?MADARA_PLANS[room.phase-1].floor:1))-floor;
   const index=(room.initialMembers||[]).indexOf(actor.id),size=room.initialMembers?.length||1;
   const share=index>=0?Math.floor(chunk*(index+1)/size)-Math.floor(chunk*index/size):0;
-  return copy({release:MADARA_RELEASE,id:room.id,mode:room.mode,status:room.status,revision:room.revision,serverNow:room.clock,endsAt:room.endsAt,startedAt:room.startedAt,finishedAt:room.finishedAt,
+  return copy({release:MADARA_RELEASE,id:room.id,hostId:room.hostId,presentation:room.presentation||null,mode:room.mode,status:room.status,revision:room.revision,serverNow:room.clock,endsAt:room.endsAt,startedAt:room.startedAt,finishedAt:room.finishedAt,
     phase:room.phase+1,phaseName:MADARA_PLANS[room.phase].name,step:room.step,bossHp:room.boss.hp,bossMaxHp:room.boss.maxHp,roundFloor:floor,
     me:{...actor,isHost:requesterId===room.hostId},members:room.members.map(m=>({...m,hp:room.fighters.filter(f=>f.ownerId===m.id).reduce((n,f)=>n+f.hp,0),maxHp:room.fighters.filter(f=>f.ownerId===m.id).reduce((n,f)=>n+f.maxHp,0),downCount:room.fighters.filter(f=>f.ownerId===m.id&&f.hp<=0).length,tasksDone:q?.tasks.filter(t=>t.ownerId===m.id&&t.done).length||0,tasksTotal:q?.tasks.filter(t=>t.ownerId===m.id).length||0})),
     challenge:q?{id:q.id,kind:q.kind,deadline:q.deadline,startedAt:q.startedAt,signals:q.signals,orders:q.orders,bindings:q.bindings,firstAt:q.firstAt,secondAt:q.secondAt,firstDone:q.firstDone,secondDone:q.secondDone,preserve:allDone(q,'MARK')?q.tasks.find(t=>t.kind==='MARK')?.answers[0]:null,gaze:q.gaze?{...q.gaze,ownerName:member(room,q.gaze.ownerId)?.name}:null,damageBy:q.damageBy}:null,
@@ -307,7 +330,7 @@ export function madaraView(room,requesterId,{actorId,since=0}={}) {
 export function madaraBattlePayload(room,requesterId,actorId) {
   const actor=actingMember(room,requesterId,actorId),loadout=room.loadouts[actor.id],fighters=room.fighters.filter(f=>f.ownerId===actor.id);
   const sprite=room.phase===4?room.monster.spiritSprite:room.monster.battleSprite;
-  const art={scope:'BATTLE_ENGINE_ONLY',kind:'MADARA_REVIEW_SD',primaryUrl:sprite,pngFallbackUrl:sprite,footAnchor:{x:.5,y:.96},objectFit:'contain',objectPosition:'50% 100%',scaleMultiplier:1.5,technicalPass:true,reviewOnly:true};
+  const art={scope:'BATTLE_ENGINE_ONLY',kind:'MADARA_REVIEW_SD',primaryUrl:sprite,pngFallbackUrl:sprite,footAnchor:{x:.5,y:.96},objectFit:'contain',objectPosition:'50% 100%',scaleMultiplier:room.phase===4?2.4:1.5,technicalPass:true,reviewOnly:true};
   return {mode:'RAID',battlefieldMode:'RAID',reviewOnly:true,playUltimateCinematics:false,accountNickname:actor.name,cards:copy(loadout.cards),characterBonus:copy(loadout.characterBonus),
     monster:{...copy(room.monster),hp:room.boss.hp,maxHp:room.boss.maxHp,projectVMonsterArt:art},
     battleV2:{schemaVersion:2,rules:{battleSuitDamageAuthority:loadout.supports.length?'SERVER_TIMELINE':'NONE',battleSuitActionClock:'INDEPENDENT_TIME_CADENCE'},teams:{A:{cards:copy(fighters.filter(f=>!f.isMercenary)),mercenaries:copy(fighters.filter(f=>f.isMercenary)),supports:copy(loadout.supports)},B:{cards:[{...copy(room.boss),isBoss:true,projectVMonsterArt:art}]}},result:{timeline:[],supports:{A:copy(loadout.supports),B:[]}}}};

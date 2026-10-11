@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "release": {
     "mode": "OFF",
     "runtimeEnabled": false,
@@ -9,7 +9,11 @@
   },
   "artApproval": "PENDING_USER_VISUAL_REVIEW",
   "generationTool": "image_gen.imagegen (built-in)",
-  "prompts": "../art-prompts.json",
+  "prompts": [
+    "../art-prompts.json",
+    "../art-prompts-v2.json",
+    "../art-prompts-v3.json"
+  ],
   "assets": [
     {
       "file": "madara-source-reference.png",
@@ -73,8 +77,1427 @@
       "originalPreserved": true
     }
   ],
-  "motionAtlases": [],
-  "effectAtlases": [],
+  "motionAtlases": [
+    {
+      "url": "assets/animation/cast-atlas-v2.png",
+      "source": "madara-cast-poses-v2.png",
+      "sourceSha256": "54842b5b47ddfd91a04c08d24b80dc067f8703503c96b1555125a3b8256a5132",
+      "sha256": "8f89361558c1abc4d4249bb9bf654a5d40295daa443dfd728eac5c6b9874e9f4",
+      "columns": 2,
+      "rows": 2,
+      "frameSize": 640,
+      "referenceHeight": 581.8181818181819,
+      "packing": {
+        "uniformScale": 0.9696969696969697,
+        "padding": 16,
+        "sourceCell": [
+          627,
+          627
+        ]
+      },
+      "frames": [
+        {
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 640,
+            "height": 640
+          },
+          "pivot": {
+            "x": 326.3030303030303,
+            "y": 617.2121212121212
+          },
+          "emission": {
+            "x": 205.0909090909091,
+            "y": 234.1818181818182
+          },
+          "opaqueBounds": {
+            "x": 133,
+            "y": 24,
+            "width": 463,
+            "height": 600
+          },
+          "sha256": "a2b7dfbd7a2683699a33ee94cd97a924fcdaefdb13e11e3d350fc4e2cac9a970"
+        },
+        {
+          "rect": {
+            "x": 640,
+            "y": 0,
+            "width": 640,
+            "height": 640
+          },
+          "pivot": {
+            "x": 345.6969696969697,
+            "y": 617.2121212121212
+          },
+          "emission": {
+            "x": 285.57575757575756,
+            "y": 197.33333333333334
+          },
+          "opaqueBounds": {
+            "x": 124,
+            "y": 22,
+            "width": 458,
+            "height": 601
+          },
+          "sha256": "175fbacbf814623d0d908b0bdadee5e2585466bf1750119060dd96938d7b4858"
+        },
+        {
+          "rect": {
+            "x": 0,
+            "y": 640,
+            "width": 640,
+            "height": 640
+          },
+          "pivot": {
+            "x": 337.93939393939394,
+            "y": 617.2121212121212
+          },
+          "emission": {
+            "x": 68.36363636363637,
+            "y": 134.3030303030303
+          },
+          "opaqueBounds": {
+            "x": 54,
+            "y": 22,
+            "width": 570,
+            "height": 593
+          },
+          "sha256": "f989adcbd001a110d56061ea839c20450556d5cda460ef9313a4cddbf092cc7b"
+        },
+        {
+          "rect": {
+            "x": 640,
+            "y": 640,
+            "width": 640,
+            "height": 640
+          },
+          "pivot": {
+            "x": 340.8484848484849,
+            "y": 617.2121212121212
+          },
+          "emission": {
+            "x": 197.33333333333334,
+            "y": 322.42424242424244
+          },
+          "opaqueBounds": {
+            "x": 171,
+            "y": 17,
+            "width": 404,
+            "height": 605
+          },
+          "sha256": "0b52f9781c282fb48f1fa4120785b08041cea5b9ea7e7a49fcef579c5d401fd7"
+        }
+      ]
+    }
+  ],
+  "effectAtlases": [
+    {
+      "key": "illusion",
+      "url": "assets/animation/illusion-atlas-v2.png",
+      "source": "illusion-fx-sheet-v3.png",
+      "sourceSha256": "0b04c8c683279cf87eb7eb8b7a5c9c4535dacd996862e470ab9a568b74bb8145",
+      "sha256": "4ce52ef22ffb55b932e02f3f4abb53d1000c9adc01d1d76973fc1d7be343b13d",
+      "columns": 4,
+      "rows": 3,
+      "frameSize": 384,
+      "referenceHeight": null,
+      "packing": {
+        "uniformScale": 1.0165745856353592,
+        "padding": 8,
+        "sourceCell": [
+          362,
+          362
+        ]
+      },
+      "frames": [
+        {
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 105,
+            "y": 127,
+            "width": 178,
+            "height": 172
+          },
+          "sha256": "ae0c2f8e7ff68296cf8ae4eeac8d3860614b28e4fb20aee1b2de59fdb89bc263"
+        },
+        {
+          "rect": {
+            "x": 384,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 76,
+            "y": 81,
+            "width": 241,
+            "height": 245
+          },
+          "sha256": "73bd400313c99fd8d0d0ce76b3d0ce0e3a08f7c8d556a7072cb51de0c83f4a59"
+        },
+        {
+          "rect": {
+            "x": 768,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 53,
+            "y": 63,
+            "width": 286,
+            "height": 269
+          },
+          "sha256": "f5b8f7ab0e1a6b3e024e09c6d5691844cd5af98d5772d0152f79aa3207e9fdcc"
+        },
+        {
+          "rect": {
+            "x": 1152,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 49,
+            "y": 53,
+            "width": 287,
+            "height": 289
+          },
+          "sha256": "14701e7193d5bffac194df789762dde2bc2744927e06c06c6382a4cdb0164fe3"
+        },
+        {
+          "rect": {
+            "x": 0,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 53,
+            "y": 51,
+            "width": 277,
+            "height": 274
+          },
+          "sha256": "b12b6235d4857d66acd7a7107830d1a27058c0f17aa301847f8f21db2e93de51"
+        },
+        {
+          "rect": {
+            "x": 384,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 44,
+            "y": 49,
+            "width": 294,
+            "height": 279
+          },
+          "sha256": "b72913bf875ead9da1cd413d491ba2f3ae1367248a325d4d10f736093d3c0294"
+        },
+        {
+          "rect": {
+            "x": 768,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 32,
+            "y": 23,
+            "width": 315,
+            "height": 314
+          },
+          "sha256": "1076778bcfb410c508839363141b3e1a796aa794cf022b00921a799c402e17ae"
+        },
+        {
+          "rect": {
+            "x": 1152,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 51,
+            "y": 53,
+            "width": 280,
+            "height": 278
+          },
+          "sha256": "d4a8c05d8ef71d5a61d26d2c1478df34564990afd665de9b25a1abb2746f42e4"
+        },
+        {
+          "rect": {
+            "x": 0,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 62,
+            "y": 46,
+            "width": 269,
+            "height": 283
+          },
+          "sha256": "540aec7c6e4a35be3f06db5e6de6e9f673d885dee3360731ece8cced3bd93414"
+        },
+        {
+          "rect": {
+            "x": 384,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 52,
+            "y": 46,
+            "width": 279,
+            "height": 284
+          },
+          "sha256": "90fe05121fdfecea0b6db81e450b1d6d4c065c7ab7304cd3e021a870e05d99e3"
+        },
+        {
+          "rect": {
+            "x": 768,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 54,
+            "y": 44,
+            "width": 281,
+            "height": 267
+          },
+          "sha256": "5c4cfbe676497f6c3deaee09aa271d48dbeeb585fcbe71030b68cbe50f3dd191"
+        },
+        {
+          "rect": {
+            "x": 1152,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 59,
+            "y": 71,
+            "width": 263,
+            "height": 209
+          },
+          "sha256": "2049c116b58e4c41faf1c74aa13b6d1ebaed84e4699befc64300496a2e3d1047"
+        }
+      ]
+    },
+    {
+      "key": "clones",
+      "url": "assets/animation/clones-atlas-v2.png",
+      "source": "clones-fx-sheet-v3.png",
+      "sourceSha256": "40905db91dc449a016e548e2ae7d3ad06b990b251522252261d6ea38f6801e89",
+      "sha256": "ffbeb573c3a426ffdd6faa084cfb8de47f69a3a4fe2ce3c58b2a9a698ab9c3df",
+      "columns": 4,
+      "rows": 3,
+      "frameSize": 384,
+      "referenceHeight": null,
+      "packing": {
+        "uniformScale": 1.0165745856353592,
+        "padding": 8,
+        "sourceCell": [
+          362,
+          362
+        ]
+      },
+      "frames": [
+        {
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 62,
+            "y": 198,
+            "width": 290,
+            "height": 178
+          },
+          "sha256": "bfa74336941d3626a1a497d26fb93f282775a8b83edf932b66e188de1fc98af9"
+        },
+        {
+          "rect": {
+            "x": 384,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 53,
+            "y": 122,
+            "width": 296,
+            "height": 254
+          },
+          "sha256": "36957c04ff058873c215a6c5460e8c9a8d2fb7acd18a6b6e7a4a2603a926115e"
+        },
+        {
+          "rect": {
+            "x": 768,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 50,
+            "y": 66,
+            "width": 299,
+            "height": 310
+          },
+          "sha256": "161c878fac8f672f9cefe3cbce6ca05508ab784bf197842431d58c406a8ac668"
+        },
+        {
+          "rect": {
+            "x": 1152,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 45,
+            "y": 68,
+            "width": 297,
+            "height": 308
+          },
+          "sha256": "b53ee0f34b4d4c9f2f95e26da3aaf2bc1c7029273b5bdfb884e835a5597e9aff"
+        },
+        {
+          "rect": {
+            "x": 0,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 62,
+            "y": 8,
+            "width": 292,
+            "height": 359
+          },
+          "sha256": "e8a2a17ac3ea8f56840507861069d5bc930926418d06901683e2fc384af79fd1"
+        },
+        {
+          "rect": {
+            "x": 384,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 50,
+            "y": 8,
+            "width": 299,
+            "height": 356
+          },
+          "sha256": "9a110cc2f3a09432f9b6d8ea34d3dc42dda59f11da315034e67d0b3376cb341e"
+        },
+        {
+          "rect": {
+            "x": 768,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 49,
+            "y": 8,
+            "width": 301,
+            "height": 355
+          },
+          "sha256": "fe9ed371ba989ea751e844374b382c45d36a36c6749d20fafac6ced6dd312f99"
+        },
+        {
+          "rect": {
+            "x": 1152,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 56,
+            "y": 84,
+            "width": 280,
+            "height": 272
+          },
+          "sha256": "c4cd04500027c829e69c2684e67c01d54fbf079928581997779186c204a995af"
+        },
+        {
+          "rect": {
+            "x": 0,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 58,
+            "y": 43,
+            "width": 285,
+            "height": 278
+          },
+          "sha256": "61c3368201f2222945f325ad0180e0b1efdac7efe3501649e6447a8b834be068"
+        },
+        {
+          "rect": {
+            "x": 384,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 64,
+            "y": 81,
+            "width": 274,
+            "height": 235
+          },
+          "sha256": "b315a1fc9024c8d3880224578c1c361af0bc4d559cf4db2999b1a923ab4c98be"
+        },
+        {
+          "rect": {
+            "x": 768,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 62,
+            "y": 94,
+            "width": 276,
+            "height": 226
+          },
+          "sha256": "4ff3f54821d1556705686aeed22fcbae835c189e09bd40fe08d5cd46183de15d"
+        },
+        {
+          "rect": {
+            "x": 1152,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 71,
+            "y": 162,
+            "width": 244,
+            "height": 151
+          },
+          "sha256": "7e9561b8b9cbab501dcc7b88cb730e60003c027f0429ca01c9b0f7134e1bcda3"
+        }
+      ]
+    },
+    {
+      "key": "fire",
+      "url": "assets/animation/fire-atlas-v2.png",
+      "source": "fire-fx-sheet-v3.png",
+      "sourceSha256": "35818f257739fc7fd042b87f2449b56e4cb606c738e06fb68babb8a6294c4d4e",
+      "sha256": "d1d5b6d56fe8f2acb44ea557238ed835b323e5e1587c2baaf68f4a00c73dfa7e",
+      "columns": 4,
+      "rows": 3,
+      "frameSize": 384,
+      "referenceHeight": null,
+      "packing": {
+        "uniformScale": 1.0165745856353592,
+        "padding": 8,
+        "sourceCell": [
+          362,
+          362
+        ]
+      },
+      "frames": [
+        {
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 126,
+            "y": 150,
+            "width": 209,
+            "height": 136
+          },
+          "sha256": "91605bc0262e96cf4db26ed24d42f829f31ee86be0a632af131e711e698055e4"
+        },
+        {
+          "rect": {
+            "x": 384,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 41,
+            "y": 120,
+            "width": 307,
+            "height": 183
+          },
+          "sha256": "e0a0634c3291e238862f94dc34f99f52621d14979726060d0b3bc8bef3c8f6a4"
+        },
+        {
+          "rect": {
+            "x": 768,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 34,
+            "y": 106,
+            "width": 305,
+            "height": 203
+          },
+          "sha256": "b1c3e36b0ad433410261402d50d28ba174f6d6526a4679ab573de0bdd01e3cd0"
+        },
+        {
+          "rect": {
+            "x": 1152,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 28,
+            "y": 106,
+            "width": 315,
+            "height": 211
+          },
+          "sha256": "fd6e5d1e9597338d83359665b0655f1ed23133d081ccfef61b1ad3f805a8e352"
+        },
+        {
+          "rect": {
+            "x": 0,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 42,
+            "y": 76,
+            "width": 321,
+            "height": 230
+          },
+          "sha256": "5e7105c23f13b5bd6e2d33a103506e12116cf3235c5c7eee05e972a4bc1a3d6d"
+        },
+        {
+          "rect": {
+            "x": 384,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 59,
+            "y": 57,
+            "width": 291,
+            "height": 262
+          },
+          "sha256": "2b9d59518f5c315f23fa6fdbcc34864e2bb6811ac3b560558707ed204b3df0fb"
+        },
+        {
+          "rect": {
+            "x": 768,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 39,
+            "y": 31,
+            "width": 312,
+            "height": 298
+          },
+          "sha256": "19333127e0a622206b544a7cf18bb9e877d422dee0c4f36aa12585edce20fc1d"
+        },
+        {
+          "rect": {
+            "x": 1152,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 46,
+            "y": 28,
+            "width": 297,
+            "height": 294
+          },
+          "sha256": "ad4c40174a6bc43368cd9e78edbcefa625eee80ba2881af474fc62ab7b62580a"
+        },
+        {
+          "rect": {
+            "x": 0,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 70,
+            "y": 33,
+            "width": 275,
+            "height": 265
+          },
+          "sha256": "e0e099c3d50e5c6795ccdb93cd81676cf6e7064582518aeea8d6121b07fcdff5"
+        },
+        {
+          "rect": {
+            "x": 384,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 69,
+            "y": 35,
+            "width": 278,
+            "height": 266
+          },
+          "sha256": "890b62599258b3fda5f866dbd7b07720d21b7ba6b65836c8b75ea928b9a4168b"
+        },
+        {
+          "rect": {
+            "x": 768,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 62,
+            "y": 62,
+            "width": 281,
+            "height": 235
+          },
+          "sha256": "d48dd9506c4418be88e4722af6427ff7b73ad9169cf1c74a5b38cf6f6ba54e06"
+        },
+        {
+          "rect": {
+            "x": 1152,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 80,
+            "y": 57,
+            "width": 243,
+            "height": 244
+          },
+          "sha256": "11dafed017d117d4b2ab349e038f400403f5a3848ccb08e54eb47b139a17d23c"
+        }
+      ]
+    },
+    {
+      "key": "meteor",
+      "url": "assets/animation/meteor-atlas-v2.png",
+      "source": "meteor-fx-sheet-v3.png",
+      "sourceSha256": "959ab34b12609f51aeef93c5825186952f0b3cfc68fd2e339c9578b1c8b1a0c1",
+      "sha256": "595ca3346458f943904cd6d60f7a760c6e98dcfc497907cc9d63c07cb964e35a",
+      "columns": 4,
+      "rows": 3,
+      "frameSize": 384,
+      "referenceHeight": null,
+      "packing": {
+        "uniformScale": 1.0165745856353592,
+        "padding": 8,
+        "sourceCell": [
+          362,
+          362
+        ]
+      },
+      "frames": [
+        {
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 95,
+            "y": 124,
+            "width": 210,
+            "height": 189
+          },
+          "sha256": "130c729e7f562d852e715efcd6dc60488c0f9c286cbb91c47e20a9908c569771"
+        },
+        {
+          "rect": {
+            "x": 384,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 93,
+            "y": 92,
+            "width": 235,
+            "height": 219
+          },
+          "sha256": "84d614ea00338ea95523bb3790293f6cdbec45e8264c1f63c14bd4a9eab13f6a"
+        },
+        {
+          "rect": {
+            "x": 768,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 68,
+            "y": 100,
+            "width": 246,
+            "height": 234
+          },
+          "sha256": "9906dbd4a11faeb9adc36cbca6ddce18d8c134b60ba0534f3c34e63f43106633"
+        },
+        {
+          "rect": {
+            "x": 1152,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 58,
+            "y": 78,
+            "width": 268,
+            "height": 261
+          },
+          "sha256": "188731419dd0f03edf0b83bd58e17a17b2d89d62cc8adb8b34bc703a2294166d"
+        },
+        {
+          "rect": {
+            "x": 0,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 61,
+            "y": 113,
+            "width": 277,
+            "height": 213
+          },
+          "sha256": "c7da783514c7d32296db77742c62f2d2436e611bd340fc238ca8a706f502d070"
+        },
+        {
+          "rect": {
+            "x": 384,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 34,
+            "y": 56,
+            "width": 322,
+            "height": 283
+          },
+          "sha256": "d13e87441347f42d8f49ca168c8975382604ba6173ca965cabd230c2e824b65b"
+        },
+        {
+          "rect": {
+            "x": 768,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 31,
+            "y": 78,
+            "width": 320,
+            "height": 261
+          },
+          "sha256": "98f49f4b7dad1730817f1dc323b98862cbf96bb668371362ece8a3656aca3047"
+        },
+        {
+          "rect": {
+            "x": 1152,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 45,
+            "y": 68,
+            "width": 295,
+            "height": 269
+          },
+          "sha256": "6eda3fb44175be7afa40d3e960f42318207f113cbf496646cfb53f5203a55231"
+        },
+        {
+          "rect": {
+            "x": 0,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 52,
+            "y": 40,
+            "width": 297,
+            "height": 266
+          },
+          "sha256": "c776383a2fb2a0c300893b46aefacb8a5720984f9f9b5440c35342d94106c780"
+        },
+        {
+          "rect": {
+            "x": 384,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 36,
+            "y": 74,
+            "width": 310,
+            "height": 230
+          },
+          "sha256": "94025c0a7f1d9ad6606bf27ddfbdf6f4cea2c1df4d7334cdbe904e47d27c9b4d"
+        },
+        {
+          "rect": {
+            "x": 768,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 45,
+            "y": 97,
+            "width": 292,
+            "height": 206
+          },
+          "sha256": "6ee5dce05943cef7d26968d2b91dddc35c9a59d0f2a110ad3647e0863fc21681"
+        },
+        {
+          "rect": {
+            "x": 1152,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 59,
+            "y": 115,
+            "width": 263,
+            "height": 188
+          },
+          "sha256": "81f10f58f0f43af886031cfdbe728d268e7a443f9bf505bf8a4ffac6ff1ddfee"
+        }
+      ]
+    },
+    {
+      "key": "awakening",
+      "url": "assets/animation/awakening-atlas-v2.png",
+      "source": "azure-awakening-fx-sheet-v3.png",
+      "sourceSha256": "0d605a1f46701e5b3db6102d228ce62b934a6a8c54d1704084f68e79c8c1dd55",
+      "sha256": "501e0056656ba7a2121ef595126faba3e6e7a7f50c53107f4b1aae13ea055df5",
+      "columns": 4,
+      "rows": 3,
+      "frameSize": 384,
+      "referenceHeight": null,
+      "packing": {
+        "uniformScale": 1.0165745856353592,
+        "padding": 8,
+        "sourceCell": [
+          362,
+          362
+        ]
+      },
+      "frames": [
+        {
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 46,
+            "y": 273,
+            "width": 301,
+            "height": 95
+          },
+          "sha256": "8168341136b9ffcc04f45b2acf7234d9bbaf14b675764b400eee775dc0440736"
+        },
+        {
+          "rect": {
+            "x": 384,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 49,
+            "y": 199,
+            "width": 296,
+            "height": 167
+          },
+          "sha256": "2423b35104f0689ccd58b1bfed912fb21b58d071ce29226ca673713652458313"
+        },
+        {
+          "rect": {
+            "x": 768,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 50,
+            "y": 81,
+            "width": 298,
+            "height": 284
+          },
+          "sha256": "73e6d5327d66ac7ebde28208b4d5fa8d76b9de2a2481e01e84affe5751bc5c78"
+        },
+        {
+          "rect": {
+            "x": 1152,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 32,
+            "y": 54,
+            "width": 317,
+            "height": 312
+          },
+          "sha256": "f0c877cbc04ea1e8c40a6f93d15aaf8e1c6698c3970bcecd8fb48dc5838fb331"
+        },
+        {
+          "rect": {
+            "x": 0,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 40,
+            "y": 35,
+            "width": 316,
+            "height": 306
+          },
+          "sha256": "4440bbef545fff75852d486b2a1ba43aec4a6ee355f35f40a93888d4e0dd06e9"
+        },
+        {
+          "rect": {
+            "x": 384,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 34,
+            "y": 51,
+            "width": 324,
+            "height": 290
+          },
+          "sha256": "80e67c29d3e0e7a848faed090ce5aa5f75e142b4c23fe161074ecd5b251fda6d"
+        },
+        {
+          "rect": {
+            "x": 768,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 20,
+            "y": 49,
+            "width": 344,
+            "height": 296
+          },
+          "sha256": "608a616a57c55880e824fbf5f7658f1eb2b294f0d25f2b37a57f7d07eb8fbdaa"
+        },
+        {
+          "rect": {
+            "x": 1152,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 21,
+            "y": 100,
+            "width": 336,
+            "height": 235
+          },
+          "sha256": "eec78a3c6e64ef758dd0b7cac63dc593121405243426ed267146209ff055237b"
+        },
+        {
+          "rect": {
+            "x": 0,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 38,
+            "y": 27,
+            "width": 314,
+            "height": 296
+          },
+          "sha256": "2e208d4c3ad7f7b57f5e4e1dcb80bd7936f3f2b48edc38a4cb342f91ee924c0d"
+        },
+        {
+          "rect": {
+            "x": 384,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 38,
+            "y": 68,
+            "width": 313,
+            "height": 258
+          },
+          "sha256": "be12c8370c33003a6272f52cfc479a306802031f436fef9c529045bbad22949f"
+        },
+        {
+          "rect": {
+            "x": 768,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 38,
+            "y": 98,
+            "width": 313,
+            "height": 227
+          },
+          "sha256": "412b67f315f590502487bcaa95c602cc0e21f8341f899a23a26e28ceaaec3a6c"
+        },
+        {
+          "rect": {
+            "x": 1152,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          },
+          "pivot": {
+            "x": 192,
+            "y": 192
+          },
+          "emission": null,
+          "opaqueBounds": {
+            "x": 33,
+            "y": 174,
+            "width": 311,
+            "height": 145
+          },
+          "sha256": "c16b9d1ce097d0a355ef6b8b305d6128e0cec1ad0a9ab846989a38429e848963"
+        }
+      ]
+    }
+  ],
   "newAudio": [],
-  "note": "Static source poses and staging environment only. Character motion, per-skill continuous frames and licensed sound are not complete."
+  "note": "Four authored unarmed casting poses; five independent 12-frame effects; original final-form sprite and sword preserved. Boss lines are text, with no recorded voice-over. User visual approval remains pending."
 }

@@ -1,7 +1,7 @@
 {
-  "version": 1,
+  "version": 2,
   "name": "마다라 레이드",
-  "state": "LOCAL_PLAYABLE_PREPARATION",
+  "state": "LOCAL_PARTY_AND_PRESENTATION_REVIEW",
   "release": {
     "mode": "OFF",
     "runtimeEnabled": false,
@@ -55,7 +55,28 @@
         "floor": 0,
         "duration": 55000
       }
-    ]
+    ],
+    "tickets": {
+      "initial": 3,
+      "creationCost": 1,
+      "payer": "CREATOR",
+      "joinCost": 0,
+      "refund": false,
+      "persistence": "LOCAL_SERVER_PROCESS_ONLY"
+    },
+    "lobby": {
+      "listing": true,
+      "refresh": true,
+      "kick": "HOST_BEFORE_START_ONLY",
+      "rejoinBan": "SAME_LOCAL_IDENTITY_SAME_ROOM"
+    },
+    "presentation": {
+      "bodyFrames": 4,
+      "effectFrames": 60,
+      "bossSubtitles": true,
+      "voiceOver": false,
+      "reviewPlayback": true
+    }
   },
   "renderer": {
     "entry": "ProjectVBattleV3Live.ensureRuntime",
@@ -64,10 +85,10 @@
     "cardDock": "SHARED_V3"
   },
   "remaining": [
-    "정지 자산 사용자 시각 검수",
-    "연속 보스 모션·4대 기믹 개별 효과·최종전 연출 및 사운드",
-    "실계정 편성·운영 공대 저장소·동시성·세션 및 이탈 정책 연결",
-    "입장·보상·보스 전투력·난이도 확정",
+    "사용자 시각 검수와 연출 최종 채택",
+    "완전체 본체 추가 동작 및 별도 성우·전용 사운드는 미제작",
+    "실계정 편성·운영 공대 저장소·영속 거래·동시성·인증 및 이탈 정책 연결",
+    "운영 입장·보상·보스 전투력·난이도 확정",
     "실제 3~6인 공대의 네트워크 지연·난이도 검수",
     "별도 출시 승인 후에만 운영 연결 및 배포"
   ]

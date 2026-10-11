@@ -160,10 +160,12 @@ test('local HTTP denies foreign origins, host rebinding, unauthenticated state a
   assert.equal((await fetch(base+'/__madara/state')).status,401);
   assert.equal((await fetch(base+'/functions/_raid_madara.js')).status,403);
   assert.equal((await fetch(base+'/api/raid/madara/start')).status,403);
-  const created=await(await post('create',{mode:'COMMAND',name:'로컬'})).json();assert.ok(created.token);assert.equal(created.state.members.length,3);
-  const auth={authorization:'Bearer '+created.token};
+  const session=await(await post('session')).json();assert.ok(session.token);
+  const auth={authorization:'Bearer '+session.token};
+  const created=await(await post('create',{mode:'COMMAND',name:'로컬',requestId:'prepare-http-create-1'},auth)).json();assert.equal(created.state.members.length,3);
   await post('ready',{},auth);const started=await(await post('start',{},auth)).json();assert.equal(started.state.status,'ACTIVE');
   const actor=created.state.members[1].id;
   const other=await(await fetch(base+`/__madara/state?actor=${actor}&payload=1`,{headers:auth})).json();assert.equal(other.state.me.id,actor);assert.equal(other.payload.reviewOnly,true);
-  now+=1800001;assert.equal((await fetch(base+'/__madara/state',{headers:auth})).status,401);
+  now+=1800001;assert.equal((await fetch(base+'/__madara/state',{headers:auth})).status,404);
+  assert.equal((await(await fetch(base+'/__madara/lobby',{headers:auth})).json()).account.tickets,2,'room expiry never resets the ticket ledger');
 });
