@@ -99,7 +99,7 @@ test('competitive and siege server paths hard-exclude Battle Suit power',async()
     /Number\(characterBonus\?\.pve \|\| 0\) -\s*Number\(characterBonus\?\.battleSuitPve \|\| 0\)/,
   );
   assert.match(siegeSource,/characterBonus: siegePveBonus/);
-  assert.match(apiSource,/AND i\.slot<>'BATTLE_SUIT' GROUP BY l\.user_id/);
+  assert.match(apiSource,/AND i\.slot<>'BATTLE_SUIT' AND i\.code NOT IN \(\$\{MERCENARY_EQUIPMENT_SQL_CODES\}\) GROUP BY l\.user_id/);
 });
 
 test('battle-suit migration is idempotent, starts at zero power and never opts into supply',async()=>{
