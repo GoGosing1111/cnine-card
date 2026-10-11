@@ -24,4 +24,9 @@
 
 ## 배포 기록
 
-배포 후 정적 미리보기와 PNG 원본 해시 일치 여부를 기록한다.
+- 자산 커밋: `0bb0ffcca3e9da5af2d1ed8a9de44f6edb023de5`
+- 직전 배포 기준: `786b47a63005db5b16245ebece52373f1fe051e5`
+- 자산 전용 배포 완료: <https://3798ccaa.cnine-card.pages.dev>
+- 미리보기: <https://3798ccaa.cnine-card.pages.dev/preview/pets-classic-rpg-20261012-v1/>
+- 2026-10-12 01:23 KST, 미리보기 HTML·JSON 2개·PNG 3개 모두 HTTP 200 및 로컬 원본 SHA-256 일치를 확인했다. Hyperdrive 캐시 OFF 확인도 통과했다.
+- 정적 배포 검증 영수증은 `docs/qa/pets-classic-rpg-20261012-v1/production.json`에 보존한다. 이 기록 추가는 문서 범위이므로 재배포하지 않는다.

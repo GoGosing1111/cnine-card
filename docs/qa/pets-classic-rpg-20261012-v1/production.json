@@ -1,0 +1,50 @@
+{
+  "verifiedAt": "2026-10-11T16:23:33.592Z",
+  "deployment": "https://3798ccaa.cnine-card.pages.dev",
+  "preview": "https://3798ccaa.cnine-card.pages.dev/preview/pets-classic-rpg-20261012-v1/",
+  "commit": "0bb0ffcca3e9da5af2d1ed8a9de44f6edb023de5",
+  "checks": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "bytes": 6159,
+      "sha256": "cb86ceb3f4a42efe767be34e96aebbd7b6fa9d9aab92f01b4180ca57014756b3",
+      "match": true
+    },
+    {
+      "file": "manifest.json",
+      "status": 200,
+      "bytes": 2512,
+      "sha256": "aa5ea1256f1c2c216b4ec4876ac5858560a062b088cae0993d748c6990a35107",
+      "match": true
+    },
+    {
+      "file": "generation.json",
+      "status": 200,
+      "bytes": 8172,
+      "sha256": "da3a344322f1b526c2bcc9ce86b908ffa8fe623692275b33ce0c10511bfe2684",
+      "match": true
+    },
+    {
+      "file": "assets/pet-white-spirit-v1.png",
+      "status": 200,
+      "bytes": 835314,
+      "sha256": "888eb0f9fe355fdbdf662af592254315d1a853cd014ddddc2550cb71bdcc723e",
+      "match": true
+    },
+    {
+      "file": "assets/pet-bell-bulldog-v1.png",
+      "status": 200,
+      "bytes": 1290538,
+      "sha256": "70f637d222ed371dbeae6310f00c4db8765213cdbcb47115f743467e83b419f1",
+      "match": true
+    },
+    {
+      "file": "assets/pet-crimson-wing-demon-v1.png",
+      "status": 200,
+      "bytes": 1270373,
+      "sha256": "6fd7dafa0989c012b382d1580ec2fc1178637d86450b5fa4cac57a4a56071a3d",
+      "match": true
+    }
+  ]
+}
