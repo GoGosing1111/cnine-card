@@ -25,4 +25,6 @@
 - 이미지·스크린샷과 결과는 `preview/legion-mercenary-equipment-20261011/`에 보존한다. 격리 재현 서버는 `scripts/serve-mercenary-equipment-review-20261011.mjs`다.
 - 직전 운영 런타임: `fade2d5d8327472f90dcb4cb5fa52bbdfb65e333`. 장비 저장·PVE/PVP 전투·일반 장비 분리·듀오 평가를 함께 변경하므로 전체 게이트가 포함된 `npm run deploy:production`을 한 번 사용한다. 문서/운영 단발 스크립트만 추가된 동시 작업은 보존한다.
 
+전체 게이트의 첫 실행에서 족각도시 과거 테스트 5건(SQLite/Postgres 중복 포함)이 교대 후 재입장과 최신 클라이언트 캐시 태그를 반영하지 못했다. 도시 실행 코드는 변경하지 않고 두 테스트 파일의 준비 조건/연결 확인만 수정한다. 원래 후보 `cfa3bf48445482eaff25f91b0167fe53f729f2ef`와 로그 해시에 연결된 기존 resume 경로로 통과한 2개 단계를 재사용하고 나머지 게이트를 모두 실행한다.
+
 배포 결과는 완료 후 이 문서와 운영 영수증 JSON에 보완한다.

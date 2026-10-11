@@ -37,7 +37,8 @@ for(const pg of [false,true]){
     const p=await policy(f);p.cash.startingCash=25000;await save(f,p);await f.action(1,'leave');f.advance(p.rules.rejoinCooldownMs+1);await f.action(1,'join');assert.equal((await status(f)).mine.cash,8500);
     f.advance(21600000);assert.equal((await status(f)).mine.cash,8500);assert.equal((await life(f)).wallets.ON.initialCash,10000);
     const testPolicy=await policy(f);testPolicy.mode='TEST';testPolicy.testUserIds=[1,2];await save(f,testPolicy);assert.equal((await status(f)).mine.cash,25000);
-    await f.p("UPDATE jokgak_city_players_v1 SET location='SHOP' WHERE user_id=1").run();await f.action(1,'buy',{product:'VITAMIN'});assert.equal((await status(f)).mine.cash,23500);
+    // A new shift exits the city; wallet checks do not re-enter on the user's behalf.
+    await f.join(1,'SHOP');await f.action(1,'buy',{product:'VITAMIN'});assert.equal((await status(f)).mine.cash,23500);
     const back=await policy(f);back.mode='ON';await save(f,back);assert.equal((await status(f)).mine.cash,8500);assert.deepEqual((await status(f)).mine.bag,{LUNCHBOX:1});
     assert.equal((await f.p('SELECT coin FROM users WHERE id=1').first()).coin,123456);assert.equal((await f.p('SELECT COUNT(*) n FROM coin_logs').first()).n,0);
   });

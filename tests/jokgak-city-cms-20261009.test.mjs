@@ -90,6 +90,7 @@ for(const postgres of [false,true]){
     assert.equal((await f.action(1,'attack',{targetId:3})).reward.status,'PAID');await reset(f);f.advance(61000);
     assert.equal((await f.action(1,'attack',{targetId:2})).reward.status,'DAILY_LIMIT');assert.equal((await f.p('SELECT COUNT(*) n FROM coin_logs').first()).n,2);
     f.setTime(Date.parse('2026-10-09T15:00:00Z'));await reset(f);const renewed=await policy(f);for(const r of renewed.roles){r.rewards[0].coin=123;r.rewards[0].items=[];}await save(f,renewed);
+    for(const id of [1,2])await f.join(id); // Rotation requires explicit re-entry before another action.
     assert.equal((await f.action(1,'attack',{targetId:2})).reward.status,'PAID');
   });
   test(prefix+': failed later writes roll back rewards/quotas and lost commit responses recover the paid receipt',async t=>{
@@ -116,5 +117,5 @@ test('OWNER city CMS and current client settings/rewards are wired into shipped 
   assert.match(read('admin/index.html'),/jokgak-city-admin-v1.mjs\?v=20261010-city4/);
   assert.match(read('functions/_jokgak_city.js'),/handleCityCms\(/);
   assert.match(read('js/jokgak-city-v1.js'),/state\?\.mode==='TEST'/);assert.match(read('js/jokgak-city-v1.js'),/rewardHtml\(data.reward\)/);
-  for(const path of ['index.html','pve/legion-hunt/index.html','pve-v3/index.html','raid/lich-king/index.html'])assert.match(read(path),/jokgak-city-v1.js\?v=20261010-city4/);
+  for(const path of ['index.html','pve/legion-hunt/index.html','pve-v3/index.html','raid/lich-king/index.html'])assert.match(read(path),/jokgak-city-v1\.js\?v=\d{8}-[a-z0-9-]+/);
 });
