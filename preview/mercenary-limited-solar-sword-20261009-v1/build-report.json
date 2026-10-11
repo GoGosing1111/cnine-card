@@ -64,5 +64,6 @@
     "preview/project-v-v3/source/battle/PetSupportPlayback.js",
     "preview/project-v-v3/source/battle/BattleEngine.js",
     "preview/project-v-v3/source/battle/EffectScene.js"
-  ]
+  ],
+  "hashEncoding": "UTF8_LF"
 }

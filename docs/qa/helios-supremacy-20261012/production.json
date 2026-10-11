@@ -1,0 +1,60 @@
+{
+  "checkedAt": "2026-10-11T20:03:24.597Z",
+  "source": "d515f34ff0e3bd6d6d6197e8c27152222dea3904",
+  "deployment": "https://8fc9e632.cnine-card.pages.dev",
+  "apiVersion": "cd8d5c86-f464-4075-b282-f66d4a23e3a8",
+  "schedulerVersion": "79bbed12-2a0d-4dfb-8b39-eae4b07ef3b8",
+  "files": [
+    {
+      "file": "shared/mercenary-helios-v1.mjs",
+      "status": 200,
+      "sha256": "cbd9adc00c3883d84f8a5fafe8f06fa747a8432cf3bc55040d29b910bba565d8",
+      "matches": true
+    },
+    {
+      "file": "shared/mercenary-combat-link-v2103.mjs",
+      "status": 200,
+      "sha256": "b23b9ca8a4d3fff8052178623e9f23c2190d09c73924a716cc2024671c37ea78",
+      "matches": true
+    },
+    {
+      "file": "preview/mercenary-limited-solar-sword-20261009-v1/preview.bundle.js",
+      "status": 200,
+      "sha256": "189c60ed5c6397c98df9c1a0f07f82b92c796710c81794b406a6928a23cd31f1",
+      "matches": true
+    },
+    {
+      "file": "preview/mercenary-limited-solar-sword-20261009-v1/battle.html",
+      "status": 200,
+      "sha256": "b5db9c60eeee5285f194f8e32761a1063e89c044d936905860a273dde1ee65da",
+      "matches": true
+    },
+    {
+      "file": "preview/idle-v3-v1/app.bundle.js",
+      "status": 200,
+      "sha256": "158340827231f03507004a9ef926830857f066bcc6bcf4f1d49e0cf934ed4a49",
+      "matches": true
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/app.bundle.js",
+      "status": 200,
+      "sha256": "c7b622663e456746a80c3e639bfa6b770c2f7cc79491182898dc0ddb41b9be83",
+      "matches": true
+    }
+  ],
+  "checks": {
+    "codexStatus": 200,
+    "revision": 61,
+    "heliosDescription": "확정 성능 · 기본 전투력 1,123,200. 발테르와 같은 공격 연계·피해 경감·개인 면역을 사용하며, 자연 행동 속도 약 4%, 추가 행동·체력·전용 방벽은 4% 높습니다. 아군 일반 카드 25회 행동당 추가 78회 행동합니다. PVE 천양붕락은 적 전체에 총 560% 피해를 나눠 적용합니다(에너지 35 · 재사용 5행동). 공격·이동·스킬 모션은 원본 대비 2.6배속입니다. 획득·편성 및 전투 연출 최종 공개는 준비 중입니다.",
+    "heliosDeploymentEnabled": false,
+    "heliosAcquisitionEnabled": false,
+    "activeLimited": 8
+  },
+  "previewBuild": {
+    "rawSha256": "189c60ed5c6397c98df9c1a0f07f82b92c796710c81794b406a6928a23cd31f1",
+    "buildSha256": "6533b849f981e290aef37126d0f66accfb0a75557e4de49b8da881343e254190",
+    "hashEncoding": "UTF8_LF",
+    "normalizedMatches": true,
+    "note": "Git checkout on Windows converts LF to CRLF. Deployed bytes match local bytes; normalized source matches the reviewed build."
+  }
+}
