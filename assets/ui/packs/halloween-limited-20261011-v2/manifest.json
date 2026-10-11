@@ -1,0 +1,132 @@
+{
+  "title": "할로윈 리미티드 용병팩",
+  "version": "20261011-v2",
+  "createdDateKst": "2026-10-11",
+  "status": "DESIGN_CREATED_USER_REVIEW_PENDING",
+  "request": "할로윈 리미티드 용병팩 리소스 만들어",
+  "latestDirection": "보라색빼고 깔끔한디자인으로 고급스럽게 만들어",
+  "method": "Built-in image_gen generation and edit; sharp used only for proportional WebP export",
+  "reference": {
+    "path": "assets/ui/packs/mercenary-limited-edition-pack-20261003-v1.png",
+    "sha256": "f4ce292b186d390df9ad40d0c4854a35158ab7049900fe13417d5948b453c5b6",
+    "bytes": 2563123,
+    "width": 941,
+    "height": 1672,
+    "format": "png",
+    "space": "srgb",
+    "hasAlpha": false,
+    "role": "Existing mercenary pack silhouette, proportions, rim and material reference; original unchanged"
+  },
+  "supersededDraft": {
+    "path": "C:/Users/User/.codex/generated_images/01a12068-4d0f-75a3-909e-95671007c1fd/exec-8747226a-a149-4c4d-ac1b-8e24e44ce673.png",
+    "sha256": "fd7b051282279fedb987e3a098620b84e5f585272cff4b7a44f2b77dbfafa5c1",
+    "bytes": 2634510,
+    "width": 941,
+    "height": 1672,
+    "format": "png",
+    "space": "srgb",
+    "hasAlpha": false,
+    "status": "SUPERSEDED_BY_USER_DIRECTION",
+    "reason": "Purple effects and crowded ornamentation removed in V2",
+    "prompt": "Use case: product-mockup\nAsset type: finished premium collectible fantasy game pack artwork, a new HALLOWEEN LIMITED MERCENARY PACK edition.\nInput image: the existing SOOPKETMON limited mercenary pack is the edit/style reference for the exterior silhouette, front-facing presentation and exceptionally polished metallic finish. Create a new seasonal derivative, not a mockup. Preserve the original file externally.\n\nFORMAT / SHAPE: Match the reference's tall narrow 9:16 portrait format (941 by 1672 proportions), perfectly straight-on flat rectangular front face, symmetrical rounded corners, continuous double metallic perimeter, and very thin black exterior margin. The pack should fill the canvas like the reference. Show every edge and the complete top and bottom rim. No perspective, no visible box side, no foil pouch, no wrapper crimps, no table, no surrounding scene.\n\nHALLOWEEN REDESIGN: polished obsidian enamel with rich antique champagne gold and burnished copper. One spectacular central mercenary order crest in the upper-middle: a regal carved jack-o'-lantern medallion fashioned from orange amber and dark copper, sharp elegant glowing amber eyes and a controlled sinister grin, crowned by a small gothic black-gold crown. Integrate two perfectly straight ceremonial blades in a clear crossed formation behind this medallion; keep each blade a single rigid straight object, aligned cleanly through its whole visible length. A restrained bat-wing silhouette is integrated into the crest metalwork, not a swarm of clip-art bats. Delicate thorn-vine engraving along the inner rim. Wisps of deep violet spectral flame wrap the crest, with selective molten-amber sparks. Make the orange pumpkin silhouette recognizable even at small game-shop size. Festive and ominous, exclusive collector quality, never cute, cheap, plastic, toy-like or gore. Clear visual hierarchy and controlled black negative space, exquisite reflective metal and crystal painting, high-end polished 2D fantasy game item art. Keep ornament cohesive and contained inside the pack silhouette.\n\nLAYOUT: small crest gem and spaced brand at the top, large richly designed pumpkin/crossed-blade crest in the upper half, bold engraved gold headline beneath, secondary lines with generous spacing, small Korean subtitle near the bottom above a subtle amber seal ornament. The new HALLOWEEN identity must read immediately rather than merely recoloring the old purple pack.\n\nTEXT: Render ONLY the following exact wording, each once, no additional text:\nTop small: \"SOOPKETMON\"\nMain largest headline: \"HALLOWEEN\"\nNext line: \"LIMITED EDITION\"\nNext smaller line: \"MERCENARY PACK\"\nBottom Korean: \"할로윈 리미티드 용병팩\"\nSpell HALLOWEEN exactly H A L L O W E E N. Use exceptionally legible refined engraved serif gold typography for the main English headline; clean accurately drawn Korean letters. No glow over letter interiors. All text safely inside the rim with ample padding. No cropped lettering.\n\nNo character portraits, no new mercenary, no rank labels, no star ratings, no price, no drop rates, no guaranteed rewards, no release date, no serial numbers, no watermark. Deliver only the finished pack resource."
+  },
+  "generatedSource": {
+    "path": "C:/Users/User/.codex/generated_images/01a12068-4d0f-75a3-909e-95671007c1fd/exec-b9e8811a-a6cd-46ca-b7bf-d49a10be0a91.png",
+    "sha256": "ac6e88f72f9ebca14b513d27441e3ff3e2de0cb76a4ca8872f623d8bc9198b88",
+    "bytes": 2302644,
+    "width": 941,
+    "height": 1672,
+    "format": "png",
+    "space": "srgb",
+    "hasAlpha": false
+  },
+  "prompt": "Use case: precise-object-edit / product-mockup\nAsset type: premium Halloween limited mercenary pack, refined clean redesign.\nPrimary request from the user: \"Remove the purple and make the design clean and luxurious.\" Apply this firmly to the attached first draft.\n\nRetain only the outer tall narrow 9:16 straight-on rounded rectangular pack silhouette, complete visible perimeter, original canvas proportions, SOOPKETMON identity, Halloween pumpkin theme and exactly the text listed below. Redesign the internal ornamentation and typography to achieve an expensive restrained collector edition.\n\nREMOVE EVERY purple, violet, magenta and blue glow, flame, smoke, crystal reflection and spark. No colored energy effects at all. Remove the large bat wings, tangled thorn rings, dangling banners, corner bat decorations, protruding spikes and large lower ornamental crest. Do not merely recolor the busy old effects orange. Clear away that visual clutter.\n\nNew materials and hierarchy:\n- deep smooth matte obsidian-black face with barely visible fine silk/brushed texture\n- slim precise continuous double champagne-gold metallic rim, subtle dimensional bevel and restrained corner details\n- generous uninterrupted black negative space around every element\n- one beautifully sculpted small-to-medium pumpkin order medallion centered in the upper half, roughly half the pack width, elegant and symmetrical, amber enamel inlaid into brushed champagne gold, gently illuminated amber eyes and carved grin, subtle sculpted facets instead of intense fiery crystal chaos\n- a restrained small gold crown directly above the medallion, two thin absolutely straight ceremonial blades crossed discretely behind it to retain the mercenary identity; each blade axis must remain rigid and perfectly straight\n- only quiet warm metal highlights. Soft warm amber within the pumpkin only, no flame or floating particles.\n- one tiny engraved abstract pumpkin seal near the bottom instead of a large ornamental emblem\n- premium 2D game item illustration with convincing fine metal craftsmanship. Sophisticated product design, clean and luxurious, not cheap flat vector and not a noisy fantasy poster.\n\nRecompose the lettering with breathing room. Refined readable engraved serif typography, satin gold rather than massive mirror-chrome bevels, no exaggerated extended spikes on letters. Very clear alignment and padding. The top brand small, main headline large, edition line medium, mercenary subtitle smaller, Korean bottom subtitle small but readable. Do not add new text.\nExact text, once each:\n\"SOOPKETMON\"\n\"HALLOWEEN\"\n\"LIMITED EDITION\"\n\"MERCENARY PACK\"\n\"할로윈 리미티드 용병팩\"\n\nAll text must be spelled exactly, fully inside the rim and unobstructed. Preserve the complete pack, no cropping, no perspective sidewalls, no standing box, no environment, no mockup props. The margin outside the rounded pack is black, as in the reference. No purple anywhere. No new character, rank, price, guarantee, date, serial number or watermark.",
+  "requestedText": [
+    "SOOPKETMON",
+    "HALLOWEEN",
+    "LIMITED EDITION",
+    "MERCENARY PACK",
+    "할로윈 리미티드 용병팩"
+  ],
+  "design": {
+    "palette": [
+      "matte obsidian black",
+      "champagne gold",
+      "warm pumpkin amber"
+    ],
+    "removed": [
+      "purple/violet/magenta/blue effects",
+      "flame and smoke ribbons",
+      "floating sparks",
+      "large bat wings",
+      "tangled thorn rings"
+    ],
+    "subject": "Crowned amber pumpkin medallion and straight crossed ceremonial blades",
+    "format": "Front-facing tall rounded rectangular pack; complete double metallic rim"
+  },
+  "files": [
+    {
+      "path": "assets/ui/packs/halloween-limited-20261011-v2/pack-320.webp",
+      "sha256": "8804d89a9e1aafe6550f561f20949996a2c19f50d4b549a2aa4f748658c131d2",
+      "bytes": 51506,
+      "width": 320,
+      "height": 569,
+      "format": "webp",
+      "space": "srgb",
+      "hasAlpha": false
+    },
+    {
+      "path": "assets/ui/packs/halloween-limited-20261011-v2/pack-640.webp",
+      "sha256": "fa0076295d13854ceb3acbeceee598774a093b8db9eb5425f88bf88b66fafe4d",
+      "bytes": 164022,
+      "width": 640,
+      "height": 1137,
+      "format": "webp",
+      "space": "srgb",
+      "hasAlpha": false
+    },
+    {
+      "path": "assets/ui/packs/halloween-limited-20261011-v2/pack-source.png",
+      "sha256": "ac6e88f72f9ebca14b513d27441e3ff3e2de0cb76a4ca8872f623d8bc9198b88",
+      "bytes": 2302644,
+      "width": 941,
+      "height": 1672,
+      "format": "png",
+      "space": "srgb",
+      "hasAlpha": false
+    }
+  ],
+  "export": {
+    "master": "Generated PNG preserved byte-for-byte",
+    "webp": {
+      "widths": [
+        640,
+        320
+      ],
+      "quality": 92,
+      "effort": 6,
+      "aspectRatioPreserved": true
+    }
+  },
+  "scope": {
+    "resourceOnly": true,
+    "existingArtOverwritten": false,
+    "liveShopAssetReplaced": false,
+    "productRegistered": false,
+    "pricesOrProbabilitiesChanged": false,
+    "limitedPoolOrOwnershipChanged": false
+  },
+  "qa": {
+    "sourceMatchesGeneratedBytes": true,
+    "existingReferenceHashPreserved": true,
+    "sameReferenceDimensions": true,
+    "fullImageInspected": true,
+    "purpleEffectsRemoved": true,
+    "frameUnclipped": true,
+    "textVisuallyCorrect": true,
+    "crossedBladesStraight": true,
+    "visualApprovalGranted": false,
+    "thumbnailMainTitleAndEmblemReadableAt160px": true,
+    "thumbnailEvidence": "C:/Users/User/.codex/visualizations/2026/10/11/halloween-limited-pack/pack-160.webp"
+  }
+}
