@@ -1,0 +1,89 @@
+{
+  "completedAt": "2026-10-11T10:00:29.355Z",
+  "sourceCommit": "1a0ca4f720573787e95e9e3597dee41fd30b8772",
+  "previousProduction": "9a2b4bc8fbd0a1013bb418fa70412ab41647e0eb",
+  "command": "npm run deploy:production -- --scoped",
+  "policy": {
+    "code": "V-996",
+    "version": 2,
+    "modes": [
+      "PVE",
+      "PVP"
+    ],
+    "speedScale": {
+      "before": 2,
+      "after": 3
+    },
+    "extraActionsPerCard": {
+      "before": 1.5,
+      "after": 3
+    },
+    "mercenaryActionCapPerRegularLimit": {
+      "before": 2,
+      "after": 3
+    }
+  },
+  "validation": {
+    "featureRegressionTests": 32,
+    "finalReleaseTests": 50,
+    "pcMobileBattles": 4,
+    "workerCheck": true,
+    "productionGuard": true,
+    "hyperdriveCacheDisabled": true,
+    "liveFileHashes": 6
+  },
+  "deployment": {
+    "pages": "https://84cf162a.cnine-card.pages.dev",
+    "production": "https://cnine-card.pages.dev",
+    "apiVersion": "5db07b41-6d90-4270-8b83-62ceba1ca510",
+    "schedulerVersion": "f6b53fab-26d5-4930-9da8-78849c5111e4"
+  },
+  "liveVerification": {
+    "at": "2026-10-11T10:00:29.287Z",
+    "base": "https://cnine-card.pages.dev",
+    "files": [
+      {
+        "file": "shared/mercenary-valter-v1.mjs",
+        "status": 200,
+        "bytes": 1773,
+        "sha256": "6801653110fb9d6d06dafb5159887542c82a43ae3b5fd9f3221a3a955336eba7"
+      },
+      {
+        "file": "index.html",
+        "status": 200,
+        "bytes": 22988,
+        "sha256": "4def5eb40d13f2289caeea46fc648295b13e79df1b4b4d0008a28e73c70db3e7"
+      },
+      {
+        "file": "service-worker.js",
+        "status": 200,
+        "bytes": 9765,
+        "sha256": "ef7547e74759711342013759df1f6044f22504a090c49387d8ae897a3549a024"
+      },
+      {
+        "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+        "status": 200,
+        "bytes": 1758230,
+        "sha256": "de6f2c74a6d0c2c83b6fa9158fe2cc4599de271bf08fa4fb81275ed0de1ae8f8"
+      },
+      {
+        "file": "preview/sustained-hunt-v2/battle.bundle.js",
+        "status": 200,
+        "bytes": 1780256,
+        "sha256": "2a5d9ef594b3e95d46361a02e45a3ebfed9913251d0ea55cf080f2b716443176"
+      },
+      {
+        "file": "pve-v3/battle.bundle.js",
+        "status": 200,
+        "bytes": 1758205,
+        "sha256": "4604f4ba34436341053038c9741a74b9f89f976221b59e5e810098a5affdfccb"
+      }
+    ],
+    "unauthenticatedEquipment": 401
+  },
+  "evidence": {
+    "log": "tmp/valter-tempo-20261011/deploy.log",
+    "logSha256": "e579cf4a025ae25ed2efcb0959ec0cf0296664958ee6fccce2f4000ffe3f1c63",
+    "browser": "docs/qa/valter-tempo-20261011/browser-report.json"
+  }
+}
