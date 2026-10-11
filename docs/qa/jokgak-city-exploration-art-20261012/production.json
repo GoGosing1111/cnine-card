@@ -1,0 +1,245 @@
+{
+  "verifiedAt": "2026-10-11T17:49:13.262Z",
+  "origin": "https://cnine-card.pages.dev",
+  "commit": "7a8d620a7c2bbc27e7d4dec1192dd91a49c12919",
+  "deployment": {
+    "Id": "9ba88370-4cc6-4c51-87d8-7acbbbbcc465",
+    "Environment": "Production",
+    "Branch": "main",
+    "Source": "7a8d620",
+    "Deployment": "https://9ba88370.cnine-card.pages.dev",
+    "Status": "24 seconds ago",
+    "Build": "https://dash.cloudflare.com/1e7c59450a8b6e34a9d87f92ca02aeaa/pages/view/cnine-card/9ba88370-4cc6-4c51-87d8-7acbbbbcc465"
+  },
+  "checks": [
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "sha256": "a15c8285f59c92ed790f1b371a48caa01276e2fb685f9a95938af1844d94c3f0",
+      "bytes": 87115
+    },
+    {
+      "file": "admin/jokgak-city-admin-v1.css",
+      "status": 200,
+      "sha256": "05bd2bfb254ffefc21a07eca2013ae93d33486bad92b1d78f70caea019b6eae5",
+      "bytes": 12928
+    },
+    {
+      "file": "admin/jokgak-city-admin-v1.mjs",
+      "status": 200,
+      "sha256": "2fe6cbc13e30fb5db3cf2fb87b91a9a926e38632ec65b520b564cf577487e704",
+      "bytes": 30812
+    },
+    {
+      "file": "admin/jokgak-city-exploration-admin-v1.mjs",
+      "status": 200,
+      "sha256": "9349547a534811bcb91accbbb88d9abc190f9c72466caeac27ee402300846b5e",
+      "bytes": 2923
+    },
+    {
+      "file": "assets/ui/jokgak-city/exploration-v2/bat-256.webp",
+      "status": 200,
+      "sha256": "c1bcff34cc189d04251191dae6dd7171571896c9b4e0838cd5d49f1f35904dde",
+      "bytes": 7762
+    },
+    {
+      "file": "assets/ui/jokgak-city/exploration-v2/bat-768.webp",
+      "status": 200,
+      "sha256": "abbe9800e58f252156a0466e93f46bd0fd1853ef83bd5ab6fd6dc7b2025bc643",
+      "bytes": 37046
+    },
+    {
+      "file": "assets/ui/jokgak-city/exploration-v2/crossbow-256.webp",
+      "status": 200,
+      "sha256": "313381985010ee5e9b74e324c058f03485080f81204a6cdfa24e3ce61a6a70ae",
+      "bytes": 16470
+    },
+    {
+      "file": "assets/ui/jokgak-city/exploration-v2/crossbow-768.webp",
+      "status": 200,
+      "sha256": "84a4b2c4d0777b00d98d11dae8cb09f173daea6674dad9088d59d649e96fb50e",
+      "bytes": 84030
+    },
+    {
+      "file": "assets/ui/jokgak-city/exploration-v2/crowbar-256.webp",
+      "status": 200,
+      "sha256": "d2768ffd3a5ea4e6964116dd52708c743af55ca9dd9375bf7939571d9f872db8",
+      "bytes": 7580
+    },
+    {
+      "file": "assets/ui/jokgak-city/exploration-v2/crowbar-768.webp",
+      "status": 200,
+      "sha256": "64196df57ddd30cdbcd82292e17ee57bcf942a843e797680e4732cd237fd431c",
+      "bytes": 38222
+    },
+    {
+      "file": "assets/ui/jokgak-city/exploration-v2/jacket-256.webp",
+      "status": 200,
+      "sha256": "c2ca769d7e00b760de321620284b4e02b059b46bd70ae6f0a78ac587612a8d18",
+      "bytes": 20670
+    },
+    {
+      "file": "assets/ui/jokgak-city/exploration-v2/jacket-768.webp",
+      "status": 200,
+      "sha256": "ac8baae23f3a0c7cf100e6f6261eedcf593be9ab2acbb4043a413c44e0610423",
+      "bytes": 132224
+    },
+    {
+      "file": "assets/ui/jokgak-city/exploration-v2/kevlar-256.webp",
+      "status": 200,
+      "sha256": "eb0205a51f82851edbc04a18cdcc248d0d148c42c753a3309f6b8c5675a52cf7",
+      "bytes": 15850
+    },
+    {
+      "file": "assets/ui/jokgak-city/exploration-v2/kevlar-768.webp",
+      "status": 200,
+      "sha256": "d0d8d411a1c5be69ef0164be2bbb024d6efaface24b3592164ba2650105e33a5",
+      "bytes": 145586
+    },
+    {
+      "file": "assets/ui/jokgak-city/exploration-v2/knife-256.webp",
+      "status": 200,
+      "sha256": "e1f5049e07872164bde62ecbdb5a2ac606a31e7b96cb6b771cd965d03d6955c8",
+      "bytes": 8990
+    },
+    {
+      "file": "assets/ui/jokgak-city/exploration-v2/knife-768.webp",
+      "status": 200,
+      "sha256": "30a407d9cb97cb8b20b42735c74f71801bb440bbaedfb1cda4193e535fa1be57",
+      "bytes": 49714
+    },
+    {
+      "file": "assets/ui/jokgak-city/exploration-v2/padded-256.webp",
+      "status": 200,
+      "sha256": "6984669be1105113c70e0f0fc147d7de63271a4b0d1122c44b0ef83fb2445edc",
+      "bytes": 16538
+    },
+    {
+      "file": "assets/ui/jokgak-city/exploration-v2/padded-768.webp",
+      "status": 200,
+      "sha256": "812909e5fd03d1086d79c7881c211aa6f3a557623424e6b22a90892d52aaf35f",
+      "bytes": 102814
+    },
+    {
+      "file": "assets/ui/jokgak-city/exploration-v2/plate-256.webp",
+      "status": 200,
+      "sha256": "e7c3117d66fa6c435691ab88bbc6fcd04a8d46f67b4cf45d602bbeecc47e5dd8",
+      "bytes": 16522
+    },
+    {
+      "file": "assets/ui/jokgak-city/exploration-v2/plate-768.webp",
+      "status": 200,
+      "sha256": "91ed618911eb1d1106c78e04f701601c1f6f40c8b32bef9558d15b5d629b93f6",
+      "bytes": 125416
+    },
+    {
+      "file": "assets/ui/jokgak-city/exploration-v2/riot-256.webp",
+      "status": 200,
+      "sha256": "50cb190ec4617089d514b3b33c5076c552b0f7f8d4b8ea515611680c4a7f4999",
+      "bytes": 16434
+    },
+    {
+      "file": "assets/ui/jokgak-city/exploration-v2/riot-768.webp",
+      "status": 200,
+      "sha256": "c70eb4edd414df77d8a40bfa0d41cae07eefaa9065f4c78963a6c6333736afd1",
+      "bytes": 93014
+    },
+    {
+      "file": "assets/ui/jokgak-city/exploration-v2/shotgun-256.webp",
+      "status": 200,
+      "sha256": "f217cace603af3348a559dc8b343840061a2c212f961001958509f0228f611f1",
+      "bytes": 8940
+    },
+    {
+      "file": "assets/ui/jokgak-city/exploration-v2/shotgun-768.webp",
+      "status": 200,
+      "sha256": "6316e716c52ccc4a47ceb56d456e4794f68a7771364c8c296e3629ec13712cb7",
+      "bytes": 45920
+    },
+    {
+      "file": "assets/ui/jokgak-city/exploration-v2/smg-256.webp",
+      "status": 200,
+      "sha256": "d9f9400853141df8d35344c09c27051991e24c362652f60d0306782e0254650e",
+      "bytes": 14042
+    },
+    {
+      "file": "assets/ui/jokgak-city/exploration-v2/smg-768.webp",
+      "status": 200,
+      "sha256": "0be883a7367b46417893fbab475d6b248f47b4c746d95e117c52362fa55e56c5",
+      "bytes": 71744
+    },
+    {
+      "file": "assets/ui/jokgak-city/exploration-v2/sniper-256.webp",
+      "status": 200,
+      "sha256": "d4dda3e44543a739eec3183405a4faaf8eb45a7f0bff1ae15e5afed4a19e2a7e",
+      "bytes": 10548
+    },
+    {
+      "file": "assets/ui/jokgak-city/exploration-v2/sniper-768.webp",
+      "status": 200,
+      "sha256": "3be5efcedb6e551361e3d8455f2022e6e40bff0d5dddd66916a907e6ad825001",
+      "bytes": 47542
+    },
+    {
+      "file": "assets/ui/jokgak-city/exploration-v2/work-vest-256.webp",
+      "status": 200,
+      "sha256": "d1db89c402d6e397eb040bbf049ab3bc377b5891d10be64b3056123c8aebd385",
+      "bytes": 15678
+    },
+    {
+      "file": "assets/ui/jokgak-city/exploration-v2/work-vest-768.webp",
+      "status": 200,
+      "sha256": "68995ef297dcebbb2798a25b77369e9e61bac4e0b8ecfed5e2c7527329cf80a8",
+      "bytes": 131680
+    },
+    {
+      "file": "css/jokgak-city-exploration-v2.css",
+      "status": 200,
+      "sha256": "3e822f98ff31ffc1b72bd6c3e5906bac3f675a69aab64055583209ef88bbcacf",
+      "bytes": 14638
+    },
+    {
+      "file": "css/jokgak-city-v1.css",
+      "status": 200,
+      "sha256": "9ad0b9e054b5b15b41c0625a8f222900602dd8b382af7d9db5507c57429137dc",
+      "bytes": 38469
+    },
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "2cd53cc878fb766f0f5494d5517c30a325bd767ece80af292477c3fa02245fd8",
+      "bytes": 23129
+    },
+    {
+      "file": "js/jokgak-city-expansion-ui-v1.mjs",
+      "status": 200,
+      "sha256": "8518b3d5d3e2a688612004c7060b8b29a895756695fc3f92b2931edda87ea498",
+      "bytes": 6213
+    },
+    {
+      "file": "js/jokgak-city-exploration-ui-v1.mjs",
+      "status": 200,
+      "sha256": "a2c30c6aca3d5e97ec5b4c0e50fd9e0b5207522ad302fb5d08a7ecc73c7c7767",
+      "bytes": 78
+    },
+    {
+      "file": "js/jokgak-city-exploration-ui-v2.mjs",
+      "status": 200,
+      "sha256": "093764d22b026e071ce2c71c2bda7da597b9304a63cd7fa25fa9c630f6a708aa",
+      "bytes": 9861
+    },
+    {
+      "file": "js/jokgak-city-gear-art-v1.mjs",
+      "status": 200,
+      "sha256": "da83ca5c929db6b0e89f35be745dcebdb7fc7a512c00ff265b168b4548dac089",
+      "bytes": 1254
+    },
+    {
+      "file": "js/jokgak-city-v1.js",
+      "status": 200,
+      "sha256": "1738e3601d6b2a0fa3deda5545835d2fb4f7bec9c5a2e1827f740bef92bd16a7",
+      "bytes": 60002
+    }
+  ],
+  "settingsWrites": 0
+}
