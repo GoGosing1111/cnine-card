@@ -7,6 +7,8 @@ import {assignedCityRole} from './_jokgak_city_roles.js';
 import {cityGuard,cityGuardEnd} from './_jokgak_city_rewards.js';
 import {cityTopKey,milestoneValue,CITY_TOP_GOAL} from './_milestone_trophies.js';
 import {prepareCityTop10Event} from './_jokgak_city_top10_event.js';
+import {prepareCityRoundRewards} from './_jokgak_city_round_rewards.js';
+import {CITY_SETTINGS_KEY} from '../shared/jokgak-city-settings-v1.mjs';
 export const CITY_TOP_CURSOR='jokgak_city_top_next_epoch_v1';
 const p=(env,sql,...v)=>env.DB.prepare(sql).bind(...v);
 // Share the epoch lock with settlement. A request that finished computing just
@@ -29,17 +31,23 @@ export async function prepareCityTopSettlement(env,shift){
   p(env,'UPDATE app_meta SET value=? WHERE key=? AND value=?',token,CITY_TOP_CURSOR,raw),
   cityGuard(env,token,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[CITY_TOP_CURSOR,token])
  ];
- const mode=env.DB.dialect==='postgres'?"(a.result_json::jsonb->>'mode')":"json_extract(a.result_json,'$.mode')";
+ // Combat receipts keep mode=PVP for battle playback. Their independent city
+ // mode is recorded explicitly; older receipts carry it in reward.mode.
+ const json=path=>env.DB.dialect==='postgres'?`(a.result_json::jsonb#>>'{${path.join(',')}}')`:`json_extract(a.result_json,'$.${path.join('.')}')`;
+ const battleMode=json(['mode']),mode=`CASE WHEN ${battleMode}='PVP' THEN COALESCE(${json(['cityMode'])},${json(['reward','mode'])}) ELSE ${battleMode} END`;
  const candidatesSql=`FROM jokgak_city_players_v1 c
   JOIN users u ON u.id=c.user_id JOIN app_meta life ON life.key='jokgak_city_life_v1:'||CAST(c.user_id AS TEXT)
   WHERE c.epoch>=? AND c.epoch<? AND u.status='ACTIVE' AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))
   AND EXISTS(SELECT 1 FROM jokgak_city_actions_v1 a WHERE a.user_id=c.user_id AND ${mode}='ON'
    AND a.created_at>=c.epoch*${CITY_SHIFT_MS}-32400000 AND a.created_at<(c.epoch+1)*${CITY_SHIFT_MS}-32400000)`;
- const rows=(await p(env,`SELECT c.*,life.value AS life_raw ${candidatesSql} ORDER BY c.user_id`,from,shift.id).all()).results||[];
+ const attacksSql=`SELECT COUNT(*) FROM jokgak_city_actions_v1 a WHERE a.user_id=c.user_id AND a.action='attack' AND ${mode}='ON' AND a.created_at>=c.epoch*${CITY_SHIFT_MS}-32400000 AND a.created_at<(c.epoch+1)*${CITY_SHIFT_MS}-32400000`;
+ const rows=(await p(env,`SELECT c.*,life.value AS life_raw,(${attacksSql}) AS attack_count ${candidatesSql} ORDER BY c.user_id`,from,shift.id).all()).results||[];
  // New entrants committed while this plan was being prepared require a fresh
  // snapshot too, even when none of the previously seen rows changed.
  statements.push(cityGuard(env,token+':participants',`(SELECT COUNT(*) ${candidatesSql})=?`,[from,shift.id,rows.length]),cityGuardEnd(env,token+':participants'));
- const {policy}=await readCitySettings(env),byEpoch=new Map(),awards=[];
+ const {policy,raw:policyRaw}=await readCitySettings(env),byEpoch=new Map(),awards=[];
+ if(env.DB.dialect==='postgres')statements.push(p(env,'SELECT key FROM app_meta WHERE key=? FOR SHARE',CITY_SETTINGS_KEY));
+ statements.push(cityGuard(env,token+':policy',policyRaw===null?'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)':'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',policyRaw===null?[CITY_SETTINGS_KEY]:[CITY_SETTINGS_KEY,policyRaw]),cityGuardEnd(env,token+':policy'));
  for(const row of rows){
   const guard=token+':'+row.user_id;
   if(env.DB.dialect==='postgres')statements.push(p(env,'SELECT user_id FROM jokgak_city_players_v1 WHERE user_id=? FOR UPDATE',row.user_id),p(env,'SELECT key FROM app_meta WHERE key=? FOR UPDATE',cityLifeKey(row.user_id)));
@@ -50,7 +58,7 @@ export async function prepareCityTopSettlement(env,shift){
   const life=readCityLife(row.life_raw,at);if(!life.wallets?.ON)continue;
   const role=await assignedCityRole(env,Number(row.user_id),epoch,group.weights);
   projectCityCareer({role,active:false},life,at,group.rules);
-  group.candidates.push({id:Number(row.user_id),cash:life.wallets.ON.balance});
+  group.candidates.push({id:Number(row.user_id),cash:life.wallets.ON.balance,attacks:Number(row.attack_count)});
  }
  for(const [epoch,group] of [...byEpoch].sort((a,b)=>a[0]-b[0])){
   const max=group.candidates.reduce((value,c)=>Math.max(value,c.cash),-1);
@@ -64,6 +72,7 @@ export async function prepareCityTopSettlement(env,shift){
   }
  }
  statements.push(...await prepareCityTop10Event(env,{from,to:shift.id,byEpoch}));
+ statements.push(...await prepareCityRoundRewards(env,{byEpoch,policy,token}));
  statements.push(p(env,'UPDATE app_meta SET value=? WHERE key=? AND value=?',String(shift.id),CITY_TOP_CURSOR,token),cityGuardEnd(env,token));
  return {statements,awards,from};
 }

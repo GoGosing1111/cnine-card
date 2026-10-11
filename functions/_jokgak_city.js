@@ -18,6 +18,7 @@ import {projectCityFacilities} from '../shared/jokgak-city-expansion-v1.mjs';
 import {cityBroadcastText,cityCommsAction} from '../shared/jokgak-city-comms-v1.mjs';
 import {settleCityRound} from './_jokgak_city_round.js';
 import {cityRoundWriteGuards} from './_jokgak_city_top.js';
+import {freezeCityRoundRewards} from './_jokgak_city_round_rewards.js';
 import {cityNoticePreferences,saveCityNoticePreferences,cityNoticeCount,skipCityNotices,cityActivityLog,cityBroadcasts} from './_jokgak_city_comms.js';
 
 const p=(env,sql,...v)=>env.DB.prepare(sql).bind(...v);
@@ -113,6 +114,7 @@ export async function cityAction(env,deps,user,action,body){
   const {policy:storedPolicy,raw:policyRaw}=await readCitySettings(env);
   const policy=await cityCareerPolicy(env,storedPolicy,now);
   if(action!=='leave')requireCityAccess(policy,user);
+  await freezeCityRoundRewards(env,policy,now);
   if(body.epoch!==epoch)fail('SHIFT','역할이 교대되었습니다. 현황을 새로 확인하세요.');
   const weights=await cityRoleWeights(env,epoch,policy);
   const rows=await Promise.all([player(env,user.id),targetId&&targetId!==Number(user.id)?player(env,targetId):null]);let [raw,targetRaw]=rows;
@@ -218,7 +220,7 @@ export async function cityAction(env,deps,user,action,body){
   if(comms?.kind==='broadcast')comms.createdAt=committedAt;
   const {cash:targetCash,cashMode:targetCashMode,cashUnit:targetCashUnit,bag:targetBag,ownedWeapons:targetWeapons,career:targetCareer,megaphoneCount:targetMegaphones,megaphoneNextAt:targetMegaphoneNext,...visibleTarget}=target||{};
   const result={ok:true,requestId:body.requestId,action,epoch,mode:policy.mode,policyRevision:policy.revision,createdAt:committedAt,location:mine?.location||me.location,mine:me,target:targetId?visibleTarget:null,inspection,...simulation,reward:reward.result,theft,donation:donation?.result||null,service:service?.result||null,
-    expansion,work,comms,effects:{damageToMine:Math.max(0,(healthBefore??me.health)-me.health),damageToTarget:Math.max(0,(targetHealthBefore??0)-(target?.health??0)),healed:action==='heal'?target.health-targetHealthBefore:0,jailMs:action==='arrest'&&simulation?.battleV2?.result?.winner==='A'?role.arrestMs:0}};
+    cityMode:policy.mode,expansion,work,comms,effects:{damageToMine:Math.max(0,(healthBefore??me.health)-me.health),damageToTarget:Math.max(0,(targetHealthBefore??0)-(target?.health??0)),healed:action==='heal'?target.health-targetHealthBefore:0,jailMs:action==='arrest'&&simulation?.battleV2?.result?.winner==='A'?role.arrestMs:0}};
   if(simulation)result.result=simulation.battleV2.result.winner==='A'?'WIN':simulation.battleV2.result.winner==='B'?'LOSE':'DRAW';
   const policyGuard=body.requestId+':policy',statements=cityRoundWriteGuards(env,epoch,body.requestId);
   if(env.DB.dialect==='postgres')statements.push(p(env,'SELECT key FROM app_meta WHERE key=? FOR SHARE',CITY_SETTINGS_KEY));

@@ -4,6 +4,7 @@ import {CITY_SETTINGS_KEY,defaultCitySettings,validateCitySettings,cityCanAccess
 import {CITY_ROLES,cityShift} from '../shared/jokgak-city-v1.mjs';
 import {EQUIPMENT_FORGE_RELEASE_PROTECTION_CODE} from '../shared/equipment-forge-release-v1.mjs';
 import {readJointBody} from './_joint_request.js';
+import {freezeCityRoundRewards} from './_jokgak_city_round_rewards.js';
 
 const p=(env,sql,...v)=>env.DB.prepare(sql).bind(...v);
 const fail=(message,status=400,code='CITY_POLICY')=>{throw Object.assign(Error(message),{status,code});};
@@ -46,11 +47,12 @@ export async function saveCitySettings(env,user,value,now=Date.now()){
   if(user?.role!=='OWNER')fail('족각도시 설정은 OWNER만 변경할 수 있습니다.',403,'CITY_PERMISSION');
   const before=await readCitySettings(env);
   if(value?.revision!==before.policy.revision)fail('다른 창에서 설정이 변경됐습니다. 다시 불러오세요.',409,'CITY_POLICY_CONFLICT');
-  const next=validateCitySettings(value),catalog=await cityRewardCatalog(env),codes=new Set(catalog.map(r=>r.code));
-  if(next.roles.some(r=>r.rewards.some(row=>row.items.some(item=>!codes.has(item.code)))))fail('현재 지급 가능한 보상 아이템을 선택하세요.');
+  const next=validateCitySettings({...value,roundRewards:value.roundRewards===undefined?before.policy.roundRewards:value.roundRewards}),catalog=await cityRewardCatalog(env),codes=new Set(catalog.map(r=>r.code));
+  if([...next.roles.flatMap(r=>r.rewards),next.roundRewards.participation,...next.roundRewards.top5.ranks].some(row=>row.items.some(item=>!codes.has(item.code))))fail('현재 지급 가능한 보상 아이템을 선택하세요.');
   if((await cityTestUsers(env,next.testUserIds)).length!==next.testUserIds.length)fail('활성 계정을 검색하여 테스트 참여자를 지정하세요.');
   await cityRoleWeights(env,cityShift(now).id,before.policy);
   await cityCareerPolicy(env,before.policy,now);
+  await freezeCityRoundRewards(env,before.policy,now);
   next.career.startedAt=before.policy.career.startedAt||(next.career.enabled?now:0);
   const saved={...next,revision:next.revision+1,enabled:next.mode==='ON',updatedBy:Number(user.id),updatedAt:new Date(now).toISOString(),writeToken:crypto.randomUUID()};
   const raw=JSON.stringify(saved),key=CITY_SETTINGS_KEY;
