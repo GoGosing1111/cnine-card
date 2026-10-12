@@ -4431,7 +4431,7 @@ async function openPrimeDrawPack(kind,ownedQuantity=null,suppliedConfig=null,aut
 }
 
 function messagesView(){return `${summaryBar(loadUser())}<section class="message-center"><div class="message-head"><div><p class="eyebrow">SOOP MESSAGE CENTER</p><h2>메시지함</h2><p>운영 공지, 인증 결과와 개인 귀속 쿠폰을 확인할 수 있습니다.</p></div><div class="message-head-actions"><button class="btn message-claim-all" id="claimAllMessages" type="button" disabled aria-live="polite">보상 일괄 수령</button><button class="btn secondary" id="openWagoVerify" type="button">2차 인증</button></div></div><div id="wagoVerifyPanel" class="wago-verify-panel secondary-verification-panel" hidden></div><div id="messageList" class="message-list"><div class="empty-recent">메시지를 불러오는 중...</div></div></section>`}
-const MESSAGE_REWARD_META={MINE_ELECTRIC_DRILL:{label:'전동드릴',icon:'🛠️'},LICH_KING_ENTRY_TICKET:{label:'리치왕 정벌 입장권',icon:'🎟️'},PINGDU_THANKS_GIFT_BOX:{label:'핑두의 감사 선물',icon:'🎁'},MERCENARY_OMEGA_X:{label:'오메가-X SSS',icon:'🃏'},TOURNAMENT_GIFT_BOX:{label:'대회 사은품',icon:'🎁'},RECRUITMENT_GIFT_BOX:{label:'영입전 사은품',icon:'🎁'},FUNDING_GIFT_BOX:{label:'펀딩 사은품',icon:'🎁'},PIG_COIN:{label:'피그코인',icon:'🐷'},COIN:{label:'코인',icon:'🪙'},SHARDS:{label:'카드 조각',icon:'🧩'},MASTER_STAR:{label:'마스터의 별',icon:'⭐'},EQUIPMENT_SUPPLY_BOX:{label:'장비 보급상자',icon:'📦'},HIGH_GRADE_REROLL_TICKET:{label:'고등급 재뽑기권',icon:'♻️'},UNIQUE_ADVANCEMENT_PASS:{label:'전직 패스권',icon:'🎟️'},STARLIGHT_ARMOR_CORE:{label:'미스틱 에너지',icon:'🔮'},PINGDU_REPAIR_COUPON:{label:'핑두 리페어 쿠폰',icon:'🎟️'}};
+const MESSAGE_REWARD_META={JOKGAK_CITY_REWARD:{label:'족각도시 보상',icon:'🏙️'},MINE_ELECTRIC_DRILL:{label:'전동드릴',icon:'🛠️'},LICH_KING_ENTRY_TICKET:{label:'리치왕 정벌 입장권',icon:'🎟️'},PINGDU_THANKS_GIFT_BOX:{label:'핑두의 감사 선물',icon:'🎁'},MERCENARY_OMEGA_X:{label:'오메가-X SSS',icon:'🃏'},TOURNAMENT_GIFT_BOX:{label:'대회 사은품',icon:'🎁'},RECRUITMENT_GIFT_BOX:{label:'영입전 사은품',icon:'🎁'},FUNDING_GIFT_BOX:{label:'펀딩 사은품',icon:'🎁'},PIG_COIN:{label:'피그코인',icon:'🐷'},COIN:{label:'코인',icon:'🪙'},SHARDS:{label:'카드 조각',icon:'🧩'},MASTER_STAR:{label:'마스터의 별',icon:'⭐'},EQUIPMENT_SUPPLY_BOX:{label:'장비 보급상자',icon:'📦'},HIGH_GRADE_REROLL_TICKET:{label:'고등급 재뽑기권',icon:'♻️'},UNIQUE_ADVANCEMENT_PASS:{label:'전직 패스권',icon:'🎟️'},STARLIGHT_ARMOR_CORE:{label:'미스틱 에너지',icon:'🔮'},PINGDU_REPAIR_COUPON:{label:'핑두 리페어 쿠폰',icon:'🎟️'}};
 function messageRewardMeta(message){
   const type=String(message?.reward_type||'').trim().toUpperCase();
   return MESSAGE_REWARD_META[type]||(message?.reward_supported===true?{label:String(message.reward_label||'보상'),icon:String(message.reward_icon||'🎁')}:null);
@@ -4473,7 +4473,7 @@ async function claimAllMessageRewards(messages,button){
   }
   if(lastResult)messageClaimUser(lastResult);
   clearApiCache('loot-shop/balance');clearApiCache('loot-shop/state');clearApiCache('inventory');clearApiCache('shell/summary');clearApiCache('me/summary');clearApiCache('messages');
-  const rewardSummary=[...totals.entries()].map(([type,amount])=>{const meta=messageRewardMeta(queue.find(m=>String(m.reward_type||'').trim().toUpperCase()===type))||{label:type||'보상',icon:'🎁'};return `${meta.icon} ${meta.label} ${Number(amount).toLocaleString()}개`}).join('\n');
+    const rewardSummary=[...totals.entries()].map(([type,amount])=>{const meta=messageRewardMeta(queue.find(m=>String(m.reward_type||'').trim().toUpperCase()===type))||{label:type||'보상',icon:'🎁'};return `${meta.icon} ${meta.label} ${Number(amount).toLocaleString()}${type==='JOKGAK_CITY_REWARD'?'건':'개'}`}).join('\n');
   const status=[`보상 ${claimedCount.toLocaleString()}건을 일괄 수령했습니다.`,rewardSummary,alreadyCount?`이미 처리된 보상 ${alreadyCount.toLocaleString()}건은 중복 지급하지 않았습니다.`:'',failures.length?`일부 지급 결과는 재확인이 필요합니다. 메시지함을 새로 확인합니다. 중복 지급되지 않으니 남은 보상은 다시 수령하세요.\n${failures[0]}`:''].filter(Boolean).join('\n\n');
   alert(status);renderShell('messages');
 }
@@ -4508,9 +4508,10 @@ async function loadMessages(){
         const meta=MESSAGE_REWARD_META[d.rewardType]||{label:d.rewardLabel||d.rewardType,icon:'🎁'};
         let detail='';
         if(d.rewardType==='COIN')detail=`\n현재 보유 코인: ${Number(nextUser.coin||0).toLocaleString()}코인`;
+        else if(d.rewardType==='JOKGAK_CITY_REWARD')detail=`\n첨부된 코인·아이템을 지급했습니다.\n현재 보유 코인: ${Number(nextUser.coin||0).toLocaleString()}코인`;
         else if(d.rewardType==='SHARDS')detail=`\n현재 카드 조각: ${Number(nextUser.cardShards||0).toLocaleString()}개`;
         else detail=`\n현재 보유 수량: ${Number((d.inventoryBalanceAfter??d.balanceAfter) || 0).toLocaleString()}개`;
-        alert(`${d.recovered?'이전 실패 지급을 복구했습니다.\n':''}${meta.label} ${Number(d.rewardAmount).toLocaleString()}개를 수령했습니다.${detail}`);
+        alert(`${d.recovered?'이전 실패 지급을 복구했습니다.\n':''}${meta.label} ${Number(d.rewardAmount).toLocaleString()}${d.rewardType==='JOKGAK_CITY_REWARD'?'건을':'개를'} 수령했습니다.${detail}`);
         const card=b.closest('.user-message');if(card?.classList.contains('unread'))updateMessageNewBadges(messageUnreadCount-1);if(card){card.classList.add('message-removing');setTimeout(()=>renderShell('messages'),220)}else renderShell('messages');
       }catch(err){b.disabled=false;alert(err.message)}
     });

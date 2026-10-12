@@ -15,8 +15,8 @@ async function fixture(t,pg,tiePolicy='INCLUDE_CUTOFF_TIES',scheduled=true){
  const f=await cityFixture(t,pg);f.setTime(E.startsAt+60000);
  const id=pg?'BIGSERIAL PRIMARY KEY':'INTEGER PRIMARY KEY AUTOINCREMENT',n=pg?'BIGINT':'INTEGER';
  const schema=[
-  `CREATE TABLE user_messages(id ${id},user_id ${n},sender_type TEXT,title TEXT,body TEXT,message_type TEXT,campaign_key TEXT,is_read INTEGER DEFAULT 0,read_at TEXT,hidden_at TEXT,UNIQUE(user_id,campaign_key))`,
-  `CREATE TABLE user_message_rewards(id ${id},message_id ${n} UNIQUE,user_id ${n},reward_type TEXT,reward_amount ${n},claimed_at TEXT)`
+  `CREATE TABLE IF NOT EXISTS user_messages(id ${id},user_id ${n},sender_type TEXT,title TEXT,body TEXT,message_type TEXT,campaign_key TEXT,is_read INTEGER DEFAULT 0,read_at TEXT,hidden_at TEXT,UNIQUE(user_id,campaign_key))`,
+  `CREATE TABLE IF NOT EXISTS user_message_rewards(id ${id},message_id ${n} UNIQUE,user_id ${n},reward_type TEXT,reward_amount ${n},claimed_at TEXT)`
  ];
  if(pg)await f.env.DB.execSchema(schema);else for(const sql of schema)await f.p(sql).run();
  if(scheduled)await f.p('INSERT INTO app_meta(key,value) VALUES(?,?)',E.operationKey,JSON.stringify({...E,status:'SCHEDULED',tiePolicy,adminId:80})).run();
@@ -81,7 +81,7 @@ test('one-time constants and candidate validation cannot silently change award o
 });
 test('Postgres: actual message claim credits 500B once, rolls back a failed coin ledger and leaves a matching receipt',async t=>{
  const f=await fixture(t,true);await f.env.DB.execSchema([
-  'CREATE TABLE user_message_reward_claim_receipts_v1222(reward_id BIGINT PRIMARY KEY,message_id BIGINT UNIQUE,user_id BIGINT,reward_type TEXT,reward_amount BIGINT,claim_token TEXT UNIQUE,balance_before BIGINT,balance_after BIGINT,source TEXT,credited_at TEXT)'
+  'CREATE TABLE IF NOT EXISTS user_message_reward_claim_receipts_v1222(reward_id BIGINT PRIMARY KEY,message_id BIGINT UNIQUE,user_id BIGINT,reward_type TEXT,reward_amount BIGINT,claim_token TEXT UNIQUE,balance_before BIGINT,balance_after BIGINT,source TEXT,credited_at TEXT)'
  ]);
  await f.join(1);await settleCityRound(f.env,E.endsAt);
  const source=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');

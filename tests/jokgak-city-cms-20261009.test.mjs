@@ -6,10 +6,12 @@ import {cityAction,cityStatus,assignedCityRole,handleJokgakCity} from '../functi
 import {readCitySettings,saveCitySettings} from '../functions/_jokgak_city_settings.js';
 import {defaultCitySettings,validateCitySettings,CITY_SETTINGS_KEY} from '../shared/jokgak-city-settings-v1.mjs';
 import {cityShift} from '../shared/jokgak-city-v1.mjs';
+import {claimCityMessageReward} from '../functions/_jokgak_city_message_reward.js';
 const owner={id:80,nickname:'도시 관리자',role:'OWNER'};
 const policy=f=>readCitySettings(f.env).then(x=>x.policy);
 const save=(f,p)=>saveCitySettings(f.env,owner,p,f.now);
 const reset=f=>f.p('UPDATE jokgak_city_players_v1 SET next_action_at=0,protected_until=0,health=100,jailed_until=0').run();
+async function claimDelivered(f){for(const row of (await f.p("SELECT * FROM user_message_rewards WHERE reward_type='JOKGAK_CITY_REWARD' AND claimed_at IS NULL").all()).results)await claimCityMessageReward(f.env,f.users.get(Number(row.user_id)),row,Number(row.message_id));}
 async function configureReward(f,{mode='ON',event='ATTACK_WIN',actor=1,dailyLimit=2}={}){
   const value=await policy(f);value.mode=mode;value.testUserIds=[1,2,3];value.rewards={enabled:true,dailyLimit,sameTargetCooldownMs:60000};
   const role=await assignedCityRole(f.env,actor,cityShift(f.now).id),row=value.roles.find(r=>r.code===role).rewards.find(r=>r.event===event);assert.ok(row);
@@ -83,15 +85,16 @@ for(const postgres of [false,true]){
   test(prefix+': live rewards commit once with action receipt, daily cap and same-target cooldown across roles/events',async t=>{
     const f=await cityFixture(t,postgres);await configureReward(f);for(const id of [1,2,3])await f.join(id);
     const body={requestId:crypto.randomUUID(),epoch:cityShift(f.now).id,targetId:2},first=await cityAction(f.env,f.deps,f.users.get(1),'attack',body);
-    assert.equal(first.reward.status,'PAID');assert.equal(first.reward.remaining,1);assert.equal(first.reward.items[0].name,'도시 검수 재료');
+    assert.equal(first.reward.status,'MESSAGE_SENT');assert.equal(first.reward.remaining,1);assert.equal(first.reward.items[0].name,'도시 검수 재료');
+    assert.equal((await f.p('SELECT coin FROM users WHERE id=1').first()).coin,123456);assert.equal((await f.p('SELECT COUNT(*) n FROM cnine_user_inventory').first()).n,0);await claimDelivered(f);
     assert.equal((await f.p('SELECT coin FROM users WHERE id=1').first()).coin,123579);assert.equal((await f.p("SELECT quantity FROM cnine_user_inventory WHERE user_id=1 AND item_code='CITY_TEST_ITEM'").first()).quantity,3);
     assert.equal((await cityAction(f.env,f.deps,f.users.get(1),'attack',body)).replayed,true);await reset(f);
     assert.equal((await f.action(1,'attack',{targetId:2})).reward.status,'TARGET_COOLDOWN');await reset(f);
-    assert.equal((await f.action(1,'attack',{targetId:3})).reward.status,'PAID');await reset(f);f.advance(61000);
+    assert.equal((await f.action(1,'attack',{targetId:3})).reward.status,'MESSAGE_SENT');await claimDelivered(f);await reset(f);f.advance(61000);
     assert.equal((await f.action(1,'attack',{targetId:2})).reward.status,'DAILY_LIMIT');assert.equal((await f.p('SELECT COUNT(*) n FROM coin_logs').first()).n,2);
     f.setTime(Date.parse('2026-10-09T15:00:00Z'));await reset(f);const renewed=await policy(f);for(const r of renewed.roles){r.rewards[0].coin=123;r.rewards[0].items=[];}await save(f,renewed);
     for(const id of [1,2])await f.join(id); // Rotation requires explicit re-entry before another action.
-    assert.equal((await f.action(1,'attack',{targetId:2})).reward.status,'PAID');
+    assert.equal((await f.action(1,'attack',{targetId:2})).reward.status,'MESSAGE_SENT');
   });
   test(prefix+': failed later writes roll back rewards/quotas and lost commit responses recover the paid receipt',async t=>{
     const f=await cityFixture(t,postgres);await configureReward(f);await f.join(1);await f.join(2);
@@ -99,7 +102,7 @@ for(const postgres of [false,true]){
     await assert.rejects(cityAction(f.env,f.deps,f.users.get(1),'attack',body),/INJECTED/);
     assert.equal((await f.p('SELECT coin FROM users WHERE id=1').first()).coin,123456);assert.equal((await f.p('SELECT COUNT(*) n FROM inventory_logs').first()).n,0);
     assert.equal((await f.p("SELECT COUNT(*) n FROM app_meta WHERE key LIKE 'jokgak_city_reward_day_v1:%'").first()).n,0);
-    f.fail('');f.lost();const result=await cityAction(f.env,f.deps,f.users.get(1),'attack',body);assert.equal(result.replayed,true);assert.equal(result.reward.paid,true);
+    f.fail('');f.lost();const result=await cityAction(f.env,f.deps,f.users.get(1),'attack',body);assert.equal(result.replayed,true);assert.equal(result.reward.paid,false);assert.equal(result.reward.delivery,'MESSAGE');await claimDelivered(f);
     assert.equal((await f.p('SELECT COUNT(*) n FROM coin_logs').first()).n,1);assert.equal((await f.p('SELECT COUNT(*) n FROM jokgak_city_notifications_v1').first()).n,1);
   });
   test(prefix+': TEST rewards never pay after ON and concurrent policy closure cancels the whole prepared battle',async t=>{

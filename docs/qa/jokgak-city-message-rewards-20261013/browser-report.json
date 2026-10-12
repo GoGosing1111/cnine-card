@@ -1,0 +1,28 @@
+{
+  "checks": [
+    {
+      "width": 1440,
+      "singleClaim": true,
+      "bulkClaim": true,
+      "noImmediateGrant": true,
+      "claimButtonFits": true,
+      "alerts": [
+        "족각도시 보상 1건을 수령했습니다.\n첨부된 코인·아이템을 지급했습니다.\n현재 보유 코인: 700,000,123,456코인",
+        "보상 2건을 일괄 수령했습니다.\n\n🏙️ 족각도시 보상 2건"
+      ],
+      "errors": []
+    },
+    {
+      "width": 390,
+      "singleClaim": true,
+      "bulkClaim": true,
+      "noImmediateGrant": true,
+      "claimButtonFits": true,
+      "alerts": [
+        "족각도시 보상 1건을 수령했습니다.\n첨부된 코인·아이템을 지급했습니다.\n현재 보유 코인: 700,000,123,456코인",
+        "보상 2건을 일괄 수령했습니다.\n\n🏙️ 족각도시 보상 2건"
+      ],
+      "errors": []
+    }
+  ]
+}

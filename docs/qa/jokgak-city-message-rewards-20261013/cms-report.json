@@ -1,0 +1,9 @@
+{
+  "checks": [
+    "1440: attack threshold, all five cash ranks, coin/items, validation, tab persistence, save/reload and no page overflow",
+    "1440: stale save rejected and OWNER panel removed after role downgrade",
+    "390: attack threshold, all five cash ranks, coin/items, validation, tab persistence, save/reload and no page overflow",
+    "390: stale save rejected and OWNER panel removed after role downgrade"
+  ],
+  "errors": []
+}

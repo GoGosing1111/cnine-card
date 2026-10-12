@@ -207,7 +207,7 @@
     if(!reward||reward.status==='NONE')return '';
     const messages={DISABLED:'보상 사용 안 함',EMPTY:'설정된 보상 없음',DAILY_LIMIT:'오늘의 보상 횟수를 모두 사용했습니다.',TARGET_COOLDOWN:'같은 상대 보상 대기 중입니다.'};
     if(messages[reward.status])return `<p class="jc-muted">${messages[reward.status]}</p>`;
-    return `<div class="jc-reward"><b>${reward.paid?'획득 보상':'TEST 보상 미리보기 · 실제 지급 없음'}</b><p>${[reward.cash?`${reward.mode==='TEST'?'테스트 ':''}현금 ${money(reward.cash)}원`:'',reward.coin?`코인 ${money(reward.coin)}`:'',...(reward.items||[]).map(item=>`${esc(item.name)} × ${money(item.quantity)}`)].filter(Boolean).join(' · ')}</p><small>오늘 남은 보상 ${reward.remaining}회</small></div>`;
+    return `<div class="jc-reward"><b>${reward.delivery==='MESSAGE'?'메시지함으로 보상을 보냈습니다':reward.paid?'획득 보상':'TEST 보상 미리보기 · 실제 지급 없음'}</b><p>${[reward.cash?`${reward.mode==='TEST'?'테스트 ':''}현금 ${money(reward.cash)}원 · 즉시 반영`:'',reward.coin?`코인 ${money(reward.coin)}`:'',...(reward.items||[]).map(item=>`${esc(item.name)} × ${money(item.quantity)}`)].filter(Boolean).join(' · ')}</p>${reward.delivery==='MESSAGE'?'<p>코인·아이템은 메시지함의 보상 받기로 수령하세요.</p>':''}<small>오늘 남은 보상 ${reward.remaining}회</small></div>`;
   }
   async function refreshRewardAccount(result,accountId){
     if(PREVIEW||!result.reward?.paid||!(result.reward.coin||result.reward.items?.length)||typeof apiRequest!=='function'||typeof mergeApiUserSummary!=='function'||typeof saveUser!=='function')return;
@@ -256,7 +256,7 @@
       else if(['beg','alms'].includes(kind)){successText='이곳 사람들에게 도움을 요청했습니다. 동냥 알림은 지도 오른쪽 아래에 표시됩니다.';}
       else if(result.service){const s=result.service;showDialog(s.name+' 완료',`<div class="jc jc-item-receipt">${C.cityItemArt(kind==='eat'?'SET_MEAL':kind==='treat'?'TREATMENT':body.product,true)}<div><p>${kind==='buy'?'도시 소지품에 1개 보관했습니다.':`포만감 ${s.hunger} · 건강 ${s.wellness} · 체력 ${s.health}`}</p><p>${s.test?'테스트 ':''}현금 ${money(s.price)}원 사용 · 잔액 <b>${money(s.cash?.after)}원</b></p></div></div>`);}
       else if(result.inspection){const i=result.inspection;showDialog('검문 결과',`<h3>${esc(i.nickname)} · ${role(i.role).name}</h3><p>수배 ${i.wanted} · 도시 전투력 ${money(i.cardPower)} · ${esc(i.weaponName||"맨손")}</p><ul class="jc-inspection">${i.cards.map(c=>`<li><b>${esc(c.rarity)}</b><span>${esc(c.name)} ${esc(c.title)}</span></li>`).join('')}</ul>${rewardHtml(result.reward)}`);}
-      else if(kind==='heal'&&['PAID','TEST_PREVIEW'].includes(result.reward?.status)){showDialog('치료 완료',`<p>도시 체력 ${result.effects?.healed||0} 회복</p>${rewardHtml(result.reward)}`);}
+      else if(kind==='heal'&&['PAID','MESSAGE_SENT','TEST_PREVIEW'].includes(result.reward?.status)){showDialog('치료 완료',`<p>도시 체력 ${result.effects?.healed||0} 회복</p>${rewardHtml(result.reward)}`);}
       else if(kind==='join'||kind==='move'){selected=result.mine.location;cursor=0;pages=[0];}
       if(kind==='join'){notifyPollSoon(true);}
     }catch(error){

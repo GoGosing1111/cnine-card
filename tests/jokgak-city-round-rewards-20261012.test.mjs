@@ -10,6 +10,12 @@ import {cityShift} from '../shared/jokgak-city-v1.mjs';
 import {settleCityRound} from '../functions/_jokgak_city_round.js';
 import {prepareCityTopSettlement,CITY_TOP_CURSOR} from '../functions/_jokgak_city_top.js';
 import {cityRoundRewardPolicyKey,cityRoundRewardReceiptKey} from '../functions/_jokgak_city_round_rewards.js';
+import {claimCityMessageReward} from '../functions/_jokgak_city_message_reward.js';
+async function settleAndClaim(env,now,options){
+  const result=await settleCityRound(env,now,options);
+  for(const row of (await env.DB.prepare("SELECT * FROM user_message_rewards WHERE reward_type='JOKGAK_CITY_REWARD' AND claimed_at IS NULL").all()).results)await claimCityMessageReward(env,{id:Number(row.user_id)},row,Number(row.message_id));
+  return result;
+}
 const owner={id:80,role:'OWNER'};
 const policy=f=>readCitySettings(f.env).then(x=>x.policy);
 const save=(f,value)=>saveCitySettings(f.env,owner,value,f.now);
@@ -55,11 +61,11 @@ for(const pg of [false,true]){const db=pg?'Postgres':'SQLite';
     await f.join(police);await reset(f);await f.p('UPDATE jokgak_city_players_v1 SET wanted=2 WHERE user_id=2').run();await f.action(police,'arrest',{targetId:2});
     const testMode=await policy(f);testMode.mode='TEST';testMode.testUserIds=[1,2];await save(f,testMode);await reset(f);await f.action(1,'attack',{targetId:2});const on=await policy(f);on.mode='ON';await save(f,on);
     await cash(f,1,100);await cash(f,2,999);await cash(f,police,50);await f.action(1,'leave');
-    await settleCityRound(f.env,cityShift(f.now).endsAt);const r=await receipt(f,epoch),one=r.recipients.find(r=>r.userId===1),two=r.recipients.find(r=>r.userId===2),officer=r.recipients.find(r=>r.userId===police);
+    await settleAndClaim(f.env,cityShift(f.now).endsAt);const r=await receipt(f,epoch),one=r.recipients.find(r=>r.userId===1),two=r.recipients.find(r=>r.userId===2),officer=r.recipients.find(r=>r.userId===police);
     assert.equal(one.attacks,3);assert.deepEqual(one.kinds,['PARTICIPATION','TOP5']);assert.equal(one.coin,4100);assert.equal(one.rank,2);
     assert.equal(two.attacks,0);assert.deepEqual(two.kinds,['TOP5']);assert.equal(two.rank,1);assert.equal(officer.attacks,0);
     assert.equal(await balance(f,1),123456+4100);assert.equal(Number((await f.p('SELECT quantity FROM cnine_user_inventory WHERE user_id=1').first()).quantity),2);assert.equal(await count(f,'jokgak_city_actions_v1'),0);
-    await settleCityRound(f.env,cityShift(f.now).endsAt,{force:true});assert.equal(await balance(f,1),123456+4100);
+    await settleAndClaim(f.env,cityShift(f.now).endsAt,{force:true});assert.equal(await balance(f,1),123456+4100);
   });
   test(db+': TOP5 includes cutoff ties, ignores attack minimum, excludes TEST/banned users and does not pay rank seven',async t=>{
     const f=await fixture(t,pg);const values=[90,80,80,70,60,60,50,999,1000];
@@ -67,28 +73,28 @@ for(const pg of [false,true]){const db=pg?'Postgres':'SQLite';
     await f.p("UPDATE users SET status='BANNED' WHERE id=8").run();
     const rows=(await f.p('SELECT request_id,result_json FROM jokgak_city_actions_v1 WHERE user_id=9').all()).results;
     for(const row of rows)await f.p('UPDATE jokgak_city_actions_v1 SET result_json=? WHERE request_id=?',JSON.stringify({...JSON.parse(row.result_json),mode:'TEST'}),row.request_id).run();
-    const shift=cityShift(f.now);await settleCityRound(f.env,shift.endsAt);const r=await receipt(f,shift.id);
+    const shift=cityShift(f.now);await settleAndClaim(f.env,shift.endsAt);const r=await receipt(f,shift.id);
     assert.deepEqual(r.recipients.map(r=>[r.userId,r.rank,r.coin]),[[1,1,5000],[2,2,4000],[3,2,4000],[4,4,2000],[5,5,1000],[6,5,1000]]);
     for(const id of [7,8,9])assert.equal(await balance(f,id),123456);
   });
   test(db+': next-round rules freeze; mid-round edits cannot change prizes; OFF prevents unsettled payouts',async t=>{
     const f=await fixture(t,pg);await f.join(1);const shift=cityShift(f.now),v=await policy(f);v.roundRewards.top5.ranks[0].coin=9000;await save(f,v);
-    await settleCityRound(f.env,shift.endsAt);assert.equal(await balance(f,1),128456);
+    await settleAndClaim(f.env,shift.endsAt);assert.equal(await balance(f,1),128456);
     f.setTime(shift.endsAt+60000);await f.join(1);const off=await policy(f);off.roundRewards.top5.enabled=false;off.roundRewards.participation.enabled=false;await save(f,off);
-    await settleCityRound(f.env,cityShift(f.now).endsAt);assert.equal(await balance(f,1),128456);
+    await settleAndClaim(f.env,cityShift(f.now).endsAt);assert.equal(await balance(f,1),128456);
   });
   test(db+': no same-round enabling or historical backfill; participation threshold and rank switches work independently',async t=>{
-    const f=await cityFixture(t,pg);await f.join(1);const v=await policy(f);v.roundRewards.top5.enabled=true;v.roundRewards.top5.ranks[0].coin=500;await save(f,v);const first=cityShift(f.now);await settleCityRound(f.env,first.endsAt);assert.equal(await balance(f,1),123456);
-    f.setTime(first.endsAt+60000);await f.join(1);await f.p('DELETE FROM app_meta WHERE key=?',cityRoundRewardPolicyKey(cityShift(f.now).id)).run();await settleCityRound(f.env,cityShift(f.now).endsAt);assert.equal(await balance(f,1),123456);
-    const only=await fixture(t,pg,p=>{p.roundRewards.top5.enabled=false;p.roundRewards.participation.minAttacks=1;});await only.join(1);await only.join(2);await only.action(1,'attack',{targetId:2});await settleCityRound(only.env,cityShift(only.now).endsAt);assert.equal(await balance(only,1),123556);assert.equal(await balance(only,2),123456);
+    const f=await cityFixture(t,pg);await f.join(1);const v=await policy(f);v.roundRewards.top5.enabled=true;v.roundRewards.top5.ranks[0].coin=500;await save(f,v);const first=cityShift(f.now);await settleAndClaim(f.env,first.endsAt);assert.equal(await balance(f,1),123456);
+    f.setTime(first.endsAt+60000);await f.join(1);await f.p('DELETE FROM app_meta WHERE key=?',cityRoundRewardPolicyKey(cityShift(f.now).id)).run();await settleAndClaim(f.env,cityShift(f.now).endsAt);assert.equal(await balance(f,1),123456);
+    const only=await fixture(t,pg,p=>{p.roundRewards.top5.enabled=false;p.roundRewards.participation.minAttacks=1;});await only.join(1);await only.join(2);await only.action(1,'attack',{targetId:2});await settleAndClaim(only.env,cityShift(only.now).endsAt);assert.equal(await balance(only,1),123556);assert.equal(await balance(only,2),123456);
   });
   test(db+': coin/items/receipt/expiry roll back together, and lost commit responses or stale plans cannot double pay',async t=>{
     const f=await fixture(t,pg,p=>{p.roundRewards.top5.ranks[0].items=[{code:'CITY_TEST_ITEM',quantity:2}];});await f.join(1);const shift=cityShift(f.now);
-    for(const failure of ['INSERT INTO inventory_logs','DELETE FROM jokgak_city_actions_v1']){
-      f.fail(failure);await assert.rejects(settleCityRound(f.env,shift.endsAt),/INJECTED/);f.fail('');
+    for(const failure of ['INSERT INTO user_message_rewards','DELETE FROM jokgak_city_actions_v1']){
+      f.fail(failure);await assert.rejects(settleAndClaim(f.env,shift.endsAt),/INJECTED/);f.fail('');
       assert.equal(await balance(f,1),123456);assert.equal(await count(f,'cnine_user_inventory'),0);assert.equal(await receipt(f,shift.id),null);assert.ok(await count(f,'jokgak_city_actions_v1')>0);assert.equal(Number((await f.p('SELECT value FROM app_meta WHERE key=?',CITY_TOP_CURSOR).first()).value),shift.id);
     }
-    const stale=await prepareCityTopSettlement(f.env,cityShift(shift.endsAt));f.lost();await settleCityRound(f.env,shift.endsAt);await assert.rejects(f.env.DB.batch(stale.statements),/constraint|guard/i);
+    const stale=await prepareCityTopSettlement(f.env,cityShift(shift.endsAt));f.lost();await settleAndClaim(f.env,shift.endsAt);await assert.rejects(f.env.DB.batch(stale.statements),/constraint|guard/i);
     assert.equal(await balance(f,1),128456);assert.equal(await count(f,'coin_logs'),1);assert.equal(await count(f,'inventory_logs'),1);
   });
   test(db+': changed balances, new attacks, policy stop or inactive items invalidate a prepared payout atomically',async t=>{
@@ -101,6 +107,6 @@ for(const pg of [false,true]){const db=pg?'Postgres':'SQLite';
     const f=await fixture(t,pg,p=>{p.career.enabled=true;p.career.startedAt=1;});for(const id of [1,2,3]){await f.join(id);await cash(f,id,10000);}
     const shift=cityShift(f.now),v=await policy(f),expected=[];
     for(const id of [1,2,3]){const role=await assignedCityRole(f.env,id,shift.id);expected.push({id,cash:10000+5*v.career.rates.find(x=>x.code===role).cash});}
-    await settleCityRound(f.env,shift.endsAt);const r=await receipt(f,shift.id);assert.deepEqual(r.recipients.map(x=>[x.userId,x.rank,x.cash]),rankCityRoundCandidates(expected).map(x=>[x.id,x.rank,x.cash]));
+    await settleAndClaim(f.env,shift.endsAt);const r=await receipt(f,shift.id);assert.deepEqual(r.recipients.map(x=>[x.userId,x.rank,x.cash]),rankCityRoundCandidates(expected).map(x=>[x.id,x.rank,x.cash]));
   });
 }

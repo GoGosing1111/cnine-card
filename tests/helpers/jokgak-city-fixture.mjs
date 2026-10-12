@@ -13,6 +13,10 @@ export async function cityFixture(t,postgres=false){
     "CREATE TABLE inventory_logs(user_id INTEGER,item_code TEXT,change_amount INTEGER,balance_after INTEGER,reason TEXT,reference_type TEXT,reference_id TEXT)",
     "CREATE TABLE coin_logs(user_id INTEGER,change_amount INTEGER,balance_after INTEGER,reason TEXT)"
   ];
+  const messageId=postgres?'BIGSERIAL PRIMARY KEY':'INTEGER PRIMARY KEY AUTOINCREMENT';
+  schema.push(`CREATE TABLE user_messages(id ${messageId},user_id INTEGER,sender_type TEXT,title TEXT,body TEXT,message_type TEXT,campaign_key TEXT,is_read INTEGER DEFAULT 0,read_at TEXT,hidden_at TEXT,UNIQUE(user_id,campaign_key))`,
+    `CREATE TABLE user_message_rewards(id ${messageId},message_id INTEGER UNIQUE,user_id INTEGER,reward_type TEXT,reward_amount INTEGER,claimed_at TEXT)`,
+    'CREATE TABLE user_message_reward_claim_receipts_v1222(reward_id INTEGER PRIMARY KEY,message_id INTEGER UNIQUE,user_id INTEGER,reward_type TEXT,reward_amount INTEGER,claim_token TEXT UNIQUE,balance_before INTEGER,balance_after INTEGER,source TEXT,credited_at TEXT)');
   if(postgres){
     sql=new PGlite();await sql.exec(schema.map(s=>s.replaceAll('INTEGER','BIGINT')).join(';'));
     await sql.exec("CREATE FUNCTION sqlite_datetime(VARIADIC args TEXT[]) RETURNS TEXT LANGUAGE SQL STABLE AS $$ SELECT to_char(timezone('UTC',CURRENT_TIMESTAMP),'YYYY-MM-DD HH24:MI:SS') $$;");

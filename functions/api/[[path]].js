@@ -20,6 +20,7 @@ import {accountRankAward,accountRankBenefits,rankCards,rankCoin,readAccountRank,
 import {handleLootShop} from '../_loot_shop.js';
 import {handleLegionHunt} from '../_legion_hunt.js';
 import {claimPigCoinMessageReward} from '../_pig_coin_message_reward.js';
+import {claimCityMessageReward} from '../_jokgak_city_message_reward.js';
 import {claimOmegaMercenaryMessageReward} from '../_mercenary_message_reward.js';
 import { handleCoup, pulseCoup } from '../_coup.js';
 import { chiefAuthorityGuard } from '../_coup_schema.js';
@@ -536,6 +537,7 @@ function messageRewardClaimToken(){
 }
 
 const VERIFIED_MESSAGE_REWARD_TYPES={
+  JOKGAK_CITY_REWARD:{label:'족각도시 보상',icon:'🏙️',inventory:false,messageOnly:true,max:1,messageType:'ITEM_REWARD'},
   MINE_ELECTRIC_DRILL:{label:'전동드릴',icon:'🛠️',inventory:true,messageOnly:true,max:1,messageType:'ITEM_REWARD'},
   NEW_USER_GIFT_BOX:{label:'신규유저 기프트 박스',icon:'🎁',inventory:true,messageOnly:true,max:1,messageType:'ITEM_REWARD'},
   MADARA_RAID_ENTRY_TICKET:{label:'마다라 레이드 입장권',icon:'🎟️',inventory:true,messageOnly:true,max:100000,messageType:'ITEM_REWARD'},
@@ -596,6 +598,7 @@ async function claimMessageRewardDirectV1222(env,user,reward,messageId,{allowCla
   const rewardType=String(reward?.reward_type||'').toUpperCase();
   if(rewardType==='NEW_USER_GIFT_BOX')return claimNewUserGiftMessage(env,user,reward,messageId);
   if(rewardType==='PIG_COIN')return claimPigCoinMessageReward(env,user,reward,messageId);
+  if(rewardType==='JOKGAK_CITY_REWARD')return claimCityMessageReward(env,user,reward,messageId);
   if(rewardType==='MERCENARY_OMEGA_X')return claimOmegaMercenaryMessageReward(env,user,reward,messageId);
   const spec=verifiedMessageRewardSpec(rewardType);
   const rewardAmount=Math.max(0,Math.floor(Number(reward?.reward_amount||0)));

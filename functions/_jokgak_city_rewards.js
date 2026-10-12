@@ -1,4 +1,4 @@
-import {prepareUnifiedDropGrant} from './_drop_pool.js';
+import {prepareCityRewardMessage} from './_jokgak_city_message_reward.js';
 import {cityRolePolicy} from '../shared/jokgak-city-settings-v1.mjs';
 import {EQUIPMENT_FORGE_RELEASE_PROTECTION_CODE} from '../shared/equipment-forge-release-v1.mjs';
 import {changeCityCash} from '../shared/jokgak-city-cash-v1.mjs';
@@ -13,7 +13,7 @@ export function cityRewardEvent(action,winner,self=false){
   if(action==='heal'&&!self)return 'HEAL_OTHER';
   return null;
 }
-// The action receipt, quota CAS and existing inventory/coin grants are committed
+// The action receipt, quota CAS and reward messages are committed
 // by the caller in ONE batch. TEST receipts never become payable after ON.
 export async function prepareCityReward(env,{user,policy,role,event,targetId,requestId,now,life}){
   const configured=cityRolePolicy(policy,role).rewards.find(r=>r.event===event);
@@ -39,11 +39,9 @@ export async function prepareCityReward(env,{user,policy,role,event,targetId,req
   result.status=policy.mode==='ON'?'PAID':'TEST_PREVIEW';result.paid=policy.mode==='ON';
   if(result.cash)result.cashReceipt=changeCityCash(life,policy,result.cash);
   if(result.paid&&(configured.coin||result.items.length)){
-    const rewards=[...(configured.coin?[{rewardType:'COIN',rewardRef:'',rewardName:'코인',quantity:configured.coin}]:[]),...result.items.map(item=>({rewardType:'INVENTORY_ITEM',rewardRef:item.code,rewardName:item.name,quantity:item.quantity}))];
-    const grant=await prepareUnifiedDropGrant(env,{userId:Number(user.id),requestId:'JOKGAK_CITY:'+requestId,sourceType:'JOKGAK_CITY',sourceId:event,rewards},{writePoolLedger:false});
-    const proof=requestId+':reward-proof';
-    for(const item of configured.items)statements.push(cityGuard(env,proof+':'+item.code,'EXISTS(SELECT 1 FROM inventory_items WHERE code=? AND is_active=1)',[item.code]),cityGuardEnd(env,proof+':'+item.code));
-    statements.push(...grant.statements,cityGuard(env,proof,grant.proofs.map(p=>`(${p.sql})`).join(' AND ')||'1=0',grant.proofs.flatMap(p=>p.values)),cityGuardEnd(env,proof));
+    const delivery=await prepareCityRewardMessage(env,{userId:Number(user.id),campaign:'jokgak-city:action:'+requestId,title:'[족각도시] 행동 보상 도착',body:'족각도시에서 완료한 행동의 보상입니다.',coin:configured.coin,items:result.items});
+    statements.push(...delivery.statements);
+    Object.assign(result,{status:'MESSAGE_SENT',paid:false,delivery:'MESSAGE',messageCampaignKey:delivery.campaign});
   }
   return {result,statements};
 }
