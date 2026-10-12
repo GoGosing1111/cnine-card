@@ -1,0 +1,37 @@
+{
+  "checkedAt": "2026-10-12T13:03:52.356Z",
+  "source": "b871ec873b27898b27d493df39507ac50f2513cb",
+  "origin": "https://cnine-card.pages.dev",
+  "checks": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "fec183be860ea4b22174fd65412d3c4a9b29c12d45de0427c10f24ff8e4e92d5",
+      "matches": true
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "6aef30104fb282d787e6a9b1019dadac6d5f37f6ebd9ea36dccb79458be0f8ac",
+      "matches": true
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "9566478a07118c0eaeed55588e432dcbe5ab0202fafd1b9062bbe58920af003c",
+      "matches": true
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "status": 200,
+      "sha256": "9ee730add95ba750b3e50770462c361da69233d8e64711f0758f1f0a4524a4c6",
+      "matches": true
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "status": 200,
+      "sha256": "5e317e711e5190f4ee1f52a7c3983ee3849c0d7d732c55b3eccabb19a4d40d40",
+      "matches": true
+    }
+  ]
+}

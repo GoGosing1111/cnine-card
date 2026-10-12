@@ -15,3 +15,10 @@
 - ON/OFF 즉시 반영, OFF 상태의 새로고침/재입장/버프 발동, 키보드로 다시 표시, 다음 전투 ON 유지, 중복 버튼 없음, 모바일 복합 버프 5개 표시, PVE 표시 유지·닫기를 확인했다. 버프 적용 진단값은 토글 전후 동일했다.
 - 증빙: `docs/qa/pvp-pet-window-20261012/`. 로컬 재현 서버는 `scripts/serve-pet-support-review.mjs`, 검수 실행 기록은 `C:/Users/User/.codex/tmp/pet-window-qa-20261012.mjs`다. 운영 계정이나 CMS·재화는 수정하지 않았다.
 - 전투 HUD 한 곳과 캐시 버전, 동일 원본의 생성 번들만 변경했다. 관련 펫 회귀, 공통 번들 및 메인 로더 검사를 선택해 scoped 배포한다. 직전 운영 소스는 `04e21d28a1d38a4303c7aedda5fd41f6bebb6717`, Pages https://f8a56fd4.cnine-card.pages.dev 이다.
+
+## 운영 완료 — 22:03 KST
+
+- 소스 `b871ec873b27898b27d493df39507ac50f2513cb`, Pages https://fc14a08d.cnine-card.pages.dev 로 운영 반영했다. API Worker `ee626593-cf04-4283-aade-9c3efa9efd11`, clan-draft Worker `4920559f-914f-4dc5-82fd-f340b43ed0ed`다.
+- 관련 검사 21개 전부 통과했다. 첫 배포는 Cloudflare 배포 조회의 잘못된 응답, 두 번째는 Worker 버전 업로드의 504 응답으로 중단됐다. 코드 변경 없이 간격을 두고 재시도해 성공했다. 재시도에는 배포 도구가 요구하는 로더 9개만 실행했고, 이미 통과한 펫·배치 검사는 반복하지 않았다.
+- 운영 기본 주소에서 HTML·서비스워커·앱·전투 래퍼·V3 번들 5개의 HTTP 200과 로컬 해시 일치를 확인했다. `live-verification.json`에 보존한다. 캐시 버전은 `20261012-pet-window-v1`이다.
+- 로컬 검수 서버와 브라우저는 종료했다. 이 운영 기록과 확인 JSON은 문서 전용 후속 커밋이며 재배포하지 않는다.
