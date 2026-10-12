@@ -1,0 +1,25 @@
+{
+  "checkedAt": "2026-10-12T13:33:09.870Z",
+  "source": "6c7dfcc3bc3670fd5de600c13ceebac61b885d33",
+  "assets": [
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "sha256": "b4903279a12735ba07d463703443f634ddad4bd1364a651954a5e2b1950d6489",
+      "matches": true
+    },
+    {
+      "file": "admin/madara-raid-admin-v1.mjs",
+      "status": 200,
+      "sha256": "907bbd0cdcc2a154914ecedb47b45813c9ee4ebe79cd587213e765cd06730616",
+      "matches": true
+    }
+  ],
+  "unauthenticatedCmsStatus": 401,
+  "settings": {
+    "revision": 0,
+    "mode": "TEST",
+    "testUserCount": 0,
+    "valid": true
+  }
+}

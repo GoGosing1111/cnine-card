@@ -18,3 +18,10 @@
 
 - 마다라 초기화 호출과 CMS 오류 복구만 바뀌므로 `tests/madara-raid-live-20261011.test.mjs` 및 Worker 컴파일을 선택해 `npm run deploy:production -- --scoped`를 사용한다. 공통 인증·DB 어댑터·거래·마이그레이션·의존성 변경은 없다.
 - 실제 직전 운영 소스 `b871ec873b27898b27d493df39507ac50f2513cb`, Pages `fc14a08d-d79f-4437-af9a-0616f2eaf972`를 Cloudflare 목록에서 확인했다. 최신 main의 Android 연결 파일은 기존 작업의 관련 검사 3개 통과본을 보존하며 게임 코드는 그 작업에서 바뀌지 않았다.
+
+## 운영 완료 — 22:33 KST
+
+- 소스 `6c7dfcc3bc3670fd5de600c13ceebac61b885d33`를 지정 scoped 명령으로 배포했다. 마다라 운영 서버 회귀 12개·Worker 컴파일·출시 플래그/캐시·Hyperdrive 검사를 모두 통과했다.
+- Pages https://f201ec49.cnine-card.pages.dev · API Worker `c62841f5-ea5f-49c3-ab19-a5396fba5549` · clan-draft Worker `4e0b53d6-200f-42f3-aee4-847ac75e3c0e`.
+- 운영 CMS HTML·마다라 관리 모듈의 HTTP 200과 로컬 해시 일치, 비로그인 CMS API 401을 확인했다. 설정은 여전히 r0 / TEST / 테스트 참여자 0명으로 정상이다. 운영 공개·경제 값은 변경하지 않았다.
+- 증빙은 `docs/qa/madara-cms-load-fix-20261012/live-verification.json`. 이 완료 기록은 문서 전용 커밋으로 원격 반영하며 재배포하지 않는다.
