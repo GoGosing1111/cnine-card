@@ -35,4 +35,12 @@
 - 이번 대사창 배포의 직전 운영 기준은 위 `d8e9521d05f455d61a40eb1a3c523ac5923fd405`다. Wrangler 운영 목록으로 확인했다. 해당 커밋의 광역 수정·협동전 인벤토리 복구를 유지한다.
 - 같은 작업 공간에 보존한 황금니파 나무늘봉순 V2 이미지 시안은 원본 보존만 수행했다. 게임 등록·지급은 포함하지 않는다.
 
-배포 명령: `npm run deploy:production -- --scoped`. 실제 완료 결과는 아래에 기록한다.
+배포 명령: `npm run deploy:production -- --scoped`.
+
+## 최종 운영 반영
+
+- 소스 `264528d98fddcaa711637535a2a3a66ae6a61dfc`, Pages `6e5924a8.cnine-card.pages.dev`. `origin/main` 반영 후 지정 명령이 exit 0으로 완료됐다.
+- 대사 정책 및 V3 실제 로더·번들 연결 검사 **11개 통과**, 출시·캐시·Hyperdrive 검사를 통과했다. API Worker `8c673b52-5bbd-4d1e-af62-31173200011b`, clan Worker `74b39f63-e736-4294-85ef-1330c900809f`.
+- 운영 기본 도메인에서 메인 HTML·서비스워커·앱·전투 로더·메인/군단토벌 번들·군단토벌 진입 HTML·진무 대사 소스 8개를 조회했다. 모두 HTTP 200, 줄바꿈 정규화 SHA-256이 배포 원본과 일치했다.
+- 배포 로그: `C:/Users/User/.codex/tmp/jinmu-dialogue-v3-production.log`. 운영 확인: `C:/Users/User/.codex/tmp/jinmu-dialogue-v3-live-check.json`.
+- 이 완료 기록만 추가한 후속 문서 커밋은 게임 실행 변경이 없으므로 재검사·재배포하지 않는다.
