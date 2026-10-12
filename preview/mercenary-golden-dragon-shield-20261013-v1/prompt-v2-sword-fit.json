@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-13",
+  "use_case": "design-localized-edit",
+  "generator": "built-in image_gen",
+  "purpose": "검 전체 직선축과 화면 안 검끝 여백 보정",
+  "referenced_image_paths": [
+    "C:/Users/User/.codex/worktrees/jinmu-live-owner-grant/cnine-card/preview/mercenary-golden-dragon-shield-20261013-v1/assets/golden-dragon-shield-sss-limited-source-art-v1.png"
+  ],
+  "transparent_background": false,
+  "prompt": "Edit this exact illustration with a SMALL, LOCALIZED SWORD COMPOSITION CORRECTION. Preserve the entire knight, helmet, all gold dragon armor, sapphires, amber gems, wings, celestial rings, massive shield, tail, feet, color treatment, detailed background and premium painterly rendering. Preserve the 1024x1536 portrait canvas. Do not zoom out the whole image, redesign the character, expose a human face, soften the image or reduce the vivid golden aura.\n\nThe sword on the VIEWER'S LEFT currently runs off the left edge at its tip. Correct only the sword's rigid straight angle/placement and the gripping hand/wrist if necessary, so the whole sword fits comfortably INSIDE the canvas, from its upper pommel all the way through grip, dragon guard and beautiful long straight blade to a clearly visible SHARP TIP. Keep the original long ornate gold-and-ivory sword design, long blade length and down-left pose.\n\nTarget arrangement: pommel around x30% / y34%, gripping hand around x26% / y49%, guard around x23% / y54%, tip around x6% / y85%. Establish ONE STRAIGHT continuous rigid centerline through pommel, handle, crossguard center, blade and tip. No kink between hilt and blade, no bent guard connection. Use these as approximate guide positions to fit the character naturally, not drawn markings. The sword must remain visually separate from the leg with a visible strip of dark background outside its blade and a minimum 4% canvas-width gap at its tip. Make the sharp endpoint unmistakable with surrounding background, not hidden in bloom or touching the image edge.\n\nMaintain the beautifully drawn golden dragon shield on the viewer's right unchanged. Exactly one sword, one shield, two arms, two legs. The gloved sword hand wraps plausibly around the handle; preserve all armor details around it. No new objects, no text, no frame, no watermark, no fog. Everything other than this sword and minimally necessary wrist adjustment should be preserved as closely as possible."
+}

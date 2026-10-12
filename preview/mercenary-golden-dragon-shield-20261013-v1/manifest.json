@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "created_date": "2026-10-13",
+  "asset_type": "mercenary_source_art",
+  "description": "황금 용갑주·대형 날개·광륜을 두른 검과 방패 용병 — SSS 리미티드급 원화 시안",
+  "name": null,
+  "code": null,
+  "rank_target": "SSS",
+  "edition_target": "LIMITED",
+  "status": "USER_REVIEW_PENDING",
+  "current_version": 2,
+  "current_source_art": "assets/golden-dragon-shield-sss-limited-source-art-v2-sword-fit.png",
+  "source_reference": {
+    "path": "references/user-golden-dragon-shield-20261013.png",
+    "sha256": "811BCFDBC0D4ADD0F9E65FACB4F46CBB5DFED0313F96EFE23E2361A4A786740D",
+    "width": 736,
+    "height": 981,
+    "preservation": "Byte-for-byte copy of user attachment."
+  },
+  "style_references": [
+    {
+      "path": "assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+      "role": "Primary PROJECT V painting style only",
+      "sha256": "629564D768A4BCEFCD0BE746E744DA49A64F1CF2BE7D048E7485FC6CB14FF874"
+    },
+    {
+      "path": "assets/ui/project-v/art-references/male-style-anchor-silver-paladin-v1.png",
+      "role": "Heavy armor construction and metal shading only",
+      "sha256": "D85161ECEDE0E85AFEA04EC8FC82D8F1101337945361BB15E11849528FC47FD0"
+    }
+  ],
+  "versions": [
+    {
+      "version": 1,
+      "path": "assets/golden-dragon-shield-sss-limited-source-art-v1.png",
+      "sha256": "75E3D8291D79FECCE131DCEB0350CD4190338C10284106EE69D436149163AEFD",
+      "width": 1024,
+      "height": 1536,
+      "color": "RGB",
+      "bytes": 3266389,
+      "prompt": "prompt-v1.json",
+      "status": "PRESERVED_BEFORE_SWORD_FIT"
+    },
+    {
+      "version": 2,
+      "path": "assets/golden-dragon-shield-sss-limited-source-art-v2-sword-fit.png",
+      "sha256": "8BB6428204D678C9091BFED4EF6ECFC1AEE896AACD366A65FB1657FF074C8CA8",
+      "width": 1024,
+      "height": 1536,
+      "color": "RGB",
+      "bytes": 3103405,
+      "prompt": "prompt-v2-sword-fit.json",
+      "status": "USER_REVIEW_PENDING",
+      "change": "검끝이 그림 안에서 보이도록 검 배치와 파지를 보정."
+    }
+  ],
+  "generation": {
+    "mode": "built-in image_gen",
+    "transparent_background": false,
+    "postprocessing": "None. Native generated PNGs copied unchanged, without crop, resize, recompression or pixel editing."
+  },
+  "visual_review": {
+    "image_inspected": true,
+    "observations": [
+      "첨부의 용머리 투구·전신 금갑주·청색 보석·주황 허리 보석·검과 대형 방패·날개·광륜·꼬리·전신 구도를 유지하는 시안.",
+      "V2의 검끝과 방패 끝, 양발을 화면 안에서 확인. 검 파지와 일체형 직선축을 시각 확인.",
+      "짙은 황금 아우라와 어두운 갑주 명암을 분리하고 전체 화면 안개·백색 필터를 사용하지 않음.",
+      "1024×1536 RGB PNG, 정확한 2:3 비율. 원화에 문자·UI·프레임 없음."
+    ],
+    "user_final_approval": false,
+    "thumbnail_and_frame_review": "Not performed; unframed source art proposal only."
+  },
+  "scope": {
+    "source_art_only": true,
+    "battle_sprite": "NOT_REQUESTED",
+    "roster_connected": false,
+    "live_connected": false,
+    "stats_assigned": false,
+    "skills_assigned": false,
+    "production_deployment": false
+  },
+  "originals_modified": false
+}
