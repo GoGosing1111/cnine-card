@@ -31,4 +31,4 @@
 
 ## 검수 페이지
 
-`node scripts/qa-territory-network-v6.mjs`로 격리된 로컬 검수 서버를 실행한 뒤 출력된 주소의 `/preview/territory-renewal-20261013-v1/`을 연다. 실제 게임 UI와 렌더러를 사용하며 모든 계정·상태·API 변경은 합성 데이터다. 운영 도메인에서는 전장을 열지 않고 포스터와 리소스 안내만 제공한다.
+`node scripts/qa-territory-network-v6.mjs`로 격리된 로컬 검수 서버를 실행한 뒤 출력된 주소의 `/preview/territory-renewal-20261013-v1/index.html`을 연다. 실제 게임 UI와 렌더러를 사용하며 모든 계정·상태·API 변경은 합성 데이터다. 운영 도메인에서는 전장을 열지 않고 포스터와 리소스 안내만 제공한다.

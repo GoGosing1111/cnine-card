@@ -1,0 +1,149 @@
+{
+  "verifiedAt": "2026-10-12T23:48:39.921Z",
+  "commit": "78932ff80f41d1bb0c0fc0a9c5f3db7a91a35619",
+  "deploymentId": "a522fddd-dfd7-4c16-b1a1-1e8ab9b8ba7a",
+  "url": "https://a522fddd.cnine-card.pages.dev",
+  "previousProduction": {
+    "checkedAt": "2026-10-12T23:46:42.166Z",
+    "commit": "da1e68a895f59915038200733c105f725a4086f3",
+    "url": "https://f3996785.cnine-card.pages.dev"
+  },
+  "files": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "b03a431df9d3156015da9ab44d46a63f9fe19c436de97ebc5d89d3863f3416ef",
+      "matched": true,
+      "lineEndingNormalized": true
+    },
+    {
+      "path": "service-worker.js",
+      "status": 200,
+      "sha256": "10a055437a0a8300a2fb55b27b6554a8d2dc57e50bb1c6e8376be323846f9ac9",
+      "matched": true,
+      "lineEndingNormalized": true
+    },
+    {
+      "path": "admin/index.html",
+      "status": 200,
+      "sha256": "216e26d2e6aa67bc8a42a66112581e69c00a8a79d8e316a05015eeb05b8f0c83",
+      "matched": true,
+      "lineEndingNormalized": true
+    },
+    {
+      "path": "admin/territory-war-admin-v1362.js",
+      "status": 200,
+      "sha256": "55c0498d15e1bbe58f5d454d3d5d5679f1c9332f371ddbab02f68ebe8b508662",
+      "matched": true,
+      "lineEndingNormalized": true
+    },
+    {
+      "path": "js/territory-artillery-fx-20261003.js",
+      "status": 200,
+      "sha256": "bd17e9e9232ee50f49681e5bc22f68915ad6db6d51f96bf8f0d13f516f78b7a4",
+      "matched": true,
+      "lineEndingNormalized": true
+    },
+    {
+      "path": "js/territory-battlefield-v5.js",
+      "status": 200,
+      "sha256": "d543d55546acfce64dd0b5d9fd320765d883ccf0e23956c3969d576b45f22b29",
+      "matched": true,
+      "lineEndingNormalized": true
+    },
+    {
+      "path": "assets/ui/territory-war/renewal-skills-v1/manifest.json",
+      "status": 200,
+      "sha256": "c9d456ae4f04fa7b9c01f921b1e40fad39d7b92df49d127f5c103416f807983f",
+      "matched": true,
+      "lineEndingNormalized": true
+    },
+    {
+      "path": "assets/ui/territory-war/renewal-skills-v1/arc-lance-atlas.webp",
+      "status": 200,
+      "sha256": "646750d5aac686e746460afbcabfc4b295eecb78c9eb2442ef6e5ba2c8910d60",
+      "matched": true,
+      "lineEndingNormalized": false
+    },
+    {
+      "path": "assets/ui/territory-war/renewal-skills-v1/disruption-wave-atlas.webp",
+      "status": 200,
+      "sha256": "95ad96ebaacab06c42797ce061550fca927ac7db61e3687868e855470506983d",
+      "matched": true,
+      "lineEndingNormalized": false
+    },
+    {
+      "path": "assets/ui/territory-war/renewal-skills-v1/citadel-repair-atlas.webp",
+      "status": 200,
+      "sha256": "2cd3d4588c7233b0f21d8efb25bbaf38f7b9c153eabebb14d32cefbb5661397e",
+      "matched": true,
+      "lineEndingNormalized": false
+    },
+    {
+      "path": "preview/territory-renewal-20261013-v1/assets/territory-renewal-poster-v1.png",
+      "status": 200,
+      "sha256": "a8a292f8842b3689a3eb4a0b106c3e26123f1319ee98c2b163924263ee15ba76",
+      "matched": true,
+      "lineEndingNormalized": false
+    }
+  ],
+  "routes": [
+    {
+      "path": "/api/service/status",
+      "status": 200
+    },
+    {
+      "path": "/api/territory-war/state?nodeIndex=4",
+      "status": 401
+    }
+  ],
+  "database": {
+    "checkedAt": "2026-10-12T23:48:35.255Z",
+    "mode": "OFF",
+    "settingsHash": "acd8f304f9f5cfc2d8bc6f9abc99c988cf277de89c745e34af80df31d35a3c2a",
+    "round": {
+      "id": "69",
+      "status": "DISABLED",
+      "warfare_version": 4
+    },
+    "roster": [
+      {
+        "status": "WAITING",
+        "count": 146
+      }
+    ],
+    "network": {
+      "rounds": 0,
+      "nodes": 0
+    },
+    "readOnly": true
+  },
+  "productionVoteExecuted": false,
+  "passed": true,
+  "release": {
+    "command": "npm run deploy:production -- --scoped",
+    "tests": 74,
+    "workerCheck": true,
+    "productionGuard": true,
+    "hyperdriveCacheDisabled": true,
+    "deployLogSha256": "6566ea3a7c322adac40c4fe5185a3793f279af66642d47e20a350c8fca665485",
+    "apiRuntimeVersion": "b7ea7cb0-86f6-44c4-ac75-30660a450ff0",
+    "schedulerVersion": "8905872e-040c-4984-a3c7-0bd3e97e6f9b"
+  },
+  "visualQA": {
+    "desktop": "1440x1000",
+    "mobile": "390x844",
+    "mockAccounts": true,
+    "browserErrors": 0,
+    "threeEffects": true,
+    "cms": true,
+    "pauseSeekResumeSpeedStop": true,
+    "boundsChecked": true,
+    "reducedMotion": true,
+    "oneRenderer": true,
+    "mapPause": true,
+    "cleanup": true,
+    "galleryPlayback": true,
+    "evidenceDirectory": "C:/Users/User/.codex/tmp/territory-renewal-20261013/qa"
+  }
+}
