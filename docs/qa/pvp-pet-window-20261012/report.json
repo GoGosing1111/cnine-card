@@ -1,0 +1,125 @@
+[
+  {
+    "name": "desktop",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "geometry": {
+      "hud": {
+        "x": 410,
+        "y": 669.0625,
+        "width": 620,
+        "height": 41.59375,
+        "right": 1030,
+        "bottom": 710.65625
+      },
+      "chip": {
+        "x": 432.96875,
+        "y": 669.0625,
+        "width": 240,
+        "height": 41.59375,
+        "right": 672.96875,
+        "bottom": 710.65625
+      },
+      "button": {
+        "x": 945.9375,
+        "y": 671.859375,
+        "width": 84.0625,
+        "height": 36,
+        "right": 1030,
+        "bottom": 707.859375
+      },
+      "overflow": false,
+      "clippedEffects": false
+    },
+    "persistentOff": true,
+    "keyboardToggle": true,
+    "nextBattle": true,
+    "buffsPreserved": true,
+    "pveUnaffected": true,
+    "errors": []
+  },
+  {
+    "name": "tablet",
+    "viewport": {
+      "width": 835,
+      "height": 754
+    },
+    "geometry": {
+      "hud": {
+        "x": 107.5,
+        "y": 548.859375,
+        "width": 620,
+        "height": 44,
+        "right": 727.5,
+        "bottom": 592.859375
+      },
+      "chip": {
+        "x": 130.46875,
+        "y": 550.0625,
+        "width": 240,
+        "height": 41.59375,
+        "right": 370.46875,
+        "bottom": 591.65625
+      },
+      "button": {
+        "x": 643.4375,
+        "y": 548.859375,
+        "width": 84.0625,
+        "height": 44,
+        "right": 727.5,
+        "bottom": 592.859375
+      },
+      "overflow": false,
+      "clippedEffects": false
+    },
+    "persistentOff": true,
+    "keyboardToggle": true,
+    "nextBattle": true,
+    "buffsPreserved": true,
+    "pveUnaffected": true,
+    "errors": []
+  },
+  {
+    "name": "mobile",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "geometry": {
+      "hud": {
+        "x": 8,
+        "y": 553.46875,
+        "width": 374,
+        "height": 49,
+        "right": 382,
+        "bottom": 602.46875
+      },
+      "chip": {
+        "x": 8,
+        "y": 553.46875,
+        "width": 145.9375,
+        "height": 49,
+        "right": 153.9375,
+        "bottom": 602.46875
+      },
+      "button": {
+        "x": 309.890625,
+        "y": 555.96875,
+        "width": 72.109375,
+        "height": 44,
+        "right": 382,
+        "bottom": 599.96875
+      },
+      "overflow": false,
+      "clippedEffects": false
+    },
+    "persistentOff": true,
+    "keyboardToggle": true,
+    "nextBattle": true,
+    "buffsPreserved": true,
+    "pveUnaffected": true,
+    "errors": []
+  }
+]
