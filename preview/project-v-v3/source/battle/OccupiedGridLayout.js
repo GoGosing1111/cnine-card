@@ -15,8 +15,7 @@ export const withOccupiedGrid = Base => class extends Base {
     this.formationCoop = payload?.battleV2?.rules?.formation === 'COOP_THREE_SQUADS';
     // Shared battles keep a fixed camera; simultaneous ultimates cannot reframe
     // the other players' formation. Restore ordinary camera behavior on reuse.
-    this.camera.zoomEnabled=!this.formationCoop;
-    if(this.formationCoop)this.camera.reset(true);
+    if(this.camera){this.camera.zoomEnabled=!this.formationCoop;if(this.formationCoop)this.camera.reset(true);}
     this.formationDuo = payload?.battleV2?.rules?.formation === 'DUO_TWO_SQUADS';
     if(!this.formationDuo&&!this.formationCoop&&this.allies?.length>5){this.ensureAllyCapacity(5);this.ensureEnemyCapacity(payload?.battleV2?.rules?.enemyFormation==='BOSS_WITH_SIX_MINIONS'?7:5);}
     this.formationScenario = payload?.wideGridPreview?.scenario ||

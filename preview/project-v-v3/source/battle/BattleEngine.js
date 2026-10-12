@@ -567,6 +567,7 @@ export class BaseBattleEngine{
     this.app.stage.addChild(this.root);
 
     this.camera=new CameraController(this.stage,DESKTOP);
+    this.camera.zoomEnabled=!this.formationCoop;
     this.pools=createBattlePools();
     this.audio=new BattleAudioMixer();
     // Start the compact authored SFX fetch/decode beside the heavier atlases.
