@@ -1,0 +1,61 @@
+{
+  "status": "DEPLOYED_VERIFIED",
+  "checkedAt": "2026-10-12T19:03:33.633Z",
+  "sourceCommit": "19b1eccd1acaf3b38f223ae1eb2338441bf0dfd6",
+  "pages": {
+    "id": "ea9bba73-8b29-4dbe-80c6-f2d21f69ae8d",
+    "url": "https://ea9bba73.cnine-card.pages.dev",
+    "source": "19b1ecc"
+  },
+  "runtime": {
+    "sha256": "85950aede583e3f8fc43d26ea645ce3e5d04b52114a2f9aed5cace1e3e271170",
+    "minimumPool8": true,
+    "history20": true,
+    "avoidRecent5": true,
+    "weightedSelectionLive": true,
+    "livePolicyProbe": {
+      "recentAvoided": true,
+      "distinctEligibleOutputs": [
+        6,
+        12
+      ],
+      "soleOpponentAllowed": true
+    },
+    "obsoleteRepeatRejectionAbsent": true
+  },
+  "serviceStatus": 200,
+  "files": [
+    {
+      "path": "shared/ranked-matchmaking-v2.mjs",
+      "status": 200,
+      "lineEndingNormalizedMatch": true,
+      "sha256": "a6821c576c90fb91abd4162ac76c1f4cb94838c5b6f7b839206c6d8eb9cae0c0"
+    },
+    {
+      "path": "output/notice-ranked-matchmaking-20261013.txt",
+      "status": 200,
+      "lineEndingNormalizedMatch": true,
+      "sha256": "7b98aa4847ef7544f70ed8b57640e36a862021ef284b8fc0a545193044e17321"
+    }
+  ],
+  "productionAccountMutation": false,
+  "productionBattleExecuted": false,
+  "previousLiveCommit": "9418de7d60e3d34ba679323db273012215b3dbac",
+  "deploymentCommand": "npm run deploy:production -- --scoped",
+  "apiRuntimeVersion": "10170cfe-7ba9-4d4a-bfc9-657efd297b69",
+  "schedulerVersion": "8e00ac89-a5c3-4c30-8789-b7536b317680",
+  "regressions": {
+    "matching": 17,
+    "settlementAndTicketBoundary": 22,
+    "totalPassed": 39,
+    "workerSyntax": "PASS",
+    "productionReleaseGate": "PASS",
+    "hyperdriveQueryCache": "DISABLED",
+    "fullSuiteRun": false
+  },
+  "scope": "General ranked opponent selection and bounded candidate collection; no UI, combat calculations, CMS changes, scoring, energy, rewards or schema changes.",
+  "notice": {
+    "path": "output/notice-ranked-matchmaking-20261013.txt",
+    "externalAnnouncementSent": false
+  }
+}

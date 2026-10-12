@@ -33,3 +33,11 @@
 - 런타임 변경은 `shared/ranked-matchmaking-v2.mjs`와 `functions/api/[[path]].js`의 일반 랭크전 매칭 경로다. 공통 인증·DB 기반·마이그레이션·의존성 변경이 없어 `npm run deploy:production -- --scoped`를 사용한다.
 - 유저 공지 원고: `output/notice-ranked-matchmaking-20261013.txt`.
 - 운영 반영 결과는 `ranked-matchmaking-variety-20261013-release.json`과 아래 완료 기록에 남긴다.
+
+## 운영 반영 완료
+
+- 2026-10-13 04:03 KST, 소스 `19b1eccd1acaf3b38f223ae1eb2338441bf0dfd6`, Pages `ea9bba73-8b29-4dbe-80c6-f2d21f69ae8d`로 반영했다.
+- 개발 검증 17개 + 배포 검증 22개 = 관련 검사 39개, Worker 구문·출시·Hyperdrive 게이트를 통과했다.
+- 실제 운영 API Worker 소스에서 최소 후보 8명·이력 20건·최근 5경기 회피·가중 추첨을 확인하고, 추출한 배포 함수로 최근 상대 제외/서로 다른 후보 선택/유일 상대 허용을 확인했다.
+- 운영 상태 API 200, 선택 모듈과 유저 공지 원고의 운영 파일 일치를 확인했다. 실계정 매칭 티켓이나 전투·재화 변경은 검수용으로 발생시키지 않았다.
+- 공지문은 작성·파일 제공까지 완료했으며 별도의 유저 메시지 발송은 하지 않았다.
