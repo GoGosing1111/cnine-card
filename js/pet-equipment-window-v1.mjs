@@ -9,6 +9,10 @@ let activeDialog=null;
 
 export function mountPetEquipment(root,{review=false,codex=false,request=review?jointAdminRequest:jointAccountRequest}={}){
   let state=null,selected=null,busy=false,pending=null,pendingPotential=null,lastPotential=null,needsRefresh=false,disposed=false,controller=null;
+  let support=null,pendingSupport=null,supportError='',supportOffset=0,supportIdentity='';
+  const identity=()=>{try{return localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';}catch{return '';}};
+  const supportKey=()=>`cnine_support_pet_pending_v1:${state?.userId}`;
+  const supportActive=()=>support&&!support.previewOnly&&support.subscription?.active&&support.subscription.endsAt>Date.now()+supportOffset;
   const potentialKey=()=>`cnine_pet_potential_pending_v1:${state?.userId}`;
   const endpoint=review?'admin/pets/equipment/':'pets/v1/';
   root.classList.add('pet-equipment');if(codex)root.classList.add('pet-codex');
@@ -23,15 +27,20 @@ export function mountPetEquipment(root,{review=false,codex=false,request=review?
   const $=selector=>root.querySelector(selector),pet=()=>state?.cards?.find(row=>row.code===selected),equipped=()=>state?.cards?.find(row=>row.code===state.loadout?.petCode);
   function status(message,error=false){$('[data-pet-status]').textContent=message;$('[data-pet-status]').classList.toggle('pe-error',error);}
   function sync(){
-    const locked=busy||Boolean(pending)||Boolean(pendingPotential)||needsRefresh,row=pet();
+    const locked=busy||Boolean(pending)||Boolean(pendingPotential)||Boolean(pendingSupport)||needsRefresh,row=pet();
     root.setAttribute('aria-busy',String(busy));
-    $('[data-pet-equip]').disabled=busy||!!pendingPotential||needsRefresh||!state?.canEquip||(!pending&&(!row||!row.owned||row.code===state.loadout?.petCode));
+    $('[data-pet-equip]').disabled=busy||!!pendingPotential||!!pendingSupport||needsRefresh||!state?.canEquip||(!pending&&(!row||!row.owned||row.code===state.loadout?.petCode));
     const isEquipped=Boolean(row&&row.code===state?.loadout?.petCode),label=pending?'장착 결과 재확인':isEquipped?'장착 중':row&&!row.owned?'미보유 펫':row?`${row.name} 장착`:'펫을 선택하세요';
     $('[data-pet-equip]').innerHTML=`<span>${esc(label)}</span>${petUiIcon(busy?'refresh':isEquipped?'check':'arrow')}`;
     $('[data-pet-equip]').dataset.processing=String(busy);
     $('[data-pet-unequip]').disabled=locked||!state?.canEquip||!state.loadout?.petCode;
-    $('[data-pet-refresh]').disabled=busy||Boolean(pending)||Boolean(pendingPotential);
-    const attemptButton=$('[data-pet-potential-attempt]');if(attemptButton){attemptButton.disabled=busy||Boolean(pending)||needsRefresh||(!pendingPotential&&(!row?.owned||row.potential==='MAGNET'||!state?.potential?.settings.enabled||state?.potential?.settings.successPpm===null||state?.potential?.potion.quantity<1));attemptButton.textContent=busy?'도전 결과 확인 중…':pendingPotential?'도전 결과 재확인':row?.potential==='MAGNET'?'자석 잠재력 획득 완료':'물약 1개로 도전';}
+    $('[data-pet-refresh]').disabled=busy||Boolean(pending)||Boolean(pendingPotential)||Boolean(pendingSupport);
+    const attemptButton=$('[data-pet-potential-attempt]');if(attemptButton){attemptButton.disabled=busy||Boolean(pending)||Boolean(pendingSupport)||needsRefresh||(!pendingPotential&&(!row?.owned||row.potential==='MAGNET'||!state?.potential?.settings.enabled||state?.potential?.settings.successPpm===null||state?.potential?.potion.quantity<1));attemptButton.textContent=busy?'도전 결과 확인 중…':pendingPotential?'도전 결과 재확인':row?.potential==='MAGNET'?'자석 잠재력 획득 완료':'물약 1개로 도전';}
+    const supportButton=$('[data-pet-support-magnet]');if(supportButton){
+      const applied=supportActive()&&support.subscription.magnetPetCode===row?.code;
+      supportButton.disabled=busy||Boolean(pending)||needsRefresh||(!pendingSupport&&(Boolean(pendingPotential)||!supportActive()||!row?.owned||row.potential==='MAGNET'||applied));
+      supportButton.textContent=busy?'적용 결과 확인 중…':pendingSupport?'자석 적용 결과 재확인':!supportActive()?'시즌패스 기간 종료':!row?.owned?'보유한 펫만 적용 가능':applied?'이 펫에 적용 중':row.potential==='MAGNET'?'영구 자석 보유 중':'이 펫에 시즌패스 자석 적용';
+    }
     root.querySelectorAll('[data-pet-select]').forEach(button=>button.disabled=locked||(!codex&&!state?.canEquip));
   }
   function render(){
@@ -52,6 +61,10 @@ export function mountPetEquipment(root,{review=false,codex=false,request=review?
       const source=imagePath(card.sourceArt||card.battleSprite),active=card.code===selected,worn=card.code===state.loadout?.petCode;
       return `<button type="button" class="pe-card ${active?'pe-selected':''}" data-pet-select="${esc(card.code)}" aria-pressed="${active}" aria-label="${esc(card.name)} 선택"><span class="pe-card-art">${source?`<img src="${esc(source)}" alt="" loading="lazy">`:petUiIcon('paw')}</span><span class="pe-card-identity"><strong>${esc(card.name)}</strong><small>${worn?'장착 중':card.reviewOwned?'검수용 보유':card.owned?'보유 '+card.quantity+'마리':'미보유'}</small></span><span class="pe-card-indicator" aria-hidden="true">${petUiIcon(worn?'check':'arrow')}</span></button>`;
     }).join(''):'<p class="pe-empty-collection">'+(codex?'검색 조건에 맞는 펫이 없습니다.':'아직 보유한 펫이 없습니다. 펫 봉인구 개봉 후 장착할 수 있습니다.')+'</p>';
+    if(codex&&!review&&(supportActive()||pendingSupport||supportError)){
+      const currentMagnet=state?.cards?.find(p=>p.code===support?.subscription?.magnetPetCode),endsAt=support?.subscription?.endsAt;
+      $('[data-pet-detail]').insertAdjacentHTML('beforeend',`<section class="pe-pass-magnet" aria-label="시즌패스 펫 자석"><div class="pe-pass-magnet-head">${petUiIcon('shield')}<div><span class="pe-eyebrow">시즌패스 혜택</span><h3>펫 자석 바로 적용</h3></div><b>물약 소모 없음</b></div>${supportError?`<p class="pe-error">${esc(supportError)}</p>`:`<p>보유한 펫 한 마리에 기간제 자석을 적용합니다.<br>다른 펫을 선택해 언제든 옮길 수 있습니다.</p><dl><div><dt>현재 적용</dt><dd>${esc(supportActive()?currentMagnet?.name||'선택 전':'기간 종료')}</dd></div>${endsAt?`<div><dt>이용 종료</dt><dd><time datetime="${esc(new Date(endsAt).toISOString())}">${esc(new Date(endsAt).toLocaleString('ko-KR',{timeZone:'Asia/Seoul',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'}))}</time></dd></div>`:''}</dl>`}${supportActive()||pendingSupport?'<button type="button" class="pe-button" data-pet-support-magnet>이 펫에 시즌패스 자석 적용</button>':''}<small>${supportError?'아래 새로고침으로 혜택 정보를 다시 확인하세요.':'선택한 펫을 장착하고 새 군단토벌에 입장하면 자동 수집합니다. 이용 기간이 끝나면 기간제 자석만 종료되며 영구 잠재력은 유지됩니다.'}</small></section>`);
+    }
     if(row?.owned&&!state.reviewOnly&&state.potential){
       const potential=state.potential,chance=potential.settings.successPpm===null?'설정 대기':(potential.settings.successPpm/10000).toLocaleString('ko-KR',{maximumFractionDigits:4})+'%';
       $('[data-pet-detail]').insertAdjacentHTML('beforeend',`<section class="pe-potential ${row.potential==='MAGNET'?'is-magnet':''}" aria-label="펫 잠재력"><div class="pe-potential-heading"><img src="/${esc(potential.potion.image)}" alt="잠재력 물약"><div><span class="pe-eyebrow">펫 잠재력</span><h3>${row.potential==='MAGNET'?'자석 · 활성':'자석 잠재력에 도전'}</h3></div></div><p>장착한 자석 펫이 군단토벌 드랍 아이템을 자동으로 흡수합니다. 획득 보상은 원정 종료 시 지급됩니다.</p><dl><div><dt>물약 보유</dt><dd>${potential.potion.quantity.toLocaleString()}개</dd></div><div><dt>성공확률</dt><dd>${chance}</dd></div></dl><button type="button" class="pe-button pe-potential-button" data-pet-potential-attempt>물약 1개로 도전</button><p class="pe-potential-result" data-pet-potential-result role="status">${esc(lastPotential||(!potential.settings.enabled?'잠재력 도전을 준비 중입니다.':'성공·실패와 관계없이 물약 1개를 소모합니다.'))}</p><small>같은 펫의 중복 보유분은 잠재력을 공유합니다.</small></section>`);
@@ -60,24 +73,31 @@ export function mountPetEquipment(root,{review=false,codex=false,request=review?
     root.querySelectorAll('img').forEach(img=>img.addEventListener('error',()=>{img.hidden=true;if(img.classList.contains('pe-hero'))$('.pe-art-error').hidden=false;},{once:true}));sync();
   }
   function accessFailure(error){
-    state=null;selected=null;pending=null;needsRefresh=false;render();
+    state=null;selected=null;pending=null;support=null;pendingSupport=null;supportError='';needsRefresh=false;render();
     $('[data-pet-detail]').innerHTML=`<div class="pe-detail-empty"><h2>펫 정보를 확인해 주세요</h2><p>${esc(error.message)}</p><a class="pe-login" href="${review?'/admin/':'/'}">${review?'CMS 로그인':'게임으로 돌아가기'}</a></div>`;
   }
   async function load(){
-    if(busy||pending||disposed)return;busy=true;controller=new AbortController();sync();status('펫 정보를 불러오고 있습니다.');
+    if(busy||pending||disposed)return;const who=identity();busy=true;controller=new AbortController();sync();status('펫 정보를 불러오고 있습니다.');
     try{
       const value=await request(endpoint+(codex?'codex':'state'),{signal:controller.signal});if(disposed)return;
+      if(codex&&!review&&who!==identity()){accessFailure(Error('계정이 변경됐습니다. 새로고침해 주세요.'));return;}
       if(value.version!==1||!Array.isArray(value.cards)||!value.loadout)throw Error('펫 정보를 확인하지 못했습니다. 다시 불러와 주세요.');
       state=value;needsRefresh=false;
+      if(codex&&!review){
+        supportIdentity=who;await loadSupport();if(disposed)return;
+        if(supportIdentity!==identity()){accessFailure(Error('계정이 변경됐습니다. 새로고침해 주세요.'));return;}
+        try{pendingSupport=JSON.parse(localStorage.getItem(supportKey())||'null');}catch{pendingSupport=null;}
+        if(pendingSupport&&(!/^PET-[A-Z0-9-]{1,28}$/.test(pendingSupport.petCode)||!Number.isSafeInteger(pendingSupport.expectedRevision)||pendingSupport.expectedRevision<0||!/^[a-zA-Z0-9_-]{16,100}$/.test(pendingSupport.requestId))){pendingSupport=null;localStorage.removeItem(supportKey());}
+      }
       if(!review&&state.userId)try{pendingPotential=JSON.parse(localStorage.getItem(potentialKey())||'null');}catch{pendingPotential=null;}
-      if(pendingPotential)selected=pendingPotential.petCode;else if(!state.cards.some(row=>row.code===selected))selected=state.loadout.petCode||state.cards[0]?.code||null;
+      if(pendingSupport)selected=pendingSupport.petCode;else if(pendingPotential)selected=pendingPotential.petCode;else if(!state.cards.some(row=>row.code===selected))selected=state.loadout.petCode||state.cards[0]?.code||null;
       if(pendingPotential&&!/^PET-[A-Z0-9-]{1,28}$/.test(pendingPotential.petCode)){pendingPotential=null;localStorage.removeItem(potentialKey());}
       render();status(state.orphaned?'장착했던 펫이 목록에서 제외되어 빈 슬롯으로 표시합니다.':state.reviewOnly?'검수용 펫을 선택해 장착·해제를 확인하세요.':state.message||'장착할 펫을 선택하세요.');
     }catch(error){if(!disposed){if([401,403].includes(error.status))accessFailure(error);else if(!state){render();$('[data-pet-detail]').innerHTML=`<div class="pe-detail-empty"><h2>펫 정보를 확인해 주세요</h2><p>${esc(error.message)}</p></div>`;}status(error.message,true);}}
     finally{if(!disposed){busy=false;sync();}}
   }
   async function save(code){
-    if(busy||disposed||needsRefresh||pendingPotential||!state?.canEquip)return;
+    if(busy||disposed||needsRefresh||pendingPotential||pendingSupport||!state?.canEquip)return;
     if(!pending)pending={petCode:code,expectedRevision:state.loadout.revision,petCmsRevision:state.petCmsRevision,requestId:crypto.randomUUID()};
     busy=true;controller=new AbortController();sync();status('장착 정보를 저장하고 있습니다.');
     try{
@@ -89,7 +109,7 @@ export function mountPetEquipment(root,{review=false,codex=false,request=review?
     finally{if(!disposed){busy=false;sync();}}
   }
   async function attemptPotential(){
-    if(busy||disposed||review)return;
+    if(busy||disposed||review||pendingSupport)return;
     if(!pendingPotential){
       const row=pet(),p=state?.potential;if(!row?.owned||row.potential==='MAGNET'||!p?.settings.enabled||p.settings.successPpm===null||p.potion.quantity<1)return;
       const chance=(p.settings.successPpm/10000).toLocaleString('ko-KR',{maximumFractionDigits:4});
@@ -108,6 +128,37 @@ export function mountPetEquipment(root,{review=false,codex=false,request=review?
     }catch(error){if(!disposed){if(error.status&&error.status<500&&!error.retryable&&![408,429].includes(error.status)){localStorage.removeItem(potentialKey());pendingPotential=null;needsRefresh=true;}status(error.message,true);}}
     finally{if(!disposed){busy=false;sync();}}
   }
+  async function loadSupport(){
+    support=null;supportError='';
+    try{
+      const value=await request('server-support/info',{signal:controller?.signal,timeoutMs:8000});
+      if(disposed||supportIdentity!==identity())return;
+      if(!Number.isFinite(value.serverNow)||!Number.isSafeInteger(value.subscription?.revision)||!Number.isFinite(value.subscription?.endsAt))throw Error('시즌패스 정보를 확인하지 못했습니다.');
+      support=value;supportOffset=value.serverNow-Date.now();
+    }catch(error){if(!disposed&&![401,403,404].includes(error.status))supportError='시즌패스 자석 정보를 불러오지 못했습니다.';}
+  }
+  async function applySupportMagnet(){
+    if(busy||disposed||review||!codex||pending||needsRefresh)return;
+    if(supportIdentity!==identity()){accessFailure(Error('계정이 변경됐습니다. 새로고침해 주세요.'));return;}
+    if(!pendingSupport){
+      const row=pet();if(pendingPotential||!supportActive()||!row?.owned||row.potential==='MAGNET'||support.subscription.magnetPetCode===row.code)return;
+      pendingSupport={petCode:row.code,expectedRevision:support.subscription.revision,requestId:crypto.randomUUID()};
+      try{localStorage.setItem(supportKey(),JSON.stringify(pendingSupport));}catch{pendingSupport=null;status('적용 요청을 보관할 수 없습니다. 브라우저 저장 공간을 확인해 주세요.',true);return;}
+    }
+    const who=identity(),key=supportKey(),body=pendingSupport;busy=true;controller=new AbortController();sync();status('시즌패스 자석을 적용하고 있습니다.');
+    try{
+      const result=await request('server-support/pet',{method:'POST',body,signal:controller.signal});
+      if(disposed||who!==identity())return;
+      if(!result.ok||result.requestId!==body.requestId||Number(result.target?.id)!==state.userId||!Number.isSafeInteger(result.subscription?.revision))throw Error('적용 결과를 확인하지 못했습니다. 같은 요청으로 다시 확인하세요.');
+      localStorage.removeItem(key);pendingSupport=null;await loadSupport();if(disposed||who!==identity())return;
+      render();status(supportError?'자석 적용은 저장됐습니다. 새로고침으로 현재 혜택을 확인하세요.':'시즌패스 자석 적용 결과를 확인했습니다. 적용한 펫을 장착하고 새 군단토벌에 입장해 주세요.');
+      window.dispatchEvent(new CustomEvent('cnine:pet-equipment-changed',{detail:{reviewOnly:false}}));
+    }catch(error){
+      if(disposed||who!==identity())return;
+      if(!error.retryable&&error.status&&error.status<500&&![408,429].includes(error.status)){localStorage.removeItem(key);pendingSupport=null;await loadSupport();}
+      if(disposed||who!==identity())return;render();status(error.message,true);
+    }finally{if(!disposed){busy=false;if(who!==identity())accessFailure(Error('계정이 변경됐습니다. 새로고침해 주세요.'));sync();}}
+  }
   function click(event){
     const button=event.target.closest('button');if(!button||button.disabled)return;
     if(button.hasAttribute('data-pet-select')){selected=button.dataset.petSelect;render();root.querySelector(`[data-pet-select="${selected}"]`)?.focus({preventScroll:true});status(`${pet().name} · 시작 버프를 확인한 뒤 장착하세요.`);}
@@ -115,12 +166,14 @@ export function mountPetEquipment(root,{review=false,codex=false,request=review?
     if(button.hasAttribute('data-pet-unequip'))void save(null);
     if(button.hasAttribute('data-pet-refresh'))void load();
     if(button.hasAttribute('data-pet-potential-attempt'))void attemptPotential();
+    if(button.hasAttribute('data-pet-support-magnet'))void applySupportMagnet();
   }
   const onSearch=event=>{if(event.target.hasAttribute('data-codex-search')){query=event.target.value.trim().toLowerCase();render();}};
   const onFilter=event=>{const button=event.target.closest('[data-codex-filter]');if(button){filter=button.dataset.codexFilter;render();}};
   if(codex){root.addEventListener('input',onSearch);root.addEventListener('click',onFilter);}
+  const supportTimer=codex&&!review?setInterval(()=>{if(support?.subscription.active&&!supportActive()){support.subscription.active=false;if(!busy)render();}},1000):null;
   root.addEventListener('click',click);void load();
-  return {reload:load,dispose(){disposed=true;controller?.abort();root.removeEventListener('click',click);root.removeEventListener('input',onSearch);root.removeEventListener('click',onFilter);root.replaceChildren();}};
+  return {reload:load,dispose(){disposed=true;controller?.abort();clearInterval(supportTimer);root.removeEventListener('click',click);root.removeEventListener('input',onSearch);root.removeEventListener('click',onFilter);root.replaceChildren();}};
 }
 
 export function openPetEquipment(options={}){

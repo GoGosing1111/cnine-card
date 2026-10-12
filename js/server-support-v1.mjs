@@ -4,6 +4,8 @@ import {mountSeasonPass} from './supporter-season-pass-v1.mjs?v=20261010-pass-ar
 import {mountSupportScreenGuard} from './supporter-screen-guard-v1.mjs?v=20261011-guard1';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const date=v=>v?new Date(v).toLocaleString('ko-KR',{timeZone:'Asia/Seoul',year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'}):'—';
+// 2026-10-12: temporarily hide the server/support entry; keep season-pass access.
+const SERVER_SUPPORT_ENTRY_VISIBLE=false;
 const petImage=value=>{try{const u=new URL('/'+String(value||'').replace(/^\//,''),location.origin);return /^\/(assets|preview)\//.test(u.pathname)?u.href:'';}catch{return '';}};
 const icon=name=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${{
   leaf:'<path d="M20 4C11 3 4 7 5 14c1 6 8 7 12 2 3-4 3-8 3-12Z"/><path d="m4 21 11-12M9 16v-5m0 5h5"/>',
@@ -36,7 +38,7 @@ export function mountServerSupportNavigation({root,getUser,signal,request=jointA
     const s=data.subscription,p=data.plan,selected=s.magnetPetCode,active=s.active;
     const scrollTop=dialog.scrollTop,focusPet=root.activeElement?.dataset?.ssPet;
     dialog.dataset.ssPage=page;
-    dialog.innerHTML=`<header class="ss-dialog-head"><span class="ss-brand">${icon('leaf')}<span>SOOPKETMON<small>숲켓몬 · 서버 안내</small></span></span><div class="ss-header-actions">${page!=='info'?'<button type="button" class="ss-back" data-ss-back>← 서버 안내</button>':''}<button type="button" class="ss-close" data-ss-close aria-label="서버 안내 닫기">${icon('close')}</button></div></header><div class="ss-dialog-body">${page==='pass'?'<div data-season-pass></div>':page==='info'?`
+    dialog.innerHTML=`<header class="ss-dialog-head"><span class="ss-brand">${icon('leaf')}<span>SOOPKETMON<small>숲켓몬 · ${SERVER_SUPPORT_ENTRY_VISIBLE?'서버 안내':'시즌패스'}</small></span></span><div class="ss-header-actions">${SERVER_SUPPORT_ENTRY_VISIBLE&&page!=='info'?'<button type="button" class="ss-back" data-ss-back>← 서버 안내</button>':''}<button type="button" class="ss-close" data-ss-close aria-label="${SERVER_SUPPORT_ENTRY_VISIBLE?'서버 안내':'시즌패스'} 닫기">${icon('close')}</button></div></header><div class="ss-dialog-body">${page==='pass'?'<div data-season-pass></div>':page==='info'?`
       <section class="ss-info-intro"><div><p class="ss-eyebrow">함께 이어가는 숲켓몬</p><h2>서버 안내</h2><p class="ss-lead">더 오래 즐길 수 있는 숲켓몬을 위해.<br>여러분의 마음을 운영과 개발에 담습니다.</p></div><div class="ss-info-seal">${crest}</div></section>
       <div class="ss-purpose" aria-label="후원금 사용처"><span><small>01</small>안정적인 서버 운영</span><span><small>02</small>서비스 유지·보수</span><span><small>03</small>새로운 콘텐츠 개발</span></div>
       <button class="ss-info-link" type="button" data-ss-support aria-label="서버 운영 후원"><span class="ss-info-link-icon">${icon('leaf')}</span><span class="ss-info-link-copy"><small>숲켓몬을 응원하는 또 하나의 방법</small><strong>서버 운영 후원</strong><span>30일 혜택과 이용 안내 확인하기</span></span><span class="ss-link-arrow">${icon('arrow')}</span></button><p class="ss-info-note">${icon('clock')}${data.seasonPass?.enabled?'시즌패스 일일 보상 이용 가능':'시즌패스 보상표 준비 중'}</p>`:`
@@ -54,9 +56,10 @@ export function mountServerSupportNavigation({root,getUser,signal,request=jointA
   }
   const status=text=>{const el=dialog?.querySelector('.ss-status');if(el)el.textContent=text;};
   async function loadPage(nextPage='info'){
+    if(!SERVER_SUPPORT_ENTRY_VISIBLE&&nextPage!=='pass')return;
     if(busy||disposed)return;const who=identity(),turn=generation;busy=true;
     try{const value=await request('server-support/info',{signal,timeoutMs:8000});if(disposed||turn!==generation||who!==identity())return;if(nextPage==='pass'&&value.seasonPassVisible!==true){clearEntry();close();return;}data=value;serverOffset=value.serverNow-Date.now();page=nextPage;
-      if(!dialog){dialog=doc.createElement('dialog');dialog.className='ss-dialog';dialog.setAttribute('aria-label','서버 운영 안내');root.append(dialog);
+      if(!dialog){dialog=doc.createElement('dialog');dialog.className='ss-dialog';dialog.setAttribute('aria-label',SERVER_SUPPORT_ENTRY_VISIBLE?'서버 운영 안내':'시즌패스');root.append(dialog);
         screenGuard=mountSupportScreenGuard(dialog,{getUser,now:()=>Date.now()+serverOffset});
         dialog.addEventListener('cancel',e=>{e.preventDefault();close();});
         dialog.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.hasAttribute('data-ss-close'))close();else if(b.hasAttribute('data-ss-support'))void loadPage('support');else if(b.hasAttribute('data-ss-season-pass'))void loadPage('pass');else if(b.hasAttribute('data-ss-back')){page='info';render();dialog.scrollTop=0;}else if(b.hasAttribute('data-ss-apply'))openApplication();else if(b.dataset.ssPet)void selectPet(b.dataset.ssPet);else if(b.hasAttribute('data-ss-retry'))void selectPet();});
@@ -87,7 +90,7 @@ export function mountServerSupportNavigation({root,getUser,signal,request=jointA
     if(!menu.open||!['all','rewards'].includes(menu.dataset.menuCategory))return;
     try{const result=await request('server-support/status',{signal,timeoutMs:8000});if(disposed||turn!==generation||who!==identity())return;
       setPassVisible(result.seasonPassVisible);if(!passVisible&&page==='pass')close();
-      if(!result.visible||menu.dataset.menuCategory!=='all')return;
+      if(!SERVER_SUPPORT_ENTRY_VISIBLE||!result.visible||menu.dataset.menuCategory!=='all')return;
       const button=doc.createElement('button');button.type='button';button.setAttribute('aria-label','서버 안내');button.innerHTML=`${icon('leaf')}<span>서버 안내</span>${icon('arrow')}`;button.className='ss-menu-link';button.onclick=()=>{opener=button;void loadPage();};
       footer.append(button);footer.hidden=false;
     }catch{}
