@@ -22,4 +22,13 @@
 - 배포에서 실행할 관련 검사: `tests/workshop-coin-postgres.test.mjs`, `tests/workshop-extension-v1.test.mjs`, `check:worker`. 코어 10회 혼합 결과·100회 전부 실패·재료/재화 부족·잠금 안 재검증·감사 실패 시 롤백·겹치는 중복 요청을 기존 엠퍼러 재료 거래와 함께 검증한다.
 - 확인한 직전 운영 소스: `a5629a09b60a2900f0f7f1bb6d73011d7acfbde1`, Pages `acf1d46a.cnine-card.pages.dev`. 배포 직전에 API에서 최신 값을 다시 읽어 `SCOPED_DEPLOY_BASE`에 사용한다.
 - 공식 명령: `npm run deploy:production -- --scoped`. 관련 테스트와 Worker 컴파일을 배포 과정에서 한 번 실행하고, 기존 출시·캐시·Hyperdrive 검증을 유지한다.
-- 배포 완료 영수증과 운영 파일 확인 결과는 별도 후속 기록으로 추가한다.
+
+## 운영 반영 완료
+
+- 서버 관련 검사 22/22 통과. 비활성 레시피가 화면용 조회에서 제외되는 기존 정책을 고려해 재조회 검사는 실제 인벤토리 잔량과 저장 결과를 확인하도록 보완했다.
+- 최초 배포 사전검사에서 앱 쿼리의 첫 `v` 위치를 요구하는 출시 검증에 걸렸고, `index.html`의 추가 캐시 키를 쿼리 끝으로 옮겼다. 서버 구현은 그대로였으므로 이미 통과한 22개 검사를 반복하지 않고 실제 앱 진입을 포함한 PC·모바일 브라우저 검사만 다시 실행했다. 출시·캐시·Hyperdrive 검사도 모두 통과했다.
+- 운영 소스: `08f6aa5e9d13691259336d113d6743962651fa0d`.
+- Pages 배포: `a6c4afc3-8ba4-45e3-b0d1-18ecb2744ba4`, https://a6c4afc3.cnine-card.pages.dev.
+- API Runtime: `37a2e02a-b702-41a9-a23b-310bf224dba4`; 공식 배포가 사용하는 clan-draft 버전: `536c330e-4086-478a-901b-06e551bd3dcf`.
+- **2026-10-13 02:19:23 KST** 운영 확인: `cnine-card.pages.dev`의 index·앱·제작소 스크립트가 배포한 로컬 파일과 바이트 단위로 일치. 두 제작소 스크립트 로더의 신규 캐시 키와 합성 허용 조건을 확인했고, 비로그인 제작소 API는 기존 401을 유지했다. 실제 계정의 합성/차감은 실행하지 않았다.
+- 상세 영수증: `docs/qa/suit-core-batch-20261013/live-verification.json`. 이 완료 기록 추가는 문서 변경이므로 운영을 다시 배포하지 않는다.

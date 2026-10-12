@@ -1,0 +1,29 @@
+{
+  "verifiedAt": "2026-10-12T17:19:23.879Z",
+  "commit": "08f6aa5e9d13691259336d113d6743962651fa0d",
+  "deploymentId": "a6c4afc3-8ba4-45e3-b0d1-18ecb2744ba4",
+  "url": "https://a6c4afc3.cnine-card.pages.dev",
+  "productionOrigin": "https://cnine-card.pages.dev",
+  "files": [
+    {
+      "path": "index.html",
+      "url": "https://cnine-card.pages.dev/",
+      "status": 200,
+      "sha256": "222dba81ec2526aa7ca8fa29b512d9aeba373d4ab8cc93e3bf43fd4f2a0da42e"
+    },
+    {
+      "path": "js/app.js",
+      "url": "https://cnine-card.pages.dev/js/app.js?v=20261013-coop-sidebar1&jokgakCity=20261011-jobs1&petLayout=20261009&limitedDeployment=20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3&soopketland=20261006-gift1&chiefPrison=20261006&limitedVisuals=20261004-approved&clanAvatars=20261001&lgAyoon=20261003&hanwhaDiim=20261003&coop=20261005-readable-v4&lgHeeya=20260930&goldenAxe=20260918&prime=20260917-skill-chips&cowPortal=20260913&mercenary=2100&hyper=2145-acquisition-video&projectiles=2106&operations=20260925-duo&furHigh=2114&sd=20260919-bongsoon-armed&coup=2115&pveEntry=2119&heeya=2118&assembly=2120&entry=2121&prediction=20260926-5b&accountRank=20261008&suits=2124&inventory=20261003-pet-opening&recruitmentGift=20260929&pingduThanksGift=20261002&flow=2126&clanFaction=20261001-session-rewards&coupStatus=20260920&pigMessage=2130&rewardMeta=20260929-funding-gift&omegaMessage=20260927&equipmentLoading=20260918&zSword=20260918&clanLineup=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&landRewards=20261006-stars1m-gift1&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&draw=20260922-weighted&apiFlow=2122&drawPerf=20260919&challenger=20&weeklyRaid=20261008-v2&magicPresets=20260922&workshop=20260922&scrapRecovery=20260923&chuseok=20260923&policeRestraint=20260923&enhanceGlow=20260923&packAuto=20260924-fast&dexPerf=20260924&packResponse=20260924&questHub=20261009-weekly&hyperAuto=20260924-store-refresh&deathGame=20260928-stable&resultIdle=20260928-corpse&cryvern=20261004-clean-aura&workshopLoading=20260927&materialBatch=20260928&icon=20260930&duo=20260928-extra12&auction=20260926-bgm-bids&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&achievementTitles=20260927&xBody=20260928-skill-order&overlord=20261005-motion-v4&sx=20261007-2x-v1&sxCamera=20261008-v3&sBodyAssembly=20260928&zBodyAssembly=20261006&equipmentCraft=20260928&miracle=20260929&sBodyPayment=20260930&iconFusion=20260930&lichFx=20261001&retired=20261001&axeReopen=20261002&cubeRemoval=20261003&miracleCube=20261003-v1&supporterBlueBeast=20261003-title-copy-v2&busDriver=20261005&lichMessage=20261003&territoryFx=20261003-v1&iconRoles=20261005-fur15-v1&suggestions=20261005&prisonHunger=20261005&prisonLayout=20261006&drillMessage=20261006&limitedMixed=20261010-precision&superstarBatch=20261007-results&pveReform=20261008&legionRegions=20261008&loadoutModes=20261009&suitCoreBatch=20261013",
+      "status": 200,
+      "sha256": "d6feebc0ba2171a72cd695f8b7b4d4f601908a6f17baaa56a863e42df2ef0652"
+    },
+    {
+      "path": "js/workshop-v1881.js",
+      "url": "https://cnine-card.pages.dev/js/workshop-v1881.js?v=2098-hyper-codex&joint=2090&workbench=20260922&scrapRecovery=20260923&workshopLoading=20260927&batch=20260928&equipmentCraft=20261004-repair&sBodyPayment=20260930&amounts=20261007&pveReform=20261008&suitCoreBatch=20261013",
+      "status": 200,
+      "sha256": "73b37ca016d9a41b2e813acd6c454f0dd60dd4f79e803c041455c91f4f98e75a"
+    }
+  ],
+  "unauthenticatedWorkshopStatus": 401,
+  "productionCraftExecuted": false
+}
