@@ -1,0 +1,85 @@
+{
+  "operationKey": "ops:pink-marshal:20261013:v1",
+  "status": "VERIFIED",
+  "user": {
+    "id": 1,
+    "nickname": "핑크빛유두"
+  },
+  "actor": "SYSTEM_OPS",
+  "before": {
+    "ticks": 83726400,
+    "rank": {
+      "level": 80,
+      "code": "MASTER_SERGEANT",
+      "name": "상사",
+      "icon": "/assets/ui/account-ranks-v2/master_sergeant-96.webp",
+      "group": "부사관",
+      "tone": "teal",
+      "attackBp": 1000,
+      "hpBp": 1500,
+      "coinBp": 0,
+      "dropBp": 0,
+      "presetSlots": 5,
+      "maxLevel": 250,
+      "progress": {
+        "current": 504,
+        "required": 3040,
+        "percent": 16.57,
+        "maxed": false
+      }
+    }
+  },
+  "after": {
+    "ticks": 669312000,
+    "rank": {
+      "level": 250,
+      "code": "MARSHAL",
+      "name": "원수",
+      "icon": "/assets/ui/account-ranks-v2/marshal-96.webp",
+      "group": "원수",
+      "tone": "gold",
+      "attackBp": 1000,
+      "hpBp": 1500,
+      "coinBp": 675,
+      "dropBp": 500,
+      "presetSlots": 5,
+      "maxLevel": 250,
+      "progress": {
+        "current": 0,
+        "required": 0,
+        "percent": 100,
+        "maxed": true
+      }
+    }
+  },
+  "deltaTicks": 585585600,
+  "ledger": {
+    "source": "OPS_RANK_SET",
+    "eventId": "ops:pink-marshal:20261013:v1",
+    "token": "bc0213d2-1a6a-4de5-ad84-f03d8ca55cd1"
+  },
+  "balancesPreserved": true,
+  "completedAt": "2026-10-12T21:14:04.866Z",
+  "adminLogId": "45417",
+  "currentRank": {
+    "level": 250,
+    "code": "MARSHAL",
+    "name": "원수",
+    "icon": "/assets/ui/account-ranks-v2/marshal-96.webp",
+    "group": "원수",
+    "tone": "gold",
+    "attackBp": 1000,
+    "hpBp": 1500,
+    "coinBp": 675,
+    "dropBp": 500,
+    "presetSlots": 5,
+    "maxLevel": 250,
+    "progress": {
+      "current": 0,
+      "required": 0,
+      "percent": 100,
+      "maxed": true
+    }
+  },
+  "verifiedAt": "2026-10-12T21:14:09.342Z"
+}
