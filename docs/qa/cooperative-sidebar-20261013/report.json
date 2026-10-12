@@ -1,0 +1,9 @@
+{
+  "checks": [
+    "desktop: PVE menu entry, icon, layout, direct cooperative lobby, selected tab, menu closed",
+    "standalone page/deep-link entry opens cooperative lobby",
+    "mobile: PVE menu entry, icon, layout, direct cooperative lobby, selected tab, menu closed"
+  ],
+  "errors": [],
+  "origin": "http://127.0.0.1:9158"
+}

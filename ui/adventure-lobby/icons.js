@@ -7,6 +7,7 @@
     deck:'<rect x="7" y="3" width="10" height="15" rx="1.5"/><path d="m4 6-3 1 3 14 5-1M20 6l3 1-3 14-5-1M10 8h4m-4 4h4"/>',
     hunt:'<path d="m5 8-2-5 6 3h6l6-3-2 5 1 8-5 5H9l-5-5Z"/><path d="m7 10 3 2m7-2-3 2M9 16l3 2 3-2m-3 2v3"/>',
     raid:'<path d="m3 8 3-4 3 4 3-5 3 5 3-4 3 4-2 9-7 4-7-4Z"/><path d="m7 11 3 2m7-2-3 2M9 17h6M12 3V1"/>',
+    coop:'<circle cx="12" cy="6" r="3"/><circle cx="5" cy="17" r="3"/><circle cx="19" cy="17" r="3"/><path d="m10 9-3 5m7-5 3 5M8 17h8"/>',
     escort:'<path d="M2 7h12v10H2ZM14 10h4l4 4v3h-8M17 11v3h5M5 4h6"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/>',
     siege:'<path d="M3 21V10h4v11m10 0V10h4v11M2 6v4h6V6M16 6v4h6V6M7 14h10M10 21v-4h4v4M1 21h22M12 3v7m0-7h5l-2 2 2 2h-5"/>',
     seal:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="6"/><rect x="9" y="11" width="6" height="6" rx="1"/><path d="M10 11V9a2 2 0 0 1 4 0v2M12 13v2"/>',

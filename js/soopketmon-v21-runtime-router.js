@@ -97,6 +97,9 @@
       ]
     },
     raid: { shell: 'battle', actions: [{ selector: '[data-pve-mode="raid"]' }] },
+    // The shell first moves the PVE view into its final container. Opening
+    // before that move lets the entry observer dispose the new lobby.
+    coop: { shell: 'battle', actions: [{ selector: '.v21-route-body #pveCoopTab' }] },
     escort: { shell: 'battle', actions: [{ selector: '[data-pve-mode="escort"]' }] },
     siege: { global: 'openMonsterSiege', fallbackSelector: '[data-monster-siege-entry]' },
     seal: { shell: 'battle', actions: [{ selector: '[data-seal-battle-mode]' }] },

@@ -81,7 +81,7 @@
     inventory: Object.freeze({ title: '인벤토리', routes: Object.freeze(['inventory']) }),
     store: Object.freeze({ title: '카드·상점', routes: Object.freeze(['buy', 'lootShop']) }),
     collection: Object.freeze({ title: '카드·용병·펫', routes: Object.freeze(['dex', 'mercenaryDex', 'petDex', 'upgrade', 'evolution', 'iconfusion', 'magic']) }),
-    pve: Object.freeze({ title: '모험 · PVE', routes: Object.freeze(['battle', 'deck', 'hunt', 'legion', 'raid', 'escort', 'siege', 'seal', 'tower', 'scrapyard', 'masterStarMine']) }),
+    pve: Object.freeze({ title: '모험 · PVE', routes: Object.freeze(['battle', 'deck', 'hunt', 'coop', 'legion', 'raid', 'escort', 'siege', 'seal', 'tower', 'scrapyard', 'masterStarMine']) }),
     pvp: Object.freeze({ title: '대전 · PVP', routes: Object.freeze(['pvp', 'jokgakCity', 'duo', 'rank', 'clanWar', 'clanFaction', 'clan', 'territory']) }),
     equipment: Object.freeze({ title: '장비·칭호·차고', routes: Object.freeze(['character', 'avatar']) }),
     crafting: Object.freeze({ title: '제작소', routes: Object.freeze(['vehicle', 'fusion', 'alchemy']) }),
@@ -108,6 +108,7 @@
     battle: Object.freeze({ title: 'PVE 전투', group: 'pve', icon: 'swords', home: Object.freeze({ title: 'PVE 전투', meta: '토벌 · 레이드 · 호송작전' }) }),
     deck: Object.freeze({ title: 'PVE 덱 편성실', group: 'pve', icon: 'cards' }),
     hunt: Object.freeze({ title: '몬스터 토벌', group: 'pve', icon: 'swords' }),
+    coop: Object.freeze({ title: '격전지', group: 'pve', icon: 'clan' }),
     raid: Object.freeze({ title: '월드 레이드', group: 'pve', icon: 'swords' }),
     escort: Object.freeze({ title: '호송작전', group: 'pve', icon: 'swords' }),
     siege: Object.freeze({ title: '몬스터 공성전', group: 'pve', icon: 'swords' }),
@@ -610,6 +611,19 @@
   }
 
   function navigate(route) {
+    // On a cached deep-link startup this adapter can run before the next
+    // deferred router script. A coop alias must never fall back to the store.
+    if (route === 'coop' && !global.SoopketmonV21RuntimeRouter) {
+      return new Promise((resolve, reject) => {
+        const deadline = Date.now() + 5000;
+        const ready = () => {
+          if (global.SoopketmonV21RuntimeRouter) navigate(route).then(resolve, reject);
+          else if (Date.now() >= deadline) reject(new Error('격전지 메뉴를 불러오지 못했습니다. 새로고침해 주세요.'));
+          else global.setTimeout(ready, 40);
+        };
+        ready();
+      });
+    }
     if(route==='petDex'){global.location.assign('/pet-codex/');return Promise.resolve({ok:true,externalPage:true});}
     if(route==='masterStarMine'){global.location.assign('/master-star-mine/');return Promise.resolve({ok:true,externalPage:true});}
     if(route==='chicken')return refreshChicken(true).then(()=>{if(!chickenVisible)throw new Error('현재 공개된 이벤트가 아닙니다.');global.location.assign('/events/chicken/');return {ok:true,externalPage:true}});
