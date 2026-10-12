@@ -1,0 +1,33 @@
+{
+  "checks": [
+    {
+      "width": 1440,
+      "charges": 2,
+      "requests": 3,
+      "limits": [
+        "core",
+        "coin",
+        "stars",
+        "100"
+      ],
+      "totalsAndResults": true,
+      "emperorBulkPreserved": true,
+      "recovery": true
+    },
+    {
+      "width": 390,
+      "charges": 2,
+      "requests": 2,
+      "limits": [
+        "core",
+        "coin",
+        "stars",
+        "100"
+      ],
+      "totalsAndResults": true,
+      "emperorBulkPreserved": true,
+      "recovery": false
+    }
+  ],
+  "errors": []
+}

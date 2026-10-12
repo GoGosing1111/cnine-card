@@ -384,7 +384,7 @@
   }
 
   function materialCraftInfo(recipe) {
-    const bulk = recipe.category === 'MATERIAL_CRAFT' && recipe.output_type === 'INVENTORY_ITEM';
+    const bulk = ['MATERIAL_CRAFT', 'SUIT_CORE_SYNTHESIS'].includes(recipe.category) && recipe.output_type === 'INVENTORY_ITEM';
     const pending = currentMutationRequest('material');
     const [pendingId, pendingPayment, pendingAttempts, pendingInstance] = String(pending?.target || '').split(':');
     const recovering = pendingId === String(recipe.id);

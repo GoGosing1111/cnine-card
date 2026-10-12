@@ -263,7 +263,7 @@ export const MAX_MATERIAL_CRAFT_ATTEMPTS=100;
 function craftBatchPlan(recipe,body){
   const attempts=Number(body.attempts??1);
   if(!Number.isInteger(attempts)||attempts<1||attempts>MAX_MATERIAL_CRAFT_ATTEMPTS)throw new Error('재료 제작 횟수는 1~100회 사이의 정수로 입력하세요.');
-  if(attempts>1&&(recipe.category!=='MATERIAL_CRAFT'||recipe.output_type!=='INVENTORY_ITEM'))throw new Error('이 레시피는 한 번에 1회만 제작할 수 있습니다.');
+  if(attempts>1&&(!['MATERIAL_CRAFT','SUIT_CORE_SYNTHESIS'].includes(recipe.category)||recipe.output_type!=='INVENTORY_ITEM'))throw new Error('이 레시피는 한 번에 1회만 제작할 수 있습니다.');
   const total=value=>{
     const amount=Number(value||0)*attempts;
     if(!Number.isSafeInteger(amount)||amount<0)throw new Error('총 제작 비용이 처리 가능한 범위를 초과합니다. 제작 횟수를 줄여 주세요.');

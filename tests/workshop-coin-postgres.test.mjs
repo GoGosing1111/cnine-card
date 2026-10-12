@@ -88,6 +88,92 @@ async function materialFixture({ mystic = true } = {}) {
   return f;
 }
 
+async function suitCoreFixture() {
+  const f = await fixture({cost:200000000, output:'INVENTORY_ITEM'});
+  await f.pg.exec(`
+    INSERT INTO inventory_items(code,name,category,rarity) VALUES('SUIT_CORE_1','슈트 코어 1','MATERIAL','MATERIAL'),('SUIT_CORE_2','슈트 코어 2','MATERIAL','MATERIAL');
+    INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(1,'SUIT_CORE_1',1005,1005),(1,'SUIT_CORE_2',7,7);
+    UPDATE users SET coin=1000000000000 WHERE id=1;
+    DELETE FROM workshop_recipe_materials_v1668;
+    INSERT INTO workshop_recipe_materials_v1668(recipe_id,item_code,quantity) VALUES(1,'SUIT_CORE_1',10);
+    UPDATE workshop_recipes_v1668 SET category='SUIT_CORE_SYNTHESIS',output_ref='SUIT_CORE_2',output_quantity=2,payment_mode='BOTH',master_star_cost=100,success_rate=25 WHERE id=1;
+  `);
+  return f;
+}
+
+test('suit-core bulk synthesis uses CMS costs, per-attempt rolls and output quantity; replay never charges or rerolls', async t => {
+  const f = await suitCoreFixture(); let rolls = 0;
+  t.mock.method(Math,'random',()=>++rolls % 4 === 0 ? 0 : 0.99);
+  try {
+    const result = await f.craft('core-ten',{attempts:10,paymentType:'BOTH'});
+    assert.deepEqual([result.attempts,result.successCount,result.failureCount,result.output.quantity,rolls],[10,2,8,4,10]);
+    assert.deepEqual(result.state.wallet,{coin:998000000000,cardShards:100,masterStars:499000});
+    assert.equal(result.state.inventory.SUIT_CORE_1.quantity,905);
+    assert.equal(result.state.inventory.SUIT_CORE_2.quantity,11);
+    assert.equal(Number((await f.row("SELECT change_amount FROM inventory_logs WHERE item_code='SUIT_CORE_1'")).change_amount),-100);
+    await f.pg.exec('UPDATE workshop_recipes_v1668 SET is_active=0,coin_cost=1,success_rate=100');
+    const replay = await f.craft('core-ten',{attempts:100});
+    assert.equal(replay.replayed,true); assert.equal(replay.attempts,10); assert.equal(rolls,10);
+    assert.deepEqual(replay.state.wallet,result.state.wallet);
+    assert.deepEqual(replay.state.inventory,result.state.inventory);
+    assert.equal(Number((await f.row('SELECT COUNT(*) n FROM coin_logs')).n),1);
+  } finally { await f.close(); }
+});
+
+test('suit-core counts and all three balances are checked; 100 failed attempts consume inputs without awarding cores', async t => {
+  const f = await suitCoreFixture(); let rolls = 0;
+  t.mock.method(Math,'random',()=>{rolls++; return 0.99;});
+  try {
+    for (const attempts of [0,-1,1.5,101,'invalid']) await assert.rejects(f.craft('core-invalid-'+attempts,{attempts}),/1~100/);
+    await f.pg.exec('UPDATE users SET coin=1999999999');
+    await assert.rejects(f.craft('core-poor-coin',{attempts:10}),/코인이 부족/);
+    await f.pg.exec("UPDATE users SET coin=1000000000000; UPDATE cnine_user_inventory SET quantity=999 WHERE item_code='MASTER_STAR'");
+    await assert.rejects(f.craft('core-poor-stars',{attempts:10}),/마스터의 별이 부족/);
+    await f.pg.exec("UPDATE cnine_user_inventory SET quantity=500000 WHERE item_code='MASTER_STAR'; UPDATE cnine_user_inventory SET quantity=99 WHERE item_code='SUIT_CORE_1'");
+    await assert.rejects(f.craft('core-poor-input',{attempts:10}),/재료가 부족/);
+    assert.equal(Number((await f.row('SELECT COUNT(*) n FROM workshop_craft_receipts_v1668')).n),0);
+    assert.equal(rolls,0);
+    await f.pg.exec("UPDATE cnine_user_inventory SET quantity=1005 WHERE item_code='SUIT_CORE_1'");
+    const result = await f.craft('core-hundred-failures',{attempts:100});
+    assert.deepEqual([result.attempts,result.successCount,result.failureCount,result.output,rolls],[100,0,100,null,100]);
+    assert.deepEqual(result.state.wallet,{coin:980000000000,cardShards:100,masterStars:490000});
+    assert.equal(result.state.inventory.SUIT_CORE_1.quantity,5);
+    assert.equal(result.state.inventory.SUIT_CORE_2.quantity,7);
+  } finally { await f.close(); }
+});
+
+test('suit-core bulk revalidates the total under lock and rolls back costs and output on a ledger failure', async t => {
+  const f = await suitCoreFixture();
+  t.mock.method(Math,'random',()=>0);
+  try {
+    f.beforeBatch(()=>f.pg.exec("UPDATE cnine_user_inventory SET quantity=99 WHERE item_code='SUIT_CORE_1'"));
+    await assert.rejects(f.craft('core-changed-input',{attempts:10}),/변경되어 제작이 취소/);
+    assert.equal(Number((await f.row('SELECT coin FROM users')).coin),1000000000000);
+    await f.pg.exec("UPDATE cnine_user_inventory SET quantity=1005 WHERE item_code='SUIT_CORE_1'");
+    f.failCoinLog();
+    await assert.rejects(f.craft('core-rollback',{attempts:10}),/QA coin log failure/);
+    assert.equal(Number((await f.row('SELECT coin FROM users')).coin),1000000000000);
+    for (const [code,quantity] of [['SUIT_CORE_1',1005],['SUIT_CORE_2',7],['MASTER_STAR',500000]]) {
+      assert.equal(Number((await f.row(`SELECT quantity FROM cnine_user_inventory WHERE item_code='${code}'`)).quantity),quantity);
+    }
+    assert.equal(Number((await f.row('SELECT COUNT(*) n FROM inventory_logs')).n),0);
+    await assert.rejects(f.craft('core-rollback',{attempts:10}),/QA coin log failure/);
+  } finally { await f.close(); }
+});
+
+test('overlapping suit-core bulk submissions keep one receipt and one debit', async t => {
+  const f = await suitCoreFixture();
+  t.mock.method(Math,'random',()=>0);
+  try {
+    const results = await Promise.allSettled([f.craft('same-core-batch',{attempts:10}),f.craft('same-core-batch',{attempts:10})]);
+    assert.equal(results.filter(row=>row.status==='fulfilled').length,1);
+    assert.match(results.find(row=>row.status==='rejected').reason.message,/처리 중/);
+    assert.equal(Number((await f.row('SELECT coin FROM users')).coin),998000000000);
+    assert.equal(Number((await f.row('SELECT COUNT(*) n FROM coin_logs')).n),1);
+    assert.equal(Number((await f.row("SELECT quantity FROM cnine_user_inventory WHERE item_code='SUIT_CORE_2'")).quantity),27);
+  } finally { await f.close(); }
+});
+
 test('material batch independently rolls each attempt, spends the total once and replays its receipt', async t => {
   const f = await materialFixture(); let rolls = 0;
   t.mock.method(Math, 'random', () => (++rolls % 3 === 0 ? 0 : 0.99));
