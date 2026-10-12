@@ -8,8 +8,8 @@
   "rank_target": "SSS",
   "edition_target": null,
   "status": "USER_REVIEW_PENDING",
-  "current_version": 2,
-  "current_source_art": "assets/sss-spear-knight-source-art-v2-armor-redesign.png",
+  "current_version": 3,
+  "current_source_art": "assets/sss-spear-knight-source-art-v3-ornate-armor.png",
   "source_reference": {
     "path": "references/user-sss-spear-knight-20261013.png",
     "sha256": "74592DF9901F46FDFB44EF22EA74E3665B5978BDC27B890FDD53B717A35F68C9",
@@ -38,6 +38,22 @@
         "갑옷"
       ],
       "interpretation": "V1 투구·갑옷은 반려. 방패·창·아우라 느낌은 사용자 긍정 평가에 따라 수정 기준으로 보존. 원화 전체 승인이나 운영 연결 승인으로 확대하지 않음."
+    },
+    {
+      "version": 3,
+      "request": "아니야.. 그렇게 더 단순하게 가는게 아니라 헬멧 장식을 바꾸고 갑옷에 장식이나 볼륨감, 위압감을더 줘야해 슬림하게 하면서 고급스럽게",
+      "edit_target": "references/user-sss-spear-knight-v3-direction-20261013.png",
+      "preserved_design_baseline": [
+        "슬림한 체형",
+        "방패",
+        "창",
+        "전신 금빛 아우라"
+      ],
+      "redesign": [
+        "투구 장식",
+        "갑옷의 입체 장식·볼륨감·위압감"
+      ],
+      "interpretation": "단순화는 사용자 의도와 달라 반려됨. 재첨부한 화려한 시안을 기준으로 입체 장식과 고급스러운 위압감을 강화한다. 전체 원화 최종 승인·이름·성능·운영 연결은 별개다."
     }
   ],
   "versions": [
@@ -64,8 +80,22 @@
       "color": "RGB",
       "prompt": "prompt-v2-armor-redesign.json",
       "generated_original": "exec-2c278a5b-5995-4ce1-b5f4-2dbf22526f26.png",
-      "status": "USER_REVIEW_PENDING",
+      "status": "REJECTED_TOO_SIMPLE",
       "change": "긴 곡선 뿔을 제거한 낮은 밀폐형 투구·수평 바이저, 넓은 흉갑과 층진 견갑·절제된 은색 테두리와 금색 상감으로 재설계.",
+      "user_final_approval": false
+    },
+    {
+      "version": 3,
+      "path": "assets/sss-spear-knight-source-art-v3-ornate-armor.png",
+      "sha256": "F39046496C2E9E3B81E5DDB3544F084AE282C9D11A00D606F83A80F01DB31C1A",
+      "bytes": 2422411,
+      "width": 1024,
+      "height": 1536,
+      "color": "RGB",
+      "prompt": "prompt-v3-ornate-armor.json",
+      "generated_original": "exec-3bc210f2-c3a6-4779-b8f4-94d75aef2d4c.png",
+      "status": "USER_REVIEW_PENDING",
+      "change": "슬림한 체형과 무장·아우라 유지. 투구의 겹친 왕관형 장식, 입체적인 견갑과 흉갑·허리의 은색 부조 및 금색 상감을 보강.",
       "user_final_approval": false
     }
   ],
@@ -77,10 +107,10 @@
   "visual_review": {
     "image_inspected": true,
     "observations": [
-      "V2에서 투구의 긴 뿔이 제거되고 수평 바이저와 각진 하관이 드러나며 흉갑·견갑의 큰 면과 층진 구조가 구분됨.",
-      "V1에서 사용자 평가가 좋았던 대형 방패, 대각선 창, 전신 금빛 아우라와 어두운 성당 구도를 수정 기준으로 유지함.",
-      "창의 노출된 자루와 창날의 직선 연결 및 손 파지를 확인. 창의 오른쪽 끝은 원본 구도와 같이 화면 가장자리에 가까움.",
-      "1024×1536 RGB PNG, 정확한 2:3 비율. 원화에 문자·카드 프레임·UI 없음."
+      "V3에서 V1 계열의 날렵한 체형과 밀폐형 얼굴을 유지하고 투구 상부 장식 구성을 변경함.",
+      "견갑에 겹친 판금·깊은 음영을 더하고 흉갑과 허리 장식의 은색 윤곽·금색 상감 및 층간 깊이를 보강함.",
+      "재첨부본의 방패·대각선 창·전신 금빛 아우라와 성당 구도 유지. 창날·노출 자루·손 파지를 확인함.",
+      "1024×1536 RGB PNG. 문자·UI·카드 프레임 없음."
     ],
     "user_final_approval": false,
     "thumbnail_and_frame_review": "Not performed; unframed source art proposal only."
@@ -95,5 +125,15 @@
     "production_deployment": false,
     "roadmap_assignment": "NOT_ASSIGNED_TO_A_SPECIFIC_FUTURE_SSS_UNIT"
   },
-  "originals_modified": false
+  "originals_modified": false,
+  "latest_source_reference": {
+    "path": "references/user-sss-spear-knight-v3-direction-20261013.png",
+    "sha256": "ABC2A2EB290AC728316D8FBB00BB3F6876FDC1F71C4EB2FFA53277398A0D2590",
+    "bytes": 2654231,
+    "width": 1024,
+    "height": 1536,
+    "color": "RGB",
+    "preservation": "Byte-for-byte copy of the user reattachment; latest V3 edit target."
+  },
+  "current_design_direction": "슬림한 체형을 유지하면서 헬멧 장식을 바꾸고 갑옷의 입체 장식·볼륨·위압감을 강화해 고급스럽게 제작한다. 단순화한 V2 방향은 반려됐다. 방패·창·전신 아우라는 재첨부 시안을 기준으로 유지한다."
 }
