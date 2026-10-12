@@ -75,6 +75,32 @@ test('an explicitly cancelled Apocalypse timeline is never accepted as a finishe
  const renderer=await h.create();await assert.rejects(renderer.play(),/중단|완료/);
 });
 
+function timedBattle(){return {result:'PENDING',apocalypseChallenge:{status:'ANSWERED'},battleV2:{teams:{A:{cards:[]},B:{cards:[]}},result:{timeline:[1,2,3,4].map(seq=>({seq,type:'MERCENARY_HIT',combatClock:'V3_COMBAT_MS_V1',combatAtMs:seq*1000}))}}};}
+
+test('a timed Apocalypse battle with continuing completed actions may outlast its estimated clock',async t=>{
+ const h=rendererHarness(t),completed=[];let next;
+ h.context.ProjectVPixiBattle.playEvents=async(events,options)=>{
+  if(events[0].type==='DEPLOY')return true;
+  for(const event of events){await new Promise(resolve=>next=resolve);completed.push(event.seq);options.afterEvent?.(event);}
+  return true;
+ };
+ const renderer=await h.create({data:timedBattle()}),done=renderer.play();done.catch(()=>{});await flush();
+ for(let i=0;i<4;i++){await h.advance(20000);next();await flush();}
+ assert.equal(await done,true);assert.deepEqual(completed,[1,2,3,4]);
+});
+
+test('completed timed actions do not keep a subsequently stalled Apocalypse battle alive forever',async t=>{
+ const h=rendererHarness(t);let cancel=0;
+ h.context.ProjectVPixiBattle.cancelActiveAnimations=()=>cancel++;
+ h.context.ProjectVPixiBattle.playEvents=async(events,options)=>{
+  if(events[0].type==='DEPLOY')return true;
+  options.afterEvent?.(events[0]);await new Promise(()=>{});
+ };
+ const renderer=await h.create({data:timedBattle()}),done=renderer.play();done.catch(()=>{});await flush();
+ await h.advance(30000);await h.advance(30000);
+ await assert.rejects(done,/중단|완료|복구/);assert.equal(cancel,1);
+});
+
 test('the final claim boundary also waits for foreground even if rendering finished just before Alt-Tab',async()=>{
  const timers=[],calls=[],document={hidden:true},context={document,console,Date,setTimeout:fn=>timers.push(fn),localStorage:{getItem:()=>null,setItem(){}},window:{
   loadUser:()=>({id:1}),apiRequest:async(path,options)=>{calls.push(path);return {requestId:'foreground-claim',status:'CLAIMED',settlement:{result:'WIN',reward:1000}};}

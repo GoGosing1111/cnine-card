@@ -2,7 +2,7 @@
   'use strict';
 
   const root = window;
-  const VERSION = '3.37.0-fluid-combat';
+  const VERSION = '3.37.1-progress-watchdog';
   const BATTLE_RUNTIME = '20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3';
   let battleRuntimeRefresh = null;
   async function ensureCurrentBattleRuntime({effects=false}={}) {
@@ -31,10 +31,18 @@
   const withTimeout = (promise, ms, message, options = {}) => new Promise((resolve, reject) => {
     let settled = false;
     let timer, started=0, remaining=Math.max(50,Number(ms||0));
+    let progress=options.progress?.();
+    const onDeadline=()=>{
+      timer=undefined;
+      const current=options.progress?.();
+      if(typeof options.progress==='function'&&current!==progress){
+        progress=current;remaining=Math.max(50,Number(options.progressTimeoutMs||ms));onVisibility();
+      }else recover(new Error(message));
+    };
     const onVisibility=()=>{
       if(timer!==undefined){remaining=Math.max(0,remaining-(Date.now()-started));clearTimeout(timer);timer=undefined;}
       if(!settled&&(!options.pauseWhenHidden||!document.hidden)){
-        started=Date.now();timer=setTimeout(()=>recover(new Error(message)),remaining);
+        started=Date.now();timer=setTimeout(onDeadline,remaining);
       }
     };
     const cleanup=()=>{clearTimeout(timer);if(options.pauseWhenHidden)document.removeEventListener('visibilitychange',onVisibility);};
@@ -1104,11 +1112,15 @@
             // awaited prelude pauses the shared clock without resetting it.
             const timedEvents = timeline;
             const durationMs = Math.max(0, ...timedEvents.map(event => Number(event.combatAtMs || 0)));
+            // Chip timestamps schedule server impacts, but do not include every
+            // mercenary animation or a slow device's dispatch waits. Renew only
+            // after completed server events; a stuck clock still times out.
+            let completedEvents=0;
             await withTimeout(
-              playEventsChecked(timedEvents, { beforeEvent: prepareEvent }),
+              playEventsChecked(timedEvents, { beforeEvent: prepareEvent, afterEvent: event => {completedEvents++;options.onCombatEvent?.(event);} }),
               Math.max(30000, durationMs * 2 + 15000) + timeline.filter(event => /^RAID_QTE_/.test(event.type)).reduce((ms,event) => ms + Number(event.windowMs || 0) + 3500, 0),
-              '스킬칩 전투 연출을 서버 최종 상태로 복구합니다.',
-              { fallback: false, pauseWhenHidden:interactiveApocalypse, rejectOnFailure:interactiveApocalypse, onFailure: () => {
+              interactiveApocalypse?'전투 연출의 진행이 멈췄습니다. 토벌 화면에서 다시 시작해 주세요.':'스킬칩 전투 연출을 서버 최종 상태로 복구합니다.',
+              { fallback: false, progress:()=>completedEvents, progressTimeoutMs:30000, pauseWhenHidden:interactiveApocalypse, rejectOnFailure:interactiveApocalypse, onFailure: () => {
                 if(interactiveApocalypse)return root.ProjectVPixiBattle.cancelActiveAnimations?.();
                 if(expectedQtes.length) { interactiveFailure = new Error('기믹 전장이 중단되었습니다. HP 차감 없이 같은 공략을 재개하세요.'); root.ProjectVRaidQteV1924?.cancel?.(); }
                 return recoverPlayback('스킬칩 전투 연출을 복구했습니다.');
