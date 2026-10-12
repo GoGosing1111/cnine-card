@@ -26,3 +26,11 @@
 - 전신 정지 리소스 시안이며 사용자 시각 승인을 대신 기록하지 않는다. 모션·기존 PET-DIIM 교체·펫 등록·획득·전투 수치 변경은 이번 리소스 제작에 포함하지 않았다.
 - PNG·독립 프리뷰·기록만 추가한 자산 전용 변경이다. 관련 이미지/프리뷰만 확인하고 전체 게임 테스트는 실행하지 않는다.
 - 직전 운영 기준은 `905b3880040d23f45be4df7e44ff40e2142d7f37` (Pages `28d5d5ab-dfd8-49e1-92e7-d25c645033f1`)이다. 지정 명령 `npm run deploy:production -- --assets-only`로 배포한다.
+
+## 배포 완료
+
+- 자산 커밋: `9418de7d60e3d34ba679323db273012215b3dbac`
+- 지정 자산 전용 배포 및 Hyperdrive 캐시 OFF 확인 완료: <https://7da2fd86.cnine-card.pages.dev>
+- 운영 미리보기: <https://cnine-card.pages.dev/preview/pet-maltese-diim-20261013-v1/>
+- 2026-10-13 04:00 KST, 미리보기 HTML·생성 JSON·manifest·PNG 모두 HTTP 200 및 로컬 SHA-256 일치를 확인했다. 운영 별칭의 새 경로가 전파된 후 미리보기 HTML도 동일함을 확인했다.
+- 영수증: `docs/qa/pet-maltese-diim-20261013-v1/production.json`. 완료 기록만 추가하므로 재배포하지 않는다.

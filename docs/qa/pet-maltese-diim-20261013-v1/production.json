@@ -1,0 +1,44 @@
+{
+  "verifiedAt": "2026-10-12T19:00:02.974Z",
+  "mode": "assets-only",
+  "sourceCommit": "9418de7d60e3d34ba679323db273012215b3dbac",
+  "previousDeployedCommit": "905b3880040d23f45be4df7e44ff40e2142d7f37",
+  "deploymentUrl": "https://7da2fd86.cnine-card.pages.dev",
+  "previewUrl": "https://cnine-card.pages.dev/preview/pet-maltese-diim-20261013-v1/",
+  "livePreview": {
+    "status": 200,
+    "sha256": "a1e75a51cf827bbfc55ec6b96c3d55e9ac19e43b08732ecea1577f800f80f30a",
+    "localSha256Matches": true
+  },
+  "hyperdriveCache": "OFF verified by production deployment command",
+  "files": [
+    {
+      "path": "preview/pet-maltese-diim-20261013-v1/index.html",
+      "status": 200,
+      "sha256": "a1e75a51cf827bbfc55ec6b96c3d55e9ac19e43b08732ecea1577f800f80f30a",
+      "localSha256Matches": true,
+      "bytes": 9025
+    },
+    {
+      "path": "preview/pet-maltese-diim-20261013-v1/generation.json",
+      "status": 200,
+      "sha256": "095e9f8b24264240c39e1de71e526bf9d5718ae6dadc472864594f7dc334af02",
+      "localSha256Matches": true,
+      "bytes": 4416
+    },
+    {
+      "path": "preview/pet-maltese-diim-20261013-v1/manifest.json",
+      "status": 200,
+      "sha256": "53ea44d9030763116dc549d1f16a4cca4c4ce171f77189aa19af717a59818521",
+      "localSha256Matches": true,
+      "bytes": 2340
+    },
+    {
+      "path": "preview/pet-maltese-diim-20261013-v1/assets/pet-maltese-diim-v1.png",
+      "status": 200,
+      "sha256": "e24d3b3917559e5474dd04fc4ef3d4e23c94a6f7fc557f7afdc43976b02330cc",
+      "localSha256Matches": true,
+      "bytes": 1476622
+    }
+  ]
+}
