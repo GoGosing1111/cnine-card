@@ -1,0 +1,271 @@
+{
+  "status": "COMPLETED",
+  "sourceCommit": "87be8799",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:mangsuni-pubg-mission-coins:20261013:v1",
+    "campaignKey": "mangsuni-pubg-mission-20261013-v1",
+    "recipientHash": "b7432819433cf408fc275f61264f70452d4da98321924e08dd1881d198fca652",
+    "recipients": [
+      {
+        "id": "25",
+        "nickname": "여우"
+      },
+      {
+        "id": "88",
+        "nickname": "0수표"
+      },
+      {
+        "id": "290",
+        "nickname": "Mild7"
+      },
+      {
+        "id": "1195",
+        "nickname": "씨나인택갓"
+      },
+      {
+        "id": "1768",
+        "nickname": "핫시"
+      },
+      {
+        "id": "4582",
+        "nickname": "족단"
+      },
+      {
+        "id": "4628",
+        "nickname": "망순이ෆ"
+      },
+      {
+        "id": "4817",
+        "nickname": "음주"
+      },
+      {
+        "id": "4908",
+        "nickname": "굳건창수"
+      },
+      {
+        "id": "5504",
+        "nickname": "비_니"
+      }
+    ],
+    "count": 10,
+    "rewardType": "COIN",
+    "rewardAmount": "1000000000000",
+    "totalAmount": "10000000000000",
+    "title": "망순이 배그 미션 기념",
+    "body": "망순이 배그 미션 기념 보상입니다.\n1조 코인을 지급합니다. 메시지의 보상 수령 버튼을 눌러 받아주세요.",
+    "delivery": "MESSAGE",
+    "actor": "SYSTEM_OPS",
+    "authorization": "굳건창수·족단·0수표·음주·Mild7·핫시·씨나인택갓·여우·비_니·망순이ෆ 명단에 망순이 배그 미션 기념 1조코인씩 메시지 지급",
+    "completedAt": "2026-10-12T20:50:32.677Z",
+    "auditId": "45407"
+  },
+  "verification": {
+    "messages": 10,
+    "rewards": 10,
+    "totalCoin": "10000000000000",
+    "claimed": 0,
+    "missing": 0,
+    "duplicates": 0,
+    "rows": [
+      {
+        "message_id": "205614",
+        "user_id": "25",
+        "title": "망순이 배그 미션 기념",
+        "body": "망순이 배그 미션 기념 보상입니다.\n1조 코인을 지급합니다. 메시지의 보상 수령 버튼을 눌러 받아주세요.",
+        "sender_type": "ADMIN",
+        "message_type": "COIN_REWARD",
+        "hidden_at": null,
+        "is_read": "0",
+        "reward_id": "197801",
+        "reward_user_id": "25",
+        "reward_type": "COIN",
+        "reward_amount": "1000000000000",
+        "claimed_at": null,
+        "claim_id": null,
+        "claim_amount": null,
+        "balance_before": null,
+        "balance_after": null
+      },
+      {
+        "message_id": "205615",
+        "user_id": "88",
+        "title": "망순이 배그 미션 기념",
+        "body": "망순이 배그 미션 기념 보상입니다.\n1조 코인을 지급합니다. 메시지의 보상 수령 버튼을 눌러 받아주세요.",
+        "sender_type": "ADMIN",
+        "message_type": "COIN_REWARD",
+        "hidden_at": null,
+        "is_read": "0",
+        "reward_id": "197802",
+        "reward_user_id": "88",
+        "reward_type": "COIN",
+        "reward_amount": "1000000000000",
+        "claimed_at": null,
+        "claim_id": null,
+        "claim_amount": null,
+        "balance_before": null,
+        "balance_after": null
+      },
+      {
+        "message_id": "205616",
+        "user_id": "290",
+        "title": "망순이 배그 미션 기념",
+        "body": "망순이 배그 미션 기념 보상입니다.\n1조 코인을 지급합니다. 메시지의 보상 수령 버튼을 눌러 받아주세요.",
+        "sender_type": "ADMIN",
+        "message_type": "COIN_REWARD",
+        "hidden_at": null,
+        "is_read": "0",
+        "reward_id": "197803",
+        "reward_user_id": "290",
+        "reward_type": "COIN",
+        "reward_amount": "1000000000000",
+        "claimed_at": null,
+        "claim_id": null,
+        "claim_amount": null,
+        "balance_before": null,
+        "balance_after": null
+      },
+      {
+        "message_id": "205617",
+        "user_id": "1195",
+        "title": "망순이 배그 미션 기념",
+        "body": "망순이 배그 미션 기념 보상입니다.\n1조 코인을 지급합니다. 메시지의 보상 수령 버튼을 눌러 받아주세요.",
+        "sender_type": "ADMIN",
+        "message_type": "COIN_REWARD",
+        "hidden_at": null,
+        "is_read": "0",
+        "reward_id": "197804",
+        "reward_user_id": "1195",
+        "reward_type": "COIN",
+        "reward_amount": "1000000000000",
+        "claimed_at": null,
+        "claim_id": null,
+        "claim_amount": null,
+        "balance_before": null,
+        "balance_after": null
+      },
+      {
+        "message_id": "205618",
+        "user_id": "1768",
+        "title": "망순이 배그 미션 기념",
+        "body": "망순이 배그 미션 기념 보상입니다.\n1조 코인을 지급합니다. 메시지의 보상 수령 버튼을 눌러 받아주세요.",
+        "sender_type": "ADMIN",
+        "message_type": "COIN_REWARD",
+        "hidden_at": null,
+        "is_read": "0",
+        "reward_id": "197805",
+        "reward_user_id": "1768",
+        "reward_type": "COIN",
+        "reward_amount": "1000000000000",
+        "claimed_at": null,
+        "claim_id": null,
+        "claim_amount": null,
+        "balance_before": null,
+        "balance_after": null
+      },
+      {
+        "message_id": "205619",
+        "user_id": "4582",
+        "title": "망순이 배그 미션 기념",
+        "body": "망순이 배그 미션 기념 보상입니다.\n1조 코인을 지급합니다. 메시지의 보상 수령 버튼을 눌러 받아주세요.",
+        "sender_type": "ADMIN",
+        "message_type": "COIN_REWARD",
+        "hidden_at": null,
+        "is_read": "0",
+        "reward_id": "197806",
+        "reward_user_id": "4582",
+        "reward_type": "COIN",
+        "reward_amount": "1000000000000",
+        "claimed_at": null,
+        "claim_id": null,
+        "claim_amount": null,
+        "balance_before": null,
+        "balance_after": null
+      },
+      {
+        "message_id": "205620",
+        "user_id": "4628",
+        "title": "망순이 배그 미션 기념",
+        "body": "망순이 배그 미션 기념 보상입니다.\n1조 코인을 지급합니다. 메시지의 보상 수령 버튼을 눌러 받아주세요.",
+        "sender_type": "ADMIN",
+        "message_type": "COIN_REWARD",
+        "hidden_at": null,
+        "is_read": "0",
+        "reward_id": "197807",
+        "reward_user_id": "4628",
+        "reward_type": "COIN",
+        "reward_amount": "1000000000000",
+        "claimed_at": null,
+        "claim_id": null,
+        "claim_amount": null,
+        "balance_before": null,
+        "balance_after": null
+      },
+      {
+        "message_id": "205621",
+        "user_id": "4817",
+        "title": "망순이 배그 미션 기념",
+        "body": "망순이 배그 미션 기념 보상입니다.\n1조 코인을 지급합니다. 메시지의 보상 수령 버튼을 눌러 받아주세요.",
+        "sender_type": "ADMIN",
+        "message_type": "COIN_REWARD",
+        "hidden_at": null,
+        "is_read": "0",
+        "reward_id": "197808",
+        "reward_user_id": "4817",
+        "reward_type": "COIN",
+        "reward_amount": "1000000000000",
+        "claimed_at": null,
+        "claim_id": null,
+        "claim_amount": null,
+        "balance_before": null,
+        "balance_after": null
+      },
+      {
+        "message_id": "205622",
+        "user_id": "4908",
+        "title": "망순이 배그 미션 기념",
+        "body": "망순이 배그 미션 기념 보상입니다.\n1조 코인을 지급합니다. 메시지의 보상 수령 버튼을 눌러 받아주세요.",
+        "sender_type": "ADMIN",
+        "message_type": "COIN_REWARD",
+        "hidden_at": null,
+        "is_read": "0",
+        "reward_id": "197809",
+        "reward_user_id": "4908",
+        "reward_type": "COIN",
+        "reward_amount": "1000000000000",
+        "claimed_at": null,
+        "claim_id": null,
+        "claim_amount": null,
+        "balance_before": null,
+        "balance_after": null
+      },
+      {
+        "message_id": "205623",
+        "user_id": "5504",
+        "title": "망순이 배그 미션 기념",
+        "body": "망순이 배그 미션 기념 보상입니다.\n1조 코인을 지급합니다. 메시지의 보상 수령 버튼을 눌러 받아주세요.",
+        "sender_type": "ADMIN",
+        "message_type": "COIN_REWARD",
+        "hidden_at": null,
+        "is_read": "0",
+        "reward_id": "197810",
+        "reward_user_id": "5504",
+        "reward_type": "COIN",
+        "reward_amount": "1000000000000",
+        "claimed_at": null,
+        "claim_id": null,
+        "claim_amount": null,
+        "balance_before": null,
+        "balance_after": null
+      }
+    ]
+  },
+  "checks": {
+    "localPostgresTests": 4,
+    "productionDryRunRolledBack": true,
+    "retryAdditionalMessages": 0,
+    "independentReadOnlyConnection": true,
+    "temporaryHelperStopped": true
+  },
+  "verifiedAt": "2026-10-12T20:50:59.120Z"
+}
