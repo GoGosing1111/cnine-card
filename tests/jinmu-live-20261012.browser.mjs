@@ -7,13 +7,14 @@ import {chromium} from 'file:///C:/Users/User/.cache/codex-runtimes/codex-primar
 import fixture from './fixtures/mercenary-valter-roster-20261008.json' with {type:'json'};
 import {limitedDeploymentSnapshot} from '../shared/mercenary-limited-deployment-v1.mjs';
 import {createHuntSession} from '../preview/sustained-hunt-v2/session.mjs';
-import {MODES} from '../preview/mercenary-golden-dragon-battle-v1/skill.mjs';
+import {MODES,JINMU_ULTIMATE_PLAYBACK_RATE} from '../preview/mercenary-golden-dragon-battle-v1/skill.mjs';
 import {mercenaryFixture} from './helpers/mercenary-db.mjs';
 import {mercenaryAccountState,saveMercenaryLoadout} from '../functions/_mercenary_account.js';
 import {mercenaryCodexDocument} from '../functions/_mercenary_codex.js';
 
 const lifecycleOnly=process.argv.includes('--lifecycle');
-const root=fileURLToPath(new URL('..',import.meta.url)),out=path.join(root,'docs/qa/jinmu-live-20261012');
+const visualOnly=process.argv.includes('--visual');
+const root=fileURLToPath(new URL('..',import.meta.url)),out=process.env.JINMU_QA_OUTPUT||path.join(root,'docs/qa/jinmu-live-20261012');
 fs.mkdirSync(out,{recursive:true});
 const ids=['CN-02D9DC1E8A8A4209','CN-0505936A0CBB4E59','CN-25F931CE393D474E','CN-23EB4B19986D4818','CN-519C181C18DF4B8E'];
 const catalog=['fur/manifest-v2.json','zenith/manifest-v1.json','superstar/manifest-v1.json'].flatMap(p=>{const m=JSON.parse(fs.readFileSync(path.join(root,'assets/ui/project-v/characters',p)));return m.characters.map(c=>({...c,grade:m.rarity}));});
@@ -69,7 +70,8 @@ try{
   const page=await browser.newPage({viewport,serviceWorkers:'block'});page.on('pageerror',e=>{errors.push(label+' '+mode+': '+e.message);if(errors.length===1)console.error('Browser:',e.stack);});
   await page.goto(base+'/qa.html?mode='+mode);await page.waitForFunction(()=>window.JinmuQA?.ready||window.qaError,null,{timeout:60000});
   assert.equal(await page.evaluate(()=>window.qaError),undefined);
-  await page.evaluate(({contact})=>{
+  const visualRate=mode==='area'?JINMU_ULTIMATE_PLAYBACK_RATE:2.6;
+  await page.evaluate(({contact,visualRate})=>{
    const q=window.JinmuQA,e=q.engine,a=e.mercenaries.find(a=>a.cardId==='V-989');q.actor=a;q.damageCalls=[];q.hpCalls=[];
    const show=e.showAccountBattleUnitDamage.bind(e);e.showAccountBattleUnitDamage=(t,data)=>{q.damageCalls.push({id:t.id,...data});return show(t,data);};
    const sync=e.syncTargetHp.bind(e);e.syncTargetHp=(t,h)=>{const result=sync(t,h);q.hpCalls.push({id:t.id,input:h,hp:t.hp});return result;};
@@ -78,22 +80,50 @@ try{
     q.timeline=tl;q.spec={rate,releaseAt:options.releaseAt};
     const call=tl.call.bind(tl);tl.call=(fn,args,at)=>call(()=>{fn();if(Math.abs(at-contact)<.0001){q.contact={time:tl.time(),duration:tl.duration(),scale:tl.timeScale(),hpCalls:[...q.hpCalls],damageCalls:[...q.damageCalls],fx:e.jinmuStates.get(a).fx.diagnostics()};tl.pause();}},args,at);
     build(tl);tl.call=call;
+    if(q.mode==='area'){
+     tl.call(()=>{q.cutin={fx:e.jinmuStates.get(a).fx.diagnostics(),scene:{width:e.scene.width,height:e.scene.height}};tl.pause();},[],.55/visualRate);
+     tl.call(()=>{q.tail={fx:e.jinmuStates.get(a).fx.diagnostics(),time:tl.time()};tl.pause();},[],3.2/visualRate);
+    }
    },cleanup,rate,options);
    if(q.mode==='area'){e.skillChipPlayback?.remember(q.event);q.promise=e.playEvents([q.event],{timedInternal:true});}
    else{const target=(a.team==='ALLY'?e.enemies:e.allies)[0];q.target=target;q.promise=e.normalAttack(0,{attacker:a,target,damage:23,targetHp:77});}
-   q.promise.catch(error=>{q.error=error.stack;});
-  },{contact:(mode==='area'?MODES.ultimate.contacts[0]:MODES.attack.contacts[0])/2.6});
+   q.promise.then(()=>{q.settled=true;},error=>{q.error=error.stack;});
+  },{contact:(mode==='area'?MODES.ultimate.contacts[0]:MODES.attack.contacts[0])/visualRate,visualRate});
+  if(mode==='area'){
+   await page.waitForFunction(()=>window.JinmuQA.cutin||window.JinmuQA.error,null,{timeout:15000});
+   const cutin=await page.evaluate(()=>{const q=window.JinmuQA;return {...q.cutin,damageCalls:q.damageCalls.length};});
+   const b=cutin.fx.cutinBounds;assert.equal(b.alpha,1);assert.equal(cutin.damageCalls,0);
+   assert(b.left>=0&&b.right<=cutin.scene.width&&b.top>=0&&b.bottom<=cutin.scene.height);
+   await page.screenshot({path:path.join(out,label+'-cutin.png'),fullPage:true});checks.push({label,mode:'cutin',...cutin});
+   await page.evaluate(()=>{window.JinmuQA.timeline.play();});
+  }
   await page.waitForFunction(()=>window.JinmuQA.contact||window.JinmuQA.error,null,{timeout:15000});
   const contact=await page.evaluate(()=>({contact:window.JinmuQA.contact,spec:window.JinmuQA.spec,error:window.JinmuQA.error,overflow:document.documentElement.scrollWidth>innerWidth+1}));
-  assert.equal(contact.error,undefined);assert.equal(contact.overflow,false);assert.equal(contact.spec.rate,null);
-  assert.ok(Math.abs(contact.contact.duration-(mode==='area'?MODES.ultimate.duration:MODES.attack.duration)/2.6)<1e-6);assert.equal(contact.contact.scale,1);
+  assert.equal(contact.error,undefined);assert.equal(contact.overflow,false);assert.equal(contact.spec.rate,mode==='area'?1:null);
+  assert.ok(Math.abs(contact.contact.duration-(mode==='area'?MODES.ultimate.duration:MODES.attack.duration)/visualRate)<1e-6);assert.equal(contact.contact.scale,1);
   assert.equal(contact.contact.fx.mode,mode==='area'?'ultimate':'attack');assert.ok(contact.contact.fx.visibleSprites>0);
   assert.equal(contact.contact.damageCalls.length,mode==='area'?areaEvent.hits.filter(h=>!h.dodge).length:1);
-  if(mode==='area')for(const h of areaEvent.hits)assert.ok(contact.contact.hpCalls.some(c=>c.id===h.targetId&&Math.abs(c.input-h.targetHpAfter/h.targetMaxHp*100)<1e-7));
+  if(mode==='area'){
+   for(const h of areaEvent.hits)assert.ok(contact.contact.hpCalls.some(c=>c.id===h.targetId&&Math.abs(c.input-h.targetHpAfter/h.targetMaxHp*100)<1e-7));
+   assert.equal(contact.spec.releaseAt,null);
+   const impacts=contact.contact.fx.activeFrames.filter(f=>f.key==='impact');
+   assert.deepEqual(impacts.map(f=>f.targetId).sort(),areaEvent.hits.map(h=>h.targetId).sort());
+   assert(impacts.every(f=>f.solid&&f.alpha>.95));
+   const scene=await page.evaluate(()=>({width:window.JinmuQA.engine.scene.width,height:window.JinmuQA.engine.scene.height}));
+   assert(contact.contact.fx.activeFrames.every(f=>f.bounds.left>=0&&f.bounds.right<=scene.width&&f.bounds.top>=0&&f.bounds.bottom<=scene.height));
+  }
   await page.screenshot({path:path.join(out,label+'-'+mode+'.png'),fullPage:true});
-  await page.evaluate(()=>{window.JinmuQA.timeline.play();});await page.waitForFunction(()=>!window.JinmuQA.engine.jinmuStates.get(window.JinmuQA.actor).busy,null,{timeout:10000});
+  await page.evaluate(()=>{window.JinmuQA.timeline.play();});
+  if(mode==='area'){
+   await page.waitForFunction(()=>window.JinmuQA.tail,null,{timeout:10000});
+   const tail=await page.evaluate(()=>{const q=window.JinmuQA;return {...q.tail,settled:!!q.settled,busy:q.engine.jinmuStates.get(q.actor).busy};});
+   assert.equal(tail.settled,false);assert.equal(tail.busy,true);assert(tail.fx.activeFrames.some(f=>f.key==='eruption'&&f.alpha>.95));
+   await page.screenshot({path:path.join(out,label+'-area-tail.png'),fullPage:true});checks.push({label,mode:'tail-before-next-action',...tail});
+   await page.evaluate(()=>{window.JinmuQA.timeline.play();});
+  }
+  await page.waitForFunction(()=>!window.JinmuQA.engine.jinmuStates.get(window.JinmuQA.actor).busy,null,{timeout:10000});
   const after=await page.evaluate(()=>{const q=window.JinmuQA,s=q.engine.jinmuStates.get(q.actor);return {last:q.engine.lastMercenaryPlayback,busy:s.busy,visibleEffects:s.fx.pool.filter(p=>p.visible).length,auraAlphas:[...s.fx.auraSprites,...s.fx.dragonSprites].map(p=>p.alpha),atStation:Math.abs(q.actor.root.x-q.actor.baseX)<1&&Math.abs(q.actor.root.y-q.actor.baseY)<1,damageCalls:q.damageCalls.length};});
-  assert.equal(after.busy,false);assert(after.auraAlphas.every(a=>a===1));assert.equal(after.visibleEffects,0);assert.equal(after.atStation,true);assert.equal(after.damageCalls,contact.contact.damageCalls.length);assert.equal(after.last.playbackRate,2.6);
+  assert.equal(after.busy,false);assert(after.auraAlphas.every(a=>a===1));assert.equal(after.visibleEffects,0);assert.equal(after.atStation,true);assert.equal(after.damageCalls,contact.contact.damageCalls.length);assert.equal(after.last.playbackRate,visualRate);
   assert.equal(contact.contact.fx.auraVisible,true);assert.equal(contact.contact.fx.damageAuthority,'SERVER_ONLY');checks.push({label,mode,contact:contact.contact,spec:contact.spec,after});
   if(lifecycleOnly){
    console.log("lifecycle: variants");const variant=await page.evaluate(async()=>{const q=window.JinmuQA,e=q.engine,a=q.actor;e.timeline=q.nativeTimeline;
@@ -116,7 +146,7 @@ try{
   }
   await page.close();
  }
- if(!lifecycleOnly)for(const [label,viewport]of [['desktop',{width:1440,height:1000}],['mobile',{width:390,height:844}]]){
+ if(!lifecycleOnly&&!visualOnly)for(const [label,viewport]of [['desktop',{width:1440,height:1000}],['mobile',{width:390,height:844}]]){
   const page=await browser.newPage({viewport,serviceWorkers:'block'});page.on('pageerror',e=>errors.push(label+' codex: '+e.message));
   await page.addInitScript(()=>{localStorage.setItem('cnine_card_api_token','local-test');localStorage.setItem('cnine_card_user_v10',JSON.stringify({id:1,nickname:'핑크빛유두'}));});
   await page.goto(base+'/mercenary-codex/?view=owned#V-989');await page.locator('[data-code="V-989"]').click();

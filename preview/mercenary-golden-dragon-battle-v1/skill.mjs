@@ -1,4 +1,6 @@
 export const clamp=(n,a=0,b=1)=>Math.min(b,Math.max(a,n));
+// Presentation only: server cadence and ordinary sword attacks keep their speed.
+export const JINMU_ULTIMATE_PLAYBACK_RATE=1.25;
 export function track(keys,t){if(t<=keys[0][0])return keys[0][1];for(let i=1;i<keys.length;i++){if(t<=keys[i][0]){const[a,x]=keys[i-1],[b,y]=keys[i];return x+(y-x)*clamp((t-a)/(b-a));}}return keys.at(-1)[1];}
 export const MODES=Object.freeze({
  aura:{label:'용혼 · 상시 아우라',duration:5.4,contacts:[],description:'몸을 감싸는 금린의 흐름과 황금 용의 수호',events:[[0,'금린 아우라 순환'],[1.2,'용혼의 호흡'],[3.4,'황금 잔광']]},
@@ -53,12 +55,13 @@ export function sample(plan,t){
   s.auraBoost=.5;
  }else if(plan.mode==='ultimate'){
   pose('ultimate',[[0,0],[.28,1],[.78,2],[1.76,2],[1.84,3],[2.18,4],[3.16,4],[3.62,5]]);
-  fx('charge',.02,1.14,1.99,'selfGround',.78,6);
-  fx('dragon',.48,1.18,1.83,'ascend',.70,5);
+  fx('charge',.02,1.14,1.99,'selfGround',1,6);
+  fx('dragon',.48,1.18,1.83,'ascend',1,5);
   fx('eruption',1.43,2.08,4.46,'armyGround',1,4);
-  for(let i=0;i<5;i++)fx('impact',2.07+i*.07,2.14+i*.07,3.4+i*.08,'enemy',.63,4,i);
-  fx('blade',1.79,2.08,2.65,'blade',.88,4);
-  s.cutin=track([[0,0],[.15,.8],[.60,.8],[.98,0]],t);
+  // Expand against the receipt's actual targets, including all twelve hunt slots.
+  fx('impact',2.00,2.08,3.65,'allEnemies',1,4);
+  fx('blade',1.79,2.08,2.65,'blade',1,4);
+  s.cutin=track([[0,0],[.18,1],[.95,1],[1.35,0]],t);
   s.charge=track([[0,0],[1.3,1],[1.85,1],[2.12,0]],t);
   s.auraBoost=1;
  }else if(plan.mode==='hit'){

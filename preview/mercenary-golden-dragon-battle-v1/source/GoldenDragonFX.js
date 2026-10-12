@@ -88,7 +88,9 @@ export class GoldenDragonFX{
   const s=this.pool[this.used++];s.texture=texture;s.visible=alpha>.001;s.position.set(p.x,p.y);s.anchor.set(anchor.x,anchor.y);s.width=size;s.height=height;s.alpha=clamp(alpha);s.rotation=rotation;s.tint=tint;s.blendMode=blend;return s;
  }
  sequence(f,p,size){
-  const spec=this.manifest.effects[f.key],v=clamp(f.frame,0,11),i=Math.floor(v),q=v-i,scale=spec.cellSize/spec.sourceCell.width;
+  // Native alpha already feathers the art. Crossfading two half-alpha dragons
+  // made the body transparent; show one complete authored frame for these VFX.
+  const spec=this.manifest.effects[f.key],v=clamp(f.frame,0,11),solid=['dragon','eruption','impact'].includes(f.key),i=solid?Math.round(v):Math.floor(v),q=solid?0:v-i,scale=spec.cellSize/spec.sourceCell.width;
   // Keep the real alpha silhouette, including wide dragon horns and ground burst,
   // within the V3 camera. Padded texture dimensions are not visible-art bounds.
   const a=spec.frames[i].anchor,b=spec.visibleBounds,scene=this.engine.scene,margin=36;
@@ -96,19 +98,22 @@ export class GoldenDragonFX{
   const top=(a.y*spec.cellSize-b.top)/spec.sourceCell.width,bottom=(b.bottom-a.y*spec.cellSize)/spec.sourceCell.width;
   size=Math.min(size,(scene.width-margin*2)/(left+right),(scene.height-margin*2)/(top+bottom));
   p={x:clamp(p.x,margin+left*size,scene.width-margin-right*size),y:clamp(p.y,margin+top*size,scene.height-margin-bottom*size)};
-  this.activeFrames.push({key:f.key,frame:i,alpha:f.alpha,anchor:{...p},size:size});
+  this.activeFrames.push({key:f.key,frame:i,alpha:f.alpha,anchor:{...p},size,targetId:f.targetId??null,solid,bounds:{left:p.x-left*size,right:p.x+right*size,top:p.y-top*size,bottom:p.y+bottom*size}});
   this.draw(this.assets.effects[f.key][i],p,size*scale,{alpha:f.alpha*(1-q),anchor:spec.frames[i].anchor});
   if(q>.001)this.draw(this.assets.effects[f.key][Math.min(11,i+1)],p,size*scale,{alpha:f.alpha*q,anchor:spec.frames[Math.min(11,i+1)].anchor});
  }
  render(t){
-  if(this.destroyed)return;this.pool.forEach(s=>s.visible=false);this.used=0;this.activeFrames=[];this.ground.clear();
+  if(this.destroyed)return;this.pool.forEach(s=>s.visible=false);this.used=0;this.activeFrames=[];this.cutinBounds=null;this.areaBounds=null;this.ground.clear();
   const s=sample(this.plan,t);this.sample=s;this.applyPose(s.pose);const p=this.positionAt(s);this.merc.root.position.set(p.x,p.y);this.updateAura(s);
   this.targets.forEach((a,i)=>{a.view.x=this.targetsBase[i].x;a.fullBodySprite.tint=this.targetsBase[i].tint;});
   this.engine.sortCombatDepth();
   if(s.cancelled||s.done||this.motionOnly){if(s.cancelled)this.audio.stop();this.onUpdate(this);return;}
   const scene=this.engine.scene,foot=this.ownPoint(),chest=this.ownPoint(0,-this.bodyHeight*.57),own=this.ownPoint(0,-this.bodyHeight);
   const unit=Math.max(65,Math.hypot(own.x-foot.x,own.y-foot.y)),target=this.point(this.targets[0],.40),floor=this.point(this.targets[0]);
-  const army=this.targets.map(a=>this.point(a)),center={x:army.reduce((n,p)=>n+p.x,0)/army.length,y:Math.max(...army.map(p=>p.y))};
+  const army=this.targets.map(a=>this.point(a)),heads=this.targets.map(a=>this.point(a,.85));
+  const formation={left:Math.min(...army.map(p=>p.x))-unit*.30,right:Math.max(...army.map(p=>p.x))+unit*.30,top:Math.min(...heads.map(p=>p.y)),bottom:Math.max(...army.map(p=>p.y))+unit*.12};
+  const center={x:(formation.left+formation.right)/2,y:Math.max(...army.map(p=>p.y))};
+  if(this.plan.mode==='ultimate')this.areaBounds=formation;
   this.currentUnit=unit;
   if(this.auraEnabled){
    this.ground.ellipse(foot.x,foot.y+1,unit*.54,unit*.14).stroke({color:0xe8bf6c,width:1.3,alpha:.35+s.charge*.25});
@@ -121,13 +126,22 @@ export class GoldenDragonFX{
    }
   }
   for(const e of s.effects){
+   if(e.anchor==='allEnemies'){
+    for(const a of this.targets)this.sequence({...e,targetId:a.id},this.point(a,.43),unit*1.25);
+    continue;
+   }
    let point={...target},size=unit*1.7;
    if(e.anchor==='dash'){point={x:chest.x-unit*.45,y:chest.y+unit*.10};size=unit*1.9;}
    if(e.anchor==='selfGround'){point={...foot};size=unit*2.15;}
    if(e.anchor==='blade'){point={x:floor.x-unit*.12,y:target.y};size=unit*1.55;}
    if(e.anchor==='projectile'){const q=clamp((t-.75)/.75);point={x:mix(chest.x+unit*.35,target.x,q),y:mix(chest.y,target.y,q)};size=unit*(1.35+q*.70);}
    if(e.anchor==='ascend'){point={x:chest.x+unit*.32,y:chest.y-unit*.15};size=unit*2.2;}
-   if(e.anchor==='armyGround'){size=Math.max(unit*2.0,Math.min(unit*3.55,scene.width*.66,center.y/.78));point={x:clamp(center.x,size*.45,scene.width-size*.45),y:center.y};}
+   if(e.anchor==='armyGround'){
+    const spec=this.manifest.effects[e.key],bounds=spec.visibleBounds;
+    // Fit the entire actual formation instead of a fixed-size burst at its last row.
+    size=Math.max(unit*2,(formation.right-formation.left)*spec.sourceCell.width/(bounds.right-bounds.left),(formation.bottom-formation.top)*spec.sourceCell.width/(bounds.bottom-bounds.top));
+    point={x:center.x,y:formation.bottom-(bounds.bottom-spec.frames[0].anchor.y*spec.cellSize)/spec.sourceCell.width*size};
+   }
    if(e.anchor==='enemy'){const a=this.targets[e.offset%this.targets.length];point=this.point(a,.43);size=unit*1.25;}
    this.sequence(e,point,size);
   }
@@ -138,10 +152,14 @@ export class GoldenDragonFX{
    this.ground.ellipse(origin.x,origin.y+2,radius*.71,radius*.18).stroke({color:0xc68130,width:1.4,alpha:fade*.55});
    for(let i=0;i<(isUlt?22:12);i++){const a=i*2.3999,v=unit*(.3+i%6*.11),life=hit.age;const point={x:origin.x+Math.cos(a)*v*life,y:origin.y-unit*.08-Math.abs(Math.sin(a))*v*life+unit*.43*life*life};if(point.y>origin.y+8)continue;this.draw(this.assets.flash,point,3+i%2,{height:7+i%4,rotation:a,alpha:fade*.8,tint:i%3?0xf5c468:0xffedc5,blend:'add'});}
   }
-  if(s.cutin&&!this.reducedMotion){const h=scene.height*.65;this.draw(this.assets.cutin,{x:scene.width*.11,y:scene.height*.44},h*2/3,{height:h,alpha:s.cutin*.88});}
+  if(s.cutin&&!this.reducedMotion){
+   const h=Math.min(scene.height*.68,scene.width*.55),w=h*2/3,x=this.merc.team==='ENEMY'?scene.width-w/2-scene.width*.025:w/2+scene.width*.025,y=scene.height*.44;
+   this.draw(this.assets.cutin,{x,y},w,{height:h,alpha:s.cutin});
+   this.cutinBounds={left:x-w/2,right:x+w/2,top:y-h/2,bottom:y+h/2,alpha:s.cutin};
+  }
   if(s.flash)for(let i=0;i<this.targets.length;i++){if(this.plan.mode==='attack'&&i>0)break;this.targets[i].fullBodySprite.tint=0xffdd97;this.targets[i].view.x+=Math.sin(s.flash*25)*2;}
   this.onUpdate(this);
  }
- diagnostics(){return {ready:!this.destroyed,mode:this.plan.mode,time:this.time,playing:this.playing,speed:this.speed,pose:this.sample.pose,cancelled:this.sample.cancelled,visibleSprites:this.pool.filter(s=>s.visible).length,activeFrames:this.activeFrames,registeredTimelines:this.registration&&this.engine.simpleTimelines.has(this.registration)?1:0,regularAllies:this.engine.allies.length,regularEnemies:this.engine.enemies.length,mercenaryInRegularArray:this.engine.allies.includes(this.merc),effectLayers:this.engine.effectLayer.children.filter(c=>c.label==='GoldenDragonFX').length,auraVisible:this.auraBack.visible,auraEnabled:this.auraEnabled,motionOnly:this.motionOnly,reducedMotion:this.reducedMotion,audio:{enabled:this.audio.enabled,scheduled:this.audio.scheduled,error:this.audio.error||null},unit:this.currentUnit,clockOwner:'V3_REGISTERED_GSAP',damageAuthority:'NONE_VISUAL_PREVIEW',counts:this.manifest.counts}}
+ diagnostics(){return {ready:!this.destroyed,mode:this.plan.mode,time:this.time,playing:this.playing,speed:this.speed,pose:this.sample.pose,cancelled:this.sample.cancelled,visibleSprites:this.pool.filter(s=>s.visible).length,activeFrames:this.activeFrames,cutinBounds:this.cutinBounds,areaBounds:this.areaBounds,registeredTimelines:this.registration&&this.engine.simpleTimelines.has(this.registration)?1:0,regularAllies:this.engine.allies.length,regularEnemies:this.engine.enemies.length,mercenaryInRegularArray:this.engine.allies.includes(this.merc),effectLayers:this.engine.effectLayer.children.filter(c=>c.label==='GoldenDragonFX').length,auraVisible:this.auraBack.visible,auraEnabled:this.auraEnabled,motionOnly:this.motionOnly,reducedMotion:this.reducedMotion,audio:{enabled:this.audio.enabled,scheduled:this.audio.scheduled,error:this.audio.error||null},unit:this.currentUnit,clockOwner:'V3_REGISTERED_GSAP',damageAuthority:'NONE_VISUAL_PREVIEW',counts:this.manifest.counts}}
  destroy(){if(this.destroyed)return;this.cancel();this.audio.destroy();this.auraBack.destroy({children:true});this.auraFront.destroy({children:true});this.layer.destroy({children:true});for(const frames of [...Object.values(this.assets.motion),...Object.values(this.assets.effects)])for(const texture of frames)texture.destroy(false);this.destroyed=true;this.pool=[];}
 }

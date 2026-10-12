@@ -1,7 +1,7 @@
 import {gsap} from 'gsap';
 import {JINMU_CODE,JINMU_ART,JINMU_AREA_EVENT,JINMU_COMBAT} from '../../../../shared/mercenary-jinmu-v1.mjs';
 import {GoldenDragonFX,loadDragonAssets} from '../../../mercenary-golden-dragon-battle-v1/source/GoldenDragonFX.js';
-import {makePlan,MODES} from '../../../mercenary-golden-dragon-battle-v1/skill.mjs';
+import {makePlan,MODES,JINMU_ULTIMATE_PLAYBACK_RATE} from '../../../mercenary-golden-dragon-battle-v1/skill.mjs';
 
 const BODY_HEIGHT=285,MANIFEST='/preview/mercenary-golden-dragon-battle-v1/manifest.json?jinmu=20261012-live-v1';
 let manifestPromise;
@@ -93,11 +93,15 @@ async function playback(engine,actor,targets,mode,apply){
  // server basic hit, with no extra roll, energy cost or attack-speed change.
  if(mode==='basic')mode=++s.basicCount%3===0?'skill':'attack';
  s.fx.begin(mode,targets);
- const duration=MODES[mode].duration,contact=MODES[mode].contacts[0],rate=JINMU_COMBAT.motionPlaybackRate,clock={time:0};let applied=false;
+ const ultimate=mode==='ultimate',duration=MODES[mode].duration,contact=MODES[mode].contacts[0],rate=ultimate?JINMU_ULTIMATE_PLAYBACK_RATE:JINMU_COMBAT.motionPlaybackRate,clock={time:0};let applied=false;
  const result=await engine.timeline(t=>{
   t.to(clock,{time:duration,duration:duration/rate,ease:'none',onUpdate(){if(valid()&&!s.stopped){s.fx.clock.time=clock.time;s.fx.render(clock.time);}}});
   t.call(()=>{if(valid()&&!s.stopped&&!applied){applied=true;apply();}},[],contact/rate);
- },()=>{s.busy=false;s.fx.cancel();if(valid()&&!s.stopped&&actor.hp>0){actor.animationController.setState('IDLE');startAmbient(s);}},null,{releaseAt:(contact+.12)/rate,owners:[actor,...targets]});
+ // Finish the ultimate before advancing the receipt queue. Otherwise the next
+ // attack settles its shared targets and erases the dragon immediately on impact.
+ // Keep the readable sequence out of automatic battle pacing; reduced motion
+ // still hides the illustration and uses the user's shortened playback.
+ },()=>{s.busy=false;s.fx.cancel();if(valid()&&!s.stopped&&actor.hp>0){actor.animationController.setState('IDLE');startAmbient(s);}},ultimate?(engine.reducedMotion?8:1):null,{releaseAt:ultimate?null:(contact+.12)/rate,owners:[actor,...targets]});
  engine.lastMercenaryPlayback={code:JINMU_CODE,eventType:mode==='ultimate'?JINMU_AREA_EVENT:'ATTACK',mode,clockOwner:'V3_REGISTERED_GSAP',authoritative:true,damageApplications:applied?targets.length:0,playbackRate:rate,contactSeconds:contact/rate,durationSeconds:duration/rate};
  return result&&valid();
 }
