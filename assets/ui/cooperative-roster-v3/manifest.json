@@ -1,0 +1,66 @@
+{
+  "version": "20261012-random-v3",
+  "generator": "image_gen.imagegen",
+  "assets": [
+    {
+      "id": "bastion",
+      "source": "assets/ui/cooperative-roster-v3/bastion-source.png",
+      "sha256": "52ba68575a538ff0d84f32c019d49796f28c56241b73944c72b6b1ea58fe3ca5",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "battle": "assets/ui/cooperative-roster-v3/bastion-768.webp",
+      "thumbnail": "assets/ui/cooperative-roster-v3/bastion-256.webp"
+    },
+    {
+      "id": "vespera",
+      "source": "assets/ui/cooperative-roster-v3/vespera-source.png",
+      "sha256": "c2f56b366cd36046c105754186977594f695961b8209c0ac6991b555cf831eab",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "battle": "assets/ui/cooperative-roster-v3/vespera-768.webp",
+      "thumbnail": "assets/ui/cooperative-roster-v3/vespera-256.webp"
+    },
+    {
+      "id": "tempest",
+      "source": "assets/ui/cooperative-roster-v3/tempest-source.png",
+      "sha256": "02ffda1df38525df4a057184c17239f7f6b873463ad563de8928d571c614ea84",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "battle": "assets/ui/cooperative-roster-v3/tempest-768.webp",
+      "thumbnail": "assets/ui/cooperative-roster-v3/tempest-256.webp"
+    },
+    {
+      "id": "ironhound",
+      "source": "assets/ui/cooperative-roster-v3/ironhound-source.png",
+      "sha256": "b5296aa2dc9896ea106c14d734f9155a60acfa579034c32cc070b52978276cc0",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "battle": "assets/ui/cooperative-roster-v3/ironhound-768.webp",
+      "thumbnail": "assets/ui/cooperative-roster-v3/ironhound-256.webp"
+    },
+    {
+      "id": "blightstalker",
+      "source": "assets/ui/cooperative-roster-v3/blightstalker-source.png",
+      "sha256": "666cedf6bf8a183cd9fc4fe78074746c4da2626ab556dcab1c912f20450e0f85",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "battle": "assets/ui/cooperative-roster-v3/blightstalker-768.webp",
+      "thumbnail": "assets/ui/cooperative-roster-v3/blightstalker-256.webp"
+    },
+    {
+      "id": "stormwisp",
+      "source": "assets/ui/cooperative-roster-v3/stormwisp-source.png",
+      "sha256": "de46f11fafc869ec515baabc38e8da894967e623b20d689b4dfcad68bd61825a",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "battle": "assets/ui/cooperative-roster-v3/stormwisp-768.webp",
+      "thumbnail": "assets/ui/cooperative-roster-v3/stormwisp-256.webp"
+    }
+  ]
+}

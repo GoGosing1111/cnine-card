@@ -1,0 +1,519 @@
+{
+  "version": "20261012-random-v3",
+  "cmsRevision": 61,
+  "assumptions": {
+    "enhancementLevels": [
+      0,
+      10,
+      13,
+      15
+    ],
+    "uniqueAdvancement": "NONE",
+    "equipmentBonus": "scenario input",
+    "mercenaryLevel": 1
+  },
+  "simulations": 1204,
+  "note": "Deterministic server simulations; not observed live win rates. ICON +13, mercenary level 1, no unique advancement; gear 2.3M per squad except NORMAL/HARD 1.2M. Fixed budget, no party scaling or character requirement. One SSS limited replaced by a nurse is also measured; not every composition can clear EXTREME.",
+  "rows": [
+    {
+      "profile": "SS + FUR15/ZENITH13",
+      "difficulty": "NORMAL",
+      "battles": 120,
+      "wins": 120,
+      "winPercent": 100,
+      "meanSeconds": 155.6,
+      "minSeconds": 138.04,
+      "maxSeconds": 178.16,
+      "perBoss": {
+        "TEMPEST": {
+          "battles": 30,
+          "wins": 30
+        },
+        "VESPERA": {
+          "battles": 35,
+          "wins": 35
+        },
+        "BASTION": {
+          "battles": 28,
+          "wins": 28
+        },
+        "ARKE": {
+          "battles": 27,
+          "wins": 27
+        }
+      }
+    },
+    {
+      "profile": "SS limited + balanced ICON",
+      "difficulty": "HARD",
+      "battles": 120,
+      "wins": 80,
+      "winPercent": 66.7,
+      "meanSeconds": 94.1,
+      "minSeconds": 75.14,
+      "maxSeconds": 105.4,
+      "perBoss": {
+        "TEMPEST": {
+          "battles": 30,
+          "wins": 18
+        },
+        "VESPERA": {
+          "battles": 35,
+          "wins": 34
+        },
+        "BASTION": {
+          "battles": 28,
+          "wins": 14
+        },
+        "ARKE": {
+          "battles": 27,
+          "wins": 14
+        }
+      }
+    },
+    {
+      "profile": "SS limited + offense ICON",
+      "difficulty": "HARD",
+      "battles": 120,
+      "wins": 46,
+      "winPercent": 38.3,
+      "meanSeconds": 78.8,
+      "minSeconds": 62.22,
+      "maxSeconds": 93.84,
+      "perBoss": {
+        "TEMPEST": {
+          "battles": 30,
+          "wins": 2
+        },
+        "VESPERA": {
+          "battles": 35,
+          "wins": 31
+        },
+        "BASTION": {
+          "battles": 28,
+          "wins": 7
+        },
+        "ARKE": {
+          "battles": 27,
+          "wins": 6
+        }
+      }
+    },
+    {
+      "profile": "Helios/Helios/Valter balanced",
+      "difficulty": "EXTREME",
+      "battles": 120,
+      "wins": 106,
+      "winPercent": 88.3,
+      "meanSeconds": 129.4,
+      "minSeconds": 110.84,
+      "maxSeconds": 149.6,
+      "perBoss": {
+        "TEMPEST": {
+          "battles": 30,
+          "wins": 29
+        },
+        "VESPERA": {
+          "battles": 35,
+          "wins": 30
+        },
+        "BASTION": {
+          "battles": 28,
+          "wins": 20
+        },
+        "ARKE": {
+          "battles": 27,
+          "wins": 27
+        }
+      }
+    },
+    {
+      "profile": "Helios/Helios/Valter offense",
+      "difficulty": "EXTREME",
+      "battles": 120,
+      "wins": 36,
+      "winPercent": 30,
+      "meanSeconds": 124.9,
+      "minSeconds": 106.42,
+      "maxSeconds": 137.7,
+      "perBoss": {
+        "TEMPEST": {
+          "battles": 30,
+          "wins": 18
+        },
+        "VESPERA": {
+          "battles": 35,
+          "wins": 3
+        },
+        "BASTION": {
+          "battles": 28,
+          "wins": 0
+        },
+        "ARKE": {
+          "battles": 27,
+          "wins": 15
+        }
+      }
+    },
+    {
+      "profile": "Helios/Helios/Valter cleanse",
+      "difficulty": "EXTREME",
+      "battles": 120,
+      "wins": 115,
+      "winPercent": 95.8,
+      "meanSeconds": 131.1,
+      "minSeconds": 111.52,
+      "maxSeconds": 150.62,
+      "perBoss": {
+        "TEMPEST": {
+          "battles": 30,
+          "wins": 30
+        },
+        "VESPERA": {
+          "battles": 35,
+          "wins": 33
+        },
+        "BASTION": {
+          "battles": 28,
+          "wins": 25
+        },
+        "ARKE": {
+          "battles": 27,
+          "wins": 27
+        }
+      }
+    },
+    {
+      "profile": "Valter trio balanced",
+      "difficulty": "EXTREME",
+      "battles": 120,
+      "wins": 55,
+      "winPercent": 45.8,
+      "meanSeconds": 134.7,
+      "minSeconds": 110.84,
+      "maxSeconds": 148.92,
+      "perBoss": {
+        "TEMPEST": {
+          "battles": 30,
+          "wins": 25
+        },
+        "VESPERA": {
+          "battles": 35,
+          "wins": 5
+        },
+        "BASTION": {
+          "battles": 28,
+          "wins": 1
+        },
+        "ARKE": {
+          "battles": 27,
+          "wins": 24
+        }
+      }
+    },
+    {
+      "profile": "Valter trio offense",
+      "difficulty": "EXTREME",
+      "battles": 120,
+      "wins": 5,
+      "winPercent": 4.2,
+      "meanSeconds": 124.2,
+      "minSeconds": 109.48,
+      "maxSeconds": 132.6,
+      "perBoss": {
+        "TEMPEST": {
+          "battles": 30,
+          "wins": 1
+        },
+        "VESPERA": {
+          "battles": 35,
+          "wins": 0
+        },
+        "BASTION": {
+          "battles": 28,
+          "wins": 0
+        },
+        "ARKE": {
+          "battles": 27,
+          "wins": 4
+        }
+      }
+    },
+    {
+      "profile": "Jinmu/Helios/Valter balanced",
+      "difficulty": "EXTREME",
+      "battles": 120,
+      "wins": 120,
+      "winPercent": 100,
+      "meanSeconds": 121.8,
+      "minSeconds": 104.38,
+      "maxSeconds": 139.4,
+      "perBoss": {
+        "TEMPEST": {
+          "battles": 30,
+          "wins": 30
+        },
+        "VESPERA": {
+          "battles": 35,
+          "wins": 35
+        },
+        "BASTION": {
+          "battles": 28,
+          "wins": 28
+        },
+        "ARKE": {
+          "battles": 27,
+          "wins": 27
+        }
+      }
+    },
+    {
+      "profile": "Jinmu/Helios/nurse balanced",
+      "difficulty": "EXTREME",
+      "battles": 120,
+      "wins": 1,
+      "winPercent": 0.8,
+      "meanSeconds": 116.4,
+      "minSeconds": 105.06,
+      "maxSeconds": 127.5,
+      "perBoss": {
+        "TEMPEST": {
+          "battles": 30,
+          "wins": 0
+        },
+        "VESPERA": {
+          "battles": 35,
+          "wins": 0
+        },
+        "BASTION": {
+          "battles": 28,
+          "wins": 0
+        },
+        "ARKE": {
+          "battles": 27,
+          "wins": 1
+        }
+      }
+    }
+  ],
+  "replay": [
+    {
+      "sample": "AUDIT_1",
+      "recordedSeconds": 20.4,
+      "old": {
+        "winner": "A",
+        "seconds": 20.4
+      },
+      "updated": {
+        "winner": "B",
+        "seconds": 84.32
+      }
+    },
+    {
+      "sample": "AUDIT_2",
+      "recordedSeconds": 36.3,
+      "old": {
+        "winner": "A",
+        "seconds": 36.3
+      },
+      "updated": {
+        "winner": "B",
+        "seconds": 113.82
+      }
+    }
+  ],
+  "combat": {
+    "lobbySeconds": 900,
+    "maxBattleSeconds": 180,
+    "patterns": {
+      "firstSeconds": 10,
+      "intervalSeconds": 30,
+      "count": 6,
+      "rupturePercent": 8
+    },
+    "stages": [
+      {
+        "wave": 1,
+        "name": "제련소 외곽",
+        "hint": "서로 다른 몬스터 3종을 격파하세요. 방벽·독·약화에 대응할 조합을 준비하세요."
+      },
+      {
+        "wave": 2,
+        "name": "노심 관문",
+        "hint": "준보스의 특성을 확인하고 방벽 파괴·약화·보호·회복 효과를 연결하세요."
+      },
+      {
+        "wave": 3,
+        "name": "심층 노심",
+        "hint": "최종 보스를 제한 시간 안에 격파하세요. 전투는 편성한 스킬로 자동 진행됩니다."
+      }
+    ],
+    "difficulties": [
+      {
+        "id": "NORMAL",
+        "recommendation": "SS 용병 · 강화 카드와 보호·회복을 함께 준비",
+        "forcedEvery": 6,
+        "responseSeconds": 9,
+        "overloadPercent": 12,
+        "focusPercent": 40,
+        "monsters": [
+          {
+            "key": "STALKER_A",
+            "power": 240000,
+            "hpPercent": 200,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 1
+          },
+          {
+            "key": "STALKER_B",
+            "power": 240000,
+            "hpPercent": 200,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 1
+          },
+          {
+            "key": "WATCHER",
+            "power": 240000,
+            "hpPercent": 200,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 1
+          },
+          {
+            "key": "WARDEN",
+            "power": 1000000,
+            "hpPercent": 500,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 1
+          },
+          {
+            "key": "ARKE",
+            "power": 2000000,
+            "hpPercent": 1200,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 1
+          }
+        ]
+      },
+      {
+        "id": "HARD",
+        "recommendation": "SS 리미티드·SSS 중심 · 보스별 약화와 생존 조합",
+        "forcedEvery": 4,
+        "responseSeconds": 8,
+        "overloadPercent": 18,
+        "focusPercent": 50,
+        "monsters": [
+          {
+            "key": "STALKER_A",
+            "power": 4200000,
+            "hpPercent": 200,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 1
+          },
+          {
+            "key": "STALKER_B",
+            "power": 4200000,
+            "hpPercent": 200,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 1
+          },
+          {
+            "key": "WATCHER",
+            "power": 4200000,
+            "hpPercent": 200,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 1
+          },
+          {
+            "key": "WARDEN",
+            "power": 17500000,
+            "hpPercent": 500,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 2
+          },
+          {
+            "key": "ARKE",
+            "power": 35000000,
+            "hpPercent": 1200,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 2
+          }
+        ]
+      },
+      {
+        "id": "EXTREME",
+        "recommendation": "SSS 리미티드·최상위 성장 · 분대별 화력과 팀 보호·정화",
+        "forcedEvery": 3,
+        "responseSeconds": 7,
+        "overloadPercent": 24,
+        "focusPercent": 60,
+        "monsters": [
+          {
+            "key": "STALKER_A",
+            "power": 21600000,
+            "hpPercent": 250,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 2
+          },
+          {
+            "key": "STALKER_B",
+            "power": 21600000,
+            "hpPercent": 250,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 2
+          },
+          {
+            "key": "WATCHER",
+            "power": 18000000,
+            "hpPercent": 250,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 2
+          },
+          {
+            "key": "WARDEN",
+            "power": 100800000,
+            "hpPercent": 600,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 3
+          },
+          {
+            "key": "ARKE",
+            "power": 170000000,
+            "hpPercent": 1200,
+            "attackPercent": 100,
+            "defensePercent": 100,
+            "shieldPercent": 0,
+            "attackCount": 3
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,1904 @@
+{
+  "source": "Anonymized production loadouts / read-only audit 2026-10-12",
+  "samples": [
+    {
+      "label": "AUDIT_1",
+      "difficulty": "EXTREME",
+      "seed": 157108426,
+      "combat": {
+        "lobbySeconds": 900,
+        "maxBattleSeconds": 180,
+        "patterns": {
+          "firstSeconds": 10,
+          "intervalSeconds": 30,
+          "count": 6,
+          "rupturePercent": 8
+        },
+        "stages": [
+          {
+            "wave": 1,
+            "name": "제련소 외곽",
+            "hint": "근접 추적자와 원거리 감시기 3기를 모두 격파하세요."
+          },
+          {
+            "wave": 2,
+            "name": "노심 관문",
+            "hint": "두꺼운 방벽을 돌파하세요. 수문장은 연속 공격을 사용합니다."
+          },
+          {
+            "wave": 3,
+            "name": "심층 노심",
+            "hint": "삼핵 차단과 집중 포화에 대응하며 거신을 격파하세요."
+          }
+        ],
+        "difficulties": [
+          {
+            "id": "NORMAL",
+            "recommendation": "SS 용병 3명 · 공격과 방어를 고르게",
+            "forcedEvery": 6,
+            "responseSeconds": 9,
+            "overloadPercent": 12,
+            "focusPercent": 40,
+            "monsters": [
+              {
+                "key": "STALKER_A",
+                "power": 1080000,
+                "hpPercent": 100,
+                "attackPercent": 100,
+                "defensePercent": 100,
+                "shieldPercent": 0,
+                "attackCount": 1
+              },
+              {
+                "key": "STALKER_B",
+                "power": 1080000,
+                "hpPercent": 100,
+                "attackPercent": 100,
+                "defensePercent": 100,
+                "shieldPercent": 0,
+                "attackCount": 1
+              },
+              {
+                "key": "WATCHER",
+                "power": 900000,
+                "hpPercent": 100,
+                "attackPercent": 100,
+                "defensePercent": 100,
+                "shieldPercent": 0,
+                "attackCount": 2
+              },
+              {
+                "key": "WARDEN",
+                "power": 3780000,
+                "hpPercent": 240,
+                "attackPercent": 100,
+                "defensePercent": 100,
+                "shieldPercent": 30,
+                "attackCount": 2
+              },
+              {
+                "key": "ARKE",
+                "power": 9000000,
+                "hpPercent": 380,
+                "attackPercent": 120,
+                "defensePercent": 100,
+                "shieldPercent": 0,
+                "attackCount": 1
+              }
+            ]
+          },
+          {
+            "id": "HARD",
+            "recommendation": "SSS 1명 + SS 2명 · 방어와 회복 권장",
+            "forcedEvery": 6,
+            "responseSeconds": 8,
+            "overloadPercent": 18,
+            "focusPercent": 50,
+            "monsters": [
+              {
+                "key": "STALKER_A",
+                "power": 2600000,
+                "hpPercent": 100,
+                "attackPercent": 100,
+                "defensePercent": 100,
+                "shieldPercent": 0,
+                "attackCount": 1
+              },
+              {
+                "key": "STALKER_B",
+                "power": 2600000,
+                "hpPercent": 100,
+                "attackPercent": 100,
+                "defensePercent": 100,
+                "shieldPercent": 0,
+                "attackCount": 1
+              },
+              {
+                "key": "WATCHER",
+                "power": 2000000,
+                "hpPercent": 100,
+                "attackPercent": 100,
+                "defensePercent": 100,
+                "shieldPercent": 0,
+                "attackCount": 2
+              },
+              {
+                "key": "WARDEN",
+                "power": 7500000,
+                "hpPercent": 150,
+                "attackPercent": 100,
+                "defensePercent": 100,
+                "shieldPercent": 30,
+                "attackCount": 2
+              },
+              {
+                "key": "ARKE",
+                "power": 12500000,
+                "hpPercent": 500,
+                "attackPercent": 145,
+                "defensePercent": 100,
+                "shieldPercent": 0,
+                "attackCount": 2
+              }
+            ]
+          },
+          {
+            "id": "EXTREME",
+            "recommendation": "SSS 2~3명 · 고유효과와 용병 스킬 연계",
+            "forcedEvery": 5,
+            "responseSeconds": 7,
+            "overloadPercent": 24,
+            "focusPercent": 60,
+            "monsters": [
+              {
+                "key": "STALKER_A",
+                "power": 7200000,
+                "hpPercent": 100,
+                "attackPercent": 100,
+                "defensePercent": 100,
+                "shieldPercent": 0,
+                "attackCount": 1
+              },
+              {
+                "key": "STALKER_B",
+                "power": 7200000,
+                "hpPercent": 100,
+                "attackPercent": 100,
+                "defensePercent": 100,
+                "shieldPercent": 0,
+                "attackCount": 1
+              },
+              {
+                "key": "WATCHER",
+                "power": 6000000,
+                "hpPercent": 100,
+                "attackPercent": 100,
+                "defensePercent": 100,
+                "shieldPercent": 0,
+                "attackCount": 2
+              },
+              {
+                "key": "WARDEN",
+                "power": 25200000,
+                "hpPercent": 240,
+                "attackPercent": 100,
+                "defensePercent": 100,
+                "shieldPercent": 30,
+                "attackCount": 2
+              },
+              {
+                "key": "ARKE",
+                "power": 60000000,
+                "hpPercent": 836,
+                "attackPercent": 200,
+                "defensePercent": 100,
+                "shieldPercent": 0,
+                "attackCount": 2
+              }
+            ]
+          }
+        ]
+      },
+      "turnClockVersion": 4,
+      "withdrawals": [
+        {
+          "ownerId": 2,
+          "atMs": 0
+        }
+      ],
+      "effects": [],
+      "oldDurationMs": 20400,
+      "squads": [
+        {
+          "pet": {
+            "definition": {
+              "code": "PET-GUSUDAENG",
+              "name": "토끼 구수댕",
+              "sourceArt": "assets/ui/pets/gusudaeng/pet-tokki-gusudaeng-approved-20261002.png",
+              "battleSprite": "assets/ui/pets/gusudaeng/pet-tokki-gusudaeng-approved-20261002.png",
+              "enabled": true,
+              "modes": [
+                "PVE",
+                "PVP"
+              ],
+              "target": "ALL_ALLIES",
+              "buffs": [
+                {
+                  "type": "MAX_HP_PERCENT",
+                  "percent": 20
+                }
+              ],
+              "notes": ""
+            },
+            "magnet": true,
+            "cmsRevision": 8,
+            "loadoutRevision": 3,
+            "ownerId": 1
+          },
+          "ownerId": 1,
+          "ownerName": "분대 1",
+          "cards": [
+            {
+              "id": "CN-1C000004",
+              "title": "오조은",
+              "rarity": "ICON",
+              "power_type": null,
+              "base_power": 180000,
+              "image": "assets/cards/ICON/oh-joeun-medic-art-approved-20261006.png",
+              "breakthrough_level": 0,
+              "grade": "ICON",
+              "breakthroughLevel": 0,
+              "power": 180000,
+              "uniqueAbility": null,
+              "uniqueAdvancement": null,
+              "iconRole": {
+                "version": 1,
+                "code": "ICON-OH-JOEUN",
+                "role": "SUPPORT",
+                "revision": 2,
+                "tuning": {
+                  "firstAction": 2,
+                  "cooldownActions": 4,
+                  "maxCasts": 6,
+                  "pveScale": 125,
+                  "pvpScale": 150,
+                  "healPercent": 25,
+                  "resonancePercent": 3,
+                  "maxStacks": 8,
+                  "healBudgetPercent": 150,
+                  "nextAttackPercent": 35,
+                  "durationActions": 3
+                },
+                "supremacy": {
+                  "version": "20261005-fur15-v1",
+                  "power": 198200,
+                  "cardCount": 20,
+                  "CAPTAIN": {
+                    "attack": {
+                      "base": 546560,
+                      "perPower": 2.8
+                    },
+                    "maxHp": {
+                      "base": 488000,
+                      "perPower": 2.5
+                    },
+                    "defense": {
+                      "base": 295,
+                      "perPower": 0
+                    },
+                    "speed": {
+                      "base": 250,
+                      "perPower": 0
+                    }
+                  },
+                  "PVE": {
+                    "maxHp": {
+                      "base": 456768,
+                      "perPower": 2.340001
+                    },
+                    "attack": {
+                      "base": 220230,
+                      "perPower": 1.128226
+                    },
+                    "defense": {
+                      "base": 134499,
+                      "perPower": 0.689032
+                    },
+                    "speed": {
+                      "base": 17011,
+                      "perPower": 0.086251
+                    }
+                  },
+                  "PVP": {
+                    "maxHp": {
+                      "base": 507520,
+                      "perPower": 2.600001
+                    },
+                    "attack": {
+                      "base": 207317,
+                      "perPower": 1.062076
+                    },
+                    "defense": {
+                      "base": 130455,
+                      "perPower": 0.668313
+                    },
+                    "speed": {
+                      "base": 17011,
+                      "perPower": 0.086251
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "id": "CN-1C000001",
+              "title": "디임",
+              "rarity": "ICON",
+              "power_type": null,
+              "base_power": 180000,
+              "image": "assets/cards/ICON/diim-source-v1.png",
+              "breakthrough_level": 0,
+              "grade": "ICON",
+              "breakthroughLevel": 0,
+              "power": 180000,
+              "uniqueAbility": null,
+              "uniqueAdvancement": null,
+              "iconRole": {
+                "version": 1,
+                "code": "ICON-DIIM",
+                "role": "ASSASSIN",
+                "revision": 2,
+                "tuning": {
+                  "firstAction": 2,
+                  "cooldownActions": 4,
+                  "maxCasts": 6,
+                  "pveScale": 100,
+                  "pvpScale": 90,
+                  "damagePercent": 180,
+                  "damageCapPercent": 46,
+                  "executePercent": 60,
+                  "takedownGauge": 25,
+                  "maxTakedowns": 2
+                },
+                "supremacy": {
+                  "version": "20261005-fur15-v1",
+                  "power": 198200,
+                  "cardCount": 20,
+                  "CAPTAIN": {
+                    "attack": {
+                      "base": 546560,
+                      "perPower": 2.8
+                    },
+                    "maxHp": {
+                      "base": 488000,
+                      "perPower": 2.5
+                    },
+                    "defense": {
+                      "base": 295,
+                      "perPower": 0
+                    },
+                    "speed": {
+                      "base": 250,
+                      "perPower": 0
+                    }
+                  },
+                  "PVE": {
+                    "maxHp": {
+                      "base": 456768,
+                      "perPower": 2.340001
+                    },
+                    "attack": {
+                      "base": 220230,
+                      "perPower": 1.128226
+                    },
+                    "defense": {
+                      "base": 134499,
+                      "perPower": 0.689032
+                    },
+                    "speed": {
+                      "base": 17011,
+                      "perPower": 0.086251
+                    }
+                  },
+                  "PVP": {
+                    "maxHp": {
+                      "base": 507520,
+                      "perPower": 2.600001
+                    },
+                    "attack": {
+                      "base": 207317,
+                      "perPower": 1.062076
+                    },
+                    "defense": {
+                      "base": 130455,
+                      "perPower": 0.668313
+                    },
+                    "speed": {
+                      "base": 17011,
+                      "perPower": 0.086251
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "mercenary": {
+            "code": "V-989",
+            "name": "천룡검황 진무",
+            "title": "SSS 리미티드 · 천룡의 주인",
+            "rank": "SSS",
+            "edition": "LIMITED",
+            "role": "VANGUARD",
+            "position": "FRONT",
+            "artOnly": true,
+            "releaseStatus": "EXCLUSIVE_RELEASED",
+            "exclusiveGrant": true,
+            "excludedFromLimitedCount": true,
+            "sourceArt": "assets/ui/project-v/mercenaries/jinmu-20261012/source-art.png",
+            "sourceArtSha256": "263725DD2B2B568CF5091B864BEA537161F6D7A4D3123DB0E9A2A0D040CFF21B",
+            "battleSprite": "assets/ui/project-v/mercenaries/jinmu-20261012/idle.png",
+            "battleSpriteSha256": "690F2CA540DF6F210FBE619316AB3E30F3361A247E3DF6216DA1FED8CFA168A2",
+            "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+            "artWindow": {
+              "left": 5.957,
+              "top": 5.794,
+              "width": 88.086,
+              "height": 88.086
+            },
+            "accent": "#e8bf6c",
+            "basePower": 1347840,
+            "skills": [
+              {
+                "id": "MS-989",
+                "name": "천룡강림",
+                "mechanic": "HEAVENLY_DRAGON_DESCENT",
+                "target": "ALL_ENEMIES",
+                "pveOnly": true,
+                "balance": {
+                  "damageRatio": 5.6,
+                  "cooldownTurns": 5,
+                  "cost": 35
+                }
+              }
+            ],
+            "acquisitionEnabled": false,
+            "deploymentEnabled": true,
+            "combatLinkDescription": "천룡검황 진무 · 기본 전투력 1,347,840. 같은 편성 기준 헬리오스보다 연계 공격력·체력·전용 방벽이 20% 높으며 공격속도·추가 행동·모션 속도는 동일합니다. 개인 피해 75% 경감과 상태이상·반격 대응, 베르칸 피해 면역을 지닙니다. PVE 천룡강림은 적 전체에 총 560% 피해를 나눠 한 번씩 적용합니다(에너지 35 · 재사용 5행동). 지정 계정 전용 지급이며 일반 획득과 리미티드 발행 수량에서 제외됩니다.",
+            "actorKind": "MERCENARY",
+            "level": 1,
+            "statMode": "RANK_FIXED",
+            "attackStyle": "MELEE",
+            "pendingSkillIds": [],
+            "jinmuPolicyVersion": 1,
+            "deploymentVersion": "20261012-jinmu-live-v1",
+            "combat": {
+              "energyMax": 100,
+              "energyPerBasic": 10,
+              "windupTurns": 1,
+              "statusTurns": 2,
+              "armorReductionPercent": 20,
+              "interceptPercent": 40,
+              "parryPercent": 40,
+              "orderPercent": 15,
+              "veilPercent": 25,
+              "finisherHpPercent": 30,
+              "finisherBonusPercent": 50,
+              "focusBonusPercent": 40,
+              "poisonPercent": 40,
+              "restraintHits": 2,
+              "restraintPercent": 25,
+              "suppressGauge": 20,
+              "reloadGauge": 20,
+              "powerGrowthPercentPerLevel": 0
+            },
+            "cmsRevision": 61,
+            "policyVersion": "mercenary-runtime-connected-2091"
+          },
+          "equipmentBonus": 2300000,
+          "singleHealerBonus": {
+            "enabled": true,
+            "teamHpPercent": 8,
+            "healPercent": 10,
+            "crisisThresholdPercent": 40,
+            "crisisHealPercent": 16,
+            "pvpMaxActivations": 4,
+            "pveMaxActivations": 6
+          },
+          "power": 4007840
+        },
+        {
+          "pet": {
+            "definition": {
+              "code": "PET-HEADSET-SHIBA",
+              "name": "헤드셋 시바견",
+              "sourceArt": "assets/ui/pets/gamer-duo-20261006-v1/pet-headset-shiba-v1.png",
+              "battleSprite": "assets/ui/pets/gamer-duo-20261006-v1/pet-headset-shiba-v1.png",
+              "enabled": true,
+              "modes": [
+                "PVE",
+                "PVP"
+              ],
+              "target": "ALL_ALLIES",
+              "buffs": [
+                {
+                  "type": "ATTACK_PERCENT",
+                  "percent": 8
+                }
+              ],
+              "notes": ""
+            },
+            "magnet": true,
+            "cmsRevision": 8,
+            "loadoutRevision": 1,
+            "ownerId": 2
+          },
+          "ownerId": 2,
+          "ownerName": "분대 2",
+          "cards": [
+            {
+              "id": "CN-1C000001",
+              "title": "디임",
+              "rarity": "ICON",
+              "power_type": null,
+              "base_power": 180000,
+              "image": "assets/cards/ICON/diim-source-v1.png",
+              "breakthrough_level": 0,
+              "grade": "ICON",
+              "breakthroughLevel": 0,
+              "power": 180000,
+              "uniqueAbility": null,
+              "uniqueAdvancement": null,
+              "iconRole": {
+                "version": 1,
+                "code": "ICON-DIIM",
+                "role": "ASSASSIN",
+                "revision": 2,
+                "tuning": {
+                  "firstAction": 2,
+                  "cooldownActions": 4,
+                  "maxCasts": 6,
+                  "pveScale": 100,
+                  "pvpScale": 90,
+                  "damagePercent": 180,
+                  "damageCapPercent": 46,
+                  "executePercent": 60,
+                  "takedownGauge": 25,
+                  "maxTakedowns": 2
+                },
+                "supremacy": {
+                  "version": "20261005-fur15-v1",
+                  "power": 198200,
+                  "cardCount": 20,
+                  "CAPTAIN": {
+                    "attack": {
+                      "base": 546560,
+                      "perPower": 2.8
+                    },
+                    "maxHp": {
+                      "base": 488000,
+                      "perPower": 2.5
+                    },
+                    "defense": {
+                      "base": 295,
+                      "perPower": 0
+                    },
+                    "speed": {
+                      "base": 250,
+                      "perPower": 0
+                    }
+                  },
+                  "PVE": {
+                    "maxHp": {
+                      "base": 456768,
+                      "perPower": 2.340001
+                    },
+                    "attack": {
+                      "base": 220230,
+                      "perPower": 1.128226
+                    },
+                    "defense": {
+                      "base": 134499,
+                      "perPower": 0.689032
+                    },
+                    "speed": {
+                      "base": 17011,
+                      "perPower": 0.086251
+                    }
+                  },
+                  "PVP": {
+                    "maxHp": {
+                      "base": 507520,
+                      "perPower": 2.600001
+                    },
+                    "attack": {
+                      "base": 207317,
+                      "perPower": 1.062076
+                    },
+                    "defense": {
+                      "base": 130455,
+                      "perPower": 0.668313
+                    },
+                    "speed": {
+                      "base": 17011,
+                      "perPower": 0.086251
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "id": "CN-1C000003",
+              "title": "나무늘봉순",
+              "rarity": "ICON",
+              "power_type": null,
+              "base_power": 180000,
+              "image": "assets/cards/ICON/namuneul-bongsoon-source-v2.jpg",
+              "breakthrough_level": 0,
+              "grade": "ICON",
+              "breakthroughLevel": 0,
+              "power": 180000,
+              "uniqueAbility": null,
+              "uniqueAdvancement": null,
+              "iconRole": {
+                "version": 1,
+                "code": "ICON-NAMUNEUL-BONGSOON",
+                "role": "MAGIC",
+                "revision": 2,
+                "tuning": {
+                  "firstAction": 2,
+                  "cooldownActions": 4,
+                  "maxCasts": 6,
+                  "pveScale": 100,
+                  "pvpScale": 90,
+                  "damagePercent": 180,
+                  "damageCapPercent": 46,
+                  "maxTargets": 3,
+                  "focusPercent": 20,
+                  "penetrationPercent": 25
+                },
+                "supremacy": {
+                  "version": "20261005-fur15-v1",
+                  "power": 198200,
+                  "cardCount": 20,
+                  "CAPTAIN": {
+                    "attack": {
+                      "base": 546560,
+                      "perPower": 2.8
+                    },
+                    "maxHp": {
+                      "base": 488000,
+                      "perPower": 2.5
+                    },
+                    "defense": {
+                      "base": 295,
+                      "perPower": 0
+                    },
+                    "speed": {
+                      "base": 250,
+                      "perPower": 0
+                    }
+                  },
+                  "PVE": {
+                    "maxHp": {
+                      "base": 456768,
+                      "perPower": 2.340001
+                    },
+                    "attack": {
+                      "base": 220230,
+                      "perPower": 1.128226
+                    },
+                    "defense": {
+                      "base": 134499,
+                      "perPower": 0.689032
+                    },
+                    "speed": {
+                      "base": 17011,
+                      "perPower": 0.086251
+                    }
+                  },
+                  "PVP": {
+                    "maxHp": {
+                      "base": 507520,
+                      "perPower": 2.600001
+                    },
+                    "attack": {
+                      "base": 207317,
+                      "perPower": 1.062076
+                    },
+                    "defense": {
+                      "base": 130455,
+                      "perPower": 0.668313
+                    },
+                    "speed": {
+                      "base": 17011,
+                      "perPower": 0.086251
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "mercenary": {
+            "code": "V-999",
+            "name": "헬리오스",
+            "title": "",
+            "rank": "SSS",
+            "edition": "LIMITED",
+            "actorKind": "MERCENARY",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20261009/solar-sword-sss-limited-source-art.png",
+            "battleSprite": "assets/ui/project-v/mercenaries/limited-20261009/helios-sd.png",
+            "level": 1,
+            "statMode": "RANK_FIXED",
+            "basePower": 1123200,
+            "position": "FRONT",
+            "role": "VANGUARD",
+            "attackStyle": "MELEE",
+            "skills": [
+              {
+                "id": "MS-999",
+                "name": "천양붕락",
+                "mechanic": "SOLAR_COLLAPSE",
+                "target": "ALL_ENEMIES",
+                "pveOnly": true,
+                "balance": {
+                  "damageRatio": 5.6,
+                  "cooldownTurns": 5,
+                  "cost": 35
+                }
+              }
+            ],
+            "pendingSkillIds": [],
+            "heliosPolicyVersion": 2,
+            "deploymentEnabled": true,
+            "deploymentVersion": "20261012-helios-deployment-v1",
+            "combat": {
+              "energyMax": 100,
+              "energyPerBasic": 10,
+              "windupTurns": 1,
+              "statusTurns": 2,
+              "armorReductionPercent": 20,
+              "interceptPercent": 40,
+              "parryPercent": 40,
+              "orderPercent": 15,
+              "veilPercent": 25,
+              "finisherHpPercent": 30,
+              "finisherBonusPercent": 50,
+              "focusBonusPercent": 40,
+              "poisonPercent": 40,
+              "restraintHits": 2,
+              "restraintPercent": 25,
+              "suppressGauge": 20,
+              "reloadGauge": 20,
+              "powerGrowthPercentPerLevel": 0
+            },
+            "cmsRevision": 61,
+            "policyVersion": "mercenary-runtime-connected-2091"
+          },
+          "equipmentBonus": 1121900,
+          "singleHealerBonus": {
+            "enabled": true,
+            "teamHpPercent": 8,
+            "healPercent": 10,
+            "crisisThresholdPercent": 40,
+            "crisisHealPercent": 16,
+            "pvpMaxActivations": 4,
+            "pveMaxActivations": 6
+          },
+          "power": 2605100
+        },
+        {
+          "pet": {
+            "definition": {
+              "code": "PET-HEADSET-SHIBA",
+              "name": "헤드셋 시바견",
+              "sourceArt": "assets/ui/pets/gamer-duo-20261006-v1/pet-headset-shiba-v1.png",
+              "battleSprite": "assets/ui/pets/gamer-duo-20261006-v1/pet-headset-shiba-v1.png",
+              "enabled": true,
+              "modes": [
+                "PVE",
+                "PVP"
+              ],
+              "target": "ALL_ALLIES",
+              "buffs": [
+                {
+                  "type": "ATTACK_PERCENT",
+                  "percent": 8
+                }
+              ],
+              "notes": ""
+            },
+            "magnet": true,
+            "cmsRevision": 8,
+            "loadoutRevision": 1,
+            "ownerId": 3
+          },
+          "ownerId": 3,
+          "ownerName": "분대 3",
+          "cards": [
+            {
+              "id": "CN-47AD4B47B6A7452C",
+              "title": "아이젠 족스케",
+              "rarity": "FUR",
+              "power_type": "FIXED",
+              "base_power": 3200,
+              "image": "https://raw.githubusercontent.com/GoGosing1111/cnine-card/0cb5a008449fd8ff666228e91c67d08e45f2b2d4/assets/NEWCARD/chulgu-aizen-v1.png",
+              "breakthrough_level": 15,
+              "grade": "FUR",
+              "breakthroughLevel": 15,
+              "power": 195200,
+              "uniqueAbility": {
+                "cardId": "CN-47AD4B47B6A7452C",
+                "attackPercent": 120,
+                "defensePercent": 195,
+                "hpPercent": 150,
+                "speedPercent": 0,
+                "effectName": "",
+                "effectDescription": "",
+                "effectType": "NONE",
+                "triggerType": "PASSIVE",
+                "effectValue": 0,
+                "triggerChance": 100,
+                "maxActivations": 1,
+                "dominantType": "DEFENSE",
+                "dominantKey": "defensePercent",
+                "dominantLabel": "방어",
+                "dominantValue": 195,
+                "highBoostPercent": 200
+              },
+              "uniqueAdvancement": {
+                "active": true,
+                "classCode": "RIPOSTE",
+                "dominantType": "DEFENSE",
+                "configVersion": 1,
+                "modifiers": {
+                  "criticalChancePoints": 0,
+                  "penetrationPoints": 0,
+                  "openingGaugePoints": 0,
+                  "dodgeChancePoints": 0,
+                  "dodgeCapPoints": 0,
+                  "counterChancePoints": 11,
+                  "counterMultiplierPoints": 13,
+                  "unshieldedCounterChancePoints": 5,
+                  "maxHpPercent": 0,
+                  "damageCapPoints": 0,
+                  "damageDealtPercent": 2,
+                  "lastStandHealPoolPercent": 0,
+                  "sealedLastStandHealPoolPercent": 0,
+                  "healPoolBonusPercent": 0
+                },
+                "activatedAt": "2026-09-21T17:34:34.407Z"
+              },
+              "iconRole": null
+            },
+            {
+              "id": "CN-1C000005",
+              "title": "오리꿍",
+              "rarity": "ICON",
+              "power_type": null,
+              "base_power": 180000,
+              "image": "assets/cards/ICON/orikkung-source-v1.png",
+              "breakthrough_level": 0,
+              "grade": "ICON",
+              "breakthroughLevel": 0,
+              "power": 180000,
+              "uniqueAbility": null,
+              "uniqueAdvancement": null,
+              "iconRole": {
+                "version": 1,
+                "code": "ICON-ORIKKUNG",
+                "role": "CURSE",
+                "revision": 2,
+                "tuning": {
+                  "firstAction": 3,
+                  "cooldownActions": 4,
+                  "maxCasts": 6,
+                  "pveScale": 100,
+                  "pvpScale": 90,
+                  "damagePercent": 180,
+                  "damageCapPercent": 46,
+                  "maxStacks": 3,
+                  "dotPercent": 9,
+                  "healReductionPercent": 10,
+                  "stackPercent": 15,
+                  "durationActions": 3,
+                  "bossVulnerabilityPercent": 6
+                },
+                "supremacy": {
+                  "version": "20261005-fur15-v1",
+                  "power": 198200,
+                  "cardCount": 20,
+                  "CAPTAIN": {
+                    "attack": {
+                      "base": 546560,
+                      "perPower": 2.8
+                    },
+                    "maxHp": {
+                      "base": 488000,
+                      "perPower": 2.5
+                    },
+                    "defense": {
+                      "base": 295,
+                      "perPower": 0
+                    },
+                    "speed": {
+                      "base": 250,
+                      "perPower": 0
+                    }
+                  },
+                  "PVE": {
+                    "maxHp": {
+                      "base": 456768,
+                      "perPower": 2.340001
+                    },
+                    "attack": {
+                      "base": 220230,
+                      "perPower": 1.128226
+                    },
+                    "defense": {
+                      "base": 134499,
+                      "perPower": 0.689032
+                    },
+                    "speed": {
+                      "base": 17011,
+                      "perPower": 0.086251
+                    }
+                  },
+                  "PVP": {
+                    "maxHp": {
+                      "base": 507520,
+                      "perPower": 2.600001
+                    },
+                    "attack": {
+                      "base": 207317,
+                      "perPower": 1.062076
+                    },
+                    "defense": {
+                      "base": 130455,
+                      "perPower": 0.668313
+                    },
+                    "speed": {
+                      "base": 17011,
+                      "perPower": 0.086251
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "mercenary": {
+            "code": "V-055",
+            "name": "베르칸",
+            "title": "흑금의 궁수",
+            "rank": "SSS",
+            "position": "REAR",
+            "role": "SNIPER",
+            "basicTarget": "FRONT_ENEMY",
+            "skillTarget": "BACK_THREAT",
+            "level": 1,
+            "statMode": "RANK_FIXED",
+            "skills": [
+              {
+                "id": "MS-055",
+                "name": "흑금 낙성",
+                "role": "SNIPER",
+                "target": "BACK_THREAT",
+                "mechanic": "GILDED_STARFALL",
+                "trigger": "자원과 재사용 조건을 충족하면 후열 우선, 전투 시작 공격력 순으로 서로 다른 적 최대 2명을 지정합니다. 후열이 부족하면 전열로 채웁니다.",
+                "effect": "한 번의 제자리 사격에서 흑금 화살 두 줄기가 동시에 명중합니다. 전체 피해 배율을 지정 대상 수로 나누며 각 대상은 한 번만 타격합니다.",
+                "counterplay": "대상별 회피·방어·보호막·피해 경감이 적용됩니다. 사망·기절·침묵은 발동을 막고 대상이 없으면 자원을 소모하지 않습니다.",
+                "bossRule": "적이 하나면 전체 피해 예산으로 한 번 타격합니다. 회피한 몫은 다른 적에게 옮기지 않으며 방어 무시·추가 행동은 없습니다.",
+                "procRule": "추가 타격·반격·지휘 보너스는 스킬 발동 자원이 되지 않는다. 재귀 발동과 처치 초기화는 금지한다.",
+                "balance": {
+                  "damageRatio": 5.6,
+                  "cooldownTurns": 5,
+                  "cost": 35
+                },
+                "review": "REVIEWED",
+                "notes": ""
+              },
+              {
+                "id": "MS-056",
+                "name": "흑금 천우",
+                "role": "SNIPER",
+                "target": "ALL_ENEMIES",
+                "mechanic": "GILDED_ARROW_RAIN",
+                "trigger": "PVE에서 자원과 재사용 조건을 충족하면 살아 있는 적 전원을 지정합니다. PVP에서는 사용하지 않습니다.",
+                "effect": "적 진영에 흑금 화살비를 내립니다. 전체 피해 배율을 지정 대상 수로 나누어 각각 한 번 타격합니다.",
+                "counterplay": "대상별 회피·방어·보호막·피해 경감을 적용합니다. 사망·기절·침묵 중에는 발동하지 않습니다.",
+                "bossRule": "적이 하나면 전체 피해 예산으로 한 번 타격합니다. 회피한 몫은 다른 적에게 옮기지 않습니다.",
+                "procRule": "추가 타격·반격·지휘 보너스는 스킬 발동 자원이 되지 않는다. 재귀 발동과 처치 초기화는 금지한다.",
+                "balance": {
+                  "damageRatio": 5.6,
+                  "cooldownTurns": 5,
+                  "cost": 35
+                },
+                "review": "REVIEWED",
+                "notes": ""
+              }
+            ],
+            "pendingSkillIds": [],
+            "basePower": 180000,
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20260927/berkan-source-art-v1.png",
+            "battleSprite": "assets/ui/project-v/characters/mercenary/berkan-sss-v1/berkan-sd-v1.png",
+            "actorKind": "MERCENARY",
+            "combat": {
+              "energyMax": 100,
+              "energyPerBasic": 10,
+              "windupTurns": 1,
+              "statusTurns": 2,
+              "armorReductionPercent": 20,
+              "interceptPercent": 40,
+              "parryPercent": 40,
+              "orderPercent": 15,
+              "veilPercent": 25,
+              "finisherHpPercent": 30,
+              "finisherBonusPercent": 50,
+              "focusBonusPercent": 40,
+              "poisonPercent": 40,
+              "restraintHits": 2,
+              "restraintPercent": 25,
+              "suppressGauge": 20,
+              "reloadGauge": 20,
+              "powerGrowthPercentPerLevel": 0
+            },
+            "cmsRevision": 61,
+            "policyVersion": "mercenary-runtime-connected-2091"
+          },
+          "equipmentBonus": 961700,
+          "singleHealerBonus": {
+            "enabled": true,
+            "teamHpPercent": 8,
+            "healPercent": 10,
+            "crisisThresholdPercent": 40,
+            "crisisHealPercent": 16,
+            "pvpMaxActivations": 4,
+            "pveMaxActivations": 6
+          },
+          "power": 1516900
+        }
+      ]
+    },
+    {
+      "label": "AUDIT_2",
+      "difficulty": "EXTREME",
+      "seed": 2857121415,
+      "combat": {
+        "lobbySeconds": 900,
+        "maxBattleSeconds": 180,
+        "patterns": {
+          "firstSeconds": 10,
+          "intervalSeconds": 30,
+          "count": 6,
+          "rupturePercent": 8
+        },
+        "stages": [
+          {
+            "wave": 1,
+            "name": "제련소 외곽",
+            "hint": "근접 추적자와 원거리 감시기 3기를 모두 격파하세요."
+          },
+          {
+            "wave": 2,
+            "name": "노심 관문",
+            "hint": "두꺼운 방벽을 돌파하세요. 수문장은 연속 공격을 사용합니다."
+          },
+          {
+            "wave": 3,
+            "name": "심층 노심",
+            "hint": "삼핵 차단과 집중 포화에 대응하며 거신을 격파하세요."
+          }
+        ],
+        "difficulties": [
+          {
+            "id": "NORMAL",
+            "recommendation": "SS 용병 3명 · 공격과 방어를 고르게",
+            "forcedEvery": 6,
+            "responseSeconds": 9,
+            "overloadPercent": 12,
+            "focusPercent": 40,
+            "monsters": [
+              {
+                "key": "STALKER_A",
+                "power": 1080000,
+                "hpPercent": 100,
+                "attackPercent": 100,
+                "defensePercent": 100,
+                "shieldPercent": 0,
+                "attackCount": 1
+              },
+              {
+                "key": "STALKER_B",
+                "power": 1080000,
+                "hpPercent": 100,
+                "attackPercent": 100,
+                "defensePercent": 100,
+                "shieldPercent": 0,
+                "attackCount": 1
+              },
+              {
+                "key": "WATCHER",
+                "power": 900000,
+                "hpPercent": 100,
+                "attackPercent": 100,
+                "defensePercent": 100,
+                "shieldPercent": 0,
+                "attackCount": 2
+              },
+              {
+                "key": "WARDEN",
+                "power": 3780000,
+                "hpPercent": 240,
+                "attackPercent": 100,
+                "defensePercent": 100,
+                "shieldPercent": 30,
+                "attackCount": 2
+              },
+              {
+                "key": "ARKE",
+                "power": 9000000,
+                "hpPercent": 380,
+                "attackPercent": 120,
+                "defensePercent": 100,
+                "shieldPercent": 0,
+                "attackCount": 1
+              }
+            ]
+          },
+          {
+            "id": "HARD",
+            "recommendation": "SSS 1명 + SS 2명 · 방어와 회복 권장",
+            "forcedEvery": 6,
+            "responseSeconds": 8,
+            "overloadPercent": 18,
+            "focusPercent": 50,
+            "monsters": [
+              {
+                "key": "STALKER_A",
+                "power": 2600000,
+                "hpPercent": 100,
+                "attackPercent": 100,
+                "defensePercent": 100,
+                "shieldPercent": 0,
+                "attackCount": 1
+              },
+              {
+                "key": "STALKER_B",
+                "power": 2600000,
+                "hpPercent": 100,
+                "attackPercent": 100,
+                "defensePercent": 100,
+                "shieldPercent": 0,
+                "attackCount": 1
+              },
+              {
+                "key": "WATCHER",
+                "power": 2000000,
+                "hpPercent": 100,
+                "attackPercent": 100,
+                "defensePercent": 100,
+                "shieldPercent": 0,
+                "attackCount": 2
+              },
+              {
+                "key": "WARDEN",
+                "power": 7500000,
+                "hpPercent": 150,
+                "attackPercent": 100,
+                "defensePercent": 100,
+                "shieldPercent": 30,
+                "attackCount": 2
+              },
+              {
+                "key": "ARKE",
+                "power": 12500000,
+                "hpPercent": 500,
+                "attackPercent": 145,
+                "defensePercent": 100,
+                "shieldPercent": 0,
+                "attackCount": 2
+              }
+            ]
+          },
+          {
+            "id": "EXTREME",
+            "recommendation": "SSS 2~3명 · 고유효과와 용병 스킬 연계",
+            "forcedEvery": 5,
+            "responseSeconds": 7,
+            "overloadPercent": 24,
+            "focusPercent": 60,
+            "monsters": [
+              {
+                "key": "STALKER_A",
+                "power": 7200000,
+                "hpPercent": 100,
+                "attackPercent": 100,
+                "defensePercent": 100,
+                "shieldPercent": 0,
+                "attackCount": 1
+              },
+              {
+                "key": "STALKER_B",
+                "power": 7200000,
+                "hpPercent": 100,
+                "attackPercent": 100,
+                "defensePercent": 100,
+                "shieldPercent": 0,
+                "attackCount": 1
+              },
+              {
+                "key": "WATCHER",
+                "power": 6000000,
+                "hpPercent": 100,
+                "attackPercent": 100,
+                "defensePercent": 100,
+                "shieldPercent": 0,
+                "attackCount": 2
+              },
+              {
+                "key": "WARDEN",
+                "power": 25200000,
+                "hpPercent": 240,
+                "attackPercent": 100,
+                "defensePercent": 100,
+                "shieldPercent": 30,
+                "attackCount": 2
+              },
+              {
+                "key": "ARKE",
+                "power": 60000000,
+                "hpPercent": 836,
+                "attackPercent": 200,
+                "defensePercent": 100,
+                "shieldPercent": 0,
+                "attackCount": 2
+              }
+            ]
+          }
+        ]
+      },
+      "turnClockVersion": 4,
+      "withdrawals": [],
+      "effects": [
+        {
+          "kind": "OVERLOAD",
+          "percent": 24,
+          "label": "노심 과부하",
+          "id": "ARKE-0",
+          "atMs": 25760
+        }
+      ],
+      "oldDurationMs": 36300,
+      "squads": [
+        {
+          "pet": {
+            "definition": {
+              "code": "PET-GUSUDAENG",
+              "name": "토끼 구수댕",
+              "sourceArt": "assets/ui/pets/gusudaeng/pet-tokki-gusudaeng-approved-20261002.png",
+              "battleSprite": "assets/ui/pets/gusudaeng/pet-tokki-gusudaeng-approved-20261002.png",
+              "enabled": true,
+              "modes": [
+                "PVE",
+                "PVP"
+              ],
+              "target": "ALL_ALLIES",
+              "buffs": [
+                {
+                  "type": "MAX_HP_PERCENT",
+                  "percent": 20
+                }
+              ],
+              "notes": ""
+            },
+            "magnet": true,
+            "cmsRevision": 8,
+            "loadoutRevision": 3,
+            "ownerId": 1
+          },
+          "ownerId": 1,
+          "ownerName": "분대 1",
+          "cards": [
+            {
+              "id": "CN-1C000004",
+              "title": "오조은",
+              "rarity": "ICON",
+              "power_type": null,
+              "base_power": 180000,
+              "image": "assets/cards/ICON/oh-joeun-medic-art-approved-20261006.png",
+              "breakthrough_level": 0,
+              "grade": "ICON",
+              "breakthroughLevel": 0,
+              "power": 180000,
+              "uniqueAbility": null,
+              "uniqueAdvancement": null,
+              "iconRole": {
+                "version": 1,
+                "code": "ICON-OH-JOEUN",
+                "role": "SUPPORT",
+                "revision": 2,
+                "tuning": {
+                  "firstAction": 2,
+                  "cooldownActions": 4,
+                  "maxCasts": 6,
+                  "pveScale": 125,
+                  "pvpScale": 150,
+                  "healPercent": 25,
+                  "resonancePercent": 3,
+                  "maxStacks": 8,
+                  "healBudgetPercent": 150,
+                  "nextAttackPercent": 35,
+                  "durationActions": 3
+                },
+                "supremacy": {
+                  "version": "20261005-fur15-v1",
+                  "power": 198200,
+                  "cardCount": 20,
+                  "CAPTAIN": {
+                    "attack": {
+                      "base": 546560,
+                      "perPower": 2.8
+                    },
+                    "maxHp": {
+                      "base": 488000,
+                      "perPower": 2.5
+                    },
+                    "defense": {
+                      "base": 295,
+                      "perPower": 0
+                    },
+                    "speed": {
+                      "base": 250,
+                      "perPower": 0
+                    }
+                  },
+                  "PVE": {
+                    "maxHp": {
+                      "base": 456768,
+                      "perPower": 2.340001
+                    },
+                    "attack": {
+                      "base": 220230,
+                      "perPower": 1.128226
+                    },
+                    "defense": {
+                      "base": 134499,
+                      "perPower": 0.689032
+                    },
+                    "speed": {
+                      "base": 17011,
+                      "perPower": 0.086251
+                    }
+                  },
+                  "PVP": {
+                    "maxHp": {
+                      "base": 507520,
+                      "perPower": 2.600001
+                    },
+                    "attack": {
+                      "base": 207317,
+                      "perPower": 1.062076
+                    },
+                    "defense": {
+                      "base": 130455,
+                      "perPower": 0.668313
+                    },
+                    "speed": {
+                      "base": 17011,
+                      "perPower": 0.086251
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "id": "CN-25F931CE393D474E",
+              "title": "꽃보다디임",
+              "rarity": "ZENITH",
+              "power_type": "FIXED",
+              "base_power": 5500,
+              "image": "assets/cards/976467971.jpg",
+              "breakthrough_level": 13,
+              "grade": "ZENITH",
+              "breakthroughLevel": 13,
+              "power": 75625,
+              "uniqueAbility": {
+                "cardId": "CN-25F931CE393D474E",
+                "attackPercent": 16,
+                "defensePercent": 16,
+                "hpPercent": 48,
+                "speedPercent": 0,
+                "effectName": "",
+                "effectDescription": "",
+                "effectType": "NONE",
+                "triggerType": "PASSIVE",
+                "effectValue": 0,
+                "triggerChance": 100,
+                "maxActivations": 1,
+                "dominantType": "HP",
+                "dominantKey": "hpPercent",
+                "dominantLabel": "HP",
+                "dominantValue": 48,
+                "highBoostPercent": 60
+              },
+              "uniqueAdvancement": null,
+              "iconRole": null
+            }
+          ],
+          "mercenary": {
+            "code": "V-989",
+            "name": "천룡검황 진무",
+            "title": "SSS 리미티드 · 천룡의 주인",
+            "rank": "SSS",
+            "edition": "LIMITED",
+            "role": "VANGUARD",
+            "position": "FRONT",
+            "artOnly": true,
+            "releaseStatus": "EXCLUSIVE_RELEASED",
+            "exclusiveGrant": true,
+            "excludedFromLimitedCount": true,
+            "sourceArt": "assets/ui/project-v/mercenaries/jinmu-20261012/source-art.png",
+            "sourceArtSha256": "263725DD2B2B568CF5091B864BEA537161F6D7A4D3123DB0E9A2A0D040CFF21B",
+            "battleSprite": "assets/ui/project-v/mercenaries/jinmu-20261012/idle.png",
+            "battleSpriteSha256": "690F2CA540DF6F210FBE619316AB3E30F3361A247E3DF6216DA1FED8CFA168A2",
+            "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+            "artWindow": {
+              "left": 5.957,
+              "top": 5.794,
+              "width": 88.086,
+              "height": 88.086
+            },
+            "accent": "#e8bf6c",
+            "basePower": 1347840,
+            "skills": [
+              {
+                "id": "MS-989",
+                "name": "천룡강림",
+                "mechanic": "HEAVENLY_DRAGON_DESCENT",
+                "target": "ALL_ENEMIES",
+                "pveOnly": true,
+                "balance": {
+                  "damageRatio": 5.6,
+                  "cooldownTurns": 5,
+                  "cost": 35
+                }
+              }
+            ],
+            "acquisitionEnabled": false,
+            "deploymentEnabled": true,
+            "combatLinkDescription": "천룡검황 진무 · 기본 전투력 1,347,840. 같은 편성 기준 헬리오스보다 연계 공격력·체력·전용 방벽이 20% 높으며 공격속도·추가 행동·모션 속도는 동일합니다. 개인 피해 75% 경감과 상태이상·반격 대응, 베르칸 피해 면역을 지닙니다. PVE 천룡강림은 적 전체에 총 560% 피해를 나눠 한 번씩 적용합니다(에너지 35 · 재사용 5행동). 지정 계정 전용 지급이며 일반 획득과 리미티드 발행 수량에서 제외됩니다.",
+            "actorKind": "MERCENARY",
+            "level": 1,
+            "statMode": "RANK_FIXED",
+            "attackStyle": "MELEE",
+            "pendingSkillIds": [],
+            "jinmuPolicyVersion": 1,
+            "deploymentVersion": "20261012-jinmu-live-v1",
+            "combat": {
+              "energyMax": 100,
+              "energyPerBasic": 10,
+              "windupTurns": 1,
+              "statusTurns": 2,
+              "armorReductionPercent": 20,
+              "interceptPercent": 40,
+              "parryPercent": 40,
+              "orderPercent": 15,
+              "veilPercent": 25,
+              "finisherHpPercent": 30,
+              "finisherBonusPercent": 50,
+              "focusBonusPercent": 40,
+              "poisonPercent": 40,
+              "restraintHits": 2,
+              "restraintPercent": 25,
+              "suppressGauge": 20,
+              "reloadGauge": 20,
+              "powerGrowthPercentPerLevel": 0
+            },
+            "cmsRevision": 61,
+            "policyVersion": "mercenary-runtime-connected-2091"
+          },
+          "equipmentBonus": 2300000,
+          "singleHealerBonus": {
+            "enabled": true,
+            "teamHpPercent": 8,
+            "healPercent": 10,
+            "crisisThresholdPercent": 40,
+            "crisisHealPercent": 16,
+            "pvpMaxActivations": 4,
+            "pveMaxActivations": 6
+          },
+          "power": 3903465
+        },
+        {
+          "pet": null,
+          "ownerId": 2,
+          "ownerName": "분대 2",
+          "cards": [
+            {
+              "id": "CN-47AD4B47B6A7452C",
+              "title": "아이젠 족스케",
+              "rarity": "FUR",
+              "power_type": "FIXED",
+              "base_power": 3200,
+              "image": "https://raw.githubusercontent.com/GoGosing1111/cnine-card/0cb5a008449fd8ff666228e91c67d08e45f2b2d4/assets/NEWCARD/chulgu-aizen-v1.png",
+              "breakthrough_level": 15,
+              "grade": "FUR",
+              "breakthroughLevel": 15,
+              "power": 195200,
+              "uniqueAbility": {
+                "cardId": "CN-47AD4B47B6A7452C",
+                "attackPercent": 120,
+                "defensePercent": 195,
+                "hpPercent": 150,
+                "speedPercent": 0,
+                "effectName": "",
+                "effectDescription": "",
+                "effectType": "NONE",
+                "triggerType": "PASSIVE",
+                "effectValue": 0,
+                "triggerChance": 100,
+                "maxActivations": 1,
+                "dominantType": "DEFENSE",
+                "dominantKey": "defensePercent",
+                "dominantLabel": "방어",
+                "dominantValue": 195,
+                "highBoostPercent": 200
+              },
+              "uniqueAdvancement": {
+                "active": true,
+                "classCode": "RIPOSTE",
+                "dominantType": "DEFENSE",
+                "configVersion": 1,
+                "modifiers": {
+                  "criticalChancePoints": 0,
+                  "penetrationPoints": 0,
+                  "openingGaugePoints": 0,
+                  "dodgeChancePoints": 0,
+                  "dodgeCapPoints": 0,
+                  "counterChancePoints": 11,
+                  "counterMultiplierPoints": 13,
+                  "unshieldedCounterChancePoints": 5,
+                  "maxHpPercent": 0,
+                  "damageCapPoints": 0,
+                  "damageDealtPercent": 2,
+                  "lastStandHealPoolPercent": 0,
+                  "sealedLastStandHealPoolPercent": 0,
+                  "healPoolBonusPercent": 0
+                },
+                "activatedAt": "2026-09-20T03:43:54.710Z"
+              },
+              "iconRole": null
+            },
+            {
+              "id": "CN-5D0E2E4D58C9416F",
+              "title": "치타구",
+              "rarity": "FUR",
+              "power_type": "FIXED",
+              "base_power": 3200,
+              "image": "assets/cards/cheetah-face-card-portrait-2x3-v1.png",
+              "breakthrough_level": 15,
+              "grade": "FUR",
+              "breakthroughLevel": 15,
+              "power": 195200,
+              "uniqueAbility": {
+                "cardId": "CN-5D0E2E4D58C9416F",
+                "attackPercent": 90,
+                "defensePercent": 90,
+                "hpPercent": 0,
+                "speedPercent": 150,
+                "effectName": "",
+                "effectDescription": "",
+                "effectType": "NONE",
+                "triggerType": "PASSIVE",
+                "effectValue": 0,
+                "triggerChance": 100,
+                "maxActivations": 1,
+                "dominantType": "SPEED",
+                "dominantKey": "speedPercent",
+                "dominantLabel": "속도",
+                "dominantValue": 150,
+                "highBoostPercent": 200
+              },
+              "uniqueAdvancement": {
+                "active": true,
+                "classCode": "AFTERIMAGE",
+                "dominantType": "SPEED",
+                "configVersion": 1,
+                "modifiers": {
+                  "criticalChancePoints": 0,
+                  "penetrationPoints": 18,
+                  "openingGaugePoints": 0,
+                  "dodgeChancePoints": 10,
+                  "dodgeCapPoints": 10,
+                  "counterChancePoints": 0,
+                  "counterMultiplierPoints": 0,
+                  "unshieldedCounterChancePoints": 0,
+                  "maxHpPercent": -3,
+                  "damageCapPoints": 0,
+                  "damageDealtPercent": 0,
+                  "lastStandHealPoolPercent": 0,
+                  "sealedLastStandHealPoolPercent": 0,
+                  "healPoolBonusPercent": 0
+                },
+                "activatedAt": "2026-08-30T19:04:22.203Z"
+              },
+              "iconRole": null
+            }
+          ],
+          "mercenary": {
+            "code": "V-992",
+            "name": "이네스",
+            "title": "SS 리미티드",
+            "rank": "SS",
+            "edition": "LIMITED",
+            "actorKind": "MERCENARY",
+            "sourceArt": "assets/ui/project-v/mercenaries/limited-20261002/v-992-source-art.png",
+            "battleSprite": "assets/ui/project-v/mercenaries/limited-battle-20261004/ines-sd.png",
+            "level": 1,
+            "statMode": "RANK_FIXED",
+            "basePower": 180000,
+            "position": "BACK",
+            "role": "CASTER",
+            "attackStyle": "CAST",
+            "skills": [
+              {
+                "id": "MS-992",
+                "name": "자수정 나선",
+                "mechanic": "RIFT_MARK_DETONATION",
+                "balance": {
+                  "damageRatio": 5.6,
+                  "cooldownTurns": 2,
+                  "cost": 20
+                }
+              }
+            ],
+            "pendingSkillIds": [],
+            "ssLimitedPolicyVersion": 4,
+            "deploymentEnabled": true,
+            "deploymentVersion": "20261012-helios-deployment-v1",
+            "combat": {
+              "energyMax": 100,
+              "energyPerBasic": 10,
+              "windupTurns": 1,
+              "statusTurns": 2,
+              "armorReductionPercent": 20,
+              "interceptPercent": 40,
+              "parryPercent": 40,
+              "orderPercent": 15,
+              "veilPercent": 25,
+              "finisherHpPercent": 30,
+              "finisherBonusPercent": 50,
+              "focusBonusPercent": 40,
+              "poisonPercent": 40,
+              "restraintHits": 2,
+              "restraintPercent": 25,
+              "suppressGauge": 20,
+              "reloadGauge": 20,
+              "powerGrowthPercentPerLevel": 0
+            },
+            "cmsRevision": 61,
+            "policyVersion": "mercenary-runtime-connected-2091"
+          },
+          "equipmentBonus": 926100,
+          "singleHealerBonus": {
+            "enabled": true,
+            "teamHpPercent": 8,
+            "healPercent": 10,
+            "crisisThresholdPercent": 40,
+            "crisisHealPercent": 16,
+            "pvpMaxActivations": 4,
+            "pveMaxActivations": 6
+          },
+          "power": 1496500
+        },
+        {
+          "pet": {
+            "definition": {
+              "code": "PET-HEADSET-SHIBA",
+              "name": "헤드셋 시바견",
+              "sourceArt": "assets/ui/pets/gamer-duo-20261006-v1/pet-headset-shiba-v1.png",
+              "battleSprite": "assets/ui/pets/gamer-duo-20261006-v1/pet-headset-shiba-v1.png",
+              "enabled": true,
+              "modes": [
+                "PVE",
+                "PVP"
+              ],
+              "target": "ALL_ALLIES",
+              "buffs": [
+                {
+                  "type": "ATTACK_PERCENT",
+                  "percent": 8
+                }
+              ],
+              "notes": ""
+            },
+            "magnet": true,
+            "cmsRevision": 8,
+            "loadoutRevision": 1,
+            "ownerId": 3
+          },
+          "ownerId": 3,
+          "ownerName": "분대 3",
+          "cards": [
+            {
+              "id": "CN-47AD4B47B6A7452C",
+              "title": "아이젠 족스케",
+              "rarity": "FUR",
+              "power_type": "FIXED",
+              "base_power": 3200,
+              "image": "https://raw.githubusercontent.com/GoGosing1111/cnine-card/0cb5a008449fd8ff666228e91c67d08e45f2b2d4/assets/NEWCARD/chulgu-aizen-v1.png",
+              "breakthrough_level": 15,
+              "grade": "FUR",
+              "breakthroughLevel": 15,
+              "power": 195200,
+              "uniqueAbility": {
+                "cardId": "CN-47AD4B47B6A7452C",
+                "attackPercent": 120,
+                "defensePercent": 195,
+                "hpPercent": 150,
+                "speedPercent": 0,
+                "effectName": "",
+                "effectDescription": "",
+                "effectType": "NONE",
+                "triggerType": "PASSIVE",
+                "effectValue": 0,
+                "triggerChance": 100,
+                "maxActivations": 1,
+                "dominantType": "DEFENSE",
+                "dominantKey": "defensePercent",
+                "dominantLabel": "방어",
+                "dominantValue": 195,
+                "highBoostPercent": 200
+              },
+              "uniqueAdvancement": {
+                "active": true,
+                "classCode": "RIPOSTE",
+                "dominantType": "DEFENSE",
+                "configVersion": 1,
+                "modifiers": {
+                  "criticalChancePoints": 0,
+                  "penetrationPoints": 0,
+                  "openingGaugePoints": 0,
+                  "dodgeChancePoints": 0,
+                  "dodgeCapPoints": 0,
+                  "counterChancePoints": 11,
+                  "counterMultiplierPoints": 13,
+                  "unshieldedCounterChancePoints": 5,
+                  "maxHpPercent": 0,
+                  "damageCapPoints": 0,
+                  "damageDealtPercent": 2,
+                  "lastStandHealPoolPercent": 0,
+                  "sealedLastStandHealPoolPercent": 0,
+                  "healPoolBonusPercent": 0
+                },
+                "activatedAt": "2026-09-16T08:28:02.619Z"
+              },
+              "iconRole": null
+            },
+            {
+              "id": "CN-5D0E2E4D58C9416F",
+              "title": "치타구",
+              "rarity": "FUR",
+              "power_type": "FIXED",
+              "base_power": 3200,
+              "image": "assets/cards/cheetah-face-card-portrait-2x3-v1.png",
+              "breakthrough_level": 15,
+              "grade": "FUR",
+              "breakthroughLevel": 15,
+              "power": 195200,
+              "uniqueAbility": {
+                "cardId": "CN-5D0E2E4D58C9416F",
+                "attackPercent": 90,
+                "defensePercent": 90,
+                "hpPercent": 0,
+                "speedPercent": 150,
+                "effectName": "",
+                "effectDescription": "",
+                "effectType": "NONE",
+                "triggerType": "PASSIVE",
+                "effectValue": 0,
+                "triggerChance": 100,
+                "maxActivations": 1,
+                "dominantType": "SPEED",
+                "dominantKey": "speedPercent",
+                "dominantLabel": "속도",
+                "dominantValue": 150,
+                "highBoostPercent": 200
+              },
+              "uniqueAdvancement": {
+                "active": true,
+                "classCode": "AFTERIMAGE",
+                "dominantType": "SPEED",
+                "configVersion": 1,
+                "modifiers": {
+                  "criticalChancePoints": 0,
+                  "penetrationPoints": 18,
+                  "openingGaugePoints": 0,
+                  "dodgeChancePoints": 10,
+                  "dodgeCapPoints": 10,
+                  "counterChancePoints": 0,
+                  "counterMultiplierPoints": 0,
+                  "unshieldedCounterChancePoints": 0,
+                  "maxHpPercent": -3,
+                  "damageCapPoints": 0,
+                  "damageDealtPercent": 0,
+                  "lastStandHealPoolPercent": 0,
+                  "sealedLastStandHealPoolPercent": 0,
+                  "healPoolBonusPercent": 0
+                },
+                "activatedAt": "2026-09-08T03:38:26.555Z"
+              },
+              "iconRole": null
+            }
+          ],
+          "mercenary": {
+            "code": "V-999",
+            "name": "헬리오스",
+            "title": "",
+            "rank": "SSS",
+            "edition": "LIMITED",
+            "actorKind": "MERCENARY",
+            "sourceArt": "assets/ui/project-v/mercenaries/approved-20261009/solar-sword-sss-limited-source-art.png",
+            "battleSprite": "assets/ui/project-v/mercenaries/limited-20261009/helios-sd.png",
+            "level": 1,
+            "statMode": "RANK_FIXED",
+            "basePower": 1123200,
+            "position": "FRONT",
+            "role": "VANGUARD",
+            "attackStyle": "MELEE",
+            "skills": [
+              {
+                "id": "MS-999",
+                "name": "천양붕락",
+                "mechanic": "SOLAR_COLLAPSE",
+                "target": "ALL_ENEMIES",
+                "pveOnly": true,
+                "balance": {
+                  "damageRatio": 5.6,
+                  "cooldownTurns": 5,
+                  "cost": 35
+                }
+              }
+            ],
+            "pendingSkillIds": [],
+            "heliosPolicyVersion": 2,
+            "deploymentEnabled": true,
+            "deploymentVersion": "20261012-helios-deployment-v1",
+            "combat": {
+              "energyMax": 100,
+              "energyPerBasic": 10,
+              "windupTurns": 1,
+              "statusTurns": 2,
+              "armorReductionPercent": 20,
+              "interceptPercent": 40,
+              "parryPercent": 40,
+              "orderPercent": 15,
+              "veilPercent": 25,
+              "finisherHpPercent": 30,
+              "finisherBonusPercent": 50,
+              "focusBonusPercent": 40,
+              "poisonPercent": 40,
+              "restraintHits": 2,
+              "restraintPercent": 25,
+              "suppressGauge": 20,
+              "reloadGauge": 20,
+              "powerGrowthPercentPerLevel": 0
+            },
+            "cmsRevision": 61,
+            "policyVersion": "mercenary-runtime-connected-2091"
+          },
+          "equipmentBonus": 1121900,
+          "singleHealerBonus": {
+            "enabled": true,
+            "teamHpPercent": 8,
+            "healPercent": 10,
+            "crisisThresholdPercent": 40,
+            "crisisHealPercent": 16,
+            "pvpMaxActivations": 4,
+            "pveMaxActivations": 6
+          },
+          "power": 2635500
+        }
+      ]
+    }
+  ]
+}

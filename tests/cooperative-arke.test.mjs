@@ -12,6 +12,8 @@ function start({fastPatterns=false}={}){
  // the same validated CMS timing knobs as production rooms.
  if(fastPatterns){combat.patterns.intervalSeconds=15;for(const d of combat.difficulties)d.responseSeconds=3;}
  const r=createCoopRoom({id:'ABC1234567',user:users[0],clientId:client(1),difficulty:'NORMAL',seed:7919,now:1000,combat});
+ // Persisted v2 rooms must finish with their original manual mechanics.
+ r.encounterVersion=2;delete r.encounter;
  for(const u of users.slice(1))coopCommand(r,u,'join',{clientId:client(u.id)},1000);
  const squads=coopSquads();for(const u of users)coopCommand(r,u,'ready',{clientId:client(u.id),loadout:squads[u.id-1]},2000);
  for(const u of users)coopCommand(r,u,'loaded',{clientId:client(u.id)},3000);return r;

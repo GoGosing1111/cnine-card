@@ -10,7 +10,7 @@ export function bindCooperativeEnemy(engine,row){
  actor.fullBodySprite.position.set(0,0);actor.fullBodySprite.rotation=0;actor.fullBodySprite.alpha=1;
  Object.assign(actor,{id:row.id,cardId:row.cardId,name:row.title||row.name,serverMaxHp:row.maxHp,
   serverMaxShield:row.maxShield||row.shield||0,startingShield:row.shield||0,startingMaxShield:row.maxShield||row.shield||0,
-  isBoss:!!row.isBoss,coopFinalBoss:!!row.finalBoss,combatRole:'ATTACK',attackStyle:row.attackStyle,artFacing:-1,battleActive:true});
+  isBoss:!!row.isBoss,coopSpeciesId:row.coopSpeciesId,coopFinalBoss:row.coopSpeciesId?row.coopSpeciesId==='ARKE':!!row.finalBoss,combatRole:'ATTACK',attackStyle:row.attackStyle,artFacing:-1,battleActive:true});
  actor.texture=Assets.get(row.battleSprite);if(!actor.texture)throw Error('COOP_ENEMY_TEXTURE_NOT_READY');
  actor.cutInTexture=actor.texture;actor.useFullBodySprite(actor.texture,row.displayHeight||260);actor.applyFacing();
  actor.fullBodySprite.anchor.set(.5,row.projectVMonsterArt?.footAnchor?.y||.9);actor.captureNeutralAvatarPose();

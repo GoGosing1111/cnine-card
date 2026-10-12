@@ -18,6 +18,7 @@ import {castLegionRegionAction,legionIncomingMultiplier} from './_legion_region_
 import {applyPveEquipmentGrowth,equipmentHitMultiplier,equipmentAfterBasic} from '../shared/equipment-combat-growth-v1.mjs';
 import {cooperativeEffects,applyCooperativeEffect} from './_cooperative_effects.js';
 import {cooperativeCombatGroupMs} from '../shared/cooperative-combat-clock-v3.mjs';
+import {createCoopTraitRuntime} from './_cooperative_traits.js';
 import {PVP_SPEED_REFORM,PVP_GUARD_SHIELD_CURVE,isPvpSpeedCard,speedComboPlan,speedComboSnapshots} from '../shared/pvp-speed-reform-v1.mjs';
 import {validatedIconSnapshot,iconDefinition,iconHealingAmount} from '../shared/icon-roles-v1.mjs';
 import {createIconCombatRuntime} from './_icon_combat.js';
@@ -738,9 +739,9 @@ function resolveKnockout(target, timeline, clock, onBeforeKnockout = null) {
 }
 
 export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, suddenDeathAfter = 0, forcedMonsterEvery = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, bossUltimateCapPercent = 100, healerPenalty = false, singleHealerBonus = {}, escortObjective = null, reinforcements = [], encounterCapacity = 5, maxCombatDurationMs = 0, sustainedEncounter = null, cooperative = null, pets = null, petMode = 'PVE', [Z_BODY_AREA_REVIEW]: zAreaReview = false, [X_BODY_AREA_REVIEW]: xAreaReview = false, [MAGIC_SEASON2_REVIEW]: season2Review = false, [COMPANION_PREPARATION_REVIEW]: companionReview = null } = {}) {
-  let mercenaryRuntime=null,season2Runtime=null,iconRuntime=null;
+  let mercenaryRuntime=null,season2Runtime=null,iconRuntime=null,coopRuntime=null;
   const rawDamage=(target,incoming,options)=>{const result=applyCanonicalDamage(target,incoming,options);mercenaryRuntime?.onDamage(target,result);iconRuntime?.onDamage(target,result);season2Runtime?.afterDamage(target,result,options);return result;};
-  const applyDamage=(target,incoming,options={})=>{if(target.legionRegion==='coast'&&target.isBoss)target.legionVulnerability=b.some(c=>c.legionBossSupport&&c.hp>0&&c.alive)?.72:1.1;const n=iconRuntime?iconRuntime.beforeDamage(target,incoming,options):incoming;let value=season2Runtime?season2Runtime.beforeDamage(target,n,options):n;if(Number.isFinite(options.iconDamageCap))value=Math.min(value,Math.max(0,options.iconDamageCap));return rawDamage(target,value,season2Runtime?{...options,beforeHpDamage:(t,n)=>season2Runtime.beforeHpDamage(t,n,options)}:options);};
+  const applyDamage=(target,incoming,options={})=>{if(target.legionRegion==='coast'&&target.isBoss)target.legionVulnerability=b.some(c=>c.legionBossSupport&&c.hp>0&&c.alive)?.72:1.1;const incomingCoop=coopRuntime?coopRuntime.beforeDamage(target,incoming):incoming;const n=iconRuntime?iconRuntime.beforeDamage(target,incomingCoop,options):incomingCoop;let value=season2Runtime?season2Runtime.beforeDamage(target,n,options):n;if(Number.isFinite(options.iconDamageCap))value=Math.min(value,Math.max(0,options.iconDamageCap));return rawDamage(target,value,season2Runtime?{...options,beforeHpDamage:(t,n)=>season2Runtime.beforeHpDamage(t,n,options)}:options);};
   const cardRandom = seededRandom(seed);
   const mercenaryRandom = {A:seededRandom((Number(seed)^0x4d455243)>>>0),B:seededRandom((Number(seed)^0x534c4f54)>>>0)};
   let actionRandom = cardRandom;
@@ -1132,7 +1133,8 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     // Escort has no floor; apocalypse scaling and the per-hit cap still apply.
     hit:(actor,target,multiplier,{rangedSkill=false,castShare=1,capScale=null,varyDamageCap=false}={})=>hitResult(actor,target,mercenaryRandom[actor.side],multiplier,false,{...hitOptions,...season2Runtime?.defenseOptions(target),minDamagePercent:rangedSkill?hitOptions.minDamagePercent*multiplier:0,capMinimumDamage:rangedSkill,varyDamageCap:actor.battleMode==='PVP'&&varyDamageCap,damageCapScale:actor.battleMode==='PVP'?(Number.isFinite(capScale)?capScale:(rangedSkill?castShare:1)):1}),damage:applyDamage,
     knockout:target=>settleKnockout(target,timeline,clock+0.00001,reviveFromMagic),emit:(type,data)=>emitTimeline(timeline,clock,type,data),clock:()=>clock,season2:{skillBlocked:actor=>season2Runtime?.skillBlocked(actor)||false,cleanse:target=>{const cleared=iconRuntime?.cleanse(target);return season2Runtime?.cleanse(target)||cleared||false;},heal:(target,amount)=>season2Runtime?season2Runtime.heal(target,amount):null}}):null;
-  if([...a,...b].some(actor=>actor.iconRole)){
+  if(cooperative?.encounter)coopRuntime=createCoopTraitRuntime({allies:a,emit:(type,data)=>emitTimeline(timeline,clock,type,data)});
+  if(coopRuntime||[...a,...b].some(actor=>actor.iconRole)){
     const iconRandom={A:seededRandom((Number(seed)^0x49434f41)>>>0),B:seededRandom((Number(seed)^0x49434f42)>>>0)};
     // A skill replaces a basic action, so it shares that action's PVE floor.
     // multiplier already contains the per-pellet share; never repeat the full
@@ -1451,6 +1453,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     // Tick/cast once per authoritative action, including normal monsters. An
     // exhausted ICON uses the ordinary attack/overtime path without extra turns.
     if(!independentAction&&iconRuntime?.beforeAction(actor,{healingAllowed:!suddenDeath}))continue;
+    coopRuntime?.beforeAction(actor);
     // V1936: 연장전에서 회복이 완전히 끊겨 생명형은 '연장전 진입 = 패배' 였다. 절반은 남긴다.
     //   대신 회복은 팀 총량에서 차감되므로 무한히 버틸 수는 없다.
     if (actor.type === 'HP' && actor.hp < actor.maxHp && !apocalypseCursed(actor) && !apocalypseSealed(actor)) {
@@ -1500,7 +1503,8 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       continue;
     }
 
-    const enemyTeam = actor.side === 'A' ? b : a;
+    const allEnemies=actor.side==='A'?b:a;
+    const enemyTeam=coopRuntime?coopRuntime.targetTeam(actor,allEnemies):allEnemies;
     if(castLegionRegionAction(actor,actor.side==='A'?a:b,enemyTeam,{damage:applyDamage,knockout:t=>settleKnockout(t,timeline,clock+.00001,reviveFromMagic),emit:(type,data)=>emitTimeline(timeline,clock,type,data)}))continue;
     if(castApocalypseAction(actor,enemyTeam,{damage:applyDamage,damageCombined:season2Runtime?(target,normal,pierce)=>applyDamage(target,normal+pierce,{actor,direct:true,shieldPierce:normal+pierce>0?pierce/(normal+pierce):0}):null,knockout:t=>settleKnockout(t,timeline,clock+.00001,reviveFromMagic),emit:(type,data)=>emitTimeline(timeline,clock,type,data)}))continue;
     if(!independentAction&&mercenaryRuntime?.beforeAction(actor,{healingAllowed:!suddenDeath}))continue;
@@ -1614,6 +1618,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       targetGaugeAfter: target.gauge
     });
 
+    coopRuntime?.afterHit(actor,target);
     equipmentAfterBasic(actor,target,damageState.hpDamage+damageState.absorbed,{damage:applyDamage,knockout:t=>settleKnockout(t,timeline,clock+.00001,reviveFromMagic),emit:(type,data)=>emitTimeline(timeline,clock,type,data)});
     if(!independentAction&&!actor.isMercenary&&!actor.isMonster)season2Runtime?.afterAttack(actor,target,damageState);
     if(!independentAction)iconRuntime?.afterBasic(actor,target,true);

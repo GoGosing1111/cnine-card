@@ -59,6 +59,7 @@ test('CMS numbers reach every wave, retain default balance, and remain frozen ac
 test('CMS mechanic timing, window and damage are authoritative; invalid definitions fail before storage',()=>{
  const c=defaultCoopCombat();c.patterns={firstSeconds:2,intervalSeconds:20,count:4,rupturePercent:13};c.difficulties[0].responseSeconds=5;
  const room=createCoopRoom({id:'012345ABCD',user:{id:1,nickname:'운영자'},clientId:'cms-client-11111',difficulty:'NORMAL',seed:7919,now:0,combat:c});
+ room.encounterVersion=2;delete room.encounter; // Existing rooms keep their saved manual rules.
  const squads=coopSquads();for(const id of [2,3])coopCommand(room,{id,nickname:'참여자'},'join',{clientId:'cms-client-'+id+'1111'},0);
  for(const id of [1,2,3])coopCommand(room,{id},'ready',{clientId:'cms-client-'+id+'1111',loadout:squads[id-1]},1);
  for(const id of [1,2,3])coopCommand(room,{id},'loaded',{clientId:'cms-client-'+id+'1111'},2);
