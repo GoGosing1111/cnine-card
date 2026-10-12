@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "created_date": "2026-10-13",
+  "asset_type": "mercenary_source_art",
+  "description": "전신 금빛 아우라를 두른 흑은색 창·방패 기사 — SSS 원화 시안",
+  "name": null,
+  "code": null,
+  "rank_target": "SSS",
+  "edition_target": null,
+  "status": "USER_REVIEW_PENDING",
+  "current_version": 2,
+  "current_source_art": "assets/sss-spear-knight-source-art-v2-armor-redesign.png",
+  "source_reference": {
+    "path": "references/user-sss-spear-knight-20261013.png",
+    "sha256": "74592DF9901F46FDFB44EF22EA74E3665B5978BDC27B890FDD53B717A35F68C9",
+    "bytes": 1107980,
+    "width": 736,
+    "height": 1104,
+    "color": "RGB",
+    "preservation": "Byte-for-byte copy of user attachment."
+  },
+  "user_direction": [
+    {
+      "version": 1,
+      "request": "SSS 일러스트로 사용하게 전신에 감도는 아우라 유지,무기,갑옷느낌 살리면서 무기는 창\n살짝 살려봐 투구 밋밋하고 갑옷도 조금 밋밋함 SSS급에 안맞음"
+    },
+    {
+      "version": 2,
+      "request": "ㄴㄴ... 이상해 좀 다른느낌으로 투구 만들어봐 투구랑 갑옷디자인이 제일 중요함 나머지 방패랑 창 아우라 느낌은 좋네",
+      "preserve_from_version": 1,
+      "preserved_design_baseline": [
+        "방패",
+        "창",
+        "전신 아우라"
+      ],
+      "redesign": [
+        "투구",
+        "갑옷"
+      ],
+      "interpretation": "V1 투구·갑옷은 반려. 방패·창·아우라 느낌은 사용자 긍정 평가에 따라 수정 기준으로 보존. 원화 전체 승인이나 운영 연결 승인으로 확대하지 않음."
+    }
+  ],
+  "versions": [
+    {
+      "version": 1,
+      "path": "assets/sss-spear-knight-source-art-v1.png",
+      "sha256": "A527EA1B2C3CF43A5BD718371EE2AE956AB0432105698BCC402764D45A916D22",
+      "bytes": 2483236,
+      "width": 1024,
+      "height": 1536,
+      "color": "RGB",
+      "prompt": "prompt-v1.json",
+      "generated_original": "exec-05f4eb59-83fa-442e-8ab1-7d56c62e4263.png",
+      "status": "HELMET_AND_ARMOR_REJECTED_WEAPON_SHIELD_AURA_BASELINE",
+      "user_final_approval": false
+    },
+    {
+      "version": 2,
+      "path": "assets/sss-spear-knight-source-art-v2-armor-redesign.png",
+      "sha256": "5026941E9FA08281B4C20B92587BAF864EBE2A69E57E70BD8BF216807688F4E8",
+      "bytes": 2361672,
+      "width": 1024,
+      "height": 1536,
+      "color": "RGB",
+      "prompt": "prompt-v2-armor-redesign.json",
+      "generated_original": "exec-2c278a5b-5995-4ce1-b5f4-2dbf22526f26.png",
+      "status": "USER_REVIEW_PENDING",
+      "change": "긴 곡선 뿔을 제거한 낮은 밀폐형 투구·수평 바이저, 넓은 흉갑과 층진 견갑·절제된 은색 테두리와 금색 상감으로 재설계.",
+      "user_final_approval": false
+    }
+  ],
+  "generation": {
+    "mode": "built-in image_gen",
+    "transparent_background": false,
+    "postprocessing": "None. Native generated PNGs copied unchanged; no crop, resize, recompression or pixel editing."
+  },
+  "visual_review": {
+    "image_inspected": true,
+    "observations": [
+      "V2에서 투구의 긴 뿔이 제거되고 수평 바이저와 각진 하관이 드러나며 흉갑·견갑의 큰 면과 층진 구조가 구분됨.",
+      "V1에서 사용자 평가가 좋았던 대형 방패, 대각선 창, 전신 금빛 아우라와 어두운 성당 구도를 수정 기준으로 유지함.",
+      "창의 노출된 자루와 창날의 직선 연결 및 손 파지를 확인. 창의 오른쪽 끝은 원본 구도와 같이 화면 가장자리에 가까움.",
+      "1024×1536 RGB PNG, 정확한 2:3 비율. 원화에 문자·카드 프레임·UI 없음."
+    ],
+    "user_final_approval": false,
+    "thumbnail_and_frame_review": "Not performed; unframed source art proposal only."
+  },
+  "scope": {
+    "source_art_only": true,
+    "battle_sprite": "NOT_REQUESTED",
+    "roster_connected": false,
+    "live_connected": false,
+    "stats_assigned": false,
+    "skills_assigned": false,
+    "production_deployment": false,
+    "roadmap_assignment": "NOT_ASSIGNED_TO_A_SPECIFIC_FUTURE_SSS_UNIT"
+  },
+  "originals_modified": false
+}
