@@ -1,0 +1,56 @@
+{
+  "verifiedAt": "2026-10-12T22:03:05.840Z",
+  "commit": "da1e68a895f59915038200733c105f725a4086f3",
+  "deploymentId": "f3996785-bcf6-456c-b1af-096b91ab648b",
+  "url": "https://f3996785.cnine-card.pages.dev",
+  "files": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "f1a7845a53079d070afb0ab2b4ad5c426dc27d3c48b01ab2ce513cf7c684aa9f",
+      "lineEndingNormalizedMatch": true
+    },
+    {
+      "path": "js/app.js",
+      "status": 200,
+      "sha256": "d54d69c3d073a1e6e596caabf534df8b8a5653d79b4adfcd9472fdfdd016398a",
+      "lineEndingNormalizedMatch": true
+    },
+    {
+      "path": "js/jokgak-city-v1.js",
+      "status": 200,
+      "sha256": "14c0a47a390696030235cfa0ed38e6d2a22ed2e2a66aaeaba0573ab02fb913f7",
+      "lineEndingNormalizedMatch": true
+    },
+    {
+      "path": "admin/jokgak-city-admin-v1.mjs",
+      "status": 200,
+      "sha256": "541e820e4b46343d25b23a75c8054ff2e0257e8a7154bbf7f79dbf3019e6f1bf",
+      "lineEndingNormalizedMatch": true
+    },
+    {
+      "path": "admin/index.html",
+      "status": 200,
+      "sha256": "acc06de2c5a6df66788f23663b5115568c972a80ee7790c368feefa22e05eef4",
+      "lineEndingNormalizedMatch": true
+    },
+    {
+      "path": "service-worker.js",
+      "status": 200,
+      "sha256": "084bce411cabad49ff4750544395e6d332fbbbc99a71a9cf6789ebead0529cb9",
+      "lineEndingNormalizedMatch": true
+    }
+  ],
+  "city": {
+    "mode": "ON",
+    "enabled": true,
+    "revision": 34,
+    "epoch": 82957,
+    "rewardPolicyPreserved": true,
+    "roundSnapshotPreserved": true,
+    "messages": 0
+  },
+  "productionClaimExecuted": false,
+  "scheduledCloseAt": "2026-10-13T03:00:00Z",
+  "automationId": "off"
+}

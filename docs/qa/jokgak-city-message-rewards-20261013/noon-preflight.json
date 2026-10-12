@@ -1,0 +1,9 @@
+{
+  "status": "NOT_DUE",
+  "scheduledAt": "2026-10-13T03:00:00.000Z",
+  "verifiedAt": "2026-10-12T21:59:46.188Z",
+  "currentMode": "ON",
+  "enabled": true,
+  "revision": 34,
+  "operationReceipt": false
+}
