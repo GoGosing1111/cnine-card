@@ -14,3 +14,11 @@
 - 범위 배포 검사: 기존 `tests/navigation-contract-v1.mjs`, `test:lobby`(승인 소스/번들 일치와 메뉴 회귀). 서버·전투 변경이 없어 해당 검사를 확대하지 않는다.
 - 직전 운영 Pages: `00a8dc04-478f-4716-aafb-671e29747a3f`, 소스 `be66cc46f9f406cb9bc895c162049d3b0b2d188e`. Cloudflare 배포 목록과 저장된 운영 기록을 대조했다.
 - 배포 명령: `npm run deploy:production -- --scoped`. 커밋·origin/main 일치, 출시 플래그·캐시·Hyperdrive 보호를 유지한다.
+
+## 운영 반영 완료
+
+- 구현 `c7bc9136`, 앱 로더/셸 캐시 동기화 `a5629a09`. 최초 배포는 캐시 식별자 불일치로 게시 전에 차단됐으며, index의 앱 로더 버전과 서비스워커 버전을 일치시킨 뒤 통과했다. 로비 검사 3개와 소스/번들 일치 검사는 재실행하지 않았다.
+- 메뉴 계약 검사, 필수 출시·캐시·Hyperdrive 검사 통과. 지정 scoped 배포 종료 코드 0.
+- Pages: https://acf1d46a.cnine-card.pages.dev. API Worker `a97cec2c-0274-420d-9082-1f86dee75804`, 기존 스케줄러 `e4fe1da8-7189-414d-931a-c11d04e0c083`.
+- 2026-10-13 02:06 KST 운영 도메인 확인: 메인 HTML·메뉴 어댑터·라우터·로비 번들·서비스워커 5개 HTTP 200 및 로컬 소스와 SHA-256 일치. `?screen=coop`도 새 로더/메뉴 버전으로 응답한다. 기록은 같은 검수 폴더의 `live-verification.json`이다.
+- 이 완료 기록은 문서만 커밋·원격 반영하며 운영 재배포하지 않는다.

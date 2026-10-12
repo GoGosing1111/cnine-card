@@ -1,0 +1,32 @@
+{
+  "checkedAt": "2026-10-12T17:06:07.998Z",
+  "files": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "8f86e058ec0112658713d7c6624f6f5508a4589bea606523a0c210c6112ab070"
+    },
+    {
+      "file": "js/soopketmon-v21-exact-shell-adapter.js",
+      "status": 200,
+      "sha256": "5e41d6b9eb91178263cca5377f5af37a2797c5be25efb8453f06577d364f9290"
+    },
+    {
+      "file": "js/soopketmon-v21-runtime-router.js",
+      "status": 200,
+      "sha256": "dc3151bedea84046e596db88061692074da7b12bc9566e9880315579ab79f1b7"
+    },
+    {
+      "file": "js/adventure-lobby-v2107.js",
+      "status": 200,
+      "sha256": "6f2e1c9531b4950f1b433b04c0acd24990e6cb01677ffed9d0fa4fa8f3e6a379"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "e05169f29790ecea6bc833565200849e132c31ce9dd3e5f28d5587f76bcd05b1"
+    }
+  ],
+  "entryUrl": "https://cnine-card.pages.dev/?screen=coop",
+  "entryStatus": 200
+}
