@@ -90,7 +90,7 @@ export async function handleCooperative({path,request,env,deps}){
      if(previous.ok&&['LOBBY','LOADING','ACTIVE'].includes(previous.state.status)&&!previous.state.myResult&&prior!==target)fail('ALREADY_JOINED','현재 대기방에서 먼저 나와주세요.');}
     if(kind==='create'){
      const id=target;
-     const result=await roomStub(env,id).create({id,user:{id:Number(user.id),nickname:user.nickname},clientId:body.clientId,difficulty:body.difficulty,seed:crypto.getRandomValues(new Uint32Array(1))[0],requestId:body.requestId,combat:config.combat,settingsRevision:config.revision});
+     const result=await roomStub(env,id).create({id,user:{id:Number(user.id),nickname:user.nickname},clientId:body.clientId,difficulty:body.difficulty,seed:crypto.getRandomValues(new Uint32Array(1))[0],requestId:body.requestId,combat:config.combat,settingsRevision:config.revision,encounterVersion:config.encounterVersion===3?3:2});
      if(result.ok)await pointer.setRoom(id);return response(deps,result);
     }
     const result=await roomStub(env,body.roomId).command({id:Number(user.id),nickname:user.nickname},kind,body);

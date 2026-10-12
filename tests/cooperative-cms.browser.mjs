@@ -34,11 +34,11 @@ try{
   await root.locator('[name="combat.difficulties.0.monsters.0.power"]').fill('7777777');
   await page.screenshot({path:path.join(out,label+'-02-monsters.png'),fullPage:true});
   await root.locator('[data-difficulty="1"]').click();await root.locator('[name="combat.difficulties.1.monsters.4.shieldPercent"]').fill('12');
-  await root.locator('[data-tab="mechanics"]').click();await root.locator('[name="combat.patterns.rupturePercent"]').fill('11');await root.locator('[name="combat.difficulties.0.responseSeconds"]').fill('10');
+  await root.locator('[data-tab="mechanics"]').click();assert.equal(await root.locator('#coop-cms-mechanics article').count(),4);assert.equal(await root.locator('[name="combat.patterns.rupturePercent"]').count(),0);
   await page.screenshot({path:path.join(out,label+'-03-mechanics.png'),fullPage:true});
   await root.locator('[data-tab="economy"]').click();await root.locator('[name="economyDraft.masterStar"]').fill('300000');
   await root.locator('[type="submit"]').click();await page.waitForFunction(()=>document.querySelector('#view-cooperative [data-status]')?.textContent.startsWith('저장 완료'));
-  const saved=(await h.request(1,'settings')).settings;assert.equal(saved.combat.difficulties[0].monsters[0].power,7777777);assert.equal(saved.combat.difficulties[1].monsters[4].shieldPercent,12);assert.equal(saved.combat.patterns.rupturePercent,11);assert.equal(saved.economyDraft.masterStar,300000);assert.equal(saved.rewardLocked,true);assert.ok(saved.testUserIds.includes(4));
+  const saved=(await h.request(1,'settings')).settings;assert.equal(saved.combat.difficulties[0].monsters[0].power,7777777);assert.equal(saved.combat.difficulties[1].monsters[4].shieldPercent,12);assert.equal(saved.combat.patterns.rupturePercent,8);assert.equal(saved.economyDraft.masterStar,300000);assert.equal(saved.rewardLocked,true);assert.ok(saved.testUserIds.includes(4));
   await page.screenshot({path:path.join(out,label+'-04-economy.png'),fullPage:true});
   await root.locator('[data-reload]').click();await page.waitForFunction(()=>document.querySelector('#view-cooperative [data-status]')?.textContent.startsWith('저장된 설정'));
   assert.equal(await root.locator('[name="economyDraft.masterStar"]').inputValue(),'300000');
@@ -57,7 +57,7 @@ try{
   await page.locator('#pveCoopTab').waitFor({state:'visible'});await page.locator('#pveCoopTab').click();await page.waitForFunction(()=>document.querySelector('.coop-meta')?.textContent.includes('120초 전투'));
   assert.match(await page.locator('.coop-operation-strip').textContent(),/노심 전초기지/);
   await page.locator('[data-guide]').click();assert.match(await page.locator('[data-guide-content]').textContent(),/120초/);
-  await page.locator('[data-chapter="1"]').click();assert.match(await page.locator('[data-guide-content]').textContent(),/11%/);assert.match(await page.locator('[data-guide-content]').textContent(),/10초 안에 대응/);
+  await page.locator('[data-chapter="1"]').click();assert.match(await page.locator('[data-guide-content]').textContent(),/보스의 특성/);assert.doesNotMatch(await page.locator('[data-guide-content]').textContent(),/내 노심 차단/);
   await page.screenshot({path:path.join(out,label+'-05-public-guide.png')});
   checks.push({viewport:label,width,height,cmsMenu:true,saveReload:true,searchAddRemove:true,conflictPreserved:true,publicGuideSynced:true});
   await context.close();

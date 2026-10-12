@@ -1,0 +1,55 @@
+{
+  "checks": [
+    {
+      "width": 1440,
+      "boss": "BASTION",
+      "species": [
+        "IRONHOUND",
+        "BLIGHTSTALKER",
+        "STORMWISP"
+      ],
+      "attack": true
+    },
+    {
+      "width": 1440,
+      "boss": "VESPERA",
+      "species": [
+        "IRONHOUND",
+        "BLIGHTSTALKER",
+        "STORMWISP"
+      ],
+      "attack": true
+    },
+    {
+      "width": 1440,
+      "boss": "TEMPEST",
+      "species": [
+        "IRONHOUND",
+        "BLIGHTSTALKER",
+        "STORMWISP"
+      ],
+      "attack": true
+    },
+    {
+      "width": 1440,
+      "boss": "ARKE",
+      "species": [
+        "IRONHOUND",
+        "BLIGHTSTALKER",
+        "STORMWISP"
+      ],
+      "attack": true
+    },
+    {
+      "width": 390,
+      "boss": "TEMPEST",
+      "species": [
+        "IRONHOUND",
+        "BLIGHTSTALKER",
+        "STORMWISP"
+      ],
+      "attack": true
+    }
+  ],
+  "errors": []
+}

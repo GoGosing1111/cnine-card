@@ -11,7 +11,7 @@ function battle(room){
  const built=createCooperativeBattle({squads:room.members.map(m=>m.loadout),difficulty:room.difficulty,seed:room.seed,withdrawals:room.withdrawals,effects:room.effects||[],
   monsterSnapshot:room.encounterVersion>=2?undefined:room.payload?.monster,combat:room.combat,turnClockVersion:room.turnClockVersion||1,encounter:room.encounter||null});
  room.payload=built.payload;room.states=built.states;room.battleRevision++;
- room.bossAtMs=room.payload.cooperativeEncounter?room.payload.battleV2.result.timeline.find(e=>e.type==='ENEMY_SPAWN'&&e.targetId.endsWith(':ARKE'))?.combatAtMs:null;
+ room.bossAtMs=room.payload.cooperativeEncounter?room.payload.battleV2.result.timeline.find(e=>e.type==='ENEMY_SPAWN'&&e.wave===3)?.combatAtMs:null;
  room.durationMs=Math.min(room.combat?room.combat.maxBattleSeconds*1000:COOP_RULES.maxBattleMs,Math.max(1000,Number(room.payload.battleV2.result.timeline.at(-1).combatAtMs)));
 }
 function forfeit(room,m,now,reason){
@@ -46,10 +46,10 @@ export function advanceCoopRoom(room,now){
  }
  return room;
 }
-export function createCoopRoom({id,user,clientId,difficulty,seed,now,combat=defaultCoopCombat(),settingsRevision=0}){
+export function createCoopRoom({id,user,clientId,difficulty,seed,now,combat=defaultCoopCombat(),settingsRevision=0,encounterVersion=3}){
  if(!coopDifficulty(difficulty)||!validCoopClient(clientId))fail('INPUT','난이도와 접속 정보를 확인하세요.',400);
  const snapshot=validateCoopCombat(combat);
- return {id,hostId:Number(user.id),status:'LOBBY',difficulty,seed,combat:snapshot,settingsRevision,encounterVersion:3,encounter:rollCoopRoster(seed),turnClockVersion:4,patternIndex:0,pattern:null,patternHistory:[],effects:[],createdAt:now,expiresAt:now+snapshot.lobbySeconds*1000,members:[{id:Number(user.id),name:String(user.nickname).slice(0,80),clientId,ready:false,loaded:false,lastSeen:now}],withdrawals:[],battleRevision:0,version:1,receipts:[]};
+ return {id,hostId:Number(user.id),status:'LOBBY',difficulty,seed,combat:snapshot,settingsRevision,encounterVersion:encounterVersion===3?3:2,...(encounterVersion===3?{encounter:rollCoopRoster(seed)}:{}),turnClockVersion:4,patternIndex:0,pattern:null,patternHistory:[],effects:[],createdAt:now,expiresAt:now+snapshot.lobbySeconds*1000,members:[{id:Number(user.id),name:String(user.nickname).slice(0,80),clientId,ready:false,loaded:false,lastSeen:now}],withdrawals:[],battleRevision:0,version:1,receipts:[]};
 }
 export function coopCommand(room,user,kind,input,now){
  advanceCoopRoom(room,now);

@@ -31,7 +31,7 @@ export async function cooperativeAdmin({kind,request,env,deps,user,config}){
  return deps.withUserMutationLock(env,user.id,'coop/settings',async()=>{
   const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(KEY).first(),fresh=normalize(row?.value);
   if(fresh.revision!==s.revision)fail('CONFIG_CONFLICT','다른 화면에서 설정이 변경됐습니다. 다시 불러온 뒤 저장하세요.',409);
-  const next={mode:s.mode,testUserIds:s.testUserIds,revision:fresh.revision+1,rewardLocked:true,combat:combat||fresh.combat,economyDraft:economy||fresh.economyDraft,updatedBy:Number(user.id),updatedAt:new Date().toISOString()};
+  const next={encounterVersion:fresh.encounterVersion===3?3:2,mode:s.mode,testUserIds:s.testUserIds,revision:fresh.revision+1,rewardLocked:true,combat:combat||fresh.combat,economyDraft:economy||fresh.economyDraft,updatedBy:Number(user.id),updatedAt:new Date().toISOString()};
   const raw=JSON.stringify(next),saved=row?
    await env.DB.prepare('UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?').bind(raw,KEY,row.value).run():
    await env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING').bind(KEY,raw).run();

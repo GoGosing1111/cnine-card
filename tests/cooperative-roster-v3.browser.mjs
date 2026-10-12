@@ -11,6 +11,7 @@ const {chromium}=await import(process.env.PLAYWRIGHT_MODULE||'playwright');
 const h=await cooperativeMiniflare(),out=process.env.COOP_ROSTER_QA_OUTPUT||path.join(h.temp,'roster-v3');await fs.mkdir(out,{recursive:true});
 const browser=await chromium.launch({channel:'chrome',headless:true,args:['--mute-audio','--enable-unsafe-swiftshader']}),errors=[],checks=[];
 try{
+ await h.db.batch([{sql:"UPDATE app_meta SET value=json_set(value,'$.encounterVersion',3) WHERE key='cooperative_battleground_settings_v1'"}]);
  for(const [width,height] of (process.env.COOP_ROSTER_MOBILE_ONLY?[[390,844]]:[[1440,1000],[390,844]])){
   const room=await h.request(1,'create',{clientId:'roster-browser-client',requestId:'roster-browser-'+width,difficulty:'NORMAL'});assert.equal(room.ok,true);
   const context=await browser.newContext({viewport:{width,height},isMobile:width<700,hasTouch:width<700,serviceWorkers:'block'});
@@ -20,8 +21,9 @@ try{
   await page.goto(h.origin+'/');await page.waitForFunction(()=>window.CNineCoreRaidBridge);await page.evaluate(()=>renderShell('battle'));await page.locator('#pveCoopTab').click();
   await page.locator('[data-roster]').waitFor({state:'visible'});await page.waitForFunction(()=>[...document.querySelectorAll('[data-roster] img')].every(i=>i.complete&&i.naturalWidth));
   assert.equal(await page.locator('[data-roster] img').count(),5);assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
-  await page.locator('[data-roster]').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,width+'-lobby.png')});
+  await page.locator('[data-roster]').scrollIntoViewIfNeeded();await page.locator('[data-roster] img').evaluateAll(images=>Promise.all(images.map(i=>i.decode())));await page.waitForTimeout(350);await fs.writeFile(path.join(out,width+'-roster-dom.json'),JSON.stringify(await page.locator('[data-roster] img').evaluateAll(images=>images.map(i=>({src:i.src,rect:i.getBoundingClientRect().toJSON(),style:{opacity:getComputedStyle(i).opacity,visibility:getComputedStyle(i).visibility,display:getComputedStyle(i).display},outer:i.outerHTML}))),null,2));await page.screenshot({path:path.join(out,width+'-lobby.png')});
   await page.locator('[data-guide]').click();await page.locator('[data-chapter="1"]').click();assert.match(await page.locator('[data-guide-content]').innerText(),/보스의 특성/);assert.doesNotMatch(await page.locator('[data-guide-content]').innerText(),/직접 눌|내 노심 차단/);await page.screenshot({path:path.join(out,width+'-guide.png')});await page.locator('[data-close-guide]').click();
+  if(process.env.COOP_ROSTER_UI_ONLY){await context.close();continue;}
   const bosses=width===1440?['BASTION','VESPERA','TEMPEST','ARKE']:['TEMPEST'];
   for(const boss of bosses){
    const encounter={...rollCoopRoster(17),mobs:['IRONHOUND','BLIGHTSTALKER','STORMWISP'],boss,elite:boss==='VESPERA'?'BASTION':'VESPERA'};

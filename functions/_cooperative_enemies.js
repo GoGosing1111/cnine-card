@@ -31,6 +31,7 @@ function randomEnemies(config,profiles,stages,roster){
  const keys=['STALKER_A','STALKER_B','WATCHER','WARDEN','ARKE'];
  const legacy=cooperativeEnemies(config,profiles,stages);
  const species=[...roster.mobs,roster.elite,roster.boss].map(coopSpecies);
+ const monsters=[];
  const instances=species.map((spec,i)=>{
   const wave=i<3?1:i-1,base=legacy.encounter.instances[i],saved=profiles?.find(p=>p.key===keys[i]);
   const power=saved?.power??base.power;
@@ -42,14 +43,13 @@ function randomEnemies(config,profiles,stages,roster){
    pve_attack_count:saved?.attackCount??(wave>1?config.attackCount:1),
    pve_forced_action_every:config.forcedEvery,attackStyle:spec.style,image:spec.art,battleSprite:spec.art,
    projectVMonsterArt:{scope:'BATTLE_ENGINE_ONLY',kind:'COOP_'+spec.id,primaryUrl:spec.art,pngFallbackUrl:spec.art,footAnchor:{x:.5,y:.95},scaleMultiplier:1,objectFit:'contain',objectPosition:'50% 100%'}};
-  const fighter=buildMonsterFighter(monster);
+  monsters.push(monster);const fighter=buildMonsterFighter(monster);
   return {...fighter,id:`B:${i<3?i:1}:COOP3:${wave}:${spec.id}`,slot:i<3?i:1,
    encounterWave:wave,encounterAfterClear:wave>1,finalBoss:wave===3,battleSprite:spec.art,
    projectVMonsterArt:monster.projectVMonsterArt,displayHeight:wave===2?Math.round(spec.height*.8):spec.height,
    coopSpeciesId:spec.id,coopTraits:coopEnemyTraits(spec,wave,config.id),coopBaseDefense:fighter.defense};
  });
- const boss=species.at(-1);
- return {monster:{id:'COOP_'+boss.id,name:boss.name,isBoss:true,image:boss.art,battleSprite:boss.art,projectVMonsterArt:instances.at(-1).projectVMonsterArt},
+ return {monster:monsters.at(-1),
   initial:instances.slice(0,3),pending:instances.slice(3),encounter:{schemaVersion:3,roster,
    stages:stages.map((s,i)=>({...s,target:i===0?species.slice(0,3).map(s=>s.name).join(' · '):species[i+2].name,hint:i===0?'서로 다른 몬스터 3종을 격파하세요.':species[i+2].hint})),
    initialIds:instances.slice(0,3).map(f=>f.id),instances:instances.map(publicFighter)}};

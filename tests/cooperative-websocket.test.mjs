@@ -13,8 +13,9 @@ test('real Durable Objects: gated/authenticated API, ownership, retry, three Web
   const options=await h.request(1,'options');assert.equal(options.status,200,JSON.stringify(options));assert.ok(options.cards.length>2);assert.ok(options.mercenaries.length>0);
   assert.equal((await h.request(2,'settings')).status,403);
   const settings={mode:'TEST',testUserIds:[2,3],revision:0};assert.equal((await h.request(1,'settings',{settings})).status,200);assert.equal((await h.request(1,'settings',{settings})).status,409);
+  await h.db.batch([{sql:"UPDATE app_meta SET value=json_set(value,'$.encounterVersion',3) WHERE key='cooperative_battleground_settings_v1'"}]);
   const create={clientId:clients[0],difficulty:'NORMAL',requestId:'retry-create-request'};
-  const first=await h.request(1,'create',create);assert.equal(first.status,200,JSON.stringify(first));roomId=first.roomId;
+  const first=await h.request(1,'create',create);assert.equal(first.status,200,JSON.stringify(first));roomId=first.roomId;assert.equal((await h.request(1,'current')).state.encounterVersion,3);
   assert.equal((await h.request(1,'create',create)).roomId,roomId);
   assert.equal((await command(1,'create',{difficulty:'NORMAL'})).code,'COOP_ALREADY_JOINED');
   for(let id=2;id<=3;id++)assert.equal((await command(id,'join')).status,200);
