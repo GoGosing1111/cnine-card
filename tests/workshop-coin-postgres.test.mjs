@@ -115,7 +115,10 @@ test('suit-core bulk synthesis uses CMS costs, per-attempt rolls and output quan
     const replay = await f.craft('core-ten',{attempts:100});
     assert.equal(replay.replayed,true); assert.equal(replay.attempts,10); assert.equal(rolls,10);
     assert.deepEqual(replay.state.wallet,result.state.wallet);
-    assert.deepEqual(replay.state.inventory,result.state.inventory);
+    assert.deepEqual(replay.output,result.output);
+    // The workshop hides inactive recipe outputs; the owned inventory must remain intact.
+    assert.equal(replay.state.inventory.SUIT_CORE_1.quantity,905);
+    assert.equal(Number((await f.row("SELECT quantity FROM cnine_user_inventory WHERE item_code='SUIT_CORE_2'")).quantity),11);
     assert.equal(Number((await f.row('SELECT COUNT(*) n FROM coin_logs')).n),1);
   } finally { await f.close(); }
 });
