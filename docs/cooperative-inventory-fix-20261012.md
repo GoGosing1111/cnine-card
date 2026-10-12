@@ -26,3 +26,15 @@
 - 기존 미배포 범위는 지급 실행 도구/기록과 이미지 검수 자산뿐이며 게임 실행 코드 추가 변경은 없다.
 - 운영 반영 후 실제 두 보유 목록을 짧게 확인하고 재현/확인 화면과 배포 결과를 기록한다.
 
+## 운영 반영 결과
+
+- 2026-10-12 코드 커밋 `41c767f459d9391159b0375b2d8016ae5c40b8a2`을 `origin/main`에 반영하고 지정 scoped 명령으로 운영 배포 완료(exit 0).
+- 배포 단계의 협동전 API/WebSocket 회귀 1개와 `check:worker` 통과. 신규 목록 회귀 4개를 포함해 관련 테스트 총 5개 통과. 출시 플래그·캐시·Hyperdrive 쿼리 캐시 OFF 검사도 통과했다.
+- Pages: `https://ea53e299.cnine-card.pages.dev`.
+- API runtime Worker: `0e14451e-696a-485a-bbfb-b78e6ee26eba`.
+- Scheduler Worker: `de61379c-3e8b-412f-ab4b-4f65a790ce49`.
+- 실제 운영 도메인 `https://cnine-card.pages.dev/`에서 같은 계정으로 새로고침 후 PVE → 격전지 → 일반 대기방에 진입했다. 기존 ICON 제한 오류가 사라졌고 **용병 41종·카드 387종**이 각 탭에 정상 표시됐다. 카드 목록에 ICON 5종과 강화·고유효과 정보도 표시됐다.
+- 검증용 대기방은 확인 후 나갔으며 모집 목록 0개로 종료됨을 확인했다. 편성·출전·보상 수령은 실행하지 않았다.
+- 로컬 검수 자료: `C:/Users/User/.codex/tmp/cooperative-roster-fix-20261012/`의 `before.png`, `after-mercenaries.png`, `after-cards.png`, `deploy.log`.
+- 이 결과 기록은 문서만 변경하므로 범위 커밋·원격 반영으로 마치고 게임 검사·운영 배포를 반복하지 않는다.
+
