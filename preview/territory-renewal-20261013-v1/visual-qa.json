@@ -1,0 +1,116 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "device": "pc",
+      "measurements": [
+        {
+          "code": "ARC_LANCE",
+          "side": "A",
+          "frame": 8,
+          "target": {
+            "x": 840.8976,
+            "y": 549.1546666666667
+          },
+          "geometry": {
+            "w": 956,
+            "h": 732,
+            "width": 267.68,
+            "height": 178.45333333333335
+          }
+        },
+        {
+          "code": "DISRUPTION_WAVE",
+          "side": "B",
+          "frame": 8,
+          "target": {
+            "x": 115.1024,
+            "y": 472.7829866666667
+          },
+          "geometry": {
+            "w": 956,
+            "h": 732,
+            "width": 267.68,
+            "height": 178.45333333333335
+          }
+        },
+        {
+          "code": "CITADEL_REPAIR",
+          "side": "A",
+          "frame": 8,
+          "target": {
+            "x": 115.1024,
+            "y": 567
+          },
+          "geometry": {
+            "w": 956,
+            "h": 732,
+            "width": 267.68,
+            "height": 178.45333333333335
+          }
+        }
+      ],
+      "oneRenderer": true,
+      "pauseSeekResumeSpeedStop": true,
+      "cleanup": true
+    },
+    {
+      "device": "mobile",
+      "measurements": [
+        {
+          "code": "ARC_LANCE",
+          "side": "A",
+          "frame": 8,
+          "target": {
+            "x": 322.92,
+            "y": 329.6
+          },
+          "geometry": {
+            "w": 390,
+            "h": 505,
+            "width": 156,
+            "height": 104
+          }
+        },
+        {
+          "code": "DISRUPTION_WAVE",
+          "side": "B",
+          "frame": 8,
+          "target": {
+            "x": 67.08,
+            "y": 286.84400000000005
+          },
+          "geometry": {
+            "w": 390,
+            "h": 505,
+            "width": 156,
+            "height": 104
+          }
+        },
+        {
+          "code": "CITADEL_REPAIR",
+          "side": "A",
+          "frame": 8,
+          "target": {
+            "x": 67.08,
+            "y": 340
+          },
+          "geometry": {
+            "w": 390,
+            "h": 505,
+            "width": 156,
+            "height": 104
+          }
+        }
+      ],
+      "oneRenderer": true,
+      "pauseSeekResumeSpeedStop": true,
+      "cleanup": true
+    },
+    {
+      "reducedMotion": true,
+      "mapPause": true
+    }
+  ],
+  "errors": []
+}

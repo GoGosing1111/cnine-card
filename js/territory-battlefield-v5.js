@@ -48,6 +48,11 @@
     if(code==='EMP_PULSE'&&bf.relay.owner!==side)return'중계탑 점령 필요';
     if(code==='ENGINEER'&&team.disabledUntil<=now())return'복구할 시설 없음';
     if(code==='SIEGE_CANNON'){if(team.cannonDueAt)return'발사 예약 완료';if(team.disabledUntil>now())return'시설 정지';if(team.charge<bf.config.chargeMax)return'전력 '+team.charge+'/'+bf.config.chargeMax}
+    const enemy=side==='A'?'B':'A',ownKey=side.toLowerCase(),enemyKey=enemy.toLowerCase();
+    if(code==='ARC_LANCE'||code==='DISRUPTION_WAVE'){if(team.disabledUntil>now())return'시설 복구 필요'}
+    if(code==='ARC_LANCE'){if(team.charge<bf.config.arcLanceCharge)return'전력 '+team.charge+'/'+bf.config.arcLanceCharge;if(Number(state.front?.[enemyKey+'_hp'])<=1)return'개인 교전으로 점령'}
+    if(code==='DISRUPTION_WAVE'&&bf[enemy].charge<=0)return'교란할 적 전력 없음';
+    if(code==='CITADEL_REPAIR'&&Number(state.front?.[ownKey+'_hp'])>=Number(state.front?.[ownKey+'_max_hp'])&&team.charge>=bf.config.chargeMax)return'방벽·전력 최대';
     return'';
   }
   function attach(root,state,options={}){
@@ -86,12 +91,12 @@
     play(type,side,payload={}){
       if(!this.enabled||this.paused)return;
       const playback=this.renderer.play(type,side);
-      const titles={EMP_PULSE:'EMP 파동 · 시설 정지',WALL_BREAKER:'성벽 파쇄탄',ENGINEER:'공병 투입 · 시설 복구',SIEGE_CANNON:'거대 공성포 · 발사 준비',CANNON_FIRED:'거대 공성포 착탄',RELAY_CAPTURED:'전력 중계탑 확보',SUPPLY_SECURED:'보급열차 호위 성공',CARPET_BOMBING:'융단폭격 개시',SPG_BARRAGE:'자주포 포격',AIR_DEFENSE:'통합 대공망 전개',COUNTER_BATTERY:'대포병 반격',IRON_WALL:'철벽 방어 전개',ASSAULT:'총공세 개시',INFILTRATION:'기습 침투',REGROUP:'재집결 돌파'};
-      if(this.cutin&&titles[type]){this.cutin.className='tw6-cut-in side-'+String(side).toLowerCase()+' is-live';this.cutin.innerHTML='<span>'+escape(current?label(current,side):side)+'</span><b>'+titles[type]+'</b>'+(Number(payload.damage)>0?'<em>공성 피해 '+fmt(payload.damage)+'</em>':'');clearTimeout(this.cutinTimer);this.cutinTimer=setTimeout(()=>this.cutin?.classList.remove('is-live'),3200);}
+      const titles={ARC_LANCE:'천뢰 관통포 · 방벽 관통',DISRUPTION_WAVE:'동력 교란파 · 적 전력 붕괴',CITADEL_REPAIR:'성채 재건 · 방벽과 전력 복구',EMP_PULSE:'EMP 파동 · 시설 정지',WALL_BREAKER:'성벽 파쇄탄',ENGINEER:'공병 투입 · 시설 복구',SIEGE_CANNON:'거대 공성포 · 발사 준비',CANNON_FIRED:'거대 공성포 착탄',RELAY_CAPTURED:'전력 중계탑 확보',SUPPLY_SECURED:'보급열차 호위 성공',CARPET_BOMBING:'융단폭격 개시',SPG_BARRAGE:'자주포 포격',AIR_DEFENSE:'통합 대공망 전개',COUNTER_BATTERY:'대포병 반격',IRON_WALL:'철벽 방어 전개',ASSAULT:'총공세 개시',INFILTRATION:'기습 침투',REGROUP:'재집결 돌파'};
+      if(this.cutin&&titles[type]){this.cutin.className='tw6-cut-in side-'+String(side).toLowerCase()+' is-live';this.cutin.innerHTML='<span>'+escape(current?label(current,side):side)+'</span><b>'+titles[type]+'</b>'+(Number(payload.damage)>0?'<em>공성 피해 '+fmt(payload.damage)+'</em>':Number(payload.chargeDrained)>0?'<em>적 전력 −'+fmt(payload.chargeDrained)+'</em>':Number(payload.heal)>0||Number(payload.chargeGained)>0?'<em>방벽 +'+fmt(payload.heal)+' · 전력 +'+fmt(payload.chargeGained)+'</em>':'');clearTimeout(this.cutinTimer);this.cutinTimer=setTimeout(()=>this.cutin?.classList.remove('is-live'),3200);}
       return playback;
     }
     destroy(){clearTimeout(this.cutinTimer);this.renderer.destroy();}
   }
 
-  globalThis.CNineTerritoryBattlefield={stageHtml,facilitiesHtml,skillBlock,attach,tick,objective:()=>objective,attackPayload:()=>({objective,frontId:Number(current?.front?.id||0),...(objective==='SUPPLY'?{supplyCycle:current?.battlefield?.supply?.cycle}: {})}),dispose(){engine?.destroy();engine=null;mount=null;current=null;document.body.classList.remove('territory-battlefield-entered');objective='SIEGE';fieldOpen=false;lastFieldId=0;},playPreview(type,side='A'){return engine?.play(type,side,{damage:1500000});},diagnostics(){return engine?.renderer.diagnostics()||{ready:false};},previewControl(action,value){return engine?.renderer.control(action,value);}};
+  globalThis.CNineTerritoryBattlefield={stageHtml,facilitiesHtml,skillBlock,attach,tick,objective:()=>objective,attackPayload:()=>({objective,frontId:Number(current?.front?.id||0),...(objective==='SUPPLY'?{supplyCycle:current?.battlefield?.supply?.cycle}: {})}),dispose(){engine?.destroy();engine=null;mount=null;current=null;document.body.classList.remove('territory-battlefield-entered');objective='SIEGE';fieldOpen=false;lastFieldId=0;},playPreview(type,side='A'){const payload=type==='DISRUPTION_WAVE'?{chargeDrained:35}:type==='CITADEL_REPAIR'?{heal:40000,chargeGained:20}:{damage:type==='ARC_LANCE'?30000:1500000};return engine?.play(type,side,payload);},diagnostics(){return engine?.renderer.diagnostics()||{ready:false};},previewControl(action,value){return engine?.renderer.control(action,value);}};
 })();

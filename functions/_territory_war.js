@@ -1129,7 +1129,7 @@ async function counterSharedForRound(env,round,needCommanders){
 async function counterState(env,round,mine,shared=null){
   if(hasTerritorySkills(round)){
     const common=shared||await counterSharedForRound(env,round,true),commanders=common.commanders||await commandersForRound(env,round.id),cfg=await settings(env);
-    const policy=await battlefieldPolicy(env,round),catalog={...territorySkillCatalog(OPERATIONS,cfg),...(policy?.enabled?battlefieldSkillCatalog(policy):{})};
+    const policy=await battlefieldPolicy(env,round),catalog={...territorySkillCatalog(OPERATIONS,cfg),...(policy?.enabled?battlefieldSkillCatalog(policy,{network:isNetworkWar(round)}):{})};
     const state=await territorySkillState(env,round,catalog,String(mine?.side||''),commanders,mine?.user_id);
     for(const side of ['A','B'])state[side].operation=activeOperation(round,side);
     return state;
@@ -1179,7 +1179,7 @@ async function activateVotedTerritorySkill(env,voteKey,cfg){
       publicStateSharedCache=null;counterSharedCache=null;realtimePulseCache=null;return result;
     }catch(error){
       const receipt=await territoryVoteActivation(env,voteKey);if(receipt)return receipt;
-      if(/중계탑 확보|복구할 아군|전력 충전|사용할 수 없는/.test(String(error.message)))return null;
+      if(/중계탑 확보|복구할 아군|전력 충전|사용할 수 없는|먼저 복구|전력이 부족|개인 교전으로|교란할 적|이미 가득/.test(String(error.message)))return null;
       if(attempt===2)console.warn('territory vote activation deferred',String(error.message));
     }
   }
@@ -1205,7 +1205,7 @@ async function submitTerritoryVote(env,deps,user,cfg,body,round,oldReceipt=null)
       if(!mine?.side||mine.status!=='ACTIVE')return deps.json({error:'활성 영토전 참가자만 스킬에 투표할 수 있습니다.'},403);
       const front=await activeFront(env,round);if(!front||front.status!=='ACTIVE')return deps.json({error:'전투 가능한 전선이 없습니다.'},409);
       const policy=await battlefieldPolicy(env,round);
-      if(!OPERATIONS[operation]&&!(policy?.enabled&&battlefieldSkillCatalog(policy)[operation]))return deps.json({error:'이번 회차에서 사용할 수 없는 스킬입니다.'},400);
+      if(!OPERATIONS[operation]&&!(policy?.enabled&&battlefieldSkillCatalog(policy,{network:isNetworkWar(round)})[operation]))return deps.json({error:'이번 회차에서 사용할 수 없는 스킬입니다.'},400);
       if(truceState(round).active)return deps.json({error:'임시 휴전 중에는 투표할 수 없습니다.'},409);
       vote=await recordTerritorySkillVote(env,{round,front,mine,operation,voteKey:body.voteKey,requestId:body.requestId});
     }
@@ -1227,7 +1227,7 @@ async function activateCommanderOperation(env,deps,user,cfg,body){
   const receipt=validRequestId(body.requestId)?await territorySkillReceipt(env,user.id,body.requestId,operation):null;
   if(receipt){if(receipt.voted)return submitTerritoryVote(env,deps,user,cfg,body,null,receipt);return deps.json({ok:true,result:receipt,state:await publicState(env,user.id)})}
   if(String(cfg.mode||'OFF').toUpperCase()==='OFF')return deps.json({error:'영토전 운영이 중지되었습니다.'},409);
-  if(!OPERATIONS[operation]&&!battlefieldSkillCatalog()[operation])return deps.json({error:'선택할 수 없는 전술 작전입니다.'},400);
+  if(!OPERATIONS[operation]&&!battlefieldSkillCatalog(BATTLEFIELD_DEFAULTS,{network:true})[operation])return deps.json({error:'선택할 수 없는 전술 작전입니다.'},400);
   const round=await lifecycle(env,cfg);if(!round||round.status!=='ACTIVE')return deps.json({error:'현재 진행 중인 영토전이 없습니다.'},409);
   if(hasTerritorySkills(round))return submitTerritoryVote(env,deps,user,cfg,body,round);
   const mine=await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).first();

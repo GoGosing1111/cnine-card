@@ -1,0 +1,1048 @@
+{
+  "version": "20261013-renewal-v1",
+  "generator": "built-in image_gen",
+  "visualApproval": "USER_REVIEW_PENDING",
+  "promptSet": "preview/territory-renewal-20261013-v1/fx-prompts.json",
+  "runtime": "Existing Project V V3 effectScene, PixiJS 8.20.0 / registered GSAP 3.13.0 timeline",
+  "processing": "Original PNGs preserved. Technical grid extraction, uniform frame packing and WebP encoding only. Generated alpha preserved; no recoloring, keying or drawn replacement effects.",
+  "assets": {
+    "ARC_LANCE": {
+      "name": "천뢰 관통포",
+      "source": "arc-lance-source.png",
+      "sourceSha256": "19200e3a7af58ec5da2d8cdbe6f7d282f1b51886ff8ec954c0b02f86352bdcfa",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "url": "/assets/ui/territory-war/renewal-skills-v1/arc-lance-atlas.webp",
+      "icon": "/assets/ui/territory-war/renewal-skills-v1/arc-lance-icon.webp",
+      "sha256": "646750d5aac686e746460afbcabfc4b295eecb78c9eb2442ef6e5ba2c8910d60",
+      "bytes": 729900,
+      "columns": 4,
+      "rows": 4,
+      "anchor": [
+        0.5,
+        0.74
+      ],
+      "target": "enemy-ground",
+      "duration": 2.8,
+      "impactAt": 1.2,
+      "frames": [
+        {
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.74
+          ],
+          "source": {
+            "x": 0,
+            "y": 0,
+            "w": 314,
+            "h": 314
+          },
+          "sha256": "864673338ed43615870b5ddc25077368bbd3ddc56898a51336a38965130d7023",
+          "opaquePixels": 599,
+          "transparentPixels": 61129,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 320,
+          "y": 0,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.74
+          ],
+          "source": {
+            "x": 314,
+            "y": 0,
+            "w": 313,
+            "h": 314
+          },
+          "sha256": "0192a53f59abcb21c836b70ce4666856f5f0649dd4578ae33af13ad992e70c71",
+          "opaquePixels": 2540,
+          "transparentPixels": 48057,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 640,
+          "y": 0,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.74
+          ],
+          "source": {
+            "x": 627,
+            "y": 0,
+            "w": 314,
+            "h": 314
+          },
+          "sha256": "b6176858a6a0078769e0f11f8d1e094e18fad0b60e1ffb97951d59af89dc732d",
+          "opaquePixels": 5375,
+          "transparentPixels": 54573,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 960,
+          "y": 0,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.74
+          ],
+          "source": {
+            "x": 941,
+            "y": 0,
+            "w": 313,
+            "h": 314
+          },
+          "sha256": "7664a48a1e3534a6c54dc6152c5dab2fb5ada93a30804819021ffff6c5f9be2a",
+          "opaquePixels": 14987,
+          "transparentPixels": 31803,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 0,
+          "y": 320,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.79
+          ],
+          "source": {
+            "x": 0,
+            "y": 314,
+            "w": 314,
+            "h": 313
+          },
+          "sha256": "cc2ee64ea01fb6c583238807946c051228574a1abe31d7ad423129dfb2db6628",
+          "opaquePixels": 6128,
+          "transparentPixels": 64968,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 320,
+          "y": 320,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.79
+          ],
+          "source": {
+            "x": 314,
+            "y": 314,
+            "w": 313,
+            "h": 313
+          },
+          "sha256": "d564faf0818adc9ae954252353cd59ab6b7467a3fddbd694cf2a3c9b3ce25695",
+          "opaquePixels": 7105,
+          "transparentPixels": 58931,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 640,
+          "y": 320,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.79
+          ],
+          "source": {
+            "x": 627,
+            "y": 314,
+            "w": 314,
+            "h": 313
+          },
+          "sha256": "15708684e863514a6776ccf89feb3e614fd8e9a2c059c38bbd2da5bfbb075768",
+          "opaquePixels": 9702,
+          "transparentPixels": 52736,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 960,
+          "y": 320,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.79
+          ],
+          "source": {
+            "x": 941,
+            "y": 314,
+            "w": 313,
+            "h": 313
+          },
+          "sha256": "926bd1f7158efb19c9d73bf2df84c188adeb77553b6bcc00d7f99953d9c825cb",
+          "opaquePixels": 23565,
+          "transparentPixels": 29738,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 0,
+          "y": 640,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.86
+          ],
+          "source": {
+            "x": 0,
+            "y": 627,
+            "w": 314,
+            "h": 314
+          },
+          "sha256": "be5b37e08b7167bf36898b07e91bc42ec1a4e32348da7d70bc3fb4cc27521eef",
+          "opaquePixels": 33277,
+          "transparentPixels": 17338,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 320,
+          "y": 640,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.86
+          ],
+          "source": {
+            "x": 314,
+            "y": 627,
+            "w": 313,
+            "h": 314
+          },
+          "sha256": "b3f9b2d51d60f3c96506526ddb7bf6625870a85044da055e1a1c84278e84e677",
+          "opaquePixels": 20603,
+          "transparentPixels": 20532,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 640,
+          "y": 640,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.86
+          ],
+          "source": {
+            "x": 627,
+            "y": 627,
+            "w": 314,
+            "h": 314
+          },
+          "sha256": "5605447c1a4cd3a0eb73d4c0a223a987cde16c1f068b45ff65094d86292a28f6",
+          "opaquePixels": 15956,
+          "transparentPixels": 24401,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 960,
+          "y": 640,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.86
+          ],
+          "source": {
+            "x": 941,
+            "y": 627,
+            "w": 313,
+            "h": 314
+          },
+          "sha256": "46c1f5f0c81f8e10c9f785ab1fc97dac37b328c04d76d267c5d2ee5862740373",
+          "opaquePixels": 13562,
+          "transparentPixels": 27067,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 0,
+          "y": 960,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.87
+          ],
+          "source": {
+            "x": 0,
+            "y": 941,
+            "w": 314,
+            "h": 313
+          },
+          "sha256": "35ba4eb9330a48adcacf158fba546026ff21f3d33ee99cb72093ad7b53b9238f",
+          "opaquePixels": 8930,
+          "transparentPixels": 40803,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 320,
+          "y": 960,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.87
+          ],
+          "source": {
+            "x": 314,
+            "y": 941,
+            "w": 313,
+            "h": 313
+          },
+          "sha256": "23de801ad84727c6a3c1b01cf0c83ddbb54ececc7ea27b5bc0a188e802e458cd",
+          "opaquePixels": 3536,
+          "transparentPixels": 35048,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 640,
+          "y": 960,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.87
+          ],
+          "source": {
+            "x": 627,
+            "y": 941,
+            "w": 314,
+            "h": 313
+          },
+          "sha256": "802f1c362de70dd353e7d0c63255c163ef8dc696cbaa202376e306072ae43f22",
+          "opaquePixels": 998,
+          "transparentPixels": 51082,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 960,
+          "y": 960,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.87
+          ],
+          "source": {
+            "x": 941,
+            "y": 941,
+            "w": 313,
+            "h": 313
+          },
+          "sha256": "29daac2b484d46e92a7d86f83f4f49cd231b70d01206669460498ff8def4a79a",
+          "opaquePixels": 89,
+          "transparentPixels": 53802,
+          "opaqueBorderPixels": 0
+        }
+      ]
+    },
+    "DISRUPTION_WAVE": {
+      "name": "동력 교란파",
+      "source": "disruption-wave-source.png",
+      "sourceSha256": "a440f2561e8456e5fa6ad41ea43e30803c97bb79442d50d6933b4b0c018560bc",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "url": "/assets/ui/territory-war/renewal-skills-v1/disruption-wave-atlas.webp",
+      "icon": "/assets/ui/territory-war/renewal-skills-v1/disruption-wave-icon.webp",
+      "sha256": "95ad96ebaacab06c42797ce061550fca927ac7db61e3687868e855470506983d",
+      "bytes": 776940,
+      "columns": 4,
+      "rows": 4,
+      "anchor": [
+        0.5,
+        0.52
+      ],
+      "target": "enemy-core",
+      "duration": 2.8,
+      "impactAt": 1.2,
+      "frames": [
+        {
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.52
+          ],
+          "source": {
+            "x": 0,
+            "y": 0,
+            "w": 314,
+            "h": 314
+          },
+          "sha256": "48a9652b3fd69357ce29f4659cbe1084c9b4b784d6e274136906c6f5de36ade6",
+          "opaquePixels": 2132,
+          "transparentPixels": 72235,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 320,
+          "y": 0,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.52
+          ],
+          "source": {
+            "x": 314,
+            "y": 0,
+            "w": 313,
+            "h": 314
+          },
+          "sha256": "ebf514693b926aef620d56a26ac07c965351156cd551816cb790b591236abb21",
+          "opaquePixels": 6228,
+          "transparentPixels": 64776,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 640,
+          "y": 0,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.52
+          ],
+          "source": {
+            "x": 627,
+            "y": 0,
+            "w": 314,
+            "h": 314
+          },
+          "sha256": "af4a2ef25be649211ce1d183a9dba3264bbfa3bfb46cb966e42266087a73f012",
+          "opaquePixels": 14363,
+          "transparentPixels": 50728,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 960,
+          "y": 0,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.52
+          ],
+          "source": {
+            "x": 941,
+            "y": 0,
+            "w": 313,
+            "h": 314
+          },
+          "sha256": "acddbd80963f8ebfd91807c8258f0699225b94e632692c836eb28f49ae29a68f",
+          "opaquePixels": 22236,
+          "transparentPixels": 38912,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 0,
+          "y": 320,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "source": {
+            "x": 0,
+            "y": 314,
+            "w": 314,
+            "h": 313
+          },
+          "sha256": "72c023932020bd02eeae7b25fbff8ab0494b89f75b900c01bb836af794aed6f8",
+          "opaquePixels": 20892,
+          "transparentPixels": 46647,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 320,
+          "y": 320,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "source": {
+            "x": 314,
+            "y": 314,
+            "w": 313,
+            "h": 313
+          },
+          "sha256": "c4a6983d9cadaceb55f07a82500f21378f0a9327f1e88f6f2cf45254ad3f61ad",
+          "opaquePixels": 22576,
+          "transparentPixels": 37965,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 640,
+          "y": 320,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "source": {
+            "x": 627,
+            "y": 314,
+            "w": 314,
+            "h": 313
+          },
+          "sha256": "54bbefc8e85db7ffc0cf0d0e3f1c14947ba3420b019754d2a20d2d11012d1359",
+          "opaquePixels": 23541,
+          "transparentPixels": 30380,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 960,
+          "y": 320,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "source": {
+            "x": 941,
+            "y": 314,
+            "w": 313,
+            "h": 313
+          },
+          "sha256": "2ff581279abad5c021d2adf258c0a936f2fea9c7f268f24fcf49ffb0e18bf67b",
+          "opaquePixels": 30588,
+          "transparentPixels": 26280,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 0,
+          "y": 640,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "source": {
+            "x": 0,
+            "y": 627,
+            "w": 314,
+            "h": 314
+          },
+          "sha256": "c0852a874a402c365545aecc45389267ae665492df9de3c66658bf439797b71c",
+          "opaquePixels": 28252,
+          "transparentPixels": 27191,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 320,
+          "y": 640,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "source": {
+            "x": 314,
+            "y": 627,
+            "w": 313,
+            "h": 314
+          },
+          "sha256": "cbf801f89989259632204bcf3b7332f24a130e116112de9f2e3c83e85af68e4b",
+          "opaquePixels": 18361,
+          "transparentPixels": 29781,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 640,
+          "y": 640,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "source": {
+            "x": 627,
+            "y": 627,
+            "w": 314,
+            "h": 314
+          },
+          "sha256": "525accde6f619eef19e8be2c61a05cbc0b03aee7969b813f219a28867ee545d0",
+          "opaquePixels": 12029,
+          "transparentPixels": 31638,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 960,
+          "y": 640,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "source": {
+            "x": 941,
+            "y": 627,
+            "w": 313,
+            "h": 314
+          },
+          "sha256": "ab2e9b6df2c84cbbd8dbd9411e2db174cf120c14c596ada4ae55bfb149a3d759",
+          "opaquePixels": 7815,
+          "transparentPixels": 35684,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 0,
+          "y": 960,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "source": {
+            "x": 0,
+            "y": 941,
+            "w": 314,
+            "h": 313
+          },
+          "sha256": "53fbe01bb223836411cbdc737a40732d9f78d8d5e986ebb5277293b68b238ab4",
+          "opaquePixels": 3824,
+          "transparentPixels": 43611,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 320,
+          "y": 960,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "source": {
+            "x": 314,
+            "y": 941,
+            "w": 313,
+            "h": 313
+          },
+          "sha256": "58dd6b1ea271deaca661152e9d7e7da14b429f76dda710fce97f63a27f270899",
+          "opaquePixels": 1923,
+          "transparentPixels": 47431,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 640,
+          "y": 960,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "source": {
+            "x": 627,
+            "y": 941,
+            "w": 314,
+            "h": 313
+          },
+          "sha256": "20ade1b1a31f24ac0070e4e7e8bf33aa1bc6e551c61ee063eee5919fd9fc055e",
+          "opaquePixels": 669,
+          "transparentPixels": 48873,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 960,
+          "y": 960,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "source": {
+            "x": 941,
+            "y": 941,
+            "w": 313,
+            "h": 313
+          },
+          "sha256": "431b414c6dc76d0e376321105443447f4dc4d3b731ea84a0177ce453be517f0d",
+          "opaquePixels": 47,
+          "transparentPixels": 79358,
+          "opaqueBorderPixels": 0
+        }
+      ]
+    },
+    "CITADEL_REPAIR": {
+      "name": "성채 재건",
+      "source": "citadel-repair-source.png",
+      "sourceSha256": "bdc6c15509caf335531b6f35133dd1fd8265ece00151aa894ccd138bd6a159dd",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "url": "/assets/ui/territory-war/renewal-skills-v1/citadel-repair-atlas.webp",
+      "icon": "/assets/ui/territory-war/renewal-skills-v1/citadel-repair-icon.webp",
+      "sha256": "2cd3d4588c7233b0f21d8efb25bbaf38f7b9c153eabebb14d32cefbb5661397e",
+      "bytes": 860752,
+      "columns": 4,
+      "rows": 4,
+      "anchor": [
+        0.5,
+        0.86
+      ],
+      "target": "ally-ground",
+      "duration": 3.6,
+      "impactAt": 1.5,
+      "frames": [
+        {
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.86
+          ],
+          "source": {
+            "x": 0,
+            "y": 0,
+            "w": 314,
+            "h": 314
+          },
+          "sha256": "34fa3dbece4dbd02eb869feccb74f57740d97d7c58d84faa0ec717c4960176b5",
+          "opaquePixels": 6274,
+          "transparentPixels": 71237,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 320,
+          "y": 0,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.86
+          ],
+          "source": {
+            "x": 314,
+            "y": 0,
+            "w": 313,
+            "h": 314
+          },
+          "sha256": "233ae0835039b03f1dd964eda806651c3fe2a044266fb0c321c1f4eaf9e8d544",
+          "opaquePixels": 11921,
+          "transparentPixels": 67546,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 640,
+          "y": 0,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.86
+          ],
+          "source": {
+            "x": 627,
+            "y": 0,
+            "w": 314,
+            "h": 314
+          },
+          "sha256": "f9134ea153fc3c8369629645499dba1874c73591d26c4887a2bebe26641bfbf5",
+          "opaquePixels": 15671,
+          "transparentPixels": 57424,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 960,
+          "y": 0,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.86
+          ],
+          "source": {
+            "x": 941,
+            "y": 0,
+            "w": 313,
+            "h": 314
+          },
+          "sha256": "6520638dd8849187c1c21d3caca9d1056b06525f94c496814d8621d845dd4167",
+          "opaquePixels": 21380,
+          "transparentPixels": 53959,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 0,
+          "y": 320,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.88
+          ],
+          "source": {
+            "x": 0,
+            "y": 314,
+            "w": 314,
+            "h": 313
+          },
+          "sha256": "3e7106dc2547ee182107046fa3b5816bb0ec6f88c5510f3335e90755ab758e82",
+          "opaquePixels": 23615,
+          "transparentPixels": 46294,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 320,
+          "y": 320,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.88
+          ],
+          "source": {
+            "x": 314,
+            "y": 314,
+            "w": 313,
+            "h": 313
+          },
+          "sha256": "f12c6c3be26daad33cf2959ce0fc7c7e2d15dd9832c8cc70e950ded17be9108f",
+          "opaquePixels": 29040,
+          "transparentPixels": 40376,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 640,
+          "y": 320,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.88
+          ],
+          "source": {
+            "x": 627,
+            "y": 314,
+            "w": 314,
+            "h": 313
+          },
+          "sha256": "6f5b007f085d011aca9ea1357bb940fe681ab3a309239847d3305eb669ea71d5",
+          "opaquePixels": 41347,
+          "transparentPixels": 34674,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 960,
+          "y": 320,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.88
+          ],
+          "source": {
+            "x": 941,
+            "y": 314,
+            "w": 313,
+            "h": 313
+          },
+          "sha256": "a6bfc9a0b59047b207249a21f87a866103957514bce82d3b58c09eca6d23917b",
+          "opaquePixels": 42549,
+          "transparentPixels": 35218,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 0,
+          "y": 640,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.88
+          ],
+          "source": {
+            "x": 0,
+            "y": 627,
+            "w": 314,
+            "h": 314
+          },
+          "sha256": "8d405d2f49100bb8205eeeef76af8e527b7303514c51977d1cb9d389364dfb32",
+          "opaquePixels": 43048,
+          "transparentPixels": 33667,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 320,
+          "y": 640,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.88
+          ],
+          "source": {
+            "x": 314,
+            "y": 627,
+            "w": 313,
+            "h": 314
+          },
+          "sha256": "c0431003c0d99ac36cc98521bf04ebb6b12fee37aec526da0ef3ad45f10173d5",
+          "opaquePixels": 46143,
+          "transparentPixels": 30086,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 640,
+          "y": 640,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.88
+          ],
+          "source": {
+            "x": 627,
+            "y": 627,
+            "w": 314,
+            "h": 314
+          },
+          "sha256": "b23fcd879e2a471c392b9ad87d2f3eca4bcca1e533c30835ec0bba4cf3587b72",
+          "opaquePixels": 44727,
+          "transparentPixels": 34630,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 960,
+          "y": 640,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.88
+          ],
+          "source": {
+            "x": 941,
+            "y": 627,
+            "w": 313,
+            "h": 314
+          },
+          "sha256": "006c3e8dbcf0bcf94d22b84ace562a6c1757ae4f97a1462080a2c12fcd6e1bdd",
+          "opaquePixels": 41048,
+          "transparentPixels": 34511,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 0,
+          "y": 960,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.87
+          ],
+          "source": {
+            "x": 0,
+            "y": 941,
+            "w": 314,
+            "h": 313
+          },
+          "sha256": "ce5aa28c413125318fca91ada92884980fb72d9a46017a9b5b75b2074cab4aeb",
+          "opaquePixels": 31960,
+          "transparentPixels": 40597,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 320,
+          "y": 960,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.87
+          ],
+          "source": {
+            "x": 314,
+            "y": 941,
+            "w": 313,
+            "h": 313
+          },
+          "sha256": "b52439618a0af998e32a6911e9e68a44e0ef8ff25d76af48589fde7f4c81bd1a",
+          "opaquePixels": 23121,
+          "transparentPixels": 40278,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 640,
+          "y": 960,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.87
+          ],
+          "source": {
+            "x": 627,
+            "y": 941,
+            "w": 314,
+            "h": 313
+          },
+          "sha256": "e8c653ea475e95be43cd4503181126c95ae4d7b71bf3c3ea53568d129762c807",
+          "opaquePixels": 18103,
+          "transparentPixels": 44006,
+          "opaqueBorderPixels": 0
+        },
+        {
+          "x": 960,
+          "y": 960,
+          "w": 320,
+          "h": 320,
+          "anchor": [
+            0.5,
+            0.87
+          ],
+          "source": {
+            "x": 941,
+            "y": 941,
+            "w": 313,
+            "h": 313
+          },
+          "sha256": "be14531efc6a934e1209c1efc69e33faaa33e380b2d221d5c828bad10c81cace",
+          "opaquePixels": 8554,
+          "transparentPixels": 51699,
+          "opaqueBorderPixels": 0
+        }
+      ]
+    }
+  },
+  "constraints": [
+    "16 independently drawn changing frames per skill",
+    "Single shared clock, no autonomous AnimatedSprite or second renderer",
+    "Target/current front derived from server event; no client damage or resources",
+    "No screen fog, blur, white wash, new synthesized sounds"
+  ]
+}

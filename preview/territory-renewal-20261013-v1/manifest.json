@@ -1,0 +1,28 @@
+{
+  "version": "territory-renewal-20261013-v1",
+  "generatedWith": "built-in image_gen",
+  "visualApproval": "USER_REVIEW_PENDING",
+  "poster": "assets/territory-renewal-poster-v1.png",
+  "effectsManifest": "../../assets/ui/territory-war/renewal-skills-v1/manifest.json",
+  "files": [
+    {
+      "path": "assets/territory-renewal-poster-v1.png",
+      "sha256": "a8a292f8842b3689a3eb4a0b106c3e26123f1319ee98c2b163924263ee15ba76"
+    },
+    {
+      "path": "poster-prompt.json",
+      "sha256": "f65b20268c7ad7639ed1d0f184f43f0910cff1a3970ab3b6fffac93506513cf4"
+    },
+    {
+      "path": "fx-prompts.json",
+      "sha256": "c1ff1853035a8d31ad5cb3adb2a388f1ed9efca628b84f489eb7d189736c5f12"
+    }
+  ],
+  "runtime": {
+    "renderer": "existing V3 mountEffectScene",
+    "pixi": "8.20.0",
+    "gsap": "3.13.0",
+    "newRenderer": false
+  },
+  "operatingModeChanged": false
+}

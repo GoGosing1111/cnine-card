@@ -1,9 +1,22 @@
 (() => {
   'use strict';
   const ROOT='/assets/ui/territory-war/artillery-fx-v1/';
+  const RENEWAL_ROOT='/assets/ui/territory-war/renewal-skills-v1/';
+  const renewalTypes=new Set(['ARC_LANCE','DISRUPTION_WAVE','CITADEL_REPAIR']);
   const clamp=(n,a=0,b=1)=>Math.max(a,Math.min(b,n));
   const artillery=new Set(['SHOT','CANNON_FIRED','WALL_BREAKER','SPG_BARRAGE','COUNTER_BATTERY','ASSAULT','INFILTRATION']);
   let assetsPromise;
+  let renewalPromise;
+  async function renewalResources(runtime){
+    if(!renewalPromise)renewalPromise=(async()=>{
+      const response=await fetch(RENEWAL_ROOT+'manifest.json?v=20261013-v1');if(!response.ok)throw Error('Renewal effects unavailable');
+      const manifest=await response.json(),textures={};
+      await Promise.all(Object.entries(manifest.assets).map(async([key,spec])=>{
+        const texture=await runtime.Assets.load(spec.url+'?v=20261013-v1');
+        textures[key]=spec.frames.map(frame=>new runtime.Texture({source:texture.source,frame:new runtime.Rectangle(frame.x,frame.y,frame.w,frame.h)}));
+      }));return {manifest,textures};
+    })().catch(error=>{renewalPromise=null;throw error;});return renewalPromise;
+  }
   async function resources(runtime){
     if(!assetsPromise)assetsPromise=(async()=>{
       const response=await fetch(ROOT+'manifest.json?v=20261003-v1');if(!response.ok)throw Error('Artillery manifest unavailable');
@@ -78,12 +91,20 @@
       if(!this.enabled||this.paused||this.destroyed)return null;
       const requestedAt=performance.now(),scene=await this.ensure();
       if(!scene||scene.disposed||this.paused||!this.enabled||performance.now()-requestedAt>3000)return null;
+      const epoch=this.loadEpoch;
+      if(renewalTypes.has(type)){
+        try{this.renewalAssets=await renewalResources(this.runtime)}catch(error){this.failed=error.message;return null}
+        if(this.destroyed||scene!==this.scene||scene.disposed||this.paused||!this.enabled||epoch!==this.loadEpoch)return null;
+      }
       while(this.active.size>=6)this.remove(this.active.values().next().value);
       const root=new this.runtime.Container({label:'TerritoryArtillery:'+type});scene.effectLayer.addChild(root);
       const heavy=['CANNON_FIRED','WALL_BREAKER','SPG_BARRAGE','COUNTER_BATTERY'].includes(type),clock={time:0};
       const spec=heavy?this.assets.manifest.timing.cannon:this.assets.manifest.timing.shot;
       const effect={root,type,side:side==='B'?'B':'A',clock,heavy,spec,timeline:null,removed:false,duration:artillery.has(type)?spec.endAt:type==='CARPET_BOMBING'?3.8:2.2};
-      if(artillery.has(type)||type==='SIEGE_CANNON'){
+      if(renewalTypes.has(type)){
+        effect.renewal=this.renewalAssets.manifest.assets[type];effect.duration=effect.renewal.duration;
+        effect.authored=new this.runtime.Sprite(this.renewalAssets.textures[type][0]);effect.authored.label='AUTHORED_RENEWAL_'+type;root.addChild(effect.authored);
+      }else if(artillery.has(type)||type==='SIEGE_CANNON'){
         effect.muzzle=this.sprite('muzzle',root);effect.projectile=this.sprite('projectile',root);effect.impact=this.sprite('impact',root);
       }else if(type==='CARPET_BOMBING')effect.impacts=Array.from({length:5},()=>this.sprite('impact',root));
       else {effect.graphics=new this.runtime.Graphics();root.addChild(effect.graphics);}
@@ -102,7 +123,18 @@
     sample(effect){
       if(effect.removed||!this.scene||this.scene.disposed)return;
       const {time:t}=effect.clock,g=this.geometry(),gun=g.gun(effect.side),target=g.target(effect.side),origin=gun.muzzle,dir=gun.dir;
-      if(artillery.has(effect.type)){
+      if(effect.renewal){
+        const spec=effect.renewal,impactAt=spec.impactAt;
+        const authoredFrame=t<impactAt?Math.floor(clamp(t/impactAt)*7):7+Math.floor(clamp((t-impactAt)/(effect.duration-impactAt))*9);
+        const index=this.reduced?8:Math.min(15,authoredFrame),frame=spec.frames[index],sprite=effect.authored;
+        sprite.texture=this.renewalAssets.textures[effect.type][index];sprite.anchor.set(...frame.anchor);
+        const point=spec.target==='ally-ground'?gun.base:target;
+        const sideRoom=Math.max(1,Math.min(point.x,g.w-point.x)-6)*2;
+        const width=Math.min(350,g.w*.42,g.h*.68,sideRoom)*(this.reduced?.78:1);sprite.width=width;sprite.height=width;
+        sprite.position.set(point.x,point.y-(spec.target==='enemy-core'?width*.35:0));
+        sprite.alpha=Math.min(clamp(t/.12),clamp((effect.duration-t)/.42));
+        effect.contact={target:{x:sprite.x,y:sprite.y},width,impactAt,frame:index,phase:t<impactAt?'charge':t<effect.duration-.5?'impact':'dissipate'};
+      }else if(artillery.has(effect.type)){
         const {fireAt,impactAt,endAt}=effect.spec,depart=fireAt+.07,travel=clamp((t-depart)/(impactAt-depart));
         const muzzleLife=effect.heavy?.78:.48,blast=(t-fireAt)/muzzleLife,impact=(t-impactAt)/(endAt-impactAt);
         this.frame(effect.muzzle,'muzzle',blast,g.width*(effect.heavy?.63:.36),this.reduced?.36:1);
@@ -136,7 +168,7 @@
       if(kill)effect.timeline?.kill();effect.root?.removeFromParent();effect.root?.destroy({children:true,texture:false});
       if(this.scene&&!this.scene.disposed)this.layout();
     }
-    clear(){for(const effect of [...this.active])this.remove(effect);this.lastEffect=null;}
+    clear(){this.loadEpoch++;for(const effect of [...this.active])this.remove(effect);this.lastEffect=null;}
     control(action,value){
       const effect=this.lastEffect;if(!effect||effect.removed)return false;
       if(action==='seek'){effect.timeline.pause();effect.timeline.time(clamp(Number(value),0,effect.duration-.001),false);this.sample(effect);}
@@ -148,6 +180,7 @@
     diagnostics(){
       return {ready:Boolean(this.scene&&!this.scene.disposed),renderer:'shared-v3-pixi',clock:'registered-v3-gsap',active:this.active.size,paused:this.paused,enabled:this.enabled,reduced:this.reduced,failed:this.failed,
         frames:this.assets?{muzzle:this.assets.textures.muzzle.length,projectile:this.assets.textures.projectile.length,impact:this.assets.textures.impact.length}:null,
+        renewalFrames:this.renewalAssets?Object.fromEntries(Object.entries(this.renewalAssets.textures).map(([code,frames])=>[code,frames.length])):null,
         timelines:this.scene?.simpleTimelines.size||0,geometry:this.scene?this.geometry():null,last:this.lastEffect&&!this.lastEffect.removed?{type:this.lastEffect.type,time:this.lastEffect.clock.time,duration:this.lastEffect.duration,contact:this.lastEffect.contact}:null};
     }
     destroy(){
