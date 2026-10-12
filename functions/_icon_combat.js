@@ -4,6 +4,21 @@ import {apocalypseSealed,apocalypseCursed} from './_apocalypse_legion.js';
 const live=a=>a?.alive&&a.hp>0&&a.untargetable!==true&&!a.isBattleSuit;
 const byHealth=(a,b)=>a.hp/a.maxHp-b.hp/b.maxHp||a.slot-b.slot||a.id.localeCompare(b.id);
 
+// Joeun compares cards and mercenaries together on every cast. Absolute HP,
+// formation and unit type never outrank the remaining HP percentage.
+export function selectIconSupportTarget(allies){
+ let injured=null,cleanseOnly=null;
+ for(const target of allies){
+  if(!live(target))continue;
+  if(target.hp<target.maxHp){
+   if(!injured||byHealth(target,injured)<0)injured=target;
+  }else if(target.iconCurse||target.iconVulnerability||target.magicSealCharges||target.doomMarks||target.timeDistortionStacks||apocalypseCursed(target)||apocalypseSealed(target)){
+   if(!cleanseOnly||byHealth(target,cleanseOnly)<0)cleanseOnly=target;
+  }
+ }
+ return injured||cleanseOnly;
+}
+
 // One isolated state machine per battle. Secondary damage never starts a new
 // action, another skill, a retaliation loop, or an on-hit magic chain.
 export function createIconCombatRuntime({teams,hit,damage,rawDamage,knockout,emit,sealed=apocalypseSealed,cleanseOne=()=>false}){
@@ -13,7 +28,7 @@ export function createIconCombatRuntime({teams,hit,damage,rawDamage,knockout,emi
   const tuning=a.iconRole.tuning,def=iconDefinition(a.cardId),scale=(a.battleMode==='PVE'?tuning.pveScale:tuning.pvpScale)/100;
   return [a.id,{actor:a,def,tuning,scale,casts:0,next:tuning.firstAction,heat:0,focusId:null,resonance:0,takedowns:0,stored:0,charging:false,ward:0,wardExpires:0,guardLeft:a.maxHp*(tuning.guardBudgetPercent||0)/100,healLeft:a.maxHp*(tuning.healBudgetPercent||0)/100}];
  }));
- const friends=a=>teams[a.side].filter(live),enemies=a=>teams[a.side==='A'?'B':'A'].filter(live);
+ const enemies=a=>teams[a.side==='A'?'B':'A'].filter(live);
  const snapshot=t=>({targetId:t.id,targetHpAfter:t.hp,targetMaxHp:t.maxHp,targetShieldAfter:t.shield,targetMaxShield:t.maxShield});
  const label=(s,phase=s.def.skill)=>({actorId:s.actor.id,iconCode:s.def.code,iconRole:s.def.role,label:phase,configRevision:s.actor.iconRole.revision});
  function status(s,t,kind,extra={}){emit('ICON_STATUS',{...label(s,s.def.passive),...snapshot(t),status:kind,...extra});}
@@ -68,7 +83,7 @@ export function createIconCombatRuntime({teams,hit,damage,rawDamage,knockout,emi
   const foes=enemies(actor);if(!foes.length)return false;
   let target=def.role==='ASSASSIN'?foes.sort(byHealth)[0]:foes.find(t=>t.id===s.focusId)||foes.sort((a,b)=>(a.row==='FRONT'?0:1)-(b.row==='FRONT'?0:1)||a.slot-b.slot)[0];
   if(def.role==='SUPPORT'){
-   target=friends(actor).filter(t=>t.hp<t.maxHp||t.iconCurse||t.iconVulnerability||t.magicSealCharges||t.doomMarks||t.timeDistortionStacks||apocalypseCursed(t)||apocalypseSealed(t)).sort(byHealth)[0];
+   target=selectIconSupportTarget(teams[actor.side]);
    // Curse blocks received healing, not the support's ability to cleanse it.
    // The caster's seal is still enforced above, as are budgets and overtime.
    if(!target||!healingAllowed||s.healLeft<=0)return false;
@@ -117,6 +132,7 @@ export function createIconCombatRuntime({teams,hit,damage,rawDamage,knockout,emi
     for(const t of chosen)hits.push(...strike(s,t,c.damagePercent/100*focus,{defenseIgnore:c.penetrationPercent/100}));break;
    }
    case 'SUPPORT':{
+    extra.healPriority='LOWEST_HP_PERCENT';extra.targetHpBefore=target.hp;extra.targetMaxHpBefore=target.maxHp;
     const cleaned=cleanseOne(target)||cleanse(target);
     const request=target.maxHp*(c.healPercent+s.resonance*c.resonancePercent)/100*s.scale;
     const amount=apocalypseCursed(target)?0:Math.min(s.healLeft,target.maxHp-target.hp,iconHealingAmount(target,request));
