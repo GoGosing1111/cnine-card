@@ -1,0 +1,59 @@
+{
+  "capturedAt": "2026-10-12T18:58:28.248Z",
+  "snapshotAt": "2026-10-12T18:46:33.772Z",
+  "players": 135,
+  "scenario": "Frozen scores/decks and 60 selections per current active account; actual old/new selection helpers; offline mechanism comparison, not predicted live outcomes or HTTP latency.",
+  "old": {
+    "hypotheticalMatches": 8100,
+    "failedPlayers": 0,
+    "meanUniqueLast20": 4.83,
+    "repeatPrevious10Percent": 95.48,
+    "meanPowerDifferencePercent": 3.99,
+    "meanScoreDifference": 31.56,
+    "meanFormationBatches": 1.22,
+    "maxFormationBatches": 7,
+    "localSelectorMeanMs": 0.02,
+    "localSelectorP95Ms": 0.05
+  },
+  "new": {
+    "hypotheticalMatches": 8100,
+    "failedPlayers": 0,
+    "meanUniqueLast20": 15.3,
+    "repeatPrevious10Percent": 25.31,
+    "meanPowerDifferencePercent": 5.65,
+    "meanScoreDifference": 66.77,
+    "meanFormationBatches": 1.33,
+    "maxFormationBatches": 7,
+    "localSelectorMeanMs": 0.02,
+    "localSelectorP95Ms": 0.04
+  },
+  "historyLookupPlans": [
+    {
+      "rows": 20,
+      "executionMs": 4.868,
+      "indexNames": [
+        "idx_pvp_match_history_attacker_recent"
+      ],
+      "sharedReadBlocks": 21,
+      "sharedHitBlocks": 2
+    },
+    {
+      "rows": 20,
+      "executionMs": 11.914,
+      "indexNames": [
+        "idx_pvp_match_history_attacker_recent"
+      ],
+      "sharedReadBlocks": 19,
+      "sharedHitBlocks": 4
+    },
+    {
+      "rows": 20,
+      "executionMs": 4.337,
+      "indexNames": [
+        "idx_pvp_match_history_attacker_recent"
+      ],
+      "sharedReadBlocks": 16,
+      "sharedHitBlocks": 6
+    }
+  ]
+}

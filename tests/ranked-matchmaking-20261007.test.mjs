@@ -5,7 +5,7 @@ import {DatabaseSync} from 'node:sqlite';
 import {PGlite} from '@electric-sql/pglite';
 import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
 import {rankedPowerDifference} from '../shared/ranked-reform-v1.mjs';
-import {RANKED_MATCH_BATCH_SIZE,RANKED_MATCH_CANDIDATE_LIMIT,rankedMatchBands,rankedMatchBand,selectRankedCandidate} from '../shared/ranked-matchmaking-v2.mjs';
+import {RANKED_MATCH_BATCH_SIZE,RANKED_MATCH_CANDIDATE_LIMIT,RANKED_MATCH_MIN_POOL_SIZE,RANKED_MATCH_HISTORY_LIMIT,rankedMatchBands,rankedMatchBand,selectRankedCandidate} from '../shared/ranked-matchmaking-v2.mjs';
 
 const settings={matchSeasonRange:250,matchCardRange:20};
 const source=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
@@ -17,7 +17,7 @@ CREATE TABLE pvp_match_history(id INTEGER PRIMARY KEY,attacker_id INTEGER,defend
 CREATE TABLE pvp_ranked_match_tickets_v1671(token TEXT PRIMARY KEY,attacker_id INTEGER,defender_id INTEGER,season_key TEXT,attacker_score INTEGER,defender_score INTEGER,attacker_power INTEGER,defender_power INTEGER,expires_at TEXT,used_at TEXT,created_at TEXT DEFAULT CURRENT_TIMESTAMP);
 CREATE UNIQUE INDEX active_ranked_ticket ON pvp_ranked_match_tickets_v1671(attacker_id,season_key) WHERE used_at IS NULL;`;
 
-async function fixture(t,{rows=[],recent=[],postgres=false,myDeckReady=true}={}){
+async function fixture(t,{rows=[],recent=[],postgres=false,myDeckReady=true,random=()=>0}={}){
  const sqlite=postgres?null:new DatabaseSync(':memory:'),pg=postgres?new PGlite():null;
  const raw=async(sql,values=[])=>postgres?(await pg.query(sql,values)).rows:sqlite.prepare(sql).all(...values);
  if(postgres){t.after(()=>pg.close());await pg.exec(readFileSync(new URL('../scripts/postgres-runtime-compat.sql',import.meta.url),'utf8'));await pg.exec(schema+"CREATE FUNCTION sqlite_now() RETURNS text LANGUAGE SQL STABLE AS $$ SELECT to_char(CURRENT_TIMESTAMP AT TIME ZONE 'UTC','YYYY-MM-DD HH24:MI:SS') $$;");}
@@ -33,7 +33,8 @@ async function fixture(t,{rows=[],recent=[],postgres=false,myDeckReady=true}={})
  }
  for(let i=0;i<recent.length;i++)await db.prepare('INSERT INTO pvp_match_history VALUES(?,?,?)').bind(recent.length-i,1,recent[i]).run();
  const env={DB:{prepare(sql){let values=[];return {bind(...v){values=v;return this;},all:async()=>{queries.push({sql,values});return db.prepare(sql).bind(...values).all();},first:async()=>{queries.push({sql,values});return db.prepare(sql).bind(...values).first();},run:async()=>{writes.push(sql);return db.prepare(sql).bind(...values).run();}};}}};
- const deps={RANKED_MATCH_BATCH_SIZE,RANKED_MATCH_CANDIDATE_LIMIT,rankedMatchBands,rankedMatchBand,selectRankedCandidate,rankedPowerDifference,
+ const deps={RANKED_MATCH_BATCH_SIZE,RANKED_MATCH_CANDIDATE_LIMIT,RANKED_MATCH_MIN_POOL_SIZE,RANKED_MATCH_HISTORY_LIMIT,rankedMatchBands,rankedMatchBand,
+  selectRankedCandidate:(rows,settings,options)=>selectRankedCandidate(rows,settings,{...options,random}),rankedPowerDifference,
   ensureRankedPvpFoundation:async()=>{},pvpSeasonKey:()=> 'fixture-season',publicEquippedTitleMap:async()=>({}),resolvePvpTier:()=>({name:'test'}),pvpChallengerRank:async()=>0,pvpTierIndex:()=>0,
   pvpSeasonScoreAdjustment:()=>({change:24}),ensurePvpProfile:async()=>({season_score:1000}),battleSettings:async()=>({}),pvpFormationPower:async()=>({power:100,deckReady:myDeckReady}),
   pvpDefenseFormationPowers:async(_,ids)=>{assert.ok(ids.length<=96);batches.push(ids);return new Map(ids.map(id=>[Number(id),powers.get(Number(id))]));},
@@ -55,6 +56,7 @@ test('normal matchmaking stops after one batch and excludes self, OWNER, banned,
  Object.assign(rows[0],{power:100,role:'OWNER'});Object.assign(rows[1],{power:100,status:'SUSPENDED'});
  Object.assign(rows[2],{power:100,bannedUntil:'2999-01-01 00:00:00'});Object.assign(rows[3],{power:100,deck:'[1,2,3,4]'});
  Object.assign(rows[4],{power:100,deckReady:false});Object.assign(rows[5],{power:115});
+ for(let i=6;i<13;i++)Object.assign(rows[i],{power:115});
  const f=await fixture(t,{rows}),result=await f.call();assert.equal(result.opponent.id,7);assert.equal(f.batches.length,1);assert.equal(f.batches[0].length,96);
  assert.ok(!f.batches.flat().some(id=>[1,2,3,4,5].includes(id)));
  assert.ok(f.writes.every(sql=>/^(DELETE FROM|INSERT OR IGNORE INTO) pvp_ranked_match_tickets/.test(sql)),'matching cannot charge energy, grant rewards or change scores');
@@ -62,6 +64,7 @@ test('normal matchmaking stops after one batch and excludes self, OWNER, banned,
 
 for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: searches past 96 rows and prefers baseline before widening`,async t=>{
  const rows=Array.from({length:193},(_,i)=>({id:i+2}));Object.assign(rows[0],{power:125});Object.assign(rows[158],{power:110});
+ for(let i=159;i<166;i++)Object.assign(rows[i],{power:112});
  const f=await fixture(t,{rows,postgres}),result=await f.call();assert.equal(result.opponent.id,160);assert.equal(f.batches.length,2);assert.equal(f.batches.flat().length,192);
  const query=f.queries.find(x=>x.sql.includes('FROM users u JOIN pvp_profiles'));assert.equal(query.values.at(-1),768);assert.equal(query.values[2],500);
  const again=await f.call();assert.equal(again.token,result.token);assert.equal(again.reused,true);assert.equal(f.batches.length,2);
@@ -91,4 +94,22 @@ test('a formerly valid ticket outside the new settings is discarded before issui
  const f=await fixture(t,{rows:[{id:2,power:120}]});
  await f.db.prepare('INSERT INTO pvp_ranked_match_tickets_v1671(token,attacker_id,defender_id,season_key,attacker_score,defender_score,attacker_power,defender_power,expires_at) VALUES(?,?,?,?,?,?,?,?,?)').bind('old',1,2,'fixture-season',1000,1000,100,500,'2999-01-01 00:00:00').run();
  const result=await f.call();assert.notEqual(result.token,'old');assert.equal(result.opponent.id,2);assert.equal(f.batches.length,1);
+});
+
+for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: one early candidate does not stop the search before a diverse pool is available`,async t=>{
+ const rows=Array.from({length:193},(_,i)=>({id:i+2}));rows[0].power=100;
+ for(let i=96;i<103;i++)rows[i].power=110;
+ const f=await fixture(t,{rows,recent:[2],postgres}),result=await f.call();
+ assert.equal(result.opponent.id,98);assert.equal(f.batches.length,2);
+ assert.deepEqual(f.queries.find(q=>q.sql.includes('SELECT defender_id FROM pvp_match_history')).values,[1,20]);
+});
+
+for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: refresh and concurrent match requests keep one opponent and one unused ticket`,async t=>{
+ let draws=0;const rows=Array.from({length:20},(_,i)=>({id:i+2,power:100}));
+ const f=await fixture(t,{rows,postgres,random:()=>++draws%2?0:0.999});
+ const [a,b]=await Promise.all([f.call(),f.call()]);
+ assert.equal(a.token,b.token);assert.equal(a.opponent.id,b.opponent.id);
+ assert.equal((await f.raw('SELECT token FROM pvp_ranked_match_tickets_v1671 WHERE used_at IS NULL')).length,1);
+ const before=draws;const refresh=await f.call();
+ assert.equal(refresh.token,a.token);assert.equal(refresh.opponent.id,a.opponent.id);assert.equal(draws,before,'An existing ticket must not redraw');
 });

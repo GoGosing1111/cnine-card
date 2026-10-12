@@ -1,7 +1,7 @@
 import {MERCENARY_EQUIPMENT_SQL_CODES} from '../../shared/mercenary-equipment-v1.mjs';
 import {registerApocalypseChallenge,apocalypseChallengeAction,reserveApocalypseBattle} from '../_apocalypse_challenge.js';
 import {rankedScoreAdjustment,rankedPowerDifference,normalizeRankedRechargeMinutes} from '../../shared/ranked-reform-v1.mjs';
-import {RANKED_MATCH_BATCH_SIZE,RANKED_MATCH_CANDIDATE_LIMIT,rankedMatchBands,rankedMatchBand,selectRankedCandidate} from '../../shared/ranked-matchmaking-v2.mjs';
+import {RANKED_MATCH_BATCH_SIZE,RANKED_MATCH_CANDIDATE_LIMIT,RANKED_MATCH_MIN_POOL_SIZE,RANKED_MATCH_HISTORY_LIMIT,rankedMatchBands,rankedMatchBand,selectRankedCandidate} from '../../shared/ranked-matchmaking-v2.mjs';
 import {RANKED_REFORM_SCHEMA,readRankedEnergy,rankedFightReceipt,commitRankedFight} from '../_ranked_reform.js';
 import {reopenRankedIfDue} from '../_ranked_reopen.js';
 import {retiredContentResponse} from '../_retired_content.js';
@@ -1137,7 +1137,7 @@ async function createRankedMatchTicket(env,user,settings){
   const [mine,battle]=await Promise.all([ensurePvpProfile(env,user,settings),battleSettings(env)]),myFormation=await pvpFormationPower(env,user.id,battle);
   if(!myFormation.deckReady){const error=new Error('먼저 랭크전 덱 5장을 저장하세요.');error.status=400;throw error}
   const searchRange=rankedMatchBands(settings).at(-1).matchSeasonRange,[recentRows,candidates]=await Promise.all([
-    env.DB.prepare('SELECT defender_id FROM pvp_match_history WHERE attacker_id=? ORDER BY id DESC LIMIT 4').bind(user.id).all(),
+    env.DB.prepare('SELECT defender_id FROM pvp_match_history WHERE attacker_id=? ORDER BY id DESC LIMIT ?').bind(user.id,RANKED_MATCH_HISTORY_LIMIT).all(),
     env.DB.prepare(`SELECT u.id,u.nickname,p.season_score,p.highest_score,p.wins,p.losses
     FROM users u JOIN pvp_profiles p ON p.user_id=u.id JOIN pvp_decks d ON d.user_id=u.id
     WHERE u.id<>? AND u.status='ACTIVE' AND ${PVP_RANKED_ROLE_SQL}
@@ -1145,22 +1145,23 @@ async function createRankedMatchTicket(env,user,settings){
       AND CASE WHEN json_valid(d.card_ids) THEN json_array_length(d.card_ids) ELSE 0 END=5
       AND ABS(p.season_score-?)<=?
     ORDER BY ABS(p.season_score-?) ASC,p.updated_at DESC,u.id ASC LIMIT ?`).bind(user.id,mine.season_score,searchRange,mine.season_score,RANKED_MATCH_CANDIDATE_LIMIT).all()
-  ]),recentIds=new Set((recentRows.results||[]).map(row=>Number(row.defender_id))),blockedOpponentId=recentRows.results?.length>=2&&Number(recentRows.results[0].defender_id)===Number(recentRows.results[1].defender_id)?Number(recentRows.results[0].defender_id):0;
+  ]),recentOpponentIds=(recentRows.results||[]).map(row=>Number(row.defender_id));
   if(!(candidates.results||[]).length){const error=new Error('현재 매칭 가능한 랭크전 상대가 없습니다. 잠시 후 다시 시도하세요.');error.status=409;throw error}
-  const candidateRows=candidates.results||[],evaluated=[];let selected=null;
-  // Read only bounded metadata up front. Most matches inspect 96 formations;
-  // a sparse power bracket can continue beyond that first page without N+1 reads.
+  const candidateRows=candidates.results||[],evaluated=[];let baselineCount=0;
+  // Gather at least eight suitable formations when available before drawing once.
+  // Sparse brackets still use bounded 96-row batches, never per-account queries.
   for(let offset=0;offset<candidateRows.length;offset+=RANKED_MATCH_BATCH_SIZE){
     const batch=candidateRows.slice(offset,offset+RANKED_MATCH_BATCH_SIZE),formationMap=await pvpDefenseFormationPowers(env,batch.map(candidate=>candidate.id),battle);
     for(const candidate of batch){
       const formation=formationMap.get(Number(candidate.id));if(!formation?.deckReady)continue;
       const scoreDiff=Math.abs(Number(candidate.season_score)-Number(mine.season_score)),powerDiff=rankedPowerDifference(formation.power,myFormation.power),tierDistance=Math.abs(pvpTierIndex(candidate.season_score,settings.tiers)-pvpTierIndex(mine.season_score,settings.tiers));
-      if(rankedMatchBand({scoreDiff,powerDiff},settings)<0)continue;
-      evaluated.push({...candidate,power:formation.power,scoreDiff,powerDiff,tierDistance,recent:recentIds.has(Number(candidate.id)),repeat:Number(candidate.id)===blockedOpponentId,matchWeight:scoreDiff*80+powerDiff*120+(Number(candidate.id)%97)/100});
+      const matchStage=rankedMatchBand({scoreDiff,powerDiff},settings);if(matchStage<0)continue;
+      evaluated.push({...candidate,power:formation.power,scoreDiff,powerDiff,tierDistance});
+      if(matchStage===0)baselineCount++;
     }
-    selected=selectRankedCandidate(evaluated,settings);
-    if(selected?.matchStage===0&&!selected.recent)break;
+    if(baselineCount>=RANKED_MATCH_MIN_POOL_SIZE)break;
   }
+  const selected=selectRankedCandidate(evaluated,settings,{recentOpponentIds});
   if(!selected){const error=new Error('균형 조건에 맞는 상대를 찾지 못했습니다. 잠시 후 다시 시도하세요.');error.status=409;throw error}
   const token=crypto.randomUUID(),expiresAt=pvpSqlUtc(Date.now()+90000);
   const inserted=await env.DB.prepare(`INSERT OR IGNORE INTO pvp_ranked_match_tickets_v1671(token,attacker_id,defender_id,season_key,attacker_score,defender_score,attacker_power,defender_power,expires_at)
