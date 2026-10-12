@@ -1,0 +1,80 @@
+{
+  "verifiedAt": "2026-10-12T19:19:06.442Z",
+  "commit": "62bc37d6d3387d08ce1836054a3f33eecd54afdd",
+  "deploymentId": "f62972af-6f5b-4ad5-b1e2-9186caf1f809",
+  "url": "https://f62972af.cnine-card.pages.dev",
+  "productionOrigin": "https://cnine-card.pages.dev",
+  "policy": {
+    "suits": [
+      "Z",
+      "X",
+      "OVERLORD",
+      "SX"
+    ],
+    "openingDelayMs": 0,
+    "intervalMs": 40000
+  },
+  "files": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "02fa451b03f097f6caf6a0bc3aab44301773a93e26d8d986ebdf2d19dcd4dc81",
+      "lineEndingNormalizedMatch": true
+    },
+    {
+      "path": "js/app.js",
+      "status": 200,
+      "sha256": "a6304e6c9b152044f21612e430474fa7cec4f85d3d4a54ede81ac1ec06a69c7f",
+      "lineEndingNormalizedMatch": true
+    },
+    {
+      "path": "js/battle-v3-live.js",
+      "status": 200,
+      "sha256": "9c94c4e6a0745d840345dd80954fda60c9209868cf7a3ee961b04a0782674a5f",
+      "lineEndingNormalizedMatch": true
+    },
+    {
+      "path": "service-worker.js",
+      "status": 200,
+      "sha256": "a5c52218055dc1f266bca79bfb4b397f827b18b66cd448974fc6049c741ae111",
+      "lineEndingNormalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "status": 200,
+      "sha256": "97a0a819b97b0d96035a4a5100f2c16a75bdf1e95ca8d53b94843a8628cc9419",
+      "lineEndingNormalizedMatch": true
+    },
+    {
+      "path": "shared/sx-suit-v1.mjs",
+      "status": 200,
+      "sha256": "5425ffaba8bfa4118529c441ba14cad15c44d3b959b058182a7be83556a56fec",
+      "lineEndingNormalizedMatch": true
+    },
+    {
+      "path": "shared/overlord-suit-v1.mjs",
+      "status": 200,
+      "sha256": "58f306712f767e7f85e7e490f92bdac94d74995f0ccd3ef10295f9e2aec0bc79",
+      "lineEndingNormalizedMatch": true
+    },
+    {
+      "path": "shared/x-body-area-skill.mjs",
+      "status": 200,
+      "sha256": "232476a3823bf0b0fe68959c3a73550be2dcffd66b21229cf9fe47cfacd27ba6",
+      "lineEndingNormalizedMatch": true
+    },
+    {
+      "path": "shared/z-body-area-skill.mjs",
+      "status": 200,
+      "sha256": "fa9a7cd651048c4486c3e96a31831291d0882ba7fe1dc63d499bbdf27980fc5d",
+      "lineEndingNormalizedMatch": true
+    },
+    {
+      "path": "preview/sustained-hunt-v2/battle.bundle.js",
+      "status": 200,
+      "sha256": "f2c2772cd1079f67c7e8cad75a84d3e8dfb23fb612b8df693313515cf34bde14",
+      "lineEndingNormalizedMatch": true
+    }
+  ],
+  "productionBattleExecuted": false
+}
