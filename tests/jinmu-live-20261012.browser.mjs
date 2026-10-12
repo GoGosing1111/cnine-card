@@ -13,7 +13,8 @@ import {mercenaryAccountState,saveMercenaryLoadout} from '../functions/_mercenar
 import {mercenaryCodexDocument} from '../functions/_mercenary_codex.js';
 
 const lifecycleOnly=process.argv.includes('--lifecycle');
-const visualOnly=process.argv.includes('--visual');
+const dialogueOnly=process.argv.includes('--dialogue');
+const visualOnly=process.argv.includes('--visual')||dialogueOnly;
 const root=fileURLToPath(new URL('..',import.meta.url)),out=process.env.JINMU_QA_OUTPUT||path.join(root,'docs/qa/jinmu-live-20261012');
 fs.mkdirSync(out,{recursive:true});
 const ids=['CN-02D9DC1E8A8A4209','CN-0505936A0CBB4E59','CN-25F931CE393D474E','CN-23EB4B19986D4818','CN-519C181C18DF4B8E'];
@@ -24,6 +25,7 @@ const hunt=createHuntSession({snapshot:{cards:deck,mercenary,accountNickname:'�
 const areaEvent=hunt.payload.battleV2.result.timeline.find(e=>e.type==='MERCENARY_JINMU_AREA'&&e.hits.length===12);
 assert.ok(areaEvent);
 const areaPayload=structuredClone(hunt.payload);areaPayload.battleV2.result.timeline=[];
+const raidPayload={...structuredClone(areaPayload),mode:'RAID',battlefieldMode:'RAID'};
 const merc={...mercenary,id:'A:MERCENARY:V-989',cardId:'V-989',hp:100,maxHp:100,shield:0,maxShield:0};
 const pvpPayload={previewOnly:true,mode:'PVP',battlefieldMode:'PVP',battleV2:{mode:'PVP',teams:{A:{cards:deck,mercenaries:[merc]},B:{cards:deck}},result:{timeline:[]}}};
 const pvpEnemyPayload=structuredClone(pvpPayload);pvpEnemyPayload.battleV2.teams.A.mercenaries=[];pvpEnemyPayload.battleV2.teams.B.mercenaries=[{...merc,id:'B:MERCENARY:V-989'}];
@@ -33,16 +35,23 @@ await f.p('INSERT INTO users(id,nickname) VALUES(1,?)','핑크빛유두').run();
 await f.p('UPDATE user_mercenary_cards_v1 SET user_id=1 WHERE mercenary_code=?','V-989').run();
 const user={id:1,role:'OWNER'};
 const baseHtml=fs.readFileSync(path.join(root,'preview/mercenary-limited-ayoon-heeya-v3-20261008/index.html'),'utf8');
-function html(mode){return baseHtml.replace(/<title>.*?<\/title>/,'<title>천룡검황 진무 전투 검수</title>')
- .replace('<script defer src="preview.bundle.js"></script>',`<script defer src="${mode==='area'?'/preview/sustained-hunt-v2/battle.bundle.js':'/preview/project-v-v3/project-v-pixi-battle.bundle.js'}"></script><script defer src="/qa-boot.js"></script>`)
- .replace(/<body>[\s\S]*<\/body>/,`<body><header><small>PROJECT V / SSS LIMITED</small><h1>천룡검황 진무 · ${mode==='area'?'천룡강림':'금룡일섬'}</h1><p>칼 모션 2.6배 · ${mode==='area'?'PVE 적 진영 광역 타격':'PVP 기본 공격'}</p></header><nav class="toolbar"><span id="health">V3 전장 준비 중</span></nav><main id="lab-modal"></main></body>`);}
+const huntHtml=fs.readFileSync(path.join(root,'pve/legion-hunt/index.html'),'utf8');
+function html(mode){
+ if(dialogueOnly&&mode==='area')return huntHtml
+  .replace(/<script defer src="\/preview\/sustained-hunt-v2\/app\.js[^\"]*"><\/script>/,'')
+  .replace(/<script defer src="\/js\/jokgak-city-v1\.js[^\"]*"><\/script>/,'')
+  .replace('</head>','<script defer src="/qa-boot.js"></script></head>');
+ return baseHtml.replace(/<title>.*?<\/title>/,'<title>천룡검황 진무 전투 검수</title>')
+ .replace('<script defer src="preview.bundle.js"></script>',`<script defer src="${['area','raid'].includes(mode)?'/preview/sustained-hunt-v2/battle.bundle.js':'/preview/project-v-v3/project-v-pixi-battle.bundle.js'}"></script><script defer src="/qa-boot.js"></script>`)
+ .replace(/<body>[\s\S]*<\/body>/,`<body><header><small>PROJECT V / SSS LIMITED</small><h1>천룡검황 진무 · ${['area','raid'].includes(mode)?'천룡강림':'금룡일섬'}</h1><p>칼 모션 2.6배 · ${['area','raid'].includes(mode)?'PVE 적 진영 광역 타격':'PVP 기본 공격'}</p></header><nav class="toolbar"><span id="health">V3 전장 준비 중</span></nav><main id="lab-modal"></main></body>`);}
 const boot=`document.addEventListener('DOMContentLoaded',async()=>{try{
  const mode=new URLSearchParams(location.search).get('mode'),data=await fetch('/qa-data?mode='+mode).then(r=>r.json());window.cnineCardCatalog=()=>data.deck;
  const api=window.ProjectVPixiBattle,mount=api.mountForBattle;let engine;api.mountForBattle=async(...args)=>(engine=await mount(...args));
- const modal=document.getElementById('lab-modal'),prepared=window.ProjectVBattleV3Live.prepareLoading({modal,mode:mode==='area'?'HUNT':'PVP',playerName:'천룡검황 진무',opponentName:mode==='area'?'몬스터 군단':'검수 상대'});
- const renderer=await window.ProjectVBattleV3Live.createRenderer({...prepared,modal,data:data.payload,mode:mode==='area'?'HUNT':'PVP',playerName:'천룡검황 진무'});api.mountForBattle=mount;
+ const modal=document.getElementById('hunt-modal')||document.getElementById('lab-modal'),field=mode==='raid'?'RAID':mode==='area'?'HUNT':'PVP',prepared=window.ProjectVBattleV3Live.prepareLoading({modal,mode:field,playerName:'천룡검황 진무',opponentName:['area','raid'].includes(mode)?'몬스터 군단':'검수 상대'});
+ const renderer=await window.ProjectVBattleV3Live.createRenderer({...prepared,modal,data:data.payload,mode:field,playerName:'천룡검황 진무'});api.mountForBattle=mount;
  await engine.deployCards({instant:true,force:true});engine.actionPlaybackSpeed=()=>1;
- document.getElementById('health').textContent='SSS LIMITED · 실제 V3 전투';prepared.phase.textContent=mode==='area'?'PVE · 천룡강림':'PVP · 금룡일섬';
+ if(document.getElementById('health'))document.getElementById('health').textContent='SSS LIMITED · 실제 V3 전투';prepared.phase.textContent=['area','raid'].includes(mode)?'PVE · 천룡강림':'PVP · 금룡일섬';
+ if(document.getElementById('hunt-boss-hud')){document.getElementById('hunt-boss-hud').hidden=false;document.getElementById('boss-name').textContent='태고의 수호자';document.getElementById('boss-percent').textContent='100%';}
  window.JinmuQA={engine,renderer,event:data.event,mode,ready:true};
  }catch(e){window.qaError=e.stack;console.error(e);}});`;
 const json=(res,data)=>{res.writeHead(200,{'content-type':'application/json'});res.end(JSON.stringify(data));};
@@ -56,7 +65,7 @@ const server=http.createServer(async(req,res)=>{
  }
  if(url.pathname==='/qa.html'){res.writeHead(200,{'content-type':'text/html; charset=utf-8'});return res.end(html(mode));}
  if(url.pathname==='/qa-boot.js'){res.writeHead(200,{'content-type':'text/javascript'});return res.end(boot);}
- if(url.pathname==='/qa-data')return json(res,{deck,payload:mode==='area'?areaPayload:mode==='enemy'?pvpEnemyPayload:pvpPayload,event:mode==='area'?areaEvent:null});
+ if(url.pathname==='/qa-data')return json(res,{deck,payload:mode==='raid'?raidPayload:mode==='area'?areaPayload:mode==='enemy'?pvpEnemyPayload:pvpPayload,event:['area','raid'].includes(mode)?areaEvent:null});
  let file=path.resolve(root,'.'+decodeURIComponent(url.pathname));
  if(!file.startsWith(root)||!fs.existsSync(file)){res.writeHead(404);return res.end('not found');}
  if(fs.statSync(file).isDirectory())file=path.join(file,'index.html');
@@ -66,11 +75,11 @@ const server=http.createServer(async(req,res)=>{
 await new Promise(r=>server.listen(0,'127.0.0.1',r));
 const base='http://127.0.0.1:'+server.address().port,browser=await chromium.launch({channel:'chrome',headless:true,args:['--mute-audio','--enable-unsafe-swiftshader']}),checks=[],errors=[];
 try{
- for(const [label,viewport] of (lifecycleOnly?[['desktop',{width:1440,height:1000}]]:[['desktop',{width:1440,height:1000}],['mobile',{width:390,height:844}]]))for(const mode of (lifecycleOnly?['basic']:['basic','enemy','area'])){
+ for(const [label,viewport] of (lifecycleOnly?[['desktop',{width:1440,height:1000}]]:[['desktop',{width:1440,height:1000}],['mobile',{width:390,height:844}]]))for(const mode of (lifecycleOnly?['basic']:dialogueOnly?['area','raid']:['basic','enemy','area'])){
   const page=await browser.newPage({viewport,serviceWorkers:'block'});page.on('pageerror',e=>{errors.push(label+' '+mode+': '+e.message);if(errors.length===1)console.error('Browser:',e.stack);});
   await page.goto(base+'/qa.html?mode='+mode);await page.waitForFunction(()=>window.JinmuQA?.ready||window.qaError,null,{timeout:60000});
   assert.equal(await page.evaluate(()=>window.qaError),undefined);
-  const visualRate=mode==='area'?JINMU_ULTIMATE_PLAYBACK_RATE:2.6;
+  const visualRate=['area','raid'].includes(mode)?JINMU_ULTIMATE_PLAYBACK_RATE:2.6;
   await page.evaluate(({contact,visualRate})=>{
    const q=window.JinmuQA,e=q.engine,a=e.mercenaries.find(a=>a.cardId==='V-989');q.actor=a;q.damageCalls=[];q.hpCalls=[];
    const show=e.showAccountBattleUnitDamage.bind(e);e.showAccountBattleUnitDamage=(t,data)=>{q.damageCalls.push({id:t.id,...data});return show(t,data);};
@@ -80,30 +89,39 @@ try{
     q.timeline=tl;q.spec={rate,releaseAt:options.releaseAt};
     const call=tl.call.bind(tl);tl.call=(fn,args,at)=>call(()=>{fn();if(Math.abs(at-contact)<.0001){q.contact={time:tl.time(),duration:tl.duration(),scale:tl.timeScale(),hpCalls:[...q.hpCalls],damageCalls:[...q.damageCalls],fx:e.jinmuStates.get(a).fx.diagnostics()};tl.pause();}},args,at);
     build(tl);tl.call=call;
-    if(q.mode==='area'){
+    if(['area','raid'].includes(q.mode)){
      tl.call(()=>{q.cutin={fx:e.jinmuStates.get(a).fx.diagnostics(),scene:{width:e.scene.width,height:e.scene.height}};tl.pause();},[],.55/visualRate);
      tl.call(()=>{q.tail={fx:e.jinmuStates.get(a).fx.diagnostics(),time:tl.time()};tl.pause();},[],3.2/visualRate);
     }
    },cleanup,rate,options);
-   if(q.mode==='area'){e.skillChipPlayback?.remember(q.event);q.promise=e.playEvents([q.event],{timedInternal:true});}
+   if(['area','raid'].includes(q.mode)){e.skillChipPlayback?.remember(q.event);q.promise=e.playEvents([q.event],{timedInternal:true});}
    else{const target=(a.team==='ALLY'?e.enemies:e.allies)[0];q.target=target;q.promise=e.normalAttack(0,{attacker:a,target,damage:23,targetHp:77});}
    q.promise.then(()=>{q.settled=true;},error=>{q.error=error.stack;});
-  },{contact:(mode==='area'?MODES.ultimate.contacts[0]:MODES.attack.contacts[0])/visualRate,visualRate});
-  if(mode==='area'){
+  },{contact:(['area','raid'].includes(mode)?MODES.ultimate.contacts[0]:MODES.attack.contacts[0])/visualRate,visualRate});
+  if(['area','raid'].includes(mode)){
    await page.waitForFunction(()=>window.JinmuQA.cutin||window.JinmuQA.error,null,{timeout:15000});
-   const cutin=await page.evaluate(()=>{const q=window.JinmuQA;return {...q.cutin,damageCalls:q.damageCalls.length};});
-   const b=cutin.fx.cutinBounds;assert.equal(b.alpha,1);assert.equal(cutin.damageCalls,0);
-   assert(b.left>=0&&b.right<=cutin.scene.width&&b.top>=0&&b.bottom<=cutin.scene.height);
-   await page.screenshot({path:path.join(out,label+'-cutin.png'),fullPage:true});checks.push({label,mode:'cutin',...cutin});
+   const cutin=await page.evaluate(()=>{
+    const q=window.JinmuQA,node=document.querySelector('.jinmu-dialogue-rail'),canvas=q.engine.host,face=node?.querySelector('.jinmu-dialogue-face');
+    const box=e=>e?.getBoundingClientRect().toJSON(),rect=box(node),overlaps=e=>{const r=box(e);return !!rect&&r.width>0&&r.height>0&&r.left<rect.right&&r.right>rect.left&&r.top<rect.bottom&&r.bottom>rect.top;};
+    return {...q.cutin,damageCalls:q.damageCalls.length,layout:{rect,canvas:box(canvas),face:box(face),portraitAlpha:face?getComputedStyle(face.querySelector('i')).opacity:null,overlaps:[...document.querySelectorAll('button,select,.battle-v3-header,.boss-hud,.hunt-readout,.hunt-command')].filter(overlaps).map(e=>e.id||e.className)}};
+   });
+   assert.equal(cutin.fx.cutinBounds,null);assert.equal(cutin.damageCalls,0);
+   assert.equal(cutin.fx.dialogue.visible,mode!=='raid');
+   if(mode!=='raid'){
+    assert.equal(cutin.layout.portraitAlpha,'1');assert(cutin.layout.face.width<=64);
+    assert(cutin.layout.rect.bottom<=cutin.layout.canvas.top+1);assert(cutin.layout.rect.left>=0&&cutin.layout.rect.right<=viewport.width);
+    assert.deepEqual(cutin.layout.overlaps,[]);assert.equal(cutin.fx.dialogue.fullIllustration,false);
+   }else assert.equal(cutin.layout.rect,undefined);
+   await page.screenshot({path:path.join(out,label+'-'+mode+'-dialogue.png'),fullPage:true});checks.push({label,mode:mode+'-dialogue',...cutin});
    await page.evaluate(()=>{window.JinmuQA.timeline.play();});
   }
   await page.waitForFunction(()=>window.JinmuQA.contact||window.JinmuQA.error,null,{timeout:15000});
   const contact=await page.evaluate(()=>({contact:window.JinmuQA.contact,spec:window.JinmuQA.spec,error:window.JinmuQA.error,overflow:document.documentElement.scrollWidth>innerWidth+1}));
-  assert.equal(contact.error,undefined);assert.equal(contact.overflow,false);assert.equal(contact.spec.rate,mode==='area'?1:null);
-  assert.ok(Math.abs(contact.contact.duration-(mode==='area'?MODES.ultimate.duration:MODES.attack.duration)/visualRate)<1e-6);assert.equal(contact.contact.scale,1);
-  assert.equal(contact.contact.fx.mode,mode==='area'?'ultimate':'attack');assert.ok(contact.contact.fx.visibleSprites>0);
-  assert.equal(contact.contact.damageCalls.length,mode==='area'?areaEvent.hits.filter(h=>!h.dodge).length:1);
-  if(mode==='area'){
+  assert.equal(contact.error,undefined);assert.equal(contact.overflow,false);assert.equal(contact.spec.rate,['area','raid'].includes(mode)?1:null);
+  assert.ok(Math.abs(contact.contact.duration-(['area','raid'].includes(mode)?MODES.ultimate.duration:MODES.attack.duration)/visualRate)<1e-6);assert.equal(contact.contact.scale,1);
+  assert.equal(contact.contact.fx.mode,['area','raid'].includes(mode)?'ultimate':'attack');assert.ok(contact.contact.fx.visibleSprites>0);
+  assert.equal(contact.contact.damageCalls.length,['area','raid'].includes(mode)?areaEvent.hits.filter(h=>!h.dodge).length:1);
+  if(['area','raid'].includes(mode)){
    for(const h of areaEvent.hits)assert.ok(contact.contact.hpCalls.some(c=>c.id===h.targetId&&Math.abs(c.input-h.targetHpAfter/h.targetMaxHp*100)<1e-7));
    assert.equal(contact.spec.releaseAt,null);
    const impacts=contact.contact.fx.activeFrames.filter(f=>f.key==='impact');
@@ -114,7 +132,7 @@ try{
   }
   await page.screenshot({path:path.join(out,label+'-'+mode+'.png'),fullPage:true});
   await page.evaluate(()=>{window.JinmuQA.timeline.play();});
-  if(mode==='area'){
+  if(['area','raid'].includes(mode)){
    await page.waitForFunction(()=>window.JinmuQA.tail,null,{timeout:10000});
    const tail=await page.evaluate(()=>{const q=window.JinmuQA;return {...q.tail,settled:!!q.settled,busy:q.engine.jinmuStates.get(q.actor).busy};});
    assert.equal(tail.settled,false);assert.equal(tail.busy,true);assert(tail.fx.activeFrames.some(f=>f.key==='eruption'&&f.alpha>.95));
@@ -125,6 +143,13 @@ try{
   const after=await page.evaluate(()=>{const q=window.JinmuQA,s=q.engine.jinmuStates.get(q.actor);return {last:q.engine.lastMercenaryPlayback,busy:s.busy,visibleEffects:s.fx.pool.filter(p=>p.visible).length,auraAlphas:[...s.fx.auraSprites,...s.fx.dragonSprites].map(p=>p.alpha),atStation:Math.abs(q.actor.root.x-q.actor.baseX)<1&&Math.abs(q.actor.root.y-q.actor.baseY)<1,damageCalls:q.damageCalls.length};});
   assert.equal(after.busy,false);assert(after.auraAlphas.every(a=>a===1));assert.equal(after.visibleEffects,0);assert.equal(after.atStation,true);assert.equal(after.damageCalls,contact.contact.damageCalls.length);assert.equal(after.last.playbackRate,visualRate);
   assert.equal(contact.contact.fx.auraVisible,true);assert.equal(contact.contact.fx.damageAuthority,'SERVER_ONLY');checks.push({label,mode,contact:contact.contact,spec:contact.spec,after});
+  if(dialogueOnly&&mode==='area'){
+   const rotation=await page.evaluate(()=>{
+    const q=window.JinmuQA,d=q.engine.jinmuStates.get(q.actor).fx.dialogue,lines=[d.line.textContent];
+    for(let i=0;i<4;i++){d.begin();lines.push(d.line.textContent);}d.begin();const firstAgain=d.line.textContent;d.end();
+    q.engine.clearMercenaryActors();return {lines,firstAgain,remaining:document.querySelectorAll('.jinmu-dialogue-rail').length,reserved:document.querySelector('.has-jinmu-dialogue')!==null};
+   });assert.equal(new Set(rotation.lines).size,5);assert.equal(rotation.firstAgain,rotation.lines[0]);assert.equal(rotation.remaining,0);assert.equal(rotation.reserved,false);checks.push({label,mode:'five-lines-and-cleanup',...rotation});
+  }
   if(lifecycleOnly){
    console.log("lifecycle: variants");const variant=await page.evaluate(async()=>{const q=window.JinmuQA,e=q.engine,a=q.actor;e.timeline=q.nativeTimeline;
     const modes=[];for(let i=0;i<2;i++){await Promise.race([e.normalAttack(0,{attacker:a,target:q.target,damage:2,targetHp:75-i}),new Promise((_,reject)=>setTimeout(()=>reject(Error('Variant stuck')),5000))]);e.settlePendingTails([a,q.target]);modes.push(e.lastMercenaryPlayback.mode);}

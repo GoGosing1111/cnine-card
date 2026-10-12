@@ -11,7 +11,6 @@ export async function loadDragonAssets(manifest){
   result[kind][key]=Array.from({length:spec.frameCount},(_,i)=>new Texture({source:atlas.source,frame:new Rectangle(i%spec.columns*spec.cellSize,Math.floor(i/spec.columns)*spec.cellSize,spec.cellSize,spec.cellSize)}));
  })));
  result.flash=await Assets.load('/preview/battle-suit-skill-chip-v1/assets/textures/flash.webp');
- result.cutin=await Assets.load(ROOT+'assets/source-art-preview.webp');
  return result;
 }
 export class GoldenDragonFX{
@@ -152,11 +151,8 @@ export class GoldenDragonFX{
    this.ground.ellipse(origin.x,origin.y+2,radius*.71,radius*.18).stroke({color:0xc68130,width:1.4,alpha:fade*.55});
    for(let i=0;i<(isUlt?22:12);i++){const a=i*2.3999,v=unit*(.3+i%6*.11),life=hit.age;const point={x:origin.x+Math.cos(a)*v*life,y:origin.y-unit*.08-Math.abs(Math.sin(a))*v*life+unit*.43*life*life};if(point.y>origin.y+8)continue;this.draw(this.assets.flash,point,3+i%2,{height:7+i%4,rotation:a,alpha:fade*.8,tint:i%3?0xf5c468:0xffedc5,blend:'add'});}
   }
-  if(s.cutin&&!this.reducedMotion){
-   const h=Math.min(scene.height*.68,scene.width*.55),w=h*2/3,x=this.merc.team==='ENEMY'?scene.width-w/2-scene.width*.025:w/2+scene.width*.025,y=scene.height*.44;
-   this.draw(this.assets.cutin,{x,y},w,{height:h,alpha:s.cutin});
-   this.cutinBounds={left:x-w/2,right:x+w/2,top:y-h/2,bottom:y+h/2,alpha:s.cutin};
-  }
+  // No full illustration over the battlefield. Jinmu's small face/dialogue
+  // panel lives in its own measured DOM row, and is absent from all raids.
   if(s.flash)for(let i=0;i<this.targets.length;i++){if(this.plan.mode==='attack'&&i>0)break;this.targets[i].fullBodySprite.tint=0xffdd97;this.targets[i].view.x+=Math.sin(s.flash*25)*2;}
   this.onUpdate(this);
  }

@@ -1,13 +1,13 @@
 {
   "date": "2026-09-26",
   "engineBase": "0d67ae862a1f9763605ad7323e889acf5d51ad41",
-  "sourceRevision": "62f9e3ff3e8ce3f98bd3e4b2ac8317da7594143d",
+  "sourceRevision": "d8e9521d05f455d61a40eb1a3c523ac5923fd405",
   "pixi": "8.20.0",
   "gsap": "3.13.0",
   "serverHash": "579b2e7db04f39aea126ee2fadd692c6cbc64c4ec7204cbf3dcd7026099e0bc0",
   "engineHash": "52076d32b430992e9193db3e5711c32bd51dde50b1bf7f7f231ae324a995d13f",
   "playbackHash": "37a65149a34a4361d7a774a1249839b11e1bc6592e141a56819d3691241e0615",
-  "bundleHash": "cc6584be1c6f8508f59277862334de3f6f401c9b27cb8721032c2b37b6599065",
+  "bundleHash": "b94904f638696566f76a0da77787ee936d435f8b414b6f05f186bc4028b717b4",
   "commonInputs": [
     "preview/project-v-v3/source/battle/ApocalypseLegionFX.js",
     "preview/project-v-v3/source/battle/ApocalypseLegionPlayback.js",
@@ -58,6 +58,7 @@
     "preview/project-v-v3/source/battle/MercenaryRoleAttackFX.js",
     "preview/project-v-v3/source/battle/MangisaCombatPlayback.js",
     "preview/project-v-v3/source/battle/RagnielCombatPlayback.js",
+    "preview/project-v-v3/source/battle/JinmuDialogue.js",
     "preview/project-v-v3/source/battle/JinmuCombatPlayback.js",
     "preview/project-v-v3/source/battle/HeliosCombatPlayback.js",
     "preview/project-v-v3/source/battle/LimitedMercenaryPlayback.js",

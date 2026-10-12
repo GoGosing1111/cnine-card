@@ -2,6 +2,7 @@ import {gsap} from 'gsap';
 import {JINMU_CODE,JINMU_ART,JINMU_AREA_EVENT,JINMU_COMBAT} from '../../../../shared/mercenary-jinmu-v1.mjs';
 import {GoldenDragonFX,loadDragonAssets} from '../../../mercenary-golden-dragon-battle-v1/source/GoldenDragonFX.js';
 import {makePlan,MODES,JINMU_ULTIMATE_PLAYBACK_RATE} from '../../../mercenary-golden-dragon-battle-v1/skill.mjs';
+import {JinmuDialogue} from './JinmuDialogue.js';
 
 const BODY_HEIGHT=285,MANIFEST='/preview/mercenary-golden-dragon-battle-v1/manifest.json?jinmu=20261012-live-v1';
 let manifestPromise;
@@ -20,6 +21,7 @@ class JinmuLiveFX extends GoldenDragonFX{
   const visualEngine=Object.assign(Object.create(engine),{camera:{reset(){},addShake(){}}});
   super(visualEngine,actor,targets,assets,m,{...makePlan({mode:'aura'}),damageAuthority:'SERVER_ONLY'});
   this.removeTimeline();this.cancel();
+  this.dialogue=new JinmuDialogue(engine);
  }
  makeTimeline(){} // Never start the independent preview clock.
  get direction(){return this.merc.team==='ENEMY'?-1:1;}
@@ -40,11 +42,13 @@ class JinmuLiveFX extends GoldenDragonFX{
  }
  begin(mode,targets){
   this.targets=targets;this.plan={...makePlan({mode}),damageAuthority:'SERVER_ONLY'};
+  if(mode==='ultimate')this.dialogue?.begin();
   this.captureFormation();this.clock.time=0;this.render(0);
  }
  cancel(){
   if(this.destroyed)return;this.audio.stop();this.removeTimeline();this.clock.time=0;
   this.pool?.forEach(s=>s.visible=false);this.ground?.clear();
+  this.dialogue?.end();
   const a=this.merc;if(a.root.destroyed)return;
   this.plan={...makePlan({mode:'aura'}),damageAuthority:'SERVER_ONLY'};
   a.restoreNeutralAvatarPose();this.applyPose({key:'idle',frame:0});
@@ -52,7 +56,8 @@ class JinmuLiveFX extends GoldenDragonFX{
   this.updateAura({time:0,auraBoost:0,done:false,cancelled:false});
   this.auraBack.visible=this.auraFront.visible=a.hp>0;
  }
- diagnostics(){return {...super.diagnostics(),damageAuthority:'SERVER_ONLY',auraAlphas:[...this.auraSprites,...this.dragonSprites].map(s=>s.alpha)};}
+ diagnostics(){return {...super.diagnostics(),damageAuthority:'SERVER_ONLY',dialogue:this.dialogue?.diagnostics(),auraAlphas:[...this.auraSprites,...this.dragonSprites].map(s=>s.alpha)};}
+ destroy(){this.dialogue?.destroy();super.destroy();}
 }
 function stopAmbient(s){
  if(!s.ambient)return;const entry=s.ambient;s.ambient=null;s.engine.simpleTimelines.delete(entry);entry.instance.kill();
@@ -100,7 +105,7 @@ async function playback(engine,actor,targets,mode,apply){
  // Finish the ultimate before advancing the receipt queue. Otherwise the next
  // attack settles its shared targets and erases the dragon immediately on impact.
  // Keep the readable sequence out of automatic battle pacing; reduced motion
- // still hides the illustration and uses the user's shortened playback.
+ // still uses the user's shortened playback. Dialogue is outside the canvas.
  },()=>{s.busy=false;s.fx.cancel();if(valid()&&!s.stopped&&actor.hp>0){actor.animationController.setState('IDLE');startAmbient(s);}},ultimate?(engine.reducedMotion?8:1):null,{releaseAt:ultimate?null:(contact+.12)/rate,owners:[actor,...targets]});
  engine.lastMercenaryPlayback={code:JINMU_CODE,eventType:mode==='ultimate'?JINMU_AREA_EVENT:'ATTACK',mode,clockOwner:'V3_REGISTERED_GSAP',authoritative:true,damageApplications:applied?targets.length:0,playbackRate:rate,contactSeconds:contact/rate,durationSeconds:duration/rate};
  return result&&valid();
