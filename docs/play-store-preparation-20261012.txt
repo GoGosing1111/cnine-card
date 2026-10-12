@@ -1,0 +1,43 @@
+숲켓몬 Google Play 신규 등록 준비 — 2026-10-12
+
+사용자 확정
+- 개발자 계정은 아직 없음. 신규 등록을 준비한다.
+- 운영자/개발자명 YAKCODE.
+- 최종 지원 이메일 elspe3821@gmail.com. 앞서 지정한 이메일은 이 값으로 교체.
+- 시즌패스는 중단 상태이며 신규 소개·판매를 넣지 않는다.
+
+소스 범위
+- packaging/play-store/: TWA 설정, 등록 메타데이터, 소개 문구, 제출 체크리스트, 데이터 보안 검토표, 공개 업로드 인증서, 대표 그래픽 원본 HTML.
+- scripts/play-store/: 외부 폴더 생성 및 비공개 키로 서명 빌드하는 스크립트.
+- .well-known/assetlinks.json 및 _headers: 직접 설치 APK의 공개 인증서와 운영 사이트 연결. Play App Signing 인증서는 추후 추가 필요.
+- tests/play-store-release-20261012.test.mjs: Bubblewrap appVersion 필드, 실제 인증서/패키지 연결, 승인 아이콘과 최종 연락처 검사.
+- 게임 로직·계정·재화·결제 SDK 변경 없음. 공개 개인정보 방침/계정 삭제 구현을 완료했다고 표시하지 않는다.
+
+생성 결과 (웹 배포 디렉터리 밖)
+C:/Users/User/Downloads/soopketmon-play-store-20261012/
+- android/soopketmon-1.0.0.aab, android/soopketmon-1.0.0.apk
+- android/android-project-source.zip, review/build-tools-source.zip
+- store-assets/: 승인 픽셀을 보존한 32-bit PNG 512px 아이콘, 1024x500 대표 그래픽, 실제 웹 모바일 캡처 2장.
+- legal-draft/: 개인정보처리방침·계정 삭제 안내 검토 초안.
+- index.html: 다운로드 및 남은 등록 단계 안내.
+- review/: 빌드 기록과 SHA-256, 등록 문구와 정책 검토표.
+
+빌드·검수
+- Bubblewrap 1.27.0 / JDK 17 / compile·target API 36 / min API 24 / 앱 버전 1.0.0 (1).
+- assembleRelease, bundleRelease, lintRelease 성공. lint 오류 0, 기본 템플릿/아이콘/방향 관련 경고 18.
+- 초기 빈 versionName 발견 후 manifest 입력을 appVersion으로 수정하고 재빌드.
+- APK apksigner 서명 검증, AAB jarsigner 서명 확인 및 bundletool 1.18.3 validate 성공.
+- 승인 아이콘 SHA-256 DF8F8562D4E4806FF90297FDDC7D573AC3FEFD782632BB0A2388980C99B55F04 유지.
+- 실제 모바일 도감·장비 진입, 모드 전환, 뒤로가기/로비 복귀 및 PC 장비 화면 확인.
+- adb 연결 Android 기기 없음. 실기기 설치 및 TWA 주소표시줄/OS 뒤로가기/알림 검수는 아직 없음.
+- 서명 키/암호는 웹 저장소와 ZIP에 포함하지 않는다. C:/Users/User/.codex/secrets/soopketmon-play/에서 비공개 관리.
+
+배포 범위 선정
+- 공개 웹 변경은 Digital Asset Links 정적 파일과 헤더뿐인 작은 수정.
+- scoped 배포에서 Play 연결/버전/연락처 테스트를 선택한다. 이전 운영 이후 별도 게임 변경이 있다면 해당 배포의 종료와 최신 운영 SHA를 확인한 뒤 진행한다.
+- 현재 초안 정책 문서는 로컬 전달 패키지에만 보관하고 공식 웹 방침으로 게시하지 않는다.
+- 전체 게임 검사나 새 기능 활성화는 대상이 아니다.
+
+남은 운영자 등록 단계
+Play Console 계정/본인확인, Play 앱 서명 SHA-256, 정책 문서의 보존·위탁 정보 확정 및 공개, 실제 앱 내/웹 계정 삭제 요청 절차, 현재 결제·콘텐츠·데이터 보안 설문, 실기기 검수와 해당되는 비공개 테스트.
+시즌패스 중단만으로 다른 후원·외부 결제 연계가 없다고 답하지 않는다. 등록 절차나 심사는 자동 완료되지 않는다.
