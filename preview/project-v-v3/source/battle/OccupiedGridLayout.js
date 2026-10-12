@@ -57,8 +57,11 @@ export const withOccupiedGrid = Base => class extends Base {
     // The live notice now sits above the card dock. Reserve it at the bottom;
     // treating its bottom edge as a top inset collapses the mobile battlefield.
     const statusAtDock = statusRect?.height > 0 && shell?.classList.contains('is-roster-visible');
+    // Portrait solo/PVP stations end at the last card's feet. Keep room for
+    // the pet below that row, including its name, above the measured HUD dock.
+    const petBottom=this.mobile&&!this.formationCoop&&!this.formationDuo&&this.petSupports?.size?82:0;
     const bottom = Math.max(dock?.height > 0 ? Math.max(0, hostRect.bottom - dock.top) : 130,
-      statusAtDock ? hostRect.bottom - statusRect.top + 8 : 0);
+      statusAtDock ? hostRect.bottom - statusRect.top + 8 : 0)+petBottom;
     let top = !statusAtDock && statusRect?.height > 0 ? Math.max(0, statusRect.bottom - hostRect.top) : 8;
     let objectiveHudFit = null;
     if (this.objectiveData && this.objectiveHud?.visible) {

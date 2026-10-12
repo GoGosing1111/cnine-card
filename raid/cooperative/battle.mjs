@@ -41,14 +41,15 @@ export async function mountCoopBattle(host,payload){
   if(frame)api.syncCooperativeState?.(frame);
   const state=value.state;startsAt=state.startsAt||0;active=state.status==='ACTIVE'&&!state.myResult;
   if(value.payload){groups=groupEvents(value.payload.battleV2.result.timeline);cancel();cursor=0;
-   const elapsed=startsAt?Date.now()+offset-startsAt:0;while(cursor<groups.length&&groups[cursor].at<elapsed-300)cursor++;sync();}
+   const elapsed=startsAt?Date.now()+offset-startsAt:0;while(cursor<groups.length&&groups[cursor].at<elapsed-300)cursor++;
+   api.restorePetSupport?.(elapsed-300);sync();}
   if(!active&&state.status!=='LOADING'){cancel();sync();}
  }
  function pump(){
   if(destroyed)return;
   if(active&&startsAt){
    const elapsed=Date.now()+offset-startsAt;
-   if(cursor<groups.length&&elapsed-groups[cursor].at>1200){cancel();while(cursor<groups.length&&groups[cursor].at<elapsed-100)cursor++;sync();lastSync=elapsed;}
+   if(cursor<groups.length&&elapsed-groups[cursor].at>1200){cancel();while(cursor<groups.length&&groups[cursor].at<elapsed-100)cursor++;api.restorePetSupport?.(elapsed-100);sync();lastSync=elapsed;}
    while(cursor<groups.length&&groups[cursor].at<=elapsed){
     const group=groups[cursor++];
     // A wave boundary cancels previous-instance animation tails before reusing

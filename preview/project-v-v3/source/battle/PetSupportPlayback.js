@@ -1,10 +1,14 @@
 import {Assets,Container,Graphics,Sprite,Text,Texture,Rectangle} from 'pixi.js';
 import {petBuffVisual} from '../../../../shared/pet-buff-visuals-v1.mjs';
 import {petSupportPosition} from './PetSupportLayout.mjs';
+import {PetSupportHud} from './PetSupportHud.js';
+import {petEffectRows,petSupportKey,petOpeningMatches,skippedPetOpenings} from './PetSupportPresentation.mjs';
+import {playPetOpeningFX} from './PetOpeningFX.js';
 
 export function disposePetSupport(engine){
   if(engine.petSupportTick)engine.app?.ticker?.remove(engine.petSupportTick);
-  for(const row of engine.petSupports?.values()||[]){row.root.destroy({children:true});for(const frames of row.frames.values())for(const frame of frames)frame.destroy(false);}
+  engine.petSupportHud?.destroy();engine.petSupportHud=null;
+  for(const row of engine.petSupports?.values()||[]){row.fxCleanup?.();row.root.destroy({children:true});for(const frames of row.frames.values())for(const frame of frames)frame.destroy(false);}
   engine.petSupports=new Map();engine.petSupportTick=null;
 }
 export async function preparePetSupport(engine,payload){
@@ -16,7 +20,8 @@ export async function preparePetSupport(engine,payload){
     if(!/^\/?assets\/[a-zA-Z0-9_./-]+\.(png|webp)$/.test(pet.battleSprite)||pet.battleSprite.includes('..'))return;
     let texture;try{texture=await Assets.load('/'+pet.battleSprite.replace(/^\//,''));}catch(error){console.warn('[pet] portrait load failed',pet.code);return;}
     if(engine.disposed||engine.petSupports!==rows)return;
-    const root=new Container({label:'PET_SUPPORT_'+side}),halo=new Graphics().ellipse(0,0,48,15).fill({color:0xc4f588,alpha:.16}).ellipse(0,0,41,11).stroke({color:0xc4f588,width:1.5,alpha:.65});
+    const color=petEffectRows(pet.buffs)[0]?.tint||0xc4f588;
+    const root=new Container({label:'PET_SUPPORT_'+key}),halo=new Graphics().ellipse(0,0,48,15).fill({color,alpha:.16}).ellipse(0,0,41,11).stroke({color,width:1.5,alpha:.65});
     const sprite=new Sprite(texture);sprite.anchor.set(.5,1);sprite.scale.set(126/Math.max(texture.width,texture.height));sprite.y=-3;
     const name=new Text({text:pet.name,style:{fontFamily:'Noto Sans KR, sans-serif',fontSize:15,fontWeight:'700',fill:0xf1ffe1,stroke:{color:0x081020,width:4}}});name.anchor.set(.5,0);name.y=9;
     root.addChild(halo,sprite,name);
@@ -31,10 +36,19 @@ export async function preparePetSupport(engine,payload){
     }));
   }));
   if(engine.disposed||engine.petSupports!==rows)return;
+  if(rows.size){
+    engine.petSupportHud=new PetSupportHud(engine);
+    for(const {key,side,ownerId} of entries){
+      const row=rows.get(key);if(!row)continue;
+      const owner=teams[side]?.members?.find(member=>Number(member.ownerId)===Number(ownerId));
+      engine.petSupportHud.add(key,row,owner?.ownerName);
+    }
+    engine.petSupportHud.visible(engine.visible!==false);
+  }
   engine.petSupportTick=()=>{
     const matrix=engine.effectLayer.worldTransform,box=engine.app.canvas.getBoundingClientRect(),scale=Math.max(.1,Math.hypot(matrix.a,matrix.b)*box.width/engine.app.screen.width);
     for(const row of rows.values()){
-      const {side,ownerId}=row,actors=(side==='A'?engine.allies:engine.enemies)||[],points=actors.filter(a=>a.root&&Number.isFinite(a.baseX)&&(!ownerId||Number(a.ownerId)===ownerId));if(!points.length)continue;
+      const {side,ownerId}=row,actors=(side==='A'?engine.allies:engine.enemies)||[],points=actors.filter(a=>a.root&&a.battleActive!==false&&Number.isFinite(a.baseX)&&(!ownerId||Number(a.ownerId)===ownerId));if(!points.length)continue;
       const feet=points.map(a=>engine.effectLayer.toLocal(a.root.parent.toGlobal({x:a.baseX,y:a.baseY})));
       const width=engine.scene?.width||1280,height=engine.scene?.height||720;
       const size=Math.max(126,56/scale);
@@ -49,31 +63,33 @@ export async function preparePetSupport(engine,payload){
       }
       const position=petSupportPosition({points:feet,side,pvp,suit,width,height,scale,size});
       row.sprite.scale.set(position.size/Math.max(row.sprite.texture.width,row.sprite.texture.height));row.halo.scale.set(position.size/126);
-      row.root.position.set(position.x,position.y);
+      const labelMargin=row.name.width/2+8/scale;
+      row.root.position.set(Math.max(labelMargin,Math.min(width-labelMargin,position.x)),position.y);
       row.root.visible=engine.visible!==false;
     }
   };
   engine.app.ticker.add(engine.petSupportTick,null,-25);engine.petSupportTick();
 }
-export function playPetOpening(engine,event){
+export function playPetOpening(engine,event,{restored=false}={}){
   const single=engine.petSupports?.get(event.actorSide);
-  const row=engine.petSupports?.get(event.ownerId?event.actorSide+':'+event.ownerId:event.actorSide)||(single?.snapshot.ownerId===event.ownerId?single:null);if(!row||row.applied)return;row.applied=true;
-  const effects=[];
+  const key=petSupportKey(event.actorSide,event.ownerId);
+  const row=engine.petSupports?.get(key)||(Number(single?.snapshot.ownerId)===Number(event.ownerId)?single:null);
+  if(!petOpeningMatches(row,event))return false;
+  row.applied=true;row.restored=restored;
+  engine.petSupportHud?.apply(row===single?event.actorSide:key,event,{restored});
+  // A late cooperative entry already holds the latest server HP/shield. Only
+  // restore its activation record; replaying opening values could refill it.
+  if(restored)return true;
   for(const hit of event.hits||[]){
     const target=engine.combatantById(hit.targetId);if(!target)continue;
     // The server's opening snapshot already contains the stats. This only
     // reconciles the health/shield display and never computes a second buff.
     if(Number.isFinite(hit.after?.maxHp))target.serverMaxHp=hit.after.maxHp;
     if(Number.isFinite(hit.after?.shield))engine.syncTargetShield(target,hit.after.shield,Math.max(target.serverMaxShield||0,hit.after.shield));
-    for(const buff of event.buffs||[]){const frames=row.frames.get(buff.type);if(!frames?.length)continue;
-      const sprite=new Sprite(frames[0]);sprite.anchor.set(.5);sprite.width=sprite.height=135;
-      sprite.position.copyFrom(engine.effectLayer.toLocal(target.root.toGlobal({x:0,y:-target.fullBodyHeight*.4})));engine.effectLayer.addChild(sprite);effects.push({sprite,frames});
-    }
   }
-  const progress={frame:0};
-  engine.queueBanner(`${event.name} · ${event.buffs.map(b=>`${petBuffVisual(b.type)?.label||'버프'} ${b.percent}%`).join(' · ')}`,0xc4f588,'펫 지원');
-  void engine.timeline(t=>{
-    t.fromTo(row.root,{alpha:0},{alpha:1,duration:.18},0);
-    t.to(progress,{frame:7,duration:engine.reducedMotion ? .18 : 1.25,ease:'none',onUpdate:()=>{for(const effect of effects)if(!effect.sprite.destroyed)effect.sprite.texture=effect.frames[Math.min(7,Math.floor(progress.frame))];}},0);
-  },()=>{for(const effect of effects)if(!effect.sprite.destroyed)effect.sprite.destroy();});
+  playPetOpeningFX(engine,row,event);return true;
+}
+export function restorePetSupport(engine,beforeMs){
+  const events=skippedPetOpenings(engine.battleData?.battleV2?.result?.timeline||[],beforeMs);
+  return events.reduce((count,event)=>count+Number(playPetOpening(engine,event,{restored:true})),0);
 }
