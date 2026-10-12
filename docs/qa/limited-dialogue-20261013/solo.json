@@ -1,0 +1,549 @@
+{
+  "checks": [
+    {
+      "width": 1440,
+      "code": "V-996",
+      "mode": "pve",
+      "initial": {
+        "dialogue": {
+          "visible": true,
+          "line": "“무릎 꿇어라. 판결은 이미 내려졌다.”",
+          "castIndex": 1,
+          "active": true,
+          "fullIllustration": false,
+          "speaker": "V-996"
+        },
+        "count": 1,
+        "rect": {
+          "x": 0,
+          "y": 116,
+          "width": 1440,
+          "height": 106,
+          "top": 116,
+          "right": 1440,
+          "bottom": 222,
+          "left": 0
+        },
+        "canvas": {
+          "x": 0,
+          "y": 222,
+          "width": 1440,
+          "height": 778,
+          "top": 222,
+          "right": 1440,
+          "bottom": 1000,
+          "left": 0
+        },
+        "faceOpacity": "1",
+        "overlaps": [],
+        "overflow": false,
+        "timing": {
+          "releaseAt": 0.7417777777777778,
+          "duration": 2.22
+        }
+      },
+      "finish": {
+        "damage": [
+          "B:0:ENCOUNTER:INITIAL",
+          "B:1:ENCOUNTER:INITIAL",
+          "B:2:ENCOUNTER:INITIAL",
+          "B:3:ENCOUNTER:INITIAL",
+          "B:4:ENCOUNTER:INITIAL",
+          "B:5:ENCOUNTER:INITIAL",
+          "B:6:ENCOUNTER:INITIAL",
+          "B:7:ENCOUNTER:INITIAL",
+          "B:8:ENCOUNTER:INITIAL",
+          "B:9:ENCOUNTER:INITIAL",
+          "B:10:ENCOUNTER:INITIAL",
+          "B:11:ENCOUNTER:INITIAL"
+        ],
+        "dialogue": {
+          "visible": true,
+          "line": "“무릎 꿇어라. 판결은 이미 내려졌다.”",
+          "castIndex": 4,
+          "active": false,
+          "fullIllustration": false,
+          "speaker": "V-996"
+        },
+        "last": {
+          "code": "V-996",
+          "eventType": "MERCENARY_VALTER_AREA",
+          "visualVersion": "20261004-approved",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 12,
+          "playbackRate": 2.5,
+          "contactSeconds": 0.6937777777777778,
+          "durationSeconds": 2.2199999999999998
+        },
+        "remaining": 0,
+        "reserved": false
+      }
+    },
+    {
+      "width": 1440,
+      "code": "V-996",
+      "mode": "pvp",
+      "initial": {
+        "dialogue": {
+          "visible": false,
+          "line": "무릎 꿇어라. 판결은 이미 내려졌다.",
+          "castIndex": 0,
+          "active": false,
+          "fullIllustration": false
+        },
+        "count": 0,
+        "canvas": {
+          "x": 0,
+          "y": 72,
+          "width": 1440,
+          "height": 723,
+          "top": 72,
+          "right": 1440,
+          "bottom": 795,
+          "left": 0
+        },
+        "faceOpacity": null,
+        "overlaps": [],
+        "overflow": false,
+        "timing": {
+          "releaseAt": 0.7417777777777778,
+          "duration": 1.62
+        }
+      },
+      "finish": {
+        "damage": [
+          "CN-02D9DC1E8A8A4209"
+        ],
+        "dialogue": {
+          "visible": false,
+          "line": "무릎 꿇어라. 판결은 이미 내려졌다.",
+          "castIndex": 0,
+          "active": false,
+          "fullIllustration": false
+        },
+        "last": {
+          "code": "V-996",
+          "eventType": "ATTACK",
+          "visualVersion": "20261004-approved",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 1,
+          "playbackRate": 2.5,
+          "contactSeconds": 0.6937777777777778,
+          "durationSeconds": 1.6199999999999999
+        },
+        "remaining": 0,
+        "reserved": false
+      }
+    },
+    {
+      "width": 1440,
+      "code": "V-999",
+      "mode": "pve",
+      "initial": {
+        "dialogue": {
+          "visible": true,
+          "line": "“눈을 떠라. 너희의 마지막 태양이다.”",
+          "castIndex": 1,
+          "active": true,
+          "fullIllustration": false,
+          "speaker": "V-999"
+        },
+        "count": 1,
+        "rect": {
+          "x": 0,
+          "y": 116,
+          "width": 1440,
+          "height": 106,
+          "top": 116,
+          "right": 1440,
+          "bottom": 222,
+          "left": 0
+        },
+        "canvas": {
+          "x": 0,
+          "y": 222,
+          "width": 1440,
+          "height": 778,
+          "top": 222,
+          "right": 1440,
+          "bottom": 1000,
+          "left": 0
+        },
+        "faceOpacity": "1",
+        "overlaps": [],
+        "overflow": false,
+        "timing": {
+          "releaseAt": 1,
+          "duration": 2.2307692
+        }
+      },
+      "finish": {
+        "damage": [
+          "B:0:ENCOUNTER:INITIAL",
+          "B:1:ENCOUNTER:INITIAL",
+          "B:2:ENCOUNTER:INITIAL",
+          "B:3:ENCOUNTER:INITIAL",
+          "B:4:ENCOUNTER:INITIAL",
+          "B:5:ENCOUNTER:INITIAL",
+          "B:6:ENCOUNTER:INITIAL",
+          "B:7:ENCOUNTER:INITIAL",
+          "B:8:ENCOUNTER:INITIAL",
+          "B:9:ENCOUNTER:INITIAL",
+          "B:10:ENCOUNTER:INITIAL",
+          "B:11:ENCOUNTER:INITIAL"
+        ],
+        "dialogue": {
+          "visible": true,
+          "line": "“눈을 떠라. 너희의 마지막 태양이다.”",
+          "castIndex": 4,
+          "active": false,
+          "fullIllustration": false,
+          "speaker": "V-999"
+        },
+        "last": {
+          "code": "V-999",
+          "eventType": "MERCENARY_HELIOS_AREA",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 12,
+          "playbackRate": 2.6,
+          "contactSeconds": 0.9538461538461538,
+          "durationSeconds": 2.230769230769231
+        },
+        "remaining": 0,
+        "reserved": false
+      }
+    },
+    {
+      "width": 1440,
+      "code": "V-999",
+      "mode": "pvp",
+      "initial": {
+        "dialogue": {
+          "visible": false,
+          "line": "눈을 떠라. 너희의 마지막 태양이다.",
+          "castIndex": 0,
+          "active": false,
+          "fullIllustration": false
+        },
+        "count": 0,
+        "canvas": {
+          "x": 0,
+          "y": 72,
+          "width": 1440,
+          "height": 723,
+          "top": 72,
+          "right": 1440,
+          "bottom": 795,
+          "left": 0
+        },
+        "faceOpacity": null,
+        "overlaps": [],
+        "overflow": false,
+        "timing": {
+          "releaseAt": 0.23076923076923075,
+          "duration": 0.6538462
+        }
+      },
+      "finish": {
+        "damage": [
+          "CN-02D9DC1E8A8A4209"
+        ],
+        "dialogue": {
+          "visible": false,
+          "line": "눈을 떠라. 너희의 마지막 태양이다.",
+          "castIndex": 0,
+          "active": false,
+          "fullIllustration": false
+        },
+        "last": {
+          "code": "V-999",
+          "eventType": "ATTACK",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 1,
+          "playbackRate": 2.6,
+          "contactSeconds": 0.1846153846153846,
+          "durationSeconds": 0.6538461538461539
+        },
+        "remaining": 0,
+        "reserved": false
+      }
+    },
+    {
+      "width": 390,
+      "code": "V-996",
+      "mode": "pve",
+      "initial": {
+        "dialogue": {
+          "visible": true,
+          "line": "“무릎 꿇어라. 판결은 이미 내려졌다.”",
+          "castIndex": 1,
+          "active": true,
+          "fullIllustration": false,
+          "speaker": "V-996"
+        },
+        "count": 1,
+        "rect": {
+          "x": 0,
+          "y": 148,
+          "width": 390,
+          "height": 106,
+          "top": 148,
+          "right": 390,
+          "bottom": 254,
+          "left": 0
+        },
+        "canvas": {
+          "x": 0,
+          "y": 254,
+          "width": 390,
+          "height": 590,
+          "top": 254,
+          "right": 390,
+          "bottom": 844,
+          "left": 0
+        },
+        "faceOpacity": "1",
+        "overlaps": [],
+        "overflow": false,
+        "timing": {
+          "releaseAt": 0.7417777777777778,
+          "duration": 2.22
+        }
+      },
+      "finish": {
+        "damage": [
+          "B:0:ENCOUNTER:INITIAL",
+          "B:1:ENCOUNTER:INITIAL",
+          "B:2:ENCOUNTER:INITIAL",
+          "B:3:ENCOUNTER:INITIAL",
+          "B:4:ENCOUNTER:INITIAL",
+          "B:5:ENCOUNTER:INITIAL",
+          "B:6:ENCOUNTER:INITIAL",
+          "B:7:ENCOUNTER:INITIAL",
+          "B:8:ENCOUNTER:INITIAL",
+          "B:9:ENCOUNTER:INITIAL",
+          "B:10:ENCOUNTER:INITIAL",
+          "B:11:ENCOUNTER:INITIAL"
+        ],
+        "dialogue": {
+          "visible": true,
+          "line": "“무릎 꿇어라. 판결은 이미 내려졌다.”",
+          "castIndex": 4,
+          "active": false,
+          "fullIllustration": false,
+          "speaker": "V-996"
+        },
+        "last": {
+          "code": "V-996",
+          "eventType": "MERCENARY_VALTER_AREA",
+          "visualVersion": "20261004-approved",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 12,
+          "playbackRate": 2.5,
+          "contactSeconds": 0.6937777777777778,
+          "durationSeconds": 2.2199999999999998
+        },
+        "remaining": 0,
+        "reserved": false
+      }
+    },
+    {
+      "width": 390,
+      "code": "V-996",
+      "mode": "pvp",
+      "initial": {
+        "dialogue": {
+          "visible": false,
+          "line": "무릎 꿇어라. 판결은 이미 내려졌다.",
+          "castIndex": 0,
+          "active": false,
+          "fullIllustration": false
+        },
+        "count": 0,
+        "canvas": {
+          "x": 0,
+          "y": 60,
+          "width": 390,
+          "height": 784,
+          "top": 60,
+          "right": 390,
+          "bottom": 844,
+          "left": 0
+        },
+        "faceOpacity": null,
+        "overlaps": [],
+        "overflow": false,
+        "timing": {
+          "releaseAt": 0.7417777777777778,
+          "duration": 1.62
+        }
+      },
+      "finish": {
+        "damage": [
+          "CN-02D9DC1E8A8A4209"
+        ],
+        "dialogue": {
+          "visible": false,
+          "line": "무릎 꿇어라. 판결은 이미 내려졌다.",
+          "castIndex": 0,
+          "active": false,
+          "fullIllustration": false
+        },
+        "last": {
+          "code": "V-996",
+          "eventType": "ATTACK",
+          "visualVersion": "20261004-approved",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 1,
+          "playbackRate": 2.5,
+          "contactSeconds": 0.6937777777777778,
+          "durationSeconds": 1.6199999999999999
+        },
+        "remaining": 0,
+        "reserved": false
+      }
+    },
+    {
+      "width": 390,
+      "code": "V-999",
+      "mode": "pve",
+      "initial": {
+        "dialogue": {
+          "visible": true,
+          "line": "“눈을 떠라. 너희의 마지막 태양이다.”",
+          "castIndex": 1,
+          "active": true,
+          "fullIllustration": false,
+          "speaker": "V-999"
+        },
+        "count": 1,
+        "rect": {
+          "x": 0,
+          "y": 148,
+          "width": 390,
+          "height": 106,
+          "top": 148,
+          "right": 390,
+          "bottom": 254,
+          "left": 0
+        },
+        "canvas": {
+          "x": 0,
+          "y": 254,
+          "width": 390,
+          "height": 590,
+          "top": 254,
+          "right": 390,
+          "bottom": 844,
+          "left": 0
+        },
+        "faceOpacity": "1",
+        "overlaps": [],
+        "overflow": false,
+        "timing": {
+          "releaseAt": 1,
+          "duration": 2.2307692
+        }
+      },
+      "finish": {
+        "damage": [
+          "B:0:ENCOUNTER:INITIAL",
+          "B:1:ENCOUNTER:INITIAL",
+          "B:2:ENCOUNTER:INITIAL",
+          "B:3:ENCOUNTER:INITIAL",
+          "B:4:ENCOUNTER:INITIAL",
+          "B:5:ENCOUNTER:INITIAL",
+          "B:6:ENCOUNTER:INITIAL",
+          "B:7:ENCOUNTER:INITIAL",
+          "B:8:ENCOUNTER:INITIAL",
+          "B:9:ENCOUNTER:INITIAL",
+          "B:10:ENCOUNTER:INITIAL",
+          "B:11:ENCOUNTER:INITIAL"
+        ],
+        "dialogue": {
+          "visible": true,
+          "line": "“눈을 떠라. 너희의 마지막 태양이다.”",
+          "castIndex": 4,
+          "active": false,
+          "fullIllustration": false,
+          "speaker": "V-999"
+        },
+        "last": {
+          "code": "V-999",
+          "eventType": "MERCENARY_HELIOS_AREA",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 12,
+          "playbackRate": 2.6,
+          "contactSeconds": 0.9538461538461538,
+          "durationSeconds": 2.230769230769231
+        },
+        "remaining": 0,
+        "reserved": false
+      }
+    },
+    {
+      "width": 390,
+      "code": "V-999",
+      "mode": "pvp",
+      "initial": {
+        "dialogue": {
+          "visible": false,
+          "line": "눈을 떠라. 너희의 마지막 태양이다.",
+          "castIndex": 0,
+          "active": false,
+          "fullIllustration": false
+        },
+        "count": 0,
+        "canvas": {
+          "x": 0,
+          "y": 60,
+          "width": 390,
+          "height": 784,
+          "top": 60,
+          "right": 390,
+          "bottom": 844,
+          "left": 0
+        },
+        "faceOpacity": null,
+        "overlaps": [],
+        "overflow": false,
+        "timing": {
+          "releaseAt": 0.23076923076923075,
+          "duration": 0.6538462
+        }
+      },
+      "finish": {
+        "damage": [
+          "CN-02D9DC1E8A8A4209"
+        ],
+        "dialogue": {
+          "visible": false,
+          "line": "눈을 떠라. 너희의 마지막 태양이다.",
+          "castIndex": 0,
+          "active": false,
+          "fullIllustration": false
+        },
+        "last": {
+          "code": "V-999",
+          "eventType": "ATTACK",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 1,
+          "playbackRate": 2.6,
+          "contactSeconds": 0.1846153846153846,
+          "durationSeconds": 0.6538461538461539
+        },
+        "remaining": 0,
+        "reserved": false
+      }
+    }
+  ],
+  "errors": []
+}

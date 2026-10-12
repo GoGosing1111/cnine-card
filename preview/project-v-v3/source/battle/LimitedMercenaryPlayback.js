@@ -4,6 +4,8 @@ import {LIMITED_VISUALS,limitedVisual,limitedBattleArt,limitedEmission} from '..
 import {KnightFX,loadKnightAssets} from '../../../mercenary-crimson-silver-knight-battle-v1/source/KnightFX.js';
 import {makePlan as valterPlan,OVERHEAD} from '../../../mercenary-crimson-silver-knight-battle-v1/skill.mjs';
 import {VALTER_CODE,VALTER_AREA_EVENT} from '../../../../shared/mercenary-valter-v1.mjs';
+import {JinmuDialogue} from './JinmuDialogue.js';
+import {MERCENARY_DIALOGUE_PROFILES} from './MercenaryDialogueProfiles.js';
 
 const clamp=(n,a=0,b=1)=>Math.max(a,Math.min(b,n));
 export const VALTER_ATTACK_PLAYBACK_RATE=2.5;
@@ -37,6 +39,7 @@ export async function setupLimitedActor(engine,actor){
    const target=(actor.team==='ALLY'?engine.enemies:engine.allies).find(a=>!a.root.destroyed)||actor;
    state.knight=new KnightFX(engine,actor,[target],knightAssets,manifest,valterPlan({mode:'aura'}));
    state.knight.removeTimeline();state.knight.audio.enabled=false;
+   state.dialogue=new JinmuDialogue(engine,MERCENARY_DIALOGUE_PROFILES[VALTER_CODE]);
   }
   engine.limitedStates.set(actor,state);
   actor.setAnimationAdapter({setState(next){if(next==='DEAD'){state.back.visible=false;state.layer.visible=false;if(state.knight){state.knight.aura.visible=false;state.knight.layer.visible=false;}}},destroy(){destroyState(state);}});
@@ -66,12 +69,12 @@ function startAmbient(s){
  if(!s.engine.visible){entry.resumeOnVisible=true;instance.pause();}
 }
 function destroyState(s){
- if(s.destroyed)return;s.stopped=true;stopAmbient(s);s.knight?.destroy();s.back.destroy({children:true});s.layer.destroy({children:true});
+ if(s.destroyed)return;s.stopped=true;stopAmbient(s);s.dialogue?.destroy();s.knight?.destroy();s.back.destroy({children:true});s.layer.destroy({children:true});
  for(const texture of [...s.auraFrames,...s.effectFrames])texture.destroy(false);s.destroyed=true;
 }
 export function clearLimitedActors(engine){for(const s of engine.limitedStates?.values()||[])destroyState(s);engine.limitedStates?.clear();}
 export function resumeLimitedPlayback(engine){for(const s of engine.limitedStates?.values()||[]){if(s.destroyed||s.busy||s.actor.hp<=0)continue;s.stopped=false;startAmbient(s);}}
-export function cancelLimitedPlayback(engine){for(const s of engine.limitedStates?.values()||[]){s.stopped=true;stopAmbient(s);s.sprites.forEach(a=>a.visible=false);s.knight?.cancel();}}
+export function cancelLimitedPlayback(engine){for(const s of engine.limitedStates?.values()||[]){s.stopped=true;stopAmbient(s);s.dialogue?.end();s.sprites.forEach(a=>a.visible=false);s.knight?.cancel();}}
 function place(s,slot,index,p,width,angle=0){
  const sprite=s.sprites[slot],f=s.spec.effects.frames[index],texture=s.effectFrames[index];sprite.texture=texture;
  sprite.anchor.set(f.origin.x/texture.width,f.origin.y/texture.height);sprite.position.set(p.x,p.y);sprite.scale.set(width/texture.width);sprite.rotation=angle;sprite.visible=true;
@@ -97,6 +100,7 @@ async function playback(engine,actor,targets,{basic=false,area=false,apply}){
  if(s.knight){
   const k=s.knight;k.targets=targets;k.targetDefaults=targets.map(a=>({viewX:a.view.x,tint:a.fullBodySprite.tint}));k.plan={...valterPlan({mode:basic?'attack':area?'ultimate':'skill'}),damageAuthority:'SERVER_ONLY'};
   k.captureFormation();duration=k.plan.duration;contact=OVERHEAD.contact;
+  if(area)s.dialogue?.begin();
  }
  // Compress the approved attack/skill clock, contact and release together.
  // The global playback speed still applies; idle aura and server turns do not change.
@@ -105,7 +109,7 @@ async function playback(engine,actor,targets,{basic=false,area=false,apply}){
   t.to(clock,{time:duration,duration:duration/rate,ease:'none',onUpdate(){if(!valid()||s.destroyed)return;rear(s,clock.time);if(s.knight)s.knight.render(clock.time);else renderImages(s,clock.time,targets[0]);}});
   t.call(()=>{if(valid()&&!applied){applied=true;apply();}},[],contact/rate);
  },()=>{
-  if(s.destroyed)return;s.busy=false;s.sprites.forEach(a=>a.visible=false);
+  if(s.destroyed)return;s.busy=false;s.dialogue?.end();s.sprites.forEach(a=>a.visible=false);
   if(s.knight)s.knight.cancel();if(valid()&&!s.stopped)startAmbient(s);
  },null,{releaseAt:(contact+.12)/rate,owners:[actor,...targets]});
  engine.lastMercenaryPlayback={code:actor.cardId,eventType:basic?'ATTACK':area?VALTER_AREA_EVENT:'MERCENARY_HIT',visualVersion:LIMITED_VISUALS.version,clockOwner:'V3_REGISTERED_GSAP',authoritative:true,damageApplications:applied?targets.length:0,playbackRate:rate,contactSeconds:contact/rate,durationSeconds:duration/rate};

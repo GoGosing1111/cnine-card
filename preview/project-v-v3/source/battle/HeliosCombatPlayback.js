@@ -2,6 +2,8 @@ import {HELIOS_CODE,HELIOS_AREA_EVENT,HELIOS_COMBAT} from '../../../../shared/me
 import {LIMITED_MERCENARIES} from '../../../../shared/mercenary-limited-catalog-v1.mjs';
 import {SolarFX,loadSolarAssets} from '../../../mercenary-limited-solar-sword-20261009-v1/source/SolarFX.js';
 import {MODES,mix} from '../../../mercenary-limited-solar-sword-20261009-v1/motion.mjs';
+import {JinmuDialogue} from './JinmuDialogue.js';
+import {MERCENARY_DIALOGUE_PROFILES} from './MercenaryDialogueProfiles.js';
 
 const BODY_HEIGHT=312.3894230769231,POSE_SCALE=BODY_HEIGHT/330;
 const MANIFEST='/preview/mercenary-limited-solar-sword-20261009-v1/manifest.json';
@@ -24,6 +26,7 @@ class HeliosLiveFX extends SolarFX{
   const unit={liveActor:actor,idle,root:actor.root,view,bodySprite:sprite,weaponSprite:{visible:false},nameHud:{visible:false},stopIdle:()=>actor.animationController.kill(),cancelFire:()=>{}};
   const visualEngine=Object.assign(Object.create(engine),{camera:{reset(){}},parallaxLayers:[]});
   super(visualEngine,unit,targets,assets,m,()=>{});this.removeTimeline();this.cancel();
+  this.dialogue=new JinmuDialogue(engine,MERCENARY_DIALOGUE_PROFILES[HELIOS_CODE]);
  }
  capture(){this.home={x:this.unit.liveActor.baseX,y:this.unit.liveActor.baseY};this.zoom=false;this.safeFrame=null;}
  get direction(){return this.unit.liveActor.team==='ENEMY'?-1:1;}
@@ -42,15 +45,18 @@ class HeliosLiveFX extends SolarFX{
   const targets=this.targets.map(a=>({a,x:a.view.x,y:a.view.y}));super.render(t);
   for(const {a,x,y}of targets)if(!a.root.destroyed)a.view.position.set(x,y);
  }
- begin(mode,targets){this.targets=targets;this.target=targets[0];this.capture();this.mode=mode;this.cancelled=false;this.clock.time=0;this.render(0);}
+ begin(mode,targets){this.targets=targets;this.target=targets[0];if(mode==='ultimate')this.dialogue?.begin();this.capture();this.mode=mode;this.cancelled=false;this.clock.time=0;this.render(0);}
  cancel(){
   if(this.disposed)return;this.removeTimeline();this.cancelled=true;this.clock.time=0;
+  this.dialogue?.end();
   this.pool?.forEach(s=>s.visible=false);this.ghosts?.forEach(s=>s.visible=false);this.swords?.forEach(s=>s.visible=false);this.shade?.clear();this.groundLight?.clear();this.groundMask?.clear();
   const u=this.unit,a=u.liveActor;if(a.root.destroyed)return;
   u.bodySprite.texture=u.idle.texture;u.bodySprite.anchor.set(...u.idle.anchor);u.bodySprite.scale.set(...u.idle.scale);u.bodySprite.position.set(...u.idle.position);u.bodySprite.alpha=1;
   a.restoreNeutralAvatarPose();u.view.scale.set(...u.idle.viewScale);u.root.position.set(a.baseX,a.baseY);u.root.depthSortY=a.baseY;
  }
  restoreBackdrop(){}
+ diagnostics(){return {...super.diagnostics(),dialogue:this.dialogue?.diagnostics()};}
+ destroy(){this.dialogue?.destroy();super.destroy();}
 }
 export async function setupHeliosActor(engine,actor){
  engine.heliosStates||=new Map();engine.heliosLoads||=new Map();

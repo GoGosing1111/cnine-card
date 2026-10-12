@@ -1,0 +1,933 @@
+{
+  "reports": [
+    {
+      "width": 1440,
+      "initial": {
+        "actors": 9,
+        "codes": [
+          "V-989",
+          "V-996",
+          "V-999"
+        ],
+        "layout": {
+          "rect": {
+            "x": 0,
+            "y": 156,
+            "width": 1440,
+            "height": 106,
+            "top": 156,
+            "right": 1440,
+            "bottom": 262,
+            "left": 0
+          },
+          "canvas": {
+            "x": 0,
+            "y": 262,
+            "width": 1440,
+            "height": 738,
+            "top": 262,
+            "right": 1440,
+            "bottom": 1000,
+            "left": 0
+          },
+          "speaker": "V-989",
+          "line": "천룡의 이름으로, 이 전장을 평정한다.",
+          "overlaps": [],
+          "count": 1
+        },
+        "overflow": false
+      },
+      "rotations": [
+        {
+          "code": "V-989",
+          "states": [
+            {
+              "rect": {
+                "x": 0,
+                "y": 156,
+                "width": 1440,
+                "height": 106,
+                "top": 156,
+                "right": 1440,
+                "bottom": 262,
+                "left": 0
+              },
+              "canvas": {
+                "x": 0,
+                "y": 262,
+                "width": 1440,
+                "height": 738,
+                "top": 262,
+                "right": 1440,
+                "bottom": 1000,
+                "left": 0
+              },
+              "speaker": "V-989",
+              "line": "“고개를 들어라. 마지막으로 볼 하늘이다.”",
+              "overlaps": [],
+              "count": 1,
+              "active": "true"
+            },
+            {
+              "rect": {
+                "x": 0,
+                "y": 156,
+                "width": 1440,
+                "height": 106,
+                "top": 156,
+                "right": 1440,
+                "bottom": 262,
+                "left": 0
+              },
+              "canvas": {
+                "x": 0,
+                "y": 262,
+                "width": 1440,
+                "height": 738,
+                "top": 262,
+                "right": 1440,
+                "bottom": 1000,
+                "left": 0
+              },
+              "speaker": "V-989",
+              "line": "“천룡의 이름으로, 이 전장을 평정한다.”",
+              "overlaps": [],
+              "count": 1,
+              "active": "true"
+            },
+            {
+              "rect": {
+                "x": 0,
+                "y": 156,
+                "width": 1440,
+                "height": 106,
+                "top": 156,
+                "right": 1440,
+                "bottom": 262,
+                "left": 0
+              },
+              "canvas": {
+                "x": 0,
+                "y": 262,
+                "width": 1440,
+                "height": 738,
+                "top": 262,
+                "right": 1440,
+                "bottom": 1000,
+                "left": 0
+              },
+              "speaker": "V-989",
+              "line": "“내 검 앞에서 운명을 논하지 마라.”",
+              "overlaps": [],
+              "count": 1,
+              "active": "true"
+            },
+            {
+              "rect": {
+                "x": 0,
+                "y": 156,
+                "width": 1440,
+                "height": 106,
+                "top": 156,
+                "right": 1440,
+                "bottom": 262,
+                "left": 0
+              },
+              "canvas": {
+                "x": 0,
+                "y": 262,
+                "width": 1440,
+                "height": 738,
+                "top": 262,
+                "right": 1440,
+                "bottom": 1000,
+                "left": 0
+              },
+              "speaker": "V-989",
+              "line": "“용이 눈을 떴다. 이제 물러설 곳은 없다.”",
+              "overlaps": [],
+              "count": 1,
+              "active": "true"
+            },
+            {
+              "rect": {
+                "x": 0,
+                "y": 156,
+                "width": 1440,
+                "height": 106,
+                "top": 156,
+                "right": 1440,
+                "bottom": 262,
+                "left": 0
+              },
+              "canvas": {
+                "x": 0,
+                "y": 262,
+                "width": 1440,
+                "height": 738,
+                "top": 262,
+                "right": 1440,
+                "bottom": 1000,
+                "left": 0
+              },
+              "speaker": "V-989",
+              "line": "“천룡이여, 내려와 오만한 자들을 심판하라.”",
+              "overlaps": [],
+              "count": 1,
+              "active": "true"
+            },
+            {
+              "rect": {
+                "x": 0,
+                "y": 156,
+                "width": 1440,
+                "height": 106,
+                "top": 156,
+                "right": 1440,
+                "bottom": 262,
+                "left": 0
+              },
+              "canvas": {
+                "x": 0,
+                "y": 262,
+                "width": 1440,
+                "height": 738,
+                "top": 262,
+                "right": 1440,
+                "bottom": 1000,
+                "left": 0
+              },
+              "speaker": "V-989",
+              "line": "“고개를 들어라. 마지막으로 볼 하늘이다.”",
+              "overlaps": [],
+              "count": 1,
+              "active": "true"
+            }
+          ]
+        },
+        {
+          "code": "V-996",
+          "states": [
+            {
+              "rect": {
+                "x": 0,
+                "y": 156,
+                "width": 1440,
+                "height": 106,
+                "top": 156,
+                "right": 1440,
+                "bottom": 262,
+                "left": 0
+              },
+              "canvas": {
+                "x": 0,
+                "y": 262,
+                "width": 1440,
+                "height": 738,
+                "top": 262,
+                "right": 1440,
+                "bottom": 1000,
+                "left": 0
+              },
+              "speaker": "V-996",
+              "line": "“무릎 꿇어라. 판결은 이미 내려졌다.”",
+              "overlaps": [],
+              "count": 1,
+              "active": "true"
+            },
+            {
+              "rect": {
+                "x": 0,
+                "y": 156,
+                "width": 1440,
+                "height": 106,
+                "top": 156,
+                "right": 1440,
+                "bottom": 262,
+                "left": 0
+              },
+              "canvas": {
+                "x": 0,
+                "y": 262,
+                "width": 1440,
+                "height": 738,
+                "top": 262,
+                "right": 1440,
+                "bottom": 1000,
+                "left": 0
+              },
+              "speaker": "V-996",
+              "line": "“내 검이 닿는 곳, 저항은 끝난다.”",
+              "overlaps": [],
+              "count": 1,
+              "active": "true"
+            },
+            {
+              "rect": {
+                "x": 0,
+                "y": 156,
+                "width": 1440,
+                "height": 106,
+                "top": 156,
+                "right": 1440,
+                "bottom": 262,
+                "left": 0
+              },
+              "canvas": {
+                "x": 0,
+                "y": 262,
+                "width": 1440,
+                "height": 738,
+                "top": 262,
+                "right": 1440,
+                "bottom": 1000,
+                "left": 0
+              },
+              "speaker": "V-996",
+              "line": "“붉은 맹세 아래, 마지막 적까지 집행한다.”",
+              "overlaps": [],
+              "count": 1,
+              "active": "true"
+            },
+            {
+              "rect": {
+                "x": 0,
+                "y": 156,
+                "width": 1440,
+                "height": 106,
+                "top": 156,
+                "right": 1440,
+                "bottom": 262,
+                "left": 0
+              },
+              "canvas": {
+                "x": 0,
+                "y": 262,
+                "width": 1440,
+                "height": 738,
+                "top": 262,
+                "right": 1440,
+                "bottom": 1000,
+                "left": 0
+              },
+              "speaker": "V-996",
+              "line": "“무릎 꿇어라. 판결은 이미 내려졌다.”",
+              "overlaps": [],
+              "count": 1,
+              "active": "true"
+            }
+          ]
+        },
+        {
+          "code": "V-999",
+          "states": [
+            {
+              "rect": {
+                "x": 0,
+                "y": 156,
+                "width": 1440,
+                "height": 106,
+                "top": 156,
+                "right": 1440,
+                "bottom": 262,
+                "left": 0
+              },
+              "canvas": {
+                "x": 0,
+                "y": 262,
+                "width": 1440,
+                "height": 738,
+                "top": 262,
+                "right": 1440,
+                "bottom": 1000,
+                "left": 0
+              },
+              "speaker": "V-999",
+              "line": "“눈을 떠라. 너희의 마지막 태양이다.”",
+              "overlaps": [],
+              "count": 1,
+              "active": "true"
+            },
+            {
+              "rect": {
+                "x": 0,
+                "y": 156,
+                "width": 1440,
+                "height": 106,
+                "top": 156,
+                "right": 1440,
+                "bottom": 262,
+                "left": 0
+              },
+              "canvas": {
+                "x": 0,
+                "y": 262,
+                "width": 1440,
+                "height": 738,
+                "top": 262,
+                "right": 1440,
+                "bottom": 1000,
+                "left": 0
+              },
+              "speaker": "V-999",
+              "line": "“어둠의 끝에서, 나의 검이 떠오른다.”",
+              "overlaps": [],
+              "count": 1,
+              "active": "true"
+            },
+            {
+              "rect": {
+                "x": 0,
+                "y": 156,
+                "width": 1440,
+                "height": 106,
+                "top": 156,
+                "right": 1440,
+                "bottom": 262,
+                "left": 0
+              },
+              "canvas": {
+                "x": 0,
+                "y": 262,
+                "width": 1440,
+                "height": 738,
+                "top": 262,
+                "right": 1440,
+                "bottom": 1000,
+                "left": 0
+              },
+              "speaker": "V-999",
+              "line": "“천 개의 태양이여, 이 전장에 강림하라.”",
+              "overlaps": [],
+              "count": 1,
+              "active": "true"
+            },
+            {
+              "rect": {
+                "x": 0,
+                "y": 156,
+                "width": 1440,
+                "height": 106,
+                "top": 156,
+                "right": 1440,
+                "bottom": 262,
+                "left": 0
+              },
+              "canvas": {
+                "x": 0,
+                "y": 262,
+                "width": 1440,
+                "height": 738,
+                "top": 262,
+                "right": 1440,
+                "bottom": 1000,
+                "left": 0
+              },
+              "speaker": "V-999",
+              "line": "“눈을 떠라. 너희의 마지막 태양이다.”",
+              "overlaps": [],
+              "count": 1,
+              "active": "true"
+            }
+          ]
+        }
+      ],
+      "intermediate": {
+        "rect": {
+          "x": 0,
+          "y": 156,
+          "width": 1440,
+          "height": 106,
+          "top": 156,
+          "right": 1440,
+          "bottom": 262,
+          "left": 0
+        },
+        "canvas": {
+          "x": 0,
+          "y": 262,
+          "width": 1440,
+          "height": 738,
+          "top": 262,
+          "right": 1440,
+          "bottom": 1000,
+          "left": 0
+        },
+        "speaker": "V-999",
+        "line": "“어둠의 끝에서, 나의 검이 떠오른다.”",
+        "overlaps": [],
+        "count": 1
+      },
+      "cleanup": {
+        "panels": 0,
+        "reserved": false,
+        "body": false
+      }
+    },
+    {
+      "width": 390,
+      "initial": {
+        "actors": 9,
+        "codes": [
+          "V-989",
+          "V-996",
+          "V-999"
+        ],
+        "layout": {
+          "rect": {
+            "x": 0,
+            "y": 131,
+            "width": 390,
+            "height": 106,
+            "top": 131,
+            "right": 390,
+            "bottom": 237,
+            "left": 0
+          },
+          "canvas": {
+            "x": 0,
+            "y": 237,
+            "width": 390,
+            "height": 607,
+            "top": 237,
+            "right": 390,
+            "bottom": 844,
+            "left": 0
+          },
+          "speaker": "V-989",
+          "line": "천룡의 이름으로, 이 전장을 평정한다.",
+          "overlaps": [],
+          "count": 1
+        },
+        "overflow": false
+      },
+      "rotations": [
+        {
+          "code": "V-989",
+          "states": [
+            {
+              "rect": {
+                "x": 0,
+                "y": 131,
+                "width": 390,
+                "height": 106,
+                "top": 131,
+                "right": 390,
+                "bottom": 237,
+                "left": 0
+              },
+              "canvas": {
+                "x": 0,
+                "y": 237,
+                "width": 390,
+                "height": 607,
+                "top": 237,
+                "right": 390,
+                "bottom": 844,
+                "left": 0
+              },
+              "speaker": "V-989",
+              "line": "“고개를 들어라. 마지막으로 볼 하늘이다.”",
+              "overlaps": [],
+              "count": 1,
+              "active": "true"
+            },
+            {
+              "rect": {
+                "x": 0,
+                "y": 131,
+                "width": 390,
+                "height": 106,
+                "top": 131,
+                "right": 390,
+                "bottom": 237,
+                "left": 0
+              },
+              "canvas": {
+                "x": 0,
+                "y": 237,
+                "width": 390,
+                "height": 607,
+                "top": 237,
+                "right": 390,
+                "bottom": 844,
+                "left": 0
+              },
+              "speaker": "V-989",
+              "line": "“천룡의 이름으로, 이 전장을 평정한다.”",
+              "overlaps": [],
+              "count": 1,
+              "active": "true"
+            },
+            {
+              "rect": {
+                "x": 0,
+                "y": 131,
+                "width": 390,
+                "height": 106,
+                "top": 131,
+                "right": 390,
+                "bottom": 237,
+                "left": 0
+              },
+              "canvas": {
+                "x": 0,
+                "y": 237,
+                "width": 390,
+                "height": 607,
+                "top": 237,
+                "right": 390,
+                "bottom": 844,
+                "left": 0
+              },
+              "speaker": "V-989",
+              "line": "“내 검 앞에서 운명을 논하지 마라.”",
+              "overlaps": [],
+              "count": 1,
+              "active": "true"
+            },
+            {
+              "rect": {
+                "x": 0,
+                "y": 131,
+                "width": 390,
+                "height": 106,
+                "top": 131,
+                "right": 390,
+                "bottom": 237,
+                "left": 0
+              },
+              "canvas": {
+                "x": 0,
+                "y": 237,
+                "width": 390,
+                "height": 607,
+                "top": 237,
+                "right": 390,
+                "bottom": 844,
+                "left": 0
+              },
+              "speaker": "V-989",
+              "line": "“용이 눈을 떴다. 이제 물러설 곳은 없다.”",
+              "overlaps": [],
+              "count": 1,
+              "active": "true"
+            },
+            {
+              "rect": {
+                "x": 0,
+                "y": 131,
+                "width": 390,
+                "height": 106,
+                "top": 131,
+                "right": 390,
+                "bottom": 237,
+                "left": 0
+              },
+              "canvas": {
+                "x": 0,
+                "y": 237,
+                "width": 390,
+                "height": 607,
+                "top": 237,
+                "right": 390,
+                "bottom": 844,
+                "left": 0
+              },
+              "speaker": "V-989",
+              "line": "“천룡이여, 내려와 오만한 자들을 심판하라.”",
+              "overlaps": [],
+              "count": 1,
+              "active": "true"
+            },
+            {
+              "rect": {
+                "x": 0,
+                "y": 131,
+                "width": 390,
+                "height": 106,
+                "top": 131,
+                "right": 390,
+                "bottom": 237,
+                "left": 0
+              },
+              "canvas": {
+                "x": 0,
+                "y": 237,
+                "width": 390,
+                "height": 607,
+                "top": 237,
+                "right": 390,
+                "bottom": 844,
+                "left": 0
+              },
+              "speaker": "V-989",
+              "line": "“고개를 들어라. 마지막으로 볼 하늘이다.”",
+              "overlaps": [],
+              "count": 1,
+              "active": "true"
+            }
+          ]
+        },
+        {
+          "code": "V-996",
+          "states": [
+            {
+              "rect": {
+                "x": 0,
+                "y": 131,
+                "width": 390,
+                "height": 106,
+                "top": 131,
+                "right": 390,
+                "bottom": 237,
+                "left": 0
+              },
+              "canvas": {
+                "x": 0,
+                "y": 237,
+                "width": 390,
+                "height": 607,
+                "top": 237,
+                "right": 390,
+                "bottom": 844,
+                "left": 0
+              },
+              "speaker": "V-996",
+              "line": "“무릎 꿇어라. 판결은 이미 내려졌다.”",
+              "overlaps": [],
+              "count": 1,
+              "active": "true"
+            },
+            {
+              "rect": {
+                "x": 0,
+                "y": 131,
+                "width": 390,
+                "height": 106,
+                "top": 131,
+                "right": 390,
+                "bottom": 237,
+                "left": 0
+              },
+              "canvas": {
+                "x": 0,
+                "y": 237,
+                "width": 390,
+                "height": 607,
+                "top": 237,
+                "right": 390,
+                "bottom": 844,
+                "left": 0
+              },
+              "speaker": "V-996",
+              "line": "“내 검이 닿는 곳, 저항은 끝난다.”",
+              "overlaps": [],
+              "count": 1,
+              "active": "true"
+            },
+            {
+              "rect": {
+                "x": 0,
+                "y": 131,
+                "width": 390,
+                "height": 106,
+                "top": 131,
+                "right": 390,
+                "bottom": 237,
+                "left": 0
+              },
+              "canvas": {
+                "x": 0,
+                "y": 237,
+                "width": 390,
+                "height": 607,
+                "top": 237,
+                "right": 390,
+                "bottom": 844,
+                "left": 0
+              },
+              "speaker": "V-996",
+              "line": "“붉은 맹세 아래, 마지막 적까지 집행한다.”",
+              "overlaps": [],
+              "count": 1,
+              "active": "true"
+            },
+            {
+              "rect": {
+                "x": 0,
+                "y": 131,
+                "width": 390,
+                "height": 106,
+                "top": 131,
+                "right": 390,
+                "bottom": 237,
+                "left": 0
+              },
+              "canvas": {
+                "x": 0,
+                "y": 237,
+                "width": 390,
+                "height": 607,
+                "top": 237,
+                "right": 390,
+                "bottom": 844,
+                "left": 0
+              },
+              "speaker": "V-996",
+              "line": "“무릎 꿇어라. 판결은 이미 내려졌다.”",
+              "overlaps": [],
+              "count": 1,
+              "active": "true"
+            }
+          ]
+        },
+        {
+          "code": "V-999",
+          "states": [
+            {
+              "rect": {
+                "x": 0,
+                "y": 131,
+                "width": 390,
+                "height": 106,
+                "top": 131,
+                "right": 390,
+                "bottom": 237,
+                "left": 0
+              },
+              "canvas": {
+                "x": 0,
+                "y": 237,
+                "width": 390,
+                "height": 607,
+                "top": 237,
+                "right": 390,
+                "bottom": 844,
+                "left": 0
+              },
+              "speaker": "V-999",
+              "line": "“눈을 떠라. 너희의 마지막 태양이다.”",
+              "overlaps": [],
+              "count": 1,
+              "active": "true"
+            },
+            {
+              "rect": {
+                "x": 0,
+                "y": 131,
+                "width": 390,
+                "height": 106,
+                "top": 131,
+                "right": 390,
+                "bottom": 237,
+                "left": 0
+              },
+              "canvas": {
+                "x": 0,
+                "y": 237,
+                "width": 390,
+                "height": 607,
+                "top": 237,
+                "right": 390,
+                "bottom": 844,
+                "left": 0
+              },
+              "speaker": "V-999",
+              "line": "“어둠의 끝에서, 나의 검이 떠오른다.”",
+              "overlaps": [],
+              "count": 1,
+              "active": "true"
+            },
+            {
+              "rect": {
+                "x": 0,
+                "y": 131,
+                "width": 390,
+                "height": 106,
+                "top": 131,
+                "right": 390,
+                "bottom": 237,
+                "left": 0
+              },
+              "canvas": {
+                "x": 0,
+                "y": 237,
+                "width": 390,
+                "height": 607,
+                "top": 237,
+                "right": 390,
+                "bottom": 844,
+                "left": 0
+              },
+              "speaker": "V-999",
+              "line": "“천 개의 태양이여, 이 전장에 강림하라.”",
+              "overlaps": [],
+              "count": 1,
+              "active": "true"
+            },
+            {
+              "rect": {
+                "x": 0,
+                "y": 131,
+                "width": 390,
+                "height": 106,
+                "top": 131,
+                "right": 390,
+                "bottom": 237,
+                "left": 0
+              },
+              "canvas": {
+                "x": 0,
+                "y": 237,
+                "width": 390,
+                "height": 607,
+                "top": 237,
+                "right": 390,
+                "bottom": 844,
+                "left": 0
+              },
+              "speaker": "V-999",
+              "line": "“눈을 떠라. 너희의 마지막 태양이다.”",
+              "overlaps": [],
+              "count": 1,
+              "active": "true"
+            }
+          ]
+        }
+      ],
+      "intermediate": {
+        "rect": {
+          "x": 0,
+          "y": 131,
+          "width": 390,
+          "height": 106,
+          "top": 131,
+          "right": 390,
+          "bottom": 237,
+          "left": 0
+        },
+        "canvas": {
+          "x": 0,
+          "y": 237,
+          "width": 390,
+          "height": 607,
+          "top": 237,
+          "right": 390,
+          "bottom": 844,
+          "left": 0
+        },
+        "speaker": "V-999",
+        "line": "“어둠의 끝에서, 나의 검이 떠오른다.”",
+        "overlaps": [],
+        "count": 1
+      },
+      "cleanup": {
+        "panels": 0,
+        "reserved": false,
+        "body": false
+      }
+    }
+  ],
+  "errors": []
+}

@@ -9,8 +9,12 @@
       "sha256": "373c4a23ac96eebbe3fd3259de9838690b00c7476f7a85aa7d82d62b5cea2132"
     },
     {
+      "file": "preview/project-v-v3/source/battle/MercenaryDialogueProfiles.js",
+      "sha256": "a5c21641f6c8db62bbd3320b3c6296f231521a34bd23e0267765a3e947971b5e"
+    },
+    {
       "file": "preview/project-v-v3/source/battle/JinmuDialogue.js",
-      "sha256": "45428eb7e346e1e1ba28cd8c3740d84daa3859a8c0d4677fb7992c60951b3dd1"
+      "sha256": "6b9366150eab05a1a319aaffd84aef59f4e74b2326a4fd86003eaaf07048692e"
     },
     {
       "file": "preview/project-v-v3/source/battle/JinmuCombatPlayback.js",
@@ -30,7 +34,7 @@
     },
     {
       "file": "preview/project-v-v3/source/battle/HeliosCombatPlayback.js",
-      "sha256": "f363952fb091d1f6003d022a134e8a2c68556b919f1526185bb4c85396038cd5"
+      "sha256": "5dc4b5433a13c9e86c9fe84b592fe3a055c1333556de5562ceb0da4b8837cc25"
     },
     {
       "file": "shared/mercenary-helios-v1.mjs",
@@ -254,7 +258,7 @@
     },
     {
       "file": "preview/project-v-v3/source/battle/LimitedMercenaryPlayback.js",
-      "sha256": "6c9e75432dff12433555d05ff88d6767a995db4c95ac5bd5a179c4ecaac9e49f"
+      "sha256": "7ed8c183221539430d6fb23f2146e40b4815ad5b1aaec8a54ed6a31482e4332e"
     },
     {
       "file": "preview/project-v-v3/source/battle/MercenaryRoleAttackFX.js",
@@ -436,52 +440,52 @@
   "outputs": [
     {
       "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
-      "sha256": "d174f7c6cb5645e8d8639124956cc657609ee1925f979bb149e678e8ee9e4b64",
+      "sha256": "633240e14f301482874b902a505c91572eac78be001c747dda75267fb37494e9",
       "commonGrid": true
     },
     {
       "file": "preview/scrapyard-v3-v1/battle.bundle.js",
-      "sha256": "da39f43a538e903775e3b8babbf78202a4164cf9645d48bcdea00c7c4654675f",
+      "sha256": "6d2f80638e29215eac1a9b8b0e10ad16893cae0156da751faa89c1802c5e1063",
       "commonGrid": true
     },
     {
       "file": "preview/cow-room-v3-v1/battle.bundle.js",
-      "sha256": "22434b0e874a710bf7eb7c58dba142f1eb802c3e4f1811e55f4b44ff81f9dac3",
+      "sha256": "73752672aa3dc8f0c567c2feea08bcc1f5d2a61dab894ff32b4f9bfd8f287e68",
       "commonGrid": true
     },
     {
       "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
-      "sha256": "ce1dbe5338d90e65335e118202b8d882f3211c6dc2ae3dd137444786e34b864e",
+      "sha256": "676048a20e223244b4405d53d45a39376efd7817ddd1fa83079206ddb848c0e1",
       "commonGrid": true
     },
     {
       "file": "pve-v3/battle.bundle.js",
-      "sha256": "7c1c7985bc1f28fb936be76d445a4d6f1198686ab76d58637b9751cd2e115861",
+      "sha256": "c05b2f33a22dd32fbc153d0458ccc417619dd44ae7b98831696241d8470eacd6",
       "commonGrid": true
     },
     {
       "file": "preview/v3-wide-grid-v1/battle.bundle.js",
-      "sha256": "24cc89aa0d81fd92c4024becf6a293f5246b147c7d3dbc04e36a31dac8a96047",
+      "sha256": "406e02956b5ca4904087a8ba3504c2ae1eb5321f3e88d20d7921dba53d8cfc63",
       "commonGrid": true
     },
     {
       "file": "preview/boss-resources-v2048/lab.bundle.js",
-      "sha256": "38957117b30c0b89b416bc9be8cc7a27864cb9c7b589af1abf194b673938ad87",
+      "sha256": "5e585e2fb87d6c8b4209f71d79d59422bf86a689f608e71a22cfb8f0ed38fa59",
       "commonGrid": true
     },
     {
       "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
-      "sha256": "a7bf0799365f83b9d40ba79db03afa826c4b2822e6d78c6f947be64b3af9181c",
+      "sha256": "2b24236a261d3eac109a1698e77a9c253e49cb0eefc7ad207263816120485238",
       "commonGrid": true
     },
     {
       "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
-      "sha256": "dead4b7b421fb671ef701d9e8541ae995ef6aa5ef4c999b45c6591991759dbb6",
+      "sha256": "0e1ad5d9e61803aa0afd1c929dec65803cf2d400c4dc97501f3ef8d1044cd4ee",
       "commonGrid": true
     },
     {
       "file": "preview/sustained-hunt-v2/battle.bundle.js",
-      "sha256": "1403b80b10aeea492ac1a5c73482c38ef2be2b42314a9aa02dd2f5fefc033703",
+      "sha256": "2446af2c39606c48ac6bd21d58a437780af5349bb4ff67300fcc046d4f1e743f",
       "commonGrid": true
     }
   ],
