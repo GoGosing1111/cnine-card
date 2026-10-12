@@ -1,0 +1,36 @@
+{
+  "verified": [
+    {
+      "file": "admin/cooperative-admin.mjs",
+      "status": 200,
+      "sha256": "90a52a62da668f1aa1e832377dc3365c7c8fdcbd82f58bf0287343cb3c2c67f5"
+    },
+    {
+      "file": "admin/cooperative-rewards.mjs",
+      "status": 200,
+      "sha256": "a378098b4d596bf95b24c13f677a3f4dd1de6b75edce4213fce1b9aed19ae03b"
+    },
+    {
+      "file": "shared/cooperative-rewards-v1.mjs",
+      "status": 200,
+      "sha256": "7fd61a2677b640324c08f7169be0807f9dc0a9f809269e257d7f0243fc47f82c"
+    },
+    {
+      "file": "raid/cooperative/live.mjs",
+      "status": 200,
+      "sha256": "b323830067e57e953a63139fa8cb4b9f7e10b838c496032e5b99bbcead1bfec0"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "status": 200,
+      "sha256": "eb61a36f5ad1c10ca2b15507185c54ea7299dc4ce83333dfb818bc420967ebae"
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "status": 200,
+      "sha256": "d174f7c6cb5645e8d8639124956cc657609ee1925f979bb149e678e8ee9e4b64"
+    }
+  ],
+  "shell": "20261013-coop-rewards-camera1",
+  "apiUnauthenticated": 401
+}

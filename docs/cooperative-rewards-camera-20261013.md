@@ -34,4 +34,11 @@ COOP_THREE_SQUADS에만 카메라 focus/zoom을 비활성화하고 전용 궁극
 - 직전 운영 Pages: `f39e7807-1497-4543-86f5-9c7e9c7e7af7`, source `e4a4dcf` (실제 배포 목록 확인).
 - 격전지 경제 처리와 모드별 카메라에 한정된 변경이다. 기존 공통 거래 기반을 그대로 사용하므로 `npm run deploy:production -- --scoped`로 관련 보상 검사와 Worker 컴파일·메인 로더 연결 검사를 수행한다. 무관한 콘텐츠 전체 검사를 반복하지 않는다.
 
-운영 배포 결과는 배포 완료 후 아래에 기록한다.
+## 운영 반영 완료
+
+- 구현 `d1f8cdab7bb383ffd88c6952dc79fd380f19e19e`, 초기 카메라 생성 순서 보완 `be66cc46f9f406cb9bc895c162049d3b0b2d188e`.
+- 첫 scoped 검사에서 초기 카메라가 없는 payload 경로 3개가 실패하여 배포를 중단했다. 카메라 생성 전 접근을 보호하고 초기화 시 모드 정책을 적용한 뒤 해당 로더/배경 경로만 다시 검사하여 통과했다. 보상 관련 7개, 대사 정책 3개는 앞 배포 검사에서 이미 통과하여 재실행하지 않았다.
+- `npm run deploy:production -- --scoped` 완료. Pages **https://00a8dc04.cnine-card.pages.dev**, API Worker `ef825d09-d7f0-4337-bafc-5d30155349c6`, 기존 스케줄러 `fd3b6972-a683-4a78-8744-3d28574ebfbc`.
+- 운영 도메인의 CMS, 신규 보상 모듈, 격전지 UI, 전투 래퍼/번들 6개가 로컬 배포 파일 SHA-256과 일치한다. 셸 캐시 `20261013-coop-rewards-camera1`, 신규 격전지 진입 토큰 확인. 미인증 격전지 API는 401 유지.
+- 운영 DB 읽기 전용 확인: 기존 r6/ON/V3 유지, 정규화된 신규 보상은 `enabled:false`, `dailyLimit:3`, 모든 난이도 0/빈 아이템. 지급 카탈로그 60종 조회 성공. 실제 계정 지급·설정 변경 없음.
+- HTTP 확인 영수증: `docs/qa/cooperative-rewards-camera-20261013/live-verification.json`. 이 배포 결과 기록만 추가한 커밋은 재배포하지 않는다.
