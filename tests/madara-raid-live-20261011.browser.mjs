@@ -118,7 +118,7 @@ try{
   await page.keyboard.press('Escape');await page.locator('#madara-leaveDialog[open]').waitFor();await page.locator('#madara-cancelLeave').click();await fullscreen();
   if(width===1440){
     await page.reload();await page.waitForFunction(()=>typeof renderShell==='function');await page.evaluate(()=>renderShell('battle'));
-    await page.locator('[data-pve-mode="raid"]').click();await page.locator('#madaraRaidTab').click();
+    await page.locator('[data-pve-mode="raid"]').click();
     await page.locator('#madara-battleMount canvas').waitFor();await fullscreen();
   }
   // Navigation elsewhere can be triggered by the shell; its controls must be inert during combat.
@@ -127,7 +127,8 @@ try{
   assert.equal(await page.locator('body > #madara-live-app').count(),0);assert.equal(await page.locator('#app').evaluate(app=>app.inert),false);
   const count=calls.filter(k=>k==='raid/madara/state').length;await page.waitForTimeout(2200);assert.equal(calls.filter(k=>k==='raid/madara/state').length,count);
   if(width===1440){await page.evaluate(()=>renderShell('battle'));await page.locator('[data-pve-mode="raid"]').click();}
-  await page.locator('#madaraRaidTab').click();await page.locator('#madara-combat').waitFor({state:'visible'});assert.equal(await page.locator('#madara-battleMount canvas').count()<=1,true);
+  if(width!==1440)await page.locator('#madaraRaidTab').click();
+  await page.locator('#madara-combat').waitFor({state:'visible'});assert.equal(await page.locator('#madara-battleMount canvas').count()<=1,true);
   await page.locator('#madara-battleMount canvas').waitFor();await fullscreen();
   if(width===1440){
     assert.equal((await lich.command('leave',{roomId},2)).status,200);
