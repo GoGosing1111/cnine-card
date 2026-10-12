@@ -1,0 +1,117 @@
+{
+  "status": "VERIFIED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:bini-bongsoon-limited-grants:20261013:v1",
+    "planHash": "4ecd270a60b923af3b8a61cd30d8696474afef44951799a375d14b092f2bb6bf",
+    "completedAt": "2026-10-12T21:14:43.258Z",
+    "grants": [
+      {
+        "userId": 5504,
+        "nickname": "비_니",
+        "code": "V-990",
+        "name": "나무늘봉순",
+        "rank": "SS",
+        "edition": "LIMITED",
+        "quantity": 1,
+        "acquisitionId": "ops:bini-bongsoon-limited-grants:20261013:v1:5504",
+        "serial": 12,
+        "copiesBefore": 0,
+        "copiesAfter": 1
+      },
+      {
+        "userId": 5426,
+        "nickname": "나무늘봉순",
+        "code": "V-996",
+        "name": "발테르",
+        "rank": "SSS",
+        "edition": "LIMITED",
+        "quantity": 1,
+        "acquisitionId": "ops:bini-bongsoon-limited-grants:20261013:v1:5426",
+        "serial": 7,
+        "copiesBefore": 0,
+        "copiesAfter": 1
+      }
+    ],
+    "before": {
+      "V-990": {
+        "limit": 14,
+        "issued": 11,
+        "remaining": 3,
+        "stockRevision": 18
+      },
+      "V-996": {
+        "limit": 10,
+        "issued": 6,
+        "remaining": 4,
+        "stockRevision": 16
+      }
+    },
+    "after": {
+      "V-990": {
+        "limit": 15,
+        "issued": 12,
+        "remaining": 3,
+        "stockRevision": 19
+      },
+      "V-996": {
+        "limit": 11,
+        "issued": 7,
+        "remaining": 4,
+        "stockRevision": 17
+      }
+    },
+    "packRevisionBefore": 16,
+    "packRevisionAfter": 17,
+    "packMode": "ON",
+    "authorization": "비_니 SS 나무늘봉순 리미티드 지급 / 나무늘봉순 SSS 발테르 지급 / 두건 리미티드 횟수차감없이 지급",
+    "balancesPreserved": true,
+    "inventoryPreserved": true,
+    "loadoutAndGrowthPreserved": true,
+    "dailyUsagePreserved": true,
+    "otherSettingsPreserved": true,
+    "adminLogIds": [
+      "45422",
+      "45423",
+      "45424",
+      "45425"
+    ]
+  },
+  "current": {
+    "V-990": {
+      "limit": 15,
+      "issued": 12,
+      "remaining": 3,
+      "stockRevision": 19
+    },
+    "V-996": {
+      "limit": 11,
+      "issued": 7,
+      "remaining": 4,
+      "stockRevision": 17
+    }
+  },
+  "holdings": [
+    {
+      "userId": 5504,
+      "nickname": "비_니",
+      "code": "V-990",
+      "copies": 1,
+      "duplicates": 0
+    },
+    {
+      "userId": 5426,
+      "nickname": "나무늘봉순",
+      "code": "V-996",
+      "copies": 1,
+      "duplicates": 0
+    }
+  ],
+  "packMode": "ON",
+  "missing": 0,
+  "duplicateOperationGrants": 0,
+  "sourceSha256": "cb4444cd36f9abff0c751af9077fbc520c9e6814168b0558d6eb454843e5945e",
+  "commit": "ca665b09fd4c2a24a51aeb4ec0e602adb4062da9",
+  "independentConnection": true,
+  "verifiedAt": "2026-10-12T21:14:52.025Z"
+}
