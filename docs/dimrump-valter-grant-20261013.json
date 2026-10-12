@@ -1,0 +1,103 @@
+{
+  "status": "VERIFIED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:dimrump-valter-grant:20261013:v1",
+    "planHash": "305bec69e496c895c12c167521292d73febcfc66b05b2a1912857cca3a571de6",
+    "plan": {
+      "operationKey": "ops:dimrump-valter-grant:20261013:v1",
+      "target": {
+        "id": 4774,
+        "nickname": "딤럼프"
+      },
+      "cards": [
+        {
+          "code": "V-996",
+          "name": "발테르",
+          "rank": "SSS",
+          "edition": "LIMITED",
+          "quantity": 1
+        }
+      ],
+      "addedCapacity": 1,
+      "expectedLimit": 9,
+      "authorization": "딤럼프 계정에 리미티드 횟수차감없이 발테르 지급해",
+      "delivery": "DIRECT",
+      "permanent": true,
+      "cost": 0,
+      "remainingStockDeduction": 0
+    },
+    "actor": "CODEX_OPERATIONS",
+    "completedAt": "2026-10-12T19:12:10.194Z",
+    "grants": [
+      {
+        "userId": 4774,
+        "nickname": "딤럼프",
+        "code": "V-996",
+        "name": "발테르",
+        "rank": "SSS",
+        "edition": "LIMITED",
+        "quantity": 1,
+        "acquisitionId": "ops:dimrump-valter-grant:20261013:v1:V-996",
+        "copiesBefore": 0,
+        "copiesAfter": 1,
+        "serial": 6
+      }
+    ],
+    "before": {
+      "limit": 9,
+      "issued": 5,
+      "remaining": 4
+    },
+    "after": {
+      "limit": 10,
+      "issued": 6,
+      "remaining": 4
+    },
+    "packMode": "ON",
+    "preserved": {
+      "balances": true,
+      "inventory": true,
+      "loadout": true,
+      "growth": true,
+      "otherCards": true,
+      "otherSettings": true
+    },
+    "adminLogIds": [
+      "45343",
+      "45344"
+    ]
+  },
+  "current": {
+    "limit": 10,
+    "issued": 6,
+    "remaining": 4
+  },
+  "holdings": [
+    {
+      "code": "V-996",
+      "copies": 1
+    }
+  ],
+  "missing": 0,
+  "duplicateOperationGrants": 0,
+  "verifiedAt": "2026-10-12T19:12:18.017Z",
+  "validation": {
+    "focusedTests": 5,
+    "passed": 5,
+    "failureRollbackAtEveryWrite": true,
+    "idempotentReplay": true,
+    "lostCommitRecovery": true,
+    "productionDryRunRolledBack": true,
+    "productionReplayUnchanged": true,
+    "freshConnectionReadOnlyVerification": true,
+    "sourceSha256": "60614e225a4727e123965e415dfbb6619e8f6ce67137481598a6e98a67c18f92"
+  },
+  "delivery": "DIRECT_OWNERSHIP",
+  "release": {
+    "runtimeFilesChanged": false,
+    "deploymentRequired": false,
+    "reason": "Explicit one-time database operation; no game runtime or release flag changes."
+  },
+  "operationCommit": "531ead2518b6c099a17d7fc3e3523542e18495d9"
+}
