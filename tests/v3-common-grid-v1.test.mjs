@@ -139,9 +139,11 @@ test('all ten served V3 bundles including the account entry and hunt share the c
   const report = JSON.parse(read('preview/project-v-v3/grid-build-report.json'));
   assert.equal(report.version, 'OCCUPIED_GRID_V1');
   assert.equal(report.layoutVersion, 'UNIFORM_LATTICE_V2');
-  assert.equal(report.outputs.length, 10); assert.equal(report.sources.length, 99);
+  assert.equal(report.outputs.length, 10);
+  assert.ok(report.sources.length>=99);
+  assert.equal(new Set(report.sources.map(row=>row.file)).size,report.sources.length);
   for(const file of ['preview/project-v-v3/source/battle/HeliosCombatPlayback.js','shared/mercenary-helios-v1.mjs','preview/mercenary-limited-solar-sword-20261009-v1/source/SolarFX.js','preview/mercenary-limited-solar-sword-20261009-v1/motion.mjs'])assert.ok(report.sources.some(row=>row.file===file),file);
-  for (const name of ['SXSuitCamera.js','PetSupportPlayback.js','OverlordSuitModel.mjs', 'OverlordSuitAnimation.js'])
+  for (const name of ['SXSuitCamera.js','PetSupportPresentation.mjs','PetSupportHud.js','PetOpeningFX.js','PetSupportPlayback.js','OverlordSuitModel.mjs', 'OverlordSuitAnimation.js'])
     assert.ok(report.sources.some(row => row.file === `preview/project-v-v3/source/battle/${name}`), `${name} must participate in bundle freshness checks`);
   for(const file of ['preview/project-v-v3/source/battle/IconRolePlayback.js','shared/icon-roles-v1.mjs','shared/icon-role-visuals-v1.mjs'])assert.ok(report.sources.some(row=>row.file===file),file);
   for(const name of ['CooperativeEncounter.js','CooperativeArkePlayback.js'])assert.ok(report.sources.some(row=>row.file===`preview/project-v-v3/source/battle/${name}`));

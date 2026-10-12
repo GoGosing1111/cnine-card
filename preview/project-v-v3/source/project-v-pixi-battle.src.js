@@ -118,6 +118,7 @@ async function syncFinalState(final){
   return engine.syncFinalState(final);
 }
 function syncCooperativeState(frame){return engine?.syncCooperativeState(frame);}
+function restorePetSupport(beforeMs){return engine?.restorePetSupport(beforeMs)||0;}
 
 function diagnostics(){
   return engine?.diagnostics()||{mounted:false};
@@ -166,7 +167,7 @@ async function playAccountPreviewShot({onAnticipation,onFire,damage=100000}={}){
 }
 
 const fxRuntime=Object.freeze({Assets,Container,Graphics,Sprite,Texture,Rectangle});
-const api={runtimeVersion:'20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010',fxRuntime,mountEffectScene,releaseEffectScene,mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,restoreDeployedFormation,setBattlePayload,setBattlefield,verifyTargetSwitch,playAccountPreviewShot,setAccountPreviewFirearmHook,startAccountBattleUnitSustainedFire,stopAccountBattleUnitSustainedFire,cancelActiveAnimations,completePlayback,syncFinalState,syncCooperativeState,diagnostics,destroy};
+const api={runtimeVersion:'20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2',fxRuntime,mountEffectScene,releaseEffectScene,mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,restoreDeployedFormation,setBattlePayload,setBattlefield,verifyTargetSwitch,playAccountPreviewShot,setAccountPreviewFirearmHook,startAccountBattleUnitSustainedFire,stopAccountBattleUnitSustainedFire,cancelActiveAnimations,completePlayback,syncFinalState,syncCooperativeState,restorePetSupport,diagnostics,destroy};
 if(typeof window!=='undefined')window.ProjectVPixiBattle=api;
 
-export {mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,restoreDeployedFormation,setBattlePayload,setBattlefield,verifyTargetSwitch,playAccountPreviewShot,setAccountPreviewFirearmHook,startAccountBattleUnitSustainedFire,stopAccountBattleUnitSustainedFire,cancelActiveAnimations,completePlayback,syncFinalState,syncCooperativeState,diagnostics,destroy};
+export {mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,restoreDeployedFormation,setBattlePayload,setBattlefield,verifyTargetSwitch,playAccountPreviewShot,setAccountPreviewFirearmHook,startAccountBattleUnitSustainedFire,stopAccountBattleUnitSustainedFire,cancelActiveAnimations,completePlayback,syncFinalState,syncCooperativeState,restorePetSupport,diagnostics,destroy};

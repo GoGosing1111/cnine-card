@@ -30,7 +30,7 @@ import {withMercenaryBattle} from './MercenaryCombatPlayback.js';
 import {preloadCooperativeArke,playCooperativeArkeAttack,playCooperativeWatcherAttack,playCooperativeArkeMechanic} from './CooperativeArkePlayback.js';
 import {bindCooperativeEnemy,cooperativeSnapshot,spawnCooperativeEnemy} from './CooperativeEncounter.js';
 import {preloadIconPlayback,playIconEvent,playIconBasic,disposeIconPlayback} from './IconRolePlayback.js';
-import {preparePetSupport,playPetOpening,disposePetSupport} from './PetSupportPlayback.js';
+import {preparePetSupport,playPetOpening,disposePetSupport,restorePetSupport} from './PetSupportPlayback.js';
 import {iconDefinition} from '../../../../shared/icon-roles-v1.mjs';
 
 const DESKTOP={width:1600,height:820};
@@ -3628,6 +3628,7 @@ export class BaseBattleEngine{
     if(!this.app||this.disposed)return false;
     this.requestedVisible=false;
     this.visible=false;
+    this.petSupportHud?.visible(false);
     this.stopPresentation();
     // Commit the authoritative final state once, retaining the canvas for
     // the report. resetSession + setVisible(true) owns the next battle.
@@ -3655,6 +3656,7 @@ export class BaseBattleEngine{
     this.releaseBackgroundClock?.();
     const wasVisible=this.visible;
     this.visible=this.requestedVisible&&!document.hidden;
+    this.petSupportHud?.visible(this.visible);
     if(this.effectScene){
       if(wasVisible!==this.visible)for(const entry of this.simpleTimelines){
         if(!this.visible){entry.resumeOnVisible=!entry.instance.paused();entry.instance.pause();}
@@ -3681,11 +3683,14 @@ export class BaseBattleEngine{
     }
   }
 
+  restorePetSupport(beforeMs){return restorePetSupport(this,beforeMs);}
+
   diagnostics(){
     return {
       mounted:this.mounted,
       visible:this.visible,
       playing:this.playing,
+      petSupport:[...(this.petSupports?.values()||[])].map(row=>({side:row.side,ownerId:row.ownerId,petCode:row.snapshot.definition.code,applied:row.applied,restored:!!row.restored,effectActive:!!row.fxCleanup})),
       renderer:this.app?.renderer?.type||'unknown',
       resolution:this.app?.renderer?.resolution||1,
       pools:this.pools?.stats()||[],
