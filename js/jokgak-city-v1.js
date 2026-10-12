@@ -1,7 +1,7 @@
 (function(){
   'use strict';
   if(window.JokgakCity)return;
-  const VERSION='20261012-background-perf1',ART='/assets/ui/jokgak-city/',PREVIEW=location.pathname.startsWith('/preview/jokgak-city-v1/');
+  const VERSION='20261012-move-countdown1',ART='/assets/ui/jokgak-city/',PREVIEW=location.pathname.startsWith('/preview/jokgak-city-v1/');
   const config=Promise.all([import('/shared/jokgak-city-v1.mjs?v='+VERSION),import('/shared/jokgak-city-settings-v1.mjs?v='+VERSION),import('/js/jokgak-city-life-ui-v1.mjs?v='+VERSION),import('/js/jokgak-city-expansion-ui-v1.mjs?v='+VERSION),import('/js/jokgak-city-career-ui-v1.mjs?v='+VERSION),import('/js/jokgak-city-notice-layer-v1.mjs?v='+VERSION),import('/js/jokgak-city-comms-ui-v1.mjs?v='+VERSION),import('/js/jokgak-city-exploration-ui-v1.mjs?v='+VERSION),import('/js/jokgak-city-conflict-ui-v1.mjs?v='+VERSION)]).then(([city,settings,life,expansion,career,notices,comms,exploration,conflict])=>({...city,...settings,...life,...expansion,...career,...notices,...comms,...exploration,...conflict}));
   const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const paths={bed:'M2 4v18m20-11v11M2 17h20M5 11h5V7H5Zm7 0h10v6H2',cash:'M2 5h20v14H2ZM8 12a4 4 0 1 0 8 0 4 4 0 0 0-8 0ZM5 9v6m14-6v6',meal:'M3 2v6m3-6v6m3-6v6M3 6h6v4H3Zm3 4v12M18 2v20m0-20c-5 2-5 9 0 9',bottle:'M9 2h6v5l3 4v11H6V11l3-4ZM9 2v5h6M6 14h12',shield:'M12 2 21 6v6c0 5-9 10-9 10S3 17 3 12V6ZM8 11l3 3 5-6',cross:'M9 3h6v6h6v6h-6v6H9v-6H3V9h6Z',medical:'M9 3h6v6h6v6h-6v6H9v-6H3V9h6ZM5 3v2M19 19v2',person:'M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM4 22v-3a8 8 0 0 1 16 0v3',bag:'M8 3h8l-2 4 6 7v6H4v-6l6-7ZM9 7h6M10 14h4',swords:'m4 2 8 8-3 3-7-7Zm16 0-8 8 3 3 7-7ZM5 11l-4 4m8 2-4 5m14-11 4 4m-8 2 4 5',bolt:'m13 2-9 12h7l-1 8 10-13h-7Z',store:'M3 9h18v12H3ZM2 9l3-6h14l3 6M8 21v-7h8v7M8 3 6 9m10-6 2 6',mail:'M2 5h20v15H2Zm0 0 10 8L22 5',market:'M3 10v11h18V10M2 10l3-7h14l3 7ZM8 3v7m8-7v7M8 21v-6h8v6',home:'m2 11 10-9 10 9M5 9v13h14V9M9 22v-8h6v8',warehouse:'M2 8 12 2l10 6v14H2ZM6 22V11h12v11M6 15h12M6 19h12',arrow:'M3 12h18m-7-7 7 7-7 7',target:'M12 3v4m0 10v4M3 12h4m10 0h4M18 12a6 6 0 1 1-12 0 6 6 0 0 1 12 0Z',clock:'M12 6v6l4 3M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z',close:'m5 5 14 14M19 5 5 19',refresh:'M3 10a9 9 0 1 1 2 9M3 3v7h7',map:'m2 5 6-3 8 3 6-3v17l-6 3-8-3-6 3ZM8 2v17m8-14v17'};
@@ -13,7 +13,7 @@
     if(PREVIEW&&window.CityPreview)return window.CityPreview.request(path,body);
     const token=localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
     const response=await fetch('/api/jokgak-city/'+path,{method:body?'POST':'GET',cache:'no-store',headers:{...(token?{authorization:'Bearer '+token}:{}),...(body?{'content-type':'application/json'}:{})},body:body?JSON.stringify(body):undefined,signal:AbortSignal.timeout(body?45000:12000)});
-    const value=await response.json();if(!response.ok)throw Object.assign(Error(value.error||'요청을 처리하지 못했습니다.'),{status:response.status,code:value.code});return value;
+    const value=await response.json();if(!response.ok)throw Object.assign(Error(value.error||'요청을 처리하지 못했습니다.'),{status:response.status,code:value.code,cooldown:value.cooldown});return value;
   }
   function css(){const current=document.getElementById('jokgakStyle');if(current?.sheet)return Promise.resolve();const link=current||document.createElement('link');const ready=new Promise(resolve=>{link.addEventListener('load',resolve,{once:true});link.addEventListener('error',resolve,{once:true});});if(!current){link.id='jokgakStyle';link.rel='stylesheet';link.href='/css/jokgak-city-v1.css?v='+VERSION;document.head.append(link);}return ready;}
   const stylesReady=css();
@@ -32,6 +32,18 @@
   function roleBadge(code,small=false){const r=role(code);return `<span class="jc-role${small?' small':''}" style="--role:${r.color}">${icon(r.icon)}<b>${r.name}</b></span>`;}
   function hp(value,max=100){return `<span class="jc-hp"><i style="width:${Math.max(0,Math.min(100,Number(value)/max*100))}%"></i></span>`;}
   function targetDisabled(target){const m=state?.mine;if(!m?.active)return '입장 후 가능';if(m.restUntil>time()||target.restUntil>time())return '모텔 휴식 중';if(m.deadUntil>time())return '사망 대기';if(target.deadUntil>time())return '상대 사망 대기';if(m.hospitalRequired)return '병원 진료 필요';if(target.hospitalRequired)return '상대 진료 중';if(m.location!==selected)return '이동 후 가능';if(m.jailedUntil>time())return '구금 중';if(target.jailedUntil>time())return '상대 구금 중';if(m.nextActionAt>time())return '행동 대기';return '';}
+  function tickMove(){
+    const m=state?.mine,now=time(),left=Math.max(0,Math.ceil((Number(m?.nextMoveAt||0)-now)/1000)),here=m?.active&&m.location===selected;
+    const button=root?.querySelector('[data-city-action="move"]'),label=button?.querySelector('[data-city-move-label]'),wait=root?.querySelector('[data-city-move-clock]');
+    if(button)button.disabled=!m?.active||here||busy||left>0||m.deadUntil>now||m.restUntil>now||m.jailedUntil>now||m.hospitalRequired;
+    if(label)label.textContent=here?'현재 머무르는 장소':left>0?`${left}초 후 이동 가능`:'이곳으로 이동';
+    if(wait){wait.hidden=!m?.active||left<=0;wait.textContent=`다음 이동까지 ${left}초`;}
+    const countdown=dialog?.querySelector('[data-city-move-ready-at]');
+    if(countdown){const remaining=Math.max(0,Math.ceil((Math.max(Number(countdown.dataset.cityMoveReadyAt),Number(m?.nextMoveAt||0))-now)/1000));countdown.textContent=remaining>0?`${remaining}초`:'대기 완료';const hint=dialog.querySelector('[data-city-move-hint]');if(hint)hint.textContent=remaining>0?'남은 시간이 끝나면 이동 버튼이 활성화됩니다.':'이동 대기가 끝났습니다. 안내를 닫고 이동할 장소를 선택해 주세요.';}
+  }
+  function showMoveWait(endsAt){
+    showDialog('이동 대기',`<div class="jc-move-countdown"><span>다음 이동까지</span><strong data-city-move-ready-at="${Number(endsAt)}"></strong></div><p data-city-move-hint></p>`);tickMove();
+  }
   function render(){
     if(!root?.isConnected||!C||cityHidden())return;
     const scroll=root.querySelector('.jc-map-scroll'),listScroll=root.querySelector('.jc-people')?.scrollTop||0,mapScroll={left:scroll?.scrollLeft||0,top:scroll?.scrollTop||0};
@@ -48,7 +60,7 @@
         <div class="jc-beg-offers" aria-label="이곳의 구걸·동냥">${C.cityBeggingOffers(state,time(),busy,icon)}</div></div><p class="jc-mobile-map-hint">← 지도를 좌우로 밀어 다른 장소를 확인하세요 →</p><div class="jc-map-footer"><span><i></i>선택한 장소 <b>${area.name}</b></span><span><i class="current"></i>내 위치 <b>${active?place(mine.location).name:'미입장'}</b></span><p>경찰의 검문 · 시민 간 교전 · 의료진의 치료</p></div>${C.cityRiotSummary(state,time())}${C.cityBountyBoard(state,time())}
 
       </section>
-      <aside class="jc-intel" aria-label="선택한 장소와 체류자"><div class="jc-location-cover" style="--crop-x:${area.x}%;--crop-y:${area.y}%"><span>${area.district}</span><div>${icon(area.icon)}<h2>${area.name}</h2><b>${C.CITY_PLACES.indexOf(area)+1<10?'0':''}${C.CITY_PLACES.indexOf(area)+1}</b></div></div><div class="jc-location-body"><p>${area.detail}</p><button class="${here?'jc-here':'jc-primary'}" data-city-action="move" ${!active||here||busy||mine?.deadUntil>time()||mine?.restUntil>time()||mine?.hospitalRequired?'disabled':''}>${here?'현재 머무르는 장소':'이곳으로 이동'}${icon(here?'target':'arrow')}</button></div>
+      <aside class="jc-intel" aria-label="선택한 장소와 체류자"><div class="jc-location-cover" style="--crop-x:${area.x}%;--crop-y:${area.y}%"><span>${area.district}</span><div>${icon(area.icon)}<h2>${area.name}</h2><b>${C.CITY_PLACES.indexOf(area)+1<10?'0':''}${C.CITY_PLACES.indexOf(area)+1}</b></div></div><div class="jc-location-body"><p>${area.detail}</p><button class="${here?'jc-here':'jc-primary'}" data-city-action="move" ${!active||here||busy||mine?.deadUntil>time()||mine?.restUntil>time()||mine?.hospitalRequired?'disabled':''}><span data-city-move-label>${here?'현재 머무르는 장소':'이곳으로 이동'}</span>${icon(here?'target':'arrow')}</button><p class="jc-move-wait" data-city-move-clock role="timer" aria-live="off" hidden></p></div>
       ${C.cityExplorePanel(state,selected,time(),busy)}<div data-city-facilities>${selected==='HOSPITAL'?C.cityFacilities(state,selected,time(),busy):''}</div>${['MARKET','SHOP','RESTAURANT','HOSPITAL','MOTEL'].includes(selected)?`<button class="jc-service-launch" data-city-desk="services">${icon(area.icon)}${selected==='MARKET'?'시장 상점 · 무기·확성기':selected==='SHOP'?'상점 이용':selected==='RESTAURANT'?'식사 메뉴':selected==='HOSPITAL'?'병원 진료':'객실 이용'} <span>열기 ↗</span></button>`:''}<div class="jc-people-heading"><h3>이곳의 체류자 <b>${people.length}${state?.nextCursor?'+':''}</b></h3><span>최대 10명씩</span></div>
       <div class="jc-people" role="list">${people.length?people.map((p,i)=>{const pr=role(p.role),self=p.userId===mine?.userId;return `<button role="listitem" class="jc-person ${p.userId===selectedUser?'selected':''}" data-city-person="${p.userId}" style="--role:${pr.color}" aria-label="${esc(p.nickname)}, ${pr.name}${self?', 나':''}"><span class="jc-person-number">${String(i+1).padStart(2,'0')}</span><span class="jc-person-icon">${icon(pr.icon)}</span><span class="jc-person-copy"><b>${esc(p.nickname)}${self?'<em>나</em>':''}</b><small>${pr.name}<i>·</i>${p.deadUntil>time()?'사망 · 병원 이송':p.hospitalRequired?'응급 진료 중':p.jailedUntil>time()?'구금 중':p.protectedUntil>time()?'교전 보호 중':p.wanted?'수배 중':'체류 중'}</small>${hp(p.health,p.maxHealth||100)}${C.cityBountyTag(p)}</span><span class="jc-person-health">${p.health}<small>HP</small></span></button>`;}).join(''):'<div class="jc-empty">'+icon('person')+'<b>아직 체류자가 없습니다.</b><p>다른 장소를 확인해 보세요.</p></div>'}</div>
       <div class="jc-pagination"><button data-city-page="prev" ${pages.length<2?'disabled':''}>← 이전</button><span>${pages.length} 페이지</span><button data-city-page="next" ${!state?.nextCursor?'disabled':''}>다음 →</button></div>
@@ -65,7 +77,7 @@
   function tick(){
     if(!root?.isConnected){stop();return;}
     if(cityHidden())return;
-    tickBroadcast();tickBounties();
+    tickBroadcast();tickBounties();tickMove();
     if(state?.shift.endsAt<=time()&&!state.rotationClosed){state.rotationClosed=true;if(state.mine)state.mine.active=false;state.people=[];state.conflicts=null;activity={items:[],next:null};broadcastQueue=[];broadcastCurrent=null;bountyQueue=[];bountyCurrent=null;clearNotice();clearDeathPanel();root.querySelector('.jc-map-broadcast')?.replaceChildren();closeDesk();closeDialog();render();return;}
     const shift=root.querySelector('[data-city-shift]');if(shift&&state)shift.textContent=clockText(state.shift.endsAt-time());
     tickDesk();
@@ -214,6 +226,7 @@
     if(busy||!state)return;
     const old=storage.get(pendingKey());
     if(old&&!retry){showDialog('처리 상태 확인',`<p>앞선 요청의 결과를 먼저 확인해야 합니다. 같은 요청 번호로 확인하여 중복 처리하지 않습니다.</p>`,'<button data-city-retry>요청 확인</button>');dialog.querySelector('[data-city-retry]').onclick=()=>{closeDialog();void action(old.kind,true);};return;}
+    if(kind==='move'&&!retry&&state.mine?.nextMoveAt>time()){showMoveWait(state.mine.nextMoveAt);return;}
     const target=state.people.find(p=>p.userId===selectedUser);
     if(kind==='join'&&!retry){const d=showDialog('족각도시에 입장',`<p>공통 5인 전투 규칙으로 참여합니다. 도시에서 얻은 무기·방어구와 경찰 직급 혜택이 전투력을 결정합니다.</p>${state.mode==='TEST'?'<p><b>TEST 운영 · 실제 보상 미지급</b></p>':''}<p>교전에서 패배하면 ${state.cash?.theft?.enabled?`소지 현금의 ${state.cash.theft.percent}% (최대 ${money(state.cash.theft.maxCash)}원)를 상대에게 빼앗길 수 있습니다.`:"도시 체력이 감소합니다."}</p><p>다른 콘텐츠를 이용하는 동안에도 이곳에서 공격받을 수 있습니다. 체류는 <b>도시 퇴장</b> 또는 <b>6시간 교대 종료</b> 때 끝납니다. 교대 뒤에는 직접 다시 입장해야 합니다.</p>`,'<button data-city-dialog-close>돌아가기</button><button class="jc-primary" data-city-confirm>입장</button>');d.querySelector('[data-city-confirm]').onclick=()=>{closeDialog();void submit(kind,{requestId:crypto.randomUUID(),epoch:state.shift.id});};return;}
     const body=retry?old.body:{requestId:crypto.randomUUID(),epoch:state.shift.id,...(['move','explore'].includes(kind)?{location:selected}:{}),...(['attack','arrest','heal','inspect'].includes(kind)?{targetId:target?.userId}:{}),...(['buy','use','buyWeapon','equipWeapon','equipArmor','workStart'].includes(kind)?{product}:{}),...(kind==='donate'?{targetId:offer?.actorId,offerId:offer?.requestId}:{}),...(kind==='broadcast'?{message:broadcastDraft}:{})};
@@ -248,7 +261,12 @@
       if(kind==='join'){notifyPollSoon(true);}
     }catch(error){
       if([400,401,403,409,429].includes(error.status))storage.set(submissionKey,null);
-      if(root===submittedRoot&&submittedRoot?.isConnected)showDialog('행동 확인',`<p>${esc(error.message||'응답을 받지 못했습니다. 처리 중인 요청 확인을 눌러 주세요.')}</p>`);
+      if(root===submittedRoot&&submittedRoot?.isConnected){
+        if(kind==='move'&&error.code==='CITY_COOLDOWN'&&error.cooldown?.action==='move'&&Number.isFinite(error.cooldown.endsAt)&&Number.isFinite(error.cooldown.serverNow)){
+          offset=error.cooldown.serverNow-Date.now();if(state.mine)state.mine.nextMoveAt=error.cooldown.endsAt;showMoveWait(error.cooldown.endsAt);
+        }else if(kind==='move'&&error.code==='CITY_COOLDOWN'&&state.mine?.nextMoveAt>time())showMoveWait(state.mine.nextMoveAt);
+        else showDialog('행동 확인',`<p>${esc(error.message||'응답을 받지 못했습니다. 처리 중인 요청 확인을 눌러 주세요.')}</p>`);
+      }
     }finally{if(root===submittedRoot){busy=false;await refresh();if(successText)message(successText);}}
   }
   async function playBattle(data){

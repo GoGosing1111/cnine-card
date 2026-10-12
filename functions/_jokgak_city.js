@@ -26,7 +26,7 @@ import {prepareCityConflict,cityConflictWorld,invalidateCityRiots} from './_jokg
 
 const p=(env,sql,...v)=>env.DB.prepare(sql).bind(...v);
 const parse=(value,fallback={})=>{try{return JSON.parse(value)??fallback;}catch{return fallback;}};
-const fail=(code,message,status=409)=>{throw Object.assign(Error(message),{code:'CITY_'+code,status});};
+const fail=(code,message,status=409,cooldown)=>{throw Object.assign(Error(message),{code:'CITY_'+code,status,...(cooldown?{cooldown}:{})});};
 const tokenValid=value=>typeof value==='string'&&/^[a-zA-Z0-9:_-]{8,100}$/.test(value);
 const activeUserSql="u.status='ACTIVE' AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))";
 const lifeJoin=" LEFT JOIN app_meta life ON life.key='jokgak_city_life_v1:'||CAST(c.user_id AS TEXT) ";
@@ -177,7 +177,7 @@ export async function cityAction(env,deps,user,action,body){
       expansion=cityExpansionAction({action,product,me,life:myLife,policy,now});
     }else if(action==='move'){
       if(!cityPlace(location))fail('PLACE','장소를 확인하세요.',400);
-      if(me.nextMoveAt>now)fail('COOLDOWN','이동 대기시간을 확인하세요.',429);
+      if(me.nextMoveAt>now)fail('COOLDOWN',`이동까지 ${Math.ceil((me.nextMoveAt-now)/1000)}초 남았습니다.`,429,{action:'move',endsAt:me.nextMoveAt,serverNow:now});
       if(me.location===location)fail('SAME_PLACE','현재 머무르는 장소입니다.');
       me.location=location;me.nextMoveAt=now+rules.moveCooldownMs;
     }else if(isBeg){
@@ -315,7 +315,7 @@ export async function handleJokgakCity({path,request,env,deps}){
     const body=await readJointBody(request,{fields:['requestId','epoch','targetId','location','product','offerId','message']});
     return json(await deps.withUserMutationLock(env,user.id,path,()=>cityAction(env,deps,user,part,body)));
   }catch(error){
-    if(error.status)return json({error:error.message,code:error.code||'CITY_REQUEST'},error.status);
+    if(error.status)return json({error:error.message,code:error.code||'CITY_REQUEST',...(error.cooldown?{cooldown:error.cooldown}:{})},error.status);
     console.error('CITY_REQUEST_FAILED',{code:error.code||'UNKNOWN',name:error.name||'Error'});return json({error:'처리 상태를 확인하지 못했습니다. 같은 요청으로 다시 확인하세요.',code:'CITY_RETRY',retryable:true},503);
   }
 }
