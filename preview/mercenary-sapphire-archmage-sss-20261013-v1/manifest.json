@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "title": "청옥 중갑 마법사 SSS 용병 원화",
+  "titleType": "descriptive working label, not a confirmed character name",
+  "date": "2026-10-13",
+  "status": "SOURCE_ART_DRAFT_USER_REVIEW_PENDING",
+  "request": "해당 캐릭터 디자인 최대한 다 반영하면서 지팡이 들고있는 마법사형 SSS 용병 일러스트 만들어",
+  "rank": "SSS",
+  "rankStatus": "USER_SPECIFIED",
+  "name": null,
+  "mercenaryCode": null,
+  "edition": null,
+  "archetype": "STAFF_MAGE",
+  "sourceArt": "assets/sapphire-archmage-sss-source-art-v1.png",
+  "reference": "references/user-sapphire-armored-character-20261013.png",
+  "generation": "prompt-v1.json",
+  "image": {
+    "width": 1024,
+    "height": 1536,
+    "aspectRatio": "2:3",
+    "format": "PNG",
+    "mode": "RGB",
+    "bitDepth": 8,
+    "bytes": 2738815,
+    "sha256": "38DA2E9BBE7BEBB7BCB0855260705FCCB1EF0CD638A005308A7B164B0B660793",
+    "sourceUnmodified": true
+  },
+  "designPreserved": [
+    "상향 날 형태의 흰색·금색 투구와 청색 이마 보석",
+    "날카로운 청백색 눈과 닫힌 얼굴 장갑",
+    "검정·남색 내부 장갑 위 흰색 흉갑과 금빛 테두리",
+    "둥근 금속 관절 장식이 있는 비대칭 견갑",
+    "크고 단단한 청색·남색 날개형 장갑",
+    "보석을 넣은 허리·다리 장갑과 긴 남색 망토"
+  ],
+  "changes": [
+    "동일한 재질·장식 문법의 사파이어 지팡이와 자연스러운 파지",
+    "반대 손의 푸른 마법진",
+    "원본 건축을 참고한 마도 성전 배경"
+  ],
+  "visualQA": {
+    "helmetAndUpperBodyReadable": true,
+    "proportionsNotSqueezed": true,
+    "rigidContinuousStaffShaft": true,
+    "handGripConnected": true,
+    "staffCoreAndCastingHandDistinct": true,
+    "noEmbeddedTextLogoFrame": true,
+    "userApproval": false
+  },
+  "scope": {
+    "sourceArtOnly": true,
+    "battleSpritePrepared": false,
+    "animationPrepared": false,
+    "cmsRegistered": false,
+    "runtimeConnected": false,
+    "statsOrSkillsAssigned": false,
+    "limitedStockChanged": false
+  }
+}
