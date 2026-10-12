@@ -1,0 +1,36 @@
+{
+  "verifiedAt": "2026-10-12T19:13:19.422Z",
+  "revision": 9,
+  "preservedExistingRows": 9,
+  "afterRows": 10,
+  "registeredArtworkCount": 9,
+  "documentPolicyUnchanged": true,
+  "pet": {
+    "code": "PET-MALTESE-DIIM",
+    "name": "말티즈디임",
+    "sourceArt": "assets/ui/pets/maltese-diim-20261013/pet-maltese-diim-approved.png",
+    "battleSprite": "assets/ui/pets/maltese-diim-20261013/pet-maltese-diim-approved.png",
+    "enabled": true,
+    "modes": [
+      "PVE",
+      "PVP"
+    ],
+    "target": "ALL_ALLIES",
+    "buffs": [
+      {
+        "type": "ATTACK_PERCENT",
+        "percent": 10
+      }
+    ],
+    "notes": "2026-10-13 사용자 라이브 반영 승인 말티즈디임 / 원본 보존",
+    "liveEnabled": true
+  },
+  "modesReady": [
+    "PVE",
+    "PVP"
+  ],
+  "existingDocumentHash": "715361b45f770ee80a75951846fcb6005be61a299327259caa6b5dd67efa4bb2",
+  "savedDocumentHash": "c555534a3d2a700be8e5d1e101b2cfcf7abdb54327604e3f55b7616018b17c40",
+  "accountGrant": false,
+  "openingPoolOrWeightChange": false
+}

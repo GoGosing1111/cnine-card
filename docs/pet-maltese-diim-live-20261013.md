@@ -26,3 +26,12 @@
 직전 실제 운영 Pages는 `ea9bba73-8b29-4dbe-80c6-f2d21f69ae8d`, 소스 `19b1eccd1acaf3b38f223ae1eb2338441bf0dfd6`다. 변경은 펫 원화 목록 1행·승인 PNG·프리뷰/기록이며 공통 인증·DB·전투 계산·렌더러 수정은 없다.
 
 지정 `npm run deploy:production -- --scoped`에서 기존 관련 회귀 `tests/pet-equipment-20261002.test.mjs`, `tests/pet-live-magnet-20261006.test.mjs`를 한 번 실행한다. 전체 게임 검사는 실행하지 않는다. 배포 후 원본 반영과 CMS 신규 한 행 저장·재조회만 확인한다.
+
+## 운영 반영 완료
+
+- 소스 커밋 `c2405c1e12a92715d858383d9f8005d746b2a982`, Pages `a6596d81-c5eb-4e9a-96f4-a5f182ddf5a2` 배포 성공. 관련 검사 16개·출시 상태·Hyperdrive 캐시 OFF 검사를 통과했다.
+- 운영 이미지와 원화 목록 HTTP 200 및 로컬 SHA-256 일치 확인. API runtime `ecea3178-f0c0-4ac1-b15c-5276dd59fc84`, clan-draft `53e6ec7f-0fd8-4b30-b5de-cf43ca215c3a` 배포 완료.
+- OWNER CMS **버전 9**로 저장하고 새로고침한 문서를 백업·검증했다. 기존 9개 행 및 문서 정책은 모두 동일하고 말티즈디임 1개만 추가됐다. 원화 등록 펫은 총 9종이다.
+- 2026-10-13 04:14 KST, 실제 운영 `/pet-codex/`에서 말티즈디임을 선택해 원화 로딩(1254px), 공격력 10%, 카드+용병·PvE/PvP 표시를 확인했다. 미보유 계정의 장착 버튼은 비활성이다. 기존 장착 펫과 보유 수량은 변경하지 않았다.
+- CMS 검증: `docs/qa/pet-maltese-diim-live-20261013/cms.json`. 라이브 확인 영수증: 같은 폴더의 `production.json`, `live-ui.json`.
+- 완료 기록만 추가하므로 게임 검사와 배포를 반복하지 않는다.

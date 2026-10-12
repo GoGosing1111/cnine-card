@@ -1,0 +1,41 @@
+{
+  "verifiedAt": "2026-10-12T19:14:22.085Z",
+  "sourceCommit": "c2405c1e12a92715d858383d9f8005d746b2a982",
+  "previousDeployedCommit": "19b1eccd1acaf3b38f223ae1eb2338441bf0dfd6",
+  "command": "npm run deploy:production -- --scoped",
+  "tests": {
+    "files": [
+      "tests/pet-equipment-20261002.test.mjs",
+      "tests/pet-live-magnet-20261006.test.mjs"
+    ],
+    "passed": 16,
+    "failed": 0
+  },
+  "releaseGuard": "passed",
+  "hyperdriveCache": "OFF verified",
+  "pages": {
+    "id": "a6596d81-c5eb-4e9a-96f4-a5f182ddf5a2",
+    "url": "https://a6596d81.cnine-card.pages.dev"
+  },
+  "apiRuntimeVersion": "ecea3178-f0c0-4ac1-b15c-5276dd59fc84",
+  "clanDraftVersion": "53e6ec7f-0fd8-4b30-b5de-cf43ca215c3a",
+  "files": [
+    {
+      "path": "assets/ui/pets/maltese-diim-20261013/pet-maltese-diim-approved.png",
+      "status": 200,
+      "sha256": "e24d3b3917559e5474dd04fc4ef3d4e23c94a6f7fc557f7afdc43976b02330cc",
+      "localHashMatches": true
+    },
+    {
+      "path": "shared/pet-art-catalog-v1.mjs",
+      "status": 200,
+      "sha256": "01c8d7409380632c3f399d499572f334824ea839974ecb9dd6df39465175016f",
+      "localHashMatches": true
+    }
+  ],
+  "cmsRevision": 9,
+  "preservedCmsRows": 9,
+  "addedPetCode": "PET-MALTESE-DIIM",
+  "codexUrl": "https://cnine-card.pages.dev/pet-codex/",
+  "liveScreenshot": "C:/Users/User/.codex/tmp/pet-maltese-diim-live-20261013/codex-live.png"
+}
