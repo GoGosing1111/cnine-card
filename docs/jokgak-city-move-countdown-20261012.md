@@ -25,4 +25,13 @@
 - `SCOPED_DEPLOY_TESTS`: `["tests/jokgak-city-move-countdown-20261012.test.mjs"]`
 - `SCOPED_DEPLOY_CHECKS`: `["check:worker"]`
 - 범위 선정 이유: 족각도시 이동 대기 표시와 해당 오류 응답만 변경한다. 실제 서버 시각·경계·재시도 회귀와 PC/모바일 확인으로 영향 범위를 검사하며 공통 인증·DB 기반·경제 정책은 변경하지 않는다.
-- 운영 배포 결과와 변경 파일 확인은 완료 후 아래에 기록한다.
+
+## 운영 반영 완료
+
+- 구현 커밋: `1170e6293335840782be0d38b4e1577804167a10` (origin/main 반영).
+- scoped 게이트: SQLite/Postgres 관련 회귀 2/2 통과, `check:worker`·출시/캐시 검사·Hyperdrive 캐시 비활성 검사 통과.
+- 지정 명령으로 배포 완료: <https://066bac42.cnine-card.pages.dev>.
+- 2026-10-12 19:53 KST 운영 주소에서 index·서비스워커·도시 JS/CSS·독립 모험 로더·도시 프리뷰 총 6개 파일의 HTTP 200 및 로컬 SHA-256 일치를 확인했다. `/api/service/status` HTTP 200.
+- 운영에서는 읽기 확인만 수행했다. 서버 이동 경계·중복 요청과 화면 조작 검수는 격리 fixture에서 완료했다.
+- 증거: 작업 트리 외부 `../city-qa/browser.json`, `../city-qa/production.json`, `../city-deploy.log`.
+- 이 완료 기록만 추가한 후속 커밋은 문서 변경이므로 게임 검사·운영 재배포를 반복하지 않는다.
