@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-13",
+  "timezone": "Asia/Seoul",
+  "assetName": "말티즈디임",
+  "mode": "built-in image_gen",
+  "intent": "generate with references",
+  "useCase": "stylized-concept",
+  "transparentBackground": true,
+  "sourceAttachment": "codex-clipboard-95f8fe55-1f8f-476d-94fd-3d14c6c3fac5.png",
+  "references": [
+    {
+      "image": 1,
+      "role": "Face and hair identity only",
+      "source": "user attachment: codex-clipboard-95f8fe55-1f8f-476d-94fd-3d14c6c3fac5.png"
+    },
+    {
+      "image": 2,
+      "role": "White plush human-face pet style only; not face or rabbit species",
+      "source": "assets/ui/pets/gusudaeng/pet-tokki-gusudaeng-approved-20261002.png"
+    },
+    {
+      "image": 3,
+      "role": "Oversized hood and short bipedal body proportions only",
+      "source": "assets/ui/pets/namuneul-bongsoon-20261009/pet-namuneul-bongsoon-sloth-sd-approved.png"
+    }
+  ],
+  "prompt": "Use case: stylized-concept.\nAsset type: one full-body, transparent-background game pet resource for the existing Korean game 숲켓몬, named 말티즈디임.\nPrimary request: make a very cute bipedal Maltese-costume pet, in the same premium soft plush, human-face pet family as the supplied existing game assets.\n\nReference hierarchy:\nImage 1 is the ONLY identity reference for the woman's face and hairstyle. Preserve her recognizable face shape, cheek and chin proportions, dark almond-shaped eyes and their spacing, natural nose and lips, and dark chin-length bob with fine wispy bangs. Do not merge the faces in images 2 or 3 into her face. Use a gentle, small closed-mouth smile and a fresh full-body pose, not the original hands-under-chin photo pose.\nImage 2 is a STYLE reference only: tactile soft white plush fur, a recognizable human face framed by a big animal hood, tiny round upright body and paw mittens. Do not copy its woman's face or rabbit ears.\nImage 3 is a secondary PROPORTION reference only for the oversized hood and short round bipedal pet body. Do not copy its face, glasses, brown colors or claws.\n\nSubject design: a round snow-white Maltese puppy hood with two SOFT, SHORT-TO-MEDIUM FLOPPY DOG EARS, softly feathered silky white fur, a tiny rounded black plush dog nose and two small dark embroidered puppy eyes above the face opening. This must clearly read as a Maltese puppy, not a rabbit, cat, bear or sheep. The woman's face is clearly visible inside the hood, seamlessly lit and naturally rendered, with her dark bob and fine wispy bangs. White plush suit, pleasantly plump short torso, small round front-paw mittens, two short sturdy legs and two separate round dog-paw feet. Small fluffy tail peeking to one side. The pet stands upright on TWO feet. One paw gives a small friendly wave with pale blush-pink paw pads visible; the other paw rests beside the round belly. Both legs and both feet are unobstructed and readable.\n\nStyle: polished semi-realistic collectible plush game pet, refined high quality fur strands and soft volume, recognizable natural human facial anatomy within a chibi plush body. Large hood, little body, approximately two-head-tall proportions like the game references. White and soft ivory with very subtle warm shadow, bright gentle studio light, crisp clean silhouette readable as a small in-game pet. Hair must form continuous natural strands and soft volume, never rigid strips, blades or separated plate-like layers. No giant anime eyes, plastic doll face, beauty filter, facial identity substitution or pasted-photo hard edge.\n\nComposition: exactly ONE centered complete pet, front-facing with a slight natural body turn and an upright cute standing stance. Square canvas, entire hood/ears/tail/paws/feet visible, comfortable transparent breathing room on all four sides. Do not stretch or horizontally squash the face or body.\nBackground: genuinely transparent alpha, clean soft fur edges, no opaque background, no checkerboard baked into the pixels, no scenery, pedestal or floor shadow.\nNo text, labels, logos, watermark, UI, frame, collage, other characters, props, human clothing, glasses, bunny ears, claws or quadruped sitting pose.",
+  "generatedSourceFilename": "exec-620f0f5e-8b0a-4358-ac14-c3830f1d7911.png",
+  "savedAsset": "preview/pet-maltese-diim-20261013-v1/assets/pet-maltese-diim-v1.png",
+  "postProcessing": "none; byte-for-byte copy with original RGBA and alpha preserved"
+}

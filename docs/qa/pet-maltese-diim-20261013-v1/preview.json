@@ -1,0 +1,37 @@
+{
+  "verifiedAt": "2026-10-12T18:57:13.628Z",
+  "scope": "Static pet art and independent preview only",
+  "runner": "Headless Chrome via Playwright, muted",
+  "assetSha256": "E24D3B3917559E5474DD04FC4EF3D4E23C94A6F7FC557F7AFDC43976B02330CC",
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 1000,
+      "imagesLoaded": 2,
+      "horizontalOverflow": false,
+      "backgroundSelection": "dark / light / check passed; one pressed button",
+      "buttonHeight": 44,
+      "pngDownload": "pet-maltese-diim-v1.png",
+      "pageErrors": [],
+      "screenshotInspected": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "imagesLoaded": 2,
+      "horizontalOverflow": false,
+      "backgroundSelection": "dark / light / check passed; one pressed button",
+      "buttonHeight": 44,
+      "pngDownload": "pet-maltese-diim-v1.png",
+      "pageErrors": [],
+      "screenshotInspected": true
+    }
+  ],
+  "visualReview": {
+    "bipedalFullBody": true,
+    "faceHairAndPlushReviewed": true,
+    "earsPawsFeetAndTailVisible": true,
+    "transparentBoundaryReviewed": true
+  },
+  "unrelatedGameTestsRun": false
+}

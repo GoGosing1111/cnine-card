@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "title": "말티즈디임",
+  "date": "2026-10-13",
+  "timezone": "Asia/Seoul",
+  "status": "USER_REVIEW_PENDING",
+  "generation": {
+    "mode": "built-in image_gen",
+    "useCase": "stylized-concept",
+    "transparentBackground": true,
+    "prompt": "generation.json",
+    "postProcessing": "none; generated PNG copied byte-for-byte, original alpha preserved"
+  },
+  "scope": {
+    "staticFullBodyAssets": true,
+    "bipedalStanding": true,
+    "animationPrepared": false,
+    "userApproved": false,
+    "runtimeConnected": false,
+    "existingPetDiimChanged": false,
+    "acquisitionOrBattlePolicyChanged": false
+  },
+  "assets": [
+    {
+      "id": "maltese-diim",
+      "label": "말티즈디임",
+      "labelType": "user-specified",
+      "asset": "assets/pet-maltese-diim-v1.png",
+      "width": 1254,
+      "height": 1254,
+      "format": "PNG",
+      "mode": "RGBA",
+      "bytes": 1476622,
+      "sha256": "E24D3B3917559E5474DD04FC4EF3D4E23C94A6F7FC557F7AFDC43976B02330CC",
+      "sourceAttachment": "codex-clipboard-95f8fe55-1f8f-476d-94fd-3d14c6c3fac5.png",
+      "sourceAttachmentSha256": "E63B80D3AFD04D33B653CC23ABF6AB1512F47F9F76F74D96325EB570B2CFD9E6",
+      "identityFeatures": [
+        "사용자 첨부의 단발·가는 앞머리·눈매를 참조한 얼굴",
+        "하얀 말티즈 후드와 아래로 처진 귀",
+        "작고 둥근 몸통·두 다리·앞발 인사"
+      ],
+      "technicalQA": {
+        "cornerAlpha": [
+          1,
+          0,
+          0,
+          0
+        ],
+        "nontransparentOuterBorderPixelsAbove16": 0,
+        "outerBorderMaximumAlpha": 1,
+        "contentBoundsAlphaAbove16": [
+          125,
+          24,
+          1154,
+          1229
+        ],
+        "fullyTransparentPixels": 753551,
+        "alphaPreserved": true
+      },
+      "visualQA": {
+        "fullBodyInspected": true,
+        "hoodEarsPawsFeetAndTailComplete": true,
+        "standingOnTwoFeet": true,
+        "naturalContinuousHair": true,
+        "backgroundTransparent": true
+      },
+      "note": "캔버스 가장자리 일부 생성 잔여 픽셀의 최대 알파는 1/255. 원본 알파를 가공하지 않음."
+    }
+  ],
+  "preview": {
+    "page": "index.html",
+    "backgrounds": [
+      "dark",
+      "light",
+      "check"
+    ],
+    "miniaturePixels": 128
+  }
+}

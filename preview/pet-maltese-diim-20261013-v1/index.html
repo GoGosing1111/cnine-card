@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#f4f3ed">
+  <title>말티즈디임 · 펫 리소스 | 숲켓몬</title>
+  <style>
+    :root{font-family:"Noto Sans KR","Malgun Gothic",sans-serif;color:#263d35;background:#f4f3ed;font-synthesis:none}
+    *{box-sizing:border-box}body{margin:0}button,a{-webkit-tap-highlight-color:transparent}button{font:inherit}a{color:inherit}button:focus-visible,a:focus-visible{outline:3px solid #779d6e;outline-offset:5px}
+    .shell{max-width:1280px;margin:auto;padding:0 48px}.masthead{height:90px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #d4d8cd}.brand{display:flex;align-items:center;gap:18px;font-size:20px;letter-spacing:-.055em;font-weight:900}.brand span{font:600 10px/1.4 system-ui;letter-spacing:.18em;color:#778376;border-left:1px solid #c2cabc;padding-left:18px}.edition{font:500 11px system-ui;letter-spacing:.08em;color:#778376}
+    main{display:grid;grid-template-columns:.8fr 1.2fr;gap:62px;align-items:center;min-height:740px;padding:36px 0}.intro{padding:16px 0 20px}.kicker{font:700 11px system-ui;letter-spacing:.18em;color:#6e8960;margin:0 0 20px}h1{font-size:clamp(40px,5vw,66px);font-weight:850;letter-spacing:-.075em;line-height:1.17;margin:0}.name-en{font:500 13px system-ui;letter-spacing:.15em;margin:15px 0 29px;color:#87927e}.description{font-size:15px;line-height:1.9;color:#627062;margin:0 0 26px}.tags{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:34px}.tags span{font-size:11px;border:1px solid #cbd4c4;border-radius:30px;padding:7px 11px;color:#69775f}.download{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:305px;min-height:54px;border-radius:9px;padding:15px 20px;background:#294e3f;color:#f5f7ed;text-decoration:none;font-size:14px;font-weight:750;transition:background .15s,transform .15s}.download:hover{background:#34604e;transform:translateY(-1px)}.download span{font-size:21px;font-weight:400}.file-note{font:500 11px system-ui;color:#7d8878;margin:12px 0 0;letter-spacing:.03em}
+    .small-view{display:flex;align-items:center;gap:20px;border-top:1px solid #d4d8cd;margin-top:36px;padding-top:24px}.mini-stage{flex:none;width:144px;height:144px;display:grid;place-items:center;background:#e6e9e0;border-radius:20px}.mini-stage img{width:128px;height:128px;object-fit:contain}.small-view h2{font-size:13px;margin:0 0 8px;letter-spacing:-.025em}.small-view p{font-size:12px;line-height:1.8;color:#778370;margin:0}
+    .art{min-width:0}.stage{position:relative;display:grid;place-items:center;aspect-ratio:1/1.06;overflow:hidden;border-radius:28px;background:radial-gradient(ellipse at 50% 43%,#324a48 0,#182c2e 72%);border:1px solid #cbd2c5}.stage[data-background="light"]{background:radial-gradient(ellipse at 50% 43%,#faf8ef,#e3e7da)}.stage[data-background="check"]{background-color:#dde1d8;background-image:linear-gradient(45deg,#c8d0c0 25%,transparent 25%,transparent 75%,#c8d0c0 75%),linear-gradient(45deg,#c8d0c0 25%,transparent 25%,transparent 75%,#c8d0c0 75%);background-size:24px 24px;background-position:0 0,12px 12px}.stage img{position:relative;width:94%;height:94%;object-fit:contain}.stage-label{position:absolute;left:25px;top:24px;font:600 9px system-ui;letter-spacing:.15em;color:#c2d1bc;z-index:1}.stage:not([data-background="dark"]) .stage-label{color:#6a7864}.stage-number{position:absolute;bottom:20px;right:24px;font:500 11px system-ui;letter-spacing:.08em;color:#9faf9e}.stage:not([data-background="dark"]) .stage-number{color:#6a7864}
+    .stage-controls{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:16px}.stage-controls>span{font-size:11px;color:#74816b}.backgrounds{display:flex;gap:5px;padding:4px;border:1px solid #d2d9cb;border-radius:30px}.backgrounds button{display:flex;align-items:center;gap:7px;justify-content:center;min-width:70px;min-height:44px;border:0;border-radius:22px;background:transparent;color:#6e7964;font-size:11px;cursor:pointer}.backgrounds button[aria-pressed="true"]{background:#e0e5d9;color:#294e3f;box-shadow:0 1px 3px #20332812}.dot{width:9px;height:9px;border-radius:50%;background:#233c3d;border:1px solid #9eac97}.dot.light{background:#f5f3e8}.dot.check{border-radius:2px;background:conic-gradient(#c1cbb7 25%,#f1f3ec 0 50%,#c1cbb7 0 75%,#f1f3ec 0)}
+    footer{border-top:1px solid #d4d8cd;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;padding:24px 0 30px;color:#7b8872;font-size:10px;line-height:1.8}footer a{text-underline-offset:4px}footer nav{display:flex;gap:18px}
+    @media(max-width:900px){.shell{padding:0 26px}main{gap:28px;min-height:660px}.stage{aspect-ratio:1/1.15}.small-view{gap:12px}.mini-stage{width:128px;height:128px}.stage-controls{align-items:flex-start;flex-direction:column}}
+    @media(max-width:620px){.shell{padding:0 20px}.masthead{height:72px}.brand{font-size:18px;gap:12px}.brand span{padding-left:12px;font-size:8px}.edition{font-size:9px}main{display:flex;flex-direction:column;gap:24px;padding:30px 0 28px;min-height:0;align-items:stretch}.intro{display:contents}.kicker{order:0;margin:0;font-size:10px}h1{order:1;margin-top:-14px;font-size:42px}.name-en{order:2;margin:-15px 0 0;font-size:11px}.description{order:4;margin:0;font-size:13px}.tags{order:5;margin:-10px 0 0}.download{order:6;max-width:none}.file-note{order:7;margin:-14px 0 0}.small-view{order:8;margin:0;padding-top:20px}.art{order:3}.stage{aspect-ratio:1/1.04;border-radius:22px}.stage-label{top:18px;left:18px;font-size:8px}.stage-number{right:18px;bottom:15px;font-size:9px}.stage-controls{flex-direction:row;align-items:center;gap:7px;margin-top:12px}.backgrounds{gap:0}.backgrounds button{min-width:63px;min-height:44px}.stage-controls>span{font-size:10px}.mini-stage{width:144px;height:144px}.small-view{gap:24px}footer{font-size:10px;padding-top:20px}}
+    @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="masthead"><div class="brand">숲켓몬 <span>PET STUDIO</span></div><span class="edition">RESOURCE / 01</span></header>
+    <main>
+      <section class="intro" aria-labelledby="pet-name">
+        <p class="kicker">A LITTLE HELLO</p>
+        <h1 id="pet-name">말티즈디임</h1>
+        <p class="name-en">MALTESE DIIM</p>
+        <p class="description">복슬복슬한 하얀 말티즈.<br>작은 앞발로 반갑게 인사하는 디임.</p>
+        <div class="tags" aria-label="리소스 특징"><span>이족보행</span><span>전신 리소스</span><span>투명 배경</span></div>
+        <a class="download" href="assets/pet-maltese-diim-v1.png" download="pet-maltese-diim-v1.png">PNG 원본 저장 <span aria-hidden="true">↓</span></a>
+        <p class="file-note">1254 × 1254 px · PNG · 1.41 MB</p>
+        <div class="small-view"><div class="mini-stage"><img src="assets/pet-maltese-diim-v1.png" width="128" height="128" alt="말티즈디임 128픽셀 축소 보기"></div><div><h2>작아져도 귀엽게</h2><p>128px 크기로 보는<br>동글동글한 실루엣.</p></div></div>
+      </section>
+      <section class="art" aria-label="말티즈디임 전신 미리보기">
+        <div class="stage" id="pet-stage" data-background="dark">
+          <span class="stage-label">FULL BODY / STANDING</span>
+          <img src="assets/pet-maltese-diim-v1.png" width="1254" height="1254" alt="사진 속 디임의 단발과 얼굴을 살린 흰 말티즈 탈 펫. 두 발로 서서 분홍 발바닥이 보이는 앞발로 인사한다.">
+          <span class="stage-number">01 — DIIM</span>
+        </div>
+        <div class="stage-controls"><span>배경 바꿔 보기</span><div class="backgrounds" role="group" aria-label="미리보기 배경"><button type="button" data-background="dark" aria-pressed="true" aria-controls="pet-stage"><span class="dot" aria-hidden="true"></span>어둡게</button><button type="button" data-background="light" aria-pressed="false" aria-controls="pet-stage"><span class="dot light" aria-hidden="true"></span>밝게</button><button type="button" data-background="check" aria-pressed="false" aria-controls="pet-stage"><span class="dot check" aria-hidden="true"></span>격자</button></div></div>
+      </section>
+    </main>
+    <footer><span>2026.10.13 · 말티즈디임 전신 시안 V1</span><nav aria-label="리소스 문서"><a href="generation.json">생성 프롬프트</a><a href="manifest.json">원본 정보</a></nav></footer>
+  </div>
+  <script>
+    const stage=document.getElementById('pet-stage');
+    const buttons=[...document.querySelectorAll('.backgrounds button')];
+    buttons.forEach(button=>button.addEventListener('click',()=>{
+      stage.dataset.background=button.dataset.background;
+      buttons.forEach(item=>item.setAttribute('aria-pressed',String(item===button)));
+    }));
+  </script>
+</body>
+</html>
