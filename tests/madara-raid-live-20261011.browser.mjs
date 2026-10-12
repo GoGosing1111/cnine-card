@@ -104,8 +104,13 @@ try{
   await context.addInitScript(()=>localStorage.setItem('cnine_admin_token','local-qa-1'));
   await context.route('**/*',route=>new URL(route.request().url()).origin===origin?route.continue():route.abort());
   const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.stack));page.on('dialog',d=>d.accept());
+  await page.route('**/api/admin/raid/madara/settings',route=>route.fulfill({status:503,contentType:'application/json',body:JSON.stringify({ok:false,error:'요청을 완료하지 못했습니다. 같은 요청으로 다시 시도하세요.',code:'MADARA_RETRYABLE'})}),{times:1});
   await page.goto(origin+'/admin/');await page.locator('#nav [data-view="raid"]').click();
-  const panel=page.locator('#madaraRaidAdmin');await panel.locator('form').waitFor({state:'visible'});
+  const panel=page.locator('#madaraRaidAdmin');await panel.locator('[data-retry]').waitFor({state:'visible'});
+  assert.equal(await panel.locator('form').isVisible(),false);assert.match(await panel.locator('[data-state]').innerText(),/불러오기 실패/);
+  await panel.locator('header').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,`cms-error-${width}.png`)});
+  await panel.locator('[data-retry]').click();await panel.locator('form').waitFor({state:'visible'});
+  assert.equal(await panel.locator('[data-load-recovery]').isVisible(),false);
   await panel.locator('[name="mode"][value="ON"]').check();await panel.locator('[name="bossCombatPower"]').fill('880000');
   await panel.locator('[name="enrageSeconds"]').fill('480');await panel.locator('[name="coinReward"]').fill('500000000000');
   await panel.locator('[data-query]').fill('4');await panel.locator('[data-search]').click();await panel.locator('[data-add="4"]').click();
@@ -122,7 +127,7 @@ try{
   assert.equal((await lich.call('feature',{user:4})).body.visible,false);
   await panel.locator('header').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,`cms-${width}.png`)});
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
-  assert.deepEqual(errors,[]);reports.push({width,cms:true,modes:true,persistence:true,testerSearch:true,errors});await context.close();
+  assert.deepEqual(errors,[]);reports.push({width,cms:true,initialFailureRecovery:true,modes:true,persistence:true,testerSearch:true,errors});await context.close();
  }
 }catch(error){for(const context of browser.contexts())for(const page of context.pages()){console.log('PAGE',await page.locator('body').innerText().catch(()=>''));await page.screenshot({path:path.join(out,'failure.png'),fullPage:true}).catch(()=>{});}throw error;}
 finally{await browser.close();await new Promise(r=>server.close(r));await lich.close();fs.writeFileSync(path.join(out,'results.json'),JSON.stringify(reports,null,2));console.log(JSON.stringify({out,reports}));}

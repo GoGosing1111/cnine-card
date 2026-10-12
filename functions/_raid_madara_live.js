@@ -29,7 +29,13 @@ export async function ensureMadaraLive(env){
     `CREATE INDEX IF NOT EXISTS idx_madara_active_room_v1 ON ${ACTIVE}(room_id)`,
     `CREATE TABLE IF NOT EXISTS ${RECEIPTS}(request_id TEXT PRIMARY KEY,user_id BIGINT NOT NULL,kind TEXT NOT NULL,input_json TEXT NOT NULL,room_id TEXT NOT NULL,response_json TEXT NOT NULL)`
   ];
-  if(typeof env.DB.execSchema==='function')await env.DB.execSchema(sql);else await env.DB.batch(sql.map(q=>env.DB.prepare(q)));
+  // PostgreSQL checks table ownership even for an existing CREATE INDEX IF
+  // NOT EXISTS. The runtime role can use migrated tables without owning them.
+  const ready=env.DB.dialect==='postgres'&&await env.DB.prepare(`SELECT 1 AS ready WHERE
+    to_regclass('raid_madara_rooms_v1') IS NOT NULL AND to_regclass('raid_madara_active_v1') IS NOT NULL
+    AND to_regclass('raid_madara_receipts_v1') IS NOT NULL AND to_regclass('idx_madara_lobby_v1') IS NOT NULL
+    AND to_regclass('idx_madara_active_room_v1') IS NOT NULL`).first();
+  if(!ready){if(typeof env.DB.execSchema==='function')await env.DB.execSchema(sql);else await env.DB.batch(sql.map(q=>env.DB.prepare(q)));}
   await ensureJointAtomicSchema(env);await ensurePetOpeningItems(env);
   await env.DB.prepare('INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES(?,?,?,?,?,?,?,?,1) ON CONFLICT(code) DO NOTHING')
     .bind(MADARA_TICKET,'마다라 레이드 입장권','MADARA RAID ENTRY','공대 생성 시 설정된 수량을 사용합니다. 참가자는 무료이며 생성 후 반환되지 않습니다.','ENTRY_TICKET','ZENITH','preview/madara-raid-v1/assets/animation/cast-03.png',128).run();

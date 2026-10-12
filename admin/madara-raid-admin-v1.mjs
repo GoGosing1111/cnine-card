@@ -4,9 +4,9 @@ let settings=null,users=new Map(),searchResults=[],busy=false,loaded=false;
 function install(){
   const view=document.getElementById('view-raid');if(!view)return;
   const panel=document.createElement('section');panel.className='panel lich-cms';panel.id='madaraRaidAdmin';
-  panel.innerHTML='<header><div><small>MADARA RAID</small><h2>마다라 레이드</h2><p>입장권 공대 · 3~6인 역할 배분 · V3 전장 기믹</p></div><span data-state>설정 확인 전</span></header><p data-status role="status" aria-live="polite"></p><form hidden></form>';
+  panel.innerHTML='<header><div><small>MADARA RAID</small><h2>마다라 레이드</h2><p>입장권 공대 · 3~6인 역할 배분 · V3 전장 기믹</p></div><span data-state>설정 확인 전</span></header><p data-status role="status" aria-live="polite"></p><div data-load-recovery hidden><button type="button" data-retry>다시 불러오기</button></div><form hidden></form>';
   view.prepend(panel);const form=panel.querySelector('form'),status=panel.querySelector('[data-status]'),badge=panel.querySelector('[data-state]');
-  const note=text=>status.textContent=text;
+  const note=text=>status.textContent=text,recovery=panel.querySelector('[data-load-recovery]');
   function draw(){
     form.hidden=false;
     form.innerHTML='<fieldset><legend>공개 모드</legend><div class="lich-mode-options">'+[
@@ -28,10 +28,11 @@ function install(){
   }
   function lock(value){busy=value;panel.querySelectorAll('button,input').forEach(el=>el.disabled=value);if(!value&&settings)drawUsers();}
   async function load(){
-    if(busy)return;lock(true);note('운영 설정을 불러오는 중입니다.');
-    try{const result=await api('admin/raid/madara/settings');settings=result.settings;users=new Map(result.testUsers.map(u=>[u.id,u]));searchResults=[];loaded=true;draw();note('저장된 설정입니다. TEST에서는 지정 계정만 공대에 참가할 수 있습니다.');}
-    catch(error){note(error.message);}finally{lock(false);}
+    if(busy)return;lock(true);recovery.hidden=true;if(!loaded)badge.textContent='불러오는 중';note('운영 설정을 불러오는 중입니다.');
+    try{const result=await api('admin/raid/madara/settings');settings=result.settings;users=new Map(result.testUsers.map(u=>[u.id,u]));searchResults=[];draw();loaded=true;note('저장된 설정입니다. TEST에서는 지정 계정만 공대에 참가할 수 있습니다.');}
+    catch(error){recovery.hidden=false;if(!loaded)badge.textContent='불러오기 실패';note(error.message);}finally{lock(false);}
   }
+  panel.querySelector('[data-retry]').addEventListener('click',()=>{void load();});
   async function search(){
     const q=form.querySelector('[data-query]').value.trim();if(!q)return note('정확한 닉네임 또는 계정번호를 입력하세요.');
     lock(true);

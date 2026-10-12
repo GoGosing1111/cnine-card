@@ -18,6 +18,25 @@ test('CMS defaults TEST, excludes normal and ADMIN users, saves ON/OFF and rejec
   assert.equal((await h.configure({testUserIds:[99999]})).status,400);
   for(const changes of [{bossCombatPower:NaN},{entryTicketCost:-1},{enrageSeconds:0},{weeklyRewardLimit:0},{coinReward:1e15},{rewardsEnabled:'true'}])assert.throws(()=>validateMadaraSettings({...defaultMadaraSettings(),...changes}));
 });
+
+test('PostgreSQL: existing migrated indexes do not require table ownership to load or save CMS',async t=>{
+  const h=await setup(t,{postgres:true});await h.configure({bossCombatPower:880000});
+  await h.env.DB.execSchema([
+    'CREATE ROLE madara_runtime',
+    'GRANT USAGE, CREATE ON SCHEMA public TO madara_runtime',
+    'GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO madara_runtime',
+    'SET ROLE madara_runtime'
+  ]);
+  await assert.rejects(h.env.DB.execSchema(['CREATE INDEX IF NOT EXISTS idx_madara_lobby_v1 ON raid_madara_rooms_v1(status,expires_at,created_at)']),/must be owner/);
+  // A cold isolate has no prior schema marker; that must still be a read check.
+  h.env.RUNTIME_DB_CACHE_SCOPE={};
+  const loaded=await h.call('admin/raid/madara/settings');assert.equal(loaded.status,200,JSON.stringify(loaded.body));
+  assert.equal(loaded.body.settings.mode,'TEST');assert.equal(loaded.body.settings.bossCombatPower,880000);
+  assert.equal((await h.configure({bossCombatPower:990000})).status,200);
+  assert.equal((await h.call('admin/raid/madara/settings')).body.settings.bossCombatPower,990000);
+  assert.equal((await h.call('feature')).body.mode,'TEST');
+  assert.equal((await h.call('admin/raid/madara/settings',{user:5})).status,403);
+});
 for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: ticket, room, membership and receipt are atomic, retry charges once`,async t=>{
   const h=await setup(t,{postgres});await h.configure({mode:'ON',entryTicketCost:2});const requestId=h.uid();
   h.inject('INSERT INTO inventory_logs');assert.equal((await h.call('create',{body:{requestId,role:'WARDEN'}})).status,503);h.inject('');
