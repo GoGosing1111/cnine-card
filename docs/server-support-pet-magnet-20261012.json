@@ -1,0 +1,84 @@
+{
+  "commit": "32a1774439b6d62f67fcf1fc54a4b58414a784cc",
+  "deployment": "https://ca364b0f.cnine-card.pages.dev",
+  "verifiedAt": "2026-10-12T10:35:17.042Z",
+  "files": [
+    {
+      "path": "js/server-support-v1.mjs",
+      "status": 200,
+      "sha256": "b069acc9abf8c7b948554a36c28c48fa0be662db16c9e599bfc648662f7b18cc"
+    },
+    {
+      "path": "js/pet-equipment-window-v1.mjs",
+      "status": 200,
+      "sha256": "be91dd16786bb5a5b40566452611b316e34743ae40ba56815256fa752a7b93dc"
+    },
+    {
+      "path": "pet-codex/app.mjs",
+      "status": 200,
+      "sha256": "762bca98783ad7b0999abf354f6c6a80fc393ad4bccacff685211a75761b726c"
+    },
+    {
+      "path": "pet-codex/index.html",
+      "status": 200,
+      "sha256": "ec0d00a54bd890277665ea253982b1a21ffc72b8efa71d308ca594706dcb1c29"
+    },
+    {
+      "path": "pet-codex/style.css",
+      "status": 200,
+      "sha256": "93b4b6ee5dfebff90ef6ac880f81ac3c05d7d0b47f65a15691f86acd1af72c6a"
+    },
+    {
+      "path": "js/adventure-lobby-v2107.js",
+      "status": 200,
+      "sha256": "52cefb2cccff3bf189b83c4c37bf5d67d75b5c2bbc659d8b56c6db8f740e9555"
+    },
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "ddb3cb73fa1ffa59103398c7f7dbd0d15a64ea79a3851ebde02d0527ae576eb7"
+    },
+    {
+      "path": "service-worker.js",
+      "status": 200,
+      "sha256": "4bbfd1a2c375f0d8d144a032a3b24917f9b0f8780325bb1e5c071626dd5b0509"
+    }
+  ],
+  "serviceStatus": 200,
+  "productionMutations": false,
+  "browser": {
+    "reports": [
+      {
+        "viewport": "desktop",
+        "passed": [
+          "apply",
+          "transfer",
+          "no potion cost",
+          "same receipt after reload",
+          "permanent potential preserved",
+          "unowned blocked",
+          "expired/revoked blocked",
+          "hidden support entry",
+          "season pass accessible",
+          "no clipping"
+        ]
+      },
+      {
+        "viewport": "mobile",
+        "passed": [
+          "apply",
+          "transfer",
+          "no potion cost",
+          "same receipt after reload",
+          "permanent potential preserved",
+          "unowned blocked",
+          "expired/revoked blocked",
+          "hidden support entry",
+          "season pass accessible",
+          "no clipping"
+        ]
+      }
+    ],
+    "errors": []
+  }
+}
