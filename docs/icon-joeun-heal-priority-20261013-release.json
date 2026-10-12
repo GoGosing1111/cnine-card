@@ -1,0 +1,43 @@
+{
+  "status": "DEPLOYED_VERIFIED",
+  "checkedAt": "2026-10-12T21:26:14.194Z",
+  "sourceCommit": "666fcf480d1d261037d55cdf5f0af0b7794486e5",
+  "previousLiveCommit": "247c75f3cf435cdcdb39ca7fbfb4d613320939c0",
+  "pages": {
+    "id": "b3b03679-095b-4a93-924f-c8c059a91a42",
+    "url": "https://b3b03679.cnine-card.pages.dev",
+    "source": "666fcf4"
+  },
+  "runtime": {
+    "sha256": "04a909641959b36c451e7b6277916c820aef88bcb6e9c58328a9a4d9f494c7dc",
+    "selectorPresent": true,
+    "connectedToSupport": true,
+    "healPriority": "LOWEST_HP_PERCENT",
+    "preHealHpRecorded": true,
+    "liveSelectorChecks": {
+      "mixedCardsAndMercenary": true,
+      "absoluteHpDoesNotOverrideRatio": true,
+      "targetChangesWithHp": true,
+      "casterIncluded": true,
+      "fullHpCleanseFallback": true,
+      "excludedUnits": true
+    }
+  },
+  "serviceStatus": 200,
+  "productionAccountMutation": false,
+  "productionBattleExecuted": false,
+  "apiRuntimeVersion": "2fc7ac15-9202-4396-8583-d54cd5d48510",
+  "schedulerVersion": "5fe3f216-678f-4bc6-bdae-5252e3d5fd67",
+  "deploymentCommand": "npm run deploy:production -- --scoped",
+  "regressions": {
+    "targetSelection": 7,
+    "adjacentCombatAndLoader": 31,
+    "totalPassed": 38,
+    "workerSyntax": "PASS",
+    "releaseGate": "PASS",
+    "hyperdriveQueryCache": "DISABLED",
+    "fullSuiteRun": false
+  },
+  "uiChanged": false,
+  "clientBundlesChanged": false
+}
