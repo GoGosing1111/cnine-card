@@ -1,0 +1,52 @@
+{
+  "date": "2026-10-13",
+  "type": "Isolated local fixture with actual pet routes and game pages",
+  "sourceImageSha256": "E24D3B3917559E5474DD04FC4EF3D4E23C94A6F7FC557F7AFDC43976B02330CC",
+  "ownership": {
+    "unownedEquipStatus": 403,
+    "ownedEquipStatus": 200
+  },
+  "snapshots": [
+    "PVE",
+    "PVP"
+  ],
+  "battleEvents": {
+    "PVE": 1,
+    "PVP": 2,
+    "petCode": "PET-MALTESE-DIIM",
+    "name": "말티즈디임",
+    "battleSprite": "assets/ui/pets/maltese-diim-20261013/pet-maltese-diim-approved.png"
+  },
+  "codex": [
+    {
+      "width": 1440,
+      "height": 1000,
+      "imageWidth": 1254,
+      "horizontalOverflow": false,
+      "screenshotInspected": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "horizontalOverflow": false,
+      "screenshotInspected": true
+    }
+  ],
+  "equipAndUnequip": "passed in isolated account",
+  "mobilePvp": {
+    "sides": [
+      "A",
+      "B"
+    ],
+    "visible": true,
+    "buffApplied": true,
+    "petBounds": [
+      56,
+      56
+    ],
+    "fallbackImages": 0,
+    "screenshotInspected": true
+  },
+  "fixtureLimit": "Season-pass and potential responses were not configured in the local fixture; no production changes to either.",
+  "productionAccountGranted": false
+}

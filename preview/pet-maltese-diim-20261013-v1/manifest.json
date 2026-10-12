@@ -3,7 +3,10 @@
   "title": "말티즈디임",
   "date": "2026-10-13",
   "timezone": "Asia/Seoul",
-  "status": "USER_REVIEW_PENDING",
+  "status": "SOURCE_ART_APPROVED",
+  "approval": "assets/ui/pets/maltese-diim-20261013/approval-20261013.json",
+  "liveRegistration": "PET-MALTESE-DIIM",
+  "liveVerification": "docs/pet-maltese-diim-live-20261013.md",
   "generation": {
     "mode": "built-in image_gen",
     "useCase": "stylized-concept",
@@ -15,8 +18,8 @@
     "staticFullBodyAssets": true,
     "bipedalStanding": true,
     "animationPrepared": false,
-    "userApproved": false,
-    "runtimeConnected": false,
+    "userApproved": true,
+    "runtimeConnected": true,
     "existingPetDiimChanged": false,
     "acquisitionOrBattlePolicyChanged": false
   },

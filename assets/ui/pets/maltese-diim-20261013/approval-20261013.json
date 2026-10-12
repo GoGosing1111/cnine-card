@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-13",
+  "timezone": "Asia/Seoul",
+  "userRequest": "라이브 반영해",
+  "approvalScope": "Approve the displayed Maltese Diim V1 original and connect as a separate live pet.",
+  "code": "PET-MALTESE-DIIM",
+  "name": "말티즈디임",
+  "approvedAsset": "assets/ui/pets/maltese-diim-20261013/pet-maltese-diim-approved.png",
+  "sourceAsset": "preview/pet-maltese-diim-20261013-v1/assets/pet-maltese-diim-v1.png",
+  "sha256": "E24D3B3917559E5474DD04FC4EF3D4E23C94A6F7FC557F7AFDC43976B02330CC",
+  "width": 1254,
+  "height": 1254,
+  "format": "RGBA PNG",
+  "preservation": "Byte-for-byte source copy; no regeneration, recompression, facial change or alpha modification",
+  "runtime": {
+    "sourceArt": "assets/ui/pets/maltese-diim-20261013/pet-maltese-diim-approved.png",
+    "battleSprite": "assets/ui/pets/maltese-diim-20261013/pet-maltese-diim-approved.png",
+    "modes": [
+      "PVE",
+      "PVP"
+    ],
+    "target": "ALL_ALLIES",
+    "buffs": [
+      {
+        "type": "ATTACK_PERCENT",
+        "percent": 10
+      }
+    ],
+    "buffBasis": "Existing CMS new-pet default; owner-adjustable",
+    "existingPetDiimPreserved": true,
+    "accountGrant": false,
+    "openingPoolOrWeightsChanged": false
+  },
+  "verification": "docs/pet-maltese-diim-live-20261013.md"
+}
