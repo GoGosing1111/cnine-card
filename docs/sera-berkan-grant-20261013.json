@@ -1,0 +1,81 @@
+{
+  "status": "VERIFIED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:sera-berkan-grant:20261013:v1",
+    "planHash": "564639f2a3ce211b645a14c0534bc1eb9c8adb607685afee059917802c5b2bd9",
+    "plan": {
+      "operationKey": "ops:sera-berkan-grant:20261013:v1",
+      "target": {
+        "id": 45,
+        "nickname": "박세라-ㅂ-"
+      },
+      "cards": [
+        {
+          "code": "V-055",
+          "name": "베르칸",
+          "rank": "SSS",
+          "quantity": 1
+        }
+      ],
+      "authorization": "박세라-ㅂ- 계정에 베르칸 지급해",
+      "delivery": "DIRECT",
+      "permanent": true,
+      "cost": 0
+    },
+    "actor": "CODEX_OPERATIONS",
+    "completedAt": "2026-10-12T19:18:36.758Z",
+    "grants": [
+      {
+        "userId": 45,
+        "nickname": "박세라-ㅂ-",
+        "code": "V-055",
+        "name": "베르칸",
+        "rank": "SSS",
+        "quantity": 1,
+        "acquisitionId": "ops:sera-berkan-grant:20261013:v1:V-055",
+        "copiesBefore": 0,
+        "copiesAfter": 1
+      }
+    ],
+    "preserved": {
+      "balances": true,
+      "inventory": true,
+      "loadout": true,
+      "growth": true,
+      "otherCards": true,
+      "cms": true,
+      "drawPolicy": true
+    },
+    "adminLogIds": [
+      "45358"
+    ]
+  },
+  "holdings": [
+    {
+      "code": "V-055",
+      "copies": 1
+    }
+  ],
+  "missing": 0,
+  "duplicateOperationGrants": 0,
+  "verifiedAt": "2026-10-12T19:18:45.216Z",
+  "validation": {
+    "focusedTests": 5,
+    "passed": 5,
+    "failureRollbackAtEveryWrite": true,
+    "idempotentReplay": true,
+    "lostCommitRecovery": true,
+    "productionDryRunRolledBack": true,
+    "productionReplayUnchanged": true,
+    "freshConnectionReadOnlyVerification": true,
+    "sourceSha256": "93363d493ab510c85d236d2c7aa28e6bc49dc970f9a5940d28021b5f61fe9650"
+  },
+  "delivery": "DIRECT_OWNERSHIP",
+  "release": {
+    "runtimeFilesChanged": false,
+    "deploymentRequired": false,
+    "reason": "Explicit one-time database operation; no game runtime or release flag changes."
+  },
+  "operationCommit": "3a539299a52d9ac4dc66a2e1bdaeacfe53b7f7e4"
+}
