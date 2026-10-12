@@ -20,6 +20,7 @@ css=css.replaceAll(':root{','#madara-live-app{').replace('html:has(#madara-app){
 for(const id of ids.sort((a,b)=>b.length-a.length))css=css.replace(new RegExp('#'+id+'(?![\\w-])','g'),'#madara-'+id);
 css=css.replaceAll("url('assets/","url('/preview/madara-raid-v1/assets/").replaceAll('url("assets/','url("/preview/madara-raid-v1/assets/');
 css+='\n#madara-live-app{border-radius:20px;min-width:0}#madara-live-app .mr-top{position:relative}#madara-live-app .mr-staging{min-height:0}#madara-live-app .mr-development{white-space:normal}#madara-live-app [data-reward-policy]{color:var(--mr-cyan)}\n';
+css+='\n'+read('raid/madara/combat-screen.css');
 writeFileSync(dir+'/live.css',css);
 let client=read('preview/madara-raid-v1/madara.js')
  .replaceAll('madara_review_','madara_live_').replaceAll('account.tickets<1','account.tickets<account.cost').replaceAll('(account.tickets-1)','(account.tickets-account.cost)')

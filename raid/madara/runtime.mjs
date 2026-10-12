@@ -1,7 +1,9 @@
 // Generated from reviewed presentation, battle, mechanics and client sources.
 import {jointAccountRequest} from '../../js/joint-account-transport.mjs';
+import {createMadaraCombatScreen} from './combat-screen.mjs?v=20261013-fullscreen1';
 export function createMadaraScope(root){
   const nativeWindow=globalThis.window,nativeDocument=nativeWindow.document,surface=root.querySelector('#madara-live-app')||root,globals={},events=[],timers=new Set(),frames=new Set(),controllers=new Set();let stopped=false,roomId='';
+  globals.MadaraCombatScreen=createMadaraCombatScreen(surface);
   const listen=(target,type,fn,options)=>{target.addEventListener(type,fn,options);events.push([target,type,fn,options]);};
   const document=new Proxy(nativeDocument,{get(target,key){
     if(key==='getElementById')return name=>surface.querySelector('[data-madara-id="'+CSS.escape(name)+'"]');
@@ -44,7 +46,7 @@ export function createMadaraScope(root){
     }catch(error){if(error.status){const code=error.code==='MADARA_KICKED'?'KICKED':error.code;return Response.json({error:error.message,code,retryable:error.retryable},{status:error.status});}throw error;}
     finally{controllers.delete(controller);}
   }
-  return {window,document,fetch,setTimeout,clearTimeout,requestAnimationFrame,destroy(){stopped=true;for(const c of controllers)c.abort();for(const t of timers)nativeWindow.clearTimeout(t);for(const f of frames)nativeWindow.cancelAnimationFrame(f);for(const [target,type,fn,options]of events)target.removeEventListener(type,fn,options);globals.MadaraBattle?.teardown();root.querySelectorAll('dialog[open]').forEach(dialog=>dialog.close());}};
+  return {window,document,fetch,setTimeout,clearTimeout,requestAnimationFrame,destroy(){stopped=true;for(const c of controllers)c.abort();for(const t of timers)nativeWindow.clearTimeout(t);for(const f of frames)nativeWindow.cancelAnimationFrame(f);for(const [target,type,fn,options]of events)target.removeEventListener(type,fn,options);globals.MadaraBattle?.teardown();surface.querySelectorAll('dialog[open]').forEach(dialog=>dialog.close());globals.MadaraCombatScreen.destroy();}};
 }
 
 export function mountMadara(root){
@@ -420,6 +422,7 @@ export function mountMadara(root){
   }
   function render(){
     const lobby=state.status==='LOBBY';$('staging').hidden=!lobby;$('combat').hidden=lobby;
+    window.MadaraCombatScreen?.setActive(!lobby);
     $('createForm').hidden=true;$('joinRow').hidden=true;$('assembly').hidden=!lobby;
     if(lobby){
       $('roomCode').textContent=state.id;
@@ -498,7 +501,7 @@ export function mountMadara(root){
     finally{busy=false;updateWallet();$('joinButton').disabled=false;$('confirmEntry').disabled=false;$('cancelEntry').disabled=false;}
   }
   async function lobbyAction(route){if(busy)return;busy=true;$('readyButton').disabled=true;$('startButton').disabled=true;try{await window.MadaraBattle.preload();await accept(await request(route,route==='ready'?{ready:!state.me.ready}:{},{payload:route==='start'}));}catch(error){toast(error.message);}finally{busy=false;$('readyButton').disabled=false;if(state)render();schedulePoll();}}
-  function reset(){clearTimeout(pollTimer);sceneVersion++;window.MadaraBattle.teardown();actor='';state=null;mountedKey='';sceneForm='';showcase=false;resultShown=false;leaving=false;nodes.clear();journal.clear();$('taskList').replaceChildren();sessionStorage.removeItem('madara_live_actor');$('staging').hidden=false;$('combat').hidden=true;$('combat').classList.remove('showcase');$('showcaseControls').hidden=true;$('createForm').hidden=false;$('joinRow').hidden=false;$('assembly').hidden=true;$('showcaseButton').hidden=true;['kickDialog','leaveDialog','resultDialog'].forEach(id=>$(id).close());schedulePoll();}
+  function reset(){clearTimeout(pollTimer);sceneVersion++;window.MadaraBattle.teardown();actor='';state=null;mountedKey='';sceneForm='';showcase=false;resultShown=false;leaving=false;nodes.clear();journal.clear();$('taskList').replaceChildren();sessionStorage.removeItem('madara_live_actor');$('staging').hidden=false;$('combat').hidden=true;$('combat').classList.remove('showcase');$('showcaseControls').hidden=true;$('createForm').hidden=false;$('joinRow').hidden=false;$('assembly').hidden=true;$('showcaseButton').hidden=true;['kickDialog','leaveDialog','resultDialog'].forEach(id=>$(id).close());window.MadaraCombatScreen?.setActive(false);schedulePoll();}
   function updateWallet(){
     if(account){$('playerName').value=account.name;$('playerName').readOnly=true;document.querySelector('.mr-ticket div>span').textContent=account.cost?'공대 생성자만 '+account.cost+'장 사용':'현재 무료 입장 · 차감 없음';$('entryDialog').querySelector('h2').textContent=account.cost?'공대 생성에 입장권 '+account.cost+'장을 사용합니다':'입장권 차감 없이 공대를 생성합니다';$('confirmEntry').textContent=account.cost?account.cost+'장 사용 · 방 생성':'무료로 방 생성';document.querySelector('[data-entry-policy]').textContent=(account.cost?'공대 생성자만 '+account.cost+'장 소모 · 생성 후 반환 없음':'현재 무료 입장 · 입장권 차감 없음')+' · 참가자 무료';}
   

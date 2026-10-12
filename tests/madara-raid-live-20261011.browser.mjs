@@ -63,6 +63,23 @@ try{
   await context.addInitScript(user=>{localStorage.setItem('cnine_card_user_v10',JSON.stringify(user));localStorage.setItem('cnine_card_api_token','local-qa-1');localStorage.setItem('cnine_admin_token','local-qa-1');localStorage.setItem('cnine_battle_sound','OFF');localStorage.setItem('soop-lobby-bgm-muted-v1','1');},user);
   await context.route('**/*',route=>new URL(route.request().url()).origin===origin?route.continue():route.abort());
   const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.stack));page.on('dialog',d=>d.accept());page.setDefaultTimeout(30000);
+  const fullscreen = async () => {
+    const geometry = await page.locator('#madara-live-app').evaluate(surface => {
+      const r=surface.getBoundingClientRect();
+      return {body:surface.parentElement===document.body,position:getComputedStyle(surface).position,x:r.x,y:r.y,width:r.width,height:r.height,viewportWidth:innerWidth,viewportHeight:innerHeight,inert:document.querySelector('#app').inert,locked:document.documentElement.style.overflow==='hidden',horizontalOverflow:surface.scrollWidth>surface.clientWidth};
+    });
+    assert.equal(geometry.body,true,'Combat must leave the nested raid hub and mount directly under body');
+    assert.equal(geometry.position,'fixed');assert.equal(geometry.x,0);assert.equal(geometry.y,0);
+    assert.equal(geometry.width,geometry.viewportWidth);assert.equal(geometry.height,geometry.viewportHeight);
+    assert.equal(geometry.inert,true);assert.equal(geometry.locked,true);assert.equal(geometry.horizontalOverflow,false);
+    assert.equal(await page.locator('#madara-battleMount canvas').count(),1);
+  };
+  const restored = async () => {
+    assert.equal(await page.locator('#pveMadaraRaidView > #madara-live-app').count(),1);
+    assert.equal(await page.locator('body > #madara-live-app').count(),0);
+    assert.equal(await page.locator('#app').evaluate(app=>app.inert),false);
+    assert.notEqual(await page.evaluate(()=>document.documentElement.style.overflow),'hidden');
+  };
   await page.goto(origin+'/');await page.waitForFunction(()=>typeof renderShell==='function');await page.evaluate(()=>renderShell('battle'));
   await page.locator('[data-pve-mode="raid"]').click();await page.locator('#madaraRaidTab').waitFor({state:'visible'});await page.locator('#madaraRaidTab').click();
   await page.locator('#madara-createButton:not([disabled])').waitFor();assert.equal(await page.locator('#pveRaidView').isVisible(),false);assert.equal(page.url(),origin+'/');
@@ -91,15 +108,38 @@ try{
   await page.waitForFunction(()=>document.querySelector('#madara-battleMount .battle-v3-header strong')?.textContent==='마다라 레이드',{},{timeout:90000});
   await page.waitForFunction(()=>{const img=document.querySelector('#madara-mechanicArt');return img.complete&&img.naturalWidth>0;});
   await page.locator('#madara-battleMount').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,`battle-${width}.png`),fullPage:true});assert.equal(await page.locator('#madara-battleMount canvas').count(),1);
+  await fullscreen();
   await page.locator('#madara-taskList').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,`actions-${width}.png`),fullPage:true});
+  const actionCount=calls.filter(k=>k==='raid/madara/action').length;
+  await page.locator('#madara-taskList button:not([disabled])').first().click();
+  await page.waitForTimeout(100);assert.equal(calls.filter(k=>k==='raid/madara/action').length,actionCount+1);
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
   await page.locator('#madara-guideButton').click();await page.locator('#madara-closeGuide').click();
-  await page.locator('[data-raid-content="world"]').click();const count=calls.filter(k=>k==='raid/madara/state').length;await page.waitForTimeout(2200);assert.equal(calls.filter(k=>k==='raid/madara/state').length,count);
+  await page.keyboard.press('Escape');await page.locator('#madara-leaveDialog[open]').waitFor();await page.locator('#madara-cancelLeave').click();await fullscreen();
+  if(width===1440){
+    await page.reload();await page.waitForFunction(()=>typeof renderShell==='function');await page.evaluate(()=>renderShell('battle'));
+    await page.locator('[data-pve-mode="raid"]').click();await page.locator('#madaraRaidTab').click();
+    await page.locator('#madara-battleMount canvas').waitFor();await fullscreen();
+  }
+  // Navigation elsewhere can be triggered by the shell; its controls must be inert during combat.
+  if(width===1440)await page.evaluate(()=>renderShell('home'));
+  else await page.locator('[data-raid-content="world"]').evaluate(button=>button.click());
+  assert.equal(await page.locator('body > #madara-live-app').count(),0);assert.equal(await page.locator('#app').evaluate(app=>app.inert),false);
+  const count=calls.filter(k=>k==='raid/madara/state').length;await page.waitForTimeout(2200);assert.equal(calls.filter(k=>k==='raid/madara/state').length,count);
+  if(width===1440){await page.evaluate(()=>renderShell('battle'));await page.locator('[data-pve-mode="raid"]').click();}
   await page.locator('#madaraRaidTab').click();await page.locator('#madara-combat').waitFor({state:'visible'});assert.equal(await page.locator('#madara-battleMount canvas').count()<=1,true);
-  await page.locator('#madara-leaveButton').click();await page.locator('#madara-confirmLeave').click();await page.locator('#madara-createButton').waitFor({state:'visible'});
-  assert.deepEqual(errors,[]);reports.push({width,errors,inline:true,recovery:true,kick:true,pollingStopped:true});await context.close();
+  await page.locator('#madara-battleMount canvas').waitFor();await fullscreen();
+  if(width===1440){
+    assert.equal((await lich.command('leave',{roomId},2)).status,200);
+    await page.locator('#madara-resultDialog[open]').waitFor();await fullscreen();await page.locator('#madara-retryButton').click();
+  }else{
+    await page.locator('#madara-leaveButton').click();await page.locator('#madara-confirmLeave').click();
+  }
+  await page.locator('#madara-createButton').waitFor({state:'visible'});await restored();
+  await page.screenshot({path:path.join(out,`returned-${width}.png`),fullPage:true});
+  assert.deepEqual(errors,[]);reports.push({width,errors,lobbyInline:true,combatFullscreen:true,recovery:true,kick:true,pollingStopped:true,returnRestored:true});await context.close();
  }
- for(const [width,height] of [[1440,1000],[390,844]]){
+ for(const [width,height] of process.env.MADARA_GAME_ONLY?[]:[[1440,1000],[390,844]]){
   const context=await browser.newContext({viewport:{width,height},isMobile:width<700,hasTouch:width<700,serviceWorkers:'block'});
   await context.addInitScript(()=>localStorage.setItem('cnine_admin_token','local-qa-1'));
   await context.route('**/*',route=>new URL(route.request().url()).origin===origin?route.continue():route.abort());

@@ -64,6 +64,7 @@
   }
   function render(){
     const lobby=state.status==='LOBBY';$('staging').hidden=!lobby;$('combat').hidden=lobby;
+    window.MadaraCombatScreen?.setActive(!lobby);
     $('createForm').hidden=true;$('joinRow').hidden=true;$('assembly').hidden=!lobby;
     if(lobby){
       $('roomCode').textContent=state.id;
@@ -142,7 +143,7 @@
     finally{busy=false;updateWallet();$('joinButton').disabled=false;$('confirmEntry').disabled=false;$('cancelEntry').disabled=false;}
   }
   async function lobbyAction(route){if(busy)return;busy=true;$('readyButton').disabled=true;$('startButton').disabled=true;try{await window.MadaraBattle.preload();await accept(await request(route,route==='ready'?{ready:!state.me.ready}:{},{payload:route==='start'}));}catch(error){toast(error.message);}finally{busy=false;$('readyButton').disabled=false;if(state)render();schedulePoll();}}
-  function reset(){clearTimeout(pollTimer);sceneVersion++;window.MadaraBattle.teardown();actor='';state=null;mountedKey='';sceneForm='';showcase=false;resultShown=false;leaving=false;nodes.clear();journal.clear();$('taskList').replaceChildren();sessionStorage.removeItem('madara_review_actor');$('staging').hidden=false;$('combat').hidden=true;$('combat').classList.remove('showcase');$('showcaseControls').hidden=true;$('createForm').hidden=false;$('joinRow').hidden=false;$('assembly').hidden=true;$('showcaseButton').hidden=false;['kickDialog','leaveDialog','resultDialog'].forEach(id=>$(id).close());schedulePoll();}
+  function reset(){clearTimeout(pollTimer);sceneVersion++;window.MadaraBattle.teardown();actor='';state=null;mountedKey='';sceneForm='';showcase=false;resultShown=false;leaving=false;nodes.clear();journal.clear();$('taskList').replaceChildren();sessionStorage.removeItem('madara_review_actor');$('staging').hidden=false;$('combat').hidden=true;$('combat').classList.remove('showcase');$('showcaseControls').hidden=true;$('createForm').hidden=false;$('joinRow').hidden=false;$('assembly').hidden=true;$('showcaseButton').hidden=false;['kickDialog','leaveDialog','resultDialog'].forEach(id=>$(id).close());window.MadaraCombatScreen?.setActive(false);schedulePoll();}
   function updateWallet(){
     $('ticketBalance').textContent=account?`${account.tickets}장`:'—';$('createButton').disabled=busy||!account||account.tickets<1;
   }

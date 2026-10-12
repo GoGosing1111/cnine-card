@@ -1,6 +1,8 @@
 import {jointAccountRequest} from '../../js/joint-account-transport.mjs';
+import {createMadaraCombatScreen} from './combat-screen.mjs?v=20261013-fullscreen1';
 export function createMadaraScope(root){
   const nativeWindow=globalThis.window,nativeDocument=nativeWindow.document,surface=root.querySelector('#madara-live-app')||root,globals={},events=[],timers=new Set(),frames=new Set(),controllers=new Set();let stopped=false,roomId='';
+  globals.MadaraCombatScreen=createMadaraCombatScreen(surface);
   const listen=(target,type,fn,options)=>{target.addEventListener(type,fn,options);events.push([target,type,fn,options]);};
   const document=new Proxy(nativeDocument,{get(target,key){
     if(key==='getElementById')return name=>surface.querySelector('[data-madara-id="'+CSS.escape(name)+'"]');
@@ -43,5 +45,5 @@ export function createMadaraScope(root){
     }catch(error){if(error.status){const code=error.code==='MADARA_KICKED'?'KICKED':error.code;return Response.json({error:error.message,code,retryable:error.retryable},{status:error.status});}throw error;}
     finally{controllers.delete(controller);}
   }
-  return {window,document,fetch,setTimeout,clearTimeout,requestAnimationFrame,destroy(){stopped=true;for(const c of controllers)c.abort();for(const t of timers)nativeWindow.clearTimeout(t);for(const f of frames)nativeWindow.cancelAnimationFrame(f);for(const [target,type,fn,options]of events)target.removeEventListener(type,fn,options);globals.MadaraBattle?.teardown();root.querySelectorAll('dialog[open]').forEach(dialog=>dialog.close());}};
+  return {window,document,fetch,setTimeout,clearTimeout,requestAnimationFrame,destroy(){stopped=true;for(const c of controllers)c.abort();for(const t of timers)nativeWindow.clearTimeout(t);for(const f of frames)nativeWindow.cancelAnimationFrame(f);for(const [target,type,fn,options]of events)target.removeEventListener(type,fn,options);globals.MadaraBattle?.teardown();surface.querySelectorAll('dialog[open]').forEach(dialog=>dialog.close());globals.MadaraCombatScreen.destroy();}};
 }

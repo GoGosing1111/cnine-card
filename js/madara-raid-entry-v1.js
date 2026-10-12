@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION = '20261011-live1';
+  const VERSION = '20261013-fullscreen1';
   let checkedAt = 0, visible = false, featureRequest = null, controller = null, revision = 0;
   const host = () => document.getElementById('pveMadaraRaidView');
   async function refresh() {

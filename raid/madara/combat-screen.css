@@ -1,0 +1,45 @@
+/* The live combat screen is portalled to body; the recruitment view stays inline. */
+#madara-live-app.mr-fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 10040;
+  width: 100%;
+  height: 100dvh;
+  max-width: none;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  isolation: isolate;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+#madara-live-app.mr-fullscreen > .mr-top {
+  height: 48px;
+  padding-inline: 20px;
+}
+#madara-live-app.mr-fullscreen .mr-combat {
+  max-width: none;
+  padding: 16px 20px;
+}
+#madara-live-app.mr-fullscreen .mr-boss-health { margin: 12px 0; }
+#madara-live-app.mr-fullscreen .mr-mechanic-brief { margin: 12px 0; padding: 10px 16px; }
+#madara-live-app.mr-fullscreen .mr-mechanic-brief > img { width: 60px; height: 60px; }
+#madara-live-app.mr-fullscreen .mr-combat-grid { grid-template-columns: minmax(0, 1fr) minmax(320px, 390px); }
+#madara-live-app.mr-fullscreen #madara-battleMount { height: max(480px, calc(100dvh - 420px)) !important; }
+#madara-live-app.mr-fullscreen .mr-operations { max-height: max(600px, calc(100dvh - 305px)); overflow-y: auto; overscroll-behavior: contain; }
+#madara-live-app.mr-fullscreen .mr-journal { margin-top: 12px; }
+@media (max-width: 760px) {
+  #madara-live-app.mr-fullscreen > .mr-top { padding-inline: 12px; }
+  #madara-live-app.mr-fullscreen .mr-combat { padding: 12px 10px; }
+  #madara-live-app.mr-fullscreen .mr-combat-head { gap: 10px; }
+  #madara-live-app.mr-fullscreen .mr-combat-head h1 { font-size: 21px; }
+  #madara-live-app.mr-fullscreen .mr-mobile-nav { top: 0; z-index: 5; }
+  #madara-live-app.mr-fullscreen .mr-mechanic-brief { padding: 10px; }
+  #madara-live-app.mr-fullscreen .mr-mechanic-brief > img { width: 42px; height: 55px; }
+  #madara-live-app.mr-fullscreen #madara-battleMount { height: max(410px, 58dvh) !important; }
+  #madara-live-app.mr-fullscreen .mr-operations { max-height: none; overflow: visible; }
+  #madara-live-app.mr-fullscreen .mr-operations,
+  #madara-live-app.mr-fullscreen .mr-battle-pane,
+  #madara-live-app.mr-fullscreen .mr-task { scroll-margin-top: 68px; }
+}
