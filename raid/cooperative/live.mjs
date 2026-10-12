@@ -8,14 +8,14 @@ const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const number=v=>Math.round(v||0).toLocaleString('ko-KR');
 const uniqueText=c=>c.uniqueAbility?([['공격','attackPercent'],['방어','defensePercent'],['체력','hpPercent'],['속도','speedPercent']].filter(([,k])=>c.uniqueAbility[k]).map(([label,k])=>label+' '+(c.uniqueAbility[k]>0?'+':'')+c.uniqueAbility[k]+'%').join(' · ')||'고유효과 적용'):'고유효과 없음';
 let styles;
-function loadStyles(){return styles||=new Promise((resolve,reject)=>{const link=document.createElement('link');link.rel='stylesheet';link.href='/raid/cooperative/style.css?v=20261012-random-v3';link.onload=resolve;link.onerror=()=>{styles=null;reject(Error('격전지 화면을 불러오지 못했습니다.'));};document.head.append(link);});}
+function loadStyles(){return styles||=new Promise((resolve,reject)=>{const link=document.createElement('link');link.rel='stylesheet';link.href='/raid/cooperative/style.css?v=20261013-rewards1';link.onload=resolve;link.onerror=()=>{styles=null;reject(Error('격전지 화면을 불러오지 못했습니다.'));};document.head.append(link);});}
 const shield='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 2 21 6v6c0 5-9 10-9 10S3 17 3 12V6Z"/><path d="m7 12 3 3 7-7"/></svg>';
 const GUIDE=[
  ['3단계 돌파전','<p><b>세 명이 편성한 9캐릭터로 세 구역을 연속 격파합니다.</b> 전체 제한 시간은 3분입니다.</p><ol><li><b>1단계 · 제련소 외곽:</b> 근접 공격을 하는 용철 추적자 2기와 원거리 연사형 불씨 감시기 1기를 모두 처치하세요.</li><li><b>2단계 · 노심 관문:</b> 준보스 노심 수문장이 나타납니다. 최대 체력의 30% 방벽을 깨고 연속 공격을 버티세요. 보호와 회복이 있으면 마지막 구간의 생존을 확보하기 쉽습니다.</li><li><b>3단계 · 심층 노심:</b> 최종 보스 삼핵 거신 아르케가 등장합니다. 평타·스킬은 자동으로 진행되며, 화면에 뜨는 차단·엄폐·교란은 각자 직접 눌러야 합니다.</li></ol><p><b>앞 단계의 적을 전부 처치해야 다음 단계가 열립니다.</b> 체력·방벽·스킬 대기 시간은 이어지며, 단계 전환으로 회복하거나 쓰러진 캐릭터가 부활하지 않습니다. 일반 몬스터와 준보스만 잡고 시간이 끝나면 패배입니다.</p>'],
  ['보스별 조합','<p><b>평타와 용병 스킬은 자동, 거신의 특수 공격은 직접 대응합니다.</b> 최종 보스가 등장한 뒤 10초부터 30초 간격으로 삼핵 차단과 집중 포화가 번갈아 나옵니다. 일반은 9초, 격전은 8초, 극한은 7초 안에 대응하세요.</p><ol><li><b>삼핵 차단:</b> 각자 화면의 <b>내 노심 차단</b>을 한 번 누르세요. 생존한 분대가 모두 차단하면 거신 최대 체력의 8%를 깎습니다. 하나라도 놓치면 아군 전원이 최대 체력의 12% / 18% / 24% 피해를 받습니다. 방벽은 피해를 흡수할 수 있습니다.</li><li><b>집중 포화:</b> 표적 분대에는 <b>내 분대 엄폐</b>, 나머지에는 <b>조준 교란</b>이 표시됩니다. 엄폐하면 기본 피해의 75%를 줄입니다. 교란 1명마다 추가로 25%씩 줄여 두 명이 돕는 것이 가장 안전합니다. 기본 피해는 표적 분대 각 캐릭터 최대 체력의 40% / 50% / 60%입니다.</li><li><b>확인 표시:</b> 버튼을 누른 뒤 내 분대에 체크가 켜지면 접수 완료입니다. 남은 시간을 계속 보여주며, 판정 시 모두 같은 성공·실패와 체력 변화를 봅니다. 다른 분대의 버튼을 대신 누를 수 없습니다.</li></ol><p>색뿐 아니라 <b>내 담당 행동·분대 이름·체크 표시</b>를 함께 확인하세요. 이탈하거나 전멸한 분대에는 행동을 요구하지 않습니다.</p>'],
  ['처음 출전한다면','<ol><li><b>한 명이 대기방을 만듭니다.</b> 일반·격전·극한 중 난이도를 고르면 모집 목록에 자동으로 표시됩니다.</li><li><b>모집 목록에서 참가할 방을 고릅니다.</b> 각자 보유한 용병 1명과 서로 다른 일반 카드 2장을 고릅니다. 한 사람당 슈퍼스타는 1장까지 가능합니다.</li><li><b>편성 저장 → 출전 준비.</b> 세 명의 준비가 끝나면 편성이 잠깁니다. 전장 로딩이 끝난 뒤 3초를 함께 세고 출전합니다.</li><li><b>9명이 한 전장에서 싸웁니다.</b> 같은 보스 체력·공격·처치 결과를 모두 함께 봅니다. 전투는 편성한 카드와 용병의 실제 효과로 자동 진행됩니다.</li></ol>'],
  ['조합을 만드는 방법','<p><b>공격과 생존을 함께 챙기세요.</b> 공격형은 처치 속도를, 방어형은 방벽과 반격을, 속도형은 행동 빈도를, 생명형은 회복을 담당합니다. 카드에 표시된 고유효과를 확인하세요.</p><p><b>각자의 용병은 자신의 카드 2장과 연동합니다.</b> 용병 등급·배정 스킬·스킬 자원·대기 시간이 그대로 적용됩니다. 다른 사람의 고급 카드만으로 내 용병의 연동 능력치가 오르지는 않습니다.</p><p><b>회복·보호 스킬은 같은 팀에 적용됩니다.</b> 보호 담당과 화력 담당을 나누면 팀 생존을 보완할 수 있습니다. 같은 계열만 중복하는 편성에는 공용 전투의 중복 보정이 적용됩니다.</p><p>선택 카드의 강화·고유효과와 본인 PVE 장비 보너스를 준비 시점에 저장합니다. 격전지는 총 9캐릭터 편성이므로 배틀슈트와 별도 마법카드는 출전하지 않습니다.</p>'],
- ['난이도와 승리 조건','<p><b>일반</b>은 SS 용병 중심으로 조합을 익히는 단계입니다. <b>격전</b>은 공격과 보호를 함께 준비하고, <b>극한</b>은 SSS 용병과 강화된 카드의 효과를 연계하는 도전입니다.</p><p>등급만으로 승리를 보장하지 않습니다. 카드 강화, 장비, 고유효과와 용병 조합에 따라 결과가 달라집니다. 적의 능력치는 각 난이도에 고정되어 있습니다.</p><p><b>3분 안에 세 단계의 모든 적을 처치하면 승리.</b> 시간이 끝났을 때 보스가 생존했거나 아군이 전멸하면 패배합니다. 화면 배속과 일시정지는 지원하지 않습니다.</p><p>현재 보상은 검수 중입니다. 입장 재화 차감과 승리 보상 지급은 없습니다.</p>'],
+ ['난이도와 승리 조건','<p><b>일반</b>은 SS 용병 중심으로 조합을 익히는 단계입니다. <b>격전</b>은 공격과 보호를 함께 준비하고, <b>극한</b>은 SSS 용병과 강화된 카드의 효과를 연계하는 도전입니다.</p><p>등급만으로 승리를 보장하지 않습니다. 카드 강화, 장비, 고유효과와 용병 조합에 따라 결과가 달라집니다. 적의 능력치는 각 난이도에 고정되어 있습니다.</p><p><b>3분 안에 세 단계의 모든 적을 처치하면 승리.</b> 시간이 끝났을 때 보스가 생존했거나 아군이 전멸하면 패배합니다. 화면 배속과 일시정지는 지원하지 않습니다.</p><p>승리 보상은 전체 난이도를 합쳐 하루 3회까지 지급됩니다. 매일 자정(KST)에 초기화하며, 실패·이탈·TEST는 횟수에 포함하지 않습니다. 입장은 무료입니다.</p>'],
  ['새로고침·이탈 규칙','<p><b>전장 로딩이 시작된 뒤 새로고침하거나 나가면 본인이 패배합니다.</b> 다른 창으로 전투를 다시 열어도 복귀할 수 없습니다. 해당 분대의 카드 2장과 용병 1명은 전장에서 제거됩니다.</p><p><b>남은 사람은 계속 싸웁니다.</b> 남은 인원이 보스를 처치해도 이미 이탈한 사람의 패배가 승리로 바뀌지는 않습니다.</p><p>일시적인 통신 끊김은 같은 화면에서 자동 재연결을 시도합니다. 서버가 <b>15초 동안 연결을 확인하지 못하면</b> 패배합니다. 연결 복구 안내가 보이면 새로고침하지 말고 기다려주세요.</p><p>대기방에서는 나가도 패배하지 않습니다. 방장이 나가면 다음 참가자가 방장이 됩니다. 편성을 변경하면 준비 완료가 해제됩니다.</p>']
 ];
 export async function mountCooperative(root){
@@ -30,6 +30,7 @@ export async function mountCooperative(root){
  root.innerHTML=`<section class="coop-head"><div><span class="coop-eyebrow">3인 공동 전투</span><h2>격전지<span>(협동)</span></h2><p>세 분대의 선택이 하나의 전장을 바꾼다.</p></div><button class="coop-quiet" data-guide>${shield}공략 지침</button></section>
  <section class="coop-hero"><div class="coop-hero-copy"><span>전장 01 · ${COOP_ENCOUNTER.arena}</span><h3>세 구역을 뚫고,<br>노심을 멈춰라.</h3><p><b>매번 달라지는 적, 함께 맞추는 조합</b><br>몬스터 5종 · 보스 4종 · 자동 전투</p><div class="coop-meta"><span>3인 · 9캐릭터</span><span>3분 전투</span><span data-release>연결 중</span></div></div><img src="/assets/ui/cooperative-roster-v3/bastion-768.webp" alt="철벽 군주 바스티온" /><div class="coop-hero-index" aria-hidden="true">RANDOM <b>04</b></div></section>
  <div class="coop-operation-strip">${COOP_STAGES.map(s=>`<span><i>0${s.wave}</i><b>${s.name}</b><small>${s.target}</small></span>`).join('')}</div>
+ <div class="coop-reward-summary" data-reward-summary role="status"></div>
  <div class="coop-alert" role="status" aria-live="polite" data-alert hidden></div>
  <section data-entry class="coop-entry"><div class="coop-room-browser"><header class="coop-browser-heading"><div><span class="coop-eyebrow">함께할 분대를 찾으세요</span><h3>모집 중인 대기방 <b data-room-list-count>0</b></h3></div><button class="coop-quiet" data-refresh-rooms>새로고침 ↻</button></header><div class="coop-room-list-toolbar"><label>난이도 <select data-room-filter aria-label="대기방 난이도"><option value="">전체 난이도</option>${COOP_DIFFICULTIES.map(d=>`<option value="${d.id}">${esc(d.name)}</option>`).join('')}</select></label><span data-room-list-status>대기방을 불러오는 중</span></div><p class="coop-room-list-message" data-room-list-message role="status" hidden></p><div class="coop-room-list" data-room-list aria-live="polite" aria-busy="true"></div></div><aside class="coop-create-panel"><header class="coop-section-title"><span>+</span><div><h3>대기방 만들기</h3><p>난이도를 고르고 동료를 모집하세요.</p></div></header><div class="coop-difficulties">${COOP_DIFFICULTIES.map((d,i)=>`<button data-difficulty="${d.id}" aria-pressed="${i===0}" class="${i===0?'selected':''}"><small>0${i+1} / ${esc(d.subtitle)}</small><b>${esc(d.name)}</b><span>${esc(d.recommendation)}</span></button>`).join('')}</div><button class="coop-primary" data-create>대기방 만들기 <span>→</span></button><p class="coop-create-note">생성한 방은 모집 목록에 바로 표시됩니다.<br>3명이 모두 준비하면 함께 출전합니다.</p></aside></section>
  <section data-room hidden><div class="coop-room-heading"><div><span data-room-title></span><h3>출전 대기실 <b data-count>1 / 3</b></h3></div><div><button class="coop-quiet" data-leave>대기방 나가기</button></div></div><section class="coop-scout" data-roster hidden></section><div class="coop-squads" data-squads></div>
@@ -37,7 +38,14 @@ export async function mountCooperative(root){
  <footer class="coop-readybar"><div><b data-ready-summary>출전 편성을 완성하세요</b><span>3명 모두 준비 완료 시 편성 잠금 · 동시 출전</span></div><button class="coop-primary" data-ready disabled>출전 준비 <span>→</span></button></footer></section>
  <section class="coop-owner" data-owner hidden><button class="coop-quiet" data-settings>운영 테스트 설정</button></section>
  <dialog class="coop-dialog" data-guide-dialog><header><div><small>격전지 공략 지침</small><h3 data-guide-title></h3></div><button class="coop-quiet" data-close-guide aria-label="공략 닫기">닫기 ×</button></header><nav>${GUIDE.map(([name],i)=>`<button data-chapter="${i}">${i+1}. ${name}</button>`).join('')}</nav><article data-guide-content></article></dialog>
- <dialog class="coop-dialog" data-settings-dialog><header><h3>운영 테스트 설정</h3><button class="coop-quiet" data-close-settings>닫기 ×</button></header><form data-settings-form><label>공개 상태<select name="mode"><option value="TEST">테스트 참여자만</option><option value="OFF">운영 중지</option><option value="ON">전체 공개</option></select></label><label>테스트 계정 ID<input name="users" placeholder="예: 12, 34" /></label><p>OWNER는 자동으로 참여할 수 있습니다. 보상은 잠금 상태로 유지됩니다.</p><button class="coop-primary">설정 저장</button><p role="status" data-settings-message></p></form></dialog>`;
+ <dialog class="coop-dialog" data-settings-dialog><header><h3>운영 테스트 설정</h3><button class="coop-quiet" data-close-settings>닫기 ×</button></header><form data-settings-form><label>공개 상태<select name="mode"><option value="TEST">테스트 참여자만</option><option value="OFF">운영 중지</option><option value="ON">전체 공개</option></select></label><label>테스트 계정 ID<input name="users" placeholder="예: 12, 34" /></label><p>OWNER는 자동으로 참여할 수 있습니다. 보상은 CMS의 클리어 보상 탭에서 설정합니다.</p><button class="coop-primary">설정 저장</button><p role="status" data-settings-message></p></form></dialog>`;
+ function drawRewardSummary(){const daily=feature?.dailyReward;const node=$('[data-reward-summary]');node.textContent=daily?`오늘 보상 ${daily.used} / ${daily.limit}회 · 남은 ${daily.remaining}회 · 자정(KST) 초기화${feature.rewardLocked?' · 현재 보상 지급 OFF':''}`:'';}
+ function rewardMarkup(reward,won){
+  if(!won)return '<small>패배 · 보상 횟수 차감 없음</small>';
+  if(!reward)return state.rewardLocked?'<small>보상 지급 OFF · 횟수 차감 없음</small>':'<small role="status">보상을 정산하고 있습니다. 나가도 서버에서 계속 처리됩니다.</small>';
+  if(!reward.granted)return '<small>'+(reward.status==='DAILY_LIMIT'?'오늘 보상 3회 수령 완료 · 자정(KST) 이후 다시 받을 수 있습니다.':'보상 지급 OFF · 횟수 차감 없음')+'</small>';
+  return '<div class="coop-reward-receipt"><b>보상 지급 완료</b><ul>'+[...(reward.coin?['코인 '+number(reward.coin)]:[]),...(reward.masterStars?['마스터의 별 '+number(reward.masterStars)+'개']:[]),...reward.items.map(i=>i.name+' '+number(i.quantity)+'개')].map(text=>'<li>'+esc(text)+'</li>').join('')+'</ul><small>'+esc(reward.dailyReward.day)+' 보상 '+reward.dailyReward.used+' / 3회</small></div>';
+ }
  function alert(message){$('[data-alert]').hidden=!message;$('[data-alert]').textContent=message||'';}
  function drawRooms(){
   $('[data-room-list-count]').textContent=String(rooms.length)+(hasMore?'+':'');
@@ -164,7 +172,7 @@ export async function mountCooperative(root){
   }else battle?.update(value);
   if(state.myResult||['VICTORY','DEFEAT'].includes(state.status)){
    const result=portal.querySelector('.coop-result');result.hidden=false;const won=(state.myResult||state.status)==='VICTORY';
-   result.innerHTML=`<div><span>${won?'VICTORY':'DEFEAT'}</span><h2>${won?'격전지 돌파 성공':'격전지 돌파 실패'}</h2><p>${esc(state.members.find(m=>m.id===you)?.reason||(won?'세 분대의 힘으로 모든 적을 격파했습니다.':'미격파 적 생존 또는 아군 전멸'))}</p>${state.encounter?'<p>'+esc(state.encounter.boss.name)+' · 최종 보스</p>':'<p>협동 대응 '+(state.patternHistory?.filter(p=>p.status==='SUCCESS').length||0)+' / '+(state.patternHistory?.length||0)+'회 성공</p>'}<small>현재 검수 운영 중 · 보상 지급 없음</small><button class="coop-primary" data-return>대기방 목록으로</button></div>`;
+   result.innerHTML=`<div><span>${won?'VICTORY':'DEFEAT'}</span><h2>${won?'격전지 돌파 성공':'격전지 돌파 실패'}</h2><p>${esc(state.members.find(m=>m.id===you)?.reason||(won?'세 분대의 힘으로 모든 적을 격파했습니다.':'미격파 적 생존 또는 아군 전멸'))}</p>${state.encounter?'<p>'+esc(state.encounter.boss.name)+' · 최종 보스</p>':'<p>협동 대응 '+(state.patternHistory?.filter(p=>p.status==='SUCCESS').length||0)+' / '+(state.patternHistory?.length||0)+'회 성공</p>'}${rewardMarkup(state.clearReward,won)}<button class="coop-primary" data-return>대기방 목록으로</button></div>`;
    result.querySelector('[data-return]').onclick=()=>void leave();
   }
   battleHud();
@@ -214,7 +222,7 @@ export async function mountCooperative(root){
   else showBattle(value);
  }
  function resetRoom(){ws?.close();ws=null;clearTimeout(reconnectTimer);closeBattle();state=null;roomId='';selectionRoom='';squadSignature='';selected={cardIds:[],mercenaryCode:''};$('[data-entry]').hidden=false;$('[data-room]').hidden=true;drawConfiguration();void refreshRooms();}
- async function leave(){if(!roomId){resetRoom();return;}try{await command('leave');resetRoom();}catch(e){alert(e.message);}}
+ async function leave(){if(!roomId){resetRoom();return;}try{await command('leave');resetRoom();feature=await api('feature');drawRewardSummary();}catch(e){alert(e.message);}}
  function abandon(){
   if(disposed)return;send('leave');
   if(roomId){const token=localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
@@ -251,8 +259,8 @@ export async function mountCooperative(root){
  on($('[data-guide]'),'click',()=>openGuide());on($('[data-close-guide]'),'click',()=>$('[data-guide-dialog]').close());
  let settingsRevision=0;
  async function availability(){
-  feature=await api('feature');$('[data-owner]').hidden=!feature.owner;drawConfiguration();
-  $('[data-release]').textContent=feature.mode==='OFF'?'운영 중지':feature.mode==='TEST'?'테스트 운영 · 보상 없음':'보상 검수 중';
+  feature=await api('feature');drawRewardSummary();$('[data-owner]').hidden=!feature.owner;drawConfiguration();
+  $('[data-release]').textContent=feature.mode==='OFF'?'운영 중지':feature.mode==='TEST'?'테스트 운영 · 보상 없음':feature.rewardLocked?'보상 OFF':'일일 보상 3회';
   if(!feature.accessible){$('[data-entry]').hidden=true;alert('격전지는 현재 운영 중지 상태입니다. 운영 설정에서 변경할 수 있습니다.');return false;}
   options=await api('options');you=options.you;if(!state){$('[data-entry]').hidden=false;void refreshRooms();}return true;
  }

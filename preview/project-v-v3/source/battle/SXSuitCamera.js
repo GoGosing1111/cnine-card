@@ -6,6 +6,7 @@ import {smooth,DURATION} from '../../../battle-suit-sx-v1/ultimate-v3/motion.mjs
 export class SXSuitCamera{
   constructor(engine,fx){this.engine=engine;this.fx=fx;this.tick=()=>this.apply();}
   frame(time){
+    if(this.engine.formationCoop||this.engine.camera.zoomEnabled===false){this.release();return;}
     if(time<=0||time>=DURATION){this.release();return;}
     if(!this.active){
       const e=this.engine;

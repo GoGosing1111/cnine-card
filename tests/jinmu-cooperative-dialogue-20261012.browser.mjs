@@ -66,6 +66,19 @@ try{
   });
   assert.equal(report.formation,true);assert.equal(report.mode,'RAID');assert.equal(report.actors,9);assert.equal(report.dialogues,1);
   assert.equal(report.faceOpacity,'1');assert.equal(report.overflow,false);assert.deepEqual(report.overlaps,[]);assert(report.rect.bottom<=report.canvas.top+1);
+  // All five ultimate lines must keep the board and canvas at the same scale.
+  const framing=await page.evaluate(async()=>{
+   const q=JinmuCoopQA,e=q.engine,dialogue=e.jinmuStates.get(q.actor).fx.dialogue;
+   await new Promise(r=>setTimeout(r,150));
+   const sample=()=>({top:e.host.getBoundingClientRect().top,height:e.host.getBoundingClientRect().height,root:e.root.scale.x,stage:e.stage.scale.x});
+   const before=sample(),frames=[];
+   for(let i=0;i<5;i++){dialogue.begin();await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));frames.push(sample());dialogue.end();}
+   dialogue.castIndex=0;e.camera.focusAt({x:10,y:10},.5);frames.push(sample());
+   return {before,frames,zoomEnabled:e.camera.zoomEnabled};
+  });
+  assert.equal(framing.zoomEnabled,false);
+  for(const sample of framing.frames)assert.deepEqual(sample,framing.before,'ultimate must not shrink or reframe the cooperative board');
+  report.framing=framing;
   await page.locator('[data-pattern-action]').click();assert.equal(await page.evaluate(()=>JinmuCoopQA.clicked),true);
   await page.evaluate(()=>{const q=JinmuCoopQA;q.promise=q.engine.playEvents([q.event],{timedInternal:true}).then(()=>q.finished=true);});
   await page.waitForFunction(()=>JinmuCoopQA.engine.jinmuStates.get(JinmuCoopQA.actor).fx.diagnostics().dialogue.active);

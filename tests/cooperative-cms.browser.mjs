@@ -4,7 +4,7 @@ import path from 'node:path';
 import {cooperativeMiniflare} from './helpers/cooperative-miniflare.mjs';
 import {fixture} from './helpers/cooperative-fixture.mjs';
 const {chromium}=await import(process.env.PLAYWRIGHT_MODULE||'playwright');
-const h=await cooperativeMiniflare(),out=path.join(h.temp,'cms-screenshots');await fs.mkdir(out,{recursive:true});
+const h=await cooperativeMiniflare(),out=process.env.COOP_CMS_QA_OUTPUT||path.join(h.temp,'cms-screenshots');await fs.mkdir(out,{recursive:true});
 console.log('CMS UI evidence:',out);
 const browser=await chromium.launch({channel:'chrome',headless:true,args:['--mute-audio']});
 const errors=[],checks=[];
@@ -36,6 +36,22 @@ try{
   await root.locator('[data-difficulty="1"]').click();await root.locator('[name="combat.difficulties.1.monsters.4.shieldPercent"]').fill('12');
   await root.locator('[data-tab="mechanics"]').click();assert.equal(await root.locator('#coop-cms-mechanics article').count(),4);assert.equal(await root.locator('[name="combat.patterns.rupturePercent"]').count(),0);
   await page.screenshot({path:path.join(out,label+'-03-mechanics.png'),fullPage:true});
+  await root.locator('[data-tab="rewards"]').click();
+  await root.locator('[name="rewards.difficulties.0.coin"]').fill('100000000000');
+  await root.locator('[name="rewards.difficulties.0.masterStars"]').fill('1000');
+  for(const code of ['EMPEROR_ENERGY','PET_ESSENCE']){await root.locator('[data-reward-select="0"]').selectOption(code);await root.locator('[data-reward-add="0"]').click();}
+  await root.locator('[name="rewards.difficulties.0.items.0.quantity"]').fill('10');
+  await root.locator('[name="rewards.difficulties.1.coin"]').fill('200000000000');
+  await root.locator('[name="rewards.difficulties.2.coin"]').fill('300000000000');
+  await root.locator('[name="rewards.enabled"]').check();
+  await root.locator('[type="submit"]').click();await page.waitForFunction(()=>document.querySelector('#view-cooperative [data-status]')?.textContent.startsWith('저장 완료'));
+  const rewardsSaved=(await h.request(1,'settings')).settings.rewards;
+  assert.equal(rewardsSaved.enabled,true);assert.equal(rewardsSaved.dailyLimit,3);assert.equal(rewardsSaved.difficulties[0].items.length,2);assert.equal(rewardsSaved.difficulties[0].items[0].quantity,10);
+  await root.locator('[data-reload]').click();await page.waitForFunction(()=>document.querySelector('#view-cooperative [data-status]')?.textContent.startsWith('저장된 설정'));
+  assert.equal(await root.locator('[name="rewards.difficulties.0.items.0.quantity"]').inputValue(),'10');
+  await page.screenshot({path:path.join(out,label+'-rewards.png'),fullPage:true});
+  await root.locator('[data-reward-remove="0:1"]').click();assert.equal(await root.locator('[data-reward-tier="NORMAL"] .coop-cms-reward-item').count(),1);
+  await root.locator('[name="rewards.enabled"]').uncheck();
   await root.locator('[data-tab="economy"]').click();await root.locator('[name="economyDraft.masterStar"]').fill('300000');
   await root.locator('[type="submit"]').click();await page.waitForFunction(()=>document.querySelector('#view-cooperative [data-status]')?.textContent.startsWith('저장 완료'));
   const saved=(await h.request(1,'settings')).settings;assert.equal(saved.combat.difficulties[0].monsters[0].power,7777777);assert.equal(saved.combat.difficulties[1].monsters[4].shieldPercent,12);assert.equal(saved.combat.patterns.rupturePercent,8);assert.equal(saved.economyDraft.masterStar,300000);assert.equal(saved.rewardLocked,true);assert.ok(saved.testUserIds.includes(4));
@@ -60,6 +76,7 @@ try{
   await page.locator('[data-chapter="1"]').click();assert.match(await page.locator('[data-guide-content]').textContent(),/보스의 특성/);assert.doesNotMatch(await page.locator('[data-guide-content]').textContent(),/내 노심 차단/);
   await page.screenshot({path:path.join(out,label+'-05-public-guide.png')});
   checks.push({viewport:label,width,height,cmsMenu:true,saveReload:true,searchAddRemove:true,conflictPreserved:true,publicGuideSynced:true});
+  const next=(await h.request(1,'settings')).settings;for(const tier of next.rewards.difficulties)tier.items=[];await h.request(1,'settings',{settings:next});
   await context.close();
  }
  assert.deepEqual(errors,[]);

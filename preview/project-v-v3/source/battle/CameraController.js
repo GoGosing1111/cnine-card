@@ -6,6 +6,7 @@ export class CameraController{
     this.width=width;
     this.height=height;
     this.base={x:width/2,y:height/2,pivotX:width/2,pivotY:height/2,scale:1};
+    this.zoomEnabled=true;
     this.reset(true);
   }
 
@@ -33,12 +34,14 @@ export class CameraController{
   }
 
   focusAt(point,scale=1.075){
+    if(!this.zoomEnabled)return;
     this.container.pivot.set(point.x,point.y);
     this.container.position.set(point.x,point.y);
     this.container.scale.set(scale);
   }
 
   addZoom(timeline,{focus,scale=1.075,inDuration=.2,hold=.18,outDuration=.28,at=0}={}){
+    if(!this.zoomEnabled)return timeline;
     const point=focus||{x:this.width/2,y:this.height/2};
     timeline.call(()=>{
       this.container.pivot.set(point.x,point.y);

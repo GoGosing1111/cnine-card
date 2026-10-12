@@ -1,0 +1,181 @@
+{
+  "reports": [
+    {
+      "width": 1440,
+      "formation": true,
+      "mode": "RAID",
+      "actors": 9,
+      "dialogues": 1,
+      "rect": {
+        "x": 0,
+        "y": 158,
+        "width": 1440,
+        "height": 106,
+        "top": 158,
+        "right": 1440,
+        "bottom": 264,
+        "left": 0
+      },
+      "canvas": {
+        "x": 0,
+        "y": 264,
+        "width": 1440,
+        "height": 736,
+        "top": 264,
+        "right": 1440,
+        "bottom": 1000,
+        "left": 0
+      },
+      "faceOpacity": "1",
+      "overlaps": [],
+      "overflow": false,
+      "framing": {
+        "before": {
+          "top": 262,
+          "height": 738,
+          "root": 0.5463414634146342,
+          "stage": 1
+        },
+        "frames": [
+          {
+            "top": 262,
+            "height": 738,
+            "root": 0.5463414634146342,
+            "stage": 1
+          },
+          {
+            "top": 262,
+            "height": 738,
+            "root": 0.5463414634146342,
+            "stage": 1
+          },
+          {
+            "top": 262,
+            "height": 738,
+            "root": 0.5463414634146342,
+            "stage": 1
+          },
+          {
+            "top": 262,
+            "height": 738,
+            "root": 0.5463414634146342,
+            "stage": 1
+          },
+          {
+            "top": 262,
+            "height": 738,
+            "root": 0.5463414634146342,
+            "stage": 1
+          },
+          {
+            "top": 262,
+            "height": 738,
+            "root": 0.5463414634146342,
+            "stage": 1
+          }
+        ],
+        "zoomEnabled": false
+      },
+      "dialogue": {
+        "visible": true,
+        "line": "“고개를 들어라. 마지막으로 볼 하늘이다.”",
+        "castIndex": 1,
+        "active": true,
+        "fullIllustration": false
+      },
+      "cleanup": {
+        "panels": 0,
+        "portal": false
+      }
+    },
+    {
+      "width": 390,
+      "formation": true,
+      "mode": "RAID",
+      "actors": 9,
+      "dialogues": 1,
+      "rect": {
+        "x": 0,
+        "y": 133,
+        "width": 390,
+        "height": 106,
+        "top": 133,
+        "right": 390,
+        "bottom": 239,
+        "left": 0
+      },
+      "canvas": {
+        "x": 0,
+        "y": 239,
+        "width": 390,
+        "height": 605,
+        "top": 239,
+        "right": 390,
+        "bottom": 844,
+        "left": 0
+      },
+      "faceOpacity": "1",
+      "overlaps": [],
+      "overflow": false,
+      "framing": {
+        "before": {
+          "top": 237,
+          "height": 607,
+          "root": 0.32016129032258067,
+          "stage": 1
+        },
+        "frames": [
+          {
+            "top": 237,
+            "height": 607,
+            "root": 0.32016129032258067,
+            "stage": 1
+          },
+          {
+            "top": 237,
+            "height": 607,
+            "root": 0.32016129032258067,
+            "stage": 1
+          },
+          {
+            "top": 237,
+            "height": 607,
+            "root": 0.32016129032258067,
+            "stage": 1
+          },
+          {
+            "top": 237,
+            "height": 607,
+            "root": 0.32016129032258067,
+            "stage": 1
+          },
+          {
+            "top": 237,
+            "height": 607,
+            "root": 0.32016129032258067,
+            "stage": 1
+          },
+          {
+            "top": 237,
+            "height": 607,
+            "root": 0.32016129032258067,
+            "stage": 1
+          }
+        ],
+        "zoomEnabled": false
+      },
+      "dialogue": {
+        "visible": true,
+        "line": "“고개를 들어라. 마지막으로 볼 하늘이다.”",
+        "castIndex": 1,
+        "active": true,
+        "fullIllustration": false
+      },
+      "cleanup": {
+        "panels": 0,
+        "portal": false
+      }
+    }
+  ],
+  "errors": []
+}

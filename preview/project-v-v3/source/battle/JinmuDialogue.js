@@ -34,6 +34,7 @@ const CSS=`
 .jinmu-dialogue-face:after{content:'◆';position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);color:#ffe5a1;text-shadow:0 1px 3px #000;font-size:12px}
 .jinmu-dialogue-copy{min-width:0;flex:1}.jinmu-dialogue-name{display:flex;align-items:center;gap:12px;margin-bottom:4px}.jinmu-dialogue-name b{font-size:14px;letter-spacing:.03em;color:#e7c184;font-weight:800}.jinmu-dialogue-name span{color:#8c918f;font-size:10px;letter-spacing:.08em}
 .jinmu-dialogue-copy p{margin:0!important;color:#fff1d6;font-size:19px;font-weight:650;line-height:1.55;word-break:keep-all;overflow-wrap:anywhere;text-shadow:0 2px 4px #000}
+.jinmu-dialogue-lines{display:grid}.jinmu-dialogue-lines>p{grid-area:1/1;min-width:0}.jinmu-dialogue-lines>[aria-hidden='true']{visibility:hidden;pointer-events:none}
 .jinmu-dialogue-seal{position:relative;display:grid;place-content:center;gap:1px;flex:0 0 82px;min-height:60px;border-inline:1px solid #a1814260;text-align:center;color:#f3cd84}
 .jinmu-dialogue-seal:before{content:'◆ ━ ◆';font-size:8px;color:#ba914b;letter-spacing:2px}.jinmu-dialogue-seal b{font:800 24px/1.1 Georgia,serif;letter-spacing:3px;text-shadow:0 1px #000,0 0 12px #d49a3040}.jinmu-dialogue-seal small{font-size:8px;letter-spacing:2px;color:#c0a575}
 .jinmu-dialogue-rail[data-casting='true'] .jinmu-dialogue-name span{color:#f6d28c}.jinmu-dialogue-rail[data-casting='true'] .jinmu-dialogue-inner{box-shadow:inset 0 0 24px #e5ad3826}
@@ -61,6 +62,12 @@ export class JinmuDialogue{
   this.node=document.createElement('section');this.node.className='jinmu-dialogue-rail';this.node.setAttribute('aria-label','천룡검황 진무 대사');
   this.node.innerHTML='<div class="jinmu-dialogue-frame"><div class="jinmu-dialogue-inner"><div class="jinmu-dialogue-face" role="img" aria-label="진무 얼굴 초상"><i></i></div><div class="jinmu-dialogue-copy"><div class="jinmu-dialogue-name"><b>천룡검황 진무</b><span>천룡강림</span></div><p role="status" aria-live="polite" aria-atomic="true"></p></div><div class="jinmu-dialogue-seal" aria-label="SSS 리미티드"><b>SSS</b><small>LIMITED</small></div></div></div>';
   this.line=this.node.querySelector('p');this.line.textContent='천룡의 이름으로, 이 전장을 평정한다.';
+  if(this.portal){
+   // Reserve the tallest of the five lines once at this viewport width. A new
+   // ultimate line must never resize the canvas and shrink the whole formation.
+   const lines=document.createElement('div');lines.className='jinmu-dialogue-lines';this.line.replaceWith(lines);lines.append(this.line);
+   for(const text of JINMU_DIALOGUE_LINES){const measure=document.createElement('p');measure.setAttribute('aria-hidden','true');measure.textContent='“'+text+'”';lines.append(measure);}
+  }
   this.previousTop={value:this.host.style.getPropertyValue('top'),priority:this.host.style.getPropertyPriority('top')};
   shell.append(this.node);shell.classList.add('has-jinmu-dialogue');
   this.portal?.classList.add('has-jinmu-dialogue');

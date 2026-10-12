@@ -5,6 +5,8 @@ import {COOP_DIFFICULTIES,COOP_RULES,validCoopRoom,validCoopClient,validateCoopS
 import {coopSettings,cooperativeAdmin} from './_cooperative_settings.js';
 import {coopCombatSummary} from '../shared/cooperative-settings-v1.mjs';
 import {COOP_DIRECTORY} from '../shared/cooperative-room-list-v1.mjs';
+import {freezeCoopReward} from '../shared/cooperative-rewards-v1.mjs';
+import {coopDailyReward} from './_cooperative_rewards.js';
 export {coopSettings} from './_cooperative_settings.js';
 const fail=(code,message,status=409)=>{throw jointError('COOP_'+code,message,status);};
 export const coopAccess=(user,cfg)=>Boolean(user)&&(cfg.mode==='ON'||cfg.mode==='TEST'&&(user.role==='OWNER'||cfg.testUserIds.includes(Number(user.id))));
@@ -55,12 +57,12 @@ export async function loadCoopSelection(env,user,body,deps){
   power:cards.reduce((sum,c)=>sum+c.power,0)+equipmentBonus+mercenarySnapshotPower(mercenary)};
 }
 export async function handleCooperative({path,request,env,deps}){
- if(!path.startsWith('coop/')&&!['admin/coop/settings','admin/coop/test-users'].includes(path))return null;
+ if(!path.startsWith('coop/')&&!['admin/coop/settings','admin/coop/test-users','admin/coop/reward-catalog'].includes(path))return null;
  try{
   const user=await deps.authenticate(request,env);if(!user)fail('LOGIN','로그인 후 입장하세요.',401);
   const config=await coopSettings(env),kind=path.replace(/^(?:admin\/)?coop\//,''),url=new URL(request.url);
-  if(kind==='settings'||path==='admin/coop/test-users')return await cooperativeAdmin({kind,request,env,deps,user,config});
-  if(kind==='feature'&&request.method==='GET')return deps.json({ok:true,mode:config.mode,visible:user.role==='OWNER'||coopAccess(user,config),accessible:coopAccess(user,config),owner:user.role==='OWNER',rewardLocked:true,rules:{...COOP_RULES,maxBattleMs:config.combat.maxBattleSeconds*1000},difficulties:COOP_DIFFICULTIES,configuration:coopCombatSummary(config.combat,config.revision)},200,{'cache-control':'no-store'});
+  if(kind==='settings'||path.startsWith('admin/coop/'))return await cooperativeAdmin({kind,request,env,deps,user,config});
+  if(kind==='feature'&&request.method==='GET')return deps.json({ok:true,mode:config.mode,visible:user.role==='OWNER'||coopAccess(user,config),accessible:coopAccess(user,config),owner:user.role==='OWNER',rewardLocked:config.mode!=='ON'||config.rewardLocked,rewards:config.rewards,dailyReward:await coopDailyReward(env,user.id),rules:{...COOP_RULES,maxBattleMs:config.combat.maxBattleSeconds*1000},difficulties:COOP_DIFFICULTIES,configuration:coopCombatSummary(config.combat,config.revision)},200,{'cache-control':'no-store'});
   if(!coopAccess(user,config))fail('CLOSED',config.mode==='OFF'?'격전지는 현재 운영 중지 상태입니다.':'격전지 테스트 참여자로 등록된 계정만 입장할 수 있습니다.',403);
   if(!env.COOP_ROOMS||!env.COOP_PLAYERS)fail('UNAVAILABLE','격전지 서버를 준비 중입니다.',503);
   if(kind==='rooms'&&request.method==='GET'){
@@ -70,7 +72,7 @@ export async function handleCooperative({path,request,env,deps}){
   }
   if(kind==='options'&&request.method==='GET'){
    const [cards,mercenaries]=await Promise.all([loadCoopOwnedCards(env,user,deps),mercenaryAccountState(env,user)]);
-   return deps.json({ok:true,cards,mercenaries:mercenaries.cards.filter(c=>c.canDeploy),you:Number(user.id),nickname:user.nickname,rewardLocked:true});
+   return deps.json({ok:true,cards,mercenaries:mercenaries.cards.filter(c=>c.canDeploy),you:Number(user.id),nickname:user.nickname,rewardLocked:config.mode!=='ON'||config.rewardLocked});
   }
   if(kind==='current'&&request.method==='GET'){
    const id=await playerStub(env,user).getRoom();if(!id)return deps.json({ok:true,state:null});
@@ -90,7 +92,7 @@ export async function handleCooperative({path,request,env,deps}){
      if(previous.ok&&['LOBBY','LOADING','ACTIVE'].includes(previous.state.status)&&!previous.state.myResult&&prior!==target)fail('ALREADY_JOINED','현재 대기방에서 먼저 나와주세요.');}
     if(kind==='create'){
      const id=target;
-     const result=await roomStub(env,id).create({id,user:{id:Number(user.id),nickname:user.nickname},clientId:body.clientId,difficulty:body.difficulty,seed:crypto.getRandomValues(new Uint32Array(1))[0],requestId:body.requestId,combat:config.combat,settingsRevision:config.revision,encounterVersion:config.encounterVersion===3?3:2});
+     const result=await roomStub(env,id).create({id,user:{id:Number(user.id),nickname:user.nickname},clientId:body.clientId,difficulty:body.difficulty,seed:crypto.getRandomValues(new Uint32Array(1))[0],requestId:body.requestId,combat:config.combat,settingsRevision:config.revision,encounterVersion:config.encounterVersion===3?3:2,rewardPolicy:freezeCoopReward(config,body.difficulty)});
      if(result.ok)await pointer.setRoom(id);return response(deps,result);
     }
     const result=await roomStub(env,body.roomId).command({id:Number(user.id),nickname:user.nickname},kind,body);

@@ -46,10 +46,10 @@ export function advanceCoopRoom(room,now){
  }
  return room;
 }
-export function createCoopRoom({id,user,clientId,difficulty,seed,now,combat=defaultCoopCombat(),settingsRevision=0,encounterVersion=3}){
+export function createCoopRoom({id,user,clientId,difficulty,seed,now,combat=defaultCoopCombat(),settingsRevision=0,encounterVersion=3,rewardPolicy=null}){
  if(!coopDifficulty(difficulty)||!validCoopClient(clientId))fail('INPUT','난이도와 접속 정보를 확인하세요.',400);
  const snapshot=validateCoopCombat(combat);
- return {id,hostId:Number(user.id),status:'LOBBY',difficulty,seed,combat:snapshot,settingsRevision,encounterVersion:encounterVersion===3?3:2,...(encounterVersion===3?{encounter:rollCoopRoster(seed)}:{}),turnClockVersion:4,patternIndex:0,pattern:null,patternHistory:[],effects:[],createdAt:now,expiresAt:now+snapshot.lobbySeconds*1000,members:[{id:Number(user.id),name:String(user.nickname).slice(0,80),clientId,ready:false,loaded:false,lastSeen:now}],withdrawals:[],battleRevision:0,version:1,receipts:[]};
+ return {id,hostId:Number(user.id),status:'LOBBY',difficulty,seed,combat:snapshot,rewardPolicy:structuredClone(rewardPolicy),settingsRevision,encounterVersion:encounterVersion===3?3:2,...(encounterVersion===3?{encounter:rollCoopRoster(seed)}:{}),turnClockVersion:4,patternIndex:0,pattern:null,patternHistory:[],effects:[],createdAt:now,expiresAt:now+snapshot.lobbySeconds*1000,members:[{id:Number(user.id),name:String(user.nickname).slice(0,80),clientId,ready:false,loaded:false,lastSeen:now}],withdrawals:[],battleRevision:0,version:1,receipts:[]};
 }
 export function coopCommand(room,user,kind,input,now){
  advanceCoopRoom(room,now);
@@ -100,7 +100,7 @@ export function coopView(room,user,now,revision=-1){
  const stage=room.payload?.cooperativeEncounter?{wave,total:3,cleared:frame?.B.filter(f=>f.hp<=0).length||0,totalEnemies:5,bossAtMs:room.bossAtMs}:null;
  const fighters=frame?{A:frame.A.map(f=>room.withdrawals.some(w=>w.ownerId===f.ownerId)?{...f,hp:0,shield:0}:f),B:frame.B}:null;
  return {ok:true,serverNow:now,state:{id:room.id,hostId:room.hostId,status:room.status,difficulty:room.difficulty,expiresAt:room.expiresAt,loadingEndsAt:room.loadingEndsAt,startsAt:room.startsAt,durationMs:room.durationMs,finishedAt:room.finishedAt,reason:room.reason,
-  stage,encounter:coopRosterSummary(room.encounter),configuration:coopCombatSummary(room.combat,room.settingsRevision||0),version:room.version,battleRevision:room.battleRevision,rewardLocked:true,myResult:m.result||null,encounterVersion:room.encounterVersion||1,pattern:room.pattern||null,patternHistory:room.patternHistory||[],
+  stage,encounter:coopRosterSummary(room.encounter),configuration:coopCombatSummary(room.combat,room.settingsRevision||0),version:room.version,battleRevision:room.battleRevision,rewardLocked:!room.rewardPolicy?.enabled,rewardPolicy:room.rewardPolicy||null,clearReward:room.clearRewards?.[String(user.id)]||null,myResult:m.result||null,encounterVersion:room.encounterVersion||1,pattern:room.pattern||null,patternHistory:room.patternHistory||[],
   members:room.members.map(x=>({id:x.id,name:x.name,ready:x.ready,loaded:x.loaded,result:x.result||null,reason:x.reason||null,connected:now-x.lastSeen<COOP_RULES.disconnectMs,
    selection:x.loadout?{cards:x.loadout.cards.map(c=>({id:c.id,title:c.title,grade:c.grade||c.rarity,image:c.image,power:c.power,uniqueAbility:c.uniqueAbility})),mercenary:{code:x.loadout.mercenary.code,name:x.loadout.mercenary.name,rank:x.loadout.mercenary.rank,sourceArt:x.loadout.mercenary.sourceArt},power:x.loadout.power}:null})),fighters},
   ...(room.payload&&revision!==room.battleRevision?{payload:room.payload}:{}),you:Number(user.id)};

@@ -1,0 +1,26 @@
+{
+  "checks": [
+    {
+      "viewport": "desktop",
+      "width": 1440,
+      "height": 1000,
+      "cmsMenu": true,
+      "saveReload": true,
+      "searchAddRemove": true,
+      "conflictPreserved": true,
+      "publicGuideSynced": true
+    },
+    {
+      "viewport": "mobile",
+      "width": 390,
+      "height": 844,
+      "cmsMenu": true,
+      "saveReload": true,
+      "searchAddRemove": true,
+      "conflictPreserved": true,
+      "publicGuideSynced": true
+    }
+  ],
+  "errors": [],
+  "origin": "http://127.0.0.1:14056"
+}
