@@ -15,11 +15,20 @@
 - 실제 메인 HTML과 기존 로컬 서버 fixture를 사용한다. 운영 공대나 재화를 생성하지 않는다.
 - 수정 전 브라우저 검수에서 `Combat must leave the nested raid hub and mount directly under body` 단언이 실패해 기존 중첩 화면을 재현했다.
 - 최초 수정본은 1440×1000, 390×844에서 화면 크기·배경 입력 잠금·퇴장/결과 복귀·재입장·폴링 종료를 통과했다. 두 화면의 전투/기믹 스크린샷을 직접 확인했다.
-- 최종 배포 검사는 `tests/madara-raid-live-20261011.browser.mjs`를 `MADARA_GAME_ONLY=1`로 실행한다. 기믹 실제 클릭, 새로고침 후 복구, 상위 게임 화면 교체 시 정리도 포함한다. 변경 없는 CMS/서버 경제 검사와 전체 게이트는 반복하지 않는다.
+- 최종 통합 소스에서 `tests/madara-raid-live-20261011.browser.mjs`를 `MADARA_GAME_ONLY=1`로 실행해 두 화면 모두 통과했다. 기믹 실제 클릭, 새로고침 후 복구, 상위 게임 화면 교체 시 정리도 포함하며 콘솔 예외는 0건이다. 변경 없는 CMS/서버 경제 검사와 전체 게이트는 반복하지 않았다.
 - 검수 출력: `C:/Users/User/.codex/tmp/madara-fullscreen-20261013/` (배포 트리 밖).
 
 ## 배포
 
 - 확인한 직전 운영 배포: Pages `a6c4afc3-8ba4-45e3-b0d1-18ecb2744ba4`, 소스 `08f6aa5e9d13691259336d113d6743962651fa0d`.
 - 국소 화면 생명주기 수정이므로 `npm run deploy:production -- --scoped`를 사용한다. 출시·캐시·Hyperdrive 검증은 유지한다.
-- 운영 완료 결과는 배포 후 기록한다.
+- 동시에 main에 추가된 용병 대사 변경을 보존했다. 해당 변경의 PC·모바일 PVE/PVP·협동 검수 기록을 확인하고, 최종 통합 브라우저 검수를 통과한 뒤 지정 배포에서 `tests/pve-battlefield-entry-v2117.test.mjs` 9개를 통과했다. 완료한 브라우저 검사를 배포에서 중복 실행하지 않았다.
+
+## 운영 반영 완료
+
+- **2026-10-13 03:43 KST** 운영 확인. 소스 `905b3880040d23f45be4df7e44ff40e2142d7f37`, Pages `28d5d5ab-dfd8-49e1-92e7-d25c645033f1`.
+- 배포 주소: https://28d5d5ab.cnine-card.pages.dev, 운영 https://cnine-card.pages.dev.
+- 메인 HTML·마다라 진입 스크립트·inline·runtime·전투 화면 모듈·CSS 6개가 운영 200이며 배포 소스와 SHA-256이 일치한다. 서비스 상태 API도 200이다.
+- 공식 배포의 API Runtime `64d407ef-b225-48a2-afae-95349889e8c3`, clan-draft `53b459ef-6d83-47da-8062-8b2e8367e1f7`.
+- 최초 추가 검수에서 발견한 부분 화면 교체 시 전장 잔류는 마다라 진입기의 실제 마운트 위치 추적으로 수정했다. 준비 화면이 없어져도 포털·렌더러·입력 잠금·폴링을 정리한다.
+- 최종 브라우저 결과·라이브 파일 영수증: `docs/qa/madara-fullscreen-20261013/`. 스크린샷·배포 로그는 위 트리 밖 검수 폴더의 `verified/`, `deploy-verified.log`에 보존한다. 완료 기록만 추가하는 커밋은 다시 배포하지 않는다.

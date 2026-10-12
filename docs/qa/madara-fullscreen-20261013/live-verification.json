@@ -1,0 +1,38 @@
+{
+  "verifiedAt": "2026-10-12T18:43:05.982Z",
+  "commit": "905b3880040d23f45be4df7e44ff40e2142d7f37",
+  "version": "20261013-fullscreen1",
+  "files": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "943c1dc83764eb40b4cda97c278e791777e6f5415ce65f7649c20bc7e9bdfe68"
+    },
+    {
+      "path": "js/madara-raid-entry-v1.js",
+      "status": 200,
+      "sha256": "e2b62a6e416428d592d8edbd8ab2944e305c48ad2745cdf785e0d56e2d69a2ce"
+    },
+    {
+      "path": "raid/madara/inline.mjs",
+      "status": 200,
+      "sha256": "40440f99704bed49ba877875b0821ea1f259a73977524dcd7e5c2e476368c8f0"
+    },
+    {
+      "path": "raid/madara/runtime.mjs",
+      "status": 200,
+      "sha256": "70c3686a7a01093299ad872206237fd4ca078904b3d802364d41b3c1b2fb503c"
+    },
+    {
+      "path": "raid/madara/combat-screen.mjs",
+      "status": 200,
+      "sha256": "71244f096da38e275d11233b2f721098dc1f03a0da1863ed5d02f91eee537f7c"
+    },
+    {
+      "path": "raid/madara/live.css",
+      "status": 200,
+      "sha256": "751a6d59aa7ed6c40d7b8a61de40966bee236e64bbc71ee2d81e399bb888fd2d"
+    }
+  ],
+  "serviceStatus": 200
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "width": 1440,
+    "errors": [],
+    "lobbyInline": true,
+    "combatFullscreen": true,
+    "recovery": true,
+    "kick": true,
+    "pollingStopped": true,
+    "returnRestored": true
+  },
+  {
+    "width": 390,
+    "errors": [],
+    "lobbyInline": true,
+    "combatFullscreen": true,
+    "recovery": true,
+    "kick": true,
+    "pollingStopped": true,
+    "returnRestored": true
+  }
+]
