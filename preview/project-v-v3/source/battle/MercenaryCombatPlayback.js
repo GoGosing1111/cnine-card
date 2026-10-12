@@ -25,13 +25,13 @@ import {VALTER_AREA_EVENT} from '../../../../shared/mercenary-valter-v1.mjs';
 import {JINMU_CODE,JINMU_AREA_EVENT} from '../../../../shared/mercenary-jinmu-v1.mjs';
 import {jinmuBattleArt,setupJinmuActor,clearJinmuActors,cancelJinmuPlayback,resumeJinmuPlayback,playJinmuBasic,playJinmuArea} from './JinmuCombatPlayback.js';
 import {HELIOS_CODE,HELIOS_AREA_EVENT} from '../../../../shared/mercenary-helios-v1.mjs';
-import {heliosBattleArt,setupHeliosActor,clearHeliosActors,cancelHeliosPlayback,playHeliosBasic,playHeliosArea} from './HeliosCombatPlayback.js';
+import {heliosBattleArt,setupHeliosActor,clearHeliosActors,cancelHeliosPlayback,resumeHeliosPlayback,playHeliosBasic,playHeliosArea} from './HeliosCombatPlayback.js';
 import {setupLimitedActor,clearLimitedActors,cancelLimitedPlayback,resumeLimitedPlayback,playLimitedBasic,playLimitedSkill,limitedDiagnostics} from './LimitedMercenaryPlayback.js';
 const json=async url=>{const r=await fetch(url);if(!r.ok)throw Error(`MERCENARY_ASSET:${r.status}`);return r.json();};
 let rosterPromise,atlasPromise;
 export const withMercenaryBattle=Base=>class extends Base{
  constructor(options){super(options);this.mercenaries=[];this.mercenarySequences=new Map();this.mercenaryLoads=new Map();this.mercenaryHitIndices=new Map();this.mercenaryFx=null;}
- async setVisible(next){const out=await super.setVisible(next);if(this.visible){resumeLimitedPlayback(this);resumeJinmuPlayback(this);}return out;}
+ async setVisible(next){const out=await super.setVisible(next);if(this.visible){resumeLimitedPlayback(this);resumeJinmuPlayback(this);resumeHeliosPlayback(this);}return out;}
  cancelTimelines(){this.mercenaryAudio?.stop();cancelCryvernPlayback(this);cancelBerkanPlayback(this);cancelLimitedPlayback(this);cancelHeliosPlayback(this);cancelJinmuPlayback(this);super.cancelTimelines();}
  syncTargetShield(target,value,maxValue=null){const before=target?.shield,result=super.syncTargetShield(target,value,maxValue);showCryvernShieldImpact(this,target,before,target?.shield);return result;}
  normalAttack(index,options){

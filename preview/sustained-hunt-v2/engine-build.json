@@ -1,13 +1,13 @@
 {
   "date": "2026-09-26",
   "engineBase": "0d67ae862a1f9763605ad7323e889acf5d51ad41",
-  "sourceRevision": "19b1eccd1acaf3b38f223ae1eb2338441bf0dfd6",
+  "sourceRevision": "353b0b83d4bb2824f9a31794714610bdca3d67c1",
   "pixi": "8.20.0",
   "gsap": "3.13.0",
   "serverHash": "d384fc998678271da55c00bb94057b7245bd304666e359999420ae55f2fca12b",
   "engineHash": "96ce1c5d6f63e170acb52f55f7cc7e3c8820fd395699b9095b0d5bd56f5bdcec",
   "playbackHash": "37a65149a34a4361d7a774a1249839b11e1bc6592e141a56819d3691241e0615",
-  "bundleHash": "9b6f2919c7fddeeb246c45c17373a974b1b33597ea9edf00bc302447f956794e",
+  "bundleHash": "a003dc348c2ad0f95835fa13d13bd698b3c4ff8c0e1e30e02e57aa2821875290",
   "commonInputs": [
     "preview/project-v-v3/source/battle/ApocalypseLegionFX.js",
     "preview/project-v-v3/source/battle/ApocalypseLegionPlayback.js",
@@ -61,6 +61,7 @@
     "preview/project-v-v3/source/battle/MercenaryDialogueProfiles.js",
     "preview/project-v-v3/source/battle/JinmuDialogue.js",
     "preview/project-v-v3/source/battle/JinmuCombatPlayback.js",
+    "preview/project-v-v3/source/battle/HeliosSurroundingAura.js",
     "preview/project-v-v3/source/battle/HeliosCombatPlayback.js",
     "preview/project-v-v3/source/battle/LimitedMercenaryPlayback.js",
     "preview/project-v-v3/source/battle/MercenaryCombatPlayback.js",

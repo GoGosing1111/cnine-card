@@ -155,6 +155,7 @@
     "shared/mercenary-limited-catalog-v1.mjs",
     "preview/mercenary-limited-solar-sword-20261009-v1/motion.mjs",
     "preview/mercenary-limited-solar-sword-20261009-v1/source/SolarFX.js",
+    "preview/project-v-v3/source/battle/HeliosSurroundingAura.js",
     "preview/project-v-v3/source/battle/HeliosCombatPlayback.js",
     "preview/mercenary-crimson-silver-knight-battle-v1/motion-counts-v10.mjs",
     "preview/mercenary-crimson-silver-knight-battle-v1/skill.mjs",
@@ -177,5 +178,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 1856316
+  "outputBytes": 1861012
 }

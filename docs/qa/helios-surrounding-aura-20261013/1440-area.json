@@ -1,0 +1,120 @@
+{
+  "passed": true,
+  "mode": "area",
+  "viewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "checks": [
+    {
+      "phase": "idle",
+      "mode": "area",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "aura": {
+        "visible": true,
+        "time": 1.826,
+        "behindBody": true,
+        "silhouetteCopies": 18,
+        "filters": 6,
+        "risingParticles": 24,
+        "bodyAlpha": 1
+      },
+      "ambient": true,
+      "busy": false,
+      "station": true,
+      "overflow": false,
+      "body": {
+        "alpha": 1,
+        "scale": [
+          0.9466346153846156,
+          0.9466346153846155
+        ],
+        "facing": 1
+      }
+    },
+    {
+      "phase": "after attack",
+      "damageCalls": 12,
+      "mode": "area",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "aura": {
+        "visible": true,
+        "time": 0.021,
+        "behindBody": true,
+        "silhouetteCopies": 18,
+        "filters": 6,
+        "risingParticles": 24,
+        "bodyAlpha": 1
+      },
+      "ambient": true,
+      "busy": false,
+      "station": true,
+      "overflow": false,
+      "body": {
+        "alpha": 1,
+        "scale": [
+          0.946669,
+          0.946566
+        ],
+        "facing": 1
+      }
+    },
+    {
+      "phase": "death",
+      "visible": false
+    },
+    {
+      "phase": "recoil preserved"
+    },
+    {
+      "phase": "cancel resume",
+      "mode": "area",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "aura": {
+        "visible": true,
+        "time": 0.104,
+        "behindBody": true,
+        "silhouetteCopies": 18,
+        "filters": 6,
+        "risingParticles": 24,
+        "bodyAlpha": 1
+      },
+      "ambient": true,
+      "busy": false,
+      "station": true,
+      "overflow": false,
+      "body": {
+        "alpha": 1,
+        "scale": [
+          0.953965,
+          0.931973
+        ],
+        "facing": 1
+      }
+    },
+    {
+      "phase": "reduced motion"
+    },
+    {
+      "phase": "destroy remount",
+      "aura": {
+        "visible": true,
+        "time": 0,
+        "behindBody": true,
+        "silhouetteCopies": 18,
+        "filters": 6,
+        "risingParticles": 24,
+        "bodyAlpha": 1
+      }
+    }
+  ]
+}
