@@ -1,0 +1,52 @@
+{
+  "verifiedAt": "2026-10-12T18:43:53.485Z",
+  "commit": "905b3880040d23f45be4df7e44ff40e2142d7f37",
+  "deploymentId": "28d5d5ab-dfd8-49e1-92e7-d25c645033f1",
+  "url": "https://28d5d5ab.cnine-card.pages.dev",
+  "productionOrigin": "https://cnine-card.pages.dev",
+  "files": [
+    {
+      "path": "index.html",
+      "url": "https://cnine-card.pages.dev/",
+      "status": 200,
+      "sha256": "943c1dc83764eb40b4cda97c278e791777e6f5415ce65f7649c20bc7e9bdfe68",
+      "lineEndingNormalizedMatch": true
+    },
+    {
+      "path": "js/app.js",
+      "url": "https://cnine-card.pages.dev/js/app.js?v=20261013-limited-dialogue1&jokgakCity=20261011-jobs1&petLayout=20261009&limitedDeployment=20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3&soopketland=20261006-gift1&chiefPrison=20261006&limitedVisuals=20261004-approved&clanAvatars=20261001&lgAyoon=20261003&hanwhaDiim=20261003&coop=20261005-readable-v4&lgHeeya=20260930&goldenAxe=20260918&prime=20260917-skill-chips&cowPortal=20260913&mercenary=2100&hyper=2145-acquisition-video&projectiles=2106&operations=20260925-duo&furHigh=2114&sd=20260919-bongsoon-armed&coup=2115&pveEntry=2119&heeya=2118&assembly=2120&entry=2121&prediction=20260926-5b&accountRank=20261008&suits=2124&inventory=20261003-pet-opening&recruitmentGift=20260929&pingduThanksGift=20261002&flow=2126&clanFaction=20261001-session-rewards&coupStatus=20260920&pigMessage=2130&rewardMeta=20260929-funding-gift&omegaMessage=20260927&equipmentLoading=20260918&zSword=20260918&clanLineup=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&landRewards=20261006-stars1m-gift1&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&draw=20260922-weighted&apiFlow=2122&drawPerf=20260919&challenger=20&weeklyRaid=20261008-v2&magicPresets=20260922&workshop=20260922&scrapRecovery=20260923&chuseok=20260923&policeRestraint=20260923&enhanceGlow=20260923&packAuto=20260924-fast&dexPerf=20260924&packResponse=20260924&questHub=20261009-weekly&hyperAuto=20260924-store-refresh&deathGame=20260928-stable&resultIdle=20260928-corpse&cryvern=20261004-clean-aura&workshopLoading=20260927&materialBatch=20260928&icon=20260930&duo=20260928-extra12&auction=20260926-bgm-bids&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&achievementTitles=20260927&xBody=20260928-skill-order&overlord=20261005-motion-v4&sx=20261007-2x-v1&sxCamera=20261008-v3&sBodyAssembly=20260928&zBodyAssembly=20261006&equipmentCraft=20260928&miracle=20260929&sBodyPayment=20260930&iconFusion=20260930&lichFx=20261001&retired=20261001&axeReopen=20261002&cubeRemoval=20261003&miracleCube=20261003-v1&supporterBlueBeast=20261003-title-copy-v2&busDriver=20261005&lichMessage=20261003&territoryFx=20261003-v1&iconRoles=20261005-fur15-v1&suggestions=20261005&prisonHunger=20261005&prisonLayout=20261006&drillMessage=20261006&limitedMixed=20261010-precision&superstarBatch=20261007-results&pveReform=20261008&legionRegions=20261008&loadoutModes=20261009&suitCoreBatch=20261013",
+      "status": 200,
+      "sha256": "da99927a19a0ccb99a42e2fed1f07ca02afbabc9847d691ce6a6f772c235edb5",
+      "lineEndingNormalizedMatch": true
+    },
+    {
+      "path": "js/battle-v3-live.js",
+      "url": "https://cnine-card.pages.dev/js/battle-v3-live.js?limitedDialogue=20261013-v1&coopCamera=20261013-v1&playback=20261012-progress1&petFx=20261012-v3&jokgakCity=20261009-v1&worldRaid=20261008-v2&petLayout=20261009&limitedVisuals=20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3&territoryFx=20261003-v1&coop=20261005-coop-readable-v4-backdrop&territory=20261003-v5&lichFx=20261001&speedReform=20260930&v=3.36.0-combat-flow&furHigh=2114-frames20261002&battleRuntime=2124&heeya=2118&entry=2121&suits=2124&flow=2126&zSword=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&policeRestraint=20260923&octaseeker=20260928-opening10&resultIdle=20260928-corpse&cryvern=20261004-clean-aura&duo=20260925&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&xBody=20260928-skill-order&overlord=20261005-motion-v4&sx=20261007-2x-v1&sxCamera=20261008-v3&backgroundRecovery=20261006&apocalypseFocus=20261006&iconActions=20261010-zeus&icon=20260930&suggestions=20261005&apocalypseCompletion=20261005-settlement3&petLive=20261006-v1&iconCadence=20261006-v1&damageFont=20261007-russo-v1",
+      "status": 200,
+      "sha256": "07187e40996d4b34f82d1dbc1d8a92dc59d48bcc39f73d533488d0bf94631d30",
+      "lineEndingNormalizedMatch": true
+    },
+    {
+      "path": "service-worker.js",
+      "url": "https://cnine-card.pages.dev/service-worker.js",
+      "status": 200,
+      "sha256": "603cca6bfa85b612db9cda42b9ffb9e94e0860c2e186912122ade97c17086a98",
+      "lineEndingNormalizedMatch": true
+    },
+    {
+      "path": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "url": "https://cnine-card.pages.dev/preview/project-v-v3/project-v-pixi-battle.bundle.js?verify=limited-dialogue-20261013-v1",
+      "status": 200,
+      "sha256": "60a6add04fac80dc78a6f0ae679f09d6a845c3220efb25051df36d4c4ee86588",
+      "lineEndingNormalizedMatch": true
+    },
+    {
+      "path": "preview/sustained-hunt-v2/battle.bundle.js",
+      "url": "https://cnine-card.pages.dev/preview/sustained-hunt-v2/battle.bundle.js?verify=limited-dialogue-20261013-v1",
+      "status": 200,
+      "sha256": "e8e7b4bfe6d4a8520ae5cd274a244f2d6e61bf966589122eb1007b80c0363713",
+      "lineEndingNormalizedMatch": true
+    }
+  ],
+  "productionBattleExecuted": false
+}
