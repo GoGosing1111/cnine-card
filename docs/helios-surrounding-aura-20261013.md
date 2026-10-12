@@ -18,4 +18,11 @@
 - 직전 운영 기준: `62bc37d6d3387d08ce1836054a3f33eecd54afdd`, Pages `f62972af-6f5b-4ad5-b1e2-9186caf1f809`. 배포 목록으로 확인했다.
 - 배포 단계는 `npm run deploy:production -- --scoped`. 이미 실행한 5건/브라우저 검수는 반복하지 않고 헬리오스 서버 회귀, 발테르 인접 재생, 실제 메인 로더·번들/캐시 연결 검사와 필수 운영 가드를 수행한다.
 
-운영 결과는 배포 후 기록한다.
+## 운영 반영 완료
+
+- 소스 `247c75f3cf435cdcdb39ca7fbfb4d613320939c0`을 origin/main에 반영하고 공식 scoped 배포를 완료했다.
+- 관련 회귀 25건과 별도 아우라 검사 5건, PC·모바일 4개 전투 시나리오가 모두 통과했다. 출시·캐시·Hyperdrive 가드와 Worker/Pages 배포도 정상 완료했다.
+- Pages: https://fee97ae2.cnine-card.pages.dev · API Runtime: `3bedb27f-2f54-4f1a-b5e2-998973e93a4e` · Clan Draft: `6d231110-461e-4b6d-8917-f47d5dd6ba79`.
+- 운영 확인: 2026-10-12T19:58:12.559Z (UTC). 정식 운영 주소의 앱·서비스워커·로더·메인/PVE/군단 전투 번들·아우라 소스 8개가 모두 HTTP 200 및 검수한 로컬 파일과 바이트 해시가 일치했다.
+- 상세 근거: [production.json](qa/helios-surrounding-aura-20261013/production.json). 운영 계정의 전투·재화는 조작하지 않았다.
+- 완료 기록은 문서만 원격 반영하며 동일 실행 파일을 재배포하지 않는다.

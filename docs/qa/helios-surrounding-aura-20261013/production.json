@@ -1,0 +1,78 @@
+{
+  "verifiedAt": "2026-10-12T19:58:12.559Z",
+  "source": "247c75f3cf435cdcdb39ca7fbfb4d613320939c0",
+  "base": "62bc37d6d3387d08ce1836054a3f33eecd54afdd",
+  "pages": "https://fee97ae2.cnine-card.pages.dev",
+  "apiRuntime": "3bedb27f-2f54-4f1a-b5e2-998973e93a4e",
+  "clanDraft": "6d231110-461e-4b6d-8917-f47d5dd6ba79",
+  "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1",
+  "scopedTests": 25,
+  "auraTests": 5,
+  "browserScenarios": 4,
+  "checks": [
+    {
+      "file": "index.html",
+      "url": "https://cnine-card.pages.dev/index.html",
+      "status": 200,
+      "sha256": "e3b6c52e758ca0d9f237386b0861bf09d9d50ba93dbd3f425acb6c7053c0e0de",
+      "expected": "e3b6c52e758ca0d9f237386b0861bf09d9d50ba93dbd3f425acb6c7053c0e0de",
+      "match": true
+    },
+    {
+      "file": "js/app.js",
+      "url": "https://cnine-card.pages.dev/js/app.js?heliosAura=20261013-v1",
+      "status": 200,
+      "sha256": "b1f784ec56257abfe46e30f01ce942d0b4294df7843c3b5792f453fbe74d7c16",
+      "expected": "b1f784ec56257abfe46e30f01ce942d0b4294df7843c3b5792f453fbe74d7c16",
+      "match": true
+    },
+    {
+      "file": "service-worker.js",
+      "url": "https://cnine-card.pages.dev/service-worker.js?heliosAura=20261013-v1",
+      "status": 200,
+      "sha256": "4d42d379c11d52d7046bd5d154fb23e18ca565d521219345a4b4bbc04775d8b1",
+      "expected": "4d42d379c11d52d7046bd5d154fb23e18ca565d521219345a4b4bbc04775d8b1",
+      "match": true
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "url": "https://cnine-card.pages.dev/js/battle-v3-live.js?heliosAura=20261013-v1",
+      "status": 200,
+      "sha256": "95a2fdf94bd29d104179d65a176fae4adfd570188fc5c14d2a2a140177f53dde",
+      "expected": "95a2fdf94bd29d104179d65a176fae4adfd570188fc5c14d2a2a140177f53dde",
+      "match": true
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "url": "https://cnine-card.pages.dev/preview/project-v-v3/project-v-pixi-battle.bundle.js?battleRuntime=20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1",
+      "status": 200,
+      "sha256": "8a301a1d2c380d4372eed59b7a5d0c21da29c7e6a2fc1a80e9f69def1fc46707",
+      "expected": "8a301a1d2c380d4372eed59b7a5d0c21da29c7e6a2fc1a80e9f69def1fc46707",
+      "match": true
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "url": "https://cnine-card.pages.dev/pve-v3/battle.bundle.js?battleRuntime=20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1",
+      "status": 200,
+      "sha256": "d82f4446a7876ebf6369e0132eb5d70e1925e1d1fc4ed5f3ea6e68207172819c",
+      "expected": "d82f4446a7876ebf6369e0132eb5d70e1925e1d1fc4ed5f3ea6e68207172819c",
+      "match": true
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "url": "https://cnine-card.pages.dev/preview/sustained-hunt-v2/battle.bundle.js?battleRuntime=20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1",
+      "status": 200,
+      "sha256": "a003dc348c2ad0f95835fa13d13bd698b3c4ff8c0e1e30e02e57aa2821875290",
+      "expected": "a003dc348c2ad0f95835fa13d13bd698b3c4ff8c0e1e30e02e57aa2821875290",
+      "match": true
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/HeliosSurroundingAura.js",
+      "url": "https://cnine-card.pages.dev/preview/project-v-v3/source/battle/HeliosSurroundingAura.js?heliosAura=20261013-v1",
+      "status": 200,
+      "sha256": "20eee8781116406c32f793afb4185bb162b2d2a672a75c4e57badacadff328a0",
+      "expected": "20eee8781116406c32f793afb4185bb162b2d2a672a75c4e57badacadff328a0",
+      "match": true
+    }
+  ]
+}
