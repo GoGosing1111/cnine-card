@@ -1,0 +1,156 @@
+{
+  "checkedAt": "2026-10-12T11:57:04.133Z",
+  "origin": "https://cnine-card.pages.dev",
+  "source": "04e21d28a1d38a4303c7aedda5fd41f6bebb6717",
+  "assets": [
+    {
+      "file": "shared/cooperative-roster-v3.mjs",
+      "status": 200,
+      "bytes": 4286,
+      "hash": "a806df9ebf597179a3b415f594beae9af1cce2d0802e2bf74db74fbd7be10452",
+      "matches": true
+    },
+    {
+      "file": "raid/cooperative/roster.mjs",
+      "status": 200,
+      "bytes": 2688,
+      "hash": "71e53d83cd4ac4820dd3516f499f8caa4aad3a8bc50963f5d81048166bdbc9f2",
+      "matches": true
+    },
+    {
+      "file": "raid/cooperative/live.mjs",
+      "status": 200,
+      "bytes": 42850,
+      "hash": "30c48d999c72408374b6d6a4b9c3193816485a8e6a9987b782e7f0691c78a56f",
+      "matches": true
+    },
+    {
+      "file": "raid/cooperative/style.css",
+      "status": 200,
+      "bytes": 30212,
+      "hash": "3b1ec926461484e639c4e15ed89c633b18d749cf1fdcfa5f790613e4ae8b7423",
+      "matches": true
+    },
+    {
+      "file": "raid/cooperative/battle.mjs",
+      "status": 200,
+      "bytes": 4148,
+      "hash": "504be9d498983bf0ebdab8a6a9a17fb84765c066b3201a0ec6a5960590168700",
+      "matches": true
+    },
+    {
+      "file": "admin/cooperative-admin.mjs",
+      "status": 200,
+      "bytes": 15264,
+      "hash": "43573e5e9c6e2591746a1b223830603a263752375d63cae0df0adffba270b007",
+      "matches": true
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "status": 200,
+      "bytes": 1843129,
+      "hash": "95516cf75c82a5f2be252cb20251bd6504d147f02aa896838f24c7f31e48cb8d",
+      "matches": true
+    },
+    {
+      "file": "assets/ui/cooperative-roster-v3/bastion-768.webp",
+      "status": 200,
+      "bytes": 227364,
+      "hash": "f9a152d1e05f016690409862a481b0e97ad511b8f39d659cf228a01f7449fc43",
+      "matches": true
+    },
+    {
+      "file": "assets/ui/cooperative-roster-v3/bastion-256.webp",
+      "status": 200,
+      "bytes": 35922,
+      "hash": "45dcc60c14f51cac4854ec7a4a5c2115d57c640f4607b7561eb8692b5ee0af7a",
+      "matches": true
+    },
+    {
+      "file": "assets/ui/cooperative-roster-v3/vespera-768.webp",
+      "status": 200,
+      "bytes": 271636,
+      "hash": "d47fa41efda6985c2f352c82264c3c3cc5c02a09d4e22e1238d1c851d85271c4",
+      "matches": true
+    },
+    {
+      "file": "assets/ui/cooperative-roster-v3/vespera-256.webp",
+      "status": 200,
+      "bytes": 46724,
+      "hash": "c2ec124d65ea502e52bc9cef4d5738a00cf62aab99bc2eed79f6c8c967ccf4c5",
+      "matches": true
+    },
+    {
+      "file": "assets/ui/cooperative-roster-v3/tempest-768.webp",
+      "status": 200,
+      "bytes": 237484,
+      "hash": "988a6a05a4289fd80c87b6ab524287b6aea1fb1e85ba277a80bdcd1f413a72dd",
+      "matches": true
+    },
+    {
+      "file": "assets/ui/cooperative-roster-v3/tempest-256.webp",
+      "status": 200,
+      "bytes": 37318,
+      "hash": "7921bd03f2464d7e074befd76f099042c1268bab33177c84268bfc28d1fd0e25",
+      "matches": true
+    },
+    {
+      "file": "assets/ui/cooperative-roster-v3/ironhound-768.webp",
+      "status": 200,
+      "bytes": 205190,
+      "hash": "d159cb341734077bda5ab84c5be32935ffa2aae238c3fb3ae088a6ef3cb855a0",
+      "matches": true
+    },
+    {
+      "file": "assets/ui/cooperative-roster-v3/ironhound-256.webp",
+      "status": 200,
+      "bytes": 33120,
+      "hash": "654874a109a8da15dbe8ba744573abb79c5d91a95c81c6c716a4a7fe5c9cfded",
+      "matches": true
+    },
+    {
+      "file": "assets/ui/cooperative-roster-v3/blightstalker-768.webp",
+      "status": 200,
+      "bytes": 142836,
+      "hash": "2d32fa0c940bc9d664b3f836852f257cbec87dbe6508853e95145138ff1be007",
+      "matches": true
+    },
+    {
+      "file": "assets/ui/cooperative-roster-v3/blightstalker-256.webp",
+      "status": 200,
+      "bytes": 27134,
+      "hash": "2e18681bd3b8e05476b6997ea6dbae19594f3275c3bbc767ea8fa7e1ef168314",
+      "matches": true
+    },
+    {
+      "file": "assets/ui/cooperative-roster-v3/stormwisp-768.webp",
+      "status": 200,
+      "bytes": 171308,
+      "hash": "e813d1f5ced45e89dbf56b2e44952e1a129f9657a08a43b55d0a4dde89cd7769",
+      "matches": true
+    },
+    {
+      "file": "assets/ui/cooperative-roster-v3/stormwisp-256.webp",
+      "status": 200,
+      "bytes": 30114,
+      "hash": "e192a3b69e699125f5b5959bc06636687fc79349ca763ffc2ea7afbf8817241a",
+      "matches": true
+    }
+  ],
+  "api": {
+    "status": 401,
+    "unauthenticatedRejected": true,
+    "code": "COOP_LOGIN"
+  },
+  "settings": {
+    "revision": 6,
+    "encounterVersion": 3,
+    "mode": "ON",
+    "rewardLocked": true,
+    "source": "04e21d28a1d38a4303c7aedda5fd41f6bebb6717",
+    "appliedAt": "2026-10-12T11:56:50.732Z",
+    "receiptMatches": true,
+    "economyPreserved": true,
+    "sha256": "c19c77fa6699e4b7f30f834efe552bfc30e1e7fea6cc7995a504aee514dd21e3"
+  }
+}

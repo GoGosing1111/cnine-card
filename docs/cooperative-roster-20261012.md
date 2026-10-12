@@ -47,3 +47,12 @@ ICON은 +13, 용병 레벨 1, 고유 진급 없음 기준. 최고 성장의 진�
 - 자산과 API 배포를 먼저 마친 후 CMS의 `encounterVersion:3`과 새 예산을 같은 거래에서 활성화한다. 이 값이 없는 동안 운영 API는 V2 방을 생성하므로 업로드 전 새 이미지 경로를 공개하지 않는다. 이후 OWNER CMS 저장은 이 출시 버전을 보존한다.
 - 운영 확인은 변경 자산/코드 해시와 비로그인 API 권한, CMS 적용 영수증·설정 버전만 짧게 확인한다.
 - 첫 scoped 검사 54개 중 53개 통과. 기존 시간축 비교 테스트가 신규 방의 무작위 적 스냅샷을 기대값에 전달하지 않아 1개 실패했다. 실행 코드는 변경하지 않고 테스트를 V2/V3 및 시간축 1~4 조합으로 수정했다. 재개 검사는 해당 시간축 파일과 배포 도구가 요구하는 로더 검사·Worker 컴파일로 한정한다.
+
+## 운영 반영 완료
+
+- 2026-10-12 20:56 KST, 소스 `04e21d28a1d38a4303c7aedda5fd41f6bebb6717`를 `npm run deploy:production -- --scoped`로 배포했다. 시간축·필수 로더 재개 검사 12개 전부 통과, Worker 컴파일·출시 플래그/캐시·Hyperdrive 검사도 통과했다. 앞서 통과한 관련 53개 검사는 반복하지 않았다.
+- Pages: https://f8a56fd4.cnine-card.pages.dev · API Worker `14f064cc-a865-436d-ad5f-0e40cff4dafa` · clan-draft Worker `5aaac5f2-9b8f-4e2f-8ca6-9e9feb9c9175`.
+- 자산 업로드 후 20:56:50 KST에 CMS r5 → r6, `encounterVersion:3`과 난이도 예산을 같은 거래에서 적용했다. ON·보상 잠금·경제 설정은 보존했고 전체 이전/이후 문서와 영수증 `cooperative_roster_balance_receipt_20261012_v3`를 저장했다. 소급 재계산·보상 지급은 없다.
+- 운영 설정 SHA-256: `c19c77fa6699e4b7f30f834efe552bfc30e1e7fea6cc7995a504aee514dd21e3`. 운영 조회값과 영수증 해시 일치, 경제 설정 보존을 확인했다.
+- 20:57 KST 기본 운영 주소에서 코드/CSS 7개와 신규 768/256px 자산 12개의 HTTP 200·로컬 해시 일치를 확인했다. 비로그인 격전지 API는 `401 COOP_LOGIN`으로 차단됐다. 근거는 `docs/qa/cooperative-roster-20261012/live-verification.json`이다.
+- 이 완료 기록과 운영 확인 JSON은 문서 전용 후속 커밋으로 보존하며 게임을 재배포하지 않는다.
