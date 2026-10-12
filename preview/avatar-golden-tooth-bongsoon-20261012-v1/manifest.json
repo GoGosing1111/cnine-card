@@ -1,0 +1,26 @@
+{
+  "name": "황금니파 나무늘봉순",
+  "revision": 2,
+  "status": "REVIEW_READY",
+  "runtimeEnabled": false,
+  "generator": "built-in image_gen",
+  "prompts": "prompts-v2.json",
+  "assets": [
+    {
+      "surface": "lobby",
+      "file": "assets/avatar-golden-tooth-bongsoon-lobby-source-art-v2.png",
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false,
+      "sha256": "3c1a37c307fefae0c08d4748dc39c733125098bd56cb22f73a70b91de3390652"
+    },
+    {
+      "surface": "equipment",
+      "file": "assets/avatar-golden-tooth-bongsoon-equipment-source-art-v2.png",
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": true,
+      "sha256": "0897472c74a34ee80d6538686e4756361e448ed1dbf788e3b380721d20587d7d"
+    }
+  ]
+}
