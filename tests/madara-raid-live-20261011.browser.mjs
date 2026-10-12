@@ -63,6 +63,11 @@ try{
   await context.addInitScript(user=>{localStorage.setItem('cnine_card_user_v10',JSON.stringify(user));localStorage.setItem('cnine_card_api_token','local-qa-1');localStorage.setItem('cnine_admin_token','local-qa-1');localStorage.setItem('cnine_battle_sound','OFF');localStorage.setItem('soop-lobby-bgm-muted-v1','1');},user);
   await context.route('**/*',route=>new URL(route.request().url()).origin===origin?route.continue():route.abort());
   const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.stack));page.on('dialog',d=>d.accept());page.setDefaultTimeout(30000);
+  const restoreRaidTab = async () => {
+    await page.locator('#madaraRaidTab:not([hidden])').waitFor();
+    // The shell may restore this tab before the feature probe finishes. Select only if needed.
+    await page.locator('#madaraRaidTab').evaluate(button=>{if(button.getAttribute('aria-selected')!=='true')button.click();});
+  };
   const fullscreen = async () => {
     const geometry = await page.locator('#madara-live-app').evaluate(surface => {
       const r=surface.getBoundingClientRect();
@@ -119,6 +124,7 @@ try{
   if(width===1440){
     await page.reload();await page.waitForFunction(()=>typeof renderShell==='function');await page.evaluate(()=>renderShell('battle'));
     await page.locator('[data-pve-mode="raid"]').click();
+    await restoreRaidTab();
     await page.locator('#madara-battleMount canvas').waitFor();await fullscreen();
   }
   // Navigation elsewhere can be triggered by the shell; its controls must be inert during combat.
@@ -126,7 +132,7 @@ try{
   else await page.locator('[data-raid-content="world"]').evaluate(button=>button.click());
   assert.equal(await page.locator('body > #madara-live-app').count(),0);assert.equal(await page.locator('#app').evaluate(app=>app.inert),false);
   const count=calls.filter(k=>k==='raid/madara/state').length;await page.waitForTimeout(2200);assert.equal(calls.filter(k=>k==='raid/madara/state').length,count);
-  if(width===1440){await page.evaluate(()=>renderShell('battle'));await page.locator('[data-pve-mode="raid"]').click();}
+  if(width===1440){await page.evaluate(()=>renderShell('battle'));await page.locator('[data-pve-mode="raid"]').click();await restoreRaidTab();}
   if(width!==1440)await page.locator('#madaraRaidTab').click();
   await page.locator('#madara-combat').waitFor({state:'visible'});assert.equal(await page.locator('#madara-battleMount canvas').count()<=1,true);
   await page.locator('#madara-battleMount canvas').waitFor();await fullscreen();
