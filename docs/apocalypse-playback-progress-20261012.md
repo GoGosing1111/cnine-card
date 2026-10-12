@@ -32,3 +32,13 @@
 - `SCOPED_DEPLOY_TESTS`: `["tests/apocalypse-completion-20261005.test.mjs","tests/pve-battlefield-entry-v2117.test.mjs"]`
 - `SCOPED_DEPLOY_CHECKS`: `[]`
 - 범위 선정 이유: 스킬칩 전투가 실제로 진행 중인데도 전체 연출 제한에 걸리는 오류를 수정한다. 공통 인증·DB 기반·서버 피해/경제 정책은 변경하지 않으며 재생·정산 회귀와 실제 메인 PVE/PVP 연결을 확인한다.
+
+## 운영 반영 완료
+
+- 구현 커밋: `e4a4dcfa4daeac75874b8efead83a8b08fccc758` (origin/main 반영).
+- 지정 scoped 배포에서 정산·메인 연결 검사 12/12, 출시/캐시 검사, Hyperdrive 캐시 비활성 검사를 통과했다. 앞서 실행한 재생 회귀 8/8은 반복하지 않았다.
+- 운영 배포: <https://f39e7807.cnine-card.pages.dev>.
+- 2026-10-12 22:46 KST 서비스 주소에서 index·서비스워커·메인 앱·V3 래퍼 4개 파일의 HTTP 200 및 로컬 SHA-256 일치를 확인했다. `/api/service/status` HTTP 200.
+- 운영 확인은 읽기만 수행했다. 실제 전투 조작·실패 주입·보상 검수는 격리 fixture에서 완료했다.
+- 결과 파일: 작업 트리 외부 `../apocalypse-qa/baseline.json`, `browser.json`, `production.json`, `deploy.log`와 PC/모바일 스크린샷.
+- 이 완료 기록의 후속 커밋은 문서만 변경하므로 검사·운영 재배포를 반복하지 않는다.
