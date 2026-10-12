@@ -10,6 +10,7 @@ test('real Durable Objects: gated/authenticated API, ownership, retry, three Web
  const command=(id,kind,extra={})=>h.request(id,kind,{clientId:clients[id-1],roomId,requestId:crypto.randomUUID(),...extra});
  try{
   assert.equal((await h.request(0,'feature')).status,401);assert.equal((await h.request(4,'options')).status,403);
+  const options=await h.request(1,'options');assert.equal(options.status,200,JSON.stringify(options));assert.ok(options.cards.length>2);assert.ok(options.mercenaries.length>0);
   assert.equal((await h.request(2,'settings')).status,403);
   const settings={mode:'TEST',testUserIds:[2,3],revision:0};assert.equal((await h.request(1,'settings',{settings})).status,200);assert.equal((await h.request(1,'settings',{settings})).status,409);
   const create={clientId:clients[0],difficulty:'NORMAL',requestId:'retry-create-request'};

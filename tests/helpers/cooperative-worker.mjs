@@ -22,6 +22,7 @@ export default {async fetch(request,env){
   battleSettings:async()=>({engine:{singleHealerBonus:fixture.singleHealerBonus}}),
   cardBattlePower:c=>cards.find(x=>x.id===c.id)?.power||0,
   cardUniqueDeckState:async(_env,_user,list)=>({cards:list.map(c=>({...c,uniqueAbility:cards.find(x=>x.id===c.id)?.uniqueAbility,uniqueAdvancement:null}))}),
+  cardUniqueDeckStates:async(_env,entries)=>entries.map(({cards:list})=>({cards:list.map(c=>({...c,uniqueAbility:cards.find(x=>x.id===c.id)?.uniqueAbility,uniqueAdvancement:null}))})),
   userEquipmentBonuses:async()=>({pve:2000000,battleSuitPve:0}),
   withUserMutationLock:async(_env,ownerId,path,work)=>{
    const lock=env.USER_LOCK.getByName(String(ownerId)),token=crypto.randomUUID();

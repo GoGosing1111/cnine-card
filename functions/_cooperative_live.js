@@ -29,7 +29,14 @@ export async function loadCoopOwnedCards(env,user,deps,ids=null){
   env.DB.prepare('SELECT c.id,c.title,c.rarity,c.power_type,c.base_power,c.image_url AS image,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0'+condition+' ORDER BY c.id').bind(user.id,...(ids||[])).all(),
   deps.battleSettings(env)]);
  const cards=rows.results.map(c=>({...c,id:String(c.id),grade:c.rarity,breakthroughLevel:Number(c.breakthrough_level||0),power:deps.cardBattlePower(c,c.breakthrough_level,cfg)}));
- const effects=new Map((await deps.cardUniqueDeckState(env,user,cards,'PVE')).cards.map(c=>[c.id,c]));
+ if(!cards.length)return [];
+ // An inventory is not a deck. Evaluate cards independently in bounded batches;
+ // only a selected squad goes through the shared deck composition checks.
+ const states=ids?[await deps.cardUniqueDeckState(env,user,cards,'PVE')]:[];
+ if(!ids)for(let offset=0;offset<cards.length;offset+=75){
+  states.push(...await deps.cardUniqueDeckStates(env,cards.slice(offset,offset+75).map(card=>({user,cards:[card]})),'PVE',{batched:true}));
+ }
+ const effects=new Map(states.flatMap(state=>state.cards).map(c=>[c.id,c]));
  // buildFighter applies unique stats once, exactly as the normal PVE path.
  return cards.map(c=>({...c,uniqueAbility:effects.get(c.id)?.uniqueAbility||null,uniqueAdvancement:effects.get(c.id)?.uniqueAdvancement||null, iconRole:effects.get(c.id)?.iconRole||null}));
 }
