@@ -7,12 +7,16 @@ export const JINMU_DIALOGUE_LINES=Object.freeze([
 ]);
 
 // Raw content metadata takes precedence over a generic HUNT/PVE background.
-// Madara and every other raid must never create this dialogue or reserve space.
+// The cooperative battleground reuses RAID rendering but is its own PVE content.
+// Actual raids must never create this dialogue or reserve space.
 export function jinmuDialogueAllowed(engine){
  const p=engine.battleData||{},b=p.battleV2||{},m=p.monster||{};
  const tokens=[p.mode,p.battlefieldMode,p.battlefield,p.contentType,p.type,b.mode,b.battlefieldMode,b.contentType,b.type,m.mode,m.contentType]
   .map(v=>String(v||'').toUpperCase().replace(/[\s-]+/g,'_')).filter(Boolean);
- if(engine.formationCoop||engine.coopArkeBattlefield||engine.host?.closest?.('.mr-battle-pane,[data-madara-id],#madara-live-app'))return false;
+ if(engine.host?.closest?.('.mr-battle-pane,[data-madara-id],#madara-live-app'))return false;
+ const battleground=b.rules?.formation==='COOP_THREE_SQUADS'&&p.sceneAssetKey==='COOP_ARKE_FORGE';
+ if(battleground&&!tokens.some(v=>/MADARA|WORLD|LICH|CORE|PVP|RANK|ARENA|SIEGE|TERRITORY|CLAN/.test(v))&&!/PVP|SIEGE/.test(engine.activeBattlefieldMode||''))return true;
+ if(engine.formationCoop||engine.coopArkeBattlefield)return false;
  if(tokens.some(v=>/RAID|MADARA|WORLD_BOSS|COOP|PVP|RANK|ARENA|SIEGE|TERRITORY|CLAN/.test(v)))return false;
  if(/RAID|PVP/.test(engine.activeBattlefieldMode||''))return false;
  return tokens.some(v=>/(?:^|_)(?:PVE|HUNT|TOWER|INFINITE|SEAL|ESCORT|DUNGEON|APOCALYPSE|SCRAPYARD|COW|IDLE)(?:_|$)/.test(v));
@@ -36,7 +40,9 @@ const CSS=`
 .battle-v3-live-shell.is-result-visible .jinmu-dialogue-rail{visibility:hidden}
 .battle-v3-live-shell.has-jinmu-dialogue .nightmare-battle-mark{translate:0 var(--jinmu-dialogue-height,0px)}
 body[data-jinmu-dialogue='true'][data-legion-live] .boss-hud,body[data-jinmu-dialogue='true'][data-legion-live] #hunt-pickup-toast{translate:0 var(--jinmu-dialogue-height,0px)}
+.coop-battle-portal.has-jinmu-dialogue>.coop-pattern{top:calc(var(--jinmu-dialogue-bottom,140px) + 8px)}
 @media(max-width:760px){.jinmu-dialogue-rail{padding:5px 7px 7px}.jinmu-dialogue-inner{min-height:90px;padding:9px 12px;gap:11px}.jinmu-dialogue-face{flex-basis:48px;width:48px;height:48px;padding:2px}.jinmu-dialogue-name{gap:7px;margin-bottom:3px;flex-wrap:wrap}.jinmu-dialogue-name b{font-size:12px}.jinmu-dialogue-name span{font-size:9px}.jinmu-dialogue-copy p{font-size:14px;line-height:1.65}.jinmu-dialogue-seal{display:none}.jinmu-dialogue-frame:before,.jinmu-dialogue-frame:after{left:78px;right:20px}}
+@media(max-width:760px){.coop-battle-portal.has-jinmu-dialogue>.coop-pattern{top:auto}}
 @media(max-height:620px) and (orientation:landscape){.jinmu-dialogue-rail{padding-block:4px}.jinmu-dialogue-inner{min-height:62px;padding-block:5px}.jinmu-dialogue-face{flex-basis:44px;width:44px;height:44px}.jinmu-dialogue-copy p{font-size:14px}.jinmu-dialogue-name b{font-size:11px}.jinmu-dialogue-seal{min-height:45px}.jinmu-dialogue-seal b{font-size:18px}}
 `;
 
@@ -46,26 +52,34 @@ export class JinmuDialogue{
   const shell=engine.host?.closest?.('.battle-v3-live-shell');
   if(!shell||!jinmuDialogueAllowed(engine))return;
   this.shell=shell;this.host=engine.host;this.header=shell.querySelector('.battle-v3-header');
+  this.portal=shell.closest('.coop-battle-portal');
+  this.coopHeaders=this.portal?[...this.portal.querySelectorAll(':scope>.coop-battle-top,:scope>.coop-boss-hud')]:[];
   const document=shell.ownerDocument;
-  if(!document.getElementById(STYLE_ID)){const style=document.createElement('style');style.id=STYLE_ID;style.textContent=CSS;document.head.append(style);}
+  let style=document.getElementById(STYLE_ID);
+  if(!style){style=document.createElement('style');style.id=STYLE_ID;document.head.append(style);}
+  if(style.textContent!==CSS)style.textContent=CSS;
   this.node=document.createElement('section');this.node.className='jinmu-dialogue-rail';this.node.setAttribute('aria-label','천룡검황 진무 대사');
   this.node.innerHTML='<div class="jinmu-dialogue-frame"><div class="jinmu-dialogue-inner"><div class="jinmu-dialogue-face" role="img" aria-label="진무 얼굴 초상"><i></i></div><div class="jinmu-dialogue-copy"><div class="jinmu-dialogue-name"><b>천룡검황 진무</b><span>천룡강림</span></div><p role="status" aria-live="polite" aria-atomic="true"></p></div><div class="jinmu-dialogue-seal" aria-label="SSS 리미티드"><b>SSS</b><small>LIMITED</small></div></div></div>';
   this.line=this.node.querySelector('p');this.line.textContent='천룡의 이름으로, 이 전장을 평정한다.';
   this.previousTop={value:this.host.style.getPropertyValue('top'),priority:this.host.style.getPropertyPriority('top')};
   shell.append(this.node);shell.classList.add('has-jinmu-dialogue');
+  this.portal?.classList.add('has-jinmu-dialogue');
   this.body=document.body;
   if(this.body.hasAttribute('data-legion-live'))this.body.dataset.jinmuDialogue='true';
   this.layout=()=>{
    if(this.destroyed||!this.node.isConnected)return;
-   const header=this.header?.getBoundingClientRect().height||0,height=this.node.getBoundingClientRect().height;
+   const shellTop=shell.getBoundingClientRect().top;
+   const header=Math.max(this.header?.getBoundingClientRect().height||0,...this.coopHeaders.map(el=>Math.max(0,el.getBoundingClientRect().bottom-shellTop))),height=this.node.getBoundingClientRect().height;
    this.node.style.top=header+'px';shell.style.setProperty('--jinmu-dialogue-height',height+'px');
    if(this.body.dataset.jinmuDialogue==='true')this.body.style.setProperty('--jinmu-dialogue-height',height+'px');
    const top=header+height;
+   this.portal?.style.setProperty('--jinmu-dialogue-bottom',top+'px');
    // Pixi owns the resize callback. Calling engine.resize during actor loading
    // is too early: its status UI is constructed after the mercenary assets.
    if(top!==this.top){this.top=top;this.host.style.setProperty('top',top+'px','important');engine.app?.resize?.();}
   };
   this.layout();this.observer=new ResizeObserver(this.layout);this.observer.observe(this.node);if(this.header)this.observer.observe(this.header);
+  for(const header of this.coopHeaders)this.observer.observe(header);
  }
  begin(){
   if(!this.node||this.destroyed)return;
@@ -79,6 +93,7 @@ export class JinmuDialogue{
   if(this.destroyed)return;this.destroyed=true;this.observer?.disconnect();this.node?.remove();
   if(!this.shell)return;
   this.shell.classList.remove('has-jinmu-dialogue');this.shell.style.removeProperty('--jinmu-dialogue-height');
+  this.portal?.classList.remove('has-jinmu-dialogue');this.portal?.style.removeProperty('--jinmu-dialogue-bottom');
   this.host.style.setProperty('top',this.previousTop.value,this.previousTop.priority);
   if(this.body.dataset.jinmuDialogue==='true'){delete this.body.dataset.jinmuDialogue;this.body.style.removeProperty('--jinmu-dialogue-height');}
   if(!this.engine.disposed)this.engine.app?.resize?.();

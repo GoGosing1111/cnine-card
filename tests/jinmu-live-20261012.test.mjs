@@ -70,5 +70,5 @@ test('approved art hashes, full-opacity dragon, production bundles and cache tag
  for(const file of ['preview/project-v-v3/project-v-pixi-battle.bundle.js','preview/sustained-hunt-v2/battle.bundle.js','pve-v3/battle.bundle.js']){
   const s=fs.readFileSync(file,'utf8');assert(s.includes('MERCENARY_JINMU_AREA'),file);assert(s.includes('JINMU_MOTION_ASSETS'),file);
  }
- for(const file of ['index.html','js/app.js','js/battle-v3-live.js','preview/project-v-v3/source/project-v-pixi-battle.src.js'])assert(fs.readFileSync(file,'utf8').includes('jinmu-dialogue-v3'),file);
+ for(const file of ['index.html','js/app.js','js/battle-v3-live.js','preview/project-v-v3/source/project-v-pixi-battle.src.js'])assert(fs.readFileSync(file,'utf8').includes('jinmu-dialogue-v4'),file);
 });
