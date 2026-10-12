@@ -1,7 +1,7 @@
 (() => {
   'use strict';
   const VERSION = '20261013-fullscreen1';
-  let checkedAt = 0, visible = false, featureRequest = null, controller = null, revision = 0;
+  let checkedAt = 0, visible = false, featureRequest = null, controller = null, activeRoot = null, revision = 0;
   const host = () => document.getElementById('pveMadaraRaidView');
   async function refresh() {
     const tab = document.getElementById('madaraRaidTab');
@@ -26,12 +26,14 @@
     revision++;
     controller?.destroy();
     controller = null;
-    const root = host();
+    const root = activeRoot || host();
+    activeRoot = null;
     if (root) { root.hidden = true; root.replaceChildren(); }
   }
   async function open() {
     const root = host();
     if (!root || controller) return;
+    activeRoot = root;
     const version = ++revision;
     root.hidden = false;
     root.innerHTML = '<div class="core-raid-loading" role="status"><i></i><b>마다라 레이드를 불러오는 중</b></div>';
@@ -67,6 +69,8 @@
   }
   const app = document.getElementById('app');
   if (app) new MutationObserver(records => {
+    // The shell also replaces only its route children, without replacing #app.
+    if (activeRoot && (!activeRoot.isConnected || activeRoot.hidden)) deactivate();
     if (records.some(r => r.target === app || [...r.addedNodes].some(n => n.nodeType === 1 &&
       (n.id === 'pveRaidHubView' || n.querySelector?.('#pveRaidHubView'))))) {
       deactivate(); wire();
