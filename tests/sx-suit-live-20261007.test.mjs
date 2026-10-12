@@ -25,9 +25,9 @@ test('only SX doubles independent attack cadence; X per-shot stats and divisor s
     assert.equal(buildBattleSuitFighter({...input,code:'BATTLE_SUIT_OVERLORD'}).independentFireInterval,x.independentFireInterval);
   }
 });
-test('SX ground strike keeps X damage and 20s cooldown, and every server target receives exactly five impacts',()=>{
-  assert.equal(SKILL.damageMultiplier,X_BODY_AREA_SKILL.damageMultiplier);assert.equal(SKILL.intervalMs,20000);
-  const result=simulate(),list=casts(result);assert.deepEqual(list.map(e=>e.combatAtMs),[0,20000,40000]);
+test('SX ground strike keeps X damage and 40s cooldown, and every server target receives exactly five impacts',()=>{
+  assert.equal(SKILL.damageMultiplier,X_BODY_AREA_SKILL.damageMultiplier);assert.equal(SKILL.intervalMs,40000);
+  const result=simulate(),list=casts(result);assert.deepEqual(list.map(e=>e.combatAtMs),[0,40000]);
   // A sub-millisecond support shot must not move the next card gauge deadline
   // forever. Both teams still act while the suit fires at twice X's cadence.
   for(const team of ['A','B'])assert.ok(result.timeline.some(e=>e.type==='TURN'&&e.actorKind!=='BATTLE_SUIT'&&String(e.actorId).startsWith(team+':')),'card gauge starvation: '+team);

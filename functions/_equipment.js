@@ -12,7 +12,7 @@ import { handleSkillChips,skillChipPayload,equippedSkillChipCodes } from './_ski
 import {H_BODY_ITEM,ensureHBodyEquipment} from './_battle_suit_h_body.js';
 import {SZ_BODY_BY_CODE,ensureSzBodyEquipment} from './_battle_suit_sz_body.js';
 import {X_BODY_ITEM,X_BODY_UPGRADE_KEY,ensureXBodyEquipment} from './_battle_suit_x_body.js';
-import {OVERLORD_ITEM,OVERLORD_UPGRADE_KEY,ensureOverlordEquipment} from './_battle_suit_overlord.js';
+import {OVERLORD_ITEM,OVERLORD_UPGRADE_KEY,ensureOverlordEquipment,displayOverlordDescription} from './_battle_suit_overlord.js';
 import {ensureZBodySwordAppearance,Z_SWORD_APPEARANCE_KEY} from './_battle_suit_z_sword.js';
 import {FORGE_RUNTIME_RELEASE_ENABLED} from '../shared/equipment-forge-release-v1.mjs';
 import {forgeEquipmentBonus} from './_equipment_forge_transactions.js';
@@ -550,7 +550,7 @@ export async function supplyBoxSettings(env,{fresh=false}={}){
   supplySettingsCacheAt=now;return supplySettingsCache;
 }
 function publicSupplyBoxConfig(settings,promotion={mode:'NONE',discount:0}){return {enabled:settings.enabled,shopEnabled:LEGACY_SUPPLY_BOX_SHOP_ENABLED,...supplyShopPricing(settings,promotion),maxOpen:SUPPLY_BOX_MAX_OPEN,itemCode:SUPPLY_BOX_CODE,name:'장비 보급상자',image:SUPPLY_BOX_IMAGE,rewardRates:settings.rewardRates}}
-function publicItem(row){const pveOnly=row.slot===BATTLE_SUIT_SLOT,pvePower=Number(row.pve_power||0);return {id:Number(row.id),code:row.code,name:row.name,slot:row.slot,slotLabel:EQUIPMENT_SLOT_LABELS[row.slot]||row.slot,subtype:row.subtype,rarity:normalizeEquipmentRarity(row.rarity),image:row.image_url||'',description:row.description||'',totalPower:pveOnly?pvePower:Number(row.total_power||0),pvePower,pvpPower:pveOnly?0:Number(row.pvp_power||0),isActive:row.is_active!==0,isPublic:row.is_public!==0,sortOrder:Number(row.sort_order||0),supplyEnabled:row.supply_enabled!==0,supplyWeight:Number(row.supply_weight??1)}}
+function publicItem(row){const pveOnly=row.slot===BATTLE_SUIT_SLOT,pvePower=Number(row.pve_power||0);return {id:Number(row.id),code:row.code,name:row.name,slot:row.slot,slotLabel:EQUIPMENT_SLOT_LABELS[row.slot]||row.slot,subtype:row.subtype,rarity:normalizeEquipmentRarity(row.rarity),image:row.image_url||'',description:row.code===OVERLORD_ITEM.code?displayOverlordDescription(row.description):row.description||'',totalPower:pveOnly?pvePower:Number(row.total_power||0),pvePower,pvpPower:pveOnly?0:Number(row.pvp_power||0),isActive:row.is_active!==0,isPublic:row.is_public!==0,sortOrder:Number(row.sort_order||0),supplyEnabled:row.supply_enabled!==0,supplyWeight:Number(row.supply_weight??1)}}
 function publicEquippedItem(row,prefix,{pveOnly=false}={}){
   const id=Number(row?.[`${prefix}_id`]||0);if(!id)return null;
   const image=row?.[`${prefix}_image`]||'',name=row?.[`${prefix}_name`]||'',pvePower=Number(row?.[`${prefix}_pve`]||0),pvpPower=pveOnly?0:Number(row?.[`${prefix}_pvp`]||0);

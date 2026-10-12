@@ -50,7 +50,7 @@ test('opening octa cast precedes the 3s rocket in any equipped order and keeps e
     assert.deepEqual(casts.filter(c=>c.chip.code===CODE).map(c=>c.atMs),[0,10000,20000,30000,40000,50000]);
     assert.deepEqual(casts.filter(c=>c.chip.code===rocket).map(c=>c.atMs),Array.from({length:17},(_,i)=>(i+1)*3000));
     assert.deepEqual(casts.filter(c=>c.chip.code===HELI).map(c=>c.atMs),[15000,30000,45000]);
-    if(z||x)assert.deepEqual(casts.filter(c=>c.chip.intrinsic).map(c=>c.atMs),x?[0,20000,40000]:[15000,30000,45000]);
+    if(z||x)assert.deepEqual(casts.filter(c=>c.chip.intrinsic).map(c=>c.atMs),[0,40000]);
     assert.equal(createBattleSuitCombatSchedule(codes,z,x).take().atMs,0,'a new battle gets one fresh opening cast');
   }
 });

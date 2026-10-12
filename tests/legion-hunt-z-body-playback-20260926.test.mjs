@@ -103,7 +103,7 @@ test('the saved helicopter chip and Z intrinsic skill cast independently and bot
     const events=response.body.payload.battleV2.result.timeline;
     for(const code of [helicopter,SKILL.code]){
       const casts=events.filter(e=>e.type==='SKILL_CHIP_CAST'&&e.chipCode===code);
-      assert.ok(casts.length>0);assert.equal(casts[0].combatAtMs,15000);
+      assert.ok(casts.length>0);assert.equal(casts[0].combatAtMs,code===helicopter?15000:0);
       assert.equal(casts[0].targeting,'ALL_LIVING_ENEMIES');assert.ok(casts[0].targetIds.length>5);
       for(const cast of casts){
         assert.equal(cast.calculatedDamage,cast.targets.reduce((n,t)=>n+t.calculatedDamage,0));

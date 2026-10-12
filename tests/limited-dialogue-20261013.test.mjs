@@ -21,7 +21,9 @@ test('every shipped V3 consumer includes the dialogue profiles and the matching 
   assert.ok(bundle.includes(VALTER_DIALOGUE_LINES[0]),output.file);
   assert.ok(bundle.includes(HELIOS_DIALOGUE_LINES[0]),output.file);
  }
- for(const file of ['index.html','service-worker.js','js/app.js','js/battle-v3-live.js','preview/project-v-v3/source/project-v-pixi-battle.src.js']){
+ for(const file of ['js/app.js','js/battle-v3-live.js','preview/project-v-v3/source/project-v-pixi-battle.src.js']){
   assert.match(fs.readFileSync(new URL('../'+file,import.meta.url),'utf8'),/limited-dialogue/);
  }
+ const index=fs.readFileSync(new URL('../index.html',import.meta.url),'utf8'),sw=fs.readFileSync(new URL('../service-worker.js',import.meta.url),'utf8');
+ const shell=index.match(/js\/app\.js\?v=([^&"]+)/)?.[1];assert.ok(shell);assert.ok(sw.includes('soop-card-shell-v'+shell));
 });

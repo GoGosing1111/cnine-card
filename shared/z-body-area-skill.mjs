@@ -10,7 +10,7 @@ export const Z_BODY_AREA_REVIEW=Symbol('Z_BODY_AREA_REVIEW_20260926');
 const helicopter=skillChipByCode('SKILL_CHIP_HELICOPTER_AIRSTRIKE');
 export const Z_BODY_AREA_SKILL=Object.freeze({
   code:'BATTLE_SUIT_Z_THUNDER_JUDGMENT',name:'뇌검 집행',effectKey:'z-thunder',
-  damageMultiplier:helicopter.damageMultiplier,intervalMs:helicopter.intervalMs,
+  damageMultiplier:helicopter.damageMultiplier,intervalMs:40000,openingDelayMs:0,
   damageReference:helicopter.code,targeting:'ALL_LIVING_ENEMIES',intrinsic:true,silent:true,
   impactOffsetsMs:Object.freeze([1080,1210,1340,1430,1540]),effectDurationMs:3200,sortOrder:100
 });

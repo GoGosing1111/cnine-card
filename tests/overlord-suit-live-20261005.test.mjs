@@ -36,9 +36,9 @@ test('normal, three-cut and execution animations preserve receipt order and exac
  assert.deepEqual(seen,rows);assert.deepEqual([...modes].sort(),['attack','combo','skill']);
  assert.equal(takeOverlordBatch([{target:targets[0]}],{combatAtMs:5000,nextExecutionAtMs:10000}).mode,'attack');
 });
-test('opening white tiger repeats every 18s; each living target receives exactly five authoritative impacts',()=>{
+test('opening white tiger repeats every 40s; each living target receives exactly five authoritative impacts',()=>{
  const result=simulate(),list=casts(result);
- assert.deepEqual(list.map(e=>e.combatAtMs),[0,18000,36000,54000]);
+ assert.deepEqual(list.map(e=>e.combatAtMs),[0,40000]);
  for(const cast of list){
   assert.equal(cast.damageMultiplier,6);assert.equal(cast.targetIds.length,5);
   for(const target of cast.targets){

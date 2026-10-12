@@ -1,0 +1,533 @@
+{
+  "checks": [
+    {
+      "width": 1440,
+      "suit": "Z",
+      "opening": {
+        "casts": [
+          0
+        ],
+        "sword": {
+          "version": "Z_SWORD_LIVE_20260918",
+          "mode": "area",
+          "frame": "M09",
+          "timeMs": 1400,
+          "completed": 0,
+          "bodyScale": 0.563696948902027,
+          "effectsVisible": false,
+          "damagePolicy": {
+            "damageAuthority": "SERVER_TIMELINE",
+            "area": "ALL_LIVING_ENEMIES",
+            "damageReference": "SKILL_CHIP_HELICOPTER_AIRSTRIKE"
+          },
+          "dashVersion": "Z_NORMAL_LIGHTNING_V3_20260926",
+          "dashProfile": "v2",
+          "contactMs": 245,
+          "dashDurationMs": 640,
+          "dashEffectsVisible": false,
+          "dashEffectMs": 0
+        },
+        "effects": 1,
+        "overflow": false
+      },
+      "casts": [
+        0,
+        40000
+      ],
+      "hits": 50,
+      "damage": 370994020,
+      "cleanupEffects": 0,
+      "pvpSupportEnabled": false
+    },
+    {
+      "width": 1440,
+      "suit": "X",
+      "opening": {
+        "casts": [
+          0
+        ],
+        "sword": {
+          "version": "X_BODY_LIVE_20260927",
+          "mode": "dragon",
+          "timeMs": 2400,
+          "completed": 0,
+          "flurries": 0,
+          "nextFlurryAtMs": 0,
+          "intrinsicArea": true,
+          "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+          "bodyFrames": 40,
+          "effectFrames": 108,
+          "damageAuthority": "SERVER_TIMELINE",
+          "areaReleaseEnabled": true,
+          "effectsVisible": true,
+          "externalCast": {
+            "version": "X_BODY_LIVE_20260927",
+            "skill": "BATTLE_SUIT_X_CELESTIAL_DRAGON",
+            "timeMs": 2400,
+            "targets": [
+              "B:0:ENCOUNTER:SXREVIEW-1",
+              "B:1:ENCOUNTER:SXREVIEW-2",
+              "B:2:ENCOUNTER:SXREVIEW-3",
+              "B:3:ENCOUNTER:SXREVIEW-4",
+              "B:4:ENCOUNTER:SXREVIEW-5"
+            ],
+            "confirmedImpacts": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "destroyed": false
+          }
+        },
+        "effects": 1,
+        "overflow": false
+      },
+      "casts": [
+        0,
+        40000
+      ],
+      "hits": 50,
+      "damage": 370994020,
+      "cleanupEffects": 0,
+      "pvpSupportEnabled": false
+    },
+    {
+      "width": 1440,
+      "suit": "OVERLORD",
+      "opening": {
+        "casts": [
+          0
+        ],
+        "sword": {
+          "version": "OVERLORD_LIVE_20261005_V6",
+          "motionSpeed": 3.5,
+          "comboEffectScale": 1.3,
+          "mode": "aoe",
+          "timeMs": 2500,
+          "completed": 0,
+          "executions": 0,
+          "nextExecutionAtMs": 0,
+          "intrinsicArea": true,
+          "weaponSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "bodyFrames": 44,
+          "effectFrames": 152,
+          "damageAuthority": "SERVER_TIMELINE",
+          "effectsVisible": true,
+          "ambientRegistered": false,
+          "aura": {
+            "enabled": true,
+            "palette": "crimson",
+            "label": "진홍 · 샴페인 골드",
+            "source": "VALTER_APPROVED_V17",
+            "coreBlend": "normal",
+            "coreOpacity": 0.96,
+            "glowBlend": "add",
+            "glowOpacity": 0.23,
+            "sourcePixelsUnchanged": true,
+            "fullBodySilhouette": true,
+            "silhouetteCopies": 18,
+            "poseMatched": true,
+            "baseFlameFrames": 12,
+            "rearFrames": 8,
+            "frontFogSheets": 0,
+            "risingParticles": 12,
+            "footAnchored": true,
+            "independentClock": false
+          },
+          "title": {
+            "enabled": true,
+            "text": "종말 위에 군림하는 자",
+            "actorAttached": true,
+            "mirrored": false,
+            "independentClock": false,
+            "screenBounds": {
+              "x": 592.425,
+              "y": 223.61450000000002,
+              "width": 207.9000000000001,
+              "height": 75.60000000000002
+            },
+            "font": "Black Han Sans / OFL",
+            "frameSource": "BUILT_IN_IMAGE_GEN"
+          },
+          "externalCast": {
+            "skill": "BATTLE_SUIT_OVERLORD_WHITE_TIGER",
+            "timeMs": 2500,
+            "targets": [
+              "B:0:ENCOUNTER:SXREVIEW-1",
+              "B:1:ENCOUNTER:SXREVIEW-2",
+              "B:2:ENCOUNTER:SXREVIEW-3",
+              "B:3:ENCOUNTER:SXREVIEW-4",
+              "B:4:ENCOUNTER:SXREVIEW-5"
+            ],
+            "confirmedImpacts": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "destroyed": false
+          }
+        },
+        "effects": 1,
+        "overflow": false
+      },
+      "casts": [
+        0,
+        40000
+      ],
+      "hits": 50,
+      "damage": 445192824,
+      "cleanupEffects": 0,
+      "pvpSupportEnabled": false
+    },
+    {
+      "width": 1440,
+      "suit": "SX",
+      "opening": {
+        "casts": [
+          0
+        ],
+        "sword": {
+          "version": "SX_LIVE_20261007_2X_V1",
+          "attackSpeed": 2,
+          "mode": "ultimate",
+          "timeMs": 2400,
+          "completed": 0,
+          "skills": 0,
+          "nextSkillAtMs": 0,
+          "intrinsicArea": true,
+          "damageAuthority": "SERVER_TIMELINE",
+          "sourceSha256": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "effectsVisible": true,
+          "bladeAuraVisible": true,
+          "bladeAuraAttachmentError": 0,
+          "bodyAuraAlpha": 1,
+          "camera": {
+            "active": true,
+            "zoom": 0.7143657067392821,
+            "safeFrame": {
+              "left": 12,
+              "right": 1428,
+              "top": 12,
+              "bottom": 667
+            }
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 624.7882713824898,
+              "y": 333.096516216699,
+              "width": 125.371181532744,
+              "height": 47.01419307477897
+            }
+          },
+          "ambientRegistered": false,
+          "externalCast": {
+            "version": "SX_LIVE_20261007_2X_V1",
+            "skill": "BATTLE_SUIT_SX_SKYFALL",
+            "timeMs": 2400,
+            "bodyTimeMs": 2400,
+            "targets": [
+              "B:0:ENCOUNTER:SXREVIEW-1",
+              "B:1:ENCOUNTER:SXREVIEW-2",
+              "B:2:ENCOUNTER:SXREVIEW-3",
+              "B:3:ENCOUNTER:SXREVIEW-4",
+              "B:4:ENCOUNTER:SXREVIEW-5"
+            ],
+            "confirmedImpacts": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "destroyed": false
+          }
+        },
+        "effects": 1,
+        "overflow": false
+      },
+      "casts": [
+        0,
+        40000
+      ],
+      "hits": 50,
+      "damage": 370994020,
+      "cleanupEffects": 0,
+      "pvpSupportEnabled": false
+    },
+    {
+      "width": 390,
+      "suit": "Z",
+      "opening": {
+        "casts": [
+          0
+        ],
+        "sword": {
+          "version": "Z_SWORD_LIVE_20260918",
+          "mode": "area",
+          "frame": "M09",
+          "timeMs": 1400,
+          "completed": 0,
+          "bodyScale": 0.563696948902027,
+          "effectsVisible": false,
+          "damagePolicy": {
+            "damageAuthority": "SERVER_TIMELINE",
+            "area": "ALL_LIVING_ENEMIES",
+            "damageReference": "SKILL_CHIP_HELICOPTER_AIRSTRIKE"
+          },
+          "dashVersion": "Z_NORMAL_LIGHTNING_V3_20260926",
+          "dashProfile": "v2",
+          "contactMs": 245,
+          "dashDurationMs": 640,
+          "dashEffectsVisible": false,
+          "dashEffectMs": 0
+        },
+        "effects": 1,
+        "overflow": false
+      },
+      "casts": [
+        0,
+        40000
+      ],
+      "hits": 50,
+      "damage": 370994020,
+      "cleanupEffects": 0,
+      "pvpSupportEnabled": false
+    },
+    {
+      "width": 390,
+      "suit": "X",
+      "opening": {
+        "casts": [
+          0
+        ],
+        "sword": {
+          "version": "X_BODY_LIVE_20260927",
+          "mode": "dragon",
+          "timeMs": 2400,
+          "completed": 0,
+          "flurries": 0,
+          "nextFlurryAtMs": 0,
+          "intrinsicArea": true,
+          "weaponSha256": "f000bc9e0b029beeb6cc8443858a3095ae6a1dcf89601a45a453ef7844d32150",
+          "bodyFrames": 40,
+          "effectFrames": 108,
+          "damageAuthority": "SERVER_TIMELINE",
+          "areaReleaseEnabled": true,
+          "effectsVisible": true,
+          "externalCast": {
+            "version": "X_BODY_LIVE_20260927",
+            "skill": "BATTLE_SUIT_X_CELESTIAL_DRAGON",
+            "timeMs": 2400,
+            "targets": [
+              "B:0:ENCOUNTER:SXREVIEW-1",
+              "B:1:ENCOUNTER:SXREVIEW-2",
+              "B:2:ENCOUNTER:SXREVIEW-3",
+              "B:3:ENCOUNTER:SXREVIEW-4",
+              "B:4:ENCOUNTER:SXREVIEW-5"
+            ],
+            "confirmedImpacts": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "destroyed": false
+          }
+        },
+        "effects": 1,
+        "overflow": false
+      },
+      "casts": [
+        0,
+        40000
+      ],
+      "hits": 50,
+      "damage": 370994020,
+      "cleanupEffects": 0,
+      "pvpSupportEnabled": false
+    },
+    {
+      "width": 390,
+      "suit": "OVERLORD",
+      "opening": {
+        "casts": [
+          0
+        ],
+        "sword": {
+          "version": "OVERLORD_LIVE_20261005_V6",
+          "motionSpeed": 3.5,
+          "comboEffectScale": 1.3,
+          "mode": "aoe",
+          "timeMs": 2500,
+          "completed": 0,
+          "executions": 0,
+          "nextExecutionAtMs": 0,
+          "intrinsicArea": true,
+          "weaponSha256": "1b8304bf4c5af1b437e38e6b62932d57eb61ef64d9771aafb599711fdd42559e",
+          "bodyFrames": 44,
+          "effectFrames": 152,
+          "damageAuthority": "SERVER_TIMELINE",
+          "effectsVisible": true,
+          "ambientRegistered": false,
+          "aura": {
+            "enabled": true,
+            "palette": "crimson",
+            "label": "진홍 · 샴페인 골드",
+            "source": "VALTER_APPROVED_V17",
+            "coreBlend": "normal",
+            "coreOpacity": 0.96,
+            "glowBlend": "add",
+            "glowOpacity": 0.23,
+            "sourcePixelsUnchanged": true,
+            "fullBodySilhouette": true,
+            "silhouetteCopies": 18,
+            "poseMatched": true,
+            "baseFlameFrames": 12,
+            "rearFrames": 8,
+            "frontFogSheets": 0,
+            "risingParticles": 12,
+            "footAnchored": true,
+            "independentClock": false
+          },
+          "title": {
+            "enabled": true,
+            "text": "종말 위에 군림하는 자",
+            "actorAttached": true,
+            "mirrored": false,
+            "independentClock": false,
+            "screenBounds": {
+              "x": 96.95165000000003,
+              "y": 233.44108322222223,
+              "width": 134.3342,
+              "height": 48.84879999999998
+            },
+            "font": "Black Han Sans / OFL",
+            "frameSource": "BUILT_IN_IMAGE_GEN"
+          },
+          "externalCast": {
+            "skill": "BATTLE_SUIT_OVERLORD_WHITE_TIGER",
+            "timeMs": 2500,
+            "targets": [
+              "B:0:ENCOUNTER:SXREVIEW-1",
+              "B:1:ENCOUNTER:SXREVIEW-2",
+              "B:2:ENCOUNTER:SXREVIEW-3",
+              "B:3:ENCOUNTER:SXREVIEW-4",
+              "B:4:ENCOUNTER:SXREVIEW-5"
+            ],
+            "confirmedImpacts": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "destroyed": false
+          }
+        },
+        "effects": 1,
+        "overflow": false
+      },
+      "casts": [
+        0,
+        40000
+      ],
+      "hits": 50,
+      "damage": 445192824,
+      "cleanupEffects": 0,
+      "pvpSupportEnabled": false
+    },
+    {
+      "width": 390,
+      "suit": "SX",
+      "opening": {
+        "casts": [
+          0
+        ],
+        "sword": {
+          "version": "SX_LIVE_20261007_2X_V1",
+          "attackSpeed": 2,
+          "mode": "ultimate",
+          "timeMs": 2400,
+          "completed": 0,
+          "skills": 0,
+          "nextSkillAtMs": 0,
+          "intrinsicArea": true,
+          "damageAuthority": "SERVER_TIMELINE",
+          "sourceSha256": "0ecc36640e457a5ef33f5d5d34dfaac4c548504375f732dea0d456609a5bb73b",
+          "mainBodyTint": 16777215,
+          "bodyUniformScale": true,
+          "effectsVisible": true,
+          "bladeAuraVisible": true,
+          "bladeAuraAttachmentError": 0,
+          "bodyAuraAlpha": 1,
+          "camera": {
+            "active": true,
+            "zoom": 0.8860019357264414,
+            "safeFrame": {
+              "left": 12,
+              "right": 378,
+              "top": 12,
+              "bottom": 602
+            }
+          },
+          "title": {
+            "text": "푸른 사신",
+            "mirrored": false,
+            "actorAttached": true,
+            "independentClock": false,
+            "font": "Noto Serif KR 900 / OFL",
+            "frame": "OPEN_SWORD_WINGS_NO_RECTANGULAR_PANEL",
+            "bounds": {
+              "x": 108.66351419222028,
+              "y": 271.37544356253034,
+              "width": 98.94943451687544,
+              "height": 37.106037943828255
+            }
+          },
+          "ambientRegistered": false,
+          "externalCast": {
+            "version": "SX_LIVE_20261007_2X_V1",
+            "skill": "BATTLE_SUIT_SX_SKYFALL",
+            "timeMs": 2400,
+            "bodyTimeMs": 2400,
+            "targets": [
+              "B:0:ENCOUNTER:SXREVIEW-1",
+              "B:1:ENCOUNTER:SXREVIEW-2",
+              "B:2:ENCOUNTER:SXREVIEW-3",
+              "B:3:ENCOUNTER:SXREVIEW-4",
+              "B:4:ENCOUNTER:SXREVIEW-5"
+            ],
+            "confirmedImpacts": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "destroyed": false
+          }
+        },
+        "effects": 1,
+        "overflow": false
+      },
+      "casts": [
+        0,
+        40000
+      ],
+      "hits": 50,
+      "damage": 370994020,
+      "cleanupEffects": 0,
+      "pvpSupportEnabled": false
+    }
+  ],
+  "errors": []
+}

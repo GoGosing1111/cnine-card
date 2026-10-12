@@ -15,12 +15,12 @@ test('X flurry is boss-only and requires ten combat seconds between starts',()=>
  assert.equal(batch(boss,null).mode,'attack','missing combat clock cannot invent a ready skill');
 });
 
-test('first X-BODY action is its area skill, then twenty seconds; Z and helicopter retain their cadence',()=>{
+test('Z and X open with their area skills and repeat after forty seconds; helicopter retains its cadence',()=>{
  const code='SKILL_CHIP_HELICOPTER_AIRSTRIKE',schedule=createBattleSuitCombatSchedule([code],false,true),events=[];
  while(schedule.peek()?.atMs<=60000)events.push(schedule.take());
  assert.equal(events[0].chip.code,X_BODY_AREA_SKILL.code);
- assert.deepEqual(events.filter(e=>e.chip.code===X_BODY_AREA_SKILL.code).map(e=>e.atMs),[0,20000,40000,60000]);
+ assert.deepEqual(events.filter(e=>e.chip.code===X_BODY_AREA_SKILL.code).map(e=>e.atMs),[0,40000]);
  assert.deepEqual(events.filter(e=>e.chip.code===code).map(e=>e.atMs),[15000,30000,45000,60000]);
  const z=createBattleSuitCombatSchedule([],true,false);
- assert.equal(z.take().atMs,Z_BODY_AREA_SKILL.intervalMs);
+ assert.equal(z.take().atMs,0);assert.equal(z.take().atMs,40000);assert.equal(Z_BODY_AREA_SKILL.intervalMs,40000);
 });

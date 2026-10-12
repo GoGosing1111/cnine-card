@@ -20,9 +20,9 @@ test('approved production gate enables Z intrinsically without a chip or JSON op
   }
 });
 test('each target receives the helicopter total from the same authoritative formula',()=>{
-  const z=run({[REVIEW]:true}),heli=run({battleSuit:{...suit,skillChips:[SKILL.damageReference]}});
-  const a=cast(z.result),b=heli.result.timeline.find(e=>e.type==='SKILL_CHIP_CAST');
-  assert.equal(a.intervalMs,b.intervalMs);assert.equal(a.baseDamage,b.baseDamage);
+  const z=run({[REVIEW]:true}),heli=run({battleSuit:{...suit,code:'BATTLE_SUIT_H_BODY',skillChips:[SKILL.damageReference]}});
+  const a=cast(z.result),b=heli.result.timeline.find(e=>e.type==='SKILL_CHIP_CAST'&&e.chipCode===SKILL.damageReference);
+  assert.equal(a.intervalMs,40000);assert.equal(b.intervalMs,15000);assert.equal(a.combatAtMs,0);assert.equal(a.baseDamage,b.baseDamage);
   assert.equal(a.calculatedDamage,b.calculatedDamage);assert.equal(a.damageMultiplier,5);
   const hits=z.result.timeline.filter(e=>e.castId===a.castId&&e.type==='SKILL_CHIP_HIT');
   assert.equal(hits.length,5);

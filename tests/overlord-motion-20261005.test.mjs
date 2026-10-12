@@ -16,7 +16,7 @@ test('faster anticipation and recovery preserve every authoritative tiger contac
  close(overlordAreaMotionTime(contacts.at(-1)+.1,contacts),MODES.aoe.contacts.at(-1)+.35);
  close(overlordAreaMotionTime(overlordAreaMotionEnd(contacts),contacts),MODES.aoe.duration);
  assert.ok(overlordAreaMotionEnd(contacts)<MODES.aoe.duration);
- assert.equal(OVERLORD_AREA_SKILL.intervalMs,18000);assert.equal(OVERLORD_AREA_SKILL.damageMultiplier,6);
+ assert.equal(OVERLORD_AREA_SKILL.intervalMs,40000);assert.equal(OVERLORD_AREA_SKILL.damageMultiplier,6);
 });
 
 test('delayed and same-frame contact receipts keep motion monotonic and aligned',()=>{

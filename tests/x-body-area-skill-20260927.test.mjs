@@ -19,7 +19,7 @@ test('only the exact X support can cast; JSON cannot enable a review or inject a
 test('the candidate uses the existing helicopter damage formula and approved dragon collision times',()=>{
  const x=run(),a=cast(x.result),heli=run({battleSuit:{...suit,code:'BATTLE_SUIT_H_BODY',skillChips:[SKILL.damageReference]}});
  const b=heli.result.timeline.find(e=>e.type==='SKILL_CHIP_CAST');
- assert.equal(a.intervalMs,20000);assert.equal(b.intervalMs,15000);
+ assert.equal(a.intervalMs,40000);assert.equal(b.intervalMs,15000);
  assert.equal(a.baseDamage,b.baseDamage);assert.equal(a.calculatedDamage,b.calculatedDamage);assert.equal(a.damageMultiplier,5);
  const hits=x.result.timeline.filter(e=>e.castId===a.castId&&e.type==='SKILL_CHIP_HIT');
  assert.equal(hits.length,5);assert.equal(hits.reduce((n,e)=>n+e.damage+e.absorbed,0),a.calculatedDamage);
@@ -29,14 +29,14 @@ test('the candidate uses the existing helicopter damage formula and approved dra
 });
 function multi({pvp=false,dead=false,skillChips=[],durationMs=0}={}){
  const a=cards.map((card,i)=>({...buildFighter(card,i,'A',null,pvp?'PVP':'PVE'),hp:1e10,maxHp:1e10}));
- // Keep targets alive through every scheduled impact, including repeated 20s casts.
+ // Keep targets alive through every scheduled impact, including repeated 40s casts.
  const b=Array.from({length:5},(_,i)=>({...buildMonsterFighter({...monster,id:i+1}),id:'B:'+i+':MONSTER:'+(i+1),slot:i,row:i<2?'FRONT':'BACK',hp:1e10,maxHp:1e10,shield:1e14,maxShield:1e14,attack:1,isMonster:!pvp,alive:!(dead&&i===4)}));
  return simulateBattleV2Preview({teamA:[...a,buildBattleSuitFighter({...suit,skillChips})],teamB:b,maxActions:durationMs?1000:100,maxCombatDurationMs:durationMs,seed:2011,[REVIEW]:true});
 }
-test('X-BODY opens with its area skill then casts every 20 seconds, independently of helicopter',()=>{
+test('X-BODY opens with its area skill then casts every 40 seconds, independently of helicopter',()=>{
  const result=multi({skillChips:[SKILL.damageReference],durationMs:65000});
  const times=code=>result.timeline.filter(e=>e.type==='SKILL_CHIP_CAST'&&e.chipCode===code).map(e=>e.combatAtMs);
- assert.deepEqual(times(SKILL.code),[0,20000,40000,60000]);
+ assert.deepEqual(times(SKILL.code),[0,40000]);
  assert.deepEqual(times(SKILL.damageReference),[15000,30000,45000,60000]);
  const opening=result.timeline.findIndex(e=>e.type==='SKILL_CHIP_CAST'&&e.chipCode===SKILL.code);
  const firstShot=result.timeline.findIndex(e=>e.damageSource==='BATTLE_SUIT_INDEPENDENT');

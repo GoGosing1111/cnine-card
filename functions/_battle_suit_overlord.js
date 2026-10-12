@@ -1,13 +1,18 @@
 import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
-import {OVERLORD_SUIT_CODE,OVERLORD_INITIAL_POWER} from '../shared/overlord-suit-v1.mjs';
+import {OVERLORD_SUIT_CODE,OVERLORD_INITIAL_POWER,OVERLORD_AREA_SKILL} from '../shared/overlord-suit-v1.mjs';
 export const OVERLORD_UPGRADE_KEY='safe_runtime_upgrade_overlord_20261005';
 export const OVERLORD_ITEM=Object.freeze({
  code:OVERLORD_SUIT_CODE,name:'오버로드',slot:'BATTLE_SUIT',
  image:'/assets/ui/project-v/account-battle-suits/overlord-v1/overlord.png',
  battleSprite:'/assets/ui/project-v/account-battle-suits/overlord-v1/overlord.png',
- description:'진홍 불꽃과 전용 칭호를 두른 상위 배틀슈트. 단죄·왕의 삼연참·왕관의 처형과 백호멸진을 사용합니다. 백호멸진은 전투 시작 즉시, 이후 18초마다 생존 적 전체에 슈트 기본 피해 6배를 가합니다. PVE 전용.',
+ description:`진홍 불꽃과 전용 칭호를 두른 상위 배틀슈트. 단죄·왕의 삼연참·왕관의 처형과 백호멸진을 사용합니다. 백호멸진은 전투 시작 즉시, 이후 ${OVERLORD_AREA_SKILL.intervalMs/1000}초마다 생존 적 전체에 슈트 기본 피해 6배를 가합니다. PVE 전용.`,
  sortOrder:80
 });
+// Refresh only the retired timing phrase when reading older catalog rows.
+// Keep CMS text and the persisted item/settings untouched.
+export function displayOverlordDescription(description){
+ return String(description||'').replace('이후 18초마다',`이후 ${OVERLORD_AREA_SKILL.intervalMs/1000}초마다`);
+}
 // Register once; later CMS power, visibility and acquisition choices are retained.
 // This does not grant ownership, seed a recipe, or add a supply-box drop.
 export async function ensureOverlordEquipment(env){
