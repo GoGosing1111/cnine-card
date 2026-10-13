@@ -23,3 +23,9 @@
 - 변경은 해당 프리뷰와 문서뿐이다. 직전 배포 기준 diff에 이전 지급 스크립트가 있으므로 지정 `npm run deploy:production -- --scoped`를 사용한다.
 - `SCOPED_DEPLOY_TESTS`: `["preview/mercenary-sapphire-archmage-battle-v1/qa.test.mjs"]`, 별도 전체 게임 검사는 수행하지 않는다. 이미 통과한 동일 빌드 브라우저 검수를 배포 과정에서 반복하지 않는다.
 - 배포 후 수정 프리뷰·manifest·번들·V2 영상의 운영 반영만 확인한다.
+
+## V2 배포 이력
+
+- 소스 `31609ce2c5024d21f2f466425a9f090fe61d4300`, Pages `e157a916-a57d-495b-bfb9-81d861d36609`로 scoped 배포 완료. 관련 4개 검사, 출시 플래그와 Hyperdrive 검사 통과.
+- API 버전 `72867ff5-907c-4fd4-bb4b-63119a886575`, clan worker `84075abb-3c19-4552-aa56-e3726263dd78`.
+- 이후 사용자 “근데 왜 지팡이 빠져있음?” 제보로 합성 지팡이의 겹침·파지 결함을 추가 보정했다. 현재 시각 기준은 `docs/sapphire-sss-staff-v3-20261014.md`와 `qa/v3/`이며 V2 영상은 이력으로 남긴다.

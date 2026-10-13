@@ -11,3 +11,5 @@ let battle=await read('../mercenary-golden-dragon-battle-v1/battle.html');battle
 let build=await read('../mercenary-golden-dragon-battle-v1/build.mjs');await write('build.mjs',build.replaceAll('Golden dragon','Sapphire mage'));
 console.log('Preview-only shell generated. No game registry or runtime changes.');
 await import('./upgrade-v2-shell.mjs');
+
+await import('./upgrade-v3-shell.mjs');

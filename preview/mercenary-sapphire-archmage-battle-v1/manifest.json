@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "date": "2026-10-14",
   "name": null,
   "nameStatus": "UNDECIDED_BY_USER",
@@ -8,7 +8,7 @@
   "code": null,
   "previewAdapterCode": "V-000",
   "runtimeEnabled": false,
-  "status": "V2_VISUAL_REVIEW_PENDING",
+  "status": "V3_STAFF_VISUAL_REVIEW_PENDING",
   "sourceArt": "preview/mercenary-sapphire-archmage-sss-20261013-v1/assets/sapphire-archmage-sss-source-art-v1.png",
   "sourceArtSha256": "38DA2E9BBE7BEBB7BCB0855260705FCCB1EF0CD638A005308A7B164B0B660793",
   "weapon": {
@@ -306,12 +306,14 @@
     "sourceSha256": "38da2e9bbe7bebb7bcb0855260705fccb1ef0cd638a005308a7b164b0b660793",
     "operation": "ORIGINAL_PIXEL_SELECTION_ONLY",
     "copiedPixels": 88506,
-    "redrawnPixels": 0
+    "redrawnPixels": 0,
+    "displayHeight": 396,
+    "uniformScale": 0.2578125
   },
   "motion": {
     "idle": {
-      "atlas": "assets/atlases/idle.png",
-      "sha256": "41CBF72F228ABAB0FE3E11D9C51980581FAFA787FA690A529E47E5D11DA7C303",
+      "atlas": "assets/atlases/idle-staff-v3.png",
+      "sha256": "19B7BE113A9B5ADEA7C3F0D982A55603411743087539100380D850B80294D2DC",
       "columns": 2,
       "rows": 2,
       "cellSize": 768,
@@ -320,23 +322,23 @@
         {
           "index": 0,
           "sourceIndex": 0,
-          "file": "assets/frames/idle-0.png",
-          "sha256": "4D81770CD1B37617FC9489D8ECB34C8D05FE60ACF5E3F5AF27204F50F9B56C5B",
-          "source": "assets/sources/idle.png",
-          "sourceSha256": "449FED434EA2DEADBC65257F1C0154416E0675204FAB354D9EAB407192808AD3",
+          "file": "assets/frames/idle-staff-v3-0.png",
+          "sha256": "8CAC9E219FA4C8BA0A9800243AD18C3D42269DA9B7D176D64A6D91BB1792016B",
+          "source": "assets/sources/idle-staff-v3.png",
+          "sourceSha256": "60887394C7ABBF2CA072DE0E3F923F2DE798CC18C6F0E4976F7F3968AA058AEB",
           "sourceRect": {
-            "left": 52,
-            "top": 13,
-            "width": 555,
-            "height": 617
+            "left": 49,
+            "top": 10,
+            "width": 577,
+            "height": 620
           },
           "sourceFoot": [
             357,
             625
           ],
           "sourceGrip": [
-            249,
-            330
+            212,
+            227
           ],
           "footAnchor": {
             "x": 0.5,
@@ -344,20 +346,20 @@
           },
           "bodyPixels": 360,
           "grip": {
-            "x": 318.65546218487395,
-            "y": 471.51260504201684
+            "x": 296.2689075630252,
+            "y": 409.1932773109244
           },
           "hand": {
             "x": 466.2857142857143,
             "y": 468.4873949579832
           },
           "tip": {
-            "x": 308.66957983193277,
-            "y": 346.29579831932773
+            "x": 285.3203125,
+            "y": 264.40625
           },
           "weapon": {
             "sha256": "4ee9e724bbe7390bc4ac5a1bce287add89e7b916622b495f20bd8b8a975c47a9",
-            "uniformScale": 0.22386554621848737,
+            "uniformScale": 0.2578125,
             "rotationDegrees": 0,
             "redrawnPixels": 0
           },
@@ -366,23 +368,23 @@
         {
           "index": 1,
           "sourceIndex": 1,
-          "file": "assets/frames/idle-1.png",
-          "sha256": "4690494D6CEA86E990543E449CF899F33E6A47C9A96DA0FB4A8AD89023F5BC51",
-          "source": "assets/sources/idle.png",
-          "sourceSha256": "449FED434EA2DEADBC65257F1C0154416E0675204FAB354D9EAB407192808AD3",
+          "file": "assets/frames/idle-staff-v3-1.png",
+          "sha256": "CF81761CF3055A566D219B27F38E6F85B93BB2B56321E2FCEE28FD2FAFDB1E2A",
+          "source": "assets/sources/idle-staff-v3.png",
+          "sourceSha256": "60887394C7ABBF2CA072DE0E3F923F2DE798CC18C6F0E4976F7F3968AA058AEB",
           "sourceRect": {
-            "left": 665,
-            "top": 6,
-            "width": 572,
-            "height": 624
+            "left": 650,
+            "top": 7,
+            "width": 582,
+            "height": 623
           },
           "sourceFoot": [
             987,
             625
           ],
           "sourceGrip": [
-            840,
-            329
+            809,
+            227
           ],
           "footAnchor": {
             "x": 0.5,
@@ -390,20 +392,20 @@
           },
           "bodyPixels": 360,
           "grip": {
-            "x": 295.05882352941177,
-            "y": 470.9075630252101
+            "x": 276.30252100840335,
+            "y": 409.1932773109244
           },
           "hand": {
             "x": 449.34453781512605,
             "y": 467.88235294117646
           },
           "tip": {
-            "x": 285.66957983193277,
-            "y": 345.29579831932773
+            "x": 265.3203125,
+            "y": 264.40625
           },
           "weapon": {
             "sha256": "4ee9e724bbe7390bc4ac5a1bce287add89e7b916622b495f20bd8b8a975c47a9",
-            "uniformScale": 0.22386554621848737,
+            "uniformScale": 0.2578125,
             "rotationDegrees": 0,
             "redrawnPixels": 0
           },
@@ -412,23 +414,23 @@
         {
           "index": 2,
           "sourceIndex": 2,
-          "file": "assets/frames/idle-2.png",
-          "sha256": "9AA6C9E46793C01E4E2E31124E16C1C8B165DF7D02B1ACEF4137359779A20E64",
-          "source": "assets/sources/idle.png",
-          "sourceSha256": "449FED434EA2DEADBC65257F1C0154416E0675204FAB354D9EAB407192808AD3",
+          "file": "assets/frames/idle-staff-v3-2.png",
+          "sha256": "A3973453065848855AEDDD5E10FE5FFD699E9CF78AB342ECAD29D590858A2CC9",
+          "source": "assets/sources/idle-staff-v3.png",
+          "sourceSha256": "60887394C7ABBF2CA072DE0E3F923F2DE798CC18C6F0E4976F7F3968AA058AEB",
           "sourceRect": {
-            "left": 45,
-            "top": 636,
-            "width": 575,
-            "height": 611
+            "left": 51,
+            "top": 628,
+            "width": 587,
+            "height": 618
           },
           "sourceFoot": [
             357,
-            1242
+            1241
           ],
           "sourceGrip": [
-            244,
-            945
+            212,
+            847
           ],
           "footAnchor": {
             "x": 0.5,
@@ -436,20 +438,20 @@
           },
           "bodyPixels": 360,
           "grip": {
-            "x": 315.6302521008403,
-            "y": 470.30252100840335
+            "x": 296.2689075630252,
+            "y": 411.61344537815125
           },
           "hand": {
             "x": 463.26050420168065,
-            "y": 475.14285714285717
+            "y": 475.7478991596639
           },
           "tip": {
-            "x": 305.66957983193277,
-            "y": 345.29579831932773
+            "x": 285.3203125,
+            "y": 267.40625
           },
           "weapon": {
             "sha256": "4ee9e724bbe7390bc4ac5a1bce287add89e7b916622b495f20bd8b8a975c47a9",
-            "uniformScale": 0.22386554621848737,
+            "uniformScale": 0.2578125,
             "rotationDegrees": 0,
             "redrawnPixels": 0
           },
@@ -458,23 +460,23 @@
         {
           "index": 3,
           "sourceIndex": 3,
-          "file": "assets/frames/idle-3.png",
-          "sha256": "0086EE8436FAE81E739AB43839E57693692FFDCDBD8F8879AFD8708686098D30",
-          "source": "assets/sources/idle.png",
-          "sourceSha256": "449FED434EA2DEADBC65257F1C0154416E0675204FAB354D9EAB407192808AD3",
+          "file": "assets/frames/idle-staff-v3-3.png",
+          "sha256": "2313A583C9A614515D5BB44E0B0AED4A95EFE7413F6BF428496BBB8EEAC8AB85",
+          "source": "assets/sources/idle-staff-v3.png",
+          "sourceSha256": "60887394C7ABBF2CA072DE0E3F923F2DE798CC18C6F0E4976F7F3968AA058AEB",
           "sourceRect": {
-            "left": 681,
-            "top": 632,
-            "width": 567,
-            "height": 615
+            "left": 650,
+            "top": 626,
+            "width": 590,
+            "height": 621
           },
           "sourceFoot": [
             992,
             1242
           ],
           "sourceGrip": [
-            860,
-            950
+            809,
+            847
           ],
           "footAnchor": {
             "x": 0.5,
@@ -482,20 +484,20 @@
           },
           "bodyPixels": 360,
           "grip": {
-            "x": 304.1344537815126,
-            "y": 473.327731092437
+            "x": 273.2773109243698,
+            "y": 411.00840336134456
           },
           "hand": {
             "x": 449.34453781512605,
             "y": 481.1932773109244
           },
           "tip": {
-            "x": 294.66957983193277,
-            "y": 348.29579831932773
+            "x": 262.3203125,
+            "y": 266.40625
           },
           "weapon": {
             "sha256": "4ee9e724bbe7390bc4ac5a1bce287add89e7b916622b495f20bd8b8a975c47a9",
-            "uniformScale": 0.22386554621848737,
+            "uniformScale": 0.2578125,
             "rotationDegrees": 0,
             "redrawnPixels": 0
           },
@@ -504,8 +506,8 @@
       ]
     },
     "cast": {
-      "atlas": "assets/atlases/cast.png",
-      "sha256": "B14943E6447C03774354AA312CFEB9D85EA9F496E6A0AD38A1D3932049B8D216",
+      "atlas": "assets/atlases/cast-staff-v3.png",
+      "sha256": "00731DC2B405B6D9355DF2D353D991079DEA0122F2931350B596433AFFCFBB9A",
       "columns": 2,
       "rows": 1,
       "cellSize": 768,
@@ -514,23 +516,23 @@
         {
           "index": 0,
           "sourceIndex": 2,
-          "file": "assets/frames/cast-0.png",
-          "sha256": "841056E03B1089844121A3EF692A80FA9EC058C869471844C8CD3EC515879EC9",
-          "source": "assets/sources/cast.png",
-          "sourceSha256": "7A2C9735EE79D8F413A4A54332D9D2B2DC8B7CB8F76DBA05548621FA65649D36",
+          "file": "assets/frames/cast-staff-v3-0.png",
+          "sha256": "02FF1E5373F4F5A24951C2A3429C294998BD46E91CEC8C1412672DE3D2EC2A65",
+          "source": "assets/sources/cast-staff-v3.png",
+          "sourceSha256": "7440BBCE3B4679E76712056CD7E86C64A755A0A1E96EB4782FA78FBF70691DD1",
           "sourceRect": {
-            "left": 15,
-            "top": 644,
-            "width": 604,
-            "height": 625
+            "left": 11,
+            "top": 642,
+            "width": 611,
+            "height": 626
           },
           "sourceFoot": [
             350,
-            1264
+            1263
           ],
           "sourceGrip": [
-            251,
-            941
+            166,
+            868
           ],
           "footAnchor": {
             "x": 0.5,
@@ -538,20 +540,20 @@
           },
           "bodyPixels": 360,
           "grip": {
-            "x": 326.14285714285717,
-            "y": 461.23376623376623
+            "x": 276.46753246753246,
+            "y": 419.1558441558442
           },
           "hand": {
             "x": 471.6623376623377,
-            "y": 382.3376623376623
+            "y": 382.92207792207796
           },
           "tip": {
-            "x": 316.624025974026,
-            "y": 339.9220779220779
+            "x": 265.3203125,
+            "y": 274.40625
           },
           "weapon": {
             "sha256": "4ee9e724bbe7390bc4ac5a1bce287add89e7b916622b495f20bd8b8a975c47a9",
-            "uniformScale": 0.21623376623376622,
+            "uniformScale": 0.2578125,
             "rotationDegrees": 0,
             "redrawnPixels": 0
           },
@@ -560,23 +562,23 @@
         {
           "index": 1,
           "sourceIndex": 3,
-          "file": "assets/frames/cast-1.png",
-          "sha256": "852DB930501C6EC0F53ECB644D11C9585247AE2CEE0804D7854F80EB8FEA222A",
-          "source": "assets/sources/cast.png",
-          "sourceSha256": "7A2C9735EE79D8F413A4A54332D9D2B2DC8B7CB8F76DBA05548621FA65649D36",
+          "file": "assets/frames/cast-staff-v3-1.png",
+          "sha256": "EBCEF6546D36042B1CAF82855AA3125A0C8EC032694041D3397A5D1FC52422B5",
+          "source": "assets/sources/cast-staff-v3.png",
+          "sourceSha256": "7440BBCE3B4679E76712056CD7E86C64A755A0A1E96EB4782FA78FBF70691DD1",
           "sourceRect": {
-            "left": 622,
-            "top": 644,
-            "width": 598,
-            "height": 624
+            "left": 611,
+            "top": 642,
+            "width": 611,
+            "height": 626
           },
           "sourceFoot": [
             965,
             1263
           ],
           "sourceGrip": [
-            869,
-            941
+            758,
+            868
           ],
           "footAnchor": {
             "x": 0.5,
@@ -584,20 +586,20 @@
           },
           "bodyPixels": 360,
           "grip": {
-            "x": 327.8961038961039,
-            "y": 461.8181818181818
+            "x": 263.02597402597405,
+            "y": 419.1558441558442
           },
           "hand": {
             "x": 495.6233766233766,
             "y": 362.46753246753246
           },
           "tip": {
-            "x": 318.624025974026,
-            "y": 340.9220779220779
+            "x": 252.3203125,
+            "y": 274.40625
           },
           "weapon": {
             "sha256": "4ee9e724bbe7390bc4ac5a1bce287add89e7b916622b495f20bd8b8a975c47a9",
-            "uniformScale": 0.21623376623376622,
+            "uniformScale": 0.2578125,
             "rotationDegrees": 0,
             "redrawnPixels": 0
           },
@@ -606,8 +608,8 @@
       ]
     },
     "ultimate": {
-      "atlas": "assets/atlases/ultimate.png",
-      "sha256": "7F0057789755DF7E2CE605BE90E571060D975E3FBEF51C5D45B4AE937032C301",
+      "atlas": "assets/atlases/ultimate-staff-v3.png",
+      "sha256": "0EA0BBBFDD90054B79BA9DA5373552048582CAE8C56F3F984F3FD1467D9D4F47",
       "columns": 2,
       "rows": 2,
       "cellSize": 768,
@@ -616,23 +618,23 @@
         {
           "index": 0,
           "sourceIndex": 0,
-          "file": "assets/frames/ultimate-0.png",
-          "sha256": "05B073413E180C883251C07C00C6AFFAEA6A093D82BAC2834DCDE63DC902E5CC",
-          "source": "assets/sources/ultimate.png",
-          "sourceSha256": "61665773AF9EA57A471633346B4454156B45FD65E3A1DE9575385B4A0FACAE3A",
+          "file": "assets/frames/ultimate-staff-v3-0.png",
+          "sha256": "638636FDD4ECE5EA56BD5EBDB27500A8BBE3C41A218C4DEA7225948B3AB2C3F0",
+          "source": "assets/sources/ultimate-staff-v3.png",
+          "sourceSha256": "37EBDB3E091487390B54656965973DB1EFB2BE0068BBE31E9C581B0C0B734074",
           "sourceRect": {
-            "left": 46,
+            "left": 45,
             "top": 12,
-            "width": 551,
-            "height": 625
+            "width": 556,
+            "height": 626
           },
           "sourceFoot": [
             352,
-            632
+            633
           ],
           "sourceGrip": [
-            237,
-            310
+            194,
+            258
           ],
           "footAnchor": {
             "x": 0.5,
@@ -640,20 +642,20 @@
           },
           "bodyPixels": 360,
           "grip": {
-            "x": 311.36842105263156,
-            "y": 446.63157894736844
+            "x": 284.2105263157895,
+            "y": 413.1578947368421
           },
           "hand": {
-            "x": 450.3157894736842,
-            "y": 374
+            "x": 454.10526315789474,
+            "y": 397.36842105263156
           },
           "tip": {
-            "x": 301.01473684210526,
-            "y": 316.06315789473683
+            "x": 273.3203125,
+            "y": 268.40625
           },
           "weapon": {
             "sha256": "4ee9e724bbe7390bc4ac5a1bce287add89e7b916622b495f20bd8b8a975c47a9",
-            "uniformScale": 0.23368421052631577,
+            "uniformScale": 0.2578125,
             "rotationDegrees": 0,
             "redrawnPixels": 0
           },
@@ -662,23 +664,23 @@
         {
           "index": 1,
           "sourceIndex": 1,
-          "file": "assets/frames/ultimate-1.png",
-          "sha256": "3B2CE0CC66920221814A3B107273A67064BEFE34DE4D8E2FA2541D3AC27069E5",
-          "source": "assets/sources/ultimate.png",
-          "sourceSha256": "61665773AF9EA57A471633346B4454156B45FD65E3A1DE9575385B4A0FACAE3A",
+          "file": "assets/frames/ultimate-staff-v3-1.png",
+          "sha256": "EB0984F01633C5CD5A83D575EEE769F97AD1A531C799FDB33F1748A3B95C10CB",
+          "source": "assets/sources/ultimate-staff-v3.png",
+          "sourceSha256": "37EBDB3E091487390B54656965973DB1EFB2BE0068BBE31E9C581B0C0B734074",
           "sourceRect": {
-            "left": 671,
+            "left": 668,
             "top": 10,
-            "width": 560,
-            "height": 627
+            "width": 564,
+            "height": 628
           },
           "sourceFoot": [
             985,
-            632
+            633
           ],
           "sourceGrip": [
-            837,
-            310
+            803,
+            258
           ],
           "footAnchor": {
             "x": 0.5,
@@ -686,20 +688,20 @@
           },
           "bodyPixels": 360,
           "grip": {
-            "x": 290.5263157894737,
-            "y": 446.63157894736844
+            "x": 269.0526315789474,
+            "y": 413.1578947368421
           },
           "hand": {
             "x": 437.6842105263158,
-            "y": 291.89473684210526
+            "y": 291.2631578947369
           },
           "tip": {
-            "x": 280.01473684210526,
-            "y": 316.06315789473683
+            "x": 258.3203125,
+            "y": 268.40625
           },
           "weapon": {
             "sha256": "4ee9e724bbe7390bc4ac5a1bce287add89e7b916622b495f20bd8b8a975c47a9",
-            "uniformScale": 0.23368421052631577,
+            "uniformScale": 0.2578125,
             "rotationDegrees": 0,
             "redrawnPixels": 0
           },
@@ -708,23 +710,23 @@
         {
           "index": 2,
           "sourceIndex": 2,
-          "file": "assets/frames/ultimate-2.png",
-          "sha256": "3ADD31ED9D9B61CB5422FD706202737A0E2E328A917D240FE78EDD9DC5DFFEEB",
-          "source": "assets/sources/ultimate.png",
-          "sourceSha256": "61665773AF9EA57A471633346B4454156B45FD65E3A1DE9575385B4A0FACAE3A",
+          "file": "assets/frames/ultimate-staff-v3-2.png",
+          "sha256": "D422C7B758F749CBD81FF0A3DFB384B61C32A9BD97695822BD2ACAC776D4B48F",
+          "source": "assets/sources/ultimate-staff-v3.png",
+          "sourceSha256": "37EBDB3E091487390B54656965973DB1EFB2BE0068BBE31E9C581B0C0B734074",
           "sourceRect": {
-            "left": 45,
-            "top": 627,
-            "width": 569,
-            "height": 620
+            "left": 43,
+            "top": 626,
+            "width": 572,
+            "height": 621
           },
           "sourceFoot": [
             359,
             1242
           ],
           "sourceGrip": [
-            257,
-            945
+            177,
+            884
           ],
           "footAnchor": {
             "x": 0.5,
@@ -732,20 +734,20 @@
           },
           "bodyPixels": 360,
           "grip": {
-            "x": 319.57894736842104,
-            "y": 462.42105263157896
+            "x": 269.0526315789474,
+            "y": 423.8947368421053
           },
           "hand": {
             "x": 479.36842105263156,
             "y": 294.42105263157896
           },
           "tip": {
-            "x": 310.01473684210526,
-            "y": 331.06315789473683
+            "x": 258.3203125,
+            "y": 279.40625
           },
           "weapon": {
             "sha256": "4ee9e724bbe7390bc4ac5a1bce287add89e7b916622b495f20bd8b8a975c47a9",
-            "uniformScale": 0.23368421052631577,
+            "uniformScale": 0.2578125,
             "rotationDegrees": 0,
             "redrawnPixels": 0
           },
@@ -754,23 +756,23 @@
         {
           "index": 3,
           "sourceIndex": 3,
-          "file": "assets/frames/ultimate-3.png",
-          "sha256": "EC27C2AF17506056BCAD9A2CDCF5C1BF4E9AC2C10FC18B0E93EA3D80F8DE4824",
-          "source": "assets/sources/ultimate.png",
-          "sourceSha256": "61665773AF9EA57A471633346B4454156B45FD65E3A1DE9575385B4A0FACAE3A",
+          "file": "assets/frames/ultimate-staff-v3-3.png",
+          "sha256": "350E965987DF084C35677B23C80C5F1612F53CD37799462FADC294B996D7978B",
+          "source": "assets/sources/ultimate-staff-v3.png",
+          "sourceSha256": "37EBDB3E091487390B54656965973DB1EFB2BE0068BBE31E9C581B0C0B734074",
           "sourceRect": {
-            "left": 641,
-            "top": 640,
-            "width": 599,
-            "height": 605
+            "left": 647,
+            "top": 641,
+            "width": 594,
+            "height": 606
           },
           "sourceFoot": [
             1000,
-            1240
+            1242
           ],
           "sourceGrip": [
-            868,
-            967
+            800,
+            884
           ],
           "footAnchor": {
             "x": 0.5,
@@ -778,20 +780,20 @@
           },
           "bodyPixels": 360,
           "grip": {
-            "x": 300.63157894736844,
-            "y": 477.57894736842104
+            "x": 257.6842105263158,
+            "y": 423.8947368421053
           },
           "hand": {
             "x": 491.36842105263156,
-            "y": 441.57894736842104
+            "y": 440.3157894736842
           },
           "tip": {
-            "x": 291.01473684210526,
-            "y": 347.06315789473683
+            "x": 246.3203125,
+            "y": 279.40625
           },
           "weapon": {
             "sha256": "4ee9e724bbe7390bc4ac5a1bce287add89e7b916622b495f20bd8b8a975c47a9",
-            "uniformScale": 0.23368421052631577,
+            "uniformScale": 0.2578125,
             "rotationDegrees": 0,
             "redrawnPixels": 0
           },
@@ -995,8 +997,8 @@
       "previewEnabled": false
     },
     "defeat": {
-      "atlas": "assets/atlases/defeat.png",
-      "sha256": "3424EDBBB87FE4A80684E4136454E4760C3E3B2F1218FAA4F6A13114D979C4A6",
+      "atlas": "assets/atlases/defeat-staff-v3.png",
+      "sha256": "9C10351501F1FF58B2201664C8DA3D2938F7654E5FCADDD65A2DDF281C7CCF4C",
       "columns": 2,
       "rows": 2,
       "cellSize": 768,
@@ -1005,8 +1007,8 @@
         {
           "index": 0,
           "sourceIndex": 0,
-          "file": "assets/frames/defeat-0.png",
-          "sha256": "86B367F3B44EE59ABE6FD55429DD9CD5634655B64EE167BC9AF309E45238C9A8",
+          "file": "assets/frames/defeat-staff-v3-0.png",
+          "sha256": "2E20F2DB96BDE9932B5EB5D82D211D0216C4A6C2F42E91DF3BABCF9E2C5FE1CD",
           "source": "assets/sources/defeat.png",
           "sourceSha256": "9069D15BEA9FB20AA2F5323C3843FCAA7A10037F971451D9031CC023F6FCB1F1",
           "sourceRect": {
@@ -1037,13 +1039,13 @@
             "y": 303.8461538461538
           },
           "tip": {
-            "x": 237.51571906354516,
-            "y": 323.09364548494983
+            "x": 188.01318656953399,
+            "y": 316.28093858390287
           },
           "weapon": {
             "sha256": "4ee9e724bbe7390bc4ac5a1bce287add89e7b916622b495f20bd8b8a975c47a9",
-            "uniformScale": 0.22274247491638796,
-            "rotationDegrees": 0,
+            "uniformScale": 0.2578125,
+            "rotationDegrees": -20,
             "redrawnPixels": 0
           },
           "airborneSourcePixels": 0
@@ -1051,8 +1053,8 @@
         {
           "index": 1,
           "sourceIndex": 1,
-          "file": "assets/frames/defeat-1.png",
-          "sha256": "2FBE10AC6D08AB9D71AD6436023A87022545D6F01996B1FD9894C19254F8FE1E",
+          "file": "assets/frames/defeat-staff-v3-1.png",
+          "sha256": "8250E64EF5E4661882A514C85E1A0680944A97907EC8DA8C3B4E0D3D7CD32845",
           "source": "assets/sources/defeat.png",
           "sourceSha256": "9069D15BEA9FB20AA2F5323C3843FCAA7A10037F971451D9031CC023F6FCB1F1",
           "sourceRect": {
@@ -1083,13 +1085,13 @@
             "y": 498.29431438127085
           },
           "tip": {
-            "x": 296.6511628628615,
-            "y": 357.67951247809503
+            "x": 220.43555549747362,
+            "y": 392.0780866265136
           },
           "weapon": {
             "sha256": "4ee9e724bbe7390bc4ac5a1bce287add89e7b916622b495f20bd8b8a975c47a9",
-            "uniformScale": 0.22274247491638796,
-            "rotationDegrees": -15,
+            "uniformScale": 0.2578125,
+            "rotationDegrees": -50,
             "redrawnPixels": 0
           },
           "airborneSourcePixels": 0
@@ -1097,8 +1099,8 @@
         {
           "index": 2,
           "sourceIndex": 2,
-          "file": "assets/frames/defeat-2.png",
-          "sha256": "40ED41DEB472F01D05B1BB4BDD554EB448834E3656C4766FF587657C67E7E212",
+          "file": "assets/frames/defeat-staff-v3-2.png",
+          "sha256": "53E43D224AE7F50BAB927A9406BEE7D5576466EA20E87F117CB200C675E7EEBA",
           "source": "assets/sources/defeat.png",
           "sourceSha256": "9069D15BEA9FB20AA2F5323C3843FCAA7A10037F971451D9031CC023F6FCB1F1",
           "sourceRect": {
@@ -1129,13 +1131,13 @@
             "y": 615.685618729097
           },
           "tip": {
-            "x": 272.3935728233731,
-            "y": 428.2664424991206
+            "x": 227.5912731960476,
+            "y": 490.34538308642925
           },
           "weapon": {
             "sha256": "4ee9e724bbe7390bc4ac5a1bce287add89e7b916622b495f20bd8b8a975c47a9",
-            "uniformScale": 0.22274247491638796,
-            "rotationDegrees": -48,
+            "uniformScale": 0.2578125,
+            "rotationDegrees": -80,
             "redrawnPixels": 0
           },
           "airborneSourcePixels": 0
@@ -1143,8 +1145,8 @@
         {
           "index": 3,
           "sourceIndex": 3,
-          "file": "assets/frames/defeat-3.png",
-          "sha256": "8165C840E8C95DA92E9E7BD221932B8C11826D9C4AE3A550DB791C96D6536ADE",
+          "file": "assets/frames/defeat-staff-v3-3.png",
+          "sha256": "20B698BF245254D922CB84CDDE7729DA36374958D875A981D22C1EC12724AF15",
           "source": "assets/sources/defeat.png",
           "sourceSha256": "9069D15BEA9FB20AA2F5323C3843FCAA7A10037F971451D9031CC023F6FCB1F1",
           "sourceRect": {
@@ -1175,13 +1177,13 @@
             "y": 613.2775919732442
           },
           "tip": {
-            "x": 267.3226308129271,
-            "y": 564.1824650888956
+            "x": 242.42387131725567,
+            "y": 596.4648352067064
           },
           "weapon": {
             "sha256": "4ee9e724bbe7390bc4ac5a1bce287add89e7b916622b495f20bd8b8a975c47a9",
-            "uniformScale": 0.22274247491638796,
-            "rotationDegrees": -70,
+            "uniformScale": 0.2578125,
+            "rotationDegrees": -85,
             "redrawnPixels": 0
           },
           "airborneSourcePixels": 0
@@ -2172,8 +2174,8 @@
       "reason": "Upper wing tips touch original source top border"
     }
   ],
-  "battleSprite": "preview/mercenary-sapphire-archmage-battle-v1/assets/battle-sprite.png",
-  "battleSpriteSha256": "4D81770CD1B37617FC9489D8ECB34C8D05FE60ACF5E3F5AF27204F50F9B56C5B",
+  "battleSprite": "preview/mercenary-sapphire-archmage-battle-v1/assets/battle-sprite-staff-v3.png",
+  "battleSpriteSha256": "8CAC9E219FA4C8BA0A9800243AD18C3D42269DA9B7D176D64A6D91BB1792016B",
   "battleSpriteFootAnchor": {
     "x": 0.5,
     "y": 0.8463541666666666
@@ -2195,6 +2197,17 @@
   "userCorrections": [
     "대기자세가 부자연스럽게 움직임: 몸·발·지팡이 고정, 주변 오라만 흐름",
     "마법사 대쉬 제거",
-    "결정창 6연사와 적중 폭쇄, 삼중 천공 마법진과 마지막 광역 폭쇄"
-  ]
+    "결정창 6연사와 적중 폭쇄, 삼중 천공 마법진과 마지막 광역 폭쇄",
+    "지팡이 가독성: 파지를 몸 바깥 가슴 높이로 이동, 원본 지팡이를 일관된 전신 1.1배 크기로 합성"
+  ],
+  "previousManifest": "manifest-v2.json",
+  "weaponPlacement": {
+    "version": 3,
+    "physicalHeight": 396,
+    "bodyHeight": 360,
+    "rigid": true,
+    "registration": "pose-registration-v3.json",
+    "bodyEditPrompts": "prompts-staff-v3.json",
+    "hiddenGripCoveredByHand": true
+  }
 }
