@@ -1,0 +1,75 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:diim-mission-gifts:showmaker:20261014:v1",
+  "planHash": "fe9d9b7c278d64dae01ae403e231713485e2b81728d94f29eae39c18be9f4c6e",
+  "plan": {
+    "operationKey": "ops:diim-mission-gifts:showmaker:20261014:v1",
+    "title": "디임 미션 사은품",
+    "coinPerRecipient": "1000000000000",
+    "totalCoin": "1000000000000",
+    "delivery": "DIRECT",
+    "recipients": [
+      {
+        "userId": "233",
+        "nickname": "ShowMaker"
+      }
+    ],
+    "verification": {
+      "userId": "233",
+      "provider": "PLAYDK",
+      "providerUserId": "25958d94"
+    },
+    "profileUrl": "https://www.playdk.kr/user/25958d94",
+    "authorization": "[ShowMaker](https://www.playdk.kr/user/25958d94) 지급",
+    "inheritedContext": "디임 미션 사은품: 지정 계정마다 1조 코인"
+  },
+  "adminId": "1",
+  "adminLogId": "45849",
+  "grants": [
+    {
+      "userId": "233",
+      "nickname": "ShowMaker",
+      "amount": "1000000000000",
+      "before": "67616180843",
+      "after": "1067616180843",
+      "coinLogId": "91040495"
+    }
+  ],
+  "completedAt": "2026-10-13T21:03:05.358Z",
+  "validation": {
+    "dryRun": {
+      "operationKey": "ops:diim-mission-gifts:showmaker:20261014:v1",
+      "planHash": "fe9d9b7c278d64dae01ae403e231713485e2b81728d94f29eae39c18be9f4c6e",
+      "status": "DRY_RUN_ROLLED_BACK",
+      "replayed": false,
+      "completedAt": "2026-10-13T21:02:52.261Z",
+      "adminLogId": "45848",
+      "recipients": 1,
+      "coinLogs": 1,
+      "adminLogs": 1,
+      "totalCoin": "1000000000000",
+      "missing": 0,
+      "duplicates": 0,
+      "partialFailureRolledBack": true,
+      "replayPerformedNoWrites": true,
+      "balancesRestored": true,
+      "logsRolledBack": true
+    },
+    "postCommit": {
+      "operationKey": "ops:diim-mission-gifts:showmaker:20261014:v1",
+      "planHash": "fe9d9b7c278d64dae01ae403e231713485e2b81728d94f29eae39c18be9f4c6e",
+      "status": "COMPLETED",
+      "replayed": true,
+      "completedAt": "2026-10-13T21:03:05.358Z",
+      "adminLogId": "45849",
+      "recipients": 1,
+      "coinLogs": 1,
+      "adminLogs": 1,
+      "totalCoin": "1000000000000",
+      "missing": 0,
+      "duplicates": 0
+    }
+  },
+  "runtimeCodeChanged": false,
+  "deploymentRequired": false
+}

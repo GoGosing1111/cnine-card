@@ -1,0 +1,21 @@
+{
+  "operationKey": "ops:diim-mission-gifts:showmaker:20261014:v1",
+  "title": "디임 미션 사은품",
+  "coinPerRecipient": "1000000000000",
+  "totalCoin": "1000000000000",
+  "delivery": "DIRECT",
+  "recipients": [
+    {
+      "userId": "233",
+      "nickname": "ShowMaker"
+    }
+  ],
+  "verification": {
+    "userId": "233",
+    "provider": "PLAYDK",
+    "providerUserId": "25958d94"
+  },
+  "profileUrl": "https://www.playdk.kr/user/25958d94",
+  "authorization": "[ShowMaker](https://www.playdk.kr/user/25958d94) 지급",
+  "inheritedContext": "디임 미션 사은품: 지정 계정마다 1조 코인"
+}
