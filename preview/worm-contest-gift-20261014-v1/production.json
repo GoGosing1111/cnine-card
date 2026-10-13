@@ -1,0 +1,57 @@
+{
+  "deployment": "fa6d04ca",
+  "commit": "703ab4dc",
+  "registration": {
+    "registeredAt": "2026-10-13T17:38:18.461Z",
+    "item": {
+      "code": "WORM_CONTEST_GIFT_BOX",
+      "name": "지렁이대회 사은품",
+      "description": "개봉 시 5,000억 코인, 마스터의 별 20,000,000개, 핑두 리페어권 1개, 엠퍼러 에너지 20개를 모두 받습니다. 상자 1개당 확정 지급됩니다.",
+      "image_url": "assets/ui/packs/worm-contest-gift-box-v1.png",
+      "category": "GIFT_BOX",
+      "is_active": "1"
+    },
+    "stock": {
+      "owners": 0,
+      "total": "0"
+    },
+    "rewards": {
+      "coin": 500000000000,
+      "masterStar": 20000000,
+      "repairCoupon": 1,
+      "emperorEnergy": 20
+    },
+    "automaticGrant": false
+  },
+  "live": [
+    {
+      "path": "/assets/ui/packs/worm-contest-gift-box-v1.png",
+      "status": 200,
+      "sha256": "025204bf4f6beedaa44226104796bf1de1d8ee0014611ca877de66e4fe32f739"
+    },
+    {
+      "path": "/js/worm-contest-gift-v1.js",
+      "status": 200,
+      "connected": true
+    },
+    {
+      "path": "/",
+      "status": 200,
+      "connected": true
+    }
+  ],
+  "browser": [
+    {
+      "width": 1440,
+      "allFourRewards": true,
+      "buttonFits": true,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "allFourRewards": true,
+      "buttonFits": true,
+      "errors": []
+    }
+  ]
+}
