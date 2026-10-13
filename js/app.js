@@ -4097,6 +4097,7 @@ const inventoryUiState={owner:null,items:[],filter:'ALL',query:'',sort:'DEFAULT'
 function inventoryPendingGifts(){
   const owner=loadUser()?.serverUserId;if(!owner)return [];
   try{return [
+    {code:'WORM_CONTEST_GIFT_BOX',key:'worm-contest-gift',name:'지렁이대회 사은품'},
     {code:'FUNDING_GIFT_BOX',key:'funding-gift',name:'펀딩 사은품'},
     {code:'RECRUITMENT_GIFT_BOX',key:'recruitment-gift',name:'영입전 사은품'},
     {code:'PINGDU_THANKS_GIFT_BOX',key:'pingdu-thanks-gift',name:'핑두의 감사 선물'},
@@ -4254,6 +4255,7 @@ async function openInventoryPack(itemCode,ownedQuantity=0){
     }catch(error){console.warn('감사 선물 화면 로드 실패:',error);alert('감사 선물 화면을 불러오지 못했습니다. 다시 눌러 주세요.');return;}
   }
   if(itemCode==='RECRUITMENT_GIFT_BOX')return window.RecruitmentGiftV1.open({apiRequest,clearApiCache,loadUser,saveUser,apiUserToLocal,renderShell},ownedQuantity);
+  if(itemCode==='WORM_CONTEST_GIFT_BOX')return window.WormContestGiftV1.open({apiRequest,clearApiCache,loadUser,saveUser,apiUserToLocal,renderShell},ownedQuantity);
   if(itemCode==='FUNDING_GIFT_BOX')return window.FundingGiftV1.open({apiRequest,clearApiCache,loadUser,saveUser,apiUserToLocal,renderShell},ownedQuantity);
   if(itemCode==='TOURNAMENT_GIFT_BOX')return window.TournamentGiftV1.open({apiRequest,clearApiCache,loadUser,saveUser,apiUserToLocal,renderShell},ownedQuantity);
   if(itemCode==='NEW_USER_GIFT_BOX')return window.NewUserGiftV2075.open({apiRequest,clearApiCache,loadUser,saveUser,apiUserToLocal,renderShell});

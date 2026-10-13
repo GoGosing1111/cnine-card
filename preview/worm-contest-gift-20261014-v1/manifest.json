@@ -1,0 +1,18 @@
+{
+  "name": "지렁이대회 사은품",
+  "code": "WORM_CONTEST_GIFT_BOX",
+  "asset": "assets/ui/packs/worm-contest-gift-box-v1.png",
+  "sha256": "025204bf4f6beedaa44226104796bf1de1d8ee0014611ca877de66e4fe32f739",
+  "source": "exec-5af54535-8f37-4271-a383-6b7e234ddc91.png",
+  "transparentBackground": true,
+  "postprocessing": "none; generated PNG preserved",
+  "prompt": "Create one polished premium fantasy game inventory item icon: an earthworm tournament gift treasure chest. Square composition transparent background. A substantial three-quarter-view dark emerald lacquer and warm bronze/gold metal prize chest, ornate but clean readable silhouette, satin crimson ribbon, central round gold medallion depicting a charming curved earthworm with segmented body and tiny crown, engraved laurel trophy motifs. Lid slightly ajar, controlled warm golden glow from inside, a few jewel-like star sparks hugging chest. Rich tactile metal and lacquer, sophisticated collectible Korean RPG reward art, crisp high quality hand-painted 3D illustration. Entire chest visible with 10 percent transparent margin, no scene, no ground plane, no checkerboard, no cast shadow rectangle, no words letters or numerals, no people, no gross realistic worm. Recognizable at small 128px size. The chest is the single hero object; worm appears as elegant relief emblem only.",
+  "rewards": {
+    "EMPEROR_ENERGY": 20,
+    "COIN": 500000000000,
+    "MASTER_STAR": 20000000,
+    "PINGDU_REPAIR_COUPON": 1
+  },
+  "delivery": "one box consumes one item and grants all four rewards atomically",
+  "automaticGrant": false
+}

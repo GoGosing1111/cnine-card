@@ -1,3 +1,4 @@
+import {WORM_CONTEST_GIFT,ensureWormContestGiftCatalog,openWormContestGift,grantWormContestGift} from '../_worm_contest_gift.js';
 import {ensureMercenarySssShardCatalog} from '../_mercenary_sss_shard.js';
 import {MERCENARY_EQUIPMENT_SQL_CODES} from '../../shared/mercenary-equipment-v1.mjs';
 import {presentOriginalIpResponse} from '../../shared/monster-original-ip-presentation-v1.mjs';
@@ -540,6 +541,7 @@ function messageRewardClaimToken(){
 }
 
 const VERIFIED_MESSAGE_REWARD_TYPES={
+  WORM_CONTEST_GIFT_BOX:{label:'지렁이대회 사은품',icon:'🎁',inventory:true,messageOnly:true,max:9999,messageType:'ITEM_REWARD'},
   MERCENARY_SSS_CARD_SHARD:{label:'SSS 용병 카드 조각',icon:'🧩',inventory:true,messageOnly:true,max:100000,messageType:'ITEM_REWARD'},
   JOKGAK_CITY_REWARD:{label:'족각도시 보상',icon:'🏙️',inventory:false,messageOnly:true,max:1,messageType:'ITEM_REWARD'},
   MINE_ELECTRIC_DRILL:{label:'전동드릴',icon:'🛠️',inventory:true,messageOnly:true,max:1,messageType:'ITEM_REWARD'},
@@ -609,6 +611,7 @@ async function claimMessageRewardDirectV1222(env,user,reward,messageId,{allowCla
   if(!spec||rewardAmount<=0)throw new Error('지원하지 않는 메시지 보상입니다.');
   if(rewardType==='PINGDU_REPAIR_COUPON')await ensureForgeRepairCatalog(env);
   if(rewardType==='TOURNAMENT_GIFT_BOX')await ensureTournamentGiftCatalog(env);
+  if(rewardType==='WORM_CONTEST_GIFT_BOX')await ensureWormContestGiftCatalog(env);
   if(rewardType==='FUNDING_GIFT_BOX')await ensureFundingGiftCatalog(env);
   if(rewardType==='RECRUITMENT_GIFT_BOX')await ensureRecruitmentGiftCatalog(env);
   if(rewardType==='PINGDU_THANKS_GIFT_BOX')await ensurePingduThanksGiftCatalog(env);
@@ -5274,6 +5277,7 @@ async function handleRequest(context){
       await ensurePetOpeningItems(env);await ensurePetPotentialItem(env);
       await ensureTournamentGiftCatalog(env);
       await ensureFundingGiftCatalog(env);
+      await ensureWormContestGiftCatalog(env);
       await ensureRecruitmentGiftCatalog(env);
       await ensurePingduThanksGiftCatalog(env);
       await ensureForgeProtectionCatalog(env);
@@ -5311,6 +5315,7 @@ async function handleRequest(context){
       if(itemCode==='MIRACLE_CUBE'){
         try{return json(await openMiracleCube(env,user,{requestId:body.requestId,count:openCount}));}catch(error){return json({code:error.code||'MIRACLE_FAILED',error:error.status?error.message:'개봉 결과를 확인하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||503);}
       }
+      if(itemCode==='WORM_CONTEST_GIFT_BOX'){try{return json(await openWormContestGift(env,user,{requestId:body.requestId,count:openCount}));}catch(error){return json({error:error.status?error.message:'개봉을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
       if(itemCode==='FUNDING_GIFT_BOX'){try{return json(await openFundingGift(env,user,{requestId:body.requestId,count:openCount}));}catch(error){return json({error:error.status?error.message:'개봉을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
       if(itemCode==='PINGDU_THANKS_GIFT_BOX'){try{return json(await openPingduThanksGift(env,user,{requestId:body.requestId,count:openCount}));}catch(error){return json({error:error.status?error.message:'개봉을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
       if(itemCode==='RECRUITMENT_GIFT_BOX'){try{return json(await openRecruitmentGift(env,user,{requestId:body.requestId,count:openCount}));}catch(error){return json({error:error.status?error.message:'개봉을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
@@ -8218,6 +8223,7 @@ async function handleRequest(context){
           try{return json(await withJointUserMutationLock(env,userId,'admin/forge-tickets/grant',()=>grantForgeTickets(env,admin,{userId,itemCode,amount,reason:p.reason,requestId:p.requestId})));}
           catch(error){return json({error:error.status?error.message:'지급 결과를 확인하지 못했습니다. 같은 내용으로 다시 시도하세요.'},error.status||409);}
         }
+        if(itemCode==='WORM_CONTEST_GIFT_BOX'){try{return json(await withJointUserMutationLock(env,userId,'admin/worm-contest-gift/grant',()=>grantWormContestGift(env,admin,{userId,amount,reason:p.reason,requestId:p.requestId})));}catch(error){return json({error:error.status?error.message:'지급을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
         if(itemCode==='FUNDING_GIFT_BOX'){try{return json(await withJointUserMutationLock(env,userId,'admin/funding-gift/grant',()=>grantFundingGift(env,admin,{userId,amount,reason:p.reason,requestId:p.requestId})));}catch(error){return json({error:error.status?error.message:'지급을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
         if(itemCode==='PINGDU_THANKS_GIFT_BOX'){try{return json(await withJointUserMutationLock(env,userId,'admin/pingdu-thanks-gift/grant',()=>grantPingduThanksGift(env,admin,{userId,amount,reason:p.reason,requestId:p.requestId})));}catch(error){return json({error:error.status?error.message:'지급을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
         if(itemCode==='RECRUITMENT_GIFT_BOX'){try{return json(await withJointUserMutationLock(env,userId,'admin/recruitment-gift/grant',()=>grantRecruitmentGift(env,admin,{userId,amount,reason:p.reason,requestId:p.requestId})));}catch(error){return json({error:error.status?error.message:'지급을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
