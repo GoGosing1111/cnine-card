@@ -29,7 +29,7 @@ export async function territoryNetworkFixture(t,postgres=false,{participants=52}
   }else{sqlite=new DatabaseSync(':memory:');t.after(()=>sqlite.close());const prepare=(sql,values=[])=>({sql,values,bind(...next){return prepare(sql,next)},async first(){return sqlite.prepare(sql).get(...values)||null},async all(){return {results:sqlite.prepare(sql).all(...values)}},async run(){const r=sqlite.prepare(sql).run(...values);return {meta:{changes:Number(r.changes),last_row_id:Number(r.lastInsertRowid)}}}});DB={prepare,async batch(statements){sqlite.exec('BEGIN');try{const r=[];for(const s of statements)r.push(await s.run());sqlite.exec('COMMIT');return r}catch(error){sqlite.exec('ROLLBACK');throw error}}};}
   const env={DB},p=(sql,...values)=>DB.prepare(sql).bind(...values);
   const schema=[...base,
-    "CREATE TABLE users(id INTEGER PRIMARY KEY,nickname TEXT,role TEXT DEFAULT 'USER',coin INTEGER DEFAULT 0)",
+    "CREATE TABLE users(id INTEGER PRIMARY KEY,nickname TEXT,role TEXT DEFAULT 'USER',status TEXT DEFAULT 'ACTIVE',coin INTEGER DEFAULT 0)",
     'CREATE TABLE user_cards(user_id INTEGER,card_id TEXT,quantity INTEGER,PRIMARY KEY(user_id,card_id))',
     'CREATE TABLE coin_logs(id INTEGER PRIMARY KEY AUTOINCREMENT,user_id INTEGER,change_amount INTEGER,balance_after INTEGER,reason TEXT)',
     'CREATE TABLE IF NOT EXISTS territory_war_v3_commander_overrides(round_id INTEGER,side TEXT,user_id INTEGER,PRIMARY KEY(round_id,side))',

@@ -49,7 +49,7 @@ assert.ok(Math.abs(strongAttacker.attackerScale-(115_000/303_000))<1e-9);
 assert.equal(strongAttacker.defenderScale,1);
 
 assert.match(server,/ORDER BY ABS\(w\.deck_power-\?\) ASC/);
-assert.match(server,/LIMIT 12/);
+assert.match(server,/LIMIT 48/);
 assert.doesNotMatch(server,/w\.deck_power BETWEEN \? AND \?/);
 assert.match(server,/matchPowerGapPercent/);
 assert.match(server,/matchPowerEqualized/);

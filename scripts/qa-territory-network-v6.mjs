@@ -10,12 +10,15 @@ import {battlefieldSkillCatalog,BATTLEFIELD_DEFAULTS} from '../shared/territory-
 import {NETWORK_EDGES,networkControl} from '../shared/territory-network-v6.mjs';
 import {factionReviewCards} from '../tests/helpers/clan-faction-fixture.mjs';
 import {createPvpBattleV2} from '../functions/_battle_v2_preview.js';
+import {limitedDeploymentSnapshot} from '../shared/mercenary-limited-deployment-v1.mjs';
 import {formationFixture} from './qa-territory-formation-fixture-20261013.mjs';
 const formationQA=formationFixture();
 const root=fileURLToPath(new URL('../',import.meta.url)),now=Date.now(),iso=n=>new Date(n).toISOString();
 const user={id:1,serverUserId:1,nickname:'전장 검수 참가자',role:'OWNER',coin:1234567,cardShards:10,masterStars:10,pigCoin:0,owned:factionReviewCards.map(c=>c.id),quantities:Object.fromEntries(factionReviewCards.map(c=>[c.id,1])),breakthroughs:{},history:[],attendance:{totalDays:0},testCoinGrantedV13:true,collectionRepairR6:true};
 const operations={...territorySkillCatalog(T.OPERATIONS,T.DEFAULTS),...battlefieldSkillCatalog(BATTLEFIELD_DEFAULTS,{network:true})},control=networkControl(),fronts=control.nodes.map(n=>({a_access:n.a_access,b_access:n.b_access,id:n.index+1,node_index:n.index,node_code:n.code,node_name:n.name,node_type:n.type,sequence:n.index+1,status:'ACTIVE',a_hp:420000,b_hp:310000,a_max_hp:500000,b_max_hp:500000,started_at:iso(now-60000)}));
 const mine={user_id:1,side:'A',status:'ACTIVE',mandatory_clan:0,deck_power:1000000,formation_power:1000000,energy:12,attacks:76,damage:265000,formation_breakdown_json:'{"deckComplete":true}',contribution_rank:1,contribution_total:146};
+mine.deck_snapshot=JSON.stringify(factionReviewCards.map(c=>c.id));
+mine.loadout_bonus_json=JSON.stringify({territoryCards:factionReviewCards.map(c=>({...c,rarity:c.grade})),mercenary:limitedDeploymentSnapshot('V-996')});
 const receipts=new Map(),votes=new Set(),commandMessages=[{id:1,side:'A',user_id:1,nickname:'수호 지휘관',message:'북부 고지를 지키고 중앙 교차로로 합류합니다.',created_at:'2026-10-11 12:30:00'}];let selected=4;
 function state(index=selected){
   selected=Number.isInteger(Number(index))&&Number(index)>=0&&Number(index)<=8?Number(index):4;
@@ -35,6 +38,7 @@ http.createServer(async(req,res)=>{
     const key=url.pathname.slice(5);let raw='';for await(const part of req)raw+=part;let body={};try{body=JSON.parse(raw||'{}')}catch{}
     if(key.startsWith('territory-war/')){const fixture=formationQA(req,state(url.searchParams.get('nodeIndex')??selected));if(fixture)return json(fixture);}
     if(key==='admin/territory-war/settings'){const current=state(url.searchParams.get('nodeIndex')??4),plans=Object.fromEntries(['A','B'].map(side=>[side,massAssaultPreview(current.round,current.front,current.settings,null,side)]));return json({settings:current.settings,state:current,isOwner:true,massAssaultBySide:plans,roundBonusEquipment:[]});}
+    if(key==='territory-war/refresh-loadout')return json({ok:true,deckPower:mine.deck_power,state:state(body.nodeIndex??selected)});
     if(['territory-war/state','territory-war/state-lite'].includes(key))return json(state(url.searchParams.get('nodeIndex')??selected));
     if(key==='territory-war/commander-message'){const message=String(body.message||'').trim();commandMessages.push({id:commandMessages.length+1,side:'A',user_id:1,nickname:'수호 지휘관',message,created_at:iso(Date.now()).replace('T',' ').slice(0,19)});return json({ok:true,state:state(body.nodeIndex??selected)});}
     if(key==='territory-war/activate-operation'){const frontId=Number(String(body.voteKey).split(':')[2]);votes.add(`${frontId}:${body.operation}`);return json({ok:true,result:{voted:true,activated:false,votes:1,requiredVotes:25,operation:body.operation},state:state(frontId-1)});}

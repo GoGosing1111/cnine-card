@@ -1,4 +1,5 @@
 import {NETWORK_NODES,isNetworkWar,hasTerritorySkills} from '../shared/territory-network-v6.mjs';
+import {pickDiverseTerritoryOpponent,TERRITORY_RECENT_MATCHES} from '../shared/territory-matchmaking-20261013.mjs';
 import {ensureNetworkSchema,mutateNetworkRecruitment,networkFormationStatements,networkView,networkFront,frontRound,networkActionGuards,networkActionCleanup,resolveNetworkNode,networkWinner,freezeNetworkWinner} from './_territory_network_v6.js';
 import {TERRITORY_SKILL_REQUIRED_VOTES,parseTerritorySkillVoteKey,territoryVoteCountSql,territoryVoteActivationId,territoryVoteActivation,recordTerritorySkillVote} from './_territory_skill_votes.js';
 import {loadPetBattleSnapshot} from './_pet_account.js';
@@ -674,7 +675,27 @@ async function singleFormationSnapshot(env,deps,user,deck,battle){
   const synergyPromise=typeof deps.evaluateDeckSynergiesBatch==='function'?deps.evaluateDeckSynergiesBatch(env,[{user,deckIds:ids}],'PVP').then(rows=>rows[0]):typeof deps.evaluateDeckSynergies==='function'?deps.evaluateDeckSynergies(env,user,ids,'PVP',{forceOwnerTest:String(user?.role||'').toUpperCase()==='OWNER'}):Promise.resolve({totals:{attackPercent:0}});
   const magicPromise=typeof deps.magicBattleLoadouts==='function'?deps.magicBattleLoadouts(env,[user],'PVP').then(rows=>rows[0]):typeof deps.magicBattleLoadout==='function'?deps.magicBattleLoadout(env,user,'PVP'):Promise.resolve({enabled:false,cards:[]});
   const [loadoutBonus,uniqueStates,synergy,magicLoadout]=await Promise.all([typeof deps.userEquipmentBonuses==='function'?deps.userEquipmentBonuses(env,user.id):Promise.resolve({pvp:0}),uniquePromise,synergyPromise,magicPromise]);
-  return buildFormationSnapshot({cards,uniqueState:uniqueStates[0],synergy,loadoutBonus:{...loadoutBonus,pet:await loadPetBattleSnapshot(env,user,'PVP'),mercenary:await releasedMercenarySnapshot(env,user,'PVP')},magicLoadout});
+  const [pet,mercenary]=await Promise.all([(deps.loadPetBattleSnapshot||loadPetBattleSnapshot)(env,user,'PVP'),(deps.releasedMercenarySnapshot||releasedMercenarySnapshot)(env,user,'PVP')]);
+  return buildFormationSnapshot({cards,uniqueState:uniqueStates[0],synergy,loadoutBonus:{...loadoutBonus,pet,mercenary},magicLoadout});
+}
+async function currentTerritoryFormation(env,deps,row,battle){
+  const user={id:Number(row.user_id),nickname:String(row.nickname||''),role:String(row.role||'USER')};
+  const deck=await deps.pvpDeckSnapshot(env,user.id);
+  if(deck.length!==5||new Set(deck.map(card=>String(card.id))).size!==5)return null;
+  const snapshot=await singleFormationSnapshot(env,deps,user,deck,battle);
+  snapshot.loadoutBonus.territoryCards=deck.map(card=>({id:String(card.id),name:String(card.name||card.title||''),title:String(card.title||''),rarity:String(card.rarity||''),image:String(card.image||'')}));
+  return {...row,deck_snapshot:JSON.stringify(deck.map(card=>String(card.id))),deck_power:snapshot.formationPower,formation_power:snapshot.formationPower,
+    formation_breakdown_json:JSON.stringify(snapshot.breakdown),loadout_bonus_json:JSON.stringify(snapshot.loadoutBonus),
+    currentCards:deck.map(card=>({...card,id:String(card.id),power:deps.cardBattlePower(card,card.breakthrough_level,battle)}))};
+}
+async function saveCurrentTerritoryFormation(env,row,round=null){
+  // Only the formation changes. Never overwrite energy, team or contribution.
+  const update=env.DB.prepare(`UPDATE territory_war_v3_users SET deck_snapshot=?,deck_power=?,formation_power=?,formation_breakdown_json=?,loadout_bonus_json=?,loadout_refreshed_at=CURRENT_TIMESTAMP
+    WHERE round_id=? AND user_id=? AND EXISTS(SELECT 1 FROM territory_war_v3_rounds WHERE id=? AND status IN ('RECRUITING','PREPARING','ACTIVE'))`)
+    .bind(row.deck_snapshot,row.deck_power,row.formation_power,row.formation_breakdown_json,row.loadout_bonus_json,row.round_id,row.user_id,row.round_id);
+  if(isNetworkWar(round)&&round.status==='RECRUITING')await mutateNetworkRecruitment(env,round,update);else await update.run();
+  for(const key of participantDeckCache.keys())if(key.startsWith(`${row.round_id}:${row.user_id}:`))participantDeckCache.delete(key);
+  publicStateSharedCache=null;counterSharedCache=null;realtimePulseCache=null;
 }
 async function formationDecks(env,deps,users,battle){
   const byKey=new Map();if(!users.length)return new Map();
@@ -687,6 +708,20 @@ async function formationDecks(env,deps,users,battle){
   return result;
 }
 async function refreshFormationSnapshots(env,deps,roundId,users,battle){
+  // A carried waiting roster must be rebuilt from current PVP selections before
+  // allocation, including players who already had a complete old snapshot.
+  if(typeof deps.pvpDeckSnapshot==='function'){
+    const refreshed=[];
+    for(let start=0;start<users.length;start+=8){
+      const chunk=await Promise.all(users.slice(start,start+8).map(async row=>{
+        const current=await currentTerritoryFormation(env,deps,row,battle);
+        const next=current||{...row,deck_snapshot:'[]',deck_power:0,formation_power:0,formation_breakdown_json:JSON.stringify({deckComplete:false}),loadout_bonus_json:'{}'};
+        await saveCurrentTerritoryFormation(env,next);
+        const {currentCards,...stored}=next;return stored;
+      }));refreshed.push(...chunk);
+    }
+    return refreshed;
+  }
   // Automatic roster entries have attack-deck ids but no equipment snapshot yet.
   // Hydrate in bounded batches, reusing the same account/mercenary providers as
   // manual enrollment. Never substitute a defence deck for an invalid attack deck.
@@ -759,14 +794,31 @@ function matchPowerScale(attackerPower,defenderPower,capPercent=15){
 }
 async function selectBattleOpponent(env,roundId,mine,requestId){
   const enemy=mine.side==='A'?'B':'A',seed=seedOf(`${requestId}:MATCH`),power=Math.max(1,Number(mine.deck_power||0));
-  // PIPE-0920: 덱 보유 확인을 JOIN(후보마다 그 유저 카드 전체를 해시) 대신 덱 카드 5장만 PK 로 조회(IN)하게 바꿨다.
-  //   같은 판정(덱의 서로 다른 카드 5장 모두 보유)이다. Neon EXPLAIN: 144ms → 43ms, 공격마다 1회.
-  const result=await env.DB.prepare(`SELECT w.*,u.nickname,u.role FROM territory_war_v3_users w JOIN users u ON u.id=w.user_id WHERE w.round_id=? AND w.side=? AND w.status='ACTIVE' AND w.user_id<>? AND json_array_length(CASE WHEN json_valid(w.deck_snapshot) THEN w.deck_snapshot ELSE '[]' END)=5 AND (SELECT COUNT(DISTINCT uc.card_id) FROM user_cards uc WHERE uc.user_id=w.user_id AND uc.card_id IN (SELECT CAST(j.value AS TEXT) FROM json_each(CASE WHEN json_valid(w.deck_snapshot) THEN w.deck_snapshot ELSE '[]' END) j) AND COALESCE(uc.quantity,0)>0)=5 ORDER BY ABS(w.deck_power-?) ASC,(((w.user_id * 1103515245) + ?) & 2147483647),w.user_id LIMIT 12`).bind(roundId,enemy,mine.user_id,power,seed).all();
-  return pickPowerMatchedOpponent(result?.results||[],power);
+  // Rank the latest known formation powers cheaply; validate the chosen player's
+  // current PVP ownership and full loadout before simulating the battle.
+  const [result,history]=await Promise.all([
+    env.DB.prepare(`SELECT w.*,u.nickname,u.role FROM territory_war_v3_users w JOIN users u ON u.id=w.user_id WHERE w.round_id=? AND w.side=? AND w.status='ACTIVE' AND u.status='ACTIVE' AND w.user_id<>? ORDER BY ABS(w.deck_power-?) ASC,(((w.user_id * 1103515245) + ?) & 2147483647),w.user_id LIMIT 48`).bind(roundId,enemy,mine.user_id,power,seed).all(),
+    env.DB.prepare(`SELECT opponent_user_id FROM territory_war_v3_actions WHERE round_id=? AND user_id=? AND status IN ('APPLIED','COMPLETED') AND opponent_user_id IS NOT NULL ORDER BY id DESC LIMIT ?`).bind(roundId,mine.user_id,TERRITORY_RECENT_MATCHES).all()
+  ]);
+  return {candidates:result?.results||[],recent:history?.results||[],seed};
+}
+async function currentBattleOpponent(env,deps,matching,mine,battle){
+  let candidates=[...matching.candidates];const checked=new Map();
+  while(candidates.length){
+    const selected=pickDiverseTerritoryOpponent(candidates,mine.deck_power,matching.recent,matching.seed);if(!selected)return null;
+    const id=Number(selected.user_id);
+    if(checked.has(id))return {...checked.get(id),...selected,currentCards:checked.get(id).currentCards};
+    const current=await currentTerritoryFormation(env,deps,selected,battle);
+    candidates=candidates.filter(row=>Number(row.user_id)!==id);
+    if(current){checked.set(id,current);candidates.push(current);}
+    // Re-rank with the checked current power before accepting the opponent.
+    // Each candidate is read at most once; invalid current decks are skipped.
+  }
+  return null;
 }
 function resultHpPercent(battleV2,side){const resultEvent=[...(battleV2?.result?.timeline||[])].reverse().find(event=>event.type==='RESULT');return Number(side==='A'?resultEvent?.teamAHpPercent:resultEvent?.teamBHpPercent)||0}
 async function simulateTerritoryBattle(env,deps,attackerUser,mine,opponent,requestId,seedOverride=null){
-  const battle=await deps.battleSettings(env),[attackerCards,defenderCards]=await Promise.all([participantDeck(env,deps,mine,battle),participantDeck(env,deps,opponent,battle)]);
+  const battle=await deps.battleSettings(env),[attackerCards,defenderCards]=await Promise.all([mine.currentCards||participantDeck(env,deps,mine,battle),opponent.currentCards||participantDeck(env,deps,opponent,battle)]);
   if(attackerCards.length!==5)throw new Error('등록한 PVP 덱 5장을 불러오지 못했습니다. 참가 신청을 다시 해주세요.');
   if(defenderCards.length!==5)throw new Error('상대 진영의 PVP 덱이 완성되지 않아 매칭할 수 없습니다.');
   const defenderUser={id:Number(opponent.user_id),nickname:String(opponent.nickname||'상대 참가자'),role:String(opponent.role||'USER')};
@@ -782,10 +834,21 @@ async function simulateTerritoryBattle(env,deps,attackerUser,mine,opponent,reque
   const attackerEngineCards=attackerCards.map(card=>{const uniqueCard=aMap.get(String(card.id));return {...card,power:Math.max(1,Math.floor(Number(card.power||0)*aMultiplier*matchBalance.attackerScale)),uniqueAbility:uniqueCard?.uniqueAbility||card.uniqueAbility||null,uniqueAdvancement:uniqueCard?.uniqueAdvancement||null, iconRole:uniqueCard?.iconRole||null}});
   const defenderEngineCards=defenderCards.map(card=>{const uniqueCard=dMap.get(String(card.id));return {...card,power:Math.max(1,Math.floor(Number(card.power||0)*dMultiplier*matchBalance.defenderScale)),uniqueAbility:uniqueCard?.uniqueAbility||card.uniqueAbility||null,uniqueAdvancement:uniqueCard?.uniqueAdvancement||null, iconRole:uniqueCard?.iconRole||null}});
   const battleSeed=seedOverride==null?seedOf(`${mine.round_id}:${requestId}:TWV3_BATTLE_V2`):Number(seedOverride)>>>0;
-  const battleV2=deps.createPvpBattleV2({attackerPet:storedBonusA?.pet||null,defenderPet:storedBonusB?.pet||null,attackerMercenary:storedBonusA?.mercenary||null,defenderMercenary:storedBonusB?.mercenary||null,attackerCards:attackerEngineCards,defenderCards:defenderEngineCards,attackerMagicCards:aMagic?.cards||[],defenderMagicCards:bMagic?.cards||[],attackerEquipmentBonus:Number(aBonus?.pvp||0),defenderEquipmentBonus:Number(bBonus?.pvp||0),seed:battleSeed,singleHealerBonus:battle?.engine?.singleHealerBonus});
-  return{battleV2,battleSeed,attackerCards,defenderCards,attackerPower:Number(battleV2.teams?.A?.summary?.power||mine.deck_power||0),defenderPower:Number(battleV2.teams?.B?.summary?.power||opponent.deck_power||0),matchBalance,opponent:{id:Number(opponent.user_id),nickname:defenderUser.nickname,side:String(opponent.side||''),deckPower:Number(opponent.deck_power||0)}};
+  const replayInput={attackerPet:storedBonusA?.pet||null,defenderPet:storedBonusB?.pet||null,attackerMercenary:storedBonusA?.mercenary||null,defenderMercenary:storedBonusB?.mercenary||null,attackerCards:attackerEngineCards,defenderCards:defenderEngineCards,attackerMagicCards:aMagic?.cards||[],defenderMagicCards:bMagic?.cards||[],attackerEquipmentBonus:Number(aBonus?.pvp||0),defenderEquipmentBonus:Number(bBonus?.pvp||0),seed:battleSeed,...(battle?.engine?.singleHealerBonus===undefined?{}:{singleHealerBonus:battle.engine.singleHealerBonus})};
+  const battleV2=deps.createPvpBattleV2(structuredClone(replayInput));
+  return{battleV2,replayInput,battleSeed,attackerCards,defenderCards,attackerPower:Number(battleV2.teams?.A?.summary?.power||mine.deck_power||0),defenderPower:Number(battleV2.teams?.B?.summary?.power||opponent.deck_power||0),matchBalance,opponent:{id:Number(opponent.user_id),nickname:defenderUser.nickname,side:String(opponent.side||''),deckPower:Number(opponent.deck_power||0)}};
 }
-async function hydrateBattleReplay(env,deps,user,action,result){if(!action?.opponent_user_id||!action?.round_id||!action?.battle_seed)return result;try{const mine=await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(action.round_id,action.user_id).first(),opponent=await env.DB.prepare(`SELECT w.*,u.nickname,u.role FROM territory_war_v3_users w JOIN users u ON u.id=w.user_id WHERE w.round_id=? AND w.user_id=?`).bind(action.round_id,action.opponent_user_id).first();if(!mine||!opponent)return result;const simulation=await simulateTerritoryBattle(env,deps,user,mine,opponent,action.request_id,action.battle_seed);return{...result,battleV2:simulation.battleV2,opponent:simulation.opponent,attackerPower:simulation.attackerPower,defenderPower:simulation.defenderPower,replayedBattle:true}}catch(error){console.warn('territory battle replay hydration failed',error);return result}}
+async function hydrateBattleReplay(env,deps,user,action,result){
+  const saved=safeJson(action?.battle_meta_json,{});
+  // Old receipts have no immutable inputs. Return their confirmed receipt only;
+  // replaying them with a newly edited deck could display a different winner.
+  if(!saved.replayInput)return result;
+  try{
+    const battleV2=deps.createPvpBattleV2(saved.replayInput);
+    if((battleV2.result?.winner==='A')!==Boolean(result.attackerWon))return result;
+    return {...result,battleV2,opponent:saved.replayOpponent,attackerPower:saved.attackerPower,defenderPower:saved.defenderPower,replayedBattle:true};
+  }catch(error){console.warn('territory battle replay hydration failed',error);return result}
+}
 
 async function acquireLock(env,name,ttlMs=120000){
   const key=`territory_war_v3_lock_${name}`,token=crypto.randomUUID(),now=Date.now();
@@ -1394,10 +1457,14 @@ async function handleAttack(env,deps,user,cfg,body){
     const round=await lifecycle(env,cfg);if(!round||round.status!=='ACTIVE')throw new Error('현재 전투 가능한 영토전 회차가 아닙니다.');if(truceState(round).active)throw new Error('임시 휴전 중에는 공격할 수 없습니다. PVP 덱과 장비·칭호를 최신화해 주세요.');
     const front=isNetworkWar(round)?await networkFront(env,round,{frontId:body.frontId}):await activeFront(env,round);if(!front||front.status!=='ACTIVE')throw new Error('현재 교전지가 준비되지 않았습니다.');
     if(body.frontId!=null&&Number(body.frontId)!==Number(front.id))throw new Error('현재 교전지가 변경되었습니다. 지도에서 전장을 다시 확인해 주세요.');
-    const mine=await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).first();if(!mine||!['A','B'].includes(String(mine.side||'')))throw new Error('현재 회차 참가자가 아닙니다.');
-    if((isNetworkWar(round)||(isClanWarfare(round)&&Number(mine.mandatory_clan)===1))&&!safeJson(mine.formation_breakdown_json,{}).deckComplete)throw new Error('PVP 덱 5장을 저장한 후 내 전투단에서 전투 준비를 최신화하세요.');
+    const registered=await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).first();if(!registered||registered.status!=='ACTIVE'||!['A','B'].includes(String(registered.side||'')))throw new Error('현재 회차 참가자가 아닙니다.');
+    const battle=await deps.battleSettings(env),mine=await currentTerritoryFormation(env,deps,{...registered,nickname:user.nickname,role:user.role},battle);
+    if(!mine)throw new Error('현재 PVP 덱 5장을 저장한 후 다시 공격해 주세요.');
     const energy=rechargeEnergy(mine,cfg,front),cost=clampInt(cfg.attackEnergyCost,1,20,1);if(energy.energy<cost)throw new Error('행동력이 부족합니다.');
-    const opponent=await selectBattleOpponent(env,round.id,mine,requestId);if(!opponent)throw new Error('상대 진영 참가자가 없어 교전을 시작할 수 없습니다.');
+    const matching=await selectBattleOpponent(env,round.id,mine,requestId);
+    const opponent=await currentBattleOpponent(env,deps,matching,mine,battle);
+    if(!opponent)throw new Error('현재 PVP 덱 5장을 완성한 상대 진영 참가자가 없습니다.');
+    await Promise.all([saveCurrentTerritoryFormation(env,mine),saveCurrentTerritoryFormation(env,opponent)]);
 
     // V2 계산은 전선 잠금 밖에서 병렬 처리한다. D1 반영만 짧은 원자 배치로 직렬화된다.
     const simulation=await simulateTerritoryBattle(env,deps,user,mine,opponent,requestId),attackerWon=simulation.battleV2?.result?.winner==='A',winnerSide=attackerWon?String(mine.side):String(opponent.side),siegeSide=String(mine.side),targetSide=siegeSide==='A'?'B':'A',contributorId=Number(user.id),rules=balanceRules(round,cfg),comeback=comebackState(round,cfg,front),comebackActive=comeback.active&&comeback.losingSide===siegeSide,siegeDamageRate=attackerWon?1:Number(rules.defeatSiegeDamagePercent||0)/100,comebackMultiplier=comebackActive?1+comeback.damageBonusPercent/100:1;
@@ -1416,6 +1483,7 @@ async function handleAttack(env,deps,user,cfg,body){
     const roundSql=`UPDATE territory_war_v3_rounds SET a_total_damage=a_total_damage+${siegeSide==='A'?actualExpr:'0'},b_total_damage=b_total_damage+${siegeSide==='B'?actualExpr:'0'},version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND ${activeExpr}`;
     const meta={objective,facilityPoints,supplyCycle:compact.supplyCycle,engine:'PROJECT_V_V3_SIEGE',seed:simulation.battleSeed,opponentUserId:Number(opponent.user_id),opponentNickname:String(opponent.nickname||'상대 참가자'),matchPowerGapPercent:Number(opponent.match_power_gap_percent||0),matchPoolSize:Number(opponent.match_pool_size||1),matchPowerEqualized:Boolean(simulation.matchBalance?.active),matchPowerCapPercent:Number(simulation.matchBalance?.capPercent||15),matchPowerOriginalGapPercent:Number(simulation.matchBalance?.gapPercent||0),winnerSide,targetSide,attackerWon,siegeDamagePercent:Math.round(siegeDamageRate*100),comebackActive,comebackTier:comebackActive?comeback.tier:0,comebackDamageBonusPercent:comebackActive?comeback.damageBonusPercent:0,operation:siegeOperation.code,defensiveOperation:defenseOperation.code,counterBatteryTriggered,sourceAttackerPower,attackerPower:simulation.attackerPower,defenderPower:simulation.defenderPower,winnerHpPercent};
 
+    meta.replayInput=simulation.replayInput;meta.replayOpponent=simulation.opponent;meta.matchmakingVersion='DIVERSE_CURRENT_PVP_20261013';
     const attackerBinds=[energy.energy-cost,energy.lastRechargedAt,planned,front.id,planned,front.id,round.id,user.id,front.id,requestId];
     const defenderBinds=[attackerWon?0:1,attackerWon?1:0,round.id,opponent.user_id,front.id,requestId];
     const roundBinds=[];if(siegeSide==='A')roundBinds.push(planned,front.id);if(siegeSide==='B')roundBinds.push(planned,front.id);roundBinds.push(round.id,front.id,requestId);
@@ -1530,13 +1598,37 @@ function cleanSettings(body,current){return{
   massAssaultDamagePercent:clampInt(body.massAssaultDamagePercent,1,90,current.massAssaultDamagePercent??39)
 }}
 
+async function inspectTerritoryParticipant(env,deps,nickname){
+    nickname=String(nickname||'').trim();if(!nickname||nickname.length>40)return deps.json({error:'정확한 닉네임을 입력하세요.'},400);
+    const users=(await env.DB.prepare('SELECT id,nickname,role FROM users WHERE nickname=? ORDER BY id LIMIT 2').bind(nickname).all()).results||[];
+    if(users.length!==1)return deps.json({error:users.length?'동일 닉네임 계정이 여러 개입니다.':'계정을 찾을 수 없습니다.'},users.length?409:404);
+    const target=users[0],round=await latestRound(env);if(!round)return deps.json({error:'영토전 회차가 없습니다.'},404);
+    const registered=await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,target.id).first();
+    if(!registered)return deps.json({error:'현재 회차 참가자가 아닙니다.'},404);
+    const [current,oldCards,actions]=await Promise.all([
+      currentTerritoryFormation(env,deps,{...registered,nickname:target.nickname,role:target.role},await deps.battleSettings(env)),
+      deps.pvpDeckSnapshotByIds(env,target.id,snapshotIds(registered.deck_snapshot)),
+      env.DB.prepare(`SELECT a.id,a.created_at,a.opponent_user_id,u.nickname AS opponent_nickname,a.side,a.winner_side,a.status,a.battle_meta_json FROM territory_war_v3_actions a LEFT JOIN users u ON u.id=a.opponent_user_id WHERE a.round_id=? AND a.user_id=? AND a.status IN ('APPLIED','COMPLETED') ORDER BY a.id DESC LIMIT 10`).bind(round.id,target.id).all()
+    ]);
+    const compact=(row,cards)=>{const bonus=safeJson(row?.loadout_bonus_json,{});return {cards:cards.map(c=>({id:String(c.id),name:String(c.name||c.title||c.id),rarity:String(c.rarity||'')})),mercenary:bonus.mercenary?{code:bonus.mercenary.code,name:bonus.mercenary.name||bonus.mercenary.code}:null,power:Number(row?.formation_power||row?.deck_power||0)}};
+    return deps.json({user:{id:Number(target.id),nickname:target.nickname},round:{id:Number(round.id),status:round.status},registered:{...compact(registered,oldCards),refreshedAt:registered.loadout_refreshed_at},current:current?compact(current,current.currentCards):null,
+      recent:(actions.results||[]).map(a=>({id:Number(a.id),at:a.created_at,opponent:a.opponent_nickname,won:a.side===a.winner_side,powerGapPercent:Number(safeJson(a.battle_meta_json,{}).matchPowerGapPercent||0)}))});
+}
+
 export async function handleTerritoryWar({path,request,env,deps}){
   if(!String(path).startsWith('territory-war')&&!String(path).startsWith('admin/territory-war'))return null;
   territoryRuntimeDeps=deps;await ensureFoundation(env);await ensureTerritoryClanSchema(env);const user=await deps.authenticate(request,env);if(!user)return deps.json({error:'로그인이 필요합니다.'},401);await ensureBattlefieldSchema(env);await ensureNetworkSchema(env);
   try{const gamstRepair=readRuntimeData(env,GAMST_REPAIR_WAITING_CACHE_KEY)||await ensureGamstDeckRepairV2005(env);if(gamstRepair?.status==='WAITING')cacheRuntimeData(env,GAMST_REPAIR_WAITING_CACHE_KEY,gamstRepair,60000);if(gamstRepair?.status==='COMPLETED')await refreshGamstRepairedTerritoryFormations(env,deps)}catch(error){console.error('gamst territory deck repair failed',error)}
   const admin=deps.isAdminRole(user),cfg=await settings(env);
   if(path==='territory-war/truce-status'&&request.method==='GET'){const round=await env.DB.prepare("SELECT id,status,truce_ends_at,truce_duration_minutes FROM territory_war_v3_rounds WHERE status IN ('PREPARING','ACTIVE') ORDER BY id DESC LIMIT 1").first();return deps.json({roundId:Number(round?.id||0),truce:truceState(round),serverNow:iso()})}
-  if(path==='territory-war/state'&&request.method==='GET')return deps.json(await publicState(env,user.id,false,new URL(request.url).searchParams.get('nodeIndex')??4));
+  if(path==='territory-war/state'&&request.method==='GET'){
+    const round=await lifecycle(env,cfg);
+    if(round&&cfg.mode!=='OFF'&&['RECRUITING','PREPARING','ACTIVE'].includes(round.status)){
+      const row=await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).first();
+      if(row&&['WAITING','ACTIVE'].includes(row.status)){const current=await currentTerritoryFormation(env,deps,{...row,nickname:user.nickname,role:user.role},await deps.battleSettings(env));if(current)await saveCurrentTerritoryFormation(env,current,round);}
+    }
+    return deps.json(await publicState(env,user.id,false,new URL(request.url).searchParams.get('nodeIndex')??4));
+  }
   if(path==='territory-war/state-lite'&&request.method==='GET')return deps.json(await realtimeState(env,user.id,new URL(request.url).searchParams.get('nodeIndex')??4));
   if(path==='territory-war/supply-claim'&&request.method==='POST')return handleSupplyClaim(env,deps,user,cfg,await deps.readBody(request));
   if(path==='territory-war/action-status'&&request.method==='GET')return handleActionStatus(env,deps,user,cfg,request);
@@ -1569,10 +1661,18 @@ export async function handleTerritoryWar({path,request,env,deps}){
   }
   if(path==='territory-war/unregister'&&request.method==='POST'){const round=await lifecycle(env,cfg);if(!round||round.status!=='RECRUITING'||sqlMs(round.recruitment_ends_at)<=Date.now())return deps.json({error:'모집 중에만 참가 신청을 취소할 수 있습니다.'},409);const mine=await env.DB.prepare('SELECT mandatory_clan FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).first();if(Number(mine?.mandatory_clan)===1)return deps.json({error:'개막 클랜 로스터는 자동 참가하며 취소할 수 없습니다.'},409);const removal=env.DB.prepare('DELETE FROM territory_war_v3_users WHERE round_id=? AND user_id=? AND mandatory_clan=0').bind(round.id,user.id);if(isNetworkWar(round))await mutateNetworkRecruitment(env,round,removal);else await removal.run();return deps.json({ok:true,state:await publicState(env,user.id)})}
   if(path==='territory-war/refresh-loadout'&&request.method==='POST'){
-    const body=await deps.readBody(request),round=await lifecycle(env,cfg);if(!round)return deps.json({error:'현재 회차가 없습니다.'},409);const mine=await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).first();const canPrepare=hasTerritorySkills(round)&&['RECRUITING','PREPARING','ACTIVE'].includes(round.status)&&(round.status==='RECRUITING'||((isNetworkWar(round)||Number(mine?.mandatory_clan)===1)&&!safeJson(mine?.formation_breakdown_json,{}).deckComplete));if(!truceState(round).active&&!canPrepare)return deps.json({error:'전투 준비 최신화는 모집 또는 임시 휴전 중에 가능합니다.'},409);if(!mine||(!['A','B'].includes(String(mine.side||''))&&round.status!=='RECRUITING'))return deps.json({error:'현재 회차 참가자만 최신화할 수 있습니다.'},403);
-    const deck=await deps.pvpDeckSnapshot(env,user.id);if(deck.length!==5)return deps.json({error:'PVP 덱 5장을 먼저 편성하세요.'},400);const bs=await deps.battleSettings(env),snapshot=await singleFormationSnapshot(env,deps,user,deck,bs),power=snapshot.formationPower;const update=env.DB.prepare('UPDATE territory_war_v3_users SET deck_snapshot=?,deck_power=?,formation_power=?,formation_breakdown_json=?,loadout_bonus_json=?,loadout_refreshed_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE round_id=? AND user_id=?').bind(JSON.stringify(deck.map(card=>String(card.id))),power,power,JSON.stringify(snapshot.breakdown),JSON.stringify(snapshot.loadoutBonus),round.id,user.id);if(isNetworkWar(round)&&round.status==='RECRUITING')await mutateNetworkRecruitment(env,round,update);else await update.run();for(const key of participantDeckCache.keys())if(key.startsWith(`${round.id}:${user.id}:`))participantDeckCache.delete(key);publicStateSharedCache=null;counterSharedCache=null;return deps.json({ok:true,deckPower:power,formationBreakdown:snapshot.breakdown,state:await publicState(env,user.id,false,body.nodeIndex??4)});
+    const body=await deps.readBody(request),round=await lifecycle(env,cfg);if(!round||cfg.mode==='OFF'||!['RECRUITING','PREPARING','ACTIVE'].includes(round.status))return deps.json({error:'진행 중인 영토전에서 최신화할 수 있습니다.'},409);
+    const mine=await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).first();
+    if(!mine||!['WAITING','ACTIVE'].includes(mine.status)||(!['A','B'].includes(String(mine.side||''))&&round.status!=='RECRUITING'))return deps.json({error:'현재 회차 참가자만 최신화할 수 있습니다.'},403);
+    const current=await currentTerritoryFormation(env,deps,{...mine,nickname:user.nickname,role:user.role},await deps.battleSettings(env));if(!current)return deps.json({error:'PVP 덱 5장을 먼저 편성하세요.'},400);
+    await saveCurrentTerritoryFormation(env,current,round);
+    return deps.json({ok:true,deckPower:current.deck_power,formationBreakdown:safeJson(current.formation_breakdown_json,{}),state:await publicState(env,user.id,false,body.nodeIndex??4)});
   }
   if(path==='territory-war/attack'&&request.method==='POST')return handleAttack(env,deps,user,cfg,await deps.readBody(request));
+  if(path==='admin/territory-war/participant-inspect'&&request.method==='GET'){
+    if(!admin)return deps.json({error:'관리자 권한이 필요합니다.'},403);
+    return inspectTerritoryParticipant(env,deps,new URL(request.url).searchParams.get('nickname'));
+  }
   if((path==='territory-war/activate-operation'||path==='territory-war/vote-operation')&&request.method==='POST')return activateCommanderOperation(env,deps,user,cfg,await deps.readBody(request));
   if(path==='territory-war/commander-message'&&request.method==='POST')return sendCommanderMessage(env,deps,user,cfg,await deps.readBody(request));
   if(path==='territory-war/claim'&&request.method==='POST')return claimV3(env,deps,user,(await deps.readBody(request)).nodeIndex??4);
@@ -1686,6 +1786,7 @@ export async function handleTerritoryWar({path,request,env,deps}){
 }
 
 export {balancedSideAssignments,buildFormationSnapshot,grantLatestWinnerMasterStarsV1956,magicFormationPercent,massAssaultPreview,pickPowerMatchedOpponent,matchPowerScale,participationInventoryReward};
+export const __territoryLoadoutTest={currentTerritoryFormation,saveCurrentTerritoryFormation,refreshFormationSnapshots,selectBattleOpponent,currentBattleOpponent,hydrateBattleReplay,inspectTerritoryParticipant};
 
 // Coup shares the live territory combat engine and formation rules.
 export { simulateTerritoryBattle as simulateTerritoryDuel, singleFormationSnapshot as territoryFormationSnapshot, buildFormationSnapshot as territoryFormationFromParts, pickPowerMatchedOpponent as territoryMatchedOpponent, damageFor as territorySiegeDamage };

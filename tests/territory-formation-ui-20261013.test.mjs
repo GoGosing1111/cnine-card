@@ -11,15 +11,19 @@ function runtime(){const modal={innerHTML:'',classList:{add(){},remove(){}},quer
  return{...sandbox,modal,set(s){sandbox.qa.setup(s,modal)}};
 }
 const base=()=>({mode:'ON',round:{id:70,status:'RECRUITING',warfare_version:6},allocation:'INDIVIDUAL',network:{},settings:{teamAName:'수호',teamBName:'정화',energyMax:15},counts:{total:146,A:73,B:73},registration:{canRegister:true,canCancel:true},mine:null});
+test('loadout displays actual card portraits and escaped PVP mercenary names',()=>{
+ const r=runtime(),s=base();s.round.status='ACTIVE';s.mine={deck_snapshot:'[1,2,3,4,5]',formation_breakdown_json:'{"deckComplete":true}',loadout_bonus_json:JSON.stringify({territoryCards:Array.from({length:5},(_,i)=>({id:i,name:'카드 '+i,rarity:'SSR',image:'/card-'+i+'.png'})),mercenary:{name:'<용병>'}})};
+ r.set(s);const html=r.qa.loadout();assert.equal((html.match(/alt="카드 /g)||[]).length,5);assert.match(html,/함께 출전하는 용병/);assert.match(html,/&lt;용병&gt;/);assert.doesNotMatch(html,/<용병>/);
+});
 test('real recruitment render honors registration eligibility, mandatory roster cancellation lock and OFF mode',()=>{
  const r=runtime(),s=base();s.registration.canRegister=false;r.set(s);r.qa.render();assert.match(r.modal.innerHTML,/data-tw3-register disabled/);
  s.mine={mandatory_clan:1};r.set(s);r.qa.render();assert.doesNotMatch(r.modal.innerHTML,/data-tw3-unregister/);
  s.mode='OFF';r.set(s);r.qa.render();assert.match(r.modal.innerHTML,/data-twf-status="OFF"/);assert.doesNotMatch(r.modal.innerHTML,/data-tw3-register|data-tw3-unregister/);
 });
-test('preparing page and live squad use existing refresh restrictions, including incomplete deck and truce',()=>{
- const r=runtime(),s=base();s.round.status='PREPARING';s.mine={side:'B',deck_power:987650,deck_snapshot:'[1,2,3,4,5]',formation_breakdown_json:'{"deckComplete":true}'};r.set(s);r.qa.render();assert.match(r.modal.innerHTML,/data-twf-status="PREPARING"/);assert.match(r.modal.innerHTML,/data-tw3-loadout-refresh disabled/);assert.doesNotMatch(r.modal.innerHTML,/data-tw3-attack/);
+test('preparing and active participants can refresh current PVP loadouts without a truce',()=>{
+ const r=runtime(),s=base();s.round.status='PREPARING';s.mine={side:'B',deck_power:987650,deck_snapshot:'[1,2,3,4,5]',formation_breakdown_json:'{"deckComplete":true}'};r.set(s);r.qa.render();assert.match(r.modal.innerHTML,/data-twf-status="PREPARING"/);assert.doesNotMatch(r.modal.innerHTML,/data-tw3-loadout-refresh disabled/);assert.doesNotMatch(r.modal.innerHTML,/data-tw3-attack/);
  s.mine.formation_breakdown_json='{"deckComplete":false}';r.set(s);r.qa.render();assert.match(r.modal.innerHTML,/data-tw3-loadout-refresh><span>전투 준비 최신화/);assert.match(r.modal.innerHTML,/PVP 덱 확인 필요/);
- s.round.status='ACTIVE';s.mine.formation_breakdown_json='{"deckComplete":true}';r.set(s);assert.match(r.qa.loadout(),/data-tw3-loadout-refresh disabled/);
+ s.round.status='ACTIVE';s.mine.formation_breakdown_json='{"deckComplete":true}';r.set(s);assert.doesNotMatch(r.qa.loadout(),/data-tw3-loadout-refresh disabled/);
  s.truce={active:true};r.set(s);assert.doesNotMatch(r.qa.loadout(),/data-tw3-loadout-refresh disabled/);
 });
 test('faction names and battle titles are escaped, malformed snapshots do not fabricate ready cards, state is not mutated',()=>{
