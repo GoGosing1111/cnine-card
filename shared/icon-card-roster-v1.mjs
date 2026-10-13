@@ -29,7 +29,11 @@ export const ICON_CARD_ROSTER=Object.freeze([
     sourceSha256:'8070274F2248B508BD97019A80D9DB31F03563C7AA6A8E1A7B65CEAD62E73C43',sourceWidth:1254,sourceHeight:1254,focusX:50,focusY:50,
     originalArt:'assets/cards/ICON/zeus-cheolgu-original-20261010.png',originalSha256:'22A608B6EF0AAFD06958F4859C24CF9F5EEAA82FB8EAC8D5479CADC45217FE6E',
     fusionEligible:false,acquisitionText:'일반 ICON 제작 획득 불가',status:'USER_REQUESTED_PHOTO_ENHANCEMENT_20261010',
-    portraitApproval:{date:'2026-10-10',scope:'SOURCE_PHOTO_WITH_REQUESTED_QUALITY_ENHANCEMENT',userRequest:'첨부 사진을 그대로 사용 · 해상도나 화질좀 살려봐'}}
+    portraitApproval:{date:'2026-10-10',scope:'SOURCE_PHOTO_WITH_REQUESTED_QUALITY_ENHANCEMENT',userRequest:'첨부 사진을 그대로 사용 · 해상도나 화질좀 살려봐'}},
+  {code:'ICON-GUSUDAENG',name:'구수댕',sourceArt:'assets/cards/ICON/gusudaeng-source-20261013.webp',
+    sourceSha256:'934DB48547D9858A470E3AABCCF801C8299688BA55E8280099B655A4D19A7FB0',sourceWidth:200,sourceHeight:200,focusX:50,focusY:50,
+    status:'USER_REQUESTED_ICON_CONVERSION_20261013',
+    portraitApproval:{date:'2026-10-13',scope:'EXISTING_MEMBER_PHOTO_PRESERVED',userRequest:'구수댕 아이콘 카드로 등록'}}
 ].map(card=>Object.freeze({...card,sourceGrade:'ICON',status:card.status||'USER_APPROVED_PORTRAIT_20260922',
   portraitApproval:Object.freeze(card.portraitApproval||{date:'2026-09-22',scope:'SOURCE_PHOTO_ONLY',userRequest:'사진 4종 승인'}),
   releaseEnabled:false})));

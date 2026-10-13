@@ -99,6 +99,18 @@
         "x": 0.47607421875,
         "y": 0.915283203125
       }
+    },
+    {
+      "cardId": "CN-1C000009",
+      "title": "구수댕",
+      "member": "구수댕",
+      "sourceArt": "assets/cards/ICON/gusudaeng-source-20261013.webp",
+      "battleSprite": "preview/icon-battle-assets-v1/assets/sd/gusudaeng-sd-v1-20261013.webp",
+      "sha256": "1900ED4D10D74AF3321AC1571F463A1745C89DE8E79B4E6A6D7882A8E69417EF",
+      "footAnchor": {
+        "x": 0.504884370015949,
+        "y": 0.9235446570972887
+      }
     }
   ]
 }

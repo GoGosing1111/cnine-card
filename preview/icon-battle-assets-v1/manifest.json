@@ -505,6 +505,68 @@
       "hitEffect": "zeus-cheolgu-hit",
       "skillEffect": "zeus-cheolgu-skill",
       "releaseEnabled": false
+    },
+    {
+      "id": "gusudaeng",
+      "name": "구수댕",
+      "source": "../icon-gusudaeng-20261013-v1/assets/gusudaeng-sd-v5-matte-twintails.png",
+      "sourceSha256": "A6A07EB7895851FCBCD15757CA6C1E24EB5D951B55409E9ED5170B4612EDB48C",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "sourceAlpha": {
+        "edgeMax": 3,
+        "nonempty": 460647,
+        "partial": 460246,
+        "alphaTotal": 110198932,
+        "transparentFraction": 0.7070637119113574,
+        "bounds": [
+          324,
+          45,
+          914,
+          1247
+        ]
+      },
+      "generation": "BUILT_IN_IMAGEGEN",
+      "visualApproval": "CREATED_FOR_USER_REQUEST_20261013",
+      "code": "ICON-GUSUDAENG",
+      "sourceArt": "assets/cards/ICON/gusudaeng-source-20261013.webp",
+      "sourceArtSha256": "934DB48547D9858A470E3AABCCF801C8299688BA55E8280099B655A4D19A7FB0",
+      "portraitApproval": {
+        "date": "2026-10-13",
+        "scope": "EXISTING_MEMBER_PHOTO_PRESERVED",
+        "userRequest": "구수댕 아이콘 카드로 등록"
+      },
+      "weapon": "국간장",
+      "accent": "#eeb958",
+      "runtime": "assets/sd/gusudaeng-sd-v1-20261013.webp",
+      "runtimeSha256": "1900ED4D10D74AF3321AC1571F463A1745C89DE8E79B4E6A6D7882A8E69417EF",
+      "runtimeBytes": 202474,
+      "size": [
+        768,
+        768
+      ],
+      "footAnchor": {
+        "x": 0.504884370015949,
+        "y": 0.9235446570972887
+      },
+      "runtimeAlpha": {
+        "edgeMax": 0,
+        "nonempty": 132245,
+        "partial": 131136,
+        "alphaTotal": 31647871,
+        "transparentFraction": 0.7757890489366319,
+        "bounds": [
+          222,
+          72,
+          538,
+          716
+        ]
+      },
+      "hitEffect": "gusudaeng-hit",
+      "skillEffect": "gusudaeng-skill",
+      "releaseEnabled": false
     }
   ],
   "effects": [
@@ -8667,9 +8729,825 @@
         }
       ],
       "releaseEnabled": false
+    },
+    {
+      "id": "gusudaeng-hit",
+      "name": "한 방울 톡",
+      "source": "../icon-gusudaeng-20261013-v1/assets/gusudaeng-hit-sheet-v1.png",
+      "sourceSha256": "8A2DA0D73A5A40EAA02F9CA271A62575912B11CFBEEBD175C912BEC4C4F418A6",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "sourceAlpha": {
+        "edgeMax": 1,
+        "nonempty": 322237,
+        "partial": 322095,
+        "alphaTotal": 25513851,
+        "transparentFraction": 0.795081894238278,
+        "bounds": [
+          52,
+          72,
+          1220,
+          1197
+        ]
+      },
+      "generation": "BUILT_IN_IMAGEGEN",
+      "visualApproval": "CREATED_FOR_USER_REQUEST_20261013",
+      "kind": "HIT",
+      "runtime": "assets/fx/gusudaeng-hit/atlas-v1.webp",
+      "runtimeSha256": "59EF951F96E3E014231FC37C1E3FE160549F1E45865740102B7CF8D56407F8B0",
+      "runtimeBytes": 481368,
+      "columns": 4,
+      "rows": 4,
+      "cellSize": 384,
+      "frameCount": 16,
+      "duration": 0.72,
+      "collisionFrame": 6,
+      "contactAt": 0.28800000000000003,
+      "boundaryAlphaLimit": 12,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/fx/gusudaeng-hit/frames/00.webp",
+          "sha256": "7E4675C8062016AE7D7BCDB7ED085248A9C72163CD83C7D93AC1D20AB12A85AF",
+          "rawSha256": "5413B054BC4E6DBEF7719971791142BE56346D27DEE2E49F51E75B3DDD0B9AAB",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 314,
+            "height": 314
+          },
+          "edgeMax": 1,
+          "nonempty": 8179,
+          "partial": 8177,
+          "alphaTotal": 987835,
+          "transparentFraction": 0.9170453162400097,
+          "bounds": [
+            133,
+            72,
+            192,
+            223
+          ]
+        },
+        {
+          "index": 1,
+          "file": "assets/fx/gusudaeng-hit/frames/01.webp",
+          "sha256": "E890B84FA72AD718774CAC04AF74306D2E05B255F6A72D022FE084B96FE9E34E",
+          "rawSha256": "6D3D56D1A1962BB87E2CFE311979BB0F7747B0FA2823BEE6BE99A6CABC58D8B1",
+          "sourceRect": {
+            "left": 314,
+            "top": 0,
+            "width": 313,
+            "height": 314
+          },
+          "edgeMax": 1,
+          "nonempty": 7877,
+          "partial": 7856,
+          "alphaTotal": 1007298,
+          "transparentFraction": 0.9198530758429825,
+          "bounds": [
+            133,
+            74,
+            189,
+            245
+          ]
+        },
+        {
+          "index": 2,
+          "file": "assets/fx/gusudaeng-hit/frames/02.webp",
+          "sha256": "2A620B8032A3CEDABF8B30C6ADF6E6F8438CC721B92A093FC1991DD18DDF0CB7",
+          "rawSha256": "0D0562814328E0BE5A0C8CDE9BB54A46F3D1EAC9B9131A57E30B5C6AF10CDB89",
+          "sourceRect": {
+            "left": 627,
+            "top": 0,
+            "width": 314,
+            "height": 314
+          },
+          "edgeMax": 1,
+          "nonempty": 7911,
+          "partial": 7899,
+          "alphaTotal": 953586,
+          "transparentFraction": 0.9197634792486511,
+          "bounds": [
+            122,
+            85,
+            189,
+            258
+          ]
+        },
+        {
+          "index": 3,
+          "file": "assets/fx/gusudaeng-hit/frames/03.webp",
+          "sha256": "5BA2ECB1CADD32F6FCC69048B92F909831FF55BE7FE77806CDA7CE209CBA8A4C",
+          "rawSha256": "9E696D24A6952F31B0ADFAAD0F1309BF6653344C5B021665AD24C193A6E8F6CF",
+          "sourceRect": {
+            "left": 941,
+            "top": 0,
+            "width": 313,
+            "height": 314
+          },
+          "edgeMax": 1,
+          "nonempty": 9296,
+          "partial": 9279,
+          "alphaTotal": 998636,
+          "transparentFraction": 0.9054150302191653,
+          "bounds": [
+            112,
+            122,
+            200,
+            262
+          ]
+        },
+        {
+          "index": 4,
+          "file": "assets/fx/gusudaeng-hit/frames/04.webp",
+          "sha256": "FA3B96EA0FAD1B63D632451C2008C14039CC73BCED1D199FC8A4EDF36C7DF093",
+          "rawSha256": "7FE3F0AD803C0E14D544371025C7ADB6D9F6B24A9EB1892FF8C38C02EF6B1368",
+          "sourceRect": {
+            "left": 0,
+            "top": 314,
+            "width": 314,
+            "height": 313
+          },
+          "edgeMax": 1,
+          "nonempty": 18414,
+          "partial": 18411,
+          "alphaTotal": 1541059,
+          "transparentFraction": 0.8126411753932561,
+          "bounds": [
+            77,
+            128,
+            249,
+            241
+          ]
+        },
+        {
+          "index": 5,
+          "file": "assets/fx/gusudaeng-hit/frames/05.webp",
+          "sha256": "2412EE57D9DFEC4ADEFE03E83F2E5CCF30ECE9547AC393828FF2098ADB53F0B9",
+          "rawSha256": "5E241CB35D5B5D9A53CD505602B9CC11BB705EC5D2DD910A218F419AA8523137",
+          "sourceRect": {
+            "left": 314,
+            "top": 314,
+            "width": 313,
+            "height": 313
+          },
+          "edgeMax": 1,
+          "nonempty": 27958,
+          "partial": 27940,
+          "alphaTotal": 2672599,
+          "transparentFraction": 0.7146240137186253,
+          "bounds": [
+            54,
+            68,
+            262,
+            246
+          ]
+        },
+        {
+          "index": 6,
+          "file": "assets/fx/gusudaeng-hit/frames/06.webp",
+          "sha256": "F26721FEC831A0F197E7F4C364BA436B582F27C45A9E998970EF513D99AC299F",
+          "rawSha256": "A1D9CB38A8DABC7100DD26451831C76BDE5E4568656E1B4A57B1933CB418C5EB",
+          "sourceRect": {
+            "left": 627,
+            "top": 314,
+            "width": 314,
+            "height": 313
+          },
+          "edgeMax": 1,
+          "nonempty": 36312,
+          "partial": 36306,
+          "alphaTotal": 4062647,
+          "transparentFraction": 0.6305325491951731,
+          "bounds": [
+            21,
+            61,
+            281,
+            247
+          ]
+        },
+        {
+          "index": 7,
+          "file": "assets/fx/gusudaeng-hit/frames/07.webp",
+          "sha256": "971226C779E12441E08C4ECCFC99A0F703B761EE273BE87D2239D64905825043",
+          "rawSha256": "ECC63187C427DA01D49A5C81E5F84F07FDBD1F2244C141C8E157FB7725E4E26B",
+          "sourceRect": {
+            "left": 941,
+            "top": 314,
+            "width": 313,
+            "height": 313
+          },
+          "edgeMax": 1,
+          "nonempty": 38250,
+          "partial": 38227,
+          "alphaTotal": 3304932,
+          "transparentFraction": 0.6095703743020752,
+          "bounds": [
+            34,
+            60,
+            279,
+            261
+          ]
+        },
+        {
+          "index": 8,
+          "file": "assets/fx/gusudaeng-hit/frames/08.webp",
+          "sha256": "AE75E8D8D51E1372E0467167A19A230C1E59C4BD23C80FF4E0884B698E26312A",
+          "rawSha256": "9FD884837D5371EAE9B5E31F2E8F70EF25C75A6CBFBEFB9E76363586A3B75A15",
+          "sourceRect": {
+            "left": 0,
+            "top": 627,
+            "width": 314,
+            "height": 314
+          },
+          "edgeMax": 1,
+          "nonempty": 35154,
+          "partial": 35139,
+          "alphaTotal": 3020110,
+          "transparentFraction": 0.6434540955008317,
+          "bounds": [
+            52,
+            54,
+            283,
+            273
+          ]
+        },
+        {
+          "index": 9,
+          "file": "assets/fx/gusudaeng-hit/frames/09.webp",
+          "sha256": "AB348CF9A46630A5D0BBD592B47F2088633800AE9FDC0E9032B3DC237C3832CE",
+          "rawSha256": "768FB9A9EAB659C96A0D1F8E2A2CAD2EB99FF5E1959001285F4043C86D5B606A",
+          "sourceRect": {
+            "left": 314,
+            "top": 627,
+            "width": 313,
+            "height": 314
+          },
+          "edgeMax": 1,
+          "nonempty": 32711,
+          "partial": 32708,
+          "alphaTotal": 2520847,
+          "transparentFraction": 0.6671720152215055,
+          "bounds": [
+            47,
+            58,
+            278,
+            265
+          ]
+        },
+        {
+          "index": 10,
+          "file": "assets/fx/gusudaeng-hit/frames/10.webp",
+          "sha256": "F2BF412E7AC8AED269912C1DAB8E7C8DE8C6125C56B9691982E8C4119FE02BC6",
+          "rawSha256": "DDC4E004CC74942F25E9DC267716351302505896602E722F47E3BE41C10D8AAD",
+          "sourceRect": {
+            "left": 627,
+            "top": 627,
+            "width": 314,
+            "height": 314
+          },
+          "edgeMax": 1,
+          "nonempty": 28540,
+          "partial": 28528,
+          "alphaTotal": 1810359,
+          "transparentFraction": 0.710535924378271,
+          "bounds": [
+            39,
+            69,
+            271,
+            273
+          ]
+        },
+        {
+          "index": 11,
+          "file": "assets/fx/gusudaeng-hit/frames/11.webp",
+          "sha256": "A95FDEF4597CDEADAB8CC87C30F6D25352315AAF1ECB7B12AA6BF725CADFFED5",
+          "rawSha256": "24F7C3AD24EDFF61E8AF257D584BB2BCDA3F573090560F39E6382CED3297551E",
+          "sourceRect": {
+            "left": 941,
+            "top": 627,
+            "width": 313,
+            "height": 314
+          },
+          "edgeMax": 1,
+          "nonempty": 24762,
+          "partial": 24758,
+          "alphaTotal": 1067254,
+          "transparentFraction": 0.7480515252029873,
+          "bounds": [
+            50,
+            76,
+            264,
+            263
+          ]
+        },
+        {
+          "index": 12,
+          "file": "assets/fx/gusudaeng-hit/frames/12.webp",
+          "sha256": "FFAB9FFD0814E5BE37CAE82DAD9AA175A3DAEBE8897F4F54E96AD592C22B386A",
+          "rawSha256": "B2D1D2D49CD9DCEF2CF74C4B1075B739DB9E0307BA40ED79A0C85A06B168A59B",
+          "sourceRect": {
+            "left": 0,
+            "top": 941,
+            "width": 314,
+            "height": 313
+          },
+          "edgeMax": 1,
+          "nonempty": 19909,
+          "partial": 19906,
+          "alphaTotal": 894752,
+          "transparentFraction": 0.7974298447325044,
+          "bounds": [
+            72,
+            66,
+            281,
+            256
+          ]
+        },
+        {
+          "index": 13,
+          "file": "assets/fx/gusudaeng-hit/frames/13.webp",
+          "sha256": "6AC804C3E4F9AB1ABD3DFF873C0E5C1CE5340D9C7DE6C6EB4207B99687E2E89C",
+          "rawSha256": "8BD48B8FF928A135CEBE4713570E414F6AA8CBAD7B325AE5B7BF1C3DFA1F0E22",
+          "sourceRect": {
+            "left": 314,
+            "top": 941,
+            "width": 313,
+            "height": 313
+          },
+          "edgeMax": 1,
+          "nonempty": 15411,
+          "partial": 15411,
+          "alphaTotal": 476554,
+          "transparentFraction": 0.8426951382580203,
+          "bounds": [
+            76,
+            89,
+            259,
+            246
+          ]
+        },
+        {
+          "index": 14,
+          "file": "assets/fx/gusudaeng-hit/frames/14.webp",
+          "sha256": "6CA7A451925F320B08C5646F862C2E833FF3AF425F971E84DD095E88CE86736D",
+          "rawSha256": "CCA9DEAA67DA40A46A3A25A8789446C7691C864878B2A1D4752F886AC2E69642",
+          "sourceRect": {
+            "left": 627,
+            "top": 941,
+            "width": 314,
+            "height": 313
+          },
+          "edgeMax": 1,
+          "nonempty": 7809,
+          "partial": 7806,
+          "alphaTotal": 149442,
+          "transparentFraction": 0.9205449624549765,
+          "bounds": [
+            91,
+            106,
+            258,
+            249
+          ]
+        },
+        {
+          "index": 15,
+          "file": "assets/fx/gusudaeng-hit/frames/15.webp",
+          "sha256": "E536AD80E484D978675CE8EB9F98EAA8EFCBF6540240B4F7A620CAF03394BF66",
+          "rawSha256": "10E6F1AF47DE55EFF5BB4D9F5CF7B0285CE2CF7A800278675849213683E10239",
+          "sourceRect": {
+            "left": 941,
+            "top": 941,
+            "width": 313,
+            "height": 313
+          },
+          "edgeMax": 1,
+          "nonempty": 3744,
+          "partial": 3744,
+          "alphaTotal": 45941,
+          "transparentFraction": 0.9617838295787443,
+          "bounds": [
+            85,
+            128,
+            248,
+            248
+          ]
+        }
+      ],
+      "releaseEnabled": false
+    },
+    {
+      "id": "gusudaeng-skill",
+      "name": "비법 배합",
+      "source": "../icon-gusudaeng-20261013-v1/assets/gusudaeng-skill-sheet-v1.png",
+      "sourceSha256": "14BDB142C855594C54D7A2D9F2F6C5CDA19BC012D6702542A2C41890F8EDFB69",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "sourceAlpha": {
+        "edgeMax": 1,
+        "nonempty": 712870,
+        "partial": 712864,
+        "alphaTotal": 37672572,
+        "transparentFraction": 0.5466691594870895,
+        "bounds": [
+          49,
+          82,
+          1225,
+          1177
+        ]
+      },
+      "generation": "BUILT_IN_IMAGEGEN",
+      "visualApproval": "CREATED_FOR_USER_REQUEST_20261013",
+      "kind": "SKILL",
+      "runtime": "assets/fx/gusudaeng-skill/atlas-v1.webp",
+      "runtimeSha256": "6E542BC0AE6D372D91D4947B15BB89779947251A641B24EBA78389461E27775A",
+      "runtimeBytes": 841912,
+      "columns": 4,
+      "rows": 4,
+      "cellSize": 384,
+      "frameCount": 16,
+      "duration": 1.48,
+      "collisionFrame": 7,
+      "contactAt": 0.6906666666666667,
+      "boundaryAlphaLimit": 12,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/fx/gusudaeng-skill/frames/00.webp",
+          "sha256": "C6CDC3EEB4413DF8FA998CC456347C4947366FED4B0881DD9A44F2DE2C7CF4FF",
+          "rawSha256": "088F2B5AB9EAEF39C2CCD090852778014C128C77087C3B7C2FD32238CDC27040",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 314,
+            "height": 314
+          },
+          "edgeMax": 1,
+          "nonempty": 30791,
+          "partial": 30790,
+          "alphaTotal": 1335203,
+          "transparentFraction": 0.687705383585541,
+          "bounds": [
+            91,
+            121,
+            243,
+            262
+          ]
+        },
+        {
+          "index": 1,
+          "file": "assets/fx/gusudaeng-skill/frames/01.webp",
+          "sha256": "1AA1C8546C6A6127E35D294CCE46ABF9B7740887FB686096ED2BD33B2F06F32A",
+          "rawSha256": "C737C48217C4A54FEDAA81491A6EF702833FAEC05E73304D721785165C55FDEC",
+          "sourceRect": {
+            "left": 314,
+            "top": 0,
+            "width": 313,
+            "height": 314
+          },
+          "edgeMax": 1,
+          "nonempty": 42692,
+          "partial": 42692,
+          "alphaTotal": 1909154,
+          "transparentFraction": 0.5656173053051423,
+          "bounds": [
+            70,
+            86,
+            257,
+            281
+          ]
+        },
+        {
+          "index": 2,
+          "file": "assets/fx/gusudaeng-skill/frames/02.webp",
+          "sha256": "4999FA72944E53BF4D7B98D651B0AAEF10C8BCCEDE4D16AEF1586DD9BCD64F29",
+          "rawSha256": "561DEA2A2314EA720C161C50BE9D9DACBA90CD272C424CB9FB1F25A479A76913",
+          "sourceRect": {
+            "left": 627,
+            "top": 0,
+            "width": 314,
+            "height": 314
+          },
+          "edgeMax": 1,
+          "nonempty": 43421,
+          "partial": 43420,
+          "alphaTotal": 2610314,
+          "transparentFraction": 0.5596068806036756,
+          "bounds": [
+            45,
+            86,
+            264,
+            283
+          ]
+        },
+        {
+          "index": 3,
+          "file": "assets/fx/gusudaeng-skill/frames/03.webp",
+          "sha256": "B5617DB417B12D39D8445702CD1255712A700D3407085CB4EE0083DD00DE5E5E",
+          "rawSha256": "C08CBF79B06E8FC73AB7788A4A47EE06279776C76CCA58060A17935E9837D312",
+          "sourceRect": {
+            "left": 941,
+            "top": 0,
+            "width": 313,
+            "height": 314
+          },
+          "edgeMax": 1,
+          "nonempty": 50062,
+          "partial": 50062,
+          "alphaTotal": 3142778,
+          "transparentFraction": 0.4906290063287275,
+          "bounds": [
+            32,
+            82,
+            260,
+            300
+          ]
+        },
+        {
+          "index": 4,
+          "file": "assets/fx/gusudaeng-skill/frames/04.webp",
+          "sha256": "1D1BE94BB370CE16922BD29866F19B4063040A87B574CE34D710A8A68722A981",
+          "rawSha256": "A6BEEA17325170736A64C7E0A9CFC9BC673EF7C3285AD98EED74662E153F3320",
+          "sourceRect": {
+            "left": 0,
+            "top": 314,
+            "width": 314,
+            "height": 313
+          },
+          "edgeMax": 1,
+          "nonempty": 53352,
+          "partial": 53349,
+          "alphaTotal": 4348582,
+          "transparentFraction": 0.4571539040719562,
+          "bounds": [
+            56,
+            67,
+            296,
+            291
+          ]
+        },
+        {
+          "index": 5,
+          "file": "assets/fx/gusudaeng-skill/frames/05.webp",
+          "sha256": "01E22A0B252BC1B733590B6F3F919315C71FA424CF9175C00233510A41C179AD",
+          "rawSha256": "68BA4269752AC7794DC5C13071B149F30339FCCE745362ED239A39E0AFEDCB9B",
+          "sourceRect": {
+            "left": 314,
+            "top": 314,
+            "width": 313,
+            "height": 313
+          },
+          "edgeMax": 1,
+          "nonempty": 53780,
+          "partial": 53779,
+          "alphaTotal": 5426627,
+          "transparentFraction": 0.4510508426134797,
+          "bounds": [
+            38,
+            68,
+            282,
+            295
+          ]
+        },
+        {
+          "index": 6,
+          "file": "assets/fx/gusudaeng-skill/frames/06.webp",
+          "sha256": "502C3EC07F8B9F3C596695BFAA6CF30C284062CEF2A39E9F6419A3435D4254C9",
+          "rawSha256": "3BCD3636A827ECFD0B2FECF3BEE79C269406A1F66D6CEAB58A12D383D5051AA6",
+          "sourceRect": {
+            "left": 627,
+            "top": 314,
+            "width": 314,
+            "height": 313
+          },
+          "edgeMax": 1,
+          "nonempty": 52620,
+          "partial": 52620,
+          "alphaTotal": 5372319,
+          "transparentFraction": 0.46460185995400993,
+          "bounds": [
+            37,
+            64,
+            277,
+            296
+          ]
+        },
+        {
+          "index": 7,
+          "file": "assets/fx/gusudaeng-skill/frames/07.webp",
+          "sha256": "8A613C98E4B1D0C0F953C174558849119245032E32AE03532AE054014D179526",
+          "rawSha256": "54C68D4B896EB0960464DCAEC575DA8522BC885360B6A82596786820118E2D08",
+          "sourceRect": {
+            "left": 941,
+            "top": 314,
+            "width": 313,
+            "height": 313
+          },
+          "edgeMax": 2,
+          "nonempty": 59600,
+          "partial": 59600,
+          "alphaTotal": 4908635,
+          "transparentFraction": 0.3916442956445406,
+          "bounds": [
+            23,
+            53,
+            284,
+            304
+          ]
+        },
+        {
+          "index": 8,
+          "file": "assets/fx/gusudaeng-skill/frames/08.webp",
+          "sha256": "BFBC3AEAC02C90F8FC17349318B55B5A1ECF9BA392D6599360740F736C21421C",
+          "rawSha256": "23C77E7FE31399AFFBDB45DA622B1E9E844F9ADB6869A281DF25309146E1D0AE",
+          "sourceRect": {
+            "left": 0,
+            "top": 627,
+            "width": 314,
+            "height": 314
+          },
+          "edgeMax": 1,
+          "nonempty": 50034,
+          "partial": 50034,
+          "alphaTotal": 2704625,
+          "transparentFraction": 0.4925351941255224,
+          "bounds": [
+            49,
+            50,
+            281,
+            286
+          ]
+        },
+        {
+          "index": 9,
+          "file": "assets/fx/gusudaeng-skill/frames/09.webp",
+          "sha256": "33AC2DC6B9CE8D136C5D267B09A28BDDB8833056544FE8BE6BE4C43569D2799F",
+          "rawSha256": "5385FCC26AEC0D698FF0ABEC8E0B510432ED5D37D7DF363FAFC153B8687A857E",
+          "sourceRect": {
+            "left": 314,
+            "top": 627,
+            "width": 313,
+            "height": 314
+          },
+          "edgeMax": 1,
+          "nonempty": 54734,
+          "partial": 54734,
+          "alphaTotal": 2369621,
+          "transparentFraction": 0.4430923261634887,
+          "bounds": [
+            48,
+            50,
+            283,
+            287
+          ]
+        },
+        {
+          "index": 10,
+          "file": "assets/fx/gusudaeng-skill/frames/10.webp",
+          "sha256": "A2EA8A6A04AACD7F97CF16604CA3341B9CBFF9F32EEA7D908314EAB0F980248B",
+          "rawSha256": "CD06738ADFD03D899F965C59C41E8C95713DF5E1CF4F69A17C9E029AB46594BD",
+          "sourceRect": {
+            "left": 627,
+            "top": 627,
+            "width": 314,
+            "height": 314
+          },
+          "edgeMax": 1,
+          "nonempty": 47404,
+          "partial": 47404,
+          "alphaTotal": 1572809,
+          "transparentFraction": 0.5192097042476368,
+          "bounds": [
+            44,
+            58,
+            269,
+            267
+          ]
+        },
+        {
+          "index": 11,
+          "file": "assets/fx/gusudaeng-skill/frames/11.webp",
+          "sha256": "5A139B33B0025BEEF29EA850F240AF7F9580B5F89014E622ED03476701C8065B",
+          "rawSha256": "AE24B2CEC2F73811382CE4109BD86036DC2AE430176EE5CD0DAF91A140224D18",
+          "sourceRect": {
+            "left": 941,
+            "top": 627,
+            "width": 313,
+            "height": 314
+          },
+          "edgeMax": 1,
+          "nonempty": 40451,
+          "partial": 40451,
+          "alphaTotal": 733162,
+          "transparentFraction": 0.5884190390915935,
+          "bounds": [
+            62,
+            104,
+            251,
+            264
+          ]
+        },
+        {
+          "index": 12,
+          "file": "assets/fx/gusudaeng-skill/frames/12.webp",
+          "sha256": "324B4D5C6FF753D5F0433DD382A4A264831FBD592D867E5D99449F6ED8E6AE37",
+          "rawSha256": "C84D67CBD6981E4F1ECD84B10DE47015E959007863B8EEAFACD5DDE78361AC93",
+          "sourceRect": {
+            "left": 0,
+            "top": 941,
+            "width": 314,
+            "height": 313
+          },
+          "edgeMax": 1,
+          "nonempty": 35043,
+          "partial": 35043,
+          "alphaTotal": 477649,
+          "transparentFraction": 0.6434443743513563,
+          "bounds": [
+            94,
+            66,
+            251,
+            236
+          ]
+        },
+        {
+          "index": 13,
+          "file": "assets/fx/gusudaeng-skill/frames/13.webp",
+          "sha256": "EC4BCD73B34ED8ECECAAC182545146F57B9CD82185DCD7A10685C443D452AC13",
+          "rawSha256": "16E81FB0C615303ABB6DD74CE5E502B57568B4E86BA5353978E2CF5A6C347A75",
+          "sourceRect": {
+            "left": 314,
+            "top": 941,
+            "width": 313,
+            "height": 313
+          },
+          "edgeMax": 1,
+          "nonempty": 34136,
+          "partial": 34136,
+          "alphaTotal": 392339,
+          "transparentFraction": 0.6515632495993631,
+          "bounds": [
+            85,
+            66,
+            233,
+            227
+          ]
+        },
+        {
+          "index": 14,
+          "file": "assets/fx/gusudaeng-skill/frames/14.webp",
+          "sha256": "BFB5E6F750B2A2734777AF1FE01CA1BE7304D9FEB9D3E449749068A7089AE623",
+          "rawSha256": "94821E91CC121D516844D73D059A7AEA20BF00DA078C9FEA8B0A30FF119AFFBF",
+          "sourceRect": {
+            "left": 627,
+            "top": 941,
+            "width": 314,
+            "height": 313
+          },
+          "edgeMax": 1,
+          "nonempty": 33191,
+          "partial": 33191,
+          "alphaTotal": 212697,
+          "transparentFraction": 0.6622881097250768,
+          "bounds": [
+            114,
+            90,
+            222,
+            202
+          ]
+        },
+        {
+          "index": 15,
+          "file": "assets/fx/gusudaeng-skill/frames/15.webp",
+          "sha256": "17057EB21044739F55C49AF614FC514DB848B787CE0801D6DE953F3814B95791",
+          "rawSha256": "B0085587E706A68E8966D5F745B5670E15F5A768BF6F09B82612AD38224019B8",
+          "sourceRect": {
+            "left": 941,
+            "top": 941,
+            "width": 313,
+            "height": 313
+          },
+          "edgeMax": 1,
+          "nonempty": 31559,
+          "partial": 31559,
+          "alphaTotal": 156058,
+          "transparentFraction": 0.6778674886954037,
+          "bounds": [
+            123,
+            105,
+            190,
+            190
+          ]
+        }
+      ],
+      "releaseEnabled": false
     }
   ],
-  "frameCount": 320,
+  "frameCount": 352,
   "renderer": {
     "pixi": "8.20.0",
     "gsap": "3.13.0",

@@ -1,13 +1,13 @@
 {
   "date": "2026-09-26",
   "engineBase": "0d67ae862a1f9763605ad7323e889acf5d51ad41",
-  "sourceRevision": "785f8eb7e8d3f353a441a10e85cd84e4a490f28c",
+  "sourceRevision": "c223f12321942ddd56445cac7841e3c513419034",
   "pixi": "8.20.0",
   "gsap": "3.13.0",
-  "serverHash": "d384fc998678271da55c00bb94057b7245bd304666e359999420ae55f2fca12b",
+  "serverHash": "803d4d30b50baff1a755a88743890c3a85385d0edf9c582bebdfbd3257ee4463",
   "engineHash": "8037f59f35612c9b7ba0dc6ba6059f3848d966efa1585d32ef82f9a7265e0863",
   "playbackHash": "37a65149a34a4361d7a774a1249839b11e1bc6592e141a56819d3691241e0615",
-  "bundleHash": "ee544a05f2a9d3368000f790ecfe1b67350083da1ab503f2fa66e4d8e410d961",
+  "bundleHash": "7d396b116c67767f600c6d674a63c00737c16a13644055e7f827174c00a22039",
   "commonInputs": [
     "preview/project-v-v3/source/battle/ApocalypseLegionFX.js",
     "preview/project-v-v3/source/battle/ApocalypseLegionPlayback.js",

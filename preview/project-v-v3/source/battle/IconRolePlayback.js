@@ -43,6 +43,11 @@ function rune(g,role,x,y,size,color,t){
  if(role==='DEFENSE'){
   g.moveTo(x,y-size*.7).lineTo(x+size*.43,y-size*.45).lineTo(x+size*.35,y+size*.12).lineTo(x,y+size*.47).lineTo(x-size*.35,y+size*.12).lineTo(x-size*.43,y-size*.45).closePath().fill({color,alpha:.1}).stroke({color,width:w,alpha:pulse});
   g.moveTo(x-size*.2,y-size*.18).lineTo(x,y+size*.04).lineTo(x+size*.23,y-size*.3).stroke({color,width:w*1.6});
+ }else if(role==='LINK'){
+  for(let i=0;i<3;i++){const a=i*Math.PI*2/3-Math.PI/2,n=(i+1)*Math.PI*2/3-Math.PI/2;
+   const px=x+Math.cos(a)*size*.28,py=y+Math.sin(a)*size*.28;
+   g.moveTo(px,py).quadraticCurveTo(x,y,x+Math.cos(n)*size*.28,y+Math.sin(n)*size*.28).stroke({color,width:w*1.3,alpha:pulse});
+   g.circle(px,py,size*.07).fill({color,alpha:pulse});}
  }else if(role==='CURSE'){
   for(let i=0;i<6;i++){const a=i*Math.PI/3+t*.2;g.ellipse(x+Math.cos(a)*size*.19,y+Math.sin(a)*size*.19,size*.17,size*.08).stroke({color,width:w,alpha:.8});}
   g.circle(x,y,size*.32).stroke({color,width:w,alpha:.6});
@@ -66,7 +71,8 @@ export async function playIconEvent(engine,event){
   if(event.status==='HEAT'){engine.queueBanner(`집중 포화 ${event.stacks}`,0xffae60,actor?.name||'ICON');return true;}
   const layer=new Container({label:'ICON_ROLE_STATUS'}),g=new Graphics();layer.addChild(g);engine.effectLayer.addChild(layer);
   const time={t:0},p=role==='MAGIC'||role==='SUPPORT'?foot(engine,target):point(engine,target),size=target.fullBodyHeight*.48,color=parseInt((def?.color||'#c8edff').slice(1),16);
-  if(type==='ICON_GUARD')engine.queueBanner('수호 맹약 · 피해 분담',color,actor?.name||'ICON');
+  if(type==='ICON_ECHO')engine.queueBanner(event.solo?'깊은 감칠맛 · 집중':'깊은 감칠맛 · 전이',color,actor?.name||'ICON');
+  else if(type==='ICON_GUARD')engine.queueBanner('수호 맹약 · 피해 분담',color,actor?.name||'ICON');
   else if(event.status==='CHANNEL')engine.queueBanner(def?.passive||event.label,color,actor?.name||'ICON');
   else if(event.status==='SEAL_BLOCK')engine.queueBanner(event.label,color,actor?.name||'ICON');
   await engine.timeline(t=>{t.to(time,{t:.55,duration:.55,onUpdate(){if(layer.destroyed)return;rune(g,role,p.x,p.y,size,color,time.t);layer.alpha=Math.min(1,(.55-time.t)*5);},ease:'none'});},()=>layer.destroy({children:true}),null,{releaseAt:.14,owners:engine.formationCoop?[]:[target]});return true;

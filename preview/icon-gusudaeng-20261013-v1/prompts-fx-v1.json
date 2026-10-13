@@ -1,0 +1,20 @@
+{
+  "tool": "image_gen built-in",
+  "transparentBackground": true,
+  "effects": [
+    {
+      "id": "gusudaeng-hit",
+      "name": "한 방울 톡",
+      "duration": 0.72,
+      "collisionFrame": 6,
+      "prompt": "Create a production-ready TRUE TRANSPARENT RGBA game VFX SPRITE SHEET, square canvas, EXACTLY 4 columns by 4 rows of 16 equally sized cells. No visible grid, no captions, no numbers, no backgrounds. Read in row-major order. Each cell holds one DIFFERENT consecutive frame of ONE coherent evolving animation, with generous transparent gutters: all visible pixels contained within the central 60% of each cell, never touching a cell boundary. All frames share the same fixed impact center and camera. Each of the 16 frames must contain some effect, including the tiny fading particles in the final frame. High quality hand-painted game VFX, crisp small-scale silhouette, rich translucent dark soy-brown fluid with warm amber rim highlights and a few cream-gold glints. Visible material and shape evolution, not repeated frames or simple brightness scaling. Do NOT include a character, hand, bottle, text, card, UI, opaque black/white background or fake checkerboard. Transparent space between every cell and around the sheet. Animation: a compact soy sauce droplet projectile impact. Frames 1-4 a falling amber-brown teardrop elongates then compresses toward center. Frames 5-8 it bursts into a sharp asymmetric radial crown splash with distinct dark liquid tongues, smallest golden sparkling impact core. Frames 9-12 the liquid crown breaks into separated outward droplets, curling tendrils retract. Frames 13-16 small droplets fall, shrink, disperse to a few tiny specks. Keep the whole splash around the center with ample 20% inset on all four sides. No magic circles, no fire."
+    },
+    {
+      "id": "gusudaeng-skill",
+      "name": "비법 배합",
+      "duration": 1.48,
+      "collisionFrame": 7,
+      "prompt": "Create a production-ready TRUE TRANSPARENT RGBA game VFX SPRITE SHEET, square canvas, EXACTLY 4 columns by 4 rows of 16 equally sized cells. No visible grid, no captions, no numbers, no backgrounds. Read in row-major order. Each cell holds one DIFFERENT consecutive frame of ONE coherent evolving animation, with generous transparent gutters: all visible pixels contained within the central 60% of each cell, never touching a cell boundary. All frames share the same fixed impact center and camera. Each of the 16 frames must contain some effect, including the tiny fading particles in the final frame. High quality hand-painted game VFX, crisp small-scale silhouette, rich translucent dark soy-brown fluid with warm amber rim highlights and a few cream-gold glints. Visible material and shape evolution, not repeated frames or simple brightness scaling. Do NOT include a character, hand, bottle, text, card, UI, opaque black/white background or fake checkerboard. Transparent space between every cell and around the sheet. Animation: three fluid soy sauce ribbons join into a connected seasoning seal then burst apart. Frames 1-4 three small separated dark amber liquid beads grow into three curved streams around the center, arranged as three round nodes. Frames 5-8 the streams visibly join into a rich braided triangular loop of LIQUID with three rounded swirling splash nodes, light amber glints travelling from one node to the next, peak at frame 8 with a compact liquid burst. Frames 9-12 the connected liquid ribbons break into many small droplets, outward splash trails contract. Frames 13-16 remaining droplets shrink and settle until only a few small warm amber glints remain. Organic FLUID shape, not geometric line art, not chain links, not a rune, not fire, and not flower petals. Keep each frame well inside its cell."
+    }
+  ]
+}

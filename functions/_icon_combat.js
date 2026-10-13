@@ -12,7 +12,7 @@ export function selectIconSupportTarget(allies){
   if(!live(target))continue;
   if(target.hp<target.maxHp){
    if(!injured||byHealth(target,injured)<0)injured=target;
-  }else if(target.iconCurse||target.iconVulnerability||target.magicSealCharges||target.doomMarks||target.timeDistortionStacks||apocalypseCursed(target)||apocalypseSealed(target)){
+  }else if(target.iconCurse||target.iconVulnerability||target.iconLink||target.magicSealCharges||target.doomMarks||target.timeDistortionStacks||apocalypseCursed(target)||apocalypseSealed(target)){
    if(!cleanseOnly||byHealth(target,cleanseOnly)<0)cleanseOnly=target;
   }
  }
@@ -32,7 +32,7 @@ export function createIconCombatRuntime({teams,hit,damage,rawDamage,knockout,emi
  const snapshot=t=>({targetId:t.id,targetHpAfter:t.hp,targetMaxHp:t.maxHp,targetShieldAfter:t.shield,targetMaxShield:t.maxShield});
  const label=(s,phase=s.def.skill)=>({actorId:s.actor.id,iconCode:s.def.code,iconRole:s.def.role,label:phase,configRevision:s.actor.iconRole.revision});
  function status(s,t,kind,extra={}){emit('ICON_STATUS',{...label(s,s.def.passive),...snapshot(t),status:kind,...extra});}
- function cleanse(t){if(!t.iconCurse&&!t.iconVulnerability)return false;const kind=t.iconCurse?'저주':'약화';if(t.iconCurse)delete t.iconCurse;else delete t.iconVulnerability;emit('ICON_STATUS',{...snapshot(t),status:'CLEANSED',label:`${kind} 정화`});return true;}
+ function cleanse(t){if(!t.iconCurse&&!t.iconVulnerability&&!t.iconLink)return false;const kind=t.iconCurse?'저주':t.iconVulnerability?'약화':'배합 표식';if(t.iconCurse)delete t.iconCurse;else if(t.iconVulnerability)delete t.iconVulnerability;else delete t.iconLink;emit('ICON_STATUS',{...snapshot(t),status:'CLEANSED',label:`${kind} 정화`});return true;}
  function addCurse(s,t,stacks=1){
   if(!live(t))return;const c=t.iconCurse,own=c?.sourceId===s.actor.id,count=Math.min(s.tuning.maxStacks,(own?c.stacks:0)+stacks);
   // One bounded curse slot per target: extra copies cannot multiply tick rate.
@@ -131,6 +131,14 @@ export function createIconCombatRuntime({teams,hit,damage,rawDamage,knockout,emi
     const chosen=foes.sort((a,b)=>a.slot-b.slot).slice(0,c.maxTargets),focus=1+(c.maxTargets-chosen.length)*c.focusPercent/100;
     for(const t of chosen)hits.push(...strike(s,t,c.damagePercent/100*focus,{defenseIgnore:c.penetrationPercent/100}));break;
    }
+   case 'LINK':{
+    for(const t of fighters())if(t.iconLink?.sourceId===actor.id)delete t.iconLink;
+    s.echoLeft=Math.round(actor.attack*c.echoBudgetPercent/100*s.scale);s.echoUsed=new Map();s.linkExpires=actor.actions+c.durationActions;
+    for(const t of foes.sort((a,b)=>a.slot-b.slot).slice(0,c.maxTargets)){
+     const rows=strike(s,t,c.damagePercent/100);hits.push(...rows);
+     if(live(t)&&rows.some(h=>!h.dodge)){t.iconLink={sourceId:actor.id,cast:s.casts};status(s,t,'LINKED',{remaining:c.durationActions});}
+    }break;
+   }
    case 'SUPPORT':{
     extra.healPriority='LOWEST_HP_PERCENT';extra.targetHpBefore=target.hp;extra.targetMaxHpBefore=target.maxHp;
     const cleaned=cleanseOne(target)||cleanse(target);
@@ -167,12 +175,33 @@ export function createIconCombatRuntime({teams,hit,damage,rawDamage,knockout,emi
   emit('ICON_GUARD',{...label(s),...snapshot(s.actor),protectedId:target.id,damage:r.hpDamage,absorbed:r.absorbed,redirected:share,remainingBudget:s.guardLeft});knockout(s.actor);
   return Math.max(0,Math.round(amount-share));
  }
- function onDamage(target,result){const s=states.get(target.id);if(!s||!s.ward)return;const spent=Math.min(s.ward,result.absorbed);s.ward-=spent;if(s.def.role==='DEFENSE')s.stored=Math.min(target.maxHp,s.stored+spent);}
+ function onDamage(target,result,options={}){
+  const wardState=states.get(target.id);
+  if(wardState?.ward){const spent=Math.min(wardState.ward,result.absorbed);wardState.ward-=spent;if(wardState.def.role==='DEFENSE')wardState.stored=Math.min(target.maxHp,wardState.stored+spent);}
+  const mark=target.iconLink,s=mark&&states.get(mark.sourceId),attacker=options.actor;
+  if(!s||s.def.role!=='LINK'||mark.cast!==s.casts||!live(s.actor)||passiveSealed(s.actor)||s.actor.actions>=s.linkExpires||s.echoLeft<=0||!attacker||attacker.side!==s.actor.side||attacker.side===target.side||!options.direct||options.iconIndirect||options.iconSecondary)return;
+  const actual=Math.max(0,result.hpDamage+result.absorbed);if(!actual||s.echoUsed.get(attacker.id)===attacker.actions)return;
+  const foes=enemies(s.actor),linked=foes.filter(t=>t.id!==target.id&&t.iconLink?.sourceId===s.actor.id&&t.iconLink.cast===s.casts);
+  const solo=foes.length===1&&foes[0]===target;
+  if(!linked.length&&!solo)return;
+  s.echoUsed.set(attacker.id,attacker.actions);
+  for(const t of solo?[target]:linked){
+   const amount=Math.min(s.echoLeft,Math.floor(t.maxHp*s.tuning.echoCapPercent/100),Math.round(actual*(solo?s.tuning.soloPercent:s.tuning.echoPercent)/100*s.scale));
+   if(amount<=0)break;
+   // Reserve before applying: indirect and secondary flags prevent recursion,
+   // including two opposing link casters and reflected/counter damage chains.
+   s.echoLeft-=amount;
+   const r=damage(t,amount,{actor:s.actor,iconIndirect:true,iconSecondary:true,iconDamageCap:amount});
+   s.actor.damageDealt+=r.hpDamage+r.absorbed;
+   emit('ICON_ECHO',{...label(s,s.def.passive),...snapshot(t),linkedFromId:target.id,triggerActorId:attacker.id,damage:r.hpDamage,absorbed:r.absorbed,solo,remainingBudget:s.echoLeft});knockout(t);
+  }
+ }
  function endAction(actor){
   if(!actor||actor.isBattleSuit)return;
   for(const key of ['iconCurse','iconVulnerability','iconEmpower'])if(actor[key]&&--actor[key].remaining<=0){delete actor[key];emit('ICON_STATUS',{...snapshot(actor),status:'EXPIRED',statusKey:key,label:'효과 종료'});}
   const s=states.get(actor.id);if(s?.ward&&actor.actions>=s.wardExpires){actor.shield=Math.max(0,actor.shield-Math.min(actor.shield,s.ward));s.ward=0;status(s,actor,'WARD_END');}
+  if(s?.def.role==='LINK'&&actor.actions>=s.linkExpires)for(const t of fighters())if(t.iconLink?.sourceId===actor.id){delete t.iconLink;status(s,t,'EXPIRED',{statusKey:'iconLink'});}
   if(live(actor))for(const other of states.values())if(other.def.role==='SUPPORT'&&other.actor.side===actor.side&&other.actor.id!==actor.id&&live(other.actor)&&!passiveSealed(other.actor))other.resonance=Math.min(other.tuning.maxStacks,other.resonance+1);
  }
- return {beforeAction,selectTarget,basicMultiplier,afterBasic,beforeDamage,onDamage,endAction,cleanse,hasDebuff:t=>!!(t.iconCurse||t.iconVulnerability),snapshot:()=>[...states.values()].map(s=>({id:s.actor.id,role:s.def.role,casts:s.casts,nextAction:s.next,guardRemaining:s.guardLeft,healRemaining:s.healLeft,stacks:s.heat||s.resonance,takedowns:s.takedowns}))};
+ return {beforeAction,selectTarget,basicMultiplier,afterBasic,beforeDamage,onDamage,endAction,cleanse,hasDebuff:t=>!!(t.iconCurse||t.iconVulnerability||t.iconLink),snapshot:()=>[...states.values()].map(s=>({id:s.actor.id,role:s.def.role,casts:s.casts,nextAction:s.next,guardRemaining:s.guardLeft,healRemaining:s.healLeft,stacks:s.heat||s.resonance,takedowns:s.takedowns,...(s.def.role==='LINK'?{echoRemaining:s.echoLeft||0}:{} )}))};
 }

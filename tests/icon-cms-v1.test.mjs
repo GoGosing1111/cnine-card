@@ -16,7 +16,7 @@ test('OWNER guard rejects unauthorized, unsupported and public routes before any
 });
 test('registration is idempotent; steady read costs one indexed query and successful save costs two',async()=>{
   const f=await iconCmsFixture();try{
-    const initial=await f.call();assert.equal(initial.status,200);assert.equal(initial.body.catalog.length,8);assert.equal(initial.body.revision,1);assert.equal(f.count(),3);
+    const initial=await f.call();assert.equal(initial.status,200);assert.equal(initial.body.catalog.length,9);assert.equal(initial.body.revision,1);assert.equal(f.count(),3);
     const before=f.count(),start=performance.now();for(let i=0;i<20;i++)assert.equal((await f.call()).status,200);
     assert.equal(f.count()-before,20);console.log('ICON CMS fixture: 20 indexed GETs in '+(performance.now()-start).toFixed(1)+'ms (local PostgreSQL, excludes production auth/network)');
     const doc=initial.body.document;doc.cards[4].notes='꽃잎 충돌 검수';doc.cards[4].draft.effects[0].value=12.5;
@@ -66,7 +66,7 @@ test('malformed stored ON state fails closed rather than becoming a live policy'
 });
 test('seven original portraits and SDs stay separate; every character has a distinct hit and skill',async()=>{
   const manifest=JSON.parse(await read('preview/icon-battle-assets-v1/manifest.json'));
-  assert.equal(ICON_CMS_CATALOG.length,8);assert.equal(new Set(ICON_CMS_CATALOG.flatMap(c=>c.effects.map(e=>e.id))).size,16);
+  assert.equal(ICON_CMS_CATALOG.length,9);assert.equal(new Set(ICON_CMS_CATALOG.flatMap(c=>c.effects.map(e=>e.id))).size,18);
   for(const card of ICON_CMS_CATALOG){assert.notEqual(card.sourceArt,card.battleSprite);await fs.access(new URL('../'+card.battleSprite,import.meta.url));assert.equal(card.effects.length,2);for(const effect of card.effects){assert.equal(effect.frameCount,16);assert.ok(manifest.effects.find(e=>e.id===effect.id));}}
 });
 test('effect draft CMS remains OWNER-only and separate from the approved live fusion release',async()=>{

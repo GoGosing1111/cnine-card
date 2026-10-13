@@ -1,7 +1,7 @@
 import {ICON_ROLES,iconDefinition} from '../shared/icon-roles-v1.mjs';
 import {ICON_SUPREMACY} from '../shared/icon-supremacy-v1.mjs';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const paths={lightning:'M14 2 4 14h7l-1 8 10-13h-7z',daggers:'M5 3l6 10-3 3L2 7zm14 0-6 10 3 3 6-9zM8 16l-4 5m12-5 4 5M4 13l7 6m9-6-7 6',barrage:'M3 6h13l5 3-5 3H3zM5 15h11m-9 4h7m-3-9v5',arcane:'M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3zM4 3l2 2m12 14 2 2',resonance:'M12 3v18m-4-15v12m8-12v12M4 9v6m16-6v6',curse:'M3 9c5-6 13-6 18 0-5 6-13 6-18 0zm9-3v6M5 16l3 3m11-3-3 3m-4-4v7',guard:'M12 2 3 6v7c0 4 9 9 9 9s9-5 9-9V6zM8 12l3 3 5-6',charge:'M3 17 14 6m-6 0h6v6M9 21 21 9m-6 0h6v6'};
+const paths={link:'M6 8a4 4 0 1 0 0 8h5m2-8h5a4 4 0 1 1 0 8h-5M8 12h8',lightning:'M14 2 4 14h7l-1 8 10-13h-7z',daggers:'M5 3l6 10-3 3L2 7zm14 0-6 10 3 3 6-9zM8 16l-4 5m12-5 4 5M4 13l7 6m9-6-7 6',barrage:'M3 6h13l5 3-5 3H3zM5 15h11m-9 4h7m-3-9v5',arcane:'M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3zM4 3l2 2m12 14 2 2',resonance:'M12 3v18m-4-15v12m8-12v12M4 9v6m16-6v6',curse:'M3 9c5-6 13-6 18 0-5 6-13 6-18 0zm9-3v6M5 16l3 3m11-3-3 3m-4-4v7',guard:'M12 2 3 6v7c0 4 9 9 9 9s9-5 9-9V6zM8 12l3 3 5-6',charge:'M3 17 14 6m-6 0h6v6M9 21 21 9m-6 0h6v6'};
 export const iconRoleGlyph=def=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${paths[def.glyph]||paths.arcane}"/></svg>`;
 let settings=null,inflight=null;
 export async function loadIconRoleView(){

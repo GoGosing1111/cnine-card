@@ -13,20 +13,20 @@ import {createIconCombatRuntime} from '../functions/_icon_combat.js';
 import {buildFighter} from '../functions/_battle_v2_preview.js';
 const code='ICON-ZEUS-CHEOLGU',id='CN-1C000008';
 test('ordinary fusion excludes Zeus and rejects forged selection before DB, RNG or payment',async t=>{
- assert.ok(ICON_LIVE_CARDS.some(c=>c.cardId===id));assert.equal(ICON_FUSION_CARDS.length,7);assert.ok(!ICON_FUSION_CARDS.some(c=>c.cardId===id));
+ assert.ok(ICON_LIVE_CARDS.some(c=>c.cardId===id));assert.equal(ICON_FUSION_CARDS.length,8);assert.ok(!ICON_FUSION_CARDS.some(c=>c.cardId===id));
  let queries=0;
  await assert.rejects(()=>runIconFusion({DB:{prepare(){queries++;throw Error('Must not read');}}},{id:7},{requestId:crypto.randomUUID(),policyVersion:2,superstarId:'CN-SUPER',furId:'CN-FUR',targetCode:code},{randomInt(){throw Error('Must not roll');}}),e=>e.code==='ICON_FUSION_INPUT');
  assert.equal(queries,0);
  const f=await iconFusionFixture(null,{postgres:true});try{
   const before=await f.snapshot(),overview=await iconFusionOverview(f.env,f.user);
-  assert.equal(overview.enabled,true);assert.equal(overview.catalog.length,7);assert.ok(!overview.catalog.some(c=>c.cardId===id));
+  assert.equal(overview.enabled,true);assert.equal(overview.catalog.length,8);assert.ok(!overview.catalog.some(c=>c.cardId===id));
   await assert.rejects(()=>runIconFusion(f.env,f.user,{...f.body(),targetCode:code}),e=>e.code==='ICON_FUSION_INPUT');assert.deepEqual(await f.snapshot(),before);
  }finally{await f.close();}
 });
 test('previous seven-role and CMS documents are extended only on read without changing stored settings',async()=>{
  const f=await iconCmsFixture();try{
-  const roles=defaultIconRoles();roles.cards.pop();roles.cards[0].tuning.damagePercent=237;roles.cards[4].enabled=false;roles.scopes.pvp=false;
-  const cms=emptyIconCmsDocument();cms.cards.pop();cms.cards[0].notes='keep previous draft';cms.cards[0].draft.effects[0].value=23;
+  const roles=defaultIconRoles();roles.cards=roles.cards.slice(0,7);roles.cards[0].tuning.damagePercent=237;roles.cards[4].enabled=false;roles.scopes.pvp=false;
+  const cms=emptyIconCmsDocument();cms.cards=cms.cards.slice(0,7);cms.cards[0].notes='keep previous draft';cms.cards[0].draft.effects[0].value=23;
   const roleRaw=JSON.stringify({revision:19,document:roles,audit:[],updatedAt:null,updatedBy:1}),cmsRaw=JSON.stringify({revision:7,document:cms,audit:[],updatedAt:null,updatedBy:1});
   for(const [key,value] of [['icon_role_settings_v1',roleRaw],[ICON_CMS_KEY,cmsRaw]])await f.pg.query('INSERT INTO app_meta(key,value) VALUES($1,$2)',[key,value]);
   const result=await readIconRoleState(f.env);assert.equal(result.raw,roleRaw);assert.equal(result.state.revision,19);

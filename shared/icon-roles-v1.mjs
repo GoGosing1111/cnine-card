@@ -35,7 +35,10 @@ export const ICON_ROLES=freeze([
  {code:'ICON-ZEUS-CHEOLGU',cardId:'CN-1C000008',name:'제우스 철구',role:'MAGIC',label:'마법',archetype:'올림포스의 뇌신',color:'#f7d077',glyph:'lightning',attackStyle:'RANGED',
   acquisitionText:'일반 ICON 제작 획득 불가',
   passive:'뇌신의 권능',skill:'올림포스의 심판',passiveText:'번개의 힘을 모은 뒤 다음 본인 행동에 뇌격을 방출합니다. 집중 중 봉인되면 충전이 해제됩니다.',skillText:'최대 세 적에게 황금 번개를 내려 방어 일부를 무시합니다. 적이 적으면 남은 번개가 집중되며, 대상별 피해 상한을 적용합니다.',
-  fields:[...common(2,4),field('maxTargets','뇌격 최대 대상',1,5,3,'명',true),field('focusPercent','빈 대상당 번개 집중',0,40,20),field('penetrationPercent','뇌격 방어 무시',0,45,25)]}
+  fields:[...common(2,4),field('maxTargets','뇌격 최대 대상',1,5,3,'명',true),field('focusPercent','빈 대상당 번개 집중',0,40,20),field('penetrationPercent','뇌격 방어 무시',0,45,25)]},
+ {code:'ICON-GUSUDAENG',cardId:'CN-1C000009',name:'구수댕',role:'LINK',label:'연계',archetype:'국간장 비법 전수자',color:'#eeb958',glyph:'link',attackStyle:'RANGED',
+  passive:'깊은 감칠맛',skill:'비법 배합',passiveText:'배합 표식에 아군이 직접 피해를 주면 다른 표식 대상에게 피해 일부가 전이됩니다. 아군 각자의 행동당 한 번만 발동하며 추가 피해가 다시 전이되지는 않습니다.',skillText:'최대 세 적을 공격하고 배합 표식으로 연결합니다. 적이 하나만 남으면 전이 대신 집중 추가 피해를 줍니다. 표식은 정화할 수 있고 시전자가 쓰러지거나 봉인되면 전이가 멈춥니다.',
+  fields:[...common(2,4).map(f=>f.key==='damagePercent'?{...f,value:170}:f),field('maxTargets','배합 최대 대상',1,3,3,'명',true),field('durationActions','표식 유지',1,4,3,'시전자 행동',true),field('echoPercent','다른 표식에 전이',5,45,30,'직접 피해 %'),field('soloPercent','적 한 명일 때 추가 피해',5,60,45,'직접 피해 %'),field('echoCapPercent','대상별 1회 전이 상한',1,8,6,'대상 최대 HP %'),field('echoBudgetPercent','시전당 전이 총량',100,800,600,'시전자 공격력 %')]}
 ]);
 export function iconDefinition(card){
  const id=typeof card==='string'?card:String(card?.cardId??card?.id??card?.card_id??'');
@@ -49,7 +52,11 @@ export function validateIconRoleTuning(def,value){
  return Object.fromEntries(def.fields.map(f=>{const n=value[f.key];if(typeof n!=='number'||!Number.isFinite(n)||n<f.min||n>f.max||f.integer&&!Number.isInteger(n))throw Error(`${def.name} · ${f.label}: ${f.min}~${f.max}${f.unit}`);return [f.key,n];}));
 }
 export function validateIconRoles(raw,{allowLegacy=false}={}){
- if(allowLegacy&&Array.isArray(raw?.cards)&&raw.cards.length===7&&!raw.cards.some(c=>c?.code==='ICON-ZEUS-CHEOLGU'))return validateIconRoles({...raw,cards:[...raw.cards,defaultIconRoles().cards.find(c=>c.code==='ICON-ZEUS-CHEOLGU')]});
+ // Only exact historical rosters may be extended on read; saves stay strict.
+ if(allowLegacy&&Array.isArray(raw?.cards)&&[7,8].includes(raw.cards.length)){
+  const expected=ICON_ROLES.slice(0,raw.cards.length).map(c=>c.code).sort().join(',');
+  if(raw.cards.map(c=>c?.code).sort().join(',')===expected)return validateIconRoles({...raw,cards:[...raw.cards,...defaultIconRoles().cards.slice(raw.cards.length)]});
+ }
  if(!keys(raw,'version,enabled,scopes,cards')||raw.version!==1||typeof raw.enabled!=='boolean'||!keys(raw.scopes,'pve,pvp,captain')||Object.values(raw.scopes).some(v=>typeof v!=='boolean')||!Array.isArray(raw.cards)||raw.cards.length!==ICON_ROLES.length)throw Error('ICON 역할 설정 형식을 확인해 주세요.');
  return {version:1,enabled:raw.enabled,scopes:{...raw.scopes},cards:ICON_ROLES.map(d=>{const matches=raw.cards.filter(c=>c?.code===d.code),c=matches[0];if(matches.length!==1||!keys(c,'code,enabled,tuning')||typeof c.enabled!=='boolean')throw Error(`등록된 ICON ${ICON_ROLES.length}종이 중복 없이 필요합니다.`);return {code:c.code,enabled:c.enabled,tuning:validateIconRoleTuning(d,c.tuning)};})};
 }

@@ -1,0 +1,17 @@
+{
+  "version": 4,
+  "tool": "image_gen",
+  "request": "머리스타일 양갈래로 바꿔 이전 구수댕sd 머리스타일 확인",
+  "references": [
+    {
+      "path": "assets/gusudaeng-sd-v3-hoodie-soy-sauce.png",
+      "role": "edit target; preserve face, hoodie, bottle, pose"
+    },
+    {
+      "path": "assets/ui/project-v/characters/zenith/zenith-cn-0505936a0cbb4e59-sd-v1.png",
+      "role": "hairstyle only: low black pigtails"
+    }
+  ],
+  "transparentBackground": true,
+  "prompt": "Use case: identity-preserve / precise-object-edit.\nAsset type: transparent full-body SD game sprite, ICON 구수댕.\nInput image 1 is the EDIT TARGET: smiling woman in gray hoodie, black joggers, white sneakers, holding a yellow-cap 샘표 국간장 bottle.\nInput image 2 is a HAIRSTYLE REFERENCE ONLY: the older 구수댕 SD with two low black pigtails tied beside the neck below each ear.\n\nChange ONLY the hairstyle in image 1. Replace its single high ponytail and long flowing hair with the hairstyle from image 2: natural black hair parted near the middle/slightly to one side, fine loose forehead wisps, TWO DISTINCT LOW PIGTAILS, one tied just below each ear beside the neck, softly rounded and gently wavy, falling toward the shoulders. Match the old SD's twin-tail silhouette and low tie positions. Use small subtle dark hair bands. There must be exactly two ponytails; remove the high ponytail, hair bun, and long loose hair trailing down the back. Keep natural continuous hair strands and soft volume, no chunky layered hair plates.\n\nStrict invariants: preserve the face from image 1 exactly: its face shape, adult facial proportions, eye shapes and spacing, eyebrows, nose, lips, toothy smile, cheeks, skin tone, expression, head angle and facial rendering. DO NOT substitute the more cartoonish face from image 2, DO NOT enlarge eyes, shrink jaw, or beautify. Preserve image 1's entire body, proportions, pose, hoodie, hood-down position, fabric folds, drawstrings, hand in pocket, bottle-gripping hand, pants and shoes. Preserve the same single bottle, yellow cap and yellow label with black \"샘표\" and red \"국간장\". Do not alter bottle shape, text or grip. No new objects, ornaments, costume changes, weapons or effects.\nFull-body composition with both feet, same scale and framing as edit target. High-quality isolated game sprite. Keep truly transparent RGBA background; absolutely no opaque backdrop, gradient, vignette, floor, shadow or fake checkerboard. Change hair only; every other visible feature stays as close to image 1 as possible."
+}

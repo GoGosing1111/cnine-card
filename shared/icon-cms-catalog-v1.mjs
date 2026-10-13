@@ -339,5 +339,46 @@ export const ICON_CMS_CATALOG=[
         "contactAt": 0.3733333333333333
       }
     ]
+  },
+  {
+    "code": "ICON-GUSUDAENG",
+    "name": "구수댕",
+    "sourceArt": "assets/cards/ICON/gusudaeng-source-20261013.webp",
+    "sourceSha256": "934DB48547D9858A470E3AABCCF801C8299688BA55E8280099B655A4D19A7FB0",
+    "sourceWidth": 200,
+    "sourceHeight": 200,
+    "focusX": 50,
+    "focusY": 50,
+    "status": "USER_REQUESTED_ICON_CONVERSION_20261013",
+    "portraitApproval": {
+      "date": "2026-10-13",
+      "scope": "EXISTING_MEMBER_PHOTO_PRESERVED",
+      "userRequest": "구수댕 아이콘 카드로 등록"
+    },
+    "sourceGrade": "ICON",
+    "releaseEnabled": false,
+    "id": "gusudaeng",
+    "weapon": "국간장",
+    "accent": "#eeb958",
+    "battleSprite": "preview/icon-battle-assets-v1/assets/sd/gusudaeng-sd-v1-20261013.webp",
+    "visualApproval": "CREATED_FOR_USER_REQUEST_20261013",
+    "effects": [
+      {
+        "id": "gusudaeng-hit",
+        "name": "한 방울 톡",
+        "kind": "HIT",
+        "frameCount": 16,
+        "duration": 0.72,
+        "contactAt": 0.28800000000000003
+      },
+      {
+        "id": "gusudaeng-skill",
+        "name": "비법 배합",
+        "kind": "SKILL",
+        "frameCount": 16,
+        "duration": 1.48,
+        "contactAt": 0.6906666666666667
+      }
+    ]
   }
 ];

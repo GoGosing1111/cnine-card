@@ -1,0 +1,66 @@
+[
+  {
+    "width": 1440,
+    "mode": "PVP",
+    "mainLoader": true,
+    "newCardDetail": true,
+    "role": "LINK",
+    "serverEchoes": 5,
+    "diagnostics": {
+      "last": {
+        "code": "ICON-GUSUDAENG",
+        "role": "LINK",
+        "eventType": "ICON_SKILL",
+        "serverRows": 1,
+        "appliedRows": 1,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY"
+      },
+      "muzzle": null,
+      "metrics": {
+        "skills": 2,
+        "basics": 7,
+        "serverRows": 11,
+        "appliedRows": 11,
+        "roles": [
+          "SUPPORT",
+          "LINK"
+        ]
+      }
+    },
+    "errors": [],
+    "failed": []
+  },
+  {
+    "width": 390,
+    "mode": "PVE",
+    "mainLoader": true,
+    "newCardDetail": true,
+    "role": "LINK",
+    "serverEchoes": 28,
+    "diagnostics": {
+      "last": {
+        "code": "ICON-GUSUDAENG",
+        "role": "LINK",
+        "eventType": "ICON_SKILL",
+        "serverRows": 1,
+        "appliedRows": 1,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY"
+      },
+      "muzzle": null,
+      "metrics": {
+        "skills": 5,
+        "basics": 15,
+        "serverRows": 20,
+        "appliedRows": 20,
+        "roles": [
+          "LINK",
+          "SUPPORT"
+        ]
+      }
+    },
+    "errors": [],
+    "failed": []
+  }
+]

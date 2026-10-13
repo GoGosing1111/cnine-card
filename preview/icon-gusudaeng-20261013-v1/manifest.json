@@ -1,0 +1,116 @@
+{
+  "version": 2,
+  "updatedAt": "2026-10-13",
+  "character": "구수댕",
+  "cardKind": "ICON member card",
+  "latestAsset": "preview/icon-gusudaeng-20261013-v1/assets/gusudaeng-sd-v5-matte-twintails.png",
+  "sha256": "A6A07EB7895851FCBCD15757CA6C1E24EB5D951B55409E9ED5170B4612EDB48C",
+  "width": 1254,
+  "height": 1254,
+  "background": "transparent RGBA",
+  "tool": "image_gen built-in",
+  "prompt": "preview/icon-gusudaeng-20261013-v1/prompt-sd-v5.json",
+  "latestRequest": "머리나 얼굴 기름져보이는거좀 개선해봐 그리고 계속 진행해",
+  "preserved": [
+    "Pet-reference human face and smile",
+    "Two low pigtails from previous ZENITH SD",
+    "Gray hoodie, black joggers and white sneakers",
+    "Soup soy sauce bottle, grip, proportions and pose"
+  ],
+  "changed": [
+    "Reduced wet/plastic highlights on hair and face; soft natural strands and matte skin"
+  ],
+  "references": {
+    "face": "assets/ui/pets/gusudaeng/pet-tokki-gusudaeng-approved-20261002.png",
+    "hair": "assets/ui/project-v/characters/zenith/zenith-cn-0505936a0cbb4e59-sd-v1.png",
+    "bottle": "preview/icon-gusudaeng-20261013-v1/assets/soy-sauce-reference-user.png"
+  },
+  "reviewHistory": [
+    {
+      "version": 1,
+      "status": "REJECTED",
+      "reason": "New outfit/weapon and pet face requested"
+    },
+    {
+      "version": 2,
+      "status": "FACE_LIKED_CONCEPT_REJECTED",
+      "userQuote": "얼굴은 잘나왔는데.. 컨셉이 별로인데 뭐 좋은거없냐"
+    },
+    {
+      "version": 3,
+      "status": "HAIR_REVISION_REQUESTED",
+      "concept": "Hoodie and soup soy sauce bottle"
+    },
+    {
+      "version": 4,
+      "status": "GLOSS_REDUCTION_REQUESTED",
+      "scope": "Only hairstyle changed; no claim of final visual approval"
+    },
+    {
+      "version": 5,
+      "status": "CREATED_FOR_USER_REQUEST_20261013",
+      "scope": "Reduced hair/skin gloss, followed by user instruction to continue; not a separate final visual-approval claim"
+    }
+  ],
+  "technicalCheck": {
+    "sourceAlpha": {
+      "edgeMax": 3,
+      "nonempty": 460647,
+      "partial": 460246,
+      "alphaTotal": 110198932,
+      "transparentFraction": 0.7070637119113574,
+      "bounds": [
+        324,
+        45,
+        914,
+        1247
+      ]
+    },
+    "runtimeAlpha": {
+      "edgeMax": 0,
+      "nonempty": 132245,
+      "partial": 131136,
+      "alphaTotal": 31647871,
+      "transparentFraction": 0.7757890489366319,
+      "bounds": [
+        222,
+        72,
+        538,
+        716
+      ]
+    },
+    "fullBodyVisible": true,
+    "twoLowPigtailsVisible": true,
+    "bottleLabelReadable": true
+  },
+  "registrationStatus": "IMPLEMENTED_PENDING_PRODUCTION",
+  "remainingOriginalRequest": [
+    "Deploy scoped implementation and execute audited one-time retirement/refund transaction"
+  ],
+  "runtime": {
+    "cardId": "CN-1C000009",
+    "code": "ICON-GUSUDAENG",
+    "sd": "preview/icon-battle-assets-v1/assets/sd/gusudaeng-sd-v1-20261013.webp",
+    "sdSha256": "1900ED4D10D74AF3321AC1571F463A1745C89DE8E79B4E6A6D7882A8E69417EF",
+    "effects": [
+      {
+        "id": "gusudaeng-hit",
+        "atlas": "preview/icon-battle-assets-v1/assets/fx/gusudaeng-hit/atlas-v1.webp",
+        "frames": 16
+      },
+      {
+        "id": "gusudaeng-skill",
+        "atlas": "preview/icon-battle-assets-v1/assets/fx/gusudaeng-skill/atlas-v1.webp",
+        "frames": 16
+      }
+    ],
+    "ability": {
+      "role": "LINK",
+      "passive": "깊은 감칠맛",
+      "skill": "비법 배합"
+    },
+    "acquisition": "NEW_CARD_NORMAL_PAID_ICON_FUSION",
+    "automaticConversionOrGrant": false,
+    "portrait": "assets/cards/ICON/gusudaeng-source-20261013.webp"
+  }
+}

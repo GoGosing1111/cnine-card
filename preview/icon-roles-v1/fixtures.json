@@ -113,6 +113,22 @@
       "file": "icon-zeus-cheolgu-pvp.json",
       "actions": 26,
       "casts": 1
+    },
+    {
+      "code": "ICON-GUSUDAENG",
+      "mode": "PVE",
+      "file": "icon-gusudaeng-pve.json",
+      "actions": 54,
+      "casts": 3,
+      "echoes": 28
+    },
+    {
+      "code": "ICON-GUSUDAENG",
+      "mode": "PVP",
+      "file": "icon-gusudaeng-pvp.json",
+      "actions": 29,
+      "casts": 1,
+      "echoes": 5
     }
   ]
 }

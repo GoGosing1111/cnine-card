@@ -11,7 +11,7 @@ export function iconEventReleaseSeconds(event){
   return .24+Math.max(0,rows-1)*.13+(['ASSASSIN','ASSAULT','DEFENSE'].includes(role)?.30:.12);
  }
  if(event.type==='ICON_STATUS')return ['HEAT','EXPIRED','CLEANSED','WARD_END'].includes(event.status)?0:.14;
- return ['ICON_DOT','ICON_GUARD'].includes(event.type)?.14:0;
+ return ['ICON_DOT','ICON_GUARD','ICON_ECHO'].includes(event.type)?.14:0;
 }
 export const ICON_ROLE_VISUALS=Object.freeze({
  'CN-1C000001':{id:'diim',skillDuration:1.28,hitDuration:.64},
@@ -21,7 +21,8 @@ export const ICON_ROLE_VISUALS=Object.freeze({
  'CN-1C000005':{id:'orikkung',skillDuration:1.60,hitDuration:.72},
  'CN-1C000006':{id:'kangguyeol',skillDuration:1.52,hitDuration:.64},
  'CN-1C000007':{id:'ayoon',skillDuration:1.64,hitDuration:.70},
- 'CN-1C000008':{id:'zeus-cheolgu',skillDuration:1.40,hitDuration:.68}
+ 'CN-1C000008':{id:'zeus-cheolgu',skillDuration:1.40,hitDuration:.68},
+ 'CN-1C000009':{id:'gusudaeng',skillDuration:1.48,hitDuration:.72}
 });
 export function iconTexturePoint(actor,layer,point){
  const sprite=actor.fullBodySprite;if(!sprite?.texture||sprite.destroyed)return null;

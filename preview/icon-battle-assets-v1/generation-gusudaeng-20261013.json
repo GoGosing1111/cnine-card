@@ -1,0 +1,23 @@
+{
+  "tool": "image_gen built-in",
+  "sd": {
+    "source": "../icon-gusudaeng-20261013-v1/assets/gusudaeng-sd-v5-matte-twintails.png",
+    "prompt": "preview/icon-gusudaeng-20261013-v1/prompt-sd-v5.json"
+  },
+  "effects": [
+    {
+      "id": "gusudaeng-hit",
+      "name": "한 방울 톡",
+      "duration": 0.72,
+      "collisionFrame": 6,
+      "source": "../icon-gusudaeng-20261013-v1/assets/gusudaeng-hit-sheet-v1.png"
+    },
+    {
+      "id": "gusudaeng-skill",
+      "name": "비법 배합",
+      "duration": 1.48,
+      "collisionFrame": 7,
+      "source": "../icon-gusudaeng-20261013-v1/assets/gusudaeng-skill-sheet-v1.png"
+    }
+  ]
+}
