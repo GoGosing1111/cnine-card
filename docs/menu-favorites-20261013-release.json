@@ -1,0 +1,78 @@
+{
+  "status": "DEPLOYED_VERIFIED",
+  "verifiedAt": "2026-10-13T03:10:53.159Z",
+  "sourceCommit": "c80830d7ca311a1ac3653510ef97cba421170f5a",
+  "previousLiveCommit": "6044477b355ea883daf5241d5c12a4fb1db09fa5",
+  "pages": {
+    "id": "f694c393-37b3-4531-9a6e-0888a27271d0",
+    "url": "https://f694c393.cnine-card.pages.dev"
+  },
+  "runtime": {
+    "sha256": "011988da62b97da1da4ebff1768e8116dfad9a506f358c5f3a6217e453560503",
+    "favoritesHandlerPresent": true,
+    "handlerConnected": true,
+    "versionId": "1ddd2bd2-c68e-4f76-a668-134bd3a67996"
+  },
+  "files": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "11c4a2d02971042d082cb075d66ce5a7302072f48dfdf2d1019c2e213dc78151",
+      "matched": true,
+      "lineEndingNormalized": true
+    },
+    {
+      "path": "service-worker.js",
+      "status": 200,
+      "sha256": "77088682b1780269f4764ca672cb12393824d67466638f4bb9f46d3943b78f10",
+      "matched": true,
+      "lineEndingNormalized": true
+    },
+    {
+      "path": "js/adventure-lobby-v2107.js",
+      "status": 200,
+      "sha256": "c3a8232c6e11fd75ee572656fe796b48aa38885db0cb0c9a01fb75e747f4f970",
+      "matched": true,
+      "lineEndingNormalized": true
+    },
+    {
+      "path": "mercenary-codex/index.html",
+      "status": 200,
+      "sha256": "afcc767c79637025176f8affa42e8a93748b4c10a41047fa778f333683f40827",
+      "matched": true,
+      "lineEndingNormalized": true
+    },
+    {
+      "path": "pet-codex/app.mjs",
+      "status": 200,
+      "sha256": "d1d94ed03d680bb47db0c8111986ff610bde17a84af957db1833bfff759ff414",
+      "matched": true,
+      "lineEndingNormalized": true
+    }
+  ],
+  "routes": [
+    {
+      "path": "/api/service/status",
+      "status": 200
+    },
+    {
+      "path": "/api/me/menu-favorites",
+      "status": 401
+    }
+  ],
+  "tests": {
+    "favoritesRegression": 7,
+    "navigationContract": 1,
+    "lobbyRegression": 3,
+    "sourceBundleIntegrity": true,
+    "workerSyntax": true,
+    "releaseGuard": true,
+    "hyperdriveCacheDisabled": true,
+    "pcAndMobileBrowserQa": "docs/qa/menu-favorites-20261013/report.json"
+  },
+  "productionAccountMutation": false,
+  "scheduler": {
+    "versionId": "de4f590a-9422-4645-b107-110795a5127d"
+  },
+  "deployCommand": "npm run deploy:production -- --scoped"
+}
