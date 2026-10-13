@@ -1,0 +1,84 @@
+{
+  "verifiedAt": "2026-10-13T09:57:46.186Z",
+  "commit": "e8a39c21c4033a1cb58080bc23be1b44e7544b43",
+  "deployment": "https://5fd5fe8e.cnine-card.pages.dev",
+  "apiRuntimeVersion": "75b9e0ff-de97-44e6-b2e1-3844fbd4950e",
+  "schedulerVersion": "40097db0-6b16-440c-9209-9ab867dcda43",
+  "files": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "abbe39288440ac134713b2a0851e5132e71e5b79341a3fba8dba934aa53d4a17",
+      "matched": true
+    },
+    {
+      "path": "service-worker.js",
+      "status": 200,
+      "sha256": "5c39a025e0861f97f012eca11b09362c0b272f9f3d60070b320099cdb090feff",
+      "matched": true
+    },
+    {
+      "path": "js/project-v-monster-battle-art-adapter-v1.js",
+      "status": 200,
+      "sha256": "10e373d0e2119c24596b06d9ad36137eb28039f2de904ef2eb17151a86f59485",
+      "matched": true
+    },
+    {
+      "path": "js/battle-v3-live.js",
+      "status": 200,
+      "sha256": "43ca955667aa83f6792ec9efed94363ddab78fee31b2a453c490ceb4f2680364",
+      "matched": true
+    },
+    {
+      "path": "assets/ui/project-v/monsters/hunt-tower/manifest-v1.json",
+      "status": 200,
+      "sha256": "faa5d75e03b4ce733f42e58a427fe14616052db391d3de4238153b75cf19fde6",
+      "matched": true
+    },
+    {
+      "path": "shared/monster-original-ip-data-v1.mjs",
+      "status": 200,
+      "sha256": "1e84870e05927ac467a41e57380487ea58fa0547c18031133c0fa2408f8c2d53",
+      "matched": true
+    },
+    {
+      "path": "raid/madara/runtime.mjs",
+      "status": 200,
+      "sha256": "868c5bad44977385bd12bdb5897701d63a58c6cffee24618f1a7bce36e8cf9c6",
+      "matched": true
+    },
+    {
+      "path": "raid/madara/fragment.html",
+      "status": 200,
+      "sha256": "1a0f0db53604610df21ed2afed51414f7c4381fa8201b8e7764845449db93286",
+      "matched": true
+    },
+    {
+      "path": "raid/lich-king/inline.css",
+      "status": 200,
+      "sha256": "63127abe57883f44f215eebc592e581e31db6aa8de85d9123268ff5501e1167c",
+      "matched": true
+    },
+    {
+      "path": "preview/monster-original-ip-sd-20261013-v1/manifest.json",
+      "status": 200,
+      "sha256": "98d3bba0a17843a160ef42f245fb9029e31e965651a224350fe577af0a05e48b",
+      "matched": true
+    }
+  ],
+  "routes": [
+    {
+      "path": "/api/service/status",
+      "status": 200
+    },
+    {
+      "path": "/api/battle/config",
+      "status": 401
+    },
+    {
+      "path": "/api/raid/status",
+      "status": 401
+    }
+  ],
+  "passed": true
+}
